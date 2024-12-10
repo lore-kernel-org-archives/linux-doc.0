@@ -1,188 +1,103 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511AF2343CF;
-	Tue, 10 Dec 2024 16:52:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09D61C07ED;
+	Tue, 10 Dec 2024 17:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733849538; cv=none; b=BAl76jn3sCwhnok8qDQ5+cz6/r+zq7KVKdveN4q/uaU9NgZr3G7z3McPnusx4kkejl4CHaKS1aMLuDQsZ5dgbyvwlmQJ0bwClnMbh4C9u/xUs5nOdRw8LhvO2h4C7PGNqNoi8Rr2XvDql5sKILRZcnq++fr5v7wZJmlHJ5/rRfY=
+	t=1733850601; cv=none; b=FN06FKpDrMdHqbq7m608K2Np+NTqIWxh83BiksMr9K8QEkU6D68M0y/VeIji+v8OZJIi1HsFQU7TVzKcyxAfy//IBLmVyt0IBTlo8sjm6S/URF2978RTvMIv/ffdpR8VlWFP61n4ZMJ1GHSIdZXeEKIKtKfn/OfLs1wOASWjHwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733849538; c=relaxed/simple;
-	bh=F768FKvg7FF4b66UZ/Q7WEOc2p7Zd5GIQR2lUzGMMtE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=G9+TjuwpqV0RUha+2Jv4z6gBwqVMA6ynVDn76ARPNZ8ZA3/CquAInHAY2fPeG55jLsTIjI8yOejlD75LzbGqrlGKRGzKcOm0IgzcyKDT9G68i+yS+TTeAgHdnngH6Qt8RrDKTbffWYNcWWQ/AhDxrgsuJ5bW1kHJbJWh4l9gXKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RRdDX4sV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TFGrJV/q; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RRdDX4sV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TFGrJV/q; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1733850601; c=relaxed/simple;
+	bh=2Lcmq7SHHNoVqPiQ1a9keIwEUzJcb799Uq6YwdCactM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L0EvRMsV2i44n6gJstgYUNE0tT/aeWNQSFV79zoODV2vfW41MPHJi5C9D4qLSDLhfv7tSrW91H/rOmLqMhBsc3Rl0Rpug61VjrVhQeMYW2XjXHKplXi93mPUQFr3VrM9Ruj5UuT85B2r0MZfdyTGxGPOpEOy6hl8GkWwyi3/oOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SOUMN7Tc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RRdDX4sV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TFGrJV/q";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RRdDX4sV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TFGrJV/q"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 786C31F396;
-	Tue, 10 Dec 2024 16:52:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733849534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/aIP4i4jvUV/G+qzhtRhmfq3gIeQW3kA9mI6aymWOb0=;
-	b=RRdDX4sVHqwXSpZmO5qyaLk+OT0prHhbpm2RuVO3tADPrjjC51flgdy0bBMhilMgSqfKc4
-	Dv+yE6TghAluhsMrjkHgGNWID+PoJ/WHqwfFkxouFBh0COAXQtRzDSLaPKulw82QS7hBhP
-	+JNegq3x34VwLUziHLi3yWibLzKHsDM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733849534;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/aIP4i4jvUV/G+qzhtRhmfq3gIeQW3kA9mI6aymWOb0=;
-	b=TFGrJV/qKUuxfk4pwQ3vf4hKGth7ZcX/alooGyybcmiPTp3F4ONZLxZLopwxTQX7o9od+3
-	MfCkzXC7nWsDVODA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733849534; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/aIP4i4jvUV/G+qzhtRhmfq3gIeQW3kA9mI6aymWOb0=;
-	b=RRdDX4sVHqwXSpZmO5qyaLk+OT0prHhbpm2RuVO3tADPrjjC51flgdy0bBMhilMgSqfKc4
-	Dv+yE6TghAluhsMrjkHgGNWID+PoJ/WHqwfFkxouFBh0COAXQtRzDSLaPKulw82QS7hBhP
-	+JNegq3x34VwLUziHLi3yWibLzKHsDM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733849534;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/aIP4i4jvUV/G+qzhtRhmfq3gIeQW3kA9mI6aymWOb0=;
-	b=TFGrJV/qKUuxfk4pwQ3vf4hKGth7ZcX/alooGyybcmiPTp3F4ONZLxZLopwxTQX7o9od+3
-	MfCkzXC7nWsDVODA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D559C138D2;
-	Tue, 10 Dec 2024 16:52:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id lzzyMr1xWGcDRAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 10 Dec 2024 16:52:13 +0000
-Date: Tue, 10 Dec 2024 17:52:13 +0100
-Message-ID: <87wmg732gy.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: Wesley Cheng <quic_wcheng@quicinc.com>,
-	<linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>,
-	<linux-input@vger.kernel.org>,
-	<linux-arm-msm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>,
-	<srinivas.kandagatla@linaro.org>,
-	<mathias.nyman@intel.com>,
-	<perex@perex.cz>,
-	<conor+dt@kernel.org>,
-	<dmitry.torokhov@gmail.com>,
-	<corbet@lwn.net>,
-	<broonie@kernel.org>,
-	<lgirdwood@gmail.com>,
-	<krzk+dt@kernel.org>,
-	<pierre-louis.bossart@linux.intel.com>,
-	<Thinh.Nguyen@synopsys.com>,
-	<tiwai@suse.com>,
-	<robh@kernel.org>,
-	<gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v30 28/30] ALSA: usb-audio: Add USB offload route kcontrol
-In-Reply-To: <1b77ad01-9621-4d2e-84c0-077032fbc5ef@intel.com>
-References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
-	<20241106193413.1730413-29-quic_wcheng@quicinc.com>
-	<1a361446-7a18-4f49-9eeb-d60d1adaa088@intel.com>
-	<28023a83-04a5-4c62-85a9-ca41be0ba9e1@quicinc.com>
-	<1644aa6b-a4e0-4dbd-a361-276cb95eb534@intel.com>
-	<3e246be8-22a9-4473-8c78-39788ae95650@quicinc.com>
-	<1b77ad01-9621-4d2e-84c0-077032fbc5ef@intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SOUMN7Tc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 783CAC4CED6;
+	Tue, 10 Dec 2024 17:09:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733850600;
+	bh=2Lcmq7SHHNoVqPiQ1a9keIwEUzJcb799Uq6YwdCactM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SOUMN7Tc4of6hly92PWfFlwTA8xXM7VUYU4bNYDTSXF5sc6BM3VXU2Vig0QEc+AEe
+	 B1bLwSJepN5c33ArBzRH/+2pfEq9bq/zGF3WIdULrNuXpP1H/DUZTn6BTurWdhn31k
+	 lgmllm0L8VibP5t8qgXhC4Z5W443RodVG3Kh8Bfkaz6ttEMteL6rd+fiatbPoa3jit
+	 zTzD5bHnDOW6C3AMOBf8ljeQk7bvJny9XNdkjva9Qx+j/8MPGE1Iv58QlOzoj6xPJV
+	 WzOXQUuppv12EqtG5qRvWoW22GOh7S6MNxeGdySvWKax0o1KLpqnuF3pGZAb20h7hq
+	 lhndv/N0MNHSg==
+Date: Tue, 10 Dec 2024 17:09:55 +0000
+From: Will Deacon <will@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Shuah Khan <shuah@kernel.org>, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v3 2/9] arm64/sysreg: Update ID_AA64ISAR3_EL1 to DDI0601
+ 2024-09
+Message-ID: <20241210170953.GB16075@willie-the-truck>
+References: <20241203-arm64-2024-dpisa-v3-0-a6c78b1aa297@kernel.org>
+ <20241203-arm64-2024-dpisa-v3-2-a6c78b1aa297@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[dt];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[quicinc.com,vger.kernel.org,linaro.org,intel.com,perex.cz,kernel.org,gmail.com,lwn.net,linux.intel.com,synopsys.com,suse.com,linuxfoundation.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Score: -1.80
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241203-arm64-2024-dpisa-v3-2-a6c78b1aa297@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Tue, 10 Dec 2024 16:24:30 +0100,
-Cezary Rojewski wrote:
+On Tue, Dec 03, 2024 at 12:39:21PM +0000, Mark Brown wrote:
+> DDI0601 2024-09 defines several new feature flags in ID_AA64ISAR3_EL1,
+> update our description in sysreg to reflect these.
 > 
-> On 2024-12-06 9:43 PM, Wesley Cheng wrote:
-> > 
-> > On 12/6/2024 1:09 AM, Cezary Rojewski wrote:
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/tools/sysreg | 18 +++++++++++++++++-
+>  1 file changed, 17 insertions(+), 1 deletion(-)
 > 
-> ...
-> 
-> >>>>> +#include <linux/usb.h>
-> >>>>> +
-> >>>>> +#include <sound/core.h>
-> >>>>> +#include <sound/control.h>
-> >>>>> +#include <sound/soc-usb.h>
-> >>>> 
-> >>>> ALSA-components should not be dependent on ASoC ones. It should be done the other way around: ALSA <- ASoC.
-> >>>> 
-> >>> 
-> >>> At least for this kcontrol, we need to know the status of the ASoC state, so that we can communicate the proper path to userspace.  If the ASoC path is not probed or ready, then this module isn't blocked.  It will just communicate that there isn't a valid offload path.
-> >> 
-> >> I'm not asking _why_ you need soc-usb.h header, your reasoning is probably perfectly fine. The code hierarchy is not though. If a sound module is dependent on soc-xxx.h i.e. ASoC symbols, it shall be part of sound/soc/ space.
-> > 
-> > 
-> > That would basically require a significant change in the current design.  Was that requirement documented somewhere, where ALSA components should not be dependent on ASoC?  What was the reasoning for making it one direction, but not the other?
-> 
-> Well, some may call this a common sense. ASoC is founded on
-> ALSA. There are no ALSA-core components which I'm aware of which have
-> a dependency on ASoC components. You may not get compilation problems
-> now, but such approach does not scale and will hit circular dependency
-> problem sooner or later.
+> diff --git a/arch/arm64/tools/sysreg b/arch/arm64/tools/sysreg
+> index 911f16c82ebd3ee98ffed965b02a5c6b153bc50c..c5af604eda6a721cedf5c9c68d6f7038156de651 100644
+> --- a/arch/arm64/tools/sysreg
+> +++ b/arch/arm64/tools/sysreg
+> @@ -1566,7 +1566,23 @@ EndEnum
+>  EndSysreg
+>  
+>  Sysreg	ID_AA64ISAR3_EL1	3	0	0	6	3
+> -Res0	63:16
+> +Res0	63:32
+> +UnsignedEnum	31:28	FPRCVT
+> +	0b0000	NI
+> +	0b0010	IMP
+> +EndEnum
+> +UnsignedEnum	27:24	LSUI
+> +	0b0000	NI
+> +	0b0010	IMP
+> +EndEnum
+> +UnsignedEnum	23:20	OCCMO
+> +	0b0000	NI
+> +	0b0010	IMP
+> +EndEnum
+> +UnsignedEnum	19:16	LSFE
+> +	0b0000	NI
+> +	0b0010	IMP
 
-In this particular case, I guess we don't have to be too strict.
-As long as it's a dynamic add-on, there is less dependency problem.
-OTOH, if it were linked directly, that can cause an issue, though.
+These IMP encodings look wrong to me -- the document you reference in
+the commit message uses 0b0001 for the "implemented" cases.
 
-But, which code is put at which place can be reconsidered, yes.  The
-right placing may help better understanding of the code, too.
+Can we _please_ just generate this stuff. It feels like we've been
+making silly typos over and over again with the current approach so
+either it's hard or we're not very good at it. Either way, it should be
+automated.
 
+Others have managed it [1], so it's clearly do-able.
 
-thanks,
+Will
 
-Takashi
+[1] https://github.com/ashwio/arm64-sysreg-lib
