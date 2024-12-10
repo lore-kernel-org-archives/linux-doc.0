@@ -1,117 +1,127 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA7AA934;
-	Tue, 10 Dec 2024 00:00:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3909D3C17;
+	Tue, 10 Dec 2024 00:12:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733788859; cv=none; b=AVxp67xPD0fLcr0UBmaFX6MZ5oViJsHayiUy+AeorMwHXvSX7d4I2Vh5+ZConZ3Tl2H9qlLCQiedDw/y0/SbyAey9DYIgDvHbVJ9cyrUex8K5XblhYOew795RExsFlM1hYD7cflr6q2Pi9l6XWkFg/bGcmqxgFB3ZLQfZffmtQc=
+	t=1733789557; cv=none; b=i8wZCTgQnWX/cPfcWflzqrDx9uo77n1kVotvcWqDsv6+3dlv6ramivumVg85Awb4u5skebccD/MOpdsIMwaVHB8S4mvzPsABiuSpPri8bDwe6ypAsCfEu0y8+akT/BYkJqTIrf0853wWRYIg8m3def8/XXcQtmdhjVHYIANfMDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733788859; c=relaxed/simple;
-	bh=Hx3TYCfv8vO1GHDfioqECB6aGnBv+pYMSPSzeHD0ACM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SOBU8SUd1iY83gZvDSc4rZPF4eVv0P9w1rqsntBBKNwgEm964tbdID/LoEEQRC+vxJpbPHJ+XMt3UKV2KSaojP1yoqagPNXkeNxEXRzqr15qR8dbrKf9PmVuQbt7eGfhorzHlHZdjj22jPv2LZh5gYjx11lb2hbsHl5K00+nfe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kxiED/4q; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733789557; c=relaxed/simple;
+	bh=XXXWKptAmTwRcq85PkLPTTYOgUju21z/EewxJbfa/PQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oXPaAC+kzFxe6vuHfyr8WbtYdpNXTyKucepsWMKUC4LH0bfH9KwMck+9pFTeoLUMWqpbzMtvi5H2qwovtGkkY2+cG/hNv4FSHDFj+26Q8ykgEwUx36pQ9VFZkaf/WPBzxb1HGkkzrp8bgrN9OlU8l3/0et8MzA57iqOqwdbuhzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MBeGPWpz; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kxiED/4q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733788857; x=1765324857;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Hx3TYCfv8vO1GHDfioqECB6aGnBv+pYMSPSzeHD0ACM=;
-  b=kxiED/4qWgdjC8syHpcQ/oBSt6TehmN8CqDPcrmesjwGYrR4b+zABNOR
-   pPka+VVmu0Ied4rHDt2RARryuxBEZtc+SmP8TI9abNm1UZ/GIFmQDUNL5
-   TGH3TIfjxHgiE2Ey3kn2joO0QnncLvj//19BafU9NFyMiIJNoUzyYl55+
-   G8YzMt/qpthbRSDQF27OUpEOPl1WgAI1BskUyRsyJwGqx/maGrb2yMD4w
-   m/Z/I+iFVuqYBXytHoFMDpuvbPhUg0Ykmiftl50xNG3Z4FN5OMl6YFR7K
-   Ctu//wNnA4tngjhOqc6fzn5oNN19B6M/R3YETqc90danguAbsxhIXko3C
-   Q==;
-X-CSE-ConnectionGUID: HtBvaavbTyaz/aIQwm+riw==
-X-CSE-MsgGUID: ch2bNqTkSf68VnQ41V09wQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="45493623"
-X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
-   d="scan'208";a="45493623"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 16:00:56 -0800
-X-CSE-ConnectionGUID: FrHyAsf+TsSInDwzX9C6WQ==
-X-CSE-MsgGUID: fvwvGNsbQQub6ODNnUFruA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,220,1728975600"; 
-   d="scan'208";a="95095907"
-Received: from agluck-desk3.sc.intel.com (HELO agluck-desk3) ([172.25.222.70])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2024 16:00:56 -0800
-Date: Mon, 9 Dec 2024 16:00:54 -0800
-From: "Luck, Tony" <tony.luck@intel.com>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: Borislav Petkov <bp@alien8.de>, "Yu, Fenghua" <fenghua.yu@intel.com>,
-	Peter Newman <peternewman@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, "x86@kernel.org" <x86@kernel.org>,
-	James Morse <james.morse@arm.com>,
-	Jamie Iles <quic_jiles@quicinc.com>,
-	Babu Moger <babu.moger@amd.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"patches@lists.linux.dev" <patches@lists.linux.dev>
-Subject: Re: [PATCH v11 2/8] x86/resctrl: Prepare for per-CTRL_MON group
- mba_MBps control
-Message-ID: <Z1eEti6Kswtb3HC5@agluck-desk3>
-References: <20241206163148.83828-1-tony.luck@intel.com>
- <20241206163148.83828-3-tony.luck@intel.com>
- <20241209204519.GAZ1dW3-NjcL4Sewaf@fat_crate.local>
- <SJ1PR11MB6083BA367F2CDFC92D87FDA1FC3C2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <20241209222047.GKZ1dtPxIu5_Hxs1fp@fat_crate.local>
- <SJ1PR11MB60830B8ED36CCA7E304D9E97FC3C2@SJ1PR11MB6083.namprd11.prod.outlook.com>
- <678cef69-78ef-4951-bd31-10abe646e6d8@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MBeGPWpz"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-540215984f0so1268307e87.1;
+        Mon, 09 Dec 2024 16:12:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733789554; x=1734394354; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ydjttIzPV3bTnYaTafALagMKlXhc79P8oTkSG55qp8s=;
+        b=MBeGPWpze+E6ZDqddXYLHf0tPbypYQ426FjeC7R2NFm7S12LwPA2k5yKc91DlP0TTp
+         YK9PE/uRJluJn85vW4tPRnqjPWZdA/KH64QHhSd1LCmylbbQR2VOg1+MzTtR58lBahoq
+         UBKbZxmk0yD8AN/PaNo5zgiTCPdDhSVWOtxNOy97VaUbgoINjyCoeaFf035ZMNRcKnGN
+         YNRH2Sjc/lR4WwmwmHnkVrCpT7vMz4ZFuqYpNgnkW798oo8wA3GP8sx6B1qAwB2V/CJO
+         /eYis2QmSRxluxPXaV6qW3M62ZS7feOMBmz+xbdoQz35AlnEPfAnfVissKXf9npPS7Tn
+         vCcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733789554; x=1734394354;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ydjttIzPV3bTnYaTafALagMKlXhc79P8oTkSG55qp8s=;
+        b=pg7J9UnP2zFK1FGFnsc54zVbeLy8pY4URLpUcxkgOYECtoIjVawAoLh8yNtSbik2E5
+         pEQAI2fi/QOdz887NM6wUUU72DJFO93LFxBfnIVymF3X9wyZLD5YuKNuc5PDD74QemQ+
+         ZdqIyzOZ9TEhS/s10s75/VoTfy2c1qFEwgZKNmDAlpO31UNCCSn11V9uQ5gKqFrulS1+
+         QJQNk4AQKX6/7Q5zwuzyetgtxFsc4HYl0nAWsbSZbRUP+PilOZask1ZlUBTuhB9okcGC
+         dkJ290DIU8F0Mz/WPdJcNAd/uK4bxhGvLFLUOjR4yCW7EqGnb2aAzkRhBL9SV6qbRgKD
+         LjGw==
+X-Forwarded-Encrypted: i=1; AJvYcCWzxBXYpy4uWa4FknHZ0JEO+BNXfpmVT3rTYdRb/hH8rUZZsqG9R00VMDaKzso+upQnoK6lZ8AMdOybXcIJ@vger.kernel.org, AJvYcCXdd9X/WnFYaMK26K8rjJQ2TPEwRHYVqTCMlnr6YR29DevdlFImBl0yOOdbkd9nhl3OTJcugF1rwuY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1N0LbhdKsLxHaFk/uyHZO63fm15n/lUtqyCbh2RduLTqFbJOy
+	NUmVSdBhyhGqj22hL9ji2qZKUHd1/SwKy813bHC7322F0GsWQsVa
+X-Gm-Gg: ASbGnctrJ2ODBmaZjugKIOXduQjH8Pptl4NEJnCv8mrY4P2jBNz9bxN/tj5dIZjrfy/
+	EaudASWxSqyncnaZMbJMCqydLiXZ2qESJJ7pEjD9knLSNSx5JEEZdOY+BqRWS8L1MSTMA2dp8mv
+	zsqmh3LcmLoe5iZ6j9a04p7fUxT6LrYhndkeJXhTCAZmIO8XhZWP40IpmekSoLMV9693hpYDoEj
+	HF69s6/IOerW6+bL4j19kQW8PVz8GEbLGl4hZhRiPcpyWDQfCOOXzorTn6TEU7hdLp7ZF5z3a9v
+	SwBcTIuRE5c923qa5mbjcWDLEXAQIzhZzk2rWys=
+X-Google-Smtp-Source: AGHT+IEkgRTvfbOQFRL66kZv7c9jxP4bDxQA3ziPXEQ3Z5UPCXU/Iw8RVd1OEeT5XxFBiYJ138ho0Q==
+X-Received: by 2002:a05:6512:39c4:b0:53e:2ed9:8122 with SMTP id 2adb3069b0e04-540240bd4cfmr1042449e87.22.1733789553960;
+        Mon, 09 Dec 2024 16:12:33 -0800 (PST)
+Received: from ?IPV6:2001:678:a5c:1202:4fb5:f16a:579c:6dcb? (soda.int.kasm.eu. [2001:678:a5c:1202:4fb5:f16a:579c:6dcb])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53e3c491c19sm880431e87.50.2024.12.09.16.12.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Dec 2024 16:12:32 -0800 (PST)
+Message-ID: <10cef75e-92b9-4005-a9f6-10bc8b1dfffc@gmail.com>
+Date: Tue, 10 Dec 2024 01:12:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <678cef69-78ef-4951-bd31-10abe646e6d8@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] mm: fix vma_copy for !CONFIG_PER_VMA_LOCK
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: oliver.sang@intel.com, willy@infradead.org, liam.howlett@oracle.com,
+ lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz,
+ hannes@cmpxchg.org, mjguzik@gmail.com, mgorman@techsingularity.net,
+ david@redhat.com, peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net,
+ paulmck@kernel.org, brauner@kernel.org, dhowells@redhat.com,
+ hdanton@sina.com, hughd@google.com, minchan@google.com, jannh@google.com,
+ shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com,
+ corbet@lwn.net, linux-doc@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, kernel-team@android.com
+References: <20241209221028.1644210-1-surenb@google.com>
+Content-Language: en-US, sv-SE
+From: Klara Modin <klarasmodin@gmail.com>
+In-Reply-To: <20241209221028.1644210-1-surenb@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Dec 09, 2024 at 03:40:12PM -0800, Reinette Chatre wrote:
-> Hi Tony,
+On 2024-12-09 23:10, Suren Baghdasaryan wrote:
+> vma_copy() function for !CONFIG_PER_VMA_LOCK configuration copies all
+> fields using memcpy() as opposed to CONFIG_PER_VMA_LOCK version which
+> copies only required fields. anon_vma_chain field should not be copied
+> and new vma should instead initialize it to an empty list. Fix this
+> by initializing anon_vma_chain inside vma_copy() function. The version
+> of vma_copy() for CONFIG_PER_VMA_LOCK is fine since it does not change
+> that field and anon_vma_chain of any new vma is already initialized and
+> empty.
 > 
-> On 12/9/24 2:35 PM, Luck, Tony wrote:
-> >>> mba_mbps_default_event isn't architecture specific. The mba_MBps
-> >>> feedback code could be implemented on any architecture that supports
-> >>> both measurement and control of memory bandwidth.
-> >>
-> >> Yes, and it should be moved to that header then, right?
-> >>
-> >> But not earlier.
-> > 
-> > If you feel strongly about it then go ahead and cut the line from <linux/rectrl.h>
-> > and paste it into <asm/resctrl.h>
+> Fixes: 85ad413389ae ("mm: make vma cache SLAB_TYPESAFE_BY_RCU")
+> Reported-by: kernel test robot <oliver.sang@intel.com>
+> Closes: https://lore.kernel.org/oe-lkp/202412082208.db1fb2c9-lkp@intel.com
+> Reported-by: Klara Modin <klarasmodin@gmail.com>
+> Closes: https://lore.kernel.org/all/d0ae7609-aca4-4497-9188-bb09e96e7768@gmail.com/
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> ---
+> Applies over mm-unstable
 > 
-> I am not sure about this ... I expect the code needing this initially will
-> form part of the filesystem code so it may be more intuitive to have it
-> be located in arch/x86/kernel/cpu/resctrl/internal.h as Boris suggested.
-> As part of the arch/fs split it may then move to fs/resctrl/internal.h
+>   kernel/fork.c | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> mba_mbps_default_event may even stay internal to the fs/resctrl code with an
-> arch helper created later to initialize it. This is because I think
-> the initialization of mba_mbps_default_event may move out of
-> get_rdt_mon_resources() into resctrl_mon_resource_init() that is being
-> created as part of the MPAM work [1]. An example of current fs initialization
-> done in arch code that is moved to it can be found in [2].
-
-Reinette is right. The post-split home of this is not <linux/resctrl.h>
-but fs/resctrl/internal.h which doesn't exist yet.
-
-So Boris is right, this declaration should be added to arch/x86/kernel/cpu/resctrl/internal.h
-by this patch to be moved later.
-
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index fec32aa06135..d532f893e977 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -524,6 +524,7 @@ static void vma_copy(const struct vm_area_struct *src, struct vm_area_struct *de
+>   	 * will be reinitialized.
+>   	 */
+>   	data_race(memcpy(dest, src, sizeof(*dest)));
+> +	INIT_LIST_HEAD(&dest->anon_vma_chain);
+>   }
+>   
+>   #endif /* CONFIG_PER_VMA_LOCK */
 > 
-> [1] https://lore.kernel.org/all/20241004180347.19985-17-james.morse@arm.com/
-> [2] https://lore.kernel.org/all/20241004180347.19985-20-james.morse@arm.com/
+> base-commit: 6e165f54437931f329d09dca6c19d99af08a36e1
 
--Tony
+This fixes the issue for me.
+
+Thanks,
+Tested-by: Klara Modin <klarasmodin@gmail.com>
