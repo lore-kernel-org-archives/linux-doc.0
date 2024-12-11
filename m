@@ -1,119 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65CD81C304A;
-	Wed, 11 Dec 2024 22:20:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130B91F2C2F;
+	Wed, 11 Dec 2024 22:32:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733955609; cv=none; b=hLhP/vjTndfso2Xf3efgEI4kZFPcEV7MM467tRizoEbkaenisa9GdQgmvQyq0IORFqes/8ee/UAejThLiX4h2rhw4SShHtcjuEPd/NkWw/CFfgWTnYHt/J5/Q9w1tS/j46eYOXCe2oy93+eyCSkCV5iCw6KMwEAOV/FJiiZuHt8=
+	t=1733956359; cv=none; b=crDkzdGoAMRFX10jAVjFt/SbllPkgows8jr3ZFm/N4nUxZkfUTjfn5JD6mXk+Mm2NSAJQsyBYh9qg7ARYo5i93Z0HabWO9ZYA8XLfGDXdZFb//17IdR4ygRmO1ke24tPMkzqmlJIDMQHHl/3C2+VVeOo4AbwOqu/drQ2qLLDcqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733955609; c=relaxed/simple;
-	bh=VLhIlSr54TL2QmDP8JRM72GWULbrO+1dbQF3pJw1ea8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=elv6m3HdSOdEICY/3aSSgbWXYNWERWVQvLHMz7jD+zQ5MPv52a+Ojl5HhSdtYC77lVZ9iESwHsvGc+MKnEAWdKjTCT3pPr5ThpQjkSNRYcPKX0UZGQkU0aRg9bEt5blGlf5OPECdYn7Ax1f0iOCkpbnZ9VWavFsACWBFOPOEfhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kBNirnu6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733956359; c=relaxed/simple;
+	bh=Dtby0qiULUFzZD3soDB2ZMr1AJrfu0wubG7oLHi5HuA=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=GSSpMtyrCtTq4eoB1noWmYSEdyuNP8RA4RBOaLWpR3Veoo3PWP+MA8hEDC1bHMv3aeu7aVWYZTy48Fe4iUnQeMID1Kmy5yIq2+Q+4pRjvGfxLKXNkVqIWZoEaUG9/dUSwdoU9VLRfc1SNAPSOODJM/Um7QX7YkThRSrOga6SlWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GpKNGYUJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kBNirnu6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4576FC4CED2;
-	Wed, 11 Dec 2024 22:20:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GpKNGYUJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5076C4CED3;
+	Wed, 11 Dec 2024 22:32:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733955609;
-	bh=VLhIlSr54TL2QmDP8JRM72GWULbrO+1dbQF3pJw1ea8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kBNirnu6kCr1d7gsDMgZrNuAXLYpD8uzILmzzbrNO1Mnk09f4n481Cndxfrau3+jJ
-	 FpLkwRUeISCmz/SpemPgohhlQ3XgJzMdmIoVZ+IhBa91qhgYo51NaglvZU5BDtIZwB
-	 //WGIgbYueq/MY8+Vmm6UVkGftTY+5cuZd/vROmxV6NP1K5rtWTWqMiA7gXfNGL2rJ
-	 x8QxUc2OB1rxoUChWT6mPdO+zhCO+RaRL8TgtaiQ2BKywx4s0f0kj5Ngw6pkMs+dfE
-	 zgxHiHxwQbMNfdTxhMs7Xm5RVvG80KHa9zyTwAQzCJbyWkRaNGRYrBbAH41l/rU6DO
-	 Lf0Zf/ATio7bQ==
-Date: Wed, 11 Dec 2024 22:20:00 +0000
-From: Will Deacon <will@kernel.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v4 04/18] iommu: add kernel-doc for iommu_unmap and
- iommu_unmap_fast
-Message-ID: <20241211222000.GH17486@willie-the-truck>
-References: <cover.1733398913.git.leon@kernel.org>
- <da4827fda833e69dbe487ef404a9333c51d8ed2e.1733398913.git.leon@kernel.org>
+	s=k20201202; t=1733956358;
+	bh=Dtby0qiULUFzZD3soDB2ZMr1AJrfu0wubG7oLHi5HuA=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=GpKNGYUJHmYhkwBIdn+plUspHkFn0Zm8KfkjOjEsmfiPHLnb4H4Yb56CIsvTo6G3G
+	 ro9RBbL5zJiakfLk7m7UodiGc2RsH0EnwN/ZPRQLgc17XoqXD+LtyuZthWWBgdEzn4
+	 j3Or1LkCIf5Y1jeXRr5WHQ+ennorEs4Rvck1khiRUEO3Iv+46FlOpuMAUFg4rPOaus
+	 bjVornFwVeBvkNGjhAVruAVtvygQ3KGbMrtbE5LbIgibGdUbhG5AXoAu3YYdYDMzxt
+	 fBoOsk2KwL/VBSzheIgRwl4MtUE3yunXOfKzYmQ/fqdXslhdbhWk3b/CTFjJjXq0Fl
+	 wz4UyZjCFfOBg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33BD3380A965;
+	Wed, 11 Dec 2024 22:32:56 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <da4827fda833e69dbe487ef404a9333c51d8ed2e.1733398913.git.leon@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] docs/zh_CN: add the translation of kbuild/llvm.rst
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <173395637500.1729195.10613393812752938273.git-patchwork-notify@kernel.org>
+Date: Wed, 11 Dec 2024 22:32:55 +0000
+References: <20241023153235.1291567-1-dzm91@hust.edu.cn>
+In-Reply-To: <20241023153235.1291567-1-dzm91@hust.edu.cn>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: linux-riscv@lists.infradead.org, si.yanteng@linux.dev, alexs@kernel.org,
+ siyanteng@loongson.cn, corbet@lwn.net, paul.walmsley@sifive.com,
+ palmer@dabbelt.com, aou@eecs.berkeley.edu, nathan@kernel.org,
+ ndesaulniers@google.com, morbo@google.com, justinstitt@google.com,
+ hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
 
-On Thu, Dec 05, 2024 at 03:21:03PM +0200, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
+Hello:
+
+This patch was applied to riscv/linux.git (fixes)
+by Jonathan Corbet <corbet@lwn.net>:
+
+On Wed, 23 Oct 2024 23:32:02 +0800 you wrote:
+> Finish the translation of kbuild/llvm.rst and move llvm from TODO
+> to the main body.
 > 
-> Add kernel-doc section for iommu_unmap and iommu_unmap_fast to document
-> existing limitation of underlying functions which can't split individual
-> ranges.
+> Update to commit 145082ebfcf0 ("Documentation/llvm: turn make command
+> for ccache into code block")
 > 
-> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
->  drivers/iommu/iommu.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
+> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
 > 
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index ec75d14497bf..9eb7c7d7aa70 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -2590,6 +2590,24 @@ size_t iommu_unmap(struct iommu_domain *domain,
->  }
->  EXPORT_SYMBOL_GPL(iommu_unmap);
->  
-> +/**
-> + * iommu_unmap_fast() - Remove mappings from a range of IOVA without IOTLB sync
-> + * @domain: Domain to manipulate
-> + * @iova: IO virtual address to start
-> + * @size: Length of the range starting from @iova
-> + * @iotlb_gather: range information for a pending IOTLB flush
-> + *
-> + * iommu_unmap_fast() will remove a translation created by iommu_map(). It cannot
-> + * subdivide a mapping created by iommu_map(), so it should be called with IOVA
-> + * ranges that match what was passed to iommu_map(). The range can aggregate
-> + * contiguous iommu_map() calls so long as no individual range is split.
-> + *
-> + * Basicly iommu_unmap_fast() as the same as iommu_unmap() but for callers
+> [...]
 
-Typo: s/Basicly/Basically/
-Typo: s/as the same/is the same/
+Here is the summary with links:
+  - docs/zh_CN: add the translation of kbuild/llvm.rst
+    https://git.kernel.org/riscv/c/b934bc754265
 
-> + * which manage IOTLB flush range externaly to perform batched sync.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Grammar: s/manage IOTLB flush range/manage the IOTLB flushing/
-Typo: s/externaly/externally/
-Grammar: s/to perform batched sync/to perform a batched sync/
 
-With those:
-
-Acked-by: Will Deacon <will@kernel.org>
-
-Thank you for doing this!
-
-Will
