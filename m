@@ -1,175 +1,146 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727581F2397
-	for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 21:20:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A93A1D88D3
+	for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 22:05:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733952045; cv=none; b=dLDonbvsRlsuOYL7iz4/UqEjCC8bS6Ny7U7rdlY0jLAG+GwKPdIGApwfPsAHjggPqsZ1vRgdzPZnN+TDgjj0JbiORDHmbNqnccghZoADEf5DiRvPIMnM4r0eWxpDuCHPjKcx/UT3db81exzuMp6WRpFwqdlQML5dm8wambpoZkY=
+	t=1733954704; cv=none; b=QKo7H546jstUvlRsn/5c4fNpqQTDuipJSJ2BrJk5DLdnpaumuubj+gqP2PG8iXIaCAF3Vzx4C0B+GmF8FLMkNRyxq4wZPJdvhmH6JNpj5joXGbMqmyqtYQffKYzHN6LH2PruoRpYIX0ltpk3+IRpc5ARuxecznp3b/QutgHnxiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733952045; c=relaxed/simple;
-	bh=9BNoKvvCDKbyXYRvGcmAgiOTx+VjuHH2W8Or3dRTMpc=;
+	s=arc-20240116; t=1733954704; c=relaxed/simple;
+	bh=48hZYgsKO6dztb1elGN9mIv03OaAS788aLKUsXNGgy4=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=mVg7M4zQl0kIbmSBapaHyYwrd9bJvXiUBXaOZIhaZ8O5EeqLdt1wVz4WCh4LZH2pxEMPr9jV1umazzMmDNJ8dUxbO+8g+E/JJPVoR8xaLfxq+k+zU+ypqDjf7OVCTH7CBuuiKlRYyD2aBPUP6njOHtpV7mjVWahl3Dz8Hdm3uU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CmqoNzRw; arc=none smtp.client-ip=209.85.216.73
+	 To:Cc:Content-Type; b=k3sr48lIxhP/WfNpWW05S61S+Z4evLkiUjZuAqmi3rxtDalS/1S1xTenxI+YiEhywxa8QwpU2iEJIRe1DL97iaHJUTRsl9OARFVjeXrwb0VWdp00o02MnkPZlXs3MyFGH0DPowKkbmC6FRQTJZ9Zt90PAjJPQOQydzJx/K3DOaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Bm/Z+KBn; arc=none smtp.client-ip=209.85.216.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CmqoNzRw"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2f129f7717fso1130215a91.0
-        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 13:20:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Bm/Z+KBn"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2ee31227b58so6991594a91.3
+        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 14:05:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1733952043; x=1734556843; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1733954701; x=1734559501; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=745mn/S2xe1Z43WeSOTvQvgzJ70pexQD0FqzrefhnYc=;
-        b=CmqoNzRwnz58z4wKlWaK9VJkxia4k9usxdlLwfnj89aTSmvyfW6pbOXhjN6AgsT8dZ
-         UDeNxuHPP5ykljoCbTmFcRC+aCWsVJYaQH/RHJZuqVPKgw7J0GmbJ1sZc37COOMZf5r2
-         Q0ZrmcBDCgmXdjd7SU+N2yG1DFtowAH6IkwD20Gs+Wuiuky+8kKBXB7awyhDVqGSfwJo
-         BjcOUoR2zVqCXEgJaDDw8a+cfTLgraLyMTqsSJfBtSEFcq2Rwb2JqlFCBSJZbjsw9Ejr
-         jZ8bSQu0rYTqgKQVM7S0t0DjhmGJrsycFOTHpHOq4/DUKJnhjaInb28ywKZO8nTPpo+x
-         VHyg==
+        bh=eUq2+HHfD0MZnKG6S4yv713N9r4cWKPzp2/GucLxJ8U=;
+        b=Bm/Z+KBnws/B9Xb40wlHAK4gw33tR9F7jtsM1TIoOl+tIsS62Jy7Q+vS4Vk0JH1NeV
+         5NfrrhgpZrxzyQYquNHjwrBwTOivIt+5r0PBBSpkuzhY7HebWMvSMplyNiB5/RjJDGxE
+         dNE1kv2Psmmq/j/u0xWWrmUW7K9q08Zp+I/rnLyKajWJTbeei/NtUBWC5fmte/hDN3sJ
+         QP0W97Yl0LVC8nIfzALWRVwKAZRRg6zyyCsayibbXJaWZyIjk7RicpvkoeVIJSWQXA8b
+         i3RtwqmU+smN1JeqWvBxRcLRbTJDxmLsOIrDj/q7ZTHQ3dZQRbfJPzHz5R/QAhXa+DSf
+         7PJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733952043; x=1734556843;
+        d=1e100.net; s=20230601; t=1733954701; x=1734559501;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=745mn/S2xe1Z43WeSOTvQvgzJ70pexQD0FqzrefhnYc=;
-        b=dctpmhigZob6OuqaPh0vHHerl8HHhO3uZBHDdOjV/2vsoLJTYkwqlPO+B7OQ6kz90+
-         sSGyb0REZDS+yJYxYUYeVGKxOE2xSzoRxstfSqQE6NPNRoT4C897ry/heNXO+rKF0Yxf
-         sdO3fQKSWJfjgakPMExhhe/dPUFlhX2cMYx8EC+KWgyfKVphHu79hLdeGbR3VQb7SKNW
-         rDqcHnbrU7nqhYOKIFAMWOL4npkMFtRkM0rEaHFXVyFuk8J3l/0BfumVdabTw10xbShq
-         YjRrLJI0RUPoLgjFLeqquuCYE53aDq4nvZaMl7O+h0ZfU5Mi1yxFx1ltMenNwnyseG41
-         nw3A==
-X-Forwarded-Encrypted: i=1; AJvYcCUYx5SPodl8mNVtEqka4Cx1yk1hwKl1YxmZh6NSYbLKa01Bsm5dECH2zkN1b4JFsKcKnkRerkLw7Wc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0wqycaxq+4SLnewkn1jqXDVaUzrMmC59Xtx+pGJP24EyvSsyS
-	1ZeMWyRwExf8A1Oruqb55UgfFSJ8I8WkvaYpbOOGxrXt0HKs4gZFRIsDad8q2Tpp1TDHxkL9qXi
-	59dzTqTCB09xjV2QXGB7NPw==
-X-Google-Smtp-Source: AGHT+IF2uRXFUQriUo4tvi6x2FYHwsywKL7Zw3vDn+zO9RvFZ2JyJoMpQxG3APMIfW/ed/zYgqVVYVaPi7Sv7tAlhg==
-X-Received: from pjbsp5.prod.google.com ([2002:a17:90b:52c5:b0:2ea:6b84:3849])
- (user=almasrymina job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:17ce:b0:2ee:b26c:10a3 with SMTP id 98e67ed59e1d1-2f139329035mr1977597a91.36.1733952042875;
- Wed, 11 Dec 2024 13:20:42 -0800 (PST)
-Date: Wed, 11 Dec 2024 21:20:32 +0000
-In-Reply-To: <20241211212033.1684197-1-almasrymina@google.com>
+        bh=eUq2+HHfD0MZnKG6S4yv713N9r4cWKPzp2/GucLxJ8U=;
+        b=LIsbhytM/2ubDFdfplslc93liRb4jO+nsPw05WSVKGI8gCJCMTMCIkUjWYSUGfL6Xv
+         tuIoF0bc6G1DVEhH5BNaCXc1nPCBjUZA/DSD0NzzVfiQzr10TLwzV8Fjv6LNlgELrA7o
+         E4fCpSt3Bhidq5HkqhocWMlyZjFgAOZ0Rlc5ZxiOJZyMzSzIXu+Y+Uc/C+mHHFxXPWqh
+         JnQNghx4py6MvRBDxoXIChIwkV2jcnPk3nuMBIqLh9/axc+u5lWCvAc7eaqYOauBUnbj
+         4/swExMBg/QbIZXBm8vM7Vr6MskaS6sgSMSreMSW9xSHwkXHFbFBAOqhldoItkKu/ID3
+         PJlA==
+X-Forwarded-Encrypted: i=1; AJvYcCUDJj+ckbGHmutq9bazHnxdQGIH6OD3Os+bdZ2aftKbvUBYHLm9zt7/V+HZ7hqoL4Lajy0wLLGFs10=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxv6XcyClE5hUO3EnyadSeDirslEljnAPekIWeUEBei6QK3Ci65
+	gOrrDgPAGJ6urY8flnjrQEXgVsGaILFIFRZWB/KauO+PBpKdep0NauUFE3r4XcVBZk5tJDLoU0f
+	OlA==
+X-Google-Smtp-Source: AGHT+IEyb50yMKacPTznxoijQx7BN35QC5SQoHLR54g34UBhOfC2yU2PDiXYsV/JHqrTw/B7nLThww6z3/A=
+X-Received: from pjbnb8.prod.google.com ([2002:a17:90b:35c8:b0:2ee:4f3a:d07d])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:2e46:b0:2ee:8439:dc8
+ with SMTP id 98e67ed59e1d1-2f1280e2a8amr6417546a91.34.1733954701643; Wed, 11
+ Dec 2024 14:05:01 -0800 (PST)
+Date: Wed, 11 Dec 2024 14:05:00 -0800
+In-Reply-To: <20240910152207.38974-1-nikwip@amazon.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20241211212033.1684197-1-almasrymina@google.com>
-X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
-Message-ID: <20241211212033.1684197-6-almasrymina@google.com>
-Subject: [PATCH net-next v4 5/5] net: Document netmem driver support
-From: Mina Almasry <almasrymina@google.com>
-To: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>, 
-	Mina Almasry <almasrymina@google.com>, Pavel Begunkov <asml.silence@gmail.com>, 
-	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>, 
-	Samiullah Khawaja <skhawaja@google.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <20240910152207.38974-1-nikwip@amazon.de>
+Message-ID: <Z1oMjKa3gExDxsCN@google.com>
+Subject: Re: [PATCH 00/15] KVM: x86: Introduce new ioctl KVM_TRANSLATE2
+From: Sean Christopherson <seanjc@google.com>
+To: Nikolas Wipper <nikwip@amazon.de>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
+	Nicolas Saenz Julienne <nsaenz@amazon.com>, Alexander Graf <graf@amazon.de>, James Gowans <jgowans@amazon.com>, 
+	nh-open-source@amazon.com, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org, 
+	kvm@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kvmarm@lists.linux.dev, 
+	kvm-riscv@lists.infradead.org
+Content-Type: text/plain; charset="us-ascii"
 
-Document expectations from drivers looking to add support for device
-memory tcp or other netmem based features.
+On Tue, Sep 10, 2024, Nikolas Wipper wrote:
+> This series introduces a new ioctl KVM_TRANSLATE2, which expands on
+> KVM_TRANSLATE. It is required to implement Hyper-V's
+> HvTranslateVirtualAddress hyper-call as part of the ongoing effort to
+> emulate HyperV's Virtual Secure Mode (VSM) within KVM and QEMU. The hyper-
+> call requires several new KVM APIs, one of which is KVM_TRANSLATE2, which
+> implements the core functionality of the hyper-call. The rest of the
+> required functionality will be implemented in subsequent series.
+> 
+> Other than translating guest virtual addresses, the ioctl allows the
+> caller to control whether the access and dirty bits are set during the
+> page walk. It also allows specifying an access mode instead of returning
+> viable access modes, which enables setting the bits up to the level that
+> caused a failure. Additionally, the ioctl provides more information about
+> why the page walk failed, and which page table is responsible. This
+> functionality is not available within KVM_TRANSLATE, and can't be added
+> without breaking backwards compatiblity, thus a new ioctl is required.
 
-Signed-off-by: Mina Almasry <almasrymina@google.com>
+...
 
----
+>  Documentation/virt/kvm/api.rst                | 131 ++++++++
+>  arch/x86/include/asm/kvm_host.h               |  18 +-
+>  arch/x86/kvm/hyperv.c                         |   3 +-
+>  arch/x86/kvm/kvm_emulate.h                    |   8 +
+>  arch/x86/kvm/mmu.h                            |  10 +-
+>  arch/x86/kvm/mmu/mmu.c                        |   7 +-
+>  arch/x86/kvm/mmu/paging_tmpl.h                |  80 +++--
+>  arch/x86/kvm/x86.c                            | 123 ++++++-
+>  include/linux/kvm_host.h                      |   6 +
+>  include/uapi/linux/kvm.h                      |  33 ++
+>  tools/testing/selftests/kvm/Makefile          |   1 +
+>  .../selftests/kvm/x86_64/kvm_translate2.c     | 310 ++++++++++++++++++
+>  virt/kvm/kvm_main.c                           |  41 +++
+>  13 files changed, 724 insertions(+), 47 deletions(-)
+>  create mode 100644 tools/testing/selftests/kvm/x86_64/kvm_translate2.c
 
-v4:
-- Address comments from Randy.
-- Change docs to netmem focus (Jakub).
-- Address comments from Jakub.
+...
 
----
- Documentation/networking/index.rst  |  1 +
- Documentation/networking/netmem.rst | 62 +++++++++++++++++++++++++++++
- 2 files changed, 63 insertions(+)
- create mode 100644 Documentation/networking/netmem.rst
+> The simple reason for keeping this functionality in KVM, is that it already
+> has a mature, production-level page walker (which is already exposed) and
+> creating something similar QEMU would take a lot longer and would be much
+> harder to maintain than just creating an API that leverages the existing
+> walker.
 
-diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
-index 46c178e564b3..058193ed2eeb 100644
---- a/Documentation/networking/index.rst
-+++ b/Documentation/networking/index.rst
-@@ -86,6 +86,7 @@ Contents:
-    netdevices
-    netfilter-sysctl
-    netif-msg
-+   netmem
-    nexthop-group-resilient
-    nf_conntrack-sysctl
-    nf_flowtable
-diff --git a/Documentation/networking/netmem.rst b/Documentation/networking/netmem.rst
-new file mode 100644
-index 000000000000..f9f03189c53c
---- /dev/null
-+++ b/Documentation/networking/netmem.rst
-@@ -0,0 +1,62 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+================
-+Netmem
-+================
-+
-+
-+Introduction
-+============
-+
-+Device memory TCP, and likely more upcoming features, are reliant on netmem
-+support in the driver. This outlines what drivers need to do to support netmem.
-+
-+
-+Driver support
-+==============
-+
-+1. The driver must support page_pool. The driver must not do its own recycling
-+   on top of page_pool.
-+
-+2. The driver must support the tcp-data-split ethtool option.
-+
-+3. The driver must use the page_pool netmem APIs. The netmem APIs are
-+   currently 1-to-1 correspond with page APIs. Conversion to netmem should be
-+   achievable by switching the page APIs to netmem APIs and tracking memory via
-+   netmem_refs in the driver rather than struct page * :
-+
-+   - page_pool_alloc -> page_pool_alloc_netmem
-+   - page_pool_get_dma_addr -> page_pool_get_dma_addr_netmem
-+   - page_pool_put_page -> page_pool_put_netmem
-+
-+   Not all page APIs have netmem equivalents at the moment. If your driver
-+   relies on a missing netmem API, feel free to add and propose to netdev@ or
-+   reach out to almasrymina@google.com for help adding the netmem API.
-+
-+4. The driver must use the following PP_FLAGS:
-+
-+   - PP_FLAG_DMA_MAP: netmem is not dma-mappable by the driver. The driver
-+     must delegate the dma mapping to the page_pool.
-+   - PP_FLAG_DMA_SYNC_DEV: netmem dma addr is not necessarily dma-syncable
-+     by the driver. The driver must delegate the dma syncing to the page_pool.
-+   - PP_FLAG_ALLOW_UNREADABLE_NETMEM. The driver must specify this flag iff
-+     tcp-data-split is enabled.
-+
-+5. The driver must not assume the netmem is readable and/or backed by pages.
-+   The netmem returned by the page_pool may be unreadable, in which case
-+   netmem_address() will return NULL. The driver must correctly handle
-+   unreadable netmem, i.e. don't attempt to handle its contents when
-+   netmem_address() is NULL.
-+
-+   Ideally, drivers should not have to check the underlying netmem type via
-+   helpers like netmem_is_net_iov() or convert the netmem to any of its
-+   underlying types via netmem_to_page() or netmem_to_net_iov(). In most cases,
-+   netmem or page_pool helpers that abstract this complexity are provided
-+   (and more can be added).
-+
-+6. The driver must use page_pool_dma_sync_netmem_for_cpu() in lieu of
-+   dma_sync_single_range_for_cpu(). For some memory providers, dma_syncing for
-+   CPU will be done by the page_pool, for others (particularly dmabuf memory
-+   provider), dma syncing for CPU is the responsibility of the userspace using
-+   dmabuf APIs. The driver must delegate the entire dma-syncing operation to
-+   the page_pool which will do it correctly.
--- 
-2.47.0.338.g60cca15819-goog
+I'm not convinced that implementing targeted support in QEMU (or any other VMM)
+would be at all challenging or a burden to maintain.  I do think duplicating
+functionality across multiple VMMs is undesirable, but that's an argument for
+creating modular userspace libraries for such functionality.  E.g. I/O APIC
+emulation is another one I'd love to move to a common library.
 
+Traversing page tables isn't difficult.  Checking permission bits isn't complex.
+Tedious, perhaps.  But not complex.  KVM's rather insane code comes from KVM's
+desire to make the checks as performant as possible, because eking out every little
+bit of performance matters for legacy shadow paging.  I doubt VSM needs _that_
+level of performance.
+
+I say "targeted", because I assume the only use case for VSM is 64-bit non-nested
+guests.  QEMU already has a rudimentary supporting for walking guest page tables,
+and that code is all of 40 LoC.  Granted, it's heinous and lacks permission checks
+and A/D updates, but I would expect a clean implementation with permission checks
+and A/D support would clock in around 200 LoC.  Maybe 300.
+
+And ignoring docs and selftests, that's roughly what's being added in this series.
+Much of the code being added is quite simple, but there are non-trivial changes
+here as well.  E.g. the different ways of setting A/D bits.
+
+My biggest concern is taking on ABI that restricts what KVM can do in its walker.
+E.g. I *really* don't like the PKU change.  Yeah, Intel doesn't explicitly define
+architectural behavior, but diverging from hardware behavior is rarely a good idea.
+
+Similarly, the behavior of FNAME(protect_clean_gpte)() probably isn't desirable
+for the VSM use case.
