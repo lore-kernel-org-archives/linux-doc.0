@@ -1,371 +1,356 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF54238E27;
-	Wed, 11 Dec 2024 11:39:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C571B2368FA
+	for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 14:05:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733917159; cv=none; b=a890Wz6/JB2oLnwR4ZONhQaKl+tTCoc1uqXun3ZVYZqfuO9c8aTF2udHEHkCbyTqPfQuPwGbtwzk3GczEZPDD+MLHAOqMH+x6LLTjNSBBZfFg/1DYmDDlbXJNKSdpKgpmWz6R4wZhhOCCnaQR7tScPw3GU66hvYJKmPVbYSBP5Y=
+	t=1733925907; cv=none; b=gyrLtjk0zT17gPcuSkjln2cHPObNhWLLeUYcYfAdaEsCrAXW9Y2887tDuwW6hdNVD6pusUzZ5t8oJhUPcQdq/N4pYawcocwjeQxJ72wk31ayrmbjY0J73BwgRYZTfEdtcRH1GRHMulIUBOvHNPmPcnzPzxWb1WY/US73Z0yKXA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733917159; c=relaxed/simple;
-	bh=GjpdDPe/vlLCgl3IY6OY0f/sBqZHbJneeNOQReCkYAk=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZTZ+ozxYiAqSP3/3OrPHNZXgkxK9F8r4530Afm4AMeMt5/QrUJD4/AiF4oogyPrVF8mHT+PwHF9UOz60ICRvUGJ4PwtKxVS6EkqWj3PbICseaxyIdK9v+8ImsQARA0KSyyitoiDmkBzwaBmJKHSmtXR2hwYHFo3oXuY0ZyJ2mPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Y7YRJ5CxSz6GC5J;
-	Wed, 11 Dec 2024 19:34:36 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id E6E01140B73;
-	Wed, 11 Dec 2024 19:39:13 +0800 (CST)
-Received: from localhost (10.48.156.16) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 11 Dec
- 2024 12:39:12 +0100
-Date: Wed, 11 Dec 2024 11:39:09 +0000
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: Yoshihiro Furudera <fj5100bi@fujitsu.com>
-CC: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Catalin Marinas <catalin.marinas@arm.com>,
-	<linux-arm-kernel@lists.infradead.org>, "Bjorn Andersson"
-	<quic_bjorande@quicinc.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Dmitry Baryshkov
-	<dmitry.baryshkov@linaro.org>, Konrad Dybcio <konradybcio@kernel.org>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, Arnd Bergmann <arnd@arndb.de>, "
- =?ISO-8859-1?Q?N=EDcolas?= \"F. R. A. Prado\"" <nfraprado@collabora.com>,
-	Thomas Gleixner <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/2] perf: Fujitsu: Add the Uncore MAC PMU driver
-Message-ID: <20241211113909.000039d0@huawei.com>
-In-Reply-To: <20241122061753.2598688-2-fj5100bi@fujitsu.com>
-References: <20241122061753.2598688-1-fj5100bi@fujitsu.com>
-	<20241122061753.2598688-2-fj5100bi@fujitsu.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1733925907; c=relaxed/simple;
+	bh=8uxRDDa1ZrtEWRikgId2kWfLFhA3SOQppnPWVAk7eDY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jGsotEYwl+Q6qaehuKWWiatKTxIezujgzM+GU3E7QmBqXk5f5zumTSq12nvsrBX35O6ldaUuXapKHZiTIEmRY7XXoaujeDSKMOzs7FIXni9horVXz59kbUnUcwCVTfEr1Szp2MoqT8q5rg2+a2Pwdw9cZXUQu2zqSwy0J8XScnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=s8eFhFY0; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s8eFhFY0"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3002c324e7eso52012331fa.3
+        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 06:05:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733925904; x=1734530704; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=il8+9vjQz+0CNwk2YpjhN7coIV5zrH9Hso1s2Wky8S0=;
+        b=s8eFhFY06gE2wwFboJ9UdlEdhqKi6FHU7n3uW41JEgtF2pqOg3QIkZyOtYxzf0YhNe
+         6i20Nb4jN3EFehDcAYb9/7LKtTVAfneJVOFaEVNhpPjm/Ka2UDOGvJzuQZVFr1jny6UQ
+         a4jnKdrv6sa3E+S+yIHTmOWFwwpZlKMt+V+A2nsODtxrtcv/VC1n03EMflL33maXKf5+
+         woeRv8H1h6s9v04jyYhLnc/Oi0Q9xEusKfTZPdvwnAw6NSPgntc3j13zZhvb73RI73iv
+         xK5GlwOuMJYbtoX2icls0LlOBhOoJ5giEQ9YAGpeBQGveQHzNNcXXvvjWQO61OEKBt32
+         /tIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733925904; x=1734530704;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=il8+9vjQz+0CNwk2YpjhN7coIV5zrH9Hso1s2Wky8S0=;
+        b=hgpdwvYNnrQFXBpdt6fTx26JMrzXLOdkpc0JgGmfuqlWVtnyxKHVhH48R5QKHns+Nt
+         66aoZfIVUvMqrOabkk+1IOJNJlytc8XVO4Dc5GNwD6XYwrXe7Z1KoQ3Q05yjsPiQnsKB
+         lCh/DSlVyahUJKZBrHZy6ihRJ58k2XuwOySdxRIKmQN8wGwkS2Uy7dMKEDmciCfIKQhv
+         EZWB47TZG82RfZCXHpq9Or5AfvVDWQa9dwKWjFvDM++acAH6T48wch2naRvokNUzXO4m
+         pXwTKjbN+sMoNVAfFJ7t98Ztp3qsw5aAxU+ByllZwFH4RKnTsjUc2hlOlx8JEDx4nhAT
+         kOCA==
+X-Forwarded-Encrypted: i=1; AJvYcCV5pZM6rBw8dZMm7+2BmVvwXHKsKuhd6AXrA6PDcWE/8GpIx49pC6oTc8jkLZniHDOOlSml4RzDVSc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvtFgmbPGYw6bRFgs9OeDRFLN1Wscat03JJlVsqoZw5/BWwQZ2
+	fVxTdb0Lc2xphfa/D2/CowBkth5XPuH170SLeGg+bCUI1iFMZ8arBaI9DxZdMDY=
+X-Gm-Gg: ASbGnctLZkLvZ9MD7YwasBou5RofHesN2XQ3JeRJ+SQZ7Z23DjpYs/Tb7bHfDOhPy88
+	p7YVCk3kKH14ORXCKr3IlY0NahXyer5+4nB9JZbIT7kAe03pTuXndP6Exqu2fjEeQjE38Zo61G0
+	OspvATyehL9oCe7X2x62rOfiIFERl/Y/5jsw+3Bnx8O4Z27rM+0mHk2d38Nsrqnd8OlWtLYOpK+
+	Jd+34k9LDXK6Ev2AceGJKZqklVtKwzX4vMHhoFxy/qtEiPdRQYeiPKVgVlPyMVAQmnj3G44dSTt
+	bh3ITLsS3hZi2oobbibf
+X-Google-Smtp-Source: AGHT+IFRBij+feIMREHq2gXiREyAd6JxtEPmcIQ8OM73icqJN5D6gRtYHPA7dg913pOv8z8zgawRZg==
+X-Received: by 2002:a05:651c:154e:b0:300:160f:7c76 with SMTP id 38308e7fff4ca-30240d89514mr12681681fa.25.1733925903243;
+        Wed, 11 Dec 2024 06:05:03 -0800 (PST)
+Received: from rayden (h-98-128-140-123.A175.priv.bahnhof.se. [98.128.140.123])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30041e2d03asm13756101fa.58.2024.12.11.06.05.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Dec 2024 06:05:02 -0800 (PST)
+Date: Wed, 11 Dec 2024 15:04:59 +0100
+From: Jens Wiklander <jens.wiklander@linaro.org>
+To: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+Cc: Sumit Garg <sumit.garg@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 08/10] tee: add Qualcomm TEE driver
+Message-ID: <20241211140459.GA471738@rayden>
+References: <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-0-f502ef01e016@quicinc.com>
+ <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-8-f502ef01e016@quicinc.com>
+ <CAHUa44GqyaouPquw+DE1ASRwVOBw5xDstcpaNpmLmQbXmp6CuQ@mail.gmail.com>
+ <62f80fb7-ea13-4ae1-a438-8d6b2d5a2f15@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
- frapeml500008.china.huawei.com (7.182.85.71)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <62f80fb7-ea13-4ae1-a438-8d6b2d5a2f15@quicinc.com>
 
-On Fri, 22 Nov 2024 06:17:52 +0000
-Yoshihiro Furudera <fj5100bi@fujitsu.com> wrote:
+Hi Amirreza,
 
-> This adds a new dynamic PMU to the Perf Events framework to program and
-> control the Uncore MAC PMUs in Fujitsu chips.
+On Wed, Dec 11, 2024 at 01:30:22PM +1100, Amirreza Zarrabi wrote:
+[snip]
+> >> +/**
+> >> + * struct qcom_tee_context - Clients or supplicants context.
+> >> + * @tee_context: TEE context.
+> >> + * @qtee_objects_idr: QTEE objects in this context.
+> >> + * @reqs_idr: Requests currently being processed.
+> >> + * @lock: mutex for @reqs_idr and @qtee_objects_idr.
+> >> + * @req_srcu: srcu for exclusive access to requests.
+> >> + * @req_c: completion used when supplicant is waiting for requests.
+> >> + * @released: state of this context.
+> >> + * @ref_cnt: ref count.
+> >> + */
+> >> +struct qcom_tee_context {
+> > 
+> > Other drivers call their conterpart of this struct *_context_data.
+> > Using the same pattern here makes it easier to recognize the struct in
+> > the rest of the code.
+> > 
 > 
-> This driver was created with reference to drivers/perf/qcom_l3_pmu.c.
+> Ack.
 > 
-> This driver exports formatting and event information to sysfs so it can
-> be used by the perf user space tools with the syntaxes:
+> >> +       struct tee_context *tee_context;
+> >> +
+> >> +       struct idr qtee_objects_idr;
+> >> +       struct idr reqs_idr;
+> >> +       /* Synchronize access to @reqs_idr, @qtee_objects_idr and updating requests state. */
+> >> +       struct mutex lock;
+> >> +       struct srcu_struct req_srcu;
+> > 
+> > Why do you use this synchronization primitive? I don't know enough
+> > about this primitive to tell if you use it for the right purpose so
+> > perhaps you can help me understand which properties you need.
+> > 
 > 
-> perf stat -e mac_iod0_mac0_ch0/ea-mac/ ls
-> perf stat -e mac_iod0_mac0_ch0/event=0x80/ ls
+> Sure, let me explain it bellow in the qcom_tee_user_object_dispatch,
+> where it is acually used.
 > 
-> FUJITSU-MONAKA Specification URL:
-> https://github.com/fujitsu/FUJITSU-MONAKA
+> >> +       struct completion req_c;
+> >> +
+> >> +       int released;
+> >> +
+> >> +       struct kref ref_cnt;
+> > 
+> > Why does this struct need a different lifetime than struct tee_context?
+> > 
 > 
-> Signed-off-by: Yoshihiro Furudera <fj5100bi@fujitsu.com>
-Hi,
+> This is a side effect of how QTEE objects and callback objects are released:
+> 
+>   - When a tee_context is closed, we release all QTEE objects in that context.
+>     QTEE specifies that object releases are asynchronous. So, we queue the
+>     releases in a workqueue and immediately return from the release callback,
+>     allowing the TEE subsystem to continue.
+> 
+>   - When the workqueue sends a release for a QTEE object, QTEE may respond
+>     by requesting the release of a callback object or an operation on a callback
+>     object. This requires a valid struct qcom_tee_context. That's why we keep this
+>     until all callback objects are gone.
+> 
+> The alternative is to keep a list of callback objects in this context and
+> flag them as orphans. The refcount seems easier :).
 
-A few comments inline.
+It would be even easier if it was already dealt with by the TEE
+subsystem. :-)
 
-Thanks,
+It looks like we have the same problem as with the tee_shm objects when
+the tee_context should go away. Would it work to add another callback,
+close_contex(), to tee_driver_ops to be called from
+teedev_close_context()? The release() callback would still be called as
+usual when the last reference is gone, but the backend TEE driver would
+get a notification earlier with core_contex() that it's time to start
+releasing resources.
 
-Jonathan
+[snip]
+> >> +/**
+> >> + * qcom_tee_supp_pop_entry() - Pop the next request in a context.
+> > 
+> > When you pop something you'd expect it to be removed also.
+> >
+> 
+> I'll rename it to more apporpriate name.
+> 
+> >> + * @ctx: context from which to pop a request.
+> >> + * @ubuf_size: size of available buffer for MEMBUF parameters.
+> >> + * @num_params: number of entries for TEE parameter array.
+> >> + *
+> >> + * It does not remove the request from &qcom_tee_context.reqs_idr.
+> >> + * It checks if @num_params is large enough to fit the next request arguments.
+> >> + * It checks if @ubuf_size is large enough to fit IB buffer arguments from QTEE.
+> >> + * It updates request state to %QCOM_TEE_REQ_PROCESSING state.
+> >> + *
+> >> + * Return: On success return a request or NULL and ERR_PTR on failure.
+> >> + */
+> >> +static struct qcom_tee_user_req *qcom_tee_supp_pop_entry(struct qcom_tee_context *ctx,
+> >> +                                                        size_t ubuf_size, int num_params)
+> >> +{
+> >> +       struct qcom_tee_user_req *ureq;
+> >> +       struct qcom_tee_arg *u;
+> >> +       int i, id;
+> >> +
+> >> +       guard(mutex)(&ctx->lock);
+> >> +
+> >> +       /* Find the a QUEUED request. */
+> > 
+> > Is it _a_ or _the_?
+> > 
+> >> +       idr_for_each_entry(&ctx->reqs_idr, ureq, id)
+> >> +               if (ureq->state == QCOM_TEE_REQ_QUEUED)
+> >> +                       break;
+> > 
+> > Will this always result in a FIFO processing?
+> > 
+> 
+> It not a FIFO. I understand your concerns.
+> I'll replace it with a list.
+> 
+> >> +
+> >> +       if (!ureq)
+> >> +               return NULL;
+> >> +
+> >> +       u = ureq->args;
+> >> +       /* (1) Is there enough TEE parameters? */
+> >> +       if (num_params < qcom_tee_args_len(u))
+> >> +               return ERR_PTR(-EINVAL);
+> >> +
+> >> +       /* (2) Is there enough space to pass input buffers? */
+> >> +       qcom_tee_arg_for_each_input_buffer(i, u) {
+> >> +               ubuf_size = size_sub(ubuf_size, u[i].b.size);
+> >> +               if (ubuf_size == SIZE_MAX)
+> >> +                       return ERR_PTR(-EINVAL);
+> >> +
+> >> +               ubuf_size = round_down(ubuf_size, 8);
+> >> +       }
+> >> +
+> >> +       /* Ready to process request 'QUEUED -> PROCESSING'. */
+> >> +       ureq->state = QCOM_TEE_REQ_PROCESSING;
+> >> +
+> >> +       return ureq;
+> >> +}
+> >> +
+> >> +/* User object dispatcher. */
+> >> +static int qcom_tee_user_object_dispatch(struct qcom_tee_object_invoke_ctx *oic,
+> >> +                                        struct qcom_tee_object *object, u32 op,
+> >> +                                        struct qcom_tee_arg *args)
+> >> +{
+> >> +       struct qcom_tee_user_object *uo = to_qcom_tee_user_object(object);
+> >> +       struct qcom_tee_user_req *ureq __free(kfree);
+> >> +       struct qcom_tee_context *ctx = uo->ctx;
+> >> +       int errno;
+> >> +
+> >> +       ureq = kzalloc(sizeof(*ureq), GFP_KERNEL);
+> >> +       if (!ureq)
+> >> +               return -ENOMEM;
+> >> +
+> >> +       init_completion(&ureq->c);
+> >> +       ureq->object_id = uo->object_id;
+> >> +       ureq->op = op;
+> >> +       ureq->args = args;
+> >> +
+> >> +       /* Queue the request. */
+> >> +       if (qcom_tee_request_enqueue(ureq, ctx))
+> >> +               return -ENODEV;
+> >> +
+> >> +       /* Wakeup supplicant to process it. */
+> >> +       complete(&ctx->req_c);
+> >> +
+> >> +       /* Wait for supplicant to process the request. */
+> >> +       /* Supplicant is expected to process request in a timely manner. We wait as KILLABLE,
+> > 
+> > requests
+> > 
+> >> +        * in case supplicant and invoke thread both running from a same user process, otherwise
+> > 
+> > the same
+> > 
+> >> +        * the process stuck on fatal signal.
+> > 
+> > might get stuck on a fatal signal?
+> > 
+> >> +        */
+> > 
+> > Please combine into one comment.
+> > 
+> 
+> Ack.
+> 
+> >> +       if (!wait_for_completion_state(&ureq->c, TASK_KILLABLE | TASK_FREEZABLE)) {
+> >> +               errno = ureq->errno;
+> >> +               /* On SUCCESS, end_cb_notify frees the request. */
+> >> +               if (!errno)
+> >> +                       oic->data = no_free_ptr(ureq);
+> >> +       } else {
+> >> +               enum qcom_tee_req_state prev_state;
+> >> +
+> >> +               errno = -ENODEV;
+> >> +
+> >> +               scoped_guard(mutex, &ctx->lock) {
+> >> +                       prev_state = ureq->state;
+> >> +                       /* Replace ureq with '__empty_ureq' to keep req_id reserved. */
+> >> +                       if (prev_state == QCOM_TEE_REQ_PROCESSING)
+> >> +                               idr_replace(&ctx->reqs_idr, &__empty_ureq, ureq->req_id);
+> >> +                       /* Remove ureq as supplicant has never seen this request. */
+> >> +                       else if (prev_state == QCOM_TEE_REQ_QUEUED)
+> >> +                               idr_remove(&ctx->reqs_idr, ureq->req_id);
+> >> +               }
+> >> +
+> >> +               /* Wait for exclusive access to ureq. */
+> >> +               synchronize_srcu(&ctx->req_srcu);
+> > 
+> > I'm sorry, I don't follow.
+> >
+> 
+> I'll try to compare it to the optee.
+> 
+> In optee, clients and the supplicant run in two different contexts. If the
+> supplicant is available, the client will wait for it to finish processing
+> the queued request. The supplicant is guaranteed to be timely and responsive.
 
-> diff --git a/drivers/perf/fujitsu_mac_pmu.c b/drivers/perf/fujitsu_mac_pmu.c
-> new file mode 100644
-> index 000000000000..810f51f798a0
-> --- /dev/null
-> +++ b/drivers/perf/fujitsu_mac_pmu.c
+Yeah, or at least trusted to be timely and responsive.
 
-> +/* Number of counters on each PMU */
-> +#define MAC_NUM_COUNTERS  8
-> +/* Mask for the event type field within perf_event_attr.config and EVTYPE reg */
-> +#define MAC_EVTYPE_MASK   0xFF
-> +
-> +/* Perfmon registers */
-> +#define MAC_PM_EVCNTR(__cntr) (0x000 + ((__cntr) & 0x7) * 8)
-> +#define MAC_PM_CNTCTL(__cntr) (0x100 + ((__cntr) & 0x7) * 8)
-> +#define MAC_PM_EVTYPE(__cntr) (0x200 + ((__cntr) & 0x7) * 8)
+> 
+> In QCOMTEE:
+> 
+>   1. There are multiple supplicants. Any process that implements a callback
+>      object is considered a supplicant. The general assumption of timeliness
+>      or responsiveness may not apply. We allow the client to at least receive fatal
+>      signals (this design can be extended later if a timeout is required).
+> 
+>   2. A client can implement a callback object and act as both a client and
+>      a supplicant simultaneously. To terminate such a process, we need to be
+>      able to accept fatal signals.
 
-Do you need the masking?  As far as I can tell the idx that goes
-into these calls is capped as below MAC_NUM_COUNTERS so
-that masking operation will never do anything.  I hope the only
-other value that occurs (-1) is never used with these.
+We accept tee-supplicant to be killed so this is similar.
 
+> 
+> srcu is specifically used to protect the args array. After returning from
+> qcom_tee_user_object_dispatch, the args array might not be valid. We need to
+> ensure no one is accessing the args array before the retun, hence synchronize_srcu.
+> Whenever we read the contents of args, we do it within an srcu read lock.
+> 
+> For example, qcomtee_user_object_pop, which picks a request for the supplicant
+> to process, will hold the srcu read lock when marshaling the args array
+> to the TEE subsystem's params array.
+> 
+> An alternative to the srcu would be to use "context lock" ctx->lock and
+> hold it throughout the qcomtee_user_object_pop function, even when marshaling
+> the args array to the TEE subsystem's params array.
+> 
+> Using ctx->lock is easier to follow, but since it's shared by everyone in
+> a context and marshaling can be heavy depending on the type of objects,
+> I thought srcu would be more performant.
+> 
+> In other words, srcu just moves the marshaling of objects outside of ctx->lock.
+> What do you think about keeping srcu or replacing it with ctx->lock?
 
-> +#define MAC_PM_CR         0x400
-> +#define MAC_PM_CNTENSET   0x410
-> +#define MAC_PM_CNTENCLR   0x418
-> +#define MAC_PM_INTENSET   0x420
-> +#define MAC_PM_INTENCLR   0x428
-> +#define MAC_PM_OVSR       0x440
-> +
-> +/* MAC_PM_CNTCTLx */
-> +#define PMCNT_RESET           0
-> +
-> +/* MAC_PM_EVTYPEx */
-> +#define EVSEL(__val)          ((__val) & MAC_EVTYPE_MASK)
+Let's continue the comparison with OP-TEE where struct optee_supp_req
+plays the role of struct qcom_tee_user_req in QCOMTEE. You can say that
+access rights to the optee_supp_req follows with the owner. The
+supp->mutex is in principle only held while changing owner. Couldn't the
+ctx->lock be used in a similar way, avoiding it while marshalling
+objects?
 
-FIELD_GET() and just use the mask inline.
+I'm open to be persuaded if you think that srcu is a better choice.
 
-> +
-> +/* MAC_PM_CR */
-> +#define PM_RESET              (1UL << 1)
-
-BIT(1)
-
-> +#define PM_ENABLE             (1UL << 0)
-
-BIT(0)
-
-> +
-> +/* MAC_PM_CNTENSET */
-> +#define PMCNTENSET(__cntr)    (1UL << ((__cntr) & 0x7))
-> +
-> +/* MAC_PM_CNTENCLR */
-> +#define PMCNTENCLR(__cntr)    (1UL << ((__cntr) & 0x7))
-With above note on whether the mask is needed and the small size
-of that shift. BIT(__cntr) should work.
-
-> +#define PM_CNTENCLR_RESET     0xFF
-> +
-> +/* MAC_PM_INTENSET */
-> +#define PMINTENSET(__cntr)    (1UL << ((__cntr) & 0x7))
-> +
-> +/* MAC_PM_INTENCLR */
-> +#define PMINTENCLR(__cntr)    (1UL << ((__cntr) & 0x7))
-> +#define PM_INTENCLR_RESET     0xFF
-> +
-> +/* MAC_PM_OVSR */
-> +#define PMOVSRCLR(__cntr)     (1UL << ((__cntr) & 0x7))
-> +#define PMOVSRCLR_RESET       0xFF
-
-
-> +static int fujitsu_mac__event_init(struct perf_event *event)
-> +{
-> +	struct mac_pmu *macpmu = to_mac_pmu(event->pmu);
-> +	struct hw_perf_event *hwc = &event->hw;
-> +
-> +	/* Is the event for this PMU? */
-> +	if (event->attr.type != event->pmu->type)
-> +		return -ENOENT;
-> +
-> +	/*
-> +	 * Sampling not supported
-> +	 * since these events are not core-attributable.
-Strange line wrap.  
-	 * Sampling not supported since these events are not
-	 * core-attributable.
-
-would be more conventional.
-
-> +	 */
-> +	if (hwc->sample_period)
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * Task mode not available, we run the counters as socket counters,
-> +	 * not attributable to any CPU and therefore cannot attribute per-task.
-> +	 */
-> +	if (event->cpu < 0)
-> +		return -EINVAL;
-> +
-> +	/* Validate the group */
-> +	if (!fujitsu_mac__validate_event_group(event))
-> +		return -EINVAL;
-> +
-> +	hwc->idx = -1;
-> +
-> +	/*
-> +	 * Many perf core operations (eg. events rotation) operate on a
-> +	 * single CPU context. This is obvious for CPU PMUs, where one
-> +	 * expects the same sets of events being observed on all CPUs,
-> +	 * but can lead to issues for off-core PMUs, like this one, where
-> +	 * each event could be theoretically assigned to a different CPU.
-> +	 * To mitigate this, we enforce CPU assignment to one designated
-> +	 * processor (the one described in the "cpumask" attribute exported
-> +	 * by the PMU device). perf user space tools honor this and avoid
-> +	 * opening more than one copy of the events.
-> +	 */
-> +	event->cpu = cpumask_first(&macpmu->cpumask);
-> +
-> +	return 0;
-> +}
->
-> +
-> +static void fujitsu_mac__event_del(struct perf_event *event, int flags)
-> +{
-> +	struct mac_pmu *macpmu = to_mac_pmu(event->pmu);
-> +	struct hw_perf_event *hwc = &event->hw;
-> +
-> +	/* Stop and clean up */
-> +	fujitsu_mac__event_stop(event,  flags | PERF_EF_UPDATE);
-
-Drop the extra space before flags.
-
-> +	macpmu->events[hwc->idx] = NULL;
-> +	bitmap_release_region(macpmu->used_mask, hwc->idx, 0);
-> +
-> +	/* Propagate changes to the userspace mapping. */
-> +	perf_event_update_userpage(event);
-> +}
-
-
-
-...
-
-> +static ssize_t cpumask_show(struct device *dev,
-> +			    struct device_attribute *attr, char *buf)
-> +{
-> +	struct mac_pmu *macpmu = to_mac_pmu(dev_get_drvdata(dev));
-If as suggested below you used an index to store the cpu rather than
-a one hot mask, you'd need to create the mask here to print it.
-> +
-> +	return cpumap_print_to_pagebuf(true, buf, &macpmu->cpumask);
-> +}
-
-...
-
-> +static int fujitsu_mac_pmu_online_cpu(unsigned int cpu, struct hlist_node *node)
-> +{
-> +	struct mac_pmu *macpmu = hlist_entry_safe(node, struct mac_pmu, node);
-> +
-> +	/* If there is not a CPU/PMU association pick this CPU */
-> +	if (cpumask_empty(&macpmu->cpumask))
-> +		cpumask_set_cpu(cpu, &macpmu->cpumask);
-As below. Seems like just storing the CPU index (and using -1 for not yet
-set) would be simpler than
-> +
-> +	return 0;
-> +}
-> +
-> +static int fujitsu_mac_pmu_offline_cpu(unsigned int cpu, struct hlist_node *node)
-> +{
-> +	struct mac_pmu *macpmu = hlist_entry_safe(node, struct mac_pmu, node);
-> +	unsigned int target;
-> +
-> +	if (!cpumask_test_and_clear_cpu(cpu, &macpmu->cpumask))
-
-If you are only ever going to set one bit in the mask, why not just
-store the CPU index instead?
-
-> +		return 0;
-> +
-> +	target = cpumask_any_but(cpu_online_mask, cpu);
-> +	if (target >= nr_cpu_ids)
-> +		return 0;
-> +
-> +	perf_pmu_migrate_context(&macpmu->pmu, cpu, target);
-> +	cpumask_set_cpu(target, &macpmu->cpumask);
-> +
-> +	return 0;
-> +}
-> +
-> +static int fujitsu_mac_pmu_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct acpi_device *acpi_dev;
-> +	struct mac_pmu *macpmu;
-> +	struct resource *memrc;
-> +	char *name;
-> +	int ret;
-> +	u64 uid;
-> +
-> +	acpi_dev = ACPI_COMPANION(dev);
-> +	if (!acpi_dev)
-> +		return -ENODEV;
-> +
-> +	ret = acpi_dev_uid_to_integer(acpi_dev, &uid);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "unable to read ACPI uid\n");
-> +
-> +	macpmu = devm_kzalloc(dev, sizeof(*macpmu), GFP_KERNEL);
-> +	name = devm_kasprintf(dev, GFP_KERNEL, "mac_iod%llu_mac%llu_ch%llu",
-> +			  (uid >> 8) & 0xF, (uid >> 4) & 0xF, uid & 0xF);
-> +	if (!macpmu)
-> +		return -ENOMEM;
-
-Why allocate two before checking either?  That's an unusual pattern.
-Check if macpmu is NULL before trying to allocate name.
-
-> +
-> +	if (!name)
-> +		return -ENOMEM;
-> +
-> +	macpmu->pmu = (struct pmu) {
-> +		.parent		= dev,
-> +		.task_ctx_nr	= perf_invalid_context,
-> +
-> +		.pmu_enable	= fujitsu_mac__pmu_enable,
-> +		.pmu_disable	= fujitsu_mac__pmu_disable,
-> +		.event_init	= fujitsu_mac__event_init,
-> +		.add		= fujitsu_mac__event_add,
-> +		.del		= fujitsu_mac__event_del,
-> +		.start		= fujitsu_mac__event_start,
-> +		.stop		= fujitsu_mac__event_stop,
-> +		.read		= fujitsu_mac__event_read,
-> +
-> +		.attr_groups	= fujitsu_mac_pmu_attr_grps,
-> +		.capabilities	= PERF_PMU_CAP_NO_EXCLUDE
-> +	};
-> +
-> +	macpmu->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &memrc);
-> +	if (IS_ERR(macpmu->regs))
-> +		return PTR_ERR(macpmu->regs);
-> +
-> +	fujitsu_mac__init(macpmu);
-> +
-> +	ret = platform_get_irq(pdev, 0);
-> +	if (ret <= 0)
-> +		return ret;
-> +
-> +	ret = devm_request_irq(dev, ret, fujitsu_mac__handle_irq, 0,
-> +			       name, macpmu);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Request for IRQ failed for slice @%pa\n",
-> +						&memrc->start);
-> +
-> +	/* Add this instance to the list used by the offline callback */
-> +	ret = cpuhp_state_add_instance(CPUHP_AP_PERF_ARM_FUJITSU_MAC_ONLINE, &macpmu->node);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "Error %d registering hotplug", ret);
-> +
-> +	ret = perf_pmu_register(&macpmu->pmu, name, -1);
-> +	if (ret < 0)
-> +		return dev_err_probe(dev, ret, "Failed to register MAC PMU (%d)\n", ret);
-
-dev_err_probe() already pretty prints the return value.  No need to print the numeric
-value as well. 
-
-> +
-> +	dev_dbg(dev, "Registered %s, type: %d\n", name, macpmu->pmu.type);
-> +
-> +	return 0;
-> +}
-
-> diff --git a/include/linux/cpuhotplug.h b/include/linux/cpuhotplug.h
-> index a04b73c40173..21006d1cda59 100644
-> --- a/include/linux/cpuhotplug.h
-> +++ b/include/linux/cpuhotplug.h
-> @@ -228,6 +228,7 @@ enum cpuhp_state {
->  	CPUHP_AP_PERF_ARM_CAVIUM_TX2_UNCORE_ONLINE,
->  	CPUHP_AP_PERF_ARM_MARVELL_CN10K_DDR_ONLINE,
->  	CPUHP_AP_PERF_ARM_MRVL_PEM_ONLINE,
-> +	CPUHP_AP_PERF_ARM_FUJITSU_MAC_ONLINE,
-
-If the DYN option works for you, I think we should go with that.
-Some more recent PMU drivers are already using it without problem.
-
->  	CPUHP_AP_PERF_POWERPC_NEST_IMC_ONLINE,
->  	CPUHP_AP_PERF_POWERPC_CORE_IMC_ONLINE,
->  	CPUHP_AP_PERF_POWERPC_THREAD_IMC_ONLINE,
-
+Cheers,
+Jens
