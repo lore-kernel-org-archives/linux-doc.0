@@ -1,69 +1,111 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D21BC1C3F27;
-	Wed, 11 Dec 2024 19:58:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334A21D63F9
+	for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 21:20:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733947126; cv=none; b=Pr1a2TXgz0hdXqU/G/1gQ3NzHH06GxwBBkXSVuWdPy31R+5d3RImflvOLCKfHmkCPJmCsnIfxgp0CbRmjVR3YNiL4xmriNqlSLRCuRbcR58ps2/gB5d9qofZU4kBeS+pJPPz84p0fFqtWV/6GDYNm8Uu6MaI3mC4xDIC/X4jm+o=
+	t=1733952036; cv=none; b=ahFaezWbEEPgrekixw1CsKiJKwpKgBhXU1tIBl5eU5renNQmYNXFHfvH+/JhQeA9yVg0M7wsFyvbnxqs+ugtLVD5DBBGGeJGOhUraG3bf6ohCB0tO3usLN9EFpJAcTuPZPh2MEe6ToEkKlSGn9KM7dWZBql93ek8Cf+4mSZA5tI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733947126; c=relaxed/simple;
-	bh=iLL7j+lhKXojSACcFUP2A1NPQsahr5PmalZuUhrk2LQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WrbxwQ3jxyE+DpWuWAfbG2+HfF/jaTyzVxxRexqkt1yJ+H5uRX5xV0dSNsFx20mTPnzdMg+VHUP+ZFbjqt1BwHyDSY5LMPW5DX3pSVFqQN/wqJouZTeIhoBT3dhIj4rw5uH82/TdR2ybd+u106lgF52DtAW0k+pR3zJvgisHQDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rot+BtX0; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1733952036; c=relaxed/simple;
+	bh=6T9WrpL4sqWT331e0Yh7xF8mqS2u1I1S/1pC0eC7IDs=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=kqndJgGuA9xIxo2srwC1xbppeXpV+DlyEjKoiTLm68SC68RlfLr0P1tIItU4IfOj/p5hOWY5up1j11Fri+HkRdVD/upNFbuD3i8IVl5ab0GvEJTKyyEdFn42YRycYoxls+lW8F5vDsqga7PlTSBNJFnNpeT1fV81+UlCFXJzUOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pjLc36TE; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rot+BtX0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=BAIaH1HkkTf+nk+nd0kNKy4nHuwixpyhCxY3FdT7Iho=; b=rot+BtX03O5eoy+/W6CImZtpLF
-	B2J+HV2MN9hpw14VUE8XYix2VFRVhGQU8H/uTM3J1mmZpjcjZp7yPIWLjQL1fJCi9+9N9/aSKmPZ/
-	Svh5R+aTcGV3ygcwNilZsNAVDsJ2zFvQCiYdL7kDfBXZ3V2C5CYGv8x2wU8s4hZPyD/EiuABN8YZj
-	Kbvi5qL3KMJmIBkEaHBKIyvBiaU19Mzyz/cvH7DnSDXMxSaaxq0KHZSPx7HYX5fjetwaV4T6jd1M3
-	DfMnNSQkOFSGtn0znk++1yZeNqZ96gcm5m5YwlSWI8/9BGffEhtW9salGxQp8W3IeAWWpCYDTq41t
-	YlPmnZVw==;
-Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1tLSqt-00000000Yyl-1lLr;
-	Wed, 11 Dec 2024 19:58:31 +0000
-Date: Wed, 11 Dec 2024 19:58:31 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Bingwu Zhang <xtex@envs.net>
-Cc: Jonathan Corbet <corbet@lwn.net>, Miklos Szeredi <miklos@szeredi.hu>,
-	"Darrick J. Wong" <djwong@kernel.org>, Bingwu Zhang <xtex@aosc.io>,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-unionfs@vger.kernel.org,
-	linux-xfs@vger.kernel.org, ~xtex/staging@lists.sr.ht
-Subject: Re: [PATCH] Documentation: filesystems: fix two misspells
-Message-ID: <Z1nu50C6grj5th7e@casper.infradead.org>
-References: <20241208035447.162465-2-xtex@envs.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pjLc36TE"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2163c2f32fdso53169835ad.2
+        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 13:20:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1733952034; x=1734556834; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=a0zEciK8O4GHG3RCZ1UR9AOhZgRfwuZKEj0A7rDFXoI=;
+        b=pjLc36TEPLga+guztOmngHcrYVhpy6fekS/9ftqU5sXIJqIwuCqgD3UWkS6+dAIVUV
+         IT0af5paGr0ygA77+2L8QlQ62xaO80HqURPKwxMSLKjqQQJXNEamHXPJxPFeGAAugXyh
+         X90enqzNSevMTxgbbTZhWn432F2/q1PPepXTvnjxmgYbAHxEBPOSyc88MxZqJlFzRFfB
+         bIqMIq9ttlZ09rNPKXibrXAgFgEqHj3+Cz4xGIEcwC24RQJunEtwUZZb3MPGh2HU6q8d
+         SV6jKMyCQiUZMrttHKKgxm6Al4lgYNiITkaxvPIex20UvUi0CvC08Pdku0oNuAmny1BU
+         QV6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733952034; x=1734556834;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=a0zEciK8O4GHG3RCZ1UR9AOhZgRfwuZKEj0A7rDFXoI=;
+        b=fPmY2wVht3oPNAuiuAeolBbln47RDG0EvltOPzMo4TCnkuzww3NW1XCyUeKLDR/fcc
+         3yFuGWyAWihEy5a0TnfxFe++sF50OSs2VZ0chIUNmlP86CNzDy5fXjM7oRRzhE545L35
+         5wlLkz/NiL1xsWSqhBeWHy9hNoKsoiQ4IGAJfFVIrYhLW5bdACm8PzEpKE3NCJEQz+o6
+         pN/19RcApJ00zW2l2psTOBNNG1HuJkWGcQ7ypRQgkAlKoNItvRQJHu/5/FCy2JO/nE2y
+         2gGiyTMyGMDOa6la4w5pYauZ6E5HhDlRl3OZpvptAm3djVzrzwGTYm+3Fvmp2d9dbHki
+         hSVg==
+X-Forwarded-Encrypted: i=1; AJvYcCUBZsfNPgurL4PnEm6D6BR3HaFk23ShjwrvgPbtguojakHIyRedE0KTo/a4hxoHWuk5qwkImm7hq60=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPpZsVmjiOEUCo9efuJla0TgFqaCIJGOEZyOold/KUTtuPWPpv
+	+p7zXOk7wiJ25lw8X7xfKysA3xTWlC4kMHCmpZhu4QI4+/upOlbHEQYmAliMOyXw6u/hfNScYrr
+	acWbL5ff9Ufh3E0iHxzh4Xg==
+X-Google-Smtp-Source: AGHT+IEhZ4/EYttELWP5/7DRwp/CXzwOZCI+gW47lGqaelEIwVvcTRJAGh8rjR/entYUOVYt+EKxjcrjy2FJmMYXaQ==
+X-Received: from plbme11.prod.google.com ([2002:a17:902:fc4b:b0:216:1543:196d])
+ (user=almasrymina job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:902:db05:b0:215:f1c2:fcc4 with SMTP id d9443c01a7336-2178aeefc4fmr18775445ad.41.1733952034481;
+ Wed, 11 Dec 2024 13:20:34 -0800 (PST)
+Date: Wed, 11 Dec 2024 21:20:27 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241208035447.162465-2-xtex@envs.net>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
+Message-ID: <20241211212033.1684197-1-almasrymina@google.com>
+Subject: [PATCH net-next v4 0/5] devmem TCP fixes
+From: Mina Almasry <almasrymina@google.com>
+To: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>, 
+	Mina Almasry <almasrymina@google.com>, Pavel Begunkov <asml.silence@gmail.com>, 
+	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>, 
+	Samiullah Khawaja <skhawaja@google.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Dec 08, 2024 at 11:54:47AM +0800, Bingwu Zhang wrote:
-> From: Bingwu Zhang <xtex@aosc.io>
-> 
-> This fixes two small misspells in the filesystems documentation.
+Couple unrelated devmem TCP fixes bundled in a series for some
+convenience.
 
-There's a couple of similar ones if you want to submit some bonus
-patches:
+- fix naming and provide page_pool_alloc_netmem for fragged
+netmem.
 
-$ git grep sytem
-Documentation/devicetree/bindings/sound/amlogic,axg-sound-card.yaml:      Base PLL clocks of audio susbsytem, used to configure base clock
-Documentation/devicetree/bindings/sound/amlogic,gx-sound-card.yaml:      Base PLL clocks of audio susbsytem, used to configure base clock
-Documentation/filesystems/iomap/operations.rst:    Races can also happen if the filesytem allows concurrent writes.
-drivers/gpu/drm/xe/xe_bo.c: * On successful completion, the object memory will be moved to sytem memory.
-fs/freevxfs/vxfs_super.c: * @fc:                        filesytem context
-fs/ocfs2/sysfile.c:                      * return NULL here so that ocfs2_get_sytem_file_inodes
-scripts/spelling.txt:sytem||system
+- fix issues with dma-buf dma addresses being potentially
+passed to dma_sync_for_* helpers.
+
+---
+
+v3:
+- Add documentation patch for memory providers. (Jakub)
+- Drop netmem_prefetch helper (Jakub)
+
+v2:
+- Fork off the syzbot fixes to net tree, resubmit the rest here.
+
+
+Mina Almasry (4):
+  net: page_pool: rename page_pool_alloc_netmem to *_netmems
+  net: page_pool: create page_pool_alloc_netmem
+  page_pool: disable sync for cpu for dmabuf memory provider
+  net: Document netmem driver support
+
+Samiullah Khawaja (1):
+  page_pool: Set `dma_sync` to false for devmem memory provider
+
+ Documentation/networking/index.rst  |  1 +
+ Documentation/networking/netmem.rst | 62 +++++++++++++++++++++++++++++
+ include/net/page_pool/helpers.h     | 60 +++++++++++++++++++++-------
+ include/net/page_pool/types.h       |  5 ++-
+ net/core/devmem.c                   | 10 ++---
+ net/core/page_pool.c                | 12 ++++--
+ 6 files changed, 125 insertions(+), 25 deletions(-)
+ create mode 100644 Documentation/networking/netmem.rst
+
+-- 
+2.47.0.338.g60cca15819-goog
 
