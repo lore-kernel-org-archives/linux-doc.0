@@ -1,171 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119091FF1B4;
-	Wed, 11 Dec 2024 17:40:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626B51D9A6F
+	for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 17:53:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733938840; cv=none; b=J+uhkj3GE8l45lFUtswbWJ+M+u/e/8uxSUXVwwdVRsbA3Z2iCaTP100zs0D70IgPWfsD0pp7iMKRDrbSDkNJyILv0oVutg8DJ4W/LSNVHypUgBrBdeRyXo/AXOKB3G29bu8DWrbyrPtx5jd+d5VDItemZHZohJWSiFm6khr+rEU=
+	t=1733939632; cv=none; b=mpmac3fhaESs1DkSJxWGbw9zqikHEV3g7LAD6ztoJ0dkxpFUTnk1fH1yeVFiDzAqWlP3mDxLfhaJc/uHYBcpot8fjVBInR7n9L33uLiuDF7JWiwTIar31QL0cxfyp6ReJGVxa53NXdNC+NxRvAPgsyp1eYsjaTq29yioO5VEaiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733938840; c=relaxed/simple;
-	bh=7yO+0JOWcw0rv4ZXgLl4IZjD04zJh6IohJpO9cxyyR4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s5Tvcc7nM3bcfkzXIp/QZgoAV8a/lEwvofWGlW0AE+XjJKrRYKXub5BZDLW1yXM2/QsSKJIv/ywl3Zd2s+ulQIHXL1hlStj0gdbbjbFYIwUvN+9iDlCq97GhNNAQVxOAOXlZZ3u5UiHacPO+f/Sg5g6WceyGrUKXUwRyXBaqXDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jN0+EohD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733939632; c=relaxed/simple;
+	bh=C8j9naSGtmANXLxB6gTQA/l/WydQAfl5PDcPUGnaCfc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gHwQwNbCaNaXJJ9NYE9RcKffvRFeSAvTfDJedmKybDs0ladM42rUEq+gnRN5NdCQ71H2QQ6Fu/jcY8vliKNIVOgmonEhdVCUGtleN9mC+gNf2m2pC1sPmirvBvG9oeG4nTfHGUM46kTZ5cVZ9Uc6uUimifrnlHRcKb6tF1UAl7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YggdufoW; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jN0+EohD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99A0FC4CED2;
-	Wed, 11 Dec 2024 17:40:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733938839;
-	bh=7yO+0JOWcw0rv4ZXgLl4IZjD04zJh6IohJpO9cxyyR4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=jN0+EohD6he6UDoJlTpTfDWT/wwFototv80uKDF1b5BMq6m036pgZ+IgmxeBqnKpF
-	 fc3+FO1HDyrs3NEoh9O+5mfLuqYQvVivDSWCu0hqokW/8phl6au4ToL9gSmoZT3nWn
-	 Afe201ZRmJJgjyYkXEhLLLc0+9WorLzkIA2kI5YAVKP4UxKZ7DTbGnEvLc0mH33swc
-	 P6Xx5kTW5Tq32xHNBbepXxXzeC3JefDmQ8y6lo5Zz2n3vncjHI9QLukrphrc/A+BZ7
-	 hkb39ihNED62ZcKleRTqf+JYp4I+lXeYfAmDfmOXuZ6wPOgNsg3t/veK4w16tqrmVy
-	 90Z8qKtxj5uzg==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1tLQhR-002lbb-7S;
-	Wed, 11 Dec 2024 17:40:37 +0000
-Date: Wed, 11 Dec 2024 17:40:36 +0000
-Message-ID: <86o71irucr.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: =?UTF-8?B?TWlrb8WCYWo=?= Lenczewski <miko.lenczewski@arm.com>
-Cc: ryan.roberts@arm.com,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	corbet@lwn.net,
-	oliver.upton@linux.dev,
-	joey.gouly@arm.com,
-	suzuki.poulose@arm.com,
-	yuzenghui@huawei.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Subject: Re: [RESEND RFC PATCH v1 1/5] arm64: Add TLB Conflict Abort Exception handler to KVM
-In-Reply-To: <20241211160218.41404-2-miko.lenczewski@arm.com>
-References: <20241211160218.41404-1-miko.lenczewski@arm.com>
-	<20241211160218.41404-2-miko.lenczewski@arm.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YggdufoW"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4674c22c4afso3011cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 09:53:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1733939630; x=1734544430; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A63aMunO9nsMaAYz7w2GO3I55GNNyAuGNNFIOi4q+as=;
+        b=YggdufoWx3nmKDo849Xjgr088T+2j50F00EMTYmeju6l2giDErdLiXmCG61M2gmFyK
+         PP3xawPmxYCzOxTYhKILZs77v2pM2K0H/aT1KPYF7BY2e/J8PmrY9EZxBiWEY0VQwQAJ
+         5oLkQ8CJ40X2GxPYPtNFP3FYwuH8LDNmSoA4xBnop9gxNP+JUTdwPrhMnPEX+b49E+7c
+         YtgmdxVMpntUSsh42nOvEhGeKvvAFtK/iusPlQS7+Bt8NeuCYVxAerhYQ2eC6PXPkApO
+         IfDtOjo/kad1rxmGsgkDG3WLKaPxQ7ztzMk1NdYko4/4JejfF3pCQp6AHIOVaQUj+pkM
+         171g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733939630; x=1734544430;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=A63aMunO9nsMaAYz7w2GO3I55GNNyAuGNNFIOi4q+as=;
+        b=AYIG3PqqcmRuMTNg/Iui8i6nQnstDhgQvZopQvUDwHnYBWtgMK6MqQsHgNHazAjOhr
+         zAoyCzrhQ5xh1SVmavCfZQZY4PzN0lntT138o1Cq3LhanSGxYOxPi83SsjTZfWGtI6jo
+         rMVztvrsos27e6fet04pkISlRpTBPwhG2r48/x6VPY6fMynoOYGF+w/xYfUU2e/+1xKq
+         006iLURNb9vJGNGIg6YNBjivYlAJaPZC/1ST4UV0nQgevjrrb4jKqUs1II20d2wqZScc
+         scAAOvM02NLL4LlymdbtyL/boK1lWSLNUcUOpwbFwi11AxXI6wJDUMNXbcQBT2AB10sy
+         g7Cg==
+X-Forwarded-Encrypted: i=1; AJvYcCU3o99e+Gbi8XMzQyuCKBuqQgNQFU8DKIfYfLI2ffstFwPoNuszFefMEuPX6icQclm7Y2ha5KjFqRA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwN9MAJZpCGQ5Dh2j7iaIpV5wpxUcaHHpge7EDKEY/UqOBo9kPC
+	rKmVHQk2clIkPBWFGSNPtx2+JKjXjP3v9bqLopB6YVUFGq4B4sM76LYXIcoMUAni0NSbHR2J384
+	CLYBcC9udPgD4AQZ7QFs7mW6eLkD1MDN+ep5M
+X-Gm-Gg: ASbGncvLN91EToljqqlr3pvcG6I7gG9yCKNZZ6MhEDs1tVGoBtFJ6cUI61SpRKpRAtv
+	ds7tHRqQVKMqpDt0TmMV2E2yADIIntM1TetI=
+X-Google-Smtp-Source: AGHT+IGBmAiSVzIqqNUuw+Enc5v64pgEhWaYhT/F/17Ts5J82I57JPNQTfvnFZoXyG+FMm9QZemzOrYEl15oPcAFmio=
+X-Received: by 2002:a05:622a:4acd:b0:466:8a29:9de7 with SMTP id
+ d75a77b69052e-46795cc07a5mr547161cf.12.1733939628703; Wed, 11 Dec 2024
+ 09:53:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+References: <20241209172308.1212819-1-almasrymina@google.com>
+ <20241209172308.1212819-6-almasrymina@google.com> <20241210195513.116337b9@kernel.org>
+In-Reply-To: <20241210195513.116337b9@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Wed, 11 Dec 2024 09:53:36 -0800
+Message-ID: <CAHS8izOHfWPGaAF0Ri6sN5SVbvD9k_u2-_WmHJHcwu4HDEXj-Q@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 5/5] net: Document memory provider driver support
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, Pavel Begunkov <asml.silence@gmail.com>, 
+	Kaiyuan Zhang <kaiyuanz@google.com>, Willem de Bruijn <willemb@google.com>, 
+	Samiullah Khawaja <skhawaja@google.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: miko.lenczewski@arm.com, ryan.roberts@arm.com, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Wed, 11 Dec 2024 16:01:37 +0000,
-Miko=C5=82aj Lenczewski <miko.lenczewski@arm.com> wrote:
->=20
-> Currently, KVM does not handle the case of a stage 2 TLB conflict abort
-> exception. The Arm ARM specifies that the worst-case handling of such an
-> exception requires a `tlbi vmalls12e1`.
+On Tue, Dec 10, 2024 at 7:55=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
+> On Mon,  9 Dec 2024 17:23:08 +0000 Mina Almasry wrote:
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +Memory providers
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +
+> > +Intro
+> > +=3D=3D=3D=3D=3D
+> > +
+> > +Device memory TCP, and likely more upcoming features, are reliant in m=
+emory
+> > +provider support in the driver.
+>
+> Are "memory providers" something driver authors care about?
+> I'd go with netmem naming in all driver facing APIs.
+> Or perhaps say placing data into unreable buffers?
+>
 
-Not quite. It says (I_JCCRT):
+Sure, I can center the docs around netmem rather than 'memory providers'.
 
-<quote>
-* For the EL1&0 translation regime, when stage 2 translations are in
-  use, either VMALLS12E1 or ALLE1.
-</quote>
+> > +Driver support
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +1. The driver must support page_pool. The driver must not do its own r=
+ecycling
+> > +   on top of page_pool.
+>
+> I like the rule, but is there a specific reason driver can't do its own
+> recycling?
+>
 
-> Perform such an invalidation when this exception is encountered.
+Drivers doing their own recycling is not currently supported, AFAICT.
+Adding support for it in the future and maintaining it is doable, but
+a headache. I also noticed with IDPF you're nacking drivers doing
+their own recycling anyway, so I thought why not just declare all such
+use cases as not supported to make the whole thing much simpler.
+Drivers can deprecate their recycling while adding support for netmem
+which brings them in line with what you're enforcing for new drivers
+anyway.
 
-What you fail to describe is *why* this is needed. You know it, I know
-it, but not everybody does. A reference to the ARM ARM would
-definitely be helpful.
-
->=20
-> Signed-off-by: Miko=C5=82aj Lenczewski <miko.lenczewski@arm.com>
-> ---
->  arch/arm64/include/asm/esr.h | 8 ++++++++
->  arch/arm64/kvm/mmu.c         | 6 ++++++
->  2 files changed, 14 insertions(+)
->=20
-> diff --git a/arch/arm64/include/asm/esr.h b/arch/arm64/include/asm/esr.h
-> index d1b1a33f9a8b..8a66f81ca291 100644
-> --- a/arch/arm64/include/asm/esr.h
-> +++ b/arch/arm64/include/asm/esr.h
-> @@ -121,6 +121,7 @@
->  #define ESR_ELx_FSC_SEA_TTW(n)	(0x14 + (n))
->  #define ESR_ELx_FSC_SECC	(0x18)
->  #define ESR_ELx_FSC_SECC_TTW(n)	(0x1c + (n))
-> +#define ESR_ELx_FSC_TLBABT	(0x30)
-> =20
->  /* Status codes for individual page table levels */
->  #define ESR_ELx_FSC_ACCESS_L(n)	(ESR_ELx_FSC_ACCESS + (n))
-> @@ -464,6 +465,13 @@ static inline bool esr_fsc_is_access_flag_fault(unsi=
-gned long esr)
->  	       (esr =3D=3D ESR_ELx_FSC_ACCESS_L(0));
->  }
-> =20
-> +static inline bool esr_fsc_is_tlb_conflict_abort(unsigned long esr)
-> +{
-> +	esr =3D esr & ESR_ELx_FSC;
-> +
-> +	return esr =3D=3D ESR_ELx_FSC_TLBABT;
-> +}
-> +
->  /* Indicate whether ESR.EC=3D=3D0x1A is for an ERETAx instruction */
->  static inline bool esr_iss_is_eretax(unsigned long esr)
->  {
-> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> index c9d46ad57e52..c8c6f5a97a1b 100644
-> --- a/arch/arm64/kvm/mmu.c
-> +++ b/arch/arm64/kvm/mmu.c
-> @@ -1756,6 +1756,12 @@ int kvm_handle_guest_abort(struct kvm_vcpu *vcpu)
->  	ipa =3D fault_ipa =3D kvm_vcpu_get_fault_ipa(vcpu);
->  	is_iabt =3D kvm_vcpu_trap_is_iabt(vcpu);
-> =20
-> +	if (esr_fsc_is_tlb_conflict_abort(esr)) {
-> +		// does a `tlbi vmalls12e1is`
-
-nit: this isn't a very useful comment.
-
-> +		__kvm_tlb_flush_vmid(&vcpu->kvm->arch.mmu);
-> +		return 1;
-> +	}
-
-That's not enough, unfortunately. A nested VM has *many* VMIDs (the
-flattening of all translation contexts that the guest uses).
-
-So you can either iterate over all the valid VMIDs owned by this
-guest, or more simply issue a TLBI ALLE1, which will do the trick in a
-much more efficient way.
-
-The other thing is that you are using an IS invalidation, which is
-farther reaching than necessary. Why would you invalidate the TLBs for
-CPUs that are only innocent bystanders? A non-shareable invalidation
-seems preferable to me.
-
-> +
->  	if (esr_fsc_is_translation_fault(esr)) {
->  		/* Beyond sanitised PARange (which is the IPA limit) */
->  		if (fault_ipa >=3D BIT_ULL(get_kvm_ipa_limit())) {
-
-But it also begs the question: why only KVM, and not the host? This
-handler will only take effect for a TLB Conflict abort delivered from
-an EL1 guest to EL2.
-
-However, it doesn't seem to me that the host is equipped to deal with
-this sort of exception for itself. Shouldn't you start with that?
-
-Thanks,
-
-	M.
+The specific reason: currently drivers will get_page pp pages to hold
+on to them to do their own recycling, right? We don't even have a
+get_netmem equivalent. We could add one (and for the TX path, which is
+coming along, I do add one), but even then, the pp needs to detect
+elevated references on net_iovs to exclude them from pp recycling. The
+mp also needs to understand/keep track of elevated refcounts and make
+sure the page is returned to it when the elevated refcounts from the
+driver are dropped.
 
 --=20
-Without deviation from the norm, progress is not possible.
+Thanks,
+Mina
