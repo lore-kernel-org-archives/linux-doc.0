@@ -1,356 +1,223 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C571B2368FA
-	for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 14:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39FF91A725C
+	for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 15:03:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733925907; cv=none; b=gyrLtjk0zT17gPcuSkjln2cHPObNhWLLeUYcYfAdaEsCrAXW9Y2887tDuwW6hdNVD6pusUzZ5t8oJhUPcQdq/N4pYawcocwjeQxJ72wk31ayrmbjY0J73BwgRYZTfEdtcRH1GRHMulIUBOvHNPmPcnzPzxWb1WY/US73Z0yKXA0=
+	t=1733929407; cv=none; b=sBmKQJ5lT+fM7wTObm1DDFoxS6CscWbLEFJoITIlRcjDDeKx8HFXLIuLgv0s4VbNWR0aCXB1GokyjH4IQvRMogMoFkjUK9dDEC21d38hDjqAk/ZEqry74sbBcyiKDOQiJrt/b2JitTyjoW2ACpg7BD98losYSMz8v2psWYFdamk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733925907; c=relaxed/simple;
-	bh=8uxRDDa1ZrtEWRikgId2kWfLFhA3SOQppnPWVAk7eDY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jGsotEYwl+Q6qaehuKWWiatKTxIezujgzM+GU3E7QmBqXk5f5zumTSq12nvsrBX35O6ldaUuXapKHZiTIEmRY7XXoaujeDSKMOzs7FIXni9horVXz59kbUnUcwCVTfEr1Szp2MoqT8q5rg2+a2Pwdw9cZXUQu2zqSwy0J8XScnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=s8eFhFY0; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1733929407; c=relaxed/simple;
+	bh=JjGp8OMX6eFvWVVNj6NS4d+aBgakqrDd9QJF+i4Dih8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=t6ml99O6iAQE1ZWCvK8Dcc512PqO9uTi2xIHtzxZJFFdKCz1j/0pG0Ubfn3ilMad5k2QgeqSJGXpXWmP329kPcKs2BDc2MjB4RmFazsSRgej+blO/QmS1AT4lv1IhD9EVMTC+zkBAl1RYQmtl+NxkoXtxAbgNxQKpOh6/43aZrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ahTkypJ9; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s8eFhFY0"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3002c324e7eso52012331fa.3
-        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 06:05:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733925904; x=1734530704; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=il8+9vjQz+0CNwk2YpjhN7coIV5zrH9Hso1s2Wky8S0=;
-        b=s8eFhFY06gE2wwFboJ9UdlEdhqKi6FHU7n3uW41JEgtF2pqOg3QIkZyOtYxzf0YhNe
-         6i20Nb4jN3EFehDcAYb9/7LKtTVAfneJVOFaEVNhpPjm/Ka2UDOGvJzuQZVFr1jny6UQ
-         a4jnKdrv6sa3E+S+yIHTmOWFwwpZlKMt+V+A2nsODtxrtcv/VC1n03EMflL33maXKf5+
-         woeRv8H1h6s9v04jyYhLnc/Oi0Q9xEusKfTZPdvwnAw6NSPgntc3j13zZhvb73RI73iv
-         xK5GlwOuMJYbtoX2icls0LlOBhOoJ5giEQ9YAGpeBQGveQHzNNcXXvvjWQO61OEKBt32
-         /tIg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ahTkypJ9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1733929404;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=9om8yGOmeJ1SJjydmu+vqGoJoyUXZMpNYYISFBNu+8M=;
+	b=ahTkypJ95jwjdgoS1I/2TDAy2g5hHXoDRaeWImedpdTfH769cPrk+TBNnAtxp21ZBhM5AI
+	k4gRilbsWB0zJZfTejkHxus68EW+iSQ1xrPyv/S3c/47SDovs9OckWO48cpAXP3bjSN7K4
+	t3lcp0Cn9Hn2srADQK5GTh22kGwWAGk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-374-3jWO5YA0MAaYeXQJ1COlIg-1; Wed, 11 Dec 2024 10:03:21 -0500
+X-MC-Unique: 3jWO5YA0MAaYeXQJ1COlIg-1
+X-Mimecast-MFC-AGG-ID: 3jWO5YA0MAaYeXQJ1COlIg
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-434f1af9d31so24057165e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 07:03:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733925904; x=1734530704;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=il8+9vjQz+0CNwk2YpjhN7coIV5zrH9Hso1s2Wky8S0=;
-        b=hgpdwvYNnrQFXBpdt6fTx26JMrzXLOdkpc0JgGmfuqlWVtnyxKHVhH48R5QKHns+Nt
-         66aoZfIVUvMqrOabkk+1IOJNJlytc8XVO4Dc5GNwD6XYwrXe7Z1KoQ3Q05yjsPiQnsKB
-         lCh/DSlVyahUJKZBrHZy6ihRJ58k2XuwOySdxRIKmQN8wGwkS2Uy7dMKEDmciCfIKQhv
-         EZWB47TZG82RfZCXHpq9Or5AfvVDWQa9dwKWjFvDM++acAH6T48wch2naRvokNUzXO4m
-         pXwTKjbN+sMoNVAfFJ7t98Ztp3qsw5aAxU+ByllZwFH4RKnTsjUc2hlOlx8JEDx4nhAT
-         kOCA==
-X-Forwarded-Encrypted: i=1; AJvYcCV5pZM6rBw8dZMm7+2BmVvwXHKsKuhd6AXrA6PDcWE/8GpIx49pC6oTc8jkLZniHDOOlSml4RzDVSc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvtFgmbPGYw6bRFgs9OeDRFLN1Wscat03JJlVsqoZw5/BWwQZ2
-	fVxTdb0Lc2xphfa/D2/CowBkth5XPuH170SLeGg+bCUI1iFMZ8arBaI9DxZdMDY=
-X-Gm-Gg: ASbGnctLZkLvZ9MD7YwasBou5RofHesN2XQ3JeRJ+SQZ7Z23DjpYs/Tb7bHfDOhPy88
-	p7YVCk3kKH14ORXCKr3IlY0NahXyer5+4nB9JZbIT7kAe03pTuXndP6Exqu2fjEeQjE38Zo61G0
-	OspvATyehL9oCe7X2x62rOfiIFERl/Y/5jsw+3Bnx8O4Z27rM+0mHk2d38Nsrqnd8OlWtLYOpK+
-	Jd+34k9LDXK6Ev2AceGJKZqklVtKwzX4vMHhoFxy/qtEiPdRQYeiPKVgVlPyMVAQmnj3G44dSTt
-	bh3ITLsS3hZi2oobbibf
-X-Google-Smtp-Source: AGHT+IFRBij+feIMREHq2gXiREyAd6JxtEPmcIQ8OM73icqJN5D6gRtYHPA7dg913pOv8z8zgawRZg==
-X-Received: by 2002:a05:651c:154e:b0:300:160f:7c76 with SMTP id 38308e7fff4ca-30240d89514mr12681681fa.25.1733925903243;
-        Wed, 11 Dec 2024 06:05:03 -0800 (PST)
-Received: from rayden (h-98-128-140-123.A175.priv.bahnhof.se. [98.128.140.123])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30041e2d03asm13756101fa.58.2024.12.11.06.05.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Dec 2024 06:05:02 -0800 (PST)
-Date: Wed, 11 Dec 2024 15:04:59 +0100
-From: Jens Wiklander <jens.wiklander@linaro.org>
-To: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
-Cc: Sumit Garg <sumit.garg@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 08/10] tee: add Qualcomm TEE driver
-Message-ID: <20241211140459.GA471738@rayden>
-References: <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-0-f502ef01e016@quicinc.com>
- <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-8-f502ef01e016@quicinc.com>
- <CAHUa44GqyaouPquw+DE1ASRwVOBw5xDstcpaNpmLmQbXmp6CuQ@mail.gmail.com>
- <62f80fb7-ea13-4ae1-a438-8d6b2d5a2f15@quicinc.com>
+        d=1e100.net; s=20230601; t=1733929400; x=1734534200;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=9om8yGOmeJ1SJjydmu+vqGoJoyUXZMpNYYISFBNu+8M=;
+        b=ju3y8qpLtCil1HkAl2J3Dh/QZ+2QmeSQBE7ESKG+smISfNim3BMfCogRFj+eJhK7i2
+         GrD3dtE944j8ZQujizuXLawC18ejMmXPicl7AtijpOQAk9qhSQd27d+e1jzzXpzhmsYd
+         z6KMve8gD8q/e6QghdloNsZJrRS5k2M2ecvaqhIae8NOaVXOTCdw8VMSdw4quISwUDze
+         Ob7FKEupGnvyvDvGeCB3tt9AaT/3ucOOKCJVbFJTAuu3deBxhlgadyc+QbH1RnVJIjH6
+         REtnPef9uO8ywpwcaPGDO3UOHSPmmXEsGkvuQwRBGnA9trhxHD6jw9tgxMtlMw4qrn4X
+         UoiA==
+X-Forwarded-Encrypted: i=1; AJvYcCW/pStZetSi+JAhPVZhoBoJiPwoiOoSaHVW7DqfBlYRC/jkjQeEkQi3v9SvFe3EyOj5mLjxdgpuV7Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8PpoC8Hw7mUe/HJwZue+58CfQ38E7ypoXQmubZaB7ABNTwkKE
+	d5rcM2D4y/gLzRYmFF5jBZfUiDneLz2sAmPg/wkUWTT/SvdiQWi8lPX7E5m2MKengyXT6hpPVaa
+	YPHdLLpxQgg8Iesuf8htfcMo6v8KErPvHEA3TCyCUUTFPidcBgcxSt5bfQA==
+X-Gm-Gg: ASbGncuSAB5NLdJ3Bex8hrRgJl9JZIxxgd52aQxxeGQb9Q/3aywldNtBFjbXINGyCRW
+	p8mcliZojqVqzEIzj9TVQ5/x5feicAnlVfCWZ+BmPsVqjZq9V6CJ4TvwgaS9Iw7HfeSzvk/AMek
+	DLeFbKL7WuMh3lAol5ZnAyUFkIqo6exq8rp8ZG2tk3DV2r8XcESIndxsec5Y4o0WDZ2Umtf8XUG
+	5gKXXb1/TwR+Yl5ysjfxK+93+L5Hbw8LvYAJRizHTzIkwFAxfuApmEAY5hZS4fiikqCRDQbaGR3
+X-Received: by 2002:a05:600c:c18:b0:434:f219:6b28 with SMTP id 5b1f17b1804b1-4361c43a027mr22308845e9.24.1733929400539;
+        Wed, 11 Dec 2024 07:03:20 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHa3+FOxW1t8itniaZ4JeKbMe45qTZPhqeUTkUeMSc7V4a8//w+BVtfqU81VE3sdQLj1cvoVA==
+X-Received: by 2002:a05:600c:c18:b0:434:f219:6b28 with SMTP id 5b1f17b1804b1-4361c43a027mr22295735e9.24.1733929385603;
+        Wed, 11 Dec 2024 07:03:05 -0800 (PST)
+Received: from [10.32.64.156] (nat-pool-muc-t.redhat.com. [149.14.88.26])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4361e54ef20sm19907675e9.5.2024.12.11.07.03.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Dec 2024 07:03:04 -0800 (PST)
+Message-ID: <e53b04ad-1827-43a2-a1ab-864c7efecf6e@redhat.com>
+Date: Wed, 11 Dec 2024 16:03:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <62f80fb7-ea13-4ae1-a438-8d6b2d5a2f15@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 4/6] mm: Introduce a pageflag for partially mapped
+ folios
+To: Usama Arif <usamaarif642@gmail.com>, akpm@linux-foundation.org,
+ linux-mm@kvack.org
+Cc: hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev,
+ roman.gushchin@linux.dev, yuzhao@google.com, npache@redhat.com,
+ baohua@kernel.org, ryan.roberts@arm.com, rppt@kernel.org,
+ willy@infradead.org, cerasuolodomenico@gmail.com, ryncsn@gmail.com,
+ corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kernel-team@meta.com
+References: <20240830100438.3623486-1-usamaarif642@gmail.com>
+ <20240830100438.3623486-5-usamaarif642@gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <20240830100438.3623486-5-usamaarif642@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Amirreza,
+On 30.08.24 12:03, Usama Arif wrote:
+> Currently folio->_deferred_list is used to keep track of
+> partially_mapped folios that are going to be split under memory
+> pressure. In the next patch, all THPs that are faulted in and collapsed
+> by khugepaged are also going to be tracked using _deferred_list.
+> 
+> This patch introduces a pageflag to be able to distinguish between
+> partially mapped folios and others in the deferred_list at split time in
+> deferred_split_scan. Its needed as __folio_remove_rmap decrements
+> _mapcount, _large_mapcount and _entire_mapcount, hence it won't be
+> possible to distinguish between partially mapped folios and others in
+> deferred_split_scan.
+> 
+> Eventhough it introduces an extra flag to track if the folio is
+> partially mapped, there is no functional change intended with this
+> patch and the flag is not useful in this patch itself, it will
+> become useful in the next patch when _deferred_list has non partially
+> mapped folios.
+> 
+> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+> ---
+>   include/linux/huge_mm.h    |  4 ++--
+>   include/linux/page-flags.h | 13 +++++++++++-
+>   mm/huge_memory.c           | 41 ++++++++++++++++++++++++++++----------
+>   mm/memcontrol.c            |  3 ++-
+>   mm/migrate.c               |  3 ++-
+>   mm/page_alloc.c            |  5 +++--
+>   mm/rmap.c                  |  5 +++--
+>   mm/vmscan.c                |  3 ++-
+>   8 files changed, 56 insertions(+), 21 deletions(-)
+> 
+> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+> index 4da102b74a8c..0b0539f4ee1a 100644
+> --- a/include/linux/huge_mm.h
+> +++ b/include/linux/huge_mm.h
+> @@ -333,7 +333,7 @@ static inline int split_huge_page(struct page *page)
+>   {
+>   	return split_huge_page_to_list_to_order(page, NULL, 0);
+>   }
+> -void deferred_split_folio(struct folio *folio);
+> +void deferred_split_folio(struct folio *folio, bool partially_mapped);
+>   
+>   void __split_huge_pmd(struct vm_area_struct *vma, pmd_t *pmd,
+>   		unsigned long address, bool freeze, struct folio *folio);
+> @@ -502,7 +502,7 @@ static inline int split_huge_page(struct page *page)
+>   {
+>   	return 0;
+>   }
+> -static inline void deferred_split_folio(struct folio *folio) {}
+> +static inline void deferred_split_folio(struct folio *folio, bool partially_mapped) {}
+>   #define split_huge_pmd(__vma, __pmd, __address)	\
+>   	do { } while (0)
+>   
+> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> index 2175ebceb41c..1b3a76710487 100644
+> --- a/include/linux/page-flags.h
+> +++ b/include/linux/page-flags.h
+> @@ -186,6 +186,7 @@ enum pageflags {
+>   	/* At least one page in this folio has the hwpoison flag set */
+>   	PG_has_hwpoisoned = PG_active,
+>   	PG_large_rmappable = PG_workingset, /* anon or file-backed */
+> +	PG_partially_mapped = PG_reclaim, /* was identified to be partially mapped */
+>   };
+>   
+>   #define PAGEFLAGS_MASK		((1UL << NR_PAGEFLAGS) - 1)
+> @@ -859,8 +860,18 @@ static inline void ClearPageCompound(struct page *page)
+>   	ClearPageHead(page);
+>   }
+>   FOLIO_FLAG(large_rmappable, FOLIO_SECOND_PAGE)
+> +FOLIO_TEST_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
+> +/*
+> + * PG_partially_mapped is protected by deferred_split split_queue_lock,
+> + * so its safe to use non-atomic set/clear.
 
-On Wed, Dec 11, 2024 at 01:30:22PM +1100, Amirreza Zarrabi wrote:
-[snip]
-> >> +/**
-> >> + * struct qcom_tee_context - Clients or supplicants context.
-> >> + * @tee_context: TEE context.
-> >> + * @qtee_objects_idr: QTEE objects in this context.
-> >> + * @reqs_idr: Requests currently being processed.
-> >> + * @lock: mutex for @reqs_idr and @qtee_objects_idr.
-> >> + * @req_srcu: srcu for exclusive access to requests.
-> >> + * @req_c: completion used when supplicant is waiting for requests.
-> >> + * @released: state of this context.
-> >> + * @ref_cnt: ref count.
-> >> + */
-> >> +struct qcom_tee_context {
-> > 
-> > Other drivers call their conterpart of this struct *_context_data.
-> > Using the same pattern here makes it easier to recognize the struct in
-> > the rest of the code.
-> > 
-> 
-> Ack.
-> 
-> >> +       struct tee_context *tee_context;
-> >> +
-> >> +       struct idr qtee_objects_idr;
-> >> +       struct idr reqs_idr;
-> >> +       /* Synchronize access to @reqs_idr, @qtee_objects_idr and updating requests state. */
-> >> +       struct mutex lock;
-> >> +       struct srcu_struct req_srcu;
-> > 
-> > Why do you use this synchronization primitive? I don't know enough
-> > about this primitive to tell if you use it for the right purpose so
-> > perhaps you can help me understand which properties you need.
-> > 
-> 
-> Sure, let me explain it bellow in the qcom_tee_user_object_dispatch,
-> where it is acually used.
-> 
-> >> +       struct completion req_c;
-> >> +
-> >> +       int released;
-> >> +
-> >> +       struct kref ref_cnt;
-> > 
-> > Why does this struct need a different lifetime than struct tee_context?
-> > 
-> 
-> This is a side effect of how QTEE objects and callback objects are released:
-> 
->   - When a tee_context is closed, we release all QTEE objects in that context.
->     QTEE specifies that object releases are asynchronous. So, we queue the
->     releases in a workqueue and immediately return from the release callback,
->     allowing the TEE subsystem to continue.
-> 
->   - When the workqueue sends a release for a QTEE object, QTEE may respond
->     by requesting the release of a callback object or an operation on a callback
->     object. This requires a valid struct qcom_tee_context. That's why we keep this
->     until all callback objects are gone.
-> 
-> The alternative is to keep a list of callback objects in this context and
-> flag them as orphans. The refcount seems easier :).
+Just stumbled over that. In my understanding, this assumption is wrong.
 
-It would be even easier if it was already dealt with by the TEE
-subsystem. :-)
+I don't think anything prevents other PF_ANY (PG_anon_exclusive, 
+PG_PG_hwpoison) / PF_SECOND (PF_has_hwpoisoned) flags from getting 
+modified concurrently I'm afraid.
 
-It looks like we have the same problem as with the tee_shm objects when
-the tee_context should go away. Would it work to add another callback,
-close_contex(), to tee_driver_ops to be called from
-teedev_close_context()? The release() callback would still be called as
-usual when the last reference is gone, but the backend TEE driver would
-get a notification earlier with core_contex() that it's time to start
-releasing resources.
-
-[snip]
-> >> +/**
-> >> + * qcom_tee_supp_pop_entry() - Pop the next request in a context.
-> > 
-> > When you pop something you'd expect it to be removed also.
-> >
-> 
-> I'll rename it to more apporpriate name.
-> 
-> >> + * @ctx: context from which to pop a request.
-> >> + * @ubuf_size: size of available buffer for MEMBUF parameters.
-> >> + * @num_params: number of entries for TEE parameter array.
-> >> + *
-> >> + * It does not remove the request from &qcom_tee_context.reqs_idr.
-> >> + * It checks if @num_params is large enough to fit the next request arguments.
-> >> + * It checks if @ubuf_size is large enough to fit IB buffer arguments from QTEE.
-> >> + * It updates request state to %QCOM_TEE_REQ_PROCESSING state.
-> >> + *
-> >> + * Return: On success return a request or NULL and ERR_PTR on failure.
-> >> + */
-> >> +static struct qcom_tee_user_req *qcom_tee_supp_pop_entry(struct qcom_tee_context *ctx,
-> >> +                                                        size_t ubuf_size, int num_params)
-> >> +{
-> >> +       struct qcom_tee_user_req *ureq;
-> >> +       struct qcom_tee_arg *u;
-> >> +       int i, id;
-> >> +
-> >> +       guard(mutex)(&ctx->lock);
-> >> +
-> >> +       /* Find the a QUEUED request. */
-> > 
-> > Is it _a_ or _the_?
-> > 
-> >> +       idr_for_each_entry(&ctx->reqs_idr, ureq, id)
-> >> +               if (ureq->state == QCOM_TEE_REQ_QUEUED)
-> >> +                       break;
-> > 
-> > Will this always result in a FIFO processing?
-> > 
-> 
-> It not a FIFO. I understand your concerns.
-> I'll replace it with a list.
-> 
-> >> +
-> >> +       if (!ureq)
-> >> +               return NULL;
-> >> +
-> >> +       u = ureq->args;
-> >> +       /* (1) Is there enough TEE parameters? */
-> >> +       if (num_params < qcom_tee_args_len(u))
-> >> +               return ERR_PTR(-EINVAL);
-> >> +
-> >> +       /* (2) Is there enough space to pass input buffers? */
-> >> +       qcom_tee_arg_for_each_input_buffer(i, u) {
-> >> +               ubuf_size = size_sub(ubuf_size, u[i].b.size);
-> >> +               if (ubuf_size == SIZE_MAX)
-> >> +                       return ERR_PTR(-EINVAL);
-> >> +
-> >> +               ubuf_size = round_down(ubuf_size, 8);
-> >> +       }
-> >> +
-> >> +       /* Ready to process request 'QUEUED -> PROCESSING'. */
-> >> +       ureq->state = QCOM_TEE_REQ_PROCESSING;
-> >> +
-> >> +       return ureq;
-> >> +}
-> >> +
-> >> +/* User object dispatcher. */
-> >> +static int qcom_tee_user_object_dispatch(struct qcom_tee_object_invoke_ctx *oic,
-> >> +                                        struct qcom_tee_object *object, u32 op,
-> >> +                                        struct qcom_tee_arg *args)
-> >> +{
-> >> +       struct qcom_tee_user_object *uo = to_qcom_tee_user_object(object);
-> >> +       struct qcom_tee_user_req *ureq __free(kfree);
-> >> +       struct qcom_tee_context *ctx = uo->ctx;
-> >> +       int errno;
-> >> +
-> >> +       ureq = kzalloc(sizeof(*ureq), GFP_KERNEL);
-> >> +       if (!ureq)
-> >> +               return -ENOMEM;
-> >> +
-> >> +       init_completion(&ureq->c);
-> >> +       ureq->object_id = uo->object_id;
-> >> +       ureq->op = op;
-> >> +       ureq->args = args;
-> >> +
-> >> +       /* Queue the request. */
-> >> +       if (qcom_tee_request_enqueue(ureq, ctx))
-> >> +               return -ENODEV;
-> >> +
-> >> +       /* Wakeup supplicant to process it. */
-> >> +       complete(&ctx->req_c);
-> >> +
-> >> +       /* Wait for supplicant to process the request. */
-> >> +       /* Supplicant is expected to process request in a timely manner. We wait as KILLABLE,
-> > 
-> > requests
-> > 
-> >> +        * in case supplicant and invoke thread both running from a same user process, otherwise
-> > 
-> > the same
-> > 
-> >> +        * the process stuck on fatal signal.
-> > 
-> > might get stuck on a fatal signal?
-> > 
-> >> +        */
-> > 
-> > Please combine into one comment.
-> > 
-> 
-> Ack.
-> 
-> >> +       if (!wait_for_completion_state(&ureq->c, TASK_KILLABLE | TASK_FREEZABLE)) {
-> >> +               errno = ureq->errno;
-> >> +               /* On SUCCESS, end_cb_notify frees the request. */
-> >> +               if (!errno)
-> >> +                       oic->data = no_free_ptr(ureq);
-> >> +       } else {
-> >> +               enum qcom_tee_req_state prev_state;
-> >> +
-> >> +               errno = -ENODEV;
-> >> +
-> >> +               scoped_guard(mutex, &ctx->lock) {
-> >> +                       prev_state = ureq->state;
-> >> +                       /* Replace ureq with '__empty_ureq' to keep req_id reserved. */
-> >> +                       if (prev_state == QCOM_TEE_REQ_PROCESSING)
-> >> +                               idr_replace(&ctx->reqs_idr, &__empty_ureq, ureq->req_id);
-> >> +                       /* Remove ureq as supplicant has never seen this request. */
-> >> +                       else if (prev_state == QCOM_TEE_REQ_QUEUED)
-> >> +                               idr_remove(&ctx->reqs_idr, ureq->req_id);
-> >> +               }
-> >> +
-> >> +               /* Wait for exclusive access to ureq. */
-> >> +               synchronize_srcu(&ctx->req_srcu);
-> > 
-> > I'm sorry, I don't follow.
-> >
-> 
-> I'll try to compare it to the optee.
-> 
-> In optee, clients and the supplicant run in two different contexts. If the
-> supplicant is available, the client will wait for it to finish processing
-> the queued request. The supplicant is guaranteed to be timely and responsive.
-
-Yeah, or at least trusted to be timely and responsive.
-
-> 
-> In QCOMTEE:
-> 
->   1. There are multiple supplicants. Any process that implements a callback
->      object is considered a supplicant. The general assumption of timeliness
->      or responsiveness may not apply. We allow the client to at least receive fatal
->      signals (this design can be extended later if a timeout is required).
-> 
->   2. A client can implement a callback object and act as both a client and
->      a supplicant simultaneously. To terminate such a process, we need to be
->      able to accept fatal signals.
-
-We accept tee-supplicant to be killed so this is similar.
-
-> 
-> srcu is specifically used to protect the args array. After returning from
-> qcom_tee_user_object_dispatch, the args array might not be valid. We need to
-> ensure no one is accessing the args array before the retun, hence synchronize_srcu.
-> Whenever we read the contents of args, we do it within an srcu read lock.
-> 
-> For example, qcomtee_user_object_pop, which picks a request for the supplicant
-> to process, will hold the srcu read lock when marshaling the args array
-> to the TEE subsystem's params array.
-> 
-> An alternative to the srcu would be to use "context lock" ctx->lock and
-> hold it throughout the qcomtee_user_object_pop function, even when marshaling
-> the args array to the TEE subsystem's params array.
-> 
-> Using ctx->lock is easier to follow, but since it's shared by everyone in
-> a context and marshaling can be heavy depending on the type of objects,
-> I thought srcu would be more performant.
-> 
-> In other words, srcu just moves the marshaling of objects outside of ctx->lock.
-> What do you think about keeping srcu or replacing it with ctx->lock?
-
-Let's continue the comparison with OP-TEE where struct optee_supp_req
-plays the role of struct qcom_tee_user_req in QCOMTEE. You can say that
-access rights to the optee_supp_req follows with the owner. The
-supp->mutex is in principle only held while changing owner. Couldn't the
-ctx->lock be used in a similar way, avoiding it while marshalling
-objects?
-
-I'm open to be persuaded if you think that srcu is a better choice.
-
+-- 
 Cheers,
-Jens
+
+David / dhildenb
+
