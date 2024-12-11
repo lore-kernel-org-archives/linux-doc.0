@@ -1,490 +1,232 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC371D63FA;
-	Wed, 11 Dec 2024 01:04:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0A31FA25D;
+	Wed, 11 Dec 2024 02:00:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733879092; cv=none; b=LXNF2CNgFHZQo13y10JWEqovstruqfKLwKN3AKUz8sOPUEE1EKysl4F5acvsrkmhv97CtEQBBDlglo6D0qXqZnyClFd1+gclGIdwGO8S+N2Arkf0xfEeu9q1rU7ZF37kNJ6FVWc5wGiDX0fouuVc4vCw2FhenTybSVaJIoT3n+o=
+	t=1733882444; cv=none; b=F+3OLszZnE9sfYn3W8kVJ8DG/VIGi+6w+P7oywILGfCwQZxe3GCNPXvTiaAEYKXRNUJEGCgMb3HVWI/jC8FHMK47adQkGfi0Aw3hoqtJE4zZQPJchDJVH8hYEEr1NjQfd+cxKjLBfrJGQF0C6aLzMYGoyjzLdzuwEOm0kYVWIO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733879092; c=relaxed/simple;
-	bh=iv/w/FqsQC6tPqMPucMTK26kMUPc3meLY49LgS4Xj9U=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aqdSAakU09Q4S8FVUUory6VzWjrphYBgVR65stLPSZ+HTNH6cbqUFGLNxIaRNP74OK/aJ+MWafIP6w4HtyyB7ib41dyk6Tnh6Xp7jE9cXmSPo4tQWj1DMqBDb7drbnL046O/fdDqZ4PHVui5BwQH1Il2I9plqSuJC4hRODpsYNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fSt1lCZD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733882444; c=relaxed/simple;
+	bh=tQmw66eR8RXYovE9PyXHz4mGVai1Hk1iAlAaPKqFXtw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=laRK8jduT3Z3HDJGVDzG81wtM+eragb18z3jFkRvto64MFq4pecKhq0FbQHsl417cMvUFsvE9/U4oJapgOEs07pJGfSxlGetglXIMWCKifBJEb4uG9hXhd14ZH+GEdIienZJ89vK7JrCl4zVrD/lI2OlwH4Et4hpsLod2XNt1ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=kYAjQvzM; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fSt1lCZD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C2C0C4CEDF;
-	Wed, 11 Dec 2024 01:04:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733879092;
-	bh=iv/w/FqsQC6tPqMPucMTK26kMUPc3meLY49LgS4Xj9U=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=fSt1lCZDZEjQ8/BBA+7Vgt6iSnCjnpGrhgDmchKTkWVYrhWouQWul8ZZDj3f9WEHc
-	 vWLi7cw8GF1GwV7SlSbeRy+53XLeSd+d0BDmIDpN6ZO1BajlbbTQeHInCqCZnV6Bsb
-	 iiybyBGSYMKT+AHOCPQNkxRW6Sx7tGhut1l+US/0bhn4FHV9Tg36ec1GWSJyMJjD++
-	 aTqJw0kfPnr61SnR8RmU/P1pSs6NnghgQRpwVxzUlXtVhuR5Ecg8tLjfmTVWO81IUX
-	 dC2Y917qisk9/RotAZIea6OrK59iqUZ0ZcKN4h3zkzi0MSGmTwsdCOoiUqR9XYPYK1
-	 jWhXPuSzNXcRw==
-From: Mark Brown <broonie@kernel.org>
-Date: Wed, 11 Dec 2024 01:02:54 +0000
-Subject: [PATCH v4 9/9] kselftest/arm64: Add 2024 dpISA extensions to hwcap
- test
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="kYAjQvzM"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BADFXPt019472;
+	Wed, 11 Dec 2024 02:00:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	m1hIFjvV5WKQJt6B6MFLaU2NvCADjnnIFHht+ldnWM8=; b=kYAjQvzMcGcR6SK2
+	jCFDPomEV8fkaluWiDqqOmkDYmjO10sDtZSpTABncL+Y7/bceBCD8TiiekJ+393c
+	isP/zX7vOHv3fLnzW/n7mSZdB5axEOXRIl6dYjqg7EZxV2yX5mvpeBcVVqOuWaZT
+	l/iZmulsVs34+gbYR+Z53Hq0woRIPgwx0fhwVgQTao1g9LndiTWAdGpa6BnknBwr
+	+AQXDA85dZ091FD/IyXBQMdlDO++qxOQYpzEiX4dDFjGHbmjc7CUFxuDQP7byVnM
+	gOStLhiKuTJfVbXJkWqu9BRCREYl8qrMHTf+a9vkgTId5RfB2H7wowP9CL1J6ks5
+	dy8m9w==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43e341d55w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 11 Dec 2024 02:00:15 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BB20EVZ019497
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 11 Dec 2024 02:00:14 GMT
+Received: from [10.110.54.253] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 10 Dec
+ 2024 18:00:14 -0800
+Message-ID: <03c79eca-f79b-4008-9037-ea96e18f093f@quicinc.com>
+Date: Tue, 10 Dec 2024 18:00:13 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241211-arm64-2024-dpisa-v4-9-0fd403876df2@kernel.org>
-References: <20241211-arm64-2024-dpisa-v4-0-0fd403876df2@kernel.org>
-In-Reply-To: <20241211-arm64-2024-dpisa-v4-0-0fd403876df2@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
- Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Shuah Khan <shuah@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, 
- linux-kselftest@vger.kernel.org, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.15-dev-9b746
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10054; i=broonie@kernel.org;
- h=from:subject:message-id; bh=iv/w/FqsQC6tPqMPucMTK26kMUPc3meLY49LgS4Xj9U=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBnWOUVzEm5VT+wUpOmup7O9a342BuGW98g3WzIW+9N
- s12hKhCJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZ1jlFQAKCRAk1otyXVSH0KBXB/
- 9r71PKDqagzQlH5Qur1yeAu9PrW/R9QpR0lJysjytV2mkBjt2eX9kOANcKjqxgbCXgzhdQfNpIt0pI
- Ub9G7QOD16Nk2Q/+OdzLepW9ECU1cr3tlf+BnnbHO6z3IBjgwmBYUKgSXzqg/bBx1+dEiltpxajcou
- zJeNmXTWGZYh+sggpLrPXmRJtERzyOeyAU30D7EXT7L/7WwAsfHBTOC1TqiixwZxSUm3WEK479yTrP
- Q59CReB/4W2Qzru1DiDJUpgw78gQiiYyNOIEHIGobBNbROfTpSOEFf7D3a7ANfNzR6e04M3Jn4+9Hj
- Rf9whhn63m02exaj1IIntnC0yBZ3JW
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v30 00/30] Introduce QC USB SND audio offloading support
+To: Takashi Iwai <tiwai@suse.de>
+CC: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Cezary Rojewski
+	<cezary.rojewski@intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>, <srinivas.kandagatla@linaro.org>,
+        <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
+        <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <broonie@kernel.org>,
+        <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
+        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
+ <edfeb642-297e-42bb-ad09-cbf74f995514@quicinc.com>
+ <2024111655-approve-throwback-e7df@gregkh>
+ <2f512d8d-e5f3-4bdd-8172-37114a382a69@quicinc.com>
+ <875xoi3wqw.wl-tiwai@suse.de>
+ <d0da6552-238a-41be-b596-58da6840efbb@quicinc.com>
+ <CF49CA0A-4562-40BC-AA98-E550E39B366A@linux.dev>
+ <65273bba-5ec1-44ea-865b-fb815afccc91@intel.com>
+ <4C900353-B977-451C-B003-BAA51E458726@linux.dev>
+ <e7b8f141-efd4-4933-b074-641638914905@intel.com>
+ <4E9925AF-F297-42A5-9CB8-F8568F0A5EDF@linux.dev>
+ <0a36814a-5818-493a-a9e3-b1a1e9559387@quicinc.com>
+ <75e6516f-5cf5-4b0d-ade8-bfbc5632765f@quicinc.com>
+ <87y10n3300.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <87y10n3300.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: BTnO5BhfzOONhA051ooUPB4oIf-4-_2p
+X-Proofpoint-ORIG-GUID: BTnO5BhfzOONhA051ooUPB4oIf-4-_2p
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
+ priorityscore=1501 suspectscore=0 mlxlogscore=999 clxscore=1015 mlxscore=0
+ spamscore=0 phishscore=0 malwarescore=0 adultscore=0 impostorscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412110014
 
-Add coverage of the hwcaps for the 2024 dpISA extensions to the hwcap
-test.
 
-We don't actually test SIGILL generation for CMPBR since the need to
-branch makes it a pain to generate and the SIGILL detection would be
-unreliable anyway. Since this should be very unusual we provide a stub
-function rather than supporting a missing test.
+On 12/10/2024 8:40 AM, Takashi Iwai wrote:
+> On Tue, 10 Dec 2024 01:59:10 +0100,
+> Wesley Cheng wrote:
+>> On 12/5/2024 4:53 PM, Wesley Cheng wrote:
+>>> On 12/4/2024 2:49 PM, Pierre-Louis Bossart wrote:
+>>>>>>> UAOL is one of our priorities right now and some (e.g.: me) prefe=
+r to not pollute their mind with another approaches until what they have =
+in mind is crystalized. In short, I'd vote for a approach where USB devic=
+e has a ASoC representative in sound/soc/codecs/ just like it is the case=
+ for HDAudio. Either that or at least a ASoC-component representative, a =
+dependency for UAOL-capable card to enumerate.
+>>>>>> The main difference is that we don=E2=80=99t want the USB audio *c=
+ontrol* part to be seen in two places. The only requirement is to stream =
+data with an alternate optimized path, but all the volume control and wha=
+tnot is supposed to be done using the regular usb-audio card. It would be=
+ complete chaos for userspace if the same volume can be represented diffe=
+rently.
+>>>>>> The comparison with HDaudio is not quite right either. In the case=
+ of HDaudio, it=E2=80=99s an all-or-nothing solution. The external device=
+ is controlled by one entity, either legacy or ASoC based. That choice is=
+ made at driver probe time. In the case of USB, the application needs to =
+have the choice of using either the legacy path, or the optimized path th=
+at goes through a DSP. I think the last thing you want given this context=
+ is to make the USB audio device an ASoC codec.
+>>>>>> I find it rather interesting that this architectural feedback come=
+s at the v30, it=E2=80=99s unfair to Wesley really...
+>>>>> Hi Pierre,
+>>>>>
+>>>>> Obviously I'm late. After scanning the history of this one, indeed =
+it's been a while since v1 has been sent. And thus I posted no NACKs. At =
+the same time if I am to choose between: provide feedback vs provide no-f=
+eedback, I'd rather choose the former even if I'm to be ignored/overridde=
+n by a subsystem maintainer.
+>>>>>
+>>>>> The subsystem maintainers also hold the last word, and I have no pr=
+oblem with them merging the patches if they believe its existing shape is=
+ good-enough. For example, my team could follow up this implementation ne=
+xt year with a patchset expanding/updating the functionality. I see this =
+as a viable option.
+>>>> That=E2=80=99s what we had in mind before I left Intel. The interfac=
+es seen by userspace are PCM devices and kcontrols, it doesn=E2=80=99t ma=
+tter too much if there is one card, two cards, and if the implementation =
+relies on an ASoC codec, a library or something else.=C2=A0
+>>>> The bulk of the work is to enable the USB offload from top to bottom=
+, by changing PipeWire/CRAS/HAL to select the new optimized path when ava=
+ilable and deal with plug/unplug events.
+>>>> Improvements at the kernel level can be done later if required. It=E2=
+=80=99s hard to argue that the proposal in this series is fundamentally b=
+roken, but as usual it=E2=80=99s likely that some requirements are missin=
+g or not known yet. The same thing happened with compressed offload, none=
+ one thought about gapless playback until Android made it a requirement. =
+Maybe what we=E2=80=99d need is a =E2=80=98protocol version=E2=80=99 for =
+USB offload so that changes can be tracked and handled?
+>>> Thanks for chiming in, Pierre.=C2=A0 So for now, with the next revisi=
+on I have prepared, I'm currently adding:
+>>>
+>>> 1.=C2=A0 Some improvements to xHCI sideband to account for core seque=
+nces that need to be notified to the offload driver, ie transfer ring fre=
+e
+>>>
+>>> 2.=C2=A0 Moved the USB SND offload mixer driver into the QC vendor mo=
+dule for now, as instructed by Takashi:
+>>>
+>>> https://lore.kernel.org/linux-usb/87cyiiaxpc.wl-tiwai@suse.de/
+>>>
+>>> 3.=C2=A0 Added separate kcontrols for fetching mapped PCM device and =
+card indexes (versus one that returns a card and PCM device pair [array])=
 
-The sigill functions aren't well sorted in the file so the ordering is a
-bit random.
+>>>
+>>> 4.=C2=A0 Removed some jack controls (enable/disable) from soc-usb
+>>>
+>>> 5.=C2=A0 Updated documentation for #3
+>>>
+>>>
+>>> Those are the major changes that will come in the next revision.=C2=A0=
+ I'm just trying to figure out who/where the "protocol version" should be=
+ checked if we decided to add it.=C2=A0 (or if we need to check for it an=
+ywhere...)=C2=A0 From the userspace perspective, it should be agnostic to=
+ how we've implemented offloading from the kernel, and I don't see any ma=
+jor shifts in how userspace implements things even if we make improvement=
+s from kernel.
+>>
+>> Hi Takashi,
+>>
+>> Could you possibly help share some direction on what you think of the =
+current design, and if you think its detrimental that we make modificatio=
+ns mentioned by Cezary?=C2=A0 I have the next revision ready for review, =
+but I wanted to get a better sense on the likeliness of this landing upst=
+ream w/o the major modifications.
+> Honestly speaking, I have no big preference about that design
+> question.  The most important thing is rather what's visible change to
+> users.  An advantage of the current design (sort of add-on to the
+> existing USB-audio driver) is that it's merely a few card controls
+> that are added and visible, and the rest is just as of now.  The
+> remaining design issue (two cards or single card) is rather
+> kernel-internal, and has nothing to do with users.  So I'm fine with
+> the current design.
+>
+> OTOH, if we follow the pattern of HD-audio, at least there will be
+> more preliminary changes in USB-audio driver side like we've done for
+> HD-audio.  That is, make most of USB-audio code to be usable as (a
+> kind of) library code.  It's more work, but certainly doable.  And if
+> that can be achieved and there other similar use cases of this stuff
+> not only from Qualcomm, it might make sense to go in that way, too.
+> That said, it's rather a question about what's extended in future.
+> If Intel will need / want to move on that direction, too, that's a
+> good reason to reconsider the basic design.
+>
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- tools/testing/selftests/arm64/abi/hwcap.c | 273 +++++++++++++++++++++++++++++-
- 1 file changed, 271 insertions(+), 2 deletions(-)
+So to clarify, what Cezary and I are proposing are actually two different=
+ concepts to achieve some sort of offloading for audio data.=C2=A0 In my =
+use case, we're trying to leverage as much of the USB SND implementation =
+as possible, and only offloading the handling of audio transfers.=C2=A0 E=
+verything else is still handled by USB SND, hence the reason for it being=
+ an add-on since most of it stays the same.=C2=A0 Unfortunately, I don't =
+have any details about the full HW offload design, as public material on =
+it is fairly minimal.=C2=A0 So it would be difficult for me to rework my =
+series to something I don't have a line of sight into.=C2=A0 Personally (=
+and as you can probably tell :)), I would prefer if we could do the refac=
+toring in stages (if actually required), since I've been pushing this met=
+hod for awhile now, and I'm not sure if I can take up that effort to do t=
+hat on my next submission.=C2=A0 At least from the QC perspective if we d=
+id move to the HDaudio-type implementation, I think I'd need to also
+change up the ASoC design we have currently implemented as well, so it wo=
+uldn't be a trivial change.
 
-diff --git a/tools/testing/selftests/arm64/abi/hwcap.c b/tools/testing/selftests/arm64/abi/hwcap.c
-index 0029ed9c5c9aa4451f3d0573ee672eca993fb2f4..2a230cfa4cb4108580a16161e2df03a513710dbc 100644
---- a/tools/testing/selftests/arm64/abi/hwcap.c
-+++ b/tools/testing/selftests/arm64/abi/hwcap.c
-@@ -46,6 +46,12 @@ static void atomics_sigill(void)
- 	asm volatile(".inst 0xb82003ff" : : : );
- }
- 
-+static void cmpbr_sigill(void)
-+{
-+	/* Not implemented, too complicated and unreliable anyway */
-+}
-+
-+
- static void crc32_sigill(void)
- {
- 	/* CRC32W W0, W0, W1 */
-@@ -82,6 +88,18 @@ static void f8fma_sigill(void)
- 	asm volatile(".inst 0xec0fc00");
- }
- 
-+static void f8mm4_sigill(void)
-+{
-+	/* FMMLA V0.4SH, V0.16B, V0.16B */
-+	asm volatile(".inst 0x6e00ec00");
-+}
-+
-+static void f8mm8_sigill(void)
-+{
-+	/* FMMLA V0.4S, V0.16B, V0.16B */
-+	asm volatile(".inst 0x6e80ec00");
-+}
-+
- static void faminmax_sigill(void)
- {
- 	/* FAMIN V0.4H, V0.4H, V0.4H */
-@@ -98,6 +116,12 @@ static void fpmr_sigill(void)
- 	asm volatile("mrs x0, S3_3_C4_C4_2" : : : "x0");
- }
- 
-+static void fprcvt_sigill(void)
-+{
-+	/* FCVTAS S0, H0 */
-+	asm volatile(".inst 0x1efa0000");
-+}
-+
- static void gcs_sigill(void)
- {
- 	unsigned long *gcspr;
-@@ -226,6 +250,42 @@ static void sme2p1_sigill(void)
- 	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
- }
- 
-+static void sme2p2_sigill(void)
-+{
-+	/* SMSTART SM */
-+	asm volatile("msr S0_3_C4_C3_3, xzr" : : : );
-+
-+	/* UXTB Z0.D, P0/Z, Z0.D  */
-+	asm volatile(".inst 0x4c1a000" : : : );
-+
-+	/* SMSTOP */
-+	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
-+}
-+
-+static void sme_aes_sigill(void)
-+{
-+	/* SMSTART SM */
-+	asm volatile("msr S0_3_C4_C3_3, xzr" : : : );
-+
-+	/* AESD z0.b, z0.b, z0.b */
-+	asm volatile(".inst 0x4522e400" : : : "z0");
-+
-+	/* SMSTOP */
-+	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
-+}
-+
-+static void sme_sbitperm_sigill(void)
-+{
-+	/* SMSTART SM */
-+	asm volatile("msr S0_3_C4_C3_3, xzr" : : : );
-+
-+	/* BDEP Z0.B, Z0.B, Z0.B */
-+	asm volatile(".inst 0x4500b400" : : : "z0");
-+
-+	/* SMSTOP */
-+	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
-+}
-+
- static void smei16i32_sigill(void)
- {
- 	/* SMSTART */
-@@ -334,13 +394,73 @@ static void smesf8dp4_sigill(void)
- 	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
- }
- 
-+static void smesf8mm8_sigill(void)
-+{
-+	/* SMSTART */
-+	asm volatile("msr S0_3_C4_C7_3, xzr" : : : );
-+
-+	/* FMMLA V0.4S, V0.16B, V0.16B */
-+	asm volatile(".inst 0x6e80ec00");
-+
-+	/* SMSTOP */
-+	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
-+}
-+
-+static void smesf8mm4_sigill(void)
-+{
-+	/* SMSTART */
-+	asm volatile("msr S0_3_C4_C7_3, xzr" : : : );
-+
-+	/* FMMLA V0.4SH, V0.16B, V0.16B */
-+	asm volatile(".inst 0x6e00ec00");
-+
-+	/* SMSTOP */
-+	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
-+}
-+
- static void smesf8fma_sigill(void)
- {
- 	/* SMSTART */
- 	asm volatile("msr S0_3_C4_C7_3, xzr" : : : );
- 
--	/* FMLALB V0.8H, V0.16B, V0.16B */
--	asm volatile(".inst 0xec0fc00");
-+	/* FMLALB Z0.8H, Z0.B, Z0.B */
-+	asm volatile(".inst 0x64205000");
-+
-+	/* SMSTOP */
-+	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
-+}
-+
-+static void smesfexpa_sigill(void)
-+{
-+	/* SMSTART */
-+	asm volatile("msr S0_3_C4_C7_3, xzr" : : : );
-+
-+	/* FEXPA Z0.D, Z0.D */
-+	asm volatile(".inst 0x04e0b800");
-+
-+	/* SMSTOP */
-+	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
-+}
-+
-+static void smesmop4_sigill(void)
-+{
-+	/* SMSTART */
-+	asm volatile("msr S0_3_C4_C7_3, xzr" : : : );
-+
-+	/* SMOP4A ZA0.S, Z0.B, { Z0.B - Z1.B } */
-+	asm volatile(".inst 0x80108000");
-+
-+	/* SMSTOP */
-+	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
-+}
-+
-+static void smestmop_sigill(void)
-+{
-+	/* SMSTART */
-+	asm volatile("msr S0_3_C4_C7_3, xzr" : : : );
-+
-+	/* STMOPA ZA0.S, { Z0.H - Z1.H }, Z0.H, Z20[0] */
-+	asm volatile(".inst 0x80408008");
- 
- 	/* SMSTOP */
- 	asm volatile("msr S0_3_C4_C6_3, xzr" : : : );
-@@ -364,18 +484,42 @@ static void sve2p1_sigill(void)
- 	asm volatile(".inst 0x65000000" : : : "z0");
- }
- 
-+static void sve2p2_sigill(void)
-+{
-+	/* NOT Z0.D, P0/Z, Z0.D */
-+	asm volatile(".inst 0x4cea000" : : : "z0");
-+}
-+
- static void sveaes_sigill(void)
- {
- 	/* AESD z0.b, z0.b, z0.b */
- 	asm volatile(".inst 0x4522e400" : : : "z0");
- }
- 
-+static void sveaes2_sigill(void)
-+{
-+	/* AESD {Z0.B - Z1.B }, { Z0.B - Z1.B }, Z0.Q */
-+	asm volatile(".inst 0x4522ec00" : : : "z0");
-+}
-+
- static void sveb16b16_sigill(void)
- {
- 	/* BFADD Z0.H, Z0.H, Z0.H */
- 	asm volatile(".inst 0x65000000" : : : );
- }
- 
-+static void svebfscale_sigill(void)
-+{
-+	/* BFSCALE Z0.H, P0/M, Z0.H, Z0.H */
-+	asm volatile(".inst 0x65098000" : : : "z0");
-+}
-+
-+static void svef16mm_sigill(void)
-+{
-+	/* FMMLA Z0.S, Z0.H, Z0.H */
-+	asm volatile(".inst 0x6420e400");
-+}
-+
- static void svepmull_sigill(void)
- {
- 	/* PMULLB Z0.Q, Z0.D, Z0.D */
-@@ -394,6 +538,12 @@ static void svesha3_sigill(void)
- 	asm volatile(".inst 0x4203800" : : : "z0");
- }
- 
-+static void sveeltperm_sigill(void)
-+{
-+	/* COMPACT Z0.B, P0, Z0.B */
-+	asm volatile(".inst 0x5218000" : : : "x0");
-+}
-+
- static void svesm4_sigill(void)
- {
- 	/* SM4E Z0.S, Z0.S, Z0.S */
-@@ -469,6 +619,13 @@ static const struct hwcap_data {
- 		.cpuinfo = "aes",
- 		.sigill_fn = aes_sigill,
- 	},
-+	{
-+		.name = "CMPBR",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_CMPBR,
-+		.cpuinfo = "cmpbr",
-+		.sigill_fn = cmpbr_sigill,
-+	},
- 	{
- 		.name = "CRC32",
- 		.at_hwcap = AT_HWCAP,
-@@ -523,6 +680,20 @@ static const struct hwcap_data {
- 		.cpuinfo = "f8fma",
- 		.sigill_fn = f8fma_sigill,
- 	},
-+	{
-+		.name = "F8MM8",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_F8MM8,
-+		.cpuinfo = "f8mm8",
-+		.sigill_fn = f8mm8_sigill,
-+	},
-+	{
-+		.name = "F8MM4",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_F8MM4,
-+		.cpuinfo = "f8mm4",
-+		.sigill_fn = f8mm4_sigill,
-+	},
- 	{
- 		.name = "FAMINMAX",
- 		.at_hwcap = AT_HWCAP2,
-@@ -545,6 +716,13 @@ static const struct hwcap_data {
- 		.sigill_fn = fpmr_sigill,
- 		.sigill_reliable = true,
- 	},
-+	{
-+		.name = "FPRCVT",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_FPRCVT,
-+		.cpuinfo = "fprcvt",
-+		.sigill_fn = fprcvt_sigill,
-+	},
- 	{
- 		.name = "GCS",
- 		.at_hwcap = AT_HWCAP,
-@@ -691,6 +869,20 @@ static const struct hwcap_data {
- 		.cpuinfo = "sme2p1",
- 		.sigill_fn = sme2p1_sigill,
- 	},
-+	{
-+		.name = "SME 2.2",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SME2P2,
-+		.cpuinfo = "sme2p2",
-+		.sigill_fn = sme2p2_sigill,
-+	},
-+	{
-+		.name = "SME AES",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SME_AES,
-+		.cpuinfo = "smeaes",
-+		.sigill_fn = sme_aes_sigill,
-+	},
- 	{
- 		.name = "SME I16I32",
- 		.at_hwcap = AT_HWCAP2,
-@@ -740,6 +932,13 @@ static const struct hwcap_data {
- 		.cpuinfo = "smelutv2",
- 		.sigill_fn = smelutv2_sigill,
- 	},
-+	{
-+		.name = "SME SBITPERM",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SME_SBITPERM,
-+		.cpuinfo = "smesbitperm",
-+		.sigill_fn = sme_sbitperm_sigill,
-+	},
- 	{
- 		.name = "SME SF8FMA",
- 		.at_hwcap = AT_HWCAP2,
-@@ -747,6 +946,20 @@ static const struct hwcap_data {
- 		.cpuinfo = "smesf8fma",
- 		.sigill_fn = smesf8fma_sigill,
- 	},
-+	{
-+		.name = "SME SF8MM8",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SME_SF8MM8,
-+		.cpuinfo = "smesf8mm8",
-+		.sigill_fn = smesf8mm8_sigill,
-+	},
-+	{
-+		.name = "SME SF8MM4",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SME_SF8MM8,
-+		.cpuinfo = "smesf8mm4",
-+		.sigill_fn = smesf8mm4_sigill,
-+	},
- 	{
- 		.name = "SME SF8DP2",
- 		.at_hwcap = AT_HWCAP2,
-@@ -761,6 +974,27 @@ static const struct hwcap_data {
- 		.cpuinfo = "smesf8dp4",
- 		.sigill_fn = smesf8dp4_sigill,
- 	},
-+	{
-+		.name = "SME SFEXPA",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SME_SFEXPA,
-+		.cpuinfo = "smesfexpa",
-+		.sigill_fn = smesfexpa_sigill,
-+	},
-+	{
-+		.name = "SME SMOP4",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SME_SMOP4,
-+		.cpuinfo = "smesmop4",
-+		.sigill_fn = smesmop4_sigill,
-+	},
-+	{
-+		.name = "SME STMOP",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SME_STMOP,
-+		.cpuinfo = "smestmop",
-+		.sigill_fn = smestmop_sigill,
-+	},
- 	{
- 		.name = "SVE",
- 		.at_hwcap = AT_HWCAP,
-@@ -783,6 +1017,13 @@ static const struct hwcap_data {
- 		.cpuinfo = "sve2p1",
- 		.sigill_fn = sve2p1_sigill,
- 	},
-+	{
-+		.name = "SVE 2.2",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SVE2P2,
-+		.cpuinfo = "sve2p2",
-+		.sigill_fn = sve2p2_sigill,
-+	},
- 	{
- 		.name = "SVE AES",
- 		.at_hwcap = AT_HWCAP2,
-@@ -790,6 +1031,34 @@ static const struct hwcap_data {
- 		.cpuinfo = "sveaes",
- 		.sigill_fn = sveaes_sigill,
- 	},
-+	{
-+		.name = "SVE AES2",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SVE_AES2,
-+		.cpuinfo = "sveaes2",
-+		.sigill_fn = sveaes2_sigill,
-+	},
-+	{
-+		.name = "SVE BFSCALE",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SVE_BFSCALE,
-+		.cpuinfo = "svebfscale",
-+		.sigill_fn = svebfscale_sigill,
-+	},
-+	{
-+		.name = "SVE ELTPERM",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SVE_ELTPERM,
-+		.cpuinfo = "sveeltperm",
-+		.sigill_fn = sveeltperm_sigill,
-+	},
-+	{
-+		.name = "SVE F16MM",
-+		.at_hwcap = AT_HWCAP,
-+		.hwcap_bit = HWCAP_SVE_F16MM,
-+		.cpuinfo = "svef16mm",
-+		.sigill_fn = svef16mm_sigill,
-+	},
- 	{
- 		.name = "SVE2 B16B16",
- 		.at_hwcap = AT_HWCAP2,
 
--- 
-2.39.5
+Thanks
+
+Wesley Cheng
 
