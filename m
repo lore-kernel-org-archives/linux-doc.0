@@ -1,135 +1,99 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1C224634F
-	for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 17:00:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F30207A1B;
+	Wed, 11 Dec 2024 17:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733936460; cv=none; b=t4Qc7/nSs9ecc4XRSnRoQ5JnJhS3QnYLt9jNfS6U8bE6K8J1huJ/rK/+dCP6Y6KVLZHWYFzYeCzAJTps/1xu+doMdLXIKXNCf2Ym8cMi+IledouibouPK4W04IIDNfi4NrP1PSIXXwQK4TitkcMVPU0YQeFvhCvSsCtAMM29PIY=
+	t=1733938830; cv=none; b=C2YqWeUmqrV70YBFEzFS/lmniYxfzuT/tsCBqVqOZxLsQTx9iaDXt08z6SVLhiS670eDokQPsaTUAx5huaxllvPcmlGjrMhv4P1nIVwVPxB31VcidamYtInb68A2KsJVnd9C0WlKP0vy5EynMmXVAk8PUbvpkhgmM6MrD8JuNA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733936460; c=relaxed/simple;
-	bh=B2sRIu+XnZuTeAjXW4x8wJh4gUlYpUujlvC+LJUIei0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CpsDSmn9vbOUw5PEz0QbXydnbDt2Zy3TuVeee9vA+9R4Vq7ogrF92+W249cD8wYvzn4/TvPa4iQWt2wW8i4As39u4hUAvz82AB4Ti9VHsjhkBDs+vr2B2y/WEm1RPYs4+fZaviyWaZxEwE4vksYyJ1WW183Ewt3ccsQd7wjioVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=QJGbhKeR; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1733938830; c=relaxed/simple;
+	bh=2+F/X1bbGIHQ/mssm4ic+1dPk7ifq8G4W/p2zLLRRpU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sn36fNkdfYrYf00u8uWPhy7j0NAiWUdhtOkTtXKYrkYnX1CjA1I4KwL1sJlCEQxo7Xc4EjOon8WZTTtZRGhido+DiA0b+D2/5HuEfGg17bMp34SLtTtvrmd98r+WT5s6bqJG41Wg1Pej7QZYBUFH2VHt8WV9Toq+pSGiV/LUM90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VT+sjqve; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="QJGbhKeR"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4361f796586so8817085e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 09:00:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1733936456; x=1734541256; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/HyPQF1lbC/2X66nKlz9IG/RYEBhoNWgSBjs8SKK7a8=;
-        b=QJGbhKeR81fk4bd0gnjTvlEbPTnAXhAzIYSES4HfcKyXHN1sjUU8Od2sDXRMdiN3sO
-         w8/MAsFpR+wUTDQuD/SGbKmm8QRdERdDCrxjE2RKsIhMnoaEXP0kyyjjdVI5X8Nw2U/9
-         uV63PUaqJ+oaSubbG9eiB4gD6CxEqIx5vP/HMbsOrwA+UlYBW4VSBFOF+XB5pZ/fp/Ok
-         qJNx6NPDHD90Xn8DU+LjJf2nxzOT2aOB0gH/5y7F/eJUu/JeJQysd57IAywOYtj6mLD/
-         cQBTcc3aly5uMDLsMxG34+xsU9bAN6PYFfGd5CvGzb7UzJBg2diV3je9Q9BrB20Y65vG
-         5Vjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733936456; x=1734541256;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/HyPQF1lbC/2X66nKlz9IG/RYEBhoNWgSBjs8SKK7a8=;
-        b=eNp4OykYIF0ts5sBo1Ed2xKmGt2vfzNdAipRK/y9quxaqW171rFO4291HhY07ZL5zg
-         pe/qczAHAbM1IFMQdDolfEgLUjVr8tCdfHFPzVQm3SeVjHxb5NatSljECTnw7fJliABv
-         YqDbwHsoGUb1JD4s5YC9yKxGWkYwMaeFU6p7uAx08Z3TQIXll309Du/h7ekZ/pbXwWRg
-         Kj1HJ6hJhkIqlw6/CZ02E7WoQEvKenzALqqQsm9Dpr9wNyiiBDgYf7WdbPzzTQVfv61S
-         fTFVOAY438J7aO0L3B+4L6/irSSWUWoNEyT/V8YEtJzjXLn0YT37OVmuoA22glMuU3ro
-         X2ZA==
-X-Gm-Message-State: AOJu0YxOzZ0VQ4/g2VlwskWImWGD0OuGBFebes8ktFc4X8qH6E/sieB3
-	T4tPHtIAmWQzoWxdO73L/CPjMcGJNAP8/KNHauaOvtuFOkt4tr56CRaEQWSVJ+xL9saa7TD7/wk
-	j
-X-Gm-Gg: ASbGncuiK0OpSLknGmEPcVQ9EL7bh14ddB5AYY07lG/ryU9Vnx4H4bGZXT0hDD0+0ib
-	Y4xgqXjFoL/1oW31APJCvjzepGiQRjkmB27JXxsM6dA4tDDiWPZIkzcbj5uoJB5w/TOUPwPWKC3
-	yGUxZbgFRCczCaGtK2nprtrI2k34KhpH4GfxGx4OrHDDejEvHPbbiMabwwirRI7gLMHZderjxpo
-	SFHcAiDtH1YZ3TVav7loJHHOi4/A8QPwC1YWjFSat9T3X7v4kAUzQS6
-X-Google-Smtp-Source: AGHT+IE+PH8kQNKr4K63S3Fg+sNQObK7n1xFImaHq5etBibCIiT8JmgSKVK+KNbJor5JCoeWXzVFGQ==
-X-Received: by 2002:a5d:5983:0:b0:386:3903:86eb with SMTP id ffacd0b85a97d-3864ce97148mr3155156f8f.23.1733936455548;
-        Wed, 11 Dec 2024 09:00:55 -0800 (PST)
-Received: from blackdock.suse.cz ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-387824cab97sm1667458f8f.62.2024.12.11.09.00.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Dec 2024 09:00:55 -0800 (PST)
-From: =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>
-To: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Christian Loehle <christian.loehle@arm.com>,
-	Frederic Weisbecker <fweisbecker@suse.com>
-Subject: [PATCH] Documentation: sched/RT: Update paragraphs about RT bandwidth control
-Date: Wed, 11 Dec 2024 18:00:52 +0100
-Message-ID: <20241211170052.2449581-1-mkoutny@suse.com>
-X-Mailer: git-send-email 2.47.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VT+sjqve"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 265AAC4CED4;
+	Wed, 11 Dec 2024 17:40:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733938830;
+	bh=2+F/X1bbGIHQ/mssm4ic+1dPk7ifq8G4W/p2zLLRRpU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VT+sjqveVKdK/NfGq4n5cyb2pqWjeE9nbhy4BqvoVAvd3BJ+S+Y7ekVeIz++JHo3H
+	 9gk0J3lAkoB2xAlkUVp6X39V+/6170gRQNWynBhSltC/k0XBRY7X42pcIXnk4o5Gdr
+	 Kxx9swpTtNz1/oIHcsX7+9VbE84QO6yqt8a1z7i39VsQnYBnzjpuzXWIgjJE8aieDK
+	 z8mi+1JZanjpIeTKsyfU5JpKb/Ns0si0VbxtdBBZvcogq34A905nR77sH+/93gZNge
+	 p2+EmWU6FIwxnykdMOxvlacAUCpz+wfbv56G6Pw9jYsk41IYJBJG8o/nFg83zyfShK
+	 5qj57TQhY4ZSg==
+Date: Wed, 11 Dec 2024 09:40:29 -0800
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bingwu Zhang <xtex@envs.net>
+Cc: Jonathan Corbet <corbet@lwn.net>, Miklos Szeredi <miklos@szeredi.hu>,
+	Bingwu Zhang <xtex@aosc.io>, linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org,
+	~xtex/staging@lists.sr.ht
+Subject: Re: [PATCH] Documentation: filesystems: fix two misspells
+Message-ID: <20241211174029.GC6698@frogsfrogsfrogs>
+References: <20241208035447.162465-2-xtex@envs.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241208035447.162465-2-xtex@envs.net>
 
-This has slightly changed with the introduction of fair_server.
-Update the most relevant parts.
+On Sun, Dec 08, 2024 at 11:54:47AM +0800, Bingwu Zhang wrote:
+> From: Bingwu Zhang <xtex@aosc.io>
+> 
+> This fixes two small misspells in the filesystems documentation.
+> 
+> Signed-off-by: Bingwu Zhang <xtex@aosc.io>
 
-Link: https://lore.kernel.org/r/Z0c8S8i3qt7SEU14@jlelli-thinkpadt14gen4.remote.csb/
-Signed-off-by: Michal Koutný <mkoutny@suse.com>
----
- Documentation/scheduler/sched-deadline.rst | 13 +++++++------
- Documentation/scheduler/sched-rt-group.rst |  8 ++++----
- 2 files changed, 11 insertions(+), 10 deletions(-)
+Yep, typoes happun, thanks for the patch.
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 
-diff --git a/Documentation/scheduler/sched-deadline.rst b/Documentation/scheduler/sched-deadline.rst
-index 22838ed8e13aa..a727827b8dd52 100644
---- a/Documentation/scheduler/sched-deadline.rst
-+++ b/Documentation/scheduler/sched-deadline.rst
-@@ -591,12 +591,13 @@ Deadline Task Scheduling
- 
-  The system wide settings are configured under the /proc virtual file system.
- 
-- For now the -rt knobs are used for -deadline admission control and the
-- -deadline runtime is accounted against the -rt runtime. We realize that this
-- isn't entirely desirable; however, it is better to have a small interface for
-- now, and be able to change it easily later. The ideal situation (see 5.) is to
-- run -rt tasks from a -deadline server; in which case the -rt bandwidth is a
-- direct subset of dl_bw.
-+ For now the -rt knobs are used for -deadline admission control and with
-+ CONFIG_RT_GROUP_SCHED the -deadline runtime is accounted against the (root)
-+ -rt runtime. With !CONFIG_RT_GROUP_SCHED the knob only serves for the -dl
-+ admission control. We realize that this isn't entirely desirable; however, it
-+ is better to have a small interface for now, and be able to change it easily
-+ later. The ideal situation (see 5.) is to run -rt tasks from a -deadline
-+ server; in which case the -rt bandwidth is a direct subset of dl_bw.
- 
-  This means that, for a root_domain comprising M CPUs, -deadline tasks
-  can be created while the sum of their bandwidths stays below:
-diff --git a/Documentation/scheduler/sched-rt-group.rst b/Documentation/scheduler/sched-rt-group.rst
-index d685609ed3d7a..80b05a3009ea2 100644
---- a/Documentation/scheduler/sched-rt-group.rst
-+++ b/Documentation/scheduler/sched-rt-group.rst
-@@ -92,10 +92,10 @@ The system wide settings are configured under the /proc virtual file system:
- /proc/sys/kernel/sched_rt_runtime_us:
-   A global limit on how much time real-time scheduling may use. This is always
-   less or equal to the period_us, as it denotes the time allocated from the
--  period_us for the real-time tasks. Even without CONFIG_RT_GROUP_SCHED enabled,
--  this will limit time reserved to real-time processes. With
--  CONFIG_RT_GROUP_SCHED=y it signifies the total bandwidth available to all
--  real-time groups.
-+  period_us for the real-time tasks. Without CONFIG_RT_GROUP_SCHED enabled,
-+  this only serves for admission control of deadline tasks. With
-+  CONFIG_RT_GROUP_SCHED=y it also signifies the total bandwidth available to
-+  all real-time groups.
- 
-   * Time is specified in us because the interface is s32. This gives an
-     operating range from 1us to about 35 minutes.
--- 
-2.47.0
+--D
 
+> ---
+> I found these typos when learning about OverlayFS recently.
+> ---
+>  Documentation/filesystems/iomap/operations.rst | 2 +-
+>  Documentation/filesystems/overlayfs.rst        | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/iomap/operations.rst b/Documentation/filesystems/iomap/operations.rst
+> index ef082e5a4e0c..2c7f5df9d8b0 100644
+> --- a/Documentation/filesystems/iomap/operations.rst
+> +++ b/Documentation/filesystems/iomap/operations.rst
+> @@ -104,7 +104,7 @@ iomap calls these functions:
+>  
+>      For the pagecache, races can happen if writeback doesn't take
+>      ``i_rwsem`` or ``invalidate_lock`` and updates mapping information.
+> -    Races can also happen if the filesytem allows concurrent writes.
+> +    Races can also happen if the filesystem allows concurrent writes.
+>      For such files, the mapping *must* be revalidated after the folio
+>      lock has been taken so that iomap can manage the folio correctly.
+>  
+> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/filesystems/overlayfs.rst
+> index 4c8387e1c880..d2a277e3976e 100644
+> --- a/Documentation/filesystems/overlayfs.rst
+> +++ b/Documentation/filesystems/overlayfs.rst
+> @@ -156,7 +156,7 @@ A directory is made opaque by setting the xattr "trusted.overlay.opaque"
+>  to "y".  Where the upper filesystem contains an opaque directory, any
+>  directory in the lower filesystem with the same name is ignored.
+>  
+> -An opaque directory should not conntain any whiteouts, because they do not
+> +An opaque directory should not contain any whiteouts, because they do not
+>  serve any purpose.  A merge directory containing regular files with the xattr
+>  "trusted.overlay.whiteout", should be additionally marked by setting the xattr
+>  "trusted.overlay.opaque" to "x" on the merge directory itself.
+> 
+> base-commit: 7503345ac5f5e82fd9a36d6e6b447c016376403a
+> -- 
+> 2.47.1
+> 
