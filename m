@@ -1,143 +1,303 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8234F19CC1C;
-	Wed, 11 Dec 2024 15:23:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B693A246324
+	for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 15:30:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733930620; cv=none; b=YywWZ2QO79ghoEiju6FpISY9fKkFf6LbUq54e8ij3s82K2wdqNcxvXUoiuDmlrCU5YkyISVwpZY7ImmvkT4hLRkG0XNKVo5SdmR48T+bTAa3dWLkeFwfUmsc+MnLlA+b8DLu6AUccssRJ/3scPDB/q9z3msvewlNGScz1P7AxHg=
+	t=1733931019; cv=none; b=ZllXV++KwevT84laFKz9rTX5ybeJzScMllNokCKCnJ7ZHuuXbhdRW5gT6hLVR+pda3X3NDCAeB56HDk1JZZq1LwoISOLYzvO1nyCfgAMkJTRL246bqcJjtXGkA0TZKFu1rS96QaxNQWrH2PABh0h7R9+NPymiXx9iMDos209Q0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733930620; c=relaxed/simple;
-	bh=QIEkG0xZSKxfU26IExAVUZoLdE72Tqxq3ScdnpGFQRo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mTwkLj3T2o3CjyodnkeZDZZDN4wxS6mGH7vB9pPwzzkyMX+QxUg6agVb50/NHDrNM/W3V506AYmglFbSQP+Ey/ZaqD9cOvk1cfYcUvI0Jl0vXjxEBy6iXfaIaFyEzsRbV0i41FrHUny/tXU4M2WniUSpgJ32s0gUnG/33pEktGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Af2sStfw; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1733931019; c=relaxed/simple;
+	bh=aR4vpZRbdf1eHVAxxc4pSGF/3WGP2cjCk1EHSwbk0jk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DElXG5TAXgKsnHTEc1X85AnBWEKylOedjR+WWLb0SOAEy0AsFldxFUsQHfvrLyLDdrDQqh9YihDIZmQbZBlR/W09kU2YgoUVHZItOflua07drA0FYgrx3nwYmNQycOBcUZdRAh/a85+8iWIdY64mvrMrCcP70l1uGzeBogKfGjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=unwoaA7K; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Af2sStfw"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-21619108a6bso41992295ad.3;
-        Wed, 11 Dec 2024 07:23:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="unwoaA7K"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4678c9310afso188561cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 07:30:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733930619; x=1734535419; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=y+hMgNuteGPTfHUokgEk81f7fnYLmO/eqgwkl3XbjZo=;
-        b=Af2sStfw9HXZAMg4S2KaRRWJlOd+ttD2X70Y+HjWRXczd4HGKZDD7WEhBHhqxipdRa
-         LL0sE8PT80ISPsESwzJVVbfzmQepGFeqe/7oxZPWeM6N3qx5BiWHFby25NvSL2a67FHa
-         M2Xi4Bxc0M+IZkSx7c8cUtSrcn39V6Vm82KNvpidx+ZLMEKwmQL3NHwTS/fq2ZBHgP5E
-         5gdT1anX62tEPQQLWXru/6hXHsww14a8+lmk5E7sdt9sZYr5ZLA2Ilmifvd1xAKm29XP
-         G+1TU8HJbrBJpCXDlvGagmXcu44VTCWKqtNvxdwuSok9EQyYRoCTRg7jaxVUBi44NZC+
-         4RkQ==
+        d=google.com; s=20230601; t=1733931017; x=1734535817; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H7YZmIYZeaqEm4Xe2VazE9uZvY20Q7LU62rBEaUV/dg=;
+        b=unwoaA7KJjdatqagQqLI+32pMEtI3u7tUISjatriNz8Sx/RufuyBvyXM8A6Xf5PMm+
+         zmjrPLz1lHx/13JV//3XjV3KbYl/bSHPNT00d0CyE36LVMkbe4pil5NxbwgAM8zhbxU/
+         SKyzl/6NuzWT6jOklDGLx1Q4vqygksWLZE/8Y8vo2ZvDlHYvEtzOc7nuJYFtaf5fyTuK
+         FVRrI4nNDiu7R/kty1J1GFvGJnhMODZ/R55yokMzw4LwetZLgWyuo626WCPHfxHkpLQ6
+         sFeui05qBaNAQh/gA4ztAHXg4eQ5roKTTLzZrvNjRdsrLAIS0XhS3VkJiqvq8bMVwZzd
+         jLTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733930619; x=1734535419;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=y+hMgNuteGPTfHUokgEk81f7fnYLmO/eqgwkl3XbjZo=;
-        b=S0Mo04YuaQNvBfGMozdkMAH9dMlrvmrMJLbiBMzEGP5gVObTSLrsUzG+CMXqYCAMWS
-         yfA2G28mqU+yogu6JKSy9dQp7sxkX6481AA+voyFTlmePF+OyhhwOTNmn3YORvpDwVK4
-         D/ocRhSFop0i+fgdXdd9Ve4F9WTbDSrQ/XBe0TzLWeX7RkM1mDXzesxEhr9iDFPYvRSQ
-         mTr2s4f7g/pSQqHwJ2OwDN3A8osUDQLUiqZUc2bVvG08syJ4EtphfbOIlEKZTU8IgJKA
-         asf9cpby30hGJ981jDJq2uduknA5Yws9+CtdOV78OIVAjw8A8gRBTh+Aw815EQXX0l91
-         VHuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW9OZ8MwO41QhFABw8TMGs8ylNLmNh0G1SbOEzpc9s0HpOb86kXG0GvG6jzTRwtQXrC3D4MEVlmB3lTwg8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzb0F46fC4jd5o9Y1v2zH+YehXUYiI4IXxsfDzovZVykjnvrbrq
-	3WsZ/bPKYdATiDdMMbaI7LSyr0aQflHplZAoYZX0xuYQbgPph/Bn
-X-Gm-Gg: ASbGnctrnP84qbL27bX9tkGH9RzVNPZ3j3MEeZAYgaUC9MEp2w3MIMUhMPYLO20wirQ
-	idMjts9iU11bkrqay233+/P6teAKINmd5IBt/6uJYjJS9dz0zvmkDhswyVplvXLxP1uAf2h5NMC
-	k/pv988gTBC66ApGVYesV58akGUbI2JhSMQWoTls76+qmmTV0xwUMlmaS19nmJLRTplQhAcpcBV
-	EZZEWKRQcB0zdUm62J3BkLA6+d60yWVJquRHKcurce0zkkB8QfPE010vZz7wD9c+yP2+Y8hWPip
-	2RD9f70Hwmfe+NMGQ7TR
-X-Google-Smtp-Source: AGHT+IESqCr2uoZAEWlto9KvuQWuQ1N2Pt+TlQMnWsiWnPJrqU1CIuO3q4tVaWWFiOO1/VD42gmlYw==
-X-Received: by 2002:a17:902:e94d:b0:215:522d:72d6 with SMTP id d9443c01a7336-21778591140mr59631005ad.38.1733930617915;
-        Wed, 11 Dec 2024 07:23:37 -0800 (PST)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-216728cf4cbsm31563225ad.219.2024.12.11.07.23.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Dec 2024 07:23:37 -0800 (PST)
-Message-ID: <ac6bb4a4-d57c-481d-93e1-e08ab9fd6bdc@gmail.com>
-Date: Thu, 12 Dec 2024 00:23:35 +0900
+        d=1e100.net; s=20230601; t=1733931017; x=1734535817;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=H7YZmIYZeaqEm4Xe2VazE9uZvY20Q7LU62rBEaUV/dg=;
+        b=cmPqzCQpS8vUXrbjK/AGIrqSuzyh7PU1fcUP/moMuWEAPaNmIowr9EnG0UHDs7BuuO
+         210XpaTb3uXPUBXFLozq+h4ZVxDQpN4Yj8Wk4WcfNxF/j6Y/uCv7YOrD0GZyReB+plPT
+         iY5XakGRaKogKQPx8vHZxXlynuivIZ/qSeF4ZXgXuMghz0sO5I6yVAoGIrKHxxfUzaag
+         oHR68N/HVI1I1EnyItB5HdLpPjd6DJhQHsksJ8B4+MNak+JgNxLJoyv4I6wMI3EJBNbC
+         qjWzYidHOQBQp0boRujyBdL6gN0lnLzoXCmqVG28OsSdif4T87Mau/cUvmDVGuLk8hXR
+         J6zw==
+X-Forwarded-Encrypted: i=1; AJvYcCXGjp6RBc23b/dQYwV6l6TlZIkUOAilanJdo5fX3zxeJuE5BX2kZYZoG5ohLjlcfLgDVpfV7OF9WlM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKBAr4c0IhTG0qGkwJU9SYCM0GWDM7cLX5TRn535P/E6WiR/tZ
+	um32WD7HA4io/xO/XX/rV98CqN2LaxaUzmRFJUH0aPDRMxwLZW3xbGMTgMRY6wUvb8a2WXrae35
+	mbi+WIqxooofkncmFME88blDb9OhVdsnkydBJ
+X-Gm-Gg: ASbGncskQ60X4ajvkXwViCvUchr7zc2ku00HLBQw/Z0LqoTOt0FKHW6I/GrNLnmfwHs
+	vLYpFvnxpiq9H/X3B+abyMJCuJGCEMjfR67YGiapc87hA4qWoUU7GABIhZitmLvHCAw==
+X-Google-Smtp-Source: AGHT+IE8MONiE/ew18nh+QhtE8JOLknbt1NMCdadeKFSl+Zc6Srrvj+4kbt7pHawXTW9L4XIFqtHFRz3pgT/YjmJXaI=
+X-Received: by 2002:a05:622a:5196:b0:466:8c7c:3663 with SMTP id
+ d75a77b69052e-46789eee51bmr4431511cf.5.1733931016401; Wed, 11 Dec 2024
+ 07:30:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] scripts/kernel-doc: Get -export option working again
-To: Jonathan Corbet <corbet@lwn.net>, Greg KH <gregkh@linuxfoundation.org>,
- Peter Zijlstra <peterz@infradead.org>, Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Akira Yokosawa <akiyks@gmail.com>
-References: <e5c43f36-45cd-49f4-b7b8-ff342df3c7a4@gmail.com>
- <87pllz2r30.fsf@trenco.lwn.net>
- <b7c99226-7c03-425a-91b6-c7969bdbb1cf@gmail.com>
- <87v7vr12qr.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <87v7vr12qr.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20241206225204.4008261-1-surenb@google.com> <20241206225204.4008261-5-surenb@google.com>
+ <6b29b2a5-c244-4930-a5a0-1a24a04e7e35@suse.cz> <CAJuCfpFxAZ-JwN8VqNF14zeBnsPM_pD0+-N2PDq5GcQGR1xqLQ@mail.gmail.com>
+ <643beb6c-4226-46ca-b7e9-292467479aea@suse.cz> <CAJuCfpHR3LXfAZA_oh_2KBtFe6JQPU5T3nYMZd_ooAjRJd8xUQ@mail.gmail.com>
+ <5036d089-0774-4863-88c5-eaaea1265ac7@suse.cz> <CAJuCfpGrnSTU5ZH0Vt_AXyyFX5vAyknqcOtRsfnh4dbpOeyy-A@mail.gmail.com>
+In-Reply-To: <CAJuCfpGrnSTU5ZH0Vt_AXyyFX5vAyknqcOtRsfnh4dbpOeyy-A@mail.gmail.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Wed, 11 Dec 2024 07:30:05 -0800
+Message-ID: <CAJuCfpHcweCby61FpVr8cAhcr1JkXQyZ_LbKL3HrM8fsFTGiog@mail.gmail.com>
+Subject: Re: [PATCH v5 4/6] mm: make vma cache SLAB_TYPESAFE_BY_RCU
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: akpm@linux-foundation.org, willy@infradead.org, liam.howlett@oracle.com, 
+	lorenzo.stoakes@oracle.com, mhocko@suse.com, hannes@cmpxchg.org, 
+	mjguzik@gmail.com, oliver.sang@intel.com, mgorman@techsingularity.net, 
+	david@redhat.com, peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net, 
+	paulmck@kernel.org, brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com, 
+	hughd@google.com, minchan@google.com, jannh@google.com, 
+	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
+	corbet@lwn.net, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Jonathan Corbet wrote:
-> Akira Yokosawa <akiyks@gmail.com> writes:
-> 
->> Jonathan Corbet wrote:
->> [...]
->>> Ah ... I should have thought of that ... I'm glad you did.  I've just
->>> pushed the fix out to linux-next, will send it Linusward in the near
->>> future.  Thanks for fixing this,
->>
->> Your docs-fixes is based on v6.13-rc1.
->> This fix needs to come after v6.13-rc2.
-> 
-> ...which will happen once the fix hits mainline - the *fix* doesn't
-> depend on -rc2.
-> 
+On Tue, Dec 10, 2024 at 3:01=E2=80=AFPM Suren Baghdasaryan <surenb@google.c=
+om> wrote:
+>
+> On Tue, Dec 10, 2024 at 9:25=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> =
+wrote:
+> >
+> > On 12/10/24 18:16, Suren Baghdasaryan wrote:
+> > > On Tue, Dec 10, 2024 at 8:32=E2=80=AFAM Vlastimil Babka <vbabka@suse.=
+cz> wrote:
+> > >>
+> > >> On 12/10/24 17:20, Suren Baghdasaryan wrote:
+> > >> > On Tue, Dec 10, 2024 at 6:21=E2=80=AFAM Vlastimil Babka <vbabka@su=
+se.cz> wrote:
+> > >> >>
+> > >> >> On 12/6/24 23:52, Suren Baghdasaryan wrote:
+> > >> >> > To enable SLAB_TYPESAFE_BY_RCU for vma cache we need to ensure =
+that
+> > >> >> > object reuse before RCU grace period is over will be detected i=
+nside
+> > >> >> > lock_vma_under_rcu().
+> > >> >> > lock_vma_under_rcu() enters RCU read section, finds the vma at =
+the
+> > >> >> > given address, locks the vma and checks if it got detached or r=
+emapped
+> > >> >> > to cover a different address range. These last checks are there
+> > >> >> > to ensure that the vma was not modified after we found it but b=
+efore
+> > >> >> > locking it.
+> > >> >> > vma reuse introduces several new possibilities:
+> > >> >> > 1. vma can be reused after it was found but before it is locked=
+;
+> > >> >> > 2. vma can be reused and reinitialized (including changing its =
+vm_mm)
+> > >> >> > while being locked in vma_start_read();
+> > >> >> > 3. vma can be reused and reinitialized after it was found but b=
+efore
+> > >> >> > it is locked, then attached at a new address or to a new mm whi=
+le
+> > >> >> > read-locked;
+> > >> >> > For case #1 current checks will help detecting cases when:
+> > >> >> > - vma was reused but not yet added into the tree (detached chec=
+k)
+> > >> >> > - vma was reused at a different address range (address check);
+> > >> >> > We are missing the check for vm_mm to ensure the reused vma was=
+ not
+> > >> >> > attached to a different mm. This patch adds the missing check.
+> > >> >> > For case #2, we pass mm to vma_start_read() to prevent access t=
+o
+> > >> >> > unstable vma->vm_mm. This might lead to vma_start_read() return=
+ing
+> > >> >> > a false locked result but that's not critical if it's rare beca=
+use
+> > >> >> > it will only lead to a retry under mmap_lock.
+> > >> >> > For case #3, we ensure the order in which vma->detached flag an=
+d
+> > >> >> > vm_start/vm_end/vm_mm are set and checked. vma gets attached af=
+ter
+> > >> >> > vm_start/vm_end/vm_mm were set and lock_vma_under_rcu() should =
+check
+> > >> >> > vma->detached before checking vm_start/vm_end/vm_mm. This is re=
+quired
+> > >> >> > because attaching vma happens without vma write-lock, as oppose=
+d to
+> > >> >> > vma detaching, which requires vma write-lock. This patch adds m=
+emory
+> > >> >> > barriers inside is_vma_detached() and vma_mark_attached() neede=
+d to
+> > >> >> > order reads and writes to vma->detached vs vm_start/vm_end/vm_m=
+m.
+> > >> >> > After these provisions, SLAB_TYPESAFE_BY_RCU is added to vm_are=
+a_cachep.
+> > >> >> > This will facilitate vm_area_struct reuse and will minimize the=
+ number
+> > >> >> > of call_rcu() calls.
+> > >> >> >
+> > >> >> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > >> >>
+> > >> >> I'm wondering about the vma freeing path. Consider vma_complete()=
+:
+> > >> >>
+> > >> >> vma_mark_detached(vp->remove);
+> > >> >>   vma->detached =3D true; - plain write
+> > >> >> vm_area_free(vp->remove);
+> > >> >>   vma->vm_lock_seq =3D UINT_MAX; - plain write
+> > >> >>   kmem_cache_free(vm_area_cachep)
+> > >> >> ...
+> > >> >> potential reallocation
+> > >> >>
+> > >> >> against:
+> > >> >>
+> > >> >> lock_vma_under_rcu()
+> > >> >> - mas_walk finds a stale vma due to race
+> > >> >> vma_start_read()
+> > >> >>   if (READ_ONCE(vma->vm_lock_seq) =3D=3D READ_ONCE(mm->mm_lock_se=
+q.sequence))
+> > >> >>   - can be false, the vma was not being locked on the freeing sid=
+e?
+> > >> >>   down_read_trylock(&vma->vm_lock.lock) - suceeds, wasn't locked
+> > >> >>     this is acquire, but was there any release?
+> > >> >
+> > >> > Yes, there was a release. I think what you missed is that
+> > >> > vma_mark_detached() that is called from vma_complete() requires VM=
+A to
+> > >> > be write-locked (see vma_assert_write_locked() in
+> > >> > vma_mark_detached()). The rule is that a VMA can be attached witho=
+ut
+> > >> > write-locking but only a write-locked VMA can be detached. So, aft=
+er
+> > >>
+> > >> OK but write unlocking means the mm's seqcount is bumped and becomes
+> > >> non-equal with vma's vma->vm_lock_seq, right?
+> > >>
+> > >> Yet in the example above we happily set it to UINT_MAX and thus effe=
+ctively
+> > >> false unlock it for vma_start_read()?
+> > >>
+> > >> And this is all done before the vma_complete() side would actually r=
+each
+> > >> mmap_write_unlock(), AFAICS.
+> > >
+> > > Ah, you are right. With the possibility of reuse, even a freed VMA
+> > > should be kept write-locked until it is unlocked by
+> > > mmap_write_unlock(). I think the fix for this is simply to not reset
+> > > vma->vm_lock_seq inside vm_area_free(). I'll also need to add a
+> >
+> > But even if we don't reset vm_lock_seq to UINT_MAX, then whover realloc=
+ated
+> > it can proceed and end up doing a vma_start_write() and rewrite it ther=
+e
+> > anyway, no?
+>
+> Actually, I think with a small change we can simplify these locking rules=
+:
+>
+> static inline void vma_start_write(struct vm_area_struct *vma)
+> {
+>         int mm_lock_seq;
+>
+> -        if (__is_vma_write_locked(vma, &mm_lock_seq))
+> -                return;
+> +        mmap_assert_write_locked(vma->vm_mm);
+> +        mm_lock_seq =3D vma->vm_mm->mm_lock_seq;
+>
+>         down_write(&vma->vm_lock->lock);
+>         /*
+>         * We should use WRITE_ONCE() here because we can have concurrent =
+reads
+>         * from the early lockless pessimistic check in vma_start_read().
+>         * We don't really care about the correctness of that early check,=
+ but
+>         * we should use WRITE_ONCE() for cleanliness and to keep KCSAN ha=
+ppy.
+>         */
+>         WRITE_ONCE(vma->vm_lock_seq, mm_lock_seq);
+>         up_write(&vma->vm_lock->lock);
+> }
+>
+> This will force vma_start_write() to always write-lock vma->vm_lock
+> before changing vma->vm_lock_seq. Since vma->vm_lock survives reuse,
+> the other readers/writers will synchronize on it even if vma got
+> reused.
 
-Well...
-The fix conflicts semantically against v6.13-rc1.
+After thinking of all the alternatives, I think the cleanest way to
+handle vma detaching would be to follow the same pattern as for vma
+attaching. To attach a vma we do:
 
-I know you hate full rebuild of htmldocs. But I'd like you to follow
-the following steps to see the full scope of this fix.
+vma->vm_mm =3D xxx;
+...
+vma_mark_attached()
+    smp_wmb();
+    WRITE_ONCE(vma->detached, false);
 
- - git checkout v6.13-rc2
- - git checkout docs-fixes
- - make htmldocs
 
-You might be surprised, but you'll see the following:
+lock_vma_under_rcu() ensures that a vma is attached and still
+unchanged like this:
 
-./drivers/dma-buf/dma-buf.c:1: warning: no structured comments found
-./drivers/iommu/iommufd/device.c:1: warning: no structured comments found
-./drivers/iommu/iommufd/main.c:1: warning: no structured comments found
-./drivers/counter/counter-core.c:1: warning: no structured comments found
-./drivers/counter/counter-chrdev.c:1: warning: no structured comments found
+lock_vma_under_rcu()
+    vma_start_read();
+    is_vma_detached()
+        detached =3D READ_ONCE(vma->detached);
+        smp_rmb();
+    if (vma->vm_mm !=3D mm)
 
-Current docs-fixes has a semantic conflicts opposite to the one v6.13-rc2 has.
+So, vm_area_free() can follow the same pattern to ensure vma reuse
+gets detected even if lock_vma_under_rcu() succeeds in locking the
+vma:
 
-I'd really like you to send a pull request that resolves the semantic
-conflict existing in v6.13-rc2, not the one that happens to negate the
-conflict on merge.
+vm_area_free()
+    vma->vm_mm =3D NULL;
+    smp_wmb();
+    WRITE_ONCE(vma->detached, true);
 
-That's the minimal expectation I have.
+Vlastimil, I think that should address the race you described. WDYT?
 
-You might wonder whey you need to checkout v6.13-rc2 first and go back
-to docs-fixes to see the conflict there.
-
-That's because "make htmldocs" don't rerun kernel-doc conversion
-when only the kernel-doc script is updated.  To see the effect of
-its change, source files with affected kernel-doc comments and
-"EXPORT_SYMBOL*" need to be updated as well.
-
-Of course you are well aware of this problematic behavior of
-documentation build.
-
-I don't mind docs-mw if you'd like to keep it v6.13-rc1 based.
-
-Have I made my points clear enough for you?
-
-        Thanks, Akira
-
+>
+> >
+> > > comment for vm_lock_seq explaining these requirements.
+> > > Do you agree that such a change would resolve the issue?
+> > >
+> > >>
+> > >> > vma_mark_detached() and before down_read_trylock(&vma->vm_lock.loc=
+k)
+> > >> > in vma_start_read() the VMA write-lock should have been released b=
+y
+> > >> > mmap_write_unlock() and therefore vma->detached=3Dfalse should be
+> > >> > visible to the reader when it executed lock_vma_under_rcu().
+> > >> >
+> > >> >>   is_vma_detached() - false negative as the write above didn't pr=
+opagate
+> > >> >>     here yet; a read barrier but where is the write barrier?
+> > >> >>   checks for vma->vm_mm, vm_start, vm_end - nobody reset them yet=
+ so false
+> > >> >>     positive, or they got reset on reallocation but writes didn't=
+ propagate
+> > >> >>
+> > >> >> Am I missing something that would prevent lock_vma_under_rcu() fa=
+lsely
+> > >> >> succeeding here?
+> > >> >>
+> > >>
+> >
