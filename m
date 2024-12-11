@@ -1,140 +1,197 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC991C3F27
-	for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 19:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16EF1C3F27;
+	Wed, 11 Dec 2024 19:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733946044; cv=none; b=E0qFPgeuwjM2/pQpEf8wKuoO5+azcpi8gw+FJ9d+mKJLkfwfiL45Ca+40psrxgrrW4laTUStGgn+iQHsCIiq3Kz4bhMxlc65lLFBW5whC0yYSyJ0ijP8q13WVLu3tjToMXU9t0WY8ggu5xh0/IZcQfc2keENqu782C7H7VrPuSw=
+	t=1733946813; cv=none; b=XmC+aKajN7IA45K0VCb2RBx5A/+mbfk/KWxa3U+Oj+gjTgwB35qgkQshSZNsghCl2FJOBCo5l9j7wtpW8RIg6lqqYqmyhcCDHX3cCdH4/zHlWpJYweQ1ARf05tcURQxgwbe6D7o9jhZHJbSYLgLIhqvrfA/XpOrtqeclvSmrPj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733946044; c=relaxed/simple;
-	bh=PlOFHIOkZBBtJiIhHKVfkhxd1vmGGBDqDG2mNZd9mWE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=msmi01NyeUddVfESJ/dYFHZrMxLYIhxZfjX44QKnWKnO5aVUxwaaue/MYxO6O8moJMlsBXHqSCSnZ8CAE2rtrBDjMkVsACk0TfZjkeqANX/THANiNyfh3K3mysPasV22the3goGWOF5WwT20UNLAz80IWDnA2jaNlmrVrl5ZQHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=m7P30MkC; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1733946813; c=relaxed/simple;
+	bh=/Islhx5QPnsZFTF/qi0yWZBLeMxaGO8x2YhrOZpsYTw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=csMhw6pnwor5oBuraItcCkliGCCwZUekZ22Yf4YMLU7DxRPig8SbyzjVpfJAbkYcYAwmDjjfK1mUz66EEjJP63zFS9ooQjGacgliJp3BKGr4p4VEnTF9N3TQFt8LtqeCrFKMqKOL0WobsaHhsM6zhGzij7UZAzpESuWunKpqdg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fH/EZ2AE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="m7P30MkC"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-467896541e1so39391cf.0
-        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 11:40:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1733946042; x=1734550842; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gAi2sZAVOfaezM6vHnfZEQr2lBUdILrViUkilAOY9a4=;
-        b=m7P30MkCCIal9GAw+XyrFNUWBt90/+NyWJvMlFWTBcEg74CunZ7teavsu3Crxsp+r0
-         xNzlUncJwBcA4eY9yu+FS1q3JOB9mYI+MAHVRz1dtfOxqwgQUHeU7R2FOLOML21dyPg2
-         tqVd7NwgvMZhBxMJ0aUtP8A4TcewXyjgXfb2WOZdJIs40sE1FNQ0xmPFxHlCuAYuJCFz
-         F/8j6StDCkUZm4P+EUGAFakeUCdOcCsYY2fmhZVI8uExxGqjDL9I92jnYhk1QA6qGgle
-         i+D2Biq6rRd0GcB4ejbiglbEPRkPuEf7J6aLwHlguwT4wax7g09BdBT+vEOugaOmssYS
-         9JZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733946042; x=1734550842;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gAi2sZAVOfaezM6vHnfZEQr2lBUdILrViUkilAOY9a4=;
-        b=u/PDy9rPmMQXGPArQvexCclGiYgFxmyTvYSVJyNTWWgEwcuQCQASo4Y0WPXM4Kw0ja
-         zexpABAmWTXx4WauPO2n9LTFtLHl8Q56zksY6Z5xeldOig95E5XfL+ZxWhl4eIIzjp1b
-         hbq5j+Yr5fCyEExg+I1w9/NV0zh6P/yh0cyOOwyKLoVL+ltFaIw3jSdHl0Crterdp/cH
-         0o6R/LhNIK7sOTFHQ034vBCUHjcDcgTIchEaIVFftW63ADaKloA/axtnPMJPIAg2oCDY
-         EdYlRnmQQG281JdwBIYFssrovlxFyptW2Y7vC0f6Ip0W8J478nE584ygsP78+6pnQL1M
-         RSQw==
-X-Forwarded-Encrypted: i=1; AJvYcCUSzPa6sldVhOA+VuhS39kdf1FZlHPCO+0aGA+CuSZZnuKr9/EChmbxRy6S1MtXj4VCBqP5nIJmKcM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKSFhdredhiew7hqUn6/kPOaNNnJmzNfC+Vt43k7572dVSeo4l
-	/ud0Rf1LiRr8ORJOdY7/e6gf/578YM/QIDMSnQPJz5G84MAz/vVF2b6Aeig7EBQ36rmT4M02Sgf
-	ptkiqXaVeay4Ix0RHz4LkukNLaFc+CuhB8FSA
-X-Gm-Gg: ASbGncuq5GXhHi9FCjgrA05WRypkyfwvL3tyqFMOJY71jdlzk9SDVVEWKKWLd0vp15p
-	m83gWWGaBv0LmZyhT49OhEia69VOstYgBMb4=
-X-Google-Smtp-Source: AGHT+IHe0a/olZGmNb2j063xWVYnWyQiRtYgcQ2KPzSRgRc1IuQoCoKKCfBfPKLaAI8hJccI+cZOsKhE0JwynGSCsXg=
-X-Received: by 2002:a05:622a:1f89:b0:461:358e:d635 with SMTP id
- d75a77b69052e-46796e2f498mr396471cf.18.1733946041952; Wed, 11 Dec 2024
- 11:40:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fH/EZ2AE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F412C4CED2;
+	Wed, 11 Dec 2024 19:53:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733946813;
+	bh=/Islhx5QPnsZFTF/qi0yWZBLeMxaGO8x2YhrOZpsYTw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=fH/EZ2AE2pqH53MRSScd31eG/ObA/GfsrmQtufCSl4yPoy+MCOaa72mq2tTkS/Ptt
+	 MElV3mKuCIyouF7O4TeLksAGyBsjRyyLeNIyCIB3ew5+d2s/AoWfVhNt6/nEerEueP
+	 lsEbi36/ME73ZGwcBD9JV1emQNX/HjB79qiLo2p2jp4Vd5vSmEtM1AlVEEISmjaB/v
+	 g4N+HiAvMqiueLdx51+uGAUPUuNsOAH5p5tavAZcJm5094U4UxAJwv9624a8nmihmv
+	 POMTYqt3LTct+4Fgrr5FfhhslujOt5dVSWkZOavas1KrgLzaRfknHtIs9GeNbFzjQX
+	 QNnQ+32ufo7aw==
+From: SeongJae Park <sj@kernel.org>
+To: Yuanchu Xie <yuanchu@google.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	David Hildenbrand <david@redhat.com>,
+	"Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+	Khalid Aziz <khalid.aziz@oracle.com>,
+	Henry Huang <henry.hj@antgroup.com>,
+	Yu Zhao <yuzhao@google.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Gregory Price <gregory.price@memverge.com>,
+	Huang Ying <ying.huang@intel.com>,
+	Lance Yang <ioworker0@gmail.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Tejun Heo <tj@kernel.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Daniel Watson <ozzloy@each.do>,
+	cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 0/9] mm: workingset reporting
+Date: Wed, 11 Dec 2024 11:53:29 -0800
+Message-Id: <20241211195329.60224-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <CAJj2-QFdP6DKVQJ4Tw6rdV+XtgDihe=UOnvm4cm-q61K0hq6CQ@mail.gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241209172308.1212819-1-almasrymina@google.com>
- <20241209172308.1212819-5-almasrymina@google.com> <20241210194745.7a0a319e@kernel.org>
-In-Reply-To: <20241210194745.7a0a319e@kernel.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Wed, 11 Dec 2024 11:40:30 -0800
-Message-ID: <CAHS8izM45fsLyPxJy-Q9cxXzz-Pb1dHOw0yCHmJTqU8puRTwKg@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 4/5] page_pool: disable sync for cpu for
- dmabuf memory provider
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, Pavel Begunkov <asml.silence@gmail.com>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Samiullah Khawaja <skhawaja@google.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Dec 10, 2024 at 7:47=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
-> On Mon,  9 Dec 2024 17:23:07 +0000 Mina Almasry wrote:
-> > -static inline void page_pool_dma_sync_for_cpu(const struct page_pool *=
-pool,
-> > -                                           const struct page *page,
-> > -                                           u32 offset, u32 dma_sync_si=
-ze)
-> > +static inline void
-> > +page_pool_dma_sync_netmem_for_cpu(const struct page_pool *pool,
-> > +                               const netmem_ref netmem, u32 offset,
-> > +                               u32 dma_sync_size)
-> >  {
-> > +     if (pool->mp_priv)
->
-> Let's add a dedicated bit to skip sync. The io-uring support feels
-> quite close. Let's not force those guys to have to rejig this.
->
+On Fri, 6 Dec 2024 11:57:55 -0800 Yuanchu Xie <yuanchu@google.com> wrote:
 
-OK.
-
-> > +             return;
-> > +
-> >       dma_sync_single_range_for_cpu(pool->p.dev,
-> > -                                   page_pool_get_dma_addr(page),
-> > +                                   page_pool_get_dma_addr_netmem(netme=
-m),
-> >                                     offset + pool->p.offset, dma_sync_s=
-ize,
-> >                                     page_pool_get_dma_dir(pool));
-> >  }
+> Thanks for the response Johannes. Some replies inline.
+> 
+> On Tue, Nov 26, 2024 at 11:26\u202fPM Johannes Weiner <hannes@cmpxchg.org> wrote:
 > >
-> > +static inline void page_pool_dma_sync_for_cpu(const struct page_pool *=
-pool,
-> > +                                           struct page *page, u32 offs=
-et,
-> > +                                           u32 dma_sync_size)
-> > +{
-> > +     page_pool_dma_sync_netmem_for_cpu(pool, page_to_netmem(page), off=
-set,
-> > +                                       dma_sync_size);
->
-> I have the feeling Olek won't thank us for this extra condition and
-> bit clearing. If driver calls page_pool_dma_sync_for_cpu() we don't
-> have to check the new bit / mp_priv. Let's copy & paste the
-> dma_sync_single_range_for_cpu() call directly here.
+> > On Tue, Nov 26, 2024 at 06:57:19PM -0800, Yuanchu Xie wrote:
+> > > This patch series provides workingset reporting of user pages in
+> > > lruvecs, of which coldness can be tracked by accessed bits and fd
+> > > references. However, the concept of workingset applies generically to
+> > > all types of memory, which could be kernel slab caches, discardable
+> > > userspace caches (databases), or CXL.mem. Therefore, data sources might
+> > > come from slab shrinkers, device drivers, or the userspace.
+> > > Another interesting idea might be hugepage workingset, so that we can
+> > > measure the proportion of hugepages backing cold memory. However, with
+> > > architectures like arm, there may be too many hugepage sizes leading to
+> > > a combinatorial explosion when exporting stats to the userspace.
+> > > Nonetheless, the kernel should provide a set of workingset interfaces
+> > > that is generic enough to accommodate the various use cases, and extensible
+> > > to potential future use cases.
+> >
+> > Doesn't DAMON already provide this information?
+> >
+> > CCing SJ.
+> Thanks for the CC. DAMON was really good at visualizing the memory
+> access frequencies last time I tried it out!
 
-page_pool_get_dma_addr() also does a cast to netmem and bit clearing :/
+Thank you for this kind acknowledgement, Yuanchu!
 
-The whole netmem stuff was written to maximize code reuse. We don't
-really special case pages for performance, we convert pages to netmem
-then pipe them to through common code paths.  I can special case pages
-here but we would also need to copy the implementation of
-page_pool_get_dma_addr() as well. But note the tradeoff is some code
-duplication. Seems from the discussions it's worth it which is fine by
-me.
+> For server use cases,
+> DAMON would benefit from integrations with cgroups.  The key then would be a
+> standard interface for exporting a cgroup's working set to the user.
 
---=20
+I show two ways to make DAMON supports cgroups for now.  First way is making
+another DAMON operations set implementation for cgroups.  I shared a rough idea
+for this before, probably on kernel summit.  But I haven't had a chance to
+prioritize this so far.  Please let me know if you need more details.  The
+second way is extending DAMOS filter to provide more detailed statistics per
+DAMON-region, and adding another DAMOS action that does nothing but only
+accounting the detailed statistics.  Using the new DAMOS action, users will be
+able to know how much of specific DAMON-found regions are filtered out by the
+given filter.  Because we have DAMOS filter type for cgroups, we can know how
+much of workingset (or, warm memory) belongs to specific groups.  This can be
+applied to not only cgroups, but for any DAMOS filter types that exist (e.g.,
+anonymous page, young page).
+
+I believe the second way is simpler to implement while providing information
+that sufficient for most possible use cases.  I was anyway planning to do this.
+
+> It would be good to have something that will work for different
+> backing implementations, DAMON, MGLRU, or active/inactive LRU.
+
+I think we can do this using the filter statistics, with new filter types.  For
+example, we can add new DAMOS filter that filters pages if it is for specific
+range of MGLRU-gen of the page, or whether the page belongs to active or
+inactive LRU lists.
+
+> 
+> >
+> > > Use cases
+> > > ==========
+[...]
+> > Access frequency is only half the picture. Whether you need to keep
+> > memory with a given frequency resident depends on the speed of the
+> > backing device.
+[...]
+> > > Benchmarks
+> > > ==========
+> > > Ghait Ouled Amar Ben Cheikh has implemented a simple policy and ran Linux
+> > > compile and redis benchmarks from openbenchmarking.org. The policy and
+> > > runner is referred to as WMO (Workload Memory Optimization).
+> > > The results were based on v3 of the series, but v4 doesn't change the core
+> > > of the working set reporting and just adds the ballooning counterpart.
+> > >
+> > > The timed Linux kernel compilation benchmark shows improvements in peak
+> > > memory usage with a policy of "swap out all bytes colder than 10 seconds
+> > > every 40 seconds". A swapfile is configured on SSD.
+[...]
+> > You can do this with a recent (>2018) upstream kernel and ~100 lines
+> > of python [1]. It also works on both LRU implementations.
+> >
+> > [1] https://github.com/facebookincubator/senpai
+> >
+> > We use this approach in virtually the entire Meta fleet, to offload
+> > unneeded memory, estimate available capacity for job scheduling, plan
+> > future capacity needs, and provide accurate memory usage feedback to
+> > application developers.
+> >
+> > It works over a wide variety of CPU and storage configurations with no
+> > specific tuning.
+> >
+> > The paper I referenced above provides a detailed breakdown of how it
+> > all works together.
+> >
+> > I would be curious to see a more in-depth comparison to the prior art
+> > in this space. At first glance, your proposal seems more complex and
+> > less robust/versatile, at least for offloading and capacity gauging.
+> We have implemented TMO PSI-based proactive reclaim and compared it to
+> a kstaled-based reclaimer (reclaiming based on 2 minute working set
+> and refaults). The PSI-based reclaimer was able to save more memory,
+> but it also caused spikes of refaults and a lot higher
+> decompressions/second. Overall the test workloads had better
+> performance with the kstaled-based reclaimer. The conclusion was that
+> it was a trade-off.
+
+I agree it is only half of the picture, and there could be tradeoff.  Motivated
+by those previous works, DAMOS provides PSI-based aggressiveness auto-tuning to
+use both ways.
+
+> I do agree there's not a good in-depth comparison
+> with prior art though.
+
+I would be more than happy to help the comparison work agains DAMON of current
+implementation and future plans, and any possible collaborations.
+
+
 Thanks,
-Mina
+SJ
