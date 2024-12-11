@@ -1,87 +1,115 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2A55672;
-	Wed, 11 Dec 2024 00:29:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58ACB3A8CB;
+	Wed, 11 Dec 2024 01:04:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733876959; cv=none; b=QzQ17NWec2215Te+QtmdX/WbI+8KwfERmdLOsRkkVUUU7PKE73DmtJ0dkePV2J3m4O+2m6c1CGFtuLDKPXgCLIADd67YAzHo0TIgvgCHILxadtR0AUYK4i1px4tno0uplgxC9B4NignWjYHqyov2yt4wlZi5xEgX5buXDtB6aP0=
+	t=1733879065; cv=none; b=fl3Dda40S61SWuigL2UmOJssWBfWjLZvM4FfEhklLHuAMv8dYD0VasaHX+sGsMhj8jxfaXamuQF3y39+6mDaChoi3PgCewUHlVwtl9gNI4XBDRG1f22I6l4oUznfkYAo5b1RRUOlCx//3gvMqN9bJF6g9uHtwdIgUO3pUmnEkHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733876959; c=relaxed/simple;
-	bh=N5dEOV5iC4qvPpuNrD0NA8LkqSeZfYzYMfG9frGYw44=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ugcl2FOP8rUuYyoRWOmo1l7WANhTLrr+nhAhx6j/6U2aV2JkQ3dkpaHBRhgTaqCj9I3sIcpCXTGNmDIukIp6HXBzvv876aKXkHd1KIgJyDN9qL1bclW13gqaZIfXw/3NcLK7Fc5Somm+6lwpg1g4QEtxQ3clICfJAeO3Ortr3Po=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nbWbRENi; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1733879065; c=relaxed/simple;
+	bh=jLX4rlgMDPCJWTDHkPE3yprw7Tf6zXMkVO5ew0qsRzg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=AR9bTzEdWWgVU0RMumAhHeOntdwPxfipoTDtbP7gsj5tKW8okjsMw7I6d69hMOPvDsnFEp1TqPC4+AumlSfNxh0hKMPcjCZjUSwKNcSGppgVsYxdmJYybgz2F11x5JQ4rd+Vtcr0IJPEuIvyWRXfSp2O4TRmToDxAvCAEpAzDnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VIPt9K6a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nbWbRENi"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 48BBC403EE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1733876957; bh=qb4HBif2F5Ff4lk7AbAxZpuERk0QwKG56MVom7PI7Cs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=nbWbRENiEQk/+FABpU9JsetZ6pt4YGua0l86I8hFkwwe1IVE4Ox6zJnYZO7qy+7qu
-	 dB63E+L1TsDXh5jrJjSfDOnqOPfAigwF893Fj3pY5YY0fhx1nlqsmV4qra23le/Oh0
-	 DSbVY+60SdCfnO/9kN5liuJ4/3VzPqDJjBgCAJwNExk5TufElbeISs4bsKs1SmtS0h
-	 M7c1C7xZbsznNnp1rvzTRdADknGP26Z5LVNOdNmuLPxPygiTG9oJ6YGg3LNtXf7txU
-	 YJ78RA8mJ14bIsM6SKhgsHLoROdgRD2JXfKy0bCvWv7d9WaEbD4sOE7qq2Plef1pVk
-	 QNoUgwPLXk+VQ==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 48BBC403EE;
-	Wed, 11 Dec 2024 00:29:17 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Akira Yokosawa <akiyks@gmail.com>, Greg KH <gregkh@linuxfoundation.org>,
- Peter Zijlstra <peterz@infradead.org>, Masahiro Yamada
- <masahiroy@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Linus Torvalds
- <torvalds@linux-foundation.org>, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH] scripts/kernel-doc: Get -export option working again
-In-Reply-To: <b7c99226-7c03-425a-91b6-c7969bdbb1cf@gmail.com>
-References: <e5c43f36-45cd-49f4-b7b8-ff342df3c7a4@gmail.com>
- <87pllz2r30.fsf@trenco.lwn.net>
- <b7c99226-7c03-425a-91b6-c7969bdbb1cf@gmail.com>
-Date: Tue, 10 Dec 2024 17:29:16 -0700
-Message-ID: <87v7vr12qr.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VIPt9K6a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 881E8C4CED6;
+	Wed, 11 Dec 2024 01:04:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733879065;
+	bh=jLX4rlgMDPCJWTDHkPE3yprw7Tf6zXMkVO5ew0qsRzg=;
+	h=From:Subject:Date:To:Cc:From;
+	b=VIPt9K6avZPGcJX95i8dZcZr4WHiFeI8pQWxYiEQ1IxNs3eY2ofLeuQAKXbWBYM9/
+	 sQmT5tfAA3Oc40yH+mwcwBsGb8iq3PvNUTjff3ekPbZ2fDCKO6XKQqfvWpVRWQ75Fh
+	 SQQrQNXbR1TGoxJ6cZKWhXuhsIfPWFCmS7+DLxYFa+ItGPmwLy5JSnQ8GzhUxdg7sp
+	 dPVdyiUY+zBuDQ2Y7sUv4SQ6LoWndxj/YiGWvlUbC3oGA+zkx8NF+80L15nyCD7+/l
+	 vBFD9Xr+9ttQQ4/HymTlKu/TtpjxUoGkJ4NW9Ift8s+I7zaF6hwGR+G3aZSHwUYD+u
+	 41qwgAo9MsEHw==
+From: Mark Brown <broonie@kernel.org>
+Subject: [PATCH v4 0/9] arm64: Support 2024 dpISA extensions
+Date: Wed, 11 Dec 2024 01:02:45 +0000
+Message-Id: <20241211-arm64-2024-dpisa-v4-0-0fd403876df2@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALXkWGcC/23OSw6CMBCA4auQrq2ZPmiLK+9hXAxQoFGBtIZoC
+ He3JSZqZPlPMt/MTIL1zgZyyGbi7eSCG/oYcpeRqsO+tdTVsQkHLhmAoehvStKUtB5dQGqgYKA
+ l6kYaEtdGbxv3WMnTOXbnwn3wz/XCxNL0jfENbGIUKApTgynjNTTHi/W9ve4H35KkTfxLELAh8
+ CiUSgFDltcc8z9BfAQOYkMQ6QdVaVMyRF7oH2FZlheedAloNQEAAA==
+X-Change-ID: 20241008-arm64-2024-dpisa-8091074a7f48
+To: Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+ Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Shuah Khan <shuah@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, kvmarm@lists.linux.dev, 
+ linux-kselftest@vger.kernel.org, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.15-dev-9b746
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2175; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=jLX4rlgMDPCJWTDHkPE3yprw7Tf6zXMkVO5ew0qsRzg=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBnWOUOpUj1V2UXYPLuLrtYppEWr2dhV1p85fuVagzR
+ gYNQooeJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZ1jlDgAKCRAk1otyXVSH0BzyB/
+ 9GDTPkWnyb41SmxP3yIFjbgzxKspUYlH7g5GhliS3owYK1Zp6vFQGZ+qQHXW1QyBWYhXoYm+gPcNW3
+ tApSmN4cH8lEJW21vvhZelgf5FsSNTfv7axUvnrNsTdqfFX0SqT/YUbMWc8A7Vq6drXVOiWBRkn2dP
+ /nTdH+5hSEAxf/rb0Hj7a698k5s6+dxkGERVWV06OvuBtnjvPBXiN695n1RY6tQOS3ZbRAk+XZ+nGd
+ 7NUwOHysJDA7vQEQsQ4YSXl10w2jSHvSpFn7Kr6Lh9ps4s5yeMj6ihPa8LK/HXbt9SfJMFgu9zRPQL
+ 1Yrcan4GgMgqPM+IKvJhVzUBxGL19i
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+The 2024 architecture release includes a number of data processing
+extensions, mostly SVE and SME additions with a few others.  These are
+all very straightforward extensions which add instructions but no
+architectural state so only need hwcaps and exposing of the ID registers
+to KVM guests and userspace.
 
-> Jonathan Corbet wrote:
-> [...]
->> Ah ... I should have thought of that ... I'm glad you did.  I've just
->> pushed the fix out to linux-next, will send it Linusward in the near
->> future.  Thanks for fixing this,
->
-> Your docs-fixes is based on v6.13-rc1.
-> This fix needs to come after v6.13-rc2.
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Changes in v4:
+- Fix encodings for ID_AA64ISAR3_EL1.
+- Link to v3: https://lore.kernel.org/r/20241203-arm64-2024-dpisa-v3-0-a6c78b1aa297@kernel.org
 
-...which will happen once the fix hits mainline - the *fix* doesn't
-depend on -rc2.
+Changes in v3:
+- Commit log update for the hwcap test.
+- Link to v2: https://lore.kernel.org/r/20241030-arm64-2024-dpisa-v2-0-b6601a15d2a5@kernel.org
 
-> On current docs-next,
->
->     ./script/kernel-doc -rst -export drivers/iommu/iommufd/device.c
->
-> returns:
->
->     drivers/iommu/iommufd/device.c:1: warning: no structured comments found
->
-> I guess restarting everything from v6.13-rc2 would make our life much easier
-> for v6.14.
+Changes in v2:
+- Filter KVM guest visible bitfields in ID_AA64ISAR3_EL1 to only those
+  we make writeable.
+- Link to v1: https://lore.kernel.org/r/20241028-arm64-2024-dpisa-v1-0-a38d08b008a8@kernel.org
 
-I suppose I can rebase docs-next forward (or back-merge) if there's a
-real need to do so... I'm not sure how important that is to get rid of a
-few warnings?
+---
+Mark Brown (9):
+      arm64/sysreg: Update ID_AA64PFR2_EL1 to DDI0601 2024-09
+      arm64/sysreg: Update ID_AA64ISAR3_EL1 to DDI0601 2024-09
+      arm64/sysreg: Update ID_AA64FPFR0_EL1 to DDI0601 2024-09
+      arm64/sysreg: Update ID_AA64ZFR0_EL1 to DDI0601 2024-09
+      arm64/sysreg: Update ID_AA64SMFR0_EL1 to DDI0601 2024-09
+      arm64/sysreg: Update ID_AA64ISAR2_EL1 to DDI0601 2024-09
+      arm64/hwcap: Describe 2024 dpISA extensions to userspace
+      KVM: arm64: Allow control of dpISA extensions in ID_AA64ISAR3_EL1
+      kselftest/arm64: Add 2024 dpISA extensions to hwcap test
 
-Thanks,
+ Documentation/arch/arm64/elf_hwcaps.rst   |  51 ++++++
+ arch/arm64/include/asm/hwcap.h            |  17 ++
+ arch/arm64/include/uapi/asm/hwcap.h       |  17 ++
+ arch/arm64/kernel/cpufeature.c            |  35 ++++
+ arch/arm64/kernel/cpuinfo.c               |  17 ++
+ arch/arm64/kvm/sys_regs.c                 |   6 +-
+ arch/arm64/tools/sysreg                   |  87 +++++++++-
+ tools/testing/selftests/arm64/abi/hwcap.c | 273 +++++++++++++++++++++++++++++-
+ 8 files changed, 493 insertions(+), 10 deletions(-)
+---
+base-commit: 40384c840ea1944d7c5a392e8975ed088ecf0b37
+change-id: 20241008-arm64-2024-dpisa-8091074a7f48
 
-jon
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
+
