@@ -1,74 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2502451C0;
-	Wed, 11 Dec 2024 04:09:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A8BD1C548E;
+	Wed, 11 Dec 2024 06:54:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733890141; cv=none; b=V3xGWgp+PO4EuHHeXHIXuFw9t9xb+BfMvP7l2IWhYxC0gSZeo7GWNj4ojn7x+fyQoVZvrSJgMwg7qWbhvxiNVSJFNkK0Qz+AmZ1SqOMVxJo/u0q39QmLNQ56vbPIMBgR/HcmMIjUXmujCkQ0PGAwDxqrOk4m0ORCXWosr7Zgt1s=
+	t=1733900078; cv=none; b=g0sXV/tozGdAHvqssIh/Zq8OVUObAU4/JRCTSSsAet1dUnwvrd/ycGzU6W7ElpO/7brCZcHH3ovwy7zeQ/ea8DAUfT7HO/eNwIusmFDU8wl5f+aksoK7UUbsq4MestLSXYB9xfuoK6/dy1okChepD0PbDWU6mh0utPzWjSw1xqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733890141; c=relaxed/simple;
-	bh=QiMaimw4aRsQbi6cS1aDUySjZuQu274e7bOktDP5CCA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c/X3Ewe27OwaQbXq+XdcQS9u3OSgG128e9LG6YwHMJVDxlsG9t6htacDX618cdrbP5hsz8kIiO+2ei7JERUkzCHL3JQ4joPAB51uNqzVmdjRaZIChwQp0s02udtciEVdFbYCnGdrvigpKFLwB+bBC58/NtYpy+GwJVhwJEfjasg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7405AC4CED2;
-	Wed, 11 Dec 2024 04:09:00 +0000 (UTC)
-Date: Tue, 10 Dec 2024 23:08:59 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Andrew Kreimer <algonell@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] Documentation/rv: Fix typos
-Message-ID: <20241210230859.6b0d93b2@batman.local.home>
-In-Reply-To: <20241209130640.10954-1-algonell@gmail.com>
-References: <20241209130640.10954-1-algonell@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1733900078; c=relaxed/simple;
+	bh=+huKEGhmVFS17Z3fkRfsaiBDXI4gpDpnaw2AxZa0sSs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JngIOAT/VQ5PT6XwgtOvpHLo2fOdiVQ4hYDcn8iYoL8E8nIhiLHUSxja6KDYaLSGSDzF2x8GQWHQVFQon7+uTiyE3kZ3g393Y56ba2twiKGU6ildtBZsCDG+P+H+YyFORWtL3OoY8VkH1mRg88TRBdRcksejWIKJKQXQeeWWCvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 86D111063;
+	Tue, 10 Dec 2024 22:55:01 -0800 (PST)
+Received: from a077893.blr.arm.com (a077893.blr.arm.com [10.162.16.49])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D341F3F720;
+	Tue, 10 Dec 2024 22:54:30 -0800 (PST)
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+To: linux-arm-kernel@lists.infradead.org
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] docs: arm64: Document MDCR_EL3 boot requirements
+Date: Wed, 11 Dec 2024 12:24:23 +0530
+Message-Id: <20241211065425.1106683-1-anshuman.khandual@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon,  9 Dec 2024 15:06:00 +0200
-Andrew Kreimer <algonell@gmail.com> wrote:
+This series adds missing MDCR_EL3 boot requirements for debug and pmu
+registers that are currently being accessed in the kernel. Please refer
+the following link for some earlier discussions on this.
 
-> There are some typos in the documentation: 'a' -> 'at', missing 'to'.
-> Fix them.
-> 
+https://lore.kernel.org/all/ZxfOeqyb3RvsdYbU@J2N7QTR9R3/
 
-Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+This series applies on v6.13-rc1
 
--- Steve
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
 
-> Signed-off-by: Andrew Kreimer <algonell@gmail.com>
-> ---
->  Documentation/trace/rv/runtime-verification.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/trace/rv/runtime-verification.rst b/Documentation/trace/rv/runtime-verification.rst
-> index dae78dfa7cdc..c700dde9259c 100644
-> --- a/Documentation/trace/rv/runtime-verification.rst
-> +++ b/Documentation/trace/rv/runtime-verification.rst
-> @@ -8,14 +8,14 @@ checking* and *theorem proving*) with a more practical approach for complex
->  systems.
->  
->  Instead of relying on a fine-grained model of a system (e.g., a
-> -re-implementation a instruction level), RV works by analyzing the trace of the
-> +re-implementation at instruction level), RV works by analyzing the trace of the
->  system's actual execution, comparing it against a formal specification of
->  the system behavior.
->  
->  The main advantage is that RV can give precise information on the runtime
->  behavior of the monitored system, without the pitfalls of developing models
->  that require a re-implementation of the entire system in a modeling language.
-> -Moreover, given an efficient monitoring method, it is possible execute an
-> +Moreover, given an efficient monitoring method, it is possible to execute an
->  *online* verification of a system, enabling the *reaction* for unexpected
->  events, avoiding, for example, the propagation of a failure on safety-critical
->  systems.
+Anshuman Khandual (2):
+  docs: arm64: Document EL3 requirements for cpu debug architecture
+  docs: arm64: Document EL3 requirements for FEAT_PMUv3
+
+ Documentation/arch/arm64/booting.rst | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+-- 
+2.30.2
 
