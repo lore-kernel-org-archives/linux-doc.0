@@ -1,80 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130B91F2C2F;
-	Wed, 11 Dec 2024 22:32:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96DE41F0E4A;
+	Wed, 11 Dec 2024 22:40:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733956359; cv=none; b=crDkzdGoAMRFX10jAVjFt/SbllPkgows8jr3ZFm/N4nUxZkfUTjfn5JD6mXk+Mm2NSAJQsyBYh9qg7ARYo5i93Z0HabWO9ZYA8XLfGDXdZFb//17IdR4ygRmO1ke24tPMkzqmlJIDMQHHl/3C2+VVeOo4AbwOqu/drQ2qLLDcqI=
+	t=1733956821; cv=none; b=n/Cy/uYj3J08aiZbSUkx7xekZcC2UqxQPqhV6ljTT/UbSlXFVTfwePsyGNms+nVd/v7uG2GTuOkY5X4rZLT3dl8KVGSiWESyDkglAdh7hvvgT12PuTqY884HqGj+J75i4ryU56U/HHScyumOqspgZ3prs/mE1MqvFRzvIZThx38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733956359; c=relaxed/simple;
-	bh=Dtby0qiULUFzZD3soDB2ZMr1AJrfu0wubG7oLHi5HuA=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=GSSpMtyrCtTq4eoB1noWmYSEdyuNP8RA4RBOaLWpR3Veoo3PWP+MA8hEDC1bHMv3aeu7aVWYZTy48Fe4iUnQeMID1Kmy5yIq2+Q+4pRjvGfxLKXNkVqIWZoEaUG9/dUSwdoU9VLRfc1SNAPSOODJM/Um7QX7YkThRSrOga6SlWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GpKNGYUJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733956821; c=relaxed/simple;
+	bh=hD8/P8msz1Ork95b5s3aX3duWl/S0eBHHPkq0olmuXQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kOeZCfjp0FEvH/cyhM8/Si9iXRwSCF77+hQDtEF9DKI+cLLNmmh2BgZqMV792YcidYB9HhCOKcKYLBGvcS5rKXp8dsgCCyEjiuGMiIO3EPAjEZSO0/kMTR7d7osDob5XuHl0uDO5ulDo6T2NmFnZzM745fkhwCJBp7NDqiJtnfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Leq5SNJm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GpKNGYUJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5076C4CED3;
-	Wed, 11 Dec 2024 22:32:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Leq5SNJm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1AC7C4CEDD;
+	Wed, 11 Dec 2024 22:40:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733956358;
-	bh=Dtby0qiULUFzZD3soDB2ZMr1AJrfu0wubG7oLHi5HuA=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=GpKNGYUJHmYhkwBIdn+plUspHkFn0Zm8KfkjOjEsmfiPHLnb4H4Yb56CIsvTo6G3G
-	 ro9RBbL5zJiakfLk7m7UodiGc2RsH0EnwN/ZPRQLgc17XoqXD+LtyuZthWWBgdEzn4
-	 j3Or1LkCIf5Y1jeXRr5WHQ+ennorEs4Rvck1khiRUEO3Iv+46FlOpuMAUFg4rPOaus
-	 bjVornFwVeBvkNGjhAVruAVtvygQ3KGbMrtbE5LbIgibGdUbhG5AXoAu3YYdYDMzxt
-	 fBoOsk2KwL/VBSzheIgRwl4MtUE3yunXOfKzYmQ/fqdXslhdbhWk3b/CTFjJjXq0Fl
-	 wz4UyZjCFfOBg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33BD3380A965;
-	Wed, 11 Dec 2024 22:32:56 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1733956821;
+	bh=hD8/P8msz1Ork95b5s3aX3duWl/S0eBHHPkq0olmuXQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Leq5SNJmh6z5QJtQMQJACDt4lasqGOaOAngRVE/wMFXEMuvlApieRAfGYeEFX5tO8
+	 VfHDAn0SvseO7e2tofEC7y9LdInHBx3a8tqkg8rNdP2ITGLM3up/IODHssACnpduCw
+	 jOOZ7cxJ/gdeOc95Tvs6I3FdIviZ8j+MIXIEMnR9vWY1KDwdn+l61JI1Pg0lucDqcl
+	 WFPZn/cFhqetVURxnNv5m3tCf1k/WG/6JOaU9CSA9NZnuzpDjMy2qm1Okr82ArcRKd
+	 ODhqdafz6ncwa62FO6sN1Y8fSqrYW7eTe0ETHyx6wlklenvH9UKWPs3Ic+PzxhDLdV
+	 mu4oOmWLtF9ww==
+Date: Wed, 11 Dec 2024 22:40:15 +0000
+From: Will Deacon <will@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Shuah Khan <shuah@kernel.org>, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v3 2/9] arm64/sysreg: Update ID_AA64ISAR3_EL1 to DDI0601
+ 2024-09
+Message-ID: <20241211224015.GB17836@willie-the-truck>
+References: <20241203-arm64-2024-dpisa-v3-0-a6c78b1aa297@kernel.org>
+ <20241203-arm64-2024-dpisa-v3-2-a6c78b1aa297@kernel.org>
+ <20241210170953.GB16075@willie-the-truck>
+ <b859bdcd-7343-4d53-9f3a-f374deca725a@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] docs/zh_CN: add the translation of kbuild/llvm.rst
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: 
- <173395637500.1729195.10613393812752938273.git-patchwork-notify@kernel.org>
-Date: Wed, 11 Dec 2024 22:32:55 +0000
-References: <20241023153235.1291567-1-dzm91@hust.edu.cn>
-In-Reply-To: <20241023153235.1291567-1-dzm91@hust.edu.cn>
-To: Dongliang Mu <dzm91@hust.edu.cn>
-Cc: linux-riscv@lists.infradead.org, si.yanteng@linux.dev, alexs@kernel.org,
- siyanteng@loongson.cn, corbet@lwn.net, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, nathan@kernel.org,
- ndesaulniers@google.com, morbo@google.com, justinstitt@google.com,
- hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b859bdcd-7343-4d53-9f3a-f374deca725a@sirena.org.uk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Hello:
-
-This patch was applied to riscv/linux.git (fixes)
-by Jonathan Corbet <corbet@lwn.net>:
-
-On Wed, 23 Oct 2024 23:32:02 +0800 you wrote:
-> Finish the translation of kbuild/llvm.rst and move llvm from TODO
-> to the main body.
+On Tue, Dec 10, 2024 at 06:43:05PM +0000, Mark Brown wrote:
+> On Tue, Dec 10, 2024 at 05:09:55PM +0000, Will Deacon wrote:
 > 
-> Update to commit 145082ebfcf0 ("Documentation/llvm: turn make command
-> for ccache into code block")
+> > Can we _please_ just generate this stuff. It feels like we've been
+> > making silly typos over and over again with the current approach so
+> > either it's hard or we're not very good at it. Either way, it should be
+> > automated.
 > 
-> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+> > Others have managed it [1], so it's clearly do-able.
 > 
-> [...]
+> Yes, the issues here are not technical ones.  Though there are some
+> complications -  eg, IIRC the XML doesn't encode the signedness of
+> fields like we do and there's areas where we've deliberately diverged.
+> Given the amount of review I end up having to do of sysreg changes your
+> reasoning is especially apparent to me.  I've passed this feedback on
+> (again).
 
-Here is the summary with links:
-  - docs/zh_CN: add the translation of kbuild/llvm.rst
-    https://git.kernel.org/riscv/c/b934bc754265
+One thing we _could_ do is have a tool (in-tree) that takes two copies
+of the sysreg file (i.e. before and after applying a diff) along with a
+copy of the XML and, for the the new fields being added, shows how the
+XML represents those compared to the diff. It should then be relatively
+straightforward to flag the use of an unallocated encoding (like we had
+here) and also things like assigning a field name to a RES0 region.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+So this wouldn't be generating the patches from the XML, but more like
+using the XML as an oracle in a linter.
 
-
+Will
