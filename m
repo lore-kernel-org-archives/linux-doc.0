@@ -1,114 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DF32446A4;
-	Wed, 11 Dec 2024 18:51:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC991C3F27
+	for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 19:40:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733943104; cv=none; b=hF3Gh3cynYOdJcRibvzLDqtuf0R4oPhDldChUBFqu2x5nl8NFua6MQ1mR7ndDJdazKN0D24q23Lc6df+miCbqNmADtHuJoeMerv9HFDjqQ11uXI+NCLr5Yyt6KE1IocWQvYdpjSVmMmN+htfUVa4eJoRfmSn+tG4isUd/8iyvjk=
+	t=1733946044; cv=none; b=E0qFPgeuwjM2/pQpEf8wKuoO5+azcpi8gw+FJ9d+mKJLkfwfiL45Ca+40psrxgrrW4laTUStGgn+iQHsCIiq3Kz4bhMxlc65lLFBW5whC0yYSyJ0ijP8q13WVLu3tjToMXU9t0WY8ggu5xh0/IZcQfc2keENqu782C7H7VrPuSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733943104; c=relaxed/simple;
-	bh=Q8NU/o+9jYTC9l0pFFRpT4IbDpPxD0RNgZFIK8z6V8U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AN/U3mduLkE9g5liCYCOp2lYPDeq22Q0bHI9uuZhNHC/452yuAtRdLVIYQ9+SV20nmhMRZDv4n5lrgr+HZT/T0fQMyBs0WoIUH5mA/iGbAM9XVsl/5i5sP8Ctgg1y3tj9p6kOEea6XB97zUzwVb0CmkBPVCEf8kWZYmHRaR4RC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qqWAQq30; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733946044; c=relaxed/simple;
+	bh=PlOFHIOkZBBtJiIhHKVfkhxd1vmGGBDqDG2mNZd9mWE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=msmi01NyeUddVfESJ/dYFHZrMxLYIhxZfjX44QKnWKnO5aVUxwaaue/MYxO6O8moJMlsBXHqSCSnZ8CAE2rtrBDjMkVsACk0TfZjkeqANX/THANiNyfh3K3mysPasV22the3goGWOF5WwT20UNLAz80IWDnA2jaNlmrVrl5ZQHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=m7P30MkC; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qqWAQq30"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1B54C4CED2;
-	Wed, 11 Dec 2024 18:51:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733943104;
-	bh=Q8NU/o+9jYTC9l0pFFRpT4IbDpPxD0RNgZFIK8z6V8U=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qqWAQq30T4UVCiDAWf7YvHrQJ9frLO9a1Fg87J/j1D8k6KH+CXAF6wn05RkBhRcMY
-	 jDXmFAHaYm7IaKvCkZN6/zf4kB+ZHiy/QTYLyvrbdD4bWleTanXz3KSWOPbtQkP3cG
-	 Vo0yb8rps2+f3hzpw/AxHH0Cim2TlW5XUukTxyQLrEz3hKSmBzlKn7M7NeKi1PG8Xv
-	 SlrDSG6Wfc8zkhi0JbcuIaUhpZwBwXVuBT+G6A/3u22l+dGqQvRmihTARpXpLB+9Ux
-	 0HmXE0conMktH1IWPaD9nisuYWmi8ANJ65TdAl+eYNcSa3B53nRCP4BMQ1T0+MbEVN
-	 casIJpH8VjLgw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Qinxin Xia <xiaqinxin@huawei.com>,
-	Yicong Yang <yangyicong@hisilicon.com>,
-	Hanjun Guo <guohanjun@huawei.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Sasha Levin <sashal@kernel.org>,
-	will@kernel.org,
-	corbet@lwn.net,
-	lpieralisi@kernel.org,
-	sudeep.holla@arm.com,
-	rafael@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-acpi@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 30/36] ACPI/IORT: Add PMCG platform information for HiSilicon HIP09A
-Date: Wed, 11 Dec 2024 13:49:46 -0500
-Message-ID: <20241211185028.3841047-30-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241211185028.3841047-1-sashal@kernel.org>
-References: <20241211185028.3841047-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="m7P30MkC"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-467896541e1so39391cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 11:40:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1733946042; x=1734550842; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gAi2sZAVOfaezM6vHnfZEQr2lBUdILrViUkilAOY9a4=;
+        b=m7P30MkCCIal9GAw+XyrFNUWBt90/+NyWJvMlFWTBcEg74CunZ7teavsu3Crxsp+r0
+         xNzlUncJwBcA4eY9yu+FS1q3JOB9mYI+MAHVRz1dtfOxqwgQUHeU7R2FOLOML21dyPg2
+         tqVd7NwgvMZhBxMJ0aUtP8A4TcewXyjgXfb2WOZdJIs40sE1FNQ0xmPFxHlCuAYuJCFz
+         F/8j6StDCkUZm4P+EUGAFakeUCdOcCsYY2fmhZVI8uExxGqjDL9I92jnYhk1QA6qGgle
+         i+D2Biq6rRd0GcB4ejbiglbEPRkPuEf7J6aLwHlguwT4wax7g09BdBT+vEOugaOmssYS
+         9JZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733946042; x=1734550842;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gAi2sZAVOfaezM6vHnfZEQr2lBUdILrViUkilAOY9a4=;
+        b=u/PDy9rPmMQXGPArQvexCclGiYgFxmyTvYSVJyNTWWgEwcuQCQASo4Y0WPXM4Kw0ja
+         zexpABAmWTXx4WauPO2n9LTFtLHl8Q56zksY6Z5xeldOig95E5XfL+ZxWhl4eIIzjp1b
+         hbq5j+Yr5fCyEExg+I1w9/NV0zh6P/yh0cyOOwyKLoVL+ltFaIw3jSdHl0Crterdp/cH
+         0o6R/LhNIK7sOTFHQ034vBCUHjcDcgTIchEaIVFftW63ADaKloA/axtnPMJPIAg2oCDY
+         EdYlRnmQQG281JdwBIYFssrovlxFyptW2Y7vC0f6Ip0W8J478nE584ygsP78+6pnQL1M
+         RSQw==
+X-Forwarded-Encrypted: i=1; AJvYcCUSzPa6sldVhOA+VuhS39kdf1FZlHPCO+0aGA+CuSZZnuKr9/EChmbxRy6S1MtXj4VCBqP5nIJmKcM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKSFhdredhiew7hqUn6/kPOaNNnJmzNfC+Vt43k7572dVSeo4l
+	/ud0Rf1LiRr8ORJOdY7/e6gf/578YM/QIDMSnQPJz5G84MAz/vVF2b6Aeig7EBQ36rmT4M02Sgf
+	ptkiqXaVeay4Ix0RHz4LkukNLaFc+CuhB8FSA
+X-Gm-Gg: ASbGncuq5GXhHi9FCjgrA05WRypkyfwvL3tyqFMOJY71jdlzk9SDVVEWKKWLd0vp15p
+	m83gWWGaBv0LmZyhT49OhEia69VOstYgBMb4=
+X-Google-Smtp-Source: AGHT+IHe0a/olZGmNb2j063xWVYnWyQiRtYgcQ2KPzSRgRc1IuQoCoKKCfBfPKLaAI8hJccI+cZOsKhE0JwynGSCsXg=
+X-Received: by 2002:a05:622a:1f89:b0:461:358e:d635 with SMTP id
+ d75a77b69052e-46796e2f498mr396471cf.18.1733946041952; Wed, 11 Dec 2024
+ 11:40:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.4
-Content-Transfer-Encoding: 8bit
+References: <20241209172308.1212819-1-almasrymina@google.com>
+ <20241209172308.1212819-5-almasrymina@google.com> <20241210194745.7a0a319e@kernel.org>
+In-Reply-To: <20241210194745.7a0a319e@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Wed, 11 Dec 2024 11:40:30 -0800
+Message-ID: <CAHS8izM45fsLyPxJy-Q9cxXzz-Pb1dHOw0yCHmJTqU8puRTwKg@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 4/5] page_pool: disable sync for cpu for
+ dmabuf memory provider
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, Pavel Begunkov <asml.silence@gmail.com>, 
+	Kaiyuan Zhang <kaiyuanz@google.com>, Willem de Bruijn <willemb@google.com>, 
+	Samiullah Khawaja <skhawaja@google.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Qinxin Xia <xiaqinxin@huawei.com>
+On Tue, Dec 10, 2024 at 7:47=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
+> On Mon,  9 Dec 2024 17:23:07 +0000 Mina Almasry wrote:
+> > -static inline void page_pool_dma_sync_for_cpu(const struct page_pool *=
+pool,
+> > -                                           const struct page *page,
+> > -                                           u32 offset, u32 dma_sync_si=
+ze)
+> > +static inline void
+> > +page_pool_dma_sync_netmem_for_cpu(const struct page_pool *pool,
+> > +                               const netmem_ref netmem, u32 offset,
+> > +                               u32 dma_sync_size)
+> >  {
+> > +     if (pool->mp_priv)
+>
+> Let's add a dedicated bit to skip sync. The io-uring support feels
+> quite close. Let's not force those guys to have to rejig this.
+>
 
-[ Upstream commit c2b46ae022704a2d845e59461fa24431ad627022 ]
+OK.
 
-HiSilicon HIP09A platforms using the same SMMU PMCG with HIP09
-and thus suffers the same erratum. List them in the PMCG platform
-information list without introducing a new SMMU PMCG Model.
+> > +             return;
+> > +
+> >       dma_sync_single_range_for_cpu(pool->p.dev,
+> > -                                   page_pool_get_dma_addr(page),
+> > +                                   page_pool_get_dma_addr_netmem(netme=
+m),
+> >                                     offset + pool->p.offset, dma_sync_s=
+ize,
+> >                                     page_pool_get_dma_dir(pool));
+> >  }
+> >
+> > +static inline void page_pool_dma_sync_for_cpu(const struct page_pool *=
+pool,
+> > +                                           struct page *page, u32 offs=
+et,
+> > +                                           u32 dma_sync_size)
+> > +{
+> > +     page_pool_dma_sync_netmem_for_cpu(pool, page_to_netmem(page), off=
+set,
+> > +                                       dma_sync_size);
+>
+> I have the feeling Olek won't thank us for this extra condition and
+> bit clearing. If driver calls page_pool_dma_sync_for_cpu() we don't
+> have to check the new bit / mp_priv. Let's copy & paste the
+> dma_sync_single_range_for_cpu() call directly here.
 
-Update the silicon-errata.rst as well.
+page_pool_get_dma_addr() also does a cast to netmem and bit clearing :/
 
-Reviewed-by: Yicong Yang <yangyicong@hisilicon.com>
-Acked-by: Hanjun Guo <guohanjun@huawei.com>
-Signed-off-by: Qinxin Xia <xiaqinxin@huawei.com>
-Link: https://lore.kernel.org/r/20241205013331.1484017-1-xiaqinxin@huawei.com
-Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/arch/arm64/silicon-errata.rst | 5 +++--
- drivers/acpi/arm64/iort.c                   | 2 ++
- 2 files changed, 5 insertions(+), 2 deletions(-)
+The whole netmem stuff was written to maximize code reuse. We don't
+really special case pages for performance, we convert pages to netmem
+then pipe them to through common code paths.  I can special case pages
+here but we would also need to copy the implementation of
+page_pool_get_dma_addr() as well. But note the tradeoff is some code
+duplication. Seems from the discussions it's worth it which is fine by
+me.
 
-diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-index 65bfab1b18614..a678ea0ae4a00 100644
---- a/Documentation/arch/arm64/silicon-errata.rst
-+++ b/Documentation/arch/arm64/silicon-errata.rst
-@@ -255,8 +255,9 @@ stable kernels.
- +----------------+-----------------+-----------------+-----------------------------+
- | Hisilicon      | Hip08 SMMU PMCG | #162001800      | N/A                         |
- +----------------+-----------------+-----------------+-----------------------------+
--| Hisilicon      | Hip{08,09,10,10C| #162001900      | N/A                         |
--|                | ,11} SMMU PMCG  |                 |                             |
-+| Hisilicon      | Hip{08,09,09A,10| #162001900      | N/A                         |
-+|                | ,10C,11}        |                 |                             |
-+|                | SMMU PMCG       |                 |                             |
- +----------------+-----------------+-----------------+-----------------------------+
- +----------------+-----------------+-----------------+-----------------------------+
- | Qualcomm Tech. | Kryo/Falkor v1  | E1003           | QCOM_FALKOR_ERRATUM_1003    |
-diff --git a/drivers/acpi/arm64/iort.c b/drivers/acpi/arm64/iort.c
-index 4c745a26226b2..bf3be532e0895 100644
---- a/drivers/acpi/arm64/iort.c
-+++ b/drivers/acpi/arm64/iort.c
-@@ -1703,6 +1703,8 @@ static struct acpi_platform_list pmcg_plat_info[] __initdata = {
- 	/* HiSilicon Hip09 Platform */
- 	{"HISI  ", "HIP09   ", 0, ACPI_SIG_IORT, greater_than_or_equal,
- 	 "Erratum #162001900", IORT_SMMU_V3_PMCG_HISI_HIP09},
-+	{"HISI  ", "HIP09A  ", 0, ACPI_SIG_IORT, greater_than_or_equal,
-+	 "Erratum #162001900", IORT_SMMU_V3_PMCG_HISI_HIP09},
- 	/* HiSilicon Hip10/11 Platform uses the same SMMU IP with Hip09 */
- 	{"HISI  ", "HIP10   ", 0, ACPI_SIG_IORT, greater_than_or_equal,
- 	 "Erratum #162001900", IORT_SMMU_V3_PMCG_HISI_HIP09},
--- 
-2.43.0
-
+--=20
+Thanks,
+Mina
