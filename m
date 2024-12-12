@@ -1,161 +1,197 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69801DD86E;
-	Thu, 12 Dec 2024 21:50:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF2A18FDA9
+	for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2024 22:03:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734040218; cv=none; b=lsC2ewn6kbr439RqKCo/CZQfdTycMo+PZJOxRu/7gI90uxPO5pRQY89QDtoioISG76cSUJmB9lMYnasi9BDzq3zy7Dmz6kcQXRmLe5/z0BtcLcjrizm5pn06prFbCTGv1eh7t7fEC+hKRboLxwh6dkRXYKlzMfzwPb7btpVYR0c=
+	t=1734041015; cv=none; b=QTFmN8onaf0h2b2pEwCoV3Xckaml/pBE7CtY2ojfzz55PG1nh2FFG8OTvhkWXxaxXyuKUe1EJaW8pL5cdxdUNpWE0sn2yj75iVJ5L47wV0Uawc4un9IHpqKXg3e5xt006+Iq0dzMhuMHcZm+7nU4Ha6mxz8jFxmx77l/Xz5/M7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734040218; c=relaxed/simple;
-	bh=7YmsV2Kx2hVJcJEAeZ+AYd2iYYD+SU7Zxcnh4JxbFdg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RYw95FmffA03iiGFkpA4v1lubauYhLMEuwa3yuN+3yTMXIv1DDHIdpXDC8vQEx6cH3CCLDyjpW/u/E8pB5MsVmvuKvdRulsp9OICE8MTr1kuoAs6IR82tIPIW6+uvnCeuq5THlg5+DEAF6hRP8RYPcNvQlBIaXXs3PkZ/+wcziA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=KQjzk+fc; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1734041015; c=relaxed/simple;
+	bh=CRwmUv4IRr1Zsl2l5O8iNo6qgyCr1gO6u+tuGewt/rs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=A+h0aedBVB8g+UILOEaSkXT3mcYWeziDuAPg/tGMtxR8jlSGtYjM8YnZL9Si/VJtYZP2R40gn+Nb8J+XX2ktNbtkxsxLuEgmqKOsTboprmYCky+H06EqRHlTk28QpUmM2XEQK9qjjRnAtZ05mUmdgkoLRP13Uq68U5H9sJWjJ9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QK+edNWo; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="KQjzk+fc"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BCFrbEC005478;
-	Thu, 12 Dec 2024 21:49:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=D1+hsni0AagUQPovf
-	tNiRehqPHfT8siZonAxT4C2AOc=; b=KQjzk+fcC/snk8b3HdncawwyzlcH3b7Ds
-	nRbR/xhQCCj1Rvu7A73Z0yR5sb+255NDUZJUyrTsuwgwxMn6f1RjERXjx7il2UdB
-	F9SwBprwVHz3tQbzUXnotekKW+U+TviX/5be+fLi9zaKZo4A7+cZxb5A9NNKOiOZ
-	szjwTBEAThXHHP6FpOdVB8hoCnBcsWH/ngPr8PLB/DuVLRTPXclh7z2LS0wK08st
-	MiXC9cn6JbeHFNBEoGgqj1vBVRGmAgXyScoAkg4Wiytyy79LdwjcF4OrdKfBgGRq
-	K2Cb2fSEGvkesuLCU2viTldvsgWV/BZAQFQ3j0eljnoJGfYadg0wA==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43cbsqp0bx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Dec 2024 21:49:37 +0000 (GMT)
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BCLnadU025486;
-	Thu, 12 Dec 2024 21:49:36 GMT
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43cbsqp0bt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Dec 2024 21:49:36 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BCJx9xD032724;
-	Thu, 12 Dec 2024 21:49:35 GMT
-Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 43d0pstx5d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Dec 2024 21:49:35 +0000
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
-	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BCLnYNt40698430
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 12 Dec 2024 21:49:34 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 04CB858055;
-	Thu, 12 Dec 2024 21:49:34 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 67E585803F;
-	Thu, 12 Dec 2024 21:49:32 +0000 (GMT)
-Received: from gfwa153.aus.stglabs.ibm.com (unknown [9.3.84.127])
-	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 12 Dec 2024 21:49:32 +0000 (GMT)
-From: Ninad Palsule <ninad@linux.ibm.com>
-To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-        eajames@linux.ibm.com, jdelvare@suse.com, linux@roeck-us.net,
-        corbet@lwn.net, joel@jms.id.au, andrew@codeconstruct.com.au,
-        Delphine_CC_Chiu@Wiwynn.com, broonie@kernel.org,
-        peteryin.openbmc@gmail.com, noahwang.wang@outlook.com,
-        naresh.solanki@9elements.com, lukas@wunner.de, jbrunet@baylibre.com,
-        patrick.rudolph@9elements.com, gregkh@linuxfoundation.org,
-        peterz@infradead.org, pbiel7@gmail.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-i2c@vger.kernel.org
-Cc: Ninad Palsule <ninad@linux.ibm.com>
-Subject: [PATCH v1 1/4] hwmon: pmbus-core: Add label for fan and temp
-Date: Thu, 12 Dec 2024 15:49:00 -0600
-Message-ID: <20241212214927.3586509-2-ninad@linux.ibm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241212214927.3586509-1-ninad@linux.ibm.com>
-References: <20241212214927.3586509-1-ninad@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QK+edNWo"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4675936f333so16831cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2024 14:03:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1734041011; x=1734645811; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UolAYRSfthqXCSLPGGN4mTa1qltoMW6sppP83v6THCY=;
+        b=QK+edNWoh371GonUfRzJ5W1JrRxy+8ruLx2cGxx5HtudCA/bkNH84mAekmWWw1cdL1
+         AbRcXUzmKGxyeL0hiz0w+4WOZgR4sNeDFZSFDH8GNgsH41W1B2pULl/VTbT3HtLYaVwj
+         Wxx8mlVQHeGKx/mzoT40YYu6yTflUywGjj8DDC9EHfHwbJcey49OGCNjWAg9+8eBVZuh
+         bniHEz2g5HCHqg12GgEfBRbMwHrB40e8BtAmA8An/RXBpQG42BU9iHxx9+NE6Uh4hZTV
+         kmC6G+Y1W/adB0S/nf65sWr9NB9hkTrWtXHva7VpoAdvZjoYudkjMqj1yOBRL6LVMXBV
+         lxBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734041011; x=1734645811;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UolAYRSfthqXCSLPGGN4mTa1qltoMW6sppP83v6THCY=;
+        b=OMGkHxtFBks4jcJ83VpTES/ar7ciw3pSicjygb84hysukbKBxYKCinZCQ/NEdxohmJ
+         LhSCN1tOnB6hKO1llhFlZE5KF4PSENO8QABbA6jaJ66M8d1CVM7aQuMIXx0T83RmSyxw
+         95vjCRx+ztBwCh9uXnLk4Q/yfxUOoYreG2Dwv/SAN+f+1k5WY74BdiK6kv7EIueBuoNd
+         hqnl9EQ9shIop9jVaCO2n51KQ58LMVonFIYTCU8BmLQH2q3q75kzskAQHDb5XrG7+bNN
+         6nQrpcVyvxCmH78KZLi9VWNy5ngI9MDQ7pYbMB5k0KzyGWQChV7MQaOt1yjItP7ZjJiJ
+         LonA==
+X-Forwarded-Encrypted: i=1; AJvYcCU1aeQlKi1Sy4lwylNinfEGdyULbM9NihiL69c9C2bwl7Lpb8fbAgD9fcLWVgbuNOFRmny6Qy9zbvI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxyoeY/qMeZLUWdmvObkmnyI2R71H3h/kCZu+sm63B29gmDVEVT
+	5z3XZ6n1tSjm6wQdIHviRNSjTgmmADgnpVK7AT25XiuEyFcAJQhhupr9I9UUApFeVL/SRL0RMRE
+	3Yv353Z1iYNhJrId36yPGivMBeK5ARqJ3BAHW
+X-Gm-Gg: ASbGncsDNCz0QoSI5WEQGMgT52g/iRCigRSL+MlyuJiOwL9JCGUTBQek/w1PcaRSRYS
+	i4TPwQKa1eq52UI8kIKIeh+apUmlWEzd8ZC9pp7hWndgUzPjAj/NPTSruua6/kwXFTkeOoSc=
+X-Google-Smtp-Source: AGHT+IEtTXrfsemev1bQXjp2ru2C3SgTe0WM6v4TuwBypYZLXlJpqMqyNYgXDGfoZdfwkwvY0DZhia4IV4zRNCi3yYE=
+X-Received: by 2002:a05:622a:5a86:b0:466:861a:f633 with SMTP id
+ d75a77b69052e-467a588583cmr208881cf.5.1734041011301; Thu, 12 Dec 2024
+ 14:03:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 0-KDHa8H1pe7UfQWJ29Y9DTH6_3lCjMP
-X-Proofpoint-GUID: 2jHY31tH_BYQ5sdwMWIySbLvH2IaACgq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=963 adultscore=0
- lowpriorityscore=0 clxscore=1015 phishscore=0 impostorscore=0
- suspectscore=0 spamscore=0 mlxscore=0 priorityscore=1501 malwarescore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412120156
+References: <20241102175115.1769468-1-xur@google.com> <20241102175115.1769468-8-xur@google.com>
+ <c0a6ae91-c925-40d6-8f95-59a9144d203b@linux.dev> <20241212213448.GA865755@thelio-3990X>
+In-Reply-To: <20241212213448.GA865755@thelio-3990X>
+From: Rong Xu <xur@google.com>
+Date: Thu, 12 Dec 2024 14:03:19 -0800
+Message-ID: <CAF1bQ=R9MTbCeRJi4eNMSW4s5OFVPXUhM3RPyUKr4xMn+Y1YwQ@mail.gmail.com>
+Subject: Re: [PATCH v7 7/7] Add Propeller configuration for kernel build
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Yonghong Song <yonghong.song@linux.dev>, Alice Ryhl <aliceryhl@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, Breno Leitao <leitao@debian.org>, 
+	Brian Gerst <brgerst@gmail.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	David Li <davidxl@google.com>, Han Shen <shenhan@google.com>, 
+	Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>, 
+	Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, Josh Poimboeuf <jpoimboe@kernel.org>, 
+	Juergen Gross <jgross@suse.com>, Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, "Mike Rapoport (IBM)" <rppt@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Wei Yang <richard.weiyang@gmail.com>, workflows@vger.kernel.org, 
+	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, Maksim Panchenko <max4bolt@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, Yabin Cui <yabinc@google.com>, 
+	Krzysztof Pszeniczny <kpszeniczny@google.com>, Sriraman Tallam <tmsriram@google.com>, 
+	Stephane Eranian <eranian@google.com>, x86@kernel.org, linux-arch@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	llvm@lists.linux.dev, Peter Jung <ptr1337@cachyos.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Adding label files for fan and temperature sensors in the power supply.
-The openbmc application dbus-sensor(psusensor) requires those files to
-consfigure those sensors.
-Note that prefix for temp label is temp[A..C] used instead of temp[1..3]
-as dbus-sensor(psusensor) application calculate index based on last
-digit in the name so we do not want to make index double digit after
-appending page index.
+We will take a look at this issue and get back to you. Thanks for
+reporting this.
 
-Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
----
- drivers/hwmon/pmbus/pmbus_core.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Best Regards,
 
-diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
-index a7000314e5ad..149b3c5f3a4c 100644
---- a/drivers/hwmon/pmbus/pmbus_core.c
-+++ b/drivers/hwmon/pmbus/pmbus_core.c
-@@ -2144,6 +2144,7 @@ static const struct pmbus_sensor_attr temp_attributes[] = {
- 	{
- 		.reg = PMBUS_READ_TEMPERATURE_1,
- 		.class = PSC_TEMPERATURE,
-+		.label = "tempA",
- 		.paged = true,
- 		.update = true,
- 		.compare = true,
-@@ -2156,6 +2157,7 @@ static const struct pmbus_sensor_attr temp_attributes[] = {
- 	}, {
- 		.reg = PMBUS_READ_TEMPERATURE_2,
- 		.class = PSC_TEMPERATURE,
-+		.label = "tempB",
- 		.paged = true,
- 		.update = true,
- 		.compare = true,
-@@ -2168,6 +2170,7 @@ static const struct pmbus_sensor_attr temp_attributes[] = {
- 	}, {
- 		.reg = PMBUS_READ_TEMPERATURE_3,
- 		.class = PSC_TEMPERATURE,
-+		.label = "tempC",
- 		.paged = true,
- 		.update = true,
- 		.compare = true,
-@@ -2282,6 +2285,17 @@ static int pmbus_add_fan_attributes(struct i2c_client *client,
- 					     PSC_FAN, true, true, true) == NULL)
- 				return -ENOMEM;
- 
-+			/*
-+			 * Add fan label.
-+			 * Assuming paged attributes while passing page index
-+			 */
-+			ret = pmbus_add_label(data, "fan", index, "fan",
-+					      page + 1, 0xff);
-+			if (ret) {
-+				dev_err(data->dev, "Fan label add failed ret=%d\n", ret);
-+				return ret;
-+			}
-+
- 			/* Fan control */
- 			if (pmbus_check_word_register(client, page,
- 					pmbus_fan_command_registers[f])) {
--- 
-2.43.0
+-Rong
 
+On Thu, Dec 12, 2024 at 1:34=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
+g> wrote:
+>
+> On Thu, Dec 12, 2024 at 01:20:46PM -0800, Yonghong Song wrote:
+> ...
+> > > +5) Use the create_llvm_prof tool (https://github.com/google/autofdo)=
+ to
+> > > +   generate Propeller profile. ::
+> > > +
+> > > +      $ create_llvm_prof --binary=3D<vmlinux> --profile=3D<perf_file=
+>
+> > > +                         --format=3Dpropeller --propeller_output_mod=
+ule_name
+> > > +                         --out=3D<propeller_profile_prefix>_cc_profi=
+le.txt
+> > > +                         --propeller_symorder=3D<propeller_profile_p=
+refix>_ld_profile.txt
+> >
+> > Prevously I am using perf-6.8.5-0.hs1.hsx.el9.x86_64 and it works fine.
+> > Now in my system, the perf is upgraded to 6.12.gadc218676eef
+> >
+> > [root@twshared7248.15.atn5 ~]# perf --version
+> > perf version 6.12.gadc218676eef
+> >
+> > and create_llvm_prof does not work any more.
+> >
+> > The command to collect sampling data:
+> >
+> > # perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b -c 500009 -- str=
+ess --cpu 36 --io 36 --vm 36 --vm-bytes 128M --timeout 300s
+> > stress: info: [536354] dispatching hogs: 36 cpu, 36 io, 36 vm, 0 hdd
+> > stress: info: [536354] successful run completed in 300s
+> > [ perf record: Woken up 2210 times to write data ]
+> > [ perf record: Captured and wrote 562.529 MB perf.data (701971 samples)=
+ ]
+> > # uname -r
+> > 6.11.1-0_fbk0_lto_rc19_612_gb572dfac1b39
+> >
+> > The kernel is a 6.11 lto kernel.
+> >
+> > I then run the following command:
+> > $ cat ../run.sh
+> > # perf record -e BR_INST_RETIRED.NEAR_TAKEN:k -a -N -b -c 500009 \
+> > #       -- stress --cpu 36 --io 36 --vm 36 --vm-bytes 128M --timeout 30=
+0s
+> > # good: perf-6.8.5-0.hs1.hsx.el9.x86_64
+> >
+> > # <propeller_profile_prefix>: /tmp/propeller
+> > ./create_llvm_prof --binary=3Dvmlinux-6.11.1-0_fbk0_lto_rc19_612_gb572d=
+fac1b39 \
+> >          --profile=3Dperf.data \
+> >          --format=3Dpropeller --propeller_output_module_name \
+> >          --out=3D/tmp/propeller_cc_profile.txt \
+> >          --propeller_symorder=3D/tmp/propeller_ld_profile.txt
+> >
+> > $ ./run.sh
+> > WARNING: Logging before InitGoogleLogging() is written to STDERR
+> > I20241212 13:12:18.401772 463318 llvm_propeller_binary_content.cc:376] =
+'vmlinux-6.11.1-0_fbk0_lto_rc19_612_gb572dfac1b39' is PIE: 0
+> > I20241212 13:12:18.403692 463318 llvm_propeller_binary_content.cc:380] =
+'vmlinux-6.11.1-0_fbk0_lto_rc19_612_gb572dfac1b39' is relocatable: 0
+> > I20241212 13:12:18.404873 463318 llvm_propeller_binary_content.cc:388] =
+Build Id found in 'vmlinux-6.11.1-0_fbk0_lto_rc19_612_gb572dfac1b39': eaacd=
+5a14abc48cf832b3ad0fa6c64635ab569a8
+> > I20241212 13:12:18.521499 463318 llvm_propeller_binary_content.cc:376] =
+'vmlinux-6.11.1-0_fbk0_lto_rc19_612_gb572dfac1b39' is PIE: 0
+> > I20241212 13:12:18.521530 463318 llvm_propeller_binary_content.cc:380] =
+'vmlinux-6.11.1-0_fbk0_lto_rc19_612_gb572dfac1b39' is relocatable: 0
+> > I20241212 13:12:18.521553 463318 llvm_propeller_binary_content.cc:388] =
+Build Id found in 'vmlinux-6.11.1-0_fbk0_lto_rc19_612_gb572dfac1b39': eaacd=
+5a14abc48cf832b3ad0fa6c64635ab569a8
+> > I20241212 13:12:18.521611 463318 llvm_propeller_perf_lbr_aggregator.cc:=
+51] Parsing [1/1] perf.data ...
+> > [ERROR:/home/runner/work/autofdo/autofdo/third_party/perf_data_converte=
+r/src/quipper/perf_reader.cc:1386] Event size 132 after uint64_t alignment =
+of the filename length is greater than event size 128 reported by perf for =
+the buildid event of type 0
+> > W20241212 13:12:18.521708 463318 llvm_propeller_perf_lbr_aggregator.cc:=
+55] Skipped profile [1/1] perf.data: FAILED_PRECONDITION: Failed to read pe=
+rf data file: [1/1] perf.data
+> > W20241212 13:12:18.521718 463318 llvm_propeller_perf_lbr_aggregator.cc:=
+67] Too few branch records in perf data.
+> > E20241212 13:12:18.554437 463318 create_llvm_prof.cc:238] FAILED_PRECON=
+DITION: No perf file is parsed, cannot proceed.
+> >
+> >
+> > Could you help take a look why perf 12 does not work with create_llvm_p=
+rof?
+> > The create_llvm_prof is downloaded from https://github.com/google/autof=
+do/releases/tag/v0.30.1.
+>
+> I think Peter may have reported the same issue on GitHub?
+>
+> https://github.com/google/autofdo/issues/233
+>
+> I wonder if this is a kernel side or perf tool regression?
+>
+> Cheers,
+> Nathan
