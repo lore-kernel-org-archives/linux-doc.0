@@ -1,25 +1,63 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDA952156FF;
-	Thu, 12 Dec 2024 15:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD70205ACF
+	for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2024 15:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734015929; cv=none; b=mgiqppAuLNSjDOYqfaZf8rl/uB0leWgpfwMcPksUKXOnf9y3v3owB1qSw34B9Vmv0ZFb7mEenXKeqaBsQkvXHiB2aS8vE6wXrfyzwTC2JIgSXviHlm+qBBWqPPKCqBDye9woD0vkCGz2V3HsKuhhmVIODJj12pusROdZ2T9eeik=
+	t=1734017252; cv=none; b=NiwN6MEe1yXJtnXdnLn33fDrr1pLuMWiDufPN8Ao6q91jsueFhAJGUWrwscy/1DbSvbm7iNEx4CRN0tShC7UdWLqBtoAVrwPGDbGZ3FJ4tMLsifgpgyFc2ij4vkpp9nNlT4WzUTaroZeX38Zw43PSfs1OMs5CcMxpscSFC0Qjcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734015929; c=relaxed/simple;
-	bh=z3oBJl9NNxgVEM5YXZk6/8Ne2+HCX2A0fwmyGUHK4VM=;
+	s=arc-20240116; t=1734017252; c=relaxed/simple;
+	bh=kPTkKrM3kFQT1WhPXY8whVxdWlSJRTnDz/er3losxv4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i//ppOUDtGfdtU5AZIReUIBaqoojz9llkVSCC8TnGybcAVxtp6bUd4QLO6HtGLYVsNbkXKfiPGI5yWWIOWOuMmtzE4SEkPlST5PkDIgZcKOVZN+H7AYjY+ksF8P/TdTxnH2fO9W1cWHyxIkQ1DkS0ICRjfZlzZYSWRMEZ4aDuvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1FBD9169E;
-	Thu, 12 Dec 2024 07:05:55 -0800 (PST)
-Received: from [10.1.27.173] (XHFQ2J9959.cambridge.arm.com [10.1.27.173])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7F7873F720;
-	Thu, 12 Dec 2024 07:05:25 -0800 (PST)
-Message-ID: <2b1cc228-a8d5-4383-ab25-abbbcccd2e2c@arm.com>
-Date: Thu, 12 Dec 2024 15:05:24 +0000
+	 In-Reply-To:Content-Type; b=I0xuylhuGhBLQPfJj+LgAHA0SWQWByPrHY7qqzHKOqkBBPOqO5tv3QwJnfUrGVHsUg8+iTQyfBXAqYJu7TxROTUnanaVbCYsvktNOrgH96X2zKbUJLm6KIj56tivcIgCMuDtYOeitq3m2fcpTJYBqH9lebNwoN6o24FI7xvo09w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ArU11VIy; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ArU11VIy"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-385deda28b3so532990f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2024 07:27:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734017249; x=1734622049; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DpS9P9XwAS30njS9V7ckdqZVR6lOQbdme3ixokuDXWQ=;
+        b=ArU11VIyVBd0nOSKkiUCGzVcnO5WEx0IPbcNgnZJDET7COlywsLoffg6EMno9KtxEN
+         xLPtXTa5cluSa1ACJwpyDUYX82XEFZ/h39UQ5l3b3xBRV8PwkSEjDeJPRdkkr2T2otFH
+         Ryk3OXcJHUlzOv5ydxfI+i54OyYNS47ysesQavF1s/chRHf+OpfM7024T8acWOUgwlXK
+         DeYkngSx09LQlIWdCJDOCSgTuyBQK7JS94XYlcx3pTehfI9D2N2AC8VLAWM1DgDY8wCa
+         kDjutmGnr5aGIO70SULI2Vx1MeSOzfDHC3np1X6PemT6jCsn6hNIiTAlwj8nxGW4TI66
+         2JMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734017249; x=1734622049;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DpS9P9XwAS30njS9V7ckdqZVR6lOQbdme3ixokuDXWQ=;
+        b=qTmSox1Tlxx0KkKhMhfsWZIB3JyG4a2M4gz3xmNfsh7Qcup78COb4z3rr3Ql8SyvLe
+         s5FsPHfPPovoEj1oxFSdo7evdUJb8MaCsp5i1Q05+O+jxpkNeuCRR4+0Oq8HFyfOjEnT
+         JvtJrf4/VO9sWNXCa2CDgRx+HMH2VOPPsnrNhwO7R9hg/unyZHUgKR4s6yoOLHjmMLz3
+         wq/1BHqmJxy4ibORrXlRZCSIE/UNPjgsLOVAN6Rsn5xrHCnKPnfR5KPcbZmk8QtL5p7p
+         CIScV5P3pjSkIRjHjLmUKz+y1SZNwaTWQG00fLgu4h9rzdcY2gVXZ3pjAplPlCUvw+Is
+         zpdA==
+X-Forwarded-Encrypted: i=1; AJvYcCVKh+nYju+SXiuFxBg+unccHVNfD+Rv+0WKJJm6orc9EWYd/snNcMp8xX65p4DIgfMDd6vXxbvs/N8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5MyDU+YTYxV1498te3zZBL1+aputSW1iNoKQOh2dtpmCkkiN+
+	l9vILegOePC4OlZpy31y+Zpr9BGSFWpHBR3348m0TCbz5x/a9zVVcYOVYAFymoU=
+X-Gm-Gg: ASbGnctkTIezHLULw5pufo897M349T1BV6PsXbNJ0OAA6lzlHgENoHO0dKhskafRLuX
+	maQtAiolqmQgME5cbMoPkubC+P+P5TKxJXs8bLdsVCqxJn5AMzDBKwKjacadCc3/+j9CExtBJE/
+	wpcHMJfnQnHJCX52vChLdmJAJh+lrGS5Ebt5qSxy35bRYl3dqlvlLJNIoujTGtm7/6kSJMNtTyz
+	91PWlcf/V3KQPJc2ANKX6IDY7QVR8XQ0+oQX7vzgR+L81FkSWhNxfI+8jj3/5g8m+U=
+X-Google-Smtp-Source: AGHT+IEhNl36m73Z9uj23to0PG8NFMTyNmDs7ZQ3Hettg3uLA6lpt+bVWiT/atLfW0TWRdXrBJzlMA==
+X-Received: by 2002:a5d:64a9:0:b0:386:3213:5b9b with SMTP id ffacd0b85a97d-387877c9747mr3330810f8f.43.1734017248923;
+        Thu, 12 Dec 2024 07:27:28 -0800 (PST)
+Received: from [192.168.68.163] ([145.224.65.153])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3878248e54dsm4329749f8f.19.2024.12.12.07.27.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Dec 2024 07:27:28 -0800 (PST)
+Message-ID: <24299600-277f-48f4-9be5-cbd65ab6ddb7@linaro.org>
+Date: Thu, 12 Dec 2024 15:27:26 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -27,128 +65,47 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND RFC PATCH v1 2/5] arm64: Add BBM Level 2 cpu feature
-Content-Language: en-GB
-To: Marc Zyngier <maz@kernel.org>
-Cc: =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>,
- catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
- oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com,
- yuzenghui@huawei.com, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kvmarm@lists.linux.dev
-References: <20241211160218.41404-1-miko.lenczewski@arm.com>
- <20241211160218.41404-3-miko.lenczewski@arm.com>
- <87cyhxs3xq.wl-maz@kernel.org> <084c5ada-51af-4c1a-b50a-4401e62ddbd6@arm.com>
- <86ikrprn7w.wl-maz@kernel.org>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <86ikrprn7w.wl-maz@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH] coresight: docs: Remove target sink from examples
+To: scclevenger@os.amperecomputing.com, coresight@lists.linaro.org
+Cc: yeoreum.yun@arm.com, Mike Leach <mike.leach@linaro.org>,
+ Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@linux.dev>,
+ Namhyung Kim <namhyung@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241210144933.295798-1-james.clark@linaro.org>
+ <9e53f5b9-d8a9-46b8-8ff1-7f018e2d9c06@os.amperecomputing.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <9e53f5b9-d8a9-46b8-8ff1-7f018e2d9c06@os.amperecomputing.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 12/12/2024 14:26, Marc Zyngier wrote:
-> On Thu, 12 Dec 2024 10:55:45 +0000,
-> Ryan Roberts <ryan.roberts@arm.com> wrote:
->>
->> On 12/12/2024 08:25, Marc Zyngier wrote:
->>>> +
->>>> +	local_flush_tlb_all();
->>>
->>> The elephant in the room: if TLBs are in such a sorry state, what
->>> guarantees we can make it this far?
->>
->> I'll leave Miko to respond to your other comments, but I wanted to address this
->> one, since it's pretty fundamental. We went around this loop internally and
->> concluded that what we are doing is architecturally sound.
->>
->> The expectation is that a conflict abort can only be generated as a result of
->> the change in patch 4 (and patch 5). That change makes it possible for the TLB
->> to end up with a multihit. But crucially that can only happen for user space
->> memory because that change only operates on user memory. And while the TLB may
->> detect the conflict at any time, the conflict abort is only permitted to be
->> reported when an architectural access is prevented by the conflict. So we never
->> do anything that would allow a conflict for a kernel memory access and a user
->> memory conflict abort can never be triggered as a result of accessing kernel memory.
->>
->> Copy/pasting comment from AlexC on the topic, which explains it better than I can:
->>
->> """
->> The intent is certainly that in cases where the hardware detects a TLB conflict
->> abort, it is only permitted to report it (by generating an exception) if it
->> applies to an access that is being attempted architecturally. ... that property
->> can be built from the following two properties:
->>
->> 1. The TLB conflict can only be reported as an Instruction Abort or a Data Abort
->>
->> 2. Those two exception types must be reported synchronously and precisely.
->> """
+
+
+On 11/12/2024 6:01 pm, Steve Clevenger wrote:
 > 
-> I totally agree with this. The issue is that nothing says that the
-> abort is in any way related to userspace.
+> Hi James,
 > 
->>>
->>> I honestly don't think you can reliably handle a TLB Conflict abort in
->>> the same translation regime as the original fault, given that we don't
->>> know the scope of that fault. You are probably making an educated
->>> guess that it is good enough on the CPUs you know of, but I don't see
->>> anything in the architecture that indicates the "blast radius" of a
->>> TLB conflict.
->>
->> OK, so I'm claiming that the blast radius is limited to the region of memory
->> that we are operating on in contpte_collapse() in patch 4. Perhaps we need to go
->> re-read the ARM and come back with the specific statements that led us to that
->> conclusion?
-
-From the ARM:
-"""
-RFCPSG: If level 1 or level 2 is supported and the Contiguous bit in a set of
-Block descriptors or Page descriptors is changed, then a TLB conflict abort can
-be generated because multiple translation table entries might exist within a TLB
-that translates the same IA.
-"""
-
-Although I guess it's not totally explicit, I've interpretted that as saying
-that conflicting TLB entries can only arise for the IA range for which the
-contiguous bits have been modified in the translation tables.
-
-Given we are only fiddling with the contiguous bits for user space mappings in
-this way, that's why I'm asserting we will only get a conflict abort for user
-space mappings... assuming the absence of kernel bugs, anyway...
-
-> 
-> But we don't know for sure what caused this conflict by the time we
-> arrive in the handler. It could equally be because we have a glaring
-> bug somewhere on the kernel side, even if you are *now* only concerned
-> with userspace.
-
-OK I see what you are saying; previously a conflict abort would have led to
-calling do_bad(), which returns 1, which causes do_mem_abort() to either kill
-the kernel or the process depending on the origin of the abort. (although if it
-came from kernel due to bug, we're just hoping that the conflict doesn't affect
-the path through the handler). With this change, we always assume we can fix it
-with the TLBI.
-
-How about this change to ensure we still die for issues originating from the kernel?
-
-if (!user_mode(regs) || !system_supports_bbml2())
-		return do_bad(far, esr, regs);
-
-> 
-> If anything, this should absolutely check for FAR_EL1 and assert that
-> this is indeed caused by such change.
-
-I'm not really sure how we would check this reliably? Without patch 5, the
-problem is somewhat constrained; we could have as many changes in flight as
-there are CPUs so we could keep a list of all the {mm_struct, VA-range} that are
-being modified. But if patch 5 is confirmed to be architecturally sound, then
-there is no "terminating tlbi" so there is no bound on the set of {mm_struct,
-VA-range}'s that could legitimately cause a conflict abort.
-
-Thanks,
-Ryan
-
+> I thought I'd mention this issue with multicore self-hosted trace. The
+> perf command line syntax does not allow a sink "type" to be specified
+> (e.g. @tmc_etf or @tmc_etr). For multicore, it doesn't make sense to
+> specify a processor mapped sink as would be the case for single core
+> trace. A sink "type" should be allowed to avoid the auto select default.
+> In our case, the default is the ETF sink.
 > 
 > Thanks,
+> Steve C.
 > 
-> 	M.
-> 
+
+I'm sure it would be possible to add support for this, but I'm wondering 
+if the real issue is that the default selection logic is wrong? Are you 
+saying the default you get is ETF but you want ETR? And there is both 
+for each ETM? The default selection logic isn't easy to summarize but it 
+should prefer ETR (sysmem) over ETF (link sink), see coresight_find_sink().
+
+It's probably better to fix that rather than add a new sink selection 
+feature. Maybe if you shared a diagram of your coresight architecture it 
+would help.
+
+Thanks
+James
 
