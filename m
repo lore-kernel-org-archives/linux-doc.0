@@ -1,295 +1,206 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39EE21DE2DF
-	for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2024 22:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E921CD205
+	for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2024 22:41:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734042638; cv=none; b=kb48B2aK5Iq8f4q52VFQVJJ/XWgT3Ctl+8rXy753+wQXuL/W5Tz42fLg7sMK6tKv0Oze9eFrd6InWFQ8lCJvwMXNPkcbcdmqEeH5FVVwEdXHM4LUBky8YeYYT6E7lMCUpWmbCxANK99Une23KqJ0QS09Kcr1l9AGGz/ocE/9pLo=
+	t=1734043284; cv=none; b=LEtdqTwavoMIx2V9RM9ZEFrBlyHT0qn9NcidpHf5sMiQHSFnstguWoANV1jiAmJvAogQtlL6/8ZUfpxr3z697eDdexLOvy3VR1ZWjhajmPQ2oiUKE8y3a3J06FtvLysRZJkG7JuAw3bY+y55oHyxg5OKLU3BIr7gG09gQ+29dTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734042638; c=relaxed/simple;
-	bh=PeBxRdt9kNG/k6+j3l9HUg4BLn3XzZxkSnQ+Plm8EBQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FhJExkNhEK+4sKmjm5gpPGmrwishKkPQDHWGHJKEqAiMcxSeNdI7271dSb2N3dlAsa6SyIg+vmo29JDWzK8yR4t5ZgAEYQxTiHovos7RYp6i+sm9LpsYkGrEx5dhhwskbM2E5ICF27WedDceEV3yEpgOTV/rDaNg6UrvmzFrR4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b=HfeNFeIg; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+	s=arc-20240116; t=1734043284; c=relaxed/simple;
+	bh=8ClgOEgT3jd6G+sJkrPg87LD8FC4bv7uHW/b45NmqDo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Mw7alXeVf7gtpQ0gUA/Wlp//f4dgimg8P2hLkaSg0YmjAgYJkRvMBMV7pyxmcx4dRq+Ei81OAmN15k6cpXSiBtTVyUybiW0MXY2LbqjmHCkgBRzAd3Ij46fkhRuHcaxRbYuiDF4QZYgvXESOxAx1n56qLz/HMRCQxOo1APUQFsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OTNZZ7UN; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b="HfeNFeIg"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5d0ac27b412so1590702a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2024 14:30:35 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OTNZZ7UN"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-725e71a11f7so1839083b3a.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2024 14:41:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20230601.gappssmtp.com; s=20230601; t=1734042634; x=1734647434; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+DFfich0wCzNZpgo4PXY6tmakvrRskVcHsJ5GFyjyu8=;
-        b=HfeNFeIg1ulZAfAZR1H4ysZNGOdTfBaptP0eA8xp431OtRDBBO++MAk/2xmOWQYgoW
-         UjsZxPMYuHcrdLFsUpRMOrfvSLHOLr+h3wOzfiFlZJ25rST7v3LmitICo9+hUx9xkKeF
-         Zz12TCVFP3m7XaVEmEa3kJDHjZC4aCfEoTpOcdxKCS7/pFIBFuAxPNXj+Bz6iFNR7gaH
-         pTyNbxzcIVRg5yTU98ub6+xwm7zmvFgodCvdr/8TAYCk0sMfh5Is6qA3TyKjMAsrc3wE
-         /P5SZHGC6CI8N6D3SVGaYL8F+PqHXLZlrezlmui96Ctiu9rXDcEoX0mDF7XfNEkgiBdh
-         QcCQ==
+        d=chromium.org; s=google; t=1734043282; x=1734648082; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MkHEwhmq9gflzoNZZZqtaRi1lU7YO3D6W3U/YdC1pRI=;
+        b=OTNZZ7UN8BIZPVND+89WYWCKoRz/9DorhKmAEZbPqV52VW81XmVSPAHCSyqdbjhHUB
+         /y9Ec+DKH1SYlWGN06XtjQ7wqolg0fgrWX6Fc492jN2umPeUb/CM0klKJu/pWsZZoGFp
+         9PzMResIUALA01R7NMP22QDqg+580cyG+nljA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734042634; x=1734647434;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+DFfich0wCzNZpgo4PXY6tmakvrRskVcHsJ5GFyjyu8=;
-        b=udTBL9hdxDYebTAEi+dWYGZtMdw7K5bi/Td1FmhbYgZt674jbFy7V5E431ySuG7mKC
-         MgNs2YgsktYi0e4oLldw6KWdSDKZ5beRJRebS1xEU4kexNEiZs6W5JS+nGJQOb15bHs+
-         PcVNZBuIw+OYQeGaXnwGEshyujtHvK72F54OL1O0tkrPeTg4MCKN0cwWvC9dWVn78xcl
-         pbgSl+fhYPKwmT6sxku8KTiyrte6PQVGSh1UFsLwYT9CaVk3apM/wwjLvn7KvnUtCNtL
-         Mg+K334GFsu+SIKZe++lQPyB+zG9Yg4yxXvq9URxFEVGjym2OTJZYqwPq7SNOAIcQldC
-         kACw==
-X-Forwarded-Encrypted: i=1; AJvYcCWlsC/L6kau0WZ5ftj/wgHuX5ymp+pPx7DtSfBEO6Po7EwKJFxG1wTaKsHNNPbC6wKwHLANb31G//Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3QU50iUxSRRduqCO26sqn8g03q30Lgpk+0DufTjGFSQw9+hFD
-	hHA4Uo0dmnUqC1MhMs9rCm7q31jhe9eKsbO9taaDTbrvKJa6rzf9P/qovgOzrkJmveBi+4akFCr
-	KCmhm3eg1YbObnRXszxMcIdVevXQRwKPAZswR
-X-Gm-Gg: ASbGncs6Dcl6Ydbf05x9hRszVrUDcSCDbQ3asgcEAyff1tfBr4lnvQk0nKPswPSIwps
-	6bNW/QhlQUajlvXL56/WXTIjCWVaHE0zkUc1f
-X-Google-Smtp-Source: AGHT+IGl1dmIiaH9NI8b8hOYdpWTfrRri9yyfmHuI52Jogvcc1hUauGAXPes+nuLyRdasCl6AgOKkv55XUwt8CfhqfE=
-X-Received: by 2002:a17:906:c14a:b0:aa5:31f5:922a with SMTP id
- a640c23a62f3a-aab7797eb4emr40990566b.19.1734042634250; Thu, 12 Dec 2024
- 14:30:34 -0800 (PST)
+        d=1e100.net; s=20230601; t=1734043282; x=1734648082;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MkHEwhmq9gflzoNZZZqtaRi1lU7YO3D6W3U/YdC1pRI=;
+        b=u31sNCPHgCPzqihNstQrZ1UpyAqaTMjLD2+jzs/kdkFjIQyJnFdZLqq4bkhvHpqkn2
+         B/yfQV6upG0NMTY81vJD4Jl1owb7gTy2NNkANfb4WTWmf1FKlbHpDiVp8kvNxlo0tDuj
+         h/0P4vjXPTqt02DwzLV2UyoXzTaGpLPVgVnml7lVbM1Ndzk7CbzOrwoF13bOk73qsHF4
+         myHfPiZfLbY5MAytM0SUc8xpH40eapiAZDMuMqYvsr6IraNFZP+fuObevI/R1mqMm+wL
+         8aC6VikpZhrpo0dASErT/gj9aZBwF58KC3xy3vov6XBqejAaK+eNi7u04DApZyweUD/G
+         JbBw==
+X-Forwarded-Encrypted: i=1; AJvYcCXw8FJx0jsrUdz3WSDAyhjs3jYBctP9Pvr6PUc70YxJPNibZL8TWi6qHXseEPi9tssqtPWLIv3HuMI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8Ocv7ca93RJt2o5QPveYDS49WEqt61jaz61NK17dk4jTSTt93
+	OARDerNj6dG5XKTOWS7TG8bNSGb+AGmJGZxhookpqQw0F9556v9O9WolFqUuOw==
+X-Gm-Gg: ASbGncs7L00ifRWtvVH7MYD1/YeSJ94bIbHxJuSTak5B/tFdXzP4j4kXmn31eox6OZL
+	p9AKTL9LlW/D9byIhxRFX+q+yUkEFFa+E4Y4yB6IkWsy/XoGFay03fHsH+7A2csRzegK9shvswQ
+	K3h9D8mWyOO8viIpJtrXzB7zKZVpAy7HLvRaPZvtRAyRzcKMa5MzCAZ20SQb5wsqq7cURmwo7aS
+	keJIpqR/1VrZ5YoTsinl+U6JLXgiVYBP8qSvC7BoTfADHCk5owsBzsP53EnY2Dr7urGmGCw7aDz
+	ec2fhJ0bTjEIorF20a01wQLUN9A75y4IVGaRRYTN8f4j5w==
+X-Google-Smtp-Source: AGHT+IFg5b72WIMC/OjNdzMkLquvT4+Hz+oz5yDLZIulCxie6HrtA8ZZ4UN4+iqyZTb53UA1F2obSg==
+X-Received: by 2002:a17:902:e803:b0:216:3f6e:fabd with SMTP id d9443c01a7336-2178c7d4eeemr76700255ad.7.1734043281979;
+        Thu, 12 Dec 2024 14:41:21 -0800 (PST)
+Received: from li-cloudtop.c.googlers.com.com (200.23.125.34.bc.googleusercontent.com. [34.125.23.200])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-216281f45a2sm98579785ad.250.2024.12.12.14.41.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Dec 2024 14:41:21 -0800 (PST)
+From: Li Li <dualli@chromium.org>
+To: dualli@google.com,
+	corbet@lwn.net,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	donald.hunter@gmail.com,
+	gregkh@linuxfoundation.org,
+	arve@android.com,
+	tkjos@android.com,
+	maco@android.com,
+	joel@joelfernandes.org,
+	brauner@kernel.org,
+	cmllamas@google.com,
+	surenb@google.com,
+	arnd@arndb.de,
+	masahiroy@kernel.org,
+	bagasdotme@gmail.com,
+	horms@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org,
+	hridya@google.com,
+	smoreland@google.com
+Cc: kernel-team@android.com
+Subject: [PATCH net-next v10 0/2] binder: report txn errors via generic netlink
+Date: Thu, 12 Dec 2024 14:41:12 -0800
+Message-ID: <20241212224114.888373-1-dualli@chromium.org>
+X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240531010331.134441-1-ross.philipson@oracle.com>
- <874jaegk8i.fsf@email.froward.int.ebiederm.org> <5b1ce8d3-516d-4dfd-a976-38e5cee1ef4e@apertussolutions.com>
- <87ttflli09.ffs@tglx> <CALCETrXQ7rChWLDqTG0+KY7rsfajSPguMnHO1G4VJi_mgwN9Zw@mail.gmail.com>
- <1a1f0c41-70de-4f46-b91d-6dc7176893ee@apertussolutions.com>
- <8a0b59a4-a5a2-42ae-bc1c-1ddc8f2aad16@apertussolutions.com>
- <CALCETrX8caT5qvCUu24hQfxUF_wUC2XdGpS2YFP6SR++7FiM3Q@mail.gmail.com>
- <c466ed57-35a8-41c0-9647-c70e588ad1d3@apertussolutions.com>
- <CALCETrW9WNNGh1dEPKfQoeU+m5q6_m97d0_bzRkZsv2LxqB_ew@mail.gmail.com>
- <ff0c8eed-8981-48c4-81d9-56b040ef1c7b@apertussolutions.com>
- <446cf9c70184885e4cec6dd4514ae8daf7accdcb.camel@HansenPartnership.com>
- <5d1e41d6-b467-4013-a0d0-45f9511c15c6@apertussolutions.com>
- <CALCETrW6vMYZo-b7N9ojVSeZLVxhZjLBjnMHsULMGP6TaVYRHA@mail.gmail.com>
- <9c80e779b6268fde33c93ed3765ff93b1d6d007b.camel@HansenPartnership.com>
- <CALCETrX4vHnVorqWjPEOP0XLaA0uUWkKikDcCXWtbs2a7EBuiA@mail.gmail.com> <61a4e812-9514-41a6-a000-e6c026a4ec45@apertussolutions.com>
-In-Reply-To: <61a4e812-9514-41a6-a000-e6c026a4ec45@apertussolutions.com>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Thu, 12 Dec 2024 14:30:23 -0800
-Message-ID: <CALCETrXQqR6Az7puNXLfhoL37iLHtG1qOyqC_K301TGmMOQvvA@mail.gmail.com>
-Subject: Re: [PATCH v9 06/19] x86: Add early SHA-1 support for Secure Launch
- early measurements
-To: "Daniel P. Smith" <dpsmith@apertussolutions.com>
-Cc: James Bottomley <James.Bottomley@hansenpartnership.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, "Eric W. Biederman" <ebiederm@xmission.com>, 
-	Eric Biggers <ebiggers@kernel.org>, Ross Philipson <ross.philipson@oracle.com>, 
-	linux-kernel@vger.kernel.org, x86@kernel.org, linux-integrity@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	kexec@lists.infradead.org, linux-efi@vger.kernel.org, 
-	iommu@lists.linux-foundation.org, mingo@redhat.com, bp@alien8.de, 
-	hpa@zytor.com, dave.hansen@linux.intel.com, ardb@kernel.org, 
-	mjg59@srcf.ucam.org, peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, 
-	nivedita@alum.mit.edu, herbert@gondor.apana.org.au, davem@davemloft.net, 
-	corbet@lwn.net, dwmw2@infradead.org, baolu.lu@linux.intel.com, 
-	kanth.ghatraju@oracle.com, andrew.cooper3@citrix.com, 
-	trenchboot-devel@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 12, 2024 at 11:56=E2=80=AFAM Daniel P. Smith
-<dpsmith@apertussolutions.com> wrote:
->
-> Hey Luto!
->
-> Let me try to address your concerns below.
->
-> On 11/18/24 15:02, Andy Lutomirski wrote:
-> > On Mon, Nov 18, 2024 at 11:12=E2=80=AFAM James Bottomley
-> > <James.Bottomley@hansenpartnership.com> wrote:
-> >>
-> >> On Mon, 2024-11-18 at 10:43 -0800, Andy Lutomirski wrote:
-> >>> Linux should not use TPM2_PCR_Extend *at all*.  Instead, Linux should
-> >>> exclusively use TPM2_PCR_Event.  I would expect that passing, say,
-> >>> the entire kernel image to TPM2_PCR_Event would be a big mistake, so
-> >>> instead Linux should hash the relevant data with a reasonable
-> >>> suggestion of hashes (which includes, mandatorily, SHA-384 and *does
-> >>> not* include SHA-1, and may or may not be configurable at build time
-> >>> to include things like SM3), concatenate them, and pass that to
-> >>> TPM2_PCR_Event.  And Linux should make the value that it passed to
-> >>> TPM2_PCR_Event readily accessible to software using it, and should
-> >>> also include some straightforward tooling to calculate it from a
-> >>> given input so that software that wants to figure out what value to
-> >>> expect in a PCR can easily do so.
-> >>
-> >> Just for clarity, this is about how the agile log format works.  Each
-> >> event entry in the log contains a list of bank hashes and the extends
-> >> occur in log event order, so replaying a log should get you to exactly
-> >> the head PCR value of each bank.  If a log doesn't understand a format=
-,
-> >> like SM3, then an entry for it doesn't appear in the log and a replay
-> >> says nothing about the PCR value.
-> >
-> > I have no idea what the "agile log format" is or what all the formats
-> > in existence are.  I found section 4.2.4 here:
-> >
-> > https://trustedcomputinggroup.org/wp-content/uploads/TCG_IWG_CEL_v1_r0p=
-41_pub.pdf
-> >
-> > It says:
-> >
-> > This field contains the list of the digest values Extended. The Extend
-> > method varies with TPM command, so there is
-> > no uniform meaning of TPM Extend in this instance, and separate
-> > descriptions are unavoidable. If using the
-> > TPM2_PCR_Extend command, this field is the data sent to the TPM (i.e.,
-> > not the resulting value of the PCR after the
-> > TPM2_PCR_Extend command completes). If using the TPM2_PCR_Event
-> > command, this field contains the digest
-> > structure returned by the TPM2_PCR_Event command (that contains the
-> > digest(s) submitted to each PCR bank as
-> > the internal Extend operation). This field SHALL contain the
-> > information from the TPML_DIGEST_VALUES used in
-> > the Extend operation.
->
->
-> Let me start with providing background on the two measurement policies
-> that is implemented by Intel TXT (from Intel TXT Developers Guide):
->
->   - Maximum Agility PCR Extend Policy: ACM can support algorithm agile
-> commands TPM2_PCR_Event; TPM2_HashSequenceStart; TPM2_HashUpdate;
-> TPM2_EventSequenceComplete. When this policy is selected, ACM will use
-> the commands above if not all PCR algorithms are covered by embedded set
-> of algorithms and will extend all existing PCR banks. Side effect of
-> this policy is possible performance loss.
->
-> =E2=80=92 Maximum Performance PCR Extend Policy: ACM can support several =
-hash
-> algorithms via embedded SW. When this policy is selected, ACM will use
-> embedded SW to compute hashes and then will use TPM2_PCR_Extend commands
-> to extend them into PCRs. If PCRs utilizing hash algorithms not
-> supported by SW are discovered, they will be capped with =E2=80=9C1=E2=80=
-=9D value. This
-> policy, when selected, will ensure maximum possible performance but has
-> side effect of possible capping of some of the PCRs.
->
+From: Li Li <dualli@google.com>
 
-What is responsible for choosing which of these policies to use?
+It's a known issue that neither the frozen processes nor the system
+administration process of the OS can correctly deal with failed binder
+transactions. The reason is that there's no reliable way for the user
+space administration process to fetch the binder errors from the kernel
+binder driver.
 
-> Allow me to clarify/expand on the last statement in Maximum Agility.
-> There is almost certainly a performance loss as anything larger than
-> 1024 bytes, for example the Linux kernel, the ACM will bit-banging the
-> bytes to the TPM using the TPM2_Hash* functions.
+Android is such an OS suffering from this issue. Since cgroup freezer
+was used to freeze user applications to save battery, innocent frozen
+apps have to be killed when they receive sync binder transactions or
+when their async binder buffer is running out.
 
-Surely, if Linux's stub started using TPM2_PCR_Event, it would first
-hash any large inputs and then send the _hash_ to TPM2_PCR_Event
-instead of, say, bit-banging the entire initramfs to the TPM.  But
-you're talking about the ACM and I'm talking about the Linux stub code
-in this patchset.
+This patch introduces the Linux generic netlink messages into the binder
+driver so that the Linux/Android system administration process can
+listen to important events and take corresponding actions, like stopping
+a broken app from attacking the OS by sending huge amount of spamming
+binder transactiions.
 
-But the capping-with-"1" does suggest that maybe one can actually cap
-with "1" without preventing downstream software from consuming the
-event log.
+The 1st version uses a global generic netlink for all binder contexts,
+raising potential security concerns. There were a few other feedbacks
+like request to kernel docs and test code. The thread can be found at
+https://lore.kernel.org/lkml/20240812211844.4107494-1-dualli@chromium.org/
 
->
-> Before addressing the next point, I would also clarify how the D-CRTM
-> measurement taken by the CPU is done. It uses the _TPM_HASH_* functions,
-> Section 22.9 of TPM2 Commands specification, to store SHA256(SINIT ACM)
-> | EDX into all active PCR banks. For clarity, when this done, EDX holds
-> the 4-byte value of the SENTER parameters for which 0 is the only valid
-> value currently.
->
->
-> > So we're logging the values with which we extend the PCRs.  Once upon
-> > a time, someone decided it was okay to skip extending a PCR bank:
-> >
-> > https://google.github.io/security-research/pocs/bios/tpm-carte-blanche/=
-writeup.html
-> >
-> > and it was not a great idea.
->
->
-> Let's begin by why/how that attack occurs. The TPM Carte Blanche attack
-> took advantage of the fact that without BootGuard in place, the SRTM
-> measurements are done by the software/firmware, to include the
-> self-referential S-CRTM measurement. In particular, for the target
-> platform, it just so happens that it was possible to construct a
-> configuration where not a single hash would be sent to the SHA256 bank.
-> This allowed the attacker the ability to replay any set of measurements,
-> i.e. carte blanche control, into a completely empty PCR bank for which
-> the attestation service would accept quotes. The key to this attack
-> requires both, access to an empty PCR bank, and an attestation service
-> that will accept a quote with only the exploited bank present.
->
-> Let us return to my statements above, which will demonstrate why
-> TXT/DRTM completely invalidates the attack. First, as noted above, when
-> the CPU is processing the GETSEC[SENTER] instruction, it (the CPU) will
-> compute the D-CRTM as SHA256(SINIT ACM) | EDX, sending it to the TPM
-> using _TPM_HASH_* functions. The _TPM_HASH_* functions result in all PCR
-> banks to be extended with the D-CRTM value. If Maximum Performance PCR
-> Extend policy is in use, which is the default policy used by TrenchBoot,
-> any algorithm not supported by the ACM is capped by sending the value
-> "1" as the digest value for the extend. Therefore, after the TXT
-> sequence has completed and before control is given to the Linux kernel
-> by the ACM, all PCR banks will consist of either, the D-CRTM + all ACM
-> measurements, or the D-CRTM + TPM2_PCR_Extend(0x1). There will be no PCR
-> banks with empty DRTM PCRs, thus none of the banks would be usable for a
-> TPM Carte Blanche-style attack.
+The 2nd version fixes those issues and has been tested on the latest
+version of AOSP. See https://r.android.com/3305462 for how userspace is
+going to use this feature and the test code. It can be found at
+https://lore.kernel.org/lkml/20241011064427.1565287-1-dualli@chromium.org/
 
-Sure, a "carte blanche" attack in the sense that the PCRs are entirely
-blank won't happen, but if any component in the chain does not extend
-a bank, then an attacker can replace the code _after_ that component
-without being noticed.
+The 3rd version replaces the handcrafted netlink source code with the
+netlink protocal specs in YAML. It also fixes the documentation issues.
+https://lore.kernel.org/lkml/20241021182821.1259487-1-dualli@chromium.org/
 
-> (c) Upon initialization, cap the PCR banks with unsupported algorithms
-> using a well-known value.
->
-> A problem with (a) is that the result will be an unorthodox event,
-> PCR_EXTEND(H(H'(data))). An attestation verifier will have to be aware
-> of that this is being done, and have a way to determine which method was
-> used for each event. This creates a potentially expensive cost for any
-> existing attestation solutions to incorporate support for the unorthodox
-> event. At least for DRTM solutions, it seeks to solve a problem that TXT
-> does not experience.
->
-> For Linux Secure Launch, I would like to propose an alternative to what
-> the current logic does in the setup kernel. Specifically, Secure Launch
-> will trigger a TXT reset when an unsupported algorithm is encountered.
-> Instead, I would like to propose the adoption of (c), and have it
-> extends a well-known, fixed value for unsupported algorithms. Secure
-> Launch can leverage the fact that the TPM driver's extend function
-> already expects to be given digests for all active algorithms.
-> Therefore, it will record the well-known value, 0x01 to follow the ACM,
-> into the digest buffers of any algorithms that Secure Launch does not
-> support. This will result in the well-known value being extended each
-> time a measurement is recorded. This will not be a problem as no one
-> should be using those banks for attestation and can ignore those digests
-> in the event log.
+The 4th version just containsi trivial fixes, making the subject of the
+patch aligned with the subject of the cover letter.
+https://lore.kernel.org/lkml/20241021191233.1334897-1-dualli@chromium.org/
 
-This seems to be at least not terrible.
+The 5th version incorporates the suggested fixes to the kernel doc and
+the init function. It also removes the unsupported uapi-header in YAML
+that contains "/" for subdirectory.
+https://lore.kernel.org/lkml/20241025075102.1785960-1-dualli@chromium.org/
 
-Or I suppose one could use TPM_HASH_ functions? The spec for them is
-somewhat impenetrable to me.
+The 6th version has some trivial kernel doc fixes, without modifying
+any other source code.
+https://lore.kernel.org/lkml/20241028101952.775731-1-dualli@chromium.org/
 
->
-> I would like to note that we made a conscious design decision early on
-> to use the PCR performance policy approach. We weighed a variety of
-> security concerns, hardware availability, and the practicality of
-> integrating the capability into our respective efforts. I do not want
-> you to feel as though we are not taking your comments seriously. Ross
-> reached out to some their contacts, and I reached out to a colleague
-> with domain experience as well. From a cursory review, no one saw an
-> issue from a crypto standpoint, beyond some algorithm recommendations.
-> As we highlighted, they did caution about the resulting unorthodox
-> measurement that would impose a burden on attestation solutions.
->
-> Hopefully With the background and context presented, you would agree the
-> above is a reasonable approach. If you do have concerns, please let us kn=
-ow.
->
-> V/r,
-> Daniel P. Smith
+The 7th version breaks the binary struct netlink message into individual
+attributes to better support automatic error checking. Thanks Jakub for
+improving ynl-gen.
+https://lore.kernel.org/all/20241031092504.840708-1-dualli@chromium.org/
+
+The 8th version solves the multi-genl-family issue by demuxing the
+messages based on a new context attribute. It also improves the YAML
+spec to be consistent with netlink tradition. A Huge 'Thank You' to
+Jakub who taught me a lot about the netlink protocol!
+https://lore.kernel.org/all/20241113193239.2113577-1-dualli@chromium.org/
+
+The 9th version only contains a few trivial fixes, removing a redundant
+pr_err and unnecessary payload check. The ynl-gen patch to allow uapi
+header in sub-dirs has been merged so it's no longer included in this
+patch set.
+https://lore.kernel.org/all/20241209192247.3371436-1-dualli@chromium.org/
+
+The 10th version renames binder genl to binder netlink, improves the
+readability of the kernel doc and uses more descriptive variable names.
+The function binder_add_device() is moved out to a new commit per request.
+It also fixes a warning about newline used in NL_SET_ERR_MSG.
+Thanks Carlos for his valuable suggestions!
+
+v1: add a global binder genl socket for all contexts
+v2: change to per-context binder genl for security reason
+    replace the new ioctl with a netlink command
+    add corresponding doc Documentation/admin-guide/binder_genl.rst
+    add user space test code in AOSP
+v3: use YNL spec (./tools/net/ynl/ynl-regen.sh)
+    fix documentation index
+v4: change the subject of the patch and remove unsed #if 0
+v5: improve the kernel doc and the init function
+    remove unsupported uapi-header in YAML
+v6: fix some trivial kernel doc issues
+v7: break the binary struct binder_report into individual attributes
+v8: use multiplex netlink message in a unified netlink family
+    improve the YAML spec to be consistent with netlink tradition
+v9: remove unnecessary check to netlink flags and message payloads.
+v10: improve the readability of kernel doc and variable names.
+
+Li Li (2):
+  binderfs: add new binder devices to binder_devices
+  binder: report txn errors via generic netlink
+
+ Documentation/admin-guide/binder_genl.rst     | 110 ++++++++
+ Documentation/admin-guide/index.rst           |   1 +
+ .../netlink/specs/binder_netlink.yaml         | 108 ++++++++
+ drivers/android/Kconfig                       |   1 +
+ drivers/android/Makefile                      |   2 +-
+ drivers/android/binder.c                      | 242 +++++++++++++++++-
+ drivers/android/binder_internal.h             |  29 ++-
+ drivers/android/binder_netlink.c              |  39 +++
+ drivers/android/binder_netlink.h              |  19 ++
+ drivers/android/binder_trace.h                |  35 +++
+ drivers/android/binderfs.c                    |   2 +
+ include/uapi/linux/android/binder_netlink.h   |  55 ++++
+ 12 files changed, 637 insertions(+), 6 deletions(-)
+ create mode 100644 Documentation/admin-guide/binder_genl.rst
+ create mode 100644 Documentation/netlink/specs/binder_netlink.yaml
+ create mode 100644 drivers/android/binder_netlink.c
+ create mode 100644 drivers/android/binder_netlink.h
+ create mode 100644 include/uapi/linux/android/binder_netlink.h
 
 
+base-commit: 6145fefc1e42c1895c0c1c2c8593de2c085d8c56
+-- 
+2.47.1.613.gc27f4b7a9f-goog
 
---=20
-Andy Lutomirski
-AMA Capital Management, LLC
