@@ -1,274 +1,247 @@
-Received: from sender4-of-o51.zoho.com (sender4-of-o51.zoho.com [136.143.188.51])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2043.outbound.protection.outlook.com [40.107.93.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE59193084;
-	Thu, 12 Dec 2024 19:57:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B4FDDDC;
+	Thu, 12 Dec 2024 20:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734033479; cv=pass; b=L3DoHImzYZ1j1GtgiYhQnF3NQ5511ayrnb7lD8QPWpLYoTLGVWgc+i78eE2Dhs8JcF02tJd3pV3j+f9rW6f9mfr4boOmXChbYvHd94HrieaA4xO7I/i6xM/spJjVrLkKEfVr5EQrVownwDdJrPJIQW6VgV8pq87rCllq4QhKDho=
+	t=1734034579; cv=fail; b=addt+nZqIgXaAjdmQVJYSnmvd7CopW74sO9ReGiapciQP4W+HtvL+W30nW2cIhjMmb5Ykv3T8WVHdw4gO5Lx68OB8wgOCunoNtJjxRRC2zcfILS5e6EqAfmNUeb2Zw/vmFwfmXjIcg8AcI9g57ylk3fMChs5PMutTmI1pl43Fk0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734033479; c=relaxed/simple;
-	bh=n1v6zNCsRs2o2jizjOrt1bu69OqmpyMVRYYWsIc/7AI=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=cED3R0DdFJNEmVTgEDX4KkhiIWzTOZ1c7d7QCUu6tCk+g1lBVMK7x0wcjD3K77WyKLze0Yj558azJPpU4EsN7rtll2Y3CtqdvWxt/RlMZBJah2uKJFCN/VVZTDE9QZjoEsW5GpZSEre8raE7OBH9rsKhK53d9jyciByLXVnFfEc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apertussolutions.com; spf=pass smtp.mailfrom=apertussolutions.com; dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b=QVDohNEt; arc=pass smtp.client-ip=136.143.188.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apertussolutions.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apertussolutions.com
+	s=arc-20240116; t=1734034579; c=relaxed/simple;
+	bh=GEwOMz5lT6AWEepdlW/PxcKRmfP2HdidBsD3hMXQCHA=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RNBNN66y8rE4r705wOGxycN7Ia/kw+DZ5bhuS/qjOm8JF8+FVKDxJDylhQABp8KkInX3xipfCNkGa929DOOse6JFMsjqCpinzK7LiWjJAFOvCNfHqeZhxDF6q10cVJPC3Q0OgcdAn+YNw/fwhOQ8+nMoBoUjVGNQS0WIHHrlBzg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=vihZqvwh; arc=fail smtp.client-ip=40.107.93.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b="QVDohNEt"
-ARC-Seal: i=1; a=rsa-sha256; t=1734033395; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Q6mhoiQlF+X3Ga4ZbHzXRV6VVWH2dGJgGQKxrl5lkAWanRx2Le+mSx31+22MQIcXLoc8EtHoPhHrDYEM+msozrQ4RcJ1rH7twm6cqhD4rhy0TrQmxdlP/5tFq4Xm9kqVfXdE5iteCULBlNl3/1YZEFFKV3feqYfnq3cZMUkLYyo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1734033395; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=K/doDuiYr3tUCbk+zjyulpISltgEnye5889UgTLaMDE=; 
-	b=ls2U7TrIakrTDRJ7HeNm343oldeSEYv+ZVbXKq0MvFSJ0oocIax92S8aXmXmlr3ZeWEkYyx8KeZ0WrdqmjAoB1fOSzWeW+IjStvsG98AwO7eWg7cpbeOUJzF3lgKl18AO02RuFWCa2HTtxEceCWHcLOBK9hYfMS9b1yb8c/qcOc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=apertussolutions.com;
-	spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
-	dmarc=pass header.from=<dpsmith@apertussolutions.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1734033395;
-	s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
-	h=Message-ID:Date:Date:MIME-Version:From:From:Subject:Subject:To:To:Cc:Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=K/doDuiYr3tUCbk+zjyulpISltgEnye5889UgTLaMDE=;
-	b=QVDohNEtg4WAsD+rnGYfbH1QAd3geV/N+7ot1IVth65Z01IMdqkPjO/8p8ZUofZh
-	57jvnBs6vQe9xGOre8kTaX0BrQe7Yva1slxsmJ6sPDiAv57NKeUZweTzhfL+ObwhP3z
-	rT54chqC9/LSdDMrGr1dETa3zNasJLin+cRlaw1o=
-Received: by mx.zohomail.com with SMTPS id 1734033391603444.6542107983282;
-	Thu, 12 Dec 2024 11:56:31 -0800 (PST)
-Message-ID: <61a4e812-9514-41a6-a000-e6c026a4ec45@apertussolutions.com>
-Date: Thu, 12 Dec 2024 14:56:27 -0500
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="vihZqvwh"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aFQdXQQoAxa39Uxb5HlGYdhUob3UvvV9TFCuZOvHVJhHkm//D2sfLa5DQ8487LH/cT2C9+LHXcJZ3bCZYFElZe7KH5RZwYWOB+Xpw5FRnm3f9XXgOyS6J1j6Q33jjcDKpMD1PR5uablrILolLVj4JHZKf9PvDuwiCltjN9/oSAlz1U5KLnlkEGZRst0Rw6O0IaiI6jjSeR7TXkf8gQYFnJ9fTNREabyrIGeRgEFCKufOw+XleSoQfczcnPY5jHTbcojLmXqOgCa4kZbBXFmfOwTGxadrNRA7AJQN46SaIlJOfsSot3WwGR918zogK3F1Cc4O+kyBvTE60FpxlKD2JA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EA0LZaMn5VYv5XdU1rJ/5ilqNhtLRBGh3iNpYBmN/V4=;
+ b=CNuo1Ugh0MuCxN79apBF1ypxO0CsMvdBft715g8Vy1OxzfLJEOCRr75rDDhjlUtq5kZBsrJAXP1cjQt28NOAsVsO4RUxRaKZ4WeRSwFbZwv3iFC4IoQFmyJxZdHXy/c3dk1KyWi/ROMEyzzQw4PqI7QDlNcin/1uYd3WmGQyOuW+Ja/YKQd8NphzrgU4s7f0VjRhAXmVHQiM+2bzOsFpuuDfHfyu3/h+a+n/4xy3U4O+UUytWBGQBSy3i41FdoliTD81+fsBVD/8u3lmZfMl2KZbr0N4tzcqiY2lv53W5AySYsMSdu463aasaV2hv+ILI5yCqMPlRzrYoeaLdMlAPQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EA0LZaMn5VYv5XdU1rJ/5ilqNhtLRBGh3iNpYBmN/V4=;
+ b=vihZqvwhq9ncoK6EDDy/K3axkCSF7aCvPURJwESQNTO5nj2WsNZ3icYqKIQBt6g+myaTnhomFuriCVYJbpdllt4YsFXI0NGCvok3iK5Zftio+ixgYYNQfn4+XPqhMj9LQ+i3HoS20SN2vZTOYbb8It/424wg7R5JqEpCeN0FpOI=
+Received: from MN2PR12CA0003.namprd12.prod.outlook.com (2603:10b6:208:a8::16)
+ by DM6PR12MB4433.namprd12.prod.outlook.com (2603:10b6:5:2a1::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.15; Thu, 12 Dec
+ 2024 20:16:14 +0000
+Received: from BN3PEPF0000B075.namprd04.prod.outlook.com
+ (2603:10b6:208:a8:cafe::86) by MN2PR12CA0003.outlook.office365.com
+ (2603:10b6:208:a8::16) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8230.17 via Frontend Transport; Thu,
+ 12 Dec 2024 20:16:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN3PEPF0000B075.mail.protection.outlook.com (10.167.243.120) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8251.15 via Frontend Transport; Thu, 12 Dec 2024 20:16:14 +0000
+Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 12 Dec
+ 2024 14:16:12 -0600
+From: Babu Moger <babu.moger@amd.com>
+To: <corbet@lwn.net>, <reinette.chatre@intel.com>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<tony.luck@intel.com>, <peternewman@google.com>
+CC: <fenghua.yu@intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+	<paulmck@kernel.org>, <akpm@linux-foundation.org>, <thuth@redhat.com>,
+	<rostedt@goodmis.org>, <xiongwei.song@windriver.com>,
+	<pawan.kumar.gupta@linux.intel.com>, <daniel.sneddon@linux.intel.com>,
+	<jpoimboe@kernel.org>, <perry.yuan@amd.com>, <andipan.das@amd.com>,
+	<kai.huang@intel.com>, <xiaoyao.li@intel.com>, <seanjc@google.com>,
+	<babu.moger@amd.com>, <xin3.li@intel.com>, <andrew.cooper3@citrix.com>,
+	<ebiggers@google.com>, <mario.limonciello@amd.com>, <james.morse@arm.com>,
+	<tan.shaopeng@fujitsu.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <maciej.wieczor-retman@intel.com>,
+	<eranian@google.com>
+Subject: [PATCH v10 01/24] x86/resctrl: Add __init attribute to functions called from resctrl_late_init()
+Date: Thu, 12 Dec 2024 14:15:04 -0600
+Message-ID: <09c75acd47d270be9843a203f533024926b31bea.1734034524.git.babu.moger@amd.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1734034524.git.babu.moger@amd.com>
+References: <cover.1734034524.git.babu.moger@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
-Subject: Re: [PATCH v9 06/19] x86: Add early SHA-1 support for Secure Launch
- early measurements
-To: Andy Lutomirski <luto@amacapital.net>,
- James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Eric Biggers <ebiggers@kernel.org>,
- Ross Philipson <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
- linux-efi@vger.kernel.org, iommu@lists.linux-foundation.org,
- mingo@redhat.com, bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
- ardb@kernel.org, mjg59@srcf.ucam.org, peterhuewe@gmx.de, jarkko@kernel.org,
- jgg@ziepe.ca, nivedita@alum.mit.edu, herbert@gondor.apana.org.au,
- davem@davemloft.net, corbet@lwn.net, dwmw2@infradead.org,
- baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
- andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
-References: <20240531010331.134441-1-ross.philipson@oracle.com>
- <874jaegk8i.fsf@email.froward.int.ebiederm.org>
- <5b1ce8d3-516d-4dfd-a976-38e5cee1ef4e@apertussolutions.com>
- <87ttflli09.ffs@tglx>
- <CALCETrXQ7rChWLDqTG0+KY7rsfajSPguMnHO1G4VJi_mgwN9Zw@mail.gmail.com>
- <1a1f0c41-70de-4f46-b91d-6dc7176893ee@apertussolutions.com>
- <8a0b59a4-a5a2-42ae-bc1c-1ddc8f2aad16@apertussolutions.com>
- <CALCETrX8caT5qvCUu24hQfxUF_wUC2XdGpS2YFP6SR++7FiM3Q@mail.gmail.com>
- <c466ed57-35a8-41c0-9647-c70e588ad1d3@apertussolutions.com>
- <CALCETrW9WNNGh1dEPKfQoeU+m5q6_m97d0_bzRkZsv2LxqB_ew@mail.gmail.com>
- <ff0c8eed-8981-48c4-81d9-56b040ef1c7b@apertussolutions.com>
- <446cf9c70184885e4cec6dd4514ae8daf7accdcb.camel@HansenPartnership.com>
- <5d1e41d6-b467-4013-a0d0-45f9511c15c6@apertussolutions.com>
- <CALCETrW6vMYZo-b7N9ojVSeZLVxhZjLBjnMHsULMGP6TaVYRHA@mail.gmail.com>
- <9c80e779b6268fde33c93ed3765ff93b1d6d007b.camel@HansenPartnership.com>
- <CALCETrX4vHnVorqWjPEOP0XLaA0uUWkKikDcCXWtbs2a7EBuiA@mail.gmail.com>
-Content-Language: en-US
-In-Reply-To: <CALCETrX4vHnVorqWjPEOP0XLaA0uUWkKikDcCXWtbs2a7EBuiA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B075:EE_|DM6PR12MB4433:EE_
+X-MS-Office365-Filtering-Correlation-Id: 686963bc-05b7-4724-fb53-08dd1ae9d420
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|36860700013|376014|7416014|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?SNy3qIRp1IpThZqKvfwuatPQLKtsRXg+Whac0csWL+7tg3RGOFbpAmXT8gA0?=
+ =?us-ascii?Q?mrv/gcd+ohGIG6d46vDOn8TaTRFMdEcwvP+YID93b0GOHNTMZDBNxSJiAwam?=
+ =?us-ascii?Q?VvNnkB8/jg4K2moxfwKClDSEKoHH4TGOHanV+KZ4jxYCguJ3/RfM+vw9R6pC?=
+ =?us-ascii?Q?PcO3hhoJyDkPwYrDIrYHX5imtfacqG2/e+AtI8sLYLVOaul74wIGV6VbQhA3?=
+ =?us-ascii?Q?15i4Un1qK7bU17uIu5MFZjH+JqoJ3gyLHfvwpgczXq0uOebKB+b6rwG/K1X5?=
+ =?us-ascii?Q?AN9auJNZCjOALmPQdiiy2ofSlSE4HAo4NzG3Tmf+OHK/8ErFjC9+wHQrRPIa?=
+ =?us-ascii?Q?I7sNfcbjpnN/u+alZNHy6kP/LfzkkGK4ft1enPvd6Sr1YsgdqTBJpVWY+oTj?=
+ =?us-ascii?Q?I4u9WIzkV18FxjvKgL4aeYXrGx/ukW9mCci7RnEbBu9fTAUCviHSMK49Vevs?=
+ =?us-ascii?Q?EMWA+LTAam6bKFHFZLBtZCfbJpbskjmeMbsCZsGAJ0JjaJi4hIVOKoM/QRuG?=
+ =?us-ascii?Q?+JRJHriudWTwlChWD1hdSqp3CzWgrPSDsCLCdgYGdJGqDNL2cd3gLbtPgXs1?=
+ =?us-ascii?Q?zpOOQjzjPHJdem9+WfWyCOaxs43odIR7fu6CDy5ED7tZt1ccOFnPFzIWGTQZ?=
+ =?us-ascii?Q?kBhVX4PCH24vFWfEDaRE/kkfWS4Cgho4kdq7em/2VVJO5ZVZ5ExtfB8e7FdG?=
+ =?us-ascii?Q?8tcpUfTZNB2Tvrb+dYDcbnaDUZl/GQ/Svg3cve+Gi+WlI9EriYjlv1Wl0gBu?=
+ =?us-ascii?Q?2jOeR19/b5Lm9v0Np7ETKRiDDUXutqudwz4MFQIZBtIT2KwcdsLYQinWL1X2?=
+ =?us-ascii?Q?v+EkR5UjZM+VYtWPZbeFwKc2rPSXd/n5/SjspGemUr95oB3dr6j1395D5nfR?=
+ =?us-ascii?Q?TJe8pXIDn4y54+BoFaBj/qcgzJDndETQnaPILdaS5BADbLkjB7Dv15eteYTl?=
+ =?us-ascii?Q?LrbUSpPO6sS+osEWAkBYwsbN799g9xRUV/6ztzUIE6F1DAykV441LpOdO43s?=
+ =?us-ascii?Q?yTDRBLPFfVdb6yMC10F3eBCOtUWL7wvqbtKOSMyKxZB8sWDoyerEwl0A2jzH?=
+ =?us-ascii?Q?QSHZwm4DvaRtP4Bdgm4XIHq+UBw7kelKGi5U80lotlFchgjszBiKKjY8ZSJ4?=
+ =?us-ascii?Q?eqqtB7uQfvBgPqdGeKtDqs7UWoGqiU70dqAkQPZIvPXqQa8DrLazt9OZK7se?=
+ =?us-ascii?Q?5s9Es2px5tKTp0tbKLNYLA5mZJkaepXpHI/mVcEIvVTt5AHJ+HyQJA9ZJ7fs?=
+ =?us-ascii?Q?qnR4JJVwFZVYvjVygrPq/RabMNtdT8Im2KYU7Z4RFTOgBU1cPsZNLUfbafvy?=
+ =?us-ascii?Q?bkL36tHCz3IUUMNvbKFELqblpolpWGZu1M76QxNi31LcPtnZI7hscgFOPoel?=
+ =?us-ascii?Q?JSZl7E2lCw8uMzMEMpHFZBHlVDioupUPtIR8M6ewLJSI/osYV0hB9Z9W89z9?=
+ =?us-ascii?Q?ST376JTgNxihSQft+1iyb7zyFI73D7rk?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(376014)(7416014)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2024 20:16:14.4486
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 686963bc-05b7-4724-fb53-08dd1ae9d420
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF0000B075.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4433
 
-Hey Luto!
+resctrl_late_init() has the __init attribute, but some of the functions
+called from it do not have the __init attribute.
 
-Let me try to address your concerns below.
+Add the __init attribute to all the functions in the call sequences to
+maintain consistency throughout.
 
-On 11/18/24 15:02, Andy Lutomirski wrote:
-> On Mon, Nov 18, 2024 at 11:12 AM James Bottomley
-> <James.Bottomley@hansenpartnership.com> wrote:
->>
->> On Mon, 2024-11-18 at 10:43 -0800, Andy Lutomirski wrote:
->>> Linux should not use TPM2_PCR_Extend *at all*.  Instead, Linux should
->>> exclusively use TPM2_PCR_Event.  I would expect that passing, say,
->>> the entire kernel image to TPM2_PCR_Event would be a big mistake, so
->>> instead Linux should hash the relevant data with a reasonable
->>> suggestion of hashes (which includes, mandatorily, SHA-384 and *does
->>> not* include SHA-1, and may or may not be configurable at build time
->>> to include things like SM3), concatenate them, and pass that to
->>> TPM2_PCR_Event.  And Linux should make the value that it passed to
->>> TPM2_PCR_Event readily accessible to software using it, and should
->>> also include some straightforward tooling to calculate it from a
->>> given input so that software that wants to figure out what value to
->>> expect in a PCR can easily do so.
->>
->> Just for clarity, this is about how the agile log format works.  Each
->> event entry in the log contains a list of bank hashes and the extends
->> occur in log event order, so replaying a log should get you to exactly
->> the head PCR value of each bank.  If a log doesn't understand a format,
->> like SM3, then an entry for it doesn't appear in the log and a replay
->> says nothing about the PCR value.
-> 
-> I have no idea what the "agile log format" is or what all the formats
-> in existence are.  I found section 4.2.4 here:
-> 
-> https://trustedcomputinggroup.org/wp-content/uploads/TCG_IWG_CEL_v1_r0p41_pub.pdf
-> 
-> It says:
-> 
-> This field contains the list of the digest values Extended. The Extend
-> method varies with TPM command, so there is
-> no uniform meaning of TPM Extend in this instance, and separate
-> descriptions are unavoidable. If using the
-> TPM2_PCR_Extend command, this field is the data sent to the TPM (i.e.,
-> not the resulting value of the PCR after the
-> TPM2_PCR_Extend command completes). If using the TPM2_PCR_Event
-> command, this field contains the digest
-> structure returned by the TPM2_PCR_Event command (that contains the
-> digest(s) submitted to each PCR bank as
-> the internal Extend operation). This field SHALL contain the
-> information from the TPML_DIGEST_VALUES used in
-> the Extend operation.
+Fixes: 6a445edce657 ("x86/intel_rdt/cqm: Add RDT monitoring initialization")
+Fixes: def10853930a ("x86/intel_rdt: Add two new resources for L2 Code and Data Prioritization (CDP)")
+Fixes: bd334c86b5d7 ("x86/resctrl: Add __init attribute to rdt_get_mon_l3_config()")
+Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
+Signed-off-by: Babu Moger <babu.moger@amd.com>
+---
+v10: Text changes.
+     Added __init attribute to cache_alloc_hsw_probe()
+     Followed function prototype rules (preferred order is storage
+     class before return type).
 
+v9: Moved the patch to the begining of the series.
+    Fixed all the call sequences. Added additional Fixed tags.
 
-Let me start with providing background on the two measurement policies 
-that is implemented by Intel TXT (from Intel TXT Developers Guide):
+v8: New patch.
+---
+ arch/x86/kernel/cpu/resctrl/core.c     | 10 +++++-----
+ arch/x86/kernel/cpu/resctrl/internal.h |  2 +-
+ arch/x86/kernel/cpu/resctrl/monitor.c  |  4 ++--
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
-  - Maximum Agility PCR Extend Policy: ACM can support algorithm agile 
-commands TPM2_PCR_Event; TPM2_HashSequenceStart; TPM2_HashUpdate; 
-TPM2_EventSequenceComplete. When this policy is selected, ACM will use 
-the commands above if not all PCR algorithms are covered by embedded set 
-of algorithms and will extend all existing PCR banks. Side effect of 
-this policy is possible performance loss.
+diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+index b681c2e07dbf..62f2c5bbe2c6 100644
+--- a/arch/x86/kernel/cpu/resctrl/core.c
++++ b/arch/x86/kernel/cpu/resctrl/core.c
+@@ -145,7 +145,7 @@ u32 resctrl_arch_system_num_rmid_idx(void)
+  * is always 20 on hsw server parts. The minimum cache bitmask length
+  * allowed for HSW server is always 2 bits. Hardcode all of them.
+  */
+-static inline void cache_alloc_hsw_probe(void)
++static inline __init void cache_alloc_hsw_probe(void)
+ {
+ 	struct rdt_hw_resource *hw_res = &rdt_resources_all[RDT_RESOURCE_L3];
+ 	struct rdt_resource *r  = &hw_res->r_resctrl;
+@@ -275,7 +275,7 @@ static __init bool __rdt_get_mem_config_amd(struct rdt_resource *r)
+ 	return true;
+ }
+ 
+-static void rdt_get_cache_alloc_cfg(int idx, struct rdt_resource *r)
++static __init void rdt_get_cache_alloc_cfg(int idx, struct rdt_resource *r)
+ {
+ 	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(r);
+ 	union cpuid_0x10_1_eax eax;
+@@ -294,7 +294,7 @@ static void rdt_get_cache_alloc_cfg(int idx, struct rdt_resource *r)
+ 	r->alloc_capable = true;
+ }
+ 
+-static void rdt_get_cdp_config(int level)
++static __init void rdt_get_cdp_config(int level)
+ {
+ 	/*
+ 	 * By default, CDP is disabled. CDP can be enabled by mount parameter
+@@ -304,12 +304,12 @@ static void rdt_get_cdp_config(int level)
+ 	rdt_resources_all[level].r_resctrl.cdp_capable = true;
+ }
+ 
+-static void rdt_get_cdp_l3_config(void)
++static __init void rdt_get_cdp_l3_config(void)
+ {
+ 	rdt_get_cdp_config(RDT_RESOURCE_L3);
+ }
+ 
+-static void rdt_get_cdp_l2_config(void)
++static __init void rdt_get_cdp_l2_config(void)
+ {
+ 	rdt_get_cdp_config(RDT_RESOURCE_L2);
+ }
+diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+index 955999aecfca..16181b90159a 100644
+--- a/arch/x86/kernel/cpu/resctrl/internal.h
++++ b/arch/x86/kernel/cpu/resctrl/internal.h
+@@ -627,7 +627,7 @@ int closids_supported(void);
+ void closid_free(int closid);
+ int alloc_rmid(u32 closid);
+ void free_rmid(u32 closid, u32 rmid);
+-int rdt_get_mon_l3_config(struct rdt_resource *r);
++int __init rdt_get_mon_l3_config(struct rdt_resource *r);
+ void __exit rdt_put_mon_l3_config(void);
+ bool __init rdt_cpu_has(int flag);
+ void mon_event_count(void *info);
+diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
+index 5fcb3d635d91..daf2e8c03d86 100644
+--- a/arch/x86/kernel/cpu/resctrl/monitor.c
++++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+@@ -983,7 +983,7 @@ void mbm_setup_overflow_handler(struct rdt_mon_domain *dom, unsigned long delay_
+ 		schedule_delayed_work_on(cpu, &dom->mbm_over, delay);
+ }
+ 
+-static int dom_data_init(struct rdt_resource *r)
++static __init int dom_data_init(struct rdt_resource *r)
+ {
+ 	u32 idx_limit = resctrl_arch_system_num_rmid_idx();
+ 	u32 num_closid = resctrl_arch_get_num_closid(r);
+@@ -1081,7 +1081,7 @@ static struct mon_evt mbm_local_event = {
+  * because as per the SDM the total and local memory bandwidth
+  * are enumerated as part of L3 monitoring.
+  */
+-static void l3_mon_evt_init(struct rdt_resource *r)
++static __init void l3_mon_evt_init(struct rdt_resource *r)
+ {
+ 	INIT_LIST_HEAD(&r->evt_list);
+ 
+-- 
+2.34.1
 
-‒ Maximum Performance PCR Extend Policy: ACM can support several hash 
-algorithms via embedded SW. When this policy is selected, ACM will use 
-embedded SW to compute hashes and then will use TPM2_PCR_Extend commands 
-to extend them into PCRs. If PCRs utilizing hash algorithms not 
-supported by SW are discovered, they will be capped with “1” value. This 
-policy, when selected, will ensure maximum possible performance but has 
-side effect of possible capping of some of the PCRs.
-
-Allow me to clarify/expand on the last statement in Maximum Agility. 
-There is almost certainly a performance loss as anything larger than 
-1024 bytes, for example the Linux kernel, the ACM will bit-banging the 
-bytes to the TPM using the TPM2_Hash* functions.
-
-Before addressing the next point, I would also clarify how the D-CRTM 
-measurement taken by the CPU is done. It uses the _TPM_HASH_* functions, 
-Section 22.9 of TPM2 Commands specification, to store SHA256(SINIT ACM) 
-| EDX into all active PCR banks. For clarity, when this done, EDX holds 
-the 4-byte value of the SENTER parameters for which 0 is the only valid 
-value currently.
-
-
-> So we're logging the values with which we extend the PCRs.  Once upon
-> a time, someone decided it was okay to skip extending a PCR bank:
-> 
-> https://google.github.io/security-research/pocs/bios/tpm-carte-blanche/writeup.html
-> 
-> and it was not a great idea.
-
-
-Let's begin by why/how that attack occurs. The TPM Carte Blanche attack 
-took advantage of the fact that without BootGuard in place, the SRTM 
-measurements are done by the software/firmware, to include the 
-self-referential S-CRTM measurement. In particular, for the target 
-platform, it just so happens that it was possible to construct a 
-configuration where not a single hash would be sent to the SHA256 bank. 
-This allowed the attacker the ability to replay any set of measurements, 
-i.e. carte blanche control, into a completely empty PCR bank for which 
-the attestation service would accept quotes. The key to this attack 
-requires both, access to an empty PCR bank, and an attestation service 
-that will accept a quote with only the exploited bank present.
-
-Let us return to my statements above, which will demonstrate why 
-TXT/DRTM completely invalidates the attack. First, as noted above, when 
-the CPU is processing the GETSEC[SENTER] instruction, it (the CPU) will 
-compute the D-CRTM as SHA256(SINIT ACM) | EDX, sending it to the TPM 
-using _TPM_HASH_* functions. The _TPM_HASH_* functions result in all PCR 
-banks to be extended with the D-CRTM value. If Maximum Performance PCR 
-Extend policy is in use, which is the default policy used by TrenchBoot, 
-any algorithm not supported by the ACM is capped by sending the value 
-"1" as the digest value for the extend. Therefore, after the TXT 
-sequence has completed and before control is given to the Linux kernel 
-by the ACM, all PCR banks will consist of either, the D-CRTM + all ACM 
-measurements, or the D-CRTM + TPM2_PCR_Extend(0x1). There will be no PCR 
-banks with empty DRTM PCRs, thus none of the banks would be usable for a 
-TPM Carte Blanche-style attack.
-
-
-> There seem to be six (!) currently defined hashes: SHA1, SHA256,
-> SHA384, SHA512, SM2 and SM3.  I haven't spotted anything promising not
-> to add more.  It seems to be that Linux really really ought to:
-> 
-> (a) extend all banks.  Not all banks that the maintainers like, and
-> not all banks that the maintainers knew about when having this
-> discussion.  *All* banks.  That means TPM2_PCR_Event().  (Or we refuse
-> to boot if there's a bank we don't like.)
-> 
-> (b) Make a best effort to notice if something is wrong with the TPM
-> and/or someone is MITMing us and messing with us.  That means
-> computing the hash algorithms we actually support and checking whether
-> TPM2_PCR_Event() returns the right thing.  I'm not seeing a specific
-> attack that seems likely that this prevents, but it does seem like
-> decent defense in depth, and if someone chooses to provision a machine
-> by reading its event log and then subsequently getting an attestation
-> that a future event log matches what was read, then avoiding letting
-> an attacker who temporarily controls the TPM connection from
-> corrupting the results seems wise.  And I don't see anything at all
-> that we gain by removing a check that (TPM's reported SHA1 == what we
-> calculated) in the name of "not supporting SHA1") other than a few
-> hundred bytes of object code.  (And yes, SHA1 is much more likely to
-> be supported than SM3, so it's not absurd to implement SHA1 and not
-> implement SM3.)
-
-
-Or,
-
-(c) Upon initialization, cap the PCR banks with unsupported algorithms 
-using a well-known value.
-
-A problem with (a) is that the result will be an unorthodox event, 
-PCR_EXTEND(H(H'(data))). An attestation verifier will have to be aware 
-of that this is being done, and have a way to determine which method was 
-used for each event. This creates a potentially expensive cost for any 
-existing attestation solutions to incorporate support for the unorthodox 
-event. At least for DRTM solutions, it seeks to solve a problem that TXT 
-does not experience.
-
-For Linux Secure Launch, I would like to propose an alternative to what 
-the current logic does in the setup kernel. Specifically, Secure Launch 
-will trigger a TXT reset when an unsupported algorithm is encountered. 
-Instead, I would like to propose the adoption of (c), and have it 
-extends a well-known, fixed value for unsupported algorithms. Secure 
-Launch can leverage the fact that the TPM driver's extend function 
-already expects to be given digests for all active algorithms. 
-Therefore, it will record the well-known value, 0x01 to follow the ACM, 
-into the digest buffers of any algorithms that Secure Launch does not 
-support. This will result in the well-known value being extended each 
-time a measurement is recorded. This will not be a problem as no one 
-should be using those banks for attestation and can ignore those digests 
-in the event log.
-
-I would like to note that we made a conscious design decision early on 
-to use the PCR performance policy approach. We weighed a variety of 
-security concerns, hardware availability, and the practicality of 
-integrating the capability into our respective efforts. I do not want 
-you to feel as though we are not taking your comments seriously. Ross 
-reached out to some their contacts, and I reached out to a colleague 
-with domain experience as well. From a cursory review, no one saw an 
-issue from a crypto standpoint, beyond some algorithm recommendations. 
-As we highlighted, they did caution about the resulting unorthodox 
-measurement that would impose a burden on attestation solutions.
-
-Hopefully With the background and context presented, you would agree the 
-above is a reasonable approach. If you do have concerns, please let us know.
-
-V/r,
-Daniel P. Smith
