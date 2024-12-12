@@ -1,95 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF91204C1D;
-	Thu, 12 Dec 2024 08:54:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9FA320E6EA
+	for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2024 09:01:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733993697; cv=none; b=sJZEOsjdS3tGEskKn8wPdMuzWVtBcKvkgru15bMqHF8UHt2tYyXbDCSAan3bqk+rNbBI9ezHROcQDaQsZlZDDBYxHrJAfk19bifIqOaKQ0irlWOJCs79XxFOhWksz99GdEfT4XJuIKZAoI0Lpiw5EkbNrBlD1PpfpOLy6hD0tkQ=
+	t=1733994090; cv=none; b=n/VxCtk9BbXcBLj+QCZrF7TUO6j82w7Ueqt8c4EA98R7yoBiPqOaxlGvhqwpx52Tj2dBf8UTSZE4nreVRgY5ymZEKBHOTk4ho0X4sB2ivCNiHViOYo+F3z04qxcIKTdqMzz5zSt3fLR4nXAMFj66CZJY6cbGwzxwQ1SK4awLuDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733993697; c=relaxed/simple;
-	bh=Fy4YngrVcpagRsu5yXaXhy6khObq1+63mtDUkXZu0Hs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DQ2wKUH+T7OjfNi/2jo8pes7/nQNW0dIYlRGh3kSL9F8Qau7LkxTW02S5/YTajzQLPMkVae3yiyESHD7kb16wtlBt9yKds/u4UTS+WGA9rHDPK+V+CjC8O17UZQrEO7f1tFEQtj2LHHGy/M3q72LLQ+qDNxxZBfDBEyzEA0Ei9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ojj28dCC; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ojj28dCC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE6C8C4CECE;
-	Thu, 12 Dec 2024 08:54:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733993696;
-	bh=Fy4YngrVcpagRsu5yXaXhy6khObq1+63mtDUkXZu0Hs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ojj28dCCyJsYWCQ3nZtMUHqqKD7pLZ/ITymNq/65CKEPSxvMwaKmSBEcXxLYPPKy0
-	 bCCF3nZPaJ7k//9SBQ/rYhvwJimsjRdm+91sZWCtORRbzPjDtteY0DSoFIUcv1x+Lr
-	 1CBtlVjnuOx8tTbgfpy+LEAsfWvTLFFTYZp7gkMuh4x2UvzAENWOExWVLSc4743UO9
-	 JCTRe0c+Y4hkv7hgXehu2a9IN4oO88rQf5qeTV3yngqTzQ8uA8ZEtTJYYWl8RkEd5C
-	 CPaD72/jVRnOkLoezb3tHNft0IcASYCJ/ywixjCc6QTi7fbpx3tk7LTpPjb2MxQzXP
-	 gZjbGel83uyhg==
-Date: Thu, 12 Dec 2024 10:54:52 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v4 11/18] mm/hmm: let users to tag specific PFN with DMA
- mapped bit
-Message-ID: <20241212085452.GI1245331@unreal>
-References: <cover.1733398913.git.leon@kernel.org>
- <e4551571fc10d9c73ab9e38a75ea701c1b492686.1733398913.git.leon@kernel.org>
- <20241212084856.GE9376@lst.de>
+	s=arc-20240116; t=1733994090; c=relaxed/simple;
+	bh=j15g7+Zs11MXgNdFt9xjPzQq0JE/TjMvjYfFKO5EiIg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ZLzl0wweJYjHb3UVpOLPr+vuVmQNskjWvBl+5yTPeamZlPJoMEyT9WEx8KzgV/OcQV5krS/fsF5QchR7HLbAlbENQKqS85jxuBWCArCCe9bTZzmrRVFI5OnQsjfsHiCyoNdFYWCmZPhV8mbk1QQLWQMNKghdk+aQlZ2TGEj1DPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:a086:deff:83e6:222b])
+	by andre.telenet-ops.be with cmsmtp
+	id nl1E2D0091T2bNC01l1E1c; Thu, 12 Dec 2024 10:01:20 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tLf4J-000pxW-F0;
+	Thu, 12 Dec 2024 10:01:14 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tLf4H-00DEXi-0G;
+	Thu, 12 Dec 2024 10:01:09 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Davis <afd@ti.com>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Cc: devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH v2 resend 2] docs: dt: Update overlay file extension
+Date: Thu, 12 Dec 2024 10:01:07 +0100
+Message-Id: <a3b98f8590b834d090fc0c7faf6fd0f8d6078e8c.1733993924.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241212084856.GE9376@lst.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 12, 2024 at 09:48:56AM +0100, Christoph Hellwig wrote:
-> On Thu, Dec 05, 2024 at 03:21:10PM +0200, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> > 
-> > Introduce new sticky flag (HMM_PFN_DMA_MAPPED), which isn't overwritten
-> > by HMM range fault. Such flag allows users to tag specific PFNs with information
-> > if this specific PFN was already DMA mapped.
-> 
-> Missing line wrap at 73 characters here.
-> 
-> >  
-> > @@ -253,14 +262,14 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
-> >  			cpu_flags = HMM_PFN_VALID;
-> >  			if (is_writable_device_private_entry(entry))
-> >  				cpu_flags |= HMM_PFN_WRITE;
-> > -			*hmm_pfn = swp_offset_pfn(entry) | cpu_flags;
-> > +			*hmm_pfn = (*hmm_pfn & HMM_PFN_INOUT_FLAGS) | swp_offset_pfn(entry) | cpu_flags;
-> 
-> Please avoid the overly long line here.
-> 
-> That being said I hate the structure here.  Can't we just have a local
-> variable for the actual new pfn value, and then a single goto label
-> at the end that takes the keeper flags from the argument and assigning
-> the new out value to *hmm_pfn instead of duplicating this in half a
-> dozen places?
+Building DTB overlays from .dts files is no longer supported.
+Update the documentation to reflect this.
 
-Yes, sure, it makes sense, will do.
+Fixes: 81d362732bac05f6 ("kbuild: Disallow DTB overlays to built from .dts named source files")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Andrew Davis <afd@ti.com>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+---
+v2:
+  - Add Acked-by, Reviewed-by.
+---
+ Documentation/devicetree/overlay-notes.rst           | 12 ++++++------
+ .../translations/zh_CN/devicetree/overlay-notes.rst  | 12 ++++++------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-> 
+diff --git a/Documentation/devicetree/overlay-notes.rst b/Documentation/devicetree/overlay-notes.rst
+index e139f22b363e9f36..35e79242af9a928d 100644
+--- a/Documentation/devicetree/overlay-notes.rst
++++ b/Documentation/devicetree/overlay-notes.rst
+@@ -38,10 +38,10 @@ Lets take an example where we have a foo board with the following base tree::
+ 	};
+     ---- foo.dts ---------------------------------------------------------------
+ 
+-The overlay bar.dts,
++The overlay bar.dtso,
+ ::
+ 
+-    ---- bar.dts - overlay target location by label ----------------------------
++    ---- bar.dtso - overlay target location by label ---------------------------
+ 	/dts-v1/;
+ 	/plugin/;
+ 	&ocp {
+@@ -51,7 +51,7 @@ The overlay bar.dts,
+ 			... /* various properties and child nodes */
+ 		};
+ 	};
+-    ---- bar.dts ---------------------------------------------------------------
++    ---- bar.dtso --------------------------------------------------------------
+ 
+ when loaded (and resolved as described in [1]) should result in foo+bar.dts::
+ 
+@@ -88,9 +88,9 @@ in the base DT. In this case, the target path can be provided. The target
+ location by label syntax is preferred because the overlay can be applied to
+ any base DT containing the label, no matter where the label occurs in the DT.
+ 
+-The above bar.dts example modified to use target path syntax is::
++The above bar.dtso example modified to use target path syntax is::
+ 
+-    ---- bar.dts - overlay target location by explicit path --------------------
++    ---- bar.dtso - overlay target location by explicit path -------------------
+ 	/dts-v1/;
+ 	/plugin/;
+ 	&{/ocp} {
+@@ -100,7 +100,7 @@ The above bar.dts example modified to use target path syntax is::
+ 			... /* various properties and child nodes */
+ 		}
+ 	};
+-    ---- bar.dts ---------------------------------------------------------------
++    ---- bar.dtso --------------------------------------------------------------
+ 
+ 
+ Overlay in-kernel API
+diff --git a/Documentation/translations/zh_CN/devicetree/overlay-notes.rst b/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
+index 43e3c0bc5a9f8235..ba5edd05dc1e7fd2 100644
+--- a/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
++++ b/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
+@@ -43,10 +43,10 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
+ 	};
+     ---- foo.dts ---------------------------------------------------------------
+ 
+-覆盖bar.dts,
++覆盖bar.dtso,
+ ::
+ 
+-    ---- bar.dts - 按标签覆盖目标位置 ----------------------------
++    ---- bar.dtso - 按标签覆盖目标位置 ---------------------------
+ 	/dts-v1/;
+ 	/插件/;
+ 	&ocp {
+@@ -56,7 +56,7 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
+ 			... /* 各种属性和子节点 */
+ 		};
+ 	};
+-    ---- bar.dts ---------------------------------------------------------------
++    ---- bar.dtso --------------------------------------------------------------
+ 
+ 当加载（并按照[1]中描述的方式解决）时，应该产生foo+bar.dts::
+ 
+@@ -90,9 +90,9 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
+ DT中的适当位置。在这种情况下，可以提供目标路径。通过标签的目标位置的语法是比
+ 较好的，因为不管标签在DT中出现在哪里，覆盖都可以被应用到任何包含标签的基础DT上。
+ 
+-上面的bar.dts例子被修改为使用目标路径语法，即为::
++上面的bar.dtso例子被修改为使用目标路径语法，即为::
+ 
+-    ---- bar.dts - 通过明确的路径覆盖目标位置 --------------------
++    ---- bar.dtso - 通过明确的路径覆盖目标位置 -------------------
+ 	/dts-v1/;
+ 	/插件/;
+ 	&{/ocp} {
+@@ -102,7 +102,7 @@ DT中的适当位置。在这种情况下，可以提供目标路径。通过标
+ 			... /* 各种外围设备和子节点 */
+ 		}
+ 	};
+-    ---- bar.dts ---------------------------------------------------------------
++    ---- bar.dtso --------------------------------------------------------------
+ 
+ 
+ 内核中关于覆盖的API
+-- 
+2.34.1
+
