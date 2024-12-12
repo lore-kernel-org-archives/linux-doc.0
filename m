@@ -1,83 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8096257D;
-	Thu, 12 Dec 2024 02:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732FD13F43A
+	for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2024 03:57:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733970495; cv=none; b=KeD7zFnBJL7vNXG5i7j2yLETzGipzjkqfFZ3G3XhAKqIYt5r1tB9WGm9ndEKxlo+l8DyG2isxEq+xg4lNIFLSrjlXwiPlw68nyc0kZYSMCxXmL+B7oCJEmwh3oq8BMVgmoXnWgo0GjPqGqNiBjXLklz6d6S4CvtsekVvMk2SmH0=
+	t=1733975855; cv=none; b=GxwtYMjAEQ+Qd1d3FKuCgkuh93DafwxKqD81cOL/3tq/1Y1Pm1xwWnuSLETLMFlC3z1XQgcUmkHFOAIVS7vVe+oLiNmhlTOl+0b3HPuXc5UuBrMighkZ6B0N/BAyIl4yLdw6TMI/9bex0ES/GtYMG1GDuglT68kgIdPafJadGtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733970495; c=relaxed/simple;
-	bh=XsiEYnxh+hvzn/XFOkHqruCHasjAtgFcOsO/3Lg/otk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UnX6ISpnUqVPrnM5C5S916cKZrRz1YkITRCeZX6T8ARX6b1gHRVtJm/HkYFrpxBtF+Su/fzkJLwi82fzbSLSnSewBofyBxeGvQPy6tlD31ldSdrfC5iZOOk3o34IpHx6NDp2C354RFtcabCi1e2TYdg3ud3u4okP3ANuUgMQIIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N1lN/NV/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733975855; c=relaxed/simple;
+	bh=avMpD592FGSIqWpnDK8lZI/BfHdGwNE1wij+bKUI/hk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=De8tr+cj9mNJsfm5kcXHm5u6V8GQA2bX38Jbks9IeNbkybvC80++2wv3uNyUGwFVSf+nJhIGLW+BjZjld4iPjyb+hFRkIOa18aXmYqNdeSRndImTAvzJDxYyXIMGIqOImb45kN1iJ030jniwpVacXPW+04QUdnN7Jv/JVzTkf38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XfAk5grW; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N1lN/NV/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBD2EC4CED2;
-	Thu, 12 Dec 2024 02:28:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733970495;
-	bh=XsiEYnxh+hvzn/XFOkHqruCHasjAtgFcOsO/3Lg/otk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=N1lN/NV/HzLYJ59eTU2CTXKk1IRG0uF9xQPIBL9qPWPt4qbQk3Z+mAHN1HtR/goYO
-	 30UGr57Ge4SWphzeROlqd4KrN2ZWf7hOImC8FUHdgI/mOEhghjORThfo8tLc8Gy+Je
-	 Jij0LBX/iQM3yMOW3ueXouAFoMIkL3O9JKNfz0bEMlzQdbVv7bsO2/ePA1Y0UDJoDN
-	 VW7FgR2vXXNYJaIgu/qmkurJSbwqnjj+bRlS5fnu90suQmqX03FJH2+nl5Ed7aWRdn
-	 +PhvBooPZI5q9Wo7oZAk4YbL5LMgghxPypt7ZKZHyG0mTZnfFqzX2vudSxa9yjeEJX
-	 JAHnXyV8zPBoQ==
-Date: Wed, 11 Dec 2024 18:28:13 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, Pavel Begunkov <asml.silence@gmail.com>, Kaiyuan
- Zhang <kaiyuanz@google.com>, Willem de Bruijn <willemb@google.com>,
- Samiullah Khawaja <skhawaja@google.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Jesper
- Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas
- <ilias.apalodimas@linaro.org>
-Subject: Re: [PATCH net-next v3 5/5] net: Document memory provider driver
- support
-Message-ID: <20241211182813.789616ce@kernel.org>
-In-Reply-To: <CAHS8izOHfWPGaAF0Ri6sN5SVbvD9k_u2-_WmHJHcwu4HDEXj-Q@mail.gmail.com>
-References: <20241209172308.1212819-1-almasrymina@google.com>
-	<20241209172308.1212819-6-almasrymina@google.com>
-	<20241210195513.116337b9@kernel.org>
-	<CAHS8izOHfWPGaAF0Ri6sN5SVbvD9k_u2-_WmHJHcwu4HDEXj-Q@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XfAk5grW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733975853; x=1765511853;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=avMpD592FGSIqWpnDK8lZI/BfHdGwNE1wij+bKUI/hk=;
+  b=XfAk5grWd7LLHQLYmYKfqvf9zmpaw2pGYBA75EnQSEHJ5tetXaePFkGP
+   iJGXY5Er6G9bvqB1CbzOAfSbeUytVYukBFSln70zkD6aFzixQMMoVlfk1
+   SkDPZrgHejXRpytUfsnYM66ALZk//brErFJ7CZ2y+eQKwty+1gINmY/BQ
+   7q4yhT3zUu0G2/umVoGnzndi6MouN3j/9l+U7vIQMJ0BTxwwx3UxhXSaZ
+   fFIMFEirNXwXt4oxQeDw8ICerV0ojEJ2HxwO4huN2ILS+xSeHUeJu0o/3
+   e53WqbyVRocqRIb+Mly7Bbil5oRLI4KuUaac8uusr+/iMkPgmcLFn6G6M
+   g==;
+X-CSE-ConnectionGUID: pVmQ6fiORg+4T+CqAtozxQ==
+X-CSE-MsgGUID: N4ceSfS1TASKKeQLMBCQkw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="59775535"
+X-IronPort-AV: E=Sophos;i="6.12,227,1728975600"; 
+   d="scan'208";a="59775535"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 19:57:33 -0800
+X-CSE-ConnectionGUID: SyfjpiAYSwuUo10Q1tWRgQ==
+X-CSE-MsgGUID: ymsTvsHtRO2xh1apqd/ZsQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="96530181"
+Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 11 Dec 2024 19:57:32 -0800
+Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tLaKP-0007PZ-0m;
+	Thu, 12 Dec 2024 03:57:29 +0000
+Date: Thu, 12 Dec 2024 11:57:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tudor Ambarus <tudor.ambarus@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [ambarus:acpm-v4-upstream 3/10] htmldocs: Warning: MAINTAINERS
+ references a file that doesn't exist:
+ Documentation/devicetree/bindings/mailbox/samsung,exynos.yaml
+Message-ID: <202412121157.66Uo82V3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 11 Dec 2024 09:53:36 -0800 Mina Almasry wrote:
-> Drivers doing their own recycling is not currently supported, AFAICT.
-> Adding support for it in the future and maintaining it is doable, but
-> a headache. I also noticed with IDPF you're nacking drivers doing
-> their own recycling anyway, so I thought why not just declare all such
-> use cases as not supported to make the whole thing much simpler.
-> Drivers can deprecate their recycling while adding support for netmem
-> which brings them in line with what you're enforcing for new drivers
-> anyway.
+tree:   https://github.com/ambarus/linux-0day acpm-v4-upstream
+head:   a7e0ce0f6a033307db912fc77b1bbb7c3e1df757
+commit: 26c389f00b6244f87b078f93a9403c8549c53505 [3/10] MAINTAINERS: add entry for Samsung Exynos mailbox driver
+reproduce: (https://download.01.org/0day-ci/archive/20241212/202412121157.66Uo82V3-lkp@intel.com/reproduce)
 
-IIRC IDPF was doing recycling based on the old page ref tricks,
-without any use of page pool at all. But without using page pool
-the driver will never acquire a netmem_ref in the first place.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412121157.66Uo82V3-lkp@intel.com/
 
-> The specific reason: currently drivers will get_page pp pages to hold
-> on to them to do their own recycling, right? We don't even have a
-> get_netmem equivalent. We could add one (and for the TX path, which is
-> coming along, I do add one), but even then, the pp needs to detect
-> elevated references on net_iovs to exclude them from pp recycling. The
-> mp also needs to understand/keep track of elevated refcounts and make
-> sure the page is returned to it when the elevated refcounts from the
-> driver are dropped.
+All warnings (new ones prefixed by >>):
 
-No? It should all just work. The page may get split / fragmented by 
-the driver or page_pool_alloc_netmem() which you're adding in this
-series. A fragmented net_iov will have an elevated refcount in exactly
-the same way as if the driver was stashing one ref to release later.
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: Documentation/hwmon/isl28022.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/isl,isl28022.yaml
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mailbox/samsung,exynos.yaml
+   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
+   Using alabaster theme
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
