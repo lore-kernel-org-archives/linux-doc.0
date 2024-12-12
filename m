@@ -1,74 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682DE1632CA;
-	Thu, 12 Dec 2024 04:53:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB6C18787A
+	for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2024 06:51:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733979196; cv=none; b=JTc7nTDXSsQzf2wRvCcE3jVjALq8UhnbpgSAVODj4vdUgUFiEIrSEONmXuBiGw+WQK99KCi0/verNdp5oFo3xiB8TjDXigWGsJ8BGw3VjvFjcbahLY2uMm8aFVFrBYKFuktPBVA2ZVyZSeBv7agx7N/KdTOg5YEqa7liWenrgF8=
+	t=1733986265; cv=none; b=kXOqt5ux8P1m8dJbF0+h9+50kosu/letdhjb+hHAwMM3G+DPlaACiDsf/mw/HH5CQei2Civz+vOjHSHatFp6WboV8pPsScLc/ZrRPCEyEcavEZ5BYsaPwI2w9u6lbMJpCpe4HA/X9OkwergSiDRgbBygcaWQnZnk5SNvmljJa30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733979196; c=relaxed/simple;
-	bh=OThb/28WRH4fPmSctOntMxlFyk4uNJM60KRc4sMrzqg=;
+	s=arc-20240116; t=1733986265; c=relaxed/simple;
+	bh=J5qTMehS3VZ62nZjN03LGp8GqaYD+XZuK6SdZqnwox4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZojeSFJA5YF94snFbrn6QZhBVgyBNIOjqBe4yzYoQ13SNFfuq2V2MT8cOqRpfDdbG8/r4rZuZbirUMenFD5+ph+4JoitlR81BZdYr64av+8ID/9EhTeAQQsdxmNdiTxXjuMkZHrt03arCRzADvjzhiLUMCuwGpDSURcgb2r0OJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VdbFOPDI; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=gAQGq7fNBwwsVeST9OplNfaYfjAjaDX3V/hArVtmcKX0PjQVkZBw7gvZ7VCurPSqt3r3YL0gVEE6IzSibuKMr6AXkI13E9VH9M84NEpTGtp1TXNbrBevmQwjWkZEo+Dt96riEDPdwVChiGTHn9qnEcd8LC9iZsFV41fPTYcCE9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AXFnks2q; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VdbFOPDI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733979193; x=1765515193;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OThb/28WRH4fPmSctOntMxlFyk4uNJM60KRc4sMrzqg=;
-  b=VdbFOPDIG2GdRTaTHG5y5Gw1wt/IO/YYGuH7n3ER9LTYJGYpDF/5yK5r
-   Wx3MHHUa5ozDzjbU8ZlL9G4VPqKdnBvNfJfNzj7ksnf0WIqqOuhn780DS
-   ZrS9C8EQEoUCUlE6eqI2P4pdvb165+Aw3Uq+JgEQvwCr0vLG4ypArKZR1
-   F+dqZcyyxAI91HO83ome4gkaBz48Ni2U0XTsjcK53W58FD94NmCkLnfoS
-   vjYaThwXB3WrdDOYbNn2tDcnAj2KrruQ8GxfpEt+PYW2brFeeMXBmE6MM
-   qo6cigjpmfTp30vcubkSO637Kh5TxogfTQUzImVTMO115p0SsV+UfzrUb
-   g==;
-X-CSE-ConnectionGUID: Gn3aZrxZScKO0AAlKqyAWA==
-X-CSE-MsgGUID: ABC5keaDRXKSfxcsPUhN6w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11278"; a="45765797"
-X-IronPort-AV: E=Sophos;i="6.12,214,1728975600"; 
-   d="scan'208";a="45765797"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 20:53:12 -0800
-X-CSE-ConnectionGUID: 61UdLCRVSFCV9GxQXcQjQQ==
-X-CSE-MsgGUID: gsE7v/SySSK9YmCGTr+8Ug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="95947178"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 11 Dec 2024 20:53:09 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tLbCD-0007Rz-2h;
-	Thu, 12 Dec 2024 04:53:05 +0000
-Date: Thu, 12 Dec 2024 12:52:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Elizabeth Figura <zfigura@codeweavers.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org, wine-devel@winehq.org,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Arkadiusz Hiler <ahiler@codeweavers.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
-	Elizabeth Figura <zfigura@codeweavers.com>
-Subject: Re: [PATCH v6 28/28] ntsync: No longer depend on BROKEN.
-Message-ID: <202412121219.EQhUbN0S-lkp@intel.com>
-References: <20241209185904.507350-29-zfigura@codeweavers.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AXFnks2q"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-728ea1e0bdbso220349b3a.0
+        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 22:51:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733986263; x=1734591063; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AzE1O+wEcFJCWBuWQepSclrHJZ9pm/tyRfOt1u5cgLg=;
+        b=AXFnks2qbV0MiA1bgTfCHENGufngpialPoAEaehB+J9DhSOEay/ENWfonPAaEAvk+Q
+         VIhF/XgdWHCTr/WZlEdWzxDWKhFttJsL+GvOZKfrWPIJKbJMZSFqEi8hQv/Q0QM5cWgp
+         l6UboFp5y7MddO6KU0x/pqrS3qQxpY7oehPbWTnmkCtvGacseg52O74GKjSnUXdfiSPs
+         IwDDZl67d3j9U1/PXG+Yal7ZgN5tdfcv5ZOOOTNCVwnRsqlnaFZPeZoa//igP8MFRguF
+         Hzr1zOsLycE43CquhBsGJkCcAB1Y4sZXXEtbHWL/17eFINWJe6U1+eMDLlFBw6M3g4f1
+         G87w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733986263; x=1734591063;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AzE1O+wEcFJCWBuWQepSclrHJZ9pm/tyRfOt1u5cgLg=;
+        b=vGrvEbCZz28RyiVYiaiPCPqcB7xLKDGNvGlUcZg44RT+PQZKWX8KFfFJlm0/OdVlEI
+         t1BquCicJRIv7bzGp+FZaPwvO7kS0zTx8W84ThDvVdIn6NPCzdg3Q+LG21oKuVt/AJW0
+         yAAGwW0Ia9pJaxpD9RcpGf3BbdgKnTUjA9eQmu8m05GMj1WpA4K+NyuXWSiqtM7r+GVt
+         0SLRg8VexBbUPpQV3SA0m6MNNfY756vEnB5+2iJYQHDbZa94RWtbkS93lR7XRYAdPpV6
+         cQN+MgvUaJgGVnji6cTTpReLDE4X0H/15TuumXvC2PDPIogg9XjBPFmPfOBTxo3BFlSB
+         e7jA==
+X-Forwarded-Encrypted: i=1; AJvYcCU77f/2SzUyzqvev165+j7pcHUzvT/Vh1pcMTLSHd/QJEQhYjwsRR/Tm0s9P7LSqLuaE4oFEuRf/j4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwlQr6vlK/H7RfcnlCXjzJHcnMNlHC3iETX5yP5w0WaDqpgW49o
+	yYNyoKGME/r1tudCUEIRkk7p6BMBdbPdLabKw++J6Nc85OWQiFpMSJc/846jBlQ=
+X-Gm-Gg: ASbGnctU2nExhSI9iijW+lTZSx6HzgEnyZwR+kZxyhIWXQpoOL2s53e1t2YV3TmcEL/
+	fqy+ocMrkZACYkilvoyd1AfMxFrI+wKjuEo/iIiEOBn+u1LBLWB1rige9QyU8lys7HIcKxxOBSh
+	b3xi7tjzUG/3znE+K20GHVdUmsfAhZ4zJMGMzUIJR1oI79jtFEAy+HiPRJH8l5DdAwxWvVguUUp
+	7qTtxvRzmGj368JD5YPAI61FVfRNIC7M87aH5p6ZkvQGHIHuMGrW/SKNtY=
+X-Google-Smtp-Source: AGHT+IFE78oKDXfbnWAKipxIsGcsj9ziBXqvMJZisKuD8EuJoQLV1Ku/T9xLrtjkJtyJVpTFpdinxQ==
+X-Received: by 2002:a05:6a00:9aa:b0:725:e325:ab3a with SMTP id d2e1a72fcca58-728faa1ce63mr3316269b3a.14.1733986263004;
+        Wed, 11 Dec 2024 22:51:03 -0800 (PST)
+Received: from localhost ([122.172.83.132])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-725e82197e4sm7131155b3a.72.2024.12.11.22.51.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Dec 2024 22:51:02 -0800 (PST)
+Date: Thu, 12 Dec 2024 12:21:00 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Beata Michalska <beata.michalska@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org, ionela.voinescu@arm.com,
+	sudeep.holla@arm.com, will@kernel.org, catalin.marinas@arm.com,
+	rafael@kernel.org, sumitg@nvidia.com, yang@os.amperecomputing.com,
+	vanshikonda@os.amperecomputing.com, lihuisong@huawei.com,
+	zhanjie9@hisilicon.com, Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H . Peter Anvin" <hpa@zytor.com>, Phil Auld <pauld@redhat.com>,
+	x86@kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v8 1/4] cpufreq: Introduce an optional cpuinfo_avg_freq
+ sysfs entry
+Message-ID: <20241212065100.sjb7lrlmksbm2hdk@vireshk-i7>
+References: <20241206135600.4083965-1-beata.michalska@arm.com>
+ <20241206135600.4083965-2-beata.michalska@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,65 +82,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241209185904.507350-29-zfigura@codeweavers.com>
+In-Reply-To: <20241206135600.4083965-2-beata.michalska@arm.com>
 
-Hi Elizabeth,
+On 06-12-24, 13:55, Beata Michalska wrote:
+> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+> index 04fc786dd2c0..70df2a24437b 100644
+> --- a/drivers/cpufreq/cpufreq.c
+> +++ b/drivers/cpufreq/cpufreq.c
+> @@ -747,9 +747,14 @@ show_one(cpuinfo_transition_latency, cpuinfo.transition_latency);
+>  show_one(scaling_min_freq, min);
+>  show_one(scaling_max_freq, max);
+>  
+> -__weak unsigned int arch_freq_get_on_cpu(int cpu)
+> +__weak int arch_freq_get_on_cpu(int cpu)
+>  {
+> -	return 0;
+> +	return -EOPNOTSUPP;
 
-kernel test robot noticed the following build errors:
+I did suggest not doing this as it may not be acceptable.
 
-[auto build test ERROR on cdd30ebb1b9f36159d66f088b61aee264e649d7a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Elizabeth-Figura/ntsync-Introduce-NTSYNC_IOC_WAIT_ANY/20241210-031155
-base:   cdd30ebb1b9f36159d66f088b61aee264e649d7a
-patch link:    https://lore.kernel.org/r/20241209185904.507350-29-zfigura%40codeweavers.com
-patch subject: [PATCH v6 28/28] ntsync: No longer depend on BROKEN.
-config: i386-randconfig-002-20241212 (https://download.01.org/0day-ci/archive/20241212/202412121219.EQhUbN0S-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241212/202412121219.EQhUbN0S-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412121219.EQhUbN0S-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/spinlock.h:60,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from drivers/misc/ntsync.c:11:
-   In function 'check_copy_size',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:207:7,
-       inlined from 'setup_wait' at drivers/misc/ntsync.c:903:6:
->> include/linux/thread_info.h:259:25: error: call to '__bad_copy_to' declared with attribute error: copy destination size is too small
-     259 |                         __bad_copy_to();
-         |                         ^~~~~~~~~~~~~~~
-
-
-vim +/__bad_copy_to +259 include/linux/thread_info.h
-
-b0377fedb652808 Al Viro   2017-06-29  248  
-9dd819a15162f8f Kees Cook 2019-09-25  249  static __always_inline __must_check bool
-b0377fedb652808 Al Viro   2017-06-29  250  check_copy_size(const void *addr, size_t bytes, bool is_source)
-b0377fedb652808 Al Viro   2017-06-29  251  {
-c80d92fbb67b2c8 Kees Cook 2021-06-17  252  	int sz = __builtin_object_size(addr, 0);
-b0377fedb652808 Al Viro   2017-06-29  253  	if (unlikely(sz >= 0 && sz < bytes)) {
-b0377fedb652808 Al Viro   2017-06-29  254  		if (!__builtin_constant_p(bytes))
-b0377fedb652808 Al Viro   2017-06-29  255  			copy_overflow(sz, bytes);
-b0377fedb652808 Al Viro   2017-06-29  256  		else if (is_source)
-b0377fedb652808 Al Viro   2017-06-29  257  			__bad_copy_from();
-b0377fedb652808 Al Viro   2017-06-29  258  		else
-b0377fedb652808 Al Viro   2017-06-29 @259  			__bad_copy_to();
-b0377fedb652808 Al Viro   2017-06-29  260  		return false;
-b0377fedb652808 Al Viro   2017-06-29  261  	}
-6d13de1489b6bf5 Kees Cook 2019-12-04  262  	if (WARN_ON_ONCE(bytes > INT_MAX))
-6d13de1489b6bf5 Kees Cook 2019-12-04  263  		return false;
-b0377fedb652808 Al Viro   2017-06-29  264  	check_object_size(addr, bytes, is_source);
-b0377fedb652808 Al Viro   2017-06-29  265  	return true;
-b0377fedb652808 Al Viro   2017-06-29  266  }
-b0377fedb652808 Al Viro   2017-06-29  267  
+https://lore.kernel.org/all/CAKohpokFUpQyHYO017kOn-Jbt0CFZ1GuxoG3N-fenWJ_poW=4Q@mail.gmail.com/
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+viresh
