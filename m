@@ -1,213 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8924E20C474;
-	Thu, 12 Dec 2024 08:25:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35FF153BF6;
+	Thu, 12 Dec 2024 08:33:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733991958; cv=none; b=qLk5XzTbI+VkmSxmYN8MiGhjVRiyidUlOq4eHVuCaXhTpatMVBoamp3V9GrYvnTPPCHBBqdNkUxeVQeV7Vr5Q8E0QJnyl05CqJaDNBvlnU5Vr6myFyNKpYe6xrZR0Dm5+ccANf9mv/OZkEBQHv1juJ4tE2v1tLYABN0eTifIYYc=
+	t=1733992402; cv=none; b=RFHgyqljImpmVbDsdC5Aw51V4z7ud7VtqqPEXQHeHHtW+jpPSgIQOHp7bOYbnBtDYaq/yEXf5Zu40jeell3RHbDBQ6H8GRHB5d+DaZvVC5iAsb5B8RZdYZ2fPWdQa0tvEta2L49hEb3+uha7LmxLv/aXgGlFwqIP80YQXk/K+Lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733991958; c=relaxed/simple;
-	bh=kmHs2PAJbvHFUqqZBPUSZWdZYYxszVxXn4ozKc+Bfyw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BehsTDLs4LwIIARODXLX3jpqKvFXu0/+swPy1uw8iegJKmJlJJBmFhSMvdI2mry/X5CGkw56KVOn0wri+xfo+GhrHOqHA2ZfG7gJYzKXK6PO9RYElGNeZNLPbWigKnbrYRSfej/zOJiFdFZf6ChPQ6tcSUsiNOD5mMzQXEB6CJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NtO68RtU; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NtO68RtU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BBB9C4CED1;
-	Thu, 12 Dec 2024 08:25:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733991958;
-	bh=kmHs2PAJbvHFUqqZBPUSZWdZYYxszVxXn4ozKc+Bfyw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=NtO68RtUdC//tpj5mYzv1AjVb+eLFer1cKb/4eWD0Vf7zqaeLvTtF/Jmll1nzVMqM
-	 zKHXgRCVN1IT3N1wP2z78hIS2O7e0xH9W3GOS5EINUHFCyS9hymKbrFLTU46cv01Sk
-	 M9yiyeWjPryzgG6jh6xg3KFM4BQALNvmYfy/QiEfTnoUlcL/Io6JgH9qOqnGrF5jor
-	 963QroR6ds3jbcheWZR/MH8cNxn/ylHhD5vP13kG0pCtEUk615hjyKHg91x0u+LsZB
-	 9VTxy0IyAgbYotRffyXvF058/Tgw2GAokjvGj3sedoJzLvhWeaK8lGPdXPyK/Gz+KA
-	 AIVw56D36DDew==
-Received: from 82-132-221-83.dab.02.net ([82.132.221.83] helo=wait-a-minute.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1tLeWB-002zrM-85;
-	Thu, 12 Dec 2024 08:25:55 +0000
-Date: Thu, 12 Dec 2024 08:25:53 +0000
-Message-ID: <87cyhxs3xq.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: =?UTF-8?B?TWlrb8WCYWo=?= Lenczewski <miko.lenczewski@arm.com>
-Cc: ryan.roberts@arm.com,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	corbet@lwn.net,
-	oliver.upton@linux.dev,
-	joey.gouly@arm.com,
-	suzuki.poulose@arm.com,
-	yuzenghui@huawei.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Subject: Re: [RESEND RFC PATCH v1 2/5] arm64: Add BBM Level 2 cpu feature
-In-Reply-To: <20241211160218.41404-3-miko.lenczewski@arm.com>
-References: <20241211160218.41404-1-miko.lenczewski@arm.com>
-	<20241211160218.41404-3-miko.lenczewski@arm.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=arc-20240116; t=1733992402; c=relaxed/simple;
+	bh=ot48Ik4V4v5EQENxhTEcEi66UwS0ekYW2KvZvqQWfBA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DVeJiktYN+MkZG2G6TlNw3U/MNHUbG0AoObaU5cMemLGMvk6idHBM4Zet+tskyzZoufpW/KNqd4NcxSc1p8Ivt/RF8rcULpeY62cLS20OtFru7TW5MysSY8lrNbeU5ONgk7vTFWUffbDJy1m8pbd3LxIXyqaIhtKcoPHGMLd/ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 9FDD768D0E; Thu, 12 Dec 2024 09:33:12 +0100 (CET)
+Date: Thu, 12 Dec 2024 09:33:12 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v4 04/18] iommu: add kernel-doc for iommu_unmap and
+ iommu_unmap_fast
+Message-ID: <20241212083312.GA9376@lst.de>
+References: <cover.1733398913.git.leon@kernel.org> <da4827fda833e69dbe487ef404a9333c51d8ed2e.1733398913.git.leon@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-SA-Exim-Connect-IP: 82.132.221.83
-X-SA-Exim-Rcpt-To: miko.lenczewski@arm.com, ryan.roberts@arm.com, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <da4827fda833e69dbe487ef404a9333c51d8ed2e.1733398913.git.leon@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Ah, so this is where this is hiding. I missed it in my review of patch
-#1 yesterday.
+On Thu, Dec 05, 2024 at 03:21:03PM +0200, Leon Romanovsky wrote:
+> +/**
+> + * iommu_unmap_fast() - Remove mappings from a range of IOVA without IOTLB sync
+> + * @domain: Domain to manipulate
+> + * @iova: IO virtual address to start
+> + * @size: Length of the range starting from @iova
+> + * @iotlb_gather: range information for a pending IOTLB flush
+> + *
+> + * iommu_unmap_fast() will remove a translation created by iommu_map(). It cannot
 
-On Wed, 11 Dec 2024 16:01:38 +0000,
-Miko=C5=82aj Lenczewski <miko.lenczewski@arm.com> wrote:
->=20
-> The Break-Before-Make cpu feature supports multiple levels (levels 0-2),
-> and this commit adds a dedicated BBML2 cpufeature to test against
-> support for.
->=20
-> In supporting BBM level 2, we open ourselves up to potential TLB
-> Conflict Abort Exceptions during expected execution, instead of only
-> in exceptional circumstances. In the case of an abort, it is
-> implementation defined at what stage the abort is generated, and
+Please avoid the overly long line here.
 
-*IF* stage-2 is enabled. Also, in the case of the EL2&0 translation
-regime, no stage-2 applies, so it can only be a stage-1 abort.
+Otherwise looks good:
 
-> the minimal set of required invalidations is also implementation
-> defined. The maximal set of invalidations is to do a `tlbi vmalle1`
-> or `tlbi vmalls12e1`, depending on the stage.
->=20
-> Such aborts should not occur on Arm hardware, and were not seen in
-> benchmarked systems, so unless performance concerns arise, implementing
-
-Which systems? Given that you have deny-listed *all* half recent ARM
-Ltd implementations, I'm a bit puzzled.
-
-> the abort handlers with the worst-case invalidations seems like an
-> alright hack.
->=20
-> Signed-off-by: Miko=C5=82aj Lenczewski <miko.lenczewski@arm.com>
-> ---
->  arch/arm64/include/asm/cpufeature.h | 14 ++++++++++++++
->  arch/arm64/kernel/cpufeature.c      |  7 +++++++
->  arch/arm64/mm/fault.c               | 27 ++++++++++++++++++++++++++-
->  arch/arm64/tools/cpucaps            |  1 +
->  4 files changed, 48 insertions(+), 1 deletion(-)
->=20
-> diff --git a/arch/arm64/include/asm/cpufeature.h b/arch/arm64/include/asm=
-/cpufeature.h
-> index 8b4e5a3cd24c..a9f2ac335392 100644
-> --- a/arch/arm64/include/asm/cpufeature.h
-> +++ b/arch/arm64/include/asm/cpufeature.h
-> @@ -866,6 +866,20 @@ static __always_inline bool system_supports_mpam_hcr=
-(void)
->  	return alternative_has_cap_unlikely(ARM64_MPAM_HCR);
->  }
-> =20
-> +static inline bool system_supports_bbml2(void)
-> +{
-> +	/* currently, BBM is only relied on by code touching the userspace page
-> +	 * tables, and as such we are guaranteed that caps have been finalised.
-> +	 *
-> +	 * if later we want to use BBM for kernel mappings, particularly early
-> +	 * in the kernel, this may return 0 even if BBML2 is actually supported,
-> +	 * which means unnecessary break-before-make sequences, but is still
-> +	 * correct
-
-Comment style, capitalisation, punctuation.
-
-> +	 */
-> +
-> +	return alternative_has_cap_unlikely(ARM64_HAS_BBML2);
-> +}
-> +
->  int do_emulate_mrs(struct pt_regs *regs, u32 sys_reg, u32 rt);
->  bool try_emulate_mrs(struct pt_regs *regs, u32 isn);
-> =20
-> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeatur=
-e.c
-> index 6ce71f444ed8..7cc94bd5da24 100644
-> --- a/arch/arm64/kernel/cpufeature.c
-> +++ b/arch/arm64/kernel/cpufeature.c
-> @@ -2917,6 +2917,13 @@ static const struct arm64_cpu_capabilities arm64_f=
-eatures[] =3D {
->  		.matches =3D has_cpuid_feature,
->  		ARM64_CPUID_FIELDS(ID_AA64MMFR2_EL1, EVT, IMP)
->  	},
-> +	{
-> +		.desc =3D "BBM Level 2 Support",
-> +		.capability =3D ARM64_HAS_BBML2,
-> +		.type =3D ARM64_CPUCAP_SYSTEM_FEATURE,
-> +		.matches =3D has_cpuid_feature,
-> +		ARM64_CPUID_FIELDS(ID_AA64MMFR2_EL1, BBM, 2)
-> +	},
->  	{
->  		.desc =3D "52-bit Virtual Addressing for KVM (LPA2)",
->  		.capability =3D ARM64_HAS_LPA2,
-> diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-> index ef63651099a9..dc119358cbc1 100644
-> --- a/arch/arm64/mm/fault.c
-> +++ b/arch/arm64/mm/fault.c
-> @@ -844,6 +844,31 @@ static int do_tag_check_fault(unsigned long far, uns=
-igned long esr,
->  	return 0;
->  }
-> =20
-> +static int do_conflict_abort(unsigned long far, unsigned long esr,
-> +			     struct pt_regs *regs)
-> +{
-> +	if (!system_supports_bbml2())
-> +		return do_bad(far, esr, regs);
-> +
-> +	/* if we receive a TLB conflict abort, we know that there are multiple
-> +	 * TLB entries that translate the same address range. the minimum set
-> +	 * of invalidations to clear these entries is implementation defined.
-> +	 * the maximum set is defined as either tlbi(vmalls12e1) or tlbi(alle1).
-> +	 *
-> +	 * if el2 is enabled and stage 2 translation enabled, this may be
-> +	 * raised as a stage 2 abort. if el2 is enabled but stage 2 translation
-> +	 * disabled, or if el2 is disabled, it will be raised as a stage 1
-> +	 * abort.
-> +	 *
-> +	 * local_flush_tlb_all() does a tlbi(vmalle1), which is enough to
-> +	 * handle a stage 1 abort.
-
-Same comment about comments.
-
-> +	 */
-> +
-> +	local_flush_tlb_all();
-
-The elephant in the room: if TLBs are in such a sorry state, what
-guarantees we can make it this far?
-
-I honestly don't think you can reliably handle a TLB Conflict abort in
-the same translation regime as the original fault, given that we don't
-know the scope of that fault. You are probably making an educated
-guess that it is good enough on the CPUs you know of, but I don't see
-anything in the architecture that indicates the "blast radius" of a
-TLB conflict.
-
-Which makes me think that your KVM patch is equally broken on nVHE and
-hVHE. Such fault should probably be handled while at EL2, not after
-returning to EL1.
-
-Thanks,
-
-	M.
-
---=20
-Without deviation from the norm, progress is not possible.
+Reviewed-by: Christoph Hellwig <hch@lst.de>
