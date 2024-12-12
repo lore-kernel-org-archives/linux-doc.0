@@ -1,193 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B817A2153DD;
-	Thu, 12 Dec 2024 17:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645CB222D75;
+	Thu, 12 Dec 2024 17:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734022978; cv=none; b=ZOIrse7/GYRVH9EzzuUJzPCcM9wQeGyhYOWOUS87Pd/nGz1ZW/sVK6eXdKP4JZz5ySh/JBnf0QESVidL6Li/Hm6DvAV2rkVHESRslh8SORZErBcSTUVBqz7imRX7PZb+LbuVjNP1Th/BsCrAxvV/Cl62eUcWzHiD2c3VwQsu4ms=
+	t=1734023229; cv=none; b=n/t1mT60hgJJgShJuA8Q57hbk4goKzwkqo7YSSClLBKg8Wiu+VBFrgD33kbfjHPcVsZBqLb/2MZSDONsdDxrO+NXNulz3mdvYPq/NgIWFhKHw0tJ/XD/TzP1yOoJGHe1cR+tv+U4zfjpfusSGCzGW6PuDCuZOvHo7NJktgplNGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734022978; c=relaxed/simple;
-	bh=watSS0fbqpZzsEyFSLcvfFuZ8P0NH+THumoSLSiJVpE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=smD3hFrHN7PBotwTGBvJtvBDd3LeXURz+TL9d04TwzsNx0/jLvuRVQosuGcAWXSfbUcCI4+TBbjJV4CkgKaX9D3aO/c+L+slQq/c1ojhxfSfdUZWNZ4DSpfulS/+rUUXTl887MlLga5ar3FMHyYfr86dqVdzy7W+J00MOQClj3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oMefTAdC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734023229; c=relaxed/simple;
+	bh=ZjvHZkc5inY+pRASyJgpQhjoZd37S6DxzdVDTHf6W+I=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=QT2E4/Wn3ElWzOKmMW1AhU0RBhPPeC1cyVxz6xZnufesxc8c9CvgRPa1ow18CbGlk4gukwM1NSUM6y6Dt7wF7Q1b7wuZCkLPF7UGNBdWfn7TznY4UQMgDy1ymMnjXOhsHprNSQ2NWxAmMNN49AqD4mNHPbz2ty94f6uy2j8Pn6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=LmMSw1JO; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oMefTAdC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67389C4CED3;
-	Thu, 12 Dec 2024 17:02:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734022978;
-	bh=watSS0fbqpZzsEyFSLcvfFuZ8P0NH+THumoSLSiJVpE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=oMefTAdC1o9FrilMO7zCuxGHjtpkebrdNsL5j3ShSTqRYIAiUgsWAsMFVpiG/Osul
-	 VUgXAUOa2P5X4mN/rdHDKXmLf2DFnMHqFv4ZMIkycfy4l19NtL5+u4ZZE9appWl63B
-	 x0dBOWkYQiFOQ9hnbHT14EVKoGAPJX/Ifwn3HftsEUWSucluT3yUKmCsZodFosKDrZ
-	 NNmTurhUDX8NEiKj/wSXCfYHfKYQh6KDiHiHP/66lQpTRohXeGhpOfYoMYHlWOrc3p
-	 0Rmz4xt5DDIpGgXMgUe5Bmj8BKjsIsTj8Y6UkizdX0WatmxDFBOZkMVNJDFrg30a8M
-	 fLtxOy6CXWH5g==
-Date: Thu, 12 Dec 2024 11:02:56 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Gur Stavi <gur.stavi@huawei.com>
-Cc: gongfan <gongfan1@huawei.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Cai Huoqing <cai.huoqing@linux.dev>, Xin Guo <guoxin09@huawei.com>,
-	Shen Chenyang <shenchenyang1@hisilicon.com>,
-	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
-	Shi Jing <shijing34@huawei.com>,
-	Meny Yossefi <meny.yossefi@huawei.com>
-Subject: Re: [RFC net-next v02 1/3] net: hinic3: module initialization and
- tx/rx logic
-Message-ID: <20241212170256.GA3347301@bhelgaas>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="LmMSw1JO"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 92BE96000B;
+	Thu, 12 Dec 2024 17:07:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1734023224;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uMy6XiHeL00a21AbpVvnbAktcJJ0pCxX4TSIpkEjL+M=;
+	b=LmMSw1JO3XrnRUJGR/ff9c1mi6Ye10Uv/qCOb5cCedCWwlj+6Wp33ExsypfmByCkwHGKBK
+	UcDv9NHpXH26dWSjg84O+z0flpKP4P5u6ClydqVf2bxuu3v/p8UQWkX8w2JsdFUAfgBILZ
+	Bu5WiYlCn7G0M1S0oiFO4a56Fvo0ZV1gwm+8rSEScZoqETJuV+3K1V7OBa1SV/AiRmnwJ+
+	yY91sPTfXb9U+7AlIhjVyFvRqiYz9jU2uD8cmyQiMb6vlJ7XFleeqqVLJNVnXeGX4osJ5K
+	PbRG9/UOlOiepe1mGsMKXkkQ1Ml0sULtXjMAIBzPLLc13Csj0JsMPMjgxb3yIg==
+From: Kory Maincent <kory.maincent@bootlin.com>
+Date: Thu, 12 Dec 2024 18:06:42 +0100
+Subject: [PATCH net-next v21 2/5] net: Make net_hwtstamp_validate
+ accessible
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7d62ca11c809ac646c2fd8613fd48729061c22b3.1733990727.git.gur.stavi@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241212-feature_ptp_netnext-v21-2-2c282a941518@bootlin.com>
+References: <20241212-feature_ptp_netnext-v21-0-2c282a941518@bootlin.com>
+In-Reply-To: <20241212-feature_ptp_netnext-v21-0-2c282a941518@bootlin.com>
+To: Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Richard Cochran <richardcochran@gmail.com>, 
+ Radu Pirea <radu-nicolae.pirea@oss.nxp.com>, 
+ Jay Vosburgh <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com, 
+ Simon Horman <horms@kernel.org>, Vladimir Oltean <vladimir.oltean@nxp.com>, 
+ donald.hunter@gmail.com, danieller@nvidia.com, ecree.xilinx@gmail.com, 
+ Andrew Lunn <andrew+netdev@lunn.ch>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ Rahul Rameshbabu <rrameshbabu@nvidia.com>, 
+ Willem de Bruijn <willemb@google.com>, 
+ Shannon Nelson <shannon.nelson@amd.com>, 
+ Alexandra Winter <wintera@linux.ibm.com>, 
+ Kory Maincent <kory.maincent@bootlin.com>, 
+ Jacob Keller <jacob.e.keller@intel.com>
+X-Mailer: b4 0.14.1
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Thu, Dec 12, 2024 at 02:04:15PM +0200, Gur Stavi wrote:
-> From: gongfan <gongfan1@huawei.com>
-> 
-> This is [1/3] part of hinic3 Ethernet driver initial submission.
-> With this patch hinic3 is a valid kernel module but non-functional driver.
+Make the net_hwtstamp_validate function accessible in prevision to use
+it from ethtool to validate the hwtstamp configuration before setting it.
 
-> +++ b/Documentation/networking/device_drivers/ethernet/huawei/hinic3.rst
-> @@ -0,0 +1,136 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=====================================================================
-> +Linux kernel driver for Huawei Ethernet Device Driver (hinic3) family
-> +=====================================================================
-> +
-> +Overview
-> +========
-> +
-> +The hinic3 is a network interface card(NIC) for Data Center. It supports
+Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
+Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
 
-Add space before "(".
+Change in v8:
+- New patch
 
-> +Prime Physical Function (PPF) is responsible for the management of the
-> +whole NIC card. For example, clock synchronization between the NIC and
-> +the host.
-> +Any PF may serve as a PPF. The PPF is selected dynamically.
+Change in v10:
+- Remove export symbol as ethtool can't be built as a module.
+- Move the declaration to net/core/dev.h instead of netdevice.h
+---
+ net/core/dev.h       | 1 +
+ net/core/dev_ioctl.c | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-Add blank line between paragraphs or reflow into a single paragraph.
+diff --git a/net/core/dev.h b/net/core/dev.h
+index 357543cbde65..aa91eed55a40 100644
+--- a/net/core/dev.h
++++ b/net/core/dev.h
+@@ -312,5 +312,6 @@ int dev_set_hwtstamp_phylib(struct net_device *dev,
+ 			    struct netlink_ext_ack *extack);
+ int dev_get_hwtstamp_phylib(struct net_device *dev,
+ 			    struct kernel_hwtstamp_config *cfg);
++int net_hwtstamp_validate(const struct kernel_hwtstamp_config *cfg);
+ 
+ #endif
+diff --git a/net/core/dev_ioctl.c b/net/core/dev_ioctl.c
+index 67cf68817f23..1f09930fca26 100644
+--- a/net/core/dev_ioctl.c
++++ b/net/core/dev_ioctl.c
+@@ -184,7 +184,7 @@ static int dev_ifsioc_locked(struct net *net, struct ifreq *ifr, unsigned int cm
+ 	return err;
+ }
+ 
+-static int net_hwtstamp_validate(const struct kernel_hwtstamp_config *cfg)
++int net_hwtstamp_validate(const struct kernel_hwtstamp_config *cfg)
+ {
+ 	enum hwtstamp_tx_types tx_type;
+ 	enum hwtstamp_rx_filters rx_filter;
 
-Is the PPF selected dynamically by the driver?  By firmware on the
-NIC?
+-- 
+2.34.1
 
-> +hinic3_pci_id_tbl.h       Supported device IDs.
-> +hinic3_hw_intf.h          Interface between HW and driver.
-> +hinic3_queue_common.[ch]  Common structures and methods for NIC queues.
-> +hinic3_common.[ch]        Encapsulation of memory operations in Linux.
-> +hinic3_csr.h              Register definitions in the BAR.
-> +hinic3_hwif.[ch]          Interface for BAR.
-> +hinic3_eqs.[ch]           Interface for AEQs and CEQs.
-> +hinic3_mbox.[ch]          Interface for mailbox.
-> +hinic3_mgmt.[ch]          Management interface based on mailbox and AEQ.
-> +hinic3_wq.[ch]            Work queue data structures and interface.
-> +hinic3_cmdq.[ch]          Command queue is used to post command to HW.
-> +hinic3_hwdev.[ch]         HW structures and methods abstractions.
-> +hinic3_lld.[ch]           Auxiliary driver adaptation layer.
-> +hinic3_hw_comm.[ch]       Interface for common HW operations.
-> +hinic3_mgmt_interface.h   Interface between firmware and driver.
-> +hinic3_hw_cfg.[ch]        Interface for HW configuration.
-> +hinic3_irq.c              Interrupt request
-> +hinic3_netdev_ops.c       Operations registered to Linux kernel stack.
-> +hinic3_nic_dev.h          NIC structures and methods abstractions.
-> +hinic3_main.c             Main Linux kernel driver.
-> +hinic3_nic_cfg.[ch]       NIC service configuration.
-> +hinic3_nic_io.[ch]        Management plane interface for TX and RX.
-> +hinic3_rss.[ch]           Interface for Receive Side Scaling (RSS).
-> +hinic3_rx.[ch]            Interface for transmit.
-> +hinic3_tx.[ch]            Interface for receive.
-> +hinic3_ethtool.c          Interface for ethtool operations (ops).
-> +hinic3_filter.c           Interface for mac address.
-
-Could drop "." at end (or use it consistently).
-
-s/mac/MAC/
-
-> +2 mailbox related events.
-> +
-> +MailBox
-
-s/MailBox/Mailbox/ since that's how you use it elsewhere.
-
-> +-------
-> +
-> +Mailbox is a communication mechanism between the hinic3 driver and the HW.
-
-> +The implementation of CEQ is the same as AEQ. It receives completion events
-> +form HW over a fixed size descriptor of 32 bits. Every device can have up
-> +to 32 CEQs. Every CEQ has a dedicated IRQ. CEQ only receives solicited
-> +events that are responses to requests from the driver. CEQ can receive
-> +multiple types of events, but in practice the hinic3 driver ignores all
-> +events except for HINIC3_CMDQ that represents completion of previously
-> +posted commands on a cmdq.
-
-s/form HW/from HW/
-
-> +Work queues are logical arrays of fixed size WQEs. The array may be spread
-> +over multiple non-contiguous pages using indirection table.
-
-Add blank line or wrap into single paragraph.
-
-> +Work queues are used by I/O queues and command queues.
-
-> +Every function, PF or VF, has a unique ordinal identification within the device.
-> +Many commands to management (mbox or cmdq) contain this ID so HW can apply the
-> +command effect to the right function.
-
-Add blank line or wrap into single paragraph.
-
-> +PF is allowed to post management commands to a subordinate VF by specifying the
-> +VFs ID. A VF must provide its own ID. Anti-spoofing in the HW will cause
-> +command from a VF to fail if it contains the wrong ID.
-
-> +config HINIC3
-> +	tristate "Huawei Intelligent Network Interface Card 3rd"
-> +	# Fields of HW and management structures are little endian and will not
-> +	# be explicitly converted
-
-I guess this comment is here to explain the !CPU_BIG_ENDIAN below?
-That's quite an unusual dependency.
-
-> +	depends on 64BIT && !CPU_BIG_ENDIAN
-
-> +++ b/drivers/net/ethernet/huawei/hinic3/Makefile
-> @@ -0,0 +1,21 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +# Copyright (c) Huawei Technologies Co., Ltd. 2024. All rights reserved.
-> +
-> +obj-$(CONFIG_HINIC3) += hinic3.o
-> +
-> +hinic3-objs := hinic3_hwdev.o \
-> +	       hinic3_lld.o \
-> +	       hinic3_common.o \
-> +	       hinic3_hwif.o \
-> +	       hinic3_hw_cfg.o \
-> +	       hinic3_queue_common.o \
-> +	       hinic3_mbox.o \
-> +	       hinic3_hw_comm.o \
-> +	       hinic3_wq.o \
-> +	       hinic3_nic_io.o \
-> +	       hinic3_nic_cfg.o \
-> +	       hinic3_tx.o \
-> +	       hinic3_rx.o \
-> +	       hinic3_netdev_ops.o \
-> +	       hinic3_rss.o \
-> +	       hinic3_main.o
-> \ No newline at end of file
-
-Add newline.
