@@ -1,139 +1,194 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A8606F2FE;
-	Thu, 12 Dec 2024 17:41:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 896FC2F2F;
+	Thu, 12 Dec 2024 18:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734025314; cv=none; b=TF/OdLqR3OA3S6vBrWqCJDtgJtlrrlvicR7Ub8ZI1OUB7ZkDkCNcJWm4cqJA+j696Nckv5oiVtZRtt235aJeDarzn9Lc+sJuOgdq1IfPDWKEuQ1O0A84fpJS15vnkNuczO/lkcTFG33mlTh4HZ0/P+Lf29CYOHb3jMA+ZKJH5s0=
+	t=1734029326; cv=none; b=jf4KQhmslcUoF+urzseL/Y68rI+OAjb6IlfPDE+0U9a9D2GTMZQkpDgGigFC1Lsr68TDpXE23jNDxlW9kx7a10qpDdYrLzOSX6DYIAxE9Yx6oM1Wwg1JdZPLhnbYuA+B79FZoX/B8OyTpPh5FK5nk98YJS1bMREersdw7kKMyx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734025314; c=relaxed/simple;
-	bh=h1OgHvZrV/r+9yeGz1pyu/H5WwMytyQAVZq7j7iYJiw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CN87d7WrbxAqzsK2LfPZEm9S32THvsk+qSTV1ZLgAS4ZpJE95TXrFn+76Jh1UKu0eu6GLs0GmwmcOKodRjeHg8vDwp4BaLpvC1QlbA93pNnb44oXY3+tWoudq1iRyOxuwaefC5nYEjYzcUjL5dkXFjSR3EI5P5EWHeO238tVHSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=StmJIb3w; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1734029326; c=relaxed/simple;
+	bh=vFL9c+2PwzotBNq6ljdxHGHn07GU7AczLYkX2CkFbvM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QV2m9QmkvvN3F9xWdw7O0A6L9SX8jqPiPjE9dvIkiSuDl0Oh7Feb/aU8O6gYb0XEVl4TAM9JqpFy89iFKbXAmagVTinuej86g27uaA/6WpP0OatvkKLHkw2RrRoo7HPEHrZE3Wf8o9f+sUyqdi8kDG4lUNOjBUqkPt2Rz/GDQaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=tq6orQL+; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="StmJIb3w"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=HzG8qPVDVt5NNcEUAYVGyZ32xnNQpVWDejnTHHrGg4E=; b=StmJIb3wJ/muDoGQcTNreEnU1y
-	Ke910i7+CRU848GU0FmG06BjnyMVKmt+wBv8O3kTK+bB/aUhvz57K7HB1TVL2KnG7z7YRrSufRQJ+
-	qT7yFGddfgKMkCamBuNDgMTZcc3vASZz52oE+oEKcWINr2bOQyjIG/VZ/7JiYXrRugF0=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1tLnC4-000ErC-8d; Thu, 12 Dec 2024 18:41:44 +0100
-Date: Thu, 12 Dec 2024 18:41:44 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Gur Stavi <gur.stavi@huawei.com>
-Cc: gongfan <gongfan1@huawei.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Cai Huoqing <cai.huoqing@linux.dev>, Xin Guo <guoxin09@huawei.com>,
-	Shen Chenyang <shenchenyang1@hisilicon.com>,
-	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
-	Shi Jing <shijing34@huawei.com>,
-	Meny Yossefi <meny.yossefi@huawei.com>
-Subject: Re: [RFC net-next v02 1/3] net: hinic3: module initialization and
- tx/rx logic
-Message-ID: <b794027a-ef3b-4262-a952-db249a840e89@lunn.ch>
-References: <cover.1733990727.git.gur.stavi@huawei.com>
- <7d62ca11c809ac646c2fd8613fd48729061c22b3.1733990727.git.gur.stavi@huawei.com>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="tq6orQL+"
+Received: from [192.168.7.202] ([71.202.166.45])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 4BCIm2MV1241973
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Thu, 12 Dec 2024 10:48:02 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 4BCIm2MV1241973
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2024111601; t=1734029285;
+	bh=LS5ebAaxhRt1oilTRh8UWqUtciFI640KhdT1USGVRBA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=tq6orQL+5MP6ahCa64iKAgWb6ZPHNMgYBOwXTD0WmjfrfJvdhlNU6yVWg1Idcr0ge
+	 MqB2ILmOWMIT/7FcBD3L/GME7qvWeDoFrMbpZYHjF4dl4/BehH7zKZNnkOf8q812y5
+	 V9MNDsTSSJm0Ux5zISOWsNiPbETg2lRDRyVqPwUJ4BZldS3m8ZQhip9KvQBJv600F8
+	 S5/UGHDE4Ho/qxJbHC0fIE6ykYED71KlbBvu4kyoxn/hfFLDq2JpNX1+1KvpimdZAG
+	 cXltHPy7+To/N64SUaJGpny1uEZsXPST7kK0rOYimeMb++aTUMDeFj7DAtnCSeitzk
+	 cwYl4sFY18Tlg==
+Message-ID: <3ec986fa-2bf0-4c78-b532-343ad19436b2@zytor.com>
+Date: Thu, 12 Dec 2024 10:48:01 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7d62ca11c809ac646c2fd8613fd48729061c22b3.1733990727.git.gur.stavi@huawei.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 17/27] KVM: x86: Mark CR4.FRED as not reserved when
+ guest can use FRED
+To: Chao Gao <chao.gao@intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, seanjc@google.com, pbonzini@redhat.com,
+        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com
+References: <20241001050110.3643764-1-xin@zytor.com>
+ <20241001050110.3643764-18-xin@zytor.com> <Zxn0tfA+k4ppu2WL@intel.com>
+Content-Language: en-US
+From: Xin Li <xin@zytor.com>
+Autocrypt: addr=xin@zytor.com; keydata=
+ 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
+ l75w1xInsg==
+In-Reply-To: <Zxn0tfA+k4ppu2WL@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> +static void hinic3_del_one_adev(struct hinic3_hwdev *hwdev,
-> +				enum hinic3_service_type svc_type)
-> +{
-> +	struct hinic3_pcidev *pci_adapter = hwdev->adapter;
-> +	struct hinic3_adev *hadev;
-> +	bool timeout = true;
-> +	unsigned long end;
-> +
-> +	end = jiffies + msecs_to_jiffies(HINIC3_EVENT_PROCESS_TIMEOUT);
-> +	do {
-> +		if (!test_and_set_bit(svc_type, &pci_adapter->state)) {
-> +			timeout = false;
-> +			break;
-> +		}
-> +		usleep_range(900, 1000);
-> +	} while (time_before(jiffies, end));
-> +
-> +	if (timeout && !test_and_set_bit(svc_type, &pci_adapter->state))
-> +		timeout = false;
+On 10/24/2024 12:18 AM, Chao Gao wrote:
+>> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+>> index 03f42b218554..bfdd10773136 100644
+>> --- a/arch/x86/kvm/vmx/vmx.c
+>> +++ b/arch/x86/kvm/vmx/vmx.c
+>> @@ -8009,6 +8009,10 @@ void vmx_vcpu_after_set_cpuid(struct kvm_vcpu *vcpu)
+>> 	kvm_governed_feature_check_and_set(vcpu, X86_FEATURE_LAM);
+>> 	kvm_governed_feature_check_and_set(vcpu, X86_FEATURE_FRED);
+>>
+>> +	/* Don't allow CR4.FRED=1 before all of FRED KVM support is in place. */
+>> +	if (!guest_can_use(vcpu, X86_FEATURE_FRED))
+>> +		vcpu->arch.cr4_guest_rsvd_bits |= X86_CR4_FRED;
+> 
+> is this necessary? __kvm_is_valid_cr4() ensures that guests cannot set any bit
+> which isn't supported by the hardware.
+> 
+> To account for hardware/KVM caps, I think the following changes will work. This
+> will fix all other bits besides X86_CR4_FRED.
 
-Please look at using iopoll.h
+This seems a generic infra improvement, maybe it's better for you to
+send it as an individual patch to Sean and the KVM mailing list?
 
-> +static int hinic3_sw_init(struct net_device *netdev)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	struct hinic3_hwdev *hwdev = nic_dev->hwdev;
-> +	int err;
-> +
-> +	nic_dev->q_params.sq_depth = HINIC3_SQ_DEPTH;
-> +	nic_dev->q_params.rq_depth = HINIC3_RQ_DEPTH;
-> +
-> +	hinic3_try_to_enable_rss(netdev);
-> +
-> +	eth_hw_addr_random(netdev);
+> 
+> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+> index 4a93ac1b9be9..2bec3ba8e47d 100644
+> --- a/arch/x86/include/asm/kvm_host.h
+> +++ b/arch/x86/include/asm/kvm_host.h
+> @@ -1873,6 +1873,7 @@ struct kvm_arch_async_pf {
+>   extern u32 __read_mostly kvm_nr_uret_msrs;
+>   extern bool __read_mostly allow_smaller_maxphyaddr;
+>   extern bool __read_mostly enable_apicv;
+> +extern u64 __read_mostly cr4_reserved_bits;
+>   extern struct kvm_x86_ops kvm_x86_ops;
+>   
+>   #define kvm_x86_call(func) static_call(kvm_x86_##func)
+> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+> index 2617be544480..57d82fbcfd3f 100644
+> --- a/arch/x86/kvm/cpuid.c
+> +++ b/arch/x86/kvm/cpuid.c
+> @@ -393,8 +393,8 @@ static void kvm_vcpu_after_set_cpuid(struct kvm_vcpu *vcpu)
+>   	vcpu->arch.reserved_gpa_bits = kvm_vcpu_reserved_gpa_bits_raw(vcpu);
+>   
+>   	kvm_pmu_refresh(vcpu);
+> -	vcpu->arch.cr4_guest_rsvd_bits =
+> -	    __cr4_reserved_bits(guest_cpuid_has, vcpu);
+> +	vcpu->arch.cr4_guest_rsvd_bits = cr4_reserved_bits |
+> +					 __cr4_reserved_bits(guest_cpuid_has, vcpu);
+>   
+>   	kvm_hv_set_cpuid(vcpu, kvm_cpuid_has_hyperv(vcpu->arch.cpuid_entries,
+>   						    vcpu->arch.cpuid_nent));
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index 34b52b49f5e6..08b42bbd2342 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -119,7 +119,7 @@ u64 __read_mostly efer_reserved_bits = ~((u64)(EFER_SCE | EFER_LME | EFER_LMA));
+>   static u64 __read_mostly efer_reserved_bits = ~((u64)EFER_SCE);
+>   #endif
+>   
+> -static u64 __read_mostly cr4_reserved_bits = CR4_RESERVED_BITS;
+> +u64 __read_mostly cr4_reserved_bits;
+>   
+>   #define KVM_EXIT_HYPERCALL_VALID_MASK (1 << KVM_HC_MAP_GPA_RANGE)
+>   
+> @@ -1110,13 +1110,7 @@ EXPORT_SYMBOL_GPL(kvm_emulate_xsetbv);
+>   
+>   bool __kvm_is_valid_cr4(struct kvm_vcpu *vcpu, unsigned long cr4)
+>   {
+> -	if (cr4 & cr4_reserved_bits)
+> -		return false;
+> -
+> -	if (cr4 & vcpu->arch.cr4_guest_rsvd_bits)
+> -		return false;
+> -
+> -	return true;
+> +	return !(cr4 & vcpu->arch.cr4_guest_rsvd_bits);
+>   }
+>   EXPORT_SYMBOL_GPL(__kvm_is_valid_cr4);
+>   
+> 
+>> +
+>> 	vmx_setup_uret_msrs(vmx);
+>>
+>> 	if (cpu_has_secondary_exec_ctrls())
+>> diff --git a/arch/x86/kvm/x86.h b/arch/x86/kvm/x86.h
+>> index 992e73ee2ec5..0ed91512b757 100644
+>> --- a/arch/x86/kvm/x86.h
+>> +++ b/arch/x86/kvm/x86.h
+>> @@ -561,6 +561,8 @@ enum kvm_msr_access {
+>> 		__reserved_bits |= X86_CR4_PCIDE;       \
+>> 	if (!__cpu_has(__c, X86_FEATURE_LAM))           \
+>> 		__reserved_bits |= X86_CR4_LAM_SUP;     \
+>> +	if (!__cpu_has(__c, X86_FEATURE_FRED))          \
+>> +		__reserved_bits |= X86_CR4_FRED;        \
+>> 	__reserved_bits;                                \
+>> })
+>>
+>> -- 
+>> 2.46.2
+>>
+>>
 
-Is using a random MAC just a temporary thing until more code is added
-to access an OTP?
-
-> +	err = register_netdev(netdev);
-> +	if (err) {
-> +		err = -ENOMEM;
-> +		goto err_netdev;
-> +	}
-> +
-> +	netif_carrier_off(netdev);
-> +
-> +	dev_set_drvdata(&adev->dev, nic_dev);
-
-Is this used anywhere in the driver? Calling register_netdev() makes
-the interface live, even before it returns. If you have NFS root for
-example, it could be sending packets, etc, before drvdata is set.
-
-> +int hinic3_set_port_mtu(struct net_device *netdev, u16 new_mtu)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	struct hinic3_func_tbl_cfg func_tbl_cfg = {};
-> +	struct hinic3_hwdev *hwdev = nic_dev->hwdev;
-> +
-> +	if (new_mtu < HINIC3_MIN_MTU_SIZE) {
-> +		dev_err(hwdev->dev,
-> +			"Invalid mtu size: %ubytes, mtu size < %ubytes\n",
-> +			new_mtu, HINIC3_MIN_MTU_SIZE);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (new_mtu > HINIC3_MAX_JUMBO_FRAME_SIZE) {
-> +		dev_err(hwdev->dev, "Invalid mtu size: %ubytes, mtu size > %ubytes\n",
-> +			new_mtu, HINIC3_MAX_JUMBO_FRAME_SIZE);
-> +		return -EINVAL;
-> +	}
-
-The core can do this validation for you, if you set ndev->max_mtu,
-ndev->min_mtu.
-
-
-    Andrew
-
----
-pw-bot: cr
