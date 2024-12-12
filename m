@@ -1,118 +1,123 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590701CEAAC;
-	Thu, 12 Dec 2024 21:35:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609B11D7E5F;
+	Thu, 12 Dec 2024 21:50:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734039337; cv=none; b=U7UufisBECdSALF4fPzIhczZaVJ1SMwMn8WeSTGEXivZAEELKPxG9D1Ol3JpN/S5jstNaySeeRGrmanaPX+OctnKRTtY/PN5lF3R/5Njz9ZcezyaRIIzf2K9taWKObBD0CUL/Pw8uffYUqgt6rOF7+rYuyn4R7ku4wvotLiocO0=
+	t=1734040215; cv=none; b=JvSDk2JDSHCsEAFBnOn+SdqLeFqiuERiGwp245hyb/iSD6gS9RC7Iyn1EDBhlCPAWghZPYPlhUNoleFrqr76QwRCe8NZZRlFZPqMLHq7KS8i4RlpCyTJSHJaxWZ+lqtgetxAOo7HYC81uePZT01Xd6XW52DGdLgrn3lZ5VtGG/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734039337; c=relaxed/simple;
-	bh=KJeEqh9P+D5wKwY133jjVp/f7MLpthcGlZboaBFR+VU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R+Go+6lWCU9WEeBtLS1RlXpJOV1x7OPN1F39AhefJY/28QxOROvkRxXjAr1607evUnP9GJH6t7XoAknS45ws5eKldrv4IvdIIDJNiOUpAQM0nbq0g4AX7FOtVvQsqWK8x8QZQd9XDjVWIX0FgCv++iJZZYvJcXYvn1P1nZn2iyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E6nsrmso; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1734040215; c=relaxed/simple;
+	bh=n+AUJ/6UpDqhHM7j+XdzOUOIBHMmJZfZFX6g3PObGBg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LwnCCK1akRteoe9V0D+zNXM0XK1X5nug3L+Su4Wif8JZVtzNcaoQuWZTWSwjFcDR07gHYmVJn6Fq35mERDecDtVnx/UZDE5Wx90OsfLX0ErVr/xFrGSyMU7P2HoySy7M5aAC/CwfqyuU3A4eLTdL/FhutkdxnvuC5luL9rMtDQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=a/7jHIRw; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E6nsrmso"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-53e384e3481so944719e87.2;
-        Thu, 12 Dec 2024 13:35:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734039333; x=1734644133; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xnXmfYEr9PT7Is83CX8z0wrAPwuQ/xSME7IAcOpGTK8=;
-        b=E6nsrmsopZdizVghZ8DyrtZxVc5Edbp/5huZuFyXpgzRbZC5Y66m4eZKWv+4ljZRVc
-         v3ce7JrCVOc8dUf7Gu82WIFwA5gC+nAj0Q/jE0UfOV1kzrYEBX8e2nThBVIQGDc6RCSv
-         W7w7i0g6ErL4hvnnzo3MjkPSn8Mnh6MWi/rJfsN1HQLx3LsDxuj33cgudl1Oh6LEEWk+
-         Hz4QDTyww+IvO80wNO6AtoMLL2gMn2jtdTj8T+fYOE/3Sx+uZcLSqqz4JizPK8wh4PAl
-         s+0oaifoEb8jrQXcNJKTwQFVdpW63p1L7LW9S7Pyskt5Y7D80s4KbwyM3NS6jhsdqfyr
-         9DFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734039333; x=1734644133;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xnXmfYEr9PT7Is83CX8z0wrAPwuQ/xSME7IAcOpGTK8=;
-        b=k3HPYLhu87H0jrXoUKj4lq66uysq9spM3yEsQlO6oI8q5FRzePDu7oKRWM36ZDmY8V
-         HeWvchupGgfRrqvbbw3rfMzs/+MJM8/XDtZ8aU20St2FM4lv+cNAXJHD0X+MK2tXIrfJ
-         zvnsVI31PeapVmntnM6K2yxr9D6oVXovAGz4pdu7iaoJGoj7DqkMTVLPRa09HSgQ37Ak
-         q60H2DFefabcluSn/64Xhu0wXBjBCc1bluYe/gy5VlcyO+ZG804Tk5OKpf+LFI+adfKO
-         anjQ5jbQSDt2lZwAzUPCfkoK+2ofyvXSEmGlA/HCm5NV1/22uhmiQxv1Iifj/9q9G8Rn
-         41NA==
-X-Forwarded-Encrypted: i=1; AJvYcCUVHTbqlFCIoEAhkYdmXMTW7MlK6TNFFLcDo3oN9Q//7nIDeyLxaNG8yRNPpaRJ8QuzQEKu0FJxrWWI+Drp@vger.kernel.org, AJvYcCWCw3ruoqsLZs2M8hk+nn+RIuaA0Pl0Gi18b1MlM8ZyAhdSAHk/T98EHjYfSAmDrrzhO2Zf7n9d+LM=@vger.kernel.org, AJvYcCWpJ9tSVQuJw3e4S6AmxCEl/zCdJHG9xmqUHy52x5C143eqqXNUx95DqmDjfUXPRPYTeffyWnLou5k/aC8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxljCZEtlm9QMerAJav+r4Fu3zcGwDotm9veQ2dcZIDZLFhdHvV
-	g11uPykN583N0BGoIYH9qH3M3ouMcI+rsMMIgXp6UUl2ivUXkXVYMBjSOEzVdtVGQKuXm8U2sGO
-	+UJI4TY/8gfeHH6vhN44jLqcIYdc=
-X-Gm-Gg: ASbGnctdxAVqqzzSBrjo8a/rXJIVDJ57DEIiL2ey+QtPX3XzPD9zrjbwNdn4fmG4y3w
-	CRoJOS6ThKJt1h+tq2WcEgKNgG7Yw7TTYb4SS+NxsU3PGBWVLU8aUaEdEDU+gEM+3aVlSIZV6
-X-Google-Smtp-Source: AGHT+IFqXLVOS6tetzuIiVC1SeKpDz1DktGwGndsy0tvCJCIuFH/K0ZN4npwCq78ugCyZ4wrTGVLSvr3HOZXiLYW++E=
-X-Received: by 2002:a05:6512:39d0:b0:540:1e5e:3876 with SMTP id
- 2adb3069b0e04-54034134873mr713024e87.52.1734039333186; Thu, 12 Dec 2024
- 13:35:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="a/7jHIRw"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BCEehgB000945;
+	Thu, 12 Dec 2024 21:49:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pp1; bh=oVBMSDC1jJV0de7eg
+	siBAFpgiZ0XhJISKFXYAFN3mUM=; b=a/7jHIRwCr6hHhZTC2FbYgIUX67dp5uJa
+	6f0sNHsnmWI1CJnYQCiKW5Wcu42rl5SjO9OqLkkJ4M4qQcyhvTQEhSxvPNdHpmEq
+	uKKZjjPtE4X+5mQ0GjVrSSkkR2rs6OAtvwbx6ueAF8ZOM9r37J38CeITBL1Szn6A
+	yfxWuM/woK2QIowcxsXy66knYhK0h4CIjPDFvWaIDyZo7yG/1KhsNvf2uzhxRnZZ
+	lmHiWG/cIT/42gLvy5A3/ykw80Z10zJhfFcm8VZ5SBujrhWTPYFx2K3QXCNdyX/h
+	XLWuka5PMdXbqv4jkWUco1sUnzs+YMgBPPnQnTB8t2g2dEooCd2iw==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43ft6d4sju-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Dec 2024 21:49:40 +0000 (GMT)
+Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BCLgivY018942;
+	Thu, 12 Dec 2024 21:49:40 GMT
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43ft6d4sjp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Dec 2024 21:49:39 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BCJaqCe016911;
+	Thu, 12 Dec 2024 21:49:38 GMT
+Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 43d12yjwcn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Dec 2024 21:49:38 +0000
+Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
+	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BCLnbsn7733778
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 12 Dec 2024 21:49:37 GMT
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 87D2558055;
+	Thu, 12 Dec 2024 21:49:37 +0000 (GMT)
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E00475803F;
+	Thu, 12 Dec 2024 21:49:35 +0000 (GMT)
+Received: from gfwa153.aus.stglabs.ibm.com (unknown [9.3.84.127])
+	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 12 Dec 2024 21:49:35 +0000 (GMT)
+From: Ninad Palsule <ninad@linux.ibm.com>
+To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+        eajames@linux.ibm.com, jdelvare@suse.com, linux@roeck-us.net,
+        corbet@lwn.net, joel@jms.id.au, andrew@codeconstruct.com.au,
+        Delphine_CC_Chiu@Wiwynn.com, broonie@kernel.org,
+        peteryin.openbmc@gmail.com, noahwang.wang@outlook.com,
+        naresh.solanki@9elements.com, lukas@wunner.de, jbrunet@baylibre.com,
+        patrick.rudolph@9elements.com, gregkh@linuxfoundation.org,
+        peterz@infradead.org, pbiel7@gmail.com, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-i2c@vger.kernel.org
+Cc: Ninad Palsule <ninad@linux.ibm.com>
+Subject: [PATCH v1 3/4] dt-bindings: hwmon: intel,crps185: Add to trivial
+Date: Thu, 12 Dec 2024 15:49:02 -0600
+Message-ID: <20241212214927.3586509-4-ninad@linux.ibm.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241212214927.3586509-1-ninad@linux.ibm.com>
+References: <20241212214927.3586509-1-ninad@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241207193441.15767-1-yesanishhere@gmail.com> <Z1ggwXLAu+/Y817c@opensource.cirrus.com>
-In-Reply-To: <Z1ggwXLAu+/Y817c@opensource.cirrus.com>
-From: anish kumar <yesanishhere@gmail.com>
-Date: Thu, 12 Dec 2024 13:35:22 -0800
-Message-ID: <CABCoZhA1g4McaLtsQqZv=Y1UrEg4kmyMVjdJJTfDow0ho-WdCA@mail.gmail.com>
-Subject: Re: [PATCH V5] Docs/sound: Update codec-to-codec documentation
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: akceWLk4hlci3DRhVjwcKk6sDe_qeiYS
+X-Proofpoint-ORIG-GUID: 61Kd4a_MoXRtg40iHM7tKt-cHiLc1ptP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 clxscore=1015
+ priorityscore=1501 malwarescore=0 phishscore=0 lowpriorityscore=0
+ bulkscore=0 spamscore=0 mlxlogscore=999 mlxscore=0 impostorscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412120156
 
-On Tue, Dec 10, 2024 at 3:06=E2=80=AFAM Charles Keepax
-<ckeepax@opensource.cirrus.com> wrote:
->
-> On Sat, Dec 07, 2024 at 11:34:41AM -0800, anish kumar wrote:
-> > +Boot-up logs will display message similar to:
-> > +
-> > +.. code-block:: text
-> > +
-> > +   ASoC: registered pcm #0 codec2codec(Playback Codec)
-> > +
-> > +To trigger this DAI link, a control interface is established by the
-> > +DAPM core during internal DAI creation. This interface links to
-> > +the ``snd_soc_dai_link_event`` function, which is invoked when a
-> > +path connects in the DAPM core. A mixer must be created to trigger
-> > +the connection, prompting the DAPM core to evaluate path
-> > +connections and call the ``snd_soc_dai_link_event`` callback with
-> > +SND_SOC_DAPM_*_PMU and SND_SOC_DAPM_*_PMD events.
-> > +
->
-> I am still not really following this, what are we trying to
-> convey in this paragraph?
->
-> What do we mean by a "control interface" here, is that referring
-> to the kcontrol that is created to select the rate in the case
-> of multiple rates? Or is it simply refering to the fact we call
-> snd_soc_dapm_new_control_unlocked? But really that function is
-> adding widgets, as I noted in my last email.
+Add INTEL Common Redundant Power Supply Versions crps185 bindings as
+trivial.
 
-I mean snd_soc_dapm_new_control_unlocked gets called to
-create the widget which gets triggered as part of DAPM path
-enablement.
+Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
+---
+ Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
->
-> Also what do we mean by a "A mixer must be created", I am not
-> aware of any requirement for a mixer? The DAI link needs to be on
-> a valid DAPM path, but I don't see any requirements other than
-> that.
+diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
+index 73a49d50c4ef..7d07b08b1459 100644
+--- a/Documentation/devicetree/bindings/trivial-devices.yaml
++++ b/Documentation/devicetree/bindings/trivial-devices.yaml
+@@ -151,6 +151,8 @@ properties:
+           - injoinic,ip5306
+             # Inspur Power System power supply unit version 1
+           - inspur,ipsps1
++            # Intel common redudant power supply crps185
++          - intel,crps185
+             # Intersil ISL29028 Ambient Light and Proximity Sensor
+           - isil,isl29028
+             # Intersil ISL29030 Ambient Light and Proximity Sensor
+-- 
+2.43.0
 
-In my case, I was implementing a mixer widget that users could
-trigger to enable the entire DAPM path. However, I believe it's
-sufficient to simply state that there should be a mechanism to
-trigger the codec-to-codec widget, enabling the full DAPM path.
->
-> Thanks,
-> Charles
