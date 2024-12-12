@@ -1,131 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B4D2144A8;
-	Thu, 12 Dec 2024 14:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDA952156FF;
+	Thu, 12 Dec 2024 15:05:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734013623; cv=none; b=h9+zzcvwl5uR3vqG1rcyIBl1z0rCzjYxolKEeDfZ7MgbWVVvI36xZkgxSbPr7j0UoB73ot162RtiqvjwOIZ0zNFZgaw8bPnkyihw2sCf1vpiv3jgCqoNJzpnexAl9jUmsvF+3Zygpswu8DZt+jYc+d5WuWMiPZwq6btA1CZwziE=
+	t=1734015929; cv=none; b=mgiqppAuLNSjDOYqfaZf8rl/uB0leWgpfwMcPksUKXOnf9y3v3owB1qSw34B9Vmv0ZFb7mEenXKeqaBsQkvXHiB2aS8vE6wXrfyzwTC2JIgSXviHlm+qBBWqPPKCqBDye9woD0vkCGz2V3HsKuhhmVIODJj12pusROdZ2T9eeik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734013623; c=relaxed/simple;
-	bh=6MPo7a5U4fv2OQP0G0xKutPCOZIplNypB0d4BP0B7X4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UfbSyOmfmgb48hxTNPUs8aOenWBipAwjzFVHWYFdUdvoiZqOP2vkuQkIQa6ymzAUChq7DIfTKoLQ2edk4lBKtnPnla7vJtUOJRzS6Mb1FikQJbol1VRFaWnbKjaGln3oDRpASjYFIcBU7r9qWV8xfLbW2oQpxguQnCAEe4ziBDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q6PNpVOm; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q6PNpVOm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6205FC4CECE;
-	Thu, 12 Dec 2024 14:27:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734013622;
-	bh=6MPo7a5U4fv2OQP0G0xKutPCOZIplNypB0d4BP0B7X4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=q6PNpVOmLPyEw1+IiMCQTZUJKvThRlkRMdbxEe91miFEvsKsKLOR1S08OE2JUOVPX
-	 pIUYYoRwECf1Z76DFXGpy6DgZOAs259cE/OWJ93X8eeHIvBk/RDrTh/kzaO45UWhuH
-	 JCgLhJ4NjR+06BdPOkfdQrEdaF+sVSivRsuRBKNxvBwISH9PFuk81+9sutjt+sdu2J
-	 o/6SvW9yFGuEZAQPhFqVbjF/SUptQkYQLM49oYQ78SO4pIWfyXhPvByCqSO/vEiHUG
-	 3/L7d1ICA8wso23FQLMYHvqEjTnexPnCqOf4UL9Yosn0me5MCQRhcEEIdoRoQOkhVv
-	 NxUKET0QXOG/A==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1tLk9b-0035tU-WD;
-	Thu, 12 Dec 2024 14:27:00 +0000
-Date: Thu, 12 Dec 2024 14:26:59 +0000
-Message-ID: <86ikrprn7w.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Ryan Roberts <ryan.roberts@arm.com>
-Cc: =?UTF-8?B?TWlrb8WCYWo=?= Lenczewski <miko.lenczewski@arm.com>,
-	catalin.marinas@arm.com,	will@kernel.org,	corbet@lwn.net,
-	oliver.upton@linux.dev,	joey.gouly@arm.com,	suzuki.poulose@arm.com,
-	yuzenghui@huawei.com,	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,	linux-kernel@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Subject: Re: [RESEND RFC PATCH v1 2/5] arm64: Add BBM Level 2 cpu feature
-In-Reply-To: <084c5ada-51af-4c1a-b50a-4401e62ddbd6@arm.com>
-References: <20241211160218.41404-1-miko.lenczewski@arm.com>
-	<20241211160218.41404-3-miko.lenczewski@arm.com>
-	<87cyhxs3xq.wl-maz@kernel.org>
-	<084c5ada-51af-4c1a-b50a-4401e62ddbd6@arm.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=arc-20240116; t=1734015929; c=relaxed/simple;
+	bh=z3oBJl9NNxgVEM5YXZk6/8Ne2+HCX2A0fwmyGUHK4VM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i//ppOUDtGfdtU5AZIReUIBaqoojz9llkVSCC8TnGybcAVxtp6bUd4QLO6HtGLYVsNbkXKfiPGI5yWWIOWOuMmtzE4SEkPlST5PkDIgZcKOVZN+H7AYjY+ksF8P/TdTxnH2fO9W1cWHyxIkQ1DkS0ICRjfZlzZYSWRMEZ4aDuvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1FBD9169E;
+	Thu, 12 Dec 2024 07:05:55 -0800 (PST)
+Received: from [10.1.27.173] (XHFQ2J9959.cambridge.arm.com [10.1.27.173])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7F7873F720;
+	Thu, 12 Dec 2024 07:05:25 -0800 (PST)
+Message-ID: <2b1cc228-a8d5-4383-ab25-abbbcccd2e2c@arm.com>
+Date: Thu, 12 Dec 2024 15:05:24 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: ryan.roberts@arm.com, miko.lenczewski@arm.com, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND RFC PATCH v1 2/5] arm64: Add BBM Level 2 cpu feature
+Content-Language: en-GB
+To: Marc Zyngier <maz@kernel.org>
+Cc: =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>,
+ catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
+ oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com,
+ yuzenghui@huawei.com, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kvmarm@lists.linux.dev
+References: <20241211160218.41404-1-miko.lenczewski@arm.com>
+ <20241211160218.41404-3-miko.lenczewski@arm.com>
+ <87cyhxs3xq.wl-maz@kernel.org> <084c5ada-51af-4c1a-b50a-4401e62ddbd6@arm.com>
+ <86ikrprn7w.wl-maz@kernel.org>
+From: Ryan Roberts <ryan.roberts@arm.com>
+In-Reply-To: <86ikrprn7w.wl-maz@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, 12 Dec 2024 10:55:45 +0000,
-Ryan Roberts <ryan.roberts@arm.com> wrote:
+On 12/12/2024 14:26, Marc Zyngier wrote:
+> On Thu, 12 Dec 2024 10:55:45 +0000,
+> Ryan Roberts <ryan.roberts@arm.com> wrote:
+>>
+>> On 12/12/2024 08:25, Marc Zyngier wrote:
+>>>> +
+>>>> +	local_flush_tlb_all();
+>>>
+>>> The elephant in the room: if TLBs are in such a sorry state, what
+>>> guarantees we can make it this far?
+>>
+>> I'll leave Miko to respond to your other comments, but I wanted to address this
+>> one, since it's pretty fundamental. We went around this loop internally and
+>> concluded that what we are doing is architecturally sound.
+>>
+>> The expectation is that a conflict abort can only be generated as a result of
+>> the change in patch 4 (and patch 5). That change makes it possible for the TLB
+>> to end up with a multihit. But crucially that can only happen for user space
+>> memory because that change only operates on user memory. And while the TLB may
+>> detect the conflict at any time, the conflict abort is only permitted to be
+>> reported when an architectural access is prevented by the conflict. So we never
+>> do anything that would allow a conflict for a kernel memory access and a user
+>> memory conflict abort can never be triggered as a result of accessing kernel memory.
+>>
+>> Copy/pasting comment from AlexC on the topic, which explains it better than I can:
+>>
+>> """
+>> The intent is certainly that in cases where the hardware detects a TLB conflict
+>> abort, it is only permitted to report it (by generating an exception) if it
+>> applies to an access that is being attempted architecturally. ... that property
+>> can be built from the following two properties:
+>>
+>> 1. The TLB conflict can only be reported as an Instruction Abort or a Data Abort
+>>
+>> 2. Those two exception types must be reported synchronously and precisely.
+>> """
 > 
-> On 12/12/2024 08:25, Marc Zyngier wrote:
-> >> +
-> >> +	local_flush_tlb_all();
-> > 
-> > The elephant in the room: if TLBs are in such a sorry state, what
-> > guarantees we can make it this far?
+> I totally agree with this. The issue is that nothing says that the
+> abort is in any way related to userspace.
 > 
-> I'll leave Miko to respond to your other comments, but I wanted to address this
-> one, since it's pretty fundamental. We went around this loop internally and
-> concluded that what we are doing is architecturally sound.
-> 
-> The expectation is that a conflict abort can only be generated as a result of
-> the change in patch 4 (and patch 5). That change makes it possible for the TLB
-> to end up with a multihit. But crucially that can only happen for user space
-> memory because that change only operates on user memory. And while the TLB may
-> detect the conflict at any time, the conflict abort is only permitted to be
-> reported when an architectural access is prevented by the conflict. So we never
-> do anything that would allow a conflict for a kernel memory access and a user
-> memory conflict abort can never be triggered as a result of accessing kernel memory.
-> 
-> Copy/pasting comment from AlexC on the topic, which explains it better than I can:
-> 
-> """
-> The intent is certainly that in cases where the hardware detects a TLB conflict
-> abort, it is only permitted to report it (by generating an exception) if it
-> applies to an access that is being attempted architecturally. ... that property
-> can be built from the following two properties:
-> 
-> 1. The TLB conflict can only be reported as an Instruction Abort or a Data Abort
-> 
-> 2. Those two exception types must be reported synchronously and precisely.
-> """
+>>>
+>>> I honestly don't think you can reliably handle a TLB Conflict abort in
+>>> the same translation regime as the original fault, given that we don't
+>>> know the scope of that fault. You are probably making an educated
+>>> guess that it is good enough on the CPUs you know of, but I don't see
+>>> anything in the architecture that indicates the "blast radius" of a
+>>> TLB conflict.
+>>
+>> OK, so I'm claiming that the blast radius is limited to the region of memory
+>> that we are operating on in contpte_collapse() in patch 4. Perhaps we need to go
+>> re-read the ARM and come back with the specific statements that led us to that
+>> conclusion?
 
-I totally agree with this. The issue is that nothing says that the
-abort is in any way related to userspace.
+From the ARM:
+"""
+RFCPSG: If level 1 or level 2 is supported and the Contiguous bit in a set of
+Block descriptors or Page descriptors is changed, then a TLB conflict abort can
+be generated because multiple translation table entries might exist within a TLB
+that translates the same IA.
+"""
 
-> > 
-> > I honestly don't think you can reliably handle a TLB Conflict abort in
-> > the same translation regime as the original fault, given that we don't
-> > know the scope of that fault. You are probably making an educated
-> > guess that it is good enough on the CPUs you know of, but I don't see
-> > anything in the architecture that indicates the "blast radius" of a
-> > TLB conflict.
+Although I guess it's not totally explicit, I've interpretted that as saying
+that conflicting TLB entries can only arise for the IA range for which the
+contiguous bits have been modified in the translation tables.
+
+Given we are only fiddling with the contiguous bits for user space mappings in
+this way, that's why I'm asserting we will only get a conflict abort for user
+space mappings... assuming the absence of kernel bugs, anyway...
+
 > 
-> OK, so I'm claiming that the blast radius is limited to the region of memory
-> that we are operating on in contpte_collapse() in patch 4. Perhaps we need to go
-> re-read the ARM and come back with the specific statements that led us to that
-> conclusion?
+> But we don't know for sure what caused this conflict by the time we
+> arrive in the handler. It could equally be because we have a glaring
+> bug somewhere on the kernel side, even if you are *now* only concerned
+> with userspace.
 
-But we don't know for sure what caused this conflict by the time we
-arrive in the handler. It could equally be because we have a glaring
-bug somewhere on the kernel side, even if you are *now* only concerned
-with userspace.
+OK I see what you are saying; previously a conflict abort would have led to
+calling do_bad(), which returns 1, which causes do_mem_abort() to either kill
+the kernel or the process depending on the origin of the abort. (although if it
+came from kernel due to bug, we're just hoping that the conflict doesn't affect
+the path through the handler). With this change, we always assume we can fix it
+with the TLBI.
 
-If anything, this should absolutely check for FAR_EL1 and assert that
-this is indeed caused by such change.
+How about this change to ensure we still die for issues originating from the kernel?
+
+if (!user_mode(regs) || !system_supports_bbml2())
+		return do_bad(far, esr, regs);
+
+> 
+> If anything, this should absolutely check for FAR_EL1 and assert that
+> this is indeed caused by such change.
+
+I'm not really sure how we would check this reliably? Without patch 5, the
+problem is somewhat constrained; we could have as many changes in flight as
+there are CPUs so we could keep a list of all the {mm_struct, VA-range} that are
+being modified. But if patch 5 is confirmed to be architecturally sound, then
+there is no "terminating tlbi" so there is no bound on the set of {mm_struct,
+VA-range}'s that could legitimately cause a conflict abort.
 
 Thanks,
+Ryan
 
-	M.
+> 
+> Thanks,
+> 
+> 	M.
+> 
 
--- 
-Without deviation from the norm, progress is not possible.
