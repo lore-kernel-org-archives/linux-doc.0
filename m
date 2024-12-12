@@ -1,464 +1,159 @@
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-a3-smtp.messagingengine.com (flow-a3-smtp.messagingengine.com [103.168.172.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B79209686
-	for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2024 07:07:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BBD1662E7;
+	Thu, 12 Dec 2024 07:19:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733987266; cv=none; b=I66OTvwtwmbxKQI+WNZv+SCboqF5sF6O30DMUNnI0bNINeZlG/8PuL/FvbfxmBpN1Tmdpyd5wS4jBAqmDraROhwgQoT7qCulekVITyD6/XLAUsO9NyZO2aSX3GYMT9aCJoWGpLg34iuRdP9NkRNWhVPeNgQ3WKkP3Mt2v7xEWRo=
+	t=1733987961; cv=none; b=Gl65j/F7cSf5yT2vNff5yX7cEFH4DXAcRO+U06DGGnV1YadTpg533vnmVgrR+6lslJL8Np/wC8xHcxxvK82DbOxcabzUds9rBRcBtiqiQU6VfWD2B1S1wDz3KsehVEf97VzCZfoWrCfbqoGoFS5aNWX6cY/NcUXOYpVpla++AF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733987266; c=relaxed/simple;
-	bh=d9yunnnq7NauEQUK2R0qOv7E4isu1CKuQtDE+BzEeYU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JJb4wcosE7BEOHyO5Lvti67EdZ1WUlmtdtbbw0siW32kj0xLl/A10kRdmhRU6N/jMUi5mUpMI0a4QT0IG5QHPEvK/JNP7WUZ6ILnAVOia66Z566jjRRciSpbxqljMIe+SYr/c9D/kp2uJhoNtkEMNuLqdlEX7bEXpBWOY7wr0m4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oPc+bUea; arc=none smtp.client-ip=209.85.160.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1733987961; c=relaxed/simple;
+	bh=zzxdqFZXUIErIeYCetkNsQbDEpK+q8+9ZMOXDbqAD6M=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=s60qVeD9Z30FTzJODrXzZITAkRiytKBPHyQOhJXEiYyFTokM6cvWENSroxPyzaWh81JBceShR0/F+7YFeGV3fp11X7cB4h1Pkd1GhWu7jkSTpKSaOy+4U3Z3Z8as/KsmNQSCTNYy2Zf7b145Tc3z3QoUZaMwoO7yx94UF/zfUww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=hdALD5FM; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Bwwh2XFZ; arc=none smtp.client-ip=103.168.172.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oPc+bUea"
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-2a383315d96so117269fac.3
-        for <linux-doc@vger.kernel.org>; Wed, 11 Dec 2024 23:07:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733987264; x=1734592064; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DxVllyzuIqpBksMArY+NNhScFHVCCBgCU4bZ0PpTIZg=;
-        b=oPc+bUeaZoWkTwGYWZoEXrczB1n06LODXoZIoi/8MfIvL2BBueUbFUnRR9BEVZb6Qr
-         tfkCzNIe4MDDNaA3DtwHKgH7EJIO6pQJKqricC3QLCcRnWNkxITTPDaBECSR3hdUIPWW
-         N2aJ4r+F1kjGbuMMboq8PDaYLWAec8/iDbcyVozRCZ7xhDA6FGkPwpKPizl8pyumrury
-         j3aWmNtJRcqcu0HAiONg7mjGSo/+WSAyOK2ir6v7fGQr/CNph5uWbqb7EiAnLUaM+Dit
-         eKZpkUmG0+2GoHYmm8+0BINulBP08du4AeAFlmeH9nWk4NHFgsC7Ne0Io/qVdQkrE9uR
-         bLPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733987264; x=1734592064;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DxVllyzuIqpBksMArY+NNhScFHVCCBgCU4bZ0PpTIZg=;
-        b=HRpPa+OihM5rk1O2RTvfh+Gbl91sIR94Ohp+5ZE4LgjlqNPCDsZd5Q7kP0B2oeEZL2
-         WTCWvNKvsGlHkkaAI1jrOBDs+7NuDmu1Wy4o/sXkwBvkaYBNR7r6U5z3pmVlIJkYkzmX
-         MsGNr918BI1NJhuJ9RUOPn7oOmHHwwPNt34fzsWHdHR3YEdkMHL1a/z74QevSyDl1oG8
-         lkJfg+utTelgEcor5utQ+qJ0bEBn+AoPMCVmLSe+zxHwh2KSEoZ+gMIOaPuG/pRvznGY
-         SS7A90JEzuLMqIXAI0qGvytRgj7D3Bov4QlpO8d3m1lYZy1ZxqYGV+W0zljyfsGFhmxa
-         y2pg==
-X-Forwarded-Encrypted: i=1; AJvYcCV5uKUmQ77PNU7r0XQQB9T0aZLLj2Q1K5fyJAEqUNx2tRpz+8n/IgZaYVfk+516t1ry4jW5Oodv/TU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxHEoToLseuy8qIYkEQlyTdma6bod55xZXJbtxnuoCU7ZTsBNv
-	PRWug5lmGS0sZowxa+qGo3u2/HG8S8fQwSHyixpbxaom7xoDWaicguyOEg9OR0ZkkQA8Dv5wqNK
-	f3+et3vVmcN1tUDDVmjg0sgSKv5UFn4t2kSjYbZSS1DtVkPMs
-X-Gm-Gg: ASbGnctU2m3u0PO73ykIULtRmDDoBcbRM8raGWqDrin/m+cWyP1msb0d9UO+zc0QfIw
-	+dBgHbSemPltOdzRMAh7CJpxxWGhLef3+GP/lgGQ=
-X-Google-Smtp-Source: AGHT+IHu9WQQkg4jiY/bMy4Tg2xfTaSZJ/GixFguxakacj+CHD04SOOPrmnkaerjGIzLPSyg8u6r5/M3FQfA3TLpcAw=
-X-Received: by 2002:a05:6870:5d89:b0:29e:460d:f74a with SMTP id
- 586e51a60fabf-2a012bb5103mr3292676fac.3.1733987263511; Wed, 11 Dec 2024
- 23:07:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="hdALD5FM";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Bwwh2XFZ"
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailflow.phl.internal (Postfix) with ESMTP id 15DF22007AD;
+	Thu, 12 Dec 2024 02:19:18 -0500 (EST)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-10.internal (MEProxy); Thu, 12 Dec 2024 02:19:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1733987958;
+	 x=1733995158; bh=580mfzyUQsCTc5a85zB6dfYbdmbbQ2+HZxzSZ4pchqY=; b=
+	hdALD5FMM8IuOjz1EOfJc29TdsqLC8ZKj/opabdDMYCcZT5KQtgW+/K7JjfS/OJw
+	smKsoR7H0DyyUURopGSXEOd+wG3pgu8xB4WQny/uIEg1hhl3twk5dZX5Lj8pmJxp
+	p7tYXarenTfFkhPoAhF8PsrbGhSYelJAnN0E1/rLMB87za8C8/HdqHnDr5myc+wN
+	w9b9G4gH3VeFsnNxnK+eh48VUS1Si71Vdq2Ik3SewH/20AuO2O5f4SBKGrQysrRH
+	l68WGngchjTYH0bLSrRgxjKpgwJEsxjkdiiY8XhJtqWAsB3yqPBGPHQ8U4hQzz0g
+	3A8xK/SlmdSnUhXauR0iaQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1733987958; x=
+	1733995158; bh=580mfzyUQsCTc5a85zB6dfYbdmbbQ2+HZxzSZ4pchqY=; b=B
+	wwh2XFZYYInlW3z4d300clygu1iBnBttkr59Q8lY4PyZqcW+738Om2V68//bjNhA
+	u0GpL4spYVPUud71bX06A5WpdyI3bnsKky+F+O+S7/Yhyzg6a8rz53+lsV0G0feO
+	rq7cRdc2HXAM8wsJrY8iVIVMNZWb99EZxnV9j6+CRPwRZrnqpMUzj9l5AeRnYZJP
+	8kL7T69G2h4Gii8eeh6R8umM80bSfUbnS+XFp8XLyzhCNUdQV6ILPdY7a/REjWeG
+	tMQx3qCT396hMh+0vOkElXmRZeEvgXaB//pXahdCfwQLKf3ASV1zKOUDl+m02BJs
+	q81Qsoga6p906/4egCn1g==
+X-ME-Sender: <xms:dY5aZ0ruKPiw_rq_ZPTClPIcVdIlYo9D7xIT_pwScA2M-d2_9EqwZA>
+    <xme:dY5aZ6oNso_QKFwl5NzH2HQfxY48sPPYq3TJWd-mOen3FjuQztuH-7mgfuoAj_Uob
+    j6JqFqR_HKGgCp7gs0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrkeeggddviecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredttden
+    ucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdrug
+    gvqeenucggtffrrghtthgvrhhnpeeggfejudejvdeijeeglefgtdfhudffieetfedugefh
+    ffekjeefhedtjeefjeetfeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluh
+    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhn
+    uggsrdguvgdpnhgspghrtghpthhtohepvddupdhmohguvgepshhmthhpohhuthdprhgtph
+    htthhopegrhhhilhgvrhestghouggvfigvrghvvghrshdrtghomhdprhgtphhtthhopeii
+    fhhighhurhgrsegtohguvgifvggrvhgvrhhsrdgtohhmpdhrtghpthhtohepsghoqhhunh
+    drfhgvnhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghnughrvggrlhhmvghiuges
+    ihhgrghlihgrrdgtohhmpdhrtghpthhtohepphgvthgvrhiisehinhhfrhgruggvrggurd
+    horhhgpdhrtghpthhtoheprhguuhhnlhgrphesihhnfhhrrgguvggrugdrohhrghdprhgt
+    phhtthhopehlkhhpsehinhhtvghlrdgtohhmpdhrtghpthhtoheplhhuthhosehkvghrnh
+    gvlhdrohhrghdprhgtphhtthhopeifihhllheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:dY5aZ5PlLiOOKQY_MJx7_pASTm30i0mlaZNB0PVOenQzeUXnz5k2Gg>
+    <xmx:dY5aZ749oX995tsM5Htk9jed6A5SeXp6yd6lrVBZromytQjnQgrRQg>
+    <xmx:dY5aZz7CiyDFcw9vamWV8GM_QpSHQKjKwCXdYJF44q5yjeq280EzCQ>
+    <xmx:dY5aZ7gEFMKl-V99fUr8kbmjrmEjiFMCDsHxnZSZihL6JLN4hVTeMA>
+    <xmx:do5aZ8OE8NZO_w5SKeWNm1ZPPUHrGNcBHD5VRYvUk9gEmpD1Iy4D4ZcW>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 48B8A2220072; Thu, 12 Dec 2024 02:19:17 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-0-f502ef01e016@quicinc.com>
- <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-8-f502ef01e016@quicinc.com>
- <CAHUa44GqyaouPquw+DE1ASRwVOBw5xDstcpaNpmLmQbXmp6CuQ@mail.gmail.com>
- <62f80fb7-ea13-4ae1-a438-8d6b2d5a2f15@quicinc.com> <20241211140459.GA471738@rayden>
- <65f730f4-5733-46ef-9f32-d557b842f5c0@quicinc.com>
-In-Reply-To: <65f730f4-5733-46ef-9f32-d557b842f5c0@quicinc.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Thu, 12 Dec 2024 08:07:32 +0100
-Message-ID: <CAHUa44FU+MuBqriNwM3Fa7k5kJC9cCF9WfpWMDFbFFaw5TShiA@mail.gmail.com>
-Subject: Re: [PATCH 08/10] tee: add Qualcomm TEE driver
-To: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
-Cc: Sumit Garg <sumit.garg@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, linux-arm-msm@vger.kernel.org, 
-	op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Thu, 12 Dec 2024 08:18:50 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "kernel test robot" <lkp@intel.com>,
+ "Elizabeth Figura" <zfigura@codeweavers.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-api@vger.kernel.org, wine-devel@winehq.org,
+ =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
+ "Wolfram Sang" <wsa-dev@sang-engineering.com>,
+ "Arkadiusz Hiler" <ahiler@codeweavers.com>,
+ "Peter Zijlstra" <peterz@infradead.org>, "Andy Lutomirski" <luto@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ "Randy Dunlap" <rdunlap@infradead.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Will Deacon" <will@kernel.org>, "Waiman Long" <longman@redhat.com>,
+ "Boqun Feng" <boqun.feng@gmail.com>
+Message-Id: <21811752-06d3-44cd-b3e6-f8124676df87@app.fastmail.com>
+In-Reply-To: <202412121219.EQhUbN0S-lkp@intel.com>
+References: <20241209185904.507350-29-zfigura@codeweavers.com>
+ <202412121219.EQhUbN0S-lkp@intel.com>
+Subject: Re: [PATCH v6 28/28] ntsync: No longer depend on BROKEN.
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi Armirreza,
+On Thu, Dec 12, 2024, at 05:52, kernel test robot wrote:
+> Hi Elizabeth,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on cdd30ebb1b9f36159d66f088b61aee264e649d7a]
+>
+> url:    
+> https://github.com/intel-lab-lkp/linux/commits/Elizabeth-Figura/ntsync-Introduce-NTSYNC_IOC_WAIT_ANY/20241210-031155
+> base:   cdd30ebb1b9f36159d66f088b61aee264e649d7a
 
-On Thu, Dec 12, 2024 at 1:19=E2=80=AFAM Amirreza Zarrabi
-<quic_azarrabi@quicinc.com> wrote:
+> All errors (new ones prefixed by >>):
 >
-> Hi Jens,
->
-> On 12/12/2024 1:04 AM, Jens Wiklander wrote:
-> > Hi Amirreza,
-> >
-> > On Wed, Dec 11, 2024 at 01:30:22PM +1100, Amirreza Zarrabi wrote:
-> > [snip]
-> >>>> +/**
-> >>>> + * struct qcom_tee_context - Clients or supplicants context.
-> >>>> + * @tee_context: TEE context.
-> >>>> + * @qtee_objects_idr: QTEE objects in this context.
-> >>>> + * @reqs_idr: Requests currently being processed.
-> >>>> + * @lock: mutex for @reqs_idr and @qtee_objects_idr.
-> >>>> + * @req_srcu: srcu for exclusive access to requests.
-> >>>> + * @req_c: completion used when supplicant is waiting for requests.
-> >>>> + * @released: state of this context.
-> >>>> + * @ref_cnt: ref count.
-> >>>> + */
-> >>>> +struct qcom_tee_context {
-> >>>
-> >>> Other drivers call their conterpart of this struct *_context_data.
-> >>> Using the same pattern here makes it easier to recognize the struct i=
-n
-> >>> the rest of the code.
-> >>>
-> >>
-> >> Ack.
-> >>
-> >>>> +       struct tee_context *tee_context;
-> >>>> +
-> >>>> +       struct idr qtee_objects_idr;
-> >>>> +       struct idr reqs_idr;
-> >>>> +       /* Synchronize access to @reqs_idr, @qtee_objects_idr and up=
-dating requests state. */
-> >>>> +       struct mutex lock;
-> >>>> +       struct srcu_struct req_srcu;
-> >>>
-> >>> Why do you use this synchronization primitive? I don't know enough
-> >>> about this primitive to tell if you use it for the right purpose so
-> >>> perhaps you can help me understand which properties you need.
-> >>>
-> >>
-> >> Sure, let me explain it bellow in the qcom_tee_user_object_dispatch,
-> >> where it is acually used.
-> >>
-> >>>> +       struct completion req_c;
-> >>>> +
-> >>>> +       int released;
-> >>>> +
-> >>>> +       struct kref ref_cnt;
-> >>>
-> >>> Why does this struct need a different lifetime than struct tee_contex=
-t?
-> >>>
-> >>
-> >> This is a side effect of how QTEE objects and callback objects are rel=
-eased:
-> >>
-> >>   - When a tee_context is closed, we release all QTEE objects in that =
-context.
-> >>     QTEE specifies that object releases are asynchronous. So, we queue=
- the
-> >>     releases in a workqueue and immediately return from the release ca=
-llback,
-> >>     allowing the TEE subsystem to continue.
-> >>
-> >>   - When the workqueue sends a release for a QTEE object, QTEE may res=
-pond
-> >>     by requesting the release of a callback object or an operation on =
-a callback
-> >>     object. This requires a valid struct qcom_tee_context. That's why =
-we keep this
-> >>     until all callback objects are gone.
-> >>
-> >> The alternative is to keep a list of callback objects in this context =
-and
-> >> flag them as orphans. The refcount seems easier :).
-> >
-> > It would be even easier if it was already dealt with by the TEE
-> > subsystem. :-)
-> >
-> > It looks like we have the same problem as with the tee_shm objects when
-> > the tee_context should go away. Would it work to add another callback,
-> > close_contex(), to tee_driver_ops to be called from
-> > teedev_close_context()? The release() callback would still be called as
-> > usual when the last reference is gone, but the backend TEE driver would
-> > get a notification earlier with core_contex() that it's time to start
-> > releasing resources.
-> >
->
-> Yes, it works.
->
-> This proposal is similar to our original discussion about adding a
-> shutdown() callback along with release(). With this change, we can also d=
-rop [1].
->
-> It seems like the easiest solution. I'll add close_context().
->
-> [1] https://lore.kernel.org/all/20241120-fix-tee_shm-refcount-upstream-v1=
--0-5da97f584fcd@quicinc.com/
+>    In file included from include/linux/spinlock.h:60,
+>                     from include/linux/wait.h:9,
+>                     from include/linux/wait_bit.h:8,
+>                     from include/linux/fs.h:6,
+>                     from drivers/misc/ntsync.c:11:
+>    In function 'check_copy_size',
+>        inlined from 'copy_from_user' at include/linux/uaccess.h:207:7,
+>        inlined from 'setup_wait' at drivers/misc/ntsync.c:903:6:
+>>> include/linux/thread_info.h:259:25: error: call to '__bad_copy_to' declared with attribute error: copy destination size is too small
+>      259 |                         __bad_copy_to();
+>          |                         ^~~~~~~~~~~~~~~
 
-Good.
+I looked up the function from the github URL above and found
 
->
-> > [snip]
-> >>>> +/**
-> >>>> + * qcom_tee_supp_pop_entry() - Pop the next request in a context.
-> >>>
-> >>> When you pop something you'd expect it to be removed also.
-> >>>
-> >>
-> >> I'll rename it to more apporpriate name.
-> >>
-> >>>> + * @ctx: context from which to pop a request.
-> >>>> + * @ubuf_size: size of available buffer for MEMBUF parameters.
-> >>>> + * @num_params: number of entries for TEE parameter array.
-> >>>> + *
-> >>>> + * It does not remove the request from &qcom_tee_context.reqs_idr.
-> >>>> + * It checks if @num_params is large enough to fit the next request=
- arguments.
-> >>>> + * It checks if @ubuf_size is large enough to fit IB buffer argumen=
-ts from QTEE.
-> >>>> + * It updates request state to %QCOM_TEE_REQ_PROCESSING state.
-> >>>> + *
-> >>>> + * Return: On success return a request or NULL and ERR_PTR on failu=
-re.
-> >>>> + */
-> >>>> +static struct qcom_tee_user_req *qcom_tee_supp_pop_entry(struct qco=
-m_tee_context *ctx,
-> >>>> +                                                        size_t ubuf=
-_size, int num_params)
-> >>>> +{
-> >>>> +       struct qcom_tee_user_req *ureq;
-> >>>> +       struct qcom_tee_arg *u;
-> >>>> +       int i, id;
-> >>>> +
-> >>>> +       guard(mutex)(&ctx->lock);
-> >>>> +
-> >>>> +       /* Find the a QUEUED request. */
-> >>>
-> >>> Is it _a_ or _the_?
-> >>>
-> >>>> +       idr_for_each_entry(&ctx->reqs_idr, ureq, id)
-> >>>> +               if (ureq->state =3D=3D QCOM_TEE_REQ_QUEUED)
-> >>>> +                       break;
-> >>>
-> >>> Will this always result in a FIFO processing?
-> >>>
-> >>
-> >> It not a FIFO. I understand your concerns.
-> >> I'll replace it with a list.
-> >>
-> >>>> +
-> >>>> +       if (!ureq)
-> >>>> +               return NULL;
-> >>>> +
-> >>>> +       u =3D ureq->args;
-> >>>> +       /* (1) Is there enough TEE parameters? */
-> >>>> +       if (num_params < qcom_tee_args_len(u))
-> >>>> +               return ERR_PTR(-EINVAL);
-> >>>> +
-> >>>> +       /* (2) Is there enough space to pass input buffers? */
-> >>>> +       qcom_tee_arg_for_each_input_buffer(i, u) {
-> >>>> +               ubuf_size =3D size_sub(ubuf_size, u[i].b.size);
-> >>>> +               if (ubuf_size =3D=3D SIZE_MAX)
-> >>>> +                       return ERR_PTR(-EINVAL);
-> >>>> +
-> >>>> +               ubuf_size =3D round_down(ubuf_size, 8);
-> >>>> +       }
-> >>>> +
-> >>>> +       /* Ready to process request 'QUEUED -> PROCESSING'. */
-> >>>> +       ureq->state =3D QCOM_TEE_REQ_PROCESSING;
-> >>>> +
-> >>>> +       return ureq;
-> >>>> +}
-> >>>> +
-> >>>> +/* User object dispatcher. */
-> >>>> +static int qcom_tee_user_object_dispatch(struct qcom_tee_object_inv=
-oke_ctx *oic,
-> >>>> +                                        struct qcom_tee_object *obj=
-ect, u32 op,
-> >>>> +                                        struct qcom_tee_arg *args)
-> >>>> +{
-> >>>> +       struct qcom_tee_user_object *uo =3D to_qcom_tee_user_object(=
-object);
-> >>>> +       struct qcom_tee_user_req *ureq __free(kfree);
-> >>>> +       struct qcom_tee_context *ctx =3D uo->ctx;
-> >>>> +       int errno;
-> >>>> +
-> >>>> +       ureq =3D kzalloc(sizeof(*ureq), GFP_KERNEL);
-> >>>> +       if (!ureq)
-> >>>> +               return -ENOMEM;
-> >>>> +
-> >>>> +       init_completion(&ureq->c);
-> >>>> +       ureq->object_id =3D uo->object_id;
-> >>>> +       ureq->op =3D op;
-> >>>> +       ureq->args =3D args;
-> >>>> +
-> >>>> +       /* Queue the request. */
-> >>>> +       if (qcom_tee_request_enqueue(ureq, ctx))
-> >>>> +               return -ENODEV;
-> >>>> +
-> >>>> +       /* Wakeup supplicant to process it. */
-> >>>> +       complete(&ctx->req_c);
-> >>>> +
-> >>>> +       /* Wait for supplicant to process the request. */
-> >>>> +       /* Supplicant is expected to process request in a timely man=
-ner. We wait as KILLABLE,
-> >>>
-> >>> requests
-> >>>
-> >>>> +        * in case supplicant and invoke thread both running from a =
-same user process, otherwise
-> >>>
-> >>> the same
-> >>>
-> >>>> +        * the process stuck on fatal signal.
-> >>>
-> >>> might get stuck on a fatal signal?
-> >>>
-> >>>> +        */
-> >>>
-> >>> Please combine into one comment.
-> >>>
-> >>
-> >> Ack.
-> >>
-> >>>> +       if (!wait_for_completion_state(&ureq->c, TASK_KILLABLE | TAS=
-K_FREEZABLE)) {
-> >>>> +               errno =3D ureq->errno;
-> >>>> +               /* On SUCCESS, end_cb_notify frees the request. */
-> >>>> +               if (!errno)
-> >>>> +                       oic->data =3D no_free_ptr(ureq);
-> >>>> +       } else {
-> >>>> +               enum qcom_tee_req_state prev_state;
-> >>>> +
-> >>>> +               errno =3D -ENODEV;
-> >>>> +
-> >>>> +               scoped_guard(mutex, &ctx->lock) {
-> >>>> +                       prev_state =3D ureq->state;
-> >>>> +                       /* Replace ureq with '__empty_ureq' to keep =
-req_id reserved. */
-> >>>> +                       if (prev_state =3D=3D QCOM_TEE_REQ_PROCESSIN=
-G)
-> >>>> +                               idr_replace(&ctx->reqs_idr, &__empty=
-_ureq, ureq->req_id);
-> >>>> +                       /* Remove ureq as supplicant has never seen =
-this request. */
-> >>>> +                       else if (prev_state =3D=3D QCOM_TEE_REQ_QUEU=
-ED)
-> >>>> +                               idr_remove(&ctx->reqs_idr, ureq->req=
-_id);
-> >>>> +               }
-> >>>> +
-> >>>> +               /* Wait for exclusive access to ureq. */
-> >>>> +               synchronize_srcu(&ctx->req_srcu);
-> >>>
-> >>> I'm sorry, I don't follow.
-> >>>
-> >>
-> >> I'll try to compare it to the optee.
-> >>
-> >> In optee, clients and the supplicant run in two different contexts. If=
- the
-> >> supplicant is available, the client will wait for it to finish process=
-ing
-> >> the queued request. The supplicant is guaranteed to be timely and resp=
-onsive.
-> >
-> > Yeah, or at least trusted to be timely and responsive.
-> >
-> >>
-> >> In QCOMTEE:
-> >>
-> >>   1. There are multiple supplicants. Any process that implements a cal=
-lback
-> >>      object is considered a supplicant. The general assumption of time=
-liness
-> >>      or responsiveness may not apply. We allow the client to at least =
-receive fatal
-> >>      signals (this design can be extended later if a timeout is requir=
-ed).
-> >>
-> >>   2. A client can implement a callback object and act as both a client=
- and
-> >>      a supplicant simultaneously. To terminate such a process, we need=
- to be
-> >>      able to accept fatal signals.
-> >
-> > We accept tee-supplicant to be killed so this is similar.
-> >
->
-> True, the tee-supplicant can be terminated, but the client cannot be if i=
-t's
-> waiting for a trusted supplicant response. That's reasonable.
->
-> However, in qcomtee, both the client and supplicant can be threads within
-> a single process. If the process is killed, the supplicant thread can
-> go away, leaving the client stuck waiting. Therefore, in qcomtee, the
-> client also needs to be killable.
+	int fds[NTSYNC_MAX_WAIT_COUNT + 1];
+	const __u32 count = args->count;
+	struct ntsync_q *q;
+	__u32 total_count;
+	__u32 i, j;
 
-Got it, thanks.
+	if (args->pad || (args->flags & ~NTSYNC_WAIT_REALTIME))
+		return -EINVAL;
 
->
-> >>
-> >> srcu is specifically used to protect the args array. After returning f=
-rom
-> >> qcom_tee_user_object_dispatch, the args array might not be valid. We n=
-eed to
-> >> ensure no one is accessing the args array before the retun, hence sync=
-hronize_srcu.
-> >> Whenever we read the contents of args, we do it within an srcu read lo=
-ck.
-> >>
-> >> For example, qcomtee_user_object_pop, which picks a request for the su=
-pplicant
-> >> to process, will hold the srcu read lock when marshaling the args arra=
-y
-> >> to the TEE subsystem's params array.
-> >>
-> >> An alternative to the srcu would be to use "context lock" ctx->lock an=
-d
-> >> hold it throughout the qcomtee_user_object_pop function, even when mar=
-shaling
-> >> the args array to the TEE subsystem's params array.
-> >>
-> >> Using ctx->lock is easier to follow, but since it's shared by everyone=
- in
-> >> a context and marshaling can be heavy depending on the type of objects=
-,
-> >> I thought srcu would be more performant.
-> >>
-> >> In other words, srcu just moves the marshaling of objects outside of c=
-tx->lock.
-> >> What do you think about keeping srcu or replacing it with ctx->lock?
-> >
-> > Let's continue the comparison with OP-TEE where struct optee_supp_req
-> > plays the role of struct qcom_tee_user_req in QCOMTEE. You can say that
-> > access rights to the optee_supp_req follows with the owner. The
-> > supp->mutex is in principle only held while changing owner. Couldn't th=
-e
-> > ctx->lock be used in a similar way, avoiding it while marshalling
-> > objects?
-> >
->
-> True, but there's a corner case due to the TASK_KILLABLE flag.
->
-> In optee, when a request is placed in the "supplicant queue" supp->reqs
-> (passing the access right to the supplicant), the client won't touch the =
-request
-> until notified by the supplicant.
->
-> In qcomtee, besides the notification from the supplicant, we also accept
-> fatal signals. This causes the client to access the request without any
-> notification from supplicant, violating the exclusive access assumption.
->
->
-> > I'm open to be persuaded if you think that srcu is a better choice.
-> >
->
-> The use of the srcu was not for correctness, and purely for the sake of
-> performance. Most of our internal tests are micro tests for the API at
-> the moment, so I do not have any number to support the argument :(.
->
-> I can stick to the ctx->lock and add srcu later if necessary when e2e
-> tests are active and I can collect some numbers? What do you think?
+	if (args->count > NTSYNC_MAX_WAIT_COUNT)
+		return -EINVAL;
 
-That's a good approach. :-)
+	total_count = count;
+	if (args->alert)
+		total_count++;
 
-Cheers,
-Jens
+	if (copy_from_user(fds, u64_to_user_ptr(args->objs),
+			   array_size(count, sizeof(*fds))))
+		return -EFAULT;
 
->
-> Best Regards,
-> Amir
->
-> > Cheers,
-> > Jens
+which looks correct to me, as it has appropriate
+range checking on args->count, but I can see how
+the warning may be a result of checking 'args->count'
+instead of 'count'.
+
+      Arnd
