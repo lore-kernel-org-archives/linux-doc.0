@@ -1,101 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E84A21660C;
-	Thu, 12 Dec 2024 17:24:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A8606F2FE;
+	Thu, 12 Dec 2024 17:41:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734024247; cv=none; b=dOMTnQOAbRRGW6vyuhIKDmD1oL4y0alIpLBUBboIECAuv4jacDfL5VKfv+4IpmnPwZZs0p8bnannQIAmc8HnLIQwc5JZJhVDjvqaWoPYIkKYHo5/KgK7OpN73t75x4acWZ1YkyJJBemBK9D/FE7CthhmiruVp1bzF0wcEpQbqHQ=
+	t=1734025314; cv=none; b=TF/OdLqR3OA3S6vBrWqCJDtgJtlrrlvicR7Ub8ZI1OUB7ZkDkCNcJWm4cqJA+j696Nckv5oiVtZRtt235aJeDarzn9Lc+sJuOgdq1IfPDWKEuQ1O0A84fpJS15vnkNuczO/lkcTFG33mlTh4HZ0/P+Lf29CYOHb3jMA+ZKJH5s0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734024247; c=relaxed/simple;
-	bh=Q/CCbxaNPCW+72Uxq1Dkc9TlsoxS3EeKa9j7qeFaSqM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Idwz2M+e6aZZ6tYI6E97s9KuNZJneRNzUDzGF2MF7RRB5wJD0P2ckEfNyF+oehOCxWCNge7wQEw1fsKaTlDSg5nrhZt5Nhtno5FNztWtgj+GO7+ys8so7iZPmhGfWCoFEkob5UQ9bANVtKG8Ih4PN2RKNpQsgM+EQFT2Qx7ZNxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=pOuGuSvC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734025314; c=relaxed/simple;
+	bh=h1OgHvZrV/r+9yeGz1pyu/H5WwMytyQAVZq7j7iYJiw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CN87d7WrbxAqzsK2LfPZEm9S32THvsk+qSTV1ZLgAS4ZpJE95TXrFn+76Jh1UKu0eu6GLs0GmwmcOKodRjeHg8vDwp4BaLpvC1QlbA93pNnb44oXY3+tWoudq1iRyOxuwaefC5nYEjYzcUjL5dkXFjSR3EI5P5EWHeO238tVHSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=StmJIb3w; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="pOuGuSvC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D91AFC4CECE;
-	Thu, 12 Dec 2024 17:24:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1734024247;
-	bh=Q/CCbxaNPCW+72Uxq1Dkc9TlsoxS3EeKa9j7qeFaSqM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pOuGuSvCQmAk9PLJx55/Xl8WDA90nNrNgdePSt5JxNZn8FQcY+qW2z8jzb4/e/UEw
-	 FnqKCdAqJHQEnxmBh6H8FSXFSpcGmvDi9LRNva89XfAejtm2lPtWVcYU+8mKRut+Vx
-	 kBmKvQN/3N+3UVdq1eVrsq2zQ9xhnaJcJdBkB41c=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Eric Sandeen <sandeen@redhat.com>,
-	David Howells <dhowells@redhat.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="StmJIb3w"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=HzG8qPVDVt5NNcEUAYVGyZ32xnNQpVWDejnTHHrGg4E=; b=StmJIb3wJ/muDoGQcTNreEnU1y
+	Ke910i7+CRU848GU0FmG06BjnyMVKmt+wBv8O3kTK+bB/aUhvz57K7HB1TVL2KnG7z7YRrSufRQJ+
+	qT7yFGddfgKMkCamBuNDgMTZcc3vASZz52oE+oEKcWINr2bOQyjIG/VZ/7JiYXrRugF0=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1tLnC4-000ErC-8d; Thu, 12 Dec 2024 18:41:44 +0100
+Date: Thu, 12 Dec 2024 18:41:44 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Gur Stavi <gur.stavi@huawei.com>
+Cc: gongfan <gongfan1@huawei.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
 	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.10 216/459] fs_parser: update mount_api doc to match function signature
-Date: Thu, 12 Dec 2024 15:59:14 +0100
-Message-ID: <20241212144302.100609505@linuxfoundation.org>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20241212144253.511169641@linuxfoundation.org>
-References: <20241212144253.511169641@linuxfoundation.org>
-User-Agent: quilt/0.67
-X-stable: review
-X-Patchwork-Hint: ignore
+	Cai Huoqing <cai.huoqing@linux.dev>, Xin Guo <guoxin09@huawei.com>,
+	Shen Chenyang <shenchenyang1@hisilicon.com>,
+	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+	Shi Jing <shijing34@huawei.com>,
+	Meny Yossefi <meny.yossefi@huawei.com>
+Subject: Re: [RFC net-next v02 1/3] net: hinic3: module initialization and
+ tx/rx logic
+Message-ID: <b794027a-ef3b-4262-a952-db249a840e89@lunn.ch>
+References: <cover.1733990727.git.gur.stavi@huawei.com>
+ <7d62ca11c809ac646c2fd8613fd48729061c22b3.1733990727.git.gur.stavi@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7d62ca11c809ac646c2fd8613fd48729061c22b3.1733990727.git.gur.stavi@huawei.com>
 
-5.10-stable review patch.  If anyone has any objections, please let me know.
+> +static void hinic3_del_one_adev(struct hinic3_hwdev *hwdev,
+> +				enum hinic3_service_type svc_type)
+> +{
+> +	struct hinic3_pcidev *pci_adapter = hwdev->adapter;
+> +	struct hinic3_adev *hadev;
+> +	bool timeout = true;
+> +	unsigned long end;
+> +
+> +	end = jiffies + msecs_to_jiffies(HINIC3_EVENT_PROCESS_TIMEOUT);
+> +	do {
+> +		if (!test_and_set_bit(svc_type, &pci_adapter->state)) {
+> +			timeout = false;
+> +			break;
+> +		}
+> +		usleep_range(900, 1000);
+> +	} while (time_before(jiffies, end));
+> +
+> +	if (timeout && !test_and_set_bit(svc_type, &pci_adapter->state))
+> +		timeout = false;
 
-------------------
+Please look at using iopoll.h
 
-From: Randy Dunlap <rdunlap@infradead.org>
+> +static int hinic3_sw_init(struct net_device *netdev)
+> +{
+> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+> +	struct hinic3_hwdev *hwdev = nic_dev->hwdev;
+> +	int err;
+> +
+> +	nic_dev->q_params.sq_depth = HINIC3_SQ_DEPTH;
+> +	nic_dev->q_params.rq_depth = HINIC3_RQ_DEPTH;
+> +
+> +	hinic3_try_to_enable_rss(netdev);
+> +
+> +	eth_hw_addr_random(netdev);
 
-[ Upstream commit c66f759832a83cb273ba5a55c66dcc99384efa74 ]
+Is using a random MAC just a temporary thing until more code is added
+to access an OTP?
 
-Add the missing 'name' parameter to the mount_api documentation for
-fs_validate_description().
+> +	err = register_netdev(netdev);
+> +	if (err) {
+> +		err = -ENOMEM;
+> +		goto err_netdev;
+> +	}
+> +
+> +	netif_carrier_off(netdev);
+> +
+> +	dev_set_drvdata(&adev->dev, nic_dev);
 
-Fixes: 96cafb9ccb15 ("fs_parser: remove fs_parameter_description name field")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Link: https://lore.kernel.org/r/20241125215021.231758-1-rdunlap@infradead.org
-Cc: Eric Sandeen <sandeen@redhat.com>
-Cc: David Howells <dhowells@redhat.com>
-Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Signed-off-by: Christian Brauner <brauner@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Is this used anywhere in the driver? Calling register_netdev() makes
+the interface live, even before it returns. If you have NFS root for
+example, it could be sending packets, etc, before drvdata is set.
+
+> +int hinic3_set_port_mtu(struct net_device *netdev, u16 new_mtu)
+> +{
+> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+> +	struct hinic3_func_tbl_cfg func_tbl_cfg = {};
+> +	struct hinic3_hwdev *hwdev = nic_dev->hwdev;
+> +
+> +	if (new_mtu < HINIC3_MIN_MTU_SIZE) {
+> +		dev_err(hwdev->dev,
+> +			"Invalid mtu size: %ubytes, mtu size < %ubytes\n",
+> +			new_mtu, HINIC3_MIN_MTU_SIZE);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (new_mtu > HINIC3_MAX_JUMBO_FRAME_SIZE) {
+> +		dev_err(hwdev->dev, "Invalid mtu size: %ubytes, mtu size > %ubytes\n",
+> +			new_mtu, HINIC3_MAX_JUMBO_FRAME_SIZE);
+> +		return -EINVAL;
+> +	}
+
+The core can do this validation for you, if you set ndev->max_mtu,
+ndev->min_mtu.
+
+
+    Andrew
+
 ---
- Documentation/filesystems/mount_api.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/filesystems/mount_api.rst b/Documentation/filesystems/mount_api.rst
-index d7f53d62b5bb2..8fb03f57546d1 100644
---- a/Documentation/filesystems/mount_api.rst
-+++ b/Documentation/filesystems/mount_api.rst
-@@ -778,7 +778,8 @@ process the parameters it is given.
- 
-    * ::
- 
--       bool fs_validate_description(const struct fs_parameter_description *desc);
-+       bool fs_validate_description(const char *name,
-+                                    const struct fs_parameter_description *desc);
- 
-      This performs some validation checks on a parameter description.  It
-      returns true if the description is good and false if it is not.  It will
--- 
-2.43.0
-
-
-
+pw-bot: cr
