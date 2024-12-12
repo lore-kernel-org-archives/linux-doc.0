@@ -1,167 +1,101 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44DA820E6E7;
-	Thu, 12 Dec 2024 09:23:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2189220FABB;
+	Thu, 12 Dec 2024 09:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733995408; cv=none; b=CiEnW90YHpmF7dnJcoTy0xFATiq0lJ35gfbxOpJnA22U3anN+fOQ91dZeVIUxapIjZY/MgPm3+TSN65hPv9VA065ldKRkpV+TWAFXrtjS2gVAw4V15UqMB7HxG4dGiq7NDzTPnYTF3uwv26Sqe3XyRjn8DJMXbEKOFXxHYSe/ks=
+	t=1733997428; cv=none; b=uwxDdbXDu1wsP4WAxUwXcxouOfuHigYD8juGWLV7tNHD32IMxw8UIcKqDYnv9zSbe3UYkHeOc7YfiYUT7Xk4pL71hoSVVVK0jMv8fRAL1HrYXF9JRWXd5kQSgKsbTZGhgkisIJLPAcYFiDFEwpjY4fu/VZ3zPIms7Yj3G+LW0N8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733995408; c=relaxed/simple;
-	bh=LpuCZ0zn9wOcs7NjXo1QHfxAcyOWNdCR9dbvUV4Dv1I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NWOUT4m5TiW9hgFOb0Zxkyq0GT1rp98dMkQvwzqXsVJJzUkLXSWwYWwd45ccAr1JwUgafmRP87uN1g+T5LbAVKy41qO8TDSFJOn9E5U4KBcGnchvQizNNPLKJtaUPU7l6lRH68pnXxxm7XnEPQU3XIFrJbri+cHqqSPYcrgh7rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A0F1169E;
-	Thu, 12 Dec 2024 01:23:52 -0800 (PST)
-Received: from [10.57.92.2] (unknown [10.57.92.2])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 50E893F5A1;
-	Thu, 12 Dec 2024 01:23:22 -0800 (PST)
-Message-ID: <5d4ccb2c-da45-4471-9bb1-90212b50dad7@arm.com>
-Date: Thu, 12 Dec 2024 09:23:20 +0000
+	s=arc-20240116; t=1733997428; c=relaxed/simple;
+	bh=CR4xKt3dKhiMF/jgSb/r1xl+RaNR7Vqb2fCQvyj4HNs=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jVoM4RfIPfrf5NfVELbxbfXAwSvpbrvxcMECMKUQS715Ca/0T0WUg3OLR68IgfI/sNonpfjMBzbG68PKEjsmpGdZ/DQqPGmMYVzkbfBR3p+7m11ioX3qiwRomgLzx74JJ7IDS+Zpc7/3OYi4G96DtIuzFCz81DS7b4vGmFvawm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dwisyUAO; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dwisyUAO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACE41C4CED7;
+	Thu, 12 Dec 2024 09:57:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733997427;
+	bh=CR4xKt3dKhiMF/jgSb/r1xl+RaNR7Vqb2fCQvyj4HNs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=dwisyUAO0Fe6OZk999b8H0f2W5l7v/tFtXoXFpH2iLDcjvQ2Jh+/cr/Oiikwk25Ea
+	 hpk9539OgJtSVYvyeBvqBs2mxR3IyU+Xxq1GUDel1LMdEN97lCrb2ACSNcJKnm0mjt
+	 HvxwR4/Pk9ZwAggD5eIZnVz/wezev9YpHja2gumgolOyK+UXqhefClt1oOAtPLbQfL
+	 POc3mTK8N7Vcvns+D9/ijUNSsiFPsvJWVehyFn/rY9+68WlRSXk2zy/Gqbq/dfimr1
+	 b6AsgRZsKCsGOO3Lsq9ygPPrTIYm4IU9ibALKy4Fa6W+OXI5HB3ZJq1j4Z5A8NdIRh
+	 JV2EDm/s3lhvw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1tLfwP-0031hu-H5;
+	Thu, 12 Dec 2024 09:57:05 +0000
+Date: Thu, 12 Dec 2024 09:57:05 +0000
+Message-ID: <86msh1rzpq.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Ryan Roberts <ryan.roberts@arm.com>
+Cc: =?UTF-8?B?TWlrb8WCYWo=?= Lenczewski <miko.lenczewski@arm.com>,
+	catalin.marinas@arm.com,	will@kernel.org,	corbet@lwn.net,
+	oliver.upton@linux.dev,	joey.gouly@arm.com,	suzuki.poulose@arm.com,
+	yuzenghui@huawei.com,	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,	linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev
+Subject: Re: [RESEND RFC PATCH v1 1/5] arm64: Add TLB Conflict Abort Exception handler to KVM
+In-Reply-To: <5d4ccb2c-da45-4471-9bb1-90212b50dad7@arm.com>
+References: <20241211160218.41404-1-miko.lenczewski@arm.com>
+	<20241211160218.41404-2-miko.lenczewski@arm.com>
+	<86o71irucr.wl-maz@kernel.org>
+	<5d4ccb2c-da45-4471-9bb1-90212b50dad7@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND RFC PATCH v1 1/5] arm64: Add TLB Conflict Abort Exception
- handler to KVM
-Content-Language: en-GB
-To: Marc Zyngier <maz@kernel.org>,
- =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
-Cc: catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
- oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com,
- yuzenghui@huawei.com, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kvmarm@lists.linux.dev
-References: <20241211160218.41404-1-miko.lenczewski@arm.com>
- <20241211160218.41404-2-miko.lenczewski@arm.com>
- <86o71irucr.wl-maz@kernel.org>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <86o71irucr.wl-maz@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: ryan.roberts@arm.com, miko.lenczewski@arm.com, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On 11/12/2024 17:40, Marc Zyngier wrote:
-> On Wed, 11 Dec 2024 16:01:37 +0000,
-> Mikołaj Lenczewski <miko.lenczewski@arm.com> wrote:
->>
->> Currently, KVM does not handle the case of a stage 2 TLB conflict abort
->> exception. The Arm ARM specifies that the worst-case handling of such an
->> exception requires a `tlbi vmalls12e1`.
-> 
-> Not quite. It says (I_JCCRT):
-> 
-> <quote>
-> * For the EL1&0 translation regime, when stage 2 translations are in
->   use, either VMALLS12E1 or ALLE1.
-> </quote>
-> 
->> Perform such an invalidation when this exception is encountered.
-> 
-> What you fail to describe is *why* this is needed. You know it, I know
-> it, but not everybody does. A reference to the ARM ARM would
-> definitely be helpful.
-> 
->>
->> Signed-off-by: Mikołaj Lenczewski <miko.lenczewski@arm.com>
->> ---
->>  arch/arm64/include/asm/esr.h | 8 ++++++++
->>  arch/arm64/kvm/mmu.c         | 6 ++++++
->>  2 files changed, 14 insertions(+)
->>
->> diff --git a/arch/arm64/include/asm/esr.h b/arch/arm64/include/asm/esr.h
->> index d1b1a33f9a8b..8a66f81ca291 100644
->> --- a/arch/arm64/include/asm/esr.h
->> +++ b/arch/arm64/include/asm/esr.h
->> @@ -121,6 +121,7 @@
->>  #define ESR_ELx_FSC_SEA_TTW(n)	(0x14 + (n))
->>  #define ESR_ELx_FSC_SECC	(0x18)
->>  #define ESR_ELx_FSC_SECC_TTW(n)	(0x1c + (n))
->> +#define ESR_ELx_FSC_TLBABT	(0x30)
->>  
->>  /* Status codes for individual page table levels */
->>  #define ESR_ELx_FSC_ACCESS_L(n)	(ESR_ELx_FSC_ACCESS + (n))
->> @@ -464,6 +465,13 @@ static inline bool esr_fsc_is_access_flag_fault(unsigned long esr)
->>  	       (esr == ESR_ELx_FSC_ACCESS_L(0));
->>  }
->>  
->> +static inline bool esr_fsc_is_tlb_conflict_abort(unsigned long esr)
->> +{
->> +	esr = esr & ESR_ELx_FSC;
->> +
->> +	return esr == ESR_ELx_FSC_TLBABT;
->> +}
->> +
->>  /* Indicate whether ESR.EC==0x1A is for an ERETAx instruction */
->>  static inline bool esr_iss_is_eretax(unsigned long esr)
->>  {
->> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
->> index c9d46ad57e52..c8c6f5a97a1b 100644
->> --- a/arch/arm64/kvm/mmu.c
->> +++ b/arch/arm64/kvm/mmu.c
->> @@ -1756,6 +1756,12 @@ int kvm_handle_guest_abort(struct kvm_vcpu *vcpu)
->>  	ipa = fault_ipa = kvm_vcpu_get_fault_ipa(vcpu);
->>  	is_iabt = kvm_vcpu_trap_is_iabt(vcpu);
->>  
->> +	if (esr_fsc_is_tlb_conflict_abort(esr)) {
->> +		// does a `tlbi vmalls12e1is`
-> 
-> nit: this isn't a very useful comment.
-> 
->> +		__kvm_tlb_flush_vmid(&vcpu->kvm->arch.mmu);
->> +		return 1;
->> +	}
-> 
-> That's not enough, unfortunately. A nested VM has *many* VMIDs (the
-> flattening of all translation contexts that the guest uses).
-> 
-> So you can either iterate over all the valid VMIDs owned by this
-> guest, or more simply issue a TLBI ALLE1, which will do the trick in a
-> much more efficient way.
-> 
-> The other thing is that you are using an IS invalidation, which is
-> farther reaching than necessary. Why would you invalidate the TLBs for
-> CPUs that are only innocent bystanders? A non-shareable invalidation
-> seems preferable to me.
-> 
->> +
->>  	if (esr_fsc_is_translation_fault(esr)) {
->>  		/* Beyond sanitised PARange (which is the IPA limit) */
->>  		if (fault_ipa >= BIT_ULL(get_kvm_ipa_limit())) {
-> 
-> But it also begs the question: why only KVM, and not the host? This
-> handler will only take effect for a TLB Conflict abort delivered from
-> an EL1 guest to EL2.
+Hi Ryan,
 
-Hi Marc,
-
-I believe the intent of this patch is to protect the host/KVM against a guest
-that is using BBML2. The host/KVM always assumes BBML0 and therefore doesn't do
-any operations that are allowed by the arch to cause a conflict abort. Therefore
-the host doesn't need to handle it. But a guest could be taking advantage of
-BBML2 and therefore it's architiecturally possible for a conflict abort to be
-raised to EL2. I think today that would take down the host?
-
-So really I think this could be considered a stand-alone KVM hardening improvement?
-
+On Thu, 12 Dec 2024 09:23:20 +0000,
+Ryan Roberts <ryan.roberts@arm.com> wrote:
 > 
-> However, it doesn't seem to me that the host is equipped to deal with
-> this sort of exception for itself. Shouldn't you start with that?
+> Hi Marc,
+> 
+> I believe the intent of this patch is to protect the host/KVM against a guest
+> that is using BBML2. The host/KVM always assumes BBML0 and therefore doesn't do
+> any operations that are allowed by the arch to cause a conflict abort. Therefore
+> the host doesn't need to handle it. But a guest could be taking advantage of
+> BBML2 and therefore it's architiecturally possible for a conflict abort to be
+> raised to EL2. I think today that would take down the host?
+> 
+> So really I think this could be considered a stand-alone KVM
+> hardening improvement?
 
-If the host isn't doing any BBML2 operations it doesn't need to handle it, I
-don't think? Obviously that changes later in the series and Miko is adding the
-required handling to the host.
+I'm not disputing the need for a TLB Conflict abort handler. It will
+be a good addition once we agree on what needs to be done.
+
+> > However, it doesn't seem to me that the host is equipped to deal with
+> > this sort of exception for itself. Shouldn't you start with that?
+> 
+> If the host isn't doing any BBML2 operations it doesn't need to handle it, I
+> don't think? Obviously that changes later in the series and Miko is adding the
+> required handling to the host.
+
+Yes, and that's what I overlooked yesterday, and I replied to that
+change this morning.
 
 Thanks,
-Ryan
 
-> 
-> Thanks,
-> 
-> 	M.
-> 
+	M.
 
+-- 
+Without deviation from the norm, progress is not possible.
