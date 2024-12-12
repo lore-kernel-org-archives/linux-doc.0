@@ -1,89 +1,167 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732FD13F43A
-	for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2024 03:57:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62892905;
+	Thu, 12 Dec 2024 04:17:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733975855; cv=none; b=GxwtYMjAEQ+Qd1d3FKuCgkuh93DafwxKqD81cOL/3tq/1Y1Pm1xwWnuSLETLMFlC3z1XQgcUmkHFOAIVS7vVe+oLiNmhlTOl+0b3HPuXc5UuBrMighkZ6B0N/BAyIl4yLdw6TMI/9bex0ES/GtYMG1GDuglT68kgIdPafJadGtw=
+	t=1733977033; cv=none; b=cZKH9sjhbAkhrTwK8ur+FRIP0SEP5QVkZIXYPrVx3lI8lvkE0ghPft8mLSx0fsJCkefwONn9hvgAOGc+R1yAWpwbhg6Z0Z5ELWHkfJjAr/HHvpyMfi0JCdscdlsZdK/p3VOYntYA9sFVfCYdXK9VNVMUOHmpyfLhQIvZToQpU2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733975855; c=relaxed/simple;
-	bh=avMpD592FGSIqWpnDK8lZI/BfHdGwNE1wij+bKUI/hk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=De8tr+cj9mNJsfm5kcXHm5u6V8GQA2bX38Jbks9IeNbkybvC80++2wv3uNyUGwFVSf+nJhIGLW+BjZjld4iPjyb+hFRkIOa18aXmYqNdeSRndImTAvzJDxYyXIMGIqOImb45kN1iJ030jniwpVacXPW+04QUdnN7Jv/JVzTkf38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XfAk5grW; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733977033; c=relaxed/simple;
+	bh=MxIViu8R+BODZ1fTSnXOnUYQzBpVG12EM+mLiSTMncE=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jRAuCotpo/9Ko2oaWyDdq28UjC2ogTjWX2rpu2Dy4phZSEyw5FzulZYAeN62b61ZY5/6qF9ZZgMwVv3Kcg5VAbMVfg/7inYE0a4XP2c/i5pt8/j93Ncq0FYLtIrqbzksOjon37RLXZdDv9sqvFXs/aY+BzYm5gJnJeWf5+Chgsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=NqkVlm5j; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XfAk5grW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733975853; x=1765511853;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=avMpD592FGSIqWpnDK8lZI/BfHdGwNE1wij+bKUI/hk=;
-  b=XfAk5grWd7LLHQLYmYKfqvf9zmpaw2pGYBA75EnQSEHJ5tetXaePFkGP
-   iJGXY5Er6G9bvqB1CbzOAfSbeUytVYukBFSln70zkD6aFzixQMMoVlfk1
-   SkDPZrgHejXRpytUfsnYM66ALZk//brErFJ7CZ2y+eQKwty+1gINmY/BQ
-   7q4yhT3zUu0G2/umVoGnzndi6MouN3j/9l+U7vIQMJ0BTxwwx3UxhXSaZ
-   fFIMFEirNXwXt4oxQeDw8ICerV0ojEJ2HxwO4huN2ILS+xSeHUeJu0o/3
-   e53WqbyVRocqRIb+Mly7Bbil5oRLI4KuUaac8uusr+/iMkPgmcLFn6G6M
-   g==;
-X-CSE-ConnectionGUID: pVmQ6fiORg+4T+CqAtozxQ==
-X-CSE-MsgGUID: N4ceSfS1TASKKeQLMBCQkw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11283"; a="59775535"
-X-IronPort-AV: E=Sophos;i="6.12,227,1728975600"; 
-   d="scan'208";a="59775535"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 19:57:33 -0800
-X-CSE-ConnectionGUID: SyfjpiAYSwuUo10Q1tWRgQ==
-X-CSE-MsgGUID: ymsTvsHtRO2xh1apqd/ZsQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="96530181"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 11 Dec 2024 19:57:32 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tLaKP-0007PZ-0m;
-	Thu, 12 Dec 2024 03:57:29 +0000
-Date: Thu, 12 Dec 2024 11:57:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tudor Ambarus <tudor.ambarus@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [ambarus:acpm-v4-upstream 3/10] htmldocs: Warning: MAINTAINERS
- references a file that doesn't exist:
- Documentation/devicetree/bindings/mailbox/samsung,exynos.yaml
-Message-ID: <202412121157.66Uo82V3-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="NqkVlm5j"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BBLWoYH006448;
+	Thu, 12 Dec 2024 04:17:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	lvFuDsLPuKbV2eKOfvKU+wg4I7Q+hte2XgtVTBMZn6U=; b=NqkVlm5jh8cfhaqE
+	o+mIOFmabu2ikAX2P1jdTUNzksB3oYKxd64EQgKVmtBT7HIFylRlskRi3duXoFZf
+	EY/DAYksPWrkbvm3FczqYB26ZfezvNJMQAwpZRQf4pmkI9R2u9jGioDYn83Ek4vb
+	gCUjz/Vafz1rOG3SJ/aPQ4waa/ix6jn5BfY0CmUMPy22O590/TjVfNa6ioVuZbB8
+	TC/rzS8+57SINS9FZcQUsr0vrgY+V2yvjpjguSi6tFmM3ifXrML+iYpWlsHO8zM/
+	8mjslg1F/hnJFZiK1zUvc31rnMCv4EXmbHDybGIXD4ED4LA0Pc2doqCSvcIalR8l
+	gHcHZA==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43f6tfaxah-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Dec 2024 04:17:04 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BC4H3Gt020643
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Dec 2024 04:17:03 GMT
+Received: from hu-mdalam-blr.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 11 Dec 2024 20:16:58 -0800
+From: Md Sadre Alam <quic_mdalam@quicinc.com>
+To: <vkoul@kernel.org>, <corbet@lwn.net>, <thara.gopinath@gmail.com>,
+        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
+        <kees@kernel.org>, <dave.jiang@intel.com>, <dmaengine@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-crypto@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
+CC: <quic_srichara@quicinc.com>, <quic_varada@quicinc.com>,
+        <quic_mdalam@quicinc.com>, <quic_utiwari@quicinc.com>
+Subject: [PATCH v5 01/12] dmaengine: qcom: bam_dma: Add bam_sw_version register read
+Date: Thu, 12 Dec 2024 09:46:28 +0530
+Message-ID: <20241212041639.4109039-2-quic_mdalam@quicinc.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241212041639.4109039-1-quic_mdalam@quicinc.com>
+References: <20241212041639.4109039-1-quic_mdalam@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: IfbsXRzpwLxQwe1N4tGT55G-zGRIMde6
+X-Proofpoint-ORIG-GUID: IfbsXRzpwLxQwe1N4tGT55G-zGRIMde6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ mlxlogscore=999 malwarescore=0 spamscore=0 lowpriorityscore=0
+ impostorscore=0 adultscore=0 bulkscore=0 phishscore=0 priorityscore=1501
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412120028
 
-tree:   https://github.com/ambarus/linux-0day acpm-v4-upstream
-head:   a7e0ce0f6a033307db912fc77b1bbb7c3e1df757
-commit: 26c389f00b6244f87b078f93a9403c8549c53505 [3/10] MAINTAINERS: add entry for Samsung Exynos mailbox driver
-reproduce: (https://download.01.org/0day-ci/archive/20241212/202412121157.66Uo82V3-lkp@intel.com/reproduce)
+Add bam_sw_version register read. This will help to
+differentiate b/w some new BAM features across multiple
+BAM IP, feature like LOCK/UNLOCK of BAM pipe.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412121157.66Uo82V3-lkp@intel.com/
+Signed-off-by: Md Sadre Alam <quic_mdalam@quicinc.com>
+---
 
-All warnings (new ones prefixed by >>):
+change in [v5]
 
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: Documentation/hwmon/isl28022.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/isl,isl28022.yaml
-   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mailbox/samsung,exynos.yaml
-   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
-   Using alabaster theme
+* No change
 
+change in [v4]
+
+* Added BAM_SW_VERSION register read
+
+change in [v3]
+
+* This patch was not included in [v3]
+
+change in [v2]
+
+* This patch was not included in [v2]
+
+change in [v1]
+
+* This patch was not included in [v1]
+
+ drivers/dma/qcom/bam_dma.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
+index bbc3276992bb..3980c9d501c3 100644
+--- a/drivers/dma/qcom/bam_dma.c
++++ b/drivers/dma/qcom/bam_dma.c
+@@ -80,6 +80,7 @@ struct bam_async_desc {
+ enum bam_reg {
+ 	BAM_CTRL,
+ 	BAM_REVISION,
++	BAM_SW_VERSION,
+ 	BAM_NUM_PIPES,
+ 	BAM_DESC_CNT_TRSHLD,
+ 	BAM_IRQ_SRCS,
+@@ -114,6 +115,7 @@ struct reg_offset_data {
+ static const struct reg_offset_data bam_v1_3_reg_info[] = {
+ 	[BAM_CTRL]		= { 0x0F80, 0x00, 0x00, 0x00 },
+ 	[BAM_REVISION]		= { 0x0F84, 0x00, 0x00, 0x00 },
++	[BAM_SW_VERSION]	= { 0x0F88, 0x00, 0x00, 0x00 },
+ 	[BAM_NUM_PIPES]		= { 0x0FBC, 0x00, 0x00, 0x00 },
+ 	[BAM_DESC_CNT_TRSHLD]	= { 0x0F88, 0x00, 0x00, 0x00 },
+ 	[BAM_IRQ_SRCS]		= { 0x0F8C, 0x00, 0x00, 0x00 },
+@@ -143,6 +145,7 @@ static const struct reg_offset_data bam_v1_3_reg_info[] = {
+ static const struct reg_offset_data bam_v1_4_reg_info[] = {
+ 	[BAM_CTRL]		= { 0x0000, 0x00, 0x00, 0x00 },
+ 	[BAM_REVISION]		= { 0x0004, 0x00, 0x00, 0x00 },
++	[BAM_SW_VERSION]	= { 0x0008, 0x00, 0x00, 0x00 },
+ 	[BAM_NUM_PIPES]		= { 0x003C, 0x00, 0x00, 0x00 },
+ 	[BAM_DESC_CNT_TRSHLD]	= { 0x0008, 0x00, 0x00, 0x00 },
+ 	[BAM_IRQ_SRCS]		= { 0x000C, 0x00, 0x00, 0x00 },
+@@ -172,6 +175,7 @@ static const struct reg_offset_data bam_v1_4_reg_info[] = {
+ static const struct reg_offset_data bam_v1_7_reg_info[] = {
+ 	[BAM_CTRL]		= { 0x00000, 0x00, 0x00, 0x00 },
+ 	[BAM_REVISION]		= { 0x01000, 0x00, 0x00, 0x00 },
++	[BAM_SW_VERSION]	= { 0x01004, 0x00, 0x00, 0x00 },
+ 	[BAM_NUM_PIPES]		= { 0x01008, 0x00, 0x00, 0x00 },
+ 	[BAM_DESC_CNT_TRSHLD]	= { 0x00008, 0x00, 0x00, 0x00 },
+ 	[BAM_IRQ_SRCS]		= { 0x03010, 0x00, 0x00, 0x00 },
+@@ -390,6 +394,7 @@ struct bam_device {
+ 	bool controlled_remotely;
+ 	bool powered_remotely;
+ 	u32 active_channels;
++	u32 bam_sw_version;
+ 
+ 	const struct reg_offset_data *layout;
+ 
+@@ -1298,6 +1303,9 @@ static int bam_dma_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
++	bdev->bam_sw_version = readl_relaxed(bam_addr(bdev, 0, BAM_SW_VERSION));
++	dev_info(bdev->dev, "BAM software version:0x%08x\n", bdev->bam_sw_version);
++
+ 	ret = bam_init(bdev);
+ 	if (ret)
+ 		goto err_disable_clk;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
