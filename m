@@ -1,167 +1,167 @@
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9FA320E6EA
-	for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2024 09:01:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44DA820E6E7;
+	Thu, 12 Dec 2024 09:23:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733994090; cv=none; b=n/VxCtk9BbXcBLj+QCZrF7TUO6j82w7Ueqt8c4EA98R7yoBiPqOaxlGvhqwpx52Tj2dBf8UTSZE4nreVRgY5ymZEKBHOTk4ho0X4sB2ivCNiHViOYo+F3z04qxcIKTdqMzz5zSt3fLR4nXAMFj66CZJY6cbGwzxwQ1SK4awLuDQ=
+	t=1733995408; cv=none; b=CiEnW90YHpmF7dnJcoTy0xFATiq0lJ35gfbxOpJnA22U3anN+fOQ91dZeVIUxapIjZY/MgPm3+TSN65hPv9VA065ldKRkpV+TWAFXrtjS2gVAw4V15UqMB7HxG4dGiq7NDzTPnYTF3uwv26Sqe3XyRjn8DJMXbEKOFXxHYSe/ks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733994090; c=relaxed/simple;
-	bh=j15g7+Zs11MXgNdFt9xjPzQq0JE/TjMvjYfFKO5EiIg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ZLzl0wweJYjHb3UVpOLPr+vuVmQNskjWvBl+5yTPeamZlPJoMEyT9WEx8KzgV/OcQV5krS/fsF5QchR7HLbAlbENQKqS85jxuBWCArCCe9bTZzmrRVFI5OnQsjfsHiCyoNdFYWCmZPhV8mbk1QQLWQMNKghdk+aQlZ2TGEj1DPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:a086:deff:83e6:222b])
-	by andre.telenet-ops.be with cmsmtp
-	id nl1E2D0091T2bNC01l1E1c; Thu, 12 Dec 2024 10:01:20 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1tLf4J-000pxW-F0;
-	Thu, 12 Dec 2024 10:01:14 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1tLf4H-00DEXi-0G;
-	Thu, 12 Dec 2024 10:01:09 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Davis <afd@ti.com>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Masahiro Yamada <masahiroy@kernel.org>
-Cc: devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v2 resend 2] docs: dt: Update overlay file extension
-Date: Thu, 12 Dec 2024 10:01:07 +0100
-Message-Id: <a3b98f8590b834d090fc0c7faf6fd0f8d6078e8c.1733993924.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1733995408; c=relaxed/simple;
+	bh=LpuCZ0zn9wOcs7NjXo1QHfxAcyOWNdCR9dbvUV4Dv1I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NWOUT4m5TiW9hgFOb0Zxkyq0GT1rp98dMkQvwzqXsVJJzUkLXSWwYWwd45ccAr1JwUgafmRP87uN1g+T5LbAVKy41qO8TDSFJOn9E5U4KBcGnchvQizNNPLKJtaUPU7l6lRH68pnXxxm7XnEPQU3XIFrJbri+cHqqSPYcrgh7rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A0F1169E;
+	Thu, 12 Dec 2024 01:23:52 -0800 (PST)
+Received: from [10.57.92.2] (unknown [10.57.92.2])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 50E893F5A1;
+	Thu, 12 Dec 2024 01:23:22 -0800 (PST)
+Message-ID: <5d4ccb2c-da45-4471-9bb1-90212b50dad7@arm.com>
+Date: Thu, 12 Dec 2024 09:23:20 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND RFC PATCH v1 1/5] arm64: Add TLB Conflict Abort Exception
+ handler to KVM
+Content-Language: en-GB
+To: Marc Zyngier <maz@kernel.org>,
+ =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
+Cc: catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
+ oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com,
+ yuzenghui@huawei.com, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kvmarm@lists.linux.dev
+References: <20241211160218.41404-1-miko.lenczewski@arm.com>
+ <20241211160218.41404-2-miko.lenczewski@arm.com>
+ <86o71irucr.wl-maz@kernel.org>
+From: Ryan Roberts <ryan.roberts@arm.com>
+In-Reply-To: <86o71irucr.wl-maz@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Building DTB overlays from .dts files is no longer supported.
-Update the documentation to reflect this.
+On 11/12/2024 17:40, Marc Zyngier wrote:
+> On Wed, 11 Dec 2024 16:01:37 +0000,
+> Mikołaj Lenczewski <miko.lenczewski@arm.com> wrote:
+>>
+>> Currently, KVM does not handle the case of a stage 2 TLB conflict abort
+>> exception. The Arm ARM specifies that the worst-case handling of such an
+>> exception requires a `tlbi vmalls12e1`.
+> 
+> Not quite. It says (I_JCCRT):
+> 
+> <quote>
+> * For the EL1&0 translation regime, when stage 2 translations are in
+>   use, either VMALLS12E1 or ALLE1.
+> </quote>
+> 
+>> Perform such an invalidation when this exception is encountered.
+> 
+> What you fail to describe is *why* this is needed. You know it, I know
+> it, but not everybody does. A reference to the ARM ARM would
+> definitely be helpful.
+> 
+>>
+>> Signed-off-by: Mikołaj Lenczewski <miko.lenczewski@arm.com>
+>> ---
+>>  arch/arm64/include/asm/esr.h | 8 ++++++++
+>>  arch/arm64/kvm/mmu.c         | 6 ++++++
+>>  2 files changed, 14 insertions(+)
+>>
+>> diff --git a/arch/arm64/include/asm/esr.h b/arch/arm64/include/asm/esr.h
+>> index d1b1a33f9a8b..8a66f81ca291 100644
+>> --- a/arch/arm64/include/asm/esr.h
+>> +++ b/arch/arm64/include/asm/esr.h
+>> @@ -121,6 +121,7 @@
+>>  #define ESR_ELx_FSC_SEA_TTW(n)	(0x14 + (n))
+>>  #define ESR_ELx_FSC_SECC	(0x18)
+>>  #define ESR_ELx_FSC_SECC_TTW(n)	(0x1c + (n))
+>> +#define ESR_ELx_FSC_TLBABT	(0x30)
+>>  
+>>  /* Status codes for individual page table levels */
+>>  #define ESR_ELx_FSC_ACCESS_L(n)	(ESR_ELx_FSC_ACCESS + (n))
+>> @@ -464,6 +465,13 @@ static inline bool esr_fsc_is_access_flag_fault(unsigned long esr)
+>>  	       (esr == ESR_ELx_FSC_ACCESS_L(0));
+>>  }
+>>  
+>> +static inline bool esr_fsc_is_tlb_conflict_abort(unsigned long esr)
+>> +{
+>> +	esr = esr & ESR_ELx_FSC;
+>> +
+>> +	return esr == ESR_ELx_FSC_TLBABT;
+>> +}
+>> +
+>>  /* Indicate whether ESR.EC==0x1A is for an ERETAx instruction */
+>>  static inline bool esr_iss_is_eretax(unsigned long esr)
+>>  {
+>> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+>> index c9d46ad57e52..c8c6f5a97a1b 100644
+>> --- a/arch/arm64/kvm/mmu.c
+>> +++ b/arch/arm64/kvm/mmu.c
+>> @@ -1756,6 +1756,12 @@ int kvm_handle_guest_abort(struct kvm_vcpu *vcpu)
+>>  	ipa = fault_ipa = kvm_vcpu_get_fault_ipa(vcpu);
+>>  	is_iabt = kvm_vcpu_trap_is_iabt(vcpu);
+>>  
+>> +	if (esr_fsc_is_tlb_conflict_abort(esr)) {
+>> +		// does a `tlbi vmalls12e1is`
+> 
+> nit: this isn't a very useful comment.
+> 
+>> +		__kvm_tlb_flush_vmid(&vcpu->kvm->arch.mmu);
+>> +		return 1;
+>> +	}
+> 
+> That's not enough, unfortunately. A nested VM has *many* VMIDs (the
+> flattening of all translation contexts that the guest uses).
+> 
+> So you can either iterate over all the valid VMIDs owned by this
+> guest, or more simply issue a TLBI ALLE1, which will do the trick in a
+> much more efficient way.
+> 
+> The other thing is that you are using an IS invalidation, which is
+> farther reaching than necessary. Why would you invalidate the TLBs for
+> CPUs that are only innocent bystanders? A non-shareable invalidation
+> seems preferable to me.
+> 
+>> +
+>>  	if (esr_fsc_is_translation_fault(esr)) {
+>>  		/* Beyond sanitised PARange (which is the IPA limit) */
+>>  		if (fault_ipa >= BIT_ULL(get_kvm_ipa_limit())) {
+> 
+> But it also begs the question: why only KVM, and not the host? This
+> handler will only take effect for a TLB Conflict abort delivered from
+> an EL1 guest to EL2.
 
-Fixes: 81d362732bac05f6 ("kbuild: Disallow DTB overlays to built from .dts named source files")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Andrew Davis <afd@ti.com>
-Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
----
-v2:
-  - Add Acked-by, Reviewed-by.
----
- Documentation/devicetree/overlay-notes.rst           | 12 ++++++------
- .../translations/zh_CN/devicetree/overlay-notes.rst  | 12 ++++++------
- 2 files changed, 12 insertions(+), 12 deletions(-)
+Hi Marc,
 
-diff --git a/Documentation/devicetree/overlay-notes.rst b/Documentation/devicetree/overlay-notes.rst
-index e139f22b363e9f36..35e79242af9a928d 100644
---- a/Documentation/devicetree/overlay-notes.rst
-+++ b/Documentation/devicetree/overlay-notes.rst
-@@ -38,10 +38,10 @@ Lets take an example where we have a foo board with the following base tree::
- 	};
-     ---- foo.dts ---------------------------------------------------------------
- 
--The overlay bar.dts,
-+The overlay bar.dtso,
- ::
- 
--    ---- bar.dts - overlay target location by label ----------------------------
-+    ---- bar.dtso - overlay target location by label ---------------------------
- 	/dts-v1/;
- 	/plugin/;
- 	&ocp {
-@@ -51,7 +51,7 @@ The overlay bar.dts,
- 			... /* various properties and child nodes */
- 		};
- 	};
--    ---- bar.dts ---------------------------------------------------------------
-+    ---- bar.dtso --------------------------------------------------------------
- 
- when loaded (and resolved as described in [1]) should result in foo+bar.dts::
- 
-@@ -88,9 +88,9 @@ in the base DT. In this case, the target path can be provided. The target
- location by label syntax is preferred because the overlay can be applied to
- any base DT containing the label, no matter where the label occurs in the DT.
- 
--The above bar.dts example modified to use target path syntax is::
-+The above bar.dtso example modified to use target path syntax is::
- 
--    ---- bar.dts - overlay target location by explicit path --------------------
-+    ---- bar.dtso - overlay target location by explicit path -------------------
- 	/dts-v1/;
- 	/plugin/;
- 	&{/ocp} {
-@@ -100,7 +100,7 @@ The above bar.dts example modified to use target path syntax is::
- 			... /* various properties and child nodes */
- 		}
- 	};
--    ---- bar.dts ---------------------------------------------------------------
-+    ---- bar.dtso --------------------------------------------------------------
- 
- 
- Overlay in-kernel API
-diff --git a/Documentation/translations/zh_CN/devicetree/overlay-notes.rst b/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
-index 43e3c0bc5a9f8235..ba5edd05dc1e7fd2 100644
---- a/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
-+++ b/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
-@@ -43,10 +43,10 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
- 	};
-     ---- foo.dts ---------------------------------------------------------------
- 
--覆盖bar.dts,
-+覆盖bar.dtso,
- ::
- 
--    ---- bar.dts - 按标签覆盖目标位置 ----------------------------
-+    ---- bar.dtso - 按标签覆盖目标位置 ---------------------------
- 	/dts-v1/;
- 	/插件/;
- 	&ocp {
-@@ -56,7 +56,7 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
- 			... /* 各种属性和子节点 */
- 		};
- 	};
--    ---- bar.dts ---------------------------------------------------------------
-+    ---- bar.dtso --------------------------------------------------------------
- 
- 当加载（并按照[1]中描述的方式解决）时，应该产生foo+bar.dts::
- 
-@@ -90,9 +90,9 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
- DT中的适当位置。在这种情况下，可以提供目标路径。通过标签的目标位置的语法是比
- 较好的，因为不管标签在DT中出现在哪里，覆盖都可以被应用到任何包含标签的基础DT上。
- 
--上面的bar.dts例子被修改为使用目标路径语法，即为::
-+上面的bar.dtso例子被修改为使用目标路径语法，即为::
- 
--    ---- bar.dts - 通过明确的路径覆盖目标位置 --------------------
-+    ---- bar.dtso - 通过明确的路径覆盖目标位置 -------------------
- 	/dts-v1/;
- 	/插件/;
- 	&{/ocp} {
-@@ -102,7 +102,7 @@ DT中的适当位置。在这种情况下，可以提供目标路径。通过标
- 			... /* 各种外围设备和子节点 */
- 		}
- 	};
--    ---- bar.dts ---------------------------------------------------------------
-+    ---- bar.dtso --------------------------------------------------------------
- 
- 
- 内核中关于覆盖的API
--- 
-2.34.1
+I believe the intent of this patch is to protect the host/KVM against a guest
+that is using BBML2. The host/KVM always assumes BBML0 and therefore doesn't do
+any operations that are allowed by the arch to cause a conflict abort. Therefore
+the host doesn't need to handle it. But a guest could be taking advantage of
+BBML2 and therefore it's architiecturally possible for a conflict abort to be
+raised to EL2. I think today that would take down the host?
+
+So really I think this could be considered a stand-alone KVM hardening improvement?
+
+> 
+> However, it doesn't seem to me that the host is equipped to deal with
+> this sort of exception for itself. Shouldn't you start with that?
+
+If the host isn't doing any BBML2 operations it doesn't need to handle it, I
+don't think? Obviously that changes later in the series and Miko is adding the
+required handling to the host.
+
+Thanks,
+Ryan
+
+> 
+> Thanks,
+> 
+> 	M.
+> 
 
