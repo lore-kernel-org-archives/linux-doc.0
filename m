@@ -1,73 +1,25 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97CB1F0E42
-	for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2024 10:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54BC6211476;
+	Thu, 12 Dec 2024 10:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734000577; cv=none; b=HSw4o6u8uZF0cAAt0nT62GvzvWbbAON5cXIMe+3UjXgr8Dq04XEfQtzlIHyEkixgM6YYvTltJoh6g3O+hCsJOQS3gO1BirEyCjJIDL07QOnK6yv+BwsAfjqB3ZcLoR5MCPcjq6inbhdtI/1gxDpA49ZcTWUZE1ouC7DzsP0ve7I=
+	t=1734000952; cv=none; b=bbv+IJ+2I1vQ2dcF04eSeu6D+yYIojVa+Rauo+ryolgEZS7NhUTOUzd8vwuLtd9V1tO6gIJbwxV3AYapbbb+09UCxGlD8qYW9CkDBUNkAJAXMI2mOiUt01ZgfBeFLDvBIgjJVFi/13fjqc+f7Y78D57IFQd565GpRs8cZffsD5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734000577; c=relaxed/simple;
-	bh=O0N3obawDdBbcMWE8AIe/TIIJuZymxnHczua83xk2lc=;
+	s=arc-20240116; t=1734000952; c=relaxed/simple;
+	bh=mAmNokK3nzXTOlldPzCpAMxEI538DZ5VSES6sCOF50I=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aaK0PHCMXEV2dCEEloko2qNUF1mMFerFwB2RfO1vB8K+k8TMPOLehKIWdoUI/vvJImD15tk3jUdZXQtfA1tnF569PYAnkLiw7MmanUQtwORgcyI+yn6CZ8eHrojlLCX7c6JJcLUHLzDJEZfQCjpJsYbNz/HzupXzub5J8gp9KUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=R54ei2wf; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="R54ei2wf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1734000573;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=tBK0KiQih3VvNAWtJI6EEduwucaQagiGQdGSnvn0CB4=;
-	b=R54ei2wfu0mwgoA5+ptbCvqWFcSEZGPwa8JBqap9R8cVu61ZDJs5TxediUu4dpO89wWysB
-	2VWikpaeasAD6dH41eNQzag+Qo4vzFrT5fPRW8OLqqaJ4/9sycq6GaCXDO/HY4Jn6Q4GHO
-	90okH3GQDZzya8Y9kXIaMqRuwiI2SAI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-81-uChZLhJXP5SApH_HpqGomg-1; Thu, 12 Dec 2024 05:49:32 -0500
-X-MC-Unique: uChZLhJXP5SApH_HpqGomg-1
-X-Mimecast-MFC-AGG-ID: uChZLhJXP5SApH_HpqGomg
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4361eb83f46so4158125e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2024 02:49:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734000571; x=1734605371;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=tBK0KiQih3VvNAWtJI6EEduwucaQagiGQdGSnvn0CB4=;
-        b=faEr56AiFX4bbB/Cu4b/0uDP2YwA4aw/HEftOXc6F0roXzcuNV8Q1VRWutgbTGkPsS
-         zm78rClAYd6VnH5uTLs8xcFKlxxXtaVptBa6ZUwDUHGtbtoOh4Bl6L6PKKZ9lt6Mo6aH
-         Sazj//hPtl69sEuK/bHucmRD16OhNic+ib7EboKGc7J7sS8ueAQjqzmexHBocrtbzE0t
-         na0Tw4h4CNrTfMYnTDpLnMKnAWSgq4UpAmQ9PQ/o793RZ7aJuKy3G0lfoLX82QAQgri5
-         +RyrjOFKBeSP0sJgPJW/cguNjDdq9oJXwkhoU3nXyCFols78PWeHvoXTgENNkOB57Nsy
-         re+w==
-X-Forwarded-Encrypted: i=1; AJvYcCVo4emxxg/GGFgXxO5HCdB5UrqDrmXVhwLW99y3aPLdTEafRYzkgZBdaSVIvq9DtASfJCHp0OVdO/Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZ1kHSGPWYF9gF4Xd95V/VtVrPuVgGPUhL0yV/KIYaPKRdcy+u
-	futsNUyFfC/+g+dQ3HLNxVgGAaX3ui7m1GgvfvgXpstBdzwCKl38R17oroXmTWCvYs1Y8rPflGu
-	t85HzeTwtfPFIt8ngwiqvqhnpBMEW0tjZRBoI1IzAFhwYJEeBjYJCnvKfIA==
-X-Gm-Gg: ASbGncsUnrwywMOmsMJdvZ/DCSKxITz1TNO5pXnLbV47CFs2EsxiS49S+aoEqJfbulV
-	xOzfc6vdoT5xGsuHpckXJaj085fLATtU8yDOMq6s5i8GI7DhF5YipGnEwMwcWE5lZcp0FGtLfID
-	tK347FkyspjatHrrKl5wNmW0coXm+IvNU2szGaRhA51ofdT0vyqZpiqAD4b4cE8plLaJ1CgDJ2Z
-	sjDFyCQ5LJbCzr8cutBHKuAyWpXdxlZbAo5vb8qf4QWW/R+BxHaziphOPUmdGw7cO5p23rYAMZH
-	p16gH1sVVEzOamNzLTZnjOgYjMyvhVZCuuxQ+kZWnZRhk4YH1+qxiT8bmsjuiNQba6jSENnMXCD
-	XbA9T/1tJ
-X-Received: by 2002:a05:600c:350a:b0:434:a684:9b1 with SMTP id 5b1f17b1804b1-4361c344cb7mr52707255e9.4.1734000571421;
-        Thu, 12 Dec 2024 02:49:31 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHD2vMl0Xskj/iyiXKgwQeARtnq5a6JlZEEEJ/wyJ8aKHUA0XfSXg1M2CjnkQlhVdbLCUL1fg==
-X-Received: by 2002:a05:600c:350a:b0:434:a684:9b1 with SMTP id 5b1f17b1804b1-4361c344cb7mr52706945e9.4.1734000571060;
-        Thu, 12 Dec 2024 02:49:31 -0800 (PST)
-Received: from ?IPV6:2003:cb:c716:2b00:720b:42a1:ba95:a3db? (p200300cbc7162b00720b42a1ba95a3db.dip0.t-ipconnect.de. [2003:cb:c716:2b00:720b:42a1:ba95:a3db])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436256e063asm12609325e9.42.2024.12.12.02.49.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Dec 2024 02:49:29 -0800 (PST)
-Message-ID: <b328da08-595f-4044-ad32-5ed9660a4d62@redhat.com>
-Date: Thu, 12 Dec 2024 11:49:27 +0100
+	 In-Reply-To:Content-Type; b=W1tY+fKi/ikWOVc94TeugRcxIWKuxaikHZcwKnuZIHC4s4e5L4hvqrJAvPHN4+p1+of3w/GBS9i4YX3z5jC6objwdWUBWPGup/1Day6pNh6sHIZCe1eWmSAKem5OYqUiYZnwys0KbB3fP64pgqa2XtK3Nsgv72+Rz+l3ba5ucvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 92E3C153B;
+	Thu, 12 Dec 2024 02:56:17 -0800 (PST)
+Received: from [10.57.92.2] (unknown [10.57.92.2])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 102953F720;
+	Thu, 12 Dec 2024 02:55:46 -0800 (PST)
+Message-ID: <084c5ada-51af-4c1a-b50a-4401e62ddbd6@arm.com>
+Date: Thu, 12 Dec 2024 10:55:45 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,190 +27,194 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/6] mm: Introduce a pageflag for partially mapped
- folios
-To: Usama Arif <usamaarif642@gmail.com>, akpm@linux-foundation.org,
- linux-mm@kvack.org
-Cc: hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev,
- roman.gushchin@linux.dev, yuzhao@google.com, npache@redhat.com,
- baohua@kernel.org, ryan.roberts@arm.com, rppt@kernel.org,
- willy@infradead.org, cerasuolodomenico@gmail.com, ryncsn@gmail.com,
- corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kernel-team@meta.com
-References: <20240830100438.3623486-1-usamaarif642@gmail.com>
- <20240830100438.3623486-5-usamaarif642@gmail.com>
- <e53b04ad-1827-43a2-a1ab-864c7efecf6e@redhat.com>
- <9d602b3f-878f-4f92-aade-f7fd7c1a626a@gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <9d602b3f-878f-4f92-aade-f7fd7c1a626a@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [RESEND RFC PATCH v1 2/5] arm64: Add BBM Level 2 cpu feature
+Content-Language: en-GB
+To: Marc Zyngier <maz@kernel.org>,
+ =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
+Cc: catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
+ oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com,
+ yuzenghui@huawei.com, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kvmarm@lists.linux.dev
+References: <20241211160218.41404-1-miko.lenczewski@arm.com>
+ <20241211160218.41404-3-miko.lenczewski@arm.com>
+ <87cyhxs3xq.wl-maz@kernel.org>
+From: Ryan Roberts <ryan.roberts@arm.com>
+In-Reply-To: <87cyhxs3xq.wl-maz@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 12.12.24 11:30, Usama Arif wrote:
+On 12/12/2024 08:25, Marc Zyngier wrote:
+> Ah, so this is where this is hiding. I missed it in my review of patch
+> #1 yesterday.
 > 
-> 
-> On 11/12/2024 18:03, David Hildenbrand wrote:
->> On 30.08.24 12:03, Usama Arif wrote:
->>> Currently folio->_deferred_list is used to keep track of
->>> partially_mapped folios that are going to be split under memory
->>> pressure. In the next patch, all THPs that are faulted in and collapsed
->>> by khugepaged are also going to be tracked using _deferred_list.
->>>
->>> This patch introduces a pageflag to be able to distinguish between
->>> partially mapped folios and others in the deferred_list at split time in
->>> deferred_split_scan. Its needed as __folio_remove_rmap decrements
->>> _mapcount, _large_mapcount and _entire_mapcount, hence it won't be
->>> possible to distinguish between partially mapped folios and others in
->>> deferred_split_scan.
->>>
->>> Eventhough it introduces an extra flag to track if the folio is
->>> partially mapped, there is no functional change intended with this
->>> patch and the flag is not useful in this patch itself, it will
->>> become useful in the next patch when _deferred_list has non partially
->>> mapped folios.
->>>
->>> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
->>> ---
->>>    include/linux/huge_mm.h    |  4 ++--
->>>    include/linux/page-flags.h | 13 +++++++++++-
->>>    mm/huge_memory.c           | 41 ++++++++++++++++++++++++++++----------
->>>    mm/memcontrol.c            |  3 ++-
->>>    mm/migrate.c               |  3 ++-
->>>    mm/page_alloc.c            |  5 +++--
->>>    mm/rmap.c                  |  5 +++--
->>>    mm/vmscan.c                |  3 ++-
->>>    8 files changed, 56 insertions(+), 21 deletions(-)
->>>
->>> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
->>> index 4da102b74a8c..0b0539f4ee1a 100644
->>> --- a/include/linux/huge_mm.h
->>> +++ b/include/linux/huge_mm.h
->>> @@ -333,7 +333,7 @@ static inline int split_huge_page(struct page *page)
->>>    {
->>>        return split_huge_page_to_list_to_order(page, NULL, 0);
->>>    }
->>> -void deferred_split_folio(struct folio *folio);
->>> +void deferred_split_folio(struct folio *folio, bool partially_mapped);
->>>      void __split_huge_pmd(struct vm_area_struct *vma, pmd_t *pmd,
->>>            unsigned long address, bool freeze, struct folio *folio);
->>> @@ -502,7 +502,7 @@ static inline int split_huge_page(struct page *page)
->>>    {
->>>        return 0;
->>>    }
->>> -static inline void deferred_split_folio(struct folio *folio) {}
->>> +static inline void deferred_split_folio(struct folio *folio, bool partially_mapped) {}
->>>    #define split_huge_pmd(__vma, __pmd, __address)    \
->>>        do { } while (0)
->>>    diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
->>> index 2175ebceb41c..1b3a76710487 100644
->>> --- a/include/linux/page-flags.h
->>> +++ b/include/linux/page-flags.h
->>> @@ -186,6 +186,7 @@ enum pageflags {
->>>        /* At least one page in this folio has the hwpoison flag set */
->>>        PG_has_hwpoisoned = PG_active,
->>>        PG_large_rmappable = PG_workingset, /* anon or file-backed */
->>> +    PG_partially_mapped = PG_reclaim, /* was identified to be partially mapped */
->>>    };
->>>      #define PAGEFLAGS_MASK        ((1UL << NR_PAGEFLAGS) - 1)
->>> @@ -859,8 +860,18 @@ static inline void ClearPageCompound(struct page *page)
->>>        ClearPageHead(page);
->>>    }
->>>    FOLIO_FLAG(large_rmappable, FOLIO_SECOND_PAGE)
->>> +FOLIO_TEST_FLAG(partially_mapped, FOLIO_SECOND_PAGE)
->>> +/*
->>> + * PG_partially_mapped is protected by deferred_split split_queue_lock,
->>> + * so its safe to use non-atomic set/clear.
+> On Wed, 11 Dec 2024 16:01:38 +0000,
+> Mikołaj Lenczewski <miko.lenczewski@arm.com> wrote:
 >>
->> Just stumbled over that. In my understanding, this assumption is wrong.
+>> The Break-Before-Make cpu feature supports multiple levels (levels 0-2),
+>> and this commit adds a dedicated BBML2 cpufeature to test against
+>> support for.
 >>
->> I don't think anything prevents other PF_ANY (PG_anon_exclusive, PG_PG_hwpoison) / PF_SECOND (PF_has_hwpoisoned) flags from getting modified concurrently I'm afraid.
+>> In supporting BBM level 2, we open ourselves up to potential TLB
+>> Conflict Abort Exceptions during expected execution, instead of only
+>> in exceptional circumstances. In the case of an abort, it is
+>> implementation defined at what stage the abort is generated, and
+> 
+> *IF* stage-2 is enabled. Also, in the case of the EL2&0 translation
+> regime, no stage-2 applies, so it can only be a stage-1 abort.
+> 
+>> the minimal set of required invalidations is also implementation
+>> defined. The maximal set of invalidations is to do a `tlbi vmalle1`
+>> or `tlbi vmalls12e1`, depending on the stage.
 >>
-> Hi David,
+>> Such aborts should not occur on Arm hardware, and were not seen in
+>> benchmarked systems, so unless performance concerns arise, implementing
 > 
-> Just to clear my understanding, what you are suggesting could happen in __folio_set/clear_partially_mapped is:
-> 1) __folio_set/clear_partially_mapped reads the 2nd page flags (x) where one of the other 2nd page flags is lets say not set.
-> 2) One of the other 2nd page flags are set atomically.
-> 3) __folio_set/clear_partially_mapped writes x + changes to partially_mapped. However, the change in step 2 to one of the other 2nd page flag is lost.
+> Which systems? Given that you have deny-listed *all* half recent ARM
+> Ltd implementations, I'm a bit puzzled.
 > 
-> Is that correct?
+>> the abort handlers with the worst-case invalidations seems like an
+>> alright hack.
+>>
+>> Signed-off-by: Mikołaj Lenczewski <miko.lenczewski@arm.com>
+>> ---
+>>  arch/arm64/include/asm/cpufeature.h | 14 ++++++++++++++
+>>  arch/arm64/kernel/cpufeature.c      |  7 +++++++
+>>  arch/arm64/mm/fault.c               | 27 ++++++++++++++++++++++++++-
+>>  arch/arm64/tools/cpucaps            |  1 +
+>>  4 files changed, 48 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/arch/arm64/include/asm/cpufeature.h b/arch/arm64/include/asm/cpufeature.h
+>> index 8b4e5a3cd24c..a9f2ac335392 100644
+>> --- a/arch/arm64/include/asm/cpufeature.h
+>> +++ b/arch/arm64/include/asm/cpufeature.h
+>> @@ -866,6 +866,20 @@ static __always_inline bool system_supports_mpam_hcr(void)
+>>  	return alternative_has_cap_unlikely(ARM64_MPAM_HCR);
+>>  }
+>>  
+>> +static inline bool system_supports_bbml2(void)
+>> +{
+>> +	/* currently, BBM is only relied on by code touching the userspace page
+>> +	 * tables, and as such we are guaranteed that caps have been finalised.
+>> +	 *
+>> +	 * if later we want to use BBM for kernel mappings, particularly early
+>> +	 * in the kernel, this may return 0 even if BBML2 is actually supported,
+>> +	 * which means unnecessary break-before-make sequences, but is still
+>> +	 * correct
+> 
+> Comment style, capitalisation, punctuation.
+> 
+>> +	 */
+>> +
+>> +	return alternative_has_cap_unlikely(ARM64_HAS_BBML2);
+>> +}
+>> +
+>>  int do_emulate_mrs(struct pt_regs *regs, u32 sys_reg, u32 rt);
+>>  bool try_emulate_mrs(struct pt_regs *regs, u32 isn);
+>>  
+>> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+>> index 6ce71f444ed8..7cc94bd5da24 100644
+>> --- a/arch/arm64/kernel/cpufeature.c
+>> +++ b/arch/arm64/kernel/cpufeature.c
+>> @@ -2917,6 +2917,13 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
+>>  		.matches = has_cpuid_feature,
+>>  		ARM64_CPUID_FIELDS(ID_AA64MMFR2_EL1, EVT, IMP)
+>>  	},
+>> +	{
+>> +		.desc = "BBM Level 2 Support",
+>> +		.capability = ARM64_HAS_BBML2,
+>> +		.type = ARM64_CPUCAP_SYSTEM_FEATURE,
+>> +		.matches = has_cpuid_feature,
+>> +		ARM64_CPUID_FIELDS(ID_AA64MMFR2_EL1, BBM, 2)
+>> +	},
+>>  	{
+>>  		.desc = "52-bit Virtual Addressing for KVM (LPA2)",
+>>  		.capability = ARM64_HAS_LPA2,
+>> diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+>> index ef63651099a9..dc119358cbc1 100644
+>> --- a/arch/arm64/mm/fault.c
+>> +++ b/arch/arm64/mm/fault.c
+>> @@ -844,6 +844,31 @@ static int do_tag_check_fault(unsigned long far, unsigned long esr,
+>>  	return 0;
+>>  }
+>>  
+>> +static int do_conflict_abort(unsigned long far, unsigned long esr,
+>> +			     struct pt_regs *regs)
+>> +{
+>> +	if (!system_supports_bbml2())
+>> +		return do_bad(far, esr, regs);
+>> +
+>> +	/* if we receive a TLB conflict abort, we know that there are multiple
+>> +	 * TLB entries that translate the same address range. the minimum set
+>> +	 * of invalidations to clear these entries is implementation defined.
+>> +	 * the maximum set is defined as either tlbi(vmalls12e1) or tlbi(alle1).
+>> +	 *
+>> +	 * if el2 is enabled and stage 2 translation enabled, this may be
+>> +	 * raised as a stage 2 abort. if el2 is enabled but stage 2 translation
+>> +	 * disabled, or if el2 is disabled, it will be raised as a stage 1
+>> +	 * abort.
+>> +	 *
+>> +	 * local_flush_tlb_all() does a tlbi(vmalle1), which is enough to
+>> +	 * handle a stage 1 abort.
+> 
+> Same comment about comments.
+> 
+>> +	 */
+>> +
+>> +	local_flush_tlb_all();
+> 
+> The elephant in the room: if TLBs are in such a sorry state, what
+> guarantees we can make it this far?
 
-That matches my understanding.
+I'll leave Miko to respond to your other comments, but I wanted to address this
+one, since it's pretty fundamental. We went around this loop internally and
+concluded that what we are doing is architecturally sound.
 
-But that would mean we shouldn't have any page flags (first or second 
-page) as non atomic?
+The expectation is that a conflict abort can only be generated as a result of
+the change in patch 4 (and patch 5). That change makes it possible for the TLB
+to end up with a multihit. But crucially that can only happen for user space
+memory because that change only operates on user memory. And while the TLB may
+detect the conflict at any time, the conflict abort is only permitted to be
+reported when an architectural access is prevented by the conflict. So we never
+do anything that would allow a conflict for a kernel memory access and a user
+memory conflict abort can never be triggered as a result of accessing kernel memory.
 
-Yes. We may only use non-atomic variants as long as we can guarantee 
-that nobody can concurrently operate on the flags, for example on the 
-early folio allocation path or on the folio freeing path.
+Copy/pasting comment from AlexC on the topic, which explains it better than I can:
 
-Observe how the other SECOND users are atomic, PG_anon_exclusive is 
-atomic (except on two page freeing paths) and PF_hwpoison is atomic.
+"""
+The intent is certainly that in cases where the hardware detects a TLB conflict
+abort, it is only permitted to report it (by generating an exception) if it
+applies to an access that is being attempted architecturally. ... that property
+can be built from the following two properties:
 
+1. The TLB conflict can only be reported as an Instruction Abort or a Data Abort
 
-> although it would depend if they are being
-> changed at the same time point. If you encountered a particular instance of PG_anon_exclusive or PF_has_hwpoisoned being changed at the same point as
-> __folio_set/clear_partially_mapped, could you point to it?
+2. Those two exception types must be reported synchronously and precisely.
+"""
 
-Regarding PG_hwpoison, observe how memory_failure() performs the 
-TestSetPageHWPoison() + folio_set_has_hwpoisoned() before unmapping the 
-pages, without any locking. This can race with pretty much any operation 
-that triggers unmapping.
+> 
+> I honestly don't think you can reliably handle a TLB Conflict abort in
+> the same translation regime as the original fault, given that we don't
+> know the scope of that fault. You are probably making an educated
+> guess that it is good enough on the CPUs you know of, but I don't see
+> anything in the architecture that indicates the "blast radius" of a
+> TLB conflict.
 
-With PG_anon_exclusive it's a bit more complicated, but it's probably 
-sufficient if MADV_DONTNEED (setting deferred) races with concurrent 
-swapout/mgration (clearing PG_anon_exclusive), whereby both operations 
-are not performed under the same PT lock. This can happen after partial 
-mremap(), or after fork() when only parts of the large folio were shared 
-with the child.
+OK, so I'm claiming that the blast radius is limited to the region of memory
+that we are operating on in contpte_collapse() in patch 4. Perhaps we need to go
+re-read the ARM and come back with the specific statements that led us to that
+conclusion?
 
--- 
-Cheers,
+Thanks,
+Ryan
 
-David / dhildenb
+> 
+> Which makes me think that your KVM patch is equally broken on nVHE and
+> hVHE. Such fault should probably be handled while at EL2, not after
+> returning to EL1.
+> 
+> Thanks,
+> 
+> 	M.
+> 
 
