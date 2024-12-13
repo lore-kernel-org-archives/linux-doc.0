@@ -1,98 +1,132 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B531E3DFE;
-	Fri, 13 Dec 2024 16:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB4A01E47C2;
+	Fri, 13 Dec 2024 16:21:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734106860; cv=none; b=kuykCcAXrGAKDKCmCpQTV2ccvGdGCG89PVkEc8BJGH0nLZmUdkMy4vdUzHp9WqBSEsUs+l7U1gGtps7qo/SQmshdsowsQEAyaMfGC6URkq5a/q6iOOWo/tMObjx3NGgRTYeeJ4YHk8cCJCc+AyH877H5SII35cz4uTwhJNbS8Ic=
+	t=1734106870; cv=none; b=cZRNFNll4TM44Ax1FpUchAdy5tn0drytIpfCmre2L0nEgqfVAmePBYNIbhMH3+Cst5t+VeBipy+kGozyj5bu4c72j7XtUSlFPwqX09OBPNjr29+smxxyA1MhKJwUulPc+EGJVXir3fG9r8WJLyArWW5PMmAymXrqsJR8QQWr9wI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734106860; c=relaxed/simple;
-	bh=TEXPzM+iRMrHlQTH/p7rqGnDvgA0ZXfF96gnvJv5z5w=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=AVGGTW6xOSipqdJn7n3mXNphNPoCh8Y2HI8Ht7tSOhmc7hCMUjE0hXVL2G93BTLejqS4k91XMi0Q1cJv/POQz6EEfk+AbZXgjIjQzzpzzXskKzHboMHDcRIdacpo/jMRJG7WZYaKWwvAKZYGa4i0jEW6/5LP1FUQjskV/cc+ta4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=RqKppRRD; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="RqKppRRD"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8C9AB403FA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1734106858; bh=sQluaJQRv0RcwlIkBISjIR6MBrbnfkMSzi+aShEPqfI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=RqKppRRDrDvkQTOGZOgHyL+6YThG2TbF12K5SOi2K6f3KuYpd831w/GHHLRFw7iHy
-	 /CxtN9el01Z3R+Wd/njtlQH06Hx1rR32UK+fj9bZNGKL/xTUhb/AH+jHf0fkV4h3+l
-	 fFJp4c8FXy1XvN9ki/7pmvCSSClczQZj/JJAzObwlXTSrzWA+SS5txhOWS6vxwrsQm
-	 UgOSvIWtW6Zmh6vQhw7gJjxmx5up9VAdHSl1blHPgeLzhxQpA2lTyMiV5FUylO0Il3
-	 d70pQ7zFWg3XWEpSD2pAxNWJr9XdeMc7qq3u/1pBU68c70Ed3MjXyXSdfHSjfCoiiF
-	 m/EgQ6QCSB8xw==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 8C9AB403FA;
-	Fri, 13 Dec 2024 16:20:58 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Leemhuis <linux@leemhuis.info>, workflows@vger.kernel.org,
- regressions@lists.linux.dev, linux-doc@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Greg KH
- <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v1 3/6] docs: 6.Followthrough.rst: interaction with
- stable wrt to regressions
-In-Reply-To: <d7793d2e788e7d98a67e90f85a77d42dab1b8da1.1733825632.git.linux@leemhuis.info>
-References: <cover.1733825632.git.linux@leemhuis.info>
- <d7793d2e788e7d98a67e90f85a77d42dab1b8da1.1733825632.git.linux@leemhuis.info>
-Date: Fri, 13 Dec 2024 09:20:57 -0700
-Message-ID: <87ed2bwo46.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1734106870; c=relaxed/simple;
+	bh=14cLsYFgVlJK0eWzZwxb+/bi0EVH4TuNos/YAcwpeEQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=olkfxkWrucD5PeY5TjIkxXrye+BaBz46+ZNtGpUPczQGiivOZK1RVgBy1GqUJVmubYlfyPUSlZiwFGKzXURA+FNVWRga6JnErsuO5N3D7GpcQabyaLNwv2DOSbHdPVeleSwD2wJKQbCWtCzn9NVE94yEdV7AaCnWH2BIzfybBwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6AD5D1595;
+	Fri, 13 Dec 2024 08:21:35 -0800 (PST)
+Received: from mazurka.cambridge.arm.com (mazurka.cambridge.arm.com [10.1.196.66])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D90B53F5A1;
+	Fri, 13 Dec 2024 08:21:05 -0800 (PST)
+Date: Fri, 13 Dec 2024 16:21:03 +0000
+From: =?utf-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
+	oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com,
+	yuzenghui@huawei.com, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev
+Subject: Re: [RFC PATCH v1 3/5] arm64: Add errata and workarounds for systems
+ with broken BBML2
+Message-ID: <20241213162103.GB30314@mazurka.cambridge.arm.com>
+References: <20241211154611.40395-1-miko.lenczewski@arm.com>
+ <20241211154611.40395-4-miko.lenczewski@arm.com>
+ <86pllyrwke.wl-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <86pllyrwke.wl-maz@kernel.org>
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
+On Wed, Dec 11, 2024 at 04:52:49PM +0000, Marc Zyngier wrote:
+> On Wed, 11 Dec 2024 15:45:04 +0000,
+> Mikołaj Lenczewski <miko.lenczewski@arm.com> wrote:
+> > 
+> > There are systems which claim support for BBML2, but whose
+> > implementation of this support is broken. Add a Kconfig erratum for each
+> > of these systems, and a cpufeature workaround that forces the supported
+> > BBM level on these systems to 0.
+> > 
+> > Signed-off-by: Mikołaj Lenczewski <miko.lenczewski@arm.com>
+> > ---
+> >  Documentation/arch/arm64/silicon-errata.rst |  32 ++++
+> >  arch/arm64/Kconfig                          | 164 ++++++++++++++++++++
+> >  arch/arm64/kernel/cpufeature.c              |  32 +++-
+> >  3 files changed, 227 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> > index 100570a048c5..9ef8418e8410 100644
+> > --- a/arch/arm64/Kconfig
+> > +++ b/arch/arm64/Kconfig
+> > @@ -1127,6 +1127,170 @@ config ARM64_ERRATUM_3194386
+> >  
+> >  	  If unsure, say Y.
+> >  
+> > +config ARM64_WORKAROUND_BROKEN_BBML2_SUPPORT
+> > +	bool
+> > +
+> > +config ARM64_ERRATUM_3696250
+> > +	bool "Neoverse-N2: workaround for broken BBM level 2 support"
+> > +	default y
+> > +	select ARM64_WORKAROUND_BROKEN_BBML2_SUPPORT
+> > +	help
+> > +	  Affected Neoverse-N2 cores (r0p0, r0p1, r0p2, r0p3) declare
+> 
+> So you list a number of affected revisions...
+> 
+> [...]
+> 
+> > +static bool has_bbml2(const struct arm64_cpu_capabilities *entry,
+> > +		      int scope)
+> > +{
+> > +	if (IS_ENABLED(CONFIG_ARM64_WORKAROUND_BROKEN_BBML2_SUPPORT)) {
+> > +		static const struct midr_range broken_bbml2_list[] = {
+> > +			MIDR_ALL_VERSIONS(MIDR_CORTEX_A76),
+> > +			MIDR_ALL_VERSIONS(MIDR_CORTEX_A77),
+> > +			MIDR_ALL_VERSIONS(MIDR_CORTEX_A78),
+> > +			MIDR_ALL_VERSIONS(MIDR_CORTEX_A78C),
+> > +			MIDR_ALL_VERSIONS(MIDR_CORTEX_A710),
+> > +			MIDR_ALL_VERSIONS(MIDR_CORTEX_X1),
+> > +			MIDR_ALL_VERSIONS(MIDR_CORTEX_X2),
+> > +			MIDR_ALL_VERSIONS(MIDR_CORTEX_X3),
+> > +			MIDR_ALL_VERSIONS(MIDR_CORTEX_X4),
+> > +			MIDR_ALL_VERSIONS(MIDR_CORTEX_X925),
+> > +			MIDR_ALL_VERSIONS(MIDR_NEOVERSE_N1),
+> > +			MIDR_ALL_VERSIONS(MIDR_NEOVERSE_N2),
+> > +			MIDR_ALL_VERSIONS(MIDR_NEOVERSE_V1),
+> > +			MIDR_ALL_VERSIONS(MIDR_NEOVERSE_V2),
+> > +			MIDR_ALL_VERSIONS(MIDR_NEOVERSE_V3),
+> > +			{}
+> 
+> ... and yet you flag all versions as broken? So which one is it? If it
+> is really the case that all versions are broken, then the text should
+> be simplified. Otherwise, this should really list the broken versions.
+> 
+> The other thing is that I find it incredibly dangerous to rely on
+> some config option to disable a feature that will absolutely eat your
+> data if it is broken. I'd rather see the whole BBM-L2 being behind an
+> option, and unconditionally check for b0rken CPUs.
+> 
+> Specially when it looks like there isn't a single CPU on the planet
+> that implemented the feature correctly... :-/
+> 
+> Thanks,
+> 
+> 	M.
+> 
+> -- 
+> Without deviation from the norm, progress is not possible.
 
-> Add a few notes on how the interaction with the stable team works when
-> it comes to mainline regressions that also affect stable series.
->
-> This removes equivalent paragraphs from a section in
-> Documentation/process/handling-regressions.rst, which will become mostly
-> obsolete through this and follow-up changes.
->
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> ---
->  Documentation/process/6.Followthrough.rst     | 22 +++++++++++++++++++
->  .../process/handling-regressions.rst          | 19 ----------------
->  2 files changed, 22 insertions(+), 19 deletions(-)
->
-> diff --git a/Documentation/process/6.Followthrough.rst b/Documentation/process/6.Followthrough.rst
-> index f9ae3a86ee0c49..763a80d21240f0 100644
-> --- a/Documentation/process/6.Followthrough.rst
-> +++ b/Documentation/process/6.Followthrough.rst
-> @@ -234,6 +234,28 @@ On procedure:
->     requests again should ideally come directly from maintainers or happen in
->     accordance with them.
->  
-> +Regarding stable and longterm series:
-> +
-> + - You are free to leave handling regressions to the stable team if the problem
-> +   at no point in time occurred with mainline or was fixed there already.
-> +
-> + - When receiving reports about regressions in recent stable or longterm kernel
-> +   series, consider evaluating at least briefly if the issue might happen in
-> +   current mainline as well -- and if that seems likely, take hold of the
-> +   report.  If in doubt, ask the reporter to check mainline.
-> +
-> + - Fix regressions quickly in mainline, whenever you want to swiftly resolve one
-> +   that recently made it into a mainline, stable, or longterm release; in urgent
-> +   cases hence involve Linus to fast-track fixes (see above).  This route is
+Thanks for reviewing. Apologies for the delay in responding, and for
+spam (replied instead of group-replied).
 
-I'm not quite sure what that sentence is intended to say.  Might
-something like s/quickly/first/ better convey the intent?  Maybe also
-s/want/need/ ?
+The workaround kconfig entries should be correct here. The MIDR
+revisions will be fixed in the next respin.
 
-Thanks,
-
-jon
+I agree that having a BBML2 option and unconditionally guarding against
+broken cpus is better, will make that change.
