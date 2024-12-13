@@ -1,126 +1,220 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8391E47D6;
-	Fri, 13 Dec 2024 18:44:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72001EC019;
+	Fri, 13 Dec 2024 19:35:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734115471; cv=none; b=l9ZaiXdSdj3UG/2GUaCfdVLGYagZB7d46JfwX/T99/yW1H8owYfmDXhkFP2u68bk890eq72xVnhzVsG3q1u8b7ZsuWhkau9GOADfcJyD0PeLOnAM/Ogwx8Jf+WHlnAQ+0v186qiAkDl5xBS7C+YDU7Xwb+RgIDQv2z2tAi75ryI=
+	t=1734118545; cv=none; b=eJ2gIk1ZsEfFpah22qAUipXMEAuAfp4Y+wwue/yd1CXvb6ftZhF6dLBPXjUjstpXXShwiuWZ/FB/C51oVznI/Atg7TvPv7UKZICy7NyN75plkGImL7Lk9yM8KYESbRPVRhw7oq9IUg4ppgP83EVJ9Vz2PGNzmwk7u2Kf2KyEF7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734115471; c=relaxed/simple;
-	bh=BGUhJ7s4wap9Trc0L03YqNCF5PervmrG+ZI0sPhI0Iw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F+X0eYELlhdyFGb7fLZDc5M0aXIAzalKTjQiA/f8NHaYWz+6mZhBHL/2swnZIzWSYqY+53KC8jBVjl353r9x7jE4U/2GSKdCMzGtWwxwd8a3kCSUzh9XbqY9MfFEIGpCy3ODInRo4Yi3fUBTvzbUxUuVuRoxL+ThHE0H8d9ZHNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=ceDcUwUH; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1734118545; c=relaxed/simple;
+	bh=C1QJ17f9JQY7hUSEOIo9R95vqxoiJlkUWW3QQkrm/2M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=p0/k7uVe7EgOeFnM7yKY8ia+BDqjTA0CeDAMg9YVmTzuilkDDCTCZOXw8Qpe4dqBWUqeHdQXvJd5MD5AiW9XLNgNPtTuDFtiIL5QHCFd0DNp4GB0duPjQ5RETbeNkD/WafQgdystGs/k0eQ1rh+ycdJx2nXe+gUsV7z0ZD+LIV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=l+eX8u+k; arc=none smtp.client-ip=4.36.192.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="ceDcUwUH"
-Received: from [192.168.7.202] ([71.202.166.45])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 4BDIhojZ1669908
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Fri, 13 Dec 2024 10:43:51 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 4BDIhojZ1669908
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2024111601; t=1734115432;
-	bh=kBqPmg8+aysNeFRPWlQAPUCgrnX3967ZvJpr+SvfrL8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ceDcUwUH7CqZWX44iL17eN8nw5RrcS4vDK62vWEYOx4MA2DGTpGbKXJUh5TlTeB+a
-	 aQFSWvCltZZOqLjr4cPPbMpByK3RrMy0phB+cHueogz+2DWCNXidHXmLUFkiMPrDeC
-	 mNnA4D2qexyIfyH5SX+2yXuodvc8D4R0DBxs53a43VjZN52WzOd596ng7UDaSB5Hxi
-	 ESgZjFH4J9n8hz9A7Pze2/DwlX0Wy52BRKPmCfeF12MXVoWxUtGLIQ0dnvMFf/BPje
-	 aNuBH6LBP78BMPK21B+oCL1L3T7KCV9diN9ddD1rFUUZSpPY2tr/KhNpom3uXzMITo
-	 Blawug5XjYX7w==
-Message-ID: <832e87d1-8349-47f8-b1dc-33768b534b10@zytor.com>
-Date: Fri, 13 Dec 2024 10:43:49 -0800
+	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="l+eX8u+k"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codeweavers.com; s=s1; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=O87YuXOwkZ6L364FKH4w8CVcQI27qGcjXrUqafxoWkk=; b=l+eX8u+krmnmay0PNioIWpADzb
+	yvaSjgc5MqyPHBTupSGqnEUNWW6zis5BPM4XQGjAwj1yTjYhcvNC7cT0dXd600Dw3HGfDJFGEmbJ0
+	KmHOcRcsDKcYt/EsEa/zlewkXvWYGlblGuWaSMVW5aASQdn/A2GeEGIiqxyze5I8Aow4wCVUFt1sP
+	9BEfpeUR8+ZIJwvBEjsOeM1pyGDY34Bt0MEmTHvtVB19yaUv9ycuwUMrMLPSE7KhjIV/jPytXCOeS
+	iHeo6xf6aaQ0iRNKpOluNTsP9wB4CAoyS8eR4MdljbtBG+Z0Gg1FWr3kvH0YqCkGdTP4983oVAg0F
+	oVG/83EA==;
+Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.mn.codeweavers.com)
+	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <zfigura@codeweavers.com>)
+	id 1tMBRc-00ASsZ-05;
+	Fri, 13 Dec 2024 13:35:24 -0600
+From: Elizabeth Figura <zfigura@codeweavers.com>
+To: Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	wine-devel@winehq.org,
+	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+	Wolfram Sang <wsa@kernel.org>,
+	Arkadiusz Hiler <ahiler@codeweavers.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Elizabeth Figura <zfigura@codeweavers.com>
+Subject: [PATCH v7 00/30] NT synchronization primitive driver
+Date: Fri, 13 Dec 2024 13:34:41 -0600
+Message-ID: <20241213193511.457338-1-zfigura@codeweavers.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 17/27] KVM: x86: Mark CR4.FRED as not reserved when
- guest can use FRED
-To: Sean Christopherson <seanjc@google.com>
-Cc: Chao Gao <chao.gao@intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, luto@kernel.org, peterz@infradead.org,
-        andrew.cooper3@citrix.com
-References: <20241001050110.3643764-1-xin@zytor.com>
- <20241001050110.3643764-18-xin@zytor.com> <Zxn0tfA+k4ppu2WL@intel.com>
- <3ec986fa-2bf0-4c78-b532-343ad19436b2@zytor.com>
- <Z1sz_oMq8yX--H7U@google.com>
-Content-Language: en-US
-From: Xin Li <xin@zytor.com>
-Autocrypt: addr=xin@zytor.com; keydata=
- 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
- l75w1xInsg==
-In-Reply-To: <Z1sz_oMq8yX--H7U@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 12/12/2024 11:05 AM, Sean Christopherson wrote:
-> On Thu, Dec 12, 2024, Xin Li wrote:
->> On 10/24/2024 12:18 AM, Chao Gao wrote:
->>>> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
->>>> index 03f42b218554..bfdd10773136 100644
->>>> --- a/arch/x86/kvm/vmx/vmx.c
->>>> +++ b/arch/x86/kvm/vmx/vmx.c
->>>> @@ -8009,6 +8009,10 @@ void vmx_vcpu_after_set_cpuid(struct kvm_vcpu *vcpu)
->>>> 	kvm_governed_feature_check_and_set(vcpu, X86_FEATURE_LAM);
->>>> 	kvm_governed_feature_check_and_set(vcpu, X86_FEATURE_FRED);
->>>>
->>>> +	/* Don't allow CR4.FRED=1 before all of FRED KVM support is in place. */
->>>> +	if (!guest_can_use(vcpu, X86_FEATURE_FRED))
->>>> +		vcpu->arch.cr4_guest_rsvd_bits |= X86_CR4_FRED;
->>>
->>> is this necessary? __kvm_is_valid_cr4() ensures that guests cannot set any bit
->>> which isn't supported by the hardware.
->>>
->>> To account for hardware/KVM caps, I think the following changes will work. This
->>> will fix all other bits besides X86_CR4_FRED.
->>
->> This seems a generic infra improvement, maybe it's better for you to
->> send it as an individual patch to Sean and the KVM mailing list?
-> 
-> Already ahead of y'all :-)  (I think, I didn't look closely at this).
-> 
-> https://lore.kernel.org/all/20241128013424.4096668-6-seanjc@google.com
+This patch series implements a new char misc driver, /dev/ntsync, which is used
+to implement Windows NT synchronization primitives.
 
-Ha, that is nice.  Thank you!
+NT synchronization primitives are unique in that the wait functions both are
+vectored, operate on multiple types of object with different behaviour (mutex,
+semaphore, event), and affect the state of the objects they wait on. This model
+is not compatible with existing kernel synchronization objects or interfaces,
+and therefore the ntsync driver implements its own wait queues and locking.
+
+This patch series is rebased against the "char-misc-next" branch of
+gregkh/char-misc.git.
+
+== Background ==
+
+The Wine project emulates the Windows API in user space. One particular part of
+that API, namely the NT synchronization primitives, have historically been
+implemented via RPC to a dedicated "kernel" process. However, more recent
+applications use these APIs more strenuously, and the overhead of RPC has become
+a bottleneck.
+
+The NT synchronization APIs are too complex to implement on top of existing
+primitives without sacrificing correctness. Certain operations, such as
+NtPulseEvent() or the "wait-for-all" mode of NtWaitForMultipleObjects(), require
+direct control over the underlying wait queue, and implementing a wait queue
+sufficiently robust for Wine in user space is not possible. This proposed
+driver, therefore, implements the problematic interfaces directly in the Linux
+kernel.
+
+This driver was presented at Linux Plumbers Conference 2023. For those further
+interested in the history of synchronization in Wine and past attempts to solve
+this problem in user space, a recording of the presentation can be viewed here:
+
+    https://www.youtube.com/watch?v=NjU4nyWyhU8
+
+
+== Performance ==
+
+The performance measurements described below are copied from earlier versions of
+the patch set. While some of the code has changed, I do not currently anticipate
+that it has changed drastically enough to affect those measurements.
+
+The gain in performance varies wildly depending on the application in question
+and the user's hardware. For some games NT synchronization is not a bottleneck
+and no change can be observed, but for others frame rate improvements of 50 to
+150 percent are not atypical. The following table lists frame rate measurements
+from a variety of games on a variety of hardware, taken by users Dmitry
+Skvortsov, FuzzyQuils, OnMars, and myself:
+
+Game                            Upstream        ntsync          improvement
+===========================================================================
+Anger Foot                       69              99              43%
+Call of Juarez                   99.8           224.1           125%
+Dirt 3                          110.6           860.7           678%
+Forza Horizon 5                 108             160              48%
+Lara Croft: Temple of Osiris    141             326             131%
+Metro 2033                      164.4           199.2            21%
+Resident Evil 2                  26              77             196%
+The Crew                         26              51              96%
+Tiny Tina's Wonderlands         130             360             177%
+Total War Saga: Troy            109             146              34%
+===========================================================================
+
+
+== Patches ==
+
+The intended semantics of the patches are broadly intended to match those of the
+corresponding Windows functions. For those not already familiar with the Windows
+functions (or their undocumented behaviour), patch 27/28 provides a detailed
+specification, and individual patches also include a brief description of the
+API they are implementing.
+
+The patches making use of this driver in Wine can be retrieved or browsed here:
+
+    https://repo.or.cz/wine/zf.git/shortlog/refs/heads/ntsync7
+
+== Previous versions ==
+
+Changes from v6:
+
+* rename NTSYNC_IOC_SEM_POST to NTSYNC_IOC_SEM_RELEASE (matching the NT
+  terminology instead of POSIX),
+
+* change object creation ioctls to return the fds directly in the return value
+  instead of through the args struct, which simplifies the API a bit.
+
+* Link to v6: https://lore.kernel.org/lkml/20241209185904.507350-1-zfigura@codeweavers.com/
+* Link to v5: https://lore.kernel.org/lkml/20240519202454.1192826-1-zfigura@codeweavers.com/
+* Link to v4: https://lore.kernel.org/lkml/20240416010837.333694-1-zfigura@codeweavers.com/
+* Link to v3: https://lore.kernel.org/lkml/20240329000621.148791-1-zfigura@codeweavers.com/
+* Link to v2: https://lore.kernel.org/lkml/20240219223833.95710-1-zfigura@codeweavers.com/
+* Link to v1: https://lore.kernel.org/lkml/20240214233645.9273-1-zfigura@codeweavers.com/
+* Link to RFC v2: https://lore.kernel.org/lkml/20240131021356.10322-1-zfigura@codeweavers.com/
+* Link to RFC v1: https://lore.kernel.org/lkml/20240124004028.16826-1-zfigura@codeweavers.com/
+
+Elizabeth Figura (30):
+  ntsync: Return the fd from NTSYNC_IOC_CREATE_SEM.
+  ntsync: Rename NTSYNC_IOC_SEM_POST to NTSYNC_IOC_SEM_RELEASE.
+  ntsync: Introduce NTSYNC_IOC_WAIT_ANY.
+  ntsync: Introduce NTSYNC_IOC_WAIT_ALL.
+  ntsync: Introduce NTSYNC_IOC_CREATE_MUTEX.
+  ntsync: Introduce NTSYNC_IOC_MUTEX_UNLOCK.
+  ntsync: Introduce NTSYNC_IOC_MUTEX_KILL.
+  ntsync: Introduce NTSYNC_IOC_CREATE_EVENT.
+  ntsync: Introduce NTSYNC_IOC_EVENT_SET.
+  ntsync: Introduce NTSYNC_IOC_EVENT_RESET.
+  ntsync: Introduce NTSYNC_IOC_EVENT_PULSE.
+  ntsync: Introduce NTSYNC_IOC_SEM_READ.
+  ntsync: Introduce NTSYNC_IOC_MUTEX_READ.
+  ntsync: Introduce NTSYNC_IOC_EVENT_READ.
+  ntsync: Introduce alertable waits.
+  selftests: ntsync: Add some tests for semaphore state.
+  selftests: ntsync: Add some tests for mutex state.
+  selftests: ntsync: Add some tests for NTSYNC_IOC_WAIT_ANY.
+  selftests: ntsync: Add some tests for NTSYNC_IOC_WAIT_ALL.
+  selftests: ntsync: Add some tests for wakeup signaling with
+    WINESYNC_IOC_WAIT_ANY.
+  selftests: ntsync: Add some tests for wakeup signaling with
+    WINESYNC_IOC_WAIT_ALL.
+  selftests: ntsync: Add some tests for manual-reset event state.
+  selftests: ntsync: Add some tests for auto-reset event state.
+  selftests: ntsync: Add some tests for wakeup signaling with events.
+  selftests: ntsync: Add tests for alertable waits.
+  selftests: ntsync: Add some tests for wakeup signaling via alerts.
+  selftests: ntsync: Add a stress test for contended waits.
+  maintainers: Add an entry for ntsync.
+  docs: ntsync: Add documentation for the ntsync uAPI.
+  ntsync: No longer depend on BROKEN.
+
+ Documentation/userspace-api/index.rst         |    1 +
+ Documentation/userspace-api/ntsync.rst        |  385 +++++
+ MAINTAINERS                                   |    9 +
+ drivers/misc/Kconfig                          |    1 -
+ drivers/misc/ntsync.c                         |  992 +++++++++++-
+ include/uapi/linux/ntsync.h                   |   42 +-
+ tools/testing/selftests/Makefile              |    1 +
+ .../selftests/drivers/ntsync/.gitignore       |    1 +
+ .../testing/selftests/drivers/ntsync/Makefile |    7 +
+ tools/testing/selftests/drivers/ntsync/config |    1 +
+ .../testing/selftests/drivers/ntsync/ntsync.c | 1343 +++++++++++++++++
+ 11 files changed, 2767 insertions(+), 16 deletions(-)
+ create mode 100644 Documentation/userspace-api/ntsync.rst
+ create mode 100644 tools/testing/selftests/drivers/ntsync/.gitignore
+ create mode 100644 tools/testing/selftests/drivers/ntsync/Makefile
+ create mode 100644 tools/testing/selftests/drivers/ntsync/config
+ create mode 100644 tools/testing/selftests/drivers/ntsync/ntsync.c
+
+
+base-commit: cdd30ebb1b9f36159d66f088b61aee264e649d7a
+-- 
+2.45.2
 
