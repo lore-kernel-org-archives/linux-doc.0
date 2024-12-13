@@ -1,552 +1,674 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5142D1917D2
-	for <linux-doc@vger.kernel.org>; Fri, 13 Dec 2024 00:33:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB452A1BB;
+	Fri, 13 Dec 2024 01:29:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734050032; cv=none; b=mLRyXUiz/QOxsYzeLbb9YM7EGlbgjI04d5cah7NytlzXekhWLCvR7oQr9yDN+PJgRFcCpPB2cYUMNTeuh/6UurI2x7U+rKXibOXtUm5UzE6oQe5kbO3Rhu95DTgTMxWsBsA+VXHNqn6o9wDyouFjicpdbxy8mDu/ZpYiVzg5ZCQ=
+	t=1734053398; cv=none; b=aC4GFOO90gEgdJ2vshUat8ooktF5FZ8/UVEfwtVWcQQUSdHifz5vFdRASQ08Hok4Ta2wOjfRxwt+TiUyF4YMy9VfXghxborrluqqjF7g8X/LJnRR0IQ3PsAtvCjr1I6N9861cv7mImH0Va3m8pMG02JzqsM4l6ZK1+5Mq8DN/Cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734050032; c=relaxed/simple;
-	bh=Zgzl3XVxzAmW8jRrQNJSTtYzkCtc8Muf7dPcDIyBdyo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nWpZDV+3MDJmgLyRO/gshoM4H3/DXpFq5E41Qiw7Sg3/qmjqGlHlSwHOQGltjR4VeHWf9uIkvi7pxdsRfIqylft/6BQkXmILqL8L2Rr55sZT0kVPH0qTseduNNS4EWMo7a/N9ZFaIoPSo0tD3PbMlr4x7ViGSMFvbdP9zK/ccSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=02mzqQmK; arc=none smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1734053398; c=relaxed/simple;
+	bh=u4URgFVYWXLUu6KybPJDK1Z3JZLMq22nJ9B+YVMxALY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=UAmlwEoFRcEwFCfVVG2S1ci/mMchRsQvYTYCaGj26yUnvqEHpb1cspk3mEom2uOQKKi+Rbw6hrpaaYEeQSDwu41UT2+pBc9OHAfiXnQCnZOJJmM8hAxm4N8VdcCzmXJa0QjeyRK4QZ3SMVJFMfiSrw/V5CsZ+NJX944FHVYnXi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D+INR3rp; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="02mzqQmK"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7fd17f231a7so743837a12.0
-        for <linux-doc@vger.kernel.org>; Thu, 12 Dec 2024 16:33:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D+INR3rp"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-725e71a11f7so1909993b3a.1;
+        Thu, 12 Dec 2024 17:29:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1734050029; x=1734654829; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5RXgVD1sMOEByzIW12GoGJoIzmAElVem9Exw+HJ9s4M=;
-        b=02mzqQmKVCL5Hc/1XEI4/svcgAzmK1cp+5ORTxBYb+/r/pHK8D0Iatraj0Rt1sVYO8
-         hgaZ5Vu+njTDXOPjD5jC3dQvn5pq0BBJg9v9bbr9ZD05Kb45M+Jm2bgvYgBnxvoWMfGC
-         l2ZwrIEStFdgb58/aMHWGXNbR0bhoMRAghhrgLqUlDlE3XHWe+nZU1KFUFFNxUXwEuXV
-         bYkqMnlTMnbD3S1e7BXeS9DNy1+4Asd8U/b3iZJeQG6e77P/7B8Mr9hmA82/B3uppcLD
-         hIof3H5RMd5TxLebzaFddFIVWYnX+A4kbSRgwDOF1Rz9n0rMQxcnhpDvGGGwCeWKg4OW
-         8MVw==
+        d=gmail.com; s=20230601; t=1734053395; x=1734658195; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=UHxuky/SCPbxlr/K9QZgjbJ2leIhHL7DLNdsBhTbdC4=;
+        b=D+INR3rpXD9MUtkGexkyeJkf8fIVt9yrIh9v8ve/qyhiPQ8cI2kC6bVUy5ftM2YqDY
+         GvAvmpO0TLJsPmL3uXojAN2AsrQ9tFgh7/iIGkJ2gL2kDBNxwSOZ7qC1gTNNq5AFusif
+         w/X+BzphUNK/Fhq/bi4cAe5WYLsWe/0UnDJlRClXZBsQFLEO61LWS0pWm3tKLeJ1LKqf
+         P8pbXiWBzIHMtGLo3pnp0uK6fzm3YiqUwIR9IRgyiIWtqfjaN6pb0dOkPg6Y+ioR8RvU
+         JG4LXLUS9AiMkP0nPtyPDNrdAeOr2APSEcDw4g5qis4kLUFSLjE8zRwmRdS/JjM/U7nm
+         ChFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734050029; x=1734654829;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5RXgVD1sMOEByzIW12GoGJoIzmAElVem9Exw+HJ9s4M=;
-        b=WzB4KRITkNZR5VEHDhCaOzNMad74LnTslbsOAE+vzrrfsQy2DE7RS6xL7egKF41QE+
-         sh8GSYmbZK6SBsHqgM9WpE4isyhhcadgqe15rTIsqONg8ozlzjFSYO+UH0aSBGjxvesj
-         gLwWs+DYDYv7WwMsVeaqf4ltI3OArCopp7fRHC4WAiG6OJOfIMLvyAxMvhsY4ge8nVcG
-         SSVz4OSkc+zbLgOsHXSHxYD97WyYfBmFSV1tacjWMJU7V5r4iRr7EwPNqftoWG/2neAB
-         lA8YXoutI2pOdfSLfFTcR3e7GXg7hNKU3zR/+lkp54RXXw5CSHesFHu9gTrJf60FNKX5
-         ATZg==
-X-Forwarded-Encrypted: i=1; AJvYcCWTXoasr9MY598gQEiuaZM29pizKGHwloSHC3blOxb0S68V5vjBv+2dhSuNQFIYMLbwBNrrSdBQmCM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWfw2p4PCpk4Q0mhBCHLVf3kwoAOV2mhR6elLKDyxmCteLo6vH
-	ekvfK8KLgIrBbBmfrfDVXNFgWgx8r28vm0ReDd8xM9UZR+ftKIMKIuw1WiQaDKU=
-X-Gm-Gg: ASbGncsee8pzyQraboNN+maxti2UQa/cNtihjeMxVxCNwdjSAaZ8ajPBeztCvL9CiRt
-	qDZ0w2NTGavGYr9b47/Ym8jdTYwtlUiEeEhRcP6miasNioXeawB1uh4A8pnDJAXyX+mLHOMmb6L
-	iRr9GAk4Oxbf7RwNCttktz4R+48ntS0jUTCjzUh7pF768SvZDhfjY8F2BWsS5ZV99dzAvo3BRI6
-	9YC1MtGpvbS2nVCabgZPIvQCbxihaZlVLwsgm4bHtFgQqkZ2M5PLXhlWf7FWImUcc0XjeKR
-X-Google-Smtp-Source: AGHT+IFnqqMr5PLSI8GtF+i6M0/uFmU5w1Zg6QUUWZTPMqn5/Gio1RnoUEX7mkk6GPckIUrbakXX6w==
-X-Received: by 2002:a17:90b:54c7:b0:2ee:c9b6:c26a with SMTP id 98e67ed59e1d1-2f28fb68ef6mr1016562a91.11.1734050029367;
-        Thu, 12 Dec 2024 16:33:49 -0800 (PST)
-Received: from charlie.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f142e0ce50sm1934462a91.39.2024.12.12.16.33.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Dec 2024 16:33:48 -0800 (PST)
-From: Charlie Jenkins <charlie@rivosinc.com>
-Date: Thu, 12 Dec 2024 16:33:06 -0800
-Subject: [PATCH v2 16/16] perf tools: Remove dependency on libaudit
+        d=1e100.net; s=20230601; t=1734053395; x=1734658195;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UHxuky/SCPbxlr/K9QZgjbJ2leIhHL7DLNdsBhTbdC4=;
+        b=BZYMKWKKPFq2f/bdImA3CoFnaNZA/IxrmWEcV35oeQRDAUAZ5QGwfe78d9rnn2O9QX
+         wYegXhUAYVobkWyDTqCs9smOtdci+EaRnv8trrWt44laafAe/leKwij5fKD30k6Y6/Pz
+         Zq9Sd4eJeYo5/yDTSkHW4JO16Q+FBqS/aNf7c/DZ1koa1P1Dx1V40UZIEkkvwcAGz1Bi
+         4EO9SU0QKi7/881d+V77sAn50okg/7vzFAs9ztuUT4FNwDheU91kH3iAiCJOQ0fS0X4K
+         uTmR/KAXa3rcFCgwQoP/QPobn3+47eOmWA9aPrtFc0v3Rvj1VhKMPKkbj1r9HcmBdpHW
+         H3PQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV+cuY350Gm4o1/WngW277oLnMqSkCYzK5Y/5vtLpUf68oRY4ZVCu7BKv4ZaNUvq5ZMvsSlDhkVGcLY@vger.kernel.org, AJvYcCVTs8lJArMBrFN9l7YVoKrKGfyWn9n1dGFcrDWdWAO/3DrV93oFYUwexZEKaCpLmceujswpA6AbShPw6NDP@vger.kernel.org, AJvYcCWtv9Dl+27uR8EFKengq/uU/A2wTpkk+SS9CD0L6HVKf7l5AL+YcnXCkNuSh43BM8I5ubfbXsxHzIKxNvA=@vger.kernel.org, AJvYcCXavCKIp+vPgB14oYqMhE8WSEuZNNusDU2e9/ZRH/9N9+xoHC0QDHo9jPdbOxpR3ANMovGgwov4Cv3+@vger.kernel.org, AJvYcCXcC7pTDUy40qiXj+9VNU5lW+mI/vT/944GsDOrjqK0R2UNecgtvkedaUkxeTR60mWWk9s4t2Oxgk/1@vger.kernel.org
+X-Gm-Message-State: AOJu0Yykjf4mFAeAt2c8y+WfILPFL1uNQ9yy+kKNf/gjN1tTQluGDGoq
+	fTkz6tVv/KByOVWRNlzypbqbaA4adZr4ZKgSYNoecCDHekOb/z5m
+X-Gm-Gg: ASbGncuSKVOPVlXSF41wTebY1TBFXyWpcKFJeasweMElB7xjj6VmtGhwgBFwRzqoX07
+	SUfUtfhTXopfxTmt2QwFvcTsbBtWtBwPqiv0WMSwFCqUGljhldh6g06ekRmkqKW2fpOU6j87CVN
+	VMXr5LLKhg97W7L3u/ZR/EHF4Ppr1MiUIB+Rso04n7Nnc0ofP53Ah4Q+QZLUQXgAikaWDJ/IHc1
+	aIwcgPiTMkRPX7TsV6vIGIqpGjsgpU7tFpGJhisi7iDy6FgrUkaGATrRN2cIrGd149Ze8z+gS2I
+	UPQTmIB5WGM0j59IUCBOzZZsBXIW1w==
+X-Google-Smtp-Source: AGHT+IGI4Ve+ApM2wGnjbhyWZAaIqje+11k7lRzjKGuZqrFJsTvt87E9pQe6xCjoZiGAairhYxSjJw==
+X-Received: by 2002:a05:6a20:9f04:b0:1e1:a449:ff71 with SMTP id adf61e73a8af0-1e1dff86960mr1031915637.1.1734053395225;
+        Thu, 12 Dec 2024 17:29:55 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7261829be9dsm7146387b3a.89.2024.12.12.17.29.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Dec 2024 17:29:54 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <5b095371-f835-4c23-aa43-deefa33123bb@roeck-us.net>
+Date: Thu, 12 Dec 2024 17:29:51 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 2/4] hwmon: (pmbus/crps) Add Intel CRPS185 power supply
+To: Ninad Palsule <ninad@linux.ibm.com>, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, eajames@linux.ibm.com, jdelvare@suse.com,
+ corbet@lwn.net, joel@jms.id.au, andrew@codeconstruct.com.au,
+ Delphine_CC_Chiu@Wiwynn.com, broonie@kernel.org, peteryin.openbmc@gmail.com,
+ noahwang.wang@outlook.com, naresh.solanki@9elements.com, lukas@wunner.de,
+ jbrunet@baylibre.com, patrick.rudolph@9elements.com,
+ gregkh@linuxfoundation.org, peterz@infradead.org, pbiel7@gmail.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-i2c@vger.kernel.org
+References: <20241212214927.3586509-1-ninad@linux.ibm.com>
+ <20241212214927.3586509-3-ninad@linux.ibm.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20241212214927.3586509-3-ninad@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241212-perf_syscalltbl-v2-16-f8ca984ffe40@rivosinc.com>
-References: <20241212-perf_syscalltbl-v2-0-f8ca984ffe40@rivosinc.com>
-In-Reply-To: <20241212-perf_syscalltbl-v2-0-f8ca984ffe40@rivosinc.com>
-To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
- Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
- Adrian Hunter <adrian.hunter@intel.com>, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, 
- =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
- =?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
- Christian Brauner <brauner@kernel.org>, Guo Ren <guoren@kernel.org>, 
- John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>, 
- James Clark <james.clark@linaro.org>, Mike Leach <mike.leach@linaro.org>, 
- Leo Yan <leo.yan@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
- =?utf-8?q?Bj=C3=B6rn_T=C3=B6pel?= <bjorn@rivosinc.com>, 
- Arnd Bergmann <arnd@arndb.de>
-Cc: linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
- linux-riscv@lists.infradead.org, linux-security-module@vger.kernel.org, 
- bpf@vger.kernel.org, linux-csky@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
- Charlie Jenkins <charlie@rivosinc.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=17750; i=charlie@rivosinc.com;
- h=from:subject:message-id; bh=Zgzl3XVxzAmW8jRrQNJSTtYzkCtc8Muf7dPcDIyBdyo=;
- b=owGbwMvMwCHWx5hUnlvL8Y3xtFoSQ3p0w8H7J1c1KAvwfbDq9Z7oPNX9Rqbbxl1es5mawsJ8p
- fkD9rR2lLIwiHEwyIopsvBca2BuvaNfdlS0bALMHFYmkCEMXJwCMBGzLoZ/ql/lz2uZSMSq7k58
- aZjoKbn+QEb9rZ0f4i7dWqZj8WsNH8M/W5+pmYwzDp02fnXPrnlneF157N9LD/yWNpRmh0X/SHd
- lBwA=
-X-Developer-Key: i=charlie@rivosinc.com; a=openpgp;
- fpr=7D834FF11B1D8387E61C776FFB10D1F27D6B1354
 
-All architectures now support HAVE_SYSCALL_TABLE_SUPPORT, so the flag is
-no longer needed. With the removal of the flag, the related
-GENERIC_SYSCALL_TABLE can also be removed. libaudit was only used as a
-fallback for when HAVE_SYSCALL_TABLE_SUPPORT was not defined, so
-libaudit is also no longer needed for any architecture.
+On 12/12/24 13:49, Ninad Palsule wrote:
+> Add the driver to monitor Intel common redundant power supply (crps185)
+> with hwmon over pmbus.
+> 
+> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
+> ---
+>   Documentation/hwmon/crps.rst |  95 +++++++++++
 
-Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
----
- Documentation/admin-guide/workload-tracing.rst |  2 +-
- tools/build/feature/Makefile                   |  4 --
- tools/build/feature/test-libaudit.c            | 11 ------
- tools/perf/Documentation/perf-check.txt        |  1 -
- tools/perf/Makefile.config                     | 31 +--------------
- tools/perf/Makefile.perf                       | 14 -------
- tools/perf/builtin-check.c                     |  1 -
- tools/perf/builtin-help.c                      |  2 -
- tools/perf/builtin-trace.c                     | 30 ---------------
- tools/perf/perf.c                              |  6 +--
- tools/perf/tests/make                          |  7 +---
- tools/perf/util/env.c                          |  4 +-
- tools/perf/util/generate-cmdlist.sh            |  4 +-
- tools/perf/util/syscalltbl.c                   | 53 --------------------------
- 14 files changed, 10 insertions(+), 160 deletions(-)
+Documentation/hwmon/index.rst needs to be updated.
 
-diff --git a/Documentation/admin-guide/workload-tracing.rst b/Documentation/admin-guide/workload-tracing.rst
-index b2e254ec8ee846afe78eede74a825b51c6ab119b..6be38c1b9c5bb4be899fd261c6d2911abcf959dc 100644
---- a/Documentation/admin-guide/workload-tracing.rst
-+++ b/Documentation/admin-guide/workload-tracing.rst
-@@ -83,7 +83,7 @@ scripts/ver_linux is a good way to check if your system already has
- the necessary tools::
- 
-   sudo apt-get build-essentials flex bison yacc
--  sudo apt install libelf-dev systemtap-sdt-dev libaudit-dev libslang2-dev libperl-dev libdw-dev
-+  sudo apt install libelf-dev systemtap-sdt-dev libslang2-dev libperl-dev libdw-dev
- 
- cscope is a good tool to browse kernel sources. Let's install it now::
- 
-diff --git a/tools/build/feature/Makefile b/tools/build/feature/Makefile
-index 043dfd00fce72d8f651ccd9b3265a0183f500e5c..e0b63e9d0251abe6d5eafc6d2f26b940918b16ee 100644
---- a/tools/build/feature/Makefile
-+++ b/tools/build/feature/Makefile
-@@ -13,7 +13,6 @@ FILES=                                          \
-          test-gtk2.bin                          \
-          test-gtk2-infobar.bin                  \
-          test-hello.bin                         \
--         test-libaudit.bin                      \
-          test-libbfd.bin                        \
-          test-libbfd-buildid.bin		\
-          test-disassembler-four-args.bin        \
-@@ -228,9 +227,6 @@ $(OUTPUT)test-libunwind-debug-frame-arm.bin:
- $(OUTPUT)test-libunwind-debug-frame-aarch64.bin:
- 	$(BUILD) -lelf -llzma -lunwind-aarch64
- 
--$(OUTPUT)test-libaudit.bin:
--	$(BUILD) -laudit
--
- $(OUTPUT)test-libslang.bin:
- 	$(BUILD) -lslang
- 
-diff --git a/tools/build/feature/test-libaudit.c b/tools/build/feature/test-libaudit.c
-deleted file mode 100644
-index f5b0863fa1ec240795339428d8deed98a946d405..0000000000000000000000000000000000000000
---- a/tools/build/feature/test-libaudit.c
-+++ /dev/null
-@@ -1,11 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--#include <libaudit.h>
--
--extern int printf(const char *format, ...);
--
--int main(void)
--{
--	printf("error message: %s\n", audit_errno_to_name(0));
--
--	return audit_open();
--}
-diff --git a/tools/perf/Documentation/perf-check.txt b/tools/perf/Documentation/perf-check.txt
-index 31741499e7867c9b712227f31a2958fd641d474a..e6d2ceeb2ca7de850f41b1baa0375b6f984bb08f 100644
---- a/tools/perf/Documentation/perf-check.txt
-+++ b/tools/perf/Documentation/perf-check.txt
-@@ -51,7 +51,6 @@ feature::
-                 dwarf_getlocations      /  HAVE_LIBDW_SUPPORT
-                 dwarf-unwind            /  HAVE_DWARF_UNWIND_SUPPORT
-                 auxtrace                /  HAVE_AUXTRACE_SUPPORT
--                libaudit                /  HAVE_LIBAUDIT_SUPPORT
-                 libbfd                  /  HAVE_LIBBFD_SUPPORT
-                 libcapstone             /  HAVE_LIBCAPSTONE_SUPPORT
-                 libcrypto               /  HAVE_LIBCRYPTO_SUPPORT
-diff --git a/tools/perf/Makefile.config b/tools/perf/Makefile.config
-index c62622b4eb3dcbdfbd49ad371f15b92bfa4a6c43..732961687177da414fb250dc1f6815d186a2343f 100644
---- a/tools/perf/Makefile.config
-+++ b/tools/perf/Makefile.config
-@@ -28,20 +28,7 @@ include $(srctree)/tools/scripts/Makefile.arch
- 
- $(call detected_var,SRCARCH)
- 
--ifneq ($(NO_SYSCALL_TABLE),1)
--  NO_SYSCALL_TABLE := 1
--
--  # architectures that use the generic syscall table scripts
--  ifeq ($(SRCARCH),$(filter $(SRCARCH),riscv arc csky arm sh sparc xtensa x86 alpha parisc arm64 loongarch mips powerpc s390))
--    NO_SYSCALL_TABLE := 0
--    CFLAGS += -DGENERIC_SYSCALL_TABLE
--    CFLAGS += -I$(OUTPUT)/tools/perf/arch/$(SRCARCH)/include/generated
--  endif
--
--  ifneq ($(NO_SYSCALL_TABLE),1)
--    CFLAGS += -DHAVE_SYSCALL_TABLE_SUPPORT
--  endif
--endif
-+CFLAGS += -I$(OUTPUT)/tools/perf/arch/$(SRCARCH)/include/generated
- 
- # Additional ARCH settings for ppc
- ifeq ($(SRCARCH),powerpc)
-@@ -755,21 +742,7 @@ ifndef NO_LIBUNWIND
- endif
- 
- ifneq ($(NO_LIBTRACEEVENT),1)
--  ifeq ($(NO_SYSCALL_TABLE),0)
--    $(call detected,CONFIG_TRACE)
--  else
--    ifndef NO_LIBAUDIT
--      $(call feature_check,libaudit)
--      ifneq ($(feature-libaudit), 1)
--        $(warning No libaudit.h found, disables 'trace' tool, please install audit-libs-devel or libaudit-dev)
--        NO_LIBAUDIT := 1
--      else
--        CFLAGS += -DHAVE_LIBAUDIT_SUPPORT
--        EXTLIBS += -laudit
--        $(call detected,CONFIG_TRACE)
--      endif
--    endif
--  endif
-+  $(call detected,CONFIG_TRACE)
- endif
- 
- ifndef NO_LIBCRYPTO
-diff --git a/tools/perf/Makefile.perf b/tools/perf/Makefile.perf
-index 1f3262c1f9d44261be0315c693837cfdfb3071de..ab2d075ff3a23350a5eea12508cf0376f1d9f4e8 100644
---- a/tools/perf/Makefile.perf
-+++ b/tools/perf/Makefile.perf
-@@ -59,8 +59,6 @@ include ../scripts/utilities.mak
- #
- # Define NO_LIBNUMA if you do not want numa perf benchmark
- #
--# Define NO_LIBAUDIT if you do not want libaudit support
--#
- # Define NO_LIBBIONIC if you do not want bionic support
- #
- # Define NO_LIBCRYPTO if you do not want libcrypto (openssl) support
-@@ -119,10 +117,6 @@ include ../scripts/utilities.mak
- #
- # Define LIBBPF_DYNAMIC to enable libbpf dynamic linking.
- #
--# Define NO_SYSCALL_TABLE=1 to disable the use of syscall id to/from name tables
--# generated from the kernel .tbl or unistd.h files and use, if available, libaudit
--# for doing the conversions to/from strings/id.
--#
- # Define NO_LIBPFM4 to disable libpfm4 events extension.
- #
- # Define NO_LIBDEBUGINFOD if you do not want support debuginfod
-@@ -310,10 +304,7 @@ ifeq ($(filter feature-dump,$(MAKECMDGOALS)),feature-dump)
- FEATURE_TESTS := all
- endif
- endif
--# architectures that use the generic syscall table
--ifeq ($(SRCARCH),$(filter $(SRCARCH),riscv arc csky arm sh sparc xtensa x86 alpha parisc arm64 loongarch mips powerpc s390))
- include $(srctree)/tools/perf/scripts/Makefile.syscalls
--endif
- include Makefile.config
- endif
- 
-@@ -1098,11 +1089,6 @@ endif
- 		$(INSTALL) $(OUTPUT)perf-archive -t '$(DESTDIR_SQ)$(perfexec_instdir_SQ)'
- 	$(call QUIET_INSTALL, perf-iostat) \
- 		$(INSTALL) $(OUTPUT)perf-iostat -t '$(DESTDIR_SQ)$(perfexec_instdir_SQ)'
--ifndef NO_LIBAUDIT
--	$(call QUIET_INSTALL, strace/groups) \
--		$(INSTALL) -d -m 755 '$(DESTDIR_SQ)$(STRACE_GROUPS_INSTDIR_SQ)'; \
--		$(INSTALL) trace/strace/groups/* -m 644 -t '$(DESTDIR_SQ)$(STRACE_GROUPS_INSTDIR_SQ)'
--endif
- ifndef NO_LIBPERL
- 	$(call QUIET_INSTALL, perl-scripts) \
- 		$(INSTALL) -d -m 755 '$(DESTDIR_SQ)$(perfexec_instdir_SQ)/scripts/perl/Perf-Trace-Util/lib/Perf/Trace'; \
-diff --git a/tools/perf/builtin-check.c b/tools/perf/builtin-check.c
-index 2346536a5ee14f91ecd10bd130a64676e871e1b2..7aed7b9f4f5270527ee1d36327eb6a01f196a46a 100644
---- a/tools/perf/builtin-check.c
-+++ b/tools/perf/builtin-check.c
-@@ -31,7 +31,6 @@ struct feature_status supported_features[] = {
- 	FEATURE_STATUS("dwarf_getlocations", HAVE_LIBDW_SUPPORT),
- 	FEATURE_STATUS("dwarf-unwind", HAVE_DWARF_UNWIND_SUPPORT),
- 	FEATURE_STATUS("auxtrace", HAVE_AUXTRACE_SUPPORT),
--	FEATURE_STATUS("libaudit", HAVE_LIBAUDIT_SUPPORT),
- 	FEATURE_STATUS("libbfd", HAVE_LIBBFD_SUPPORT),
- 	FEATURE_STATUS("libcapstone", HAVE_LIBCAPSTONE_SUPPORT),
- 	FEATURE_STATUS("libcrypto", HAVE_LIBCRYPTO_SUPPORT),
-diff --git a/tools/perf/builtin-help.c b/tools/perf/builtin-help.c
-index 0854d3cd9f6a304cd9cb50ad430d5706d91df0e9..7be6fb6df595923c15ae51747d5bf17d867ae785 100644
---- a/tools/perf/builtin-help.c
-+++ b/tools/perf/builtin-help.c
-@@ -447,9 +447,7 @@ int cmd_help(int argc, const char **argv)
- #ifdef HAVE_LIBELF_SUPPORT
- 		"probe",
- #endif
--#if defined(HAVE_LIBAUDIT_SUPPORT) || defined(HAVE_SYSCALL_TABLE_SUPPORT)
- 		"trace",
--#endif
- 	NULL };
- 	const char *builtin_help_usage[] = {
- 		"perf help [--all] [--man|--web|--info] [command]",
-diff --git a/tools/perf/builtin-trace.c b/tools/perf/builtin-trace.c
-index 6a1a128fe645014d0347ad4ec3e0c9e77ec59aee..0fddf34458db4fe4896d25f427f2ae29cb3aa15f 100644
---- a/tools/perf/builtin-trace.c
-+++ b/tools/perf/builtin-trace.c
-@@ -2069,30 +2069,11 @@ static int trace__read_syscall_info(struct trace *trace, int id)
- 	const char *name = syscalltbl__name(trace->sctbl, id);
- 	int err;
- 
--#ifdef HAVE_SYSCALL_TABLE_SUPPORT
- 	if (trace->syscalls.table == NULL) {
- 		trace->syscalls.table = calloc(trace->sctbl->syscalls.max_id + 1, sizeof(*sc));
- 		if (trace->syscalls.table == NULL)
- 			return -ENOMEM;
- 	}
--#else
--	if (id > trace->sctbl->syscalls.max_id || (id == 0 && trace->syscalls.table == NULL)) {
--		// When using libaudit we don't know beforehand what is the max syscall id
--		struct syscall *table = realloc(trace->syscalls.table, (id + 1) * sizeof(*sc));
--
--		if (table == NULL)
--			return -ENOMEM;
--
--		// Need to memset from offset 0 and +1 members if brand new
--		if (trace->syscalls.table == NULL)
--			memset(table, 0, (id + 1) * sizeof(*sc));
--		else
--			memset(table + trace->sctbl->syscalls.max_id + 1, 0, (id - trace->sctbl->syscalls.max_id) * sizeof(*sc));
--
--		trace->syscalls.table	      = table;
--		trace->sctbl->syscalls.max_id = id;
--	}
--#endif
- 	sc = trace->syscalls.table + id;
- 	if (sc->nonexistent)
- 		return -EEXIST;
-@@ -2439,18 +2420,7 @@ static struct syscall *trace__syscall_info(struct trace *trace,
- 
- 	err = -EINVAL;
- 
--#ifdef HAVE_SYSCALL_TABLE_SUPPORT
- 	if (id > trace->sctbl->syscalls.max_id) {
--#else
--	if (id >= trace->sctbl->syscalls.max_id) {
--		/*
--		 * With libaudit we don't know beforehand what is the max_id,
--		 * so we let trace__read_syscall_info() figure that out as we
--		 * go on reading syscalls.
--		 */
--		err = trace__read_syscall_info(trace, id);
--		if (err)
--#endif
- 		goto out_cant_read;
- 	}
- 
-diff --git a/tools/perf/perf.c b/tools/perf/perf.c
-index a2987f2cfe1a3958f53239ed1a4eec3f87d7466a..f0617cc41f5fe638986e5d8316a6b3056c2c4bc5 100644
---- a/tools/perf/perf.c
-+++ b/tools/perf/perf.c
-@@ -84,7 +84,7 @@ static struct cmd_struct commands[] = {
- #endif
- 	{ "kvm",	cmd_kvm,	0 },
- 	{ "test",	cmd_test,	0 },
--#if defined(HAVE_LIBTRACEEVENT) && (defined(HAVE_LIBAUDIT_SUPPORT) || defined(HAVE_SYSCALL_TABLE_SUPPORT))
-+#if defined(HAVE_LIBTRACEEVENT)
- 	{ "trace",	cmd_trace,	0 },
- #endif
- 	{ "inject",	cmd_inject,	0 },
-@@ -514,10 +514,6 @@ int main(int argc, const char **argv)
- 		fprintf(stderr,
- 			"trace command not available: missing libtraceevent devel package at build time.\n");
- 		goto out;
--#elif !defined(HAVE_LIBAUDIT_SUPPORT) && !defined(HAVE_SYSCALL_TABLE_SUPPORT)
--		fprintf(stderr,
--			"trace command not available: missing audit-libs devel package at build time.\n");
--		goto out;
- #else
- 		setup_path();
- 		argv[0] = "trace";
-diff --git a/tools/perf/tests/make b/tools/perf/tests/make
-index a7fcbd589752a90459815bd21075528c6dfa4d94..0ee94caf9ec19820a94a87dd46a7ccf1cefb844a 100644
---- a/tools/perf/tests/make
-+++ b/tools/perf/tests/make
-@@ -86,7 +86,6 @@ make_no_libdw_dwarf_unwind := NO_LIBDW_DWARF_UNWIND=1
- make_no_backtrace   := NO_BACKTRACE=1
- make_no_libcapstone := NO_CAPSTONE=1
- make_no_libnuma     := NO_LIBNUMA=1
--make_no_libaudit    := NO_LIBAUDIT=1
- make_no_libbionic   := NO_LIBBIONIC=1
- make_no_auxtrace    := NO_AUXTRACE=1
- make_no_libbpf	    := NO_LIBBPF=1
-@@ -97,7 +96,6 @@ make_no_libllvm     := NO_LIBLLVM=1
- make_with_babeltrace:= LIBBABELTRACE=1
- make_with_coresight := CORESIGHT=1
- make_no_sdt	    := NO_SDT=1
--make_no_syscall_tbl := NO_SYSCALL_TABLE=1
- make_no_libpfm4     := NO_LIBPFM4=1
- make_with_gtk2      := GTK2=1
- make_refcnt_check   := EXTRA_CFLAGS="-DREFCNT_CHECKING=1"
-@@ -122,10 +120,10 @@ make_static         := LDFLAGS=-static NO_PERF_READ_VDSO32=1 NO_PERF_READ_VDSOX3
- # all the NO_* variable combined
- make_minimal        := NO_LIBPERL=1 NO_LIBPYTHON=1 NO_GTK2=1
- make_minimal        += NO_DEMANGLE=1 NO_LIBELF=1 NO_BACKTRACE=1
--make_minimal        += NO_LIBNUMA=1 NO_LIBAUDIT=1 NO_LIBBIONIC=1
-+make_minimal        += NO_LIBNUMA=1 NO_LIBBIONIC=1
- make_minimal        += NO_LIBDW_DWARF_UNWIND=1 NO_AUXTRACE=1 NO_LIBBPF=1
- make_minimal        += NO_LIBCRYPTO=1 NO_SDT=1 NO_JVMTI=1 NO_LIBZSTD=1
--make_minimal        += NO_LIBCAP=1 NO_SYSCALL_TABLE=1 NO_CAPSTONE=1
-+make_minimal        += NO_LIBCAP=1 NO_CAPSTONE=1
- 
- # $(run) contains all available tests
- run := make_pure
-@@ -158,7 +156,6 @@ run += make_no_libdw_dwarf_unwind
- run += make_no_backtrace
- run += make_no_libcapstone
- run += make_no_libnuma
--run += make_no_libaudit
- run += make_no_libbionic
- run += make_no_auxtrace
- run += make_no_libbpf
-diff --git a/tools/perf/util/env.c b/tools/perf/util/env.c
-index e2843ca2edd92ea5fa1c020ae92b183c496e975e..e9a694350671910d537de599071dbe7fcc18ced4 100644
---- a/tools/perf/util/env.c
-+++ b/tools/perf/util/env.c
-@@ -474,13 +474,13 @@ const char *perf_env__arch(struct perf_env *env)
- 
- const char *perf_env__arch_strerrno(struct perf_env *env __maybe_unused, int err __maybe_unused)
- {
--#if defined(HAVE_SYSCALL_TABLE_SUPPORT) && defined(HAVE_LIBTRACEEVENT)
-+#if defined(HAVE_LIBTRACEEVENT)
- 	if (env->arch_strerrno == NULL)
- 		env->arch_strerrno = arch_syscalls__strerrno_function(perf_env__arch(env));
- 
- 	return env->arch_strerrno ? env->arch_strerrno(err) : "no arch specific strerrno function";
- #else
--	return "!(HAVE_SYSCALL_TABLE_SUPPORT && HAVE_LIBTRACEEVENT)";
-+	return "!HAVE_LIBTRACEEVENT";
- #endif
- }
- 
-diff --git a/tools/perf/util/generate-cmdlist.sh b/tools/perf/util/generate-cmdlist.sh
-index 1b5140e5ce9975fac87b2674dc694f9d4e439a5f..6a73c903d69050df69267a8aeaeeac1ed170efe1 100755
---- a/tools/perf/util/generate-cmdlist.sh
-+++ b/tools/perf/util/generate-cmdlist.sh
-@@ -38,7 +38,7 @@ do
- done
- echo "#endif /* HAVE_LIBELF_SUPPORT */"
- 
--echo "#if defined(HAVE_LIBTRACEEVENT) && (defined(HAVE_LIBAUDIT_SUPPORT) || defined(HAVE_SYSCALL_TABLE_SUPPORT))"
-+echo "#if defined(HAVE_LIBTRACEEVENT)"
- sed -n -e 's/^perf-\([^ 	]*\)[ 	].* audit*/\1/p' command-list.txt |
- sort |
- while read cmd
-@@ -51,7 +51,7 @@ do
- 	    p
-      }' "Documentation/perf-$cmd.txt"
- done
--echo "#endif /* HAVE_LIBTRACEEVENT && (HAVE_LIBAUDIT_SUPPORT || HAVE_SYSCALL_TABLE_SUPPORT) */"
-+echo "#endif /* HAVE_LIBTRACEEVENT */"
- 
- echo "#ifdef HAVE_LIBTRACEEVENT"
- sed -n -e 's/^perf-\([^ 	]*\)[ 	].* traceevent.*/\1/p' command-list.txt |
-diff --git a/tools/perf/util/syscalltbl.c b/tools/perf/util/syscalltbl.c
-index 210f61b0a7a264a427ebb602185d3a9da2f426f4..7e24e4164da9c7d60352b77b5724e6e8dac034f4 100644
---- a/tools/perf/util/syscalltbl.c
-+++ b/tools/perf/util/syscalltbl.c
-@@ -9,21 +9,12 @@
- #include <stdlib.h>
- #include <linux/compiler.h>
- #include <linux/zalloc.h>
--
--#ifdef HAVE_SYSCALL_TABLE_SUPPORT
- #include <string.h>
- #include "string2.h"
- 
--#if defined(GENERIC_SYSCALL_TABLE)
- #include <syscall_table.h>
- const int syscalltbl_native_max_id = SYSCALLTBL_MAX_ID;
- static const char *const *syscalltbl_native = syscalltbl;
--#else
--const int syscalltbl_native_max_id = 0;
--static const char *const syscalltbl_native[] = {
--	[0] = "unknown",
--};
--#endif
- 
- struct syscall {
- 	int id;
-@@ -131,47 +122,3 @@ int syscalltbl__strglobmatch_first(struct syscalltbl *tbl, const char *syscall_g
- 	*idx = -1;
- 	return syscalltbl__strglobmatch_next(tbl, syscall_glob, idx);
- }
--
--#else /* HAVE_SYSCALL_TABLE_SUPPORT */
--
--#include <libaudit.h>
--
--struct syscalltbl *syscalltbl__new(void)
--{
--	struct syscalltbl *tbl = zalloc(sizeof(*tbl));
--	if (tbl)
--		tbl->audit_machine = audit_detect_machine();
--	return tbl;
--}
--
--void syscalltbl__delete(struct syscalltbl *tbl)
--{
--	free(tbl);
--}
--
--const char *syscalltbl__name(const struct syscalltbl *tbl, int id)
--{
--	return audit_syscall_to_name(id, tbl->audit_machine);
--}
--
--int syscalltbl__id(struct syscalltbl *tbl, const char *name)
--{
--	return audit_name_to_syscall(name, tbl->audit_machine);
--}
--
--int syscalltbl__id_at_idx(struct syscalltbl *tbl __maybe_unused, int idx)
--{
--	return idx;
--}
--
--int syscalltbl__strglobmatch_next(struct syscalltbl *tbl __maybe_unused,
--				  const char *syscall_glob __maybe_unused, int *idx __maybe_unused)
--{
--	return -1;
--}
--
--int syscalltbl__strglobmatch_first(struct syscalltbl *tbl, const char *syscall_glob, int *idx)
--{
--	return syscalltbl__strglobmatch_next(tbl, syscall_glob, idx);
--}
--#endif /* HAVE_SYSCALL_TABLE_SUPPORT */
+>   MAINTAINERS                  |   7 +
+>   drivers/hwmon/pmbus/Kconfig  |   9 ++
+>   drivers/hwmon/pmbus/Makefile |   1 +
+>   drivers/hwmon/pmbus/crps.c   | 299 +++++++++++++++++++++++++++++++++++
+>   5 files changed, 411 insertions(+)
+>   create mode 100644 Documentation/hwmon/crps.rst
+>   create mode 100644 drivers/hwmon/pmbus/crps.c
+> 
+> diff --git a/Documentation/hwmon/crps.rst b/Documentation/hwmon/crps.rst
+> new file mode 100644
+> index 000000000000..81d5dfd68a46
+> --- /dev/null
+> +++ b/Documentation/hwmon/crps.rst
+> @@ -0,0 +1,95 @@
+> +.. SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +Kernel driver crps
+> +========================
 
--- 
-2.34.1
+I am quite sure that this triggers a documentation warning.
+
+> +
+> +Supported chips:
+> +
+> +  * Intel CRPS185
+> +
+> +    Prefix: 'crps185'
+> +
+> +    Addresses scanned: -
+> +
+> +Authors:
+> +    Ninad Palsule <ninad@linux.ibm.com>
+> +
+> +
+
+Is the documentation available somewhere ?
+If yes, please add a reference. If not, add a comment explaining that
+it is not available to the public.
+
+> +Description
+> +-----------
+> +
+> +This driver implements support for Common Redundant Power supply with PMBus
+
+For _Intel_ ...
+
+> +support.
+> +
+> +The driver is a client driver to the core PMBus driver.
+> +Please see Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
+> +
+> +
+> +Usage Notes
+> +-----------
+> +
+> +This driver does not auto-detect devices. You will have to instantiate the
+> +devices explicitly. Please see Documentation/i2c/instantiating-devices.rst for
+> +details.
+> +
+> +
+> +Sysfs entries
+> +-------------
+> +
+> +======================= ======================================================
+> +curr1_label		"iin"
+> +curr1_input		Measured input current
+> +curr1_max		Maximum input current
+> +curr1_max_alarm         Input maximum current high alarm
+> +curr1_crit              Critial high input current
+> +curr1_crit_alarm        Input critical current high alarm
+> +curr1_rated_max		Maximum rated input current
+> +
+> +curr2_label		"iout1"
+> +curr2_input		Measured output current
+> +curr2_max		Maximum output current
+> +curr2_max_alarm         Output maximum current high alarm
+> +curr2_crit	        Critial high output current
+> +curr2_crit_alarm        Output critical current high alarm
+> +curr2_rated_max		Maximum rated output current
+> +
+> +in1_label		"vin"
+> +in1_input		Measured input voltage
+> +in1_crit                Critical input over voltage
+> +in1_crit_alarm          Critical input over voltage alarm
+> +in1_max                 Maximum input over voltage
+> +in1_max_alarm           Maximum input over voltage alarm
+> +in1_rated_min		Minimum rated input voltage
+> +in1_rated_max		Maximum rated input voltage
+> +
+> +in2_label		"vout1"
+> +in2_input		Measured input voltage
+> +in2_crit                Critical input over voltage
+> +in2_crit_alarm          Critical input over voltage alarm
+> +in2_lcrit               Critical input under voltage fault
+> +in2_lcrit_alarm         Critical input under voltage fault alarm
+> +in2_max                 Maximum input over voltage
+> +in2_max_alarm           Maximum input over voltage alarm
+> +in2_min                 Minimum input under voltage warning
+> +in2_min_alarm           Minimum input under voltage warning alarm
+> +in2_rated_min		Minimum rated input voltage
+> +in2_rated_max		Maximum rated input voltage
+> +
+> +power1_label		"pin"
+> +power1_input		Measured input power
+> +power1_alarm		Input power high alarm
+> +power1_max  		Maximum input power
+> +power1_rated_max        Maximum rated input power
+> +
+> +temp[1-2]_input		Measured temperature
+> +temp[1-2]_crit 		Critical temperature
+> +temp[1-2]_crit_alarm    Critical temperature alarm
+> +temp[1-2]_max  		Maximum temperature
+> +temp[1-2]_max_alarm     Maximum temperature alarm
+> +temp[1-2]_rated_max     Maximum rated temperature
+> +
+> +fan1_alarm		Fan 1 warning.
+> +fan1_fault		Fan 1 fault.
+> +fan1_input		Fan 1 speed in RPM.
+> +fan1_target             Fan 1 target.
+> +======================= ======================================================
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 637ddd44245f..6b31d545f0f1 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6100,6 +6100,13 @@ L:	linux-input@vger.kernel.org
+>   S:	Maintained
+>   F:	drivers/hid/hid-creative-sb0540.c
+>   
+> +CRPS COMMON REDUNDANT PSU DRIVER
+
+This is _INTEL_ CRPS.
+
+> +M:	Ninad Palsule <ninad@linux.ibm.com>
+> +L:	linux-hwmon@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/hwmon/crps.rst
+> +F:	drivers/hwmon/pmbus/crps.c
+> +
+>   CRYPTO API
+>   M:	Herbert Xu <herbert@gondor.apana.org.au>
+>   M:	"David S. Miller" <davem@davemloft.net>
+> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> index 22418a05ced0..56c4eb4b846e 100644
+> --- a/drivers/hwmon/pmbus/Kconfig
+> +++ b/drivers/hwmon/pmbus/Kconfig
+> @@ -85,6 +85,15 @@ config SENSORS_BPA_RS600
+>   	  This driver can also be built as a module. If so, the module will
+>   	  be called bpa-rs600.
+>   
+> +config SENSORS_CRPS
+> +	tristate "Common Redundant Power Supply"
+
+Again, this is an Intel product.
+
+> +	help
+> +	  If you say yes here you get hardware monitoring support for the Common
+> +	  Redundant Power Supply.
+> +
+> +	  This driver can also be built as a module. If so, the module will
+> +	  be called crps.
+> +
+>   config SENSORS_DELTA_AHE50DC_FAN
+>   	tristate "Delta AHE-50DC fan control module"
+>   	help
+> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+> index 3d3183f8d2a7..c7eb7739b7f8 100644
+> --- a/drivers/hwmon/pmbus/Makefile
+> +++ b/drivers/hwmon/pmbus/Makefile
+> @@ -62,3 +62,4 @@ obj-$(CONFIG_SENSORS_XDPE122)	+= xdpe12284.o
+>   obj-$(CONFIG_SENSORS_XDPE152)	+= xdpe152c4.o
+>   obj-$(CONFIG_SENSORS_ZL6100)	+= zl6100.o
+>   obj-$(CONFIG_SENSORS_PIM4328)	+= pim4328.o
+> +obj-$(CONFIG_SENSORS_CRPS)	+= crps.o
+> diff --git a/drivers/hwmon/pmbus/crps.c b/drivers/hwmon/pmbus/crps.c
+> new file mode 100644
+> index 000000000000..44d309f81803
+> --- /dev/null
+> +++ b/drivers/hwmon/pmbus/crps.c
+> @@ -0,0 +1,299 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Copyright 2024 IBM Corp.
+> + */
+> +
+> +#include <linux/debugfs.h>
+> +#include <linux/i2c.h>
+> +#include <linux/of.h>
+> +#include <linux/pmbus.h>
+> +
+> +#include "pmbus.h"
+> +
+> +/* Intel crps185 specific commands. */
+> +#define CRPS185_MFR_IOUT_MAX		0xA6
+> +#define CRPS185_MFR_POUT_MAX		0xA7
+> +
+
+I fail to see the point in those defines, even more so since
+PMBUS_MFR_POUT_MAX and PMBUS_MFR_IOUT_MAX are used below.
+
+> +enum {
+> +	CRPS_DEBUGFS_PMBUS_REVISION = 0,
+> +	CRPS_DEBUGFS_MAX_POWER_OUT,
+> +	CRPS_DEBUGFS_MAX_CURRENT_OUT,
+> +	CRPS_DEBUGFS_NUM_ENTRIES
+> +};
+> +
+> +enum models { crps185 = 1, crps_unknown };
+
+Pointless enum. The driver only supports a single power supply.
+
+> +
+> +struct crps {
+> +	enum models version;
+> +	struct i2c_client *client;
+> +
+> +	int debugfs_entries[CRPS_DEBUGFS_NUM_ENTRIES];
+> +};
+> +
+> +#define to_psu(x, y) container_of((x), struct crps, debugfs_entries[(y)])
+> +
+> +static struct pmbus_platform_data crps_pdata = {
+> +	.flags = PMBUS_SKIP_STATUS_CHECK,
+> +};
+
+Did you confirm that it is needed ? If so, explain why it is needed.
+
+> +
+> +static const struct i2c_device_id crps_id[] = {
+> +	{ "intel_crps185", crps185 },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(i2c, crps_id);
+> +
+> +/*
+> + * Convert linear format word to machine format. 11 LSB side bits are two's
+> + * complement integer mantissa and 5 MSB side bits are two's complement
+> + * exponent
+> + */
+> +static int crps_convert_linear(int rc)
+> +{
+> +	s16 exponent;
+> +	s32 mantissa;
+> +	s64 val;
+> +
+> +	exponent = ((s16)rc) >> 11;
+> +	mantissa = ((s16)((rc & 0x7ff) << 5)) >> 5;
+> +
+> +	val = mantissa;
+> +	if (exponent >= 0)
+> +		val <<= exponent;
+> +	else
+> +		val >>= -exponent;
+> +
+> +	return (int)val;
+> +}
+> +
+> +static ssize_t crps_debugfs_read(struct file *file, char __user *buf,
+> +				 size_t count, loff_t *ppos)
+> +{
+> +	int rc;
+> +	int *idxp = file->private_data;
+> +	int idx = *idxp;
+> +	struct crps *psu = to_psu(idxp, idx);
+> +	char data[2 * I2C_SMBUS_BLOCK_MAX] = { 0 };
+> +
+> +	rc = pmbus_lock_interruptible(psu->client);
+> +	if (rc)
+> +		return rc;
+> +
+> +	rc = pmbus_set_page(psu->client, 0, 0xff);
+> +	if (rc)
+> +		goto unlock;
+> +
+> +	switch (idx) {
+> +	case CRPS_DEBUGFS_PMBUS_REVISION:
+> +		rc = i2c_smbus_read_byte_data(psu->client, PMBUS_REVISION);
+> +		if (rc >= 0) {
+> +			if (psu->version == crps185) {
+> +				if (rc == 0)
+> +					rc = sprintf(data, "%s", "1.0");
+> +				else if (rc == 0x11)
+> +					rc = sprintf(data, "%s", "1.1");
+> +				else if (rc == 0x22)
+> +					rc = sprintf(data, "%s", "1.2");
+> +				else
+> +					rc = snprintf(data, 3, "0x%02x", rc);
+> +			} else {
+> +				rc = snprintf(data, 3, "%02x", rc);
+> +			}
+> +		}
+
+This attribute should be added into the PMBus core.
+
+> +		break;
+> +	case CRPS_DEBUGFS_MAX_POWER_OUT:
+> +		rc = i2c_smbus_read_word_data(psu->client, PMBUS_MFR_POUT_MAX);
+> +		if (rc >= 0) {
+> +			rc = crps_convert_linear(rc);
+> +			rc = snprintf(data, I2C_SMBUS_BLOCK_MAX, "%d", rc);
+> +		}
+> +		break;
+> +	case CRPS_DEBUGFS_MAX_CURRENT_OUT:
+> +		rc = i2c_smbus_read_word_data(psu->client, PMBUS_MFR_IOUT_MAX);
+> +		if (rc >= 0) {
+> +			rc = crps_convert_linear(rc);
+> +			rc = snprintf(data, I2C_SMBUS_BLOCK_MAX, "%d", rc);
+> +		}
+> +		break;
+
+What is the point of those two attributes ? There are already
+standard sysfs attributes reporting those values.
+
+> +	default:
+> +		rc = -EINVAL;
+> +		break;
+> +	}
+> +
+> +unlock:
+> +	pmbus_unlock(psu->client);
+> +	if (rc < 0)
+> +		return rc;
+> +
+> +	data[rc] = '\n';
+> +	rc += 2;
+> +
+> +	return simple_read_from_buffer(buf, count, ppos, data, rc);
+> +}
+> +
+> +static const struct file_operations crps_debugfs_fops = {
+> +	.llseek = noop_llseek,
+> +	.read = crps_debugfs_read,
+> +	.open = simple_open,
+> +};
+> +
+> +static int crps_read_word_data(struct i2c_client *client, int page,
+> +				int phase, int reg)
+> +{
+> +	int rc;
+> +
+> +	switch (reg) {
+> +	case PMBUS_STATUS_WORD:
+> +		rc = pmbus_read_word_data(client, page, phase, reg);
+> +		if (rc < 0)
+> +			return rc;
+> +		break;
+
+Why is this needed ?
+
+> +	case PMBUS_OT_WARN_LIMIT:
+> +		rc = pmbus_read_word_data(client, page, phase,
+> +					  PMBUS_MFR_MAX_TEMP_1);
+> +		if (rc < 0)
+> +			return rc;
+> +		break;
+> +	case PMBUS_IOUT_OC_WARN_LIMIT:
+> +		rc = pmbus_read_word_data(client, page, phase,
+> +					  CRPS185_MFR_IOUT_MAX);
+> +		if (rc < 0)
+> +			return rc;
+> +		break;
+> +	case PMBUS_POUT_OP_WARN_LIMIT:
+> +		rc = pmbus_read_word_data(client, page, phase,
+> +					  CRPS185_MFR_POUT_MAX);
+> +		if (rc < 0)
+> +			return rc;
+> +		break;
+
+The above three values are more than odd. They duplicate the respective
+standard rated_max attributes as warning limits. Why ?
+
+On top of that, on writes, the actual warning limits are overwritten.
+That makes even less sense.
+
+> +	default:
+> +		rc = -ENODATA;
+> +		break;
+> +	}
+> +
+> +	return rc;
+> +}
+> +
+> +static struct pmbus_driver_info crps_info[] = {
+> +	[crps185] = {
+> +		.pages = 1,
+> +		/* PSU uses default linear data format. */
+> +		.func[0] = PMBUS_HAVE_PIN | PMBUS_HAVE_IOUT |
+> +			PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_IIN |
+> +			PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT |
+> +			PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
+> +			PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 |
+> +			PMBUS_HAVE_STATUS_TEMP |
+> +			PMBUS_HAVE_FAN12 | PMBUS_HAVE_STATUS_FAN12,
+> +		.read_word_data = crps_read_word_data,
+> +	},
+> +};
+> +
+> +#define to_psu(x, y) container_of((x), struct crps, debugfs_entries[(y)])
+> +
+> +static void crps_init_debugfs(struct crps *psu)
+> +{
+> +	struct i2c_client *client = psu->client;
+> +	struct dentry *debugfs;
+> +	int i;
+> +
+> +	/* Don't fail the probe if we can't create debugfs */
+> +	debugfs = pmbus_get_debugfs_dir(client);
+> +	if (!debugfs)
+> +		return;
+> +
+> +	for (i = 0; i < CRPS_DEBUGFS_NUM_ENTRIES; ++i)
+> +		psu->debugfs_entries[i] = i;
+> +
+> +	debugfs_create_file("pmbus_revision", 0444, debugfs,
+> +			    &psu->debugfs_entries[CRPS_DEBUGFS_PMBUS_REVISION],
+> +			    &crps_debugfs_fops);
+> +	debugfs_create_file("max_power_out", 0444, debugfs,
+> +			    &psu->debugfs_entries[CRPS_DEBUGFS_MAX_POWER_OUT],
+> +			    &crps_debugfs_fops);
+> +	debugfs_create_file("max_current_out", 0444, debugfs,
+> +			    &psu->debugfs_entries[CRPS_DEBUGFS_MAX_CURRENT_OUT],
+> +			    &crps_debugfs_fops);
+> +}
+> +
+> +static int crps_probe(struct i2c_client *client)
+> +{
+> +	int rc;
+> +	struct device *dev = &client->dev;
+> +	enum models vs = crps_unknown;
+> +	struct crps *psu;
+> +	const void *md = of_device_get_match_data(&client->dev);
+> +	const struct i2c_device_id *id = NULL;
+> +	char buf[I2C_SMBUS_BLOCK_MAX + 2] = { 0 };
+> +
+> +	if (md) {
+> +		vs = (uintptr_t)md;
+> +	} else {
+> +		id = i2c_match_id(crps_id, client);
+> +		if (id)
+> +			vs = (enum models)id->driver_data;
+> +	}
+> +
+Consider using i2c_get_match_data().
+
+> +	if (!vs || vs >= crps_unknown) {
+> +		dev_err(dev, "Version %d not supported\n", vs);
+> +		return -EINVAL;
+> +	}
+
+This is very much pointless. The driver would not be instantiated withut match.
+
+> +
+> +	rc = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, buf);
+> +	if (rc < 0) {
+> +		dev_err(dev, "Failed to read PMBUS_MFR_MODEL\n");
+> +		return rc;
+
+dev_err_probe().
+
+> +	}
+> +	if (strncmp(buf, "03NK260", 7)) {
+
+This should also check and ensure that rc == 7.
+
+> +		buf[rc] = '\0';
+> +		dev_err(dev, "Model '%s' not supported\n", buf);
+
+dev_err_probe()
+
+> +		return -ENODEV;
+> +	}
+> +
+> +	client->dev.platform_data = &crps_pdata;
+> +	rc = pmbus_do_probe(client, &crps_info[vs]);
+> +	if (rc) {
+> +		dev_err(dev, "Failed to probe %d\n", rc);
+> +		return rc;
+
+dev_err_probe().
+
+> +	}
+> +
+> +	/*
+> +	 * Don't fail the probe if there isn't enough memory for debugfs.
+> +	 */
+> +	psu = devm_kzalloc(&client->dev, sizeof(*psu), GFP_KERNEL);
+> +	if (!psu) {
+> +		dev_warn(dev, "Failed to allocate memory. debugfs are not supported.\n");
+> +		return 0;
+> +	}
+> +
+> +	psu->version = vs;
+> +	psu->client = client;
+> +
+
+Drop all this. Add the PMBus version as standard debugfs attribute to the PMBus core
+if needed/wanted. The rest is already provided as standard sysfs attributes, and
+reporting the same value in debugfs files adds no value.
+
+> +	crps_init_debugfs(psu);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id crps_of_match[] = {
+> +	{
+> +		.compatible = "intel,crps185",
+> +		.data = (void *)crps185
+> +	},
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, crps_of_match);
+> +
+> +static struct i2c_driver crps_driver = {
+> +	.driver = {
+> +		.name = "crps",
+> +		.of_match_table = crps_of_match,
+> +	},
+> +	.probe = crps_probe,
+> +	.id_table = crps_id,
+> +};
+> +
+> +module_i2c_driver(crps_driver);
+> +
+> +MODULE_AUTHOR("Ninad Palsule");
+> +MODULE_DESCRIPTION("PMBus driver for Common Redundant power supplies");
+
+Again, this is for _Intel_ power supplies.
+
+> +MODULE_LICENSE("GPL");
+> +MODULE_IMPORT_NS("PMBUS");
 
