@@ -1,150 +1,103 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E8361AC892
-	for <linux-doc@vger.kernel.org>; Fri, 13 Dec 2024 09:10:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 469681B21BC;
+	Fri, 13 Dec 2024 09:39:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734081023; cv=none; b=ZoHAczrVsQzdElnULPfK0d64erbgTD+f9k+uAr4yj0usR/SvNsv1B6hVwnMj71xU6Yeu+TNmeSoA5UezbGjbgh+yvArWyTZbgvCr5TNt3Dj75FdI3z5gKvYia7sjETfqoo/NTUWCbxIYtOeVXQTrg0VtL9YKoIfq8ZAucYIhFNw=
+	t=1734082791; cv=none; b=JyX2HVKg08QacQ++exZtBXGWKBjSJ24J5MMH45YkkBAhrCAPN3uRC1kHx8Ii0XH/Er/tQmvCrLThr3Eg1xRpBYgbnOk3h7vZvmHB0Vvs1Z+Zj5Fo3gx3zQV7av52EvUFvi5PerXc2KKXqQBZqJNHgJzm/Qt9qg2uODt5z6LRlVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734081023; c=relaxed/simple;
-	bh=4GoxPHziDL8jynynpc6II9XKQmKHxtY3WLim+EY8Rn8=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=FwcUvgO+kIWvyY+vhUCg3Us0m7XZNPtT+Qix2Fg8rD6qg+fp72xn8w+xWFHxDLzxBbUriA11LJYk+wutS+1u8eJB2o3vEcezWbBfqRyKiW5+XFBhklksTWZB44EwbkJsRoQtUs7LS7eY3Qxp7yoRuBffAAEqq/AOgYpYBtOxGLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0TyhOYCO; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com
+	s=arc-20240116; t=1734082791; c=relaxed/simple;
+	bh=+/e/OocckrVV19cEXqF5r7GuDQAEFYBXfsNyVbOnZR4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=D6r2ZXtAgrjEXOunxnhAdYb4fw0T5mlt4rqBMDaHOtNQJoqNOSXJc9kEF9qMtrRJsAx8TnyxayL1OSa0WTCQUnsW0J9XBtXE5pB+kr5hwmdU81qWNMP1SxvKpyE0cxn2tmcHkxkqbxKnznJRXeI1we8U9xGdlE/rEJI9GzGSNDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=gOe2qCcZ; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0TyhOYCO"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2165433e229so14817675ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 13 Dec 2024 01:10:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734081020; x=1734685820; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UZMjcDhc1h3P2X9Fu0YyDkAQOlnsU6jYEmSS6gnAML4=;
-        b=0TyhOYCOvIo5/MoX5rWM13KVpbScFj33pmm+/NclfFcYB1R+JX6bgF31Gh776qQvSO
-         w1LuHug2EETtMZvhUW7B0PIO5JRjErvYeheDxIJKXuwo52javjty8BFIVR5FTP47Z0su
-         dSfNz1/EMc3/HcEeAt4oIlvY1Uz8ghXLc2+5hdwkr6Fo7aMywbUQOVs51moVfZ8qhHFm
-         oQovRIwPCjrBFm2D4WIJv/V0di/Kcq+oklWF/1z7YDuob7UAiF3pjIsLMrAUwhR11kfH
-         C5llTkrnAkgmtvRRjlY9crPP1g8fsfGJYnz2YfCApBEYsnr6nQDPJPnZyA67Uac84rRG
-         1myQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734081020; x=1734685820;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=UZMjcDhc1h3P2X9Fu0YyDkAQOlnsU6jYEmSS6gnAML4=;
-        b=Y5aaFiB0ENEwCFeNzVPxaeizWqprIeQzgRjz0zUOx9mdBfzX25nzANiNQ3Hf5ljSeC
-         42x7EOPqhJJygy1UeBcZCmlOrKerRjoNV5MDA49DZm02/YubHwjQfLz7PVmdSS31rmRI
-         +9nSKB+mQpg9emPmbvrQrB8s24hLJFsfiDVcznNZ7AjXJvB0fV8BglTQp++0HdVICD0k
-         JA/cF9zzjnCIFQRiVEoLmMluMlZxGenAwiy2m4gJTBGBUaGHRTv8xmM4TvvVCghCnjWI
-         qmieDls1JB1C94Arb3t2U11e4A4R1xJJlE7PKcNoVWpBvIGjp9eUikviZtsd63mUfXIy
-         f84g==
-X-Forwarded-Encrypted: i=1; AJvYcCUtHCdDSvCGBrlcsNei8QBgJrAVV/6UT8mYsDXqpGhmuc6V8KHkHStT+vHas/Ivxc4zEQfYcPRIsNc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyD4idplKIBu1scZIW6pp3xbfx+6UEJsYUsQ4dL/U4qyeN6cOen
-	Gra5VS+PdYBQLo6V40nzRkj2V+O0KPNcMpT2hgx/A5lloQH6LB401dkB8JIO3o2IpCtZqYOwzal
-	bIcVMj662pucAug==
-X-Google-Smtp-Source: AGHT+IEWGF+x01YrzH8Zqz6DDD7saIEVhbAUPTAJ8Q7hrcR+RUbndbMM9vtqiuEmG36O/LrpFgJSqohpUP+Lnmw=
-X-Received: from plti1.prod.google.com ([2002:a17:902:6ac1:b0:212:5134:8485])
- (user=guanyulin job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:902:d510:b0:215:7446:2151 with SMTP id d9443c01a7336-2189298205amr23588125ad.4.1734081020572;
- Fri, 13 Dec 2024 01:10:20 -0800 (PST)
-Date: Fri, 13 Dec 2024 09:10:08 +0000
-In-Reply-To: <03c79eca-f79b-4008-9037-ea96e18f093f@quicinc.com>
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="gOe2qCcZ"
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BD98OZ6023348;
+	Fri, 13 Dec 2024 04:39:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=8X4OrsNZtOgF7QE9e8ELPr3PX7d
+	kSp9fZQxMSaLJWjw=; b=gOe2qCcZWMjb+YWaM/lDM4ez/RllQ0PSUtBpcnUzewk
+	NP6UT0uW5qGlYjCSXkbYm4qQSXDpxi53Wrl1aNShe+8mbps4abxLOO5vqi5VqUUX
+	tueP9hwU9QKBTklkBXAqV16kX2kHmfbwWPB6LbEAsvA65kNeXh8nfLqpmOigRFE5
+	ur6kJ4v45tM/Xv1JglBP5HXZJDrz/tM8T/7iWUL+tt/urz6qdWl3GdoFR5suPUkE
+	frSsKFKZlbb7ZgRwViuGsRnkAssseCLTvwZTj7L4ltWZ5mitQZ5q3mvMFRYIUpH9
+	IZQPfmN9rS9TMmTvv6qzA5MxaJb4kz+njlXLDSfwIhQ==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 43gj1fg407-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 13 Dec 2024 04:39:32 -0500 (EST)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 4BD9dVsN013975
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 13 Dec 2024 04:39:31 -0500
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Fri, 13 Dec
+ 2024 04:39:31 -0500
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Fri, 13 Dec 2024 04:39:31 -0500
+Received: from localhost.localdomain ([10.48.65.12])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 4BD9dLXY028481;
+	Fri, 13 Dec 2024 04:39:23 -0500
+From: Darius Berghe <darius.berghe@analog.com>
+To: <jic23@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <corbet@lwn.net>, <lars@metafoo.de>,
+        <Michael.Hennerich@analog.com>
+CC: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <darius.berghe@analog.com>
+Subject: [PATCH v1 0/2] iio: accel: adxl367: add support for adxl366
+Date: Fri, 13 Dec 2024 11:51:59 +0200
+Message-ID: <20241213095201.1218145-1-darius.berghe@analog.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <03c79eca-f79b-4008-9037-ea96e18f093f@quicinc.com>
-X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
-Message-ID: <20241213091016.2058740-1-guanyulin@google.com>
-Subject: Re: [PATCH v30 00/30] Introduce QC USB SND audio offloading support
-From: Guan-Yu Lin <guanyulin@google.com>
-To: quic_wcheng@quicinc.com
-Cc: Thinh.Nguyen@synopsys.com, broonie@kernel.org, cezary.rojewski@intel.com, 
-	conor+dt@kernel.org, corbet@lwn.net, devicetree@vger.kernel.org, 
-	dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org, krzk+dt@kernel.org, 
-	lgirdwood@gmail.com, linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
-	mathias.nyman@intel.com, perex@perex.cz, pierre-louis.bossart@linux.dev, 
-	robh@kernel.org, srinivas.kandagatla@linaro.org, tiwai@suse.com, 
-	tiwai@suse.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: 8CQIHfNBKnSIkjK6HWfyZqaouDrqSIeL
+X-Proofpoint-ORIG-GUID: 8CQIHfNBKnSIkjK6HWfyZqaouDrqSIeL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 clxscore=1015
+ malwarescore=0 impostorscore=0 bulkscore=0 phishscore=0 mlxlogscore=999
+ lowpriorityscore=0 priorityscore=1501 spamscore=0 mlxscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2412130065
 
-> On 12/10/2024 8:40 AM, Takashi Iwai wrote:
->> On Tue, 10 Dec 2024 01:59:10 +0100,
->> Wesley Cheng wrote:
->>> On 12/5/2024 4:53 PM, Wesley Cheng wrote:
->>> Hi Takashi,
->>>
->>> Could you possibly help share some direction on what you think of the c=
-urrent design, and if you think its detrimental that we make modifications =
-mentioned by Cezary?  I have the next revision ready for review, but I want=
-ed to get a better sense on the likeliness of this landing upstream w/o the=
- major modifications.
->>
->> Honestly speaking, I have no big preference about that design
->> question.  The most important thing is rather what's visible change to
->> users.  An advantage of the current design (sort of add-on to the
->> existing USB-audio driver) is that it's merely a few card controls
->> that are added and visible, and the rest is just as of now.  The
->> remaining design issue (two cards or single card) is rather
->> kernel-internal, and has nothing to do with users.  So I'm fine with
->> the current design.
->>
->> OTOH, if we follow the pattern of HD-audio, at least there will be
->> more preliminary changes in USB-audio driver side like we've done for
->> HD-audio.  That is, make most of USB-audio code to be usable as (a
->> kind of) library code.  It's more work, but certainly doable.  And if
->> that can be achieved and there other similar use cases of this stuff
->> not only from Qualcomm, it might make sense to go in that way, too.
->> That said, it's rather a question about what's extended in future.
->> If Intel will need / want to move on that direction, too, that's a
->> good reason to reconsider the basic design.
->>
->
-> So to clarify, what Cezary and I are proposing are actually two different=
- concepts to achieve some sort of offloading for audio data.  In my use cas=
-e, we're trying to leverage as much of the USB SND implementation as possib=
-le, and only offloading the handling of audio transfers.  Everything else i=
-s still handled by USB SND, hence the reason for it being an add-on since m=
-ost of it stays the same.  Unfortunately, I don't have any details about th=
-e full HW offload design, as public material on it is fairly minimal.  So i=
-t would be difficult for me to rework my series to something I don't have a=
- line of sight into.  Personally (and as you can probably tell :)), I would=
- prefer if we could do the refactoring in stages (if actually required), si=
-nce I've been pushing this method for awhile now, and I'm not sure if I can=
- take up that effort to do that on my next submission.  At least from the Q=
-C perspective if we did move to the HDaudio-type implementation, I think I'=
-d need to also
-> change up the ASoC design we have currently implemented as well, so it wo=
-uldn't be a trivial change.
->
->
-> Thanks
->
-> Wesley Cheng
->
+Add support for adxl366 Micropower, 3-Axis, +-/2g, +/-4g, +/-8g
+Digital Output MEMS Accelerometer into the existing adxl367 iio
+subsystem driver.
 
-Given that the series has already undergone extensive review, I prefer Wesl=
-ey's
-design. We've begun leveraging the design in our local environment with
-positive results. Furthermore, we've proposed an additional feature to enab=
-le
-USB audio offload during system suspend [1]. In brief, by combining these t=
-wo
-points, we can identify use cases where other vendors could also benefit fr=
-om
-Wesley's design.
+adxl366 supports all the features of adxl367 but has a few
+additional features for which support is added in this patch:
+- built-in step counting (pedometer)
+- non-linearity compensation for Z axis
 
-[1] https://patchwork.kernel.org/project/linux-usb/cover/20241106083501.408=
-074-1-guanyulin@google.com/=20
+The part is not yet released but it will soon be released.
 
-Regards,
-Guan-Yu
+Darius Berghe (2):
+  iio: accel: adxl367: add support for adxl366
+  dt-bindings: iio: adxl367: add support for adxl366
+
+ .../bindings/iio/accel/adi,adxl367.yaml       |   1 +
+ drivers/iio/accel/adxl367.c                   | 233 +++++++++++++++++-
+ drivers/iio/accel/adxl367.h                   |   5 +
+ drivers/iio/accel/adxl367_i2c.c               |   6 +-
+ drivers/iio/accel/adxl367_spi.c               |   6 +-
+ 5 files changed, 243 insertions(+), 8 deletions(-)
+
+-- 
+2.46.1
+
