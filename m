@@ -1,45 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07CEC4A21;
-	Fri, 13 Dec 2024 15:36:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A52BA4A21
+	for <linux-doc@vger.kernel.org>; Fri, 13 Dec 2024 15:40:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734104189; cv=none; b=E4cCFRzppcwXOhvb12AingSrteoAXtPY3DOjwoDq4V5oGZhkhYljeYJyZQnXqYeKPQNnxs4lhvC6toANYba8GZq362iueAD47sw1c/lXe1C41WRX9iwYcFKoVwR+6NeEzMPU69TjbA1W4RDKcaeevXhjHwWfm+LSX4rWEdGUEv4=
+	t=1734104423; cv=none; b=Z0vHo1W+UP7Hdh98YTRjG7+kgMdz85vaNhB5RrJmBoGJM1QTqsFhWgtFpk92L0FExQcKj63kxNWjxwVJ+TXbtuOw6uCI8s70aOBz+SUTUfyKfHcycfhIZ1g6AOTyMLldWWbbQKCO4xG9PjV/sHG/wbrrPGCxpRxfoUyQsA16ML0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734104189; c=relaxed/simple;
-	bh=oIOzX+vOpJyjLojOEEi4ugtWdFqi5Lz8ejWHCUPxgwo=;
+	s=arc-20240116; t=1734104423; c=relaxed/simple;
+	bh=Bunxl9aQMgx28QPwDNSeso5EOkCFGJz3ivE1sjmt6nk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=NL/KaveX+BU3BaEPP0lAFufgRR3kHRw4DtPP9/KpaQ9HXlpNZ4c5PmQuSJ103o8+a+exRBE5LtlfdySyZNFsO7ICP3YFB8UntnAHaB6yXOWReDbuR0BX71GC81r0fLJCmYivbaqEfy6Rhmq5bHS1FK6CdKuG4CsjTaUsXrHFH8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=fVz9MSNL; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=CgPwwUjig96Zn60tY4e67HAX28d2n+BQqBBT3s1fRIoprI4+VXvJiVTi5b4NZ2sXFN9X3hTIdTz3p+rhFRrb/cUauIzSPVnE+cs/ea9ftbkU3YGyD4XJy3WtcsWnuXLPmp7BHQJUq8Ht41d1laNlBwNGWXt11EDpYUvsbJgXlfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ptwlDFzD; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="fVz9MSNL"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 15838403FA
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ptwlDFzD"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B05B4403FA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1734104187; bh=kHjmEaxa2GbA3waLlFNsQZGKLNcayQZROKZU83HD2Nw=;
+	t=1734104420; bh=Bunxl9aQMgx28QPwDNSeso5EOkCFGJz3ivE1sjmt6nk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=fVz9MSNL9c4AbMLYyfIbiX/9ZEX0wpG65UG62kGp+u+UKAocTe0H8BxuuVFf1U6R6
-	 lpxy75f4WGMUr5avjivgzZ0qFW1st6HEdG/9XJojflATTNZe5nC6lxWfcGTSxRQVVE
-	 oCa9gDhe6Yi+IQZWQ/VN2wRv1BzW6sWSqS0qedjdA0dkZR4XmGSgS2kAlnyUK95t3j
-	 F1Vg3+Jh4CiIc7K/FIz6IZox9VRNiSZ+YF9dpYU8TvjZS02EhUEwrWxS+sYRFDdDLu
-	 0pNYDMiLdpuEpFAynvftdSmoKwFoBlqeIuurgWtYAT+DQD10OlK3s/yHM9ZKrFA3ty
-	 EV3GkUguHvqKQ==
+	b=ptwlDFzDRPwST+tJiUhRYwbDVMWGrAv1PeQFrptB0rS5pKqqqYlkwFiEbdt5iapfy
+	 yEEimu5l3TCxr7g6MErodPijyTmX/oZ09j9XwhdhP/4YUiLVQJIReAKTqAGPswZtAZ
+	 QO3EtupaAihkVyicjpq5CTQMMuzhbnqk6MASI2oi8dPDCg71HGxuF2SMmAqfjySkaX
+	 25q0SD2VDiBgeiu4wCYy6WUYLF9FehREgGuNvmQ7W3zmzbbxjbhDUlOqcZijXs3TFz
+	 +C1MxnyevsCHQm7a169qYFcZAsLjmLeFLWnRE67LajFoEPXPd6wTYW2W7WTX4OKOxi
+	 rHX3JH7WqSTFw==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 15838403FA;
-	Fri, 13 Dec 2024 15:36:27 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id B05B4403FA;
+	Fri, 13 Dec 2024 15:40:20 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: cem@kernel.org, linux-doc@vger.kernel.org
-Cc: cem@kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: Fix simple typo on filesystems/porting.rst
-In-Reply-To: <20241213151743.23435-1-cem@kernel.org>
-References: <20241213151743.23435-1-cem@kernel.org>
-Date: Fri, 13 Dec 2024 08:36:26 -0700
-Message-ID: <87ldwjy4qt.fsf@trenco.lwn.net>
+To: Christoph Hellwig <hch@lst.de>, Guixin Liu <kanie@linux.alibaba.com>
+Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, Christoph
+ Hellwig <hch@lst.de>, Chaitanya Kulkarni <kch@nvidia.com>,
+ linux-nvme@lists.infradead.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH separate v3] docs, nvme: introduce nvme-multipath document
+In-Reply-To: <20241212080835.GA7862@lst.de>
+References: <20241209071127.22922-1-kanie@linux.alibaba.com>
+ <20241212080835.GA7862@lst.de>
+Date: Fri, 13 Dec 2024 08:40:19 -0700
+Message-ID: <87h677y4kc.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,31 +51,12 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-cem@kernel.org writes:
+Christoph Hellwig <hch@lst.de> writes:
 
-> From: Carlos Maiolino <cmaiolino@redhat.com>
+> Looks good:
 >
-> Just spotted this while reading the doc.
->
-> Signed-off-by: Carlos Maiolino <cmaiolino@redhat.com>
-> ---
->  Documentation/filesystems/porting.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/filesystems/porting.rst b/Documentation/filesystems/porting.rst
-> index 92bffcc6747a..2d08fd4a2280 100644
-> --- a/Documentation/filesystems/porting.rst
-> +++ b/Documentation/filesystems/porting.rst
-> @@ -313,7 +313,7 @@ done.
->  
->  **mandatory**
->  
-> -block truncatation on error exit from ->write_begin, and ->direct_IO
-> +block truncation on error exit from ->write_begin, and ->direct_IO
->  moved from generic methods (block_write_begin, cont_write_begin,
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
 
-I dunno ... "truncatation" has kind of a nice sound to it ... :)
-
-Applied, thanks.
+I've applied this, thanks.
 
 jon
