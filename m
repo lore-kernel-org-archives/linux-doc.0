@@ -1,66 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [58.251.27.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11821CBEB9;
-	Fri, 13 Dec 2024 11:08:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6AE1DE899;
+	Fri, 13 Dec 2024 11:35:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=58.251.27.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734088133; cv=none; b=ROpWFdh5kZjkrprMPXfd/CNm5ThAOAonXUPb+NC4+O540RZPV8MI4dtozNYGA1bghIAL10z1WPNxzFSUnWDkmymZJEjiYUCXe073g3CpdFeGetpV7BrxNNLgzsTzz36fArIndj+iw8iTAXwGiKuEGjQWCOOMbuG+GFbHE55DqfE=
+	t=1734089732; cv=none; b=FOldc7ORvXSsrLJ9n2QzKVbrOhhd0jpS3zSFx2qx79WBMtVsxR6qUX7/dClJxIpuFbNDrhcUuBMtoycQppL57t7e0AI5vpo6c1RiKpRjzwKWhddxc2VxaMrAOUO9OA44S3R4NyrYzvwnWPCMQfsndYIS5BGr0q4OUkQM73/PSDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734088133; c=relaxed/simple;
-	bh=Q0PS8MAQEZybHHbs6FZGtMT3Ml/Nc1Pc3JSPi4pTUNI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Imb5Te4811pr9ds1Us8PYEdW7bT2tdeV4ukHQq2utUzigG3GF8H6bCgqXozoVQwSUROr3hlIj9GqFt5DsWBuh1GfdomaEsWraLBiQmEtnPTwUQLw6CyZX6Fm7cJ8z1/7o3ZTW7BaiIiraXbeg8p/bTKNYdXjREZPCO0p0mKLBwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IlcsphOa; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IlcsphOa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81CD1C4CED0;
-	Fri, 13 Dec 2024 11:08:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734088132;
-	bh=Q0PS8MAQEZybHHbs6FZGtMT3Ml/Nc1Pc3JSPi4pTUNI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IlcsphOaglpa/Gsl9aKRBly3XeRAr0If8i6t5nFnfRmgB6ceeGeNIGWtVi6G9/Frh
-	 XuTUB5aSm5m+KNbzwd8wBa6Uj2Zok1IY/DflaxxbK7gWMc9YZbnDC65ZzHBMcnZQNT
-	 qiat+WoiHbJiWvwxOZ2/rDl7VpSz8677MdFJWtxpR/IBNjTNIzHbJc4Og/5TdZRGm8
-	 gfrWVUrp7HZMVvX9djfxSw1QuamrtXb35JV2bHlO1mr3ZbGjT+9+ezmAp/Wt7xYjOc
-	 K0QoRvQL+Y9ZDrFau8tziqI8fQ3Ml6W5eaFlr5iN/mwgEhPyIBcNvk7N3uUh5yQMsF
-	 UTzREiyjFn4tA==
-Date: Fri, 13 Dec 2024 12:08:48 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Ninad Palsule <ninad@linux.ibm.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	eajames@linux.ibm.com, jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net, 
-	joel@jms.id.au, andrew@codeconstruct.com.au, Delphine_CC_Chiu@wiwynn.com, 
-	broonie@kernel.org, peteryin.openbmc@gmail.com, noahwang.wang@outlook.com, 
-	naresh.solanki@9elements.com, lukas@wunner.de, jbrunet@baylibre.com, 
-	patrick.rudolph@9elements.com, gregkh@linuxfoundation.org, peterz@infradead.org, 
-	pbiel7@gmail.com, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-aspeed@lists.ozlabs.org, linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v1 3/4] dt-bindings: hwmon: intel,crps185: Add to trivial
-Message-ID: <au4mmpxa6tbznu3pcxeu7tri4elvcoyy7l5m5ujdpj7ah3xqrz@ule3ymdiisyj>
-References: <20241212214927.3586509-1-ninad@linux.ibm.com>
- <20241212214927.3586509-4-ninad@linux.ibm.com>
+	s=arc-20240116; t=1734089732; c=relaxed/simple;
+	bh=sQUCe9J8BdQtIT92lnvd4wAHr/Zh7afIUFCoH8PFptw=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=U10yTwTpGxA5LPcVZpHJl+qfyf3jh23MkpLeJEu4qDbTedK7yxVKOH9O5mOvXuxj2y2qgck5elTLPb1jRsP0Zwho8nrzSv5dATZllwJeAKmHJjM+DqGNfryRZ5VOsW9df/sM4HLy7LALTNVU3/EczHK8yZdKpDbuXJT5pTh8XqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=58.251.27.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mxde.zte.com.cn (unknown [10.35.20.121])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4Y8nB82zcMz1DDT;
+	Fri, 13 Dec 2024 19:27:28 +0800 (CST)
+Received: from mxhk.zte.com.cn (unknown [192.168.250.138])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mxde.zte.com.cn (FangMail) with ESMTPS id 4Y8nB30nMdzBRHKP;
+	Fri, 13 Dec 2024 19:27:23 +0800 (CST)
+Received: from mxct.zte.com.cn (unknown [192.168.251.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4Y8n9t1DG0z5B1KQ;
+	Fri, 13 Dec 2024 19:27:14 +0800 (CST)
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4Y8n9d6Whmz50FXL;
+	Fri, 13 Dec 2024 19:27:01 +0800 (CST)
+Received: from njb2app06.zte.com.cn ([10.55.23.119])
+	by mse-fl1.zte.com.cn with SMTP id 4BDBQvZo004681;
+	Fri, 13 Dec 2024 19:26:57 +0800 (+08)
+	(envelope-from jiang.kun2@zte.com.cn)
+Received: from mapi (njb2app05[null])
+	by mapi (Zmail) with MAPI id mid204;
+	Fri, 13 Dec 2024 19:27:00 +0800 (CST)
+Date: Fri, 13 Dec 2024 19:27:00 +0800 (CST)
+X-Zmail-TransId: 2afd675c1a04ffffffffc14-1f4ed
+X-Mailer: Zmail v1.0
+Message-ID: <20241213192700771XKZ8H30OtHSeziGqRVMs0@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241212214927.3586509-4-ninad@linux.ibm.com>
+Mime-Version: 1.0
+From: <jiang.kun2@zte.com.cn>
+To: <bsingharora@gmail.com>, <akpm@linux-foundation.org>, <david@redhat.com>
+Cc: <linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>,
+        <linux-doc@vger.kernel.org>, <wang.yong12@zte.com.cn>,
+        <wang.yaxin@zte.com.cn>, <fan.yu9@zte.com.cn>, <he.peilin@zte.com.cn>,
+        <tu.qiang35@zte.com.cn>, <qiu.yutan@zte.com.cn>,
+        <zhang.yunkai@zte.com.cn>, <ye.xingchen@zte.com.cn>,
+        <xu.xin16@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIGxpbnV4IG5leHRdIGRlbGF5YWNjdDogdXBkYXRlIGRvY3MgYW5kIGZpeCBzb21lIHNwZWxsaW5nIGVycm9ycw==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 4BDBQvZo004681
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 675C1A1F.000/4Y8nB82zcMz1DDT
 
-On Thu, Dec 12, 2024 at 03:49:02PM -0600, Ninad Palsule wrote:
-> Add INTEL Common Redundant Power Supply Versions crps185 bindings as
-> trivial.
+From: Yaxin Wang <wang.yaxin@zte.com.cn>
 
-becuse they are trivial or you don't care? Some broader context would be
-useful here.
+Update delay-accounting.rst to include the 'delay max' in the output
+of getdelays, and fix some spelling errors before.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Yaxin Wang <wang.yaxin@zte.com.cn>
+Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
+---
+Some fixes according to:
+https://lore.kernel.org/all/20241203170816.3fe81941fe1866ca1672eba8@linux-foundation.org/
+1.fix some spelling errors
+2.update Documentation/accounting/delay-accounting.rst
 
-Best regards,
-Krzysztof
+ Documentation/accounting/delay-accounting.rst | 42 +++++++++----------
+ kernel/delayacct.c                            |  2 +-
+ 2 files changed, 22 insertions(+), 22 deletions(-)
 
+diff --git a/Documentation/accounting/delay-accounting.rst b/Documentation/accounting/delay-accounting.rst
+index f61c01fc376e..8a0277428ccf 100644
+--- a/Documentation/accounting/delay-accounting.rst
++++ b/Documentation/accounting/delay-accounting.rst
+@@ -100,29 +100,29 @@ Get delays, since system boot, for pid 10::
+ 	# ./getdelays -d -p 10
+ 	(output similar to next case)
+
+-Get sum of delays, since system boot, for all pids with tgid 5::
++Get sum and peak of delays, since system boot, for all pids with tgid 242::
+
+-	# ./getdelays -d -t 5
++	bash-4.4# ./getdelays -d -t 242
+ 	print delayacct stats ON
+-	TGID	5
+-
+-
+-	CPU             count     real total  virtual total    delay total  delay average
+-	                    8        7000000        6872122        3382277          0.423ms
+-	IO              count    delay total  delay average
+-                   0              0          0.000ms
+-	SWAP            count    delay total  delay average
+-                       0              0          0.000ms
+-	RECLAIM         count    delay total  delay average
+-                   0              0          0.000ms
+-	THRASHING       count    delay total  delay average
+-                       0              0          0.000ms
+-	COMPACT         count    delay total  delay average
+-                       0              0          0.000ms
+-	WPCOPY          count    delay total  delay average
+-                       0              0          0.000ms
+-	IRQ             count    delay total  delay average
+-                       0              0          0.000ms
++	TGID    242
++
++
++	CPU         count     real total  virtual total    delay total  delay average      delay max
++	              239      296000000      307724885        1127792          0.005ms     0.238382ms
++	IO          count    delay total  delay average      delay max
++	                0              0          0.000ms     0.000000ms
++	SWAP        count    delay total  delay average      delay max
++	                0              0          0.000ms     0.000000ms
++	RECLAIM     count    delay total  delay average      delay max
++	                0              0          0.000ms     0.000000ms
++	THRASHING   count    delay total  delay average      delay max
++	                0              0          0.000ms     0.000000ms
++	COMPACT     count    delay total  delay average      delay max
++	                0              0          0.000ms     0.000000ms
++	WPCOPY      count    delay total  delay average      delay max
++	              230       19100476          0.083ms     0.383822ms
++	IRQ         count    delay total  delay average      delay max
++	                0              0          0.000ms     0.000000ms
+
+ Get IO accounting for pid 1, it works only with -p::
+
+diff --git a/kernel/delayacct.c b/kernel/delayacct.c
+index d64ad2a48b4f..23212a0c88e4 100644
+--- a/kernel/delayacct.c
++++ b/kernel/delayacct.c
+@@ -93,7 +93,7 @@ void __delayacct_tsk_init(struct task_struct *tsk)
+
+ /*
+  * Finish delay accounting for a statistic using its timestamps (@start),
+- * accumalator (@total) and @count
++ * accumulator (@total) and @count
+  */
+ static void delayacct_end(raw_spinlock_t *lock, u64 *start, u64 *total, u32 *count, u64 *max)
+ {
+-- 
+2.25.1
