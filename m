@@ -1,63 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B91B1E885A;
-	Fri, 13 Dec 2024 18:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AECCC188A3B;
+	Fri, 13 Dec 2024 18:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734112845; cv=none; b=EGe5i5lk4WRpyR/PQBie2gNrG3LATIoPa0macBM9e+aD2Yz+O5HAc56SDjd97ZEoSoD0XmrTXB9DcG+NlaBtQJrrA8gRwSLeePQCD1VHMQoYVVF5NwaZzMDW7E/yLxkmHjMTn8ilEwepVVy7VVeSeziXJqBOpCdHb4TmlwQsM4o=
+	t=1734114090; cv=none; b=ZXjQPvdYeLg+3vWjypk0ZKWZTRoEfH1TjRJ4fE/57kJRNrkeAunVhkfKEHqI9hHGm6ogAlL9v3acYty+EbUfAxTPSZ523MIDCzvkq8rjBw+ATVVk/PXx1eMwsghqmle1eNcl10TBh0caTs3EpSsPPaEf6nnaavGHCQic+Tizb/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734112845; c=relaxed/simple;
-	bh=WgB2jziZv49k7KWhEC//JPDky76w9/53XoNiCw/2/Pc=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=THVigiy/nRGczCw62sWHPojSkA1KGlBvd7TA1FCQtoYBgnqu9xmi9OMgHtS61q1Yn9DmNXzCVzawsYHOV+XCH1W7flGEHPonjhA5FaXKr//NDQilNdgVcK/hJdOmuIP8fuqe3SH+4R2zAlPLD1dWFKYwcddxebVgOpLdbFXWOK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aa4KxUIT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734114090; c=relaxed/simple;
+	bh=4Rk14MGbK7ObaOlembCmnHMWeIHbML14bvkFY0+kMDA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hD6pBO+R5eLGjEO/bfoz4JiSeKW0XMQkkZ5ayY5iHo7lqblZ9E2EQOT/twdwb54DErxNXeRKeMoYqI12JhP8rxHhKmqQrl/fVhqFmPJTcAHTb01x5ewgTWAzo1FU8etp66nghspRF4ghhVVCgSSyAN8yj0WNjkc0WPwn4BkYwm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=N/DUZZyA; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aa4KxUIT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0267CC4CED0;
-	Fri, 13 Dec 2024 18:00:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734112845;
-	bh=WgB2jziZv49k7KWhEC//JPDky76w9/53XoNiCw/2/Pc=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=Aa4KxUITO0df9FYGd5X54Eq7Hv+cRt8q77sMxlOF6mqQHlsZqKcGdR/gV2Zjtmi5K
-	 sha1azfET7pjN7oOXnrH3Gkh9Wkfq1KWQJpuSeddQt9sMBLQe0aqX1iaUanuviN/Ow
-	 p2+oELP7SyZ+H1fd6+vu+QGxJ2JfiJKKCKujNiMzUSRkfZKNgWBeqLaOGp4pPTXfuI
-	 ehCe2ntMYFTNeq5T3xcV+UWgju2xVKLwHq9QKxDYIizf2h/I+QsHX+6dLSe34GDmal
-	 m43C6460xGfaOgwP93m7yTNyFO0LYqAkUM1/bEy1M96IH4OGfJXucLJ4gvNlOOir6K
-	 +f8J9uVPB3hBQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE0F2380A959;
-	Fri, 13 Dec 2024 18:01:02 +0000 (UTC)
-Subject: Re: [GIT PULL] Documentation fix for 6.13
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87pllvy57r.fsf@trenco.lwn.net>
-References: <87pllvy57r.fsf@trenco.lwn.net>
-X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87pllvy57r.fsf@trenco.lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-6.13-fix
-X-PR-Tracked-Commit-Id: d9339496729f1471b8dc326face17c4cf108b027
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: a3170b7d9319f79235a4747164ba1aaba981e758
-Message-Id: <173411286146.3116882.9541776255412455989.pr-tracker-bot@kernel.org>
-Date: Fri, 13 Dec 2024 18:01:01 +0000
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Linus Torvalds <torvalds@linuxfoundation.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="N/DUZZyA"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B9BFF403E4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1734114088; bh=vRb87epXnBywj9W4QAVZfrWdRH92aSVIW+5+17HqZg8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=N/DUZZyAqmlQixt5t4J5u8uqXJAjWAtHfUGiryd+pdhTWOHVLrW3V9JSM2raThH11
+	 XftyNXqyDiUA1fEn+71nMRcw432/MngIg5r44r36iBF6Bm5kkLffbrlmLBLgaTuUK8
+	 nJDVPigZjd27AcrJyyw7rkC5qh9pHrMIzV1u58OK+o/k0/O3ATdl/PDB8TsurKsaCA
+	 TW3WnZxfvTIP8sUIqAxGpezjY9refuPMbDa4EJMxlvPCtum1x2Kdyr2ca7wMs3IKNV
+	 F/iUui62e6vLsBPxE+mobny8OLSbRKLEksFErlhTfwCDuEhPhPCKGBHvksU+QhgaaR
+	 mP8w79Usomd1Q==
+Received: from trenco.lwn.net (unknown [IPv6:2601:280:5e00:625::1fe])
+	by ms.lwn.net (Postfix) with ESMTPA id B9BFF403E4;
+	Fri, 13 Dec 2024 18:21:27 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 0/3] docs: organize the admin guide
+Date: Fri, 13 Dec 2024 11:20:51 -0700
+Message-ID: <20241213182057.343527-1-corbet@lwn.net>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The pull request you sent on Fri, 13 Dec 2024 08:26:16 -0700:
+Our documentation directories inevitably turn into an unorganized
+pile of material that is less than friendly to our users; that has
+happened with the admin guide.  Reorganize the index.rst file to make
+it easier to find the material of interest.
 
-> git://git.lwn.net/linux.git tags/docs-6.13-fix
+The rendered version of the reworked guide can be viewed at:
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/a3170b7d9319f79235a4747164ba1aaba981e758
+  https://static.lwn.net/kerneldoc/admin-guide/
 
-Thank you!
+I've not done anything to update or weed out any of the documents
+found here, which would be a great next step.  When you have, say, a
+document describing how to partition your 50MB disk (ldm.rst), that's
+a sign that the cobwebs have started to build up.
+
+Jonathan Corbet (3):
+  docs: admin-guide: join the sysfs information in one place
+  docs: admin-guide: add some subsection headings
+  docs: admin-guide: bring some order to the "everything else" section
+
+ Documentation/admin-guide/index.rst | 163 ++++++++++++++++++----------
+ 1 file changed, 108 insertions(+), 55 deletions(-)
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.47.1
+
