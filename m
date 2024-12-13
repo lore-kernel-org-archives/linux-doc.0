@@ -1,77 +1,114 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8316757C9F;
-	Fri, 13 Dec 2024 16:30:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3816215573A;
+	Fri, 13 Dec 2024 16:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734107449; cv=none; b=SzAe5kYdTFL1hQeAkUNeCNpSQZSVrAMTt0ruk3W2bwfJzTl9oVb8Pv1zQNtRIkmb3HwPldchXzjtrQqI7cCE5wlBjZ0QlJeU77c8/M7EiRsumz6zqk6AeOE7Kun9G+3YQYKDSK0BaJ7Fk44kLCdj+TTCpcRu3JceR0h5Kwkw2+8=
+	t=1734108586; cv=none; b=Ui6dWUhaJBMrEn8AYxR3+6paHwZ/nZ1IxyD/ifW71f6G62vXL7m0Zw1Ua3H8u84kg9vwlAub/ely/2pWwbJzDr1RK7BaR99yx45EXCSxe1jri1iKlWXf7PHtjuihefy6rjcfJ0nooH0DCVTYX7lsgeuU8GYvzpbJ46h1tGfpUxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734107449; c=relaxed/simple;
-	bh=GljLzM6SDuPsSffCkf9qLx2JblnCq3ZfS/3Yg62bCfc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=FTb/rlvJeO0ex+q9cUddcKMk3mQ9fyWEE1XTwQbFYo8tvfPCE2nUZfSsEb1pH0g+I6HyrrS7554EUmIabsTI0BP9YuMB9jmWnNAPGvbKAYibHCzpyaPrdFAh9Sd+HjSJjLfJSHx053K43XnC8GAaeSScksaQ4MVOgZ6HA5GwBXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=KPlOFXES; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="KPlOFXES"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B90CC403FA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1734107447; bh=GvK3NtmRCIWm3d3RaqEaVNK7jQcMPYtYCwTxhGc9q4g=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=KPlOFXESToSVcU48CpP9qRMRQdOEwVGDKw865QKXXIhjSS7QdYXSPe2qLZn7cml0d
-	 GX13ILAxboW715fiC4ovfwmcq6kAh703YlMfzVbhAEAUmerPj4jAJeLcK6rRISXe+b
-	 pC4v3RRlMr4LZDp/kcHkETWWBdQQDEUSEn3QwkfryI9t1qk2F7ZKWhrbpqiSvJBBQC
-	 Cxzv3ZVPVlXT51ZEKtHU2uUZHQVdZUGOogZhyQ2IfFYpPqmjDVXxYGT088t92MoltC
-	 BQlkXN7XRRbORFWWo2SnzD/8z17xcMZOCdou9zim0wzwcodmm0K0SUTI/0xRLdyZA+
-	 9lAZy3MuP45yg==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B90CC403FA;
-	Fri, 13 Dec 2024 16:30:47 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Leemhuis <linux@leemhuis.info>, workflows@vger.kernel.org,
- regressions@lists.linux.dev, linux-doc@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Greg KH
- <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v1 6/6] docs: 6.Followthrough.rst: advice on handling
- regressions fixes
-In-Reply-To: <e7344ff7a57b61380152defaa5ec13f06ac5d7d0.1733825632.git.linux@leemhuis.info>
-References: <cover.1733825632.git.linux@leemhuis.info>
- <e7344ff7a57b61380152defaa5ec13f06ac5d7d0.1733825632.git.linux@leemhuis.info>
-Date: Fri, 13 Dec 2024 09:30:46 -0700
-Message-ID: <871pybwnnt.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1734108586; c=relaxed/simple;
+	bh=P95R96UawHpxOFKIYKMHOffApWhcgo8/qTxupcaIBNo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aJMIgi6I8PhLsqfbEfVJvBS4Jq9PQfi8q7mRwF8nyRl01oylmoeOPzmoP4x3XaQQIsAR4Yb//A8gjKm797wvyQdE8FY9/x8EdWMLw5lFV8ZthlBiO1ZDhg06yaadhxgh6KvJnsLgpeMYM9XTgKc7MPkyia/+5VVRR5xnYuCOs5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B597C1480;
+	Fri, 13 Dec 2024 08:50:11 -0800 (PST)
+Received: from mazurka.cambridge.arm.com (mazurka.cambridge.arm.com [10.1.196.66])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 15C1F3F5A1;
+	Fri, 13 Dec 2024 08:49:41 -0800 (PST)
+Date: Fri, 13 Dec 2024 16:49:39 +0000
+From: =?utf-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: ryan.roberts@arm.com, catalin.marinas@arm.com, will@kernel.org,
+	corbet@lwn.net, oliver.upton@linux.dev, joey.gouly@arm.com,
+	suzuki.poulose@arm.com, yuzenghui@huawei.com,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev
+Subject: Re: [RESEND RFC PATCH v1 2/5] arm64: Add BBM Level 2 cpu feature
+Message-ID: <20241213164939.GD30314@mazurka.cambridge.arm.com>
+References: <20241211160218.41404-1-miko.lenczewski@arm.com>
+ <20241211160218.41404-3-miko.lenczewski@arm.com>
+ <87cyhxs3xq.wl-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87cyhxs3xq.wl-maz@kernel.org>
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
+On Thu, Dec 12, 2024 at 08:25:53AM +0000, Marc Zyngier wrote:
+> Ah, so this is where this is hiding. I missed it in my review of patch
+> #1 yesterday.
+> 
+> On Wed, 11 Dec 2024 16:01:38 +0000,
+> Mikołaj Lenczewski <miko.lenczewski@arm.com> wrote:
+> > 
+> > The Break-Before-Make cpu feature supports multiple levels (levels 0-2),
+> > and this commit adds a dedicated BBML2 cpufeature to test against
+> > support for.
+> > 
+> > In supporting BBM level 2, we open ourselves up to potential TLB
+> > Conflict Abort Exceptions during expected execution, instead of only
+> > in exceptional circumstances. In the case of an abort, it is
+> > implementation defined at what stage the abort is generated, and
+> 
+> *IF* stage-2 is enabled. Also, in the case of the EL2&0 translation
+> regime, no stage-2 applies, so it can only be a stage-1 abort.
+> 
+> > the minimal set of required invalidations is also implementation
+> > defined. The maximal set of invalidations is to do a `tlbi vmalle1`
+> > or `tlbi vmalls12e1`, depending on the stage.
+> > 
+> > Such aborts should not occur on Arm hardware, and were not seen in
+> > benchmarked systems, so unless performance concerns arise, implementing
+> 
+> Which systems? Given that you have deny-listed *all* half recent ARM
+> Ltd implementations, I'm a bit puzzled.
+> 
 
-> Add some advice on how to handle regressions as developer, reviewer, and
-> maintainer, as resolving regression without unnecessary delays requires
-> multiple people working hand in hand.
->
-> This removes equivalent paragraphs from a section in
-> Documentation/process/handling-regressions.rst, which will become mostly
-> obsolete through this and follow-up changes.
->
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> ---
->  Documentation/process/6.Followthrough.rst     | 24 ++++++++++++++++---
->  .../process/handling-regressions.rst          | 16 -------------
->  2 files changed, 21 insertions(+), 19 deletions(-)
+I had tested on an earlier series of the patchset that didn't introduce
+the MIDR checks (has_bbml2() only read the claimed level of support),
+but otherwise had the same implementation.
 
-Nothing really to complain about here (though I do worry a bit about the
-idea that calling something a regression fix allows bypassing all of our
-usual testing).
+> >
+> > +static inline bool system_supports_bbml2(void)
+> > +{
+> > +	/* currently, BBM is only relied on by code touching the userspace page
+> > +	 * tables, and as such we are guaranteed that caps have been finalised.
+> > +	 *
+> > +	 * if later we want to use BBM for kernel mappings, particularly early
+> > +	 * in the kernel, this may return 0 even if BBML2 is actually supported,
+> > +	 * which means unnecessary break-before-make sequences, but is still
+> > +	 * correct
+> 
+> Comment style, capitalisation, punctuation.
+> 
+> > +	if (!system_supports_bbml2())
+> > +		return do_bad(far, esr, regs);
+> > +
+> > +	/* if we receive a TLB conflict abort, we know that there are multiple
+> > +	 * TLB entries that translate the same address range. the minimum set
+> > +	 * of invalidations to clear these entries is implementation defined.
+> > +	 * the maximum set is defined as either tlbi(vmalls12e1) or tlbi(alle1).
+> > +	 *
+> > +	 * if el2 is enabled and stage 2 translation enabled, this may be
+> > +	 * raised as a stage 2 abort. if el2 is enabled but stage 2 translation
+> > +	 * disabled, or if el2 is disabled, it will be raised as a stage 1
+> > +	 * abort.
+> > +	 *
+> > +	 * local_flush_tlb_all() does a tlbi(vmalle1), which is enough to
+> > +	 * handle a stage 1 abort.
+> 
+> Same comment about comments.
+> 
 
-Thanks,
+Will fix.
 
-jon
+Kind regard,
+Mikołaj
