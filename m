@@ -1,47 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDAC91E3789;
-	Fri, 13 Dec 2024 15:45:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD1D32F24;
+	Fri, 13 Dec 2024 15:47:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734104736; cv=none; b=SqRHrBwvVAzdaI/dZPaBuo0QM5To8zl/Pd5ZtoBGHDn8aJP4Y6q9YqU9w1/flyzK3is0oVSLkZIkvU8+Vwa1Yaa8E3O9QaydPur7nZcIl/q1HZ/qj1lcLnCWaQzitlxa9vfh6KC7hlifkFXCQZuZcMSKqbaHc/pehsO+lFBSJ7k=
+	t=1734104856; cv=none; b=CfJf+x/UKPRdpgmbgwAsob+rwlAyichR+/NQyuVABlxHYR1zL8pQ9gru/7+vG1N22/1kdRbPAgZYtZObfpK2Dz1yeFciXVSsBASdG20Lx5qR6QsYiqlmHkOoyMGdXpBcLyjX0Gtu4An5WFRwTGNONIiBWHpUmroydvErtcez5jM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734104736; c=relaxed/simple;
-	bh=xWsyGA4ZYAH7V0y/q3nVTrZNG3guIakRZh9+7Q2dHD8=;
+	s=arc-20240116; t=1734104856; c=relaxed/simple;
+	bh=6AU0Zu+j6lv5AWqSiZZfR6LsWkv1Sx+N4RSy8n0eNJo=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=KjFw+TOxWeonEdH878y7g4FT0zR+eRKBJXtRnNZU+phLk2q0r8qIXkslGf8RJIbUNX+OfuySHASCHlVVEyJjOH5njV0bqBZYtdhGwPV+FcT/TzcarXGBDh7cj+3ozsoKCLbANfUQkg83zeA3Vy9EJgxbRmAmEl/JBRuhnEzYVRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=g5agXLge; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=NqBgzQnJTrCsLIpu3n0/wvcV0RxPGPfC+ewk8TZtuzAJr/sYVTRAPRuxBSW/3Hnfo00erbPmVd+79AsHxVPa3Y3PkVgl2bWI0/XPP+T+dsbEQmptH4Vc7wlm4S9SFpDks6KsqdhOd40bu6zP1O2XJGGI3CU1v+Gx0gObZoD3kmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=qW05oXrP; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="g5agXLge"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 276C3403FA
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="qW05oXrP"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E7FDF403FA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1734104734; bh=APGEPC/cOujxi0mMe6Tz0MEaxQJvkiiuP9/dhDMpykI=;
+	t=1734104854; bh=ROXOtd9jlx1s9lnUPcYMykHOvSU6CO3Ce2o1MCZInzU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=g5agXLgehgR55GylxvWLy9BBpqXwIX/7UPergJbsOz36RBQjkq9ofGcJvd8QEltrd
-	 srheNVmyVAAAvetYlWDsn2zaDYPjLNs2gI3x2x8qkwSmtuCNTmWPyFhoUwZRygLNMg
-	 APjTUZA9t1sX4585M8+8mHVBubQdQFYNKaWMGaYPs0NEampsUybkt+M6mZQgh1S1hc
-	 BY+VILbZpaGNBR7UUeQ2CG6um6DPucaSoY8TeocB8xGrvGJe2rHdOFojhQ/N7ibzWP
-	 p+eS3J7OFurM6JaTOZBKvZI5S5wLjINgNaQc2SVGOw4NJ+fHpOkEuJfeSTcgRuwS0Z
-	 yn96Yn8zFaREg==
+	b=qW05oXrPfr4MHyggksWiC5+0x6hSTh7F4hh+wnhCasjJHT7uX1zoy8vGMKlHO6rwX
+	 ZSiv+7hASz//0wsmuVfYNRMxUv3noTROUNoa2WN3QBN0OkTS7xuO0XYnuqqLSuVOzc
+	 KByqKt48wXhBVUfA+i3GH2So/v2OQTwhH3qWLCpMAMQ4MOrYy168tE01dic+dxhn00
+	 ZTYmNQ1+X1JszxC9Je2FqN5jSzzAs7Mw7zcnpIUWglZpNwgDSfFicky9BuX4J3FCwn
+	 3S7Fn3ZyIchxnM4glVi6t3gzu4c95KEFEM6xBFEiP2oMDfkQn//7HvwqF1bAqkKw+y
+	 lazFcxCLKAJPg==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 276C3403FA;
-	Fri, 13 Dec 2024 15:45:34 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id E7FDF403FA;
+	Fri, 13 Dec 2024 15:47:33 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Saru2003 <sarvesh20123@gmail.com>, bsingharora@gmail.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Saru2003
- <sarvesh20123@gmail.com>
-Subject: Re: [PATCH] Documentation/accounting: Fix typo in taskstats-struct.rst
-In-Reply-To: <20241208083320.16190-1-sarvesh20123@gmail.com>
-References: <878qssu5d3.fsf@trenco.lwn.net>
- <20241208083320.16190-1-sarvesh20123@gmail.com>
-Date: Fri, 13 Dec 2024 08:45:33 -0700
-Message-ID: <874j37y4bm.fsf@trenco.lwn.net>
+To: Bingwu Zhang <xtex@envs.net>, Miklos Szeredi <miklos@szeredi.hu>,
+ "Darrick J. Wong" <djwong@kernel.org>
+Cc: Bingwu Zhang <xtex@aosc.io>, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org,
+ ~xtex/staging@lists.sr.ht
+Subject: Re: [PATCH] Documentation: filesystems: fix two misspells
+In-Reply-To: <20241208035447.162465-2-xtex@envs.net>
+References: <20241208035447.162465-2-xtex@envs.net>
+Date: Fri, 13 Dec 2024 08:47:33 -0700
+Message-ID: <87zfkzwpnu.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,34 +52,20 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Saru2003 <sarvesh20123@gmail.com> writes:
+Bingwu Zhang <xtex@envs.net> writes:
 
-> Corrected a typo in the 'taskstats-struct.rst' documentation. The macro
-> name 'TAKSTATS_VERSION' was mistakenly mentioned instead of the correct
-> 'TASKSTATS_VERSION'. The corrected line now references the proper macro
-> 'TASKSTATS_VERSION', defined in '<linux/taskstats.h>'.
+> From: Bingwu Zhang <xtex@aosc.io>
 >
-> Signed-off-by: Sarveshwaar SS <sarvesh20123@gmail.com>
+> This fixes two small misspells in the filesystems documentation.
+>
+> Signed-off-by: Bingwu Zhang <xtex@aosc.io>
 > ---
->  Documentation/accounting/taskstats-struct.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/accounting/taskstats-struct.rst b/Documentation/accounting/taskstats-struct.rst
-> index ca90fd489c9a..acca51c34157 100644
-> --- a/Documentation/accounting/taskstats-struct.rst
-> +++ b/Documentation/accounting/taskstats-struct.rst
-> @@ -47,7 +47,7 @@ should not change the relative position of each field within the struct.
->  1) Common and basic accounting fields::
->  
->  	/* The version number of this struct. This field is always set to
-> -	 * TAKSTATS_VERSION, which is defined in <linux/taskstats.h>.
-> +	 * TASKSTATS_VERSION, which is defined in <linux/taskstats.h>.
->  	 * Each time the struct is changed, the value should be incremented.
+> I found these typos when learning about OverlayFS recently.
+> ---
+>  Documentation/filesystems/iomap/operations.rst | 2 +-
+>  Documentation/filesystems/overlayfs.rst        | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 
-For future reference: when you send an updated version of the patch,
-please mark it as such ("v2" for example) and put a description of what
-has changed after the "---" line.
-
-I've applied this one, thanks.
+Applied, thanks.  Welcome to the kernel community!
 
 jon
