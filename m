@@ -1,96 +1,66 @@
-Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2221AB52F;
-	Fri, 13 Dec 2024 09:52:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11821CBEB9;
+	Fri, 13 Dec 2024 11:08:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734083555; cv=none; b=l8z7homUZ2eLCQwrNQghXVmNT3cJ04TqOfxGL3Ldd2tVqwLMN3My9O6TIsff/YY4P+sLnL4aKUSd7RLUV2EpBykHaHCKyr3XJcNjHIzG/DJxrbQaJaXkZ57m1bYfQ4DXAI/fIRE5ikyjTWbHTIlx+QlkqGzVmer4y7W0KVUOupI=
+	t=1734088133; cv=none; b=ROpWFdh5kZjkrprMPXfd/CNm5ThAOAonXUPb+NC4+O540RZPV8MI4dtozNYGA1bghIAL10z1WPNxzFSUnWDkmymZJEjiYUCXe073g3CpdFeGetpV7BrxNNLgzsTzz36fArIndj+iw8iTAXwGiKuEGjQWCOOMbuG+GFbHE55DqfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734083555; c=relaxed/simple;
-	bh=cd9NqLOijTRwdCaVc8DRWAeAFgI2q5TadgwL4zJRbok=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=O+ba/d2rMi3aWyUPqzq5VcV51XgG4VfMLGyxiRqBQjBRegUctOi9UbzSgyo01s9nnEDQSURX0n2uXornztynSqkkC/FPdt4YyOvoJ39tDZlaFVc3aFN7C4AJTkWb1WbvTdgJK10i2QcLErF7Glb0R7yRhMYPH0iYog0OJGpdUms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=aoEpoMFi; arc=none smtp.client-ip=162.62.57.210
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1734088133; c=relaxed/simple;
+	bh=Q0PS8MAQEZybHHbs6FZGtMT3Ml/Nc1Pc3JSPi4pTUNI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Imb5Te4811pr9ds1Us8PYEdW7bT2tdeV4ukHQq2utUzigG3GF8H6bCgqXozoVQwSUROr3hlIj9GqFt5DsWBuh1GfdomaEsWraLBiQmEtnPTwUQLw6CyZX6Fm7cJ8z1/7o3ZTW7BaiIiraXbeg8p/bTKNYdXjREZPCO0p0mKLBwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IlcsphOa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="aoEpoMFi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1734083540; bh=TVPhRNZsc0KVZKByo5SwHRZxFBB8+plO/AoY0SJ/5mc=;
-	h=From:To:Cc:Subject:Date;
-	b=aoEpoMFil/A7cCyY5gaQ2vF3TeDcfWhDGVAlwZYrMBe6WmwQz9w+Vqsmca5E/m3oi
-	 STAlbOAAiq7nbkphAGfB1cCvuL+lkqCspldFIdCU4bZOl7dSDiBGp5T04FHc1Z1NMd
-	 1FderU2h86YfoHDWfx1F6cWIrRIOjSS6drRys9Ic=
-Received: from localhost.localdomain ([101.90.54.94])
-	by newxmesmtplogicsvrszc16-0.qq.com (NewEsmtp) with SMTP
-	id D1039039; Fri, 13 Dec 2024 17:52:16 +0800
-X-QQ-mid: xmsmtpt1734083536tg2s9yevf
-Message-ID: <tencent_50D7C8F43461B5F8CF055C15970A1A36C305@qq.com>
-X-QQ-XMAILINFO: NbgegmlEc3Ju4eIjdW+r/kSs2qIIentIBpbxDXUiMizGA72YU7ZWgMMsOe6oUJ
-	 fzdXFV4nRGzKbcXxJ2aIwuy+4PuZXwW8t7hMlXiBukPL+RuhvChkFfk05zhqsPtnKD8E1NaQ+mew
-	 cYNINJHjetm9WMAAO3OhYTpM4LAMi/E/oik3mnRDe8es2GvSWjHDpB18Je6iPackWF7/+S3ewPwR
-	 ZJMuV4y7eXIOTbsUMO4GRb0hx4sIP9sGLoOsV1Cg/qZecIr87Aisu6tjHOuAvfc9Bhl4iH7QxWHX
-	 oM2NYp4xa3vMxdHS5S7YLaGlkcTrNvYyp0KCSGSRl3mIwkZrskxI1z52091pz1ksfJ6ygb8w9/mv
-	 zhsLLiTus3pEP7YbQ4lOFg+Q6bPClFM/SOwrGUl2DH6rlE3E+Eym8XPieYBNBwcB8P/Q00Mueyfg
-	 PuMl6s4+FxtwtyaQAwR/VFVjYEgmVJFoj0ze0NfrOCuM97LM2IrYJXYz80I07up1han5nPd4Cb91
-	 LxPnkOropEH0ZmbA86/v5YZ2RSzxFdPQwclygS8M/LJCTJ4yIl33ZY1gg3VuGizB0L31SfQ4z1Xz
-	 MWBr44dklXEt8CJqt108TJBu0TQkJvIOIAifIwTrCAiJzDXs99dG4BE7Cwz/NXxJ48DesSMOWEt4
-	 qAdJ6CU4MRdxjalZR/qU0YX6LaO4fvR7jgUs+R1snmp8kaHqnYsdCGQ9zIr0tTEnPj8akAE9hVls
-	 H188niamYBjz7tPTE2ZoH1+grOxSs+yXvTapdEc+vzKxxo4vk1mC5Cp/RCe2VS4qArS5i8dEasfp
-	 XAKxMe8ZK3eSyQwPsu5EztPhGTJJcJjPn3rE8AYdkkM9kSeeTVdbBZ8eFzbHsjZ3hXnDvsgkKVqj
-	 mlHWsRuswRKzInwZE8YHqjZeeBVm8WQaxwOYWS7GNRLtt/jjOJnfLLd9nohE6b0FoWQNPwpA/9n8
-	 JY/phoY47RJD8pVaVfcgiKcMzSRD9i+m4w6310x5AFdXyUVc2DEdzJDm0KhRAlhHpIrbTQepP/gp
-	 hl3T/Eh0Dz/8A0AuEPeREJXoeHSiHj3clMHV1wmw==
-X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
-From: Jianhui Zhou <jianhuizz@qq.com>
-To: corbet@lwn.net,
-	akpm@linux-foundation.org,
-	paulmck@kernel.org,
-	jonaszhou@zhaoxin.com
-Cc: thuth@redhat.com,
-	rostedt@goodmis.org,
-	david@redhat.com,
-	victor@mojatatu.com,
-	andrii@kernel.org,
-	xiongwei.song@windriver.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jianhui Zhou <jianhuizz@qq.com>
-Subject: [PATCH] Documentation: Remove the outdated prompt under cgroup_disable option in kernel-parameters.txt
-Date: Fri, 13 Dec 2024 17:52:15 +0800
-X-OQ-MSGID: <20241213095215.5091-1-jianhuizz@qq.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IlcsphOa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81CD1C4CED0;
+	Fri, 13 Dec 2024 11:08:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734088132;
+	bh=Q0PS8MAQEZybHHbs6FZGtMT3Ml/Nc1Pc3JSPi4pTUNI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IlcsphOaglpa/Gsl9aKRBly3XeRAr0If8i6t5nFnfRmgB6ceeGeNIGWtVi6G9/Frh
+	 XuTUB5aSm5m+KNbzwd8wBa6Uj2Zok1IY/DflaxxbK7gWMc9YZbnDC65ZzHBMcnZQNT
+	 qiat+WoiHbJiWvwxOZ2/rDl7VpSz8677MdFJWtxpR/IBNjTNIzHbJc4Og/5TdZRGm8
+	 gfrWVUrp7HZMVvX9djfxSw1QuamrtXb35JV2bHlO1mr3ZbGjT+9+ezmAp/Wt7xYjOc
+	 K0QoRvQL+Y9ZDrFau8tziqI8fQ3Ml6W5eaFlr5iN/mwgEhPyIBcNvk7N3uUh5yQMsF
+	 UTzREiyjFn4tA==
+Date: Fri, 13 Dec 2024 12:08:48 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Ninad Palsule <ninad@linux.ibm.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	eajames@linux.ibm.com, jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net, 
+	joel@jms.id.au, andrew@codeconstruct.com.au, Delphine_CC_Chiu@wiwynn.com, 
+	broonie@kernel.org, peteryin.openbmc@gmail.com, noahwang.wang@outlook.com, 
+	naresh.solanki@9elements.com, lukas@wunner.de, jbrunet@baylibre.com, 
+	patrick.rudolph@9elements.com, gregkh@linuxfoundation.org, peterz@infradead.org, 
+	pbiel7@gmail.com, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-aspeed@lists.ozlabs.org, linux-i2c@vger.kernel.org
+Subject: Re: [PATCH v1 3/4] dt-bindings: hwmon: intel,crps185: Add to trivial
+Message-ID: <au4mmpxa6tbznu3pcxeu7tri4elvcoyy7l5m5ujdpj7ah3xqrz@ule3ymdiisyj>
+References: <20241212214927.3586509-1-ninad@linux.ibm.com>
+ <20241212214927.3586509-4-ninad@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241212214927.3586509-4-ninad@linux.ibm.com>
 
-Disabling options other than memory is currently
-supported according to the cgroup_disable function.
-So it can be removed.
+On Thu, Dec 12, 2024 at 03:49:02PM -0600, Ninad Palsule wrote:
+> Add INTEL Common Redundant Power Supply Versions crps185 bindings as
+> trivial.
 
-Signed-off-by: Jianhui Zhou <jianhuizz@qq.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 3 ---
- 1 file changed, 3 deletions(-)
+becuse they are trivial or you don't care? Some broader context would be
+useful here.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 3872bc6ec49d..3c562653016f 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -609,9 +609,6 @@
- 			- if foo is an optional feature then the feature is
- 			  disabled and corresponding cgroup files are not
- 			  created
--			{Currently only "memory" controller deal with this and
--			cut the overhead, others just disable the usage. So
--			only cgroup_disable=memory is actually worthy}
- 			Specifying "pressure" disables per-cgroup pressure
- 			stall information accounting feature
- 
--- 
-2.25.1
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+Best regards,
+Krzysztof
 
