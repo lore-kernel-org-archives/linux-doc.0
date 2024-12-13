@@ -1,107 +1,116 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D57ED1E47A5;
-	Fri, 13 Dec 2024 16:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D52B1E47A5;
+	Fri, 13 Dec 2024 16:24:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734107084; cv=none; b=JughsCt2JhxGBHFIDjYkKcVjmhOXUGL8CFhnvqH+6qdE2RWlcP341yO4hwAkVkF4SrOIi243lZJJNDP/pAb99YzMl3eTpNatlSRqO6f7uP3onC0fLCCPIIHv7IwLlo5QErzj4KBjQNEhZ02xkfS+YS034uYinicSLSoQxenG8GY=
+	t=1734107088; cv=none; b=PI8kZHpopB+TvJG94i0+RhtCfOqxhn7ar6yifFshTrFs0NaxznNuBmGNgVKpcKCwv8e8lrYfywNnREmkkDPxFnxQY+dJCz9VyjtlkoZire1vLM1oUGzNZ4Gpy034FMxB8QkVm7tlRXfzUM3QC6XOTVMhGCyjTuar0qOzTd91IJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734107084; c=relaxed/simple;
-	bh=5XEd+exWKEpwz2Vn+qFmO3TGdmdDBWvZP2sAvnwEOQ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=icMh1q5XQr6dCTLvOVy7oHwPY8gA3XlA1Rd4ZS9tpukB+CecVyONbthPkykQL0xU87LmMBdE0w1D944a8nAYeBFXsmmqj/NBTo0kDij1KiSetxWFSrypFwmtFU2vbxKUBxTTFB354ZundBXTRDPOMYb2l7jVucLOZqrzdndn8yc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 545731480;
-	Fri, 13 Dec 2024 08:25:08 -0800 (PST)
-Received: from mazurka.cambridge.arm.com (mazurka.cambridge.arm.com [10.1.196.66])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A9A1B3F5A1;
-	Fri, 13 Dec 2024 08:24:38 -0800 (PST)
-Date: Fri, 13 Dec 2024 16:24:36 +0000
-From: =?utf-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>
-To: Marc Zyngier <maz@kernel.org>
-Cc: ryan.roberts@arm.com, catalin.marinas@arm.com, will@kernel.org,
-	corbet@lwn.net, oliver.upton@linux.dev, joey.gouly@arm.com,
-	suzuki.poulose@arm.com, yuzenghui@huawei.com,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev
-Subject: Re: [RESEND RFC PATCH v1 1/5] arm64: Add TLB Conflict Abort
- Exception handler to KVM
-Message-ID: <20241213162436.GC30314@mazurka.cambridge.arm.com>
-References: <20241211160218.41404-1-miko.lenczewski@arm.com>
- <20241211160218.41404-2-miko.lenczewski@arm.com>
- <86o71irucr.wl-maz@kernel.org>
+	s=arc-20240116; t=1734107088; c=relaxed/simple;
+	bh=vDy2n6+GLlsnyrG9vnR9n+Xn2UlVlbNJOWGw5dx1w0g=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=UR7391XAnvIznn/e42nTZz2ufn/uqv5umxpe7EaLiIPgye++xw0k74y9T2SYouQKWI5MoceLNRX5c6cyKbM1rTozTX5w0wtBv+USlt/qEPR+cnmGHRHSCT+g1jawYoOT6YzZHWE7vBrRbnZLvTkNlykkKBu5eh6ulgRfV8KbK2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=qXJyM87j; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="qXJyM87j"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6DB1A403FA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1734107085; bh=p7OWvQr1zt2I+sA5TaKD6BpceFenBaKfbrqoO0W1ET8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=qXJyM87jimCuwYzlURfmTfeMI887bPWgZDoOcywr0IeEStGDwwDZOyXohAN0D7uFB
+	 1IjsCNxgo+OTQB8QxNaJh8CcnHCI2qb3KU5z26oK1bwDwNu+M2DmzW4I9gqxfrrnZd
+	 NINFynb5b4ZPvfQ1XKPLt9aXEV9s0dl4QKuH/RVerKLbgluDmgWrC/3loA4wAaOQ5Y
+	 9w2Icy1WECW851uKphtdlSlIv7Z1R4pH47yKZ16uYQzDKU9Loc6rTdbyNLv5TZvUVU
+	 4XfsxdU0M2NB3J3l3lP7nA9nNWqIdkBiQn5yxioL3HqpLD5AEZ2lW606oBDI9MHG2k
+	 xm39MSnFTeR3g==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6DB1A403FA;
+	Fri, 13 Dec 2024 16:24:45 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Thorsten Leemhuis <linux@leemhuis.info>, workflows@vger.kernel.org,
+ regressions@lists.linux.dev, linux-doc@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Greg KH
+ <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 4/6] docs: 6.Followthrough.rst: tags to use in
+ regressions fixes
+In-Reply-To: <5913a87f05a5fe53afb9aae151f60f83bda128e8.1733825632.git.linux@leemhuis.info>
+References: <cover.1733825632.git.linux@leemhuis.info>
+ <5913a87f05a5fe53afb9aae151f60f83bda128e8.1733825632.git.linux@leemhuis.info>
+Date: Fri, 13 Dec 2024 09:24:44 -0700
+Message-ID: <87a5czwnxv.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <86o71irucr.wl-maz@kernel.org>
+Content-Type: text/plain
 
-Apologies again for spam (replied instead of group-replied).
+Thorsten Leemhuis <linux@leemhuis.info> writes:
 
-On Wed, Dec 11, 2024 at 05:40:36PM +0000, Marc Zyngier wrote:
-> On Wed, 11 Dec 2024 16:01:37 +0000,
-> Mikołaj Lenczewski <miko.lenczewski@arm.com> wrote:
-> > 
-> > Currently, KVM does not handle the case of a stage 2 TLB conflict abort
-> > exception. The Arm ARM specifies that the worst-case handling of such an
-> > exception requires a `tlbi vmalls12e1`.
-> 
-> Not quite. It says (I_JCCRT):
-> 
-> <quote>
-> * For the EL1&0 translation regime, when stage 2 translations are in
->   use, either VMALLS12E1 or ALLE1.
-> </quote>
-> 
-> > Perform such an invalidation when this exception is encountered.
-> 
-> What you fail to describe is *why* this is needed. You know it, I know
-> it, but not everybody does. A reference to the ARM ARM would
-> definitely be helpful.
-> 
-
-You are correct. Will update the commit message.
-
-> > diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> > index c9d46ad57e52..c8c6f5a97a1b 100644
-> > --- a/arch/arm64/kvm/mmu.c
-> > +++ b/arch/arm64/kvm/mmu.c
-> > @@ -1756,6 +1756,12 @@ int kvm_handle_guest_abort(struct kvm_vcpu *vcpu)
-> >  	ipa = fault_ipa = kvm_vcpu_get_fault_ipa(vcpu);
-> >  	is_iabt = kvm_vcpu_trap_is_iabt(vcpu);
-> >  
-> > +	if (esr_fsc_is_tlb_conflict_abort(esr)) {
-> > +		// does a `tlbi vmalls12e1is`
-> 
-> nit: this isn't a very useful comment.
-> 
-
-Will remove it.
-
-> > +		__kvm_tlb_flush_vmid(&vcpu->kvm->arch.mmu);
-> > +		return 1;
-> > +	}
-> 
-> That's not enough, unfortunately. A nested VM has *many* VMIDs (the
-> flattening of all translation contexts that the guest uses).
-> 
-> So you can either iterate over all the valid VMIDs owned by this
-> guest, or more simply issue a TLBI ALLE1, which will do the trick in a
-> much more efficient way.
-> 
-> The other thing is that you are using an IS invalidation, which is
-> farther reaching than necessary. Why would you invalidate the TLBs for
-> CPUs that are only innocent bystanders? A non-shareable invalidation
-> seems preferable to me.
+> Add a few notes on the appropriate tags to be used in changes that fix
+> regressions.
 >
+> This removes equivalent paragraphs from a section in
+> Documentation/process/handling-regressions.rst, which will become mostly
+> obsolete through this and follow-up changes.
+>
+> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> ---
+>
+> Note:
+>
+> * Not sure if the "add a second Fixes: tag for the change that exposed
+>   an earlier problem" is appropriate, but it results in the most
+>   reliable solution without much overhead.
+>
+> * On a brief look it might seem like this changes the "participation in
+>   stable is optional for mainline developers" approach. But that is not
+>   the case, as the point is just kindly asking developers to take care
+>   of stable inclusion.
+> ---
+>  Documentation/process/6.Followthrough.rst      | 16 ++++++++++++++++
+>  Documentation/process/handling-regressions.rst |  7 -------
+>  2 files changed, 16 insertions(+), 7 deletions(-)
+>
+> diff --git a/Documentation/process/6.Followthrough.rst b/Documentation/process/6.Followthrough.rst
+> index 763a80d21240f0..2ba16a71aba9b4 100644
+> --- a/Documentation/process/6.Followthrough.rst
+> +++ b/Documentation/process/6.Followthrough.rst
+> @@ -234,6 +234,22 @@ On procedure:
+>     requests again should ideally come directly from maintainers or happen in
+>     accordance with them.
+>  
+> +On tags in the patch description of regressions fixes:
 
-You are completely correct here. I had forgotten about nested VMs, and
-agree that issuing a `tlbi alle1` is simpler and more efficient. I agree
-also on not using an IS invalidation.
+"regression" (no "s")
+
+> + - Include the tags Documentation/process/5.Posting.rst mentions for
+> +   regressions; this usually means a "Reported-by:" tag followed by "Link:" or
+> +   "Closes:" tag pointing to the report as well as a "Fixes:" tag; if it's a
+> +   regression a later change exposed, add a "Fixes:" tag for that one, too.
+> +
+> + - Did the culprit make it into a proper mainline release during the past
+> +   twelve months? Or is it a recent mainline commit backported to stable or
+> +   longterm releases in the past few weeks? Then you are kindly asked to ensure
+> +   stable inclusion as described by Documentation/process/stable-kernel-rules.rst.
+> +   Usually you want to realized thos by adding a "Cc: stable@vger.kernel.org" to
+
+Something went a bit astray in that sentence.  "you want to do this" ?
+
+> +   the patch description.  Note, a "Fixes:" tag alone does not guarantee a
+> +   backport, as the stable team does not pick up all such changes and might
+> +   silently drop them in case trouble arises.
+
+In the past we have had subsystem maintainers who didn't want people to
+put CC: stable tags into their own patches; not sure if that's still the case?
+
+Thanks,
+
+jon
