@@ -1,294 +1,136 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2DD41E048B;
-	Fri, 13 Dec 2024 18:21:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A5301EB9F8;
+	Fri, 13 Dec 2024 18:43:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734114091; cv=none; b=mglVqCTpd6fSjHxjj/hg/RhDfbMCM1JBb/ZR3K+WUa6DCQo5eMD025W7bXANyWBLy7IbPBoTFXkOb73sAdm1Kj1ik9KbACLjwuvCc2NYn6yavCFy1cMMukNdPRe48zi2VC/Q3J9aFvbM5LqKHPHTte8vR1/YmMKape6BManLdp4=
+	t=1734115436; cv=none; b=JHt0U1ppknQaDnC70G4dqz91MeMt74tQoDWRiIMgPkb2TJPvfhCXouFwD55WifZd84G61fPW2n+/mDz0RceD2OigqgOszkQYjHssLRF4FJAoMp33rxG8ZQWLoyqzl4zqC485KXeOaVZYymMEdBxJt4R3JaOyj79eqwJRTv1gZPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734114091; c=relaxed/simple;
-	bh=FjPXo6BxFKKLA8ZrbiSiN4Fx69AHdFEAFlcVbFHNz4s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZrhopBiKyPtTjVMsJYGoxZAoAoish+D33/nBjsVl3oBGgPf+gFLz+ISA7GE1YXmU0ZwhS2WPYgO5GbjHkVLplUWzg+G9iD975lH/gVF8rDNJtjw/Ed1ZILRJf6NTmpaMZEFHYzAIqLoZXLWHGfw0QrsLFjdmqChf/84diwkMlck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=jiXHgLc+; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1734115436; c=relaxed/simple;
+	bh=Q6zLz2bmojhmOJOh/rBq+Fy6cuzFn1bweS5FwE8wyVs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=e48j4cTWKoumT+jp0bG6aez7so3K+SNeDm8uaMkRu/qCXa9ulPP9eyxb9rDIqjctP3dl7Xc0y3AvOHl2Ft6dSvqDmE+iPFWGR5JhvxaCDvoj3rSWsf6yorVy57x0spIeIuRvcDG2JL63mDdgMWaydQ7baO5emKTzgFep55w/QwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=PWYQ1wgH; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="jiXHgLc+"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 186E0404EA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1734114089; bh=F6/aLflciz6wVnpv9AxpaYczVWgHDtrn6Q0EXWxfMWs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jiXHgLc+u3SAk5aJiklQ2ednZdNnnbtap9Bdy9B2XWgf9Ec1v3RhricJ3VfVYx4yA
-	 fpA2YiHSihRbtAi+zgBwsFvTCy4/jpc1lZsnDEOOY4t3e7sgmB7+ICo76u+Th3qyZD
-	 QpUNEMlJ2/RqaB+1zqzsGxWQ0Gx7xzSXV+p7F5RAnRSsFep2MAJ7DZ1C/QQs2DqpaE
-	 VfMduuZR00lzVp5r2xc3/C7AB78OmKihv5CCDfo9d1jMBKiP3lbrsAALSd+FrDo0Lj
-	 IR59GBNStrhznFCzpjffA79B/piPOuGz5Hht/CfpifIK5W/oGXbcDZEc1Q4nhV5H6t
-	 bTp88OF3x2puQ==
-Received: from trenco.lwn.net (unknown [IPv6:2601:280:5e00:625::1fe])
-	by ms.lwn.net (Postfix) with ESMTPA id 186E0404EA;
-	Fri, 13 Dec 2024 18:21:29 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH 3/3] docs: admin-guide: bring some order to the "everything else" section
-Date: Fri, 13 Dec 2024 11:20:54 -0700
-Message-ID: <20241213182057.343527-4-corbet@lwn.net>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20241213182057.343527-1-corbet@lwn.net>
-References: <20241213182057.343527-1-corbet@lwn.net>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="PWYQ1wgH"
+Received: from [10.137.184.60] (unknown [131.107.160.188])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 0886620BCAD0;
+	Fri, 13 Dec 2024 10:43:50 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0886620BCAD0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1734115430;
+	bh=UrDyvgO6ZPT7ZVpI6U07cePW8U77+X2SF48HloIFiXE=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=PWYQ1wgH2P+Q31Mqv3PePoIQfmLJPKWrBXRbTmiA5ewlRfx3iyD+T07PjhoTCv4sU
+	 /0/oPgB+sDnCZBCoCtBYAytUTLo5p4j5luDJpLO3X4VHacOA7m12EMVnva+1fLNJkH
+	 2qaRdVlP1nrV3bQLqujEb9XGEvZB8qIZy5nwpFBE=
+Message-ID: <130fb73d-110e-4aec-9491-371da9d0e338@linux.microsoft.com>
+Date: Fri, 13 Dec 2024 10:43:49 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] Documentation: hyperv: Add overview of guest VM
+ hibernation
+To: mhklinux@outlook.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+ decui@microsoft.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20241212231700.6977-1-mhklinux@outlook.com>
+Content-Language: en-US
+From: Roman Kisel <romank@linux.microsoft.com>
+In-Reply-To: <20241212231700.6977-1-mhklinux@outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The bulk of the admin guide had become a big pile of stuff haphazardly
-tossed together, mostly in the catch-all "everything else" section.  Split
-that section into a few broad categories and sort the documents into them
-as appropriate.
+On 12/12/2024 3:17 PM, mhkelley58@gmail.com wrote:
+> From: Michael Kelley <mhklinux@outlook.com>
+> 
+> Add documentation on how hibernation works in a guest VM on Hyper-V.
+> Describe how VMBus devices and the VMBus itself are hibernated and
+> resumed, along with various limitations.
+> 
+> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+> ---
+>   Documentation/virt/hyperv/hibernation.rst | 312 ++++++++++++++++++++++
+>   Documentation/virt/hyperv/index.rst       |   1 +
+>   2 files changed, 313 insertions(+)
+>   create mode 100644 Documentation/virt/hyperv/hibernation.rst
+> 
+> diff --git a/Documentation/virt/hyperv/hibernation.rst b/Documentation/virt/hyperv/hibernation.rst
+> new file mode 100644
+> index 000000000000..9e177c1f5bae
+> --- /dev/null
+> +++ b/Documentation/virt/hyperv/hibernation.rst
+> @@ -0,0 +1,312 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
 
-No documents have been added or removed, they are just reordered.  Note
-that many of these documents are severely obsolete and should be considered
-for removal.
+---->8 ---->8 ---->8 ---->8 ---->8 ---->8 ---->8 ---->8 ---->8 ---->8
 
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/admin-guide/index.rst | 161 +++++++++++++++++-----------
- 1 file changed, 100 insertions(+), 61 deletions(-)
+> +Considerations for Guest VM Hibernation
+> +---------------------------------------
+> +Linux guests on Hyper-V can also be hibernated, in which case the
+> +hardware is the virtual hardware provided by Hyper-V to the guest VM.
+> +Only the targeted guest VM is hibernated, while other guest VMs and
+> +the underlying Hyper-V host continue to run normally. While the
+> +underlying Windows Hyper-V and physical hardware on which it is
+> +running might also be hibernated using hibernation functionality in
+> +the Windows host, host hibernation and its impact on guest VMs is not
+> +in scope for this documentation.
+> +
+> +Resuming a hibernated guest VM can be more challenging than with
+> +physical hardware because VMs make it very easy to change the hardware
+> +configuration between the hibernation and resume. Even when the resume
+> +is done on the same VM that hibernated, the memory size might be
+> +changed, or virtual NICs or SCSI controllers might be added or
+> +removed. Virtual PCI devices assigned to the VM might be added or
+> +removed. Most such changes cause the resume steps to fail, though
+> +adding a new virtual NIC, SCSI controller, or vPCI device should work.
+> +
 
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index 6864b079b391..c8af32a8f800 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -18,18 +18,41 @@ etc.
-    :maxdepth: 1
- 
-    README
--   kernel-parameters
-    devices
--   sysctl/index
- 
-    features
- 
--This section describes CPU vulnerabilities and their mitigations.
-+A big part of the kernel's administrative interface is the /proc and sysfs
-+virtual filesystems; these documents describe how to interact with tem
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   sysfs-rules
-+   sysctl/index
-+   cputopology
-+   abi
-+
-+Security-related documentation:
- 
- .. toctree::
-    :maxdepth: 1
- 
-    hw-vuln/index
-+   LSM/index
-+   perf-security
-+
-+Booting the kernel
-+------------------
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   bootconfig
-+   kernel-parameters
-+   efi-stub
-+   initrd
-+
- 
- Tracking down and identifying problems
- --------------------------------------
-@@ -53,104 +76,120 @@ problems and bugs in particular.
-    kdump/index
-    perf/index
-    pstore-blk
-+   clearing-warn-once
-+   kernel-per-CPU-kthreads
-+   lockup-watchdogs
-+   RAS/index
-+   sysrq
-+
- 
--sysfs
-------
-+Core-kernel subsystems
-+----------------------
- 
--A big part of the kernel's administrative interface is the sysfs virtual
--filesystem; these documents describe how to interact with sysfs.
-+These documents describe core-kernel administration interfaces that are
-+likely to be of interest on almost any system.
- 
- .. toctree::
-    :maxdepth: 1
- 
--   sysfs-rules
--   abi
--
--Workload analysis
-------------------
-+   cgroup-v2
-+   cgroup-v1/index
-+   cpu-load
-+   mm/index
-+   module-signing
-+   namespaces/index
-+   numastat
-+   pm/index
-+   syscall-user-dispatch
- 
--This is the beginning of a section with information of interest to
--application developers and system integrators doing analysis of the
--Linux kernel for safety critical applications. Documents supporting
--analysis of kernel interactions with applications, and key kernel
--subsystems expectations will be found here.
-+Support for non-native binary formats.  Note that some of these
-+documents are ... old ...
- 
- .. toctree::
-    :maxdepth: 1
- 
--   workload-tracing
-+   binfmt-misc
-+   java
-+   mono
- 
--Everything else
-----------------
- 
--The rest of this manual consists of various unordered guides on how to
--configure specific aspects of kernel behavior to your liking.
-+Block-layer and filesystem administration
-+-----------------------------------------
- 
- .. toctree::
-    :maxdepth: 1
- 
--   acpi/index
--   aoe/index
--   auxdisplay/index
-    bcache
-    binderfs
--   binfmt-misc
-    blockdev/index
--   bootconfig
--   braille-console
--   btmrvl
--   cgroup-v1/index
--   cgroup-v2
-    cifs/index
--   clearing-warn-once
--   cpu-load
--   cputopology
--   dell_rbu
-    device-mapper/index
--   edid
--   efi-stub
-    ext4
-    filesystem-monitoring
-    nfs/index
--   gpio/index
--   highuid
--   hw_random
--   initrd
-    iostats
--   java
-    jfs
--   kernel-per-CPU-kthreads
-+   md
-+   ufs
-+   xfs
-+
-+Device-specific guides
-+----------------------
-+
-+How to configure your hardware within your Linux system.
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   acpi/index
-+   aoe/index
-+   auxdisplay/index
-+   braille-console
-+   btmrvl
-+   dell_rbu
-+   edid
-+   gpio/index
-+   hw_random
-    laptops/index
-    lcd-panel-cgram
--   ldm
--   lockup-watchdogs
--   LSM/index
--   md
-    media/index
--   mm/index
--   module-signing
--   mono
--   namespaces/index
--   numastat
-+   nvme-multipath
-    parport
--   perf-security
--   pm/index
-    pnp
-    rapidio
--   RAS/index
-    rtc
-    serial-console
-    svga
--   syscall-user-dispatch
--   sysrq
-    thermal/index
-    thunderbolt
--   ufs
--   unicode
-    vga-softcursor
-    video-output
--   xfs
--   nvme-multipath
-+
-+Workload analysis
-+-----------------
-+
-+This is the beginning of a section with information of interest to
-+application developers and system integrators doing analysis of the
-+Linux kernel for safety critical applications. Documents supporting
-+analysis of kernel interactions with applications, and key kernel
-+subsystems expectations will be found here.
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   workload-tracing
-+
-+Everything else
-+---------------
-+
-+A few hard-to-categorize and generally obsolete documents.
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   highuid
-+   ldm
-+   unicode
- 
- .. only::  subproject and html
- 
+Would it be useful mentioning the (likely lethal for the VM) risk
+of copying the hibernated VM to another host (of the same arch) that has
+another set of CPUID bits/features?
+
+---->8 ---->8 ---->8 ---->8 ---->8 ---->8 ---->8 ---->8 ---->8 ---->8
+
+> +Key-Value Pair (KVP) Pseudo-Device Anomalies
+> +--------------------------------------------
+
+---->8 ---->8 ---->8 ---->8 ---->8 ---->8 ---->8 ---->8 ---->8 ---->8
+
+
+> +Virtual PCI devices
+> +-------------------
+> +Virtual PCI devices are physical PCI devices that are mapped directly
+
+
+---->8 ---->8 ---->8 ---->8 ---->8 ---->8 ---->8 ---->8 ---->8 ---->8
+
+Appreciated documenting all the intricacies of the hibernation and
+resume paths for various devices, an incredible read! Are there
+any special considerations known to you for the hibernation of
+the devices driven through the Hyper-V UIO?
+
+> +out-of-the-box by local Hyper-V and so requires custom scripting.
+> diff --git a/Documentation/virt/hyperv/index.rst b/Documentation/virt/hyperv/index.rst
+> index 79bc4080329e..c84c40fd61c9 100644
+> --- a/Documentation/virt/hyperv/index.rst
+> +++ b/Documentation/virt/hyperv/index.rst
+> @@ -11,4 +11,5 @@ Hyper-V Enlightenments
+>      vmbus
+>      clocks
+>      vpci
+> +   hibernation
+>      coco
+
+Besides these two questions, LGTM.
+
 -- 
-2.47.1
+Thank you,
+Roman
 
