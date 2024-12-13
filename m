@@ -1,49 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD1D32F24;
-	Fri, 13 Dec 2024 15:47:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A1471E0DB3
+	for <linux-doc@vger.kernel.org>; Fri, 13 Dec 2024 15:51:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734104856; cv=none; b=CfJf+x/UKPRdpgmbgwAsob+rwlAyichR+/NQyuVABlxHYR1zL8pQ9gru/7+vG1N22/1kdRbPAgZYtZObfpK2Dz1yeFciXVSsBASdG20Lx5qR6QsYiqlmHkOoyMGdXpBcLyjX0Gtu4An5WFRwTGNONIiBWHpUmroydvErtcez5jM=
+	t=1734105064; cv=none; b=PJna611oSLYMw/3fv68h40LraoeSdJh9juQVo/tSezqhsZ2t184k6WySgVrNfD3UWcG6R2S71/PXm2om8CIRylphx4UKp/fJL04AKZosWpFe0KQvPJg/nLnczqw9uo3YZ8gCvM0ttCTCh2YlfDR4cGewuOwEeIVxi57UlnSZqwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734104856; c=relaxed/simple;
-	bh=6AU0Zu+j6lv5AWqSiZZfR6LsWkv1Sx+N4RSy8n0eNJo=;
+	s=arc-20240116; t=1734105064; c=relaxed/simple;
+	bh=ToZzLdlDD/pYMxoS3eLjALnvjrDQZR3WNWMyqEz3RDo=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=NqBgzQnJTrCsLIpu3n0/wvcV0RxPGPfC+ewk8TZtuzAJr/sYVTRAPRuxBSW/3Hnfo00erbPmVd+79AsHxVPa3Y3PkVgl2bWI0/XPP+T+dsbEQmptH4Vc7wlm4S9SFpDks6KsqdhOd40bu6zP1O2XJGGI3CU1v+Gx0gObZoD3kmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=qW05oXrP; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=q/9e8AIT2Ob77PCeadzAjKVBUt0FK1LRpGsxahVQgwx92WgK3Uoh9cLP/qut8W0wJxAKaE9FmOYGbUQyBgW5ap6Ndk19+qEjXvS7+FdrTYO1TLKdpK1/J3lVJm+/0pDTOhiyBzNl2+rMaLvjvudwa60ZlwU7wDUdSkJefOwL/oE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=JEp3OGz7; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="qW05oXrP"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E7FDF403FA
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="JEp3OGz7"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A888B403FA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1734104854; bh=ROXOtd9jlx1s9lnUPcYMykHOvSU6CO3Ce2o1MCZInzU=;
+	t=1734105062; bh=Ow1t8UqSY0kjheemGMY/D4YqjTMif3MaPn+VwCwlFpI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=qW05oXrPfr4MHyggksWiC5+0x6hSTh7F4hh+wnhCasjJHT7uX1zoy8vGMKlHO6rwX
-	 ZSiv+7hASz//0wsmuVfYNRMxUv3noTROUNoa2WN3QBN0OkTS7xuO0XYnuqqLSuVOzc
-	 KByqKt48wXhBVUfA+i3GH2So/v2OQTwhH3qWLCpMAMQ4MOrYy168tE01dic+dxhn00
-	 ZTYmNQ1+X1JszxC9Je2FqN5jSzzAs7Mw7zcnpIUWglZpNwgDSfFicky9BuX4J3FCwn
-	 3S7Fn3ZyIchxnM4glVi6t3gzu4c95KEFEM6xBFEiP2oMDfkQn//7HvwqF1bAqkKw+y
-	 lazFcxCLKAJPg==
+	b=JEp3OGz7GMhaB6bEeosqMR5fvN4Ra9DYqsnb2A09C8XvpoLKBSl1yuPlP22TNapu2
+	 +2ePw0h4Iy99Pg2LZly+BGhUZi1mCVMxcyj4HWUo9T+tANt8La6e7tWQ34X4dRpvvY
+	 elIbFthGJIzl4Qc7Tb5QfNyFHPFo1WPrrrqqy17PNxXmLn/uhqsLUDtGxgeWNiRzBY
+	 OGd7qforw7Jif+OvzDK1z+bJCuQb/IkFfdzhFRfV9ef+2xeiVSl8fs0rdYwGTiC4R/
+	 +TF/kzH6cnYUQHRoCygGMZMY9OBCKjCvsmIBa2oiBrPI30LUqfh1kigMweQM898lpJ
+	 Fut3ujmwvSc5g==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E7FDF403FA;
-	Fri, 13 Dec 2024 15:47:33 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id A888B403FA;
+	Fri, 13 Dec 2024 15:51:02 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Bingwu Zhang <xtex@envs.net>, Miklos Szeredi <miklos@szeredi.hu>,
- "Darrick J. Wong" <djwong@kernel.org>
-Cc: Bingwu Zhang <xtex@aosc.io>, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org,
- ~xtex/staging@lists.sr.ht
-Subject: Re: [PATCH] Documentation: filesystems: fix two misspells
-In-Reply-To: <20241208035447.162465-2-xtex@envs.net>
-References: <20241208035447.162465-2-xtex@envs.net>
-Date: Fri, 13 Dec 2024 08:47:33 -0700
-Message-ID: <87zfkzwpnu.fsf@trenco.lwn.net>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ linux-doc@vger.kernel.org, Corey Minyard <minyard@acm.org>, Thomas
+ =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: Re: [PATCH] kref: Improve documentation
+In-Reply-To: <20241209160953.757673-1-willy@infradead.org>
+References: <20241209160953.757673-1-willy@infradead.org>
+Date: Fri, 13 Dec 2024 08:51:01 -0700
+Message-ID: <87v7vnwpi2.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,20 +50,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Bingwu Zhang <xtex@envs.net> writes:
+"Matthew Wilcox (Oracle)" <willy@infradead.org> writes:
 
-> From: Bingwu Zhang <xtex@aosc.io>
+> There is already kernel-doc written for many of the functions in kref.h
+> but it's not linked into the html docs anywhere.  Add it to kref.rst.
 >
-> This fixes two small misspells in the filesystems documentation.
+> Improve the kref documentation by using the standard Return: section,
+> rewording some unclear verbiage and adding docs for some undocumented
+> functions.
 >
-> Signed-off-by: Bingwu Zhang <xtex@aosc.io>
+> Update Thomas' email address to his current one.
+>
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 > ---
-> I found these typos when learning about OverlayFS recently.
-> ---
->  Documentation/filesystems/iomap/operations.rst | 2 +-
->  Documentation/filesystems/overlayfs.rst        | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/core-api/kref.rst |  7 ++++-
+>  include/linux/kref.h            | 48 +++++++++++++++++++++++----------
+>  2 files changed, 40 insertions(+), 15 deletions(-)
 
-Applied, thanks.  Welcome to the kernel community!
+Applied, thanks.
 
 jon
