@@ -1,37 +1,37 @@
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8F6B674;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41BD845023;
 	Sat, 14 Dec 2024 05:58:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734155902; cv=none; b=EO1nXdchV0SuE3PNMc8UUlcWrf2urwUiZzStGI2BGMJB1N/gEZm/CWKoeLBvbleJdbf/9dlmEGdFec5Cjh2C7G1v/XxTRmQdQg6TUXkRqpbK2CNz/1UkRRdXsw91uWFMaogA/RuoN6wupAlJPItEhf3GCeAnAnj8Hs5pEA+GWog=
+	t=1734155903; cv=none; b=gYwxzVnQKzEMDxtF52ybnmYXpcOit3ARW81SYxASGeL5bbJGOpxUqoIFNAe3PnOrDLoLxdCMZjkvxkQZ/UULO+NgOvETisC3LNGnbpqoRGJVnbZK8oPTgYVoaerNet670KN8yMuK/rtgk7C+ixrkY8W2LGCL1qnd53E42sFCOOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734155902; c=relaxed/simple;
-	bh=DBcLI9EkDVPyEV89HGPQQw2o0MXR33WbZswv7eYg9c4=;
+	s=arc-20240116; t=1734155903; c=relaxed/simple;
+	bh=+0dmmhWV01xzm3DpkY8gDJOKP6Sg225VSAqBRjFdri0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HXsg0DmpTQyaNYrBqSQSeVnzUzskMicee3i6W0f3xsVvT46qQyjGHa7m+GrkNVVSVuUiXmLALCm/KSoNw8QDngI77yjj5l6213YKZBZ7F9XghMTlmV45DpR/1KKYqyIBxFv7TWj6ZU7m9SbE3uAUHeGw6aI+SioxN158/SlbkHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=PLA9k4SH; arc=none smtp.client-ip=90.155.92.199
+	 In-Reply-To:Content-Type; b=qs0xSJFqaxhlSMLy08Hm+Zkp0j+za+ekhc74EAkGe3DDRRDR2gS9pu7YNdWvK75gSRDtAGsVk4L54OcQVCl4sD0ECmzS7GGmbv3AFOcr/yWMKxVF+wNtTljSIBWecD7V45tdiJY3r3txJCRw8RfpgFZ384S/qhabOi0z9rt3JmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Z/u8ujv6; arc=none smtp.client-ip=90.155.92.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="PLA9k4SH"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Z/u8ujv6"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
 	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
 	Sender:Reply-To:Content-ID:Content-Description;
-	bh=pq3ikiqwesjWA8IF+cN+2bkuFlEoo1rAR6e7R5w052Y=; b=PLA9k4SHhVijNoceM0MbHkGVay
-	IAeFJkmYYBG4deUSCK2GMIoPZYmfdlym1EGKtVuN+3wMpP8lgz72kLh/JfTEf3LDYIEBLEtu3nHzl
-	DG25mrmcykk3ICp7fxTOW7CJsGwiIEs8ymaShbNRCVbbUlujAmL/QSg94ogJI4NFJyPURdEG2cqk+
-	D44a5t7KmUlKnebOzxfdFv6uuB/8CJperhuNU4df9hRg9Aoz1tiC7zz2f+zUjto7VwLiGjK2T0tdx
-	k+Y/eziudD/9lySmdI7jD+vSuMgWaOR5D6yuNpTBg/bUXyctTNmBnUPnFjsGzc9d2wl9VJEVwr28L
-	OMJYi1YQ==;
+	bh=wpTwtGXygpmJk2bX9isiar0VjJreV5TrSzR3WoOJIoU=; b=Z/u8ujv6cOH+KzQfByiLAp2Ded
+	fj939a+qCvhp8/eHneXf0/NTUtOtChr2PwtiJzhlVeLqnVOgOKwdBQM06MKj/Az3gOH0vq+C5uwgX
+	zirooIRY/+eyDfumQ+cHW4VKiipjWyVW/VLivtVRWju9t2aOsLKdIcso8bVwdRI9CRT7zopoDXp1x
+	3syaMIDbfpoJTSkCF/ODJG414Ob1ShnS5h2g3icD4NtTXphbYJLy8f4jSMTsnhx1UQkjKnajdzHlK
+	LQGRFCgWvi/ShnNzm5DaZeF389p3BMRInwRV5RXem0Y1EK2E60L9M7J450X+GLRFMDXsMUprfj9A5
+	9ZJh+SOA==;
 Received: from [50.53.2.24] (helo=[192.168.254.17])
 	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tMLAP-00000004OqD-1Wyz;
-	Sat, 14 Dec 2024 05:58:17 +0000
-Message-ID: <b4361cda-a24d-49d2-9377-cbdd68124deb@infradead.org>
-Date: Fri, 13 Dec 2024 21:58:14 -0800
+	id 1tMLAK-00000004OqD-3buB;
+	Sat, 14 Dec 2024 05:58:14 +0000
+Message-ID: <97088fc4-04ab-47df-9a43-de2d36679f2d@infradead.org>
+Date: Fri, 13 Dec 2024 21:58:06 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,33 +39,39 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] docs: admin-guide: join the sysfs information in one
- place
+Subject: Re: [PATCH 3/3] docs: admin-guide: bring some order to the
+ "everything else" section
 To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 References: <20241213182057.343527-1-corbet@lwn.net>
- <20241213182057.343527-2-corbet@lwn.net>
+ <20241213182057.343527-4-corbet@lwn.net>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20241213182057.343527-2-corbet@lwn.net>
+In-Reply-To: <20241213182057.343527-4-corbet@lwn.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
 On 12/13/24 10:20 AM, Jonathan Corbet wrote:
-> The documents describing sysfs are spread out in the admin guide; bring
-> them together in one place.
+> The bulk of the admin guide had become a big pile of stuff haphazardly
+> tossed together, mostly in the catch-all "everything else" section.  Split
+> that section into a few broad categories and sort the documents into them
+> as appropriate.
+> 
+> No documents have been added or removed, they are just reordered.  Note
+> that many of these documents are severely obsolete and should be considered
+> for removal.
 > 
 > Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 > ---
->  Documentation/admin-guide/index.rst | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+>  Documentation/admin-guide/index.rst | 161 +++++++++++++++++-----------
+>  1 file changed, 100 insertions(+), 61 deletions(-)
 > 
 
-Looks good. Thanks.
-
 Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
 
 -- 
 ~Randy
