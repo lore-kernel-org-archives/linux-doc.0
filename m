@@ -1,71 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B2FA41;
-	Sun, 15 Dec 2024 22:27:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC471DDD1;
+	Sun, 15 Dec 2024 22:51:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734301645; cv=none; b=qmifvTeDNHmCn/WSqUvKUZtGFDNXPVfDpn9tL7TRtFsXZ2xJh+1bV3v+NfNXJSUHX1TMudBlmOvA5ZilX8lPQzHoOYx8qX/cCTSUAJB/Km7K0uWC/i4hU/XniidD+pNfoC0ZVOPqsxsr6k/h+gufDIB4KZ2xKUH4tCbYzD8Klv8=
+	t=1734303089; cv=none; b=PUkYkIgLAJIDHJ4ZvetFmiEbGSvfhzAmlE/77kLVs4WSeMz0uAQ7WZTCoZMlV7uLVzVqsQuA6EvcyQWJHzbpTSAA/au3RU/+i7qOqWIqIxgVBT7+2ugoDadTiX8mHDiu6HiF7nzaWhNxvYwpfL692txBpqqCP9RZqoNb2ehMaz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734301645; c=relaxed/simple;
-	bh=AIYO0Bd9h0cqYoCI56IydpYXiY5Nd9sFqMFDJhSXh4s=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VcI1jsGtUakYnIZeZs8lqGgQhADnxVr8sYP6ela0RCUTNFcRNHkJ9fk0pMF0Z3/NwCTh84GYGZtYy/ltTWTfi3YwpCL+ea33UfnddL06vNPO3+8dVRr7z+2RlSjptSDBut5PZdz5L+82FwwrZfQSL51IyVN9jR4wCP87BXGqPuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DjTJFEkc; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DjTJFEkc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1497C4CECE;
-	Sun, 15 Dec 2024 22:27:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734301644;
-	bh=AIYO0Bd9h0cqYoCI56IydpYXiY5Nd9sFqMFDJhSXh4s=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=DjTJFEkcVg3Gh5C6z/Rl0ZRE9qXLEprET2G7FcWqS/f0xmQ2C3OhRwxB+06lLGQE+
-	 zrxvC0sW9hhMys5teHD5raAKrB7blNaK7yzbCRCdsX1DTmivLIzb9WGKKoLQIzXXIu
-	 ijDFO3iX2f5G8O9rlQMAZHSvOht9RUKfV+j91xt8mwrb9YALNAE55uNjy38GH0s1jG
-	 pZQDM6TyZaVhCEb7FESrtJ4byX90QnrC55fbWBCLkaj5SFNa+Q6ulEVHg0YI/2eiGK
-	 xSFM7ov6oWjYvxcxYYcx38VtueAYe7Ybp9Pv440kbKyXzXZWxwFAVo3JEcZjsTzhVp
-	 H6BYu1X6BQgOQ==
-Date: Sun, 15 Dec 2024 14:27:23 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Li Li <dualli@chromium.org>
-Cc: dualli@google.com, corbet@lwn.net, davem@davemloft.net,
- edumazet@google.com, pabeni@redhat.com, donald.hunter@gmail.com,
- gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com,
- maco@android.com, joel@joelfernandes.org, brauner@kernel.org,
- cmllamas@google.com, surenb@google.com, arnd@arndb.de,
- masahiroy@kernel.org, bagasdotme@gmail.com, horms@kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- netdev@vger.kernel.org, hridya@google.com, smoreland@google.com,
- kernel-team@android.com
-Subject: Re: [PATCH net-next v10 1/2] binderfs: add new binder devices to
- binder_devices
-Message-ID: <20241215142723.3e7d22e7@kernel.org>
-In-Reply-To: <20241212224114.888373-2-dualli@chromium.org>
-References: <20241212224114.888373-1-dualli@chromium.org>
-	<20241212224114.888373-2-dualli@chromium.org>
+	s=arc-20240116; t=1734303089; c=relaxed/simple;
+	bh=o6I3W7klCamFQeXkeOH5uyOGv0DvHdouvOxNptIMvpw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KC2Dq+l8sUgdbQzOp0veN6OSC68zthPBk5kcwoIVhNwsDAWzG+nWMtnqHeoieqIsGqMJOd8+6y3sTMeavO21o4pq1xeG/wY16YkYO3vjBwlpt9fe7trsYLBMDGqdSW+AizSMdvL3AQAlzxi/4eDVS08W8BfByuPlPk+TFfyS3MY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-io1-f50.google.com with SMTP id ca18e2360f4ac-844e394395aso90623439f.3;
+        Sun, 15 Dec 2024 14:51:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734303086; x=1734907886;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4Ey7Z5BnWR0JgH0qrC1BqdavfXzNd9oaMn9d6y58r5Y=;
+        b=I1t6597QQy2ziWF5jqmgsC18NFz/zVdEbKwmgSIbN181GVnxY7Jlcy8O7P02YAwF/q
+         0Ctlr3HZ2IofY8XsZia4FyzmuxhtsulqTEC5WXDZOyHYBCXGBbl3lHDgChi639OskVMM
+         dzHMD7c1ICqbgvW1UYrDIeXYTvLYm8BUozMAJbHmwwm+e3AfQssqllUExbezxtt2MxTe
+         QFVuer2JYnHgbNc6sfqoXvy303ZEvwg0AdCME5IOL9zim7PDzCwlEauTzFLUTFghPwoK
+         fqul4FCmWgFeVvy0S9H3fNURiOQB5VfGws79kVjl/4EpURa7fDMxlXIb54KoM6VuqmFT
+         Zh5g==
+X-Forwarded-Encrypted: i=1; AJvYcCUccsGj0cb92ctGEM+XNL3lUhFVc0fmXSWOl1XNTvrBBJ4svvDLjPf218XdVGEHm2IETrMsvs6jxmja1l6O@vger.kernel.org, AJvYcCVB/TyXgk1nRaCCT+wpKJhhuytSkSQ+pZwhenqVqIHZ4SiYzjZ/ZGQlKbZNHs5Hg1hEQ7MEnPXu6VM=@vger.kernel.org, AJvYcCWqbbzd7o5Xakf1dEBfcndcLjwx2/N7M5fyVws3EyLLqJ3bSHCvDTR8qJNpHuQ36Qnnrki8XoCxqBQKgGk+HrmQIy+QyQ==@vger.kernel.org, AJvYcCXl2toWtK/iBsk8Rh5GzHwE9nq90VHziBDJasrbPpWUbVvGwaNbUtVEwMGQrVEgruNSUdn80oxzvglBbmg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7iCwh2xEBBpbVMugUEIJuZX7HpZ98FPkvX6nQdOCwlUoqoC8o
+	frufALVkOuvuOxEqcPkB2wJK90F+UjW+H+37MSSmOmM1AHbHihTlRfq+w8/z7d4=
+X-Gm-Gg: ASbGncuxGieSiOqtHC5+r7xtlFZK8zmsRc+u3fTSgRrIfzLhQ2zH71Vnp8uJbFkmDht
+	TlN62MNH6au/zTCGKxKS/XgA5Gqo9Zf1Szu7lByMdgSw9qSqcUq03htXgZuy5ZLksNGIHUl0s0B
+	28++4qWadQHEcNr8I9ukrPr4M8QMWa24bYpspf9fOHdIvzh41+AQT58XtngaOQ1QX/P+M9N/iI0
+	gcijtjjnfJrbds8tLXAgwrixqSG2+qwx3tpks2MWJAnmoyw0km0Rw6KHUbsFtBJLjdIaMUMlirr
+	s7XlMDqYzc9wMibpnv+4LT0gEw==
+X-Google-Smtp-Source: AGHT+IEBtX48SXY/rYz3FGWWPa9DFrjvtj0IW9D9C8OVapFqdGb3dGAn+Y/qR890s+gGLvi6g8UJkw==
+X-Received: by 2002:a05:6602:14ca:b0:835:4b2a:e52b with SMTP id ca18e2360f4ac-844e88e9c56mr1020112239f.10.1734303086442;
+        Sun, 15 Dec 2024 14:51:26 -0800 (PST)
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com. [209.85.166.179])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4e5e0368817sm910292173.6.2024.12.15.14.51.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 15 Dec 2024 14:51:26 -0800 (PST)
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-3a8f1c97ef1so10377715ab.2;
+        Sun, 15 Dec 2024 14:51:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUVx05jl41k7KGKvGHt6U1CfWnNQB30+2PuXKlY3g+e2hpL19SVz44jrc0PC2HCF8ChyFA9/EAGLB9mqf0=@vger.kernel.org, AJvYcCV8h/e8CV+7mZUCuw8j+edUmz9XDnxSHadgESKo6IJhNaigr2LsebsyVGzQm+GvoconA9fxppgEUNdVZSmJ0vA2DZRpOQ==@vger.kernel.org, AJvYcCVAl7pz7JgyzjthbjTRyrGj9IYKe1ACM5iYk9UxOoj09Kcg1DXus2IJTj3F5zYm6Q/jSAgTXir9o7EhL68o@vger.kernel.org, AJvYcCXHP4KPQIcQUjg900v60tS0I4qe+QrsJm64xZnmmxAUIuCJ2RJSl89hadf4tMyP7cpBjs18bEz+S7k=@vger.kernel.org
+X-Received: by 2002:a05:6e02:12e8:b0:3a7:e592:55ee with SMTP id
+ e9e14a558f8ab-3aff8b9d0admr123643085ab.20.1734303085958; Sun, 15 Dec 2024
+ 14:51:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20241209163720.17597-1-josh@joshuagrisham.com>
+ <20241215141352.58244-1-josh@joshuagrisham.com> <ad96404e-60c4-40cf-b287-f81fa85d85b7@gmx.de>
+In-Reply-To: <ad96404e-60c4-40cf-b287-f81fa85d85b7@gmx.de>
+From: Joshua Grisham <josh@joshuagrisham.com>
+Date: Sun, 15 Dec 2024 23:51:14 +0100
+X-Gmail-Original-Message-ID: <CAMF+KeaPXojdGsT1--pa+nvAsbqk6_vFnZjGW4Dcgsfr8+gHZA@mail.gmail.com>
+Message-ID: <CAMF+KeaPXojdGsT1--pa+nvAsbqk6_vFnZjGW4Dcgsfr8+gHZA@mail.gmail.com>
+Subject: Re: [PATCH v2] platform/x86: samsung-galaxybook: Add
+ samsung-galaxybook driver
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: Joshua Grisham <josh@joshuagrisham.com>, corbet@lwn.net, hdegoede@redhat.com, 
+	ilpo.jarvinen@linux.intel.com, jdelvare@suse.com, linux@roeck-us.net, 
+	platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 12 Dec 2024 14:41:13 -0800 Li Li wrote:
-> +/**
-> + * Add a binder device to binder_devices
+Den s=C3=B6n 15 dec. 2024 kl 21:02 skrev Armin Wolf <W_Armin@gmx.de>:
+>
+> The dell-wmi-ddv driver does manage his battery extension without any glo=
+bal variables.
+> Could it be that you confused it with another Dell driver?
+>
 
-nit: kdoc is missing function name
+Yes I think I was looking at another one, but have reviewed
+dell-wmi-ddv and it was very similar to what I had done. I will adjust
+samsung-galaxybook just a bit more so it is closer to what is already
+in dell-wmi-ddv (e.g. use a normal device_attribute without the
+extended var and use that with container_of to fetch my private data).
+Thank you!
 
-> + * @device: the new binder device to add to the global list
-> + *
-> + * Not reentrant as the list is not protected by any locks
-> + */
-> +void binder_add_device(struct binder_device *device);
+> Please submit this v2 patch as its own separate patch as described in
+> https://docs.kernel.org/process/submitting-patches.html ("The canonical p=
+atch format").
+>
+> If you use "git send-email", you can use the -v2 option to automatically =
+adjust the patch
+> header.
+>
+> You can describe the changes you made like this:
+>
+>      <commit message>
+>      ...
+>      Signed-off-by: Author <author@mail>
+>      ---
+>      V1 -> V2:
+>      - <description of changes>
+>      - ...
+>
+>      path/to/file | 5+++--
+>      ...
+>
+> Thanks,
+> Armin Wolf
+>
 
-To be clear we do not intend to apply these patches to net-next,
-looks like binder patches are mostly handled by Greg KH. Please
-drop the net-next from the subject on future revisions to avoid
-confusion.
+Thank you both Armin and Guenter for highlighting this! I did in fact
+use "git send-email" but did not check the contents of the patch file
+(other than running the check script and resolving various issues it
+reported) to ensure it looked ok -- lesson learned and I will submit a
+v3 (including above-mentioned changes) of the patch shortly or
+possibly tomorrow :)
+
+Cheers!
+
+Best regards,
+Joshua
