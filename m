@@ -1,111 +1,274 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763D87DA9C;
-	Sat, 14 Dec 2024 22:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1D14689;
+	Sun, 15 Dec 2024 02:17:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734216459; cv=none; b=Zpz4dFg9dFHg2VEM1ZFMi2E0SZghCjM0YYJO1Fty4rKCp7ZHhnzk02koAGgSHvEMJ2H47069eGTjFfoTsbmQPsVEngPfO2w9qelsLSu4SAcyzXad5qhEd9mhLbDrtaeYS1JJDcpwkWM5/aDAIcMrDkjr4G5zX6np929/Ju2gsEI=
+	t=1734229067; cv=none; b=jRIU9bgmWHvKrLVHQ9Ti65/LMQTU/qlfG1038yZ2/k1takhQCnJsG/DgYNAboU42OBaOHc/fFYpipVTbSQe8XQLsp6J7zZu3pfjiS1qVtu6stus+tTm7U5xJ87Vh1vWJw4jDiiM6MZqaVxgpB8fZQjPNcsDN6sjQHO69FPwbYxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734216459; c=relaxed/simple;
-	bh=AKxRtbsHNV4cXXEwh68zgfEHkimry76rewwLYZhrLjc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tuTtudvcEQxgNlLfSV+ZpRrV8e8gkzL1KdC6TR/Ol/M/XayeMA2L7rxwab0+qDom4CKI6uqLg3tW8Jbk46KFmhpksu8Z7TBE9Hnm0rvmvAEUBA4g7EEGFSpnOlqPmPAJs8tEDtPiDLfOqifM7T+6CXvTAgBosgnkmMz69J6vmlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dizwexfw; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1734229067; c=relaxed/simple;
+	bh=1jXBw1XPkbs+3PW+Ku0V9cmcLDYFHxIln8uavLe/auw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bi2zOMUZ09Tgl6v7hQ95J2TeADxDF9ScIvXSnIpdZ3YEdRPHbrKtgBikpOLoUdONX0FPDRlKMLQ40asjErUV9vL6KrGkaSV7sh2WR6wTLtxDYfXFYnHpX+NlZE8AbAWWLdXAFrQ/XWtGD/xtK5SQdv0Zu3Z3l8Hbg0gxB6oQfMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kcJxSkWK; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dizwexfw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734216457; x=1765752457;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AKxRtbsHNV4cXXEwh68zgfEHkimry76rewwLYZhrLjc=;
-  b=dizwexfwZN8zALBhZUV8ET9Py6Vxoiz5we0qMKOVGj0vabriqSymMU6j
-   KgX9AWKsKGEKdBl7jW8nNb6JgOCiS2QQIqA+9fpVK1FctkFiEtMpZ19LV
-   rw2Y6caS8lvQnpekT54lcigBkP1qKq2B0g5YhO7XNB+A3WOCJWRY2qqJh
-   VjTlx9wLx39bmugAPXJx2x6ijOXiIA+IkdNmszcvCujuxCH0ronT/odiW
-   +u6kJypB/3Zu2pdxnN3X1bHVQqEMch9N3NqWH6g8IswvAqwAHwwtK0nMM
-   Y51PhB4gcWPoJkzP5JN3KFoT0fiq1HgkfyC6r+/qBuRJUzEnb0i1kZRGh
-   A==;
-X-CSE-ConnectionGUID: 9PBOz4MkQmafGexfv94pIA==
-X-CSE-MsgGUID: cG3xQD0tQ7O4ADP2q6I1Rg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11286"; a="45329652"
-X-IronPort-AV: E=Sophos;i="6.12,235,1728975600"; 
-   d="scan'208";a="45329652"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2024 14:47:36 -0800
-X-CSE-ConnectionGUID: GKJobGtzR7membUQCuxeXw==
-X-CSE-MsgGUID: IF8cd/2vSpiSpmThf6WLqQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="96705256"
-Received: from lkp-server01.sh.intel.com (HELO 82a3f569d0cb) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 14 Dec 2024 14:47:32 -0800
-Received: from kbuild by 82a3f569d0cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tMav3-000DIU-13;
-	Sat, 14 Dec 2024 22:47:29 +0000
-Date: Sun, 15 Dec 2024 06:46:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: James Houghton <jthoughton@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Yan Zhao <yan.y.zhao@intel.com>,
-	James Houghton <jthoughton@google.com>,
-	Nikita Kalyazin <kalyazin@amazon.com>,
-	Anish Moorthy <amoorthy@google.com>,
-	Peter Gonda <pgonda@google.com>, Peter Xu <peterx@redhat.com>,
-	David Matlack <dmatlack@google.com>, Wang@google.com,
-	Wei W <wei.w.wang@intel.com>, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Subject: Re: [PATCH v1 10/13] KVM: selftests: Add KVM Userfault mode to
- demand_paging_test
-Message-ID: <202412150600.wLk8rmZf-lkp@intel.com>
-References: <20241204191349.1730936-11-jthoughton@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kcJxSkWK"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-385e0e224cbso1559861f8f.2;
+        Sat, 14 Dec 2024 18:17:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734229064; x=1734833864; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6knxOhrq01m9fcLE+SYB9TQecvDtnka5bQk5EmhLzdU=;
+        b=kcJxSkWKOzKtwG4usj/Mdr3RlAlTSrauDCU7jhxEmkWArj82g2m+NDQpcfszJYxiIO
+         9nIOPOoUw8FidLrZRdgCggjlX02B3Wb7PUa67A9+azQeTAmtOoJwFISnxjA2Yau0KepG
+         N2hb18LxNExkEwnyjQEgUyDEs8E0g4O/Uw83A12gaPIrEtKcO/RAfs4rFcaop7F/791L
+         s/1gOhIw8Q7Ni0b3MhJ1SdSCyHoKEL0aipHgi4DcvKc4BtrO0xO0xiJ/QMNmFrmkIec4
+         yO9LlGEzyVJwE4s369Djvp5PtczrYVKastkwRSGimP5D+SFnmBgM7cAI2efpd5hAHhnz
+         cB7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734229064; x=1734833864;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6knxOhrq01m9fcLE+SYB9TQecvDtnka5bQk5EmhLzdU=;
+        b=En5Dex+uZhBM60054FjK9D38dW/KpKqnh1FelfDIxOGt6T78nq9E4x8QR/3nU0dgDc
+         lOIJSvaBeM1UNKkUI2PwY68ypenSxjaLwr/lmrBRv9sqkLcP6o18tqSVrnfd9tl4YLTD
+         odBgJnMmwrQYzWjZ5UPuwZhur8LZCcQtJKqVBcmPU0ihtQ4qPUG0lENnLVXTmvVO+gZJ
+         4ppzGeHJ1xDFMk9gwRdT3jHjPktpILcZ2j5fp1ButLundivA2JCP9mErhOR1qCMTSoUO
+         eq1c8UOgXOvHo0zFn8C+yOPDvXqwY2H+kWjNEQQbEmmJle3BvDNQGpaE8xrSFfTb3x+j
+         JqQA==
+X-Forwarded-Encrypted: i=1; AJvYcCULccXd5hTWv3C+t+Q22RTARBR0aCrl0tWmLWSijyZWSBhgxUkVH0z7IJaS2RnOSgoneKIWpaEd@vger.kernel.org, AJvYcCWBoFmLabCfngXBHnd3mXnkm8cjWwyPs7ans+LkBSmIMlv9+JjFmJQUgK6bcQa7u5yy5IFGkbSrHZ0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3juFgkKRU0PnsyqCGjFuqg54iFjacY6fPMtDkmURI5qShJMV+
+	HraPsy04/d52Dk9LnIOTaGNH9G8NOs0y4h2OEREExAwexoN+wg0B
+X-Gm-Gg: ASbGnctWrmk+biRqg01IJyeqZ3R6sj16sJh+eEEoqDIg963nVI3wgOfqtI7WKRpktPA
+	Zw1UUQ9UEwL1u5RDV60rk1wk64tpfqo7zD6t9nFrFJ2C0VuwRjVxSJ9MNTQPmmOM2mfmDwprCPU
+	r5D1ytdFQP91stwj0n9HaTwKtSARZI54NxuA13Zs2g/SZrH2uYJJfjfL/u26ki1eSIq8p0v/dq0
+	Jl/7FEiq+aSXW9uT7vBTM6fP2SMwtykwpFAqg1eQC72JtBFn7GgHkXBOA==
+X-Google-Smtp-Source: AGHT+IGLJ1W2T/hdbQdiCIBZkecDQtKrwoetGyA3/aLLuNgM4a1Dyf+OebwoRNCRaca4jYV/KL/34w==
+X-Received: by 2002:a5d:6c68:0:b0:385:df84:8496 with SMTP id ffacd0b85a97d-38880ac60d1mr5709653f8f.3.1734229063677;
+        Sat, 14 Dec 2024 18:17:43 -0800 (PST)
+Received: from [192.168.0.2] ([69.6.8.124])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c8046dabsm4111731f8f.81.2024.12.14.18.17.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 14 Dec 2024 18:17:42 -0800 (PST)
+Message-ID: <da90f64c-260a-4329-87bf-1f9ff20a5951@gmail.com>
+Date: Sun, 15 Dec 2024 04:17:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241204191349.1730936-11-jthoughton@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [net v2] net: wwan: t7xx: Fix FSM command timeout issue
+To: Jinjian Song <jinjian.song@fibocom.com>,
+ chandrashekar.devegowda@intel.com, chiranjeevi.rapolu@linux.intel.com,
+ haijun.liu@mediatek.com, ricardo.martinez@linux.intel.com,
+ loic.poulain@linaro.org, johannes@sipsolutions.net, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, angelogioacchino.delregno@collabora.com,
+ linux-arm-kernel@lists.infradead.org, matthias.bgg@gmail.com,
+ corbet@lwn.net, linux-mediatek@lists.infradead.org, helgaas@kernel.org,
+ danielwinkler@google.com, korneld@google.com, andrew+netdev@lunn.ch,
+ horms@kernel.org
+References: <20241213064720.122615-1-jinjian.song@fibocom.com>
+Content-Language: en-US
+From: Sergey Ryazanov <ryazanov.s.a@gmail.com>
+In-Reply-To: <20241213064720.122615-1-jinjian.song@fibocom.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi James,
+Hello Jinjian,
 
-kernel test robot noticed the following build errors:
+Nice catch! Suddenly, the proposed fix is not complete, we still have 
+issues with memory use after free. Please find details below.
 
-[auto build test ERROR on 4d911c7abee56771b0219a9fbf0120d06bdc9c14]
+On 13.12.2024 08:47, Jinjian Song wrote:
+> When driver processes the internal state change command, it use an
+> asynchronous thread to process the command operation. If the main
+> thread detects that the task has timed out, the asynchronous thread
+> will panic when executing the completion notification because the
+> main thread completion object has been released.
+> 
+> BUG: unable to handle page fault for address: fffffffffffffff8
+> PGD 1f283a067 P4D 1f283a067 PUD 1f283c067 PMD 0
+> Oops: 0000 [#1] PREEMPT SMP NOPTI
+> RIP: 0010:complete_all+0x3e/0xa0
+> [...]
+> Call Trace:
+>   <TASK>
+>   ? __die_body+0x68/0xb0
+>   ? page_fault_oops+0x379/0x3e0
+>   ? exc_page_fault+0x69/0xa0
+>   ? asm_exc_page_fault+0x22/0x30
+>   ? complete_all+0x3e/0xa0
+>   fsm_main_thread+0xa3/0x9c0 [mtk_t7xx (HASH:1400 5)]
+>   ? __pfx_autoremove_wake_function+0x10/0x10
+>   kthread+0xd8/0x110
+>   ? __pfx_fsm_main_thread+0x10/0x10 [mtk_t7xx (HASH:1400 5)]
+>   ? __pfx_kthread+0x10/0x10
+>   ret_from_fork+0x38/0x50
+>   ? __pfx_kthread+0x10/0x10
+>   ret_from_fork_asm+0x1b/0x30
+>   </TASK>
+> [...]
+> CR2: fffffffffffffff8
+> ---[ end trace 0000000000000000 ]---
+> 
+> After the main thread determines that the task has timed out, mark
+> the completion invalid, and add judgment in the asynchronous task.
+> 
+> Fixes: d785ed945de6 ("net: wwan: t7xx: PCIe reset rescan")
 
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Houghton/KVM-Add-KVM_MEM_USERFAULT-memslot-flag-and-bitmap/20241205-032516
-base:   4d911c7abee56771b0219a9fbf0120d06bdc9c14
-patch link:    https://lore.kernel.org/r/20241204191349.1730936-11-jthoughton%40google.com
-patch subject: [PATCH v1 10/13] KVM: selftests: Add KVM Userfault mode to demand_paging_test
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241215/202412150600.wLk8rmZf-lkp@intel.com/reproduce)
+The completion waiting was introduced in a different commit. I believe, 
+the fix tag should be 13e920d93e37 ("net: wwan: t7xx: Add core components")
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412150600.wLk8rmZf-lkp@intel.com/
+> Signed-off-by: Jinjian Song <jinjian.song@fibocom.com>
+> ---
+>   drivers/net/wwan/t7xx/t7xx_state_monitor.c | 7 +++++--
+>   1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/net/wwan/t7xx/t7xx_state_monitor.c b/drivers/net/wwan/t7xx/t7xx_state_monitor.c
+> index 3931c7a13f5a..57f1a7730fff 100644
+> --- a/drivers/net/wwan/t7xx/t7xx_state_monitor.c
+> +++ b/drivers/net/wwan/t7xx/t7xx_state_monitor.c
+> @@ -108,7 +108,8 @@ static void fsm_finish_command(struct t7xx_fsm_ctl *ctl, struct t7xx_fsm_command
+>   {
+>   	if (cmd->flag & FSM_CMD_FLAG_WAIT_FOR_COMPLETION) {
+>   		*cmd->ret = result;
 
-All errors (new ones prefixed by >>):
+The memory for the result storage is allocated on the stack as well. And 
+writing it unconditionally can cause unexpected consequences.
 
->> demand_paging_test.c:220:2: error: address argument to atomic operation must be a pointer to _Atomic type ('unsigned long *' invalid)
-     220 |         atomic_fetch_and_explicit(bitmap_chunk,
-         |         ^                         ~~~~~~~~~~~~
-   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdatomic.h:169:35: note: expanded from macro 'atomic_fetch_and_explicit'
-     169 | #define atomic_fetch_and_explicit __c11_atomic_fetch_and
-         |                                   ^
-   1 error generated.
+> -		complete_all(cmd->done);
+> +		if (cmd->done)
+> +			complete_all(cmd->done);
+>   	}
+>   
+>   	kfree(cmd);
+> @@ -503,8 +504,10 @@ int t7xx_fsm_append_cmd(struct t7xx_fsm_ctl *ctl, enum t7xx_fsm_cmd_state cmd_id
+>   
+>   		wait_ret = wait_for_completion_timeout(&done,
+>   						       msecs_to_jiffies(FSM_CMD_TIMEOUT_MS));
+> -		if (!wait_ret)
+> +		if (!wait_ret) {
+> +			cmd->done = NULL;
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+We cannot access the command memory here, since fsm_finish_command() 
+could release it already.
+
+>   			return -ETIMEDOUT;
+> +		}
+>   
+>   		return ret;
+>   	}
+
+Here we have an ownership transfer problem and a driver author has tried 
+to solve it, but as noticed, we are still experiencing issues in case of 
+timeout.
+
+The command completion routine should not release the command memory 
+unconditionally. Looks like the references counting approach should help 
+us here. E.g.
+1. grab a reference before we put a command into the queue
+1.1. grab an extra reference if we are going to wait the completion
+2. release the reference as soon as we are done with the command execution
+3. in case of completion waiting release the reference as soon as we are 
+done with waiting due to completion or timeout
+
+Could you try the following patch? Please note, besides the reference 
+counter introduction it also moves completion and result storage inside 
+the command structure as advised by the completion documentation.
+
+
+--- a/drivers/net/wwan/t7xx/t7xx_state_monitor.h
++++ b/drivers/net/wwan/t7xx/t7xx_state_monitor.h
+@@ -109,8 +109,9 @@ struct t7xx_fsm_command {
+  	struct list_head	entry;
+  	enum t7xx_fsm_cmd_state	cmd_id;
+  	unsigned int		flag;
+-	struct completion	*done;
+-	int			*ret;
++	struct completion	done;
++	int			result;
++	struct struct kref	refcnt;
+  };
+
+  struct t7xx_fsm_notifier {
+--- a/drivers/net/wwan/t7xx/t7xx_state_monitor.c
++++ b/drivers/net/wwan/t7xx/t7xx_state_monitor.c
+@@ -97,14 +97,20 @@ void t7xx_fsm_broadcast_state(struct t7xx_fsm_ctl 
+*ctl, enum md_state state)
+  	fsm_state_notify(ctl->md, state);
+  }
+
++static void fsm_release_command(struct kref *ref)
++{
++	struct t7xx_fsm_command *cmd = container_of(ref, typeof(*cmd), refcnt);
++	kfree(cmd);
++}
++
+  static void fsm_finish_command(struct t7xx_fsm_ctl *ctl, struct 
+t7xx_fsm_command *cmd, int result)
+  {
+  	if (cmd->flag & FSM_CMD_FLAG_WAIT_FOR_COMPLETION) {
+-		*cmd->ret = result;
++		cmd->result = result;
+  		complete_all(cmd->done);
+  	}
+
+-	kfree(cmd);
++	kref_put(&cmd->refcnt, fsm_release_command);
+  }
+
+  static void fsm_del_kf_event(struct t7xx_fsm_event *event)
+@@ -396,7 +402,6 @@ static int fsm_main_thread(void *data)
+
+  int t7xx_fsm_append_cmd(struct t7xx_fsm_ctl *ctl, enum 
+t7xx_fsm_cmd_state cmd_id, unsigned int flag)
+  {
+-	DECLARE_COMPLETION_ONSTACK(done);
+  	struct t7xx_fsm_command *cmd;
+  	unsigned long flags;
+  	int ret;
+@@ -408,11 +413,13 @@ int t7xx_fsm_append_cmd(struct t7xx_fsm_ctl *ctl, 
+enum t7xx_fsm_cmd_state cmd_id
+  	INIT_LIST_HEAD(&cmd->entry);
+  	cmd->cmd_id = cmd_id;
+  	cmd->flag = flag;
++	kref_init(&cmd->refcnt);
+  	if (flag & FSM_CMD_FLAG_WAIT_FOR_COMPLETION) {
+-		cmd->done = &done;
+-		cmd->ret = &ret;
++		init_completion(&cmd->done);
++		kref_get(&cmd->refcnt);
+  	}
+
++	kref_get(&cmd->refcnt);
+  	spin_lock_irqsave(&ctl->command_lock, flags);
+  	list_add_tail(&cmd->entry, &ctl->command_queue);
+  	spin_unlock_irqrestore(&ctl->command_lock, flags);
+@@ -422,10 +429,10 @@ int t7xx_fsm_append_cmd(struct t7xx_fsm_ctl *ctl, 
+enum t7xx_fsm_cmd_state cmd_id
+  	if (flag & FSM_CMD_FLAG_WAIT_FOR_COMPLETION) {
+  		unsigned long wait_ret;
+
+-		wait_ret = wait_for_completion_timeout(&done,
++		wait_ret = wait_for_completion_timeout(&cmd->done,
+  						       msecs_to_jiffies(FSM_CMD_TIMEOUT_MS));
+-		if (!wait_ret)
+-			return -ETIMEDOUT;
++		ret = wait_ret ? cmd->result : -ETIMEDOUT;
++		kref_put(&cmd->refcnt, fsm_release_command);
+
+  		return ret;
+  	}
+
+--
+Sergey
