@@ -1,150 +1,128 @@
-Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A7D13CA8A
-	for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 16:06:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10FA5146A71;
+	Mon, 16 Dec 2024 16:20:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734365205; cv=none; b=ohUPjLQoSyIoaWMaeCBrh5GFykf1pHv3zGDFFmcCRF5S8znDuqPbZRq7I2Fxopn3BKOG6eB0jApQOU2wHAmsMZrevUi9uq5+KlUCdxsj5odE+9buQugEu+i9vfjpLp7Rf3ZjOrtxkJGJIR88iR6kbxVfE9yK4u8lmv8/Bs57vlE=
+	t=1734366030; cv=none; b=HOT32iuBz0fT1mrZrwVvAlPDLSBBhBvZQuaEfsF6BBJjyMvb4DSRrfqzHGCviiK9So8qe796L3kUu736awt6pdNKM8D5Lw8ZINc0Knqsjopy/qQpCujh0FM7vfwbBRGuqWF42VKjKmaLQgvSdEIJqCXMSUUyS3ryCrkmgb45cKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734365205; c=relaxed/simple;
-	bh=YUZaXS6Vt4XLnH1O45Kl0gC/9P9dQbdNRSwa3HOflOY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YwBzRxQFJJFpK2gaDzqVOkA7WMhoNZJccqN8kqgyESiCEdjaU62sUFvXHd/Jil+KQ9lHMFdpnyD7fHhxqjO9f8tqOu9kdnVPhy4Uf8+/JzSpNE0PTpQDuNP6MEu0zs06RYsmzjDmbDDs6sqahIN22lOUv/sWs10u763ESVpLmxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name; spf=pass smtp.mailfrom=cyyself.name; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=TDxIO2SG; arc=none smtp.client-ip=162.62.57.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cyyself.name
+	s=arc-20240116; t=1734366030; c=relaxed/simple;
+	bh=FRE0tnmdPZcvIgR7EVR87njVhzKUC6TYSG3OdJHFNMw=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=Ne4W9pE4MASlbBdRaYs7GIRT5psevh4+VBFMr23KM6LBn8l4Ea4YQRBTwNBs2HzyXkHgFViIhIjiE7GLC9D2WYzDG25eANp0aFYw0jyKUvipTenxhBmtJsNNuXpk1ssLknvuI2+iRnBusPaqSmgCxFlswS49OLWkB6jstlSy4cM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dRc+sn+r; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="TDxIO2SG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1734365196; bh=yqsCxIHbjWGKkcn2WT4vA7e1SHVnhVYbcDANJ3Bx5XM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=TDxIO2SGal3Xay6s0yR7iw5lU6Y/wECF/fI/DkEFvqfgBsofLBc0bCd7sMbbmpqPN
-	 F9DvKnVa5sx0E8CaEnEWOFw7I5M7KwUecjwM1b4IG1jYbUB9Upep8zC5MI9HkXgNdT
-	 B36+RTAp8NxovMsfoyhvnJTd0rDiPkz9hEmMqb4s=
-Received: from [IPV6:2408:8207:18a1:fd20:b8c3:9ed2:6671:4e49] ([2408:8207:18a1:fd20:b8c3:9ed2:6671:4e49])
-	by newxmesmtplogicsvrszb21-0.qq.com (NewEsmtp) with SMTP
-	id 1806C3E; Tue, 17 Dec 2024 00:00:24 +0800
-X-QQ-mid: xmsmtpt1734364824txr9h1ljv
-Message-ID: <tencent_8F35B6F07D09566A873982E0E2C76085280A@qq.com>
-X-QQ-XMAILINFO: Nr4sKL92GIu+ail8wIV4AJS6zsf5ZE8QPqWHcOkkko+6R74TiLehhg8KsJC771
-	 mL1hZqM/nj0N69IfGvCEh8MuzFlLf7erlLtkrF4QP8qZkH9R46rJC3zvksFOo3obkRV0+aKu4SHn
-	 upyCVd26TXjBxuoB9jpavw9ICCES77vHfPzlK79FLfZuxy8JNgqtal0+9OTmJogTMRdPb5a9nNAi
-	 xm9z/bMHICi1CrOJIkjYihMJD8pEoW2z0hEgNSy4KdH03//bvlgspkYI2RdRI1igqxS3BPQYnoUm
-	 tR8F+1M96o5b/8cq+zmKcxcRc13+BXKZ7da4CApR4NJKEPTEhWWoc/gF4Tf5gA8FTxx9PX2tlQyW
-	 yJveZCleg1c03XKnG4nueB9UCCcgyk+cfy0bGfikU40oDIr2xeXP1+CSslYWCpf+1sE6mktkkNc8
-	 BLWDM1wEVmn2mbepHJousbgdqh08TaMEbkgz9kekID9R6OciOr5XnOIEk1+oQMn4SMNNiirXzbOZ
-	 Aoy9QhLRs5Dus79pfMf1Xn2IUBPqD7Jd+zrnrNIPzqLEGxXYnd+dpA94aWVy14sqyXhEhqzeeeP2
-	 KrL9/qjZgreO/GmAqfzClJMdAwVx7fD7MNVHJqt+1pv7Zlsqwq7LW6NIOxKRSQ1p0Y/2K6xuSvRX
-	 1ukgs86sREVWLwsuNqWBx9MfVt3S0/FNbwTM741VbUnOBy+s4v04V43ZfVjVs6GPJneE8jyk2rlm
-	 Fd6RHcRXIccFOIGJRaJuEtVznba00a7plXP1g5xtyYMuXEmw6ymXSdpEgfq/mLKN2wQI3R8i1d8s
-	 voy1HIED5xdEtvU68yVARCgsyb4Yurpb0Q5Y2lEeXZ7V8PZdXtEyOTq7HvbKJPKHNLqJ1m3WAICp
-	 l+XKCaAEVadEBuVLDImcoihRv21U/CuiEL/r1Y8vxiWL08fFGm6/RuEfb5x/R94G+hqevZgM9FYn
-	 zHzMNJbTlsEp6Ca7lFQw==
-X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
-X-OQ-MSGID: <3c33d4d7-b11e-4f54-9b6b-767bf0495afd@cyyself.name>
-Date: Tue, 17 Dec 2024 00:00:23 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dRc+sn+r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46085C4CED0;
+	Mon, 16 Dec 2024 16:20:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734366025;
+	bh=FRE0tnmdPZcvIgR7EVR87njVhzKUC6TYSG3OdJHFNMw=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=dRc+sn+reUTf5Ng2RmTvjGbDyUqn6S5cWeO793fM9stsagGakiZchfqarwDyJj1Or
+	 CMmq5/mqbOjLbYs7FmpZTMmZXV116uTW3V3aJbdc7NmjqjZAvKIiJ3t5ZcdtyDWGwj
+	 hf75Qp5jGLqCwDrZ/YnGf1dPh64zkLvE1mOAsKfYq9N8yibUH0K25QH19Ya1NPdlh4
+	 0wyQUnBaFsApborre6WqrcDbIBcrTmLIOQa1xj+YmLRq4WSCzBJ1xcepclIHBgr4Qo
+	 uk031+KLsErzEpKQ/t5yBhH2qpUM7ZdKZDI7Pijxzh/QbpXpnL5Khc/M0o6NsNkVWw
+	 e0FV5ta9Qs0ZA==
+Date: Mon, 16 Dec 2024 10:20:18 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] riscv: hwprobe: export bfloat16 ISA extension
-To: Inochi Amaoto <inochiama@gmail.com>, Chen Wang
- <unicorn_wang@outlook.com>, Jonathan Corbet <corbet@lwn.net>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?=
- <cleger@rivosinc.com>, Evan Green <evan@rivosinc.com>,
- Charlie Jenkins <charlie@rivosinc.com>,
- Andrew Jones <ajones@ventanamicro.com>, Jesse Taube <jesse@rivosinc.com>,
- Andy Chiu <andybnac@gmail.com>, Alexandre Ghiti <alexghiti@rivosinc.com>,
- Samuel Holland <samuel.holland@sifive.com>,
- Yong-Xuan Wang <yongxuan.wang@sifive.com>
-Cc: linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Yixun Lan <dlan@gentoo.org>, Longbin Li <looong.bin@gmail.com>
-References: <20241206055829.1059293-1-inochiama@gmail.com>
- <20241206055829.1059293-4-inochiama@gmail.com>
-Content-Language: en-US
-From: Yangyu Chen <cyy@cyyself.name>
-In-Reply-To: <20241206055829.1059293-4-inochiama@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Alex Lanzano <lanzano.alex@gmail.com>, 
+ Jonathan Cameron <jic23@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-iio@vger.kernel.org, 
+ Nuno Sa <nuno.sa@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, 
+ Antoniu Miclaus <antoniu.miclaus@analog.com>, 
+ Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org, 
+ Shen Jianping <Jianping.Shen@de.bosch.com>, 
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
+ devicetree@vger.kernel.org, 
+ Ramona Gradinariu <ramona.gradinariu@analog.com>, robi_budai@yahoo.com, 
+ Michael Hennerich <Michael.Hennerich@analog.com>
+To: Robert Budai <robert.budai@analog.com>
+In-Reply-To: <20241216144818.25344-6-robert.budai@analog.com>
+References: <20241216144818.25344-1-robert.budai@analog.com>
+ <20241216144818.25344-6-robert.budai@analog.com>
+Message-Id: <173436601809.266177.9235347510017778523.robh@kernel.org>
+Subject: Re: [PATCH v3 5/7] dt-bindings: iio: Add adis16550 bindings
 
-Possible conflict with: 
-https://lore.kernel.org/linux-riscv/20241111-v5_user_cfi_series-v8-22-dce14aa30207@rivosinc.com/
 
-On 12/6/24 13:58, Inochi Amaoto wrote:
-> Export Zfbmin, Zvfbfmin, Zvfbfwma ISA extension through hwprobe.
+On Mon, 16 Dec 2024 16:48:11 +0200, Robert Budai wrote:
+> Document the ADIS16550 device devicetree bindings.
 > 
-> Signed-off-by: Inochi Amaoto <inochiama@gmail.com>
-> Reviewed-by: Clément Léger <cleger@rivosinc.com>
+> Co-developed-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+> Signed-off-by: Robert Budai <robert.budai@analog.com>
 > ---
->   Documentation/arch/riscv/hwprobe.rst  | 12 ++++++++++++
->   arch/riscv/include/uapi/asm/hwprobe.h |  3 +++
->   arch/riscv/kernel/sys_hwprobe.c       |  3 +++
->   3 files changed, 18 insertions(+)
 > 
-> diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-> index 955fbcd19ce9..a9cb40e407a4 100644
-> --- a/Documentation/arch/riscv/hwprobe.rst
-> +++ b/Documentation/arch/riscv/hwprobe.rst
-> @@ -242,6 +242,18 @@ The following keys are defined:
->     * :c:macro:`RISCV_HWPROBE_EXT_SUPM`: The Supm extension is supported as
->          defined in version 1.0 of the RISC-V Pointer Masking extensions.
->   
-> +  * :c:macro:`RISCV_HWPROBE_EXT_ZFBFMIN`: The Zfbfmin extension is supported as
-> +       defined in the RISC-V ISA manual starting from commit 4dc23d6229de
-> +       ("Added Chapter title to BF16").
-> +
-> +  * :c:macro:`RISCV_HWPROBE_EXT_ZVFBFMIN`: The Zvfbfmin extension is supported as
-> +       defined in the RISC-V ISA manual starting from commit 4dc23d6229de
-> +       ("Added Chapter title to BF16").
-> +
-> +  * :c:macro:`RISCV_HWPROBE_EXT_ZVFBFWMA`: The Zvfbfwma extension is supported as
-> +       defined in the RISC-V ISA manual starting from commit 4dc23d6229de
-> +       ("Added Chapter title to BF16").
-> +
->   * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: Deprecated.  Returns similar values to
->        :c:macro:`RISCV_HWPROBE_KEY_MISALIGNED_SCALAR_PERF`, but the key was
->        mistakenly classified as a bitmask rather than a value.
-> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-> index 3af142b99f77..aecc1c800d54 100644
-> --- a/arch/riscv/include/uapi/asm/hwprobe.h
-> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
-> @@ -73,6 +73,9 @@ struct riscv_hwprobe {
->   #define		RISCV_HWPROBE_EXT_ZCMOP		(1ULL << 47)
->   #define		RISCV_HWPROBE_EXT_ZAWRS		(1ULL << 48)
->   #define		RISCV_HWPROBE_EXT_SUPM		(1ULL << 49)
-> +#define		RISCV_HWPROBE_EXT_ZFBFMIN	(1ULL << 50)
-> +#define		RISCV_HWPROBE_EXT_ZVFBFMIN	(1ULL << 51)
-> +#define		RISCV_HWPROBE_EXT_ZVFBFWMA	(1ULL << 52)
->   #define RISCV_HWPROBE_KEY_CPUPERF_0	5
->   #define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
->   #define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
-> diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
-> index cb93adfffc48..bd215f58bd1b 100644
-> --- a/arch/riscv/kernel/sys_hwprobe.c
-> +++ b/arch/riscv/kernel/sys_hwprobe.c
-> @@ -131,6 +131,8 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
->   			EXT_KEY(ZVE64D);
->   			EXT_KEY(ZVE64F);
->   			EXT_KEY(ZVE64X);
-> +			EXT_KEY(ZVFBFMIN);
-> +			EXT_KEY(ZVFBFWMA);
->   			EXT_KEY(ZVFH);
->   			EXT_KEY(ZVFHMIN);
->   			EXT_KEY(ZVKB);
-> @@ -147,6 +149,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
->   			EXT_KEY(ZCD);
->   			EXT_KEY(ZCF);
->   			EXT_KEY(ZFA);
-> +			EXT_KEY(ZFBFMIN);
->   			EXT_KEY(ZFH);
->   			EXT_KEY(ZFHMIN);
->   		}
+> v3:
+> - changed sync type to integer
+> - conditioned clock only on scaled-sync
+> - added: unevaluatedProperties false
+> 
+>  .../bindings/iio/imu/adi,adis16550.yaml       | 93 +++++++++++++++++++
+>  MAINTAINERS                                   |  9 ++
+>  2 files changed, 102 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
+> 
+
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml:45:9: [warning] wrong indentation: expected 6 but found 8 (indentation)
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml: ignoring, error in schema: allOf: 0: if: properties: adi,sync-mode
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml: allOf:0:if:properties:adi,sync-mode: 1 is not of type 'object', 'boolean'
+	from schema $id: http://json-schema.org/draft-07/schema#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml: allOf:0:if:properties:adi,sync-mode: 1 is not of type 'object', 'boolean'
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml: properties:clocks: 'anyOf' conditional failed, one must be fixed:
+	'adi,sync-mode' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
+	'type' was expected
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml: properties:clocks: 'oneOf' conditional failed, one must be fixed:
+	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml: properties:clocks: 'anyOf' conditional failed, one must be fixed:
+		'adi,sync-mode' is not one of ['maxItems', 'description', 'deprecated']
+			hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
+		Additional properties are not allowed ('adi,sync-mode' was unexpected)
+			hint: Arrays must be described with a combination of minItems/maxItems/items
+		'maxItems' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
+		'adi,sync-mode' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
+		1 is less than the minimum of 2
+			hint: Arrays must be described with a combination of minItems/maxItems/items
+		hint: cell array properties must define how many entries and what the entries are when there is more than one entry.
+		from schema $id: http://devicetree.org/meta-schemas/clocks.yaml#
+	'maxItems' is not one of ['type', 'description', 'dependencies', 'dependentRequired', 'dependentSchemas', 'properties', 'patternProperties', 'additionalProperties', 'unevaluatedProperties', 'deprecated', 'required', 'not', 'allOf', 'anyOf', 'oneOf', '$ref']
+	'adi,sync-mode' is not one of ['type', 'description', 'dependencies', 'dependentRequired', 'dependentSchemas', 'properties', 'patternProperties', 'additionalProperties', 'unevaluatedProperties', 'deprecated', 'required', 'not', 'allOf', 'anyOf', 'oneOf', '$ref']
+	'type' is a required property
+		hint: DT nodes ("object" type in schemas) can only use a subset of json-schema keywords
+	from schema $id: http://devicetree.org/meta-schemas/clocks.yaml#
+Documentation/devicetree/bindings/iio/imu/adi,adis16550.example.dtb: /example-0/spi/imu@0: failed to match any schema with compatible: ['adi,adis16550']
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20241216144818.25344-6-robert.budai@analog.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
