@@ -1,95 +1,94 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A338205503
-	for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 12:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5E52054EF;
+	Mon, 16 Dec 2024 13:00:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734351638; cv=none; b=P1KEGzlSOTR3uy7/tDmqBlGhFA5vSITQC0wDnLQ1gMj09lWKb9pL/p2oeSVPJt00YcsEHpQCj3ybn/wd1Itt8rS0Njnya/yRPku4vsH1UF+nC/E6k3wxR4yWqi7FFcWEhNjdiFu0CFzD599XsJsELKZQxzWynCU9H6lnb4oRk6M=
+	t=1734354014; cv=none; b=RC+afxNbhenuaGyauN3miFM2oft/1dGI62yFuSD5cnPVOKok0hgsDeP+6VfqRqdeksSIWQ5sg04H/xNbotgPAqc5tCVvAs8FuiPWpPql1yrBEKqBW5WJ/Cdk3g+Cwf3NW1QOKfByDMSFaHCtSGeRPkzLy1FQjRAbAqpyamFgib0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734351638; c=relaxed/simple;
-	bh=+1mE4Amh1vSqq4XSBGGaKD1SEheJUziTYiTujI51/T4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d0Qe3GR7ZQY7uQmvz2qVqvil4IFa+8zUW2CDIHiQ24zUP/6Eoo2kChQ8287C1+/wuFYVc5c5hc6l8l/0ej2xNA5rZpkO70EJHC1ZCZDtOg9sQMRMXysYENcqAOg/KJ58uDO270B0xrGFrFCMSOYXimHWu4FUvhkdFEWHOcxckCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tNA5H-0003o0-03; Mon, 16 Dec 2024 13:20:23 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tNA5F-003h3M-1D;
-	Mon, 16 Dec 2024 13:20:22 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tNA5G-002ars-07;
-	Mon, 16 Dec 2024 13:20:22 +0100
-Date: Mon, 16 Dec 2024 13:20:22 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: "Russell King (Oracle)" <linux@armlinux.org.uk>,
-	Paolo Abeni <pabeni@redhat.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	Simon Horman <horms@kernel.org>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v1 1/1] net: phy: Move callback comments from
- struct to kernel-doc section
-Message-ID: <Z2AbBilPf2JRXNzH@pengutronix.de>
-References: <20241206113952.406311-1-o.rempel@pengutronix.de>
- <e6a812ba-b7ea-4f8a-8bdd-1306921c318f@redhat.com>
- <Z1hJ4Wopr_4BJzan@shell.armlinux.org.uk>
- <20241210063704.09c0ac8a@kernel.org>
+	s=arc-20240116; t=1734354014; c=relaxed/simple;
+	bh=sr4NAeo/7zopeTyqAezpSOvUbsG/1bsunxopKYT/1Dk=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=p3GwgT7gOBDGSG6OB+PGMMPbR6SS6g+ZfIjl5sJBwIOwlwK+GDGDwZF0sQ6ClZm2sgI/fdbLnHTtPRCFZIB2H7AMh9xuep/goL+DxFmOVLmkJb4EAS2tRB+G/uTnFAVovdO6mBUoM4NFBT7c83g3nXsi/l8bv6TMPSi9SpJ90ZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XhVN65rZ; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XhVN65rZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0716C4CED0;
+	Mon, 16 Dec 2024 13:00:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734354014;
+	bh=sr4NAeo/7zopeTyqAezpSOvUbsG/1bsunxopKYT/1Dk=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=XhVN65rZEK40j30RgkPs7MRj/W5wWcVGJIscBqYPjtyokJs1eflG7fErNfVSIB9bS
+	 WtjhY0IPGHc5nzwP7zVbBo8cPh0zRW7wX7jVlYfZ84tCth/DVLVWxyPL7gQJWjbKip
+	 XFEYOr2qXkvqwe8/na1dOLebXRVujUYs667+9XNr5xPh5kB0YgbbJggVQR7Hqjx2Wy
+	 4XXpfobleiR5SfQcFnF0f+VoQrVbcQ4h5U0ueYPzhgsr6RaIQIKkNigtRo6ygrD0te
+	 t1iPrRO4yIEjNUklxGuXi38AhI3KnFUJLigSc6DZb/6XmsU7JXxoXHXbQH0kXwVBx+
+	 kwfbqhUReVmww==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33D793806656;
+	Mon, 16 Dec 2024 13:00:32 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241210063704.09c0ac8a@kernel.org>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v21 0/5] net: Make timestamping selectable
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <173435403101.199619.15275877652330173258.git-patchwork-notify@kernel.org>
+Date: Mon, 16 Dec 2024 13:00:31 +0000
+References: <20241212-feature_ptp_netnext-v21-0-2c282a941518@bootlin.com>
+In-Reply-To: <20241212-feature_ptp_netnext-v21-0-2c282a941518@bootlin.com>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+ andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ richardcochran@gmail.com, radu-nicolae.pirea@oss.nxp.com,
+ j.vosburgh@gmail.com, andy@greyhouse.net, nicolas.ferre@microchip.com,
+ claudiu.beznea@tuxon.dev, willemdebruijn.kernel@gmail.com, corbet@lwn.net,
+ horatiu.vultur@microchip.com, UNGLinuxDriver@microchip.com, horms@kernel.org,
+ vladimir.oltean@nxp.com, donald.hunter@gmail.com, danieller@nvidia.com,
+ ecree.xilinx@gmail.com, andrew+netdev@lunn.ch, thomas.petazzoni@bootlin.com,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, maxime.chevallier@bootlin.com,
+ rrameshbabu@nvidia.com, willemb@google.com, shannon.nelson@amd.com,
+ wintera@linux.ibm.com, jacob.e.keller@intel.com
 
-Hi Jakub,
+Hello:
 
-On Tue, Dec 10, 2024 at 06:37:04AM -0800, Jakub Kicinski wrote:
-> > I certainly can't help but write the "returns" statement in natural
-> > English, rather than kernel-doc "Returns:" style as can be seen from
-> > my recent patches that have been merged. "Returns" without a colon is
-> > just way more natural when writing documentation.
-> > 
-> > IMHO, kernel-doc has made a wrong decision by requiring the colon.
+This series was applied to netdev/net-next.git (main)
+by David S. Miller <davem@davemloft.net>:
+
+On Thu, 12 Dec 2024 18:06:40 +0100 you wrote:
+> Up until now, there was no way to let the user select the hardware
+> PTP provider at which time stamping occurs. The stack assumed that PHY time
+> stamping is always preferred, but some MAC/PHY combinations were buggy.
 > 
-> For the patch under consideration, however, I think _some_ attempt 
-> to make fully documenting callbacks inline possible needs to be made :(
+> This series updates the default MAC/PHY default timestamping and aims to
+> allow the user to select the desired hwtstamp provider administratively.
+> 
+> [...]
 
-Please rephrase, I do not understand.
+Here is the summary with links:
+  - [net-next,v21,1/5] net: Make dev_get_hwtstamp_phylib accessible
+    https://git.kernel.org/netdev/net-next/c/5e51e50e2324
+  - [net-next,v21,2/5] net: Make net_hwtstamp_validate accessible
+    https://git.kernel.org/netdev/net-next/c/b18fe47c0c09
+  - [net-next,v21,3/5] net: Add the possibility to support a selected hwtstamp in netdevice
+    https://git.kernel.org/netdev/net-next/c/35f7cad1743e
+  - [net-next,v21,4/5] net: ethtool: tsinfo: Enhance tsinfo to support several hwtstamp by net topology
+    https://git.kernel.org/netdev/net-next/c/b9e3f7dc9ed9
+  - [net-next,v21,5/5] net: ethtool: Add support for tsconfig command to get/set hwtstamp config
+    https://git.kernel.org/netdev/net-next/c/6e9e2eed4f39
 
-Should I resend this patch with corrected "Return:" description, or
-continue with inlined comments withing the struct and drop this patch?
-
-Regards,
-Oleksij
+You are awesome, thank you!
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
