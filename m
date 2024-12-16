@@ -1,149 +1,173 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2777B2080DD
-	for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 17:58:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 625C5207E03
+	for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 18:01:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734371918; cv=none; b=LVyYCSGVVIKzgoeK4DaOyvh9N515ioamC4zZtp9D0gnTfjFuwgja8TBjERH3ANIsTcx/gOZr6hc1/2Qmt/ZGc575zWp4nqOVKkQK1lWb0saAxfwo0rMUMWTE2zGfnwS2t5eklhHde4akcjqT3UnmNCiAHqVlzpg2ofZS4JjZ+08=
+	t=1734372093; cv=none; b=VZVFPnZDJZ1yuIpb3AmSGFYUSNmhdYkf8PEq5pP56fKnArqcRQ9H0iHeNmTW6jJcHk41OPqvJlR+5OJY+YqCtS3ZpCJc44TiQDYACZLvfxAH621F7dObpY3GUJ9s/aZW9SFlGCLzURoQoGSU04ctadisH323euB3BHpE4dVqD6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734371918; c=relaxed/simple;
-	bh=Tj0Fs/SZ0LdYe4bijqABYQiOrU4v7kAAQllRkbZHx8g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mYsczgfQz9rX+BT0VkY70TrgXIXKfebCO559TamxW8BDuP2e1i5zT/FplLT1G3VAekpLsIACRWQMR/y3rIsEqQL467BQXabgCWjWHrDxasD4bCChJwDZFHKCGOr3xhBTSxLdxxezwVCm9Sd2N6cswX0B3XIUpTjhowyH7uIgMwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QI064CkY; arc=none smtp.client-ip=209.85.160.182
+	s=arc-20240116; t=1734372093; c=relaxed/simple;
+	bh=TNfva8Q6ky3jlZGdUL9mgkSi6s0mbMUSjYqQPTb44Vc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OxCpRriuociaYVygm3zJTomi7oZVxg/cPDbIvgOm2WkQVLqIVMrul8Y0b7iEQBYjDaLmFT02he1xpE2wVqEoDnH5zq5oe8dtm2tJwLegmmV8TGfz/Qx6iG21HSzx80+jSVjYwuFJbl1awUpyErckynfIimzS+93qBoJDks32SUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=c0/1MESJ; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QI064CkY"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4678c9310afso5261cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 09:58:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="c0/1MESJ"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2163affd184so3615ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 10:01:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734371916; x=1734976716; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tj0Fs/SZ0LdYe4bijqABYQiOrU4v7kAAQllRkbZHx8g=;
-        b=QI064CkYfuulf880aC0rqJFHI1yxYXnD1F6ALr8gtZc/wZYQW3d1fKmXqWKTZLvZS7
-         wDiNZDU6fZLZPOAybkb3tYINHHG//ANd07NoUlCBuLgmT8WQoczxHqmWQ7ToM1LuUV5/
-         YNwcVwRmToOzR7FkX7AYfNFkZ3dwu2l2ufV+jruc67zwaQ3Rs9keTdw1TWIbxrn9lkdY
-         pbOcUiUCiM6dDW7b8O/xHoXHPRt4t6JpPPR6Ncc7beA2qykFvTVcKxe/KgWbHQszFi7X
-         Jh9kkFC1EJ5sB+FqmadK4ETW3egDfzqBRdUj81Kc4b7D/cMI1PAH8DNQZIPlxUtHfBI+
-         tmJA==
+        d=google.com; s=20230601; t=1734372091; x=1734976891; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iPQIIei43g7kqpTU4ih+SdwtTSlvo9YRppIwW8lHav4=;
+        b=c0/1MESJ3NsGsL/fzy/xuxkxSU6G+3YdheqhAiPu5YNGqpxIb1dKePPN8/jQCkSSAt
+         /otMdqMsdjXuEMGrRs7FKRTYCPMFQk1/clGbU/1a5kUgMldTp2WvuFmKDb3e3UkC7LiQ
+         2xkvP4ddt/lpJ0Gi7f6sLv4Dw4sel6YURXrNqk9aHlCdlKuG1TsDc/aywVh0kj6374gM
+         RIWPk3ELKukwJjBfqVklMW18IlaxuKlOEkKczwqLz8S3Nd/cMcVR6uPHqbL29QR4dYk+
+         ObIjHgRWDuXYRMX/gOy1FYqic9VlKyC7wT5Trt5AX9wZBxsjs49uc7DHFbGJjd2ZW3O9
+         RNGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734371916; x=1734976716;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Tj0Fs/SZ0LdYe4bijqABYQiOrU4v7kAAQllRkbZHx8g=;
-        b=Wo0/zow/s6lYe/UrGL7xRPqEJAdcex8UeuOw9sVJqWaY7vqFP0ihETFu3s6Rqh93P8
-         uz79+GMmqqgcXNoFQVInoUKLTIewcW+Vibo1B6n0Yjhjvnh+CTd3m9lLxt8YUtZ01/jH
-         pDPPqtBMFaBZ8KJttbD3TafZw3eQtO5rOlBR4TrfcASrrFGEqZOYH5yVJSD2WkK85iCR
-         m787L0s/Nd2gMF8v4j0EXSTkSWOEjkcvL6gWWjoeb6jFHrrHqX3sLqtE1khj3StjStlV
-         wUCxS9GQrRHm/5kT1aMWLSQBfm0nlg4zfIkvHWTeAKK6c+pdSEfKByoPhdMOOpaP5zuQ
-         Ikyw==
-X-Forwarded-Encrypted: i=1; AJvYcCVRh03fwvKlwjnqvC49kloCwST3BGoieyzTmR/JzMicqXOVSgvzIxaNuf8B3aiUFr0HUWhHR9JgqZw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy5OY/NN5qzIDFQLdn4X5fK2srCqqWwAHMHve9iKuTeMLqASVp7
-	Sr+kGXJd6AWdc5b+QzOt0T5oiRO/h7JW2rnpaBsEXMT9ZHww5spURE46jrMmGtTxspii5TlbJG7
-	s4e9sLn/4+nnXps9BAIwzp7El2S0XMQkg68eQ
-X-Gm-Gg: ASbGnctZTpZgYd9YqfCkaYdFYptZMVyN1wIVRhsa+V/jYrftDA+sYCq8Igz+TSoigU4
-	txK7+3XXjnjISp5aIxPN8enagSptfXW3ECPdd98kIuWc8XxzpXFu2cRbkWHmj9+wdWPea
-X-Google-Smtp-Source: AGHT+IFekFYYD6IdXMk+zakuU02lMxecxZ/HgX8Res1s/0Gqq9iULJ7g+kDWuvlQtsch8RjuiCMw7JleqzoFJAox6+Q=
-X-Received: by 2002:a05:622a:550:b0:466:8e4d:e981 with SMTP id
- d75a77b69052e-467b48c562dmr8286291cf.3.1734371915660; Mon, 16 Dec 2024
- 09:58:35 -0800 (PST)
+        d=1e100.net; s=20230601; t=1734372091; x=1734976891;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iPQIIei43g7kqpTU4ih+SdwtTSlvo9YRppIwW8lHav4=;
+        b=CFCS1qkSOXoL45AqwAo7L+5bGBSmX4deJ4S0Tj0n3N2keFq1Wo/CKVbOruc/ynUrjN
+         k9CFWz8zg/uI2aDWqdjtFyuqY1HLmgcI7zQGHRBFjiD4qTo8bxywdLeaVFoAR7KamDyy
+         6LtLNoJOAZN7j9xURJVuhp/7JZRk3n8BRPQzqZ0I86yfIQfbaXGJjOg0LOXXkKD6+T2L
+         e1jm51DqlI57PVIQS9yM7Q6o0jL63EjmXJboJI3dwtmtrbLpneietNCJIzbbib0Snoh5
+         ASKwo2NFdc+xgcfGBgZtb0PZpvXjVzDnxkzx0IjAWvhf8+ZXmQ58/m7DcgssoMJ777zG
+         DkLg==
+X-Forwarded-Encrypted: i=1; AJvYcCXttd66OVTbs3mKixJ32Ojp0GvDMN1tsW9hzt08JvQvKq2Df1tSqzfiBEAeewThp1fVEj7jLSJJqbE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywlu1wI/rGHslUZ/a8ALFld/Yl52RM9TEIIzuxyloazCoTbB/1V
+	jhEjs9dP7+41sFbITPBUWy+pWkw4nz4fPBcRW0dXDvw8BcArwOjE3DbsW+9pIQ==
+X-Gm-Gg: ASbGncsFiHDyCYlxNdr0hg9Eq4DVoojOQfdZ1MQRTk/HeX4LgrX5vDXPZ6hMdJqUzq+
+	QZajVZ7Kkht0k5spsnn1QT8DVrItz6rDoKHUfqWZYsyKoQDu5HzYGiSU8cOgpSvfWs6Ya+GmZJF
+	rjYvdYTNM4gE16AajCPwsw57HxVoUG90TL10D5NRYin4O5fPq72Eb96pUA0MyV1/MJjl141hdF6
+	tDzdX1jaC79scNFFOwFi8/OkYvmJuLeZYJqXxcq/+4McDaNzduoH8RTInIRSJIzfXAAXCIHg9aa
+	qlqjpmdtKKRaS26jQcE=
+X-Google-Smtp-Source: AGHT+IHHEXazswLI1ZC1yYlfJKsVFipOtHWE0V0uoBs6pGbMlIW0+1tuLPmPdqqn8TQk9Mo751rpqQ==
+X-Received: by 2002:a17:903:1252:b0:216:6ecd:8950 with SMTP id d9443c01a7336-218a4539480mr4010465ad.19.1734372091319;
+        Mon, 16 Dec 2024 10:01:31 -0800 (PST)
+Received: from google.com (226.75.127.34.bc.googleusercontent.com. [34.127.75.226])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-218a1db87c9sm45727125ad.8.2024.12.16.10.01.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Dec 2024 10:01:30 -0800 (PST)
+Date: Mon, 16 Dec 2024 18:01:24 +0000
+From: Carlos Llamas <cmllamas@google.com>
+To: Li Li <dualli@chromium.org>
+Cc: dualli@google.com, corbet@lwn.net, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	donald.hunter@gmail.com, gregkh@linuxfoundation.org,
+	arve@android.com, tkjos@android.com, maco@android.com,
+	joel@joelfernandes.org, brauner@kernel.org, surenb@google.com,
+	arnd@arndb.de, masahiroy@kernel.org, bagasdotme@gmail.com,
+	horms@kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+	hridya@google.com, smoreland@google.com, kernel-team@android.com
+Subject: Re: [PATCH net-next v10 1/2] binderfs: add new binder devices to
+ binder_devices
+Message-ID: <Z2Bq9CjXO6FXIFjl@google.com>
+References: <20241212224114.888373-1-dualli@chromium.org>
+ <20241212224114.888373-2-dualli@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241119-force-cpu-bug-v1-1-2aa31c6c1ccf@google.com> <20241216171700.GIZ2BgjPerQ8jQlq8S@fat_crate.local>
-In-Reply-To: <20241216171700.GIZ2BgjPerQ8jQlq8S@fat_crate.local>
-From: Brendan Jackman <jackmanb@google.com>
-Date: Mon, 16 Dec 2024 18:58:24 +0100
-X-Gm-Features: AbW1kvaK3B5lvRqsgND-co29rPEZBo1aRssvLsJTm1GqlpHREhU8ZVp3DET3-dI
-Message-ID: <CA+i-1C1HeLfbGg=LdXBYuhXWVPn1O0qtEYxFRYaXPUch4goEtA@mail.gmail.com>
-Subject: Re: [PATCH] x86/bugs: Add force_cpu_bug= cmdline param
-To: Borislav Petkov <bp@alien8.de>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241212224114.888373-2-dualli@chromium.org>
 
-On Mon, 16 Dec 2024 at 18:17, Borislav Petkov <bp@alien8.de> wrote:
->
-> On Tue, Nov 19, 2024 at 06:43:57PM +0000, Brendan Jackman wrote:
-> > Sometimes it can be very useful to run CPU vulnerability mitigations on
-> > systems where they aren't known to mitigate any real-world
-> > vulnerabilities. This can be handy for mundane reasons like "I wanna
-> > debug this on the machine that quickly", but also for research reasons:
-> > while some mitigations are focussed on individual vulns and uarches,
->
-> Unknown word [focussed] in commit message.
-> Suggestions: ['focused', 'focuses', 'cussed', 'fussed', 'foxed', "focus's", 'flossed', 'coursed', 'focus', 'fused', 'cursed', 'fessed', 'refocused', "ficus's"]
->
-> Spellchecker pls.
->
-> > others are fairly general, and it's strategically useful to have an idea
-> > how they'd perform on systems where we don't currently need them.
->
-> Please use passive voice in your commit message: no "we" or "I", etc,
-> and describe your changes in imperative mood.
->
-> Also, pls read section "2) Describe your changes" in
-> Documentation/process/submitting-patches.rst for more details.
->
-> Also, see section "Changelog" in
-> Documentation/process/maintainer-tip.rst
->
-> Bottom line is: personal pronouns are ambiguous in text, especially with
-> so many parties/companies/etc developing the kernel so let's avoid them
-> please.
->
-> Also check your comments in the code pls.
+On Thu, Dec 12, 2024 at 02:41:13PM -0800, Li Li wrote:
+> From: Li Li <dualli@google.com>
+> 
+> When binderfs is not enabled, the binder driver parses the kernel
+> config to create all binder devices. All of the new binder devices
+> are stored in the list binder_devices.
+> 
+> When binderfs is enabled, the binder driver creates new binder devices
+> dynamically when userspace applications call BINDER_CTL_ADD ioctl. But
+> the devices created in this way are not stored in the same list.
+> 
+> This patch fixes that.
+> 
+> Signed-off-by: Li Li <dualli@google.com>
+> ---
+>  drivers/android/binder.c          | 5 +++++
+>  drivers/android/binder_internal.h | 8 ++++++++
+>  drivers/android/binderfs.c        | 2 ++
+>  3 files changed, 15 insertions(+)
+> 
+> diff --git a/drivers/android/binder.c b/drivers/android/binder.c
+> index ef353ca13c35..0a16acd29653 100644
+> --- a/drivers/android/binder.c
+> +++ b/drivers/android/binder.c
+> @@ -6928,6 +6928,11 @@ const struct binder_debugfs_entry binder_debugfs_entries[] = {
+>  	{} /* terminator */
+>  };
+>  
+> +void binder_add_device(struct binder_device *device)
+> +{
+> +	hlist_add_head(&device->hlist, &binder_devices);
+> +}
+> +
+>  static int __init init_binder_device(const char *name)
+>  {
+>  	int ret;
+> diff --git a/drivers/android/binder_internal.h b/drivers/android/binder_internal.h
 
-Ack.
+nit: I believe you the following hunk should be in this patch no?
 
-> > As evidence for this being useful, a flag specifically for Retbleed was
-> > added in commit 5c9a92dec323 ("x86/bugs: Add retbleed=force").
-> >
-> > It's a bit unfortunate that we have to do this by bug instead of by
-> > mitigation. However, we don't have clear identifiers for the mitigations
-> > that we do, so I don't think it's practical to do better here than "you
-> > can pretend you're on a vulnerable CPU - now go and read the docs for
-> > the per-vuln cmdline params to figure out how to run the mitigation you
-> > want".
-> >
-> > Being an early_param() means we get to do this before identify_cpu() and
-> > cpu_select_mitigations(). But it's possible there's still other types of
-> > bugs that get setup earlier and might miss this override...
-> >
-> > I've only tested this by booting a QEMU guest and checking /proc/cpuinfo.
->
-> Right, I don't mind this - question is, how do we make it such that people do
-> not use it in production and then come complaining to us why their CPU is
-> affected.
->
-> Yeah, sure, they better know what they're doing but I've seen pretty evil
-> perversions so far and us giving them enough rope just to shoot themselves is
-> fine.
->
-> What I don't think is fine is for *us* to shoot ourselves in the foot
-> by giving the users such a thing.
->
-> Btw, there's a clearcpuid= cmdline option which has the same potential and
-> that thing taints the kernel. Yours should probably do the same.
+ /**
+  * struct binder_device - information about a binder device node
+- * @hlist:          list of binder devices (only used for devices requested via
+- *                  CONFIG_ANDROID_BINDER_DEVICES)
++ * @hlist:          list of binder devices
+  * @miscdev:        information about a binder character device node
+  * @context:        binder context information
+  * @binderfs_inode: This is the inode of the root dentry of the super block
 
-OK yeah, tainting definitely makes sense, I think that goes quite a
-long way to avoid bogus bug reports? I will also update the docs to
-sound scarier.
 
-> And it probably should be called "setcpuid=" as a counterpart to what we have
-> now...
+> index f8d6be682f23..1f21ad3963b1 100644
+> --- a/drivers/android/binder_internal.h
+> +++ b/drivers/android/binder_internal.h
+> @@ -582,4 +582,12 @@ struct binder_object {
+>  	};
+>  };
+>  
+> +/**
+> + * Add a binder device to binder_devices
+> + * @device: the new binder device to add to the global list
+> + *
+> + * Not reentrant as the list is not protected by any locks
+> + */
+> +void binder_add_device(struct binder_device *device);
+> +
+>  #endif /* _LINUX_BINDER_INTERNAL_H */
+> diff --git a/drivers/android/binderfs.c b/drivers/android/binderfs.c
+> index ad1fa7abc323..bc6bae76ccaf 100644
+> --- a/drivers/android/binderfs.c
+> +++ b/drivers/android/binderfs.c
+> @@ -207,6 +207,8 @@ static int binderfs_binder_device_create(struct inode *ref_inode,
+>  	fsnotify_create(root->d_inode, dentry);
+>  	inode_unlock(d_inode(root));
+>  
+> +	binder_add_device(device);
+> +
+>  	return 0;
+>  
+>  err:
+> -- 
+> 2.47.1.613.gc27f4b7a9f-goog
+> 
 
-So do you think we should allow setting arbitrary cpu features? That
-seems like a much bigger footgun. But then again, the difference
-between "big footgun" and "very big footgun" is not that important,
-either way it needs to be clear to users that this is a scary red
-button.
+
+Other than the comment above it LGTM. Feel free to add:
+
+Acked-by: Carlos Llamas <cmllamas@google.com>
+
