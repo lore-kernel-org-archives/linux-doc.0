@@ -1,38 +1,38 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99E01B5EB5;
-	Mon, 16 Dec 2024 21:19:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6111D4169;
+	Mon, 16 Dec 2024 21:38:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734383946; cv=none; b=pNsH4roCh7azDm52oil0Do37hyg0tSqQjJlWHomH5gtY3MXLzLZ/hsfgz4JxEurUnlcd3orFWywGgJcT0hSPk4ec3zFDky6JPIrXkV2a/54xAKrs59Tm9RsBQf0uQvyKNJWxx3up9EZGvB0EQaAVlilwtWFXvwyZZagf2Q9YmVM=
+	t=1734385093; cv=none; b=S5CUiykITKlzPiJs1au1VJDGHx/x4410k+o3+tj4KBcLSbjDo6BwHY3AQwTBjqW/65NTVJYDfKo7ZXFQWUPPBER8UTF+KTXO23W7ng4vSK7+dUEoa6Q9YdbbxxdWtQVzZkJbUYqlfp9xwOWkNRna2ZJpjlPwM35olfeODiB/37E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734383946; c=relaxed/simple;
-	bh=ek+xYaJy87EX5UEGxygqRG6doJzbHOhTzFII2PC4n9M=;
+	s=arc-20240116; t=1734385093; c=relaxed/simple;
+	bh=S//aHnmiwlKpC4zrf5ah0OGezbmqK23xUtM2DZ/uTMg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lxh6TM8i9gZ8nRlUoSqj9OeGhQywcNOx31n4l1AEQ5JFeaGS4iFWNemJWKcw+QWC9i5Tc7u0KuF37A8jmaPVGwtN9efwlo2aIBAKC5cX5/INVtZ0wKl0In0+CMdMcgDypiUB+/7Y7VLUMsl8FOx8waKeD3a4kddeqAE3DZ1gdRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Exo/K1NW; arc=none smtp.client-ip=90.155.92.199
+	 Content-Type:Content-Disposition:In-Reply-To; b=n7qxsfIAMFk1U0s/Ji8UhuWNsBXNtXGG//0H7OAf4OIutFxOeQ1KjZu6Fo0RQZ5Mq0eQpbs4FxtMxFtb5AzblJlq01VC5uobguDZMwwj9tvD3l2EoHTTgPbTxh3R3F6Ff8Tm3IoxMm7+/Ax54DuSpW+MfvgiSjQT1GRkngQb/U8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=lmj3uwnA; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Exo/K1NW"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lmj3uwnA"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=aq6kZVM12fgWzF+pq/rgcXR/bLmQmlEHBp3Dopc19M4=; b=Exo/K1NWyblsPnEfeIij0yFOdP
-	mvrvETCJ6OQxMElyMkEOlQEEqCGu5JjNEtupMxwAShKwoU8WJ0N20jA0jpVkUG5P/ZZlKKWDkcXcv
-	w8sFnvZ1Zl2UZd5oBNsEDp2JFnr9MCRUWhKljJivlQx3bxdwYUKhCtmUaiHzPdZl5oQq5Qah8P1tF
-	cjsDLAbMDqO9DT6BdJMPBZN/NsOzI7uB0FEFXcsVyw+6tv+WDSU+ivXUsi4cF3zKkDH2N6SIJELtH
-	QtLhBxviq9TJ8PBHoUGwsk70cr4DlrecqtOGGP4tSa94PF/qqWDc+MHvRquzAzmP9v80pHCkmiNPp
-	7GToNoCg==;
+	bh=eQZ4movVBV5OyxGyGtrXDRWuzYuGglmPmc94RPaLDPs=; b=lmj3uwnAWCk4GZUBwCltac1hMA
+	og8Vhfg9PCVHyRLXmi8twh6OrPtnpDmcHtaBdsOdeitDDdO8KtsQb5llfs349+cHcUOMic7nY2vHH
+	b9xKN4iCcOScmgcCSZW2k6NA0kX2oqkFoLNnG6yyVfn2riHTyz1LRNlDkfo1KnrU+0EtTd844hgHg
+	nTD8qMKd4GnWTtB+mS35JVSXXo37bZcHWg5Py0W82dZK2P6nRtt7Qxbp92dCVPWVwBTHDcONx423M
+	28WizP5SJf8hugS7lKKMDr69gTnKKxAEYctS72derFFDaM1homYXNa7fuc6db9KipwUifzPpo/7Ud
+	4/mtuNFA==;
 Received: from 77-249-17-89.cable.dynamic.v4.ziggo.nl ([77.249.17.89] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNITz-00000004wgd-1GY9;
-	Mon, 16 Dec 2024 21:18:33 +0000
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tNImo-00000002IRi-1ITN;
+	Mon, 16 Dec 2024 21:37:54 +0000
 Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id D7EBE30031E; Mon, 16 Dec 2024 22:18:26 +0100 (CET)
-Date: Mon, 16 Dec 2024 22:18:26 +0100
+	id CEE0130031E; Mon, 16 Dec 2024 22:37:53 +0100 (CET)
+Date: Mon, 16 Dec 2024 22:37:53 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: Suren Baghdasaryan <surenb@google.com>
 Cc: akpm@linux-foundation.org, willy@infradead.org, liam.howlett@oracle.com,
@@ -46,12 +46,11 @@ Cc: akpm@linux-foundation.org, willy@infradead.org, liam.howlett@oracle.com,
 	pasha.tatashin@soleen.com, klarasmodin@gmail.com, corbet@lwn.net,
 	linux-doc@vger.kernel.org, linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH v6 11/16] mm: enforce vma to be in detached state before
- freeing
-Message-ID: <20241216211826.GA33253@noisy.programming.kicks-ass.net>
+Subject: Re: [PATCH v6 10/16] mm: replace vm_lock and detached flag with a
+ reference count
+Message-ID: <20241216213753.GD9803@noisy.programming.kicks-ass.net>
 References: <20241216192419.2970941-1-surenb@google.com>
- <20241216192419.2970941-12-surenb@google.com>
- <20241216211635.GC9803@noisy.programming.kicks-ass.net>
+ <20241216192419.2970941-11-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,56 +59,84 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241216211635.GC9803@noisy.programming.kicks-ass.net>
+In-Reply-To: <20241216192419.2970941-11-surenb@google.com>
 
-On Mon, Dec 16, 2024 at 10:16:35PM +0100, Peter Zijlstra wrote:
-> On Mon, Dec 16, 2024 at 11:24:14AM -0800, Suren Baghdasaryan wrote:
-> > exit_mmap() frees vmas without detaching them. This will become a problem
-> > when we introduce vma reuse. Ensure that vmas are always detached before
-> > being freed.
-> > 
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > ---
-> >  kernel/fork.c |  4 ++++
-> >  mm/vma.c      | 10 ++++++++--
-> >  2 files changed, 12 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/kernel/fork.c b/kernel/fork.c
-> > index 283909d082cb..f1ddfc7b3b48 100644
-> > --- a/kernel/fork.c
-> > +++ b/kernel/fork.c
-> > @@ -473,6 +473,10 @@ struct vm_area_struct *vm_area_dup(struct vm_area_struct *orig)
-> >  
-> >  void __vm_area_free(struct vm_area_struct *vma)
-> >  {
-> > +#ifdef CONFIG_PER_VMA_LOCK
-> > +	/* The vma should be detached while being destroyed. */
-> > +	VM_BUG_ON_VMA(!is_vma_detached(vma), vma);
-> > +#endif
-> >  	vma_numab_state_free(vma);
-> >  	free_anon_vma_name(vma);
-> >  	kmem_cache_free(vm_area_cachep, vma);
-> > diff --git a/mm/vma.c b/mm/vma.c
-> > index fbd7254517d6..0436a7d21e01 100644
-> > --- a/mm/vma.c
-> > +++ b/mm/vma.c
-> > @@ -413,9 +413,15 @@ void remove_vma(struct vm_area_struct *vma, bool unreachable)
-> >  	if (vma->vm_file)
-> >  		fput(vma->vm_file);
-> >  	mpol_put(vma_policy(vma));
-> > -	if (unreachable)
-> > +	if (unreachable) {
-> > +#ifdef CONFIG_PER_VMA_LOCK
-> > +		if (!is_vma_detached(vma)) {
-> > +			vma_start_write(vma);
-> > +			vma_mark_detached(vma);
-> > +		}
-> > +#endif
-> >  		__vm_area_free(vma);
-> 
-> Again, can't you race with lockess RCU lookups?
+On Mon, Dec 16, 2024 at 11:24:13AM -0800, Suren Baghdasaryan wrote:
+> +static inline void vma_refcount_put(struct vm_area_struct *vma)
+> +{
+> +	int refcnt;
+> +
+> +	if (!__refcount_dec_and_test(&vma->vm_refcnt, &refcnt)) {
+> +		rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
+> +
+> +		if (refcnt & VMA_STATE_LOCKED)
+> +			rcuwait_wake_up(&vma->vm_mm->vma_writer_wait);
+> +	}
+> +}
+> +
+>  /*
+>   * Try to read-lock a vma. The function is allowed to occasionally yield false
+>   * locked result to avoid performance overhead, in which case we fall back to
+> @@ -710,6 +728,8 @@ static inline void vma_lock_init(struct vm_area_struct *vma)
+>   */
+>  static inline bool vma_start_read(struct vm_area_struct *vma)
+>  {
+> +	int oldcnt;
+> +
+>  	/*
+>  	 * Check before locking. A race might cause false locked result.
+>  	 * We can use READ_ONCE() for the mm_lock_seq here, and don't need
+> @@ -720,13 +740,20 @@ static inline bool vma_start_read(struct vm_area_struct *vma)
+>  	if (READ_ONCE(vma->vm_lock_seq) == READ_ONCE(vma->vm_mm->mm_lock_seq.sequence))
+>  		return false;
+>  
+> +
+> +	rwsem_acquire_read(&vma->vmlock_dep_map, 0, 0, _RET_IP_);
+> +	/* Limit at VMA_STATE_LOCKED - 2 to leave one count for a writer */
+> +	if (unlikely(!__refcount_inc_not_zero_limited(&vma->vm_refcnt, &oldcnt,
+> +						      VMA_STATE_LOCKED - 2))) {
+> +		rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
+>  		return false;
+> +	}
+> +	lock_acquired(&vma->vmlock_dep_map, _RET_IP_);
+>  
+>  	/*
+> +	 * Overflow of vm_lock_seq/mm_lock_seq might produce false locked result.
+>  	 * False unlocked result is impossible because we modify and check
+> +	 * vma->vm_lock_seq under vma->vm_refcnt protection and mm->mm_lock_seq
+>  	 * modification invalidates all existing locks.
+>  	 *
+>  	 * We must use ACQUIRE semantics for the mm_lock_seq so that if we are
+> @@ -734,10 +761,12 @@ static inline bool vma_start_read(struct vm_area_struct *vma)
+>  	 * after it has been unlocked.
+>  	 * This pairs with RELEASE semantics in vma_end_write_all().
+>  	 */
+> +	if (oldcnt & VMA_STATE_LOCKED ||
+> +	    unlikely(vma->vm_lock_seq == raw_read_seqcount(&vma->vm_mm->mm_lock_seq))) {
+> +		vma_refcount_put(vma);
 
-Ah, no, removing vma requires holding mmap_lock for writing and having
-the vma locked, which would ensure preceding RCU readers are complete
-(per the LOCK_OFFSET waiter thing) and new RCU readers are rejected for
-the vma sequence thing.
+Suppose we have detach race with a concurrent RCU lookup like:
+
+					vma = mas_lookup();
+
+	vma_start_write();
+	mas_detach();
+					vma_start_read()
+					rwsem_acquire_read()
+					inc // success
+	vma_mark_detach();
+	dec_and_test // assumes 1->0
+		     // is actually 2->1
+
+					if (vm_lock_seq == vma->vm_mm_mm_lock_seq) // true
+					  vma_refcount_put
+					    dec_and_test() // 1->0
+					      *NO* rwsem_release()
+
+
+
+>  		return false;
+>  	}
+> +
+>  	return true;
+>  }
