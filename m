@@ -1,455 +1,432 @@
-Received: from mx0a-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2051.outbound.protection.outlook.com [40.107.94.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05B91C54B5;
-	Mon, 16 Dec 2024 05:31:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.148.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734327087; cv=none; b=kLwMYPzRPij5Aj3jMRh/Qy3rW8jVmC+5xX4wrK8nMaaoPiof1NpLjqZ3zA3V+K7fbHAG/ynQoFUu9duhTKInMgD5Y0VVC2FIHzky7C+csl/4JuoYqG2oEUVw+j27tM4GzT08+4G5of/I/3KlQBWDpk4Nb2DLaM7AflIHD6pH+gM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734327087; c=relaxed/simple;
-	bh=uCgddlLzIvdSrHfqYYutJnGSbsebhfn0QoBA+h3xOmM=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fyymBh5DTKMYPrBKE+fA24+Y20028PJquYs5hhrQZpKaznZS/DbN9Ai2iuJ7o9EIsGNiZqrc1utUolU8fVUSx/YA+icgYyyjyOyuzbgvfQjLc5xah+CIj3hfgem6rI2ZXdjUzzTQbEZ6icrI//BVdFA7ezyT6BaVXD2m8rTfuYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=Grqxj5Wi; arc=none smtp.client-ip=67.231.148.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B456F1C3F0E;
+	Mon, 16 Dec 2024 05:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734327799; cv=fail; b=ftcFw18uGIRazJLGQDrEVB41uH5QUX3UbOWtzsIjXDq1LnmVDGiheNPFB3Z3cWGTAstuGxkxrt9fsW3BwLBYivzAW/LPrJcHE2F0h0XDfdctpWSZHThUqfcSasmdUcp2raUpuiRV2e+qp9z4eMuX276EWpWqQpJIrmUMjMdBCsc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734327799; c=relaxed/simple;
+	bh=k609KnFB+YrBM1OW56O9jm+ez78OJDcdN7YPJbmaqc8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=qg71/VQ2EK5xdYqZMxigXMqt55QuHewgIgMLc730QApwJ6FRBpH6/pof+ype+FFT9ygWG/s/b7ZDQ31CA/NytC/zeQxNKN+3tywxmfbqbuB820Hkhofz9cSwQQPzrfzkndwtGH3WQxkPHA6oD4+RaAwjYdKG7c3weO1NhOxAX8Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Y+vN6So3; arc=fail smtp.client-ip=40.107.94.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="Grqxj5Wi"
-Received: from pps.filterd (m0431384.ppops.net [127.0.0.1])
-	by mx0a-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BG4CrII014968;
-	Sun, 15 Dec 2024 21:31:17 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pfpt0220; bh=6
-	l+ileoKrO5wtd8GuuC4lNzxfDXeORRQz+pZMCOSZzs=; b=Grqxj5WiVcmCu1DlN
-	4pgvd1Lo9f4485BUv0sV+CMs+OPPFjlWr6Ei1m+EMqf9faugQCnWBqSum7367juq
-	Cba7HAUlBNQO5NGHaK/5H0AOdxtsVKSba59riAISq9b58ARVmZcEA7L+xG4U0AVv
-	hx8qkHUGkpv7xKOhMcidebq0ecCF+WPHC+CNzSVL4At0wOloQ/knSNF8qfkwkLtl
-	gi98qCYXbHPzWHAaHMpuoke4XqKvM6djDkZiaPQJTtIdDvPL40aIC5AubWzpaZUY
-	MSPP+qfIATRRMYb43eqFaimSR1HDj6M/RxqnYgvkn1meDg0FkyelQc1MAyzoJX8I
-	R69hg==
-Received: from dc5-exch05.marvell.com ([199.233.59.128])
-	by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 43jcyv0734-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 15 Dec 2024 21:31:16 -0800 (PST)
-Received: from DC5-EXCH05.marvell.com (10.69.176.209) by
- DC5-EXCH05.marvell.com (10.69.176.209) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Sun, 15 Dec 2024 21:31:15 -0800
-Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH05.marvell.com
- (10.69.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
- Transport; Sun, 15 Dec 2024 21:31:15 -0800
-Received: from virtx40.. (unknown [10.28.34.196])
-	by maili.marvell.com (Postfix) with ESMTP id D60673F7041;
-	Sun, 15 Dec 2024 21:31:10 -0800 (PST)
-From: Linu Cherian <lcherian@marvell.com>
-To: <suzuki.poulose@arm.com>, <mike.leach@linaro.org>, <james.clark@arm.com>
-CC: <linux-arm-kernel@lists.infradead.org>, <coresight@lists.linaro.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
-        <corbet@lwn.net>, <devicetree@vger.kernel.org>, <sgoutham@marvell.com>,
-        <gcherian@marvell.com>, Linu Cherian <lcherian@marvell.com>
-Subject: [PATCH v13 8/8] Documentation: coresight: Panic support
-Date: Mon, 16 Dec 2024 11:00:14 +0530
-Message-ID: <20241216053014.3427909-9-lcherian@marvell.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241216053014.3427909-1-lcherian@marvell.com>
-References: <20241216053014.3427909-1-lcherian@marvell.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Y+vN6So3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Sn7X0kGExorb2tztAVYZX2VdiyOIuZaW69hCiuW9CiUofT1h05qYSqkDxMrSy7ru463UQGMjtNXJUDCdMd9Z7rmlSBOZ1DseRGj5JKYmAHsgnnJHikLSDmIU4eLM7VuxrUkfSPKAjpwDac3PnCx1w5Ry2l3+wMANsTCCI6H60gX5Vd5IVh+2iS4+irtp0lcH3CDZTptxIQ/O4IfQzcOt9ODHN3Mb4oowj8043p/bHPvjCwmJE12MyWbGKH+SXldep360gibUAIZatTrCBTmYDi37wtV6vWnhA5mGo2anxbgW+JXViaHEnhbQ67XObzniHGUH93+dNRaHFqChuka43w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eKE712LNTnq5OnoswiWWPkoFcG2Yq5+YIV5fgh+FYjU=;
+ b=J0fsicavv9hrZdg2BCjEKCC9/kLiFmie7sBilg7u8MbnsvEr0gk7JC/e1zf6HF1IgyQAKIDE3qY6D3hF0yTbXmmr1ZMynLUMeOTLZK+IcwVX7rZ+jTL0s98KS/Uz0pxuTr0ctB2aiT7sPhlHLXTlYLVPn8hKozYoJWwXbTR9NZqWA+Rp8ZPugAKwujAXKNr3kbfMG7mTPAB4sNv30hIcBjsHu5FiOu9j/jKGTE6WOgPTVgVtu9/fU3L8u0j9Tqtpltadn/MU1zogjG2mfUIXDXXEud4NvLvWIyheEAAVchnNjrFIg8JFMiIAewUoa0XscefUuGFQOxJFoI1s5JKmWw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eKE712LNTnq5OnoswiWWPkoFcG2Yq5+YIV5fgh+FYjU=;
+ b=Y+vN6So3Xg3Kznvr+rnLoZ9k0jsvvfU7IlTym7pZEV/sSmGwuyH6hlaajkoEJFmWGFjag8fW3ZYurAJOcbR5Cqkh02Uoi0CyjOQH3nuK7YR/AswibXW+Yen/IccJGNT93As6VGyc33UYFqSpzCaL3VBVRqefJWH3hUO/TWRACQZjLzBI1fK0+6SzvWgm3BgrsBRsgzGabUmOmyKlGzTJDXL3kka8MDVTClMNk1qd3AEWAK8QJXpaF9/JdoQ7Kx+iz/Q4Edr51uoTFDejAxqpshAYuo67qzk32H3K0M/w0cA80T9yn6oj27TCta3eF3tWq0FD2E0wQK6wxWED2Snv3g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH7PR12MB7914.namprd12.prod.outlook.com (2603:10b6:510:27d::13)
+ by DS0PR12MB6414.namprd12.prod.outlook.com (2603:10b6:8:cd::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.21; Mon, 16 Dec
+ 2024 05:43:15 +0000
+Received: from PH7PR12MB7914.namprd12.prod.outlook.com
+ ([fe80::8998:fe5c:833c:f378]) by PH7PR12MB7914.namprd12.prod.outlook.com
+ ([fe80::8998:fe5c:833c:f378%6]) with mapi id 15.20.8251.015; Mon, 16 Dec 2024
+ 05:43:14 +0000
+Message-ID: <3f19c5a8-9ee6-42fe-8b4c-3a66c65c8d35@nvidia.com>
+Date: Mon, 16 Dec 2024 13:43:02 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 1/4] cpufreq: Introduce an optional cpuinfo_avg_freq
+ sysfs entry
+To: Beata Michalska <beata.michalska@arm.com>, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
+ ionela.voinescu@arm.com, sudeep.holla@arm.com, will@kernel.org,
+ catalin.marinas@arm.com, rafael@kernel.org, viresh.kumar@linaro.org
+Cc: sumitg@nvidia.com, yang@os.amperecomputing.com,
+ vanshikonda@os.amperecomputing.com, lihuisong@huawei.com,
+ zhanjie9@hisilicon.com, Jonathan Corbet <corbet@lwn.net>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H . Peter Anvin" <hpa@zytor.com>, Phil Auld <pauld@redhat.com>,
+ x86@kernel.org, linux-doc@vger.kernel.org, Carol Soto <csoto@nvidia.com>
+References: <20241206135600.4083965-1-beata.michalska@arm.com>
+ <20241206135600.4083965-2-beata.michalska@arm.com>
+Content-Language: en-US
+From: Kai-Heng Feng <kaihengf@nvidia.com>
+In-Reply-To: <20241206135600.4083965-2-beata.michalska@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2PR02CA0025.apcprd02.prod.outlook.com
+ (2603:1096:4:195::21) To PH7PR12MB7914.namprd12.prod.outlook.com
+ (2603:10b6:510:27d::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: pknaSCJwx6V7gCSQVP4qrUwfvpLitm2t
-X-Proofpoint-ORIG-GUID: pknaSCJwx6V7gCSQVP4qrUwfvpLitm2t
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.687,Hydra:6.0.235,FMLib:17.0.607.475
- definitions=2020-10-13_15,2020-10-13_02,2020-04-07_01
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB7914:EE_|DS0PR12MB6414:EE_
+X-MS-Office365-Filtering-Correlation-Id: ab0a2187-970e-4d05-77e8-08dd1d948852
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|7053199007|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?ZitiSUMwNWJyQjZCcGhrSnJuQUpqUHFUVndGR0pjYjRON0N5bDE5b2E0Q1l2?=
+ =?utf-8?B?cEtBUVhaSWhwekJhQ1BOdjJBTTNEZ2ZvZjhOTVBrZ016VG00TmdEUmdlT0lY?=
+ =?utf-8?B?WTV0VGp5c0VJQ2d3dEZmZWFIR0lJZE5QaVJvRDRWNGpJeXRkSkM3b05VdGhx?=
+ =?utf-8?B?UXFhNE1CVTFvekFmZm1NU1RSdUVDc0hWdzI4V2FLTDFYaGhkeEJ6dGYyanBn?=
+ =?utf-8?B?VHVqc25yRDhDd1V5S0xJSCtOQlVoMy9tVEtHRSsrR096Nmx5b2tRZG5zUkg2?=
+ =?utf-8?B?c0swNGh5Mnd2eVJUR0w1THdMdVZNODFtSTZzcDY0eVV5SGJteVkxdUNkdENZ?=
+ =?utf-8?B?MHVPaGVvTWQzZVlRM0pVYThveEZyWG1XVUo0aWx6cVFCSTBBL21MTWpHRG4w?=
+ =?utf-8?B?a0pGSmFIT3VZYnRPN2xmeVFEYTNaV3I1WjFWZjIrSjdsaTFRb3F6R1hqSW84?=
+ =?utf-8?B?U1dEUGs1V2FlY3M3SGJ6VldFSkhiT0cyblprVWM4V0RBNXRJamdGM2Q4SmhL?=
+ =?utf-8?B?ZHVDbjIvUTdPZnpqZUxMWGJtOGY1OTJYOThjWk9ITmVJNDJRTE5EM1N4U1Rm?=
+ =?utf-8?B?UlppYXM1ekxtdmhsYnJQSzZXUSsxQWhUZU4rTjd0OTRGbEsvZ0JhSGlxbXZz?=
+ =?utf-8?B?NGdFMTVqR1RqR2Z5QkxsQXhEYmlFVTRPS2lzb21qRmhNVDZPSEJVQ1E3cTJj?=
+ =?utf-8?B?OUc3aTR5ck5sWFlXNTJISHhLTVUxK3c0aUxnQU4zL3ZJcDFmN0VWUGpERGV4?=
+ =?utf-8?B?RDk1bjZlQ0lyblRrT2g5bW9BNlc2amJQeG1oUDFIZStCaDc5cGpHYndrU1dV?=
+ =?utf-8?B?bnlyL3p5ZWxSbngxeXMwdW9yTnNFdXhYSnA4K08xVnZYT2ltNk0waVVCRHRL?=
+ =?utf-8?B?LzJEZWk4bWNTSVhmcFB2UlZEOWNLbGpZMnNXUEdaRnhzQlBTbml0U1ZqUUxM?=
+ =?utf-8?B?SW4zQ0hCbVl4eTdmYitqUW9DRzdFbVY3anJ5eERyc3VqK1VrNkZBK0MyN2xj?=
+ =?utf-8?B?UW9WWlJYM0xaVDd3SkRtUUo4Q0U4cFY3NXhXSzhuK1hsOUE0dGliK0srcjRK?=
+ =?utf-8?B?L3c0OFNnRnloY01SWnpKb0dkelB3K0VLNGtSMkY2bmJVYkxnL2I3NnNVMlZG?=
+ =?utf-8?B?VitLc0c1eTYydjhKRllyNGtmNHF5TVJxWXBTcER2RDFtcWE5K0t3OEU2d09K?=
+ =?utf-8?B?enNQVk9uSkEyV05kMzl4b1ZjUy9LQTU3S2I3cWw5WEJrQit6ME5zWTEyUUE4?=
+ =?utf-8?B?LzZBWW5DMzN1MC9WUzRqWUgzVHNwdThWQndReVBmK1RFUElXcU5RMnlQdUxh?=
+ =?utf-8?B?NXlLK3dIS3V0THdTN0RYLzNJL1dzaTU4WUsxWkZaajIxOTRLTGppOHBQWGxL?=
+ =?utf-8?B?R0c1OWFYQkttYkxHM2lLT25UQ3l1bE8vRDRSdFhGZ2dFQWVDQVhqNktnRjc3?=
+ =?utf-8?B?MFZvdXVzMnBzbjRPYTZ3Yis0UzhOdXJhdXJpSG1QZkMrcWoxd245U0txOFFK?=
+ =?utf-8?B?Mmh1UU5BU2xjNmFOT0k0R3k4bXF0RnQ3RWxTZkJwVis1NjErUVorWU9SS05v?=
+ =?utf-8?B?L2hkUzlqYkZ2MXpWQ1ZpZGJreXVRQkdIdkVHN1NrUTJad3VtZG51M1JlSnBa?=
+ =?utf-8?B?T0RadUlYcmR2eVArQUJYblp3LzRXNE0wSDlNNjlxT0hYVTZycTdsWDJKa0xj?=
+ =?utf-8?B?UjgwMzdXUE5LbGp1eTkxS0xVbzNEN3RUcUlMK05HUkMxUVk1cFBGbWlsWXUr?=
+ =?utf-8?B?K1U2WG5wZ3p5NWpFbVdlY2piRFBoODZNejArd0R2d2U2NWYwWjJXVkd2Y2VI?=
+ =?utf-8?B?SERFTDdQUVpjOHNhZVV5QjNsOXNwdk80RDllamcrS0tnNUo3VkhTTHdGQTBJ?=
+ =?utf-8?B?czJDU0RtYThKUDFIckNyMHJvVG9jbHBZcWt6RkdUOUFXenFKZzN1MjhOSkJL?=
+ =?utf-8?Q?u3PcZdl0lBw=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB7914.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(7053199007)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TEJzM0trU2VkNUV2UU4ybjlSbGJMVDdSQ2VEWmpwQnpONzZKRHVCRWNLOXZu?=
+ =?utf-8?B?RXFRaDgzdCtqWXcwcHFHZ2pZZWVQUVVmeTEwMmFSN3lhaFNLSSttUGpKcEdS?=
+ =?utf-8?B?bStOQUlEanQzcy9QMHYzTXZlSG82amFTU0xRak81N3d6K3VaV09BZFNTZ2p1?=
+ =?utf-8?B?bjFFUTVLN3VwNG13aFMxdXdaVWJPS05DRnlTc01weFlUdHVDTEFKSjUrTUI2?=
+ =?utf-8?B?RG0vYVBHU0h1bERkalpRaGgrVm5FT1NabnBVZTVWcTZ3d3NiTURSYlRaSkl6?=
+ =?utf-8?B?elZoeURJQno1cXpoTDNNWCt2N051MkdTbE4vbXk1UWlWa3ZRZUdCTHNsYmdI?=
+ =?utf-8?B?YWw2YzFqay81UktmUmFCYXgyMFI3UTlIK2liMXhIYUNHVXJtOUdsVWd3SENN?=
+ =?utf-8?B?ZCtKL2N0SnN5K2FheVRjS3JCUlNzOUUwUlVtenZleENGZnFLcDhWaU9oK0NT?=
+ =?utf-8?B?YmpvWkFKQ0JmNnFEQWxZYXZSWjBvamd4K0M3NFA3d3lINlJRb0U5ZGtjakVm?=
+ =?utf-8?B?NUZ3WHpHZG1JWHF1NnVpWldpdjF0aVpMaThjaDl4cGlEaXM1ZXBzV1ZDc2pK?=
+ =?utf-8?B?QktBd0h1TXRYNEtZVmxYdzdoNTF0Ty85WjkvOFdPQzVyVTl1QjJGUndLWjJM?=
+ =?utf-8?B?MENjNElUQlRldXlGU243emsvd1UrVTVoUkUzUnNPczQ5WEFJRVhIMU9EZ2k5?=
+ =?utf-8?B?MVVMWTkyazZJbTQ4R21NbzF6cjJKa1JiaEtGK3BWVGFBcWZvcG5LZFNTek9m?=
+ =?utf-8?B?Y05XYTNoWit2Wm9DTE5IQTY1a3FYWlk5VlRmNTVORkNTYXVDLzZscCthaVVR?=
+ =?utf-8?B?TU03cWdWS3hvaE1COWVuVUsxUHluMTJzUnIyUWtFaU5NSzYwS0p3a2FweXdp?=
+ =?utf-8?B?emh6K0gxOUkvdWthNU56MnN3UlJMekdBTEpCakhtdzhEbmc3eE0wREt6Uyto?=
+ =?utf-8?B?Njk4blJ3QUV2MVBRd1NKNWljOUgrZ3c0MDZRSWVzN01WZ2lDQkd4eGV1Y01n?=
+ =?utf-8?B?KzN4cXFNNXJzaThGdHBGcWlGSnptN1QzYmpKbXp4eGZRdEk2UVAzWllNQ3NX?=
+ =?utf-8?B?VFg5RGlraksxWUN3QW13S0NTUE94NlFyaDI0cXltUUlVS2o4MXUvNFc3amk5?=
+ =?utf-8?B?OE1xTTU4TERsZWFUcjgreTQ4ZVVOWnhZdSs4Vm9KWC9aOVRBbW51c1hBclh5?=
+ =?utf-8?B?WDdNelNIeUd0dEpscExVZSs2OFd6SWd1ajJJc1BROG81eWtReUxZSlNpeW9z?=
+ =?utf-8?B?azBWd3VtRTNRdkRNQjQ1Z0t5KzZrZE0yUEtjYUlGNTZ4dm9BNlVMa2dIYnZi?=
+ =?utf-8?B?a0hUZUNtdjllUFhlWWNOUVJyei9YNW52cXkxbjU0V3JHb25jQjZyMFd4Uk11?=
+ =?utf-8?B?ZFcwbm45NnIwdXVqVjR0RU5WSGxHVVh2TGdtSzZ6bUVvYWR6NEFDZEx6OEpq?=
+ =?utf-8?B?WlM2WTRzM3o4MVA0bXRKMlRiTWtxaHBSUHRwVUI0TUkzT0UxRlNNM0FmeUp1?=
+ =?utf-8?B?eDJEbG5wbTB4VlQ5RjhqbEJhdWNGdmxPY2VRa2hOc0I2T1h3OFYwcTY5VllC?=
+ =?utf-8?B?bThqbjVNUWNmZkNUWjJaYUZhQm9XWGw5NUNFcDdoS0xmblE1ZmJ4MzlNaWR5?=
+ =?utf-8?B?RXBtbG9PaWZWRUkrRTdsS0VhWnBaWHExVXJJbkJpbStMcTBvZVZlWDVOY1M4?=
+ =?utf-8?B?bTNCdGlJdkloZys1WWZZWXJ3RUREVU1iODdtdGt1VkdacFEzcUlmTlNsWDdn?=
+ =?utf-8?B?NzhHeHFYL2hXRHU0dmxUV0N2VGZIQnZieXBVRkpSdDZjdU9rSWtsNWY1MXNu?=
+ =?utf-8?B?R0puUjN6aFFsV1BsQ01EeXhxMmJkTjQ1OGRkajd1dEtXSFlIUHJSdE1oRlFw?=
+ =?utf-8?B?VG42cGlRUkkxZUNqSHR5Z09VQlBpeEJSMDhXZkJVTTNXeDdGNGU5ZVZSNUxY?=
+ =?utf-8?B?aVlJeHVvQ0VQNEhIY1MxTFVjZ2MrUCtqM1JGaXo5c1BpMXBUVmxUQjRZaFJL?=
+ =?utf-8?B?cGIvSUlHaWJWNUllTHhsZUt6YlNFMENNWWFyS1B0cnRzSTFRbHozeENlOXFz?=
+ =?utf-8?B?VE85b2RhVnRmZGFIZlc3TC9EZnZrRDdhdGEvQ3A4MFJQcFd6SWNDQTFnVU81?=
+ =?utf-8?Q?UlYYk7pybXPdHbEK9gl36b5t8?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab0a2187-970e-4d05-77e8-08dd1d948852
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB7914.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2024 05:43:13.7982
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kRnZc2KxpzcKiZHRC1d5f4JHKQRniNOXA2PIps2lVRUO+3+Dafl9lrgDoYXez1Pg65e/mlBdehMswRPw8WE23A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6414
 
-Add documentation on using coresight during panic
-and watchdog.
+Hi Beata,
 
-Signed-off-by: Linu Cherian <lcherian@marvell.com>
----
-Changelog from v12:
-No changes.
+On 2024/12/6 9:55 PM, Beata Michalska wrote:
+> Currently the CPUFreq core exposes two sysfs attributes that can be used
+> to query current frequency of a given CPU(s): namely cpuinfo_cur_freq
+> and scaling_cur_freq. Both provide slightly different view on the
+> subject and they do come with their own drawbacks.
+> 
+> cpuinfo_cur_freq provides higher precision though at a cost of being
+> rather expensive. Moreover, the information retrieved via this attribute
+> is somewhat short lived as frequency can change at any point of time
+> making it difficult to reason from.
+> 
+> scaling_cur_freq, on the other hand, tends to be less accurate but then
+> the actual level of precision (and source of information) varies between
+> architectures making it a bit ambiguous.
+> 
+> The new attribute, cpuinfo_avg_freq, is intended to provide more stable,
+> distinct interface, exposing an average frequency of a given CPU(s), as
+> reported by the hardware, over a time frame spanning no more than a few
+> milliseconds. As it requires appropriate hardware support, this
+> interface is optional.
+> 
+> Note that under the hood, the new attribute relies on the information
+> provided by arch_freq_get_on_cpu, which, up to this point, has been
+> feeding data for scaling_cur_freq attribute, being the source of
+> ambiguity when it comes to interpretation. This has been amended by
+> restoring the intended behavior for scaling_cur_freq, with a new
+> dedicated config option to maintain status quo for those, who may need
+> it.
+> 
+> CC: Jonathan Corbet <corbet@lwn.net>
+> CC: Thomas Gleixner <tglx@linutronix.de>
+> CC: Ingo Molnar <mingo@redhat.com>
+> CC: Borislav Petkov <bp@alien8.de>
+> CC: Dave Hansen <dave.hansen@linux.intel.com>
+> CC: H. Peter Anvin <hpa@zytor.com>
+> CC: Phil Auld <pauld@redhat.com>
+> CC: x86@kernel.org
+> CC: linux-doc@vger.kernel.org
+> Signed-off-by: Beata Michalska <beata.michalska@arm.com>
+> ---
+>   Documentation/admin-guide/pm/cpufreq.rst | 16 ++++++++++-
+>   arch/x86/kernel/cpu/aperfmperf.c         |  2 +-
+>   arch/x86/kernel/cpu/proc.c               |  7 +++--
+>   drivers/cpufreq/Kconfig.x86              | 12 ++++++++
+>   drivers/cpufreq/cpufreq.c                | 36 +++++++++++++++++++++---
+>   include/linux/cpufreq.h                  |  2 +-
+>   6 files changed, 66 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/pm/cpufreq.rst b/Documentation/admin-guide/pm/cpufreq.rst
+> index fe1be4ad88cb..76f3835afe01 100644
+> --- a/Documentation/admin-guide/pm/cpufreq.rst
+> +++ b/Documentation/admin-guide/pm/cpufreq.rst
+> @@ -248,6 +248,19 @@ are the following:
+>   	If that frequency cannot be determined, this attribute should not
+>   	be present.
+>   
+> +``cpuinfo_avg_freq``
+> +        An average frequency (in KHz) of all CPUs belonging to a given policy,
+> +        derived from a hardware provided feedback and reported on a time frame
+> +        spanning at most few milliseconds.
+> +
+> +        This is expected to be based on the frequency the hardware actually runs
+> +        at and, as such, might require specialised hardware support (such as AMU
+> +        extension on ARM). If one cannot be determined, this attribute should
+> +        not be present.
+> +
+> +        Note, that failed attempt to retrieve current frequency for a given
+> +        CPU(s) will result in an appropriate error.
+> +
+>   ``cpuinfo_max_freq``
+>   	Maximum possible operating frequency the CPUs belonging to this policy
+>   	can run at (in kHz).
+> @@ -293,7 +306,8 @@ are the following:
+>   	Some architectures (e.g. ``x86``) may attempt to provide information
+>   	more precisely reflecting the current CPU frequency through this
+>   	attribute, but that still may not be the exact current CPU frequency as
+> -	seen by the hardware at the moment.
+> +	seen by the hardware at the moment. This behavior though, is only
+> +	available via c:macro:``CPUFREQ_ARCH_CUR_FREQ`` option.
+>   
+>   ``scaling_driver``
+>   	The scaling driver currently in use.
+> diff --git a/arch/x86/kernel/cpu/aperfmperf.c b/arch/x86/kernel/cpu/aperfmperf.c
+> index 0b69bfbf345d..a00059139ca4 100644
+> --- a/arch/x86/kernel/cpu/aperfmperf.c
+> +++ b/arch/x86/kernel/cpu/aperfmperf.c
+> @@ -413,7 +413,7 @@ void arch_scale_freq_tick(void)
+>    */
+>   #define MAX_SAMPLE_AGE	((unsigned long)HZ / 50)
+>   
+> -unsigned int arch_freq_get_on_cpu(int cpu)
+> +int arch_freq_get_on_cpu(int cpu)
+>   {
+>   	struct aperfmperf *s = per_cpu_ptr(&cpu_samples, cpu);
+>   	unsigned int seq, freq;
+> diff --git a/arch/x86/kernel/cpu/proc.c b/arch/x86/kernel/cpu/proc.c
+> index e65fae63660e..34d8fb93fb70 100644
+> --- a/arch/x86/kernel/cpu/proc.c
+> +++ b/arch/x86/kernel/cpu/proc.c
+> @@ -86,9 +86,12 @@ static int show_cpuinfo(struct seq_file *m, void *v)
+>   		seq_printf(m, "microcode\t: 0x%x\n", c->microcode);
+>   
+>   	if (cpu_has(c, X86_FEATURE_TSC)) {
+> -		unsigned int freq = arch_freq_get_on_cpu(cpu);
+> +		int freq = arch_freq_get_on_cpu(cpu);
+>   
+> -		seq_printf(m, "cpu MHz\t\t: %u.%03u\n", freq / 1000, (freq % 1000));
+> +		if (freq <= 0)
+> +			seq_puts(m, "cpu MHz\t\t: Unknown\n");
+> +		else
+> +			seq_printf(m, "cpu MHz\t\t: %u.%03u\n", freq / 1000, (freq % 1000));
+>   	}
+>   
+>   	/* Cache size */
+> diff --git a/drivers/cpufreq/Kconfig.x86 b/drivers/cpufreq/Kconfig.x86
+> index 97c2d4f15d76..212e1b9afe21 100644
+> --- a/drivers/cpufreq/Kconfig.x86
+> +++ b/drivers/cpufreq/Kconfig.x86
+> @@ -340,3 +340,15 @@ config X86_SPEEDSTEP_RELAXED_CAP_CHECK
+>   	  option lets the probing code bypass some of those checks if the
+>   	  parameter "relaxed_check=1" is passed to the module.
+>   
+> +config CPUFREQ_ARCH_CUR_FREQ
+> +	default y
+> +	bool "Current frequency derived from HW provided feedback"
+> +	help
+> +	  This determines whether the scaling_cur_freq sysfs attribute returns
+> +	  the last requested frequency or a more precise value based on hardware
+> +	  provided feedback (as architected counters).
+> +	  Given that a more precise frequency can now be provided via the
+> +	  cpuinfo_avg_cur_freq attribute, by enabling this option,
+> +	  scaling_cur_freq maintains the provision of a counter based frequency,
+> +	  for compatibility reasons.
+> +
+> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+> index 04fc786dd2c0..70df2a24437b 100644
+> --- a/drivers/cpufreq/cpufreq.c
+> +++ b/drivers/cpufreq/cpufreq.c
+> @@ -747,9 +747,14 @@ show_one(cpuinfo_transition_latency, cpuinfo.transition_latency);
+>   show_one(scaling_min_freq, min);
+>   show_one(scaling_max_freq, max);
+>   
+> -__weak unsigned int arch_freq_get_on_cpu(int cpu)
+> +__weak int arch_freq_get_on_cpu(int cpu)
+>   {
+> -	return 0;
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +static inline bool cpufreq_avg_freq_supported(struct cpufreq_policy *policy)
+> +{
+> +	return arch_freq_get_on_cpu(policy->cpu) != -EOPNOTSUPP;
+>   }
+>   
+>   static ssize_t show_scaling_cur_freq(struct cpufreq_policy *policy, char *buf)
+> @@ -757,8 +762,11 @@ static ssize_t show_scaling_cur_freq(struct cpufreq_policy *policy, char *buf)
+>   	ssize_t ret;
+>   	unsigned int freq;
+>   
+> -	freq = arch_freq_get_on_cpu(policy->cpu);
+> -	if (freq)
+> +	freq = IS_ENABLED(CONFIG_CPUFREQ_ARCH_CUR_FREQ)
+> +		? arch_freq_get_on_cpu(policy->cpu)
+> +		: 0;
+> +
+> +	if (freq > 0)
+>   		ret = sysfs_emit(buf, "%u\n", freq);
+>   	else if (cpufreq_driver->setpolicy && cpufreq_driver->get)
+>   		ret = sysfs_emit(buf, "%u\n", cpufreq_driver->get(policy->cpu));
+> @@ -802,6 +810,19 @@ static ssize_t show_cpuinfo_cur_freq(struct cpufreq_policy *policy,
+>   	return sysfs_emit(buf, "<unknown>\n");
+>   }
+>   
+> +/*
+> + * show_cpuinfo_avg_freq - average CPU frequency as detected by hardware
+> + */
+> +static ssize_t show_cpuinfo_avg_freq(struct cpufreq_policy *policy,
+> +				     char *buf)
+> +{
+> +	int avg_freq = arch_freq_get_on_cpu(policy->cpu);
 
- Documentation/trace/coresight/panic.rst | 362 ++++++++++++++++++++++++
- 1 file changed, 362 insertions(+)
- create mode 100644 Documentation/trace/coresight/panic.rst
+We are seeing issues when reading cpuinfo_avg_freq on an ARM64 system:
 
-diff --git a/Documentation/trace/coresight/panic.rst b/Documentation/trace/coresight/panic.rst
-new file mode 100644
-index 000000000000..a58aa914c241
---- /dev/null
-+++ b/Documentation/trace/coresight/panic.rst
-@@ -0,0 +1,362 @@
-+===================================================
-+Using Coresight for Kernel panic and Watchdog reset
-+===================================================
-+
-+Introduction
-+------------
-+This documentation is about using Linux coresight trace support to
-+debug kernel panic and watchdog reset scenarios.
-+
-+Coresight trace during Kernel panic
-+-----------------------------------
-+From the coresight driver point of view, addressing the kernel panic
-+situation has four main requirements.
-+
-+a. Support for allocation of trace buffer pages from reserved memory area.
-+   Platform can advertise this using a new device tree property added to
-+   relevant coresight nodes.
-+
-+b. Support for stopping coresight blocks at the time of panic
-+
-+c. Saving required metadata in the specified format
-+
-+d. Support for reading trace data captured at the time of panic
-+
-+Allocation of trace buffer pages from reserved RAM
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+A new optional device tree property "memory-region" is added to the
-+Coresight TMC device nodes, that would give the base address and size of trace
-+buffer.
-+
-+Static allocation of trace buffers would ensure that both IOMMU enabled
-+and disabled cases are handled. Also, platforms that support persistent
-+RAM will allow users to read trace data in the subsequent boot without
-+booting the crashdump kernel.
-+
-+Note:
-+For ETR sink devices, this reserved region will be used for both trace
-+capture and trace data retrieval.
-+For ETF sink devices, internal SRAM would be used for trace capture,
-+and they would be synced to reserved region for retrieval.
-+
-+
-+Disabling coresight blocks at the time of panic
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+In order to avoid the situation of losing relevant trace data after a
-+kernel panic, it would be desirable to stop the coresight blocks at the
-+time of panic.
-+
-+This can be achieved by configuring the comparator, CTI and sink
-+devices as below::
-+
-+           Trigger on panic
-+    Comparator --->External out --->CTI -->External In---->ETR/ETF stop
-+
-+Saving metadata at the time of kernel panic
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+Coresight metadata involves all additional data that are required for a
-+successful trace decode in addition to the trace data. This involves
-+ETR/ETF/ETB register snapshot etc.
-+
-+A new optional device property "memory-region" is added to
-+the ETR/ETF/ETB device nodes for this.
-+
-+Reading trace data captured at the time of panic
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+Trace data captured at the time of panic, can be read from rebooted kernel
-+or from crashdump kernel using a special device file /dev/crash_tmc_xxx.
-+This device file is created only when there is a valid crashdata available.
-+
-+General flow of trace capture and decode incase of kernel panic
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+1. Enable source and sink on all the cores using the sysfs interface.
-+   ETR sinks should have trace buffers allocated from reserved memory,
-+   by selecting "resrv" buffer mode from sysfs.
-+
-+2. Run relevant tests.
-+
-+3. On a kernel panic, all coresight blocks are disabled, necessary
-+   metadata is synced by kernel panic handler.
-+
-+   System would eventually reboot or boot a crashdump kernel.
-+
-+4. For  platforms that supports crashdump kernel, raw trace data can be
-+   dumped using the coresight sysfs interface from the crashdump kernel
-+   itself. Persistent RAM is not a requirement in this case.
-+
-+5. For platforms that supports persistent RAM, trace data can be dumped
-+   using the coresight sysfs interface in the subsequent Linux boot.
-+   Crashdump kernel is not a requirement in this case. Persistent RAM
-+   ensures that trace data is intact across reboot.
-+
-+Coresight trace during Watchdog reset
-+-------------------------------------
-+The main difference between addressing the watchdog reset and kernel panic
-+case are below,
-+
-+a. Saving coresight metadata need to be taken care by the
-+   SCP(system control processor) firmware in the specified format,
-+   instead of kernel.
-+
-+b. Reserved memory region given by firmware for trace buffer and metadata
-+   has to be in persistent RAM.
-+   Note: This is a requirement for watchdog reset case but optional
-+   in kernel panic case.
-+
-+Watchdog reset can be supported only on platforms that meet the above
-+two requirements.
-+
-+Sample commands for testing a Kernel panic case with ETR sink
-+-------------------------------------------------------------
-+
-+1. Boot Linux kernel with "crash_kexec_post_notifiers" added to the kernel
-+   bootargs. This is mandatory if the user would like to read the tracedata
-+   from the crashdump kernel.
-+
-+2. Enable the preloaded ETM configuration::
-+
-+    #echo 1 > /sys/kernel/config/cs-syscfg/configurations/panicstop/enable
-+
-+3. Configure CTI using sysfs interface::
-+
-+    #./cti_setup.sh
-+
-+    #cat cti_setup.sh
-+
-+
-+    cd /sys/bus/coresight/devices/
-+
-+    ap_cti_config () {
-+      #ETM trig out[0] trigger to Channel 0
-+      echo 0 4 > channels/trigin_attach
-+    }
-+
-+    etf_cti_config () {
-+      #ETF Flush in trigger from Channel 0
-+      echo 0 1 > channels/trigout_attach
-+      echo 1 > channels/trig_filter_enable
-+    }
-+
-+    etr_cti_config () {
-+      #ETR Flush in from Channel 0
-+      echo 0 1 > channels/trigout_attach
-+      echo 1 > channels/trig_filter_enable
-+    }
-+
-+    ctidevs=`find . -name "cti*"`
-+
-+    for i in $ctidevs
-+    do
-+            cd $i
-+
-+            connection=`find . -name "ete*"`
-+            if [ ! -z "$connection" ]
-+            then
-+                    echo "AP CTI config for $i"
-+                    ap_cti_config
-+            fi
-+
-+            connection=`find . -name "tmc_etf*"`
-+            if [ ! -z "$connection" ]
-+            then
-+                    echo "ETF CTI config for $i"
-+                    etf_cti_config
-+            fi
-+
-+            connection=`find . -name "tmc_etr*"`
-+            if [ ! -z "$connection" ]
-+            then
-+                    echo "ETR CTI config for $i"
-+                    etr_cti_config
-+            fi
-+
-+            cd ..
-+    done
-+
-+Note: CTI connections are SOC specific and hence the above script is
-+added just for reference.
-+
-+4. Choose reserved buffer mode for ETR buffer::
-+
-+    #echo "resrv" > /sys/bus/coresight/devices/tmc_etr0/buf_mode_preferred
-+
-+5. Enable stop on flush trigger configuration::
-+
-+    #echo 1 > /sys/bus/coresight/devices/tmc_etr0/stop_on_flush
-+
-+6. Start Coresight tracing on cores 1 and 2 using sysfs interface
-+
-+7. Run some application on core 1::
-+
-+    #taskset -c 1 dd if=/dev/urandom of=/dev/null &
-+
-+8. Invoke kernel panic on core 2::
-+
-+    #echo 1 > /proc/sys/kernel/panic
-+    #taskset -c 2 echo c > /proc/sysrq-trigger
-+
-+9. From rebooted kernel or crashdump kernel, read crashdata::
-+
-+    #dd if=/dev/crash_tmc_etr0 of=/trace/cstrace.bin
-+
-+10. Run opencsd decoder tools/scripts to generate the instruction trace.
-+
-+Sample instruction trace dump
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Core1 dump::
-+
-+    A                                  etm4_enable_hw: ffff800008ae1dd4
-+    CONTEXT EL2                        etm4_enable_hw: ffff800008ae1dd4
-+    I                                  etm4_enable_hw: ffff800008ae1dd4:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1dd8:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1ddc:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1de0:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1de4:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1de8:
-+    d503233f   paciasp
-+    I                                  etm4_enable_hw: ffff800008ae1dec:
-+    a9be7bfd   stp     x29, x30, [sp, #-32]!
-+    I                                  etm4_enable_hw: ffff800008ae1df0:
-+    910003fd   mov     x29, sp
-+    I                                  etm4_enable_hw: ffff800008ae1df4:
-+    a90153f3   stp     x19, x20, [sp, #16]
-+    I                                  etm4_enable_hw: ffff800008ae1df8:
-+    2a0003f4   mov     w20, w0
-+    I                                  etm4_enable_hw: ffff800008ae1dfc:
-+    900085b3   adrp    x19, ffff800009b95000 <reserved_mem+0xc48>
-+    I                                  etm4_enable_hw: ffff800008ae1e00:
-+    910f4273   add     x19, x19, #0x3d0
-+    I                                  etm4_enable_hw: ffff800008ae1e04:
-+    f8747a60   ldr     x0, [x19, x20, lsl #3]
-+    E                                  etm4_enable_hw: ffff800008ae1e08:
-+    b4000140   cbz     x0, ffff800008ae1e30 <etm4_starting_cpu+0x50>
-+    I    149.039572921                 etm4_enable_hw: ffff800008ae1e30:
-+    a94153f3   ldp     x19, x20, [sp, #16]
-+    I    149.039572921                 etm4_enable_hw: ffff800008ae1e34:
-+    52800000   mov     w0, #0x0                        // #0
-+    I    149.039572921                 etm4_enable_hw: ffff800008ae1e38:
-+    a8c27bfd   ldp     x29, x30, [sp], #32
-+
-+    ..snip
-+
-+        149.052324811           chacha_block_generic: ffff800008642d80:
-+    9100a3e0   add     x0,
-+    I    149.052324811           chacha_block_generic: ffff800008642d84:
-+    b86178a2   ldr     w2, [x5, x1, lsl #2]
-+    I    149.052324811           chacha_block_generic: ffff800008642d88:
-+    8b010803   add     x3, x0, x1, lsl #2
-+    I    149.052324811           chacha_block_generic: ffff800008642d8c:
-+    b85fc063   ldur    w3, [x3, #-4]
-+    I    149.052324811           chacha_block_generic: ffff800008642d90:
-+    0b030042   add     w2, w2, w3
-+    I    149.052324811           chacha_block_generic: ffff800008642d94:
-+    b8217882   str     w2, [x4, x1, lsl #2]
-+    I    149.052324811           chacha_block_generic: ffff800008642d98:
-+    91000421   add     x1, x1, #0x1
-+    I    149.052324811           chacha_block_generic: ffff800008642d9c:
-+    f100443f   cmp     x1, #0x11
-+
-+
-+Core 2 dump::
-+
-+    A                                  etm4_enable_hw: ffff800008ae1dd4
-+    CONTEXT EL2                        etm4_enable_hw: ffff800008ae1dd4
-+    I                                  etm4_enable_hw: ffff800008ae1dd4:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1dd8:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1ddc:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1de0:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1de4:
-+    d503201f   nop
-+    I                                  etm4_enable_hw: ffff800008ae1de8:
-+    d503233f   paciasp
-+    I                                  etm4_enable_hw: ffff800008ae1dec:
-+    a9be7bfd   stp     x29, x30, [sp, #-32]!
-+    I                                  etm4_enable_hw: ffff800008ae1df0:
-+    910003fd   mov     x29, sp
-+    I                                  etm4_enable_hw: ffff800008ae1df4:
-+    a90153f3   stp     x19, x20, [sp, #16]
-+    I                                  etm4_enable_hw: ffff800008ae1df8:
-+    2a0003f4   mov     w20, w0
-+    I                                  etm4_enable_hw: ffff800008ae1dfc:
-+    900085b3   adrp    x19, ffff800009b95000 <reserved_mem+0xc48>
-+    I                                  etm4_enable_hw: ffff800008ae1e00:
-+    910f4273   add     x19, x19, #0x3d0
-+    I                                  etm4_enable_hw: ffff800008ae1e04:
-+    f8747a60   ldr     x0, [x19, x20, lsl #3]
-+    E                                  etm4_enable_hw: ffff800008ae1e08:
-+    b4000140   cbz     x0, ffff800008ae1e30 <etm4_starting_cpu+0x50>
-+    I    149.046243445                 etm4_enable_hw: ffff800008ae1e30:
-+    a94153f3   ldp     x19, x20, [sp, #16]
-+    I    149.046243445                 etm4_enable_hw: ffff800008ae1e34:
-+    52800000   mov     w0, #0x0                        // #0
-+    I    149.046243445                 etm4_enable_hw: ffff800008ae1e38:
-+    a8c27bfd   ldp     x29, x30, [sp], #32
-+    I    149.046243445                 etm4_enable_hw: ffff800008ae1e3c:
-+    d50323bf   autiasp
-+    E    149.046243445                 etm4_enable_hw: ffff800008ae1e40:
-+    d65f03c0   ret
-+    A                                ete_sysreg_write: ffff800008adfa18
-+
-+    ..snip
-+
-+    I     149.05422547                          panic: ffff800008096300:
-+    a90363f7   stp     x23, x24, [sp, #48]
-+    I     149.05422547                          panic: ffff800008096304:
-+    6b00003f   cmp     w1, w0
-+    I     149.05422547                          panic: ffff800008096308:
-+    3a411804   ccmn    w0, #0x1, #0x4, ne  // ne = any
-+    N     149.05422547                          panic: ffff80000809630c:
-+    540001e0   b.eq    ffff800008096348 <panic+0xe0>  // b.none
-+    I     149.05422547                          panic: ffff800008096310:
-+    f90023f9   str     x25, [sp, #64]
-+    E     149.05422547                          panic: ffff800008096314:
-+    97fe44ef   bl      ffff8000080276d0 <panic_smp_self_stop>
-+    A                                           panic: ffff80000809634c
-+    I     149.05422547                          panic: ffff80000809634c:
-+    910102d5   add     x21, x22, #0x40
-+    I     149.05422547                          panic: ffff800008096350:
-+    52800020   mov     w0, #0x1                        // #1
-+    E     149.05422547                          panic: ffff800008096354:
-+    94166b8b   bl      ffff800008631180 <bust_spinlocks>
-+    N    149.054225518                 bust_spinlocks: ffff800008631180:
-+    340000c0   cbz     w0, ffff800008631198 <bust_spinlocks+0x18>
-+    I    149.054225518                 bust_spinlocks: ffff800008631184:
-+    f000a321   adrp    x1, ffff800009a98000 <pbufs.0+0xbb8>
-+    I    149.054225518                 bust_spinlocks: ffff800008631188:
-+    b9405c20   ldr     w0, [x1, #92]
-+    I    149.054225518                 bust_spinlocks: ffff80000863118c:
-+    11000400   add     w0, w0, #0x1
-+    I    149.054225518                 bust_spinlocks: ffff800008631190:
-+    b9005c20   str     w0, [x1, #92]
-+    E    149.054225518                 bust_spinlocks: ffff800008631194:
-+    d65f03c0   ret
-+    A                                           panic: ffff800008096358
-+
-+Perf based testing
-+------------------
-+
-+Starting perf session
-+~~~~~~~~~~~~~~~~~~~~~
-+ETF::
-+
-+    perf record -e cs_etm/panicstop,@tmc_etf1/ -C 1
-+    perf record -e cs_etm/panicstop,@tmc_etf2/ -C 2
-+
-+ETR::
-+
-+    perf record -e cs_etm/panicstop,@tmc_etr0/ -C 1,2
-+
-+Reading trace data after panic
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+Same sysfs based method explained above can be used to retrieve and
-+decode the trace data after the reboot on kernel panic.
--- 
-2.34.1
+$ cat /sys/devices/system/cpu/cpufreq/policy1/cpuinfo_avg_freq
+cat: /sys/devices/system/cpu/cpufreq/policy1/cpuinfo_avg_freq: Resource 
+temporarily unavailable
+
+The CPU is in idle state, so arch_freq_get_on_cpu() can't find a good 
+alternative source for frequency info.
+
+One way to resolve this is to have fallback methods in show_cpuinfo_avg_freq() 
+so it will look like this:
+
+static ssize_t show_cpuinfo_avg_freq(struct cpufreq_policy *policy,
+                                      char *buf)
+{
+         int avg_freq = arch_freq_get_on_cpu(policy->cpu);
+         int ret;
+
+         if (avg_freq > 0)
+                 ret = sysfs_emit(buf, "%u\n", avg_freq);
+         else if (cpufreq_driver->setpolicy && cpufreq_driver->get)
+                 ret = sysfs_emit(buf, "%u\n", cpufreq_driver->get(policy->cpu));
+         else
+                 ret = sysfs_emit(buf, "%u\n", policy->cur);
+         return ret;
+}
+
+But that also makes show_cpuinfo_avg_freq() pretty much the same as 
+show_scaling_cur_freq().
+
+So is it possible to consolidate show_cpuinfo_avg_freq() into 
+show_scaling_cur_freq(), by making CONFIG_CPUFREQ_ARCH_CUR_FREQ also available 
+to ARM64?
+
+Kai-Heng
+
+> +
+> +	if (avg_freq > 0)
+> +		return sysfs_emit(buf, "%u\n", avg_freq);
+> +	return avg_freq != 0 ? avg_freq : -EINVAL;
+> +}
+> +
+>   /*
+>    * show_scaling_governor - show the current policy for the specified CPU
+>    */
+> @@ -964,6 +985,7 @@ static ssize_t show_bios_limit(struct cpufreq_policy *policy, char *buf)
+>   }
+>   
+>   cpufreq_freq_attr_ro_perm(cpuinfo_cur_freq, 0400);
+> +cpufreq_freq_attr_ro(cpuinfo_avg_freq);
+>   cpufreq_freq_attr_ro(cpuinfo_min_freq);
+>   cpufreq_freq_attr_ro(cpuinfo_max_freq);
+>   cpufreq_freq_attr_ro(cpuinfo_transition_latency);
+> @@ -1091,6 +1113,12 @@ static int cpufreq_add_dev_interface(struct cpufreq_policy *policy)
+>   			return ret;
+>   	}
+>   
+> +	if (cpufreq_avg_freq_supported(policy)) {
+> +		ret = sysfs_create_file(&policy->kobj, &cpuinfo_avg_freq.attr);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>   	ret = sysfs_create_file(&policy->kobj, &scaling_cur_freq.attr);
+>   	if (ret)
+>   		return ret;
+> diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
+> index d4d2f4d1d7cb..a7b6c0ccf9bc 100644
+> --- a/include/linux/cpufreq.h
+> +++ b/include/linux/cpufreq.h
+> @@ -1194,7 +1194,7 @@ static inline int of_perf_domain_get_sharing_cpumask(int pcpu, const char *list_
+>   }
+>   #endif
+>   
+> -extern unsigned int arch_freq_get_on_cpu(int cpu);
+> +extern int arch_freq_get_on_cpu(int cpu);
+>   
+>   #ifndef arch_set_freq_scale
+>   static __always_inline
 
