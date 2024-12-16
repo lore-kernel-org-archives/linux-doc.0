@@ -1,103 +1,144 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9402D25632
-	for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 05:06:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98AF1422B8;
+	Mon, 16 Dec 2024 05:30:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.148.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734325577; cv=none; b=fLYqzq+W8jxqRqRMusmy8WhtynAigbIsjhhxWqJ1oJxFB1t/nK7p9J2VKg9D5HxHh19nYCKEn3vsGgBN8bSAhE1pLitsYGf0p5Dw50gXk0+fHoRfW4e4eA02g+mbGxV+dzZ856VtNNmqQ/BTPzGxVGJtuT4Uzf4DMNHRdo9+o0k=
+	t=1734327052; cv=none; b=bjkd1715GJkdlhv4S5YcMqwfUTfPK4qZxg1DCiCjwdVfMh6oBSZMU+QzZvOgySdy37Nex+kbB2AVZjO5km4oZ9A4flcoy6qOk+WAgkzDNflnnc1j5Q+8Y2v1lac/gGeB1tV0inY8grvlkMvjhA3CZV+kyl7oCHHD5nAwfTfVPi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734325577; c=relaxed/simple;
-	bh=kCRva32N0VhrNgQfChfjnrcWqJoDUo1iXfZ0ODPK70c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rS0186qQyoWXcdIuT5OXBB7j2kUfUHRFEKWLJZBDTW67x4yFxQk1W8EBalhKkUwkx/r7eRg/1FKdiA0WzgS7uGrmRTKH3XlRmrQ5weSXvL06uCC2Cheep0o6E9eYcY9/EHyGKKGJJvc28VPVmymWRcwhHPXeT9WcC1E5k/PCAWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=azaRBaeI; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1734327052; c=relaxed/simple;
+	bh=qlobSQtBLfYXdKx3OIYLvn2lFG2GuL1DlbbPHVhFfEY=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YDEYoqpof2QLru+dfngtvmdAh/hXdXgLCq0IVKq/k9PjFsgA68rx69hR+3xF69YXRPR1Eijob0R20HexZXrDroUGBu+s5JECnzEf7wrfnHmdlSIWoTKfSQSQQl38jiQ3SmdCJRaxReizDZN58rRh21LLkli9eKORtUS+GnZE0d8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=aWUdNRN2; arc=none smtp.client-ip=67.231.148.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="azaRBaeI"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-3022c6155edso37226281fa.2
-        for <linux-doc@vger.kernel.org>; Sun, 15 Dec 2024 21:06:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1734325574; x=1734930374; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kCRva32N0VhrNgQfChfjnrcWqJoDUo1iXfZ0ODPK70c=;
-        b=azaRBaeIXKBmrQxHeg7eil9IwlxtRI7RD+KUYevzjWqTvRXER0+JsW20rEMWRKwAsP
-         XdGGAdBylCoo4e5rAb4UexmI0GBbWRywRHd/Zs94JvzD0B+qjIfFS87CtPL4cvP1WCCX
-         4y/eaubA7yHUD6ZWh8N4Sd8gjlqCdkFrNmBUA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734325574; x=1734930374;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kCRva32N0VhrNgQfChfjnrcWqJoDUo1iXfZ0ODPK70c=;
-        b=leu0P15POpLD+tqzn8cxIDJrWgB3+R4Tj/uZOqKNFhrCmm/iqAju9MRjPqgsZd0PMF
-         w+6BzQiVU0pZD6viyKqVrdZqsrsjoEXFJeuVfQgOdrzeS2Y4gRWT9ECUFsIsQI5qsvJG
-         RQilugJ4BNUVomMrgDgBkEHj8MD5vkXck/Hb4qveDJbbrSr9i2+cJ2INPOGGMZoNJxLK
-         ACP78mIaEWs3mMo+vG3iaZ0lfpWv7YOuC4ASgP4mltNx9HvNFl/RlrxOPiGqBPkfxPLo
-         tz/CpRFi488Ag1F+nInSmr7aipExNYj5j7GApa2fQt2dJ5tpwfFYnj03KmNJQWojK39e
-         63EA==
-X-Forwarded-Encrypted: i=1; AJvYcCXaxc1NuLQ2wgDnHrYp2fRXcouaVl05jAZ8/vSXuVPU1fZa+yFBZxWOGjVrhGHf20cj0uMBfLwhIBk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMEmq5SapJ5KdvBzxGM6gLEaU5JRClvVia5GiyFH/y0aNb678z
-	4+E7yE5dvLLebNJaLzUmYzpRFHmv8j876WxvzgjzAmxUphVKobnZgaG/rYO9xZmjnTP0MzSdmWo
-	G7kjujYAcS8aMgJC1JOk86fRWu+jfnvnP/AmR
-X-Gm-Gg: ASbGncuzMp22pEvuIaZRghNIWyLA/flUd91oouuvs7QdlqUugcJ11W4yUWplll6TE69
-	ph/h+4TGCqcweWY5PfDt8PcXFtqw47OZ7QqpRIg==
-X-Google-Smtp-Source: AGHT+IE2lSfy0plkHFYvqJzzMKQfZf0H0X0Pv4uKJBDZr2SBKnWb1wfneg9v2qKtvbV2M2+FSEtq4YdfQJ0p+sPWLjA=
-X-Received: by 2002:a2e:be8a:0:b0:302:1c90:58de with SMTP id
- 38308e7fff4ca-302544cd2a9mr45430851fa.33.1734325573758; Sun, 15 Dec 2024
- 21:06:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="aWUdNRN2"
+Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
+	by mx0a-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BG49nWG016779;
+	Sun, 15 Dec 2024 21:30:34 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pfpt0220; bh=D
+	/2AdaxEP4+bfM+f0okTU2h7zGdg+OB3wISGpFxrQxo=; b=aWUdNRN2cNdOl9uxe
+	cyU9Oy4YD7obRfAoPdpLAA9puFfzhBGYW10mFpY4c0LCO/6+6veLXxuB2DYYFphp
+	6yXCRNANmQ90bs3egYe77nUObvNI96fsgG9HBQQ03AMrQ7wWfHWIE9qnqBeV4r/E
+	iK9RLscbYj20NfysJayl0BdxRllKHoUyxV3KBu6L7uIiDZkayvYlxvB2mt0FTM36
+	FrubQEyDx4xwo0h4kGbA7hgnl20d+8tybLMV58H+imTwFw1Jcz/1+QxU0cV4cQAC
+	UiCEYZyofOkJ5S6HDNgRJAoWKZPEWYODetXWaKEKxizP2g+HCy0XA5dijNHN2dqA
+	TGlkg==
+Received: from dc6wp-exch02.marvell.com ([4.21.29.225])
+	by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 43jcxgr7bd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 15 Dec 2024 21:30:34 -0800 (PST)
+Received: from DC6WP-EXCH02.marvell.com (10.76.176.209) by
+ DC6WP-EXCH02.marvell.com (10.76.176.209) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.4; Sun, 15 Dec 2024 21:30:33 -0800
+Received: from maili.marvell.com (10.69.176.80) by DC6WP-EXCH02.marvell.com
+ (10.76.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
+ Transport; Sun, 15 Dec 2024 21:30:32 -0800
+Received: from virtx40.. (unknown [10.28.34.196])
+	by maili.marvell.com (Postfix) with ESMTP id B3B743F7041;
+	Sun, 15 Dec 2024 21:30:26 -0800 (PST)
+From: Linu Cherian <lcherian@marvell.com>
+To: <suzuki.poulose@arm.com>, <mike.leach@linaro.org>, <james.clark@arm.com>
+CC: <linux-arm-kernel@lists.infradead.org>, <coresight@lists.linaro.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+        <corbet@lwn.net>, <devicetree@vger.kernel.org>, <sgoutham@marvell.com>,
+        <gcherian@marvell.com>, Linu Cherian <lcherian@marvell.com>
+Subject: [PATCH v13 1/8] dt-bindings: arm: coresight-tmc: Add "memory-region" property
+Date: Mon, 16 Dec 2024 11:00:07 +0530
+Message-ID: <20241216053014.3427909-2-lcherian@marvell.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241216053014.3427909-1-lcherian@marvell.com>
+References: <20241216053014.3427909-1-lcherian@marvell.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241212224114.888373-1-dualli@chromium.org> <20241212224114.888373-2-dualli@chromium.org>
- <20241215142723.3e7d22e7@kernel.org>
-In-Reply-To: <20241215142723.3e7d22e7@kernel.org>
-From: Li Li <dualli@chromium.org>
-Date: Sun, 15 Dec 2024 21:06:02 -0800
-Message-ID: <CANBPYPi8Q2akivjbMCeThtHEw1L_rHErxL_Cwt=Xjf=B1fZ=-w@mail.gmail.com>
-Subject: Re: [PATCH net-next v10 1/2] binderfs: add new binder devices to binder_devices
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: dualli@google.com, corbet@lwn.net, davem@davemloft.net, 
-	edumazet@google.com, pabeni@redhat.com, donald.hunter@gmail.com, 
-	gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com, 
-	maco@android.com, joel@joelfernandes.org, brauner@kernel.org, 
-	cmllamas@google.com, surenb@google.com, arnd@arndb.de, masahiroy@kernel.org, 
-	bagasdotme@gmail.com, horms@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org, hridya@google.com, 
-	smoreland@google.com, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: Sa-UcKq_PQ_S6ajstxLuYjSVWFavQspA
+X-Proofpoint-ORIG-GUID: Sa-UcKq_PQ_S6ajstxLuYjSVWFavQspA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 
-On Sun, Dec 15, 2024 at 2:27=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
-> On Thu, 12 Dec 2024 14:41:13 -0800 Li Li wrote:
-> > +/**
-> > + * Add a binder device to binder_devices
->
-> nit: kdoc is missing function name
->
-> > + * @device: the new binder device to add to the global list
-> > + *
-> > + * Not reentrant as the list is not protected by any locks
-> > + */
-> > +void binder_add_device(struct binder_device *device);
->
-> To be clear we do not intend to apply these patches to net-next,
-> looks like binder patches are mostly handled by Greg KH. Please
-> drop the net-next from the subject on future revisions to avoid
-> confusion.
+memory-region 0: Reserved trace buffer memory
 
+  TMC ETR: When available, use this reserved memory region for
+  trace data capture. Same region is used for trace data
+  retention after a panic or watchdog reset.
 
-Got it. I'll modify the subject accordingly.
+  TMC ETF: When available, use this reserved memory region for
+  trace data retention synced from internal SRAM after a panic or
+  watchdog reset.
 
-Meanwhile, Greg KH did say we need netlink experts to review
-the netlink code. Please let me know if you have any more
-comments about the netlink part of this patch so that I can
-fix them in the next revision. Thank you!
+memory-region 1: Reserved meta data memory
+
+  TMC ETR, ETF: When available, use this memory for register
+  snapshot retention synced from hardware registers after a panic
+  or watchdog reset.
+
+Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Linu Cherian <lcherian@marvell.com>
+---
+Changelog from v12:
+No changes
+
+ .../bindings/arm/arm,coresight-tmc.yaml       | 26 +++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/arm/arm,coresight-tmc.yaml b/Documentation/devicetree/bindings/arm/arm,coresight-tmc.yaml
+index cb8dceaca70e..4787d7c6bac2 100644
+--- a/Documentation/devicetree/bindings/arm/arm,coresight-tmc.yaml
++++ b/Documentation/devicetree/bindings/arm/arm,coresight-tmc.yaml
+@@ -101,6 +101,29 @@ properties:
+           and ETF configurations.
+         $ref: /schemas/graph.yaml#/properties/port
+ 
++  memory-region:
++    items:
++      - description: Reserved trace buffer memory for ETR and ETF sinks.
++          For ETR, this reserved memory region is used for trace data capture.
++          Same region is used for trace data retention as well after a panic
++          or watchdog reset.
++          This reserved memory region is used as trace buffer or used for trace
++          data retention only if specifically selected by the user in sysfs
++          interface.
++          The default memory usage models for ETR in sysfs/perf modes are
++          otherwise unaltered.
++
++          For ETF, this reserved memory region is used by default for
++          retention of trace data synced from internal SRAM after a panic
++          or watchdog reset.
++      - description: Reserved meta data memory. Used for ETR and ETF sinks
++          for storing metadata.
++
++  memory-region-names:
++    items:
++      - const: tracedata
++      - const: metadata
++
+ required:
+   - compatible
+   - reg
+@@ -115,6 +138,9 @@ examples:
+     etr@20070000 {
+         compatible = "arm,coresight-tmc", "arm,primecell";
+         reg = <0x20070000 0x1000>;
++        memory-region = <&etr_trace_mem_reserved>,
++                       <&etr_mdata_mem_reserved>;
++        memory-region-names = "tracedata", "metadata";
+ 
+         clocks = <&oscclk6a>;
+         clock-names = "apb_pclk";
+-- 
+2.34.1
+
