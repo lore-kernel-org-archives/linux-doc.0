@@ -1,128 +1,234 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10FA5146A71;
-	Mon, 16 Dec 2024 16:20:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D889220898C;
+	Mon, 16 Dec 2024 16:45:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734366030; cv=none; b=HOT32iuBz0fT1mrZrwVvAlPDLSBBhBvZQuaEfsF6BBJjyMvb4DSRrfqzHGCviiK9So8qe796L3kUu736awt6pdNKM8D5Lw8ZINc0Knqsjopy/qQpCujh0FM7vfwbBRGuqWF42VKjKmaLQgvSdEIJqCXMSUUyS3ryCrkmgb45cKU=
+	t=1734367518; cv=none; b=tYMoy2v47hRaiGg6QEUHht8IQgNx0xf6IcHu+Qh/FEYmC1d1QwTHU40aP4eLLLaEquLuYUYaN3O/Mm5hSqDvUQURQfffg5x7fnbzvHYYaN9wFloA18CRF8gODbRGAPxa00T3eCC0/9EgbVEzgF939nEX6PqjM72alktFZF8wj+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734366030; c=relaxed/simple;
-	bh=FRE0tnmdPZcvIgR7EVR87njVhzKUC6TYSG3OdJHFNMw=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=Ne4W9pE4MASlbBdRaYs7GIRT5psevh4+VBFMr23KM6LBn8l4Ea4YQRBTwNBs2HzyXkHgFViIhIjiE7GLC9D2WYzDG25eANp0aFYw0jyKUvipTenxhBmtJsNNuXpk1ssLknvuI2+iRnBusPaqSmgCxFlswS49OLWkB6jstlSy4cM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dRc+sn+r; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734367518; c=relaxed/simple;
+	bh=CbxyEfceeA74vA5n978PKHNKNzB51SNaNB6+XIHqdNg=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=DLBvGjFNk3tUaPEbu2cdZ02cg8YA1MryttytA6U+YIGQ/9PDt2hKYhL2uMDw8mKcq4dR+FJpaky4UP6L0efPK75mZ7lDHrYd4J99ksY5FOE/v9TyDk0FB+bGZvw2HeeP0ZPBbf9fvYKDqsZaTPhR77t35IZOpXfWW+mOGYomYYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=P2J1K/a5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=uwUiR8FG; arc=none smtp.client-ip=202.12.124.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dRc+sn+r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46085C4CED0;
-	Mon, 16 Dec 2024 16:20:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734366025;
-	bh=FRE0tnmdPZcvIgR7EVR87njVhzKUC6TYSG3OdJHFNMw=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=dRc+sn+reUTf5Ng2RmTvjGbDyUqn6S5cWeO793fM9stsagGakiZchfqarwDyJj1Or
-	 CMmq5/mqbOjLbYs7FmpZTMmZXV116uTW3V3aJbdc7NmjqjZAvKIiJ3t5ZcdtyDWGwj
-	 hf75Qp5jGLqCwDrZ/YnGf1dPh64zkLvE1mOAsKfYq9N8yibUH0K25QH19Ya1NPdlh4
-	 0wyQUnBaFsApborre6WqrcDbIBcrTmLIOQa1xj+YmLRq4WSCzBJ1xcepclIHBgr4Qo
-	 uk031+KLsErzEpKQ/t5yBhH2qpUM7ZdKZDI7Pijxzh/QbpXpnL5Khc/M0o6NsNkVWw
-	 e0FV5ta9Qs0ZA==
-Date: Mon, 16 Dec 2024 10:20:18 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="P2J1K/a5";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="uwUiR8FG"
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 7A89C2540171;
+	Mon, 16 Dec 2024 11:45:14 -0500 (EST)
+Received: from phl-imap-10 ([10.202.2.85])
+  by phl-compute-02.internal (MEProxy); Mon, 16 Dec 2024 11:45:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1734367514;
+	 x=1734453914; bh=uTiNRTCtUd6G92MhqAcPIyZ7ztea6pMEB+/8c5/WMLQ=; b=
+	P2J1K/a5C6SXEfVb2YWLMZrIUgB3Vcwg/2Eulf1pnKEyoffm3QOcP5hSXExLnQZQ
+	th6SKJ3Z8KF/9JgQeEXa1i0YBz+7x2bV02Y8/rV22wlPpDwoGaApQ6ot+F5jl87V
+	sfeIjJCkal9Sx+rIgRBrRgTUvbEy/jUiojhyMsrS846FaoSEwumLKockzP8XVrWi
+	l46kBo/ojKoiLDMw7AkGz6waXGWZiuK5FgW1Nfb6oBhz/PFfdvZYzqtp1+1iOg3w
+	qDd6zNUKYcZjvPvuq44yXQ77sYXYskfn42JvGCCZ3SZxTNHxYT/Y7MSIWwIKpSHg
+	bstB1n/llVGnLy3rmK7cJQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1734367514; x=
+	1734453914; bh=uTiNRTCtUd6G92MhqAcPIyZ7ztea6pMEB+/8c5/WMLQ=; b=u
+	wUiR8FGiIo/RuLzu1F0VZ2w7GfX2C27xj+s1IfcTPdyOU90i/qPBjDhAGSFJuhae
+	2LenISYQxYzRrtVgO0MZ/yvKVU9sW6EoqM62VJ/y9OsDBmH7TgWinCOIX3gNvY2A
+	JYMQu5jczY86VGWMj/p4KEeza4C+USu/3rQKSYUgD2pCdqjZpj6WgawpnYYU6h2y
+	7yzHlw08ujSGft94/mUM8P3USQuQO0MTP5M4ahcsZp100YeDLuxXVYAfkDjSoUya
+	jtfBC9iDjU6NPVnTAwZdQhPW9XopH8EmNPeRYCYk/YA/P8xfjvFGZ6NcWREMSDsr
+	6gyBa3fBUauQS489BXPwg==
+X-ME-Sender: <xms:GVlgZ49vC242r7oXCl7Q0f23kIufloutd7HfVsZ3Am2W_MMeQ5bCGg>
+    <xme:GVlgZwsW40LdrtawySX5II6JWszoUH-4lmJbddAnQ-UpHefQMBlLQoLmoV_1rRt-m
+    uqu1bEWH7zOVnCb4R0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrleefgdelfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredttden
+    ucfhrhhomhepfdforghrkhcurfgvrghrshhonhdfuceomhhpvggrrhhsohhnqdhlvghnoh
+    hvohesshhquhgvsggsrdgtrgeqnecuggftrfgrthhtvghrnhepudefgfelhefgveffheeh
+    uedtudefffetiedtvedthefgvdeuvdefgeeiiefhieegnecuffhomhgrihhnpehgihhthh
+    husgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
+    ohhmpehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtggrpdhnsggprhgtph
+    htthhopedutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprggrrhhonhdrmhgr
+    segtrghnohhnihgtrghlrdgtohhmpdhrtghpthhtohepsggrghgrshguohhtmhgvsehgmh
+    grihhlrdgtohhmpdhrtghpthhtoheprhguuhhnlhgrphesihhnfhhrrgguvggrugdrohhr
+    ghdprhgtphhtthhopegvvhgvnhdrgihusehinhhtvghlrdgtohhmpdhrtghpthhtohepsg
+    gvnhhtihhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhikhhosheskhgvrhhn
+    vghlrdhorhhgpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtoh
+    eplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehl
+    ihhnuhigqdhinhhpuhhtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:GVlgZ-CcAlQEddU_S8eJMqifZ0Poe1euQgrsziJFQS7t9dMEQnIttw>
+    <xmx:GVlgZ4d3cUECRXFoBdecb9cv1drZ6iLTX20SLF9N9TEt1nRUsCfRgQ>
+    <xmx:GVlgZ9Pyak1q45It3hI2M9EzfWHERK-wGTgXrA0iYCyhPFmKQseo9A>
+    <xmx:GVlgZymSHWKCYO7OSw--OB6_aFIxcNCelb2yUzbMgMSIR4ObLcL9YA>
+    <xmx:GllgZwqI_2YBdhsE5XyD8TgBSapdSF_c3Xifkkcm0KVFOYpnxWpXapPA>
+Feedback-ID: ibe194615:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id CD6F83C0066; Mon, 16 Dec 2024 11:45:13 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Alex Lanzano <lanzano.alex@gmail.com>, 
- Jonathan Cameron <jic23@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-iio@vger.kernel.org, 
- Nuno Sa <nuno.sa@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, 
- Antoniu Miclaus <antoniu.miclaus@analog.com>, 
- Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org, 
- Shen Jianping <Jianping.Shen@de.bosch.com>, 
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
- devicetree@vger.kernel.org, 
- Ramona Gradinariu <ramona.gradinariu@analog.com>, robi_budai@yahoo.com, 
- Michael Hennerich <Michael.Hennerich@analog.com>
-To: Robert Budai <robert.budai@analog.com>
-In-Reply-To: <20241216144818.25344-6-robert.budai@analog.com>
-References: <20241216144818.25344-1-robert.budai@analog.com>
- <20241216144818.25344-6-robert.budai@analog.com>
-Message-Id: <173436601809.266177.9235347510017778523.robh@kernel.org>
-Subject: Re: [PATCH v3 5/7] dt-bindings: iio: Add adis16550 bindings
+Date: Mon, 16 Dec 2024 11:44:53 -0500
+From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
+To: "Even Xu" <even.xu@intel.com>, "Jiri Kosina" <jikos@kernel.org>,
+ bentiss@kernel.org, "Jonathan Corbet" <corbet@lwn.net>, bagasdotme@gmail.com,
+ aaron.ma@canonical.com, "Randy Dunlap" <rdunlap@infradead.org>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Message-Id: <fc72c31b-b1df-482a-966f-f81459a733f2@app.fastmail.com>
+In-Reply-To: <20241216014127.3722172-1-even.xu@intel.com>
+References: <20241216014127.3722172-1-even.xu@intel.com>
+Subject: Re: [PATCH v3 00/22] Add Intel Touch Host Controller drivers
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
+Hi,
 
-On Mon, 16 Dec 2024 16:48:11 +0200, Robert Budai wrote:
-> Document the ADIS16550 device devicetree bindings.
-> 
-> Co-developed-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
-> Signed-off-by: Robert Budai <robert.budai@analog.com>
-> ---
-> 
+On Sun, Dec 15, 2024, at 8:41 PM, Even Xu wrote:
+> Intel Touch Host Controller (THC) is a new high performance input IP
+> which can benefit HID device's data transaction, such as touch screen,
+> touch pad, stylus.
+>
+> THC IP now evoluates to V4, it can support 3 different modes: IPTS,
+> HIDSPI and HIDI2C. Here are upgrade history:
+> - THC v1, for TGL/LKF, supports intel private IPTS (Intel Precise Touch
+>   and Stylus) protocol ( IPTS mode)
+> - THC v2, for ADL, add industrial standard HID over SPI protocol support
+>   (HIDSPI mode)
+> - THC v3, for MTL, enhance HID over SPI mode
+> - THC v4, for LNL, add inudstrial standard HID over I2C protocol support
+>   (HIDI2C mode) 
+>
+> Linux Surface community (https://github.com/linux-surface) already
+> implemented IPTS mode. These patch series provides THC HIDSPI mode and
+> THC HIDI2C mode support on Linux.
+>
+> These patch series includes:
+> 1. Document for THC hardware and software introduction.
+> 2. Intel THC Hardware layer driver which provides control interfaces
+>    for protocol layer.
+> 3. Intel QuickSPI (R) driver working as a HIDSPI device driver which
+>    implements HID over SPI protocol and flow.
+> 4. Intel QuickI2C (R) driver working as a HIDI2C device driver which
+>    implements HID over I2C protocol and flow.
+>
+> Change logs:
 > v3:
-> - changed sync type to integer
-> - conditioned clock only on scaled-sync
-> - added: unevaluatedProperties false
-> 
->  .../bindings/iio/imu/adi,adis16550.yaml       | 93 +++++++++++++++++++
->  MAINTAINERS                                   |  9 ++
->  2 files changed, 102 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
-> 
+> - Change tables in documents from literal block to table format
+> - Change symbol namespace to string literal according to patch:
+>   cdd30ebb1b9f ("module: Convert symbol namespace to string literal")
+> - Refine Kconfig description
+> - Enhance Quickspi and Quicki2c driver by clearing THC hardware interal
+>   state before doing initialization to avoid BIOS impacts.
+> - A fix in Quicki2c driver when does set_report
+>
+> v2:
+> - Fix document format issues
+> - Add THC device IDs for Intel Panther Lake (PTL) platform
+>
+>
+> Even Xu (13):
+>   HID: THC: Add documentation
+>   HID: intel-thc-hid: intel-thc: Add THC DMA interfaces
+>   HID: intel-thc-hid: intel-thc: Add THC I2C config interfaces
+>   HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI driver hid layer
+>   HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI ACPI interfaces
+>   HID: intel-thc-hid: intel-quickspi: Add HIDSPI protocol implementation
+>   HID: intel-thc-hid: intel-quickspi: Add PM implementation
+>   HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C driver skeleton
+>   HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C driver hid layer
+>   HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C ACPI interfaces
+>   HID: intel-thc-hid: intel-quicki2c: Add HIDI2C protocol implementation
+>   HID: intel-thc-hid: intel-quicki2c: Complete THC QuickI2C driver
+>   HID: intel-thc-hid: intel-quicki2c: Add PM implementation
+>
+> Xinpeng Sun (9):
+>   HID: intel-thc-hid: Add basic THC driver skeleton
+>   HID: intel-thc-hid: intel-thc: Add THC registers definition
+>   HID: intel-thc-hid: intel-thc: Add THC PIO operation APIs
+>   HID: intel-thc-hid: intel-thc: Add APIs for interrupt
+>   HID: intel-thc-hid: intel-thc: Add THC LTR interfaces
+>   HID: intel-thc-hid: intel-thc: Add THC interrupt handler
+>   HID: intel-thc-hid: intel-thc: Add THC SPI config interfaces
+>   HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI driver skeleton
+>   HID: intel-thc-hid: intel-quickspi: Complete THC QuickSPI driver
+>
+>  Documentation/hid/index.rst                   |    1 +
+>  Documentation/hid/intel-thc-hid.rst           |  568 ++++++
+>  MAINTAINERS                                   |    6 +
+>  drivers/hid/Kconfig                           |    2 +
+>  drivers/hid/Makefile                          |    2 +
+>  drivers/hid/intel-thc-hid/Kconfig             |   42 +
+>  drivers/hid/intel-thc-hid/Makefile            |   22 +
+>  .../intel-quicki2c/pci-quicki2c.c             |  966 ++++++++++
+>  .../intel-quicki2c/quicki2c-dev.h             |  186 ++
+>  .../intel-quicki2c/quicki2c-hid.c             |  166 ++
+>  .../intel-quicki2c/quicki2c-hid.h             |   14 +
+>  .../intel-quicki2c/quicki2c-protocol.c        |  224 +++
+>  .../intel-quicki2c/quicki2c-protocol.h        |   20 +
+>  .../intel-quickspi/pci-quickspi.c             |  987 +++++++++++
+>  .../intel-quickspi/quickspi-dev.h             |  172 ++
+>  .../intel-quickspi/quickspi-hid.c             |  165 ++
+>  .../intel-quickspi/quickspi-hid.h             |   14 +
+>  .../intel-quickspi/quickspi-protocol.c        |  409 +++++
+>  .../intel-quickspi/quickspi-protocol.h        |   25 +
+>  .../intel-thc-hid/intel-thc/intel-thc-dev.c   | 1578 +++++++++++++++++
+>  .../intel-thc-hid/intel-thc/intel-thc-dev.h   |  116 ++
+>  .../intel-thc-hid/intel-thc/intel-thc-dma.c   |  969 ++++++++++
+>  .../intel-thc-hid/intel-thc/intel-thc-dma.h   |  146 ++
+>  .../intel-thc-hid/intel-thc/intel-thc-hw.h    |  881 +++++++++
+>  include/linux/hid-over-i2c.h                  |  117 ++
+>  include/linux/hid-over-spi.h                  |  155 ++
+>  26 files changed, 7953 insertions(+)
+>  create mode 100644 Documentation/hid/intel-thc-hid.rst
+>  create mode 100644 drivers/hid/intel-thc-hid/Kconfig
+>  create mode 100644 drivers/hid/intel-thc-hid/Makefile
+>  create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+>  create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
+>  create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
+>  create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.h
+>  create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-protocol.c
+>  create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-protocol.h
+>  create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
+>  create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
+>  create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.c
+>  create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.h
+>  create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.c
+>  create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.h
+>  create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c
+>  create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.h
+>  create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c
+>  create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.h
+>  create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-hw.h
+>  create mode 100644 include/linux/hid-over-i2c.h
+>  create mode 100644 include/linux/hid-over-spi.h
+>
+> -- 
+> 2.40.1
 
-My bot found errors running 'make dt_binding_check' on your patch:
+For the series:
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml:45:9: [warning] wrong indentation: expected 6 but found 8 (indentation)
+Tested on a 'to be announced' Lenovo Lunarlake laptop that uses the THC controller and confirmed it worked well. The platform under test is using the quicki2c driver.
+Tested touchpad and touchscreen and didn't see any issues.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml: ignoring, error in schema: allOf: 0: if: properties: adi,sync-mode
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml: allOf:0:if:properties:adi,sync-mode: 1 is not of type 'object', 'boolean'
-	from schema $id: http://json-schema.org/draft-07/schema#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml: allOf:0:if:properties:adi,sync-mode: 1 is not of type 'object', 'boolean'
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml: properties:clocks: 'anyOf' conditional failed, one must be fixed:
-	'adi,sync-mode' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
-	'type' was expected
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml: properties:clocks: 'oneOf' conditional failed, one must be fixed:
-	/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml: properties:clocks: 'anyOf' conditional failed, one must be fixed:
-		'adi,sync-mode' is not one of ['maxItems', 'description', 'deprecated']
-			hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
-		Additional properties are not allowed ('adi,sync-mode' was unexpected)
-			hint: Arrays must be described with a combination of minItems/maxItems/items
-		'maxItems' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
-		'adi,sync-mode' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
-		1 is less than the minimum of 2
-			hint: Arrays must be described with a combination of minItems/maxItems/items
-		hint: cell array properties must define how many entries and what the entries are when there is more than one entry.
-		from schema $id: http://devicetree.org/meta-schemas/clocks.yaml#
-	'maxItems' is not one of ['type', 'description', 'dependencies', 'dependentRequired', 'dependentSchemas', 'properties', 'patternProperties', 'additionalProperties', 'unevaluatedProperties', 'deprecated', 'required', 'not', 'allOf', 'anyOf', 'oneOf', '$ref']
-	'adi,sync-mode' is not one of ['type', 'description', 'dependencies', 'dependentRequired', 'dependentSchemas', 'properties', 'patternProperties', 'additionalProperties', 'unevaluatedProperties', 'deprecated', 'required', 'not', 'allOf', 'anyOf', 'oneOf', '$ref']
-	'type' is a required property
-		hint: DT nodes ("object" type in schemas) can only use a subset of json-schema keywords
-	from schema $id: http://devicetree.org/meta-schemas/clocks.yaml#
-Documentation/devicetree/bindings/iio/imu/adi,adis16550.example.dtb: /example-0/spi/imu@0: failed to match any schema with compatible: ['adi,adis16550']
+Tested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 
-doc reference errors (make refcheckdocs):
+Of limited value, as I don't know the hid subsystem well, I did do a code review and it looked good to me (only minor notes are typo 'recevie' on patch 6 commit description and 'calcualte' on patch 7 commit description).
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20241216144818.25344-6-robert.budai@analog.com
+Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Thanks!
+Mark
