@@ -1,695 +1,955 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F79420ADE8;
-	Mon, 16 Dec 2024 18:01:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766FA839F4
+	for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 18:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734372106; cv=none; b=TRg3WMYUjYNFSxJXI+wAEHOxe3iOEcVdU4Pke6A8OJWHXWpWvehK4Iisv6IF6PLv7W9WFq6Za/DU1mdx/UsM6WdaC1oolL0k5gsDUAVIJHfTaXvQIxhDUqmWDrV0WAQ3mSWsysy4XP5war0XGz2TfWykQ9fi3dTLcQkOW1TFYuY=
+	t=1734372745; cv=none; b=V6lG/M4jbJf+UPXsgqTH+EuDXuxpPg8zSF0t2+uhdE3NiszPc71ZuRKMrtETWO+/NA5e1BLWWkrE7i35FESALLg4nOHg1h1rsjOFaaVyKWGVJO7S5VeKvwsUggj5t36pKjwDB6/0VB0JE7UTvMnPDoG0dp+N0894C8EEdlievM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734372106; c=relaxed/simple;
-	bh=yib8fg9AfPXoPu//wZyUOjibyHAoDu6FZNR9IKd1dGk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=CWPiGvYQoFolQqrILTKuH4n64cU68Om8vcPaacafK272CVW658SAuAFN3ttgiKLuTUOiehBMjlBqDFqQO0u2UDUGA7aF0hWeHF+8ERrBL5obAfXl8DehOWaPodv9O3bREZOiBnWSxXLlKJv/CnnZzxI3mPZh5F6+ljqUufy4q2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=ZXIH8iGR; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1734372745; c=relaxed/simple;
+	bh=NAMkqvjyjzEhrzj9HyHkJzqaWLMFTsWM8E07sNl9HJQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IX378Q331UT1wtNMNOLKR3f41wF3ZcJZYkNlewUWbyRSRrB6/aph8AD1NYd5vTFJqm2xYURyqCXNYVtPJ3nDvEkxWs6IuJQMOqUollQEbonzGVBjN/tMANW6KLspYMHih99rtDO+hTNc48slk/lA5lszhpXE4XsYzTN960p/oug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rscwysoZ; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="ZXIH8iGR"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BGCWE11020416;
-	Mon, 16 Dec 2024 18:01:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=yO5GMk
-	iuufjBRuXCfPmfbeoWMWDXidsSjNglbB2hHJg=; b=ZXIH8iGRGSPnR/mTH8OA7C
-	YHrzpuE7Q4PWBZEzzvdEGoo/Lt4TCDd8lxGrxXS5QRc4dn1rqt66HwY3FiGnn7w0
-	XlmVl+uMibjM0yU9ODz43wldIwb9uEEChWf6+0DY1PqL+Fwy4+j0xiitrBpaDqTF
-	8vT8E39W02Wzd3ZPO9e1QUOlQl/5oaBs84vrc5Mzj6ScdfEfHl8lmH+n/D79qsbA
-	x59L17paAIFvtanrdvmBbDWgHfUPit+4sBZIvFekxx+Cz6EEj/AFGVHIIiotsnPi
-	KlFYVeMZEF8igj52/WTBPV1j10mrGfpLcx0vd4Srjlgh/T9UGO03zBzLMwiATwrQ
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43j8xamejs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Dec 2024 18:01:06 +0000 (GMT)
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BGHufnf011644;
-	Mon, 16 Dec 2024 18:01:05 GMT
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43j8xamejj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Dec 2024 18:01:05 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BGFXr31014388;
-	Mon, 16 Dec 2024 18:01:04 GMT
-Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 43hq21eqq1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Dec 2024 18:01:04 +0000
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
-	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BGI13rX17826524
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 16 Dec 2024 18:01:03 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B8D625805A;
-	Mon, 16 Dec 2024 18:01:03 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3AD015805C;
-	Mon, 16 Dec 2024 18:01:01 +0000 (GMT)
-Received: from [9.24.12.86] (unknown [9.24.12.86])
-	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 16 Dec 2024 18:01:01 +0000 (GMT)
-Message-ID: <2288d2ab-51c0-4e88-86e1-7a113ac67a16@linux.ibm.com>
-Date: Mon, 16 Dec 2024 12:01:00 -0600
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rscwysoZ"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2155c25e9a4so6345ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 10:12:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1734372743; x=1734977543; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=V4DdfO0nYZ+/1J5cyUBt/nzIbkFFhM2nZz/opvI7d38=;
+        b=rscwysoZevMezCxoF1pSg5V3oGjSai/+BRiibKqt1DbZF3tVBVGz69B+M8k0E/0D78
+         bLh+LuSs9vR6vweCA7xMb2eHuxSEc2GbuyI0kfbFVT/Xf3nkp1RZGamf1t23q7wkkRKQ
+         MdVJB8OyJxhwRL1Ns/51tB4Ouv57hKlDkzx9pm/vZN8OiO84cqh1A4u2FLevLga5qSHC
+         d2ELtbO+sMqeMcneiTCdsUvU9sFwHW54Jsb0Af4hxdJxBS80AJfdg9mvHjeigeEj4Z40
+         bqvHVbiKU4Zg2bXSH72bYXEyTZEYy6OClU+PLh74J23RJrc4R7IRlnCm7PhiEG8Z7Azg
+         yYcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734372743; x=1734977543;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=V4DdfO0nYZ+/1J5cyUBt/nzIbkFFhM2nZz/opvI7d38=;
+        b=pTzyHXR3z7CcQY3IMjviIY24QHMYLznb9XTHEAtmxcvfYn5FAYc3MvjInIHhW+YzaE
+         SYbdjsg/7TlZ9nBZ3grvtSTVH+KyFLNrcG9sIH2pIt03nd7KuhsLP0VEwDgN179TByi7
+         PYI8/JbyQrDE8hXt23X8uidAST4d8tnMnJdvvDtkIBovPvywHfjxGeME4LTi0DtoSYfd
+         cd7dB0gj7FOM9dbtug/UnvSBeR5AdQyKzZC7PSvo/aSs27VVuTI36KVnczjVMjYkQGqj
+         k6u+vON/sIRPFWKOIWVsaQBM4oSA2DRkZmMU6K4KKKtepfEYUXjTNXOwylpTtmlfpAph
+         ox4g==
+X-Forwarded-Encrypted: i=1; AJvYcCXmdSKWKOWZzmcJ46l3FkiN3oUjPyIGG9puSjvrxi56CCNgArC8C15ucvizNwjQDNQ300bTVssCx6o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyWc124B9767YssZKaqUCokVX/rNqViCZ0/Achf8AyZEVyhjHY
+	nVIOVXpO7KAiA30iOzKnz9Scftnz2nTQUkC3FI74t424gnUbrYHbyF2B233mMA==
+X-Gm-Gg: ASbGncvd9nXcs+HJVPfDgRDYrtBoqBawhai7l7dUP3KPBJVCwyewmN2/niyuoC5V1J1
+	qBoGKzTVWlAwWWovOR2QlOQkRthVszVoxcAn+SYxQgx5YaZzW0VmJYeBIkiAhZaGytBWsXw8/SG
+	JpWO3qHWjPGK4PZFpYGOCbMTmOti/AmTb2BR9DmVfq25DiC0fRmCME+5imGXFoUAZGAsRy+nBFp
+	+HaQ+R3Sk/ZRhEL8dO68BqsnuLcuBmPwqyL9+xjMdqm/r4lfca5unQU3LPLvFLQrrR8BUIPsv4n
+	RqjG1tH4QKxC23651rg=
+X-Google-Smtp-Source: AGHT+IEfEXxe6/88B7W3Ta+rHBgd4CloRpBzbKVVffZppyqMz0jW8gRGU5GdUqod3Ic1zoXiNpGZyQ==
+X-Received: by 2002:a17:903:2441:b0:215:98fd:cb04 with SMTP id d9443c01a7336-218a454adb3mr4316275ad.25.1734372742230;
+        Mon, 16 Dec 2024 10:12:22 -0800 (PST)
+Received: from google.com (226.75.127.34.bc.googleusercontent.com. [34.127.75.226])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f142d927c6sm8398373a91.8.2024.12.16.10.12.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Dec 2024 10:12:21 -0800 (PST)
+Date: Mon, 16 Dec 2024 18:12:18 +0000
+From: Carlos Llamas <cmllamas@google.com>
+To: Li Li <dualli@chromium.org>
+Cc: dualli@google.com, corbet@lwn.net, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	donald.hunter@gmail.com, gregkh@linuxfoundation.org,
+	arve@android.com, tkjos@android.com, maco@android.com,
+	joel@joelfernandes.org, brauner@kernel.org, surenb@google.com,
+	arnd@arndb.de, masahiroy@kernel.org, bagasdotme@gmail.com,
+	horms@kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+	hridya@google.com, smoreland@google.com, kernel-team@android.com
+Subject: Re: [PATCH net-next v10 2/2] binder: report txn errors via generic
+ netlink
+Message-ID: <Z2BtgqkPUZxE8B83@google.com>
+References: <20241212224114.888373-1-dualli@chromium.org>
+ <20241212224114.888373-3-dualli@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/4] hwmon: (pmbus/crps) Add Intel CRPS185 power supply
-To: Guenter Roeck <linux@roeck-us.net>, robh@kernel.org, krzk+dt@kernel.org,
-        conor+dt@kernel.org, eajames@linux.ibm.com, jdelvare@suse.com,
-        corbet@lwn.net, joel@jms.id.au, andrew@codeconstruct.com.au,
-        Delphine_CC_Chiu@Wiwynn.com, broonie@kernel.org,
-        peteryin.openbmc@gmail.com, noahwang.wang@outlook.com,
-        naresh.solanki@9elements.com, lukas@wunner.de, jbrunet@baylibre.com,
-        patrick.rudolph@9elements.com, gregkh@linuxfoundation.org,
-        peterz@infradead.org, pbiel7@gmail.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-i2c@vger.kernel.org
-References: <20241212214927.3586509-1-ninad@linux.ibm.com>
- <20241212214927.3586509-3-ninad@linux.ibm.com>
- <5b095371-f835-4c23-aa43-deefa33123bb@roeck-us.net>
-Content-Language: en-US
-From: Ninad Palsule <ninad@linux.ibm.com>
-In-Reply-To: <5b095371-f835-4c23-aa43-deefa33123bb@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 2fCEUlfraDuxoyrjwO58bwna-nkzC0fo
-X-Proofpoint-ORIG-GUID: x6BK64iyN_VpWI0phlzSg2lbZDnX09i8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
- priorityscore=1501 mlxlogscore=999 adultscore=0 malwarescore=0 spamscore=0
- lowpriorityscore=0 clxscore=1015 impostorscore=0 bulkscore=0
- suspectscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412160150
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241212224114.888373-3-dualli@chromium.org>
 
-Hi Guenter,
+On Thu, Dec 12, 2024 at 02:41:14PM -0800, Li Li wrote:
+> From: Li Li <dualli@google.com>
+> 
+> Introduce generic netlink messages into the binder driver so that the
+> Linux/Android system administration process can listen to important
+> events and take corresponding actions, like stopping a broken app from
+> attacking the OS by sending huge amount of spamming binder transactions.
+> 
+> The binder netlink sources and headers are automatically generated from
+> the corresponding binder_netlink YAML spec. Don't modify them directly.
+> 
+> Signed-off-by: Li Li <dualli@google.com>
+> ---
+>  Documentation/admin-guide/binder_genl.rst     | 110 ++++++++
 
-Thanks for the review!
+Thanks for renaming to "Binder Netlink" this seems much better IMO.
+Also, I belive the documentation should also be binder_netlink.rst in
+such case?
 
-On 12/12/24 19:29, Guenter Roeck wrote:
-> On 12/12/24 13:49, Ninad Palsule wrote:
->> Add the driver to monitor Intel common redundant power supply (crps185)
->> with hwmon over pmbus.
->>
->> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
->> ---
->>   Documentation/hwmon/crps.rst |  95 +++++++++++
->
-> Documentation/hwmon/index.rst needs to be updated.
-Added the entry. Sorry for that.
->
->>   MAINTAINERS                  |   7 +
->>   drivers/hwmon/pmbus/Kconfig  |   9 ++
->>   drivers/hwmon/pmbus/Makefile |   1 +
->>   drivers/hwmon/pmbus/crps.c   | 299 +++++++++++++++++++++++++++++++++++
->>   5 files changed, 411 insertions(+)
->>   create mode 100644 Documentation/hwmon/crps.rst
->>   create mode 100644 drivers/hwmon/pmbus/crps.c
->>
->> diff --git a/Documentation/hwmon/crps.rst b/Documentation/hwmon/crps.rst
->> new file mode 100644
->> index 000000000000..81d5dfd68a46
->> --- /dev/null
->> +++ b/Documentation/hwmon/crps.rst
->> @@ -0,0 +1,95 @@
->> +.. SPDX-License-Identifier: GPL-2.0-or-later
->> +
->> +Kernel driver crps
->> +========================
->
-> I am quite sure that this triggers a documentation warning.
-Fixed it.
->
->> +
->> +Supported chips:
->> +
->> +  * Intel CRPS185
->> +
->> +    Prefix: 'crps185'
->> +
->> +    Addresses scanned: -
->> +
->> +Authors:
->> +    Ninad Palsule <ninad@linux.ibm.com>
->> +
->> +
->
-> Is the documentation available somewhere ?
-> If yes, please add a reference. If not, add a comment explaining that
-> it is not available to the public.
-There is no public spec, added the comment
->
->> +Description
->> +-----------
->> +
->> +This driver implements support for Common Redundant Power supply 
->> with PMBus
->
-> For _Intel_ ...
-Updated.
->
->> +support.
->> +
->> +The driver is a client driver to the core PMBus driver.
->> +Please see Documentation/hwmon/pmbus.rst for details on PMBus client 
->> drivers.
->> +
->> +
->> +Usage Notes
->> +-----------
->> +
->> +This driver does not auto-detect devices. You will have to 
->> instantiate the
->> +devices explicitly. Please see 
->> Documentation/i2c/instantiating-devices.rst for
->> +details.
->> +
->> +
->> +Sysfs entries
->> +-------------
->> +
->> +======================= 
->> ======================================================
->> +curr1_label        "iin"
->> +curr1_input        Measured input current
->> +curr1_max        Maximum input current
->> +curr1_max_alarm         Input maximum current high alarm
->> +curr1_crit              Critial high input current
->> +curr1_crit_alarm        Input critical current high alarm
->> +curr1_rated_max        Maximum rated input current
->> +
->> +curr2_label        "iout1"
->> +curr2_input        Measured output current
->> +curr2_max        Maximum output current
->> +curr2_max_alarm         Output maximum current high alarm
->> +curr2_crit            Critial high output current
->> +curr2_crit_alarm        Output critical current high alarm
->> +curr2_rated_max        Maximum rated output current
->> +
->> +in1_label        "vin"
->> +in1_input        Measured input voltage
->> +in1_crit                Critical input over voltage
->> +in1_crit_alarm          Critical input over voltage alarm
->> +in1_max                 Maximum input over voltage
->> +in1_max_alarm           Maximum input over voltage alarm
->> +in1_rated_min        Minimum rated input voltage
->> +in1_rated_max        Maximum rated input voltage
->> +
->> +in2_label        "vout1"
->> +in2_input        Measured input voltage
->> +in2_crit                Critical input over voltage
->> +in2_crit_alarm          Critical input over voltage alarm
->> +in2_lcrit               Critical input under voltage fault
->> +in2_lcrit_alarm         Critical input under voltage fault alarm
->> +in2_max                 Maximum input over voltage
->> +in2_max_alarm           Maximum input over voltage alarm
->> +in2_min                 Minimum input under voltage warning
->> +in2_min_alarm           Minimum input under voltage warning alarm
->> +in2_rated_min        Minimum rated input voltage
->> +in2_rated_max        Maximum rated input voltage
->> +
->> +power1_label        "pin"
->> +power1_input        Measured input power
->> +power1_alarm        Input power high alarm
->> +power1_max          Maximum input power
->> +power1_rated_max        Maximum rated input power
->> +
->> +temp[1-2]_input        Measured temperature
->> +temp[1-2]_crit         Critical temperature
->> +temp[1-2]_crit_alarm    Critical temperature alarm
->> +temp[1-2]_max          Maximum temperature
->> +temp[1-2]_max_alarm     Maximum temperature alarm
->> +temp[1-2]_rated_max     Maximum rated temperature
->> +
->> +fan1_alarm        Fan 1 warning.
->> +fan1_fault        Fan 1 fault.
->> +fan1_input        Fan 1 speed in RPM.
->> +fan1_target             Fan 1 target.
->> +======================= 
->> ======================================================
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 637ddd44245f..6b31d545f0f1 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -6100,6 +6100,13 @@ L:    linux-input@vger.kernel.org
->>   S:    Maintained
->>   F:    drivers/hid/hid-creative-sb0540.c
->>   +CRPS COMMON REDUNDANT PSU DRIVER
->
-> This is _INTEL_ CRPS.
-Updated.
->
->> +M:    Ninad Palsule <ninad@linux.ibm.com>
->> +L:    linux-hwmon@vger.kernel.org
->> +S:    Maintained
->> +F:    Documentation/hwmon/crps.rst
->> +F:    drivers/hwmon/pmbus/crps.c
->> +
->>   CRYPTO API
->>   M:    Herbert Xu <herbert@gondor.apana.org.au>
->>   M:    "David S. Miller" <davem@davemloft.net>
->> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
->> index 22418a05ced0..56c4eb4b846e 100644
->> --- a/drivers/hwmon/pmbus/Kconfig
->> +++ b/drivers/hwmon/pmbus/Kconfig
->> @@ -85,6 +85,15 @@ config SENSORS_BPA_RS600
->>         This driver can also be built as a module. If so, the module 
->> will
->>         be called bpa-rs600.
->>   +config SENSORS_CRPS
->> +    tristate "Common Redundant Power Supply"
->
-> Again, this is an Intel product.
-Fixed.
->
->> +    help
->> +      If you say yes here you get hardware monitoring support for 
->> the Common
->> +      Redundant Power Supply.
->> +
->> +      This driver can also be built as a module. If so, the module will
->> +      be called crps.
->> +
->>   config SENSORS_DELTA_AHE50DC_FAN
->>       tristate "Delta AHE-50DC fan control module"
->>       help
->> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
->> index 3d3183f8d2a7..c7eb7739b7f8 100644
->> --- a/drivers/hwmon/pmbus/Makefile
->> +++ b/drivers/hwmon/pmbus/Makefile
->> @@ -62,3 +62,4 @@ obj-$(CONFIG_SENSORS_XDPE122)    += xdpe12284.o
->>   obj-$(CONFIG_SENSORS_XDPE152)    += xdpe152c4.o
->>   obj-$(CONFIG_SENSORS_ZL6100)    += zl6100.o
->>   obj-$(CONFIG_SENSORS_PIM4328)    += pim4328.o
->> +obj-$(CONFIG_SENSORS_CRPS)    += crps.o
->> diff --git a/drivers/hwmon/pmbus/crps.c b/drivers/hwmon/pmbus/crps.c
->> new file mode 100644
->> index 000000000000..44d309f81803
->> --- /dev/null
->> +++ b/drivers/hwmon/pmbus/crps.c
->> @@ -0,0 +1,299 @@
->> +// SPDX-License-Identifier: GPL-2.0-or-later
->> +/*
->> + * Copyright 2024 IBM Corp.
->> + */
->> +
->> +#include <linux/debugfs.h>
->> +#include <linux/i2c.h>
->> +#include <linux/of.h>
->> +#include <linux/pmbus.h>
->> +
->> +#include "pmbus.h"
->> +
->> +/* Intel crps185 specific commands. */
->> +#define CRPS185_MFR_IOUT_MAX        0xA6
->> +#define CRPS185_MFR_POUT_MAX        0xA7
->> +
->
-> I fail to see the point in those defines, even more so since
-> PMBUS_MFR_POUT_MAX and PMBUS_MFR_IOUT_MAX are used below.
-Removed these defines.
->
->> +enum {
->> +    CRPS_DEBUGFS_PMBUS_REVISION = 0,
->> +    CRPS_DEBUGFS_MAX_POWER_OUT,
->> +    CRPS_DEBUGFS_MAX_CURRENT_OUT,
->> +    CRPS_DEBUGFS_NUM_ENTRIES
->> +};
->> +
->> +enum models { crps185 = 1, crps_unknown };
->
-> Pointless enum. The driver only supports a single power supply.
-Removed the enum.
->
->> +
->> +struct crps {
->> +    enum models version;
->> +    struct i2c_client *client;
->> +
->> +    int debugfs_entries[CRPS_DEBUGFS_NUM_ENTRIES];
->> +};
->> +
->> +#define to_psu(x, y) container_of((x), struct crps, 
->> debugfs_entries[(y)])
->> +
->> +static struct pmbus_platform_data crps_pdata = {
->> +    .flags = PMBUS_SKIP_STATUS_CHECK,
->> +};
->
-> Did you confirm that it is needed ? If so, explain why it is needed.
-I removed it and still driver is working. I added it because spec did 
-not mention about PMBUS_STATUS_CML
->
->> +
->> +static const struct i2c_device_id crps_id[] = {
->> +    { "intel_crps185", crps185 },
->> +    {}
->> +};
->> +MODULE_DEVICE_TABLE(i2c, crps_id);
->> +
->> +/*
->> + * Convert linear format word to machine format. 11 LSB side bits 
->> are two's
->> + * complement integer mantissa and 5 MSB side bits are two's complement
->> + * exponent
->> + */
->> +static int crps_convert_linear(int rc)
->> +{
->> +    s16 exponent;
->> +    s32 mantissa;
->> +    s64 val;
->> +
->> +    exponent = ((s16)rc) >> 11;
->> +    mantissa = ((s16)((rc & 0x7ff) << 5)) >> 5;
->> +
->> +    val = mantissa;
->> +    if (exponent >= 0)
->> +        val <<= exponent;
->> +    else
->> +        val >>= -exponent;
->> +
->> +    return (int)val;
->> +}
->> +
->> +static ssize_t crps_debugfs_read(struct file *file, char __user *buf,
->> +                 size_t count, loff_t *ppos)
->> +{
->> +    int rc;
->> +    int *idxp = file->private_data;
->> +    int idx = *idxp;
->> +    struct crps *psu = to_psu(idxp, idx);
->> +    char data[2 * I2C_SMBUS_BLOCK_MAX] = { 0 };
->> +
->> +    rc = pmbus_lock_interruptible(psu->client);
->> +    if (rc)
->> +        return rc;
->> +
->> +    rc = pmbus_set_page(psu->client, 0, 0xff);
->> +    if (rc)
->> +        goto unlock;
->> +
->> +    switch (idx) {
->> +    case CRPS_DEBUGFS_PMBUS_REVISION:
->> +        rc = i2c_smbus_read_byte_data(psu->client, PMBUS_REVISION);
->> +        if (rc >= 0) {
->> +            if (psu->version == crps185) {
->> +                if (rc == 0)
->> +                    rc = sprintf(data, "%s", "1.0");
->> +                else if (rc == 0x11)
->> +                    rc = sprintf(data, "%s", "1.1");
->> +                else if (rc == 0x22)
->> +                    rc = sprintf(data, "%s", "1.2");
->> +                else
->> +                    rc = snprintf(data, 3, "0x%02x", rc);
->> +            } else {
->> +                rc = snprintf(data, 3, "%02x", rc);
->> +            }
->> +        }
->
-> This attribute should be added into the PMBus core.
+>  Documentation/admin-guide/index.rst           |   1 +
+>  .../netlink/specs/binder_netlink.yaml         | 108 ++++++++
+>  drivers/android/Kconfig                       |   1 +
+>  drivers/android/Makefile                      |   2 +-
+>  drivers/android/binder.c                      | 237 +++++++++++++++++-
+>  drivers/android/binder_internal.h             |  21 +-
+>  drivers/android/binder_netlink.c              |  39 +++
+>  drivers/android/binder_netlink.h              |  19 ++
+>  drivers/android/binder_trace.h                |  35 +++
+>  include/uapi/linux/android/binder_netlink.h   |  55 ++++
+>  11 files changed, 622 insertions(+), 6 deletions(-)
+>  create mode 100644 Documentation/admin-guide/binder_genl.rst
+>  create mode 100644 Documentation/netlink/specs/binder_netlink.yaml
+>  create mode 100644 drivers/android/binder_netlink.c
+>  create mode 100644 drivers/android/binder_netlink.h
+>  create mode 100644 include/uapi/linux/android/binder_netlink.h
+> 
+> diff --git a/Documentation/admin-guide/binder_genl.rst b/Documentation/admin-guide/binder_genl.rst
+> new file mode 100644
+> index 000000000000..71b4c6596c5b
+> --- /dev/null
+> +++ b/Documentation/admin-guide/binder_genl.rst
+> @@ -0,0 +1,110 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +==============================================================
+> +Generic Netlink for the Android Binder Driver (Binder Netlink)
+> +==============================================================
+> +
+> +The Generic Netlink subsystem in the Linux kernel provides a generic way for
+> +the Linux kernel to communicate with the user space applications via binder
+> +driver. It is used to report binder transaction errors and warnings to user
+> +space administration process. The driver allows multiple binder devices and
+> +their corresponding binder contexts. Each context has an independent Generic
+> +Netlink for security reason. To prevent untrusted user applications from
+> +accessing the netlink data, the kernel driver uses unicast mode instead of
+> +multicast.
+> +
+> +Basically, the user space code uses the BINDER_NETLINK_CMD_REPORT_SETUP
+> +command to request what kind of binder transactions should be reported by
+> +the driver. The driver then echoes the attributes in a reply message to
+> +acknowledge the request. The BINDER_NETLINK_CMD_REPORT_SETUP command also
+> +registers the current user space process to receive the reports. When the
+> +user space process exits, the previous request will be reset automatically.
+> +
+> +Currently the driver reports these binder transaction errors and warnings.
+> +1. "FAILED" transactions that fail to reach the target process;
+> +2. "ASYNC_FROZEN" transactions that are delayed due to the target process
+> +being frozen by cgroup freezer; or
+> +3. "SPAM" transactions that are considered spamming according to existing
+> +logic in binder_alloc.c.
+> +
+> +When the specified binder transactions happen, the driver uses the
+> +BINDER_NETLINK_CMD_REPORT command to send a generic netlink message to the
+> +registered process, containing the payload defined in binder_netlink.yaml.
+> +
+> +More details about the flags, attributes and operations can be found at the
+> +the doc sections in Documentations/netlink/specs/binder_netlink.yaml and the
+> +kernel-doc comments of the new source code in binder.{h|c}.
+> +
+> +Using Binder Netlink
+> +--------------------
+> +
+> +The Binder Netlink can be used in the same way as any other generic netlink
+> +drivers. Userspace application uses a raw netlink socket to send commands
+> +to and receive packets from the kernel driver.
+> +
+> +.. note::
+> +    If the userspace application that talks to the driver exits, the kernel
+> +    driver will automatically reset the configuration to the default and
+> +    stop sending more reports, which would otherwise fail.
+> +
+> +Usage example (user space pseudo code):
+> +
+> +::
+> +    /*
+> +     * send() below is overloaded to pack netlink commands and attributes
+> +     * to nlattr/genlmsghdr/nlmsghdr and then send to the netlink socket.
+> +     *
+> +     * recv() below is overloaded to receive the raw netlink message from
+> +     * the netlink socket, parse nlmsghdr/genlmsghdr to find the netlink
+> +     * command and then return the nlattr payload.
+> +     */
+> +
+> +    // open netlink socket
+> +    int fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_GENERIC);
+> +
+> +    // bind netlink socket
+> +    bind(fd, struct socketaddr);
+> +
+> +    // get the family id of the binder netlink
+> +    send(fd, CTRL_CMD_GETFAMILY, CTRL_ATTR_FAMILY_NAME,
+> +            BINDER_NETLINK_FAMILY_NAME);
+> +    void *data = recv(CTRL_CMD_NEWFAMILY);
+> +    if (!has_nla_type(data, CTRL_ATTR_FAMILY_ID)) {
+> +        // Binder Netlink isn't available on this version of Linux kernel
+> +        return;
+> +    }
+> +    __u16 id = nla(data)[CTRL_ATTR_FAMILY_ID];
+> +
+> +    // enable per-context binder report
+> +    send(fd, id, BINDER_NETLINK_CMD_REPORT_SETUP, "binder", 0,
+> +            BINDER_NETLINK_FLAG_FAILED | BINDER_NETLINK_FLAG_DELAYED);
+> +
+> +    // confirm the per-context configuration
+> +    data = recv(fd, BINDER_NETLINK_CMD_REPLY);
+> +    char *context = nla(data)[BINDER_NETLINK_A_CMD_CONTEXT];
+> +    __u32 pid =  nla(data)[BINDER_NETLINK_A_CMD_PID];
+> +    __u32 flags = nla(data)[BINDER_NETLINK_A_CMD_FLAGS];
+> +
+> +    // set optional per-process report, overriding the per-context one
+> +    send(fd, id, BINDER_NETLINK_CMD_REPORT_SETUP, "binder", getpid(),
+> +            BINDER_NETLINK_FLAG_SPAM | BINDER_REPORT_OVERRIDE);
+> +
+> +    // confirm the optional per-process configuration
+> +    data = recv(fd, BINDER_NETLINK_CMD_REPLY);
+> +    context = nla(data)[BINDER_NETLINK_A_CMD_CONTEXT];
+> +    pid =  nla(data)[BINDER_NETLINK_A_CMD_PID];
+> +    flags = nla(data)[BINDER_NETLINK_A_CMD_FLAGS];
+> +
+> +    // wait and read all binder reports
+> +    while (running) {
+> +            data = recv(fd, BINDER_NETLINK_CMD_REPORT);
+> +            auto *attr = nla(data)[BINDER_NETLINK_A_REPORT_XXX];
+> +
+> +            // process binder report
+> +            do_something(*attr);
+> +    }
+> +
+> +    // clean up
+> +    send(fd, id, BINDER_NETLINK_CMD_REPORT_SETUP, 0, 0);
+> +    send(fd, id, BINDER_NETLINK_CMD_REPORT_SETUP, getpid(), 0);
+> +    close(fd);
+> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
+> index e85b1adf5908..b3b5cfadffe5 100644
+> --- a/Documentation/admin-guide/index.rst
+> +++ b/Documentation/admin-guide/index.rst
+> @@ -79,6 +79,7 @@ configure specific aspects of kernel behavior to your liking.
+>     aoe/index
+>     auxdisplay/index
+>     bcache
+> +   binder_genl
+>     binderfs
+>     binfmt-misc
+>     blockdev/index
+> diff --git a/Documentation/netlink/specs/binder_netlink.yaml b/Documentation/netlink/specs/binder_netlink.yaml
+> new file mode 100644
+> index 000000000000..7eef013e6f07
+> --- /dev/null
+> +++ b/Documentation/netlink/specs/binder_netlink.yaml
+> @@ -0,0 +1,108 @@
+> +# SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause)
 
-Moved the attribute in the core.
+I think you need a Copyright for this. I'm not sure if it would also be
+needed for the Documentation though.
+
+> +
+> +name: binder_netlink
+> +protocol: genetlink
+> +uapi-header: linux/android/binder_netlink.h
+> +doc: Netlink protocol to report binder transaction errors and warnings.
+> +
+> +definitions:
+> +  -
+> +    type: flags
+> +    name: flag
+> +    doc: Define what kind of binder transactions should be reported.
+> +    entries: [ failed, async-frozen, spam, override ]
+> +
+> +attribute-sets:
+> +  -
+> +    name: cmd
+> +    doc: The supported attributes of "report-setup" command.
+> +    attributes:
+> +      -
+> +        name: context
+> +        type: string
+> +        doc: The binder context to enable binder netlink report.
+> +      -
+> +        name: pid
+> +        type: u32
+> +        doc: The binder proc to enable binder netlink report.
+> +      -
+> +        name: flags
+> +        type: u32
+> +        enum: flag
+> +        doc: What kind of binder transactions should be reported.
+> +  -
+> +    name: report
+> +    doc: The supported attributes of "report" command
+> +    attributes:
+> +      -
+> +        name: context
+> +        type: string
+> +        doc: The binder context where the binder netlink report happens.
+> +      -
+> +        name: err
+> +        type: u32
+> +        doc: Copy of binder_driver_return_protocol returned to the sender.
+> +      -
+> +        name: from_pid
+> +        type: u32
+> +        doc: Sender pid of the corresponding binder transaction.
+> +      -
+> +        name: from_tid
+> +        type: u32
+> +        doc: Sender tid of the corresponding binder transaction.
+> +      -
+> +        name: to_pid
+> +        type: u32
+> +        doc: Target pid of the corresponding binder transaction.
+> +      -
+> +        name: to_tid
+> +        type: u32
+> +        doc: Target tid of the corresponding binder transaction.
+> +      -
+> +        name: reply
+> +        type: u32
+> +        doc: 1 means the transaction is a reply, 0 otherwise.
+> +      -
+> +        name: flags
+> +        type: u32
+> +        doc: Copy of binder_transaction_data->flags.
+> +      -
+> +        name: code
+> +        type: u32
+> +        doc: Copy of binder_transaction_data->code.
+> +      -
+> +        name: data_size
+> +        type: u32
+> +        doc: Copy of binder_transaction_data->data_size.
+> +
+> +operations:
+> +  list:
+> +    -
+> +      name: report-setup
+> +      doc: Set flags from user space.
+> +      attribute-set: cmd
+> +
+> +      do:
+> +        request: &params
+> +          attributes:
+> +            - context
+> +            - pid
+> +            - flags
+> +        reply: *params
+> +    -
+> +      name: report
+> +      doc: Send the requested reports to user space.
+> +      attribute-set: report
+> +
+> +      event:
+> +        attributes:
+> +          - context
+> +          - err
+> +          - from_pid
+> +          - from_tid
+> +          - to_pid
+> +          - to_tid
+> +          - reply
+> +          - flags
+> +          - code
+> +          - data_size
+> diff --git a/drivers/android/Kconfig b/drivers/android/Kconfig
+> index 07aa8ae0a058..e2fa620934e2 100644
+> --- a/drivers/android/Kconfig
+> +++ b/drivers/android/Kconfig
+> @@ -4,6 +4,7 @@ menu "Android"
+>  config ANDROID_BINDER_IPC
+>  	bool "Android Binder IPC Driver"
+>  	depends on MMU
+> +	depends on NET
+>  	default n
+>  	help
+>  	  Binder is used in Android for both communication between processes,
+> diff --git a/drivers/android/Makefile b/drivers/android/Makefile
+> index c9d3d0c99c25..b8874dba884e 100644
+> --- a/drivers/android/Makefile
+> +++ b/drivers/android/Makefile
+> @@ -2,5 +2,5 @@
+>  ccflags-y += -I$(src)			# needed for trace events
+>  
+>  obj-$(CONFIG_ANDROID_BINDERFS)		+= binderfs.o
+> -obj-$(CONFIG_ANDROID_BINDER_IPC)	+= binder.o binder_alloc.o
+> +obj-$(CONFIG_ANDROID_BINDER_IPC)	+= binder.o binder_alloc.o binder_netlink.o
+>  obj-$(CONFIG_ANDROID_BINDER_IPC_SELFTEST) += binder_alloc_selftest.o
+> diff --git a/drivers/android/binder.c b/drivers/android/binder.c
+> index 0a16acd29653..44932659051c 100644
+> --- a/drivers/android/binder.c
+> +++ b/drivers/android/binder.c
+> @@ -72,6 +72,7 @@
+>  
+>  #include <linux/cacheflush.h>
+>  
+> +#include "binder_netlink.h"
+>  #include "binder_internal.h"
+>  #include "binder_trace.h"
+>  
+> @@ -2990,6 +2991,111 @@ static void binder_set_txn_from_error(struct binder_transaction *t, int id,
+>  	binder_thread_dec_tmpref(from);
+>  }
+>  
+> +/**
+> + * binder_find_proc() - set binder report flags
+
+the description of "binder report flags" is no longer accurate here.
+
+> + * @pid:	the target process
+> + */
+> +static struct binder_proc *binder_find_proc(int pid)
+> +{
+> +	struct binder_proc *proc;
+> +
+> +	mutex_lock(&binder_procs_lock);
+> +	hlist_for_each_entry(proc, &binder_procs, proc_node) {
+> +		if (proc->pid == pid) {
+> +			mutex_unlock(&binder_procs_lock);
+> +			return proc;
+
+fwiw, the for_each stops when proc is NULL, so you can just break and
+return proc everytime. e.g.:
+
+	mutex_lock(&binder_procs_lock);
+	hlist_for_each_entry(proc, &binder_procs, proc_node) {
+		if (proc->pid == pid)
+			break;
+	}
+	mutex_unlock(&binder_procs_lock);
+
+	return proc;
 
 
->
->> +        break;
->> +    case CRPS_DEBUGFS_MAX_POWER_OUT:
->> +        rc = i2c_smbus_read_word_data(psu->client, PMBUS_MFR_POUT_MAX);
->> +        if (rc >= 0) {
->> +            rc = crps_convert_linear(rc);
->> +            rc = snprintf(data, I2C_SMBUS_BLOCK_MAX, "%d", rc);
->> +        }
->> +        break;
->> +    case CRPS_DEBUGFS_MAX_CURRENT_OUT:
->> +        rc = i2c_smbus_read_word_data(psu->client, PMBUS_MFR_IOUT_MAX);
->> +        if (rc >= 0) {
->> +            rc = crps_convert_linear(rc);
->> +            rc = snprintf(data, I2C_SMBUS_BLOCK_MAX, "%d", rc);
->> +        }
->> +        break;
->
-> What is the point of those two attributes ? There are already
-> standard sysfs attributes reporting those values.
-Removed debugfs
->
->> +    default:
->> +        rc = -EINVAL;
->> +        break;
->> +    }
->> +
->> +unlock:
->> +    pmbus_unlock(psu->client);
->> +    if (rc < 0)
->> +        return rc;
->> +
->> +    data[rc] = '\n';
->> +    rc += 2;
->> +
->> +    return simple_read_from_buffer(buf, count, ppos, data, rc);
->> +}
->> +
->> +static const struct file_operations crps_debugfs_fops = {
->> +    .llseek = noop_llseek,
->> +    .read = crps_debugfs_read,
->> +    .open = simple_open,
->> +};
->> +
->> +static int crps_read_word_data(struct i2c_client *client, int page,
->> +                int phase, int reg)
->> +{
->> +    int rc;
->> +
->> +    switch (reg) {
->> +    case PMBUS_STATUS_WORD:
->> +        rc = pmbus_read_word_data(client, page, phase, reg);
->> +        if (rc < 0)
->> +            return rc;
->> +        break;
->
-> Why is this needed ?
-You are right, removed it.
->
->> +    case PMBUS_OT_WARN_LIMIT:
->> +        rc = pmbus_read_word_data(client, page, phase,
->> +                      PMBUS_MFR_MAX_TEMP_1);
->> +        if (rc < 0)
->> +            return rc;
->> +        break;
->> +    case PMBUS_IOUT_OC_WARN_LIMIT:
->> +        rc = pmbus_read_word_data(client, page, phase,
->> +                      CRPS185_MFR_IOUT_MAX);
->> +        if (rc < 0)
->> +            return rc;
->> +        break;
->> +    case PMBUS_POUT_OP_WARN_LIMIT:
->> +        rc = pmbus_read_word_data(client, page, phase,
->> +                      CRPS185_MFR_POUT_MAX);
->> +        if (rc < 0)
->> +            return rc;
->> +        break;
->
-> The above three values are more than odd. They duplicate the respective
-> standard rated_max attributes as warning limits. Why ?
-I realized that some of these registers exist. So removed it.
->
-> On top of that, on writes, the actual warning limits are overwritten.
-> That makes even less sense.
-I have removed read function so now we don't need write too.
->
->> +    default:
->> +        rc = -ENODATA;
->> +        break;
->> +    }
->> +
->> +    return rc;
->> +}
->> +
->> +static struct pmbus_driver_info crps_info[] = {
->> +    [crps185] = {
->> +        .pages = 1,
->> +        /* PSU uses default linear data format. */
->> +        .func[0] = PMBUS_HAVE_PIN | PMBUS_HAVE_IOUT |
->> +            PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_IIN |
->> +            PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT |
->> +            PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
->> +            PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 |
->> +            PMBUS_HAVE_STATUS_TEMP |
->> +            PMBUS_HAVE_FAN12 | PMBUS_HAVE_STATUS_FAN12,
->> +        .read_word_data = crps_read_word_data,
->> +    },
->> +};
->> +
->> +#define to_psu(x, y) container_of((x), struct crps, 
->> debugfs_entries[(y)])
->> +
->> +static void crps_init_debugfs(struct crps *psu)
->> +{
->> +    struct i2c_client *client = psu->client;
->> +    struct dentry *debugfs;
->> +    int i;
->> +
->> +    /* Don't fail the probe if we can't create debugfs */
->> +    debugfs = pmbus_get_debugfs_dir(client);
->> +    if (!debugfs)
->> +        return;
->> +
->> +    for (i = 0; i < CRPS_DEBUGFS_NUM_ENTRIES; ++i)
->> +        psu->debugfs_entries[i] = i;
->> +
->> +    debugfs_create_file("pmbus_revision", 0444, debugfs,
->> + &psu->debugfs_entries[CRPS_DEBUGFS_PMBUS_REVISION],
->> +                &crps_debugfs_fops);
->> +    debugfs_create_file("max_power_out", 0444, debugfs,
->> + &psu->debugfs_entries[CRPS_DEBUGFS_MAX_POWER_OUT],
->> +                &crps_debugfs_fops);
->> +    debugfs_create_file("max_current_out", 0444, debugfs,
->> + &psu->debugfs_entries[CRPS_DEBUGFS_MAX_CURRENT_OUT],
->> +                &crps_debugfs_fops);
->> +}
->> +
->> +static int crps_probe(struct i2c_client *client)
->> +{
->> +    int rc;
->> +    struct device *dev = &client->dev;
->> +    enum models vs = crps_unknown;
->> +    struct crps *psu;
->> +    const void *md = of_device_get_match_data(&client->dev);
->> +    const struct i2c_device_id *id = NULL;
->> +    char buf[I2C_SMBUS_BLOCK_MAX + 2] = { 0 };
->> +
->> +    if (md) {
->> +        vs = (uintptr_t)md;
->> +    } else {
->> +        id = i2c_match_id(crps_id, client);
->> +        if (id)
->> +            vs = (enum models)id->driver_data;
->> +    }
->> +
-> Consider using i2c_get_match_data().
-Removed this code.
->
->> +    if (!vs || vs >= crps_unknown) {
->> +        dev_err(dev, "Version %d not supported\n", vs);
->> +        return -EINVAL;
->> +    }
->
-> This is very much pointless. The driver would not be instantiated 
-> withut match.
-Yes, removed it.
->
->> +
->> +    rc = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, buf);
->> +    if (rc < 0) {
->> +        dev_err(dev, "Failed to read PMBUS_MFR_MODEL\n");
->> +        return rc;
->
-> dev_err_probe().
-Changed to use this function.
->
->> +    }
->> +    if (strncmp(buf, "03NK260", 7)) {
->
-> This should also check and ensure that rc == 7.
-Good idea, Added this check.
->
->> +        buf[rc] = '\0';
->> +        dev_err(dev, "Model '%s' not supported\n", buf);
->
-> dev_err_probe()
-Changed the function
->
->> +        return -ENODEV;
->> +    }
->> +
->> +    client->dev.platform_data = &crps_pdata;
->> +    rc = pmbus_do_probe(client, &crps_info[vs]);
->> +    if (rc) {
->> +        dev_err(dev, "Failed to probe %d\n", rc);
->> +        return rc;
->
-> dev_err_probe().
-Changed this function.
->
->> +    }
->> +
->> +    /*
->> +     * Don't fail the probe if there isn't enough memory for debugfs.
->> +     */
->> +    psu = devm_kzalloc(&client->dev, sizeof(*psu), GFP_KERNEL);
->> +    if (!psu) {
->> +        dev_warn(dev, "Failed to allocate memory. debugfs are not 
->> supported.\n");
->> +        return 0;
->> +    }
->> +
->> +    psu->version = vs;
->> +    psu->client = client;
->> +
->
-> Drop all this. Add the PMBus version as standard debugfs attribute to 
-> the PMBus core
-> if needed/wanted. The rest is already provided as standard sysfs 
-> attributes, and
-> reporting the same value in debugfs files adds no value.
-Yes, Removed debugfs.
->
->> +    crps_init_debugfs(psu);
->> +
->> +    return 0;
->> +}
->> +
->> +static const struct of_device_id crps_of_match[] = {
->> +    {
->> +        .compatible = "intel,crps185",
->> +        .data = (void *)crps185
->> +    },
->> +    {}
->> +};
->> +MODULE_DEVICE_TABLE(of, crps_of_match);
->> +
->> +static struct i2c_driver crps_driver = {
->> +    .driver = {
->> +        .name = "crps",
->> +        .of_match_table = crps_of_match,
->> +    },
->> +    .probe = crps_probe,
->> +    .id_table = crps_id,
->> +};
->> +
->> +module_i2c_driver(crps_driver);
->> +
->> +MODULE_AUTHOR("Ninad Palsule");
->> +MODULE_DESCRIPTION("PMBus driver for Common Redundant power supplies");
->
-> Again, this is for _Intel_ power supplies.
+> +		}
+> +	}
+> +	mutex_unlock(&binder_procs_lock);
+> +
+> +	return NULL;
+> +}
+> +
+> +/**
+> + * binder_netlink_enabled() - check if binder netlink reports are enabled
+> + * @proc:	the binder_proc to check
+> + * @mask:	the categories of binder netlink reports
+> + *
+> + * Returns true if certain binder netlink reports are enabled for this binder
+> + * proc (when per-process overriding takes effect) or context.
+> + */
+> +static bool binder_netlink_enabled(struct binder_proc *proc, u32 mask)
+> +{
+> +	struct binder_context *context = proc->context;
+> +
+> +	if (!context->report_portid)
+> +		return false;
+> +
+> +	if (proc->report_flags & BINDER_NETLINK_FLAG_OVERRIDE)
+> +		return (proc->report_flags & mask) != 0;
+> +	else
+> +		return (context->report_flags & mask) != 0;
+> +}
+> +
+> +/**
+> + * binder_netlink_report() - report one binder netlink event
+> + * @context:	the binder context
+> + * @err:	copy of binder_driver_return_protocol returned to the sender
+> + * @pid:	sender process
+> + * @tid:	sender thread
+> + * @to_pid:	target process
+> + * @to_tid:	target thread
+> + * @reply:	whether the binder transaction is a reply
+> + * @tr:		the binder transaction data
+> + *
+> + * Packs the report data into a binder netlink message and send it.
+> + */
+> +static void binder_netlink_report(struct binder_context *context, u32 err,
+> +				  u32 pid, u32 tid, u32 to_pid, u32 to_tid,
+> +				  u32 reply,
+> +				  struct binder_transaction_data *tr)
+> +{
+> +	int ret;
+> +	struct sk_buff *skb;
+> +	void *hdr;
+> +
+> +	trace_binder_netlink_report(context->name, err, pid, tid, to_pid,
+> +				    to_tid, reply, tr);
+> +
+> +	skb = genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
+> +	if (!skb) {
+> +		pr_err("Failed to alloc binder netlink message\n");
+> +		return;
+> +	}
+> +
+> +	hdr = genlmsg_put(skb, 0, atomic_inc_return(&context->report_seq),
+> +			  &binder_netlink_nl_family, 0, BINDER_NETLINK_CMD_REPORT);
+> +	if (!hdr)
+> +		goto free_skb;
+> +
+> +	if (nla_put_string(skb, BINDER_NETLINK_A_REPORT_CONTEXT, context->name) ||
+> +	    nla_put_u32(skb, BINDER_NETLINK_A_REPORT_ERR, err) ||
+> +	    nla_put_u32(skb, BINDER_NETLINK_A_REPORT_FROM_PID, pid) ||
+> +	    nla_put_u32(skb, BINDER_NETLINK_A_REPORT_FROM_TID, tid) ||
+> +	    nla_put_u32(skb, BINDER_NETLINK_A_REPORT_TO_PID, to_pid) ||
+> +	    nla_put_u32(skb, BINDER_NETLINK_A_REPORT_TO_TID, to_tid) ||
+> +	    nla_put_u32(skb, BINDER_NETLINK_A_REPORT_REPLY, reply) ||
+> +	    nla_put_u32(skb, BINDER_NETLINK_A_REPORT_FLAGS, tr->flags) ||
+> +	    nla_put_u32(skb, BINDER_NETLINK_A_REPORT_CODE, tr->code) ||
+> +	    nla_put_u32(skb, BINDER_NETLINK_A_REPORT_DATA_SIZE, tr->data_size))
+> +		goto cancel_skb;
+> +
+> +	genlmsg_end(skb, hdr);
+> +
+> +	ret = genlmsg_unicast(&init_net, skb, context->report_portid);
+> +	if (ret < 0)
+> +		pr_err("Failed to send binder netlink message to %d: %d\n",
+> +		       context->report_portid, ret);
+> +	return;
+> +
+> +cancel_skb:
+> +	pr_err("Failed to add attributes to binder netlink message\n");
+> +	genlmsg_cancel(skb, hdr);
+> +free_skb:
+> +	pr_err("Free binder netlink report message on error\n");
+> +	nlmsg_free(skb);
+> +}
+> +
+>  static void binder_transaction(struct binder_proc *proc,
+>  			       struct binder_thread *thread,
+>  			       struct binder_transaction_data *tr, int reply,
+> @@ -3684,10 +3790,17 @@ static void binder_transaction(struct binder_proc *proc,
+>  		return_error_line = __LINE__;
+>  		goto err_copy_data_failed;
+>  	}
+> -	if (t->buffer->oneway_spam_suspect)
+> +	if (t->buffer->oneway_spam_suspect) {
+>  		tcomplete->type = BINDER_WORK_TRANSACTION_ONEWAY_SPAM_SUSPECT;
+> -	else
+> +		if (binder_netlink_enabled(proc, BINDER_NETLINK_FLAG_SPAM))
+> +			binder_netlink_report(context, BR_ONEWAY_SPAM_SUSPECT,
+> +					      proc->pid, thread->pid,
+> +					      target_proc ? target_proc->pid : 0,
+> +					      target_thread ? target_thread->pid : 0,
+> +					      reply, tr);
+> +	} else {
+>  		tcomplete->type = BINDER_WORK_TRANSACTION_COMPLETE;
+> +	}
+>  	t->work.type = BINDER_WORK_TRANSACTION;
+>  
+>  	if (reply) {
+> @@ -3737,8 +3850,15 @@ static void binder_transaction(struct binder_proc *proc,
+>  		 * process and is put in a pending queue, waiting for the target
+>  		 * process to be unfrozen.
+>  		 */
+> -		if (return_error == BR_TRANSACTION_PENDING_FROZEN)
+> +		if (return_error == BR_TRANSACTION_PENDING_FROZEN) {
+>  			tcomplete->type = BINDER_WORK_TRANSACTION_PENDING;
+> +			if (binder_netlink_enabled(proc, BINDER_NETLINK_FLAG_ASYNC_FROZEN))
+> +				binder_netlink_report(context, return_error,
+> +						      proc->pid, thread->pid,
+> +						      target_proc ? target_proc->pid : 0,
+> +						      target_thread ? target_thread->pid : 0,
+> +						      reply, tr);
+> +		}
+>  		binder_enqueue_thread_work(thread, tcomplete);
+>  		if (return_error &&
+>  		    return_error != BR_TRANSACTION_PENDING_FROZEN)
+> @@ -3800,6 +3920,13 @@ static void binder_transaction(struct binder_proc *proc,
+>  		binder_dec_node_tmpref(target_node);
+>  	}
+>  
+> +	if (binder_netlink_enabled(proc, BINDER_NETLINK_FLAG_FAILED))
+> +		binder_netlink_report(context, return_error,
+> +				      proc->pid, thread->pid,
+> +				      target_proc ? target_proc->pid : 0,
+> +				      target_thread ? target_thread->pid : 0,
+> +				      reply, tr);
+> +
+>  	binder_debug(BINDER_DEBUG_FAILED_TRANSACTION,
+>  		     "%d:%d transaction %s to %d:%d failed %d/%d/%d, size %lld-%lld line %d\n",
+>  		     proc->pid, thread->pid, reply ? "reply" :
+> @@ -6137,6 +6264,11 @@ static int binder_release(struct inode *nodp, struct file *filp)
+>  
+>  	binder_defer_work(proc, BINDER_DEFERRED_RELEASE);
+>  
+> +	if (proc->pid == proc->context->report_portid) {
+> +		proc->context->report_portid = 0;
+> +		proc->context->report_flags = 0;
+> +	}
+> +
+>  	return 0;
+>  }
+>  
+> @@ -6335,6 +6467,99 @@ binder_defer_work(struct binder_proc *proc, enum binder_deferred_state defer)
+>  	mutex_unlock(&binder_deferred_lock);
+>  }
+>  
+> +/**
+> + * binder_netlink_nl_report_setup_doit() - netlink .doit handler
+> + * @skb:	the metadata struct passed from netlink driver
+> + * @info:	the generic netlink struct passed from netlink driver
+> + *
+> + * Implements the .doit function to process binder netlink commands.
+> + */
+> +int binder_netlink_nl_report_setup_doit(struct sk_buff *skb, struct genl_info *info)
+> +{
+> +	int portid;
+> +	u32 pid;
+> +	u32 flags;
+> +	void *hdr;
+> +	struct binder_proc *proc;
+> +	struct binder_device *device;
+> +	struct binder_context *context = NULL;
+> +
+> +	hlist_for_each_entry(device, &binder_devices, hlist) {
+> +		if (!nla_strcmp(info->attrs[BINDER_NETLINK_A_CMD_CONTEXT],
+> +				device->context.name)) {
+> +			context = &device->context;
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (!context) {
+> +		NL_SET_ERR_MSG(info->extack, "Unknown binder context");
+> +		return -EINVAL;
+> +	}
+> +
+> +	portid = nlmsg_hdr(skb)->nlmsg_pid;
+> +	pid = nla_get_u32(info->attrs[BINDER_NETLINK_A_CMD_PID]);
+> +	flags = nla_get_u32(info->attrs[BINDER_NETLINK_A_CMD_FLAGS]);
+> +
+> +	if (context->report_portid && context->report_portid != portid) {
+> +		NL_SET_ERR_MSG_FMT(info->extack,
+> +				   "No permission to set flags from %d",
+> +				   portid);
+> +		return -EPERM;
+> +	}
+> +
+> +	if (!pid) {
+> +		/* Set the global flags for the whole binder context */
+> +		context->report_flags = flags;
+> +	} else {
+> +		/* Set the per-process flags */
+> +		proc = binder_find_proc(pid);
+> +		if (!proc) {
+> +			NL_SET_ERR_MSG_FMT(info->extack,
+> +					   "Invalid binder report pid %u",
+> +					   pid);
+> +			return -EINVAL;
+> +		}
+> +
+> +		proc->report_flags = flags;
+> +	}
+> +
+> +	skb = genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
+> +	if (!skb) {
+> +		pr_err("Failed to alloc binder netlink reply message\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	hdr = genlmsg_iput(skb, info);
+> +	if (!hdr)
+> +		goto free_skb;
+> +
+> +	if (nla_put_string(skb, BINDER_NETLINK_A_CMD_CONTEXT, context->name) ||
+> +	    nla_put_u32(skb, BINDER_NETLINK_A_CMD_PID, pid) ||
+> +	    nla_put_u32(skb, BINDER_NETLINK_A_CMD_FLAGS, flags))
+> +		goto cancel_skb;
+> +
+> +	genlmsg_end(skb, hdr);
+> +
+> +	if (genlmsg_reply(skb, info)) {
+> +		pr_err("Failed to send binder netlink reply message\n");
+> +		return -EFAULT;
+> +	}
+> +
+> +	if (!context->report_portid)
+> +		context->report_portid = portid;
+> +
+> +	return 0;
+> +
+> +cancel_skb:
+> +	pr_err("Failed to add reply attributes to binder netlink message\n");
+> +	genlmsg_cancel(skb, hdr);
+> +free_skb:
+> +	pr_err("Free binder netlink reply message on error\n");
+> +	nlmsg_free(skb);
+> +	return -EMSGSIZE;
+> +}
+> +
+>  static void print_binder_transaction_ilocked(struct seq_file *m,
+>  					     struct binder_proc *proc,
+>  					     const char *prefix,
+> @@ -7014,6 +7239,12 @@ static int __init binder_init(void)
+>  	if (ret)
+>  		goto err_init_binder_device_failed;
+>  
+> +	ret = genl_register_family(&binder_netlink_nl_family);
+> +	if (ret) {
+> +		pr_err("Failed to register binder netlink family\n");
+> +		goto err_init_binder_device_failed;
+> +	}
+> +
+>  	return ret;
+>  
+>  err_init_binder_device_failed:
+> diff --git a/drivers/android/binder_internal.h b/drivers/android/binder_internal.h
+> index 1f21ad3963b1..c67eba88f89a 100644
+> --- a/drivers/android/binder_internal.h
+> +++ b/drivers/android/binder_internal.h
+> @@ -12,21 +12,35 @@
+>  #include <linux/stddef.h>
+>  #include <linux/types.h>
+>  #include <linux/uidgid.h>
+> +#include <net/genetlink.h>
+>  #include <uapi/linux/android/binderfs.h>
+>  #include "binder_alloc.h"
+>  #include "dbitmap.h"
+>  
+> +/**
+> + * struct binder_context - information about a binder domain
+> + * @binder_context_mgr_node: the context manager
+> + * @context_mgr_node_lock:   the lock protecting the above context manager node
+> + * @binder_context_mgr_uid:  the uid of the above context manager
+> + * @name:                    the name of the binder device
+> + * @report_portid:           the netlink socket to receive binder reports
+> + * @report_flags:            the categories of binder transactions that would
+> + *                           be reported (see enum binder_report_flag).
+> + * @report_seq:              the seq number of the generic netlink report
+> + */
+>  struct binder_context {
+>  	struct binder_node *binder_context_mgr_node;
+>  	struct mutex context_mgr_node_lock;
+>  	kuid_t binder_context_mgr_uid;
+>  	const char *name;
+> +	u32 report_portid;
+> +	u32 report_flags;
+> +	atomic_t report_seq;
+>  };
+>  
+>  /**
+>   * struct binder_device - information about a binder device node
+> - * @hlist:          list of binder devices (only used for devices requested via
+> - *                  CONFIG_ANDROID_BINDER_DEVICES)
+> + * @hlist:          list of binder devices
 
-Yes, Added Intel
+This is the hunk that needs to go on the first 1/2 patch.
 
 
-Thanks and Regards,
+>   * @miscdev:        information about a binder character device node
+>   * @context:        binder context information
+>   * @binderfs_inode: This is the inode of the root dentry of the super block
+> @@ -415,6 +429,8 @@ struct binder_ref {
+>   * @binderfs_entry:       process-specific binderfs log file
+>   * @oneway_spam_detection_enabled: process enabled oneway spam detection
+>   *                        or not
+> + * @report_flags:         the categories of binder transactions that would
+> + *                        be reported (see enum binder_genl_flag).
+>   *
+>   * Bookkeeping structure for binder processes
+>   */
+> @@ -453,6 +469,7 @@ struct binder_proc {
+>  	spinlock_t outer_lock;
+>  	struct dentry *binderfs_entry;
+>  	bool oneway_spam_detection_enabled;
+> +	u32 report_flags;
+>  };
+>  
+>  /**
+> diff --git a/drivers/android/binder_netlink.c b/drivers/android/binder_netlink.c
+> new file mode 100644
+> index 000000000000..2081b4319268
+> --- /dev/null
+> +++ b/drivers/android/binder_netlink.c
+> @@ -0,0 +1,39 @@
+> +// SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause)
+> +/* Do not edit directly, auto-generated from: */
+> +/*	Documentation/netlink/specs/binder_netlink.yaml */
+> +/* YNL-GEN kernel source */
+> +
+> +#include <net/netlink.h>
+> +#include <net/genetlink.h>
+> +
+> +#include "binder_netlink.h"
+> +
+> +#include <uapi/linux/android/binder_netlink.h>
+> +
+> +/* BINDER_NETLINK_CMD_REPORT_SETUP - do */
+> +static const struct nla_policy binder_netlink_report_setup_nl_policy[BINDER_NETLINK_A_CMD_FLAGS + 1] = {
+> +	[BINDER_NETLINK_A_CMD_CONTEXT] = { .type = NLA_NUL_STRING, },
+> +	[BINDER_NETLINK_A_CMD_PID] = { .type = NLA_U32, },
+> +	[BINDER_NETLINK_A_CMD_FLAGS] = NLA_POLICY_MASK(NLA_U32, 0xf),
+> +};
+> +
+> +/* Ops table for binder_netlink */
+> +static const struct genl_split_ops binder_netlink_nl_ops[] = {
 
-Ninad Palsule
+not: There are several places where you have "netlink_nl" which seems
+kind of redundant to me. wdyt? IMO you should drop the "nl" in all of
+these cases.
 
->
->> +MODULE_LICENSE("GPL");
->> +MODULE_IMPORT_NS("PMBUS");
->
+> +	{
+> +		.cmd		= BINDER_NETLINK_CMD_REPORT_SETUP,
+> +		.doit		= binder_netlink_nl_report_setup_doit,
+> +		.policy		= binder_netlink_report_setup_nl_policy,
+> +		.maxattr	= BINDER_NETLINK_A_CMD_FLAGS,
+> +		.flags		= GENL_CMD_CAP_DO,
+> +	},
+> +};
+> +
+> +struct genl_family binder_netlink_nl_family __ro_after_init = {
+> +	.name		= BINDER_NETLINK_FAMILY_NAME,
+> +	.version	= BINDER_NETLINK_FAMILY_VERSION,
+> +	.netnsok	= true,
+> +	.parallel_ops	= true,
+> +	.module		= THIS_MODULE,
+> +	.split_ops	= binder_netlink_nl_ops,
+> +	.n_split_ops	= ARRAY_SIZE(binder_netlink_nl_ops),
+> +};
+> diff --git a/drivers/android/binder_netlink.h b/drivers/android/binder_netlink.h
+> new file mode 100644
+> index 000000000000..022cff5f7c38
+> --- /dev/null
+> +++ b/drivers/android/binder_netlink.h
+> @@ -0,0 +1,19 @@
+> +/* SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause) */
+> +/* Do not edit directly, auto-generated from: */
+> +/*	Documentation/netlink/specs/binder_netlink.yaml */
+> +/* YNL-GEN kernel header */
+> +
+> +#ifndef _LINUX_BINDER_NETLINK_GEN_H
+> +#define _LINUX_BINDER_NETLINK_GEN_H
+> +
+> +#include <net/netlink.h>
+> +#include <net/genetlink.h>
+> +
+> +#include <uapi/linux/android/binder_netlink.h>
+> +
+> +int binder_netlink_nl_report_setup_doit(struct sk_buff *skb,
+> +					struct genl_info *info);
+> +
+> +extern struct genl_family binder_netlink_nl_family;
+> +
+> +#endif /* _LINUX_BINDER_NETLINK_GEN_H */
+> diff --git a/drivers/android/binder_trace.h b/drivers/android/binder_trace.h
+> index fe38c6fc65d0..8976fb5ee2db 100644
+> --- a/drivers/android/binder_trace.h
+> +++ b/drivers/android/binder_trace.h
+> @@ -423,6 +423,41 @@ TRACE_EVENT(binder_return,
+>  			  "unknown")
+>  );
+>  
+> +TRACE_EVENT(binder_netlink_report,
+> +	TP_PROTO(const char *name, u32 err, u32 pid, u32 tid, u32 to_pid,
+> +		 u32 to_tid, u32 reply, struct binder_transaction_data *tr),
+> +	TP_ARGS(name, err, pid, tid, to_pid, to_tid, reply, tr),
+> +	TP_STRUCT__entry(
+> +		__field(const char *, name)
+> +		__field(u32, err)
+> +		__field(u32, pid)
+> +		__field(u32, tid)
+> +		__field(u32, to_pid)
+> +		__field(u32, to_tid)
+> +		__field(u32, reply)
+> +		__field(u32, flags)
+> +		__field(u32, code)
+> +		__field(binder_size_t, data_size)
+> +	),
+> +	TP_fast_assign(
+> +		__entry->name = name;
+> +		__entry->err = err;
+> +		__entry->pid = pid;
+> +		__entry->tid = tid;
+> +		__entry->to_pid = to_pid;
+> +		__entry->to_tid = to_tid;
+> +		__entry->reply = reply;
+> +		__entry->flags = tr->flags;
+> +		__entry->code = tr->code;
+> +		__entry->data_size = tr->data_size;
+> +	),
+> +	TP_printk("%s: %d %d:%d -> %d:%d %s flags=0x08%x code=%d %llu",
+> +		  __entry->name, __entry->err, __entry->pid, __entry->tid,
+> +		  __entry->to_pid, __entry->to_tid,
+> +		  __entry->reply ? "reply" : "",
+> +		  __entry->flags, __entry->code, __entry->data_size)
+> +);
+> +
+>  #endif /* _BINDER_TRACE_H */
+>  
+>  #undef TRACE_INCLUDE_PATH
+> diff --git a/include/uapi/linux/android/binder_netlink.h b/include/uapi/linux/android/binder_netlink.h
+> new file mode 100644
+> index 000000000000..2b1460387597
+> --- /dev/null
+> +++ b/include/uapi/linux/android/binder_netlink.h
+> @@ -0,0 +1,55 @@
+> +/* SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3-Clause) */
+> +/* Do not edit directly, auto-generated from: */
+> +/*	Documentation/netlink/specs/binder_netlink.yaml */
+> +/* YNL-GEN uapi header */
+> +
+> +#ifndef _UAPI_LINUX_ANDROID_BINDER_NETLINK_H
+> +#define _UAPI_LINUX_ANDROID_BINDER_NETLINK_H
+> +
+> +#define BINDER_NETLINK_FAMILY_NAME	"binder_netlink"
+> +#define BINDER_NETLINK_FAMILY_VERSION	1
+> +
+> +/*
+> + * Define what kind of binder transactions should be reported.
+> + */
+> +enum binder_netlink_flag {
+> +	BINDER_NETLINK_FLAG_FAILED = 1,
+> +	BINDER_NETLINK_FLAG_ASYNC_FROZEN = 2,
+> +	BINDER_NETLINK_FLAG_SPAM = 4,
+> +	BINDER_NETLINK_FLAG_OVERRIDE = 8,
+> +};
+> +
+> +enum {
+> +	BINDER_NETLINK_A_CMD_CONTEXT = 1,
+> +	BINDER_NETLINK_A_CMD_PID,
+> +	BINDER_NETLINK_A_CMD_FLAGS,
+> +
+> +	__BINDER_NETLINK_A_CMD_MAX,
+> +	BINDER_NETLINK_A_CMD_MAX = (__BINDER_NETLINK_A_CMD_MAX - 1)
+> +};
+> +
+> +enum {
+> +	BINDER_NETLINK_A_REPORT_CONTEXT = 1,
+> +	BINDER_NETLINK_A_REPORT_ERR,
+> +	BINDER_NETLINK_A_REPORT_FROM_PID,
+> +	BINDER_NETLINK_A_REPORT_FROM_TID,
+> +	BINDER_NETLINK_A_REPORT_TO_PID,
+> +	BINDER_NETLINK_A_REPORT_TO_TID,
+> +	BINDER_NETLINK_A_REPORT_REPLY,
+> +	BINDER_NETLINK_A_REPORT_FLAGS,
+> +	BINDER_NETLINK_A_REPORT_CODE,
+> +	BINDER_NETLINK_A_REPORT_DATA_SIZE,
+> +
+> +	__BINDER_NETLINK_A_REPORT_MAX,
+> +	BINDER_NETLINK_A_REPORT_MAX = (__BINDER_NETLINK_A_REPORT_MAX - 1)
+> +};
+> +
+> +enum {
+> +	BINDER_NETLINK_CMD_REPORT_SETUP = 1,
+> +	BINDER_NETLINK_CMD_REPORT,
+> +
+> +	__BINDER_NETLINK_CMD_MAX,
+> +	BINDER_NETLINK_CMD_MAX = (__BINDER_NETLINK_CMD_MAX - 1)
+> +};
+> +
+> +#endif /* _UAPI_LINUX_ANDROID_BINDER_NETLINK_H */
+> -- 
+> 2.47.1.613.gc27f4b7a9f-goog
+> 
