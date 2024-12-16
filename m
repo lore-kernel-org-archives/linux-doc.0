@@ -1,68 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B031DA113;
-	Mon, 16 Dec 2024 01:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE1CC1CEAD6;
+	Mon, 16 Dec 2024 04:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734313388; cv=none; b=H873gBcEdrFyl6kqelVyv+Sgm0zCOnvnmLQidWJJ1aIma198/3CUIfAu969PjSDM+y/60DR1gx7Ra+nVVLABE7Ny3Wq6IPEJLE88pDmVeiBIXAbirb6Qlkc0cc1gHDKl0KPRxqgJHc/p083ee8RkHUqElJAL0pAGxVk2HSFJsWE=
+	t=1734322150; cv=none; b=SrzHRrIR0xtusLWC21yGHzzj30A8nKfJnh03BxbENJ+rHlzHzKNGgQxlYiFt9j8dl090B9SrCy5c7R/jkqcJ9Nz+KZwJEaNJHcxy+fm+Dsent0IJuP7qJnWLbA/IRLhe8nDzheXrItfdIT0SFQFxFOs5nXUVqJ9JzLv3CRWG0a4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734313388; c=relaxed/simple;
-	bh=kKhATw60F0AAON1wh6e9TEJPfHDjMdlJ6wHfDxyYXGM=;
+	s=arc-20240116; t=1734322150; c=relaxed/simple;
+	bh=DaRoKTcB6uNvFOhZiGHqx3NVSUd96GYsABAPmh4XcMQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ttld7aa/gah6iOF9JMrcKJINifxNuF0ppYbgJnkTaWkSuZ0/ddKGanmJtgRQ5NO2uZmzrVYqAbqzIwoYDQ1GaPUFG/TXPWLcfrqAL3mJVUQPKxqLkOq3uwycNbFZcW9wckfoNH4DVMscw2vYkgpuyvPIp3ld4y+RvJOlj5nfjGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H+YIElSB; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H+YIElSB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734313387; x=1765849387;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=kKhATw60F0AAON1wh6e9TEJPfHDjMdlJ6wHfDxyYXGM=;
-  b=H+YIElSBMhKXsCVZji7zKj9hCmu5/GFtNmBB6UojsuvdOLhKmtwgJGJL
-   lq3TSM0Sn9NJKCcRWyV7uX0KB1d4eh+/6K1UMEWQ64Ii6eqVnb04gPfeV
-   mYJUpYjjKhehDUOADvnBX6IspimnsXDznpNKTBX6t2MXs1XpR1fqN1IEV
-   y0gDvn3y2zAl1BZxZNiA/K0OI95OwjA1Jt7yuvFI8lqZE9ncA8+ZSJTVH
-   ZDadyazRf6lSrVvhLV+ieiuhxoqiF/zpioQ5HHFXQrASZ6+jJo27WLz4c
-   IR5N0y2xbBjXJYbzVC9Rg7d6H8ZcMF93ufWaCXZQZI7OICoMVGv+uNYQo
-   A==;
-X-CSE-ConnectionGUID: hpf0UphKRcGBjCtftuKo7Q==
-X-CSE-MsgGUID: jIgKphSsR0yj870eKwDmgw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11287"; a="34013185"
-X-IronPort-AV: E=Sophos;i="6.12,237,1728975600"; 
-   d="scan'208";a="34013185"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 17:43:06 -0800
-X-CSE-ConnectionGUID: 9C8xrrWfSxqfmSI2IjuAiQ==
-X-CSE-MsgGUID: jgWatJ4ZQW2muniJVKCErg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,237,1728975600"; 
-   d="scan'208";a="102084296"
-Received: from shsensorbuild.sh.intel.com ([10.239.133.18])
-  by orviesa004.jf.intel.com with ESMTP; 15 Dec 2024 17:43:03 -0800
-From: Even Xu <even.xu@intel.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org,
-	corbet@lwn.net,
-	bagasdotme@gmail.com,
-	aaron.ma@canonical.com,
-	rdunlap@infradead.org
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Even Xu <even.xu@intel.com>,
-	Xinpeng Sun <xinpeng.sun@intel.com>,
-	Rui Zhang <rui1.zhang@intel.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH v3 22/22] HID: intel-thc-hid: intel-quicki2c: Add PM implementation
-Date: Mon, 16 Dec 2024 09:41:27 +0800
-Message-Id: <20241216014127.3722172-23-even.xu@intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20241216014127.3722172-1-even.xu@intel.com>
-References: <20241216014127.3722172-1-even.xu@intel.com>
+	 MIME-Version; b=cNp2uWhqccrWqFsU0KIsSz3nHy/CtCe0swBQcetEelgkJI5l9FJ0mJj0lObrTdTdYSBrg7KNsvz/IB4wHr4R4rOo7Z0qtoncAVjCPIjKFe9N4OgIWAobP8UeR8xdF1apPdFE4qMDuhXNdQ4OPpXC/S/CIRHWtDBZvL3cjV/pfw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 52D011AED;
+	Sun, 15 Dec 2024 20:09:36 -0800 (PST)
+Received: from a077893.blr.arm.com (a077893.blr.arm.com [10.162.16.49])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 1A3A13F58B;
+	Sun, 15 Dec 2024 20:09:03 -0800 (PST)
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+To: linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	kvmarm@lists.linux.dev,
+	linux-doc@vger.kernel.org
+Subject: [PATCH V3 6/7] arm64/boot: Enable EL2 requirements for FEAT_Debugv8p9
+Date: Mon, 16 Dec 2024 09:38:30 +0530
+Message-Id: <20241216040831.2448257-7-anshuman.khandual@arm.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20241216040831.2448257-1-anshuman.khandual@arm.com>
+References: <20241216040831.2448257-1-anshuman.khandual@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,361 +47,126 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Implement THC QuickI2C driver power management callbacks.
+Fine grained trap control for MDSELR_EL1 register needs to be configured in
+HDFGRTR2_EL2, and HDFGWTR2_EL2 registers when kernel enters at EL1, but EL2
+is also present. This adds a new helper __init_el2_fgt2() initializing this
+new FEAT_FGT2 based fine grained registers.
 
-Co-developed-by: Xinpeng Sun <xinpeng.sun@intel.com>
-Signed-off-by: Xinpeng Sun <xinpeng.sun@intel.com>
-Signed-off-by: Even Xu <even.xu@intel.com>
-Tested-by: Rui Zhang <rui1.zhang@intel.com>
-Reviewed-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+MDCR_EL2.EBWE needs to be enabled for additional (beyond 16) breakpoint and
+watchpoint exceptions when kernel enters at EL1, but EL2 is also present.
+This updates __init_el2_debug() as required for FEAT_Debugv8p9.
+
+While here, also update booting.rst with MDCR_EL3 and SCR_EL3 requirements.
+
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Marc Zyngier <maz@kernel.org>
+Cc: Oliver Upton <oliver.upton@linux.dev>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: kvmarm@lists.linux.dev
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
 ---
- .../intel-quicki2c/pci-quicki2c.c             | 233 ++++++++++++++++++
- .../intel-quicki2c/quicki2c-dev.h             |   8 +
- .../intel-quicki2c/quicki2c-hid.c             |   8 +
- 3 files changed, 249 insertions(+)
+Changes in V3:
 
-diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
-index d417972ae9b0..b56c72124821 100644
---- a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
-+++ b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
-@@ -9,6 +9,7 @@
- #include <linux/irqreturn.h>
- #include <linux/pci.h>
- #include <linux/sizes.h>
-+#include <linux/pm_runtime.h>
+- Dropped MDCR_EL3.TDA boot requirement from documentation (separate series)
+- Dropped MDCR_EL2_EBWE definition as MDCR_EL2 is now defined in tools sysreg
+
+https://lore.kernel.org/all/20241211065425.1106683-1-anshuman.khandual@arm.com/
+
+ Documentation/arch/arm64/booting.rst | 18 ++++++++++++++++++
+ arch/arm64/include/asm/el2_setup.h   | 26 ++++++++++++++++++++++++++
+ 2 files changed, 44 insertions(+)
+
+diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
+index 3278fb4bf219..054cfe1cad18 100644
+--- a/Documentation/arch/arm64/booting.rst
++++ b/Documentation/arch/arm64/booting.rst
+@@ -288,6 +288,12 @@ Before jumping into the kernel, the following conditions must be met:
  
- #include "intel-thc-dev.h"
- #include "intel-thc-hw.h"
-@@ -289,10 +290,15 @@ static irqreturn_t quicki2c_irq_thread_handler(int irq, void *dev_id)
- 	struct quicki2c_device *qcdev = dev_id;
- 	int err_recover = 0;
- 	int int_mask;
-+	int ret;
+     - SCR_EL3.FGTEn (bit 27) must be initialised to 0b1.
  
- 	if (qcdev->state == QUICKI2C_DISABLED)
- 		return IRQ_HANDLED;
++  For CPUs with the Fine Grained Traps (FEAT_FGT2) extension present:
++
++  - If EL3 is present and the kernel is entered at EL2:
++
++    - SCR_EL3.FGTEn2 (bit 59) must be initialised to 0b1.
++
+   For CPUs with support for HCRX_EL2 (FEAT_HCX) present:
  
-+	ret = pm_runtime_resume_and_get(qcdev->dev);
-+	if (ret)
-+		return IRQ_HANDLED;
-+
- 	int_mask = thc_interrupt_handler(qcdev->thc_hw);
+   - If EL3 is present and the kernel is entered at EL2:
+@@ -322,6 +328,18 @@ Before jumping into the kernel, the following conditions must be met:
+     - ZCR_EL2.LEN must be initialised to the same value for all CPUs the
+       kernel will execute on.
  
- 	if (int_mask & BIT(THC_FATAL_ERR_INT) || int_mask & BIT(THC_TXN_ERR_INT) ||
-@@ -314,6 +320,9 @@ static irqreturn_t quicki2c_irq_thread_handler(int irq, void *dev_id)
- 		if (try_recover(qcdev))
- 			qcdev->state = QUICKI2C_DISABLED;
++  For CPUs with FEAT_Debugv8p9 extension present:
++
++  - If the kernel is entered at EL1 and EL2 is present:
++
++    - HDFGRTR2_EL2.nMDSELR_EL1 (bit 5) must be initialized to 0b1
++    - HDFGWTR2_EL2.nMDSELR_EL1 (bit 5) must be initialized to 0b1
++    - MDCR_EL2.EBWE (bit 43) must be initialized to 0b1
++
++  - If EL3 is present:
++
++    - MDCR_EL3.EBWE (bit 43) must be initialized to 0b1
++
+   For CPUs with the Scalable Matrix Extension (FEAT_SME):
  
-+	pm_runtime_mark_last_busy(qcdev->dev);
-+	pm_runtime_put_autosuspend(qcdev->dev);
-+
- 	return IRQ_HANDLED;
- }
+   - If EL3 is present:
+diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
+index 4ef52d7245bb..2fbfe27d38b5 100644
+--- a/arch/arm64/include/asm/el2_setup.h
++++ b/arch/arm64/include/asm/el2_setup.h
+@@ -105,6 +105,13 @@
+ 						// to own it.
  
-@@ -639,6 +648,13 @@ static int quicki2c_probe(struct pci_dev *pdev,
+ .Lskip_trace_\@:
++	mrs	x1, id_aa64dfr0_el1
++	ubfx	x1, x1, #ID_AA64DFR0_EL1_DebugVer_SHIFT, #4
++	cmp	x1, #ID_AA64DFR0_EL1_DebugVer_V8P9
++	b.lt	.Lskip_dbg_v8p9_\@
++
++	orr	x2, x2, #MDCR_EL2_EBWE
++.Lskip_dbg_v8p9_\@:
+ 	msr	mdcr_el2, x2			// Configure debug traps
+ .endm
  
- 	qcdev->state = QUICKI2C_ENABLED;
+@@ -244,6 +251,24 @@
+ .Lskip_gcs_\@:
+ .endm
  
-+	/* Enable runtime power management */
-+	pm_runtime_use_autosuspend(qcdev->dev);
-+	pm_runtime_set_autosuspend_delay(qcdev->dev, DEFAULT_AUTO_SUSPEND_DELAY_MS);
-+	pm_runtime_mark_last_busy(qcdev->dev);
-+	pm_runtime_put_noidle(qcdev->dev);
-+	pm_runtime_put_autosuspend(qcdev->dev);
++.macro __init_el2_fgt2
++	mrs	x1, id_aa64mmfr0_el1
++	ubfx	x1, x1, #ID_AA64MMFR0_EL1_FGT_SHIFT, #4
++	cmp	x1, #ID_AA64MMFR0_EL1_FGT_FGT2
++	b.lt	.Lskip_fgt2_\@
 +
- 	dev_dbg(&pdev->dev, "QuickI2C probe success\n");
- 
- 	return 0;
-@@ -674,6 +690,8 @@ static void quicki2c_remove(struct pci_dev *pdev)
- 	quicki2c_hid_remove(qcdev);
- 	quicki2c_dma_deinit(qcdev);
- 
-+	pm_runtime_get_noresume(qcdev->dev);
++	mrs	x1, id_aa64dfr0_el1
++	ubfx	x1, x1, #ID_AA64DFR0_EL1_DebugVer_SHIFT, #4
++	cmp	x1, #ID_AA64DFR0_EL1_DebugVer_V8P9
++	b.lt	.Lskip_dbg_v8p9_\@
 +
- 	quicki2c_dev_deinit(qcdev);
- 
- 	pcim_iounmap_regions(pdev, BIT(0));
-@@ -703,6 +721,220 @@ static void quicki2c_shutdown(struct pci_dev *pdev)
- 	quicki2c_dev_deinit(qcdev);
- }
- 
-+static int quicki2c_suspend(struct device *device)
-+{
-+	struct pci_dev *pdev = to_pci_dev(device);
-+	struct quicki2c_device *qcdev;
-+	int ret;
++	mov_q   x0, HDFGWTR2_EL2_nMDSELR_EL1
++	msr_s	SYS_HDFGWTR2_EL2, x0
++	msr_s	SYS_HDFGRTR2_EL2, x0
++.Lskip_dbg_v8p9_\@:
++.Lskip_fgt2_\@:
++.endm
 +
-+	qcdev = pci_get_drvdata(pdev);
-+	if (!qcdev)
-+		return -ENODEV;
-+
-+	/*
-+	 * As I2C is THC subsystem, no register auto save/restore support,
-+	 * need driver to do that explicitly for every D3 case.
-+	 */
-+	ret = thc_i2c_subip_regs_save(qcdev->thc_hw);
-+	if (ret)
-+		return ret;
-+
-+	ret = thc_interrupt_quiesce(qcdev->thc_hw, true);
-+	if (ret)
-+		return ret;
-+
-+	thc_interrupt_enable(qcdev->thc_hw, false);
-+
-+	thc_dma_unconfigure(qcdev->thc_hw);
-+
-+	return 0;
-+}
-+
-+static int quicki2c_resume(struct device *device)
-+{
-+	struct pci_dev *pdev = to_pci_dev(device);
-+	struct quicki2c_device *qcdev;
-+	int ret;
-+
-+	qcdev = pci_get_drvdata(pdev);
-+	if (!qcdev)
-+		return -ENODEV;
-+
-+	ret = thc_port_select(qcdev->thc_hw, THC_PORT_TYPE_I2C);
-+	if (ret)
-+		return ret;
-+
-+	ret = thc_i2c_subip_regs_restore(qcdev->thc_hw);
-+	if (ret)
-+		return ret;
-+
-+	thc_interrupt_config(qcdev->thc_hw);
-+
-+	thc_interrupt_enable(qcdev->thc_hw, true);
-+
-+	ret = thc_dma_configure(qcdev->thc_hw);
-+	if (ret)
-+		return ret;
-+
-+	ret = thc_interrupt_quiesce(qcdev->thc_hw, false);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int quicki2c_freeze(struct device *device)
-+{
-+	struct pci_dev *pdev = to_pci_dev(device);
-+	struct quicki2c_device *qcdev;
-+	int ret;
-+
-+	qcdev = pci_get_drvdata(pdev);
-+	if (!qcdev)
-+		return -ENODEV;
-+
-+	ret = thc_interrupt_quiesce(qcdev->thc_hw, true);
-+	if (ret)
-+		return ret;
-+
-+	thc_interrupt_enable(qcdev->thc_hw, false);
-+
-+	thc_dma_unconfigure(qcdev->thc_hw);
-+
-+	return 0;
-+}
-+
-+static int quicki2c_thaw(struct device *device)
-+{
-+	struct pci_dev *pdev = to_pci_dev(device);
-+	struct quicki2c_device *qcdev;
-+	int ret;
-+
-+	qcdev = pci_get_drvdata(pdev);
-+	if (!qcdev)
-+		return -ENODEV;
-+
-+	ret = thc_dma_configure(qcdev->thc_hw);
-+	if (ret)
-+		return ret;
-+
-+	thc_interrupt_enable(qcdev->thc_hw, true);
-+
-+	ret = thc_interrupt_quiesce(qcdev->thc_hw, false);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int quicki2c_poweroff(struct device *device)
-+{
-+	struct pci_dev *pdev = to_pci_dev(device);
-+	struct quicki2c_device *qcdev;
-+	int ret;
-+
-+	qcdev = pci_get_drvdata(pdev);
-+	if (!qcdev)
-+		return -ENODEV;
-+
-+	ret = thc_interrupt_quiesce(qcdev->thc_hw, true);
-+	if (ret)
-+		return ret;
-+
-+	thc_interrupt_enable(qcdev->thc_hw, false);
-+
-+	thc_ltr_unconfig(qcdev->thc_hw);
-+
-+	quicki2c_dma_deinit(qcdev);
-+
-+	return 0;
-+}
-+
-+static int quicki2c_restore(struct device *device)
-+{
-+	struct pci_dev *pdev = to_pci_dev(device);
-+	struct quicki2c_device *qcdev;
-+	int ret;
-+
-+	qcdev = pci_get_drvdata(pdev);
-+	if (!qcdev)
-+		return -ENODEV;
-+
-+	/* Reconfig THC HW when back from hibernate */
-+	ret = thc_port_select(qcdev->thc_hw, THC_PORT_TYPE_I2C);
-+	if (ret)
-+		return ret;
-+
-+	ret = thc_i2c_subip_init(qcdev->thc_hw, qcdev->i2c_slave_addr,
-+				 qcdev->i2c_speed_mode,
-+				 qcdev->i2c_clock_hcnt,
-+				 qcdev->i2c_clock_lcnt);
-+	if (ret)
-+		return ret;
-+
-+	thc_interrupt_config(qcdev->thc_hw);
-+
-+	thc_interrupt_enable(qcdev->thc_hw, true);
-+
-+	ret = thc_interrupt_quiesce(qcdev->thc_hw, false);
-+	if (ret)
-+		return ret;
-+
-+	ret = thc_dma_configure(qcdev->thc_hw);
-+	if (ret)
-+		return ret;
-+
-+	thc_ltr_config(qcdev->thc_hw,
-+		       qcdev->active_ltr_val,
-+		       qcdev->low_power_ltr_val);
-+
-+	thc_change_ltr_mode(qcdev->thc_hw, THC_LTR_MODE_ACTIVE);
-+
-+	return 0;
-+}
-+
-+static int quicki2c_runtime_suspend(struct device *device)
-+{
-+	struct pci_dev *pdev = to_pci_dev(device);
-+	struct quicki2c_device *qcdev;
-+
-+	qcdev = pci_get_drvdata(pdev);
-+	if (!qcdev)
-+		return -ENODEV;
-+
-+	thc_change_ltr_mode(qcdev->thc_hw, THC_LTR_MODE_LP);
-+
-+	pci_save_state(pdev);
-+
-+	return 0;
-+}
-+
-+static int quicki2c_runtime_resume(struct device *device)
-+{
-+	struct pci_dev *pdev = to_pci_dev(device);
-+	struct quicki2c_device *qcdev;
-+
-+	qcdev = pci_get_drvdata(pdev);
-+	if (!qcdev)
-+		return -ENODEV;
-+
-+	thc_change_ltr_mode(qcdev->thc_hw, THC_LTR_MODE_ACTIVE);
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops quicki2c_pm_ops = {
-+	.suspend = quicki2c_suspend,
-+	.resume = quicki2c_resume,
-+	.freeze = quicki2c_freeze,
-+	.thaw = quicki2c_thaw,
-+	.poweroff = quicki2c_poweroff,
-+	.restore = quicki2c_restore,
-+	.runtime_suspend = quicki2c_runtime_suspend,
-+	.runtime_resume = quicki2c_runtime_resume,
-+	.runtime_idle = NULL,
-+};
-+
- static const struct pci_device_id quicki2c_pci_tbl[] = {
- 	{PCI_VDEVICE(INTEL, THC_LNL_DEVICE_ID_I2C_PORT1), },
- 	{PCI_VDEVICE(INTEL, THC_LNL_DEVICE_ID_I2C_PORT2), },
-@@ -720,6 +952,7 @@ static struct pci_driver quicki2c_driver = {
- 	.probe = quicki2c_probe,
- 	.remove = quicki2c_remove,
- 	.shutdown = quicki2c_shutdown,
-+	.driver.pm = &quicki2c_pm_ops,
- 	.driver.probe_type = PROBE_PREFER_ASYNCHRONOUS,
- };
- 
-diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
-index 0fdac6ba1b04..6ddb584bd611 100644
---- a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
-+++ b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
-@@ -36,6 +36,14 @@
- #define QUICKI2C_DEFAULT_LP_LTR_VALUE		500
- #define QUICKI2C_RPM_TIMEOUT_MS			500
- 
-+/*
-+ * THC uses runtime auto suspend to dynamically switch between THC active LTR
-+ * and low power LTR to save CPU power.
-+ * Default value is 5000ms, that means if no touch event in this time, THC will
-+ * change to low power LTR mode.
-+ */
-+#define DEFAULT_AUTO_SUSPEND_DELAY_MS			5000
-+
- enum quicki2c_dev_state {
- 	QUICKI2C_NONE,
- 	QUICKI2C_RESETING,
-diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
-index e8e6f10b7952..5c3ec95bb3fd 100644
---- a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
-+++ b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
-@@ -3,6 +3,7 @@
- 
- #include <linux/hid.h>
- #include <linux/input.h>
-+#include <linux/pm_runtime.h>
- 
- #include "quicki2c-dev.h"
- #include "quicki2c-hid.h"
-@@ -55,6 +56,10 @@ static int quicki2c_hid_raw_request(struct hid_device *hid,
- 	struct quicki2c_device *qcdev = hid->driver_data;
- 	int ret = 0;
- 
-+	ret = pm_runtime_resume_and_get(qcdev->dev);
-+	if (ret)
-+		return ret;
-+
- 	switch (reqtype) {
- 	case HID_REQ_GET_REPORT:
- 		ret = quicki2c_get_report(qcdev, rtype, reportnum, buf, len);
-@@ -67,6 +72,9 @@ static int quicki2c_hid_raw_request(struct hid_device *hid,
- 		break;
- 	}
- 
-+	pm_runtime_mark_last_busy(qcdev->dev);
-+	pm_runtime_put_autosuspend(qcdev->dev);
-+
- 	return ret;
- }
+ .macro __init_el2_nvhe_prepare_eret
+ 	mov	x0, #INIT_PSTATE_EL1
+ 	msr	spsr_el2, x0
+@@ -283,6 +308,7 @@
+ 	__init_el2_nvhe_idregs
+ 	__init_el2_cptr
+ 	__init_el2_fgt
++	__init_el2_fgt2
+         __init_el2_gcs
+ .endm
  
 -- 
-2.40.1
+2.25.1
 
