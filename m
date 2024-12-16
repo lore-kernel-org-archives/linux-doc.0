@@ -1,310 +1,150 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C59921D618E;
-	Mon, 16 Dec 2024 22:22:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 996C21C3C04;
+	Mon, 16 Dec 2024 22:28:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734387737; cv=none; b=czRgFsK7nV53lJBIAzBGBA3t3Y+XJxTdKW6bpodIjEz8Dqto5IeNvd2jMbJHyz3OfQeaTO4yoKJAYob/8eRLR+Nb7KC3jg/wT8rza+kGYnTrV/gpd+cO3eyUSRNlKKn8mSyZijDkOJ1EbysrUEIh8FCk+mL15Z/Xm3VWjFBZmGA=
+	t=1734388098; cv=none; b=rsCBaF1qDxAJf9unx08WECktGOkZIlrpiqEm4LpuGL3zSmSLrwro73DsoJ047tW6kJkYQh00Df1wRLw7dhj9pQD77j8yjwdXOX1Avc/ESZpofQEyDnGw77ZfcVYCvHR4JnV5cWQkl0PNJTndwuiTdJu8nrZPxX/HjkyhamuErI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734387737; c=relaxed/simple;
-	bh=MHhi9S0GHsvH3wVLCm0jNTQH0/RTJXtk4d+qFOLRA+E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mqSshFKT6VdVWezvESMXmYbo04jvGfiL+m4IQTrBHXdYSmYPLWk3PI4coLvveIzyH168dZBNAVzMDlx4OASAUl5KWgXs8aokv0YfaYTgUvzIC2F3V/UPhwoX7yZdlQjdqyc2bzyH0oDHugBWoVO4WWmxGM8yefujLO1eSIkwxUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A6C24497;
-	Mon, 16 Dec 2024 14:22:40 -0800 (PST)
-Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1C53C3F58B;
-	Mon, 16 Dec 2024 14:22:06 -0800 (PST)
-Date: Mon, 16 Dec 2024 23:21:21 +0100
-From: Beata Michalska <beata.michalska@arm.com>
-To: Kai-Heng Feng <kaihengf@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org, ionela.voinescu@arm.com,
-	sudeep.holla@arm.com, will@kernel.org, catalin.marinas@arm.com,
-	rafael@kernel.org, viresh.kumar@linaro.org, sumitg@nvidia.com,
-	yang@os.amperecomputing.com, vanshikonda@os.amperecomputing.com,
-	lihuisong@huawei.com, zhanjie9@hisilicon.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>, Phil Auld <pauld@redhat.com>,
-	x86@kernel.org, linux-doc@vger.kernel.org,
-	Carol Soto <csoto@nvidia.com>
-Subject: Re: [PATCH v8 1/4] cpufreq: Introduce an optional cpuinfo_avg_freq
- sysfs entry
-Message-ID: <Z2Cn4YQjw9-4m55c@arm.com>
-References: <20241206135600.4083965-1-beata.michalska@arm.com>
- <20241206135600.4083965-2-beata.michalska@arm.com>
- <3f19c5a8-9ee6-42fe-8b4c-3a66c65c8d35@nvidia.com>
+	s=arc-20240116; t=1734388098; c=relaxed/simple;
+	bh=BchgCZSTz5otN9tUx9euPmpFn6JLf22aQRkS2L0H2x0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=ZoU36MWLEju/QHyOe+5TfZXcc4z2ZuenE32/053iDTaFo4MInytKdjeFtrHhvAnbyyPaO/1us8w7oDfnca8pv/4ZlpIUgVMCN6KMgHJK3B74mE2GEkTw3bdlcN9NrNvDilfrjflqeh1SYWg6mgWpLD5nC/scfWlqPBQSSCm2gsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Nyb8/uIg; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Nyb8/uIg"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BGEhWhn022843;
+	Mon, 16 Dec 2024 22:27:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=XexS5E
+	E03A2kFOO1RC4vOyWubIQY+mIHYfLpVdjzVl4=; b=Nyb8/uIg0lov8QWWAhi6ym
+	fJhH8v7Tr+FdNv8NbmGcSlBnn0wkGgelfj0TeTmav5XbgPNaw0PfQDBEj1Uk64Eu
+	TvbnaK+lzqiUtgAgvJ3w9kNhzhA+h3uMRWdQe23k4WjA5iOecK1QVgxCOvNGJIL8
+	OMjIc03td2D6JzzyLXg/ilRiw05VL4i1mLTyi3QpyUFdq4SNzyo99cAVQ4CzIDYs
+	5/dZgTPF2qQyc2vMDZre7UzzgOenAPNP0H2nhnEiG31kHwnXfUbMTehMBOHQcK9J
+	9R80g6sBlbt9ZXzec8P3PW7mtLuBNaWghNPBNf0tmL5XgJEJdGppbJqeNcCTmOOA
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43jcpgw1v1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 16 Dec 2024 22:27:41 +0000 (GMT)
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BGMBIIP021984;
+	Mon, 16 Dec 2024 22:27:40 GMT
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43jcpgw1uy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 16 Dec 2024 22:27:40 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BGLDT7L014340;
+	Mon, 16 Dec 2024 22:27:39 GMT
+Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 43hmqy04sk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 16 Dec 2024 22:27:39 +0000
+Received: from smtpav02.dal12v.mail.ibm.com (smtpav02.dal12v.mail.ibm.com [10.241.53.101])
+	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BGMRcYI18219554
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 16 Dec 2024 22:27:38 GMT
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5A4A95805F;
+	Mon, 16 Dec 2024 22:27:38 +0000 (GMT)
+Received: from smtpav02.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DD8BA58051;
+	Mon, 16 Dec 2024 22:27:35 +0000 (GMT)
+Received: from [9.61.165.36] (unknown [9.61.165.36])
+	by smtpav02.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 16 Dec 2024 22:27:35 +0000 (GMT)
+Message-ID: <d75e72a8-6bd5-4929-a8bb-e1b13fd7d3b8@linux.ibm.com>
+Date: Mon, 16 Dec 2024 16:27:35 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3f19c5a8-9ee6-42fe-8b4c-3a66c65c8d35@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/4] Add support for Intel CRPS PSU
+To: Guenter Roeck <linux@roeck-us.net>, robh@kernel.org, krzk+dt@kernel.org,
+        conor+dt@kernel.org, eajames@linux.ibm.com, jdelvare@suse.com,
+        corbet@lwn.net, joel@jms.id.au, andrew@codeconstruct.com.au,
+        Delphine_CC_Chiu@Wiwynn.com, broonie@kernel.org,
+        peteryin.openbmc@gmail.com, noahwang.wang@outlook.com,
+        naresh.solanki@9elements.com, lukas@wunner.de, jbrunet@baylibre.com,
+        patrick.rudolph@9elements.com, gregkh@linuxfoundation.org,
+        peterz@infradead.org, pbiel7@gmail.com, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-i2c@vger.kernel.org
+References: <20241216175044.4144442-1-ninad@linux.ibm.com>
+ <c64bb634-46d4-486a-8743-699775326058@roeck-us.net>
+Content-Language: en-US
+From: Ninad Palsule <ninad@linux.ibm.com>
+In-Reply-To: <c64bb634-46d4-486a-8743-699775326058@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: GST_I0viN8YQt3jOs4JP1EhREbfu_C3_
+X-Proofpoint-ORIG-GUID: Y5LYT8Ng54jd9v0EuHcH24-ljTCPN46c
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 clxscore=1015
+ mlxscore=0 phishscore=0 impostorscore=0 adultscore=0 lowpriorityscore=0
+ spamscore=0 mlxlogscore=999 malwarescore=0 priorityscore=1501 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2412160181
 
-On Mon, Dec 16, 2024 at 01:43:02PM +0800, Kai-Heng Feng wrote:
-> Hi Beata,
-> 
-> On 2024/12/6 9:55 PM, Beata Michalska wrote:
-> > Currently the CPUFreq core exposes two sysfs attributes that can be used
-> > to query current frequency of a given CPU(s): namely cpuinfo_cur_freq
-> > and scaling_cur_freq. Both provide slightly different view on the
-> > subject and they do come with their own drawbacks.
-> > 
-> > cpuinfo_cur_freq provides higher precision though at a cost of being
-> > rather expensive. Moreover, the information retrieved via this attribute
-> > is somewhat short lived as frequency can change at any point of time
-> > making it difficult to reason from.
-> > 
-> > scaling_cur_freq, on the other hand, tends to be less accurate but then
-> > the actual level of precision (and source of information) varies between
-> > architectures making it a bit ambiguous.
-> > 
-> > The new attribute, cpuinfo_avg_freq, is intended to provide more stable,
-> > distinct interface, exposing an average frequency of a given CPU(s), as
-> > reported by the hardware, over a time frame spanning no more than a few
-> > milliseconds. As it requires appropriate hardware support, this
-> > interface is optional.
-> > 
-> > Note that under the hood, the new attribute relies on the information
-> > provided by arch_freq_get_on_cpu, which, up to this point, has been
-> > feeding data for scaling_cur_freq attribute, being the source of
-> > ambiguity when it comes to interpretation. This has been amended by
-> > restoring the intended behavior for scaling_cur_freq, with a new
-> > dedicated config option to maintain status quo for those, who may need
-> > it.
-> > 
-> > CC: Jonathan Corbet <corbet@lwn.net>
-> > CC: Thomas Gleixner <tglx@linutronix.de>
-> > CC: Ingo Molnar <mingo@redhat.com>
-> > CC: Borislav Petkov <bp@alien8.de>
-> > CC: Dave Hansen <dave.hansen@linux.intel.com>
-> > CC: H. Peter Anvin <hpa@zytor.com>
-> > CC: Phil Auld <pauld@redhat.com>
-> > CC: x86@kernel.org
-> > CC: linux-doc@vger.kernel.org
-> > Signed-off-by: Beata Michalska <beata.michalska@arm.com>
-> > ---
-> >   Documentation/admin-guide/pm/cpufreq.rst | 16 ++++++++++-
-> >   arch/x86/kernel/cpu/aperfmperf.c         |  2 +-
-> >   arch/x86/kernel/cpu/proc.c               |  7 +++--
-> >   drivers/cpufreq/Kconfig.x86              | 12 ++++++++
-> >   drivers/cpufreq/cpufreq.c                | 36 +++++++++++++++++++++---
-> >   include/linux/cpufreq.h                  |  2 +-
-> >   6 files changed, 66 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/Documentation/admin-guide/pm/cpufreq.rst b/Documentation/admin-guide/pm/cpufreq.rst
-> > index fe1be4ad88cb..76f3835afe01 100644
-> > --- a/Documentation/admin-guide/pm/cpufreq.rst
-> > +++ b/Documentation/admin-guide/pm/cpufreq.rst
-> > @@ -248,6 +248,19 @@ are the following:
-> >   	If that frequency cannot be determined, this attribute should not
-> >   	be present.
-> > +``cpuinfo_avg_freq``
-> > +        An average frequency (in KHz) of all CPUs belonging to a given policy,
-> > +        derived from a hardware provided feedback and reported on a time frame
-> > +        spanning at most few milliseconds.
-> > +
-> > +        This is expected to be based on the frequency the hardware actually runs
-> > +        at and, as such, might require specialised hardware support (such as AMU
-> > +        extension on ARM). If one cannot be determined, this attribute should
-> > +        not be present.
-> > +
-> > +        Note, that failed attempt to retrieve current frequency for a given
-> > +        CPU(s) will result in an appropriate error.
-> > +
-> >   ``cpuinfo_max_freq``
-> >   	Maximum possible operating frequency the CPUs belonging to this policy
-> >   	can run at (in kHz).
-> > @@ -293,7 +306,8 @@ are the following:
-> >   	Some architectures (e.g. ``x86``) may attempt to provide information
-> >   	more precisely reflecting the current CPU frequency through this
-> >   	attribute, but that still may not be the exact current CPU frequency as
-> > -	seen by the hardware at the moment.
-> > +	seen by the hardware at the moment. This behavior though, is only
-> > +	available via c:macro:``CPUFREQ_ARCH_CUR_FREQ`` option.
-> >   ``scaling_driver``
-> >   	The scaling driver currently in use.
-> > diff --git a/arch/x86/kernel/cpu/aperfmperf.c b/arch/x86/kernel/cpu/aperfmperf.c
-> > index 0b69bfbf345d..a00059139ca4 100644
-> > --- a/arch/x86/kernel/cpu/aperfmperf.c
-> > +++ b/arch/x86/kernel/cpu/aperfmperf.c
-> > @@ -413,7 +413,7 @@ void arch_scale_freq_tick(void)
-> >    */
-> >   #define MAX_SAMPLE_AGE	((unsigned long)HZ / 50)
-> > -unsigned int arch_freq_get_on_cpu(int cpu)
-> > +int arch_freq_get_on_cpu(int cpu)
-> >   {
-> >   	struct aperfmperf *s = per_cpu_ptr(&cpu_samples, cpu);
-> >   	unsigned int seq, freq;
-> > diff --git a/arch/x86/kernel/cpu/proc.c b/arch/x86/kernel/cpu/proc.c
-> > index e65fae63660e..34d8fb93fb70 100644
-> > --- a/arch/x86/kernel/cpu/proc.c
-> > +++ b/arch/x86/kernel/cpu/proc.c
-> > @@ -86,9 +86,12 @@ static int show_cpuinfo(struct seq_file *m, void *v)
-> >   		seq_printf(m, "microcode\t: 0x%x\n", c->microcode);
-> >   	if (cpu_has(c, X86_FEATURE_TSC)) {
-> > -		unsigned int freq = arch_freq_get_on_cpu(cpu);
-> > +		int freq = arch_freq_get_on_cpu(cpu);
-> > -		seq_printf(m, "cpu MHz\t\t: %u.%03u\n", freq / 1000, (freq % 1000));
-> > +		if (freq <= 0)
-> > +			seq_puts(m, "cpu MHz\t\t: Unknown\n");
-> > +		else
-> > +			seq_printf(m, "cpu MHz\t\t: %u.%03u\n", freq / 1000, (freq % 1000));
-> >   	}
-> >   	/* Cache size */
-> > diff --git a/drivers/cpufreq/Kconfig.x86 b/drivers/cpufreq/Kconfig.x86
-> > index 97c2d4f15d76..212e1b9afe21 100644
-> > --- a/drivers/cpufreq/Kconfig.x86
-> > +++ b/drivers/cpufreq/Kconfig.x86
-> > @@ -340,3 +340,15 @@ config X86_SPEEDSTEP_RELAXED_CAP_CHECK
-> >   	  option lets the probing code bypass some of those checks if the
-> >   	  parameter "relaxed_check=1" is passed to the module.
-> > +config CPUFREQ_ARCH_CUR_FREQ
-> > +	default y
-> > +	bool "Current frequency derived from HW provided feedback"
-> > +	help
-> > +	  This determines whether the scaling_cur_freq sysfs attribute returns
-> > +	  the last requested frequency or a more precise value based on hardware
-> > +	  provided feedback (as architected counters).
-> > +	  Given that a more precise frequency can now be provided via the
-> > +	  cpuinfo_avg_cur_freq attribute, by enabling this option,
-> > +	  scaling_cur_freq maintains the provision of a counter based frequency,
-> > +	  for compatibility reasons.
-> > +
-> > diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-> > index 04fc786dd2c0..70df2a24437b 100644
-> > --- a/drivers/cpufreq/cpufreq.c
-> > +++ b/drivers/cpufreq/cpufreq.c
-> > @@ -747,9 +747,14 @@ show_one(cpuinfo_transition_latency, cpuinfo.transition_latency);
-> >   show_one(scaling_min_freq, min);
-> >   show_one(scaling_max_freq, max);
-> > -__weak unsigned int arch_freq_get_on_cpu(int cpu)
-> > +__weak int arch_freq_get_on_cpu(int cpu)
-> >   {
-> > -	return 0;
-> > +	return -EOPNOTSUPP;
-> > +}
-> > +
-> > +static inline bool cpufreq_avg_freq_supported(struct cpufreq_policy *policy)
-> > +{
-> > +	return arch_freq_get_on_cpu(policy->cpu) != -EOPNOTSUPP;
-> >   }
-> >   static ssize_t show_scaling_cur_freq(struct cpufreq_policy *policy, char *buf)
-> > @@ -757,8 +762,11 @@ static ssize_t show_scaling_cur_freq(struct cpufreq_policy *policy, char *buf)
-> >   	ssize_t ret;
-> >   	unsigned int freq;
-> > -	freq = arch_freq_get_on_cpu(policy->cpu);
-> > -	if (freq)
-> > +	freq = IS_ENABLED(CONFIG_CPUFREQ_ARCH_CUR_FREQ)
-> > +		? arch_freq_get_on_cpu(policy->cpu)
-> > +		: 0;
-> > +
-> > +	if (freq > 0)
-> >   		ret = sysfs_emit(buf, "%u\n", freq);
-> >   	else if (cpufreq_driver->setpolicy && cpufreq_driver->get)
-> >   		ret = sysfs_emit(buf, "%u\n", cpufreq_driver->get(policy->cpu));
-> > @@ -802,6 +810,19 @@ static ssize_t show_cpuinfo_cur_freq(struct cpufreq_policy *policy,
-> >   	return sysfs_emit(buf, "<unknown>\n");
-> >   }
-> > +/*
-> > + * show_cpuinfo_avg_freq - average CPU frequency as detected by hardware
-> > + */
-> > +static ssize_t show_cpuinfo_avg_freq(struct cpufreq_policy *policy,
-> > +				     char *buf)
-> > +{
-> > +	int avg_freq = arch_freq_get_on_cpu(policy->cpu);
-> 
-> We are seeing issues when reading cpuinfo_avg_freq on an ARM64 system:
-> 
-> $ cat /sys/devices/system/cpu/cpufreq/policy1/cpuinfo_avg_freq
-> cat: /sys/devices/system/cpu/cpufreq/policy1/cpuinfo_avg_freq: Resource
-> temporarily unavailable
-> 
-> The CPU is in idle state, so arch_freq_get_on_cpu() can't find a good
-> alternative source for frequency info.
-> 
-> One way to resolve this is to have fallback methods in
-> show_cpuinfo_avg_freq() so it will look like this:
-> 
-> static ssize_t show_cpuinfo_avg_freq(struct cpufreq_policy *policy,
->                                      char *buf)
-> {
->         int avg_freq = arch_freq_get_on_cpu(policy->cpu);
->         int ret;
-> 
->         if (avg_freq > 0)
->                 ret = sysfs_emit(buf, "%u\n", avg_freq);
->         else if (cpufreq_driver->setpolicy && cpufreq_driver->get)
->                 ret = sysfs_emit(buf, "%u\n", cpufreq_driver->get(policy->cpu));
->         else
->                 ret = sysfs_emit(buf, "%u\n", policy->cur);
->         return ret;
-> }
-> 
-> But that also makes show_cpuinfo_avg_freq() pretty much the same as
-> show_scaling_cur_freq().
-> 
-> So is it possible to consolidate show_cpuinfo_avg_freq() into
-> show_scaling_cur_freq(), by making CONFIG_CPUFREQ_ARCH_CUR_FREQ also
-> available to ARM64?
+Hi Guenter,
+
+Thanks for the review.
+
+On 12/16/24 12:48, Guenter Roeck wrote:
+> On 12/16/24 09:50, Ninad Palsule wrote:
+>> Hello,
+>>
+>> Please review the patchset for Intel CRPS185 driver.
+>> V2:
+>> ---
+>>    - Incorporated review comments by Guenter Roeck
+>>    - Incorporated review comments by Krzysztof Kozlowski
+>>
 >
-The whole idea of this patch was to add support for retrieving the average
-frequency withouth modifying expected bahaviour of the scaling_cur_freq handler.
-The proposed config option is there to keep backward compatibility and allow
-userspace tools to catch up with the change - I'd expect that option to be
-either set as default to No or droped at some point.
+> That is not a useful change log. Please describe what you changed, not 
+> who
+> asked for it.
+>
+> Guenter
+>
+ok, I will improve it in version 3.
 
----
-BR
-Beata
-> Kai-Heng
-> 
-> > +
-> > +	if (avg_freq > 0)
-> > +		return sysfs_emit(buf, "%u\n", avg_freq);
-> > +	return avg_freq != 0 ? avg_freq : -EINVAL;
-> > +}
-> > +
-> >   /*
-> >    * show_scaling_governor - show the current policy for the specified CPU
-> >    */
-> > @@ -964,6 +985,7 @@ static ssize_t show_bios_limit(struct cpufreq_policy *policy, char *buf)
-> >   }
-> >   cpufreq_freq_attr_ro_perm(cpuinfo_cur_freq, 0400);
-> > +cpufreq_freq_attr_ro(cpuinfo_avg_freq);
-> >   cpufreq_freq_attr_ro(cpuinfo_min_freq);
-> >   cpufreq_freq_attr_ro(cpuinfo_max_freq);
-> >   cpufreq_freq_attr_ro(cpuinfo_transition_latency);
-> > @@ -1091,6 +1113,12 @@ static int cpufreq_add_dev_interface(struct cpufreq_policy *policy)
-> >   			return ret;
-> >   	}
-> > +	if (cpufreq_avg_freq_supported(policy)) {
-> > +		ret = sysfs_create_file(&policy->kobj, &cpuinfo_avg_freq.attr);
-> > +		if (ret)
-> > +			return ret;
-> > +	}
-> > +
-> >   	ret = sysfs_create_file(&policy->kobj, &scaling_cur_freq.attr);
-> >   	if (ret)
-> >   		return ret;
-> > diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
-> > index d4d2f4d1d7cb..a7b6c0ccf9bc 100644
-> > --- a/include/linux/cpufreq.h
-> > +++ b/include/linux/cpufreq.h
-> > @@ -1194,7 +1194,7 @@ static inline int of_perf_domain_get_sharing_cpumask(int pcpu, const char *list_
-> >   }
-> >   #endif
-> > -extern unsigned int arch_freq_get_on_cpu(int cpu);
-> > +extern int arch_freq_get_on_cpu(int cpu);
-> >   #ifndef arch_set_freq_scale
-> >   static __always_inline
-> 
+Regards,
+
+Ninad
+
+>> Ninad Palsule (4):
+>>    hwmon: (pmbus/core) Add PMBUS_REVISION in debugfs
+>>    hwmon: (pmbus/crps) Add Intel CRPS185 power supply
+>>    dt-bindings: hwmon: intel,crps185: Add to trivial
+>>    ARM: dts: aspeed: system1: Use crps PSU driver
+>>
+>>   .../devicetree/bindings/trivial-devices.yaml  |  2 +
+>>   Documentation/hwmon/crps.rst                  | 97 +++++++++++++++++++
+>>   Documentation/hwmon/index.rst                 |  1 +
+>>   MAINTAINERS                                   |  7 ++
+>>   .../dts/aspeed/aspeed-bmc-ibm-system1.dts     |  8 +-
+>>   drivers/hwmon/pmbus/Kconfig                   |  9 ++
+>>   drivers/hwmon/pmbus/Makefile                  |  1 +
+>>   drivers/hwmon/pmbus/crps.c                    | 79 +++++++++++++++
+>>   drivers/hwmon/pmbus/pmbus_core.c              | 13 ++-
+>>   9 files changed, 211 insertions(+), 6 deletions(-)
+>>   create mode 100644 Documentation/hwmon/crps.rst
+>>   create mode 100644 drivers/hwmon/pmbus/crps.c
+>>
+>
+>
