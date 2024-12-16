@@ -1,55 +1,55 @@
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7BA209F58
-	for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 19:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B5B20A5DA
+	for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 19:24:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734377075; cv=none; b=FDAWMrctbcYOj9BGVKa/yomo0Q7GrKIDU5vdJ8CfUFUCMXT9mzbkcqLyr2d2pmX0f46IbF5Rz58e6a+usJY25cRc+FKFMteYj+YcemYbbzcRlO2Vkw6EfU9AGyD+cuwei1PuX+PNRMlfFcnz8Ydy6W0DG4K2EaN4RyagIHAf0Dc=
+	t=1734377075; cv=none; b=Y8q0Bcwx0LeE8/ajg/N/q0XLk5rv6GyF1FpydWS+nbpLCpattXJ0ht9tFqlidRcsV9Z7CXoRGIMRLZU77issjdovgowTavsWQqT/SN0M5xo1gHeLbLWwbxl4xwsjdNNvmRaiKdoayXXanmxa1csELwKyMI9SQb9XzGePUjFST0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1734377075; c=relaxed/simple;
-	bh=49beW2sXDUl+AO8f/HtB0hh16LO58j92QfMcV5g84FE=;
+	bh=x8qaFP1AxURYpa5oiGFQli55lZvdLlf3Vb+7T69X9+M=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=iOgr8uukm1DQw0lcRbqJqdsouoCgprv4jcOxcPi5dYt9r1d6ComTcOe93i+S9UxToP6iWFwUjh3Cne3wH8c7RIwNFT2I7C2mNaVfndadZvuvpmyL36CCRPirWESUFzLuvfuh/QTdkR+asD7YFTzqio+nI1v1uxO/Oe4kl0lF9ZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Wec0Lhzt; arc=none smtp.client-ip=209.85.210.201
+	 To:Cc:Content-Type; b=VSJ7Mp5Do6NoIIR5vQfbbW66XvrfFzWrizKH/vmySMwaAdq9AoHwjK1vHdqGvzcx4YkIq+ZgoiZ9v5nmEPfk8xfusxvCnZviL9if6HoEc/gfONnGlhsqPpA+CKLx35XAUlOzoZhYhO4DuQp/p2mehSx+qW90MFUlIpnV++an4Cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fAImfv8N; arc=none smtp.client-ip=209.85.214.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Wec0Lhzt"
-Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-728e3ae8112so3419476b3a.0
-        for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 11:24:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fAImfv8N"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-21648ddd461so46164345ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 11:24:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734377071; x=1734981871; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1734377074; x=1734981874; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/Ia4skJ0dxk8cYc3IKUIPhlZF9heDgJL08xGmdJ5E3s=;
-        b=Wec0Lhztpt5nC8HzvM5gTFs02RDCMsa2sE3vtUdLVnpFsTcyswh9eFRxlW8LVgTr7s
-         JWNjxK375vqgbThc7E/CmmR93/0LvJUFeAWX2C6j/rBOsl9v/wQn2wLjai9unVbM8ovx
-         2N4/9g0Ay/u+8qjx0n6NBZ6pijc87PJAl4nhmWgVvLGY0BmVUek6fWtMXvaPZ7+wwrSA
-         T2U3drZwahFF/MEk1TIWtP5l3uCIY6uelaz4iGijmmzRSmByOKnnzM4cNL2l6ybYCS4w
-         jG+mIDCUl3oZv4yIWQPMGXqA1r5QDiJb96/mapTUsCCjO35b0756Typyld6QyGyHFrXE
-         /8Fw==
+        bh=0ykFNL3Q77su3l1hmkCa41V3LHYM0KyunH48W8conCI=;
+        b=fAImfv8NrNn7eSCKI2R9L4Tkc+vS/Xe7mSmJtvKPBuQC7GruIDFWuRDL8s4gsUMyHn
+         W/puA+dERxHsoYr7hnXJRYT73sHuZk/S/wulOa3w64/FTxhhvCCQ42v3xA9wvwhB/eMK
+         42tKUaf7LbYYn2QiU2fKOTzDK9kvk/ZVWHyUPpxDIREIYPqXF130WmB2HOKR1DgPH3a3
+         oqVP8jLkk3tG4q8P/NiSKIQFuKeeRxCJ9ZqSoM1zsXebR46OGse+dJqtwqOxQHZXwhSK
+         NYX8OABbGmYPPzdurt9wnZSgWdFWcnum4BzHPadd6iE5s8irOCvDk17I0lItx0yvhoXE
+         OZYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734377071; x=1734981871;
+        d=1e100.net; s=20230601; t=1734377074; x=1734981874;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/Ia4skJ0dxk8cYc3IKUIPhlZF9heDgJL08xGmdJ5E3s=;
-        b=rWPp+Ubw5h57JJ5lEZPzuGKpgNoLovzlT/pBvdQCFFiezT72dkTiM7H8NZZIUCjEAz
-         BfZC8P43lytC3q5xGW70XDfprOUwq6zXAfeF6TpFWWPMTEaRkkcFvoz0w23/xUEIQ71z
-         HUgs08WxfqKRfq3Qn1h5L+kgLWrNQj5NguhyCLxBPqRZIuiHnybK0amJC9mRmZe9QdAk
-         RBWBrf0fO6HPskyzNPu7EVAQptEslzdxrJ+Re+PckYc7WOSERxrWWcj/agb2VHoYXdnG
-         3Nu2YDomNvzBDzBirPSqDJ5WLgYWmbWJVROQWdogtWsjvCl9U186Ab9IOk6TNo+Cn3wH
-         rOng==
-X-Forwarded-Encrypted: i=1; AJvYcCX3LG/bkoJMaimTzaQ5U3GazSoNghiHKZtQTuRcPv0y4Lujo5tEYVZeqNMymT1TWvUXSb83SGwYoTE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhKgcTclQI2lywDMhfffEgnDzccgeq6aWcJOvHya16RRWkU+K9
-	MPwCQZZKz3Zm8SvV4blSYB5q00Dc4i136XH8ZMMcbuwX3BdfPng3S9ndqgCBh+6WuQEsURhX7Ss
-	pFw==
-X-Google-Smtp-Source: AGHT+IGblgxI1ekRLHe39odjzDuWa2GhKIvnP9JXJ082wXSRcQoL744G5O8IU0+gMQyAryC3i1beb9Fb4As=
-X-Received: from pfbci13.prod.google.com ([2002:a05:6a00:28cd:b0:725:ec78:5008])
- (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:6c8c:b0:728:b601:86ee
- with SMTP id d2e1a72fcca58-7290c24330fmr18435707b3a.16.1734377071613; Mon, 16
- Dec 2024 11:24:31 -0800 (PST)
-Date: Mon, 16 Dec 2024 11:24:07 -0800
+        bh=0ykFNL3Q77su3l1hmkCa41V3LHYM0KyunH48W8conCI=;
+        b=qX2rSTBHokLAFHT1XJKtgUK9ueoZz/xCwbsvaXftAmxw8IOUV6AMW/pJDX3JP/RLNk
+         52MIjFk8v1hvvBn0YcbwzVplk5fBQrTXlvSRh5VLxQx3n0oaOWluwNKBy/0YtjI4/14O
+         ZZxhJVWDUYKMaCf7/hBJ4dqAEhO/QtHWRJOPaZ8A0upDKGxBCkKaiNREjgKwnZ6hq1FW
+         osEgStXR0IL1vDHzCSMjilaPu5uyM3393D0ddsyOjgA583HBIqib5K1Gje/vnRq9TMXw
+         A9gJMBMxcbeQBO6CqR0txKeUAmHQKMtAOUxH91eOeEfRi4SBIIrUHFyVlWcwsnU1Wgp/
+         N+RQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWiLG0ugE31VxcqhKsA3X19wykrK4yrhAybeq03dsavwBWDwtrda74jnnQlq98UVjpsfVb5v+Z15RA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUMgI/lrqnO5wcLzeHmnqqyzxvZFN+kmBGDpRbPyBDvDfAgwjD
+	6Jj6RViuopjAOIwTsOo/qtDCB9GGcVTX54LdBsc4zo5OQ94z5EtrC63sJZyhS1CRbTJ16qbDDUq
+	5Iw==
+X-Google-Smtp-Source: AGHT+IEVw0uJl7cLZP7L5C6hpMFvqcbjARbisNWJ3VdxfhR00byT5nuQon+Itb1c7QrUoZSJH5F454tTzFQ=
+X-Received: from pgbel4.prod.google.com ([2002:a05:6a02:4644:b0:7fd:40dd:86a5])
+ (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:e80d:b0:215:b5d6:5fa8
+ with SMTP id d9443c01a7336-21892a441admr219433885ad.22.1734377073676; Mon, 16
+ Dec 2024 11:24:33 -0800 (PST)
+Date: Mon, 16 Dec 2024 11:24:08 -0800
 In-Reply-To: <20241216192419.2970941-1-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,9 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20241216192419.2970941-1-surenb@google.com>
 X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
-Message-ID: <20241216192419.2970941-5-surenb@google.com>
-Subject: [PATCH v6 04/16] mm/nommu: fix the last places where vma is not
- locked before being attached
+Message-ID: <20241216192419.2970941-6-surenb@google.com>
+Subject: [PATCH v6 05/16] types: move struct rcuwait into types.h
 From: Suren Baghdasaryan <surenb@google.com>
 To: akpm@linux-foundation.org
 Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com, 
@@ -77,35 +76,66 @@ Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
 	surenb@google.com
 Content-Type: text/plain; charset="UTF-8"
 
-nommu configuration has two places where vma gets attached to the vma tree
-without write-locking it. Add the missing locks to ensure vma is always
-locked before it's attached.
+Move rcuwait struct definition into types.h so that rcuwait can be used
+without including rcuwait.h which includes other headers. Without this
+change mm_types.h can't use rcuwait due to a the following circular
+dependency:
 
+mm_types.h -> rcuwait.h -> signal.h -> mm_types.h
+
+Suggested-by: Matthew Wilcox <willy@infradead.org>
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 ---
- mm/nommu.c | 2 ++
- 1 file changed, 2 insertions(+)
+ include/linux/rcuwait.h | 13 +------------
+ include/linux/types.h   | 12 ++++++++++++
+ 2 files changed, 13 insertions(+), 12 deletions(-)
 
-diff --git a/mm/nommu.c b/mm/nommu.c
-index 9cb6e99215e2..248392ef4048 100644
---- a/mm/nommu.c
-+++ b/mm/nommu.c
-@@ -1189,6 +1189,7 @@ unsigned long do_mmap(struct file *file,
- 		goto error_just_free;
+diff --git a/include/linux/rcuwait.h b/include/linux/rcuwait.h
+index 27343424225c..9ad134a04b41 100644
+--- a/include/linux/rcuwait.h
++++ b/include/linux/rcuwait.h
+@@ -4,18 +4,7 @@
  
- 	setup_vma_to_mm(vma, current->mm);
-+	vma_start_write(vma);
- 	current->mm->map_count++;
- 	/* add the VMA to the tree */
- 	vma_iter_store(&vmi, vma);
-@@ -1356,6 +1357,7 @@ static int split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
+ #include <linux/rcupdate.h>
+ #include <linux/sched/signal.h>
+-
+-/*
+- * rcuwait provides a way of blocking and waking up a single
+- * task in an rcu-safe manner.
+- *
+- * The only time @task is non-nil is when a user is blocked (or
+- * checking if it needs to) on a condition, and reset as soon as we
+- * know that the condition has succeeded and are awoken.
+- */
+-struct rcuwait {
+-	struct task_struct __rcu *task;
+-};
++#include <linux/types.h>
  
- 	setup_vma_to_mm(vma, mm);
- 	setup_vma_to_mm(new, mm);
-+	vma_start_write(new);
- 	vma_iter_store(vmi, new);
- 	mm->map_count++;
- 	return 0;
+ #define __RCUWAIT_INITIALIZER(name)		\
+ 	{ .task = NULL, }
+diff --git a/include/linux/types.h b/include/linux/types.h
+index 2d7b9ae8714c..f1356a9a5730 100644
+--- a/include/linux/types.h
++++ b/include/linux/types.h
+@@ -248,5 +248,17 @@ typedef void (*swap_func_t)(void *a, void *b, int size);
+ typedef int (*cmp_r_func_t)(const void *a, const void *b, const void *priv);
+ typedef int (*cmp_func_t)(const void *a, const void *b);
+ 
++/*
++ * rcuwait provides a way of blocking and waking up a single
++ * task in an rcu-safe manner.
++ *
++ * The only time @task is non-nil is when a user is blocked (or
++ * checking if it needs to) on a condition, and reset as soon as we
++ * know that the condition has succeeded and are awoken.
++ */
++struct rcuwait {
++	struct task_struct __rcu *task;
++};
++
+ #endif /*  __ASSEMBLY__ */
+ #endif /* _LINUX_TYPES_H */
 -- 
 2.47.1.613.gc27f4b7a9f-goog
 
