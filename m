@@ -1,58 +1,43 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1012C1D554;
-	Mon, 16 Dec 2024 22:00:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AB491D1730;
+	Mon, 16 Dec 2024 22:16:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734386445; cv=none; b=lCEprAP0tJOQtQERCr9V9CPeqQj/0dQTg0ObyIaF6wxRTFrDpaYzR8yfuNhYnWAqEyb+fCgj1z4uo/mZUR8cAMNF/8WXaoI71n/PxZu+4bZROLJOFF8cQ/6sDKMfM668Hsy/SzgUI1I9IWs8eSwJcIem5Id3t9VXzXUpDKOCqWE=
+	t=1734387375; cv=none; b=cxDLvEBbfqoOZSn/XvnpeC2TDndtFcYiEwqjrl3EDb36ZKowE0vNHFMwD+mwYMG4wzlx/oA1UrCKLJL8XoKwWKyNzPaSxT63Ibw030aAOHyuAFE3ly1UIRepoReU2Wu3KaZlgvWT51LjnRsJXRRab4XP56+yt4KEvvv0j4kpUEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734386445; c=relaxed/simple;
-	bh=5kLL1DLakkjZktlYV+gu3/YktJW7PsRxj1HvQAuhnuk=;
+	s=arc-20240116; t=1734387375; c=relaxed/simple;
+	bh=MHXbgCt5iM3Lmiq1ccpeu5zZNvv3KDoyJh4e9VGd7+I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CgrtSHzqWKrJ1xAvM4COvz5zy1LEHG01atR8sUDnjjKJGDYw0BLkmLIMAMp+jxAR41Kn2V43LpzEpvS0p7PvygpeLl3uLMFQV/ioknh1qgQaXOYQwtzl7VLvnNBqd5DdWmIQCv24ov1T/TGmoxjoaUn0nrxAdqJT0320bJvcBm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=H6U4LrpO; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="H6U4LrpO"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=WwOpWuV55ttk34xYcb1itv2pXV6N2/L1ZVzPXCDpyeQ=; b=H6U4LrpOIcLlnxGaP+ICfOph+/
-	67LZWB1HlA/0l84tIudHNVmWaiG9IoA/dx8X7gT6kapc0itYO4wafCoI409mmqgnZ+r8jMbyf/JJo
-	5Mlg0P+KsXL9VCF4SSZ5bWDmV+u3S13TrzRYeSqSo3ZfpADwfxqyz0pu4FljjG1XKKgB7UMQQTpY5
-	AfzpMXJ3LXnt0Gp3c518vw/eLAlnL20YCJNw+szUqe2D5IynUHM5VQK8Reb05tkqgQvwOb0ovZ3k8
-	ch+uCqGzeA0bg9uoVLrVQ2GQLZek+zx7J1jd50JWGsQQ9leCPqWsNPoADGMb40KQyLBUbLJcAE2d1
-	3jGNzUOQ==;
-Received: from 77-249-17-89.cable.dynamic.v4.ziggo.nl ([77.249.17.89] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNJ8L-00000004wzD-1zLy;
-	Mon, 16 Dec 2024 22:00:10 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 2BD4230031E; Mon, 16 Dec 2024 23:00:08 +0100 (CET)
-Date: Mon, 16 Dec 2024 23:00:07 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, willy@infradead.org, liam.howlett@oracle.com,
-	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz,
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
-	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
-	hughd@google.com, lokeshgidra@google.com, minchan@google.com,
-	jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com,
-	pasha.tatashin@soleen.com, klarasmodin@gmail.com, corbet@lwn.net,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH v6 10/16] mm: replace vm_lock and detached flag with a
- reference count
-Message-ID: <20241216220007.GE9803@noisy.programming.kicks-ass.net>
-References: <20241216192419.2970941-1-surenb@google.com>
- <20241216192419.2970941-11-surenb@google.com>
- <20241216211520.GB9803@noisy.programming.kicks-ass.net>
- <CAJuCfpHAZ4gwh14wi8M3jt8HPwwV_P9W29qzOXwypgUk72VBgA@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ji56BaLHFXY/GvDODwXMOLShGOfCuNsB9bxbAd/8uC6aUPweC79Pr4/m75ERAbSj1XsanRKRzVcvAwHpEZQ/vQY6zA8QUz2dAWOg52kn5Ggfyi1ijYSEeoHCXTDmOayKprNPoxdkXcqBoV9tWLkr1UY4wP3yjsODSt2kq/N1RwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 26A81113E;
+	Mon, 16 Dec 2024 14:16:40 -0800 (PST)
+Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ED6B13F58B;
+	Mon, 16 Dec 2024 14:16:06 -0800 (PST)
+Date: Mon, 16 Dec 2024 23:15:13 +0100
+From: Beata Michalska <beata.michalska@arm.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org, ionela.voinescu@arm.com,
+	sudeep.holla@arm.com, will@kernel.org, catalin.marinas@arm.com,
+	rafael@kernel.org, sumitg@nvidia.com, yang@os.amperecomputing.com,
+	vanshikonda@os.amperecomputing.com, lihuisong@huawei.com,
+	zhanjie9@hisilicon.com, Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H . Peter Anvin" <hpa@zytor.com>, Phil Auld <pauld@redhat.com>,
+	x86@kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v8 1/4] cpufreq: Introduce an optional cpuinfo_avg_freq
+ sysfs entry
+Message-ID: <Z2CmcelSy89NULtz@arm.com>
+References: <20241206135600.4083965-1-beata.michalska@arm.com>
+ <20241206135600.4083965-2-beata.michalska@arm.com>
+ <20241212065100.sjb7lrlmksbm2hdk@vireshk-i7>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,16 +46,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJuCfpHAZ4gwh14wi8M3jt8HPwwV_P9W29qzOXwypgUk72VBgA@mail.gmail.com>
+In-Reply-To: <20241212065100.sjb7lrlmksbm2hdk@vireshk-i7>
 
-On Mon, Dec 16, 2024 at 01:53:06PM -0800, Suren Baghdasaryan wrote:
-
-> > That is, should this not live in vma_iter_store*(), right before
-> > mas_store_gfp() ?
+On Thu, Dec 12, 2024 at 12:21:00PM +0530, Viresh Kumar wrote:
+> On 06-12-24, 13:55, Beata Michalska wrote:
+> > diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+> > index 04fc786dd2c0..70df2a24437b 100644
+> > --- a/drivers/cpufreq/cpufreq.c
+> > +++ b/drivers/cpufreq/cpufreq.c
+> > @@ -747,9 +747,14 @@ show_one(cpuinfo_transition_latency, cpuinfo.transition_latency);
+> >  show_one(scaling_min_freq, min);
+> >  show_one(scaling_max_freq, max);
+> >  
+> > -__weak unsigned int arch_freq_get_on_cpu(int cpu)
+> > +__weak int arch_freq_get_on_cpu(int cpu)
+> >  {
+> > -	return 0;
+> > +	return -EOPNOTSUPP;
 > 
-> Currently it's done right *after* mas_store_gfp() but I was debating
-> with myself if it indeed should be *before* insertion into the tree...
+> I did suggest not doing this as it may not be acceptable.
+> 
+> https://lore.kernel.org/all/CAKohpokFUpQyHYO017kOn-Jbt0CFZ1GuxoG3N-fenWJ_poW=4Q@mail.gmail.com/
+>
+My bad as I must have misinterpreted that message. Although I am not entirely
+sure why this might be unacceptable as it is not such uncommon approach to use
+signed int space to cover both: expected positive value as well as potential
+error code case failure.
+Enabling the new attribute for all is an option, tough not entirely compelling
+one as exposing a feature that is known not to be supported seems bit
+counterintuitive. On the other hand using cpufreq driver flags won't help much
+as the support for the new attrib is platform-specific, not driver-specific.
 
-The moment it goes into the tree it becomes visible to RCU lookups, it's
-a bit weird to have them with !refcnt at that point, but I don't suppose
-it harms.
+---
+BR
+Beata
+> -- 
+> viresh
