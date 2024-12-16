@@ -1,167 +1,189 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04737207658;
-	Mon, 16 Dec 2024 18:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A0B207679
+	for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 18:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734374899; cv=none; b=Y76GqdNd7XP8hQh48ROirQsEA8t6n2dfqU37Wt7TpJ62PA3FxZUVLt/DJC7VTTmEi+nUouAYALMAvbtJDHk5DNmZvUQU30z4kRcvZaSiwqufwnQmRvFzpojWUNrM1nsA/c71Ya/Odjhosr8s5oO3RvPsoVwPV2/VwbPzVmNpoYM=
+	t=1734375505; cv=none; b=GC/Myc1nbn7gaXH1Ll9guJqfVlJuVxLFnIrgRMuWQIik76u9l/D+B2MlVxnHB7lqm6jufMJN2zLiHZJrVgiM6H/AjPUd7jIJ+yzimxNgKpdas2XMOjdSSqN7qIvU8dkUS5hIWjGURcT0GRBiC75RuvjGCQJ1YY2uWnjGn2sFGQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734374899; c=relaxed/simple;
-	bh=kmEYNF71/7++qPgLBRe0qCZQCXLr12g/b3oiSdt3p/Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=n0XKNorp77Sly6bvQ3ai7lnhGanc7zf73zjiSZCufPn8uLXp1YjbnGVKinFfCzO+ODiqXMjhnWJWL/lzIlZhc8M6BL2Ne1xTLTRNo31Te/+qV0popT1VtorfWwbCD7GFuxmu1EOMQqsTdGApfmQiebW/N5PjzawCttVnGntGZEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SCrfdr7V; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1734375505; c=relaxed/simple;
+	bh=SV3LQEGL/hN47W8AIErH56BEHP30IF73FmJb8pNKbK0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XLAmFFh22WJqdZ/gqBoKxDUzJ1fkUqj3853EYA3CyVc51qF7RanOFzKyqAL9FKX6EtxrzHZWa6bvKJBJrZ+c9HQgVd8MIy7qxegm59PGKT1PAgDHQDX3TruTprtO9H4ZqUMTaCaHw1R846byouQf+Fq5BN0DCPhsEWtbImBi1Ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Ry4SSsp/; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SCrfdr7V"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7fd17f2312bso3095141a12.0;
-        Mon, 16 Dec 2024 10:48:17 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Ry4SSsp/"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5401c68b89eso4839329e87.0
+        for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 10:58:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734374897; x=1734979697; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=GUU/XypxaduzqMjt/wtaQMQLw5fmlBNHttBG958fM88=;
-        b=SCrfdr7VsbNpHdS8t6BSRrPgHN+6H3zWGSAIPdghHyV3Lt5VKA1Q0ElBTy3q+b/+cU
-         PrZY0pt7p74TlJNlMky4vQ+0DNav5uPmwZVIRZ8Q+E9gOTXm9Wj/Mztl3QpcXMOWlTLY
-         VzQDof/yL68yUdEPyxEfILkxtUevWHsU+9hEz5TAgxHbj9RaUG57RIcTo2JNwT8jK7Vl
-         W4aYZL4x5r6jYC9qLyFgYy//6JqajUhGCzS7oitScVwWaDrag9X/541bhNF/B8GyXTfO
-         cAuTZSki6FvoRkqI2j5fT+Sp/IUMT+xGAu21bg8UpE4tvfvCyYXNa0FmOyDMEfUgQX/0
-         PwMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734374897; x=1734979697;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:sender:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1734375502; x=1734980302; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GUU/XypxaduzqMjt/wtaQMQLw5fmlBNHttBG958fM88=;
-        b=bpAJgktlXY33h9+KtbadekXWxLByoY6sg81SUdMax4+aDfc3GdCLRyOtYcMTyZIAQ6
-         MZvyzm0oMWzwCpGgF6NzQxaDRl4NeF2AY3NnFrrqKq/Pax3SWLJ5zseYB3XM/ek1ZOgE
-         Gjr9Vg+yDtr3PC+ANkGFccjmhw8S2uzmi22Jed9NAY1WnnGeJJlfmXvI8y+Hz64xTd1n
-         knS5gpbF9FoZzU73yhig+7Jo+2Ke2NJpTvGwMHAeB/6ouZGre6WNdLIHU3O4nsIO5A39
-         vroXG4SQ/Zeu6bJduQbqYF2DH8KVu4/M7d0tK7h+MdN0QkyNXK2cWZxYEtYLUppMRR0E
-         hO9w==
-X-Forwarded-Encrypted: i=1; AJvYcCUKvcLH5cVW6t5iAES5CHI9S+LumhDkv2QCmRMDZP9V/DSGFqES9nQo3lw5c++L57MewdR2xNEO497J@vger.kernel.org, AJvYcCUNgwd1uwbDgwQNZ8QKyDkyC+JL33/Z+/+fCxEsvqXWhRyIj0BT7z9nw6gh1mexG2cMLQ+RULe7647XajQ=@vger.kernel.org, AJvYcCV6cgWjIpBr1sP3OANYNYFHkTH6WD8rW5RmhYuPEi82ixecWoQZ1IN3kPhxqjyw/oo8L2x5VIUjjneZ@vger.kernel.org, AJvYcCVuTCeILj/8wHSfhUqkTgk2CdOoO9GlXfo2AChvNM5s8f//i2+wSXxL4Oj2rXmR/3uET93Yo7pSlZkrmC3g@vger.kernel.org, AJvYcCWxz8erpn2RWZk9hyH4YVlmWN3m1o7II/nCqGrwdo4f/bsB5ClNCv3SztPgXooIycWvcuymPuscpGSg@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1IwFhwc1uJGgARZ5NZYPC5tKz8MDQxzD5gPrJ8GWkj4PdxdOd
-	ifgvaN80+u8jM9eHs++DMfp7lc3x0N/l9GUt+LWnpPbQm4xEupcP
-X-Gm-Gg: ASbGncsQD9qwRPkEaPQYhTpjphS6ptFT1q/WZQWoQF921Xs9z/VbTbcXP3jgyyqlX7j
-	KcrjHd1PPF61hECO0c1W8MzV8NOgJjaVdhPhtKcfS3xlFnJJb5ppOWGJirL9eF59Iufr9IX8x+E
-	sCQh2d6lH1kd++rHCj53dzqEB6g2Qs3Xkd1Y2kOhkjyg4Qxibn/tsd/5oK52Lz6vHy1VCuXh2cG
-	SSeOCRemYEDLjm4paPrOJtI9TmJzZVO9iRnV+iNz5mQGaBDX0aPCYTPt4ThJPt76UimrdGTJg9J
-	05cYF81c69ZGGGZzBUnFR4+zxBKrlg==
-X-Google-Smtp-Source: AGHT+IFjQgGzXMt3UDx2US4yIi+IDTITId8IwO9BLtbyFBWANvRg/nW81MMDSaOHXQlVmHcHYluZ1w==
-X-Received: by 2002:a17:90b:2e4f:b0:2ee:f687:6ad5 with SMTP id 98e67ed59e1d1-2f2d7d6d692mr891327a91.2.1734374897329;
-        Mon, 16 Dec 2024 10:48:17 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f142c2b1f6sm8453029a91.0.2024.12.16.10.48.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Dec 2024 10:48:16 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <c64bb634-46d4-486a-8743-699775326058@roeck-us.net>
-Date: Mon, 16 Dec 2024 10:48:14 -0800
+        bh=dzLRRgSYQAZ/LGhu2QHm86mP47vUyI0NVq1+fminqCk=;
+        b=Ry4SSsp/7VBMUsRMouTGw/UurnFk8Lxo893/GXTbrbDY15AzlicWBWcTnSKw8yysb3
+         vQmFJKuLzSZXGhfN5HRzl5FnkQKr5kqCuneX5FQPB4hHhlruDIkF2NDP4g007vj5QDr8
+         qLkPrR/x8TXyExoSva4XyBJjeDHBtDWv3pHUc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734375502; x=1734980302;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dzLRRgSYQAZ/LGhu2QHm86mP47vUyI0NVq1+fminqCk=;
+        b=ecv68UEJrZ8ME5INtSfJPPxpaohgdZScdNlwR7SpaHZA36s5CSQCzZ1sdvf57DCtav
+         490N4obmmOMI4xJMgtEK9RQYwQWgHz8YHJJyI3bk8uqqyqXrtN0qaiwWAoJjwCWwSbDw
+         ziYDmfsZAXvJdDHVL/Yy6zba+Buv7UbF6Zd9O40z5ELABO834Kxgjunc6wr0yIDPBFIz
+         idCxTspCL0PHCOm8EFSZ14SFx2ZoW2jY1s9rewPmqSSEl77NxHgGoziSazdz1jaC34LX
+         s084jo40Uj2EZx5xBKI6fC7FcNthxLm3CcYcra27lMwXkK9dpQMEleraBth2wZrQxvzD
+         aK0w==
+X-Forwarded-Encrypted: i=1; AJvYcCXOUIH9Tze9DAFK2feMDLqrXBoh8+p8NWN6tRNuAXl932/UKIyQNtp3Hd1jSeqzXdiludqFK2UARlE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmdUfqYzzAcEQxBN2Nri7m7wttkJGj3ZRXvUFvCOoMBsiJo7WK
+	nkRCwm/EuXYwX88DGzPnxknkPhNTfJuxEgMY1Rxd1fy+miM20mx7EQvcpjwFikFDmBBzTt7N1Ot
+	6UlnZQI0IhFajhUvTX3O40/ef0jqIUFNmJz5W
+X-Gm-Gg: ASbGncsRVoAVYFJVzGvQsHH73luwUXEaAsQ/21h5AOlaSksCQ40BKDqcqmUKTFa8Le5
+	tgto7pHFj5gTx69hHAR43M7D80wseTyRIx7y6Og==
+X-Google-Smtp-Source: AGHT+IGMcETnavPEQXH8jvNLA+aG8u1ChCxl9+noimfdpLvWFaGfKMRKYUnalnnaiR2BYuqbdP6Hwsq/S3/avpzeJSk=
+X-Received: by 2002:a05:6512:b11:b0:541:3175:1bc8 with SMTP id
+ 2adb3069b0e04-54131751e17mr71296e87.20.1734375501655; Mon, 16 Dec 2024
+ 10:58:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/4] Add support for Intel CRPS PSU
-To: Ninad Palsule <ninad@linux.ibm.com>, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, eajames@linux.ibm.com, jdelvare@suse.com,
- corbet@lwn.net, joel@jms.id.au, andrew@codeconstruct.com.au,
- Delphine_CC_Chiu@Wiwynn.com, broonie@kernel.org, peteryin.openbmc@gmail.com,
- noahwang.wang@outlook.com, naresh.solanki@9elements.com, lukas@wunner.de,
- jbrunet@baylibre.com, patrick.rudolph@9elements.com,
- gregkh@linuxfoundation.org, peterz@infradead.org, pbiel7@gmail.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-i2c@vger.kernel.org
-References: <20241216175044.4144442-1-ninad@linux.ibm.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
- RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
- nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
- 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
- gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
- IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
- kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
- VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
- jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
- BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
- ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAlVcphcFCRmg06EACgkQyx8mb86fmYFg0RAA
- nzXJzuPkLJaOmSIzPAqqnutACchT/meCOgMEpS5oLf6xn5ySZkl23OxuhpMZTVX+49c9pvBx
- hpvl5bCWFu5qC1jC2eWRYU+aZZE4sxMaAGeWenQJsiG9lP8wkfCJP3ockNu0ZXXAXwIbY1O1
- c+l11zQkZw89zNgWgKobKzrDMBFOYtAh0pAInZ9TSn7oA4Ctejouo5wUugmk8MrDtUVXmEA9
- 7f9fgKYSwl/H7dfKKsS1bDOpyJlqhEAH94BHJdK/b1tzwJCFAXFhMlmlbYEk8kWjcxQgDWMu
- GAthQzSuAyhqyZwFcOlMCNbAcTSQawSo3B9yM9mHJne5RrAbVz4TWLnEaX8gA5xK3uCNCeyI
- sqYuzA4OzcMwnnTASvzsGZoYHTFP3DQwf2nzxD6yBGCfwNGIYfS0i8YN8XcBgEcDFMWpOQhT
- Pu3HeztMnF3HXrc0t7e5rDW9zCh3k2PA6D2NV4fews9KDFhLlTfCVzf0PS1dRVVWM+4jVl6l
- HRIAgWp+2/f8dx5vPc4Ycp4IsZN0l1h9uT7qm1KTwz+sSl1zOqKD/BpfGNZfLRRxrXthvvY8
- BltcuZ4+PGFTcRkMytUbMDFMF9Cjd2W9dXD35PEtvj8wnEyzIos8bbgtLrGTv/SYhmPpahJA
- l8hPhYvmAvpOmusUUyB30StsHIU2LLccUPPOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
- 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
- pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
- J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
- pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
- 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
- ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
- I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
- nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
- HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
- JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAlVcpi8FCRmg08MACgkQyx8mb86fmYHNRQ/+
- J0OZsBYP4leJvQF8lx9zif+v4ZY/6C9tTcUv/KNAE5leyrD4IKbnV4PnbrVhjq861it/zRQW
- cFpWQszZyWRwNPWUUz7ejmm9lAwPbr8xWT4qMSA43VKQ7ZCeTQJ4TC8kjqtcbw41SjkjrcTG
- wF52zFO4bOWyovVAPncvV9eGA/vtnd3xEZXQiSt91kBSqK28yjxAqK/c3G6i7IX2rg6pzgqh
- hiH3/1qM2M/LSuqAv0Rwrt/k+pZXE+B4Ud42hwmMr0TfhNxG+X7YKvjKC+SjPjqp0CaztQ0H
- nsDLSLElVROxCd9m8CAUuHplgmR3seYCOrT4jriMFBtKNPtj2EE4DNV4s7k0Zy+6iRQ8G8ng
- QjsSqYJx8iAR8JRB7Gm2rQOMv8lSRdjva++GT0VLXtHULdlzg8VjDnFZ3lfz5PWEOeIMk7Rj
- trjv82EZtrhLuLjHRCaG50OOm0hwPSk1J64R8O3HjSLdertmw7eyAYOo4RuWJguYMg5DRnBk
- WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
- HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20241216175044.4144442-1-ninad@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20241212224114.888373-1-dualli@chromium.org> <20241212224114.888373-3-dualli@chromium.org>
+ <Z2BtgqkPUZxE8B83@google.com>
+In-Reply-To: <Z2BtgqkPUZxE8B83@google.com>
+From: Li Li <dualli@chromium.org>
+Date: Mon, 16 Dec 2024 10:58:10 -0800
+Message-ID: <CANBPYPhZ-_5=VMRoBxbfVb+AFb_qu49QH_hKOiSjX93E1GQA8A@mail.gmail.com>
+Subject: Re: [PATCH net-next v10 2/2] binder: report txn errors via generic netlink
+To: Carlos Llamas <cmllamas@google.com>
+Cc: dualli@google.com, corbet@lwn.net, davem@davemloft.net, 
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
+	donald.hunter@gmail.com, gregkh@linuxfoundation.org, arve@android.com, 
+	tkjos@android.com, maco@android.com, joel@joelfernandes.org, 
+	brauner@kernel.org, surenb@google.com, arnd@arndb.de, masahiroy@kernel.org, 
+	bagasdotme@gmail.com, horms@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org, hridya@google.com, 
+	smoreland@google.com, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/16/24 09:50, Ninad Palsule wrote:
-> Hello,
-> 
-> Please review the patchset for Intel CRPS185 driver.
-> V2:
-> ---
->    - Incorporated review comments by Guenter Roeck
->    - Incorporated review comments by Krzysztof Kozlowski
-> 
+On Mon, Dec 16, 2024 at 10:12=E2=80=AFAM Carlos Llamas <cmllamas@google.com=
+> wrote:
+>
+> On Thu, Dec 12, 2024 at 02:41:14PM -0800, Li Li wrote:
+> > ---
+> >  Documentation/admin-guide/binder_genl.rst     | 110 ++++++++
+>
+> Thanks for renaming to "Binder Netlink" this seems much better IMO.
+> Also, I belive the documentation should also be binder_netlink.rst in
+> such case?
+>
 
-That is not a useful change log. Please describe what you changed, not who
-asked for it.
+Will also change it.
 
-Guenter
+> > +++ b/Documentation/netlink/specs/binder_netlink.yaml
+> > @@ -0,0 +1,108 @@
+> > +# SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-3=
+-Clause)
+>
+> I think you need a Copyright for this. I'm not sure if it would also be
+> needed for the Documentation though.
+>
 
-> Ninad Palsule (4):
->    hwmon: (pmbus/core) Add PMBUS_REVISION in debugfs
->    hwmon: (pmbus/crps) Add Intel CRPS185 power supply
->    dt-bindings: hwmon: intel,crps185: Add to trivial
->    ARM: dts: aspeed: system1: Use crps PSU driver
-> 
->   .../devicetree/bindings/trivial-devices.yaml  |  2 +
->   Documentation/hwmon/crps.rst                  | 97 +++++++++++++++++++
->   Documentation/hwmon/index.rst                 |  1 +
->   MAINTAINERS                                   |  7 ++
->   .../dts/aspeed/aspeed-bmc-ibm-system1.dts     |  8 +-
->   drivers/hwmon/pmbus/Kconfig                   |  9 ++
->   drivers/hwmon/pmbus/Makefile                  |  1 +
->   drivers/hwmon/pmbus/crps.c                    | 79 +++++++++++++++
->   drivers/hwmon/pmbus/pmbus_core.c              | 13 ++-
->   9 files changed, 211 insertions(+), 6 deletions(-)
->   create mode 100644 Documentation/hwmon/crps.rst
->   create mode 100644 drivers/hwmon/pmbus/crps.c
-> 
+Hmm, all other yaml files follow the same code style.
 
+Netlink experts, can you please clarify this?
+
+> > +/**
+> > + * binder_find_proc() - set binder report flags
+>
+> the description of "binder report flags" is no longer accurate here.
+
+Good catch! Will fix that.
+
+>
+> > + * @pid:     the target process
+> > + */
+> > +static struct binder_proc *binder_find_proc(int pid)
+> > +{
+> > +     struct binder_proc *proc;
+> > +
+> > +     mutex_lock(&binder_procs_lock);
+> > +     hlist_for_each_entry(proc, &binder_procs, proc_node) {
+> > +             if (proc->pid =3D=3D pid) {
+> > +                     mutex_unlock(&binder_procs_lock);
+> > +                     return proc;
+>
+> fwiw, the for_each stops when proc is NULL, so you can just break and
+> return proc everytime. e.g.:
+>
+>         mutex_lock(&binder_procs_lock);
+>         hlist_for_each_entry(proc, &binder_procs, proc_node) {
+>                 if (proc->pid =3D=3D pid)
+>                         break;
+>         }
+>         mutex_unlock(&binder_procs_lock);
+>
+>         return proc;
+>
+
+Got it. Thx
+
+> >  /**
+> >   * struct binder_device - information about a binder device node
+> > - * @hlist:          list of binder devices (only used for devices requ=
+ested via
+> > - *                  CONFIG_ANDROID_BINDER_DEVICES)
+> > + * @hlist:          list of binder devices
+>
+> This is the hunk that needs to go on the first 1/2 patch.
+
+Sure.
+
+> >  /**
+> > diff --git a/drivers/android/binder_netlink.c b/drivers/android/binder_=
+netlink.c
+> > new file mode 100644
+> > index 000000000000..2081b4319268
+> > --- /dev/null
+> > +++ b/drivers/android/binder_netlink.c
+> > @@ -0,0 +1,39 @@
+> > +// SPDX-License-Identifier: ((GPL-2.0 WITH Linux-syscall-note) OR BSD-=
+3-Clause)
+> > +/* Do not edit directly, auto-generated from: */
+> > +/*   Documentation/netlink/specs/binder_netlink.yaml */
+> > +/* YNL-GEN kernel source */
+> > +
+> > +#include <net/netlink.h>
+> > +#include <net/genetlink.h>
+> > +
+> > +#include "binder_netlink.h"
+> > +
+> > +#include <uapi/linux/android/binder_netlink.h>
+> > +
+> > +/* BINDER_NETLINK_CMD_REPORT_SETUP - do */
+> > +static const struct nla_policy binder_netlink_report_setup_nl_policy[B=
+INDER_NETLINK_A_CMD_FLAGS + 1] =3D {
+> > +     [BINDER_NETLINK_A_CMD_CONTEXT] =3D { .type =3D NLA_NUL_STRING, },
+> > +     [BINDER_NETLINK_A_CMD_PID] =3D { .type =3D NLA_U32, },
+> > +     [BINDER_NETLINK_A_CMD_FLAGS] =3D NLA_POLICY_MASK(NLA_U32, 0xf),
+> > +};
+> > +
+> > +/* Ops table for binder_netlink */
+> > +static const struct genl_split_ops binder_netlink_nl_ops[] =3D {
+>
+> not: There are several places where you have "netlink_nl" which seems
+> kind of redundant to me. wdyt? IMO you should drop the "nl" in all of
+> these cases.
+>
+
+These are automatically generated from the yaml file. So let's just
+keep them as is.
+But it's a good suggestion to the owner of yaml parser.
