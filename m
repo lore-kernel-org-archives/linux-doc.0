@@ -1,38 +1,38 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37C4139CEF;
-	Mon, 16 Dec 2024 21:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5ABE4437;
+	Mon, 16 Dec 2024 21:16:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734383768; cv=none; b=nrbVNk7Sm85ikU52572PaXYgtxaLqBuo33PvVVNQu47C/kTazE1YsNc7whob2FSTj0bcEKc9tihRtIX0OVgh9Q7uzloIga2hf2VMix096aCBxAmj/dkB9cAZDxo+L/QXggTvgkfdnohK8Q7GBhfeGh3gDVV1M236neVEE8ImFUw=
+	t=1734383813; cv=none; b=FfsdoyUcOjM/ZvglB3alkgUhsnqqlGh1PNFzO2jYkKQENCBxslZfVDsmQdQAwq+GtQ/Eo/iThqPlOqAXj4RMvFV5+wBfI9KG3MIntAOGLMwi5mxJ+hAKhXjdzxrwhdauB1k1ivmFbeo5PdI8VQeLx/2Huyw/UYxcdQ+m+BQDdus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734383768; c=relaxed/simple;
-	bh=p7TYtotFYa4y5nQEwj4JJYabgdwgE9RHpPtpdDzCv0w=;
+	s=arc-20240116; t=1734383813; c=relaxed/simple;
+	bh=VkckERAarWFZIlrxbb81jRuss4GYws/T2h4m3iqPGa4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nMGpR8jgD9Oml56Fb6B3Qt90U/AlQ3u9ZmOzUnfvXbv6RSSfMAaznLmAApkw2DZbvO5lJBnIGHOkjD9kM92S3pCXPUsNqNfvQh3Lwwy6zsgFaK8dpGfSZmdrtdj8+KBhmXzHYTtbjay8hb0VFh7E6wHLSKqLXyvlhIEbMWlQEvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NfAQT7RC; arc=none smtp.client-ip=90.155.92.199
+	 Content-Type:Content-Disposition:In-Reply-To; b=SqInOBto11iD92ezEE3v3Ar6CEactA/OSATTb+7hmem/4EU8czajybGLFeL3LS7tDoitsSzXLdrROJIxqjP94S2x6UGXBXB1exygoQ/fO4u+nd98rH9xE/iSHS5CzeCKF69nMcR0zS0zKJOPRaiqJrTyvI87jcV4PaBLJBQjLTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=v7avsQ9R; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NfAQT7RC"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="v7avsQ9R"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=wqNYOv2fOBvrraLi79AJjU9ppSyLY79/galhJe9yCkU=; b=NfAQT7RC312eJHlSA9cGJJbM6k
-	YMsJHVMYQwLfEH/fJ+uQdUatWWB2pmwhcnB+eAE3B3tKIZ5MgKTXOKwNo14ZOfnjRLxRh6HeW3SVX
-	r9oQxU9hjAXWeElN2EwabOa6s+UP3IDHJaZUJNAJLYbk5BxeheDKWBDoJ61Nkp20o0/7d8uX1syvQ
-	tQTSIbhKwrkEq8cpVtuR2nBFUwrZRrME7nIEa0eSNPImDgyJ8H43+Nq7QFe/jHNALSwcOn5hyMF9t
-	MY1MG2pe+AIFxrl2ya7eVRongwJYDCEuLudwQ2fhpowZ4Hn8w5l5wTTY0xO0sPjIuF1pkzZPCEHpc
-	9/G2u0Tw==;
+	bh=Trtl7E7Jonwq4B7a1CmBNlcuzf6xGG9ZkVRpNIjtrHc=; b=v7avsQ9RbthF/C6lTp4GcaHWLz
+	zRLa7pQm4Pr2nGofLk3ai9vj1k9dd5gFTzHUMla7ujS3fOcqfKG/Mect60jPGAcCGMWXGQ6TJ1zox
+	IrMbCXregR0n7M79ITg4E+cvP6QQp0X62i+A8+PtANDTIqyo77y4Vp85LP3jPrLXklXSZkuABDXGY
+	tv9GQE6AeX2/qlr/W7nTyVmYHjWHQAD9qG6uuhrdxx44EQAT4xkXM0jxbjOKfeDgQC1YItZ0QIuSu
+	fbrzZiFEluM8qjZZ1sNHLCpya29xIKlndw5Bs80e3kNhe36r6AwDRS2DLC4X72+VZ19FDMSORK5iO
+	M5LqkDxA==;
 Received: from 77-249-17-89.cable.dynamic.v4.ziggo.nl ([77.249.17.89] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tNIQz-00000004wfB-1VYk;
-	Mon, 16 Dec 2024 21:15:25 +0000
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tNISC-00000002AGL-2Vbh;
+	Mon, 16 Dec 2024 21:16:36 +0000
 Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id A1DCF30031E; Mon, 16 Dec 2024 22:15:20 +0100 (CET)
-Date: Mon, 16 Dec 2024 22:15:20 +0100
+	id CFA4C30031E; Mon, 16 Dec 2024 22:16:35 +0100 (CET)
+Date: Mon, 16 Dec 2024 22:16:35 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: Suren Baghdasaryan <surenb@google.com>
 Cc: akpm@linux-foundation.org, willy@infradead.org, liam.howlett@oracle.com,
@@ -46,11 +46,11 @@ Cc: akpm@linux-foundation.org, willy@infradead.org, liam.howlett@oracle.com,
 	pasha.tatashin@soleen.com, klarasmodin@gmail.com, corbet@lwn.net,
 	linux-doc@vger.kernel.org, linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH v6 10/16] mm: replace vm_lock and detached flag with a
- reference count
-Message-ID: <20241216211520.GB9803@noisy.programming.kicks-ass.net>
+Subject: Re: [PATCH v6 11/16] mm: enforce vma to be in detached state before
+ freeing
+Message-ID: <20241216211635.GC9803@noisy.programming.kicks-ass.net>
 References: <20241216192419.2970941-1-surenb@google.com>
- <20241216192419.2970941-11-surenb@google.com>
+ <20241216192419.2970941-12-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,104 +59,50 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241216192419.2970941-11-surenb@google.com>
+In-Reply-To: <20241216192419.2970941-12-surenb@google.com>
 
-On Mon, Dec 16, 2024 at 11:24:13AM -0800, Suren Baghdasaryan wrote:
-
-FWIW, I find the whole VMA_STATE_{A,DE}TATCHED thing awkward. And
-perhaps s/VMA_STATE_LOCKED/VMA_LOCK_OFFSET/ ?
-
-Also, perhaps:
-
-#define VMA_REF_LIMIT	(VMA_LOCK_OFFSET - 2)
-
-> @@ -699,10 +700,27 @@ static inline void vma_numab_state_free(struct vm_area_struct *vma) {}
->  #ifdef CONFIG_PER_VMA_LOCK
->  static inline void vma_lock_init(struct vm_area_struct *vma)
+On Mon, Dec 16, 2024 at 11:24:14AM -0800, Suren Baghdasaryan wrote:
+> exit_mmap() frees vmas without detaching them. This will become a problem
+> when we introduce vma reuse. Ensure that vmas are always detached before
+> being freed.
+> 
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> ---
+>  kernel/fork.c |  4 ++++
+>  mm/vma.c      | 10 ++++++++--
+>  2 files changed, 12 insertions(+), 2 deletions(-)
+> 
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index 283909d082cb..f1ddfc7b3b48 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -473,6 +473,10 @@ struct vm_area_struct *vm_area_dup(struct vm_area_struct *orig)
+>  
+>  void __vm_area_free(struct vm_area_struct *vma)
 >  {
-> -	init_rwsem(&vma->vm_lock.lock);
-> +#ifdef CONFIG_DEBUG_LOCK_ALLOC
-> +	static struct lock_class_key lockdep_key;
-> +
-> +	lockdep_init_map(&vma->vmlock_dep_map, "vm_lock", &lockdep_key, 0);
+> +#ifdef CONFIG_PER_VMA_LOCK
+> +	/* The vma should be detached while being destroyed. */
+> +	VM_BUG_ON_VMA(!is_vma_detached(vma), vma);
 > +#endif
-> +	refcount_set(&vma->vm_refcnt, VMA_STATE_DETACHED);
->  	vma->vm_lock_seq = UINT_MAX;
+>  	vma_numab_state_free(vma);
+>  	free_anon_vma_name(vma);
+>  	kmem_cache_free(vm_area_cachep, vma);
+> diff --git a/mm/vma.c b/mm/vma.c
+> index fbd7254517d6..0436a7d21e01 100644
+> --- a/mm/vma.c
+> +++ b/mm/vma.c
+> @@ -413,9 +413,15 @@ void remove_vma(struct vm_area_struct *vma, bool unreachable)
+>  	if (vma->vm_file)
+>  		fput(vma->vm_file);
+>  	mpol_put(vma_policy(vma));
+> -	if (unreachable)
+> +	if (unreachable) {
+> +#ifdef CONFIG_PER_VMA_LOCK
+> +		if (!is_vma_detached(vma)) {
+> +			vma_start_write(vma);
+> +			vma_mark_detached(vma);
+> +		}
+> +#endif
+>  		__vm_area_free(vma);
 
-Depending on how you do the actual allocation (GFP_ZERO) you might want
-to avoid that vm_refcount store entirely.
-
-Perhaps instead write: VM_WARN_ON(refcount_read(&vma->vm_refcnt));
-
-> @@ -813,25 +849,42 @@ static inline void vma_assert_write_locked(struct vm_area_struct *vma)
->  
->  static inline void vma_assert_locked(struct vm_area_struct *vma)
->  {
-> -	if (!rwsem_is_locked(&vma->vm_lock.lock))
-> +	if (refcount_read(&vma->vm_refcnt) <= VMA_STATE_ATTACHED)
-	if (is_vma_detached(vma))
-
->  		vma_assert_write_locked(vma);
->  }
->  
-> -static inline void vma_mark_attached(struct vm_area_struct *vma)
-> +/*
-> + * WARNING: to avoid racing with vma_mark_attached(), should be called either
-> + * under mmap_write_lock or when the object has been isolated under
-> + * mmap_write_lock, ensuring no competing writers.
-> + */
-> +static inline bool is_vma_detached(struct vm_area_struct *vma)
->  {
-> -	vma->detached = false;
-> +	return refcount_read(&vma->vm_refcnt) == VMA_STATE_DETACHED;
-	return !refcount_read(&vma->vm_refcnt);
->  }
->  
-> -static inline void vma_mark_detached(struct vm_area_struct *vma)
-> +static inline void vma_mark_attached(struct vm_area_struct *vma)
->  {
-> -	/* When detaching vma should be write-locked */
->  	vma_assert_write_locked(vma);
-> -	vma->detached = true;
-> +
-> +	if (is_vma_detached(vma))
-> +		refcount_set(&vma->vm_refcnt, VMA_STATE_ATTACHED);
-
-Urgh, so it would be really good to not call this at all them not 0.
-I've not tried to untangle the mess, but this is really awkward. Surely
-you don't add it to the mas multiple times either.
-
-Also:
-
-	refcount_set(&vma->vm_refcnt, 1);
-
-is so much clearer.
-
-That is, should this not live in vma_iter_store*(), right before
-mas_store_gfp() ?
-
-Also, ISTR having to set vm_lock_seq right before it?
-
->  }
->  
-> -static inline bool is_vma_detached(struct vm_area_struct *vma)
-> +static inline void vma_mark_detached(struct vm_area_struct *vma)
->  {
-> -	return vma->detached;
-> +	vma_assert_write_locked(vma);
-> +
-> +	if (is_vma_detached(vma))
-> +		return;
-
-Again, this just reads like confusion :/ Surely you don't have the same
-with mas_detach?
-
-> +
-> +	/* We are the only writer, so no need to use vma_refcount_put(). */
-> +	if (!refcount_dec_and_test(&vma->vm_refcnt)) {
-> +		/*
-> +		 * Reader must have temporarily raised vm_refcnt but it will
-> +		 * drop it without using the vma since vma is write-locked.
-> +		 */
-> +	}
->  }
+Again, can't you race with lockess RCU lookups?
