@@ -1,158 +1,149 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4112E20627E;
-	Mon, 16 Dec 2024 17:54:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2777B2080DD
+	for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 17:58:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734371645; cv=none; b=Zh13jR08wN+fKFkjMwZuogXV5MXB61qcUEo4lA8sUgOST/BK+r4jfQZEQQ3kzLqHziKK2HsNVFyI3k1tTu2KZMYrPgTM7YI45lEIwTdgIOncsTdAugJOjDNANB55DYQj1K7BEVtYtsdyg353R7PJ7qKaOjzMNjDdyp8usCaJ/DI=
+	t=1734371918; cv=none; b=LVyYCSGVVIKzgoeK4DaOyvh9N515ioamC4zZtp9D0gnTfjFuwgja8TBjERH3ANIsTcx/gOZr6hc1/2Qmt/ZGc575zWp4nqOVKkQK1lWb0saAxfwo0rMUMWTE2zGfnwS2t5eklhHde4akcjqT3UnmNCiAHqVlzpg2ofZS4JjZ+08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734371645; c=relaxed/simple;
-	bh=hnKY5i2/zljIg4l97AhyOwu0FPsYJY76IY8x1olp0ms=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=mcTCcJb7nZB9EEHhv3Qp/gmkTSWh+bmnktfi0zga1nSDUgHzMb43eyaMjrwZYjATiNC6JX2eXlysl64xNv0KeSGbMT7/iaSm4c+KBLsK/WPG1z8T0gUK7IJGGryzRYnFkoqqLCI3zwdQ/vrmsNhr+igKDqNtTM4UEx7Iw3JMp2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=RfWMmxEC; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1734371918; c=relaxed/simple;
+	bh=Tj0Fs/SZ0LdYe4bijqABYQiOrU4v7kAAQllRkbZHx8g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mYsczgfQz9rX+BT0VkY70TrgXIXKfebCO559TamxW8BDuP2e1i5zT/FplLT1G3VAekpLsIACRWQMR/y3rIsEqQL467BQXabgCWjWHrDxasD4bCChJwDZFHKCGOr3xhBTSxLdxxezwVCm9Sd2N6cswX0B3XIUpTjhowyH7uIgMwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QI064CkY; arc=none smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="RfWMmxEC"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BG85ZLx027025;
-	Mon, 16 Dec 2024 17:53:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=9U/ilX
-	h/eRoLsnqCHshZWK39IQwc60QO0ixa1oM/5QI=; b=RfWMmxEC0RengRjOBhBROo
-	OAORxdP+bf3+X01t/t/taikTSx7WvA8uuooEP4z9/UpofmssBY1dbhb9CAyWF28B
-	zr3Mx6gfY7e1JI2F1lMjSlqrINo9FwTW3/F5LV2lR0D1iR4DRZxE3fTvDBgn+LYU
-	1IFvbYw84juKAhuUj1xyNpfxs8Q/eauRlIn12MMMIkju+bNKiGDJfDMKeTwegcaH
-	AXpe7VLXb3B0amsAaBtEUwJDvCiuMXdDD/jjxv1AqQVixl0PSZva+WDtjof3Mbdi
-	Ay3TJvS8SgMsyF9PzN/ggm7oThp9Z0FUXBi1CSU66hHG6KYo2UEo0gZkB3UWYAfA
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43jgd2astr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Dec 2024 17:53:30 +0000 (GMT)
-Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BGHAPDH027554;
-	Mon, 16 Dec 2024 17:53:29 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43jgd2astm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Dec 2024 17:53:29 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BGHCfSo014344;
-	Mon, 16 Dec 2024 17:53:28 GMT
-Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 43hmqxy62j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Dec 2024 17:53:28 +0000
-Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
-	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BGHrSKK16450262
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 16 Dec 2024 17:53:28 GMT
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7CA2F58054;
-	Mon, 16 Dec 2024 17:53:28 +0000 (GMT)
-Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5892C5805C;
-	Mon, 16 Dec 2024 17:53:27 +0000 (GMT)
-Received: from [9.24.12.86] (unknown [9.24.12.86])
-	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 16 Dec 2024 17:53:27 +0000 (GMT)
-Message-ID: <b5f5635a-a807-42ea-a81f-22b80fe4eda0@linux.ibm.com>
-Date: Mon, 16 Dec 2024 11:53:27 -0600
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QI064CkY"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4678c9310afso5261cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 09:58:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1734371916; x=1734976716; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tj0Fs/SZ0LdYe4bijqABYQiOrU4v7kAAQllRkbZHx8g=;
+        b=QI064CkYfuulf880aC0rqJFHI1yxYXnD1F6ALr8gtZc/wZYQW3d1fKmXqWKTZLvZS7
+         wDiNZDU6fZLZPOAybkb3tYINHHG//ANd07NoUlCBuLgmT8WQoczxHqmWQ7ToM1LuUV5/
+         YNwcVwRmToOzR7FkX7AYfNFkZ3dwu2l2ufV+jruc67zwaQ3Rs9keTdw1TWIbxrn9lkdY
+         pbOcUiUCiM6dDW7b8O/xHoXHPRt4t6JpPPR6Ncc7beA2qykFvTVcKxe/KgWbHQszFi7X
+         Jh9kkFC1EJ5sB+FqmadK4ETW3egDfzqBRdUj81Kc4b7D/cMI1PAH8DNQZIPlxUtHfBI+
+         tmJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734371916; x=1734976716;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Tj0Fs/SZ0LdYe4bijqABYQiOrU4v7kAAQllRkbZHx8g=;
+        b=Wo0/zow/s6lYe/UrGL7xRPqEJAdcex8UeuOw9sVJqWaY7vqFP0ihETFu3s6Rqh93P8
+         uz79+GMmqqgcXNoFQVInoUKLTIewcW+Vibo1B6n0Yjhjvnh+CTd3m9lLxt8YUtZ01/jH
+         pDPPqtBMFaBZ8KJttbD3TafZw3eQtO5rOlBR4TrfcASrrFGEqZOYH5yVJSD2WkK85iCR
+         m787L0s/Nd2gMF8v4j0EXSTkSWOEjkcvL6gWWjoeb6jFHrrHqX3sLqtE1khj3StjStlV
+         wUCxS9GQrRHm/5kT1aMWLSQBfm0nlg4zfIkvHWTeAKK6c+pdSEfKByoPhdMOOpaP5zuQ
+         Ikyw==
+X-Forwarded-Encrypted: i=1; AJvYcCVRh03fwvKlwjnqvC49kloCwST3BGoieyzTmR/JzMicqXOVSgvzIxaNuf8B3aiUFr0HUWhHR9JgqZw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5OY/NN5qzIDFQLdn4X5fK2srCqqWwAHMHve9iKuTeMLqASVp7
+	Sr+kGXJd6AWdc5b+QzOt0T5oiRO/h7JW2rnpaBsEXMT9ZHww5spURE46jrMmGtTxspii5TlbJG7
+	s4e9sLn/4+nnXps9BAIwzp7El2S0XMQkg68eQ
+X-Gm-Gg: ASbGnctZTpZgYd9YqfCkaYdFYptZMVyN1wIVRhsa+V/jYrftDA+sYCq8Igz+TSoigU4
+	txK7+3XXjnjISp5aIxPN8enagSptfXW3ECPdd98kIuWc8XxzpXFu2cRbkWHmj9+wdWPea
+X-Google-Smtp-Source: AGHT+IFekFYYD6IdXMk+zakuU02lMxecxZ/HgX8Res1s/0Gqq9iULJ7g+kDWuvlQtsch8RjuiCMw7JleqzoFJAox6+Q=
+X-Received: by 2002:a05:622a:550:b0:466:8e4d:e981 with SMTP id
+ d75a77b69052e-467b48c562dmr8286291cf.3.1734371915660; Mon, 16 Dec 2024
+ 09:58:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/4] hwmon: pmbus-core: Add label for fan and temp
-To: Guenter Roeck <linux@roeck-us.net>, robh@kernel.org, krzk+dt@kernel.org,
-        conor+dt@kernel.org, eajames@linux.ibm.com, jdelvare@suse.com,
-        corbet@lwn.net, joel@jms.id.au, andrew@codeconstruct.com.au,
-        Delphine_CC_Chiu@Wiwynn.com, broonie@kernel.org,
-        peteryin.openbmc@gmail.com, noahwang.wang@outlook.com,
-        naresh.solanki@9elements.com, lukas@wunner.de, jbrunet@baylibre.com,
-        patrick.rudolph@9elements.com, gregkh@linuxfoundation.org,
-        peterz@infradead.org, pbiel7@gmail.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-i2c@vger.kernel.org
-References: <20241212214927.3586509-1-ninad@linux.ibm.com>
- <20241212214927.3586509-2-ninad@linux.ibm.com>
- <f9d881b7-7301-476e-b281-0380dfcf0e10@roeck-us.net>
- <c7717f89-65cc-4668-a3e0-ee042cdcd426@linux.ibm.com>
- <2713e85d-f88a-49d6-8221-151e8631758c@roeck-us.net>
-Content-Language: en-US
-From: Ninad Palsule <ninad@linux.ibm.com>
-In-Reply-To: <2713e85d-f88a-49d6-8221-151e8631758c@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: vyxuOXaWbKmODO8fmrlBccyobF9kgdWW
-X-Proofpoint-GUID: zeKm9EyZZPe56r_CuCPOaDwnvBKsFpAv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
- suspectscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015
- mlxlogscore=689 priorityscore=1501 malwarescore=0 impostorscore=0
- mlxscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412160146
+References: <20241119-force-cpu-bug-v1-1-2aa31c6c1ccf@google.com> <20241216171700.GIZ2BgjPerQ8jQlq8S@fat_crate.local>
+In-Reply-To: <20241216171700.GIZ2BgjPerQ8jQlq8S@fat_crate.local>
+From: Brendan Jackman <jackmanb@google.com>
+Date: Mon, 16 Dec 2024 18:58:24 +0100
+X-Gm-Features: AbW1kvaK3B5lvRqsgND-co29rPEZBo1aRssvLsJTm1GqlpHREhU8ZVp3DET3-dI
+Message-ID: <CA+i-1C1HeLfbGg=LdXBYuhXWVPn1O0qtEYxFRYaXPUch4goEtA@mail.gmail.com>
+Subject: Re: [PATCH] x86/bugs: Add force_cpu_bug= cmdline param
+To: Borislav Petkov <bp@alien8.de>
+Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Guenter,
-
-
-On 12/13/24 11:08, Guenter Roeck wrote:
-> On 12/13/24 08:12, Ninad Palsule wrote:
->> Hello Guenter,
->>
->> On 12/12/24 16:06, Guenter Roeck wrote:
->>> On 12/12/24 13:49, Ninad Palsule wrote:
->>>> Adding label files for fan and temperature sensors in the power 
->>>> supply.
->>>> The openbmc application dbus-sensor(psusensor) requires those files to
->>>> consfigure those sensors.
->>>> Note that prefix for temp label is temp[A..C] used instead of 
->>>> temp[1..3]
->>>> as dbus-sensor(psusensor) application calculate index based on last
->>>> digit in the name so we do not want to make index double digit after
->>>> appending page index.
->>>>
->>>> Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
->>>
->>> We are not going to fix userspace problems in the kernel.
->>>
->>> Guenter
->>>
->>
->> Thanks for the quick review.
->>
->> Sorry I am not clear on this. I feel that it is better to support 
->> labels for temperature
->>
->> sensors and fans like other. Are you saying we should not support 
->> these labels or
->>
->> I need update in the patch to support them better?
->>
+On Mon, 16 Dec 2024 at 18:17, Borislav Petkov <bp@alien8.de> wrote:
 >
-> There should be no such labels. Labels are supposed to have specific 
-> meanings,
-> such as "this is the CPU temperature sensor", not vague meanings such 
-> as "tempA".
+> On Tue, Nov 19, 2024 at 06:43:57PM +0000, Brendan Jackman wrote:
+> > Sometimes it can be very useful to run CPU vulnerability mitigations on
+> > systems where they aren't known to mitigate any real-world
+> > vulnerabilities. This can be handy for mundane reasons like "I wanna
+> > debug this on the machine that quickly", but also for research reasons:
+> > while some mitigations are focussed on individual vulns and uarches,
 >
-> Guenter
+> Unknown word [focussed] in commit message.
+> Suggestions: ['focused', 'focuses', 'cussed', 'fussed', 'foxed', "focus's", 'flossed', 'coursed', 'focus', 'fused', 'cursed', 'fessed', 'refocused', "ficus's"]
+>
+> Spellchecker pls.
+>
+> > others are fairly general, and it's strategically useful to have an idea
+> > how they'd perform on systems where we don't currently need them.
+>
+> Please use passive voice in your commit message: no "we" or "I", etc,
+> and describe your changes in imperative mood.
+>
+> Also, pls read section "2) Describe your changes" in
+> Documentation/process/submitting-patches.rst for more details.
+>
+> Also, see section "Changelog" in
+> Documentation/process/maintainer-tip.rst
+>
+> Bottom line is: personal pronouns are ambiguous in text, especially with
+> so many parties/companies/etc developing the kernel so let's avoid them
+> please.
+>
+> Also check your comments in the code pls.
 
-Thanks for the quick response. I will remove these changes for now and 
-will talk to you later about
+Ack.
 
-better option.
+> > As evidence for this being useful, a flag specifically for Retbleed was
+> > added in commit 5c9a92dec323 ("x86/bugs: Add retbleed=force").
+> >
+> > It's a bit unfortunate that we have to do this by bug instead of by
+> > mitigation. However, we don't have clear identifiers for the mitigations
+> > that we do, so I don't think it's practical to do better here than "you
+> > can pretend you're on a vulnerable CPU - now go and read the docs for
+> > the per-vuln cmdline params to figure out how to run the mitigation you
+> > want".
+> >
+> > Being an early_param() means we get to do this before identify_cpu() and
+> > cpu_select_mitigations(). But it's possible there's still other types of
+> > bugs that get setup earlier and might miss this override...
+> >
+> > I've only tested this by booting a QEMU guest and checking /proc/cpuinfo.
+>
+> Right, I don't mind this - question is, how do we make it such that people do
+> not use it in production and then come complaining to us why their CPU is
+> affected.
+>
+> Yeah, sure, they better know what they're doing but I've seen pretty evil
+> perversions so far and us giving them enough rope just to shoot themselves is
+> fine.
+>
+> What I don't think is fine is for *us* to shoot ourselves in the foot
+> by giving the users such a thing.
+>
+> Btw, there's a clearcpuid= cmdline option which has the same potential and
+> that thing taints the kernel. Yours should probably do the same.
 
-Thanks & Regards,
+OK yeah, tainting definitely makes sense, I think that goes quite a
+long way to avoid bogus bug reports? I will also update the docs to
+sound scarier.
 
-Ninad Palsule
+> And it probably should be called "setcpuid=" as a counterpart to what we have
+> now...
 
+So do you think we should allow setting arbitrary cpu features? That
+seems like a much bigger footgun. But then again, the difference
+between "big footgun" and "very big footgun" is not that important,
+either way it needs to be clear to users that this is a scary red
+button.
