@@ -1,131 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA3F0E57D;
-	Mon, 16 Dec 2024 01:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE8FBA49;
+	Mon, 16 Dec 2024 01:41:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734312472; cv=none; b=OFtR79XIa1jPL8/usKo3GFepwmehk0lh1Fg9pCSv4REVoaYZo4f2xbgIzcCCfSf/4jO5JArMODjQpEAnRHidPPQuvVpbweysJ/7GXcngEjcLWYS3WCP+eKzmFH3yiNu2jmU9+4LgGK2kE7rZ+Cf5VDCwMJSaVEyM0GyOLA6fXUU=
+	t=1734313308; cv=none; b=WCzvISbZmwYyeJTobK8t8o+YGwiveu7MQC4RapDuwAmjJJhJw7YqhEWD58sxi2l4MF8UFbIhlwcFHn1TIvywNLPUVFNfVVob3oW4U6jsweYba4BtNCkt4dsteCAzb2tDTnpYh4EVcFLmRi0hDiPB7erhhK2c8zM0xpnFtowUG3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734312472; c=relaxed/simple;
-	bh=8mG+G/lK51j1vgDOIaBJx5cjCjXLy2marSPSfx8iBC4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=a2L3Wa3AUVvT6Jf4k3vrDilYs+Mo4Najfn62kpMokBqefLmTaG/BorO7FxxYI8ibxYbrI/0PRlrBQgkNxVpSyPzcf27bl3qXdWzPlVJUtvnvSinKL+aCIItP4xyuxu3SIEN7Kj9pKnQeKqkYx/oxrQb+hCoh1ef9wU5sEqUY/MA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hh+vrx8x; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734313308; c=relaxed/simple;
+	bh=7+ZO7KacD7fwd8q6dGpc7wwE3PQYPL8x2KS95fdgsMo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=F7bbM6XQ5civNf8Xp1ZMO3D1J3DJ27re6IxqQWR8l3ejtWAsYPEaPbFKXkqvhQeQe/xBmWNKv9Lylr1+sDJNUlmoJavFAPBLS6Zo8N4xRxdC61eiPOyFjNwo6kgNZfpxcMbksSQ1UtES0PQNAuzVaNUrrjoXCIB4LZMz/rrE6qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lBLCR+fr; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hh+vrx8x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20B1FC4CECE;
-	Mon, 16 Dec 2024 01:27:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734312472;
-	bh=8mG+G/lK51j1vgDOIaBJx5cjCjXLy2marSPSfx8iBC4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=hh+vrx8xvhqD4CYZmHh0nAY6phw4RNYcY3BXm5Ilc4N5fMGn9tythzCWilO9fqeNB
-	 3qqaxVdOZ7j6N2g5iUs6VpL/tNs8bpBBnAnYHzLM4hZb2hhCajk2+gRybkgZsGb8Ne
-	 77Lq7BlIzpxDR1waboEXAWEcR2sFF+EH90T3/N27g3+PYYIjr3jeIdVuojPVg5hhLj
-	 WB6Fxd6DIVeTzwaRn3Igy8XaH/NKAU9/PRKOOcD8wmo7F12rMdaHoCPNg2yWT3ZWQ4
-	 iu0pkiMimLcXSGh3xBAlDDfx1FHX0oV4z420gjgs4B2sigZWONFeGnBaxqf115NDZ5
-	 qErUpcoPbzzOA==
-From: Kees Cook <kees@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Kees Cook <kees@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	regressions@lists.linux.dev,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lBLCR+fr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734313306; x=1765849306;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=7+ZO7KacD7fwd8q6dGpc7wwE3PQYPL8x2KS95fdgsMo=;
+  b=lBLCR+fr7pp6GfYR/Vqy1OhaAlrTR069d8rvU7/R3L10dHxws0w7zcdd
+   ivjlEBokbQzd5wpxldMiak5r00whlz0mfvbu24eMvIgRqXI+SIB+vTeNx
+   pMZgNhjrxfMzdPxXo+O7Fjqnw5KiQonqtRNro+sH3AJhCmkfolyAPh273
+   eQMWVcn12nBQZLE1vwiBQeEFX3/EIA2wGBoSOKvN2/+ZQjeKNCnACw6vf
+   13xt4pR9u5tysaAAQibo8RPMwSOowY28F8GcOiLPjOp2dZwAS5TNR/kdx
+   SBjyH9Y5dJ5PrT68y3OxYMtWuiXX2KLRXY2tJaofGD6JdGrmvFkN4+LbD
+   g==;
+X-CSE-ConnectionGUID: 2i14K//iTVabDa9S9WPuaQ==
+X-CSE-MsgGUID: BriKQZM/QOOt19JyarvisA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11287"; a="34012937"
+X-IronPort-AV: E=Sophos;i="6.12,237,1728975600"; 
+   d="scan'208";a="34012937"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 17:41:46 -0800
+X-CSE-ConnectionGUID: nkE812xOT+mFA0TElqqETA==
+X-CSE-MsgGUID: IDZPU0MeTRimhM56zrzskQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,237,1728975600"; 
+   d="scan'208";a="102084144"
+Received: from shsensorbuild.sh.intel.com ([10.239.133.18])
+  by orviesa004.jf.intel.com with ESMTP; 15 Dec 2024 17:41:43 -0800
+From: Even Xu <even.xu@intel.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org,
+	corbet@lwn.net,
+	bagasdotme@gmail.com,
+	aaron.ma@canonical.com,
+	rdunlap@infradead.org
+Cc: linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH] docs: git SHA prefixes are for humans
-Date: Sun, 15 Dec 2024 17:27:47 -0800
-Message-Id: <20241216012743.work.705-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
+	linux-doc@vger.kernel.org,
+	Even Xu <even.xu@intel.com>
+Subject: [PATCH v3 00/22] Add Intel Touch Host Controller drivers
+Date: Mon, 16 Dec 2024 09:41:05 +0800
+Message-Id: <20241216014127.3722172-1-even.xu@intel.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3675; i=kees@kernel.org; h=from:subject:message-id; bh=8mG+G/lK51j1vgDOIaBJx5cjCjXLy2marSPSfx8iBC4=; b=owGbwMvMwCVmps19z/KJym7G02pJDOnxTcLb9531ujFl9rnQdZ/YirbbPVmbb1x1v5X32F/Vm nXNzvuSO0pZGMS4GGTFFFmC7NzjXDzetoe7z1WEmcPKBDKEgYtTACbyZQPDP5MMgd1HvcWfSXnp sXCt1WYPL9vZF75NqK40RulHfeH+ZQz/i24dSft1IpbdleulbfjCmV3uTs87zj7ZvDjWomGKj9B VBgA=
-X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-Clarify that the preferred git SHA abbreviation length for the Fixes
-tag is 12 characters[1], as the tag is intended for humans (though, yes,
-it is parsed by machines too). Collision resolution needs to be performed
-using the parenthetical patch Subject that follows the abbreviated hash.
+Intel Touch Host Controller (THC) is a new high performance input IP
+which can benefit HID device's data transaction, such as touch screen,
+touch pad, stylus.
 
-Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-Link: https://lore.kernel.org/all/CAHk-=wiwAz3UgPOWK3RdGXDnTRHcwVbxpuxCQt_0SoAJC-oGXQ@mail.gmail.com [1]
-Signed-off-by: Kees Cook <kees@kernel.org>
----
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: regressions@lists.linux.dev
-Cc: workflows@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
----
- Documentation/process/handling-regressions.rst | 4 ++--
- Documentation/process/maintainer-tip.rst       | 4 ++--
- Documentation/process/submitting-patches.rst   | 6 ++++++
- 3 files changed, 10 insertions(+), 4 deletions(-)
+THC IP now evoluates to V4, it can support 3 different modes: IPTS,
+HIDSPI and HIDI2C. Here are upgrade history:
+- THC v1, for TGL/LKF, supports intel private IPTS (Intel Precise Touch
+  and Stylus) protocol ( IPTS mode)
+- THC v2, for ADL, add industrial standard HID over SPI protocol support
+  (HIDSPI mode)
+- THC v3, for MTL, enhance HID over SPI mode
+- THC v4, for LNL, add inudstrial standard HID over I2C protocol support
+  (HIDI2C mode) 
 
-diff --git a/Documentation/process/handling-regressions.rst b/Documentation/process/handling-regressions.rst
-index 1f5ab49c48a4..a0e8715c6cd3 100644
---- a/Documentation/process/handling-regressions.rst
-+++ b/Documentation/process/handling-regressions.rst
-@@ -29,9 +29,9 @@ The important bits (aka "The TL;DR")
-     * For mailed reports, check if the reporter included a line like ``#regzbot
-       introduced: v5.13..v5.14-rc1``. If not, send a reply (with the regressions
-       list in CC) containing a paragraph like the following, which tells regzbot
--      when the issue started to happen::
-+      when the issue started to happen, preferably with a full git SHA::
- 
--       #regzbot ^introduced: 1f2e3d4c5b6a
-+       #regzbot ^introduced: 1f2e3d4c5b6a1524e886b7f1b8a0c1fc7321cac2
- 
-     * When forwarding reports from a bug tracker to the regressions list (see
-       above), include a paragraph like the following::
-diff --git a/Documentation/process/maintainer-tip.rst b/Documentation/process/maintainer-tip.rst
-index e374b67b3277..658b489705be 100644
---- a/Documentation/process/maintainer-tip.rst
-+++ b/Documentation/process/maintainer-tip.rst
-@@ -284,7 +284,7 @@ following tag ordering scheme:
- 
-      Commit
- 
--       abcdef012345678 ("x86/xxx: Replace foo with bar")
-+       ab0123456789 ("x86/xxx: Replace foo with bar")
- 
-      left an unused instance of variable foo around. Remove it.
- 
-@@ -295,7 +295,7 @@ following tag ordering scheme:
-      The recent replacement of foo with bar left an unused instance of
-      variable foo around. Remove it.
- 
--     Fixes: abcdef012345678 ("x86/xxx: Replace foo with bar")
-+     Fixes: ab0123456789 ("x86/xxx: Replace foo with bar")
-      Signed-off-by: J.Dev <j.dev@mail>
- 
-    The latter puts the information about the patch into the focus and
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index 1518bd57adab..efd4fb1109e9 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -163,6 +163,12 @@ An example call::
- 	$ git log -1 --pretty=fixes 54a4f0239f2e
- 	Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the number of pages it actually freed")
- 
-+Note that the "Fixes" tag, while it does get parsed by machines, is intended
-+for humans (hence the Subject portion). It is preferred that hashes remain at
-+12 characters even in the face of prefix collisions. When encountering hash
-+prefix collisions, tools (and humans) need to resolve such collisions using
-+the parenthetical patch Subject.
-+
- .. _split_changes:
- 
- Separate your changes
+Linux Surface community (https://github.com/linux-surface) already
+implemented IPTS mode. These patch series provides THC HIDSPI mode and
+THC HIDI2C mode support on Linux.
+
+These patch series includes:
+1. Document for THC hardware and software introduction.
+2. Intel THC Hardware layer driver which provides control interfaces
+   for protocol layer.
+3. Intel QuickSPI (R) driver working as a HIDSPI device driver which
+   implements HID over SPI protocol and flow.
+4. Intel QuickI2C (R) driver working as a HIDI2C device driver which
+   implements HID over I2C protocol and flow.
+
+Change logs:
+v3:
+- Change tables in documents from literal block to table format
+- Change symbol namespace to string literal according to patch:
+  cdd30ebb1b9f ("module: Convert symbol namespace to string literal")
+- Refine Kconfig description
+- Enhance Quickspi and Quicki2c driver by clearing THC hardware interal
+  state before doing initialization to avoid BIOS impacts.
+- A fix in Quicki2c driver when does set_report
+
+v2:
+- Fix document format issues
+- Add THC device IDs for Intel Panther Lake (PTL) platform
+
+
+Even Xu (13):
+  HID: THC: Add documentation
+  HID: intel-thc-hid: intel-thc: Add THC DMA interfaces
+  HID: intel-thc-hid: intel-thc: Add THC I2C config interfaces
+  HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI driver hid layer
+  HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI ACPI interfaces
+  HID: intel-thc-hid: intel-quickspi: Add HIDSPI protocol implementation
+  HID: intel-thc-hid: intel-quickspi: Add PM implementation
+  HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C driver skeleton
+  HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C driver hid layer
+  HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C ACPI interfaces
+  HID: intel-thc-hid: intel-quicki2c: Add HIDI2C protocol implementation
+  HID: intel-thc-hid: intel-quicki2c: Complete THC QuickI2C driver
+  HID: intel-thc-hid: intel-quicki2c: Add PM implementation
+
+Xinpeng Sun (9):
+  HID: intel-thc-hid: Add basic THC driver skeleton
+  HID: intel-thc-hid: intel-thc: Add THC registers definition
+  HID: intel-thc-hid: intel-thc: Add THC PIO operation APIs
+  HID: intel-thc-hid: intel-thc: Add APIs for interrupt
+  HID: intel-thc-hid: intel-thc: Add THC LTR interfaces
+  HID: intel-thc-hid: intel-thc: Add THC interrupt handler
+  HID: intel-thc-hid: intel-thc: Add THC SPI config interfaces
+  HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI driver skeleton
+  HID: intel-thc-hid: intel-quickspi: Complete THC QuickSPI driver
+
+ Documentation/hid/index.rst                   |    1 +
+ Documentation/hid/intel-thc-hid.rst           |  568 ++++++
+ MAINTAINERS                                   |    6 +
+ drivers/hid/Kconfig                           |    2 +
+ drivers/hid/Makefile                          |    2 +
+ drivers/hid/intel-thc-hid/Kconfig             |   42 +
+ drivers/hid/intel-thc-hid/Makefile            |   22 +
+ .../intel-quicki2c/pci-quicki2c.c             |  966 ++++++++++
+ .../intel-quicki2c/quicki2c-dev.h             |  186 ++
+ .../intel-quicki2c/quicki2c-hid.c             |  166 ++
+ .../intel-quicki2c/quicki2c-hid.h             |   14 +
+ .../intel-quicki2c/quicki2c-protocol.c        |  224 +++
+ .../intel-quicki2c/quicki2c-protocol.h        |   20 +
+ .../intel-quickspi/pci-quickspi.c             |  987 +++++++++++
+ .../intel-quickspi/quickspi-dev.h             |  172 ++
+ .../intel-quickspi/quickspi-hid.c             |  165 ++
+ .../intel-quickspi/quickspi-hid.h             |   14 +
+ .../intel-quickspi/quickspi-protocol.c        |  409 +++++
+ .../intel-quickspi/quickspi-protocol.h        |   25 +
+ .../intel-thc-hid/intel-thc/intel-thc-dev.c   | 1578 +++++++++++++++++
+ .../intel-thc-hid/intel-thc/intel-thc-dev.h   |  116 ++
+ .../intel-thc-hid/intel-thc/intel-thc-dma.c   |  969 ++++++++++
+ .../intel-thc-hid/intel-thc/intel-thc-dma.h   |  146 ++
+ .../intel-thc-hid/intel-thc/intel-thc-hw.h    |  881 +++++++++
+ include/linux/hid-over-i2c.h                  |  117 ++
+ include/linux/hid-over-spi.h                  |  155 ++
+ 26 files changed, 7953 insertions(+)
+ create mode 100644 Documentation/hid/intel-thc-hid.rst
+ create mode 100644 drivers/hid/intel-thc-hid/Kconfig
+ create mode 100644 drivers/hid/intel-thc-hid/Makefile
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-protocol.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-protocol.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-hw.h
+ create mode 100644 include/linux/hid-over-i2c.h
+ create mode 100644 include/linux/hid-over-spi.h
+
 -- 
-2.34.1
+2.40.1
 
