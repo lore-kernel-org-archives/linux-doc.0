@@ -1,172 +1,103 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE1CC1CEAD6;
-	Mon, 16 Dec 2024 04:09:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9402D25632
+	for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 05:06:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734322150; cv=none; b=SrzHRrIR0xtusLWC21yGHzzj30A8nKfJnh03BxbENJ+rHlzHzKNGgQxlYiFt9j8dl090B9SrCy5c7R/jkqcJ9Nz+KZwJEaNJHcxy+fm+Dsent0IJuP7qJnWLbA/IRLhe8nDzheXrItfdIT0SFQFxFOs5nXUVqJ9JzLv3CRWG0a4=
+	t=1734325577; cv=none; b=fLYqzq+W8jxqRqRMusmy8WhtynAigbIsjhhxWqJ1oJxFB1t/nK7p9J2VKg9D5HxHh19nYCKEn3vsGgBN8bSAhE1pLitsYGf0p5Dw50gXk0+fHoRfW4e4eA02g+mbGxV+dzZ856VtNNmqQ/BTPzGxVGJtuT4Uzf4DMNHRdo9+o0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734322150; c=relaxed/simple;
-	bh=DaRoKTcB6uNvFOhZiGHqx3NVSUd96GYsABAPmh4XcMQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=cNp2uWhqccrWqFsU0KIsSz3nHy/CtCe0swBQcetEelgkJI5l9FJ0mJj0lObrTdTdYSBrg7KNsvz/IB4wHr4R4rOo7Z0qtoncAVjCPIjKFe9N4OgIWAobP8UeR8xdF1apPdFE4qMDuhXNdQ4OPpXC/S/CIRHWtDBZvL3cjV/pfw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 52D011AED;
-	Sun, 15 Dec 2024 20:09:36 -0800 (PST)
-Received: from a077893.blr.arm.com (a077893.blr.arm.com [10.162.16.49])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 1A3A13F58B;
-	Sun, 15 Dec 2024 20:09:03 -0800 (PST)
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-To: linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	kvmarm@lists.linux.dev,
-	linux-doc@vger.kernel.org
-Subject: [PATCH V3 6/7] arm64/boot: Enable EL2 requirements for FEAT_Debugv8p9
-Date: Mon, 16 Dec 2024 09:38:30 +0530
-Message-Id: <20241216040831.2448257-7-anshuman.khandual@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241216040831.2448257-1-anshuman.khandual@arm.com>
-References: <20241216040831.2448257-1-anshuman.khandual@arm.com>
+	s=arc-20240116; t=1734325577; c=relaxed/simple;
+	bh=kCRva32N0VhrNgQfChfjnrcWqJoDUo1iXfZ0ODPK70c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rS0186qQyoWXcdIuT5OXBB7j2kUfUHRFEKWLJZBDTW67x4yFxQk1W8EBalhKkUwkx/r7eRg/1FKdiA0WzgS7uGrmRTKH3XlRmrQ5weSXvL06uCC2Cheep0o6E9eYcY9/EHyGKKGJJvc28VPVmymWRcwhHPXeT9WcC1E5k/PCAWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=azaRBaeI; arc=none smtp.client-ip=209.85.208.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="azaRBaeI"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-3022c6155edso37226281fa.2
+        for <linux-doc@vger.kernel.org>; Sun, 15 Dec 2024 21:06:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1734325574; x=1734930374; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kCRva32N0VhrNgQfChfjnrcWqJoDUo1iXfZ0ODPK70c=;
+        b=azaRBaeIXKBmrQxHeg7eil9IwlxtRI7RD+KUYevzjWqTvRXER0+JsW20rEMWRKwAsP
+         XdGGAdBylCoo4e5rAb4UexmI0GBbWRywRHd/Zs94JvzD0B+qjIfFS87CtPL4cvP1WCCX
+         4y/eaubA7yHUD6ZWh8N4Sd8gjlqCdkFrNmBUA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734325574; x=1734930374;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kCRva32N0VhrNgQfChfjnrcWqJoDUo1iXfZ0ODPK70c=;
+        b=leu0P15POpLD+tqzn8cxIDJrWgB3+R4Tj/uZOqKNFhrCmm/iqAju9MRjPqgsZd0PMF
+         w+6BzQiVU0pZD6viyKqVrdZqsrsjoEXFJeuVfQgOdrzeS2Y4gRWT9ECUFsIsQI5qsvJG
+         RQilugJ4BNUVomMrgDgBkEHj8MD5vkXck/Hb4qveDJbbrSr9i2+cJ2INPOGGMZoNJxLK
+         ACP78mIaEWs3mMo+vG3iaZ0lfpWv7YOuC4ASgP4mltNx9HvNFl/RlrxOPiGqBPkfxPLo
+         tz/CpRFi488Ag1F+nInSmr7aipExNYj5j7GApa2fQt2dJ5tpwfFYnj03KmNJQWojK39e
+         63EA==
+X-Forwarded-Encrypted: i=1; AJvYcCXaxc1NuLQ2wgDnHrYp2fRXcouaVl05jAZ8/vSXuVPU1fZa+yFBZxWOGjVrhGHf20cj0uMBfLwhIBk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMEmq5SapJ5KdvBzxGM6gLEaU5JRClvVia5GiyFH/y0aNb678z
+	4+E7yE5dvLLebNJaLzUmYzpRFHmv8j876WxvzgjzAmxUphVKobnZgaG/rYO9xZmjnTP0MzSdmWo
+	G7kjujYAcS8aMgJC1JOk86fRWu+jfnvnP/AmR
+X-Gm-Gg: ASbGncuzMp22pEvuIaZRghNIWyLA/flUd91oouuvs7QdlqUugcJ11W4yUWplll6TE69
+	ph/h+4TGCqcweWY5PfDt8PcXFtqw47OZ7QqpRIg==
+X-Google-Smtp-Source: AGHT+IE2lSfy0plkHFYvqJzzMKQfZf0H0X0Pv4uKJBDZr2SBKnWb1wfneg9v2qKtvbV2M2+FSEtq4YdfQJ0p+sPWLjA=
+X-Received: by 2002:a2e:be8a:0:b0:302:1c90:58de with SMTP id
+ 38308e7fff4ca-302544cd2a9mr45430851fa.33.1734325573758; Sun, 15 Dec 2024
+ 21:06:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241212224114.888373-1-dualli@chromium.org> <20241212224114.888373-2-dualli@chromium.org>
+ <20241215142723.3e7d22e7@kernel.org>
+In-Reply-To: <20241215142723.3e7d22e7@kernel.org>
+From: Li Li <dualli@chromium.org>
+Date: Sun, 15 Dec 2024 21:06:02 -0800
+Message-ID: <CANBPYPi8Q2akivjbMCeThtHEw1L_rHErxL_Cwt=Xjf=B1fZ=-w@mail.gmail.com>
+Subject: Re: [PATCH net-next v10 1/2] binderfs: add new binder devices to binder_devices
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: dualli@google.com, corbet@lwn.net, davem@davemloft.net, 
+	edumazet@google.com, pabeni@redhat.com, donald.hunter@gmail.com, 
+	gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com, 
+	maco@android.com, joel@joelfernandes.org, brauner@kernel.org, 
+	cmllamas@google.com, surenb@google.com, arnd@arndb.de, masahiroy@kernel.org, 
+	bagasdotme@gmail.com, horms@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org, hridya@google.com, 
+	smoreland@google.com, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fine grained trap control for MDSELR_EL1 register needs to be configured in
-HDFGRTR2_EL2, and HDFGWTR2_EL2 registers when kernel enters at EL1, but EL2
-is also present. This adds a new helper __init_el2_fgt2() initializing this
-new FEAT_FGT2 based fine grained registers.
+On Sun, Dec 15, 2024 at 2:27=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
+> On Thu, 12 Dec 2024 14:41:13 -0800 Li Li wrote:
+> > +/**
+> > + * Add a binder device to binder_devices
+>
+> nit: kdoc is missing function name
+>
+> > + * @device: the new binder device to add to the global list
+> > + *
+> > + * Not reentrant as the list is not protected by any locks
+> > + */
+> > +void binder_add_device(struct binder_device *device);
+>
+> To be clear we do not intend to apply these patches to net-next,
+> looks like binder patches are mostly handled by Greg KH. Please
+> drop the net-next from the subject on future revisions to avoid
+> confusion.
 
-MDCR_EL2.EBWE needs to be enabled for additional (beyond 16) breakpoint and
-watchpoint exceptions when kernel enters at EL1, but EL2 is also present.
-This updates __init_el2_debug() as required for FEAT_Debugv8p9.
 
-While here, also update booting.rst with MDCR_EL3 and SCR_EL3 requirements.
+Got it. I'll modify the subject accordingly.
 
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Marc Zyngier <maz@kernel.org>
-Cc: Oliver Upton <oliver.upton@linux.dev>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: kvmarm@lists.linux.dev
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
----
-Changes in V3:
-
-- Dropped MDCR_EL3.TDA boot requirement from documentation (separate series)
-- Dropped MDCR_EL2_EBWE definition as MDCR_EL2 is now defined in tools sysreg
-
-https://lore.kernel.org/all/20241211065425.1106683-1-anshuman.khandual@arm.com/
-
- Documentation/arch/arm64/booting.rst | 18 ++++++++++++++++++
- arch/arm64/include/asm/el2_setup.h   | 26 ++++++++++++++++++++++++++
- 2 files changed, 44 insertions(+)
-
-diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
-index 3278fb4bf219..054cfe1cad18 100644
---- a/Documentation/arch/arm64/booting.rst
-+++ b/Documentation/arch/arm64/booting.rst
-@@ -288,6 +288,12 @@ Before jumping into the kernel, the following conditions must be met:
- 
-     - SCR_EL3.FGTEn (bit 27) must be initialised to 0b1.
- 
-+  For CPUs with the Fine Grained Traps (FEAT_FGT2) extension present:
-+
-+  - If EL3 is present and the kernel is entered at EL2:
-+
-+    - SCR_EL3.FGTEn2 (bit 59) must be initialised to 0b1.
-+
-   For CPUs with support for HCRX_EL2 (FEAT_HCX) present:
- 
-   - If EL3 is present and the kernel is entered at EL2:
-@@ -322,6 +328,18 @@ Before jumping into the kernel, the following conditions must be met:
-     - ZCR_EL2.LEN must be initialised to the same value for all CPUs the
-       kernel will execute on.
- 
-+  For CPUs with FEAT_Debugv8p9 extension present:
-+
-+  - If the kernel is entered at EL1 and EL2 is present:
-+
-+    - HDFGRTR2_EL2.nMDSELR_EL1 (bit 5) must be initialized to 0b1
-+    - HDFGWTR2_EL2.nMDSELR_EL1 (bit 5) must be initialized to 0b1
-+    - MDCR_EL2.EBWE (bit 43) must be initialized to 0b1
-+
-+  - If EL3 is present:
-+
-+    - MDCR_EL3.EBWE (bit 43) must be initialized to 0b1
-+
-   For CPUs with the Scalable Matrix Extension (FEAT_SME):
- 
-   - If EL3 is present:
-diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
-index 4ef52d7245bb..2fbfe27d38b5 100644
---- a/arch/arm64/include/asm/el2_setup.h
-+++ b/arch/arm64/include/asm/el2_setup.h
-@@ -105,6 +105,13 @@
- 						// to own it.
- 
- .Lskip_trace_\@:
-+	mrs	x1, id_aa64dfr0_el1
-+	ubfx	x1, x1, #ID_AA64DFR0_EL1_DebugVer_SHIFT, #4
-+	cmp	x1, #ID_AA64DFR0_EL1_DebugVer_V8P9
-+	b.lt	.Lskip_dbg_v8p9_\@
-+
-+	orr	x2, x2, #MDCR_EL2_EBWE
-+.Lskip_dbg_v8p9_\@:
- 	msr	mdcr_el2, x2			// Configure debug traps
- .endm
- 
-@@ -244,6 +251,24 @@
- .Lskip_gcs_\@:
- .endm
- 
-+.macro __init_el2_fgt2
-+	mrs	x1, id_aa64mmfr0_el1
-+	ubfx	x1, x1, #ID_AA64MMFR0_EL1_FGT_SHIFT, #4
-+	cmp	x1, #ID_AA64MMFR0_EL1_FGT_FGT2
-+	b.lt	.Lskip_fgt2_\@
-+
-+	mrs	x1, id_aa64dfr0_el1
-+	ubfx	x1, x1, #ID_AA64DFR0_EL1_DebugVer_SHIFT, #4
-+	cmp	x1, #ID_AA64DFR0_EL1_DebugVer_V8P9
-+	b.lt	.Lskip_dbg_v8p9_\@
-+
-+	mov_q   x0, HDFGWTR2_EL2_nMDSELR_EL1
-+	msr_s	SYS_HDFGWTR2_EL2, x0
-+	msr_s	SYS_HDFGRTR2_EL2, x0
-+.Lskip_dbg_v8p9_\@:
-+.Lskip_fgt2_\@:
-+.endm
-+
- .macro __init_el2_nvhe_prepare_eret
- 	mov	x0, #INIT_PSTATE_EL1
- 	msr	spsr_el2, x0
-@@ -283,6 +308,7 @@
- 	__init_el2_nvhe_idregs
- 	__init_el2_cptr
- 	__init_el2_fgt
-+	__init_el2_fgt2
-         __init_el2_gcs
- .endm
- 
--- 
-2.25.1
-
+Meanwhile, Greg KH did say we need netlink experts to review
+the netlink code. Please let me know if you have any more
+comments about the netlink part of this patch so that I can
+fix them in the next revision. Thank you!
