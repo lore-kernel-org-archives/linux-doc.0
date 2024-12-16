@@ -1,55 +1,55 @@
 Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8652D20D508
-	for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 19:24:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFA120898C
+	for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 19:24:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734377096; cv=none; b=lMjBTgSU1XZbGW9LQTyJCvMeAi9VzwOVFxP79iYWLegsgLQVW1GW9LKTBFhxdHtMYJS1tUEdhTQW9HO37E9WbvnBIEWp6mZYziJ1aua2yWaXWxxjka3LKz7EaT8DxVIjcoCfbh3t9pRi9EsISFE69rL6C0TjO0lIFDS03URpjMQ=
+	t=1734377098; cv=none; b=DW+FMO7n0PP3iVnyLPgaB92TZTdXHTkc3DGndBxFRPRPFAg6lrxid9WrLNupoJ1K/PFGXyqhrmIpn2pLEcetuH0gwcOKbhZUe0goqKBriTPrkD8KVwVgfDBMxYfkyUX818evRL+Q6rY3OpyWez+KnxJUpkDOzmlLtrxYM+RLMLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734377096; c=relaxed/simple;
-	bh=YIeTsEP14iiWPIza2sclDillMZs5APtjXO1N31t+pkg=;
+	s=arc-20240116; t=1734377098; c=relaxed/simple;
+	bh=GIO0fbE7SQZ1rtlKN8vZekgYlbMsWE+guT+3ZXk1HZ0=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=CQdVErf4N3uOBSaDysCUvBJjzyxWe7629sLkXiBG+4JocHDTlKRO7zSEINCIZbTMpiDO5O8o/CQimX9srPnT8Kb6LJxXPI1ySRPo0JqbjEPnaD4h8irXcliFQemNvgBOCxMrOH25J4+zmcXiRCEDfl7Ey9+hQOYLiQp+SiQbJZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lb8b9bsR; arc=none smtp.client-ip=209.85.210.202
+	 To:Cc:Content-Type; b=oBK01I1/6zh+3O/2kgUxVqKKwDmGthhUUbkWkE+ZP1bneHlS4OaNwQeOTS0b03EBzzVAu/ocWwcUgLaKddqPq7r60H3wgfmptBTICcyDNiKZyU5UlnZ6UWjj/fofpzng3bXCBeNp6kRJazF6/DuuaA7DTrlAUk6ztVrBEEvN0LI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sm1OBka0; arc=none smtp.client-ip=209.85.210.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lb8b9bsR"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-72907f58023so4605104b3a.3
-        for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 11:24:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sm1OBka0"
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-725dd39ebe7so3513739b3a.3
+        for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 11:24:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734377094; x=1734981894; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1734377096; x=1734981896; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kODX23DYVFRUazWZEBIanW7JFjEXStT07MxX5tftr1k=;
-        b=lb8b9bsRMRTI5evgj/WcqIhZYXRJheqZxxpIwISNDf3hiDHzJ2x5XVEx7E8FIwLPal
-         nLj/9B+nZx7IR6bEhArh9Hn1k1Un9eUH+7lANf+olQN2fDzp+cWYgzOGuJSz1oInwmR/
-         fcxA3NCXdfkW0ikth6tPMAMMQyWAXIu23aLYFkqW30dnQ8R3fuyVqJ5oy00EEv2P+0+Q
-         D9yZu0yqxHKDi/WeNs/xCyhvmYKZwloxqdyAsbTfi7iGVh2qtAMCQ9xrm0HimGXNxasG
-         ZCwsKBYH7T0MG13DZK6gXsLS6fbwgKCXutRYC4MtsvMJ8FFkP4aUFwGffx2zU3V45TQg
-         I2Bw==
+        bh=4HhxNlm5l3oc+a05Upn5SwGTABo4qTWEjrE4UxpsHII=;
+        b=sm1OBka0RuFfJ0uvG3YR4A4+GZf3g+Qj9m0Nb6epgswsUaXXu67w/3SHSoUl1IWsjB
+         qeBIWRCQ6QkTkyGsQSSysazuANWhPKC/32D5DT4YCascQYesg+1r36egRSEL2y1OM1S/
+         hcgygAHUJxMJv9QlNk97fxlXl7OeOgSuieS7R0eFytZ5qA4NVO0PmKOoAITG1fFAz3zQ
+         n6sY2XNea9nP+IjLhJxtFTOSPHxAFvKeXH73+6FzIukFvzMbdb5OYrEXsArVcTVHWiZd
+         lllw+uwZVDoOIRL1QlLDzEXsP+XT6NkfNAFajJbpQ6qTxlcU6s5/SCd6wR/gjJ4WfVTb
+         YAlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734377094; x=1734981894;
+        d=1e100.net; s=20230601; t=1734377096; x=1734981896;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kODX23DYVFRUazWZEBIanW7JFjEXStT07MxX5tftr1k=;
-        b=drCsbkPawowsH3yzt67vh5vw8o8xEVDO0wNMbOHBdUQwJNX+VsrqLGmyaQEyWyQWcV
-         59x1zvI4NnrpHFZhKNX8IbyGLo+G4MvdeYKfeF8DuFAN5ljVrIpfE4XTIEbfFJOmeGtP
-         0vrSXuxb1nWdekQTl4qZBtqfTJA7+vuoOuT232UFl8f4OlF2b3cLS9BWXr++i+3o19z2
-         xwgZMENs+bpXK2VzkZ9S7S8p03nCIfcR3V6co7KzbUZRzCxzVkTzCH3AXu834PzI+mdb
-         f0X70OXhm17YRZ/rmG0EkIqAGOBHRJK1L/SkFfbIkzKjGDlCaVw0qXNU7mus0SrxUwcE
-         +eBA==
-X-Forwarded-Encrypted: i=1; AJvYcCXw4aMo9de8pX/l32ML2Mp0wbxgW5jkGqqE+hKzla8+FY2RHUBB4Wzi+tj6fJV6rYJ+/sDNo6x4qF4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8ojb/VDuhnJJAhauiWXOioTAKMPqn527hJ9dJDKnAggw24y6c
-	3WGUFv6gntv/2kmln5Ejcl2BkNqk9pb96hGzbIy53qCulWv5h2I3GeGhuAq/Vpb7EHLJ5Bg1cLk
-	+Gg==
-X-Google-Smtp-Source: AGHT+IFs6nvWjzM1OoknSdPIN0ghPnyqI6YPL5avZzhKMYnwXQrh2jvp6FsUbYnz6o+KIo68RndWt2pA8Qg=
-X-Received: from pfjg1.prod.google.com ([2002:a05:6a00:b81:b0:725:8ee5:e458])
- (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:2995:b0:725:eacf:cfda
- with SMTP id d2e1a72fcca58-7290c25ae78mr18948341b3a.17.1734377093879; Mon, 16
- Dec 2024 11:24:53 -0800 (PST)
-Date: Mon, 16 Dec 2024 11:24:18 -0800
+        bh=4HhxNlm5l3oc+a05Upn5SwGTABo4qTWEjrE4UxpsHII=;
+        b=ZnQfv/Wbu7w36ACTHmJKVn3Y0tUVkCtK4eTz3qKr5LyyB8y5YHmD8ERvA0pNP/7gyc
+         ytTISKS8PElQdVyDN6w3QEBFtgI8Olziu5elyAvcvMXtVwMm2TF7ohT2dh1Dj2gfVdRa
+         /6cWv7wxJtqjsRxJKYs10PBPU/ya9duQ3aMe51O3TB1o6jHWpmXmbS6zeOI4fle5Vf8v
+         5xPyPXKJMoMRIQQhDd7fmwDPYiTXQTUv3DeP3gpCeSkjifwTc65mu/YHdVMNhLDJC8RW
+         OmD4slHGlec1DjoHKXG3LdjQ8p3RquCJzssTcpEdhm7EErhe0R+L7s3WN8zvUA9hi+Rt
+         aiRg==
+X-Forwarded-Encrypted: i=1; AJvYcCUWxjS7W/H360m00Ho+W6G7EBd90P5kUdaudQGTQQxBYV2vz6dmCNKS7LZMfNR2sYFX8uI8IckTn98=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHbmQQEu3fn9/O4WTZ+M8BxZUPPtHoNSomCpWjdzrZQDYWGtk/
+	awV17r0bkm2mYzluzZ7nmcgFDaKtrCz5uK+X90CWuZ0buTliaS7CLupaiSkY8CIGNvOvhV7E5iN
+	Ujw==
+X-Google-Smtp-Source: AGHT+IFCRcSRmnDxCEXNS618C+s8AbCbrJ3sqm2+B/Vq6ZMmO1in0EJV2noWuvjJbPv4qSgauLdf86FSJXo=
+X-Received: from pfbfb35.prod.google.com ([2002:a05:6a00:2da3:b0:728:b8e3:9934])
+ (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:4b54:b0:729:49a:2db0
+ with SMTP id d2e1a72fcca58-7290c273bfemr20412405b3a.25.1734377095966; Mon, 16
+ Dec 2024 11:24:55 -0800 (PST)
+Date: Mon, 16 Dec 2024 11:24:19 -0800
 In-Reply-To: <20241216192419.2970941-1-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20241216192419.2970941-1-surenb@google.com>
 X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
-Message-ID: <20241216192419.2970941-16-surenb@google.com>
-Subject: [PATCH v6 15/16] mm: make vma cache SLAB_TYPESAFE_BY_RCU
+Message-ID: <20241216192419.2970941-17-surenb@google.com>
+Subject: [PATCH v6 16/16] docs/mm: document latest changes to vm_lock
 From: Suren Baghdasaryan <surenb@google.com>
 To: akpm@linux-foundation.org
 Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com, 
@@ -76,242 +76,102 @@ Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
 	surenb@google.com
 Content-Type: text/plain; charset="UTF-8"
 
-To enable SLAB_TYPESAFE_BY_RCU for vma cache we need to ensure that
-object reuse before RCU grace period is over will be detected by
-lock_vma_under_rcu(). Current checks are sufficient as long as vma
-is detached before it is freed. Implement this guarantee by calling
-vma_ensure_detached() before vma is freed and make vm_area_cachep
-SLAB_TYPESAFE_BY_RCU. This will facilitate vm_area_struct reuse and
-will minimize the number of call_rcu() calls.
+Change the documentation to reflect that vm_lock is integrated into vma
+and replaced with vm_refcnt.
+Document newly introduced vma_start_read_locked{_nested} functions.
 
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 ---
- include/linux/mm.h               |  2 --
- include/linux/mm_types.h         | 10 +++++++---
- include/linux/slab.h             |  6 ------
- kernel/fork.c                    | 34 ++++++++++----------------------
- mm/mmap.c                        |  8 +++++++-
- mm/vma.c                         | 15 +++-----------
- mm/vma.h                         |  2 +-
- tools/testing/vma/vma_internal.h |  7 +------
- 8 files changed, 29 insertions(+), 55 deletions(-)
+ Documentation/mm/process_addrs.rst | 44 ++++++++++++++++++------------
+ 1 file changed, 26 insertions(+), 18 deletions(-)
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index bfd01ae07660..da773302af70 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -258,8 +258,6 @@ void setup_initial_init_mm(void *start_code, void *end_code,
- struct vm_area_struct *vm_area_alloc(struct mm_struct *);
- struct vm_area_struct *vm_area_dup(struct vm_area_struct *);
- void vm_area_free(struct vm_area_struct *);
--/* Use only if VMA has no other users */
--void __vm_area_free(struct vm_area_struct *vma);
+diff --git a/Documentation/mm/process_addrs.rst b/Documentation/mm/process_addrs.rst
+index 81417fa2ed20..f573de936b5d 100644
+--- a/Documentation/mm/process_addrs.rst
++++ b/Documentation/mm/process_addrs.rst
+@@ -716,9 +716,14 @@ calls :c:func:`!rcu_read_lock` to ensure that the VMA is looked up in an RCU
+ critical section, then attempts to VMA lock it via :c:func:`!vma_start_read`,
+ before releasing the RCU lock via :c:func:`!rcu_read_unlock`.
  
- #ifndef CONFIG_MMU
- extern struct rb_root nommu_region_tree;
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index 803f718c007c..a720f7383dd8 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -544,6 +544,12 @@ static inline void *folio_get_private(struct folio *folio)
- 
- typedef unsigned long vm_flags_t;
- 
-+/*
-+ * freeptr_t represents a SLUB freelist pointer, which might be encoded
-+ * and not dereferenceable if CONFIG_SLAB_FREELIST_HARDENED is enabled.
-+ */
-+typedef struct { unsigned long v; } freeptr_t;
+-VMA read locks hold the read lock on the :c:member:`!vma->vm_lock` semaphore for
+-their duration and the caller of :c:func:`!lock_vma_under_rcu` must release it
+-via :c:func:`!vma_end_read`.
++In cases when the user already holds mmap read lock, :c:func:`!vma_start_read_locked`
++and :c:func:`!vma_start_read_locked_nested` can be used. These functions do not
++fail due to lock contention but the caller should still check their return values
++in case they fail for other reasons.
 +
- /*
-  * A region containing a mapping of a non-memory backed file under NOMMU
-  * conditions.  These are held in a global tree and are pinned by the VMAs that
-@@ -658,9 +664,7 @@ struct vm_area_struct {
- 			unsigned long vm_start;
- 			unsigned long vm_end;
- 		};
--#ifdef CONFIG_PER_VMA_LOCK
--		struct rcu_head vm_rcu;	/* Used for deferred freeing. */
--#endif
-+		freeptr_t vm_freeptr; /* Pointer used by SLAB_TYPESAFE_BY_RCU */
- 	};
++VMA read locks increment :c:member:`!vma.vm_refcnt` reference counter for their
++duration and the caller of :c:func:`!lock_vma_under_rcu` must drop it via
++:c:func:`!vma_end_read`.
  
- 	/*
-diff --git a/include/linux/slab.h b/include/linux/slab.h
-index 10a971c2bde3..681b685b6c4e 100644
---- a/include/linux/slab.h
-+++ b/include/linux/slab.h
-@@ -234,12 +234,6 @@ enum _slab_flag_bits {
- #define SLAB_NO_OBJ_EXT		__SLAB_FLAG_UNUSED
- #endif
+ VMA **write** locks are acquired via :c:func:`!vma_start_write` in instances where a
+ VMA is about to be modified, unlike :c:func:`!vma_start_read` the lock is always
+@@ -726,9 +731,9 @@ acquired. An mmap write lock **must** be held for the duration of the VMA write
+ lock, releasing or downgrading the mmap write lock also releases the VMA write
+ lock so there is no :c:func:`!vma_end_write` function.
  
--/*
-- * freeptr_t represents a SLUB freelist pointer, which might be encoded
-- * and not dereferenceable if CONFIG_SLAB_FREELIST_HARDENED is enabled.
-- */
--typedef struct { unsigned long v; } freeptr_t;
--
- /*
-  * ZERO_SIZE_PTR will be returned for zero sized kmalloc requests.
-  *
-diff --git a/kernel/fork.c b/kernel/fork.c
-index f1ddfc7b3b48..7affb9245f64 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -471,36 +471,16 @@ struct vm_area_struct *vm_area_dup(struct vm_area_struct *orig)
- 	return new;
- }
+-Note that a semaphore write lock is not held across a VMA lock. Rather, a
+-sequence number is used for serialisation, and the write semaphore is only
+-acquired at the point of write lock to update this.
++Note that when write-locking a VMA lock, the :c:member:`!vma.vm_refcnt` is temporarily
++modified so that readers can detect the presense of a writer. The reference counter is
++restored once the vma sequence number used for serialisation is updated.
  
--void __vm_area_free(struct vm_area_struct *vma)
-+void vm_area_free(struct vm_area_struct *vma)
- {
- #ifdef CONFIG_PER_VMA_LOCK
--	/* The vma should be detached while being destroyed. */
--	VM_BUG_ON_VMA(!is_vma_detached(vma), vma);
-+	vma_ensure_detached(vma);
- #endif
- 	vma_numab_state_free(vma);
- 	free_anon_vma_name(vma);
- 	kmem_cache_free(vm_area_cachep, vma);
- }
+ This ensures the semantics we require - VMA write locks provide exclusive write
+ access to the VMA.
+@@ -738,7 +743,7 @@ Implementation details
  
--#ifdef CONFIG_PER_VMA_LOCK
--static void vm_area_free_rcu_cb(struct rcu_head *head)
--{
--	struct vm_area_struct *vma = container_of(head, struct vm_area_struct,
--						  vm_rcu);
--
--	__vm_area_free(vma);
--}
--#endif
--
--void vm_area_free(struct vm_area_struct *vma)
--{
--#ifdef CONFIG_PER_VMA_LOCK
--	call_rcu(&vma->vm_rcu, vm_area_free_rcu_cb);
--#else
--	__vm_area_free(vma);
--#endif
--}
--
- static void account_kernel_stack(struct task_struct *tsk, int account)
- {
- 	if (IS_ENABLED(CONFIG_VMAP_STACK)) {
-@@ -3147,6 +3127,11 @@ void __init mm_cache_init(void)
+ The VMA lock mechanism is designed to be a lightweight means of avoiding the use
+ of the heavily contended mmap lock. It is implemented using a combination of a
+-read/write semaphore and sequence numbers belonging to the containing
++reference counter and sequence numbers belonging to the containing
+ :c:struct:`!struct mm_struct` and the VMA.
  
- void __init proc_caches_init(void)
- {
-+	struct kmem_cache_args args = {
-+		.use_freeptr_offset = true,
-+		.freeptr_offset = offsetof(struct vm_area_struct, vm_freeptr),
-+	};
-+
- 	sighand_cachep = kmem_cache_create("sighand_cache",
- 			sizeof(struct sighand_struct), 0,
- 			SLAB_HWCACHE_ALIGN|SLAB_PANIC|SLAB_TYPESAFE_BY_RCU|
-@@ -3163,8 +3148,9 @@ void __init proc_caches_init(void)
- 			sizeof(struct fs_struct), 0,
- 			SLAB_HWCACHE_ALIGN|SLAB_PANIC|SLAB_ACCOUNT,
- 			NULL);
--	vm_area_cachep = KMEM_CACHE(vm_area_struct,
--			SLAB_HWCACHE_ALIGN|SLAB_NO_MERGE|SLAB_PANIC|
-+	vm_area_cachep = kmem_cache_create("vm_area_struct",
-+			sizeof(struct vm_area_struct), &args,
-+			SLAB_HWCACHE_ALIGN|SLAB_PANIC|SLAB_TYPESAFE_BY_RCU|
- 			SLAB_ACCOUNT);
- 	mmap_init();
- 	nsproxy_cache_init();
-diff --git a/mm/mmap.c b/mm/mmap.c
-index df9154b15ef9..c848f6d645e9 100644
---- a/mm/mmap.c
-+++ b/mm/mmap.c
-@@ -1284,7 +1284,13 @@ void exit_mmap(struct mm_struct *mm)
- 	do {
- 		if (vma->vm_flags & VM_ACCOUNT)
- 			nr_accounted += vma_pages(vma);
--		remove_vma(vma, /* unreachable = */ true);
-+#ifdef CONFIG_PER_VMA_LOCK
-+		if (!is_vma_detached(vma)) {
-+			vma_start_write(vma);
-+			vma_mark_detached(vma);
-+		}
-+#endif
-+		remove_vma(vma);
- 		count++;
- 		cond_resched();
- 		vma = vma_next(&vmi);
-diff --git a/mm/vma.c b/mm/vma.c
-index 0436a7d21e01..1b46b92b2d4d 100644
---- a/mm/vma.c
-+++ b/mm/vma.c
-@@ -406,23 +406,14 @@ static bool can_vma_merge_right(struct vma_merge_struct *vmg,
- /*
-  * Close a vm structure and free it.
-  */
--void remove_vma(struct vm_area_struct *vma, bool unreachable)
-+void remove_vma(struct vm_area_struct *vma)
- {
- 	might_sleep();
- 	vma_close(vma);
- 	if (vma->vm_file)
- 		fput(vma->vm_file);
- 	mpol_put(vma_policy(vma));
--	if (unreachable) {
--#ifdef CONFIG_PER_VMA_LOCK
--		if (!is_vma_detached(vma)) {
--			vma_start_write(vma);
--			vma_mark_detached(vma);
--		}
--#endif
--		__vm_area_free(vma);
--	} else
--		vm_area_free(vma);
-+	vm_area_free(vma);
- }
+ Read locks are acquired via :c:func:`!vma_start_read`, which is an optimistic
+@@ -779,28 +784,31 @@ release of any VMA locks on its release makes sense, as you would never want to
+ keep VMAs locked across entirely separate write operations. It also maintains
+ correct lock ordering.
  
- /*
-@@ -1206,7 +1197,7 @@ static void vms_complete_munmap_vmas(struct vma_munmap_struct *vms,
- 	/* Remove and clean up vmas */
- 	mas_set(mas_detach, 0);
- 	mas_for_each(mas_detach, vma, ULONG_MAX)
--		remove_vma(vma, /* unreachable = */ false);
-+		remove_vma(vma);
+-Each time a VMA read lock is acquired, we acquire a read lock on the
+-:c:member:`!vma->vm_lock` read/write semaphore and hold it, while checking that
+-the sequence count of the VMA does not match that of the mm.
++Each time a VMA read lock is acquired, we increment :c:member:`!vma.vm_refcnt`
++reference counter and check that the sequence count of the VMA does not match
++that of the mm.
  
- 	vm_unacct_memory(vms->nr_accounted);
- 	validate_mm(mm);
-diff --git a/mm/vma.h b/mm/vma.h
-index 24636a2b0acf..3e6c14a748c2 100644
---- a/mm/vma.h
-+++ b/mm/vma.h
-@@ -170,7 +170,7 @@ int do_vmi_munmap(struct vma_iterator *vmi, struct mm_struct *mm,
- 		  unsigned long start, size_t len, struct list_head *uf,
- 		  bool unlock);
+-If it does, the read lock fails. If it does not, we hold the lock, excluding
+-writers, but permitting other readers, who will also obtain this lock under RCU.
++If it does, the read lock fails and :c:member:`!vma.vm_refcnt` is dropped.
++If it does not, we keep the reference counter raised, excluding writers, but
++permitting other readers, who can also obtain this lock under RCU.
  
--void remove_vma(struct vm_area_struct *vma, bool unreachable);
-+void remove_vma(struct vm_area_struct *vma);
+ Importantly, maple tree operations performed in :c:func:`!lock_vma_under_rcu`
+ are also RCU safe, so the whole read lock operation is guaranteed to function
+ correctly.
  
- void unmap_region(struct ma_state *mas, struct vm_area_struct *vma,
- 		struct vm_area_struct *prev, struct vm_area_struct *next);
-diff --git a/tools/testing/vma/vma_internal.h b/tools/testing/vma/vma_internal.h
-index ac0a59906fea..3342cad87ece 100644
---- a/tools/testing/vma/vma_internal.h
-+++ b/tools/testing/vma/vma_internal.h
-@@ -700,14 +700,9 @@ static inline void mpol_put(struct mempolicy *)
- {
- }
+-On the write side, we acquire a write lock on the :c:member:`!vma->vm_lock`
+-read/write semaphore, before setting the VMA's sequence number under this lock,
+-also simultaneously holding the mmap write lock.
++On the write side, we set a bit in :c:member:`!vma.vm_refcnt` which can't be
++modified by readers and wait for all readers to drop their reference count.
++Once there are no readers, VMA's sequence number is set to match that of the
++mm. During this entire operation mmap write lock is held.
  
--static inline void __vm_area_free(struct vm_area_struct *vma)
--{
--	free(vma);
--}
--
- static inline void vm_area_free(struct vm_area_struct *vma)
- {
--	__vm_area_free(vma);
-+	free(vma);
- }
+ This way, if any read locks are in effect, :c:func:`!vma_start_write` will sleep
+ until these are finished and mutual exclusion is achieved.
  
- static inline void lru_add_drain(void)
+-After setting the VMA's sequence number, the lock is released, avoiding
+-complexity with a long-term held write lock.
++After setting the VMA's sequence number, the bit in :c:member:`!vma.vm_refcnt`
++indicating a writer is cleared. From this point on, VMA's sequence number will
++indicate VMA's write-locked state until mmap write lock is dropped or downgraded.
+ 
+-This clever combination of a read/write semaphore and sequence count allows for
++This clever combination of a reference counter and sequence count allows for
+ fast RCU-based per-VMA lock acquisition (especially on page fault, though
+ utilised elsewhere) with minimal complexity around lock ordering.
+ 
 -- 
 2.47.1.613.gc27f4b7a9f-goog
 
