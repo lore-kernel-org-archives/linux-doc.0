@@ -1,73 +1,73 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8431D86F6
-	for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 22:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D3B7C6E6
+	for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 22:14:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734473193; cv=none; b=IA1QfhnttdV98ZDu13LsS3yQh6F44Sb347y7ggVavQIicRYQRWmi4KT1rdt4CJWp3stT3Cs+FsQcKA91JICW+kxovwOP511YHm8ZFKWs8aUU7AQ/kpXXvPBVWCbGyOcy1WkXi7gUW7o/aWF7Cde0HhF8GDUMW/h79yFLpQVb9u8=
+	t=1734473690; cv=none; b=Jeu+Uc8uCGJ/mAuJTI3IM2h5mpR8imvwM39+7aeCYZTO+tLjENQG+kku5evU0G26aNkwIqarGHpvhxtWTJbOo1gtNxxPwPfiCRkIM0SIiSvH8a91VYXtbMbo9bsesJere2yFZW/NK3yHz6KHIdNO528esOLjchsP2aj1YlADQ64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734473193; c=relaxed/simple;
-	bh=CFFVeeJGulFiZAVQoOwWWmr2t17+p50wNCCr0sMnZu0=;
+	s=arc-20240116; t=1734473690; c=relaxed/simple;
+	bh=C7WNlVEmJjhlFNyxh743Po7U6Z0u5qHtj09VBt/yqeY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=msIWrU4AOvAfJWN/rNKFKCLGYResejDl3zAZGVy3ytpWweJn0lI1MgROjKqlLMQhM7e1glKHhCgAkzTo8+rfrQP6UdpDyHVypoRkqOHq4aaA+TUm3DpMaMYjCVC0HnwtffXd7F/+hFc2vlSMTW/ChWPAm+7jxorcj/HsXE8xWVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cbqKdGNe; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=YXh8DduwMCWKPmuyhw4lNE+0ZiIr+Op+EJ0V0nPt532V7qEf6y4I5UPDlPf5IjBTp/+v/YJZFsiGZQpt5K5WxPG33lPOsfPBWAYkZSxJLCrQ4lFxdI7q7oBsQP5ack6VSbzpSAlPsqaMIUcLTgd+BND+8AyXpKTZgVIxVtplQi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HcLI10rf; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cbqKdGNe"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HcLI10rf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1734473190;
+	s=mimecast20190719; t=1734473688;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=OSLYMoWvHcnkmKFurx8SkgSXyiJyqs7HoLAYTVGYrAc=;
-	b=cbqKdGNePEHVnCEnSroUIs4pU47mslv31s5mtcL2m8KIGfzZj4rq4J68wSG3D97yI6sctT
-	Xs8lFETmNOtOuD2tKBlUvuI430FUK90gzY/bX24cg9PzOCuk5Cc9wMJ+a19cA7n6zPB6Jn
-	xWGN3COc8AOgvbQhTgKjOjxKiRIjjr8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=4W/q1KrGX8XGQ17XCg/MjjkKWOXUGMRUZUVOWrHU3No=;
+	b=HcLI10rfdBbKQqidwhGKJZGVTB84ODZAh1gjceM76ogb6VTWjdkZwSLF92rLW3iIvbzeOT
+	HNA3Bq+s6mOCs/vmKcSgJ0ZaXH8SAXfh3zaQn2qt95Y3nIZYMrn4Q58tvKgme5QhqUuRc6
+	vQeRmbN6wPAJG1hErbhB6v70f8EXL24=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-655-hFda0x1GM8mg6o5MCW4_5g-1; Tue, 17 Dec 2024 17:06:29 -0500
-X-MC-Unique: hFda0x1GM8mg6o5MCW4_5g-1
-X-Mimecast-MFC-AGG-ID: hFda0x1GM8mg6o5MCW4_5g
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-385ded5e92aso2354740f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 14:06:29 -0800 (PST)
+ us-mta-614-HqtCwtkjOJOUCVcHbZgUJg-1; Tue, 17 Dec 2024 17:14:46 -0500
+X-MC-Unique: HqtCwtkjOJOUCVcHbZgUJg-1
+X-Mimecast-MFC-AGG-ID: HqtCwtkjOJOUCVcHbZgUJg
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-436379713baso19249135e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 14:14:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734473188; x=1735077988;
+        d=1e100.net; s=20230601; t=1734473685; x=1735078485;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=OSLYMoWvHcnkmKFurx8SkgSXyiJyqs7HoLAYTVGYrAc=;
-        b=m6XGVkR9M8+ElzQ3Aza3QiaIsEKlqLvhChuuXHzq2Ytewz4KnXBxCUo5EZbA+FbDMs
-         FH2aVtQiosqsbRrkj+Mx8fOzY4JFbdKJEW2gnhdSOzrw+a8Rlbq0ljtYVu7zoatsfeka
-         GJIdZ8g4/zPVsByLfzM3amv3PMLcFi99nI7G/W6p5JqK6o65y9lNOcwA9/x29pkIJjUT
-         wplRe6i+i8QlfFWOIQKIrj720DFdKbJNjkB1IsVKnCl/RyZVGolVGacpCeuy+mx8JHiJ
-         YpCG3ttCsSo488YCIZO1NdR4a+lAmGPsXVcLCZilGqT+2R/6JYoP1Zl9rU3hqEtnX1o7
-         sccQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU45kXBGoAh5+Hg2VxnG1/DkxTeqqMjUeq1lQpl/Rt0xhfLjt7ItlOOMPJWk+ddXZkJ76Higuske2w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzL9OnNwOf/gASZpHB1u+bQiy3ApbjUaH5pIGvqbqq/D3vQPPGX
-	AcajYCDp5LendFKx7VewgdfTyTEqo/QnBr+kQHcMiokQGfrn6o5MRKzsSVXJ67P/pm0KcVVzueO
-	856UAIxbOlai4k/SXJr3QQ0+vNKZxQRIGVQTZDeujYIJidF4aotSgBl3Erg==
-X-Gm-Gg: ASbGncvaMnZK7A9jNqIwVPAmc5wHIxOcgOwfsT4uOdug88wYxREdaewpnnqeXNhFKpl
-	2rjnOSKT+tgqG7XdJq93X61jLUSvDVpc8GC+b3yZy2euzgBKTQEhb36cWKMwteb7xzHeFfjNGjc
-	vg6UVwtebwi7rine3cN7VPXCx0ixZNZy9Qv8x2mdwwVBmw8lvJRLBdKUSeXAAbASru/DOcetsfe
-	iYZU9nGToTwBaqrpVTbeB0bjh9jgPryS05koBcY0vd9IHrC6BskgZR4KqbqiREdmYrAHAazmlW5
-	HqfsD9iodXz1zyoKcnx6KEVQ2lhni/4iK6DK+Y6jX/MF20l1KCB9bvPgZxaa73KJGDDbDSaAs4x
-	w8Yh5VBaY
-X-Received: by 2002:a05:6000:461a:b0:385:eecb:6f02 with SMTP id ffacd0b85a97d-388e4d8b688mr358645f8f.28.1734473188369;
-        Tue, 17 Dec 2024 14:06:28 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEefTx+5wwgHu5Lo3QBynYxK4sBxxlYTWobNsuzYzh7kr1/3xagCl49eAlHDCo53GInNei+Aw==
-X-Received: by 2002:a05:6000:461a:b0:385:eecb:6f02 with SMTP id ffacd0b85a97d-388e4d8b688mr358632f8f.28.1734473188043;
-        Tue, 17 Dec 2024 14:06:28 -0800 (PST)
+        bh=4W/q1KrGX8XGQ17XCg/MjjkKWOXUGMRUZUVOWrHU3No=;
+        b=Nc/l1KKVNM/9MYc1oaGHkvgmnPrqcxKcDlr2wOefZUdgpSBIgErJ/i+vqZHS+6A3Id
+         IVX07SgNaVmDNlJaz8rnQiMOVcwqN3AUHHfR+ZbiEUBuu2+hVvUkhoInVXkruIr2Q6E8
+         n75x4kCGz7NLzZk7s3VcTKmocJ59YEAPK65t83XjObtsPx4+iHv716Vj9DJkAIfHIPBB
+         EKEIod7k5Cmhx/JS18w/1E78wmY6mF3hJagyOeK7F9O67VvJsAFesJ3nSaQO2w+RYI9p
+         R5VNchr1Z2n5tudN/jz+3OQdh8iXx6SpekLjAACwDow7UCuqCcV+MZY5Lx3P6JmEUXW4
+         a6Gw==
+X-Forwarded-Encrypted: i=1; AJvYcCUTSUtMSFjOTveLQrESHoy0PWuJ+6tu7e6Zw4U8GHG20kzkLANV4QlBloSWeNv8s8o9mzVSFDCxeR4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyK2dkwCD3Iw1Hn9We7zckD+7TBKw6v8oPwNnCo53fCqFAQe6mn
+	iNmQqH4D3ES9nX1QQ8bAjUSn8qkLaiUd3nneNgXZTm5msqHDLMLdJCAGUtnezbVlRhjNT5sKSKP
+	7EJ+HPBxrjYbawMxVXF1YTCCaG0NLdjGfMS0ds5yRNiE19umi3ae0ybtSBA==
+X-Gm-Gg: ASbGncsCarehNfTmdKkG+Sh3Il+utWiEVqx5Hab7G96YxAWlEhJVx6TqOI253lbGRIX
+	kgVkZx3t9hePceku+tTK94JrXbL3EY7MAXprcZuaBQMW3itZ5Ohw3sKZp80YZ6L2+l2eazImlV1
+	LbTbKRJlrpUjXnzdjIHLHDVh9GQhTAzdARTSWzxP4X+La20np51XFhxJxEmPIbLUz84IVEAh7dQ
+	JD5zbVYyJT3zBB6vRPzOclLEIVeqihjX0S/rc+8jSta/ZED1dC2Bjl7PM/kh+0ylLW/4bqBu5Gc
+	V4huDh/QIHX7ix1ztl2jeahPgI7fq5/OGnOS/TBDYLNV3fGL0/BFktYvLjepMUuYKCn6zNqJhjp
+	KdmcWIVwj
+X-Received: by 2002:a05:600c:3c9f:b0:434:f5c0:32b1 with SMTP id 5b1f17b1804b1-4365537150fmr3537765e9.15.1734473685481;
+        Tue, 17 Dec 2024 14:14:45 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGTA6KpAji94rWVq0XTa+DJffBW/rQwG7DLaTq8FXlBm90uKsIvAH/DN3eMrFmLxXFdurudeQ==
+X-Received: by 2002:a05:600c:3c9f:b0:434:f5c0:32b1 with SMTP id 5b1f17b1804b1-4365537150fmr3537595e9.15.1734473685027;
+        Tue, 17 Dec 2024 14:14:45 -0800 (PST)
 Received: from ?IPV6:2003:cb:c73b:5600:c716:d8e0:609d:ae92? (p200300cbc73b5600c716d8e0609dae92.dip0.t-ipconnect.de. [2003:cb:c73b:5600:c716:d8e0:609d:ae92])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c8012112sm12401862f8f.11.2024.12.17.14.06.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c8046da0sm12634055f8f.74.2024.12.17.14.14.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Dec 2024 14:06:27 -0800 (PST)
-Message-ID: <ea6eda57-f150-47ea-97b8-fc8eeaf81bd3@redhat.com>
-Date: Tue, 17 Dec 2024 23:06:25 +0100
+        Tue, 17 Dec 2024 14:14:44 -0800 (PST)
+Message-ID: <359a1cf2-c5b0-4682-ba3c-980d77c4cfdb@redhat.com>
+Date: Tue, 17 Dec 2024 23:14:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,8 +75,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 09/25] mm/gup.c: Remove redundant check for PCI P2PDMA
- page
+Subject: Re: [PATCH v4 10/25] mm/mm_init: Move p2pdma page refcount
+ initialisation to p2pdma
 To: Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org,
  dan.j.williams@intel.com, linux-mm@kvack.org
 Cc: lina@asahilina.net, zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
@@ -90,9 +90,9 @@ Cc: lina@asahilina.net, zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
  nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
  linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
  linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
- david@fromorbit.com, Jason Gunthorpe <jgg@nvidia.com>
+ david@fromorbit.com
 References: <cover.18cbcff3638c6aacc051c44533ebc6c002bf2bd9.1734407924.git-series.apopple@nvidia.com>
- <3f20b8d258d4eb72e1eadd5926d892bc61f0e0d4.1734407924.git-series.apopple@nvidia.com>
+ <aaa23e6f315a2d9b30a422c3769100cdfa42e85a.1734407924.git-series.apopple@nvidia.com>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -140,21 +140,172 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <3f20b8d258d4eb72e1eadd5926d892bc61f0e0d4.1734407924.git-series.apopple@nvidia.com>
+In-Reply-To: <aaa23e6f315a2d9b30a422c3769100cdfa42e85a.1734407924.git-series.apopple@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 17.12.24 06:12, Alistair Popple wrote:
-> PCI P2PDMA pages are not mapped with pXX_devmap PTEs therefore the
-> check in __gup_device_huge() is redundant. Remove it
+> Currently ZONE_DEVICE page reference counts are initialised by core
+> memory management code in __init_zone_device_page() as part of the
+> memremap() call which driver modules make to obtain ZONE_DEVICE
+> pages. This initialises page refcounts to 1 before returning them to
+> the driver.
+> 
+> This was presumably done because it drivers had a reference of sorts
+> on the page. It also ensured the page could always be mapped with
+> vm_insert_page() for example and would never get freed (ie. have a
+> zero refcount), freeing drivers of manipulating page reference counts.
+
+It probably dates back to copying that code from other zone-init code 
+where we
+(a) Treat all available-at-boot memory as allocated before we release it 
+to the buddy
+(b) Treat all hotplugged memory as allocated until we release it to the 
+buddy
+
+As a side note, I'm working on converting (b) -- PageOffline pages -- to 
+have a refcount of 0 ("frozen").
+
+> 
+> However it complicates figuring out whether or not a page is free from
+> the mm perspective because it is no longer possible to just look at
+> the refcount. Instead the page type must be known and if GUP is used a
+> secondary pgmap reference is also sometimes needed.
+> 
+> To simplify this it is desirable to remove the page reference count
+> for the driver, so core mm can just use the refcount without having to
+> account for page type or do other types of tracking. This is possible
+> because drivers can always assume the page is valid as core kernel
+> will never offline or remove the struct page.
+> 
+> This means it is now up to drivers to initialise the page refcount as
+> required. P2PDMA uses vm_insert_page() to map the page, and that
+> requires a non-zero reference count when initialising the page so set
+> that when the page is first mapped.
 > 
 > Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-> Reviewed-by: Dan Wiliams <dan.j.williams@intel.com>
-> Acked-by: David Hildenbrand <david@redhat.com>
+> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+> 
 > ---
+> 
+> Changes since v2:
+> 
+>   - Initialise the page refcount for all pages covered by the kaddr
+> ---
+>   drivers/pci/p2pdma.c | 13 +++++++++++--
+>   mm/memremap.c        | 17 +++++++++++++----
+>   mm/mm_init.c         | 22 ++++++++++++++++++----
+>   3 files changed, 42 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+> index 0cb7e0a..04773a8 100644
+> --- a/drivers/pci/p2pdma.c
+> +++ b/drivers/pci/p2pdma.c
+> @@ -140,13 +140,22 @@ static int p2pmem_alloc_mmap(struct file *filp, struct kobject *kobj,
+>   	rcu_read_unlock();
+>   
+>   	for (vaddr = vma->vm_start; vaddr < vma->vm_end; vaddr += PAGE_SIZE) {
+> -		ret = vm_insert_page(vma, vaddr, virt_to_page(kaddr));
+> +		struct page *page = virt_to_page(kaddr);
+> +
+> +		/*
+> +		 * Initialise the refcount for the freshly allocated page. As
+> +		 * we have just allocated the page no one else should be
+> +		 * using it.
+> +		 */
+> +		VM_WARN_ON_ONCE_PAGE(!page_ref_count(page), page);
+> +		set_page_count(page, 1);
+> +		ret = vm_insert_page(vma, vaddr, page);
+>   		if (ret) {
+>   			gen_pool_free(p2pdma->pool, (uintptr_t)kaddr, len);
+>   			return ret;
+>   		}
+>   		percpu_ref_get(ref);
+> -		put_page(virt_to_page(kaddr));
+> +		put_page(page);
+>   		kaddr += PAGE_SIZE;
+>   		len -= PAGE_SIZE;
+>   	}
+> diff --git a/mm/memremap.c b/mm/memremap.c
+> index 40d4547..07bbe0e 100644
+> --- a/mm/memremap.c
+> +++ b/mm/memremap.c
+> @@ -488,15 +488,24 @@ void free_zone_device_folio(struct folio *folio)
+>   	folio->mapping = NULL;
+>   	folio->page.pgmap->ops->page_free(folio_page(folio, 0));
+>   
+> -	if (folio->page.pgmap->type != MEMORY_DEVICE_PRIVATE &&
+> -	    folio->page.pgmap->type != MEMORY_DEVICE_COHERENT)
+> +	switch (folio->page.pgmap->type) {
+> +	case MEMORY_DEVICE_PRIVATE:
+> +	case MEMORY_DEVICE_COHERENT:
+> +		put_dev_pagemap(folio->page.pgmap);
+> +		break;
+> +
+> +	case MEMORY_DEVICE_FS_DAX:
+> +	case MEMORY_DEVICE_GENERIC:
+>   		/*
+>   		 * Reset the refcount to 1 to prepare for handing out the page
+>   		 * again.
+>   		 */
+>   		folio_set_count(folio, 1);
+> -	else
+> -		put_dev_pagemap(folio->page.pgmap);
+> +		break;
+> +
+> +	case MEMORY_DEVICE_PCI_P2PDMA:
+> +		break;
+> +	}
+>   }
+>   
+>   void zone_device_page_init(struct page *page)
+> diff --git a/mm/mm_init.c b/mm/mm_init.c
+> index 24b68b4..f021e63 100644
+> --- a/mm/mm_init.c
+> +++ b/mm/mm_init.c
+> @@ -1017,12 +1017,26 @@ static void __ref __init_zone_device_page(struct page *page, unsigned long pfn,
+>   	}
+>   
+>   	/*
+> -	 * ZONE_DEVICE pages are released directly to the driver page allocator
+> -	 * which will set the page count to 1 when allocating the page.
+> +	 * ZONE_DEVICE pages other than MEMORY_TYPE_GENERIC and
+> +	 * MEMORY_TYPE_FS_DAX pages are released directly to the driver page
+> +	 * allocator which will set the page count to 1 when allocating the
+> +	 * page.
+> +	 *
+> +	 * MEMORY_TYPE_GENERIC and MEMORY_TYPE_FS_DAX pages automatically have
+> +	 * their refcount reset to one whenever they are freed (ie. after
+> +	 * their refcount drops to 0).
+>   	 */
+> -	if (pgmap->type == MEMORY_DEVICE_PRIVATE ||
+> -	    pgmap->type == MEMORY_DEVICE_COHERENT)
+> +	switch (pgmap->type) {
+> +	case MEMORY_DEVICE_PRIVATE:
+> +	case MEMORY_DEVICE_COHERENT:
+> +	case MEMORY_DEVICE_PCI_P2PDMA:
+>   		set_page_count(page, 0);
+> +		break;
+> +
+> +	case MEMORY_DEVICE_FS_DAX:
+> +	case MEMORY_DEVICE_GENERIC:
+> +		break;
+> +	}
+>   }
+>   
+>   /*
 
-Nit: patch subject should start with "mm/gup: ...".
+
+But that's a bit weird: we call __init_single_page()->init_page_count() 
+to initialize it to 1, to then set it back to 0.
+
+
+Maybe we can just pass to __init_single_page() the refcount we want to 
+have directly? Can be a patch on top of course.
+
+Apart from that
+
+Acked-by: David Hildenbrand <david@redhat.com>
 
 -- 
 Cheers,
