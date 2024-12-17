@@ -1,114 +1,94 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5065B13D891
-	for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 18:49:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127A31F8ADF;
+	Tue, 17 Dec 2024 18:54:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734461357; cv=none; b=bYIdbkIRrmHH1BMT7E2fujhgszYuXrzrbp53aGx3WFqLoEWm5bvnNe90AbiPxidaN4QPfQWy1sU2leTSMq4bn8JuuxvgFaLLTMwh5d3A3j5PmEM4yK7MnQgwKoS1a5UzjmaucDQByn8pt1lbqdA+nDB/LMFKTBsIyi7pGFcIwRw=
+	t=1734461656; cv=none; b=CwX6LvspM7U0uN4di+S7mr13YNnJlCOnubEYRWxJLBF33RpQR3bbSMlqHcAr31ipWkS8dz/li6rCNL7nOCzD28wAVJUbIt16C9w2Ix5zdzq1TTE9fDfU/AdDrj5jeuaTv7vKd733BLmrZrHWITebXbnezGmb5x5DibHI4um1U38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734461357; c=relaxed/simple;
-	bh=gECHGDLfmlLFxfHSrS7Vrb8smZ7Grw8PZn2db5us/TQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YwmFVPwsao51sFD1uJFsMwySQKdXjo4HpGg58G2+zzxB4vRjHiT6y4aL6FTDJ5VaSF8QisXJUQyvod7ntkQDubbNGnU2KeZzU6GaDbneR7qr2NAKswVBe+2E2Q0Ly9VOTtvW/uSINmOt1baDqN398SAydglzIyRPEbe6+VSGRUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZvP/Eebs; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1734461656; c=relaxed/simple;
+	bh=AiaXSAppZt/mMAAT8W2evmJaQ5KeHMjF39PfKx+wRhE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IDUzEngv8ORMnQISUAZWxUgt/KabQ3xVhy1sc/j0xtiB9RhixwoOSyxIIISN3UUiLAigLX70k9ATJqWFaQKiMvJEtiRojCCQuKapL/zPmpXGUiAf0x7Is03GFBD0mR9wd475eLneumzvo1u68a0E2o7LQWglnhp1lU2hu/IMeIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=jsrWMYmx; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZvP/Eebs"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-467abce2ef9so26341cf.0
-        for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 10:49:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734461355; x=1735066155; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bYDU7PRkfogGx5ejuFzE77B1xu7cZtt+iKdyoItbELU=;
-        b=ZvP/EebsLDKmDFi/5NYF7bPUkTwdyfzFBBBPd3aUoQ+IgwpHHMHlhPu1Xx75zpPUTV
-         aEAn+sFfHG6l5IdUvRac5mchob+ohkW3LXCNfkTuII7apRf7jiuggVuVyef1lWaxcOiq
-         bbK9TyjZjONSd1dq0KOCGTsBewZRUW6djnTOq6rO+BFWd6+y4mVlZLdLoO5Vt3SInMPN
-         QwgKZVXzO8pC8ok9E51wahz9OlGUfNTcnyWwKybgjpJXGk3O6jiwREcYe2a9bTXnI832
-         9H3h670xWvEECey7+Yl6yURnF4T5DOC5UWxfJSup3ku5+yfDRdDmFSnijNAUTyIibU7t
-         DDug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734461355; x=1735066155;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bYDU7PRkfogGx5ejuFzE77B1xu7cZtt+iKdyoItbELU=;
-        b=NYUQCSR3GwHEm5gNxEne42ONmc1MLKnEWnySabDalNlv6J/uJNYpZcUcXI7vKyTYq+
-         HVwWk/7CZagAJ5LzjWDSIEZUya+ZhVwGLp9QC6HyG/dhSgsMatZrGg2VE3+fhSYXVEVB
-         dLUVE5YbyFJHuNWYmQZ/H/0p9SjhN+GEQJV5P8q8NosWvzVi9KWdmwrjRlmskme0uql7
-         YfqAe8fHe8WEfgO1POtYYbHNhLpFTJWP2w/UF3Rt0PS6Te6inzEEJyXfHZ8OSyuh314+
-         6BYbfs91Gg63SYMjMLh6kyCD0axHAc5rb2c0zHhfgi4XkPmjV1ZqfhqCpuEsteXrQpt8
-         S7dg==
-X-Forwarded-Encrypted: i=1; AJvYcCWzByoAPb5gTDpTtveW2UcFuJCsRBjfNBBxw4mFCpM/iwTsVO7E3nbEjLNYEvHmmSjC8qo7bEhSDOo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwySwPJVqcHw/RQBD56i2VyiOvA4qvNQz3GKkPO9c/nNe5yN1/7
-	PLxj2lYrIJyUiXqHs50DKIN7ij5lLMvsqtlIbiiG4ueuAeV5jAMvlPC0tYDQh2B2p6AG1Il7HLz
-	0fTsykuYoZJlat+5UG+hLEzdYKNKsmJb+3wl1
-X-Gm-Gg: ASbGncuEs6/anGtezwnc1CXS4uCuRZcaQh9jOdMj6aWJlcWEnuRi+zO2ULefTq9fCNn
-	zkXaRS6CyQ6XBHe984KWAiHdoP6s73029pQCNYVQhO70pX1mBVFkxbSNn4R8d4CxqD/+w
-X-Google-Smtp-Source: AGHT+IHhoaVUwQriIDrG+/nQrc5mfXTcjuZa/bAfk12lhZxf4kuyi2fU1Br0CJni6OGQIi809n/wf3XVbe+mIK2WnAg=
-X-Received: by 2002:a05:622a:347:b0:466:91fd:74c0 with SMTP id
- d75a77b69052e-469085ac13fmr130791cf.0.1734461354934; Tue, 17 Dec 2024
- 10:49:14 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="jsrWMYmx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1734461650;
+	bh=AiaXSAppZt/mMAAT8W2evmJaQ5KeHMjF39PfKx+wRhE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jsrWMYmxfta24/w2SpHyh/6TblZCH1538sXp9X+MtTYEFLPJ4phHi6f8NBVFf4BLr
+	 On0EDODUk5/84lZ5amsFFoiwfe/ckHjqJx1mH95C5TsXej/FUalQ0O/y4xdfX3a9bF
+	 4wnUKJG+iVv+MLqhuEkJW8YfzaYtcZbt1armsXJk=
+Date: Tue, 17 Dec 2024 19:54:10 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Joshua Grisham <josh@joshuagrisham.com>, ilpo.jarvinen@linux.intel.com, 
+	W_Armin@gmx.de, platform-driver-x86@vger.kernel.org, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] platform/x86: samsung-galaxybook: Add
+ samsung-galaxybook driver
+Message-ID: <7e25c789-5840-40a5-b491-b97b24cbebd1@t-8ch.de>
+References: <20241216103855.18457-1-josh@joshuagrisham.com>
+ <13184052-baf2-4e7d-b8ef-9ba3f34d475a@t-8ch.de>
+ <66897a27-5f81-46fc-898d-682456d7f37f@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241216192419.2970941-1-surenb@google.com> <CAJuCfpHL33E_=hHmM-4sgcG892j3NS+J69RWHJNmJs-N16y4Lg@mail.gmail.com>
- <20241217104218.7ed493c6647cea5c5c0a73c6@linux-foundation.org>
-In-Reply-To: <20241217104218.7ed493c6647cea5c5c0a73c6@linux-foundation.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 17 Dec 2024 10:49:02 -0800
-Message-ID: <CAJuCfpF+Gi25-JpL8dav-Uw3Lx9iVA8BDH2ZJr3OtZcVP1FS=Q@mail.gmail.com>
-Subject: Re: [PATCH v6 00/16] move per-vma lock into vm_area_struct
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com, 
-	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz, 
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	klarasmodin@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <66897a27-5f81-46fc-898d-682456d7f37f@redhat.com>
 
-On Tue, Dec 17, 2024 at 10:42=E2=80=AFAM Andrew Morton
-<akpm@linux-foundation.org> wrote:
->
-> On Mon, 16 Dec 2024 11:39:16 -0800 Suren Baghdasaryan <surenb@google.com>=
- wrote:
->
-> > > Patchset applies over mm-unstable after reverting v5 of this patchset=
- [4]
-> > > (currently 687e99a5faa5-905ab222508a)
-> >
-> > ^^^
-> > Please be aware of this if trying to apply to a branch. mm-unstable
-> > contains an older version of this patchset which needs to be reverted
-> > before this one can be applied.
->
-> I quietly updated mm-unstable to v6.  I understand that a v7 is expected.
+On 2024-12-17 15:23:22+0100, Hans de Goede wrote:
+> On 16-Dec-24 5:46 PM, Thomas Weißschuh wrote:
 
-Thanks! Yes, I'll post v7 once our discussion with Peter on
-refcounting is concluded.
+[..]
 
-Could you please fixup the issue that Lokesh found in
-https://lore.kernel.org/all/20241216192419.2970941-7-surenb@google.com/
-?
-Instead of
+> >> +Keyboard hotkey actions (i8042 filter)
+> >> +======================================
+> >> +
+> >> +Controlled by parameter: ``i8042_filter``
+> >> +
+> >> +The i8042 filter will swallow the keyboard events for the Fn+F9 hotkey (Multi-
+> >> +level keyboard backlight toggle) and Fn+F10 hotkey (Allow/block recording
+> >> +toggle) and instead execute their actions within the driver itself.
+> >> +
+> >> +Fn+F9 will cycle through the brightness levels of the keyboard backlight. A
+> >> +notification will be sent using ``led_classdev_notify_brightness_hw_changed``
+> >> +so that the userspace can be aware of the change. This mimics the behavior of
+> >> +other existing devices where the brightness level is cycled internally by the
+> >> +embedded controller and then reported via a notification.
+> >> +
+> >> +Fn+F10 will toggle the value of the "Allow recording" setting.
+> > 
+> > Personally I'm not a big fan to implement policy this way in the kernel.
+> > But others may disagree.
+> 
+> The keyboard backlight cycling ws already discussed and handling this in
+> the driver is ok.
 
-+                if (!vma_start_read_locked(*dst_vmap)) {
+Ack.
 
-it should be:
+[..]
 
-+                if (vma_start_read_locked(*dst_vmap)) {
+> >> +static struct platform_driver galaxybook_platform_driver = {
+> > 
+> > Could this be a 'struct acpi_driver'?
+> 
+> The use of acpi_driver is deprecated. AFAIK the plan it to
+> move the remaining ones to platform-drivers and eventually
+> remove the whole ACPI bus concept turning ACPI companion
+> nodes into "normal" fwnodes like the current software and
+> openfirmware fwnodes.
 
-That's the only critical issue found in v6 so far.
-Thanks!
+Thanks for this explanation, I was not aware.
+It explains the comment from Rafael in [0].
+
+[0] https://lore.kernel.org/lkml/CAJZ5v0g0B8UFqYza88ahMfC-1_FzzizeS6QN=Qtt7vGv9+TK1w@mail.gmail.com/
