@@ -1,98 +1,180 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B360A23DE;
-	Tue, 17 Dec 2024 11:18:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93E41EF084
+	for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 11:31:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734434292; cv=none; b=BQP7yEHoyY4kkWVa6lx2hXR1u4535VenfgvvUDtX/b5qphq6oTMWpyM4WLHm2hjpL4AqZjxAlrVVA7J5ptbr1rShXCOtRNJzS3aSmny+4sXoQsXMppQONoFtsIixBtYU2dZBQ+k72E69fDmm77yXrbVx0a5ildIYfGDeWKx8rRg=
+	t=1734435093; cv=none; b=r0HI64aDSrzjWCLBpXyZ89CYCu2h2adSn33gZ2FtuhsZHjlkKP1aiVQiZmKlwyzQhdhdCvYtszq22C1i3/aHgqrQfUUkQkQABHRsQhIVX/6mF/A/JyJNiAl+D2t5+teNIRTHFgnj4vqCehRoacZ116hZ41KCLRfgHS3eId/FFI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734434292; c=relaxed/simple;
-	bh=zVlgGm7llyHh3iAC7Y9aQ+41J5IKUVHaEdnfYZYt0jg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aASrMFpu66Aw3i9vsXotkp7iyMC4uoTFPCuIa5Xm9gcFKuJqJwlZ71m1vOZUxiRV1/OMiXdgHzwrzwKNvKPkP2cNOYDq9tAH14uJIN43LfpzWQzkgIItQWf8BSIiYPTcD+S+1Mf042x2x05zMaQgzD7hNMk93dRUa7DzXIyHpbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=bA5nD0Rn; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1734435093; c=relaxed/simple;
+	bh=NrV7zWa2cOX+jQ+iJwEyDxFKODIfF/wIulqOnUlHeg4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jbMdfQDf98y4NjTIl7rX2MK39fvLwqxZ6INRJxSHPGjdLoNjF9fhTbCXWeFjZrAeMzWq8X4c10P5gRzawASe4yPVGZmYp9VGkxIBvUNhYLAa6HMAyUthceoLC4o+mk9x6L/zhI+RVBm66qt+4iX+Ix7Sci4cJo8MG8guda+piAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jc29Dblk; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="bA5nD0Rn"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 922C640E01F9;
-	Tue, 17 Dec 2024 11:18:08 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id rQNDIJLZNdIg; Tue, 17 Dec 2024 11:18:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1734434283; bh=Z5pyBMHWLs0LeJFECe0k4HwjZB4HaJ8rUIWKRHTqFoI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bA5nD0Rnc/rr8I+Q9c0prBMBlgk5no8MJT9E7HL0haS/ELjK+xMGysmcMu2y1tSjF
-	 qEmt1+KrTV0Vdkqrr7bNGJb1EBRu4SAlxaJYigDA5iQIZhA6GUeqmyCUzNkXcD2vR5
-	 m4mXWvvcxKWQX+DC3XxkwcKHsx8tPTMDo6if58/O3ZvbQw0JVkoMdZXUe1t1wIFQr4
-	 jcnrDr6zpDtdsvrGUae3eUGbrMOhr0PucyE1n2mxtz59RBYOEyALa4civmQL6fvaur
-	 gOH32Nod4J/nJavHVooC8n9V/v59eufbvGP1YOP87e1c0+QrYTNksRZ4kINz89VGxj
-	 f8Ymn+2UliBUk0oB0nbh8eqWO+cEpzVwZfyIT7wBSQQdHS6eCX+SvSoS6PKyVoTRSj
-	 rwqODbKl709n9FJ2qr6fe7uzAyuPMIaboHxG3tgAU5vSMn3ZYVkJLShN3pJL6a+raA
-	 GgZaGnzZyssvhMwJIUjmOM73ujTLhHMIqG7L7BtpVom7uRgnFlwp/1gl/4XE+3+DYm
-	 +VHG6cgKrSB2SWXVwB/ao4sFvI9tWzYE3SStG0Tf92cBvbWX6JZG0oeQhudYNbKGl0
-	 yjvjQOPI2Tv8eJUTipRKhq8Unwtwqb9gLFc99RgbE5qIEUwrjgis6GAYMjqWQZnUWL
-	 sUpEaUETDb0rN9ewYQpOUVuQ=
-Received: from zn.tnic (p200300eA971f937D329c23fFfeA6A903.dip0.t-ipconnect.de [IPv6:2003:ea:971f:937d:329c:23ff:fea6:a903])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 4746F40E0277;
-	Tue, 17 Dec 2024 11:17:53 +0000 (UTC)
-Date: Tue, 17 Dec 2024 12:17:52 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Brendan Jackman <jackmanb@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] x86/bugs: Add force_cpu_bug= cmdline param
-Message-ID: <20241217111752.GDZ2Fd4E4XX-w_t6eq@fat_crate.local>
-References: <20241119-force-cpu-bug-v1-1-2aa31c6c1ccf@google.com>
- <20241216171700.GIZ2BgjPerQ8jQlq8S@fat_crate.local>
- <CA+i-1C1HeLfbGg=LdXBYuhXWVPn1O0qtEYxFRYaXPUch4goEtA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jc29Dblk"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4678c9310afso193701cf.1
+        for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 03:31:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1734435091; x=1735039891; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vD8eqn9xKjeqPVrsxuP1cvZSPzizQuDJa3iQ6IuBE7k=;
+        b=jc29Dblkxb7KWgJnS8I88lZbX0uFVJVcPLZRsVI7ZMPUDSdV25ZHVEccsodtPdYBkF
+         5IW5FKinXYr20pVAmuuYvxVXyhWbzUQQ9R0DVnxNDdOv/oHWaQ8mMjyyI8EacDJEJ1BW
+         jahkXPBj1vTBYG8sfCc6yMyHMU/HTm+fDARj6X6U1x1oXS+kMiYUzp2gHUXIMUvTdqXF
+         HasoRR2txsXKwbg7AX5U2w8dQkTw+fSP/O+2tfebPRe/ffMWs1dmu9C/02et8bV8k7RM
+         i2+jzEjG7VXVok+CiNuuXomrd8mP3Uwz4bJzxq19VdEwbG7DdODPJ1DXHliF0s8SdWaq
+         CsJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734435091; x=1735039891;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vD8eqn9xKjeqPVrsxuP1cvZSPzizQuDJa3iQ6IuBE7k=;
+        b=Fi6uQNO19v8lC5cT+Na0Bh2JDfM6m850PerQnEt2hLcXNzopjRresFGMzATJ//49sM
+         7oRogO+/rZvdXfZY48cBtfNTbRx9EV+UgigtvE+xITaGUYWe3x9pK2yJ4Xvbh5V8TkIX
+         nijAnkzyKwgube7qp2UzVpAFFgsFSt7bCJMY4UlbHMeu0EozOnYjuGtkU9zLO6mACKOx
+         yiPHA9jS2mbAHHLdEyvW25D9tMsCJFTTojGtkggghaq4TVXB1YUTWRu36aHnP0OfBZ9x
+         BobBdJJ4v8QBwYl8dg91fe0awqJ50co9efT72oCR8vaLqjL6NY3dacU8XBM4F4pj1S4a
+         Rcmw==
+X-Forwarded-Encrypted: i=1; AJvYcCVA9nAVRZQSGPCflFQ1RIlf8LuAHVa68nr31SSgICatdulYckF14WdXLvoLRzwu3jjMeLWp0R+HAJU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyXKzxo3zJtZTWsiMwL1RzZSDZhlXjct5BshQ6XBvTwpiEyuwEo
+	ucsJiPSZTzpqSxKH4gnvFcacJLmPHuRamvG/fphLNppV+75lvpoLJP/yWG8JipTstUKa6Jw8Wbr
+	dQgGk1mi3zKeKBsfEQqfIxu5rXiPTuX5jEn8M
+X-Gm-Gg: ASbGncsWhAZDRyVZ9CFYtktZnnjXj1M0dDdKKyLNIoc6O2+ZTF0jSBO4pJJz2kC2nvg
+	rNMfJgYQjyxtKABbsGA7YQOoGPlfTlfHZbLGNBK8=
+X-Google-Smtp-Source: AGHT+IHKHu1IRkhxrihYEwIoqAnGLbuaLzSRpS59Zb04zfEsWUbH7MON2gLm1HCEqY0IL9x+918vOzmCLcWI+leDoFU=
+X-Received: by 2002:ac8:5816:0:b0:466:8e4d:e981 with SMTP id
+ d75a77b69052e-468fb0a6adfmr2640361cf.3.1734435090631; Tue, 17 Dec 2024
+ 03:31:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CA+i-1C1HeLfbGg=LdXBYuhXWVPn1O0qtEYxFRYaXPUch4goEtA@mail.gmail.com>
+References: <20241216192419.2970941-1-surenb@google.com> <20241216192419.2970941-7-surenb@google.com>
+In-Reply-To: <20241216192419.2970941-7-surenb@google.com>
+From: Lokesh Gidra <lokeshgidra@google.com>
+Date: Tue, 17 Dec 2024 03:31:17 -0800
+X-Gm-Features: AbW1kvY337jQ0-Qj_UJ_IHTN8osVIPvR_DR3TuoCbJLAyvPh6j1Kj7s-4brW2z4
+Message-ID: <CA+EESO5BiPvHSxLtsc-3k4Sv2B09J1MsWzGvCwG-eBh-7rdCyw@mail.gmail.com>
+Subject: Re: [PATCH v6 06/16] mm: allow vma_start_read_locked/vma_start_read_locked_nested
+ to fail
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org, 
+	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, mhocko@suse.com, 
+	vbabka@suse.cz, hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
+	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, minchan@google.com, 
+	jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com, 
+	pasha.tatashin@soleen.com, klarasmodin@gmail.com, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 16, 2024 at 06:58:24PM +0100, Brendan Jackman wrote:
-> OK yeah, tainting definitely makes sense, I think that goes quite a
-> long way to avoid bogus bug reports?
+On Mon, Dec 16, 2024 at 11:24=E2=80=AFAM Suren Baghdasaryan <surenb@google.=
+com> wrote:
+>
+> With upcoming replacement of vm_lock with vm_refcnt, we need to handle a
+> possibility of vma_start_read_locked/vma_start_read_locked_nested failing
+> due to refcount overflow. Prepare for such possibility by changing these
+> APIs and adjusting their users.
+>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> Cc: Lokesh Gidra <lokeshgidra@google.com>
+> ---
+>  include/linux/mm.h |  6 ++++--
+>  mm/userfaultfd.c   | 17 ++++++++++++-----
+>  2 files changed, 16 insertions(+), 7 deletions(-)
+>
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 689f5a1e2181..0ecd321c50b7 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -747,10 +747,11 @@ static inline bool vma_start_read(struct vm_area_st=
+ruct *vma)
+>   * not be used in such cases because it might fail due to mm_lock_seq ov=
+erflow.
+>   * This functionality is used to obtain vma read lock and drop the mmap =
+read lock.
+>   */
+> -static inline void vma_start_read_locked_nested(struct vm_area_struct *v=
+ma, int subclass)
+> +static inline bool vma_start_read_locked_nested(struct vm_area_struct *v=
+ma, int subclass)
+>  {
+>         mmap_assert_locked(vma->vm_mm);
+>         down_read_nested(&vma->vm_lock.lock, subclass);
+> +       return true;
+>  }
+>
+>  /*
+> @@ -759,10 +760,11 @@ static inline void vma_start_read_locked_nested(str=
+uct vm_area_struct *vma, int
+>   * not be used in such cases because it might fail due to mm_lock_seq ov=
+erflow.
+>   * This functionality is used to obtain vma read lock and drop the mmap =
+read lock.
+>   */
+> -static inline void vma_start_read_locked(struct vm_area_struct *vma)
+> +static inline bool vma_start_read_locked(struct vm_area_struct *vma)
+>  {
+>         mmap_assert_locked(vma->vm_mm);
+>         down_read(&vma->vm_lock.lock);
+> +       return true;
+>  }
+>
+>  static inline void vma_end_read(struct vm_area_struct *vma)
+> diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
+> index bc9a66ec6a6e..79e8ae676f75 100644
+> --- a/mm/userfaultfd.c
+> +++ b/mm/userfaultfd.c
+> @@ -85,7 +85,8 @@ static struct vm_area_struct *uffd_lock_vma(struct mm_s=
+truct *mm,
+>         mmap_read_lock(mm);
+>         vma =3D find_vma_and_prepare_anon(mm, address);
+>         if (!IS_ERR(vma))
+> -               vma_start_read_locked(vma);
+> +               if (!vma_start_read_locked(vma))
+> +                       vma =3D ERR_PTR(-EAGAIN);
+>
+>         mmap_read_unlock(mm);
+>         return vma;
+> @@ -1483,10 +1484,16 @@ static int uffd_move_lock(struct mm_struct *mm,
+>         mmap_read_lock(mm);
+>         err =3D find_vmas_mm_locked(mm, dst_start, src_start, dst_vmap, s=
+rc_vmap);
+>         if (!err) {
+> -               vma_start_read_locked(*dst_vmap);
+> -               if (*dst_vmap !=3D *src_vmap)
+> -                       vma_start_read_locked_nested(*src_vmap,
+> -                                               SINGLE_DEPTH_NESTING);
+> +               if (!vma_start_read_locked(*dst_vmap)) {
 
-It was my feeble attempt back then to leave enough breadcrumbs so that when
-I see a bug report, I can say: "well, then don't do that then" and mark it as
-invalid. :)
-
-> I will also update the docs to sound scarier.
-
-Right.
-
-> So do you think we should allow setting arbitrary cpu features? That
-> seems like a much bigger footgun. But then again, the difference
-> between "big footgun" and "very big footgun" is not that important,
-> either way it needs to be clear to users that this is a scary red
-> button.
-
-Yeah, with your patch we're half-way there. Might as well do the whole thing
-but again, this is only my opinion. Probably should hear what others have to
-say first...
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+I think you mistakenly reversed the condition. This block should be
+executed if we manage to lock dst_vma successfully.
+> +                       if (*dst_vmap !=3D *src_vmap) {
+> +                               if (!vma_start_read_locked_nested(*src_vm=
+ap,
+> +                                                       SINGLE_DEPTH_NEST=
+ING)) {
+> +                                       vma_end_read(*dst_vmap);
+> +                                       err =3D -EAGAIN;
+> +                               }
+> +                       }
+> +               } else
+> +                       err =3D -EAGAIN;
+>         }
+>         mmap_read_unlock(mm);
+>         return err;
+> --
+> 2.47.1.613.gc27f4b7a9f-goog
+>
