@@ -1,96 +1,159 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE581F239E;
-	Tue, 17 Dec 2024 12:11:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8CCA29;
+	Tue, 17 Dec 2024 13:00:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734437493; cv=none; b=r3m+anAiK81lha+SdAXA8TXUA6oKICFq7eMUDocAgo6g3MtrwoXb6es1d0UdIynswWoYwCW5enb7tqkC9i750UdF4uVZZtiUUVWFtwqgcB3elN/VgsSKtGUs6B7pXoQ3hUfITEo/9Psdo/GautUdjNUrzM6GXekahWZMaJv9bQw=
+	t=1734440460; cv=none; b=T0i8pGvy9aSH6Z5h8rZBAud8bM8HIkUq/NNl79H5Uqzt/Tex+uu8Jrc2aX+g2SGHLlxaxItwCQqvIxXCInK9Be/UlR/Uyo678D0ojhITz+Ylftfxb3e+QRpc5XNDWALjfEHwkycg2AudyNiRxkTNXmtxkVfpt3MMuNKof3M8vWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734437493; c=relaxed/simple;
-	bh=l3pO0JNjMZnsq5a7fujNN45J7lyZ4k2y+vJ1SY7TY2g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m8MhKjrei7F8ng2gpqIYxHMAL6urSORnsZapcJKir10aOBUOL6JAWI+ri4cpNZBB29y/JhKQTtBLamW2mZZ/YqxjOgg5rN7PtdNnScxz/2nAO7UCIGOpWdh+uD1YtwyYpFl8+gbjSvWL+Fl8rZljE+ekBvOQb9JbDs/3tzhRyNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lHd62dbS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734440460; c=relaxed/simple;
+	bh=WUcPWFcOfeUf/sio4O36o8I8jrOpMF9pl2t7YRV1K7c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kcTmF/0zmtc5jZ7AU0mCs3x//4cIg/ucroYFKLpQ4S3z9U5MNDxZxlU4PR2jRWurhgviUWga87KOOnECbNO2g/lbzcLa+hZbZ58ZBILPvjLenLc9plBsb8igbNcTbDoZV5m2LisOAnW4jJWUua/jTL4E+fqLCh0PZdnwr56o55U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W2+t6vZC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lHd62dbS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D72EC4CED3;
-	Tue, 17 Dec 2024 12:11:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W2+t6vZC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4E42C4CED3;
+	Tue, 17 Dec 2024 13:00:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734437492;
-	bh=l3pO0JNjMZnsq5a7fujNN45J7lyZ4k2y+vJ1SY7TY2g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lHd62dbSHGsMXodgZvTZzwmJ2UDPi7EacK6iYpYojnssu3rpfB35y35V5Tf89VQ1C
-	 ATZ+aCCQF9kCSU83BOro9SAWJpiKkOkfUHehZ9Lk2Rtp1d3KaW8UytD2pSGKKbnWgd
-	 sqgfqcWRmiGq7RF6hTnRxd3vTF08pHhSyzo8+AVMeUEYJoTuhUXUqVCgt4fe1HD4dx
-	 WH09moysT5NkgBSZiMfd45xnt0zub6eumb/iPGf4vxwMIwZWWQtq9T6lu0/YP/D1/G
-	 Oq/Pd+np/E0hQ3blwzCbhwFUheITRy3pmm8znrwaPdPqWPJ1Xin3UVnG52Y1xIFGSu
-	 d4ky/5mZrqjNw==
-Date: Tue, 17 Dec 2024 12:11:25 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Inochi Amaoto <inochiama@gmail.com>
-Cc: Yangyu Chen <cyy@cyyself.name>, Chen Wang <unicorn_wang@outlook.com>,
+	s=k20201202; t=1734440459;
+	bh=WUcPWFcOfeUf/sio4O36o8I8jrOpMF9pl2t7YRV1K7c=;
+	h=From:To:Cc:Subject:Date:From;
+	b=W2+t6vZC3dFZWGD+hxEMeEPE1EEKt40fCuWrdg3SEm/26SFd4QEg0tiIvT2/Wek19
+	 ipbNsM3RLXl0RvFJrTnmhBFYT5MAx6OqnZ/oOKDrKGf32XUg477wAJn6V2jcBjZO/8
+	 Ii8+JaZkyyMGebvolPyBm40JjRdZQhIhr9H3yf5kaiaiXVcPFmwe/C4LJJ4P6impvd
+	 8/hR+n5YTMhKvuP9ew3PL2463hfk0ZudfO9HpYVaOpExaxG4v5E7GWf3f90dIP2oBV
+	 GHJCkATLPfGc2ofcLdQ0kQuhsYKz0DBm7jEilkgCea7JLERhDeOtEVUaSSk2h/iHeZ
+	 SwmUwQ1h0ckQQ==
+From: Leon Romanovsky <leon@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Evan Green <evan@rivosinc.com>,
-	Charlie Jenkins <charlie@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Jesse Taube <jesse@rivosinc.com>, Andy Chiu <andybnac@gmail.com>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Yong-Xuan Wang <yongxuan.wang@sifive.com>,
-	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Yixun Lan <dlan@gentoo.org>, Longbin Li <looong.bin@gmail.com>
-Subject: Re: [PATCH v3 3/3] riscv: hwprobe: export bfloat16 ISA extension
-Message-ID: <20241217-fondue-candy-55e7efcf2a5e@spud>
-References: <20241206055829.1059293-1-inochiama@gmail.com>
- <20241206055829.1059293-4-inochiama@gmail.com>
- <tencent_8F35B6F07D09566A873982E0E2C76085280A@qq.com>
- <sh3fu66fltjccbygbdxilbos4bi5wqk2cdiihc6ixnodsbxtox@rezkyqnpp5yv>
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v5 00/17] Provide a new two step DMA mapping API
+Date: Tue, 17 Dec 2024 15:00:18 +0200
+Message-ID: <cover.1734436840.git.leon@kernel.org>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="u6IT59OqLX/3bsSB"
-Content-Disposition: inline
-In-Reply-To: <sh3fu66fltjccbygbdxilbos4bi5wqk2cdiihc6ixnodsbxtox@rezkyqnpp5yv>
+Content-Transfer-Encoding: 8bit
+
+Changelog:
+v5:
+ * Trimmed long lines in all patches.
+ * Squashed "dma-mapping: Add check if IOVA can be used" into
+   "dma: Provide an interface to allow allocate IOVA" patch.
+ * Added tags from Christoph and Will.
+ * Fixed spelling/grammar errors.
+ * Change title from "dma: Provide an  ..." to be "dma-mapping: Provide an ...".
+ * Slightly changed hmm patch to set sticky flags in one place.
+v4: https://lore.kernel.org/all/cover.1733398913.git.leon@kernel.org
+ * Added extra patch to add kernel-doc for iommu_unmap and
+ * iommu_unmap_fast
+ * Rebased to v6.13-rc1
+ * Added Will's tags
+v3: https://lore.kernel.org/all/cover.1731244445.git.leon@kernel.org
+ * Added DMA_ATTR_SKIP_CPU_SYNC to p2p pages in HMM.
+ * Fixed error unwind if dma_iova_sync fails in HMM.
+ * Clear all PFN flags which were set in map to make code.
+   more clean, the callers anyway cleaned them.
+ * Generalize sticky PFN flags logic in HMM.
+ * Removed not-needed #ifdef-#endif section.
+v2: https://lore.kernel.org/all/cover.1730892663.git.leon@kernel.org
+ * Fixed docs file as Randy suggested
+ * Fixed releases of memory in HMM path. It was allocated with kv..
+   variants but released with kfree instead of kvfree.
+ * Slightly changed commit message in VFIO patch.
+v1: https://lore.kernel.org/all/cover.1730298502.git.leon@kernel.org
+ * Squashed two VFIO patches into one
+ * Added Acked-by/Reviewed-by tags
+ * Fix docs spelling errors
+ * Simplified dma_iova_sync() API
+ * Added extra check in dma_iova_destroy() if mapped size to make code
+ * more clear
+ * Fixed checkpatch warnings in p2p patch
+ * Changed implementation of VFIO mlx5 mlx5vf_add_migration_pages() to
+   be more general
+ * Reduced the number of changes in VFIO patch
+v0: https://lore.kernel.org/all/cover.1730037276.git.leon@kernel.org
+
+----------------------------------------------------------------------------
 
 
---u6IT59OqLX/3bsSB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Christoph Hellwig (6):
+  PCI/P2PDMA: Refactor the p2pdma mapping helpers
+  dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
+  iommu: generalize the batched sync after map interface
+  iommu/dma: Factor out a iommu_dma_map_swiotlb helper
+  dma-mapping: add a dma_need_unmap helper
+  docs: core-api: document the IOVA-based API
 
-On Tue, Dec 17, 2024 at 08:40:37AM +0800, Inochi Amaoto wrote:
-> On Tue, Dec 17, 2024 at 12:00:23AM +0800, Yangyu Chen wrote:
-> > Possible conflict with: https://lore.kernel.org/linux-riscv/20241111-v5=
-_user_cfi_series-v8-22-dce14aa30207@rivosinc.com/
-> >=20
->=20
-> Yeah, I know the conflict. As the time of merging these patch is
-> uncertain, what I can do now is to match the upstream code.
+Leon Romanovsky (11):
+  iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
+  dma-mapping: Provide an interface to allow allocate IOVA
+  dma-mapping: Implement link/unlink ranges API
+  mm/hmm: let users to tag specific PFN with DMA mapped bit
+  mm/hmm: provide generic DMA managing logic
+  RDMA/umem: Store ODP access mask information in PFN
+  RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
+    linkage
+  RDMA/umem: Separate implicit ODP initialization from explicit ODP
+  vfio/mlx5: Explicitly use number of pages instead of allocated length
+  vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+  vfio/mlx5: Enable the DMA link API
 
-The solution is to not worry about it. Palmer can resolve trivial
-numerical conflicts like this.
+ Documentation/core-api/dma-api.rst   |  70 +++++
+ drivers/infiniband/core/umem_odp.c   | 250 +++++----------
+ drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
+ drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
+ drivers/infiniband/hw/mlx5/umr.c     |  12 +-
+ drivers/iommu/dma-iommu.c            | 454 +++++++++++++++++++++++----
+ drivers/iommu/iommu.c                |  84 ++---
+ drivers/pci/p2pdma.c                 |  38 +--
+ drivers/vfio/pci/mlx5/cmd.c          | 376 +++++++++++-----------
+ drivers/vfio/pci/mlx5/cmd.h          |  35 ++-
+ drivers/vfio/pci/mlx5/main.c         |  87 +++--
+ include/linux/dma-map-ops.h          |  54 ----
+ include/linux/dma-mapping.h          |  86 +++++
+ include/linux/hmm-dma.h              |  33 ++
+ include/linux/hmm.h                  |  21 ++
+ include/linux/iommu.h                |   4 +
+ include/linux/pci-p2pdma.h           |  84 +++++
+ include/rdma/ib_umem_odp.h           |  25 +-
+ kernel/dma/direct.c                  |  44 +--
+ kernel/dma/mapping.c                 |  18 ++
+ mm/hmm.c                             | 264 ++++++++++++++--
+ 21 files changed, 1423 insertions(+), 693 deletions(-)
+ create mode 100644 include/linux/hmm-dma.h
 
---u6IT59OqLX/3bsSB
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.47.0
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ2FqbQAKCRB4tDGHoIJi
-0gC6AP93cXtfL2os2Bs1KG8DXZDksw/B4lc/JODm5RYX+90VcgEA0/PtcD5OgyqJ
-gwb0h/T9khenIvSYh9EI5eAkKgTSnA8=
-=5wZ7
------END PGP SIGNATURE-----
-
---u6IT59OqLX/3bsSB--
