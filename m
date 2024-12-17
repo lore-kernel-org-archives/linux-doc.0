@@ -1,73 +1,66 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5BE1D31AE
-	for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 22:33:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 867DE1D9A63;
+	Tue, 17 Dec 2024 22:59:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734474798; cv=none; b=HTtj5kXyjuzzgL75aL1OP1356AlyuHa11QX9t4YvdLtqSdkNDykgxijA2ttqe57WSaWe22Nc9KsKCzEN5ZPHL7nz+DF+57YqdcO/VKSF2Mn/RuLeKjbHjnMkAt2QOIv0H8WHySf8C7b2IEENx+Ts15dWZwjD3SqQRnKs+ZjAvoI=
+	t=1734476394; cv=none; b=Uy7uRupHgHUaPSzO5/vv5oWJF8B8U9LnnTveK6iZhfdp+8AqHY08CWTgI8HvwlKrjh1WFoWFiVV0j+3Vf2+nR7MBStlqZXJDep7HtjmglU1r2TIBQ7hpPwbM685ht9vZegTGmFhGda3CBkfgFY4OHHDLkHJz5biDWGsM6O7wqhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734474798; c=relaxed/simple;
-	bh=MBDsfeVpZYYIxL21t6Nf1RWI9Ay/NC4iydLktnvMq5o=;
+	s=arc-20240116; t=1734476394; c=relaxed/simple;
+	bh=t78D7F/eWdsE/Maj8r8gf4TmgL1mU/T2PrN4z5z7CBo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=en0wH3MLrHCguEYk1urViIPTHoq/0cDH1kK9ci4ELe1EOzxQmH9zQmkXVPcXraEsGCkAKRhD/kGsGNlg1A6Jo8X8o5CZX8jkMMTxBHGGilD94fsQCz3wglAM/ZKYrbKZ8OBRvR6IQN/6EkzpSv58aqpa3Tz8I0DQEBSXu1enbGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=M9r+psXA; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=BwIOmV5mkHECuiYmY4jbyjk8Fw462bnZrrV84VilvsVlEZXEjY1ldkr0qqFdIHXgvNrX/fzVTLIPzCjU+eDYAEk4Zngz2jgenedZ+CvWOiKyAQG7iBd1/dG0qV2wn1PKzhDqbMyhEfU/tzJYeV8JAZcjOVtyS7ToEukfChnqomw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M1VZFx6i; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="M9r+psXA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1734474794;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=oasFH9YS/5nOK6GsM6YHhbVvy+xnvzjUtw4Gpik0lY0=;
-	b=M9r+psXAW9Vn1tW0jD44KqM4BshPlvEpkEiuvrIC5uqoFVpUf2bZgidDEaCK+igjZ9TcLP
-	GcZxIIWRmrMYSUs9tAna3WcfCYXidVUy+hMJ+EzceTA+vQG0sVgT723viK2nEIge6HCLed
-	dKvbKMgwPgP1T2d4qalBvye3JusLCQQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-437-VnMp1uo9M2i-m-EtSzsBng-1; Tue, 17 Dec 2024 17:33:13 -0500
-X-MC-Unique: VnMp1uo9M2i-m-EtSzsBng-1
-X-Mimecast-MFC-AGG-ID: VnMp1uo9M2i-m-EtSzsBng
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4361d4e8359so29097735e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 14:33:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M1VZFx6i"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-728e78c4d7bso150831b3a.0;
+        Tue, 17 Dec 2024 14:59:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734476392; x=1735081192; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=t78D7F/eWdsE/Maj8r8gf4TmgL1mU/T2PrN4z5z7CBo=;
+        b=M1VZFx6iufLC5/zQhWoR/rdy46I8EWzhNPDsomsTN41v0hrpH6vxKkOxvxNNwHi7xT
+         Nr5FjCH8qFgybiNCxF4aBMM9H0XWne93gYsWSKqPgr7JVEf2V60lsEEKhjn8V4OVplY2
+         sRdn4u17kzWlzUKUU1KEsPxjhB6wDHsmwPqUoMVwUt8bx6xGvgXp1ShWyQc3Ry2kA9Rk
+         GhrTiKVX3Za3vJK+gCmxSTO7TVF3HpfV4mrH+E4uVTn43G2FdhBpTaokpNJJJpQPMHUX
+         tcQBA2r/lWDMDWBIc6G6q/QHmyTiUUAyUng9r7e5gG/J6zK74Qw4HTfxvgdaEIS4iccu
+         2c5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734474792; x=1735079592;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=oasFH9YS/5nOK6GsM6YHhbVvy+xnvzjUtw4Gpik0lY0=;
-        b=F36hQ3Lf0w3nH7yG8ErZljWNqKcwvv3hKZaYOU42cGrJDUCrVGRrtWmCsEC29SU8CX
-         rJVdAtKE3rDvmE8WmXd2bAY2K2FkPVqkf4ZXrxYtR95pUTI0PLLtYX4l5y8zYmmr5Vhm
-         Zgo/WADkDwiUPWImBoNMLo+Su5YX4xwvz63QjpYD3OS1nLpIyRWFzFOIo41bXzuALBrl
-         hdDjLjkryh3o+oGBRTAffUgepYyP1n/h/T+okk/X3meU48MhtJd+uJIM04WJfH/tDhrg
-         IxiVVJzVo/GWC8QHsKRdIReeyRfdoyhyjgtlxGI9lzjJ1J1nthrc9v1anMrDqjLMKCiB
-         MIoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVuFHg64jB2WwnkpIQxqYAxLPv0e3ksfKENzyhXmoJ1DFWVmgVXNiVNrFKmsO5SpODmE+FpUKIVWzw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyuw/bbjKxUeX6u6iyQpBe6UY+2VoalOsf/8Fslvvd8fLwh5BiT
-	4rgTZVu2oeqregcrpmOKsX2N+IOQpLbXIvmDZK5lGvke8ATqQkM0rWIonHep1X+24OhhawbJKbF
-	Mq4fGwkt0XnAg5PVGNN5o3S8/5aOIGIMDi+/nYynpI3hHX6lDqXsHHICUNQ==
-X-Gm-Gg: ASbGnctn80TLvx9OakIU8xlgxTQ0SkhluxuN2K6y7PITKyWjfVmVO2WOVnXIHiVt/Qm
-	MC+VQFgCYUfWRdQPgf7mDfHVnkOAHb/f0MgO0PwTNfg9VGOVF+S34D7CQscNfl5MbkKpNsBQjbT
-	93aONqfexD/VzYfXhxl1+tRCIHR8LQ6PAAnwiP5TU8EaJpR+Z3SXuB2yCbkPXhh1dDU9GJfgx3E
-	XtN1uxjyXT3O0rzgs1WTHIZ2Ko9aTcHdeP5sbSF7EWrpto+1ONg9M5GWxIVNOuR6mLcRmi1mCgP
-	+U58WEFSdPkjyqFKtx09VdGxqm2xxQi0m/iVGjl0lOBHYwvp0MwzmP+PRQhv3Xn9AaX/jEl3CIf
-	En91WJL6J
-X-Received: by 2002:a05:600c:4448:b0:434:a90b:94fe with SMTP id 5b1f17b1804b1-4365535b4e6mr4137965e9.10.1734474792403;
-        Tue, 17 Dec 2024 14:33:12 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHu5Rpx/75DKHPvdCspqV2eTg6oVqu83uuIMN0kGm64YISiw1ESXOe+JcsaDrCGOH1qe5B+Gg==
-X-Received: by 2002:a05:600c:4448:b0:434:a90b:94fe with SMTP id 5b1f17b1804b1-4365535b4e6mr4137665e9.10.1734474792038;
-        Tue, 17 Dec 2024 14:33:12 -0800 (PST)
-Received: from ?IPV6:2003:cb:c73b:5600:c716:d8e0:609d:ae92? (p200300cbc73b5600c716d8e0609dae92.dip0.t-ipconnect.de. [2003:cb:c73b:5600:c716:d8e0:609d:ae92])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656b1a195sm190205e9.36.2024.12.17.14.33.09
+        d=1e100.net; s=20230601; t=1734476392; x=1735081192;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t78D7F/eWdsE/Maj8r8gf4TmgL1mU/T2PrN4z5z7CBo=;
+        b=leN1qEv1ZfMMCc4ojvPMpzXhvPEm4NMkAiJtWHclxOC+aRwUEZxoeNLLrhsi+WcpwM
+         mQTvVJQe6n5HD7zr4RsswcqfjeYB3aRs5GnA0lh1V3NonZpKaQ1FZj7EkBcULqC1SG9t
+         sF003w44WvjKTmVJfH3gKT0Frw8qcIH+qBw4sh/pELsioiM+jELXDuaDmL6zFJ8y//2R
+         A1dxGmrLB3IPr9gXEKvfun+u5Bo0BvnMTQcod3UUIZZnoBnhZBygc83osZeRCcY/yxVd
+         rsgIV8EgstJzl3n90maBdsud3+IkRRcXYgJW+t5sDRVgGT9TV5rDv+aihih6HVX13ad2
+         3xOg==
+X-Forwarded-Encrypted: i=1; AJvYcCVYepvsbeKiad0gr/M2/O1jTDQvHG/g0KZsmLUsUpGbYUiXpm8BhzdFPzStqsgCghV9fjZDNcHk0Upu@vger.kernel.org, AJvYcCW99P7sJjJfNz5OFZ2IAj6PR37kf33UnLQDqkDlrKVb578WlNn+LKl5prspl1XvJkQX4Y7+FFI0qb6t7ac=@vger.kernel.org, AJvYcCWKZrfcBQxcnNKgKJdRJL5+TYB1epDyhvo50AOvmEwllUIg91Bm08LglgdXGCz9Ptzz6cu9ybRDJyUf@vger.kernel.org, AJvYcCWtOSFxJBjYg/Fgvy4S7lRkNeK8KNYywVaTB4HTMG2g6R8T/reny3ZLd05oW7VkBL05baLSI5Dz6osZKGxO7qpMkjo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz94NpixHmBNn7p/gFjj2s9BI8AaOsRYGxTW5H3O397k/5CoHj/
+	aFedA33PkC1YmYxkfdyZ/p3wHROJ/NrmQMlxzwi2HL6MpV+G8Iir
+X-Gm-Gg: ASbGncsw+BFVzIGyLRbL9ZZKqCDbiDH3pcccHWw3oo1JUuEF+ID+7mXvczL5ya2tsGj
+	rnq3oZh8eng0tZ0pWm9x+JyjblelimtrnTyeBpqYat81p3ZbbMHC6R3OarhrmjoKTtI5CcwQdOM
+	w8fSTvbum2HzDd0ugBV4sKDgvKbhskHiYw3tjaWNDf3ScffrAdInAW6erv7eydW27yRXJyjiunm
+	OM/7IcAoi8OjTLcSlNnGi8QIDmkQO+XwwmIMfixEIBL71bp795wxCpfwkbm2aYV5CLITa64dcUU
+	92G0jGDGHsMNfGdXuL+VgPiwuBGeYg==
+X-Google-Smtp-Source: AGHT+IFkQ7rhpow00hjC5jhoNGdN4nxcPAMzRD8JzAKqjoD+wgVGjfHj339cneoZOE4aqyFypjlJvg==
+X-Received: by 2002:a05:6a00:b86:b0:725:e957:1de6 with SMTP id d2e1a72fcca58-72a8fde103emr778734b3a.13.1734476391696;
+        Tue, 17 Dec 2024 14:59:51 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72918bad81asm7213662b3a.151.2024.12.17.14.59.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Dec 2024 14:33:10 -0800 (PST)
-Message-ID: <e7f9433e-bd4b-4284-990b-9ea074064f0a@redhat.com>
-Date: Tue, 17 Dec 2024 23:33:09 +0100
+        Tue, 17 Dec 2024 14:59:51 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <b30a1b76-cad4-4d53-837f-64a72993d267@roeck-us.net>
+Date: Tue, 17 Dec 2024 14:59:49 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,111 +68,72 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 18/25] gup: Don't allow FOLL_LONGTERM pinning of FS DAX
- pages
-To: Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org,
- dan.j.williams@intel.com, linux-mm@kvack.org
-Cc: lina@asahilina.net, zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
- vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
- bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca, catalin.marinas@arm.com,
- will@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com,
- dave.hansen@linux.intel.com, ira.weiny@intel.com, willy@infradead.org,
- djwong@kernel.org, tytso@mit.edu, linmiaohe@huawei.com, peterx@redhat.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
- david@fromorbit.com
-References: <cover.18cbcff3638c6aacc051c44533ebc6c002bf2bd9.1734407924.git-series.apopple@nvidia.com>
- <f315b61169d0671301e4a793ecbb1a6c46b69bef.1734407924.git-series.apopple@nvidia.com>
-From: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH 0/2] hwmon: (lm75) Add NXP P3T1755 support
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-renesas-soc@vger.kernel.org
+Cc: Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-doc@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, Rob Herring <robh@kernel.org>
+References: <20241217120304.32950-4-wsa+renesas@sang-engineering.com>
 Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <f315b61169d0671301e4a793ecbb1a6c46b69bef.1734407924.git-series.apopple@nvidia.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20241217120304.32950-4-wsa+renesas@sang-engineering.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 17.12.24 06:13, Alistair Popple wrote:
-> Longterm pinning of FS DAX pages should already be disallowed by
-> various pXX_devmap checks. However a future change will cause these
-> checks to be invalid for FS DAX pages so make
-> folio_is_longterm_pinnable() return false for FS DAX pages.
+On 12/17/24 04:03, Wolfram Sang wrote:
+> This small series adds support for the above temp sensor. Ultimately, I
+> want to support it via I3C. But for now, start simple and add I2C
+> support, so we have something to compare against.
 
-Nit: I'd consistently use "mm/gup:" as prefix for GUP-related patches. 
-(similarly, mm/huge_memory and mm/rmap in the other patches)
+I just sent a RFC/RFT patch converting all chip access code to regmap
+to the hwmon list. This should help with adding I3C support. It would
+be great if you can have a look.
 
-> 
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> Reviewed-by: John Hubbard <jhubbard@nvidia.com>
-> ---
->   include/linux/mm.h | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index f267b06..01edca9 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -2078,6 +2078,10 @@ static inline bool folio_is_longterm_pinnable(struct folio *folio)
->   	if (folio_is_device_coherent(folio))
->   		return false;
->   
-> +	/* DAX must also always allow eviction. */
-> +	if (folio_is_fsdax(folio))
-> +		return false;
-> +
->   	/* Otherwise, non-movable zone folios can be pinned. */
->   	return !folio_is_zone_movable(folio);
->   
-
-Acked-by: David Hildenbrand <david@redhat.com>
-
--- 
-Cheers,
-
-David / dhildenb
+Thanks,
+Guenter
 
