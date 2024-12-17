@@ -1,135 +1,96 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E68B51EF088
-	for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 12:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE581F239E;
+	Tue, 17 Dec 2024 12:11:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734436997; cv=none; b=HcsrCqh3VRmIAhiPLFS7/7WuU8xo5Jfwv4raTSdChEUo5osoK9N6ujiLWxoI7rzWQnaSoOL/etIflsfhYVlj11isULL/i9aKi82fRQKU8wCcEgRK4Fwu/AJCCthXvCugSkswX8Y3GE0k6fB/Z/6Ydj5fY86AG1E7umJWmuOEsZA=
+	t=1734437493; cv=none; b=r3m+anAiK81lha+SdAXA8TXUA6oKICFq7eMUDocAgo6g3MtrwoXb6es1d0UdIynswWoYwCW5enb7tqkC9i750UdF4uVZZtiUUVWFtwqgcB3elN/VgsSKtGUs6B7pXoQ3hUfITEo/9Psdo/GautUdjNUrzM6GXekahWZMaJv9bQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734436997; c=relaxed/simple;
-	bh=S14vnVnc/fHQHKXW5slUzsZdoihyLcHDMxn1DG/uwEs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Nk6RWf0OIwsI7bibm7QFAdc7IPOEAPfiChtM1BQH7kHQ3BrrXKuKbfYt25VDXXsbhtQHL2uAIwOman00saMjh9s7lUGNcKe5kyHfy8qPhhHviqULrGo+kkPMME4Bo4hs4B3TKbpjFiniG1EceYl+Z56ZfWiZPW5//4fQqe+3dik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=YfqcEIwm; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1734437493; c=relaxed/simple;
+	bh=l3pO0JNjMZnsq5a7fujNN45J7lyZ4k2y+vJ1SY7TY2g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m8MhKjrei7F8ng2gpqIYxHMAL6urSORnsZapcJKir10aOBUOL6JAWI+ri4cpNZBB29y/JhKQTtBLamW2mZZ/YqxjOgg5rN7PtdNnScxz/2nAO7UCIGOpWdh+uD1YtwyYpFl8+gbjSvWL+Fl8rZljE+ekBvOQb9JbDs/3tzhRyNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lHd62dbS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="YfqcEIwm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=53FiL+fg5vipjUeGKedYSfF0y/LWWvOlhrUnYbkgse0=; b=YfqcEI
-	wmvMynPiGSoOM5VfoZ4zq7BfvD0ZM6Q55GH54UA0vWuqNsY4Toj9bWQFjbvO7rKy
-	1fdMqxyI4rFnCtcSGH5n9Z848InLKBZi5HL999Atfx/cH9Ff8LyQYdPpDAlcjFqq
-	PrhtZvch7wnToNR/pNcOWs+OXqlMlSHyVR0m5Rt0q7gfXlG2kdw89epZVWFUHODP
-	PNWK22p6i6DhaO12QBOzYxbGUD5TUIYiqaGLZA0TOwsdHEuYtZwgoDqcBJGeVHm5
-	P6y4jw8fjoKL81HjaFJGlPAdOMUtP7AqsEnap7Yx0uACjARB2xbFihnm9PpslVLl
-	tRXLy7n9KBin5HEg==
-Received: (qmail 4062975 invoked from network); 17 Dec 2024 13:03:10 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Dec 2024 13:03:10 +0100
-X-UD-Smtp-Session: l3s3148p1@BPq0FHYp5MEgAwDPXwAQAA/MfjDm1Sk8
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lHd62dbS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D72EC4CED3;
+	Tue, 17 Dec 2024 12:11:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734437492;
+	bh=l3pO0JNjMZnsq5a7fujNN45J7lyZ4k2y+vJ1SY7TY2g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lHd62dbSHGsMXodgZvTZzwmJ2UDPi7EacK6iYpYojnssu3rpfB35y35V5Tf89VQ1C
+	 ATZ+aCCQF9kCSU83BOro9SAWJpiKkOkfUHehZ9Lk2Rtp1d3KaW8UytD2pSGKKbnWgd
+	 sqgfqcWRmiGq7RF6hTnRxd3vTF08pHhSyzo8+AVMeUEYJoTuhUXUqVCgt4fe1HD4dx
+	 WH09moysT5NkgBSZiMfd45xnt0zub6eumb/iPGf4vxwMIwZWWQtq9T6lu0/YP/D1/G
+	 Oq/Pd+np/E0hQ3blwzCbhwFUheITRy3pmm8znrwaPdPqWPJ1Xin3UVnG52Y1xIFGSu
+	 d4ky/5mZrqjNw==
+Date: Tue, 17 Dec 2024 12:11:25 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Inochi Amaoto <inochiama@gmail.com>
+Cc: Yangyu Chen <cyy@cyyself.name>, Chen Wang <unicorn_wang@outlook.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 2/2] hwmon: (lm75) Add NXP P3T1755 support
-Date: Tue, 17 Dec 2024 13:03:06 +0100
-Message-ID: <20241217120304.32950-6-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241217120304.32950-4-wsa+renesas@sang-engineering.com>
-References: <20241217120304.32950-4-wsa+renesas@sang-engineering.com>
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Evan Green <evan@rivosinc.com>,
+	Charlie Jenkins <charlie@rivosinc.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Jesse Taube <jesse@rivosinc.com>, Andy Chiu <andybnac@gmail.com>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Yong-Xuan Wang <yongxuan.wang@sifive.com>,
+	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Yixun Lan <dlan@gentoo.org>, Longbin Li <looong.bin@gmail.com>
+Subject: Re: [PATCH v3 3/3] riscv: hwprobe: export bfloat16 ISA extension
+Message-ID: <20241217-fondue-candy-55e7efcf2a5e@spud>
+References: <20241206055829.1059293-1-inochiama@gmail.com>
+ <20241206055829.1059293-4-inochiama@gmail.com>
+ <tencent_8F35B6F07D09566A873982E0E2C76085280A@qq.com>
+ <sh3fu66fltjccbygbdxilbos4bi5wqk2cdiihc6ixnodsbxtox@rezkyqnpp5yv>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="u6IT59OqLX/3bsSB"
+Content-Disposition: inline
+In-Reply-To: <sh3fu66fltjccbygbdxilbos4bi5wqk2cdiihc6ixnodsbxtox@rezkyqnpp5yv>
 
-Tested with the P3T1755 soldered additionally to the P3T1085UK-ARD
-shield and connected to a Renesas RZ/G3S SMARC board.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- Documentation/hwmon/lm75.rst |  6 ++++--
- drivers/hwmon/lm75.c         | 13 +++++++++++++
- 2 files changed, 17 insertions(+), 2 deletions(-)
+--u6IT59OqLX/3bsSB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/hwmon/lm75.rst b/Documentation/hwmon/lm75.rst
-index 6adab608dd05..9877ddbbf7c8 100644
---- a/Documentation/hwmon/lm75.rst
-+++ b/Documentation/hwmon/lm75.rst
-@@ -121,9 +121,9 @@ Supported chips:
- 
-          https://www.ti.com/product/TMP1075
- 
--  * NXP LM75B, PCT2075
-+  * NXP LM75B, P3T1755, PCT2075
- 
--    Prefix: 'lm75b', 'pct2075'
-+    Prefix: 'lm75b', 'p3t1755', 'pct2075'
- 
-     Addresses scanned: none
- 
-@@ -131,6 +131,8 @@ Supported chips:
- 
- 	       https://www.nxp.com/documents/data_sheet/LM75B.pdf
- 
-+               https://www.nxp.com/docs/en/data-sheet/P3T1755.pdf
-+
-                https://www.nxp.com/docs/en/data-sheet/PCT2075.pdf
- 
-   * AMS OSRAM AS6200
-diff --git a/drivers/hwmon/lm75.c b/drivers/hwmon/lm75.c
-index 2c2205aec7d4..a8f95bef68cb 100644
---- a/drivers/hwmon/lm75.c
-+++ b/drivers/hwmon/lm75.c
-@@ -38,6 +38,7 @@ enum lm75_type {		/* keep sorted in alphabetical order */
- 	max6626,
- 	max31725,
- 	mcp980x,
-+	p3t1755,
- 	pct2075,
- 	stds75,
- 	stlm75,
-@@ -222,6 +223,13 @@ static const struct lm75_params device_params[] = {
- 		.default_resolution = 9,
- 		.default_sample_time = MSEC_PER_SEC / 18,
- 	},
-+	[p3t1755] = {
-+		.clr_mask = 1 << 1 | 1 << 7,	/* disable SMBAlert and one-shot */
-+		.default_resolution = 12,
-+		.default_sample_time = 55,
-+		.num_sample_times = 4,
-+		.sample_times = (unsigned int []){ 28, 55, 110, 220 },
-+	},
- 	[pct2075] = {
- 		.default_resolution = 11,
- 		.default_sample_time = MSEC_PER_SEC / 10,
-@@ -734,6 +742,7 @@ static const struct i2c_device_id lm75_ids[] = {
- 	{ "max31725", max31725, },
- 	{ "max31726", max31725, },
- 	{ "mcp980x", mcp980x, },
-+	{ "p3t1755", p3t1755, },
- 	{ "pct2075", pct2075, },
- 	{ "stds75", stds75, },
- 	{ "stlm75", stlm75, },
-@@ -813,6 +822,10 @@ static const struct of_device_id __maybe_unused lm75_of_match[] = {
- 		.compatible = "maxim,mcp980x",
- 		.data = (void *)mcp980x
- 	},
-+	{
-+		.compatible = "nxp,p3t1755",
-+		.data = (void *)p3t1755
-+	},
- 	{
- 		.compatible = "nxp,pct2075",
- 		.data = (void *)pct2075
--- 
-2.45.2
+On Tue, Dec 17, 2024 at 08:40:37AM +0800, Inochi Amaoto wrote:
+> On Tue, Dec 17, 2024 at 12:00:23AM +0800, Yangyu Chen wrote:
+> > Possible conflict with: https://lore.kernel.org/linux-riscv/20241111-v5=
+_user_cfi_series-v8-22-dce14aa30207@rivosinc.com/
+> >=20
+>=20
+> Yeah, I know the conflict. As the time of merging these patch is
+> uncertain, what I can do now is to match the upstream code.
 
+The solution is to not worry about it. Palmer can resolve trivial
+numerical conflicts like this.
+
+--u6IT59OqLX/3bsSB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ2FqbQAKCRB4tDGHoIJi
+0gC6AP93cXtfL2os2Bs1KG8DXZDksw/B4lc/JODm5RYX+90VcgEA0/PtcD5OgyqJ
+gwb0h/T9khenIvSYh9EI5eAkKgTSnA8=
+=5wZ7
+-----END PGP SIGNATURE-----
+
+--u6IT59OqLX/3bsSB--
