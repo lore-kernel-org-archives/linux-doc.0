@@ -1,73 +1,73 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEDE61F8F10
-	for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 22:28:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D181B1DE3DE
+	for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 22:31:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734474496; cv=none; b=V3pYgkn55YVThiHie1W/74mTtI2iv8f6HqHit3K4sKytCpfpXFypiw2tZT1OrebBj33FjprTOsiNrXZ3OMip1Hy8DgG/ozElL/uV8QMIX4NIaWBbBD0cmEHB7PNDhRKKt28TyP15i0bNWheQFLFbGMWpMvb0ODZa+/Oy3a9aNbo=
+	t=1734474694; cv=none; b=ohIva70i+9XAhKcm/7gwlzT4f4lzPl9M3ehc9LF4Ut/opQq3b2PI1hwWnC8w0ZAV5ESNDx08d5hfO+NxUHvwBLUZCObE/ITjl6RdqZm+hO06EU2LKkKPbIwaJlNEWK49dPkSjbL+64OlhT6+KMIP26G6tH5zsFxhwkINVS8rIwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734474496; c=relaxed/simple;
-	bh=jrbdn2YwOSpYB6F7z51EZinxAGpXPm4mKSFgixxQ4a4=;
+	s=arc-20240116; t=1734474694; c=relaxed/simple;
+	bh=JZPV+Rdue6qaDY10NWyx4+0EHsb8/mQ53pzmV8r9o9U=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kKLvsy8cUjnj4CkGneBs+oH/GXjN6MEa4VBgTgz5/PRN5OMbYWW+QVWVBPSBhv9JEisyumxwMdSBDu96Ngyki/qipyWtzpcpalnmTpBc87Sxe89jlk35RpyekdmcBmnSmM3bnLlNz+9WMqToCX5s8xEPrnZcl/TSYa4LpABmNPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OD2mQyA1; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=UedYlosjastLKquX+DNSkzRxnT2H6WVhOcoGRO7MJs+c8aijmtMK8hb6GJ9k4m5A1fgmoXVONIekfaa79AN0a7KjQa4Zp/zcpU+vfX6IZYR6Vfg25MFAalB4hsdwCJ8pczkQM86oFNEbrpMT5/iwZxSclW/cK+jwom1ZGn4L1Es=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UACIaBk3; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OD2mQyA1"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UACIaBk3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1734474493;
+	s=mimecast20190719; t=1734474691;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=SuUiDwN6JN9Q+rjTOZSr/qEq0VeE7EPwHe1HzzH1/V8=;
-	b=OD2mQyA1DaVM3ExrHxU1/KSAV/gcN7DYqnUXDpfD8DXu/iqCVFKR/hhdGKtUUiDsPdNz8E
-	g+KNOtCF+NGC97uOnBaPQ7wzw6HgHreryZgibI97diiTDRd88JI45pzrEQPFhD6N8kOD6j
-	+XhnPH7M9QjenDLLElF5oXT66q7TVwk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=XiLljyALg1fM2VreFU+kaDTSYWKU4UrG1GGEjFwMl+I=;
+	b=UACIaBk3OlQj7nEfEXJRjPQm3gsXG64lPOxSqMOIp+xWIecRZsHPti69McsgugfXGx/dOM
+	L1q2p+JXmqJP6Mv+bgFaVIFhPmIGgVS18V8jfOrp0EGsBTSmb8il81qctMCNGpeSF9H1+h
+	3f0s8EK8yEd9TpNjjevMICO9uRGawEc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-367-aKir3U5-OvWrBijp_-TifA-1; Tue, 17 Dec 2024 17:28:12 -0500
-X-MC-Unique: aKir3U5-OvWrBijp_-TifA-1
-X-Mimecast-MFC-AGG-ID: aKir3U5-OvWrBijp_-TifA
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3862e986d17so2450421f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 14:28:11 -0800 (PST)
+ us-mta-564-w-POcRgvPNWOxCKzHHNbhQ-1; Tue, 17 Dec 2024 17:31:30 -0500
+X-MC-Unique: w-POcRgvPNWOxCKzHHNbhQ-1
+X-Mimecast-MFC-AGG-ID: w-POcRgvPNWOxCKzHHNbhQ
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-43626224274so27043545e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 14:31:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734474491; x=1735079291;
+        d=1e100.net; s=20230601; t=1734474689; x=1735079489;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=SuUiDwN6JN9Q+rjTOZSr/qEq0VeE7EPwHe1HzzH1/V8=;
-        b=I2u5TDKP8S+i/czkhYtdDLcgR9304rjnH2PR/F+j6WgkvlvT18N7Ie7tz9V6QkT6Uy
-         Tl7DGaxPEPfgAWIz6ll96jLm5YcRK6QzKQuSRrwRQ91NQT9lBDeZAI31h/NOEqDVjod5
-         CjNncjaf1Yn/yRZqDJz4WcwTKqat/BWS7fL6bpbJs9tTDevSwLKNhEET/dfPRak/sHoH
-         evSw6jyK5utYOgISiN9q8lU4ZhlMajgSVb6AuqhSQ9rarifyYKw8onJvueFoQS0xY7X6
-         DsQuF63ehBhQXd9w1vFe80fIcXjS2aKqVQqOB6NcIYqTUHQqi5obaYUT8Pw6sF7SUeOI
-         IvAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUnSVmNS4BROWdDXiT0HQwwQvrD2hlUFO+nnpOeV7TQekfCaoBhN1LIP2Z1qcZwtX4TWrUMP85J7gM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YywsQFp5BF+T/Z34ZJjHcd8yp9NHLDBj0b5jUnwi+yXxSbZQaDG
-	kagkbeggOh+zgWnjDY4JldnFz9rTR2LJ0/Xvu6XiybnFGE9WsUfKBgzlgRkIAcboPAcV8y0dMtr
-	EXxjhLp1J26vz02NkP2r7T1ZqtpLxXFgDySwwtkacLU9k1re1T6oCKZmRAg==
-X-Gm-Gg: ASbGncuhsoTFZT6q6WqW4kk1lulKLUzkatocnNHCK41B5c841qKaYRqf79ibWSzWYB6
-	wwljq5N+Pp5orZNbqBVOUQEqQSLVHVUyyJPlrOAZDCWw9wiphrJteCsnE50bmMoRo4tUZcXIJJo
-	QQky0PvIJInAESSxBMViRGk7a6EWF37bCneEd79acIgpBC9+3OYZkuk1cHpQ9k1ChrjfvTUpSj7
-	vmpBftbyLHFCLzJCx+M77gyApkgL8y2AexuBnhIP9StRt5XIQ6hZi1B7usJ5ZzKQ47eL09uI6J7
-	LgyovkYHxqAvxTtuVtVyGRyc4ENRDCDF6/X5UMUn9h/GCC3foK7HlQOWKOsvhaezh60aL3Xnjhx
-	IBZ4G4JNh
-X-Received: by 2002:a05:6000:4a06:b0:388:c7c2:5bdb with SMTP id ffacd0b85a97d-388e4d6bc86mr490241f8f.2.1734474490937;
-        Tue, 17 Dec 2024 14:28:10 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEvTFVi7q0TnTvpbrbppzv+CwZ1GXbtoatrg/I2tIqfy/l4JTDnozGATbxCSGEYBCYXlyagPA==
-X-Received: by 2002:a05:6000:4a06:b0:388:c7c2:5bdb with SMTP id ffacd0b85a97d-388e4d6bc86mr490194f8f.2.1734474490540;
-        Tue, 17 Dec 2024 14:28:10 -0800 (PST)
+        bh=XiLljyALg1fM2VreFU+kaDTSYWKU4UrG1GGEjFwMl+I=;
+        b=t5/izjyEoz/YhWBH8NrDG41ag+35gPeldjK7lssle9a/xb+qK7S0rK2xtIJ1Hqqx0X
+         TXS3b6QS8sRqtQHFhIvn/S5wLpRoUOzxggxcwIRWpnWYCJGOEg4Syf7VCyTtHg2ZxqL+
+         Dvq2gKJVlFyX2ztRkqA07PK7Bo+K7AfsUnXpZQh/kzexYru7HnTbENffViMuTmTB9jIh
+         Q/Bb8/gxppyzeSa3oIBzp7KXDSxyvFl3gzHFwPyfcohA+tiYJhtCPY/5vr+qZtDiZZCa
+         Q0UlW9Nnkh1+doIPW+VAY/tF5XfNrs3CEXVATEarGlEefIX/LcusszJi3cjydtCD+oHY
+         m/Nw==
+X-Forwarded-Encrypted: i=1; AJvYcCW9qZ0tPud2d71TK32LE+Olub8Z1OmaRxqFS1R0pNbDoKWw6sOwNieL6Og+J8B372WmHzpslGhOdVc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5nMY2rzS1nJAANy0hjOynY7/7F1DAdlnGO4/InJDqkkmnWr2m
+	CdegXroTpqVQdmLQXcn4vmUxm5YaCigqmkB7qbY6v58IAEQetPD7VkMvHcpZurel1XZmqe85JmM
+	7iVTZI7KZa3aM6mhz/JXLqQ0nHgnwxJptdpS/0WnckjxuBlGFIGJ9rMmahA==
+X-Gm-Gg: ASbGncsJhE7C01ssVSktL8TJ0CKSJ59WMveasP+ZiSgipsGdaHyUw1Dz65P+ipLbWM3
+	QgKYhXNym+7MK4mUY3/KbquQeHoc47fpFi5qJ8s0sHrOMLJIqTv+mwvrWC4e+TuLLROs1aWdNHL
+	mkALJ2lXYDufJCeBCuY+dwofHN6NEXhmOomoWDXRnA8zrIOc0927oCWA/uB7W1Gixr5uQvYSE1p
+	D0ECJ2eqHdOd3qt8MDwHvOKwkXafskoXqG+zSAtnh8rtFDWO6efptU/flfKDQSfxOEEpSoP4CxY
+	bZJM/meQv/DAq5L6WkA9eqlo6E/+2VHfeNoAtw9skAvlmVBWTUhkhnPNpoCdzbRmAHeTUkqb8QH
+	gUYs03TZF
+X-Received: by 2002:a05:600c:5103:b0:434:ff9d:a3a1 with SMTP id 5b1f17b1804b1-436553445f5mr3532675e9.2.1734474689192;
+        Tue, 17 Dec 2024 14:31:29 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGMpkNWSDjSv+iIYkeduZssHVTB6HwkoYhZzex1R7it6KzpFTUsFNkIA9cgdJx8YijN/SwZMQ==
+X-Received: by 2002:a05:600c:5103:b0:434:ff9d:a3a1 with SMTP id 5b1f17b1804b1-436553445f5mr3532555e9.2.1734474688806;
+        Tue, 17 Dec 2024 14:31:28 -0800 (PST)
 Received: from ?IPV6:2003:cb:c73b:5600:c716:d8e0:609d:ae92? (p200300cbc73b5600c716d8e0609dae92.dip0.t-ipconnect.de. [2003:cb:c73b:5600:c716:d8e0:609d:ae92])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c801af46sm12218432f8f.61.2024.12.17.14.28.07
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c801208csm12474132f8f.1.2024.12.17.14.31.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Dec 2024 14:28:09 -0800 (PST)
-Message-ID: <b5111052-4bc2-481c-8510-c1b86c70bf30@redhat.com>
-Date: Tue, 17 Dec 2024 23:28:06 +0100
+        Tue, 17 Dec 2024 14:31:27 -0800 (PST)
+Message-ID: <c7bd9b00-6920-4dc0-8e2e-36c16ef7ad5a@redhat.com>
+Date: Tue, 17 Dec 2024 23:31:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,7 +75,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 20/25] mm/mlock: Skip ZONE_DEVICE PMDs during mlock
+Subject: Re: [PATCH v4 19/25] proc/task_mmu: Ignore ZONE_DEVICE pages
 To: Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org,
  dan.j.williams@intel.com, linux-mm@kvack.org
 Cc: lina@asahilina.net, zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
@@ -91,7 +91,7 @@ Cc: lina@asahilina.net, zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
  linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
  david@fromorbit.com
 References: <cover.18cbcff3638c6aacc051c44533ebc6c002bf2bd9.1734407924.git-series.apopple@nvidia.com>
- <e1fe10474fc06aaf24b17fcd916efffcc8c13f78.1734407924.git-series.apopple@nvidia.com>
+ <f3ebda542373feb70ed3e5d83b276a2e8347609f.1734407924.git-series.apopple@nvidia.com>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -139,35 +139,43 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <e1fe10474fc06aaf24b17fcd916efffcc8c13f78.1734407924.git-series.apopple@nvidia.com>
+In-Reply-To: <f3ebda542373feb70ed3e5d83b276a2e8347609f.1734407924.git-series.apopple@nvidia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 17.12.24 06:13, Alistair Popple wrote:
-> At present mlock skips ptes mapping ZONE_DEVICE pages. A future change
-> to remove pmd_devmap will allow pmd_trans_huge_lock() to return
-> ZONE_DEVICE folios so make sure we continue to skip those.
+> The procfs mmu files such as smaps currently ignore device dax and fs
+> dax pages because these pages are considered special. To maintain
+> existing behaviour once these pages are treated as normal pages and
+> returned from vm_normal_page() add tests to explicitly skip them.
 > 
 > Signed-off-by: Alistair Popple <apopple@nvidia.com>
 > ---
->   mm/mlock.c | 2 ++
->   1 file changed, 2 insertions(+)
+>   fs/proc/task_mmu.c | 18 ++++++++++++++----
+>   1 file changed, 14 insertions(+), 4 deletions(-)
 > 
-> diff --git a/mm/mlock.c b/mm/mlock.c
-> index cde076f..3cb72b5 100644
-> --- a/mm/mlock.c
-> +++ b/mm/mlock.c
-> @@ -368,6 +368,8 @@ static int mlock_pte_range(pmd_t *pmd, unsigned long addr,
->   		if (is_huge_zero_pmd(*pmd))
->   			goto out;
->   		folio = pmd_folio(*pmd);
-> +		if (folio_is_zone_device(folio))
-> +			goto out;
->   		if (vma->vm_flags & VM_LOCKED)
->   			mlock_folio(folio);
->   		else
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index 38a5a3e..c9b227a 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -801,6 +801,8 @@ static void smaps_pte_entry(pte_t *pte, unsigned long addr,
+>   
+>   	if (pte_present(ptent)) {
+>   		page = vm_normal_page(vma, addr, ptent);
+> +		if (page && (is_device_dax_page(page) || is_fsdax_page(page)))
 
-Acked-by: David Hildenbrand <david@redhat.com>
+This "is_device_dax_page(page) || is_fsdax_page(page)" is a common theme 
+here, likely we should have a special helper?
+
+
+But, don't we actually want to include them in the smaps output now? I 
+think we want.
+
+The rmap code will indicate these pages in /proc/meminfo, per-node info, 
+in the memcg ... as "Mapped:" etc.
+
+So likely we just want to also indicate them here, or is there any 
+downsides we know of?
 
 -- 
 Cheers,
