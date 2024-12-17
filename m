@@ -1,129 +1,72 @@
-Received: from mail-m15593.qiye.163.com (mail-m15593.qiye.163.com [101.71.155.93])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8BC143C63;
-	Tue, 17 Dec 2024 07:02:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7A618DF62;
+	Tue, 17 Dec 2024 07:23:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734418935; cv=none; b=C2AolaahsU2mwASzyvWtJY+TP6x4KOAB9pKBNMiMXuvMcBfsFUWwf02TNX2sVqq/+L65gN/0Kx1Y3eeYNXZAnZqh3A4/vuzztrvVgaVl98Eh7Xm/u8fiEJjc7YpOZNaEd5pFLrDNUZtQcY0Wbn4r0cfVMI4bskYEA1GDC1/qK4M=
+	t=1734420224; cv=none; b=S+nNvgS+TcXeW0+V30sJ/Ymqwl+g9NY1OiuXvAGqR3dxo0zQjY3fsbxAso/PK8s/EjQeDYT7mm8E6ccwjXf0P6FAQIRuaMGm9tdJOxiH/SyRbuhUsoZowa6NEqOkEHdz+9tMJOW3DTLw3v/xjBaOwajAMbaAXituF7UKSkdDSQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734418935; c=relaxed/simple;
-	bh=urukd7flTp0fniDsip8fle/4fDrCpBLnlQrNX9MoZZk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oFJhXlxpJGu8vHt+bQ/obD2KESsOm57/Lg44HrHHvelJ/8Y6N99159FHthkV83dVVXcPLv6J6s3l+HlRdpuVqikrZFntx1M6cLo2nVK1iWwk2jglgxHnVrygxGBpMn0EbiWe6TtYEDDXpBltnc6i76RMhXxn/GNZuO+qT6JIBks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=N3EnvHxe; arc=none smtp.client-ip=101.71.155.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
+	s=arc-20240116; t=1734420224; c=relaxed/simple;
+	bh=dzw0Qz/CRN0PqPZK4GaTrVRJ3D3wdhp/qpqu6zM8BjY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=poGqXTC24r2Wjmhy4klC28PoxcxeyQdvmqMcfXMdX5/0bWgpjac6DrhGHuDUYIDmNg3tYIjm8ZV+crF3VS4ZqbUqYysLIzhA8riSWFIfBRkRA6YRK5RXTenzLRqXN7+bAmZDPUuNFxklCRkULLbz/qToDDFCHzHIPIlRy1Eb9Ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aQTMtHIn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="N3EnvHxe"
-Received: from localhost.localdomain (unknown [123.53.36.163])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 5f3aea56;
-	Tue, 17 Dec 2024 14:46:52 +0800 (GMT+08:00)
-From: Yuehui Zhao <zhaoyuehui@cqsoftware.com.cn>
-To: alexs@kernel.org,
-	si.yanteng@linux.dev,
-	corbet@lwn.net
-Cc: dzm91@hust.edu.cn,
-	mic@digikod.net,
-	gnoack@google.com,
-	linux-doc@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Yuehui Zhao <zhaoyuehui@cqsoftware.com.cn>
-Subject: [PATCH 1/2] docs/zh_CN: Add security index Chinese translation
-Date: Tue, 17 Dec 2024 14:46:24 +0800
-Message-ID: <89ad67b4b4e12a52581cfa0f87f194e1aee3e526.1734414723.git.zhaoyuehui@cqsoftware.com.cn>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <cover.1734414723.git.zhaoyuehui@cqsoftware.com.cn>
-References: <cover.1734414723.git.zhaoyuehui@cqsoftware.com.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aQTMtHIn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4C22C4CED3;
+	Tue, 17 Dec 2024 07:23:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734420223;
+	bh=dzw0Qz/CRN0PqPZK4GaTrVRJ3D3wdhp/qpqu6zM8BjY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aQTMtHInjjzJekW+YadyNvS4jQkGkqV7h2x+QkNNZEm4mGrVlPVf18N2MpQByzGUB
+	 i/HLusx0LlTfXD3Mv838GyP3MDACR2kC5tX4/N4+NhDQ771OtrZeoh1JDzuw1GneZF
+	 JBm16gGYH26tA677MV7ecMEXtZRLICeCxuIbhWL6s0Mq3jto6kSQoqu1Yjca8Cq9TL
+	 Isw4vFpV+jPgLgOL5VJ0NMJf4OmwHyYpxO1HyHPZ18UzyEU/YyI9X/MUAhtJBIHsGC
+	 SxQz5FITdd1Cb++qXTe5IapG3GlmSH43R3CcwhsB1Sf6Mubbm68FfzxToNen2xAMyN
+	 iyaKWCqgVenZA==
+Date: Tue, 17 Dec 2024 08:23:40 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Darius Berghe <darius.berghe@analog.com>
+Cc: jic23@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, corbet@lwn.net, lars@metafoo.de, Michael.Hennerich@analog.com, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v1 2/2] dt-bindings: iio: adxl367: add support for adxl366
+Message-ID: <lcwhomnejblm44f7jqcy3slrzu4vmcgyx6weocziqge2swkfia@qhqwam2uhqxl>
+References: <20241213095201.1218145-1-darius.berghe@analog.com>
+ <20241213095201.1218145-3-darius.berghe@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZTRgdVhpMGUwZTUxCThkdHlYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKSUhVTkhVSE1VSk1IWVdZFhoPEhUdFFlBWUtVS1VLVUtZBg++
-X-HM-Tid: 0a93d35e97db03a3kunm5f3aea56
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NjY6Nyo6HTIQLh4OCxlWCSg8
-	PTkwCx9VSlVKTEhPT0pDS0pISkpNVTMWGhIXVQETGhQCDh4TDhI7GAoIFB0PDBoJHlUYFBZVGBVF
-	WVdZEgtZQVlKSUhVTkhVSE1VSk1IWVdZCAFZQUpMSkI3Bg++
-DKIM-Signature:a=rsa-sha256;
-	b=N3EnvHxe7EhnSX/tOGA239r2RfptViBGCYy8+PtMOipUCCl+HWpAvw0w0f8vI5fJ92vkRscZKyYS//Ro3Hs0ibKzjBgUcvkjeo1BykPBFoDIS6hSl3gUp3L9cWRIKgZsiWt3fQM/SEyI6rTynH9q55uvND+9LReN0m7VXUEHahk=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
-	bh=GxKkNy14PlU3GWJZzbRZFzozsqD17noWMNXC/7rqExo=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241213095201.1218145-3-darius.berghe@analog.com>
 
-Translate .../security/index.rst into Chinese.
+On Fri, Dec 13, 2024 at 11:52:01AM +0200, Darius Berghe wrote:
+> Add support for adxl366 Micropower, 3-Axis, +-/2g, +/-4g, +/-8g
+> Digital Output MEMS Accelerometer into the existing adxl367 iio
+> subsystem driver.
 
-Signed-off-by: Yuehui Zhao <zhaoyuehui@cqsoftware.com.cn>
----
- .../translations/zh_CN/security/index.rst     | 33 +++++++++++++++++++
- .../translations/zh_CN/subsystem-apis.rst     |  2 +-
- 2 files changed, 34 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/security/index.rst
 
-diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
-new file mode 100644
-index 000000000000..6b56b4f87315
---- /dev/null
-+++ b/Documentation/translations/zh_CN/security/index.rst
-@@ -0,0 +1,33 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/security/index.rst
-+
-+:翻译:
-+
-+ 赵岳辉 Yuehui Zhao <zhaoyuehui@cqsoftware.com.cn>
-+
-+========
-+安全文档
-+========
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+TODOLIST:
-+* credentials
-+* snp-tdx-threat-model
-+* IMA-templates
-+* keys/index
-+* lsm
-+* lsm-development
-+* sak
-+* SCTP
-+* self-protection
-+* siphash
-+* tpm/index
-+* digsig
-+* landlock
-+* secrets/index
-+* ipe
-diff --git a/Documentation/translations/zh_CN/subsystem-apis.rst b/Documentation/translations/zh_CN/subsystem-apis.rst
-index 47780bb0772f..8b646c1010be 100644
---- a/Documentation/translations/zh_CN/subsystem-apis.rst
-+++ b/Documentation/translations/zh_CN/subsystem-apis.rst
-@@ -88,6 +88,7 @@ TODOList:
-    cpu-freq/index
-    iio/index
-    virt/index
-+   security/index
-    PCI/index
-    peci/index
- 
-@@ -102,7 +103,6 @@ TODOList:
- * watchdog/index
- * hwmon/index
- * accel/index
--* security/index
- * crypto/index
- * bpf/index
- * usb/index
--- 
-2.43.5
+Bindings are before users.
+
+> 
+> adxl366 supports all the features of adxl367 but has a few
+> additional features for which support is added in this patch:
+
+Where do you add these features in the binding? I cannot find them, so
+maybe you reference something else.
+
+>  - built-in step counting (pedometer)
+>  - non-linearity compensation for Z axis
+
+Are the devices compatible?
+
+Best regards,
+Krzysztof
 
