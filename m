@@ -1,107 +1,85 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FAB4A23
-	for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 03:53:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C151411EB;
+	Tue, 17 Dec 2024 04:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734407635; cv=none; b=FSuPHB9o89GyYgV5yd052OIZXXKLZcFsNLqf+EFeK20k10hMgfEjKuoHP6kVQS1GumCKAXFE1T/7/tn+6nt7mrotHfEAznQwCZDJNgTUPNKUNLEOXt5ibZK1nbprvrlOh9jKpx1xpX3O80bVTPjAl5UuHRVIGu/PfO5jPYB5sxI=
+	t=1734408353; cv=none; b=eJOMiTc4lt4wJIOORWh6Yr9lPH6G/no9q1uyGFfRYUs5Ug0qPFLaIeIjCoEdQh4atcu9tXydqHpAbuBSpgmtCFigzz/xTuMXFxotoY8xKP0v965m+hYrXRibJv58HzYUNpmdD4wTEk8exxEwJR+KHYIRFR77oOsrzDfhmIgJkLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734407635; c=relaxed/simple;
-	bh=JjvSUlb0s668mPGWJCN5daNkwa+E19w4qhP7lmASwqw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=q5K4TXH13iNjI6dSca1hEK/fS7wJpgZFQJfZBS3ruwBDd5UEGXkXKceGQJ6rr8mJYeJmFPL2t1ROJ/G0sKgSrlC9WWYqzjb/tXFEn2/7w1QD7utlAgNHCFs7wuGeY+tgQbGkO4sPDFQDSPtLZT//NWVV65x7o6664gzNtCbtJYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JfvNvpEd; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JfvNvpEd"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-54025432becso4867200e87.1
-        for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 19:53:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734407631; x=1735012431; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JjvSUlb0s668mPGWJCN5daNkwa+E19w4qhP7lmASwqw=;
-        b=JfvNvpEdPpWIdJa3d7+8og9fI37U6k2QsgcOXmXKDzaVq2nA+pxPcYqXqpy0gJkel6
-         ckvHiF7fP9nuXAigThRQpfLUWRnz89oGF/PBBtbfKmZQ7ZT3UWW+fJDOE12h1kTqGyK3
-         M/VLcSu602PDMe8O9ksJpKvpSJwM91kbgPL7m8T6Rh3muyoBxzmxKBGLVeIbEHNwuv4p
-         rO6TiLoVElS6l+soOTPlnq281Ky1W0fBMymrnPAMvqfA7tJAQitn9I84Ib9Lk+wvy3uG
-         T/dspzVI0zvp3aQhj8Huny5CLL/OEDYTyurZGD2v8VGYLU06cjPrCzaDbIKK/wytI4QN
-         QNJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734407631; x=1735012431;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JjvSUlb0s668mPGWJCN5daNkwa+E19w4qhP7lmASwqw=;
-        b=T8eqN7H0FWX7dieXCe0m+IQ7i0cqlUoJv9yroq680y/qtGYlyIQ4JXJvxfPoabxyoT
-         sDbdIq7DyGIFi6vG2XKTlTfwPCf3C4BT9ngHtxRR6xF7Eo2kI+htS8dOOQ5qPv2yAfYO
-         9Y5g9BOBvk7k0NTXBA43BZM4nez2o6b4buxlLqFX3+aFrwVupKugSIu/CaYlyiaxcISN
-         J/OT1L35d1DKltQGgy1wGOIram8Y3s449xqtVwiAf8wWhiR/IX8VA33ahzGe1IBxJaGj
-         vlA3fXQkLK5cJZZQY+i3b2WohgBNhzqqcAFy9bzgTln01ZGPqc3IV/lQJIKDs6mrM/1E
-         xijw==
-X-Forwarded-Encrypted: i=1; AJvYcCWP/jacrlGCAam9CB0djUUqD2a09ApUvCriFufdTLE4areA19/WzFOVuNi/PvNUNR3PgUxIcwm1edY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrbtJtSiKaqosDe8c8AlAQgAl2ILwpBFKZGUkY24eT2nBfb+Tg
-	OAvRFLNAxPolUNWJq60XrotHw3tPK7VdZrocQqwK4g58ZyfhZVe50YKN/8pTIgckz0anMT8/TIi
-	LvufcvOcL4DUmxJRENJZ+Xcbrd15LBC1RGoqD
-X-Gm-Gg: ASbGncvc58S78f7iOE+0J1HjsneNd505JvSGYBCLloMjEs4Izh8H2EFWIwFWDK5hm6f
-	4zZhbjQ1XNhdUGTcwZEALpC/FJuZQXSC4hn7nOA==
-X-Google-Smtp-Source: AGHT+IEaU+0Dd9AvGqqW/gw3nElxtLBX5cPHOWjS/rZC4WRXjtt2rbtyzHwmhZDGDsLUxRYrcn3n+1g/30SrxJzWcCw=
-X-Received: by 2002:a05:6512:2255:b0:540:1e17:10d2 with SMTP id
- 2adb3069b0e04-54099b696c9mr4317280e87.49.1734407631461; Mon, 16 Dec 2024
- 19:53:51 -0800 (PST)
+	s=arc-20240116; t=1734408353; c=relaxed/simple;
+	bh=QFo1x7gHDC8cT6BkmFc8xKrT4+1fX6TaiVANO3bhp9M=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZtsPmUHnqkkVPaP1R7ZxAEv3g8uXNLKSLtffyonjz5xDYnI9kOz0jpfWMDEQjX3KypCnxAd1RO3RYM+sItl6B3HUeGsqTIrg2GnVGaJuRocYshIDDI6bFCfiP/KXUDs+Y652mxh31kBJ4v3XxvMCNx6jfDuNKPPNhkv5XOMQEr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4YC3BH384Fz4f3lWD;
+	Tue, 17 Dec 2024 12:05:27 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.252])
+	by mail.maildlp.com (Postfix) with ESMTP id E59731A058E;
+	Tue, 17 Dec 2024 12:05:47 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.175.124.27])
+	by APP3 (Coremail) with SMTP id _Ch0CgB3VsOb+GBnwxC_Eg--.2804S2;
+	Tue, 17 Dec 2024 12:05:47 +0800 (CST)
+From: Kemeng Shi <shikemeng@huaweicloud.com>
+To: tytso@mit.edu,
+	adilger.kernel@dilger.ca,
+	jack@suse.com
+Cc: dennis.lamerice@gmail.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-ext4@vger.kernel.org
+Subject: [PATCH 0/3] Minor cleanups to ext4 and jbd2
+Date: Tue, 17 Dec 2024 20:03:53 +0800
+Message-Id: <20241217120356.1399443-1-shikemeng@huaweicloud.com>
+X-Mailer: git-send-email 2.30.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241212224114.888373-1-dualli@chromium.org> <20241212224114.888373-3-dualli@chromium.org>
- <Z2BtgqkPUZxE8B83@google.com> <CANBPYPhZ-_5=VMRoBxbfVb+AFb_qu49QH_hKOiSjX93E1GQA8A@mail.gmail.com>
- <20241216174111.3fdce872@kernel.org>
-In-Reply-To: <20241216174111.3fdce872@kernel.org>
-From: Li Li <dualli@google.com>
-Date: Mon, 16 Dec 2024 19:53:40 -0800
-Message-ID: <CA+xfxX6-cbTyyyTf1UL_A7DzagfrV+y0367MdO21+JdjW870ZA@mail.gmail.com>
-Subject: Re: [PATCH net-next v10 2/2] binder: report txn errors via generic netlink
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Carlos Llamas <cmllamas@google.com>, corbet@lwn.net, davem@davemloft.net, 
-	Eric Dumazet <edumazet@google.com>, pabeni@redhat.com, donald.hunter@gmail.com, 
-	Greg KH <gregkh@linuxfoundation.org>, =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
-	tkjos@android.com, maco@android.com, 
-	"Joel Fernandes (Google)" <joel@joelfernandes.org>, brauner@kernel.org, 
-	Suren Baghdasaryan <surenb@google.com>, arnd@arndb.de, masahiroy@kernel.org, 
-	bagasdotme@gmail.com, horms@kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
-	Hridya Valsaraju <hridya@google.com>, Steven Moreland <smoreland@google.com>, 
-	Android Kernel Team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_Ch0CgB3VsOb+GBnwxC_Eg--.2804S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZr4fJF45Xr4UCr4DKry5XFb_yoWxCFX_AF
+	WxtF98CrW3XF18GF129w18tF15ZrZ7Wrn0v3Z3tw48Ar1aqFs8Zw1DCrs3ur1UWr95ur15
+	t3WUXrykJFn7WjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbxAYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20E
+	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l87I20VAvwVAaII0Ic2I_JFv_Gryl8c
+	AvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7
+	JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW0oV
+	Cq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG
+	8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2js
+	IE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kK
+	e7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+	02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_
+	Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+	CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v2
+	6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07
+	j4ksgUUUUU=
+X-CM-SenderInfo: 5vklyvpphqwq5kxd4v5lfo033gof0z/
 
-On Mon, Dec 16, 2024, 5:41=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wrot=
-e:
->
-> On Mon, 16 Dec 2024 10:58:10 -0800 Li Li wrote:
-> > > not: There are several places where you have "netlink_nl" which seems
-> > > kind of redundant to me. wdyt? IMO you should drop the "nl" in all of
-> > > these cases.
-> > >
-> >
-> > These are automatically generated from the yaml file. So let's just
-> > keep them as is.
-> > But it's a good suggestion to the owner of yaml parser.
->
-> I think the unusual naming comes from fact that you call your netlink
-> family binder_netlink. It's sort of like adding the word sysfs to the
-> name of a sysfs file. I mean the user visible name, not code
-> references...
->
-> s/binder_netlink/binder/ will clean this up..
+Patch 1 remove unused ext4 journal callback
+patch 2 remove transaction->t_private_list which is only used by ext4
+journal callback
+Patch 3 remove unneeded forward declaration of
+ext4_destroy_lazyinit_thread().
 
+More details can be found in respective patches. Thanks.
 
-I did consider that but unfortunately that would result in a
-conflicting binder.h in uapi header.
+Kemeng Shi (3):
+  ext4: remove unused ext4 journal callback
+  jbd2: remove unused transaction->t_private_list
+  ext4: remove unneeded forward declaration
 
-Probably "binder_report" or "bindererr"?
+ Documentation/filesystems/journalling.rst |  2 -
+ fs/ext4/ext4_jbd2.h                       | 84 -----------------------
+ fs/ext4/super.c                           | 15 ----
+ fs/jbd2/transaction.c                     |  1 -
+ include/linux/jbd2.h                      |  6 --
+ 5 files changed, 108 deletions(-)
+
+-- 
+2.30.0
+
