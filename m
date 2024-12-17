@@ -1,83 +1,50 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D10413DB9F;
-	Tue, 17 Dec 2024 02:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECE684A23;
+	Tue, 17 Dec 2024 03:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734402097; cv=none; b=MlF8MJpfi+zDNCJPN60chS0FU1wVMM9of9dlHEBRM/C45isyOcKL6A5o5CninPLiQPNjXGRkWEeki6gU5NVVJMT0fi7Zepu4ebGl91I7vHztgxkZltlMEIwWIoxwOmwItqWYTZbK5cIGf9dTK4RdCrmC6PqeRlzrdNKOaXxPIPs=
+	t=1734407306; cv=none; b=Dz5tH+PWkH+owqGeRwlQUf9Lf5lpHdp7WGggHPZyXdC0Od6BY/LUjoyHjtzu3wMX+/eVnq1fCTSDArW6PMjB0FwjinjnAtidkjO7a5Hi61Ley2dORbxkd70szuRnEvFOVjJf5mI9lfva+pDLtojC/C0OveOJWo9L+1Hinlg/aPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734402097; c=relaxed/simple;
-	bh=wU38PfH5w0kByQPjSXCr1vrzHjkvY0x9gfZBz4zjhBY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qBHaXHBEGL8u1CAF+3j2nM5WS8dqvf91w+kRWBcZmkx11dDrJGnFBQNBEr2Yj5Imm2cVv0nJEgo0V230Do0wMktmsMOFMr8dM/Ez1/4ndbxCYqozvojxQrCgxVSJTMypypHS9vEcRj94Q1B17R5Hkj+0MRWF/0dln0HMWIAb1Bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=coxSEJeB; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="coxSEJeB"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BGNxsEi031039;
-	Tue, 17 Dec 2024 02:21:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=R5+873Ef+Kkj4YNDK
-	n1lh7cr/++D0FfitFuPzZwixKs=; b=coxSEJeBZW+rihxQCTg71FkvkltMawUyZ
-	X8ndzBJQFETaZD5y5TRdxG/OAtIgXZKQZrpNdatP9o4I4vTfZ7f07AY041kQVOlh
-	5dAPynb1ol/vSJVMaC2U7nNAN06XeUjL+gceofoeqZehoak93uo09vtAbRF+1Oq5
-	eXJV7tfmf2cVtA1ybzBDSBKHbBiwP136EaWrvHqPzqNJ05w4H9Mav33PT2+8m1QE
-	EOSgZFxKtsD/KD+EogknuLt+NFdLOINcnh+9h9fddxC0T2HP6b3nE2aQS+sG6RCo
-	khVnibnn6mgfRLJlDFMAZ/I3qvHsUcOz1QZPh0aVvpKI7IgwtcHcg==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43jxbh0e8h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Dec 2024 02:21:04 +0000 (GMT)
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BH2L324019106;
-	Tue, 17 Dec 2024 02:21:03 GMT
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43jxbh0e8c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Dec 2024 02:21:03 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BGNZEMa014451;
-	Tue, 17 Dec 2024 02:21:02 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 43hq21geff-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Dec 2024 02:21:02 +0000
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
-	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BH2L1LJ25100868
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 17 Dec 2024 02:21:01 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0956A5804E;
-	Tue, 17 Dec 2024 02:21:01 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BF5DE5803F;
-	Tue, 17 Dec 2024 02:20:58 +0000 (GMT)
-Received: from gfwa153.aus.stglabs.ibm.com (unknown [9.3.84.127])
-	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 17 Dec 2024 02:20:58 +0000 (GMT)
-From: Ninad Palsule <ninad@linux.ibm.com>
-To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-        eajames@linux.ibm.com, jdelvare@suse.com, linux@roeck-us.net,
-        corbet@lwn.net, joel@jms.id.au, andrew@codeconstruct.com.au,
-        Delphine_CC_Chiu@Wiwynn.com, broonie@kernel.org,
-        peteryin.openbmc@gmail.com, noahwang.wang@outlook.com,
-        naresh.solanki@9elements.com, lukas@wunner.de, jbrunet@baylibre.com,
-        patrick.rudolph@9elements.com, gregkh@linuxfoundation.org,
-        peterz@infradead.org, pbiel7@gmail.com, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-aspeed@lists.ozlabs.org, linux-i2c@vger.kernel.org
-Cc: Ninad Palsule <ninad@linux.ibm.com>
-Subject: [PATCH v3 4/4] ARM: dts: aspeed: system1: Use crps PSU driver
-Date: Mon, 16 Dec 2024 20:20:42 -0600
-Message-ID: <20241217022046.113830-5-ninad@linux.ibm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241217022046.113830-1-ninad@linux.ibm.com>
-References: <20241217022046.113830-1-ninad@linux.ibm.com>
+	s=arc-20240116; t=1734407306; c=relaxed/simple;
+	bh=bSnEOXFRCTRCa26H4csv+FcvXBCngb0EEW7isqrqg9o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Due9QwCVxRJ8VnBZWYwGiTm1mfdrD8ChVvr3G/WlMFXlDyxBNrkf7B0mAo3twCKEuCqa8YD5HXUX1ZMWAIWj4GmnrPr97NAAwyn5eFT2BXWERkABD1IuJJ9YpAveiHLRdG2As2+2/bqGbJoCnEpMldDJgY7jgd5msQGYW7FIXIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 32CDA1063;
+	Mon, 16 Dec 2024 19:48:48 -0800 (PST)
+Received: from a077893.blr.arm.com (a077893.blr.arm.com [10.162.16.49])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7C23E3F720;
+	Mon, 16 Dec 2024 19:48:13 -0800 (PST)
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+To: linux-mm@kvack.org
+Cc: steven.price@arm.com,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Marc Zyngier <maz@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org
+Subject: [PATCH] mm/ptdump: Drop GENERIC_PTDUMP
+Date: Tue, 17 Dec 2024 09:18:07 +0530
+Message-Id: <20241217034807.2541349-1-anshuman.khandual@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -85,57 +52,208 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Hh6hmXv8fYBKd3e_O6u3orwmVtIhLBJp
-X-Proofpoint-ORIG-GUID: n5cTMYJWosxJBRjSSeEGaPy4pf0XyB1Q
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
- suspectscore=0 mlxscore=0 malwarescore=0 priorityscore=1501
- lowpriorityscore=0 clxscore=1015 mlxlogscore=854 spamscore=0 bulkscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412170015
 
-The system1 uses Intel common redundant (crps185) power supplies so move
-to correct new crps driver.
+GENERIC_PTDUMP does not guard any code but instead just used for platform's
+subscription into core ptdump defined under PTDUMP_CORE, which is selected.
+Instead use PTDUMP_CORE for platform subscription and drop GENERIC_PTDUMP.
 
-Signed-off-by: Ninad Palsule <ninad@linux.ibm.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Marc Zyngier <maz@kernel.org>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Heiko Carstens <hca@linux.ibm.com>
+Cc: Vasily Gorbik <gor@linux.ibm.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: kvmarm@lists.linux.dev
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-riscv@lists.infradead.org
+Cc: linux-s390@vger.kernel.org
+Cc: linux-mm@kvack.org
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
 ---
- arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+This patch applies on v6.13-rc3 and has been tested on arm64, although it
+also clears build tests on impacted platforms.
 
-diff --git a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
-index 8f77bc9e860c..360b9ce3c850 100644
---- a/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
-+++ b/arch/arm/boot/dts/aspeed/aspeed-bmc-ibm-system1.dts
-@@ -681,22 +681,22 @@ &i2c2 {
- 	status = "okay";
+ Documentation/arch/arm64/ptdump.rst       | 1 -
+ arch/arm64/Kconfig                        | 2 +-
+ arch/arm64/kvm/Kconfig                    | 3 +--
+ arch/powerpc/Kconfig                      | 2 +-
+ arch/powerpc/configs/mpc885_ads_defconfig | 1 -
+ arch/riscv/Kconfig                        | 2 +-
+ arch/s390/Kconfig                         | 2 +-
+ arch/x86/Kconfig                          | 2 +-
+ arch/x86/Kconfig.debug                    | 2 +-
+ kernel/configs/debug.config               | 1 -
+ mm/Kconfig.debug                          | 8 ++------
+ 11 files changed, 9 insertions(+), 17 deletions(-)
+
+diff --git a/Documentation/arch/arm64/ptdump.rst b/Documentation/arch/arm64/ptdump.rst
+index 5dcfc5d7cddf..61ca040a885b 100644
+--- a/Documentation/arch/arm64/ptdump.rst
++++ b/Documentation/arch/arm64/ptdump.rst
+@@ -22,7 +22,6 @@ offlining of memory being accessed by the ptdump code.
+ In order to dump the kernel page tables, enable the following
+ configurations and mount debugfs::
  
- 	power-supply@58 {
--		compatible = "ibm,cffps";
-+		compatible = "intel,crps185";
- 		reg = <0x58>;
- 	};
+- CONFIG_GENERIC_PTDUMP=y
+  CONFIG_PTDUMP_CORE=y
+  CONFIG_PTDUMP_DEBUGFS=y
  
- 	power-supply@59 {
--		compatible = "ibm,cffps";
-+		compatible = "intel,crps185";
- 		reg = <0x59>;
- 	};
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 100570a048c5..b5479c8b454c 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -154,7 +154,7 @@ config ARM64
+ 	select GENERIC_IRQ_SHOW_LEVEL
+ 	select GENERIC_LIB_DEVMEM_IS_ALLOWED
+ 	select GENERIC_PCI_IOMAP
+-	select GENERIC_PTDUMP
++	select PTDUMP_CORE
+ 	select GENERIC_SCHED_CLOCK
+ 	select GENERIC_SMP_IDLE_THREAD
+ 	select GENERIC_TIME_VSYSCALL
+diff --git a/arch/arm64/kvm/Kconfig b/arch/arm64/kvm/Kconfig
+index ead632ad01b4..fe17d7f5b061 100644
+--- a/arch/arm64/kvm/Kconfig
++++ b/arch/arm64/kvm/Kconfig
+@@ -71,8 +71,7 @@ config PTDUMP_STAGE2_DEBUGFS
+ 	depends on KVM
+ 	depends on DEBUG_KERNEL
+ 	depends on DEBUG_FS
+-	depends on GENERIC_PTDUMP
+-	select PTDUMP_CORE
++	depends on PTDUMP_CORE
+ 	default n
+ 	help
+ 	  Say Y here if you want to show the stage-2 kernel pagetables
+diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
+index a0ce777f9706..c716f8df10de 100644
+--- a/arch/powerpc/Kconfig
++++ b/arch/powerpc/Kconfig
+@@ -203,7 +203,7 @@ config PPC
+ 	select GENERIC_IRQ_SHOW
+ 	select GENERIC_IRQ_SHOW_LEVEL
+ 	select GENERIC_PCI_IOMAP		if PCI
+-	select GENERIC_PTDUMP
++	select PTDUMP_CORE
+ 	select GENERIC_SMP_IDLE_THREAD
+ 	select GENERIC_TIME_VSYSCALL
+ 	select GENERIC_VDSO_TIME_NS
+diff --git a/arch/powerpc/configs/mpc885_ads_defconfig b/arch/powerpc/configs/mpc885_ads_defconfig
+index 77306be62e9e..ea6f836407d2 100644
+--- a/arch/powerpc/configs/mpc885_ads_defconfig
++++ b/arch/powerpc/configs/mpc885_ads_defconfig
+@@ -78,4 +78,3 @@ CONFIG_DEBUG_VM_PGTABLE=y
+ CONFIG_DETECT_HUNG_TASK=y
+ CONFIG_BDI_SWITCH=y
+ CONFIG_PPC_EARLY_DEBUG=y
+-CONFIG_GENERIC_PTDUMP=y
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index d4a7ca0388c0..05f969729e72 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -111,7 +111,7 @@ config RISCV
+ 	select GENERIC_IRQ_SHOW_LEVEL
+ 	select GENERIC_LIB_DEVMEM_IS_ALLOWED
+ 	select GENERIC_PCI_IOMAP
+-	select GENERIC_PTDUMP if MMU
++	select PTDUMP_CORE if MMU
+ 	select GENERIC_SCHED_CLOCK
+ 	select GENERIC_SMP_IDLE_THREAD
+ 	select GENERIC_TIME_VSYSCALL if MMU && 64BIT
+diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
+index 0077969170e8..0e19fe547d84 100644
+--- a/arch/s390/Kconfig
++++ b/arch/s390/Kconfig
+@@ -155,7 +155,7 @@ config S390
+ 	select GENERIC_CPU_VULNERABILITIES
+ 	select GENERIC_ENTRY
+ 	select GENERIC_GETTIMEOFDAY
+-	select GENERIC_PTDUMP
++	select PTDUMP_CORE
+ 	select GENERIC_SMP_IDLE_THREAD
+ 	select GENERIC_TIME_VSYSCALL
+ 	select GENERIC_VDSO_TIME_NS
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 9d7bd0ae48c4..d84cb2ac93ac 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -173,7 +173,7 @@ config X86
+ 	select GENERIC_IRQ_RESERVATION_MODE
+ 	select GENERIC_IRQ_SHOW
+ 	select GENERIC_PENDING_IRQ		if SMP
+-	select GENERIC_PTDUMP
++	select PTDUMP_CORE
+ 	select GENERIC_SMP_IDLE_THREAD
+ 	select GENERIC_TIME_VSYSCALL
+ 	select GENERIC_GETTIMEOFDAY
+diff --git a/arch/x86/Kconfig.debug b/arch/x86/Kconfig.debug
+index 74777a97e394..198d7f090b98 100644
+--- a/arch/x86/Kconfig.debug
++++ b/arch/x86/Kconfig.debug
+@@ -59,7 +59,7 @@ config EARLY_PRINTK_USB_XDBC
+ config EFI_PGT_DUMP
+ 	bool "Dump the EFI pagetable"
+ 	depends on EFI
+-	select PTDUMP_CORE
++	depends on PTDUMP_CORE
+ 	help
+ 	  Enable this if you want to dump the EFI page table before
+ 	  enabling virtual mode. This can be used to debug miscellaneous
+diff --git a/kernel/configs/debug.config b/kernel/configs/debug.config
+index 20552f163930..8aafd050b754 100644
+--- a/kernel/configs/debug.config
++++ b/kernel/configs/debug.config
+@@ -73,7 +73,6 @@ CONFIG_DEBUG_VM=y
+ CONFIG_DEBUG_VM_PGFLAGS=y
+ CONFIG_DEBUG_VM_RB=y
+ CONFIG_DEBUG_VM_VMACACHE=y
+-CONFIG_GENERIC_PTDUMP=y
+ CONFIG_KASAN=y
+ CONFIG_KASAN_GENERIC=y
+ CONFIG_KASAN_INLINE=y
+diff --git a/mm/Kconfig.debug b/mm/Kconfig.debug
+index 41a58536531d..b206e5a11f96 100644
+--- a/mm/Kconfig.debug
++++ b/mm/Kconfig.debug
+@@ -187,7 +187,7 @@ config DEBUG_WX
+ 	bool "Warn on W+X mappings at boot"
+ 	depends on ARCH_HAS_DEBUG_WX
+ 	depends on MMU
+-	select PTDUMP_CORE
++	depends on PTDUMP_CORE
+ 	help
+ 	  Generate a warning if any W+X mappings are found at boot.
  
- 	power-supply@5a {
--		compatible = "ibm,cffps";
-+		compatible = "intel,crps185";
- 		reg = <0x5a>;
- 	};
+@@ -212,9 +212,6 @@ config DEBUG_WX
  
- 	power-supply@5b {
--		compatible = "ibm,cffps";
-+		compatible = "intel,crps185";
- 		reg = <0x5b>;
- 	};
- };
+ 	  If in doubt, say "Y".
+ 
+-config GENERIC_PTDUMP
+-	bool
+-
+ config PTDUMP_CORE
+ 	bool
+ 
+@@ -222,8 +219,7 @@ config PTDUMP_DEBUGFS
+ 	bool "Export kernel pagetable layout to userspace via debugfs"
+ 	depends on DEBUG_KERNEL
+ 	depends on DEBUG_FS
+-	depends on GENERIC_PTDUMP
+-	select PTDUMP_CORE
++	depends on PTDUMP_CORE
+ 	help
+ 	  Say Y here if you want to show the kernel pagetable layout in a
+ 	  debugfs file. This information is only useful for kernel developers
 -- 
-2.43.0
+2.30.2
 
