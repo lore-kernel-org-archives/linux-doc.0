@@ -1,266 +1,437 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFAAF1DAC93;
-	Tue, 17 Dec 2024 08:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63D315624D;
+	Tue, 17 Dec 2024 08:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734425320; cv=none; b=fVhNFww2UJvqxMbLvfTvO2sqsWXnrogGy6D86pUEjL/fM6fE72cRq/6eTMSasCdMShWndglMpJq8Ip4b5cbntL006042IvyOOk/ug4o+BTCE+DHXaJUykOLTftMEzAvB1IzB2TJK6Os4s4NBko5Q2+7NGFaYn+CTp2WL/zFk0cw=
+	t=1734425584; cv=none; b=PeEJf3pkdTAnJe00wsl8yAKOrNz7FPdeWp4EuYQ4aVNkoZf8ZVHjWv+k8OQVmw9/XxIk/JGWIkBHsoQ5lwvWFHF01bAl/2YKISd2pznTuC/wolDkrRhrRaYBqK7k8UDjgoUW2yBQzZEi9kxbIYxpT0NH02QZXsxvcQ4X/lrcr5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734425320; c=relaxed/simple;
-	bh=+26mOEZQWL2sesFz1H/XDGXnEAa1Bzahc8q7pZ00C8k=;
+	s=arc-20240116; t=1734425584; c=relaxed/simple;
+	bh=T54Kw2sYHu32Muil3K446rb8tomdWbE5KFzvLUnKCa4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o65/GGHKF6xRYZnRV3YzXP4tOlSPk/C2hwv2QDVD5yMnkLLMkNqGgGFUgTpKblz3guiuHsvFaFv9dyuHV4j2uC2FZcIJ7yVB2avzW4WDM8nu3KBh9MkzNKbZBV6436AOWzrHDemebhkufoS64thG6q0491F+taFDxZL7PBXMqJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 305611007;
-	Tue, 17 Dec 2024 00:49:02 -0800 (PST)
-Received: from [10.162.16.49] (a077893.blr.arm.com [10.162.16.49])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2D82F3F720;
-	Tue, 17 Dec 2024 00:48:29 -0800 (PST)
-Message-ID: <c64709f7-e1c6-482e-8665-912be50b15bd@arm.com>
-Date: Tue, 17 Dec 2024 14:18:27 +0530
+	 In-Reply-To:Content-Type; b=iKYclsLzPRiVyUyoHuEy8EJlU6d5rexGPJgj6c6EqvnLjr8Kg9TOS0JQbJhZtDtI/5vnJk+uozBKmYcPUil5pdDNf2VdOuk574gMscj+C1Otwm1UqTXBIEHU1Ppt2mRm+9gFi+GW3rqe8cwCjsVufsudaCY/XrBX6p8uFuCyago=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=gBP+1Rp5; arc=none smtp.client-ip=185.125.188.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="gBP+1Rp5"
+Received: from [192.168.1.148] (unknown [222.129.38.136])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id F0D7C3F19C;
+	Tue, 17 Dec 2024 08:52:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1734425579;
+	bh=6ZFhvzjMzDe2OWPfukfTVz/gnxUW1zxk53nzH9dasEg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type;
+	b=gBP+1Rp5oDtmwHXdTxJGhoe3VqF0rlECokYfMxoSuZCvE6pabuFmnfJt7eXLD37gX
+	 G6PYgq5U5Io7CcfTFTojbxFpUanmqx4z+Yt/BP6hwrbMYdh9NmH1Ju99SbfGMflr/0
+	 YUuq04fA1KJ+obEdX3WAhPp7gPJ4heVCYxXfhNcIMRRicFwVVJqmcbaX7pJUtBYqyM
+	 1ciuMVnjbfvGLKFAT9jpL1xTqL2ye7+rC93LL2xDd8VxpS5S6Eiol99/w+8ZRse2VY
+	 syzTwB06OWmejKSDjlF5Ayv9w9bJUXxL504wk9s2v1QP2uKy+Uxex5WtVAedkRPFsY
+	 5/j2/kGMWXm4w==
+Message-ID: <4a5c46e0-e4ac-471f-b839-88c3a6f2374a@canonical.com>
+Date: Tue, 17 Dec 2024 16:52:52 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 6/7] arm64/boot: Enable EL2 requirements for
- FEAT_Debugv8p9
-To: Rob Herring <robh@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
- Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Brown <broonie@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- kvmarm@lists.linux.dev, linux-doc@vger.kernel.org
-References: <20241216040831.2448257-1-anshuman.khandual@arm.com>
- <20241216040831.2448257-7-anshuman.khandual@arm.com>
- <20241216234251.GA629562-robh@kernel.org>
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH v3 00/22] Add Intel Touch Host Controller drivers
+To: "Xu, Even" <even.xu@intel.com>, "jikos@kernel.org" <jikos@kernel.org>,
+ "bentiss@kernel.org" <bentiss@kernel.org>, "corbet@lwn.net"
+ <corbet@lwn.net>, "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
+ "rdunlap@infradead.org" <rdunlap@infradead.org>
+Cc: "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20241216014127.3722172-1-even.xu@intel.com>
+ <f529959b-2355-430b-afc1-fb3062cbbe60@canonical.com>
+ <IA1PR11MB6098E6919DB15166C62C016DF4042@IA1PR11MB6098.namprd11.prod.outlook.com>
+ <2be37a02-d7aa-4587-a7a3-763840e98888@canonical.com>
+ <IA1PR11MB609814AE66379F9891ADB262F4042@IA1PR11MB6098.namprd11.prod.outlook.com>
 Content-Language: en-US
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <20241216234251.GA629562-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Aaron Ma <aaron.ma@canonical.com>
+Autocrypt: addr=aaron.ma@canonical.com; keydata=
+ xsBNBFffeLkBCACi4eE4dPsgWN6B9UDOVcAvb5QgU/hRG6yS0I1lGKQv4KA+bke0c5g8clbO
+ 9gIlIl2bityfA9NzBsDik4Iei3AxMbFyxv9keMwcOFQBIOZF0P3f05qjxftF8P+yp9QTV4hp
+ BkFzsXzWRgXN3r8hU8wqZybepF4B1C83sm2kQ5A5N0AUGbZli9i2G+/VscG9sWfLy8T7f4YW
+ MjmlijCjoV6k29vsmTWQPZ7EApNpvR5BnZQPmQWzkkr0lNXlsKcyLgefQtlwg6drK4fe4wz0
+ ouBIHJEiXE1LWK1hUzkCUASra4WRwKk1Mv/NLLE/aJRqEvF2ukt3uVuM77RWfl7/H/v5ABEB
+ AAHNIUFhcm9uIE1hIDxhYXJvbi5tYUBjYW5vbmljYWwuY29tPsLAdwQTAQgAIQUCV994uQIb
+ AwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgAAKCRDNxCzQfVU6ntJ9B/9aVy0+RkLqF9QpLmw+
+ LAf1m3Fd+4ZarPTerqDqkLla3ekYhbrEtlI1mYuB5f+gtrIjmcW27gacHdslKB9YwaL8B4ZB
+ GJKhcrntLg4YPzYUnXZkHHTv1hMw7fBYw82cBT+EbG0Djh6Po6Ihqyr3auHhfFcp1PZH4Mtq
+ 6hN5KaDZzF/go+tRF5e4bn61Nhdue7mrhFSlfkzLG2ehHWmRV+S91ksH81YDFnazK0sRINBx
+ V1S8ts3WJ2f1AbgmnDlbK3c/AfI5YxnIHn/x2ZdXj1P/wn7DgZHmpMy5DMuk0gN34NLUPLA/
+ cHeKoBAF8emugljiKecKBpMTLe8FrVOxbkrazsBNBFffeLkBCACweKP3Wx+gK81+rOUpuQ00
+ sCyKzdtMuXXJ7oL4GzYHbLfJq+F+UHpQbytVGTn3R5+Y61v41g2zTYZooaC+Hs1+ixf+buG2
+ +2LZjPSELWPNzH9lsKNlCcEvu1XhyyHkBDbnFFHWlUlql3nSXMo//dOTG/XGKaEaZUxjCLUC
+ 8ehLc16DJDvdXsPwWhHrCH/4k92F6qQ14QigBMsl75jDTDJMEYgRYEBT1D/bwxdIeoN1BfIG
+ mYgf059RrWax4SMiJtVDSUuDOpdwoEcZ0FWesRfbFrM+k/XKiIbjMZSvLunA4FIsOdWYOob4
+ Hh0rsm1G+fBLYtT+bE26OWpQ/lSn4TdhABEBAAHCwF8EGAEIAAkFAlffeLkCGwwACgkQzcQs
+ 0H1VOp6p5Af/ap5EVuP1AhFdPD3pXLNrUUt72W3cuAOjXyss43qFC2YRjGfktrizsDjQU46g
+ VKoD6EW9XUPgvYM+k8BJEoXDLhHWnCnMKlbHP3OImxzLRhF4kdlnLicz1zKRcessQatRpJgG
+ NIiD+eFyh0CZcWBO1BB5rWikjO/idicHao2stFdaBmIeXvhT9Xp6XNFEmzOmfHps+kKpWshY
+ 9LDAU0ERBNsW4bekOCa/QxfqcbZYRjrVQvya0EhrPhq0bBpzkIL/7QSBMcdv6IajTlHnLARF
+ nAIofCEKeEl7+ksiRapL5Nykcbt4dldE3sQWxIybC94SZ4inENKw6I8RNpigWm0R5w==
+In-Reply-To: <IA1PR11MB609814AE66379F9891ADB262F4042@IA1PR11MB6098.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 12/17/24 05:12, Rob Herring wrote:
-> On Mon, Dec 16, 2024 at 09:38:30AM +0530, Anshuman Khandual wrote:
->> Fine grained trap control for MDSELR_EL1 register needs to be configured in
->> HDFGRTR2_EL2, and HDFGWTR2_EL2 registers when kernel enters at EL1, but EL2
->> is also present.
+
+
+On 12/17/24 4:06 PM, Xu, Even wrote:
 > 
-> Shouldn't this be "when kernel enters at EL2, and EL3 is also present"?
-
-AFAICT - HDFGRTR2_EL2 and HDFGWTR2_EL2 registers configure traps into EL2 when
-accessed from EL1/EL0, provided all required EL3 trap controls are in place as
-well. These EL2 based trap configs need to be set before the kernel finally
-enters EL1. Although there is an assumption about EL3 based trap configs being
-in place, do we need to mention that in commit message as well. Is not updating 
-booting.rst takes care of all EL3 requirements.
-
-> Though it is really "If EL3 set FGTEn2 and the kernel is entered in 
-> EL2, then FGT2 must be initialized for MDSELR_EL1."
-> 
-> If it was me, I'd just plagarize what was written for prior FGT 
-> commits for this code. :)
-
-There are many commits that changed __init_el2_fgt() with different description
-formats. Do you have particular one in mind which can be followed here ? :)
-
-> 
->> This adds a new helper __init_el2_fgt2() initializing this
->> new FEAT_FGT2 based fine grained registers.
-> 
-> "This adds" is the same as saying "This patch/commit adds" which is well 
-> documented to avoid. Use imperative "Add a new helper...". Though it is 
-> clear from the diff that is what you are doing...
-
-Sure, will fix it.
-
-> 
-> 
->> MDCR_EL2.EBWE needs to be enabled for additional (beyond 16) breakpoint and
->> watchpoint exceptions when kernel enters at EL1, but EL2 is also present.
->> This updates __init_el2_debug() as required for FEAT_Debugv8p9.
+>> -----Original Message-----
+>> From: Aaron Ma <aaron.ma@canonical.com>
+>> Sent: Tuesday, December 17, 2024 3:33 PM
+>> To: Xu, Even <even.xu@intel.com>; jikos@kernel.org; bentiss@kernel.org;
+>> corbet@lwn.net; bagasdotme@gmail.com; rdunlap@infradead.org
+>> Cc: linux-input@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
+>> doc@vger.kernel.org
+>> Subject: Re: [PATCH v3 00/22] Add Intel Touch Host Controller drivers
 >>
->> While here, also update booting.rst with MDCR_EL3 and SCR_EL3 requirements.
 >>
->> Cc: Catalin Marinas <catalin.marinas@arm.com>
->> Cc: Will Deacon <will@kernel.org>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: Marc Zyngier <maz@kernel.org>
->> Cc: Oliver Upton <oliver.upton@linux.dev>
->> Cc: linux-arm-kernel@lists.infradead.org
->> Cc: linux-doc@vger.kernel.org
->> Cc: linux-kernel@vger.kernel.org
->> Cc: kvmarm@lists.linux.dev
->> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
->> ---
->> Changes in V3:
 >>
->> - Dropped MDCR_EL3.TDA boot requirement from documentation (separate series)
->> - Dropped MDCR_EL2_EBWE definition as MDCR_EL2 is now defined in tools sysreg
+>> On 12/17/24 2:58 PM, Xu, Even wrote:
+>>> Hi, Aaron,
+>>>
+>>> Thanks for testing!
+>>>
+>>> It’s not a driver error, it just means driver detected a touch device error (Touch
+>> device report an unexpected RESET Response).
+>>>
+>>> I also met the same issue during test, it usually happens during enumeration
+>> flow.
+>>>
+>>> If user keep touching the screen before/during driver do device initialization, it
+>> will happen.
+>>>
 >>
->> https://lore.kernel.org/all/20241211065425.1106683-1-anshuman.khandual@arm.com/
+>> During the booting, no touching.
+>> It still repeats this error when driver is loading.
 >>
->>  Documentation/arch/arm64/booting.rst | 18 ++++++++++++++++++
->>  arch/arm64/include/asm/el2_setup.h   | 26 ++++++++++++++++++++++++++
->>  2 files changed, 44 insertions(+)
+>> After system bootup and in idle, every single touch will report this error.
 >>
->> diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
->> index 3278fb4bf219..054cfe1cad18 100644
->> --- a/Documentation/arch/arm64/booting.rst
->> +++ b/Documentation/arch/arm64/booting.rst
->> @@ -288,6 +288,12 @@ Before jumping into the kernel, the following conditions must be met:
->>  
->>      - SCR_EL3.FGTEn (bit 27) must be initialised to 0b1.
->>  
->> +  For CPUs with the Fine Grained Traps (FEAT_FGT2) extension present:
->> +
->> +  - If EL3 is present and the kernel is entered at EL2:
->> +
->> +    - SCR_EL3.FGTEn2 (bit 59) must be initialised to 0b1.
->> +
->>    For CPUs with support for HCRX_EL2 (FEAT_HCX) present:
->>  
->>    - If EL3 is present and the kernel is entered at EL2:
->> @@ -322,6 +328,18 @@ Before jumping into the kernel, the following conditions must be met:
->>      - ZCR_EL2.LEN must be initialised to the same value for all CPUs the
->>        kernel will execute on.
->>  
->> +  For CPUs with FEAT_Debugv8p9 extension present:
->> +
->> +  - If the kernel is entered at EL1 and EL2 is present:
->> +
->> +    - HDFGRTR2_EL2.nMDSELR_EL1 (bit 5) must be initialized to 0b1
->> +    - HDFGWTR2_EL2.nMDSELR_EL1 (bit 5) must be initialized to 0b1
->> +    - MDCR_EL2.EBWE (bit 43) must be initialized to 0b1
->> +
->> +  - If EL3 is present:
->> +
->> +    - MDCR_EL3.EBWE (bit 43) must be initialized to 0b1
->> +
->>    For CPUs with the Scalable Matrix Extension (FEAT_SME):
->>  
->>    - If EL3 is present:
->> diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
->> index 4ef52d7245bb..2fbfe27d38b5 100644
->> --- a/arch/arm64/include/asm/el2_setup.h
->> +++ b/arch/arm64/include/asm/el2_setup.h
->> @@ -105,6 +105,13 @@
->>  						// to own it.
->>  
->>  .Lskip_trace_\@:
->> +	mrs	x1, id_aa64dfr0_el1
->> +	ubfx	x1, x1, #ID_AA64DFR0_EL1_DebugVer_SHIFT, #4
->> +	cmp	x1, #ID_AA64DFR0_EL1_DebugVer_V8P9
->> +	b.lt	.Lskip_dbg_v8p9_\@
->> +
->> +	orr	x2, x2, #MDCR_EL2_EBWE
->> +.Lskip_dbg_v8p9_\@:
->>  	msr	mdcr_el2, x2			// Configure debug traps
->>  .endm
->>  
->> @@ -244,6 +251,24 @@
->>  .Lskip_gcs_\@:
->>  .endm
->>  
->> +.macro __init_el2_fgt2
->> +	mrs	x1, id_aa64mmfr0_el1
->> +	ubfx	x1, x1, #ID_AA64MMFR0_EL1_FGT_SHIFT, #4
->> +	cmp	x1, #ID_AA64MMFR0_EL1_FGT_FGT2
+>> Aaron
 > 
-> We already read this field in __init_el2_fgt, shouldn't we leverage that 
-> and move all this there rather than read the feature reg twice.
-
-Should not __init_el2_fgt2() remain separate to contain all future FEAT_FGT2
-related trap enabled/disable checks ? OTOH reading id_aa64mmfr0_el1 register
-should improve some performance as well.
-
+> Interesting!
+> That's the new issue I never met.
 > 
->> +	b.lt	.Lskip_fgt2_\@
->> +
->> +	mrs	x1, id_aa64dfr0_el1
->> +	ubfx	x1, x1, #ID_AA64DFR0_EL1_DebugVer_SHIFT, #4
->> +	cmp	x1, #ID_AA64DFR0_EL1_DebugVer_V8P9
->> +	b.lt	.Lskip_dbg_v8p9_\@
->> +
->> +	mov_q   x0, HDFGWTR2_EL2_nMDSELR_EL1
->> +	msr_s	SYS_HDFGWTR2_EL2, x0
->> +	msr_s	SYS_HDFGRTR2_EL2, x0
+> Is touch function abnormal (I mean the single touch)?
 > 
-> If Debug v8.9 is not present, but FGT2 is, shouldn't we write 0 to these 
-> registers? That is what we do for FGT.
 
-Just to summerize what's being done in __init_el2_fgt()
+Touchscreen function works.
+One touch will cause 10 times of this error.
 
-.macro __init_el2_fgt
-	...............
-	mov     x0, xzr
-	...............
-.Lskip_spe_fgt_\@:
-        msr_s   SYS_HDFGRTR_EL2, x0
-        msr_s   SYS_HDFGWTR_EL2, x0
-	...............
-.Lset_fgt_\@:
-        msr_s   SYS_HFGRTR_EL2, x0
-        msr_s   SYS_HFGWTR_EL2, x0
-        msr_s   SYS_HFGITR_EL2, xzr
-	...............
+Aaron
 
-If the relevant features are not present and their traps need not be handled,
-all FEAT_FGT based trap control registers (SYS_HDFGRTR_EL2, SYS_HDFGWTR_EL2,
-SYS_HFGRTR_EL2, SYS_HFGWTR_EL2 and SYS_HFGITR_EL2) get cleared. Hence same
-needs to be done for all FEAT_FGT2 register as well. Fair enough, something
-like the following makes sense ?
-
-.macro __init_el2_fgt2
-        mrs     x1, id_aa64mmfr0_el1
-        ubfx    x1, x1, #ID_AA64MMFR0_EL1_FGT_SHIFT, #4
-        cmp     x1, #ID_AA64MMFR0_EL1_FGT_FGT2
-        b.lt    .Lskip_fgt2_\@
-
-        mov     x0, xzr
-        mrs     x1, id_aa64dfr0_el1
-        ubfx    x1, x1, #ID_AA64DFR0_EL1_DebugVer_SHIFT, #4
-        cmp     x1, #ID_AA64DFR0_EL1_DebugVer_V8P9
-        b.lt    .Lskip_dbg_v8p9_\@
-
-        orr     x0, x0, #HDFGWTR2_EL2_nMDSELR_EL1
-.Lskip_dbg_v8p9_\@:
-        msr_s   SYS_HDFGWTR2_EL2, x0
-        msr_s   SYS_HDFGRTR2_EL2, x0
-        msr_s   SYS_HFGRTR2_EL2, xzr
-        msr_s   SYS_HFGWTR2_EL2, xzr
-        msr_s   SYS_HFGITR2_EL2, xzr
-.Lskip_fgt2_\@:
-.endm
-
-Just wondering - following the same principle if clearing these FEAT_FGT2 trap
-registers would make sense in itself, even without FEAT_Debugv8p9 enablement ?
-
-Something like the commit
-
-commit 31c00d2aeaa2da89361f5b64a64ca831433be5fc
-Author: Mark Brown <broonie@kernel.org>
-Date:   Thu Apr 1 19:09:40 2021 +0100
-
-    arm64: Disable fine grained traps on boot
-    
-    The arm64 FEAT_FGT extension introduces a set of traps to EL2 for accesses
-    to small sets of registers and instructions from EL1 and EL0.  Currently
-    Linux makes no use of this feature, ensure that it is not active at boot by
-    disabling the traps during EL2 setup.
-
-
+> Best Regards,
+> Even Xu
 > 
+>>
+>>> In general, Touch devices will self recover from this error, it will not impact
+>> normal touch function.
+>>>
+>>> Thanks!
+>>>
+>>> Best Regards,
+>>>
+>>> Even Xu
+>>>
+>>> *From:*Aaron Ma <aaron.ma@canonical.com>
+>>> *Sent:* Tuesday, December 17, 2024 2:47 PM
+>>> *To:* Xu, Even <even.xu@intel.com>; jikos@kernel.org;
+>>> bentiss@kernel.org; corbet@lwn.net; bagasdotme@gmail.com;
+>>> rdunlap@infradead.org
+>>> *Cc:* linux-input@vger.kernel.org; linux-kernel@vger.kernel.org;
+>>> linux-doc@vger.kernel.org
+>>> *Subject:* Re: [PATCH v3 00/22] Add Intel Touch Host Controller
+>>> drivers
+>>>
+>>> Hi Even,
+>>>
+>>> Tested on 6.13-rc3, there is an error repeated when using touchscreen:
+>>>
+>>> intel_quicki2c 0000:00:10.0: *unexpected DIR happen*
+>>>
+>>> The device info:
+>>> [    3.013613] input: quicki2c-hid 27C6:012D Touchscreen as
+>>> /devices/pci0000:00/0000:00:10.0/000
+>>> 1:27C6:012D.0001/input/input6
+>>> [    3.013763] input: quicki2c-hid 27C6:012D as
+>> /devices/pci0000:00/0000:00:10.0/0001:27C6:012D.
+>>> 0001/input/input7
+>>> [    3.013894] hid-generic 0001:27C6:012D.0001: input,hidraw0:
+>>> <UNKNOWN> HID v8.65 Device [quick i2c-hid 27C6:012D] on
+>>>
+>>>
+>>> Aaron
+>>>
+>>> On 12/16/24 9:41 AM, Even Xu wrote:
+>>>
+>>>      Intel Touch Host Controller (THC) is a new high performance input
+>>> IP
+>>>
+>>>      which can benefit HID device's data transaction, such as touch
+>>> screen,
+>>>
+>>>      touch pad, stylus.
+>>>
+>>>      THC IP now evoluates to V4, it can support 3 different modes:
+>>> IPTS,
+>>>
+>>>      HIDSPI and HIDI2C. Here are upgrade history:
+>>>
+>>>      - THC v1, for TGL/LKF, supports intel private IPTS (Intel Precise
+>>> Touch
+>>>
+>>>         and Stylus) protocol ( IPTS mode)
+>>>
+>>>      - THC v2, for ADL, add industrial standard HID over SPI protocol
+>>> support
+>>>
+>>>         (HIDSPI mode)
+>>>
+>>>      - THC v3, for MTL, enhance HID over SPI mode
+>>>
+>>>      - THC v4, for LNL, add inudstrial standard HID over I2C protocol
+>>> support
+>>>
+>>>         (HIDI2C mode)
+>>>
+>>>      Linux Surface community (https://github.com/linux-surface
+>>> <https://github.com/linux-surface>) already
+>>>
+>>>      implemented IPTS mode. These patch series provides THC HIDSPI mode
+>>> and
+>>>
+>>>      THC HIDI2C mode support on Linux.
+>>>
+>>>      These patch series includes:
+>>>
+>>>      1. Document for THC hardware and software introduction.
+>>>
+>>>      2. Intel THC Hardware layer driver which provides control
+>>> interfaces
+>>>
+>>>          for protocol layer.
+>>>
+>>>      3. Intel QuickSPI (R) driver working as a HIDSPI device driver
+>>> which
+>>>
+>>>          implements HID over SPI protocol and flow.
+>>>
+>>>      4. Intel QuickI2C (R) driver working as a HIDI2C device driver
+>>> which
+>>>
+>>>          implements HID over I2C protocol and flow.
+>>>
+>>>      Change logs:
+>>>
+>>>      v3:
+>>>
+>>>      - Change tables in documents from literal block to table format
+>>>
+>>>      - Change symbol namespace to string literal according to patch:
+>>>
+>>>         cdd30ebb1b9f ("module: Convert symbol namespace to string
+>>> literal")
+>>>
+>>>      - Refine Kconfig description
+>>>
+>>>      - Enhance Quickspi and Quicki2c driver by clearing THC hardware
+>>> interal
+>>>
+>>>         state before doing initialization to avoid BIOS impacts.
+>>>
+>>>      - A fix in Quicki2c driver when does set_report
+>>>
+>>>      v2:
+>>>
+>>>      - Fix document format issues
+>>>
+>>>      - Add THC device IDs for Intel Panther Lake (PTL) platform
+>>>
+>>>      Even Xu (13):
+>>>
+>>>         HID: THC: Add documentation
+>>>
+>>>         HID: intel-thc-hid: intel-thc: Add THC DMA interfaces
+>>>
+>>>         HID: intel-thc-hid: intel-thc: Add THC I2C config interfaces
+>>>
+>>>         HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI driver hid
+>>> layer
+>>>
+>>>         HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI ACPI
+>>> interfaces
+>>>
+>>>         HID: intel-thc-hid: intel-quickspi: Add HIDSPI protocol
+>>> implementation
+>>>
+>>>         HID: intel-thc-hid: intel-quickspi: Add PM implementation
+>>>
+>>>         HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C driver
+>>> skeleton
+>>>
+>>>         HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C driver hid
+>>> layer
+>>>
+>>>         HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C ACPI
+>>> interfaces
+>>>
+>>>         HID: intel-thc-hid: intel-quicki2c: Add HIDI2C protocol
+>>> implementation
+>>>
+>>>         HID: intel-thc-hid: intel-quicki2c: Complete THC QuickI2C
+>>> driver
+>>>
+>>>         HID: intel-thc-hid: intel-quicki2c: Add PM implementation
+>>>
+>>>      Xinpeng Sun (9):
+>>>
+>>>         HID: intel-thc-hid: Add basic THC driver skeleton
+>>>
+>>>         HID: intel-thc-hid: intel-thc: Add THC registers definition
+>>>
+>>>         HID: intel-thc-hid: intel-thc: Add THC PIO operation APIs
+>>>
+>>>         HID: intel-thc-hid: intel-thc: Add APIs for interrupt
+>>>
+>>>         HID: intel-thc-hid: intel-thc: Add THC LTR interfaces
+>>>
+>>>         HID: intel-thc-hid: intel-thc: Add THC interrupt handler
+>>>
+>>>         HID: intel-thc-hid: intel-thc: Add THC SPI config interfaces
+>>>
+>>>         HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI driver
+>>> skeleton
+>>>
+>>>         HID: intel-thc-hid: intel-quickspi: Complete THC QuickSPI
+>>> driver
+>>>
+>>>        Documentation/hid/index.rst                   |    1 +
+>>>
+>>>        Documentation/hid/intel-thc-hid.rst           |  568 ++++++
+>>>
+>>>        MAINTAINERS                                   |    6 +
+>>>
+>>>        drivers/hid/Kconfig                           |    2 +
+>>>
+>>>        drivers/hid/Makefile                          |    2 +
+>>>
+>>>        drivers/hid/intel-thc-hid/Kconfig             |   42 +
+>>>
+>>>        drivers/hid/intel-thc-hid/Makefile            |   22 +
+>>>
+>>>        .../intel-quicki2c/pci-quicki2c.c             |  966 ++++++++++
+>>>
+>>>        .../intel-quicki2c/quicki2c-dev.h             |  186 ++
+>>>
+>>>        .../intel-quicki2c/quicki2c-hid.c             |  166 ++
+>>>
+>>>        .../intel-quicki2c/quicki2c-hid.h             |   14 +
+>>>
+>>>        .../intel-quicki2c/quicki2c-protocol.c        |  224 +++
+>>>
+>>>        .../intel-quicki2c/quicki2c-protocol.h        |   20 +
+>>>
+>>>        .../intel-quickspi/pci-quickspi.c             |  987 +++++++++++
+>>>
+>>>        .../intel-quickspi/quickspi-dev.h             |  172 ++
+>>>
+>>>        .../intel-quickspi/quickspi-hid.c             |  165 ++
+>>>
+>>>        .../intel-quickspi/quickspi-hid.h             |   14 +
+>>>
+>>>        .../intel-quickspi/quickspi-protocol.c        |  409 +++++
+>>>
+>>>        .../intel-quickspi/quickspi-protocol.h        |   25 +
+>>>
+>>>        .../intel-thc-hid/intel-thc/intel-thc-dev.c   | 1578
+>>> +++++++++++++++++
+>>>
+>>>        .../intel-thc-hid/intel-thc/intel-thc-dev.h   |  116 ++
+>>>
+>>>        .../intel-thc-hid/intel-thc/intel-thc-dma.c   |  969 ++++++++++
+>>>
+>>>        .../intel-thc-hid/intel-thc/intel-thc-dma.h   |  146 ++
+>>>
+>>>        .../intel-thc-hid/intel-thc/intel-thc-hw.h    |  881 +++++++++
+>>>
+>>>        include/linux/hid-over-i2c.h                  |  117 ++
+>>>
+>>>        include/linux/hid-over-spi.h                  |  155 ++
+>>>
+>>>        26 files changed, 7953 insertions(+)
+>>>
+>>>        create mode 100644 Documentation/hid/intel-thc-hid.rst
+>>>
+>>>        create mode 100644 drivers/hid/intel-thc-hid/Kconfig
+>>>
+>>>        create mode 100644 drivers/hid/intel-thc-hid/Makefile
+>>>
+>>>        create mode 100644
+>>> drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+>>>
+>>>        create mode 100644
+>>> drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
+>>>
+>>>        create mode 100644
+>>> drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
+>>>
+>>>        create mode 100644
+>>> drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.h
+>>>
+>>>        create mode 100644
+>>> drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-protocol.c
+>>>
+>>>        create mode 100644
+>>> drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-protocol.h
+>>>
+>>>        create mode 100644
+>>> drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
+>>>
+>>>        create mode 100644
+>>> drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
+>>>
+>>>        create mode 100644
+>>> drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.c
+>>>
+>>>        create mode 100644
+>>> drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.h
+>>>
+>>>        create mode 100644
+>>> drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.c
+>>>
+>>>        create mode 100644
+>>> drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.h
+>>>
+>>>        create mode 100644
+>>> drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c
+>>>
+>>>        create mode 100644
+>>> drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.h
+>>>
+>>>        create mode 100644
+>>> drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c
+>>>
+>>>        create mode 100644
+>>> drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.h
+>>>
+>>>        create mode 100644
+>>> drivers/hid/intel-thc-hid/intel-thc/intel-thc-hw.h
+>>>
+>>>        create mode 100644 include/linux/hid-over-i2c.h
+>>>
+>>>        create mode 100644 include/linux/hid-over-spi.h
+>>>
 > 
-> I just realized I forgot to add FGT2 setup for the PMUv3.9 features I 
-> already added in 6.12 and 6.13. So this really needs to land sooner 
-> rather than later to add that. 
-Not sure if I got this correctly. Are you suggesting to carve out __init_el2_fgt2()
-from the series and post separately with PMUv3.9 requirements and fallback clearing
-for all FEAT_FGT2 trap config registers as mentioned above ?
+
