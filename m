@@ -1,383 +1,210 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5EF21F9F78;
-	Tue, 17 Dec 2024 13:02:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0F21F666B
+	for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 14:23:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734440531; cv=none; b=C3W8UakgH69goplpBQamtKlrFFKFM+ZJJraFgD7QoXzj0eaWva8KmQDY9ZzMt/wdvoK+ttAnSCWJSmngbP+PzH8RZAOmPY8x17+170vXWY/qlxVcN4WxURwhYOqAxVuXosB/X9Fl1+XEqGeXbGe5RZfF8HTvFRMIg/+N7Gt9rYY=
+	t=1734445410; cv=none; b=jKudhAQz1dSmKPpAFKoCSA4NBZw8o/N/eC/wqMwP0k+Q2QstoMykHUF7tL/AsmKnq4EaE2THEXri4Todf6iS7MXAx0K4QSKvDF/dMSyT/o9OPKb4GpWJsAqOaBzv/+WsRfqxhghUJecaPrcwPlfmbqTxKHXimpV+nYnmBetPg0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734440531; c=relaxed/simple;
-	bh=G4wqehv2MjRfNLzyqIhIA355wtcHGJCWo6SlnNMmpUU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fdQw0iiKtgrRwnTXUyQUJDidFQOYsG8yoSOBPIG7fzK4FJ0qHtpQnaYu30pgmDUXAe6OFKhM1+MYVgYhsVRaYF6iReLTKhGAvL8EQZe6DGpWenuq/e6zXRkP1Ofh1mlQ89DXiu9jAMhIHAA+uAcle4/xNaSWpCdd5QDSKdPcIec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uxp1t4nf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734445410; c=relaxed/simple;
+	bh=GEHzuAOCJgvRm9cIDs5L/dZJjYXM+Gu7fX5nDRW9toY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QUBErzdsVaiY8ZGR7AFAabVKW8Arxal/dqWt2uB3sEv4wXHyBTjnI2lgONPM02wH58r9UM0OB4PrCKiMT4kZck1n9qewdyJopw7h+1SQQy5DDxr1cb20bAmH+7f2E1ZGLBP0Sg12udHuqoeZN11mJjvPuJryJYZtly0sRr55K9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GoHVla35; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uxp1t4nf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 915BDC4CEE5;
-	Tue, 17 Dec 2024 13:02:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734440531;
-	bh=G4wqehv2MjRfNLzyqIhIA355wtcHGJCWo6SlnNMmpUU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Uxp1t4nfJzRtQBAHE/04E5cavs48crOSCRnSGoACYgUqArxGRHQoUtVO/oIV8Rpf5
-	 nN/IjDHpNObdL9/K1ly+yv0rOkX9uEg1S+6yaozat7vblG7TZ2Z2o8i7CmfPE2YVpK
-	 1L6W4z9kkMtCRsbAJ7OxKsh52fDqqhSosZ9jMAXI0ulEpkmr0AJ34cutrg0cE9Fx62
-	 O5P9J9er64BhB5LQN7dOfy6ZU/34F5Jy/jfiEnljY6GtESDHzyKsfQA4rDvsfKwmHn
-	 vxhrcapYyHOqssAOnVxuyfT0DGpynnSBbOIUL11wdl/i+tqdQ8y/J7e+aJ88mmhLcS
-	 lYQY04S9DXZGQ==
-From: Leon Romanovsky <leon@kernel.org>
-To: Jens Axboe <axboe@kernel.dk>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: Leon Romanovsky <leonro@nvidia.com>,
-	Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v5 15/17] vfio/mlx5: Explicitly use number of pages instead of allocated length
-Date: Tue, 17 Dec 2024 15:00:33 +0200
-Message-ID: <5a5a71c1db2fb0bf300463b77e8de30de30ec0df.1734436840.git.leon@kernel.org>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <cover.1734436840.git.leon@kernel.org>
-References: <cover.1734436840.git.leon@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GoHVla35"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1734445407;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FSgN4wlXGgdplGkFID7oReLMbww8771UXwgGNzlG4Pg=;
+	b=GoHVla35XXFI68rp1vNFewOro1zymFD5STbYLBxMxNY8cIzGgrIWTt2gl3pPPXrSCmpGTf
+	EKPTcxVFcEGEfshZ21jIfDDI2+Rb7YTbl3IoAF7qLjOqKGERSOokvvdDZYHUtEVxf5nEIA
+	4uSpD45sZXEcmH/4kO9NyZe/jy3VTqg=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-192-zmRlJBbWM96MxyW4pMQvHw-1; Tue, 17 Dec 2024 09:23:26 -0500
+X-MC-Unique: zmRlJBbWM96MxyW4pMQvHw-1
+X-Mimecast-MFC-AGG-ID: zmRlJBbWM96MxyW4pMQvHw
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-aa6a1bf7a82so66619766b.1
+        for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 06:23:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734445405; x=1735050205;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FSgN4wlXGgdplGkFID7oReLMbww8771UXwgGNzlG4Pg=;
+        b=rwshYvrTtqhd2vkXYrGodXEIOy1ykGMKskGzDp8v2pOXEideH6+iLiTDLNKH0w4bfU
+         lXgKxRkrlV10VO2PDTz0Qs3RfN01MiFhAAViMIlfqp0plfCKVInlQfGmF4nH7gryRuul
+         lE44H83VYgHTxjIH2CHLdcdvxrHln5QMZj8lH0Dx4Z8zQmzAXe1Ndb4vqRJms6eHfLXA
+         aMdS9TS2Qh+7aXpTZfO5V43D/rYDzsBlUJ/P6g3X4gcyYcxk0YO5qw3XE9PJ823hDWBw
+         UNt+gW9JIJQDZ3o1E4x1KnaXr8U6RYLDVyxNTNVy8jC+mmwKdBiUA9hwce0ZnrfF8y7o
+         bhrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWq6thQ5ZgmWlF1TkcaivhRdHhxxkLCCAvImL6qQp+cc5RMQnEKLK7X6EsYIqMHo18rbar+PqcB9Sc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzE58LrfhRx+9yW1d62K9TwV1iITqOyEnpsFCATjEonRxuFg6Sa
+	LiVtHmggljt7+rvFglaN3EGTApY4kfpclPEI4LxynX1uMI4aPStX2I/Mzmzrn8MGsS6hu9plesa
+	MZGom/NyBa7PYt7pjbZEhrvqQQdqInZSBlEd8Xg+mGEQ2XJZuU6uUiuIgMlpWzKACIg==
+X-Gm-Gg: ASbGnctVzPZlgdl9jqBo2WXtPJeO6Af7lxvwc4Lft/TqJINs+8uUlQhJwDhOZyTSffi
+	YO1eYPIRTDOVBRAMNB032BAgRDjPIr9nRLOYyqDxwuq+cv3OKQK5hvWGDYW/1WuOsJNFOx6xaNG
+	atAZveu7CfvVXfexk7Krx8UGIYvycXr4Y8xLF1ZFF2DzeKnqfqrgHxZNrWnY4FzYbr7X4YN2zN1
+	CjW3T8H3aFMuKxukSRkPwr0ZwyI1jA2OewMAuxrEBd/WSfY3QxyHX2/kVQ=
+X-Received: by 2002:a17:907:7707:b0:aa6:87e8:1d12 with SMTP id a640c23a62f3a-aab77e7fb68mr1268001466b.45.1734445404875;
+        Tue, 17 Dec 2024 06:23:24 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH8DGKreIgpjW49AEyXqJ0Ih9IIz3vMgcLPmJgEDXCPmvjEcUOf41BnTnq2KWFedarryER+QQ==
+X-Received: by 2002:a17:907:7707:b0:aa6:87e8:1d12 with SMTP id a640c23a62f3a-aab77e7fb68mr1267998666b.45.1734445404457;
+        Tue, 17 Dec 2024 06:23:24 -0800 (PST)
+Received: from [10.87.1.157] ([145.15.244.207])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aab963598c2sm449222966b.96.2024.12.17.06.23.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Dec 2024 06:23:24 -0800 (PST)
+Message-ID: <66897a27-5f81-46fc-898d-682456d7f37f@redhat.com>
+Date: Tue, 17 Dec 2024 15:23:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] platform/x86: samsung-galaxybook: Add
+ samsung-galaxybook driver
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ Joshua Grisham <josh@joshuagrisham.com>
+Cc: ilpo.jarvinen@linux.intel.com, W_Armin@gmx.de,
+ platform-driver-x86@vger.kernel.org, corbet@lwn.net,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241216103855.18457-1-josh@joshuagrisham.com>
+ <13184052-baf2-4e7d-b8ef-9ba3f34d475a@t-8ch.de>
+Content-Language: en-US
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <13184052-baf2-4e7d-b8ef-9ba3f34d475a@t-8ch.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Leon Romanovsky <leonro@nvidia.com>
+Hi,
 
-allocated_length is a multiple of page size and number of pages,
-so let's change the functions to accept number of pages. It opens
-us a venue to combine receive and send paths together with code
-readability improvement.
+On 16-Dec-24 5:46 PM, Thomas Weißschuh wrote:
+> Hi Joshua!
+> 
+> (disclaimer: I didn't read all the previous reviews)
+> 
 
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/vfio/pci/mlx5/cmd.c  | 32 ++++++++++-----------
- drivers/vfio/pci/mlx5/cmd.h  | 10 +++----
- drivers/vfio/pci/mlx5/main.c | 56 +++++++++++++++++++++++-------------
- 3 files changed, 57 insertions(+), 41 deletions(-)
+Disclaimer: I also did not read all of the previous reviews.
 
-diff --git a/drivers/vfio/pci/mlx5/cmd.c b/drivers/vfio/pci/mlx5/cmd.c
-index 7527e277c898..88e76afba606 100644
---- a/drivers/vfio/pci/mlx5/cmd.c
-+++ b/drivers/vfio/pci/mlx5/cmd.c
-@@ -318,8 +318,7 @@ static int _create_mkey(struct mlx5_core_dev *mdev, u32 pdn,
- 			struct mlx5_vhca_recv_buf *recv_buf,
- 			u32 *mkey)
- {
--	size_t npages = buf ? DIV_ROUND_UP(buf->allocated_length, PAGE_SIZE) :
--				recv_buf->npages;
-+	size_t npages = buf ? buf->npages : recv_buf->npages;
- 	int err = 0, inlen;
- 	__be64 *mtt;
- 	void *mkc;
-@@ -375,7 +374,7 @@ static int mlx5vf_dma_data_buffer(struct mlx5_vhca_data_buffer *buf)
- 	if (mvdev->mdev_detach)
- 		return -ENOTCONN;
- 
--	if (buf->dmaed || !buf->allocated_length)
-+	if (buf->dmaed || !buf->npages)
- 		return -EINVAL;
- 
- 	ret = dma_map_sgtable(mdev->device, &buf->table.sgt, buf->dma_dir, 0);
-@@ -445,7 +444,7 @@ static int mlx5vf_add_migration_pages(struct mlx5_vhca_data_buffer *buf,
- 
- 		if (ret)
- 			goto err_append;
--		buf->allocated_length += filled * PAGE_SIZE;
-+		buf->npages += filled;
- 		/* clean input for another bulk allocation */
- 		memset(page_list, 0, filled * sizeof(*page_list));
- 		to_fill = min_t(unsigned int, to_alloc,
-@@ -464,8 +463,7 @@ static int mlx5vf_add_migration_pages(struct mlx5_vhca_data_buffer *buf,
- }
- 
- struct mlx5_vhca_data_buffer *
--mlx5vf_alloc_data_buffer(struct mlx5_vf_migration_file *migf,
--			 size_t length,
-+mlx5vf_alloc_data_buffer(struct mlx5_vf_migration_file *migf, u32 npages,
- 			 enum dma_data_direction dma_dir)
- {
- 	struct mlx5_vhca_data_buffer *buf;
-@@ -477,9 +475,8 @@ mlx5vf_alloc_data_buffer(struct mlx5_vf_migration_file *migf,
- 
- 	buf->dma_dir = dma_dir;
- 	buf->migf = migf;
--	if (length) {
--		ret = mlx5vf_add_migration_pages(buf,
--				DIV_ROUND_UP_ULL(length, PAGE_SIZE));
-+	if (npages) {
-+		ret = mlx5vf_add_migration_pages(buf, npages);
- 		if (ret)
- 			goto end;
- 
-@@ -505,8 +502,8 @@ void mlx5vf_put_data_buffer(struct mlx5_vhca_data_buffer *buf)
- }
- 
- struct mlx5_vhca_data_buffer *
--mlx5vf_get_data_buffer(struct mlx5_vf_migration_file *migf,
--		       size_t length, enum dma_data_direction dma_dir)
-+mlx5vf_get_data_buffer(struct mlx5_vf_migration_file *migf, u32 npages,
-+		       enum dma_data_direction dma_dir)
- {
- 	struct mlx5_vhca_data_buffer *buf, *temp_buf;
- 	struct list_head free_list;
-@@ -521,7 +518,7 @@ mlx5vf_get_data_buffer(struct mlx5_vf_migration_file *migf,
- 	list_for_each_entry_safe(buf, temp_buf, &migf->avail_list, buf_elm) {
- 		if (buf->dma_dir == dma_dir) {
- 			list_del_init(&buf->buf_elm);
--			if (buf->allocated_length >= length) {
-+			if (buf->npages >= npages) {
- 				spin_unlock_irq(&migf->list_lock);
- 				goto found;
- 			}
-@@ -535,7 +532,7 @@ mlx5vf_get_data_buffer(struct mlx5_vf_migration_file *migf,
- 		}
- 	}
- 	spin_unlock_irq(&migf->list_lock);
--	buf = mlx5vf_alloc_data_buffer(migf, length, dma_dir);
-+	buf = mlx5vf_alloc_data_buffer(migf, npages, dma_dir);
- 
- found:
- 	while ((temp_buf = list_first_entry_or_null(&free_list,
-@@ -716,7 +713,7 @@ int mlx5vf_cmd_save_vhca_state(struct mlx5vf_pci_core_device *mvdev,
- 	MLX5_SET(save_vhca_state_in, in, op_mod, 0);
- 	MLX5_SET(save_vhca_state_in, in, vhca_id, mvdev->vhca_id);
- 	MLX5_SET(save_vhca_state_in, in, mkey, buf->mkey);
--	MLX5_SET(save_vhca_state_in, in, size, buf->allocated_length);
-+	MLX5_SET(save_vhca_state_in, in, size, buf->npages * PAGE_SIZE);
- 	MLX5_SET(save_vhca_state_in, in, incremental, inc);
- 	MLX5_SET(save_vhca_state_in, in, set_track, track);
- 
-@@ -738,8 +735,11 @@ int mlx5vf_cmd_save_vhca_state(struct mlx5vf_pci_core_device *mvdev,
- 	}
- 
- 	if (!header_buf) {
--		header_buf = mlx5vf_get_data_buffer(migf,
--			sizeof(struct mlx5_vf_migration_header), DMA_NONE);
-+		header_buf = mlx5vf_get_data_buffer(
-+			migf,
-+			DIV_ROUND_UP(sizeof(struct mlx5_vf_migration_header),
-+				     PAGE_SIZE),
-+			DMA_NONE);
- 		if (IS_ERR(header_buf)) {
- 			err = PTR_ERR(header_buf);
- 			goto err_free;
-diff --git a/drivers/vfio/pci/mlx5/cmd.h b/drivers/vfio/pci/mlx5/cmd.h
-index df421dc6de04..7d4a833b6900 100644
---- a/drivers/vfio/pci/mlx5/cmd.h
-+++ b/drivers/vfio/pci/mlx5/cmd.h
-@@ -56,7 +56,7 @@ struct mlx5_vhca_data_buffer {
- 	struct sg_append_table table;
- 	loff_t start_pos;
- 	u64 length;
--	u64 allocated_length;
-+	u32 npages;
- 	u32 mkey;
- 	enum dma_data_direction dma_dir;
- 	u8 dmaed:1;
-@@ -217,12 +217,12 @@ int mlx5vf_cmd_alloc_pd(struct mlx5_vf_migration_file *migf);
- void mlx5vf_cmd_dealloc_pd(struct mlx5_vf_migration_file *migf);
- void mlx5fv_cmd_clean_migf_resources(struct mlx5_vf_migration_file *migf);
- struct mlx5_vhca_data_buffer *
--mlx5vf_alloc_data_buffer(struct mlx5_vf_migration_file *migf,
--			 size_t length, enum dma_data_direction dma_dir);
-+mlx5vf_alloc_data_buffer(struct mlx5_vf_migration_file *migf, u32 npages,
-+			 enum dma_data_direction dma_dir);
- void mlx5vf_free_data_buffer(struct mlx5_vhca_data_buffer *buf);
- struct mlx5_vhca_data_buffer *
--mlx5vf_get_data_buffer(struct mlx5_vf_migration_file *migf,
--		       size_t length, enum dma_data_direction dma_dir);
-+mlx5vf_get_data_buffer(struct mlx5_vf_migration_file *migf, u32 npages,
-+		       enum dma_data_direction dma_dir);
- void mlx5vf_put_data_buffer(struct mlx5_vhca_data_buffer *buf);
- struct page *mlx5vf_get_migration_page(struct mlx5_vhca_data_buffer *buf,
- 				       unsigned long offset);
-diff --git a/drivers/vfio/pci/mlx5/main.c b/drivers/vfio/pci/mlx5/main.c
-index 8833e60d42f5..83247f016441 100644
---- a/drivers/vfio/pci/mlx5/main.c
-+++ b/drivers/vfio/pci/mlx5/main.c
-@@ -308,6 +308,7 @@ static struct mlx5_vhca_data_buffer *
- mlx5vf_mig_file_get_stop_copy_buf(struct mlx5_vf_migration_file *migf,
- 				  u8 index, size_t required_length)
- {
-+	u32 npages = DIV_ROUND_UP(required_length, PAGE_SIZE);
- 	struct mlx5_vhca_data_buffer *buf = migf->buf[index];
- 	u8 chunk_num;
- 
-@@ -315,12 +316,11 @@ mlx5vf_mig_file_get_stop_copy_buf(struct mlx5_vf_migration_file *migf,
- 	chunk_num = buf->stop_copy_chunk_num;
- 	buf->migf->buf[index] = NULL;
- 	/* Checking whether the pre-allocated buffer can fit */
--	if (buf->allocated_length >= required_length)
-+	if (buf->npages >= npages)
- 		return buf;
- 
- 	mlx5vf_put_data_buffer(buf);
--	buf = mlx5vf_get_data_buffer(buf->migf, required_length,
--				     DMA_FROM_DEVICE);
-+	buf = mlx5vf_get_data_buffer(buf->migf, npages, DMA_FROM_DEVICE);
- 	if (IS_ERR(buf))
- 		return buf;
- 
-@@ -373,7 +373,8 @@ static int mlx5vf_add_stop_copy_header(struct mlx5_vf_migration_file *migf,
- 	u8 *to_buff;
- 	int ret;
- 
--	header_buf = mlx5vf_get_data_buffer(migf, size, DMA_NONE);
-+	header_buf = mlx5vf_get_data_buffer(migf, DIV_ROUND_UP(size, PAGE_SIZE),
-+					    DMA_NONE);
- 	if (IS_ERR(header_buf))
- 		return PTR_ERR(header_buf);
- 
-@@ -388,7 +389,7 @@ static int mlx5vf_add_stop_copy_header(struct mlx5_vf_migration_file *migf,
- 	to_buff = kmap_local_page(page);
- 	memcpy(to_buff, &header, sizeof(header));
- 	header_buf->length = sizeof(header);
--	data.stop_copy_size = cpu_to_le64(migf->buf[0]->allocated_length);
-+	data.stop_copy_size = cpu_to_le64(migf->buf[0]->npages * PAGE_SIZE);
- 	memcpy(to_buff + sizeof(header), &data, sizeof(data));
- 	header_buf->length += sizeof(data);
- 	kunmap_local(to_buff);
-@@ -437,15 +438,20 @@ static int mlx5vf_prep_stop_copy(struct mlx5vf_pci_core_device *mvdev,
- 
- 	num_chunks = mvdev->chunk_mode ? MAX_NUM_CHUNKS : 1;
- 	for (i = 0; i < num_chunks; i++) {
--		buf = mlx5vf_get_data_buffer(migf, inc_state_size, DMA_FROM_DEVICE);
-+		buf = mlx5vf_get_data_buffer(
-+			migf, DIV_ROUND_UP(inc_state_size, PAGE_SIZE),
-+			DMA_FROM_DEVICE);
- 		if (IS_ERR(buf)) {
- 			ret = PTR_ERR(buf);
- 			goto err;
- 		}
- 
- 		migf->buf[i] = buf;
--		buf = mlx5vf_get_data_buffer(migf,
--				sizeof(struct mlx5_vf_migration_header), DMA_NONE);
-+		buf = mlx5vf_get_data_buffer(
-+			migf,
-+			DIV_ROUND_UP(sizeof(struct mlx5_vf_migration_header),
-+				     PAGE_SIZE),
-+			DMA_NONE);
- 		if (IS_ERR(buf)) {
- 			ret = PTR_ERR(buf);
- 			goto err;
-@@ -553,7 +559,8 @@ static long mlx5vf_precopy_ioctl(struct file *filp, unsigned int cmd,
- 	 * We finished transferring the current state and the device has a
- 	 * dirty state, save a new state to be ready for.
- 	 */
--	buf = mlx5vf_get_data_buffer(migf, inc_length, DMA_FROM_DEVICE);
-+	buf = mlx5vf_get_data_buffer(migf, DIV_ROUND_UP(inc_length, PAGE_SIZE),
-+				     DMA_FROM_DEVICE);
- 	if (IS_ERR(buf)) {
- 		ret = PTR_ERR(buf);
- 		mlx5vf_mark_err(migf);
-@@ -675,8 +682,8 @@ mlx5vf_pci_save_device_data(struct mlx5vf_pci_core_device *mvdev, bool track)
- 
- 	if (track) {
- 		/* leave the allocated buffer ready for the stop-copy phase */
--		buf = mlx5vf_alloc_data_buffer(migf,
--			migf->buf[0]->allocated_length, DMA_FROM_DEVICE);
-+		buf = mlx5vf_alloc_data_buffer(migf, migf->buf[0]->npages,
-+					       DMA_FROM_DEVICE);
- 		if (IS_ERR(buf)) {
- 			ret = PTR_ERR(buf);
- 			goto out_pd;
-@@ -917,11 +924,14 @@ static ssize_t mlx5vf_resume_write(struct file *filp, const char __user *buf,
- 				goto out_unlock;
- 			break;
- 		case MLX5_VF_LOAD_STATE_PREP_HEADER_DATA:
--			if (vhca_buf_header->allocated_length < migf->record_size) {
-+		{
-+			u32 npages = DIV_ROUND_UP(migf->record_size, PAGE_SIZE);
-+
-+			if (vhca_buf_header->npages < npages) {
- 				mlx5vf_free_data_buffer(vhca_buf_header);
- 
--				migf->buf_header[0] = mlx5vf_alloc_data_buffer(migf,
--						migf->record_size, DMA_NONE);
-+				migf->buf_header[0] = mlx5vf_alloc_data_buffer(
-+					migf, npages, DMA_NONE);
- 				if (IS_ERR(migf->buf_header[0])) {
- 					ret = PTR_ERR(migf->buf_header[0]);
- 					migf->buf_header[0] = NULL;
-@@ -934,6 +944,7 @@ static ssize_t mlx5vf_resume_write(struct file *filp, const char __user *buf,
- 			vhca_buf_header->start_pos = migf->max_pos;
- 			migf->load_state = MLX5_VF_LOAD_STATE_READ_HEADER_DATA;
- 			break;
-+		}
- 		case MLX5_VF_LOAD_STATE_READ_HEADER_DATA:
- 			ret = mlx5vf_resume_read_header_data(migf, vhca_buf_header,
- 							&buf, &len, pos, &done);
-@@ -944,12 +955,13 @@ static ssize_t mlx5vf_resume_write(struct file *filp, const char __user *buf,
- 		{
- 			u64 size = max(migf->record_size,
- 				       migf->stop_copy_prep_size);
-+			u32 npages = DIV_ROUND_UP(size, PAGE_SIZE);
- 
--			if (vhca_buf->allocated_length < size) {
-+			if (vhca_buf->npages < npages) {
- 				mlx5vf_free_data_buffer(vhca_buf);
- 
--				migf->buf[0] = mlx5vf_alloc_data_buffer(migf,
--							size, DMA_TO_DEVICE);
-+				migf->buf[0] = mlx5vf_alloc_data_buffer(
-+					migf, npages, DMA_TO_DEVICE);
- 				if (IS_ERR(migf->buf[0])) {
- 					ret = PTR_ERR(migf->buf[0]);
- 					migf->buf[0] = NULL;
-@@ -1037,8 +1049,11 @@ mlx5vf_pci_resume_device_data(struct mlx5vf_pci_core_device *mvdev)
- 	}
- 
- 	migf->buf[0] = buf;
--	buf = mlx5vf_alloc_data_buffer(migf,
--		sizeof(struct mlx5_vf_migration_header), DMA_NONE);
-+	buf = mlx5vf_alloc_data_buffer(
-+		migf,
-+		DIV_ROUND_UP(sizeof(struct mlx5_vf_migration_header),
-+			     PAGE_SIZE),
-+		DMA_NONE);
- 	if (IS_ERR(buf)) {
- 		ret = PTR_ERR(buf);
- 		goto out_buf;
-@@ -1148,7 +1163,8 @@ mlx5vf_pci_step_device_state_locked(struct mlx5vf_pci_core_device *mvdev,
- 					MLX5VF_QUERY_INC | MLX5VF_QUERY_CLEANUP);
- 		if (ret)
- 			return ERR_PTR(ret);
--		buf = mlx5vf_get_data_buffer(migf, size, DMA_FROM_DEVICE);
-+		buf = mlx5vf_get_data_buffer(migf,
-+				DIV_ROUND_UP(size, PAGE_SIZE), DMA_FROM_DEVICE);
- 		if (IS_ERR(buf))
- 			return ERR_CAST(buf);
- 		/* pre_copy cleanup */
--- 
-2.47.0
+<snip>
+
+>> +Parameters
+>> +==========
+>> +
+>> +The driver includes a list of boolean parameters that allow for manually
+>> +enabling or disabling various features:
+> 
+> Can you explain *why* these are configurable? In general the addition of
+> kernel parameters is frowned upon.
+
+Ack, Joshua if posssible just remove the kernel module parameters.
+
+We can always add them back later if there is a good reason for them.
+removing them later OTOH can be more tricky.
+
+<snip>
+
+
+>> +.. _settings-attributes:
+>> +
+>> +Settings Attributes
+>> +===================
+>> +
+>> +Various hardware settings can be controlled by the following sysfs attributes:
+>> +
+>> +- ``allow_recording`` (allows or blocks usage of built-in camera and microphone)
+>> +- ``start_on_lid_open`` (power on automatically when opening the lid)
+>> +- ``usb_charge`` (allows USB ports to provide power even when device is off)
+> 
+> Non-standard sysfs attributes should be avoided where possible.
+> Userspace will need bespoke code to handle them.
+> This looks like it could be handled by the standard firmware_attributes
+> interface.
+> This would standardize discovery and usage.
+
+Ack this really feels like firmware-attributes. I would not be surprised
+if there are matching BIOS settings and if changing those also changes
+the sysfs files and likewise if the sysfs settings persist over reboot.
+
+<snip>
+
+>> +Keyboard hotkey actions (i8042 filter)
+>> +======================================
+>> +
+>> +Controlled by parameter: ``i8042_filter``
+>> +
+>> +The i8042 filter will swallow the keyboard events for the Fn+F9 hotkey (Multi-
+>> +level keyboard backlight toggle) and Fn+F10 hotkey (Allow/block recording
+>> +toggle) and instead execute their actions within the driver itself.
+>> +
+>> +Fn+F9 will cycle through the brightness levels of the keyboard backlight. A
+>> +notification will be sent using ``led_classdev_notify_brightness_hw_changed``
+>> +so that the userspace can be aware of the change. This mimics the behavior of
+>> +other existing devices where the brightness level is cycled internally by the
+>> +embedded controller and then reported via a notification.
+>> +
+>> +Fn+F10 will toggle the value of the "Allow recording" setting.
+> 
+> Personally I'm not a big fan to implement policy this way in the kernel.
+> But others may disagree.
+
+The keyboard backlight cycling ws already discussed and handling this in
+the driver is ok.
+
+The allow-recording setting toggle is new to me. So this is changeable
+at runtime, interesting.
+
+Joshua above you write this toggle both the microphone mute and
+disables the camera?
+
+It would be good to report the camera state to userspace using
+a separate input/evdev device which reports SW_CAMERA_LENS_COVER
+as discussed here:
+
+https://lore.kernel.org/linux-media/CANiDSCtjpPG3XzaEOEeczZWO5gL-V_sj_Fv5=w82D6zKC9hnpw@mail.gmail.com/
+
+the plan is to make that the canonical API to reported "muted"
+cameras.
+
+What happens with the camera when recording is disallowed,
+dus it drop of the USB bus or does it only produce black
+frames ?
+
+It is a bit unexpected that this one button controls both
+microphone and camera mute. But given that unique behavior
+I guess that handling this in the kernel is probably best.
+
+The alsamixer should send some events for the mic mute/unmute
+I hope and we can use SW_CAMERA_LENS_COVER to report the camera
+state.
+
+<snip>
+
+>> +static struct platform_driver galaxybook_platform_driver = {
+> 
+> Could this be a 'struct acpi_driver'?
+
+The use of acpi_driver is deprecated. AFAIK the plan it to
+move the remaining ones to platform-drivers and eventually
+remove the whole ACPI bus concept turning ACPI companion
+nodes into "normal" fwnodes like the current software and
+openfirmware fwnodes.
+
+Regards,
+
+Hans
+
+
+
 
