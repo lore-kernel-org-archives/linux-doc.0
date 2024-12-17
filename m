@@ -1,175 +1,138 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8A61F758C
-	for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 17:17:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A09142E77;
+	Tue, 17 Dec 2024 17:36:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734455827; cv=none; b=qYfqdUTvezYSh+/c8XtKgerW3jjTWz6Cdtk/tLenbeQV9UhRBieRAIPK3x4KPYZqE/3zRgr6qZiCE6z/502cw7pNCBubecyeu/+g0wTtJ9Dj1739+Wh8K7uT/x+pdLBymR5cPExVZ4EsEQ9nwDb3JM3m0lKuEjtpAFTeCQjezn8=
+	t=1734456986; cv=none; b=QhRyG6oSsUgLgd8bFnE9b2xvBpuQcF7A7U5YQZSrREQ3WRC+uq3hU5ZD4b4Z7VvcPSANw0w/6x8mVB/5xRpt3GCfYzwxiUba1B6ZKm109jIYzmrH93/e+oauzDazVtRxn3AFxm8ZEPgbKrevPCao9RyurW8I9oKUxDJS4uPqKEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734455827; c=relaxed/simple;
-	bh=gt3zUDvSHMdF7hpq+6g1ZwAUEVLTW5inhSYZ9qnrlu8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p7C0HQnPhd6pc22B1SjtGsouimssZmuXU7A4wKeXK477kRfqCA98ceywMEqid4jUV4dfjSt9WGArR0NZOe23wBddPsxMfKEFCnI9VCQ5P9mLgwY7fkF0gBhJeQfubgaFFtxSUtdXeUOa/oQw9Fo2nSECMhdhbAXYGcfipFEjDjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V5N/vr3j; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1734456986; c=relaxed/simple;
+	bh=NWpaq/Cdy/q4UInACNFF0HgHeiwmT+i5v9jil1FxoyE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sllm3AloRhA8JsYfNT3q38u0bOjl8L1MB5hb7SDjJZiW7GD2WlrGMQndUuxBdHgr7CC7e7Jh1UChhKjTcraN5pUWrQxfPZJQDoKFwzvnM8MV0jrhGQvatp8TE6JydzYQw0SEdSz9ycPmUKNDZilJGr6lL6znn3wzEN09/wiH1Kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=RyhdRXmt; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V5N/vr3j"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-385de59c1a0so3638648f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 09:17:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734455823; x=1735060623; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XLefb8Z/1dQ9RlGboLgWSvRAfBbTlhXb7ifP2jXYA0o=;
-        b=V5N/vr3jvGec8q1i+yJwfz6nsDLGSDLgP1Z6dDduD2iEi7VQp4ylabFmlgg00rvoHH
-         K5xxh+op4gg7wVmOyUOLT2a5HEdBmRw7tWFb4O6xsZgdZApaytxnIMCUISeeoeWYkmNw
-         dp51fg1Y3a1JBcmAd7v70AR6DB+8SfUMlwgdfJ0OnCAME9GjFro42BWBumSHe0xPc2pi
-         zWSC6ixAZXxlg4LAaNCHi29PPbVVXRni/ZEquFk38KtYtB9mB90pXRLPtk46l9wrBiZ3
-         4KzCZC18nAmui5VDSZwLIgGe2m6/BxFRU7PDD582hnCGy2QhCBhC+QtE/9n+/+Nz1QFW
-         RhcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734455823; x=1735060623;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XLefb8Z/1dQ9RlGboLgWSvRAfBbTlhXb7ifP2jXYA0o=;
-        b=gSsTVH+sLcfdRpbIsb0MyFsIsqfgabAXOIPqbIN9RZREqYfl5Xtwo1i3e2en1RQrzs
-         bDfbQ2Hoj4ap8DHOUWTCNrBy1l0OIjQc9inWCB3LuM9GQ2ksKp0zr6UO5MJLCBkSFFX4
-         FLCxTtFV6Ul2ZV5XCXi8+YastgiPvgQy3iI2Ih41XuY58bDYPVxcAHvBpsMMf1C3SjHu
-         EoKLCqViI4B8ef22e+rs6OdZB4oaQ4/dpP8zDVfcUqL4EBqIPXhod3cNqxcNTwG51XC2
-         4BiGKEV3Bbq4Og5GWOvkg1GBbge6mJzuYhwbNI1j8GbNfBaDmLd1iPC9XtNfOsCi/FYr
-         g0yw==
-X-Forwarded-Encrypted: i=1; AJvYcCVcChUk3UTek/aBeM1t0u5MVxQ+woXJrDR4Y3yF6GLh6bwp+7arREUjwPcOldJ7ugvljxGGDnVAu/M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdnDYRxINM+bvfQtKz/X7sCZx7cmIqCuRcf0oek2k/PuCQ7Rky
-	NyYRbnzulIOnffckbVGqd+5KIFCE7bCu4gCzSBUvcZEr5gXoqw5AhEyL9m8ZVvjDevAxbSU5eyL
-	L
-X-Gm-Gg: ASbGncsxKYQ4eQuZI5Wa+Jdy5fZ0gglQy71Jp23G9YJz1iIvR6tmEFKWmcWq9ma4jRh
-	vMNwioPcGl1p2qAfqgbgMsAMtgo9XX4z4x1bdQPmbVkvHd8sjFl7tWNhdqopHGQp1BY9wlQQT73
-	6SpGhzIIAxGSmfSxy5OvmSINUn8Yp4lWND9OW+tadoHVAALrN6+NbWQuzSzZ3h6vgpRgyiubsZB
-	ByvprZ0uJlu+k8aH8RagtLeLYiVIdzcOs65ruIm/eIim9lz9Y/bC3VG5XrW3hjRrDY=
-X-Google-Smtp-Source: AGHT+IHW8FLcQvFLOkTfiFxTJUM786W3SLQIjmtJNRIgKR/TJsAsPI22IQ/snWtB5ESeIpY/+CTaUw==
-X-Received: by 2002:a05:6000:4b12:b0:385:f1bc:765c with SMTP id ffacd0b85a97d-38880ac1909mr14900187f8f.6.1734455823556;
-        Tue, 17 Dec 2024 09:17:03 -0800 (PST)
-Received: from [192.168.68.163] ([145.224.66.247])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c80608e3sm11544818f8f.103.2024.12.17.09.17.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Dec 2024 09:17:03 -0800 (PST)
-Message-ID: <50e4aab7-d262-48a0-b956-2c2df0faeb25@linaro.org>
-Date: Tue, 17 Dec 2024 17:17:01 +0000
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="RyhdRXmt"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BHD0UoA028122;
+	Tue, 17 Dec 2024 17:35:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=3Cze64ZkJ4Cz2gsZweHybIIHWwAMYbRAejZdS1uXH
+	ZQ=; b=RyhdRXmtfU1PxDNu+dAtHsA4dikP/urhvZ1aDjrJ6M7CFpYB/RP/37Qqi
+	Uf9kf46bcPZ1EjYDGPVq8nx6BHqF51PF5RZl4hiQUKp4GO32W9zWn2fWppezczt1
+	A0rexEJSNsd7dSOZlrxIVfmrfXKKdmhSIPmus9MYFupa9UvFs4N7SFwqMH0ktLJf
+	jagbMLWsdZh6MTQa3/2t/3IAopKKCnRnkbyt4ESeQpbvF0Wd9cZVf4ljHF2CC2bE
+	jO27X7mj9hKO1WIIDKV8n+n4ZwkZIs5Hm4PB3Ebz8hPHCNWGCLk7sAg4w624DX/R
+	Uv3cho6gYF1TqkwaqjA/2vV28QQmA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43k9t6heeu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 17:35:44 +0000 (GMT)
+Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BHHQ0jN028818;
+	Tue, 17 Dec 2024 17:35:43 GMT
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43k9t6heeq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 17:35:43 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BHEs3sY029321;
+	Tue, 17 Dec 2024 17:35:42 GMT
+Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 43hmbsm34m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 17:35:42 +0000
+Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
+	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BHHZfSZ25887300
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 17 Dec 2024 17:35:41 GMT
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1747A5805D;
+	Tue, 17 Dec 2024 17:35:41 +0000 (GMT)
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B09A45805C;
+	Tue, 17 Dec 2024 17:35:39 +0000 (GMT)
+Received: from gfwa153.aus.stglabs.ibm.com (unknown [9.3.84.127])
+	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 17 Dec 2024 17:35:39 +0000 (GMT)
+From: Ninad Palsule <ninad@linux.ibm.com>
+To: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+        eajames@linux.ibm.com, jdelvare@suse.com, linux@roeck-us.net,
+        corbet@lwn.net, joel@jms.id.au, andrew@codeconstruct.com.au,
+        Delphine_CC_Chiu@Wiwynn.com, broonie@kernel.org,
+        peteryin.openbmc@gmail.com, noahwang.wang@outlook.com,
+        naresh.solanki@9elements.com, lukas@wunner.de, jbrunet@baylibre.com,
+        patrick.rudolph@9elements.com, gregkh@linuxfoundation.org,
+        peterz@infradead.org, pbiel7@gmail.com, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-aspeed@lists.ozlabs.org, linux-i2c@vger.kernel.org
+Cc: Ninad Palsule <ninad@linux.ibm.com>
+Subject: [PATCH v4 0/4] Add support for Intel CRPS PSU
+Date: Tue, 17 Dec 2024 11:35:31 -0600
+Message-ID: <20241217173537.192331-1-ninad@linux.ibm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] coresight: docs: Remove target sink from examples
-To: scclevenger@os.amperecomputing.com, coresight@lists.linaro.org
-Cc: yeoreum.yun@arm.com, Mike Leach <mike.leach@linaro.org>,
- Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@linux.dev>,
- Namhyung Kim <namhyung@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241210144933.295798-1-james.clark@linaro.org>
- <9e53f5b9-d8a9-46b8-8ff1-7f018e2d9c06@os.amperecomputing.com>
- <24299600-277f-48f4-9be5-cbd65ab6ddb7@linaro.org>
- <75ce4def-b0ca-428f-99a5-19ca98e876a0@os.amperecomputing.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <75ce4def-b0ca-428f-99a5-19ca98e876a0@os.amperecomputing.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: QWx7H6vTap48emznpRAQAtERyGJSso6k
+X-Proofpoint-ORIG-GUID: AEW_zZyOLNc4vOhz9gVc1LmegMtQ296D
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
+ lowpriorityscore=0 malwarescore=0 bulkscore=0 clxscore=1015
+ priorityscore=1501 adultscore=0 impostorscore=0 suspectscore=0
+ mlxlogscore=999 spamscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2411120000 definitions=main-2412170134
 
+Hello,
 
+Please review the version 3 of patchset.
 
-On 12/12/2024 7:38 pm, Steve Clevenger wrote:
-> 
-> 
-> On 12/12/2024 7:27 AM, James Clark wrote:
->>
->>
->> On 11/12/2024 6:01 pm, Steve Clevenger wrote:
->>>
->>> Hi James,
->>>
->>> I thought I'd mention this issue with multicore self-hosted trace. The
->>> perf command line syntax does not allow a sink "type" to be specified
->>> (e.g. @tmc_etf or @tmc_etr). For multicore, it doesn't make sense to
->>> specify a processor mapped sink as would be the case for single core
->>> trace. A sink "type" should be allowed to avoid the auto select default.
->>> In our case, the default is the ETF sink.
->>>
->>> Thanks,
->>> Steve C.
->>>
->>
->> I'm sure it would be possible to add support for this, but I'm wondering
->> if the real issue is that the default selection logic is wrong? Are you
->> saying the default you get is ETF but you want ETR? And there is both
->> for each ETM? The default selection logic isn't easy to summarize but it
->> should prefer ETR (sysmem) over ETF (link sink), see coresight_find_sink().
->>
->> It's probably better to fix that rather than add a new sink selection
->> feature. Maybe if you shared a diagram of your coresight architecture it
->> would help.
->>
->> Thanks
->> James
-> 
-> Hi James,
-> 
-> It appears the default sink selection is ETF for multicore trace. In any
-> case, for the Arm® CoreSight Base System Architecture STC Level
-> compliance, I need to be able to specify the sink type.
+V4:
+---
+  - Improved commit message.
 
-Yep it makes sense to add support for selecting it then then, I will put 
-it on the list but not sure about the priority. I think looking into why 
-the default isn't working is more important for now.
+V3:
+---
+  - Improved documentation as per suggestion.
+  - Fixed issues in the probe function.
+  - Add ACKed string in the commit message
+V2:
+---
+  - Fixed documentation issues.
+  - Added pmbus revision debugfs file in the core
+  - Remove debugfs and read word from crps185
+  - Improved commit messages
 
-> 
-> The Ampere CoreSight hierarchy is described to the ACPI as follows:
-> 
-> 
-> +-----------------+
-> |                 |
-> |       ETM       |
-> |                 |
-> +--------+--------+
->           |
->           |
-> +--------+--------+
-> |                 |
-> |       ETF       |
-> |                 |
-> +--------+--------+
->           |
->           |
-> +--------+--------+
-> |                 |
-> |       ETR       |
-> |                 |
-> +--------+--------+
->           |
->           |
-> +--------+--------+
-> |                 |
-> |      CATU       |
-> |                 |
-> +--------+--------+
-> 
-> Steve C.
-> 
+Ninad Palsule (4):
+  hwmon: (pmbus/core) Add PMBUS_REVISION in debugfs
+  hwmon: (pmbus/crps) Add Intel CRPS185 power supply
+  dt-bindings: hwmon: intel,crps185: Add to trivial
+  ARM: dts: aspeed: system1: Use crps PSU driver
 
-I recreated this in the test here: 
-https://lore.kernel.org/linux-kernel/20241217171132.834943-1-james.clark@linaro.org/T/#u
+ .../devicetree/bindings/trivial-devices.yaml  |  2 +
+ Documentation/hwmon/crps.rst                  | 97 +++++++++++++++++++
+ Documentation/hwmon/index.rst                 |  1 +
+ MAINTAINERS                                   |  7 ++
+ .../dts/aspeed/aspeed-bmc-ibm-system1.dts     |  8 +-
+ drivers/hwmon/pmbus/Kconfig                   |  9 ++
+ drivers/hwmon/pmbus/Makefile                  |  1 +
+ drivers/hwmon/pmbus/crps.c                    | 74 ++++++++++++++
+ drivers/hwmon/pmbus/pmbus_core.c              | 13 ++-
+ 9 files changed, 206 insertions(+), 6 deletions(-)
+ create mode 100644 Documentation/hwmon/crps.rst
+ create mode 100644 drivers/hwmon/pmbus/crps.c
 
-But it looks like it correctly selects ETR rather than ETF, so I'm not 
-sure what the difference is between your setup and that. If you can have 
-a look at that test and compare it that would be very helpful.
-
-Thanks
-James
-
+-- 
+2.43.0
 
