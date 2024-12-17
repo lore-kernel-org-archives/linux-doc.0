@@ -1,83 +1,271 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C0C1F8932;
-	Tue, 17 Dec 2024 18:20:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2496158DD1;
+	Tue, 17 Dec 2024 18:37:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734459602; cv=none; b=CD2YEky+AJHwjGNKljCdm+zCshGaBhaNcuGxsf8Ih+7ZHbkXuzWpSKPs2SipMoSn/Zi+AytmGtgQAlesMZHpoTX4jD/qeXaQSd/6W8cfXxYO26Yf8sUTJGbO8NGxVmWepl75KpCumLFUY5f4eUbk6FjWeU1yA2a1nfjCt2OxI1c=
+	t=1734460638; cv=none; b=kjgSPiZijFV0SVe6uJDtLzlBWuUT55eANPanUzzaI6Lw1at/j2wEFR0zl0DNellmI8dh7ETTKcpkV6Lt8rYnoBy11cnrCXuSMboSXCzp/Y9b2CQ6QugyiQkTFEpwX9nsrTi2nvxmMeFy0e2xflMfog+xiXVcVDBqa+WabeDY9oE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734459602; c=relaxed/simple;
-	bh=RuRjYBtd37eJ6BWE+WZCqpwEWnzVbgqMtoiwz31zqzM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DDXCXvNUImKZzNGuTSFJzDPbdAlm/kmi103rHOTwtO8AykRKxmx0H91uAeQ6gWQ9fl4Z4/EKYAU7/2K83QlARd6TQWZ3kGwOxPPR9dcDCTdiyVlgV1odZA+DIL/hN2rkdTcMsN398La7NVGlggj9K/0tk1gIThn1aI0BH1HtnnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PcQqwgVb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734460638; c=relaxed/simple;
+	bh=BNvXLoLBqNS3PBaRMcPRIf+H2Atow1toQbiBU4A8z0k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iObROf011bjxwnodZvACCF2i/211IfjX1vGky0oCdxsDkoCQPBBcKhKWxapEOMmwiKTLOurYQJoQVYhGfcHUKfOJmVkDWqprEJM/KDhE+01bM42YhV69VT6GsxUMT19zNsDbBxHnAQGrogoMR8g5uQeLpuNyXPZk/IkbMGK+gTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MgEFJWre; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PcQqwgVb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A29FBC4CEE0;
-	Tue, 17 Dec 2024 18:20:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MgEFJWre"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4617BC4CED3;
+	Tue, 17 Dec 2024 18:37:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734459601;
-	bh=RuRjYBtd37eJ6BWE+WZCqpwEWnzVbgqMtoiwz31zqzM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=PcQqwgVbF4eRBuC6Miw7kUsdH0T/T1OLpKoUL5hRT5+MOd07j8by2x6Dg+b3ogEn6
-	 b5Vti4yyMVboNIsu9s0qGBO+DyK86WJWkFgk7rW7eklHJvy2hPU2OiS+L6CoWcfklE
-	 2c3yT65FUk49T8l4n5NFfQdniSBP7qL1sHcO7T2MUTE25yCGce0j3AUz+jihMk1lHV
-	 WSmYzGQlMIvLvCvuW07tqb2ohLz9vpC2raKRbR8eV1R1wRvdDxG+wnOaCIh5nwFUr/
-	 lkzEsABN/BS3BdbHP3hRMD1xRqSPP83NEdwH24K2oVmUxIebIeGH5sxSBaB1olNfiM
-	 bosDYNS2NCICg==
-Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-844dae6a0caso162553639f.1;
-        Tue, 17 Dec 2024 10:20:01 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUZGKzCD+ixPyy0tEwBmcPFuIkIDIBzhelzvqmLIDp0NbH479bAL+435CTxXeB9E3oyzjZ9z2jDGjFW@vger.kernel.org, AJvYcCUdwH02xJ45lK8TbuIRj5Z+ZBp72FjLQBQvmIilEOblxpv1CDbm2fHeviUBskRfoK7mD4Tt/WCqZaQQxBSLIcuXWxoSvMTN@vger.kernel.org, AJvYcCWdAkoWTjWzvEiFCHYroV89BHH8Fdjq3RnVFgss6t69It37I4Mnn9dWRrasV2Uc4X7o6ABT9xDw7IQXD1sj@vger.kernel.org, AJvYcCWo/15qfq3Ihns+SfXT/oVRHrOBwE3iH0H/WF69wg7I/itbgUBa/Y5HL1EQjMgUjymuSvK8KzcnrFoB@vger.kernel.org, AJvYcCXdR6WtxU1+9plK2sxq6ONMqBnLvBdveU3HUxXzXhaJftzPCjMmQLGw2dvMn0vKammubwdfZWli7s/OiA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7ezpzXFpwRlPj6hgInCduY1iwAIiDVGHNU2aqfZkfqf5mi/rd
-	eJTIVWa8Exqlgdl5gZJo/2nbfugUJip/Q8CZCpw3D+oYVxsx4WD3YrBzbDLZ73YxHL6IHwXzOeu
-	A8GJUpjZvbG3ivMoaZnQaInIt3+4=
-X-Google-Smtp-Source: AGHT+IGVF2/lzRonWuPyDH2ItNAehGEg982iraVqvHuFNJBoNdPieWEU/a4HYmGk0xpeWomItvBDrQWzPhD2J5GiKtc=
-X-Received: by 2002:a92:ca46:0:b0:3a0:9c99:32d6 with SMTP id
- e9e14a558f8ab-3aff3860488mr155848315ab.24.1734459601030; Tue, 17 Dec 2024
- 10:20:01 -0800 (PST)
+	s=k20201202; t=1734460637;
+	bh=BNvXLoLBqNS3PBaRMcPRIf+H2Atow1toQbiBU4A8z0k=;
+	h=From:To:Cc:Subject:Date:From;
+	b=MgEFJWreCDW8MP04t3fTsUiGJbWDOn/x6YJg0CaUgcaz8HbgM4xGiVIdhQHUC/HvT
+	 tU+B3UpLd+oGrNmFY1zpV+/D0xsRmkevFQAUFAxEOwdTuJ+6TjxF5OHoeluS8WwwCf
+	 eJVWpY8rkvsXYouCc15oP22QJICs4xXQyRtWU+qAr8X/z7ZFjYEzaLtVme6hc4kUqM
+	 J3mmzIwpFZCbCnwQ/ZnlDHz7eRoFAzY1W8pIZgwgCCzEHB44h8t7dafIDiWC6TQ/g+
+	 tWHxaqwmwrlR+l3WobDZ71IM7R766Tb1XIo+yxPutkQ72BXp55qBhNuPpFIOTjvQbX
+	 ceinRMaeMdBVQ==
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Saravana Kannan <saravanak@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: Zijun Hu <quic_zijuhu@quicinc.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH] of: Add printf '%pOFm' for generating modalias
+Date: Tue, 17 Dec 2024 12:37:09 -0600
+Message-ID: <20241217183711.2525863-1-robh@kernel.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241216234308.1326841-1-song@kernel.org> <20241217173807.GD1977892@ZenIV>
-In-Reply-To: <20241217173807.GD1977892@ZenIV>
-From: Song Liu <song@kernel.org>
-Date: Tue, 17 Dec 2024 10:19:49 -0800
-X-Gmail-Original-Message-ID: <CAPhsuW5Jik1B9SOXr992pQPDuaXbUuAw9Ktp_OYPEkaev5NdUA@mail.gmail.com>
-Message-ID: <CAPhsuW5Jik1B9SOXr992pQPDuaXbUuAw9Ktp_OYPEkaev5NdUA@mail.gmail.com>
-Subject: Re: [RFC] lsm: fs: Use i_callback to free i_security in RCU callback
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-btrfs@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	willy@infradead.org, corbet@lwn.net, clm@fb.com, josef@toxicpanda.com, 
-	dsterba@suse.com, brauner@kernel.org, jack@suse.cz, cem@kernel.org, 
-	djwong@kernel.org, paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, 
-	fdmanana@suse.com, johannes.thumshirn@wdc.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Dec 17, 2024 at 9:38=E2=80=AFAM Al Viro <viro@zeniv.linux.org.uk> w=
-rote:
->
-> >  - Let pipe free inode from a RCU callback.
->
-> ... which hurts the systems with LSM crap disabled.
-> NAK.
+The callers for of_modalias() generally need the module alias as part of
+some larger string. That results in some error prone manipulation of the
+buffer prepend/append the module alias string. In fact,
+of_device_uevent_modalias() has several issues. First, it's off by one
+too few characters in utilization of the full buffer. Second, the error
+paths leave OF_MODALIAS with a truncated value when in the end nothing
+should be added to the buffer. It is also fragile because it needs
+internal details of struct kobj_uevent_env. add_uevent_var() really
+wants to write the env variable and value in one shot which would need
+either a temporary buffer for value or a format specifier.
 
-How do we measure the overhead in such cases? AFAICT,
-the overhead is very small:
+Fix these issues by adding a new printf format specifier, "%pOFm". With
+the format specifier in place, simplify all the callers of
+of_modalias(). of_modalias() can also be simplified with vsprintf()
+being the only caller as it avoids the error conditions.
 
-1. Many (most) systems have some LSM enabled anyway.
-2. pipe create/release is not on any hot path. On a busy system
-  with 176 CPUs, I measured ~30 pipe create/release per second.
-3. The overhead of a rcu callback is small.
+Cc: Zijun Hu <quic_zijuhu@quicinc.com>
+Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+---
+ Documentation/core-api/printk-formats.rst |  1 +
+ drivers/of/device.c                       | 25 ++--------------
+ drivers/of/module.c                       | 35 +++++------------------
+ drivers/of/unittest.c                     |  2 ++
+ include/linux/of.h                        |  8 +++---
+ lib/vsprintf.c                            |  7 +++--
+ 6 files changed, 22 insertions(+), 56 deletions(-)
 
-Given these measures, I don't think "hurts the system without LSM"
-justifies 2 extra pointers per inode.
+diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+index ecccc0473da9..d72fe3d8c427 100644
+--- a/Documentation/core-api/printk-formats.rst
++++ b/Documentation/core-api/printk-formats.rst
+@@ -496,6 +496,7 @@ equivalent to %pOFf.
+ 	- F - device node flags
+ 	- c - major compatible string
+ 	- C - full compatible string
++	- m - module alias string
+ 
+ The separator when using multiple arguments is ':'
+ 
+diff --git a/drivers/of/device.c b/drivers/of/device.c
+index edf3be197265..ae8c47d5db8e 100644
+--- a/drivers/of/device.c
++++ b/drivers/of/device.c
+@@ -199,14 +199,9 @@ ssize_t of_device_modalias(struct device *dev, char *str, ssize_t len)
+ 	if (!dev || !dev->of_node || dev->of_node_reused)
+ 		return -ENODEV;
+ 
+-	sl = of_modalias(dev->of_node, str, len - 2);
+-	if (sl < 0)
+-		return sl;
+-	if (sl > len - 2)
++	sl = snprintf(str, len, "%pOFm\n", dev->of_node);
++	if (sl >= len)
+ 		return -ENOMEM;
+-
+-	str[sl++] = '\n';
+-	str[sl] = 0;
+ 	return sl;
+ }
+ EXPORT_SYMBOL_GPL(of_device_modalias);
+@@ -256,24 +251,10 @@ EXPORT_SYMBOL_GPL(of_device_uevent);
+ 
+ int of_device_uevent_modalias(const struct device *dev, struct kobj_uevent_env *env)
+ {
+-	int sl;
+-
+ 	if ((!dev) || (!dev->of_node) || dev->of_node_reused)
+ 		return -ENODEV;
+ 
+-	/* Devicetree modalias is tricky, we add it in 2 steps */
+-	if (add_uevent_var(env, "MODALIAS="))
+-		return -ENOMEM;
+-
+-	sl = of_modalias(dev->of_node, &env->buf[env->buflen-1],
+-			 sizeof(env->buf) - env->buflen);
+-	if (sl < 0)
+-		return sl;
+-	if (sl >= (sizeof(env->buf) - env->buflen))
+-		return -ENOMEM;
+-	env->buflen += sl;
+-
+-	return 0;
++	return add_uevent_var(env, "MODALIAS=%pOFm", dev->of_node);
+ }
+ EXPORT_SYMBOL_GPL(of_device_uevent_modalias);
+ 
+diff --git a/drivers/of/module.c b/drivers/of/module.c
+index 1e735fc130ad..80879d2abea8 100644
+--- a/drivers/of/module.c
++++ b/drivers/of/module.c
+@@ -8,21 +8,14 @@
+ #include <linux/slab.h>
+ #include <linux/string.h>
+ 
+-ssize_t of_modalias(const struct device_node *np, char *str, ssize_t len)
++/* Do not use directly, use %pOFm format specifier instead */
++size_t of_modalias(const struct device_node *np, char *str, size_t len)
+ {
+ 	const char *compat;
+ 	char *c;
+ 	struct property *p;
+-	ssize_t csize;
+-	ssize_t tsize;
+-
+-	/*
+-	 * Prevent a kernel oops in vsnprintf() -- it only allows passing a
+-	 * NULL ptr when the length is also 0. Also filter out the negative
+-	 * lengths...
+-	 */
+-	if ((len > 0 && !str) || len < 0)
+-		return -EINVAL;
++	size_t csize;
++	size_t tsize;
+ 
+ 	/* Name & Type */
+ 	/* %p eats all alphanum characters, so %c must be used here */
+@@ -53,29 +46,15 @@ ssize_t of_modalias(const struct device_node *np, char *str, ssize_t len)
+ 
+ int of_request_module(const struct device_node *np)
+ {
+-	char *str;
+-	ssize_t size;
+-	int ret;
++	char *str __free(kfree);
+ 
+ 	if (!np)
+ 		return -ENODEV;
+ 
+-	size = of_modalias(np, NULL, 0);
+-	if (size < 0)
+-		return size;
+-
+-	/* Reserve an additional byte for the trailing '\0' */
+-	size++;
+-
+-	str = kmalloc(size, GFP_KERNEL);
++	str = kasprintf(GFP_KERNEL, "%pOFm", np);
+ 	if (!str)
+ 		return -ENOMEM;
+ 
+-	of_modalias(np, str, size);
+-	str[size - 1] = '\0';
+-	ret = request_module(str);
+-	kfree(str);
+-
+-	return ret;
++	return request_module(str);
+ }
+ EXPORT_SYMBOL_GPL(of_request_module);
+diff --git a/drivers/of/unittest.c b/drivers/of/unittest.c
+index daf9a2dddd7e..93921399f02d 100644
+--- a/drivers/of/unittest.c
++++ b/drivers/of/unittest.c
+@@ -342,6 +342,8 @@ static void __init of_unittest_printf(void)
+ 	of_unittest_printf_one(np, "%pOFc", "test-sub-device");
+ 	of_unittest_printf_one(np, "%pOFC",
+ 			"\"test-sub-device\",\"test-compat2\",\"test-compat3\"");
++	of_unittest_printf_one(np, "%pOFm",
++			"of:NdevT(null)Ctest-sub-deviceCtest-compat2Ctest-compat3");
+ }
+ 
+ struct node_hash {
+diff --git a/include/linux/of.h b/include/linux/of.h
+index f921786cb8ac..9fe7d17ce7e2 100644
+--- a/include/linux/of.h
++++ b/include/linux/of.h
+@@ -382,7 +382,7 @@ extern int of_count_phandle_with_args(const struct device_node *np,
+ 	const char *list_name, const char *cells_name);
+ 
+ /* module functions */
+-extern ssize_t of_modalias(const struct device_node *np, char *str, ssize_t len);
++extern size_t of_modalias(const struct device_node *np, char *str, size_t len);
+ extern int of_request_module(const struct device_node *np);
+ 
+ /* phandle iterator functions */
+@@ -762,10 +762,10 @@ static inline int of_count_phandle_with_args(const struct device_node *np,
+ 	return -ENOSYS;
+ }
+ 
+-static inline ssize_t of_modalias(const struct device_node *np, char *str,
+-				  ssize_t len)
++static inline size_t of_modalias(const struct device_node *np, char *str,
++				 size_t len)
+ {
+-	return -ENODEV;
++	return 0;
+ }
+ 
+ static inline int of_request_module(const struct device_node *np)
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index 9d3dac38a3f4..6a4f99b39de0 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -2169,10 +2169,10 @@ char *device_node_string(char *buf, char *end, struct device_node *dn,
+ 
+ 	/* simple case without anything any more format specifiers */
+ 	fmt++;
+-	if (fmt[0] == '\0' || strcspn(fmt,"fnpPFcC") > 0)
++	if (fmt[0] == '\0' || strcspn(fmt,"fnpPFcCm") > 0)
+ 		fmt = "f";
+ 
+-	for (pass = false; strspn(fmt,"fnpPFcC"); fmt++, pass = true) {
++	for (pass = false; strspn(fmt,"fnpPFcCm"); fmt++, pass = true) {
+ 		int precision;
+ 		if (pass) {
+ 			if (buf < end)
+@@ -2226,6 +2226,9 @@ char *device_node_string(char *buf, char *end, struct device_node *dn,
+ 				has_mult = true;
+ 			}
+ 			break;
++		case 'm':
++			buf += of_modalias(dn, buf, end - buf);
++			break;
+ 		default:
+ 			break;
+ 		}
+-- 
+2.45.2
 
-Thanks,
-Song
