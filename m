@@ -1,94 +1,133 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127A31F8ADF;
-	Tue, 17 Dec 2024 18:54:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A581F8EE9
+	for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 19:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734461656; cv=none; b=CwX6LvspM7U0uN4di+S7mr13YNnJlCOnubEYRWxJLBF33RpQR3bbSMlqHcAr31ipWkS8dz/li6rCNL7nOCzD28wAVJUbIt16C9w2Ix5zdzq1TTE9fDfU/AdDrj5jeuaTv7vKd733BLmrZrHWITebXbnezGmb5x5DibHI4um1U38=
+	t=1734463678; cv=none; b=XA1S5gsWA1x95zGgNA3EehUDq73Qzjb5M5xfUjbf3GFNiR10frc0BH2uXyIl+ozuzGRkkhBFfbFLS37PxPP9Oqdz6vjU+O+qpZQh68tor0CNt8EAZG45cL1b7o0EJqDU1TDjlH+xxR347PR8UBvuu6zk+zu65UK1Wc0GF8FB0LU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734461656; c=relaxed/simple;
-	bh=AiaXSAppZt/mMAAT8W2evmJaQ5KeHMjF39PfKx+wRhE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IDUzEngv8ORMnQISUAZWxUgt/KabQ3xVhy1sc/j0xtiB9RhixwoOSyxIIISN3UUiLAigLX70k9ATJqWFaQKiMvJEtiRojCCQuKapL/zPmpXGUiAf0x7Is03GFBD0mR9wd475eLneumzvo1u68a0E2o7LQWglnhp1lU2hu/IMeIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=jsrWMYmx; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1734463678; c=relaxed/simple;
+	bh=GcHsa9SwtAURqsudps8fdJc5GEP0IcsGTswOKdl9sMY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Xr0EMjphm1cTBwAOiZimU51cgqVSE9SHIDV8II9Cka3k8gNHT8C+xgu++4iRAiog5qD7aOs0+ZcT/bZnZeCBGhj5Qp9aiADV/oINh48rAbIGIL2LcePzsUGKn31fzSiDOHm5FHty+hIi1z7A67rdDCOrylC0KgI0/hCZCoF5QmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gh6eMMS0; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="jsrWMYmx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1734461650;
-	bh=AiaXSAppZt/mMAAT8W2evmJaQ5KeHMjF39PfKx+wRhE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jsrWMYmxfta24/w2SpHyh/6TblZCH1538sXp9X+MtTYEFLPJ4phHi6f8NBVFf4BLr
-	 On0EDODUk5/84lZ5amsFFoiwfe/ckHjqJx1mH95C5TsXej/FUalQ0O/y4xdfX3a9bF
-	 4wnUKJG+iVv+MLqhuEkJW8YfzaYtcZbt1armsXJk=
-Date: Tue, 17 Dec 2024 19:54:10 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Joshua Grisham <josh@joshuagrisham.com>, ilpo.jarvinen@linux.intel.com, 
-	W_Armin@gmx.de, platform-driver-x86@vger.kernel.org, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] platform/x86: samsung-galaxybook: Add
- samsung-galaxybook driver
-Message-ID: <7e25c789-5840-40a5-b491-b97b24cbebd1@t-8ch.de>
-References: <20241216103855.18457-1-josh@joshuagrisham.com>
- <13184052-baf2-4e7d-b8ef-9ba3f34d475a@t-8ch.de>
- <66897a27-5f81-46fc-898d-682456d7f37f@redhat.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gh6eMMS0"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-467abce2ef9so42121cf.0
+        for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 11:27:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1734463675; x=1735068475; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SMfmuLpatjPgkeRV/3Vx6kZdgTCq1HzVzde45FIVRGA=;
+        b=gh6eMMS0iRIyBHJJ47Vl0Sxfz4Kcce91Xa1nndpnoPjUTM1pU1ABJeCvX0ET9OW5Z9
+         0jzGROarLQDJP46bihloOvWgvvyAq0YW8As1VAkzgW7XFm/41RYzS/BTUzHVIYisuymm
+         VlOMqkvoJIBmSmk/++MtAOMiyYHnwPMbNoeYPBItq865xeaEvoFvHMpYceIbkxc2yJA2
+         5gpjWPaBPnBkigLRqIapgzp++zC3GGZLK2ZrQfAa5YiDK+U1K9ASUEnS1IH7rbPXZyBB
+         6NkEvnfLapHN4+YUMUI9YjDx3uFQk1ZVne5sa0faOk8a8sGVmZmymBcY4DMapbqbBV65
+         1iiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734463675; x=1735068475;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SMfmuLpatjPgkeRV/3Vx6kZdgTCq1HzVzde45FIVRGA=;
+        b=wPLTJ7twpawn+U7juVRgfes5dGOicBXoALuizcj/UBjZesl6YxBmFoYRy5fwivTKJ7
+         ijIHKe2VybfFF2EIwdYkhf9Ws3DB6I8QkxMPMmvACTot85vHBTXlF6KrJHYfzU6KmiRe
+         bslATBcPsnazhMFDZxeesSTCqI0VB3669Cag7VHztp11H/YLHXuP31VFPiCDM0/ueusN
+         TlFbCLi75DvvS67I5kwh0jGeKo6WPsyMomxUBSadBIemTdLVqK4+W19yp7o3YxbVLOGs
+         6HD9gDDO81XxJBHwF69KE2YxOfBh5C8KnTcZ8UlQLlo/tFUis+l3NCCUsK0QKQrF/Dzy
+         t9pg==
+X-Forwarded-Encrypted: i=1; AJvYcCWvzKqr681jBjL2o4W8xnxICAocOc51LF/BY2zXPCY8mFkhQnbhpuTeNqyrl2Mdl/F2pSy4RGTWseA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfN62vtlYPomsJr2pSLfiZA5JqA+Qyc6x7uPW0R2LZLpoax65Z
+	nyLb5FkfnVPOf4x5NEm0r3ZGXB8E+llg5545dQTmm7bBKNcfj+G6hgG8fELWtsJ4EJhrVgabvPl
+	mwZcR83C1c/UV9AoqRL4G70G29VW9A2LjU5rw
+X-Gm-Gg: ASbGncubpI7Gq80siKI2ChkwPWE2O2rXaTol469+KRQSNI/e1pr8Q2SKH7GKiXmm3Ta
+	R+7NrYOvM/Uw2SsABhAsKBiGv/GdkqRwNgmxJf0RAUJw5vbd1cPcstshEKYyvXk2PKlA8
+X-Google-Smtp-Source: AGHT+IF8bC7h94TmuZb823CnkSdBd580iuNZYNRH/Tz9n74u0sXk8cAyPQbFO6c80ZFajgdCusnxzR8p+3c2zO/VZpc=
+X-Received: by 2002:ac8:5a45:0:b0:461:67d8:1f50 with SMTP id
+ d75a77b69052e-46908e9cf46mr3041cf.4.1734463675125; Tue, 17 Dec 2024 11:27:55
+ -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <66897a27-5f81-46fc-898d-682456d7f37f@redhat.com>
+References: <20241211212033.1684197-1-almasrymina@google.com>
+ <20241211212033.1684197-6-almasrymina@google.com> <b706bede-3ca0-4011-8b42-a47e3d3fa418@amd.com>
+In-Reply-To: <b706bede-3ca0-4011-8b42-a47e3d3fa418@amd.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 17 Dec 2024 11:27:42 -0800
+Message-ID: <CAHS8izMw4m7Bv5zD2eT2MwFzk0QGFx1gkPu6wig7Uk__tpjW9g@mail.gmail.com>
+Subject: Re: [PATCH net-next v4 5/5] net: Document netmem driver support
+To: "Nelson, Shannon" <shannon.nelson@amd.com>
+Cc: netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>, 
+	Pavel Begunkov <asml.silence@gmail.com>, Willem de Bruijn <willemb@google.com>, 
+	Kaiyuan Zhang <kaiyuanz@google.com>, Samiullah Khawaja <skhawaja@google.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2024-12-17 15:23:22+0100, Hans de Goede wrote:
-> On 16-Dec-24 5:46 PM, Thomas Weißschuh wrote:
+On Wed, Dec 11, 2024 at 2:58=E2=80=AFPM Nelson, Shannon <shannon.nelson@amd=
+.com> wrote:
+> > +
+> > +Driver support
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +1. The driver must support page_pool. The driver must not do its own r=
+ecycling
+> > +   on top of page_pool.
+> > +
+> > +2. The driver must support the tcp-data-split ethtool option.
+> > +
+> > +3. The driver must use the page_pool netmem APIs. The netmem APIs are
+> > +   currently 1-to-1 correspond with page APIs. Conversion to netmem sh=
+ould be
+> > +   achievable by switching the page APIs to netmem APIs and tracking m=
+emory via
+> > +   netmem_refs in the driver rather than struct page * :
+> > +
+> > +   - page_pool_alloc -> page_pool_alloc_netmem
+> > +   - page_pool_get_dma_addr -> page_pool_get_dma_addr_netmem
+> > +   - page_pool_put_page -> page_pool_put_netmem
+> > +
+> > +   Not all page APIs have netmem equivalents at the moment. If your dr=
+iver
+> > +   relies on a missing netmem API, feel free to add and propose to net=
+dev@ or
+> > +   reach out to almasrymina@google.com for help adding the netmem API.
+>
+> You may want to replace your name with "the maintainers" and let the
+> MAINTAINERS file keep track of who currently takes care of netmem
+> things, rather than risk this email getting stale and forgotten.
+>
 
-[..]
+If it's OK with you, I'll change this to "the maintainers and/or
+almasrymina@google.com".
 
-> >> +Keyboard hotkey actions (i8042 filter)
-> >> +======================================
-> >> +
-> >> +Controlled by parameter: ``i8042_filter``
-> >> +
-> >> +The i8042 filter will swallow the keyboard events for the Fn+F9 hotkey (Multi-
-> >> +level keyboard backlight toggle) and Fn+F10 hotkey (Allow/block recording
-> >> +toggle) and instead execute their actions within the driver itself.
-> >> +
-> >> +Fn+F9 will cycle through the brightness levels of the keyboard backlight. A
-> >> +notification will be sent using ``led_classdev_notify_brightness_hw_changed``
-> >> +so that the userspace can be aware of the change. This mimics the behavior of
-> >> +other existing devices where the brightness level is cycled internally by the
-> >> +embedded controller and then reported via a notification.
-> >> +
-> >> +Fn+F10 will toggle the value of the "Allow recording" setting.
-> > 
-> > Personally I'm not a big fan to implement policy this way in the kernel.
-> > But others may disagree.
-> 
-> The keyboard backlight cycling ws already discussed and handling this in
-> the driver is ok.
+Reasoning is that currently Jakub really has reviewed all the netmem
+stuff very closely, and I'm hesitant to practically point to him to
+all future netmem questions or issues, especially since I can help
+with all the low hanging fruit. I don't currently show up in the
+maintainers file, and unless called for there is no entry for netmem
+maintenance. Wording the docs like this gives me the chance to help
+with some of the low hanging fruit without going so far as to add
+myself to maintainers.
 
-Ack.
+If the email does go stale we can always update it and if there
+becomes a dedicated entry in MAINTAINERS for netmem we can always
+remove this.
 
-[..]
+Will address all the other points, thanks!
 
-> >> +static struct platform_driver galaxybook_platform_driver = {
-> > 
-> > Could this be a 'struct acpi_driver'?
-> 
-> The use of acpi_driver is deprecated. AFAIK the plan it to
-> move the remaining ones to platform-drivers and eventually
-> remove the whole ACPI bus concept turning ACPI companion
-> nodes into "normal" fwnodes like the current software and
-> openfirmware fwnodes.
-
-Thanks for this explanation, I was not aware.
-It explains the comment from Rafael in [0].
-
-[0] https://lore.kernel.org/lkml/CAJZ5v0g0B8UFqYza88ahMfC-1_FzzizeS6QN=Qtt7vGv9+TK1w@mail.gmail.com/
+--=20
+Thanks,
+Mina
