@@ -1,129 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25A91F427A;
-	Tue, 17 Dec 2024 14:49:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEFE81F8ADD;
+	Tue, 17 Dec 2024 14:51:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734446948; cv=none; b=KV46+O+uHa/RkruPYBZNH+ZefRIPRyh2Ozwsz4FtwY2RInPlMLsliZIHoJU/nLxI2RKARsXg4EN3sza4xzjeyDmQRMuTyWJFylxBeGVp37SH2A02CwMc4Mu+BNeh3z/+k6I8s0JqApkBzURbYFfSofhqDD/8hY+pts5wBFMIjVg=
+	t=1734447093; cv=none; b=X5NGZNdH0jDVBlv+j40Zw3c2yHifDR6e/ZBqTd2jRxAxcHcJiSvRQemN7IYqiDm4A4D8K7gOA7OzuFrmXmbore89p4fVtzdif0zhnzM4yEOnW7eZT6ZaPOcEuMvR5Il5XFOgGk5211NIp7aHHvbKnyVpIKGe/bhHV+CljYo2vME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734446948; c=relaxed/simple;
-	bh=ovUCsXIAcZwln0owfwVIC8+hc5eQXi2CD0JoDSmNu74=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VXZ6Jzt5vYGd/eymIVLuuTFBYNyDXDa8285z8rSpPuXRQDyTXdmTCmGQPuC8jLlF7eKDMHthr6mPyt5SCEM3mjLmAmUWKgy1Jxad+IundHMdDcJAC4A8Y/3HmwqIDfKlCJ2riF2/lwBS2pY+hNs/TMMZpUCncNSDh0cTVPxKNzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hwJmiM3M; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734447093; c=relaxed/simple;
+	bh=eFGnliowovdHOsu+bslUKKaWUkcjdc40HYBeZnV12gA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Mk7/38oOnJ0TDfB51rSVdwOu6HKjA/Ig30NScp/JIj6r6AkU0U0+Y5vieaNVKBfoKi3l3bujkYlc5aaZQjIkDbBa9gbgu/Barsq4+cmZ4YwYBwiZrMfRrUaQAPfXFDXmQUvSX2qhHuSGAUZBoYIxCDf0+WEtcqLhernvTO2kH+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F16nPW5l; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hwJmiM3M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59C0AC4CEDD;
-	Tue, 17 Dec 2024 14:49:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F16nPW5l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3165EC4CEF3;
+	Tue, 17 Dec 2024 14:51:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734446947;
-	bh=ovUCsXIAcZwln0owfwVIC8+hc5eQXi2CD0JoDSmNu74=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hwJmiM3MCtayeazrAxE0vsMDLigqnketgZff9rdBg6XV0JvlJLy2+fyU5Uo5jcZfr
-	 r/3NSW5d6FD5gheiQPq1orEGlReGRPlRY/xlUwIe/AUOhqlS9Kyyh9Q1OQdXYqDTUI
-	 5t0Pc+BSgg3Hw99PQ655QxCQReM6uptUyT5iXg1S+UfHGy01emoQWM2lQrf6Jo0xO/
-	 zmeTvvb5z0ET7Bcwak3aMLjyTBQ7+YYJE9CUaiCTQJ1xtIEQ8MRUCK53x51563PnEu
-	 EM8CA3wispePvBh+ZQJFJ7YCKmuqRwdav3lgu+ccYz0wSzwFroc8K6d/k+WA+pAXzS
-	 K5F4dkK0RBPZQ==
-Date: Tue, 17 Dec 2024 14:49:02 +0000
-From: Lee Jones <lee@kernel.org>
-To: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
-Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 1/3] Documentation:leds: Add leds-st1202.rst
-Message-ID: <20241217144902.GL2418536@google.com>
-References: <20241121165829.8210-1-vicentiu.galanopulo@remote-tech.co.uk>
- <20241121165829.8210-2-vicentiu.galanopulo@remote-tech.co.uk>
+	s=k20201202; t=1734447092;
+	bh=eFGnliowovdHOsu+bslUKKaWUkcjdc40HYBeZnV12gA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=F16nPW5lRJAkNIwKjKEdOkt6XTXleDEtofOg3PhSA9Qx8RcQsLcqy53K1gU/J6eUG
+	 MN6v8DFyuQjRIt7IjNmOzZT9xwFnSLGyLDNY8FHbXAug+HBux+iVt4+Ge2IcvkeIBM
+	 ruC+ggNWjNa399aGQ4VvNZ9GOyF/ARj08wzWdTcEZyo7xk73triQmSagGJyCZzWeO7
+	 vANTALQBdZvkcVa7NQYD9LcCMrxJ6D556QLT9yrXsm/M9kJI2d4nOuSG9Ksao2P5LC
+	 DOpn2IARxxpQAau582RZUXRDxW6tpI7xAMrEW4oR5oLO8EeIeq20hl2o9P0VsHLpCO
+	 A1R/9IHg+rkgw==
+Date: Tue, 17 Dec 2024 06:51:29 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Li Li <dualli@google.com>
+Cc: Carlos Llamas <cmllamas@google.com>, corbet@lwn.net,
+ davem@davemloft.net, Eric Dumazet <edumazet@google.com>, pabeni@redhat.com,
+ donald.hunter@gmail.com, Greg KH <gregkh@linuxfoundation.org>, Arve
+ =?UTF-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>, tkjos@android.com,
+ maco@android.com, "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+ brauner@kernel.org, Suren Baghdasaryan <surenb@google.com>, arnd@arndb.de,
+ masahiroy@kernel.org, bagasdotme@gmail.com, horms@kernel.org, LKML
+ <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+ netdev@vger.kernel.org, Hridya Valsaraju <hridya@google.com>, Steven
+ Moreland <smoreland@google.com>, Android Kernel Team
+ <kernel-team@android.com>
+Subject: Re: [PATCH net-next v10 2/2] binder: report txn errors via generic
+ netlink
+Message-ID: <20241217065129.10677f69@kernel.org>
+In-Reply-To: <CA+xfxX6-cbTyyyTf1UL_A7DzagfrV+y0367MdO21+JdjW870ZA@mail.gmail.com>
+References: <20241212224114.888373-1-dualli@chromium.org>
+	<20241212224114.888373-3-dualli@chromium.org>
+	<Z2BtgqkPUZxE8B83@google.com>
+	<CANBPYPhZ-_5=VMRoBxbfVb+AFb_qu49QH_hKOiSjX93E1GQA8A@mail.gmail.com>
+	<20241216174111.3fdce872@kernel.org>
+	<CA+xfxX6-cbTyyyTf1UL_A7DzagfrV+y0367MdO21+JdjW870ZA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241121165829.8210-2-vicentiu.galanopulo@remote-tech.co.uk>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, 21 Nov 2024, Vicentiu Galanopulo wrote:
-
-> Add usage for sysfs hw_pattern entry for leds-st1202
+On Mon, 16 Dec 2024 19:53:40 -0800 Li Li wrote:
+> > > These are automatically generated from the yaml file. So let's just
+> > > keep them as is.
+> > > But it's a good suggestion to the owner of yaml parser.  
+> >
+> > I think the unusual naming comes from fact that you call your netlink
+> > family binder_netlink. It's sort of like adding the word sysfs to the
+> > name of a sysfs file. I mean the user visible name, not code
+> > references...
+> >
+> > s/binder_netlink/binder/ will clean this up..  
 > 
-> Signed-off-by: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
-> ---
->  - Changes in v3: Add leds-st1202 to index.rst
->  - Changes in v2: Implement review comments
-> 
->  Documentation/leds/index.rst       |  1 +
->  Documentation/leds/leds-st1202.rst | 36 ++++++++++++++++++++++++++++++
->  2 files changed, 37 insertions(+)
->  create mode 100644 Documentation/leds/leds-st1202.rst
-> 
-> diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
-> index 3ade16c18328..0ab0a2128a11 100644
-> --- a/Documentation/leds/index.rst
-> +++ b/Documentation/leds/index.rst
-> @@ -28,4 +28,5 @@ LEDs
->     leds-mlxcpld
->     leds-mt6370-rgb
->     leds-sc27xx
-> +   leds-st1202.rst
->     leds-qcom-lpg
-> diff --git a/Documentation/leds/leds-st1202.rst b/Documentation/leds/leds-st1202.rst
-> new file mode 100644
-> index 000000000000..e647966e496c
-> --- /dev/null
-> +++ b/Documentation/leds/leds-st1202.rst
-> @@ -0,0 +1,36 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +============================================
-> +Kernel driver for STMicroelectronics LED1202
-> +============================================
-> +
-> +/sys/class/leds/<led>/hw_pattern
-> +--------------------------------
-> +
-> +Specify a hardware pattern for the ST1202 LED. The LED
-> +controller implements 12 low-side current generators
-> +with independent dimming control. Internal volatile memory
-> +allows the user to store up to 8 different patterns.
-> +Each pattern is a particular output configuration in terms
-> +of PWM duty-cycle and duration (ms).
-> +
-> +To be compatible with the hardware pattern
-> +format, maximum 8 tuples of brightness (PWM) and duration must
-> +be written to hw_pattern.
+> I did consider that but unfortunately that would result in a
+> conflicting binder.h in uapi header.
 
-Some very odd formatting here.
-
-Doesn't your editor do line-wrapping for you?
-
-> +
-> +- Min pattern duration: 22 ms
-> +- Max pattern duration: 5660 ms
-> +
-> +The format of the hardware pattern values should be:
-> +"brightness duration brightness duration ..."
-> +
-> +/sys/class/leds/<led>/repeat
-> +----------------------------
-> +
-> +Specify a pattern repeat number, which is common for all channels.
-> +Default is 1; negative numbers and 0 are invalid.
-> +
-> +This file will always return the originally written repeat number.
-> +
-> +When the 255 value is written to it, all patterns will repeat
-> +indefinitely.
-> -- 
-> 2.39.3 (Apple Git-145)
-> 
-
--- 
-Lee Jones [李琼斯]
+What exactly is conflicting? The name of the header itself?
+You can set the uapi header name using the uapi-header property.
