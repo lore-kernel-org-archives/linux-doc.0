@@ -1,78 +1,193 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32F0B14600D;
-	Tue, 17 Dec 2024 20:11:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8509F1D89EC
+	for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 20:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734466305; cv=none; b=TyXpzWFQPhX5in0fY3cNNq8709D+Q4hQiQeVDGTHx/LwNJSxhk0EYUbHkbpCKrTDKX1NM6W1g/50DSREOKz22+p4TuEBDMbMP5DIQMJPGgWxbC1bsoE+h79lrYw61J9Sex+1ykPvXk3Ux7ih2PAmYoWZXGOK90iR311L5ktffJY=
+	t=1734466330; cv=none; b=PN1IszYpJcxzmLfrrD83nTr8XKDHQ89QdwVM6a6dR0L0LQrFjOwAvV/ZJYYjy/bDqU+S82wKsD9CUjLkkJ6Wnp4HoS5/rO8bFi81arUwRjUb2c/Vk9S5zjgU6+cFceR7nuyIcIiWfSHdHVLIJcsZji6hsJKsfe6DEuSkH7hoLi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734466305; c=relaxed/simple;
-	bh=/opUnMx2K0Pl0/ZfgAIgm53hcedOyWVqswmB7Q4uL38=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HRYkqbikV/onklqAE2Z83WfgwJ2Jgl5WXwnd65r+BNyuQjUzAK1T6BhidwljpAykAkTnme6pE/mo4M7OyKtuwDzwGSNT1kUmkSN7O7Ck2+84kgtKRZYjYxWKjCPGARaTDhlY6p41XxBrzxcmihTOyZjpY3yunxfxmrmCbDaF8HA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 089D4497;
-	Tue, 17 Dec 2024 12:12:09 -0800 (PST)
-Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 825133F528;
-	Tue, 17 Dec 2024 12:11:35 -0800 (PST)
-Date: Tue, 17 Dec 2024 21:10:43 +0100
-From: Beata Michalska <beata.michalska@arm.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org, ionela.voinescu@arm.com,
-	sudeep.holla@arm.com, will@kernel.org, catalin.marinas@arm.com,
-	rafael@kernel.org, sumitg@nvidia.com, yang@os.amperecomputing.com,
-	vanshikonda@os.amperecomputing.com, lihuisong@huawei.com,
-	zhanjie9@hisilicon.com, Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>, Phil Auld <pauld@redhat.com>,
-	x86@kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 1/4] cpufreq: Introduce an optional cpuinfo_avg_freq
- sysfs entry
-Message-ID: <Z2Haw_o8gF-Ce1gx@arm.com>
-References: <20241206135600.4083965-1-beata.michalska@arm.com>
- <20241206135600.4083965-2-beata.michalska@arm.com>
- <20241212065100.sjb7lrlmksbm2hdk@vireshk-i7>
- <Z2CmcelSy89NULtz@arm.com>
- <20241217042726.isllh5bulpnwql7i@vireshk-i7>
+	s=arc-20240116; t=1734466330; c=relaxed/simple;
+	bh=pVImGNEmG/zX77a+vhzi+si5GDL8xTOF4zHCM6KYXyM=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=TVqVCaMUuL2Qhi19KP2G9JUIa631tH15N+kdRLM/rGACHZglRmRVIAhuSceObt9ALM2XLowdVc4OPVa/7UIi6YQDDRldIkseXwhmxGwSaHXr7WLePUQBZ60LXEkV5TKau3zc8pk1iMa/OB6nF/bBvMYjl2xWPYZS1cwWer5KA+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ng7MEfjH; arc=none smtp.client-ip=209.85.216.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ng7MEfjH"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2ef91d5c863so5379730a91.2
+        for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 12:12:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1734466328; x=1735071128; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=S7CI+KsjLDAbysY8RsQOlNWjMrZ9ZlwbSEe2N6sprvE=;
+        b=ng7MEfjH0oSBi72ygWvouldAuy8iUY0x6KB5iS0dZi25HgOfR2vO2HaONKYkjl6cy3
+         6C8dcZpxvDY5wJe4+HZyNSGEvKlDsDo+RZUsbOnRF8psusFKP68vn90TAE/cnNkVCCgj
+         G6Nc0B9p/2kHRNMdlbxHM1OT+OLYq/U1hXxxQNxhKrVh/0lY/1ZUIYpswvONDQ+xC1aV
+         NVoXZGr8g7HWEWNk6kbt0bGxAxerwgfWQ3U2POJh+Bs+YYm0wclldvMv45p2QVGrIAc/
+         jEjKWNrYMTk1x6mcpPiB3JAbcnxidFRZUPkncdJbaJTiA2XD4x087A7mX3rTtwNizINp
+         LjXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734466328; x=1735071128;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=S7CI+KsjLDAbysY8RsQOlNWjMrZ9ZlwbSEe2N6sprvE=;
+        b=ojxd18vLqnQ9968ojRw2J1gV2sP+JkVX7iw8gtCEZehXWpjEvEc4Z4LPqXtlqPH+e7
+         MzRXq0/TyIhl8sq8UhVRwu2IJTTUWUUTUr23l1waI6fI8l+AZxRGxnyv7pjyHbtedUuD
+         CIvC1x6q5X1QIzuYRxbjj4yvfjeWheVxI33aFhyTuN4EGrckm8eXmmkj9S1tM8FpN4mY
+         +gReghRYJPcEmVZGk0ejjMWNsFS1TlCDzBuoLZYKe4SL4STnun/zsgwuBzxoU0/+lEyf
+         qjcyhr82pwF5F/OYHZOTszKvlNWPAxZasNU1/3a5ow7XuVpsPkZXo60eHNZIL6pe0VkB
+         UpxA==
+X-Forwarded-Encrypted: i=1; AJvYcCXSyWEdKxbjsHRjMaSrIFhFjTmV4O2EsG/XAyMcLVrEdeJgNXcrvCdbq5DlmF0xAlDP0e4+d3cD6K8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxsgBsf0s4XYBAaUdR/RJUwj7ciDT16MSi4oNhOc/lWpy+iEF2Y
+	wnwmiE5hEk/OfqzcSHV6KMXeCkYUR4AKo/qRmxBruJILOrVtnFoyH3xgQm1+2gxIGlyp9W+QUk7
+	bBnCCc+Ig4LzSsHZJUqKQog==
+X-Google-Smtp-Source: AGHT+IFsiV1/4XtIWEL3oEqqXsvoAtV5761RQFgsgkc/U1ZC9rkOBZSzJ+H2Zb6WjBufhYhAwO1A6CIR7ORB52npuQ==
+X-Received: from pjbsd7.prod.google.com ([2002:a17:90b:5147:b0:2ea:5469:76c2])
+ (user=almasrymina job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:51c4:b0:2ee:aa28:79aa with SMTP id 98e67ed59e1d1-2f2e91a9815mr307291a91.6.1734466327882;
+ Tue, 17 Dec 2024 12:12:07 -0800 (PST)
+Date: Tue, 17 Dec 2024 20:12:06 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241217042726.isllh5bulpnwql7i@vireshk-i7>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
+Message-ID: <20241217201206.2360389-1-almasrymina@google.com>
+Subject: [PATCH net-next v5] net: Document netmem driver support
+From: Mina Almasry <almasrymina@google.com>
+To: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Cc: Mina Almasry <almasrymina@google.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Dec 17, 2024 at 09:57:26AM +0530, Viresh Kumar wrote:
-> On 16-12-24, 23:15, Beata Michalska wrote:
-> > My bad as I must have misinterpreted that message. Although I am not entirely
-> > sure why this might be unacceptable as it is not such uncommon approach to use
-> > signed int space to cover both: expected positive value as well as potential
-> > error code case failure.
-> 
-> This part is fine. The problem is with handling frequency here. Signed int can
-> capture up to 2 GHz of freq, where as unsigned int can capture up to 4 GHz and
-> so we would really like to keep it at 4 GHz..
-Right, though the arch_freq_get_on_cpu operates on kHz values.
+Document expectations from drivers looking to add support for device
+memory tcp or other netmem based features.
+
+Signed-off-by: Mina Almasry <almasrymina@google.com>
 
 ---
-BR
-Beata
-> 
-> Maybe we need to move to 64 bits for frequency at some point of time, but at
-> least we should try to not break it for now.
-> 
-> > Enabling the new attribute for all is an option, tough not entirely compelling
-> > one as exposing a feature that is known not to be supported seems bit
-> > counterintuitive. On the other hand using cpufreq driver flags won't help much
-> > as the support for the new attrib is platform-specific, not driver-specific.
-> 
-> -- 
-> viresh
+
+v5 (forked from the merged series):
+- Describe benefits of netmem (Shannon).
+- Specify that netmem is for payload pages (Jakub).
+- Clarify what  recycling the driver can do (Jakub).
+- Clarify why the driver needs to use DMA_SYNC and DMA_MAP pp flags
+  (Shannon).
+
+v4:
+- Address comments from Randy.
+- Change docs to netmem focus (Jakub).
+- Address comments from Jakub.
+
+---
+ Documentation/networking/index.rst  |  1 +
+ Documentation/networking/netmem.rst | 79 +++++++++++++++++++++++++++++
+ 2 files changed, 80 insertions(+)
+ create mode 100644 Documentation/networking/netmem.rst
+
+diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+index 46c178e564b3..058193ed2eeb 100644
+--- a/Documentation/networking/index.rst
++++ b/Documentation/networking/index.rst
+@@ -86,6 +86,7 @@ Contents:
+    netdevices
+    netfilter-sysctl
+    netif-msg
++   netmem
+    nexthop-group-resilient
+    nf_conntrack-sysctl
+    nf_flowtable
+diff --git a/Documentation/networking/netmem.rst b/Documentation/networking/netmem.rst
+new file mode 100644
+index 000000000000..7de21ddb5412
+--- /dev/null
++++ b/Documentation/networking/netmem.rst
+@@ -0,0 +1,79 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++==================================
++Netmem Support for Network Drivers
++==================================
++
++This document outlines the requirements for network drivers to support netmem,
++an abstract memory type that enables features like device memory TCP. By
++supporting netmem, drivers can work with various underlying memory types
++with little to no modification.
++
++Benefits of Netmem :
++
++* Flexibility: Netmem can be backed by different memory types (e.g., struct
++  page, DMA-buf), allowing drivers to support various use cases such as device
++  memory TCP.
++* Future-proof: Drivers with netmem support are ready for upcoming
++  features that rely on it.
++* Simplified Development: Drivers interact with a consistent API,
++  regardless of the underlying memory implementation.
++
++Driver Requirements
++===================
++
++1. The driver must support page_pool.
++
++2. The driver must support the tcp-data-split ethtool option.
++
++3. The driver must use the page_pool netmem APIs for payload memory. The netmem
++   APIs currently 1-to-1 correspond with page APIs. Conversion to netmem should
++   be achievable by switching the page APIs to netmem APIs and tracking memory
++   via netmem_refs in the driver rather than struct page * :
++
++   - page_pool_alloc -> page_pool_alloc_netmem
++   - page_pool_get_dma_addr -> page_pool_get_dma_addr_netmem
++   - page_pool_put_page -> page_pool_put_netmem
++
++   Not all page APIs have netmem equivalents at the moment. If your driver
++   relies on a missing netmem API, feel free to add and propose to netdev@, or
++   reach out to the maintainers and/or almasrymina@google.com for help adding
++   the netmem API.
++
++4. The driver must use the following PP_FLAGS:
++
++   - PP_FLAG_DMA_MAP: netmem is not dma-mappable by the driver. The driver
++     must delegate the dma mapping to the page_pool, which knows when
++     dma-mapping is (or is not) appropriate.
++   - PP_FLAG_DMA_SYNC_DEV: netmem dma addr is not necessarily dma-syncable
++     by the driver. The driver must delegate the dma syncing to the page_pool,
++     which knows when dma-syncing is (or is not) appropriate.
++   - PP_FLAG_ALLOW_UNREADABLE_NETMEM. The driver must specify this flag iff
++     tcp-data-split is enabled.
++
++5. The driver must not assume the netmem is readable and/or backed by pages.
++   The netmem returned by the page_pool may be unreadable, in which case
++   netmem_address() will return NULL. The driver must correctly handle
++   unreadable netmem, i.e. don't attempt to handle its contents when
++   netmem_address() is NULL.
++
++   Ideally, drivers should not have to check the underlying netmem type via
++   helpers like netmem_is_net_iov() or convert the netmem to any of its
++   underlying types via netmem_to_page() or netmem_to_net_iov(). In most cases,
++   netmem or page_pool helpers that abstract this complexity are provided
++   (and more can be added).
++
++6. The driver must use page_pool_dma_sync_netmem_for_cpu() in lieu of
++   dma_sync_single_range_for_cpu(). For some memory providers, dma_syncing for
++   CPU will be done by the page_pool, for others (particularly dmabuf memory
++   provider), dma syncing for CPU is the responsibility of the userspace using
++   dmabuf APIs. The driver must delegate the entire dma-syncing operation to
++   the page_pool which will do it correctly.
++
++7. Avoid implementing driver-specific recycling on top of the page_pool. Drivers
++   cannot hold onto a struct page to do their own recycling as the netmem may
++   not be backed by a struct page. However, you may hold onto a page_pool
++   reference with page_pool_fragment_netmem() or page_pool_ref_netmem() for
++   that purpose, but be mindful that some netmem types might have longer
++   circulation times, such as when userspace holds a reference in zerocopy
++   scenarios.
+-- 
+2.47.1.613.gc27f4b7a9f-goog
+
