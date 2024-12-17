@@ -1,178 +1,183 @@
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2052.outbound.protection.outlook.com [40.107.101.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609CF70827;
-	Tue, 17 Dec 2024 05:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734412830; cv=fail; b=uJXA0sOkJQv7ORM6+yzt2W3oOD4M6XSDlB71W8GE0fVhocuddlZhKGUqgDbT8cWwfxGU4o7WtAPKrrzJ/VUsSxb6rlOY0ID+W1w4LhE26s6dJHYquvT0hGcNBMkJEPza9pffIJ34dkOIBMAn5MhvysqOyzJuA/POC6+Dh5jsB30=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734412830; c=relaxed/simple;
-	bh=TH0/J7jkDiGdPJ0Ds2v/16UcFlaCz/myujfevBQ+3gI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=UZ5GQLujULu/VTdAY1Z8ggoLx/BwEdhbD0kQ049Su6Bl3896hiGRSazc2TabCYbHL2bPxt2tzHga+ClQR8SS7iy84QBFMNsa76fm+1dWegQWDDFLz67/lXYJq4e5ho1svxGO8BtRJCCF1ZBvJJ1PdEjmey8V2cF+jfPvg1TyFsA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=dIaxQ3OS; arc=fail smtp.client-ip=40.107.101.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB541531D5
+	for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 05:30:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734413447; cv=none; b=GRWHPzYfT+gGXAvJJOqyLWzDggK0ndD5IQzxcpDUyfr8Ys3+++ZXFyWWiXeUI+jqluS5+WyQZKI6vFWgnFfI6k+DykjEVdyCNQ+47+iqlTmUTI0IR25OC6A5ZX//Lto8c+vegJ6Wx0SOVPTAgpLULxH6tU/pA4XomQyyl0K57AY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734413447; c=relaxed/simple;
+	bh=NXcQdo0wRRKb2/WNDagRZfaOG1sq8tDTThIxnEioR2U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RkaF/xyGRGscGj3u9CBCckO4TO7aYuXiR4zzzw3Z14w9h5oCXnRvtNdIiBOf+hlOr3BFTbozkzc6F8aLm1S1Qft1RdF/+A81nDNToOzG8HCY5Pvpoks5HOC6oGxBC+gZw6ifXLtaNHallhSBiPx6E6ZDGCWtQ/OYmMVtkkhUS6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=G3E8wujk; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="dIaxQ3OS"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BQAj8FuPjY5h2P2mlWhW0mf/ZTrH5SNcr3PoS4wQfgXBvgI/ayVWEmsM9xQHJ1VBn4bmhjwxKZHxkHohubIG2XwshrcnvzB+FyBFanVM7CIBIQzZ6TWpCcb9oVGhIfOTg9lwelQoUlUbdgILrCK1LqH5nbHEWOSM0tWoBdzcmaISmuVNqM/50jwQRjEm4S2U7rJGdXvlglgbRs61bqhoxRB+IW5/oX9AmVlIkJXvfSP6goiyd9NAqaZCZUIdXcBHzNdonEpsV0/4/tz/OwS8CkjPLnA8PBby2mHGtBn/ZN3Wh8+uq+izpKXbfAS7nBDaoroyoJCiI9wiLfEwZ8eANw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LUM0Rt68ReLzLmETvsu4CJMhlxrGsD+rTS8nWDDVnrM=;
- b=r2y9IA8h5IHW3mOSyWQps0DC2sXjOgzbzEoHk/vzQrJjal0nU8fPNtaKp5BPdEi+ZdBzLWwCS+jWZwzn6enwJEK8n2GA3QNfI4OsYt67fBDl8A0kCF7Fl2+I7m9xprONF7g2Wrg3QuHHI+hS66INGOvmd8Hi6HD8aEIA5FUXvKq4Q3cSqoMPbkIAc3gIZBJ4qNMTxdG1xg2P6VjLXQIRqMhxhm0EYUQC9v5MAOfwqTVzT9xMhlrismqRKswCkeZAZYlxqXMPt6v0S2uXS98M4WmmBJ8dOLSMKlsuS/0bMjUgRwMeXfSHB7LjGSBQDhEy6ER3/0P4FaYeeeRcUqDmwA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LUM0Rt68ReLzLmETvsu4CJMhlxrGsD+rTS8nWDDVnrM=;
- b=dIaxQ3OS8YFbhw+m+gnK+U64KvUglsJEWa9yLrgC68mYVvzRmQ00hwarLM8zjVdD8TzbN7/NGLAhrrLeVwHC6rM77RrhoXZeHS9JigQx7Ff9gB5Dy1Zk2scmYPv6ErQ2QFCFCIfNPMSa09Z5UdKU4JF5seBpfZnqW8cDteBTRuYd5ijQ/OYqbiKtV7sL+cIOAZ4vsy8kjdE0txLKm2aogzob99hdZYjmUZ14p5rUGqL3y5Pvx0f9OhXysY3B8Z96FFtz16xYMRC8anup7YFaB8BgfS6Jir80eUdnqnlsxmx1VZu7UZl0TRQ654MtWcBvtIJ/qkkDflbVij5MvADzFw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
- PH7PR12MB7260.namprd12.prod.outlook.com (2603:10b6:510:208::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.19; Tue, 17 Dec
- 2024 05:20:26 +0000
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe%4]) with mapi id 15.20.8251.015; Tue, 17 Dec 2024
- 05:20:26 +0000
-Date: Tue, 17 Dec 2024 16:20:21 +1100
-From: Alistair Popple <apopple@nvidia.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@redhat.com>, 
-	Dan Williams <dan.j.williams@intel.com>, linux-mm@kvack.org, lina@asahilina.net, zhang.lyra@gmail.com, 
-	gerald.schaefer@linux.ibm.com, vishal.l.verma@intel.com, dave.jiang@intel.com, 
-	logang@deltatee.com, bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca, 
-	catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com, 
-	dave.hansen@linux.intel.com, ira.weiny@intel.com, willy@infradead.org, djwong@kernel.org, 
-	tytso@mit.edu, linmiaohe@huawei.com, peterx@redhat.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de, david@fromorbit.com, 
-	sfr@canb.auug.org.au
-Subject: Re: [PATCH v3 00/25] fs/dax: Fix ZONE_DEVICE page reference counts
-Message-ID: <jn3j4pdzfnlai4oqr4g7ldl6cq6awiyugg5gbny3l3g5y67abe@rm6zpap7y2gh>
-References: <cover.e1ebdd6cab9bde0d232c1810deacf0bae25e6707.1732239628.git-series.apopple@nvidia.com>
- <675ce1e5a3d68_fad0294d0@dwillia2-xfh.jf.intel.com.notmuch>
- <45555f72-e82a-4196-94af-22d05d6ac947@redhat.com>
- <wysuus23bqmjtwkfu3zutqtmkse3ki3erf45x32yezlrl24qto@xlqt7qducyld>
- <20241215222655.ef0b15148120a2e2b06b2234@linux-foundation.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241215222655.ef0b15148120a2e2b06b2234@linux-foundation.org>
-X-ClientProxiedBy: SY5PR01CA0124.ausprd01.prod.outlook.com
- (2603:10c6:10:246::13) To DS0PR12MB7726.namprd12.prod.outlook.com
- (2603:10b6:8:130::6)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="G3E8wujk"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-728e78c4d7bso3548621b3a.0
+        for <linux-doc@vger.kernel.org>; Mon, 16 Dec 2024 21:30:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1734413443; x=1735018243; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3eprAB6mL99nuDvuDpZ7xteMR+o2NtdFYL2yb/syKiQ=;
+        b=G3E8wujkDoPb5DgpzmCfuvZsQOGcrS92LDJRcjmjK6pq9ot5malWkaYU15mvJ8FEmB
+         +Q+Ms3gzw9vo2LoxeJBVo2zrCXgOWa01I0IKCrJCFWJyD0naf00xciH8vTot2hIUjoMJ
+         ElIgCuqOzEshWo+4NpzmMazwJ6sCFHyN9abVILbqri9UXMSFulPpdqnvCGplq9ynI/kJ
+         gpNuezQA95tLAMRKtn9nk0tJL/zaMqRgPCDE1+P6GwXGP2yVLlWR0zVwmX0FZsZWeNDq
+         3qAnpJL8TXHrn84zKL6ov3ZB1p0RfmcV+doHCQkk4lfyVLf1wKDa0WD1uz8zKBuzlWzl
+         v9uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734413443; x=1735018243;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3eprAB6mL99nuDvuDpZ7xteMR+o2NtdFYL2yb/syKiQ=;
+        b=luAgwwEoECTaHdZrnpE/vyKj4wtNMTXTysFr8E2ciUwlsxXRX117jIuDuN5vAmTIL2
+         s4VQypGDelW1Q6YhvuByhDmAhZzgvEayZgbBP4F97QbnVYXPkwIDKvYMNeNIcDo0OJH2
+         A5Fw9zprVMAA1FY0Gd43POxeH/LO/2d5OUkYb5a7Vusfy0/zBe9gOK1xmzpMnCKzMRYb
+         NZykWaGyQ3XCY31+O26k4vpIp4V5Yjb3YH35EYeAAdAb9UPetMGvSoyVXVIk5t2m9Pkr
+         ykpp2s7edZGU+SIKWK7SVjkilz+dHAszCDbKI2f5umwIzBiDu8/JMKfoUiAenXCIThkz
+         rYmg==
+X-Forwarded-Encrypted: i=1; AJvYcCV70XP5eCPqBwY7pENcuU5pqnZ5zV7piCseAQFp639jucSPaDMMSEuUgPa+UPKqC93KwAG6aTl/fZQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+4Bu1vvYIrueqvUOuBxiH6bGhluoYMoF6RVIvM0VvrxU+3ug8
+	7rxUOsQLfEHGSFRrsOtTPfUJ0gO00iIZfhIm4haE52wMD9waQALhDZIT32GdjII=
+X-Gm-Gg: ASbGncue+2mnKMtskJawCh006awuQ+ac2CHrq79NAgMGdLT8Qx6ZqTQ0TZXSvwQQQMm
+	3lZUl/uCWGLN8XgLs3GM2J9iLaK0E1yY9K1m1WTdkIDYUQjI/MQ8YxA4XBC3aWZlK9ofY5QBL1a
+	DcSCwEuCYPp5V+4SL2LKgJobHa1Hiq0mEjB+7LokgOUvt2s3dOde7ZjubE16Ims8J+oS4e58vsW
+	PmuT1KbuvulF1M4Lj8qdPcT/aSoWSuuNqCoS6npjyukdpgjPeQ=
+X-Google-Smtp-Source: AGHT+IGGG8XVKg+X8rmGZK6CbMCJ7mkfFmLPI5+tN+Ymugv6wmhrKZix3qMLXbksYQCVWS+ftd5fVg==
+X-Received: by 2002:a05:6a00:7c6:b0:725:e386:3c5b with SMTP id d2e1a72fcca58-72a7872b694mr2639309b3a.5.1734413443517;
+        Mon, 16 Dec 2024 21:30:43 -0800 (PST)
+Received: from ghost ([2601:647:6700:64d0:9708:a71e:40e6:860])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72918ad5883sm5945241b3a.63.2024.12.16.21.30.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Dec 2024 21:30:42 -0800 (PST)
+Date: Mon, 16 Dec 2024 21:30:39 -0800
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Namhyung Kim <namhyung@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	Christian Brauner <brauner@kernel.org>, Guo Ren <guoren@kernel.org>,
+	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
+	James Clark <james.clark@linaro.org>,
+	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
+	Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
+	linux-csky@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 02/16] perf tools: arc: Support generic syscall headers
+Message-ID: <Z2EMf8_oShdXHyL1@ghost>
+References: <20241212-perf_syscalltbl-v2-0-f8ca984ffe40@rivosinc.com>
+ <20241212-perf_syscalltbl-v2-2-f8ca984ffe40@rivosinc.com>
+ <Z1zIlKq19lAXMoGs@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|PH7PR12MB7260:EE_
-X-MS-Office365-Filtering-Correlation-Id: 09fa143f-a910-44de-2d86-08dd1e5a83b7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?QBdXMM9hvanblBDkFHsB8ujSjjRbgeudu2hTvExnLnMn7WrHn4AIO8oQF781?=
- =?us-ascii?Q?RPOG+7QqfOjwC8C+A6hqXrTubsX3OWhUCqn3OzQU3KMsfT9sBmzMgISqZdsw?=
- =?us-ascii?Q?uVWTYRdFv9CBo1NesnL7w4OiDfaHCcM7wx1Jo5a6KlExbiytVX9Y1YWSbxCX?=
- =?us-ascii?Q?91eJaKVTDKqLs2AW5A+CPBSIX/swPvAw+m2pK4XceEoGJJGatVHXJJWHEhwA?=
- =?us-ascii?Q?dlsz+Q1oo2wR7hc2VD7NPzpQhu/pVgBj9kiFIuapApg3XqagqFwQM4YjrYaU?=
- =?us-ascii?Q?TakNFv27+yodAAOVbbBB+Y2waECYHAqs8nM6qmHbofDULxaAFx48nQLtrVhd?=
- =?us-ascii?Q?55IdfVTWHW3SUhmCE26NgkTYvnWAIhLCpTbC66akrUUhseM8ybswuyZHI145?=
- =?us-ascii?Q?wundWigCsQk+Cz7uGpDdDU+na8eRIi2LUih2B4cTpZikC7jKezRwXR7gjeJu?=
- =?us-ascii?Q?9taaPGqSxtKvbfA0SuqCbep1274qBBR+s74ffpg9whH6op5SyBEEXXMItHpr?=
- =?us-ascii?Q?J/FtVft5PoZRBlDPSOjVRSqsKjRDbL93oYtONCq2h6ZUsdD6q9yw+HjI1wq2?=
- =?us-ascii?Q?jnkcmahjg5sfGtKEoqBH2ddG4YAzyrnHc9hsxQWBO5vLAYrs7jouqjpZWj/P?=
- =?us-ascii?Q?Z1NKBhm89Q2XaSmmpo3jU4nBkWKGZYuyr8JsecDQFqfGrXs2BMiyMaKG56UK?=
- =?us-ascii?Q?2PM8b86YGyqfCSuD+rDHUYxTHRUmcHWypX9yD8Y/x+5jEFy8G14SFejnFBe5?=
- =?us-ascii?Q?VOf1+z90v/6LsF58Bp01pm+Qa5UUKiiKt/+AcH7v9IFwyemHivkP82uDvC1x?=
- =?us-ascii?Q?4ncBq9oMn0ju1NcZhNSgcZNz486vhivhacfKmELebmOczWND65Kotv9uJ6Io?=
- =?us-ascii?Q?haJJ3o+xGvFoA0s2PA0B37Du6g+Fj7QaZMQO/WpznTf9baNghmwCFtIpxMFI?=
- =?us-ascii?Q?3pHXW04yVfp1wVjVL8UXToSj2n7Opo0T4P8EZ3AJmC5grvuYiyy0Pft3WOiD?=
- =?us-ascii?Q?BVEvPMLSmXKTgQpcM/t4JZdEI5zWdQH3XrwZl+pvhbFVfjJT0Z54yjZukH7k?=
- =?us-ascii?Q?TruXCOT/S+gbMaFgWY+RswQKkiSIuPOd4XRNimpOJa8b3z5MI/JJLlPwCDZD?=
- =?us-ascii?Q?2fDP7bsUiCqgf/Kd+pIKWqhWiPNMjlweKSki76hfsApCaxTX2hnaukhdEcES?=
- =?us-ascii?Q?5mF2eKQ+TGcuiphbamAkeMm7QPBQSV7/NR9Ug/bekAD2KyLSBGelnF+sCEK8?=
- =?us-ascii?Q?+zNwxg1i7m8s0NjceOd2OHzqt/n2722PNQIMv1ImsbGDNdCaJDWNT23rMvzM?=
- =?us-ascii?Q?78Uojf5LBYEJ7Y22RMRNTDV83bX1PynXX/O4mRGN035kCApB66UCj9b+luCf?=
- =?us-ascii?Q?BAL114gVgYugwEV9qYa7j9Sr0oMy?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7726.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?If3rDZo0rrZtk2bYOSVorabobhcJHrJANKix73jInXYC631Hz1gslodt+1eQ?=
- =?us-ascii?Q?SVjnw8FxlKhoUpEFkubBh7FWgzcJ2QPbzuar+302UzShc/LdZrsvy4MeD4O5?=
- =?us-ascii?Q?luvAjNfne6gCbuuXmRVgfezok987ceNREQ9ApDP2M9CbCm1oQwGzkeKzT9lB?=
- =?us-ascii?Q?73jAPS3cu47c8M4122w/l2Gz10WBnyhjvvnp4YS2F4u25JHIaBqAN+l6ihfw?=
- =?us-ascii?Q?MOIp8WjMNVRe6GBwqfBSOEbpuczSC9DxpA30E3OStrxIgXkbGr0J+Q3C0NZn?=
- =?us-ascii?Q?fDc/FtiGSWge2NxsCbnurhLrLxLD6r1xtr7LE3UTUzMQMTyYsJ1IE+0dsn36?=
- =?us-ascii?Q?vMgn6sJru0mRm9oppmGmqfXkeYSkSzsaxx59VsEjVfDsC4msRqrWPIa/+KvV?=
- =?us-ascii?Q?hf9/RGWiAC1FWdqlClQmuqh2K3RWuQy48JDhU5MHpaFPP+Kq6Bk1VEpahRs9?=
- =?us-ascii?Q?OsSMQaYN6tm3WTiptZGqEhKgRSdaOyYrgo+/+Tgx650TvYD5slt/0tUtdKKT?=
- =?us-ascii?Q?uyqcrE8ozSheJT1UC/dsFfWnC4HCkVLs2Ji2x4KrZSzAYCezjbWzcfEiPzCH?=
- =?us-ascii?Q?KKyXZCDWrBVWWgnIKbiHpohdIWB1j3ijHDf7STq+zZzs8Rd/e2RSp9Yph/RG?=
- =?us-ascii?Q?Ut5iDm4MPH1/rcklUc/SOIJlwbxVq7TFbrtEGyzM8ifoLpM/WEXCiZN4S8q1?=
- =?us-ascii?Q?CTR15UI7dH9GZZkJ70d5Njb1CGW8StWVqblNmEdrH8bvI9ttpD76Kw9oZq4d?=
- =?us-ascii?Q?uoljqVsz3h5MWs4c34Ip6IWFsVFGSiOm3GzETo5UfguSnZdmucm8NNLAGn9q?=
- =?us-ascii?Q?oOTF+UxCfOpUU8jNuOBhWioivK+LkqUuF1TRiub25CCzoHml8dxL3OWd8cLZ?=
- =?us-ascii?Q?IRrpW2DI4EV7FSJdbp/c0G4PN7+aaeXqzOXDBQYDtTjTggYDTvp8ae1ZqdNg?=
- =?us-ascii?Q?4ztyKmBi32FHYNK4ra+Uj6c7i42OsE04CQeVZDIlfIpv90rDegt0mfRKuvl9?=
- =?us-ascii?Q?3P0vHvMimsO+APzDQ64dSEtJ8Tr1ekigM660o8F5fMyRQ9pL8Pgy8zxZiLQn?=
- =?us-ascii?Q?tPtFyom3ZnznSkzkDa2Ul6f5jbMDF0ogbRJx00CUvJWeclVgb8FgktJLMLBN?=
- =?us-ascii?Q?gqQdvOJW2X9/sHhIdXdCa8yhbjIupAO88hWmYvuzgx1HBIdRBIk0AnDRjsqp?=
- =?us-ascii?Q?ndo5jnp3FGnYQdM91TxvSWFIqM5q8OVGUN/l7h0uozK7u83rgrSh6zUDQMkT?=
- =?us-ascii?Q?3GjNuhO6z8SV2B5U+y0Jvq5+zUoQ3DuK2IPih53761J5IrkfPuFn5Ew88/uF?=
- =?us-ascii?Q?JxZlFTJ917Qm8/iwWA1HS0VdOu09crfja7Il8LIEq41L6Nci0fiwG782C9Rr?=
- =?us-ascii?Q?dPmYlRBDkDlLK1NQU2uaHYVtSYCQ8BNm/d4CLvkQXbJTo3ycljAmV/9Y2LzS?=
- =?us-ascii?Q?zAddgPU+gwJykiyZfhTQueeUBUTsPGbdDaQ+uCIG4xpPv9P2xY1/iAqG2zTD?=
- =?us-ascii?Q?ThtzLu0JP1OrDG4ytv5idBAMALtIvlorck3iIBd4Zat48gKLPEI3dYEwWl4/?=
- =?us-ascii?Q?JB3uX3u0U1mvezMFr517YULLQny+zwsvFXTyYHA2?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 09fa143f-a910-44de-2d86-08dd1e5a83b7
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2024 05:20:26.3398
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aKTLzMSyKZXfXNqtjImIlrzOrgbEx1lh4Cs/sguu9pMSnEumBaYEnXphL9j7mi7OPU3ShQkHej54X8xNV2Otqg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7260
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z1zIlKq19lAXMoGs@google.com>
 
-On Sun, Dec 15, 2024 at 10:26:55PM -0800, Andrew Morton wrote:
-> On Mon, 16 Dec 2024 11:55:30 +1100 Alistair Popple <apopple@nvidia.com> wrote:
+On Fri, Dec 13, 2024 at 03:51:48PM -0800, Namhyung Kim wrote:
+> On Thu, Dec 12, 2024 at 04:32:52PM -0800, Charlie Jenkins wrote:
+> > Arc uses the generic syscall table, use that in perf instead of
+> > requiring libaudit.
+> > 
+> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > ---
+> >  tools/perf/Makefile.config                           | 2 +-
+> >  tools/perf/Makefile.perf                             | 2 +-
+> >  tools/perf/arch/arc/entry/syscalls/Kbuild            | 2 ++
+> >  tools/perf/arch/arc/entry/syscalls/Makefile.syscalls | 3 +++
+> >  tools/perf/arch/arc/include/syscall_table.h          | 2 ++
+> >  5 files changed, 9 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/tools/perf/Makefile.config b/tools/perf/Makefile.config
+> > index a72f25162714f0117a88d94474da336814d4f030..3959a9c9972999f6d1bb85e8c1d7dc5dce92fd09 100644
+> > --- a/tools/perf/Makefile.config
+> > +++ b/tools/perf/Makefile.config
+> > @@ -36,7 +36,7 @@ ifneq ($(NO_SYSCALL_TABLE),1)
+> >    endif
+> >  
+> >    # architectures that use the generic syscall table scripts
+> > -  ifeq ($(SRCARCH),riscv)
+> > +  ifeq ($(SRCARCH),$(filter $(SRCARCH),riscv arc))
 > 
-> > The remainder are more -mm focussed. However they do depend on the fs/dax
-> > cleanups in the first half so the trick would be making sure Andrew only takes
-> > them if the nvdimm.git changes have made it into -next. I'm happy with either
-> > approach, so let me know if I should split the series or not.
+> This might work as well.
 > 
-> My inclination is to put it all into the nvdimm tree, with appropriate
-> MM developer acks.
+>   ifneq ($(filter $(SRCARCH), riscv arc),)
 > 
-> But I'm having difficulty determining how practical that is because the
-> v3 series is almost a month old so my test merging was quite ugly.
-> 
-> Perhaps you could prepare a new-doesn't-need-to-be-final version for
-> people to look at and to aid with this head-scratching?
+> And maybe you can add a variable for supported archs.
 
-I have just sent a new-maybe-almost-final v4 rebased on top of next-20241216 to
-help with the head-scratching. I haven't yet done extensive build tests or a full
-xfs-test run on it yet because it sounded better to get it out sooner. So no doubt
-the kernel build bot will find some fat finger of mine somewhere :-)
+Yeah I can do that. All of this is just temporary though. The final
+patch removes all of this, since this series implements this for every
+architecture.
 
-That said the rebase wasn't awful so let me know if it should be rebased on a
-different tree.
+- Charlie
 
- - Alistair
+> 
+> Thanks,
+> Namhyung
+> 
+> 
+> >      NO_SYSCALL_TABLE := 0
+> >      CFLAGS += -DGENERIC_SYSCALL_TABLE
+> >      CFLAGS += -I$(OUTPUT)/tools/perf/arch/$(SRCARCH)/include/generated
+> > diff --git a/tools/perf/Makefile.perf b/tools/perf/Makefile.perf
+> > index f5278ed9f778f928436693a14e016c5c3c5171c1..3b463b42b0e3982e74056e672b2ee6adad5a3f0e 100644
+> > --- a/tools/perf/Makefile.perf
+> > +++ b/tools/perf/Makefile.perf
+> > @@ -311,7 +311,7 @@ FEATURE_TESTS := all
+> >  endif
+> >  endif
+> >  # architectures that use the generic syscall table
+> > -ifeq ($(SRCARCH),riscv)
+> > +ifeq ($(SRCARCH),$(filter $(SRCARCH),riscv arc))
+> >  include $(srctree)/tools/perf/scripts/Makefile.syscalls
+> >  endif
+> >  include Makefile.config
+> > diff --git a/tools/perf/arch/arc/entry/syscalls/Kbuild b/tools/perf/arch/arc/entry/syscalls/Kbuild
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..11707c481a24ecf4e220e51eb1aca890fe929a13
+> > --- /dev/null
+> > +++ b/tools/perf/arch/arc/entry/syscalls/Kbuild
+> > @@ -0,0 +1,2 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +syscall-y += syscalls_32.h
+> > diff --git a/tools/perf/arch/arc/entry/syscalls/Makefile.syscalls b/tools/perf/arch/arc/entry/syscalls/Makefile.syscalls
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..391d30ab7a831b72d2ed3f2e7966fdbf558a9ed7
+> > --- /dev/null
+> > +++ b/tools/perf/arch/arc/entry/syscalls/Makefile.syscalls
+> > @@ -0,0 +1,3 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +
+> > +syscall_abis_32 += arc time32 renameat stat64 rlimit
+> > diff --git a/tools/perf/arch/arc/include/syscall_table.h b/tools/perf/arch/arc/include/syscall_table.h
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..4c942821662d95216765b176a84d5fc7974e1064
+> > --- /dev/null
+> > +++ b/tools/perf/arch/arc/include/syscall_table.h
+> > @@ -0,0 +1,2 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +#include <asm/syscalls_32.h>
+> > 
+> > -- 
+> > 2.34.1
+> > 
