@@ -1,151 +1,163 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6DA1FA261
-	for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 21:47:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8431D86F6
+	for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 22:06:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734472056; cv=none; b=vGf2Tze1Gv2PxowAE3ZpwvDM5LvsLlJ2Mis6ZluWEL9xcogz6iBziGB/xwcWVawZlhCcPQTTYoojgej54CSM1EreqGFmc4Z3oTywNj8Lyz+YSXGXlw/M/THlrbzGNeH8W6va+n5PUzvDzoUxyUOAxPkGO6YxALh9VYNMYGFFX8s=
+	t=1734473193; cv=none; b=IA1QfhnttdV98ZDu13LsS3yQh6F44Sb347y7ggVavQIicRYQRWmi4KT1rdt4CJWp3stT3Cs+FsQcKA91JICW+kxovwOP511YHm8ZFKWs8aUU7AQ/kpXXvPBVWCbGyOcy1WkXi7gUW7o/aWF7Cde0HhF8GDUMW/h79yFLpQVb9u8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734472056; c=relaxed/simple;
-	bh=Ma8HaBPEK9LBfvT3QeN1X7ugzAmaSGzcmCUpk/9AAyw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mLm1fR6MclTTUDsElsGOHdcxxJPpp2wtgq9HTWW8un5BdBCzFOy/79800V4q/vrYsClJb5HEg59rJRD2h4ZKiDnzPqAGaAS91xD4RpV9rzbskv83EcE7BvIKp67pJYUQt/BxxLR26vSEdb36L/i0b1wGkWBkJn6p4091MpnnWwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=T6HN/vE+; arc=none smtp.client-ip=209.85.219.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1734473193; c=relaxed/simple;
+	bh=CFFVeeJGulFiZAVQoOwWWmr2t17+p50wNCCr0sMnZu0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=msIWrU4AOvAfJWN/rNKFKCLGYResejDl3zAZGVy3ytpWweJn0lI1MgROjKqlLMQhM7e1glKHhCgAkzTo8+rfrQP6UdpDyHVypoRkqOHq4aaA+TUm3DpMaMYjCVC0HnwtffXd7F/+hFc2vlSMTW/ChWPAm+7jxorcj/HsXE8xWVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cbqKdGNe; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="T6HN/vE+"
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6d896be3992so39875446d6.1
-        for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 13:47:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1734472053; x=1735076853; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=p2jerrcD1nGClFF+pwwbUr/tdkat4xQ5wJ8skGDMH+c=;
-        b=T6HN/vE+AG1yAlw02+JsgBOjLd6ioFgjFxxMSDre/og/BQY5+DAFhBDM6+h8Lnc0xB
-         pEuEgRZs/HFkLS6k1bBwP4X+NaAEEJB1a/cg2pkHYn1MiYH502QbhoSbIhzFNEHiPyRj
-         4n2/mq+s2v6/l0v5o5GVEG7BBd8pU8lIVp0QkZgQyBq829Z+dziFRQSBDc1BVjywGTZT
-         Ue157lr32GqmhEbOFW+zoN3yL0D4DWApacpUfLvCmWGCWhyymQLOWfzIF8EwTf/Vtasc
-         chdsxy5yIuVaQlcs0wG6Y6cllTpAD9NWrGcP8idoY+HIrnRACKx5k2uA6SbJUs4g27Zm
-         h3Qg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cbqKdGNe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1734473190;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=OSLYMoWvHcnkmKFurx8SkgSXyiJyqs7HoLAYTVGYrAc=;
+	b=cbqKdGNePEHVnCEnSroUIs4pU47mslv31s5mtcL2m8KIGfzZj4rq4J68wSG3D97yI6sctT
+	Xs8lFETmNOtOuD2tKBlUvuI430FUK90gzY/bX24cg9PzOCuk5Cc9wMJ+a19cA7n6zPB6Jn
+	xWGN3COc8AOgvbQhTgKjOjxKiRIjjr8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-655-hFda0x1GM8mg6o5MCW4_5g-1; Tue, 17 Dec 2024 17:06:29 -0500
+X-MC-Unique: hFda0x1GM8mg6o5MCW4_5g-1
+X-Mimecast-MFC-AGG-ID: hFda0x1GM8mg6o5MCW4_5g
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-385ded5e92aso2354740f8f.3
+        for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 14:06:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734472053; x=1735076853;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p2jerrcD1nGClFF+pwwbUr/tdkat4xQ5wJ8skGDMH+c=;
-        b=roZWaFYXCIxLGvlpPEfjmkCk/egrrDed8ri4t2CpHPn8bvxJHidAniyNAw5oRMHC1x
-         mwuHc/WUIz47/ijmXN3Utz7sTvH6TYL2INfjehMJ30ZpGBJTJpj3nddDsu3oWB08lF9l
-         9N2bbwkh20MGo3W8cEcszZPmW5/tk0t3kEPJpO6LKmCkwFNcQbXrRmcK93NXSS2nTmYe
-         QQtDhRvP8DoGzXUqJ3cHco8PEddW4a0igXdCKLT0b1yZDnlNnesplRZ5/JceRRcMw4GZ
-         bwkjPwhHPDk41IWP14SDW6YFsJ3IdWE2mGEt6crRmPxN5Ce9y1U2rAXVMonXR1rqsm0D
-         OnoA==
-X-Forwarded-Encrypted: i=1; AJvYcCW0rL7iWBESKehnjHDnVD1kgIjuH7GSaOyo1t/UL3wDrEYvOUJNv0gZkFTTFxTs1cCiICbY3dXhm+4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywv8DeKtSpwAf2UvBGiX2OMJyvhnx0UrTJa9wysgr8DCtx1twPa
-	ajQl2o2wSVqxBX6nhvJWBkNSchkcpQnOPg43QJjLYDRzrzPYr1AOpvhWS2rS/a4=
-X-Gm-Gg: ASbGncuZ7iu2E0rXFGQvvm3YSt/+fJkM1aRuqmMZeOin0xwlalPhqVFgWJKDD9+VMOb
-	e0o6N6lLlIE3PkXqEfc7EuIftRNCXS+X60Dm9AjpOTmVzEK4k9AgViUzWgU11bUOrm0p61a+9G+
-	ye5nCV1inc2y9RkWX/38kr1j/xzJBUbV8CBpMGZSKCmLZucGgguGgfI3uD1zSHY4dJPTvPK0P2z
-	F2qExbRFM/yPihGo2u0s9t3dwNsnyA50iayRdelyiew1xJsePaFXfMzlZv3y8r7WsSVIfwYd3tY
-	CUFKdGSbvcjLEhpo
-X-Google-Smtp-Source: AGHT+IGfUKqTzhb+KyEvQJ+1fmr9Oi39Z91ue5ioU5B1N5OQfbf8bpjZTFXWHo4XK9ki9DBrVjqWDg==
-X-Received: by 2002:a05:6214:1301:b0:6d8:8667:c6ca with SMTP id 6a1803df08f44-6dd09241f5emr12256036d6.32.1734472053451;
-        Tue, 17 Dec 2024 13:47:33 -0800 (PST)
-Received: from localhost (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6dccd22f0b7sm43260876d6.23.2024.12.17.13.47.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Dec 2024 13:47:33 -0800 (PST)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-Date: Tue, 17 Dec 2024 16:47:29 -0500
-Subject: [PATCH 2/2] doc: iio: ad4695: describe oversampling support
+        d=1e100.net; s=20230601; t=1734473188; x=1735077988;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=OSLYMoWvHcnkmKFurx8SkgSXyiJyqs7HoLAYTVGYrAc=;
+        b=m6XGVkR9M8+ElzQ3Aza3QiaIsEKlqLvhChuuXHzq2Ytewz4KnXBxCUo5EZbA+FbDMs
+         FH2aVtQiosqsbRrkj+Mx8fOzY4JFbdKJEW2gnhdSOzrw+a8Rlbq0ljtYVu7zoatsfeka
+         GJIdZ8g4/zPVsByLfzM3amv3PMLcFi99nI7G/W6p5JqK6o65y9lNOcwA9/x29pkIJjUT
+         wplRe6i+i8QlfFWOIQKIrj720DFdKbJNjkB1IsVKnCl/RyZVGolVGacpCeuy+mx8JHiJ
+         YpCG3ttCsSo488YCIZO1NdR4a+lAmGPsXVcLCZilGqT+2R/6JYoP1Zl9rU3hqEtnX1o7
+         sccQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU45kXBGoAh5+Hg2VxnG1/DkxTeqqMjUeq1lQpl/Rt0xhfLjt7ItlOOMPJWk+ddXZkJ76Higuske2w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzL9OnNwOf/gASZpHB1u+bQiy3ApbjUaH5pIGvqbqq/D3vQPPGX
+	AcajYCDp5LendFKx7VewgdfTyTEqo/QnBr+kQHcMiokQGfrn6o5MRKzsSVXJ67P/pm0KcVVzueO
+	856UAIxbOlai4k/SXJr3QQ0+vNKZxQRIGVQTZDeujYIJidF4aotSgBl3Erg==
+X-Gm-Gg: ASbGncvaMnZK7A9jNqIwVPAmc5wHIxOcgOwfsT4uOdug88wYxREdaewpnnqeXNhFKpl
+	2rjnOSKT+tgqG7XdJq93X61jLUSvDVpc8GC+b3yZy2euzgBKTQEhb36cWKMwteb7xzHeFfjNGjc
+	vg6UVwtebwi7rine3cN7VPXCx0ixZNZy9Qv8x2mdwwVBmw8lvJRLBdKUSeXAAbASru/DOcetsfe
+	iYZU9nGToTwBaqrpVTbeB0bjh9jgPryS05koBcY0vd9IHrC6BskgZR4KqbqiREdmYrAHAazmlW5
+	HqfsD9iodXz1zyoKcnx6KEVQ2lhni/4iK6DK+Y6jX/MF20l1KCB9bvPgZxaa73KJGDDbDSaAs4x
+	w8Yh5VBaY
+X-Received: by 2002:a05:6000:461a:b0:385:eecb:6f02 with SMTP id ffacd0b85a97d-388e4d8b688mr358645f8f.28.1734473188369;
+        Tue, 17 Dec 2024 14:06:28 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEefTx+5wwgHu5Lo3QBynYxK4sBxxlYTWobNsuzYzh7kr1/3xagCl49eAlHDCo53GInNei+Aw==
+X-Received: by 2002:a05:6000:461a:b0:385:eecb:6f02 with SMTP id ffacd0b85a97d-388e4d8b688mr358632f8f.28.1734473188043;
+        Tue, 17 Dec 2024 14:06:28 -0800 (PST)
+Received: from ?IPV6:2003:cb:c73b:5600:c716:d8e0:609d:ae92? (p200300cbc73b5600c716d8e0609dae92.dip0.t-ipconnect.de. [2003:cb:c73b:5600:c716:d8e0:609d:ae92])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c8012112sm12401862f8f.11.2024.12.17.14.06.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Dec 2024 14:06:27 -0800 (PST)
+Message-ID: <ea6eda57-f150-47ea-97b8-fc8eeaf81bd3@redhat.com>
+Date: Tue, 17 Dec 2024 23:06:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 09/25] mm/gup.c: Remove redundant check for PCI P2PDMA
+ page
+To: Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org,
+ dan.j.williams@intel.com, linux-mm@kvack.org
+Cc: lina@asahilina.net, zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
+ vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
+ bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca, catalin.marinas@arm.com,
+ will@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com,
+ dave.hansen@linux.intel.com, ira.weiny@intel.com, willy@infradead.org,
+ djwong@kernel.org, tytso@mit.edu, linmiaohe@huawei.com, peterx@redhat.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
+ david@fromorbit.com, Jason Gunthorpe <jgg@nvidia.com>
+References: <cover.18cbcff3638c6aacc051c44533ebc6c002bf2bd9.1734407924.git-series.apopple@nvidia.com>
+ <3f20b8d258d4eb72e1eadd5926d892bc61f0e0d4.1734407924.git-series.apopple@nvidia.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
+ ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
+ AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl8Ox4kFCRKpKXgACgkQTd4Q
+ 9wD/g1oHcA//a6Tj7SBNjFNM1iNhWUo1lxAja0lpSodSnB2g4FCZ4R61SBR4l/psBL73xktp
+ rDHrx4aSpwkRP6Epu6mLvhlfjmkRG4OynJ5HG1gfv7RJJfnUdUM1z5kdS8JBrOhMJS2c/gPf
+ wv1TGRq2XdMPnfY2o0CxRqpcLkx4vBODvJGl2mQyJF/gPepdDfcT8/PY9BJ7FL6Hrq1gnAo4
+ 3Iv9qV0JiT2wmZciNyYQhmA1V6dyTRiQ4YAc31zOo2IM+xisPzeSHgw3ONY/XhYvfZ9r7W1l
+ pNQdc2G+o4Di9NPFHQQhDw3YTRR1opJaTlRDzxYxzU6ZnUUBghxt9cwUWTpfCktkMZiPSDGd
+ KgQBjnweV2jw9UOTxjb4LXqDjmSNkjDdQUOU69jGMUXgihvo4zhYcMX8F5gWdRtMR7DzW/YE
+ BgVcyxNkMIXoY1aYj6npHYiNQesQlqjU6azjbH70/SXKM5tNRplgW8TNprMDuntdvV9wNkFs
+ 9TyM02V5aWxFfI42+aivc4KEw69SE9KXwC7FSf5wXzuTot97N9Phj/Z3+jx443jo2NR34XgF
+ 89cct7wJMjOF7bBefo0fPPZQuIma0Zym71cP61OP/i11ahNye6HGKfxGCOcs5wW9kRQEk8P9
+ M/k2wt3mt/fCQnuP/mWutNPt95w9wSsUyATLmtNrwccz63XOwU0EVcufkQEQAOfX3n0g0fZz
+ Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
+ T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
+ 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
+ CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
+ NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
+ 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
+ 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
+ lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
+ AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
+ N7eop7uh+6bezi+rugUI+w6DABEBAAHCwXwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
+ AP+DWgUCXw7HsgUJEqkpoQAKCRBN3hD3AP+DWrrpD/4qS3dyVRxDcDHIlmguXjC1Q5tZTwNB
+ boaBTPHSy/Nksu0eY7x6HfQJ3xajVH32Ms6t1trDQmPx2iP5+7iDsb7OKAb5eOS8h+BEBDeq
+ 3ecsQDv0fFJOA9ag5O3LLNk+3x3q7e0uo06XMaY7UHS341ozXUUI7wC7iKfoUTv03iO9El5f
+ XpNMx/YrIMduZ2+nd9Di7o5+KIwlb2mAB9sTNHdMrXesX8eBL6T9b+MZJk+mZuPxKNVfEQMQ
+ a5SxUEADIPQTPNvBewdeI80yeOCrN+Zzwy/Mrx9EPeu59Y5vSJOx/z6OUImD/GhX7Xvkt3kq
+ Er5KTrJz3++B6SH9pum9PuoE/k+nntJkNMmQpR4MCBaV/J9gIOPGodDKnjdng+mXliF3Ptu6
+ 3oxc2RCyGzTlxyMwuc2U5Q7KtUNTdDe8T0uE+9b8BLMVQDDfJjqY0VVqSUwImzTDLX9S4g/8
+ kC4HRcclk8hpyhY2jKGluZO0awwTIMgVEzmTyBphDg/Gx7dZU1Xf8HFuE+UZ5UDHDTnwgv7E
+ th6RC9+WrhDNspZ9fJjKWRbveQgUFCpe1sa77LAw+XFrKmBHXp9ZVIe90RMe2tRL06BGiRZr
+ jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <3f20b8d258d4eb72e1eadd5926d892bc61f0e0d4.1734407924.git-series.apopple@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241217-ad4695-oversampling-v1-2-0b045d835dac@baylibre.com>
-References: <20241217-ad4695-oversampling-v1-0-0b045d835dac@baylibre.com>
-In-Reply-To: <20241217-ad4695-oversampling-v1-0-0b045d835dac@baylibre.com>
-To: Michael Hennerich <michael.hennerich@analog.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- David Lechner <dlechner@baylibre.com>, Lars-Peter Clausen <lars@metafoo.de>, 
- Jonathan Cameron <jic23@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Trevor Gamblin <tgamblin@baylibre.com>
-X-Mailer: b4 0.14.1
 
-Add a section to the ad4695 documentation describing how to use the
-oversampling feature. Also add some clarification on how the
-oversampling ratio influences effective sample rate in the offload
-section.
+On 17.12.24 06:12, Alistair Popple wrote:
+> PCI P2PDMA pages are not mapped with pXX_devmap PTEs therefore the
+> check in __gup_device_huge() is redundant. Remove it
+> 
+> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> Reviewed-by: Dan Wiliams <dan.j.williams@intel.com>
+> Acked-by: David Hildenbrand <david@redhat.com>
+> ---
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- Documentation/iio/ad4695.rst | 36 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 35 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/iio/ad4695.rst b/Documentation/iio/ad4695.rst
-index ead0faadff4b..f40593bcc37d 100644
---- a/Documentation/iio/ad4695.rst
-+++ b/Documentation/iio/ad4695.rst
-@@ -179,12 +179,38 @@ Gain/offset calibration
- System calibration is supported using the channel gain and offset registers via
- the ``calibscale`` and ``calibbias`` attributes respectively.
- 
-+Oversampling
-+------------
-+
-+The chip supports per-channel oversampling when SPI offload is being used, with
-+available oversampling ratios (OSR) of 1 (default), 4, 16, and 64.  Enabling
-+oversampling on a channel raises the effective number of bits of sampled data to
-+17 (OSR == 4), 18 (16), or 19 (64), respectively. This can be set via the
-+``oversampling_ratio`` attribute.
-+
-+Setting the oversampling ratio for a channel also changes the sample rate for
-+that channel, since it requires multiple conversions per 1 sample. Specifically,
-+the new sampling frequency is the PWM sampling frequency divided by the
-+particular OSR. This is set automatically by the driver when setting the
-+``oversampling_ratio`` attribute. For example, if the device's current
-+``sampling_frequency`` is 10000 and an OSR of 4 is set on channel ``voltage0``,
-+the new reported sampling rate for that channel will be 2500 (ignoring PWM API
-+rounding), while all others will remain at 10000.  Subsequently setting the
-+sampling frequency to a higher value on that channel will adjust the CNV trigger
-+period for all channels, e.g. if ``voltage0``'s sampling frequency is adjusted
-+from 2500 (with an OSR of 4) to 10000, the value reported by
-+``in_voltage0_sampling_frequency`` will be 10000, but all other channels will
-+now report 40000.
-+
-+For simplicity, the sampling frequency of the device should be set (considering
-+the highest desired OSR value to be used) first, before configuring oversampling
-+for specific channels.
-+
- Unimplemented features
- ----------------------
- 
- - Additional wiring modes
- - Threshold events
--- Oversampling
- - GPIO support
- - CRC support
- 
-@@ -233,3 +259,11 @@ words, it is the value of the ``in_voltageY_sampling_frequency`` attribute
- divided by the number of enabled channels. So if 4 channels are enabled, with
- the ``in_voltageY_sampling_frequency`` attributes set to 1 MHz, the effective
- sample rate is 250 kHz.
-+
-+With oversampling enabled, the effective sample rate also depends on the OSR
-+assigned to each channel. For example, if one of the 4 channels mentioned in the
-+previous case is configured with an OSR of 4, the effective sample rate for that
-+channel becomes (1 MHz / 4 ) = 250 kHz. The effective sample rate for all
-+four channels is then 1 / ( (3 / 1 MHz) + ( 1 / 250 kHz) ) ~= 142.9 kHz. Note
-+that in this case "sample" refers to one read of all enabled channels (i.e. one
-+full cycle through the auto-sequencer).
+Nit: patch subject should start with "mm/gup: ...".
 
 -- 
-2.39.5
+Cheers,
+
+David / dhildenb
 
