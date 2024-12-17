@@ -1,164 +1,536 @@
-Received: from mail-il1-f206.google.com (mail-il1-f206.google.com [209.85.166.206])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5D81DC19F
-	for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 09:44:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6281DDC3F;
+	Tue, 17 Dec 2024 10:24:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734428667; cv=none; b=S2E0NEDNWH1AzW3UQfm4ak/g+4rYkZxT6Oq9TEPMugwXCNpqELJ5WttzVcURdjZmt0vk1/TWT3DPjCqg/noO31G5RobJqCODmniX4Y5gVlW5qhv9TSs6tSJ8SsUPkgEbmn6XJpp46obYodQEO6uzXjJ+Pg28QNXhZ0Dkw7oKxUQ=
+	t=1734431095; cv=none; b=CsiBzV8MzUM7WGhwqxq38aH7jSYRDlZqmyU8U+YSz0BYIqfOgnKntpbTAFkrmnSYEXJ7Qc3JB6i4nTySMZeQ+CF5+BRu76wt5RqroC4f9Y01HpUNUuZxa4gVyVaNyg7PwINQjQpd8S+UNLq6fWqv3M4ckcQWtinEjueueUeZvL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734428667; c=relaxed/simple;
-	bh=rqiaN2F9c/eaHztCDQp5l2avXEeH7niQR1KGHJpHAQw=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=T3cAT1MNdNAL64NQexOPm+63ZcmDY9DNpzVORuD/nAPqWyeumuEUpzv4ATgvFPdP4EB8MdsKYmVhSYnJaRx3qhH6zoQrO1qRKt+B9YJcEhxU+/FyKOtJn3G6t/etUK/rL6saX00RyIJ6I4G/6kpEiMilNvGI5zoyLOWF8KFDELw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f206.google.com with SMTP id e9e14a558f8ab-3ac005db65eso51003875ab.3
-        for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 01:44:25 -0800 (PST)
+	s=arc-20240116; t=1734431095; c=relaxed/simple;
+	bh=+Aa0th8kh0P6t4FCykKGXHsokpj0s2HU61ILwAEDgPI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=snB8rJHCOJbsKqKmVhtMPug4OKoeDrSv2RwHklizpDmdO8ffcS6kTnUuPfmsCvGZJDW9rcoHEcEZRJ5CG0YzH4eNr5He6u7ztaljzPKtvARqSM3GUzIzoaF7qlOLb9SGqjUS0O4aeKRcKpysKqTVoPZhKLPQJgDS3YDMWlBroMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iV/TeKiz; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iV/TeKiz"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a9a68480164so837335466b.3;
+        Tue, 17 Dec 2024 02:24:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734431091; x=1735035891; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=JR9XVy0Hb3CmbHmmeBUaM7gXQckI5M4bLOdawixwPYA=;
+        b=iV/TeKiz8qJ8QC5R0NwskYPY7gZroRPid8ilrULTLXGEXAO+jmdW3j3O01PWcYw7dE
+         HLGnVFDIhFg0FpNXTWkk73aJPPuwL3OyXiUXrgDGwaSHVG/KKSMtg0is+cW1wUPIynS3
+         MFbkvjpeEaK1RBMGnm1dNj5CJ2dUz9I9sN4u22VKamdzFm6YsKp3Fhp00NitARyKlOSl
+         uv6pWsu8B41BnOh913GWPM6xwlmsKRZfj1yfhNSM9aYD5MIW8lhy6dkJBVJg1dkOo4nY
+         txKp8xh9BXrWGUzHJjUfdN+6eZgU/31xla0AXzbfKMJh/qWnhgZdPxC815XeQAuudw51
+         5R8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734428664; x=1735033464;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+        d=1e100.net; s=20230601; t=1734431091; x=1735035891;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=v3WQwo4vPQJd6wOU5xmJ0k4GDIgKmqRK46QxlMpvp1w=;
-        b=eztfRk+YHxSH7uUMOL3cWtl8XnRszSPWt7qE9lkrD+2YLQ+zz9esfvaYloPqawysnv
-         cKFS/RA9qP4jO73KL9gimKogtx7i+iLQw3TLfUSnm7Ii0bsdRpkOI9NNqJ8s2rsS4nmO
-         FTtF6y8+l9n2qxHk8H9smn66THXCSZ3aIVQfL8Ru1TpugDOWTWotu7iGIflnBSN6mv9v
-         5FWn55GLaetwVD4REMCzCNseMgUdvCEDgw159Pg2pR/A9IFm5oYcuzjTLFlYauZAZVfe
-         CbfEenVZp27nX54DvJ8BJB/gq0zhqORYNUR/cefBEpTyDy5cLw5nLXolhGSL7n6F/Bne
-         rJiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWKZViMdUUK2NXQIc719WiFchrBjoeYKAGlFI8ypHPwKmm/K6bgD0RMk775uS6kQj8IahRlFn/6+IU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy5yOzmOmPv7iZLBBLTgWxOheCK+JDBb9ZfS5IYQqGEoS6HhqR6
-	mPG7VchUoTtL2grf20JrPz/CTdBmn/OuJqHQczH1YO8tsQEDJcyEt4Uf3DyaFKAn4SaKpFbAFza
-	hXiJib2B6MfxEFNiJ364LjuopNQdwI4eexI9xGBqaUeKc+YL4yxf0MsI=
-X-Google-Smtp-Source: AGHT+IHQ4sqUrdpVsm0EeJd+/GQRGdlEi6pTpHnTk0w5tBSHkrtmmW+5KhMS1bBFJ7ywzGMogW4nxA/+yfYWfmPT00M2vzWNYUfT
+        bh=JR9XVy0Hb3CmbHmmeBUaM7gXQckI5M4bLOdawixwPYA=;
+        b=E5D3RLrAnrA1o4/+CvfqaETNPTxb9hyBo3dQMI+SAbcdea7xLRwi/rCFIEnNv0tvB+
+         4nRsjpgywtMHvuZv8gIHIuImgcYfueElkR/2URg0nbtai6YbEgENTi/pqTRBjUOka+mP
+         XHK6cG7AnqgpecQYZq7jcd3QsqWBAojzEkTSujB8VXd8nBONLZKq5oJh2q6kvVYt+jt0
+         WHReqJHCItXW5/qkVxOQ8D1UrF+SqmQf7voCIyKOwLCPv4Yp9eFtXU0/23xCl7wS0l9A
+         LF2FaRJgv+oZtlGH30XdNdORuNAPzc5WWlfxTVEeEAtTqLfpDeBIGmvlHntpnri3eLg8
+         ReoA==
+X-Forwarded-Encrypted: i=1; AJvYcCVRXbHCtq8rRNH4M1YKDSFpPTEMqUUFnzOAaBUJBOCDkixknXDAFAa0dRrm5jIgYlvv+xj2JZwNPD9E@vger.kernel.org, AJvYcCWLD0DWw4w2iFkYEiL/cblVx8X6TsqFGSWir4CrvKLvhmgcLabAueK/IzFxFOm7H1/rX1JNs6ds60rQ2XLi@vger.kernel.org, AJvYcCWciLZVIcraCl0VgP6HKqL3SwY2lI87dUfLxypz62V5Ah2fY1ZP+WzpFm5kINndRocfdkzxRdF54rPY@vger.kernel.org, AJvYcCXetaAr8jap8vqtj24LGct1DX5PL7durVpBxGTnatNCuFk9zpZT2qojs/4xLGIgy78JHm4a+3J2pMaP@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEuS5gb8pYed9CL69T843e15yc1igHzWG/er5FdsuWwDqwRRKn
+	+Wp8zI1PadmGuK7dlqYgu5xPDsRtu75orcXPyFglvpgdtZmDDikJ
+X-Gm-Gg: ASbGnctdAddmyXlWyad0DDB+fS2XesktyOEt/y5FAJzY0wRVUG25qCOi0hdND6akNHm
+	ZL+077sNpwbJIdC9JA+3X7u7Xu1s9sMf6nyDCGwZc82sxWSATLiuH6sIbufqObikQVaQrfTj9mt
+	3T+0l+Rw2Bue1/7mjwJhoMdGrhXwpASBG/8rd+c8C86O25kkkN4lTI63kvW3FQ9YfHu7ezwiPG1
+	5BTg20u0rddIpMWDRPysy2SjL/V+ccEioFNkJ0qWUYeOPTlFcCjk/SDjpWwup7pOxrQI/rL5R+7
+	z2Obs1+zoTxcdf2DKO+F10LiH6zMuCQFwR08+77+FYa5KpBSQuWilw8iXG0YY5n6Lx/zYapspjg
+	aAqMHbDfN+bK+Uw==
+X-Google-Smtp-Source: AGHT+IFAYiD/3BzvU0Ztw0TgRXVfOis2ABlkxkXvOpFiCeCHDlQf8O38ISWMizaDRGP3JnqXEXkk2g==
+X-Received: by 2002:a17:907:9623:b0:aa6:7cf3:c6f0 with SMTP id a640c23a62f3a-aab7792d033mr1697315766b.14.1734431090594;
+        Tue, 17 Dec 2024 02:24:50 -0800 (PST)
+Received: from ?IPv6:2003:f6:ef10:f100:a045:a7a7:11d0:8676? (p200300f6ef10f100a045a7a711d08676.dip0.t-ipconnect.de. [2003:f6:ef10:f100:a045:a7a7:11d0:8676])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aab96006b34sm428731166b.13.2024.12.17.02.24.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Dec 2024 02:24:50 -0800 (PST)
+Message-ID: <b05c905cd003b6107b700628f451eb2ee42342ea.camel@gmail.com>
+Subject: Re: [PATCH v3 6/7] iio: imu: adis16550: add adis16550 support
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Robert Budai <robert.budai@analog.com>, Lars-Peter Clausen
+ <lars@metafoo.de>,  Michael Hennerich <Michael.Hennerich@analog.com>, Nuno
+ Sa <nuno.sa@analog.com>, Ramona Gradinariu	 <ramona.gradinariu@analog.com>,
+ Antoniu Miclaus <antoniu.miclaus@analog.com>,  Jonathan Cameron	
+ <jic23@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski	
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet	
+ <corbet@lwn.net>, Shen Jianping <Jianping.Shen@de.bosch.com>, Alex Lanzano	
+ <lanzano.alex@gmail.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, 	linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Cc: robi_budai@yahoo.com
+Date: Tue, 17 Dec 2024 11:29:21 +0100
+In-Reply-To: <20241216144818.25344-7-robert.budai@analog.com>
+References: <20241216144818.25344-1-robert.budai@analog.com>
+	 <20241216144818.25344-7-robert.budai@analog.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:20e1:b0:3a7:dec1:de55 with SMTP id
- e9e14a558f8ab-3affb7daecfmr139988155ab.22.1734428664671; Tue, 17 Dec 2024
- 01:44:24 -0800 (PST)
-Date: Tue, 17 Dec 2024 01:44:24 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <676147f8.050a0220.37aaf.0154.GAE@google.com>
-Subject: [syzbot] [net?] WARNING: suspicious RCU usage in __ethtool_get_ts_info
-From: syzbot <syzbot+a344326c05c98ba19682@syzkaller.appspotmail.com>
-To: aleksander.lobakin@intel.com, almasrymina@google.com, andrew@lunn.ch, 
-	corbet@lwn.net, danieller@nvidia.com, davem@davemloft.net, 
-	donald.hunter@gmail.com, dtatulea@nvidia.com, ecree.xilinx@gmail.com, 
-	edumazet@google.com, hkallweit1@gmail.com, horms@kernel.org, 
-	kory.maincent@bootlin.com, kuba@kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, maxime.chevallier@bootlin.com, 
-	netdev@vger.kernel.org, pabeni@redhat.com, petrm@nvidia.com, 
-	przemyslaw.kitszel@intel.com, richardcochran@gmail.com, 
-	rrameshbabu@nvidia.com, syzkaller-bugs@googlegroups.com, 
-	vadim.fedorenko@linux.dev, willemb@google.com, wintera@linux.ibm.com
-Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+Hi Robert,
 
-syzbot found the following issue on:
+Some comments from my side...
 
-HEAD commit:    bc6a5efe3dcd Merge branch 'net-timestamp-selectable'
-git tree:       net-next
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=1309c7e8580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=87a291e9e8ffbb16
-dashboard link: https://syzkaller.appspot.com/bug?extid=a344326c05c98ba19682
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=179802df980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=125b34f8580000
+On Mon, 2024-12-16 at 16:48 +0200, Robert Budai wrote:
+> The ADIS16550 is a complete inertial system that includes a triaxis
+> gyroscope and a triaxis accelerometer. Each inertial sensor in
+> the ADIS16550 combines industry leading MEMS only technology
+> with signal conditioning that optimizes dynamic performance. The
+> factory calibration characterizes each sensor for sensitivity, bias,
+> and alignment. As a result, each sensor has its own dynamic com-
+> pensation formulas that provide accurate sensor measurements
+>=20
+> Co-developed-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+> Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+> Co-developed-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+> Signed-off-by: Robert Budai <robert.budai@analog.com>
+> ---
+>=20
+> v3:
+> - freed xbuf
+> - fixed code styling related issues
+> - removed the sensor type enum and used separate structures for providing=
+ chip
+> info data
+>=20
+>=20
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/0e3bb05cbd15/disk-bc6a5efe.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/68f124e1efd7/vmlinux-bc6a5efe.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/c3e210387375/bzImage-bc6a5efe.xz
+...=20
 
-The issue was bisected to:
+> +
+> +static irqreturn_t adis16550_trigger_handler(int irq, void *p)
+> +{
+> +	u32 crc;
+> +	u16 dummy;
+> +	bool valid;
+> +	int ret, i =3D 0;
+> +	u8 data_offset =3D 4;
+> +	struct iio_poll_func *pf =3D p;
+> +	__be32 data[ADIS16550_MAX_SCAN_DATA];
+> +	struct iio_dev *indio_dev =3D pf->indio_dev;
+> +	struct adis16550 *st =3D iio_priv(indio_dev);
+> +	struct adis *adis =3D iio_device_get_drvdata(indio_dev);
+> +	__be32 *buffer =3D adis->buffer;
+> +
+> +	ret =3D spi_sync(adis->spi, &adis->msg);
+> +	if (ret)
+> +		goto done;
+> +	/*
+> +	 * Validate the header. The header is a normal spi reply with state
+> +	 * vector and crc4.
+> +	 */
+> +	ret =3D adis16550_spi_validate(&st->adis, buffer[0], &dummy);
+> +	if (ret)
+> +		goto done;
+> +
+> +	crc =3D be32_to_cpu(buffer[ADIS16550_BURST_N_ELEM - 1]);
+> +	/* the header is not included in the crc */
+> +	valid =3D adis16550_validate_crc((u32 *)&buffer[1],
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ADIS16550_BURST_N_ELEM - 2, crc=
+);
+> +	if (!valid) {
+> +		dev_err(&adis->spi->dev, "Burst Invalid crc!\n");
+> +		goto done;
+> +	}
+> +
+> +	if (*indio_dev->active_scan_mask & BIT(ADIS16550_SCAN_GYRO_X)) {
+> +		memcpy(&data[i], &buffer[data_offset],
+> (ADIS16550_SCAN_ACCEL_Z -
+> +						ADIS16550_SCAN_GYRO_X + 1) *
+> +						sizeof(__be32));
+> +		i +=3D ADIS16550_SCAN_ACCEL_Z - ADIS16550_SCAN_GYRO_X + 1;
+> +	}
+> +	if (*indio_dev->active_scan_mask & BIT(ADIS16550_SCAN_TEMP))
+> +		data[i++] =3D buffer[data_offset - 1];
+> +	if (*indio_dev->active_scan_mask & BIT(ADIS16550_SCAN_DELTANG_X))
+> +		memcpy(&data[i], &buffer[data_offset],
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (ADIS16550_SCAN_DELTVEL_Z - ADIS1=
+6550_SCAN_DELTANG_X +
+> 1) *
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sizeof(__be32));
+>=20
 
-commit b9e3f7dc9ed95daeb83cfa45b821cacaa01aa906
-Author: Kory Maincent <kory.maincent@bootlin.com>
-Date:   Thu Dec 12 17:06:44 2024 +0000
+Can't we just reorder the channels in adis16550_channels so that we have a =
+plain
+memcpy()? Like having the temperature before the accel + gyro or the delta
+stuff? Then you should only need to care about the initial offset (to accou=
+nt
+for DATA_CNT and STATUS). Right?
 
-    net: ethtool: tsinfo: Enhance tsinfo to support several hwtstamp by net topology
+> +	iio_push_to_buffers_with_timestamp(indio_dev, data, pf->timestamp);
+> +done:
+> +	iio_trigger_notify_done(indio_dev->trig);
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static const unsigned long adis16550_channel_masks[] =3D {
+> +	ADIS16550_BURST_DATA_GYRO_ACCEL_MASK | BIT(ADIS16550_SCAN_TEMP),
+> +	ADIS16550_BURST_DATA_DELTA_ANG_VEL_MASK | BIT(ADIS16550_SCAN_TEMP),
+> +};
+> +
+> +static int adis16550_update_scan_mode(struct iio_dev *indio_dev,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const unsigned long *scan_mask)
+> +{
+> +	struct adis *adis =3D iio_device_get_drvdata(indio_dev);
+> +	u16 burst_length =3D ADIS16550_BURST_DATA_LEN;
+> +	u8 burst_cmd;
+> +	u8 *tx;
+> +
+> +	if (*scan_mask & ADIS16550_BURST_DATA_GYRO_ACCEL_MASK)
+> +		burst_cmd =3D ADIS16550_REG_BURST_GYRO_ACCEL;
+> +	else
+> +		burst_cmd =3D ADIS16550_REG_BURST_DELTA_ANG_VEL;
+> +
+> +	if (adis->xfer)
+> +		memset(adis->xfer, 0, 2 * sizeof(*adis->xfer));
+> +	if (adis->buffer)
+> +		memset(adis->buffer, 0, burst_length + sizeof(u32));
+>=20
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12885730580000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=11885730580000
-console output: https://syzkaller.appspot.com/x/log.txt?x=16885730580000
+The above checks should be removed. Likely from a previous version...
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+a344326c05c98ba19682@syzkaller.appspotmail.com
-Fixes: b9e3f7dc9ed9 ("net: ethtool: tsinfo: Enhance tsinfo to support several hwtstamp by net topology")
+> +	tx =3D adis->buffer + burst_length;
+> +	tx[0] =3D 0x00;
+> +	tx[1] =3D 0x00;
+> +	tx[2] =3D burst_cmd;
+> +	/* crc4 is 0 on burst command */
+> +	tx[3] =3D spi_crc4(get_unaligned_le32(tx));
+> +
+> +	adis->xfer[0].tx_buf =3D tx;
+> +	adis->xfer[0].len =3D 4;
+> +	adis->xfer[0].cs_change =3D 1;
+> +	adis->xfer[0].delay.value =3D 8;
+> +	adis->xfer[0].delay.unit =3D SPI_DELAY_UNIT_USECS;
+> +	adis->xfer[1].rx_buf =3D adis->buffer;
+> +	adis->xfer[1].len =3D burst_length;
+> +
+> +	spi_message_init_with_transfers(&adis->msg, adis->xfer, 2);
+> +
+> +	return 0;
+> +}
+> +
+> +static int adis16550_reset(struct adis *adis)
+> +{
+> +	return __adis_write_reg_16(adis, ADIS16550_REG_COMMAND, BIT(15));
+> +}
+> +
+> +static int adis16550_config_sync(struct adis16550 *st)
+> +{
+> +	struct device *dev =3D &st->adis.spi->dev;
+> +	const struct adis16550_sync *sync;
+> +	struct clk *clk;
+> +	u32 sync_mode;
+> +	u16 mode;
+> +	int ret;
+> +
+> +	if (!device_property_present(dev, "adi,sync-mode")) {
+> +		st->clk_freq_hz =3D st->info->int_clk * 1000;
+> +		return 0;
+> +	}
+>=20
 
-=============================
-WARNING: suspicious RCU usage
-6.13.0-rc2-syzkaller-00424-gbc6a5efe3dcd #0 Not tainted
------------------------------
-net/ethtool/common.c:873 suspicious rcu_dereference_protected() usage!
+I would do it in another way...
 
-other info that might help us debug this:
+ret =3D device_property_read_u32(dev, "adi,sync-mode", &sync_mode);
+if (ret) {
+	st->clk_freq_hz =3D st->info->int_clk * 1000;
+	return 0;
+}
 
+/* then proceed */
 
-rcu_scheduler_active = 2, debug_locks = 1
-1 lock held by syz-executor164/5836:
- #0: ffff888035ec8258 (sk_lock-AF_PACKET){+.+.}-{0:0}, at: lock_sock include/net/sock.h:1617 [inline]
- #0: ffff888035ec8258 (sk_lock-AF_PACKET){+.+.}-{0:0}, at: sockopt_lock_sock net/core/sock.c:1126 [inline]
- #0: ffff888035ec8258 (sk_lock-AF_PACKET){+.+.}-{0:0}, at: sk_setsockopt+0xf0f/0x33b0 net/core/sock.c:1285
+> +	ret =3D device_property_read_u32(dev, "adi,sync-mode", &sync_mode);
+> +	if (ret)
+> +		return 0;
+> +
+> +	if (sync_mode >=3D st->info->num_sync) {
+> +		dev_err(dev, "Invalid sync mode: %u for %s\n", sync_mode,
+> +			st->info->name);
+> +		return -EINVAL;
+> +	}
+> +
+> +	sync =3D &st->info->sync_mode[sync_mode];
+> +	st->sync_mode =3D sync->sync_mode;
+> +
+> +	clk =3D devm_clk_get_enabled(dev, NULL);
+> +	if (IS_ERR(clk))
+> +		return PTR_ERR(clk);
+> +
+> +	st->clk_freq_hz =3D clk_get_rate(clk);
+> +	if (st->clk_freq_hz > sync->max_rate || st->clk_freq_hz < sync-
+> >min_rate)
+> +		return dev_err_probe(dev, -EINVAL,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 "Clk rate: %lu not in a valid range:[%u
+> %u]\n",
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 st->clk_freq_hz, sync->min_rate, sync-
+> >max_rate);
+> +
+> +	if (sync->sync_mode =3D=3D ADIS16550_SYNC_MODE_SCALED) {
+> +		u16 sync_scale;
+> +		u32 scaled_freq =3D 0;
+> +		/*
+> +		 * In pps scaled sync we must scale the input clock to a
+> range
+> +		 * of [3000 45000].
+> +		 */
+> +		ret =3D device_property_read_u32(dev, "adi,scaled-output-hz",
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &scaled_freq);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0 "adi,scaled-output-hz property
+> not found");
+> +
+> +		if (scaled_freq < 3000 || scaled_freq > 4500)
+> +			return dev_err_probe(dev, -EINVAL,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0 "Invalid value:%u for
+> adi,scaled-output-hz",
+> +					=C2=A0=C2=A0=C2=A0=C2=A0 scaled_freq);
+> +
+> +		sync_scale =3D DIV_ROUND_CLOSEST(scaled_freq, st->clk_freq_hz);
+> +
+> +		ret =3D adis_write_reg_16(&st->adis, ADIS16550_REG_SYNC_SCALE,
+> +					sync_scale);
+> +		if (ret)
+> +			return ret;
+> +
+> +		st->clk_freq_hz =3D scaled_freq;
+> +	}
+> +
+> +	st->clk_freq_hz *=3D 1000;
+> +
+> +	mode =3D FIELD_PREP(ADIS16550_SYNC_MODE_MASK, sync->sync_mode) |
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 FIELD_PREP(ADIS16550_SYNC_EN_MASK,=
+ true);
+> +
+> +	return __adis_update_bits(&st->adis, ADIS16550_REG_CONFIG,
+> +				=C2=A0 ADIS16550_SYNC_MASK, mode);
+> +}
+> +
+> +static const struct iio_info adis16550_info =3D {
+> +	.read_raw =3D &adis16550_read_raw,
+> +	.write_raw =3D &adis16550_write_raw,
+> +	.update_scan_mode =3D adis16550_update_scan_mode,
+> +	.debugfs_reg_access =3D adis_debugfs_reg_access,
+> +};
+> +
+> +enum {
+> +	ADIS16550_STATUS_CRC_CODE,
+> +	ADIS16550_STATUS_CRC_CONFIG,
+> +	ADIS16550_STATUS_FLASH_UPDATE,
+> +	ADIS16550_STATUS_INERIAL,
+> +	ADIS16550_STATUS_SENSOR,
+> +	ADIS16550_STATUS_TEMPERATURE,
+> +	ADIS16550_STATUS_SPI,
+> +	ADIS16550_STATUS_PROCESSING,
+> +	ADIS16550_STATUS_POWER,
+> +	ADIS16550_STATUS_BOOT,
+> +	ADIS16550_STATUS_WATCHDOG =3D 15,
+> +	ADIS16550_STATUS_REGULATOR =3D 28,
+> +	ADIS16550_STATUS_SENSOR_SUPPLY,
+> +	ADIS16550_STATUS_CPU_SUPPLY,
+> +	ADIS16550_STATUS_5V_SUPPLY
+> +};
+> +
+> +static const char * const adis16550_status_error_msgs[] =3D {
+> +	[ADIS16550_STATUS_CRC_CODE] =3D "Code CRC Error",
+> +	[ADIS16550_STATUS_CRC_CONFIG] =3D "Configuration/Calibration CRC
+> Error",
+> +	[ADIS16550_STATUS_FLASH_UPDATE] =3D "Flash Update Error",
+> +	[ADIS16550_STATUS_INERIAL] =3D "Overrange for Inertial Signals",
+> +	[ADIS16550_STATUS_SENSOR] =3D "Sensor failure",
+> +	[ADIS16550_STATUS_TEMPERATURE] =3D "Temperature Error",
+> +	[ADIS16550_STATUS_SPI] =3D "SPI Communication Error",
+> +	[ADIS16550_STATUS_PROCESSING] =3D "Processing Overrun Error",
+> +	[ADIS16550_STATUS_POWER] =3D "Power Supply Failure",
+> +	[ADIS16550_STATUS_BOOT] =3D "Boot Memory Failure",
+> +	[ADIS16550_STATUS_WATCHDOG] =3D "Watchdog timer flag",
+> +	[ADIS16550_STATUS_REGULATOR] =3D "Internal Regulator Error",
+> +	[ADIS16550_STATUS_SENSOR_SUPPLY] =3D "Internal Sensor Supply Error.",
+> +	[ADIS16550_STATUS_CPU_SUPPLY] =3D "Internal Processor Supply Error.",
+> +	[ADIS16550_STATUS_5V_SUPPLY] =3D "External 5V Supply Error",
+> +};
+> +
+> +static const struct adis_timeout adis16550_timeouts =3D {
+> +	.reset_ms =3D 1000,
+> +	.sw_reset_ms =3D 1000,
+> +	.self_test_ms =3D 1000,
+> +};
+> +
+> +static const struct adis_data adis16550_data =3D {
+> +	.diag_stat_reg =3D ADIS16550_REG_STATUS,
+> +	.diag_stat_size =3D 4,
+> +	.prod_id_reg =3D ADIS16550_REG_PROD_ID,
+> +	.prod_id =3D 16550,
+> +	.self_test_mask =3D BIT(1),
+> +	.self_test_reg =3D ADIS16550_REG_COMMAND,
+> +	.cs_change_delay =3D 5,
+> +	.unmasked_drdy =3D true,
+> +	.status_error_msgs =3D adis16550_status_error_msgs,
+> +	.status_error_mask =3D BIT(ADIS16550_STATUS_CRC_CODE) |
+> +			BIT(ADIS16550_STATUS_CRC_CONFIG) |
+> +			BIT(ADIS16550_STATUS_FLASH_UPDATE) |
+> +			BIT(ADIS16550_STATUS_INERIAL) |
+> +			BIT(ADIS16550_STATUS_SENSOR) |
+> +			BIT(ADIS16550_STATUS_TEMPERATURE) |
+> +			BIT(ADIS16550_STATUS_SPI) |
+> +			BIT(ADIS16550_STATUS_PROCESSING) |
+> +			BIT(ADIS16550_STATUS_POWER) |
+> +			BIT(ADIS16550_STATUS_BOOT) |
+> +			BIT(ADIS16550_STATUS_WATCHDOG) |
+> +			BIT(ADIS16550_STATUS_REGULATOR) |
+> +			BIT(ADIS16550_STATUS_SENSOR_SUPPLY) |
+> +			BIT(ADIS16550_STATUS_CPU_SUPPLY) |
+> +			BIT(ADIS16550_STATUS_5V_SUPPLY) |
+> +			BIT(ADIS16550_STATUS_CRC_CODE),
+> +	.timeouts =3D &adis16550_timeouts,
+> +};
+> +
+> +static const struct adis_ops adis16550_ops =3D {
+> +	.write =3D adis16550_spi_write,
+> +	.read =3D adis16550_spi_read,
+> +	.reset =3D adis16550_reset,
+> +};
+> +
+> +static int adis16550_probe(struct spi_device *spi)
+> +{
+> +	struct device *dev =3D &spi->dev;
+> +	struct iio_dev *indio_dev;
+> +	struct adis16550 *st;
+> +	int ret;
+> +
+> +	indio_dev =3D devm_iio_device_alloc(dev, sizeof(*st));
+> +	if (!indio_dev)
+> +		return -ENOMEM;
+> +
+> +	st =3D iio_priv(indio_dev);
+> +	st->info =3D spi_get_device_match_data(spi);
+> +	if (!st->info)
+> +		return -EINVAL;
+> +
+> +	indio_dev->name =3D st->info->name;
+> +	indio_dev->channels =3D st->info->channels;
+> +	indio_dev->num_channels =3D st->info->num_channels;
+> +	indio_dev->available_scan_masks =3D adis16550_channel_masks;
+> +	indio_dev->info =3D &adis16550_info;
+> +	indio_dev->modes =3D INDIO_DIRECT_MODE;
+> +
+> +	st->adis.ops =3D &adis16550_ops;
+> +
+> +	struct spi_transfer *xfer_tmp =3D kcalloc(2, sizeof(*st->adis.xfer),
+> GFP_KERNEL);
+> +
+> +	if (!xfer_tmp)
+> +		return -ENOMEM;
+> +
+> +	void *buffer_tmp =3D kzalloc(ADIS16550_BURST_DATA_LEN + sizeof(u32),
+> +				=C2=A0=C2=A0 GFP_KERNEL);
 
-stack backtrace:
-CPU: 0 UID: 0 PID: 5836 Comm: syz-executor164 Not tainted 6.13.0-rc2-syzkaller-00424-gbc6a5efe3dcd #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/25/2024
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
- lockdep_rcu_suspicious+0x226/0x340 kernel/locking/lockdep.c:6845
- __ethtool_get_ts_info+0x97/0x410 net/ethtool/common.c:873
- ethtool_get_phc_vclocks+0xa1/0x160 net/ethtool/common.c:922
- sock_timestamping_bind_phc net/core/sock.c:873 [inline]
- sock_set_timestamping+0x3e2/0xab0 net/core/sock.c:927
- sk_setsockopt+0x2150/0x33b0 net/core/sock.c:1418
- do_sock_setsockopt+0x2fb/0x720 net/socket.c:2309
- __sys_setsockopt net/socket.c:2338 [inline]
- __do_sys_setsockopt net/socket.c:2344 [inline]
- __se_sys_setsockopt net/socket.c:2341 [inline]
- __x64_sys_setsockopt+0x1ee/0x280 net/socket.c:2341
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f7dd7b8f2e9
-Code: 48 83 c4 28 c3 e8 37 17 00 00 0f 1f 80 00 00 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffc67b485b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000036
-RAX: ffffffffffffffda RBX: 00007ffc67b48788 RCX: 00007f7dd7b8f2e9
-RDX: 0000000000000025 RSI: 0000000000000001 RDI: 0000000000000003
-RBP: 00007f7dd7c02610 R08: 0000000000000004 R09: 00007ffc67b48788
-R10: 0000000020000040 R11: 0000000000000246 R12: 0000000000000001
+I'm bit a puzzeled... Why do we have it like this? I guess we are missing
+__free(kfree) in here? But I would not go with this trouble in here. Why no=
+t
+devm_kzalloc()? should be safe to be used in here...
 
+> +	if (!buffer_tmp) {
+> +		kfree(st->adis.xfer);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	ret =3D devm_regulator_get_enable(dev, "vdd");
+> +	if (ret) {
+> +		dev_err_probe(dev, ret,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "Failed to get vdd regulator\n");
+> +		goto free_on_error;
+> +	}
+> +
+> +	ret =3D adis_init(&st->adis, indio_dev, spi, &adis16550_data);
+> +	if (ret)
+> +		goto free_on_error;
+> +
+> +	ret =3D __adis_initial_startup(&st->adis);
+> +	if (ret)
+> +		goto free_on_error;
+> +
+> +	ret =3D adis16550_config_sync(st);
+> +	if (ret)
+> +		goto free_on_error;
+> +
+> +	ret =3D devm_adis_setup_buffer_and_trigger(&st->adis, indio_dev,
+> +						 adis16550_trigger_handler);
+> +	if (ret)
+> +		goto free_on_error;
+> +
+> +	ret =3D devm_iio_device_register(dev, indio_dev);
+> +	if (ret)
+> +		goto free_on_error;
+> +
+> +	adis16550_debugfs_init(indio_dev);
+> +
+> +	st->adis.xfer =3D no_free_ptr(xfer_tmp);
+> +	st->adis.buffer =3D no_free_ptr(buffer_tmp);
+> +
+> +	return 0;
+> +
+> +free_on_error:
+> +	kfree(xfer_tmp);
+> +	kfree(buffer_tmp);
+>=20
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+The above should not be needed...
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+> +	return ret;
+> +}
+> +
+> +static const struct spi_device_id adis16550_id[] =3D {
+> +	{ "adis16550",=C2=A0 (kernel_ulong_t)&adis16550_chip_info},
+> +	{ "adis16550w", (kernel_ulong_t)&adis16550w_chip_info},
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(spi, adis16550_id);
+> +
+> +static const struct of_device_id adis16550_of_match[] =3D {
+> +	{ .compatible =3D "adi,adis16550",
+> +		.data =3D &adis16550_chip_info },
+> +	{ .compatible =3D "adi,adis16550w",
+> +		.data =3D &adis16550w_chip_info },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, adis16550_of_match);
+> +
+> +static struct spi_driver adis16550_driver =3D {
+> +	.driver =3D {
+> +		.name =3D "adis16550",
+> +		.of_match_table =3D adis16550_of_match,
+> +	},
+> +	.probe =3D adis16550_probe,
+> +	.id_table =3D adis16550_id,
+> +};
+> +module_spi_driver(adis16550_driver);
+> +
+> +MODULE_AUTHOR("Nuno Sa <nuno.sa@analog.com>");
+> +MODULE_AUTHOR("Ramona Gradinariu <ramona.gradinariu@analog.com>");
+> +MODULE_AUTHOR("Antoniu Miclaus <antoniu.miclaus@analog.com>");
+> +MODULE_DESCRIPTION("Analog Devices ADIS16550 IMU driver");
+> +MODULE_LICENSE("GPL");
+> +MODULE_IMPORT_NS(IIO_ADISLIB);
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
