@@ -1,180 +1,207 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 786801FAC40
-	for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 19:07:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C79B3597C;
+	Wed, 18 Dec 2024 19:20:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734548868; cv=none; b=hQehZObW2RNLUKb45zaU+UMd78SBn/bQcQixWfbpMM4evcfp+cPclgLZSGsBkah986j+Oh1RPeM2d3BfErSrmMSWPIZOdfYXJrpa+WRbSYWvDDodp/oMHuAPmF96Uc6uIRGq2mPkBCX6enM+Xv1lSkpAAa4vMOuUSMgyzlA25KU=
+	t=1734549618; cv=none; b=WlM2EhI9VOrng8FIeB3syNMfdCWhClZCM5TwWUabER6eOCv2jYojXsoGiA/BL6QrrChx0vFiZp1504E246A18+S4jHJ6RGRgDv62TEfYDX1GE+ij3yY487hIB+wVeKzN2jScZPUTphNTO0AzF9Hi8ULR6IGtqsiNQL1DQVTDxDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734548868; c=relaxed/simple;
-	bh=Dlnc1evl0a2MZkILjtEUXlKttfD46cphr2GKLZLrDLk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=ZTxvOvmwbNxQGQ7CQ8IIwmnzAdL0sWl1ikDqxqh5eOYMddOEhsMZKsGyyqnXeLC/rlhf0GTZztJ87oYu6hxQzY0NbcGqJerlokZPQzCuztAVSCIQMmF6eUzTKSlwc5iCQ8vvFdFJL0IRUSVizMcwRw+/pmZcFtw6RBjkpE4X/ZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VDDTT3+X; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1734549618; c=relaxed/simple;
+	bh=caUkMxVhqQWa5iTvO7HMlyIRSdHx+kjQZZVGHrC3cts=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=LewGlel4quzbcAkruIhVVMm/b6FyyYx1m1KwTA/12+yDWkacBDTivbqraj+nJJaqzGDx69+9teIuMOkxcdLOZMH9OV8KsYIr/ZNu0JeFTiFEvCiVBGXUDeXRChgblFPIP5TvvprKZt6xAhEH63Y6yvxW0oBbcn/FIdJSZ9mx7mY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=fEKyjMp6; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VDDTT3+X"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-467abce2ef9so26471cf.0
-        for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 11:07:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734548865; x=1735153665; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kXfGP1pWT/jQIZ61YS1DLkDzzBep0ydxP9xYrXLk2aA=;
-        b=VDDTT3+XD0/FG6FlcTcxrZMfL0V9LynqakOWQ8z99T4ToFdREB5l5bdjT+V/FgDiLw
-         gzh87kdQqknhSz1fSLPIYk3OreGBDZnYCwzPq7YvOfoll8GH+ax2FaUE0G8Yv3ZwRysE
-         HsLe+mEZqADMQDfEi351lfqr/GOC4hWQ6iTo5P6m/qnyHcRcxYb5np/zN3BRzFa5zP2c
-         R/19Ccs7wRun/BArrP15hVL4jaFnTG7R3c8qAF+T1VChhdb31ywg4Uln0GbwGQAV8VFN
-         EXjJdiI6R6wYBtxlP6NEcknh6xJe7JJm1kLshOp0qWJKwJL/xoay1zH5cWpCNqOhdO9i
-         rGuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734548865; x=1735153665;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kXfGP1pWT/jQIZ61YS1DLkDzzBep0ydxP9xYrXLk2aA=;
-        b=t9YSqCkAQIGxh4T+b+5eB56JWswhrv4iFIF1+WOs/1gPfZeW4adM1MFGWcpd/DJsQW
-         h+la4Y/jSf6yFWV7UHLT+0/nWb+/367Ebm8NWdDJOxE3KsQmgiP8CspophCB84D7+RMx
-         QKyYSM8b/5V6+x9MHOFHCEOMTiNhOyNyBAAVA2Ve0jsmlrikGWsbWjI352FuzzIau1wQ
-         r7O5PakwBMXOHNIG/W05wiYwKgTXmke8ZHrRohs4FkPBDGRZqyEP3prBKDy2Yjekc6LA
-         Y2V17GGQgdMvZLnol2oA0hfi5l20u9ibX3grNdSthdFQ/edcpqi6WRZzGaWeRu+Xn6PY
-         8qiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWWgbw6qBpcCgJYsbOYizbqyTE7wLVziU/OL8rOLLctSfveE/ZKevlRLe7De0uYUMs/AS396ag9XbI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzHNE1sspAZ/CMKrDvODOXsQxd/cM5H0R5+qGKR2NR7pA+Vn+El
-	YVCiQBdTyND/ZPewm+fhAGe2mO7nH105frRwpUTF/ZAg10zyIhzq5xZrPlCoym1c6TlJIXnCBtA
-	nFbc2IOgW1SBqdnvffMZBJpzah9AxAxvGaLtT
-X-Gm-Gg: ASbGncsBLwZAAeTu1IVFdW4LXdQzlkMUU118dPlHbS8Wth/H+upXTHLpEDSYfCnxhlg
-	3MSdRrNcES2RPkFhE+v02HMVEY9QRMXMKKZEyhud21TYOGw/i/nK6/+LRFLdtTcwavOZX
-X-Google-Smtp-Source: AGHT+IF5qzAUc76ucHvGqktFpDXtl1Nh+TfzWzL3j2xiMwfuBw+izHSw+QT9QOWz7HQSTrAS8hYB7j2Lq2/q1M3kdXE=
-X-Received: by 2002:ac8:5f87:0:b0:466:97d6:b245 with SMTP id
- d75a77b69052e-46a3ba6786dmr137821cf.22.1734548865057; Wed, 18 Dec 2024
- 11:07:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="fEKyjMp6"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BIGQx4l000411;
+	Wed, 18 Dec 2024 19:20:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	DFn18BS63u4upfYlKrniHPEK0vBM6OeD2QpgjhouNKQ=; b=fEKyjMp6/swS002L
+	6gH8mpWCqkv89mv5CNbyolvex7F0k6ysXKbYd0KqgEZ/oh3KpvWmA66vlZ98k72h
+	67yLtV2heAPi0OAuRgCk9yJdxvK3ud77pgkcnc3hDU/RYAcOYgjuVZlWNesVtKnF
+	TfOmcKssz0MNP/AcH2n+4flBob4aiOkuL4PX34vaEpHrtAEa9EffD24vUGFgmdvj
+	kYytCWybX/9B5gsL0qUSg6S8RiQNC8PO3tS/85aidIL9mtm1ZIAwWcoi1M/w+BYf
+	H4g5vfGHHyL8RlO+aoHZgtmtFBlVrG9uACxBAaheoMHKp1wHm3xn93h4WVh1tFb+
+	KGJW7A==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43m0su8n7d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 18 Dec 2024 19:20:10 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BIJK9YS002182
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 18 Dec 2024 19:20:09 GMT
+Received: from [10.4.85.30] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 18 Dec
+ 2024 11:20:06 -0800
+Message-ID: <14ecefd5-85a1-4cd1-84e4-a2af241bffe2@quicinc.com>
+Date: Thu, 19 Dec 2024 06:20:04 +1100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241217103035.GD11133@noisy.programming.kicks-ass.net>
- <CAJuCfpHzsQeejdPPbDdA6B3Wa=-KusnYRUyt1U0WnCRr8OKfGw@mail.gmail.com>
- <20241218094104.GC2354@noisy.programming.kicks-ass.net> <20241218100601.GI12500@noisy.programming.kicks-ass.net>
- <kfltsrry7qjuycyqpe2wune2ejad6kvusm2zixvfbtprbnw2lv@wcafrui6qaa7>
- <CAJuCfpFYZkc===SXF35s3C0xg3q5RjpCiOQhwK=9_3RnFUye1g@mail.gmail.com>
- <20241218161850.GG2354@noisy.programming.kicks-ass.net> <CAJuCfpHDRCoaBfE8y6AppKveSTgayyTNfDyQWH=gMzO-Pkuqpw@mail.gmail.com>
- <20241218174428.GQ2354@noisy.programming.kicks-ass.net> <CAJuCfpEKg_h5pw2AxdF1wmFMt4xdOxYqv7U1uVMYcuSCB4kHuA@mail.gmail.com>
- <r7polqnhdguxrz6npklag5kjy7ipbj5lrnqai2qm3jt7x56hci@cfrcom746iae>
-In-Reply-To: <r7polqnhdguxrz6npklag5kjy7ipbj5lrnqai2qm3jt7x56hci@cfrcom746iae>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 18 Dec 2024 11:07:33 -0800
-Message-ID: <CAJuCfpGeRi73E94VCDPDGAGG+5-Sj-_YGf3JNnf6Bh4GH_M6jA@mail.gmail.com>
-Subject: Re: [PATCH v6 10/16] mm: replace vm_lock and detached flag with a
- reference count
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, Suren Baghdasaryan <surenb@google.com>, 
-	Peter Zijlstra <peterz@infradead.org>, akpm@linux-foundation.org, willy@infradead.org, 
-	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz, 
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	klarasmodin@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/10] Trusted Execution Environment (TEE) driver for
+ Qualcomm TEE (QTEE)
+To: Sumit Garg <sumit.garg@linaro.org>
+CC: Jens Wiklander <jens.wiklander@linaro.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        <linux-arm-msm@vger.kernel.org>, <op-tee@lists.trustedfirmware.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-0-f502ef01e016@quicinc.com>
+ <CAFA6WYMbDExfCD4PAPQCF1HKKxjDH5FcLpnnBBrwayCiY0SkTg@mail.gmail.com>
+Content-Language: en-US
+From: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+In-Reply-To: <CAFA6WYMbDExfCD4PAPQCF1HKKxjDH5FcLpnnBBrwayCiY0SkTg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 3QbuXpw9GiIIQq0UP5-hIZZ7onb9pIap
+X-Proofpoint-ORIG-GUID: 3QbuXpw9GiIIQq0UP5-hIZZ7onb9pIap
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ mlxlogscore=999 spamscore=0 adultscore=0 bulkscore=0 lowpriorityscore=0
+ suspectscore=0 clxscore=1015 phishscore=0 mlxscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412180149
 
-On Wed, Dec 18, 2024 at 11:00=E2=80=AFAM 'Liam R. Howlett' via kernel-team
-<kernel-team@android.com> wrote:
->
-> * Suren Baghdasaryan <surenb@google.com> [241218 12:58]:
-> > On Wed, Dec 18, 2024 at 9:44=E2=80=AFAM Peter Zijlstra <peterz@infradea=
-d.org> wrote:
-> > >
-> > > On Wed, Dec 18, 2024 at 09:36:42AM -0800, Suren Baghdasaryan wrote:
-> > >
-> > > > > You will not. vms_complete_munmap_vmas() will call remove_vma() t=
-o
-> > > > > remove PTEs IIRC, and if you do start_write() and detach() before
-> > > > > dropping mmap_lock_write, you should be good.
-> > > >
-> > > > Ok, I think we will have to move mmap_write_downgrade() inside
-> > > > vms_complete_munmap_vmas() to be called after remove_vma().
-> > > > vms_clear_ptes() is using vmas, so we can't move remove_vma() befor=
-e
-> > > > mmap_write_downgrade().
-> > >
-> > > Why ?!
-> > >
-> > > vms_clear_ptes() and remove_vma() are fine where they are -- there is=
- no
-> > > concurrency left at this point.
-> > >
-> > > Note that by doing vma_start_write() inside vms_complete_munmap_vmas(=
-),
-> > > which is *after* the vmas have been unhooked from the mm, you wait fo=
-r
-> > > any concurrent user to go away.
-> > >
-> > > And since they're unhooked, there can't be any new users.
-> > >
-> > > So you're the one and only user left, and code is fine the way it is.
-> >
-> > Ok, let me make sure I understand this part of your proposal. From
-> > your earlier email:
-> >
-> > @@ -1173,6 +1173,11 @@ static void vms_complete_munmap_vmas(struct
-> > vma_munmap_struct *vms,
-> >         struct vm_area_struct *vma;
-> >         struct mm_struct *mm;
-> >
-> > +       mas_for_each(mas_detach, vma, ULONG_MAX) {
-> > +               vma_start_write(next);
-> > +               vma_mark_detached(next, true);
-> > +       }
-> > +
-> >         mm =3D current->mm;
-> >         mm->map_count -=3D vms->vma_count;
-> >         mm->locked_vm -=3D vms->locked_vm;
-> >
-> > This would mean:
-> >
-> > vms_complete_munmap_vmas
-> >            vma_start_write
-> >            vma_mark_detached
-> >            mmap_write_downgrade
-> >            vms_clear_ptes
-> >            remove_vma
-> >
-> > And remove_vma will be just freeing the vmas. Is that correct?
-> > I'm a bit confused because the original thinking was that
-> > vma_mark_detached() would drop the last refcnt and if it's 0 we would
-> > free the vma right there. If that's still what we want to do then I
-> > think the above sequence should look like this:
-> >
-> > vms_complete_munmap_vmas
-> >            vms_clear_ptes
-> >            remove_vma
-> >                vma_start_write
-> >                vma_mark_detached
-> >            mmap_write_downgrade
-> >
-> > because vma_start_write+vma_mark_detached should be done under  mmap_wr=
-ite_lock.
-> > Please let me know which way you want to move forward.
-> >
->
-> Are we sure we're not causing issues with the MAP_FIXED path here?
->
-> With the above change, we'd be freeing the PTEs before marking the vmas
-> as detached or vma_start_write().
+Hi Sumit,
 
-IIUC when we call vms_complete_munmap_vmas() all vmas inside
-mas_detach have been already write-locked, no?
+On 12/19/2024 1:25 AM, Sumit Garg wrote:
+> Hi Amirreza,
+> 
+> On Tue, 3 Dec 2024 at 09:50, Amirreza Zarrabi <quic_azarrabi@quicinc.com> wrote:
+>>
+>> This patch series introduces a Trusted Execution Environment (TEE)
+>> driver for Qualcomm TEE (QTEE). QTEE enables Trusted Applications (TAs)
+>> and services to run securely. It uses an object-based interface, where
+>> each service is an object with sets of operations. Clients can invoke
+>> these operations on objects, which can generate results, including other
+>> objects. For example, an object can load a TA and return another object
+>> that represents the loaded TA, allowing access to its services.
+>>
+>> Kernel and userspace services are also available to QTEE through a
+>> similar approach. QTEE makes callback requests that are converted into
+>> object invocations. These objects can represent services within the
+>> kernel or userspace process.
+>>
+>> Note: This patch series focuses on QTEE objects and userspace services.
+>>
+>> Linux already provides a TEE subsystem, which is described in [1]. The
+>> tee subsystem provides a generic ioctl interface, TEE_IOC_INVOKE, which
+>> can be used by userspace to talk to a TEE backend driver. We extend the
+>> Linux TEE subsystem to understand object parameters and an ioctl call so
+>> client can invoke objects in QTEE:
+>>
+>>   - TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_*
+>>   - TEE_IOC_OBJECT_INVOKE
+>>
+> 
+> Thanks for proposing to extend the TEE subsystem. However, I couldn't
+> see any user-space library or test application(s) to test this new
+> IOCTL. Say for example how will someone with a board based on sm8650
+> will be able to test the QTEE interface? IIRC, last time we agreed off
+> list that you will be pushing that alongside this patch-set.
+> 
 
->
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to kernel-team+unsubscribe@android.com.
->
+:)
+Indeed. The upcoming version of this patch series will include a library
+and a test application.
+
+Best Regards,
+Amir
+
+> -Sumit
+> 
+>> The existing ioctl calls TEE_IOC_SUPPL_RECV and TEE_IOC_SUPPL_SEND are
+>> used for invoking services in the userspace process by QTEE.
+>>
+>> The TEE backend driver uses the QTEE Transport Message to communicate
+>> with QTEE. Interactions through the object INVOKE interface are
+>> translated into QTEE messages. Likewise, object invocations from QTEE
+>> for userspace objects are converted into SEND/RECV ioctl calls to
+>> supplicants.
+>>
+>> The details of QTEE Transport Message to communicate with QTEE is
+>> available in [PATCH 10/10] Documentation: tee: Add Qualcomm TEE driver.
+>>
+>> This patch series has been tested for basic QTEE object invocations and
+>> callback requests, including loading a TA and requesting services form
+>> the TA. However, the test platform is currently being prepared for
+>> upstream availability and will soon be accessible to the community for
+>> further validation. I will share updates as the platform become
+>> available.
+>>
+>> [1] https://www.kernel.org/doc/Documentation/tee.txt
+>>
+>> Signed-off-by: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+>> ---
+>> Amirreza Zarrabi (10):
+>>       tee: allow a driver to allocate a tee_device without a pool
+>>       tee: add TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF
+>>       tee: add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF
+>>       firmware: qcom: scm: add support for object invocation
+>>       qcomtee: implement object invoke support
+>>       qcomtee: add primordial object
+>>       dt-bindings: arm: qcomtee: add QTEE driver devicetree binding for TEE subsystem
+>>       tee: add Qualcomm TEE driver
+>>       arm64: dts: qcom: sm8650: add support for QTEE
+>>       Documentation: tee: Add Qualcomm TEE driver
+>>
+>>  .../devicetree/bindings/arm/firmware/qcom,tee.yaml |  34 +
+>>  Documentation/tee/index.rst                        |   1 +
+>>  Documentation/tee/qtee.rst                         | 143 ++++
+>>  arch/arm64/boot/dts/qcom/sm8650.dtsi               |   4 +
+>>  drivers/firmware/qcom/qcom_scm.c                   |  60 ++
+>>  drivers/firmware/qcom/qcom_scm.h                   |   7 +
+>>  drivers/tee/Kconfig                                |   1 +
+>>  drivers/tee/Makefile                               |   1 +
+>>  drivers/tee/qcomtee/Kconfig                        |  10 +
+>>  drivers/tee/qcomtee/Makefile                       |   9 +
+>>  drivers/tee/qcomtee/async.c                        | 153 ++++
+>>  drivers/tee/qcomtee/call.c                         | 707 ++++++++++++++++
+>>  drivers/tee/qcomtee/core.c                         | 942 +++++++++++++++++++++
+>>  drivers/tee/qcomtee/primordial_obj.c               |  63 ++
+>>  drivers/tee/qcomtee/qcom_scm.c                     |  36 +
+>>  drivers/tee/qcomtee/qcomtee_msg.h                  | 217 +++++
+>>  drivers/tee/qcomtee/qcomtee_private.h              | 218 +++++
+>>  drivers/tee/qcomtee/release.c                      |  66 ++
+>>  drivers/tee/qcomtee/user_obj.c                     | 625 ++++++++++++++
+>>  drivers/tee/tee_core.c                             | 113 ++-
+>>  include/linux/firmware/qcom/qcom_scm.h             |   9 +
+>>  include/linux/firmware/qcom/qcom_tee.h             | 284 +++++++
+>>  include/linux/tee_core.h                           |   4 +
+>>  include/linux/tee_drv.h                            |  12 +
+>>  include/uapi/linux/tee.h                           |  54 +-
+>>  25 files changed, 3765 insertions(+), 8 deletions(-)
+>> ---
+>> base-commit: f486c8aa16b8172f63bddc70116a0c897a7f3f02
+>> change-id: 20241202-qcom-tee-using-tee-ss-without-mem-obj-362c66340527
+>>
+>> Best regards,
+>> --
+>> Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+>>
