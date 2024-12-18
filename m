@@ -1,67 +1,287 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B108142048;
-	Wed, 18 Dec 2024 07:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6338018D656;
+	Wed, 18 Dec 2024 09:10:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734508178; cv=none; b=gUbxucPvi4wRWx8kmfKDyu+v9puf+NRLvE0bg6cqWOpngjdeUEQYfwC0Onk5Cw4sDHTYTpgdAOWgYhgGcgNaWq6SGOUGWFmLU2MWO0eahbrTbZwY4RynLmNVLKBMl47k+X/UI3VJ8HwGotxvrQQVLOI6MsqiisAgkOyYwR2Suwc=
+	t=1734513054; cv=none; b=VCR7vUVEZzFXsSq4OBggk7xj7lYHdILH9gwK3rvFbrHtfWBUfoqyWJnsxewVlG76E/NFCnlBpJaW/eeeh9hRiZNglleLmu5ZHZFLOX0xxysmCsKJ6HWxcBYT5JNNGaXzqxZ/YOxz4KlOM81t0cnMFdWi+JlC7+OPYhPC9o+0+kI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734508178; c=relaxed/simple;
-	bh=PEOwYYF1uZB0LNOa9/HuQNLjULCoGGYdQHSJ2p+nC1Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WMFfaNvbhzrjuxkfB92nPG9+f9O00Lg1ohq3jMQ7EYhMKbg+7wkSQMaETkph3JXjmXYp/u6AMHEjL3LSXPB9tXJGZmjGtlpHcfextVUtaVmYTtg5q+Sda6ZWdKADjWHUKOc8m+niPkJV26Jx8efJIuO6jfRnwJxNg6a0MQbQhaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1C539FEC;
-	Tue, 17 Dec 2024 23:50:04 -0800 (PST)
-Received: from [10.163.50.13] (unknown [10.163.50.13])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C86E33F720;
-	Tue, 17 Dec 2024 23:49:33 -0800 (PST)
-Message-ID: <809ddd0a-3fad-4e3a-a106-070d2235b3dc@arm.com>
-Date: Wed, 18 Dec 2024 13:19:31 +0530
+	s=arc-20240116; t=1734513054; c=relaxed/simple;
+	bh=Hvg1w+ZEyCcJp/urJ9cV2Ps4mlC0ufjBKFQoebKJFcs=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jr0Wgjxa0U3CafatPgOVYqMQXoVAGAm21d+70uEyk+jxxxzNY2hYtPu0CWqhLOXjDL/ZmoD7RIq2DrJ/1vdIDLP+aoGRfEx2X2hrwKyvmJB+afCOX6jiR14iGrcLI0U7zznLFV3xl4UpBaSi6uGGOTvVlh88iNtfSDxnA0ApsZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ioLr2T/p; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ioLr2T/p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3C43C4CECE;
+	Wed, 18 Dec 2024 09:10:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734513053;
+	bh=Hvg1w+ZEyCcJp/urJ9cV2Ps4mlC0ufjBKFQoebKJFcs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ioLr2T/pVRoHF5qx8GsLqXYo5ykUpBq1g1/2QTA0+xTyuvJRT1Rc1LRsD/YHIUrUY
+	 v3XxV3iZG4OlDOYluX12BKpkDxZr0la55dsiPQD/n11qdvOVMP5q1iZLsfhzYWaQxy
+	 3lURFuJ1iTqwSg7ZKlw1zLHTgA1uBR4n2l+plYBT085mDR6/QGHnEUiyotfsjyxWUA
+	 tLb1CkE7uF7K+ld9FIjpEUV35gtQnpXvG4CiN1lVt553RY/kB9i2AwkiD25IddEBtk
+	 2Za4cQdyrev/lJ3rJIRcyuwq7lb10WNm4gIhk2Ub3jNwhpoVS62YDuXL5YFyQmgq2Z
+	 RT1WMFiiL8prA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1tNq4x-004quf-EG;
+	Wed, 18 Dec 2024 09:10:51 +0000
+Date: Wed, 18 Dec 2024 09:10:51 +0000
+Message-ID: <86jzbxqrtw.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	kvmarm@lists.linux.dev,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH V3 6/7] arm64/boot: Enable EL2 requirements for FEAT_Debugv8p9
+In-Reply-To: <CAL_Jsq+EO_s49sSK3JQQEDDpcndf4hSpM_gfoe8tZ8=4y3f-tg@mail.gmail.com>
+References: <20241216040831.2448257-1-anshuman.khandual@arm.com>
+	<20241216040831.2448257-7-anshuman.khandual@arm.com>
+	<20241216234251.GA629562-robh@kernel.org>
+	<c64709f7-e1c6-482e-8665-912be50b15bd@arm.com>
+	<CAL_Jsq+EO_s49sSK3JQQEDDpcndf4hSpM_gfoe8tZ8=4y3f-tg@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] docs: arm64: Document MDCR_EL3 boot requirements
-To: linux-arm-kernel@lists.infradead.org
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241211065425.1106683-1-anshuman.khandual@arm.com>
-Content-Language: en-US
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <20241211065425.1106683-1-anshuman.khandual@arm.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: robh@kernel.org, anshuman.khandual@arm.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, corbet@lwn.net, oliver.upton@linux.dev, james.morse@arm.com, suzuki.poulose@arm.com, catalin.marinas@arm.com, will@kernel.org, broonie@kernel.org, mark.rutland@arm.com, kvmarm@lists.linux.dev, linux-doc@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On 12/11/24 12:24, Anshuman Khandual wrote:
-> This series adds missing MDCR_EL3 boot requirements for debug and pmu
-> registers that are currently being accessed in the kernel. Please refer
-> the following link for some earlier discussions on this.
-> 
-> https://lore.kernel.org/all/ZxfOeqyb3RvsdYbU@J2N7QTR9R3/
-> 
-> This series applies on v6.13-rc1
-> 
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> 
-> Anshuman Khandual (2):
->   docs: arm64: Document EL3 requirements for cpu debug architecture
->   docs: arm64: Document EL3 requirements for FEAT_PMUv3
-> 
->  Documentation/arch/arm64/booting.rst | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
+On Tue, 17 Dec 2024 17:53:41 +0000,
+Rob Herring <robh@kernel.org> wrote:
+>=20
+> On Tue, Dec 17, 2024 at 2:48=E2=80=AFAM Anshuman Khandual
+> <anshuman.khandual@arm.com> wrote:
+> >
+> > On 12/17/24 05:12, Rob Herring wrote:
+> > > On Mon, Dec 16, 2024 at 09:38:30AM +0530, Anshuman Khandual wrote:
+> > >> Fine grained trap control for MDSELR_EL1 register needs to be config=
+ured in
+> > >> HDFGRTR2_EL2, and HDFGWTR2_EL2 registers when kernel enters at EL1, =
+but EL2
+> > >> is also present.
+> > >
+> > > Shouldn't this be "when kernel enters at EL2, and EL3 is also present=
+"?
+> >
+> > AFAICT - HDFGRTR2_EL2 and HDFGWTR2_EL2 registers configure traps into E=
+L2 when
+> > accessed from EL1/EL0, provided all required EL3 trap controls are in p=
+lace as
+> > well. These EL2 based trap configs need to be set before the kernel fin=
+ally
+> > enters EL1. Although there is an assumption about EL3 based trap config=
+s being
+> > in place, do we need to mention that in commit message as well. Is not =
+updating
+> > booting.rst takes care of all EL3 requirements.
+>=20
+> My point is just I read 'kernel enters at EL1' as meaning the kernel
+> booted at EL1 and EL2 is not accessible. Maybe should reworded as
+> 'before/if the kernel drops to EL1'
 
-Gentle ping, any updates on this.
+The EL2->EL1 downgrade is internal to the kernel. If we get it wrong,
+that's our fault, and there isn't anything to document. This document
+is about booting the kernel at any NS EL, so only the "external"
+requirements matter.
+
+But I don't think we should be prescriptive about the state of these
+registers, as long as the potential traps are correctly handled.
+
+For the above, I'd rather have something like:
+
+"The MDSELR_EL1 register must be freely accessible when the kernel is
+ entered at EL1 and that higher ELs are present in the system."
+
+On its own, that should be enough. You can subsequently add:
+
+"This includes HDFGRTR2_EL2, HDFGWTR2_EL2 and MDCR_EL2 when EL2 is
+ present, as well as MDCR_EL3 when EL3 is present".
+
+but that's paraphrasing the architecture, and is definitely incomplete
+(see the MDSELR_EL1 pseudocode for reference).
+
+>=20
+> > > Though it is really "If EL3 set FGTEn2 and the kernel is entered in
+> > > EL2, then FGT2 must be initialized for MDSELR_EL1."
+> > >
+> > > If it was me, I'd just plagarize what was written for prior FGT
+> > > commits for this code. :)
+> >
+> > There are many commits that changed __init_el2_fgt() with different des=
+cription
+> > formats. Do you have particular one in mind which can be followed here =
+? :)
+> >
+> > >
+> > >> This adds a new helper __init_el2_fgt2() initializing this
+> > >> new FEAT_FGT2 based fine grained registers.
+> > >
+> > > "This adds" is the same as saying "This patch/commit adds" which is w=
+ell
+> > > documented to avoid. Use imperative "Add a new helper...". Though it =
+is
+> > > clear from the diff that is what you are doing...
+> >
+> > Sure, will fix it.
+> >
+> > >
+> > >
+> > >> MDCR_EL2.EBWE needs to be enabled for additional (beyond 16) breakpo=
+int and
+> > >> watchpoint exceptions when kernel enters at EL1, but EL2 is also pre=
+sent.
+> > >> This updates __init_el2_debug() as required for FEAT_Debugv8p9.
+> > >>
+> > >> While here, also update booting.rst with MDCR_EL3 and SCR_EL3 requir=
+ements.
+> > >>
+> > >> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> > >> Cc: Will Deacon <will@kernel.org>
+> > >> Cc: Jonathan Corbet <corbet@lwn.net>
+> > >> Cc: Marc Zyngier <maz@kernel.org>
+> > >> Cc: Oliver Upton <oliver.upton@linux.dev>
+> > >> Cc: linux-arm-kernel@lists.infradead.org
+> > >> Cc: linux-doc@vger.kernel.org
+> > >> Cc: linux-kernel@vger.kernel.org
+> > >> Cc: kvmarm@lists.linux.dev
+> > >> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+> > >> ---
+> > >> Changes in V3:
+> > >>
+> > >> - Dropped MDCR_EL3.TDA boot requirement from documentation (separate=
+ series)
+> > >> - Dropped MDCR_EL2_EBWE definition as MDCR_EL2 is now defined in too=
+ls sysreg
+> > >>
+> > >> https://lore.kernel.org/all/20241211065425.1106683-1-anshuman.khandu=
+al@arm.com/
+> > >>
+> > >>  Documentation/arch/arm64/booting.rst | 18 ++++++++++++++++++
+> > >>  arch/arm64/include/asm/el2_setup.h   | 26 ++++++++++++++++++++++++++
+> > >>  2 files changed, 44 insertions(+)
+> > >>
+> > >> diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/ar=
+ch/arm64/booting.rst
+> > >> index 3278fb4bf219..054cfe1cad18 100644
+> > >> --- a/Documentation/arch/arm64/booting.rst
+> > >> +++ b/Documentation/arch/arm64/booting.rst
+> > >> @@ -288,6 +288,12 @@ Before jumping into the kernel, the following c=
+onditions must be met:
+> > >>
+> > >>      - SCR_EL3.FGTEn (bit 27) must be initialised to 0b1.
+> > >>
+> > >> +  For CPUs with the Fine Grained Traps (FEAT_FGT2) extension presen=
+t:
+> > >> +
+> > >> +  - If EL3 is present and the kernel is entered at EL2:
+> > >> +
+> > >> +    - SCR_EL3.FGTEn2 (bit 59) must be initialised to 0b1.
+> > >> +
+> > >>    For CPUs with support for HCRX_EL2 (FEAT_HCX) present:
+> > >>
+> > >>    - If EL3 is present and the kernel is entered at EL2:
+> > >> @@ -322,6 +328,18 @@ Before jumping into the kernel, the following c=
+onditions must be met:
+> > >>      - ZCR_EL2.LEN must be initialised to the same value for all CPU=
+s the
+> > >>        kernel will execute on.
+> > >>
+> > >> +  For CPUs with FEAT_Debugv8p9 extension present:
+> > >> +
+> > >> +  - If the kernel is entered at EL1 and EL2 is present:
+> > >> +
+> > >> +    - HDFGRTR2_EL2.nMDSELR_EL1 (bit 5) must be initialized to 0b1
+> > >> +    - HDFGWTR2_EL2.nMDSELR_EL1 (bit 5) must be initialized to 0b1
+
+But then you don't say anything about SCR_EL3.FGTEn2. And what if the
+hypervisor wants to trap things in order to emulate on lazy switch
+things?
+
+The more I look at those, the more I think these requirements are not
+saying what we want to express, which is that some registers must be
+accessible one way or another.
+
+> > >> +    - MDCR_EL2.EBWE (bit 43) must be initialized to 0b1
+> > >> +
+> > >> +  - If EL3 is present:
+> > >> +
+> > >> +    - MDCR_EL3.EBWE (bit 43) must be initialized to 0b1
+> > >> +
+> > >>    For CPUs with the Scalable Matrix Extension (FEAT_SME):
+> > >>
+> > >>    - If EL3 is present:
+> > >> diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include=
+/asm/el2_setup.h
+> > >> index 4ef52d7245bb..2fbfe27d38b5 100644
+> > >> --- a/arch/arm64/include/asm/el2_setup.h
+> > >> +++ b/arch/arm64/include/asm/el2_setup.h
+> > >> @@ -105,6 +105,13 @@
+> > >>                                              // to own it.
+> > >>
+> > >>  .Lskip_trace_\@:
+> > >> +    mrs     x1, id_aa64dfr0_el1
+> > >> +    ubfx    x1, x1, #ID_AA64DFR0_EL1_DebugVer_SHIFT, #4
+> > >> +    cmp     x1, #ID_AA64DFR0_EL1_DebugVer_V8P9
+> > >> +    b.lt    .Lskip_dbg_v8p9_\@
+> > >> +
+> > >> +    orr     x2, x2, #MDCR_EL2_EBWE
+> > >> +.Lskip_dbg_v8p9_\@:
+> > >>      msr     mdcr_el2, x2                    // Configure debug traps
+> > >>  .endm
+> > >>
+> > >> @@ -244,6 +251,24 @@
+> > >>  .Lskip_gcs_\@:
+> > >>  .endm
+> > >>
+> > >> +.macro __init_el2_fgt2
+> > >> +    mrs     x1, id_aa64mmfr0_el1
+> > >> +    ubfx    x1, x1, #ID_AA64MMFR0_EL1_FGT_SHIFT, #4
+> > >> +    cmp     x1, #ID_AA64MMFR0_EL1_FGT_FGT2
+> > >
+> > > We already read this field in __init_el2_fgt, shouldn't we leverage t=
+hat
+> > > and move all this there rather than read the feature reg twice.
+> >
+> > Should not __init_el2_fgt2() remain separate to contain all future FEAT=
+_FGT2
+> > related trap enabled/disable checks ? OTOH reading id_aa64mmfr0_el1 reg=
+ister
+> > should improve some performance as well.
+>=20
+> That's the tradeoff. I'll defer to others whether a single id register
+> read here is preferred.
+
+Are we *really* talking about *performance* here?  For something that
+is executed once per CPU boot? Just keep the damn thing readable, if
+at all possible...
+
+	M.
+
+--=20
+Without deviation from the norm, progress is not possible.
