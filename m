@@ -1,349 +1,301 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2053.outbound.protection.outlook.com [40.107.244.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708A11FC7DF;
-	Wed, 18 Dec 2024 21:39:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734557952; cv=fail; b=Lh9f5vNzU4bi7fPElqwme/1dlzv8o8z3y/OUacJ/BnATaKbXDYIrU0Oz5kDdfZk34MlInkBwp9R1ADyrFGO4xwojdDAsSMMXGksXfBpEngAaAe1v7zzees0a8N74I3PJunGY0nDo0YPHS6EinsHZHRaNHdA4ypqwrwiPllSpBdU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734557952; c=relaxed/simple;
-	bh=t5ZIm1hyBwUqgdy2H+zGDTfIGijIWhWiOEe9k5rgmIQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EvDKI0Y9a16nsg61GJtMG0MOF1x5JmbVYGWX3jOy8GXmLlh4rHtIt7vnx+EnBJx1yjuk06tTU1bOKjrfGPoKdVMsVljnX/hdMYnAe+bH8Ymgi8mkh29Q/uX2lT05cIwhBqWOr3cqlnstGq47HTVwQWVLmDUhhxVBHRNfEm9jrKo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Mbrq2J07; arc=fail smtp.client-ip=40.107.244.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051C61FC102
+	for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 21:53:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734558812; cv=none; b=IXnp/npOCSpU3kH2mmNvfSP+xosJz83OkVHQvww7NhSGQMTHncrc2n99KJjCmdT89CpitXATVTMVhNP2IcnTTgKW6xWJBpCGUGGIuvqJaHXR4QML1fYj/d6OgkucJe5/6IwCu3lpNnj6rgovliK3QjPJv73Yn6NeHZi4ofriK2U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734558812; c=relaxed/simple;
+	bh=KwTwssGSjYuugGZ2Da8Oyh2h07pURN95f9rYNTjGv48=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=LlJ0VJBeOlimbAv/RrhTw4J6lvH1K5W28NUAa7bvC6Gjm/70PFewJKYnMUjwKctCZjzFz7R81W8HfqnbvDItG3Fll7T80u+olDEt2yxrWmy7pH6JqRhDn1eRF5yGG3W5PtClE/7QGCKsybfuce+IPBCE91UZB0OClaNQ15jbmZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1YQbQO96; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Mbrq2J07"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nFtLJbJGOdl9qxKJBsi21GtoFRJg5oZl66JYOg7lcN22RhTEkzIOAexC1SxJXxwSaK4gZ7VOBCE5Bw4vQPC4UvqGZHZJ3ddQAA9/4YePT6mijYWq33C5kcFGfaagGd1YgVk9ebKBK4DTSVtplF1pQn5ODlZaS2tBaD0YfQ6x3k6LHVI1pJm4jmXrX5acEO3XBxyJXbpBG1To65kItnfLY/bafkGAn+KgFYu9RULsBZU1mnDa9DCyfPtx3/H0u4v/MN9yKeJ+ixqChQbTubUoDxaqEkdVE+WOMhwBGdUDm8A/1pEGIdcNS00fufhZsTyKJzv7jce0SlTCAvM22KVMAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BvEgbq7+TbbxfA+LUuKUvCMWCjoBC4BJrexk1fWqbs8=;
- b=BagHt/K7zGURHqCCguCpchkqUMCPqqmsa8+ZkHtu0P5gK2L9OyejxsnPfwn/XiUMZj0w9NLHcMN4M6TGwu1DKweQc9ellAW8RVpoufVMiWFkNeHtJli63rNVMEFrLiCUwLf/kshHscHt5znmGenJOwiuCJb5P45jLjTz9cfSRSSKud8Rfud32fv3cfleofFrUa1XzpK02Y2EsGOhPK4WePLFkotyKaTIP0hXCfEaulZqWza6hDcLNx4r3dWfnampSqJM/vGZvGsRDzyFhgnuW8ayUqqlCMAUpwTFGCh49prbYPrwHgN8WjI0UZOV24tNAPPF5jiSdibA4MWBGU6DJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BvEgbq7+TbbxfA+LUuKUvCMWCjoBC4BJrexk1fWqbs8=;
- b=Mbrq2J07qB9NNTO/uw+EbchYylxTfSf+wVoI+uvGY02V9Dmpf93B3i9W6VCjOWG4Id749rVxNVqmSCo7qGIKGuD033DXuJr3+kTQ6Lt7s5dZFyliamnH9TPWTSuW1NDA+gjOWvxpNOEOIs5eslUYA6czUUZwBFpUt49C3k8COJM=
-Received: from DS7PR06CA0022.namprd06.prod.outlook.com (2603:10b6:8:2a::10) by
- DS0PR12MB7772.namprd12.prod.outlook.com (2603:10b6:8:138::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8272.13; Wed, 18 Dec 2024 21:39:06 +0000
-Received: from CY4PEPF0000EE37.namprd05.prod.outlook.com
- (2603:10b6:8:2a:cafe::a9) by DS7PR06CA0022.outlook.office365.com
- (2603:10b6:8:2a::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8251.22 via Frontend Transport; Wed,
- 18 Dec 2024 21:39:06 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000EE37.mail.protection.outlook.com (10.167.242.43) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8251.15 via Frontend Transport; Wed, 18 Dec 2024 21:39:06 +0000
-Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 18 Dec
- 2024 15:39:03 -0600
-From: Babu Moger <babu.moger@amd.com>
-To: <reinette.chatre@intel.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
-	<bp@alien8.de>, <dave.hansen@linux.intel.com>
-CC: <babu.moger@amd.com>, <fenghua.yu@intel.com>, <x86@kernel.org>,
-	<hpa@zytor.com>, <akpm@linux-foundation.org>, <paulmck@kernel.org>,
-	<thuth@redhat.com>, <rostedt@goodmis.org>, <xiongwei.song@windriver.com>,
-	<pawan.kumar.gupta@linux.intel.com>, <jpoimboe@kernel.org>,
-	<daniel.sneddon@linux.intel.com>, <thomas.lendacky@amd.com>,
-	<perry.yuan@amd.com>, <sandipan.das@amd.com>, <kai.huang@intel.com>,
-	<seanjc@google.com>, <xin3.li@intel.com>, <ebiggers@google.com>,
-	<andrew.cooper3@citrix.com>, <mario.limonciello@amd.com>,
-	<tan.shaopeng@fujitsu.com>, <james.morse@arm.com>, <tony.luck@intel.com>,
-	<peternewman@google.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <eranian@google.com>, <corbet@lwn.net>
-Subject: [PATCH v2 7/7] x86/resctrl: Introduce interface to modify io_alloc Capacity Bit Masks
-Date: Wed, 18 Dec 2024 15:38:03 -0600
-Message-ID: <2bb9ce3e4ac57c6709f1cd37d8571373c6e3c024.1734556832.git.babu.moger@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1734556832.git.babu.moger@amd.com>
-References: <cover.1734556832.git.babu.moger@amd.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1YQbQO96"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-467896541e1so69721cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 13:53:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1734558809; x=1735163609; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r/JLu6T0oQIGjWC8Vgw4keUhQ07kt7/iqExEFuVaHgE=;
+        b=1YQbQO96UT3l00Ks9TKGXlSsPRrZ5PnPiY6ksxyasg6uJp8usgOXXL7yJSHvt7jRrT
+         Eh0AHoz41wU7G32blJHR7FLyN5DCjIdiPHKK4WRVdqkFpLyRPK+rBncd8nJKH4tiVP7h
+         CCQKnLe+7d+nIE0xc7B1kIgjC3OFPIu+40R9YbmdlrUdXHirUS80vTfFZ2iAK6dB550S
+         7+8gI2eXOEiJATeI2YbrANcmVADuKuWTwUJkz3HEgZoDWp+PoIsL6BpK/Bt9rrOKE1Gq
+         wpmvdR5c8OQm+pAfDV17UMKFOyCI1p1/zqMGIR97oRd3u56HQqF1aRs4Rr/vmgWdDbqP
+         IkaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734558809; x=1735163609;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r/JLu6T0oQIGjWC8Vgw4keUhQ07kt7/iqExEFuVaHgE=;
+        b=lqIPx1Si7evXfSon0OHKdaNp3HlvK6bEibnPJ6q2zY0yxKuD1mbfE2aI8h5eXnmM9l
+         YrIrmnjEldFoxLZb5TYTRkS0r9L8UreknGi7ZJne5kFsS37nvtD4kftaa0eTcVOuPz26
+         Pt6zH1Gfy68lbbofYSfxuND+/BpqcP6/rId+jY1OG2dzsH1UV3F6iUTDg6LfLb5NODxg
+         27XBdtxjRIqlBU90+0uHGaiF4lWEjyKYN+zh/x/rZ2NzKyQdQoU/HVkZwu4qp/slxlSv
+         5AqyeYS1tX+zaMevuRR54CAdqtRU6aKRAzaZasiuDkEdldHLH0+tDm0+QOIKowQlAK9t
+         5H1A==
+X-Forwarded-Encrypted: i=1; AJvYcCXRc8MKvmFRM9lTfN4ecooltYZcI0aSv4Vy0ssW1/kGTE8kgpNQq42OvXtG7sdPp4yv1qFrnjRuHj8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1xa4hKo5i8vOfkfbmdMfiAz84qKp1TPFMw0bHdIssh3W/LVQS
+	PA3u3Sw++mOEXgwrI1SJ6XLx3jYlkAui97e6eGpVB+ywps6bPF81zUCqdk3UknzbUijn016Xw5L
+	OanYLjHfMlh+wZFF8mjwEaM/jMxdZROrsThs8
+X-Gm-Gg: ASbGnct0HaqInauTNmZJSXVbHo/mv22WznijttsSR+yO9dUCTdIJ4zgREAsirnuEpdv
+	yTvVUrg03srGVa4GLGsAjSse0uv0CQfskAtbvVcC/jrRao0aSGnE6yDZLaFvBemgA4WwM
+X-Google-Smtp-Source: AGHT+IGTvjtHfkSnsti1gp6AxGHe6GoyfbxsCNyIl+Zw83NzTtoMzAa2jWNZftX/4UQEDHCkuCHPwDVAFj/JXl9yarI=
+X-Received: by 2002:a05:622a:4cf:b0:461:4150:b835 with SMTP id
+ d75a77b69052e-46a3b94fdc2mr817961cf.6.1734558808650; Wed, 18 Dec 2024
+ 13:53:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000EE37:EE_|DS0PR12MB7772:EE_
-X-MS-Office365-Filtering-Correlation-Id: b2d69d2e-9933-41e3-915a-08dd1fac65fd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|1800799024|7416014|376014|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?W8FJV2GH+zES7wrK7q/FZzws3M2drEnLQ1/q1AIBkfONJ4TNfmg9qS5bSLjc?=
- =?us-ascii?Q?omPpsRDBbZexOppL3gbROCgytVG67yN4ZRKo1QRxI3ZDW5thcgcy1aI+dpEA?=
- =?us-ascii?Q?350mlAzzoHdWi3qvR148UY59oFEy4vahENgtOswe5Kf9zkZ/PP18+HnkPN5w?=
- =?us-ascii?Q?X0yfuzx7kKC4ndmTWTJoPd5SJrPDcsJ+oF5bNxTNmrTGyicTV6WM5eecNUOs?=
- =?us-ascii?Q?G9LDk6rA12lgQm5Na5xETpiE7KgnbGWrC2cpuRlySa2ArAjF2HmQucwTf0js?=
- =?us-ascii?Q?MMiZYzJjlHbwfrrLpNM97I7rNiCmgXF/17U4J3th+Gchd29BtVoORjG/MAT+?=
- =?us-ascii?Q?rR8DJ9uvxWxmHgnyZb6TBBWEeTBPhpDM/7iCrz1T9W7yR92XeAUQbbBvfWs0?=
- =?us-ascii?Q?oBLV57kwMcXkNTlaeU4fhWrIyNQD5p/u2YlppA5ihBHJcGxJ4z84IwmA9jRh?=
- =?us-ascii?Q?E95IsbTLTm8AiGT6aYk8edSY/3UjrK41wCzGw3ccyb5sZstxb35m/XCSk2cN?=
- =?us-ascii?Q?ol0BpL1KLQ++PKHi4nXhbttV3hgvbDXfe5YYmxY2VLVgs9+wistruhNzzncQ?=
- =?us-ascii?Q?YgOar/l4NHcm9HeG5EbtMEHJgyF/SBDRc9LE7Gw5IK7GbMgu9eeHdeX/+iae?=
- =?us-ascii?Q?RYb07PQaYyEwZRn138tFTviNLb/GdLxsXs6lpPuNszFuwyiAwHpb/1e5UNsT?=
- =?us-ascii?Q?0z8L4efPpyu+pvivzTHvj+05hktv8avxI0lbsM4JkphhAYcwHtmzCcGYBcwT?=
- =?us-ascii?Q?Aftn+wuuelHjMsz3KG2rsMKbLZZKhLulIBuwg18rzqp+Ofcj9mI+zIf90gtn?=
- =?us-ascii?Q?cxq0KD9cMuhQJoDvbQ3b8TpnOCOElYAPk5D8aF1oB/n0yzhGaYlz9ryb89Rg?=
- =?us-ascii?Q?YXgpYw+RRlHVTnOqN0qGMWO0zzBH3/8+8FTESHeV2eL1uDWfMCl8yzwmwMQS?=
- =?us-ascii?Q?z0IPigd8DO12swi5y6E3HByoPzheswI0xTYB1z/IsFHg5FVS+PpuTQrUZLEf?=
- =?us-ascii?Q?FScsLuriO/e7DipNX+vyzz0N+Vzw7fFR9yDO8YK6tj4/PL6zV0a5pO72NO3W?=
- =?us-ascii?Q?KPO/GIzqMnCVd/Uv0A3McR+zAJbEIAfPpMBb3EboVa6tTxRttfHhdeWbUiVv?=
- =?us-ascii?Q?vXun2OvRW84+ZayN9N8FV9H82ybnwrs/q1oVnkTiNjUDzD7ziVEF2eZQt2Ko?=
- =?us-ascii?Q?u4w6FyOqHj/COSUzUOwl/bMMAMLUgipxHHzMqQW74qsRZqUhIOaV205vwjOd?=
- =?us-ascii?Q?ZE46ost49ncYuTwzk4Ny2YMrvCS7SvQrAUxpx/bg7fGxN054wII1P+rAb1KH?=
- =?us-ascii?Q?usK3gjQy7zVmz7iL50zIiWrL+OYYYM4450M90+rq6MxLq49Vfy7obRnU8QiL?=
- =?us-ascii?Q?T8wM9l6anaEzC1W3e8dkty5Jhr+iww5W/l2XUCrq1ZcgrBGgFZdx/V+MOyNa?=
- =?us-ascii?Q?zqpRpXYUpC9o7dqxxFh0NApMJoVkD1TkfAmh0rjJFmoNoW8xy1B7v6tddcr3?=
- =?us-ascii?Q?r3onEXWJTtfqwxw=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(7416014)(376014)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2024 21:39:06.0868
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2d69d2e-9933-41e3-915a-08dd1fac65fd
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000EE37.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7772
+References: <CAJuCfpFYZkc===SXF35s3C0xg3q5RjpCiOQhwK=9_3RnFUye1g@mail.gmail.com>
+ <20241218161850.GG2354@noisy.programming.kicks-ass.net> <CAJuCfpHDRCoaBfE8y6AppKveSTgayyTNfDyQWH=gMzO-Pkuqpw@mail.gmail.com>
+ <20241218174428.GQ2354@noisy.programming.kicks-ass.net> <CAJuCfpEKg_h5pw2AxdF1wmFMt4xdOxYqv7U1uVMYcuSCB4kHuA@mail.gmail.com>
+ <r7polqnhdguxrz6npklag5kjy7ipbj5lrnqai2qm3jt7x56hci@cfrcom746iae>
+ <CAJuCfpGeRi73E94VCDPDGAGG+5-Sj-_YGf3JNnf6Bh4GH_M6jA@mail.gmail.com>
+ <CAJuCfpHJwVXanjG0WGjo0KHHEbg1-T0HWTZqDpssoq3FvfG++A@mail.gmail.com>
+ <jes252u5qfhla2bdmg6pdkfpi4a2jfhf7d5b6ra6ol2bmt352x@gunhzaca56df>
+ <CAJuCfpFSD98fw=844AJPy+LT5y=zREQGtSEVj3_FCXiZ5cFR_A@mail.gmail.com> <ulbspoec633hfm54f3jzvoqs6ilskxou3qykk2u727pbaltvfl@lb53vjcaxnuf>
+In-Reply-To: <ulbspoec633hfm54f3jzvoqs6ilskxou3qykk2u727pbaltvfl@lb53vjcaxnuf>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Wed, 18 Dec 2024 13:53:17 -0800
+Message-ID: <CAJuCfpHXRX=LLa67eWYvrK=UDxKMaOequFXfqOqDHbRrmsT9SQ@mail.gmail.com>
+Subject: Re: [PATCH v6 10/16] mm: replace vm_lock and detached flag with a
+ reference count
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, Suren Baghdasaryan <surenb@google.com>, 
+	Peter Zijlstra <peterz@infradead.org>, akpm@linux-foundation.org, willy@infradead.org, 
+	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz, 
+	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
+	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
+	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
+	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
+	klarasmodin@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-"io_alloc" feature is a mechanism that enables direct insertion of data
-from I/O devices into the L3 cache. By directly caching data from I/O
-devices rather than first storing the I/O data in DRAM, SDCI reduces
-demands on DRAM bandwidth and reduces latency to the processor consuming
-the I/O data.
+On Wed, Dec 18, 2024 at 12:38=E2=80=AFPM Liam R. Howlett
+<Liam.Howlett@oracle.com> wrote:
+>
+> * Suren Baghdasaryan <surenb@google.com> [241218 15:01]:
+> > On Wed, Dec 18, 2024 at 11:38=E2=80=AFAM 'Liam R. Howlett' via kernel-t=
+eam
+> > <kernel-team@android.com> wrote:
+> > >
+> > > * Suren Baghdasaryan <surenb@google.com> [241218 14:29]:
+> > > > On Wed, Dec 18, 2024 at 11:07=E2=80=AFAM Suren Baghdasaryan <surenb=
+@google.com> wrote:
+> > > > >
+> > > > > On Wed, Dec 18, 2024 at 11:00=E2=80=AFAM 'Liam R. Howlett' via ke=
+rnel-team
+> > > > > <kernel-team@android.com> wrote:
+> > > > > >
+> > > > > > * Suren Baghdasaryan <surenb@google.com> [241218 12:58]:
+> > > > > > > On Wed, Dec 18, 2024 at 9:44=E2=80=AFAM Peter Zijlstra <peter=
+z@infradead.org> wrote:
+> > > > > > > >
+> > > > > > > > On Wed, Dec 18, 2024 at 09:36:42AM -0800, Suren Baghdasarya=
+n wrote:
+> > > > > > > >
+> > > > > > > > > > You will not. vms_complete_munmap_vmas() will call remo=
+ve_vma() to
+> > > > > > > > > > remove PTEs IIRC, and if you do start_write() and detac=
+h() before
+> > > > > > > > > > dropping mmap_lock_write, you should be good.
+> > > > > > > > >
+> > > > > > > > > Ok, I think we will have to move mmap_write_downgrade() i=
+nside
+> > > > > > > > > vms_complete_munmap_vmas() to be called after remove_vma(=
+).
+> > > > > > > > > vms_clear_ptes() is using vmas, so we can't move remove_v=
+ma() before
+> > > > > > > > > mmap_write_downgrade().
+> > > > > > > >
+> > > > > > > > Why ?!
+> > > > > > > >
+> > > > > > > > vms_clear_ptes() and remove_vma() are fine where they are -=
+- there is no
+> > > > > > > > concurrency left at this point.
+> > > > > > > >
+> > > > > > > > Note that by doing vma_start_write() inside vms_complete_mu=
+nmap_vmas(),
+> > > > > > > > which is *after* the vmas have been unhooked from the mm, y=
+ou wait for
+> > > > > > > > any concurrent user to go away.
+> > > > > > > >
+> > > > > > > > And since they're unhooked, there can't be any new users.
+> > > > > > > >
+> > > > > > > > So you're the one and only user left, and code is fine the =
+way it is.
+> > > > > > >
+> > > > > > > Ok, let me make sure I understand this part of your proposal.=
+ From
+> > > > > > > your earlier email:
+> > > > > > >
+> > > > > > > @@ -1173,6 +1173,11 @@ static void vms_complete_munmap_vmas(s=
+truct
+> > > > > > > vma_munmap_struct *vms,
+> > > > > > >         struct vm_area_struct *vma;
+> > > > > > >         struct mm_struct *mm;
+> > > > > > >
+> > > > > > > +       mas_for_each(mas_detach, vma, ULONG_MAX) {
+> > > > > > > +               vma_start_write(next);
+> > > > > > > +               vma_mark_detached(next, true);
+> > > > > > > +       }
+> > > > > > > +
+> > > > > > >         mm =3D current->mm;
+> > > > > > >         mm->map_count -=3D vms->vma_count;
+> > > > > > >         mm->locked_vm -=3D vms->locked_vm;
+> > > > > > >
+> > > > > > > This would mean:
+> > > > > > >
+> > > > > > > vms_complete_munmap_vmas
+> > > > > > >            vma_start_write
+> > > > > > >            vma_mark_detached
+> > > > > > >            mmap_write_downgrade
+> > > > > > >            vms_clear_ptes
+> > > > > > >            remove_vma
+> > > > > > >
+> > > > > > > And remove_vma will be just freeing the vmas. Is that correct=
+?
+> > > > > > > I'm a bit confused because the original thinking was that
+> > > > > > > vma_mark_detached() would drop the last refcnt and if it's 0 =
+we would
+> > > > > > > free the vma right there. If that's still what we want to do =
+then I
+> > > > > > > think the above sequence should look like this:
+> > > > > > >
+> > > > > > > vms_complete_munmap_vmas
+> > > > > > >            vms_clear_ptes
+> > > > > > >            remove_vma
+> > > > > > >                vma_start_write
+> > > > > > >                vma_mark_detached
+> > > > > > >            mmap_write_downgrade
+> > > > > > >
+> > > > > > > because vma_start_write+vma_mark_detached should be done unde=
+r  mmap_write_lock.
+> > > > > > > Please let me know which way you want to move forward.
+> > > > > > >
+> > > > > >
+> > > > > > Are we sure we're not causing issues with the MAP_FIXED path he=
+re?
+> > > > > >
+> > > > > > With the above change, we'd be freeing the PTEs before marking =
+the vmas
+> > > > > > as detached or vma_start_write().
+> > > > >
+> > > > > IIUC when we call vms_complete_munmap_vmas() all vmas inside
+> > > > > mas_detach have been already write-locked, no?
+> > >
+> > > That's the way it is today - but I thought you were moving the lock t=
+o
+> > > the complete stage, not adding a new one? (why add a new one otherwis=
+e?)
+> >
+> > Is my understanding correct that mas_detach is populated by
+> > vms_gather_munmap_vmas() only with vmas that went through
+> > __split_vma() (and were write-locked there)? I don't see any path that
+> > would add any other vma into mas_detach but maybe I'm missing
+> > something?
+>
+> No, that is not correct.
+>
+> vms_gather_munmap_vmas() calls split on the first vma, then adds all
+> vmas that are within the range of the munmap() call.  Potentially
+> splitting the last vma and adding that in the
+> "if (next->vm_end > vms->end)" block.
+>
+> Sometimes this is a single vma that gets split twice, sometimes no
+> splits happen and entire vmas are unmapped, sometimes it's just one vma
+> that isn't split.
+>
+> My observation is the common case is a single vma, but besides that we
+> see 3, and sometimes 7 at a time, but it could be any number of vmas and
+> not all of them are split.
+>
+> There is a loop for_each_vma_range() that does:
+>
+> vma_start_write(next);
+> mas_set(mas_detach, vms->mas_count++);
+> mas_store_gfp(mas_detach, next, GFP_KERNEL);
 
-The SDCIAE (SDCI Allocation Enforcement) PQE feature allows system
-software to limit the portion of the L3 cache used for SDCI.
+Ah, ok I see now. I completely misunderstood what for_each_vma_range()
+was doing.
 
-Provide the interface to modify io_alloc CBMs (Capacity Bit Masks).
+Then I think vma_start_write() should remain inside
+vms_gather_munmap_vmas() and all vmas in mas_detach should be
+write-locked, even the ones we are not modifying. Otherwise what would
+prevent the race I mentioned before?
 
-Signed-off-by: Babu Moger <babu.moger@amd.com>
----
-v2: Added more generic text in documentation.
----
- Documentation/arch/x86/resctrl.rst        |   8 ++
- arch/x86/kernel/cpu/resctrl/ctrlmondata.c |   2 +-
- arch/x86/kernel/cpu/resctrl/internal.h    |   1 +
- arch/x86/kernel/cpu/resctrl/rdtgroup.c    | 128 +++++++++++++++++++++-
- 4 files changed, 137 insertions(+), 2 deletions(-)
+__mmap_region
+    __mmap_prepare
+        vms_gather_munmap_vmas // adds vmas to be unmapped into mas_detach,
+                                                      // some locked
+by __split_vma(), some not locked
 
-diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
-index 52679175ee14..da74356adcc2 100644
---- a/Documentation/arch/x86/resctrl.rst
-+++ b/Documentation/arch/x86/resctrl.rst
-@@ -162,6 +162,14 @@ related to allocation:
- 
- 			# echo 1 > /sys/fs/resctrl/info/L3/io_alloc
- 
-+"io_alloc_cbm":
-+		Capacity Bit Masks (CBMs) available to supported IO devices which
-+		can directly insert cache lines in L3 which can help to reduce the
-+		latency. CBM can be configured by writing to the interface in the
-+		following format::
-+
-+			L3:<cache_id0>=<cbm>;<cache_id1>=<cbm>;...
-+
- Memory bandwidth(MB) subdirectory contains the following files
- with respect to allocation:
- 
-diff --git a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-index d272dea43924..4dfee0436c1c 100644
---- a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-+++ b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-@@ -102,7 +102,7 @@ int parse_bw(struct rdt_parse_data *data, struct resctrl_schema *s,
-  * requires at least two bits set.
-  * AMD allows non-contiguous bitmasks.
-  */
--static bool cbm_validate(char *buf, u32 *data, struct rdt_resource *r)
-+bool cbm_validate(char *buf, u32 *data, struct rdt_resource *r)
- {
- 	unsigned long first_bit, zero_bit, val;
- 	unsigned int cbm_len = r->cache.cbm_len;
-diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-index 1550cb468b8e..5f7236437cb5 100644
---- a/arch/x86/kernel/cpu/resctrl/internal.h
-+++ b/arch/x86/kernel/cpu/resctrl/internal.h
-@@ -669,4 +669,5 @@ void rdt_staged_configs_clear(void);
- bool closid_allocated(unsigned int closid);
- int resctrl_find_cleanest_closid(void);
- void show_doms(struct seq_file *s, struct resctrl_schema *schema, int closid);
-+bool cbm_validate(char *buf, u32 *data, struct rdt_resource *r);
- #endif /* _ASM_X86_RESCTRL_INTERNAL_H */
-diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-index 4d6b83d18790..c2b4221ea469 100644
---- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-+++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-@@ -1970,6 +1970,131 @@ static int resctrl_io_alloc_cbm_show(struct kernfs_open_file *of,
- 	return ret;
- }
- 
-+/*
-+ * Read the CBM and check the validity. Make sure CBM is not shared
-+ * with any other exclusive resctrl groups.
-+ */
-+static int resctrl_io_alloc_parse_cbm(char *buf, struct resctrl_schema *s,
-+				      struct rdt_ctrl_domain *d)
-+{
-+	struct resctrl_staged_config *cfg;
-+	struct rdt_resource *r = s->res;
-+	u32 io_alloc_closid;
-+	u32 cbm_val;
-+
-+	cfg = &d->staged_config[s->conf_type];
-+	if (cfg->have_new_ctrl) {
-+		rdt_last_cmd_printf("Duplicate domain %d\n", d->hdr.id);
-+		return -EINVAL;
-+	}
-+
-+	if (!cbm_validate(buf, &cbm_val, r))
-+		return -EINVAL;
-+
-+	/*
-+	 * The CBM may not overlap with other exclusive group.
-+	 */
-+	io_alloc_closid = resctrl_io_alloc_closid_get(r);
-+	if (rdtgroup_cbm_overlaps(s, d, cbm_val, io_alloc_closid, true)) {
-+		rdt_last_cmd_puts("Overlaps with exclusive group\n");
-+		return -EINVAL;
-+	}
-+
-+	cfg->new_ctrl = cbm_val;
-+	cfg->have_new_ctrl = true;
-+
-+	return 0;
-+}
-+
-+static int resctrl_io_alloc_parse_line(char *line,  struct rdt_resource *r,
-+				       struct resctrl_schema *s)
-+{
-+	struct rdt_ctrl_domain *d;
-+	char *dom = NULL, *id;
-+	unsigned long dom_id;
-+
-+next:
-+	if (!line || line[0] == '\0')
-+		return 0;
-+
-+	dom = strsep(&line, ";");
-+	id = strsep(&dom, "=");
-+	if (!dom || kstrtoul(id, 10, &dom_id)) {
-+		rdt_last_cmd_puts("Missing '=' or non-numeric domain\n");
-+		return -EINVAL;
-+	}
-+
-+	dom = strim(dom);
-+	list_for_each_entry(d, &r->ctrl_domains, hdr.list) {
-+		if (d->hdr.id == dom_id) {
-+			if (resctrl_io_alloc_parse_cbm(dom, s, d))
-+				return -EINVAL;
-+			goto next;
-+		}
-+	}
-+	return -EINVAL;
-+}
-+
-+static ssize_t resctrl_io_alloc_cbm_write(struct kernfs_open_file *of,
-+					  char *buf, size_t nbytes, loff_t off)
-+{
-+	struct resctrl_schema *s = of->kn->parent->priv;
-+	struct rdt_resource *r = s->res;
-+	u32 io_alloc_closid;
-+	char *resname;
-+	int ret = 0;
-+
-+	/* Valid input requires a trailing newline */
-+	if (nbytes == 0 || buf[nbytes - 1] != '\n')
-+		return -EINVAL;
-+
-+	buf[nbytes - 1] = '\0';
-+
-+	cpus_read_lock();
-+	mutex_lock(&rdtgroup_mutex);
-+
-+	rdt_last_cmd_clear();
-+	rdt_staged_configs_clear();
-+
-+	if (!resctrl_arch_get_io_alloc_enabled(r->rid)) {
-+		rdt_last_cmd_puts("io_alloc feature is not enabled\n");
-+		ret = -EINVAL;
-+		goto cbm_write_out;
-+	}
-+
-+	resname = strim(strsep(&buf, ":"));
-+	if (!buf) {
-+		rdt_last_cmd_puts("Missing ':'\n");
-+		ret = -EINVAL;
-+		goto cbm_write_out;
-+	}
-+
-+	if (strcmp(resname, "L3")) {
-+		rdt_last_cmd_printf("Unsupported resource name '%s'\n", resname);
-+		ret = -EINVAL;
-+		goto cbm_write_out;
-+	}
-+
-+	if (buf[0] == '\0') {
-+		rdt_last_cmd_printf("Missing '%s' value\n", resname);
-+		ret = -EINVAL;
-+		goto cbm_write_out;
-+	}
-+
-+	ret = resctrl_io_alloc_parse_line(buf, r, s);
-+	if (ret)
-+		goto cbm_write_out;
-+
-+	io_alloc_closid = resctrl_io_alloc_closid_get(r);
-+	ret = resctrl_arch_update_domains(r, io_alloc_closid);
-+
-+cbm_write_out:
-+	mutex_unlock(&rdtgroup_mutex);
-+	cpus_read_unlock();
-+
-+	return ret ?: nbytes;
-+}
-+
- /* rdtgroup information files for one cache resource. */
- static struct rftype res_common_files[] = {
- 	{
-@@ -2131,9 +2256,10 @@ static struct rftype res_common_files[] = {
- 	},
- 	{
- 		.name		= "io_alloc_cbm",
--		.mode		= 0444,
-+		.mode		= 0644,
- 		.kf_ops		= &rdtgroup_kf_single_ops,
- 		.seq_show	= resctrl_io_alloc_cbm_show,
-+		.write		= resctrl_io_alloc_cbm_write,
- 	},
- 	{
- 		.name		= "mba_MBps_event",
--- 
-2.34.1
+                                     lock_vma_under_rcu()
+                                         vma =3D mas_walk // finds
+unlocked vma also in mas_detach
+                                         vma_start_read(vma) //
+succeeds since vma is not locked
+                                         // vma->detached, vm_start,
+vm_end checks pass
+                                     // vma is successfully read-locked
 
+       vms_clean_up_area(mas_detach)
+            vms_clear_ptes
+                                     // steps on a cleared PTE
+    __mmap_new_vma
+        vma_set_range // installs new vma in the range
+    __mmap_complete
+        vms_complete_munmap_vmas // vmas are write-locked and detached
+but it's too late
+
+
+
+>
+>
+> >
+> > >
+> > > >
+> > > > Yeah, I think we can simply do this:
+> > > >
+> > > > vms_complete_munmap_vmas
+> > > >            vms_clear_ptes
+> > > >            remove_vma
+> > > >                vma_mark_detached
+> > > >            mmap_write_downgrade
+> > > >
+> > > > If my assumption is incorrect, assertion inside vma_mark_detached()
+> > > > should trigger. I tried a quick test and so far nothing exploded.
+> > > >
+> > >
+> > > If they are write locked, then the page faults are not a concern.  Th=
+ere
+> > > is also the rmap race that Jann found in mmap_region() [1].  This is
+> > > probably also fine since you are keeping the write lock in place earl=
+ier
+> > > on in the gather stage.  Note the ptes will already be cleared by the
+> > > time vms_complete_munmap_vmas() is called in this case.
+> > >
+> > > [1] https://lore.kernel.org/all/CAG48ez0ZpGzxi=3D-5O_uGQ0xKXOmbjeQ0Lj=
+ZsRJ1Qtf2X5eOr1w@mail.gmail.com/
+> > >
+> > > Thanks,
+> > > Liam
+> > >
+> > > To unsubscribe from this group and stop receiving emails from it, sen=
+d an email to kernel-team+unsubscribe@android.com.
+> > >
