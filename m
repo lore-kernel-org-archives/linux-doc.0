@@ -1,265 +1,340 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27D51F61C
-	for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 01:11:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BBDC2AEED;
+	Wed, 18 Dec 2024 02:21:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734484276; cv=none; b=KxA1vpdyIWt8l63rnrhlXpCq3F3zaDRcBec8CmV6sPfyvAShd0D4jfRqL/ekF3GXTXkQewtX/wzegQEtR/2nw2WIImvwtcOnyim+ASddoh6Cud/ch0mkRF4+1bjrQE2UFwaQVFfIzr0PNyEowO4K7E7kV2gOQv/VECYQO717kWw=
+	t=1734488499; cv=none; b=IsDxc8ksqYK1rFePATysRSUTlN2P0u+T6lyUyZ9070FBfW+gJFgccl/ZiwIKVpE5hI6r9M5hGMl9pP/YhZfLC9zg/OBIg6dMXdNwkHXBwSP4BhxZnMWu3hesNKU39gLPntIYR2V6vL033JCfov0G31PTkD08i+1r9NjcDipZh8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734484276; c=relaxed/simple;
-	bh=FxP5WG2Kqa3WDGkwuAPnjbFknjmPg/KFzC3bOCOPlKA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qGtOkBWjp30QLyyfKy4Upd4Y98MLQgoJn+ObgtpvmKtc8taVJaQYhZ+SZ2bWdIhPCgYHuHq7vcljiGx7pbs9O33ikU2gixQagY4OquUDuc0XKEAj9QUmI+mSClLJ5aqlbJTjEPUQ/0IlQvWS9i3sqFQb86pQsmvbd0/6zaRjw2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=FsWGWup7; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1734488499; c=relaxed/simple;
+	bh=2dfktqLq+Vu6IQmTgM2MVcirLc/3oh6bOjnyMuNRk4E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=mWhGRtCd2EABx/ANCFtmLWjyAp/yrtlbuN0FkUKvBAEvPD1X77ekbY74qrhqMbGNQdEzqt3xUwge2B3NIdxAADwf0WPAIcXMCxZGbWuUfhwQ2cmW/+NXJs0fcuAoBAqKbf1QXkQ5oV8izNp0hUE1zJTNDhlhXc7NT8dwAZPSu3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=CMTxi5KD; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="FsWGWup7"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-218c80a97caso13734855ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 17 Dec 2024 17:11:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1734484274; x=1735089074; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=//AsXtq/PKwVlsB/6NdH9AeHKR9dR/Splpn+baz2miA=;
-        b=FsWGWup7W5Rg9sqzJzfti/4wYXFQjiWFRVcBd7ueyDzdKI2YKna85K/0g3HqlAJ1Vz
-         YeJ5Y0rzDJ3YZ6e9VGHalJmuEXihPVJ95Nsxck6RILwAOzekxKRu9V5dMPhAYKYmCv+V
-         e8uZgbCcSzRtbzmyLbVoPbOJxMRjIQv6T9EkJymjPwgHMNLi/Xhjz9pNGXOxpU2jjXMM
-         wo4xPS8Sk5uP0quE3+NLx1ssE8vag0WZ+F3u9K3SraI8buM9BCQpAfbzvNUHEv6JlFH0
-         UwiEO6KQWJiKUAw4u68dtw8VY6olpCtQfXji/4OBf4BypBG9ZzEfxauuytKLBT8kTv2C
-         KCcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734484274; x=1735089074;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=//AsXtq/PKwVlsB/6NdH9AeHKR9dR/Splpn+baz2miA=;
-        b=fRvWygGAkQmE3A/3sVAl5ZCsNSPCpIstdXnub9kwnLxgdN4BeaY380RD/iKj8mj3Qu
-         7fxd6KCJXWD0LSxBwHAtns6KcB5i97mYjk5gWbyqa4zj9KSkz5G8hbY+ts0jlJvyAgpH
-         anAkGxi7tB3R6vsZBOKdR85+obhZeCS4bAEDdzPyqp+D2lgdIpAZahjMpqc0TJVIxJZV
-         JfWS63ohGTVFJ8P7D/m658cPDiN9yHwD62HssLFTh/wbU9YH1CbE0u/DB1s46CecJ6H8
-         E2INMFPTHE1bY6TbMegWT9MaQCOwS6SKrJsxbi9W7grYaoGWeJm1tC/AhL8xSK4+58SE
-         l4Yw==
-X-Forwarded-Encrypted: i=1; AJvYcCUXxtULSiyru4KjPGvPG1RX0+QKpmwA2yYwxbT/PzxC02+o8f6yWH/wAP0QHFVLPGaUUIHDTtkvlDo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxipzokGaONm3cCcbkY4WQEW/GHVkrXyurL9T6CUf677cuHnEAT
-	u3Np+j3Gqejhl12VKYw0ZJO21WrHxDSZPuZ2gBAinu7fIGRVEetgqZ5jF/REX+s=
-X-Gm-Gg: ASbGncuFfQKd4ldy+B2EdIiY76vIAjCvujQy9wkqTTfncJsTUwVMfdoVu9LObvdY9vX
-	5k2dB2GE88mXTLtZtBAnAM+6eU2RsEQNh5pPa7IUKIVLQb3a5AQ+sB3UJkyzOHSaWHn5MslOsBV
-	yHf2PRmlfCuZZ19siRDNqJDbZa/nwNEch8erScc5DuS0kCHK+s9I23Az00fWYj7QL9r0Yr9J4uU
-	mbP2alUni4viJqVHuF3kkipYAZpdjaxsVD3UNadBpgGqfM=
-X-Google-Smtp-Source: AGHT+IEOXPRe9Wq6Eef0ftWD1QmBlV0TBPdEvvDl6Yjh3OVfGIkOaO5fTDZemiJS1rNtOnnDywF/wA==
-X-Received: by 2002:a17:902:f705:b0:216:2e5e:971d with SMTP id d9443c01a7336-218d726c177mr12199525ad.51.1734484273938;
-        Tue, 17 Dec 2024 17:11:13 -0800 (PST)
-Received: from ghost ([50.145.13.30])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-218a1e657d1sm65805315ad.239.2024.12.17.17.11.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Dec 2024 17:11:12 -0800 (PST)
-Date: Tue, 17 Dec 2024 17:11:09 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Ian Rogers <irogers@google.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Christian Brauner <brauner@kernel.org>, Guo Ren <guoren@kernel.org>,
-	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
-	James Clark <james.clark@linaro.org>,
-	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
-	Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
-	linux-csky@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 00/16] perf tools: Use generic syscall scripts for all
- archs
-Message-ID: <Z2IhLZ8mfTWvbCvI@ghost>
-References: <20241216-perf_syscalltbl-v3-0-239f032481d5@rivosinc.com>
- <CAP-5=fWEUq_nLx7PUx96ixMrX0NqqF8W0EmXV9Zvc449zj0Z7A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="CMTxi5KD"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BHNVpq2023282;
+	Wed, 18 Dec 2024 02:21:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	BgkSjZ8EbFbfs6UyyZE4BVrTuBG3ePaglPB/zt5dDGs=; b=CMTxi5KDJGaz4tJ+
+	CxwRDGQSgIFxHmfk5EBd9poN1RXHRgyKW6NUmtiSEFx+qFGVtQ3p80+6XcEGsfCu
+	ozbchxyzgnVlh37IMfHgyDJPD6TpSmZJFrNnyuzP9G4DKGmyWha39GeBB+NJWr31
+	OXYGLByJbfkB6j2UCPxURTRLpQGOM1dhPszFUJ7kBrQdm8YueqVcPO9PkIDBB5TH
+	vygN9bNao3XfPSwTvlFB1zReANjzXrIIc75eO1JTsQ7UFv2dm+UdA/XnMGkDuS9I
+	yjemLG5d4XchWuDsA1naBCbnNR37VbfdtgIzNnqjA8X8/oHiFqHtNZDbpvopymH2
+	1Cc1vQ==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43kk2909d9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 18 Dec 2024 02:21:26 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BI2LP51025196
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 18 Dec 2024 02:21:25 GMT
+Received: from [10.253.12.24] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 17 Dec
+ 2024 18:21:22 -0800
+Message-ID: <e3a66cc7-a770-4d08-be66-13e13a2d5130@quicinc.com>
+Date: Wed, 18 Dec 2024 10:21:19 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAP-5=fWEUq_nLx7PUx96ixMrX0NqqF8W0EmXV9Zvc449zj0Z7A@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] of: Add printf '%pOFm' for generating modalias
+To: "Rob Herring (Arm)" <robh@kernel.org>, Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Andy Shevchenko
+	<andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes
+	<linux@rasmusvillemoes.dk>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Saravana Kannan <saravanak@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>
+References: <20241217183711.2525863-1-robh@kernel.org>
+Content-Language: en-US
+From: quic_zijuhu <quic_zijuhu@quicinc.com>
+In-Reply-To: <20241217183711.2525863-1-robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: -hCPlTfEvDG_N_w4_IJdpRd3-WCbOXK8
+X-Proofpoint-ORIG-GUID: -hCPlTfEvDG_N_w4_IJdpRd3-WCbOXK8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ impostorscore=0 suspectscore=0 malwarescore=0 lowpriorityscore=0
+ priorityscore=1501 phishscore=0 mlxscore=0 spamscore=0 clxscore=1011
+ adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412180016
 
-On Tue, Dec 17, 2024 at 04:03:29PM -0800, Ian Rogers wrote:
-> On Mon, Dec 16, 2024 at 10:39 PM Charlie Jenkins <charlie@rivosinc.com> wrote:
-> >
-> > Standardize the generation of syscall headers around syscall tables.
-> > Previously each architecture independently selected how syscall headers
-> > would be generated, or would not define a way and fallback onto
-> > libaudit. Convert all architectures to use a standard syscall header
-> > generation script and allow each architecture to override the syscall
-> > table to use if they do not use the generic table.
-> >
-> > As a result of these changes, no architecture will require libaudit, and
-> > so the fallback case of using libaudit is removed by this series.
-> >
-> > Testing:
-> >
-> > I have tested that the syscall mappings of id to name generation works
-> > as expected for every architecture, but I have only validated that perf
-> > trace compiles and runs as expected on riscv, arm64, and x86_64.
-> >
-> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+On 12/18/2024 2:37 AM, Rob Herring (Arm) wrote:
+> The callers for of_modalias() generally need the module alias as part of
+> some larger string. That results in some error prone manipulation of the
+> buffer prepend/append the module alias string. In fact,
+> of_device_uevent_modalias() has several issues. First, it's off by one
+> too few characters in utilization of the full buffer. Second, the error
+> paths leave OF_MODALIAS with a truncated value when in the end nothing
+> should be added to the buffer. It is also fragile because it needs
+> internal details of struct kobj_uevent_env. add_uevent_var() really
+> wants to write the env variable and value in one shot which would need
+> either a temporary buffer for value or a format specifier.
 > 
-> This is really great, thanks for taking the time for a substantial
-> clean up. I had difficulty applying the patches to the perf-tools-next
-> branch:
-> https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git/log/?h=perf-tools-next
-> using patch and dealing with rejects I was able to test.
+> Fix these issues by adding a new printf format specifier, "%pOFm". With
+> the format specifier in place, simplify all the callers of
+> of_modalias(). of_modalias() can also be simplified with vsprintf()
+> being the only caller as it avoids the error conditions.
 > 
-> Reviewed-by: Ian Rogers <irogers@google.com>
-> On x86-64:
-> Tested-by: Ian Rogers <irogers@google.com>
 
-Thank you! I will base my next version on perf-tools-next.
+good solution (^^).
 
-- Charlie
+> Cc: Zijun Hu <quic_zijuhu@quicinc.com>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+>  Documentation/core-api/printk-formats.rst |  1 +
+>  drivers/of/device.c                       | 25 ++--------------
+>  drivers/of/module.c                       | 35 +++++------------------
+>  drivers/of/unittest.c                     |  2 ++
+>  include/linux/of.h                        |  8 +++---
+>  lib/vsprintf.c                            |  7 +++--
+>  6 files changed, 22 insertions(+), 56 deletions(-)
+> 
+> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+> index ecccc0473da9..d72fe3d8c427 100644
+> --- a/Documentation/core-api/printk-formats.rst
+> +++ b/Documentation/core-api/printk-formats.rst
+> @@ -496,6 +496,7 @@ equivalent to %pOFf.
+>  	- F - device node flags
+>  	- c - major compatible string
+>  	- C - full compatible string
+> +	- m - module alias string
 
+Ack.
+
+>  
+>  The separator when using multiple arguments is ':'
+>  
+> diff --git a/drivers/of/device.c b/drivers/of/device.c
+> index edf3be197265..ae8c47d5db8e 100644
+> --- a/drivers/of/device.c
+> +++ b/drivers/of/device.c
+> @@ -199,14 +199,9 @@ ssize_t of_device_modalias(struct device *dev, char *str, ssize_t len)
+>  	if (!dev || !dev->of_node || dev->of_node_reused)
+>  		return -ENODEV;
+>  
+> -	sl = of_modalias(dev->of_node, str, len - 2);
+> -	if (sl < 0)
+> -		return sl;
+> -	if (sl > len - 2)
+> +	sl = snprintf(str, len, "%pOFm\n", dev->of_node);
+> +	if (sl >= len)
+>  		return -ENOMEM;
+> -
+> -	str[sl++] = '\n';
+> -	str[sl] = 0;
+>  	return sl;
+>  }
+
+Ack.
+
+>  EXPORT_SYMBOL_GPL(of_device_modalias);
+> @@ -256,24 +251,10 @@ EXPORT_SYMBOL_GPL(of_device_uevent);
+>  
+>  int of_device_uevent_modalias(const struct device *dev, struct kobj_uevent_env *env)
+>  {
+> -	int sl;
+> -
+>  	if ((!dev) || (!dev->of_node) || dev->of_node_reused)
+>  		return -ENODEV;
+>  
+> -	/* Devicetree modalias is tricky, we add it in 2 steps */
+> -	if (add_uevent_var(env, "MODALIAS="))
+> -		return -ENOMEM;
+> -
+> -	sl = of_modalias(dev->of_node, &env->buf[env->buflen-1],
+> -			 sizeof(env->buf) - env->buflen);
+> -	if (sl < 0)
+> -		return sl;
+> -	if (sl >= (sizeof(env->buf) - env->buflen))
+> -		return -ENOMEM;
+> -	env->buflen += sl;
+> -
+> -	return 0;
+> +	return add_uevent_var(env, "MODALIAS=%pOFm", dev->of_node);
+>  }
+
+Ack.
+
+>  EXPORT_SYMBOL_GPL(of_device_uevent_modalias);
+>  
+> diff --git a/drivers/of/module.c b/drivers/of/module.c
+> index 1e735fc130ad..80879d2abea8 100644
+> --- a/drivers/of/module.c
+> +++ b/drivers/of/module.c
+> @@ -8,21 +8,14 @@
+>  #include <linux/slab.h>
+>  #include <linux/string.h>
+>  
+> -ssize_t of_modalias(const struct device_node *np, char *str, ssize_t len)
+> +/* Do not use directly, use %pOFm format specifier instead */
+> +size_t of_modalias(const struct device_node *np, char *str, size_t len)
+>  {
+>  	const char *compat;
+>  	char *c;
+>  	struct property *p;
+> -	ssize_t csize;
+> -	ssize_t tsize;
+> -
+> -	/*
+> -	 * Prevent a kernel oops in vsnprintf() -- it only allows passing a
+> -	 * NULL ptr when the length is also 0. Also filter out the negative
+> -	 * lengths...
+> -	 */
+> -	if ((len > 0 && !str) || len < 0)
+> -		return -EINVAL;
+> +	size_t csize;
+> +	size_t tsize;
 > 
-> I think there are follow up patches that clean up the ABI, allow >1
-> table at a time, .. but those things are best saved for a follow up.
-> 
-> Thanks,
-> Ian
-> 
-> > ---
-> > Changes in v3:
-> > - Fix compiliation when OUTPUT is empty
-> > - Correct unused headers to be .h instead of .c  (Namhyung)
-> > - Make variable definition of supported archs (Namhyung)
-> > - Convert += into := for syscalls headers (Namhyung)
-> > - Link to v2: https://lore.kernel.org/r/20241212-perf_syscalltbl-v2-0-f8ca984ffe40@rivosinc.com
-> >
-> > Changes in v2:
-> > - Rebase onto 6.13-rc2
-> > - Fix output path so it generates to /tools/perf/arch properly
-> > - Link to v1: https://lore.kernel.org/r/20241104-perf_syscalltbl-v1-0-9adae5c761ef@rivosinc.com
-> >
-> > ---
-> > Charlie Jenkins (16):
-> >       perf tools: Create generic syscall table support
-> >       perf tools: arc: Support generic syscall headers
-> >       perf tools: csky: Support generic syscall headers
-> >       perf tools: arm: Support syscall headers
-> >       perf tools: sh: Support syscall headers
-> >       perf tools: sparc: Support syscall headers
-> >       perf tools: xtensa: Support syscall header
-> >       perf tools: x86: Use generic syscall scripts
-> >       perf tools: alpha: Support syscall header
-> >       perf tools: parisc: Support syscall header
-> >       perf tools: arm64: Use syscall table
-> >       perf tools: loongarch: Use syscall table
-> >       perf tools: mips: Use generic syscall scripts
-> >       perf tools: powerpc: Use generic syscall table scripts
-> >       perf tools: s390: Use generic syscall table scripts
-> >       perf tools: Remove dependency on libaudit
-> >
-> >  Documentation/admin-guide/workload-tracing.rst     |   2 +-
-> >  tools/build/feature/Makefile                       |   4 -
-> >  tools/build/feature/test-libaudit.c                |  11 -
-> >  tools/perf/Documentation/perf-check.txt            |   1 -
-> >  tools/perf/Makefile.config                         |  39 +-
-> >  tools/perf/Makefile.perf                           |  12 +-
-> >  tools/perf/arch/alpha/entry/syscalls/Kbuild        |   2 +
-> >  .../arch/alpha/entry/syscalls/Makefile.syscalls    |   5 +
-> >  tools/perf/arch/alpha/entry/syscalls/syscall.tbl   | 504 ++++++++++++++++++++
-> >  tools/perf/arch/alpha/include/syscall_table.h      |   2 +
-> >  tools/perf/arch/arc/entry/syscalls/Kbuild          |   2 +
-> >  .../perf/arch/arc/entry/syscalls/Makefile.syscalls |   3 +
-> >  tools/perf/arch/arc/include/syscall_table.h        |   2 +
-> >  tools/perf/arch/arm/entry/syscalls/Kbuild          |   4 +
-> >  .../perf/arch/arm/entry/syscalls/Makefile.syscalls |   2 +
-> >  tools/perf/arch/arm/entry/syscalls/syscall.tbl     | 483 +++++++++++++++++++
-> >  tools/perf/arch/arm/include/syscall_table.h        |   2 +
-> >  tools/perf/arch/arm64/Makefile                     |  22 -
-> >  tools/perf/arch/arm64/entry/syscalls/Kbuild        |   3 +
-> >  .../arch/arm64/entry/syscalls/Makefile.syscalls    |   6 +
-> >  tools/perf/arch/arm64/entry/syscalls/mksyscalltbl  |  46 --
-> >  .../perf/arch/arm64/entry/syscalls/syscall_32.tbl  | 476 +++++++++++++++++++
-> >  .../perf/arch/arm64/entry/syscalls/syscall_64.tbl  |   1 +
-> >  tools/perf/arch/arm64/include/syscall_table.h      |   8 +
-> >  tools/perf/arch/csky/entry/syscalls/Kbuild         |   2 +
-> >  .../arch/csky/entry/syscalls/Makefile.syscalls     |   3 +
-> >  tools/perf/arch/csky/include/syscall_table.h       |   2 +
-> >  tools/perf/arch/loongarch/Makefile                 |  22 -
-> >  tools/perf/arch/loongarch/entry/syscalls/Kbuild    |   2 +
-> >  .../loongarch/entry/syscalls/Makefile.syscalls     |   3 +
-> >  .../arch/loongarch/entry/syscalls/mksyscalltbl     |  45 --
-> >  tools/perf/arch/loongarch/include/syscall_table.h  |   2 +
-> >  tools/perf/arch/mips/entry/syscalls/Kbuild         |   2 +
-> >  .../arch/mips/entry/syscalls/Makefile.syscalls     |   5 +
-> >  tools/perf/arch/mips/entry/syscalls/mksyscalltbl   |  32 --
-> >  tools/perf/arch/mips/include/syscall_table.h       |   2 +
-> >  tools/perf/arch/parisc/entry/syscalls/Kbuild       |   3 +
-> >  .../arch/parisc/entry/syscalls/Makefile.syscalls   |   6 +
-> >  tools/perf/arch/parisc/entry/syscalls/syscall.tbl  | 463 +++++++++++++++++++
-> >  tools/perf/arch/parisc/include/syscall_table.h     |   8 +
-> >  tools/perf/arch/powerpc/Makefile                   |  25 -
-> >  tools/perf/arch/powerpc/entry/syscalls/Kbuild      |   3 +
-> >  .../arch/powerpc/entry/syscalls/Makefile.syscalls  |   6 +
-> >  .../perf/arch/powerpc/entry/syscalls/mksyscalltbl  |  39 --
-> >  tools/perf/arch/powerpc/include/syscall_table.h    |   8 +
-> >  tools/perf/arch/riscv/Makefile                     |  22 -
-> >  tools/perf/arch/riscv/entry/syscalls/Kbuild        |   2 +
-> >  .../arch/riscv/entry/syscalls/Makefile.syscalls    |   4 +
-> >  tools/perf/arch/riscv/entry/syscalls/mksyscalltbl  |  47 --
-> >  tools/perf/arch/riscv/include/syscall_table.h      |   8 +
-> >  tools/perf/arch/s390/Makefile                      |  21 -
-> >  tools/perf/arch/s390/entry/syscalls/Kbuild         |   2 +
-> >  .../arch/s390/entry/syscalls/Makefile.syscalls     |   5 +
-> >  tools/perf/arch/s390/entry/syscalls/mksyscalltbl   |  32 --
-> >  tools/perf/arch/s390/include/syscall_table.h       |   2 +
-> >  tools/perf/arch/sh/entry/syscalls/Kbuild           |   2 +
-> >  .../perf/arch/sh/entry/syscalls/Makefile.syscalls  |   4 +
-> >  tools/perf/arch/sh/entry/syscalls/syscall.tbl      | 472 +++++++++++++++++++
-> >  tools/perf/arch/sh/include/syscall_table.h         |   2 +
-> >  tools/perf/arch/sparc/entry/syscalls/Kbuild        |   3 +
-> >  .../arch/sparc/entry/syscalls/Makefile.syscalls    |   5 +
-> >  tools/perf/arch/sparc/entry/syscalls/syscall.tbl   | 514 +++++++++++++++++++++
-> >  tools/perf/arch/sparc/include/syscall_table.h      |   8 +
-> >  tools/perf/arch/x86/Build                          |   1 -
-> >  tools/perf/arch/x86/Makefile                       |  25 -
-> >  tools/perf/arch/x86/entry/syscalls/Kbuild          |   3 +
-> >  .../perf/arch/x86/entry/syscalls/Makefile.syscalls |   6 +
-> >  tools/perf/arch/x86/entry/syscalls/syscalltbl.sh   |  42 --
-> >  tools/perf/arch/x86/include/syscall_table.h        |   8 +
-> >  tools/perf/arch/xtensa/entry/syscalls/Kbuild       |   2 +
-> >  .../arch/xtensa/entry/syscalls/Makefile.syscalls   |   4 +
-> >  tools/perf/arch/xtensa/entry/syscalls/syscall.tbl  | 439 ++++++++++++++++++
-> >  tools/perf/arch/xtensa/include/syscall_table.h     |   2 +
-> >  tools/perf/builtin-check.c                         |   1 -
-> >  tools/perf/builtin-help.c                          |   2 -
-> >  tools/perf/builtin-trace.c                         |  30 --
-> >  tools/perf/check-headers.sh                        |   9 +
-> >  tools/perf/perf.c                                  |   6 +-
-> >  tools/perf/scripts/Makefile.syscalls               |  61 +++
-> >  tools/perf/scripts/syscalltbl.sh                   |  86 ++++
-> >  tools/perf/tests/make                              |   7 +-
-> >  tools/perf/util/env.c                              |   4 +-
-> >  tools/perf/util/generate-cmdlist.sh                |   4 +-
-> >  tools/perf/util/syscalltbl.c                       |  90 +---
-> >  tools/scripts/syscall.tbl                          | 409 ++++++++++++++++
-> >  85 files changed, 4102 insertions(+), 619 deletions(-)
-> > ---
-> > base-commit: fac04efc5c793dccbd07e2d59af9f90b7fc0dca4
-> > change-id: 20240913-perf_syscalltbl-6f98defcc6f5
-> > --
-> > - Charlie
-> >
+
+Ack.
+
+>  	/* Name & Type */
+>  	/* %p eats all alphanum characters, so %c must be used here */
+> @@ -53,29 +46,15 @@ ssize_t of_modalias(const struct device_node *np, char *str, ssize_t len)
+>  
+>  int of_request_module(const struct device_node *np)
+>  {
+> -	char *str;
+> -	ssize_t size;
+> -	int ret;
+> +	char *str __free(kfree);
+
+char *str __free(kfree) = NULL;
+
+otherwise, wild pointer dereference may happen when return below.
+
+>  
+>  	if (!np)
+>  		return -ENODEV;
+>  
+> -	size = of_modalias(np, NULL, 0);
+> -	if (size < 0)
+> -		return size;
+> -
+> -	/* Reserve an additional byte for the trailing '\0' */
+> -	size++;
+> -
+> -	str = kmalloc(size, GFP_KERNEL);
+> +	str = kasprintf(GFP_KERNEL, "%pOFm", np);
+>  	if (!str)
+>  		return -ENOMEM;
+>  
+> -	of_modalias(np, str, size);
+> -	str[size - 1] = '\0';
+> -	ret = request_module(str);
+> -	kfree(str);
+> -
+> -	return ret;
+> +	return request_module(str);
+
+Ack.
+
+>  }
+>  EXPORT_SYMBOL_GPL(of_request_module);
+> diff --git a/drivers/of/unittest.c b/drivers/of/unittest.c
+> index daf9a2dddd7e..93921399f02d 100644
+> --- a/drivers/of/unittest.c
+> +++ b/drivers/of/unittest.c
+> @@ -342,6 +342,8 @@ static void __init of_unittest_printf(void)
+>  	of_unittest_printf_one(np, "%pOFc", "test-sub-device");
+>  	of_unittest_printf_one(np, "%pOFC",
+>  			"\"test-sub-device\",\"test-compat2\",\"test-compat3\"");
+> +	of_unittest_printf_one(np, "%pOFm",
+> +			"of:NdevT(null)Ctest-sub-deviceCtest-compat2Ctest-compat3");
+>  }
+>  
+>  struct node_hash {
+> diff --git a/include/linux/of.h b/include/linux/of.h
+> index f921786cb8ac..9fe7d17ce7e2 100644
+> --- a/include/linux/of.h
+> +++ b/include/linux/of.h
+> @@ -382,7 +382,7 @@ extern int of_count_phandle_with_args(const struct device_node *np,
+>  	const char *list_name, const char *cells_name);
+>  
+>  /* module functions */
+> -extern ssize_t of_modalias(const struct device_node *np, char *str, ssize_t len);
+> +extern size_t of_modalias(const struct device_node *np, char *str, size_t len);
+
+extern  may be removed. it does not matter to keep it here as well.
+
+Ack.
+
+
+>  extern int of_request_module(const struct device_node *np);
+>  
+>  /* phandle iterator functions */
+> @@ -762,10 +762,10 @@ static inline int of_count_phandle_with_args(const struct device_node *np,
+>  	return -ENOSYS;
+>  }
+>  
+> -static inline ssize_t of_modalias(const struct device_node *np, char *str,
+> -				  ssize_t len)
+> +static inline size_t of_modalias(const struct device_node *np, char *str,
+> +				 size_t len)
+>  {
+> -	return -ENODEV;
+> +	return 0;
+>  }
+>  
+
+Ack.
+
+>  static inline int of_request_module(const struct device_node *np)
+> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+> index 9d3dac38a3f4..6a4f99b39de0 100644
+> --- a/lib/vsprintf.c
+> +++ b/lib/vsprintf.c
+> @@ -2169,10 +2169,10 @@ char *device_node_string(char *buf, char *end, struct device_node *dn,
+>  
+>  	/* simple case without anything any more format specifiers */
+>  	fmt++;
+> -	if (fmt[0] == '\0' || strcspn(fmt,"fnpPFcC") > 0)
+> +	if (fmt[0] == '\0' || strcspn(fmt,"fnpPFcCm") > 0)
+>  		fmt = "f";
+>  
+> -	for (pass = false; strspn(fmt,"fnpPFcC"); fmt++, pass = true) {
+> +	for (pass = false; strspn(fmt,"fnpPFcCm"); fmt++, pass = true) {
+>  		int precision;
+>  		if (pass) {
+>  			if (buf < end)
+> @@ -2226,6 +2226,9 @@ char *device_node_string(char *buf, char *end, struct device_node *dn,
+>  				has_mult = true;
+>  			}
+>  			break;
+> +		case 'm':
+> +			buf += of_modalias(dn, buf, end - buf);
+> +			break;
+>  		default:
+>  			break;
+>  		}
+
+may Add below tag if the only issue is solved.
+
+Reviewed-by: Zijun Hu <quic_zijuhu@quicinc.com>
+
