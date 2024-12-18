@@ -1,157 +1,182 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA29224F6
-	for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 14:24:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB737224F6
+	for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 14:26:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734531858; cv=none; b=QM2zdQHlvhfsxr0l9ImYqRSBGbUPFd7WOjyWCduTqf4Em/kjINs8hSgKwXTkuskSIvPTWjoZj7aES4m0h3Xy1ixPfBv6cZqtTYPP710t5198rF2jLccS7CmeSJsIaieaGvhFqSj1hJqJG7kBDpfmL1LCbTT8e9UjFDfW1hR2cU4=
+	t=1734531971; cv=none; b=tUGQxb5ZUUvUQZzjMKeYXCxxRW3+Zzn7ltjyFi4j1qfsopWp1xYjudWXl0ufHezKXCxOJbsp37zcLb4sxMP9rZ9ykjugjyJ37iEChkdc679qxSRIICsg7HR9wsqzFx5lYEA9rtrsh2njis9oJ184QZbuyGB8/83fPgjYAO1Ly80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734531858; c=relaxed/simple;
-	bh=fxq5WPhXvFyAK+buBZe3FD3w5xOl2nrTCisD3TZj8AA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=PuQsJKyMabUGCdIC42HqIe1SXLBxGRC9qp6v8vTSQz9iciHaQDnb/gU+S+JuCtDCwmmssEprfIU/gPrs3WEeZnwNFxW4SokemEBGeRWZTXDhaA+0HpNRF7/G6rSLm7AyTQn4gulzg8fYixK6QNZAL7lwQLQJxzrkx39w4W7tFis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gYjMzyHY; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1734531971; c=relaxed/simple;
+	bh=oQJlOO10JOYWC6Lqu2aCp43hXfw4dXZVHbxIFY+FHmw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VikHVE51fHXi3+2BzqI8lVsTxg4JirtwcBwxLS6JZbrNOKxZKHqw+P2wRHxmm5oqo7+8fKGBPwY2qdT64jo2wRfiReDAs7l+Z037BOajCm3X24AKrGVpaleQeTLPgPGIRO0sqUyVMqVi2MtzYsMkgrrpze/w7yNl8imldsLMiqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JNgQx+Xw; arc=none smtp.client-ip=209.85.217.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gYjMzyHY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1734531855;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wYDfdm4rHVwC2HrRooT1qxFxAJepkEO0lOVD/zIJr0U=;
-	b=gYjMzyHYiTlHqoEoATbxOo83IFpLKpQLQF3FZ5/QJdXYroy+XIsjtImBOoZKMgG5thYmkc
-	EpQS/nMIBU5BP6jOBLJQSod5xu+KLRoVsCFGXr7Nh0K5x6KZLuBo8qkkqEICyY127LA3Ir
-	6VVJP9/0VVrZA3uRILLZGN3DLMf8vwg=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-157-yVQQ0-e9PqKLpx4PCPBbUA-1; Wed, 18 Dec 2024 09:24:13 -0500
-X-MC-Unique: yVQQ0-e9PqKLpx4PCPBbUA-1
-X-Mimecast-MFC-AGG-ID: yVQQ0-e9PqKLpx4PCPBbUA
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-5d3eceb9fe8so4034691a12.3
-        for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 06:24:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JNgQx+Xw"
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4aff620b232so1921045137.0
+        for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 06:26:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734531968; x=1735136768; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=V5Wt61ODIx6B1h8kD4uZvow1+HXs8Ji77hcMjnjVf2M=;
+        b=JNgQx+Xwi30ipHNRO0o/3sy8m/P40ilWdgY6MPQq8SGphEOxSYVXkpjf4FaFeDIMqf
+         O+iH5r9GEH98cJ/aerepJ7667pa0EnQMjEz2Gi1714wXmJk96mL9ESE3Ca+Vwu0ziOLV
+         m6yY0d6c2w4D0STGR/2QNRmThTLEOeTrpAZKKbQI+D8FYscg+phaSjUmclaRMhNjMbxP
+         LDNNlx6MTBWeq7gQdDA6G6m1pUQjt4488q8k4OcXIfssdJp5i08bUQkE5DDMvQKyO1IR
+         tzwzGbK8LgekjdjGi9c97fmdxVQmuFfsiHwez4V8fk28tKF2FOm0ODFrOPGSMbFSKDdw
+         BZmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734531853; x=1735136653;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wYDfdm4rHVwC2HrRooT1qxFxAJepkEO0lOVD/zIJr0U=;
-        b=CCnJF5ECmGf0Ih0dYGwpNFfiPRl+h4Hm9A+xE3I4YMMdipiA+8LMjharLs5dIwL8DN
-         VI2L3SwhRfUiPahcywkUnyzN1SECIUDupEh5z0iDL195Tc6pTbphhgZIQEbbYPwZX37u
-         Scjrz5YNawEYuLdaj6eFOSNAAuh7TFpQLh3qfhQ2CsEuoLosJ8tWOA/9t609aWFZHl7R
-         uC/V7t/kYS5zbH8RmPavjyVrbH5q5qpD7aAGjwHidMMlNQit40tt0mu9JOmpgMi6M8KZ
-         PawX26DYmZ2dgCWXoQWwpNGM4wHErCS3Z6Eo0jC/v/PhC+sKlh7R70THxcAlZRoJIf5c
-         xsww==
-X-Forwarded-Encrypted: i=1; AJvYcCVfVHCveVA8lV9QxjQpz0D94UfaJKJO864B0MS1xw+hlRdevM0JEE0+ewQFqH4qv5rL22IvtOEb+Lc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+Bsd7eMkicBb77WllLXEFJ294z1O6aZBxnzgSyH/xq8ak6eMm
-	uh9522u+IWyFiHV/rwTLzKsjQ1taQkK/WL3I+3EGuwWDdRCTjfzcanplyAyszmWt33N3SUfhsBY
-	cHwxBVCTv0Fdhonjt9bKjyFP/ds2o+lsd33hlAvP+2lSYKhZI3pFDVi90JA==
-X-Gm-Gg: ASbGncs4sS9Er4Yh40w83FT832RrrHdZFMK73dJO8mCkdz5oCqtyWxBVFT+T8FDdMTv
-	8ficaNB+tbJ8t0S2WtpxAGzK4rjsXCO1tQ5gQppWfutVNL3rQlaFc4nkNpzbGhwvEVkB1Ob82Qf
-	gUgu8ImUB0Z+dG3/EN4b0hp1pTzKSNG1IGQd3zjsB90n6S68wz1GtIM4v9B3DhSLpRneQyHDMFS
-	mWhoE8DhZG5yEvqwE8VLBWSOf39qYJcl0cGH8D+nrrpbrQ+Grx94dxulNl/X+gfLE1ghMhTvF3e
-	lQBy73TSKkrQE4N0BwswuimlNif8nnAUTWwflS37+IrLqXMDYz+ZvqRgSu8PI/1qCH0ixOMvsLZ
-	hGyu33CdqdeL4gTgL99Kds4yMJy45gWE=
-X-Received: by 2002:a05:6402:34cb:b0:5d0:e826:f0da with SMTP id 4fb4d7f45d1cf-5d7ee3b4ce0mr2712544a12.16.1734531852727;
-        Wed, 18 Dec 2024 06:24:12 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHFtRdU6T9fjczyDU36xPulMKDITuG4yX5oo84uMCHGFDo5XudrAQybG+dnV4bd1kStWZRLnQ==
-X-Received: by 2002:a05:6402:34cb:b0:5d0:e826:f0da with SMTP id 4fb4d7f45d1cf-5d7ee3b4ce0mr2712521a12.16.1734531852288;
-        Wed, 18 Dec 2024 06:24:12 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d652ab5109sm5407494a12.16.2024.12.18.06.24.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Dec 2024 06:24:11 -0800 (PST)
-Message-ID: <6d2e175f-0a84-4a6f-9484-c2c299bcc3c5@redhat.com>
-Date: Wed, 18 Dec 2024 15:24:10 +0100
+        d=1e100.net; s=20230601; t=1734531968; x=1735136768;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=V5Wt61ODIx6B1h8kD4uZvow1+HXs8Ji77hcMjnjVf2M=;
+        b=pDOfJOt5j7ANS3om1Cnnp4cjOtH+nCBpWyOdslVLaCFkVqJRCefZnF9EG2bwBTMGDT
+         MChF7e9T01LU1wDJYaifRzBztYJ+9t+rLiUu82IMgtZ3fJjZgnPIh3kw/6Dxk63F+3+S
+         vtCudRh1BHn+w+/+u5XB+qap43Ozdyn5MjqdTDY54VE7uVBAenHsqB2dtPpKo4TM/zVG
+         fhEn1pUICy84zPgm/VuivCPVh49fKdbuIX4ECL3IDUmshjyR+NZA3W8EiqZ/GG8SVVrp
+         h8FtMD/TI+VJqKDrgbd8/cIpKBQXOGG3Ag/kCtMQWCkzsUfCjyUkxrtqtWFs28Y8xYhS
+         6r8w==
+X-Forwarded-Encrypted: i=1; AJvYcCWSrAdHe9dW/FLda/9rjgajazfHR4VhtluFATZjzQklbdi1uu8w5P4iN93Xynj/Xybd5FQeo998DiY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0bJL5B/RF48gNz6W9BC+qYzZx680CWEG9tDQDux2yER/kT8Lv
+	6mSqN7YrqWgVTzIegrgU2dhT4rlhWy+tLrvIOKNzv9RtTZt1HdzSHQeNUE6WpnKEGj3Ix2ZvZeM
+	tzJ4+ihb1RdSttFo7ekKFSm4TWIAmC9oXloF3Kg==
+X-Gm-Gg: ASbGncvKEM++pysEzjhvTvKyTs++ekuidzHy4yhgxul1v2fop3KrnDu9PtjKvcHy55M
+	CcYHmV29PWrdIPnLzWCOFoimKE97g4fdKYZpjPZU=
+X-Google-Smtp-Source: AGHT+IHhXmp1oLpn05T1jwNDGZudSP2TrdWjhIpZLR5npDAeXO5zpJZTGOUCB/SClyyeCwmKQYes1CtcAvHgcT0VH0A=
+X-Received: by 2002:a05:6102:8001:b0:4b0:4d6:bff1 with SMTP id
+ ada2fe7eead31-4b2ae7824ecmr2291144137.14.1734531966256; Wed, 18 Dec 2024
+ 06:26:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] platform/x86: samsung-galaxybook: Add
- samsung-galaxybook driver
-To: Armin Wolf <W_Armin@gmx.de>, Joshua Grisham <josh@joshuagrisham.com>,
- ilpo.jarvinen@linux.intel.com, platform-driver-x86@vger.kernel.org,
- corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- rostedt@goodmis.org, mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
- linux-trace-kernel@vger.kernel.org
-References: <20241216103855.18457-1-josh@joshuagrisham.com>
- <c23c4c88-786a-4662-a448-deb006b7a03c@gmx.de>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <c23c4c88-786a-4662-a448-deb006b7a03c@gmx.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-0-f502ef01e016@quicinc.com>
+In-Reply-To: <20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-0-f502ef01e016@quicinc.com>
+From: Sumit Garg <sumit.garg@linaro.org>
+Date: Wed, 18 Dec 2024 19:55:55 +0530
+Message-ID: <CAFA6WYMbDExfCD4PAPQCF1HKKxjDH5FcLpnnBBrwayCiY0SkTg@mail.gmail.com>
+Subject: Re: [PATCH 00/10] Trusted Execution Environment (TEE) driver for
+ Qualcomm TEE (QTEE)
+To: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+Cc: Jens Wiklander <jens.wiklander@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, linux-arm-msm@vger.kernel.org, 
+	op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Armin,
+Hi Amirreza,
 
-Thank you for reviewing this new driver.
+On Tue, 3 Dec 2024 at 09:50, Amirreza Zarrabi <quic_azarrabi@quicinc.com> wrote:
+>
+> This patch series introduces a Trusted Execution Environment (TEE)
+> driver for Qualcomm TEE (QTEE). QTEE enables Trusted Applications (TAs)
+> and services to run securely. It uses an object-based interface, where
+> each service is an object with sets of operations. Clients can invoke
+> these operations on objects, which can generate results, including other
+> objects. For example, an object can load a TA and return another object
+> that represents the loaded TA, allowing access to its services.
+>
+> Kernel and userspace services are also available to QTEE through a
+> similar approach. QTEE makes callback requests that are converted into
+> object invocations. These objects can represent services within the
+> kernel or userspace process.
+>
+> Note: This patch series focuses on QTEE objects and userspace services.
+>
+> Linux already provides a TEE subsystem, which is described in [1]. The
+> tee subsystem provides a generic ioctl interface, TEE_IOC_INVOKE, which
+> can be used by userspace to talk to a TEE backend driver. We extend the
+> Linux TEE subsystem to understand object parameters and an ioctl call so
+> client can invoke objects in QTEE:
+>
+>   - TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_*
+>   - TEE_IOC_OBJECT_INVOKE
+>
 
-On 17-Dec-24 10:31 PM, Armin Wolf wrote:
-> Am 16.12.24 um 11:38 schrieb Joshua Grisham:
+Thanks for proposing to extend the TEE subsystem. However, I couldn't
+see any user-space library or test application(s) to test this new
+IOCTL. Say for example how will someone with a board based on sm8650
+will be able to test the QTEE interface? IIRC, last time we agreed off
+list that you will be pushing that alongside this patch-set.
 
-<snip>
+-Sumit
 
->> +/*
->> + * Hotkey work and filters
->> + */
->> +
->> +static void galaxybook_kbd_backlight_hotkey_work(struct work_struct *work)
->> +{
->> +    struct samsung_galaxybook *galaxybook =
->> +        container_of(work, struct samsung_galaxybook, kbd_backlight_hotkey_work);
->> +
->> +    if (galaxybook->kbd_backlight.brightness < galaxybook->kbd_backlight.max_brightness)
->> +        kbd_backlight_acpi_set(galaxybook, galaxybook->kbd_backlight.brightness + 1);
->> +    else
->> +        kbd_backlight_acpi_set(galaxybook, 0);
->> +
->> +    led_classdev_notify_brightness_hw_changed(
->> +        &galaxybook->kbd_backlight,
->> +        galaxybook->kbd_backlight.brightness);
-> 
-> This is the exact reason why i think this should be done in userspace. You can replace this code
-> with a simple input event submission using the KBDILLUM* key codes. This would also allow you to
-> avoid any special locking in this case.
-> 
-> This would also allow userspace to configure the step with of the brightness changes.
-
-As discussed in an earlier thread, there is really no good way to let
-userspace handle this atm. KEY_KBDILLUMTOGGLE gets mapped to XF86KbdLightOnOff
-while we really want Cycle, as we have in e.g. XF86MonBrightnessCycle.
-
-I just checked gnome-settings-daemon and it does handle XF86KbdLightOnOff
-but it only toggles on/off. In most laptops the cycle key is handled by
-the embedded controller and this simply emulates that common setup to
-match what userspace currently expects.
-
-Handling this in userspace would require adding a new KEY_KBDILLUMCYCLE
-and then adding support for that to xkb and maybe also upower and
-gnome-settings-daemon and KDE and then wait for that all to land before
-things start to work.
-
-As for your argument about allowing to set the percentage to step,
-note that this in kernel handling only increaeses the level by 1 on
-the hotkey press that make sense because typically these kbds backlights
-only have 2 - 4 levels.
-
-So IMHO handling this in the kernel is an acceptable compromise,
-(yes I do realize that this is a compromise).
-
-If some need arises later to do move this to userspace we can always
-add a module parameter to completely disable the in kernel handling and
-instead send out a new KEY_KBDILLUMCYCLE key-code when this now
-module parameter is set.
-
-Regards,
-
-Hans
-
-
-
+> The existing ioctl calls TEE_IOC_SUPPL_RECV and TEE_IOC_SUPPL_SEND are
+> used for invoking services in the userspace process by QTEE.
+>
+> The TEE backend driver uses the QTEE Transport Message to communicate
+> with QTEE. Interactions through the object INVOKE interface are
+> translated into QTEE messages. Likewise, object invocations from QTEE
+> for userspace objects are converted into SEND/RECV ioctl calls to
+> supplicants.
+>
+> The details of QTEE Transport Message to communicate with QTEE is
+> available in [PATCH 10/10] Documentation: tee: Add Qualcomm TEE driver.
+>
+> This patch series has been tested for basic QTEE object invocations and
+> callback requests, including loading a TA and requesting services form
+> the TA. However, the test platform is currently being prepared for
+> upstream availability and will soon be accessible to the community for
+> further validation. I will share updates as the platform become
+> available.
+>
+> [1] https://www.kernel.org/doc/Documentation/tee.txt
+>
+> Signed-off-by: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+> ---
+> Amirreza Zarrabi (10):
+>       tee: allow a driver to allocate a tee_device without a pool
+>       tee: add TEE_IOCTL_PARAM_ATTR_TYPE_MEMBUF
+>       tee: add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF
+>       firmware: qcom: scm: add support for object invocation
+>       qcomtee: implement object invoke support
+>       qcomtee: add primordial object
+>       dt-bindings: arm: qcomtee: add QTEE driver devicetree binding for TEE subsystem
+>       tee: add Qualcomm TEE driver
+>       arm64: dts: qcom: sm8650: add support for QTEE
+>       Documentation: tee: Add Qualcomm TEE driver
+>
+>  .../devicetree/bindings/arm/firmware/qcom,tee.yaml |  34 +
+>  Documentation/tee/index.rst                        |   1 +
+>  Documentation/tee/qtee.rst                         | 143 ++++
+>  arch/arm64/boot/dts/qcom/sm8650.dtsi               |   4 +
+>  drivers/firmware/qcom/qcom_scm.c                   |  60 ++
+>  drivers/firmware/qcom/qcom_scm.h                   |   7 +
+>  drivers/tee/Kconfig                                |   1 +
+>  drivers/tee/Makefile                               |   1 +
+>  drivers/tee/qcomtee/Kconfig                        |  10 +
+>  drivers/tee/qcomtee/Makefile                       |   9 +
+>  drivers/tee/qcomtee/async.c                        | 153 ++++
+>  drivers/tee/qcomtee/call.c                         | 707 ++++++++++++++++
+>  drivers/tee/qcomtee/core.c                         | 942 +++++++++++++++++++++
+>  drivers/tee/qcomtee/primordial_obj.c               |  63 ++
+>  drivers/tee/qcomtee/qcom_scm.c                     |  36 +
+>  drivers/tee/qcomtee/qcomtee_msg.h                  | 217 +++++
+>  drivers/tee/qcomtee/qcomtee_private.h              | 218 +++++
+>  drivers/tee/qcomtee/release.c                      |  66 ++
+>  drivers/tee/qcomtee/user_obj.c                     | 625 ++++++++++++++
+>  drivers/tee/tee_core.c                             | 113 ++-
+>  include/linux/firmware/qcom/qcom_scm.h             |   9 +
+>  include/linux/firmware/qcom/qcom_tee.h             | 284 +++++++
+>  include/linux/tee_core.h                           |   4 +
+>  include/linux/tee_drv.h                            |  12 +
+>  include/uapi/linux/tee.h                           |  54 +-
+>  25 files changed, 3765 insertions(+), 8 deletions(-)
+> ---
+> base-commit: f486c8aa16b8172f63bddc70116a0c897a7f3f02
+> change-id: 20241202-qcom-tee-using-tee-ss-without-mem-obj-362c66340527
+>
+> Best regards,
+> --
+> Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+>
