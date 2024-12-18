@@ -1,231 +1,214 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C249E158536
-	for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 20:01:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A463154BF5
+	for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 20:37:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734552071; cv=none; b=kHfAJUl/KRosD3Lr+TThcBbFhx/oAt8V7KViWuUSEtNxpM+FEkgPtzAD+eXUQD2HoCMNtXH396YCoQJT5lRP8V1idhjMhbtfoRfr3fM8Tf/07lcUm+qP7fMEayoZjO3Uj5Bvzzb3LQK1V1Djwefm1TJiCJwUqv7t064hw7voMkM=
+	t=1734554270; cv=none; b=YB5Hcabc0l8PzPGejsNF59F087aGyMAfgboeJ4UbZfm2wf7USjQ2QKfAAs+PdZwvJ0Ak70BZOzVUuYcjKKx8fJvFT7jQB1XrdRfGrn/UQZZiRljcrC2eZR//RzImSLMzhXJXvofR9E+cOPrGiQvdThrHDjauTgD7YmVNXroaHig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734552071; c=relaxed/simple;
-	bh=clm8bVQL1sQfCeKp2AJr6GdSuWV19A4GMSpDtUbjKrc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=cWhwbSWaSNLdj+wbTvXAIWYnvjlokiEL1uw9IBm8WoHD8tcc8mp37QWyFlHDn+ruOe8xyGixmPN0XtaFdesoSltiyj4TVM/6bnfTuS98rueFYgxAzXtVZfkdlg5+W7VD5UpbJFy525VmKD8xi4onG8FTBxXFIJrzzsXWUzcytAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VfoCxxb3; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1734554270; c=relaxed/simple;
+	bh=IhRP+7NJ2B+iWkGPlxLoJB8bt83/5U/AJ1sxTbpyDME=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jphZ0uqP0v4E35NwyR6YJBrvG0YYZ3BWobAcKvhzNN6CEvPCp+BwdThnVzX1m+88eiyZrfqdx6HovqEffN5HfCOw5aD+k2LHZq/aUQynHj/MMhBUnTG4gGyynobKWR40MwL288c5IJhR57hLyHfcYGB3IavlgfpHurgHjcF29OE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mvNSKkGm; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VfoCxxb3"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4679b5c66d0so33821cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 12:01:09 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mvNSKkGm"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-21661be2c2dso840215ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 12:37:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734552068; x=1735156868; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/R2Azbdkaj9TcrRiCPTKBbgal58RMiWaSFnNN0SVUfQ=;
-        b=VfoCxxb36Afq67B2HruUBjhCtFvaItJJno4kc66W9thdAUzRmlEn6S30KRgG+iVnFa
-         UY4XasLvFO2q8MrgqIo96jeLlYYn3U89jbjfqDGa0nbXntwacdBCa39t/14+tx4AcE+l
-         Xtu9u1olxqH66k30eQb9jNrh515E52bQemcrJjXbeB1mhU07Gk60ExLZSIXi+wuxvKsy
-         3GZM3EJxXkINFpJXc92MMT7LmAHxSDQoJZW0d29vBwDBEY2YTgr0DTHhdhzU7zWjIGFo
-         aHTjdcoDs9fIQDhCaf5EYopLobcmUM7DmYEL40FgBCJDtpKrVr0L4QSqvPxYA6DRZ26p
-         Bxbg==
+        d=chromium.org; s=google; t=1734554268; x=1735159068; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=K5XzJ8Cdox5aRKpQqeo9w29DdxGzgXVrCyxDolo+s08=;
+        b=mvNSKkGmymqFvtaCx4kJwU5goGIeALaIzzFqzrDgjKKUPnSxRfdpW8wnuA7jStd0Fv
+         GIInMa+lWEgqcdFqz0qmvtBripiTD1BH5K9fDVanz+fUJfVoUZHqtFWBLWKMNvRj+9B+
+         7Gm86/m4DChDwIyQ0Z0+pTV5WcPaVjGLUD+xY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734552068; x=1735156868;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/R2Azbdkaj9TcrRiCPTKBbgal58RMiWaSFnNN0SVUfQ=;
-        b=iU14fapgdLA47ITvdKqOLWA9QaRhe4v+l14ghLFUMLT8/xKlh9hOWLaZXrdgtlApvT
-         /Ea0zPVUdasNkS5CpX7NLN0Ubp6ByW/Hj9v704B09j1wGAx41iiirQEiSx4hIL6NtvxH
-         kxRJjbqLivi99jhpW1KIId/OJF2Ydq5L07ya/TqhZC6PoI5mA/dNnGyHkkwOV56o5Mqk
-         RAW1TPdRw+XQAY4R2buApLjKhu0mFdxjb3Q5aCxo7oE9LylyyLOC2e6MFwqJyAPOYHmi
-         x1X3cfO0B615fEwC1BDY3lJxX3Dk4iweE1BNbyPlcE+2GyPPc5Lg33GwJalkl6YV2OU7
-         Gs/g==
-X-Forwarded-Encrypted: i=1; AJvYcCWarLncC5hN8LxTt/jnS6Ca5kVw7nBAxPo83uOPcGo01iJeYK7FUOkSwikec4DlLeVOcuvt4LIi/l4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyI9FSK6wlxpwhK4Lf0iZdx45bhyiP0dRIwOwAnmLggQtNd2ZyL
-	teykHoH4tzYNr1C8ZTorSweRzx2sFSeR9hzdwOj80Wkp8w3QjeYQ660B26O+fIxZkNMEwLfyiP2
-	S/b9/l886D92rUSeT6qklNg5If2sfpPR3tP4R
-X-Gm-Gg: ASbGncsYKM2rspX4SBCEw/6e7Qr08u+2HwvFNK6GvW+oiERgjfmioice5kyoWA/9JfX
-	G2P4LRj62dn6MvZdnfESpq/ZKSdvB2gE60OwtEh6QcoS3nR6PxQFh0OU/CY4xHnq7ftg3
-X-Google-Smtp-Source: AGHT+IHGCFsVgJFmpVC4q4ly5hhcScG7IXhIrf2ICPiDSy35AQoMyktvXGdKUL5cv5mHtIQe9QMJ+JYWrsDRBcQgFQo=
-X-Received: by 2002:a05:622a:4d4:b0:466:8887:6751 with SMTP id
- d75a77b69052e-46a3bc2ffb2mr252221cf.23.1734552068350; Wed, 18 Dec 2024
- 12:01:08 -0800 (PST)
+        d=1e100.net; s=20230601; t=1734554268; x=1735159068;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K5XzJ8Cdox5aRKpQqeo9w29DdxGzgXVrCyxDolo+s08=;
+        b=toM14hUYng1D2D1z0PSw5rsCBA2+olY3/BIa1Ib/mGoygUwUAPrH8Ym81MRuIHT5BO
+         LaxTeZuyPbg+a07eT5TCApQZNr7PAURbFzFQM4uCgwCR4DbIiTdebx/AYIUXH8Q3Dxsz
+         uPDBe0o9T80eC+vVCZZWaV4mN1GEs9BJUZsG6p2TCpnwnzaq+muz5XGoIPkvQyyBKE4H
+         2pTGfa2mCvgJHjodH4LXZ3WjBDGK0DKR8rIJ1E+g6Too7/QhERvEKYI670iA6udIY4DB
+         QaZCJW3Vm1aVp1FYLJZcXoq/MihaXHecrJea0Jg89KqUGHwvuRQ45mIHIZ5TDWi+AQSm
+         K0Aw==
+X-Forwarded-Encrypted: i=1; AJvYcCXyG+IpT1lITt+b1jiXiSBWzTLElDyJtdX0n8MDNKGo1SftR3gJQcHFlJ1XIP4BH0be+mYBGLAjKTg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTmgBtCothDBRsDYOItobc8p6VXop+ukLmwFYCAv8EZRbng09E
+	izip9zqWRL7fyBCVQCTwFHyiWiRaVp+CY0qtjrWoj1Om/5cAmi9J/mAC5LpExw==
+X-Gm-Gg: ASbGncuL12Iu+S9RlocyXueiQ6TtTMeD0mPUZT0u1rcLP2Yydvhi93vYR90jfTriDGe
+	qCAeAPI5xf08IhHCBTRV4gPcylnRhcE4NjE9t6FRaR4IOZk4COD8VniKqaaI7uFlQYHHQg0vdUQ
+	Brc20yBAIQYSVdXULED3kUGkGo9wHGY1g7cAlnAr/ULnLkiM2rg16Czu0gDU2C7IdOW6qCXsaZC
+	/MBpiT7dW1J4fKpaO1M9xYbfykZGrRj7ZgEub11WzWzQXYM691lXbbaCioe/8YOMb+MseJBxKqU
+	HmgSMu8g1NZ08jqWGQ88HFZU4s1xk5elUPn97dmRHV5njA==
+X-Google-Smtp-Source: AGHT+IGlef6TD/LWtcINLUtwvJmMOe41iee+xQ58bapO5aUrQXRwK5Vh0AP2TAffE3AY5yQHc1Rg9Q==
+X-Received: by 2002:a17:902:dac8:b0:216:526a:53df with SMTP id d9443c01a7336-219d96abd58mr12354635ad.54.1734554267884;
+        Wed, 18 Dec 2024 12:37:47 -0800 (PST)
+Received: from li-cloudtop.c.googlers.com.com (200.23.125.34.bc.googleusercontent.com. [34.125.23.200])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-218a1e64672sm79920155ad.216.2024.12.18.12.37.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Dec 2024 12:37:47 -0800 (PST)
+From: Li Li <dualli@chromium.org>
+To: dualli@google.com,
+	corbet@lwn.net,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	donald.hunter@gmail.com,
+	gregkh@linuxfoundation.org,
+	arve@android.com,
+	tkjos@android.com,
+	maco@android.com,
+	joel@joelfernandes.org,
+	brauner@kernel.org,
+	cmllamas@google.com,
+	surenb@google.com,
+	arnd@arndb.de,
+	masahiroy@kernel.org,
+	bagasdotme@gmail.com,
+	horms@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org,
+	hridya@google.com,
+	smoreland@google.com
+Cc: kernel-team@android.com
+Subject: [PATCH v11 0/2] binder: report txn errors via generic netlink
+Date: Wed, 18 Dec 2024 12:37:38 -0800
+Message-ID: <20241218203740.4081865-1-dualli@chromium.org>
+X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241218100601.GI12500@noisy.programming.kicks-ass.net>
- <kfltsrry7qjuycyqpe2wune2ejad6kvusm2zixvfbtprbnw2lv@wcafrui6qaa7>
- <CAJuCfpFYZkc===SXF35s3C0xg3q5RjpCiOQhwK=9_3RnFUye1g@mail.gmail.com>
- <20241218161850.GG2354@noisy.programming.kicks-ass.net> <CAJuCfpHDRCoaBfE8y6AppKveSTgayyTNfDyQWH=gMzO-Pkuqpw@mail.gmail.com>
- <20241218174428.GQ2354@noisy.programming.kicks-ass.net> <CAJuCfpEKg_h5pw2AxdF1wmFMt4xdOxYqv7U1uVMYcuSCB4kHuA@mail.gmail.com>
- <r7polqnhdguxrz6npklag5kjy7ipbj5lrnqai2qm3jt7x56hci@cfrcom746iae>
- <CAJuCfpGeRi73E94VCDPDGAGG+5-Sj-_YGf3JNnf6Bh4GH_M6jA@mail.gmail.com>
- <CAJuCfpHJwVXanjG0WGjo0KHHEbg1-T0HWTZqDpssoq3FvfG++A@mail.gmail.com> <jes252u5qfhla2bdmg6pdkfpi4a2jfhf7d5b6ra6ol2bmt352x@gunhzaca56df>
-In-Reply-To: <jes252u5qfhla2bdmg6pdkfpi4a2jfhf7d5b6ra6ol2bmt352x@gunhzaca56df>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 18 Dec 2024 12:00:56 -0800
-Message-ID: <CAJuCfpFSD98fw=844AJPy+LT5y=zREQGtSEVj3_FCXiZ5cFR_A@mail.gmail.com>
-Subject: Re: [PATCH v6 10/16] mm: replace vm_lock and detached flag with a
- reference count
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, Suren Baghdasaryan <surenb@google.com>, 
-	Peter Zijlstra <peterz@infradead.org>, akpm@linux-foundation.org, willy@infradead.org, 
-	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz, 
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	klarasmodin@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Dec 18, 2024 at 11:38=E2=80=AFAM 'Liam R. Howlett' via kernel-team
-<kernel-team@android.com> wrote:
->
-> * Suren Baghdasaryan <surenb@google.com> [241218 14:29]:
-> > On Wed, Dec 18, 2024 at 11:07=E2=80=AFAM Suren Baghdasaryan <surenb@goo=
-gle.com> wrote:
-> > >
-> > > On Wed, Dec 18, 2024 at 11:00=E2=80=AFAM 'Liam R. Howlett' via kernel=
--team
-> > > <kernel-team@android.com> wrote:
-> > > >
-> > > > * Suren Baghdasaryan <surenb@google.com> [241218 12:58]:
-> > > > > On Wed, Dec 18, 2024 at 9:44=E2=80=AFAM Peter Zijlstra <peterz@in=
-fradead.org> wrote:
-> > > > > >
-> > > > > > On Wed, Dec 18, 2024 at 09:36:42AM -0800, Suren Baghdasaryan wr=
-ote:
-> > > > > >
-> > > > > > > > You will not. vms_complete_munmap_vmas() will call remove_v=
-ma() to
-> > > > > > > > remove PTEs IIRC, and if you do start_write() and detach() =
-before
-> > > > > > > > dropping mmap_lock_write, you should be good.
-> > > > > > >
-> > > > > > > Ok, I think we will have to move mmap_write_downgrade() insid=
-e
-> > > > > > > vms_complete_munmap_vmas() to be called after remove_vma().
-> > > > > > > vms_clear_ptes() is using vmas, so we can't move remove_vma()=
- before
-> > > > > > > mmap_write_downgrade().
-> > > > > >
-> > > > > > Why ?!
-> > > > > >
-> > > > > > vms_clear_ptes() and remove_vma() are fine where they are -- th=
-ere is no
-> > > > > > concurrency left at this point.
-> > > > > >
-> > > > > > Note that by doing vma_start_write() inside vms_complete_munmap=
-_vmas(),
-> > > > > > which is *after* the vmas have been unhooked from the mm, you w=
-ait for
-> > > > > > any concurrent user to go away.
-> > > > > >
-> > > > > > And since they're unhooked, there can't be any new users.
-> > > > > >
-> > > > > > So you're the one and only user left, and code is fine the way =
-it is.
-> > > > >
-> > > > > Ok, let me make sure I understand this part of your proposal. Fro=
-m
-> > > > > your earlier email:
-> > > > >
-> > > > > @@ -1173,6 +1173,11 @@ static void vms_complete_munmap_vmas(struc=
-t
-> > > > > vma_munmap_struct *vms,
-> > > > >         struct vm_area_struct *vma;
-> > > > >         struct mm_struct *mm;
-> > > > >
-> > > > > +       mas_for_each(mas_detach, vma, ULONG_MAX) {
-> > > > > +               vma_start_write(next);
-> > > > > +               vma_mark_detached(next, true);
-> > > > > +       }
-> > > > > +
-> > > > >         mm =3D current->mm;
-> > > > >         mm->map_count -=3D vms->vma_count;
-> > > > >         mm->locked_vm -=3D vms->locked_vm;
-> > > > >
-> > > > > This would mean:
-> > > > >
-> > > > > vms_complete_munmap_vmas
-> > > > >            vma_start_write
-> > > > >            vma_mark_detached
-> > > > >            mmap_write_downgrade
-> > > > >            vms_clear_ptes
-> > > > >            remove_vma
-> > > > >
-> > > > > And remove_vma will be just freeing the vmas. Is that correct?
-> > > > > I'm a bit confused because the original thinking was that
-> > > > > vma_mark_detached() would drop the last refcnt and if it's 0 we w=
-ould
-> > > > > free the vma right there. If that's still what we want to do then=
- I
-> > > > > think the above sequence should look like this:
-> > > > >
-> > > > > vms_complete_munmap_vmas
-> > > > >            vms_clear_ptes
-> > > > >            remove_vma
-> > > > >                vma_start_write
-> > > > >                vma_mark_detached
-> > > > >            mmap_write_downgrade
-> > > > >
-> > > > > because vma_start_write+vma_mark_detached should be done under  m=
-map_write_lock.
-> > > > > Please let me know which way you want to move forward.
-> > > > >
-> > > >
-> > > > Are we sure we're not causing issues with the MAP_FIXED path here?
-> > > >
-> > > > With the above change, we'd be freeing the PTEs before marking the =
-vmas
-> > > > as detached or vma_start_write().
-> > >
-> > > IIUC when we call vms_complete_munmap_vmas() all vmas inside
-> > > mas_detach have been already write-locked, no?
->
-> That's the way it is today - but I thought you were moving the lock to
-> the complete stage, not adding a new one? (why add a new one otherwise?)
+From: Li Li <dualli@google.com>
 
-Is my understanding correct that mas_detach is populated by
-vms_gather_munmap_vmas() only with vmas that went through
-__split_vma() (and were write-locked there)? I don't see any path that
-would add any other vma into mas_detach but maybe I'm missing
-something?
+It's a known issue that neither the frozen processes nor the system
+administration process of the OS can correctly deal with failed binder
+transactions. The reason is that there's no reliable way for the user
+space administration process to fetch the binder errors from the kernel
+binder driver.
 
->
-> >
-> > Yeah, I think we can simply do this:
-> >
-> > vms_complete_munmap_vmas
-> >            vms_clear_ptes
-> >            remove_vma
-> >                vma_mark_detached
-> >            mmap_write_downgrade
-> >
-> > If my assumption is incorrect, assertion inside vma_mark_detached()
-> > should trigger. I tried a quick test and so far nothing exploded.
-> >
->
-> If they are write locked, then the page faults are not a concern.  There
-> is also the rmap race that Jann found in mmap_region() [1].  This is
-> probably also fine since you are keeping the write lock in place earlier
-> on in the gather stage.  Note the ptes will already be cleared by the
-> time vms_complete_munmap_vmas() is called in this case.
->
-> [1] https://lore.kernel.org/all/CAG48ez0ZpGzxi=3D-5O_uGQ0xKXOmbjeQ0LjZsRJ=
-1Qtf2X5eOr1w@mail.gmail.com/
->
-> Thanks,
-> Liam
->
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to kernel-team+unsubscribe@android.com.
->
+Android is such an OS suffering from this issue. Since cgroup freezer
+was used to freeze user applications to save battery, innocent frozen
+apps have to be killed when they receive sync binder transactions or
+when their async binder buffer is running out.
+
+This patch introduces the Linux generic netlink messages into the binder
+driver so that the Linux/Android system administration process can
+listen to important events and take corresponding actions, like stopping
+a broken app from attacking the OS by sending huge amount of spamming
+binder transactiions.
+
+The 1st version uses a global generic netlink for all binder contexts,
+raising potential security concerns. There were a few other feedbacks
+like request to kernel docs and test code. The thread can be found at
+https://lore.kernel.org/lkml/20240812211844.4107494-1-dualli@chromium.org/
+
+The 2nd version fixes those issues and has been tested on the latest
+version of AOSP. See https://r.android.com/3305462 for how userspace is
+going to use this feature and the test code. It can be found at
+https://lore.kernel.org/lkml/20241011064427.1565287-1-dualli@chromium.org/
+
+The 3rd version replaces the handcrafted netlink source code with the
+netlink protocal specs in YAML. It also fixes the documentation issues.
+https://lore.kernel.org/lkml/20241021182821.1259487-1-dualli@chromium.org/
+
+The 4th version just containsi trivial fixes, making the subject of the
+patch aligned with the subject of the cover letter.
+https://lore.kernel.org/lkml/20241021191233.1334897-1-dualli@chromium.org/
+
+The 5th version incorporates the suggested fixes to the kernel doc and
+the init function. It also removes the unsupported uapi-header in YAML
+that contains "/" for subdirectory.
+https://lore.kernel.org/lkml/20241025075102.1785960-1-dualli@chromium.org/
+
+The 6th version has some trivial kernel doc fixes, without modifying
+any other source code.
+https://lore.kernel.org/lkml/20241028101952.775731-1-dualli@chromium.org/
+
+The 7th version breaks the binary struct netlink message into individual
+attributes to better support automatic error checking. Thanks Jakub for
+improving ynl-gen.
+https://lore.kernel.org/all/20241031092504.840708-1-dualli@chromium.org/
+
+The 8th version solves the multi-genl-family issue by demuxing the
+messages based on a new context attribute. It also improves the YAML
+spec to be consistent with netlink tradition. A Huge 'Thank You' to
+Jakub who taught me a lot about the netlink protocol!
+https://lore.kernel.org/all/20241113193239.2113577-1-dualli@chromium.org/
+
+The 9th version only contains a few trivial fixes, removing a redundant
+pr_err and unnecessary payload check. The ynl-gen patch to allow uapi
+header in sub-dirs has been merged so it's no longer included in this
+patch set.
+https://lore.kernel.org/all/20241209192247.3371436-1-dualli@chromium.org/
+
+The 10th version renames binder genl to binder netlink, improves the
+readability of the kernel doc and uses more descriptive variable names.
+The function binder_add_device() is moved out to a new commit per request.
+It also fixes a warning about newline used in NL_SET_ERR_MSG.
+Thanks Carlos for his valuable suggestions!
+https://lore.kernel.org/all/20241212224114.888373-1-dualli@chromium.org/
+
+The 11th version simplifies the yaml filename to avoid redundant words in
+variable names. This also makes binder netlink yaml more aligned with
+other existing netlink specs. Another trivial change is to use reverse
+xmas tree for function variables.
+
+v1: add a global binder genl socket for all contexts
+v2: change to per-context binder genl for security reason
+    replace the new ioctl with a netlink command
+    add corresponding doc Documentation/admin-guide/binder_genl.rst
+    add user space test code in AOSP
+v3: use YNL spec (./tools/net/ynl/ynl-regen.sh)
+    fix documentation index
+v4: change the subject of the patch and remove unsed #if 0
+v5: improve the kernel doc and the init function
+    remove unsupported uapi-header in YAML
+v6: fix some trivial kernel doc issues
+v7: break the binary struct binder_report into individual attributes
+v8: use multiplex netlink message in a unified netlink family
+    improve the YAML spec to be consistent with netlink tradition
+v9: remove unnecessary check to netlink flags and message payloads
+v10: improve the readability of kernel doc and variable names
+v11: rename binder_netlinnk.yaml to binder.yaml
+     use reverse xmas tree for function variables
+
+Li Li (2):
+  binderfs: add new binder devices to binder_devices
+  binder: report txn errors via generic netlink
+
+ Documentation/admin-guide/binder_netlink.rst | 110 +++++++++
+ Documentation/admin-guide/index.rst          |   1 +
+ Documentation/netlink/specs/binder.yaml      | 108 +++++++++
+ drivers/android/Kconfig                      |   1 +
+ drivers/android/Makefile                     |   2 +-
+ drivers/android/binder.c                     | 241 ++++++++++++++++++-
+ drivers/android/binder_internal.h            |  29 ++-
+ drivers/android/binder_netlink.c             |  39 +++
+ drivers/android/binder_netlink.h             |  18 ++
+ drivers/android/binder_trace.h               |  35 +++
+ drivers/android/binderfs.c                   |   2 +
+ include/uapi/linux/android/binder_netlink.h  |  55 +++++
+ 12 files changed, 635 insertions(+), 6 deletions(-)
+ create mode 100644 Documentation/admin-guide/binder_netlink.rst
+ create mode 100644 Documentation/netlink/specs/binder.yaml
+ create mode 100644 drivers/android/binder_netlink.c
+ create mode 100644 drivers/android/binder_netlink.h
+ create mode 100644 include/uapi/linux/android/binder_netlink.h
+
+
+base-commit: aef25be35d23ec768eed08bfcf7ca3cf9685bc28
+-- 
+2.47.1.613.gc27f4b7a9f-goog
+
