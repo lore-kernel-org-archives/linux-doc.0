@@ -1,188 +1,109 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E12B1F9A98
-	for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 17:09:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D96E158D6A;
+	Wed, 18 Dec 2024 17:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734541744; cv=none; b=qYP/IlLBZVA95ZIM7Y+ENRpRJ8WOZeFcdvEjMUPt4EMCnnFQ8upKHIUrtJsA+pQICkDj/KcyNQu+2S+ORYUX/Jct9E3/OjevRr5zHJMBF05tMBUlcTJarW8s4EjcVL/rHFvEhTabU6dBuuT1ccB5VHzDqZI4+FqfF0rkmygwPtw=
+	t=1734541866; cv=none; b=LKDYTt44gwqNwWR60aN4TseEDzzAy6L9I0q/cmF8CqbPTcY4zoeHAV8HzEgG9nqEAONXZdTwDWgwdy2452E7Y1JdrJI3YDZMHwiRQP5JQgz2DpjV+Rf+xFjPCKqJJf2eYS/gmlYefv8oE1QjKODcmAyyq2aEPD/2w/WmMLcnh5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734541744; c=relaxed/simple;
-	bh=EsxWV4j978n0te6a6W9t6wV5YT9GBp7l9URdDS6SmgI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I7x+jDWsxBwy2SAvC7K/mEEhqJnI1kiP4J61kEG+DbrAs+Ms8N+6dF5gj8b8RpQYeOT36rh/KqpVo8j09EYKLOM3GJKF/GxBblTfzj2nZDerMyJkNbw3vn1cPVZJeW1a2enlBlKgSGWLN2g8KxjJdcwSMZq3mvloejN8jqOQcOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com; spf=pass smtp.mailfrom=fastly.com; dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b=IV/euG4g; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fastly.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastly.com
+	s=arc-20240116; t=1734541866; c=relaxed/simple;
+	bh=crE+eF0tyjKxTBiLGc7xddKdxX+kh39aobItX+x3ac0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EkAVWgurz3C8FJcu9hTnL1Qxkeg8K2uvz6cEbdg0jrQgeKxqFxtEymbKNiotixgE2w4Tj5RYPRLPyyZiJjUVc78pLdB2+mDSxigD3BZ788OpnN+bX1/MHsRqKHEpYTuuKM3KhWLr73pn4adumHTJGfzrQ9Cj9rF2XpBDsfhBzAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=po5jpVme; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fastly.com header.i=@fastly.com header.b="IV/euG4g"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2165448243fso66481565ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 09:09:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fastly.com; s=google; t=1734541742; x=1735146542; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PpSQHZ9ybTyyNY7KNiD5NhxYslOMfBGaz48YVmHE+bA=;
-        b=IV/euG4gfobmfFkIBHK8MQiPRiZH1OKuhIulETaabf0x0LLzxrdVh6g0CzWJdQAa+m
-         eyjLBpSgoK7HQX9WDvrQSksuPadoe0dcVGA0DIc7Gvg5ORYka+nqUNVbq71XG3eJDXZU
-         tfj5R69tKt47QGmq2KCxFPGshEnFTTL4a+XwA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734541742; x=1735146542;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PpSQHZ9ybTyyNY7KNiD5NhxYslOMfBGaz48YVmHE+bA=;
-        b=or6/V6VY1LqbQCabc6wicMYjiIW6kc2SDkahvUYcnLW9ORqK3QSM5k2+ezbbvnnyGs
-         QwlJM8sbnC0axku+wYhH3shKV0MzgCShfiB+aHuHVZV4VCiL7w3xwIbjh637oDRmKUgs
-         lmN6na958svdiaXsQwQbW3kT8NWstCFCUGnFTrxAaxkPk7eqZ9F19kvBzRYPN8hCNTpO
-         jdQANAiVY2jjVfPMt5MoOgolUiESBH0zX1K6II1Oy4o87CeCVj16ycd0KnuE2HhEX3hS
-         MJYnn8NBLhxkrnfBbCK9GwKSrGNGAIHEBP6mKxhik7XhIBgkdJgk8fso1vfASTnvQQse
-         rD2g==
-X-Forwarded-Encrypted: i=1; AJvYcCUuVmMZ9VXNaDM1sou1Sfx+JNkCNbIx0E25XA8touFAR8R5BvJZy+mvyICfGI36au/2kW2fFV8o8P4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwryEhfEoD2c4N0fN8JARwDTPUKcHup0Gl8yeymBi/5baWKRqKb
-	LD+Tos7fPne0Is8a9k2eRG3CeCO8xQlL8wiC76WAiaC0iv38xX8XhgScoehY4/Q=
-X-Gm-Gg: ASbGnctjgNuYD20PYOPSqnUxaJixedQO7bw+J9xgKVsYhPjJqzZueLLuH4+Qg6gsCpX
-	LcIA4wTgFk1C3nPR3+kHAjf3NMVVXEOT1Uur4CrygcNrIXEhMZ9rFRFNnKTOuADoe6K8au1KUe9
-	UPIGSWqUbWhNFtudYXidQt664iiLp7H+hn2efaXtFlCArOiYMee+E3dR/L7Lld2JO6QJ3H8yyWz
-	9nmRFcRCUDC1s3LoRmWMmXlYNEfMHflWNmacjAqpFkjJ5eTSEcQ77mk+EQ+1uc9+ifKdtFpnfmS
-	9GVasqp+2e00wAAzpVK/l6Q=
-X-Google-Smtp-Source: AGHT+IFLcXEwr+Ux+NRuBtnQUxHIcEJMXQFYotalRPkLUZD05Hvov4X94huhAnS7Lo6myzNs/HTYKw==
-X-Received: by 2002:a17:902:f985:b0:216:6c77:7bbb with SMTP id d9443c01a7336-218d70dc242mr38520155ad.17.1734541742613;
-        Wed, 18 Dec 2024 09:09:02 -0800 (PST)
-Received: from LQ3V64L9R2 (c-24-6-151-244.hsd1.ca.comcast.net. [24.6.151.244])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-218a1db63c3sm79259875ad.48.2024.12.18.09.08.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2024 09:09:02 -0800 (PST)
-Date: Wed, 18 Dec 2024 09:08:58 -0800
-From: Joe Damato <jdamato@fastly.com>
-To: Alex Lazar <alazar@nvidia.com>
-Cc: "aleksander.lobakin@intel.com" <aleksander.lobakin@intel.com>,
-	"almasrymina@google.com" <almasrymina@google.com>,
-	"amritha.nambiar@intel.com" <amritha.nambiar@intel.com>,
-	"bigeasy@linutronix.de" <bigeasy@linutronix.de>,
-	"bjorn@rivosinc.com" <bjorn@rivosinc.com>,
-	"corbet@lwn.net" <corbet@lwn.net>, Dan Jurgens <danielj@nvidia.com>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"donald.hunter@gmail.com" <donald.hunter@gmail.com>,
-	"dsahern@kernel.org" <dsahern@kernel.org>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"hawk@kernel.org" <hawk@kernel.org>,
-	"jiri@resnulli.us" <jiri@resnulli.us>,
-	"johannes.berg@intel.com" <johannes.berg@intel.com>,
-	"kuba@kernel.org" <kuba@kernel.org>,
-	"leitao@debian.org" <leitao@debian.org>,
-	"leon@kernel.org" <leon@kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-	"lorenzo@kernel.org" <lorenzo@kernel.org>,
-	"michael.chan@broadcom.com" <michael.chan@broadcom.com>,
-	"mkarsten@uwaterloo.ca" <mkarsten@uwaterloo.ca>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"pabeni@redhat.com" <pabeni@redhat.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	"sdf@fomichev.me" <sdf@fomichev.me>,
-	"skhawaja@google.com" <skhawaja@google.com>,
-	"sridhar.samudrala@intel.com" <sridhar.samudrala@intel.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	"willemdebruijn.kernel@gmail.com" <willemdebruijn.kernel@gmail.com>,
-	"xuanzhuo@linux.alibaba.com" <xuanzhuo@linux.alibaba.com>,
-	Gal Pressman <gal@nvidia.com>, Nimrod Oren <noren@nvidia.com>,
-	Dror Tennenbaum <drort@nvidia.com>,
-	Dragos Tatulea <dtatulea@nvidia.com>
-Subject: Re: [net-next v6 0/9] Add support for per-NAPI config via netlink
-Message-ID: <Z2MBqrc2FM2rizqP@LQ3V64L9R2>
-Mail-Followup-To: Joe Damato <jdamato@fastly.com>,
-	Alex Lazar <alazar@nvidia.com>,
-	"aleksander.lobakin@intel.com" <aleksander.lobakin@intel.com>,
-	"almasrymina@google.com" <almasrymina@google.com>,
-	"amritha.nambiar@intel.com" <amritha.nambiar@intel.com>,
-	"bigeasy@linutronix.de" <bigeasy@linutronix.de>,
-	"bjorn@rivosinc.com" <bjorn@rivosinc.com>,
-	"corbet@lwn.net" <corbet@lwn.net>, Dan Jurgens <danielj@nvidia.com>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"donald.hunter@gmail.com" <donald.hunter@gmail.com>,
-	"dsahern@kernel.org" <dsahern@kernel.org>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"hawk@kernel.org" <hawk@kernel.org>,
-	"jiri@resnulli.us" <jiri@resnulli.us>,
-	"johannes.berg@intel.com" <johannes.berg@intel.com>,
-	"kuba@kernel.org" <kuba@kernel.org>,
-	"leitao@debian.org" <leitao@debian.org>,
-	"leon@kernel.org" <leon@kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-	"lorenzo@kernel.org" <lorenzo@kernel.org>,
-	"michael.chan@broadcom.com" <michael.chan@broadcom.com>,
-	"mkarsten@uwaterloo.ca" <mkarsten@uwaterloo.ca>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"pabeni@redhat.com" <pabeni@redhat.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	"sdf@fomichev.me" <sdf@fomichev.me>,
-	"skhawaja@google.com" <skhawaja@google.com>,
-	"sridhar.samudrala@intel.com" <sridhar.samudrala@intel.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	"willemdebruijn.kernel@gmail.com" <willemdebruijn.kernel@gmail.com>,
-	"xuanzhuo@linux.alibaba.com" <xuanzhuo@linux.alibaba.com>,
-	Gal Pressman <gal@nvidia.com>, Nimrod Oren <noren@nvidia.com>,
-	Dror Tennenbaum <drort@nvidia.com>,
-	Dragos Tatulea <dtatulea@nvidia.com>
-References: <DM8PR12MB5447837576EA58F490D6D4BFAD052@DM8PR12MB5447.namprd12.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="po5jpVme"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AABDC4CED0;
+	Wed, 18 Dec 2024 17:11:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734541866;
+	bh=crE+eF0tyjKxTBiLGc7xddKdxX+kh39aobItX+x3ac0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=po5jpVmeKIb4irmzabIDj0hcSnY29mnweVOFxu2omfWYTQ98u92lyzONnlKhEOo1i
+	 d5K9JoZPZKA4iugzZDbaL0dT3z+Rc83D/a+/fWn4TcXQZ6vU+tuO33Irfqe061YGL2
+	 3NmLiftKiLRS9Zz4QNr0SR3Zhv/qR3q1Riluur99QlBkXVYboF12ZtD7gQPsWhOFSe
+	 hrULn3kdzyPYEVUlNxzBt11eMB9Ul885rk9eEbdH2LYvidVvBVjplgt3TuUoNLpY5o
+	 nbGjfVPgTVjVmKFv0M8BgHinfHIJNCmJ5vrf99Ko7C9Rn6PLBUxOeU1WyE4v38KUMw
+	 OIy7JuBGf7avQ==
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e479e529ebcso3345926276.3;
+        Wed, 18 Dec 2024 09:11:06 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV2dBgKEKqVCjcoMl1p4r8OrdBaHpvHF/62zkO7YC9V6/gBouQaa8gvAUKgtXNfiCeL/ox5UWyg1TFv7Aud@vger.kernel.org, AJvYcCVQnDqaqE4FfcWZ0nQ1+JaM++RZxvnWGdCSfaDmUTPPBCJ6L7mI0ypm8dlfBGnow91DRLejkq+JJAPz@vger.kernel.org, AJvYcCXSRPpTvkekmuxTmCJKoo0OG46bJwbLrbTwWWjPCc8/POYm/KLZTx51VqRDbpoiJ9SR4h0DsGoYNX+x@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqHWTvjxNK55iKnWd7yAtzjXthQbn5wbyd59+0L14gbl7UtMlF
+	2b4aG4IViUzAD0ZxckjHqxW4dNdi8g4mzDHgIsbwJUQEWgSqcAfBaKAcVaLi7PkXeQakom5iInc
+	Xq5892jH9bHkuWP6dNxMn29RAJg==
+X-Google-Smtp-Source: AGHT+IEcgOXhMZEwR4KcSksXbthL1TOO9Ig9DzmHACBwaxdBymWQu+0clFk/TYA4/QAI1CqHDp2TJ2+gCpeLMl0W79Y=
+X-Received: by 2002:a05:6902:2581:b0:e4c:b42e:1508 with SMTP id
+ 3f1490d57ef6-e536222be52mr2971077276.36.1734541865307; Wed, 18 Dec 2024
+ 09:11:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM8PR12MB5447837576EA58F490D6D4BFAD052@DM8PR12MB5447.namprd12.prod.outlook.com>
+References: <20241217183711.2525863-1-robh@kernel.org> <Z2KzcORZocQAwAi9@pathway.suse.cz>
+In-Reply-To: <Z2KzcORZocQAwAi9@pathway.suse.cz>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 18 Dec 2024 11:10:54 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKRpeCgd=6PeHMHnZaJHqn2SAob2J6Yv07n7OdCY++GWA@mail.gmail.com>
+Message-ID: <CAL_JsqKRpeCgd=6PeHMHnZaJHqn2SAob2J6Yv07n7OdCY++GWA@mail.gmail.com>
+Subject: Re: ssize_t: was: Re: [PATCH] of: Add printf '%pOFm' for generating modalias
+To: Petr Mladek <pmladek@suse.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Saravana Kannan <saravanak@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Zijun Hu <quic_zijuhu@quicinc.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 18, 2024 at 11:22:33AM +0000, Alex Lazar wrote:
-> Hi Joe and all,
-> 
-> I am part of the NVIDIA Eth drivers team, and we are experiencing a problem,
-> sibesced to this change: commit 86e25f40aa1e ("net: napi: Add napi_config")
-> 
-> The issue occurs when sending packets from one machine to another.
-> On the receiver side, we have XSK (XDPsock) that receives the packet and sends it
-> back to the sender.
-> At some point, one packet (packet A) gets "stuck," and if we send a new packet
-> (packet B), it "pushes" the previous one. Packet A is then processed by the NAPI
-> poll, and packet B gets stuck, and so on.
-> 
-> Your change involves moving napi_hash_del() and napi_hash_add() from
-> netif_napi_del() and netif_napi_add_weight() to napi_enable() and napi_disable().
-> If I move them back to netif_napi_del() and netif_napi_add_weight(),
-> the issue is resolved (I moved the entire if/else block, not just the napi_hash_del/add).
-> 
-> This issue occurs with both the new and old APIs (netif_napi_add/_config).
-> Moving the napi_hash_add() and napi_hash_del() functions resolves it for both.
-> I am debugging this, no breakthrough so far.
-> 
-> I would appreciate if you could look into this.
-> We can provide more details per request.
+On Wed, Dec 18, 2024 at 5:35=E2=80=AFAM Petr Mladek <pmladek@suse.com> wrot=
+e:
+>
+> On Tue 2024-12-17 12:37:09, Rob Herring (Arm) wrote:
+> > The callers for of_modalias() generally need the module alias as part o=
+f
+> > some larger string. That results in some error prone manipulation of th=
+e
+> > buffer prepend/append the module alias string. In fact,
+> > of_device_uevent_modalias() has several issues. First, it's off by one
+> > too few characters in utilization of the full buffer. Second, the error
+> > paths leave OF_MODALIAS with a truncated value when in the end nothing
+> > should be added to the buffer. It is also fragile because it needs
+> > internal details of struct kobj_uevent_env. add_uevent_var() really
+> > wants to write the env variable and value in one shot which would need
+> > either a temporary buffer for value or a format specifier.
+> >
+> > Fix these issues by adding a new printf format specifier, "%pOFm". With
+> > the format specifier in place, simplify all the callers of
+> > of_modalias(). of_modalias() can also be simplified with vsprintf()
+> > being the only caller as it avoids the error conditions.
+> >
+> > --- a/drivers/of/module.c
+> > +++ b/drivers/of/module.c
+> > @@ -8,21 +8,14 @@
+> >  #include <linux/slab.h>
+> >  #include <linux/string.h>
+> >
+> > -ssize_t of_modalias(const struct device_node *np, char *str, ssize_t l=
+en)
+> > +/* Do not use directly, use %pOFm format specifier instead */
+> > +size_t of_modalias(const struct device_node *np, char *str, size_t len=
+)
+>
+> We should keep ssize_t.
 
-I appreciate your report, but there is not a lot in your message to
-help debug the issue.
+My intent was to align of_modalias() with snprintf()...
 
-Can you please:
+> "end - buf" passed from device_node_string() in vprintf.c might be
+> negative. The "buf" pointer is used to count the number of characters
+> which might be written when the buffer is big enough.
 
-1.) Verify that the kernel tree you are testing on has commit
-cecc1555a8c2 ("net: Make napi_hash_lock irq safe") included ? If it
-does not, can you pull in that commit and re-run your test and
-report back if that fixes your problem?
+Isn't Rasmus' suggestion sufficient?:
 
-2.) If (1) does not fix your problem, can you please reply with at
-least the following information:
-  - Specify what device this is happening on (in case I have access
-    to one)
-  - Which driver is affected
-  - Which upstream kernel SHA you are building your test kernel from
-  - The reproducer program(s) with clear instructions on how exactly
-    to run it/them in order to reproduce the issue
+buf +=3D of_modalias(dn, buf, buf < end ? end - buf : 0)
 
-Thanks,
-Joe
+Rob
