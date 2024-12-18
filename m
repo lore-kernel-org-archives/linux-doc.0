@@ -1,135 +1,124 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 652073224;
-	Wed, 18 Dec 2024 05:25:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD86154457;
+	Wed, 18 Dec 2024 06:56:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734499554; cv=none; b=OKw0jT09vMeDBwSDSUktT/TizGo/x8TFLGOHdJkogiDCgegGMrnEt6Twpd8Y2n6IrIsGk0LRW8pZ3KgbQHXDkpaPcvFWJyk11GwBHBesY6UtjGC8+slP2sAnvThY6Q1/cXWxUj7RN7UcGLhqELMLYy/9zwK71mPnLqCDP9VxV64=
+	t=1734504974; cv=none; b=Gaa374OQ4lyUwL0/0yaZp2745XeX6IpISYJwo+pUBMSYn4nm1p6a+9oyjMQHBpxetEHxTWL3u/5SATfs6cmPliAwFgTfVHQ70fGQYzwRcDthdL+u6Dd85n4g0km3tfX0dHpHZq6G+6sIIFP8kJEGSydIuXmC1x9G9WWsS6JEiO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734499554; c=relaxed/simple;
-	bh=hdmn6jWP8hkI5Rxf8o9Dli5aPWwW4xK7sGhL7rLhTqE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jazcnMuWBXAiDcfncm1Dygckoaf7QsRPDjPNAYiajSVF2MVOzjR9guNaubiQwozfWLU7Knb6pkuJxN7m7YHK+vuuH86/CZ8WhIQOsg5DnyMh3m/0LkgrFpSlNCr/v+GYM0bMekyTjn+Ln0NZROv94pwdISGDvAtNb1KoReLj0uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A8493FEC;
-	Tue, 17 Dec 2024 21:26:18 -0800 (PST)
-Received: from [10.163.50.13] (unknown [10.163.50.13])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E18403F7B4;
-	Tue, 17 Dec 2024 21:25:45 -0800 (PST)
-Message-ID: <96bae61a-c9a0-4b9a-af4f-b6fc6202bccd@arm.com>
-Date: Wed, 18 Dec 2024 10:55:43 +0530
+	s=arc-20240116; t=1734504974; c=relaxed/simple;
+	bh=WS94ivXWHTsIrraIOJmCvvBIWd7CABqyh2vbGrLDlkU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=SeCMm8WJdvXX6YdGd52vSo5IDreWVnwMBtmYAsVftJqNrUStXISkOwbJzO0FwkOVN0pW/VHVra6zC5yTG2f4mot12rG2IhQvCIVaag6/LCFj5g8djwylTgwMVgoox85ror57lbmnb9+9BVYQC0a2MOqOMNurKpdXMVxTIPJX34M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.235])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTP id 4YCkwP2fh3z4f3lDF;
+	Wed, 18 Dec 2024 14:55:49 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.252])
+	by mail.maildlp.com (Postfix) with ESMTP id E02521A058E;
+	Wed, 18 Dec 2024 14:56:09 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.175.124.27])
+	by APP3 (Coremail) with SMTP id _Ch0CgCnhMEHcmJnLjMnEw--.53472S4;
+	Wed, 18 Dec 2024 14:56:09 +0800 (CST)
+From: Kemeng Shi <shikemeng@huaweicloud.com>
+To: corbet@lwn.net,
+	tytso@mit.edu,
+	adilger.kernel@dilger.ca,
+	jack@suse.com
+Cc: dennis.lamerice@gmail.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-ext4@vger.kernel.org
+Subject: [PATCH v2 2/3] jbd2: remove unused transaction->t_private_list
+Date: Wed, 18 Dec 2024 22:54:13 +0800
+Message-Id: <20241218145414.1422946-3-shikemeng@huaweicloud.com>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20241218145414.1422946-1-shikemeng@huaweicloud.com>
+References: <20241218145414.1422946-1-shikemeng@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 6/7] arm64/boot: Enable EL2 requirements for
- FEAT_Debugv8p9
-To: Rob Herring <robh@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
- Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Brown <broonie@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- kvmarm@lists.linux.dev, linux-doc@vger.kernel.org
-References: <20241216040831.2448257-1-anshuman.khandual@arm.com>
- <20241216040831.2448257-7-anshuman.khandual@arm.com>
- <20241216234251.GA629562-robh@kernel.org>
- <c64709f7-e1c6-482e-8665-912be50b15bd@arm.com>
- <CAL_Jsq+EO_s49sSK3JQQEDDpcndf4hSpM_gfoe8tZ8=4y3f-tg@mail.gmail.com>
-Content-Language: en-US
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <CAL_Jsq+EO_s49sSK3JQQEDDpcndf4hSpM_gfoe8tZ8=4y3f-tg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_Ch0CgCnhMEHcmJnLjMnEw--.53472S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7ur4kXFW7JF45uF1fuw1rZwb_yoW8KFy5pF
+	95u3WIqrW5CryUArn7Jr48JrW2vF40krWUGFyjk3Z3Ca17Kwn29FZrtryakF1Dtr4F9ayj
+	qF129ryUur4jy37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPFb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M280x2IEY4vEnII2IxkI6r1a6r45M2
+	8IrcIa0xkI8VA2jI8067AKxVWUXwA2048vs2IY020Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK
+	0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4
+	x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2
+	z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4
+	xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v2
+	6r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxV
+	WUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+	14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
+	kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAF
+	wI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJV
+	W8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUa3x6
+	UUUUU
+X-CM-SenderInfo: 5vklyvpphqwq5kxd4v5lfo033gof0z/
 
-[....]
+After we remove ext4 journal callback, transaction->t_private_list is
+not used anymore. Just remove unused transaction->t_private_list.
 
-On 12/17/24 23:23, Rob Herring wrote:
->> Something like the commit
->>
->> commit 31c00d2aeaa2da89361f5b64a64ca831433be5fc
->> Author: Mark Brown <broonie@kernel.org>
->> Date:   Thu Apr 1 19:09:40 2021 +0100
->>
->>     arm64: Disable fine grained traps on boot
->>
->>     The arm64 FEAT_FGT extension introduces a set of traps to EL2 for accesses
->>     to small sets of registers and instructions from EL1 and EL0.  Currently
->>     Linux makes no use of this feature, ensure that it is not active at boot by
->>     disabling the traps during EL2 setup.
->>
->>
->>>
->>> I just realized I forgot to add FGT2 setup for the PMUv3.9 features I
->>> already added in 6.12 and 6.13. So this really needs to land sooner
->>> rather than later to add that.
->> Not sure if I got this correctly. Are you suggesting to carve out __init_el2_fgt2()
->> from the series and post separately with PMUv3.9 requirements and fallback clearing
->> for all FEAT_FGT2 trap config registers as mentioned above ?
-> Yes, as it needs to not be held up by any of the debug issues Mark
-> raised. Also, it may need to be back ported to 6.12. And for that we'd
-> want the PMU parts, but not the Debug. I still have to figure out what
-> needs to be done on the KVM side.
+Signed-off-by: Kemeng Shi <shikemeng@huaweicloud.com>
+---
+ Documentation/filesystems/journalling.rst | 4 +---
+ fs/jbd2/transaction.c                     | 1 -
+ include/linux/jbd2.h                      | 6 ------
+ 3 files changed, 1 insertion(+), 10 deletions(-)
 
-Hi Rob,
-
-I did go through all the five FEAT_FGT2 trap control registers and it
-seems like the following are the controls available for FEAT_PMUv3p9
-based registers. Although PMZR_EL0 does not get used in kernel right
-now but still might be a good idea to include anyway. Please let me
-know, if I might have missed something else related to FEAT_PMUv3p9.
-
-HDFGRTR2_EL2_nPMUACR_EL1	(mrs PMUACR_EL1)
-HDFGWTR2_EL2_nPMUACR_EL1	(msr PMUACR_EL1)
-HDFGWTR2_EL2_nPMZR_EL0		(msr PMZR_EL0)
-
-Following will be the change required for __init_el2_fgt2() along with
-all the tools sysreg updates required for the mentioned registers here.
-
---- a/arch/arm64/include/asm/el2_setup.h
-+++ b/arch/arm64/include/asm/el2_setup.h
-@@ -233,6 +233,31 @@
- .Lskip_fgt_\@:
- .endm
+diff --git a/Documentation/filesystems/journalling.rst b/Documentation/filesystems/journalling.rst
+index 0254f7d57429..863e93e623f7 100644
+--- a/Documentation/filesystems/journalling.rst
++++ b/Documentation/filesystems/journalling.rst
+@@ -111,9 +111,7 @@ a callback function when the transaction is finally committed to disk,
+ so that you can do some of your own management. You ask the journalling
+ layer for calling the callback by simply setting
+ ``journal->j_commit_callback`` function pointer and that function is
+-called after each transaction commit. You can also use
+-``transaction->t_private_list`` for attaching entries to a transaction
+-that need processing when the transaction commits.
++called after each transaction commit.
  
-+.macro __init_el2_fgt2
-+       mrs     x1, id_aa64mmfr0_el1
-+       ubfx    x1, x1, #ID_AA64MMFR0_EL1_FGT_SHIFT, #4
-+       cmp     x1, #ID_AA64MMFR0_EL1_FGT_FGT2
-+       b.lt    .Lskip_fgt2_\@
-+
-+       mov     x0, xzr
-+       mov     x2, xzr
-+       mrs     x1, id_aa64dfr0_el1
-+       ubfx    x1, x1, #ID_AA64DFR0_EL1_PMUVer_SHIFT, #4
-+       cmp     x1, #ID_AA64DFR0_EL1_PMUVer_V3P9
-+       b.lt    .Lskip_pmuv3p9_\@
-+
-+       orr     x0, x0, #HDFGRTR2_EL2_nPMUACR_EL1
-+       orr     x2, x2, #HDFGWTR2_EL2_nPMUACR_EL1
-+       orr     x2, x2, #HDFGWTR2_EL2_nPMZR_EL0
-+.Lskip_pmuv3p9_\@:
-+       msr_s   SYS_HDFGRTR2_EL2, x0
-+       msr_s   SYS_HDFGWTR2_EL2, x2
-+       msr_s   SYS_HFGRTR2_EL2, xzr
-+       msr_s   SYS_HFGWTR2_EL2, xzr
-+       msr_s   SYS_HFGITR2_EL2, xzr
-+.Lskip_fgt2_\@:
-+.endm
-+
- .macro __init_el2_gcs
-        mrs_s   x1, SYS_ID_AA64PFR1_EL1
-        ubfx    x1, x1, #ID_AA64PFR1_EL1_GCS_SHIFT, #4
-@@ -283,6 +308,7 @@
-        __init_el2_nvhe_idregs
-        __init_el2_cptr
-        __init_el2_fgt
-+       __init_el2_fgt2
-         __init_el2_gcs
- .endm
+ JBD2 also provides a way to block all transaction updates via
+ jbd2_journal_lock_updates() /
+diff --git a/fs/jbd2/transaction.c b/fs/jbd2/transaction.c
+index 66513c18ca29..9fe17e290c21 100644
+--- a/fs/jbd2/transaction.c
++++ b/fs/jbd2/transaction.c
+@@ -92,7 +92,6 @@ static void jbd2_get_transaction(journal_t *journal,
+ 	atomic_set(&transaction->t_outstanding_revokes, 0);
+ 	atomic_set(&transaction->t_handle_count, 0);
+ 	INIT_LIST_HEAD(&transaction->t_inode_list);
+-	INIT_LIST_HEAD(&transaction->t_private_list);
+ 
+ 	/* Set up the commit timer for the new transaction. */
+ 	journal->j_commit_timer.expires = round_jiffies_up(transaction->t_expires);
+diff --git a/include/linux/jbd2.h b/include/linux/jbd2.h
+index 50f7ea8714bf..90c802e48e23 100644
+--- a/include/linux/jbd2.h
++++ b/include/linux/jbd2.h
+@@ -700,12 +700,6 @@ struct transaction_s
+ 
+ 	/* Disk flush needs to be sent to fs partition [no locking] */
+ 	int			t_need_data_flush;
+-
+-	/*
+-	 * For use by the filesystem to store fs-specific data
+-	 * structures associated with the transaction
+-	 */
+-	struct list_head	t_private_list;
+ };
+ 
+ struct transaction_run_stats_s {
+-- 
+2.30.0
+
