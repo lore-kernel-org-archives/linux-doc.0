@@ -1,103 +1,84 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463F919B5B1;
-	Wed, 18 Dec 2024 13:34:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D389A15A856;
+	Wed, 18 Dec 2024 14:07:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734528900; cv=none; b=YsvTH/2FTxAHqdYEHSuSgS7H2tktvStqs38tDFKQQYnJbAPKGk0qtwqLgb79DGIIPwZm/BNeeCYms30GWTbycuvck4SU7M2Lk91t0s4sZOXIr5cjQiFP8TEO9U2dYt5PBennqW8MFkEvKlmhWyzbwAfLqNG9HOA7dCwcursq/c0=
+	t=1734530837; cv=none; b=JZcpgdrkTkwn/IkfiSICRRMAmuEPBladKji8IVL13PH58CUMQkJ4pI2Wp5D7MP/PitnDwOJOCR2IiEin6H6Qqx/Rn9xukcUWgIcHtGKjoZeNBNYg+TAPjJcDRgtDxgtAmfokTU8u3Hui7xL/bXUDrfKE4eMazj4Jn/SaJX/H7/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734528900; c=relaxed/simple;
-	bh=Ke2T8ECN3W8kaX1iceKh7MreB2yxBEQvypHBfi3O0FU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QrvZ/jpG1MaVGUKK0JmTl6qjDaBgdyvH4GXD+HL7sn4fIWTyt/t2zXiAe5FcHx7pHXbpvQf/glmzC65S/TtSeuTjV3UngkM7r/H36ZFXaRNenAxKPJE7MCbU/lxIsyyilJpn0EDqD7WXVY5rSbLgBBmWHHEIObttv7l63j087tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VGCXsZj/; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1734530837; c=relaxed/simple;
+	bh=mgX93xzPnXv541PUr2ltsPc7jNYTs6Jq1GIOGYENQHs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=TG5NcG9VeEbrEqH8BXQ9Alks7iLUvdbELVIPMpbuKDyTecEpKehWRr1BrXtnuoLG2RoMtUshgjzv/qzJCljL35hQoN8r0/AtCu76825Vrt0MQ6O06IaDTVQOUMO0D/rymnRZ1uipyz2lb30kjvXY8XKuM2uW4ZkASmXIy3+uB38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=4oyRi0C6; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=eD7V4K9U; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VGCXsZj/"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5d3e6f6cf69so3853684a12.1;
-        Wed, 18 Dec 2024 05:34:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734528897; x=1735133697; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ke2T8ECN3W8kaX1iceKh7MreB2yxBEQvypHBfi3O0FU=;
-        b=VGCXsZj/o6IDI0Nh8aexYp1WAs3iieCJHhuxanOXc6ETp3QPGj7Ns6BXnfa4gc6Xkn
-         evoaTqbGV93KC3quDQmxLlA32CZf9uI+jThj5+iaX3Kzg2TGIPLUXQ/O8oJpC7N0XdQS
-         Faqx/CkwQx1Evn5Nb6peAyFIQyjBBUM4cPf9QMpJSONS7RqpINZnqGaJyn7vTrCROKou
-         0fpbUExhktlTRB8dAMKDy0njNWb2P+NDXXsu8zpRC7KrUhq7MalYxonq+H4c6yDVerzl
-         h9amESMEdpMKnvaHAQBaEGZeZi5dc9B1k8imPf734qJYcGux9RH4mMkxi7vLyks6B2xl
-         j/yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734528897; x=1735133697;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ke2T8ECN3W8kaX1iceKh7MreB2yxBEQvypHBfi3O0FU=;
-        b=QLmTTZ/piNW2Vg7t5WLS2vGQA9f2wYbna3Ejf2AuWXptKzMc/c7oQoM9E4Ho3pKoL9
-         YGs3qVjeGGyPHbkbqC/1xlRorSwYQ0W82iDMPzugtwfcJaUbRvQNy9Y2D/eGN1w3nbV/
-         DvjB5lnZZ1URse2lFU58UT/eKjloMOFfuqnT1nA8P27HT9G3j7KkE6UYOtfs5uz0OQnr
-         Ow2b3g54G8H3rHyPlc2o5LOVijeYAv4loO2OZBQZHmXndGrcSBgPlFiAjsmM9sghSAwN
-         ILlGpiNqLWslwvVV4V+yO/FAQq3SZZqC6AvG4ZcYZV0S9tXcrBn4BQVROSQtc55rwrUh
-         710A==
-X-Forwarded-Encrypted: i=1; AJvYcCVXGpBN7ieTI1IT7s7szBaAOfvYqsa2s3JvZp+xXV7d9noSMhFHkuAmYaQmEG88W9ve1wFX58Co@vger.kernel.org, AJvYcCVqqtqpmC0RdEq0QJ+SdzOxMXnkwPI4r3bh/5jceguRHMQ/vwV87F9bagGDyenpgi8j2lTidsTw95k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZQktyR4vn5x+mzjKuNEx3fZT00fBYXTCv8ybiwnsdlgJUyyYg
-	B8RihMquOmkV5NrpteRr29R8kE7kOa3L3IuJvYxUcxTE2kIckNwNUCFTivwqCHEbKe1GYI2BkJ9
-	/vO+HIl70IGVogoPM7e2NwP9SF5Q=
-X-Gm-Gg: ASbGnct/1jRMMS6eQRPA4SFu876IluaN3Q7F2/NuczQa9L9K/N3opzJOmbqDPxKNpNd
-	4dSdvhNuvQFNTb4juDWzjEB5Vlc+fgqWV6ZKvCCI=
-X-Google-Smtp-Source: AGHT+IExixo8sS8whkM9TAmM0xZZ0D7GWSHwX+2NSnPsYhH+M/4TEEnHkWwrgtcGhtivnBUioB4+7GAGM3e7SX0N4XU=
-X-Received: by 2002:a05:6402:350d:b0:5d0:ceec:deec with SMTP id
- 4fb4d7f45d1cf-5d7ee390bdbmr2533246a12.13.1734528897323; Wed, 18 Dec 2024
- 05:34:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4oyRi0C6";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="eD7V4K9U"
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1734530834;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2eLj0/YgnHOw01rambB9COkAefJ/p6pn5ystAV/jiIo=;
+	b=4oyRi0C6vwlSj2UJ0Htc56FX3h2FMSwlBfutsNVF4HkHLTVxdld6dd/mlb+xz5NBih6CD4
+	L+/YByveFf4Kt594VNXOERSlTTBCnXlGFyM3+0gFHmSPfS56qJ+/Vv71A7Ik1A39CTS08E
+	870vMA4lcycPkQTIcgLV6CjDdPKlWjRA+yp8KsEHW2JFOwBCvf3ZAeLtt+YxFsGjYZg2rr
+	CBsAyJD/8/pVu3YrejWoOlVajbgcHkz4AQ3DO/t99ehLvwOj1DxjYQN/u0eC12pgsjAxd/
+	abAmkEJSn4pcOFi6Tu+WDbCwPrXVnGPueSaE5LAiJ6H1FedFlwofBbMRIPZ1rw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1734530834;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2eLj0/YgnHOw01rambB9COkAefJ/p6pn5ystAV/jiIo=;
+	b=eD7V4K9U9uNdeUVdYrISR6N8bDAK/Cq8ybtljmpjmFLR4SHiTA1loWgq2Vxd55AJyNCWBr
+	xR8l772BMoG4kRCg==
+To: Petr Mladek <pmladek@suse.com>, "Rob Herring (Arm)" <robh@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Rasmus Villemoes
+ <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>, Saravana Kannan <saravanak@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Peter Zijlstra
+ <peterz@infradead.org>, Thomas Gleixner <tglx@linutronix.de>, Zijun Hu
+ <quic_zijuhu@quicinc.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: lock in vsprintf(): was: Re: [PATCH] of: Add printf '%pOFm' for
+ generating modalias
+In-Reply-To: <Z2K_u6jK5aLDqaam@pathway.suse.cz>
+References: <20241217183711.2525863-1-robh@kernel.org>
+ <Z2K_u6jK5aLDqaam@pathway.suse.cz>
+Date: Wed, 18 Dec 2024 15:13:13 +0106
+Message-ID: <84wmfxm6em.fsf@jogness.linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241113173222.372128-1-ap420073@gmail.com> <20241217083024.6b743b74@kernel.org>
-In-Reply-To: <20241217083024.6b743b74@kernel.org>
-From: Taehee Yoo <ap420073@gmail.com>
-Date: Wed, 18 Dec 2024 22:34:45 +0900
-Message-ID: <CAMArcTXN2nSY+zRcyoc+Rmy1HWmkEPJ==7LojeX2cTrNoXaORw@mail.gmail.com>
-Subject: Re: [PATCH net-next v5 0/7] bnxt_en: implement tcp-data-split and
- thresh option
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com, 
-	almasrymina@google.com, donald.hunter@gmail.com, corbet@lwn.net, 
-	michael.chan@broadcom.com, andrew+netdev@lunn.ch, hawk@kernel.org, 
-	ilias.apalodimas@linaro.org, ast@kernel.org, daniel@iogearbox.net, 
-	john.fastabend@gmail.com, dw@davidwei.uk, sdf@fomichev.me, 
-	asml.silence@gmail.com, brett.creeley@amd.com, linux-doc@vger.kernel.org, 
-	netdev@vger.kernel.org, kory.maincent@bootlin.com, 
-	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
-	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
-	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
-	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
-	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
-	willemb@google.com, daniel.zahka@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Wed, Dec 18, 2024 at 1:30=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
-> On Wed, 13 Nov 2024 17:32:14 +0000 Taehee Yoo wrote:
-> > This series implements header-data-split-thresh ethtool command.
-> > This series also implements backend of tcp-data-split and
-> > header-data-split-thresh ethtool command for bnxt_en driver.
-> > These ethtool commands are mandatory options for device memory TCP.
->
-> Hi Taehee! Any progress on this series?
-> Being able to increase HDS threshold is highly beneficial for workloads
-> sending small RPCs, it'd be great if the changes were part of v6.14.
+On 2024-12-18, Petr Mladek <pmladek@suse.com> wrote:
+> My concern is taking a lock when processing a printf format, see
+> below for more details.
 
-Hi Jakub,
-Sorry for the late response.
-I'm going to send v6 patch today :)
+Your concern is valid! printk() uses vsnprintf() to format records for
+the kernel log. printk() may be called from contexts where locking is
+forbidden (such as NMI). If vsnprintf() can take a lock, then either:
 
-Thanks a lot!
-Taehee Yoo
+vsnprintf() must be made to be lockless
+
+  or
+
+printk() must take another approach to string formatting
+
+  or
+
+we accept that printk() can deadlock for certain format types in certain
+contexts.
+
+John Ogness
