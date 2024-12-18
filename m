@@ -1,111 +1,147 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A19D19F49F;
-	Wed, 18 Dec 2024 11:30:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 233FF19C56C
+	for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 11:35:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734521431; cv=none; b=VmKoMxU7zi9f3ak6wKiFGXMDXqKN/p3FNNZF0F8PT+f4U7RU+5zJCUNA3QtGmof52d5G3YBa1D23CXSJyf9ydm+ji476EWWk4OxwF0+j1IGqsNwiJUjwbjb+cD+IuRYfvpLv2gXXXFE5PmmAfkR0yiU5rHKP2TMgAya5TVHODCM=
+	t=1734521720; cv=none; b=eCzmcayqCdw7HBlJ+UBSvTdqbXk56ATsGW/lKCpHgDLBGpG1rqf2e0hKYouoQPY6jPBTGABn9Rw5aTQ/kVfzDS6IQcF9b2l0JfR1JPl93K7j78yb+P69n8g5wYpGhmkESi+553WecsQJ3vNLgmhRIn4MCi7XPSxxvqrtYHUs7GY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734521431; c=relaxed/simple;
-	bh=u/dq9sY0VmCBJEX53jst4O2ekctR/UHErvzmMkufc/k=;
+	s=arc-20240116; t=1734521720; c=relaxed/simple;
+	bh=gOiMAnrjvHN0iPlKNzqS7+6gHJppdNewW/4kpkijjMk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vGXQfd0ZcfVWucR3YK3jSp/c5FAguVhDrqOqf0zlPd0LvhvRNvA4w1pHqZYlyEx2rn11iWFP8S9nMhqfvOnkxFfxtmSmb+NEyAxALHnrCTIAuIOAsuS/MRIRR3pas35xgvMcWfEo+kw47woproAdmEvh0X4GstPZg2258YzCHcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NQPQR4F+; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=dyBJZ266868kwRe4s34mihdcsxPDeyfDZcnjmUjqFZE0mnUBd2Z5OsDWszAYJlVeGEwMT9i5mbK6nQoLXSXBhhohurBJpA2WzNEz48lY0G5NAo3aTeDjhLCW5s479zR619RNKJEjAY9O5ma3DK0HFFRuZhuVIliArQ9wXaPA6g4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=ZpUpJ5/Q; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NQPQR4F+"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-728e1799d95so7406781b3a.2;
-        Wed, 18 Dec 2024 03:30:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ZpUpJ5/Q"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-38633b5dbcfso6782301f8f.2
+        for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 03:35:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734521430; x=1735126230; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1734521715; x=1735126515; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=u/dq9sY0VmCBJEX53jst4O2ekctR/UHErvzmMkufc/k=;
-        b=NQPQR4F+2t1klDGHZ1RCTiwpvboKEJMBtkzvT575nmpULlkdRC8qySSkPuwILJxK2X
-         nzRyxFJ98FUlzXcMu4m1FoKidP775LNm5FycbFQ4b638dlQ2fc6YMjJwYzjAcqVzz3+q
-         foj+nb6C8pFeOP/GlNTZ+rlA76TUf/tjYt1A5eHeFACK2z9124hNHI1mqpuF7DJ4Xtig
-         /kkNx/jMwkD3wmpV9By36lIbugCrzTIxYOjwSgZ0tqXvJCzPc3afFCZyLgx8fdtAn812
-         uNHWTcwNoGI0Fjoh/aqgJw/1DHXT/mJicUTZCATSqDQxkhNWdugke93cMqJrsr240d1l
-         D/jA==
+        bh=VlJJETf0GEG5l1fQK2RThJLw2n20sbAz6B1Azi0svlk=;
+        b=ZpUpJ5/QylowrV3JqsfgMS2hgTThrGYcD+Ro6FuLOjXOnzSb+Ex6xpm2JBBXd5PBFd
+         sdkg7ZVOstjiPvW7Lcf+nPLEEHdlVSVZNDpNsE72PusZtbzXFD8xTRO1IkOq+JTclBr3
+         yJAkS1SGmLqMcdZm7XjTc8kKTXgbdUg2MT2zIk0g90b+ls1WYc/cglquKsPb3fB2/gY0
+         Owb0e8+cJJ9C55kFffGEWX+BjNuqp7qJVf9rn4A+lQR81nwz9gapEwIOP8F8AbAvRzZ7
+         9ru4PyeJytdrXNDJhtycxOI8O/CtTqr7x9qNTNCkcrhrCXlcgcvUM2o9ytqmHgn3sjb1
+         Wiyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734521430; x=1735126230;
+        d=1e100.net; s=20230601; t=1734521715; x=1735126515;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=u/dq9sY0VmCBJEX53jst4O2ekctR/UHErvzmMkufc/k=;
-        b=s+SWTOhN/Csvahajfv1SoxjnVsc4OKXzbLq452QHfnPLK78LeAxLqq2/Y5wDeOhXIb
-         gbGVyfYfczUfIoWqcZw+vVEP0GVYe6xIe6YRWIvEbiodylHAjjd8oyFUJPIMnsyMQ9Rn
-         gZmawKMJaC2aB1Ko0zW2mrsv8c0Um0EiB37p9+pHTRT0/B9WitbaE3URwu1QQDddhKeh
-         5SPsZOXmWEHc6gA1c96+oTXxwzGzkhBUEx+bHGxwfm+epy1FsG5aFpjUGYR6OlxHTEKb
-         V+q3I28O237tcTu0KE3bpDTl3BJiaObcTxhh5sBZYILHzgjdjqZRB10cBC9CSafIpgwC
-         +GNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUBB6SNv8bUvcRhkL1S/dzddzfVvRaaK3CNdIQWkYOEH5WucYjIztzHSACTuSMqjx74Al/qtnZDek4=@vger.kernel.org, AJvYcCUu8vZrRgtQON+9JMDojreMjGcTRPR/FqYZ4AIKA7DYGaNE0Ok13fOlLYsGVwUnbgXExUONSml9@vger.kernel.org, AJvYcCX7wcJw/0UwtyjQro4AbCivTV3oMW6B5wbKyXjX+c2n9FHeMqlWNFiCj7vzVErdI4yN4FqQvhBWPOzlKnCp@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNEXlB1A5ZUoeH5tmNI55+oykWmZ1/GDifZ5UkUP3utYjoZqhA
-	E5/4aTPDQmy0CdFAoi6+tkWoT52+Zvf1/GjghIV7dbNI9c00CLq1
-X-Gm-Gg: ASbGncsbcWcMhptId3mZoPi/xEJ+IzgGVc1xlmyox7S0es37YasgVONtnGShqjZVKD1
-	PNWkN9zyT8GNZTrjBgqPseMwKzzJj/+sV5eKTbQaMUd5sIPW+Uo2psBsIgp55Hh98sbO+sCArgK
-	WZVy6tMqOIWtKc6yAuIY4X22KEMLI3dNs9aIlPvATBqrKPWsXwGIDUABFsAHlUq/MwrNailBA4k
-	siGQFdXY8RaIv3Z5MG++m0gQ3GaBlpR1ZoHRasCf5KAbuxvba1TL5Ko
-X-Google-Smtp-Source: AGHT+IHF0d6gmlu1urGcxtQnY6d86ijOUf7SpKBGKEJuyViKSSbm1AohGQx4vwZDspc/ZeLtw2U0pA==
-X-Received: by 2002:a05:6a21:39a:b0:1e0:d851:cda5 with SMTP id adf61e73a8af0-1e5b47fc6a3mr4668603637.14.1734521429384;
-        Wed, 18 Dec 2024 03:30:29 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72918bcdb8dsm8297560b3a.179.2024.12.18.03.30.28
+        bh=VlJJETf0GEG5l1fQK2RThJLw2n20sbAz6B1Azi0svlk=;
+        b=sz2xmj5tkjA6rXfOukVNe0m03F6455EftlCStZYZGk4HrQD7f18S6SgMjCNXHo6Yr4
+         9D7nMi87Q/JyaKp1O2FGBfvi6IcE0auGo1A3EL3q+YrBld0kqeD3AcL/THzbZddId9HK
+         fhyGowMJrWYqx11X8oJ7nGZeWh/0nigtHL+qeoLMgMoW6kxTLGnOB/FfyqYG7cZyh1Om
+         jTLyt4z5pJLE5jaBpj+I1KtUrKQXpIZ8viMxJ8lldbC9juuiEQxo8M+jaO4n2I8BEMkR
+         9rMYCojZwaLqliJze4psTB6Di+TlGzeuLc4liEHImVrzXrpqDXoQ476gTQX/ZAI6qVzd
+         /I+A==
+X-Forwarded-Encrypted: i=1; AJvYcCXBh65MJpTvyshOGVfKMPSkMCukc+ZGaGhOZlSMYqpUnXhCg4k/vMy7+vpOBON3xv5C6xJXvbSVbgM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIq+mHZSg+gkBfsClZADoCtz4EWID7mrvpJ+YAXwz5Q3ZwXnyS
+	f0dgQ8WvJMKGzxyuWNoLVZpRK+T602i71l/mvjPg5wmr9agONCuqsqV+CWCP69s=
+X-Gm-Gg: ASbGncuzGO+TU/ZNWBojELz81AjkC93FY4rgP0UApTZGDNg+ihkA7fulyyz+zdVS8pB
+	NwHA65wH6nNs669B++1JEoAblzv+IQGVvK1QoP4vXJUF/1W3WWLfYo39dFAdIBcyXCRUbn5LPzj
+	KexS0hNilqocSWyf4D++l1fbxJ70lRD2W7jVz8FNyL0aBY6XwQgqc8JnEndz8vgDxoGgYaDFOaf
+	/er44FrIDWv7pDKSlxdYIFLIXSuy9dIGKfGve9MQETEnVHYn5bvs0uFeg==
+X-Google-Smtp-Source: AGHT+IGnVN8Zbotu5KkOnXCz05raBpseI5GUh9bTzmh4+dTqb3vp6Jmq20mEcYqJv0Y4S8sbzjycFw==
+X-Received: by 2002:a05:6000:4a16:b0:385:fa26:f0ac with SMTP id ffacd0b85a97d-388e4d6a9aemr2531218f8f.7.1734521715441;
+        Wed, 18 Dec 2024 03:35:15 -0800 (PST)
+Received: from pathway.suse.cz ([176.114.240.50])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c801223dsm13978802f8f.3.2024.12.18.03.35.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2024 03:30:28 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 1D6654535844; Wed, 18 Dec 2024 18:30:25 +0700 (WIB)
-Date: Wed, 18 Dec 2024 18:30:25 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH net-next v5] net: Document netmem driver support
-Message-ID: <Z2KyUYTrJBAKk_M7@archie.me>
-References: <20241217201206.2360389-1-almasrymina@google.com>
+        Wed, 18 Dec 2024 03:35:14 -0800 (PST)
+Date: Wed, 18 Dec 2024 12:35:12 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Saravana Kannan <saravanak@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Zijun Hu <quic_zijuhu@quicinc.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: ssize_t: was: Re: [PATCH] of: Add printf '%pOFm' for generating
+ modalias
+Message-ID: <Z2KzcORZocQAwAi9@pathway.suse.cz>
+References: <20241217183711.2525863-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qKvCz0ZWn4AzuQOu"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241217201206.2360389-1-almasrymina@google.com>
+In-Reply-To: <20241217183711.2525863-1-robh@kernel.org>
+
+On Tue 2024-12-17 12:37:09, Rob Herring (Arm) wrote:
+> The callers for of_modalias() generally need the module alias as part of
+> some larger string. That results in some error prone manipulation of the
+> buffer prepend/append the module alias string. In fact,
+> of_device_uevent_modalias() has several issues. First, it's off by one
+> too few characters in utilization of the full buffer. Second, the error
+> paths leave OF_MODALIAS with a truncated value when in the end nothing
+> should be added to the buffer. It is also fragile because it needs
+> internal details of struct kobj_uevent_env. add_uevent_var() really
+> wants to write the env variable and value in one shot which would need
+> either a temporary buffer for value or a format specifier.
+> 
+> Fix these issues by adding a new printf format specifier, "%pOFm". With
+> the format specifier in place, simplify all the callers of
+> of_modalias(). of_modalias() can also be simplified with vsprintf()
+> being the only caller as it avoids the error conditions.
+> 
+> --- a/drivers/of/module.c
+> +++ b/drivers/of/module.c
+> @@ -8,21 +8,14 @@
+>  #include <linux/slab.h>
+>  #include <linux/string.h>
+>  
+> -ssize_t of_modalias(const struct device_node *np, char *str, ssize_t len)
+> +/* Do not use directly, use %pOFm format specifier instead */
+> +size_t of_modalias(const struct device_node *np, char *str, size_t len)
+
+We should keep ssize_t.
+
+"end - buf" passed from device_node_string() in vprintf.c might be
+negative. The "buf" pointer is used to count the number of characters
+which might be written when the buffer is big enough.
+
+>  {
+>  	const char *compat;
+>  	char *c;
+>  	struct property *p;
+> -	ssize_t csize;
+> -	ssize_t tsize;
+> -
+> -	/*
+> -	 * Prevent a kernel oops in vsnprintf() -- it only allows passing a
+> -	 * NULL ptr when the length is also 0. Also filter out the negative
+> -	 * lengths...
+> -	 */
+> -	if ((len > 0 && !str) || len < 0)
+> -		return -EINVAL;
+
+There is later called
+
+		csize = snprintf(str, len, "C%s", compat);
+
+and snprintf() uses size_t for the len attribute. It would go wild
+when we pass a negative len.
 
 
---qKvCz0ZWn4AzuQOu
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> +	size_t csize;
+> +	size_t tsize;
+>  
+>  	/* Name & Type */
+>  	/* %p eats all alphanum characters, so %c must be used here */
 
-On Tue, Dec 17, 2024 at 08:12:06PM +0000, Mina Almasry wrote:
-> Document expectations from drivers looking to add support for device
-> memory tcp or other netmem based features.
->=20
-
-The doc looks good, thanks!
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---qKvCz0ZWn4AzuQOu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ2KyRgAKCRD2uYlJVVFO
-o36cAQDZBsKe9tn8UUGg3/WJMoGEDmJgvEYJGAxih7cFAW/prQD+MNUDKsCeGQw0
-vRr1onQDMkLm2A1va23eGMDtgRkbaAk=
-=obHT
------END PGP SIGNATURE-----
-
---qKvCz0ZWn4AzuQOu--
+Best Regards,
+Petr
