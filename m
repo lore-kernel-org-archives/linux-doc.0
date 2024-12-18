@@ -1,57 +1,57 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D251D1E9B0D
-	for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 15:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D961C5CD5
+	for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 15:50:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734536564; cv=none; b=q0h5OSfdmFJgtGMqjXZVZHTAJVV1Qy9gWntpu39kOL+xVR63xN5Xwl8ZyGIWTke6CC2ebQVYFTjqmYfFm+sLh8E8xUXni73vVx+B6JhJw15Cxy1TE/HXbj0J1Xv3iV8Zq/q4/mMp+w9kEj25jzL9kwNhj36GE1YAagCgsaBAWhc=
+	t=1734537049; cv=none; b=LFh+efTCpm8FOyxifmiPjgU9ubEmV5XfMuxIihprKIfD8qZ9UCfxZP5MJcf4tOaUU206vib5pVTV2NvT3pyITzXxJeS/PSnjYbVR09Vaj1buZ1CuDC1GyfHb49Y11PtfgsCH6NtGVinXyhtXDE3jmaOv4JQLVudr0aFdu8zovzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734536564; c=relaxed/simple;
-	bh=QuzBh1hQijAsprS57EczNl26gBM1KUjMRsatvy3GdDs=;
+	s=arc-20240116; t=1734537049; c=relaxed/simple;
+	bh=+tBj375Lh0xZWMgCP+Z3BCSiCKL0u8xKqEohFM55iTk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YdYSI3/axXuDyULLKOMm939En8+GbxS66eBS8Gl68N1OoXoc5YeBXfi92RRVWLxDU1hHX0lpTod3PiHvQJUMo03jNEX1xArHvXtzTfPT1GYnvvdNY5PMBcI6ecl54kVvzmCD7yV3N2/KuRwSEK34kH1pJi3JS/hGorapsrIP4oY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OEYZNqiw; arc=none smtp.client-ip=209.85.160.177
+	 To:Content-Type; b=Kum0stxFPdsZXv4FPWigLHlwc4v49vuNPvgpLr+zuO9vHar0zYRnM+h9Hmo4wKMcA4sdV6YvmuK+KCx0KzvSzJXOHHXH4Hb8ylGOIyJw1G0gxeqaQ7igy/9GmMyu/BgqDamNQkPhyzlx/FfM1eK7zNbnP8UhaH2jGJdG42XshTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=phXaCq5O; arc=none smtp.client-ip=209.85.160.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OEYZNqiw"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4679b5c66d0so242801cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 07:42:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="phXaCq5O"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-467abce2ef9so309271cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 07:50:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734536562; x=1735141362; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+        d=google.com; s=20230601; t=1734537046; x=1735141846; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RhLwZHFFLal8r/YFxj6rYNit8ZadJWy9LCabm24mSbs=;
-        b=OEYZNqiwJoaHp8k4WOFSCCAoBdAm1soSord/NoNsiO7np1u9ze4cLbwnVqM+k/59Ot
-         +GUKGdYEKh/iHW68EQa/JAS9Hcgw4fes4DBrZl4mY5C9yQdkBYj9gFjYCJp30iukL2Ve
-         4Zk1NCwbUL3C/9jkdE3+GChDnE4Vo1A580jPnV96KGa+LVPyWWMt9rJRzBSKs+Hx6Xxm
-         J9P3DOTgEvIl8ua2RE8D+CpwmfSIr8aew39vglgUafNFYbXPv6DAqowqfyMYeYo3/Xmx
-         Uhtu/eCoR8sS4oJAOEgJ7+NJpD/IuLo5fJf/1jJDkPAfEkOKAwOW5B4uKirVL4Nl2Nj4
-         6RZg==
+        bh=K34TMKXepcjf4T0QsGUjvfCGqdKHia7AmTftSourduQ=;
+        b=phXaCq5O1P08vxUehZyZVJU9KJwFxiTKnHSHQUuDHNZklh9U1/0UuRuVsrrgKL5cGd
+         49T5wuzz61+dOsAWIdhr/7e+MHI5OXNfPECCMp/bJJgPTBxsxBqfFYv3pcJC0ZxYElxJ
+         loYw4DFgv/6B3m3fGxu2lDE3REtumXqUFjC47C7X5WnBIhWXaVjJ3JhYcgocjm3AabyL
+         oyY90zzMBMQCXZGLYZBx8VUYFteVW2+pOFeGq7sfuplkZrH4doJb2H7TAgtCfmuR+dHy
+         IFODzCfqW/J3Ahxato/uamiA+KhgvYoMxTdG1zTWCbV+ZAXBf5cw4guKlUKTQ7qO2+NP
+         8u2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734536562; x=1735141362;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+        d=1e100.net; s=20230601; t=1734537046; x=1735141846;
+        h=content-transfer-encoding:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RhLwZHFFLal8r/YFxj6rYNit8ZadJWy9LCabm24mSbs=;
-        b=hBSEgBmZcwNhyN289CWuSK+tNBAIR8YxM5yRlZEBIXqLxtfWbqkv4VhTVy+KyVnkJB
-         UG5GpiXty+mGTIebxpqOs20015ts8796X4LQuZyENqmNtIxkvjCgCGi+tEa7q5Wr+uUJ
-         WhY7PvImpZP8hiEDizDDuQn7FGPOc9aAg3ocKIGYnMNMeayewOcFFvcOfPAgJkoU7TjG
-         Naaanp2wSheaxAnIN0W45Lqb8wgmPLakofrAZwrSIPHKQ+tM15RXNAcXviVlBIiCtvIl
-         s3gLm16mIIKRSIgHGbKVk3Z0dC/qn3hBXRlmIXgzsWhOAL+5D/dIItVQJ6yDMovnI3IH
-         U2+w==
-X-Forwarded-Encrypted: i=1; AJvYcCVL/Aq4FYNz863CaNhg4RJIJ++CF10EOh3boMoIEc0FmnL6JAYuInrUkPAm6bkZezSyLr9BGrCowdI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YygvH490NKa7AewjklbNnqs1hKMMvTojUAd/39XesRZHY3bUjNB
-	SmnVT4+w2oncfx9J/7DNCeCS8JVSKpyXHOIvyQSq6ruNxZ5/J2JS94tWVGBtY5H8Z3Y0VUqHkH5
-	y3dfo1Y+u8dy6+VQubCXxuLysVR9LmlrHUfZi
-X-Gm-Gg: ASbGncvJ6zb5N22gSA4I+8A34E3jHSzxtIGje1UnxlCdU9MbXpuvmABHoHG72bi9m96
-	ew/tAssfncuf3rnBNDcTrqn3DcbQFISflapKbTQ==
-X-Google-Smtp-Source: AGHT+IHIVrlAuAEmTItLgcIAZKH1cOIzgAhlTg75ribMwVg4yaOTqgzEJEFSBKfxanrmcExN/1AW/CMo/9X1UD4BkME=
-X-Received: by 2002:a05:622a:2298:b0:46a:312a:54bc with SMTP id
- d75a77b69052e-46a312a580emr2326541cf.24.1734536561349; Wed, 18 Dec 2024
- 07:42:41 -0800 (PST)
+        bh=K34TMKXepcjf4T0QsGUjvfCGqdKHia7AmTftSourduQ=;
+        b=MRBp+OuZEzKuEFoHrc4GNOs1vJf8rtiHMGW2Oyw4JeyMBaijpnXSebgxtMccAf8dHb
+         NqJF27pZqzEN6sNnvOS0oO61vkw/8xZKbePuLm18JoD8OrqeNqtVLNbdRorgVmSOpXB2
+         1eJoINoeycEISodNJcMZBcPsSpFK0I+XiMxufdOOg9yqqVPy8GJBUJhncWbO3sHVLgel
+         vdLlEkYzIbyeTckM0F3fBD76l1vCe7+pLUhdnsqCrupCKu+SMcMY1sXCFXUWzaSz3Haq
+         uxAPiiUhUJ5b+TejTfIrqgeaWYBTHlLQDuaDncWeAeXaYp3uSqku93RW4G26CJbMCVgo
+         WagA==
+X-Forwarded-Encrypted: i=1; AJvYcCXAfxVvUDWvTP0RuS2eIgFiJGXSlhj+ysM3zHlAwXbUGFVOiqutns2SZk6pzOql5XK59sw0WraR3QY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEa6W+cH/eBx0fFd3jqk1btqXKBryckSiYafxckYhUHjsjlWIO
+	NDSPkSD7b8d08Ursvt5Eyt2iB/SZ9OLPSJLdCjAyRDBo4iulH5xbNvI9JWnGqvyg1bAuJcnu/gF
+	GnwIukv/bAfbMalCcLULf1k++DDHNdKd1Bk1/
+X-Gm-Gg: ASbGncvfsAzQRgy4ftmdZPALtD779l3DOVxvfn/7SUL74zq0pHKurLcLpxpBe1pZB65
+	0eOnaUVjsrSyba3tx/Y3bUvm6GW8qF9zFAwyIfA==
+X-Google-Smtp-Source: AGHT+IF9bvtdeVbXYNcj4WUKuNA1W1UsTchoCsMgUFXrZYQwJlH3Dyx1XbAac6JvaKxNQoGXbevnPte6ewyt6JYlXKk=
+X-Received: by 2002:ac8:5dc7:0:b0:466:8c23:823a with SMTP id
+ d75a77b69052e-46935529712mr2812431cf.17.1734537046012; Wed, 18 Dec 2024
+ 07:50:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,15 +61,16 @@ MIME-Version: 1.0
 References: <20241216192419.2970941-1-surenb@google.com> <20241216192419.2970941-11-surenb@google.com>
  <20241216213753.GD9803@noisy.programming.kicks-ass.net> <CAJuCfpEu_rZkC+ktWXE=rA-VenFBZR9VQ-SnVkDbXUqsd3Ys_A@mail.gmail.com>
  <20241217103035.GD11133@noisy.programming.kicks-ass.net> <CAJuCfpHzsQeejdPPbDdA6B3Wa=-KusnYRUyt1U0WnCRr8OKfGw@mail.gmail.com>
- <20241218094104.GC2354@noisy.programming.kicks-ass.net>
-In-Reply-To: <20241218094104.GC2354@noisy.programming.kicks-ass.net>
+ <20241218094104.GC2354@noisy.programming.kicks-ass.net> <20241218100601.GI12500@noisy.programming.kicks-ass.net>
+ <kfltsrry7qjuycyqpe2wune2ejad6kvusm2zixvfbtprbnw2lv@wcafrui6qaa7>
+In-Reply-To: <kfltsrry7qjuycyqpe2wune2ejad6kvusm2zixvfbtprbnw2lv@wcafrui6qaa7>
 From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 18 Dec 2024 07:42:30 -0800
-Message-ID: <CAJuCfpHkTScPqME=++tzv=qu0aev-ewprLa=GGw8Qp4PQtTL9w@mail.gmail.com>
+Date: Wed, 18 Dec 2024 07:50:34 -0800
+Message-ID: <CAJuCfpFYZkc===SXF35s3C0xg3q5RjpCiOQhwK=9_3RnFUye1g@mail.gmail.com>
 Subject: Re: [PATCH v6 10/16] mm: replace vm_lock and detached flag with a
  reference count
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: akpm@linux-foundation.org, willy@infradead.org, liam.howlett@oracle.com, 
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org, willy@infradead.org, 
 	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz, 
 	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
 	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
@@ -82,117 +83,216 @@ Cc: akpm@linux-foundation.org, willy@infradead.org, liam.howlett@oracle.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 18, 2024 at 1:41=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
-g> wrote:
+On Wed, Dec 18, 2024 at 7:37=E2=80=AFAM Liam R. Howlett <Liam.Howlett@oracl=
+e.com> wrote:
 >
-> On Tue, Dec 17, 2024 at 08:27:46AM -0800, Suren Baghdasaryan wrote:
+> * Peter Zijlstra <peterz@infradead.org> [241218 05:06]:
+> > On Wed, Dec 18, 2024 at 10:41:04AM +0100, Peter Zijlstra wrote:
+> > > On Tue, Dec 17, 2024 at 08:27:46AM -0800, Suren Baghdasaryan wrote:
+> > >
+> > > > > So I just replied there, and no, I don't think it makes sense. Ju=
+st put
+> > > > > the kmem_cache_free() in vma_refcount_put(), to be done on 0.
+> > > >
+> > > > That's very appealing indeed and makes things much simpler. The
+> > > > problem I see with that is the case when we detach a vma from the t=
+ree
+> > > > to isolate it, then do some cleanup and only then free it. That's d=
+one
+> > > > in vms_gather_munmap_vmas() here:
+> > > > https://elixir.bootlin.com/linux/v6.12.5/source/mm/vma.c#L1240 and =
+we
+> > > > even might reattach detached vmas back:
+> > > > https://elixir.bootlin.com/linux/v6.12.5/source/mm/vma.c#L1312. IOW=
+,
+> > > > detached state is not final and we can't destroy the object that
+> > > > reached this state.
+> > >
+> > > Urgh, so that's the munmap() path, but arguably when that fails, the
+> > > map stays in place.
+> > >
+> > > I think this means you're marking detached too soon; you should only
+> > > mark detached once you reach the point of no return.
+> > >
+> > > That said, once you've reached the point of no return; and are about =
+to
+> > > go remove the page-tables, you very much want to ensure a lack of
+> > > concurrency.
+> > >
+> > > So perhaps waiting for out-standing readers at this point isn't crazy=
+.
+> > >
+> > > Also, I'm having a very hard time reading this maple tree stuff :/
+> > > Afaict vms_gather_munmap_vmas() only adds the VMAs to be removed to a
+> > > second tree, it does not in fact unlink them from the mm yet.
 >
-> > > So I just replied there, and no, I don't think it makes sense. Just p=
-ut
-> > > the kmem_cache_free() in vma_refcount_put(), to be done on 0.
+> Yes, that's correct.  I tried to make this clear with a gather/complete
+> naming like other areas of the mm.  I hope that helped.
+>
+> Also, the comments for the function state that's what's going on:
+>
+>  * vms_gather_munmap_vmas() - Put all VMAs within a range into a maple tr=
+ee
+>  * for removal at a later date.  Handles splitting first and last if nece=
+ssary
+>  * and marking the vmas as isolated.
+>
+> ... might be worth updating with new information.
+>
+> > >
+> > > AFAICT it's vma_iter_clear_gfp() that actually wipes the vmas from th=
+e
+> > > mm -- and that being able to fail is mind boggling and I suppose is w=
+hat
+> > > gives rise to much of this insanity :/
+>
+> This is also correct.  The maple tree is a b-tree variant that has
+> internal nodes.  When you write to it, including nulls, they are tracked
+> and may need to allocate.  This is a cost for rcu lookups; we will use
+> the same or less memory in the end but must maintain a consistent view
+> of the ranges.
+>
+> But to put this into perspective, we get 16 nodes per 4k page, most
+> writes will use 1 or 3 of these from a kmem_cache, so we are talking
+> about a very unlikely possibility.  Except when syzbot decides to fail
+> random allocations.
+>
+> We could preallocate for the write, but this section of the code is
+> GFP_KERNEL, so we don't.  Preallocation is an option to simplify the
+> failure path though... which is what you did below.
+>
+> > >
+> > > Anyway, I would expect remove_vma() to be the one that marks it detac=
+hed
+> > > (it's already unreachable through vma_lookup() at this point) and the=
+re
+> > > you should wait for concurrent readers to bugger off.
 > >
-> > That's very appealing indeed and makes things much simpler. The
-> > problem I see with that is the case when we detach a vma from the tree
-> > to isolate it, then do some cleanup and only then free it. That's done
-> > in vms_gather_munmap_vmas() here:
-> > https://elixir.bootlin.com/linux/v6.12.5/source/mm/vma.c#L1240 and we
-> > even might reattach detached vmas back:
-> > https://elixir.bootlin.com/linux/v6.12.5/source/mm/vma.c#L1312. IOW,
-> > detached state is not final and we can't destroy the object that
-> > reached this state.
+> > Also, I think vma_start_write() in that gather look is too early, you'r=
+e
+> > not actually going to change the VMA yet -- with obvious exception of
+> > the split cases.
 >
-> Urgh, so that's the munmap() path, but arguably when that fails, the
-> map stays in place.
->
-> I think this means you're marking detached too soon; you should only
-> mark detached once you reach the point of no return.
->
-> That said, once you've reached the point of no return; and are about to
-> go remove the page-tables, you very much want to ensure a lack of
-> concurrency.
->
-> So perhaps waiting for out-standing readers at this point isn't crazy.
->
-> Also, I'm having a very hard time reading this maple tree stuff :/
-> Afaict vms_gather_munmap_vmas() only adds the VMAs to be removed to a
-> second tree, it does not in fact unlink them from the mm yet.
+> The split needs to start the write on the vma to avoid anyone reading it
+> while it's being altered.
 
-Yes, I think you are correct.
+I think vma_start_write() should be done inside
+vms_gather_munmap_vmas() for __mmap_prepare() to work correctly:
+
+__mmap_prepare
+    vms_gather_munmap_vmas
+    vms_clean_up_area // clears PTEs
+...
+__mmap_complete
+    vms_complete_munmap_vmas
+
+If we do not write-lock the vmas inside vms_gather_munmap_vmas(), we
+will be clearing PTEs from under a discoverable vma.
+There might be other places like this too but I think we can move
+vma_mark_detach() like you suggested without moving vma_start_write()
+and that should be enough.
 
 >
-> AFAICT it's vma_iter_clear_gfp() that actually wipes the vmas from the
-> mm -- and that being able to fail is mind boggling and I suppose is what
-> gives rise to much of this insanity :/
->
-> Anyway, I would expect remove_vma() to be the one that marks it detached
-> (it's already unreachable through vma_lookup() at this point) and there
-> you should wait for concurrent readers to bugger off.
-
-There is an issue with that. Note that vms_complete_munmap_vmas()
-that's calling remove_vma() might drop the mmap write lock, so
-detaching without a write lock would break current rules.
-
->
-> > We could change states to: 0=3Dunused (we can free
-> > the object), 1=3Ddetached, 2=3Dattached, etc. but then vma_start_read()
-> > should do something like refcount_inc_more_than_one() instead of
-> > refcount_inc_not_zero(). Would you be ok with such an approach?
->
-> Urgh, I would strongly suggest ditching refcount_t if we go this route.
-> The thing is; refcount_t should remain a 'simple' straight forward
-> interface and not allow people to do the wrong thing. Its not meant to
-> be the kitchen sink -- we have atomic_t for that.
-
-Ack. If we go this route I'll use atomics directly.
-
->
-> Anyway, the more common scheme at that point is using -1 for 'free', I
-> think folio->_mapcount uses that even. For that see:
-> atomic_add_negative*().
-
-Thanks for the reference.
-
->
-> > > Additionally, having vma_end_write() would allow you to put a lockdep
-> > > annotation in vma_{start,end}_write() -- which was I think the origin=
-al
-> > > reason I proposed it a while back, that and having improved clarity w=
-hen
-> > > reading the code, since explicitly marking the end of a section is
-> > > helpful.
 > >
-> > The vma->vmlock_dep_map is tracking vma->vm_refcnt, not the
-> > vma->vm_lock_seq (similar to how today vma->vm_lock has its lockdep
-> > tracking that rw_semaphore). If I implement vma_end_write() then it
-> > will simply be something like:
+> > That too should probably come after you've passes all the fail/unwind
+> > spots.
+>
+> Do you mean the split?  I'd like to move the split later as well..
+> tracking that is a pain and may need an extra vma for when one vma is
+> split twice before removing the middle part.
+>
+> Actually, I think we need to allocate two (or at least one) vmas in this
+> case and just pass one through to unmap (written only to the mas_detach
+> tree?).  It would be nice to find a way to NOT need to do that even.. I
+> had tried to use a vma on the stack years ago, which didn't work out.
+>
 > >
-> > void vma_end_write(vma)
-> > {
-> >          vma_assert_write_locked(vma);
-> >          vma->vm_lock_seq =3D UINT_MAX;
-> > }
+> > Something like so perhaps? (yeah, I know, I wrecked a bunch)
 > >
-> > so, vmlock_dep_map would not be involved.
+> > diff --git a/mm/vma.c b/mm/vma.c
+> > index 8e31b7e25aeb..45d43adcbb36 100644
+> > --- a/mm/vma.c
+> > +++ b/mm/vma.c
+> > @@ -1173,6 +1173,11 @@ static void vms_complete_munmap_vmas(struct vma_=
+munmap_struct *vms,
+> >       struct vm_area_struct *vma;
+> >       struct mm_struct *mm;
+> >
 >
-> That's just weird; why would you not track vma_{start,end}_write() with
-> the exclusive side of the 'rwsem' dep_map ?
+> mas_set(mas_detach, 0);
 >
-> > If you want to track vma->vm_lock_seq with a separate lockdep, that
-> > would be more complicated. Specifically for vma_end_write_all() that
-> > would require us to call rwsem_release() on all locked vmas, however
-> > we currently do not track individual locked vmas. vma_end_write_all()
-> > allows us not to worry about tracking them, knowing that once we do
-> > mmap_write_unlock() they all will get unlocked with one increment of
-> > mm->mm_lock_seq. If your suggestion is to replace vma_end_write_all()
-> > with vma_end_write() and unlock vmas individually across the mm code,
-> > that would be a sizable effort. If that is indeed your ultimate goal,
-> > I can do that as a separate project: introduce vma_end_write(),
-> > gradually add them in required places (not yet sure how complex that
-> > would be), then retire vma_end_write_all() and add a lockdep for
-> > vma->vm_lock_seq.
+> > +     mas_for_each(mas_detach, vma, ULONG_MAX) {
+> > +             vma_start_write(next);
+> > +             vma_mark_detached(next, true);
+> > +     }
+> > +
+> >       mm =3D current->mm;
+> >       mm->map_count -=3D vms->vma_count;
+> >       mm->locked_vm -=3D vms->locked_vm;
+> > @@ -1219,9 +1224,6 @@ static void reattach_vmas(struct ma_state *mas_de=
+tach)
+> >       struct vm_area_struct *vma;
+> >
 >
-> Yeah, so ultimately I think it would be clearer if you explicitly mark
-> the point where the vma modification is 'done'. But I don't suppose we
-> have to do that here.
-
-Ack.
+> >       mas_set(mas_detach, 0);
+> Drop the mas_set here.
+>
+> > -     mas_for_each(mas_detach, vma, ULONG_MAX)
+> > -             vma_mark_detached(vma, false);
+> > -
+> >       __mt_destroy(mas_detach->tree);
+> >  }
+> >
+> > @@ -1289,13 +1291,11 @@ static int vms_gather_munmap_vmas(struct vma_mu=
+nmap_struct *vms,
+> >                       if (error)
+> >                               goto end_split_failed;
+> >               }
+> > -             vma_start_write(next);
+> >               mas_set(mas_detach, vms->vma_count++);
+> >               error =3D mas_store_gfp(mas_detach, next, GFP_KERNEL);
+> >               if (error)
+> >                       goto munmap_gather_failed;
+> >
+> > -             vma_mark_detached(next, true);
+> >               nrpages =3D vma_pages(next);
+> >
+> >               vms->nr_pages +=3D nrpages;
+> > @@ -1431,14 +1431,17 @@ int do_vmi_align_munmap(struct vma_iterator *vm=
+i, struct vm_area_struct *vma,
+> >       struct vma_munmap_struct vms;
+> >       int error;
+> >
+>
+> The preallocation needs to know the range being stored to know what's
+> going to happen.
+>
+> vma_iter_config(vmi, start, end);
+>
+> > +     error =3D mas_preallocate(vmi->mas);
+>
+> We haven't had a need to have a vma iterator preallocate for storing a
+> null, but we can add one for this.
+>
+> > +     if (error)
+> > +             goto gather_failed;
+> > +
+> >       init_vma_munmap(&vms, vmi, vma, start, end, uf, unlock);
+> >       error =3D vms_gather_munmap_vmas(&vms, &mas_detach);
+> >       if (error)
+> >               goto gather_failed;
+> >
+>
+> Drop this stuff.
+> >       error =3D vma_iter_clear_gfp(vmi, start, end, GFP_KERNEL);
+> > -     if (error)
+> > -             goto clear_tree_failed;
+> > +     VM_WARN_ON(error);
+>
+> Do this instead
+> vma_iter_config(vmi, start, end);
+> vma_iter_clear(vmi);
+>
+> >
+> >       /* Point of no return */
+> >       vms_complete_munmap_vmas(&vms, &mas_detach);
