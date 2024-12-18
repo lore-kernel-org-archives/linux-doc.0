@@ -1,106 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1B31A23BC;
-	Wed, 18 Dec 2024 13:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463F919B5B1;
+	Wed, 18 Dec 2024 13:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734527764; cv=none; b=itDM1xKP6TW+aoOdsdRwFptHEMPPVwT/vDMJR7KoKOPCezv+3YBU0+70pJwLnqLVOFD5SUCzyqr0KyIosFZH/pEy1F85OD53K3ty0gJfFfE/Zfq8fSihWhjNbWo/xNwZNS950g3uGAqnR8U1YwdSeBn5HFVm1+J3KDe984ZkD9g=
+	t=1734528900; cv=none; b=YsvTH/2FTxAHqdYEHSuSgS7H2tktvStqs38tDFKQQYnJbAPKGk0qtwqLgb79DGIIPwZm/BNeeCYms30GWTbycuvck4SU7M2Lk91t0s4sZOXIr5cjQiFP8TEO9U2dYt5PBennqW8MFkEvKlmhWyzbwAfLqNG9HOA7dCwcursq/c0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734527764; c=relaxed/simple;
-	bh=l9forY4klmLDyr2OClnwW4+1ETo7go2MZPlvCu9Tm70=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JlSOcMLIGwq4AvowhTdPbVnV+TC4SYN2fpXZnBIT0Rc59TZK8dabWR6YqkBFWIENrOqNfT2cwnLB9M0EIDeCZmCpQFrDUjCznQaWWNlXWmSvaMEP0d1WBi0uGDPUp1Y7fXl/hkSri/oaXBfFAZedL/bbYa3SdO0hj5pb7SyRrco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IG8ey8h7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734528900; c=relaxed/simple;
+	bh=Ke2T8ECN3W8kaX1iceKh7MreB2yxBEQvypHBfi3O0FU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QrvZ/jpG1MaVGUKK0JmTl6qjDaBgdyvH4GXD+HL7sn4fIWTyt/t2zXiAe5FcHx7pHXbpvQf/glmzC65S/TtSeuTjV3UngkM7r/H36ZFXaRNenAxKPJE7MCbU/lxIsyyilJpn0EDqD7WXVY5rSbLgBBmWHHEIObttv7l63j087tg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VGCXsZj/; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IG8ey8h7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7621C4CEE0;
-	Wed, 18 Dec 2024 13:16:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734527764;
-	bh=l9forY4klmLDyr2OClnwW4+1ETo7go2MZPlvCu9Tm70=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IG8ey8h7//M4ep2eQPtNzmQ8JBMXfkC0HjavAValvFR2p2oxKGATDfBRrwdyp10QI
-	 5Te4pTFdFXcs6SdxHV9VBP4HjwDV28C47Ilz24ZQ/mtVnAAo7QSz2DmS9OHgSh9ZvF
-	 imDlZQmSkSLNZMLnMC7uG7B+r+PN+M5smDvI++Fgi9B44WADmPA9meRdHYaajwzrez
-	 RnfvXhtzGN41I/wa+t5fLW5mCrMHLvTOisq3JHgzQLr2E8SllGXbX8cg7qWeXWVlOC
-	 zAtJC34JiB2ex/yb+GFV/E1/NAiDsTlyxOgdE+AV+mLVvXtgVtkgvFjxVyc0O5evwq
-	 prjOiw8gzGccA==
-Date: Wed, 18 Dec 2024 13:15:58 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Marc Zyngier <maz@kernel.org>
-Cc: Rob Herring <robh@kernel.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	kvmarm@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH V3 6/7] arm64/boot: Enable EL2 requirements for
- FEAT_Debugv8p9
-Message-ID: <bdd53fdb-9ba2-4d55-870f-9cb40e1e6b21@sirena.org.uk>
-References: <20241216040831.2448257-1-anshuman.khandual@arm.com>
- <20241216040831.2448257-7-anshuman.khandual@arm.com>
- <20241216234251.GA629562-robh@kernel.org>
- <c64709f7-e1c6-482e-8665-912be50b15bd@arm.com>
- <CAL_Jsq+EO_s49sSK3JQQEDDpcndf4hSpM_gfoe8tZ8=4y3f-tg@mail.gmail.com>
- <86jzbxqrtw.wl-maz@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VGCXsZj/"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5d3e6f6cf69so3853684a12.1;
+        Wed, 18 Dec 2024 05:34:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734528897; x=1735133697; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ke2T8ECN3W8kaX1iceKh7MreB2yxBEQvypHBfi3O0FU=;
+        b=VGCXsZj/o6IDI0Nh8aexYp1WAs3iieCJHhuxanOXc6ETp3QPGj7Ns6BXnfa4gc6Xkn
+         evoaTqbGV93KC3quDQmxLlA32CZf9uI+jThj5+iaX3Kzg2TGIPLUXQ/O8oJpC7N0XdQS
+         Faqx/CkwQx1Evn5Nb6peAyFIQyjBBUM4cPf9QMpJSONS7RqpINZnqGaJyn7vTrCROKou
+         0fpbUExhktlTRB8dAMKDy0njNWb2P+NDXXsu8zpRC7KrUhq7MalYxonq+H4c6yDVerzl
+         h9amESMEdpMKnvaHAQBaEGZeZi5dc9B1k8imPf734qJYcGux9RH4mMkxi7vLyks6B2xl
+         j/yA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734528897; x=1735133697;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ke2T8ECN3W8kaX1iceKh7MreB2yxBEQvypHBfi3O0FU=;
+        b=QLmTTZ/piNW2Vg7t5WLS2vGQA9f2wYbna3Ejf2AuWXptKzMc/c7oQoM9E4Ho3pKoL9
+         YGs3qVjeGGyPHbkbqC/1xlRorSwYQ0W82iDMPzugtwfcJaUbRvQNy9Y2D/eGN1w3nbV/
+         DvjB5lnZZ1URse2lFU58UT/eKjloMOFfuqnT1nA8P27HT9G3j7KkE6UYOtfs5uz0OQnr
+         Ow2b3g54G8H3rHyPlc2o5LOVijeYAv4loO2OZBQZHmXndGrcSBgPlFiAjsmM9sghSAwN
+         ILlGpiNqLWslwvVV4V+yO/FAQq3SZZqC6AvG4ZcYZV0S9tXcrBn4BQVROSQtc55rwrUh
+         710A==
+X-Forwarded-Encrypted: i=1; AJvYcCVXGpBN7ieTI1IT7s7szBaAOfvYqsa2s3JvZp+xXV7d9noSMhFHkuAmYaQmEG88W9ve1wFX58Co@vger.kernel.org, AJvYcCVqqtqpmC0RdEq0QJ+SdzOxMXnkwPI4r3bh/5jceguRHMQ/vwV87F9bagGDyenpgi8j2lTidsTw95k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZQktyR4vn5x+mzjKuNEx3fZT00fBYXTCv8ybiwnsdlgJUyyYg
+	B8RihMquOmkV5NrpteRr29R8kE7kOa3L3IuJvYxUcxTE2kIckNwNUCFTivwqCHEbKe1GYI2BkJ9
+	/vO+HIl70IGVogoPM7e2NwP9SF5Q=
+X-Gm-Gg: ASbGnct/1jRMMS6eQRPA4SFu876IluaN3Q7F2/NuczQa9L9K/N3opzJOmbqDPxKNpNd
+	4dSdvhNuvQFNTb4juDWzjEB5Vlc+fgqWV6ZKvCCI=
+X-Google-Smtp-Source: AGHT+IExixo8sS8whkM9TAmM0xZZ0D7GWSHwX+2NSnPsYhH+M/4TEEnHkWwrgtcGhtivnBUioB4+7GAGM3e7SX0N4XU=
+X-Received: by 2002:a05:6402:350d:b0:5d0:ceec:deec with SMTP id
+ 4fb4d7f45d1cf-5d7ee390bdbmr2533246a12.13.1734528897323; Wed, 18 Dec 2024
+ 05:34:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="txhY7J+znJqGvstk"
-Content-Disposition: inline
-In-Reply-To: <86jzbxqrtw.wl-maz@kernel.org>
-X-Cookie: The heart is wiser than the intellect.
-
-
---txhY7J+znJqGvstk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20241113173222.372128-1-ap420073@gmail.com> <20241217083024.6b743b74@kernel.org>
+In-Reply-To: <20241217083024.6b743b74@kernel.org>
+From: Taehee Yoo <ap420073@gmail.com>
+Date: Wed, 18 Dec 2024 22:34:45 +0900
+Message-ID: <CAMArcTXN2nSY+zRcyoc+Rmy1HWmkEPJ==7LojeX2cTrNoXaORw@mail.gmail.com>
+Subject: Re: [PATCH net-next v5 0/7] bnxt_en: implement tcp-data-split and
+ thresh option
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com, 
+	almasrymina@google.com, donald.hunter@gmail.com, corbet@lwn.net, 
+	michael.chan@broadcom.com, andrew+netdev@lunn.ch, hawk@kernel.org, 
+	ilias.apalodimas@linaro.org, ast@kernel.org, daniel@iogearbox.net, 
+	john.fastabend@gmail.com, dw@davidwei.uk, sdf@fomichev.me, 
+	asml.silence@gmail.com, brett.creeley@amd.com, linux-doc@vger.kernel.org, 
+	netdev@vger.kernel.org, kory.maincent@bootlin.com, 
+	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
+	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
+	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
+	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
+	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
+	willemb@google.com, daniel.zahka@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 18, 2024 at 09:10:51AM +0000, Marc Zyngier wrote:
+On Wed, Dec 18, 2024 at 1:30=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
+> On Wed, 13 Nov 2024 17:32:14 +0000 Taehee Yoo wrote:
+> > This series implements header-data-split-thresh ethtool command.
+> > This series also implements backend of tcp-data-split and
+> > header-data-split-thresh ethtool command for bnxt_en driver.
+> > These ethtool commands are mandatory options for device memory TCP.
+>
+> Hi Taehee! Any progress on this series?
+> Being able to increase HDS threshold is highly beneficial for workloads
+> sending small RPCs, it'd be great if the changes were part of v6.14.
 
-> But I don't think we should be prescriptive about the state of these
-> registers, as long as the potential traps are correctly handled.
+Hi Jakub,
+Sorry for the late response.
+I'm going to send v6 patch today :)
 
-The rest of the document is written in terms of explicit register
-values, if we're changing approach we should probably update all the
-existing requirements to be written in the same way since having a mix
-of approaches tends to be a big red flag that there should be different
-handling.  Consistency will make the document clearer and easier for
-people to work with.
-
-FWIW there is an explict note in the document about the fact that it's
-an as-if rule:
-
-|                                                Where the values documented
-| disable traps it is permissible for these traps to be enabled so long as
-| those traps are handled transparently by higher exception levels as though
-| the values documented were set.
-
-=66rom when I raised this before.
-
---txhY7J+znJqGvstk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdiyw0ACgkQJNaLcl1U
-h9AC4Af/X9JZs6LZP10tQfJ6uKA8Yyksj9YhS5543bjN12DgFPQm0JsICS9sGEul
-G5/NmFfdWBKCKdUc6lqA54+fM8OaeM4aS62sh1/V2dZF9sfNUH5GCwEJt93treZp
-DRA4GBM7d1DPGE4hpHdsQry//bElhMdERuMyGtLiPuUQMzirXaqw7iKCGd7KjznO
-+cl2mVx3k0y3YV2qNPyjmPHp2Bub5PgpqJO7/2bl4lkBZnotd2JLocKUrpMkW3c7
-2p0+B7o+v99TUT0DsDelNf1afHOaz1T5kHjRYLJHzc8apkjiiboR2k9fYXVmnxhy
-9jgklnvNB/i1DnMonWre4izlrkjEiQ==
-=w+6F
------END PGP SIGNATURE-----
-
---txhY7J+znJqGvstk--
+Thanks a lot!
+Taehee Yoo
