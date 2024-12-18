@@ -1,109 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D96E158D6A;
-	Wed, 18 Dec 2024 17:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03161175D34
+	for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 17:36:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734541866; cv=none; b=LKDYTt44gwqNwWR60aN4TseEDzzAy6L9I0q/cmF8CqbPTcY4zoeHAV8HzEgG9nqEAONXZdTwDWgwdy2452E7Y1JdrJI3YDZMHwiRQP5JQgz2DpjV+Rf+xFjPCKqJJf2eYS/gmlYefv8oE1QjKODcmAyyq2aEPD/2w/WmMLcnh5U=
+	t=1734543417; cv=none; b=MrQwVDZdJA+sBt7BtwG+5VszcS3AHrz2yTRL4x8BNw4CsLLLEb4YnE7xM00s32xw2LSbSq2fCrPZKtAtjidHdZ6paUTetTVAof3pZMLb95qrK6iNSiMEJPmsKqnomdYkr02GMWTIjH0WRm8xkgUwS3GnKfjxbwtExZmlz5iMMy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734541866; c=relaxed/simple;
-	bh=crE+eF0tyjKxTBiLGc7xddKdxX+kh39aobItX+x3ac0=;
+	s=arc-20240116; t=1734543417; c=relaxed/simple;
+	bh=dY87XxgGfpQhHXuPXxmzefwbhUu7kOySDxBkV2RmVUg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EkAVWgurz3C8FJcu9hTnL1Qxkeg8K2uvz6cEbdg0jrQgeKxqFxtEymbKNiotixgE2w4Tj5RYPRLPyyZiJjUVc78pLdB2+mDSxigD3BZ788OpnN+bX1/MHsRqKHEpYTuuKM3KhWLr73pn4adumHTJGfzrQ9Cj9rF2XpBDsfhBzAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=po5jpVme; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=ZfCwwNfWxyZ8ByG8tzrL97WT1SwTevaN7EDPc6xGs5+pnLYibufsLzcg7ecrNJjjppuNYjHAq87o54vQ+cBt0VtTrgQ6w8Ou8dGwdNit9Q9sCKPQX6ut2gz1AYScQYzBvldsXh6s9OcS3Gcbi9yBBK8V0RqJ/TOiTaXtA1cwue0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=e3SVmz2w; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="po5jpVme"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AABDC4CED0;
-	Wed, 18 Dec 2024 17:11:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734541866;
-	bh=crE+eF0tyjKxTBiLGc7xddKdxX+kh39aobItX+x3ac0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=po5jpVmeKIb4irmzabIDj0hcSnY29mnweVOFxu2omfWYTQ98u92lyzONnlKhEOo1i
-	 d5K9JoZPZKA4iugzZDbaL0dT3z+Rc83D/a+/fWn4TcXQZ6vU+tuO33Irfqe061YGL2
-	 3NmLiftKiLRS9Zz4QNr0SR3Zhv/qR3q1Riluur99QlBkXVYboF12ZtD7gQPsWhOFSe
-	 hrULn3kdzyPYEVUlNxzBt11eMB9Ul885rk9eEbdH2LYvidVvBVjplgt3TuUoNLpY5o
-	 nbGjfVPgTVjVmKFv0M8BgHinfHIJNCmJ5vrf99Ko7C9Rn6PLBUxOeU1WyE4v38KUMw
-	 OIy7JuBGf7avQ==
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-e479e529ebcso3345926276.3;
-        Wed, 18 Dec 2024 09:11:06 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV2dBgKEKqVCjcoMl1p4r8OrdBaHpvHF/62zkO7YC9V6/gBouQaa8gvAUKgtXNfiCeL/ox5UWyg1TFv7Aud@vger.kernel.org, AJvYcCVQnDqaqE4FfcWZ0nQ1+JaM++RZxvnWGdCSfaDmUTPPBCJ6L7mI0ypm8dlfBGnow91DRLejkq+JJAPz@vger.kernel.org, AJvYcCXSRPpTvkekmuxTmCJKoo0OG46bJwbLrbTwWWjPCc8/POYm/KLZTx51VqRDbpoiJ9SR4h0DsGoYNX+x@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqHWTvjxNK55iKnWd7yAtzjXthQbn5wbyd59+0L14gbl7UtMlF
-	2b4aG4IViUzAD0ZxckjHqxW4dNdi8g4mzDHgIsbwJUQEWgSqcAfBaKAcVaLi7PkXeQakom5iInc
-	Xq5892jH9bHkuWP6dNxMn29RAJg==
-X-Google-Smtp-Source: AGHT+IEcgOXhMZEwR4KcSksXbthL1TOO9Ig9DzmHACBwaxdBymWQu+0clFk/TYA4/QAI1CqHDp2TJ2+gCpeLMl0W79Y=
-X-Received: by 2002:a05:6902:2581:b0:e4c:b42e:1508 with SMTP id
- 3f1490d57ef6-e536222be52mr2971077276.36.1734541865307; Wed, 18 Dec 2024
- 09:11:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="e3SVmz2w"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-467896541e1so329601cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 09:36:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1734543415; x=1735148215; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m0vfn6bhlwxecxuXb6dYP6hPbz693aH5SVOsaZLPny0=;
+        b=e3SVmz2wKalsDHkN5N6uH4aYYRFwmrgIPa5ApHRyTVO4cwG6pcQMF8LIKEYXsCs1HI
+         ZUPog2ta4ugIwTN0TjRf6gKi4L+phQ5Gc+6+yjB1gAmFSGe8EbbtDRE1/7o0Qd4xrYhF
+         UNHXkWfAmr4F7zypkSpx8rCaJB2MrNPmiemGZCbIn2Q3XsY35pEgIIUP7+N6cxhHZ8wT
+         AB4UW5Nvslc064KNqTFbmhv1UoXzzLuLgZwVjgH2hulQ1VOjXUGSMwcrRDFunj+MrnGg
+         cNvkZUtC69M62SJnIaJb1oxN+xn/yemgaHD34Y4tHiqZaPgItSz/A5bsH+BC6pUgZE4G
+         7o0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734543415; x=1735148215;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=m0vfn6bhlwxecxuXb6dYP6hPbz693aH5SVOsaZLPny0=;
+        b=JfuFV35e81/7rcmdTC//IE88HM+N0APKJ/MNrnWabtXNc1+/zroWs47zs5HScaAAnQ
+         LKyeyRRlvNHpWQVlEq8vIpHguAGCtYY2KBc5eDN+m0xmLpAfLYNRls1pmmj5WpQI0z01
+         2N/JAQZSMOpFAsA8rR4KTvJt3REGmxmYhFGiHgjJnXHZSQwu5dDONBn4G2Gzlsoh4Q07
+         dgOeQLfrKkFppTSaH5wiuvFWN7tA60GKjHkiKlHMUWZoI5ItHmCsYDHjxAQl7CmLCKH8
+         xPczPNBX/CYiiCdTZbmkA/DKHcDV+ttCYSakwBPcWxxXQ5/rtAiWiNkon8A61wP2r4e9
+         RDAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXyzrZ9ljL8ufjymTLD/kCgrSr/TexLWVHOjpRn1wTJUvkh4QKGqv63rchPhCgDagVFdXxuXf4HBr0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/gO3O+kZVl0GjAP9sEs4fvnVNuSJ134d9lJJsZMhncntPgGs1
+	ji99Zq5HHMyDkqnBm7n4c1EhRdkxlyopje2o3lZL4ZADOhoEGgoOrHslvTLqFm6Lh3B+cuF2Ape
+	lTgS4wsaiBAsgNHwZzEjqdQVbxlJt2BiW/i6r
+X-Gm-Gg: ASbGncv9P79UlUfHFlq9CQzaGc5UKSM7IyEwTkGdgKqaQgtXknWct7O9HXO6mqFoR/+
+	cD8OwMT5NmQ6AiXyD7Dcdtk9Ru2C1c2Vqi8GJrfZIYROfn++3KGvhgrLPjV49vfaqqxgU
+X-Google-Smtp-Source: AGHT+IGMu+Fj74Kmd9s7J7Dznm0MZkBkIafyhPdHZUPGuFhyoczRa/3F4QXVJ+UN1W0v/f6cjbq7NN7ZQU6azKiRO70=
+X-Received: by 2002:a05:622a:15d5:b0:466:8618:90df with SMTP id
+ d75a77b69052e-469090c3bfbmr4631431cf.2.1734543414563; Wed, 18 Dec 2024
+ 09:36:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241217183711.2525863-1-robh@kernel.org> <Z2KzcORZocQAwAi9@pathway.suse.cz>
-In-Reply-To: <Z2KzcORZocQAwAi9@pathway.suse.cz>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 18 Dec 2024 11:10:54 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKRpeCgd=6PeHMHnZaJHqn2SAob2J6Yv07n7OdCY++GWA@mail.gmail.com>
-Message-ID: <CAL_JsqKRpeCgd=6PeHMHnZaJHqn2SAob2J6Yv07n7OdCY++GWA@mail.gmail.com>
-Subject: Re: ssize_t: was: Re: [PATCH] of: Add printf '%pOFm' for generating modalias
-To: Petr Mladek <pmladek@suse.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Saravana Kannan <saravanak@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Zijun Hu <quic_zijuhu@quicinc.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org
+References: <20241216192419.2970941-1-surenb@google.com> <20241216192419.2970941-11-surenb@google.com>
+ <20241216213753.GD9803@noisy.programming.kicks-ass.net> <CAJuCfpEu_rZkC+ktWXE=rA-VenFBZR9VQ-SnVkDbXUqsd3Ys_A@mail.gmail.com>
+ <20241217103035.GD11133@noisy.programming.kicks-ass.net> <CAJuCfpHzsQeejdPPbDdA6B3Wa=-KusnYRUyt1U0WnCRr8OKfGw@mail.gmail.com>
+ <20241218094104.GC2354@noisy.programming.kicks-ass.net> <20241218100601.GI12500@noisy.programming.kicks-ass.net>
+ <kfltsrry7qjuycyqpe2wune2ejad6kvusm2zixvfbtprbnw2lv@wcafrui6qaa7>
+ <CAJuCfpFYZkc===SXF35s3C0xg3q5RjpCiOQhwK=9_3RnFUye1g@mail.gmail.com> <20241218161850.GG2354@noisy.programming.kicks-ass.net>
+In-Reply-To: <20241218161850.GG2354@noisy.programming.kicks-ass.net>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Wed, 18 Dec 2024 09:36:42 -0800
+Message-ID: <CAJuCfpHDRCoaBfE8y6AppKveSTgayyTNfDyQWH=gMzO-Pkuqpw@mail.gmail.com>
+Subject: Re: [PATCH v6 10/16] mm: replace vm_lock and detached flag with a
+ reference count
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>, akpm@linux-foundation.org, willy@infradead.org, 
+	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz, 
+	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
+	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
+	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
+	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
+	klarasmodin@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 18, 2024 at 5:35=E2=80=AFAM Petr Mladek <pmladek@suse.com> wrot=
-e:
+On Wed, Dec 18, 2024 at 8:18=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
+g> wrote:
 >
-> On Tue 2024-12-17 12:37:09, Rob Herring (Arm) wrote:
-> > The callers for of_modalias() generally need the module alias as part o=
-f
-> > some larger string. That results in some error prone manipulation of th=
-e
-> > buffer prepend/append the module alias string. In fact,
-> > of_device_uevent_modalias() has several issues. First, it's off by one
-> > too few characters in utilization of the full buffer. Second, the error
-> > paths leave OF_MODALIAS with a truncated value when in the end nothing
-> > should be added to the buffer. It is also fragile because it needs
-> > internal details of struct kobj_uevent_env. add_uevent_var() really
-> > wants to write the env variable and value in one shot which would need
-> > either a temporary buffer for value or a format specifier.
-> >
-> > Fix these issues by adding a new printf format specifier, "%pOFm". With
-> > the format specifier in place, simplify all the callers of
-> > of_modalias(). of_modalias() can also be simplified with vsprintf()
-> > being the only caller as it avoids the error conditions.
-> >
-> > --- a/drivers/of/module.c
-> > +++ b/drivers/of/module.c
-> > @@ -8,21 +8,14 @@
-> >  #include <linux/slab.h>
-> >  #include <linux/string.h>
-> >
-> > -ssize_t of_modalias(const struct device_node *np, char *str, ssize_t l=
-en)
-> > +/* Do not use directly, use %pOFm format specifier instead */
-> > +size_t of_modalias(const struct device_node *np, char *str, size_t len=
-)
+> On Wed, Dec 18, 2024 at 07:50:34AM -0800, Suren Baghdasaryan wrote:
 >
-> We should keep ssize_t.
+> > I think vma_start_write() should be done inside
+> > vms_gather_munmap_vmas() for __mmap_prepare() to work correctly:
+> >
+> > __mmap_prepare
+> >     vms_gather_munmap_vmas
+> >     vms_clean_up_area // clears PTEs
+> > ...
+> > __mmap_complete
+> >     vms_complete_munmap_vmas
+>
+> I'm unsure what exactly you mean; __split_vma() will start_write on the
+> one that is broken up and the rest won't actually change until
+> vms_complete_munmap_vmas().
 
-My intent was to align of_modalias() with snprintf()...
+Ah, sorry, I missed the write-locking in the __split_vma(). Looks like
+indeed vma_start_write() is not needed in vms_gather_munmap_vmas().
 
-> "end - buf" passed from device_node_string() in vprintf.c might be
-> negative. The "buf" pointer is used to count the number of characters
-> which might be written when the buffer is big enough.
+>
+> > If we do not write-lock the vmas inside vms_gather_munmap_vmas(), we
+> > will be clearing PTEs from under a discoverable vma.
+>
+> You will not. vms_complete_munmap_vmas() will call remove_vma() to
+> remove PTEs IIRC, and if you do start_write() and detach() before
+> dropping mmap_lock_write, you should be good.
 
-Isn't Rasmus' suggestion sufficient?:
+Ok, I think we will have to move mmap_write_downgrade() inside
+vms_complete_munmap_vmas() to be called after remove_vma().
+vms_clear_ptes() is using vmas, so we can't move remove_vma() before
+mmap_write_downgrade().
 
-buf +=3D of_modalias(dn, buf, buf < end ? end - buf : 0)
-
-Rob
+>
+> > There might be other places like this too but I think we can move
+> > vma_mark_detach() like you suggested without moving vma_start_write()
+> > and that should be enough.
+>
+> I really don't see why you can't move vma_start_write() -- note that by
+> moving that after you've unhooked the vmas from the mm (which you have
+> by that point) you get the sync point you wanted.
+>
+>
