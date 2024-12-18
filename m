@@ -1,161 +1,117 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6B01F8EEE
-	for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 17:58:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6340E1FA829
+	for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 18:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734544706; cv=none; b=lpYPWXwOsoU/wL+kqMTbwM/3WRO2mm7QcXqlgwa8aLY5uZQ1d/QmUi0eGMB/JIoAtSuZ6XaUavHwak1AVN7JMZLDhwmf4ya8piXuiPheAognvGnhWa3kDL5bAqv7r+LD5JZaw3s9Dj69EFtWKo5gXEsQv3nFwCpbIWZWSJ3OK8E=
+	t=1734546009; cv=none; b=O5fHq7bIshS8MShSWPEijRGzE3QvTe4TMgnSCAlt7CXEGgbdypgRfoQytqVHI6KJi7zMNZQ3hFcglBHFDoNp6zvds80L4ruJ5WkZVaV90EDurwprBfgXjKbVivKy18Y1rkJXhFVUOTTQ2VTFOswhjH9b65DeUzRdCMsvODLOwhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734544706; c=relaxed/simple;
-	bh=ZPqy3wVVm9ibPma6cOSls6yIjtQ6H3WvNtJ5A3VmAsE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J/Qswx7kHKMenLJpi6Suq2MMU27x1XtKjYQw+qrCjVasX4XpT8NsYUtcRFbe6uQxxIKXIeUS9LQXySTITTY40MRcsJxHT9u45Rb5DicuyA2qgUuSp6GgEqjMfCpRvK6UL/AltEVZ5y/stojkFerMvihdhR2rQ6wmYK+0lAXS0AU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gVij0TiK; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1734546009; c=relaxed/simple;
+	bh=SKp1CKZ98gVj4Qino0z5TkrMc+vypYi8YZCNpacKhDk=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=J9OSSB/hWSv+iCYwpuvof+WP8CkM/U/H5PlKuXNW1V1Wx8TO8FS7i4lV337oM1NGxEpSCpGqYw62zhY/HUfI0YOSGbYfgL745mTydy3BWtH1B91Qg3KeruFm47v1l84y69QsYv6iao1q7LD6p51YuCkrARm/DN6+TxnMlEjNIHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=remote-tech.co.uk; spf=pass smtp.mailfrom=remote-tech.co.uk; dkim=pass (2048-bit key) header.d=remote-tech-co-uk.20230601.gappssmtp.com header.i=@remote-tech-co-uk.20230601.gappssmtp.com header.b=vkhqPFhR; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=remote-tech.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=remote-tech.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gVij0TiK"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-467896541e1so4401cf.0
-        for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 09:58:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=remote-tech-co-uk.20230601.gappssmtp.com header.i=@remote-tech-co-uk.20230601.gappssmtp.com header.b="vkhqPFhR"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-aa692211331so201498766b.1
+        for <linux-doc@vger.kernel.org>; Wed, 18 Dec 2024 10:20:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734544704; x=1735149504; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nHJNHRO2k8QSCZzU9lDdX3fOBlskNizCNqWgtHFVHAI=;
-        b=gVij0TiKvWC+byOKo3zRVDLA7i9+paturdbM7PSbrAC+L74BlO+z1QXIUqbp9ZLmK9
-         +/YdFlNk5EwKox7LJPK5feWgD0LmOouwvTKuHvHMtJ6xVg89FCo7ZiO4/TtKVOCDhnU2
-         78D/TNJ9ukEAO3tFzKrxEByNcnG4EGwq9nK9QkVOu6ZXNVuN4adeXBwC74J4UZJW/7wU
-         759VzTevnUSQNIClXE2A81u1A40Lc9hWWUG1UaM0uuDpLf5a+Qt1dMA1+DTf7sRRfN/p
-         SjP7IIhdub6M6mWUvsJaH2bzV9v7yMR6JXAOJKBMkJ099Jq/M7dHQ2XB/BdNmEByAnoO
-         l/8w==
+        d=remote-tech-co-uk.20230601.gappssmtp.com; s=20230601; t=1734546006; x=1735150806; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KqzSrENGtWAR2a8C7yFu2HrvrWChqZbyXIZeob+iejs=;
+        b=vkhqPFhR3CidX7AHvF6rimxu1Hrvs0EUaWW5En7t2YOSHkhIkvGcvuyPGZIvWMnzsE
+         fn3+4qfDhIMDEF2ZWcBUeisOWeLI5fr2nw+6PDk8fS6BZAv5dW9oQitzD3DP1NndTc6a
+         k597FMWss0YVud5eNfmXSo/a+mdURs9csaCTXinywdX/FKgzU7JiOKxI7r47Fii6VOVx
+         lbfdzdPYKmg/m4cLfyy3qi7zRtkTXySFF88imBYgcw8FeR+Z+ahXd8LFhECDe/unqc7g
+         rVGV1Uwi57ICg+HjvaGpYWANcLvN5yyHrcUa3qQid4s0f+emS+AwhsyzVt/4WYMTlyOB
+         NHUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734544704; x=1735149504;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nHJNHRO2k8QSCZzU9lDdX3fOBlskNizCNqWgtHFVHAI=;
-        b=DkhnaWQDkjicvjFAbMRHbcKCiDd5oTZnMBkaaKJKDwIdoZhclUAlWSbdlbXKgQ0MA3
-         vbcRQTkbyRKK6IlxkH/cLbif6P7nts5GR7Uys6wPE1PavfSgDwdk3zxVOOXKkgwgidsg
-         kYBnghvmLRLIHS3cSccoIvVaGAzQP+bshdqR+c4BF4SKRXx8l8wkK/cmozdHkl4nPATQ
-         QcyDnfDJP+iRs3cTIKQvo64OBVMswDql6SApIB1Nc1adw2BbyEfAMNcWHTFH1vEEpQI1
-         n86jpJHcW0Jx9jyYA1MdbQoGHCst5eLum5njPn17/6URMzCZOSrTrdB0U60S1a35KKmY
-         Wmjg==
-X-Forwarded-Encrypted: i=1; AJvYcCWcB7wpYNyRD5JTmMbEgMoyFos7ZtWzwQTMHYa8TN8nuWpYXCVCpGypkGNNaFSPT/96lF6xeK6+fUA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwRdN9upgaBFhVSMDTHNoZObGuPPQsXfeGHzdSU3LHcnPlwQR3
-	QtbPlKyKzTByP4MNz82unwEusZ7G2Ck3EDDAvK2i4z5Jz9Jmmpy7BFSzjgqaC52cx7/WPZBfiIv
-	2LC5zcNBSvNNnhUdSk9kmRRrBMVIts929K0LG
-X-Gm-Gg: ASbGncuhSwngsBt6XLBsFKstAhDp6tuMK2KtwZG7pXLoKKg4WCaP54XSDy4cg8li3Z4
-	J1Z9oorXnwSHZcPQJERQMF/cq1G7gUEtv1RvcEAPVv1tE5iF8P6CtsNM4SzYsG1WEtIIZ
-X-Google-Smtp-Source: AGHT+IEssDY0SR+bYX95z/ZDlSkj8wQHIJjGSznYGJGFMR+0yJkHJYirEpSKl22PGI8XS5CJz8s3aT1ZECCIERJ75Go=
-X-Received: by 2002:a05:622a:13c7:b0:465:c590:ed18 with SMTP id
- d75a77b69052e-46935520985mr3369851cf.9.1734544703526; Wed, 18 Dec 2024
- 09:58:23 -0800 (PST)
+        d=1e100.net; s=20230601; t=1734546006; x=1735150806;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KqzSrENGtWAR2a8C7yFu2HrvrWChqZbyXIZeob+iejs=;
+        b=OBaluJ9ZLtKZ2CcHk+wnqE1tQ/Tz4jcWlNj8bVM+oZOmrdcL8NPf9A6EgqxiHJZV6z
+         Xp1zObTDG5GLwFIjADgt8SUH1mJw4Dfzqqek7eAXZcvnHCsNctmVeF+BdJnAL1LKf399
+         blhFcy9LkGxrGd03PR8qXD1tWCsSkghbjd34iJjQ2PMB/W88Ok2wKiu9LfBTNEZULmxf
+         eGmjivP9v42DSA7ITGLuis7Gp/V4IxkRErrg7alAk6OKHem8Y87oXZomLwpPK+uFZGac
+         QpUdsXGfpIPvMg1pfBgLUoN5W7+Qt4g3pDYqNmLFYJ9zzLGiCE4q3mOsXhPb70YKQDRW
+         XsuA==
+X-Forwarded-Encrypted: i=1; AJvYcCXEcjJxVANshb8txarQUQadDlDJIDTAo42IDOKJwjjf0xJn1yIKZCFfYdsWwZ1PzWkrKZKMkzWLu88=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfEg6EpxbwvY3xqB5048XRIGwrhxNY1Inw/PMsiC8EixTNFRtq
+	grb5x6MYAMhjFPfmxdcK8ERRVqmqADo43rvszRb4csB08c+6ym8zGQ4f6TYX6hjshAN7MNRFpzQ
+	KNtMBuhi4L6lZlE/PYvtXvzt4ECgvUAztB9KyquRhDunRyH+hUtIowXRZAn8BFUMutOppvAed6c
+	D+5MRsLRkuwUi/7/h+HoNLyJI=
+X-Gm-Gg: ASbGncsAwU2FUN89QjV3HV5IyvSuwddmtnh3jPOal3h4EnBBVjY048Kqwf8g3cn4Qil
+	zG7a7q/zx2IXo/z7y8UFVXKXmIEqcuMGY8tYnx6rN/1ycLX6hytoIuEq/PlhjU2E1MG7tn4hIso
+	etgQRtxPqcajON9dTTYow26UtgGI2iyo+sAPVVCRC8Pcecef5WGxsWV3rh8BAaGmpAxqgC4H2yW
+	3YA7jHI0jmjekxbMrpVIgbJoMXaC4nb9QeSmZUGHYoQ+ORNrK7gO7Do6RG1UJi5BlcJZ5FJpcNY
+	b0R2hVdnQj3DZDgoT1ZnET4rx5/IAXTH
+X-Google-Smtp-Source: AGHT+IGH27YVpJ1+J4fUBlkUj1WKWmKOKWswJoi0bT1rgk6g/F0vJQWolR2+mDloUleXio5zmRansQ==
+X-Received: by 2002:a17:907:608c:b0:aa6:6885:e2f8 with SMTP id a640c23a62f3a-aac081bdeb5mr26504266b.28.1734546005232;
+        Wed, 18 Dec 2024 10:20:05 -0800 (PST)
+Received: from localhost.localdomain ([178.27.36.125])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aab96359fdfsm584825066b.93.2024.12.18.10.20.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Dec 2024 10:20:04 -0800 (PST)
+From: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+To: Pavel Machek <pavel@ucw.cz>,
+	Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
+	linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v10 0/3] Add LED1202 LED Controller
+Date: Wed, 18 Dec 2024 18:19:52 +0000
+Message-Id: <20241218182001.41476-1-vicentiu.galanopulo@remote-tech.co.uk>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241216213753.GD9803@noisy.programming.kicks-ass.net>
- <CAJuCfpEu_rZkC+ktWXE=rA-VenFBZR9VQ-SnVkDbXUqsd3Ys_A@mail.gmail.com>
- <20241217103035.GD11133@noisy.programming.kicks-ass.net> <CAJuCfpHzsQeejdPPbDdA6B3Wa=-KusnYRUyt1U0WnCRr8OKfGw@mail.gmail.com>
- <20241218094104.GC2354@noisy.programming.kicks-ass.net> <20241218100601.GI12500@noisy.programming.kicks-ass.net>
- <kfltsrry7qjuycyqpe2wune2ejad6kvusm2zixvfbtprbnw2lv@wcafrui6qaa7>
- <CAJuCfpFYZkc===SXF35s3C0xg3q5RjpCiOQhwK=9_3RnFUye1g@mail.gmail.com>
- <20241218161850.GG2354@noisy.programming.kicks-ass.net> <CAJuCfpHDRCoaBfE8y6AppKveSTgayyTNfDyQWH=gMzO-Pkuqpw@mail.gmail.com>
- <20241218174428.GQ2354@noisy.programming.kicks-ass.net>
-In-Reply-To: <20241218174428.GQ2354@noisy.programming.kicks-ass.net>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 18 Dec 2024 09:58:12 -0800
-Message-ID: <CAJuCfpEKg_h5pw2AxdF1wmFMt4xdOxYqv7U1uVMYcuSCB4kHuA@mail.gmail.com>
-Subject: Re: [PATCH v6 10/16] mm: replace vm_lock and detached flag with a
- reference count
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>, akpm@linux-foundation.org, willy@infradead.org, 
-	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz, 
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	klarasmodin@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Dec 18, 2024 at 9:44=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
-g> wrote:
->
-> On Wed, Dec 18, 2024 at 09:36:42AM -0800, Suren Baghdasaryan wrote:
->
-> > > You will not. vms_complete_munmap_vmas() will call remove_vma() to
-> > > remove PTEs IIRC, and if you do start_write() and detach() before
-> > > dropping mmap_lock_write, you should be good.
-> >
-> > Ok, I think we will have to move mmap_write_downgrade() inside
-> > vms_complete_munmap_vmas() to be called after remove_vma().
-> > vms_clear_ptes() is using vmas, so we can't move remove_vma() before
-> > mmap_write_downgrade().
->
-> Why ?!
->
-> vms_clear_ptes() and remove_vma() are fine where they are -- there is no
-> concurrency left at this point.
->
-> Note that by doing vma_start_write() inside vms_complete_munmap_vmas(),
-> which is *after* the vmas have been unhooked from the mm, you wait for
-> any concurrent user to go away.
->
-> And since they're unhooked, there can't be any new users.
->
-> So you're the one and only user left, and code is fine the way it is.
+The LED1202 is a 12-channel low quiescent current LED driver with:
+  * Supply range from 2.6 V to 5 V
+  * 20 mA current capability per channel
+  * 1.8 V compatible I2C control interface
+  * 8-bit analog dimming individual control
+  * 12-bit local PWM resolution
+  * 8 programmable patterns
 
-Ok, let me make sure I understand this part of your proposal. From
-your earlier email:
+Internal volatile memory allows the user to store up to 8 different patterns,
+each pattern is a particular output configuration in terms of PWM
+duty-cycle (on 4096 steps). Analog dimming (on 256 steps) is per channel but
+common to all patterns. Each device tree LED node will have a corresponding
+entry in /sys/class/leds with the label name. The brightness property
+corresponds to the per channel analog dimming, while the patterns[1-8] to the
+PWM dimming control.
 
-@@ -1173,6 +1173,11 @@ static void vms_complete_munmap_vmas(struct
-vma_munmap_struct *vms,
-        struct vm_area_struct *vma;
-        struct mm_struct *mm;
+Vicentiu Galanopulo (3):
+  Documentation:leds: Add leds-st1202.rst
+  dt-bindings: leds: Add LED1202 LED Controller
+  leds: Add LED1202 I2C driver
 
-+       mas_for_each(mas_detach, vma, ULONG_MAX) {
-+               vma_start_write(next);
-+               vma_mark_detached(next, true);
-+       }
-+
-        mm =3D current->mm;
-        mm->map_count -=3D vms->vma_count;
-        mm->locked_vm -=3D vms->locked_vm;
+ .../devicetree/bindings/leds/st,led1202.yaml  | 132 ++++++
+ Documentation/leds/index.rst                  |   1 +
+ Documentation/leds/leds-st1202.rst            |  34 ++
+ drivers/leds/Kconfig                          |  10 +
+ drivers/leds/Makefile                         |   1 +
+ drivers/leds/leds-st1202.c                    | 416 ++++++++++++++++++
+ 6 files changed, 594 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/st,led1202.yaml
+ create mode 100644 Documentation/leds/leds-st1202.rst
+ create mode 100644 drivers/leds/leds-st1202.c
 
-This would mean:
+-- 
+2.39.3 (Apple Git-145)
 
-vms_complete_munmap_vmas
-           vma_start_write
-           vma_mark_detached
-           mmap_write_downgrade
-           vms_clear_ptes
-           remove_vma
-
-And remove_vma will be just freeing the vmas. Is that correct?
-I'm a bit confused because the original thinking was that
-vma_mark_detached() would drop the last refcnt and if it's 0 we would
-free the vma right there. If that's still what we want to do then I
-think the above sequence should look like this:
-
-vms_complete_munmap_vmas
-           vms_clear_ptes
-           remove_vma
-               vma_start_write
-               vma_mark_detached
-           mmap_write_downgrade
-
-because vma_start_write+vma_mark_detached should be done under  mmap_write_=
-lock.
-Please let me know which way you want to move forward.
-
-
->
->
