@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3565B226861;
-	Thu, 19 Dec 2024 15:25:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A55BA226198;
+	Thu, 19 Dec 2024 15:29:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734621922; cv=none; b=MDoAY+SJwFcFvPwqBBsQMPfvZTTsrMnrvWBNJhmG/pi1VsEvmlLVl/HHOtoKNF/R9tOFpXBC50EWXIcsTNObhL9UjfK+Q6DjBRGiSu8AhVxlh8musy8MbeDzGApM0xbfkoAlj8AjN3+ubU7I7nkR0uX/taKb9EOcWrizw1eoHfk=
+	t=1734622141; cv=none; b=g2rc8KeVNkI8TIrdme/HQklRt2omazRBu5lzQ7ZMBc2lk/J4cOoQzJP0EH11l2UUdtpNUIifVNuEiVa3XLznrOyBdWNwyZnWiNOuMXxXFdyU+oHrJZ1l2f0epMtNbaVL9HGxOsLf8h5m/WtccsSpjPluLIgJ/tnOokHAVzJyVKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734621922; c=relaxed/simple;
-	bh=DJc8HBGOy7SSX8hnOaFP0lOTMIm3bgx5nLuXDuzTRKg=;
+	s=arc-20240116; t=1734622141; c=relaxed/simple;
+	bh=/plqvgdtrQeQosqWgzBBAw0UgMR8wBO4LgwCKIzfngk=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M+w29+OD99PJJ13nXRRnJzFyfyODo08s8WKm8CpmciIdGxnN/QSCyntw8wqZBv7hICT1xDiB3yX0hBl2d26w7p8RG9VyljamWKLLaZFWQuqzq1q8C21QRlDlwm9BmLBkTfWVpOB3R4vc46KK0/vQ8R54SUJLZe5o+kyEdviYCPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PZUgbu63; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=My9N3RwCN77i1redElj8ZFHDUJgJ6bPiG195rdgtUmdw8vT36eU6/W0Mxexu/sFrkSG0UfZ0tUoIkLchEkv5XVBJXQCppWS3DzuBK/Dp8JNDbIBzvH3VXGNjJpdBBFYVRL7u6mBn3wU+6AjGGdL2PTA5gLWLZDI2nP294vn4gqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D5tl5D6p; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PZUgbu63"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49296C4CEDE;
-	Thu, 19 Dec 2024 15:25:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D5tl5D6p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B16E1C4CED0;
+	Thu, 19 Dec 2024 15:28:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734621921;
-	bh=DJc8HBGOy7SSX8hnOaFP0lOTMIm3bgx5nLuXDuzTRKg=;
+	s=k20201202; t=1734622141;
+	bh=/plqvgdtrQeQosqWgzBBAw0UgMR8wBO4LgwCKIzfngk=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=PZUgbu630tIs/ZEA+GLC+dXvHGU+4600k+NAAT++TPspjofChb+ZzcWeHMMPQ/aAU
-	 P20V9Ie7Fqy7xcjj2JOGot2ZcqB2yGwg2VEskQNqIu5rFYXhC8am+wLjFZOLYQuYNW
-	 8VK9nr+Zxuqo3MJI/T9vulsTDvdlnRpHqwugmjwzSDkSzQuNSjxLxmimYBqA8jBlsW
-	 ckkeyPpLl+CTSOvhLm32cqQ7ophiM9ivexH/EvojonG8JzgwIPaUZ1qiOOKHwEvIo9
-	 FUK8AcuySLctasu3+g3CcRncga/6ZWXgyZGipeBX81DSHq+C9ecCX+jzwTzoWblvEV
-	 38HcWx9evBF/w==
-Date: Thu, 19 Dec 2024 07:25:19 -0800
+	b=D5tl5D6pYVEGVvywX3NYn/WzMyOE1eXrEwlvxKpKp/DHFrS+mqSQcF2ABjQBoc9xT
+	 9xG+/ySFslAQ23agUuxfEHn0AaYD7xQxIimjQ6GlVkjarXvQXgQKUGfQnp/xPG3KxQ
+	 sCq7TF9SryZjUp6ngvs/9pQXyedczI868gSeMq9sfh41QcW5es0RyZ01PwPwb+rEwo
+	 EtpIlXbKWUs30KPib+sE36a0T72t/mrDSmBNG0OsHnpr0v9QkZrZmNWStmU4nTDlyl
+	 D5FruKs2E7K5IbhjffROaCfEDcdth5Ky0VPhjQeR0PEcFUkK3+7yX2zDaNkdJtLKjB
+	 57P+ICup5lPlw==
+Date: Thu, 19 Dec 2024 07:28:58 -0800
 From: Jakub Kicinski <kuba@kernel.org>
 To: Taehee Yoo <ap420073@gmail.com>
 Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
@@ -42,17 +42,16 @@ Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
  rrameshbabu@nvidia.com, idosch@nvidia.com, jiri@resnulli.us,
  bigeasy@linutronix.de, lorenzo@kernel.org, jdamato@fastly.com,
  aleksander.lobakin@intel.com, kaiyuanz@google.com, willemb@google.com,
- daniel.zahka@gmail.com, Andy Gospodarek <gospo@broadcom.com>
-Subject: Re: [PATCH net-next v6 3/9] bnxt_en: add support for tcp-data-split
- ethtool command
-Message-ID: <20241219072519.4f35de6e@kernel.org>
-In-Reply-To: <CAMArcTUToUPUceEFd0Xh_JL8kVZOX=rTarpy1iOAD5KvRWP5Fg@mail.gmail.com>
+ daniel.zahka@gmail.com
+Subject: Re: [PATCH net-next v6 9/9] netdevsim: add HDS feature
+Message-ID: <20241219072858.3e704135@kernel.org>
+In-Reply-To: <CAMArcTW-wDThHLnNVUNGQRrTOT1Vbzc3F5R=U4PiFjvifeeQPQ@mail.gmail.com>
 References: <20241218144530.2963326-1-ap420073@gmail.com>
-	<20241218144530.2963326-4-ap420073@gmail.com>
-	<20241218182547.177d83f8@kernel.org>
-	<CAMArcTXAm9_zMN0g_2pECbz3855xN48wvkwrO0gnPovy92nt8g@mail.gmail.com>
-	<20241219062942.0d84d992@kernel.org>
-	<CAMArcTUToUPUceEFd0Xh_JL8kVZOX=rTarpy1iOAD5KvRWP5Fg@mail.gmail.com>
+	<20241218144530.2963326-10-ap420073@gmail.com>
+	<20241218184917.288f0b29@kernel.org>
+	<CAMArcTWH=xuExBBxGjOL2OUCdkQiFm8PK4mBbyWcdrK282nS9w@mail.gmail.com>
+	<20241219064532.36dc07b6@kernel.org>
+	<CAMArcTW-wDThHLnNVUNGQRrTOT1Vbzc3F5R=U4PiFjvifeeQPQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,20 +61,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri, 20 Dec 2024 00:14:01 +0900 Taehee Yoo wrote:
-> > > The bnxt_en disallows setting up both single and multi buffer XDP, but core
-> > > checks only single buffer XDP. So, if multi buffer XDP is attaching to
-> > > the bnxt_en driver when HDS is enabled, the core can't filter it.  
+On Fri, 20 Dec 2024 00:19:38 +0900 Taehee Yoo wrote:
+> > On Thu, 19 Dec 2024 23:37:45 +0900 Taehee Yoo wrote:  
+> > > The example would be very helpful to me.  
 > >
-> > Hm. Did you find this in the code, or did Broadcom folks suggest it?
-> > AFAICT bnxt supports multi-buf XDP. Is there something in the code
-> > that special-cases aggregation but doesn't work for pure HDS?  
+> > Just to make sure nothing gets lost in translation, are you saying that:
+> >  - the examples of tests I listed are useful; or
+> >  - you'd appreciate examples of how to code up HDS in netdevsim; or
+> >  - you'd appreciate more suitable examples of the tests?
+> >
+> > :)  
 > 
-> There were some comments about HDS with XDP in the following thread.
-> https://lore.kernel.org/netdev/20241022162359.2713094-1-ap420073@gmail.com/T/
-> I may misunderstand reviews from Broadcom folks.
+> Ah, I appreciate example of tests you listed are useful, Thanks!
 
-I see it now in bnxt_set_rx_skb_mode. I guess with high MTU
-the device splits in some "dumb" way, at a fixed offset..
-You're right, we have to keep the check in the driver, 
-at least for now.
+Okay :) 
+
+FWIW I don't expect that you'd do anything too complicated to support
+HDS in netdevsim. The packets generated by the networking stack are
+"split", already. What I was thinking is basically check if HDS is
+enabled, compare skb->len to threshold, and if we shouldn't HDS call
+skb_linearize().
