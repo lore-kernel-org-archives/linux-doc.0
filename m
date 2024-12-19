@@ -1,80 +1,93 @@
-Received: from smtp1.cs.Stanford.EDU (smtp1.cs.stanford.edu [171.64.64.25])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5544C35948
-	for <linux-doc@vger.kernel.org>; Thu, 19 Dec 2024 18:37:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=171.64.64.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6002B41760;
+	Thu, 19 Dec 2024 18:47:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734633478; cv=none; b=PZ8H6GS2Lhgsaj3nAzdV8MzbKYZ7iGIGrNKYlCW5sX5bREWbfE+HKw29XWRKATdLFF4g4usWrOkx5ac22TX0kHLau8GnXl2l1n7dE7EScHWkNoZR6VQKw+wSCR5w4WdMzp155ziqttQFA2KvuE2BLNXijjKIZXUcbM5I3AuRTcQ=
+	t=1734634028; cv=none; b=HeXGqvAU5WS/9QHMXfOYBd9Wh8cmEijL1qwoop1tVl9S1yuJfqsGfpYVYGuZR6saS5ECKnvlud2ohshUfJDZ2qwgNjL+lLDykOCOwyXIfmuElhGrL2dTt7/ONDblha2RacsRmkkUHHS4NvU9Bnr808QDRRZJLBrVnAkzI7nZCcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734633478; c=relaxed/simple;
-	bh=csrDjjWtZDw7fYf3+yTFWafFtsG77AS7KFJzGf1U1fE=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=NU0elzevByAgPMM/nmFpE8zcab1L6DYPh7gTGMHJOzG+djS/KgXePmh2RGsAPVD6+tlXI7fcx5q22UCjtkA+rHRkwi7Zo8k6jr5yFqpi7O7Ekhbq/XTCCs7SEzFaUSq4Xhq7p/Y+gJpxM2mTsCrn2rLOUxvKpq3LeJQey2KyB1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.stanford.edu; spf=pass smtp.mailfrom=cs.stanford.edu; dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b=JgvT/7UN; arc=none smtp.client-ip=171.64.64.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.stanford.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.stanford.edu
+	s=arc-20240116; t=1734634028; c=relaxed/simple;
+	bh=Uuo89MMUgo99peE/L+FKDtIjSbFf8+PRrD4hl7wOvbg=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lkTpu55+PTCqcb+uEhqZ8sxukiTMQwKX6nNxW+cGwXMvpaj4Rlq01KmZQxYnL17y57v8mMCuRpWCA1oq6oeIGbo09c2k/8AvL9M/E5zcZndzVQaN+y4TwcnDJxf8JuxGyRoZ2dmms2GcHo9SrP0EnfLxcHbp6zA3o3iZXc7lSpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=S/wi1bNe; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b="JgvT/7UN"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="S/wi1bNe"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=cs.stanford.edu; s=cs2308; h=Content-Type:To:Subject:Message-ID:Date:From:
-	MIME-Version:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=csrDjjWtZDw7fYf3+yTFWafFtsG77AS7KFJzGf1U1fE=; t=1734633477; x=1735497477; 
-	b=JgvT/7UNaM+tnoMrbDfrQy1JKHljf4v6zS38EeKgzWqNBiFK63W7tKMGX4GX9IwucWl/A6lc8Nr
-	NDIv4wN5SLVfU6QCvCZJophDOtyrQXvSTKQiWLpUyN3T5sLXuzCTjN3o9Xs8wg2svCl2UqqF7PXfA
-	mJhdPdFT9BCGIc9Ejvi405D2IvBroTVORSqOUD4JaGsDJOO50uZOmAVHMVZ6Lms6rFV6HvBLMy+mV
-	QhpqzV7QntYPpYvNFP84mDzcupy/IPH2oCpcK3hhs06+tYYCAE2elsM8vrxmU/dUcT1Ofl2+9cuh1
-	+oW05jp05yvfJjgHZCxGXoaWmIKS85/NId+w==;
-Received: from mail-oo1-f41.google.com ([209.85.161.41]:43097)
-	by smtp1.cs.Stanford.EDU with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.94.2)
-	(envelope-from <ouster@cs.stanford.edu>)
-	id 1tOLPH-0007Mq-T2
-	for linux-doc@vger.kernel.org; Thu, 19 Dec 2024 10:37:56 -0800
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5ee9db85af0so1069684eaf.0
-        for <linux-doc@vger.kernel.org>; Thu, 19 Dec 2024 10:37:55 -0800 (PST)
-X-Gm-Message-State: AOJu0Yz89Qg+ribahuBv4nhejf0CUGfALh3NHcGT3suEVg97BJLveR6L
-	t0TbjwbGkoeyiKTZhZNDCCC8DdRxM2ulrPFS+pnCjgUKITw2Jd8xYDhSad0CMAixK000ZmILXwc
-	K4P/DZeZKaMyN1201zOewC7RsxiY=
-X-Google-Smtp-Source: AGHT+IE2oTlai1mireylOE9WNvD5BdDrQBp0fOgd0G7iui8gchKazz65grxjn+F1GzUlXCGD5v5Kl/BbqEf9ufgzHYg=
-X-Received: by 2002:a05:6870:fe8b:b0:2a7:8c73:be33 with SMTP id
- 586e51a60fabf-2a7d1397e8dmr2258634fac.16.1734633475335; Thu, 19 Dec 2024
- 10:37:55 -0800 (PST)
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:To:From:Date:Sender:Reply-To:Cc:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=rGpeIQU8OFNXXoe0FS/CeUx+kNOrcVNpVk7LZwVhvWA=; b=S/wi1bNeQ9Q4i3rS/866YGgl2l
+	sxjX4PZy8ejVi0QwRX6tnAaN4aIElD4TQue2Y0UGZI0RS7yqlyyCxvy/wm/4+D+OTsNH0gEMajZ1x
+	AgCzSk6L82f/7uXvbHOXFTfWFaMyr5IkLFdYjbX+3g6wafzr4saIOUb9hQcqvaNNsLkhfY/X9LxVq
+	u33g34oQAoGd/pda55FN+xUn6SdvlNPTb57LJb0TcvPwAI3t8ai+kuZ4IcRgbzMmHrMZ1o/YXXkmj
+	xk0Lc8tD2brqYHKLRljGjNIfjDvRkDqkKG65eRrTr434YjeKdsAQl/vD8ZeX3B4RwK9Cj0C4LLfYH
+	4E2LY/5A==;
+Received: from 77-249-17-89.cable.dynamic.v4.ziggo.nl ([77.249.17.89] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tOLXn-00000005Ucw-3lLs;
+	Thu, 19 Dec 2024 18:46:44 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 4CEA330031E; Thu, 19 Dec 2024 19:46:42 +0100 (CET)
+Date: Thu, 19 Dec 2024 19:46:42 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
+	willy@infradead.org, lorenzo.stoakes@oracle.com, mhocko@suse.com,
+	vbabka@suse.cz, hannes@cmpxchg.org, mjguzik@gmail.com,
+	oliver.sang@intel.com, mgorman@techsingularity.net,
+	david@redhat.com, peterx@redhat.com, oleg@redhat.com,
+	dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org,
+	dhowells@redhat.com, hdanton@sina.com, hughd@google.com,
+	lokeshgidra@google.com, minchan@google.com, jannh@google.com,
+	shakeel.butt@linux.dev, souravpanda@google.com,
+	pasha.tatashin@soleen.com, klarasmodin@gmail.com, corbet@lwn.net,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH v6 10/16] mm: replace vm_lock and detached flag with a
+ reference count
+Message-ID: <20241219184642.GF26279@noisy.programming.kicks-ass.net>
+References: <CAJuCfpHJwVXanjG0WGjo0KHHEbg1-T0HWTZqDpssoq3FvfG++A@mail.gmail.com>
+ <jes252u5qfhla2bdmg6pdkfpi4a2jfhf7d5b6ra6ol2bmt352x@gunhzaca56df>
+ <CAJuCfpFSD98fw=844AJPy+LT5y=zREQGtSEVj3_FCXiZ5cFR_A@mail.gmail.com>
+ <ulbspoec633hfm54f3jzvoqs6ilskxou3qykk2u727pbaltvfl@lb53vjcaxnuf>
+ <CAJuCfpHXRX=LLa67eWYvrK=UDxKMaOequFXfqOqDHbRrmsT9SQ@mail.gmail.com>
+ <20241219091334.GC26551@noisy.programming.kicks-ass.net>
+ <20241219112011.GA34942@noisy.programming.kicks-ass.net>
+ <wfzu6jvbazlxdybsjc54aoivleif6memaxaacd56bcep24nkv3@s3e3aj253hd6>
+ <20241219174235.GD26279@noisy.programming.kicks-ass.net>
+ <rnanfpzs6fmojyeaowt65mug6xekorrkeefvn3b4zc7buunzhc@rrzcbhkrjdv4>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: John Ousterhout <ouster@cs.stanford.edu>
-Date: Thu, 19 Dec 2024 10:37:20 -0800
-X-Gmail-Original-Message-ID: <CAGXJAmzfRzE=A94NT5ETtj3bZc-=2oLg-9E5Kjh4o_-iuw1q8g@mail.gmail.com>
-Message-ID: <CAGXJAmzfRzE=A94NT5ETtj3bZc-=2oLg-9E5Kjh4o_-iuw1q8g@mail.gmail.com>
-Subject: Bug in kernel-doc ("-" misinterpretation)
-To: linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Score: 3.0
-X-Spam-Level: ***
-X-Scan-Signature: 6bee508a35d8245455fa42c2dd36c733
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <rnanfpzs6fmojyeaowt65mug6xekorrkeefvn3b4zc7buunzhc@rrzcbhkrjdv4>
 
-kernel-doc gets confused by code like the following:
+On Thu, Dec 19, 2024 at 01:18:23PM -0500, Liam R. Howlett wrote:
 
-/**
- * define HOMA_MIN_DEFAULT_PORT - The 16-bit port space is divided into
- * two nonoverlapping regions. Ports 1-32767 are reserved exclusively
- * for well-defined server ports. The remaining ports are used for client
- * ports; these are allocated automatically by Homa. Port 0 is reserved.
- */
-#define HOMA_MIN_DEFAULT_PORT 0x8000
+> > For RCU lookups only the mas tree matters -- and its left present there.
+> > 
+> > If you really want to block RCU readers, I would suggest punching a hole
+> > in the mm_mt. All the traditional code won't notice anyway, this is all
+> > with mmap_lock held for writing.
+> 
+> We don't want to block all rcu readers, we want to block the rcu readers
+> that would see the problem - that is, anyone trying to read a particular
+> area.
+> 
+> Right now we can page fault in unpopulated vmas while writing other vmas
+> to the tree.  We are also moving more users to rcu reading to use the
+> vmas they need without waiting on writes to finish.
+> 
+> Maybe I don't understand your suggestion, but I would think punching a
+> hole would lose this advantage?
 
-It seems to use the last "-" on the line (the one in "16-bit") rather
-than the first one, so it produces the following false error message:
-
-homa.h:50: warning: expecting prototype for HOMA_MIN_DEFAULT_PORT -
-The 16(). Prototype was for HOMA_MIN_DEFAULT_PORT() instead
-
-There are similar problems if there is a ":" later on the line.
-
--John-
+My suggestion was to remove the range stuck in mas_detach from mm_mt.
+That is exactly the affected range, no?
