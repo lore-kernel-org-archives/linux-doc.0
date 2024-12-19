@@ -1,167 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09ED72236EB;
-	Thu, 19 Dec 2024 14:59:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5FC322576F
+	for <linux-doc@vger.kernel.org>; Thu, 19 Dec 2024 15:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734620401; cv=none; b=mpJaBuXfjftQhmlEMczfaH9uZQJ3wl0PYyHTn7SX8B98uJG/PGboWY+ddzsoX8Lx+1jU7E+ZZmMv009GLOEcHemqIOCYj5i8oQDQ+3g6AOmVQGuKGMdtbbxkoR+LlzXoDM0Tt1NevgsvAS2OM7lVdsACCpPBPx/KcfOERhcAIhg=
+	t=1734620757; cv=none; b=OY3M+0BzY5/w5hnjZWAD5JSnWNtIR6neT/xPaq0cUKFvfAw9JtA652HWFpOCmx+ZdUHE46WTHmeFhO512XEC9mOssCSENIwWuhOwcqn70sLzKYWS1XCbdSCBu1bYTKLNMdzbpZxg5rVPKP0DZIhpOK8d3qTLQ6VeHkb1dth1iQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734620401; c=relaxed/simple;
-	bh=+ESgxVMeGq7FX4b9sbG18XbWI8wDYxA3NcS6XuGbBKc=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=R46JjGHAt3aESX4WcRf22qWrzEFLwSyIr6qTWt/kb+myDl+CMJL4czvXDVmIKnmpGE15rcR0BGPtnvRbWnzw87w5bPh803+vErkUri8DtjeCmM5tLXRDFLFs9UYrp9MNrgs2mRshwrG3jUneQUfgYnOog6MYt+mLALG87eP8xKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Felxzg6m; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1734620757; c=relaxed/simple;
+	bh=2DPBNwwFtCXNNQDYKOGB3DV4olRZt8JVKj5PKNltAVo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mGhlpTaMOjZ0zSXeL89AdAoPvxV4Rh1Z4sqDjvW0DkjxhnOBV/RYYe6EVS+3pU6nXnN1CDLsI3DugDmhRjS/938VFcUqF0lZKUNkcvNsahrdCXwmKmuCd/e8qQ0K/mRH6ErEmnSgyW3YdnGiuvaRcvLmsm+iMGD95nu4/BKmg9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=P/GE/P2N; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Felxzg6m"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734620400; x=1766156400;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=+ESgxVMeGq7FX4b9sbG18XbWI8wDYxA3NcS6XuGbBKc=;
-  b=Felxzg6mhVmegy601CejGugeRksoXtQ8RVSc7Y9pfIEuE3e/8ogNrFoG
-   OWdxiCDcvGUbpiUyAqCjeyKVUsW5oBVg/LDnzCvEl6RT5/K68w49m3GfR
-   +bF4Cq9wwE0S8wGc6Klm0jXZDBYDiE1TVe84BfasCvXklEps6gRCP8qas
-   x3LO2YEJJSolaP35Ue5C6EDADAMOKEyRC9IIyYx1aXLzt2hq7FuZTwUXf
-   dDxZ3hTG527kcBa3zZwtmP5hsEp/zH/ahrkJgqL3zNCy589m2D/fR3GXF
-   MUiEGmkMHqgScgyXr6Pll06WkcHIWxXg3cJMSDseA6xP97QQ+HTM+C+K7
-   Q==;
-X-CSE-ConnectionGUID: Asj3hQwxT7y68gCkFVlbMg==
-X-CSE-MsgGUID: wybHjxlgRtKZ/bdNT+Gmiw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="35021932"
-X-IronPort-AV: E=Sophos;i="6.12,248,1728975600"; 
-   d="scan'208";a="35021932"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 06:59:59 -0800
-X-CSE-ConnectionGUID: i+kBy8kWRvyYo/A7aUfOGQ==
-X-CSE-MsgGUID: yJFEefPRRKCvKQUebpzGzw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,248,1728975600"; 
-   d="scan'208";a="98042442"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.7])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 06:59:55 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 19 Dec 2024 16:59:52 +0200 (EET)
-To: Mario Limonciello <mario.limonciello@amd.com>
-cc: Borislav Petkov <bp@alien8.de>, Hans de Goede <hdegoede@redhat.com>, 
-    x86@kernel.org, "Gautham R . Shenoy" <gautham.shenoy@amd.com>, 
-    Perry Yuan <perry.yuan@amd.com>, LKML <linux-kernel@vger.kernel.org>, 
-    linux-doc@vger.kernel.org, linux-pm@vger.kernel.org, 
-    platform-driver-x86@vger.kernel.org, 
-    Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Subject: Re: [PATCH v7 12/12] platform/x86/amd: hfi: Add debugfs support
-In-Reply-To: <20241130152023.684-13-mario.limonciello@amd.com>
-Message-ID: <b98a11c6-27d7-5c59-34b5-dc6f86b854d4@linux.intel.com>
-References: <20241130152023.684-1-mario.limonciello@amd.com> <20241130152023.684-13-mario.limonciello@amd.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="P/GE/P2N"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-385deda28b3so635481f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 19 Dec 2024 07:05:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1734620754; x=1735225554; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BNh1srzTDX7fxdOhME+7XNw68M3lxtK8g+1pB5Q2QFM=;
+        b=P/GE/P2NDBVatZvg3z1z5H4y0xuNakDxqdxd0Y7D2hiomhf+dx209+Y7rlhG+B/S38
+         yZNjnBkx6kJa2nl84l+477P1zsPpFbUtVnfYIx8vjI43pfNETOFNGr78AO0Y5uImeRzo
+         Zh3W684zrEqx35cLLRgTSSUP3ba0QLSGeKwndc6f2kckgTRTjSKATSurktz4emmKuuUX
+         0yTPZ9X0PzkWUhA0ZT6aJPyv52mS2H/w+JlrqWX3wYruNG+rpLlMX7YxcIqxbypg7mY7
+         kbtPSsUIyyIgG2d8/sMQxG93AroyNejGn8KvtofEIxoEsrwXMyuD+UArgOJv3r43B4yD
+         FhRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734620754; x=1735225554;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BNh1srzTDX7fxdOhME+7XNw68M3lxtK8g+1pB5Q2QFM=;
+        b=sAF4tYJqT0fkkbZKmT3wOuCzZJdUVh7As1OSAGGxyAbnGT/I2HluRd677HyKcF6mnl
+         5GX/MoWiMkPMPhu0GyKdB9GmYGPvq+mI4HkdPTRfIvC39Ibo30hYqnA8ZiMszc26OQgR
+         9RLwc5+gphvCdHdPkcFhoZPQtTkIGyiqyfxemy+uy2KYVfNftqUfqrZ2NOnfKhgaNAA4
+         NZcalMZIyquMVEOQl+o/rqixhpYvpK+lVg7HPaCQfoOKmkqFSiAO6DdsIkBNZJffdUHN
+         OZs34YBIU8SM7Wa8Kq8dyWhyDrrqhZ12RoeczrJfHA0L4c8QKHnvq+6vN5w/nmFM1iIC
+         cpxA==
+X-Forwarded-Encrypted: i=1; AJvYcCWOW/4mZZKGgXye5H70LcY0hctFJ24oKGzoMQKB4g0bzRpolTqToGEzlAOitt8pWR5x5KhAIN/d530=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRP9TNKopByEdZXXoIfXdAKxCPJsBszudfdxayqUS6GAyiiMgJ
+	3x9ojlfaRDuWWSomjnSlm66gF9QE2MMBBd6v44YF8giKRoy2XhbbkZb/RprLFR8=
+X-Gm-Gg: ASbGncsw2dqbREjZOrV8zQSb7nOkRznwTdHCtWIwBL2FZfbf+MUPEpQh/AAW5BsBUWE
+	c3jCDJqeC/z+cEOf6C1ww7k0jx46TZ/DNJSkMUm9orUVR3kqrF2CF74ML0K9MyGvm56TAhRi1u3
+	xRLHH/+cSo4Ehaft1eC3ZLiH6rcYkxS2OF7OIwo+FkgBfpCaj1IosrYjt74yvQ+m9x71jVWa4Ye
+	AoTHcUeZnI4SJtAx+UmNZNdGyScSpDvulTaIy7+ngFgPgQiZSJSbXx3dw==
+X-Google-Smtp-Source: AGHT+IHzx2qjZN7y/wo3WxF3dR8UgNgswDbrl63Ur+zGOBiu2f0uIz455D6W2JRIyhSeVVWesAFhZQ==
+X-Received: by 2002:a05:6000:4012:b0:385:f44a:a68 with SMTP id ffacd0b85a97d-388e4d67acfmr7090660f8f.35.1734620752494;
+        Thu, 19 Dec 2024 07:05:52 -0800 (PST)
+Received: from pathway.suse.cz ([176.114.240.50])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8b830csm1752376f8f.108.2024.12.19.07.05.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Dec 2024 07:05:52 -0800 (PST)
+Date: Thu, 19 Dec 2024 16:05:49 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: John Ogness <john.ogness@linutronix.de>
+Cc: "Rob Herring (Arm)" <robh@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Saravana Kannan <saravanak@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Zijun Hu <quic_zijuhu@quicinc.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: lock in vsprintf(): was: Re: [PATCH] of: Add printf '%pOFm' for
+ generating modalias
+Message-ID: <Z2Q2TcM6QPUIIyLC@pathway.suse.cz>
+References: <20241217183711.2525863-1-robh@kernel.org>
+ <Z2K_u6jK5aLDqaam@pathway.suse.cz>
+ <84wmfxm6em.fsf@jogness.linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <84wmfxm6em.fsf@jogness.linutronix.de>
 
-On Sat, 30 Nov 2024, Mario Limonciello wrote:
-
-> Add a dump of the class and capabilities table to debugfs to assist
-> with debugging scheduler issues.
+On Wed 2024-12-18 15:13:13, John Ogness wrote:
+> On 2024-12-18, Petr Mladek <pmladek@suse.com> wrote:
+> > My concern is taking a lock when processing a printf format, see
+> > below for more details.
 > 
-> Reviewed-by: Gautham R. Shenoy <gautham.shenoy@amd.com>
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> ---
->  drivers/platform/x86/amd/hfi/hfi.c | 36 ++++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
+> Your concern is valid! printk() uses vsnprintf() to format records for
+> the kernel log. printk() may be called from contexts where locking is
+> forbidden (such as NMI). If vsnprintf() can take a lock, then either:
 > 
-> diff --git a/drivers/platform/x86/amd/hfi/hfi.c b/drivers/platform/x86/amd/hfi/hfi.c
-> index 0940950dd7adc..b6dc379bfd546 100644
-> --- a/drivers/platform/x86/amd/hfi/hfi.c
-> +++ b/drivers/platform/x86/amd/hfi/hfi.c
-> @@ -13,6 +13,7 @@
->  #include <linux/acpi.h>
->  #include <linux/cpu.h>
->  #include <linux/cpumask.h>
-> +#include <linux/debugfs.h>
->  #include <linux/gfp.h>
->  #include <linux/init.h>
->  #include <linux/io.h>
-> @@ -74,6 +75,8 @@ struct amd_hfi_data {
->  	void __iomem		*pcc_comm_addr;
->  	struct acpi_subtable_header	*pcct_entry;
->  	struct amd_shmem_info	*shmem;
-> +
-> +	struct dentry *dbgfs_dir;
->  };
->  
->  /**
-> @@ -234,6 +237,13 @@ static int amd_hfi_alloc_class_data(struct platform_device *pdev)
->  	return 0;
->  }
->  
-> +static void amd_hfi_remove(struct platform_device *pdev)
-> +{
-> +	struct amd_hfi_data *dev = platform_get_drvdata(pdev);
-> +
-> +	debugfs_remove_recursive(dev->dbgfs_dir);
-> +}
-> +
->  static int amd_set_hfi_ipcc_score(struct amd_hfi_cpuinfo *hfi_cpuinfo, int cpu)
->  {
->  	for (int i = 0; i < hfi_cpuinfo->nr_class; i++)
-> @@ -388,6 +398,27 @@ static int amd_hfi_metadata_parser(struct platform_device *pdev,
->  	return ret;
->  }
->  
-> +static int class_capabilities_show(struct seq_file *s, void *unused)
-> +{
-> +	int cpu, idx;
-> +
-> +	seq_puts(s, "CPU #\tWLC\tPerf\tEff\n");
-> +	for_each_present_cpu(cpu) {
-> +		struct amd_hfi_cpuinfo *hfi_cpuinfo = per_cpu_ptr(&amd_hfi_cpuinfo, cpu);
-> +
-> +		seq_printf(s, "%d", cpu);
-> +		for (idx = 0; idx < hfi_cpuinfo->nr_class; idx++) {
-> +			seq_printf(s, "\t%d\t%d\t%d\n",
-> +				   idx,
-
-Put idx to the previous line.
-
-> +				   hfi_cpuinfo->amd_hfi_classes[idx].perf,
-> +				   hfi_cpuinfo->amd_hfi_classes[idx].eff);
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +DEFINE_SHOW_ATTRIBUTE(class_capabilities);
-> +
->  static int amd_hfi_pm_resume(struct device *dev)
->  {
->  	int ret, cpu;
-> @@ -463,6 +494,10 @@ static int amd_hfi_probe(struct platform_device *pdev)
->  
->  	schedule_work(&sched_amd_hfi_itmt_work);
->  
-> +	amd_hfi_data->dbgfs_dir = debugfs_create_dir("amd_hfi", arch_debugfs_dir);
-> +	debugfs_create_file("class_capabilities", 0644, amd_hfi_data->dbgfs_dir, pdev,
-> +			    &class_capabilities_fops);
-> +
->  	return 0;
->  }
->  
-> @@ -474,6 +509,7 @@ static struct platform_driver amd_hfi_driver = {
->  		.acpi_match_table = ACPI_PTR(amd_hfi_platform_match),
->  	},
->  	.probe = amd_hfi_probe,
-> +	.remove = amd_hfi_remove,
->  };
->  
->  static int __init amd_hfi_init(void)
+> vsnprintf() must be made to be lockless
 > 
+>   or
+> 
+> printk() must take another approach to string formatting
 
--- 
- i.
+There were the ideas to introduce a %pX[1] or %pf[2] formats. They would
+allow to pass pointer to a custom callback and parameters which
+then would be used by vsprintf(). This might allow to make it more
+obvious that the given vsprintf()/printk() might do some locking.
 
+>   or
+> 
+> we accept that printk() can deadlock for certain format types in certain
+> contexts.
+
+I see that %pOFm does not add any new locking dependency.
+The same lock (devtree_lock) is already taken, for example,
+by %pOFC format.
+
+I do not want to revert everything now just because of theoretical
+problems. It somehow works because people use these formats only
+in dedicated subsystems. Also lockdep is able to catch a lot of
+problems.
+
+Well, it would be nice to document the lock dependency in
+Documentation/core-api/printk-formats.rst
+
+Best Regards,
+Petr
