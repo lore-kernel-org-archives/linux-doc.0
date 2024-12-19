@@ -1,128 +1,124 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5FC322576F
-	for <linux-doc@vger.kernel.org>; Thu, 19 Dec 2024 15:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CAF41C64;
+	Thu, 19 Dec 2024 15:14:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734620757; cv=none; b=OY3M+0BzY5/w5hnjZWAD5JSnWNtIR6neT/xPaq0cUKFvfAw9JtA652HWFpOCmx+ZdUHE46WTHmeFhO512XEC9mOssCSENIwWuhOwcqn70sLzKYWS1XCbdSCBu1bYTKLNMdzbpZxg5rVPKP0DZIhpOK8d3qTLQ6VeHkb1dth1iQA=
+	t=1734621257; cv=none; b=hs7II/JHfcqzUyIQqbaonqNPaREd7qC+Rs3uRsxstBuKp/r8P3qxwygmsXW33QqS18qswn1dSXsS7FO/8gGdXgbVjAPvYm/SvS+Mybt48SAsmmT6wabTtOmkI7ibAPdQykJc2epxMrwhC1luRMZIjoiEkrerG+uhhxZg1ubeSp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734620757; c=relaxed/simple;
-	bh=2DPBNwwFtCXNNQDYKOGB3DV4olRZt8JVKj5PKNltAVo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mGhlpTaMOjZ0zSXeL89AdAoPvxV4Rh1Z4sqDjvW0DkjxhnOBV/RYYe6EVS+3pU6nXnN1CDLsI3DugDmhRjS/938VFcUqF0lZKUNkcvNsahrdCXwmKmuCd/e8qQ0K/mRH6ErEmnSgyW3YdnGiuvaRcvLmsm+iMGD95nu4/BKmg9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=P/GE/P2N; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1734621257; c=relaxed/simple;
+	bh=lmQB6ZImK2UMRsAhsCHDt9W1HPsGOTifgLSoKJRzUao=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pxOHU/uv/+B/ON0QDQLmCUiy69SlCrx7qCOjp40gE8GnqvW5sRCLlt6AokCiB9Wvft7pucBaw5HbExoR8VdblNMoJ4FYjIsx8AV0Rgl7TD5Cn+nXBY3xTvtB3CkWCB7AXVfITCHEMJQGDiHOtSjv9TyF6KFFnsluDk9JNLV55Sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SpFg9ObS; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="P/GE/P2N"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-385deda28b3so635481f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 19 Dec 2024 07:05:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SpFg9ObS"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5d3e8f64d5dso1577249a12.3;
+        Thu, 19 Dec 2024 07:14:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1734620754; x=1735225554; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BNh1srzTDX7fxdOhME+7XNw68M3lxtK8g+1pB5Q2QFM=;
-        b=P/GE/P2NDBVatZvg3z1z5H4y0xuNakDxqdxd0Y7D2hiomhf+dx209+Y7rlhG+B/S38
-         yZNjnBkx6kJa2nl84l+477P1zsPpFbUtVnfYIx8vjI43pfNETOFNGr78AO0Y5uImeRzo
-         Zh3W684zrEqx35cLLRgTSSUP3ba0QLSGeKwndc6f2kckgTRTjSKATSurktz4emmKuuUX
-         0yTPZ9X0PzkWUhA0ZT6aJPyv52mS2H/w+JlrqWX3wYruNG+rpLlMX7YxcIqxbypg7mY7
-         kbtPSsUIyyIgG2d8/sMQxG93AroyNejGn8KvtofEIxoEsrwXMyuD+UArgOJv3r43B4yD
-         FhRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734620754; x=1735225554;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1734621254; x=1735226054; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BNh1srzTDX7fxdOhME+7XNw68M3lxtK8g+1pB5Q2QFM=;
-        b=sAF4tYJqT0fkkbZKmT3wOuCzZJdUVh7As1OSAGGxyAbnGT/I2HluRd677HyKcF6mnl
-         5GX/MoWiMkPMPhu0GyKdB9GmYGPvq+mI4HkdPTRfIvC39Ibo30hYqnA8ZiMszc26OQgR
-         9RLwc5+gphvCdHdPkcFhoZPQtTkIGyiqyfxemy+uy2KYVfNftqUfqrZ2NOnfKhgaNAA4
-         NZcalMZIyquMVEOQl+o/rqixhpYvpK+lVg7HPaCQfoOKmkqFSiAO6DdsIkBNZJffdUHN
-         OZs34YBIU8SM7Wa8Kq8dyWhyDrrqhZ12RoeczrJfHA0L4c8QKHnvq+6vN5w/nmFM1iIC
-         cpxA==
-X-Forwarded-Encrypted: i=1; AJvYcCWOW/4mZZKGgXye5H70LcY0hctFJ24oKGzoMQKB4g0bzRpolTqToGEzlAOitt8pWR5x5KhAIN/d530=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRP9TNKopByEdZXXoIfXdAKxCPJsBszudfdxayqUS6GAyiiMgJ
-	3x9ojlfaRDuWWSomjnSlm66gF9QE2MMBBd6v44YF8giKRoy2XhbbkZb/RprLFR8=
-X-Gm-Gg: ASbGncsw2dqbREjZOrV8zQSb7nOkRznwTdHCtWIwBL2FZfbf+MUPEpQh/AAW5BsBUWE
-	c3jCDJqeC/z+cEOf6C1ww7k0jx46TZ/DNJSkMUm9orUVR3kqrF2CF74ML0K9MyGvm56TAhRi1u3
-	xRLHH/+cSo4Ehaft1eC3ZLiH6rcYkxS2OF7OIwo+FkgBfpCaj1IosrYjt74yvQ+m9x71jVWa4Ye
-	AoTHcUeZnI4SJtAx+UmNZNdGyScSpDvulTaIy7+ngFgPgQiZSJSbXx3dw==
-X-Google-Smtp-Source: AGHT+IHzx2qjZN7y/wo3WxF3dR8UgNgswDbrl63Ur+zGOBiu2f0uIz455D6W2JRIyhSeVVWesAFhZQ==
-X-Received: by 2002:a05:6000:4012:b0:385:f44a:a68 with SMTP id ffacd0b85a97d-388e4d67acfmr7090660f8f.35.1734620752494;
-        Thu, 19 Dec 2024 07:05:52 -0800 (PST)
-Received: from pathway.suse.cz ([176.114.240.50])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8b830csm1752376f8f.108.2024.12.19.07.05.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Dec 2024 07:05:52 -0800 (PST)
-Date: Thu, 19 Dec 2024 16:05:49 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: John Ogness <john.ogness@linutronix.de>
-Cc: "Rob Herring (Arm)" <robh@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Saravana Kannan <saravanak@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Zijun Hu <quic_zijuhu@quicinc.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: lock in vsprintf(): was: Re: [PATCH] of: Add printf '%pOFm' for
- generating modalias
-Message-ID: <Z2Q2TcM6QPUIIyLC@pathway.suse.cz>
-References: <20241217183711.2525863-1-robh@kernel.org>
- <Z2K_u6jK5aLDqaam@pathway.suse.cz>
- <84wmfxm6em.fsf@jogness.linutronix.de>
+        bh=KE+gvEw/fT7toeK0Wn7EsKMrAhVGbItWCmR6ayk++sU=;
+        b=SpFg9ObSOP1frzcqzsldfX++CItbtlag+dX7smyJ44JioK9OC6XfsnngTDTihXw41e
+         zjxU/qn49VdIHPdJkae/ouRiD/7f/0FE+SvkFm0r4G+Dq7qiEbAqsZ7nqCH6K9DFla3z
+         RCiXZRvutD9s50T2gvY+XMdz7RmqroZ76bfam+YFYw8ZTLbA7HLjJA/C5q2rL25L7I6x
+         hAFW0ZSvgDTzE1ijKssanyiBJYO82pwJs/0qLBPjEO7jhtRTnqqBcVjBL/xoUPjfn8cf
+         EtzvUENg0IjSOcDEjgE4FJbYOKa8CjOqEcu62DT6kAkRmsZb6WuIZFmd9eMPJD3o+Bm8
+         PM8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734621254; x=1735226054;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KE+gvEw/fT7toeK0Wn7EsKMrAhVGbItWCmR6ayk++sU=;
+        b=cO8SYSGnfhV5dfKO+YZwtixTaJr8jEbjRuk6yTZCSFVfp+IMKcj0cz6SNTdRvMxbv6
+         I1ZTXvpis3dJ6RgOYhTO9eprgBr3McETHPmrLX8i1xsv7MJ82anJcf16TcPBd5HhCxrG
+         ckMZ+kKm0cQL6AQpw/Z7WsDjUWvmkrEuQ7HfIeyvywgQorT8699L6zf9DyGOBkVzoEfH
+         3c0OI80RDBoL13hC2My9LiLtuieQq+CdiYd5KOYy3YMMV7tHGSQwVexiE55TVrcsIvFI
+         HyGS4ookKskj4Ujox60L2Yt8ogCx830RMyiLI0fuphRZRMl8cT4gt6gpz+qNedtQo4gF
+         Wrlw==
+X-Forwarded-Encrypted: i=1; AJvYcCVg+Dzie91Q7WpMFL5rXUnoTXXcptKBFsKU8n+UZZ4LTk2skb77gDq/D/PwMuhRoixEjYYi/p7B0AU=@vger.kernel.org, AJvYcCXNpWfXFq3MxYX0D9HIr0jacup9jdt4q6BbQhQz/I3p2yR5dB4Q2SQMyBl9BTUSA5EvhZyNCEJc@vger.kernel.org
+X-Gm-Message-State: AOJu0Yws0gE9o1zSC/QXBoLpGoWG6YXtG2MlIkI5m/ozIexZPi/Bxcec
+	JxQDUElTNt0Up6EdQxrH7Vb64YX/+XoCl4RPd9gw6T42Nw1t/ADnLs4Mz8AHW8pU0uhvxw4uaYo
+	E3R9NYyHRqxqLYLpNQOq9lrsqT1s=
+X-Gm-Gg: ASbGncvZerBroTiFQR2bIOlqFQgPpf6cPyY6Dd2lBocHD4LT4gANVi1x/+TlggHOiLU
+	6qn+mkeW9Hx/L+QShGx8CUuBhN8PCIJFAU0ZttqA=
+X-Google-Smtp-Source: AGHT+IFLoYAYxtFOQGp9bUCzx/j78L2g4AATrA7ieG2lh/+k7wCxeq+giYsgTyqf5JURsqnZqKkf8Mpe8l93hUb4AOI=
+X-Received: by 2002:a05:6402:5109:b0:5cf:a1c1:5289 with SMTP id
+ 4fb4d7f45d1cf-5d7ee3ff16cmr5491845a12.21.1734621253481; Thu, 19 Dec 2024
+ 07:14:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <84wmfxm6em.fsf@jogness.linutronix.de>
+References: <20241218144530.2963326-1-ap420073@gmail.com> <20241218144530.2963326-4-ap420073@gmail.com>
+ <20241218182547.177d83f8@kernel.org> <CAMArcTXAm9_zMN0g_2pECbz3855xN48wvkwrO0gnPovy92nt8g@mail.gmail.com>
+ <20241219062942.0d84d992@kernel.org>
+In-Reply-To: <20241219062942.0d84d992@kernel.org>
+From: Taehee Yoo <ap420073@gmail.com>
+Date: Fri, 20 Dec 2024 00:14:01 +0900
+Message-ID: <CAMArcTUToUPUceEFd0Xh_JL8kVZOX=rTarpy1iOAD5KvRWP5Fg@mail.gmail.com>
+Subject: Re: [PATCH net-next v6 3/9] bnxt_en: add support for tcp-data-split
+ ethtool command
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com, 
+	almasrymina@google.com, donald.hunter@gmail.com, corbet@lwn.net, 
+	michael.chan@broadcom.com, andrew+netdev@lunn.ch, hawk@kernel.org, 
+	ilias.apalodimas@linaro.org, ast@kernel.org, daniel@iogearbox.net, 
+	john.fastabend@gmail.com, dw@davidwei.uk, sdf@fomichev.me, 
+	asml.silence@gmail.com, brett.creeley@amd.com, linux-doc@vger.kernel.org, 
+	netdev@vger.kernel.org, kory.maincent@bootlin.com, 
+	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
+	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
+	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
+	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
+	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
+	willemb@google.com, daniel.zahka@gmail.com, 
+	Andy Gospodarek <gospo@broadcom.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed 2024-12-18 15:13:13, John Ogness wrote:
-> On 2024-12-18, Petr Mladek <pmladek@suse.com> wrote:
-> > My concern is taking a lock when processing a printf format, see
-> > below for more details.
-> 
-> Your concern is valid! printk() uses vsnprintf() to format records for
-> the kernel log. printk() may be called from contexts where locking is
-> forbidden (such as NMI). If vsnprintf() can take a lock, then either:
-> 
-> vsnprintf() must be made to be lockless
-> 
->   or
-> 
-> printk() must take another approach to string formatting
+On Thu, Dec 19, 2024 at 11:29=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> w=
+rote:
+>
+> On Thu, 19 Dec 2024 23:05:30 +0900 Taehee Yoo wrote:
+> > > > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_xdp.c b/driver=
+s/net/ethernet/broadcom/bnxt/bnxt_xdp.c
+> > > > index f88b641533fc..1bfff7f29310 100644
+> > > > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt_xdp.c
+> > > > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_xdp.c
+> > > > @@ -395,6 +395,10 @@ static int bnxt_xdp_set(struct bnxt *bp, struc=
+t bpf_prog *prog)
+> > > >                           bp->dev->mtu, BNXT_MAX_PAGE_MODE_MTU);
+> > > >               return -EOPNOTSUPP;
+> > > >       }
+> > > > +     if (prog && bp->flags & BNXT_FLAG_HDS) {
+> > > > +             netdev_warn(dev, "XDP is disallowed when HDS is enabl=
+ed.\n");
+> > > > +             return -EOPNOTSUPP;
+> > > > +     }
+> > >
+> > > And this check should also live in the core, now that core has access
+> > > to dev->ethtool->hds_config ? I think you can add this check to the
+> > > core in the same patch as the chunk referred to above.
+> >
+> > The bnxt_en disallows setting up both single and multi buffer XDP, but =
+core
+> > checks only single buffer XDP. So, if multi buffer XDP is attaching to
+> > the bnxt_en driver when HDS is enabled, the core can't filter it.
+>
+> Hm. Did you find this in the code, or did Broadcom folks suggest it?
+> AFAICT bnxt supports multi-buf XDP. Is there something in the code
+> that special-cases aggregation but doesn't work for pure HDS?
 
-There were the ideas to introduce a %pX[1] or %pf[2] formats. They would
-allow to pass pointer to a custom callback and parameters which
-then would be used by vsprintf(). This might allow to make it more
-obvious that the given vsprintf()/printk() might do some locking.
-
->   or
-> 
-> we accept that printk() can deadlock for certain format types in certain
-> contexts.
-
-I see that %pOFm does not add any new locking dependency.
-The same lock (devtree_lock) is already taken, for example,
-by %pOFC format.
-
-I do not want to revert everything now just because of theoretical
-problems. It somehow works because people use these formats only
-in dedicated subsystems. Also lockdep is able to catch a lot of
-problems.
-
-Well, it would be nice to document the lock dependency in
-Documentation/core-api/printk-formats.rst
-
-Best Regards,
-Petr
+There were some comments about HDS with XDP in the following thread.
+https://lore.kernel.org/netdev/20241022162359.2713094-1-ap420073@gmail.com/=
+T/
+I may misunderstand reviews from Broadcom folks.
