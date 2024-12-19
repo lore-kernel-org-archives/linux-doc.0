@@ -1,99 +1,70 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AA32111;
-	Thu, 19 Dec 2024 14:14:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF66225404;
+	Thu, 19 Dec 2024 14:24:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734617671; cv=none; b=MuAqwJpmL84acFpK5z69lLFmN9Tv06RBI+GR8HPuHzynsjrFerst+8KOabH89aCarI3Wa/pTPG6qtU2ulQRYwKmPUt1+lErRxGzoOnqKdO8YiHSGErMWFo3xwKbXTdQ5cyLMxPT/dhBVgGGmKS/B72lQQvneJL+VAQjl9PgGlu0=
+	t=1734618280; cv=none; b=j7zmDTOM640WVzcQLgVWjeK2lB5RLmZ76A2oPeTuuYZ4KRIktBWLR4Slp+pL90IryrcsajnJk/0Acw+BgdyCtoBe3HzdAfIrVyhzSckimOVAwuKubDGTxlWB7I9N9T3yh+A0iFbkn13osD7vAr/WQcngZHX0HcCkiMnTqbe1xa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734617671; c=relaxed/simple;
-	bh=SN3b/czpCYxfQq5adU6DOjuxCZ8Pm54/iwOowNPF5XQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pTvoM4usyxEr2GiX3KNZ9oCNKi2687uvCxLRMPl+QBPLEs75CszfBh0zoxgvxfrcEuAbrYqpVxp1KS8l7pT5VHQvdzniS8pOy7kOwelNS/Mkl1Drgj2qHzb9HwLKRcyHgRHPyBQliSQklT5XtcM8gT6pneq2r0LlaUTHk0HUybA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dlQ9H/zl; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1734618280; c=relaxed/simple;
+	bh=BU3sv4G/7lDvxRl3k7R+zi2g4pa89CroB5GbFcn4rkk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rHBywwnuMfq+uDDFyf1BVdL51YJuYAWq1vE5/9bja0Kc4qwlVTujLjbrmr6j+sAS4bcNoaMnw37978y/oYjgThHCi5kjy+VkryR9nVnkD86iqKRAqYjyb64PYWtTSM5abibpOVVwx/9qAqPKGMLLUyvQBstbG6Lc9HIZcmpqQN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vATuLOpz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dlQ9H/zl"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5d0ac27b412so1034910a12.1;
-        Thu, 19 Dec 2024 06:14:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734617668; x=1735222468; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ie0nzlfS/IDa+jPnuSGAMuTWaRJCkhKtiTYGfLG9nLY=;
-        b=dlQ9H/zlOnL5XBWtn26YZ+6iVTZVB6rnh1zyGLZ9Q/ETXAvfSUSxFcXOeGEltkcgo7
-         8AS2MZOkTVsIZJvAf6ZLspvqgMWg3jEaWt+f3XFhS9yG4RlrdcuF6xm+Ae3qdnO3yg2o
-         5dGhJymsxkEKATqQqKRKVK18jENAnb51aDYET6qluVkI4sfgD8XFJVIrzirgQPTUO7dT
-         K9mQotN1xHRuWN7FJaEUlxHB6LOs/P3+4vTgWCF52IksxCI+kWthhXSV4xW0CtkvdD7j
-         ciyhmwK+65t/p071GgRfGiNA5VZzgE5OZfnA0cXfaJzXPyDixi6YSnh9Iernn7TcRIX9
-         2oBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734617668; x=1735222468;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ie0nzlfS/IDa+jPnuSGAMuTWaRJCkhKtiTYGfLG9nLY=;
-        b=W5HdttiWN+WH14ZCSFlyAl5sKdIAx1t+/riZH+FkT6RUU59b4dNHw+JOgyPft19LHL
-         BHywwxx4GiBPOsWWz0QG/P3l4sc5a1UCAnRoYrPLr1I1/cJjvLnrjeyUTY5IRk4Zm2XG
-         jMXIX3E+Q+rSfgAzzkPJNkct2TfKuZ7/WiHXGU/pdy5s7F4JVUS2SVVFY2JPudGlV4OZ
-         DvAF1C2FGbYtUVa7g1pDbyI0KlZugGwQtzNOew+bxeWcVsUt23OlPi5XCFURqa5uOisw
-         CGw4NSQ20mnzmnWMSlRldbmhaqUfy7EnB9GdaJLmiyuEU9B8xRqj31DAqrKNT45TImLx
-         VTbw==
-X-Forwarded-Encrypted: i=1; AJvYcCVYw0hH8Nde8jNtgagYt+S8WNmqsuz9iKQ5PfmbIt1TugblVROtKEh28+LQ3LfVDQXouGqfMM8h@vger.kernel.org, AJvYcCXE55/y9yqyr4zZ3N1kjU9fqmg6W/x/7VLq+R7oSco0V9fNP2rUSwtwhuub0qEQFFe+HZgT6cKSqD8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrnMWdyXoATXahC05yT5GMx8jz4kGDm+yWITjTL9VQHwk+xejx
-	C1Dtqzr/cHbXX0wtpWmAoG2NIIHOu73k5Q9+0SZBOlvg4RFfSOpaccunPny5gtKqwCkELMxLi4Y
-	DL3icvyIiy3ZJ+KqUdCqrXo7RDJQ=
-X-Gm-Gg: ASbGncvKxuct+1ZVqSvpcQ7APkSPvNVe0iUd6gYS+HGTHTQoXW9J5H3ZBrWJdWgNYWj
-	Vv2trtubN+YvyrR1VLSbCd/vLXzArEsl0R3nKvUE=
-X-Google-Smtp-Source: AGHT+IH8k3I4LoEfNrVA5Du3SZIF0OAgaH1+h15PTd+QlKo8EU53mDv3lFegNUJd2J0kyG91jMmOyQ8cJqeih1/fiIk=
-X-Received: by 2002:a05:6402:5409:b0:5d0:c684:bae5 with SMTP id
- 4fb4d7f45d1cf-5d7ee3cc2d8mr6393353a12.13.1734617667383; Thu, 19 Dec 2024
- 06:14:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vATuLOpz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9C6CC4CECE;
+	Thu, 19 Dec 2024 14:24:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734618280;
+	bh=BU3sv4G/7lDvxRl3k7R+zi2g4pa89CroB5GbFcn4rkk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=vATuLOpz4sH8f5yehTfRo6EPOd0SGyf1w7a7Oira9WREkS8fkbsXyVm278WWKo8h7
+	 BEuw8p9vhoMH5zk/SD5AGSxiPG6Lmie6u3cmXuRAVoGwymExRguzI6Mw3AOdeJFSOt
+	 mGiT5w5LsYFEFKfc0aAxXRrj3R6ajce3OBkIRYifW+dcAw3XvMcnHYdvFFYFrEe660
+	 aaiNIQEgYv5eOPnfuqC89M5KJXp+krZ1WP2g3brvxiHRMvhA0JMTNR9DCxtML+IHbv
+	 a2H0kqEaGDOXzjBQzNJmwvrZqweI3jcalGXzUY+9wX2IiFduGSCCJ3iFWpg3ZEqOi2
+	 3Fwuun8wcYubg==
+Date: Thu, 19 Dec 2024 06:24:38 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Guowei Dang <guowei.dang@foxmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ netdev@vger.kernel.org, Jesper Dangaard Brouer <hawk@kernel.org>, Ilias
+ Apalodimas <ilias.apalodimas@linaro.org>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Yunsheng Lin <linyunsheng@huawei.com>, Furong Xu
+ <0x1207@gmail.com>
+Subject: Re: [PATCH net-next v1] net: page_pool: add
+ page_pool_put_page_nosync()
+Message-ID: <20241219062438.1c89b98b@kernel.org>
+In-Reply-To: <tencent_76E62F6A47A7C7E818FC7C74A6B02772F308@qq.com>
+References: <tencent_76E62F6A47A7C7E818FC7C74A6B02772F308@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241218144530.2963326-1-ap420073@gmail.com> <20241218144530.2963326-9-ap420073@gmail.com>
- <20241218184444.1e726730@kernel.org>
-In-Reply-To: <20241218184444.1e726730@kernel.org>
-From: Taehee Yoo <ap420073@gmail.com>
-Date: Thu, 19 Dec 2024 23:14:16 +0900
-Message-ID: <CAMArcTXKnbamu_H-OzfbwWKjy4YNAFAHygBbAezJEU0yBHvh0Q@mail.gmail.com>
-Subject: Re: [PATCH net-next v6 8/9] net: disallow setup single buffer XDP
- when tcp-data-split is enabled.
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com, 
-	almasrymina@google.com, donald.hunter@gmail.com, corbet@lwn.net, 
-	michael.chan@broadcom.com, andrew+netdev@lunn.ch, hawk@kernel.org, 
-	ilias.apalodimas@linaro.org, ast@kernel.org, daniel@iogearbox.net, 
-	john.fastabend@gmail.com, dw@davidwei.uk, sdf@fomichev.me, 
-	asml.silence@gmail.com, brett.creeley@amd.com, linux-doc@vger.kernel.org, 
-	netdev@vger.kernel.org, kory.maincent@bootlin.com, 
-	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
-	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
-	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
-	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
-	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
-	willemb@google.com, daniel.zahka@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Dec 19, 2024 at 11:44=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> w=
-rote:
->
-> On Wed, 18 Dec 2024 14:45:29 +0000 Taehee Yoo wrote:
-> > +          bpf->command =3D=3D XDP_SETUP_PROG_HW) &&
->
-> PROG_HW will be fine, you can drop this part of the check.
-> HDS is a host feature, if the program is offloaded offload driver
-> does much more precise geometry validation already.
+On Thu, 19 Dec 2024 11:11:38 +0800 Guowei Dang wrote:
+> Add page_pool_put_page_nosync() to respond to dma_sync_size being 0.
+> 
+> The purpose of this is to make the semantics more obvious and may
+> enable removing some checkings in the future.
+> 
+> And in the long term, treating the nosync scenario separately provides
+> more flexibility for the user and enable removing of the
+> PP_FLAG_DMA_SYNC_DEV in the future.
+> 
+> Since we do have a page_pool_put_full_page(), adding a variant for
+> the nosync seems reasonable.
 
-Thanks, I will remove this condition.
-
-Thanks a lot!
-Taehee Yoo
+You should provide an upstream user with the API.
+But IMHO this just complicates the already very large API, 
+for little benefit. 
+I'm going to leave this in patchwork for a day in case page
+pool maintainers disagree, but I vote "no".
