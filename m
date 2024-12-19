@@ -1,111 +1,353 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E05A17C;
-	Thu, 19 Dec 2024 14:37:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6686341C64;
+	Thu, 19 Dec 2024 14:39:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734619080; cv=none; b=fWl2IuWMBFJ4I7yu8DbE1YJQJ7gwF2BtMODPRoJNXYgDJXmmxoomIBJrIaex7PzvbpwLsc+aJo3RtVsIT9L9n0BL0QuqOU2GD/yFmbsKMwt0/tWwspY74bVFJeTepZ2DcRRzidLtSJfzpMFC8xGSx3Yi2pARuzZnnWGBYwJx9bQ=
+	t=1734619182; cv=none; b=C92Dx3iNbBK0iOc3rHo0f4CTae6eTBZ905aQigbQhJhCgOMBIqhFYxX7CP/ralYQlO2c//i/ZjcCCfOUmbFhI8vwNi6UmYcFoTzzUqf715Ig4CWQSTZG37aCiqdKHvdtLvrO7jnZSS9g8jpMG+QxIiMTTDC5JB0SAu9kS3pMzKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734619080; c=relaxed/simple;
-	bh=NjI6i5qeo7whHIRT/3vNBPOor6E3SlvcrErnr/ttbCA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Hzxu1eyqtsAkw5GcgMP6BT/1gxF4dKl68DpqYM3EOta2jStPEeTl5qlyNPmnuiTdXSe6GytDqOU5BR/XhDiJm8QNct8E949tzVME0+abEEMqjcnQ+QTJ1bHmjD0fhDwvz0iDkxgM1oqbrHF+/gbs0V+p7GYjWDvT6uYR8AgjyR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iWexPPXq; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1734619182; c=relaxed/simple;
+	bh=S+UfMY1vVhn5lcjqWfM26VYummzYqtnHzdbWrInp4Fo=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=Q1+14U0FhD2h0TuRE7LkqWvuQirpjxkErX3XHHOodYHwFnorRBk50FQLppmhHK7dX9rGL55Ly4VkvP5UTBJH5BmoJNjpIcSREcZUdssslDtD3zT7APzJwEzoQhcrlyLOVe9qyN8KavhPmoC8r4rPz7UMWMkbdlLS0z99KVDBKbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZEQkaC1x; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iWexPPXq"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5cecbddb574so1309253a12.1;
-        Thu, 19 Dec 2024 06:37:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734619077; x=1735223877; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mXX798Ae/hwtwg3qjpPRVUNwxJBK+LNIPfXosAeJ080=;
-        b=iWexPPXqNLUkGJRaEmziCGHhnd0vgPThq6GhzNCksANmyl211lZ9Eg2BbJL2UK2Swy
-         XA/zS+8sG4yV6potre8iDgCwI8UIC2Twh22ZREG43ee7q9WL6mJeus99MFhcl0pEZiM3
-         BDeUZE1S07U1nEq1wrg4asceA3vh0OlGs/d5cBTIWC3j/eaX1KZO3/W6I3BZHjwE0n7n
-         jAQuZCHNiXUuPavTXLrbFGRGJm6lTPClwQeHHTZL6N9+RfLCPoHuvksTlqoFFQQ9llH5
-         lfBss1WaYYGOYkDenP8j0/wJZOCYBAL2nz2FphhW3wzRJfNY9f4hAERwMWn3y3rp20CB
-         9Y9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734619077; x=1735223877;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mXX798Ae/hwtwg3qjpPRVUNwxJBK+LNIPfXosAeJ080=;
-        b=dT/zlpeu7+SQptS7vQKA/ys0WhY6wrCAtEWNmUc/po1IoseaveAZGdh40S1VOM8K8c
-         ua88pI74eBD94Qy6yPceIossRfuMSZb0snUl40I+4c+KqTp/DIEKd11Zbk/dR8lQuKtD
-         e4WOxoxTyZdxlwWVkZGfiFNXesogi1Ecl0SXs6ZWDl3urtcXYriMA/IXBTgllBWlA31O
-         rr3gLD458Oz83ydJEc0hAi7tCkzsflPJhWgMM8Vlx2G8IcjYrOppJb52h1nnD1xVrXOZ
-         fddRcaG0EdPKFhA/UtEnVY5YKSpcycsHlqtoXeit/qfGqH+HhKevaaSolXrVhH4Oo6JO
-         1kVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUaXe5rzp+X+wSCMmhH8T33bUTMW+BoArUGVPFA5NdnOF1aVJor7w7jDsBrVaxW8Kv3I7Tw6wV0SSw=@vger.kernel.org, AJvYcCXJYPyfBn6TSy+34OXJfX2lPXpvFfr7JGrWroxn0ZeRYeQR7wIFYkgvCsxbhOP+s2A/L5uQCdAx@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxh3djUBXSnk6GI5mTj7VocwSG2Nh0gjopvV2p0BcwpIZd4Gen7
-	momPJktuwGmCfY/CLIvhIorr0ec3o4akm6qVrh7N8Qp6ZyX7aWGieGG4eKRTEUjlKqhgND3BLpi
-	t9JXEcUQW7i69S6H1m5iJeWxUkkU=
-X-Gm-Gg: ASbGnctzhBoEvVvgqz8K+P68GiQesffNdry5F4fkLV2f8+lGRWr5MPdN1oiDf7MQag2
-	9zOfuO4F5PB9Y98SAlM+cPfkUPJTN0+N3oHuol08=
-X-Google-Smtp-Source: AGHT+IHCabhWvDWKzLxgFO2fB0d0NozcBMeeacGFfgszVYezH2ilzNU6swwWwB9AKg0E1phdJNroBQYzeZy1Ep2I9eY=
-X-Received: by 2002:a05:6402:26c6:b0:5d0:c9e6:30b9 with SMTP id
- 4fb4d7f45d1cf-5d7ee3a2840mr6144179a12.3.1734619077525; Thu, 19 Dec 2024
- 06:37:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZEQkaC1x"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734619181; x=1766155181;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=S+UfMY1vVhn5lcjqWfM26VYummzYqtnHzdbWrInp4Fo=;
+  b=ZEQkaC1xxsVpImxBisYiBMo07CLZPzUXUVpanKUV1fq2UNXnfJcXr2d3
+   7dRsQhYrGayTxnZ6MJJqc2GXyNgiv3oBry0AznhfqItsNf6lSYXkdyAsv
+   G5qWBDWdCZM8LqSbC1xOdUz+FyJ124ySFyZC0MgY8RA9uTQw8KRmTyWG6
+   2J6iPxbbe680r7wFz1ND30wzZlHKH0PlFhmmQi7fkaVbQiNu+56K/Yqhr
+   uqW4YOhdsZmi5+ac//hToOb9ABewALAvVS5R5WskMUaNv6ITUt1yUE6uO
+   FY+/09zHhW9DYLS8cdHK9ovJ2DOGRLuj7HB2MeALCrScPQFs0w6CAumjI
+   A==;
+X-CSE-ConnectionGUID: ANgfCdjdTJOmM1jecUY9cQ==
+X-CSE-MsgGUID: qgA6sb9sTdKhzYpIvqa+pw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="45730061"
+X-IronPort-AV: E=Sophos;i="6.12,248,1728975600"; 
+   d="scan'208";a="45730061"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 06:39:32 -0800
+X-CSE-ConnectionGUID: 1xTirdLBRM6BJkMONemJMA==
+X-CSE-MsgGUID: NBJVfSNJTweZCx7AMQZXJA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,248,1728975600"; 
+   d="scan'208";a="98103765"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.7])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 06:39:29 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Thu, 19 Dec 2024 16:39:24 +0200 (EET)
+To: Mario Limonciello <mario.limonciello@amd.com>
+cc: Borislav Petkov <bp@alien8.de>, Hans de Goede <hdegoede@redhat.com>, 
+    x86@kernel.org, "Gautham R . Shenoy" <gautham.shenoy@amd.com>, 
+    Perry Yuan <perry.yuan@amd.com>, LKML <linux-kernel@vger.kernel.org>, 
+    linux-doc@vger.kernel.org, linux-pm@vger.kernel.org, 
+    platform-driver-x86@vger.kernel.org, 
+    Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
+    Perry Yuan <Perry.Yuan@amd.com>
+Subject: Re: [PATCH v7 04/12] platform/x86: hfi: Introduce AMD Hardware
+ Feedback Interface Driver
+In-Reply-To: <20241130152023.684-5-mario.limonciello@amd.com>
+Message-ID: <8f95fad6-216c-ee66-dfa4-bc4bf37ae93f@linux.intel.com>
+References: <20241130152023.684-1-mario.limonciello@amd.com> <20241130152023.684-5-mario.limonciello@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241218144530.2963326-1-ap420073@gmail.com> <20241218144530.2963326-10-ap420073@gmail.com>
- <20241218184917.288f0b29@kernel.org>
-In-Reply-To: <20241218184917.288f0b29@kernel.org>
-From: Taehee Yoo <ap420073@gmail.com>
-Date: Thu, 19 Dec 2024 23:37:45 +0900
-Message-ID: <CAMArcTWH=xuExBBxGjOL2OUCdkQiFm8PK4mBbyWcdrK282nS9w@mail.gmail.com>
-Subject: Re: [PATCH net-next v6 9/9] netdevsim: add HDS feature
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com, 
-	almasrymina@google.com, donald.hunter@gmail.com, corbet@lwn.net, 
-	michael.chan@broadcom.com, andrew+netdev@lunn.ch, hawk@kernel.org, 
-	ilias.apalodimas@linaro.org, ast@kernel.org, daniel@iogearbox.net, 
-	john.fastabend@gmail.com, dw@davidwei.uk, sdf@fomichev.me, 
-	asml.silence@gmail.com, brett.creeley@amd.com, linux-doc@vger.kernel.org, 
-	netdev@vger.kernel.org, kory.maincent@bootlin.com, 
-	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
-	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
-	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
-	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
-	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
-	willemb@google.com, daniel.zahka@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
 
-On Thu, Dec 19, 2024 at 11:49=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> w=
-rote:
->
-> On Wed, 18 Dec 2024 14:45:30 +0000 Taehee Yoo wrote:
-> >  drivers/net/netdevsim/ethtool.c   | 15 ++++++++++++++-
-> >  drivers/net/netdevsim/netdevsim.h |  4 ++++
->
-> netdevsim patches must come with a selftest that uses them :)
-> We support bash, C and Python tests. Look inside
-> tools/testing/selftests/drivers/net/
-> These tests could serve as examples: stats.py, hw/ncdevmem.c
->
+On Sat, 30 Nov 2024, Mario Limonciello wrote:
 
+> From: Perry Yuan <Perry.Yuan@amd.com>
+> 
+> The AMD Heterogeneous core design and Hardware Feedback Interface (HFI)
+> provide behavioral classification and a dynamically updated ranking table
+> for the scheduler to use when choosing cores for tasks.
+> 
+> There are two CPU core types defined: `Classic Core` and `Dense Core`.
+> "Classic" cores are the standard performance cores, while "Dense" cores
+> are optimized for area and efficiency.
+> 
+> Heterogeneous compute refers to CPU implementations that are comprised
+> of more than one architectural class, each with two capabilities. This
+> means each CPU reports two separate capabilities: "perf" and "eff".
+> 
+> Each capability lists all core ranking numbers between 0 and 255, where
+> a higher number represents a higher capability.
+> 
+> Heterogeneous systems can also extend to more than two architectural
+> classes.
+> 
+> The purpose of the scheduling feedback mechanism is to provide information
+> to the operating system scheduler in real time, allowing the scheduler to
+> direct threads to the optimal core during task scheduling.
+> 
+> All core ranking data are provided by the PMFW via a shared memory ranking
+> table, which the driver reads and uses to update core capabilities to the
+> scheduler. When the hardware updates the table, it generates a platform
+> interrupt to notify the OS to read the new ranking table.
+> 
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+> Reviewed-by: Gautham R. Shenoy <gautham.shenoy@amd.com>
+> Signed-off-by: Perry Yuan <perry.yuan@amd.com>
+> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
+> Reviewed-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
+> v7:
+>  * Adjust Kconfig to 80 characters
+> ---
+>  drivers/platform/x86/amd/Kconfig      |   1 +
+>  drivers/platform/x86/amd/Makefile     |   1 +
+>  drivers/platform/x86/amd/hfi/Kconfig  |  20 ++++
+>  drivers/platform/x86/amd/hfi/Makefile |   7 ++
+>  drivers/platform/x86/amd/hfi/hfi.c    | 161 ++++++++++++++++++++++++++
+>  5 files changed, 190 insertions(+)
+>  create mode 100644 drivers/platform/x86/amd/hfi/Kconfig
+>  create mode 100644 drivers/platform/x86/amd/hfi/Makefile
+>  create mode 100644 drivers/platform/x86/amd/hfi/hfi.c
+> 
+> diff --git a/drivers/platform/x86/amd/Kconfig b/drivers/platform/x86/amd/Kconfig
+> index c3e086ea64fc6..589d61ebf726b 100644
+> --- a/drivers/platform/x86/amd/Kconfig
+> +++ b/drivers/platform/x86/amd/Kconfig
+> @@ -6,6 +6,7 @@
+>  source "drivers/platform/x86/amd/hsmp/Kconfig"
+>  source "drivers/platform/x86/amd/pmf/Kconfig"
+>  source "drivers/platform/x86/amd/pmc/Kconfig"
+> +source "drivers/platform/x86/amd/hfi/Kconfig"
+>  
+>  config AMD_3D_VCACHE
+>  	tristate "AMD 3D V-Cache Performance Optimizer Driver"
+> diff --git a/drivers/platform/x86/amd/Makefile b/drivers/platform/x86/amd/Makefile
+> index 56f62fc9c97b4..c50e93c3334cf 100644
+> --- a/drivers/platform/x86/amd/Makefile
+> +++ b/drivers/platform/x86/amd/Makefile
+> @@ -10,3 +10,4 @@ obj-$(CONFIG_AMD_PMC)		+= pmc/
+>  obj-$(CONFIG_AMD_HSMP)		+= hsmp/
+>  obj-$(CONFIG_AMD_PMF)		+= pmf/
+>  obj-$(CONFIG_AMD_WBRF)		+= wbrf.o
+> +obj-$(CONFIG_AMD_HFI)		+= hfi/
+> diff --git a/drivers/platform/x86/amd/hfi/Kconfig b/drivers/platform/x86/amd/hfi/Kconfig
+> new file mode 100644
+> index 0000000000000..532939eb08a6a
+> --- /dev/null
+> +++ b/drivers/platform/x86/amd/hfi/Kconfig
+> @@ -0,0 +1,20 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +#
+> +# AMD Hardware Feedback Interface Driver
+> +#
+> +
+> +config AMD_HFI
+> +	bool "AMD Hetero Core Hardware Feedback Driver"
+> +	depends on ACPI
+> +	depends on CPU_SUP_AMD
+> +	help
+> +	 Select this option to enable the AMD Heterogeneous Core Hardware
+> +	 Feedback Interface. If selected, hardware provides runtime thread
+> +	 classification guidance to the operating system on the performance and
+> +	 energy efficiency capabilities of each heterogeneous CPU core. These
+> +	 capabilities may vary due to the inherent differences in the core types
+> +	 and can also change as a result of variations in the operating
+> +	 conditions of the system such as power and thermal limits. If selected,
+> +	 the kernel relays updates in heterogeneous CPUs' capabilities to
+> +	 userspace, allowing for more optimal task scheduling and resource
+> +	 allocation, leveraging the diverse set of cores available.
+> diff --git a/drivers/platform/x86/amd/hfi/Makefile b/drivers/platform/x86/amd/hfi/Makefile
+> new file mode 100644
+> index 0000000000000..672c6ac106e95
+> --- /dev/null
+> +++ b/drivers/platform/x86/amd/hfi/Makefile
+> @@ -0,0 +1,7 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# AMD Hardware Feedback Interface Driver
+> +#
+> +
+> +obj-$(CONFIG_AMD_HFI) += amd_hfi.o
+> +amd_hfi-objs := hfi.o
+> diff --git a/drivers/platform/x86/amd/hfi/hfi.c b/drivers/platform/x86/amd/hfi/hfi.c
+> new file mode 100644
+> index 0000000000000..2cd71d79a22c9
+> --- /dev/null
+> +++ b/drivers/platform/x86/amd/hfi/hfi.c
+> @@ -0,0 +1,161 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * AMD Hardware Feedback Interface Driver
+> + *
+> + * Copyright (C) 2024 Advanced Micro Devices, Inc. All Rights Reserved.
+> + *
+> + * Authors: Perry Yuan <Perry.Yuan@amd.com>
+> + *          Mario Limonciello <mario.limonciello@amd.com>
+> + */
+> +
+> +#define pr_fmt(fmt)  "amd-hfi: " fmt
+> +
+> +#include <linux/acpi.h>
+> +#include <linux/cpu.h>
+> +#include <linux/cpumask.h>
+> +#include <linux/gfp.h>
+> +#include <linux/init.h>
+> +#include <linux/io.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/smp.h>
+> +
+> +#define AMD_HFI_DRIVER		"amd_hfi"
+> +#define AMD_HETERO_CPUID_27	0x80000027
+> +static struct platform_device *device;
+> +
+> +struct amd_hfi_data {
+> +	const char	*name;
+> +	struct device	*dev;
+> +	struct mutex	lock;
+> +};
+> +
+> +struct amd_hfi_classes {
+> +	u32	perf;
+> +	u32	eff;
+> +};
+> +
+> +/**
+> + * struct amd_hfi_cpuinfo - HFI workload class info per CPU
+> + * @cpu:		cpu index
+> + * @cpus:		mask of cpus associated with amd_hfi_cpuinfo
+> + * @class_index:	workload class ID index
+> + * @nr_class:		max number of workload class supported
+> + * @amd_hfi_classes:	current cpu workload class ranking data
+> + *
+> + * Parameters of a logical processor linked with hardware feedback class
+> + */
+> +struct amd_hfi_cpuinfo {
+> +	int		cpu;
+> +	cpumask_var_t	cpus;
+> +	s16		class_index;
+> +	u8		nr_class;
+> +	struct amd_hfi_classes	*amd_hfi_classes;
+> +};
+> +
+> +static DEFINE_PER_CPU(struct amd_hfi_cpuinfo, amd_hfi_cpuinfo) = {.class_index = -1};
+> +
+> +static int amd_hfi_alloc_class_data(struct platform_device *pdev)
+> +{
+> +	struct amd_hfi_cpuinfo *hfi_cpuinfo;
+> +	struct device *dev = &pdev->dev;
+> +	int idx;
+> +	int nr_class_id;
+> +
+> +	nr_class_id = cpuid_eax(AMD_HETERO_CPUID_27);
+> +	if (nr_class_id < 0 || nr_class_id > 255) {
+> +		dev_err(dev, "failed to get number of supported classes: %d\n",
+> +			nr_class_id);
+> +		return -EINVAL;
+> +	}
+> +
+> +	for_each_present_cpu(idx) {
+> +		struct amd_hfi_classes *classes;
+> +
+> +		classes = devm_kzalloc(dev,
+> +				       nr_class_id * sizeof(struct amd_hfi_classes),
+> +				       GFP_KERNEL);
 
-> TBH it doesn't look like netdevsim _actually_ supports HDS,
-> as in forwarded packets will not be split with the current
-> code, or linearized. You'd need to modify nsim_start_xmit()
-> to either linearize the packet or not based on *peer's* HDS
-> settings.
+devm_kcalloc()?
 
-Ah, Sorry for the sloppy change.
-I will write a selftest. Also, I will modify nsim_start_xmit() to support H=
-DS.
-The example would be very helpful to me.
+-- 
+ i.
 
-Thank you so much!
-Taehee Yoo.
+> +		if (!classes)
+> +			return -ENOMEM;
+> +		hfi_cpuinfo = per_cpu_ptr(&amd_hfi_cpuinfo, idx);
+> +		hfi_cpuinfo->amd_hfi_classes = classes;
+> +		hfi_cpuinfo->nr_class = nr_class_id;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct acpi_device_id amd_hfi_platform_match[] = {
+> +	{"AMDI0104", 0},
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(acpi, amd_hfi_platform_match);
+> +
+> +static int amd_hfi_probe(struct platform_device *pdev)
+> +{
+> +	struct amd_hfi_data *amd_hfi_data;
+> +	int ret;
+> +
+> +	if (!acpi_match_device(amd_hfi_platform_match, &pdev->dev))
+> +		return -ENODEV;
+> +
+> +	amd_hfi_data = devm_kzalloc(&pdev->dev, sizeof(*amd_hfi_data), GFP_KERNEL);
+> +	if (!amd_hfi_data)
+> +		return -ENOMEM;
+> +
+> +	amd_hfi_data->dev = &pdev->dev;
+> +	ret = devm_mutex_init(&pdev->dev, &amd_hfi_data->lock);
+> +	if (ret)
+> +		return ret;
+> +	platform_set_drvdata(pdev, amd_hfi_data);
+> +
+> +	ret = amd_hfi_alloc_class_data(pdev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +static struct platform_driver amd_hfi_driver = {
+> +	.driver = {
+> +		.name = AMD_HFI_DRIVER,
+> +		.owner = THIS_MODULE,
+> +		.acpi_match_table = ACPI_PTR(amd_hfi_platform_match),
+> +	},
+> +	.probe = amd_hfi_probe,
+> +};
+> +
+> +static int __init amd_hfi_init(void)
+> +{
+> +	int ret;
+> +
+> +	if (acpi_disabled ||
+> +	    !cpu_feature_enabled(X86_FEATURE_AMD_HETEROGENEOUS_CORES) ||
+> +	    !cpu_feature_enabled(X86_FEATURE_AMD_WORKLOAD_CLASS))
+> +		return -ENODEV;
+> +
+> +	device = platform_device_register_simple(AMD_HFI_DRIVER, -1, NULL, 0);
+> +	if (IS_ERR(device)) {
+> +		pr_err("unable to register HFI platform device\n");
+> +		return PTR_ERR(device);
+> +	}
+> +
+> +	ret = platform_driver_register(&amd_hfi_driver);
+> +	if (ret)
+> +		pr_err("failed to register HFI driver\n");
+> +
+> +	return ret;
+> +}
+> +
+> +static __exit void amd_hfi_exit(void)
+> +{
+> +	platform_device_unregister(device);
+> +	platform_driver_unregister(&amd_hfi_driver);
+> +}
+> +module_init(amd_hfi_init);
+> +module_exit(amd_hfi_exit);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("AMD Hardware Feedback Interface Driver");
+> 
