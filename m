@@ -1,136 +1,70 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A48117C
-	for <linux-doc@vger.kernel.org>; Thu, 19 Dec 2024 14:44:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A7541C79;
+	Thu, 19 Dec 2024 14:45:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734619466; cv=none; b=BML5yvpRXcW85SyjFGzz8ClOODbNN+RNEXLTv+oZ+F1ziG6M8Z3pzSLWWC7BPdV/Cd3131aBwLD196YzqdXMSszKX3igS/SDQ6kyG96q0YAJhPcXDmRQUjZR+i8gkTFP/itT7+gYjuBJG/b5yJgLzCEYwvNtPZ1ZSOLdKVYgg40=
+	t=1734619535; cv=none; b=KimzroPHi3FqQCluOcK6bM1hIXBcb4V1S25NHjFWhh6UqFLo4Ddnc0U6n3jTi3xhcNBIITYh96L+8qFDeC2EKYdoFXUDgn5HWi/3RqbpRjMTqHBhklRUrbpgv1t47aQRNlR/Hd+wZUWE7t1xLiig1EAXdkHh88peBj6uDRtBh5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734619466; c=relaxed/simple;
-	bh=kuzNS9K72EkSrNeLIVLdw6jZ00C6nGxLQgNNkN4fUXI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OfHjJoocURhM7ExmDWlTOYqWpvQSI/RyZqsMmFs3PPWNT7yscoTAbaibRaOV2asLj0CThFOVD6fkBivn5I5tRX8Fc6P51YPZUFoOCZBAXoITFdC3VwlybDx1RD61cG8cUwOrHD9jdZ+2CUqHfKtY1y+NdsqJUIihWg41KWrT2PQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=YDlLqmwq; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1734619535; c=relaxed/simple;
+	bh=6f8nqFn0DLcwByMUHHSmStBbq0eGOyRVrO+eVq/o75Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JrxPZfG8qQ/fWekMIbVUPAayvDO8HcOyqB+4X8cpfZuz1mofgi+8kRgR58mxOtexWA+ZEiTjHGG8k2tddZuL+MeLUfOTwK80wVKUlsrAzY5zUHQZpFabP+ehIm77XJeAnRAVi2KRI1HLS0YUBokh2eSY+dQuxjoDkYXUgKcRlpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vKIvtwyv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="YDlLqmwq"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-434b3e32e9dso9793365e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 19 Dec 2024 06:44:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1734619461; x=1735224261; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=YUe8L/RSJG7X1qPU8YCoCZFztQIhaGAvtLCydCuhUAE=;
-        b=YDlLqmwqvuSeLVYSYfeKdn3Zfsvrc53LUH36k23y2JdV14mWysgKFmbZezRaZwhljR
-         +y7rpaWlpOWhnig/LkDhgDxbUroY1tAWngBBUy8Dnxyej3nE/h3gJfENRsrDuuUZPx7C
-         7ew6MNPRHPZDm+OGDt88FNGW/DbsqSVuAB6iTkVD8+j5Geh2FX901kGxL2d9nDUWDqAl
-         VSRq+o6XjsOqBVbVUU4G3TdgYm9wy7F1nQ0NYXnzWUW39FsmnB/ATIozCk/dKCxyYj/2
-         6Rv+zonOlHt856ZGyP0pZNX1Q9LzxkwP5f3Lomy3CuzX7b9HP99FmY2HjV4+m3okH7da
-         t+uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734619461; x=1735224261;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YUe8L/RSJG7X1qPU8YCoCZFztQIhaGAvtLCydCuhUAE=;
-        b=Yk2J+NQjfhRUfgcyuevASa88Ec15UlAJZShhjpau/d4tXRtya+UszA0xCVKpI7AJfS
-         yzNMptzDCr2BBEGevWPAUeeEcJcZwtMs5j7keatr3nGpTyg/76dS3TAAeG6qD2tCch5s
-         Zb8rcbMSFtdu9FKBZSPDfFHeJPKAufSaJnpOQ2jZBF8dz9pR6SEe3rAXVgNJx+2AOFFj
-         PG1uO4fPRxHzXJ2/C2px583bbzsEWOcIBFBJdZhec4d1zXQ2rRum8yAQzPgzMKABAYtt
-         4MdPTGub8TKk0SJS5up9o6uftYoFWx4mdH5NTdmnoDFYeMIHeeTGfZSK2C+hlVl/0/e8
-         43KA==
-X-Forwarded-Encrypted: i=1; AJvYcCXwqy085Yn18aZG8vUfT6M4akr7xu8wHq9oJxPgu8PQTWdlhYa2QFTsbWlSKm17ed6U8LOTMYNOydo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEdUExpTmSP0KzJy2jSed7lbQ1F2lzwCB+9hHg0JqSW5Ixg73t
-	TJIBmEdGMjGaovsczWhP0GvpCsE//6Qy0H6wzOJgJuBEnz5mRW4VLYq4XGvB4Bk=
-X-Gm-Gg: ASbGncv4JElPGlniuwLSqba3A5IUgvxWNQ/3oBraJS0nzHCBZnBeNBGPLQ4RKiBHayn
-	7WV/GRpyUns1Cvq/8QYYvw5A6HrjeH7gGTmZZ6em7IhYobEi4SbeTxmjqVsw2G8wcESt6r4ytKC
-	XRD1TAh+SlrHkpRHxKvPJGAGXfpQXGMrttA6ugDOm9U2BWzYQWtTG/fTJMFdl43FgN0bP+pyyV3
-	fBxfzy4GlwvfCIUnu/sRHgi10aNvWuGxpR5LHzxT83AMPo9nZASoqWoMg==
-X-Google-Smtp-Source: AGHT+IETUPBPDpfMGSiHPHr2l+GQu1KRtFJb1OUCyY4yEHQND0y6u+pyC88kJZkjcOETPOdloGbAvQ==
-X-Received: by 2002:a05:6000:1867:b0:385:fd07:85f4 with SMTP id ffacd0b85a97d-388e4d64711mr7110212f8f.31.1734619461577;
-        Thu, 19 Dec 2024 06:44:21 -0800 (PST)
-Received: from pathway.suse.cz ([176.114.240.50])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8add5asm1677939f8f.107.2024.12.19.06.44.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Dec 2024 06:44:21 -0800 (PST)
-Date: Thu, 19 Dec 2024 15:44:18 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Saravana Kannan <saravanak@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Zijun Hu <quic_zijuhu@quicinc.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: ssize_t: was: Re: [PATCH] of: Add printf '%pOFm' for generating
- modalias
-Message-ID: <Z2QxQhvserbVvmrB@pathway.suse.cz>
-References: <20241217183711.2525863-1-robh@kernel.org>
- <Z2KzcORZocQAwAi9@pathway.suse.cz>
- <CAL_JsqKRpeCgd=6PeHMHnZaJHqn2SAob2J6Yv07n7OdCY++GWA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vKIvtwyv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39C8BC4CED0;
+	Thu, 19 Dec 2024 14:45:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734619534;
+	bh=6f8nqFn0DLcwByMUHHSmStBbq0eGOyRVrO+eVq/o75Y=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=vKIvtwyvfeCj5Ufr/H19zzXaqNRtYZweUOhLxxP9xXGkin6a1ks/l9IlBWt/LH1Ok
+	 5BJPmw/yr4tdoFYyaJ8NqwmN4hLHcVoCqH62qmC/d/L0Nbipsw1ODel97Wk+quwWuQ
+	 YsJBhS2PRI/r+ocd4ELx8mfhgS4QM6/MDVs9ft1eS+BmfPvYE/rY/wFEt+ebAMwRZU
+	 zUfAaCI4MW+YHn4R0ZnYvDOVKOwGykrWuRTvQArMZVs55gODKUf9YYgSwzdsyustPs
+	 xLNrSK1DIBpMzqp9j+BU3PIwYbabRBsdGhT+JXwUzIl+90nUDNI/i1YiL4QP9VDXw3
+	 9F16IExEq+Sag==
+Date: Thu, 19 Dec 2024 06:45:32 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Taehee Yoo <ap420073@gmail.com>
+Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
+ almasrymina@google.com, donald.hunter@gmail.com, corbet@lwn.net,
+ michael.chan@broadcom.com, andrew+netdev@lunn.ch, hawk@kernel.org,
+ ilias.apalodimas@linaro.org, ast@kernel.org, daniel@iogearbox.net,
+ john.fastabend@gmail.com, dw@davidwei.uk, sdf@fomichev.me,
+ asml.silence@gmail.com, brett.creeley@amd.com, linux-doc@vger.kernel.org,
+ netdev@vger.kernel.org, kory.maincent@bootlin.com,
+ maxime.chevallier@bootlin.com, danieller@nvidia.com,
+ hengqi@linux.alibaba.com, ecree.xilinx@gmail.com,
+ przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com,
+ rrameshbabu@nvidia.com, idosch@nvidia.com, jiri@resnulli.us,
+ bigeasy@linutronix.de, lorenzo@kernel.org, jdamato@fastly.com,
+ aleksander.lobakin@intel.com, kaiyuanz@google.com, willemb@google.com,
+ daniel.zahka@gmail.com
+Subject: Re: [PATCH net-next v6 9/9] netdevsim: add HDS feature
+Message-ID: <20241219064532.36dc07b6@kernel.org>
+In-Reply-To: <CAMArcTWH=xuExBBxGjOL2OUCdkQiFm8PK4mBbyWcdrK282nS9w@mail.gmail.com>
+References: <20241218144530.2963326-1-ap420073@gmail.com>
+	<20241218144530.2963326-10-ap420073@gmail.com>
+	<20241218184917.288f0b29@kernel.org>
+	<CAMArcTWH=xuExBBxGjOL2OUCdkQiFm8PK4mBbyWcdrK282nS9w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAL_JsqKRpeCgd=6PeHMHnZaJHqn2SAob2J6Yv07n7OdCY++GWA@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed 2024-12-18 11:10:54, Rob Herring wrote:
-> On Wed, Dec 18, 2024 at 5:35 AM Petr Mladek <pmladek@suse.com> wrote:
-> >
-> > On Tue 2024-12-17 12:37:09, Rob Herring (Arm) wrote:
-> > > The callers for of_modalias() generally need the module alias as part of
-> > > some larger string. That results in some error prone manipulation of the
-> > > buffer prepend/append the module alias string. In fact,
-> > > of_device_uevent_modalias() has several issues. First, it's off by one
-> > > too few characters in utilization of the full buffer. Second, the error
-> > > paths leave OF_MODALIAS with a truncated value when in the end nothing
-> > > should be added to the buffer. It is also fragile because it needs
-> > > internal details of struct kobj_uevent_env. add_uevent_var() really
-> > > wants to write the env variable and value in one shot which would need
-> > > either a temporary buffer for value or a format specifier.
-> > >
-> > > Fix these issues by adding a new printf format specifier, "%pOFm". With
-> > > the format specifier in place, simplify all the callers of
-> > > of_modalias(). of_modalias() can also be simplified with vsprintf()
-> > > being the only caller as it avoids the error conditions.
-> > >
-> > > --- a/drivers/of/module.c
-> > > +++ b/drivers/of/module.c
-> > > @@ -8,21 +8,14 @@
-> > >  #include <linux/slab.h>
-> > >  #include <linux/string.h>
-> > >
-> > > -ssize_t of_modalias(const struct device_node *np, char *str, ssize_t len)
-> > > +/* Do not use directly, use %pOFm format specifier instead */
-> > > +size_t of_modalias(const struct device_node *np, char *str, size_t len)
-> >
-> > We should keep ssize_t.
-> 
-> My intent was to align of_modalias() with snprintf()...
+On Thu, 19 Dec 2024 23:37:45 +0900 Taehee Yoo wrote:
+> The example would be very helpful to me.
 
-Sure.
+Just to make sure nothing gets lost in translation, are you saying that:
+ - the examples of tests I listed are useful; or
+ - you'd appreciate examples of how to code up HDS in netdevsim; or
+ - you'd appreciate more suitable examples of the tests?
 
-> > "end - buf" passed from device_node_string() in vprintf.c might be
-> > negative. The "buf" pointer is used to count the number of characters
-> > which might be written when the buffer is big enough.
-> 
-> Isn't Rasmus' suggestion sufficient?:
-> 
-> buf += of_modalias(dn, buf, buf < end ? end - buf : 0)
-
-Yes, this should do the trick. I sent my overview before reading
-Rasmus' reply.
-
-Best Regards,
-Petr
+:)
