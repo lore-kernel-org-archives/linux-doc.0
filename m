@@ -1,65 +1,62 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6002B41760;
-	Thu, 19 Dec 2024 18:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AACD19994F
+	for <linux-doc@vger.kernel.org>; Thu, 19 Dec 2024 18:50:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734634028; cv=none; b=HeXGqvAU5WS/9QHMXfOYBd9Wh8cmEijL1qwoop1tVl9S1yuJfqsGfpYVYGuZR6saS5ECKnvlud2ohshUfJDZ2qwgNjL+lLDykOCOwyXIfmuElhGrL2dTt7/ONDblha2RacsRmkkUHHS4NvU9Bnr808QDRRZJLBrVnAkzI7nZCcM=
+	t=1734634245; cv=none; b=t2m1PebnpCcmpn5zAYK6y/VX0NdUqvffE9IR7Qu6Wowr+1uRJrVk8JqdN7mle8AW1YUdBIhiczKXPyLunhbn66ZQn+l1Zu56Bx+v8FQpviIxJ1EToZSIS8HatRy7+MnS2p4IbFAsz95SsPgsD/vSEGibFaEW4+/198IAtBS0+AE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734634028; c=relaxed/simple;
-	bh=Uuo89MMUgo99peE/L+FKDtIjSbFf8+PRrD4hl7wOvbg=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lkTpu55+PTCqcb+uEhqZ8sxukiTMQwKX6nNxW+cGwXMvpaj4Rlq01KmZQxYnL17y57v8mMCuRpWCA1oq6oeIGbo09c2k/8AvL9M/E5zcZndzVQaN+y4TwcnDJxf8JuxGyRoZ2dmms2GcHo9SrP0EnfLxcHbp6zA3o3iZXc7lSpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=S/wi1bNe; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1734634245; c=relaxed/simple;
+	bh=4I31HWlidqWgdH+ck/BTx1grBmMgFGdOgayeGSynJ4s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MU/XS14BeVgY3WHuFwQxWM5mFR8XzTdrY/ytsVtaAiMpxJsudO+GWVfxQ3S20uj2hmmgYHk6q48LRuBWtNOqO09epiXGU4xcI+CglzrPnrfr4kp6CTXp2pI3JNT/WBYlwpYnbBKMdpfDPcSFEYQs1jPBHCExzHkgAEL43TvJ5ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b0eoG1na; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="S/wi1bNe"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:To:From:Date:Sender:Reply-To:Cc:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=rGpeIQU8OFNXXoe0FS/CeUx+kNOrcVNpVk7LZwVhvWA=; b=S/wi1bNeQ9Q4i3rS/866YGgl2l
-	sxjX4PZy8ejVi0QwRX6tnAaN4aIElD4TQue2Y0UGZI0RS7yqlyyCxvy/wm/4+D+OTsNH0gEMajZ1x
-	AgCzSk6L82f/7uXvbHOXFTfWFaMyr5IkLFdYjbX+3g6wafzr4saIOUb9hQcqvaNNsLkhfY/X9LxVq
-	u33g34oQAoGd/pda55FN+xUn6SdvlNPTb57LJb0TcvPwAI3t8ai+kuZ4IcRgbzMmHrMZ1o/YXXkmj
-	xk0Lc8tD2brqYHKLRljGjNIfjDvRkDqkKG65eRrTr434YjeKdsAQl/vD8ZeX3B4RwK9Cj0C4LLfYH
-	4E2LY/5A==;
-Received: from 77-249-17-89.cable.dynamic.v4.ziggo.nl ([77.249.17.89] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOLXn-00000005Ucw-3lLs;
-	Thu, 19 Dec 2024 18:46:44 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 4CEA330031E; Thu, 19 Dec 2024 19:46:42 +0100 (CET)
-Date: Thu, 19 Dec 2024 19:46:42 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
-	willy@infradead.org, lorenzo.stoakes@oracle.com, mhocko@suse.com,
-	vbabka@suse.cz, hannes@cmpxchg.org, mjguzik@gmail.com,
-	oliver.sang@intel.com, mgorman@techsingularity.net,
-	david@redhat.com, peterx@redhat.com, oleg@redhat.com,
-	dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org,
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com,
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com,
-	shakeel.butt@linux.dev, souravpanda@google.com,
-	pasha.tatashin@soleen.com, klarasmodin@gmail.com, corbet@lwn.net,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH v6 10/16] mm: replace vm_lock and detached flag with a
- reference count
-Message-ID: <20241219184642.GF26279@noisy.programming.kicks-ass.net>
-References: <CAJuCfpHJwVXanjG0WGjo0KHHEbg1-T0HWTZqDpssoq3FvfG++A@mail.gmail.com>
- <jes252u5qfhla2bdmg6pdkfpi4a2jfhf7d5b6ra6ol2bmt352x@gunhzaca56df>
- <CAJuCfpFSD98fw=844AJPy+LT5y=zREQGtSEVj3_FCXiZ5cFR_A@mail.gmail.com>
- <ulbspoec633hfm54f3jzvoqs6ilskxou3qykk2u727pbaltvfl@lb53vjcaxnuf>
- <CAJuCfpHXRX=LLa67eWYvrK=UDxKMaOequFXfqOqDHbRrmsT9SQ@mail.gmail.com>
- <20241219091334.GC26551@noisy.programming.kicks-ass.net>
- <20241219112011.GA34942@noisy.programming.kicks-ass.net>
- <wfzu6jvbazlxdybsjc54aoivleif6memaxaacd56bcep24nkv3@s3e3aj253hd6>
- <20241219174235.GD26279@noisy.programming.kicks-ass.net>
- <rnanfpzs6fmojyeaowt65mug6xekorrkeefvn3b4zc7buunzhc@rrzcbhkrjdv4>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b0eoG1na"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734634243; x=1766170243;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4I31HWlidqWgdH+ck/BTx1grBmMgFGdOgayeGSynJ4s=;
+  b=b0eoG1naZA2IBhrxR3kKuverkG96r1GErEu2aixd3EVU1j74VnnYXOS1
+   14gXOn+un44jo8Yv3L0MeSaxVuSoS85/gLp7zJvIqR5vFkDCnB38YRpgA
+   VHjBagNPAVjqKWgvY4VBi21IYSJopCijeqlQhTNOo2S67lvcpdzASpo+n
+   Q8fiGPzPo+rV1INc32NezcXn807bAMpvSdjnXw2KzBgTBXnWRuY+On/f8
+   90lnpYdIy/gWhT9E/V7267Zp9b2Th6B3GXSNI+k/34y3TJX7uYLgl4zHk
+   4rc+C/UI3FEPMkpeAvy1e9613UCum3Kdh6+D9SW8+K0rsm80TLuPJYULN
+   g==;
+X-CSE-ConnectionGUID: vZfIV+TWQxiGA4vXFjkLfA==
+X-CSE-MsgGUID: NfGxsbTNS0eGcaAD0ewMkw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="52692982"
+X-IronPort-AV: E=Sophos;i="6.12,248,1728975600"; 
+   d="scan'208";a="52692982"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 10:50:42 -0800
+X-CSE-ConnectionGUID: IxX+2GVYTKSHPqkyqwhBLA==
+X-CSE-MsgGUID: EBp68YWNT8a5aXLXVKwowg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="135612540"
+Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 19 Dec 2024 10:50:41 -0800
+Received: from kbuild by a46f226878e0 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tOLba-0000Rn-32;
+	Thu, 19 Dec 2024 18:50:38 +0000
+Date: Fri, 20 Dec 2024 02:49:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	linux-doc@vger.kernel.org
+Subject: [jic23-iio:testing 93/93] htmldocs: Warning:
+ /sys/bus/iio/devices/iio:deviceX/in_currentY_raw is defined 2 times:
+  ./Documentation/ABI/testing/sysfs-bus-iio:170
+  ./Documentation/ABI/testing/sysfs-bus-iio:1700
+Message-ID: <202412200256.OB5Hmw5Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,26 +65,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <rnanfpzs6fmojyeaowt65mug6xekorrkeefvn3b4zc7buunzhc@rrzcbhkrjdv4>
 
-On Thu, Dec 19, 2024 at 01:18:23PM -0500, Liam R. Howlett wrote:
+Hi David,
 
-> > For RCU lookups only the mas tree matters -- and its left present there.
-> > 
-> > If you really want to block RCU readers, I would suggest punching a hole
-> > in the mm_mt. All the traditional code won't notice anyway, this is all
-> > with mmap_lock held for writing.
-> 
-> We don't want to block all rcu readers, we want to block the rcu readers
-> that would see the problem - that is, anyone trying to read a particular
-> area.
-> 
-> Right now we can page fault in unpopulated vmas while writing other vmas
-> to the tree.  We are also moving more users to rcu reading to use the
-> vmas they need without waiting on writes to finish.
-> 
-> Maybe I don't understand your suggestion, but I would think punching a
-> hole would lose this advantage?
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-My suggestion was to remove the range stuck in mas_detach from mm_mt.
-That is exactly the affected range, no?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+head:   09459967e775f758f42e09b2540c993061089327
+commit: 09459967e775f758f42e09b2540c993061089327 [93/93] iio: ABI: use Y consistently as channel number
+reproduce: (https://download.01.org/0day-ci/archive/20241220/202412200256.OB5Hmw5Q-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412200256.OB5Hmw5Q-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
+>> Warning: /sys/bus/iio/devices/iio:deviceX/in_currentY_raw is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio:170  ./Documentation/ABI/testing/sysfs-bus-iio:1700
+   Using alabaster theme
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
