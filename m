@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A58227BA3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FBAC224AFA
 	for <linux-doc@vger.kernel.org>; Thu, 19 Dec 2024 13:26:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734614763; cv=none; b=PM1IO2EUxGoVl3LFimszzFKPyrMN7F2rur6QzVz9luOnBj+nOQr1DCgsSZ+h9BzMAU+hzq0EURRXDSbsNrPUNHyYRvQeR2JNqqtmdmeZdVjNhIDb49ZO9GqhQqE6vdc7CwqayET3V/Jt6BPCvFxUkJVsPlKccyJGUHitrBHTrRA=
+	t=1734614764; cv=none; b=jPnb9tPKzlMbvCOXS/EbLTdrRGEybXbQPFXH/ZNmAQGkK1eiS1CNi6hLhgyiZ5ekxgOGIdO4tK/4WRj5w18abwsj8VfAe4TdTuFb3l3YB0wbH+NeiHdOLpZfzvcTu1W7v9HRLOPARoh2IN2geaWmvh5VF4NTREv+cIPQt0H+4o0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734614763; c=relaxed/simple;
-	bh=k3V98r/vJQ0Wyyfzmk6h/V/TUndKCH2qVQvXPRsF1kM=;
+	s=arc-20240116; t=1734614764; c=relaxed/simple;
+	bh=njLUNVG87o9EtiZ+NhMDK8cl3t/mwBSSfynfcR8M9u8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=dODHYnIXcbs4UM78ZuSXU640xGBhwrmgH7NzyVPuwUbpmCBIPVIoM8t/rBvJGrDrY/pKe70h5HTIIz0G6OzuaDy5JwVWor5NLaYh62+zhq7W2SDQrGoXdGUIAyVuU+aO71MMByUaZeGQeUizIrgHbK/C9RPdrUTEA0zi1ZsBAMI=
+	 MIME-Version; b=pV6Dlo4kl48TRvvY+av8SyHG5ZTI0JLT5edNp2ROgFh1y5L/83OCK+G6nlwfKjdbWWuWQLKt9mvH5rsNJReuJRT9xcz8+6pWjghriUHZj6i8GwT8nWPmpleZQdOJVGLXn6KjaNQSp3NPKyNWTljTwOclk12+H01Ws2LFTV01sSs=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,16 +18,16 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ore@pengutronix.de>)
-	id 1tOGX5-0001b6-Oe; Thu, 19 Dec 2024 14:25:39 +0100
+	id 1tOGX5-0001bB-Og; Thu, 19 Dec 2024 14:25:39 +0100
 Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <ore@pengutronix.de>)
-	id 1tOGX0-004DDA-1i;
+	id 1tOGX0-004DDG-23;
 	Thu, 19 Dec 2024 14:25:35 +0100
 Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.96)
 	(envelope-from <ore@pengutronix.de>)
-	id 1tOGX1-0032h6-0k;
+	id 1tOGX1-0032im-12;
 	Thu, 19 Dec 2024 14:25:35 +0100
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: "David S. Miller" <davem@davemloft.net>,
@@ -38,6 +38,7 @@ To: "David S. Miller" <davem@davemloft.net>,
 	Heiner Kallweit <hkallweit1@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>
 Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
+	Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
 	kernel@pengutronix.de,
 	linux-kernel@vger.kernel.org,
 	netdev@vger.kernel.org,
@@ -45,9 +46,9 @@ Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
 	Russell King <linux@armlinux.org.uk>,
 	Maxime Chevallier <maxime.chevallier@bootlin.com>,
 	linux-doc@vger.kernel.org
-Subject: [PATCH net-next v2 1/8] ethtool: linkstate: migrate linkstate functions to support multi-PHY setups
-Date: Thu, 19 Dec 2024 14:25:27 +0100
-Message-Id: <20241219132534.725051-2-o.rempel@pengutronix.de>
+Subject: [PATCH net-next v2 6/8] ethtool: add helper to prevent invalid statistics exposure to userspace
+Date: Thu, 19 Dec 2024 14:25:32 +0100
+Message-Id: <20241219132534.725051-7-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241219132534.725051-1-o.rempel@pengutronix.de>
 References: <20241219132534.725051-1-o.rempel@pengutronix.de>
@@ -63,90 +64,48 @@ X-SA-Exim-Mail-From: ore@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Adapt linkstate_get_sqi() and linkstate_get_sqi_max() to take a
-phy_device argument directly, enabling support for setups with
-multiple PHYs. The previous assumption of a single PHY attached to
-a net_device no longer holds.
-
-Use ethnl_req_get_phydev() to identify the appropriate PHY device
-for the operation. Update linkstate_prepare_data() and related
-logic to accommodate this change, ensuring compatibility with
-multi-PHY configurations.
+Introduce a new helper function, `ethtool_stat_add`, to update 64-bit
+statistics with proper handling of the reserved value
+`ETHTOOL_STAT_NOT_SET`. This ensures that statistics remain valid and
+are always reported to userspace, even if the driver accidentally sets
+`ETHTOOL_STAT_NOT_SET` during an update.
 
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+Reviewed-by: Mateusz Polchlopek <mateusz.polchlopek@intel.com>
 ---
- net/ethtool/linkstate.c | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+changes v2:
+- add "Reviewed-by: Mateusz Polchlopek <mateusz.polchlopek@intel.com>"
+---
+ include/linux/ethtool.h | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/net/ethtool/linkstate.c b/net/ethtool/linkstate.c
-index 34d76e87847d..83c2ff29a856 100644
---- a/net/ethtool/linkstate.c
-+++ b/net/ethtool/linkstate.c
-@@ -26,9 +26,8 @@ const struct nla_policy ethnl_linkstate_get_policy[] = {
- 		NLA_POLICY_NESTED(ethnl_header_policy_stats),
- };
- 
--static int linkstate_get_sqi(struct net_device *dev)
-+static int linkstate_get_sqi(struct phy_device *phydev)
- {
--	struct phy_device *phydev = dev->phydev;
- 	int ret;
- 
- 	if (!phydev)
-@@ -46,9 +45,8 @@ static int linkstate_get_sqi(struct net_device *dev)
- 	return ret;
+diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
+index 4bf70cfec826..c0d3e3f62faf 100644
+--- a/include/linux/ethtool.h
++++ b/include/linux/ethtool.h
+@@ -371,6 +371,22 @@ static inline void ethtool_stats_init(u64 *stats, unsigned int n)
+ 		stats[n] = ETHTOOL_STAT_NOT_SET;
  }
  
--static int linkstate_get_sqi_max(struct net_device *dev)
-+static int linkstate_get_sqi_max(struct phy_device *phydev)
- {
--	struct phy_device *phydev = dev->phydev;
- 	int ret;
- 
- 	if (!phydev)
-@@ -100,19 +98,28 @@ static int linkstate_prepare_data(const struct ethnl_req_info *req_base,
- {
- 	struct linkstate_reply_data *data = LINKSTATE_REPDATA(reply_base);
- 	struct net_device *dev = reply_base->dev;
-+	struct nlattr **tb = info->attrs;
-+	struct phy_device *phydev;
- 	int ret;
- 
-+	phydev = ethnl_req_get_phydev(req_base, tb[ETHTOOL_A_PLCA_HEADER],
-+				      info->extack);
-+	if (IS_ERR(phydev)) {
-+		ret = PTR_ERR(phydev);
-+		goto out;
-+	}
++/**
++ * ethtool_stat_add - Add a value to a u64 statistic with wraparound handling
++ * @stat: Pointer to the statistic to update
++ * @value: Value to add to the statistic
++ *
++ * Adds the specified value to a u64 statistic. If the result of the addition
++ * equals the reserved value (`ETHTOOL_STAT_NOT_SET`), it increments the result
++ * by 1 to avoid the reserved value.
++ */
++static inline void ethtool_stat_add(u64 *stat, u64 value)
++{
++	*stat += value;
++	if (*stat == ETHTOOL_STAT_NOT_SET)
++		(*stat)++;
++}
 +
- 	ret = ethnl_ops_begin(dev);
- 	if (ret < 0)
- 		return ret;
- 	data->link = __ethtool_get_link(dev);
- 
--	ret = linkstate_get_sqi(dev);
-+	ret = linkstate_get_sqi(phydev);
- 	if (linkstate_sqi_critical_error(ret))
- 		goto out;
- 	data->sqi = ret;
- 
--	ret = linkstate_get_sqi_max(dev);
-+	ret = linkstate_get_sqi_max(phydev);
- 	if (linkstate_sqi_critical_error(ret))
- 		goto out;
- 	data->sqi_max = ret;
-@@ -127,9 +134,9 @@ static int linkstate_prepare_data(const struct ethnl_req_info *req_base,
- 			   sizeof(data->link_stats) / 8);
- 
- 	if (req_base->flags & ETHTOOL_FLAG_STATS) {
--		if (dev->phydev)
-+		if (phydev)
- 			data->link_stats.link_down_events =
--				READ_ONCE(dev->phydev->link_down_events);
-+				READ_ONCE(phydev->link_down_events);
- 
- 		if (dev->ethtool_ops->get_link_ext_stats)
- 			dev->ethtool_ops->get_link_ext_stats(dev,
+ /* Basic IEEE 802.3 MAC statistics (30.3.1.1.*), not otherwise exposed
+  * via a more targeted API.
+  */
 -- 
 2.39.5
 
