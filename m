@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8F0E1A38F9;
-	Thu, 19 Dec 2024 04:03:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 661B01AAA0A;
+	Thu, 19 Dec 2024 04:03:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734581031; cv=none; b=oSqJe4YhXr1aLiBbmaiPzHc7fpSHBxYUeIbJtLMJIDct5uL4h1NRuA3x0lMSYouwC0LcfVtNxX4ajlK/EHG12rF7OY8M0RnrJCHGnk/9oRyC5UTLc14hjw+LS/6MJ4KR63LTJUXzkD30rFS9X5Cz5JOicyK9DoiP8PqY2ZSbiyc=
+	t=1734581037; cv=none; b=gglK9kq3eGNpqdrmruhxp8tTu03SR5k5CFAQ8KE5+TYtp/HJX3tOSOrB/ZKRjDlmgpYwtE0UwPgDEbZMOeFKo+ld1qZxIXV25Y2jAA5dwTKlRTxs1bOBMnpwBP7xDBTqqaSfnJlPYJ8jgtuiRpINKJjOeVqJpPrRUvAzbSHMTxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734581031; c=relaxed/simple;
-	bh=E3nDxsQnOnucfR2JdCI6gXATVIHYtLFHhB+wDRP7hiA=;
+	s=arc-20240116; t=1734581037; c=relaxed/simple;
+	bh=SFVsdgaR2hHAdxlVsqMnuhaABmN7P75BtajXxh6t/oU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bTwsaI7I+RMdJlEhnN5pdXnVw3pVry3WGt/vrb2Ailag51cxMoWuguV2bqsYS48nuj98mAR0Ph7ywb+4GeuY0UQmdbvIKA+6ibnf+wuP6qZjQ7J2iG3VJTWQ1L3WQKkiOd9IA+pxnsQ/mvcG6ieXqseIGRt5vZk2e7NWse+vfRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CKqclcbh; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=jOg6sSIC3aYVgnnt1MXvqBMMjIHvDzfFVRBh2uAv9qEMXUVJDH48YmUBWrZ/zWSiF0Cmqoxv3OucAo7qiaayoZDhhXXJhGZyQBWK5j0bAsJfehop7BiWmFogm3qeunoIvQG/XOR7exfuUOUs/TCtn5iMGDuDYHSsZN3miZfTmxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qMRVKSH4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CKqclcbh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23831C4CED4;
-	Thu, 19 Dec 2024 04:03:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qMRVKSH4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A404C4CED6;
+	Thu, 19 Dec 2024 04:03:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734581031;
-	bh=E3nDxsQnOnucfR2JdCI6gXATVIHYtLFHhB+wDRP7hiA=;
+	s=k20201202; t=1734581037;
+	bh=SFVsdgaR2hHAdxlVsqMnuhaABmN7P75BtajXxh6t/oU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CKqclcbhPJF7kqBVAm02cPqjr4b/PMnD/U8sX8WuWogMdXCphEjY/C16CebDzcjru
-	 kTMexC+Xk4wt4g4iCGSKjnD55BuWbTx2Srh895iCRkEtu8KwyGlZotxN/aa5YN52Jx
-	 PX1fSqlm9ch6RFmtWBib6ULcj1XvHxKpDc4imqoayb6+7fU+BNTerh+BeKcrkSc3oS
-	 0X/qiya1fv4+jeRZ+xaBZbU4RJUVESPorK2aQqCBtWrXEcN1mBt1EdhELOWm7u7HRe
-	 1oRi48nnWsbLVPsW9HbOVy1++GfiNi9zI8yeZjsreEAAI+r9Cozk63ZF6XmQ/tKO2E
-	 JA5HzqucfzhJg==
+	b=qMRVKSH40MOgCu29r5fBQZ0M8XOPYWcUwyzFJ7+iG2omCmV8DLvli9q84rxzlC/Jz
+	 fXJMUhBZ2uTeoeGb3DOG7JXXCiVX/0hC5GWT0OkekJ2d63I09IT6W4nkUCfUpa3a6u
+	 gzrmS0l7JxokrKW/+YyUNupEl1ypEqC+FAvC48o/AID0SQk6hm7CyMzBpgIaZ9IRrh
+	 xyVHol5hXqrio9JK6iT6rYVftCGCoTZJInzGgx5g8X0lIA8kSftPqPrc/UawfiL+S1
+	 gaI3oGQitPLAq+gLyK5tJqSQphArUn5q9LvP+/7cpwyq1kZHVh2Np0WYBYGkmtt0Bs
+	 +4ALmwVqgmLag==
 From: SeongJae Park <sj@kernel.org>
 To: 
 Cc: kernel-team@meta.com,
@@ -34,9 +34,9 @@ Cc: kernel-team@meta.com,
 	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 11/18] Docs/admin-guide/mm/damon/usage: document sz_ops_filter_passed
-Date: Wed, 18 Dec 2024 20:03:20 -0800
-Message-Id: <20241219040327.61902-12-sj@kernel.org>
+Subject: [RFC PATCH 16/18] Docs/mm/damon/design: document per-region sz_filter_passed stat
+Date: Wed, 18 Dec 2024 20:03:25 -0800
+Message-Id: <20241219040327.61902-17-sj@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241219040327.61902-1-sj@kernel.org>
 References: <20241219040327.61902-1-sj@kernel.org>
@@ -46,56 +46,29 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Document the new per-scheme operations set layer-handled DAMOS filters
-passed bytes statistic file on DAMON sysfs interface usage document.
+Update 'Regions Walking' sectioin of design document for the newly added
+per-region operations set handling DAMOS filters-passed bytes.
 
 Signed-off-by: SeongJae Park <sj@kernel.org>
 ---
- Documentation/admin-guide/mm/damon/usage.rst | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
+ Documentation/mm/damon/design.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index af70f7244700..179a9060a32e 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -90,7 +90,7 @@ comma (",").
-     │ │ │ │ │ │ │ :ref:`watermarks <sysfs_watermarks>`/metric,interval_us,high,mid,low
-     │ │ │ │ │ │ │ :ref:`filters <sysfs_filters>`/nr_filters
-     │ │ │ │ │ │ │ │ 0/type,matching,memcg_id
--    │ │ │ │ │ │ │ :ref:`stats <sysfs_schemes_stats>`/nr_tried,sz_tried,nr_applied,sz_applied,qt_exceeds
-+    │ │ │ │ │ │ │ :ref:`stats <sysfs_schemes_stats>`/nr_tried,sz_tried,nr_applied,sz_applied,sz_ops_filter_passed,qt_exceeds
-     │ │ │ │ │ │ │ :ref:`tried_regions <sysfs_schemes_tried_regions>`/total_bytes
-     │ │ │ │ │ │ │ │ 0/start,end,nr_accesses,age
-     │ │ │ │ │ │ │ │ ...
-@@ -454,18 +454,16 @@ difference is applied to :ref:`stats <damos_stats>` and
- schemes/<N>/stats/
- ------------------
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index 0620675a1e8d..ed3072dc8686 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -586,7 +586,8 @@ Regions Walking
  
--DAMON counts the total number and bytes of regions that each scheme is tried to
--be applied, the two numbers for the regions that each scheme is successfully
--applied, and the total number of the quota limit exceeds.  This statistics can
--be used for online analysis or tuning of the schemes.  Refer to :ref:`design
--doc <damon_design_damos_stat>` for more details about the stats.
-+DAMON counts statistics for each scheme.  This statistics can be used for
-+online analysis or tuning of the schemes.  Refer to :ref:`design doc
-+<damon_design_damos_stat>` for more details about the stats.
- 
- The statistics can be retrieved by reading the files under ``stats`` directory
--(``nr_tried``, ``sz_tried``, ``nr_applied``, ``sz_applied``, and
--``qt_exceeds``), respectively.  The files are not updated in real time, so you
--should ask DAMON sysfs interface to update the content of the files for the
--stats by writing a special keyword, ``update_schemes_stats`` to the relevant
--``kdamonds/<N>/state`` file.
-+(``nr_tried``, ``sz_tried``, ``nr_applied``, ``sz_applied``,
-+``sz_ops_filter_passed``, and ``qt_exceeds``), respectively.  The files are not
-+updated in real time, so you should ask DAMON sysfs interface to update the
-+content of the files for the stats by writing a special keyword,
-+``update_schemes_stats`` to the relevant ``kdamonds/<N>/state`` file.
- 
- .. _sysfs_schemes_tried_regions:
+ DAMOS feature allowing users access each region that a DAMOS action has just
+ applied.  Using this feature, DAMON :ref:`API <damon_design_api>` allows users
+-access full properties of the regions including the access monitoring results.
++access full properties of the regions including the access monitoring results
++and amount of the region's internal memory that passed the DAMOS filters.
+ :ref:`DAMON sysfs interface <sysfs_interface>` also allows users read the data
+ via special :ref:`files <sysfs_schemes_tried_regions>`.
  
 -- 
 2.39.5
