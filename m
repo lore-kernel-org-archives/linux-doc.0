@@ -1,353 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6686341C64;
-	Thu, 19 Dec 2024 14:39:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A48117C
+	for <linux-doc@vger.kernel.org>; Thu, 19 Dec 2024 14:44:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734619182; cv=none; b=C92Dx3iNbBK0iOc3rHo0f4CTae6eTBZ905aQigbQhJhCgOMBIqhFYxX7CP/ralYQlO2c//i/ZjcCCfOUmbFhI8vwNi6UmYcFoTzzUqf715Ig4CWQSTZG37aCiqdKHvdtLvrO7jnZSS9g8jpMG+QxIiMTTDC5JB0SAu9kS3pMzKA=
+	t=1734619466; cv=none; b=BML5yvpRXcW85SyjFGzz8ClOODbNN+RNEXLTv+oZ+F1ziG6M8Z3pzSLWWC7BPdV/Cd3131aBwLD196YzqdXMSszKX3igS/SDQ6kyG96q0YAJhPcXDmRQUjZR+i8gkTFP/itT7+gYjuBJG/b5yJgLzCEYwvNtPZ1ZSOLdKVYgg40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734619182; c=relaxed/simple;
-	bh=S+UfMY1vVhn5lcjqWfM26VYummzYqtnHzdbWrInp4Fo=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=Q1+14U0FhD2h0TuRE7LkqWvuQirpjxkErX3XHHOodYHwFnorRBk50FQLppmhHK7dX9rGL55Ly4VkvP5UTBJH5BmoJNjpIcSREcZUdssslDtD3zT7APzJwEzoQhcrlyLOVe9qyN8KavhPmoC8r4rPz7UMWMkbdlLS0z99KVDBKbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZEQkaC1x; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1734619466; c=relaxed/simple;
+	bh=kuzNS9K72EkSrNeLIVLdw6jZ00C6nGxLQgNNkN4fUXI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OfHjJoocURhM7ExmDWlTOYqWpvQSI/RyZqsMmFs3PPWNT7yscoTAbaibRaOV2asLj0CThFOVD6fkBivn5I5tRX8Fc6P51YPZUFoOCZBAXoITFdC3VwlybDx1RD61cG8cUwOrHD9jdZ+2CUqHfKtY1y+NdsqJUIihWg41KWrT2PQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=YDlLqmwq; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZEQkaC1x"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734619181; x=1766155181;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=S+UfMY1vVhn5lcjqWfM26VYummzYqtnHzdbWrInp4Fo=;
-  b=ZEQkaC1xxsVpImxBisYiBMo07CLZPzUXUVpanKUV1fq2UNXnfJcXr2d3
-   7dRsQhYrGayTxnZ6MJJqc2GXyNgiv3oBry0AznhfqItsNf6lSYXkdyAsv
-   G5qWBDWdCZM8LqSbC1xOdUz+FyJ124ySFyZC0MgY8RA9uTQw8KRmTyWG6
-   2J6iPxbbe680r7wFz1ND30wzZlHKH0PlFhmmQi7fkaVbQiNu+56K/Yqhr
-   uqW4YOhdsZmi5+ac//hToOb9ABewALAvVS5R5WskMUaNv6ITUt1yUE6uO
-   FY+/09zHhW9DYLS8cdHK9ovJ2DOGRLuj7HB2MeALCrScPQFs0w6CAumjI
-   A==;
-X-CSE-ConnectionGUID: ANgfCdjdTJOmM1jecUY9cQ==
-X-CSE-MsgGUID: qgA6sb9sTdKhzYpIvqa+pw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11290"; a="45730061"
-X-IronPort-AV: E=Sophos;i="6.12,248,1728975600"; 
-   d="scan'208";a="45730061"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 06:39:32 -0800
-X-CSE-ConnectionGUID: 1xTirdLBRM6BJkMONemJMA==
-X-CSE-MsgGUID: NBJVfSNJTweZCx7AMQZXJA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,248,1728975600"; 
-   d="scan'208";a="98103765"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.7])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 06:39:29 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 19 Dec 2024 16:39:24 +0200 (EET)
-To: Mario Limonciello <mario.limonciello@amd.com>
-cc: Borislav Petkov <bp@alien8.de>, Hans de Goede <hdegoede@redhat.com>, 
-    x86@kernel.org, "Gautham R . Shenoy" <gautham.shenoy@amd.com>, 
-    Perry Yuan <perry.yuan@amd.com>, LKML <linux-kernel@vger.kernel.org>, 
-    linux-doc@vger.kernel.org, linux-pm@vger.kernel.org, 
-    platform-driver-x86@vger.kernel.org, 
-    Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
-    Perry Yuan <Perry.Yuan@amd.com>
-Subject: Re: [PATCH v7 04/12] platform/x86: hfi: Introduce AMD Hardware
- Feedback Interface Driver
-In-Reply-To: <20241130152023.684-5-mario.limonciello@amd.com>
-Message-ID: <8f95fad6-216c-ee66-dfa4-bc4bf37ae93f@linux.intel.com>
-References: <20241130152023.684-1-mario.limonciello@amd.com> <20241130152023.684-5-mario.limonciello@amd.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="YDlLqmwq"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-434b3e32e9dso9793365e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 19 Dec 2024 06:44:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1734619461; x=1735224261; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=YUe8L/RSJG7X1qPU8YCoCZFztQIhaGAvtLCydCuhUAE=;
+        b=YDlLqmwqvuSeLVYSYfeKdn3Zfsvrc53LUH36k23y2JdV14mWysgKFmbZezRaZwhljR
+         +y7rpaWlpOWhnig/LkDhgDxbUroY1tAWngBBUy8Dnxyej3nE/h3gJfENRsrDuuUZPx7C
+         7ew6MNPRHPZDm+OGDt88FNGW/DbsqSVuAB6iTkVD8+j5Geh2FX901kGxL2d9nDUWDqAl
+         VSRq+o6XjsOqBVbVUU4G3TdgYm9wy7F1nQ0NYXnzWUW39FsmnB/ATIozCk/dKCxyYj/2
+         6Rv+zonOlHt856ZGyP0pZNX1Q9LzxkwP5f3Lomy3CuzX7b9HP99FmY2HjV4+m3okH7da
+         t+uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734619461; x=1735224261;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YUe8L/RSJG7X1qPU8YCoCZFztQIhaGAvtLCydCuhUAE=;
+        b=Yk2J+NQjfhRUfgcyuevASa88Ec15UlAJZShhjpau/d4tXRtya+UszA0xCVKpI7AJfS
+         yzNMptzDCr2BBEGevWPAUeeEcJcZwtMs5j7keatr3nGpTyg/76dS3TAAeG6qD2tCch5s
+         Zb8rcbMSFtdu9FKBZSPDfFHeJPKAufSaJnpOQ2jZBF8dz9pR6SEe3rAXVgNJx+2AOFFj
+         PG1uO4fPRxHzXJ2/C2px583bbzsEWOcIBFBJdZhec4d1zXQ2rRum8yAQzPgzMKABAYtt
+         4MdPTGub8TKk0SJS5up9o6uftYoFWx4mdH5NTdmnoDFYeMIHeeTGfZSK2C+hlVl/0/e8
+         43KA==
+X-Forwarded-Encrypted: i=1; AJvYcCXwqy085Yn18aZG8vUfT6M4akr7xu8wHq9oJxPgu8PQTWdlhYa2QFTsbWlSKm17ed6U8LOTMYNOydo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEdUExpTmSP0KzJy2jSed7lbQ1F2lzwCB+9hHg0JqSW5Ixg73t
+	TJIBmEdGMjGaovsczWhP0GvpCsE//6Qy0H6wzOJgJuBEnz5mRW4VLYq4XGvB4Bk=
+X-Gm-Gg: ASbGncv4JElPGlniuwLSqba3A5IUgvxWNQ/3oBraJS0nzHCBZnBeNBGPLQ4RKiBHayn
+	7WV/GRpyUns1Cvq/8QYYvw5A6HrjeH7gGTmZZ6em7IhYobEi4SbeTxmjqVsw2G8wcESt6r4ytKC
+	XRD1TAh+SlrHkpRHxKvPJGAGXfpQXGMrttA6ugDOm9U2BWzYQWtTG/fTJMFdl43FgN0bP+pyyV3
+	fBxfzy4GlwvfCIUnu/sRHgi10aNvWuGxpR5LHzxT83AMPo9nZASoqWoMg==
+X-Google-Smtp-Source: AGHT+IETUPBPDpfMGSiHPHr2l+GQu1KRtFJb1OUCyY4yEHQND0y6u+pyC88kJZkjcOETPOdloGbAvQ==
+X-Received: by 2002:a05:6000:1867:b0:385:fd07:85f4 with SMTP id ffacd0b85a97d-388e4d64711mr7110212f8f.31.1734619461577;
+        Thu, 19 Dec 2024 06:44:21 -0800 (PST)
+Received: from pathway.suse.cz ([176.114.240.50])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8add5asm1677939f8f.107.2024.12.19.06.44.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Dec 2024 06:44:21 -0800 (PST)
+Date: Thu, 19 Dec 2024 15:44:18 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Saravana Kannan <saravanak@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Zijun Hu <quic_zijuhu@quicinc.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: ssize_t: was: Re: [PATCH] of: Add printf '%pOFm' for generating
+ modalias
+Message-ID: <Z2QxQhvserbVvmrB@pathway.suse.cz>
+References: <20241217183711.2525863-1-robh@kernel.org>
+ <Z2KzcORZocQAwAi9@pathway.suse.cz>
+ <CAL_JsqKRpeCgd=6PeHMHnZaJHqn2SAob2J6Yv07n7OdCY++GWA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAL_JsqKRpeCgd=6PeHMHnZaJHqn2SAob2J6Yv07n7OdCY++GWA@mail.gmail.com>
 
-On Sat, 30 Nov 2024, Mario Limonciello wrote:
+On Wed 2024-12-18 11:10:54, Rob Herring wrote:
+> On Wed, Dec 18, 2024 at 5:35 AM Petr Mladek <pmladek@suse.com> wrote:
+> >
+> > On Tue 2024-12-17 12:37:09, Rob Herring (Arm) wrote:
+> > > The callers for of_modalias() generally need the module alias as part of
+> > > some larger string. That results in some error prone manipulation of the
+> > > buffer prepend/append the module alias string. In fact,
+> > > of_device_uevent_modalias() has several issues. First, it's off by one
+> > > too few characters in utilization of the full buffer. Second, the error
+> > > paths leave OF_MODALIAS with a truncated value when in the end nothing
+> > > should be added to the buffer. It is also fragile because it needs
+> > > internal details of struct kobj_uevent_env. add_uevent_var() really
+> > > wants to write the env variable and value in one shot which would need
+> > > either a temporary buffer for value or a format specifier.
+> > >
+> > > Fix these issues by adding a new printf format specifier, "%pOFm". With
+> > > the format specifier in place, simplify all the callers of
+> > > of_modalias(). of_modalias() can also be simplified with vsprintf()
+> > > being the only caller as it avoids the error conditions.
+> > >
+> > > --- a/drivers/of/module.c
+> > > +++ b/drivers/of/module.c
+> > > @@ -8,21 +8,14 @@
+> > >  #include <linux/slab.h>
+> > >  #include <linux/string.h>
+> > >
+> > > -ssize_t of_modalias(const struct device_node *np, char *str, ssize_t len)
+> > > +/* Do not use directly, use %pOFm format specifier instead */
+> > > +size_t of_modalias(const struct device_node *np, char *str, size_t len)
+> >
+> > We should keep ssize_t.
+> 
+> My intent was to align of_modalias() with snprintf()...
 
-> From: Perry Yuan <Perry.Yuan@amd.com>
-> 
-> The AMD Heterogeneous core design and Hardware Feedback Interface (HFI)
-> provide behavioral classification and a dynamically updated ranking table
-> for the scheduler to use when choosing cores for tasks.
-> 
-> There are two CPU core types defined: `Classic Core` and `Dense Core`.
-> "Classic" cores are the standard performance cores, while "Dense" cores
-> are optimized for area and efficiency.
-> 
-> Heterogeneous compute refers to CPU implementations that are comprised
-> of more than one architectural class, each with two capabilities. This
-> means each CPU reports two separate capabilities: "perf" and "eff".
-> 
-> Each capability lists all core ranking numbers between 0 and 255, where
-> a higher number represents a higher capability.
-> 
-> Heterogeneous systems can also extend to more than two architectural
-> classes.
-> 
-> The purpose of the scheduling feedback mechanism is to provide information
-> to the operating system scheduler in real time, allowing the scheduler to
-> direct threads to the optimal core during task scheduling.
-> 
-> All core ranking data are provided by the PMFW via a shared memory ranking
-> table, which the driver reads and uses to update core capabilities to the
-> scheduler. When the hardware updates the table, it generates a platform
-> interrupt to notify the OS to read the new ranking table.
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
-> Reviewed-by: Gautham R. Shenoy <gautham.shenoy@amd.com>
-> Signed-off-by: Perry Yuan <perry.yuan@amd.com>
-> Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
-> Reviewed-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> ---
-> v7:
->  * Adjust Kconfig to 80 characters
-> ---
->  drivers/platform/x86/amd/Kconfig      |   1 +
->  drivers/platform/x86/amd/Makefile     |   1 +
->  drivers/platform/x86/amd/hfi/Kconfig  |  20 ++++
->  drivers/platform/x86/amd/hfi/Makefile |   7 ++
->  drivers/platform/x86/amd/hfi/hfi.c    | 161 ++++++++++++++++++++++++++
->  5 files changed, 190 insertions(+)
->  create mode 100644 drivers/platform/x86/amd/hfi/Kconfig
->  create mode 100644 drivers/platform/x86/amd/hfi/Makefile
->  create mode 100644 drivers/platform/x86/amd/hfi/hfi.c
-> 
-> diff --git a/drivers/platform/x86/amd/Kconfig b/drivers/platform/x86/amd/Kconfig
-> index c3e086ea64fc6..589d61ebf726b 100644
-> --- a/drivers/platform/x86/amd/Kconfig
-> +++ b/drivers/platform/x86/amd/Kconfig
-> @@ -6,6 +6,7 @@
->  source "drivers/platform/x86/amd/hsmp/Kconfig"
->  source "drivers/platform/x86/amd/pmf/Kconfig"
->  source "drivers/platform/x86/amd/pmc/Kconfig"
-> +source "drivers/platform/x86/amd/hfi/Kconfig"
->  
->  config AMD_3D_VCACHE
->  	tristate "AMD 3D V-Cache Performance Optimizer Driver"
-> diff --git a/drivers/platform/x86/amd/Makefile b/drivers/platform/x86/amd/Makefile
-> index 56f62fc9c97b4..c50e93c3334cf 100644
-> --- a/drivers/platform/x86/amd/Makefile
-> +++ b/drivers/platform/x86/amd/Makefile
-> @@ -10,3 +10,4 @@ obj-$(CONFIG_AMD_PMC)		+= pmc/
->  obj-$(CONFIG_AMD_HSMP)		+= hsmp/
->  obj-$(CONFIG_AMD_PMF)		+= pmf/
->  obj-$(CONFIG_AMD_WBRF)		+= wbrf.o
-> +obj-$(CONFIG_AMD_HFI)		+= hfi/
-> diff --git a/drivers/platform/x86/amd/hfi/Kconfig b/drivers/platform/x86/amd/hfi/Kconfig
-> new file mode 100644
-> index 0000000000000..532939eb08a6a
-> --- /dev/null
-> +++ b/drivers/platform/x86/amd/hfi/Kconfig
-> @@ -0,0 +1,20 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +#
-> +# AMD Hardware Feedback Interface Driver
-> +#
-> +
-> +config AMD_HFI
-> +	bool "AMD Hetero Core Hardware Feedback Driver"
-> +	depends on ACPI
-> +	depends on CPU_SUP_AMD
-> +	help
-> +	 Select this option to enable the AMD Heterogeneous Core Hardware
-> +	 Feedback Interface. If selected, hardware provides runtime thread
-> +	 classification guidance to the operating system on the performance and
-> +	 energy efficiency capabilities of each heterogeneous CPU core. These
-> +	 capabilities may vary due to the inherent differences in the core types
-> +	 and can also change as a result of variations in the operating
-> +	 conditions of the system such as power and thermal limits. If selected,
-> +	 the kernel relays updates in heterogeneous CPUs' capabilities to
-> +	 userspace, allowing for more optimal task scheduling and resource
-> +	 allocation, leveraging the diverse set of cores available.
-> diff --git a/drivers/platform/x86/amd/hfi/Makefile b/drivers/platform/x86/amd/hfi/Makefile
-> new file mode 100644
-> index 0000000000000..672c6ac106e95
-> --- /dev/null
-> +++ b/drivers/platform/x86/amd/hfi/Makefile
-> @@ -0,0 +1,7 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# AMD Hardware Feedback Interface Driver
-> +#
-> +
-> +obj-$(CONFIG_AMD_HFI) += amd_hfi.o
-> +amd_hfi-objs := hfi.o
-> diff --git a/drivers/platform/x86/amd/hfi/hfi.c b/drivers/platform/x86/amd/hfi/hfi.c
-> new file mode 100644
-> index 0000000000000..2cd71d79a22c9
-> --- /dev/null
-> +++ b/drivers/platform/x86/amd/hfi/hfi.c
-> @@ -0,0 +1,161 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * AMD Hardware Feedback Interface Driver
-> + *
-> + * Copyright (C) 2024 Advanced Micro Devices, Inc. All Rights Reserved.
-> + *
-> + * Authors: Perry Yuan <Perry.Yuan@amd.com>
-> + *          Mario Limonciello <mario.limonciello@amd.com>
-> + */
-> +
-> +#define pr_fmt(fmt)  "amd-hfi: " fmt
-> +
-> +#include <linux/acpi.h>
-> +#include <linux/cpu.h>
-> +#include <linux/cpumask.h>
-> +#include <linux/gfp.h>
-> +#include <linux/init.h>
-> +#include <linux/io.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/smp.h>
-> +
-> +#define AMD_HFI_DRIVER		"amd_hfi"
-> +#define AMD_HETERO_CPUID_27	0x80000027
-> +static struct platform_device *device;
-> +
-> +struct amd_hfi_data {
-> +	const char	*name;
-> +	struct device	*dev;
-> +	struct mutex	lock;
-> +};
-> +
-> +struct amd_hfi_classes {
-> +	u32	perf;
-> +	u32	eff;
-> +};
-> +
-> +/**
-> + * struct amd_hfi_cpuinfo - HFI workload class info per CPU
-> + * @cpu:		cpu index
-> + * @cpus:		mask of cpus associated with amd_hfi_cpuinfo
-> + * @class_index:	workload class ID index
-> + * @nr_class:		max number of workload class supported
-> + * @amd_hfi_classes:	current cpu workload class ranking data
-> + *
-> + * Parameters of a logical processor linked with hardware feedback class
-> + */
-> +struct amd_hfi_cpuinfo {
-> +	int		cpu;
-> +	cpumask_var_t	cpus;
-> +	s16		class_index;
-> +	u8		nr_class;
-> +	struct amd_hfi_classes	*amd_hfi_classes;
-> +};
-> +
-> +static DEFINE_PER_CPU(struct amd_hfi_cpuinfo, amd_hfi_cpuinfo) = {.class_index = -1};
-> +
-> +static int amd_hfi_alloc_class_data(struct platform_device *pdev)
-> +{
-> +	struct amd_hfi_cpuinfo *hfi_cpuinfo;
-> +	struct device *dev = &pdev->dev;
-> +	int idx;
-> +	int nr_class_id;
-> +
-> +	nr_class_id = cpuid_eax(AMD_HETERO_CPUID_27);
-> +	if (nr_class_id < 0 || nr_class_id > 255) {
-> +		dev_err(dev, "failed to get number of supported classes: %d\n",
-> +			nr_class_id);
-> +		return -EINVAL;
-> +	}
-> +
-> +	for_each_present_cpu(idx) {
-> +		struct amd_hfi_classes *classes;
-> +
-> +		classes = devm_kzalloc(dev,
-> +				       nr_class_id * sizeof(struct amd_hfi_classes),
-> +				       GFP_KERNEL);
+Sure.
 
-devm_kcalloc()?
-
--- 
- i.
-
-> +		if (!classes)
-> +			return -ENOMEM;
-> +		hfi_cpuinfo = per_cpu_ptr(&amd_hfi_cpuinfo, idx);
-> +		hfi_cpuinfo->amd_hfi_classes = classes;
-> +		hfi_cpuinfo->nr_class = nr_class_id;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct acpi_device_id amd_hfi_platform_match[] = {
-> +	{"AMDI0104", 0},
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(acpi, amd_hfi_platform_match);
-> +
-> +static int amd_hfi_probe(struct platform_device *pdev)
-> +{
-> +	struct amd_hfi_data *amd_hfi_data;
-> +	int ret;
-> +
-> +	if (!acpi_match_device(amd_hfi_platform_match, &pdev->dev))
-> +		return -ENODEV;
-> +
-> +	amd_hfi_data = devm_kzalloc(&pdev->dev, sizeof(*amd_hfi_data), GFP_KERNEL);
-> +	if (!amd_hfi_data)
-> +		return -ENOMEM;
-> +
-> +	amd_hfi_data->dev = &pdev->dev;
-> +	ret = devm_mutex_init(&pdev->dev, &amd_hfi_data->lock);
-> +	if (ret)
-> +		return ret;
-> +	platform_set_drvdata(pdev, amd_hfi_data);
-> +
-> +	ret = amd_hfi_alloc_class_data(pdev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +
-> +static struct platform_driver amd_hfi_driver = {
-> +	.driver = {
-> +		.name = AMD_HFI_DRIVER,
-> +		.owner = THIS_MODULE,
-> +		.acpi_match_table = ACPI_PTR(amd_hfi_platform_match),
-> +	},
-> +	.probe = amd_hfi_probe,
-> +};
-> +
-> +static int __init amd_hfi_init(void)
-> +{
-> +	int ret;
-> +
-> +	if (acpi_disabled ||
-> +	    !cpu_feature_enabled(X86_FEATURE_AMD_HETEROGENEOUS_CORES) ||
-> +	    !cpu_feature_enabled(X86_FEATURE_AMD_WORKLOAD_CLASS))
-> +		return -ENODEV;
-> +
-> +	device = platform_device_register_simple(AMD_HFI_DRIVER, -1, NULL, 0);
-> +	if (IS_ERR(device)) {
-> +		pr_err("unable to register HFI platform device\n");
-> +		return PTR_ERR(device);
-> +	}
-> +
-> +	ret = platform_driver_register(&amd_hfi_driver);
-> +	if (ret)
-> +		pr_err("failed to register HFI driver\n");
-> +
-> +	return ret;
-> +}
-> +
-> +static __exit void amd_hfi_exit(void)
-> +{
-> +	platform_device_unregister(device);
-> +	platform_driver_unregister(&amd_hfi_driver);
-> +}
-> +module_init(amd_hfi_init);
-> +module_exit(amd_hfi_exit);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("AMD Hardware Feedback Interface Driver");
+> > "end - buf" passed from device_node_string() in vprintf.c might be
+> > negative. The "buf" pointer is used to count the number of characters
+> > which might be written when the buffer is big enough.
 > 
+> Isn't Rasmus' suggestion sufficient?:
+> 
+> buf += of_modalias(dn, buf, buf < end ? end - buf : 0)
+
+Yes, this should do the trick. I sent my overview before reading
+Rasmus' reply.
+
+Best Regards,
+Petr
