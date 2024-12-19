@@ -1,75 +1,75 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658B6225785
-	for <linux-doc@vger.kernel.org>; Thu, 19 Dec 2024 16:08:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A7BA218AC8
+	for <linux-doc@vger.kernel.org>; Thu, 19 Dec 2024 16:09:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734624504; cv=none; b=PXSjElPabB2Jh2Q8QcV3A/MFniKHIgmI6eGGw68PyBBLLJk4Q2Lz/cR10IrXZI4I11ohWdQUNSoUTbgFQFBvOQvtwS04rgncz55HcpBM+xd9qWhFM2eOwJnaXKLMvo6cZJsJQSoVu1C/p+GeHSOZDfkdya8gBE3gc1fVT1sE43c=
+	t=1734624547; cv=none; b=szPnuUIuys96ih2waqyaOv1n9NxdBCms8YYSLbjdPWlXi2UmZA9OXRxJ9MaWInfpJ45/eYnOAaJ6srwQcCrXhhgi1p8q99RHkFO72LKpQzDfotY6ywzV2Y2wFlIOvw/z1NJjG5xcLqLEjt2uCEQ9pwSWTOUnv1czMd//b4Co/rA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734624504; c=relaxed/simple;
-	bh=YQEr6GSEtuEIr80AgS3GqbdNAQ58Tai2FwrUUBAgQXs=;
+	s=arc-20240116; t=1734624547; c=relaxed/simple;
+	bh=tuMcpsUZREIUVyzz4ojsblqNAQ+lBbLQTV/hl6W/BOk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lZDS/KG7TJmZMwXQDTUY+UxMts3svSOGf9qPTDio25ovJmeBe8apYCRQc/MzH5KLbgVWsBI6Fa0T+enBSMRzzWPUu2zQwC8EpbuPrRgMTZfbZ2/l2HFyk9Kje8tiSfK+wMorxpfwvCf4TaqQ2kMKP3j+Ud9IDl5pysBYCcHp4gY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sNZbFBtX; arc=none smtp.client-ip=209.85.160.182
+	 To:Cc:Content-Type; b=NPljz7xI2kS/XCw0ZADCDUISA77zPhSHx8fRG06NqZzobJACnMUrZ9wgU0vt26AqkurCs+aM3T6OAzISi4XuVZnIzxE4iNTbNZYYb7HwQjgUYmOrrIjf3FbefuuC1j9fEo/5I6vIhu3gTgC2I/TiMk3waj/flYuMB9U6yXRmoVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tqMMXNOv; arc=none smtp.client-ip=209.85.160.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sNZbFBtX"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4679b5c66d0so266231cf.1
-        for <linux-doc@vger.kernel.org>; Thu, 19 Dec 2024 08:08:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tqMMXNOv"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4678c9310afso268281cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Dec 2024 08:09:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734624501; x=1735229301; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1734624545; x=1735229345; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YQEr6GSEtuEIr80AgS3GqbdNAQ58Tai2FwrUUBAgQXs=;
-        b=sNZbFBtXWTCOhRUnnWiHkC4gOHEi5oA4rPOuWZIA/Ar2Iws0vl8yEKg+YFUk8NsYlG
-         zDa/o2xrAec9uK5xJY5TzUnkm7jkzmjFq9otbtQtP78RpBQxQPG0Tme9QSeqHzQeSPsZ
-         tGUyZMZdRz+zokhrCaZAvNC8eIYVafIcsnO4WoWo+rzFx3i98G5lf7KoeQLeIojvuSUP
-         hghj0Jq8+Wt9nHrVpLn4RYN/oGfhpxH2MV2DcYyKYWn+TiSDeu7Wdhkl91sMQNeDQ1XJ
-         AZwAd4fwmT3i/Wln2qGJkqQH2uA8VHY78sY8PdC1S4x7vg9aM9WLnrl59LFWt7XoHKWo
-         7fnA==
+        bh=LCgxhmLOQYthLyXRUTTalRd8vqUeNlTesIKzqn1x7Hg=;
+        b=tqMMXNOvDTDqi+CmGrUBIooGMXeNsD1RQ3SRTkqd0XOhlxFfFNhe+CWDaFYBPQooFO
+         v3VQsjgQxqJJcJceBBrixqhNzjFJtR10TTtVm6Qu10TJfVJfx3Brmen+f5ew9bsTDsEv
+         s2vL8eOAiSnzcxROE00azdM9aeAZcrwoVkkgXeMlJW8ESOYZ9eO3EdiVwi7aeoFbTWqU
+         1hSLISKrRuDsi7+Nd6maUtUE93jsYFIYC6EUfCLYq3Vx3aSGU2RlhGth1wCRrJFjIjM8
+         P7YTjvmLm5dr50lqhQny4cz5PClgvLQFFPIT01FOCpYP7qzk0h/4MOGtScrmbR50IXUt
+         i0aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734624501; x=1735229301;
+        d=1e100.net; s=20230601; t=1734624545; x=1735229345;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YQEr6GSEtuEIr80AgS3GqbdNAQ58Tai2FwrUUBAgQXs=;
-        b=qLsyasusV2kG7GOWoZ6/AOwax+vrUbGG2v79GO+Hbo1iMIYSr7xlsomicy5pmK8Mq+
-         XYBGTDic8kQnfKfMeZlQJdt6l+KStkQAPsuBdKMg+hAhXxTvxucH2wIMei8TjGs7Y84C
-         4hGA39L5/ELdqVaRxUJI0RCvQFpb6m/CKuRl/6ZqrxLMPH6W9rgDmvHXgnM+KOOj6kNp
-         pe4q3AQHQx+SMTlmURN1Q3ofTGouzXNr7PS8+4734rrV75M9MFrgH+XGvf0UCg6Dvljh
-         9nLY2Ql7NWiNbA6PbEUPTomJIC3odEGNXf8kxmBOfy3rCASmAAZ3/K172Lt02v5i7PCG
-         2scg==
-X-Forwarded-Encrypted: i=1; AJvYcCUgXnQkDwV56KbDYMjpWbflijrTM9rRBQ9cafgU69gltkcHo1d24ayQyFR+Agb4w3PspVTN4dMeeL0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzL94sCEkaAo9OUeUmROy6ohxXDITbqFKWcFxx5ZGLVdLdzdMP+
-	jjHqT+FQCNGmqX1yP2ABFjpxUkhzZJpGPSw/qqpCyv9o3tKaa3m7e4zZmlWWOaLJoAU8Z25Z7sr
-	YZI4dacsBB1GegAVT3NXk74mzeWvsiBD7wgd8
-X-Gm-Gg: ASbGncsAGr7wD7ardoUsVE6v/1taY75V4f1LlNS1uchjkZ0iTpzx6xC8XiXKzTGn3DM
-	kctpNgDc8WDHBx+Qa5f1OgZRtyHgUQa6oSRoWtw==
-X-Google-Smtp-Source: AGHT+IGwsQcyLlf1a93KTfVc5eZas6UKzid4em28ST7skzxkFy/tov3QwCf8dLyO0bw5a5+gaQtzzoEMgu99ZDqR8K4=
-X-Received: by 2002:a05:622a:7:b0:466:975f:b219 with SMTP id
- d75a77b69052e-46a3b979807mr4450551cf.8.1734624500958; Thu, 19 Dec 2024
- 08:08:20 -0800 (PST)
+        bh=LCgxhmLOQYthLyXRUTTalRd8vqUeNlTesIKzqn1x7Hg=;
+        b=bJFPpVBlyAEcLLdkccYjJWv528N/yDzneZX0tt6vUobz60dD8569UuDOR5B00VgssP
+         7lK85/hWrd6U+iBT4iBJcQgPIzZmwneBC6187uRbXMStR3frjAnMUaXVokV0DtvYSGSZ
+         kSXRXU+zynHOy+QneDUe/wdXAW0J+GdicDGLhuOG6E3zzN1MAzkNiXLe0Wcdp2TU50vd
+         JHo3P+v3ykhZp1cO7FUD/efDAyB8DXeCtr2dakalKvSrVH52BQcwRQrBz2saaRkALTil
+         r629ApvOU9V61G60/a+MOzzdF+8ihK04yUz6Fs+FKp6bAoruHU/ql02ks6qLaAf117xM
+         rPwA==
+X-Forwarded-Encrypted: i=1; AJvYcCUejGrEYb5IqPm3PfWLvEK9We05LMD8BnH1fN5C1lEJdWaCUP/igZytNBMyjBYZKldKw923P8Mp8oQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYf1xYCYVvUjUaMEqhs0+kuA1Z/jW0bKx1Vp6UxP5F+/uPBPWG
+	Y5jbVhmiMUDoCSyC18Hcd+6R8LEWzhOP2BHQo7zGfY7V0NnkTTXNCP7AFU3cSLp358IT0W4NZ/z
+	U5ajtqY5eKK9sxE+xHxlPzYuKcTPj3gmH2Bo+
+X-Gm-Gg: ASbGncvigXwLyUq16wa/OQqrxMwM+VA0aYm8jI/AtmojwLcs9weNjn548cZPIXjyTcy
+	7WaalsGhpTKauNvPLq/KaMd0MmlZwgAhUORm4jg==
+X-Google-Smtp-Source: AGHT+IGaYUwlx8T+p0Hq2btHdVXy1lv5ojWPf+BuJ26e1EpPkyfSUV7doB72/gxv+xg35rUWrgceMD59LoyZkCBd8oc=
+X-Received: by 2002:ac8:7f45:0:b0:466:923f:a749 with SMTP id
+ d75a77b69052e-46a3d93ed81mr3392441cf.15.1734624544472; Thu, 19 Dec 2024
+ 08:09:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241217103035.GD11133@noisy.programming.kicks-ass.net>
- <CAJuCfpHzsQeejdPPbDdA6B3Wa=-KusnYRUyt1U0WnCRr8OKfGw@mail.gmail.com>
- <20241218094104.GC2354@noisy.programming.kicks-ass.net> <20241218100601.GI12500@noisy.programming.kicks-ass.net>
+References: <20241218100601.GI12500@noisy.programming.kicks-ass.net>
  <kfltsrry7qjuycyqpe2wune2ejad6kvusm2zixvfbtprbnw2lv@wcafrui6qaa7>
  <CAJuCfpFYZkc===SXF35s3C0xg3q5RjpCiOQhwK=9_3RnFUye1g@mail.gmail.com>
  <20241218161850.GG2354@noisy.programming.kicks-ass.net> <CAJuCfpHDRCoaBfE8y6AppKveSTgayyTNfDyQWH=gMzO-Pkuqpw@mail.gmail.com>
  <20241218174428.GQ2354@noisy.programming.kicks-ass.net> <CAJuCfpEKg_h5pw2AxdF1wmFMt4xdOxYqv7U1uVMYcuSCB4kHuA@mail.gmail.com>
- <20241219085311.GA26551@noisy.programming.kicks-ass.net>
-In-Reply-To: <20241219085311.GA26551@noisy.programming.kicks-ass.net>
+ <r7polqnhdguxrz6npklag5kjy7ipbj5lrnqai2qm3jt7x56hci@cfrcom746iae>
+ <CAJuCfpGeRi73E94VCDPDGAGG+5-Sj-_YGf3JNnf6Bh4GH_M6jA@mail.gmail.com>
+ <CAJuCfpHJwVXanjG0WGjo0KHHEbg1-T0HWTZqDpssoq3FvfG++A@mail.gmail.com> <20241219085515.GB26551@noisy.programming.kicks-ass.net>
+In-Reply-To: <20241219085515.GB26551@noisy.programming.kicks-ass.net>
 From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 19 Dec 2024 08:08:09 -0800
-Message-ID: <CAJuCfpGafwBehugTB+D2M03zsbnvO_L8zZb1gzHYtfu5uYugvg@mail.gmail.com>
+Date: Thu, 19 Dec 2024 08:08:52 -0800
+Message-ID: <CAJuCfpFeUU0hDdfyn+qUKGnnciRH2dAAVWL5A5FdWHa0UW_RaQ@mail.gmail.com>
 Subject: Re: [PATCH v6 10/16] mm: replace vm_lock and detached flag with a
  reference count
 To: Peter Zijlstra <peterz@infradead.org>
@@ -86,30 +86,23 @@ Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>, akpm@linux-foundation.org, will
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 19, 2024 at 12:53=E2=80=AFAM Peter Zijlstra <peterz@infradead.o=
+On Thu, Dec 19, 2024 at 12:55=E2=80=AFAM Peter Zijlstra <peterz@infradead.o=
 rg> wrote:
 >
-> On Wed, Dec 18, 2024 at 09:58:12AM -0800, Suren Baghdasaryan wrote:
+> On Wed, Dec 18, 2024 at 11:29:23AM -0800, Suren Baghdasaryan wrote:
 >
-> > And remove_vma will be just freeing the vmas. Is that correct?
+> > Yeah, I think we can simply do this:
+> >
+> > vms_complete_munmap_vmas
+> >            vms_clear_ptes
+> >            remove_vma
+> >                vma_mark_detached
+> >            mmap_write_downgrade
+> >
+> > If my assumption is incorrect, assertion inside vma_mark_detached()
+> > should trigger. I tried a quick test and so far nothing exploded.
 >
-> Yep.
->
-> > I'm a bit confused because the original thinking was that
-> > vma_mark_detached() would drop the last refcnt and if it's 0 we would
-> > free the vma right there. If that's still what we want to do then I
-> > think the above sequence should look like this:
->
-> Right; sorry about that. So my initial objection to that extra sync was
-> based on the reasons presented -- but having had to look at the unmap
-> path again (my mm-foo is somewhat rusty, I've not done much the past few
-> years) I realized that keeping a VMA alive beyond unmapping PTEs is just
-> plain daft.
->
-> So yes, back to your original semantics, but cleaned up to not need that
-> extra sync point -- instead relying on the natural placement of
-> vma_start_write() after unhooking from the mm. And not for reasons of
-> the race, but for reasons of integrity -- VMA without PTEs is asking for
-> more trouble.
+> I think that would be unfortunate and could cause regressions. I think
+> we want to keep vms_clear_ptes() under the read-lock.
 
-Ack. Thanks for clarification!
+Ok, I'll stop considering this option.
