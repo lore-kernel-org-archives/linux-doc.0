@@ -1,99 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890AF1BD9CB;
-	Thu, 19 Dec 2024 20:18:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB51019F13B;
+	Thu, 19 Dec 2024 20:35:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734639523; cv=none; b=WDLYpEg41Hh+Aonx1Ai/B3ox6gmLbThssMV29zPkoBZHe61Jgqx9FER1ng7xtT/J5XW5gq6csqgH6jJJqvSKuYawe5Tc6mutuBt6K8m2t4WK2h46z8s2r74lQpTtrZQyN7C8uXvhwORHcKaHJVoBn7DFCWRmyRZWL+6lNh8TloI=
+	t=1734640538; cv=none; b=hiqH9saUMn45JDwYpxCSUjBPAZLfvHv5g4VoadxZBgQON37xV0SjOZSwCZ3808l5TtJkqhdB6EM+IxkCDkr4x5Vl/h+0bMU2IQZWltGChb5Y1lBqKjqbkG4vn46dwWt77P8p6WJ5Tsx86NeO4k9rm5FkwyfwgLMuM9Lpuu2F+pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734639523; c=relaxed/simple;
-	bh=KoFj7ZTbF8oplY3j57+uvv4cZtVSD6uQ2VvgawtQeZg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HiGSjEr9GJmGl4w7402h14tybk11SyoNzh6r5Q0e4Q8ZMcw10hD84CGogUhO2BmjYrwSC5sER53aoDhMFIyA1BXPrS4IWVsKfYfIJYeCwXO/iHTM+l/WxrX91LUI5QEzMutJZJOZsUB/TEml0qUAbdzWDBgHvuMhh5vI+v1Gboo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZkmtfY4C; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734640538; c=relaxed/simple;
+	bh=nsChvgsBvN5PC9wB5iyc+9GEU9Dq/vGvGTgheNyhyS4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jsHHLXISbYaB5uNKpCNjWGrQByZl82wRo63m6gAZpTcSbV3J6+NKMLa28rCFTvVnuJa7Estbs4XTZ9/0g4ZDnnXVtlmqq7D+yaCNrqQ6Yzg3bmLLJFvsYaLMCF7c9HtCebD5GMKh/gsz26kr8av2dBq1AWzJZf+7AbsrmsFAqSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dvRNMeht; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZkmtfY4C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEA2BC4AF0E;
-	Thu, 19 Dec 2024 20:18:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dvRNMeht"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37DADC4CED0;
+	Thu, 19 Dec 2024 20:35:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734639523;
-	bh=KoFj7ZTbF8oplY3j57+uvv4cZtVSD6uQ2VvgawtQeZg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ZkmtfY4CfyLT3DhJsGJl9L7zxd6scUYBDFYB0zl5EXzmSd3aschRzzGmJDedlpygQ
-	 H9iufJau2UUI+xMD8bzc/Xa6t1mg3sRo9PMKwLESHx8bFaIFjIWch1qpzz3yNOTfNH
-	 Awp6p2+gVQ9/yyZd0vlcJTgLj22YrUm9whgm1BdQWen2UYV+EM1owwnIP7b4JjGvYY
-	 ECTLGuU9Y2EoTDRNqL/UbytzSye3S3oqzYAGdd4+mDsBoV9JMXhjqgmj2JLU9SvBWg
-	 brw+AZjM3dkdBN9W9CjnMi8i+qvzcDgvd+Ov/ZQFs2OZuyrU19HEK2PnpGmK7yOSo9
-	 MobkbzpOP6I/A==
-Date: Thu, 19 Dec 2024 12:18:41 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Andy Gospodarek <andrew.gospodarek@broadcom.com>
-Cc: Taehee Yoo <ap420073@gmail.com>, davem@davemloft.net, pabeni@redhat.com,
- edumazet@google.com, almasrymina@google.com, donald.hunter@gmail.com,
- corbet@lwn.net, michael.chan@broadcom.com, andrew+netdev@lunn.ch,
- hawk@kernel.org, ilias.apalodimas@linaro.org, ast@kernel.org,
- daniel@iogearbox.net, john.fastabend@gmail.com, dw@davidwei.uk,
- sdf@fomichev.me, asml.silence@gmail.com, brett.creeley@amd.com,
- linux-doc@vger.kernel.org, netdev@vger.kernel.org,
- kory.maincent@bootlin.com, maxime.chevallier@bootlin.com,
- danieller@nvidia.com, hengqi@linux.alibaba.com, ecree.xilinx@gmail.com,
- przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com,
- rrameshbabu@nvidia.com, idosch@nvidia.com, jiri@resnulli.us,
- bigeasy@linutronix.de, lorenzo@kernel.org, jdamato@fastly.com,
- aleksander.lobakin@intel.com, kaiyuanz@google.com, willemb@google.com,
- daniel.zahka@gmail.com
-Subject: Re: [PATCH net-next v6 3/9] bnxt_en: add support for tcp-data-split
- ethtool command
-Message-ID: <20241219121841.3ed4de71@kernel.org>
-In-Reply-To: <Z2R1GFOg1hapdfl-@JRM7P7Q02P.dhcp.broadcom.net>
-References: <20241218144530.2963326-1-ap420073@gmail.com>
-	<20241218144530.2963326-4-ap420073@gmail.com>
-	<20241218182547.177d83f8@kernel.org>
-	<CAMArcTXAm9_zMN0g_2pECbz3855xN48wvkwrO0gnPovy92nt8g@mail.gmail.com>
-	<20241219062942.0d84d992@kernel.org>
-	<CAMArcTUToUPUceEFd0Xh_JL8kVZOX=rTarpy1iOAD5KvRWP5Fg@mail.gmail.com>
-	<20241219072519.4f35de6e@kernel.org>
-	<Z2R1GFOg1hapdfl-@JRM7P7Q02P.dhcp.broadcom.net>
+	s=k20201202; t=1734640537;
+	bh=nsChvgsBvN5PC9wB5iyc+9GEU9Dq/vGvGTgheNyhyS4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dvRNMehtn0Sgs7wNk38il/udSjkYlgaNr7gKA4d1JFXgWr1lwogFsJOJZnD71+8gv
+	 E1hsmvjMz5QCXcBAmn/z5WkGz6zUXLGHcsmbrWVS5W7B/VCoUQ9uJ9XQozq7ZcYpy8
+	 8l+/NkyEyLqUcR+vbrv8cg33amWkv15rKj+K9FNep6o+B30F7Nry6WhwZpLbVGz/D/
+	 bqjbqISwUd3EZDZWi6Jkw/sBDAnlJFo7DhAziZD3tyqLZLV6tyjfpgrNeYnykxv/yS
+	 /7XN9d20gxGGVBl/q2y1eJhJa4uW2lRqqqBIO1QgCTm/AyWbt4rQT/SAy8RR9jtokM
+	 ZpiHQt62hovqQ==
+Date: Thu, 19 Dec 2024 15:35:35 -0500
+From: Sasha Levin <sashal@kernel.org>
+To: Kees Cook <kees@kernel.org>
+Cc: torvalds@linux-foundation.org, apw@canonical.com, conor@kernel.org,
+	corbet@lwn.net, dwaipayanray1@gmail.com, geert+renesas@glider.be,
+	gitster@pobox.com, horms@kernel.org, joe@perches.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux@leemhuis.info, lukas.bulwahn@gmail.com,
+	miguel.ojeda.sandonis@gmail.com, niklas.soderlund@corigine.com,
+	workflows@vger.kernel.org
+Subject: Re: [RFC] git-disambiguate: disambiguate shorthand git ids
+Message-ID: <Z2SDl423NkL1QCIS@lappy>
+References: <CAHk-=wiwAz3UgPOWK3RdGXDnTRHcwVbxpuxCQt_0SoAJC-oGXQ@mail.gmail.com>
+ <20241218233613.219345-1-sashal@kernel.org>
+ <202412181739.0170E86E58@keescook>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <202412181739.0170E86E58@keescook>
 
-On Thu, 19 Dec 2024 14:33:44 -0500 Andy Gospodarek wrote:
-> > I see it now in bnxt_set_rx_skb_mode. I guess with high MTU
-> > the device splits in some "dumb" way, at a fixed offset..
-> > You're right, we have to keep the check in the driver, 
-> > at least for now.  
-> 
-> The mutlti-buffer implementation followed what was done at the time in
-> other drivers.  Is the 'dumb way' you mention this check?
-> 
->  4717                 if (dev->mtu > BNXT_MAX_PAGE_MODE_MTU) {
->  4718                         bp->flags |= BNXT_FLAG_JUMBO;
->  4719                         bp->rx_skb_func = bnxt_rx_multi_page_skb;
->  4720                 } else {
->  4721                         bp->flags |= BNXT_FLAG_NO_AGG_RINGS;
->  4722                         bp->rx_skb_func = bnxt_rx_page_skb;
->  4723                 }
+On Wed, Dec 18, 2024 at 05:41:58PM -0800, Kees Cook wrote:
+>On Wed, Dec 18, 2024 at 06:36:13PM -0500, Sasha Levin wrote:
+>> Sometimes long commit hashes can be ambiguous even when providing
+>> several digits from its abbreviation.
+>
+>For testing, please see:
+>https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=dev/collide/v6.13-rc2/12-char
+>
+>>  scripts/git-disambiguate.sh | 163 ++++++++++++++++++++++++++++++++++++
+>
+>sfr has a bunch of logic in his "check_fixes" script that we might want
+>to consolidate into here. I have an updated copy here:
+>https://github.com/kees/kernel-tools/blob/trunk/helpers/check_fixes
 
-Yes, that and my interpretation of the previous discussion let me to
-believe that the BNXT_FLAG_JUMBO does not enable header-data split.
-And speculating further I thought that perhaps the buffer split with
-jumbo > 4k is to fill first buffer completely, header+however much
-data fits.
+Thanks! I'll look into it.
 
-I could have misread the previous conversation (perhaps Michael meant
-XDP SB / PAGE_MODE when he was referring to XDP limitations?)
-
-Or maybe the HDS does happen with XDP MB but there is another
-limitation in the code?
-
-I'm not sure. At this stage we just need to know if the check in the
-driver is really needed or XDP MB + HDS are fine, and we can remove
-the driver check, as core already prevents XDP SB + HDS. Could you
-clarify?
+-- 
+Thanks,
+Sasha
