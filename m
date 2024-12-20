@@ -1,100 +1,139 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA6EF9EC
-	for <linux-doc@vger.kernel.org>; Fri, 20 Dec 2024 05:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5AE1632DD;
+	Fri, 20 Dec 2024 06:12:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734671411; cv=none; b=i5GgEB1PFPesyS4CgwAkBKX5kLKeSyLaXDDhmcbQx6aG4QJge9tjm+2q6/WMTYvj9l0+eH0RxbnRCYPA0hWoQ3gixJaLCe+Mjau09mIMzKL7kbXWm+D0q0ZrUsZiyK5psDRtBHbl0gUpzx4REBkIW6KcsnpfBAf/8wOOAbUULI0=
+	t=1734675174; cv=none; b=aRFW0aOCe6zc2gecvcyECDe6InNkDPADqCfwcqCPkAF9PkiPKCFvsZaT0AW2WQVHVqkZ2sxMx5Q3P+DhgWnIo0IzAZ8pTWdR3D0WXR/hn68yLOFfHZDT+h8+gdtqEiNB2SLD2Z4Ljsh5d4/eYDGzqGp7w25mxBqok4t98VWuHN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734671411; c=relaxed/simple;
-	bh=nQAuVVFgMoryM5wSVPpNXZp2p2Ic02XNphuALScgEHU=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:References:Cc:
-	 In-Reply-To:Content-Type; b=DNfwbnAXfmB6v69dgCs/q3QiF4y43oUIyn66GErCk/rjU46lCEXPJSuIvQxL9bfDy4vXhmTjf7Rho8e9udfGXoxTO/hioTji2Ewx/079ZSqdT4Plhh4YkZEGpMOeyTqmv4+A6yp/E+aAAXVKZDObB5TuZDOyHbVxqTurQLDRVpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ueZmAnVG; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1734675174; c=relaxed/simple;
+	bh=ZzuWvue3/Dyz3OEX4IuEIJmdALTB1lMDUAcKhYLsTpI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hQNaLsaj6PQOd6ou2mNvs0Y3ikjUxhEsH8zfAAk4LfJ3YQ2bhkq8q8FFt3DBKS97BhAY2Vhxs+HuzGMfYG7i5LYoDBhr3m3Y9JIApd+x3HIiLzz6o+ash7rO3qYs5L47CQWuEI0nAj8MgGTIFwOrr9wICxMP3iT1dn0PgRRuAAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kdF2XYTM; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ueZmAnVG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:Cc:References:To:From:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=DoEsuUFGI7Z01epZ4kmPxptjQYsVMT0ELivChMWjklI=; b=ueZmAnVGCNFyHFnUyjFj1l2lbo
-	LHle4wpB6S2kjJ+wMv6lhvPt7xCU9tDNvpTVOmueDN8SIFMNrM3I1Svql2HqXHrsI6wLWoXPupsTQ
-	z6G0/0pEVCaoA4brTjvXfuw/iFrolobOCYetpcAwAlpS58PXnAx98JdT+VUpwKA1YWJB9PAPYIe95
-	5q9+QQG1GfOuXCsz395KfASjo4AwlPKotjQAYzaYyGmWRWmp/JGtQMGUiEAr6hm/v8G1fxiS4x2hV
-	VXBY3oXoF3ToONNVQIXFFC57PSHMl0Ezb+KxDmRAYCO9leLRcxMNmCzuhZryn6NDPx1hbtClZ2etF
-	t8+K3QOw==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tOVH3-000000082SN-38Y6;
-	Fri, 20 Dec 2024 05:10:06 +0000
-Message-ID: <23b78991-59f6-4e6f-9caa-5ea4da394ef2@infradead.org>
-Date: Thu, 19 Dec 2024 21:10:03 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kdF2XYTM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734675173; x=1766211173;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZzuWvue3/Dyz3OEX4IuEIJmdALTB1lMDUAcKhYLsTpI=;
+  b=kdF2XYTMvIxUET2SN8KNoqLjMFPP8A2qi+x6I8FBlVGRMJ49E/V83xba
+   g0b64k85iHP1n+e2VR7WPRlEkM1BLCldYBw5o35a2tSHDlS3YyF6i0RUM
+   ByDJyvqWFcFTwOUlD08z/ww9ii/ZvvR/10YXpO7PE7TdlYUNzU16ftqO+
+   1Nuoie0k28qLQs4WmTU0XhrmYuFRNbq/ArqBtMhjO6V9y7Zs/1JaOg2t2
+   SvQi8oxnh08o/vKZysoQf32anC0YePHzhN0jkksRGVVYi80nKDByTSCaA
+   Y0yrdAyW9ovUKQg/jMIJ32VL7Lw1KZbmwi6eaEqqVTHI43aSAqyb3KMS2
+   w==;
+X-CSE-ConnectionGUID: U+YpWyynTDqQRFY04taqXA==
+X-CSE-MsgGUID: HKf3QRZeQh6Wx7dtXbtXLQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="52624772"
+X-IronPort-AV: E=Sophos;i="6.12,249,1728975600"; 
+   d="scan'208";a="52624772"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2024 22:12:52 -0800
+X-CSE-ConnectionGUID: sOKRon2lQOKdRxhfnSyVsg==
+X-CSE-MsgGUID: MHx5yihkQumsZQA5kCOVYw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,249,1728975600"; 
+   d="scan'208";a="103405111"
+Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 19 Dec 2024 22:12:46 -0800
+Received: from kbuild by a46f226878e0 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tOWFf-0000tP-2O;
+	Fri, 20 Dec 2024 06:12:43 +0000
+Date: Fri, 20 Dec 2024 14:12:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Fabio Estevam <festevam@denx.de>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+	kernel@pengutronix.de, Ahmad Fatoum <a.fatoum@pengutronix.de>
+Subject: Re: [PATCH 02/11] reboot: reboot, not shutdown, on
+ hw_protection_reboot timeout
+Message-ID: <202412201310.JWkUQ9qf-lkp@intel.com>
+References: <20241219-hw_protection-reboot-v1-2-263a0c1df802@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Bug in kernel-doc ("-" misinterpretation)
-From: Randy Dunlap <rdunlap@infradead.org>
-To: John Ousterhout <ouster@cs.stanford.edu>, linux-doc@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>
-References: <CAGXJAmzfRzE=A94NT5ETtj3bZc-=2oLg-9E5Kjh4o_-iuw1q8g@mail.gmail.com>
- <78b837e5-5fdf-47b3-8f83-824777ba0569@infradead.org>
-Content-Language: en-US
-Cc: Vegard Nossum <vegard.nossum@oracle.com>
-In-Reply-To: <78b837e5-5fdf-47b3-8f83-824777ba0569@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241219-hw_protection-reboot-v1-2-263a0c1df802@pengutronix.de>
 
-[adding Vegard's email address ;]
+Hi Ahmad,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ahmad-Fatoum/reboot-replace-__hw_protection_shutdown-bool-action-parameter-with-an-enum/20241219-155416
+base:   78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
+patch link:    https://lore.kernel.org/r/20241219-hw_protection-reboot-v1-2-263a0c1df802%40pengutronix.de
+patch subject: [PATCH 02/11] reboot: reboot, not shutdown, on hw_protection_reboot timeout
+config: i386-buildonly-randconfig-003-20241220 (https://download.01.org/0day-ci/archive/20241220/202412201310.JWkUQ9qf-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412201310.JWkUQ9qf-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412201310.JWkUQ9qf-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   kernel/reboot.c:241: warning: Function parameter or struct member 'cmd' not described in 'do_kernel_restart'
+>> kernel/reboot.c:995: warning: Function parameter or struct member 'action' not described in 'hw_failure_emergency_schedule'
+>> kernel/reboot.c:995: warning: Function parameter or struct member 'poweroff_delay_ms' not described in 'hw_failure_emergency_schedule'
+   kernel/reboot.c:1023: warning: Function parameter or struct member 'action' not described in '__hw_protection_shutdown'
+   kernel/reboot.c:1023: warning: Excess function parameter 'shutdown' description in '__hw_protection_shutdown'
 
 
-On 12/19/24 9:02 PM, Randy Dunlap wrote:
-> Hi John,
-> 
-> Thanks for the report. (I have confirmed it.)
-> 
-> 
-> On 12/19/24 10:37 AM, John Ousterhout wrote:
->> kernel-doc gets confused by code like the following:
->>
->> /**
->>  * define HOMA_MIN_DEFAULT_PORT - The 16-bit port space is divided into
->>  * two nonoverlapping regions. Ports 1-32767 are reserved exclusively
->>  * for well-defined server ports. The remaining ports are used for client
->>  * ports; these are allocated automatically by Homa. Port 0 is reserved.
->>  */
->> #define HOMA_MIN_DEFAULT_PORT 0x8000
->>
->> It seems to use the last "-" on the line (the one in "16-bit") rather
->> than the first one, so it produces the following false error message:
->>
->> homa.h:50: warning: expecting prototype for HOMA_MIN_DEFAULT_PORT -
->> The 16(). Prototype was for HOMA_MIN_DEFAULT_PORT() instead
->>
->> There are similar problems if there is a ":" later on the line.
-> 
-> 
-> @Vegard, can you look at this, please?
-> I have already looked but didn't arrive at a solution.
-> 
-> 
-> It appears to be these lines in process_name() that are confusing the function name
-> and following description:
-> 
->         # Look for foo() or static void foo() - description; or misspelt
->         # identifier
->         elsif (/^$decl_start$fn_type?(\w+)\s*$parenthesis?\s*$decl_end?$/ ||
->             /^$decl_start$fn_type?(\w+.*)$parenthesis?\s*$decl_end$/) {
->             $identifier = $1;
-> 
-> Thanks.
+vim +995 kernel/reboot.c
+
+dfa19b11385d4c Matti Vaittinen 2021-06-03   983  
+dfa19b11385d4c Matti Vaittinen 2021-06-03   984  static DECLARE_DELAYED_WORK(hw_failure_emergency_poweroff_work,
+dfa19b11385d4c Matti Vaittinen 2021-06-03   985  			    hw_failure_emergency_poweroff_func);
+dfa19b11385d4c Matti Vaittinen 2021-06-03   986  
+dfa19b11385d4c Matti Vaittinen 2021-06-03   987  /**
+595ab92650cc28 Ahmad Fatoum    2024-12-19   988   * hw_failure_emergency_schedule - Schedule an emergency system shutdown or reboot
+dfa19b11385d4c Matti Vaittinen 2021-06-03   989   *
+dfa19b11385d4c Matti Vaittinen 2021-06-03   990   * This may be called from any critical situation to trigger a system shutdown
+dfa19b11385d4c Matti Vaittinen 2021-06-03   991   * after a given period of time. If time is negative this is not scheduled.
+dfa19b11385d4c Matti Vaittinen 2021-06-03   992   */
+595ab92650cc28 Ahmad Fatoum    2024-12-19   993  static void hw_failure_emergency_schedule(enum hw_protection_action action,
+595ab92650cc28 Ahmad Fatoum    2024-12-19   994  					  int poweroff_delay_ms)
+dfa19b11385d4c Matti Vaittinen 2021-06-03  @995  {
+dfa19b11385d4c Matti Vaittinen 2021-06-03   996  	if (poweroff_delay_ms <= 0)
+dfa19b11385d4c Matti Vaittinen 2021-06-03   997  		return;
+595ab92650cc28 Ahmad Fatoum    2024-12-19   998  	hw_failure_emergency_action = action;
+dfa19b11385d4c Matti Vaittinen 2021-06-03   999  	schedule_delayed_work(&hw_failure_emergency_poweroff_work,
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1000  			      msecs_to_jiffies(poweroff_delay_ms));
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1001  }
+dfa19b11385d4c Matti Vaittinen 2021-06-03  1002  
 
 -- 
-~Randy
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
