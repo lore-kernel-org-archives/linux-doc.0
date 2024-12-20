@@ -1,67 +1,73 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7636321D581;
-	Fri, 20 Dec 2024 19:03:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48DF021E087
+	for <linux-doc@vger.kernel.org>; Fri, 20 Dec 2024 19:06:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734721412; cv=none; b=V/aroQy7BSIqaT0QLhG49ywXzMBoFQwWkKeezuAvmtJsxYI9GOJEwd1tXXgpqZp/5WJhTkj4hXykQiTOngNuqZCx8+sFUf2DtZyeH+oCTMN3o+L1AfPlmD4O6GLTxEQo1i9eQHodJU27ELnXR2U0ZwRxU6LiTmSOAyS0aRRmIc0=
+	t=1734721618; cv=none; b=GoKPs0YpovA6ZcLYHLGLyHb4DbifHsR2+rLHPmLEuQGGGSvqR2ahebWBRXjIMDQsvPEzd2Y1e2jCVZbQoxlTrWgQh4CBaqDYrLbTw+YPChlI/CwQ0Fwj4ccdPrF5O7L2T6JeAZxfUB4s1JPw5PTcdsmRPZkjV1qDqfj0W8aTVl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734721412; c=relaxed/simple;
-	bh=nOfV5vd27/3y92PJ93PBaz4A1pTuP6II2RIz8lpjD3k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qNVnhd2u7zQG0Qjjlw2p7nNw3fWWTqjPlFTa26RJCvO9rOMPIMiJRey22ohTLFJxyuCzcG8ajMB0l8q58GNphp0V/h9FOcl+5TQH8f+G0Z5gb1qQ3TF2J71AyBD7mGWWrD7xV0s6xcJFSihmpd5Jbge1U1i/hm3vq4V6bHHCN+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=qqt45vIm; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1734721618; c=relaxed/simple;
+	bh=7gfnrOEXrYyt9L9L/esuswAJaSra/+5R7Bufs0jeFxk=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=BWzrKsX1YvM3GHQ7zwcetP9MVGHSLnyZ2q5uCrZ4cMpzIN6KZUX/YxEbvquZLlWWNit7bkGKfsodusvPrKaS36iMslVqUdWyhvTkf1gZ0s6FdoZgRWDslgnzURfmaB3TOmchrcK8W8D7CK9Fwy2lVnnw7HjXPdZP5C8b1oSHOX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fgBnBrHM; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="qqt45vIm"
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BKHj2iX017754;
-	Fri, 20 Dec 2024 19:03:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=A/thrs
-	OVlC9B/aQYyKOdHHhsT2ZMpZ1UJx8QWdMzxtc=; b=qqt45vIm+4ftUwPEYkxU+Z
-	6ni6fq3+o10RElP2sB6EJmM41MMhnLIj18xVVSFnHZKvvuaowc2kgA4iix6K3qIs
-	X9RsyDj7/w7/ACz6HRtTTFHhPN0LhFWFLQ88YZS9FyN4VgQEphvFwrmTgOAcjpS1
-	lsG65Z/vsyMotgimwJoUiKdcPkDctaCqJs+DmTDvHS7w+HkuSZRKlyrKhdrHuMbZ
-	NTfdDAwY7ZdJ5rXmy6Z23i9YvWiKBCqZESK30D+RYRDYrd5ZW+RA4mEDMJ+WjOZp
-	Qzi/BxIVUGuakPWv4johTbnHwB+cW61X/5XuzMuiFvmaZO0e2IoQdWZpYpraIshA
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43n12buyj6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 20 Dec 2024 19:03:07 +0000 (GMT)
-Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BKJ36iI026808;
-	Fri, 20 Dec 2024 19:03:06 GMT
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43n12buyhw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 20 Dec 2024 19:03:06 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BKIlhrV011256;
-	Fri, 20 Dec 2024 19:03:05 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 43hpjkkahd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 20 Dec 2024 19:03:05 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BKJ33NI64618926
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 20 Dec 2024 19:03:04 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DE88020043;
-	Fri, 20 Dec 2024 19:03:03 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 69E2D20040;
-	Fri, 20 Dec 2024 19:02:59 +0000 (GMT)
-Received: from [9.39.22.57] (unknown [9.39.22.57])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 20 Dec 2024 19:02:59 +0000 (GMT)
-Message-ID: <0d676465-e23b-4a00-b6fd-41a4566ec2a5@linux.ibm.com>
-Date: Sat, 21 Dec 2024 00:32:58 +0530
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fgBnBrHM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1734721615;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=RFkEsTciWcnTwL/TtonKd+lF734hGRTV7zLxkP7e2NM=;
+	b=fgBnBrHMG93kC8O+AvYgWyjXvtHg41t3iKU72MtnZa0JJK9ii7IHPYMvfUVZ9WIhPGjj76
+	oR1awzLr4uJU2scWJaQ0p+RcJjC0MXlJvkcu0v0DUtkTZCpUCNKFy8bHYFzA5+6DtbYF+v
+	UQMAbdt0zXXs0XMaOOqhRtGOKPkZpOI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-441-AGhCX9wTPGmpaEYKOV9pTA-1; Fri, 20 Dec 2024 14:06:54 -0500
+X-MC-Unique: AGhCX9wTPGmpaEYKOV9pTA-1
+X-Mimecast-MFC-AGG-ID: AGhCX9wTPGmpaEYKOV9pTA
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-43631d8d9c7so12495375e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 20 Dec 2024 11:06:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734721613; x=1735326413;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:from:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=RFkEsTciWcnTwL/TtonKd+lF734hGRTV7zLxkP7e2NM=;
+        b=a9SL1276TYCiSUizZD+8Sp7Z6xBwKOviSGPfR/tKvRc53pprM4S/95iirpCMuHu8t2
+         rjFPtd3OKpRWWM5Winrk5PwYIXXsdFNBqSw/f1DAC/JkaP2S4fIQl3raD0j2Pb7Yga/2
+         4pvaZeckhFv2BVyfQ35WvsszVYp91/mIuuZPtDwYB0sGkUhs5e97zcLlewZ17GP5aArN
+         KzhokGOEcseM5b/JKnrL9ud3VOVeUFhx30hxDzuI8BnFgxmHwTC5kJb/w0tGyC32+rLk
+         gJI9yBRjJUMR28EeD/1R0qN1CdFcyf4gKks29iWnUytUioDu3EFu46c0+jrBy/kC5gFE
+         kNyw==
+X-Forwarded-Encrypted: i=1; AJvYcCXvAWjc68qFRN2ORoml+jrRP467vOqF3psa4sZX1nag9l1FaAHDzNfEmWLWWVG1RkpaPvXx9B4wJXM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwdaEQ/4l4p8R3QoiXZISYhequpgfx1oxpZKkjR+D8FqNVguw1j
+	Vi3LKrGjEvc3lyTOw5Y3dx/xlCQ0hUGspPJdXj1CzgkAewBZf3VF2dOEDE53GJ2hAlnaQfyU7WF
+	s4qSaQ/2iwf0QM27ctSeCJ+nybd5sZ84Z2zzUGeUqIPpavbxoT+dX0sR/Vw==
+X-Gm-Gg: ASbGncuXwT9ai2xq9L8MscKCLgtFDOutTBaiKNd/UqRstkysHKcXD4xtTSFExjpOySn
+	TnioqoCjXOFTgff/znmAg1a3+ZMERoyBbvT3F3FL3qG6ocsdJx/QXyk8bM5127xV8I4wsl9SoP4
+	nJzq+c0isJlniThFLlQlvJ8TlOdnEnFqn3+5fhZ8CSx8lzT9nVjP/hjPEGAyoF1q/m1xQh+XfmR
+	TOWHEj4ahOy4J7nEWMjucIAVHQbdKZNFZ81XsLN6Z9dpdn4UzIMyt1VgpuGCqAbduHPNDbVuvnR
+	Fx7F4aw11MVzAbQfria4LF4gbKkLXMfnDDMupPyXQVq/rOmWhNw0s7nCsXYtDrKFzWynqHNo9GP
+	CE8E1T+ys
+X-Received: by 2002:a05:600c:511d:b0:434:fddf:5c06 with SMTP id 5b1f17b1804b1-436696fec16mr35270605e9.1.1734721612823;
+        Fri, 20 Dec 2024 11:06:52 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IERqIf8xGPJCOcwULreRIrmoeCTCQCdfJF2ZzCiP9Fl3O6hFSwQAHiUYx6RQs/AxsCHXPlxOQ==
+X-Received: by 2002:a05:600c:511d:b0:434:fddf:5c06 with SMTP id 5b1f17b1804b1-436696fec16mr35270125e9.1.1734721612322;
+        Fri, 20 Dec 2024 11:06:52 -0800 (PST)
+Received: from ?IPV6:2003:cb:c708:9d00:edd9:835b:4bfb:2ce3? (p200300cbc7089d00edd9835b4bfb2ce3.dip0.t-ipconnect.de. [2003:cb:c708:9d00:edd9:835b:4bfb:2ce3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4366112e780sm53169585e9.0.2024.12.20.11.06.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Dec 2024 11:06:51 -0800 (PST)
+Message-ID: <6254ce2c-4a47-4501-b518-dedaddcbf91a@redhat.com>
+Date: Fri, 20 Dec 2024 20:06:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,253 +75,160 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/6] docs: Update Schedstat version to 17
-To: Swapnil Sapkal <swapnil.sapkal@amd.com>
-Cc: dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        mgorman@suse.de, vschneid@redhat.com, iamjoonsoo.kim@lge.com,
-        qyousef@layalina.io, alexs@kernel.org, lukasz.luba@arm.com,
-        gautham.shenoy@amd.com, kprateek.nayak@amd.com, ravi.bangoria@amd.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        peterz@infradead.org, mingo@redhat.com, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, corbet@lwn.net
-References: <20241220063224.17767-1-swapnil.sapkal@amd.com>
- <20241220063224.17767-7-swapnil.sapkal@amd.com>
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
+Subject: Re: [PATCH v4 12/25] mm/memory: Enhance insert_page_into_pte_locked()
+ to create writable mappings
+From: David Hildenbrand <david@redhat.com>
+To: Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org,
+ dan.j.williams@intel.com, linux-mm@kvack.org
+Cc: lina@asahilina.net, zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
+ vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
+ bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca, catalin.marinas@arm.com,
+ will@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com,
+ dave.hansen@linux.intel.com, ira.weiny@intel.com, willy@infradead.org,
+ djwong@kernel.org, tytso@mit.edu, linmiaohe@huawei.com, peterx@redhat.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
+ david@fromorbit.com
+References: <cover.18cbcff3638c6aacc051c44533ebc6c002bf2bd9.1734407924.git-series.apopple@nvidia.com>
+ <25a23433cb70f0fe6af92042eb71e962fcbf092b.1734407924.git-series.apopple@nvidia.com>
+ <d4d32e17-d8e2-4447-bd33-af41e89a528f@redhat.com>
 Content-Language: en-US
-In-Reply-To: <20241220063224.17767-7-swapnil.sapkal@amd.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <d4d32e17-d8e2-4447-bd33-af41e89a528f@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: xT3EURp0c_XsF72OlHSDVuPULed430sF
-X-Proofpoint-ORIG-GUID: fwIq4QEwcyzcDJdFRbuvqtsy0ourMIfy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 malwarescore=0 clxscore=1015 adultscore=0 mlxscore=0
- phishscore=0 spamscore=0 priorityscore=1501 mlxlogscore=999 bulkscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412200153
 
-
-
-On 12/20/24 12:02, Swapnil Sapkal wrote:
-> Update the Schedstat version to 17 as more fields are added to report
-> different kinds of imbalances in the sched domain. Also domain field
-> started printing corresponding domain name.
+On 20.12.24 20:01, David Hildenbrand wrote:
+> On 17.12.24 06:12, Alistair Popple wrote:
+>> In preparation for using insert_page() for DAX, enhance
+>> insert_page_into_pte_locked() to handle establishing writable
+>> mappings.  Recall that DAX returns VM_FAULT_NOPAGE after installing a
+>> PTE which bypasses the typical set_pte_range() in finish_fault.
+>>
+>> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+>> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+>>
+>> ---
+>>
+>> Changes since v2:
+>>
+>>    - New patch split out from "mm/memory: Add dax_insert_pfn"
+>> ---
+>>    mm/memory.c | 45 +++++++++++++++++++++++++++++++++++++--------
+>>    1 file changed, 37 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/mm/memory.c b/mm/memory.c
+>> index 06bb29e..cd82952 100644
+>> --- a/mm/memory.c
+>> +++ b/mm/memory.c
+>> @@ -2126,19 +2126,47 @@ static int validate_page_before_insert(struct vm_area_struct *vma,
+>>    }
+>>    
+>>    static int insert_page_into_pte_locked(struct vm_area_struct *vma, pte_t *pte,
+>> -			unsigned long addr, struct page *page, pgprot_t prot)
+>> +				unsigned long addr, struct page *page,
+>> +				pgprot_t prot, bool mkwrite)
+>>    {
+>>    	struct folio *folio = page_folio(page);
+>> +	pte_t entry = ptep_get(pte);
+>>    	pte_t pteval;
+>>    
+>> -	if (!pte_none(ptep_get(pte)))
+>> -		return -EBUSY;
+>> +	if (!pte_none(entry)) {
+>> +		if (!mkwrite)
+>> +			return -EBUSY;
+>> +
+>> +		/*
+>> +		 * For read faults on private mappings the PFN passed in may not
+>> +		 * match the PFN we have mapped if the mapped PFN is a writeable
+>> +		 * COW page.  In the mkwrite case we are creating a writable PTE
+>> +		 * for a shared mapping and we expect the PFNs to match. If they
+>> +		 * don't match, we are likely racing with block allocation and
+>> +		 * mapping invalidation so just skip the update.
+>> +		 */
 > 
-> Signed-off-by: Swapnil Sapkal <swapnil.sapkal@amd.com>
-
-You can ignore my comments on updating the docs file. Sorry i didn't see 
-earlier.
-
-> ---
->   Documentation/scheduler/sched-stats.rst | 126 ++++++++++++++----------
->   kernel/sched/stats.c                    |   2 +-
->   2 files changed, 76 insertions(+), 52 deletions(-)
+> Would it make sense to instead have here
 > 
-> diff --git a/Documentation/scheduler/sched-stats.rst b/Documentation/scheduler/sched-stats.rst
-> index 7c2b16c4729d..caea83d91c67 100644
-> --- a/Documentation/scheduler/sched-stats.rst
-> +++ b/Documentation/scheduler/sched-stats.rst
-> @@ -2,6 +2,12 @@
->   Scheduler Statistics
->   ====================
->   
-> +Version 17 of schedstats removed 'lb_imbalance' field as it has no
-> +significance anymore and instead added more relevant fields namely
-> +'lb_imbalance_load', 'lb_imbalance_util', 'lb_imbalance_task' and
-> +'lb_imbalance_misfit'. The domain field prints the name of the
-> +corresponding sched domain from this version onwards.
-> +
->   Version 16 of schedstats changed the order of definitions within
->   'enum cpu_idle_type', which changed the order of [CPU_MAX_IDLE_TYPES]
->   columns in show_schedstat(). In particular the position of CPU_IDLE
-> @@ -9,7 +15,9 @@ and __CPU_NOT_IDLE changed places. The size of the array is unchanged.
->   
->   Version 15 of schedstats dropped counters for some sched_yield:
->   yld_exp_empty, yld_act_empty and yld_both_empty. Otherwise, it is
-> -identical to version 14.
-> +identical to version 14. Details are available at
-> +
-> +	https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/scheduler/sched-stats.txt?id=1e1dbb259c79b
->   
->   Version 14 of schedstats includes support for sched_domains, which hit the
->   mainline kernel in 2.6.20 although it is identical to the stats from version
-> @@ -26,7 +34,14 @@ cpus on the machine, while domain0 is the most tightly focused domain,
->   sometimes balancing only between pairs of cpus.  At this time, there
->   are no architectures which need more than three domain levels. The first
->   field in the domain stats is a bit map indicating which cpus are affected
-> -by that domain.
-> +by that domain. Details are available at
-> +
-> +	https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/sched-stats.txt?id=b762f3ffb797c
-> +
-> +The schedstat documentation is maintained version 10 onwards and is not
-> +updated for version 11 and 12. The details for version 10 are available at
-> +
-> +	https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/sched-stats.txt?id=1da177e4c3f4
->   
->   These fields are counters, and only increment.  Programs which make use
->   of these will need to start with a baseline observation and then calculate
-> @@ -71,88 +86,97 @@ Domain statistics
->   -----------------
->   One of these is produced per domain for each cpu described. (Note that if
->   CONFIG_SMP is not defined, *no* domains are utilized and these lines
-> -will not appear in the output.)
-> +will not appear in the output. <name> is an extension to the domain field
-> +that prints the name of the corresponding sched domain. It can appear in
-> +schedstat version 17 and above, and requires CONFIG_SCHED_DEBUG.)
->   
-> -domain<N> <cpumask> 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36
-> +domain<N> <name> <cpumask> 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45
->   
->   The first field is a bit mask indicating what cpus this domain operates over.
->   
-> -The next 24 are a variety of sched_balance_rq() statistics in grouped into types
-> -of idleness (idle, busy, and newly idle):
-> +The next 33 are a variety of sched_balance_rq() statistics in grouped into types
-> +of idleness (busy, idle and newly idle):
->   
->       1)  # of times in this domain sched_balance_rq() was called when the
-> +        cpu was busy
-> +    2)  # of times in this domain sched_balance_rq() checked but found the
-> +        load did not require balancing when busy
-> +    3)  # of times in this domain sched_balance_rq() tried to move one or
-> +        more tasks and failed, when the cpu was busy
-> +    4)  Total imbalance in load when the cpu was busy
-> +    5)  Total imbalance in utilization when the cpu was busy
-> +    6)  Total imbalance in number of tasks when the cpu was busy
-> +    7)  Total imbalance due to misfit tasks when the cpu was busy
-> +    8)  # of times in this domain pull_task() was called when busy
-> +    9)  # of times in this domain pull_task() was called even though the
-> +        target task was cache-hot when busy
-> +    10) # of times in this domain sched_balance_rq() was called but did not
-> +        find a busier queue while the cpu was busy
-> +    11) # of times in this domain a busier queue was found while the cpu
-> +        was busy but no busier group was found
-> +
-> +    12) # of times in this domain sched_balance_rq() was called when the
->           cpu was idle
-> -    2)  # of times in this domain sched_balance_rq() checked but found
-> +    13) # of times in this domain sched_balance_rq() checked but found
->           the load did not require balancing when the cpu was idle
-> -    3)  # of times in this domain sched_balance_rq() tried to move one or
-> +    14) # of times in this domain sched_balance_rq() tried to move one or
->           more tasks and failed, when the cpu was idle
-> -    4)  sum of imbalances discovered (if any) with each call to
-> -        sched_balance_rq() in this domain when the cpu was idle
-> -    5)  # of times in this domain pull_task() was called when the cpu
-> +    15) Total imbalance in load when the cpu was idle
-> +    16) Total imbalance in utilization when the cpu was idle
-> +    17) Total imbalance in number of tasks when the cpu was idle
-> +    18) Total imbalance due to misfit tasks when the cpu was idle
-> +    19) # of times in this domain pull_task() was called when the cpu
->           was idle
-> -    6)  # of times in this domain pull_task() was called even though
-> +    20) # of times in this domain pull_task() was called even though
->           the target task was cache-hot when idle
-> -    7)  # of times in this domain sched_balance_rq() was called but did
-> +    21) # of times in this domain sched_balance_rq() was called but did
->           not find a busier queue while the cpu was idle
-> -    8)  # of times in this domain a busier queue was found while the
-> +    22) # of times in this domain a busier queue was found while the
->           cpu was idle but no busier group was found
-> -    9)  # of times in this domain sched_balance_rq() was called when the
-> -        cpu was busy
-> -    10) # of times in this domain sched_balance_rq() checked but found the
-> -        load did not require balancing when busy
-> -    11) # of times in this domain sched_balance_rq() tried to move one or
-> -        more tasks and failed, when the cpu was busy
-> -    12) sum of imbalances discovered (if any) with each call to
-> -        sched_balance_rq() in this domain when the cpu was busy
-> -    13) # of times in this domain pull_task() was called when busy
-> -    14) # of times in this domain pull_task() was called even though the
-> -        target task was cache-hot when busy
-> -    15) # of times in this domain sched_balance_rq() was called but did not
-> -        find a busier queue while the cpu was busy
-> -    16) # of times in this domain a busier queue was found while the cpu
-> -        was busy but no busier group was found
->   
-> -    17) # of times in this domain sched_balance_rq() was called when the
-> -        cpu was just becoming idle
-> -    18) # of times in this domain sched_balance_rq() checked but found the
-> +    23) # of times in this domain sched_balance_rq() was called when the
-> +        was just becoming idle
-> +    24) # of times in this domain sched_balance_rq() checked but found the
->           load did not require balancing when the cpu was just becoming idle
-> -    19) # of times in this domain sched_balance_rq() tried to move one or more
-> +    25) # of times in this domain sched_balance_rq() tried to move one or more
->           tasks and failed, when the cpu was just becoming idle
-> -    20) sum of imbalances discovered (if any) with each call to
-> -        sched_balance_rq() in this domain when the cpu was just becoming idle
-> -    21) # of times in this domain pull_task() was called when newly idle
-> -    22) # of times in this domain pull_task() was called even though the
-> +    26) Total imbalance in load when the cpu was just becoming idle
-> +    27) Total imbalance in utilization when the cpu was just becoming idle
-> +    28) Total imbalance in number of tasks when the cpu was just becoming idle
-> +    29) Total imbalance due to misfit tasks when the cpu was just becoming idle
-> +    30) # of times in this domain pull_task() was called when newly idle
-> +    31) # of times in this domain pull_task() was called even though the
->           target task was cache-hot when just becoming idle
-> -    23) # of times in this domain sched_balance_rq() was called but did not
-> +    32) # of times in this domain sched_balance_rq() was called but did not
->           find a busier queue while the cpu was just becoming idle
-> -    24) # of times in this domain a busier queue was found while the cpu
-> +    33) # of times in this domain a busier queue was found while the cpu
->           was just becoming idle but no busier group was found
->   
->      Next three are active_load_balance() statistics:
->   
-> -    25) # of times active_load_balance() was called
-> -    26) # of times active_load_balance() tried to move a task and failed
-> -    27) # of times active_load_balance() successfully moved a task
-> +    34) # of times active_load_balance() was called
-> +    35) # of times active_load_balance() tried to move a task and failed
-> +    36) # of times active_load_balance() successfully moved a task
->   
->      Next three are sched_balance_exec() statistics:
->   
-> -    28) sbe_cnt is not used
-> -    29) sbe_balanced is not used
-> -    30) sbe_pushed is not used
-> +    37) sbe_cnt is not used
-> +    38) sbe_balanced is not used
-> +    39) sbe_pushed is not used
->   
->      Next three are sched_balance_fork() statistics:
->   
-> -    31) sbf_cnt is not used
-> -    32) sbf_balanced is not used
-> -    33) sbf_pushed is not used
-> +    40) sbf_cnt is not used
-> +    41) sbf_balanced is not used
-> +    42) sbf_pushed is not used
->   
->      Next three are try_to_wake_up() statistics:
->   
-> -    34) # of times in this domain try_to_wake_up() awoke a task that
-> +    43) # of times in this domain try_to_wake_up() awoke a task that
->           last ran on a different cpu in this domain
-> -    35) # of times in this domain try_to_wake_up() moved a task to the
-> +    44) # of times in this domain try_to_wake_up() moved a task to the
->           waking cpu because it was cache-cold on its own cpu anyway
-> -    36) # of times in this domain try_to_wake_up() started passive balancing
-> +    45) # of times in this domain try_to_wake_up() started passive balancing
->   
->   /proc/<pid>/schedstat
->   ---------------------
-> diff --git a/kernel/sched/stats.c b/kernel/sched/stats.c
-> index 5f563965976c..4346fd81c31f 100644
-> --- a/kernel/sched/stats.c
-> +++ b/kernel/sched/stats.c
-> @@ -103,7 +103,7 @@ void __update_stats_enqueue_sleeper(struct rq *rq, struct task_struct *p,
->    * Bump this up when changing the output format or the meaning of an existing
->    * format, so that tools can adapt (or abort)
->    */
-> -#define SCHEDSTAT_VERSION 16
-> +#define SCHEDSTAT_VERSION 17
->   
->   static int show_schedstat(struct seq_file *seq, void *v)
->   {
+> /* See insert_pfn(). */
+> 
+> But ...
+> 
+>> +		if (pte_pfn(entry) != page_to_pfn(page)) {
+>> +			WARN_ON_ONCE(!is_zero_pfn(pte_pfn(entry)));
+>> +			return -EFAULT;
+>> +		}
+>> +		entry = maybe_mkwrite(entry, vma);
+>> +		entry = pte_mkyoung(entry);
+>> +		if (ptep_set_access_flags(vma, addr, pte, entry, 1))
+>> +			update_mmu_cache(vma, addr, pte);
+> 
+> ... I am not sure if we want the above at all. Someone inserted a page,
+> which is refcounted + mapcounted already.
+> 
+> Now you ignore that and do like the second insertion "worked" ?
+> 
+> No, that feels wrong, I suspect you will run into refcount+mapcount issues.
+> 
+> If there is already something, inserting must fail IMHO. If you want to
+> change something to upgrade write permissions, then a different
+> interface should be used.
+
+Ah, now I realize that the early exit saves you because we won't adjust 
+the refcount +mapcount.
+
+I still wonder if that really belongs in here, I would prefer to not 
+play such tricks to upgrade write permissions if possible.
+
+-- 
+Cheers,
+
+David / dhildenb
 
