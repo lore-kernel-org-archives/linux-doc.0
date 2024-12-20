@@ -1,76 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEC41A0B04;
-	Fri, 20 Dec 2024 03:30:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE3D2594B5;
+	Fri, 20 Dec 2024 03:54:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734665424; cv=none; b=daNzNiXhHyngtxuPsAbUgshKkfNZ2jW39p9nw0Qlnl6Bb6POPJeb1sYKN0bwg9Grk16AfV+coiKnsXwB/OV5uiEXDUd3gD+TMAjWjxUQykz+gXeGWwLmHrfFWeAY1AN+93QF31k3N7GbFeo5XeV/gV0i+MKFohrBmOrchcymWRE=
+	t=1734666865; cv=none; b=Gts894D9RWUPtHqRxkUKZKocTRL4VeuTK1EcIFkgpN5sNtIgSjEE00lGAWvdgMMHVP1E2EPfgwqSK2Lgfr5GxOlszVL4HOel4ctGspxMVu1jFn7NQT+XsWEnBr6nR8yUEIgcOp7YCPOQrNeiiiyqwvRdTlJVCsWjP9A65/npJNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734665424; c=relaxed/simple;
-	bh=gws3hjmJGflzi0qzwZkugs8TXl5J9BXijUhwFaR93mg=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=tENB5+JjV0aiyvmSUSRB/1u2hLT6dE77Sz9Ivxa5nDqYhfBmZKK06hdWNtwd9TBP80/Xvfqt44pGZfxqM4mRmOgdHwjMC5p58OtXyNhKjakHhguqUVmNLr14GQmcXO+2yiteZSqzZEPrchjt8I88dibMoM7fhkxDFsmV8L6lV+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hADNCNpe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734666865; c=relaxed/simple;
+	bh=DcUUVRtgrPJFsbdG0iucOYQrDt+7D6X6mTi7N+SqfwQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BIzfqDgtcfdJpocDcN/67hwj5dp1yLORYtxyxWaIbXkBdowBxlWGFOvrmVGPJPMl2cdnFufUCN/u1rVn1EyMtPlgyjVw/6Ro4UIUEeMGmHeohQRyaXHjJfGxXHdEQWErVMn53tsI2fFCXIsWiIoUAeZ4j4RJmthch5RkK4tp/hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U8fdGa06; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hADNCNpe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B061CC4CECE;
-	Fri, 20 Dec 2024 03:30:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U8fdGa06"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A579C4CEDD;
+	Fri, 20 Dec 2024 03:54:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734665423;
-	bh=gws3hjmJGflzi0qzwZkugs8TXl5J9BXijUhwFaR93mg=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=hADNCNpeTRrmHNO7LoaIlvvCTfj3NCuv4ISxer9o7Crb0hnhgWRjO8SGGsEAQMke6
-	 dhA8obAsnntPOued2IrwO63eoFQMA62zaVC/+04XqSBdGR73Sw68PRh0GoW5yOhqmK
-	 +TLdTVdKW/H2db0TuQ2ggh6a+haiSNlD0rmuXk1U9grdpEYwhQytQeTsQ1146Jspnr
-	 ECgoB2RfCga50DfrW8V82uHWPpsPy0j8KpEdwHKAfgH0sXoEonhb2GdQhJ6lGnv1j2
-	 k1VEiOEmMAGkvLVbCLxJ6kXcJUdcnaw40llhtWKzW1xkhVy3abegBsO5cN6+z/+z2u
-	 zgvL4eDk+A7gQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADB6A3806656;
-	Fri, 20 Dec 2024 03:30:42 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1734666865;
+	bh=DcUUVRtgrPJFsbdG0iucOYQrDt+7D6X6mTi7N+SqfwQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=U8fdGa06Druqg8pNEQSz9yKd7GwjXDuPcb5o6Opv3oS6VgqwlxuDNYxP5IrwVLgfj
+	 xK4USAAGTGY/YRO2RGMy6JSx4mq8st2dn2lcIou98kgdnUFnUbCpEXbfy9oGQ/t7mf
+	 ZiwTYIp3P+3CWhHqDAJ6dDCb4WKJ9wjbRakWMiaO98WDAm4PjmiVcmT+7ff4uRDi4U
+	 J0LM2PB99rbuxE6JCYzDjMMSxddwT63Mx4zESMUAV44e9ZrKCCe5cKKw4miSB5kPsD
+	 FDomRHryrMFnfb2bTKgveDwTYk//EJy3ii8nHgmXL2PcOfpYtd23MC3vq6eaBjJWcR
+	 PYSdjnp1oPYtg==
+Date: Thu, 19 Dec 2024 19:54:23 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Jonathan
+ Corbet <corbet@lwn.net>, kernel@pengutronix.de,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, Simon Horman
+ <horms@kernel.org>, Russell King <linux@armlinux.org.uk>, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v2 0/8] Introduce unified and structured PHY
+Message-ID: <20241219195423.0bba4ac8@kernel.org>
+In-Reply-To: <20241219132534.725051-1-o.rempel@pengutronix.de>
+References: <20241219132534.725051-1-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v5] net: Document netmem driver support
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <173466544121.2462446.7135397928871556841.git-patchwork-notify@kernel.org>
-Date: Fri, 20 Dec 2024 03:30:41 +0000
-References: <20241217201206.2360389-1-almasrymina@google.com>
-In-Reply-To: <20241217201206.2360389-1-almasrymina@google.com>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello:
-
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Tue, 17 Dec 2024 20:12:06 +0000 you wrote:
-> Document expectations from drivers looking to add support for device
-> memory tcp or other netmem based features.
+On Thu, 19 Dec 2024 14:25:26 +0100 Oleksij Rempel wrote:
+> This patch set introduces a unified and well-structured interface for
+> reporting PHY statistics. Instead of relying on arbitrary strings in PHY
+> drivers, this interface provides a consistent and structured way to
+> expose PHY statistics to userspace via ethtool.
 > 
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> The initial groundwork for this effort was laid by Jakub Kicinski, who
+> contributed patches to plumb PHY statistics to drivers and added support
+> for structured statistics in ethtool. Building on Jakub's work, I tested
+> the implementation with several PHYs, addressed a few issues, and added
+> support for statistics in two specific PHY drivers.
 > 
-> ---
-> 
-> [...]
+> changes are tracked in separate patches.
 
-Here is the summary with links:
-  - [net-next,v5] net: Document netmem driver support
-    https://git.kernel.org/netdev/net-next/c/f6038d913b13
+At a glance looks like it doesn't pass allmodconfig build:
 
-You are awesome, thank you!
+ld: vmlinux.o: in function `linkstate_prepare_data':
+linkstate.c:(.text+0x21192f1): undefined reference to `phy_ethtool_get_link_ext_stats'
+ld: vmlinux.o: in function `stats_prepare_data':
+stats.c:(.text+0x212a66f): undefined reference to `phy_ethtool_get_phy_stats'
+
+There are also kdoc warnings in patch 2.
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+pw-bot: cr
