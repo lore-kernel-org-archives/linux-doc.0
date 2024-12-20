@@ -1,15 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1958218828
-	for <linux-doc@vger.kernel.org>; Fri, 20 Dec 2024 13:09:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9911C218AAB
+	for <linux-doc@vger.kernel.org>; Fri, 20 Dec 2024 13:09:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734700152; cv=none; b=aiJgRJE0BZxenL9og+dttXq+jLDLoVlWX5CoMdgUOZfizsRtgM2ct4ru8zGpAaQrIxHae0OW2EvYX6eDLA/r3P08wqCnX2jAjYJY9JmgvgY0xe5QpaUGEoCmHeO5oqKyqZino4EGNp/MIrPnt4SGEt3MmogkiUbRkVOVxBF18EU=
+	t=1734700154; cv=none; b=B9BdkHLZwOMTG5iSlJJio0L6tRHrMstOwc5eswdI9wp8lA4q5ehzzrDWcn2J2mUXeI+lLaPm4OEAupe/6r0+a9KXFccsuTt5nE+tHtXOcYwx/mwGinns5NPzxNsleHv6r3C3NyJUBIOnoXNL/zxDhwStix0wYxKjJdSkFL6hIIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734700152; c=relaxed/simple;
-	bh=jbrWJi/Ozx7YWY6sI5FVsxAwBkIdvKjr6sFzshCz8A4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SZ/WcRqk+eYm+NLTubDolg8Fpv6SXHCXJudYQ9nNIYysE5BW7M5RuJ6C2Be8+BHjzwZdy0idKQpLGoS1FHCYilNlLIfvolQONSnAqtxqLGptk3qOs3o01XWy542Wip1AmodW7m407SiGitpi9BIyQD0OAoGoJyQc9xtDQLqcx+4=
+	s=arc-20240116; t=1734700154; c=relaxed/simple;
+	bh=IezSPtzCA+GIk5IpkRFZvleekPS1quzOod7dsNbrjWo=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=b9eC2Clisx4/9oO/biU+uMdqqgsx5bnAwqmxLRitFi4+CeEJUKkuC618B5HjpzG84yp5la5PimJE+pbomu2ak0nCo2tkO4ehSW5XYayap850556LSQ9nNaGxBKJIHW3US4/QZLUhnsQJXJzOM/CehOUbl5/Mb4MM/RIyudoTJBQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -17,16 +18,16 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ore@pengutronix.de>)
-	id 1tOckA-0004Du-4I; Fri, 20 Dec 2024 14:08:38 +0100
+	id 1tOckA-0004Dv-4I; Fri, 20 Dec 2024 14:08:38 +0100
 Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <ore@pengutronix.de>)
-	id 1tOck7-004NZg-3D;
+	id 1tOck8-004NZh-02;
 	Fri, 20 Dec 2024 14:08:36 +0100
 Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.96)
 	(envelope-from <ore@pengutronix.de>)
-	id 1tOck8-008MjO-2D;
+	id 1tOck8-008MjY-2I;
 	Fri, 20 Dec 2024 14:08:36 +0100
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: "David S. Miller" <davem@davemloft.net>,
@@ -44,10 +45,12 @@ Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
 	Russell King <linux@armlinux.org.uk>,
 	Maxime Chevallier <maxime.chevallier@bootlin.com>,
 	linux-doc@vger.kernel.org
-Subject: [PATCH net-next v3 0/8] Introduce unified and structured PHY
-Date: Fri, 20 Dec 2024 14:08:27 +0100
-Message-Id: <20241220130836.1993966-1-o.rempel@pengutronix.de>
+Subject: [PATCH net-next v3 1/8] ethtool: linkstate: migrate linkstate functions to support multi-PHY setups
+Date: Fri, 20 Dec 2024 14:08:28 +0100
+Message-Id: <20241220130836.1993966-2-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241220130836.1993966-1-o.rempel@pengutronix.de>
+References: <20241220130836.1993966-1-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,49 +63,93 @@ X-SA-Exim-Mail-From: ore@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-This patch set introduces a unified and well-structured interface for
-reporting PHY statistics. Instead of relying on arbitrary strings in PHY
-drivers, this interface provides a consistent and structured way to
-expose PHY statistics to userspace via ethtool.
+Adapt linkstate_get_sqi() and linkstate_get_sqi_max() to take a
+phy_device argument directly, enabling support for setups with
+multiple PHYs. The previous assumption of a single PHY attached to
+a net_device no longer holds.
 
-The initial groundwork for this effort was laid by Jakub Kicinski, who
-contributed patches to plumb PHY statistics to drivers and added support
-for structured statistics in ethtool. Building on Jakub's work, I tested
-the implementation with several PHYs, addressed a few issues, and added
-support for statistics in two specific PHY drivers.
+Use ethnl_req_get_phydev() to identify the appropriate PHY device
+for the operation. Update linkstate_prepare_data() and related
+logic to accommodate this change, ensuring compatibility with
+multi-PHY configurations.
 
-changes are tracked in separate patches.
+Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+---
+changes v3:
+- s/ETHTOOL_A_PLCA_HEADER/ETHTOOL_A_LINKSTATE_HEADER
+---
+ net/ethtool/linkstate.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
-Jakub Kicinski (2):
-  net: ethtool: plumb PHY stats to PHY drivers
-  net: ethtool: add support for structured PHY statistics
-
-Oleksij Rempel (6):
-  ethtool: linkstate: migrate linkstate functions to support multi-PHY
-    setups
-  Documentation: networking: update PHY error counter diagnostics in
-    twisted pair guide
-  net: phy: introduce optional polling interface for PHY statistics
-  ethtool: add helper to prevent invalid statistics exposure to
-    userspace
-  net: phy: dp83td510: add statistics support
-  net: phy: dp83tg720: add statistics support
-
- .../twisted_pair_layer1_diagnostics.rst       |  39 +++--
- Documentation/networking/ethtool-netlink.rst  |   1 +
- drivers/net/phy/dp83td510.c                   | 112 ++++++++++++
- drivers/net/phy/dp83tg720.c                   | 161 ++++++++++++++++++
- drivers/net/phy/phy.c                         |  20 +++
- include/linux/ethtool.h                       |  39 +++++
- include/linux/phy.h                           | 100 +++++++++++
- include/uapi/linux/ethtool.h                  |   2 +
- include/uapi/linux/ethtool_netlink.h          |  14 ++
- net/ethtool/linkstate.c                       |  25 ++-
- net/ethtool/netlink.h                         |   1 +
- net/ethtool/stats.c                           |  54 ++++++
- net/ethtool/strset.c                          |   5 +
- 13 files changed, 553 insertions(+), 20 deletions(-)
-
---
+diff --git a/net/ethtool/linkstate.c b/net/ethtool/linkstate.c
+index 34d76e87847d..459cfea7652d 100644
+--- a/net/ethtool/linkstate.c
++++ b/net/ethtool/linkstate.c
+@@ -26,9 +26,8 @@ const struct nla_policy ethnl_linkstate_get_policy[] = {
+ 		NLA_POLICY_NESTED(ethnl_header_policy_stats),
+ };
+ 
+-static int linkstate_get_sqi(struct net_device *dev)
++static int linkstate_get_sqi(struct phy_device *phydev)
+ {
+-	struct phy_device *phydev = dev->phydev;
+ 	int ret;
+ 
+ 	if (!phydev)
+@@ -46,9 +45,8 @@ static int linkstate_get_sqi(struct net_device *dev)
+ 	return ret;
+ }
+ 
+-static int linkstate_get_sqi_max(struct net_device *dev)
++static int linkstate_get_sqi_max(struct phy_device *phydev)
+ {
+-	struct phy_device *phydev = dev->phydev;
+ 	int ret;
+ 
+ 	if (!phydev)
+@@ -100,19 +98,28 @@ static int linkstate_prepare_data(const struct ethnl_req_info *req_base,
+ {
+ 	struct linkstate_reply_data *data = LINKSTATE_REPDATA(reply_base);
+ 	struct net_device *dev = reply_base->dev;
++	struct nlattr **tb = info->attrs;
++	struct phy_device *phydev;
+ 	int ret;
+ 
++	phydev = ethnl_req_get_phydev(req_base, tb[ETHTOOL_A_LINKSTATE_HEADER],
++				      info->extack);
++	if (IS_ERR(phydev)) {
++		ret = PTR_ERR(phydev);
++		goto out;
++	}
++
+ 	ret = ethnl_ops_begin(dev);
+ 	if (ret < 0)
+ 		return ret;
+ 	data->link = __ethtool_get_link(dev);
+ 
+-	ret = linkstate_get_sqi(dev);
++	ret = linkstate_get_sqi(phydev);
+ 	if (linkstate_sqi_critical_error(ret))
+ 		goto out;
+ 	data->sqi = ret;
+ 
+-	ret = linkstate_get_sqi_max(dev);
++	ret = linkstate_get_sqi_max(phydev);
+ 	if (linkstate_sqi_critical_error(ret))
+ 		goto out;
+ 	data->sqi_max = ret;
+@@ -127,9 +134,9 @@ static int linkstate_prepare_data(const struct ethnl_req_info *req_base,
+ 			   sizeof(data->link_stats) / 8);
+ 
+ 	if (req_base->flags & ETHTOOL_FLAG_STATS) {
+-		if (dev->phydev)
++		if (phydev)
+ 			data->link_stats.link_down_events =
+-				READ_ONCE(dev->phydev->link_down_events);
++				READ_ONCE(phydev->link_down_events);
+ 
+ 		if (dev->ethtool_ops->get_link_ext_stats)
+ 			dev->ethtool_ops->get_link_ext_stats(dev,
+-- 
 2.39.5
 
