@@ -1,187 +1,355 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBFFC21D596
-	for <linux-doc@vger.kernel.org>; Fri, 20 Dec 2024 18:31:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081A61A0B08
+	for <linux-doc@vger.kernel.org>; Fri, 20 Dec 2024 18:31:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734719471; cv=none; b=MmGs811YDXoHz8Yf75/klzme9dmQkynGYXpgc+X16s8zwTMSh69Y8DOJ0ir7pD7xw+9N6q082BxV4lAaoT3LluhWBkkVClIAjXe5qOYa37EMP0KThT+1qQY1V0cpXQsPQ97wG6csgJWHoqKkK5F/BLgTD8s5gN/7+T3AoT/iWJY=
+	t=1734719471; cv=none; b=mAJNgf6e84XPXXd1pPIEsAarRe1hMEC9ghLIFtpHBYPIol1rISIL1twad3OECSUFfO1hZq8JJkGgRVZ7aXPVa5R3AApu0VwPTKbWTQevoTiMNGfpjWt4BaCg4NrBcE5IrTF5+akO+8G+nJFbQS/jAHYCDbLTHvSxkJnkVoWlSo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1734719471; c=relaxed/simple;
-	bh=5zqe6KTdOvbJhjCS4/7P40LvEhqzzNyD4usnj91BBp8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oTnYu2bfLxgq2A8r6tMns+MBjDQ9X28jVFznaCbkjiJGURzCuJTG+4/AStx1rwrJcICZp/oagdgO5nq0PpbVc7Xdq72IfGoJioXASo3fR55pj6jSIm/LNq8x4iJCkpt/e8ZV7YcXkyz+LEKNGbSjVzRWXntxhyM/g7pV2ym597o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BLMqnjuv; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	bh=Pp6Ldf58PYunvY6VQcSqpnxNdU2lLM5QRxoBrK89u/k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UWd6i5P0+8lzGzz/jfRUzIC1Z7ME/73qgUbFMvZh8seXPI7Ma7/HLxAKQ6Ke5mMtUQw4hZdhB8oqKDZssVWVK+QMWPhTO8uJyfRyGD3GCTAxrzJoys2sSCpL7Q0JZuBuFg/tJ1P3yEcUhIkyan1lOWRkQjCcNAF1oZNQ+hCKwus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=kfogAW+r; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BLMqnjuv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1734719468;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=PN5EVM1NmukZNXj0qpicok/RL7e9UE7DI/QNZtLqqyY=;
-	b=BLMqnjuvwG9+dHuVDlzBLumbSZ8r3qKYjxrFuoON9Q65T/Ap5OlqR5zyyNP263RhgWEJPx
-	u2d7b4DGGz9MBjBvoNAJoFH4SpoGSMGePs6rQHQOOTCAtl7IJbFWxdcPedrfswBpa7Wmqc
-	BB6TNKtfcjss5W0vOx/VE+c0YWI+YlQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-641-XIMBundKPqyEjZDNyUMSOw-1; Fri, 20 Dec 2024 13:31:07 -0500
-X-MC-Unique: XIMBundKPqyEjZDNyUMSOw-1
-X-Mimecast-MFC-AGG-ID: XIMBundKPqyEjZDNyUMSOw
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-385ded5e92aso1003188f8f.3
-        for <linux-doc@vger.kernel.org>; Fri, 20 Dec 2024 10:31:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="kfogAW+r"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-467918c35easo30053191cf.2
+        for <linux-doc@vger.kernel.org>; Fri, 20 Dec 2024 10:31:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1734719468; x=1735324268; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7LqhFf40ELF1z9a1LHRAa1GlyoDFrXmdQu6fcG+/PmI=;
+        b=kfogAW+ra8n4MxhzST7MS2gEZ39IVSYiMp4yq3QtFLiPWyomzmivAJIg9i+zQaswoi
+         /fEBUv+nZ4H/2RgBWs+byCIBEZD9elyqyrvWRGUV2HPh/WblMExBBvvAtanAUHDrAGxN
+         RAgyAg1vYtOxX3XQFBb19mbPhMhKSbfGvnp0vdVZPs0Z63PbViZE3ChpFTs8w/RzFVQ7
+         bDuCOJ63SloeBuhRXorM97c9I7cXdSXzXr4wINo1Hifc6UteIrf9S5kbLAKTODBgQ8bs
+         vlk3fhL5DIF2sVZtFt8HzmirysB3qwyrTHCEKviUyeybRazVYH1vwM6sDDaouSGOHzLS
+         qUHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734719466; x=1735324266;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=PN5EVM1NmukZNXj0qpicok/RL7e9UE7DI/QNZtLqqyY=;
-        b=H5iiJ41YX3ru6OV4ls+Ve1BxHmrLwF3c9xHHLQnH2KW2k9hZ5dwzZKQZhOdFLDND8n
-         ofaRED6Q2n1KCue1IfM303xFyC2zo3KALjBcUlESS2VOOjyhRGZTmwdaaoxVWM4ooKlO
-         uSo6y3+zk/v8f5g8B+OtKtjcCXe3jHE5NgOfBCn1hJLu76KpH2K2m0SUdtFqZ9VGA9K+
-         qHFDYGMfm4r5eZbOWjfCnTJpOICyTvGxUsoI7Mmi6sSnjb8XsAzIqQtqER7W0GZjXEX3
-         tBk4404HcDD4VSClyyhItOAIkXy2gf8j3Ztbx3DNh4ZDl+mWNZ8JPPzimTKuoUUtakkN
-         bv7A==
-X-Forwarded-Encrypted: i=1; AJvYcCXceZlN6KkBwdsQIp9jhw0EVPZuGx1478eRJHM0VOq2CFh2JMheCH4mYVkpS8JHQRuF/YOTMv6qngg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywjv2KnUrbQSSk7lxqwBzvNC2DcXNJmZogCpq0N4m0D1TjAnZjK
-	4WrnRHirZHp1KnK6Cpu+lYojNkYY9do6lSMiZof70NuTa7LUEDWjJLZ6cnEIJOMv/HvXjgkkxLb
-	mpj55BoD3D4i2S0UNZdtvh3rVbfNln4DupEgnMQloSCfCm5ueVBuG8dO7QQ==
-X-Gm-Gg: ASbGncuGwzlgR+9PGEjLQEqQH9TJCT5zATjUyXD6v/ROHEDL0dJflXcgSO8/uNuzPNa
-	8LQFGQUZ8wtO2DKsAfARGTEillpYVtC8Kg1ZCPsuQUzlB5pM17+led/UuaSTgXziePTDGWKe8/f
-	WeUQwGYjRHLKUJ8criG3MedAjItohypHUnCydQ2Ag5wcgjWz5b2innlipXwKzcdkkfnZeuMxoV2
-	GN54n4nx07nVqFlE4GuCrZFXh+FOQdAVM60a3exXMOdpku09HaOB+4Agyw0QidJZsznGbOsCjYA
-	cRpPeAsmzzRNZi43i4gB1SBXcwaBpFu022xeYzuEATppBVKtpvGNJyUX76tNSddaffRbiwj+i0G
-	xI6UuN90Q
-X-Received: by 2002:a5d:64c2:0:b0:386:366d:5d0b with SMTP id ffacd0b85a97d-38a22408e8amr3824131f8f.55.1734719466299;
+        d=1e100.net; s=20230601; t=1734719468; x=1735324268;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7LqhFf40ELF1z9a1LHRAa1GlyoDFrXmdQu6fcG+/PmI=;
+        b=wkub+xgWFxSa/hBPBlsJNqB2ciqML9w0+Sie5U8JrrobZz3hMf8RCdh5xzp4mzed+N
+         ZDPFGMZEIGRelCoXfqxRSKsw+MntT756qKM5sWeY2EY9kR6PaQRqYeLXf5Kvvi75efH5
+         p6IFeP4D/sZXJHpWXTDn8OwzVnbzwkri/3MimvH4Mn5KhaAXzd2GSd0Kw9yERCrP09S7
+         OTSRVdnZadge/8ikeoeotkCuLV/Vh28S41HKPFWiglcviGrFY+YxcN3w6MoKQoFMtvi1
+         l/5onA0GXJMXH+bHYj8alk57BcxUOPCyaBLtgcauDHIVt2gPOg3W7Fm5NJMEXK/65XQl
+         7ElA==
+X-Gm-Message-State: AOJu0Yz49+VZkOhlNfKO4GvSv/gpKn/ljga9iwbjyxEKqx476ZyPSFOF
+	F1HQEwNu/IN5VgCOwanNNej0Vs0sM7jIneZf1emmxD75vBjdB/DJ9oq2GBRQo68=
+X-Gm-Gg: ASbGncuXaT+TyMBztQO+Xs9saQDAA7/L4nRZfBtIjUZIsTqe9TbUzcrApYpkw8Dyaxg
+	IMXx7wPRPW365i1O8EjhkXZFjyejr8/6jctZU6ze8tAP3MFozyw2+LolNckWqfKbrDPXqq6HrDZ
+	XHZ/kahdXB0U5sVhs82eMjtWG0oKig0JCXYCLFZxLjI2s6KCLvOcRpcbIHyhVZGTX/irc4hJZIR
+	U1syvLT9gXvleLIbPqIRVUNQXhpNbrIM33UStu9FUpzm+8CHzkoRqyO0ZJIqkMdhSSzDyt2eMIO
+	pUJJwANGTYeti4Ol86mzGqfE4SuuBFGteZWmyrIJf5mH
+X-Google-Smtp-Source: AGHT+IG3VokA/S8fofMspA55D5E3KmSdSbGr/5Yuv/solpuLg8rBGZZ4rdOtCnC4ib5JVUy6xBuUew==
+X-Received: by 2002:ac8:5952:0:b0:467:b7de:da93 with SMTP id d75a77b69052e-46a4a8baed3mr53699701cf.6.1734719467879;
+        Fri, 20 Dec 2024 10:31:07 -0800 (PST)
+Received: from gourry-fedora-PF4VCD3F.lan (pool-173-79-56-208.washdc.fios.verizon.net. [173.79.56.208])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b9ac2bc86asm158342685a.16.2024.12.20.10.31.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 20 Dec 2024 10:31:06 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IElxiFyJ9qIUioQdUCoDL6NC0K4joEuaDrLW1M/n6klr2NWFr2HJs9ZJNS8OQoynugK8eIYkQ==
-X-Received: by 2002:a5d:64c2:0:b0:386:366d:5d0b with SMTP id ffacd0b85a97d-38a22408e8amr3824083f8f.55.1734719465905;
-        Fri, 20 Dec 2024 10:31:05 -0800 (PST)
-Received: from ?IPV6:2003:cb:c708:9d00:edd9:835b:4bfb:2ce3? (p200300cbc7089d00edd9835b4bfb2ce3.dip0.t-ipconnect.de. [2003:cb:c708:9d00:edd9:835b:4bfb:2ce3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c829348sm4641303f8f.22.2024.12.20.10.31.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Dec 2024 10:31:05 -0800 (PST)
-Message-ID: <107dacce-87dc-457b-a2e1-e5a4699d66af@redhat.com>
-Date: Fri, 20 Dec 2024 19:31:03 +0100
+From: Gregory Price <gourry@gourry.net>
+To: linux-mm@kvack.org
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	kernel-team@meta.com,
+	corbet@lwn.net,
+	david@redhat.com,
+	osalvador@suse.de,
+	akpm@linux-foundation.org,
+	chenhuacai@kernel.org,
+	kernel@xen0n.name,
+	gregkh@linuxfoundation.org,
+	rafael@kernel.org
+Subject: [PATCH v2] mm: add build-time option for hotplug memory default online type
+Date: Fri, 20 Dec 2024 13:31:02 -0500
+Message-ID: <20241220183102.257410-1-gourry@gourry.net>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 14/25] rmap: Add support for PUD sized mappings to rmap
-To: Alistair Popple <apopple@nvidia.com>
-Cc: akpm@linux-foundation.org, dan.j.williams@intel.com, linux-mm@kvack.org,
- lina@asahilina.net, zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
- vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
- bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca, catalin.marinas@arm.com,
- will@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com,
- dave.hansen@linux.intel.com, ira.weiny@intel.com, willy@infradead.org,
- djwong@kernel.org, tytso@mit.edu, linmiaohe@huawei.com, peterx@redhat.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
- nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
- david@fromorbit.com
-References: <cover.18cbcff3638c6aacc051c44533ebc6c002bf2bd9.1734407924.git-series.apopple@nvidia.com>
- <7f739c9e9f0a25cafb76a482e31e632c8f72102e.1734407924.git-series.apopple@nvidia.com>
- <4b5768b7-96e0-4864-9dbe-88fd1f0e87b8@redhat.com>
- <volhyxjxlbsflldgs36ghzartel2tu625ubz3kfed2gdwrsamt@cpfsfhdpc4rp>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <volhyxjxlbsflldgs36ghzartel2tu625ubz3kfed2gdwrsamt@cpfsfhdpc4rp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
->>>    				return -EBUSY;
->>> diff --git a/mm/rmap.c b/mm/rmap.c
->>> index c6c4d4e..39d0439 100644
->>> --- a/mm/rmap.c
->>> +++ b/mm/rmap.c
->>> @@ -1203,6 +1203,11 @@ static __always_inline unsigned int __folio_add_rmap(struct folio *folio,
->>>    		}
->>>    		atomic_inc(&folio->_large_mapcount);
->>>    		break;
->>> +	case RMAP_LEVEL_PUD:
->>> +		/* We only support entire mappings of PUD sized folios in rmap */
->>> +		atomic_inc(&folio->_entire_mapcount);
->>> +		atomic_inc(&folio->_large_mapcount);
->>> +		break;
->>
->>
->> This way you don't account the pages at all as mapped, whereby PTE-mapping it
->> would? And IIRC, these PUD-sized pages can be either mapped using PTEs or
->> using a single PUD.
-> 
-> Oh good point. I was thinking that because we don't account PUD mappings today
-> that it would be fine to ignore them. But of course this series means we start
-> accounting them if mapped with PTEs so agree we should be consistent.
->   
->> I suspect what you want is to
-> 
-> Yes, I think so. Thanks for the hint. I will be out over the Christmas break but
-> will do a respin to incorporate this before then.
+Memory hotplug presently auto-onlines memory into ZONE_NORMAL when
+CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE=y.
 
-I'll be on PTO starting ... well now. But I'll try to give the other 
-parts a quick peek if anything urgent jumps at me. (bad habit of reading 
-mails while on PTO ...)
+The memhp_default_state boot param was added to allow runtime config.
 
-In any case, happy holidays to you!
+Remove CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE, and replace it with
+CONFIG_MHP_DEFAULT_ONLINE_TYPE as a choice config. The choices
+sync up with the 'memhp_default_state' boot parameter.
 
+Selections:
+  CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE
+    => mhp_default_online_type = "offline"
+       Memory will not be onlined automatically.
+
+  CONFIG_MHP_DEFAULT_ONLINE_TYPE_AUTO
+    => mhp_default_online_type = "online"
+       Memory will be onlined automatically.
+       The zone will be chosen by the kernel.
+
+  CONFIG_MHP_DEFAULT_ONLINE_TYPE_KERNEL
+    => mhp_default_online_type = "online_kernel"
+       Memory will be onlined automatically.
+       The zone will be kernel capable (typically ZONE_NORMAL).
+
+  CONFIG_MHP_DEFAULT_TYPE_MOVABLE
+    => mhp_default_online_type = "online_movable"
+       Memory will be onlined automatically.
+       The zone will be ZONE_MOVABLE.
+
+CONFIG_MHP_DEFAULT_ONLINE_TYPE defaults to "offline" to match the
+existing CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE=n behavior.
+
+Existing users of CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE=y can use
+CONFIG_MHP_DEFAULT_ONLINE_TYPE_AUTO for the same behavior.
+
+Signed-off-by: Gregory Price <gourry@gourry.net>
+---
+ .../admin-guide/kernel-parameters.txt         |  2 +-
+ .../admin-guide/mm/memory-hotplug.rst         |  2 +-
+ arch/loongarch/configs/loongson3_defconfig    |  6 +-
+ drivers/base/memory.c                         |  4 +-
+ include/linux/memory_hotplug.h                |  5 +-
+ mm/Kconfig                                    | 64 +++++++++++++++++--
+ mm/memory_hotplug.c                           | 29 +++++++--
+ 7 files changed, 91 insertions(+), 21 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index e73383450240..2169a4db6781 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3351,7 +3351,7 @@
+ 			[KNL] Set the initial state for the memory hotplug
+ 			onlining policy. If not specified, the default value is
+ 			set according to the
+-			CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE kernel config
++			CONFIG_MHP_DEFAULT_ONLINE_TYPE kernel config
+ 			option.
+ 			See Documentation/admin-guide/mm/memory-hotplug.rst.
+ 
+diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
+index cb2c080f400c..aa5e703233e7 100644
+--- a/Documentation/admin-guide/mm/memory-hotplug.rst
++++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+@@ -280,7 +280,7 @@ The following files are currently defined:
+ 		       blocks; configure auto-onlining.
+ 
+ 		       The default value depends on the
+-		       CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE kernel configuration
++		       CONFIG_MHP_DEFAULT_ONLINE_TYPE kernel configuration
+ 		       option.
+ 
+ 		       See the ``state`` property of memory blocks for details.
+diff --git a/arch/loongarch/configs/loongson3_defconfig b/arch/loongarch/configs/loongson3_defconfig
+index 4dffc90192f7..ffc3514b8a00 100644
+--- a/arch/loongarch/configs/loongson3_defconfig
++++ b/arch/loongarch/configs/loongson3_defconfig
+@@ -113,7 +113,11 @@ CONFIG_ZBUD=y
+ CONFIG_ZSMALLOC=m
+ # CONFIG_COMPAT_BRK is not set
+ CONFIG_MEMORY_HOTPLUG=y
+-CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE=y
++# CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE is not set
++CONFIG_MHP_DEFAULT_ONLINE_TYPE_AUTO=y
++# CONFIG_MHP_DEFAULT_ONLINE_TYPE_KERNEL is not set
++# CONFIG_MHP_DEFAULT_ONLINE_TYPE_MOVABLE is not set
++CONFIG_MHP_DEFAULT_ONLINE_TYPE="online"
+ CONFIG_MEMORY_HOTREMOVE=y
+ CONFIG_KSM=y
+ CONFIG_TRANSPARENT_HUGEPAGE=y
+diff --git a/drivers/base/memory.c b/drivers/base/memory.c
+index 67858eeb92ed..348c5dbbfa68 100644
+--- a/drivers/base/memory.c
++++ b/drivers/base/memory.c
+@@ -512,7 +512,7 @@ static ssize_t auto_online_blocks_show(struct device *dev,
+ 				       struct device_attribute *attr, char *buf)
+ {
+ 	return sysfs_emit(buf, "%s\n",
+-			  online_type_to_str[mhp_default_online_type]);
++			  online_type_to_str[mhp_get_default_online_type()]);
+ }
+ 
+ static ssize_t auto_online_blocks_store(struct device *dev,
+@@ -524,7 +524,7 @@ static ssize_t auto_online_blocks_store(struct device *dev,
+ 	if (online_type < 0)
+ 		return -EINVAL;
+ 
+-	mhp_default_online_type = online_type;
++	mhp_set_default_online_type(online_type);
+ 	return count;
+ }
+ 
+diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
+index b27ddce5d324..eaac5ae8c05c 100644
+--- a/include/linux/memory_hotplug.h
++++ b/include/linux/memory_hotplug.h
+@@ -144,8 +144,6 @@ extern u64 max_mem_size;
+ 
+ extern int mhp_online_type_from_str(const char *str);
+ 
+-/* Default online_type (MMOP_*) when new memory blocks are added. */
+-extern int mhp_default_online_type;
+ /* If movable_node boot option specified */
+ extern bool movable_node_enabled;
+ static inline bool movable_node_is_enabled(void)
+@@ -303,6 +301,9 @@ static inline void __remove_memory(u64 start, u64 size) {}
+ #endif /* CONFIG_MEMORY_HOTREMOVE */
+ 
+ #ifdef CONFIG_MEMORY_HOTPLUG
++/* Default online_type (MMOP_*) when new memory blocks are added. */
++extern int mhp_get_default_online_type(void);
++extern void mhp_set_default_online_type(int online_type);
+ extern void __ref free_area_init_core_hotplug(struct pglist_data *pgdat);
+ extern int __add_memory(int nid, u64 start, u64 size, mhp_t mhp_flags);
+ extern int add_memory(int nid, u64 start, u64 size, mhp_t mhp_flags);
+diff --git a/mm/Kconfig b/mm/Kconfig
+index 7949ab121070..29107df78275 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -550,20 +550,70 @@ menuconfig MEMORY_HOTPLUG
+ 
+ if MEMORY_HOTPLUG
+ 
+-config MEMORY_HOTPLUG_DEFAULT_ONLINE
+-	bool "Online the newly added memory blocks by default"
+-	depends on MEMORY_HOTPLUG
++choice
++	prompt "Memory Hotplug Default Online Type"
++	default MHP_DEFAULT_ONLINE_TYPE_OFFLINE
+ 	help
++	  Default memory type for driver managed hotplug memory.
++
+ 	  This option sets the default policy setting for memory hotplug
+ 	  onlining policy (/sys/devices/system/memory/auto_online_blocks) which
+ 	  determines what happens to newly added memory regions. Policy setting
+ 	  can always be changed at runtime.
++
++	  The default is 'offline'.
++
++	  Select offline to defer onlining to drivers and user policy.
++	  Select auto to let the kernel choose what zones to utilize.
++	  Select online_kernel to generally allow kernel usage of this memory.
++	  Select online_movable to generally disallow kernel usage of this memory.
++
++	  Example kernel usage would be page structs and page tables.
++
+ 	  See Documentation/admin-guide/mm/memory-hotplug.rst for more information.
+ 
+-	  Say Y here if you want all hot-plugged memory blocks to appear in
+-	  'online' state by default.
+-	  Say N here if you want the default policy to keep all hot-plugged
+-	  memory blocks in 'offline' state.
++config MHP_DEFAULT_ONLINE_TYPE_OFFLINE
++	bool "offline"
++	help
++	  Driver managed memory will not be onlined by default.
++	  Choose this for systems with drivers and user policy that
++	  handle onlining of hotplug memory policy.
++
++config MHP_DEFAULT_ONLINE_TYPE_ONLINE_AUTO
++	bool "auto"
++	help
++	  Select this if you want the kernel to automatically online
++	  memory into the zone it thinks is reasonable. This memory
++	  may be utilized for kernel data (e.g. page tables).
++
++config MHP_DEFAULT_ONLINE_TYPE_ONLINE_KERNEL
++	bool "kernel"
++	help
++	  Select this if you want the kernel to automatically online
++	  hotplug memory into a zone capable of being used for kernel
++	  data (e.g. page tables). This typically means ZONE_NORMAL.
++
++config MHP_DEFAULT_ONLINE_TYPE_ONLINE_MOVABLE
++	bool "movable"
++	help
++	  Select this if you want the kernel to automatically online
++	  hotplug memory into ZONE_MOVABLE. This memory will generally
++	  not be utilized for kernel data (e.g. page tables).
++
++	  This should only be used when the admin knows sufficient
++	  ZONE_NORMAL memory is available to describe hotplug memory,
++	  otherwise hotplug memory may fail to online. For example,
++	  sufficient kernel-capable memory (ZONE_NORMAL) must be
++	  available to allocate page structs to describe ZONE_MOVABLE.
++
++endchoice
++
++config MHP_DEFAULT_ONLINE_TYPE
++       string
++       default "offline" if MHP_DEFAULT_ONLINE_TYPE_OFFLINE
++       default "online" if MHP_DEFAULT_ONLINE_TYPE_ONLINE_AUTO
++       default "online_kernel" if MHP_DEFAULT_ONLINE_TYPE_ONLINE_KERNEL
++       default "online_movable" if MHP_DEFAULT_ONLINE_TYPE_ONLINE_MOVABLE
+ 
+ config MEMORY_HOTREMOVE
+ 	bool "Allow for memory hot remove"
+diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+index 3b6f93962481..11421accaff9 100644
+--- a/mm/memory_hotplug.c
++++ b/mm/memory_hotplug.c
+@@ -219,11 +219,26 @@ void put_online_mems(void)
+ 
+ bool movable_node_enabled = false;
+ 
+-#ifndef CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE
+-int mhp_default_online_type = MMOP_OFFLINE;
+-#else
+-int mhp_default_online_type = MMOP_ONLINE;
+-#endif
++static int mhp_default_online_type = -1;
++int mhp_get_default_online_type(void)
++{
++	int type;
++
++	if (mhp_default_online_type >= 0)
++		return mhp_default_online_type;
++
++	type = mhp_online_type_from_str(CONFIG_MHP_DEFAULT_ONLINE_TYPE);
++	if (type < 0)
++		type = MMOP_OFFLINE;
++
++	mhp_default_online_type = type;
++	return mhp_default_online_type;
++}
++
++void mhp_set_default_online_type(int online_type)
++{
++	mhp_default_online_type = online_type;
++}
+ 
+ static int __init setup_memhp_default_state(char *str)
+ {
+@@ -1328,7 +1343,7 @@ static int check_hotplug_memory_range(u64 start, u64 size)
+ 
+ static int online_memory_block(struct memory_block *mem, void *arg)
+ {
+-	mem->online_type = mhp_default_online_type;
++	mem->online_type = mhp_get_default_online_type();
+ 	return device_online(&mem->dev);
+ }
+ 
+@@ -1575,7 +1590,7 @@ int add_memory_resource(int nid, struct resource *res, mhp_t mhp_flags)
+ 		merge_system_ram_resource(res);
+ 
+ 	/* online pages if requested */
+-	if (mhp_default_online_type != MMOP_OFFLINE)
++	if (mhp_get_default_online_type() != MMOP_OFFLINE)
+ 		walk_memory_blocks(start, size, NULL, online_memory_block);
+ 
+ 	return ret;
 -- 
-Cheers,
-
-David / dhildenb
+2.47.1
 
