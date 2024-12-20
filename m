@@ -1,116 +1,120 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA0919D88B;
-	Fri, 20 Dec 2024 07:30:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10025188583
+	for <linux-doc@vger.kernel.org>; Fri, 20 Dec 2024 08:01:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734679822; cv=none; b=OefJWds3cry9zFJ9/1tq6TUX0b1XK8qpIkqIIZz+JbOEHJOPQDLaprAlFU7IAzbeyQLLd+HyyoFOLH4pl9/UAmfjq39S/GBEbmsgfrglxWPSTl+0QVYK4ymuB8lQR+AF9ZnNqqeJO/RcD/o0c9P1b3Gg1WuEH40IHGK0b+xrWlU=
+	t=1734681683; cv=none; b=j4ShR4vBBxeC7sM+V578YjNA2YB1gPDglzTc89cuR6CR9SvdjNvC+JN5VMD6bpjdjh2PkILgnXWz6NKTo/tzUSGzMEXyUMIY6xRXN/72rBpljfrF9g53db/Ie6LEYXYwcmV32tgceeszKakZ5cPJSI9rzAlXePpC3MCRzWZ9XsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734679822; c=relaxed/simple;
-	bh=fAT8ASg3ViXCQ79QuPRFMqvR1E5z2fvyF5UYulgSbrE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ZUCQQ8Oz1UIPsm5DMpHu92dKgnGGoCbd5eR0ClBrRDfc1GkgFJ06kvmviCf9lEpdD+IjELL1kAsFKcu/+zybLKccO5nZPMEW/ppB9r5L67hjDzWhPdU9xl/GmY5NaVhymOpsh7gDtXcC19WuOFzkUjy7PGfVNUIDn5AjcBgOLvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QElZ+k/5; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1734681683; c=relaxed/simple;
+	bh=NE5UTe5dL2tgOgREltmleH8b3bpmPCFrFKyTspmMf80=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CjnrSXdeWlqxzUO5wgHrfcqGb0mqhhS+Lkp1E2q9pJZ/j1b7J3+v1PgloVtuXdV2c9xavF96iQ02Qd5irSzSq8EICP4wvwnvf+t1N8NHqcy6vRa1xBb+BgxCQtO6O4NyB/Ucy5SzDikh7onJIOoi+vU+oZz4dut+23WfR9xpGeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=eSmJO+yQ; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QElZ+k/5"
-Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4B0DB4D4;
-	Fri, 20 Dec 2024 08:29:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1734679778;
-	bh=fAT8ASg3ViXCQ79QuPRFMqvR1E5z2fvyF5UYulgSbrE=;
-	h=From:Date:Subject:To:Cc:From;
-	b=QElZ+k/5PGjLgZmmhrUEhvC/u1JCLUiiX1Yp/QuT4LQEDkz6kUByO+KSP6aYRl41q
-	 qWKOnRCedDOleW0sW9ehbs8P/rbCYqAQPnb7uKALS/C6UU2wAhpHWxXb2wvQoL9Ed9
-	 egKNlM8lEnmyFR7ndg4oYZO2+9DyJh81nrDP3+XU=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Fri, 20 Dec 2024 09:29:40 +0200
-Subject: [PATCH] drm: xlnx: zynqmp_dpsub: Fix kernel doc
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="eSmJO+yQ"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3862df95f92so850766f8f.2
+        for <linux-doc@vger.kernel.org>; Fri, 20 Dec 2024 00:01:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1734681679; x=1735286479; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SKyhp6BgensMeRRvZqUrPCxPSGMIyjt3ZLLIV46HEEk=;
+        b=eSmJO+yQY3ikfctv/+vARoTLpS+jvxLuxKKJeDrJhxiSb7hdJ+1fSF8rRrPOVj2clx
+         QrTWatFfb3IV9cnQpuQlyxl1wsfqnL194XYptUwG3y9261LiEDC9mWJWs8UtTrIpxiU3
+         +kTe9sLwEx9NgfDb/nNNIXNR5JteW5o1rCLyKwVRNU2QStpSO3+nU72ehJlcFu4qEWmt
+         4mN7cKp2iErz8+cKXD8zwijAdlleqFVq6P1+pMjRoDnuHJvabdVnYRPX1AD3tovZbMfF
+         s9SbVyPKtO5/OmKAstUUp9Z+/d9hs1N9tLwOz+z8Dq2CcSJy+QJ1EkB7KfLDQziVoZHl
+         wZTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734681679; x=1735286479;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SKyhp6BgensMeRRvZqUrPCxPSGMIyjt3ZLLIV46HEEk=;
+        b=HFqrl/78jhYjvflNoshu8GGJCQurVQkEBY4YBVlLoFIjcMA49hIovcF1Z0HMEeAQR7
+         olhYdVNQ9Ba75P5xS3d7WbPW1W3+wsvXthCxLh03RNean5WhVqnAJ82lYggV5z62re1b
+         Xmmgi8tiJe8CAvYUii9o1mdcGoETrUWq8G1Dy3jBt/ZP2Dpmjy5pf0q5brEwv/IMELfN
+         /EgXzE6XivZhmqKETP4SgNl786j4//XEsSq98lBGv88znxLPjkl5nuiE6NpLIx2VbfOZ
+         nDEW549ApUfn51P3tsVqXHyMekn1xXzrB5OZo2Me9vv2uORttC9NpBMrBUdGe8Lqgpw0
+         6bcA==
+X-Forwarded-Encrypted: i=1; AJvYcCWRFFPK8OlQD8uyHCiJw8qIDNGQvWucFAj0CYfO3r9imIW+9AzifV9LA/He/wjzj0bDbgbrcbgRn8w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzvaEi1Bd8e6ipzdWjd51byc9eTsRA7pNwGKk9GW4I8CNd4LwI
+	rcz5D4YMaglvqHu4JmJeLoigem3MX51AvcvF0Bi6Slun2hwXHMDLF2nQBCDuXaY=
+X-Gm-Gg: ASbGncuqxii7+ioRcPu/2TSPFzofIGTAS0Ma8FaSCjeiRC5Q+wXcPyBFH8tL62D77Om
+	28nBeMyULQ6bxSBnZYfxQDLTiDIxahmKHWoekqP0T7Ei3q/l2Kj/7K/6bQqrPa5OQhm70K9OCzc
+	GYuxsZKH/RXIyXtDsxVo41zK/q0oJthD9xXlfRSsrsYWbVFdVAAzrpwHs+z81mgymfmnb9vxLAN
+	ucQdQdsSE2ox9Wemvwa2XgdrCi3c2ee3K1ezarzYpQI68pRd3vMGfM4wg==
+X-Google-Smtp-Source: AGHT+IHXox4MGMtqEmaRQepNLJ8T0HqucVd42uEX9LRMu/wtsBIAtfuFnBpMs5FOY09ZQTPXYQQpFQ==
+X-Received: by 2002:a5d:598f:0:b0:386:424e:32d5 with SMTP id ffacd0b85a97d-38a221ea939mr1735076f8f.14.1734681679359;
+        Fri, 20 Dec 2024 00:01:19 -0800 (PST)
+Received: from pathway.suse.cz ([176.114.240.50])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4366127c488sm38048325e9.27.2024.12.20.00.01.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Dec 2024 00:01:19 -0800 (PST)
+Date: Fri, 20 Dec 2024 09:01:16 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: John Ogness <john.ogness@linutronix.de>
+Cc: "Rob Herring (Arm)" <robh@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Saravana Kannan <saravanak@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Zijun Hu <quic_zijuhu@quicinc.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: lock in vsprintf(): was: Re: [PATCH] of: Add printf '%pOFm' for
+ generating modalias
+Message-ID: <Z2UkTMz8bHNN1PMq@pathway.suse.cz>
+References: <20241217183711.2525863-1-robh@kernel.org>
+ <Z2K_u6jK5aLDqaam@pathway.suse.cz>
+ <84wmfxm6em.fsf@jogness.linutronix.de>
+ <Z2Q2TcM6QPUIIyLC@pathway.suse.cz>
+ <84o7171o9y.fsf@jogness.linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241220-xilinx-dp-audio-doc-fix-v1-1-cc488996e463@ideasonboard.com>
-X-B4-Tracking: v=1; b=H4sIAOQcZWcC/x2MQQqAIBAAvxJ7bkGXMuor0SF0q4VQUQoh+nvSc
- QZmHsichDNMzQOJb8kSfAXdNmCP1e+M4ioDKeo0kcIip/iCLuJ6OQnogsVNCirTa0Wj0YYHqHV
- MXPV/npf3/QBudexDaQAAAA==
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Corbet <corbet@lwn.net>, Michal Simek <michal.simek@amd.com>, 
- Vishal Sagar <vishal.sagar@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1647;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=fAT8ASg3ViXCQ79QuPRFMqvR1E5z2fvyF5UYulgSbrE=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnZR0EBS6sDhJBZMeydtixlq2kEKFKXkr/tY3uv
- A95KZPbT+KJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ2UdBAAKCRD6PaqMvJYe
- 9bKrD/9ByB3EZ0lZNkh4O44fFwTO4Tr5XDSkcwNT+1Ep0NST2BlUgoNbQZvqYZSnkJpUAa2dpo6
- bGrjgAxRTkUJNmObLh4siTrPPCfzOuP0HPkWj20RPLIc3BsYFmh44PfrQWrZQH3JJwrR12Sim/r
- tGZBdo8luyqtJrCPThwN1U5pDVekzGSV2jtyuy1FL2dHlU91iczv7XCY8gV2Kt5OamUxXaz6wos
- ibtZ2040+bRH9udk7ffBWqAS/TyafYVhD4N9SUtEKzcMxkqLDUsLgNuWgxRaFdqo9VB7uemKBDT
- lp/uzccXvAF75Z4++mAgsxrhYZOyv77LHj8KTsu8U6NVLE8rTRjbecxmFWat1pXM9EtBdTjnjN6
- UlzevpvRche0r7LPQ5LUES/aquX/SFiK/Iqx7KfKkFzasjREY5NQW7fAxJRf2i2B16z0C7bRyuU
- X6XtUiffrdMqNg+EaMYhGucIA9rUoeiqjG66XEuD3LCRvusJvfczH5UWOiPfr1rr64RHmjp8jUu
- PUm8V9CJBfPwO4HNnjiHWIRGiLk2nPdOCGj7hoUCbrv88ZPFf1JMeGwelIwttO/0um63Uuo2N0C
- lysHSrcPbq+OhGIpS/hCwSVPmD6rttExjDcKa+JsWxX0LXt7bRT2VfGcw1hAv72/UUTrjMzMjCT
- 7p8qGp3lUUCJbfw==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <84o7171o9y.fsf@jogness.linutronix.de>
 
-Fix two kernel doc warnings introduced by the recent DP audio patch:
+On Thu 2024-12-19 20:17:21, John Ogness wrote:
+> On 2024-12-19, Petr Mladek <pmladek@suse.com> wrote:
+> > I do not want to revert everything now just because of theoretical
+> > problems.
+> 
+> What would you revert? This has always been an issue for printk().
 
-- Add a doc line for the new "audio" field
-- Remove a reference to zynqmp_dpsub.c from zynqmp.rst, as the .c file
-  no longer has structured comments
+I did mean the already existing printf modifier which already
+take a lock, for example, %pOFC.
 
-Fixes: 3ec5c1579305 ("drm: xlnx: zynqmp_dpsub: Add DP audio support")
-Closes: https://lore.kernel.org/all/20241220154208.720d990b@canb.auug.org.au/
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- Documentation/gpu/zynqmp.rst        | 2 --
- drivers/gpu/drm/xlnx/zynqmp_dpsub.h | 1 +
- 2 files changed, 1 insertion(+), 2 deletions(-)
+> > Well, it would be nice to document the lock dependency in
+> > Documentation/core-api/printk-formats.rst
+> 
+> Yes. If any locking is involved at all, such specifiers should be
+> documented as not safe in NMI context or within printk_cpu_sync
+> blocks. Also, it should be checked if all such locks are
+> raw_spinlock_t. If any other lock type is used, it probably is already
+> generating a lockdep splat since printk() formats records with local
+> interrupts off.
 
-diff --git a/Documentation/gpu/zynqmp.rst b/Documentation/gpu/zynqmp.rst
-index f57bfa0ad6ec..1a6f9193de22 100644
---- a/Documentation/gpu/zynqmp.rst
-+++ b/Documentation/gpu/zynqmp.rst
-@@ -144,6 +144,4 @@ Internals
- 
- .. kernel-doc:: drivers/gpu/drm/xlnx/zynqmp_dp.c
- 
--.. kernel-doc:: drivers/gpu/drm/xlnx/zynqmp_dpsub.c
--
- .. kernel-doc:: drivers/gpu/drm/xlnx/zynqmp_kms.c
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-index 49875529c2a4..d771b8b199e0 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
-@@ -60,6 +60,7 @@ struct zynqmp_dpsub_audio;
-  * @layers: Video and graphics layers
-  * @dp: The DisplayPort controller
-  * @dma_align: DMA alignment constraint (must be a power of 2)
-+ * @audio: DP audio data
-  */
- struct zynqmp_dpsub {
- 	struct device *dev;
+Great point!
 
----
-base-commit: 74ef9527bd87ead62deabe749a6d867af748d448
-change-id: 20241220-xilinx-dp-audio-doc-fix-0651029616e7
+> Perhaps we should create a kunit that calls printk() for each of the
+> supported specifiers and see if any lockdep splats appear.
 
-Best regards,
--- 
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+It might be possible to somehow reuse the existing module lib/test_printf.c.
 
+Best Regards,
+Petr
