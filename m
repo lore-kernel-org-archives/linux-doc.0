@@ -1,161 +1,116 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A5CA1B041E;
-	Fri, 20 Dec 2024 07:23:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA0919D88B;
+	Fri, 20 Dec 2024 07:30:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734679413; cv=none; b=pTUzAI325hlfzxVgjCpPU+RFF0EBeBNBYCSa3u2MVIajuVhkWgWV05Z8c5eSe2+ZwzoeQN2ZWEk3ngKwPfwzcU2tK8d+w3UFI0AoM20U3RXe0JDxrp4MMIi1oUYRekGB6GywNrXOCu4ltsza431ZS4zrJ0DCQ2qJW1+8E3Cu3/U=
+	t=1734679822; cv=none; b=OefJWds3cry9zFJ9/1tq6TUX0b1XK8qpIkqIIZz+JbOEHJOPQDLaprAlFU7IAzbeyQLLd+HyyoFOLH4pl9/UAmfjq39S/GBEbmsgfrglxWPSTl+0QVYK4ymuB8lQR+AF9ZnNqqeJO/RcD/o0c9P1b3Gg1WuEH40IHGK0b+xrWlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734679413; c=relaxed/simple;
-	bh=4DdM2+nm65X+iCfqvXi65Xkv7UQylGOacyvdeRuSj4k=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=T3PRkrYi7zxfSS9OtY8DpRBEPtifwDzn3KbGl3cLBn6FQlLSG5bWdDeyMHl8UmHwPdTo89QZg4g9BOBohRvEtJu/2QI5EmzX4+h1tBUdTfYPSam8N9yUvTPEj/yG57xYd6H1rCz2AIwIa/shSwCn3UnsMxPrSD5yW0WTDtuyZIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CD9971EA6;
-	Thu, 19 Dec 2024 23:23:58 -0800 (PST)
-Received: from a077893.arm.com (unknown [10.163.51.72])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5A45E3F58B;
-	Thu, 19 Dec 2024 23:23:26 -0800 (PST)
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-To: linux-arm-kernel@lists.infradead.org
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mark Brown <robh@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Eric Auger <eric.auger@redhat.com>,
-	kvmarm@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 7/7] arm64/boot: Enable EL2 requirements for FEAT_PMUv3p9
-Date: Fri, 20 Dec 2024 12:52:40 +0530
-Message-Id: <20241220072240.1003352-8-anshuman.khandual@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241220072240.1003352-1-anshuman.khandual@arm.com>
-References: <20241220072240.1003352-1-anshuman.khandual@arm.com>
+	s=arc-20240116; t=1734679822; c=relaxed/simple;
+	bh=fAT8ASg3ViXCQ79QuPRFMqvR1E5z2fvyF5UYulgSbrE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ZUCQQ8Oz1UIPsm5DMpHu92dKgnGGoCbd5eR0ClBrRDfc1GkgFJ06kvmviCf9lEpdD+IjELL1kAsFKcu/+zybLKccO5nZPMEW/ppB9r5L67hjDzWhPdU9xl/GmY5NaVhymOpsh7gDtXcC19WuOFzkUjy7PGfVNUIDn5AjcBgOLvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QElZ+k/5; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QElZ+k/5"
+Received: from [127.0.1.1] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4B0DB4D4;
+	Fri, 20 Dec 2024 08:29:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1734679778;
+	bh=fAT8ASg3ViXCQ79QuPRFMqvR1E5z2fvyF5UYulgSbrE=;
+	h=From:Date:Subject:To:Cc:From;
+	b=QElZ+k/5PGjLgZmmhrUEhvC/u1JCLUiiX1Yp/QuT4LQEDkz6kUByO+KSP6aYRl41q
+	 qWKOnRCedDOleW0sW9ehbs8P/rbCYqAQPnb7uKALS/C6UU2wAhpHWxXb2wvQoL9Ed9
+	 egKNlM8lEnmyFR7ndg4oYZO2+9DyJh81nrDP3+XU=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Date: Fri, 20 Dec 2024 09:29:40 +0200
+Subject: [PATCH] drm: xlnx: zynqmp_dpsub: Fix kernel doc
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241220-xilinx-dp-audio-doc-fix-v1-1-cc488996e463@ideasonboard.com>
+X-B4-Tracking: v=1; b=H4sIAOQcZWcC/x2MQQqAIBAAvxJ7bkGXMuor0SF0q4VQUQoh+nvSc
+ QZmHsichDNMzQOJb8kSfAXdNmCP1e+M4ioDKeo0kcIip/iCLuJ6OQnogsVNCirTa0Wj0YYHqHV
+ MXPV/npf3/QBudexDaQAAAA==
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jonathan Corbet <corbet@lwn.net>, Michal Simek <michal.simek@amd.com>, 
+ Vishal Sagar <vishal.sagar@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1647;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=fAT8ASg3ViXCQ79QuPRFMqvR1E5z2fvyF5UYulgSbrE=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBnZR0EBS6sDhJBZMeydtixlq2kEKFKXkr/tY3uv
+ A95KZPbT+KJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ2UdBAAKCRD6PaqMvJYe
+ 9bKrD/9ByB3EZ0lZNkh4O44fFwTO4Tr5XDSkcwNT+1Ep0NST2BlUgoNbQZvqYZSnkJpUAa2dpo6
+ bGrjgAxRTkUJNmObLh4siTrPPCfzOuP0HPkWj20RPLIc3BsYFmh44PfrQWrZQH3JJwrR12Sim/r
+ tGZBdo8luyqtJrCPThwN1U5pDVekzGSV2jtyuy1FL2dHlU91iczv7XCY8gV2Kt5OamUxXaz6wos
+ ibtZ2040+bRH9udk7ffBWqAS/TyafYVhD4N9SUtEKzcMxkqLDUsLgNuWgxRaFdqo9VB7uemKBDT
+ lp/uzccXvAF75Z4++mAgsxrhYZOyv77LHj8KTsu8U6NVLE8rTRjbecxmFWat1pXM9EtBdTjnjN6
+ UlzevpvRche0r7LPQ5LUES/aquX/SFiK/Iqx7KfKkFzasjREY5NQW7fAxJRf2i2B16z0C7bRyuU
+ X6XtUiffrdMqNg+EaMYhGucIA9rUoeiqjG66XEuD3LCRvusJvfczH5UWOiPfr1rr64RHmjp8jUu
+ PUm8V9CJBfPwO4HNnjiHWIRGiLk2nPdOCGj7hoUCbrv88ZPFf1JMeGwelIwttO/0um63Uuo2N0C
+ lysHSrcPbq+OhGIpS/hCwSVPmD6rttExjDcKa+JsWxX0LXt7bRT2VfGcw1hAv72/UUTrjMzMjCT
+ 7p8qGp3lUUCJbfw==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-FEAT_PMUv3p9 registers such as PMICNTR_EL0, PMICFILTR_EL0, and PMUACR_EL1
-access from EL1 requires appropriate EL2 fine grained trap configuration
-via FEAT_FGT2 based trap control registers HDFGRTR2_EL2 and HDFGWTR2_EL2.
-Otherwise such register accesses will result in traps into EL2.
+Fix two kernel doc warnings introduced by the recent DP audio patch:
 
-Add a new helper __init_el2_fgt2() which initializes FEAT_FGT2 based fine
-grained trap control registers HDFGRTR2_EL2 and HDFGWTR2_EL2 (setting the
-bits nPMICNTR_EL0, nPMICFILTR_EL0 and nPMUACR_EL1) to enable access into
-PMICNTR_EL0, PMICFILTR_EL0, and PMUACR_EL1 registers.
+- Add a doc line for the new "audio" field
+- Remove a reference to zynqmp_dpsub.c from zynqmp.rst, as the .c file
+  no longer has structured comments
 
-Also update booting.rst with SCR_EL3.FGTEn2 requirement for all FEAT_FGT2
-based registers to be accessible in EL2.
-
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Marc Zyngier <maz@kernel.org>
-Cc: Oliver Upton <oliver.upton@linux.dev>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: kvmarm@lists.linux.dev
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+Fixes: 3ec5c1579305 ("drm: xlnx: zynqmp_dpsub: Add DP audio support")
+Closes: https://lore.kernel.org/all/20241220154208.720d990b@canb.auug.org.au/
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- Documentation/arch/arm64/booting.rst | 18 ++++++++++++++++++
- arch/arm64/include/asm/el2_setup.h   | 25 +++++++++++++++++++++++++
- 2 files changed, 43 insertions(+)
+ Documentation/gpu/zynqmp.rst        | 2 --
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.h | 1 +
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
-index 3278fb4bf219..57ca46577084 100644
---- a/Documentation/arch/arm64/booting.rst
-+++ b/Documentation/arch/arm64/booting.rst
-@@ -288,6 +288,12 @@ Before jumping into the kernel, the following conditions must be met:
+diff --git a/Documentation/gpu/zynqmp.rst b/Documentation/gpu/zynqmp.rst
+index f57bfa0ad6ec..1a6f9193de22 100644
+--- a/Documentation/gpu/zynqmp.rst
++++ b/Documentation/gpu/zynqmp.rst
+@@ -144,6 +144,4 @@ Internals
  
-     - SCR_EL3.FGTEn (bit 27) must be initialised to 0b1.
+ .. kernel-doc:: drivers/gpu/drm/xlnx/zynqmp_dp.c
  
-+  For CPUs with the Fine Grained Traps 2 (FEAT_FGT2) extension present:
-+
-+  - If EL3 is present and the kernel is entered at EL2:
-+
-+    - SCR_EL3.FGTEn2 (bit 59) must be initialised to 0b1.
-+
-   For CPUs with support for HCRX_EL2 (FEAT_HCX) present:
- 
-   - If EL3 is present and the kernel is entered at EL2:
-@@ -382,6 +388,18 @@ Before jumping into the kernel, the following conditions must be met:
- 
-     - SMCR_EL2.EZT0 (bit 30) must be initialised to 0b1.
- 
-+  For CPUs with the Performance Monitors Extension (FEAT_PMUv3p9):
-+
-+ - If the kernel is entered at EL1 and EL2 is present:
-+
-+    - HDFGRTR2_EL2.nPMICNTR_EL0 (bit 2) must be initialised to 0b1.
-+    - HDFGRTR2_EL2.nPMICFILTR_EL0 (bit 3) must be initialised to 0b1.
-+    - HDFGRTR2_EL2.nPMUACR_EL1 (bit 4) must be initialised to 0b1.
-+
-+    - HDFGWTR2_EL2.nPMICNTR_EL0 (bit 2) must be initialised to 0b1.
-+    - HDFGWTR2_EL2.nPMICFILTR_EL0 (bit 3) must be initialised to 0b1.
-+    - HDFGWTR2_EL2.nPMUACR_EL1 (bit 4) must be initialised to 0b1.
-+
-   For CPUs with Memory Copy and Memory Set instructions (FEAT_MOPS):
- 
-   - If the kernel is entered at EL1 and EL2 is present:
-diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
-index 4ef52d7245bb..9e44c13711e5 100644
---- a/arch/arm64/include/asm/el2_setup.h
-+++ b/arch/arm64/include/asm/el2_setup.h
-@@ -233,6 +233,30 @@
- .Lskip_fgt_\@:
- .endm
- 
-+.macro __init_el2_fgt2
-+	mrs	x1, id_aa64mmfr0_el1
-+	ubfx	x1, x1, #ID_AA64MMFR0_EL1_FGT_SHIFT, #4
-+	cmp	x1, #ID_AA64MMFR0_EL1_FGT_FGT2
-+	b.lt	.Lskip_fgt2_\@
-+
-+	mov	x0, xzr
-+	mrs	x1, id_aa64dfr0_el1
-+	ubfx	x1, x1, #ID_AA64DFR0_EL1_PMUVer_SHIFT, #4
-+	cmp	x1, #ID_AA64DFR0_EL1_PMUVer_V3P9
-+	b.lt	.Lskip_pmuv3p9_\@
-+
-+	orr	x0, x0, #HDFGRTR2_EL2_nPMICNTR_EL0
-+	orr	x0, x0, #HDFGRTR2_EL2_nPMICFILTR_EL0
-+	orr	x0, x0, #HDFGRTR2_EL2_nPMUACR_EL1
-+.Lskip_pmuv3p9_\@:
-+	msr_s   SYS_HDFGRTR2_EL2, x0
-+	msr_s   SYS_HDFGWTR2_EL2, x0
-+	msr_s   SYS_HFGRTR2_EL2, xzr
-+	msr_s   SYS_HFGWTR2_EL2, xzr
-+	msr_s   SYS_HFGITR2_EL2, xzr
-+.Lskip_fgt2_\@:
-+.endm
-+
- .macro __init_el2_gcs
- 	mrs_s	x1, SYS_ID_AA64PFR1_EL1
- 	ubfx	x1, x1, #ID_AA64PFR1_EL1_GCS_SHIFT, #4
-@@ -283,6 +307,7 @@
- 	__init_el2_nvhe_idregs
- 	__init_el2_cptr
- 	__init_el2_fgt
-+	__init_el2_fgt2
-         __init_el2_gcs
- .endm
- 
+-.. kernel-doc:: drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+-
+ .. kernel-doc:: drivers/gpu/drm/xlnx/zynqmp_kms.c
+diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
+index 49875529c2a4..d771b8b199e0 100644
+--- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
++++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.h
+@@ -60,6 +60,7 @@ struct zynqmp_dpsub_audio;
+  * @layers: Video and graphics layers
+  * @dp: The DisplayPort controller
+  * @dma_align: DMA alignment constraint (must be a power of 2)
++ * @audio: DP audio data
+  */
+ struct zynqmp_dpsub {
+ 	struct device *dev;
+
+---
+base-commit: 74ef9527bd87ead62deabe749a6d867af748d448
+change-id: 20241220-xilinx-dp-audio-doc-fix-0651029616e7
+
+Best regards,
 -- 
-2.25.1
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
