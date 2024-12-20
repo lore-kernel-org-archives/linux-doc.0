@@ -1,67 +1,73 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADBF71C5CBC;
-	Fri, 20 Dec 2024 18:23:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1F221D58C
+	for <linux-doc@vger.kernel.org>; Fri, 20 Dec 2024 18:29:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734719034; cv=none; b=LHQ2lz+kp580kN3RroOYoXhP+/iS5Xyht3LQT93cXvkwaVV+zEQ7SLFEkYNoLGZfdREjKpzGxxCjtX2YLV7mNPQ5tONdn3MJY48Pkgklx4mVJiJEtdnx33gu4rru3r+6EBYipZRl4ez3hECB5fuZt5Xjn+TwZxTx4BFjf+CVUCA=
+	t=1734719367; cv=none; b=QBF1U3xiWoNB5XT4Z9X2RwPwTnEP80fDRo9R0rk8r7fYsKeieegxXJ7wd3WOX1clI6NW6ICUJm728X3/mSCRD8H7JmOCHsrq7D9+azZX3xR1IQqx1K/PtccbKbcgRpbXPkQc4xTGVDbzmzQ8ql3+4yfPi+wLkXeGQR125MM9mCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734719034; c=relaxed/simple;
-	bh=qYxkof+w/eCIdD7tEA5WM4afNVN/rBB/I7H7AjbjxVQ=;
+	s=arc-20240116; t=1734719367; c=relaxed/simple;
+	bh=Q6SF3tekiNZltEf69RdSkr40RY1p4SR17YuXy/ZBfwU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Mvr3POSMAV20EuOWqKU0F0fl6woNkMxbB53dG74jDrJkdNsYGbQgJwn5R4Q8y+Uy4NgAW0smcdukQma0ELqCfK3lY0dRtW3Cb4+85rm+KnNdl6vmgV4wTI2vTAgdzTMVN7Y9Z+kEIutGgyuDIKwg9pRTqwRoSTeolWGl0HOHjmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=gpbmqG1v; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	 In-Reply-To:Content-Type; b=BB3fh92lRLNgo/4qLXLYCXaTMuOgnZ4lmTZ+78Em/VD0Oy4zdjDHcmmYTuF/WFb8BLMciHo0mF8BAGxf6Z5P7qaIodRJj5QvdlOWG9+YCdnqgdPmE8lIp3HmM+LU/OQFndvbblSKRqVr5dqubWdEERxuBcg59jWWuqJr/n8Ir+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PF/Vjwab; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="gpbmqG1v"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BKHj6DC029984;
-	Fri, 20 Dec 2024 18:23:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=R7k3a6
-	TCZd9zD8hjQ3vXQMK9XZ1C0ymp1+Yz02qSEBo=; b=gpbmqG1v9vJd18Jt7mpttr
-	Ik2MLt+kwGNcY753eX9dwfDBU5BBtQcncgi+Y3Sad2+TRtCAsyAM9EmWswainA2h
-	f4FnBAmkgG91qR5G4DmmqP5x+FJex9fkQBhpVc1L8NEgGzgnRHt4HTVoBY18LjGX
-	uaL5v3uyh10Yh/Hm5gULMfnqZWQI4ptOgXJv/Ilw4RXH85qaMEq0FThzznqa+vfk
-	z/+oki2LkpkxckH4ftaOOEE8WC4MHsaGZfnIwTs07hkd9G0ODBES/2LRD5kCnrIX
-	QlHOPJCvUvoFyd/4PEYI5hOte7RJgWGkLMDV5YJV2h12RnoszvauQyn0k20/nGEA
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43na25976t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 20 Dec 2024 18:23:26 +0000 (GMT)
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BKINQfO012866;
-	Fri, 20 Dec 2024 18:23:26 GMT
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43na25976m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 20 Dec 2024 18:23:26 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BKHa4Qh005491;
-	Fri, 20 Dec 2024 18:23:25 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 43hnbnkdmn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 20 Dec 2024 18:23:25 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BKINNfb49873358
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 20 Dec 2024 18:23:23 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 395DD20043;
-	Fri, 20 Dec 2024 18:23:23 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4568020040;
-	Fri, 20 Dec 2024 18:23:19 +0000 (GMT)
-Received: from [9.39.22.57] (unknown [9.39.22.57])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 20 Dec 2024 18:23:19 +0000 (GMT)
-Message-ID: <56790316-d73c-4201-a2fa-9be3019e2f49@linux.ibm.com>
-Date: Fri, 20 Dec 2024 23:53:17 +0530
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PF/Vjwab"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1734719365;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=ShuO3TfEMw80wDehD7G0N/FfiqkQn0QjW6tjkfqEvXA=;
+	b=PF/VjwabwE497xwinJz7HQIYphlW37QUqsbgJJd7jT4z4p3aoY3B7Eur3BEzFqk/h5rDb6
+	kiBfBC/S17fIWTpvfSFm8LLPrkGe+u7rQXKwh/Ej18aISIHR8vblzz2MzizInIPxXNKSGz
+	GYcI9SpM7zpvAhfw8cLhkcGw71vZdhA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-84-LG2iKooPN_-IyOwW-Af0wA-1; Fri, 20 Dec 2024 13:29:23 -0500
+X-MC-Unique: LG2iKooPN_-IyOwW-Af0wA-1
+X-Mimecast-MFC-AGG-ID: LG2iKooPN_-IyOwW-Af0wA
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-38639b4f19cso1558178f8f.0
+        for <linux-doc@vger.kernel.org>; Fri, 20 Dec 2024 10:29:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734719362; x=1735324162;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ShuO3TfEMw80wDehD7G0N/FfiqkQn0QjW6tjkfqEvXA=;
+        b=OxMwWupVNlW8O7UdrNtdLpPcGl7gRV/p0tuI/Ybfw/holSypIE/vyleKcInvp2N7L6
+         KjMNRdkkvOtpWNZBh3pHhl2xbqyMzD38jw4A52Hew3PPPvuRbyJBaxqTfKddHhbmvvhm
+         OvC8iGBZ7MUW5eXloZp2xQludJmBKoH8IqOyFhcqR/B4ZGUTUZmTGxnNFy9sQrXV13Nu
+         UHJBQIVUZim6wc/7WzEeKLI7WfDq2V90t13POKFoLDTl0JhK/TnyJPZe2Hk/nf1Pi7M4
+         htDOfR/ywJTIRp5zmTj4M7kSwH8YHL6Sjz6NgFmZszyGgttK8QQ9B7cXsnxuK2CkkUNc
+         B7Hw==
+X-Forwarded-Encrypted: i=1; AJvYcCU7ad6biDpBC6BNUULzYgyjWEtok/Izu/DfeQ6mCwi8t7ff6kml9xEC/GgGU+IqLBJu8roArKCDNfg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFeDYD7sUZM/Z1P5iOL2i/x7BuW4/eu8QWkb9VYQkUygY9J0VD
+	hSV1HIWs6xP6ZdQZQWjwtkXG1nn65RNp1UqmhD/DE01xGid6JPiJ+I39PNr7RPDFPDRyjNX/C6H
+	NNQdoBrEn5i1FwRg0JDMUDJTwdc4XXfPFwgeSLmZm5fiP+A0s3q6qtuCeSQ==
+X-Gm-Gg: ASbGncuSqdatv28e+YICQyo+ihxOOLfxnOIowXYVwEu5zgQ0XbOcrEZsanSdDoZPjgk
+	1q1WB4grwVG6EotJHrgRmbZb8xOjxc3ZRHIWvjMBXqPNrhuXy9CYeneaMeaAQqRJMJATbOwZzGz
+	7phgy/8CvOxkLn8QC9Zy9FzkCoKWZzlaqfszvvKgBf3Mx9tsq2WcDOGCg5Y+9bR6Owt9ARiVWmg
+	/xyJBJvQBAYarF9/iKoIFgGyIgAUmHNa+jS5zI+FHmlWXotD02cAs15b8ubfhwv8lbFs7jZhD5L
+	xjU0frMxfiDO24OzZ6vQBQfPKrEnlmLEez/fSMw0VgpQLV5Wn5wKIBTwyCMerpxNcOdkbmmFEoB
+	oxNYLPSKT
+X-Received: by 2002:a05:6000:18a9:b0:386:3835:9fff with SMTP id ffacd0b85a97d-38a22406d43mr4852363f8f.59.1734719362347;
+        Fri, 20 Dec 2024 10:29:22 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG4GC48OmfJNltY6Ek7vleCwhpqJySNAWqKHGuZFUvMe2tCVDpmaDR4IIQ/DXZtWNsmnqadZA==
+X-Received: by 2002:a05:6000:18a9:b0:386:3835:9fff with SMTP id ffacd0b85a97d-38a22406d43mr4852317f8f.59.1734719361985;
+        Fri, 20 Dec 2024 10:29:21 -0800 (PST)
+Received: from ?IPV6:2003:cb:c708:9d00:edd9:835b:4bfb:2ce3? (p200300cbc7089d00edd9835b4bfb2ce3.dip0.t-ipconnect.de. [2003:cb:c708:9d00:edd9:835b:4bfb:2ce3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656b441bbsm85576885e9.40.2024.12.20.10.29.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Dec 2024 10:29:20 -0800 (PST)
+Message-ID: <4446a9c9-613b-4303-9a06-686fb10af363@redhat.com>
+Date: Fri, 20 Dec 2024 19:29:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,144 +75,97 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/6] sched: Report the different kinds of imbalances in
- /proc/schedstat
-To: Swapnil Sapkal <swapnil.sapkal@amd.com>
-Cc: dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        mgorman@suse.de, vschneid@redhat.com, iamjoonsoo.kim@lge.com,
-        qyousef@layalina.io, alexs@kernel.org, lukasz.luba@arm.com,
-        gautham.shenoy@amd.com, kprateek.nayak@amd.com, ravi.bangoria@amd.com,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        peterz@infradead.org, mingo@redhat.com, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, corbet@lwn.net
-References: <20241220063224.17767-1-swapnil.sapkal@amd.com>
- <20241220063224.17767-4-swapnil.sapkal@amd.com>
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
+Subject: Re: [PATCH v4 10/25] mm/mm_init: Move p2pdma page refcount
+ initialisation to p2pdma
+To: Alistair Popple <apopple@nvidia.com>
+Cc: akpm@linux-foundation.org, dan.j.williams@intel.com, linux-mm@kvack.org,
+ lina@asahilina.net, zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
+ vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
+ bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca, catalin.marinas@arm.com,
+ will@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com,
+ dave.hansen@linux.intel.com, ira.weiny@intel.com, willy@infradead.org,
+ djwong@kernel.org, tytso@mit.edu, linmiaohe@huawei.com, peterx@redhat.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
+ david@fromorbit.com
+References: <cover.18cbcff3638c6aacc051c44533ebc6c002bf2bd9.1734407924.git-series.apopple@nvidia.com>
+ <aaa23e6f315a2d9b30a422c3769100cdfa42e85a.1734407924.git-series.apopple@nvidia.com>
+ <359a1cf2-c5b0-4682-ba3c-980d77c4cfdb@redhat.com>
+ <bk6cmiubwvor6gevit3wgl4k66xxpfcv6swmfrtvxnjnuojqkx@yow3pmyuxozw>
+From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
-In-Reply-To: <20241220063224.17767-4-swapnil.sapkal@amd.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <bk6cmiubwvor6gevit3wgl4k66xxpfcv6swmfrtvxnjnuojqkx@yow3pmyuxozw>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: BNpBasckSHnpGgIu6nxgUNy0P8Un-NYe
-X-Proofpoint-ORIG-GUID: r5OlYkgXpTtrvKgosEToRRJw2WoKBj22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- suspectscore=0 bulkscore=0 adultscore=0 spamscore=0 priorityscore=1501
- mlxlogscore=904 impostorscore=0 phishscore=0 clxscore=1011 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412200144
 
 
-
-On 12/20/24 12:02, Swapnil Sapkal wrote:
-> In /proc/schedstat, lb_imbalance reports the sum of imbalances
-> discovered in sched domains with each call to sched_balance_rq(), which is
-> not very useful because lb_imbalance does not mention whether the imbalance
-> is due to load, utilization, nr_tasks or misfit_tasks. Remove this field
-> from /proc/schedstat.
+>>
+>>
+>> But that's a bit weird: we call __init_single_page()->init_page_count() to
+>> initialize it to 1, to then set it back to 0.
+>>
+>>
+>> Maybe we can just pass to __init_single_page() the refcount we want to have
+>> directly? Can be a patch on top of course.
 > 
-> Currently there is no field in /proc/schedstat to report different types
-> of imbalances. Introduce new fields in /proc/schedstat to report the
-> total imbalances in load, utilization, nr_tasks or misfit_tasks.
-> 
-> Added fields to /proc/schedstat:
->          - lb_imbalance_load: Total imbalance due to load.
->          - lb_imbalance_util: Total imbalance due to utilization.
->          - lb_imbalance_task: Total imbalance due to number of tasks.
->          - lb_imbalance_misfit: Total imbalance due to misfit tasks.
-> 
-> Reviewed-by: Shrikanth Hegde <sshegde@linux.ibm.com>
-> Signed-off-by: Swapnil Sapkal <swapnil.sapkal@amd.com>
+> Once the dust settles on this series we won't need the pgmap->type check at
+> all because all ZONE_DEVICE pages will get an initial count of 0. I have some
+> follow up clean-ups for after this series is applied (particularly with regards
+> to pgmap refcounts), so if it's ok I'd rather do this as a follow-up.
 
-I think its better to merge patch 3 and patch 6.
+Sure. For ordinary memory hotplug I'll also convert it to start with 
+refcount=0 soonish, so there we're also simply pass 0 to __init_single_page.
 
-> ---
->   include/linux/sched/topology.h |  5 ++++-
->   kernel/sched/fair.c            | 24 +++++++++++++++++++++++-
->   kernel/sched/stats.c           |  7 +++++--
->   3 files changed, 32 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/linux/sched/topology.h b/include/linux/sched/topology.h
-> index 4237daa5ac7a..76a662e1ec24 100644
-> --- a/include/linux/sched/topology.h
-> +++ b/include/linux/sched/topology.h
-> @@ -114,7 +114,10 @@ struct sched_domain {
->   	unsigned int lb_count[CPU_MAX_IDLE_TYPES];
->   	unsigned int lb_failed[CPU_MAX_IDLE_TYPES];
->   	unsigned int lb_balanced[CPU_MAX_IDLE_TYPES];
-> -	unsigned int lb_imbalance[CPU_MAX_IDLE_TYPES];
-> +	unsigned int lb_imbalance_load[CPU_MAX_IDLE_TYPES];
-> +	unsigned int lb_imbalance_util[CPU_MAX_IDLE_TYPES];
-> +	unsigned int lb_imbalance_task[CPU_MAX_IDLE_TYPES];
-> +	unsigned int lb_imbalance_misfit[CPU_MAX_IDLE_TYPES];
->   	unsigned int lb_gained[CPU_MAX_IDLE_TYPES];
->   	unsigned int lb_hot_gained[CPU_MAX_IDLE_TYPES];
->   	unsigned int lb_nobusyg[CPU_MAX_IDLE_TYPES];
-> diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-> index 2ca3f098552c..5e7e4fe81648 100644
-> --- a/kernel/sched/fair.c
-> +++ b/kernel/sched/fair.c
-> @@ -11699,6 +11699,28 @@ static int should_we_balance(struct lb_env *env)
->   	return group_balance_cpu(sg) == env->dst_cpu;
->   }
->   
-> +static void update_lb_imbalance_stat(struct lb_env *env, struct sched_domain *sd,
-> +				     enum cpu_idle_type idle)
-> +{
-> +	if (!schedstat_enabled())
-> +		return;
-> +
-> +	switch (env->migration_type) {
-> +	case migrate_load:
-> +		__schedstat_add(sd->lb_imbalance_load[idle], env->imbalance);
-> +		break;
-> +	case migrate_util:
-> +		__schedstat_add(sd->lb_imbalance_util[idle], env->imbalance);
-> +		break;
-> +	case migrate_task:
-> +		__schedstat_add(sd->lb_imbalance_task[idle], env->imbalance);
-> +		break;
-> +	case migrate_misfit:
-> +		__schedstat_add(sd->lb_imbalance_misfit[idle], env->imbalance);
-> +		break;
-> +	}
-> +}
-> +
->   /*
->    * Check this_cpu to ensure it is balanced within domain. Attempt to move
->    * tasks if there is an imbalance.
-> @@ -11749,7 +11771,7 @@ static int sched_balance_rq(int this_cpu, struct rq *this_rq,
->   
->   	WARN_ON_ONCE(busiest == env.dst_rq);
->   
-> -	schedstat_add(sd->lb_imbalance[idle], env.imbalance);
-> +	update_lb_imbalance_stat(&env, sd, idle);
->   
->   	env.src_cpu = busiest->cpu;
->   	env.src_rq = busiest;
-> diff --git a/kernel/sched/stats.c b/kernel/sched/stats.c
-> index eb0cdcd4d921..802bd9398a2e 100644
-> --- a/kernel/sched/stats.c
-> +++ b/kernel/sched/stats.c
-> @@ -141,11 +141,14 @@ static int show_schedstat(struct seq_file *seq, void *v)
->   			seq_printf(seq, "domain%d %*pb", dcount++,
->   				   cpumask_pr_args(sched_domain_span(sd)));
->   			for (itype = 0; itype < CPU_MAX_IDLE_TYPES; itype++) {
-> -				seq_printf(seq, " %u %u %u %u %u %u %u %u",
-> +				seq_printf(seq, " %u %u %u %u %u %u %u %u %u %u %u",
->   				    sd->lb_count[itype],
->   				    sd->lb_balanced[itype],
->   				    sd->lb_failed[itype],
-> -				    sd->lb_imbalance[itype],
-> +				    sd->lb_imbalance_load[itype],
-> +				    sd->lb_imbalance_util[itype],
-> +				    sd->lb_imbalance_task[itype],
-> +				    sd->lb_imbalance_misfit[itype],
->   				    sd->lb_gained[itype],
->   				    sd->lb_hot_gained[itype],
->   				    sd->lb_nobusyq[itype],
+-- 
+Cheers,
 
-While you are adding this, please update the 
-Documentation/scheduler/sched-stats.rst as well.
+David / dhildenb
+
