@@ -1,210 +1,265 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2082.outbound.protection.outlook.com [40.107.243.82])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3FA1BCA0F;
-	Sat, 21 Dec 2024 15:29:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.82
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734794948; cv=fail; b=NeZI0A572dg5E+MgppVsnDFIHIyfUCaBTn2HmXfLgww+fPzwsNQIPshxgq3r1z+JJ23mL4l3dnvO1YVyH2ih1SSax706szBRJOLdTVFYSiL6Yrx9nW53myAkMpnIAa6gjCiitCfkVe/7OB9WRZaUbqJVt6Yrc2Hazjs/otyE24k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734794948; c=relaxed/simple;
-	bh=NkDzbvzGvPGSP8szpwVvPfky6Lx2XG3kanRmFQxp2rE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=kB3+9MmLRfxsMTZhEwRIgo5Fh94CV38JL0mWT5KNx9whhWDex7+ZFxH+2igcv/DBjh6SqpZ9pvXTrD+8V3rX2YHcOOX9pzuLo/4x2bOGy4eKQANpVIFAqEPtRmPQ1YtAo7/U3wRXgFOTWx0Ezwa1kjx6ukYnWUZwrnKWJpAfj8c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=fDKOAie4; arc=fail smtp.client-ip=40.107.243.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358491FA244
+	for <linux-doc@vger.kernel.org>; Sat, 21 Dec 2024 15:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734795030; cv=none; b=cGfCiHa4jTN+7VMiUrlNlnsESivTC2qwY2Jqk0oMU5vS5K/yfvytCba5QF/DEtVFYwjQsupEoid5d/UNHiO4nVbPw7XuJK3f4ZVPOABy+F59ezyjjntoseiku8jvnD/r1iBdhPA/m1ghC6U76/pqPCeT+qvtR1nGa9zyj1uJKBM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734795030; c=relaxed/simple;
+	bh=vYUXML0zqvV7raX4anR4OhMRY8/SE3exY+OvG3U1Mdc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XsZ0qPrFopHZIq3xM97dvoF3fAEXrrNQbYZLMNYIleMBL5uVLebITdep/tdZnFqY4hLXvqvCrY989xa9iUHOmdH+KlW8A7vjIkvNFRThVpSRQ3eD8b+J6dcbdV88qJ0Z7B8rwfoiGw38KZcio6UANtdwVPoPcj4cHLU+c52Kvb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gzeEyYrY; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="fDKOAie4"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Zk0TOSiSZp17YuVtGccB9rsgsrfYEvjeYFIB203QVgkIEn+oBIeeLhNagln2g51lO1iWm9/MWrFL7UpvUr1ytTiMHu00dDlpFMu1Es2/jo32XJKMuCPxNXN59Z5dmCDat42KiQYtEzRHHhJcM8gAkQew3ioBECAdyNIAwBqrCNUyESRtQ78FwvlZWFUPWtalDVB2pOJ34dyB2BCfV6yWkMewEZucg2CJsq2CInI0/++zFtpbvBm/Yvc5IUyOBtw0GtsHRxcuzjyvds/i1IYzE3PU3QxcuyrlLsnhD+Jc+zmgAzklfPDKA85F0skzqb9itfCc4xVWYSFw/7CGo12cPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Uh/aocUqCy9I36c+n3kc6SNXzQTBUBnDEsJmoh3tFzo=;
- b=W7W+33tgxqk1d4usStQBr70F5bYdSYDLw64VYm31YAgmjZ6yu6QB7hC0xfuOAhPb57D8/TzEFwCnCcDaRZwdvDGw5jVvPBQrW7FX8IM6D+8hQGRo3lgrE2Ow/pgWA5gdH8CQ5bDEPyG3OMHCIoQAiSZQhFAVku/Kjjryw2be/UfXMitTdiE3kfR+YF16UBq58EvAPZinCgWp+7ZVIOzBlYNRL67UwVj9uYLkMPHo2Br+IqDj+zDcJKAb6QiVOoeFzMhJrdxMXcIRmeg4wdY2pd108FDCLIkBESd8J1Z1UUUlv3HMcy6194dAJcLKtG5uBlfHyTye6aB4ZWsKbJVA0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Uh/aocUqCy9I36c+n3kc6SNXzQTBUBnDEsJmoh3tFzo=;
- b=fDKOAie4rut887ammrwQ9QZIy4HH478cQ+1ZC3A5YT17wQQjqWzl0qUiWUSHWra6YFou2tOXtdpI0v5xttjyPvAQdEHkSh+PwczwxX1LJQvZ0Ay7aJRWpsQjKwO5pe2v+t274g++UFVFDw+im3qaiSZmdL5vtjbX4kSukiYAc+4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by CY8PR12MB7316.namprd12.prod.outlook.com (2603:10b6:930:50::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.17; Sat, 21 Dec
- 2024 15:28:59 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.8272.013; Sat, 21 Dec 2024
- 15:28:59 +0000
-Message-ID: <d5e40586-909b-44f2-ad37-e138b3328015@amd.com>
-Date: Sat, 21 Dec 2024 09:28:54 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 24/24] x86/resctrl: Introduce interface to modify
- assignment states of the groups
-To: Reinette Chatre <reinette.chatre@intel.com>,
- Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
- tony.luck@intel.com, peternewman@google.com
-Cc: fenghua.yu@intel.com, x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
- akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
- xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
- daniel.sneddon@linux.intel.com, jpoimboe@kernel.org, perry.yuan@amd.com,
- sandipan.das@amd.com, kai.huang@intel.com, xiaoyao.li@intel.com,
- seanjc@google.com, xin3.li@intel.com, andrew.cooper3@citrix.com,
- ebiggers@google.com, mario.limonciello@amd.com, james.morse@arm.com,
- tan.shaopeng@fujitsu.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, maciej.wieczor-retman@intel.com,
- eranian@google.com
-References: <cover.1734034524.git.babu.moger@amd.com>
- <2da72f1a57beb1f3de5cb2bdeda2269bdade8c76.1734034524.git.babu.moger@amd.com>
- <a14c9534-6176-4459-af24-9668d35abcd3@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <a14c9534-6176-4459-af24-9668d35abcd3@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA1P222CA0160.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:3c3::6) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gzeEyYrY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1734795027;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=F0VhgHyYLlMxgv1xwC4J5EeYD2lgquIC4u4kKFeQ5vg=;
+	b=gzeEyYrY9nBAeaBxbGaf79qhJ/w43nYcThs0obJ6T0EYouCiJVVaxfHvbofHlzU63AcBCD
+	A6Qs+YufDpeNZn7WMnTkyQREdr2H/PnoktVcmZ+fxhIijpalJu1v3zjwKeqOlU0JjO8Imy
+	iCLSQ2t3D1Wed6zoQulzJm+y0WNETTQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-168-6H5WDGiLPc2Vfo1GRu3J-Q-1; Sat, 21 Dec 2024 10:30:25 -0500
+X-MC-Unique: 6H5WDGiLPc2Vfo1GRu3J-Q-1
+X-Mimecast-MFC-AGG-ID: 6H5WDGiLPc2Vfo1GRu3J-Q
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4361eb83f46so21762895e9.3
+        for <linux-doc@vger.kernel.org>; Sat, 21 Dec 2024 07:30:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734795024; x=1735399824;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=F0VhgHyYLlMxgv1xwC4J5EeYD2lgquIC4u4kKFeQ5vg=;
+        b=QNPEnT3fW/2/ng6vubsdq+XBBnXFeLD/EO4Egi0Si0L1p4/iyToGRNefs/d6Dqc66G
+         3TbdgVsxb+Wxmijj/lalxcsyyl8oO0xBIwkPQGGYaGkrV3i+FqcGqBeARyoQ3T2jd6Tv
+         3AOO4hWJO2NHHen2P+TqsF/DxPph8ntlhilv4Y9Xk4XAyqtniAFLU8jXphbbbtJCbtOM
+         rhJ/FFf6bJ7wFetLWrO2FU3iuZAASOP5uQa4CW4Z83U25hmPhuCKhbfdIgoKvkkEC/6p
+         MCFeRleIWlW27NKmtz3UPtLfcyX3TIgPW/aT1x4ALuCCuWDuOUn8qNWlS4RKE6So6ewb
+         QyOA==
+X-Gm-Message-State: AOJu0YzlPFYHVAd1kUreVKNi8ffs4Rd/NeMGosw4xYih4HXf8qz7THf4
+	fGh5bd/mnYpvp/MRZyvgy8SiNVSVWz+MR4gblbZhxVDLLWzlR0Bo68scuaY8YBq4kP34lm8/bEc
+	s/o54X9Gjx0Rln/3d+fG48b9KGxG2o4A/Dju1rG2WYitB5Ut/HtcpN/uY/w==
+X-Gm-Gg: ASbGnctuEq+IeXutMAJvEppu6yIG9KhzIuIO2MZjBBZK+sOdLdktyJR62FGGp9TlURA
+	S2MoIzhqbMpP4nIu6leDSBcgw56moWlo4F+raVOtEAFvrvFbMohSHkNkmmc1Of3iJOFNi7/jAWV
+	6BxugXCaZa3h00YA40K178yVoJ3f1/FZyCcEGIluPjwV7M8WQkw6+eYIX1J1ZGGh94wA4o398Ac
+	qDYfFlnvtfrLDOxNLYQ3xgHxUIUfg1BPxSGG4kJcsT9vgYA3hM9h4FskMg7UEQTbv3UL/KYPEIw
+	PbLuCgDmHIk3Cq26WKrGUJ6EUu4Hjc7XLW2kuG9oy+xu0TWBJR8qjMjz90y5GbV8h39az/rilrI
+	UOYOE7H9d
+X-Received: by 2002:a05:6000:188e:b0:386:3327:9d07 with SMTP id ffacd0b85a97d-38a223ff350mr6047735f8f.54.1734795024481;
+        Sat, 21 Dec 2024 07:30:24 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEWX2iVqMHhGPmB89UgFg1Tn2AeeYo7Utwo6Z8s6ZVQXawGejFass05esanNdIaD8+DsbKoYQ==
+X-Received: by 2002:a05:6000:188e:b0:386:3327:9d07 with SMTP id ffacd0b85a97d-38a223ff350mr6047718f8f.54.1734795024074;
+        Sat, 21 Dec 2024 07:30:24 -0800 (PST)
+Received: from ?IPV6:2003:cb:c70e:d000:4622:73e7:6184:8f0d? (p200300cbc70ed000462273e761848f0d.dip0.t-ipconnect.de. [2003:cb:c70e:d000:4622:73e7:6184:8f0d])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8a6e19sm6705451f8f.100.2024.12.21.07.30.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 21 Dec 2024 07:30:23 -0800 (PST)
+Message-ID: <5e958aaa-b1ac-4512-a592-0e1612032861@redhat.com>
+Date: Sat, 21 Dec 2024 16:30:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|CY8PR12MB7316:EE_
-X-MS-Office365-Filtering-Correlation-Id: 33d59675-9bc0-476a-5de1-08dd21d4309d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?c3cwbUFMMWFZTjBWc0RiMXFrMCtLQXltaVZyeWI4VXZwTWtXSll6NkNxaEwy?=
- =?utf-8?B?TkVDNmFKenIxcllaaTE1am9JYStLWUZNbFN2Ukl4b0hKYmk5dXYvTS9VNHM1?=
- =?utf-8?B?Q1NaRm52U3FvSUxXUjlQbEV2OEhtdUFSNGNiWjlEdWRDQVZWRWJ1cEpJSkF0?=
- =?utf-8?B?YUhTdlVTRzh1S05nRDFxTU0zeWR5UXgwcnFnU2c1eWJjemxPNStoMDROejlq?=
- =?utf-8?B?bUQ1Y3ZTWTgxN01KS0hUUzY4L0xRcWtqZ0w0MWRtakhsazNBNmk4N2FMTkxl?=
- =?utf-8?B?ZzF4NThyQUl4NTRrOXJzTW1QRE0zN21ybThySGdCcUFCcmJTK3RsZ21vSEZt?=
- =?utf-8?B?N3daNFVjUFFNTlpaYkluUXVEWDZ5ajNQY245SDZUbXFzeFlFd3B2YmxnaWxN?=
- =?utf-8?B?MDZNSWFGTWZLUFlzeEgyTVYxZmJ0eXpoektqcEd1dGxmOEN5eDBDZzQrNy9F?=
- =?utf-8?B?TWVaY3h6dzJTaHluS1doZjZFOS8vcmo0SVJuZDdGZGlyNVRkOEJuTFBQVXpn?=
- =?utf-8?B?b1J2VWQxNHVBY0FyOW5wMDU4cFByY0k4WVM5Q2lrM005bFllRVpmejJ3TzRo?=
- =?utf-8?B?UElRZkthM2Yrd3IrTnVyY3c5RHBNU2xrbW9WT2ZOb1dXMnZodmFWM1JjMUtH?=
- =?utf-8?B?ZGJjUUZ6UnAvWVh3Q21YMGR0WkM1Q3o2U3RucVdyQ2xiMzUwdlJ0N3ZFbkxZ?=
- =?utf-8?B?c1RZYXcvSUtDUnlHUEVMc2dBMlg1RWVQam4wbWJkb2F2aUdaOXNnZ09TTHhW?=
- =?utf-8?B?TkNXalpUZ1hORXp1TGVjQU5XeFdTQkVBd2JlLy9hdDFlVWNwaERyNmMreVA0?=
- =?utf-8?B?VUE5QTBKRytTUlM5bkp6djZjZHY3ejdzbE9neTB5Yzd2RXhHNUF1ZlkxRXVp?=
- =?utf-8?B?L083SGlGQ1RibTJJcXJIT3lKWnR3ZUJwNW0rNTBBMkt1TitoRVNQdWhnQ2tM?=
- =?utf-8?B?cENtSUxwVTBWbzFtQjZnbHYyaWFsWkNKdEt3K2J4QlhwNjdxc29WVEkyS0Zv?=
- =?utf-8?B?eW9DT3hOSUNWUEpmNkFsK0JvUEZlNm9LTEFXQTdBS0dna3RVWDZRTElRMVU2?=
- =?utf-8?B?SVlvMTd1MHlJOFZWSTJXTTlvMkZjd0dqa0IrdW14clQzQXNQOFFwSEtoM294?=
- =?utf-8?B?YXZ6cU1meC9ESGV1WTdBVHZxeDJ5dHdPbzIxTm9QKzlidjljYngyUndMcTZW?=
- =?utf-8?B?eDduSjNNamppSGxIbnFFa3NYbzg3Z0lhMmZBeXdEYTRWVGtldjhmc0hMSnVT?=
- =?utf-8?B?NGxhd3p4c24rNUhscmZkcEI0VmlJd1A0dmZGSlpMSnJPV2RKemphN3VIdmdp?=
- =?utf-8?B?bEN4ckhJc0o1bkRtMGtiWVN1cWJKSTI1RjlPeXJWb0gvdU43T09IK3lDR1ha?=
- =?utf-8?B?Y1Z0aGNNVk1Eem00OStDT083blR1cDA1NlZzenFrNW45amNHMFJ4SmpLdzV3?=
- =?utf-8?B?YndwVzdQVWc1ZC9mTDFuSHJsNGJOUDczL2hZS0RBUnI5VmJTODFiRjBpSjk5?=
- =?utf-8?B?TVNCbkoycjVVM3o3MGZIa1FiMEtBbjgrM2Jwb2dYUFYrSDVZTGRUZVRvVEp5?=
- =?utf-8?B?ZEtmdFZhdGJZMW52WFdSTU8reW16YmJha29ZS0tkR0d3U3hYSW9JZWRndzlx?=
- =?utf-8?B?MG1uczJ6bGFlM2xiUTVpQ01PNFJBTVpBYlFCYWxsaFVreXVxMDMrVnN1aktz?=
- =?utf-8?B?ayttWXBpYnFyeWdORWs0SGEvSmNsd1JSVnFaczVOU0FLUVVpNnVSU1UrMUxK?=
- =?utf-8?B?ZmM0MHNBSXhSNGNQclNId0kwMGdHK0ZKVFlSM1V4a2hVM2pUSnBuQ1ZFT0FJ?=
- =?utf-8?B?ODlGT3dVOXZkT1hEeUc1OWJXdHJnQlRwb1NkYXRXcG5Lb2dldVJxd3NiRmIz?=
- =?utf-8?Q?9pDOAM3l6fq4l?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?d3BhRGM5bkxUMTJWNzJtT2pnbThEUTZSYW8wOEpQNG51Z0VEUUlWVmpOc0Za?=
- =?utf-8?B?UzJ4bUV4UXZkTzhvcytYcTVPTnJrbXJaS1A5Y2p2dWFjUFVHTWRiaVhmN1ZY?=
- =?utf-8?B?ZkEvOEpKZDFHRmdkTlB1QXEvNXo1VXJYOEZ0ay9COTlyUjN1SEZOS1oxRWhO?=
- =?utf-8?B?UklLRHBmMldXRzFRMlpaY0FOOUxYekRYTUtoNlBOWEJERHpDN2dNUjZlN21I?=
- =?utf-8?B?N3VLeEdiQ3lMWGVFREZoVVI3OW1pVTdmaFFUSVhVVVhhTWQrL0sxZGZYbUhN?=
- =?utf-8?B?ZldMZyt5djNqeHVYdmx3UmtMWjE3WmFmWk9kRUJ6RUY2OThHZ3NDR0hzRGRo?=
- =?utf-8?B?cFdDTDhYTFc3TTNBQzdreUZrRHNlT25rRnVXMzlnOEJodkpWZzNQMUltcThQ?=
- =?utf-8?B?bzR4a2Zja3BZOWxVYUJ5V0xhY3dEejdaTDFRUjFTajZoVko2Sk1Td3hqcUEx?=
- =?utf-8?B?RFJxTFZRT3lVMWtYRk9mZ2lHVkpPL0RtRmpOSWRCdXlqYXhGMlJCNWlzVU84?=
- =?utf-8?B?eDhKU2g1eVdiMHJqdkp2TVE4WlUvb0R3cUxOQ29pWjIvWWhrMWZuMVFaRHVD?=
- =?utf-8?B?eGZST0F2dS9qTWNyWHRDQW4yQnBiQ045ZmtwMzl0NUoyVG0vdlB4ZmZTaGhi?=
- =?utf-8?B?bk5NeFk0WHR4RHRFMkp6YVhGY0R4eUJhUzRXWk0yQjdmVElOQmFPUVM2Q1cz?=
- =?utf-8?B?QzhLajRaWGFmYWNWK3VxTGpOUGhZWlFicTZ5YTQ3OEtTTG13OGt5ZXpEUEds?=
- =?utf-8?B?NkJjZ3JhZ2IybldKQXFleHd4NndqbXhIQllRa3VpYkZGVnp2RkdFNEhhelYy?=
- =?utf-8?B?bVd4dXFrSDQySHJXaVdTellIMjczUGVjSTl4bXA1TWRYY1J3QXA1N3c5U25C?=
- =?utf-8?B?VVpIM1RiQklKREtWcTRLb1hjZmc1MEl3RnFOd2dHb2hJa3gxRzg5VWdjaHBS?=
- =?utf-8?B?NWRqSnJQNXhOdEdZM01EMGJjbkM4R2FhekZBaHFTOFVONWxyYmZiRDY5RFZq?=
- =?utf-8?B?TWR0ZzlDbHhacFZsNEwyYjczUy9CeFZTTVZ1M3UyQ3pXdTJ1eWY4cm9HSGFN?=
- =?utf-8?B?VmhGeENYaHdYbEJTNTh3cmxZZ3Eza215RE9WTDhFbXhCQkd4TS9rQTNzdDZp?=
- =?utf-8?B?RHBjOW5ubHpnNTU3MzRzVzAzZU1xdXRPemxvVGVSNm5PZVlUbWs4Ump6UTdY?=
- =?utf-8?B?R0ltMWt3Qk5VZS9yRWdEUEszd3MxMWtXMFowOGM1eGR0WnRLU2g1d1RhVkR5?=
- =?utf-8?B?ZkF2WW5nbEpvUzlCSWJzcnNWYnhZK2NwVkdtakVmNHpkckZJckc5MTJQUnll?=
- =?utf-8?B?YkRYNEJvWWNITFJaVlVhSjVhanpOVWRVT1NOTDAyZWpIRGtWS3Z3cnJTS1lw?=
- =?utf-8?B?MHFNL0o5UTM5b04weEI5WXlpSTNXVFlDSGJGUHBoYnF6Qmx5ZlJJTDhvYVlq?=
- =?utf-8?B?cmlLRzdXMWwrZ3E4M3kyaEJEd24yYVUvUG5XODVIaHVYaUg2clM4L1FKcDVS?=
- =?utf-8?B?dk5OOVB0UjVLd0ZqUWpHeHQ5Q2wyR1EvcXA2U3YxYkdXV1B4TCs1SkluWUtD?=
- =?utf-8?B?N1JhR0hRcXdxVWluckh0R1Qyb09aaXlYRytnWUJsK3Vlb2NHNVFpWUtpOFRX?=
- =?utf-8?B?OTVOSnpvaUsxK1kvZ1F6QitHakJIY2xIOUV6cWpkVTdHR0s0REhjNXQ4bGxk?=
- =?utf-8?B?OU0vQXBqZ2RjSGJpSTBnSFg0cXU2STU5eVJ1bHBvODJUaXY5V1AyWVRYajNV?=
- =?utf-8?B?d0FiY0ZGbTRHZGlubG1EWlV0ZXlKOFM0aVZHNmY5N3dlbWZBdit4eU5hRG9a?=
- =?utf-8?B?aXJELzdscDZQakFtZmJpSDVMQlgvZm9mRjdIVGFOWVhnVE9MMzRUS2h5MU1r?=
- =?utf-8?B?RzFpcWUzTC82Mzh6Qm9HT0x3UE9KKzBUcDZuRG51SDU4aVlZSnJjU0hWUGM0?=
- =?utf-8?B?NlB6c2VqNlB5UTFMbkZtWFlWTzBDeGhNNEJBcmN4c1ZyUVovRVl4b2hwRms5?=
- =?utf-8?B?aWRpajZ5MXk2Z2JkTlJHZjV4TjFLUnZBUXYrWlFwMTBHcUs1OEp3Tk1rSEVz?=
- =?utf-8?B?UEZURWo0ZGxuTUVpblR0SSttV0ljZ2R3VXdveWU0V0o2S2t4VEVvTDhWVUhY?=
- =?utf-8?Q?BwdEMTDnWZAOOl0uFnbkpsujJ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33d59675-9bc0-476a-5de1-08dd21d4309d
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Dec 2024 15:28:59.0608
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: O4a3QBQ8q4EeIIm0de5WwHV19yRPjup8Sv6sXRpyLiR/dmq722q2OWexSGmrLiad
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7316
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] mm: add build-time option for hotplug memory default
+ online type
+To: Gregory Price <gourry@gourry.net>, linux-mm@kvack.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ loongarch@lists.linux.dev, kernel-team@meta.com, corbet@lwn.net,
+ osalvador@suse.de, akpm@linux-foundation.org, chenhuacai@kernel.org,
+ kernel@xen0n.name, gregkh@linuxfoundation.org, rafael@kernel.org
+References: <20241220210709.300066-1-gourry@gourry.net>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <20241220210709.300066-1-gourry@gourry.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Reinette,
 
-On 12/19/2024 9:23 PM, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 12/12/24 12:15 PM, Babu Moger wrote:
->> Introduce the interface to assign MBM events in mbm_cntr_assign mode.
-> 
-> Seems like something is missing ... there is no mention about what
-> MBM events are assigned "to".
+>   
+> -config MEMORY_HOTPLUG_DEFAULT_ONLINE
+> -	bool "Online the newly added memory blocks by default"
+> -	depends on MEMORY_HOTPLUG
+> +choice
+> +	prompt "Memory Hotplug Default Online Type"
+> +	default MHP_DEFAULT_ONLINE_TYPE_OFFLINE
+>   	help
+> +	  Default memory type for driver managed hotplug memory.
 
-Sure. Will add some context.
+We should call it "hotplugged memory" consistently, which it is from a 
+pure core-mm perspective ("add memory").
 
-> 
-> ...
-> 
->> +	if (assign_state & ASSIGN_LOCAL) {
->> +		ret = rdtgroup_assign_cntr_event(r, rdtgrp, d, QOS_L3_MBM_LOCAL_EVENT_ID);
->> +		if (ret)
->> +			goto out_fail;
->> +	}
->> +
->> +	goto next;
->> +
->> +out_fail:
->> +	sprintf(domain, d ? "%ld" : "*", dom_id);
->> +
-> 
-> The static checker I tried complains that dom_id can be used uninitialized.
+"Driver managed" reminds too much about add_memory_driver_managed(), 
+which is only one case. Maybe just drop the "e.g., page tables" from the 
+examples below.
 
-Interesting.
-dom_id can be uninitialized. That is why we have check "d ?"
+> +
+>   	  This option sets the default policy setting for memory hotplug
+>   	  onlining policy (/sys/devices/system/memory/auto_online_blocks) which
+>   	  determines what happens to newly added memory regions. Policy setting
+>   	  can always be changed at runtime.
+> +
+> +	  The default is 'offline'.
+> +
+> +	  Select offline to defer onlining to drivers and user policy.
+> +	  Select auto to let the kernel choose what zones to utilize.
+> +	  Select online_kernel to generally allow kernel usage of this memory.
+> +	  Select online_movable to generally disallow kernel usage of this memory.
+> +
+> +	  Example kernel usage would be page structs and page tables.
+> +
 
-unsigned long dom_id = 0;
+>   	  See Documentation/admin-guide/mm/memory-hotplug.rst for more information.
+>   
+> -	  Say Y here if you want all hot-plugged memory blocks to appear in
+> -	  'online' state by default.
+> -	  Say N here if you want the default policy to keep all hot-plugged
+> -	  memory blocks in 'offline' state.
+> +config MHP_DEFAULT_ONLINE_TYPE_OFFLINE
+> +	bool "offline"
+> +	help
+> +	  Driver managed memory will not be onlined by default.
 
-This might help.
+"Hotplugged memory"
 
-Thanks
-Babu
+ > +	  Choose this for systems with drivers and user policy that> +	 
+handle onlining of hotplug memory policy.
+ > +> +config MHP_DEFAULT_ONLINE_TYPE_ONLINE_AUTO
+> +	bool "auto"
+> +	help
+> +	  Select this if you want the kernel to automatically online
+ > +	  memory into the zone it thinks is reasonable. This memory
+
+hotplugged memory
+
+> +	  may be utilized for kernel data (e.g. page tables).
+> +
+> +config MHP_DEFAULT_ONLINE_TYPE_ONLINE_KERNEL
+> +	bool "kernel"
+> +	help
+> +	  Select this if you want the kernel to automatically online
+> +	  hotplug memory into a zone capable of being used for kernel
+> +	  data (e.g. page tables). This typically means ZONE_NORMAL.
+> +
+> +config MHP_DEFAULT_ONLINE_TYPE_ONLINE_MOVABLE
+> +	bool "movable"
+> +	help
+> +	  Select this if you want the kernel to automatically online
+> +	  hotplug memory into ZONE_MOVABLE. This memory will generally
+> +	  not be utilized for kernel data (e.g. page tables).
+> +
+> +	  This should only be used when the admin knows sufficient
+> +	  ZONE_NORMAL memory is available to describe hotplug memory,
+> +	  otherwise hotplug memory may fail to online. For example,
+> +	  sufficient kernel-capable memory (ZONE_NORMAL) must be
+> +	  available to allocate page structs to describe ZONE_MOVABLE.
+> +
+> +endchoice
+>   
+>   config MEMORY_HOTREMOVE
+>   	bool "Allow for memory hot remove"
+> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+> index 3b6f93962481..e3655f07dd6e 100644
+> --- a/mm/memory_hotplug.c
+> +++ b/mm/memory_hotplug.c
+> @@ -219,11 +219,30 @@ void put_online_mems(void)
+>   
+>   bool movable_node_enabled = false;
+>   
+> -#ifndef CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE
+> -int mhp_default_online_type = MMOP_OFFLINE;
+> -#else
+> -int mhp_default_online_type = MMOP_ONLINE;
+> -#endif
+> +static int mhp_default_online_type = -1;
+> +int mhp_get_default_online_type(void)
+> +{
+> +	if (mhp_default_online_type >= 0)
+> +		return mhp_default_online_type;
+> +
+> +	if (IS_ENABLED(CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE))
+> +		mhp_default_online_type = MMOP_OFFLINE;
+> +	else if (IS_ENABLED(CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_AUTO))
+> +		mhp_default_online_type = MMOP_ONLINE;
+> +	else if (IS_ENABLED(CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_KERNEL))
+> +		mhp_default_online_type = MMOP_ONLINE_KERNEL;
+> +	else if (IS_ENABLED(CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_MOVABLE))
+> +		mhp_default_online_type = MMOP_ONLINE_MOVABLE;
+> +	else
+> +		mhp_default_online_type = MMOP_OFFLINE;
+
+What would be nice is if we could use the symbols from Kconfig, to then 
+only do
+
+mhp_default_online_type = CONFIG_MHP_DEFAULT_ONLINE_TYPE;
+
+But as far as I know, that's not possible.
+
+
+Thanks!
+
+Acked-by: David Hildenbrand <david@redhat.com>
+
+-- 
+Cheers,
+
+David / dhildenb
 
