@@ -1,295 +1,179 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 187751A3BAD;
-	Fri, 20 Dec 2024 23:47:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734738472; cv=fail; b=ih9tPvKaQ1Up90Gu6CQSYz5OamBzz8wz5Ik6HeAcdD/Gb7PuUiJX4cui3yHEwyUjmtlqjzluI4YAOUM4p7PkBIhHUMNtCOFbMiIQ4TZ68XcO2IKCxc7oFhw0W885UrELiFwX7ry/W9KNTsb4ANsMokwCx4+krJ1D6e8LpQeWV2M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734738472; c=relaxed/simple;
-	bh=BbMSqLvZAdtyoUg6J6s+KwemnKa/24p/1N4X4okJceA=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=fR5wilOlkleKCDEgsVqTk7TSgdb6pHfuAUh+D0S2z8xhTMLZ58+tI2fi2lKpRFhoeKZwQjdTHkJoleiOaOLHGZD20kWwvz/Exn8i/z1YWQ1rnMm/naHbNa2Swf5PeJVHZclLRG3NHVFXsQZrhaho0wN1cGVV1KHMOixelM4NgoU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Av5EsbtP; arc=fail smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F230825948C
+	for <linux-doc@vger.kernel.org>; Sat, 21 Dec 2024 00:51:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734742297; cv=none; b=Ei1+gBSaURuT6gMlRdIKom8dwzips+R7bBVDGbCQfWh1oyltSF2CjZAR1uM1yuTy7rsLsVoT9Y7kLIp0tx8dv6XUztGG/3qkB3jNjQZ8btEvyO49/VrBdZEACmnY6cHWsyP7sg9mjQ2AMxmAWBuTbCN/spvXx/K1YCFlAzxmQk4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734742297; c=relaxed/simple;
+	bh=FRENkPdw5MsSuos6hv3KfxF0ISP2Qe0RZAlvdgY5Q+0=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=mZQy2Fq1++QZ8DfzPIka4VSWxfjE881r7Ni4o9/f9qtYwWGOB97E4HEHejCBPzifmBAiDecwLtgna0i2iXdjV1zWXXoYESrjsYU1+3NQPuYFIn68fq1OepByR/7ytHNaKZiAvmpPC0Fy8t4dK6dIwPl0YFjUp6+p6Co+oaf4Apg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=I7uJk11h; arc=none smtp.client-ip=209.85.210.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Av5EsbtP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734738470; x=1766274470;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=BbMSqLvZAdtyoUg6J6s+KwemnKa/24p/1N4X4okJceA=;
-  b=Av5EsbtPGqvWpyZJ0tOchrC9GlDel5+Xpg0gZx03Fbzb9K9soRxe0uje
-   WgIm/TqUh0+yWsTkY1e7LVNv8evll/z1sx6Pp1S0f00G1IOM9MVsjFdp+
-   28CA5PFyknJCAIEbUkWVqZCMeNmlwFSmSvs3a3zMqvacj7n69qS0OHKjA
-   mSzLLevNx2zYnku1eFyCdQtS9hrHVqUpv6nuIRFkAjAhcYBlt/s92RHzN
-   ds5C+MfJKQL5gZtR5ZNHO/6DtLxt/9Af3hOTqIihdIUZsK89uY1mdv+qp
-   bX/taPA9+14VQXyVsv3MZjMt3h16URy6g7zE6N2J6jOpvttr7yQenWTuF
-   g==;
-X-CSE-ConnectionGUID: 6OH2dwMqTdaitOdj1bYHsg==
-X-CSE-MsgGUID: 51i9xSQmTLeEaVlE3Mzbtg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11292"; a="46717171"
-X-IronPort-AV: E=Sophos;i="6.12,252,1728975600"; 
-   d="scan'208";a="46717171"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 15:47:49 -0800
-X-CSE-ConnectionGUID: efgbIlVuT8yU9NYN2ubm0w==
-X-CSE-MsgGUID: 8uo9SjmwSTK8ZMEzSrYUWw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="103630936"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 20 Dec 2024 15:47:49 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Fri, 20 Dec 2024 15:47:48 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Fri, 20 Dec 2024 15:47:48 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.47) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Fri, 20 Dec 2024 15:47:48 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=L2RVnhI5b0rOo3ynY+gKmUEwwAa56iB8BP+epR/txe4DE7ADL2xUVqY7948U1h9I3C0nxE9VlEEEZ1+ko1uFKP/Jt3eZVgPTZyezPHe54Rkm2fzDT5OnF/It9BEvOuotZzTvvo3etLPL5vrIAo1j6jEJPYY3z+9g/Wm+TvWJPM13H9gfYrdlTXoSgScVvhAjjWyChm1D40vakF4XUmi8GtZJv/UxdKxhYCqAknI3ydTAk04R0o+4pqd1vuBBoastKZ28bMQJRWcBkQR1nqut6C09kXM36t/ti4kg1f01HOCP27moxHpOEJhCmruGDzxoPE1g0LwfJfEYepzoG1qWzw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gLyLtxPVDGwmObxmIQkga/ck3YI5ol0Yts/MwGbrZ7U=;
- b=HwqjDUBJ3qw7iTaehAK7dzoQNqDhoELB8yBh/qLIYE+41ON6XcHIVKba6rUsxNA8VHh5pcydF0FM12VE+v93NrGI+ZkLLnk2okfS6NQ8ATHDq0Af9j3NZ7+lAQAnotgZCMNJgEZ58y/MxUrJp2Po4zTMuPLMtT2x2xxwUsSEJmbWhZ/C1ttjVUrNtmvbiSaqxh8/5lpTEKN1USRge8OZq6vubZjvQxbl2TixR9X3l8li63ZzdKR8Fch4pmu3jTUYy6wN8auNrGVaszYx6J9YryIjfHe86gL4OWHylArGf9pWLSuX+vbY2+Q3YPrewSUCb9vgWXrx7ZpjRx2fdlyNhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by PH0PR11MB7494.namprd11.prod.outlook.com (2603:10b6:510:283::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.15; Fri, 20 Dec
- 2024 23:47:46 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf%7]) with mapi id 15.20.8272.005; Fri, 20 Dec 2024
- 23:47:46 +0000
-Message-ID: <08f3d2d7-06d3-4dfc-97ef-5351e93964ec@intel.com>
-Date: Fri, 20 Dec 2024 15:47:43 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 15/24] x86/resctrl: Implement
- resctrl_arch_config_cntr() to assign a counter with ABMC
-To: "Moger, Babu" <bmoger@amd.com>, Babu Moger <babu.moger@amd.com>,
-	<corbet@lwn.net>, <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, <tony.luck@intel.com>,
-	<peternewman@google.com>
-CC: <fenghua.yu@intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-	<paulmck@kernel.org>, <akpm@linux-foundation.org>, <thuth@redhat.com>,
-	<rostedt@goodmis.org>, <xiongwei.song@windriver.com>,
-	<pawan.kumar.gupta@linux.intel.com>, <daniel.sneddon@linux.intel.com>,
-	<jpoimboe@kernel.org>, <perry.yuan@amd.com>, <sandipan.das@amd.com>,
-	<kai.huang@intel.com>, <xiaoyao.li@intel.com>, <seanjc@google.com>,
-	<xin3.li@intel.com>, <andrew.cooper3@citrix.com>, <ebiggers@google.com>,
-	<mario.limonciello@amd.com>, <james.morse@arm.com>,
-	<tan.shaopeng@fujitsu.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <maciej.wieczor-retman@intel.com>,
-	<eranian@google.com>
-References: <cover.1734034524.git.babu.moger@amd.com>
- <9f74a647d9ff929f040c57e32e253ac824d12086.1734034524.git.babu.moger@amd.com>
- <d6bc8c3a-932c-4bb2-8bb4-b44b05baa9db@intel.com>
- <a8b7c71d-b501-4efd-8e79-db14f1704aa6@amd.com>
- <92bd670e-7d06-45c7-ad3c-e52f67e53210@intel.com>
- <e800c0d1-fad7-4388-93ce-0a7a58c4d340@amd.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-Content-Language: en-US
-In-Reply-To: <e800c0d1-fad7-4388-93ce-0a7a58c4d340@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4P220CA0007.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:303:115::12) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="I7uJk11h"
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-725e87a142dso3420684b3a.2
+        for <linux-doc@vger.kernel.org>; Fri, 20 Dec 2024 16:51:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1734742294; x=1735347094; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=yJnN7ZrxN0wnWRniinuaZCCRmMgcnMSCXct+QU5IKEI=;
+        b=I7uJk11hWHysVG2cJjFu7N6jWbQ5FeiKh+AbvSgWnPEX1814KzGy4eFTyB6Y8X8lJD
+         gLMjT1G6Qi33skl92zvmuVC3jaguwy1c/jYV6nPfbAYqIjaEYJHNjr8p5j64jv022xV8
+         QoSitZAr4dQ86RJMyqjJe1nrn0010KuCF36JrWWsXNvQJFkGydPwZgSS126nyo7MzV5e
+         9kv0qO5KMijtB0cbccMjrXU808cjgs+FIgk+mDyJGVcgb+qsljSRQUi2by0edDU+tQKx
+         DCVeDVi8wfJbWydcgC6KhTHov2QELx3U24ZADAoj9m1rKeExKkNGdbaTEXSKGygapa7V
+         xnWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734742294; x=1735347094;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yJnN7ZrxN0wnWRniinuaZCCRmMgcnMSCXct+QU5IKEI=;
+        b=q6LsUJ2lkmvkURhgKcMS71Mo9G0L80+FMVyuvoDMQn6hiTfmVJIgUqjc8N/wYSXqwQ
+         ncCcc1/xOu3vtBM7UYn3N+dh4sK2bRXKXFp++FLH4XqMTJ7CMLIUB+W/N4iwKkFUnUzX
+         nkcYQ469MSlxZe1rRLrsLVSfZMEvVouDrYepzfvkxCZsGI1DsfRMYxeYZR44I3sEjXYi
+         yOgdDkomqpkpkRywKtMveVvcgEiIjI1+hzHly/XF3Jp3YoNLEoqT+fRqiVAVaktNxZAQ
+         91QLnpx4akSbWlDVJ442cyjYASFJunT0ODn8BlHDhThpVDXpYlVzTpIFulfGZZgaGk3O
+         KuyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVDEjzgetIf+WHU7fQiU5N/PfGwlg7auHQPiJoiLBFrxUGgLrT6ZpwbvdIcpDxeksamUvY0iLVF41o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwL17RXDIBCk1Q+h3sUci8gCjEYYUSRVzhCRi1Up/yrWNUAfvHT
+	Yno/uax8WmK2pW377AyVKnheKI8Uo7jE9HqJijh9uRGftI6WLVWgAkUkR9b5VkGfg7jFTrTnb7M
+	oxkx1KWigEft4WqaCwhtR1Q==
+X-Google-Smtp-Source: AGHT+IFPPx0YiYiLnd8xNfIIbmIMwDB+OM3W+mCwV2V7dSBNzPOeeDA2h35zKUR6WA/aeA9SZXl5yVBt8+4OkZfrCg==
+X-Received: from pfms15.prod.google.com ([2002:aa7:828f:0:b0:72a:bcc3:4c9a])
+ (user=almasrymina job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a00:1311:b0:728:e81c:2bf4 with SMTP id d2e1a72fcca58-72abddb1958mr6921748b3a.11.1734742294312;
+ Fri, 20 Dec 2024 16:51:34 -0800 (PST)
+Date: Sat, 21 Dec 2024 00:42:31 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|PH0PR11MB7494:EE_
-X-MS-Office365-Filtering-Correlation-Id: dbca307a-874e-4368-9916-08dd2150b430
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016|921020;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?dGxNeWZRa25ZU1Q2dFFWUU4yZ05SZnpZakVZM0wxcC9JRnJQcjFnVVlQcjNp?=
- =?utf-8?B?MjhrNW95WnhuV3FBNkR2Z0dnZmtpNlBKdXQ0aXczaVJMY2w1R1FKWFJJd3JM?=
- =?utf-8?B?SGpFWTVxQkFoZ2N4L2doUkx0aHhYL2ZESkZjUHovekxkZnp2SmZiV0kxOUtv?=
- =?utf-8?B?S0JWYXNjbXcxbjRFV0U2TE9vQWpTZVVDcXpIeEErRGRSVzNnbzBEb3BDY29Y?=
- =?utf-8?B?SEVhVDNHaHM4TVhESzl3NzdEZk9kODhjYW1tbUg4MkFvTzNxQUdkNFdycXNs?=
- =?utf-8?B?ZitXemtqM0F4QzZnUDdpZnp2eUZuMTdhOXpDTUJIbGdRTTYvYVdtdllqZUNO?=
- =?utf-8?B?REJnTHYvZThhMUNlQW8xQU9WRXR3dFRKc2RWM2N4RE9qRTB3ZzJ5MHBNR2xB?=
- =?utf-8?B?SEJvNVY0eDBCdXV4UXJMOHF0MHROUHQyLzdnMW41NURTL3JORDYvRkd2YWJE?=
- =?utf-8?B?SUJBTFJyRnJrQXBLb2dNTy9MODRkL2RTK3VIby9taXkxU01oSFVkbHhMYTRB?=
- =?utf-8?B?UHA5Q2M4bnR0Z0UyMzd1b1NZaElGdVo3a3ZvU2NrdlhQV3l4KzNzYnBmbFEy?=
- =?utf-8?B?UzdjdUg3RGtqLzRMdU1YMTVjeFBoTFhjYndHaCtGQzhiaXJDODAya3hITklu?=
- =?utf-8?B?K3lUaEtHNGI4TkZzb05NNTZUb1RpL3RPeUtOc2FVVXlrbUhoK1FENXYzQzUv?=
- =?utf-8?B?RVRrUVFIRVhSeFhiczA2Q2xXV3FsMHU5ZzFpdi9xTTVXRFhxZ3dhY21LcFgy?=
- =?utf-8?B?QmJFM2UwcjlUNVdVRmpNN3JqVjBZU2ZjZE5RYkllVklFN09OQXNxbFJyMit3?=
- =?utf-8?B?aTVQcUcyL05uTkh0dE1UR0h3RHJWWHRXK3RwTzhIUlZSOGZoaUZMRDBJMEp2?=
- =?utf-8?B?SGt3ajFsOWoxZnFxdGVvVzYxSDlCSmF1YzdPcGt6SElZU3lyNFpZeTAvQmF5?=
- =?utf-8?B?dkZSaU40a1VMVTdtdWdFaE5BRXdLTksvS0NtQU9xTTYwNklrd2sxbXFNdmlB?=
- =?utf-8?B?bUh6WmZ6b2VJYjZSWWZxeU5PTVpEcFRxU21kRlN0Y1I2MDg3UHBQcUxVdElJ?=
- =?utf-8?B?UVZjZXFKUzh5eGJ0QTFlNE04dFlRcWlQdmlVcXF1ZUhVMWhQRnkxQnBFZ0ZG?=
- =?utf-8?B?b0U2WWJlNFZleUlBS09CVlpmeHU5UUJISmxGTmo2MmJ4NUNkUWRWTkpxVmxv?=
- =?utf-8?B?ZWphRXp6WTNldUVydG9QRGsvcmJTclhpVTBTcDhvcnV5NTVZdWxPT0x6NEl5?=
- =?utf-8?B?Vk8vQ1QwSGdzYnVFT1FoUW44Zml4UzhCQXRlbzBVNW15WGZnd3JHR1FVREJS?=
- =?utf-8?B?TTdEQXgzQjJ2SURpeEIwQ0JCT1BobHBHTVR3ZHBpVmVYcXZPUDdsQVJzYTcz?=
- =?utf-8?B?NEtlcFNzenlLa2dQajMxR2FxSTR6VW9xRjR5WFZCNUcwZXFmZWhwRCtJWGZM?=
- =?utf-8?B?b0ZSMTJTMm9ZaENka2s4aktQaVRuMGZoV1dCeUcxOHJxUHJaUHFuangxaFB5?=
- =?utf-8?B?VFlFOTBwQ0Y2SjNsUytTRDlaeFpDWlkwSENBU05Fc0MyYXJYb2wwZEFVcEs2?=
- =?utf-8?B?WW0xeXJHT21QdGxjcWNyK2wxYW9KaURGNE9DdzNLb3ZpV1NoNkZ0MzBSeXQr?=
- =?utf-8?B?Z2FDSTcvdXZEMm5aaG5Rc202QXpKQWxFSmsybUxPaE5mYjJEMnBwcG9hbExa?=
- =?utf-8?B?YnhrQUw3TExtOFI4OE8xQVVEcG81MVRySFFPcDUvWlUvT29aczNtZXhhTHZC?=
- =?utf-8?B?dzBJSlhtQVBJM29FblAybXNYeDdobk94OXpRM3M0NXpTeHAvdmNwb2pCbjRE?=
- =?utf-8?B?TkRiYlhXRXhSYzloRS8zRU8zc0VhSUFjWDJLOEF3d0JYQ3M3azd1NlRSVGJl?=
- =?utf-8?B?TjMyNkk4cE1jbXU4Qm5zeEtiYkNSbjZpV2NQTUpFcWQyTEIvUmFLaEVvVXJS?=
- =?utf-8?Q?YWNdcXmjmlA=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aUlOSFBQcWV3ZjlyK2tYeDhnZG1XN0VlQnZIQkphTmh6S05XMk9aVVl2bmdm?=
- =?utf-8?B?MG55VzRqWkQ0WWFhVEt0eFlKV0pwVlhVVStMYUIxNHE4MjkyUEdjRUxzbzNu?=
- =?utf-8?B?dXIwK1lQcTB3Mld5Uk5WKzdaTlA4ait4Yy9RcmJ0bWlUSUpNYWhWS2NzQTVB?=
- =?utf-8?B?QldxWXhzVDRRUW1oTjFZeGdwOFRZTHJuYUFwSjhCZnJoSFRRbVJrR2J1Y2hy?=
- =?utf-8?B?M2M4dE9SZWFaTXFyMFUvYStOTzJPdUNXWmdMaHAwSWJUS0NCbnFLaWFGam85?=
- =?utf-8?B?S0h3dWt5WGF6OS84dWdGd1BTS1orbUI1MWFnNW9CQUhZVGtCYVZCb0J1TmZ6?=
- =?utf-8?B?WHJ3SklqQU1FOHpldkJ6OVRodHpVU3czOWtQQVVib0hwQkFaVzhLVG94NDF4?=
- =?utf-8?B?RDVSS1RLTm5RL3JiU3lhQUc3Qm1oWmJDTDhzaWl3UzVBTmNrTnkrZjBndmFJ?=
- =?utf-8?B?YnhSemF1aG5zajl3Zm9pL0JLOVZpTFhIci8xNlQ4a2w1M21Sckh3R09TQ0RV?=
- =?utf-8?B?Q3ZRbFp3bGc5QU9uWXA0K0dod1AzcEFYMTRkTVBsNDlDcDlpS0YrNEIraU4w?=
- =?utf-8?B?aUhjUGJicVdhVWVVQnJucmZnMitsS00xekQ2VkJpU25nM1V0V3cxbEV3TjR4?=
- =?utf-8?B?ZGFBdmZsMW9rMmZyVkFPRE1tMzlORW9xZUNsc0pMZDROWFlLcGI3YVQ5U1dx?=
- =?utf-8?B?MnNEaVU4VjgwNlhJM3l3SzRoVWpuSExwNGpxdzB0ZEdrMkdlTVlRWHh2d3ov?=
- =?utf-8?B?bGI3akoyTkJIWENCZkxPQ2dxUzRaNVkyWU1KQVEwRGNERzNFK2tLZUdSaXlH?=
- =?utf-8?B?Nmo4QWxndWVqWGx6MHdKaHZOcjJ3M25ZMXdqWUFrdjZ2UW1NK2ROa2Evc0xF?=
- =?utf-8?B?ZHZvNTl3cmp0ZkJxLytFZmVCdGlybm9oaENOT2RMMW9DNUhYR3V3V0NrMHNw?=
- =?utf-8?B?WW9YL1k3OW9qdGVQUHJaRWIvdjBQTzRuVVQvTDVBd3BUUDZmdnJMa2Jwajhy?=
- =?utf-8?B?cXJxOEIwSFFPYjNBTWdGUG5WczZPN2s1UHAzdTRIY3F5SDJMOWZiQm5RZW1Z?=
- =?utf-8?B?MC8yTGNLWEk5MmhaL0Izck1ETmNiMUVXL1FMaUkvUStuSkl6Yk5CWnYvS3Yz?=
- =?utf-8?B?dUR3aVJSdkc0a0hyNXk4S2drWVB0dnpUbFNMdUNmQUQ1T0xmc2o2SUNDTkJh?=
- =?utf-8?B?RURTa0VoTEthZmFTSWpCRVJlK1FXMGp2NjJiVmJod1V2ejhLbzJxQmZhMVZq?=
- =?utf-8?B?Q3VnRlh2VEdsaWtIb0JyVW42OUFTZllVdktBSldEN2RTOVZvdzVFcVNqckVQ?=
- =?utf-8?B?SUp1dk9jVm1vcFg0MkJlTFFKMm1TSS9PWUwwNWR0amlUWkFHNEJIS1ZkVGho?=
- =?utf-8?B?RXl1S2lBZXpYNU9CeWNVUWJ0RFg0K3JMb1BNSUgwc1loSVI0M1o1UW9GMEd4?=
- =?utf-8?B?UXp1NTZnNHE2ZGxuT3c0dk5ZWU5mQnRTR1hxbkJsY2JmUmV2UGIxM0xuRHBQ?=
- =?utf-8?B?M216MWZROVg2S2xnZW13dEJzRzJqSVJUMVJTTEdBYm9WOE1rN1czL2FyNThv?=
- =?utf-8?B?cEhkQzR1M082V2RBRWdYYVBxNHF6OGFUc0VjRXVxZm9MSUFFNzVGcVVFQWJP?=
- =?utf-8?B?b1RhRG1WbGJlRE1hV1k1dEZpcmY5UXRxZEF3aFgzQ3pCR2d3WkpTenduK0RG?=
- =?utf-8?B?Y1hFY0c5bksrdTlDeG91SWptbXYwcVIwN0FvanZOdWJncVNtU2hhQlhKWU9w?=
- =?utf-8?B?WXgyVzZEcy9vODhEK1VTeGdrbkdaK01GRG5QM0ZQcnFBV1BJMUd6VjdIMXl2?=
- =?utf-8?B?S2tsOXQwVEJjQkJIK01xUVRFblRwRWIvM2xDSHhYMWx1blRyY0laZHJnbWN4?=
- =?utf-8?B?RUw2RE94VGo3cUpJRTZ4akhCYmhKZWVvdlMweE9HSmhSajV4Uy90by96Z2Ux?=
- =?utf-8?B?eW5nOU8vY3FXNmNtdXhaaG5MazhOMCtqYlhCNHVUVVhUb3ExOFRBdXdUWlJY?=
- =?utf-8?B?T1dWZXNTVis0N3B2WGIrcEdqdEUydW1Ud3NOeG05dXpYZE5iZ2FldEFhbnhB?=
- =?utf-8?B?TTg4djdLMEladmw4RzhZSU9qSUxZb0xEZkd5SituZ3lDNUhDQ0xyOTRRM0JM?=
- =?utf-8?B?TTk1RGpScThKUWlZSm1vb0RBQ0d3K2U0SldEM2lqWGo5OGVFemJIaFB3NkZ6?=
- =?utf-8?B?cHc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: dbca307a-874e-4368-9916-08dd2150b430
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2024 23:47:46.2162
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ArAXEyqqxiLMWeq1eWU/hWZ76HmhqacoNsFA0hHuWASnnhFAQJY671kRnsSDpdcKTy9+4IDFgTy6gSb51Kj/zgyJ6Y1ZnepgfCmoONeUwN4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7494
-X-OriginatorOrg: intel.com
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
+Message-ID: <20241221004236.2629280-1-almasrymina@google.com>
+Subject: [PATCH RFC net-next v1 0/5] Device memory TCP TX
+From: Mina Almasry <almasrymina@google.com>
+To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, virtualization@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org
+Cc: Mina Almasry <almasrymina@google.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, David Ahern <dsahern@kernel.org>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	"=?UTF-8?q?Eugenio=20P=C3=A9rez?=" <eperezma@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+	Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+	Kaiyuan Zhang <kaiyuanz@google.com>, Pavel Begunkov <asml.silence@gmail.com>, 
+	Willem de Bruijn <willemb@google.com>, Samiullah Khawaja <skhawaja@google.com>, 
+	Stanislav Fomichev <sdf@fomichev.me>, Joe Damato <jdamato@fastly.com>, dw@davidwei.uk
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Babu,
+The TX path had been dropped from the Device Memory TCP patch series
+post RFCv1 [1], to make that series slightly easier to review. This
+series rebases the implementation of the TX path on top of the
+net_iov/netmem framework agreed upon and merged. The motivation for
+the feature is thoroughly described in the docs & cover letter of the
+original proposal, so I don't repeat the lengthy descriptions here, but
+they are available in [1].
 
-On 12/20/24 2:28 PM, Moger, Babu wrote:
-> On 12/20/2024 3:41 PM, Reinette Chatre wrote:
->> On 12/20/24 11:22 AM, Moger, Babu wrote:
->>> On 12/19/2024 5:04 PM, Reinette Chatre wrote:
+Sending this series as RFC as the winder closure is immenient. I plan on
+reposting as non-RFC once the tree re-opens, addressing any feedback
+I receive in the meantime.
 
->>>>> @@ -1686,6 +1686,34 @@ unsigned int mon_event_config_index_get(u32 evtid)
->>>>>        }
->>>>>    }
->>>>>    +struct cntr_config {
->>>>> +    struct rdt_resource *r;
->>>>> +    struct rdt_mon_domain *d;
->>>>> +    enum resctrl_event_id evtid;
->>>>> +    u32 rmid;
->>>>> +    u32 closid;
->>>>> +    u32 cntr_id;
->>>>> +    u32 val;
->>>>> +    bool assign;
->>>>> +};
->>>>
->>>> I think I am missing something because it is not clear to me why this
->>>> new struct is needed. Why not just use union l3_qos_abmc_cfg?
->>>
->>> New struct is needed because we need to call resctrl_arch_reset_rmid() inside IPI. It requires all these parameters.
->>
->> Could you please answer my question?
-> 
-> May be I did not understand your question here.
-> 
-> We need to do couple of things here in the IPI.
-> 
-> 1. Configure the counter. This requires the cntr_id, rmid, event config value and assign(or unassign). This is to populate  l3_qos_abmc_cfg and write the MSR.
-> 
-> 2. Reset RMID. This requires rdt_resource, rdt_mon_domain, RMID, CLOSID and event.
-> 
-> So, I packed all these in a new structure and sent to IPI handler so that both these actions can be done in IPI.
-> 
-> Can this be simplified?
+Full outline on usage of the TX path is detailed in the documentation
+added in the first patch.
 
-This is all architecture specific code so I think l3_qos_abmc_cfg can be
-initialized once and then passed around. Bouncing the individual members of 
-l3_qos_abmc_cfg through struct cntr_config seems unnecessary to me. More specifically,
-would it not make things simpler to make l3_qos_abmc_cfg a member of cntr_config?
+Test example is available via the kselftest included in the series as well.
 
->>>>> @@ -1869,6 +1897,36 @@ static ssize_t mbm_local_bytes_config_write(struct kernfs_open_file *of,
->>>>>        return ret ?: nbytes;
->>>>>    }
->>>>>    +/*
->>>>> + * Send an IPI to the domain to assign the counter to RMID, event pair.
->>>>> + */
->>>>> +int resctrl_arch_config_cntr(struct rdt_resource *r, struct rdt_mon_domain *d,
->>>>> +                 enum resctrl_event_id evtid, u32 rmid, u32 closid,
->>>>> +                 u32 cntr_id, bool assign)
->>>>> +{
->>>>> +    struct rdt_hw_mon_domain *hw_dom = resctrl_to_arch_mon_dom(d);
->>>>> +    struct cntr_config config = { 0 };
->>>>
->>>> Please see 29eaa7958367 ("x86/resctrl: Slightly clean-up mbm_config_show()")
->>>
->>> This may not apply here.
->>>
->>> x86/resctrl: Slightly clean-up mbm_config_show()
->>>
->>> "mon_info' is already zeroed in the list_for_each_entry() loop below. There  is no need to explicitly initialize it here. It just wastes some space and cycles.
->>>
->>> In our case we are not doing memset again.
->>
->> No, but every member is explicitly initialized instead. It may be needed if
->> union l3_qos_abmc_cfg is used as I asked about earlier where it will be important
->> to ensure reserve bits are initialized.
-> 
-> I missed your comment on reserve bits(Searched in this series). General rule is reserve bits should be written as zeros.
+The series is relatively small, as the TX path for this feature largely
+piggybacks on the existing MSG_ZEROCOPY implementation.
+
+Patch Overview:
+---------------
+
+1. Documentation & tests to give high level overview of the feature
+   being added.
+
+2. Add netmem refcounting needed for the TX path.
+
+3. Devmem TX netlink API.
+
+4. Devmem TX net stack implementation.
+
+Testing:
+--------
+
+Testing is very similar to devmem TCP RX path. The ncdevmem test used
+for the RX path is now augemented with client functionality to test TX
+path.
+
+* Test Setup:
+
+Kernel: net-next with this RFC and memory provider API cherry-picked
+locally.
+
+Hardware: Google Cloud A3 VMs.
+
+NIC: GVE with header split & RSS & flow steering support.
+
+Performance results are not included with this version, unfortunately.
+I'm having issues running the dma-buf exporter driver against the
+upstream kernel on my test setup. The issues are specific to that
+dma-buf exporter and do not affect this patch series. I plan to follow
+up this series with perf fixes if the tests point to issues once they're
+up and running.
+
+Special thanks to Stan who took a stab at rebasing the TX implementation
+on top of the netmem/net_iov framework merged. Parts of his proposal [2]
+that are reused as-is are forked off into their own patches to give full
+credit.
+
+[1] https://lore.kernel.org/netdev/20240909054318.1809580-1-almasrymina@google.com/
+[2] https://lore.kernel.org/netdev/20240913150913.1280238-2-sdf@fomichev.me/T/#m066dd407fbed108828e2c40ae50e3f4376ef57fd
+
+Cc: sdf@fomichev.me
+Cc: asml.silence@gmail.com
+Cc: dw@davidwei.uk
 
 
-I do not think I am being clear.
+Mina Almasry (4):
+  net: add devmem TCP TX documentation
+  selftests: ncdevmem: Implement devmem TCP TX
+  net: add get_netmem/put_netmem support
+  net: devmem: Implement TX path
 
-Back to original comment: resctrl_arch_config_cntr() zeroes the entire struct and then
-initializes every member. I do not think it is necessary to zero the struct if
-every member is initialized. If you want to be explicit about the zero initialization
-you can do so while initializing the struct only once where it is defined.
-See for example, rdtgroup_kn_set_ugid()
+Stanislav Fomichev (1):
+  net: devmem TCP tx netlink api
 
-Reinette
+ Documentation/netlink/specs/netdev.yaml       |  12 +
+ Documentation/networking/devmem.rst           | 140 +++++++++-
+ include/linux/skbuff.h                        |  13 +-
+ include/linux/skbuff_ref.h                    |   4 +-
+ include/net/netmem.h                          |   3 +
+ include/net/sock.h                            |   2 +
+ include/uapi/linux/netdev.h                   |   1 +
+ include/uapi/linux/uio.h                      |   5 +
+ net/core/datagram.c                           |  40 ++-
+ net/core/devmem.c                             | 101 ++++++-
+ net/core/devmem.h                             |  51 +++-
+ net/core/netdev-genl-gen.c                    |  13 +
+ net/core/netdev-genl-gen.h                    |   1 +
+ net/core/netdev-genl.c                        |  67 ++++-
+ net/core/skbuff.c                             |  38 ++-
+ net/core/sock.c                               |   9 +
+ net/ipv4/tcp.c                                |  36 ++-
+ net/vmw_vsock/virtio_transport_common.c       |   4 +-
+ tools/include/uapi/linux/netdev.h             |   1 +
+ .../selftests/drivers/net/hw/ncdevmem.c       | 261 +++++++++++++++++-
+ 20 files changed, 764 insertions(+), 38 deletions(-)
 
+-- 
+2.47.1.613.gc27f4b7a9f-goog
 
