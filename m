@@ -1,113 +1,174 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3C51F95E
-	for <linux-doc@vger.kernel.org>; Sun, 22 Dec 2024 05:04:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE0117BA9;
+	Sun, 22 Dec 2024 05:56:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734843841; cv=none; b=LmH/fj14AMyMvcqq1aS38GwjKOXsRnsPWXOICAsAAM9s1RPtr5XinjDdBHGcrmPvSnVjvOq570T8e7O/Po/nklLXMquTlV04IOswCB0oaZQCl1IKFO/jJ6VopMNkHhO0HNG/pQRlBBlULO65qe0TpDZJg7/5qUs7R+IILdsDmZQ=
+	t=1734847000; cv=none; b=nuFnyrDFYw8iZ0GdEtWdgerxqvkiNV98rSsz4c/t5pu8kbe2NJayTnrMLMlQAOKj/uG3lHV/EYYuZN+C1NEruc/5MeBrkfs3bf1jAciICcR6KXbPffdwADY13YPE4ILWSL+hu5p/Vjx0SLVKIkZQ4dkPB/wQMc0aZiiSFNYmc0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734843841; c=relaxed/simple;
-	bh=5t7THXeYLUSycCBIfcIjI9AFeum3p8DXxikqHy9ZaHM=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qkSdhFXNqD3ZnL0f21Poc5BbUL9XPKTcz3ZZmf4Q1Hn9W5qebz+gK97QB3wMJatgqVdAxeZqU6clNM/Nm3+f1LtwXsrjhwJWtqo/i7x+MChGaignW62CrofPBGanQFaff0OJ+LRKgv+5Q41k/jKpX+BQKoiirMzkjAVKgeb/EMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=EgT2JZqg; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1734847000; c=relaxed/simple;
+	bh=rtAOpsMPWgRC8DgMJ/m1PF5WA8zSOXdQrLT3ciodyk4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EkNDumFgUbRmv3iE5pK+OkC3DyO1ocX/AUb7r1h06CLrh9qySiZTQ/DJ8YZiB3cfT7qgdeH98ztncETjg5UHQJq/HjuCxPGj9YEhIUNFwEoqsBCgKtVQ1qI0Pz6s38wuvJsnmZYGbIjkMh0RHnBMm6dS1S9IpxDMogCoRBOjO2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KmUUqKKO; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="EgT2JZqg"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-8019338c2b2so1957123a12.3
-        for <linux-doc@vger.kernel.org>; Sat, 21 Dec 2024 21:04:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KmUUqKKO"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-72739105e02so3366272b3a.0;
+        Sat, 21 Dec 2024 21:56:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1734843840; x=1735448640; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aRqCUQOlRgtZiRc2AC0vsaNCGW6lWCvjfZ2K0ekwaBA=;
-        b=EgT2JZqgSnDa3jNbgSKubfCidXRBQO/djx0s5jlkVzbd7F1jq07Lsie5FpxYja4rYf
-         rizS66cHY60SO7rlIacC1NNJVwxPtyXlVipVIQKHlxBOFFU05GbAX60Yi19wH+CZHODW
-         2DX8yvYpiM4fkHTetAtlgnVqNLHMgEV/6byeZg8xwCGqvPdOBKorIAryXmsqn3wrLDfK
-         VJHwluc9PCS+LLgsxAztSJOdvbtLWa1RTirRvSDwtuCB3KEnoVYNS55znWXY2gxdVgQi
-         KSMRt5MwQ4AnPl/RU0CMZG+C5qtiVQgTRMvUN5s7vHKY1w7raZDSYykWUx05ROBfvvqH
-         ziSQ==
+        d=gmail.com; s=20230601; t=1734846998; x=1735451798; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=5BwgJZPVtl4XhwNY1XFgizSA3iSqTzWQpG8IdnlsPp4=;
+        b=KmUUqKKO0rjxmlkWbvuZh0nm8qBx+osqUyNOxw3oOX97mFTV9K+sWgY3jP25xZnTqg
+         LTN8W0LdtpgI4cKb/NAVKw9bVeHmDZuojavWPH5YdZVlpWkSzfTqVoiASbYR/WTFrnlG
+         lheFPeuGDvottNMIwl5EWElFCnr5zEizn9tIetDzrZCVDTD7QVGE7EqITEXyE8CvnZnS
+         oAKIbzD7McNagfIPj/+xuioYZzAaI0+unDpeV4MQme8SBEQp+4gGpXzX4Ggcv47USwGm
+         a3zy9QbLrXL/PjhB3oMj8sPXbgQl9kC/l2qpUUxyT0yH1LVow3um+Sem3/tEJPufuu6U
+         HDjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734843840; x=1735448640;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aRqCUQOlRgtZiRc2AC0vsaNCGW6lWCvjfZ2K0ekwaBA=;
-        b=R7hqw94txMY6XD9i2DRLtwR86laHXGWF71snynzQ1DfJg5Hcu0qGo2xFTBUefxa57I
-         6rTWPopDM3gRmbFS//c/eJn7Dj1mgrNPlAsYvny/qaITmBBClC6UlDYHnzxchAFohcfp
-         sFpbA42Domi4tHprwxYGNwA3prGAFNKXVWFsrkR3Zm7nXEMQwdBlNrNzOSsTlGkc7flu
-         vw628bduRO8LLSATp4R8Lb0mGBNQvtjmcMU0FSKgsVO/VlYqVk0lgTHmBp5QBeG7QXp5
-         mhUTZeEPGM2gdvf0HeQ4n5vPRDt/UKn0wHZ8WJAHX4XoJotS+dRsnsA2LKyj/keZzaxP
-         u2DQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVBXRF6uaZkeWf6rU3fuFlJFR0BKoHQjj0OPiDAAm5EWeNvXsMuUumo3JTAM+rZedCHpPxJ2n0Dqt8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyijjCcYDndzFU+D7s+HK/G2MIprMgvloA1aXAp/0wgKQJsRfRk
-	xBBm5+OosiGsXwYaREAeeU7o21AW/nKEYfuD2Gaw1UeucU8M/o9lDC1eSrgloRk=
-X-Gm-Gg: ASbGncsihTciuX574fNXR1wwx5q6x2J6wsFTRjGaP7GupbAgZ8XrzMfdsf1khtzNiY2
-	EAaRszchagoEUcFxL3IGN4ZLaXTJuHskhArTNaAAW/XVjppmrMuL++MLCCWxUCfOamVedkDrTrY
-	LFjTc8HSWUOQkVlm7HkALRQryNCv6Mlf4LCHWPoLGtgG1hllf6APT4UuBVzYthg8Vy4fnSKvEPn
-	cJE80CYDrIaC2MX6bFiWDA9EK69GP6CkphCp6+mh6NOPzXSFglvkS55AC8wYocnuz00C7Bv267Z
-	Z+UP7cc=
-X-Google-Smtp-Source: AGHT+IEz6nqPahLXccgfO9cSrt88CcjDjg2Jbhh4D2ThWhv0YE8dqXggljaBjhQgpLKbihe32IQpgQ==
-X-Received: by 2002:a17:90b:2e06:b0:2ee:ba0c:1718 with SMTP id 98e67ed59e1d1-2f452ee8cd4mr13567612a91.37.1734843839761;
-        Sat, 21 Dec 2024 21:03:59 -0800 (PST)
-Received: from gourry-fedora-PF4VCD3F ([75.167.163.61])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f2ed52dfffsm7819678a91.5.2024.12.21.21.03.58
+        d=1e100.net; s=20230601; t=1734846998; x=1735451798;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5BwgJZPVtl4XhwNY1XFgizSA3iSqTzWQpG8IdnlsPp4=;
+        b=rDbwSjcUtNMFhpOe8snvaDpYwGFNX4DqihOd0CaNB68C5GPd5VS4HwKyWeszjp51Qq
+         fAhWG8xedDB5MFfk9705Q9lg2EalSHDX3lG3K+QvAUr1VKTCg6f8AuOUUOoSh2mtzPwI
+         VmtDgyWttnExT+XeqsYk4kqT/4Q6NZFMlFi6sE9VP/0UV7AU31C5vVqlYQYXv5bIqb5F
+         ViZaJwFh0W/DFVWkiJyGAP7hbVgdqtpj/8v0cDkTbLivYNPLzAOlTJ/cVkUwzcLMVA5F
+         zmd4AOlAdQ7qspOMDOZsdtBtiwnBkZPaW68KYv6HTIBE5IkdxZNTom6oWeq1J8N8WAuA
+         z18g==
+X-Forwarded-Encrypted: i=1; AJvYcCVcskzDBlzPJ8hcPW7BDmGPu4SOzip7kweebGiaoRxO+cEmz9m0RQZcT7NeOFdG6b8B+Oj4ef6n2wYDkt8G@vger.kernel.org, AJvYcCWeDw4bCYtB9lVKUmfDXdZ9olgrpD4UuGBUVL5qgP9Vj/A1WG43uF56xmgOj43jU57IGshZAWu3Yi4w@vger.kernel.org, AJvYcCX96ZNryv1AkCyjrv2kzxANH1D6fN7ewzD/cjgQ9SUjXbO5eVA3ZvZ4o5kss1rLHoBB56jBBZiflSI2@vger.kernel.org, AJvYcCXQjMU43D/NlaOV5SI7TwOH6pRKEcyotGqi1djtT6b506HzdQdrV5RU5uiZLLLYCbiGCkCKcoMh/bjL@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6dY4xELqp9mM0tSvbDzIM5y8HxiuPG/EBKWLv11k9UP3fhA26
+	TFZsqp9DZoBJHEEOJEzGm4qC0yCF8nQxHDIQyiAeS0qMkCPhR3YJ
+X-Gm-Gg: ASbGncuSZYEib01W48WQTDAfF9y8+k0iCS/oMCRZXl/CJCM5fFcxdAB4WOsV9E3WivZ
+	SbkDeN8X5UyrkvEUcLp7JFUbvv5G0wPZY7aAC4eiAOAWhpDvAMhVc+CzVgPeUDq5UXVIau0ceXD
+	0nRWtq1Ku7romdmifTHSi7/SiCNbOQNxXUrJMywLZHJnQizW+WEmRdgQirN0Ym0IZLXF4j3o9Vp
+	+Dn9TjUQ0+68drS6QENeofGXxAb5YaXAHC2Ao02p9jIjN8HBUW4Djc2eLlf9GL0mw==
+X-Google-Smtp-Source: AGHT+IFmzvmOXgYF9y+4NfgUyaSRpQVJIRtpzFBicntYlHMruGNiqBTmQzgJb/9ooYLi/PXK0JTMLA==
+X-Received: by 2002:a05:6a00:8087:b0:725:ef4d:c1bd with SMTP id d2e1a72fcca58-72abde84667mr13284129b3a.19.1734846997952;
+        Sat, 21 Dec 2024 21:56:37 -0800 (PST)
+Received: from localhost ([2804:30c:4057:c200:dfe2:5075:a83a:1a44])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad8157f9sm5808035b3a.24.2024.12.21.21.56.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Dec 2024 21:03:59 -0800 (PST)
-From: Gregory Price <gourry@gourry.net>
-X-Google-Original-From: Gregory Price <gourry@gourry-fedora-pf4vcd3f>
-Date: Sun, 22 Dec 2024 00:03:56 -0500
-To: David Hildenbrand <david@redhat.com>
-Cc: Gregory Price <gourry@gourry.net>, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev, kernel-team@meta.com, corbet@lwn.net,
-	osalvador@suse.de, akpm@linux-foundation.org, chenhuacai@kernel.org,
-	kernel@xen0n.name, gregkh@linuxfoundation.org, rafael@kernel.org
-Subject: Re: [PATCH v3] mm: add build-time option for hotplug memory default
- online type
-Message-ID: <Z2edvO0X6H_IoMRz@gourry-fedora-PF4VCD3F>
-References: <20241220210709.300066-1-gourry@gourry.net>
- <5e958aaa-b1ac-4512-a592-0e1612032861@redhat.com>
+        Sat, 21 Dec 2024 21:56:37 -0800 (PST)
+Date: Sun, 22 Dec 2024 02:57:13 -0300
+From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+To: Esteban Blanc <eblanc@baylibre.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 2/6] iio: adc: ad4030: add driver for ad4030-24
+Message-ID: <Z2eqOSN2Uk8SfTq1@debian-BULLSEYE-live-builder-AMD64>
+References: <20241219-eblanc-ad4630_v1-v2-0-f36e55907bf5@baylibre.com>
+ <20241219-eblanc-ad4630_v1-v2-2-f36e55907bf5@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <5e958aaa-b1ac-4512-a592-0e1612032861@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241219-eblanc-ad4630_v1-v2-2-f36e55907bf5@baylibre.com>
 
-On Sat, Dec 21, 2024 at 04:30:21PM +0100, David Hildenbrand wrote:
+Hello Esteban, some comments inline.
+
+On 12/19, Esteban Blanc wrote:
+> This adds a new driver for the Analog Devices INC. AD4030-24 ADC.
 > 
-> > -config MEMORY_HOTPLUG_DEFAULT_ONLINE
-> > -	bool "Online the newly added memory blocks by default"
-> > -	depends on MEMORY_HOTPLUG
-> > +choice
-> > +	prompt "Memory Hotplug Default Online Type"
-> > +	default MHP_DEFAULT_ONLINE_TYPE_OFFLINE
-> >   	help
-> > +	  Default memory type for driver managed hotplug memory.
+> The driver implements basic support for the AD4030-24 1 channel
+> differential ADC with hardware gain and offset control.
 > 
-> We should call it "hotplugged memory" consistently, which it is from a pure
-> core-mm perspective ("add memory").
-> 
-> "Driver managed" reminds too much about add_memory_driver_managed(), which
-> is only one case. Maybe just drop the "e.g., page tables" from the examples
-> below.
->
+> Signed-off-by: Esteban Blanc <eblanc@baylibre.com>
+> ---
+[...]
+> +
+> +static int ad4030_spi_read(void *context, const void *reg, size_t reg_size,
+> +			   void *val, size_t val_size)
+> +{
+> +	int ret;
+> +	struct ad4030_state *st = context;
+> +	struct spi_transfer xfer = {
+> +		.tx_buf = st->tx_data,
+> +		.rx_buf = st->rx_data.raw,
+> +		.len = reg_size + val_size,
+> +		.speed_hz = AD4030_SPI_MAX_REG_XFER_SPEED,
+Is speed_hz really needed? What happens if the controller can't clock at 80MHz?
 
-I suppose it's accurate that this also affects VM-hotplugged memory,
-which may not necessarily be "driver managed" in that regard. So it's
-more accurate to just say "hotplugged memory" - although even that's not
-quite completely accurate according to the definition in the docs.
+> +	};
+> +
+> +	if (xfer.len > ARRAY_SIZE(st->tx_data) ||
+> +	    xfer.len > ARRAY_SIZE(st->rx_data.raw))
+> +		return  -EINVAL;
 
-Either way, will change it to "hotplugged memory".
+Would it make sense to bring register configuration mode commands into the
+regmap calls?
+I mean, to do the ad4030_enter_config_mode() transfer here and the
+ad4030_exit_config_mode() at the end of this function.
+From datasheet, it looks like both enter/exit config mode are required for reg
+access so why not doing them in the regmap callbacks?
+With that, I think it won't be needed to call register config mode functions
+in ad4030_single_conversion() and in buffer enable/disable functions.
+Might need implement regmap_config read and write callbacks to properly handle
+regmap_bulk_read/write interface.
 
-Probably at the point where you have multiple sources affected by this
-change, you need a udev/systemd setup anyway.  We may have to revisit
-this later, but I doubt it.
 
-~Gregory
+> +
+> +	memset(st->tx_data, 0, ARRAY_SIZE(st->tx_data));
+> +	memcpy(st->tx_data, reg, reg_size);
+> +
+> +	ret = spi_sync_transfer(st->spi, &xfer, 1);
+> +	if (ret)
+> +		return ret;
+> +
+> +	memcpy(val, &st->rx_data.raw[reg_size], val_size);
+> +
+> +	return ret;
+> +}
+> +
+[...]
+> +
+> +static int ad4030_get_chan_calibscale(struct iio_dev *indio_dev,
+> +				      struct iio_chan_spec const *chan,
+> +				      int *val,
+> +				      int *val2)
+> +{
+> +	struct ad4030_state *st = iio_priv(indio_dev);
+> +	u16 gain;
+> +	int ret;
+> +
+> +	ret = regmap_bulk_read(st->regmap, AD4030_REG_GAIN_CHAN(chan->address),
+> +			       st->rx_data.raw, AD4030_REG_GAIN_BYTES_NB);
+> +	if (ret)
+> +		return ret;
+> +
+> +	gain = get_unaligned_be16(st->rx_data.raw);
+My impression is that it is a bit odd to handle endianness after/before
+calling regmap_read/write(). Can you try set
+.val_format_endian_default = REGMAP_ENDIAN_BIG, in ad4030_regmap_bus?
+If that doesn't help, what about doing the get/set_unaligned stuff within
+the bus read/write calls?
+
+> +
+> +	/* From datasheet: multiplied output = input × gain word/0x8000 */
+> +	*val = gain / 0x8000;
+Use a define to give a name to the gain constant?
+
+> +	*val2 = mul_u64_u32_div(gain % 0x8000, NANO, 0x8000);
+> +
+> +	return IIO_VAL_INT_PLUS_NANO;
+> +}
+> +
+[...]
