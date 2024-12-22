@@ -1,159 +1,179 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28BC16BE3A;
-	Sun, 22 Dec 2024 12:09:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F049E1854;
+	Sun, 22 Dec 2024 14:03:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734869377; cv=none; b=QH79n8s8fm2j/yIPkMvzPSR9bdKHOV0FRaYXP36/omFt6mrtYaeceJsi6EIqurQiygpNJDD9fsHMRFxxw2/ulS+J8PoWr1kXrch5fvCyuzdEQ+dg7hv6bkcQSSidvZqKme6syWqi///xG4fVuRJzQbwakzmGaxsqch5hFE0sKXI=
+	t=1734876200; cv=none; b=NEow5HB0us/ySUhv0zpepdCQBJnXtshyeshtQDT22J/x2SyxsKFLoBBuXCXp2MUfDdLb5GgZA9OdzpOBb2GTRNse7R4SIZc8skzm6rrUS7IttAoFEZDoFCfU4zsu1+cDfTjVlIcaJ8xtzrhcvUg2DswAfMbomIGottq3nSXhQ/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734869377; c=relaxed/simple;
-	bh=JEcAWc+wXNEr2iT6chfisqG5h3apL3QfDBAMs+UovyY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XbqGQ9vGLZWydCTHOjNaqgcns0FcYyNZZUcvv7ZaQhukLtG1fNV17+ite7dQP6x1lN6DW0JyHiZUx1GHJwk9hmF+Y3I22HgTjwaj7nT4Z0tRmipuU+heAOm0Rc+Mama1Ti2czUrc4AHlGcW6nLxysXggE6Z4wl2ocNcHVnrXe3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Mk1gvV7Q; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1734876200; c=relaxed/simple;
+	bh=izJ+GAUejP8VmqbYGz0NeXXUMWLD1I1/K+vljE64SoY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=sZipCg/gLl64IlUPC4J4ivPsmxdHx44Y6tA7FrCyYkPNaQtIxARDfxDIilhcuQvGve/3WDVEhqTLSJpxDtfSaU+L/8FY7MdMskbWqluSAhdWxPKgFlOJlfm2vNuU+kUbRzDv+s6PG8B9IuLft5T3VXJGwPVpS1vWr7GdANyb3Sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=LMsZnBkW; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Mk1gvV7Q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1734869369;
-	bh=JEcAWc+wXNEr2iT6chfisqG5h3apL3QfDBAMs+UovyY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Mk1gvV7Q7uZ4yQz0SZGlVzfrS25sbJb+w5IuxG616XnEkyyxqmpd8x0R0Fl7Sdc9P
-	 y0dcwNqJdmdpJQQeGDb+NI4baP2735wWJMch61HKhBVyBKl5xTGpVz6Gzr5QTRNMEB
-	 AHjaPOGoms8k8OjBHnue4ZfH3B7ndBJ2bQyXujRM=
-Date: Sun, 22 Dec 2024 13:09:28 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Joshua Grisham <josh@joshuagrisham.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, ilpo.jarvinen@linux.intel.com, 
-	W_Armin@gmx.de, platform-driver-x86@vger.kernel.org, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] platform/x86: samsung-galaxybook: Add
- samsung-galaxybook driver
-Message-ID: <c2b5e0c8-651f-426e-ae96-13857313997a@t-8ch.de>
-References: <20241216103855.18457-1-josh@joshuagrisham.com>
- <13184052-baf2-4e7d-b8ef-9ba3f34d475a@t-8ch.de>
- <66897a27-5f81-46fc-898d-682456d7f37f@redhat.com>
- <CAMF+KeZ3uAWZuuPJcrrvTJS-TgyxkqXOY_w=wNw7eZQiUkV5YA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="LMsZnBkW"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BMBu1hb006119;
+	Sun, 22 Dec 2024 14:03:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=pp1; bh=f4uKjkuTzUFv3bmu8
+	RaBubRIjw4jJnrpGktoOFF2mGw=; b=LMsZnBkWqGpbIaN9TbUy1r1c1Pe2ymu5i
+	+cMarpAbkbViUchmFtas3p43wCGobj2eKqnKJiwljwYneA6ua4/tifhwGDITxK9Y
+	1uUhjm4Pwy5jCCDKwGw15Q8WQ1jnSX6FCJyJTfaLvdQr9D0nQ3dTjmcW2vAY4epd
+	eNX+elGYqWrXAd9duvhPdgGEvnPeIU7Py35shff4dwo5x+wCUn1vYh4co7M1Jiwg
+	8LBUZ301CfjwISHnEqiOrSES2NqFFtdNdwNX/OcUOtkOTr7wFFjoB3he+OUVYeSR
+	vU1e5FTBUrFEblrGYef0xwgQCAD0b/rHK0piEM4ES4riVBOCctqtg==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43ny54axa3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 22 Dec 2024 14:03:08 +0000 (GMT)
+Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BME38N6019694;
+	Sun, 22 Dec 2024 14:03:08 GMT
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43ny54axa1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 22 Dec 2024 14:03:08 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BMC0hiX020602;
+	Sun, 22 Dec 2024 14:03:07 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 43p8cy229x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 22 Dec 2024 14:03:07 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BME34MV31719878
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sun, 22 Dec 2024 14:03:04 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id ED4F42004F;
+	Sun, 22 Dec 2024 14:03:03 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 445E320040;
+	Sun, 22 Dec 2024 14:03:00 +0000 (GMT)
+Received: from vaibhav?linux.ibm.com (unknown [9.39.24.11])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with SMTP;
+	Sun, 22 Dec 2024 14:03:00 +0000 (GMT)
+Received: by vaibhav@linux.ibm.com (sSMTP sendmail emulation); Sun, 22 Dec 2024 19:32:59 +0530
+From: Vaibhav Jain <vaibhav@linux.ibm.com>
+To: linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+        kvm-ppc@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Vaidyanathan Srinivasan <svaidy@linux.vnet.ibm.com>,
+        sbhat@linux.ibm.com, gautam@linux.ibm.com, kconsul@linux.ibm.com,
+        amachhiw@linux.ibm.com
+Subject: [PATCH 1/6] [DOC] powerpc: Document APIv2 KVM hcall spec for Hostwide counters
+Date: Sun, 22 Dec 2024 19:32:29 +0530
+Message-ID: <20241222140247.174998-2-vaibhav@linux.ibm.com>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20241222140247.174998-1-vaibhav@linux.ibm.com>
+References: <20241222140247.174998-1-vaibhav@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMF+KeZ3uAWZuuPJcrrvTJS-TgyxkqXOY_w=wNw7eZQiUkV5YA@mail.gmail.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: DcfyYVRII0xwQL93kfiuo-Jm3MzAvbsQ
+X-Proofpoint-GUID: Yzf9WE5QsFQ3NHBbbViPVGbtl-ixQLyQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ mlxscore=0 mlxlogscore=810 priorityscore=1501 suspectscore=0 clxscore=1011
+ spamscore=0 phishscore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2412220124
 
-Hi Joshua,
+Update kvm-nested APIv2 documentation to include five new
+Guest-State-Elements to fetch the hostwide counters. These counters are
+per L1-Lpar and indicate the amount of Heap/Page-table memory allocated,
+available and Page-table memory reclaimed for all L2-Guests active
+instances
 
-On 2024-12-19 18:31:22+0100, Joshua Grisham wrote:
-> Thank you both Thomas and Hans for your review and comments! I am
-> working on a v4 of the patch but had a few questions which I wanted to
-> clarify (they can also come after in a v5 etc in case I managed to get
-> this ready to go before anyone has the time to confirm and/or clarify
-> some things!).
+Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+---
+ Documentation/arch/powerpc/kvm-nested.rst | 40 ++++++++++++++++-------
+ 1 file changed, 29 insertions(+), 11 deletions(-)
 
-Keep them coming :-)
+diff --git a/Documentation/arch/powerpc/kvm-nested.rst b/Documentation/arch/powerpc/kvm-nested.rst
+index 5defd13cc6c1..c506192f3f98 100644
+--- a/Documentation/arch/powerpc/kvm-nested.rst
++++ b/Documentation/arch/powerpc/kvm-nested.rst
+@@ -208,13 +208,9 @@ associated values for each ID in the GSB::
+       flags:
+          Bit 0: getGuestWideState: Request state of the Guest instead
+            of an individual VCPU.
+-         Bit 1: takeOwnershipOfVcpuState Indicate the L1 is taking
+-           over ownership of the VCPU state and that the L0 can free
+-           the storage holding the state. The VCPU state will need to
+-           be returned to the Hypervisor via H_GUEST_SET_STATE prior
+-           to H_GUEST_RUN_VCPU being called for this VCPU. The data
+-           returned in the dataBuffer is in a Hypervisor internal
+-           format.
++         Bit 1: getHostWideState: Request stats of the Host. This causes
++           the guestId and vcpuId parameters to be ignored and attempting
++           to get the VCPU/Guest state will cause an error.
+          Bits 2-63: Reserved
+       guestId: ID obtained from H_GUEST_CREATE
+       vcpuId: ID of the vCPU pass to H_GUEST_CREATE_VCPU
+@@ -402,13 +398,14 @@ GSB element:
+ 
+ The ID in the GSB element specifies what is to be set. This includes
+ archtected state like GPRs, VSRs, SPRs, plus also some meta data about
+-the partition like the timebase offset and partition scoped page
++the partition and  like the timebase offset and partition scoped page
+ table information.
+ 
+ +--------+-------+----+--------+----------------------------------+
+-|   ID   | Size  | RW | Thread | Details                          |
+-|        | Bytes |    | Guest  |                                  |
+-|        |       |    | Scope  |                                  |
++|   ID   | Size  | RW |(H)ost  | Details                          |
++|        | Bytes |    |(G)uest |                                  |
++|        |       |    |(T)hread|                                  |
++|        |       |    |Scope   |                                  |
+ +========+=======+====+========+==================================+
+ | 0x0000 |       | RW |   TG   | NOP element                      |
+ +--------+-------+----+--------+----------------------------------+
+@@ -434,6 +431,27 @@ table information.
+ |        |       |    |        |- 0x8 Table size.                 |
+ +--------+-------+----+--------+----------------------------------+
+ | 0x0007-|       |    |        | Reserved                         |
++| 0x07FF |       |    |        |                                  |
+++--------+-------+----+--------+----------------------------------+
++| 0x0800 | 0x08  | R  |   H    | Current usage in bytes of the    |
++|        |       |    |        | L0's Guest Management Space      |
+++--------+-------+----+--------+----------------------------------+
++| 0x0801 | 0x08  | R  |   H    | Max bytes available in the       |
++|        |       |    |        | L0's Guest Management Space      |
+++--------+-------+----+--------+----------------------------------+
++| 0x0802 | 0x08  | R  |   H    | Current usage in bytes of the    |
++|        |       |    |        | L0's Guest Page Table Management |
++|        |       |    |        | Space                            |
+++--------+-------+----+--------+----------------------------------+
++| 0x0803 | 0x08  | R  |   H    | Max bytes available in the L0's  |
++|        |       |    |        | Guest Page Table Management      |
++|        |       |    |        | Space                            |
+++--------+-------+----+--------+----------------------------------+
++| 0x0804 | 0x08  | R  |   H    | Amount of reclaimed L0 Guest's   |
++|        |       |    |        | Page Table Management Space due  |
++|        |       |    |        | to overcommit                    |
+++--------+-------+----+--------+----------------------------------+
++| 0x0805-|       |    |        | Reserved                         |
+ | 0x0BFF |       |    |        |                                  |
+ +--------+-------+----+--------+----------------------------------+
+ | 0x0C00 | 0x10  | RW |   T    |Run vCPU Input Buffer:            |
+-- 
+2.47.1
 
-> Den tis 17 dec. 2024 kl 15:23 skrev Hans de Goede <hdegoede@redhat.com>:
-> >
-> > On 16-Dec-24 5:46 PM, Thomas Weißschuh wrote:
-> > >> +Various hardware settings can be controlled by the following sysfs attributes:
-> > >> +
-> > >> +- ``allow_recording`` (allows or blocks usage of built-in camera and microphone)
-> > >> +- ``start_on_lid_open`` (power on automatically when opening the lid)
-> > >> +- ``usb_charge`` (allows USB ports to provide power even when device is off)
-> > >
-> > > Non-standard sysfs attributes should be avoided where possible.
-> > > Userspace will need bespoke code to handle them.
-> > > This looks like it could be handled by the standard firmware_attributes
-> > > interface.
-> > > This would standardize discovery and usage.
-> >
-> > Ack this really feels like firmware-attributes. I would not be surprised
-> > if there are matching BIOS settings and if changing those also changes
-> > the sysfs files and likewise if the sysfs settings persist over reboot.
-> >
-> 
-> Yes 2 of these (not this "allow_recording" I think) are available via
-> BIOS and all 3 of them persist over restarts.
-> 
-> Just so I am 100% clear what you mean here -- these type of attributes
-> should be created using the utilities available in
-> drivers/platform/x86/firmware_attributes_class.h so that they are
-> created under the path /sys/class/firmware-attributes/*/attributes/*/
-> ?
-
-Yes.
-
-> What exactly should they be named (any preference?) and should I also
-> add some documentation for them in
-> Documentation/ABI/testing/sysfs-class-firmware-attributes ?
-
-I think they are meant to be named consistently with what the native
-UEFI setup interface calls them.
-And yes, they should be documented.
-
-> I am fairly sure I understand the concept and can agree that it kind
-> of makes a lot of sense to be able to standardize the userspace
-> interface, especially for attributes which do the exact same thing
-> across different vendors/devices (unless it just as easily possible to
-> go based on some pattern matching e.g. like is done in udev and upower
-> with "*kbd_backlight*" etc) but as of now it looks like the only
-> examples implemented are for thinklmi, dell-wmi, and hp-bioscfg that I
-> can see so far?
-
-The firmware-attributes don't really have a standardized semantic.
-Here the standardization is more about the discovery and interaction.
-Somebody can build a generic UI to change these settings, without the UI
-knowing anything about what the setting actually does.
-
-If the setting maps to a another, more specific interface, that should
-be used.
-
-> Before, I had tried to look through all of the various platform/x86
-> drivers and harmonize which names I picked for these sysfs attributes
-> (that is how I landed on "usb_charge" and "start_on_lid_open" as I
-> recall correctly) but I am not aware of any existing userspace tools
-> which are looking for anything like these (apart for
-> driver/vendor-specific utilities). Any recommendation from the very
-> wise people here would certainly be appreciated for these :)
-
-[..] Snip, I don't feel qualify to comment on the input bits.
-
-> Other notifications that I am wondering what the "right" way to handle
-> / using the right interface:
-
-[..]
-
-> - When the battery charge control end threshold is reached, there is
-> an ACPI notification on this device as well that is the one I have
-> marked "ACPI_NOTIFY_BATTERY_STATE_CHANGED" -- the Samsung background
-> apps pop up a custom OSD that basically says something to the effect
-> that their "Battery saver is protecting the battery by stopping
-> charging" (can't remember the exact verbiage) and they change the
-> battery icon, but without doing anything else in my driver currently
-> the battery still reports state of "charging" even though it just sits
-> constantly at the percentage (and has the charging icon in GNOME etc).
-> I have seen the event come and go occasionally when I did not expect
-> it, but my working theory is that maybe it is if/when the battery
-> starts charging again if it dips too far below the target "end
-> threshold" and then notifies again when the threshold has been
-> reached. Armin also mentioned this before in a different mail; I guess
-> I would hope/expect there is an event or a function I could call to
-> have the state reflected correctly but I would not want that it
-> negatively impacts the normal behavior of charging the battery itself
-> (just that the state/icon would change would be ideal! as it functions
-> perfectly, it is just that the state and icon are not accurate).
-
-Optimally the ACPI event would integrate with the ACPI battery driver.
-See the handling of POWER_SUPPLY_STATUS_NOT_CHARGING in
-drivers/acpi/battery.c.
-Does the battery report the current rate as 0 when limiting?
-Then something like acpi_battery_handle_discharging() could be used.
-
-
-Thomas
