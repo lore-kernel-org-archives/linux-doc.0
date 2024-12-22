@@ -1,130 +1,176 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424F413B7AE;
-	Sun, 22 Dec 2024 08:42:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C0F176AB5;
+	Sun, 22 Dec 2024 09:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734856948; cv=none; b=hoErzLanM05uS/aZBb1DNXcuZjt/RLjxfuMYVRneujTxqsaMs0jOChu2VVMzHgS5k8rrKdMZZpu+pAFCyXcNqNgdZsavlUw4oHwqWN42ersKcFiUJ5647VAtQxYgLzlMTlZ6bacIGE6rj778e8UFxBAdnRjyfWgImq3PwRop2ls=
+	t=1734860294; cv=none; b=OEruLQcNo0EftdhaVTCNTBB1OEqEqgiiDyVWhy7Z1icOFB1V48a3H+fAwrfQS3B/vYWX0+ohljZRb+Gyle9jrWTWT29hyti/uu5nis/0kYsulpJXSe+Cq6zTMLqSSXomhmCGWqk/ypISe1Xnj1hK8jTEQgmSo5BMbO7tAQT0r30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734856948; c=relaxed/simple;
-	bh=qeT3sFvYjSq6N1za6dXxSbljCN0r2s2+MUE5KdJ8nOE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tQcKUvsFRuQCk8cfR7SS98vLS2qqK8JRuWrnqfW60F4sfDuErDppVXvR/P8bRWHBVWu7A/9bsJiff1e+n+CXnzl8xMe2VaM1uaeFlr/eiTWocHvJB2QkR/xKSW10ewFmszb8h/PXOKIZbZ/LtfLVN2CZRKRfAgBzE8/P74c80O0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f9tMbDMz; arc=none smtp.client-ip=209.85.208.45
+	s=arc-20240116; t=1734860294; c=relaxed/simple;
+	bh=7/Z4feutFCC0vyPIRuRx3lInp2wI6p1e9mt6TdsadGk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=L3/UIp59duzG0u5D/d+3wbcgxPZY4FSbtJDvALkqdEp5Y384xWrTk27IEjE8pwGfAVzNh+3ff0/TOm4tVYsYxzoxq3Ji5hD1u7W98jnUWGeIRwWiQiceSj0H/fSyIi4yIxdPvc/YpPW4bXousPllSHG8hN5sU2bDAE3ZQSPVwNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rh8+xO1D; arc=none smtp.client-ip=209.85.167.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f9tMbDMz"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5d0d32cd31aso4614792a12.0;
-        Sun, 22 Dec 2024 00:42:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rh8+xO1D"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-53e3c47434eso3559421e87.3;
+        Sun, 22 Dec 2024 01:38:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734856944; x=1735461744; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FeYmHqbnjLNyTT3j012+iGXpYh4HXdGoYtptCwdfkUY=;
-        b=f9tMbDMz4DOx14AB0ZjrawyqXFXFQwg3u2FznZLNjuPjHLmorPs7svW7uFyBiC7x81
-         OPUYBs5QUCU4gZoENJt7H0YkeKwR6CRTXbqeBmY0LpFXqAgynt2HOJGWNivo/guOjsxa
-         IBLM8QHDozKIDKFhgjzKgl6155TEyo8bFDYI3KaXWGszc6vyr2pPpAF7LLDYR4qeGlEL
-         kqcLg/YIMVj4F+TA80gCpOyEYkLs/TkkoDQrK1eNLlebATDnzq5OKUQQy61WgojV9Olk
-         W0npmRVWUovoNI6HPfujSmPdKBnVJAykmKjkDl8F1d8NkO4VnV1e9NbE8n9Iq0DkUHhS
-         Ub0w==
+        d=gmail.com; s=20230601; t=1734860291; x=1735465091; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=E1VR6WrBGJiq8FcvrsTE/IPll45Ma2lRFsR787hkaUg=;
+        b=Rh8+xO1D18dluMTobDqEyFqTZU3lg/iN/z6dVYlzImM3e5Yw3538HANXbrAE9CmWtV
+         TrOBC29V8sNU5Vc2D7lkkckttvMA0Hj7wXrXdKjbU64A9GDiQCvwlzMkYIWjuHj1mAtT
+         R796KjlSJYdTlsS+q3p1vjD0j2xssTeV05FbP+AQrgeQIeLblQ1xTzFmZTCv4GYfwzp5
+         OpKQ4nI7dhnYByf8/6Xcm+g7LzWAvBpd8R6FDVsL7XReGlmqfg2PR4xXcBC/u3Xn/1mo
+         IvC6O6PEPDkdfiGZeDAV5Ua1jvE3+3gG0sfvQdx1PSmIPfcEL+kOmzdXlsV1WDWy7nAU
+         dmeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734856944; x=1735461744;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FeYmHqbnjLNyTT3j012+iGXpYh4HXdGoYtptCwdfkUY=;
-        b=tBHXNI6/K+49ItKc/sFFn3QdIE4QgORoey4bh4MFkCq1rAwzNuCkj4SMlz2DcGfL0A
-         Wv1/D4NuV4hvfXPoJlczrkVPtvRYTQ3g2geJY51I3RNnv7cnSadydqOZGjkiTFBw2wSw
-         2WzNJgoVa0GszhkF777NDIlwTlV0mGoB2cni48NlECkzCXosfXI46k8y5gunuHdM1Mtd
-         plqOANM4MzZuZzgzUgqBrWa2/LS0n0mgH3FoHI7uLi2rfD/UGbY54HhFH43vHbU8jfcs
-         dh7QzIoVV7d9VCXXvpe/+cLDh9s3S506wwbrVbfndig0lPknhu4EDU+lFW1IbVC98Hf3
-         IagQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU60XqoOJQAFZZBB1h40eKSaMPImWDHMgcQlMQhftDP42p7Evhey477ynd416zkrK9/B/qf6yM4wTc=@vger.kernel.org, AJvYcCUqx8ILqy4F79daUGsCEaCtYbaQuIxhj5PZOU0FkeqJAAJQ8k4P78OjbU+ianN/+5ABObwsO9GtKi3XO/uOblQUpzQlUw==@vger.kernel.org, AJvYcCVqkBHOlolnYotVkUzSvvLgCQNhbs7CwjfSDD2lWqi35eEG+DaMNNlML38b29ApnOzu601yH6ZBzKykORT8@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGa2GH25lefISi2RYuHDrHREA61XB792aDXya3scNGxvIUB7uE
-	TuwvzWYK7NvQL81ATVefRPpQpG1y2IlDMbmFlRqmFKLx1bmpCybY
-X-Gm-Gg: ASbGncs3t6HiKDQPfkxVphFhhXUiFHysw9L2ZvgQ8uj5KH/yKytBwrMYuZheVamZ9Pd
-	SoUyFmwUncwVMobDxgoZpwX2ikwap4oeuHaXxLTLeCSJFg2HmMChHoRAIzz+xKlCqPotl+bKGLP
-	rs0q1FC7yfM8MnCkJzxT1Xhqo4q/4p0XppXBKjNEm62mNI4CxCr31E3rZ+9Xd9mGSOtUsbfhUZA
-	+NMNlZGsWtXsPOCjSi9tEnE99T2le10OqUVlUE9dprCf8Y52L5Gc9A=
-X-Google-Smtp-Source: AGHT+IEmLIl42hgBKyYWMA1CgsCxga4hy8PmdH+a/UjzxJ79eI8CASFNWdFMJCq2de4euz72lWgSTA==
-X-Received: by 2002:a05:6402:2550:b0:5d4:2ef7:1c with SMTP id 4fb4d7f45d1cf-5d81de06532mr21258493a12.24.1734856944201;
-        Sun, 22 Dec 2024 00:42:24 -0800 (PST)
-Received: from localhost.localdomain ([2a09:bac5:27ca:2a0::43:6a])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0f073333sm360112766b.203.2024.12.22.00.42.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Dec 2024 00:42:23 -0800 (PST)
-From: John Martens <johnfanv2@gmail.com>
-To: derekjohn.clark@gmail.com
-Cc: corbet@lwn.net,
-	hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	luke@ljones.dev,
-	mpearson-lenovo@squebb.ca,
-	nijs1@lenovo.com,
-	pgriffais@valvesoftware.com,
-	platform-driver-x86@vger.kernel.org,
-	shaohz1@lenovo.com,
-	superm1@kernel.org,
-	zhangzx36@lenovo.com
-Subject: Re: [PATCH 0/1] platform/x86: Add Lenovo Legion WMI Drivers
-Date: Sun, 22 Dec 2024 09:42:16 +0100
-Message-Id: <20241222084216.1420666-1-johnfanv2@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241217230645.15027-1-derekjohn.clark@gmail.com>
-References: <20241217230645.15027-1-derekjohn.clark@gmail.com>
+        d=1e100.net; s=20230601; t=1734860291; x=1735465091;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=E1VR6WrBGJiq8FcvrsTE/IPll45Ma2lRFsR787hkaUg=;
+        b=Xh1dCzlqaF6cOFvDO/u+4P9cEt1rUXX64CcuFC939nVBdRW2Sx0ihez8F4crJ+9vgO
+         j/PIw9lEOMDJo5rd5EZPqXW//DSh7Q+PXH2ybTRXldZZOof15A13zxYqol1ky3m51l7k
+         AEt+6epU9p572dkxn9JL0ysGxKXHN/zgb7sh8G/F0kSV3vFLOSz1+eoSswXA+aV3DJPH
+         pDO9dFpBeLBzn9ihkmsxcPYgeyCE4LAyC4IMrvsZJbIcv5wxS1+UnhTAYJkJk11JyHKy
+         9pyB4QHdWTDDh508QpHko6THEFFB8X71aaqcohos1Ywr1csSpnN8amEsUAoLXNd/8OJV
+         113Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUW8wK2cIVnlv8BKY25shvKkAbiOubcqf99xzrJ5hhA7eXYvYYVd9Xv2ogtCSmCPIkc4/oA3YGxxWMDhjTAPn6xRp0M9FUg@vger.kernel.org, AJvYcCUv+eOeQbZLkJQGtT9i+iWmXeRb0ODlgJK+Gfkpu4ObUEgyL1nhEH5vDNmWsXTvqEx8rF5IEfws7+A=@vger.kernel.org, AJvYcCVs9wteDVVDnnuwROr7Stk1NvY12lIZcdvD3kh/fvndqZvE756J7bdBZpfuLQDrO63WnXoUpr1dMJDj@vger.kernel.org, AJvYcCWJODxB0ljhSMjd+xEccAnQhMlobi5G7XHzL0DUuANWPniTXiWBUGlkIMRb/ny/EE3xvTts4vcM08Ny@vger.kernel.org
+X-Gm-Message-State: AOJu0YwD67vZYE31yoq2dF62CaT+RI0mdA+3h3/7zWVpjhfCCp9hxzZC
+	r4342f/BkcxZxCf19nVdWS5721VJ2kyUtxzZpw3jdocLxFYmaRjj
+X-Gm-Gg: ASbGncsw/M/RfzBI6g5/HNUrDJNf5l0H/n1uuLDJ0prYE9B4lWk9CzugjHW0CisOjOf
+	9VL3yrypPymvbfcVQYWGNgPp7mRtd16Dxn7SO0QVsIaYB8Z/ZP5KXidCOKRZprr15rssUqNxHwY
+	cBNDBQkLHY/IvzttS+PGf9gDdBCX2UO97v6E83+ev2Aw6pyR8GGqyNbkMhJw3ZKo/WOCX7dfON/
+	2jscRFIUbobwDzV5RKnU0viV0+vo7wNaI2RQ8wk5npbgwjWwa3OW4WH3u2Z8KuEN2mxiRvkYKv1
+	hhRr95JqtV9JqvdykbEuzo6INYo7y7+kbKg=
+X-Google-Smtp-Source: AGHT+IEBtKIpnX8TZ6UDUpxSD2fI++u22nBQeqIjoQjnAxtybi0jVENYejU8eL4eDzo/jSMChxACSg==
+X-Received: by 2002:a05:6512:2815:b0:540:1a0c:9bac with SMTP id 2adb3069b0e04-5422954b420mr3045195e87.34.1734860290772;
+        Sun, 22 Dec 2024 01:38:10 -0800 (PST)
+Received: from ?IPV6:2001:14ba:419:b800::7? (2001-14ba-419-b800--7.rev.dnainternet.fi. [2001:14ba:419:b800::7])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-542235f66c8sm913969e87.3.2024.12.22.01.38.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Dec 2024 01:38:09 -0800 (PST)
+Message-ID: <dc8d1cdf-dff4-48fc-a03d-aeab9be22e44@gmail.com>
+Date: Sun, 22 Dec 2024 11:38:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/11] reboot: support runtime configuration of emergency
+ hw_protection action
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Fabio Estevam
+ <festevam@denx.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
+ chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+ kernel@pengutronix.de, Matteo Croce <mcroce@microsoft.com>
+References: <20241219-hw_protection-reboot-v1-0-263a0c1df802@pengutronix.de>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <20241219-hw_protection-reboot-v1-0-263a0c1df802@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> Adds support for the Lenovo Legion series of laptop hardware to use WMI
-> interfaces that control various power settings. 
+On 19/12/2024 09:31, Ahmad Fatoum wrote:
+> We currently leave the decision of whether to shutdown or reboot to
+> protect hardware in an emergency situation to the individual drivers.
+> 
+> This works out in some cases, where the driver detecting the critical
+> failure has inside knowledge: It binds to the system management controller
+> for example or is guided by hardware description that defines what to do.
+> 
+> This is inadequate in the general case though as a driver reporting e.g.
+> an imminent power failure can't know whether a shutdown or a reboot would
+> be more appropriate for a given hardware platform.
 
-Note that there already is a driver for Lenovo Legion laptops that I 
-wanted to merge upstream.
+Sometimes it can. There are platforms where the hardware is such we know 
+that poweroff or reboot are the way to go. In such case the driver 
+should get the information from the hardware description (like device-tree).
 
-https://github.com/johnfanv2/LenovoLegionLinux
+> To address this, this series adds a hw_protection kernel parameter and
+> sysfs toggle that can be used to change the action from the shutdown
+> default to reboot. A new hw_protection_trigger API then makes use of
+> this default action.
+> 
+> My particular use case is unattended embedded systems that don't
+> have support for shutdown and that power on automatically when power is
+> supplied:
+> 
+>    - A brief power cycle gets detected by the driver
+>    - The kernel powers down the system and SoC goes into shutdown mode
+>    - Power is restored
+>    - The system remains oblivious to the restored power
 
-Compared to the proposed patch, it has the following
-advantages:
-1. already popular and tested by thousands of users
-    - many stars and discussions on github
-    - patched into multiple kernels of gaming-related distros
-    - packaged as dkms module for almost all relevant Linux 
-      distributions including Debian by other developers
-2. supports many different Lenovo Legion models starting from 2020/2021
-3. supports a lot of more functions, including fan control, which is the
-  most requested feature
-4. supports the many changes between different in the WMI/ACPI method
-5. actually shares some credtis with persons who revere engineered it :)
-6. support by GUI tool to configure it all
+This sounds like a consequence of a hardware design as restoring the 
+power doesn't wake up the SoC(?)
 
-On the other hand, my driver has the following disadvantages:
-1. The version of master on github is the most recent one and contains
-   a lot of debug output that has to be removed (often indicated by TODO)
-2. It is all in one large c file instead of organizing it neatly into
-   multiple files.
-3. It was modeled after the ideapad driver instead of the newer ASUS
-   driver.
+>    - System needs to be manually power cycled for a duration long enough
+>      to drain the capacitors
+> 
+> With this series, such systems can configure the kernel with
+> hw_protection=reboot to have the boot firmware worry about critical
+> conditions.
 
-A few notes regarding the many changes of the WMI methods that I tried 
-to deal with in my driver: note that in almost every new model a new 
-WMI method is used to control the same functionality (e.g. fan control
- or powermode). Additionally, often the constants or the unit changes
-: e.g. percent or rpm for fan speed.
+I am not against the change though. Just wondering if this is still a 
+consequence of the hardware design, and if the device-tree would be 
+proper place to indicate that poweroff shouldn't be used.
 
-> The driver has been tested by me on the Lenovo Legion Go.
+I'm about to leave my computer behind for holidays, so I am probably not 
+able to do a proper review until the next year. Thus this quick comment 
+:) Also, no strong opinion so I'm not expecting anyone to hold back 
+waiting for me!
 
-The driver on github has been tested by thousands of users.
+Good luck and happy holidays!
+-- Matti
 
-I suggest that we maybe combine the two drivers before merging them,
-since Derek seems to have more kernel patching knowledge and I seem
-to have more worked on all the Legion laptops.
+> ---
+> Ahmad Fatoum (11):
+>        reboot: replace __hw_protection_shutdown bool action parameter with an enum
+>        reboot: reboot, not shutdown, on hw_protection_reboot timeout
+>        docs: thermal: sync hardware protection doc with code
+>        reboot: rename now misleading hw_protection symbols
+>        reboot: indicate whether it is a HARDWARE PROTECTION reboot or shutdown
+>        reboot: add support for configuring emergency hardware protection action
+>        regulator: allow user configuration of hardware protection action
+>        platform/chrome: cros_ec_lpc: prepare for hw_protection_shutdown removal
+>        dt-bindings: thermal: give OS some leeway in absence of critical-action
+>        thermal: core: allow user configuration of hardware protection action
+>        reboot: retire hw_protection_reboot and hw_protection_shutdown helpers
+> 
+>   Documentation/ABI/testing/sysfs-kernel-reboot      |   8 ++
+>   Documentation/admin-guide/kernel-parameters.txt    |   6 +
+>   .../devicetree/bindings/thermal/thermal-zones.yaml |   5 +-
+>   Documentation/driver-api/thermal/sysfs-api.rst     |  25 +++--
+>   drivers/platform/chrome/cros_ec_lpc.c              |   2 +-
+>   drivers/regulator/core.c                           |   4 +-
+>   drivers/regulator/irq_helpers.c                    |  16 +--
+>   drivers/thermal/thermal_core.c                     |  17 +--
+>   drivers/thermal/thermal_core.h                     |   1 +
+>   drivers/thermal/thermal_of.c                       |   7 +-
+>   include/linux/reboot.h                             |  25 +++--
+>   include/uapi/linux/capability.h                    |   1 +
+>   kernel/reboot.c                                    | 122 ++++++++++++++++-----
+>   13 files changed, 173 insertions(+), 66 deletions(-)
+> ---
+> base-commit: 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
+> change-id: 20241218-hw_protection-reboot-96953493726a
+> 
+> Best regards,
+
