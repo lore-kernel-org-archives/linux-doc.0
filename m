@@ -1,44 +1,82 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A1C1547F5;
-	Sun, 22 Dec 2024 07:59:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424F413B7AE;
+	Sun, 22 Dec 2024 08:42:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734854359; cv=none; b=kZxrkv+Uddduh8MrFbZxlZd+0xCmrrg7UOGWRYWUp7eTD15eSFBrZBKD35QbXu+EMiE+aFb2i1m+Z/qIvZyL62rpQftCsVmLQ8YIhsvyYuGerpYZA+fVdQl+R0auP71IknwLEkPROerpymKe5SEmVlCg+nTycJEvmkwenRmA+c4=
+	t=1734856948; cv=none; b=hoErzLanM05uS/aZBb1DNXcuZjt/RLjxfuMYVRneujTxqsaMs0jOChu2VVMzHgS5k8rrKdMZZpu+pAFCyXcNqNgdZsavlUw4oHwqWN42ersKcFiUJ5647VAtQxYgLzlMTlZ6bacIGE6rj778e8UFxBAdnRjyfWgImq3PwRop2ls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734854359; c=relaxed/simple;
-	bh=nIugVE0iIgf5KhveeYjItYdRJQcrgAHfd7Njy7fHiGE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Hd0/5ge0jEdL+qbu7LG0P/rjJVgIzHu5ZqPyIccMIIDHICJtOzUzDIVyEvtHfIquyvCB33Rt+a1L6FR0qslw4ueihDp6+80DaGrDmvaz3IjcVizQwgPCd3+P/VRxkF2x49Zhh1LIMg/JrSMrKG7jmlaKARNrxM78WqCrVAF84a0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YGD6F2q10z6L75S;
-	Sun, 22 Dec 2024 15:57:57 +0800 (CST)
-Received: from frapeml500005.china.huawei.com (unknown [7.182.85.13])
-	by mail.maildlp.com (Postfix) with ESMTPS id 731BE1400D4;
-	Sun, 22 Dec 2024 15:59:07 +0800 (CST)
-Received: from china (10.200.201.82) by frapeml500005.china.huawei.com
- (7.182.85.13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Sun, 22 Dec
- 2024 08:58:57 +0100
-From: Gur Stavi <gur.stavi@huawei.com>
-To: <kuba@kernel.org>
-CC: <andrew+netdev@lunn.ch>, <cai.huoqing@linux.dev>, <corbet@lwn.net>,
-	<davem@davemloft.net>, <edumazet@google.com>, <gongfan1@huawei.com>,
-	<guoxin09@huawei.com>, <gur.stavi@huawei.com>, <helgaas@kernel.org>,
-	<horms@kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <meny.yossefi@huawei.com>,
-	<netdev@vger.kernel.org>, <pabeni@redhat.com>, <shenchenyang1@hisilicon.com>,
-	<shijing34@huawei.com>, <wulike1@huawei.com>, <zhoushuai28@huawei.com>
-Subject: Re: [PATCH net-next v01 1/1] hinic3: module initialization and tx/rx logic
-Date: Sun, 22 Dec 2024 10:12:25 +0200
-Message-ID: <20241222081225.2543508-1-gur.stavi@huawei.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241220132413.0962ad79@kernel.org>
-References: <20241220132413.0962ad79@kernel.org>
+	s=arc-20240116; t=1734856948; c=relaxed/simple;
+	bh=qeT3sFvYjSq6N1za6dXxSbljCN0r2s2+MUE5KdJ8nOE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=tQcKUvsFRuQCk8cfR7SS98vLS2qqK8JRuWrnqfW60F4sfDuErDppVXvR/P8bRWHBVWu7A/9bsJiff1e+n+CXnzl8xMe2VaM1uaeFlr/eiTWocHvJB2QkR/xKSW10ewFmszb8h/PXOKIZbZ/LtfLVN2CZRKRfAgBzE8/P74c80O0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f9tMbDMz; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f9tMbDMz"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5d0d32cd31aso4614792a12.0;
+        Sun, 22 Dec 2024 00:42:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734856944; x=1735461744; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FeYmHqbnjLNyTT3j012+iGXpYh4HXdGoYtptCwdfkUY=;
+        b=f9tMbDMz4DOx14AB0ZjrawyqXFXFQwg3u2FznZLNjuPjHLmorPs7svW7uFyBiC7x81
+         OPUYBs5QUCU4gZoENJt7H0YkeKwR6CRTXbqeBmY0LpFXqAgynt2HOJGWNivo/guOjsxa
+         IBLM8QHDozKIDKFhgjzKgl6155TEyo8bFDYI3KaXWGszc6vyr2pPpAF7LLDYR4qeGlEL
+         kqcLg/YIMVj4F+TA80gCpOyEYkLs/TkkoDQrK1eNLlebATDnzq5OKUQQy61WgojV9Olk
+         W0npmRVWUovoNI6HPfujSmPdKBnVJAykmKjkDl8F1d8NkO4VnV1e9NbE8n9Iq0DkUHhS
+         Ub0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734856944; x=1735461744;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FeYmHqbnjLNyTT3j012+iGXpYh4HXdGoYtptCwdfkUY=;
+        b=tBHXNI6/K+49ItKc/sFFn3QdIE4QgORoey4bh4MFkCq1rAwzNuCkj4SMlz2DcGfL0A
+         Wv1/D4NuV4hvfXPoJlczrkVPtvRYTQ3g2geJY51I3RNnv7cnSadydqOZGjkiTFBw2wSw
+         2WzNJgoVa0GszhkF777NDIlwTlV0mGoB2cni48NlECkzCXosfXI46k8y5gunuHdM1Mtd
+         plqOANM4MzZuZzgzUgqBrWa2/LS0n0mgH3FoHI7uLi2rfD/UGbY54HhFH43vHbU8jfcs
+         dh7QzIoVV7d9VCXXvpe/+cLDh9s3S506wwbrVbfndig0lPknhu4EDU+lFW1IbVC98Hf3
+         IagQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU60XqoOJQAFZZBB1h40eKSaMPImWDHMgcQlMQhftDP42p7Evhey477ynd416zkrK9/B/qf6yM4wTc=@vger.kernel.org, AJvYcCUqx8ILqy4F79daUGsCEaCtYbaQuIxhj5PZOU0FkeqJAAJQ8k4P78OjbU+ianN/+5ABObwsO9GtKi3XO/uOblQUpzQlUw==@vger.kernel.org, AJvYcCVqkBHOlolnYotVkUzSvvLgCQNhbs7CwjfSDD2lWqi35eEG+DaMNNlML38b29ApnOzu601yH6ZBzKykORT8@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGa2GH25lefISi2RYuHDrHREA61XB792aDXya3scNGxvIUB7uE
+	TuwvzWYK7NvQL81ATVefRPpQpG1y2IlDMbmFlRqmFKLx1bmpCybY
+X-Gm-Gg: ASbGncs3t6HiKDQPfkxVphFhhXUiFHysw9L2ZvgQ8uj5KH/yKytBwrMYuZheVamZ9Pd
+	SoUyFmwUncwVMobDxgoZpwX2ikwap4oeuHaXxLTLeCSJFg2HmMChHoRAIzz+xKlCqPotl+bKGLP
+	rs0q1FC7yfM8MnCkJzxT1Xhqo4q/4p0XppXBKjNEm62mNI4CxCr31E3rZ+9Xd9mGSOtUsbfhUZA
+	+NMNlZGsWtXsPOCjSi9tEnE99T2le10OqUVlUE9dprCf8Y52L5Gc9A=
+X-Google-Smtp-Source: AGHT+IEmLIl42hgBKyYWMA1CgsCxga4hy8PmdH+a/UjzxJ79eI8CASFNWdFMJCq2de4euz72lWgSTA==
+X-Received: by 2002:a05:6402:2550:b0:5d4:2ef7:1c with SMTP id 4fb4d7f45d1cf-5d81de06532mr21258493a12.24.1734856944201;
+        Sun, 22 Dec 2024 00:42:24 -0800 (PST)
+Received: from localhost.localdomain ([2a09:bac5:27ca:2a0::43:6a])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0f073333sm360112766b.203.2024.12.22.00.42.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Dec 2024 00:42:23 -0800 (PST)
+From: John Martens <johnfanv2@gmail.com>
+To: derekjohn.clark@gmail.com
+Cc: corbet@lwn.net,
+	hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	luke@ljones.dev,
+	mpearson-lenovo@squebb.ca,
+	nijs1@lenovo.com,
+	pgriffais@valvesoftware.com,
+	platform-driver-x86@vger.kernel.org,
+	shaohz1@lenovo.com,
+	superm1@kernel.org,
+	zhangzx36@lenovo.com
+Subject: Re: [PATCH 0/1] platform/x86: Add Lenovo Legion WMI Drivers
+Date: Sun, 22 Dec 2024 09:42:16 +0100
+Message-Id: <20241222084216.1420666-1-johnfanv2@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241217230645.15027-1-derekjohn.clark@gmail.com>
+References: <20241217230645.15027-1-derekjohn.clark@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,48 +84,47 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- frapeml500005.china.huawei.com (7.182.85.13)
 
-> On Thu, 19 Dec 2024 11:21:55 +0200 Gur Stavi wrote:
-> > +config HINIC3
-> > +	tristate "Huawei Intelligent Network Interface Card 3rd"
-> > +	# Fields of HW and management structures are little endian and will not
-> > +	# be explicitly converted
->
-> This is a PCIe device, users may plug it into any platform.
-> Please annotate the endian of the data structures and use appropriate
-> conversion helpers.
->
+> Adds support for the Lenovo Legion series of laptop hardware to use WMI
+> interfaces that control various power settings. 
 
-This is basically saying that all drivers MUST support all architectures
-which is not a currently documented requirement.
-As I said before, both Amazon and Microsoft have this dependency.
-They currently do not sell their HW so users cannot choose where to plug
-it, but they could start selling it whenever they want and the driver will
-remain the same.
-The primary goal of this driver is for VMs in Huawei cloud, just like
-Amazon and Microsoft. Whether users can actually buy it in the future is
-unknown.
+Note that there already is a driver for Lenovo Legion laptops that I 
+wanted to merge upstream.
 
-for the record, we did start at some point to change all integer members
-in management structures to __leXX and use cpu_to_le and le_to_cpu.
-There are hundreds of these and it made the code completely unreadable.
+https://github.com/johnfanv2/LenovoLegionLinux
 
-And since we do not plan to test the driver on POWER or ARM big endian I
-really don't see the point.
+Compared to the proposed patch, it has the following
+advantages:
+1. already popular and tested by thousands of users
+    - many stars and discussions on github
+    - patched into multiple kernels of gaming-related distros
+    - packaged as dkms module for almost all relevant Linux 
+      distributions including Debian by other developers
+2. supports many different Lenovo Legion models starting from 2020/2021
+3. supports a lot of more functions, including fan control, which is the
+  most requested feature
+4. supports the many changes between different in the WMI/ACPI method
+5. actually shares some credtis with persons who revere engineered it :)
+6. support by GUI tool to configure it all
 
-> > +	depends on 64BIT && !CPU_BIG_ENDIAN
-> > +	depends on PCI_MSI && (X86 || ARM64)
->
-> Also allow COMPILE_TEST
->
+On the other hand, my driver has the following disadvantages:
+1. The version of master on github is the most recent one and contains
+   a lot of debug output that has to be removed (often indicated by TODO)
+2. It is all in one large c file instead of organizing it neatly into
+   multiple files.
+3. It was modeled after the ideapad driver instead of the newer ASUS
+   driver.
 
-Ack
+A few notes regarding the many changes of the WMI methods that I tried 
+to deal with in my driver: note that in almost every new model a new 
+WMI method is used to control the same functionality (e.g. fan control
+ or powermode). Additionally, often the constants or the unit changes
+: e.g. percent or rpm for fan speed.
 
-> > +	help
-> > +	  This driver supports HiNIC PCIE Ethernet cards.
-> > +	  To compile this driver as part of the kernel, choose Y here.
-> > +	  If unsure, choose N.
-> > +	  The default is N.
+> The driver has been tested by me on the Lenovo Legion Go.
+
+The driver on github has been tested by thousands of users.
+
+I suggest that we maybe combine the two drivers before merging them,
+since Derek seems to have more kernel patching knowledge and I seem
+to have more worked on all the Legion laptops.
