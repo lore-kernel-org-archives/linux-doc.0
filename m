@@ -1,179 +1,329 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F049E1854;
-	Sun, 22 Dec 2024 14:03:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA771376E0;
+	Sun, 22 Dec 2024 20:35:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734876200; cv=none; b=NEow5HB0us/ySUhv0zpepdCQBJnXtshyeshtQDT22J/x2SyxsKFLoBBuXCXp2MUfDdLb5GgZA9OdzpOBb2GTRNse7R4SIZc8skzm6rrUS7IttAoFEZDoFCfU4zsu1+cDfTjVlIcaJ8xtzrhcvUg2DswAfMbomIGottq3nSXhQ/U=
+	t=1734899713; cv=none; b=CfTtidwop5u8bAh7BbVaKL1dYUe/CwXoJNRj9m+V1DJEstTzmcZV6scYlH7UFQP/u6V3hAjJReDjuGRWcpQkJMRUUsy2gskWwjkKqOk6xqJXV0lQ8YkaNUhmTYJvSt00/6eclSjNjdIstcP9+JxbbL+cKmQWw0JnzZqS6ecRNNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734876200; c=relaxed/simple;
-	bh=izJ+GAUejP8VmqbYGz0NeXXUMWLD1I1/K+vljE64SoY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sZipCg/gLl64IlUPC4J4ivPsmxdHx44Y6tA7FrCyYkPNaQtIxARDfxDIilhcuQvGve/3WDVEhqTLSJpxDtfSaU+L/8FY7MdMskbWqluSAhdWxPKgFlOJlfm2vNuU+kUbRzDv+s6PG8B9IuLft5T3VXJGwPVpS1vWr7GdANyb3Sk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=LMsZnBkW; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1734899713; c=relaxed/simple;
+	bh=nN756ijIC+VOpDKXJ3Nn7khnugDD2m/+2YOmuFs05K8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aQ9WieJjeRgYJpLtjwUedzuyq8/XcoFEzr0H/WwZvKqlvvbbVqjlTdqtLzvYMNdPwLb2azheNAgysP2Y4FMi00rZwmwX/6IqHwaIEb/sMBc0bm0g0fBVrammAuTdrDYgL7hDc9H2yE7tF/eYpRLO4SQx1HEOjLbRC47YwxxlNlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XHjJbdRo; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="LMsZnBkW"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BMBu1hb006119;
-	Sun, 22 Dec 2024 14:03:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=f4uKjkuTzUFv3bmu8
-	RaBubRIjw4jJnrpGktoOFF2mGw=; b=LMsZnBkWqGpbIaN9TbUy1r1c1Pe2ymu5i
-	+cMarpAbkbViUchmFtas3p43wCGobj2eKqnKJiwljwYneA6ua4/tifhwGDITxK9Y
-	1uUhjm4Pwy5jCCDKwGw15Q8WQ1jnSX6FCJyJTfaLvdQr9D0nQ3dTjmcW2vAY4epd
-	eNX+elGYqWrXAd9duvhPdgGEvnPeIU7Py35shff4dwo5x+wCUn1vYh4co7M1Jiwg
-	8LBUZ301CfjwISHnEqiOrSES2NqFFtdNdwNX/OcUOtkOTr7wFFjoB3he+OUVYeSR
-	vU1e5FTBUrFEblrGYef0xwgQCAD0b/rHK0piEM4ES4riVBOCctqtg==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43ny54axa3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 22 Dec 2024 14:03:08 +0000 (GMT)
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BME38N6019694;
-	Sun, 22 Dec 2024 14:03:08 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43ny54axa1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 22 Dec 2024 14:03:08 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BMC0hiX020602;
-	Sun, 22 Dec 2024 14:03:07 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 43p8cy229x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 22 Dec 2024 14:03:07 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BME34MV31719878
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sun, 22 Dec 2024 14:03:04 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id ED4F42004F;
-	Sun, 22 Dec 2024 14:03:03 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 445E320040;
-	Sun, 22 Dec 2024 14:03:00 +0000 (GMT)
-Received: from vaibhav?linux.ibm.com (unknown [9.39.24.11])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with SMTP;
-	Sun, 22 Dec 2024 14:03:00 +0000 (GMT)
-Received: by vaibhav@linux.ibm.com (sSMTP sendmail emulation); Sun, 22 Dec 2024 19:32:59 +0530
-From: Vaibhav Jain <vaibhav@linux.ibm.com>
-To: linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
-        kvm-ppc@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Vaidyanathan Srinivasan <svaidy@linux.vnet.ibm.com>,
-        sbhat@linux.ibm.com, gautam@linux.ibm.com, kconsul@linux.ibm.com,
-        amachhiw@linux.ibm.com
-Subject: [PATCH 1/6] [DOC] powerpc: Document APIv2 KVM hcall spec for Hostwide counters
-Date: Sun, 22 Dec 2024 19:32:29 +0530
-Message-ID: <20241222140247.174998-2-vaibhav@linux.ibm.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20241222140247.174998-1-vaibhav@linux.ibm.com>
-References: <20241222140247.174998-1-vaibhav@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XHjJbdRo"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6dcd4f1aaccso55058006d6.2;
+        Sun, 22 Dec 2024 12:35:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734899711; x=1735504511; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vM6TI83urXYiLQrdbWfkbIN+h68g5TIrOGWn2vRCO1M=;
+        b=XHjJbdRouzpQJ/YPiD2gUr2KBiaxIDzW7/zOucMDj0wnFwyf/wmdw9ZSvmrkS7t72W
+         itDFkHXP0GIBMtjjmsfSZuRB1uPIqD1mvogNxKiu740MXFM/gBvOTwuVgVpMXu8KB+TF
+         0kZAUd0rENj//M8Lv2y6q9Hq3Dc42e0zXZQtnA++Xb/2YZnU2oWQJug91AK74No0eLm+
+         NYZtEF3oPRBtp/aFpfxtxmZY8GzvXBJSIYTPcZK05tthXcZPSLZseFVbU4O45n7boeyD
+         mVgmJkw1WkhzhTUlofE5nQvSNsfNhoZjpGt1rj2z/yDn7cAasiG2PjZFsiWexc1mxmpo
+         L8jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734899711; x=1735504511;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vM6TI83urXYiLQrdbWfkbIN+h68g5TIrOGWn2vRCO1M=;
+        b=HpLUex+B79WDmoVY6mqNMbUF54so3TmUoVRa1kaWbtIPmRDiMfR1UYYOD6uvIBZy8G
+         gBty2QajnVPmoM5dD8UxRuZ5dUUoFRQtuRJt3PCmWRWZP7gViSw+sZpFVZj/m2D24LWR
+         w/tA1bQZB0fITGIhqCij5d7dJWu3i2XSA0sgCwWvHU0NrbgVnpLG7kltPVs+S+baN232
+         4TPfAohYcz1Vvj3RbY7E3c809QInliEo0e6Yeh1I0X15cYwxRGyTN77N3+I5rKQA/dUy
+         BI0flpM4ibbSG5gR0e8Uq71AUIm5h//9xYrMCoHpFqUjK7NUZ5f3XWFHLiTbLMS4bA4P
+         CujA==
+X-Forwarded-Encrypted: i=1; AJvYcCUU4hizNjg42r8BQVNsJaJc7wnbBtkKf5lUL05Gxq8WXu9nlGCsVC3tZ0RFGQ/5FVSwM2IFJRhzIveQRhI/@vger.kernel.org, AJvYcCWm32OjEiJf6UMIfbBtjlCX6Sjy5n76q9/hdBTa7ruyhgEbZwWY8JYPACMCi046qITvS4WNgkVHEis=@vger.kernel.org, AJvYcCXCoPxl0cRU/+dDWBdvb6z4IG5dJh51mmfwqK3uAA1qy0vOBoU1hMY5tdWiuU0sM5PheXzBlblnBgzCfiVh+5s+6iUBLg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzhYgH0Swxf1kclUaPueHwOCJcGkFGAfoXuw9JEsL5ymOqr7CMo
+	wE1eRRW8/TrRpI+pB1TA4t5ak6+m5VEedn9IM6H/Ou+KOVp7oJBGQDYbHr1RommooAzaQbo948n
+	CCfIb94JPoP8xj6AB+JwWSf0T6dk=
+X-Gm-Gg: ASbGncujHVx3GsmNW0Uu14868sS8QftF2lYy0M9nmLOBIMdbOWLvI2UoG7MiOgb2jRS
+	GTTyU5PMh5cAHIdfsymoG66dcIfCedIhKfWzlvIg=
+X-Google-Smtp-Source: AGHT+IFz3EBCQXfJLMKj03Q+fD0SLujnQJ0+nUbFTt6j+jnKba2P/IVyGe9hfMTwS9Sxg/3QG+2GhW+02gGFiN+5txY=
+X-Received: by 2002:a05:6214:400a:b0:6d8:7c82:e542 with SMTP id
+ 6a1803df08f44-6dd2331a3famr172034006d6.4.1734899710617; Sun, 22 Dec 2024
+ 12:35:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: DcfyYVRII0xwQL93kfiuo-Jm3MzAvbsQ
-X-Proofpoint-GUID: Yzf9WE5QsFQ3NHBbbViPVGbtl-ixQLyQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
- mlxscore=0 mlxlogscore=810 priorityscore=1501 suspectscore=0 clxscore=1011
- spamscore=0 phishscore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2412220124
+References: <20241217230645.15027-1-derekjohn.clark@gmail.com>
+ <20241222084216.1420666-1-johnfanv2@gmail.com> <CAFqHKT==PiLb_VuFPHJzgfrprukGGig+iUzcih+3TJ1VYt94Dw@mail.gmail.com>
+In-Reply-To: <CAFqHKT==PiLb_VuFPHJzgfrprukGGig+iUzcih+3TJ1VYt94Dw@mail.gmail.com>
+From: Derek John Clark <derekjohn.clark@gmail.com>
+Date: Sun, 22 Dec 2024 12:34:59 -0800
+Message-ID: <CAFqHKTkog0FtGu2gf=_tfzX62xgFqjgDdz3CYNHCW4fCxwar_w@mail.gmail.com>
+Subject: Re: [PATCH 0/1] platform/x86: Add Lenovo Legion WMI Drivers
+To: John Martens <johnfanv2@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Hans de Goede <hdegoede@redhat.com>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	linux-doc@vger.kernel.org, open list <linux-kernel@vger.kernel.org>, 
+	Luke Jones <luke@ljones.dev>, Mark Pearson <mpearson-lenovo@squebb.ca>, 
+	Xino JS1 Ni <nijs1@lenovo.com>, Pierre-Loup Griffais <pgriffais@valvesoftware.com>, 
+	"open list:AMD PMF DRIVER" <platform-driver-x86@vger.kernel.org>, Mia HZ1 Shao <shaohz1@lenovo.com>, 
+	Mario Limonciello <superm1@kernel.org>, Zhixin ZX36 Zhang <zhangzx36@lenovo.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Update kvm-nested APIv2 documentation to include five new
-Guest-State-Elements to fetch the hostwide counters. These counters are
-per L1-Lpar and indicate the amount of Heap/Page-table memory allocated,
-available and Page-table memory reclaimed for all L2-Guests active
-instances
+All.
 
-Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
----
- Documentation/arch/powerpc/kvm-nested.rst | 40 ++++++++++++++++-------
- 1 file changed, 29 insertions(+), 11 deletions(-)
+Sorry for the spam. My mobile client switched to HTML mode and I
+didn't catch it yesterday.
+Resending my last response plain text so it gets posted to LKML properly.
 
-diff --git a/Documentation/arch/powerpc/kvm-nested.rst b/Documentation/arch/powerpc/kvm-nested.rst
-index 5defd13cc6c1..c506192f3f98 100644
---- a/Documentation/arch/powerpc/kvm-nested.rst
-+++ b/Documentation/arch/powerpc/kvm-nested.rst
-@@ -208,13 +208,9 @@ associated values for each ID in the GSB::
-       flags:
-          Bit 0: getGuestWideState: Request state of the Guest instead
-            of an individual VCPU.
--         Bit 1: takeOwnershipOfVcpuState Indicate the L1 is taking
--           over ownership of the VCPU state and that the L0 can free
--           the storage holding the state. The VCPU state will need to
--           be returned to the Hypervisor via H_GUEST_SET_STATE prior
--           to H_GUEST_RUN_VCPU being called for this VCPU. The data
--           returned in the dataBuffer is in a Hypervisor internal
--           format.
-+         Bit 1: getHostWideState: Request stats of the Host. This causes
-+           the guestId and vcpuId parameters to be ignored and attempting
-+           to get the VCPU/Guest state will cause an error.
-          Bits 2-63: Reserved
-       guestId: ID obtained from H_GUEST_CREATE
-       vcpuId: ID of the vCPU pass to H_GUEST_CREATE_VCPU
-@@ -402,13 +398,14 @@ GSB element:
- 
- The ID in the GSB element specifies what is to be set. This includes
- archtected state like GPRs, VSRs, SPRs, plus also some meta data about
--the partition like the timebase offset and partition scoped page
-+the partition and  like the timebase offset and partition scoped page
- table information.
- 
- +--------+-------+----+--------+----------------------------------+
--|   ID   | Size  | RW | Thread | Details                          |
--|        | Bytes |    | Guest  |                                  |
--|        |       |    | Scope  |                                  |
-+|   ID   | Size  | RW |(H)ost  | Details                          |
-+|        | Bytes |    |(G)uest |                                  |
-+|        |       |    |(T)hread|                                  |
-+|        |       |    |Scope   |                                  |
- +========+=======+====+========+==================================+
- | 0x0000 |       | RW |   TG   | NOP element                      |
- +--------+-------+----+--------+----------------------------------+
-@@ -434,6 +431,27 @@ table information.
- |        |       |    |        |- 0x8 Table size.                 |
- +--------+-------+----+--------+----------------------------------+
- | 0x0007-|       |    |        | Reserved                         |
-+| 0x07FF |       |    |        |                                  |
-++--------+-------+----+--------+----------------------------------+
-+| 0x0800 | 0x08  | R  |   H    | Current usage in bytes of the    |
-+|        |       |    |        | L0's Guest Management Space      |
-++--------+-------+----+--------+----------------------------------+
-+| 0x0801 | 0x08  | R  |   H    | Max bytes available in the       |
-+|        |       |    |        | L0's Guest Management Space      |
-++--------+-------+----+--------+----------------------------------+
-+| 0x0802 | 0x08  | R  |   H    | Current usage in bytes of the    |
-+|        |       |    |        | L0's Guest Page Table Management |
-+|        |       |    |        | Space                            |
-++--------+-------+----+--------+----------------------------------+
-+| 0x0803 | 0x08  | R  |   H    | Max bytes available in the L0's  |
-+|        |       |    |        | Guest Page Table Management      |
-+|        |       |    |        | Space                            |
-++--------+-------+----+--------+----------------------------------+
-+| 0x0804 | 0x08  | R  |   H    | Amount of reclaimed L0 Guest's   |
-+|        |       |    |        | Page Table Management Space due  |
-+|        |       |    |        | to overcommit                    |
-++--------+-------+----+--------+----------------------------------+
-+| 0x0805-|       |    |        | Reserved                         |
- | 0x0BFF |       |    |        |                                  |
- +--------+-------+----+--------+----------------------------------+
- | 0x0C00 | 0x10  | RW |   T    |Run vCPU Input Buffer:            |
--- 
-2.47.1
+>> Adds support for the Lenovo Legion series of laptop hardware to use WMI
+>> interfaces that control various power settings.
 
+>Note that there already is a driver for Lenovo Legion laptops that I
+>wanted to merge upstream.
+
+>https://github.com/johnfanv2/LenovoLegionLinux
+
+Hi John.
+
+I'm a fan of your work and did consider working on getting your driver
+upstream-able before moving forward with my own. After reviewing it I
+found there were too many changes needed which would have ultimately
+required a full rewrite. For this initial driver MR I only intended to
+add the features and models that Lenovo specifically asked me to
+implement. I'm treating it as a platform baseline and I plan on adding
+additional features in later patch series'. I fully encourage
+community involvement in expanding this driver as I won't be able to
+do it all on my own.
+
+>Compared to the proposed patch, it has the following
+>advantages:
+>1. already popular and tested by thousands of users
+>    - many stars and discussions on github
+>    - patched into multiple kernels of gaming-related distros
+>    - packaged as dkms module for almost all relevant Linux
+>      distributions including Debian by other developers
+
+Those DKMS packages will need to blacklist these drivers anyway, so
+they should remain functional for anyone who prefers the out of tree
+driver until there is feature parity.
+
+>2. supports many different Lenovo Legion models starting from 2020/2021
+
+I would gladly take any assistance with hardware I don't have access
+to. I have structured the driver such that adding the additional
+interfaces and features should be simple. Since a lot of the
+historical data is available I expect a fairly rapid development
+timeline going forward.
+
+>3. supports a lot of more functions, including fan control, which is the
+>  most requested feature
+
+I'm aware of the user's need for fan control, this is planned as the
+next feature once this patch series is accepted. Other things I have
+planned are hwmon sensors and lighting control. I don't think feature
+parity in the initial driver is a reasonable goal as that's
+essentially a moving target that would take many months to write and
+test. As I'm sure you're aware, maintaining a kernel patch through
+multiple kernel versions takes a lot of effort if the subsystem is
+active enough.
+
+>4. supports the many changes between different in the WMI/ACPI method
+>5. actually shares some credtis with persons who revere engineered it :)
+
+I appreciate those efforts, many talented folks have done some amazing
+work and I don't want to take anything away from them. I just want to
+note this driver isn't reverse engineered as Lenovo have provided me
+with the full WMI spec to create it.
+
+>6. support by GUI tool to configure it all
+
+>On the other hand, my driver has the following disadvantages:
+>1. The version of master on github is the most recent one and contains
+>   a lot of debug output that has to be removed (often indicated by TODO)
+>2. It is all in one large c file instead of organizing it neatly into
+>   multiple files.
+>3. It was modeled after the ideapad driver instead of the newer ASUS
+>   driver.
+
+>A few notes regarding the many changes of the WMI methods that I tried
+>to deal with in my driver: note that in almost every new model a new
+>WMI method is used to control the same functionality (e.g. fan control
+> or powermode). Additionally, often the constants or the unit changes
+>: e.g. percent or rpm for fan speed.
+
+
+>> The driver has been tested by me on the Lenovo Legion Go.
+
+>The driver on github has been tested by thousands of users.
+
+>I suggest that we maybe combine the two drivers before merging them,
+>since Derek seems to have more kernel patching knowledge and I seem
+>to have more worked on all the Legion laptops.
+
+Based on the sheer size of your driver, I think a change as large as
+that will be too much for a reasonable review on the LKML. Your driver
+is over 6K lines and that will expand a bit when doing all the
+necessary things to break it into multiple files and switch from
+depreciated methods, add additional safety checks, etc. In my opinion
+it would be better to add each interface as its own patch series (e.g.
+custom mode and lighting, dmi specific functions, etc.) as that will
+be much more manageable for review and easier to catch bugs.
+
+All that being said, I'm certainly open to collaboration on the future
+of this driver. If you want to contact me separately, we can discuss
+it.
+
+On Sun, Dec 22, 2024 at 2:09=E2=80=AFAM Derek John Clark
+<derekjohn.clark@gmail.com> wrote:
+>
+> >> Adds support for the Lenovo Legion series of laptop hardware to use WM=
+I
+> >> interfaces that control various power settings.
+>
+> >Note that there already is a driver for Lenovo Legion laptops that I
+> >wanted to merge upstream.
+>
+> >https://github.com/johnfanv2/LenovoLegionLinux
+>
+> Hi John.
+>
+> I'm a fan of your work and did consider working on getting your driver up=
+streamable before moving forward with my own. After reviewing it I found th=
+ere were too many changes needed which would have ultimately required a ful=
+l rewrite. For this initial driver MR I only intended to add the features a=
+nd models that Lenovo specifically asked me to implement. I'm treating it a=
+s a platform baseline and I do plan on adding additional features in later =
+patch series'. I fully encourage community involvement in expanding this dr=
+iver as I won't be able to do it all on my own.
+>
+> >Compared to the proposed patch, it has the following
+> >advantages:
+> >1. already popular and tested by thousands of users
+> >    - many stars and discussions on github
+> >    - patched into multiple kernels of gaming-related distros
+> >    - packaged as dkms module for almost all relevant Linux
+> >      distributions including Debian by other developers
+>
+> Those DKMS packages will need to blacklist these drivers anyway, so they =
+should remain functional for anyone who prefers the out of tree driver unti=
+l there is feature parity.
+>
+> >2. supports many different Lenovo Legion models starting from 2020/2021
+>
+> I would gladly take any assistance with hardware I don't have access to. =
+I have structured the driver such that adding the additional interfaces and=
+ features should be simple. Since a lot of the historical data is available=
+ I expect a fairly rapid development timeline going forward.
+>
+> >3. supports a lot of more functions, including fan control, which is the
+> >  most requested feature
+>
+> I'm aware of the user need for fan control, this is planned as the next f=
+eature once this patch series is accepted. Other things I have planned are =
+hwmon sensors and lighting control. I don't think feature parity in the ini=
+tial driver is a reasonable goal as that's essentially a moving target that=
+ would take many months to write and test. As I'm sure you're aware, mainta=
+ining a kernel patch through multiple kernel versions takes a lot of effort=
+ if the subsystem is active enough.
+>
+> >4. supports the many changes between different in the WMI/ACPI method
+> >5. actually shares some credtis with persons who revere engineered it :)
+>
+> I appreciate those efforts, many talented folks have done some amazing wo=
+rk and I don't want to take anything away from them. I just want to note th=
+is driver isn't reverse engineered as Lenovo have provided me with the full=
+ WMI spec to create it.
+>
+> >6. support by GUI tool to configure it all
+>
+> >On the other hand, my driver has the following disadvantages:
+> >1. The version of master on github is the most recent one and contains
+> >   a lot of debug output that has to be removed (often indicated by TODO=
+)
+> >2. It is all in one large c file instead of organizing it neatly into
+> >   multiple files.
+> >3. It was modeled after the ideapad driver instead of the newer ASUS
+> >   driver.
+>
+> >A few notes regarding the many changes of the WMI methods that I tried
+> >to deal with in my driver: note that in almost every new model a new
+> >WMI method is used to control the same functionality (e.g. fan control
+> > or powermode). Additionally, often the constants or the unit changes
+> >: e.g. percent or rpm for fan speed.
+>
+>
+> >> The driver has been tested by me on the Lenovo Legion Go.
+>
+> >The driver on github has been tested by thousands of users.
+>
+> >I suggest that we maybe combine the two drivers before merging them,
+> >since Derek seems to have more kernel patching knowledge and I seem
+> >to have more worked on all the Legion laptops.
+>
+> Based on the sheer size of your driver, I think a change as large as that=
+ will be too much for a reasonable review on the LKML. Your driver is over =
+6K lines and that will expand a bit when doing all the necessary things to =
+break it into multiple files and switch from depreciated methods, add addit=
+ional safety checks, etc. In my opinion it would be better to add each inte=
+rface as it's own patch series (e.g. custom mode and lighting, dmi specific=
+ functions, etc.) as that will be much more manageable for review and easie=
+r to catch bugs.
+>
+> All that being said, I'm certainly open to collaboration on the future of=
+ this driver. if you want to contact me separately we can discuss it.
+>
+> On Sun, Dec 22, 2024, 00:42 John Martens <johnfanv2@gmail.com> wrote:
+>>
+>> > Adds support for the Lenovo Legion series of laptop hardware to use WM=
+I
+>> > interfaces that control various power settings.
+>>
+>> Note that there already is a driver for Lenovo Legion laptops that I
+>> wanted to merge upstream.
+>>
+>> https://github.com/johnfanv2/LenovoLegionLinux
+>>
+>> Compared to the proposed patch, it has the following
+>> advantages:
+>> 1. already popular and tested by thousands of users
+>>     - many stars and discussions on github
+>>     - patched into multiple kernels of gaming-related distros
+>>     - packaged as dkms module for almost all relevant Linux
+>>       distributions including Debian by other developers
+>> 2. supports many different Lenovo Legion models starting from 2020/2021
+>> 3. supports a lot of more functions, including fan control, which is the
+>>   most requested feature
+>> 4. supports the many changes between different in the WMI/ACPI method
+>> 5. actually shares some credtis with persons who revere engineered it :)
+>> 6. support by GUI tool to configure it all
+>>
+>> On the other hand, my driver has the following disadvantages:
+>> 1. The version of master on github is the most recent one and contains
+>>    a lot of debug output that has to be removed (often indicated by TODO=
+)
+>> 2. It is all in one large c file instead of organizing it neatly into
+>>    multiple files.
+>> 3. It was modeled after the ideapad driver instead of the newer ASUS
+>>    driver.
+>>
+>> A few notes regarding the many changes of the WMI methods that I tried
+>> to deal with in my driver: note that in almost every new model a new
+>> WMI method is used to control the same functionality (e.g. fan control
+>>  or powermode). Additionally, often the constants or the unit changes
+>> : e.g. percent or rpm for fan speed.
+>>
+>> > The driver has been tested by me on the Lenovo Legion Go.
+>>
+>> The driver on github has been tested by thousands of users.
+>>
+>> I suggest that we maybe combine the two drivers before merging them,
+>> since Derek seems to have more kernel patching knowledge and I seem
+>> to have more worked on all the Legion laptops.
+>>
