@@ -1,161 +1,333 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1B010A1E
-	for <linux-doc@vger.kernel.org>; Mon, 23 Dec 2024 03:03:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5340B28E3F;
+	Mon, 23 Dec 2024 07:36:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734923010; cv=none; b=g5lviyFbQKYttDjIoTzHpHZC2l2xwlzO3Ggf2ZT1iXEEsZgCfB0B4iUww0PA8RtC7vx/wFDAQmz2KwHnWcWkWh+WASicrrXSy+BZW2VQErhTnH2GgBsyTSWlEFNy6Lqb/KCadKPqCz89jkXoVpPvU4iPTC8Y2t6l3ByVt2/d/ew=
+	t=1734939398; cv=none; b=GDyMS1D+fP2G2r6KadHAP2dNtDyPS3XbNoULrZJuE7RFN/2ZFD3kcODuMa4Sud7UKaeDkt3wVMnn+HcsOeBPgq4vluRktZyx+SIb+OGPHjubYMXRNlTUkONvSm92qp8jCbwBhDP79oMrP0/yYChXqCRtj5sjgP9R0VSIrZSSwGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734923010; c=relaxed/simple;
-	bh=mqQ6gFDjuk8eASHuSlWfgmFHdoJN1pQtHYXceSr8CRw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=jB46Pta4sJB1ljFKGpaw+hNTV09Ks64ze5y84xU0BoSLAsH1EoJVTJFvdRh0ikfgEelm4+2b57Koc354+9fgt/RTKKhCDgTMFRDFGtzS3wlzbANWBfCXo65wFKkKNsd2Ew3tZDYxhOIAUOCu1RewNi4JNlopHH7TaACst1mBCRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EqAhlfio; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1734939398; c=relaxed/simple;
+	bh=NtsDX2mz2qrgEamjO0r81wLM3HroZmfH7657IG/b+Is=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YG2d/BNqIRBf3u68gv5M9GMgh0hWDqp93hFbqr4IOvU6B5u2FO8/NewG7xaNWmaWZRqZmMN4td17KHYhs0dIwhaGCnX8z2Q/MmuWSqFVbml4DLNTeN03OxQzCx4IaQFFQZOc9fzX1pViS6jr5S/9xsUrJBgoW7NgpZDLE8NDaXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=N/xaE1xK; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EqAhlfio"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-467abce2ef9so712781cf.0
-        for <linux-doc@vger.kernel.org>; Sun, 22 Dec 2024 19:03:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1734923006; x=1735527806; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=udfgoBpU9YC1tkAs9yYIvHXM/pzmQwYqqI8FYG0Q6jo=;
-        b=EqAhlfio2vCTKyEIs/rvY0AHsKbgHQdP5cTIu7Ub7NWuzg7rZXrtr8X76hRJrnuUN+
-         LJT+9Uin/+WscY9hTGA6Vl4MxYvnHpDYr9fTl5WZAv4vPLzehrVVIGs20RuVDAQKQ6vv
-         Ij2BKfBS3Mt/IV7f4Y0694IrS1/su1Sxfa3P0aiVfYh0DATnQpdisGj1+ij098XqFZqY
-         R2+VEspcXNzHsQF74kcP4ds+jA6bn+3lchIrvMnlEpfzYroY+lELnsjV6LJL/Srevzml
-         9K+Wfnq7rS9872Ho00hONIhTspvCv9oUlEOBxWdbyYNqyQYwJztl91NAzIT7oIjucgJw
-         8ekw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734923006; x=1735527806;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=udfgoBpU9YC1tkAs9yYIvHXM/pzmQwYqqI8FYG0Q6jo=;
-        b=N2rGoNLPe3hJr8zFt5kRtHkGKvr+Nei2oyhkLEuXO2uAOTGPn7qcnNZ6cL5obUZP2Y
-         55nSBVRAagHJ8t/ctsDkTBAaFVoIz7URTveXX3WV57IiYKGP3bGEykEk7HEf3q+t0RDM
-         Bkc0HYF33hgDkxx8suqHJBAKY4PPrj/XtFEbxKJX6ifCbRjloaH79n09S1UuvwgdXZed
-         kRUmFV7/RV23RmRBCP6PNKTvhx2Ag2w/uuImUeMQrMy3xAP+2K7u02JfFB5zNpf0BoU9
-         DDqqULsBdemp6DU/UWOHfzjtkPYwXTCaMcg/78v2CrEkj1PeDEIahhf/Z72Jny9IRR49
-         Z5WA==
-X-Forwarded-Encrypted: i=1; AJvYcCVBZy4lEhFluHUXlHqGAKr8Ul3etyePidsbosCQR3FnVmTjE3Wd+mmunPhDqMOaM2D3ikHGmwDZyEc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyE4dvSs1eKifIdibvukFWHSyxkA5t4lYh8520EZbYaUod7KosU
-	o0c9aHyOZX90okN/V/+qlPzfi/X5INdzukcm3WoLnUzy0q22ZIcIHDnauLQnzhZu0tTqcyi69lA
-	o8AJdwllN525fwur7T/+8QswqeoGl2jAbrj6x
-X-Gm-Gg: ASbGncuSlg4qoBi+qY/SmEYlQ2qZESDxiVCufXtQcVHhZII0jbKqwykEzjCc5WhaH9c
-	0dmzaoFG6j1+dj1fx1BdOf5nT6AlmpM8YwC744A==
-X-Google-Smtp-Source: AGHT+IH6iUjP7T3YRQZk5dM79hzQPqi3CteufuNTiNR3N7HnbkvTjhN7FGDeZFxrI0CTiNpdaa1qmm48FdBbz54rlO4=
-X-Received: by 2002:a05:622a:1823:b0:466:a11c:cad2 with SMTP id
- d75a77b69052e-46a4c00cc98mr8909181cf.7.1734923005705; Sun, 22 Dec 2024
- 19:03:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="N/xaE1xK"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BMNbJ3Y017387;
+	Mon, 23 Dec 2024 07:36:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=0ebZJR
+	pBjz5u2QJR2/T3aQaWbmL6ZmHAz2Ay92S3aQs=; b=N/xaE1xK6fYTR7lRA4G4gb
+	N8ap/s4thpikTWYLSqMGbxxY871pO2/R9a0E7InVLEnWdPSWrcYlL70FelONI2tg
+	x+m/0EUHdOaZouMxdhnqSjR1shQWoSC7dn1z7w9Q1jHJHUHobvvZXzvcat7tcbLh
+	gC2WxbN+sgeijCT6jzHlOVFtIQNfiLPFkGp03TCRVe5TjwDyw+p/GbOcp9H5HoCU
+	sMAC3e/HYwO2Wz/WY3aiXY/p/WX6YZfTh/ICb6R0q6099lR9kwaNnr96Gf1rPXJE
+	KrJsHRNzEmhLhBabawIW3QW2lfDBj3mHLrkjTg500lYGw4XSpNUpJHSnac3o6dWw
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43pvka9csn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 23 Dec 2024 07:36:02 +0000 (GMT)
+Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BN7Rcdt027567;
+	Mon, 23 Dec 2024 07:36:02 GMT
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43pvka9csh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 23 Dec 2024 07:36:02 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BN74k5g002068;
+	Mon, 23 Dec 2024 07:36:01 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 43pa7jmfw9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 23 Dec 2024 07:36:01 +0000
+Received: from smtpav04.fra02v.mail.ibm.com (smtpav04.fra02v.mail.ibm.com [10.20.54.103])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BN7ZxN420578650
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 23 Dec 2024 07:35:59 GMT
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7CF7E20043;
+	Mon, 23 Dec 2024 07:35:59 +0000 (GMT)
+Received: from smtpav04.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DB0462004B;
+	Mon, 23 Dec 2024 07:35:54 +0000 (GMT)
+Received: from [9.124.216.211] (unknown [9.124.216.211])
+	by smtpav04.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 23 Dec 2024 07:35:54 +0000 (GMT)
+Message-ID: <1914488d-6c37-4a3d-8008-13c64a6fccf0@linux.ibm.com>
+Date: Mon, 23 Dec 2024 13:05:53 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <jes252u5qfhla2bdmg6pdkfpi4a2jfhf7d5b6ra6ol2bmt352x@gunhzaca56df>
- <CAJuCfpFSD98fw=844AJPy+LT5y=zREQGtSEVj3_FCXiZ5cFR_A@mail.gmail.com>
- <ulbspoec633hfm54f3jzvoqs6ilskxou3qykk2u727pbaltvfl@lb53vjcaxnuf>
- <CAJuCfpHXRX=LLa67eWYvrK=UDxKMaOequFXfqOqDHbRrmsT9SQ@mail.gmail.com>
- <20241219091334.GC26551@noisy.programming.kicks-ass.net> <20241219112011.GA34942@noisy.programming.kicks-ass.net>
- <wfzu6jvbazlxdybsjc54aoivleif6memaxaacd56bcep24nkv3@s3e3aj253hd6>
- <20241219174235.GD26279@noisy.programming.kicks-ass.net> <rnanfpzs6fmojyeaowt65mug6xekorrkeefvn3b4zc7buunzhc@rrzcbhkrjdv4>
- <20241219184642.GF26279@noisy.programming.kicks-ass.net> <6nck2rfwcytqdinsavmewytgcca43mldlczmao3zztrpr5v2ci@4xn6nwp6tcih>
-In-Reply-To: <6nck2rfwcytqdinsavmewytgcca43mldlczmao3zztrpr5v2ci@4xn6nwp6tcih>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Sun, 22 Dec 2024 19:03:14 -0800
-Message-ID: <CAJuCfpFXh5mHfn3d1ySk3icJsK5ssJWuUOB_=tXvt3sA+Jh-YA@mail.gmail.com>
-Subject: Re: [PATCH v6 10/16] mm: replace vm_lock and detached flag with a
- reference count
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org, willy@infradead.org, 
-	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz, 
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	klarasmodin@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Dec 19, 2024 at 10:55=E2=80=AFAM Liam R. Howlett
-<Liam.Howlett@oracle.com> wrote:
->
-> * Peter Zijlstra <peterz@infradead.org> [241219 13:47]:
-> > On Thu, Dec 19, 2024 at 01:18:23PM -0500, Liam R. Howlett wrote:
-> >
-> > > > For RCU lookups only the mas tree matters -- and its left present t=
-here.
-> > > >
-> > > > If you really want to block RCU readers, I would suggest punching a=
- hole
-> > > > in the mm_mt. All the traditional code won't notice anyway, this is=
- all
-> > > > with mmap_lock held for writing.
-> > >
-> > > We don't want to block all rcu readers, we want to block the rcu read=
-ers
-> > > that would see the problem - that is, anyone trying to read a particu=
-lar
-> > > area.
-> > >
-> > > Right now we can page fault in unpopulated vmas while writing other v=
-mas
-> > > to the tree.  We are also moving more users to rcu reading to use the
-> > > vmas they need without waiting on writes to finish.
-> > >
-> > > Maybe I don't understand your suggestion, but I would think punching =
-a
-> > > hole would lose this advantage?
-> >
-> > My suggestion was to remove the range stuck in mas_detach from mm_mt.
-> > That is exactly the affected range, no?
->
-> Yes.
->
-> But then looping over the vmas will show a gap where there should not be
-> a gap.
->
-> If we stop rcu readers entirely we lose the advantage.
->
-> This is exactly the issue that the locking dance was working around :)
-
-IOW we write-lock the entire range before removing any part of it for
-the whole transaction to be atomic, correct?
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 6/6] docs: Update Schedstat version to 17
+To: Swapnil Sapkal <swapnil.sapkal@amd.com>
+Cc: dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, vschneid@redhat.com, iamjoonsoo.kim@lge.com,
+        qyousef@layalina.io, alexs@kernel.org, lukasz.luba@arm.com,
+        gautham.shenoy@amd.com, kprateek.nayak@amd.com, ravi.bangoria@amd.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Adam Li <adamli@os.amperecomputing.com>, peterz@infradead.org,
+        mingo@redhat.com, juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        corbet@lwn.net
+References: <20241220063224.17767-1-swapnil.sapkal@amd.com>
+ <20241220063224.17767-7-swapnil.sapkal@amd.com>
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <20241220063224.17767-7-swapnil.sapkal@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: O3LKKpNe6jqnHpY94AVIbUWYefhKSJVM
+X-Proofpoint-ORIG-GUID: fwrU5uHqWNz3AZ2fzNzwMxJ2ZsH0oGkp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ lowpriorityscore=0 spamscore=0 mlxlogscore=999 mlxscore=0 clxscore=1015
+ bulkscore=0 phishscore=0 priorityscore=1501 adultscore=0 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412230066
 
 
-Peter, you suggested the following pattern for ensuring vma is
-detached with no possible readers:
 
-vma_iter_store()
-vma_start_write()
-vma_mark_detached()
+On 12/20/24 12:02, Swapnil Sapkal wrote:
+> Update the Schedstat version to 17 as more fields are added to report
+> different kinds of imbalances in the sched domain. Also domain field
+> started printing corresponding domain name.
+> 
+> Signed-off-by: Swapnil Sapkal <swapnil.sapkal@amd.com>
 
-What do you think about this alternative?
++Adam who had posted a patch to correct the doc for flip of idle, busy.
 
-vma_start_write()
-...
-vma_iter_store()
-vma_mark_detached()
-        vma_assert_write_locked(vma)
-        if (unlikely(!refcount_dec_and_test(&vma->vm_refcnt)))
-                vma_start_write()
+https://lore.kernel.org/all/20241209035428.898293-1-adamli@os.amperecomputing.com/
 
-The second vma_start_write() is unlikely to be executed because the
-vma is locked, vm_refcnt might be increased only temporarily by
-readers before they realize the vma is locked and that's a very narrow
-window. I think performance should not visibly suffer?
-OTOH this would let us keep current locking patterns and would
-guarantee that vma_mark_detached() always exits with a detached and
-unused vma (less possibilities for someone not following an exact
-pattern and ending up with a detached but still used vma).
+> ---
+>   Documentation/scheduler/sched-stats.rst | 126 ++++++++++++++----------
+>   kernel/sched/stats.c                    |   2 +-
+>   2 files changed, 76 insertions(+), 52 deletions(-)
+> 
+> diff --git a/Documentation/scheduler/sched-stats.rst b/Documentation/scheduler/sched-stats.rst
+> index 7c2b16c4729d..caea83d91c67 100644
+> --- a/Documentation/scheduler/sched-stats.rst
+> +++ b/Documentation/scheduler/sched-stats.rst
+> @@ -2,6 +2,12 @@
+>   Scheduler Statistics
+>   ====================
+>   
+> +Version 17 of schedstats removed 'lb_imbalance' field as it has no
+> +significance anymore and instead added more relevant fields namely
+> +'lb_imbalance_load', 'lb_imbalance_util', 'lb_imbalance_task' and
+> +'lb_imbalance_misfit'. The domain field prints the name of the
+> +corresponding sched domain from this version onwards.
+> +
+>   Version 16 of schedstats changed the order of definitions within
+>   'enum cpu_idle_type', which changed the order of [CPU_MAX_IDLE_TYPES]
+>   columns in show_schedstat(). In particular the position of CPU_IDLE
+> @@ -9,7 +15,9 @@ and __CPU_NOT_IDLE changed places. The size of the array is unchanged.
+>   
+>   Version 15 of schedstats dropped counters for some sched_yield:
+>   yld_exp_empty, yld_act_empty and yld_both_empty. Otherwise, it is
+> -identical to version 14.
+> +identical to version 14. Details are available at
+> +
+> +	https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/scheduler/sched-stats.txt?id=1e1dbb259c79b
+>   
+>   Version 14 of schedstats includes support for sched_domains, which hit the
+>   mainline kernel in 2.6.20 although it is identical to the stats from version
+> @@ -26,7 +34,14 @@ cpus on the machine, while domain0 is the most tightly focused domain,
+>   sometimes balancing only between pairs of cpus.  At this time, there
+>   are no architectures which need more than three domain levels. The first
+>   field in the domain stats is a bit map indicating which cpus are affected
+> -by that domain.
+> +by that domain. Details are available at
+> +
+> +	https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/sched-stats.txt?id=b762f3ffb797c
+> +
+> +The schedstat documentation is maintained version 10 onwards and is not
+> +updated for version 11 and 12. The details for version 10 are available at
+> +
+> +	https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/sched-stats.txt?id=1da177e4c3f4
+>   
+>   These fields are counters, and only increment.  Programs which make use
+>   of these will need to start with a baseline observation and then calculate
+> @@ -71,88 +86,97 @@ Domain statistics
+>   -----------------
+>   One of these is produced per domain for each cpu described. (Note that if
+>   CONFIG_SMP is not defined, *no* domains are utilized and these lines
+> -will not appear in the output.)
+> +will not appear in the output. <name> is an extension to the domain field
+> +that prints the name of the corresponding sched domain. It can appear in
+> +schedstat version 17 and above, and requires CONFIG_SCHED_DEBUG.)
+>   
+> -domain<N> <cpumask> 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36
+> +domain<N> <name> <cpumask> 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45
+>   
+>   The first field is a bit mask indicating what cpus this domain operates over.
+>   
+> -The next 24 are a variety of sched_balance_rq() statistics in grouped into types
+> -of idleness (idle, busy, and newly idle):
+> +The next 33 are a variety of sched_balance_rq() statistics in grouped into types
+> +of idleness (busy, idle and newly idle):
+>   
+>       1)  # of times in this domain sched_balance_rq() was called when the
+> +        cpu was busy
+> +    2)  # of times in this domain sched_balance_rq() checked but found the
+> +        load did not require balancing when busy
+> +    3)  # of times in this domain sched_balance_rq() tried to move one or
+> +        more tasks and failed, when the cpu was busy
+> +    4)  Total imbalance in load when the cpu was busy
+> +    5)  Total imbalance in utilization when the cpu was busy
+> +    6)  Total imbalance in number of tasks when the cpu was busy
+> +    7)  Total imbalance due to misfit tasks when the cpu was busy
+> +    8)  # of times in this domain pull_task() was called when busy
+> +    9)  # of times in this domain pull_task() was called even though the
+> +        target task was cache-hot when busy
 
->
+pull_task has been replaced by detach_task AFAIU. So it makes sense to 
+change this to detach_task?
+
+> +    10) # of times in this domain sched_balance_rq() was called but did not
+> +        find a busier queue while the cpu was busy
+> +    11) # of times in this domain a busier queue was found while the cpu
+> +        was busy but no busier group was found
+> +
+> +    12) # of times in this domain sched_balance_rq() was called when the
+>           cpu was idle
+> -    2)  # of times in this domain sched_balance_rq() checked but found
+> +    13) # of times in this domain sched_balance_rq() checked but found
+>           the load did not require balancing when the cpu was idle
+> -    3)  # of times in this domain sched_balance_rq() tried to move one or
+> +    14) # of times in this domain sched_balance_rq() tried to move one or
+>           more tasks and failed, when the cpu was idle
+> -    4)  sum of imbalances discovered (if any) with each call to
+> -        sched_balance_rq() in this domain when the cpu was idle
+> -    5)  # of times in this domain pull_task() was called when the cpu
+> +    15) Total imbalance in load when the cpu was idle
+> +    16) Total imbalance in utilization when the cpu was idle
+> +    17) Total imbalance in number of tasks when the cpu was idle
+> +    18) Total imbalance due to misfit tasks when the cpu was idle
+> +    19) # of times in this domain pull_task() was called when the cpu
+>           was idle
+> -    6)  # of times in this domain pull_task() was called even though
+> +    20) # of times in this domain pull_task() was called even though
+
+same comment for pull_task.
+
+>           the target task was cache-hot when idle
+> -    7)  # of times in this domain sched_balance_rq() was called but did
+> +    21) # of times in this domain sched_balance_rq() was called but did
+>           not find a busier queue while the cpu was idle
+> -    8)  # of times in this domain a busier queue was found while the
+> +    22) # of times in this domain a busier queue was found while the
+>           cpu was idle but no busier group was found
+> -    9)  # of times in this domain sched_balance_rq() was called when the
+> -        cpu was busy
+> -    10) # of times in this domain sched_balance_rq() checked but found the
+> -        load did not require balancing when busy
+> -    11) # of times in this domain sched_balance_rq() tried to move one or
+> -        more tasks and failed, when the cpu was busy
+> -    12) sum of imbalances discovered (if any) with each call to
+> -        sched_balance_rq() in this domain when the cpu was busy
+> -    13) # of times in this domain pull_task() was called when busy
+> -    14) # of times in this domain pull_task() was called even though the
+> -        target task was cache-hot when busy
+> -    15) # of times in this domain sched_balance_rq() was called but did not
+> -        find a busier queue while the cpu was busy
+> -    16) # of times in this domain a busier queue was found while the cpu
+> -        was busy but no busier group was found
+>   
+> -    17) # of times in this domain sched_balance_rq() was called when the
+> -        cpu was just becoming idle
+> -    18) # of times in this domain sched_balance_rq() checked but found the
+> +    23) # of times in this domain sched_balance_rq() was called when the
+> +        was just becoming idle
+> +    24) # of times in this domain sched_balance_rq() checked but found the
+>           load did not require balancing when the cpu was just becoming idle
+> -    19) # of times in this domain sched_balance_rq() tried to move one or more
+> +    25) # of times in this domain sched_balance_rq() tried to move one or more
+>           tasks and failed, when the cpu was just becoming idle
+> -    20) sum of imbalances discovered (if any) with each call to
+> -        sched_balance_rq() in this domain when the cpu was just becoming idle
+> -    21) # of times in this domain pull_task() was called when newly idle
+> -    22) # of times in this domain pull_task() was called even though the
+> +    26) Total imbalance in load when the cpu was just becoming idle
+> +    27) Total imbalance in utilization when the cpu was just becoming idle
+> +    28) Total imbalance in number of tasks when the cpu was just becoming idle
+> +    29) Total imbalance due to misfit tasks when the cpu was just becoming idle
+> +    30) # of times in this domain pull_task() was called when newly idle
+> +    31) # of times in this domain pull_task() was called even though the
+>           target task was cache-hot when just becoming idle
+
+same comment for pull_task.
+
+> -    23) # of times in this domain sched_balance_rq() was called but did not
+> +    32) # of times in this domain sched_balance_rq() was called but did not
+>           find a busier queue while the cpu was just becoming idle
+> -    24) # of times in this domain a busier queue was found while the cpu
+> +    33) # of times in this domain a busier queue was found while the cpu
+>           was just becoming idle but no busier group was found
+>   
+>      Next three are active_load_balance() statistics:
+>   
+> -    25) # of times active_load_balance() was called
+> -    26) # of times active_load_balance() tried to move a task and failed
+> -    27) # of times active_load_balance() successfully moved a task
+> +    34) # of times active_load_balance() was called
+> +    35) # of times active_load_balance() tried to move a task and failed
+> +    36) # of times active_load_balance() successfully moved a task
+>   
+>      Next three are sched_balance_exec() statistics:
+>   
+> -    28) sbe_cnt is not used
+> -    29) sbe_balanced is not used
+> -    30) sbe_pushed is not used
+> +    37) sbe_cnt is not used
+> +    38) sbe_balanced is not used
+> +    39) sbe_pushed is not used
+>   
+>      Next three are sched_balance_fork() statistics:
+>   
+> -    31) sbf_cnt is not used
+> -    32) sbf_balanced is not used
+> -    33) sbf_pushed is not used
+> +    40) sbf_cnt is not used
+> +    41) sbf_balanced is not used
+> +    42) sbf_pushed is not used
+>   
+>      Next three are try_to_wake_up() statistics:
+>   
+> -    34) # of times in this domain try_to_wake_up() awoke a task that
+> +    43) # of times in this domain try_to_wake_up() awoke a task that
+>           last ran on a different cpu in this domain
+> -    35) # of times in this domain try_to_wake_up() moved a task to the
+> +    44) # of times in this domain try_to_wake_up() moved a task to the
+>           waking cpu because it was cache-cold on its own cpu anyway
+> -    36) # of times in this domain try_to_wake_up() started passive balancing
+> +    45) # of times in this domain try_to_wake_up() started passive balancing
+>   
+>   /proc/<pid>/schedstat
+>   ---------------------
+> diff --git a/kernel/sched/stats.c b/kernel/sched/stats.c
+> index 5f563965976c..4346fd81c31f 100644
+> --- a/kernel/sched/stats.c
+> +++ b/kernel/sched/stats.c
+> @@ -103,7 +103,7 @@ void __update_stats_enqueue_sleeper(struct rq *rq, struct task_struct *p,
+>    * Bump this up when changing the output format or the meaning of an existing
+>    * format, so that tools can adapt (or abort)
+>    */
+> -#define SCHEDSTAT_VERSION 16
+> +#define SCHEDSTAT_VERSION 17
+>   
+>   static int show_schedstat(struct seq_file *seq, void *v)
+>   {
+
