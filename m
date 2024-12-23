@@ -1,46 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C2A188A0C;
-	Mon, 23 Dec 2024 12:23:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81524182BC;
+	Mon, 23 Dec 2024 15:39:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734956594; cv=none; b=jVz1XVrEkn6cHMxbSU8lA8eUfNQmmMcNEnI1KCggnkO0xmz7PJsh3aZQM15D8MuofcfQQcUFNoI63dx9ODizSNnt7Si/dVWtcuewOZGIsftIvEDJf7wF8mwW28Sspn35MU9RNIlJgbYdjeD9D9+ZlsoTTsXhsAsB8Ydvq2URVu0=
+	t=1734968397; cv=none; b=ub9sqvt7ARrHNpS/WNIn1uuVkQgdL2EtgP3nqDPSBwF0EGAbQizIGL+cUIP56+O40kWQsnEIzvfBGkESuNfpRXKYYYUMzJvTUUFwMMv8sB0vkHK+0o+CiFmzyTpHY7Yl+aIiwDUEwvzGEfyOxeD5+JoIktYdTYO+8FHNtD6CTEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734956594; c=relaxed/simple;
-	bh=3ac1dto8gjpFnedlNilVdfNKt8p3GLknSxdDr+SpZZ0=;
+	s=arc-20240116; t=1734968397; c=relaxed/simple;
+	bh=/1Sxk9XIGSS8M7LWWtrUyTRyk9Rn/I2N2tHQep52EXo=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EPmxf4SNk9SCFOcwWzKFWn45jxSE4HToyGoutHUdlYR8d9Z802p6JBci0Iw0beF5Fs6zXDoJyXfmsln/JtZBc8XERyd5bgW8nXmI12+oHhg6SRA1DHaU6M7C6toI4g/M6IrhLvziGgKgJTFcvnTd5eAsr/UeGwA2XfsvvOOzDD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pXL48oLA; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=MJu0TZ5TdNoR5fKQbYm7nq4xtRzk9PdB6zWXmBQ99FK+Pdj5F7I10I5nlzp9WkZpI9H77zFzO0/uuyNFIpOpXNEel87d9GU4QKgK5+Q7frqTSsZ2A6CuhwGdydQSFFHeVXHfEgszxCndfLZ2uUSB9xF6yu6xGqQqEVt2dOnhZV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KyHU54zq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pXL48oLA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9708C4CED3;
-	Mon, 23 Dec 2024 12:23:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KyHU54zq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61A74C4CED3;
+	Mon, 23 Dec 2024 15:39:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734956593;
-	bh=3ac1dto8gjpFnedlNilVdfNKt8p3GLknSxdDr+SpZZ0=;
+	s=k20201202; t=1734968397;
+	bh=/1Sxk9XIGSS8M7LWWtrUyTRyk9Rn/I2N2tHQep52EXo=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=pXL48oLABheVh/kA+q8NkwScEMFH9wWcB1wAtxHxtTh5hd7eFbgs5LsIVAzjTV+Zq
-	 x9A2okat3i3TjxGYp/zDjOSBWJy/uQatQHNZHI9uPyjUIH1NMA8HFEtqIpYy6iFXH6
-	 QcGWz2twS7bTExR+ux7Lk+63VSpcbpfTAcst0vHe/M+HbANyJya8KEqm+CkpwEot69
-	 ajhDNLRGUqFhCpL+xX8xXkhfSSpZT23kock9/Xd2dWFZtRnrj872R6Gkzq/6sPTbLw
-	 BhAvEPTBdVNVdv+laKp1ewgM9uhqBrWaUTd9yWljL8ADYx+T10pjMkzlJoVNZ3NwkB
-	 eKLWXg0fulpWw==
-Date: Mon, 23 Dec 2024 12:23:03 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Esteban Blanc <eblanc@baylibre.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] docs: iio: ad4030: add documentation
-Message-ID: <20241223122303.06f81eb3@jic23-huawei>
-In-Reply-To: <20241219-eblanc-ad4630_v1-v2-6-f36e55907bf5@baylibre.com>
-References: <20241219-eblanc-ad4630_v1-v2-0-f36e55907bf5@baylibre.com>
-	<20241219-eblanc-ad4630_v1-v2-6-f36e55907bf5@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	b=KyHU54zqQRMvMlpXJSEjIKxRBEmGwoMpB7thcLTaBrirc3OPfCnXXpf3lZvkU4y+9
+	 o6o1fPdhe7/FMwUBgq5MI+jve+Puz9m/ImjXV9o4Qc1teRucHOXknWGWPyKz6a/OZ1
+	 UMhuUSYESIxTIy46ypNVBrNYl7eYqfrHYcnfhyJsrVK5mrkU9xYCbXQNEr7bpeKgSs
+	 yJQGd3t6jj0L5JTxNVAGgmR1FE0QZIVxv9geGJxODzihm6OgQmBOQCpjm+qsRyINAG
+	 M8l4II26Z+9fvxVIoaK5enJhbKRUo6qUqoeouUTXFTM999AWygCEBhUgSg4EFLxLBF
+	 zXskI6TfUW7Ig==
+Date: Mon, 23 Dec 2024 07:39:55 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Gur Stavi <gur.stavi@huawei.com>
+Cc: <andrew+netdev@lunn.ch>, <cai.huoqing@linux.dev>, <corbet@lwn.net>,
+ <davem@davemloft.net>, <edumazet@google.com>, <gongfan1@huawei.com>,
+ <guoxin09@huawei.com>, <helgaas@kernel.org>, <horms@kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <meny.yossefi@huawei.com>, <netdev@vger.kernel.org>, <pabeni@redhat.com>,
+ <shenchenyang1@hisilicon.com>, <shijing34@huawei.com>,
+ <wulike1@huawei.com>, <zhoushuai28@huawei.com>
+Subject: Re: [PATCH net-next v01 1/1] hinic3: module initialization and
+ tx/rx logic
+Message-ID: <20241223073955.52da7539@kernel.org>
+In-Reply-To: <20241222081225.2543508-1-gur.stavi@huawei.com>
+References: <20241220132413.0962ad79@kernel.org>
+	<20241222081225.2543508-1-gur.stavi@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,57 +51,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 19 Dec 2024 17:10:41 +0100
-Esteban Blanc <eblanc@baylibre.com> wrote:
-
-> This adds a new page to document how to use the ad4030 ADC driver
+On Sun, 22 Dec 2024 10:12:25 +0200 Gur Stavi wrote:
+> > On Thu, 19 Dec 2024 11:21:55 +0200 Gur Stavi wrote:  
+> > > +config HINIC3
+> > > +	tristate "Huawei Intelligent Network Interface Card 3rd"
+> > > +	# Fields of HW and management structures are little endian and will not
+> > > +	# be explicitly converted  
+> >
+> > This is a PCIe device, users may plug it into any platform.
+> > Please annotate the endian of the data structures and use appropriate
+> > conversion helpers.
 > 
-> Signed-off-by: Esteban Blanc <eblanc@baylibre.com>
-> ---
->  Documentation/iio/ad4030.rst | 181 +++++++++++++++++++++++++++++++++++++++++++
->  Documentation/iio/index.rst  |   1 +
->  MAINTAINERS                  |   1 +
->  3 files changed, 183 insertions(+)
+> This is basically saying that all drivers MUST support all architectures
+> which is not a currently documented requirement.
+> As I said before, both Amazon and Microsoft have this dependency.
+> They currently do not sell their HW so users cannot choose where to plug
+> it, but they could start selling it whenever they want and the driver will
+> remain the same.
+> The primary goal of this driver is for VMs in Huawei cloud, just like
+> Amazon and Microsoft. Whether users can actually buy it in the future is
+> unknown.
 > 
-> diff --git a/Documentation/iio/ad4030.rst b/Documentation/iio/ad4030.rst
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..41ce5ca5c710c46a0995d1b127fa1c10fca4c1eb
-> --- /dev/null
-> +++ b/Documentation/iio/ad4030.rst
-> @@ -0,0 +1,181 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +=============
-> +AD4030 driver
-> +=============
-> +
-> +ADC driver for Analog Devices Inc. AD4030 and similar devices. The module name
-> +is ``ad4030``.
-> +
-> +
-> +Supported devices
-> +=================
-> +
-> +The following chips are supported by this driver:
-> +
-> +* `AD4030-24 <https://www.analog.com/AD4030-24>`_
-> +* `AD4032-24 <https://www.analog.com/AD4032-24>`_
+> for the record, we did start at some point to change all integer members
+> in management structures to __leXX and use cpu_to_le and le_to_cpu.
+> There are hundreds of these and it made the code completely unreadable.
+> 
+> And since we do not plan to test the driver on POWER or ARM big endian I
+> really don't see the point.
 
-I don't see this one in the driver. It's in the bindings but
-not the ID tables. Got lost somewhere or should have a fallback compatible?
-A very quick glances suggests it might just be a down rated version
-of AD4030-24
-
-
-> +* `AD4630-16 <https://www.analog.com/AD4630-16>`_
-> +* `AD4630-24 <https://www.analog.com/AD4630-24>`_
-> +* `AD4632-16 <https://www.analog.com/AD4632-16>`_
-> +* `AD4632-24 <https://www.analog.com/AD4632-24>`_
-
-Other than that this looks good as do patches 3-5.
-
-Thanks,
-
-Jonathan
-
-
+I understand. But I'm concerned about the self-assured tone of the 
+"it's not supported" message, that's very corporate verbiage. Annotating
+endian is standard practice of writing upstream drivers. It makes me
+doubt if you have any developers with upstream experience on your team
+if you don't know that. That and the fact that Huawei usually tops 
+the list of net-negative review contributors in netdev.
