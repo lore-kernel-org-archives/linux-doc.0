@@ -1,155 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A6E3EA69;
-	Mon, 23 Dec 2024 02:30:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1B010A1E
+	for <linux-doc@vger.kernel.org>; Mon, 23 Dec 2024 03:03:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734921022; cv=none; b=kc0pW4oHfRmvHC4w6ecQfQuX69CasN1YhNva7vjnmwlwQKPzeAd64gLUtaZc9swb5WvO7wbu/z+gdNdI+BsWMAOdaEcumhVGeW6iYy2R+nFQPm5DmvxM9Jur4H04gKvAAYAoDhijeRM6XLCZSApuUgYwq0lhHykAw22NoUYyIdM=
+	t=1734923010; cv=none; b=g5lviyFbQKYttDjIoTzHpHZC2l2xwlzO3Ggf2ZT1iXEEsZgCfB0B4iUww0PA8RtC7vx/wFDAQmz2KwHnWcWkWh+WASicrrXSy+BZW2VQErhTnH2GgBsyTSWlEFNy6Lqb/KCadKPqCz89jkXoVpPvU4iPTC8Y2t6l3ByVt2/d/ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734921022; c=relaxed/simple;
-	bh=846d+cRFBoDrFep8BfHDhcE6RYZkZKHKE60fLL1H0x4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z5qhZdszUKtdB5GS2anMD0XvKWb4PyOOzDzJMgM77wfNy1/C04HIrqlzi6mn/2qgpCpsnRiYG21WqEHBL3VXf+mY75UbO29UYQnTMUXAW2sd9Nya4sBVxRmji+kJ8lYhzdoX8fEFWf8DAzfTWhsIwHtgqlJbYH9UFMT7R35+tMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jylnz1wZ; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1734923010; c=relaxed/simple;
+	bh=mqQ6gFDjuk8eASHuSlWfgmFHdoJN1pQtHYXceSr8CRw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=jB46Pta4sJB1ljFKGpaw+hNTV09Ks64ze5y84xU0BoSLAsH1EoJVTJFvdRh0ikfgEelm4+2b57Koc354+9fgt/RTKKhCDgTMFRDFGtzS3wlzbANWBfCXo65wFKkKNsd2Ew3tZDYxhOIAUOCu1RewNi4JNlopHH7TaACst1mBCRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EqAhlfio; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jylnz1wZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734921020; x=1766457020;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=846d+cRFBoDrFep8BfHDhcE6RYZkZKHKE60fLL1H0x4=;
-  b=Jylnz1wZfontQF03VHvyrKc1XCHjfWQByCsgwiUD80iClThSAm2/zo4p
-   H6Y0e780mBOcOn3NLXAl5LwxiekA/tVcKrcwFjmWsLvBy+qs2VxzVX1H2
-   9LrJVHjHUxFqGU8FD8Tdty01HFTPCb9jnah88dencyXoKJA9rTUa/Dhtx
-   2bQ2kXlYy6Ieob7UJtJk5wckdFulgwKalZidOB6MDqAdgvPi2j/pU0tbJ
-   oAR+fuFkPsWHWC77u5zVLxQtLAe4CzD2fbDD4073H644O62jk6FaO60n/
-   s1FUnnsOJKpQQ5v1P+mQpL7ULScnngQrjUAKSeFY9lx6yzU0dKIdyzP+m
-   w==;
-X-CSE-ConnectionGUID: Vc4zmSz6RSqPBdZ47Q2kdw==
-X-CSE-MsgGUID: NoRkUdOjR6OPxCmAFy54Jg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11294"; a="39320711"
-X-IronPort-AV: E=Sophos;i="6.12,256,1728975600"; 
-   d="scan'208";a="39320711"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2024 18:30:19 -0800
-X-CSE-ConnectionGUID: WxF/1ytIQjSsv80o60rM8A==
-X-CSE-MsgGUID: FxLvu3rfS3Gtu8sDqEny9w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="103189883"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2024 18:30:14 -0800
-Message-ID: <74bc9dbe-3420-4f0c-9e32-db49327a723d@linux.intel.com>
-Date: Mon, 23 Dec 2024 10:28:32 +0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EqAhlfio"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-467abce2ef9so712781cf.0
+        for <linux-doc@vger.kernel.org>; Sun, 22 Dec 2024 19:03:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1734923006; x=1735527806; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=udfgoBpU9YC1tkAs9yYIvHXM/pzmQwYqqI8FYG0Q6jo=;
+        b=EqAhlfio2vCTKyEIs/rvY0AHsKbgHQdP5cTIu7Ub7NWuzg7rZXrtr8X76hRJrnuUN+
+         LJT+9Uin/+WscY9hTGA6Vl4MxYvnHpDYr9fTl5WZAv4vPLzehrVVIGs20RuVDAQKQ6vv
+         Ij2BKfBS3Mt/IV7f4Y0694IrS1/su1Sxfa3P0aiVfYh0DATnQpdisGj1+ij098XqFZqY
+         R2+VEspcXNzHsQF74kcP4ds+jA6bn+3lchIrvMnlEpfzYroY+lELnsjV6LJL/Srevzml
+         9K+Wfnq7rS9872Ho00hONIhTspvCv9oUlEOBxWdbyYNqyQYwJztl91NAzIT7oIjucgJw
+         8ekw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734923006; x=1735527806;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=udfgoBpU9YC1tkAs9yYIvHXM/pzmQwYqqI8FYG0Q6jo=;
+        b=N2rGoNLPe3hJr8zFt5kRtHkGKvr+Nei2oyhkLEuXO2uAOTGPn7qcnNZ6cL5obUZP2Y
+         55nSBVRAagHJ8t/ctsDkTBAaFVoIz7URTveXX3WV57IiYKGP3bGEykEk7HEf3q+t0RDM
+         Bkc0HYF33hgDkxx8suqHJBAKY4PPrj/XtFEbxKJX6ifCbRjloaH79n09S1UuvwgdXZed
+         kRUmFV7/RV23RmRBCP6PNKTvhx2Ag2w/uuImUeMQrMy3xAP+2K7u02JfFB5zNpf0BoU9
+         DDqqULsBdemp6DU/UWOHfzjtkPYwXTCaMcg/78v2CrEkj1PeDEIahhf/Z72Jny9IRR49
+         Z5WA==
+X-Forwarded-Encrypted: i=1; AJvYcCVBZy4lEhFluHUXlHqGAKr8Ul3etyePidsbosCQR3FnVmTjE3Wd+mmunPhDqMOaM2D3ikHGmwDZyEc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyE4dvSs1eKifIdibvukFWHSyxkA5t4lYh8520EZbYaUod7KosU
+	o0c9aHyOZX90okN/V/+qlPzfi/X5INdzukcm3WoLnUzy0q22ZIcIHDnauLQnzhZu0tTqcyi69lA
+	o8AJdwllN525fwur7T/+8QswqeoGl2jAbrj6x
+X-Gm-Gg: ASbGncuSlg4qoBi+qY/SmEYlQ2qZESDxiVCufXtQcVHhZII0jbKqwykEzjCc5WhaH9c
+	0dmzaoFG6j1+dj1fx1BdOf5nT6AlmpM8YwC744A==
+X-Google-Smtp-Source: AGHT+IH6iUjP7T3YRQZk5dM79hzQPqi3CteufuNTiNR3N7HnbkvTjhN7FGDeZFxrI0CTiNpdaa1qmm48FdBbz54rlO4=
+X-Received: by 2002:a05:622a:1823:b0:466:a11c:cad2 with SMTP id
+ d75a77b69052e-46a4c00cc98mr8909181cf.7.1734923005705; Sun, 22 Dec 2024
+ 19:03:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 07/14] iommufd/viommu: Add iommufd_viommu_get_vdev_id
- helper
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: jgg@nvidia.com, kevin.tian@intel.com, will@kernel.org, corbet@lwn.net,
- joro@8bytes.org, suravee.suthikulpanit@amd.com, robin.murphy@arm.com,
- dwmw2@infradead.org, shuah@kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
- eric.auger@redhat.com, jean-philippe@linaro.org, mdf@kernel.org,
- mshavit@google.com, shameerali.kolothum.thodi@huawei.com,
- smostafa@google.com, ddutile@redhat.com, yi.l.liu@intel.com,
- patches@lists.linux.dev
-References: <cover.1734477608.git.nicolinc@nvidia.com>
- <21d7e63b97d81d0acf9127418a67efe386787261.1734477608.git.nicolinc@nvidia.com>
- <56c65e50-5890-42af-85b7-85f8a1bf5cf5@linux.intel.com>
- <Z2OpylDlhLXoo3dt@Asurada-Nvidia>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <Z2OpylDlhLXoo3dt@Asurada-Nvidia>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <jes252u5qfhla2bdmg6pdkfpi4a2jfhf7d5b6ra6ol2bmt352x@gunhzaca56df>
+ <CAJuCfpFSD98fw=844AJPy+LT5y=zREQGtSEVj3_FCXiZ5cFR_A@mail.gmail.com>
+ <ulbspoec633hfm54f3jzvoqs6ilskxou3qykk2u727pbaltvfl@lb53vjcaxnuf>
+ <CAJuCfpHXRX=LLa67eWYvrK=UDxKMaOequFXfqOqDHbRrmsT9SQ@mail.gmail.com>
+ <20241219091334.GC26551@noisy.programming.kicks-ass.net> <20241219112011.GA34942@noisy.programming.kicks-ass.net>
+ <wfzu6jvbazlxdybsjc54aoivleif6memaxaacd56bcep24nkv3@s3e3aj253hd6>
+ <20241219174235.GD26279@noisy.programming.kicks-ass.net> <rnanfpzs6fmojyeaowt65mug6xekorrkeefvn3b4zc7buunzhc@rrzcbhkrjdv4>
+ <20241219184642.GF26279@noisy.programming.kicks-ass.net> <6nck2rfwcytqdinsavmewytgcca43mldlczmao3zztrpr5v2ci@4xn6nwp6tcih>
+In-Reply-To: <6nck2rfwcytqdinsavmewytgcca43mldlczmao3zztrpr5v2ci@4xn6nwp6tcih>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Sun, 22 Dec 2024 19:03:14 -0800
+Message-ID: <CAJuCfpFXh5mHfn3d1ySk3icJsK5ssJWuUOB_=tXvt3sA+Jh-YA@mail.gmail.com>
+Subject: Re: [PATCH v6 10/16] mm: replace vm_lock and detached flag with a
+ reference count
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org, willy@infradead.org, 
+	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz, 
+	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
+	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
+	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
+	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
+	klarasmodin@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/19/24 13:06, Nicolin Chen wrote:
-> On Thu, Dec 19, 2024 at 10:05:53AM +0800, Baolu Lu wrote:
->> On 12/18/24 13:00, Nicolin Chen wrote:
->>> This is a reverse search v.s. iommufd_viommu_find_dev, as drivers may want
->>> to convert a struct device pointer (physical) to its virtual device ID for
->>> an event injection to the user space VM.
->>>
->>> Again, this avoids exposing more core structures to the drivers, than the
->>> iommufd_viommu alone.
->>>
->>> Signed-off-by: Nicolin Chen<nicolinc@nvidia.com>
->>> ---
->>>    include/linux/iommufd.h        |  8 ++++++++
->>>    drivers/iommu/iommufd/driver.c | 20 ++++++++++++++++++++
->>>    2 files changed, 28 insertions(+)
->>>
->>> diff --git a/include/linux/iommufd.h b/include/linux/iommufd.h
->>> index b082676c9e43..ac1f1897d290 100644
->>> --- a/include/linux/iommufd.h
->>> +++ b/include/linux/iommufd.h
->>> @@ -190,6 +190,8 @@ struct iommufd_object *_iommufd_object_alloc(struct iommufd_ctx *ictx,
->>>    					     enum iommufd_object_type type);
->>>    struct device *iommufd_viommu_find_dev(struct iommufd_viommu *viommu,
->>>    				       unsigned long vdev_id);
->>> +unsigned long iommufd_viommu_get_vdev_id(struct iommufd_viommu *viommu,
->>> +					 struct device *dev);
->> Hi Nicolin,
->>
->> This series overall looks good to me. But I have a question that might
->> be irrelevant to this series itself.
->>
->> The iommufd provides both IOMMUFD_OBJ_DEVICE and IOMMUFD_OBJ_VDEVICE
->> objects. What is the essential difference between these two from
->> userspace's perspective?
-> A quick answer is an IOMMUFD_OBJ_DEVICE being a host physical
-> device and an IOMMUFD_OBJ_VDEVICE being an IOMMUFD_OBJ_DEVICE
-> related to IOMMUFD_OBJ_VIOMMU. Two of them can be seen in two
-> different layers. May refer to this graph:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/ 
-> Documentation/userspace-api/iommufd.rst?h=v6.13-rc3#n150
-> 
->> And, which object ID should the IOMMU device
->> driver provide when reporting other events in the future?
->>
->> Currently, the IOMMUFD uAPI reports IOMMUFD_OBJ_DEVICE in the page
->> fault message, and IOMMUFD_OBJ_VDEVICE (if I understand it correctly) in
->> the vIRQ message. It will be more future-proof if this could be defined
->> clearly.
-> A vIRQ is actually reported per-vIOMMU in this design. Although
-> in the this series the SMMU driver seems to report a per-device
-> vIRQ, it internally converts the vDEVICE to a virtual device ID
-> and packs the virtual device ID into a per-vIOMMU event:
-> 
-> +/**
-> + * struct iommu_virq_arm_smmuv3 - ARM SMMUv3 Virtual IRQ
-> + *                                (IOMMU_VIRQ_TYPE_ARM_SMMUV3)
-> + * @evt: 256-bit ARM SMMUv3 Event record, little-endian.
-> + *       (Refer to "7.3 Event records" in SMMUv3 HW Spec)
-> + *
-> + * StreamID field reports a virtual device ID. To receive a virtual IRQ for a
-> + * device, a vDEVICE must be allocated via IOMMU_VDEVICE_ALLOC.
-> + */
-> +struct iommu_virq_arm_smmuv3 {
-> +	__aligned_le64 evt[4];
->   };
+On Thu, Dec 19, 2024 at 10:55=E2=80=AFAM Liam R. Howlett
+<Liam.Howlett@oracle.com> wrote:
+>
+> * Peter Zijlstra <peterz@infradead.org> [241219 13:47]:
+> > On Thu, Dec 19, 2024 at 01:18:23PM -0500, Liam R. Howlett wrote:
+> >
+> > > > For RCU lookups only the mas tree matters -- and its left present t=
+here.
+> > > >
+> > > > If you really want to block RCU readers, I would suggest punching a=
+ hole
+> > > > in the mm_mt. All the traditional code won't notice anyway, this is=
+ all
+> > > > with mmap_lock held for writing.
+> > >
+> > > We don't want to block all rcu readers, we want to block the rcu read=
+ers
+> > > that would see the problem - that is, anyone trying to read a particu=
+lar
+> > > area.
+> > >
+> > > Right now we can page fault in unpopulated vmas while writing other v=
+mas
+> > > to the tree.  We are also moving more users to rcu reading to use the
+> > > vmas they need without waiting on writes to finish.
+> > >
+> > > Maybe I don't understand your suggestion, but I would think punching =
+a
+> > > hole would lose this advantage?
+> >
+> > My suggestion was to remove the range stuck in mas_detach from mm_mt.
+> > That is exactly the affected range, no?
+>
+> Yes.
+>
+> But then looping over the vmas will show a gap where there should not be
+> a gap.
+>
+> If we stop rcu readers entirely we lose the advantage.
+>
+> This is exactly the issue that the locking dance was working around :)
 
-Thanks for the explanation. Maybe I am a bit over-considering here.
+IOW we write-lock the entire range before removing any part of it for
+the whole transaction to be atomic, correct?
 
-Initially, my understanding is to report a virtual device ID when the
-object originates from a vIOMMU, and an iommufd device ID otherwise.
 
-However, considering page fault scenarios, which are self-contained but
-linked to a hardware page table (hwpt), introduces ambiguity. Hwpt can
-be created with or without a vIOMMU. This raises the question: should
-the page fault message always report the iommufd device ID, or should
-the reporting depend on whether the hwpt was created from a vIOMMU?
+Peter, you suggested the following pattern for ensuring vma is
+detached with no possible readers:
 
-Thanks,
-baolu
+vma_iter_store()
+vma_start_write()
+vma_mark_detached()
+
+What do you think about this alternative?
+
+vma_start_write()
+...
+vma_iter_store()
+vma_mark_detached()
+        vma_assert_write_locked(vma)
+        if (unlikely(!refcount_dec_and_test(&vma->vm_refcnt)))
+                vma_start_write()
+
+The second vma_start_write() is unlikely to be executed because the
+vma is locked, vm_refcnt might be increased only temporarily by
+readers before they realize the vma is locked and that's a very narrow
+window. I think performance should not visibly suffer?
+OTOH this would let us keep current locking patterns and would
+guarantee that vma_mark_detached() always exits with a detached and
+unused vma (less possibilities for someone not following an exact
+pattern and ending up with a detached but still used vma).
+
+>
