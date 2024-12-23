@@ -1,86 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A120018052;
-	Mon, 23 Dec 2024 21:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5D9161328;
+	Mon, 23 Dec 2024 21:38:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734988484; cv=fail; b=tiv6ejpu6hNdvJYhi6hvLDlAr9f/SMgHP1IBfRCCTPOsLDlNzHXWa+3i+eZUa5qstcBMaV9tog/PiVDL+hiftv10fELPWg0lkyfFlF+u8L5WKC8Xudb4Kd+r6+ue8Q0LfkFndbpPXz/4gIeUHUI1/fsCeYiJfOnaEecWG1GlSk8=
+	t=1734989922; cv=fail; b=W06o5BSfq8YLXoLxeSSVpgLYV3e7+IJhV42LcRGehbaFM/fEA4R1D+uL75dos73h6K31czT8Trjfi1MEzkcoxaNT+JhLwouqKyI24o4jhSzOL17DsiHxC5UW4k8F0APqSHzElkoBKaZyqNodikT54E3rqPpgxwwz8EgTF4T7jbI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734988484; c=relaxed/simple;
-	bh=ZMZvK9Lkaqcdew3XRNgLV+Yoz3/qYnHhawVHt+TDWd8=;
+	s=arc-20240116; t=1734989922; c=relaxed/simple;
+	bh=H98B8oNtAIJRSvHp5rHOizUbjbBfdSd214NY5t5PJ2g=;
 	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=aE74mxhLStgb6lsfG/ETHBM3babH58MVDDJYcTGiPahHvGP85/tVzfoO+Ibh051uo3ohkWNSPqncLvvSjGThKfv4tZDNTpkoppo1AIKMWUk+x6xQKTY+iftoYREbMcS102ukPVG+H/3YWvRUB1rMMfPnyK0/F7hVf1O2V8YCYNE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CGRqNgz1; arc=fail smtp.client-ip=198.175.65.9
+	 Content-Type:MIME-Version; b=IR+PXhzZxQy7P+h+k99ZBZsB37oCzypX7+OGbpgedTXQ3bvah0VgxYVxbaHO2BeDvCIE/VlSPrHQeNABCXsFgqGVzXWF+q5BvTlGBsyyeKDn7cK+yeVSAzFlg01vPoYcPK+oAlh4MknqTwY9WFUO9dEDyzHvdwPADcSMv/BiDsc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HPxsNKPa; arc=fail smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CGRqNgz1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HPxsNKPa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734988483; x=1766524483;
+  t=1734989919; x=1766525919;
   h=message-id:date:subject:to:cc:references:from:
    in-reply-to:content-transfer-encoding:mime-version;
-  bh=ZMZvK9Lkaqcdew3XRNgLV+Yoz3/qYnHhawVHt+TDWd8=;
-  b=CGRqNgz1k29OdONnyDRDUcJgjgtCTElTFv1znJV2XRmGOQiZi9KxZh5n
-   j1g4gU0pcJ2EUUVsvi/0Ok0np8Pz4HVpncF5jxCo1iTGrD7g1eGtEHWiF
-   bsF+yi+/T3DK9k84NAZ2XbnRg/VxKBnrdBh9FRzjvYEKU8CmRcXvIxEpK
-   7nxDw4nmSt0ds2GEfMmViycE/nz1H15Nl4KUGNDoQ0FUBKHsax6hNmKge
-   swgkKDCrPIjb/3/KN14J1xLBoTF8yAZeZYUgcTzfFZvWZlTdboZWcX2J3
-   MGxG+V1tPf6gDTP7fmfuxT5Km4kGma+/vxmljb7Gf3J4Q5iIc1N+XRV/E
-   A==;
-X-CSE-ConnectionGUID: jN1cQVXiQrK7b7fLUWiubA==
-X-CSE-MsgGUID: Bz4r+K0kTLa6d9bk/29zSQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11295"; a="57923040"
+  bh=H98B8oNtAIJRSvHp5rHOizUbjbBfdSd214NY5t5PJ2g=;
+  b=HPxsNKPawkI4fHp11IShAhzfejDZzH3+Jh8culZP81ZQGwbX6fmilUfM
+   eGw5WWOhjyAwQXvWgUnev4MUBv3ewuDFiTuZZCxLkyWVrzzwaOBkgfFfU
+   oEFTvpzqJtQzOrYWlfGRQ3icVoh8F+xGH/a957i5ZVUuxfOGg6aeh5vq8
+   Smn97SLphfTKmzscT5UcV9nop/cCc0stnHgIFrXMrNKFf61GyYihJrB7r
+   Ec1TNw02vWGn6Lj3di7giFju/DTeK7t3JOKxA0a1CtU5KVvVdd2x/2MfH
+   XELTgNj+8INouURCLOTCmGM2QwQb2UR+7p5EhyfvV3MHKZ6ht3I06Jyyk
+   Q==;
+X-CSE-ConnectionGUID: E7xnHrq6ST+evICZYoJmcQ==
+X-CSE-MsgGUID: mu/QqyUnShmmuVb26Iw05g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11295"; a="35620244"
 X-IronPort-AV: E=Sophos;i="6.12,258,1728975600"; 
-   d="scan'208";a="57923040"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2024 13:14:42 -0800
-X-CSE-ConnectionGUID: l+V/TAiwRZiYjTb2mWZVCQ==
-X-CSE-MsgGUID: Cu7LjHRYQLmoYW3agvNE2Q==
+   d="scan'208";a="35620244"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2024 13:38:38 -0800
+X-CSE-ConnectionGUID: dlaOnvJCTnOYXqqv9f9Y/w==
+X-CSE-MsgGUID: Cw1OO1BHQV+6/8NVq2rmcA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="103391439"
+X-IronPort-AV: E=Sophos;i="6.12,258,1728975600"; 
+   d="scan'208";a="99165589"
 Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 23 Dec 2024 13:14:41 -0800
+  by orviesa009.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 23 Dec 2024 13:38:39 -0800
 Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
  ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Mon, 23 Dec 2024 13:14:40 -0800
+ 15.1.2507.44; Mon, 23 Dec 2024 13:38:38 -0800
 Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
  orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Mon, 23 Dec 2024 13:14:40 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.172)
+ 15.1.2507.44 via Frontend Transport; Mon, 23 Dec 2024 13:38:38 -0800
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.177)
  by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Mon, 23 Dec 2024 13:14:40 -0800
+ 15.1.2507.44; Mon, 23 Dec 2024 13:38:37 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=StKIqrsUmkmZAHmlRcchP+yoW5EZO6JkqOHoIZbpAxQoMO0mVwLAOlQHtAdc5A4Ygx/rucj2ThF+vSPVpO41FAhPbpFfzJ/UXRLzLjdVbaMlkPfa/D03Blz+Fy2ikcMq5jNbUBTA8Crid+6+mgMk9CPfrhHkAxW1EnCo5lZ/75/JGeFeGBAJG4scDra8cqNnaCligrq2DTeI01/ETHo+QeBL6ay9odFcqzv4GsfmkRfMZG1CSOXew9OITDR2fZM5zix6BF4TZ3I7t+3KK84J9tMR3elsnTbqfzxVJptBX97X/Taa7amOYnRZ8WIyZ/nw/cmokhEllrf1PdX+eL8D1w==
+ b=fi81k+JMYg3bRXgOcU5A7XenikkDRafp0567FZZeTAuYNX8+J8F8OOu0HUFcFAVY1UEeR7cO7TYiQSuusIVL88gUr/d5z2QpHDky9oUnZgf+v5YajSkCNi5+wnuq74itRWtBT24DFdTSt+jUcPeXvn/1O2Sq+kefwRNRoiBiE18PbSdnGyuHISYRC/xaAxEEd020g+Y48DLKQshXRk0wRG7inCsw3lIX095x43IiYp6n4GWjpE1CLC7HAzb0Wu6L2fzF417XDBtJ4QbnoDa5TAiD0iUTtnvpYKoISb5Ny8jklHOcuZKxfsnudiaz66uie9zt6hcWK+cv5zJ22S2zNA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k/ysJzLnY2xVaybiGnwHHxGcsED10+F0vNQGWOHCpGU=;
- b=vsf/vR3SdUL/qhbu/foORxZw4+j3iFcTvzXZ6DsswSWbq7v5Shu1/FsbSdfMQG/SRb03W0n9/jgZBnTo0XEw0fmx3W4RiMRKjvHez+vAAksrEpOAzx2W22ppBQSYmRhIumGfHgN+JPr/DkzUuQUP5mm704/UKclaCqJK1xZ7YhxD06mFfGwsosAgh6LdZHgBE2XzXGrYB6IUZHSYG9v8iXlMM+2jJMjAOXolro3Bq4HnHbrgJDzRbfS5z/AWrIKH5qBEsic6EuJYmUYHG3QTk4txu1sk3M7iBgwoNXVPdHFEBda2X5Ll428QhC7/es73ufrvAwBIGtmD8jEA3gVWKw==
+ bh=V1WB7nMsXR4NJTyRqZyBmzBKQjQ+WZWpX/jwvDmOiOM=;
+ b=sS8GPyVCoFGzjkQS4H3ib7wCZ2yJJ3GhiJrNapH8TbFf+JN+Ye1f1XvzrKhoGWJ5350GJqKzsMicsXA054Ap00QHZgzo2uvnC5HWokLb/PTu4V2ui0cCb4p2KLi8w26KSR9Pbjns8it79g/EFvf0Sj8upBZr+NNfPfVp2QwUMiVtCEoKQZmkdkb31T2SEPpWbP1YGSl8u06jtgDuQkI3WbryTQVzm9MafGo1T8mrMR04Z0TsJH+eJjQ+u5vNgLteF1qsnt5zoFZF/Fb0q9MC6xFi5OoEgOUguhXGkXD+UHsZwUAInjd4K5iEiJDi7zpeAhl3fq+suiEe5E1EDB8zoA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from SN7PR11MB7566.namprd11.prod.outlook.com (2603:10b6:806:34d::7)
- by MW6PR11MB8412.namprd11.prod.outlook.com (2603:10b6:303:23a::20) with
+ by PH7PR11MB7477.namprd11.prod.outlook.com (2603:10b6:510:279::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.20; Mon, 23 Dec
- 2024 21:14:32 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.19; Mon, 23 Dec
+ 2024 21:37:58 +0000
 Received: from SN7PR11MB7566.namprd11.prod.outlook.com
  ([fe80::2b7:f80e:ff6b:9a15]) by SN7PR11MB7566.namprd11.prod.outlook.com
  ([fe80::2b7:f80e:ff6b:9a15%5]) with mapi id 15.20.8272.013; Mon, 23 Dec 2024
- 21:14:32 +0000
-Message-ID: <af906265-a341-4a00-bfd8-7aa9acd53b8f@intel.com>
-Date: Mon, 23 Dec 2024 13:14:28 -0800
+ 21:37:58 +0000
+Message-ID: <6f7064af-0680-4b5d-9165-1687137eaba9@intel.com>
+Date: Mon, 23 Dec 2024 13:37:54 -0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/7] x86/resctrl: Implement "io_alloc" enable/disable
- handlers
+Subject: Re: [PATCH v2 5/7] x86/resctrl: Add interface to enable/disable
+ io_alloc feature
 To: Babu Moger <babu.moger@amd.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
 	<bp@alien8.de>, <dave.hansen@linux.intel.com>
 CC: <fenghua.yu@intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
@@ -95,14 +95,14 @@ CC: <fenghua.yu@intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
 	<peternewman@google.com>, <linux-doc@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, <eranian@google.com>, <corbet@lwn.net>
 References: <cover.1734556832.git.babu.moger@amd.com>
- <2049de4cc86740fe525468347836e00025f53c83.1734556832.git.babu.moger@amd.com>
+ <467077e6fcf2ffeb9f20204671b6902b85974820.1734556832.git.babu.moger@amd.com>
 Content-Language: en-US
 From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <2049de4cc86740fe525468347836e00025f53c83.1734556832.git.babu.moger@amd.com>
+In-Reply-To: <467077e6fcf2ffeb9f20204671b6902b85974820.1734556832.git.babu.moger@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0225.namprd03.prod.outlook.com
- (2603:10b6:303:b9::20) To SN7PR11MB7566.namprd11.prod.outlook.com
+X-ClientProxiedBy: MW4PR04CA0035.namprd04.prod.outlook.com
+ (2603:10b6:303:6a::10) To SN7PR11MB7566.namprd11.prod.outlook.com
  (2603:10b6:806:34d::7)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -111,261 +111,387 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR11MB7566:EE_|MW6PR11MB8412:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1c4ee383-64f7-4ed6-cf84-08dd2396cb90
+X-MS-TrafficTypeDiagnostic: SN7PR11MB7566:EE_|PH7PR11MB7477:EE_
+X-MS-Office365-Filtering-Correlation-Id: bf5fafb6-1796-4cdc-1437-08dd239a1178
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ektQVEJNZjkzQ2tISXozRXV5ekVnQm5DZU93UlpJN2ZkT1ZiWFV6dy9TZU12?=
- =?utf-8?B?QUttblFFSGNQRXY2SlNkaDJHZXFETVhxTjhyaXJKUlV3YXFBelYyc2VLcUQ3?=
- =?utf-8?B?eWJMNTU3Y1VUSzFiY0F6ekdZNjRkVHJJQTR3bXBIM1Z4OEwwV1VWdEVROGN3?=
- =?utf-8?B?S2VTaWdQTWlJdzlBajRWN0xHY3lRK3dxWUdJVThMS1FuaUVQYXBjampra3hG?=
- =?utf-8?B?RGxhd1dZQTRoUEcwRnhqeGNhcllCNFkzTUVTazNOU1pmR1JvaUZzWldDQnZv?=
- =?utf-8?B?QjFrb2JBMENJMDVHMUg0VVY2VTUyZS9EZHJqN0RKY0l1TW9Hak80MmNPZU5X?=
- =?utf-8?B?bjZ5MjFucjVQcEpaaWMwbWt6cmp2SnkrSFFabkxuRVBIU3hLWTZnaEtNclgv?=
- =?utf-8?B?Q3JjZndHL3RaRHc3c0VWdHJESlBRMmIwMWYxRkVvVEVZeXJPYVl0MXNkVDVn?=
- =?utf-8?B?YUw4ZHpXOU11SVI3dmRNN01GZnRWR2hOZStXWjJSQXVaTWJsV0VRY1pVOE9a?=
- =?utf-8?B?NTZWQ1JXOXVHdWlXN09YQTBVcm9vdHBKOXpmZzBib3RVaHBMMElvcklJaW5t?=
- =?utf-8?B?cTU3V3g2S1hXZURDMEc4azlBdUlsSms3bVR5QkdHcStkTis2bldndjlmNDlB?=
- =?utf-8?B?VUtqMFdtZVdjWWs1NDJja0ErVnpaa1hBM29jUm1ZRjV2OE95U2ZhRnlNZ1Zp?=
- =?utf-8?B?UFlSTG9NekhiZGNwTVl4YXRNY3NxbHBFT3RXSWRuR3NqMDVjeFpPVnZ4bjlz?=
- =?utf-8?B?WnVJMWtreUVHaC9pRmhPRERIUzgzQk5TekZSMS9xUzZRSHdGQlZWanJEMENx?=
- =?utf-8?B?L01yWnRhU2xHL2ZpVU5JY2NseHZncmZVb1ZEZlFhYXJQZkpac2pHR0ZhK0Nr?=
- =?utf-8?B?Z29vdTZsMDRTMm1GanlBbFhvWGpaTC9XVDdQQjhqNEFPWXpYR3lwNUFROEts?=
- =?utf-8?B?NXo0UGt0cGJyamU2VUUxMC9Ud0JXdlhXM0t4MlU4anZMRC9Jb3JML29WcUhL?=
- =?utf-8?B?a01McjJBT1JITWxpc3VoY1hBSkM5Z3U3SGdaRjZsQTBta0d3MXQ2R2lZa21C?=
- =?utf-8?B?UFFOU1JvYVB6Vi9yZ0c4U0VySEQrdExzSTRqcUNjVEhiei9acjY5QTBFU1hI?=
- =?utf-8?B?UTRuZnFJR0txcEh2MXNrVEZkQUhiQ2Q3elJ3WmcxWnJPQWUzejZiVkVEVkVP?=
- =?utf-8?B?eW5YWW1SZUdLL2htRGJPUlBNK21qL0dVdlU3NTdqN1VxWjBSU1A0c3c0UkVU?=
- =?utf-8?B?bHd2M2E5Tlc4Q0FhOWdiR29tMnNnVFdGZTBMZnlOK2tQTFZvK2hIWXlCQkw3?=
- =?utf-8?B?dFNVcEh6M2lqRGZpTjdORE1RR0o5eHUrRGxYRi9JL2tKZkRMQWRYMUQzbXhj?=
- =?utf-8?B?MThtUGdnNzUrQ2NsdjJyVzZ5VHZKcGVCMmhIY3RpQkprbG0wMlVjZU9JOGZO?=
- =?utf-8?B?eWNlb1VhQWo5Qy9lWWtrUExzOGtYODZnMWhQYVhKTTNaSnJtSVFlNW92d1NR?=
- =?utf-8?B?TnVicE15MUNtWklMMVVOM3Ztd2ZsUjB3Q0J0elBacGRDUDBGd1ZlZVE0TkRt?=
- =?utf-8?B?VHUzbDRTUmtIV0VnVlhLb0pMZUk5dVdhNGFPeDJNUVAxdXlGRzhCdmNyR244?=
- =?utf-8?B?eWh0ejJnZ1FoQm51dDFndm5wdUdOMDhMdzRORnoxYjZDTnNLcldRbWRCSUxD?=
- =?utf-8?B?dUg0K040MExBSHFFUWVkazc0UjdqMmFQVWZ3VjlJTWNvZ21hZkN0T2VxbDR2?=
- =?utf-8?B?VGdHWmQ0QlZjRXdld29iTjcwc0NiUmVtTUxWaWtFOFpraFVhVndCd3RpUjN3?=
- =?utf-8?B?YW56UDJvVGhYNUk5Uldha2RHSzlMcjdXQ0lNRWpZbnlMK2tqVkhIRnhTeXJ3?=
- =?utf-8?Q?NiR9a7WeUM+4m?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB7566.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MU81aGttTG9WSzR5a21Ca1crVHUzNU1rZWJGUThreWpIQ2dnVkwwb0t1N2M0?=
+ =?utf-8?B?bXQxSklFMG9GR3IyVjVhZlVLdXUxYjJpL3A3Sk9KRFVhZUl2dGluM2duVkdC?=
+ =?utf-8?B?VUN6K2dsN1dFVWdvTFMzNkFJWkVNN2RrTW1DV0wwdG9iNTdEMmFCUXYzN0ZB?=
+ =?utf-8?B?TkVDMC9aOWMyb2pjSXFzdkpja3czZWxtNHVRUFBEOGlSc1V4YzlCUVR1S3hO?=
+ =?utf-8?B?TnhmcktkYmlFbnhNeXJoMGlOVUlqL3M5ZGdKNkw5NVlWOW1sbkRZL3hPWnA0?=
+ =?utf-8?B?MzQ1YnRhWUczNTlUVlJrMGQyWlVrc3diYXNzYXkydk1oSkFZbExGblhraExp?=
+ =?utf-8?B?TG45T1FEQTdsOFA4VzQwOUFwTGhxNzM3RUJWdUpMZk5kay9aYzZna2p6bVp1?=
+ =?utf-8?B?U2hTMWZZNFFYSk93R293OGVxN0FwUGVFdFBNTnIxa2xFYldHc0NnSy9QNkdD?=
+ =?utf-8?B?aWJMNy82dU9Tb1FHWUllQmh0SG5KNk9ETGEvMFcrcWlvSjYxSGdBV25FL2k2?=
+ =?utf-8?B?V0RaMUhIR1JEb01qU211Y0w3WFNkbUxIZXl6bExZcnhNeE9heFJGQUNzNTFv?=
+ =?utf-8?B?a0o0ZXB6UW9odzJ5RW9NYWYvODBUSmVYVjN0NDN3YkxsZ3FtWGVscVVQZ01E?=
+ =?utf-8?B?UUpmSnhpVjZwT0xFVHpyMGc4RmZSSGtrVW1kanBnbkhacmVWUjA1QXJlQzk2?=
+ =?utf-8?B?cXpWTWVsNm9OU3J5MjVsQm5jd3RCd1dlMnVoQXFzY1Q2YjgxYzFKUk53Smg5?=
+ =?utf-8?B?VmxuVzlVUW15WEI1YTZVTC82Ty9GbStaMjZiQTBUTnFQSWw2Uzlqa1lGYjgz?=
+ =?utf-8?B?WlBQUFhrd1h1b3A5dURJek1FV2ZJVjdyRnZtZGFqaC9sSGtmQVJPc1cxK1l0?=
+ =?utf-8?B?d043QkIvQ3lmRFU5SkIwSlhwekgrU0JISFBHb0dDcWdOSFpSaCtnbTVvQVdp?=
+ =?utf-8?B?cDRKdkNqVlMrNkNtTXB0eXBSVE4xV0lIMmc0Vk90ZVVYQ29tUjNFYk9jYm10?=
+ =?utf-8?B?MUNxS3Ivb1o3TU1HSjZCdGp6c1k2TFZXSzFpWGV4bG0yLzRBckI5WERIcTJD?=
+ =?utf-8?B?NDdkUE1ES2UzS29FbDVRTHpUcDJNZ2k3Tjd1VGlrNE9IZ25MYk41UHp2dEZt?=
+ =?utf-8?B?Vjd2NWx4VGsyeGRkQ0d2b0diS1lXUFYydnhvbDhPMHNmR1hxUTJaWHVJNlpZ?=
+ =?utf-8?B?dkp6anR4OGJZK0s4ZzZKUlY2ajlNWTh0R2pIak92UktjN2luMFpSSGtiQVdp?=
+ =?utf-8?B?SlVTTEQvOTJyTXk5ZEVIRUZic2w1eWpyUjA3aFVaUFd5OERLNm5xOVdEeDlQ?=
+ =?utf-8?B?a1BRZWZhZWcvRXZIa2Q2cUtHcWcxWWptaVNxNW9valpjN0RFUkxwdDZIY3kz?=
+ =?utf-8?B?Qmp1aE9hUEFGeU10UFBxVStwbmFQRm9KRzBMOFh3cXEydzJMOUxCYUFla0Nn?=
+ =?utf-8?B?YzgrRm1DV21WeFNOQ09xZVJzWUcvUnh4V3c2cTB4MGVKVkJOYWFiSnk3OXRs?=
+ =?utf-8?B?aHl5MURYSWhlQlpaVEVzOEdZSGE0RVhtM3pJQUVJZ3lTdE84RHdaZVlhMmxq?=
+ =?utf-8?B?ODg1QjZyV0VOb0hGbWczQ2Y1L1F5TWpRNVRPVFI5aXd0VkpmWERnaklpVmhH?=
+ =?utf-8?B?MGM1L2Y1T2VPbmVPdm1Ya3NpRG14czJlQUNXdGM1dWZJbm5uRDlBRTRncEFx?=
+ =?utf-8?B?YTRISisxNHFRaXo2MWRkYmE4RDh3NFAyazl6cXg2dW84THFGeFNpdFZzSm1J?=
+ =?utf-8?B?cjExSTMzcmN2Z3lXaHN5RzdSbjFxajVqY0FrTk0reC9ERnJabTg5bnRqSWpW?=
+ =?utf-8?B?eDJPRW5Bd2FGSmtDckJkVEhsUnBZT1J0RElpREo3bDM5VHErUEJoYkcvSlZV?=
+ =?utf-8?Q?3El5IvYl7n3lk?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB7566.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016)(7053199007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V2NZWWx5UG53aUN5aVpkNjN3MDlya3hzZzZhZVhjMm5zczNoaW9EN2RkNk52?=
- =?utf-8?B?MVg1UFJxTkptdEpkU0NDdm1nK25JSUpLMHg4cVNabGVEZy9wcjlHL1lkdHl2?=
- =?utf-8?B?aTdhZDhaZmE2dnFiUTlqaTNLeEhkL2NJZEQ4Q0phY052cFdjcUZuWmxKNE9O?=
- =?utf-8?B?RncvWFNvemNlbm1aUzNzYmxJVzNIcXprRHEzSlg5Z2hYcDdZdUFKNzFZeEl5?=
- =?utf-8?B?K0tHL2I2bk1QYy9ESS9YVmtmQ0RxSSt2KzhmOHptVmo1UTMxK1pXRTZldFdE?=
- =?utf-8?B?eDRLZjZGMGhENWRvc3Q4OTdQV05KYit0VlZsRVhMWXZ5d3dKWXAxWm9tUnJ2?=
- =?utf-8?B?cnB6dXR5NGc0cERXL25SLzdlcDNVdFBjWDVHTWQzQzBKakROSndvcE8vMHA0?=
- =?utf-8?B?YzZoYjlvS0xIMGlXc1pFeTlVS2ZxNkl2b0VFc2RvWmUrL01pZlEyTTVFbVhS?=
- =?utf-8?B?Ynh0RnJrY1Q3MmRmWFZuYVI1Nm5nMHdXT2F5QUhCRXl0NkVpRHBab0g5dHFr?=
- =?utf-8?B?empJRTFDNEMwL2o0SEwyR1B1NCs0RXpFTGJxZmlFOXJsTFhXWVlTY2dzQTBN?=
- =?utf-8?B?MDFxd2RnUVc2UzRvOUU0RCtRV3RHZ1hEdWYzV1FqQVBlS2dFc0dOb0ZRV2wr?=
- =?utf-8?B?NW50ZFVHaGNsR2dNVDlCMnVtWnYrNmJuWVVYTHhVc2V1M1J5NFpESDdmUVRI?=
- =?utf-8?B?MHJvd3NPSFJpVlBwZkJwZmowaFJhOUhYdDY2amRJSjJyU2pRbzY1M09GYmpQ?=
- =?utf-8?B?Z2h2TThwNVVlRGsySGM0MUFSYzlpbkN1dFJrOVRBOXB6NlN1eFJYZ1Znejh1?=
- =?utf-8?B?b3BjWTE4UzcreFZ5TC9CRitYck5LblB6S0Y0bWNRT2lPc1pBWm0rN09oRjFx?=
- =?utf-8?B?QUJKSVk5cGQwTVFsS2ptSkpJUTliWnY1VWhndTNrK2xrMXgycnNPWmpMdE16?=
- =?utf-8?B?enhEcnJCOTRma2RUMnVCMGV4UUY3cWxrMmJyMDNIWW5RTkRlQWVFZDhiQTFy?=
- =?utf-8?B?Wmd4R1I1QS9peXc0RkdxK0NYN0dtMDdsVHFUWWk0VDJLOTFOU0FGblQ3Vjla?=
- =?utf-8?B?N1R0THR1aFpsbzA2STc4ak4zckp3VnBMSnhoVW9xYitncFVTcjROSHB5R3NT?=
- =?utf-8?B?Q0k2dDU3U1JNbDRiZmx6TkZiL1NSS2F4ZE42dFcraUJDc203RGwrc0FnWXZS?=
- =?utf-8?B?NlhqdUZXRVlISVBXOUVkMzQxZmQ3bzBOYTN2dUg1M1FSZHBzb1Q0ZHQvNFZR?=
- =?utf-8?B?bUFzR0FMNE9RMjBDeFNCREVub2pLN1NiN3dKQUtHMnBDT1FuSGVGam02Wkhi?=
- =?utf-8?B?WGZRbVRRcFNDbUIrZTBVSGdVMHplc3VxTm1MeUJ0WUlhUHpkSXlFdGtmbm96?=
- =?utf-8?B?UjZIY2thNjUyS05RSWc3WWk2Tm1XUEd4czBVN0x1d2lYV0ljbUoyYVE5Ujdz?=
- =?utf-8?B?NnNnUy9ydEExNmJIRGtkUVRQVkc0YzhCbDZQWnl2bmI5Q0NiM1BtTHBXK2tk?=
- =?utf-8?B?eUxEVUltSzlub0V5N0FyOXV6b2tTT2dpdzR0YVlzY1BFSTRIaEMydlVaenBo?=
- =?utf-8?B?T0tWeHJPRk5BVUU3ZW5DSkJhUHlDaFRvMXVyTmU0Vm40OE53QWJuZmFPU0Nj?=
- =?utf-8?B?ME9jQUViZVVTTndFTmtpamIwT1NaSlNENnU3YXhjVTZJMGxPYmJ3c3FWNTRD?=
- =?utf-8?B?N1NGekFyN1BaZHpQK1dGZStrMTg1NWtrQjlRbTI4cXhranhpUGdsbyt6WkxS?=
- =?utf-8?B?TlJSMm00RnE5RTZZNEJlY1hEdFU1THpGYnRGcDErdTAvY2dMQmtMWlkxc2ZX?=
- =?utf-8?B?Y2xjMytLNGNXYUtrZG9CYXdwR3hzcHRFRHBzdEhHdTFVUmx2czd3azZ5UE5J?=
- =?utf-8?B?QWp5cTVkcVRocCtWWDd3VTNPSjdIRUtsMzZ4aTNDY2lSWFU2c2kycVF6KzRI?=
- =?utf-8?B?K3Q0bXlkR2ZwUUlETS9lbXk5M1JJaEhzV2NSdjR6b0lRekhRVXlXL3pHZVMr?=
- =?utf-8?B?Q1FRTVpNSTVqak9NNzZMREhpTkl3S1JQbGdhdTdNWExTRlZiUmFUNmI0NlpM?=
- =?utf-8?B?M2ExOS96cWhndy9Ha0NpU01rWGVyOEFpN1h5TE45c1ZhekUwVDVXcEU3cFZ0?=
- =?utf-8?B?RHpUNVVVNXdiOXpjWHhHR01ITWdSdjlDaEZJVk9taXFCQTg2dWVhMi9DZHJR?=
- =?utf-8?B?S1E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c4ee383-64f7-4ed6-cf84-08dd2396cb90
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dFBubHVyNC9LaGVUTld3dXJvVFkwZ2lyZTJyVCszQzNDeVlXaXNkdFlFb0lH?=
+ =?utf-8?B?OGhBSnUxUGZNVnR0QVp4UXQ2YzFsUXlxc0NDekxia3BXQk8rKzJoa3ZhOU1r?=
+ =?utf-8?B?OUJYNWIxVHlOOE1GdFZ6UEdnQkdTZUljV3dtKytzSkgvM0Y3MjZxbG1MeXM3?=
+ =?utf-8?B?MlA0am1WaWdRZE44aWtUYnhvTnZZWElRcTJRLzVuYnFTWmExSFpFRGpQMXVP?=
+ =?utf-8?B?K1VKSDdhb2sxdVRzaU5QNDlBZlB4UUMySnVEWG1qWCsxZ1RacTFkNkFGOHVT?=
+ =?utf-8?B?b2t0NkdFY1l4S2d5SXJHMWtleEl0cG14Si9aZjhyRFV4STVUNmNVdWhqa0sz?=
+ =?utf-8?B?L1ZKR3FvRmlwZUdkalR3YmxjUDAvUFBxaWNVdFVFMGdhZVIrM2F3ZkVZNFNq?=
+ =?utf-8?B?OTRJZUZ1K0ZaV2tmQ0VhME5scFl6VkhNWjJDWG5oR08yeUo3blJWMGJFaklT?=
+ =?utf-8?B?RkcxdVpqTlZ3eGFnUXU5SlhZdzA1dGZiRUFVRFI5cVIxZ2EzOWdRRUVTbDZS?=
+ =?utf-8?B?cGFJQlRnTDEwcTl3K29UUnJvSlM1SnNNNHFZK2lYeEQ4MVBnbDdySnFNbkt4?=
+ =?utf-8?B?Z3RiMUpZYkpSVWIrRndxREhkOHBKOE1zSnIwTmpnU1lXZU9nOWpDOWw3K1dH?=
+ =?utf-8?B?cE0rV29jaWE3QjNPaXdhYzJzMDdOd3piYVUxMGZBSUxXdnQ0YVBjd01hYzFE?=
+ =?utf-8?B?L2lvZWc0YUZJRWZtWmtZcUpQNzVkbks1R1VCdm9lbTk2elJQcjl5VnVTSVpp?=
+ =?utf-8?B?QUk4elVROGhFVXpCUVlEM1ZId0g5aEE2ZnRoR0VzNzFBVDZuUnNmbWJKYm5X?=
+ =?utf-8?B?YitPV3RJdytNSlJob09jd2MvS1NucjdtUVFoRzRKMlErdU1BWUxYWWxnOVFW?=
+ =?utf-8?B?Uk1ORlVXak1xV0I1NzNxRnVFOVFZNS9pejVwMUFpakc4eFJKbE1DcHA5SkFJ?=
+ =?utf-8?B?TjJ6TzZNRitoa0EyNi9uSmtBWm1teFNQUEtrM2s4UXB4QTQ4NFZwUkM2RGIw?=
+ =?utf-8?B?Z25XZ1ZublJXTzN3c2ZKSG5WcEJyVlQ5cS96bjVTMytsaGVmWFZqbnRLbjlq?=
+ =?utf-8?B?aWV0VFo0cFZvZTJLNVlWK3E4RUEwRklUS2s4aDFZTE9kb3hYN0UrTjZkaVh6?=
+ =?utf-8?B?ZFY3NzdxRTV5QkY2R21pd09DWGY5eDVoaVFQci9GQ094OWxjNlZWVHJSanpY?=
+ =?utf-8?B?Uk5YUllzZS94SkJ4RGNHWGRPdjJuZmxqVWNqZUNGUjFlNjM0d1hhZWJ0MElx?=
+ =?utf-8?B?b3ZJZy83Z25HeWN2Q09NMGNiME9tVWhrQy9PSTE5SXAvYUpreXR4R3V2eEdG?=
+ =?utf-8?B?VFFDQ003ZFVzeGRwd3luajdVbzNacHpGeEJSSkpCYU8wMGVQOUxmamdBaEZL?=
+ =?utf-8?B?bmNQek1BbkFydWkxYm1qQXFDOGVGbXBLZFgxd1FQNWs3cGlzbXpxZ1pKNUdN?=
+ =?utf-8?B?UlNINUhNdHZEcHVlcng2QnZETmZDMHlBbkFYK0hMbDdSWUZ0UllOR3ZrSGR2?=
+ =?utf-8?B?SGgwOCtYNVgweXF5TFFKWTFyTlVIeG44Tll2aklScHkvRkUrUDFCclArTjds?=
+ =?utf-8?B?ajA1VS9iT1lORjF2M1JBanVocDBkRUlrRlRDdEc4VWx5aUNQMnBPOGtnSzdi?=
+ =?utf-8?B?MUhaSDZJYVJuUHA2bkNRZ0ppQk1wYnBjVnhhUWZlWlFGcUp0TTlxclJWaHpU?=
+ =?utf-8?B?V0Z1OCtiU2NsUG5HRkU1dks2cUNNWTA2MGkrSmpjMjNvQ0o2b09DTHJiMjFE?=
+ =?utf-8?B?RmxTaVFKZFpDOGlXbk9VcVRDdXQxTnlzRjlCeUpkSzZuYUk0Z1lFRkNvVXdi?=
+ =?utf-8?B?Q0F2TXdOMmNqNHhqM3dMRjBBYm9mMEtDZWJnRFI5bjlKU1Z6SG1uN1g0aEtq?=
+ =?utf-8?B?YjZFbXVDckMvOEtONkN6Yjhsa0pFYUo0YzRySVczWlRKdmxvU2NSMUUzanNw?=
+ =?utf-8?B?bVJkUExvc0Noak9tY1UzcGxiRTFYckxmbDNWWGtHM3dYVTgyTDJDVjVwMldk?=
+ =?utf-8?B?RGQ4N0tGcEVTaWdDY0NQeXE1Z2dXMlhOU2o1YURsN2FWU0drVVNvSkUrakFT?=
+ =?utf-8?B?UitJTkVRVnZqelQyZ2tZelhKZGlkWHd6WGQ2Wk1YMzRJRXA4cEI3aXoxbGJ6?=
+ =?utf-8?B?TXpjUC82cEJud2RUYzJYT1lBOWZqVjNHTG5WNjNLbTZyYTRpRDJMTGk5Witj?=
+ =?utf-8?B?K2c9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf5fafb6-1796-4cdc-1437-08dd239a1178
 X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB7566.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2024 21:14:32.4987
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2024 21:37:58.2656
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: L9xAxDSu86fRIaMX/ml2ITIp5zzUNk499VeJ5WSBxMPEvDdwEJPysCuNMajBIAK6yo/+BSc+Cu91wtGAkFoT9iuTCKNzMYrwNPDXs/0NswQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR11MB8412
+X-MS-Exchange-CrossTenant-UserPrincipalName: Y0aVFJ/PgA1vM0R19KgLFcpFmZB+cbHjNjXkI67ZpMNAkSZ0XcylKThfA1KeIQcR5WOI3/ItY/7B0ZtbcOTUqOOjUDecGj3XYVjWAYang00=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7477
 X-OriginatorOrg: intel.com
 
 Hi Babu,
 
 On 12/18/24 1:38 PM, Babu Moger wrote:
-> Introduce architecture-specific2yy handlers to manage the detection and
+> The io_alloc feature in resctrl enables system software to configure
+> the portion of the L3 cache allocated for I/O traffic.
+> 
 
-"architecture-specific2yy"?
+Above is about resctrl feature.
 
-> enabling/disabling of this feature.
+> Smart Data Cache Injection (SDCI) is a mechanism that allows direct
+> insertion of data from I/O devices into the L3 cache. By caching I/O
+> data directly in the L3 cache, instead of writing it to DRAM first,
+> SDCI reduces DRAM bandwidth usage and lowers latency for the processor
+> consuming the I/O data.
+> 
+> When enabled, SDCIAE forces all SDCI lines to be placed into the L3 cache
+> partitions identified by the highest-supported L3_MASK_n register as
+> reported by CPUID Fn0000_0010_EDX_x1.MAX_COS. For example, if MAX_COS=15,
+> SDCI lines will be allocated into the L3 cache partitions determined by
+> the bitmask in the L3_MASK_15 register.
 
-Please add more to the context. It just jumps in with a "this feature" without
-any introduction.
+Above is about AMD feature.
 
 > 
-> SDCIAE feature can be enabled by setting bit 1 in MSR L3_QOS_EXT_CFG.
-> When the state of SDCIAE is modified, the updated value must be applied
-> across all logical processors within the QOS Domain. By default, the
-> io_alloc feature is turned off.
+> Introduce interface to enable/disable "io_alloc" feature on user input.
+
+Back to resctrl feature.
+
+Please do not jump from resctrl to AMD feature in a way that makes it seem that
+they are interchangeable. To help with this you could use similar style as in
+ABMC where the text flows like:
+
+	<resctrl feature description>.
+
+	On AMD <resctrl feature> is backed by <AMD feature> that <AMD feature details>.
+
 > 
-> The SDCIAE feature details are available in APM listed below [1].
-> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
-> Publication # 24593 Revision 3.41 section 19.4.7 L3 Smart Data Cache
-> Injection Allocation Enforcement (SDCIAE)
-> 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
 > Signed-off-by: Babu Moger <babu.moger@amd.com>
 > ---
-> v2: Renamed the functions to simplify the code.
->     Renamed sdciae_capable to io_alloc_capable.
-> 
->     Changed the name of few arch functions similar to ABMC series.
->     resctrl_arch_get_io_alloc_enabled()
->     resctrl_arch_io_alloc_enable()
+> v2: Renamed the feature to "io_alloc".
+>     Added generic texts for the feature in commit log and resctrl.rst doc.
+>     Added resctrl_io_alloc_init_cat() to initialize io_alloc to default
+>     values when enabled.
+>     Fixed io_alloc show functinality to display only on L3 resource.
 > ---
->  arch/x86/include/asm/msr-index.h       |  1 +
->  arch/x86/kernel/cpu/resctrl/internal.h | 10 ++++++++
->  arch/x86/kernel/cpu/resctrl/rdtgroup.c | 34 ++++++++++++++++++++++++++
->  include/linux/resctrl.h                |  9 +++++++
->  4 files changed, 54 insertions(+)
+>  Documentation/arch/x86/resctrl.rst     |  27 ++++++
+>  arch/x86/kernel/cpu/resctrl/core.c     |   2 +
+>  arch/x86/kernel/cpu/resctrl/rdtgroup.c | 118 +++++++++++++++++++++++++
+>  3 files changed, 147 insertions(+)
 > 
-> diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
-> index 3f3e2bc99162..360c52a62da9 100644
-> --- a/arch/x86/include/asm/msr-index.h
-> +++ b/arch/x86/include/asm/msr-index.h
-> @@ -1196,6 +1196,7 @@
->  /* - AMD: */
->  #define MSR_IA32_MBA_BW_BASE		0xc0000200
->  #define MSR_IA32_SMBA_BW_BASE		0xc0000280
-> +#define MSR_IA32_L3_QOS_EXT_CFG		0xc00003ff
->  #define MSR_IA32_EVT_CFG_BASE		0xc0000400
+> diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
+> index 6768fc1fad16..52679175ee14 100644
+> --- a/Documentation/arch/x86/resctrl.rst
+> +++ b/Documentation/arch/x86/resctrl.rst
+> @@ -135,6 +135,33 @@ related to allocation:
+>  			"1":
+>  			      Non-contiguous 1s value in CBM is supported.
 >  
->  /* AMD-V MSRs */
-> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-> index 20c898f09b7e..dff3354c2282 100644
-> --- a/arch/x86/kernel/cpu/resctrl/internal.h
-> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
-> @@ -56,6 +56,9 @@
->  /* Max event bits supported */
->  #define MAX_EVT_CONFIG_BITS		GENMASK(6, 0)
->  
-> +/* Setting bit 1 in L3_QOS_EXT_CFG enables the SDCIAE feature. */
-> +#define SDCIAE_ENABLE_BIT		1
+> +"io_alloc":
+> +		The "io_alloc" feature in resctrl enables system software to
+> +		configure the portion of the L3 cache allocated for I/O traffic.
 > +
->  /**
->   * cpumask_any_housekeeping() - Choose any CPU in @mask, preferring those that
->   *			        aren't marked nohz_full
-> @@ -479,6 +482,7 @@ struct rdt_parse_data {
->   * @mbm_cfg_mask:	Bandwidth sources that can be tracked when Bandwidth
->   *			Monitoring Event Configuration (BMEC) is supported.
->   * @cdp_enabled:	CDP state of this resource
-> + * @sdciae_enabled:	SDCIAE feature is enabled
->   *
->   * Members of this structure are either private to the architecture
->   * e.g. mbm_width, or accessed via helpers that provide abstraction. e.g.
-> @@ -493,6 +497,7 @@ struct rdt_hw_resource {
->  	unsigned int		mbm_width;
->  	unsigned int		mbm_cfg_mask;
->  	bool			cdp_enabled;
-> +	bool			sdciae_enabled;
->  };
->  
->  static inline struct rdt_hw_resource *resctrl_to_arch_res(struct rdt_resource *r)
-> @@ -539,6 +544,11 @@ int resctrl_arch_set_cdp_enabled(enum resctrl_res_level l, bool enable);
->  
->  void arch_mon_domain_online(struct rdt_resource *r, struct rdt_mon_domain *d);
->  
-> +static inline bool resctrl_arch_get_io_alloc_enabled(enum resctrl_res_level l)
-
-The custom is to pass a pointer to the resource when interacting with it. Why is it
-needed to pass the ID here?
-
-> +{
-> +	return rdt_resources_all[l].sdciae_enabled;
-> +}
+> +		Smart Data Cache Injection (SDCI) is a mechanism that allows
+> +		direct insertion of data from I/O devices into the L3 cache.
+> +		By caching I/O data directly in the L3 cache, instead of writing
+> +		it to DRAM first, SDCI reduces DRAM bandwidth usage and lowers
+> +		latency for the processor consuming the I/O data.
 > +
->  /*
->   * To return the common struct rdt_resource, which is contained in struct
->   * rdt_hw_resource, walk the resctrl member of struct rdt_hw_resource.
-> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> index 6419e04d8a7b..398f241b65d5 100644
-> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> @@ -1798,6 +1798,40 @@ static ssize_t mbm_local_bytes_config_write(struct kernfs_open_file *of,
->  	return ret ?: nbytes;
+> +		When enabled the feature forces all SDCI lines to be placed
+> +		into the L3 cache partitions identified by the highest-supported
+> +		CLOSID (num_closids-1). This CLOSID will not be available to the
+> +		resctrl group.
+
+Same comment as V1. The above two paragraphs cannot be guaranteed to be
+specific to the "io_alloc" feature ... it is only specific to SDCIAE. 
+
+> +
+> +			"0":
+> +			    I/O device L3 cache control is not enabled.
+> +			"1":
+> +			    I/O device L3 cache control is enabled, allowing users
+> +			    to manage the portions of the L3 cache allocated for
+> +			    the I/O device.
+> +
+> +		Feature can be enabled/disabled by writing to the interface.
+> +		Example::
+> +
+> +			# echo 1 > /sys/fs/resctrl/info/L3/io_alloc
+
+Similar to comment of V1 there is no information about what user can
+expect when enabling this. For example, if this fails then one cause may
+be that a resource group already owns that CLOSID and that removing that resource
+group would make it possible to enable this feature. Even so, user space does not
+know about CLOSIDs, only resource groups, making it difficult to correct without
+more help. 
+
+> +
+>  Memory bandwidth(MB) subdirectory contains the following files
+>  with respect to allocation:
+>  
+> diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+> index 39e110033d96..066a7997eaf1 100644
+> --- a/arch/x86/kernel/cpu/resctrl/core.c
+> +++ b/arch/x86/kernel/cpu/resctrl/core.c
+> @@ -309,6 +309,8 @@ static void rdt_get_cdp_config(int level)
+>  static void rdt_get_sdciae_alloc_cfg(struct rdt_resource *r)
+>  {
+>  	r->cache.io_alloc_capable = true;
+> +	resctrl_file_fflags_init("io_alloc",
+> +				 RFTYPE_CTRL_INFO | RFTYPE_RES_CACHE);
 >  }
 >  
-> +static void resctrl_sdciae_set_one_amd(void *arg)
+>  static void rdt_get_cdp_l3_config(void)
+> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> index 398f241b65d5..e30731ce9335 100644
+> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+> @@ -62,6 +62,7 @@ static char last_cmd_status_buf[512];
+>  
+>  static int rdtgroup_setup_root(struct rdt_fs_context *ctx);
+>  static void rdtgroup_destroy_root(void);
+> +static int rdtgroup_init_cat(struct resctrl_schema *s, u32 closid);
+>  
+>  struct dentry *debugfs_resctrl;
+>  
+> @@ -180,6 +181,25 @@ void closid_free(int closid)
+>  	__set_bit(closid, &closid_free_map);
+>  }
+>  
+> +/*
+> + * io_alloc (SDCIAE) feature uses max CLOSID to route the SDCI traffic.
+
+Please do not use io_alloc and SDCIAE interchangeably.
+
+> + * Get the max CLOSID number
+> + */
+> +static u32 resctrl_io_alloc_closid_get(struct rdt_resource *r)
 > +{
-> +	bool *enable = arg;
+> +	return resctrl_arch_get_num_closid(r) - 1;
+> +}
 > +
-> +	if (*enable)
-> +		msr_set_bit(MSR_IA32_L3_QOS_EXT_CFG, SDCIAE_ENABLE_BIT);
+> +static int resctrl_io_alloc_closid_alloc(struct rdt_resource *r)
+> +{
+> +	u32 io_alloc_closid = resctrl_io_alloc_closid_get(r);
+> +
+> +	if (__test_and_clear_bit(io_alloc_closid, &closid_free_map))
+> +		return io_alloc_closid;
 > +	else
-> +		msr_clear_bit(MSR_IA32_L3_QOS_EXT_CFG, SDCIAE_ENABLE_BIT);
+> +		return -ENOSPC;
 > +}
+
+This does not look right. The way resctrl manages CLOSID is to use the
+*minimum* of all CLOSID supported across all resources. It may thus be possible
+for the L3 resource to support more CLOSID than other resources causing
+the closid_free_map to be sized to a value smaller than the L3 max CLOSID.
+The bit being tested/cleared here may thus exceed what is in the bitmap.
+
+Also, during V1 we discussed how CDP was not handled and I am not able to
+see where/if it is handled in this version.
+
 > +
-> +static int _resctrl_io_alloc_enable(struct rdt_resource *r, bool enable)
+>  /**
+>   * closid_allocated - test if provided closid is in use
+>   * @closid: closid to be tested
+> @@ -1832,6 +1852,97 @@ int resctrl_arch_io_alloc_enable(struct rdt_resource *r, bool enable)
+>  	return 0;
+>  }
+>  
+> +static int resctrl_io_alloc_show(struct kernfs_open_file *of,
+> +				 struct seq_file *seq, void *v)
 > +{
-> +	struct rdt_ctrl_domain *d;
+> +	struct resctrl_schema *s = of->kn->parent->priv;
+> +	struct rdt_resource *r = s->res;
 > +
-> +	/* Update L3_QOS_EXT_CFG MSR on all the CPUs in all domains*/
-> +	list_for_each_entry(d, &r->ctrl_domains, hdr.list)
-> +		on_each_cpu_mask(&d->hdr.cpu_mask, resctrl_sdciae_set_one_amd, &enable, 1);
-> +
+> +	seq_printf(seq, "%x\n", resctrl_arch_get_io_alloc_enabled(r->rid));
 > +	return 0;
-
-Same comment as in V1 about this arch specific handler always returning 0 and can thus
-just return void. Also the name should not reflect that it is resctrl code. One
-option could be _resctrl_arch_io_alloc_enable().
-
 > +}
 > +
-> +int resctrl_arch_io_alloc_enable(struct rdt_resource *r, bool enable)
+> +/*
+> + * Initialize the io_alloc feature default when enabled
+
+It is not clear what this comment describes.
+
+> + */
+> +static int resctrl_io_alloc_init_cat(struct rdt_resource *r, u32 closid)
 > +{
-> +	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(r);
+> +	struct resctrl_schema *s;
+> +	int ret = 0;
 > +
-> +	if (hw_res->r_resctrl.cache.io_alloc_capable &&
-> +	    hw_res->sdciae_enabled != enable) {
-> +		_resctrl_io_alloc_enable(r, enable);
-> +		hw_res->sdciae_enabled = enable;
+> +	rdt_staged_configs_clear();
+> +
+> +	list_for_each_entry(s, &resctrl_schema_all, list) {
+> +		r = s->res;
+> +		if (r->rid == RDT_RESOURCE_L3) {
+
+It looks like the function ignores the resource provided to it via function
+parameter and instead uses internal hardcode of which resource to act on?
+
+> +			ret = rdtgroup_init_cat(s, closid);
+> +			if (ret < 0)
+> +				goto out_init_cat;
+> +
+> +			ret = resctrl_arch_update_domains(r, closid);
+> +			if (ret < 0)
+> +				goto out_init_cat;
+> +		}
 > +	}
 > +
-> +	return 0;
+> +out_init_cat:
+> +	if (ret)
+> +		rdt_last_cmd_puts("Failed to initialize io_alloc allocations\n");
+> +
+> +	rdt_staged_configs_clear();
+> +	return ret;
+> +}
+> +
+> +static ssize_t resctrl_io_alloc_write(struct kernfs_open_file *of, char *buf,
+> +				      size_t nbytes, loff_t off)
+> +{
+> +	struct resctrl_schema *s = of->kn->parent->priv;
+> +	struct rdt_resource *r = s->res;
+> +	u32 io_alloc_closid;
+> +	bool enable;
+> +	int ret;
+> +
+> +	if (!r->cache.io_alloc_capable)
+> +		return -EINVAL;
+> +
+> +	ret = kstrtobool(buf, &enable);
+> +	if (ret)
+> +		return ret;
+> +
+> +	cpus_read_lock();
+> +	mutex_lock(&rdtgroup_mutex);
+> +
+> +	rdt_last_cmd_clear();
+> +
+> +	io_alloc_closid = resctrl_io_alloc_closid_get(r);
+> +
+> +	if (resctrl_arch_get_io_alloc_enabled(r->rid) != enable) {
+> +		if (enable) {
+> +			ret = resctrl_io_alloc_closid_alloc(r);
+> +			if (ret < 0) {
+> +				rdt_last_cmd_puts("io_alloc CLOSID is not available\n");
+
+Can this be more useful to the user? The user does not know what the CLOSID is nor
+what can be remedied to fix this. What if the message instead contains the name of
+the resource group to which the CLOSID is assigned so that user knows which resource
+group could be removed to be able to enable io_alloc?
+
+> +				goto out_io_alloc;
+> +			}
+> +			ret = resctrl_io_alloc_init_cat(r, io_alloc_closid);
+> +			if (ret) {
+> +				closid_free(io_alloc_closid);
+
+Could you please make a resctrl_io_alloc_closid_free() that is symmetrical to
+resctrl_io_alloc_closid_alloc()?
+
+> +				goto out_io_alloc;
+> +			}
+> +
+> +		} else {
+> +			closid_free(io_alloc_closid);
+> +		}
+> +
+> +		ret = resctrl_arch_io_alloc_enable(r, enable);
+> +	}
+> +
+> +out_io_alloc:
+> +	mutex_unlock(&rdtgroup_mutex);
+> +	cpus_read_unlock();
+> +
+> +	return ret ?: nbytes;
 > +}
 > +
 >  /* rdtgroup information files for one cache resource. */
 >  static struct rftype res_common_files[] = {
 >  	{
-> diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
-> index 5837acff7442..8c66aeac4768 100644
-> --- a/include/linux/resctrl.h
-> +++ b/include/linux/resctrl.h
-> @@ -344,6 +344,15 @@ void resctrl_arch_reset_rmid(struct rdt_resource *r, struct rdt_mon_domain *d,
->   */
->  void resctrl_arch_reset_rmid_all(struct rdt_resource *r, struct rdt_mon_domain *d);
->  
-> +/**
-> + * resctrl_arch_io_alloc_enable() - Enable/disable io_alloc feature.
-> + * @r:		The resctrl resource.
-> + * @enable:	Enable (1) or disable (0) the feature
-> + *
-> + * This can be called from any CPU.
-> + */
-> +int resctrl_arch_io_alloc_enable(struct rdt_resource *r, bool enable);
-> +
->  extern unsigned int resctrl_rmid_realloc_threshold;
->  extern unsigned int resctrl_rmid_realloc_limit;
->  
+> @@ -1984,6 +2095,13 @@ static struct rftype res_common_files[] = {
+>  		.seq_show	= rdtgroup_schemata_show,
+>  		.fflags		= RFTYPE_CTRL_BASE,
+>  	},
+> +	{
+> +		.name		= "io_alloc",
+> +		.mode		= 0644,
+> +		.kf_ops		= &rdtgroup_kf_single_ops,
+> +		.seq_show	= resctrl_io_alloc_show,
+> +		.write		= resctrl_io_alloc_write,
+> +	},
+>  	{
+>  		.name		= "mba_MBps_event",
+>  		.mode		= 0644,
 
 Reinette
