@@ -1,169 +1,159 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1254518FC74
-	for <linux-doc@vger.kernel.org>; Tue, 24 Dec 2024 09:34:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A37F156F54;
+	Tue, 24 Dec 2024 10:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735032883; cv=none; b=OIlof9GXQwNkpV21OgXjo/vrXg/ClSqK/nzczvLgADtZoyC9812KYPUN+dMwLO/nyVK1iPRzSwhoFuY5RJxQz/dA6337XY5k1qogMj5KKhLi7tumgbStBTVYmf17HNxMS0zD0ApH2OdYR/HvMnLzMUAge7Y74EgOafgEPOgQSFU=
+	t=1735036461; cv=none; b=lSNNiTQY+TAhcQXOJPhkZaLpf5tCDqPekLzoctV0wfW6qf6jD9avk6YuI+rez9B8Q21Itr4T8ayY8HXEYDnacnb1oZRIL2pM2WwD7zfFmVWf1OUXI72kEQkTlRa1SdQ1LJAwsqvKGlwa7ZQiN2J4M1mVcGoJWkRsmAwkoucsa0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735032883; c=relaxed/simple;
-	bh=kSfw31r1V5uQjSD98r12a1K9VX6sZXrUEVT0pOUqXUs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OBDWCbDndiKM1lewgMUi+v4nEgJKeOCMeke0E1JOQ6Jy4ElIWW/5JjsQzZjpGafvb2FgIyuWeZuYEgB2ecYpyw4tgu8mQhIQf+qDfofuidkEveQBfwCjLk1qj56YKcx5M/pp3WFIglEjIPfUCEkL8myS2ezvkg8YptRYRqIlO5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=hMgg89VJ; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1735036461; c=relaxed/simple;
+	bh=9dq5b3qgPFI9QCYffJk5mFBak/vrXyL/4DK0D+Zwpvs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jvR5QqlCF54gW9McpxIJ8PUCucMdB8CWz+x2VmW11efR1z4NZQJCqvAA8wOB8RUvMvr/w7AfIOhbd9Gt6blRbG12wuaWo560on4Q6Gwf+4zsg9+vW/O/fcecb21dBaS7XwRxNCCeztZomsRT7idlMbQTclBZ6I9WCOFyJHmGziQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cjfsr1/+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="hMgg89VJ"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43625c4a50dso33767815e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 24 Dec 2024 01:34:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1735032879; x=1735637679; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GHxfnHco609cw6bEt34RvlmgEA4BmkTtw1PkuvrIB18=;
-        b=hMgg89VJFfdSLoQ6EhKxa9tBhfG/nJbolXDU6sG+4/rs8h0RvKxSy7yYDgVnyINm8e
-         0hoteQZbF40WwtdxbJs9YqanMoUlB5t5CU7bSCNC6bvHgZY666WR2Zj5eD9Gtjv9vteF
-         6Huc98CxQaKh1K5dClTNZq9e3YteGNlv5FyomgGwjaS9WbF69NleKNuuZG784WRhw6kL
-         ea0ZgJ1Z2Sq65YV22j3M/xWWnMLEDClKFR0+2PDMfRDSndemHGwuFuL8u+ODYGx0gOGY
-         U620eWEMVABRr4y/0pvcuCFSHvAe74yAodKm+8x5uqrl8nqrxxe5GulAFaV8kJjRVcwg
-         pnWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735032879; x=1735637679;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GHxfnHco609cw6bEt34RvlmgEA4BmkTtw1PkuvrIB18=;
-        b=kzD5Q+XvTsW3yYiNFZmqsuC6GKO/bNfkagbbjxog50sHR3r3WLbd5JtCwcNwk9D3DV
-         ngh6vhGjMAJOG7L//YSGE+Q/Nj1LAqha/aoGLqz0DRwXMxudqU0NXQL+ohjLMmpGI4DS
-         TnZFqJ/nnehCDPblaLsDfpmInNlHHVyzqVSEFtM0GtyVn5KvXGGOdZQ5OkK3tGEDBYVc
-         jiiunu01ElzCAO6pJ71Ra0BTGMzuTSjZ5zkmici00Y+K2ysj8GXxsJLqRFrth6PnQ8gH
-         18A68HjEl/oz2rkignjSsGO7JYH6kRAhGXJjyAF4+JWwlXm+2OUdyFW8Ywahvv++af5K
-         S3pQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUkmf4mE5jTd5PwyjKlvGYrgjuDc1SXwyIyjvbhbbNBK/vrOF+ypcMpimsd5WGignqECjVAS4cY2yM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzHJ5vfKht72Vvnwzhzo4JVjAolRkKxdyIEDlYUvaE2+Ge/Fl1H
-	RzBxEGEa5ffhYucsGdVlFgi/hbXkIhVJWMOpEgjZLBgq8VEPIlqaTkuE+Oj5Hpw=
-X-Gm-Gg: ASbGncs5f+O3qZkHoo2zxLVg7v6MdVH3EAuVFbfD6/qRfgNDCCp/mPSnbSLvX1Ig15o
-	39l24Pog626wubtMApGMbOYNZNDEgVu/URmAkoB6zbTp3PWT59NHwVvw6Hgy2wwYtt8dALTLigA
-	W5ZZ+/136Lvlf8tq4T4Vnw07tA3hqXIlHd6p2ZQEBDj9WSUkGK6U36GMsJKdaQzfUcO6cQ0kGGt
-	1Wq/GapY8rDN8YprSogMGszDvjndfezgcu2erWn8wZLFBD/V2zgjHqSwjh9Fa2aveaCLBnj3eK9
-	9++r+c5jMCN9In5jpsisqB1j2WMfzO7/gANyTE6ezExrMK+hrA==
-X-Google-Smtp-Source: AGHT+IGZX699OSrVyMHZfxCNhIMRgOtdkxq4kcRZIVIIzs0qAsHeLAPMigr0o64lDLP6J6HC9mM9hg==
-X-Received: by 2002:a05:600c:1f85:b0:434:9936:c823 with SMTP id 5b1f17b1804b1-43668646741mr142737805e9.18.1735032879107;
-        Tue, 24 Dec 2024 01:34:39 -0800 (PST)
-Received: from [192.168.1.62] (2a02-842a-d52e-6101-6fd0-06c4-5d68-f0a5.rev.sfr.net. [2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43661219a7csm160932535e9.24.2024.12.24.01.34.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Dec 2024 01:34:38 -0800 (PST)
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Tue, 24 Dec 2024 10:34:33 +0100
-Subject: [PATCH RFC v2 4/4] docs: iio: ad7380: add alert support
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cjfsr1/+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E39D7C4CED0;
+	Tue, 24 Dec 2024 10:34:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735036460;
+	bh=9dq5b3qgPFI9QCYffJk5mFBak/vrXyL/4DK0D+Zwpvs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Cjfsr1/+qefECx0GzNATBEdM2XLoXfvhQkpjnZcfe3oYXDX19lRqw/nUFBAIWMumL
+	 kYJEk3stFIpRITaJNYUd29whZ7zpJjj0ISfRZhJjE7lY/tSIVZ6o+7sKYgROuVj+22
+	 yo6CoeVe9R1pXqWuyXtAakvsNiViLS+o+uBQMxzaUtKz2yoF7w58rsqezV8fwP3iXX
+	 vLdDDRles65vGP2aERbegVD6gGbz6j7vTpX8SGTy+QgmH0kOodnX1dQQcVvPf3Bkq7
+	 D9N+6itNsDhFs3+2iWIx7n+8YN7BqnnP2/ztUUbjv90ukZs5b3cHuMKENovRhlyhaX
+	 Uu4njgyr5VoPA==
+Date: Tue, 24 Dec 2024 16:04:16 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Md Sadre Alam <quic_mdalam@quicinc.com>
+Cc: corbet@lwn.net, thara.gopinath@gmail.com, herbert@gondor.apana.org.au,
+	davem@davemloft.net, kees@kernel.org, dave.jiang@intel.com,
+	dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, quic_srichara@quicinc.com,
+	quic_varada@quicinc.com, quic_utiwari@quicinc.com
+Subject: Re: [PATCH v5 02/12] dmaengine: add DMA_PREP_LOCK and
+ DMA_PREP_UNLOCK flag
+Message-ID: <Z2qOKHsYpy8kcwlv@vaman>
+References: <20241212041639.4109039-1-quic_mdalam@quicinc.com>
+ <20241212041639.4109039-3-quic_mdalam@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241224-ad7380-add-alert-support-v2-4-7c89b2bf7cb3@baylibre.com>
-References: <20241224-ad7380-add-alert-support-v2-0-7c89b2bf7cb3@baylibre.com>
-In-Reply-To: <20241224-ad7380-add-alert-support-v2-0-7c89b2bf7cb3@baylibre.com>
-To: Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- David Lechner <dlechner@baylibre.com>, Jonathan Cameron <jic23@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Julien Stephan <jstephan@baylibre.com>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241212041639.4109039-3-quic_mdalam@quicinc.com>
 
-Add a section for alert support, explaining how user can use iio events
-attributes to enable alert and set thresholds, but also what kind of
-events will be generated.
+On 12-12-24, 09:46, Md Sadre Alam wrote:
+> Add lock and unlock flag support on command descriptor.
+> Once lock set in requester pipe, then the bam controller
+> will lock all others pipe and process the request only
+> from requester pipe. Unlocking only can be performed from
+> the same pipe.
+> 
+> If DMA_PREP_LOCK flag passed in command descriptor then requester
+> of this transaction wanted to lock the BAM controller for this
+> transaction so BAM driver should set LOCK bit for the HW descriptor.
+> 
+> If DMA_PREP_UNLOCK flag passed in command descriptor then requester
+> of this transaction wanted to unlock the BAM controller.so BAM driver
+> should set UNLOCK bit for the HW descriptor.
+> 
+> BAM IP version 1.4.0 and above only supports this LOCK/UNLOCK
+> feature.
+> 
+> Signed-off-by: Md Sadre Alam <quic_mdalam@quicinc.com>
+> ---
+> 
+> Change in [v5]
+> 
+> * Added DMA_PREP_LOCK and DMA_PREP_UNLOCK flag support
+> 
+> Change in [v4]
+> 
+> * This patch was not included in v4
+> 
+> Change in [v3]
+> 
+> * This patch was not included in v3
+> 
+> Change in [v2]
+> 
+> * This patch was not included in v2
+>  
+> Change in [v1]
+> 
+> * This patch was not included in v1
+> 
+>  Documentation/driver-api/dmaengine/provider.rst | 15 +++++++++++++++
+>  include/linux/dmaengine.h                       |  6 ++++++
+>  2 files changed, 21 insertions(+)
+> 
+> diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentation/driver-api/dmaengine/provider.rst
+> index 3085f8b460fa..5f30c20f94f3 100644
+> --- a/Documentation/driver-api/dmaengine/provider.rst
+> +++ b/Documentation/driver-api/dmaengine/provider.rst
+> @@ -628,6 +628,21 @@ DMA_CTRL_REUSE
+>    - This flag is only supported if the channel reports the DMA_LOAD_EOT
+>      capability.
+>  
+> +- DMA_PREP_LOCK
+> +
+> +  - If set, the BAM will lock all other pipes not related to the current
 
-Signed-off-by: Julien Stephan <jstephan@baylibre.com>
----
- Documentation/iio/ad7380.rst | 56 +++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 55 insertions(+), 1 deletion(-)
+Why BAM, the generic API _cannot_ be implementation specific, make this
+as a generic one please
 
-diff --git a/Documentation/iio/ad7380.rst b/Documentation/iio/ad7380.rst
-index c46127700e14ca9ec3cac0bd5776b6702f2659e2..7cca4a9ad42ae8b3fda2e063ffd864ffa9dac2f1 100644
---- a/Documentation/iio/ad7380.rst
-+++ b/Documentation/iio/ad7380.rst
-@@ -92,6 +92,61 @@ must restart iiod using the following command:
- 
- 	root:~# systemctl restart iiod
- 
-+Alert
-+-----
-+
-+When configured in 1 SDO line mode (see `SPI wiring modes`_), the SDOB or the
-+SDOD line (respectively for the 2 or 4 channels variants) can act as an alert
-+pin.
-+
-+At the end of a conversion the low-active alert pin gets asserted if the
-+conversion result exceeds the alert high limit or falls below the alert low
-+limit. It is cleared, on a falling edge of CS. The alert pin is common to all
-+channels.
-+
-+User can enable alert using the regular iio events attribute:
-+
-+.. code-block:: bash
-+
-+	events/thresh_either_en
-+
-+The high and low thresholds are common to all channels and can also be set using
-+regular iio events attributes:
-+
-+.. code-block:: bash
-+
-+	events/in_thresh_falling_value
-+	events/in_thresh_rising_value
-+
-+User space IIO events
-+~~~~~~~~~~~~~~~~~~~~~
-+
-+If the ``interrupts`` property is set in the device tree, IIO events will be
-+generated for alerts.  A register identifies the faulty channel, and direction,
-+but during buffered reads, registers are inaccessible, making it impossible to
-+know the exact channel triggering the alert. A generic event is sent for each
-+channel, resulting in 2 or 4 events per alert, depending on the number of
-+channels:
-+
-+.. code-block:: bash
-+
-+	Event: time: 1733501917162945723, type: voltage, channel: 0-1, evtype: thresh, direction: either
-+	Event: time: 1733501917162945723, type: voltage, channel: 2-3, evtype: thresh, direction: either
-+
-+
-+Alert Reset timeout (buffered read only)
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+In buffered reads, if input stays out of thresholds limit, an interrupt will be
-+generated for each sample read, because the alert pin is cleared when CS get
-+active (i.e when starting a new conversion). As a result, excessive event
-+generation can occur. User can set a reset timeout in milliseconds, during
-+which interrupt will be disabled:
-+
-+.. code-block:: bash
-+
-+	events/thresh_either_reset_timeout
-+
- Channel selection and sequencer (single-end chips only)
- -------------------------------------------------------
- 
-@@ -144,7 +199,6 @@ Unimplemented features
- - Rolling average oversampling
- - Power down mode
- - CRC indication
--- Alert
- 
- 
- Device buffers
+Anyone can use this new method and not just BAM...
+
+
+> +    pipe group, and keep handling the current pipe only.
+> +
+> +  - All pipes not within this group will be locked by this pipe upon lock
+> +    event.
+> +
+> +  - only pipes which are in the same group and relate to the same Environment
+> +    Execution(EE) will not be locked by a certain pipe.
+> +
+> +- DMA_PREP_UNLOCK
+> +
+> +  - If set, BAM will release all locked pipes
+> +
+>  General Design Notes
+>  ====================
+>  
+> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+> index 346251bf1026..8ebd43a998a7 100644
+> --- a/include/linux/dmaengine.h
+> +++ b/include/linux/dmaengine.h
+> @@ -200,6 +200,10 @@ struct dma_vec {
+>   *  transaction is marked with DMA_PREP_REPEAT will cause the new transaction
+>   *  to never be processed and stay in the issued queue forever. The flag is
+>   *  ignored if the previous transaction is not a repeated transaction.
+> + *  @DMA_PREP_LOCK: tell the driver that there is a lock bit set on command
+> + *  descriptor.
+> + *  @DMA_PREP_UNLOCK: tell the driver that there is a un-lock bit set on command
+> + *  descriptor.
+>   */
+>  enum dma_ctrl_flags {
+>  	DMA_PREP_INTERRUPT = (1 << 0),
+> @@ -212,6 +216,8 @@ enum dma_ctrl_flags {
+>  	DMA_PREP_CMD = (1 << 7),
+>  	DMA_PREP_REPEAT = (1 << 8),
+>  	DMA_PREP_LOAD_EOT = (1 << 9),
+> +	DMA_PREP_LOCK = (1 << 10),
+> +	DMA_PREP_UNLOCK = (1 << 11),
+>  };
+>  
+>  /**
+> -- 
+> 2.34.1
 
 -- 
-2.47.1
-
+~Vinod
