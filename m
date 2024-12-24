@@ -1,159 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A37F156F54;
-	Tue, 24 Dec 2024 10:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1056176ADB;
+	Tue, 24 Dec 2024 11:56:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735036461; cv=none; b=lSNNiTQY+TAhcQXOJPhkZaLpf5tCDqPekLzoctV0wfW6qf6jD9avk6YuI+rez9B8Q21Itr4T8ayY8HXEYDnacnb1oZRIL2pM2WwD7zfFmVWf1OUXI72kEQkTlRa1SdQ1LJAwsqvKGlwa7ZQiN2J4M1mVcGoJWkRsmAwkoucsa0M=
+	t=1735041393; cv=none; b=NEotBFHdQGb81MOwqVdImRCGnnLP1Ik4iTIhqPTRx63eEebi6c2h+9ILwjDYJ2HTUSngOxaYOnkSLsg8lrxt7HgcTWRYd141eWhrJ+Jy/Ib4A766yurnq+DUHN3/CVquUIwDc3hPPOj8CE6wvoHrnN6rUd1shRPkzC6ZXfGghA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735036461; c=relaxed/simple;
-	bh=9dq5b3qgPFI9QCYffJk5mFBak/vrXyL/4DK0D+Zwpvs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jvR5QqlCF54gW9McpxIJ8PUCucMdB8CWz+x2VmW11efR1z4NZQJCqvAA8wOB8RUvMvr/w7AfIOhbd9Gt6blRbG12wuaWo560on4Q6Gwf+4zsg9+vW/O/fcecb21dBaS7XwRxNCCeztZomsRT7idlMbQTclBZ6I9WCOFyJHmGziQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cjfsr1/+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1735041393; c=relaxed/simple;
+	bh=eufk/NuEPBjB2bfmUcqG0OyCPEwB+XcnADUQV4oIkjg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=p7UlYCIIZd/emRTAgPQihVW/0jiL1tOdINW9bfhM7giLlJWqtkT9W55/dfBEecG3isXkoc2QicH3ueYcIyHuSj7fWqIgjbBOTvEhsutV6cVQlF2vc7tQkTOqwy0eOO4cVGsognfrLW/UGQRjngoHia9wdKiruEm6djKsoGk/lTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=NS3ghqML; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cjfsr1/+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E39D7C4CED0;
-	Tue, 24 Dec 2024 10:34:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735036460;
-	bh=9dq5b3qgPFI9QCYffJk5mFBak/vrXyL/4DK0D+Zwpvs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Cjfsr1/+qefECx0GzNATBEdM2XLoXfvhQkpjnZcfe3oYXDX19lRqw/nUFBAIWMumL
-	 kYJEk3stFIpRITaJNYUd29whZ7zpJjj0ISfRZhJjE7lY/tSIVZ6o+7sKYgROuVj+22
-	 yo6CoeVe9R1pXqWuyXtAakvsNiViLS+o+uBQMxzaUtKz2yoF7w58rsqezV8fwP3iXX
-	 vLdDDRles65vGP2aERbegVD6gGbz6j7vTpX8SGTy+QgmH0kOodnX1dQQcVvPf3Bkq7
-	 D9N+6itNsDhFs3+2iWIx7n+8YN7BqnnP2/ztUUbjv90ukZs5b3cHuMKENovRhlyhaX
-	 Uu4njgyr5VoPA==
-Date: Tue, 24 Dec 2024 16:04:16 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Md Sadre Alam <quic_mdalam@quicinc.com>
-Cc: corbet@lwn.net, thara.gopinath@gmail.com, herbert@gondor.apana.org.au,
-	davem@davemloft.net, kees@kernel.org, dave.jiang@intel.com,
-	dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, quic_srichara@quicinc.com,
-	quic_varada@quicinc.com, quic_utiwari@quicinc.com
-Subject: Re: [PATCH v5 02/12] dmaengine: add DMA_PREP_LOCK and
- DMA_PREP_UNLOCK flag
-Message-ID: <Z2qOKHsYpy8kcwlv@vaman>
-References: <20241212041639.4109039-1-quic_mdalam@quicinc.com>
- <20241212041639.4109039-3-quic_mdalam@quicinc.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="NS3ghqML"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 354441BF20B;
+	Tue, 24 Dec 2024 11:56:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1735041389;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eufk/NuEPBjB2bfmUcqG0OyCPEwB+XcnADUQV4oIkjg=;
+	b=NS3ghqML5T4vB3KXFSNtQwazPn6Uir6DHY8CvGrAUgOOV+oBb0xyBANVwlrv1lCpVmtEqu
+	TRYrVrg5gmBXUsHj7gooqzvwKjn+Kg+vy+87PZUlA9ZmGfDZfe/8BDbeDf4n3ahEzzaoQD
+	akd7Xl1pgaQK8Nm6GRcWtFRc1QxXrTLy+sPxSCjpFIllXiYP+78Gd0GiiKIZCtyYcv2UL2
+	pXG0bV3exQ9loQCHr4hcx1z8vbqp6eyPjSHDGEqNO+TVuFI8fUS1ICRPlWCrEqsHPQ7n1H
+	cJ1J0htZm+6robPtZx2FOTnF+bJijJZOGhsrwd2I6O/ILjdt0hELUY8ZAedwYw==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Petr Mladek <pmladek@suse.com>,  Steven Rostedt <rostedt@goodmis.org>,
+  Rasmus Villemoes <linux@rasmusvillemoes.dk>,  Sergey Senozhatsky
+ <senozhatsky@chromium.org>,  Jonathan Corbet <corbet@lwn.net>,  John
+ Ogness <john.ogness@linutronix.de>,  Andrew Morton
+ <akpm@linux-foundation.org>,  Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>,  linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] hexdump: Allow skipping identical lines
+In-Reply-To: <Zs3UrlufPJ9wVyep@smile.fi.intel.com> (Andy Shevchenko's message
+	of "Tue, 27 Aug 2024 16:29:18 +0300")
+References: <20240826162416.74501-1-miquel.raynal@bootlin.com>
+	<Zsy8JPaiGknBypw9@smile.fi.intel.com> <20240827110147.29a7481a@xps-13>
+	<Zs3UrlufPJ9wVyep@smile.fi.intel.com>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Tue, 24 Dec 2024 12:56:26 +0100
+Message-ID: <87frmdnvkl.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241212041639.4109039-3-quic_mdalam@quicinc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-On 12-12-24, 09:46, Md Sadre Alam wrote:
-> Add lock and unlock flag support on command descriptor.
-> Once lock set in requester pipe, then the bam controller
-> will lock all others pipe and process the request only
-> from requester pipe. Unlocking only can be performed from
-> the same pipe.
-> 
-> If DMA_PREP_LOCK flag passed in command descriptor then requester
-> of this transaction wanted to lock the BAM controller for this
-> transaction so BAM driver should set LOCK bit for the HW descriptor.
-> 
-> If DMA_PREP_UNLOCK flag passed in command descriptor then requester
-> of this transaction wanted to unlock the BAM controller.so BAM driver
-> should set UNLOCK bit for the HW descriptor.
-> 
-> BAM IP version 1.4.0 and above only supports this LOCK/UNLOCK
-> feature.
-> 
-> Signed-off-by: Md Sadre Alam <quic_mdalam@quicinc.com>
-> ---
-> 
-> Change in [v5]
-> 
-> * Added DMA_PREP_LOCK and DMA_PREP_UNLOCK flag support
-> 
-> Change in [v4]
-> 
-> * This patch was not included in v4
-> 
-> Change in [v3]
-> 
-> * This patch was not included in v3
-> 
-> Change in [v2]
-> 
-> * This patch was not included in v2
->  
-> Change in [v1]
-> 
-> * This patch was not included in v1
-> 
->  Documentation/driver-api/dmaengine/provider.rst | 15 +++++++++++++++
->  include/linux/dmaengine.h                       |  6 ++++++
->  2 files changed, 21 insertions(+)
-> 
-> diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentation/driver-api/dmaengine/provider.rst
-> index 3085f8b460fa..5f30c20f94f3 100644
-> --- a/Documentation/driver-api/dmaengine/provider.rst
-> +++ b/Documentation/driver-api/dmaengine/provider.rst
-> @@ -628,6 +628,21 @@ DMA_CTRL_REUSE
->    - This flag is only supported if the channel reports the DMA_LOAD_EOT
->      capability.
->  
-> +- DMA_PREP_LOCK
-> +
-> +  - If set, the BAM will lock all other pipes not related to the current
+Hi Andy,
 
-Why BAM, the generic API _cannot_ be implementation specific, make this
-as a generic one please
+On 27/08/2024 at 16:29:18 +03, Andy Shevchenko <andriy.shevchenko@linux.int=
+el.com> wrote:
 
-Anyone can use this new method and not just BAM...
+> On Tue, Aug 27, 2024 at 11:01:47AM +0200, Miquel Raynal wrote:
+>> andriy.shevchenko@linux.intel.com wrote on Mon, 26 Aug 2024 20:32:20
+>> +0300:
+>> > On Mon, Aug 26, 2024 at 06:24:14PM +0200, Miquel Raynal wrote:
+>
+> ...
+>
+>> > Also here is the formal NAK till the series gains the test cases.
+>>=20
+>> What test cases are you talking about?
+>
+> Anything meaningful you come up with to show that the printed data is
+> what it's expected. The module has a complimentary test case,
+> lib/test_hexdump.c. Without changes in that file, there is no go
+> to what ever golden ideas you have.
 
+I had a look. The tests never test the content of the kernel buffer,
+while this is the only part that my changes have an impact on. These
+tests verify the hex_dump_to_buffer() logic, but never how it is used
+through the print_hex_dump_*() helpers.
 
-> +    pipe group, and keep handling the current pipe only.
-> +
-> +  - All pipes not within this group will be locked by this pipe upon lock
-> +    event.
-> +
-> +  - only pipes which are in the same group and relate to the same Environment
-> +    Execution(EE) will not be locked by a certain pipe.
-> +
-> +- DMA_PREP_UNLOCK
-> +
-> +  - If set, BAM will release all locked pipes
-> +
->  General Design Notes
->  ====================
->  
-> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
-> index 346251bf1026..8ebd43a998a7 100644
-> --- a/include/linux/dmaengine.h
-> +++ b/include/linux/dmaengine.h
-> @@ -200,6 +200,10 @@ struct dma_vec {
->   *  transaction is marked with DMA_PREP_REPEAT will cause the new transaction
->   *  to never be processed and stay in the issued queue forever. The flag is
->   *  ignored if the previous transaction is not a repeated transaction.
-> + *  @DMA_PREP_LOCK: tell the driver that there is a lock bit set on command
-> + *  descriptor.
-> + *  @DMA_PREP_UNLOCK: tell the driver that there is a un-lock bit set on command
-> + *  descriptor.
->   */
->  enum dma_ctrl_flags {
->  	DMA_PREP_INTERRUPT = (1 << 0),
-> @@ -212,6 +216,8 @@ enum dma_ctrl_flags {
->  	DMA_PREP_CMD = (1 << 7),
->  	DMA_PREP_REPEAT = (1 << 8),
->  	DMA_PREP_LOAD_EOT = (1 << 9),
-> +	DMA_PREP_LOCK = (1 << 10),
-> +	DMA_PREP_UNLOCK = (1 << 11),
->  };
->  
->  /**
-> -- 
-> 2.34.1
+In this series I am just enabling a new way to print the content of the
+buffer, like for instance enabling a prefix, which is not directly
+related to the core implementation of hexdump.
 
--- 
-~Vinod
+Hence, I am sorry, but I will disregard this request unless someone
+comes up with a working idea which is worth the effort, considering the
+minimum impact of this change and the fact that it is mostly (if not
+only) for debugging purposes and will most likely never reach users.
+
+Thanks,
+Miqu=C3=A8l
