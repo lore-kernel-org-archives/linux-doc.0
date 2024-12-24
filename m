@@ -1,290 +1,238 @@
-Received: from HK3PR03CU002.outbound.protection.outlook.com (mail-eastasiaazon11021093.outbound.protection.outlook.com [52.101.129.93])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2051.outbound.protection.outlook.com [40.107.94.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02141392;
-	Tue, 24 Dec 2024 04:16:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.129.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A761392;
+	Tue, 24 Dec 2024 04:21:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735013796; cv=fail; b=XVJ9sB4wsGgBeOnUsF5vV0L8gxALGQGyZJGgopgcrDD1e0KSpSUtJIZBMZVAUn7MohrLGBi6uau+yHIvQ4YhXaN5e2XQJIS/P1ztWd51j5+18DHCL2qYKl0TzYy1cw1HT+QZ2WRpMoRBDg7FUVoNVFNa/gyrNc550IOBDe8+mz8=
+	t=1735014111; cv=fail; b=P362N4qm573HgSYXDa2glsCtENAZCM3TsbiQnANm8JK8Q/wylqUpn3Y5I7uRemOJv5ZC079QbkDhjgRcFNnqCHSeuO9LJ3JLBWhLbf4s3h0PQwOK4+mPn7HFCszQXw5e2w55KMdnNH1jTOCgUpkR5hw03cB5hfHnitR7OCkJjCY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735013796; c=relaxed/simple;
-	bh=bcsyRmkbZhhfqvn3Jk8mvbREVslmBOdAZ5y12D4HLMA=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=F+zqRpdCZu/0QjSN7NMnTkZHPeS23ZPkq+9S5E7k4pzos8JECOS9944qHScdpAIgaR27pxzPBsdlGKg1o7WMf7y1FmMP7Cte9xvTT9MDfEMmqcgThNfupoDUEJKdYrXqWw7bDtVWDyXviqT9qeDJBEAWqih5wBv1fhs/OAbV6r8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fibocom.com; spf=pass smtp.mailfrom=fibocom.com; dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b=cW8eqikx; arc=fail smtp.client-ip=52.101.129.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fibocom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fibocom.com
+	s=arc-20240116; t=1735014111; c=relaxed/simple;
+	bh=EFiV9nEW/xOgxvnbMQSc41Ft3OIagyMr9UheQO/7Nj0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=c5fQXNysu2E0gWyc44lhr29fDv56+ZqiM/H2Y2jr+qMHPT5q2nj1PD+qmjmcJfKSP9Q0p3J3drFfIjytF2wGueFgw6KcBTTBauCslKxESl2/YT1KFqRJPwtbXLYRkeNkHPoRtVnPEEGmtdyvI9zniB4p1If64qiIBHoByHqFYqQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=MTpq5d7f; arc=fail smtp.client-ip=40.107.94.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b="cW8eqikx"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="MTpq5d7f"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Qr/fW27COIcvY+0Tjz6zLVjP/d4mXwULKENFyrH/nX1TqPptL7BfWkdkVkEBuRvxOnyzXADpGH6M2BCSuXPGNsyErdEEirjxgEFqv4WRQfCczF1oqWHQwXhdWuN6WkIi5j7GTinkK2TpLBmi9TOe89AhlOlMBU3ybO9yr+QXZo8HurG9iWVlA5ChqAcnOlo273EnejZXgzwMdwCBUPOizMRQfPVR2qS7mfupm6swRW3z3RPFR7C4XtrcOE0DanNHAAnPFqcwnirxQBLbDzWM7LYqnShjPzCJSVUf5fG+HIyxarkXJXS5vR2XIzT/FwBnBGKzTRX+XtTvnQ/XPsR4yg==
+ b=ShZLRGQIt68Drgqhfe8prNJo0R1TBiqhCWJJWMAbZuJfKcsMRxKDNZ+Afm/tX0yycMSAkwo6Fuy9M7aSmfG10Enztos/lBlH5T2xrqRZ5KJSRCaO5HfwJ+0CwsrxQmK+u+SQ9xqfYDSyArfb1iZxNKu+JNyeQfRaBrhCUXtwJOvld3Z1lehqvFaDFSQ22MNd9lhuSfMt3zXI83dzjpSEp0uyUO3jVg/0yDlRmRcn8OVWin8SUpWHxAN/xnhj7MoO7ZFQtT8IZ6Tixp5zVCMOzn6oqmGyuzMTZFOTnOL3ypRlQG1vS6rKEOryE5IYhuHTZO9IHbR9Jc9LGkFZXLAsQA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=46tUy/xxrsCz72grSsadUJH8lNfyCU9mpqso/FD9Efs=;
- b=OeTzTUFmmk+BgtoP3HAeuJfRT9F/tB58xRHDwrqsrpsmXLCMri5xr8jk+kbXxArkawtmwA+YfBoQHJit5mjsH+AXMt0WqR9gFCQEsnvjvXZwQfDbOcr37eqfVOCrkLFI+vDZTnfTM28thVMbPJZ3bjZ4xM87BVwt8GcX/VwofXJxOkILzj8CL4sspkXMG5s2+Lczn7oD0/a8alLcSKQamgmV/+M00QC2V1OHhBScnQxZoiL4J95UtDlvCte7dW5u5oNUwdL0/P/X169F5WYQ6WfmpkA3IRNopunSQ0KaFw4+8+wzYXh7aTaCF971RavqU8j1cMYp5+jPkyHYD4yBig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fibocom.com; dmarc=pass action=none header.from=fibocom.com;
- dkim=pass header.d=fibocom.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fibocomcorp.onmicrosoft.com; s=selector1-fibocomcorp-onmicrosoft-com;
+ bh=HlwUUr+tRQQE1iGplEcuRmCGTxPdayW30Hv8huldYtY=;
+ b=MnPFvR00LzSiiT4YkZsirs4ZHifk7DIhg27S8NVQwtH4o2tVICs3obsUEsskmxN3fWbmLtGYR+VzzLP5nal3cbzkA7b1FAnsgVyLclT9eL4+e4oFeEsJSUzJWKIsX1mQeI9zkK3PFB+6b4mC/PhcaCqCzhIg0UxN0f8qdq+0PKHoAo++9/RrVHU2Spla/u+Jw1RXRNA9/b/Swv1umUUvHmIqLthqxS5fREZ8kcoOXeSAgXkUT5+AvrWjzGSTxVhufhg7PhjhlbKHM9O/J+y9BlnXjW7BJih3UZYJeiV37SX9J7dJymWzzkQqzU5M8VPEZcHGDn/nrP0Rqgy7DItrEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=46tUy/xxrsCz72grSsadUJH8lNfyCU9mpqso/FD9Efs=;
- b=cW8eqikxMWYV5FlpKUEnKGX6bWnrJl6f/ZK4Fp0VQQbWwpnR8F38wR8LqJ81z1MlW/TQhXU1CvAzR+5VWA2q7fQLckHnMyUsV80w9xEkg6rlC1Ksrt8IrDtG2qBThvYKeqAkniToJ5JDGlhLkekvMAZbpetved1gVatbpqA7NsY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=fibocom.com;
-Received: from TY0PR02MB5766.apcprd02.prod.outlook.com (2603:1096:400:1b5::6)
- by KL1PR02MB7473.apcprd02.prod.outlook.com (2603:1096:820:123::5) with
+ bh=HlwUUr+tRQQE1iGplEcuRmCGTxPdayW30Hv8huldYtY=;
+ b=MTpq5d7fep3eNFssL7se/ysYkbjeoNEoslOxoQ1fpXLy57xK99Loefg/16HbhI2DXEiaPCtyDnJf1jImKyW+7QgKC+RFD/4gBnBODJ1vNRgs5LGhpMqeusRh5Em72Y+g+FbHiUv+GUfwXR62eOBe2Dyjjyx519XVIqSTfqwOZs0=
+Received: from DM6PR04CA0014.namprd04.prod.outlook.com (2603:10b6:5:334::19)
+ by DM4PR12MB6399.namprd12.prod.outlook.com (2603:10b6:8:b7::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.21; Tue, 24 Dec
- 2024 04:16:28 +0000
-Received: from TY0PR02MB5766.apcprd02.prod.outlook.com
- ([fe80::f53d:47b:3b04:9a8b]) by TY0PR02MB5766.apcprd02.prod.outlook.com
- ([fe80::f53d:47b:3b04:9a8b%5]) with mapi id 15.20.8272.013; Tue, 24 Dec 2024
- 04:16:27 +0000
-From: Jinjian Song <jinjian.song@fibocom.com>
-To: chandrashekar.devegowda@intel.com,
-	chiranjeevi.rapolu@linux.intel.com,
-	haijun.liu@mediatek.com,
-	m.chetan.kumar@linux.intel.com,
-	ricardo.martinez@linux.intel.com,
-	loic.poulain@linaro.org,
-	ryazanov.s.a@gmail.com,
-	johannes@sipsolutions.net,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	angelogioacchino.delregno@collabora.com,
-	linux-arm-kernel@lists.infradead.org,
-	matthias.bgg@gmail.com,
-	corbet@lwn.net,
-	linux-mediatek@lists.infradead.org,
-	helgaas@kernel.org,
-	danielwinkler@google.com,
-	korneld@google.com,
-	andrew+netdev@lunn.ch,
-	horms@kernel.org,
-	Jinjian Song <jinjian.song@fibocom.com>
-Subject: [net v3] net: wwan: t7xx: Fix FSM command timeout issue
-Date: Tue, 24 Dec 2024 12:15:52 +0800
-Message-Id: <20241224041552.8711-1-jinjian.song@fibocom.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FR0P281CA0188.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ab::9) To TY0PR02MB5766.apcprd02.prod.outlook.com
- (2603:1096:400:1b5::6)
+ 2024 04:21:40 +0000
+Received: from DS1PEPF0001709D.namprd05.prod.outlook.com
+ (2603:10b6:5:334:cafe::d3) by DM6PR04CA0014.outlook.office365.com
+ (2603:10b6:5:334::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8272.20 via Frontend Transport; Tue,
+ 24 Dec 2024 04:21:40 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS1PEPF0001709D.mail.protection.outlook.com (10.167.18.107) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8293.12 via Frontend Transport; Tue, 24 Dec 2024 04:21:40 +0000
+Received: from [10.136.33.190] (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 23 Dec
+ 2024 22:21:20 -0600
+Message-ID: <89e35d89-f764-4de4-8250-6923a2fea721@amd.com>
+Date: Tue, 24 Dec 2024 09:50:57 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/6] sched: Move sched domain name out of
+ CONFIG_SCHED_DEBUG
+To: Shrikanth Hegde <sshegde@linux.ibm.com>
+CC: <dietmar.eggemann@arm.com>, <rostedt@goodmis.org>, <bsegall@google.com>,
+	<mgorman@suse.de>, <vschneid@redhat.com>, <iamjoonsoo.kim@lge.com>,
+	<qyousef@layalina.io>, <alexs@kernel.org>, <lukasz.luba@arm.com>,
+	<gautham.shenoy@amd.com>, <kprateek.nayak@amd.com>, <ravi.bangoria@amd.com>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<peterz@infradead.org>, <mingo@redhat.com>, <juri.lelli@redhat.com>,
+	<vincent.guittot@linaro.org>, <corbet@lwn.net>
+References: <20241220063224.17767-1-swapnil.sapkal@amd.com>
+ <20241220063224.17767-5-swapnil.sapkal@amd.com>
+ <f1f58a96-ea2b-4635-a139-acdefc20b69c@linux.ibm.com>
+Content-Language: en-US
+From: "Sapkal, Swapnil" <swapnil.sapkal@amd.com>
+In-Reply-To: <f1f58a96-ea2b-4635-a139-acdefc20b69c@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY0PR02MB5766:EE_|KL1PR02MB7473:EE_
-X-MS-Office365-Filtering-Correlation-Id: dd4861fd-f05e-4a06-72d0-08dd23d1bc32
+X-MS-TrafficTypeDiagnostic: DS1PEPF0001709D:EE_|DM4PR12MB6399:EE_
+X-MS-Office365-Filtering-Correlation-Id: 259565d2-58fc-4f56-9726-08dd23d27711
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|7416014|376014|1800799024|366016|921020|38350700014;
+	BCL:0;ARA:13230040|376014|7416014|1800799024|36860700013|82310400026;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?KVNk5XMuyvLOGWYcpoUTLM7SMJ6ehRfMRPnytQ/TvDpXYLw7H/fMJHLH3ITs?=
- =?us-ascii?Q?DSkKvWUkWX6wVd3JpcSNx6P1/BjdT/iYxs7jyhGNqJqQal9qzhuEuDk0L2N1?=
- =?us-ascii?Q?TIlUmkpUMQN33w7u6OZNnA4rxzO6Bn+2ZqIRw+5XJfbXrM3HTzayJu4QQ5xQ?=
- =?us-ascii?Q?T6q0B+EGpUkLL6lIQ3HlhuUi9EtiQpYFzEO3zKzvs0B2/WrH0qe5oOA9bJPV?=
- =?us-ascii?Q?kvqS18y78Ramm2OYBZEvIp9lFrRywq55LI7pv2zrPfq0RJz1wrQxqOPfEKlD?=
- =?us-ascii?Q?v0ThFuc8wG+6jXhz+F8HH5vVTndTVa0mAA4GMIXNckxyXyFz7iyWAdJMNaPc?=
- =?us-ascii?Q?/LY/W2xR8IdD4wKgMobpXa9QdXyY9UaNHYmBLUWcIDw5tqXl9iSCR8satm4M?=
- =?us-ascii?Q?x+erF4aoYbDmNAQoeoFTHkGEEgY5XXabYOmooYdAxGfrRlIl0WAnX+mtc16P?=
- =?us-ascii?Q?vcaH8wqSTdPTIgECkSfbkVKBy7ncfgDlB9I+g74G2cMf977ApXDA00UclKxa?=
- =?us-ascii?Q?d84S7JCWog6W2Wvf+Yiym7pyLt2ZDudoxdvd5lJwUWCiqrCbHGbzXO9gYFIT?=
- =?us-ascii?Q?4mj7I7OM0ag2rpf5z7uKx52rWR+zIJntnc5u1CxyEVbJfdDvRuJpxFLNGWjD?=
- =?us-ascii?Q?5xaAv1eAbPRAj1vPmPh8RBANIrYKYhQPwy/03AAQsTMxACvjPlWUMM6aECIQ?=
- =?us-ascii?Q?CTUrxvM58IOs7bp8N1GHpTBvlw7pX5GMfl7UZD6NpPza39L8Wns6jruMYbZ7?=
- =?us-ascii?Q?hijO6EMmOoJaXrtjCXRuZ9PhR1lJcNl9O66t2bxIxB5ibiDuuIKpjVcrDm6x?=
- =?us-ascii?Q?vOnK3xVHgb3B8qauTQQVurg/Z081a8FvXRR/398B78lnbQ/R0LtNxbt79Bpt?=
- =?us-ascii?Q?4x26FxixivK3FVTI6VzPpLFES8Wqhapwa+7J2vqoWXcXAIkbaHE0/i7z/H2I?=
- =?us-ascii?Q?z70o0lmgIr8excWJs+bpD9iWUkcBnrNdcJQYjh76U6k08wIvEx0Hs8nup1uG?=
- =?us-ascii?Q?JTziSSpgPuYWdUiH2h8b0G0V4TVlaiaUBonHvv3j0H1EeFtuoIVMKpyXLtZE?=
- =?us-ascii?Q?5RZGVFH4PDbM0p1OH1DnvLE7DKxXDpmWLQlMulsYQu6Nz+ZzL+YlPmxeOdyG?=
- =?us-ascii?Q?ZTj16jatBhR3Y91Lt9AkLPkHFf17OD8kJIfNR47Neq0+1XcjHYq0UdDZvzoy?=
- =?us-ascii?Q?tv4slXwI7iakhtm/rEZINTcKdZ9g13gCCGocW2asvMOkZ5liDoukb/hopUVX?=
- =?us-ascii?Q?JjXLFBBuzdZZOTVW9FDJCKgiYeGDjylrFKxrdytm/0DxtyD+TcIxQKat9VZn?=
- =?us-ascii?Q?Rx95zb+UgjDBh3o6n2lzkh5ofJ9XBmeEMiAVqJGMg5sfVIp/OH9ZLn8Nc7Hy?=
- =?us-ascii?Q?5+W7UM0mchixCIHcXtHvLY8jatqfXYzQL4L7ZMdC2zfW070A8hPy0LA4gJNg?=
- =?us-ascii?Q?39Rm6nc80GN0tCl1QVMNZYetsR7aljGuEikfmjQH+4sMG6Ud/KK7Ng=3D=3D?=
+	=?utf-8?B?NXJ3dmVlakJWRGxabXhrdGl0KzhIOXZVWWJ4emJFQjcwV2Vvdm10YkpFMHl0?=
+ =?utf-8?B?ckxVM1RENmh1RzdlTnRrRzVFZEYwKzI4eEI3Z2tPOWZtQjBpL0RBZ3pqNVIv?=
+ =?utf-8?B?ZFN5WGd5NDlPZWJKbVQ2SWdIaUlKbGZoUGhjbnloZmZNaUl0T1YvcERYWGJO?=
+ =?utf-8?B?amZ4ejNyd2doRUVKWDNCdlZJQ0F6VjZPZU13OWhocEMrREozOE5WaU02NGpR?=
+ =?utf-8?B?bGtXUzlPS2x4SSs4T1UwQ0svQWlmMlgwRGYyZGVzVWx3NmEvNGVKcloveGFE?=
+ =?utf-8?B?bFN1alJ4ajQzb1JMZTBkeE0xeWlSOHpJY1NBODRPSWp2N1BHbzRWL0pQbC8y?=
+ =?utf-8?B?Rm1JN3YxVGEyY3FFNURRVllJdmJWTmY0eisrUTR5OS9YS0IwbnhGU1k5Z1JK?=
+ =?utf-8?B?MkF1VDJUVFduSDBpUzNZNVpNdVFUVUc0eXlMOXFSako2RklISFZ1UC9YNFJX?=
+ =?utf-8?B?aC85Y2t1ejc4SEhqWUtnOXJlcUtMYnI4WGhXdDVLY0krY0IxbVRlWVFhclFu?=
+ =?utf-8?B?ZWRhcG1QT09YTUo0MGk3S3ZjR1VLeDduWnhraEtMeXNGUVg0ME9iOXo4OVhX?=
+ =?utf-8?B?MmhSVFlEY05oZ0M4Qmk5SzJIdk5RSHpRcjUzeGpLcjJOYUszVWZiVldXTnhY?=
+ =?utf-8?B?OGFvTW1nbmRydndXOGo4QXVuRHEwWnJoVVRUaDAwaElIM29iN3ZGOC8rMmkz?=
+ =?utf-8?B?RUpaWFdvSlAyZUNpaDJ3ZDRxeUl6RnFnSXIyL0xRb3B2OGlXcDlPcldBZHJT?=
+ =?utf-8?B?WDloR0VvTzdIOVpBTzFrTytzcUd2TVZKdHMvQXNObFgwQm43cGFyRnhJU3F1?=
+ =?utf-8?B?Y2tWa1doeXVQbGtwZGtES3RtcG5tZ3Z6cWZaaG1pUFJEZ3ZUc011bDhoZURV?=
+ =?utf-8?B?cm5Xb3lLRHFyc25Ua1VGcjNPTHlybmZzR0pDSUE2UUNEOVpjSzljbjhFcVhX?=
+ =?utf-8?B?SDRBOEpPTzMzb2RrZ2NxK0U5ZlRMVFhsOEpMV1I5OTZCeHhQdGordE5PZkJ0?=
+ =?utf-8?B?N3dWUmp1aDU1QU1uMHZSb1JrT0dlUXFUQVdBc01Va04wR2xrMTFTMVhZRzdJ?=
+ =?utf-8?B?YThwMUNPOHFCMUp0Yzg5amtMN0w5em02UDB6NUpReEVxekhvK2tUbWFBM0FX?=
+ =?utf-8?B?QjNyZ2MyTC9RZ0o5eER3bGFRM0h5a2QydENIYTdYYVBmWUlNajVuZGdwa1lG?=
+ =?utf-8?B?cFo4YkdrcnVRcEplV3A5Q0lYWGd3NUxWdThwbFU0NXFibkxjVXMvcGlDNlRU?=
+ =?utf-8?B?VllvZ215RTNteGE1Q1BKdXVXd2UvOWp1RE12NG5ZbklVeVRhaTJiamFjZlUv?=
+ =?utf-8?B?bURKKzJqSnVHTVA1dWhIRVNCcTlDZXdsaWkzUFV5S1FuaytXNDF0YmQ4d0dD?=
+ =?utf-8?B?UC9ENW9HbVpCTFIxTDFTNHFnTi9QN1o5V3k1aWYwZ1prWlZoNXE1ZUo4NWxR?=
+ =?utf-8?B?ekczWEw1bW9hbEw0VENjNzJoa2hDb1hXK0tEMXZYc2IrcS9OUGhuK0FNZER6?=
+ =?utf-8?B?Y2xWY1ZERi9Hb3Q5R1FkZXh3NjI5NjdaU2FuYTV5cWhpRGZ1ZDNDSUNpSVVt?=
+ =?utf-8?B?VGZPUnA0M2QyTWZST1VOSDhQNnVEUCtGanJ1enpuNVlwdGZDRnliUWl4bU90?=
+ =?utf-8?B?NkhjTXR6eWdFdytsMW1nRUw1WW1MNnRZdXM0VGwvazI2WWpXaEJIWUpzYm52?=
+ =?utf-8?B?WElRVU14dEYvSHpTUUNUOEhzc3BMdlhtQ0pGTWpwc3VzakErSEhreXhZcWRD?=
+ =?utf-8?B?R09FUW1zTnZIVU9QOWZGTkp3MC8vak9pd3ZiTjd3VjJ2cVMyS0Y2TDcrTGtQ?=
+ =?utf-8?B?dDhyZ092V0lpTGl0UTk2TytHUkx3c1d3VWFXenQ0N29BczV2amdWVklCWmRt?=
+ =?utf-8?B?ZkMzNFBxcHIydWFRRDY1UjhOMUFFblNuNm9vamlYd3R4QXE2NS9ZM2EzT3Ex?=
+ =?utf-8?Q?qpbqhX/exgRjVBVx41OXR1ZlFSseQKFq?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY0PR02MB5766.apcprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(7416014)(376014)(1800799024)(366016)(921020)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?jdo047TO1xFAPMhkgd8GF+gEz48wmcd3eaclKqc4LAZSwia1hhv1hPOLjUV5?=
- =?us-ascii?Q?eYtum01zOLL7XTQZvNf00GCA5QfdBjdn4S4FC/RWJsEWNpVxm0BvsUv1aAaZ?=
- =?us-ascii?Q?4xfmnQUMn7Hx8Kv0ssu+DCzFGPK0Fg4InAOMAto3qzc8w+/eVU6OqdH6Hu/k?=
- =?us-ascii?Q?S6/KON5gj6avWjD7Hkg0Dix9YXLfbWbf37VawJijR8wfUhOmQlVP9BjPnTj0?=
- =?us-ascii?Q?+fL6GBBWiBa4dZfGE0t6euxM1G68uk3ceOgLKvZWdEpFi8sfIQHhf0nEiC/k?=
- =?us-ascii?Q?SoAUF8jupdujJqNrxJ0bD7rNsYj+MovMHo5oqeecjNtD9wevyEC1vPgjPF0B?=
- =?us-ascii?Q?KDL6TEml19Yt+GnrBuvD+VCtI8ePjuflQfZwEPuD//XM+AMNGg6Yjp/HhsJa?=
- =?us-ascii?Q?6ofCJqBuIH1YbzQ7QlfF03pIKVdzuMzySrGRMPmnsohs0WH04aXHChaapBKK?=
- =?us-ascii?Q?hLTQ5gb/ZRBHSAh33DwDn0OM9qQq1Fzh+YjSBpz1O3cGSCOQA3CMJlEx1Np7?=
- =?us-ascii?Q?OgRx1jAsm92qFeb2LvXwfBKjl4yZSNUpbDn52dtQmRlgN0mGJE+wIAxov4ov?=
- =?us-ascii?Q?/FUS+X54mbcuRYYPXIDAgpQ1k9NN79SktPzPsZQ9utVqbFNszjWivCyOqLqW?=
- =?us-ascii?Q?gus5v6l1Idg1XqYRS+XrXVlJzKpfD+I2ng+MYvZNdCq9bM5As+qvFNVJT0/U?=
- =?us-ascii?Q?uKuQSX0N/cT+v1VwjUvUZR99/5d1PGiLW+Adj1QP9Uv8R6IBlaPs1DIz1wSI?=
- =?us-ascii?Q?grhz6LPVFG53iOFJJ2DJrIjKmD92eKD4QLFEQcJCjWuQ+6JuVUC3Dv5SwvO0?=
- =?us-ascii?Q?VNYYcLTkVJ7OoXvssZbVBeEuVDOflxd/NF1et1st0vzjnZQlGhrwsAYJ5Im9?=
- =?us-ascii?Q?Si43m43Hx4z8Qlxmjna5Q6CkHL6Ha0K2Rs6WIFCalCCrB/YOdXvhSQbIN7+6?=
- =?us-ascii?Q?EdsKuOM/nl49TR370p7gMTugzQyMvtWr+ZMCaCATi6PVU9xiiyEVQN3R/VMq?=
- =?us-ascii?Q?8wRjHzQ+kq2kH3fh+J3XL046QlXUbLnZBoiv1q3AHE8lngRJ1/uCH1KCWhuT?=
- =?us-ascii?Q?10mbZBd5AG2YTiiIdp8hjtMT+1vbL/aDzEusKMU2lciti9MnkXug3t/qfuNS?=
- =?us-ascii?Q?YS+TZm98UlKSMSZ/o/dF7uW4A2MNzU4xMjJXKeV7hLtxrF6kpgmgY209EU0h?=
- =?us-ascii?Q?obx1TK9QChKUpoQmYgEyzDa+iPE+Xn78D67g0Btl7B2fGBUfbRt3eNntpUt5?=
- =?us-ascii?Q?uD252f1MvTOy6u4cl2CT3KmZTaQpyWRVT7VV1QHMP8d5azGTRRA79UqiPpeN?=
- =?us-ascii?Q?rRLXOCM2PQT6mvniScAd9qEYMP9MMduZcJj0BD/zp9ixIHg1FMrgt753OAdN?=
- =?us-ascii?Q?YpRbQFJMUOY7mG+rm1EWbj7NW+GeYsR2xTBsyIlH8udJxBDkYy93FOK0M2JV?=
- =?us-ascii?Q?IFdnTRsGLVMRgk7ak/ezuraRo7eYG+6aNLfDVo6JOuUzJHVNDMSj6a10rcVX?=
- =?us-ascii?Q?/wYNyo5RWeT7HYsBFJSQcr5p1bH2QFEkFz1gulECnFZeRcRlb1D4xqSlPZk1?=
- =?us-ascii?Q?N+wHZelbsy9QMBB9mWcSRCdddPpLg09wosceCAjsof7N//fxJVLPy+3kbYGd?=
- =?us-ascii?Q?cA=3D=3D?=
-X-OriginatorOrg: fibocom.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd4861fd-f05e-4a06-72d0-08dd23d1bc32
-X-MS-Exchange-CrossTenant-AuthSource: TY0PR02MB5766.apcprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Dec 2024 04:16:27.4310
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(36860700013)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Dec 2024 04:21:40.2661
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 889bfe61-8c21-436b-bc07-3908050c8236
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NodBQZBX41TBwz/gtvH+e9dZQR6cUuSgcp8KT+kGN5fJW6FUym+7C9WdJnz9m8KcLF4ixLngm2MHQEVLsMKW2ql7FbO0++xT3Kt+JD1vDAk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR02MB7473
+X-MS-Exchange-CrossTenant-Network-Message-Id: 259565d2-58fc-4f56-9726-08dd23d27711
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS1PEPF0001709D.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6399
 
-When driver processes the internal state change command, it use an
-asynchronous thread to process the command operation. If the main
-thread detects that the task has timed out, the asynchronous thread
-will panic when executing the completion notification because the
-main thread completion object has been released.
+Hello Shrikanth,
 
-BUG: unable to handle page fault for address: fffffffffffffff8
-PGD 1f283a067 P4D 1f283a067 PUD 1f283c067 PMD 0
-Oops: 0000 [#1] PREEMPT SMP NOPTI
-RIP: 0010:complete_all+0x3e/0xa0
-[...]
-Call Trace:
- <TASK>
- ? __die_body+0x68/0xb0
- ? page_fault_oops+0x379/0x3e0
- ? exc_page_fault+0x69/0xa0
- ? asm_exc_page_fault+0x22/0x30
- ? complete_all+0x3e/0xa0
- fsm_main_thread+0xa3/0x9c0 [mtk_t7xx (HASH:1400 5)]
- ? __pfx_autoremove_wake_function+0x10/0x10
- kthread+0xd8/0x110
- ? __pfx_fsm_main_thread+0x10/0x10 [mtk_t7xx (HASH:1400 5)]
- ? __pfx_kthread+0x10/0x10
- ret_from_fork+0x38/0x50
- ? __pfx_kthread+0x10/0x10
- ret_from_fork_asm+0x1b/0x30
- </TASK>
-[...]
-CR2: fffffffffffffff8
----[ end trace 0000000000000000 ]---
+Thank you for reviewing the series.
 
-Use the reference counter to ensure safe release as Sergey suggests:
-https://lore.kernel.org/all/da90f64c-260a-4329-87bf-1f9ff20a5951@gmail.com/
+On 12/21/2024 12:29 AM, Shrikanth Hegde wrote:
+> 
+> 
+> On 12/20/24 12:02, Swapnil Sapkal wrote:
+>> /proc/schedstat file shows cpu and sched domain level scheduler
+>> statistics. It does not show domain name instead shows domain level.
+>> It will be very useful for tools like `perf sched stats`[1] to
+>> aggragate domain level stats if domain names are shown in /proc/ 
+>> schedstat.
+>> But sched domain name is guarded by CONFIG_SCHED_DEBUG. As per the
+>> discussion[2], move sched domain name out of CONFIG_SCHED_DEBUG.
+>>
+>> [1] https://lore.kernel.org/lkml/20241122084452.1064968-1- 
+>> swapnil.sapkal@amd.com/
+>> [2] https://lore.kernel.org/lkml/ 
+>> fcefeb4d-3acb-462d-9c9b-3df8d927e522@amd.com/
+>>
+>> Suggested-by: Gautham R. Shenoy <gautham.shenoy@amd.com>
+>> Signed-off-by: Swapnil Sapkal <swapnil.sapkal@amd.com>
+> 
+> Similarly i think patch 4 and 5 can be merged into one. and similar 
+> comment about updating the stats doc file.
+> 
 
-Fixes: 13e920d93e37 ("net: wwan: t7xx: Add core components")
-Signed-off-by: Jinjian Song <jinjian.song@fibocom.com>
----
- drivers/net/wwan/t7xx/t7xx_state_monitor.c | 26 ++++++++++++++--------
- drivers/net/wwan/t7xx/t7xx_state_monitor.h |  5 +++--
- 2 files changed, 20 insertions(+), 11 deletions(-)
+I will merge patch 4 and 5 into one.
 
-diff --git a/drivers/net/wwan/t7xx/t7xx_state_monitor.c b/drivers/net/wwan/t7xx/t7xx_state_monitor.c
-index 3931c7a13f5a..cbdbb91e8381 100644
---- a/drivers/net/wwan/t7xx/t7xx_state_monitor.c
-+++ b/drivers/net/wwan/t7xx/t7xx_state_monitor.c
-@@ -104,14 +104,21 @@ void t7xx_fsm_broadcast_state(struct t7xx_fsm_ctl *ctl, enum md_state state)
- 	fsm_state_notify(ctl->md, state);
- }
- 
-+static void fsm_release_command(struct kref *ref)
-+{
-+	struct t7xx_fsm_command *cmd = container_of(ref, typeof(*cmd), refcnt);
-+
-+	kfree(cmd);
-+}
-+
- static void fsm_finish_command(struct t7xx_fsm_ctl *ctl, struct t7xx_fsm_command *cmd, int result)
- {
- 	if (cmd->flag & FSM_CMD_FLAG_WAIT_FOR_COMPLETION) {
--		*cmd->ret = result;
--		complete_all(cmd->done);
-+		cmd->result = result;
-+		complete_all(&cmd->done);
- 	}
- 
--	kfree(cmd);
-+	kref_put(&cmd->refcnt, fsm_release_command);
- }
- 
- static void fsm_del_kf_event(struct t7xx_fsm_event *event)
-@@ -475,7 +482,6 @@ static int fsm_main_thread(void *data)
- 
- int t7xx_fsm_append_cmd(struct t7xx_fsm_ctl *ctl, enum t7xx_fsm_cmd_state cmd_id, unsigned int flag)
- {
--	DECLARE_COMPLETION_ONSTACK(done);
- 	struct t7xx_fsm_command *cmd;
- 	unsigned long flags;
- 	int ret;
-@@ -487,11 +493,13 @@ int t7xx_fsm_append_cmd(struct t7xx_fsm_ctl *ctl, enum t7xx_fsm_cmd_state cmd_id
- 	INIT_LIST_HEAD(&cmd->entry);
- 	cmd->cmd_id = cmd_id;
- 	cmd->flag = flag;
-+	kref_init(&cmd->refcnt);
- 	if (flag & FSM_CMD_FLAG_WAIT_FOR_COMPLETION) {
--		cmd->done = &done;
--		cmd->ret = &ret;
-+		init_completion(&cmd->done);
-+		kref_get(&cmd->refcnt);
- 	}
- 
-+	kref_get(&cmd->refcnt);
- 	spin_lock_irqsave(&ctl->command_lock, flags);
- 	list_add_tail(&cmd->entry, &ctl->command_queue);
- 	spin_unlock_irqrestore(&ctl->command_lock, flags);
-@@ -501,11 +509,11 @@ int t7xx_fsm_append_cmd(struct t7xx_fsm_ctl *ctl, enum t7xx_fsm_cmd_state cmd_id
- 	if (flag & FSM_CMD_FLAG_WAIT_FOR_COMPLETION) {
- 		unsigned long wait_ret;
- 
--		wait_ret = wait_for_completion_timeout(&done,
-+		wait_ret = wait_for_completion_timeout(&cmd->done,
- 						       msecs_to_jiffies(FSM_CMD_TIMEOUT_MS));
--		if (!wait_ret)
--			return -ETIMEDOUT;
- 
-+		ret = wait_ret ? cmd->result : -ETIMEDOUT;
-+		kref_put(&cmd->refcnt, fsm_release_command);
- 		return ret;
- 	}
- 
-diff --git a/drivers/net/wwan/t7xx/t7xx_state_monitor.h b/drivers/net/wwan/t7xx/t7xx_state_monitor.h
-index 7b0a9baf488c..6e0601bb752e 100644
---- a/drivers/net/wwan/t7xx/t7xx_state_monitor.h
-+++ b/drivers/net/wwan/t7xx/t7xx_state_monitor.h
-@@ -110,8 +110,9 @@ struct t7xx_fsm_command {
- 	struct list_head	entry;
- 	enum t7xx_fsm_cmd_state	cmd_id;
- 	unsigned int		flag;
--	struct completion	*done;
--	int			*ret;
-+	struct completion	done;
-+	int			result;
-+	struct kref		refcnt;
- };
- 
- struct t7xx_fsm_notifier {
--- 
-2.34.1
-
+>> ---
+>>   include/linux/sched/topology.h | 8 --------
+>>   kernel/sched/topology.c        | 4 ----
+>>   2 files changed, 12 deletions(-)
+>>
+>> diff --git a/include/linux/sched/topology.h b/include/linux/sched/ 
+>> topology.h
+>> index 76a662e1ec24..7f3dbafe1817 100644
+>> --- a/include/linux/sched/topology.h
+>> +++ b/include/linux/sched/topology.h
+>> @@ -143,9 +143,7 @@ struct sched_domain {
+>>       unsigned int ttwu_move_affine;
+>>       unsigned int ttwu_move_balance;
+>>   #endif
+>> -#ifdef CONFIG_SCHED_DEBUG
+>>       char *name;
+>> -#endif
+>>       union {
+>>           void *private;        /* used during construction */
+>>           struct rcu_head rcu;    /* used during destruction */
+>> @@ -201,18 +199,12 @@ struct sched_domain_topology_level {
+>>       int            flags;
+>>       int            numa_level;
+>>       struct sd_data      data;
+>> -#ifdef CONFIG_SCHED_DEBUG
+>>       char                *name;
+>> -#endif
+>>   };
+>>   extern void __init set_sched_topology(struct 
+>> sched_domain_topology_level *tl);
+>> -#ifdef CONFIG_SCHED_DEBUG
+>>   # define SD_INIT_NAME(type)        .name = #type
+>> -#else
+>> -# define SD_INIT_NAME(type)
+>> -#endif
+>>   #else /* CONFIG_SMP */
+>> diff --git a/kernel/sched/topology.c b/kernel/sched/topology.c
+>> index 9c405f0e7b26..da33ec9e94ab 100644
+>> --- a/kernel/sched/topology.c
+>> +++ b/kernel/sched/topology.c
+>> @@ -1635,9 +1635,7 @@ sd_init(struct sched_domain_topology_level *tl,
+>>           .max_newidle_lb_cost    = 0,
+>>           .last_decay_max_lb_cost    = jiffies,
+>>           .child            = child,
+>> -#ifdef CONFIG_SCHED_DEBUG
+>>           .name            = tl->name,
+>> -#endif
+>>       };
+>>       sd_span = sched_domain_span(sd);
+>> @@ -2338,10 +2336,8 @@ static struct sched_domain 
+>> *build_sched_domain(struct sched_domain_topology_leve
+>>           if (!cpumask_subset(sched_domain_span(child),
+>>                       sched_domain_span(sd))) {
+>>               pr_err("BUG: arch topology borken\n");
+>> -#ifdef CONFIG_SCHED_DEBUG
+>>               pr_err("     the %s domain not a subset of the %s 
+>> domain\n",
+>>                       child->name, sd->name);
+>> -#endif
+>>               /* Fixup, ensure @sd has at least @child CPUs. */
+>>               cpumask_or(sched_domain_span(sd),
+>>                      sched_domain_span(sd),
+> 
+--
+Thanks and Regards,
+Swapnil
