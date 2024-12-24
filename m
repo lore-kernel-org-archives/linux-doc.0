@@ -1,127 +1,218 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96DFF16DEB3;
-	Tue, 24 Dec 2024 07:56:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705EC192D6A
+	for <linux-doc@vger.kernel.org>; Tue, 24 Dec 2024 09:34:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735026970; cv=none; b=TyYWNk/Tr0fDO3FDw8OxJwE7Ih/QgQTmWkultZCx4/TfI4E52XRdFT4Ca7OUb8gCwvMJLGO903F8J8VVWX3wPcrYhR6jNbXY+dQZNJ6bpmO4X2R0Wzl6Ax1T/lZ2ts5mr7U7COa4XBn0FJvuWOpAk349y+5JlAfbGClH46Qc5uE=
+	t=1735032880; cv=none; b=B2wLU64xiVZCsENOfR2BYkFv8EEa+nvrMPT4TPy2q0J1oiFcVhpHG26uy5bF/FFTX4slg+5y9phPkuTqHaFm0cHgAdRcdhZZI/5QQsu0t2hdzY5HI9DuOQhIovLypkldBhxDBHLRHWvIJ4Cx0cyAr4DuNCyuaksUosKFjtUiVeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735026970; c=relaxed/simple;
-	bh=DYfPZ39MyRj475906l0HgxSRj//ePs6qi2xtnlendVw=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=o6ugxPzdkJFhAoMG5WRPKnuECq//RuJ6gLjnezTdrZteY4D49D+Gig6LEglDe9Wzr8uXXzTCm5XJo2tCscIlif+0142Nmrah+hx5XzddFGeJjvXZAJ0pILDfAXpOti0rgHMXSv4d4AlxjX+Z/xrZ8IXOvueDg3cu5zXSJjSKIV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TD/bUWCL; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1735032880; c=relaxed/simple;
+	bh=VE1/sptLNJO9oRV/s4kfSNaNVaKhi9VwxXf2A7CoZaU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=QYMAQ9/hcI1fRnymANnu9t8IsAqmfjD5yfrmOtX4I4EdY5I3pnGkhfd0huLhs5yHWouACLs+vF1BIOwoxI4x3y+Fhkb0GBluwYyZzfshIk4s9slkiAlody0tzFoZxmtJ0iIKbpIj0eSJOX09F9mt+lWnTt8KDpEbtzMF6DfMVVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=tiVJgpL8; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TD/bUWCL"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5d84179ef26so3974025a12.3;
-        Mon, 23 Dec 2024 23:56:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="tiVJgpL8"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43622267b2eso52067695e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 24 Dec 2024 01:34:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735026967; x=1735631767; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=DYfPZ39MyRj475906l0HgxSRj//ePs6qi2xtnlendVw=;
-        b=TD/bUWCLKHO74Hfg9y0e1TcVym8We7HD1LdXLfWRyfzWGCl7J4NUDoeFNidm/ebLjo
-         3vpmKMRGkzei7lnoHUgY2MaTEZJqSZ1yMVnGPEoUXH+jLS22WD8nNLjiaG3KmoTQBhc8
-         qRXlKvXyuTlixuODiz8x1lBPEj+pz6sGdHspR5ZYKTByNyVjaEsMKYl+v4ncViN5/91g
-         xFvS3U/v3AQ0gXMh3ecFrwcKvbS+K+09m9TAoV5S1DeMwFyRnxEUWsvVFVGuh0ei6Jcf
-         nvtT7aUmMaJe8vHd0akDyRClTm4qq2osAFl/2MvZdxcVvmTlGmKavBzq+xpiADOQIRIR
-         /S3A==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1735032877; x=1735637677; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pM6GFa5ErxgDv1duEO96l/YGRIBmSTG/1V9JEZbHJNg=;
+        b=tiVJgpL8PBePKmoD8zGPr0UJIMRjAhNnkPq6DXAVzhjZFalqigT4izOb1Hq31ibngI
+         /FfR1psrFvXx6TZDWQcge3uhx5rEQxrK9frove+Jpn+7t/NPBrPQi1nl23qKZiYDZh9c
+         CVgkfUWclJLO/TFKxXD/59IIET5ru5u32U8aqfbAnW0Pt/20rAk/hRKOSNfBcOJl+oLZ
+         7h2LLw7ysPBaRnGf7cnfpB3HZDve0DV6+5ii9TKizoDAyR4+sSyJhV0+1RzyZieLu6dq
+         q7SJXn4DlT8HbAF4I5Y6tAeyOCJ6smjJ/DsVSLSodKGZe6/4evHKMI1cTFbIXwKMa3Yq
+         zkCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735026967; x=1735631767;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DYfPZ39MyRj475906l0HgxSRj//ePs6qi2xtnlendVw=;
-        b=vtj85CvJQgzNnyvHTrZQbEKKXklUeVr5NzXTMboC+YTK1J4wRrf3IIMK0iZ0I4oXW8
-         b3t2qeMoxKZ7URQ294+ekZELkzud/72XOqw1uPGGg5G4E+W7VtFNWzVDu74oWPuff4QD
-         sTqxItJS5ZdG89U14HPByFH3uIMdu+ZA1xEW99MDbJhP8PxT+FVcg/wXX6ClDTguhZIW
-         lEkwH0MYIqJ/ADB+IjZ//CjBYOlq9as2n3Aol4AR1VJW/fFwlDt3JXgP0WMwT6QEXUtP
-         VmViDMbKA/a5MGOvwShgIP5njfxovi1nEBaW5b1z8FUgQA+xOCNEL7cUs88oFMGSmVbM
-         CzDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVcPpfsEzlbvbQDCEOeHDv7TsxRHAFXVd7eO9oQDgGLtcBbt0WZVKbnfWSwLExDgEZx0C2zszuQ@vger.kernel.org, AJvYcCWkObdZiuvWLIHOvzL2Uyco92yKTszn65HzgMxLjSZYuix5CnqDh09mf20Y/7v8m4Boeg8mtApoN4A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAPJjm4x8+f/qZJO7YWS181/hX8P8gt85V8jvAF5pZMGTl8Xq0
-	Rze+ovEtnIs0SLnf9ITiD0r5eaGVBm9cOx4B5xjOdoBradBwcnfE
-X-Gm-Gg: ASbGncsK6aCKVqlknEGzwEoNpdJ5GhU//e+DdK0hK83pWUT7PYYCx4CotwzPqsjL0SJ
-	g/k/3k7a+fQHz/nvu9onkhAawCVbCtsbRULFa8OkAXBz0iKl6o4cWeCG4DGtbxXZ/QHODWf4zz/
-	JOt9pZ17Czs+zSv9Xhzu1w1OsEEZ5Ds607uQurOgMNRtDw83+CbEyz0Pf3jFFuHoj5fe/6+iGyN
-	wfx+phnLptaBS4ljRIiHyctjYGqfPhUcLCFEFVpJ/rJg4TA+fF+l3qnSQ==
-X-Google-Smtp-Source: AGHT+IH3nULCTvzYbryqDPG24PJWH+1wwHyXoPc9vgdNt1AHig0ol6/zEmoM9ghe6monEtsb9DhNhA==
-X-Received: by 2002:a05:6402:50d2:b0:5d3:d917:dd90 with SMTP id 4fb4d7f45d1cf-5d81dd642e4mr13413925a12.6.1735026966591;
-        Mon, 23 Dec 2024 23:56:06 -0800 (PST)
-Received: from [127.0.0.1] ([82.102.65.251])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d80675a6d0sm5864804a12.14.2024.12.23.23.56.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Dec 2024 23:56:05 -0800 (PST)
-Date: Tue, 24 Dec 2024 09:55:00 +0200
-From: Sergey Ryazanov <ryazanov.s.a@gmail.com>
-To: Jinjian Song <jinjian.song@fibocom.com>, chandrashekar.devegowda@intel.com,
- chiranjeevi.rapolu@linux.intel.com, haijun.liu@mediatek.com,
- m.chetan.kumar@linux.intel.com, ricardo.martinez@linux.intel.com,
- loic.poulain@linaro.org, johannes@sipsolutions.net, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
-CC: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, angelogioacchino.delregno@collabora.com,
- linux-arm-kernel@lists.infradead.org, matthias.bgg@gmail.com, corbet@lwn.net,
- linux-mediatek@lists.infradead.org, helgaas@kernel.org,
- danielwinkler@google.com, korneld@google.com, andrew+netdev@lunn.ch,
- horms@kernel.org
-Subject: Re: [net v3] net: wwan: t7xx: Fix FSM command timeout issue
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20241224041552.8711-1-jinjian.song@fibocom.com>
-References: <20241224041552.8711-1-jinjian.song@fibocom.com>
-Message-ID: <CA4E0537-84FE-4E1A-8BB6-7636D3799E39@gmail.com>
+        d=1e100.net; s=20230601; t=1735032877; x=1735637677;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pM6GFa5ErxgDv1duEO96l/YGRIBmSTG/1V9JEZbHJNg=;
+        b=TM/L4IEmKKE9W4zSdke8IWuqB0jqFjxyrcpQ4CyPrHb1q3ZlJYLTyf3e6fqQToovMA
+         Bl7Kszy4H/r9sxYlh1Sthw2gY+eH7L4mF9GpB6AmVGyznmLIqt1R4kN0WH/I66UXeFTL
+         ydTI5gnoCEP1Zc+40ww5OM+YPUGbqxTe27/Klkhhbm3EO9RqcGTW9u+ipAyljz86Jz56
+         WE/Zm8h2pPnMlEP1TdVK9MGPTz05VVMxDgJ+vUP3UdzqEy5qdXi7JI5WFiueta0RxGk6
+         oRbzQBUNsN5v4mXMlJXmPL0X5nPevTPKpuPU8/28PGzfJ63FMPBcJUVoYMws+ol+y7h3
+         yWKw==
+X-Forwarded-Encrypted: i=1; AJvYcCVolF13+PQnaOt5YOwmVizEDeudA1UMfghQyDUIVEP+jAoTiHvhwoYWPt7h47XWLBgbcGBE1aIY0ys=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQPjS5foepJbqxisNwxV13oieZKWalN+wC14gnV4QEbbnCjg9Q
+	eRZC5JlOT1k+xlm6wco0Z6cPoFr+1C4d1bYjmcOCTLmftZZfJPPSflPTml5XHh8=
+X-Gm-Gg: ASbGncsdgFx43wNvQhwI+I4A8aBGsEn6yZcbpPuNrBPTQuJIv0UFpdRa/SGUlWy9ciF
+	Wxd3CsRMZjDH0h8k+3Lvh260ggN6Dwou2coVdmJ/NE0aKUsJkX8SAxJHARo1FKTvDqA8DS9vMPp
+	V9duqSFUWpwn+7OyoMJ2mwa3wDyu0jHx2cOKRD+iMvaJVhfSamhKAETfvbFyvXw83jXQoU2uTUA
+	8X9HyyebKjA2ZC1ZkyiTNCj7ASBqDXoJy1mw/orWSfIkgZNDcLpnxmcbR0GDsh9O+c1x2EfHl84
+	QfeXzlZWhXa5pQ5LLRLsPReT5A+MyNOWnPUUjYH1rkhVOmI6YQ==
+X-Google-Smtp-Source: AGHT+IGGwBexuuCsSb+2k165A9EG+BSDBn4ld60SJ41FUJ7s7F5ae+cT99SxaOIzBMBk0nh9sB6PGg==
+X-Received: by 2002:a05:600c:1388:b0:434:f871:1bbc with SMTP id 5b1f17b1804b1-43668643aaamr168725875e9.10.1735032876784;
+        Tue, 24 Dec 2024 01:34:36 -0800 (PST)
+Received: from [192.168.1.62] (2a02-842a-d52e-6101-6fd0-06c4-5d68-f0a5.rev.sfr.net. [2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43661219a7csm160932535e9.24.2024.12.24.01.34.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Dec 2024 01:34:36 -0800 (PST)
+From: Julien Stephan <jstephan@baylibre.com>
+Date: Tue, 24 Dec 2024 10:34:30 +0100
+Subject: [PATCH RFC v2 1/4] iio: adc: ad7380: do not use
+ iio_device_claim_direct_scoped anymore
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241224-ad7380-add-alert-support-v2-1-7c89b2bf7cb3@baylibre.com>
+References: <20241224-ad7380-add-alert-support-v2-0-7c89b2bf7cb3@baylibre.com>
+In-Reply-To: <20241224-ad7380-add-alert-support-v2-0-7c89b2bf7cb3@baylibre.com>
+To: Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ David Lechner <dlechner@baylibre.com>, Jonathan Cameron <jic23@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Julien Stephan <jstephan@baylibre.com>
+X-Mailer: b4 0.14.2
 
-On December 24, 2024 6:15:52 AM GMT+02:00, Jinjian Song <jinjian=2Esong@fib=
-ocom=2Ecom> wrote:
->When driver processes the internal state change command, it use an
->asynchronous thread to process the command operation=2E If the main
->thread detects that the task has timed out, the asynchronous thread
->will panic when executing the completion notification because the
->main thread completion object has been released=2E
->
->BUG: unable to handle page fault for address: fffffffffffffff8
->PGD 1f283a067 P4D 1f283a067 PUD 1f283c067 PMD 0
->Oops: 0000 [#1] PREEMPT SMP NOPTI
->RIP: 0010:complete_all+0x3e/0xa0
->[=2E=2E=2E]
->Call Trace:
-> <TASK>
-> ? __die_body+0x68/0xb0
-> ? page_fault_oops+0x379/0x3e0
-> ? exc_page_fault+0x69/0xa0
-> ? asm_exc_page_fault+0x22/0x30
-> ? complete_all+0x3e/0xa0
-> fsm_main_thread+0xa3/0x9c0 [mtk_t7xx (HASH:1400 5)]
-> ? __pfx_autoremove_wake_function+0x10/0x10
-> kthread+0xd8/0x110
-> ? __pfx_fsm_main_thread+0x10/0x10 [mtk_t7xx (HASH:1400 5)]
-> ? __pfx_kthread+0x10/0x10
-> ret_from_fork+0x38/0x50
-> ? __pfx_kthread+0x10/0x10
-> ret_from_fork_asm+0x1b/0x30
-> </TASK>
->[=2E=2E=2E]
->CR2: fffffffffffffff8
->---[ end trace 0000000000000000 ]---
->
->Use the reference counter to ensure safe release as Sergey suggests:
->https://lore=2Ekernel=2Eorg/all/da90f64c-260a-4329-87bf-1f9ff20a5951@gmai=
-l=2Ecom/
->
->Fixes: 13e920d93e37 ("net: wwan: t7xx: Add core components")
->Signed-off-by: Jinjian Song <jinjian=2Esong@fibocom=2Ecom>
+Rollback and remove the scoped version of iio_dvice_claim_direct_mode.
 
-Acked-by: Sergey Ryazanov <ryazanov=2Es=2Ea@gmail=2Ecom>
+Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+---
+ drivers/iio/adc/ad7380.c | 89 ++++++++++++++++++++++++++++--------------------
+ 1 file changed, 53 insertions(+), 36 deletions(-)
+
+diff --git a/drivers/iio/adc/ad7380.c b/drivers/iio/adc/ad7380.c
+index 4f32cb22f140442b831dc9a4f275e88e4ab2388e..4e26e0e7ac1d5a1c4c67118dbc34f2921fc171a4 100644
+--- a/drivers/iio/adc/ad7380.c
++++ b/drivers/iio/adc/ad7380.c
+@@ -675,15 +675,21 @@ static const struct regmap_config ad7380_regmap_config = {
+ static int ad7380_debugfs_reg_access(struct iio_dev *indio_dev, u32 reg,
+ 				     u32 writeval, u32 *readval)
+ {
+-	iio_device_claim_direct_scoped(return  -EBUSY, indio_dev) {
+-		struct ad7380_state *st = iio_priv(indio_dev);
++	struct ad7380_state *st = iio_priv(indio_dev);
++	int ret;
+ 
+-		if (readval)
+-			return regmap_read(st->regmap, reg, readval);
+-		else
+-			return regmap_write(st->regmap, reg, writeval);
+-	}
+-	unreachable();
++	ret = iio_device_claim_direct_mode(indio_dev);
++	if (ret)
++		return ret;
++
++	if (readval)
++		ret = regmap_read(st->regmap, reg, readval);
++	else
++		ret = regmap_write(st->regmap, reg, writeval);
++
++	iio_device_release_direct_mode(indio_dev);
++
++	return ret;
+ }
+ 
+ /*
+@@ -920,6 +926,7 @@ static int ad7380_read_raw(struct iio_dev *indio_dev,
+ {
+ 	struct ad7380_state *st = iio_priv(indio_dev);
+ 	const struct iio_scan_type *scan_type;
++	int ret;
+ 
+ 	scan_type = iio_get_current_scan_type(indio_dev, chan);
+ 
+@@ -928,11 +935,16 @@ static int ad7380_read_raw(struct iio_dev *indio_dev,
+ 
+ 	switch (info) {
+ 	case IIO_CHAN_INFO_RAW:
+-		iio_device_claim_direct_scoped(return -EBUSY, indio_dev) {
+-			return ad7380_read_direct(st, chan->scan_index,
+-						  scan_type, val);
+-		}
+-		unreachable();
++		ret = iio_device_claim_direct_mode(indio_dev);
++		if (ret)
++			return ret;
++
++		ret = ad7380_read_direct(st, chan->scan_index,
++					 scan_type, val);
++
++		iio_device_release_direct_mode(indio_dev);
++
++		return ret;
+ 	case IIO_CHAN_INFO_SCALE:
+ 		/*
+ 		 * According to the datasheet, the LSB size is:
+@@ -1024,31 +1036,36 @@ static int ad7380_write_raw(struct iio_dev *indio_dev,
+ 		/* always enable resolution boost when oversampling is enabled */
+ 		boost = osr > 0 ? 1 : 0;
+ 
+-		iio_device_claim_direct_scoped(return -EBUSY, indio_dev) {
+-			ret = regmap_update_bits(st->regmap,
+-					AD7380_REG_ADDR_CONFIG1,
+-					AD7380_CONFIG1_OSR | AD7380_CONFIG1_RES,
+-					FIELD_PREP(AD7380_CONFIG1_OSR, osr) |
+-					FIELD_PREP(AD7380_CONFIG1_RES, boost));
++		ret = iio_device_claim_direct_mode(indio_dev);
++		if (ret)
++			return ret;
+ 
+-			if (ret)
+-				return ret;
++		ret = regmap_update_bits(st->regmap,
++					 AD7380_REG_ADDR_CONFIG1,
++					 AD7380_CONFIG1_OSR | AD7380_CONFIG1_RES,
++					 FIELD_PREP(AD7380_CONFIG1_OSR, osr) |
++					 FIELD_PREP(AD7380_CONFIG1_RES, boost));
+ 
+-			st->oversampling_ratio = val;
+-			st->resolution_boost_enabled = boost;
+-
+-			/*
+-			 * Perform a soft reset. This will flush the oversampling
+-			 * block and FIFO but will maintain the content of the
+-			 * configurable registers.
+-			 */
+-			return regmap_update_bits(st->regmap,
+-					AD7380_REG_ADDR_CONFIG2,
+-					AD7380_CONFIG2_RESET,
+-					FIELD_PREP(AD7380_CONFIG2_RESET,
+-						   AD7380_CONFIG2_RESET_SOFT));
+-		}
+-		unreachable();
++		if (ret)
++			goto err;
++
++		st->oversampling_ratio = val;
++		st->resolution_boost_enabled = boost;
++
++		/*
++		 * Perform a soft reset. This will flush the oversampling
++		 * block and FIFO but will maintain the content of the
++		 * configurable registers.
++		 */
++		ret = regmap_update_bits(st->regmap,
++					 AD7380_REG_ADDR_CONFIG2,
++					 AD7380_CONFIG2_RESET,
++					 FIELD_PREP(AD7380_CONFIG2_RESET,
++						    AD7380_CONFIG2_RESET_SOFT));
++err:
++		iio_device_release_direct_mode(indio_dev);
++
++		return ret;
+ 	default:
+ 		return -EINVAL;
+ 	}
+
+-- 
+2.47.1
+
