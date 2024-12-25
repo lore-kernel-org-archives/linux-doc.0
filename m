@@ -1,210 +1,254 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72567632
-	for <linux-doc@vger.kernel.org>; Tue, 24 Dec 2024 21:07:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10DE917591;
+	Wed, 25 Dec 2024 02:04:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735074466; cv=none; b=Usdac5uriWUHdRBJGQBq5ozNADIzPWKkzLue8x2a9r2O4RDXivnh+MNfGg6fJIkNnbhIhPR5l4I0NgzRW9ZrZK19w5pN2WGAaoCfrgLbZRC1OwPxpHnU3l5NLSFoxp5yjthhCvShBO9OHkRnRA+LtGu3Hc9BCwUm/DwY9Ja4Rnk=
+	t=1735092287; cv=none; b=qrXEUzrIxyraMmbI16Q2PfF4a3j8TeEUiV088/OZacIJs9/ZEKhyCUjOA0/JlObroy9wZRXRJMK95qFvXO71SSwgLgLpIwX6wTwkPviHzPah9Q0LIfBopgkRVy3Vii4JeMi+jImAgZpikWbg4HW+HA/3M2Lw3MHKKbiBZJHAnnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735074466; c=relaxed/simple;
-	bh=cu8feJKg9gSJ6HmweoHxeTuCpE8orjL+HPupLligW6o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IsAKKoFmjJa5p5emZ+jTFKY+PQOor0Um2LZp4VAtY27PHFCc5A6gLTsKVXvaJEpyXk7Zwjzg2qY4jiIe8B88mkAOFWO7FGkrc1sgaE6zvVJRx5B31RR1wOn8QUABHfS65cW5xwir78qEaqFOkJEHXAqg2DoJf2J3l1+WxHpZqYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CplfYiCc; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1735092287; c=relaxed/simple;
+	bh=SQXuRWpVJ8ifcNKmZj4eDOZocOB6lprqwHwyWN5zgN4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XIh/66CzmEtwT3NmYeLI+gKtrD6oOEpB+bUNtKq2V8iQZl51o5wz9w6LPHiD6cNMcmSh5+NZSt7wFSeZE6KGYEav608BeaiENdVIC9U9UA9J/ikxn2Ly8TmMOoII9JstED2W1ylk2zq+Vk9tzJphVS+zVXyAi2Pz0u7FeA1OCgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=RJMnEaKF; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CplfYiCc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1735074463;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sZs6YfEI3/l5tOpZdRufVPmaqDWxkIbDThpOmOAjfL0=;
-	b=CplfYiCcpsQ4mScETrvJjvnZznQtM+dCkpDaGGGB0/zejpvunna5mvyRYUhdrqpPo5QDbg
-	bh+Wp6k83dB5T4oqWfEA1OdLnFO9HyPD6DWBbz+yNay1TghCjTH8RNWfPY4a0F+EykrKd9
-	I27oUTvypBFhPGKVwmyhdhu53oJORCc=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-645-T6SmlsCYPvi-gA7yArhbrw-1; Tue, 24 Dec 2024 16:07:41 -0500
-X-MC-Unique: T6SmlsCYPvi-gA7yArhbrw-1
-X-Mimecast-MFC-AGG-ID: T6SmlsCYPvi-gA7yArhbrw
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-7b35758d690so1081196685a.1
-        for <linux-doc@vger.kernel.org>; Tue, 24 Dec 2024 13:07:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735074461; x=1735679261;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sZs6YfEI3/l5tOpZdRufVPmaqDWxkIbDThpOmOAjfL0=;
-        b=ecsp+8cBFNFMzyyih03BltGhk7TCMnaQiqFBURDwvy/PHKau6adTDaDrvl8P63BjhI
-         jOtfXLz1qrZNWyRYZwvF5Qvyt4qJznC9hIe09m50yD53TxTVsAGx6lNBrEt7YPbCkCgM
-         ZHvgf1tIHp2vmejLR9UBuQ5GSzCT1mxzb+Kx4FjLGGniCtUEY+m/nbxOW3HxPfG3kHPK
-         HG6Wb5KwgcGqEzWPLA0UzRA4QL4ZmGGvgSt0x0ygit2rkUS2DsyI/UILsqPpuN6iSoWM
-         zLbK7G3Hi2fFyTa3/2gnMaoyuGAMJVIYUrMu3Je6fXsS01NFi7K5tmwykUfkn6VI7s5s
-         jjvw==
-X-Forwarded-Encrypted: i=1; AJvYcCUeTeNgg46hntwgFnCU8Nh1eeCz25qgSQc/HdR/jhzV+RpjeDytaLMKcEES8UEC7VuHZWIgxv2+SnM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8C3zkob9D8eQWFuBfTPTZlvpe6ybPBgLjBlsxwXzLXvoqwMVR
-	Az2oDoDBDIQ6I9tjYy35hKQm8eAtmxl88XUY/8GnwmZri4u6SCYfjB4gp2kJ33iq1X83AGqSPmF
-	LtP/v1gdCUGUcV5U9lX5OlRkQPT+jgWYiHGEUBxrMIWe+2GrmoNfo8ah7tA==
-X-Gm-Gg: ASbGncsePoJvKzua8fA6AgxkHAZbUHtJ76IhwMXNPDTvhWkUcPv5HSIkKjZhmsxGLnu
-	adstJPevXuyjr25C6ThwS6yDY8dbNE/d6Lcqy0K0PPwNcu8EmMdW4NSYOUvLoZ7PvRmfMDR602d
-	obLLCNbgwL7wNzTcaHHiGlamtt4jQ9yOecfgjB+etQUVxiqAcFyaN/VEgadhzBflCulTisFdNoT
-	ntDssyUh17wV2CYE+zV8XFBEmCTf20tZeiGm/XBAqwKR8Eu0rXF8ye6Z4v5yFIxNmDWgGtxeoDL
-	AjJT9eOOtQTJcq+lTw==
-X-Received: by 2002:a05:620a:4113:b0:7b8:626b:7ab with SMTP id af79cd13be357-7b9ba75eccdmr2798803385a.19.1735074460862;
-        Tue, 24 Dec 2024 13:07:40 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFnN/zY/woHUhG5osGnG+exxCB/UJU+6pyhc9ubSIWO3+84Rcn5ofakxvIKipqBFvygMHhkKw==
-X-Received: by 2002:a05:620a:4113:b0:7b8:626b:7ab with SMTP id af79cd13be357-7b9ba75eccdmr2798800285a.19.1735074460495;
-        Tue, 24 Dec 2024 13:07:40 -0800 (PST)
-Received: from x1n (pool-99-254-114-190.cpe.net.cable.rogers.com. [99.254.114.190])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-46a3e676f26sm56608011cf.19.2024.12.24.13.07.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Dec 2024 13:07:39 -0800 (PST)
-Date: Tue, 24 Dec 2024 16:07:36 -0500
-From: Peter Xu <peterx@redhat.com>
-To: James Houghton <jthoughton@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Yan Zhao <yan.y.zhao@intel.com>,
-	Nikita Kalyazin <kalyazin@amazon.com>,
-	Anish Moorthy <amoorthy@google.com>,
-	Peter Gonda <pgonda@google.com>,
-	David Matlack <dmatlack@google.com>, Wang@google.com,
-	Wei W <wei.w.wang@intel.com>, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
-Subject: Re: [PATCH v1 00/13] KVM: Introduce KVM Userfault
-Message-ID: <Z2simHWeYbww90OZ@x1n>
-References: <20241204191349.1730936-1-jthoughton@google.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="RJMnEaKF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=d4mCk
+	DUf8fRY2PUMOoENaonP/z19MKIrUugV++n/oAM=; b=RJMnEaKFbQimhV1qmyZjU
+	hxB96aAPUGL68zVTGkRjmP/jnmu/lad1U72mpqLYDMT9j17Y8iybKLQNUTc9zFR8
+	7hFObjDz8n7RcQd4IcLRJVWcXGF/FvSUVOuIQ/VlWPDT2nGbqvjaLxDaFg+m5Vhc
+	FQwM7SnPQeoLYtpwoZlTyY=
+Received: from silergy-System-Product-Name.silergy.inc (unknown [])
+	by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id _____wAnkVLVZ2tnHGv6BQ--.23482S4;
+	Wed, 25 Dec 2024 10:03:02 +0800 (CST)
+From: Wenliang Yan <wenliang202407@163.com>
+To: linux@roeck-us.net,
+	Jean Delvare <jdelvare@suse.com>
+Cc: Wenliang <wenliang202407@163.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH 2/3] hwmon:(ina238)Add new features for SQ52206
+Date: Wed, 25 Dec 2024 10:02:56 +0800
+Message-ID: <20241225020256.439990-1-wenliang202407@163.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241204191349.1730936-1-jthoughton@google.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wAnkVLVZ2tnHGv6BQ--.23482S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW3JryUXFy7uFW8JFWUZFyrZwb_yoWxWr4Dpa
+	s3Ja4fKrWUtrZrWrsrtr47uF1rWw1xG3W5ArZ7Kw1SvF1DXr929ryUtF10va13K34UZF4U
+	JF4Ut3y5Cw12yr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRAsqLUUUUU=
+X-CM-SenderInfo: xzhqzxhdqjjiisuqlqqrwthudrp/1tbiNRvA02drYJKEVgAAsR
 
-James,
+From: Wenliang <wenliang202407@163.com>
 
-On Wed, Dec 04, 2024 at 07:13:35PM +0000, James Houghton wrote:
-> This is a continuation of the original KVM Userfault RFC[1] from July.
-> It contains the simplifications we talked about at LPC[2].
-> 
-> Please see the RFC[1] for the problem description. In summary,
-> guest_memfd VMs have no mechanism for doing post-copy live migration.
-> KVM Userfault provides such a mechanism. Today there is no upstream
-> mechanism for installing memory into a guest_memfd, but there will
-> be one soon (e.g. [3]).
-> 
-> There is a second problem that KVM Userfault solves: userfaultfd-based
-> post-copy doesn't scale very well. KVM Userfault when used with
-> userfaultfd can scale much better in the common case that most post-copy
-> demand fetches are a result of vCPU access violations. This is a
-> continuation of the solution Anish was working on[4]. This aspect of
-> KVM Userfault is important for userfaultfd-based live migration when
-> scaling up to hundreds of vCPUs with ~30us network latency for a
-> PAGE_SIZE demand-fetch.
+This patch depends on PATCH 1.
+Add peak power,energy and charge detection for SQ52206.
 
-I think it would be clearer to nail down the goal of the feature.  If it's
-a perf-oriented feature we don't need to mention gmem, but maybe it's not.
+Signed-off-by: Wenliang <wenliang202407@163.com>
+---
 
-> 
-> The implementation in this series is version than the RFC[1]. It adds...
->  1. a new memslot flag is added: KVM_MEM_USERFAULT,
->  2. a new parameter, userfault_bitmap, into struct kvm_memory_slot,
->  3. a new KVM_RUN exit reason: KVM_MEMORY_EXIT_FLAG_USERFAULT,
->  4. a new KVM capability KVM_CAP_USERFAULT.
-> 
-> KVM Userfault does not attempt to catch KVM's own accesses to guest
-> memory. That is left up to userfaultfd.
+ina238.rst:Add information of SQ52206 in ina238.rst, Add additional sysfs
+entries for sq52206, include energy1_input, power1_input_highest
+and charge1_input.
+ina238.c: Add a 40 bit data reading function to prepare for energy and
+charge reading.
+Energy and charge attributes are 5bytes wide, so add call function for
+charge1_input and modified the function for energy1_input to use u64.
+Add HWMON_P_INPUT_HIGHEST for power.
 
-I assume it means this is an "perf optimization" feature then?  As it
-doesn't work for remote-fault processes like firecracker, or
-remote-emulated processes like QEMU's vhost-user?
+ Documentation/hwmon/ina238.rst | 16 +++++++
+ drivers/hwmon/ina238.c         | 85 +++++++++++++++++++++++++++++++++-
+ 2 files changed, 99 insertions(+), 2 deletions(-)
 
-Even though it could still 100% cover x86_64's setup if it's not as
-complicated as above?  I mean, I assumed above sentence was for archs like
-ARM that I remember having no-vcpu-context accesses so things like that is
-not covered too.  Perhaps x86_64 is the goal?  If so, would also be good to
-mention some details.
-
-> 
-> When enabling KVM_MEM_USERFAULT for a memslot, the second-stage mappings
-> are zapped, and new faults will check `userfault_bitmap` to see if the
-> fault should exit to userspace.
-> 
-> When KVM_MEM_USERFAULT is enabled, only PAGE_SIZE mappings are
-> permitted.
-> 
-> When disabling KVM_MEM_USERFAULT, huge mappings will be reconstructed
-> (either eagerly or on-demand; the architecture can decide).
-> 
-> KVM Userfault is not compatible with async page faults. Nikita has
-> proposed a new implementation of async page faults that is more
-> userspace-driven that *is* compatible with KVM Userfault[5].
-> 
-> Performance
-> ===========
-> 
-> The takeaways I have are:
-> 
-> 1. For cases where lock contention is not a concern, there is a
->    discernable win because KVM Userfault saves the trip through the
->    userfaultfd poll/read/WAKE cycle.
-> 
-> 2. Using a single userfaultfd without KVM Userfault gets very slow as
->    the number of vCPUs increases, and it gets even slower when you add
->    more reader threads. This is due to contention on the userfaultfd
->    wait_queue locks. This is the contention that KVM Userfault avoids.
->    Compare this to the multiple-userfaultfd runs; they are much faster
->    because the wait_queue locks are sharded perfectly (1 per vCPU).
->    Perfect sharding is only possible because the vCPUs are configured to
->    touch only their own chunk of memory.
-
-I'll try to spend some more time after holidays on this perf issue. But
-will still be after the 1g support on !coco gmem if it would work out. As
-the 1g function is still missing in QEMU, so that one has higher priority
-comparing to either perf or downtime (e.g. I'll also need to measure
-whether QEMU will need minor fault, or stick with missing as of now).
-
-Maybe I'll also start to explore a bit on [g]memfd support on userfault,
-I'm not sure whether anyone started working on some generic solution before
-for CoCo / gmem postcopy - we need to still have a solution for either
-firecrackers or OVS/vhost-user.  I feel like we need that sooner or later,
-one way or another.  I think I'll start without minor faults support until
-justified, and if I'll ever be able to start it at all in a few months next
-year..
-
-Let me know if there's any comment on above thoughts.
-
-I guess this feauture might be useful to QEMU too, but QEMU always needs
-uffd or something similar, then we need to measure and justify this one
-useful in a real QEMU setup.  For example, need to see how the page
-transfer overhead compares with lock contentions when there're, say, 400
-vcpus.  If some speedup on userfault + the transfer overhead is close to
-what we can get with vcpu exits, then QEMU may still stick with a simple
-model.  But not sure.
-
-When integrated with this feature, it also means some other overheads at
-least to QEMU.  E.g., trap / resolve page fault needs two ops now (uffd and
-the bitmap).  Meanwhile even if vcpu can get rid of uffd's one big
-spinlock, it may contend again in userspace, either on page resolution or
-on similar queuing.  I think I mentioned it previously but I guess it's
-nontrivial to justify.  In all cases, I trust that you should have better
-judgement on this.  It's just that QEMU can at least behave differently, so
-not sure how it'll go there.
-
-Happy holidays. :)
-
-Thanks,
-
+diff --git a/Documentation/hwmon/ina238.rst b/Documentation/hwmon/ina238.rst
+index d9f479984420..1502b8e71c16 100644
+--- a/Documentation/hwmon/ina238.rst
++++ b/Documentation/hwmon/ina238.rst
+@@ -14,6 +14,12 @@ Supported chips:
+     Datasheet:
+ 	https://www.ti.com/lit/gpn/ina238
+ 
++  * Silergy SQ52206
++
++    Prefix: 'SQ52206'
++
++    Addresses: I2C 0x40 - 0x4f
++
+ Author: Nathan Rossi <nathan.rossi@digi.com>
+ 
+ Description
+@@ -54,3 +60,13 @@ temp1_input		Die temperature measurement (mC)
+ temp1_max		Maximum die temperature threshold (mC)
+ temp1_max_alarm		Maximum die temperature alarm
+ ======================= =======================================================
++
++Additional sysfs entries for sq52206
++------------------------------------
++
++======================= ====================================================
++energy1_input		Energy measurement (mJ)
++
++power1_input_highest Peak Power (uW)
++
++charge1_input   Charge measurement (mC)
+\ No newline at end of file
+diff --git a/drivers/hwmon/ina238.c b/drivers/hwmon/ina238.c
+index 131f5faefdb3..e41f98656958 100644
+--- a/drivers/hwmon/ina238.c
++++ b/drivers/hwmon/ina238.c
+@@ -96,6 +96,8 @@
+  *  Power (mW) = 0.2 * register value * 20000 / rshunt / 4 * gain
+  *  (Specific for SQ52206)
+  *  Power (mW) = 0.24 * register value * 20000 / rshunt / 4 * gain
++ *  Energy (mJ) = 16 * 0.24 * register value * 20000 / rshunt / 4 * gain
++ *  Charge (mC) = register value * 20000 / rshunt / 4 * gain
+  */
+ #define INA238_CALIBRATION_VALUE	16384
+ #define INA238_FIXED_SHUNT			20000
+@@ -167,7 +169,23 @@ static int ina238_read_reg24(const struct i2c_client *client, u8 reg, u32 *val)
+ 
+ 	return 0;
+ }
++static int ina238_read_reg40(const struct i2c_client *client, u8 reg, u64 *val)
++{
++	u8 data[5];
++	u32 low;
++	int err;
+ 
++	/* 40-bit register read */
++	err = i2c_smbus_read_i2c_block_data(client, reg, 5, data);
++	if (err < 0)
++		return err;
++	if (err != 5)
++		return -EIO;
++	low = (data[1] << 24) | (data[2] << 16) | (data[3] << 8) | data[4];
++	*val = ((long long)data[0] << 32) | low;
++
++	return 0;
++}
+ static int ina238_read_in(struct device *dev, u32 attr, int channel,
+ 			  long *val)
+ {
+@@ -348,6 +366,16 @@ static int ina238_read_power(struct device *dev, u32 attr, long *val)
+ 		/* Clamp value to maximum value of long */
+ 		*val = clamp_val(power, 0, LONG_MAX);
+ 		break;
++	case hwmon_power_input_highest:
++		err = ina238_read_reg24(data->client, SQ52206_POWER_PEAK, &regval);
++		if (err)
++			return err;
++		/* Fixed 1mA lsb, scaled by 1000000 to have result in uW */
++		power = div_u64(regval * 1200ULL * INA238_FIXED_SHUNT *
++				data->gain, 20 * data->rshunt);
++		/* Clamp value to maximum value of long */
++		*val = clamp_val(power, 0, LONG_MAX);
++		break;
+ 	case hwmon_power_max:
+ 		err = regmap_read(data->regmap, INA238_POWER_LIMIT, &regval);
+ 		if (err)
+@@ -362,7 +390,7 @@ static int ina238_read_power(struct device *dev, u32 attr, long *val)
+ 					data->gain, 20 * data->rshunt);
+ 		else
+ 			power = div_u64((regval << 8) * 1000ULL * INA238_FIXED_SHUNT *
+-					data->gain, 20 * data->rshunt);
++			       data->gain, 20 * data->rshunt);
+ 		/* Clamp value to maximum value of long */
+ 		*val = clamp_val(power, 0, LONG_MAX);
+ 		break;
+@@ -474,6 +502,46 @@ static int ina238_write_temp(struct device *dev, u32 attr, long val)
+ 	return regmap_write(data->regmap, INA238_TEMP_LIMIT, regval);
+ }
+ 
++static ssize_t energy1_input_show(struct device *dev,
++				  struct device_attribute *da, char *buf)
++{
++	struct ina238_data *data = dev_get_drvdata(dev);
++	int ret;
++	u64 val = 0;
++
++	ret = ina238_read_reg40(data->client, SQ52206_ENERGY, &val);
++	if (ret)
++		return ret;
++
++	/* result in microJoule */
++	val = div_u64(val * 96 * INA238_FIXED_SHUNT * data->gain,
++			       data->rshunt * 100);
++	/* Clamp value to maximum value of long long */
++	val = clamp_val(val, 0, LLONG_MAX);
++
++	return sprintf(buf, "%lld\n", val);
++}
++
++static ssize_t charge1_input_show(struct device *dev,
++				  struct device_attribute *da, char *buf)
++{
++	struct ina238_data *data = dev_get_drvdata(dev);
++	int ret;
++	u64 val = 0;
++
++	ret = ina238_read_reg40(data->client, SQ52206_CHARGE, &val);
++	if (ret)
++		return ret;
++
++	/* result in microCoulombs */
++	val = div_u64(val * INA238_FIXED_SHUNT * data->gain,
++			       data->rshunt * 4);
++	/* Clamp value to maximum value of long long */
++	val = clamp_val(val, 0, LLONG_MAX);
++
++	return sprintf(buf, "%lld\n", val);
++}
++
+ static int ina238_read(struct device *dev, enum hwmon_sensor_types type,
+ 		       u32 attr, int channel, long *val)
+ {
+@@ -547,6 +615,7 @@ static umode_t ina238_is_visible(const void *drvdata,
+ 		switch (attr) {
+ 		case hwmon_power_input:
+ 		case hwmon_power_max_alarm:
++		case hwmon_power_input_highest:
+ 			return 0444;
+ 		case hwmon_power_max:
+ 			return 0644;
+@@ -583,7 +652,8 @@ static const struct hwmon_channel_info * const ina238_info[] = {
+ 			   HWMON_C_INPUT),
+ 	HWMON_CHANNEL_INFO(power,
+ 			   /* 0: power */
+-			   HWMON_P_INPUT | HWMON_P_MAX | HWMON_P_MAX_ALARM),
++			   HWMON_P_INPUT | HWMON_P_MAX |
++			   HWMON_P_MAX_ALARM | HWMON_P_INPUT_HIGHEST),
+ 	HWMON_CHANNEL_INFO(temp,
+ 			   /* 0: die temperature */
+ 			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MAX_ALARM),
+@@ -601,6 +671,17 @@ static const struct hwmon_chip_info ina238_chip_info = {
+ 	.info = ina238_info,
+ };
+ 
++/* energy attributes are 5bytes wide so we need u64 */
++static DEVICE_ATTR_RO(energy1_input);
++static DEVICE_ATTR_RO(charge1_input);
++
++static struct attribute *ina238_attrs[] = {
++	&dev_attr_energy1_input.attr,
++	&dev_attr_charge1_input.attr,
++	NULL,
++};
++ATTRIBUTE_GROUPS(ina238);
++
+ /*
+  * Initialize the configuration and calibration registers.
+  */
 -- 
-Peter Xu
+2.43.0
 
