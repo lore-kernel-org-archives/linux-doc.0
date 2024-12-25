@@ -1,254 +1,131 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10DE917591;
-	Wed, 25 Dec 2024 02:04:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30208836;
+	Wed, 25 Dec 2024 05:25:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735092287; cv=none; b=qrXEUzrIxyraMmbI16Q2PfF4a3j8TeEUiV088/OZacIJs9/ZEKhyCUjOA0/JlObroy9wZRXRJMK95qFvXO71SSwgLgLpIwX6wTwkPviHzPah9Q0LIfBopgkRVy3Vii4JeMi+jImAgZpikWbg4HW+HA/3M2Lw3MHKKbiBZJHAnnU=
+	t=1735104333; cv=none; b=U6i14NSRecK97k53mOCpdpwYI+Vdo1p0A/NQgAjZqjs5vAoIlRRjOwvihC4Cl1+YzYP/X7iDXjvXO41T4Va5fwNr5M+3CIkySvQpW94Z3tLxI3xLPkFHSTHJqp+A3aYHT17ZBi8DvknzeywGjCYCY51KP3EzKb8sNdC8+e/6cA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735092287; c=relaxed/simple;
-	bh=SQXuRWpVJ8ifcNKmZj4eDOZocOB6lprqwHwyWN5zgN4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XIh/66CzmEtwT3NmYeLI+gKtrD6oOEpB+bUNtKq2V8iQZl51o5wz9w6LPHiD6cNMcmSh5+NZSt7wFSeZE6KGYEav608BeaiENdVIC9U9UA9J/ikxn2Ly8TmMOoII9JstED2W1ylk2zq+Vk9tzJphVS+zVXyAi2Pz0u7FeA1OCgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=RJMnEaKF; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1735104333; c=relaxed/simple;
+	bh=t/6Snv+hrHU7DcJvm52OGvB2JcaV+sv3YhVeDf+8aLM=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=YDmpEtZbyDyqiW4wYTfCdlu9Vj19C6woJFCiQvPFZN514ZnN1aTb40PhO0wrehbZS7s1fdUT0KvKqpuy7sA1BDfvtPD1IYuWejwz9Nwo+vmZCRkPnPC2OqWpK0+MKzPR6VjDmvPCucOySspVa90+MOnLmWCFWD0VMxhTU+HAkvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hE02gvR4; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="RJMnEaKF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=d4mCk
-	DUf8fRY2PUMOoENaonP/z19MKIrUugV++n/oAM=; b=RJMnEaKFbQimhV1qmyZjU
-	hxB96aAPUGL68zVTGkRjmP/jnmu/lad1U72mpqLYDMT9j17Y8iybKLQNUTc9zFR8
-	7hFObjDz8n7RcQd4IcLRJVWcXGF/FvSUVOuIQ/VlWPDT2nGbqvjaLxDaFg+m5Vhc
-	FQwM7SnPQeoLYtpwoZlTyY=
-Received: from silergy-System-Product-Name.silergy.inc (unknown [])
-	by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id _____wAnkVLVZ2tnHGv6BQ--.23482S4;
-	Wed, 25 Dec 2024 10:03:02 +0800 (CST)
-From: Wenliang Yan <wenliang202407@163.com>
-To: linux@roeck-us.net,
-	Jean Delvare <jdelvare@suse.com>
-Cc: Wenliang <wenliang202407@163.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 2/3] hwmon:(ina238)Add new features for SQ52206
-Date: Wed, 25 Dec 2024 10:02:56 +0800
-Message-ID: <20241225020256.439990-1-wenliang202407@163.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hE02gvR4"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2167141dfa1so58628405ad.1;
+        Tue, 24 Dec 2024 21:25:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1735104331; x=1735709131; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=8xa5H/OkZhrUiCHSwO04Buw6PHy8pZHZkLKIrBY5RWE=;
+        b=hE02gvR4fmgpOcIOdAmLAa46JBP9/KakEFnE/+Gh93EySEZklJHrtJdY2iD82wL2YN
+         q840yHmgJFzaPYK1mNYpHGaCL5Z7M6KH5WL+5vEeXOD0lIV2IG/skEvT3wBY6XhwxXOr
+         6B5EKhJa2ucyBpxcbGFRoBvxOJTucpnOrI3Y9lI9bphL8p6AyKnNBe5RCmewkHgmzIjZ
+         4yHJkWItnsUzc/kAhtEstNxxLohyVazI/dNYzCF8mO4u7tw/C5jcFe5WL7VrI2xT0JJX
+         SAXq5IYEzD1F5vNzA/hrgxOp7Qer5jv72BPBQsAQoHFoRwz0A5t7XpvX48UFVhHY6vDT
+         gK1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735104331; x=1735709131;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8xa5H/OkZhrUiCHSwO04Buw6PHy8pZHZkLKIrBY5RWE=;
+        b=oftSGDIUus8HVXZeL8TPN/AbS14uyPLivHURYVMgF76HfbnuXd50M7HkIBJU2s36HD
+         bVIrw6iMAnViys+ZRRTUDPMguooIX50mPp4ggj3/eM4Ilktj/bRMN3k3wPVn8mBwYYtx
+         YyFI/+0gJhpdarzfajv38KcpCXmKdqzydMAr1jAzSxe0qouLE3iRM1eAPyNB/I+GY4Bq
+         XWrYM97KiY2O3lvsklJgUdhso0f9+i4PhYO07eOvP3O0Wcll9ssQwZc6FZ1at4kp31PM
+         f0BXRLyLdX665AuoO8rPDBK0FU6EJzubw3A8d64mjvaoH+Sw47CWCC7yTm17CVRbyYkU
+         l+5w==
+X-Forwarded-Encrypted: i=1; AJvYcCU/yR41iDtd+nsZ3LKAU2e7NKyUaYDdLAwFkxSunV9MTX0wc7vyXeHly+MJM3osONv6yiwaZeYg/Xc=@vger.kernel.org, AJvYcCUdtj6pmUwLMS7euWAhyRCwqRCZhpmNE2OZ4ntrcuuS3Jm92hsJ7JbdW8tj+w7LVRpH9s/ta4NqGtcjXQeefbLbDG/vPA==@vger.kernel.org, AJvYcCX/RtBsUctqSoUEazbWz6u14EklkYd30LyWzavv3/5GDiLgoknAVz0UOzdYNGDOMVi/QBI2qmJTxNB3cUtQ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy01vLhO9f0ZVvnNZv7uix4QLX8EGnq+xFEWuA0NsU/MoiLYs+2
+	qs5lRSY7f8EStY6AUF4cxc5Nsmvcmk2XeXt/aoaI6qEAvFX+W+yd
+X-Gm-Gg: ASbGnctamDEe4T6zezrupOjW2dJYo9L2KVF/IjMWZLJ5gnRxOuBqxHLtqq2sNYy4qyx
+	ijdhr7byWLEJVhOeLq3moOyx8irCMcmT6Rznm+QMkm7wdciNQeJU4qg91xIxCwCxepOYAw/rGeq
+	UIPzPQvmFzYFn3Iv9rxAirzF0N/dEvmp7y3FGTwHTZxWS1AWVBu+l/NKV341OghXPIfjKoJHDOt
+	0lxoNpjXgUO707EgBjSo49b36JSPhdP/wYjpQ7xIcDMwqftd6VL/HOb2OIxGWfut/Qa8QgW
+X-Google-Smtp-Source: AGHT+IEEmNKKJNokZaDfW4qUganR1dAKsAWwen2qB8IV9kDVidKs7Dkg35bcxUOs0OeX8mjjFLINHw==
+X-Received: by 2002:a17:903:32c1:b0:215:7287:67bb with SMTP id d9443c01a7336-219e6bf8c37mr254385365ad.0.1735104330917;
+        Tue, 24 Dec 2024 21:25:30 -0800 (PST)
+Received: from [192.168.1.94] ([116.206.160.111])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9cde66sm98204375ad.145.2024.12.24.21.25.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Dec 2024 21:25:30 -0800 (PST)
+Message-ID: <7b1d0298-4cdd-4af7-83e6-9e6287387477@gmail.com>
+Date: Wed, 25 Dec 2024 18:25:19 +1300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wAnkVLVZ2tnHGv6BQ--.23482S4
-X-Coremail-Antispam: 1Uf129KBjvJXoW3JryUXFy7uFW8JFWUZFyrZwb_yoWxWr4Dpa
-	s3Ja4fKrWUtrZrWrsrtr47uF1rWw1xG3W5ArZ7Kw1SvF1DXr929ryUtF10va13K34UZF4U
-	JF4Ut3y5Cw12yr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRAsqLUUUUU=
-X-CM-SenderInfo: xzhqzxhdqjjiisuqlqqrwthudrp/1tbiNRvA02drYJKEVgAAsR
+User-Agent: Mozilla Thunderbird
+From: "Cody T.-H. Chiu" <codyit@gmail.com>
+Subject: Re: [PATCH 1/1] platform/x86: Add lenovo-legion-wmi drivers
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>, ike.pan@canonical.com
+Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Luke Jones <luke@ljones.dev>,
+ Xino Ni <nijs1@lenovo.com>, Zhixin Zhang <zhangzx36@lenovo.com>,
+ Mia Shao <shaohz1@lenovo.com>, Mark Pearson <mpearson-lenovo@squebb.ca>,
+ "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+ platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241217230645.15027-1-derekjohn.clark@gmail.com>
+ <20241217230645.15027-2-derekjohn.clark@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20241217230645.15027-2-derekjohn.clark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Wenliang <wenliang202407@163.com>
 
-This patch depends on PATCH 1.
-Add peak power,energy and charge detection for SQ52206.
+On 12/17/2024 17:06, Derek J. Clark wrote:
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> ...
+> +config LEGION_OTHER_WMI
+> +	tristate "Lenovo Legion Other Method WMI Driver"
+> +	depends on LEGION_GAMEZONE_WMI
+> +	depends on LEGION_DATA_01_WMI
+> +	select FW_ATTR_CLASS
+> +	help
+> +	  Say Y here if you have a WMI aware Lenovo Legion device and would 
+like to use the
+> +	  firmware_attributes API to control various tunable settings 
+typically exposed by
+> +	  Lenovo software in Windows.
+> +
+> +	  To compile this driver as a module, choose M here: the module will
+> +	  be called lenovo_legion_wmi_other.
+> +
+>   config IDEAPAD_LAPTOP
+>   	tristate "Lenovo IdeaPad Laptop Extras"
+>   	depends on ACPI
 
-Signed-off-by: Wenliang <wenliang202407@163.com>
----
+Hi Derek,
 
-ina238.rst:Add information of SQ52206 in ina238.rst, Add additional sysfs
-entries for sq52206, include energy1_input, power1_input_highest
-and charge1_input.
-ina238.c: Add a 40 bit data reading function to prepare for energy and
-charge reading.
-Energy and charge attributes are 5bytes wide, so add call function for
-charge1_input and modified the function for energy1_input to use u64.
-Add HWMON_P_INPUT_HIGHEST for power.
+Thank you for the initiative, love to see we'll finally get a driver 
+developed with the help of official specs.
 
- Documentation/hwmon/ina238.rst | 16 +++++++
- drivers/hwmon/ina238.c         | 85 +++++++++++++++++++++++++++++++++-
- 2 files changed, 99 insertions(+), 2 deletions(-)
+Perhaps it's common knowledge to the crowd here but I'd like to call out 
+right now significant portion of the support on Legion ACPI / WMI came 
+from ideapad-laptop which explicitly detects it:
 
-diff --git a/Documentation/hwmon/ina238.rst b/Documentation/hwmon/ina238.rst
-index d9f479984420..1502b8e71c16 100644
---- a/Documentation/hwmon/ina238.rst
-+++ b/Documentation/hwmon/ina238.rst
-@@ -14,6 +14,12 @@ Supported chips:
-     Datasheet:
- 	https://www.ti.com/lit/gpn/ina238
- 
-+  * Silergy SQ52206
-+
-+    Prefix: 'SQ52206'
-+
-+    Addresses: I2C 0x40 - 0x4f
-+
- Author: Nathan Rossi <nathan.rossi@digi.com>
- 
- Description
-@@ -54,3 +60,13 @@ temp1_input		Die temperature measurement (mC)
- temp1_max		Maximum die temperature threshold (mC)
- temp1_max_alarm		Maximum die temperature alarm
- ======================= =======================================================
-+
-+Additional sysfs entries for sq52206
-+------------------------------------
-+
-+======================= ====================================================
-+energy1_input		Energy measurement (mJ)
-+
-+power1_input_highest Peak Power (uW)
-+
-+charge1_input   Charge measurement (mC)
-\ No newline at end of file
-diff --git a/drivers/hwmon/ina238.c b/drivers/hwmon/ina238.c
-index 131f5faefdb3..e41f98656958 100644
---- a/drivers/hwmon/ina238.c
-+++ b/drivers/hwmon/ina238.c
-@@ -96,6 +96,8 @@
-  *  Power (mW) = 0.2 * register value * 20000 / rshunt / 4 * gain
-  *  (Specific for SQ52206)
-  *  Power (mW) = 0.24 * register value * 20000 / rshunt / 4 * gain
-+ *  Energy (mJ) = 16 * 0.24 * register value * 20000 / rshunt / 4 * gain
-+ *  Charge (mC) = register value * 20000 / rshunt / 4 * gain
-  */
- #define INA238_CALIBRATION_VALUE	16384
- #define INA238_FIXED_SHUNT			20000
-@@ -167,7 +169,23 @@ static int ina238_read_reg24(const struct i2c_client *client, u8 reg, u32 *val)
- 
- 	return 0;
- }
-+static int ina238_read_reg40(const struct i2c_client *client, u8 reg, u64 *val)
-+{
-+	u8 data[5];
-+	u32 low;
-+	int err;
- 
-+	/* 40-bit register read */
-+	err = i2c_smbus_read_i2c_block_data(client, reg, 5, data);
-+	if (err < 0)
-+		return err;
-+	if (err != 5)
-+		return -EIO;
-+	low = (data[1] << 24) | (data[2] << 16) | (data[3] << 8) | data[4];
-+	*val = ((long long)data[0] << 32) | low;
-+
-+	return 0;
-+}
- static int ina238_read_in(struct device *dev, u32 attr, int channel,
- 			  long *val)
- {
-@@ -348,6 +366,16 @@ static int ina238_read_power(struct device *dev, u32 attr, long *val)
- 		/* Clamp value to maximum value of long */
- 		*val = clamp_val(power, 0, LONG_MAX);
- 		break;
-+	case hwmon_power_input_highest:
-+		err = ina238_read_reg24(data->client, SQ52206_POWER_PEAK, &regval);
-+		if (err)
-+			return err;
-+		/* Fixed 1mA lsb, scaled by 1000000 to have result in uW */
-+		power = div_u64(regval * 1200ULL * INA238_FIXED_SHUNT *
-+				data->gain, 20 * data->rshunt);
-+		/* Clamp value to maximum value of long */
-+		*val = clamp_val(power, 0, LONG_MAX);
-+		break;
- 	case hwmon_power_max:
- 		err = regmap_read(data->regmap, INA238_POWER_LIMIT, &regval);
- 		if (err)
-@@ -362,7 +390,7 @@ static int ina238_read_power(struct device *dev, u32 attr, long *val)
- 					data->gain, 20 * data->rshunt);
- 		else
- 			power = div_u64((regval << 8) * 1000ULL * INA238_FIXED_SHUNT *
--					data->gain, 20 * data->rshunt);
-+			       data->gain, 20 * data->rshunt);
- 		/* Clamp value to maximum value of long */
- 		*val = clamp_val(power, 0, LONG_MAX);
- 		break;
-@@ -474,6 +502,46 @@ static int ina238_write_temp(struct device *dev, u32 attr, long val)
- 	return regmap_write(data->regmap, INA238_TEMP_LIMIT, regval);
- }
- 
-+static ssize_t energy1_input_show(struct device *dev,
-+				  struct device_attribute *da, char *buf)
-+{
-+	struct ina238_data *data = dev_get_drvdata(dev);
-+	int ret;
-+	u64 val = 0;
-+
-+	ret = ina238_read_reg40(data->client, SQ52206_ENERGY, &val);
-+	if (ret)
-+		return ret;
-+
-+	/* result in microJoule */
-+	val = div_u64(val * 96 * INA238_FIXED_SHUNT * data->gain,
-+			       data->rshunt * 100);
-+	/* Clamp value to maximum value of long long */
-+	val = clamp_val(val, 0, LLONG_MAX);
-+
-+	return sprintf(buf, "%lld\n", val);
-+}
-+
-+static ssize_t charge1_input_show(struct device *dev,
-+				  struct device_attribute *da, char *buf)
-+{
-+	struct ina238_data *data = dev_get_drvdata(dev);
-+	int ret;
-+	u64 val = 0;
-+
-+	ret = ina238_read_reg40(data->client, SQ52206_CHARGE, &val);
-+	if (ret)
-+		return ret;
-+
-+	/* result in microCoulombs */
-+	val = div_u64(val * INA238_FIXED_SHUNT * data->gain,
-+			       data->rshunt * 4);
-+	/* Clamp value to maximum value of long long */
-+	val = clamp_val(val, 0, LLONG_MAX);
-+
-+	return sprintf(buf, "%lld\n", val);
-+}
-+
- static int ina238_read(struct device *dev, enum hwmon_sensor_types type,
- 		       u32 attr, int channel, long *val)
- {
-@@ -547,6 +615,7 @@ static umode_t ina238_is_visible(const void *drvdata,
- 		switch (attr) {
- 		case hwmon_power_input:
- 		case hwmon_power_max_alarm:
-+		case hwmon_power_input_highest:
- 			return 0444;
- 		case hwmon_power_max:
- 			return 0644;
-@@ -583,7 +652,8 @@ static const struct hwmon_channel_info * const ina238_info[] = {
- 			   HWMON_C_INPUT),
- 	HWMON_CHANNEL_INFO(power,
- 			   /* 0: power */
--			   HWMON_P_INPUT | HWMON_P_MAX | HWMON_P_MAX_ALARM),
-+			   HWMON_P_INPUT | HWMON_P_MAX |
-+			   HWMON_P_MAX_ALARM | HWMON_P_INPUT_HIGHEST),
- 	HWMON_CHANNEL_INFO(temp,
- 			   /* 0: die temperature */
- 			   HWMON_T_INPUT | HWMON_T_MAX | HWMON_T_MAX_ALARM),
-@@ -601,6 +671,17 @@ static const struct hwmon_chip_info ina238_chip_info = {
- 	.info = ina238_info,
- };
- 
-+/* energy attributes are 5bytes wide so we need u64 */
-+static DEVICE_ATTR_RO(energy1_input);
-+static DEVICE_ATTR_RO(charge1_input);
-+
-+static struct attribute *ina238_attrs[] = {
-+	&dev_attr_energy1_input.attr,
-+	&dev_attr_charge1_input.attr,
-+	NULL,
-+};
-+ATTRIBUTE_GROUPS(ina238);
-+
- /*
-  * Initialize the configuration and calibration registers.
-  */
--- 
-2.43.0
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/platform/x86/ideapad-laptop.c?h=v6.13-rc4#n2108
 
+Per my observation majority of users have no idea this is the case 
+because of the misnomer, adding another set of drivers with Legion in 
+the name explicitly, that don't support those features would double the 
+dissonance.
+
+I wonder if reconciling this is in your planned scope? If not IMO at 
+least this should be called out in documentation / Kconfig.
+
+PS: I'm a developer myself but at lower level kernel domain I'm just a 
+user so hopefully I'm not just adding noise here.
+
+- Cody
