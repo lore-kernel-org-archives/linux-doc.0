@@ -1,194 +1,121 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7730F14D6E1;
-	Thu, 26 Dec 2024 12:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B671E505;
+	Thu, 26 Dec 2024 15:19:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735214956; cv=none; b=BKEYzA0+b7WoMqJz3e3zDT7PSdRipL6Qbb79qpbY0fmzaIG5YoBL1HWQFx1RRCR5JZc/aEoxjh7CYucS0arf3du/T6OT86wM1E3BX5OwNfDK9Lnx31u3Gyt5Nrc1Y1bJG4/jr1G52bl8sb0fKArq6Rr0KGbiSdW+Nhvch/zqOvA=
+	t=1735226381; cv=none; b=ZGwLeNXA7mLSXDJmaiMuw0Dx3RX+dYaQmVKJu9sh2j31fADTRbI36FoXeylHMtJKKktcT1SZdESbCnyNrUkXbebgAYvxrgm+4J05mtnfh0wYmiYTSHRF3cs36JEI97IHcFHtDiAhvT20u6srtf+JIdcgdu0MLUYYngEF0dqjO/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735214956; c=relaxed/simple;
-	bh=VP+LKszyHuqeOFVhE+sNqmJHnc/bVqk8JrwHcKe2mKk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=LWLhspljTSk4JpUsgmSy/e9VWJ/3N/RlefrxzSh5fpWKj1F7V8ElatOxGvySkVUGBVc96vGNFSUqemc0mbqPGQDUpRiQczlB0RmXqpIJu7dzbe8Fqg9EL2Mh8epkxC3tenJ5hR+0QEnr54DKMf95COV1sPFrxder8S7OqyStpmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=NUqZRKcW; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1735226381; c=relaxed/simple;
+	bh=Bi+YI4KNUyfMO78M7FAoGyOGb13DbxX7QcWZOGJ4lG8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YkPzSfyDD8qw1MpRviMMgLSQH55i7V0dEXgpIGoqws4GFYHX6l4bzn1/iBit3G80yiF6DwuQdm4PsncF4qeeBwNDPjnOlArWhFjNNvx8I+2zYRx7dG7+t4cJt2p/CY2CzHaCvS2D4OcONElvlIiba8bwR1JfS7Uc0fY9m+35rGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KIBUXvE1; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="NUqZRKcW"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BQ88e3i010707;
-	Thu, 26 Dec 2024 12:09:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ecXAdKEmWV4vHjQwBIoWND+NxaUKVlnNIUvCnpHIA+E=; b=NUqZRKcWnCTWdEoq
-	EeZampBD3UOlMeJXJsUvZC914IW18tu0UO6NYzcnXhXysXRZEGdlCker0sVFn+uU
-	zI8NMIR0IrzXIBPI40FJUgkV348jqcCwadLyHvEG0r+CgPxFYuigmtOnuySmLsxr
-	RqMBCVgKF2M1bcNdiW5O7NmpsUqYF1LlJAldHcMatfudN8RLUl/1j/hBd9vx5+5D
-	/F9ttoVnrRsPE61zKWyD3AqRcvXoS9S+oZi/3rDASOFkczdUM2gESoHl1Qv7WN5g
-	viNmsLvZaj8Cpmo4ydUsL9u438dWwvhxNUAcyKsXCewrwdI3gpeqo4ChBPFOMWJn
-	Z6aJJg==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43s3cf9g8t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 26 Dec 2024 12:09:07 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BQC96OB029057
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 26 Dec 2024 12:09:06 GMT
-Received: from [10.216.14.233] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 26 Dec
- 2024 04:09:00 -0800
-Message-ID: <64dca613-5053-46d4-9910-7ac551fdde81@quicinc.com>
-Date: Thu, 26 Dec 2024 17:38:54 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KIBUXvE1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1735226380; x=1766762380;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Bi+YI4KNUyfMO78M7FAoGyOGb13DbxX7QcWZOGJ4lG8=;
+  b=KIBUXvE1k8gRHOi+7diDWAEt+8+TrIFQVpeQ7yscSwZviP7sJbN84COO
+   mf3VYfFWP8MtZS+J8JfjIeEw4fWuttPVLbbCOXXwvwDM66655z4UVfvqn
+   sjGcqR/ZvsUjFujZ8QxOqRkx0aPEW1/uwuvLcdmAwzCeUVX217HUyq2zL
+   fCbIwpV1hmk9AkyVvExdohk4+8YTeOi9tftRhStDDI5VTUWPrGD1OknBG
+   LTpOFdyo5i4IBtuIf0k1Bv6WQbZHZwC2h/eM6AkJKpwUrWzstj9dcTzMf
+   7rPWdJSbomGJsl4h6KZlXPZfTsmx3+xQdJpvVeQZ0MDEcyjcxpetML5e6
+   w==;
+X-CSE-ConnectionGUID: uCQ+o8jATF+vxmq5WndhXg==
+X-CSE-MsgGUID: 2rne4Q2tQ86fKTmHTj2K9w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="46326116"
+X-IronPort-AV: E=Sophos;i="6.12,266,1728975600"; 
+   d="scan'208";a="46326116"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 07:19:34 -0800
+X-CSE-ConnectionGUID: YEvWBWeiTrqj2X1V8fvnqA==
+X-CSE-MsgGUID: BU5AFAvkSkK9WwlOahjTag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="104015591"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 26 Dec 2024 07:19:30 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tQpe4-0002ek-0B;
+	Thu, 26 Dec 2024 15:19:28 +0000
+Date: Thu, 26 Dec 2024 23:18:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gur Stavi <gur.stavi@huawei.com>, gongfan <gongfan1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Cai Huoqing <cai.huoqing@linux.dev>, Xin Guo <guoxin09@huawei.com>,
+	Shen Chenyang <shenchenyang1@hisilicon.com>,
+	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+	Shi Jing <shijing34@huawei.com>,
+	Meny Yossefi <meny.yossefi@huawei.com>
+Subject: Re: [PATCH net-next v02 1/1] hinic3: module initialization and tx/rx
+ logic
+Message-ID: <202412262337.pslE1avE-lkp@intel.com>
+References: <bbf2442dc9feca8bfa13ccfa2497a0e857eb5809.1735206602.git.gur.stavi@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 02/12] dmaengine: add DMA_PREP_LOCK and DMA_PREP_UNLOCK
- flag
-To: Vinod Koul <vkoul@kernel.org>, Md Sadre Alam <quic_mdalam@quicinc.com>
-CC: <corbet@lwn.net>, <thara.gopinath@gmail.com>,
-        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
-        <kees@kernel.org>, <dave.jiang@intel.com>, <dmaengine@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-crypto@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <quic_srichara@quicinc.com>, <quic_varada@quicinc.com>,
-        <quic_utiwari@quicinc.com>
-References: <20241212041639.4109039-1-quic_mdalam@quicinc.com>
- <20241212041639.4109039-3-quic_mdalam@quicinc.com> <Z2qOKHsYpy8kcwlv@vaman>
-Content-Language: en-US
-From: Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>
-In-Reply-To: <Z2qOKHsYpy8kcwlv@vaman>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: fHDeyTMIbZvrE8sxHSBCb2kBjVrGhPE_
-X-Proofpoint-ORIG-GUID: fHDeyTMIbZvrE8sxHSBCb2kBjVrGhPE_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
- clxscore=1011 bulkscore=0 adultscore=0 mlxlogscore=999 spamscore=0
- phishscore=0 lowpriorityscore=0 impostorscore=0 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412260108
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bbf2442dc9feca8bfa13ccfa2497a0e857eb5809.1735206602.git.gur.stavi@huawei.com>
+
+Hi Gur,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 9268abe611b09edc975aa27e6ce829f629352ff4]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gur-Stavi/hinic3-module-initialization-and-tx-rx-logic/20241226-192558
+base:   9268abe611b09edc975aa27e6ce829f629352ff4
+patch link:    https://lore.kernel.org/r/bbf2442dc9feca8bfa13ccfa2497a0e857eb5809.1735206602.git.gur.stavi%40huawei.com
+patch subject: [PATCH net-next v02 1/1] hinic3: module initialization and tx/rx logic
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20241226/202412262337.pslE1avE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241226/202412262337.pslE1avE-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412262337.pslE1avE-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/net/ethernet/huawei/hinic3/hinic3_tx.c: In function 'csum_magic':
+>> drivers/net/ethernet/huawei/hinic3/hinic3_tx.c:292:17: error: implicit declaration of function 'csum_ipv6_magic'; did you mean 'csum_magic'? [-Werror=implicit-function-declaration]
+     292 |                 csum_ipv6_magic(&ip->v6->saddr, &ip->v6->daddr, 0, proto, 0);
+         |                 ^~~~~~~~~~~~~~~
+         |                 csum_magic
+   cc1: some warnings being treated as errors
 
 
+vim +292 drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
 
-On 12/24/2024 4:04 PM, Vinod Koul wrote:
-> On 12-12-24, 09:46, Md Sadre Alam wrote:
->> Add lock and unlock flag support on command descriptor.
->> Once lock set in requester pipe, then the bam controller
->> will lock all others pipe and process the request only
->> from requester pipe. Unlocking only can be performed from
->> the same pipe.
->>
->> If DMA_PREP_LOCK flag passed in command descriptor then requester
->> of this transaction wanted to lock the BAM controller for this
->> transaction so BAM driver should set LOCK bit for the HW descriptor.
->>
->> If DMA_PREP_UNLOCK flag passed in command descriptor then requester
->> of this transaction wanted to unlock the BAM controller.so BAM driver
->> should set UNLOCK bit for the HW descriptor.
->>
->> BAM IP version 1.4.0 and above only supports this LOCK/UNLOCK
->> feature.
->>
->> Signed-off-by: Md Sadre Alam <quic_mdalam@quicinc.com>
->> ---
->>
->> Change in [v5]
->>
->> * Added DMA_PREP_LOCK and DMA_PREP_UNLOCK flag support
->>
->> Change in [v4]
->>
->> * This patch was not included in v4
->>
->> Change in [v3]
->>
->> * This patch was not included in v3
->>
->> Change in [v2]
->>
->> * This patch was not included in v2
->>   
->> Change in [v1]
->>
->> * This patch was not included in v1
->>
->>   Documentation/driver-api/dmaengine/provider.rst | 15 +++++++++++++++
->>   include/linux/dmaengine.h                       |  6 ++++++
->>   2 files changed, 21 insertions(+)
->>
->> diff --git a/Documentation/driver-api/dmaengine/provider.rst b/Documentation/driver-api/dmaengine/provider.rst
->> index 3085f8b460fa..5f30c20f94f3 100644
->> --- a/Documentation/driver-api/dmaengine/provider.rst
->> +++ b/Documentation/driver-api/dmaengine/provider.rst
->> @@ -628,6 +628,21 @@ DMA_CTRL_REUSE
->>     - This flag is only supported if the channel reports the DMA_LOAD_EOT
->>       capability.
->>   
->> +- DMA_PREP_LOCK
->> +
->> +  - If set, the BAM will lock all other pipes not related to the current
-> 
-> Why BAM, the generic API _cannot_ be implementation specific, make this
-> as a generic one please
-> 
-Yes, should be DAM to be generic.
-> Anyone can use this new method and not just BAM...
-> 
-> 
->> +    pipe group, and keep handling the current pipe only.
->> +
->> +  - All pipes not within this group will be locked by this pipe upon lock
->> +    event.
->> +
->> +  - only pipes which are in the same group and relate to the same Environment
->> +    Execution(EE) will not be locked by a certain pipe.
->> +
->> +- DMA_PREP_UNLOCK
->> +
->> +  - If set, BAM will release all locked pipes
->> +
->>   General Design Notes
->>   ====================
->>   
->> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
->> index 346251bf1026..8ebd43a998a7 100644
->> --- a/include/linux/dmaengine.h
->> +++ b/include/linux/dmaengine.h
->> @@ -200,6 +200,10 @@ struct dma_vec {
->>    *  transaction is marked with DMA_PREP_REPEAT will cause the new transaction
->>    *  to never be processed and stay in the issued queue forever. The flag is
->>    *  ignored if the previous transaction is not a repeated transaction.
->> + *  @DMA_PREP_LOCK: tell the driver that there is a lock bit set on command
->> + *  descriptor.
->> + *  @DMA_PREP_UNLOCK: tell the driver that there is a un-lock bit set on command
->> + *  descriptor.
->>    */
->>   enum dma_ctrl_flags {
->>   	DMA_PREP_INTERRUPT = (1 << 0),
->> @@ -212,6 +216,8 @@ enum dma_ctrl_flags {
->>   	DMA_PREP_CMD = (1 << 7),
->>   	DMA_PREP_REPEAT = (1 << 8),
->>   	DMA_PREP_LOAD_EOT = (1 << 9),
->> +	DMA_PREP_LOCK = (1 << 10),
->> +	DMA_PREP_UNLOCK = (1 << 11),
->>   };
->>   
->>   /**
->> -- 
->> 2.34.1
-> 
+   287	
+   288	static __sum16 csum_magic(union hinic3_ip *ip, unsigned short proto)
+   289	{
+   290		return (ip->v4->version == 4) ?
+   291			csum_tcpudp_magic(ip->v4->saddr, ip->v4->daddr, 0, proto, 0) :
+ > 292			csum_ipv6_magic(&ip->v6->saddr, &ip->v6->daddr, 0, proto, 0);
+   293	}
+   294	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
