@@ -1,55 +1,55 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9060E1487C1
-	for <linux-doc@vger.kernel.org>; Thu, 26 Dec 2024 17:07:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6DB01D14E2
+	for <linux-doc@vger.kernel.org>; Thu, 26 Dec 2024 17:07:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735232844; cv=none; b=EVvL8j5VxWi/gHSJgNJJIgg97bmS3dSX3nQ25O7HDvGBaNhHNtH80W1h3A1sCVpJEZI3hoUs9gTPDUQRbg2BH0t6e7IxDPFslMa6DZ+pDNFGGhNA6CoSt1ER4N7lwa0n3rZmJmfLcEtEOtKokrl0q9AlbLj8ejd2KOIJIAJyGVw=
+	t=1735232846; cv=none; b=NKuUcV0LzddmW6j8wqW0OgzFLb+HSuoFALf39BP9hTtjJfiyS6mKfkZvG7SXvKc7pIuzVRMW+En/w/6KtrVoLBnPS6fCFFqgHSrVnr4u4GG7FGybr8kozye1wC4Zr2MyR4yq6KGMfiPJI00WOY1whMSJy7qEn7Ww1hLNpRJ8rDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735232844; c=relaxed/simple;
-	bh=ruiO9aLYsTYCBSkm86yTyt9vPV6wSq57QK6xsEp5ZIU=;
+	s=arc-20240116; t=1735232846; c=relaxed/simple;
+	bh=p/o5ZGpP7QNevNaCwrDZS9y9Ty/3GQzxxQCTMzyjkLg=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=ND6YCofxaOkzwkZVcKa21g6OPjtawqKETK9fE9or2qwrBUYsTPE2XPy/DMuF1fWkw3SUHrc7/bC82U0YqiwpXjDJB30d6+v5V5VU+pIT3rklKm55b+Z/NT5lp/YgikCKm/UCvTxE5D+oKar/ELzVN9EfXdr9R+XdvMQeGM4CHIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lDtPdHSP; arc=none smtp.client-ip=209.85.216.74
+	 To:Cc:Content-Type; b=QWn51swU5bpyF3cTi5VGyDow7tFAXDZlBEWMSl0c2RM9G1tCA3eOlX6CeTOORp/hhA/0FDiYRZ0J1xCYdmKxpzuxbpajMmdyb/VIXKiZNe3Khz4vcfxtI6+Pcv2o7MfJKBK4FEF90MHP/re4TZV7XTesJdfJEcIRpV+IEKMSaEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MkiC76Vt; arc=none smtp.client-ip=209.85.214.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lDtPdHSP"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2ef7fbd99a6so8019172a91.1
-        for <linux-doc@vger.kernel.org>; Thu, 26 Dec 2024 09:07:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MkiC76Vt"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2164861e1feso82611985ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 26 Dec 2024 09:07:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1735232842; x=1735837642; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1735232844; x=1735837644; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uC/uS/GmF3UbaohKrad0ksO3lGJZa9/e0a1asiVVa0A=;
-        b=lDtPdHSPm6LoQXshi3n62O94yzLX/frfcnOpntG7kL93zTP+vzhlNnSllFFqOkXVtz
-         OkNQvy/qdqBGYXQ5Z5vbGVL+vBq6IZVjrc7CPQFXBgb4u0vvQQ4qc/+ZGoCknwNri/dq
-         j9to4sAzHA1uzbGt3VnXA1GRSADF8bmR/COFaBcug1yuXH+H4MZx72ElAYhPlAMQMYBL
-         62Pf9s6xiTn4haZCcMp1NWZbhLzLpBFLHXp872ZQWg2fpIxvMWT+tH4twbqI/4IuswP7
-         05EfH6je478Y71XSb2XHPfrtPaNTZNsN8ZFPbWeeZMcAC7BeAEHumJdFYZOfvS5/hJzc
-         mc5A==
+        bh=zZzt97suQHoGz3iLHkiBfewFYx04NIJnrpXSSuwtyuU=;
+        b=MkiC76VtsdXiWuhgh5zm9EJLqQUGnngy09F9f+kbH8INJugR6HEPwy2e4EMqmv7UJM
+         v5cGRCoZ9aMF5j5jSFi45tcN3v8E9xNciP5ntwaK3iYTR/D7Du/+ywDLKUXuvFwWnFIE
+         x2uH+kcg2Ko5MGOsWV2PybJkPeAVX70UEYIUXVGR8wwA/S89ucBZ3r2IwOQIgbTVdACV
+         gtE+BiQ3lSjw9rOm6i4cSxVWzAexaavRuVkDvdIYVBvHACiJa6+uNegJYIGNyabiKWDZ
+         P6gpkrZ2LOSQY8NswY+sGT2K0BLyqLgML9aPBTQlCNoNlx0ilI/e1hF2bo1W16Dlcn3f
+         9rEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735232842; x=1735837642;
+        d=1e100.net; s=20230601; t=1735232844; x=1735837644;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uC/uS/GmF3UbaohKrad0ksO3lGJZa9/e0a1asiVVa0A=;
-        b=Q7BK+RSnhj+amFFK/hsZBFCl46UvWF10Z2U7/APTNQbjO5kDfP9uL9j1skbC8RJ/9E
-         zPeyITt/KX3Rup94yZZbl4EbMAAkHUjiN3KoLzB2kiqUGKiMmZFjF76vRhGWIHMGZd+t
-         qRywkkBC4BY5zReAUJc9yghed+IxQPM1xmTjiigUXDP94JPFnLI5rM/hJt8iD8Z6Mam7
-         u+M1lElRhSfV/8I6pWMq/2PYs+vWWLyzS79ToyRe7vaJ7opv48WOedHoTg/MCQDZ34s4
-         y6Icx5luo0lorQt037rfdRfcuzChx8ZzAYQM0mPIyaSM1bfKPsSenTKjhbQFMTVzE2or
-         lXhw==
-X-Forwarded-Encrypted: i=1; AJvYcCVHQ6WilEEVeyAUMJJf9WnWJYKAHegYYkG/uZeP9KsZHrhFaBIe8QSbca2W6/jXhRUL6125tIGzC70=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7bWrST5lSH1plG9Wje85ddS14cxB1Q/Q6LffficLpaKvUPSVU
-	Vf7QIl2TFmH3Ww0HTrLhC0rl58WaSioD1HHcrGMvbG6ezq1/Dzae8OqcXy4vi4b8bDgRM16HjWy
-	Bmw==
-X-Google-Smtp-Source: AGHT+IHCdGYEXz7DM0Oi4jA5FcxiPuZb/VK8PE48RzKkuHUHkyLtSTzBzCK0XU3Squr5UgqXBJEcCRqnrjo=
-X-Received: from pjyr4.prod.google.com ([2002:a17:90a:e184:b0:2ea:3a1b:f493])
- (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90a:fc4f:b0:2ea:5054:6c44
- with SMTP id 98e67ed59e1d1-2f452eeb641mr29738883a91.31.1735232841920; Thu, 26
- Dec 2024 09:07:21 -0800 (PST)
-Date: Thu, 26 Dec 2024 09:06:56 -0800
+        bh=zZzt97suQHoGz3iLHkiBfewFYx04NIJnrpXSSuwtyuU=;
+        b=rtWOUG9LrgzM9eHaZCiXEXsswmYstETM3RPA5PSm2XT/HWUHmwohyXxvOt3pOa1pxb
+         NkWgLtvWaR+RhryWRXJsvYgzsnW2tVcYTQcDznYHQNCe6XzgBa6HjrQWb3doOacVp5Ae
+         FOppHLg3RCP1giO0mam4mICg1egog3D9dHIKYbQL4OKqJp/plRrfeeY+FRUuH6Hgweam
+         2oZAqe8z0gOC6XKbpzLSzW3uI+LVqPalDiUa69igDZrKczW1GarcAwXTGaNPpGBu9QYi
+         YzMP2l79EigjXu8xNhO9GVJWZcw3dLkvxKi3KaOYKG07/UYuKb+16cJekgqN7OpPT2NH
+         PewA==
+X-Forwarded-Encrypted: i=1; AJvYcCWDmrEokxK2qR/o8E2DzcCl/2BTe6FCmQX9H3fb2WrUc1O8ZhA8b2syLnw9RxoZK9mf5Um+6N4vNOU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+15dL69sg/ix6nNLLD4BKY71Jd4ayZiNZW4Sqq8vSM7e3DIhe
+	hQKWRTTEyTfOVKof/E9Aa3klDfOaVMYX3BJMLC0HbltHbd7KXZPxnZWOY51A/LyLlQMtg6Ts1aj
+	WnQ==
+X-Google-Smtp-Source: AGHT+IEAlsKyIxUvD+OjguaAw8zgyVzbZEnVmDfknkzudP9YDfj4nmndYPZJH96mZmFPgzBT4t688/RysUg=
+X-Received: from plbkn3.prod.google.com ([2002:a17:903:783:b0:216:5441:d855])
+ (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:f54e:b0:215:e98c:c5b5
+ with SMTP id d9443c01a7336-219e6e8c5c5mr356653565ad.1.1735232843904; Thu, 26
+ Dec 2024 09:07:23 -0800 (PST)
+Date: Thu, 26 Dec 2024 09:06:57 -0800
 In-Reply-To: <20241226170710.1159679-1-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,9 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20241226170710.1159679-1-surenb@google.com>
 X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
-Message-ID: <20241226170710.1159679-5-surenb@google.com>
-Subject: [PATCH v7 04/17] mm: modify vma_iter_store{_gfp} to indicate if it's
- storing a new vma
+Message-ID: <20241226170710.1159679-6-surenb@google.com>
+Subject: [PATCH v7 05/17] mm: mark vmas detached upon exit
 From: Suren Baghdasaryan <surenb@google.com>
 To: akpm@linux-foundation.org
 Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com, 
@@ -77,191 +76,35 @@ Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
 	surenb@google.com
 Content-Type: text/plain; charset="UTF-8"
 
-vma_iter_store() functions can be used both when adding a new vma and
-when updating an existing one. However for existing ones we do not need
-to mark them attached as they are already marked that way. Add a parameter
-to distinguish the usage and skip vma_mark_attached() when not needed.
+When exit_mmap() removes vmas belonging to an exiting task, it does not
+mark them as detached since they can't be reached by other tasks and they
+will be freed shortly. Once we introduce vma reuse, all vmas will have to
+be in detached state before they are freed to ensure vma when reused is
+in a consistent state. Add missing vma_mark_detached() before freeing the
+vma.
 
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 ---
- include/linux/mm.h | 12 ++++++++++++
- mm/nommu.c         |  4 ++--
- mm/vma.c           | 16 ++++++++--------
- mm/vma.h           | 13 +++++++++----
- 4 files changed, 31 insertions(+), 14 deletions(-)
+ mm/vma.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 081178b0eec4..c50edfedd99d 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -821,6 +821,16 @@ static inline void vma_assert_locked(struct vm_area_struct *vma)
- 		vma_assert_write_locked(vma);
- }
- 
-+static inline void vma_assert_attached(struct vm_area_struct *vma)
-+{
-+	VM_BUG_ON_VMA(vma->detached, vma);
-+}
-+
-+static inline void vma_assert_detached(struct vm_area_struct *vma)
-+{
-+	VM_BUG_ON_VMA(!vma->detached, vma);
-+}
-+
- static inline void vma_mark_attached(struct vm_area_struct *vma)
- {
- 	vma->detached = false;
-@@ -866,6 +876,8 @@ static inline void vma_end_read(struct vm_area_struct *vma) {}
- static inline void vma_start_write(struct vm_area_struct *vma) {}
- static inline void vma_assert_write_locked(struct vm_area_struct *vma)
- 		{ mmap_assert_write_locked(vma->vm_mm); }
-+static inline void vma_assert_attached(struct vm_area_struct *vma) {}
-+static inline void vma_assert_detached(struct vm_area_struct *vma) {}
- static inline void vma_mark_attached(struct vm_area_struct *vma) {}
- static inline void vma_mark_detached(struct vm_area_struct *vma) {}
- 
-diff --git a/mm/nommu.c b/mm/nommu.c
-index 9cb6e99215e2..72c8c505836c 100644
---- a/mm/nommu.c
-+++ b/mm/nommu.c
-@@ -1191,7 +1191,7 @@ unsigned long do_mmap(struct file *file,
- 	setup_vma_to_mm(vma, current->mm);
- 	current->mm->map_count++;
- 	/* add the VMA to the tree */
--	vma_iter_store(&vmi, vma);
-+	vma_iter_store(&vmi, vma, true);
- 
- 	/* we flush the region from the icache only when the first executable
- 	 * mapping of it is made  */
-@@ -1356,7 +1356,7 @@ static int split_vma(struct vma_iterator *vmi, struct vm_area_struct *vma,
- 
- 	setup_vma_to_mm(vma, mm);
- 	setup_vma_to_mm(new, mm);
--	vma_iter_store(vmi, new);
-+	vma_iter_store(vmi, new, true);
- 	mm->map_count++;
- 	return 0;
- 
 diff --git a/mm/vma.c b/mm/vma.c
-index 476146c25283..ce113dd8c471 100644
+index ce113dd8c471..4a3deb6f9662 100644
 --- a/mm/vma.c
 +++ b/mm/vma.c
-@@ -306,7 +306,7 @@ static void vma_complete(struct vma_prepare *vp, struct vma_iterator *vmi,
- 		 * us to insert it before dropping the locks
- 		 * (it may either follow vma or precede it).
- 		 */
--		vma_iter_store(vmi, vp->insert);
-+		vma_iter_store(vmi, vp->insert, true);
- 		mm->map_count++;
- 	}
- 
-@@ -660,14 +660,14 @@ static int commit_merge(struct vma_merge_struct *vmg,
- 	vma_set_range(vmg->vma, vmg->start, vmg->end, vmg->pgoff);
- 
- 	if (expanded)
--		vma_iter_store(vmg->vmi, vmg->vma);
-+		vma_iter_store(vmg->vmi, vmg->vma, false);
- 
- 	if (adj_start) {
- 		adjust->vm_start += adj_start;
- 		adjust->vm_pgoff += PHYS_PFN(adj_start);
- 		if (adj_start < 0) {
- 			WARN_ON(expanded);
--			vma_iter_store(vmg->vmi, adjust);
-+			vma_iter_store(vmg->vmi, adjust, false);
- 		}
- 	}
- 
-@@ -1689,7 +1689,7 @@ int vma_link(struct mm_struct *mm, struct vm_area_struct *vma)
- 		return -ENOMEM;
- 
- 	vma_start_write(vma);
--	vma_iter_store(&vmi, vma);
-+	vma_iter_store(&vmi, vma, true);
- 	vma_link_file(vma);
- 	mm->map_count++;
- 	validate_mm(mm);
-@@ -2368,7 +2368,7 @@ static int __mmap_new_vma(struct mmap_state *map, struct vm_area_struct **vmap)
- 
- 	/* Lock the VMA since it is modified after insertion into VMA tree */
- 	vma_start_write(vma);
--	vma_iter_store(vmi, vma);
-+	vma_iter_store(vmi, vma, true);
- 	map->mm->map_count++;
- 	vma_link_file(vma);
- 
-@@ -2542,7 +2542,7 @@ int do_brk_flags(struct vma_iterator *vmi, struct vm_area_struct *vma,
- 	vm_flags_init(vma, flags);
- 	vma->vm_page_prot = vm_get_page_prot(flags);
- 	vma_start_write(vma);
--	if (vma_iter_store_gfp(vmi, vma, GFP_KERNEL))
-+	if (vma_iter_store_gfp(vmi, vma, GFP_KERNEL, true))
- 		goto mas_store_fail;
- 
- 	mm->map_count++;
-@@ -2785,7 +2785,7 @@ int expand_upwards(struct vm_area_struct *vma, unsigned long address)
- 				anon_vma_interval_tree_pre_update_vma(vma);
- 				vma->vm_end = address;
- 				/* Overwrite old entry in mtree. */
--				vma_iter_store(&vmi, vma);
-+				vma_iter_store(&vmi, vma, false);
- 				anon_vma_interval_tree_post_update_vma(vma);
- 
- 				perf_event_mmap(vma);
-@@ -2865,7 +2865,7 @@ int expand_downwards(struct vm_area_struct *vma, unsigned long address)
- 				vma->vm_start = address;
- 				vma->vm_pgoff -= grow;
- 				/* Overwrite old entry in mtree. */
--				vma_iter_store(&vmi, vma);
-+				vma_iter_store(&vmi, vma, false);
- 				anon_vma_interval_tree_post_update_vma(vma);
- 
- 				perf_event_mmap(vma);
-diff --git a/mm/vma.h b/mm/vma.h
-index 24636a2b0acf..18c9e49b1eae 100644
---- a/mm/vma.h
-+++ b/mm/vma.h
-@@ -145,7 +145,7 @@ __must_check int vma_shrink(struct vma_iterator *vmi,
- 		unsigned long start, unsigned long end, pgoff_t pgoff);
- 
- static inline int vma_iter_store_gfp(struct vma_iterator *vmi,
--			struct vm_area_struct *vma, gfp_t gfp)
-+			struct vm_area_struct *vma, gfp_t gfp, bool new_vma)
- 
- {
- 	if (vmi->mas.status != ma_start &&
-@@ -157,7 +157,10 @@ static inline int vma_iter_store_gfp(struct vma_iterator *vmi,
- 	if (unlikely(mas_is_err(&vmi->mas)))
- 		return -ENOMEM;
- 
--	vma_mark_attached(vma);
-+	if (new_vma)
-+		vma_mark_attached(vma);
-+	vma_assert_attached(vma);
-+
- 	return 0;
+@@ -413,9 +413,10 @@ void remove_vma(struct vm_area_struct *vma, bool unreachable)
+ 	if (vma->vm_file)
+ 		fput(vma->vm_file);
+ 	mpol_put(vma_policy(vma));
+-	if (unreachable)
++	if (unreachable) {
++		vma_mark_detached(vma);
+ 		__vm_area_free(vma);
+-	else
++	} else
+ 		vm_area_free(vma);
  }
  
-@@ -366,7 +369,7 @@ static inline struct vm_area_struct *vma_iter_load(struct vma_iterator *vmi)
- 
- /* Store a VMA with preallocated memory */
- static inline void vma_iter_store(struct vma_iterator *vmi,
--				  struct vm_area_struct *vma)
-+				  struct vm_area_struct *vma, bool new_vma)
- {
- 
- #if defined(CONFIG_DEBUG_VM_MAPLE_TREE)
-@@ -390,7 +393,9 @@ static inline void vma_iter_store(struct vma_iterator *vmi,
- 
- 	__mas_set_range(&vmi->mas, vma->vm_start, vma->vm_end - 1);
- 	mas_store_prealloc(&vmi->mas, vma);
--	vma_mark_attached(vma);
-+	if (new_vma)
-+		vma_mark_attached(vma);
-+	vma_assert_attached(vma);
- }
- 
- static inline unsigned long vma_iter_addr(struct vma_iterator *vmi)
 -- 
 2.47.1.613.gc27f4b7a9f-goog
 
