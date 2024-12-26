@@ -1,55 +1,55 @@
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549BB1459FD
-	for <linux-doc@vger.kernel.org>; Thu, 26 Dec 2024 17:07:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E910146D59
+	for <linux-doc@vger.kernel.org>; Thu, 26 Dec 2024 17:07:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735232841; cv=none; b=ERipwiEdS3MG2uiPF21G7b1jpp8Q9wtLxKp0tr8E+DYRY+WvjKJDD86hoiRZ7XmUZW0f69up5/ihU9nnMYv3LcGkJNnCSofHasNuZhBzpBD0hhuRH9wyKVJQtOAXUUwn1xOe0ZfggBiQR0b7ZQyLvpCfuQP9ztcC6UBjvfsMyxY=
+	t=1735232842; cv=none; b=orBjfNxnl4bsgmr84Ktia7gjpw4li8hH1MY3/g1QLK96zU7Y8i+SLwfPB7cuNqOwLRws/JCSZQ0xfhRN/RLaxilFzefaWg7/y9Jtl0tpOmy4W5+3P/nD18GKU2vl8SRGxj7SQ22QvJAWDrxn4QRUSzn7eVnp7QPYTbOO6s7HluQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735232841; c=relaxed/simple;
-	bh=TOUGh8Vv99oVAfWkCckhEPckVFFiA6TSF8ewh+//pYI=;
+	s=arc-20240116; t=1735232842; c=relaxed/simple;
+	bh=Vjvp6aRKQ9utdAT+qEZMT61k/JXlv8Qbyaf2UHbSZjs=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=THCtRSDLwAQibkStmMIXrE+rN1i6V3Eq4pY9fIwQwPLWAd/xVT9S0Pl8mHDdA+8MrC9DmmYDAiUuZjkqpCEa7WXPN0MM+myLeCfhxQJPmMPPbmBkQhbaBstL3t6leNxrUOBhZhgPDjxBHSq1dJgqAfqSRE4P5oLz/u2EkYwzN6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Vbk238dE; arc=none smtp.client-ip=209.85.214.202
+	 To:Cc:Content-Type; b=k3Kfbq37pvd22yFfiO35lrEDY/Ln66pBsiuN7C9VHIS6rpZRRWK8W5nv7jN/cxVYjIPqRsDcO5rd1xhPonAIN0OVAgLNBl47Vt7pKpJ6/CN+8EIm4mKJCvsgg4lgl6Q1G2Tdyi493HogNu4aASxmv3Z21XjCfV70xf1LAlQNDvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=W5r07BBe; arc=none smtp.client-ip=209.85.216.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Vbk238dE"
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-216728b170cso81848065ad.2
-        for <linux-doc@vger.kernel.org>; Thu, 26 Dec 2024 09:07:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="W5r07BBe"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2efa0eb9cfeso7839857a91.0
+        for <linux-doc@vger.kernel.org>; Thu, 26 Dec 2024 09:07:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1735232838; x=1735837638; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1735232840; x=1735837640; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6NbeBWVE54m5pl9tXwNyg1Wb6fYDZqP7j0x+BaAe+lA=;
-        b=Vbk238dEPr9vUAe/s31UYAMAiMuUL5w5WEHLdgH3ujfKk6sxgeUE7EtcVzzHiBhmj+
-         sf5Wo7ft5xB5Efv3nbl0Bkq63wSQIaNSiWAiABh+QgC8mw1zOpC75ZhiSD1q6IXPhwXe
-         1WOuPceZLRmzd1BK5y6o4l+DY9R1n25BDRu6BRwE8EW9YhV4pl6nGGButn+mPX12qDZc
-         qwLSWsI4pvruY1HnAsm2+J/kPw9gx+PUD2MFrIdmLWuOBK6jnR/ndRDyV73XGWpUCtWk
-         9NkmUeI0nubvGoa1+7XaAY+DmoWDtsyOwg0WMsTKHw9a+70aKpLjVb9kmnD04lp+csHQ
-         sUfA==
+        bh=cAz4Nb0K6HeFkqWg5wvl8l9ILYUUia2eSNvAxmroFu8=;
+        b=W5r07BBe5waXfXMd0I0iTkZuaEhw8eD8ugjyxYqEB3QoZ5FiPiw/ydR5SBRrH6C3eq
+         hUy5+2LWK4BGO45aKnLDlbwYj5Ets8xR135g07MKmqkmct2mk4///TBW78Vx6/O1kXLO
+         lTKWJuqaQLr0z09/X1i8CkFiIP4nftqWGC0Cvs9Ygw2k6YHWYZARpT/XRp4+tXV92jQK
+         W4wASscuDGHVXWrc++2AQfoALNY45kVaBV31dblxFihe6+ZzG4JOOwrPcBrDEdZc3fbg
+         Jzh8CLliGdn8As3xHy79LK3Rw3SRcagq9RfiwEvcynF5OO2smipmZtbgGvqH3+pmOSAc
+         qcag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735232838; x=1735837638;
+        d=1e100.net; s=20230601; t=1735232840; x=1735837640;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6NbeBWVE54m5pl9tXwNyg1Wb6fYDZqP7j0x+BaAe+lA=;
-        b=ea09nr9CARoBxQOfswz9Wwrj9AXk2xptkD7sTv5U1utKYguSiy8lw6aF8sMnLN4LKn
-         5ibM5gUmcBTz3DmOVOZqGnxYMm8i/AxmRFbxBieM2uq0VESSseVDwWwWuRyWlUBB+8YK
-         Y4csDNRVYXOzOHmIXtXONA3rpNtDcCIxa5SctU0af3aTIkYdtWZyoDnhDdwF+qJpkbby
-         dB1X3kpVAaSx7n6gu70KtkDaol0usjkgFaJ+ISPyvfPmHfSP94MDGMIwHn6pgzE3XHfu
-         f39C4PvgQMBvSaMvldlh601Xa4LcNKAP1EgkUhr5nUaBpiASWAKjzdw09w73QoSMxr5u
-         DLmw==
-X-Forwarded-Encrypted: i=1; AJvYcCUnhyfIp5wYBxCWeaKsBflgx0JL5wgUt8Fp0KxWWBwT4QwTzQjwoIRytfg/U76284cx64SSrnquljI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmhFF9PwyJluQoASQY6P3IFt/wIy5Md6eGFgG/hk0uYRyB9UBr
-	Vbv0iVYuf2wDL0blgloQYsQvzPT9HCMo+eU8upCNWgYtlj7FUo2YIOHUA03IDsa7lFp/g9RUnKj
-	2oQ==
-X-Google-Smtp-Source: AGHT+IF0YYbhM7XYApspOk/uURmaoeCLW8NQlVpD5NmAe0m1TWKTebPNW6STDsV9ROEbHXxPc4+2zc362YA=
-X-Received: from pfbb7.prod.google.com ([2002:a05:6a00:ac87:b0:728:c6d8:5683])
- (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:3991:b0:1db:ed8a:a607
- with SMTP id adf61e73a8af0-1e5e047b457mr38977051637.11.1735232837659; Thu, 26
- Dec 2024 09:07:17 -0800 (PST)
-Date: Thu, 26 Dec 2024 09:06:54 -0800
+        bh=cAz4Nb0K6HeFkqWg5wvl8l9ILYUUia2eSNvAxmroFu8=;
+        b=FB6b1d6jNB2bZ8g8C9SouSWW1S3o3Mmltvw2cn8MEnGBjq7dvbCG0uz0Gg4+4b0pyA
+         xUFCrJNck3tG+qMDE085/GWACME1+duApFvVTMUiOn5WpSJDS/6NXf32Ua2tfz98tSkE
+         4IyHvBgjzPyIQR7UTvNpUA6aWqp5BUUkGwpNhFiegmSWbtkeEptTQawbhVKvJPuuVOXV
+         iShu+c8jP6WRhrHoh9bqVr28u9i8J5peMtL1205tW6SCstqXIMlBrzqCCW+6ELkGJf/H
+         Am9iWxU4rhw5CPADc3TF1N36hp2ldiBz3CvDyTfUUePmDmFEVQqoC/2bKH3j5A/cMcqJ
+         Zkxg==
+X-Forwarded-Encrypted: i=1; AJvYcCW8uEEWRY7ifoWcWfWR7bdP8d+Xam/x60duHIoksS3p1rrym405ZJG9M3WPprtYjqhE3WR/kLW39us=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx97hettbz8EvLKNFKUbYbQb0R0vy9gDmMU2PUFQY0onHBD4r1D
+	tHN0b5f0reyKlDo7sNYbM23fXBBuwWN70eL4kT2mRUdkmEO9E09fTdGvVFyRZxSVPghalVNXvAK
+	gcQ==
+X-Google-Smtp-Source: AGHT+IHG75OaLxopGAtkxZlDDT2v+C2m79NALqlAe4xW7nBDhmw9thNrZbKpynlUfVT/naik0hkFrK8zsZY=
+X-Received: from pjbtb12.prod.google.com ([2002:a17:90b:53cc:b0:2ef:7483:e770])
+ (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:5251:b0:2f2:a90e:74ef
+ with SMTP id 98e67ed59e1d1-2f44353f0b2mr41720800a91.1.1735232839810; Thu, 26
+ Dec 2024 09:07:19 -0800 (PST)
+Date: Thu, 26 Dec 2024 09:06:55 -0800
 In-Reply-To: <20241226170710.1159679-1-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20241226170710.1159679-1-surenb@google.com>
 X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
-Message-ID: <20241226170710.1159679-3-surenb@google.com>
-Subject: [PATCH v7 02/17] mm: move per-vma lock into vm_area_struct
+Message-ID: <20241226170710.1159679-4-surenb@google.com>
+Subject: [PATCH v7 03/17] mm: mark vma as detached until it's added into vma tree
 From: Suren Baghdasaryan <surenb@google.com>
 To: akpm@linux-foundation.org
 Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com, 
@@ -76,388 +76,214 @@ Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
 	surenb@google.com
 Content-Type: text/plain; charset="UTF-8"
 
-Back when per-vma locks were introduces, vm_lock was moved out of
-vm_area_struct in [1] because of the performance regression caused by
-false cacheline sharing.  Recent investigation [2] revealed that the
-regressions is limited to a rather old Broadwell microarchitecture and
-even there it can be mitigated by disabling adjacent cacheline
-prefetching, see [3].
+Current implementation does not set detached flag when a VMA is first
+allocated.  This does not represent the real state of the VMA, which is
+detached until it is added into mm's VMA tree.  Fix this by marking new
+VMAs as detached and resetting detached flag only after VMA is added into
+a tree.
 
-Splitting single logical structure into multiple ones leads to more
-complicated management, extra pointer dereferences and overall less
-maintainable code.  When that split-away part is a lock, it complicates
-things even further.  With no performance benefits, there are no reasons
-for this split.  Merging the vm_lock back into vm_area_struct also allows
-vm_area_struct to use SLAB_TYPESAFE_BY_RCU later in this patchset.  Move
-vm_lock back into vm_area_struct, aligning it at the cacheline boundary
-and changing the cache to be cacheline-aligned as well.  With kernel
-compiled using defconfig, this causes VMA memory consumption to grow from
-160 (vm_area_struct) + 40 (vm_lock) bytes to 256 bytes:
-
-    slabinfo before:
-     <name>           ... <objsize> <objperslab> <pagesperslab> : ...
-     vma_lock         ...     40  102    1 : ...
-     vm_area_struct   ...    160   51    2 : ...
-
-    slabinfo after moving vm_lock:
-     <name>           ... <objsize> <objperslab> <pagesperslab> : ...
-     vm_area_struct   ...    256   32    2 : ...
-
-Aggregate VMA memory consumption per 1000 VMAs grows from 50 to 64 pages,
-which is 5.5MB per 100000 VMAs.  Note that the size of this structure is
-dependent on the kernel configuration and typically the original size is
-higher than 160 bytes.  Therefore these calculations are close to the
-worst case scenario.  A more realistic vm_area_struct usage before this
-change is:
-
-     <name>           ... <objsize> <objperslab> <pagesperslab> : ...
-     vma_lock         ...     40  102    1 : ...
-     vm_area_struct   ...    176   46    2 : ...
-
-Aggregate VMA memory consumption per 1000 VMAs grows from 54 to 64 pages,
-which is 3.9MB per 100000 VMAs.  This memory consumption growth can be
-addressed later by optimizing the vm_lock.
-
-[1] https://lore.kernel.org/all/20230227173632.3292573-34-surenb@google.com/
-[2] https://lore.kernel.org/all/ZsQyI%2F087V34JoIt@xsang-OptiPlex-9020/
-[3] https://lore.kernel.org/all/CAJuCfpEisU8Lfe96AYJDZ+OM4NoPmnw9bP53cT_kbfP_pR+-2g@mail.gmail.com/
+Introduce vma_mark_attached() to make the API more readable and to
+simplify possible future cleanup when vma->vm_mm might be used to indicate
+detached vma and vma_mark_attached() will need an additional mm parameter.
 
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 Reviewed-by: Shakeel Butt <shakeel.butt@linux.dev>
+Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
 ---
- include/linux/mm.h               | 28 ++++++++++--------
- include/linux/mm_types.h         |  6 ++--
- kernel/fork.c                    | 49 ++++----------------------------
- tools/testing/vma/vma_internal.h | 33 +++++----------------
- 4 files changed, 32 insertions(+), 84 deletions(-)
+ include/linux/mm.h               | 27 ++++++++++++++++++++-------
+ kernel/fork.c                    |  4 ++++
+ mm/memory.c                      |  2 +-
+ mm/vma.c                         |  6 +++---
+ mm/vma.h                         |  2 ++
+ tools/testing/vma/vma_internal.h | 17 ++++++++++++-----
+ 6 files changed, 42 insertions(+), 16 deletions(-)
 
 diff --git a/include/linux/mm.h b/include/linux/mm.h
-index a48e207d25f2..f3f92ba8f5fe 100644
+index f3f92ba8f5fe..081178b0eec4 100644
 --- a/include/linux/mm.h
 +++ b/include/linux/mm.h
-@@ -697,6 +697,12 @@ static inline void vma_numab_state_free(struct vm_area_struct *vma) {}
- #endif /* CONFIG_NUMA_BALANCING */
- 
- #ifdef CONFIG_PER_VMA_LOCK
-+static inline void vma_lock_init(struct vm_area_struct *vma)
-+{
-+	init_rwsem(&vma->vm_lock.lock);
-+	vma->vm_lock_seq = UINT_MAX;
-+}
-+
- /*
-  * Try to read-lock a vma. The function is allowed to occasionally yield false
-  * locked result to avoid performance overhead, in which case we fall back to
-@@ -714,7 +720,7 @@ static inline bool vma_start_read(struct vm_area_struct *vma)
- 	if (READ_ONCE(vma->vm_lock_seq) == READ_ONCE(vma->vm_mm->mm_lock_seq.sequence))
- 		return false;
- 
--	if (unlikely(down_read_trylock(&vma->vm_lock->lock) == 0))
-+	if (unlikely(down_read_trylock(&vma->vm_lock.lock) == 0))
- 		return false;
- 
- 	/*
-@@ -729,7 +735,7 @@ static inline bool vma_start_read(struct vm_area_struct *vma)
- 	 * This pairs with RELEASE semantics in vma_end_write_all().
- 	 */
- 	if (unlikely(vma->vm_lock_seq == raw_read_seqcount(&vma->vm_mm->mm_lock_seq))) {
--		up_read(&vma->vm_lock->lock);
-+		up_read(&vma->vm_lock.lock);
- 		return false;
- 	}
- 	return true;
-@@ -744,7 +750,7 @@ static inline bool vma_start_read(struct vm_area_struct *vma)
- static inline void vma_start_read_locked_nested(struct vm_area_struct *vma, int subclass)
- {
- 	mmap_assert_locked(vma->vm_mm);
--	down_read_nested(&vma->vm_lock->lock, subclass);
-+	down_read_nested(&vma->vm_lock.lock, subclass);
- }
- 
- /*
-@@ -756,13 +762,13 @@ static inline void vma_start_read_locked_nested(struct vm_area_struct *vma, int
- static inline void vma_start_read_locked(struct vm_area_struct *vma)
- {
- 	mmap_assert_locked(vma->vm_mm);
--	down_read(&vma->vm_lock->lock);
-+	down_read(&vma->vm_lock.lock);
- }
- 
- static inline void vma_end_read(struct vm_area_struct *vma)
- {
- 	rcu_read_lock(); /* keeps vma alive till the end of up_read */
--	up_read(&vma->vm_lock->lock);
-+	up_read(&vma->vm_lock.lock);
- 	rcu_read_unlock();
- }
- 
-@@ -791,7 +797,7 @@ static inline void vma_start_write(struct vm_area_struct *vma)
- 	if (__is_vma_write_locked(vma, &mm_lock_seq))
- 		return;
- 
--	down_write(&vma->vm_lock->lock);
-+	down_write(&vma->vm_lock.lock);
- 	/*
- 	 * We should use WRITE_ONCE() here because we can have concurrent reads
- 	 * from the early lockless pessimistic check in vma_start_read().
-@@ -799,7 +805,7 @@ static inline void vma_start_write(struct vm_area_struct *vma)
- 	 * we should use WRITE_ONCE() for cleanliness and to keep KCSAN happy.
- 	 */
- 	WRITE_ONCE(vma->vm_lock_seq, mm_lock_seq);
--	up_write(&vma->vm_lock->lock);
-+	up_write(&vma->vm_lock.lock);
- }
- 
- static inline void vma_assert_write_locked(struct vm_area_struct *vma)
-@@ -811,7 +817,7 @@ static inline void vma_assert_write_locked(struct vm_area_struct *vma)
- 
- static inline void vma_assert_locked(struct vm_area_struct *vma)
- {
--	if (!rwsem_is_locked(&vma->vm_lock->lock))
-+	if (!rwsem_is_locked(&vma->vm_lock.lock))
+@@ -821,12 +821,21 @@ static inline void vma_assert_locked(struct vm_area_struct *vma)
  		vma_assert_write_locked(vma);
  }
  
-@@ -844,6 +850,7 @@ struct vm_area_struct *lock_vma_under_rcu(struct mm_struct *mm,
- 
- #else /* CONFIG_PER_VMA_LOCK */
- 
-+static inline void vma_lock_init(struct vm_area_struct *vma) {}
- static inline bool vma_start_read(struct vm_area_struct *vma)
- 		{ return false; }
- static inline void vma_end_read(struct vm_area_struct *vma) {}
-@@ -878,10 +885,6 @@ static inline void assert_fault_locked(struct vm_fault *vmf)
- 
- extern const struct vm_operations_struct vma_dummy_vm_ops;
- 
--/*
-- * WARNING: vma_init does not initialize vma->vm_lock.
-- * Use vm_area_alloc()/vm_area_free() if vma needs locking.
-- */
- static inline void vma_init(struct vm_area_struct *vma, struct mm_struct *mm)
+-static inline void vma_mark_detached(struct vm_area_struct *vma, bool detached)
++static inline void vma_mark_attached(struct vm_area_struct *vma)
++{
++	vma->detached = false;
++}
++
++static inline void vma_mark_detached(struct vm_area_struct *vma)
  {
- 	memset(vma, 0, sizeof(*vma));
-@@ -890,6 +893,7 @@ static inline void vma_init(struct vm_area_struct *vma, struct mm_struct *mm)
- 	INIT_LIST_HEAD(&vma->anon_vma_chain);
- 	vma_mark_detached(vma, false);
- 	vma_numab_state_init(vma);
-+	vma_lock_init(vma);
+ 	/* When detaching vma should be write-locked */
+-	if (detached)
+-		vma_assert_write_locked(vma);
+-	vma->detached = detached;
++	vma_assert_write_locked(vma);
++	vma->detached = true;
++}
++
++static inline bool is_vma_detached(struct vm_area_struct *vma)
++{
++	return vma->detached;
  }
  
- /* Use when VMA is not part of the VMA tree and needs no locking */
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index 5f1b2dc788e2..6573d95f1d1e 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -730,8 +730,6 @@ struct vm_area_struct {
- 	 * slowpath.
- 	 */
- 	unsigned int vm_lock_seq;
--	/* Unstable RCU readers are allowed to read this. */
--	struct vma_lock *vm_lock;
- #endif
+ static inline void release_fault_lock(struct vm_fault *vmf)
+@@ -857,8 +866,8 @@ static inline void vma_end_read(struct vm_area_struct *vma) {}
+ static inline void vma_start_write(struct vm_area_struct *vma) {}
+ static inline void vma_assert_write_locked(struct vm_area_struct *vma)
+ 		{ mmap_assert_write_locked(vma->vm_mm); }
+-static inline void vma_mark_detached(struct vm_area_struct *vma,
+-				     bool detached) {}
++static inline void vma_mark_attached(struct vm_area_struct *vma) {}
++static inline void vma_mark_detached(struct vm_area_struct *vma) {}
  
- 	/*
-@@ -784,6 +782,10 @@ struct vm_area_struct {
- 	struct vma_numab_state *numab_state;	/* NUMA Balancing state */
- #endif
- 	struct vm_userfaultfd_ctx vm_userfaultfd_ctx;
-+#ifdef CONFIG_PER_VMA_LOCK
-+	/* Unstable RCU readers are allowed to read this. */
-+	struct vma_lock vm_lock ____cacheline_aligned_in_smp;
-+#endif
- } __randomize_layout;
- 
- #ifdef CONFIG_NUMA
-diff --git a/kernel/fork.c b/kernel/fork.c
-index ded49f18cd95..40a8e615499f 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -436,35 +436,6 @@ static struct kmem_cache *vm_area_cachep;
- /* SLAB cache for mm_struct structures (tsk->mm) */
- static struct kmem_cache *mm_cachep;
- 
--#ifdef CONFIG_PER_VMA_LOCK
--
--/* SLAB cache for vm_area_struct.lock */
--static struct kmem_cache *vma_lock_cachep;
--
--static bool vma_lock_alloc(struct vm_area_struct *vma)
--{
--	vma->vm_lock = kmem_cache_alloc(vma_lock_cachep, GFP_KERNEL);
--	if (!vma->vm_lock)
--		return false;
--
--	init_rwsem(&vma->vm_lock->lock);
--	vma->vm_lock_seq = UINT_MAX;
--
--	return true;
--}
--
--static inline void vma_lock_free(struct vm_area_struct *vma)
--{
--	kmem_cache_free(vma_lock_cachep, vma->vm_lock);
--}
--
--#else /* CONFIG_PER_VMA_LOCK */
--
--static inline bool vma_lock_alloc(struct vm_area_struct *vma) { return true; }
--static inline void vma_lock_free(struct vm_area_struct *vma) {}
--
--#endif /* CONFIG_PER_VMA_LOCK */
--
- struct vm_area_struct *vm_area_alloc(struct mm_struct *mm)
- {
- 	struct vm_area_struct *vma;
-@@ -474,10 +445,6 @@ struct vm_area_struct *vm_area_alloc(struct mm_struct *mm)
- 		return NULL;
- 
- 	vma_init(vma, mm);
--	if (!vma_lock_alloc(vma)) {
--		kmem_cache_free(vm_area_cachep, vma);
--		return NULL;
--	}
- 
- 	return vma;
- }
-@@ -496,10 +463,7 @@ struct vm_area_struct *vm_area_dup(struct vm_area_struct *orig)
- 	 * will be reinitialized.
- 	 */
- 	data_race(memcpy(new, orig, sizeof(*new)));
--	if (!vma_lock_alloc(new)) {
--		kmem_cache_free(vm_area_cachep, new);
--		return NULL;
--	}
-+	vma_lock_init(new);
- 	INIT_LIST_HEAD(&new->anon_vma_chain);
- 	vma_numab_state_init(new);
- 	dup_anon_vma_name(orig, new);
-@@ -511,7 +475,6 @@ void __vm_area_free(struct vm_area_struct *vma)
- {
- 	vma_numab_state_free(vma);
- 	free_anon_vma_name(vma);
--	vma_lock_free(vma);
- 	kmem_cache_free(vm_area_cachep, vma);
- }
- 
-@@ -522,7 +485,7 @@ static void vm_area_free_rcu_cb(struct rcu_head *head)
- 						  vm_rcu);
- 
- 	/* The vma should not be locked while being destroyed. */
--	VM_BUG_ON_VMA(rwsem_is_locked(&vma->vm_lock->lock), vma);
-+	VM_BUG_ON_VMA(rwsem_is_locked(&vma->vm_lock.lock), vma);
- 	__vm_area_free(vma);
- }
- #endif
-@@ -3188,11 +3151,9 @@ void __init proc_caches_init(void)
- 			sizeof(struct fs_struct), 0,
- 			SLAB_HWCACHE_ALIGN|SLAB_PANIC|SLAB_ACCOUNT,
- 			NULL);
--
--	vm_area_cachep = KMEM_CACHE(vm_area_struct, SLAB_PANIC|SLAB_ACCOUNT);
--#ifdef CONFIG_PER_VMA_LOCK
--	vma_lock_cachep = KMEM_CACHE(vma_lock, SLAB_PANIC|SLAB_ACCOUNT);
--#endif
-+	vm_area_cachep = KMEM_CACHE(vm_area_struct,
-+			SLAB_HWCACHE_ALIGN|SLAB_NO_MERGE|SLAB_PANIC|
-+			SLAB_ACCOUNT);
- 	mmap_init();
- 	nsproxy_cache_init();
- }
-diff --git a/tools/testing/vma/vma_internal.h b/tools/testing/vma/vma_internal.h
-index ae635eecbfa8..d19ce6fcab83 100644
---- a/tools/testing/vma/vma_internal.h
-+++ b/tools/testing/vma/vma_internal.h
-@@ -270,10 +270,10 @@ struct vm_area_struct {
- 	/*
- 	 * Can only be written (using WRITE_ONCE()) while holding both:
- 	 *  - mmap_lock (in write mode)
--	 *  - vm_lock->lock (in write mode)
-+	 *  - vm_lock.lock (in write mode)
- 	 * Can be read reliably while holding one of:
- 	 *  - mmap_lock (in read or write mode)
--	 *  - vm_lock->lock (in read or write mode)
-+	 *  - vm_lock.lock (in read or write mode)
- 	 * Can be read unreliably (using READ_ONCE()) for pessimistic bailout
- 	 * while holding nothing (except RCU to keep the VMA struct allocated).
- 	 *
-@@ -282,7 +282,7 @@ struct vm_area_struct {
- 	 * slowpath.
- 	 */
- 	unsigned int vm_lock_seq;
--	struct vma_lock *vm_lock;
-+	struct vma_lock vm_lock;
- #endif
- 
- 	/*
-@@ -459,17 +459,10 @@ static inline struct vm_area_struct *vma_next(struct vma_iterator *vmi)
- 	return mas_find(&vmi->mas, ULONG_MAX);
- }
- 
--static inline bool vma_lock_alloc(struct vm_area_struct *vma)
-+static inline void vma_lock_init(struct vm_area_struct *vma)
- {
--	vma->vm_lock = calloc(1, sizeof(struct vma_lock));
--
--	if (!vma->vm_lock)
--		return false;
--
--	init_rwsem(&vma->vm_lock->lock);
-+	init_rwsem(&vma->vm_lock.lock);
- 	vma->vm_lock_seq = UINT_MAX;
--
--	return true;
- }
- 
- static inline void vma_assert_write_locked(struct vm_area_struct *);
-@@ -492,6 +485,7 @@ static inline void vma_init(struct vm_area_struct *vma, struct mm_struct *mm)
+ static inline struct vm_area_struct *lock_vma_under_rcu(struct mm_struct *mm,
+ 		unsigned long address)
+@@ -891,7 +900,10 @@ static inline void vma_init(struct vm_area_struct *vma, struct mm_struct *mm)
+ 	vma->vm_mm = mm;
  	vma->vm_ops = &vma_dummy_vm_ops;
  	INIT_LIST_HEAD(&vma->anon_vma_chain);
- 	vma_mark_detached(vma, false);
-+	vma_lock_init(vma);
+-	vma_mark_detached(vma, false);
++#ifdef CONFIG_PER_VMA_LOCK
++	/* vma is not locked, can't use vma_mark_detached() */
++	vma->detached = true;
++#endif
+ 	vma_numab_state_init(vma);
+ 	vma_lock_init(vma);
+ }
+@@ -1086,6 +1098,7 @@ static inline int vma_iter_bulk_store(struct vma_iterator *vmi,
+ 	if (unlikely(mas_is_err(&vmi->mas)))
+ 		return -ENOMEM;
+ 
++	vma_mark_attached(vma);
+ 	return 0;
  }
  
- static inline struct vm_area_struct *vm_area_alloc(struct mm_struct *mm)
-@@ -502,10 +496,6 @@ static inline struct vm_area_struct *vm_area_alloc(struct mm_struct *mm)
- 		return NULL;
- 
- 	vma_init(vma, mm);
--	if (!vma_lock_alloc(vma)) {
--		free(vma);
--		return NULL;
--	}
- 
- 	return vma;
- }
-@@ -518,10 +508,7 @@ static inline struct vm_area_struct *vm_area_dup(struct vm_area_struct *orig)
- 		return NULL;
- 
- 	memcpy(new, orig, sizeof(*new));
--	if (!vma_lock_alloc(new)) {
--		free(new);
--		return NULL;
--	}
-+	vma_lock_init(new);
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 40a8e615499f..f2f9e7b427ad 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -465,6 +465,10 @@ struct vm_area_struct *vm_area_dup(struct vm_area_struct *orig)
+ 	data_race(memcpy(new, orig, sizeof(*new)));
+ 	vma_lock_init(new);
  	INIT_LIST_HEAD(&new->anon_vma_chain);
++#ifdef CONFIG_PER_VMA_LOCK
++	/* vma is not locked, can't use vma_mark_detached() */
++	new->detached = true;
++#endif
+ 	vma_numab_state_init(new);
+ 	dup_anon_vma_name(orig, new);
+ 
+diff --git a/mm/memory.c b/mm/memory.c
+index 2a20e3810534..d0dee2282325 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -6349,7 +6349,7 @@ struct vm_area_struct *lock_vma_under_rcu(struct mm_struct *mm,
+ 		goto inval;
+ 
+ 	/* Check if the VMA got isolated after we found it */
+-	if (vma->detached) {
++	if (is_vma_detached(vma)) {
+ 		vma_end_read(vma);
+ 		count_vm_vma_lock_event(VMA_LOCK_MISS);
+ 		/* The area was replaced with another one */
+diff --git a/mm/vma.c b/mm/vma.c
+index 0caaeea899a9..476146c25283 100644
+--- a/mm/vma.c
++++ b/mm/vma.c
+@@ -327,7 +327,7 @@ static void vma_complete(struct vma_prepare *vp, struct vma_iterator *vmi,
+ 
+ 	if (vp->remove) {
+ again:
+-		vma_mark_detached(vp->remove, true);
++		vma_mark_detached(vp->remove);
+ 		if (vp->file) {
+ 			uprobe_munmap(vp->remove, vp->remove->vm_start,
+ 				      vp->remove->vm_end);
+@@ -1220,7 +1220,7 @@ static void reattach_vmas(struct ma_state *mas_detach)
+ 
+ 	mas_set(mas_detach, 0);
+ 	mas_for_each(mas_detach, vma, ULONG_MAX)
+-		vma_mark_detached(vma, false);
++		vma_mark_attached(vma);
+ 
+ 	__mt_destroy(mas_detach->tree);
+ }
+@@ -1295,7 +1295,7 @@ static int vms_gather_munmap_vmas(struct vma_munmap_struct *vms,
+ 		if (error)
+ 			goto munmap_gather_failed;
+ 
+-		vma_mark_detached(next, true);
++		vma_mark_detached(next);
+ 		nrpages = vma_pages(next);
+ 
+ 		vms->nr_pages += nrpages;
+diff --git a/mm/vma.h b/mm/vma.h
+index 61ed044b6145..24636a2b0acf 100644
+--- a/mm/vma.h
++++ b/mm/vma.h
+@@ -157,6 +157,7 @@ static inline int vma_iter_store_gfp(struct vma_iterator *vmi,
+ 	if (unlikely(mas_is_err(&vmi->mas)))
+ 		return -ENOMEM;
+ 
++	vma_mark_attached(vma);
+ 	return 0;
+ }
+ 
+@@ -389,6 +390,7 @@ static inline void vma_iter_store(struct vma_iterator *vmi,
+ 
+ 	__mas_set_range(&vmi->mas, vma->vm_start, vma->vm_end - 1);
+ 	mas_store_prealloc(&vmi->mas, vma);
++	vma_mark_attached(vma);
+ }
+ 
+ static inline unsigned long vma_iter_addr(struct vma_iterator *vmi)
+diff --git a/tools/testing/vma/vma_internal.h b/tools/testing/vma/vma_internal.h
+index d19ce6fcab83..2a624f9304da 100644
+--- a/tools/testing/vma/vma_internal.h
++++ b/tools/testing/vma/vma_internal.h
+@@ -465,13 +465,17 @@ static inline void vma_lock_init(struct vm_area_struct *vma)
+ 	vma->vm_lock_seq = UINT_MAX;
+ }
+ 
++static inline void vma_mark_attached(struct vm_area_struct *vma)
++{
++	vma->detached = false;
++}
++
+ static inline void vma_assert_write_locked(struct vm_area_struct *);
+-static inline void vma_mark_detached(struct vm_area_struct *vma, bool detached)
++static inline void vma_mark_detached(struct vm_area_struct *vma)
+ {
+ 	/* When detaching vma should be write-locked */
+-	if (detached)
+-		vma_assert_write_locked(vma);
+-	vma->detached = detached;
++	vma_assert_write_locked(vma);
++	vma->detached = true;
+ }
+ 
+ extern const struct vm_operations_struct vma_dummy_vm_ops;
+@@ -484,7 +488,8 @@ static inline void vma_init(struct vm_area_struct *vma, struct mm_struct *mm)
+ 	vma->vm_mm = mm;
+ 	vma->vm_ops = &vma_dummy_vm_ops;
+ 	INIT_LIST_HEAD(&vma->anon_vma_chain);
+-	vma_mark_detached(vma, false);
++	/* vma is not locked, can't use vma_mark_detached() */
++	vma->detached = true;
+ 	vma_lock_init(vma);
+ }
+ 
+@@ -510,6 +515,8 @@ static inline struct vm_area_struct *vm_area_dup(struct vm_area_struct *orig)
+ 	memcpy(new, orig, sizeof(*new));
+ 	vma_lock_init(new);
+ 	INIT_LIST_HEAD(&new->anon_vma_chain);
++	/* vma is not locked, can't use vma_mark_detached() */
++	new->detached = true;
  
  	return new;
-@@ -691,14 +678,8 @@ static inline void mpol_put(struct mempolicy *)
- {
  }
- 
--static inline void vma_lock_free(struct vm_area_struct *vma)
--{
--	free(vma->vm_lock);
--}
--
- static inline void __vm_area_free(struct vm_area_struct *vma)
- {
--	vma_lock_free(vma);
- 	free(vma);
- }
- 
 -- 
 2.47.1.613.gc27f4b7a9f-goog
 
