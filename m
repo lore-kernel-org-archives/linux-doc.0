@@ -1,144 +1,287 @@
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6039E196D8F;
-	Thu, 26 Dec 2024 21:59:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1148D450F2;
+	Thu, 26 Dec 2024 22:06:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735250363; cv=none; b=rPLCJLYXQTflG6D4fBq2DBSIA8xisuMcvNEMd9/b33+P0zeqXfOClHYqesFpuS0ZulkCpEtaFlZ5VbqAaP5D8uHslBlBENQgIWLh/O1IYsuJnaUQMRdhDTZSFas9N9VoSRSbhCWUvY6TPIYNAAG3P4xhfHqeiVxc1V05q2PZFgs=
+	t=1735250813; cv=none; b=i6hKT7B1yHZuFsTDvef8Dsd7/4eGZJPDZQ7POqSlyFjCGbXQigwccgA62h1ZTrvcXTth0sDLKOs21KRAnTDaxLkZCtMYxg9Bc2c47eoVHjvjuSd90Q+a7lIbscMwbdM7ScM7g7Bzi4y461GqGdQvCoFTyRet4Ksi3BJHI2Enldo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735250363; c=relaxed/simple;
-	bh=BJSIBwA9CHxzU+rdENwwDBs9w+whydGHdjfnTkwrpV0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Q78qcBHSOsLU/+IR7ClR0VweJRpABwVlKJzhqLoM+fjPj+PmZ5rK0poApHyw+TqPNitrPB1ImVsFU+/gydJSqUtXKgS0OisiJrSubkV2JtHfIc7B7lq7LoZipsecf6kJjFQPjTsBj2E8PXn/KNgjIqR75uP/ZkYIlkC/AkAiOE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=XyTSZwZF; arc=none smtp.client-ip=185.138.42.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	s=arc-20240116; t=1735250813; c=relaxed/simple;
+	bh=W6NkvEY01XJjhE9GSvPS7ecCqMC4G+APXNvVLobmY2s=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=awHQ99YjnSkS5+TtlmELxtiGmbW56zncbm6wxg2EKX06yWxT51n/XIRHckrfkNwgY7hxI3uL5iLj7GJIK6k47U9o/aZknEqwrF9o67eXL6ww3b+qz+hu7MWaZTQppcWhkVcq/CtynxX7ETErOTub3hJs29Vm1fxVXPKk1VZ8hVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nb5bL5yU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="XyTSZwZF"
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id 0F7142E08C92;
-	Thu, 26 Dec 2024 23:59:14 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1735250354;
-	bh=BJSIBwA9CHxzU+rdENwwDBs9w+whydGHdjfnTkwrpV0=;
-	h=Received:From:Subject:To;
-	b=XyTSZwZFGxf3Izf/jDc2p4942aZGESaErCyOUH5dHwLdj3qHaIAwpVnjarz8oDe6u
-	 +vpWQqFH2/lz0NMwY9q2JxPVshLH1ae8TEmLwOE0+Y3B0acUBi9NLlLSjRAj2XHT5H
-	 BhFm9E+i/flkrWz4iqdv2fZx8X/RgSiFksVZjaH0=
-Authentication-Results: linux1587.grserver.gr;
-        spf=pass (sender IP is 209.85.208.176) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f176.google.com
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f176.google.com with SMTP id
- 38308e7fff4ca-30167f4c1e3so77610991fa.3;
-        Thu, 26 Dec 2024 13:59:14 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVFLTYDUjOPcbsbUcsIyf8NAI5vFN7pTfTHHse8b/7ODSWaPVoe/vZraqze9pnNeALQcYe5E86GUjkmaZc=@vger.kernel.org,
- AJvYcCVJWBMzxN4OBif5M5s5+9lBfYNceORvNY8gQB1zDKMpDBaoP/VwevvXdOiW4nD/73lX+vlmSzJIeSA=@vger.kernel.org,
- AJvYcCWBFapNKUiuPgepm9KjEOxyMXpoihMSFOcfZV2U6m/glZKlvmZweIQUMRZhGqt/selTmcZVZrAiFyE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YydQb25rjnJLyAXFrzeXbiR+Fz8yoVTSYd/dTdKK8fwTM/OwmYT
-	ZpuMpKWb0Pf9BQoKqRXRj4Dvnq2+Enj8BrqvGtYoCCgqOgRn/gaUd6w4ggX3hjDOEKaSEamxwB1
-	V86LdEPp54usssnZ3WhRFjT/KMD0=
-X-Google-Smtp-Source: 
- AGHT+IE0uosJXNHgBNsmOK5SCygq+q2Eyw+kM1E+jmemJgvkLig/bhaA2NkLmdldhG7GfGo5HN4isBAC/9N7YVIZZd0=
-X-Received: by 2002:a05:651c:212a:b0:302:264e:29ec with SMTP id
- 38308e7fff4ca-30468522114mr82659321fa.11.1735250353227; Thu, 26 Dec 2024
- 13:59:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nb5bL5yU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84373C4CED1;
+	Thu, 26 Dec 2024 22:06:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735250812;
+	bh=W6NkvEY01XJjhE9GSvPS7ecCqMC4G+APXNvVLobmY2s=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Nb5bL5yU5vxbWZeChDwldJE3rlpbO1YoHeVFEZ+L8R5e9mXpUoUXpspvNPg4dwHqU
+	 ibZAJv7o5A1sRF7gX48VePwCb2RusC6XxkqB4QP+AeebcW5m3DDY81unpLxM+zK2zH
+	 YVcsFzKU8Q/5hDgo1rnkFhZyj87TSrFoyF7mjeqAN/7/zd1adWKDmz1SJeHUiU/AO1
+	 xjz5Zo4B8Mcd0CGwhizLtGPhlekh4h+D+Xk29Lj+aivx2/xXDwwdcRihN5bKB98SAz
+	 zxcQIgu5DYlCyRJGv2ERbUcBDPzieWPKIZ+IDlH8Rt8NT8bQ4HhWmSlar2YjT2ardN
+	 PgEHaHbV20hUQ==
+From: Sasha Levin <sashal@kernel.org>
+To: torvalds@linux-foundation.org
+Cc: apw@canonical.com,
+	conor@kernel.org,
+	corbet@lwn.net,
+	dwaipayanray1@gmail.com,
+	geert+renesas@glider.be,
+	gitster@pobox.com,
+	horms@kernel.org,
+	joe@perches.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux@leemhuis.info,
+	lukas.bulwahn@gmail.com,
+	miguel.ojeda.sandonis@gmail.com,
+	niklas.soderlund@corigine.com,
+	willy@infradead.org,
+	workflows@vger.kernel.org,
+	kees@kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH] git-disambiguate: disambiguate shorthand git ids
+Date: Thu, 26 Dec 2024 17:05:55 -0500
+Message-Id: <20241226220555.3540872-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241226112740.340804-1-lkml@antheas.dev>
- <a8e6d5d5-703c-47df-ab57-58234fdeefc1@roeck-us.net>
- <E24291F9-731F-4C27-96C7-BD08FBCF7A76@gmail.com>
-In-Reply-To: <E24291F9-731F-4C27-96C7-BD08FBCF7A76@gmail.com>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Thu, 26 Dec 2024 22:59:02 +0100
-X-Gmail-Original-Message-ID: 
- <CAGwozwGdaqoiH5v9Sy5pibHYzrbYnpWKfQ-qUg0+vft_Ve4TUg@mail.gmail.com>
-Message-ID: 
- <CAGwozwGdaqoiH5v9Sy5pibHYzrbYnpWKfQ-qUg0+vft_Ve4TUg@mail.gmail.com>
-Subject: Re: [PATCH 00/10] hwmon: (oxpsensors) Add 2024 OneXPlayer line-up,
- add charge limiting and turbo LED, fix ABI
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Joaquin Ignacio Aramendia <samsagax@gmail.com>,
- Kevin Greenberg <kdgreenberg234@protonmail.com>,
-	Joshua Tam <csinaction@pm.me>, Parth Menon <parthasarathymenon@gmail.com>,
-	Eileen <eileen@one-netbook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-PPP-Message-ID: 
- <173525035443.10068.13012689396980476255@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 
-Hi Guenter,
-Right now, OneXPlayer features a singular EC with a handful of
-features. Where with this patch series we essentially have parity with
-windows, apart from a VRAM feature which I will have to ask but I
-suspect is WMI. It currently concerns a singular component (the EC)
-and the functionality such as turbo button affects the hwmon component
-(i.e., if the turbo button is not engaged, the fan control
-functionality does not work).
+Sometimes long commit hashes can be ambiguous even when providing
+several digits from its abbreviation.
 
-As such it cannot be made into separate drivers. I think, and I
-suspect you will agree, that the scope of the driver is _correct_ but
-the place is not correct.
+Add a script that resolves such ambiguity by also considering the
+commit subject line.
 
-Therefore, can you suggest a reasonable path forward that is sparing
-to this patch series? Should I add an eleventh patch that grafts this
-driver to platform-x86? If appropriate, you can cc the x86 mailing
-list on your next email.
+This also allows users to use shorter commit ID prefixes than normally
+required, since we can correctly identify the intended commit using the
+subject line as additional context.
 
-Best,
-Antheas
+In force mode (--force), you can even omit a valid commit ID prefix
+entirely - the script will try to find a commit matching just the
+subject line.
 
-On Thu, 26 Dec 2024 at 22:16, Derek J. Clark <derekjohn.clark@gmail.com> wr=
-ote:
->
->
->
-> On December 26, 2024 1:08:02 PM PST, Guenter Roeck <linux@roeck-us.net> w=
-rote:
-> >On Thu, Dec 26, 2024 at 12:27:30PM +0100, Antheas Kapenekakis wrote:
-> >> This three part series updates the oxpsensors module to bring it in li=
-ne
-> >> with its Windows OneXPlayer counterpart. First, it adds support for al=
-l
-> >> 2024 OneXPlayer handhelds and their special variants.
-> >>
-> >> Then, it adds the new charge limiting and bypass features that were fi=
-rst
-> >> introduced in the X1 and retrofit to older OneXFly variants and for
-> >> controlling the turbo led found in the X1 models. For Bypass, it adds =
-a new
-> >> bypass variant BypassS0 that is only active while the device is in the=
- S0
-> >> state.
-> >>
-> >
-> >This is a hardware monitoring driver. It is not a charge controller driv=
-er,
-> >and it is not a LED controller driver. If such control is wanted/needed =
-for
-> >this system, it should be implemented either as mfd device with client d=
-rivers,
-> >or the entire driver should be moved to platform drivers if there is a d=
-esire
-> >to keep it as single driver.
-> >
-> >Guenter
->
-> I think moving this to x86 platform makes a lot of sense to ensure two se=
-parate drivers can't do async writes to the EC. We probably should have don=
-e that when adding the turbo button toggle anyway. I'll coordinate that eff=
-ort with Tobias and Antheas directly before moving forward.
->
-> Thanks Guenter,
-> - Derek
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ scripts/git-disambiguate.sh | 199 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 199 insertions(+)
+ create mode 100755 scripts/git-disambiguate.sh
+
+diff --git a/scripts/git-disambiguate.sh b/scripts/git-disambiguate.sh
+new file mode 100755
+index 000000000000..db73671d2665
+--- /dev/null
++++ b/scripts/git-disambiguate.sh
+@@ -0,0 +1,199 @@
++#!/bin/bash
++
++usage() {
++	echo "Usage: $(basename "$0") [--selftest] [--force] <commit-id> [commit-subject]"
++	echo "Disambiguates a short git commit ID to its full SHA-1 hash."
++	echo ""
++	echo "Arguments:"
++	echo "  --selftest	  Run self-tests"
++	echo "  --force		 Try to find commit by subject if ID lookup fails"
++	echo "  commit-id	   Short git commit ID to disambiguate"
++	echo "  commit-subject  Optional commit subject to help disambiguate between multiple matches"
++	exit 1
++}
++
++# Convert subject with ellipsis to grep pattern
++convert_to_grep_pattern() {
++	local subject="$1"
++	# First escape ALL regex special characters
++	local escaped_subject
++	escaped_subject=$(printf '%s\n' "$subject" | sed 's/[[\.*^$()+?{}|]/\\&/g')
++	# Also escape colons, parentheses, and hyphens as they are special in our context
++	escaped_subject=$(echo "$escaped_subject" | sed 's/[:-]/\\&/g')
++	# Then convert escaped ... sequence to .*?
++	escaped_subject=$(echo "$escaped_subject" | sed 's/\\\.\\\.\\\./.*?/g')
++	echo "^${escaped_subject}$"
++}
++
++git_full_id() {
++	local force=0
++	if [ "$1" = "--force" ]; then
++		force=1
++		shift
++	fi
++
++	# Split input into commit ID and subject
++	local input="$*"
++	local commit_id="${input%% *}"
++	local subject=""
++
++	# Extract subject if present (everything after the first space)
++	if [[ "$input" == *" "* ]]; then
++		subject="${input#* }"
++		# Strip the ("...") quotes if present
++		subject="${subject#*(\"}"
++		subject="${subject%\")*}"
++	fi
++
++	# Get all possible matching commit IDs
++	local matches
++	readarray -t matches < <(git rev-parse --disambiguate="$commit_id" 2>/dev/null)
++
++	# Return immediately if we have exactly one match
++	if [ ${#matches[@]} -eq 1 ]; then
++		echo "${matches[0]}"
++		return 0
++	fi
++
++	# If no matches and not in force mode, return failure
++	if [ ${#matches[@]} -eq 0 ] && [ $force -eq 0 ]; then
++		return 1
++	fi
++
++	# If we have a subject, try to find a match with that subject
++	if [ -n "$subject" ]; then
++		# Convert subject with possible ellipsis to grep pattern
++		local grep_pattern
++		grep_pattern=$(convert_to_grep_pattern "$subject")
++
++		# In force mode with no ID matches, use git log --grep directly
++		if [ ${#matches[@]} -eq 0 ] && [ $force -eq 1 ]; then
++			# Use git log to search, but filter to ensure subject matches exactly
++			local match
++			match=$(git log --format="%H %s" --grep="$grep_pattern" --perl-regexp -10 | \
++					while read -r hash subject; do
++						if echo "$subject" | grep -qP "$grep_pattern"; then
++							echo "$hash"
++							break
++						fi
++					done)
++			if [ -n "$match" ]; then
++				echo "$match"
++				return 0
++			fi
++		else
++			# Normal subject matching for existing matches
++			for match in "${matches[@]}"; do
++				if git log -1 --format="%s" "$match" | grep -qP "$grep_pattern"; then
++					echo "$match"
++					return 0
++				fi
++			done
++		fi
++	fi
++
++	# No match found
++	return 1
++}
++
++run_selftest() {
++	local test_cases=(
++		'00250b5 ("MAINTAINERS: add new Rockchip SoC list")'
++		'0037727 ("KVM: selftests: Convert xen_shinfo_test away from VCPU_ID")'
++		'ffef737 ("net/tls: Fix skb memory leak when running kTLS traffic")'
++		'd3d7 ("cifs: Improve guard for excluding $LXDEV xattr")'
++		'dbef ("Rename .data.once to .data..once to fix resetting WARN*_ONCE")'
++		'12345678'  # Non-existent commit
++		'12345 ("I'\''m a dummy commit")'  # Valid prefix but wrong subject
++		'--force 99999999 ("net/tls: Fix skb memory leak when running kTLS traffic")'  # Force mode with non-existent ID but valid subject
++		'83be ("firmware: ... auto-update: fix poll_complete() ... errors")'  # Wildcard test
++		'--force 999999999999 ("firmware: ... auto-update: fix poll_complete() ... errors")'  # Force mode wildcard test
++	)
++
++	local expected=(
++		"00250b529313d6262bb0ebbd6bdf0a88c809f6f0"
++		"0037727b3989c3fe1929c89a9a1dfe289ad86f58"
++		"ffef737fd0372ca462b5be3e7a592a8929a82752"
++		"d3d797e326533794c3f707ce1761da7a8895458c"
++		"dbefa1f31a91670c9e7dac9b559625336206466f"
++		""  # Expect empty output for non-existent commit
++		""  # Expect empty output for wrong subject
++		"ffef737fd0372ca462b5be3e7a592a8929a82752"  # Should find commit by subject in force mode
++		"83beece5aff75879bdfc6df8ba84ea88fd93050e"  # Wildcard test
++		"83beece5aff75879bdfc6df8ba84ea88fd93050e"  # Force mode wildcard test
++	)
++
++	local expected_exit_codes=(
++		0
++		0
++		0
++		0
++		0
++		1  # Expect failure for non-existent commit
++		1  # Expect failure for wrong subject
++		0  # Should succeed in force mode
++		0  # Should succeed with wildcard
++		0  # Should succeed with force mode and wildcard
++	)
++
++	local failed=0
++
++	echo "Running self-tests..."
++	for i in "${!test_cases[@]}"; do
++		# Capture both output and exit code
++		local result
++		result=$(git_full_id ${test_cases[$i]})  # Removed quotes to allow --force to be parsed
++		local exit_code=$?
++
++		# Check both output and exit code
++		if [ "$result" != "${expected[$i]}" ] || [ $exit_code != ${expected_exit_codes[$i]} ]; then
++			echo "Test case $((i+1)) FAILED"
++			echo "Input: ${test_cases[$i]}"
++			echo "Expected output: '${expected[$i]}'"
++			echo "Got output: '$result'"
++			echo "Expected exit code: ${expected_exit_codes[$i]}"
++			echo "Got exit code: $exit_code"
++			failed=1
++		else
++			echo "Test case $((i+1)) PASSED"
++		fi
++	done
++
++	if [ $failed -eq 0 ]; then
++		echo "All tests passed!"
++		exit 0
++	else
++		echo "Some tests failed!"
++		exit 1
++	fi
++}
++
++# Check for selftest
++if [ "$1" = "--selftest" ]; then
++	run_selftest
++	exit $?
++fi
++
++# Handle --force flag
++force=""
++if [ "$1" = "--force" ]; then
++	force="--force"
++	shift
++fi
++
++# Verify arguments
++if [ $# -eq 0 ]; then
++	usage
++fi
++
++# Skip validation in force mode
++if [ -z "$force" ]; then
++	# Validate that the first argument matches at least one git commit
++	if [ $(git rev-parse --disambiguate="$1" 2>/dev/null | wc -l) -eq 0 ]; then
++		echo "Error: '$1' does not match any git commit"
++		exit 1
++	fi
++fi
++
++git_full_id $force "$@"
++exit $?
+-- 
+2.39.5
+
