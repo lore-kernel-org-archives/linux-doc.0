@@ -1,186 +1,215 @@
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F72647;
-	Thu, 26 Dec 2024 16:08:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142E5647;
+	Thu, 26 Dec 2024 16:12:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735229310; cv=none; b=G7MlxcQn3uHVDf7EiA/AVBSBwOIM6gZqkA4BBDK8GWvYaMnvsahADlKbIrusb4LLkbQaw202OcdOJeVQ0Bj5naz9dldrXtor2qvjZ2fMYCKn9DanFIRXIfX2/9h+6dM5mXTYfeGRwsCiDHYwGh/aEyY6Fqzw1HAHucYv3MiboFs=
+	t=1735229570; cv=none; b=GXhrWFwIuW9pKLtbFNJvSR1kFeVcJMbgxiWjTrW25uoKikFHsQuI3He29x1N3ACGalzwFD0tm9inO33CslyMDopFudwrSVC3ix4DhC0rxQJfgqNIYjIgjd2Fx8sxWd8HAvV4uZvF7vaipogQiG3WCV9SRiCFjrmIaCp5wrkx1ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735229310; c=relaxed/simple;
-	bh=tbTZDMPPHbKy4KYERWbLt6yjZwM7Jrzj4liy2enA1io=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=msO7C34+yylf9k3OP7pFYqiI4pAm/6v5E47+zdG/0NnALKqeeN4i81HipAjwe52u0iHwlDw2PtE3j7hcVCKHn6bTH7w/Muiz/AtNbbErdzuALF252oxomE/ts2pk02vsVntSZsKHgBK/hlym/nEUcv+u3xemev9xtVcMniRJ90Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3a8f1c97ef1so21835165ab.2;
-        Thu, 26 Dec 2024 08:08:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735229305; x=1735834105;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TA1/Ar8ydSa+9gCDaaHBRCvZ/iUA+ufOprlYsP/S4Vg=;
-        b=nyPOKWHQ6SlOr8usj8rHxqWMT91YX6CtA8uBmrUw6CyV9+yPeq/tNVno8fzx6VlRuU
-         2ymPpxhCl7nUsxERMlAaR9qkzssRAt6njY7PBytNmU0FMV3Q60AO7zckHyww4bkmxvHt
-         aH3asaa/2SyP5kKmc8teFYaghXFA/L4hMg7rUF/KvAcQnwUONI4Gl0CVmcLoXpg4t7j3
-         wDwjNsMZnUBf5E9PuPglMtAN50o53WcJn7edt+EVCKu0zV10IOBsmjr+oIQI3b3lKrRF
-         bGB9ypjtGnwBh3APObgofpzX3BZ5oO7GDbe397XZ82zkaxwVm6ay+uT82GcbXZrEIaHy
-         wH/g==
-X-Forwarded-Encrypted: i=1; AJvYcCUYnxLuj5jT75hUibwvJ+WKNvxaVAw+nOrDaNaQz8tDH3ZtrD73HQFf59MfFoGY08UFbENauvEco+Eg2fX2JqH6GM9PjA==@vger.kernel.org, AJvYcCVgzBnsxPiChs7CQ2FKH+f2WlSgVxX+RY9SKHTFGnpCbM7iujrcd1+uI5+nVeJ1HL8Bu6NrhuDeCvc=@vger.kernel.org, AJvYcCXjO9AiDFkLeSYbuFLYJadftG7fTd6zTQLhZ+ey86OJrnX1APgnBZM+oyjjFD5yRWGhPIE7uMTURKFbo2uh@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvUea+ZoWiHooH/omTkZHFAWvU3pmMJB3UhTF3VSqNkTABQk8X
-	7kWPi5Izh3JBsvEyePZNfM9B9RUzuNfMGkjMagm9ya4KYG8LmxSDOyIWKelFENQ=
-X-Gm-Gg: ASbGncvbn3tYP60xvwd5jBybBFcFs7pGKXE+t12W6FqI4uixyqS/yQw11wOD3nhBfer
-	BHaNXFNZw0HCIybg80yRLtDRZQW6tN9HDw62TzrajiMw37y1ScEJYTKrXwR+SP0rJT8xy3jtDRI
-	xCgSroCJ542cmMjlTxUMA02P9H04N+5/+BBYuep/feFpzrgMvvZRdDzv+Xm1jE1/Ed1bfCYoslj
-	UUjuFDkyZ0/P2A03Rnz4wgLebAxZs2qTaSluqYyuWawoeeOxY7kmghf/pTKNKPyQhpdz79A3Elf
-	BVzbh9CU7mQruUmZidoPNPxwiA==
-X-Google-Smtp-Source: AGHT+IGUnnpYWKO6vaQnE+nDmPIgCLsHfI/Sdxl8igwkOWqacwjxlB4EFYHz+tDfVO3/Vo/fNGoKbQ==
-X-Received: by 2002:a05:6e02:188d:b0:3a7:e452:db5 with SMTP id e9e14a558f8ab-3c2d4c8314dmr204741575ab.15.1735229305140;
-        Thu, 26 Dec 2024 08:08:25 -0800 (PST)
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com. [209.85.166.179])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3c0decceef7sm40464475ab.24.2024.12.26.08.08.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Dec 2024 08:08:24 -0800 (PST)
-Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-3a8f1c97ef1so21835075ab.2;
-        Thu, 26 Dec 2024 08:08:24 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUQXNkeqSS5QS+DjiMvymOSLRNgNwnlYJgrshO+5wosryrsk6qYWpN2+P9E/4CRqQiPpcNsWpqb2UU=@vger.kernel.org, AJvYcCUdX1gLpTUJ6ZG55XIYsdA+fUWs86nlM7ICNYlGlb8Ep9MewAyi2Ih5/zSs0k/rVTwJUTf5hww2zded4VC6@vger.kernel.org, AJvYcCWR2yQY4/+wUxNWxx2B3cvNfmba6ENQuJ5sDYVjSGp0gF4cWJHD7ZID/6ZwZaZLgWENyadPWlC3b+eOoAzhvl2zpKpq6Q==@vger.kernel.org
-X-Received: by 2002:a05:6e02:1c05:b0:3a7:4eee:b7b9 with SMTP id
- e9e14a558f8ab-3c2d2975e44mr162550965ab.13.1735229304720; Thu, 26 Dec 2024
- 08:08:24 -0800 (PST)
+	s=arc-20240116; t=1735229570; c=relaxed/simple;
+	bh=VTlaFfUyGxXavHeYnrdDn3aVaMe/WmZQsQaO+nlu2y0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R2FIjwoHWRMqx8T+4eS9Hf28ExlrEYaCTYh0Uu5RhfcsxFn5qe24CQp+X9pgL7lk2wVTQ14fvpZ+vPlc7hG/pDorQCTfSYSnjiUUQBngWIT649lr/zYSezpf4byczPhy/P9eGjoouAgNbiK7JweYWq+Su4kPD4g9F00A4t+I7Rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lj+2m7z7; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lj+2m7z7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1735229570; x=1766765570;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VTlaFfUyGxXavHeYnrdDn3aVaMe/WmZQsQaO+nlu2y0=;
+  b=lj+2m7z7yFZV8GhptY5zEHZGZ9ljSLxSRmBMGxkbgZSCJ0GZneuWBxOH
+   Osvy3hWToMEL2j+ciI0/Bgaesr3bEHKOh3KSCcH4xdxfskUAmLfatmrEG
+   mwbFtZrBGMEn1Y5ujKhOAnMS3leldNz346sg+tK2fCrZQpaOlGJeF5zic
+   D174OgmZZZRKEV/wdtYkXE1oBWQMw8kfD5QDJL2IFQtCYfiqRnQs5ykWL
+   oRO14wte49Nb42ppWbvRoEvz7rb96iiCkn/CwUmN8I4fMMEuOqaLDNm95
+   tkGmwJVASoeAqHy/xmX8GGw4FTjvrbQ6bSRQpOlv4KNkIQbrEN36ByO1/
+   A==;
+X-CSE-ConnectionGUID: hbIQIC4uRtuzp0iLUEz+pw==
+X-CSE-MsgGUID: T6/dT2j1SHqNm/+vskBnIA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="35358539"
+X-IronPort-AV: E=Sophos;i="6.12,266,1728975600"; 
+   d="scan'208";a="35358539"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2024 08:12:49 -0800
+X-CSE-ConnectionGUID: CllPXsfwR1CBqfRCEfds9g==
+X-CSE-MsgGUID: Lq2Ho4+KTYu+BnCu6FgcZQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="137295161"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 26 Dec 2024 08:12:43 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tQqTZ-0002gT-0S;
+	Thu, 26 Dec 2024 16:12:41 +0000
+Date: Fri, 27 Dec 2024 00:12:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gur Stavi <gur.stavi@huawei.com>, gongfan <gongfan1@huawei.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Cai Huoqing <cai.huoqing@linux.dev>, Xin Guo <guoxin09@huawei.com>,
+	Shen Chenyang <shenchenyang1@hisilicon.com>,
+	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+	Shi Jing <shijing34@huawei.com>,
+	Meny Yossefi <meny.yossefi@huawei.com>
+Subject: Re: [PATCH net-next v02 1/1] hinic3: module initialization and tx/rx
+ logic
+Message-ID: <202412262331.IwY6o4xF-lkp@intel.com>
+References: <bbf2442dc9feca8bfa13ccfa2497a0e857eb5809.1735206602.git.gur.stavi@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241216103855.18457-1-josh@joshuagrisham.com>
- <13184052-baf2-4e7d-b8ef-9ba3f34d475a@t-8ch.de> <66897a27-5f81-46fc-898d-682456d7f37f@redhat.com>
- <CAMF+KeZ3uAWZuuPJcrrvTJS-TgyxkqXOY_w=wNw7eZQiUkV5YA@mail.gmail.com>
- <c2b5e0c8-651f-426e-ae96-13857313997a@t-8ch.de> <a4ad8907-34e3-4785-a62a-a1f41ddd6e1e@gmx.de>
-In-Reply-To: <a4ad8907-34e3-4785-a62a-a1f41ddd6e1e@gmx.de>
-From: Joshua Grisham <josh@joshuagrisham.com>
-Date: Thu, 26 Dec 2024 17:08:13 +0100
-X-Gmail-Original-Message-ID: <CAMF+KeYEarSLRyhS1o4AA7-Uy40_v0k2Bebhjzo9yKF=2k0jQQ@mail.gmail.com>
-Message-ID: <CAMF+KeYEarSLRyhS1o4AA7-Uy40_v0k2Bebhjzo9yKF=2k0jQQ@mail.gmail.com>
-Subject: Re: [PATCH v3] platform/x86: samsung-galaxybook: Add
- samsung-galaxybook driver
-To: Armin Wolf <W_Armin@gmx.de>
-Cc: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	Joshua Grisham <josh@joshuagrisham.com>, Hans de Goede <hdegoede@redhat.com>, 
-	ilpo.jarvinen@linux.intel.com, platform-driver-x86@vger.kernel.org, 
-	corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bbf2442dc9feca8bfa13ccfa2497a0e857eb5809.1735206602.git.gur.stavi@huawei.com>
 
-Hi Armin,
+Hi Gur,
 
-Den ons 25 dec. 2024 kl 21:23 skrev Armin Wolf <W_Armin@gmx.de>:
->
-> Harmonization with other platform driver regarding the firmware attribute names will
-> likely not result in any benefits. I am not aware of any utility profiting from such
-> a thing.
->
+kernel test robot noticed the following build errors:
 
-I just posted a v4 of the patch where I have moved the device sysfs
-attributes to firmware-attributes as requested by both Thomas and
-Hans. With this change, I did try to "harmonize" the names as best as
-I could anyway, recognizing that there are several device drivers in
-the tree which have actually currently implemented these as device
-sysfs attributes instead, but in theory they could be moved over to
-use the same firmware attribute instead ? e.g. all of the ones that
-have a usb_charge or usb_charging device attribute could be moved to
-use this new usb_charging firmware-attribute if it is desired at a
-later time?
+[auto build test ERROR on 9268abe611b09edc975aa27e6ce829f629352ff4]
 
-Here were the examples I could find online for different devices that
-drove my rationale for the names that I picked:
+url:    https://github.com/intel-lab-lkp/linux/commits/Gur-Stavi/hinic3-module-initialization-and-tx-rx-logic/20241226-192558
+base:   9268abe611b09edc975aa27e6ce829f629352ff4
+patch link:    https://lore.kernel.org/r/bbf2442dc9feca8bfa13ccfa2497a0e857eb5809.1735206602.git.gur.stavi%40huawei.com
+patch subject: [PATCH net-next v02 1/1] hinic3: module initialization and tx/rx logic
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20241226/202412262331.IwY6o4xF-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 319b89197348b7cad1215e235bdc7b5ec8f9b72c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241226/202412262331.IwY6o4xF-lkp@intel.com/reproduce)
 
-1) and maybe easiest to start with: for what I had as
-"allow_recording" I thought would be better to change to be a "block"
-as per Samsung's own documentation and implementation, but then to
-also try and harmonize how it would be interpreted by other tools
-including this switch input event, I chose to switch this entire
-feature to the name "camera lens cover". Hopefully this is ok! The
-only "weird" thing in my opinion is that on this particular device,
-there is a side-effect that the microphone is also blocked as well
-(which is not obviously indicated by this naming, but not totally hard
-to understand, either).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412262331.IwY6o4xF-lkp@intel.com/
 
-2)  for what I had called "start on lid open", I found the following
-vendors with various names for the same kind of feature:
-HP: "Power On When Lid is Opened"
-Dell/Alienware: "Power On Lid Open"
-Huawei: "Auto Power On"
-Samsung Galaxy Book: "Startup when Lid is Opened"
-Lenovo: "Flip to Start"
+All errors (new ones prefixed by >>):
 
-So for this, I tweaked my driver's name slightly to try and fit the
-middle ground between all of these, and went with the name
-power_on_lid_open
+   In file included from drivers/net/ethernet/huawei/hinic3/hinic3_tx.c:4:
+   In file included from include/linux/if_vlan.h:10:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/um/include/asm/cacheflush.h:4:
+   In file included from arch/um/include/asm/tlbflush.h:9:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/net/ethernet/huawei/hinic3/hinic3_tx.c:4:
+   In file included from include/linux/if_vlan.h:10:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:549:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     549 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:567:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     567 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/net/ethernet/huawei/hinic3/hinic3_tx.c:4:
+   In file included from include/linux/if_vlan.h:10:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:585:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/net/ethernet/huawei/hinic3/hinic3_tx.c:4:
+   In file included from include/linux/if_vlan.h:10:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:601:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     601 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:616:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     616 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:631:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     631 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:724:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     724 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:737:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     737 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:750:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     750 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:764:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     764 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:778:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     778 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:792:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     792 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/net/ethernet/huawei/hinic3/hinic3_tx.c:292:3: error: call to undeclared function 'csum_ipv6_magic'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     292 |                 csum_ipv6_magic(&ip->v6->saddr, &ip->v6->daddr, 0, proto, 0);
+         |                 ^
+   13 warnings and 1 error generated.
 
-3) for what I had called "usb charge":
-Lenovo: Always On USB
-Asus: USB power delivery in Soft Off state (S5)
-Dell: USB PowerShare
-Razer: USB Charge Function
-Existing drivers for Chrome, LG, and samsung-laptop call it "USB
-Charge" (long name "USB Charge in Sleep Mode")
-Fujitsu Lifebook: "Anytime USB Charge"
-Acer: "Power-off USB Charging"
-HP: "USB Charging"
-Samsung Galaxy Book series: "USB Charging"
 
-In effort to make this as descriptive as possible and mostly fit all
-of these, I went with the name usb_charging
+vim +/csum_ipv6_magic +292 drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
 
-All 3 of these I have added to the ABI-Testing documentation and
-removed my local documentation for them.
+   287	
+   288	static __sum16 csum_magic(union hinic3_ip *ip, unsigned short proto)
+   289	{
+   290		return (ip->v4->version == 4) ?
+   291			csum_tcpudp_magic(ip->v4->saddr, ip->v4->daddr, 0, proto, 0) :
+ > 292			csum_ipv6_magic(&ip->v6->saddr, &ip->v6->daddr, 0, proto, 0);
+   293	}
+   294	
 
-Anyway I am hoping that all of this makes sense and helps, but please
-feel free anyone to say if I got any of this wrong :)
-
-> [...]
->
-> Can you send me the acpidump of your machine (with the fan bug)? I can check how the
-> ACPI battery handles this case internally.
->
-
-I looked further into this one as well. What I see is that the battery
-device itself actually also receives a notification when this happens
-(so 3x events are generated for the same thing on this device; a
-keypress on the keyboard device, an ACPI notification on their "SCAI"
-settings device, and an ACPI notification on the battery device
-itself), and based on what I can tell in the code in ACPI core is
-already "updating" status based on what is read from _BST from the
-battery device. I think then that the "real" problem is that my
-device's _BST is not reporting these parts correctly as per
-https://uefi.org/specs/ACPI/6.5_A/10_Power_Source_and_Power_Meter_Devices.html#bst-battery-status
-and especially in regards to the part about reporting Battery Charge
-Limiting state.
-
-So for now I have made it so that this driver will aim that the
-notification to the battery device is the one that "matters": the
-keyboard event is now filtered away, and I removed any special
-handling of the extra ACPI settings device notification (but do send
-the notification along as an ACPI netlink event in case anyone really
-wants to create their own notification or action from it). I thought
-to also try to take this one up with Samsung; though I am skeptical
-that they would fix it for existing devices like mine,  maybe it will
-help with newer or future devices! In the end it is not too big of a
-deal as the device works well, it is only the icon and status that are
-not being updated correctly.
-
-> Thanks,
-> Armin Wolf
->
-
-There are lots of other adjustments in the v4 of this patch in attempt
-to address all of the issues brought up by everyone, so everyone is of
-course welcome to take a look and see if I managed to catch everything
-or not, and I can adjust from there!
-
-Thanks again!
-
-Best regards,
-Joshua
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
