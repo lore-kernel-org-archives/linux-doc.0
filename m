@@ -1,352 +1,224 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 390BB142E77
-	for <linux-doc@vger.kernel.org>; Thu, 26 Dec 2024 18:29:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A997F76025;
+	Thu, 26 Dec 2024 19:07:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735237783; cv=none; b=FDq6PvvV1RF131ZQ/+NPFh0oMIDHxoJzLPFJqYXSLhuK4noPOEQ32C0vbWwZBRuKb1QBIUm5qYN9KmRYzYozr+CkgXLVwuFz0OupG4J19PV9iMvjbZI8iaMXuyJsQmUmcb1Mv5DFVmF+revecDmbC59pjp7CZGGZlhww/a5FL8s=
+	t=1735240025; cv=none; b=ABCQHIiNQpqFzmpakgjkw+QKh/EN8ZgUWf2lVfmHI61+M0tPEOULt/Gl9z7YBfbRb7gikgKFIqs8Lw6q92qsxb+dYNGWwRvrOSccSwNgpvRnSwgOub1wFJKJ75af/ea5/nhd1SSOVjvp06ZpUlbpTpI9/3p3GY0awdAOXmwxafw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735237783; c=relaxed/simple;
-	bh=WLctN9kaPb7/tmtQ6JvEuX8Oxyx3aY5Zprh2cytD4Q4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ly3LbwhDJuwRxkhW4nURMALoLJ8tyLdxNsy+7T6SRrwbRQFkmqiikMMH2Aw2sFjb9HAjxX4Ei4KMjoKz6PrsJOLFlGbyQEpZZbu2GBgXEDytLPCLGelzpdZkL8f1YY6D29NaKyTCm9AkoLpBIRgZ8SayDbQLsOppK64/CeYCmzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=cynh2bae; arc=none smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1735240025; c=relaxed/simple;
+	bh=S+/XUS+TG5bfYwQTMhsq25YjHJfE8A7xX2vTwCqum1U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GvTP1FiNQmqXU/onpAm7PX3LHkKzX6ubINyvUMiye+vYdmJz9gLWEgdnVEZod13xVYmn0e86Saow6NJkILe9f2YgVNVnD6rO06l0L3FYZf4i7v1zxCd3tDJa1MswjerKEbWhn6CprYRSKUuprxttnYwrZbJGZYuA4zMi3QndZVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CO6NRMU0; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="cynh2bae"
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6dcd4f1aaccso95963756d6.2
-        for <linux-doc@vger.kernel.org>; Thu, 26 Dec 2024 10:29:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CO6NRMU0"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2163b0c09afso76775775ad.0;
+        Thu, 26 Dec 2024 11:07:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1735237779; x=1735842579; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ulc8YI8Od+RVUqdmJbEp8bNR29/8W69RWWEZTKBLmks=;
-        b=cynh2baeF8elsmsx7QJ5wXZArC5KJQ9QtiI7SewCb8ZfKQWB6fhQhflGXR09OBVVDo
-         L4VEHld956yxcWko4PMezphVlKz3ecUlQPrVhbdl3HMxvLO3UHCR3/rnqKeE7sVJp7Mu
-         C0EN/Fzrs/bDK6Lz5wnomRnZoNrR7qu5s0uYlD54GSYp4M6IKnfiqZI4hkLTgOjwR7tS
-         lX00Y7z+P52pGWUIppO1sFJL1Vvsi3sSLbSuYe4W7egmz1KH7VAkAZwdAurvXbhNBRBk
-         7J99fpM674sVs6tmhlsw5FxHVcXIMkhDWQLEMLS3XEo75WWgIJUti03YHV7QOHf/GwFK
-         G84Q==
+        d=gmail.com; s=20230601; t=1735240023; x=1735844823; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QXwZX7qcL5Q5uwBETXlrSBU6vMbcDPrfWJcs6udk4dY=;
+        b=CO6NRMU0Cvo1LEHUAW/Z/yhKrSfSp/YzyZveAfJ+fi7RIP2p0g5q/c6wb+wP7h/bui
+         7xjAk3XHLSU5JpKbrRmNzqF1DOEpaUKu3zAFFJPiZH7jgF7IBVr9QG76k4qbJh3Lo82L
+         Nk7xqr1MfVbAdrP03YEXO7rBbuHlWdWtwQI63+BX8hJF6aOoV7eH6BJe9zbZHf7ryF04
+         6H0a3IG2ooUiUQAC3PbbAgkJjUD8tIhVHei3zPDv01aOY4UOLpEXPjV+YV/+nCwXiEiO
+         2mb2eQUOw0EX3Ckrfvitq9Xr3irqpbEdkzjdPiFnbzx1/W6wxOF7z0gpwhfAgOc0bICl
+         tO2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735237779; x=1735842579;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ulc8YI8Od+RVUqdmJbEp8bNR29/8W69RWWEZTKBLmks=;
-        b=kiBRuDJi2X4EPjMigaCpDg3NaG/RRHZfpupMAfXXKFEv6bhh6mIU9zCYp7unfZhauj
-         8RHWX0zyos5U/CrD4vWdlFks508LnSuP7Dql3eBX8BTDrh0STlq90D9Ps2k4EysqspwF
-         SZ9SNWv0VpgBX3aqt+JSnP9U786dkg5ocxhwm/htGddZwTYgror60n1US3DIVU8H1jrn
-         cJuUaIcR78af8EF8eDJOlXWr/heX1ov/h/14M0UJBf4fitkkhbOn9PlD0jCqD6r4FCxb
-         jxLLr85870sVMpeM2Rp9a2e2RR//jthuVtiQutcR3MaoptDT6gE7jiFQOXsBzUtsUXhe
-         qHcA==
-X-Gm-Message-State: AOJu0YwQMO4NHCsqrvdwCnt6zGvaKyp53ufEBwe15E/WUFT74RT2MVjk
-	P2dyM4Qfshxfk4rIpqtnD9PR/z3h1kpRln+0z+17Pzw0PdwOG+zrJEbazh9JFQ4=
-X-Gm-Gg: ASbGncsUCa4WMyu0jgWvkr9wGxvQjd1KaE2O2bEY2yLetPLXTFhYDCGlORWfrwL8Lj2
-	plDs0KL3ChraFH5tqVngQY3jt8/ZxVHhRamMhqO1loawkhv83SXWj/Bq2XS7JovKR3UPLioKf5S
-	PoQCW+NfnleKjUAb8nUttOQJ8+9MyAfV3dFb6GaTVoCgLsvzt+xzeFjFJ998GxrZQjw4M2LTh1W
-	SL9x6Po8l15lh0E+F2abq9uP4UGN4K2GI5kNUBuimaGHDxCjwXr5iHIS20Tojo=
-X-Google-Smtp-Source: AGHT+IGunNgWGzawZSRYp426fRZ4HyEUdARE5RrkmmyWVpaqiWqMPRG0VVdcHlqGkSu5TnJeGImAmg==
-X-Received: by 2002:a05:6214:250c:b0:6d8:8e0f:8c03 with SMTP id 6a1803df08f44-6dd2333737emr432315856d6.18.1735237779001;
-        Thu, 26 Dec 2024 10:29:39 -0800 (PST)
-Received: from localhost.localdomain ([184.169.45.4])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6dd181d52c2sm71619526d6.113.2024.12.26.10.29.30
+        d=1e100.net; s=20230601; t=1735240023; x=1735844823;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QXwZX7qcL5Q5uwBETXlrSBU6vMbcDPrfWJcs6udk4dY=;
+        b=P6G4xN2tWSDxQGBAMeJOhQH95KkyduRg9RNzkgh8a5q34ErmaLTfsUcyLGxHthnSWl
+         u2OIT+EC2/B5NKCUmBwRqm0nOOMTnSO+XH6CrR7XJj5u8ib7ARA2AD2NL150gKa3dzrs
+         O3Yyd/CtcBV2M04D/8NxCtRYPeuvxOWjd4nKDUEdLjsOgBzhP8zaEuycS497N+mZN35K
+         r3SGTgxclMLRmRfC8K8c0C4cT21Hla/V10LY02LC0XVAjX6SFxzoanOhmSKWlB3CrwJV
+         QQyZErL447lAM6a/mBrS6zisHdASAi+Ul4xPIYZxmDwx/muOAHX15YeInwE6hS1J7arq
+         p8FA==
+X-Forwarded-Encrypted: i=1; AJvYcCVzzXa5tsvzJOQbcz4GlxzWgX5560jqmIkyiqzKlt8W3AURI5Yd31iHEetH8GNbRjgpGwRBsTWxx0Vm9/PEIPaE@vger.kernel.org, AJvYcCWLMwxBjBo+lRAwMMtspVgMkEQ7+ehCTmR7qKpWNDOfLFrdNB98+ujmkMPsgavdpQcy64Y=@vger.kernel.org, AJvYcCWRAScoVPNCRIrsSboQtLDPix4ZPKc43HwkE9xNg4fzsqkDlTHTX9HtlQh8LngwSUln5Bhv183omRya@vger.kernel.org, AJvYcCWUKvW/mkmuN2m0aqxKHPNs99Jnj2OwgenNpv74TaC0PnUX+dH7dadTdog+elbeZggkNJyzMBonteu4ljrz@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPEkv+W/+yjh7YHtnP8/DXceTPZ7VX80Tf2MFltc6+in/wnZRY
+	JNaFMHOOzmvQSYKDdeckoE0YyDqFBaKZ1I7mx/G9eswVlrMcwUEwBwMofAE=
+X-Gm-Gg: ASbGncs9UuggvntW4Zrglpr+ANRxYWSOrQO1ZWisHdy8qsR6URgoLjXeIOqa/3BnPiF
+	SX2s7nBSN6Hg3QgdYukaSAwqLSiFbTyAeLIvhGNWPvOFxlpmf+zJtkAKjOFyH+EPcCzV2u7sUxt
+	I1qUqT4QMUuUfMD77F6Gn48ba9EWQAuyWNB5RR/cGIJqhhutxHx9p+/8SPX26S4uwv4eGzpvtvC
+	TfDQEI1WDiV3aZntMfqJdM2lwpukJYjj8Mq11l61GCQs/A3WByFB4NU
+X-Google-Smtp-Source: AGHT+IH5GP3RIujBooCTnClTTqGZb/t3uapPT5RPrSrXb6fO3KCQ7bbTApm3PlB/Cz/PoLoUCnFgZw==
+X-Received: by 2002:a05:6a20:6f06:b0:1e1:b014:aec9 with SMTP id adf61e73a8af0-1e5e080c77fmr38547687637.29.1735240022805;
+        Thu, 26 Dec 2024 11:07:02 -0800 (PST)
+Received: from localhost ([2601:646:9e00:f56e:123b:cea3:439a:b3e3])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-842dc605001sm12146311a12.54.2024.12.26.11.07.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Dec 2024 10:29:38 -0800 (PST)
-From: Gregory Price <gourry@gourry.net>
-To: linux-mm@kvack.org
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	kernel-team@meta.com,
-	corbet@lwn.net,
-	david@redhat.com,
-	akpm@linux-foundation.org
-Subject: [PATCH v4] mm: add build-time option for hotplug memory default online type
-Date: Thu, 26 Dec 2024 11:29:18 -0700
-Message-ID: <20241226182918.648799-1-gourry@gourry.net>
-X-Mailer: git-send-email 2.47.1
+        Thu, 26 Dec 2024 11:07:02 -0800 (PST)
+Date: Thu, 26 Dec 2024 11:07:01 -0800
+From: Stanislav Fomichev <stfomichev@gmail.com>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
+	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	David Ahern <dsahern@kernel.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Stefano Garzarella <sgarzare@redhat.com>,
+	Shuah Khan <shuah@kernel.org>, Kaiyuan Zhang <kaiyuanz@google.com>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Joe Damato <jdamato@fastly.com>, dw@davidwei.uk
+Subject: Re: [PATCH RFC net-next v1 3/5] net: add get_netmem/put_netmem
+ support
+Message-ID: <Z22pVRcr-B624UcG@mini-arch>
+References: <20241221004236.2629280-1-almasrymina@google.com>
+ <20241221004236.2629280-4-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241221004236.2629280-4-almasrymina@google.com>
 
-v4: updated KConfig comments 
+On 12/21, Mina Almasry wrote:
+> Currently net_iovs support only pp ref counts, and do not support a
+> page ref equivalent.
+> 
+> This is fine for the RX path as net_iovs are used exclusively with the
+> pp and only pp refcounting is needed there. The TX path however does not
+> use pp ref counts, thus, support for get_page/put_page equivalent is
+> needed for netmem.
+> 
+> Support get_netmem/put_netmem. Check the type of the netmem before
+> passing it to page or net_iov specific code to obtain a page ref
+> equivalent.
+> 
+> For dmabuf net_iovs, we obtain a ref on the underlying binding. This
+> ensures the entire binding doesn't disappear until all the net_iovs have
+> been put_netmem'ed. We do not need to track the refcount of individual
+> dmabuf net_iovs as we don't allocate/free them from a pool similar to
+> what the buddy allocator does for pages.
+> 
+> This code is written to be extensible by other net_iov implementers.
+> get_netmem/put_netmem will check the type of the netmem and route it to
+> the correct helper:
+> 
+> pages -> [get|put]_page()
+> dmabuf net_iovs -> net_devmem_[get|put]_net_iov()
+> new net_iovs ->	new helpers
+> 
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> 
+> ---
+>  include/linux/skbuff_ref.h |  4 ++--
+>  include/net/netmem.h       |  3 +++
+>  net/core/devmem.c          | 10 ++++++++++
+>  net/core/devmem.h          | 11 +++++++++++
+>  net/core/skbuff.c          | 30 ++++++++++++++++++++++++++++++
+>  5 files changed, 56 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/skbuff_ref.h b/include/linux/skbuff_ref.h
+> index 0f3c58007488..9e49372ef1a0 100644
+> --- a/include/linux/skbuff_ref.h
+> +++ b/include/linux/skbuff_ref.h
+> @@ -17,7 +17,7 @@
+>   */
+>  static inline void __skb_frag_ref(skb_frag_t *frag)
+>  {
+> -	get_page(skb_frag_page(frag));
+> +	get_netmem(skb_frag_netmem(frag));
+>  }
+>  
+>  /**
+> @@ -40,7 +40,7 @@ static inline void skb_page_unref(netmem_ref netmem, bool recycle)
+>  	if (recycle && napi_pp_put_page(netmem))
+>  		return;
+>  #endif
 
-Memory hotplug presently auto-onlines memory into a zone the kernel
-deems appropriate if CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE=y.
+[..]
 
-The memhp_default_state boot param enables runtime config, but it's
-not possible to do this at build-time.
+> -	put_page(netmem_to_page(netmem));
+> +	put_netmem(netmem);
 
-Remove CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE, and replace it with
-CONFIG_MHP_DEFAULT_ONLINE_TYPE_* choices that sync with the boot param.
+I moved the release operation onto a workqueue in my series [1] to avoid
+calling dmabuf detach (which can sleep) from the socket close path
+(which is called with bh disabled). You should probably do something similar,
+see the trace attached below.
 
-Selections:
-  CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE
-    => mhp_default_online_type = "offline"
-       Memory will not be onlined automatically.
+1: https://github.com/fomichev/linux/commit/3b3ad4f36771a376c204727e5a167c4993d4c65a#diff-3c58b866674b2f9beb5ac7349f81566e4df595c25c647710203549589d450f2dR436
 
-  CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_AUTO
-    => mhp_default_online_type = "online"
-       Memory will be onlined automatically in a zone deemed.
-       appropriate by the kernel.
+(the condition to trigger that is to have an skb in the write queue
+and call close from the userspace)
 
-  CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_KERNEL
-    => mhp_default_online_type = "online_kernel"
-       Memory will be onlined automatically.
-       The zone may allow kernel data (e.g. ZONE_NORMAL).
-
-  CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_MOVABLE
-    => mhp_default_online_type = "online_movable"
-       Memory will be onlined automatically.
-       The zone will be ZONE_MOVABLE.
-
-Default to CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE to match the
-existing default CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE=n behavior.
-
-Existing users of CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE=y should use
-CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_AUTO.
-
-Signed-off-by: Gregory Price <gourry@gourry.net>
-Acked-by: David Hildenbrand <david@redhat.com>
----
- .../admin-guide/kernel-parameters.txt         |  4 +-
- .../admin-guide/mm/memory-hotplug.rst         |  4 +-
- arch/loongarch/configs/loongson3_defconfig    |  5 +-
- drivers/base/memory.c                         |  4 +-
- include/linux/memory_hotplug.h                |  5 +-
- mm/Kconfig                                    | 57 ++++++++++++++++---
- mm/memory_hotplug.c                           | 33 ++++++++---
- 7 files changed, 89 insertions(+), 23 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index c79691eee54f..9138fcd18260 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3351,8 +3351,8 @@
- 			[KNL] Set the initial state for the memory hotplug
- 			onlining policy. If not specified, the default value is
- 			set according to the
--			CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE kernel config
--			option.
-+			CONFIG_MHP_DEFAULT_ONLINE_TYPE kernel config
-+			options.
- 			See Documentation/admin-guide/mm/memory-hotplug.rst.
- 
- 	memmap=exactmap	[KNL,X86,EARLY] Enable setting of an exact
-diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
-index cb2c080f400c..33c886f3d198 100644
---- a/Documentation/admin-guide/mm/memory-hotplug.rst
-+++ b/Documentation/admin-guide/mm/memory-hotplug.rst
-@@ -280,8 +280,8 @@ The following files are currently defined:
- 		       blocks; configure auto-onlining.
- 
- 		       The default value depends on the
--		       CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE kernel configuration
--		       option.
-+		       CONFIG_MHP_DEFAULT_ONLINE_TYPE kernel configuration
-+		       options.
- 
- 		       See the ``state`` property of memory blocks for details.
- ``block_size_bytes``   read-only: the size in bytes of a memory block.
-diff --git a/arch/loongarch/configs/loongson3_defconfig b/arch/loongarch/configs/loongson3_defconfig
-index 4dffc90192f7..1cc6e8843680 100644
---- a/arch/loongarch/configs/loongson3_defconfig
-+++ b/arch/loongarch/configs/loongson3_defconfig
-@@ -113,7 +113,10 @@ CONFIG_ZBUD=y
- CONFIG_ZSMALLOC=m
- # CONFIG_COMPAT_BRK is not set
- CONFIG_MEMORY_HOTPLUG=y
--CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE=y
-+# CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE is not set
-+CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_AUTO=y
-+# CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_KERNEL is not set
-+# CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_MOVABLE is not set
- CONFIG_MEMORY_HOTREMOVE=y
- CONFIG_KSM=y
- CONFIG_TRANSPARENT_HUGEPAGE=y
-diff --git a/drivers/base/memory.c b/drivers/base/memory.c
-index 67858eeb92ed..348c5dbbfa68 100644
---- a/drivers/base/memory.c
-+++ b/drivers/base/memory.c
-@@ -512,7 +512,7 @@ static ssize_t auto_online_blocks_show(struct device *dev,
- 				       struct device_attribute *attr, char *buf)
- {
- 	return sysfs_emit(buf, "%s\n",
--			  online_type_to_str[mhp_default_online_type]);
-+			  online_type_to_str[mhp_get_default_online_type()]);
- }
- 
- static ssize_t auto_online_blocks_store(struct device *dev,
-@@ -524,7 +524,7 @@ static ssize_t auto_online_blocks_store(struct device *dev,
- 	if (online_type < 0)
- 		return -EINVAL;
- 
--	mhp_default_online_type = online_type;
-+	mhp_set_default_online_type(online_type);
- 	return count;
- }
- 
-diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
-index b27ddce5d324..eaac5ae8c05c 100644
---- a/include/linux/memory_hotplug.h
-+++ b/include/linux/memory_hotplug.h
-@@ -144,8 +144,6 @@ extern u64 max_mem_size;
- 
- extern int mhp_online_type_from_str(const char *str);
- 
--/* Default online_type (MMOP_*) when new memory blocks are added. */
--extern int mhp_default_online_type;
- /* If movable_node boot option specified */
- extern bool movable_node_enabled;
- static inline bool movable_node_is_enabled(void)
-@@ -303,6 +301,9 @@ static inline void __remove_memory(u64 start, u64 size) {}
- #endif /* CONFIG_MEMORY_HOTREMOVE */
- 
- #ifdef CONFIG_MEMORY_HOTPLUG
-+/* Default online_type (MMOP_*) when new memory blocks are added. */
-+extern int mhp_get_default_online_type(void);
-+extern void mhp_set_default_online_type(int online_type);
- extern void __ref free_area_init_core_hotplug(struct pglist_data *pgdat);
- extern int __add_memory(int nid, u64 start, u64 size, mhp_t mhp_flags);
- extern int add_memory(int nid, u64 start, u64 size, mhp_t mhp_flags);
-diff --git a/mm/Kconfig b/mm/Kconfig
-index 7949ab121070..1b501db06417 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -550,20 +550,63 @@ menuconfig MEMORY_HOTPLUG
- 
- if MEMORY_HOTPLUG
- 
--config MEMORY_HOTPLUG_DEFAULT_ONLINE
--	bool "Online the newly added memory blocks by default"
--	depends on MEMORY_HOTPLUG
-+choice
-+	prompt "Memory Hotplug Default Online Type"
-+	default MHP_DEFAULT_ONLINE_TYPE_OFFLINE
- 	help
-+	  Default memory type for hotplugged memory.
-+
- 	  This option sets the default policy setting for memory hotplug
- 	  onlining policy (/sys/devices/system/memory/auto_online_blocks) which
- 	  determines what happens to newly added memory regions. Policy setting
- 	  can always be changed at runtime.
-+
-+	  The default is 'offline'.
-+
-+	  Select offline to defer onlining to drivers and user policy.
-+	  Select auto to let the kernel choose what zones to utilize.
-+	  Select online_kernel to generally allow kernel usage of this memory.
-+	  Select online_movable to generally disallow kernel usage of this memory.
-+
-+	  Example kernel usage would be page structs and page tables.
-+
- 	  See Documentation/admin-guide/mm/memory-hotplug.rst for more information.
- 
--	  Say Y here if you want all hot-plugged memory blocks to appear in
--	  'online' state by default.
--	  Say N here if you want the default policy to keep all hot-plugged
--	  memory blocks in 'offline' state.
-+config MHP_DEFAULT_ONLINE_TYPE_OFFLINE
-+	bool "offline"
-+	help
-+	  Hotplugged memory will not be onlined by default.
-+	  Choose this for systems with drivers and user policy that
-+	  handle onlining of hotplug memory policy.
-+
-+config MHP_DEFAULT_ONLINE_TYPE_ONLINE_AUTO
-+	bool "auto"
-+	help
-+	  Select this if you want the kernel to automatically online
-+	  hotplugged memory into the zone it thinks is reasonable.
-+	  This memory may be utilized for kernel data.
-+
-+config MHP_DEFAULT_ONLINE_TYPE_ONLINE_KERNEL
-+	bool "kernel"
-+	help
-+	  Select this if you want the kernel to automatically online
-+	  hotplugged memory into a zone capable of being used for kernel
-+	  data. This typically means ZONE_NORMAL.
-+
-+config MHP_DEFAULT_ONLINE_TYPE_ONLINE_MOVABLE
-+	bool "movable"
-+	help
-+	  Select this if you want the kernel to automatically online
-+	  hotplug memory into ZONE_MOVABLE. This memory will generally
-+	  not be utilized for kernel data.
-+
-+	  This should only be used when the admin knows sufficient
-+	  ZONE_NORMAL memory is available to describe hotplug memory,
-+	  otherwise hotplug memory may fail to online. For example,
-+	  sufficient kernel-capable memory (ZONE_NORMAL) must be
-+	  available to allocate page structs to describe ZONE_MOVABLE.
-+
-+endchoice
- 
- config MEMORY_HOTREMOVE
- 	bool "Allow for memory hot remove"
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index 3b6f93962481..e3655f07dd6e 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -219,11 +219,30 @@ void put_online_mems(void)
- 
- bool movable_node_enabled = false;
- 
--#ifndef CONFIG_MEMORY_HOTPLUG_DEFAULT_ONLINE
--int mhp_default_online_type = MMOP_OFFLINE;
--#else
--int mhp_default_online_type = MMOP_ONLINE;
--#endif
-+static int mhp_default_online_type = -1;
-+int mhp_get_default_online_type(void)
-+{
-+	if (mhp_default_online_type >= 0)
-+		return mhp_default_online_type;
-+
-+	if (IS_ENABLED(CONFIG_MHP_DEFAULT_ONLINE_TYPE_OFFLINE))
-+		mhp_default_online_type = MMOP_OFFLINE;
-+	else if (IS_ENABLED(CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_AUTO))
-+		mhp_default_online_type = MMOP_ONLINE;
-+	else if (IS_ENABLED(CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_KERNEL))
-+		mhp_default_online_type = MMOP_ONLINE_KERNEL;
-+	else if (IS_ENABLED(CONFIG_MHP_DEFAULT_ONLINE_TYPE_ONLINE_MOVABLE))
-+		mhp_default_online_type = MMOP_ONLINE_MOVABLE;
-+	else
-+		mhp_default_online_type = MMOP_OFFLINE;
-+
-+	return mhp_default_online_type;
-+}
-+
-+void mhp_set_default_online_type(int online_type)
-+{
-+	mhp_default_online_type = online_type;
-+}
- 
- static int __init setup_memhp_default_state(char *str)
- {
-@@ -1328,7 +1347,7 @@ static int check_hotplug_memory_range(u64 start, u64 size)
- 
- static int online_memory_block(struct memory_block *mem, void *arg)
- {
--	mem->online_type = mhp_default_online_type;
-+	mem->online_type = mhp_get_default_online_type();
- 	return device_online(&mem->dev);
- }
- 
-@@ -1575,7 +1594,7 @@ int add_memory_resource(int nid, struct resource *res, mhp_t mhp_flags)
- 		merge_system_ram_resource(res);
- 
- 	/* online pages if requested */
--	if (mhp_default_online_type != MMOP_OFFLINE)
-+	if (mhp_get_default_online_type() != MMOP_OFFLINE)
- 		walk_memory_blocks(start, size, NULL, online_memory_block);
- 
- 	return ret;
--- 
-2.47.1
+[    1.548495] BUG: sleeping function called from invalid context at drivers/dma-buf/dma-buf.c:1255
+[    1.548741] in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 149, name: ncdevmem
+[    1.548926] preempt_count: 201, expected: 0
+[    1.549026] RCU nest depth: 0, expected: 0
+[    1.549197]
+[    1.549237] =============================
+[    1.549331] [ BUG: Invalid wait context ]
+[    1.549425] 6.13.0-rc3-00770-gbc9ef9606dc9-dirty #15 Tainted: G        W
+[    1.549609] -----------------------------
+[    1.549704] ncdevmem/149 is trying to lock:
+[    1.549801] ffff8880066701c0 (reservation_ww_class_mutex){+.+.}-{4:4}, at: dma_buf_unmap_attachment_unlocked+0x4b/0x90
+[    1.550051] other info that might help us debug this:
+[    1.550167] context-{5:5}
+[    1.550229] 3 locks held by ncdevmem/149:
+[    1.550322]  #0: ffff888005730208 (&sb->s_type->i_mutex_key#11){+.+.}-{4:4}, at: sock_close+0x40/0xf0
+[    1.550530]  #1: ffff88800b148f98 (sk_lock-AF_INET6){+.+.}-{0:0}, at: tcp_close+0x19/0x80
+[    1.550731]  #2: ffff88800b148f18 (slock-AF_INET6){+.-.}-{3:3}, at: __tcp_close+0x185/0x4b0
+[    1.550921] stack backtrace:
+[    1.550990] CPU: 0 UID: 0 PID: 149 Comm: ncdevmem Tainted: G        W          6.13.0-rc3-00770-gbc9ef9606dc9-dirty #15
+[    1.551233] Tainted: [W]=WARN
+[    1.551304] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS Arch Linux 1.16.3-1-1 04/01/2014
+[    1.551518] Call Trace:
+[    1.551584]  <TASK>
+[    1.551636]  dump_stack_lvl+0x86/0xc0
+[    1.551723]  __lock_acquire+0xb0f/0xc30
+[    1.551814]  ? dma_buf_unmap_attachment_unlocked+0x4b/0x90
+[    1.551941]  lock_acquire+0xf1/0x2a0
+[    1.552026]  ? dma_buf_unmap_attachment_unlocked+0x4b/0x90
+[    1.552152]  ? dma_buf_unmap_attachment_unlocked+0x4b/0x90
+[    1.552281]  ? dma_buf_unmap_attachment_unlocked+0x4b/0x90
+[    1.552408]  __ww_mutex_lock+0x121/0x1060
+[    1.552503]  ? dma_buf_unmap_attachment_unlocked+0x4b/0x90
+[    1.552648]  ww_mutex_lock+0x3d/0xa0
+[    1.552733]  dma_buf_unmap_attachment_unlocked+0x4b/0x90
+[    1.552857]  __net_devmem_dmabuf_binding_free+0x56/0xb0
+[    1.552979]  skb_release_data+0x120/0x1f0
+[    1.553074]  __kfree_skb+0x29/0xa0
+[    1.553156]  tcp_write_queue_purge+0x41/0x310
+[    1.553259]  tcp_v4_destroy_sock+0x127/0x320
+[    1.553363]  ? __tcp_close+0x169/0x4b0
+[    1.553452]  inet_csk_destroy_sock+0x53/0x130
+[    1.553560]  __tcp_close+0x421/0x4b0
+[    1.553646]  tcp_close+0x24/0x80
+[    1.553724]  inet_release+0x5d/0x90
+[    1.553806]  sock_close+0x4a/0xf0
+[    1.553886]  __fput+0x9c/0x2b0
+[    1.553960]  task_work_run+0x89/0xc0
+[    1.554046]  do_exit+0x27f/0x980
+[    1.554125]  do_group_exit+0xa4/0xb0
+[    1.554211]  __x64_sys_exit_group+0x17/0x20
+[    1.554309]  x64_sys_call+0x21a0/0x21a0
+[    1.554400]  do_syscall_64+0xec/0x1d0
+[    1.554487]  ? exc_page_fault+0x8a/0xf0
+[    1.554585]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+[    1.554703] RIP: 0033:0x7f2f8a27abcd
 
