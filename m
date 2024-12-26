@@ -1,55 +1,55 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A201D86E4
-	for <linux-doc@vger.kernel.org>; Thu, 26 Dec 2024 17:07:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B094F1D8E1A
+	for <linux-doc@vger.kernel.org>; Thu, 26 Dec 2024 17:07:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735232854; cv=none; b=E6H9FcmYRgdbv9KQaiX/vPgB5jwu1sHYmPAKbiy0BCGDunpEw1SOhxNSPjjzyc4Brs+0rf3dYbzvrZkk4ytZOdORQjhqfTMHpqPmHYIYX8Mubg5uY2VKC37n97/1W4lC6erXlkrORrr8cbCUHHsrmNj2cWIyCSu3nbQdVFHCSYY=
+	t=1735232857; cv=none; b=NZbrDsNAalNBmNpR698AYWDndhO5bJxjuLzZMcevhOWr9PCn8nuVGpjRMz4tY9EMTWMar7P6h+2/CJV8M7q6JXJAI1EIWexiItezBSxtSE/VOf0aAxbAlDGUnRRrfhzqFzCYwCz2N6o3CGCZl97IMJRTO2oVvtHQauSwNWR0q5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735232854; c=relaxed/simple;
-	bh=eVQ3VVggh8kVNxQAQ6vf7aEf20tCEfNHXPz3nGbyC34=;
+	s=arc-20240116; t=1735232857; c=relaxed/simple;
+	bh=y5H/oyb5yTq6yRneEBepHGREG8blFWXRMu5RqF/mU9c=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=T+aJmJXaUa7+3rmJGqY6X6hZCVbzZ6jyvDOiRihCPz6COxd139Y2ijRf5hkjiHxGkotpmzzYkiRFDlTbIuifk7jV7Fh3iRQptwf9LAhm8boVEZqftM/gNrZkI23MXaqqHZmLj2P15k3rJ0dgFD+4KJpV9lu7yJIVkbYVXd3RFUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=isj/PPJZ; arc=none smtp.client-ip=209.85.214.201
+	 To:Cc:Content-Type; b=BcZwNSpJ/ohR6mpqGFxAoRYmVZQzIa2JEBeGlu6uLpsEDY2dwi13GTAq1QSdZGMVOGoT4LGML4KeMUPLOwEipNqZ1RyJy0WgnCG1xfH+ZycR1ISxb1X0jiqvHnr6VPXYGDO1WbCaebrQFvactEP6Vc3i0ngSD42AyvquozRiUvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XVpx/Eud; arc=none smtp.client-ip=209.85.216.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="isj/PPJZ"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2166a1a5cc4so77353595ad.3
-        for <linux-doc@vger.kernel.org>; Thu, 26 Dec 2024 09:07:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XVpx/Eud"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2ee5616e986so12303524a91.2
+        for <linux-doc@vger.kernel.org>; Thu, 26 Dec 2024 09:07:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1735232852; x=1735837652; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1735232854; x=1735837654; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3UFX636acVjy8McvbWwNjOMeHy5jkJa1vw72jY/LAWg=;
-        b=isj/PPJZ2b1nSCRYbvKE/9CiqUanOR8d4bs21E+B2n7F/aYEM31Q+xbtHaigPkaNps
-         FRn9QUVz20Op5fcuLgKcXUgUY821+JwQxpJsTaB0RdeThUeZrDWGondHB5xyeOWGFxF2
-         d4LCSxEYAZkRiY23pm3l55Dqcx+YShycEZkjdv1NJSBL9knRWHrf9RI+pyqvkqU0yUW6
-         rKN5NwWhHQ63TXUae+zu7B5+MU5Nu10nt2DI6+YHwCOuA5CerE6Y8LLhCmeRn7rDYw4j
-         ExApa8YxUpeYwx4gjkUP62+waHZEDx/dZK2VmUCT5/har3hM4dVRWLAwsZ/qXd27RFAy
-         qNQQ==
+        bh=itcT003jdnlfYy/z4AAxsZgzhf2fL1y4OTxlsN9l2Ik=;
+        b=XVpx/EudRd2RdUgnbP2+o1KeYdk0hBPA7u6i0leHRz+RMK2vL4EyuhFYEX/fMEp8UD
+         RKa6LVtvdivBnacgyZ3+CdcjfiJC/gMuDDjTr1JCQ1hy7dRwqmEMvRIAXmacvCLpy2T+
+         L2m1/0w5MupzW+8aSmJE8LMdbi6pcXwTnl8nUGbYfm90a17pcNxBILRKRR+/yvcT0C+t
+         CIXwFQVuZwC5OOtWNE4Nyrqnvw6cFfEI0Aahznta2GB5vIuxKUUoqd08LRHJcf3UGDTf
+         FUkUlVzYTJ0DRx/GnEXX3lZ79NRCfAugzBscAPb9EL8IASawu44C9P7V3TzqRo05PTpQ
+         +ixA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735232852; x=1735837652;
+        d=1e100.net; s=20230601; t=1735232854; x=1735837654;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3UFX636acVjy8McvbWwNjOMeHy5jkJa1vw72jY/LAWg=;
-        b=BKBmomYJndq4ZS/CPRJte4jcILBsbplfBLte9CaLaxyhHpXFtzj4/NTVRkri/dLuQR
-         jLvkuqWIvjguaY8e7IM79AYegnAoiLiGATGUc9e5fcfOCYQvO1wXR2gZ8ItvtF+YJxX+
-         VyxOQw+mo0lvhoOeSeEkpt51LFcFa2UnkDZOTmrSGBAV9TvaFwco5t49Fg7ot5V27NLS
-         ew8lXphKFatEG/iyFJKWVAdCQTmc+ew74Yf8ECrGXpaKxHrU5kaIJpwdHKb1DYuplYug
-         tq7mqghmwRmexSsLeagSE0ttLpu283e/fv7qe9nVnMGZGU2DjkwazoWtGicyIUHowh8v
-         WAqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV+ft8nsF5liU92sXsc0/YTC632o+nQ3kTodHMHstcCMSJOpnnTsq4NzjbMi5KyaG9vFPCPWTSGXBs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyS491Uv25PI8o88INlH91iI3Q/6j3AejzzOkhu4yTkeLOa0F6u
-	9lrNJfh4U9p8L8NdNKa/4eBCFVPNryW57ZKqGvFTFa8RXTgEUs8JCgVdaoCw28QWQtXkJ8lyNAi
-	NIQ==
-X-Google-Smtp-Source: AGHT+IE+Il4aaMscBOZzUniftz3cly+CPDHxMUs/tHLaE2nxYIYJF6s9V97DoMW87H97O8rFF+TQEZN/e8w=
-X-Received: from plsp1.prod.google.com ([2002:a17:902:bd01:b0:212:5134:8485])
- (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:2cc:b0:216:5867:976a
- with SMTP id d9443c01a7336-219e6f1176fmr305791325ad.45.1735232851873; Thu, 26
- Dec 2024 09:07:31 -0800 (PST)
-Date: Thu, 26 Dec 2024 09:07:01 -0800
+        bh=itcT003jdnlfYy/z4AAxsZgzhf2fL1y4OTxlsN9l2Ik=;
+        b=DD0vxSSwfkCT/p/XEs4CN1nM60aoRApD1o3w+YbvMpAsW/RgQdTjtuAcqY+3eXp9mR
+         pQuwCn8MJr73Ajh6p5du53KtjvrGIdStxbaPo+HiP9Moapa1eKR5hK95Wex6TsdUJUwW
+         Yb8TNj0ehUMw8To31ZVE7AdXNQbxrQGpVVZOsA7cjalZLhUm0TnGpMpa0gG1Dpmj4TKd
+         wuvBd6g7tWsTHcQAT3K6ov44hv8hQdcRTMQUMwc8f5xGGq51ilqylFQSlepgnspE8ggU
+         r2GYxOvp0/cyWU9zqlVkfBIaGRTroSwjggc8cj7xT2TCb8r715pOh6bpNKURkM/tB70Q
+         BJNg==
+X-Forwarded-Encrypted: i=1; AJvYcCXpkrdxfz63rR8PNmsaDV/qud1/K/C8Yn2+dDUCIU535ykhuvDR87sbKQF/59+eO4G4demzoqs3sPA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIa5X4megrMjTJ0eY5w/axzj+IfJFvganLhQU0ll72ti1yfvpr
+	ClWqV2do3sfrbG9oteO0Er6s+08V1Ah5334ydFltNjVE9ZYD/xRLPOYJkPbsdM6qjC1bM5HWKuD
+	QhA==
+X-Google-Smtp-Source: AGHT+IFK/ZcPw9QQ8rKy9Iz7tN9PwEqV+omG9KoBZdHVze2si2OKYWeWR6yvQPLae2+NyznTr7bIa67cCm8=
+X-Received: from pfaq3.prod.google.com ([2002:a05:6a00:a883:b0:725:e76f:1445])
+ (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:4308:b0:1e0:c8d9:3382
+ with SMTP id adf61e73a8af0-1e5e0847084mr38655491637.45.1735232853953; Thu, 26
+ Dec 2024 09:07:33 -0800 (PST)
+Date: Thu, 26 Dec 2024 09:07:02 -0800
 In-Reply-To: <20241226170710.1159679-1-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20241226170710.1159679-1-surenb@google.com>
 X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
-Message-ID: <20241226170710.1159679-10-surenb@google.com>
-Subject: [PATCH v7 09/17] mm: move mmap_init_lock() out of the header file
+Message-ID: <20241226170710.1159679-11-surenb@google.com>
+Subject: [PATCH v7 10/17] mm: uninline the main body of vma_start_write()
 From: Suren Baghdasaryan <surenb@google.com>
 To: akpm@linux-foundation.org
 Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com, 
@@ -76,51 +76,72 @@ Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
 	surenb@google.com
 Content-Type: text/plain; charset="UTF-8"
 
-mmap_init_lock() is used only from mm_init() in fork.c, therefore it does
-not have to reside in the header file. This move lets us avoid including
-additional headers in mmap_lock.h later, when mmap_init_lock() needs to
-initialize rcuwait object.
+vma_start_write() is used in many places and will grow in size very soon.
+It is not used in performance critical paths and uninlining it should
+limit the future code size growth.
+No functional changes.
 
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 ---
- include/linux/mmap_lock.h | 6 ------
- kernel/fork.c             | 6 ++++++
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ include/linux/mm.h | 12 +++---------
+ mm/memory.c        | 14 ++++++++++++++
+ 2 files changed, 17 insertions(+), 9 deletions(-)
 
-diff --git a/include/linux/mmap_lock.h b/include/linux/mmap_lock.h
-index 45a21faa3ff6..4706c6769902 100644
---- a/include/linux/mmap_lock.h
-+++ b/include/linux/mmap_lock.h
-@@ -122,12 +122,6 @@ static inline bool mmap_lock_speculate_retry(struct mm_struct *mm, unsigned int
- 
- #endif /* CONFIG_PER_VMA_LOCK */
- 
--static inline void mmap_init_lock(struct mm_struct *mm)
--{
--	init_rwsem(&mm->mmap_lock);
--	mm_lock_seqcount_init(mm);
--}
--
- static inline void mmap_write_lock(struct mm_struct *mm)
- {
- 	__mmap_lock_trace_start_locking(mm, true);
-diff --git a/kernel/fork.c b/kernel/fork.c
-index f2f9e7b427ad..d4c75428ccaf 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -1219,6 +1219,12 @@ static void mm_init_uprobes_state(struct mm_struct *mm)
- #endif
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index ab27de9729d8..ea4c4228b125 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -787,6 +787,8 @@ static bool __is_vma_write_locked(struct vm_area_struct *vma, unsigned int *mm_l
+ 	return (vma->vm_lock_seq == *mm_lock_seq);
  }
  
-+static inline void mmap_init_lock(struct mm_struct *mm)
-+{
-+	init_rwsem(&mm->mmap_lock);
-+	mm_lock_seqcount_init(mm);
-+}
++void __vma_start_write(struct vm_area_struct *vma, unsigned int mm_lock_seq);
 +
- static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
- 	struct user_namespace *user_ns)
- {
+ /*
+  * Begin writing to a VMA.
+  * Exclude concurrent readers under the per-VMA lock until the currently
+@@ -799,15 +801,7 @@ static inline void vma_start_write(struct vm_area_struct *vma)
+ 	if (__is_vma_write_locked(vma, &mm_lock_seq))
+ 		return;
+ 
+-	down_write(&vma->vm_lock.lock);
+-	/*
+-	 * We should use WRITE_ONCE() here because we can have concurrent reads
+-	 * from the early lockless pessimistic check in vma_start_read().
+-	 * We don't really care about the correctness of that early check, but
+-	 * we should use WRITE_ONCE() for cleanliness and to keep KCSAN happy.
+-	 */
+-	WRITE_ONCE(vma->vm_lock_seq, mm_lock_seq);
+-	up_write(&vma->vm_lock.lock);
++	__vma_start_write(vma, mm_lock_seq);
+ }
+ 
+ static inline void vma_assert_write_locked(struct vm_area_struct *vma)
+diff --git a/mm/memory.c b/mm/memory.c
+index d0dee2282325..236fdecd44d6 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -6328,6 +6328,20 @@ struct vm_area_struct *lock_mm_and_find_vma(struct mm_struct *mm,
+ #endif
+ 
+ #ifdef CONFIG_PER_VMA_LOCK
++void __vma_start_write(struct vm_area_struct *vma, unsigned int mm_lock_seq)
++{
++	down_write(&vma->vm_lock.lock);
++	/*
++	 * We should use WRITE_ONCE() here because we can have concurrent reads
++	 * from the early lockless pessimistic check in vma_start_read().
++	 * We don't really care about the correctness of that early check, but
++	 * we should use WRITE_ONCE() for cleanliness and to keep KCSAN happy.
++	 */
++	WRITE_ONCE(vma->vm_lock_seq, mm_lock_seq);
++	up_write(&vma->vm_lock.lock);
++}
++EXPORT_SYMBOL_GPL(__vma_start_write);
++
+ /*
+  * Lookup and lock a VMA under RCU protection. Returned VMA is guaranteed to be
+  * stable and not isolated. If the VMA is not found or is being modified the
 -- 
 2.47.1.613.gc27f4b7a9f-goog
 
