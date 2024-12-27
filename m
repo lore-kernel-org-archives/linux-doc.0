@@ -1,135 +1,118 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3F51F37D8;
-	Fri, 27 Dec 2024 17:07:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 591591F708D;
+	Fri, 27 Dec 2024 17:12:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735319234; cv=none; b=VX/IcniZ9d79225eVNLlq01xb0qLhgbbDiAnROryWgiTwtIQeMs2rLxh3YagkwLNADp7y6aPPSZ5XZl/XwgwYpT33LdjeRUI4xtDt++5TR/lBjnt4JtcjXBBQDdQ6H1lNYvgJlDwVO8RdoNe2Y0otEkMhQN6+kj7i1Ogfc8E07I=
+	t=1735319563; cv=none; b=soJXFh/cptw0oCL9e9uRAhEWRNeVG5bBiblCZjDes4NVPuuOMrZhiXVyA+pUdFwYXe9HL+5Ig6BWavj4SMht9MJvEw2O47ak1AkvXf3xmihfFW0Bh2L3TKTPpmIvVZOCoiQvqEhsHXO2A8vXxwAlqmAJojlMCp//xvOmuWGjl6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735319234; c=relaxed/simple;
-	bh=SpcDs3yGZPAuy1uuE24Y+/igrf7oIEqbShHLM0dghDI=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=LPj88G9DCAdT9m2+ToiNvkTSORVNC6S/y/soLhNd2e3nSxx2IzsOSL5D0q0PjTKnZQFJ7kmJumD6FGaskEibTbzBvzJcDI40PkhfSCSCVhYdqI2aQCRxVS7wNbvBY1SMuDdF+uxUzBP+2QrO+jf9gDGNVfogIk5Srhw4gW7JhTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=tzejgDQw; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ADbtK6Gx; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
+	s=arc-20240116; t=1735319563; c=relaxed/simple;
+	bh=4WQTZCwbZCVU4+lFvbuyOzu+DPqlwXMIzKUCeU4JYvQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mr9OeL6uJanDBllsQG0vWZtj/2lRjDUk0JAbUuOOWop5WzblTgwdnaAyX4bB54zCTfEk/tiuZ6n+WgVPASGD7C8HOQk0dercxSdBH4+Pt7vrWOJ1l5DobdV2b3p3jljMOkKQB0aam3UrUDzY1tQSm05aYpyYSb+aZg6hJ27ddUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h09euNVW; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="tzejgDQw";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ADbtK6Gx"
-Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 6C71A11400AF;
-	Fri, 27 Dec 2024 12:07:10 -0500 (EST)
-Received: from phl-imap-10 ([10.202.2.85])
-  by phl-compute-02.internal (MEProxy); Fri, 27 Dec 2024 12:07:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1735319230;
-	 x=1735405630; bh=SpcDs3yGZPAuy1uuE24Y+/igrf7oIEqbShHLM0dghDI=; b=
-	tzejgDQwiuj8tfDTlsPiymonHlOuyGMqmbU4Nw1XMAfTKqWNnV4JdnDcbd+2oiDG
-	MdUO7J5VrGU6XQyqkOBBcDiKCXqpbDtn+IwYLGbh90yraGkZZHg4WgmOQycJdq9n
-	60d1MU5hdmm/p2sI43LquuQw3QR0Bq/V34oSQHpiiil0D3/WZWsJ4guQDZThd0Wx
-	z0pK3bry54yKq6auogMsspw3k70wnOoOhYVN+CP3TyIlJgYkWZ2gZuDYVKAQI0J8
-	edRYonAtfSF3e2yDsOWdEYeLcny7KNO5JsYXV5+j8RLOvFwhWMj73lTbADjdl6Bi
-	7D0c1AHuRBDqJP/BTez+VA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1735319230; x=
-	1735405630; bh=SpcDs3yGZPAuy1uuE24Y+/igrf7oIEqbShHLM0dghDI=; b=A
-	DbtK6Gxhu6dOoSZQTRRtoL/mTelwyfDIx/M0/oUrPsT4qJY8d5HpsF8JMmrPJLm1
-	g0iVVGGYBnAA8WK+8SR0RfExyJctR0tJ58nqaK0KOLHamy66K6bznd0pxQiJQvKA
-	0gJCm2r0YjsQBu9lzfUfwWavXWb0hpedoOribjCCl3zd4Pyi6IzOrQYwrNYRQTzK
-	GJpnv9X2ee8ECGyWWXpymmgbxqZyE360ddP3LG+4xW6n/RfYEnhHSPDdNvzirtlK
-	sw66ExWHnOPaXIjQ4ZG86JIsDOA12+5OOZ5/sostqwSDwx4F2gsic3z/AeIknY84
-	dpcYoENv27chpuDvPaEzg==
-X-ME-Sender: <xms:vd5uZ6q5TmBnVEqZwvkwNFLewA0eBtFfTKkueiDSfLsDt8P6q1Q_Vw>
-    <xme:vd5uZ4rlAZlaGl8AMJ84jW_ZvK2A_8zysYjnAbNs81BGhm5AUSZnKferLHiqdCAc4
-    T9CPE7j_UXw6UJh7d8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddruddvtddgleejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdej
-    necuhfhrohhmpedfofgrrhhkucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlhgvnh
-    hovhhosehsqhhuvggssgdrtggrqeenucggtffrrghtthgvrhhnpefhveekjeeuueekfefh
-    leeljeehuedugfetffdvteekffejudelffdvjeekfeehvdenucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmphgvrghrshhonhdqlhgvnhhovhho
-    sehsqhhuvggssgdrtggrpdhnsggprhgtphhtthhopedugedpmhhouggvpehsmhhtphhouh
-    htpdhrtghpthhtohepuggvrhgvkhhjohhhnhdrtghlrghrkhesghhmrghilhdrtghomhdp
-    rhgtphhtthhopehjohhhnhhfrghnvhdvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepfi
-    gprghrmhhinhesghhmgidruggvpdhrtghpthhtohepshhuphgvrhhmudeskhgvrhhnvghl
-    rdhorhhgpdhrtghpthhtohepnhhijhhsudeslhgvnhhovhhordgtohhmpdhrtghpthhtoh
-    epshhhrghohhiiudeslhgvnhhovhhordgtohhmpdhrtghpthhtohepihhlphhordhjrghr
-    vhhinhgvnheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehluhhkvgeslh
-    hjohhnvghsrdguvghvpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvght
-X-ME-Proxy: <xmx:vd5uZ_MPoRhY00RGJ8iO7lyf5LwXPxpKiAbOsuL8TIPYKhc5JogEaQ>
-    <xmx:vd5uZ56Iz-PgTQjEUwbqVX8iKS4gKf-veSBnZBjBN8tbOVPrZI4Xag>
-    <xmx:vd5uZ57jBqbWUWBMZylmWB6HaCj5QTzhUUdKO5MFGEXIXrVUkrlPyg>
-    <xmx:vd5uZ5h6_TuxLYKCnJUrP_t3iH-DdUPqnwnZUpkVBPIN4_XoumpQSg>
-    <xmx:vt5uZ4IPurPDhayimpVfzPtbk_ST7FyKO2gSsf4Kwhe02UoK00s_HiFI>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 77D9E3C0068; Fri, 27 Dec 2024 12:07:09 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h09euNVW"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-216395e151bso65896545ad.0;
+        Fri, 27 Dec 2024 09:12:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1735319560; x=1735924360; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GxflWSIWJwHIbP9AwQCi8GrchWvityvfuG8lr9z+azE=;
+        b=h09euNVW/m1vuL29XmL/uCHuLEBnDO+gVe08h3B3Qkds2o61v15xpQCKdkeddvEaj4
+         adJeZtvpuTNFTQUypUCK1XttIg7hRexKzu8JPsaW1yAor/VYAD4tP20zLOgWqYsSOXTg
+         CjD6sUr16MdFqCYup79bVxI8pJY5O/7OGibuTUmgUeiL5JG12IawYfkWbgQotXS3b4uB
+         uAkcFiRJ/mZ3ss3dKrpZ0mLL/J3enWHWpx0to4dcqmpwPNRk4H/zsmxXpB9nqGcDu+az
+         JjhXltJOkwoBTmalMc5iLybwYMliAD3+ceeZFV6zxMNiSBuPhtkkoyq4x0P0mrcroXJS
+         47wQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735319560; x=1735924360;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GxflWSIWJwHIbP9AwQCi8GrchWvityvfuG8lr9z+azE=;
+        b=Cq2WY1PSFLXE9NUnGutrZDNGKnlJYFGEbl/ScKuf+tWd5FuPfqLp7y/B8sOpsM9XeB
+         rGHd0IZR++/3v1ls5Wil8CGgfoYM2DGFmfo9ZvrBOORvLs2FX/YUOFsxiMmR3R8GjA9S
+         jR5/oYLmfq6Jr3Mcoqh4klvoguOrvvfb3OQqkJ9oi34BClCgQAZTbtRFCUN2OW5uDXB6
+         w4Lfdpor/XO8ivg0brcNff3Esm7mT9gEiWlT6dQnLskKXZrvuUy9TmGW3Jv7AuAn3RNJ
+         h9XR3sMfgLUl5q93POyZL7f+m/KypJZKjcV3r2qfJph9wEFh5QP9edgVOh1IJhz+tNx5
+         +Niw==
+X-Forwarded-Encrypted: i=1; AJvYcCUFyAgXr7fG33njxW28SoczgRHoubVWTNxPJXbaqfkH8XS/LfTWnyoZlTRiR+QiVeKfGAtFpRQleI9qEcQ=@vger.kernel.org, AJvYcCUo12hJXkvbs6RXqOLCMz9Vi3ojkPzBnWfLuSoXY35bBwsiRzY75kIuSRo1fDQT/T/dpyEHIvPPEsk=@vger.kernel.org, AJvYcCW1Is8X8GSAZwQ2zWzeK+dc9WwInRx9SkBo623MALAks2WSNOpkQtsszinnekG0JVOWEDcJdRIRgVw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKP/XRfX2FyyA6X3iwxgdqttPKz9XdDlAco2UybbFu2N/1N74A
+	Ep3ATdvZNGNK9en7sHwkxCFasCcdYt30Kgev4v7sPIJEnMaaYQev
+X-Gm-Gg: ASbGncu8sXe0NhonDIChwpOZ4aOBpIrny9iS7wIBYMd/RyCCvAsJeGQ5JE9tlgpgo+C
+	5fDCB6kR0YC8oNF6XGuqLmtz+yN0Om6FGAKprgh3mUfVLiROGx3Uu7IHckGvpZG9PXVXsEvO5xr
+	vV8SaxbOnWtYxg361hPIQyCxUa+qG38hHEfAQZxDJLtIX+2IBapx9Y++YhbRVKPNG0j36bvW4p6
+	qekUwUOUgxSVFQriMe5agkMBRvXLWox4sI87fkILZz6wlafeuHWYhBiXHXa8nlNtUwZGw==
+X-Google-Smtp-Source: AGHT+IHt5y/rHmMHJcDIkz4B/MJFJvfa7OTMJKaL8M+he1zdCjukHopWGudmiUKv28Xgv46l1MhelA==
+X-Received: by 2002:a17:903:2cc:b0:215:6c5f:d142 with SMTP id d9443c01a7336-219e6d5997dmr400488625ad.20.1735319560552;
+        Fri, 27 Dec 2024 09:12:40 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dca0140asm137455725ad.232.2024.12.27.09.12.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Dec 2024 09:12:39 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 27 Dec 2024 09:12:38 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>
+Cc: Antheas Kapenekakis <lkml@antheas.dev>, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Joaquin Ignacio Aramendia <samsagax@gmail.com>,
+	Kevin Greenberg <kdgreenberg234@protonmail.com>,
+	Joshua Tam <csinaction@pm.me>,
+	Parth Menon <parthasarathymenon@gmail.com>,
+	Eileen <eileen@one-netbook.com>
+Subject: Re: [PATCH 00/10] hwmon: (oxpsensors) Add 2024 OneXPlayer line-up,
+ add charge limiting and turbo LED, fix ABI
+Message-ID: <3b5b5486-9b11-484b-b5d9-6a830ad10130@roeck-us.net>
+References: <20241226112740.340804-1-lkml@antheas.dev>
+ <a8e6d5d5-703c-47df-ab57-58234fdeefc1@roeck-us.net>
+ <E24291F9-731F-4C27-96C7-BD08FBCF7A76@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Fri, 27 Dec 2024 12:06:49 -0500
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: "Armin Wolf" <W_Armin@gmx.de>, "John Martens" <johnfanv2@gmail.com>
-Cc: "Jonathan Corbet" <corbet@lwn.net>,
- "Derek J . Clark" <derekjohn.clark@gmail.com>,
- "Hans de Goede" <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- "Luke D . Jones" <luke@ljones.dev>, nijs1@lenovo.com,
- pgriffais@valvesoftware.com,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- shaohz1@lenovo.com, "Mario Limonciello" <superm1@kernel.org>
-Message-Id: <f941534d-4ebb-46b5-88af-0fdfbffa1057@app.fastmail.com>
-In-Reply-To: <eb165321-6a52-4464-bb58-11d8f9ff2008@gmx.de>
-References: <a1c25bd8-907f-4b2a-a505-15785eb4b17b@gmx.de>
- <20241226001828.423658-1-johnfanv2@gmail.com>
- <eb165321-6a52-4464-bb58-11d8f9ff2008@gmx.de>
-Subject: Re: [PATCH 0/1] platform/x86: Add Lenovo Legion WMI Drivers
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <E24291F9-731F-4C27-96C7-BD08FBCF7A76@gmail.com>
 
-On Thu, Dec 26, 2024, at 6:19 PM, Armin Wolf wrote:
-> Am 26.12.24 um 01:18 schrieb John Martens:
->
-<snip>
->
->> - When trying to find out what access method to choose one cannot rely
->> on the ACPI/WMI interface. From disassembling the ACPI, one can see
->> that sometimes/often even if the function is not implemented it
->> will return without error. Moreover, there are some WMI methods
->> with name "*IsSupported" (or similar) but they often do not tell
->> the truth.
->
-> Oh no.
->
-> I hope that we just misinterpret the result of those methods. Otherwis=
-e=20
-> this would indeed be
-> very frustrating. Maybe some help from Lenovo can solve this issue.
->
+On Thu, Dec 26, 2024 at 01:16:15PM -0800, Derek J. Clark wrote:
+> 
+> 
+> On December 26, 2024 1:08:02 PM PST, Guenter Roeck <linux@roeck-us.net> wrote:
+> >On Thu, Dec 26, 2024 at 12:27:30PM +0100, Antheas Kapenekakis wrote:
+> >> This three part series updates the oxpsensors module to bring it in line
+> >> with its Windows OneXPlayer counterpart. First, it adds support for all
+> >> 2024 OneXPlayer handhelds and their special variants.
+> >> 
+> >> Then, it adds the new charge limiting and bypass features that were first
+> >> introduced in the X1 and retrofit to older OneXFly variants and for
+> >> controlling the turbo led found in the X1 models. For Bypass, it adds a new
+> >> bypass variant BypassS0 that is only active while the device is in the S0
+> >> state.
+> >> 
+> >
+> >This is a hardware monitoring driver. It is not a charge controller driver,
+> >and it is not a LED controller driver. If such control is wanted/needed for
+> >this system, it should be implemented either as mfd device with client drivers,
+> >or the entire driver should be moved to platform drivers if there is a desire
+> >to keep it as single driver.
+> >
+> >Guenter
+> 
+> I think moving this to x86 platform makes a lot of sense to ensure two separate drivers can't do async writes to the EC. We probably should have done that when adding the turbo button toggle anyway. I'll coordinate that effort with Tobias and Antheas directly before moving forward.
+> 
 
-Can someone (John?) send me the details off email list and I'll see if t=
-he Legion team can help.
-(this comes with a caveat that the Legion platforms are not part of the =
-official Linux program yet, so no promises or guarantees)
+Fine with me, but "ensure two drivers can't do asynchronous writes" is not
+really an argument. mfd supports that as well for pretty much all mfd
+drivers.
 
->
->> - Using just one WMI interface is simple =E2=80=94 my grandmother cou=
-ld do it.
-
-You have an awesome grandmother :D=20
-
-Mark
+Guenter
