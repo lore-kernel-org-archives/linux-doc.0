@@ -1,92 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB6EA45005;
-	Fri, 27 Dec 2024 18:31:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF03745005;
+	Fri, 27 Dec 2024 18:33:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735324296; cv=none; b=KJ+tB73XJj6k8tN03XZBSz1zmF0Ofs1p327+PD02jj8+MXeQSwvZ/5pGuxF44EPM7OA4L6kmz9YEm20StUhUsvd+9WR2m0f59+2a8ikwcav23SKCVmXSUtPAFg6UpowXkaW/9PnozN5E+bLH3NQ/ZlAjMZhzB6C5w+YPuD1b3gE=
+	t=1735324427; cv=none; b=kKDQjkOIhW1bRcPx3yQrLSsMwQDybMREgzd63MZ61xw+B42FCfuZJ1YpUl2tcG7kA4N4/AXP6A8ZR7SHv4Hzjvl+FXklln/14Zl76T/ZTG7e1SNebPEIURnFrX/GsmNcdm83EzkKQVtM6Wzi26mq5d97yL58YQkDrc2D9SrEax4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735324296; c=relaxed/simple;
-	bh=utigrWpY3Dvby5cQbgGg+unB6OhBi5DsrEDYQJ+Hocc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Pfwy5icmt3c664cqX9kwlddbyv4pj6miCXwO1L3/3iHna4iXnl4T07ik3c5vqvC/BYaCoWeXG1h5bLz0o5PIeUGQUxAOT/EvFiQvyWvxSyfm2eP02h2n7E9mXRdvAXV7BPwOkIdmGBILNCi2hEuOmRl1Ntp7bFOCQDWwn+wa4+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R8cXIzIw; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R8cXIzIw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D786EC4CED0;
-	Fri, 27 Dec 2024 18:31:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735324295;
-	bh=utigrWpY3Dvby5cQbgGg+unB6OhBi5DsrEDYQJ+Hocc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=R8cXIzIw2NLYknuXZ2nWH1duHIe8BRAabKI1O3qK5OI3S9J2HrA8U5nKLn7caVC9v
-	 wNSb22FUanVuRa9rLwA6yJ9UsC3PKW4tPX64ZDxnZkeF/w6QkcvL86QGRSAoFiTy1O
-	 DNVoUwIO67s5UNXxMPJXeGXbRwrW/ZaKpl4uYlWVul/M76qGOMd3rwr8kIfdhSFmDG
-	 Z3N/wy1fskE4yETYR3m6BItozyPWjKTdMxyoU3ShkzEs/g3DR7rCiG4cjqnVhHyPgb
-	 CYknHXtMoTuaKeXWRxIzRqhUvq6/Ovi7F/BQ3Itbq5YG7SXGeSjFj8W97X1gf8pZZm
-	 ASlO8kKthwkow==
-Date: Fri, 27 Dec 2024 10:31:34 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Gur Stavi <gur.stavi@huawei.com>
-Cc: <andrew+netdev@lunn.ch>, <cai.huoqing@linux.dev>, <corbet@lwn.net>,
- <davem@davemloft.net>, <edumazet@google.com>, <gongfan1@huawei.com>,
- <guoxin09@huawei.com>, <helgaas@kernel.org>, <horms@kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <meny.yossefi@huawei.com>, <netdev@vger.kernel.org>, <pabeni@redhat.com>,
- <shenchenyang1@hisilicon.com>, <shijing34@huawei.com>,
- <wulike1@huawei.com>, <zhoushuai28@huawei.com>
-Subject: Re: [PATCH net-next v01 1/1] hinic3: module initialization and
- tx/rx logic
-Message-ID: <20241227103134.21168df3@kernel.org>
-In-Reply-To: <20241225125649.2595970-1-gur.stavi@huawei.com>
-References: <20241223073955.52da7539@kernel.org>
-	<20241225125649.2595970-1-gur.stavi@huawei.com>
+	s=arc-20240116; t=1735324427; c=relaxed/simple;
+	bh=DSTiftUs8qF1/6Wr752qm3Y0VS1FLtxBd9NtQKkmyCQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=keUpjD9RgpdmKeZ4VmxqOx2yoancr8aK4ZEYZSmQuyA6rVMYwY/676i62oE0SlVGZ8ZZ6jy0nB2QS51s1b95V51vFsWRBiYS6LfGvuy+EF+A1Rfaoa2kgrpb9C2dzCEY0PI/buCQYmeNeydC4HwI311xKJ+NsIUKmh2TbGDwdok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-4afdd15db60so1976665137.1;
+        Fri, 27 Dec 2024 10:33:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735324423; x=1735929223;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Md4pV1r9X3VCMc00BOlMTRYThFiWZ5TnfPwGhk1/R7o=;
+        b=q6lEj93umRqCkh02whjA00ctdqlPe9qQtAujlrGrSqyoq7bW15vUSYW3Si7ei20GMK
+         sPIgW3qs4O58bhjlyJiwl37jLzxdKbRNqV3NyDXTWlGqYEc+tMoQM7YZCeax7Ez683Uo
+         W/TpCK/LMOkZ30CMsHV33ArEBDVMbCA28Ysos0R6IxXmd5+SMkd9er0Px5BRfeeqAOmx
+         Kl4zAqPZpEGk2gJcbpvtE3etbUh+mlAXcnnXwjl3KzEp/4hL9Y8nWovnH93mJJdEZC7L
+         PgOnYF4SbBq7msH/L6Y3yStW8jCX5e6he1pxtaerZMfuQjiHbv5wtbZdYLtXQK4ABfwI
+         ErGg==
+X-Forwarded-Encrypted: i=1; AJvYcCUGLHz3PlYs6FE30fnqbCikmIjpGPVznWPZ8kRWjdIgB0hN9kFsfN//mExW0roDOX5NtCwZ9VDRP7o=@vger.kernel.org, AJvYcCWI1oIZQrjSqn7gmqgb7EcUJAovc904svP3KkNtrlnaSKCik/YAoxN0HK0q1hRigT+6MyFqf6KTdW+fdGVc@vger.kernel.org, AJvYcCX+2k7FFdJOEWBlRK8fXwFI7AEBcB2OJtPlqAJD/myf2wUQrh/o1TuzjRdbCSYbqYDkCr99D3WaJw2a@vger.kernel.org
+X-Gm-Message-State: AOJu0YzT9c1T3tEYQUuKSYYv8LQs94g/SZ8BMma/kzhV0rvxjwqIvnY0
+	6Ikq35hqGJQ6k3Np78ICJwEHABgzU6cRuDJQhOC7SNoCTS6upeUd1jE2TUoY
+X-Gm-Gg: ASbGncvM577w1kVbUen5Hhb0QVOf1SkFBUZa6Yte8wFk3NxfUthyGEs/H6cYBwA0k1a
+	yuuta/oXT99uensa665ljrOSxjj4xwKACek/fKkq0P83mGcV4FPUAzE1qkJeU5I8Ij3wSdwO4LL
+	vDbNuEKR/ogr/viLGOaiOszlTfLcwsbfpY9k44MPDFM19qZ2PNT3c59lqmYSMz1I6Yr6xGwO4nQ
+	1RTkh4tr+hXYATFznZL2OO99eVClAqsTk3zvYGwmWNee8Dy6DIvxNuQ4PKGzKJ6SI/8D6f9/Gd3
+	hmNa19XoVDKS1a9D8ts=
+X-Google-Smtp-Source: AGHT+IFDZEwD2HH1KFQSCT+Qw8UcIH7qSulRt4V8pZ0gsLEsLsDjlP1HZbHQ6ZFK/HYYE8e78TOOtQ==
+X-Received: by 2002:a05:6102:fa5:b0:4b2:4877:2de1 with SMTP id ada2fe7eead31-4b2cc456fa0mr26613612137.17.1735324423447;
+        Fri, 27 Dec 2024 10:33:43 -0800 (PST)
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8610ac6b800sm3126062241.15.2024.12.27.10.33.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Dec 2024 10:33:43 -0800 (PST)
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4afe4f1ce18so2078738137.3;
+        Fri, 27 Dec 2024 10:33:42 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVHj9y2CXEClxsurK0Oyz2B8KBP5AHhp9H4qQ/kFaEjC2tH1NOyeEXNSEHo84xvRS8SBhqVF05MjnLC@vger.kernel.org, AJvYcCWnTbi8XfM/RBBN8Lf+Kck35rhAUio9wKKU5J0xVZX7zRSkoBd7snOCxP1obbJ2FIq1sDaLlIfHwg3MduSh@vger.kernel.org, AJvYcCXkBxoWB2lnAJnN+pZwygaFc6n/VwHEjZoLgsCjAZgvZTB3c7XGBZFRmlWBvv/MX91/ssUDbIa/Pos=@vger.kernel.org
+X-Received: by 2002:a05:6102:3707:b0:4af:f6ab:9f9c with SMTP id
+ ada2fe7eead31-4b2cc487ca5mr19322059137.23.1735324422583; Fri, 27 Dec 2024
+ 10:33:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20241226220555.3540872-1-sashal@kernel.org> <Z23ZmVwgS2ErX-dj@lappy>
+ <CAHk-=wiPNpQ=zmGvPoZRMFZ7a7mm2pzSoOsuQPdDRaSF7gbw9w@mail.gmail.com>
+ <Z237CwC_YKhoZubs@lappy> <CAHk-=wiH=HH9CfFFuBwAwDdfZAjCzN=yAhzWehCAR8bg_-2CAA@mail.gmail.com>
+ <Z27TkUSmM1sCTslO@lappy>
+In-Reply-To: <Z27TkUSmM1sCTslO@lappy>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 27 Dec 2024 19:33:30 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUT0ZBwVZMPMuJnHy+-DS0zqLV3t4MRhSQVpLjEsNuHgw@mail.gmail.com>
+Message-ID: <CAMuHMdUT0ZBwVZMPMuJnHy+-DS0zqLV3t4MRhSQVpLjEsNuHgw@mail.gmail.com>
+Subject: Re: [PATCH] git-disambiguate: disambiguate shorthand git ids
+To: Sasha Levin <sashal@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, apw@canonical.com, conor@kernel.org, 
+	corbet@lwn.net, dwaipayanray1@gmail.com, gitster@pobox.com, horms@kernel.org, 
+	joe@perches.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux@leemhuis.info, lukas.bulwahn@gmail.com, miguel.ojeda.sandonis@gmail.com, 
+	niklas.soderlund@corigine.com, willy@infradead.org, workflows@vger.kernel.org, 
+	kees@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 25 Dec 2024 14:56:49 +0200 Gur Stavi wrote:
-> > I understand. But I'm concerned about the self-assured tone of the
-> > "it's not supported" message, that's very corporate verbiage. Annotating
-> > endian is standard practice of writing upstream drivers. It makes me
-> > doubt if you have any developers with upstream experience on your team
-> > if you don't know that. That and the fact that Huawei usually tops
-> > the list of net-negative review contributors in netdev.  
-> 
-> The most popular combination in the last 3 decades was little endian
-> CPUs with big endian device interfaces. Endianity conversion was a
-> necessity and therefore endian annotation became standard practice.
-> But it was never symmetric, conversion to/from BE was more common than
-> conversion to/from LE.
-> 
-> As the pendulum moved from horizontal market to vertical market and major
-> companies started to develop both hw and sw, the hw engineers transformed
-> proprietary parts of the interface to little endian to save extra work in
-> the sw. AWS did it. Azure did it. Huawei did it. These vertical companies
-> do not care about endianity of CPUs they do not use.
-> This is not "corporate verbiage" this is a real market shift.
+Hi Sasha,
 
-Don't misquote me. You did it in your previous reply, now you're doing
-it again.
+On Fri, Dec 27, 2024 at 5:19=E2=80=AFPM Sasha Levin <sashal@kernel.org> wro=
+te:
+> No, it's not a problem. In my mind, I figured we could use shorter
+> hashes in mail message to make it easier to communicate.
+>
+> It doesn't have to be formal, but for example if we exchange mails about
+> an issue, and I end up referring to '1d1a ("arm64/sme: ...")' it both
+> makes the mail more readable, but still someone who doesn't have context
+> can still easily get to the commit I was referring to.
 
-If you don't understand what I'm saying you can ask for clarifications.
+Is that 1d1a commit something in your local tree? I don't seem to have it.
 
-> The necessity for endian conversion is gone (or just halved). Will the
-> standard practice remain? There is not a single __le annotation in Amazon
-> and Microsoft code. Not in Mellanox code either. Maybe their hw is fully
-> BE (have to wonder about their DPUs). Amazingly, Intel that only creates
-> little endian CPUs has lots of __le annotations. But they are the flag
-> barer of horizontal market.
-> 
-> Interesting how both Amazon and Microsoft started with:
-> depends on X86
-> Thus evaded demand for adding __le annotations to the code.
-> Later, both sneaked in quiet small patches with replacement to:
-> depends on !CPU_BIG_ENDIAN
-> Maybe that is the true meaning of "upstream experience".
+A few other comments:
+  1. Please add support for --help. It took me a while to find out I
+     need to call the script without parameters to get the help.
+  2. The passed commit-subject needs to be the full commit subject.
+     It would be nice to support abbreviations, too.
+
+BTW, I am a heavy user of looking up commits (recent and old ;-)
+My .vimrc has:
+
+    noremap ;gs "zyiw:exe "new \| setlocal buftype=3Dnofile
+bufhidden=3Dhide noswapfile syntax=3Dgit \| 0r ! git show ".@z."" \|
+:0<CR><CR>
+
+So I can move the cursor to a git commit ID, and type ";gs" to open
+the commit in a throw-away split window.
+Adding full support for commit-subjects may be challenging, especially
+if they are split across multiple lines (i.e. not Fixes: tags, but
+mentioned in the description).
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
