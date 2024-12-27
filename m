@@ -1,118 +1,184 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 591591F708D;
-	Fri, 27 Dec 2024 17:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734921F8671;
+	Fri, 27 Dec 2024 17:22:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735319563; cv=none; b=soJXFh/cptw0oCL9e9uRAhEWRNeVG5bBiblCZjDes4NVPuuOMrZhiXVyA+pUdFwYXe9HL+5Ig6BWavj4SMht9MJvEw2O47ak1AkvXf3xmihfFW0Bh2L3TKTPpmIvVZOCoiQvqEhsHXO2A8vXxwAlqmAJojlMCp//xvOmuWGjl6s=
+	t=1735320126; cv=none; b=ZKKLi9202yUN1PcIXhaZIKmfjg+NeTEhs03DeaHY0MWHhFz/LMVb4Ces74eiHnReAAp6N7QL100Fp6KbEieAjkq12ZKi7yyG1QiF1emKYyqHDH4Z9Bv4bmPI4sbzml3p2fcDqDxO+eWKzychN9c/mJCK9N1aRtXkcR5heKm6VFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735319563; c=relaxed/simple;
-	bh=4WQTZCwbZCVU4+lFvbuyOzu+DPqlwXMIzKUCeU4JYvQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mr9OeL6uJanDBllsQG0vWZtj/2lRjDUk0JAbUuOOWop5WzblTgwdnaAyX4bB54zCTfEk/tiuZ6n+WgVPASGD7C8HOQk0dercxSdBH4+Pt7vrWOJ1l5DobdV2b3p3jljMOkKQB0aam3UrUDzY1tQSm05aYpyYSb+aZg6hJ27ddUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h09euNVW; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1735320126; c=relaxed/simple;
+	bh=BYqNd3+QQ8CTSB1c1PznxVH3PCIU5bmCFUnza3P9T3U=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=vCBPaTShbQrDtRdMn+PSd8tFSHt8apQzLkhGInRrnFaw7knPRTnGlW808OJ/uvjpUwOR/pDpMlfies9Vf87Q1iXvJog/sfZU3jKVlII+NM5wazW2b8yZ+WvNeJ92T29mSrtmNTaY8NjSB53+cum5w7xIfM2CwSbxNpD3wm3Jtg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=SF+9m0/B; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=vJIU6HPa; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h09euNVW"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-216395e151bso65896545ad.0;
-        Fri, 27 Dec 2024 09:12:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735319560; x=1735924360; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GxflWSIWJwHIbP9AwQCi8GrchWvityvfuG8lr9z+azE=;
-        b=h09euNVW/m1vuL29XmL/uCHuLEBnDO+gVe08h3B3Qkds2o61v15xpQCKdkeddvEaj4
-         adJeZtvpuTNFTQUypUCK1XttIg7hRexKzu8JPsaW1yAor/VYAD4tP20zLOgWqYsSOXTg
-         CjD6sUr16MdFqCYup79bVxI8pJY5O/7OGibuTUmgUeiL5JG12IawYfkWbgQotXS3b4uB
-         uAkcFiRJ/mZ3ss3dKrpZ0mLL/J3enWHWpx0to4dcqmpwPNRk4H/zsmxXpB9nqGcDu+az
-         JjhXltJOkwoBTmalMc5iLybwYMliAD3+ceeZFV6zxMNiSBuPhtkkoyq4x0P0mrcroXJS
-         47wQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735319560; x=1735924360;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GxflWSIWJwHIbP9AwQCi8GrchWvityvfuG8lr9z+azE=;
-        b=Cq2WY1PSFLXE9NUnGutrZDNGKnlJYFGEbl/ScKuf+tWd5FuPfqLp7y/B8sOpsM9XeB
-         rGHd0IZR++/3v1ls5Wil8CGgfoYM2DGFmfo9ZvrBOORvLs2FX/YUOFsxiMmR3R8GjA9S
-         jR5/oYLmfq6Jr3Mcoqh4klvoguOrvvfb3OQqkJ9oi34BClCgQAZTbtRFCUN2OW5uDXB6
-         w4Lfdpor/XO8ivg0brcNff3Esm7mT9gEiWlT6dQnLskKXZrvuUy9TmGW3Jv7AuAn3RNJ
-         h9XR3sMfgLUl5q93POyZL7f+m/KypJZKjcV3r2qfJph9wEFh5QP9edgVOh1IJhz+tNx5
-         +Niw==
-X-Forwarded-Encrypted: i=1; AJvYcCUFyAgXr7fG33njxW28SoczgRHoubVWTNxPJXbaqfkH8XS/LfTWnyoZlTRiR+QiVeKfGAtFpRQleI9qEcQ=@vger.kernel.org, AJvYcCUo12hJXkvbs6RXqOLCMz9Vi3ojkPzBnWfLuSoXY35bBwsiRzY75kIuSRo1fDQT/T/dpyEHIvPPEsk=@vger.kernel.org, AJvYcCW1Is8X8GSAZwQ2zWzeK+dc9WwInRx9SkBo623MALAks2WSNOpkQtsszinnekG0JVOWEDcJdRIRgVw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKP/XRfX2FyyA6X3iwxgdqttPKz9XdDlAco2UybbFu2N/1N74A
-	Ep3ATdvZNGNK9en7sHwkxCFasCcdYt30Kgev4v7sPIJEnMaaYQev
-X-Gm-Gg: ASbGncu8sXe0NhonDIChwpOZ4aOBpIrny9iS7wIBYMd/RyCCvAsJeGQ5JE9tlgpgo+C
-	5fDCB6kR0YC8oNF6XGuqLmtz+yN0Om6FGAKprgh3mUfVLiROGx3Uu7IHckGvpZG9PXVXsEvO5xr
-	vV8SaxbOnWtYxg361hPIQyCxUa+qG38hHEfAQZxDJLtIX+2IBapx9Y++YhbRVKPNG0j36bvW4p6
-	qekUwUOUgxSVFQriMe5agkMBRvXLWox4sI87fkILZz6wlafeuHWYhBiXHXa8nlNtUwZGw==
-X-Google-Smtp-Source: AGHT+IHt5y/rHmMHJcDIkz4B/MJFJvfa7OTMJKaL8M+he1zdCjukHopWGudmiUKv28Xgv46l1MhelA==
-X-Received: by 2002:a17:903:2cc:b0:215:6c5f:d142 with SMTP id d9443c01a7336-219e6d5997dmr400488625ad.20.1735319560552;
-        Fri, 27 Dec 2024 09:12:40 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dca0140asm137455725ad.232.2024.12.27.09.12.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Dec 2024 09:12:39 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Fri, 27 Dec 2024 09:12:38 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>
-Cc: Antheas Kapenekakis <lkml@antheas.dev>, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Joaquin Ignacio Aramendia <samsagax@gmail.com>,
-	Kevin Greenberg <kdgreenberg234@protonmail.com>,
-	Joshua Tam <csinaction@pm.me>,
-	Parth Menon <parthasarathymenon@gmail.com>,
-	Eileen <eileen@one-netbook.com>
-Subject: Re: [PATCH 00/10] hwmon: (oxpsensors) Add 2024 OneXPlayer line-up,
- add charge limiting and turbo LED, fix ABI
-Message-ID: <3b5b5486-9b11-484b-b5d9-6a830ad10130@roeck-us.net>
-References: <20241226112740.340804-1-lkml@antheas.dev>
- <a8e6d5d5-703c-47df-ab57-58234fdeefc1@roeck-us.net>
- <E24291F9-731F-4C27-96C7-BD08FBCF7A76@gmail.com>
+	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="SF+9m0/B";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vJIU6HPa"
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
+	by mailfout.phl.internal (Postfix) with ESMTP id 631E81380146;
+	Fri, 27 Dec 2024 12:22:02 -0500 (EST)
+Received: from phl-imap-10 ([10.202.2.85])
+  by phl-compute-02.internal (MEProxy); Fri, 27 Dec 2024 12:22:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1735320122;
+	 x=1735406522; bh=Gv8R7IyrFTI6zq0dOg7+GXcUNHY0zBZaoRjhs0vT5jc=; b=
+	SF+9m0/Bn32v1Mrx+nm0xjrOCbiRTrBBJ38f9Wfwa31t1VprQNPgHOLiCT9FOmDu
+	UwQNpb3F4VIJC4R3To/ueacPXVz9S7fW1rwhCsIpgWpYdVq3G6jWtjMzX8z/uaYi
+	dkvofF+/uiMy0bfD0CD3vWhpwuUg0ipmihgytQ9PAHjRIMIjvD4s6YoHJ9YG7imI
+	LtQs/c78w8y5IsNWMrrwjGvvqNxvZ4vm8T+MV05akcbfdEQMpgIL8V98ryy569KP
+	DBbO5HrgLJ3SM0d4psbqjQH9WCcXt7AKMQGtjS2CobBxznZuteRLHS/tByrQnztE
+	pagSNeY0/boA7L+cDjTe2A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1735320122; x=
+	1735406522; bh=Gv8R7IyrFTI6zq0dOg7+GXcUNHY0zBZaoRjhs0vT5jc=; b=v
+	JIU6HPadE+Jk8KI83hkQZeQ6ZsoUzp0FoPhaLHsEShUDaT4M1N2OtC/H5ikyMEcD
+	kc6t/y1W9Aavl6WDPVSO+/EcSgtvrBKaGHiWysBHkuWviFP1+Om9FS1U0Jo0nKoq
+	coSyQWxplDH4VGK7GycaWhEn+tuFGeUcQ1bCs8JKoTGtA4b6RrsER8qpiljJ5mHv
+	xoDEgILWtfxTrOygJ3EWIZNu/Slommqynje1+zkV00cqyQ9P74wmtnQ8Zqgp7WPC
+	uFdPWe6+QCzIJ2bNqgkfLpCaIy0+cBdvHtsMg2TlGSngJ2NSgdDHIIjbUMpcLN/3
+	def/eZPqClILCefoO3Fcw==
+X-ME-Sender: <xms:OeJuZ1CL7MUKETU35HjMV9KxCjJjiFfx6ilvC_zITi-vgJdVw0WjaQ>
+    <xme:OeJuZzhNl-DgMt9hE55JR4ATaUcg3cOZPAIWTsOuLz6TTi6SDzZw0VS4HM9porWCs
+    8Ca3UO3XjjQCCM08n8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddruddvtddguddttdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+    tdenucfhrhhomhepfdforghrkhcurfgvrghrshhonhdfuceomhhpvggrrhhsohhnqdhlvg
+    hnohhvohesshhquhgvsggsrdgtrgeqnecuggftrfgrthhtvghrnheptdffvefgtefhveet
+    uddvfeelveektdduvdelgfehgfeikeffjeetjeevffektdfhnecuffhomhgrihhnpehkvg
+    hrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
+    fhhrohhmpehmphgvrghrshhonhdqlhgvnhhovhhosehsqhhuvggssgdrtggrpdhnsggprh
+    gtphhtthhopeduhedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepihhkvgdrphgr
+    nhestggrnhhonhhitggrlhdrtghomhdprhgtphhtthhopegtohguhihithesghhmrghilh
+    drtghomhdprhgtphhtthhopeguvghrvghkjhhohhhnrdgtlhgrrhhksehgmhgrihhlrdgt
+    ohhmpdhrtghpthhtohepfigprghrmhhinhesghhmgidruggvpdhrtghpthhtohepnhhijh
+    hsudeslhgvnhhovhhordgtohhmpdhrtghpthhtohepshhhrghohhiiudeslhgvnhhovhho
+    rdgtohhmpdhrtghpthhtohepiihhrghnghiigiefieeslhgvnhhovhhordgtohhmpdhrtg
+    hpthhtohepihhlphhordhjrghrvhhinhgvnheslhhinhhugidrihhnthgvlhdrtghomhdp
+    rhgtphhtthhopehluhhkvgeslhhjohhnvghsrdguvghv
+X-ME-Proxy: <xmx:OeJuZwmJzEbFLmDih3_m3N-YzDVDFFf_nz08C7PU_BG72EDW_7obJA>
+    <xmx:OeJuZ_zaY08yiUBYjjbyp6icn4NsA8_pWe7TkSvcustuPDcVHpqlAA>
+    <xmx:OeJuZ6Rp1ijEhKIJPF4jb1Q7xh67dhssckVbmiJVd2Yn4pto30VbYg>
+    <xmx:OeJuZybvSiIr8wBryqAWvywFIDjOfJ7eAj7OF6sdVWC4kweTBL4fbA>
+    <xmx:OuJuZ2rtnbEkz6pS-DK-kpNVHJ4zX-_fA2ha4NjC_dHOX6veWtZQaC5e>
+Feedback-ID: ibe194615:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id C7E1B3C0066; Fri, 27 Dec 2024 12:22:01 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <E24291F9-731F-4C27-96C7-BD08FBCF7A76@gmail.com>
+Date: Fri, 27 Dec 2024 12:21:39 -0500
+From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
+To: "Derek J . Clark" <derekjohn.clark@gmail.com>,
+ "Armin Wolf" <W_Armin@gmx.de>, "Cody T.-H. Chiu" <codyit@gmail.com>,
+ "Hans de Goede" <hdegoede@redhat.com>, ike.pan@canonical.com
+Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Luke D . Jones" <luke@ljones.dev>,
+ "Xino Ni" <nijs1@lenovo.com>, "Zhixin Zhang" <zhangzx36@lenovo.com>,
+ "Mia Shao" <shaohz1@lenovo.com>,
+ "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-Id: <3cebf5c3-32f8-4394-ac35-4706797699e9@app.fastmail.com>
+In-Reply-To: <1A14B7E7-4AF9-49A7-ABC9-BEDDC57C4DD4@gmail.com>
+References: <20241217230645.15027-1-derekjohn.clark@gmail.com>
+ <20241217230645.15027-2-derekjohn.clark@gmail.com>
+ <7b1d0298-4cdd-4af7-83e6-9e6287387477@gmail.com>
+ <99246696-4854-4EEB-B782-FD8C13D9D723@gmail.com>
+ <a4b3f2ca-0c91-4079-bc69-d0a98000ce23@gmx.de>
+ <1A14B7E7-4AF9-49A7-ABC9-BEDDC57C4DD4@gmail.com>
+Subject: Re: [PATCH 1/1] platform/x86: Add lenovo-legion-wmi drivers
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Thu, Dec 26, 2024 at 01:16:15PM -0800, Derek J. Clark wrote:
-> 
-> 
-> On December 26, 2024 1:08:02 PM PST, Guenter Roeck <linux@roeck-us.net> wrote:
-> >On Thu, Dec 26, 2024 at 12:27:30PM +0100, Antheas Kapenekakis wrote:
-> >> This three part series updates the oxpsensors module to bring it in line
-> >> with its Windows OneXPlayer counterpart. First, it adds support for all
-> >> 2024 OneXPlayer handhelds and their special variants.
-> >> 
-> >> Then, it adds the new charge limiting and bypass features that were first
-> >> introduced in the X1 and retrofit to older OneXFly variants and for
-> >> controlling the turbo led found in the X1 models. For Bypass, it adds a new
-> >> bypass variant BypassS0 that is only active while the device is in the S0
-> >> state.
-> >> 
-> >
-> >This is a hardware monitoring driver. It is not a charge controller driver,
-> >and it is not a LED controller driver. If such control is wanted/needed for
-> >this system, it should be implemented either as mfd device with client drivers,
-> >or the entire driver should be moved to platform drivers if there is a desire
-> >to keep it as single driver.
-> >
-> >Guenter
-> 
-> I think moving this to x86 platform makes a lot of sense to ensure two separate drivers can't do async writes to the EC. We probably should have done that when adding the turbo button toggle anyway. I'll coordinate that effort with Tobias and Antheas directly before moving forward.
-> 
 
-Fine with me, but "ensure two drivers can't do asynchronous writes" is not
-really an argument. mfd supports that as well for pretty much all mfd
-drivers.
+On Thu, Dec 26, 2024, at 2:17 AM, Derek J. Clark wrote:
+> On December 25, 2024 1:11:32 PM PST, Armin Wolf <W_Armin@gmx.de> wrote:
+>>Am 25.12.24 um 09:34 schrieb Derek J. Clark:
+>>
+>>> 
+>>> On December 24, 2024 9:25:19 PM PST, "Cody T.-H. Chiu" <codyit@gmail.com> wrote:
+>>>> On 12/17/2024 17:06, Derek J. Clark wrote:
+>>>>> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+>>>>> ...
+>>>>> +config LEGION_OTHER_WMI
+>>>>> +	tristate "Lenovo Legion Other Method WMI Driver"
+>>>>> +	depends on LEGION_GAMEZONE_WMI
+>>>>> +	depends on LEGION_DATA_01_WMI
+>>>>> +	select FW_ATTR_CLASS
+>>>>> +	help
+>>>>> +	  Say Y here if you have a WMI aware Lenovo Legion device and would
+>>>> like to use the
+>>>>> +	  firmware_attributes API to control various tunable settings
+>>>> typically exposed by
+>>>>> +	  Lenovo software in Windows.
+>>>>> +
+>>>>> +	  To compile this driver as a module, choose M here: the module will
+>>>>> +	  be called lenovo_legion_wmi_other.
+>>>>> +
+>>>>>    config IDEAPAD_LAPTOP
+>>>>>    	tristate "Lenovo IdeaPad Laptop Extras"
+>>>>>    	depends on ACPI
+>>>> Hi Derek,
+>>>> 
+>>>> Thank you for the initiative, love to see we'll finally get a driver developed with the help of official specs.
+>>>> 
+>>>> Perhaps it's common knowledge to the crowd here but I'd like to call out right now significant portion of the support on Legion ACPI / WMI came from ideapad-laptop which explicitly detects it:
+>>>> 
+>>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/platform/x86/ideapad-laptop.c?h=v6.13-rc4#n2108
+>>> 
+>>> Hi Cody,
+>>> 
+>>> Doing a quick search of that GUID on the Lenovo Legion WMI spec there are no matches. Perhaps someone at Lenovo can shed some light here, but the IdeaPad driver grabbing that GUID shouldn't interfere with the GUID's we're working on here.
+>>> 
+>>>> Per my observation majority of users have no idea this is the case because of the misnomer, adding another set of drivers with Legion in the name explicitly, that don't support those features would double the dissonance.
+>>> It appears the feature sets are quite different. This seems to enable use of special function/media keys on some (one?) Legion laptops, and it also tries to register an ACPI based platform profile. While the driver does load on my legion go, only the amd_pmf and lenovo-legion-wmi-gamezone drivers have platform profiles registered under the new class at /sys/class/platform-profile/ so that isn't a conflict. I think that the ACPI method may only work on the yoga laptops that are supported by this driver? Again, maybe one of the Lenovo reps can comment on that, but it appears to predate the Custom and Other mode WMI GUID's.
+>>
+>>Maybe we can remove the "legion" part from the driver name since this WMI device seems to be used on other machines too. Maybe you can instead use "lenovo" when naming the drivers?
+>>
+>>Thanks,
+>>Armin Wolf
+>
+> I think you have it backwards. Per the spec only legion laptops will 
+> use the GUID's for gamezone, custom/other method, lighting, or 
+> capability data. Removing legion from the driver name would probably 
+> cause more confusion. The GUID in the IdeaPad driver is what seems out 
+> of place. I took a closer look at it and the functionality provided by 
+> the GUID he mentioned is a notify for when Fn keys are pressed and none 
+> of the other GUIDs have that flag implemented. There is a comment about 
+> it being for a legion 5 laptop but it may be the case that some IdeaPad 
+> laptops use it as well, I'll ask some of the Lenovo folks directly and 
+> see if I can get a positive answer if it is a generic Lenovo interface. 
+> IMO if we want to reduce confusion it might make more sense to move 
+> that GUID into its own driver at a later date, naming it 
+> lenovo-wmi-something without a specific product line, or if it's only 
+> used on legion laptops then calling it lenovo-legion-wmi-something 
+> might be preferred. Alternatively renaming the IdeaPad driver 
+> lenovo-laptop could work to disambiguate it. TBS i don't think it's a 
+> high priority right now. I'm going to focus on the gamezone and other 
+> method drivers for now.
+>
 
-Guenter
+It's quite rare to get a spec that is common across all business units sadly (or at least that is my experience). 
+I also think it is Legion specific, but we'll have to confirm with that team.
+Suggestion: call it lenovo-gamezone-wmi?
+
+Side note - I wouldn't rename ideapad as lenovo-laptop. There are way too many other laptops (thinkpad etc) that don't use that driver (and there is no official Lenovo involvement with that driver to my knowledge).
+
+Mark
+
+
