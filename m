@@ -1,217 +1,223 @@
-Received: from mail-m32101.qiye.163.com (mail-m32101.qiye.163.com [220.197.32.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0DC1482F5
-	for <linux-doc@vger.kernel.org>; Fri, 27 Dec 2024 10:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF96F1F1307;
+	Fri, 27 Dec 2024 16:19:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735295307; cv=none; b=QBUlR9pQf1bdtMNC2kGRVowIKQkGnXi2BIYDuoqO/sh4Ha668nXfuLdUkGKamP30Cn+CEiR+oPQ14WPo6DR38MYdI37/QLJZ2z/Ue84mrEAOWbVROmJL/o900XA//Mt4Tpe8OWRI8XlzEqScbB2jgL4nNDURUll0b6hd7SDolDI=
+	t=1735316371; cv=none; b=efFAyvB2VMGxZxyCZUbo8K9K6fp1pVoD9TeuRTIfQ6GVXWXulQiga343VZbB9a7vMrFQzCyKh0ttxqn9ThMjPeFmYHpPjdgseKsOKmowGExhIYDf4rtJcdi1WrRBKFObyS2CdD6wf5X+xsYdssEuH4pVOkNtQMWABSSTLPrGhJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735295307; c=relaxed/simple;
-	bh=PmdIgbwlxB0kXgjWTUmfEuzeWnlUPgiPlOZtr2c6/eA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qZHXAb6dauoCG3M7QL3TU6be+u8fLVCmo8Ze6ehxj1O+2/eZ+fxlO8xSYbKj5i0sVWlNG3yvr0IFHxIUsMdTAxCX4AZMIYJQ5UQaog/9K4ou+RGgqLaoQSxHk5MIh5rYHnit7lF4LWcR5FJuJ0wDCC403WsKMMsDDP2bBHnNMJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=h1DJb/U/; arc=none smtp.client-ip=220.197.32.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
+	s=arc-20240116; t=1735316371; c=relaxed/simple;
+	bh=Ym+Dt1ptnCi9AzASufh4Np73zfjVjRwO0prNtz4f8Dk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GfREdjWBjBxK2aC8dnFexli3mEDy4mNipww/LoZiwosC0Qs4vU3Ayk11ojeV9P5eqdM8g8WYVxf3xIIq8WBob4xCwWZ3R/rKiQglHubN5B4NXGR4OmWd7XML8zjyNROzJL/XwTqRTOFG7dfAAj5DoKwg1BJ9IZcrigaR6Onm6ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rcYhcvdy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="h1DJb/U/"
-Received: from fedora.localdomain (unknown [1.198.31.205])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 70040bcf;
-	Fri, 27 Dec 2024 17:52:45 +0800 (GMT+08:00)
-From: Yuxian Mao <maoyuxian@cqsoftware.com.cn>
-To: alexs@kernel.org,
-	si.yanteng@linux.dev,
-	corbet@lwn.net
-Cc: Yuxian Mao <maoyuxian@cqsoftware.com.cn>,
-	zhaoyuehui@cqsoftware.com.cn,
-	zhaoshuo@cqsoftware.com.cn,
-	zhangwei@cqsoftware.com.cn,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] docs/zh_CN: Add landlock index Chinese translation
-Date: Fri, 27 Dec 2024 17:52:39 +0800
-Message-ID: <20241227095243.4899-1-maoyuxian@cqsoftware.com.cn>
-X-Mailer: git-send-email 2.47.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rcYhcvdy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F19EC4CED6;
+	Fri, 27 Dec 2024 16:19:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735316371;
+	bh=Ym+Dt1ptnCi9AzASufh4Np73zfjVjRwO0prNtz4f8Dk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rcYhcvdym7I+tdTLH5M3PxSBTzuVomniXIrkUP91Oxg+xDOgFslTj8GQ2fidVRL8n
+	 Xt+MiM+rNcufGh48K2KyOBfOKAr478TRDkni2r/ZLqm8M+hCS8tkJ9W+4OVwJDVJCr
+	 QnpOX7jYGPuFVxS7BuKZhRNe47wQomEb2lzE/M6favjA9JVNqxRWPdTOu8FubhmfAP
+	 yOQ54rmVEyxWc4lYI6pnB4EbIEYoy0T6Hh73o1NZMIJRhkTvM7q8RofkUgXrlMSNac
+	 oTQuvaYUEnpf6i2b5wzK3pNPXUbrzRbUQ8wszAxwzeH2l0C6QxJsayt5XSwuHG7PqH
+	 PKr2PW/CQ9VFA==
+Date: Fri, 27 Dec 2024 11:19:29 -0500
+From: Sasha Levin <sashal@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: apw@canonical.com, conor@kernel.org, corbet@lwn.net,
+	dwaipayanray1@gmail.com, geert+renesas@glider.be, gitster@pobox.com,
+	horms@kernel.org, joe@perches.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux@leemhuis.info,
+	lukas.bulwahn@gmail.com, miguel.ojeda.sandonis@gmail.com,
+	niklas.soderlund@corigine.com, willy@infradead.org,
+	workflows@vger.kernel.org, kees@kernel.org
+Subject: Re: [PATCH] git-disambiguate: disambiguate shorthand git ids
+Message-ID: <Z27TkUSmM1sCTslO@lappy>
+References: <20241226220555.3540872-1-sashal@kernel.org>
+ <Z23ZmVwgS2ErX-dj@lappy>
+ <CAHk-=wiPNpQ=zmGvPoZRMFZ7a7mm2pzSoOsuQPdDRaSF7gbw9w@mail.gmail.com>
+ <Z237CwC_YKhoZubs@lappy>
+ <CAHk-=wiH=HH9CfFFuBwAwDdfZAjCzN=yAhzWehCAR8bg_-2CAA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaQkIdVktNTUpISEpDH0MdSlYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKVUpCQ1VISlVJS05ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSExVSktLVU
-	pCS0tZBg++
-X-HM-Tid: 0a9407885fac09d8kunm70040bcf
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pkk6Qhw6KzIKTDgyPQtOE0pI
-	AhAKCgFVSlVKTEhOSUJISk1NTUJCVTMWGhIXVRYaFAIOAxIaFTsYCggUHQ8MGgkeVRgUFlUYFUVZ
-	V1kSC1lBWUpVSkJDVUhKVUlLTllXWQgBWUFNTk5ONwY+
-DKIM-Signature:a=rsa-sha256;
-	b=h1DJb/U/Ugz8ZYf8/8ob5+Bcj8pi6gKkxIs81dZhc2j9wCHV4S6TZNIEIPgtGdx1lw8S1iVv5OsXraMDEogQF4i/3YiSyrevAXu5KIM3bDGdf/DCkLuvkEYEe9PlcpM2jOWNJw9uTkNXu0U9Ot4u6v8s7SiwbMPMPPil2oP/koc=; s=default; c=relaxed/relaxed; d=cqsoftware.com.cn; v=1;
-	bh=EZgi5TMSAquYEzGm94IuPQ3E9Iu3kK7GSi4eYYLYmTs=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wiH=HH9CfFFuBwAwDdfZAjCzN=yAhzWehCAR8bg_-2CAA@mail.gmail.com>
 
-Translate lwn/Documentation/security/landlock.rst into Chinese.
+On Thu, Dec 26, 2024 at 05:50:22PM -0800, Linus Torvalds wrote:
+>On Thu, 26 Dec 2024 at 16:55, Sasha Levin <sashal@kernel.org> wrote:
+>>
+>> What got me worried originally is the example Kees provided which
+>> creates a collision of a 12-character abbreviated commit ID:
+>
+>Note that you can always create short ambiguous cases.
+>
+>And in fact, since the way you create them is to just put noise in the
+>right place and brute-force things, you can also always make sure that
+>the one-liner short commit name will match the target commit too.
+>
+>In other words: just accept the fact that a short hash is simply not a
+>secure hash. That's very very fundamental. It's just inherent in the
+>whole "we have shortened things to be legible".
+>
+>And once you just accept that it's fundamental to any short hash, you
+>can relax and just live with it as just a fact of life.
+>
+>> So sure, we don't have a collision right now, but going from 0 to 1 is
+>> going to be painful.
+>
+>I disagree. You need to just own up to how it is, and more importantly
+>that you WILL NEVER EVER BE ABLE TO FIX IT.
+>
+>There is no way to disambiguate the active malicious case, because the
+>active malicious case will just be able to handle any disambiguation
+>you throw at it too.
+>
+>So the fix is to not *rely* on disambiguation, and to just accept it.
+>Don't fight reality. You'll just lose.
+>
+>> Are we going to be actively watching for someone trying to sneak in a
+>> commit like that, or should we just handle that case properly?
+>
+>See above. There is no "properly". There is only reality.
+>
+>Git internally uses the full hashes. And any reasonably usefully
+>shortened hashes *cannot* be disambiguated in the face of an active
+>malicious person.
+>
+>If you have some tool that you rely on absolutely to give you the "One
+>Correct Answer", then you are already broken. If thats' the goal, then
+>all you can do is give up and pray to some random $deity.
+>
+>Or, as my argument is, DON'T DO THAT THEN.
+>
+>Don't rely on some absolute thing. Accept the fact that a short hash
+>will always possibly refer to multiple things, and that you will
+>*always* need to have a human that actually *THINKS* about it, not
+>mindless automation.
+>
+>The best the tools can do is say "there are multiple options here"
+>(or, more commonly, "I found no options at all, but maybe it meant
+>XYZ").
+>
+>Literally.
+>
+>To summarize: If you are aiming for anything else, you are bound to be
+>disappointed.
 
-Update the translation through commit "dad2f2071516"
+The script in the original mail will handle two important cases for me:
 
-Signed-off-by: Yuxian Mao <maoyuxian@cqsoftware.com.cn>
----
- .../translations/zh_CN/security/index.rst     |   2 +-
- .../translations/zh_CN/security/landlock.rst  | 123 ++++++++++++++++++
- 2 files changed, 124 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/security/landlock.rst
+1. The "wrong ID" case, where the the provided commit ID doesn't exist
+and we need to look at the subject line to figure out what the actual ID
+is.
 
-diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
-index ceb700fe4561..3f68e3145322 100644
---- a/Documentation/translations/zh_CN/security/index.rst
-+++ b/Documentation/translations/zh_CN/security/index.rst
-@@ -18,6 +18,7 @@
-    lsm
-    siphash
-    digsig
-+   landlock
- 
- TODOLIST:
- * credentials
-@@ -29,6 +30,5 @@ TODOLIST:
- * SCTP
- * self-protection
- * tpm/index
--* landlock
- * secrets/index
- * ipe
-diff --git a/Documentation/translations/zh_CN/security/landlock.rst b/Documentation/translations/zh_CN/security/landlock.rst
-new file mode 100644
-index 000000000000..53b449b637b2
---- /dev/null
-+++ b/Documentation/translations/zh_CN/security/landlock.rst
-@@ -0,0 +1,123 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. Copyright ? 2017-2020 Micka?l Salaün <mic@digikod.net>
-+.. Copyright ? 2019-2020 ANSSI
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/security/landlock.rst
-+
-+:翻译:
-+
-+ 毛玉贤 Yuxian Mao <maoyuxian@cqsoftware.com.cn>
-+
-+======================
-+Landlock LSM: 内核文档
-+======================
-+
-+:作者: Mickaël Salaün
-+:日期: 2022年12月
-+
-+Landlock的目标是创建有范围的访问控制（即沙箱机制）。为了增强整个
-+系统的安全性，此功能应适用于任何进程，包括非特权进程。因为这些进
-+程可能被攻击或植入后门（即不可信任的），所以从内核和其他进程的角
-+度来看，Landlock的功能必须安全可用。因此，Landlock 的接口设计应当
-+尽量减少可能的攻击点。
-+
-+Landlock 旨在为非特权进程使用，同时遵循由其他访问控制机制（例如 DAC、LSM）
-+强制执行的系统安全策略。Landlock 规则不应与系统上强制执行的其他访问
-+控制相冲突，而只能添加额外的限制。
-+
-+任何用户都可以在其进程上强制执行Landlock规则集。这些规则集会以一种
-+确保只能添加更多约束的方式与继承的规则集合并和评估。
-+
-+
-+用户空间文档如下：
-+Documentation/userspace-api/landlock.rst.
-+
-+安全访问控制机制指导原则
-+========================
-+
-+* Landlock规则应侧重于对内核对象的访问控制，而非系统调用过滤（即
-+  系统调用参数），后者是seccomp-bpf要侧重的。
-+* 为了避免多种侧信道攻击（例如安全策略泄露、基于CPU的攻击），Landlock
-+  规则不应与用户空间进行程序化通信。
-+* 内核访问检查不应降低未沙盒化进程的访问请求速度。
-+* 与 Landlock 操作相关的计算（例如强制执行规则集）应仅影响请求这些
-+  操作的进程。
-+* 由沙盒化进程直接从内核中获得的资源（例如文件描述符）在被任何进程
-+  使用时，都应保留其获取时的作用域访问权限。
-+  Cf. `文件描述符访问权限`_.
-+
-+设计选择
-+========
-+
-+inode访问权限
-+-------------
-+
-+所有访问权限都与inode以及通过inode所访问到的内容相关。读取目录的
-+内容并不意味着有权读取该目录中列出的 inode 所对应文件的内容。实际
-+上，文件名是相对于其父目录而言的 ，一个 inode 可以通过多个文件名
-+（通过硬链接）来引用。删除文件链接这一操作仅直接影响对应目录，而
-+对被移除链接的inode并无影响。这就是“LANDLOCK_ACCESS_FS_REMOVE_FILE”
-+（文件系统移除文件访问权限）或“LANDLOCK_ACCESS_FS_REFER” （文件系
-+统引用访问权限）不能与文件绑定，而只能与目录绑定的原因。
-+
-+文件描述符访问权限
-+------------------
-+
-+在打开文件时，会检查访问权限并将其与文件描述符绑定。其基本原则是，
-+当在相同的 Landlock 域下执行时，等效的操作序列会产生相同的结果。
-+以LANDLOCK_ACCESS_FS_TRUNCATE权限为例，如果相关的文件层次结构没有
-+授予该访问权限，那么可能允许打开一个文件进行写操作，但不允许使用
-+ftruncate调用截断由此产生的文件描述符。
-+以下操作序列具有相同的语义，因此会产生相同的结果：
-+
-+* ``truncate(path);``
-+* ``int fd = open(path, O_WRONLY); ftruncate(fd); close(fd);``
-+
-+与文件访问模式类似（例如O_RDWR），即使文件描述符在进程之间传递
-+（例如通过Unix域套接字），文件描述符中的Landlock访问权限也会被保留。
-+这些访问权限即使在接收进程未被 Landlock 沙盒化的情况下也会被强制执行。
-+事实上，这是为了保持整个系统访问控制的一致性，避免通过文件描述符传递
-+而无意中绕过安全限制（即“混淆代理攻击”）。
-+
-+测试
-+====
-+
-+用户空间的向后兼容性测试、ptrace 限制测试和文件系统支持测试可以在这里
-+找到：tools/testing/selftests/landlock/
-+
-+内核结构
-+========
-+
-+对象
-+----
-+
-+该API在以下内核代码中：
-+
-+security/landlock/object.h
-+
-+文件系统
-+--------
-+
-+该API在以下内核代码中：
-+
-+security/landlock/fs.h
-+
-+规则集和域
-+----------
-+
-+域是与一组主体（即任务凭证）关联的只读规则集。每次在任务上执行规则集时，
-+都会复制当前域，并在新域中导入规则集作为新的规则层。 事实上，一旦进入
-+一个域，每条规则都与一个层级绑定。要授予对对象的访问权限，每一层中至少
-+有一条规则必须允许对该对象执行请求操作。然后，任务只能过渡到一个新的域，
-+该新域是当前域的约束和任务提供的规则集的约束的交集。任务自行沙盒化时，
-+主体的定义是隐式的，这使得推理变得更加简单，并有助于避免陷阱。
-+
-+该API在以下内核代码中：
-+
-+security/landlock/ruleset.h
-+
-+.. Links
-+.. _tools/testing/selftests/landlock/:
-+
-+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/tools/testing/selftests/landlock/
+2. The case where we either get a too-short commit ID that has a
+collision, or we just got unlucky and finally ended up with a 12-char
+collision, but the subject line is enough to automatically resolve to
+the correct ID.
+
+We're disagreeing over the remaining <0.0001% of cases.
+
+>So aim for that simple "let me know about multiple choices", with the
+>knowledge that they are going to be EXCEEDINGLY rare.
+>
+>And then if we have somebody who actively acts badly and works to make
+>that "it's going to be EXCEEDINGLY rare" be much more common than it
+>is supposed to be, we deal with that *person* by just not working with
+>them any more.
+>
+>See? The solution is not some kind of "this cannot happen". The
+>solution is "stop accepting shit from evil people".
+
+Not necessarily "evil", but consider something similar to the UMN saga
+where we get "researchers" trying to sneak in commits that create a
+collision. Once these make it in, it will be difficult walking them back
+out.
+
+>Which, btw, is not a new thing. This is how open source works. It's
+>actually way more work to create collisions in short hashes, when you
+>can much more easily just send a bad patch that wastes peoples time
+>without any hash collision at all - just by virtue of writing bad
+>code.
+
+No, but it makes for a "good" undergrad research paper...
+
+>So thinking that the short hash is some kind of special problem is wrong.
+>
+>It's in fact a particularly *easy* problem to deal with, because at
+>least the whole "somebody did something malicious" is something git
+>will balk at, simply because the basic git tools will refuse to touch
+>the ambiguous hash.
+>
+>So *your* tooling should concentrate on one thing, and one thing only:
+>making it easier for a *THINKING*HUMAN* to decide what a bad hash
+>means.
+>
+>But you need to do it with the up-front understanding that it requires
+>that thinking human, and is not mindless automation.
+>
+>And as mentioned, the most common case of bad hashes BY FAR is the
+>"oh, that doesn't match anything I know about at all", as opposed to
+>"oh, that matches two or more different commits".
+>
+>> >and my point is that this is really not about "disambiguating short
+>> >SHA1 IDs". Because those "ambiguous" SHA1's to a very close
+>> >approximation simply DO NOT EXIST.
+>> >
+>> >But the completely wrong ones? They are plentiful.
+>>
+>> Is the concern mostly around the term "disambiguate"? Would
+>> git-sanitize.sh work better?
+>
+>No, my main worry is that you talk about short hashes (and talked
+>about shortening our existing ones even more).
+>
+>When I really think that the size isn't the main problem at all.
+
+No, it's not a problem. In my mind, I figured we could use shorter
+hashes in mail message to make it easier to communicate.
+
+It doesn't have to be formal, but for example if we exchange mails about
+an issue, and I end up referring to '1d1a ("arm64/sme: ...")' it both
+makes the mail more readable, but still someone who doesn't have context
+can still easily get to the commit I was referring to.
+
+To me, it's a nice (minor) improvement.
+
+>"disambiguate" is a fine word, but only if you use it in the context
+>of "I have a bad hash". Not just a short one. Because the hash being
+>too short is simply not the main case worth worrying about.
+>
+>And hey, just to really hit this same argument home: I can absolutely
+>guarantee that you have a much more insidious problem of "wrong hash",
+>namely the "oh, it's actually a valid commit hash, but the Fixes: line
+>simply got the wrong commit:".
+>
+>Because that's a mistake I see regularly: somebody simply blames the
+>wrong commit. I've most definitely done that very thing myself.
+>Sometimes it's people reading the history wrong, and not realizing
+>that the bug actually happened before the blamed change too. Or the
+>bug ends up being a combination of factors, and people didn't realize
+>that the commit they blamed was just one part of it.
+>
+>So my complaint really ends up being that anybody who trusts those
+>hashes mindlessly is going to have mistakes, and the actual hash
+>collision case MUST NOT be the primary worry.
+>
+>Because as long as that hash size is all you care about, you're
+>barking up the wrong tree.
+>
+>               Linus
+
 -- 
-2.47.1
-
+Thanks,
+Sasha
