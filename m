@@ -1,118 +1,194 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m12748.qiye.163.com (mail-m12748.qiye.163.com [115.236.127.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2898C14B06E
-	for <linux-doc@vger.kernel.org>; Fri, 27 Dec 2024 08:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AACEF154C07
+	for <linux-doc@vger.kernel.org>; Fri, 27 Dec 2024 08:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735289018; cv=none; b=cfZlkUgHHEaSUEacXRFyaiPb2reO2apT9BC+p1b4XVXIpwgPFtfU9FXzCe290y28r10cnFl3byEUEk2pODPv2+LOrEbg0GgJ//Ci92G7yVT3Xo59KSuA10RZEvOnWzRPUSXiyVvRVx9ol3dg9wjWyzoCrSuXxVhyfQxy1kNxa50=
+	t=1735289053; cv=none; b=Fkgubx858EkrxqcH5ZHjffQJdsL4E6u2HNh/qxM82EtMr319gnF2Uep1zBGB0Qj8iwFl/ftCYZYJbRw4HFL1+JJxVwxGVbE3tSJ2Mv+KqQNQhEnAjjL1aO+Ik1XEYi/ZRig1bpOTi83Qvsl1LQs9XpYlXnDUlAdAKXJuZM/pzEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735289018; c=relaxed/simple;
-	bh=THrgYM/I/2PM4lB3S8b8dKft+bfxKHUzcX53Lv5NjF0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lyXn3xgOUyIlhr36Br1CuIM0maEh+eNQpknxTAQEtgsG7h+QZQdyXW6C+tIgbi8+K2G+fJKCJbDyDg4aGDA0SXWegcBr9uRKG8RAPxDHB/t0MOFkq2nFoJNYfrUESQy5GortrTMGX9uGy/omWyK61VduIqijxLDWjfAtrBD20H4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=K+gKAQwx; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1735289053; c=relaxed/simple;
+	bh=6sCxE+m9I4hJIg8EyGrMQRtUSzsM/aJ1HrVdoiLHxRM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iB9NxgY7z84X469iqGlb7mMRMz8fRGrCV08W7RLfgv8fQzRuExF8yDnit/0jbtac1AjkkMZwnAEG3MiopoTOPJD4vgYA+E9sG6yxRxSDa2p41e56u+ZsD+ltAdMlXBkT5qbIcJpFKiN7VmDKvilNVGHJsS5MROn2jiNTwQbAIxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=Hgy9W2uz; arc=none smtp.client-ip=115.236.127.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="K+gKAQwx"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5d3cf094768so11264586a12.0
-        for <linux-doc@vger.kernel.org>; Fri, 27 Dec 2024 00:43:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1735289014; x=1735893814; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=THrgYM/I/2PM4lB3S8b8dKft+bfxKHUzcX53Lv5NjF0=;
-        b=K+gKAQwxGxYrSj5qRyju2TU+O4PL5l0+n59Q3DbJMjBQ9tAAaB59yO45a+f0GGz5qG
-         MGVpaIaWjuEtURw1iN01pg6whJV6NmEpz1boPuoCzqyP/cRROoLQjoyLN2+zr6YEQITj
-         VT9qgK+nZ12c0MqZD9xRV6+eL9IaeWKeH/D4oWEy6j/hRO62sxbITpCM4RXZ2ROaTxR7
-         bqdCmwRnxP/Es0ylzX35X6yt/KIdbVKWvupC9WODtiG4EW+1CRdUnw7iM10DCRrLxRRe
-         pKSopcFaY+oGhynQZQSiMA/iZLUmGKFWciDjopLnNoSb6U81fuBTyAlJoSQcdAJhnzK1
-         QZSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735289014; x=1735893814;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=THrgYM/I/2PM4lB3S8b8dKft+bfxKHUzcX53Lv5NjF0=;
-        b=Ywx2MrP6ALCLvKblTaAlRh873ZiccI/C4FC/es9x+uljCTEIIkokWYruxfKAzGmXRV
-         /cpUsnI3ApnOO3OL8LGWerPV+mIDrTfzy9gkY0P648aywAkSaMhQj3Vw4L49R7RK3rUQ
-         2aHHzy41Pts2U26kfanWg7lFljMHivHn6xuuPrBnCaebWpRSU6Odg/PVKAKPmhklVRIx
-         DJHSBzsH6BMInUAyfxhLPAZEn5+Oq3hA4OU50aCFuRY/4RxqMlFEwYU0OkdRUKp0Mgdy
-         mVdp59R2yvScSzku0pVlsTTa8VnFENsNZwazCe8o6s295Rfs+ruGDlsgeZDLsMszgSwc
-         toSg==
-X-Forwarded-Encrypted: i=1; AJvYcCVLsTBpFYjwXvX9X13VxDoDNsF3j2p2T7GxEIhP34IFp48OAC+cFqqG+tcMD2NPOk8jYgki65zbMBk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzn1rOdSxWeWV9K2J4dvaKH8sRrgixXDLg0uL8fgX+TMTHjRElI
-	RXKWGbcSvS3NPFsCo9GCGgmEfG84QSkwl7qaKAUvrUngdaR5Ocq1+fluWBkFyCk=
-X-Gm-Gg: ASbGncvn84HChu/F4cu8C1jLANXw5S5T2a/ULse5xU1J9gVI0SPXPUn09o/PGrgV4WQ
-	ZbqrVzIvpu/vygdg5eUNaaCa5kbxnz4KoNqM3gKYVM1OdOdY6Ge7a+H2/YTIfxnKz9qQNlssvfM
-	q9jm75NVChVe9hgMIuBMIDSpxGSG0qHJzc3zyYVGrTfjj2WEINvxS6cybOC9gI8+voWHv+0/4Bd
-	sddCdMPWpro2omASF8EXBGPbL5yGFyNk1wrXNOF4l7S8ve6RTBJv1dGOJbI/ZSplid76Ql+MQML
-	wRdpLLKx7w==
-X-Google-Smtp-Source: AGHT+IEzQP44dmWbe1VSp36ZAsJ+DOZkSE6XYi7+YrOQ6d2vRkiz93oSKK0gDB75cG4aLLPyuPlKHA==
-X-Received: by 2002:a05:6402:26d6:b0:5d3:cd5b:64da with SMTP id 4fb4d7f45d1cf-5d81ddfd841mr20516135a12.23.1735289014387;
-        Fri, 27 Dec 2024 00:43:34 -0800 (PST)
-Received: from localhost (p50915bc6.dip0.t-ipconnect.de. [80.145.91.198])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d80679eeb1sm10465468a12.48.2024.12.27.00.43.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Dec 2024 00:43:33 -0800 (PST)
-Date: Fri, 27 Dec 2024 09:43:31 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Julien Stephan <jstephan@baylibre.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
-	David Lechner <dlechner@baylibre.com>, Jonathan Cameron <jic23@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC v2 1/4] iio: adc: ad7380: do not use
- iio_device_claim_direct_scoped anymore
-Message-ID: <befxu7wle3sq5egcwqhxx3qkvnye6cru4shufngyqvp6uyurkh@6d62xfzzuqss>
-References: <20241224-ad7380-add-alert-support-v2-0-7c89b2bf7cb3@baylibre.com>
- <20241224-ad7380-add-alert-support-v2-1-7c89b2bf7cb3@baylibre.com>
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="Hgy9W2uz"
+Received: from fedora.localdomain (unknown [1.198.31.205])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 6fd327f9;
+	Fri, 27 Dec 2024 16:28:42 +0800 (GMT+08:00)
+From: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net
+Cc: zhaoyuehui@cqsoftware.com.cn,
+	linux-doc@vger.kernel.org,
+	Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+Subject: [PATCH] docs/zh_CN: Add security digsig Chinese translation
+Date: Fri, 27 Dec 2024 16:28:18 +0800
+Message-ID: <20241227082836.16078-1-zhaoshuo@cqsoftware.com.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ladguza3gb4gzncs"
-Content-Disposition: inline
-In-Reply-To: <20241224-ad7380-add-alert-support-v2-1-7c89b2bf7cb3@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaTRpOVkNITUoaQkgfTxlOTVYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUpCQ1VISlVJS05ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSExVSktLVU
+	pCS0tZBg++
+X-HM-Tid: 0a94073b6bf209d0kunm6fd327f9
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6ORw6LAw*KDISFzkJNBITGUs8
+	OA8aCgtVSlVKTEhOSUNDSklITUpPVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSlVKQkNVSEpVSUtOWVdZCAFZQU9ISkk3Bg++
+DKIM-Signature:a=rsa-sha256;
+	b=Hgy9W2uzByULQwf+74yoj4hm7DujGwnsm8XZpINqulqg5fsOL+8Eo+GQZdtYRsXHDPhWCHUdfi4rcY7qWUngdKe/Y5fE/7cFJKcIJkpJcrcT4yr0RlQkMYXcrGgFpy02DdYCYececSbnkhyGo5DspcFxkc2ENuwP4vCYeUUw49o=; s=default; c=relaxed/relaxed; d=cqsoftware.com.cn; v=1;
+	bh=2MX2+jhGysQkPZ9R3Qy2iiG9T+Vk52b6Hlj3J78y4as=;
+	h=date:mime-version:subject:message-id:from;
 
+Translate .../security/digsig.rst into Chinese.
 
---ladguza3gb4gzncs
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH RFC v2 1/4] iio: adc: ad7380: do not use
- iio_device_claim_direct_scoped anymore
-MIME-Version: 1.0
+Update the translation through commit d56b699d76d1
+("Documentation: Fix typos").
 
-Hello Julien,
+Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+---
+ .../translations/zh_CN/security/digsig.rst    | 100 ++++++++++++++++++
+ .../translations/zh_CN/security/index.rst     |   2 +-
+ 2 files changed, 101 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/security/digsig.rst
 
-On Tue, Dec 24, 2024 at 10:34:30AM +0100, Julien Stephan wrote:
-> Rollback and remove the scoped version of iio_dvice_claim_direct_mode.
+diff --git a/Documentation/translations/zh_CN/security/digsig.rst b/Documentation/translations/zh_CN/security/digsig.rst
+new file mode 100644
+index 000000000000..96560d52859e
+--- /dev/null
++++ b/Documentation/translations/zh_CN/security/digsig.rst
+@@ -0,0 +1,100 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/security/digsig.rst
++
++:翻译:
++ 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
++
++===============
++数字签名验证API
++===============
++
++
++.. 内容
++
++   1.介绍
++   2.API
++   3.用户空间工具
++
++
++介绍
++====
++
++数字签名验证API提供了一种验证数字签名的方法。
++目前，数字签名被IMA/EVM完整性保护子系统使用。
++
++数字签名验证是GnuPG多精度整数(MPI)库精简后的内核移植版本来实现的。
++该内核版本提供了内存分配错误处理，已根据内核编码风格进行重构，并修复
++了checkpatch.pl报告的错误和警告。
++
++公钥和签名由头部和MPIs组成::
++
++	struct pubkey_hdr {
++		uint8_t		version;	/* 密钥格式版本 */
++		time_t		timestamp;	/* 密钥时间戳，目前为0 */
++		uint8_t		algo;
++		uint8_t		nmpi;
++		char		mpi[0];
++	} __packed;
++
++	struct signature_hdr {
++		uint8_t		version;	/* 签名格式版本 */
++		time_t		timestamp;	/* 签名时间戳 */
++		uint8_t		algo;
++		uint8_t		hash;
++		uint8_t		keyid[8];
++		uint8_t		nmpi;
++		char		mpi[0];
++	} __packed;
++
++keyid等同对整个密钥的内容进行SHA1哈希运算后的第12到19字节。
++签名头部用于生成签名的输入。这种方法确保了密钥或签名头部无法更改。
++它保护时间戳不被更改，并可以用于回滚保护。
++
++API
++===
++
++目前API仅包含一个函数::
++
++	digsig_verify() - 使用公钥进行数字签名验证
++
++	/**
++	* digsig_verify() - 使用公钥进行数字签名验证
++	* @keyring:   查找密钥的密钥环
++	* @sig:       数字签名
++	* @sigen:     签名的长度
++	* @data:      数据
++	* @datalen:   数据的长度
++	* @return:    成功时返回0，失败时返回 -EINVAL
++	*
++	* 验证数据相对于数字签名的完整性。
++	* 目前仅支持RSA算法。
++	* 通常将内容的哈希值作为此函数的数据。
++	*
++	*/
++	int digsig_verify(struct key *keyring, const char *sig, int siglen,
++				  const char *data, int datalen);
++
++用户空间工具
++============
++
++签名和密钥管理实用工具evm-utils提供了生成签名、加载密钥到内核密钥环中的功能。
++密钥可以是PEM格式，或转换为内核格式。
++当把密钥添加到内核密钥环时，keyid定义该密钥的名称：下面的示例中为5D2B05FC633EE3E8。
++
++以下是keyctl实用工具的示例输出::
++
++	$ keyctl show
++	Session Keyring
++	-3 --alswrv      0     0  keyring: _ses
++	603976250 --alswrv      0    -1   \_ keyring: _uid.0
++	817777377 --alswrv      0     0       \_ user: kmk
++	891974900 --alswrv      0     0       \_ encrypted: evm-key
++	170323636 --alswrv      0     0       \_ keyring: _module
++	548221616 --alswrv      0     0       \_ keyring: _ima
++	128198054 --alswrv      0     0       \_ keyring: _evm
++
++	$ keyctl list 128198054
++	1 key in keyring:
++	620789745: --alswrv     0     0 user: 5D2B05FC633EE3E8
+diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
+index 92e2d8a7dec8..c73cd289ac3e 100644
+--- a/Documentation/translations/zh_CN/security/index.rst
++++ b/Documentation/translations/zh_CN/security/index.rst
+@@ -16,6 +16,7 @@
+    :maxdepth: 1
+ 
+    lsm
++   digsig
+ 
+ TODOLIST:
+ * credentials
+@@ -28,7 +29,6 @@ TODOLIST:
+ * self-protection
+ * siphash
+ * tpm/index
+-* digsig
+ * landlock
+ * secrets/index
+ * ipe
+-- 
+2.47.1
 
-Is this a preparation for one of the later patches in this series?
-Mentioning the reasoning for this change in the commit log would be
-good.
-
-Best regards
-Uwe
-
---ladguza3gb4gzncs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmduaLAACgkQj4D7WH0S
-/k4ycAf+L+8MLST1YxuzyDcCM8wCXQdBnINZIVBTwtYe1wqvx/Zt6U43qIL+ECPz
-O1hp7WSek8TCvNBExaUsMgD2bbKKSil9ASqWHuqQB2hHZf1I9SUJXEA3kmVi8xmi
-TyDZ5Mp1T9f+Ra7NOJn453/FytLa9E9LF2apsKTSUO0P4VbDURPmejHkkKS4sNHY
-8xE1wggOyZ90GSiMzhpWPC2g6RuHCCI7N95+HALO/wi85gaNC8DBla26fivc9w1x
-Zf6PG4TgfnZpPyumbJtOtZkULR2w29lVLdfmwX9VMo9+345nhK4s7RPYRaHs6f6F
-ZS/Km9i5VWNiRTUPWNMEJsycPZE6GA==
-=+XKk
------END PGP SIGNATURE-----
-
---ladguza3gb4gzncs--
