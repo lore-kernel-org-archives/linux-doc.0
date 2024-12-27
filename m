@@ -1,215 +1,173 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4AFF13E028;
-	Thu, 26 Dec 2024 23:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8363719A;
+	Fri, 27 Dec 2024 00:55:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735256132; cv=none; b=UXY7h9VwxQ2Hua+HN+UNK6xHuZyfktwWxKWDybYgR2QTsZki/ZG7XmHvdw1on1/kujJtZAiNRVRshkVaUFhtMlMTGfTrxc+VjJYkGm+llc7sNKEF2LF8X3FtJCc33a29JIbuM4VbW4wJS8dDAgdLSaiHpGUfSz7rgJSn0Acktvw=
+	t=1735260942; cv=none; b=Ec0QxBiVnIqUNZ3l8sx6q6AYLWSrEOiSXA8RspT9ZicWZ5sPetiqeZEAa/VNyYg+3m30DFIFXQeUEZ7c+YnLiD+Cbn9InNVqUwfW+Qk4qx4xYFChk+WsBVvlY4UunODN31EnSIC6NMAkT7yp8rCjJJ3dBq4b315cfFH6qGpdIyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735256132; c=relaxed/simple;
-	bh=kTw8dwxi40mwyAEUxxaW8REkNR3eCHzF6nVmWtaY38M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rc1cOUKMOpEaWyVE46hsluUIC05iIJ9Nehqmocknz9uVTD81q+zI83adwwLll2s7SyzS1AEKUyhzbsJIC/egJQY/DZsV7Pnq9y/exZg8L+KWhBMccR0QeBqfx8uI8uzt+6olf39+UHW7k7eS75hndlEvepAc40okGF52sWpZuq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=nYGzqGwh; arc=none smtp.client-ip=212.227.17.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1735260942; c=relaxed/simple;
+	bh=L9PEqeW6jvAuPGa5Qhx0vKQx0TaA0v+XCVX1gdDW7PI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BA52FIujQl2FzUf3wdblFJtaq8NWjAUQzi75QNVMm0ute//P/Z/fnMUNtC42yBx1inS5t3AtrKP486Qyam77ASKayHr2VpN5FCR4CrbY0nhTFyl+slZRnn/VDnpZRxhsrLL0ilJDEq965umbcm829aLKFlx/pyDHDdESENU5vPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MnDuhOR/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="nYGzqGwh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1735256117; x=1735860917; i=w_armin@gmx.de;
-	bh=6WxTNht6X/oEf/Ah0nV63nLndWrrapZgcB+Eecghgeg=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=nYGzqGwho6GFOe1FbonjMpTqyIDDhNyZ+sIwCZQvD822BiS2NK/NmdQpPvi7OAz8
-	 9ghVaqe8kCrJNwxi/rDAENDCh8R/3w8mJI2JuDZJruWewi0iHZ1o4BHVKjb5yf4QK
-	 xzCc5njSLgZGiy9+bS2xktSuJweO2S7K6Qg+Hd1qxJAFkZnQFdQq39n0Vpw+xAccq
-	 hNgUdhvhzzpzqtnMxCJgt59QolElmSSCfZNKpmxDIhlJNa6HwLYKDSvM1fdmG8gVQ
-	 EA5eAV5X+wIvqqBTXsvqI4teWZa/PqbV/ji6TUZNbr64pvN7kA/4LKD2vsYKZaEcv
-	 YuOahkGVXq4b4CD5kA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.14] ([91.14.230.110]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M9Wyy-1tUHIW3HzY-004iBf; Fri, 27
- Dec 2024 00:35:16 +0100
-Message-ID: <2786ed04-dfaf-4098-be21-7d32719e8c6b@gmx.de>
-Date: Fri, 27 Dec 2024 00:35:15 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MnDuhOR/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44C1DC4CED1;
+	Fri, 27 Dec 2024 00:55:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735260941;
+	bh=L9PEqeW6jvAuPGa5Qhx0vKQx0TaA0v+XCVX1gdDW7PI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MnDuhOR/42mM2zSmFLLK0wnG4M9pKv/gpvjLZ0GT8vHGBXp4OTIwl/XI5LXN8a7Ux
+	 XguuK4ycDy08rR0iwxiIycqdZBcL8kSGjZgLxg1XrxVjGkESEGLSe7pfDyOxrfrdlY
+	 ZmsBKlFVM/NGZh3N+V3y6utnrRr4LbmX9BvZqPbszyF+/UxomPrQhSufG0O9TNkbOG
+	 4DGhXv28dN07NhF9IBTs7o9PWMHZKdrMNAcMzgT5vduuRQr8iN3tlc9NrDjJ1dUVov
+	 XgU3o63XAmxyTCvDOWKeFH43EJmYG5AG+g6i/ShSeky1Mw4hmtT/UbwirXS8iHxWFC
+	 00UszVakQqQDQ==
+Date: Thu, 26 Dec 2024 19:55:39 -0500
+From: Sasha Levin <sashal@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: apw@canonical.com, conor@kernel.org, corbet@lwn.net,
+	dwaipayanray1@gmail.com, geert+renesas@glider.be, gitster@pobox.com,
+	horms@kernel.org, joe@perches.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux@leemhuis.info,
+	lukas.bulwahn@gmail.com, miguel.ojeda.sandonis@gmail.com,
+	niklas.soderlund@corigine.com, willy@infradead.org,
+	workflows@vger.kernel.org, kees@kernel.org
+Subject: Re: [PATCH] git-disambiguate: disambiguate shorthand git ids
+Message-ID: <Z237CwC_YKhoZubs@lappy>
+References: <20241226220555.3540872-1-sashal@kernel.org>
+ <Z23ZmVwgS2ErX-dj@lappy>
+ <CAHk-=wiPNpQ=zmGvPoZRMFZ7a7mm2pzSoOsuQPdDRaSF7gbw9w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] platform/x86: samsung-galaxybook: Add
- samsung-galaxybook driver
-To: Joshua Grisham <josh@joshuagrisham.com>
-Cc: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Hans de Goede <hdegoede@redhat.com>, ilpo.jarvinen@linux.intel.com,
- platform-driver-x86@vger.kernel.org, corbet@lwn.net,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241216103855.18457-1-josh@joshuagrisham.com>
- <13184052-baf2-4e7d-b8ef-9ba3f34d475a@t-8ch.de>
- <66897a27-5f81-46fc-898d-682456d7f37f@redhat.com>
- <CAMF+KeZ3uAWZuuPJcrrvTJS-TgyxkqXOY_w=wNw7eZQiUkV5YA@mail.gmail.com>
- <c2b5e0c8-651f-426e-ae96-13857313997a@t-8ch.de>
- <a4ad8907-34e3-4785-a62a-a1f41ddd6e1e@gmx.de>
- <CAMF+KeYEarSLRyhS1o4AA7-Uy40_v0k2Bebhjzo9yKF=2k0jQQ@mail.gmail.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <CAMF+KeYEarSLRyhS1o4AA7-Uy40_v0k2Bebhjzo9yKF=2k0jQQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:3epNYntH9kM/vADsiJWsu+BvYfoCmpY+MKXrfx84Em5oYu5u7n0
- GnufeoeE2mCzBDZQV0EKm4byWlHi6pdoxZc40GjuqSSZjTczUNJzO3onSlE2Cly+Z84J0ZZ
- ll3GMP69OWg9Nxt2LlblT5QShp9U33hzaO8V/A06NEPNNl8oaIm+TAB4/VANKAW2dpmcjCL
- E4Dv99ICeAVUaMeFFaDcQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:f2I+lQ0dMCs=;tceHgf7GJjvr4vPT+lHMdwMzTyX
- QonFcZGExN7MMAgwmEAlbTfG2Oh2RXtOUXvoS0RWZ1uDtE0Zbp8zBGDuFAY7qD5+QOQyp6Ojw
- YXRvJnrRZHCdQCbKWYDSg7yravRg8aLBnMluIdX6qTX3wwS7y0Y2ToDu8wTQ1+wuFknS9Qt85
- 5MS5pcWdTI4zKmecS8h9RygprtPm2IvQ/P7e3HGTAqOeNnjHvGlbZrg4qhhfkfjn27+L3mBJS
- 1+5EqlZ7n4ZDlqD8H938Az5OKbILGVihpfFHDxbCe43RuRi76Am1UTYENAbok+G3rDJuUrY34
- qTkadHttVclJuEUFqVW5TW9nrzEFvdj+1Ee1dnDXYCMFnSwl7oJ5eUNmRXDsd/JhHQEW2TXUd
- V4eXKvJjJD2OLICnzh5fysjqoOg1hU5npP09ZNRyxBmbzDU60g7PiPLXbq1kbdEqLBsV7Q5tT
- DSESrv3DAq4MsYimpV3SWLQLOGNG+xUvvUaJHwyGCecMpymhmDollkgdlrxcbQCxfnzWq1Sez
- 7LEBxaS79kfQMnPvNFL/XWMGNQbL0UPxQl69WKgQ2BdX2nBuuQgMCCHCgaPND41mbiwGFchgK
- Um2OMpN3P+O7vxOG/cErxmCFmCv/zsHd32sAvCI7s0mOjAhBDx4Zn2QCUXAhD+8Y31tzBcRWJ
- rHwgmiHsJtqVbDKWzRUcT0jHCsp5An72oDqrqeoxkUfNfC2ONYETmlHkAR3WF3jY4ntudyjCh
- LfHDeFizAbhFh3y5mkg6lcwzLChrqHFoZxJ8nkQnIZ5vnYK6jhpff8T1XH20rC7Klx7OpoN3Z
- 8sV0GZ5Xs7/ZMcNEKCsIDCWRbG0m1adJDwD794ri2WcW+O1i5MTtEBN8S5Le4JJTv5NJTurXc
- P5mSZ8nzWurC6iykELmUDayHCk1CN/XMTpVpR9TAbHWUVcvO+UtQ9Edb1s2tOIB07TJCzDeEz
- /Yq7O2ISfp6Bsb8IsJSNkplrf+Nm+fMMScysPX1o4SiDNUkMl73idS6YW6sl0dPJYiQZQ4K1K
- 2YGNy3t/J5ohfpeiUUCSp2Enwlj4cJ0VB6tqhp4LIg3g4rQoZFosa9jSKfcOK4I++wD1oXCFV
- Iw+e0/PNMISkYFa36bdLvSOFSJWNGE
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wiPNpQ=zmGvPoZRMFZ7a7mm2pzSoOsuQPdDRaSF7gbw9w@mail.gmail.com>
 
-Am 26.12.24 um 17:08 schrieb Joshua Grisham:
-
-> Hi Armin,
->
-> Den ons 25 dec. 2024 kl 21:23 skrev Armin Wolf <W_Armin@gmx.de>:
->> Harmonization with other platform driver regarding the firmware attribute names will
->> likely not result in any benefits. I am not aware of any utility profiting from such
->> a thing.
+On Thu, Dec 26, 2024 at 03:33:36PM -0800, Linus Torvalds wrote:
+>On Thu, 26 Dec 2024 at 14:33, Sasha Levin <sashal@kernel.org> wrote:
 >>
-> I just posted a v4 of the patch where I have moved the device sysfs
-> attributes to firmware-attributes as requested by both Thomas and
-> Hans. With this change, I did try to "harmonize" the names as best as
-> I could anyway, recognizing that there are several device drivers in
-> the tree which have actually currently implemented these as device
-> sysfs attributes instead, but in theory they could be moved over to
-> use the same firmware attribute instead ? e.g. all of the ones that
-> have a usb_charge or usb_charging device attribute could be moved to
-> use this new usb_charging firmware-attribute if it is desired at a
-> later time?
-
-Yes, but this should be done by the maintainers of those drivers. They know best how those
-drivers work internally.
-
+>> Which means that folks should be able to use a fairly short abbreviated
+>> commit IDs in messages, specially for commits with a long subject line.
 >
-> Here were the examples I could find online for different devices that
-> drove my rationale for the names that I picked:
+>So I don't think we should take this as a way to make *shorter* IDs,
+>just as a way to accept historical short IDs.
 >
-> 1) and maybe easiest to start with: for what I had as
-> "allow_recording" I thought would be better to change to be a "block"
-> as per Samsung's own documentation and implementation, but then to
-> also try and harmonize how it would be interpreted by other tools
-> including this switch input event, I chose to switch this entire
-> feature to the name "camera lens cover". Hopefully this is ok! The
-> only "weird" thing in my opinion is that on this particular device,
-> there is a side-effect that the microphone is also blocked as well
-> (which is not obviously indicated by this naming, but not totally hard
-> to understand, either).
+>Also, I absolutely detest how you made this be all about "short IDs".
 >
-> 2)  for what I had called "start on lid open", I found the following
-> vendors with various names for the same kind of feature:
-> HP: "Power On When Lid is Opened"
-> Dell/Alienware: "Power On Lid Open"
-> Huawei: "Auto Power On"
-> Samsung Galaxy Book: "Startup when Lid is Opened"
-> Lenovo: "Flip to Start"
+>As mentioned in my very original email on this matter, the actual REAL
+>AND PRESENT issue isn't ambiguous IDs. We don't really have them.
+
+What got me worried originally is the example Kees provided which
+creates a collision of a 12-character abbreviated commit ID:
+
+$ git log 1da177e4c3f4
+error: short object ID 1da177e4c3 is ambiguous
+hint: The candidates are:
+hint:   1da177e4c3f41 commit 2005-04-16 - Linux-2.6.12-rc2
+hint:   1da177e4c3f47 commit 2024-12-14 - docs: git SHA prefixes are for humans
+
+When I tested it locally, my scripts were broken, our CVE scripts were
+broken, and it is quite the PITA to address after the fact (think of all
+the "Fixes: 1da177e4c3f4 [...]" lines we have in the log).
+
+So sure, we don't have a collision right now, but going from 0 to 1 is
+going to be painful.
+
+Are we going to be actively watching for someone trying to sneak in a
+commit like that, or should we just handle that case properly?
+
+>What we *do* have is "wrong IDs". We have a ton of those.
 >
-> So for this, I tweaked my driver's name slightly to try and fit the
-> middle ground between all of these, and went with the name
-> power_on_lid_open
-
-Sounds OK to me.
-
+>Look here, you can get a list of suspiciously wrong SHA1s with
+>something like this:
 >
-> 3) for what I had called "usb charge":
-> Lenovo: Always On USB
-> Asus: USB power delivery in Soft Off state (S5)
-> Dell: USB PowerShare
-> Razer: USB Charge Function
-> Existing drivers for Chrome, LG, and samsung-laptop call it "USB
-> Charge" (long name "USB Charge in Sleep Mode")
-> Fujitsu Lifebook: "Anytime USB Charge"
-> Acer: "Power-off USB Charging"
-> HP: "USB Charging"
-> Samsung Galaxy Book series: "USB Charging"
+>    git log |
+>        egrep '[0-9a-f]{9,40} \(".*"\)' |
+>        sed 's/.*[^0-9a-f]\([0-9a-f]\{9,40\}\)[^0-9a-f].*/\1/' |
+>        sort -u > hexes
 >
-> In effort to make this as descriptive as possible and mostly fit all
-> of these, I went with the name usb_charging
-
-Sounds OK to me.
-
+>which generates a list of things that look like commit IDs (ok,
+>there's probably smarter ways) in our git logs.
 >
-> All 3 of these I have added to the ABI-Testing documentation and
-> removed my local documentation for them.
+>Now, *some* of those won't actually be commit IDs at all, they'll just
+>be random hex numbers the above finds.
 >
-> Anyway I am hoping that all of this makes sense and helps, but please
-> feel free anyone to say if I got any of this wrong :)
+>But most of them will indeed be references to other commits.
 >
->> [...]
->>
->> Can you send me the acpidump of your machine (with the fan bug)? I can check how the
->> ACPI battery handles this case internally.
->>
-> I looked further into this one as well. What I see is that the battery
-> device itself actually also receives a notification when this happens
-> (so 3x events are generated for the same thing on this device; a
-> keypress on the keyboard device, an ACPI notification on their "SCAI"
-> settings device, and an ACPI notification on the battery device
-> itself), and based on what I can tell in the code in ACPI core is
-> already "updating" status based on what is read from _BST from the
-> battery device. I think then that the "real" problem is that my
-> device's _BST is not reporting these parts correctly as per
-> https://uefi.org/specs/ACPI/6.5_A/10_Power_Source_and_Power_Meter_Devices.html#bst-battery-status
-> and especially in regards to the part about reporting Battery Charge
-> Limiting state.
+>Then you try to find the bogus ones by doing something like
 >
-> So for now I have made it so that this driver will aim that the
-> notification to the battery device is the one that "matters": the
-> keyboard event is now filtered away, and I removed any special
-> handling of the extra ACPI settings device notification (but do send
-> the notification along as an ACPI netlink event in case anyone really
-> wants to create their own notification or action from it). I thought
-> to also try to take this one up with Samsung; though I am skeptical
-> that they would fix it for existing devices like mine,  maybe it will
-> help with newer or future devices! In the end it is not too big of a
-> deal as the device works well, it is only the icon and status that are
-> not being updated correctly.
-
-I see, it could be that Windows does not support this charge limiting state, so vendors like Samsung
-do not implement it.
-
-Still i am OK with your approach here.
-
->> Thanks,
->> Armin Wolf
->>
-> There are lots of other adjustments in the v4 of this patch in attempt
-> to address all of the issues brought up by everyone, so everyone is of
-> course welcome to take a look and see if I managed to catch everything
-> or not, and I can adjust from there!
-
-Thanks, i will take a look soon.
-
-Armin Wolf
-
-> Thanks again!
+>    cat hexes |
+>        while read i; do git show $i >& /dev/null || echo "No $i SHA"; done
 >
-> Best regards,
-> Joshua
+>and you will get a lot ot hits.
+>
+>A *LOT*.
+
+I ended up with this fun thing:
+
+git log --pretty=format:'%B' | grep -E '^Fixes:[[:space:]][0-9a-fA-F]{8,40}' | while read -r line; do
+     [[ $line =~ ^Fixes:[[:space:]]([0-9a-fA-F]{8,40})(.*) ]] && \
+     ! git rev-parse --quiet --verify "${BASH_REMATCH[1]}^{commit}" >/dev/null 2>&1 && \
+     { r=$(./scripts/git-disambiguate.sh --force "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}"); \
+     [[ -n $r ]] && echo "Bad: $line" && echo "Good: Fixes: $(git ol "$r")"; }
+
+Which looks for these wrong IDs in "Fixes:" tags and tries to run them
+through git-disambiguate.sh:
+
+Bad: Fixes: d71e629bed5b ("ARC: build: disallow invalid PAE40 + 4K page config")
+Good: Fixes: 8871331b1769 ("ARC: build: disallow invalid PAE40 + 4K page config")
+Bad: Fixes: 7e654ab7da03 ("cifs: during remount, make sure passwords are in sync")
+Good: Fixes: 0f0e35790295 ("cifs: during remount, make sure passwords are in sync")
+Bad: Fixes: ee650b3820f3 ("apparmor: properly handle cx/px lookup failure for complain")
+Good: Fixes: db93ca15e5ae ("apparmor: properly handle cx/px lookup failure for complain")
+[...]
+
+>Look, I didn't check very many of them. Mainly because it gets *so*
+>many hits, and I get bored very easily.
+>
+>But I did check a handful, just to get a feel for things.
+>
+>And yes, some of them were random hex numbers unrelated to actual git
+>IDs, but most were really supposed to be git IDs. Except they weren't
+>- or at least not from the mainline tree.
+>
+>For example, look at commit daa07cbc9ae3 ("KVM: x86: fix L1TF's MMIO
+>GFN calculation") which references one of those nonexistent commit
+>IDs:
+>
+>    Fixes: d9b47449c1a1 ("kvm: x86: Set highest physical address bits
+>in non-present/reserved SPTEs")
+>
+>and I have no idea where that bogus commit ID comes from. Maybe it's a
+>rebase. Maybe it's from a stable tree. But it sure doesn't exist in
+>mainline.
+
+This one is indeed in the 4.18 stable tree.
+
+>What *does* exist is commit 28a1f3ac1d0c ("kvm: x86: Set highest
+>physical address bits in non-present/reserved SPTEs"), which I found
+>by just doing that
+>
+>    git log --grep='kvm: x86: Set highest physical address bits in
+>non-present/reserved SPTEs'
+>
+>and my point is that this is really not about "disambiguating short
+>SHA1 IDs". Because those "ambiguous" SHA1's to a very close
+>approximation simply DO NOT EXIST.
+>
+>But the completely wrong ones? They are plentiful.
+
+Is the concern mostly around the term "disambiguate"? Would
+git-sanitize.sh work better?
+
+-- 
+Thanks,
+Sasha
