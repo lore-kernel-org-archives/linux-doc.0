@@ -1,125 +1,195 @@
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF03745005;
-	Fri, 27 Dec 2024 18:33:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061981C2BD;
+	Fri, 27 Dec 2024 18:48:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735324427; cv=none; b=kKDQjkOIhW1bRcPx3yQrLSsMwQDybMREgzd63MZ61xw+B42FCfuZJ1YpUl2tcG7kA4N4/AXP6A8ZR7SHv4Hzjvl+FXklln/14Zl76T/ZTG7e1SNebPEIURnFrX/GsmNcdm83EzkKQVtM6Wzi26mq5d97yL58YQkDrc2D9SrEax4=
+	t=1735325329; cv=none; b=UpVOj2wP6/GQjWRS6SmCb5xZ4EhvLbApEfIQ51h0lbSknQ+hkbu0j9nmoOuM29UKAJVFHuGh0v+u60o8k5l+5Vi/VyUZT8lsJu2jljHjIXAczMIbd3gWOR3OtXO1pEkRL7tGQkItzrv5K+VdJo6wu2T/kx+amH37tVH7QTceJxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735324427; c=relaxed/simple;
-	bh=DSTiftUs8qF1/6Wr752qm3Y0VS1FLtxBd9NtQKkmyCQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=keUpjD9RgpdmKeZ4VmxqOx2yoancr8aK4ZEYZSmQuyA6rVMYwY/676i62oE0SlVGZ8ZZ6jy0nB2QS51s1b95V51vFsWRBiYS6LfGvuy+EF+A1Rfaoa2kgrpb9C2dzCEY0PI/buCQYmeNeydC4HwI311xKJ+NsIUKmh2TbGDwdok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-4afdd15db60so1976665137.1;
-        Fri, 27 Dec 2024 10:33:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735324423; x=1735929223;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Md4pV1r9X3VCMc00BOlMTRYThFiWZ5TnfPwGhk1/R7o=;
-        b=q6lEj93umRqCkh02whjA00ctdqlPe9qQtAujlrGrSqyoq7bW15vUSYW3Si7ei20GMK
-         sPIgW3qs4O58bhjlyJiwl37jLzxdKbRNqV3NyDXTWlGqYEc+tMoQM7YZCeax7Ez683Uo
-         W/TpCK/LMOkZ30CMsHV33ArEBDVMbCA28Ysos0R6IxXmd5+SMkd9er0Px5BRfeeqAOmx
-         Kl4zAqPZpEGk2gJcbpvtE3etbUh+mlAXcnnXwjl3KzEp/4hL9Y8nWovnH93mJJdEZC7L
-         PgOnYF4SbBq7msH/L6Y3yStW8jCX5e6he1pxtaerZMfuQjiHbv5wtbZdYLtXQK4ABfwI
-         ErGg==
-X-Forwarded-Encrypted: i=1; AJvYcCUGLHz3PlYs6FE30fnqbCikmIjpGPVznWPZ8kRWjdIgB0hN9kFsfN//mExW0roDOX5NtCwZ9VDRP7o=@vger.kernel.org, AJvYcCWI1oIZQrjSqn7gmqgb7EcUJAovc904svP3KkNtrlnaSKCik/YAoxN0HK0q1hRigT+6MyFqf6KTdW+fdGVc@vger.kernel.org, AJvYcCX+2k7FFdJOEWBlRK8fXwFI7AEBcB2OJtPlqAJD/myf2wUQrh/o1TuzjRdbCSYbqYDkCr99D3WaJw2a@vger.kernel.org
-X-Gm-Message-State: AOJu0YzT9c1T3tEYQUuKSYYv8LQs94g/SZ8BMma/kzhV0rvxjwqIvnY0
-	6Ikq35hqGJQ6k3Np78ICJwEHABgzU6cRuDJQhOC7SNoCTS6upeUd1jE2TUoY
-X-Gm-Gg: ASbGncvM577w1kVbUen5Hhb0QVOf1SkFBUZa6Yte8wFk3NxfUthyGEs/H6cYBwA0k1a
-	yuuta/oXT99uensa665ljrOSxjj4xwKACek/fKkq0P83mGcV4FPUAzE1qkJeU5I8Ij3wSdwO4LL
-	vDbNuEKR/ogr/viLGOaiOszlTfLcwsbfpY9k44MPDFM19qZ2PNT3c59lqmYSMz1I6Yr6xGwO4nQ
-	1RTkh4tr+hXYATFznZL2OO99eVClAqsTk3zvYGwmWNee8Dy6DIvxNuQ4PKGzKJ6SI/8D6f9/Gd3
-	hmNa19XoVDKS1a9D8ts=
-X-Google-Smtp-Source: AGHT+IFDZEwD2HH1KFQSCT+Qw8UcIH7qSulRt4V8pZ0gsLEsLsDjlP1HZbHQ6ZFK/HYYE8e78TOOtQ==
-X-Received: by 2002:a05:6102:fa5:b0:4b2:4877:2de1 with SMTP id ada2fe7eead31-4b2cc456fa0mr26613612137.17.1735324423447;
-        Fri, 27 Dec 2024 10:33:43 -0800 (PST)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8610ac6b800sm3126062241.15.2024.12.27.10.33.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Dec 2024 10:33:43 -0800 (PST)
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4afe4f1ce18so2078738137.3;
-        Fri, 27 Dec 2024 10:33:42 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVHj9y2CXEClxsurK0Oyz2B8KBP5AHhp9H4qQ/kFaEjC2tH1NOyeEXNSEHo84xvRS8SBhqVF05MjnLC@vger.kernel.org, AJvYcCWnTbi8XfM/RBBN8Lf+Kck35rhAUio9wKKU5J0xVZX7zRSkoBd7snOCxP1obbJ2FIq1sDaLlIfHwg3MduSh@vger.kernel.org, AJvYcCXkBxoWB2lnAJnN+pZwygaFc6n/VwHEjZoLgsCjAZgvZTB3c7XGBZFRmlWBvv/MX91/ssUDbIa/Pos=@vger.kernel.org
-X-Received: by 2002:a05:6102:3707:b0:4af:f6ab:9f9c with SMTP id
- ada2fe7eead31-4b2cc487ca5mr19322059137.23.1735324422583; Fri, 27 Dec 2024
- 10:33:42 -0800 (PST)
+	s=arc-20240116; t=1735325329; c=relaxed/simple;
+	bh=de9YawzoPkw5LfFG4GZ3/VeW61mm9EPQ5iS35qjq/U4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=i1ygPUj4gc8fnixjB4V5r9rbYci3LRmNLyQ4QYlNJofzUbAzSCwEjKwKNJddDlfnfXn8+YA5XSBmEy7oz8LTf6Akb/l73URZ2/+lTekK7LjglNCTVBzqdqW26ZHqtGgzsax1BdOLIGWSPQc8KwyX0+yZ38FCD3hUM4l4fiIM5aI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=5gsljBUk; arc=none smtp.client-ip=185.138.42.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="5gsljBUk"
+Received: from localhost.localdomain (unknown [IPv6:2a02:2149:8b14:7c00:7f68:a54:8871:387f])
+	by linux1587.grserver.gr (Postfix) with ESMTPSA id 939A62E00777;
+	Fri, 27 Dec 2024 20:48:34 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1735325316;
+	bh=KaXqSLciCpR5aZlcxzNkJJ31s1Cmt2fdD+pblQ/1Fnc=; h=From:To:Subject;
+	b=5gsljBUk0uGY4QhNQ8lMp574G5ateaOsKE8YFggEhIw6nYlQguMt93bedcs8wRiKL
+	 LxW83TsKPRIb2jzKO9dFvs+QqaKeYA5LSR5dLvum7rni7NRvYBYi2kXQUova8uvZ36
+	 mNbKdKYuUyyOnJ1xRhGodlea0yUOYcvzYaxUp9wM=
+Authentication-Results: linux1587.grserver.gr;
+	spf=pass (sender IP is 2a02:2149:8b14:7c00:7f68:a54:8871:387f) smtp.mailfrom=lkml@antheas.dev smtp.helo=localhost.localdomain
+Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
+From: Antheas Kapenekakis <lkml@antheas.dev>
+To: derekjohn.clark@gmail.com
+Cc: corbet@lwn.net,
+	hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	luke@ljones.dev,
+	mpearson-lenovo@squebb.ca,
+	nijs1@lenovo.com,
+	pgriffais@valvesoftware.com,
+	platform-driver-x86@vger.kernel.org,
+	shaohz1@lenovo.com,
+	superm1@kernel.org,
+	zhangzx36@lenovo.com,
+	johnfanv2@gmail.com,
+	codyit@gmail.com,
+	W_Armin@gmx.de
+Subject: Re: [PATCH 0/1] platform/x86: Add Lenovo Legion WMI Drivers
+Date: Fri, 27 Dec 2024 19:48:25 +0100
+Message-ID: <20241227184825.415286-1-lkml@antheas.dev>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20241217230645.15027-2-derekjohn.clark@gmail.com>
+References: <20241217230645.15027-2-derekjohn.clark@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241226220555.3540872-1-sashal@kernel.org> <Z23ZmVwgS2ErX-dj@lappy>
- <CAHk-=wiPNpQ=zmGvPoZRMFZ7a7mm2pzSoOsuQPdDRaSF7gbw9w@mail.gmail.com>
- <Z237CwC_YKhoZubs@lappy> <CAHk-=wiH=HH9CfFFuBwAwDdfZAjCzN=yAhzWehCAR8bg_-2CAA@mail.gmail.com>
- <Z27TkUSmM1sCTslO@lappy>
-In-Reply-To: <Z27TkUSmM1sCTslO@lappy>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 27 Dec 2024 19:33:30 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUT0ZBwVZMPMuJnHy+-DS0zqLV3t4MRhSQVpLjEsNuHgw@mail.gmail.com>
-Message-ID: <CAMuHMdUT0ZBwVZMPMuJnHy+-DS0zqLV3t4MRhSQVpLjEsNuHgw@mail.gmail.com>
-Subject: Re: [PATCH] git-disambiguate: disambiguate shorthand git ids
-To: Sasha Levin <sashal@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, apw@canonical.com, conor@kernel.org, 
-	corbet@lwn.net, dwaipayanray1@gmail.com, gitster@pobox.com, horms@kernel.org, 
-	joe@perches.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux@leemhuis.info, lukas.bulwahn@gmail.com, miguel.ojeda.sandonis@gmail.com, 
-	niklas.soderlund@corigine.com, willy@infradead.org, workflows@vger.kernel.org, 
-	kees@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: 
+ <173532531561.9273.10613731026644363289@linux1587.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
+X-Virus-Status: Clean
 
-Hi Sasha,
+Hi Derek,
 
-On Fri, Dec 27, 2024 at 5:19=E2=80=AFPM Sasha Levin <sashal@kernel.org> wro=
-te:
-> No, it's not a problem. In my mind, I figured we could use shorter
-> hashes in mail message to make it easier to communicate.
->
-> It doesn't have to be formal, but for example if we exchange mails about
-> an issue, and I end up referring to '1d1a ("arm64/sme: ...")' it both
-> makes the mail more readable, but still someone who doesn't have context
-> can still easily get to the commit I was referring to.
+Good job on the driver. I spent a bit of time reviewing it today, and I
+have a few thoughts. Hopefully you can go through them fast, and we can
+have a solid base of understanding moving forward so that I can e.g.,
+merge your driver on Bazzite ahead of the kernel, so you can get some
+valuable testing.
 
-Is that 1d1a commit something in your local tree? I don't seem to have it.
+// Firmware Attributes
+Right now, I have one major concern I'd like to be addressed before
+moving into the details of the driver. This is mirrored in the Asus
+driver you referenced [1] as well and I do not think I have seen solid
+argumentation for it yet.
 
-A few other comments:
-  1. Please add support for --help. It took me a while to find out I
-     need to call the script without parameters to get the help.
-  2. The passed commit-subject needs to be the full commit subject.
-     It would be nice to support abbreviations, too.
+Essentially, you are using the firmware attributes interface for the
+ephemeral attributes SPL, SPPT, and FPPT which is also a concern mirrored
+in the thread with Armin (+cc) and John (+cc) [2]. The question here
+becomes, if exposing fan curve attributes via the firmware interface is
+fickle, why is it correct for SPL, SPPT, and FPPT?
 
-BTW, I am a heavy user of looking up commits (recent and old ;-)
-My .vimrc has:
+For context, when it comes to Asus (see [1]), these tunables reset during
+reboots, after sleep, and when changing the TDP mode. Specifically, TDP
+mode, SPL, SPPT, and FPPT, and the fan curve are not preserved between
+reboots, with only TDP mode being preserved between sleep. Following, 
+setting TDP mode resets SPL, SPP, and FPPT, and setting any one of those
+resets the fan curve.
 
-    noremap ;gs "zyiw:exe "new \| setlocal buftype=3Dnofile
-bufhidden=3Dhide noswapfile syntax=3Dgit \| 0r ! git show ".@z."" \|
-:0<CR><CR>
+For Lenovo and the Legion Go (1st Gen) it actually depends on the BIOS
+version. In early BIOSes, the custom tunings used to be preserved until
+you reset the BIOS. However, I suspect that this caused used confusion, as
+if you uninstalled Legion Space, the tunings to custom mode would still be
+applied which would be unintuitive. In new BIOS versions, the tunings reset
+when changing TDP modes, which can be done with the combination Legion
+L + Y. I am unsure if they are still preserved between reboots if you
+remain in custom mode. Fan curve resets as well. But the point is that they
+are not persisted, at least to the extent expected by the firmware
+attributes class and writing to them in other modes is undefined.
 
-So I can move the cursor to a git commit ID, and type ";gs" to open
-the commit in a throw-away split window.
-Adding full support for commit-subjects may be challenging, especially
-if they are split across multiple lines (i.e. not Fixes: tags, but
-mentioned in the description).
+Lastly, if another driver were to be developed e.g., for AMD out-of-tree
+to control devices without a vendor interface, we'd have the same
+issue. As this driver or [1] merging would set a precedent for using
+firmware attributes for these tunings, I think it is important to reach
+agreement before moving forward. For AMD w/o vendor, more details can
+be found in [3]. In [3], Mario makes an RFC for an alt interface for SPL,
+SPPT, and FPPT, through amd_pmf which does not have this peculiar issue.
 
-Thanks!
+There are settings where it does make sense however, such as VRAM, boot
+sound (Asus), and the suspend light/barrel plug RGB (Legion). These
+settings are typically persisted in BIOS and there is no ambiguity for
+fitness in those.
 
-Gr{oetje,eeting}s,
+// Driver Details
+Ok, as for the rest of the driver, I have (i) some stylistic comments and
+(ii) will mirror similar concerns to John in unnecessary accesses.
 
-                        Geert
+(i) Stylistic Comments
+I would personally be a fan of adding WMI support to the kernel, such that
+userspace can access WMI attributes without the use of a driver, as it is
+done in Windows. However, as I have discussed with Mario, such a thing is
+not an easy task, as it would require adding a BMOF parser to the kernel
+which is a monumental effort. In any case, the current kernel requires
+us custom write drivers for the WMI interface.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+The reason for this preface is that I think that your driver style is a bit
+"too close" to what such a thing would look. E.g., in the driver I can see
+snippets such as `LENOVO_CAPABILITY_DATA_01 WMI data block driver.` and
+`MODULE_IMPORT_NS("CAPDATA_WMI");`. Since you are going through the effort
+of writing a custom driver, I would be more opinionated in how I'd design
+the driver, so that it's more intuitive from a user's perspective. I think
+John's driver (which has its own issues) and the asus-wmi drivers strike a
+bit better balance, where they "translate" the WMI calls into an ABI that
+can be documented and then parsed by a developer.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Such a design process would then also allow to claim the name legion, as
+you could make sure the legion driver only loads on Legion laptops, where
+now it would randomly load in other laptops as well. Sidenote here is
+that this is something I also found confusing, as the Legion Go does not
+have a keyboard so that driver should definitely not load.
+E.g., you could only load when you detect the Gamezone interface and then
+access the other two as well. The Gamezone interface is only used in
+Legion laptops AFAIK. I think Lenovo also kind of implements all three
+as stubs even if some are not used, to allow extending them with BIOS
+updates, so blindly loading drivers based on the interface might not be
+the best idea in any case. When the Legion Go released, I think only one
+of the three interfaces was used, for example, but all three were present.
+
+(ii) Unnecessary Accesses
+Even though you went hands off on your design of the driver, at the same
+time you held back when it comes to userspace accesses by globally forcing
+the Other function hints as limits. This creates two issues.
+
+The first one is that those limits might be wrong for certain devices or
+certain users might want to go a bit above them, which would mean that if
+you enforce them you'd need to provide a way to quirk them and a module
+parameter override (I know they are correct for the Legion Go as I have
+looked through them as well). But if it is not necessary in Windows,
+why would we add additional roadblocks in the kernel? If Lenovo feels the
+need to enforce them, they can do so in their firmware and extend that
+protection to Windows as well. Asus does when it comes to their fan curve
+firmware, for example.
+
+The second is that you are making a lot of necessary calls, which may harm
+performance or potentially cause instability. My workflow for setting TDP
+on the Go is that I first respect the TDP mode the user has set using
+Legion L + Y. If the user wants to change that, then I do the following:
+set TDP mode to custom, set the TDP, set the SPL, SPPT, and FPPT, and then
+set the fan curve. I also add a small delay in-between each of these calls
+as a further precaution. In your current driver, each of these calls would
+make two additional calls to the WMI interface (one for the limits and
+one for the TDP mode), which would more than double the number of calls
+made in a typical scenario (from 5 to 12), where each triplet is made
+back to back.
+
+There is also the issue mentioned by John, where you do cross-interface
+interactions etc. To fix this, you'd have to retrieve the limits from
+firmware on probing and then cache them in the driver after quirking. It
+would be much easier just to skip all of this for now and just use them to
+prepopulate _min and _max values as hints instead, which you already do.
+
+Those were my comments. You mentioned that you are travelling and might not
+have access to your PC so take your time with the replies.
+
+Happy holidays,
+Antheas
+
+[1] https://lore.kernel.org/all/20240930000046.51388-1-luke@ljones.dev/
+[2] https://lore.kernel.org/lkml/eb165321-6a52-4464-bb58-11d8f9ff2008@gmx.de/
+[3] https://lore.kernel.org/lkml/20240926025955.1728766-1-superm1@kernel.org/
