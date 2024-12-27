@@ -1,223 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF96F1F1307;
-	Fri, 27 Dec 2024 16:19:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3F51F37D8;
+	Fri, 27 Dec 2024 17:07:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735316371; cv=none; b=efFAyvB2VMGxZxyCZUbo8K9K6fp1pVoD9TeuRTIfQ6GVXWXulQiga343VZbB9a7vMrFQzCyKh0ttxqn9ThMjPeFmYHpPjdgseKsOKmowGExhIYDf4rtJcdi1WrRBKFObyS2CdD6wf5X+xsYdssEuH4pVOkNtQMWABSSTLPrGhJs=
+	t=1735319234; cv=none; b=VX/IcniZ9d79225eVNLlq01xb0qLhgbbDiAnROryWgiTwtIQeMs2rLxh3YagkwLNADp7y6aPPSZ5XZl/XwgwYpT33LdjeRUI4xtDt++5TR/lBjnt4JtcjXBBQDdQ6H1lNYvgJlDwVO8RdoNe2Y0otEkMhQN6+kj7i1Ogfc8E07I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735316371; c=relaxed/simple;
-	bh=Ym+Dt1ptnCi9AzASufh4Np73zfjVjRwO0prNtz4f8Dk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GfREdjWBjBxK2aC8dnFexli3mEDy4mNipww/LoZiwosC0Qs4vU3Ayk11ojeV9P5eqdM8g8WYVxf3xIIq8WBob4xCwWZ3R/rKiQglHubN5B4NXGR4OmWd7XML8zjyNROzJL/XwTqRTOFG7dfAAj5DoKwg1BJ9IZcrigaR6Onm6ro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rcYhcvdy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1735319234; c=relaxed/simple;
+	bh=SpcDs3yGZPAuy1uuE24Y+/igrf7oIEqbShHLM0dghDI=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=LPj88G9DCAdT9m2+ToiNvkTSORVNC6S/y/soLhNd2e3nSxx2IzsOSL5D0q0PjTKnZQFJ7kmJumD6FGaskEibTbzBvzJcDI40PkhfSCSCVhYdqI2aQCRxVS7wNbvBY1SMuDdF+uxUzBP+2QrO+jf9gDGNVfogIk5Srhw4gW7JhTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=tzejgDQw; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ADbtK6Gx; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rcYhcvdy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F19EC4CED6;
-	Fri, 27 Dec 2024 16:19:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735316371;
-	bh=Ym+Dt1ptnCi9AzASufh4Np73zfjVjRwO0prNtz4f8Dk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rcYhcvdym7I+tdTLH5M3PxSBTzuVomniXIrkUP91Oxg+xDOgFslTj8GQ2fidVRL8n
-	 Xt+MiM+rNcufGh48K2KyOBfOKAr478TRDkni2r/ZLqm8M+hCS8tkJ9W+4OVwJDVJCr
-	 QnpOX7jYGPuFVxS7BuKZhRNe47wQomEb2lzE/M6favjA9JVNqxRWPdTOu8FubhmfAP
-	 yOQ54rmVEyxWc4lYI6pnB4EbIEYoy0T6Hh73o1NZMIJRhkTvM7q8RofkUgXrlMSNac
-	 oTQuvaYUEnpf6i2b5wzK3pNPXUbrzRbUQ8wszAxwzeH2l0C6QxJsayt5XSwuHG7PqH
-	 PKr2PW/CQ9VFA==
-Date: Fri, 27 Dec 2024 11:19:29 -0500
-From: Sasha Levin <sashal@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: apw@canonical.com, conor@kernel.org, corbet@lwn.net,
-	dwaipayanray1@gmail.com, geert+renesas@glider.be, gitster@pobox.com,
-	horms@kernel.org, joe@perches.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux@leemhuis.info,
-	lukas.bulwahn@gmail.com, miguel.ojeda.sandonis@gmail.com,
-	niklas.soderlund@corigine.com, willy@infradead.org,
-	workflows@vger.kernel.org, kees@kernel.org
-Subject: Re: [PATCH] git-disambiguate: disambiguate shorthand git ids
-Message-ID: <Z27TkUSmM1sCTslO@lappy>
-References: <20241226220555.3540872-1-sashal@kernel.org>
- <Z23ZmVwgS2ErX-dj@lappy>
- <CAHk-=wiPNpQ=zmGvPoZRMFZ7a7mm2pzSoOsuQPdDRaSF7gbw9w@mail.gmail.com>
- <Z237CwC_YKhoZubs@lappy>
- <CAHk-=wiH=HH9CfFFuBwAwDdfZAjCzN=yAhzWehCAR8bg_-2CAA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="tzejgDQw";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ADbtK6Gx"
+Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 6C71A11400AF;
+	Fri, 27 Dec 2024 12:07:10 -0500 (EST)
+Received: from phl-imap-10 ([10.202.2.85])
+  by phl-compute-02.internal (MEProxy); Fri, 27 Dec 2024 12:07:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1735319230;
+	 x=1735405630; bh=SpcDs3yGZPAuy1uuE24Y+/igrf7oIEqbShHLM0dghDI=; b=
+	tzejgDQwiuj8tfDTlsPiymonHlOuyGMqmbU4Nw1XMAfTKqWNnV4JdnDcbd+2oiDG
+	MdUO7J5VrGU6XQyqkOBBcDiKCXqpbDtn+IwYLGbh90yraGkZZHg4WgmOQycJdq9n
+	60d1MU5hdmm/p2sI43LquuQw3QR0Bq/V34oSQHpiiil0D3/WZWsJ4guQDZThd0Wx
+	z0pK3bry54yKq6auogMsspw3k70wnOoOhYVN+CP3TyIlJgYkWZ2gZuDYVKAQI0J8
+	edRYonAtfSF3e2yDsOWdEYeLcny7KNO5JsYXV5+j8RLOvFwhWMj73lTbADjdl6Bi
+	7D0c1AHuRBDqJP/BTez+VA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1735319230; x=
+	1735405630; bh=SpcDs3yGZPAuy1uuE24Y+/igrf7oIEqbShHLM0dghDI=; b=A
+	DbtK6Gxhu6dOoSZQTRRtoL/mTelwyfDIx/M0/oUrPsT4qJY8d5HpsF8JMmrPJLm1
+	g0iVVGGYBnAA8WK+8SR0RfExyJctR0tJ58nqaK0KOLHamy66K6bznd0pxQiJQvKA
+	0gJCm2r0YjsQBu9lzfUfwWavXWb0hpedoOribjCCl3zd4Pyi6IzOrQYwrNYRQTzK
+	GJpnv9X2ee8ECGyWWXpymmgbxqZyE360ddP3LG+4xW6n/RfYEnhHSPDdNvzirtlK
+	sw66ExWHnOPaXIjQ4ZG86JIsDOA12+5OOZ5/sostqwSDwx4F2gsic3z/AeIknY84
+	dpcYoENv27chpuDvPaEzg==
+X-ME-Sender: <xms:vd5uZ6q5TmBnVEqZwvkwNFLewA0eBtFfTKkueiDSfLsDt8P6q1Q_Vw>
+    <xme:vd5uZ4rlAZlaGl8AMJ84jW_ZvK2A_8zysYjnAbNs81BGhm5AUSZnKferLHiqdCAc4
+    T9CPE7j_UXw6UJh7d8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddruddvtddgleejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdej
+    necuhfhrohhmpedfofgrrhhkucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlhgvnh
+    hovhhosehsqhhuvggssgdrtggrqeenucggtffrrghtthgvrhhnpefhveekjeeuueekfefh
+    leeljeehuedugfetffdvteekffejudelffdvjeekfeehvdenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmphgvrghrshhonhdqlhgvnhhovhho
+    sehsqhhuvggssgdrtggrpdhnsggprhgtphhtthhopedugedpmhhouggvpehsmhhtphhouh
+    htpdhrtghpthhtohepuggvrhgvkhhjohhhnhdrtghlrghrkhesghhmrghilhdrtghomhdp
+    rhgtphhtthhopehjohhhnhhfrghnvhdvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepfi
+    gprghrmhhinhesghhmgidruggvpdhrtghpthhtohepshhuphgvrhhmudeskhgvrhhnvghl
+    rdhorhhgpdhrtghpthhtohepnhhijhhsudeslhgvnhhovhhordgtohhmpdhrtghpthhtoh
+    epshhhrghohhiiudeslhgvnhhovhhordgtohhmpdhrtghpthhtohepihhlphhordhjrghr
+    vhhinhgvnheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehluhhkvgeslh
+    hjohhnvghsrdguvghvpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvght
+X-ME-Proxy: <xmx:vd5uZ_MPoRhY00RGJ8iO7lyf5LwXPxpKiAbOsuL8TIPYKhc5JogEaQ>
+    <xmx:vd5uZ56Iz-PgTQjEUwbqVX8iKS4gKf-veSBnZBjBN8tbOVPrZI4Xag>
+    <xmx:vd5uZ57jBqbWUWBMZylmWB6HaCj5QTzhUUdKO5MFGEXIXrVUkrlPyg>
+    <xmx:vd5uZ5h6_TuxLYKCnJUrP_t3iH-DdUPqnwnZUpkVBPIN4_XoumpQSg>
+    <xmx:vt5uZ4IPurPDhayimpVfzPtbk_ST7FyKO2gSsf4Kwhe02UoK00s_HiFI>
+Feedback-ID: ibe194615:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 77D9E3C0068; Fri, 27 Dec 2024 12:07:09 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wiH=HH9CfFFuBwAwDdfZAjCzN=yAhzWehCAR8bg_-2CAA@mail.gmail.com>
+Date: Fri, 27 Dec 2024 12:06:49 -0500
+From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
+To: "Armin Wolf" <W_Armin@gmx.de>, "John Martens" <johnfanv2@gmail.com>
+Cc: "Jonathan Corbet" <corbet@lwn.net>,
+ "Derek J . Clark" <derekjohn.clark@gmail.com>,
+ "Hans de Goede" <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "Luke D . Jones" <luke@ljones.dev>, nijs1@lenovo.com,
+ pgriffais@valvesoftware.com,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+ shaohz1@lenovo.com, "Mario Limonciello" <superm1@kernel.org>
+Message-Id: <f941534d-4ebb-46b5-88af-0fdfbffa1057@app.fastmail.com>
+In-Reply-To: <eb165321-6a52-4464-bb58-11d8f9ff2008@gmx.de>
+References: <a1c25bd8-907f-4b2a-a505-15785eb4b17b@gmx.de>
+ <20241226001828.423658-1-johnfanv2@gmail.com>
+ <eb165321-6a52-4464-bb58-11d8f9ff2008@gmx.de>
+Subject: Re: [PATCH 0/1] platform/x86: Add Lenovo Legion WMI Drivers
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 26, 2024 at 05:50:22PM -0800, Linus Torvalds wrote:
->On Thu, 26 Dec 2024 at 16:55, Sasha Levin <sashal@kernel.org> wrote:
->>
->> What got me worried originally is the example Kees provided which
->> creates a collision of a 12-character abbreviated commit ID:
+On Thu, Dec 26, 2024, at 6:19 PM, Armin Wolf wrote:
+> Am 26.12.24 um 01:18 schrieb John Martens:
 >
->Note that you can always create short ambiguous cases.
+<snip>
 >
->And in fact, since the way you create them is to just put noise in the
->right place and brute-force things, you can also always make sure that
->the one-liner short commit name will match the target commit too.
+>> - When trying to find out what access method to choose one cannot rely
+>> on the ACPI/WMI interface. From disassembling the ACPI, one can see
+>> that sometimes/often even if the function is not implemented it
+>> will return without error. Moreover, there are some WMI methods
+>> with name "*IsSupported" (or similar) but they often do not tell
+>> the truth.
 >
->In other words: just accept the fact that a short hash is simply not a
->secure hash. That's very very fundamental. It's just inherent in the
->whole "we have shortened things to be legible".
+> Oh no.
 >
->And once you just accept that it's fundamental to any short hash, you
->can relax and just live with it as just a fact of life.
+> I hope that we just misinterpret the result of those methods. Otherwis=
+e=20
+> this would indeed be
+> very frustrating. Maybe some help from Lenovo can solve this issue.
 >
->> So sure, we don't have a collision right now, but going from 0 to 1 is
->> going to be painful.
->
->I disagree. You need to just own up to how it is, and more importantly
->that you WILL NEVER EVER BE ABLE TO FIX IT.
->
->There is no way to disambiguate the active malicious case, because the
->active malicious case will just be able to handle any disambiguation
->you throw at it too.
->
->So the fix is to not *rely* on disambiguation, and to just accept it.
->Don't fight reality. You'll just lose.
->
->> Are we going to be actively watching for someone trying to sneak in a
->> commit like that, or should we just handle that case properly?
->
->See above. There is no "properly". There is only reality.
->
->Git internally uses the full hashes. And any reasonably usefully
->shortened hashes *cannot* be disambiguated in the face of an active
->malicious person.
->
->If you have some tool that you rely on absolutely to give you the "One
->Correct Answer", then you are already broken. If thats' the goal, then
->all you can do is give up and pray to some random $deity.
->
->Or, as my argument is, DON'T DO THAT THEN.
->
->Don't rely on some absolute thing. Accept the fact that a short hash
->will always possibly refer to multiple things, and that you will
->*always* need to have a human that actually *THINKS* about it, not
->mindless automation.
->
->The best the tools can do is say "there are multiple options here"
->(or, more commonly, "I found no options at all, but maybe it meant
->XYZ").
->
->Literally.
->
->To summarize: If you are aiming for anything else, you are bound to be
->disappointed.
 
-The script in the original mail will handle two important cases for me:
+Can someone (John?) send me the details off email list and I'll see if t=
+he Legion team can help.
+(this comes with a caveat that the Legion platforms are not part of the =
+official Linux program yet, so no promises or guarantees)
 
-1. The "wrong ID" case, where the the provided commit ID doesn't exist
-and we need to look at the subject line to figure out what the actual ID
-is.
+>
+>> - Using just one WMI interface is simple =E2=80=94 my grandmother cou=
+ld do it.
 
-2. The case where we either get a too-short commit ID that has a
-collision, or we just got unlucky and finally ended up with a 12-char
-collision, but the subject line is enough to automatically resolve to
-the correct ID.
+You have an awesome grandmother :D=20
 
-We're disagreeing over the remaining <0.0001% of cases.
-
->So aim for that simple "let me know about multiple choices", with the
->knowledge that they are going to be EXCEEDINGLY rare.
->
->And then if we have somebody who actively acts badly and works to make
->that "it's going to be EXCEEDINGLY rare" be much more common than it
->is supposed to be, we deal with that *person* by just not working with
->them any more.
->
->See? The solution is not some kind of "this cannot happen". The
->solution is "stop accepting shit from evil people".
-
-Not necessarily "evil", but consider something similar to the UMN saga
-where we get "researchers" trying to sneak in commits that create a
-collision. Once these make it in, it will be difficult walking them back
-out.
-
->Which, btw, is not a new thing. This is how open source works. It's
->actually way more work to create collisions in short hashes, when you
->can much more easily just send a bad patch that wastes peoples time
->without any hash collision at all - just by virtue of writing bad
->code.
-
-No, but it makes for a "good" undergrad research paper...
-
->So thinking that the short hash is some kind of special problem is wrong.
->
->It's in fact a particularly *easy* problem to deal with, because at
->least the whole "somebody did something malicious" is something git
->will balk at, simply because the basic git tools will refuse to touch
->the ambiguous hash.
->
->So *your* tooling should concentrate on one thing, and one thing only:
->making it easier for a *THINKING*HUMAN* to decide what a bad hash
->means.
->
->But you need to do it with the up-front understanding that it requires
->that thinking human, and is not mindless automation.
->
->And as mentioned, the most common case of bad hashes BY FAR is the
->"oh, that doesn't match anything I know about at all", as opposed to
->"oh, that matches two or more different commits".
->
->> >and my point is that this is really not about "disambiguating short
->> >SHA1 IDs". Because those "ambiguous" SHA1's to a very close
->> >approximation simply DO NOT EXIST.
->> >
->> >But the completely wrong ones? They are plentiful.
->>
->> Is the concern mostly around the term "disambiguate"? Would
->> git-sanitize.sh work better?
->
->No, my main worry is that you talk about short hashes (and talked
->about shortening our existing ones even more).
->
->When I really think that the size isn't the main problem at all.
-
-No, it's not a problem. In my mind, I figured we could use shorter
-hashes in mail message to make it easier to communicate.
-
-It doesn't have to be formal, but for example if we exchange mails about
-an issue, and I end up referring to '1d1a ("arm64/sme: ...")' it both
-makes the mail more readable, but still someone who doesn't have context
-can still easily get to the commit I was referring to.
-
-To me, it's a nice (minor) improvement.
-
->"disambiguate" is a fine word, but only if you use it in the context
->of "I have a bad hash". Not just a short one. Because the hash being
->too short is simply not the main case worth worrying about.
->
->And hey, just to really hit this same argument home: I can absolutely
->guarantee that you have a much more insidious problem of "wrong hash",
->namely the "oh, it's actually a valid commit hash, but the Fixes: line
->simply got the wrong commit:".
->
->Because that's a mistake I see regularly: somebody simply blames the
->wrong commit. I've most definitely done that very thing myself.
->Sometimes it's people reading the history wrong, and not realizing
->that the bug actually happened before the blamed change too. Or the
->bug ends up being a combination of factors, and people didn't realize
->that the commit they blamed was just one part of it.
->
->So my complaint really ends up being that anybody who trusts those
->hashes mindlessly is going to have mistakes, and the actual hash
->collision case MUST NOT be the primary worry.
->
->Because as long as that hash size is all you care about, you're
->barking up the wrong tree.
->
->               Linus
-
--- 
-Thanks,
-Sasha
+Mark
