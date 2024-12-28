@@ -1,409 +1,279 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DDF1791F4;
-	Sat, 28 Dec 2024 14:25:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F7D1448F2;
+	Sat, 28 Dec 2024 16:04:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735395903; cv=none; b=t9CzlzNVoCM1qSTtHu287po0y0QbuQaFVdF/xBjbK43lFUi1F4psdQZ+awDqF8aRROXyDK0Ujx9EofiKzqr/mNr65WD8qK7ey5/CFUz5vBHUQSXvtoWk1DC/KqMnr0tc5fOKu9GCY4Fum/Hk1Xc15d/C8g4970Gj28F2juL94pI=
+	t=1735401898; cv=none; b=Z4lhIed0Qz8uezXQ8Buk3YW5Lh8ThPoTKoJeIsClzocMRDxLIzwogRtTePhW29HOXtsgpwXEyzePVUnPjY7T8lhz6wbVo/cdhuegiIqiqbvFsa5ofO7Vofi7vbP6lcsK+LavPcoAcMahBpsc2iW+ZVEVY1t19MQFH5o77ezYOsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735395903; c=relaxed/simple;
-	bh=L8r4iKf42OF4s0kPZf9n9HA1bRI/Sb4RnHGwV9CWuzA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BcgoRXkoymmcA8WEFL5jHUUcE8YlmQJcJEDJME79Wv8rJZQ7NLAz7ZBTclPCVdcyW9y53S7FsMJlHKQReZa9qyYfV+HzRb8n+xrvpgPcivSXHDplg6SxVQVhgSToBXt6wukO24KJVP0B3Sak3FqiqQlKwWY0+jfMnTyUdxqsZAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t9QojSux; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1735401898; c=relaxed/simple;
+	bh=2E6nm/OO1NFUbYyyb2S56tAzsTPeNG1dBz8WsJ12wuU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KvolS5Wb7AAdbwXTMLUxCOKmfsG8bQwGvwqMgCJeSCgyRNzdck7BCwJq0GU9+BSf/pGHwA5ru9JFcgwexuoKhspTM7G7PZO5hrkMnv3eZVxdzP2iBxYZflhEV5LTl4nqTwJvOGD8DZY36s/fghdf0sGfOtmGdcRZLcsqGFu1w94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o/0qyAgA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t9QojSux"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7025C4CECD;
-	Sat, 28 Dec 2024 14:25:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o/0qyAgA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D364C4CEE5;
+	Sat, 28 Dec 2024 16:04:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735395903;
-	bh=L8r4iKf42OF4s0kPZf9n9HA1bRI/Sb4RnHGwV9CWuzA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=t9QojSuxT7wAwoBbIv2UnGXIuRI53o805vT+QOnk8rHpZJ3bm8gbHNuAF++vhaFGg
-	 8u250gjaZ5a9P6oLp/7XeLyQ4VO+mmY/HtkhrYHvmBz6EbeTix/5Rh+Zjeb+X+m+tf
-	 bLGbGZft7vouJTB1ScF0aiJEC+MCboE4a4+WYlUgfM3cydd+VeTDBQdHtBc7T33CFs
-	 6GlbjrfsCVbfmzC3ihBv3oHKEgdMjmiForTuYyFs0i2aeHLqnnK51a7/F1bK+MkWGn
-	 oIDZlCmwiKULQ8QJUeXD5QXOwsORE1dfavPKq3YWquxbZhqo9H3j/T/uYUcyh4jaWo
-	 Izv5nl8GzkN1g==
-Date: Sat, 28 Dec 2024 14:24:57 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Julien Stephan <jstephan@baylibre.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- David Lechner <dlechner@baylibre.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH RFC v2 3/4] iio: adc: ad7380: add alert support
-Message-ID: <20241228142457.576f47d4@jic23-huawei>
-In-Reply-To: <20241224-ad7380-add-alert-support-v2-3-7c89b2bf7cb3@baylibre.com>
-References: <20241224-ad7380-add-alert-support-v2-0-7c89b2bf7cb3@baylibre.com>
-	<20241224-ad7380-add-alert-support-v2-3-7c89b2bf7cb3@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	s=k20201202; t=1735401898;
+	bh=2E6nm/OO1NFUbYyyb2S56tAzsTPeNG1dBz8WsJ12wuU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=o/0qyAgAqiHrMhA0AnBg6Jytw03oB6R4rLYQm/kPP6WYvGI3bUIZNq2jJvm3Zd/j+
+	 06o0tSurekPfFNPaNgKizA9ZXQUBLGO/9VbcmJDYph6WQnQBElsQW1Ww3J2pBUMNoo
+	 YSWXCg4MZxH3q0E0AOGaQeaEA69rs6pcBcJGcGb6LSb8no1rlDCoaswkvxi8AUHWNe
+	 Hsp4309ffVzoSDQi1vlj85etoYeAnwws396UswAdU+DcsF+Ro2lBYe8bZXKlTycRgm
+	 f3hSCUsC+aeS3wx8wlsjQNI76IpNhn1K+9X861FQO3ZxEJfHz0plv+3u9oSva8uamz
+	 aADZEDbV0dzgw==
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30229d5b21cso11267741fa.1;
+        Sat, 28 Dec 2024 08:04:58 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU+W9Pe+QwY5RyrPseVoSlV2DH4n55tW3u+DDVvMw4FmI892wSVRNOj+1+F/4fjc95UJ3cPpcvo90c=@vger.kernel.org, AJvYcCUnjmk9l+U06e0BPAOi+VJ6Bf9CDzn6/wYeOeZIRxEXXKMdl5zlOp8YWjGShQRBBku8IbpvwWWzMli/pBhI@vger.kernel.org, AJvYcCUzmzM2H8jNeu7jGHH3+dVJ3xmF3DBgVcHzAG8X0gGl3pDNAQ62KjJHu5whhtSB5binoQn1qhW0KBml4V/hww==@vger.kernel.org, AJvYcCVZxIR71P84kn8QSxWtwROKCD9ZA55d9uiOVunvdXtfTa3EsJ8d+FA3oMdxEhLAsor5PhawagLMLFux+S5jBF0=@vger.kernel.org, AJvYcCWC/umzYp+slXF8LCjQCJyr8jusfKLLCMxWwYBCcsxL+7vcD73iuefbEjJGYkkoWK+UcYx4hg+CtZoMxDWs@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTfmAc88+3+9aJxLDORgEfcvUG5KhPp4lIgLOq52vUop1uMY0L
+	Ysun0fY5do6sKE74jnEpuwR6XK1QMKgXw9exwgJimcOgpdSk0U37LQj+13DHFSFKLuksdITc47k
+	aTM1pXayNydbqOjRsap6B6LtIZs0=
+X-Google-Smtp-Source: AGHT+IEx4wOx6hDhCtq+sNGb0B2IOrBhZqTgzm9BixFBzI8QvQhEwHzlWRtDn1bAHBzHcIAtfWptx18Y2McZcxU162o=
+X-Received: by 2002:a05:6512:128f:b0:542:214c:533 with SMTP id
+ 2adb3069b0e04-5422953c131mr9938768e87.30.1735401896566; Sat, 28 Dec 2024
+ 08:04:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20241223-extended-modversions-v11-0-221d184ee9a7@google.com> <20241223-extended-modversions-v11-2-221d184ee9a7@google.com>
+In-Reply-To: <20241223-extended-modversions-v11-2-221d184ee9a7@google.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sun, 29 Dec 2024 01:04:20 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASDYVfPPvR7RB1t2iB653nkFRmitKp-mV59Jx4DFm=jGQ@mail.gmail.com>
+Message-ID: <CAK7LNASDYVfPPvR7RB1t2iB653nkFRmitKp-mV59Jx4DFm=jGQ@mail.gmail.com>
+Subject: Re: [PATCH v11 2/5] modpost: Produce extended MODVERSIONS information
+To: Matthew Maurer <mmaurer@google.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Jonathan Corbet <corbet@lwn.net>, linuxppc-dev@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 24 Dec 2024 10:34:32 +0100
-Julien Stephan <jstephan@baylibre.com> wrote:
-
-> The alert functionality is an out of range indicator and can be used as an
-> early indicator of an out of bounds conversion result.
-> 
-> ALERT_LOW_THRESHOLD and ALERT_HIGH_THRESHOLD registers are common to all
-> channels.
-> 
-> When using 1 SDO line (only mode supported by the driver right now), i.e
-> data outputs only on SDOA, SDOB (or SDOD for 4 channels variants) is
-> used as an alert pin. The alert pin is updated at the end of the
-> conversion (set to low if an alert occurs) and is cleared on a falling
-> edge of CS.
-> 
-> The ALERT register contains information about the exact alert status:
-> channel and direction. Unfortunately we can't read this register because
-> in buffered read we cannot claim for direct mode.
-> 
-> User can set high/low thresholds and enable event detection using the
-> regular iio events:
-> 
->   events/in_thresh_falling_value
->   events/in_thresh_rising_value
->   events/thresh_either_en
-> 
-> If the interrupt properties is present in the device tree, an IIO event
-> will be generated for each interrupt received.
-> Because we cannot read ALERT register, we can't determine the exact
-> channel that triggers the alert, neither the direction (hight/low
-> threshold violation), so we send and IIO_EV_DIR_EITHER event for all
-> channels.
-> 
-> In buffered reads, if input stays out of thresholds limit, an interrupt
-> will be generated for each sample read, because the alert pin is cleared
-> on a falling edge of CS (i.e when starting a new conversion). To avoid
-> generating to much interrupt, we introduce a reset_timeout that can be
-> used to disable interrupt for a given time (in ms)
-> 
->   events/thresh_either_reset_timeout
-> 
-> When an interrupt is received, interrupts are disabled and re-enabled
-> after thresh_either_reset_timeout ms. If the reset timeout is set to 0,
-> interrupt are re-enabled directly.
-> Note: interrupts are always disabled at least during the handling of the
-> previous interrupt, because each read triggers 2 transactions, that can
-> lead to 2 interrupts for a single user read. IRQF_ONESHOT is not enough,
-> because, it postpones the 2nd irq after the handling of the first one,
-> which can still trigger 2 interrupts for a single user read.
-
-After some of our recent discussions around interrupt handling and
-the guarantees (that aren't) made, even disabling the interrupt doesn't
-prevent some irq chips queuing up future interrupts.
-
-https://lore.kernel.org/all/io53lznz3qp3jd5rohqsjhosnmdzd6d44sdbwu5jcfrs3rz2a2@orquwgflrtyc/
-
-I'm not sure this alert can actually work as a result :(
-I am struggling to come up with a scheme that will work.
-
-
-> 
-> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+On Tue, Dec 24, 2024 at 5:13=E2=80=AFAM Matthew Maurer <mmaurer@google.com>=
+ wrote:
+>
+> Generate both the existing modversions format and the new extended one
+> when running modpost. Presence of this metadata in the final .ko is
+> guarded by CONFIG_EXTENDED_MODVERSIONS.
+>
+> We no longer generate an error on long symbols in modpost if
+> CONFIG_EXTENDED_MODVERSIONS is set, as they can now be appropriately
+> encoded in the extended section. These symbols will be skipped in the
+> previous encoding. An error will still be generated if
+> CONFIG_EXTENDED_MODVERSIONS is not set.
+>
+> Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
+> Signed-off-by: Matthew Maurer <mmaurer@google.com>
 > ---
->  drivers/iio/adc/ad7380.c | 354 ++++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 350 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/iio/adc/ad7380.c b/drivers/iio/adc/ad7380.c
-> index b49067c36fdd1bb0e760faf71d7fa0c8c1f610e9..fb59c2c064f402ea797fc0e563bd535d0e0bf785 100644
-> --- a/drivers/iio/adc/ad7380.c
-> +++ b/drivers/iio/adc/ad7380.c
-> @@ -34,6 +34,7 @@
-
-...
-
+>  kernel/module/Kconfig    | 10 ++++++++
+>  scripts/Makefile.modpost |  1 +
+>  scripts/mod/modpost.c    | 65 ++++++++++++++++++++++++++++++++++++++++++=
++++---
+>  3 files changed, 72 insertions(+), 4 deletions(-)
+>
+> diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
+> index d443fc504ffca0d1001f880ec496ab1f21fe979e..9568b629a03ce8289d3f3597e=
+efc66fc96445720 100644
+> --- a/kernel/module/Kconfig
+> +++ b/kernel/module/Kconfig
+> @@ -207,6 +207,16 @@ config ASM_MODVERSIONS
+>           assembly. This can be enabled only when the target architecture
+>           supports it.
+>
+> +config EXTENDED_MODVERSIONS
+> +       bool "Extended Module Versioning Support"
+> +       depends on MODVERSIONS
+> +       help
+> +         This enables extended MODVERSIONs support, allowing long symbol
+> +         names to be versioned.
 > +
->  enum {
->  	AD7380_SCAN_TYPE_NORMAL,
->  	AD7380_SCAN_TYPE_RESOLUTION_BOOST,
-> @@ -214,6 +252,8 @@ static const struct iio_scan_type ad7380_scan_type_16_u[] = {
->  	.has_ext_scan_type = 1,							\
->  	.ext_scan_type = ad7380_scan_type_##bits##_##sign,			\
->  	.num_ext_scan_type = ARRAY_SIZE(ad7380_scan_type_##bits##_##sign),	\
-> +	.event_spec = ad7380_events,						\
-> +	.num_event_specs = ARRAY_SIZE(ad7380_events),				\
-
-These are set below. So why here as well?
-
+> +         The most likely reason you would enable this is to enable Rust
+> +         support. If unsure, say N.
+> +
+>  config MODULE_SRCVERSION_ALL
+>         bool "Source checksum for all modules"
+>         help
+> diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+> index ab0e94ea62496e11dbaa3ffc289ce546862795ca..40426fc6350985780c0092beb=
+49c6cc29b9eff62 100644
+> --- a/scripts/Makefile.modpost
+> +++ b/scripts/Makefile.modpost
+> @@ -43,6 +43,7 @@ MODPOST =3D $(objtree)/scripts/mod/modpost
+>  modpost-args =3D                                                        =
+                 \
+>         $(if $(CONFIG_MODULES),-M)                                       =
+               \
+>         $(if $(CONFIG_MODVERSIONS),-m)                                   =
+               \
+> +       $(if $(CONFIG_EXTENDED_MODVERSIONS),-x)                          =
+               \
+>         $(if $(CONFIG_MODULE_SRCVERSION_ALL),-a)                         =
+               \
+>         $(if $(CONFIG_SECTION_MISMATCH_WARN_ONLY),,-E)                   =
+               \
+>         $(if $(KBUILD_MODPOST_WARN),-w)                                  =
+               \
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index fb787a5715f5e8b37713162979ca45355770dc73..c58f08681fc1e37929333ba3a=
+3e0989c4db5a79d 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -33,6 +33,8 @@ static bool module_enabled;
+>  static bool modversions;
+>  /* Is CONFIG_MODULE_SRCVERSION_ALL set? */
+>  static bool all_versions;
+> +/* Is CONFIG_EXTENDED_MODVERSIONS set? */
+> +static bool extended_modversions;
+>  /* If we are modposting external module set to 1 */
+>  static bool external_module;
+>  /* Only warn about unresolved symbols */
+> @@ -1804,6 +1806,52 @@ static void add_exported_symbols(struct buffer *bu=
+f, struct module *mod)
+>         }
 >  }
-
->  static int ad7380_debugfs_reg_access(struct iio_dev *indio_dev, u32 reg,
->  				     u32 writeval, u32 *readval)
->  {
-> @@ -727,8 +791,8 @@ static int ad7380_regval_to_osr(int regval)
->  
->  static int ad7380_get_osr(struct ad7380_state *st, int *val)
->  {
-> -	int tmp;
-> -	int ret = 0;
-> +	u32 tmp;
-> +	int ret;
-
-Why these changes?
-
->  
->  	ret = regmap_read(st->regmap, AD7380_REG_ADDR_CONFIG1, &tmp);
->  	if (ret)
-> @@ -834,6 +898,13 @@ static int ad7380_update_xfers(struct ad7380_state *st,
->  	return 0;
->  }
-
-
-> @@ -1002,8 +1084,11 @@ static int ad7380_read_raw(struct iio_dev *indio_dev,
->  		if (ret)
->  			return ret;
->  
-> -		ret = ad7380_read_direct(st, chan->scan_index,
-> -					 scan_type, val);
-> +		ad7380_enable_irq(st);
-> +
-> +		ret = ad7380_read_direct(st, chan->scan_index, scan_type, val);
-
-Avoid the reformat.  It's fine in principle but in practice it makes it
-harder to see there is no change here, so not in a patching doing anything else.
-
-> +
-> +		ad7380_disable_irq(st);
->  
->  		iio_device_release_direct_mode(indio_dev);
->  
-> @@ -1151,12 +1236,190 @@ static int ad7380_get_current_scan_type(const struct iio_dev *indio_dev,
->  					    : AD7380_SCAN_TYPE_NORMAL;
-
-> +static int ad7380_write_event_config(struct iio_dev *indio_dev,
-> +				     const struct iio_chan_spec *chan,
-> +				     enum iio_event_type type,
-> +				     enum iio_event_direction dir,
-> +				     bool state)
+>
+> +/**
+> + * Record CRCs for unresolved symbols, supporting long names
+> + */
+> +static void add_extended_versions(struct buffer *b, struct module *mod)
 > +{
-> +	struct ad7380_state *st = iio_priv(indio_dev);
-> +	int ret;
+> +       struct symbol *s;
 > +
-> +	ret = iio_device_claim_direct_mode(indio_dev);
-> +	if (ret)
-> +		return ret;
+> +       if (!extended_modversions)
+> +               return;
 > +
-> +	ret = regmap_update_bits(st->regmap,
-> +				 AD7380_REG_ADDR_CONFIG1,
-> +				 AD7380_CONFIG1_ALERTEN,
-> +				 FIELD_PREP(AD7380_CONFIG1_ALERTEN, state));
-> +
-> +	iio_device_release_direct_mode(indio_dev);
-> +
-	return ret;
+> +       buf_printf(b, "\n");
+> +       buf_printf(b, "static const s32 ____version_ext_crcs[]\n");
 
-> +	if (ret)
-> +		return ret;
+In general, 's32' (i.e. signed) and the '%x' printf-format (i.e. unsigned)
+are an odd combination. I know why you are mixing up these.
+
+Previously, we had a reason to use 's32' because the 'crc' field may
+contain a negative address offset.
+
+After commit 7b4537199a4a, there is no more reason
+for keeping this weirdness.
+
+I will apply the following first.
+
+https://lore.kernel.org/linux-kbuild/20241228154603.2234284-2-masahiroy@ker=
+nel.org/T/#u
+
+Then, you can change 's32' to 'u32' in this series.
+
+
+
+
+> +       buf_printf(b, "__used __section(\"__version_ext_crcs\") =3D {\n")=
+;
+> +       list_for_each_entry(s, &mod->unresolved_symbols, list) {
+> +               if (!s->module)
+> +                       continue;
+> +               if (!s->crc_valid) {
+> +                       /*
+> +                        * We already warned on this when producing the l=
+egacy
+> +                        * modversions table.
+> +                        */
+> +                       continue;
+
+Personally, I tend to avoid a noise change because you will change this com=
+ment
+to warn() in the next commit.
+It is up to you.
+
+
+
+> +               }
+> +               buf_printf(b, "\t%#8x,\n", s->crc);
+
+
+This is also a copy-paste of the existing code.
+
+I like to have zero-padding for better alignment.
+
+Please follow this format:
+https://lore.kernel.org/linux-kbuild/20241228154603.2234284-2-masahiroy@ker=
+nel.org/T/#mc46376f41c0313c660990e92ed37689432f325c7
+
+
+
+
+> +       }
+> +       buf_printf(b, "};\n");
 > +
-> +	return 0;
+> +       buf_printf(b, "static const char ____version_ext_names[]\n");
+> +       buf_printf(b, "__used __section(\"__version_ext_names\") =3D\n");
+> +       list_for_each_entry(s, &mod->unresolved_symbols, list) {
+> +               if (!s->module)
+> +                       continue;
+> +               if (!s->crc_valid) {
+> +                       /*
+> +                        * We already warned on this when producing the l=
+egacy
+> +                        * modversions table.
+> +                        * We need to skip its name too, as the indexes i=
+n
+> +                        * both tables need to align.
+> +                        */
+> +                       continue;
+> +               }
+
+Unnecessary braces.
+
+Reason:
+https://github.com/torvalds/linux/blob/v6.12/Documentation/process/coding-s=
+tyle.rst?plain=3D1#L197
+
+
+> +               buf_printf(b, "\t\"%s\\0\"\n", s->name);
+> +       }
+> +       buf_printf(b, ";\n");
 > +}
 > +
-> +static int ad7380_read_event_value(struct iio_dev *indio_dev,
-> +				   const struct iio_chan_spec *chan,
-> +				   enum iio_event_type type,
-> +				   enum iio_event_direction dir,
-> +				   enum iio_event_info info,
-> +				   int *val, int *val2)
-> +{
-> +	struct ad7380_state *st = iio_priv(indio_dev);
-> +	int ret, tmp;
-> +
-> +	switch (info) {
-> +	case IIO_EV_INFO_VALUE:
-> +		ret = iio_device_claim_direct_mode(indio_dev);
-> +
-Check ret
+>  /**
+>   * Record CRCs for unresolved symbols
+>   **/
+> @@ -1827,9 +1875,14 @@ static void add_versions(struct buffer *b, struct =
+module *mod)
+>                         continue;
+>                 }
+>                 if (strlen(s->name) >=3D MODULE_NAME_LEN) {
+> -                       error("too long symbol \"%s\" [%s.ko]\n",
+> -                             s->name, mod->name);
+> -                       break;
+> +                       if (extended_modversions)
+> +                               /* this symbol will only be in the extend=
+ed info */
+> +                               continue;
 
-> +		switch (dir) {
-> +		case IIO_EV_DIR_RISING:
-> +			ret = regmap_read(st->regmap,
-> +					  AD7380_REG_ADDR_ALERT_HIGH_TH,
-> +					  &tmp);
-> +			if (ret)
-> +				return ret;
-Holding direct mode.  As below. Factor out everything with direct mode
-held into a separate function. That can then return directly
-where it makes sense with the release handled by the caller.
+You need braces here.
 
-> +
-> +			*val = FIELD_GET(AD7380_ALERT_HIGH_TH, tmp);
-> +			ret = IIO_VAL_INT;
-> +			break;
-> +		case IIO_EV_DIR_FALLING:
-> +			ret = regmap_read(st->regmap,
-> +					  AD7380_REG_ADDR_ALERT_LOW_TH,
-> +					  &tmp);
-> +			if (ret)
-> +				return ret;
-> +
-> +			FIELD_GET(AD7380_ALERT_LOW_TH, tmp);
-> +			ret = IIO_VAL_INT;
-> +			break;
-> +		default:
-> +			ret = -EINVAL;
-> +			break;
-> +		}
-> +
-> +		iio_device_release_direct_mode(indio_dev);
-> +		return ret;
-> +	case IIO_EV_INFO_RESET_TIMEOUT:
-> +		*val = st->alert_reset_timeout_ms;
-> +		return IIO_VAL_INT;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static int ad7380_write_event_value(struct iio_dev *indio_dev,
-> +				    const struct iio_chan_spec *chan,
-> +				    enum iio_event_type type,
-> +				    enum iio_event_direction dir,
-> +				    enum iio_event_info info,
-> +				    int val, int val2)
-> +{
-> +	struct ad7380_state *st = iio_priv(indio_dev);
-> +	const struct iio_scan_type *scan_type;
-> +	int ret;
-> +	u16 th;
-> +
-> +	switch (info) {
-> +	case IIO_EV_INFO_VALUE:
-> +		ret = iio_device_claim_direct_mode(indio_dev);
-> +		if (ret)
-> +			return ret;
-Similar to earlier suggestion. I'd factor the contents of this out
-as a helper.... Thus avoiding...
-> +
-> +		/*
-> +		 * According to the datasheet,
-> +		 * AD7380_REG_ADDR_ALERT_HIGH_TH[11:0] are the 12 MSB of the
-> +		 * 16-bits internal alert high register. LSB are set to 0xf.
-> +		 * AD7380_REG_ADDR_ALERT_LOW_TH[11:0] are the 12 MSB of the
-> +		 * 16 bits internal alert low register. LSB are set to 0x0.
-> +		 *
-> +		 * When alert is enabled the conversion from the adc is compared
-
-ADC
-
-> +		 * immediately to the alert high/low thresholds, before any
-> +		 * oversampling. This means that the thresholds are the same for
-> +		 * normal mode and oversampling mode.
-> +		 */
-> +
-> +		/* Extract the 12 MSB of val */
-> +		scan_type = iio_get_current_scan_type(indio_dev, chan);
-> +		if (IS_ERR(scan_type))
-
-...this.  You are still holding the device in direct mode which it can never
-leave.  With a helper direct returns here and below work fine giving
-cleaner code.
-
-> +			return PTR_ERR(scan_type);
-> +
-> +		th = val >> (scan_type->realbits - 12);
-> +
-> +		switch (dir) {
-> +		case IIO_EV_DIR_RISING:
-> +			ret = regmap_write(st->regmap,
-> +					   AD7380_REG_ADDR_ALERT_HIGH_TH,
-> +					   th);
-> +			if (ret)
-> +				return ret;
-> +
-> +			break;
-> +		case IIO_EV_DIR_FALLING:
-> +			ret = regmap_write(st->regmap,
-> +					   AD7380_REG_ADDR_ALERT_LOW_TH,
-> +					   th);
-> +			if (ret)
-> +				return ret;
-> +
-> +			break;
-> +		default:
-> +			ret = -EINVAL;
-> +			break;
-> +		}
-> +
-> +		iio_device_release_direct_mode(indio_dev);
-> +		return ret;
-> +	case IIO_EV_INFO_RESET_TIMEOUT:
-> +		if (val < 0)
-> +			return -EINVAL;
-> +		st->alert_reset_timeout_ms = val;
-> +		timer_reduce(&st->alert_timer, jiffies + msecs_to_jiffies(val));
-> +
-> +		return 0;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-
->  static int ad7380_probe(struct spi_device *spi)
->  {
->  	struct device *dev = &spi->dev;
-> @@ -1361,6 +1674,39 @@ static int ad7380_probe(struct spi_device *spi)
->  	indio_dev->modes = INDIO_DIRECT_MODE;
->  	indio_dev->available_scan_masks = st->chip_info->available_scan_masks;
->  
-> +	if (spi->irq) {
-> +		struct iio_chan_spec *chans;
-> +		size_t size;
-> +		int ret;
-> +
-> +		ret = devm_request_threaded_irq(dev, spi->irq,
-> +						&ad7380_primary_event_handler,
-> +						&ad7380_event_handler,
-> +						IRQF_TRIGGER_FALLING | IRQF_ONESHOT
-
-As Uwe mentioned. Normally we'd not have the direction here. The interrupt
-may be wired to a different pin with an inverter in the path for example.
-Hence this is left as a problem for DT.
+Reason:
+https://github.com/torvalds/linux/blob/v6.12/Documentation/process/coding-s=
+tyle.rst?plain=3D1#L213
 
 
-> +						| IRQF_NO_AUTOEN,
-> +						indio_dev->name,
-> +						indio_dev);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret, "Failed to request irq\n");
-> +
-> +		atomic_set(&st->irq_enabled, 0);
-> +
-> +		/*
-> +		 * Copy channels to be able to update the event_spec, since some
-> +		 * attributes are visible only when irq are configured
-> +		 */
-> +		size = indio_dev->num_channels * sizeof(*indio_dev->channels);
-> +		chans = devm_kzalloc(dev, size, GFP_KERNEL);
-
-devm_kmemdup()
-
-Normally I'd argue for multiple static const arrays, but I guess there are a lot
-of options here so that would become huge so this seems reasonable.
 
 
-> +		if (!chans)
-> +			return -ENOMEM;
-> +
-> +		memcpy(chans, indio_dev->channels, size);
-> +		chans->event_spec = ad7380_events_irq;
-> +		chans->num_event_specs = ARRAY_SIZE(ad7380_events_irq);
-> +
-> +		indio_dev->channels = chans;
-> +	}
-> +
->  	ret = devm_iio_triggered_buffer_setup(dev, indio_dev,
->  					      iio_pollfunc_store_time,
->  					      ad7380_trigger_handler,
-> 
-
+--
+Best Regards
+Masahiro Yamada
