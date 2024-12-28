@@ -1,173 +1,198 @@
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8224C12BF02;
-	Sat, 28 Dec 2024 11:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB714382;
+	Sat, 28 Dec 2024 13:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735386654; cv=none; b=hNGuJ0o0yyRo43e/yYuIxosih/bdqTQRLEWWt9xW33icuQmjphzmiIupmNoCdV6udHkDDEkmWa/dURWYSFdxdAhuqf4KU/ZsSoNp9YswlmpAkUTykWG8vEy4YAsK0+zgNUui4IQSO7enkBI+5HljqaWZ8kEuF1kB0g5SxdhYyJ0=
+	t=1735393784; cv=none; b=tCrWo/MEg4jSRinVTuLOROZdt0h2H5WbdGL+7ImCB3D2qxmC7MgJ3Xk7+fv8wOKCSVwCA1N56NmnXD6aRwVBoqOepX3y0kiUxc6fZHQ/Je1YyMKJjHzD2GjeWzROOmfjHJiYqCMa7FFaKhdWg24KBb5zfxLNtqKokY3OKJoUDjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735386654; c=relaxed/simple;
-	bh=8R47ISBJq3AprPLMwWUv+gqTNO1h/pDFq8ADeWg/xp4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jx7hQbXVOlrIB2vfcTkKb85QxNtzIVvXMtpPgJOEDRS3WlgliSg0xhoFTMNIJFBUYk1JDB8MuzfuwTyMGbqX3ywtGZrHqtYPRibT+tnKMP75h72CAp2TIQNwvqHPe0n3QruJALS3SiCb21WIzIjQ4rylJ6KM0GZAYPSVCS+u0YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=Jb1eQ0j0; arc=none smtp.client-ip=185.138.42.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	s=arc-20240116; t=1735393784; c=relaxed/simple;
+	bh=Uf3FwWFN6qMD3hjszLA60RJPph/BOqa10OWUnHSftvM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=i6Fxf8I3SqLuTLSJ6HjFni+vnGq5Fgjor/w99cXtbH3dq+hqvvqQ9IENiuuqk4RkVANER+W0J2gJcPurWOeqkvrlFPDECC+rcJ6+/Ehzym6ObQz+UDZSs6zknlkL4oc1zNYpAKw12g0Vi8bnoFU+dYKoHk0v1fYBzWYDntToNOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qxBKK3ta; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="Jb1eQ0j0"
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id 2EA302E09282;
-	Sat, 28 Dec 2024 13:50:47 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1735386647;
-	bh=aehk3EMVu7deNxBlfRWVbyOfhjn+K9TpzrtDYDzqcEs=;
-	h=Received:From:Subject:To;
-	b=Jb1eQ0j0o4b7pIGvHSxwrCKf7KvpJmzY64DRlEtQWSqdItjXPo8XQVzuQuRgzeeoZ
-	 Ey3rSTjExy4yKoCYzWOX30zbgNZXpSXybNMi9+GfEXSHb/Je8J94k++M94sVG57zVm
-	 PBILJEG68r9I6QxwyrEma7954ItGTuXHCIWzhILc=
-Authentication-Results: linux1587.grserver.gr;
-        spf=pass (sender IP is 209.85.208.178) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f178.google.com
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-Received: by mail-lj1-f178.google.com with SMTP id
- 38308e7fff4ca-30036310158so73721451fa.0;
-        Sat, 28 Dec 2024 03:50:47 -0800 (PST)
-X-Forwarded-Encrypted: i=1;
- AJvYcCV9dkwzJ3Ya+HnD7zHViW3opuliMTo/usz5Urq1aTxSjNGf5TYDOa1reARdd/EMeipGjhjVBREj4R8=@vger.kernel.org,
- AJvYcCWDGqpkqXBT5yWSmIVYjBJ9QkPs3N/donEsSARYnlqUASXXVeI3aeHEZuI7FEDzvw4fhTNanrfu/wDO3TRRg+je5H2o5Q==@vger.kernel.org,
- AJvYcCXLqVvHgYPeB6VRGtmMj2Nz8d4UtVWX1MC0pSkXaDk+jUw07H5qOhgRBM5PzcXs3lDw/wPamumYLewvPdR7@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyBRqn6ucVrgM0+HfwZrkIVVB+/atgoiAJVpl17DqaiFsSFn95
-	yyLu8xs5JnhHQCs5GlS6EK0DzYqCsCPW0hZLusO9w8tdxcZng92T/Q1MkiCEhuyJijUgiCttpBp
-	p8LVxTy18tBQbqJcUYYpRrQc3UvE=
-X-Google-Smtp-Source: 
- AGHT+IE5bj5wM/elToybUAozaWoDBFAm4DC2wMrYgqTKYdRIjP+DwIXzJZMvO9iCDK+pq1sPneW3by8UsWiYl8GiW0o=
-X-Received: by 2002:a05:651c:2215:b0:302:2cdf:7fbb with SMTP id
- 38308e7fff4ca-3046851e45fmr109656021fa.6.1735386646279; Sat, 28 Dec 2024
- 03:50:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qxBKK3ta"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DBE0C4CECD;
+	Sat, 28 Dec 2024 13:49:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735393784;
+	bh=Uf3FwWFN6qMD3hjszLA60RJPph/BOqa10OWUnHSftvM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=qxBKK3ta0r7akYcwAGAXw8DgHzUfxzHpXWvfY1yQa0ILk+24qqx50/aTgsMC68wuK
+	 +m0m9jztvPLXKhWDGLf9WKUtZ8UUyAwZEcicYFxKGHb0B9uX4c6T2Mm/eaIKbpXt91
+	 951bDVEDAEx9GkYem1Cz+jhHAnr7FQagUbr4Mi3ndutRJva9i9K9C6UtQ1oyTdokQV
+	 1GtAn/smuK5l1yW+8wgoIy7A4tJa1V1y8m+/E2Hlm/0PBAFEUsZbCkHMg5iW78gJam
+	 7VHzRcvukFTB4ujA8/1Irzm5W8kSbMmSs0KpT71S38guyiyEjzLRVvatLFMdpze4Jz
+	 YQakj6DEyMmhQ==
+Date: Sat, 28 Dec 2024 13:49:34 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Julien Stephan <jstephan@baylibre.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
+ David Lechner <dlechner@baylibre.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC v2 1/4] iio: adc: ad7380: do not use
+ iio_device_claim_direct_scoped anymore
+Message-ID: <20241228134934.38e69020@jic23-huawei>
+In-Reply-To: <20241224-ad7380-add-alert-support-v2-1-7c89b2bf7cb3@baylibre.com>
+References: <20241224-ad7380-add-alert-support-v2-0-7c89b2bf7cb3@baylibre.com>
+	<20241224-ad7380-add-alert-support-v2-1-7c89b2bf7cb3@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241217230645.15027-2-derekjohn.clark@gmail.com>
- <20241227184825.415286-1-lkml@antheas.dev>
- <CAFqHKT=Y66KNo-e+o+n76tmPEcqL4EBSUQNDXJcoP8B9NXguew@mail.gmail.com>
- <CAGwozwGpEWVQwEAFfWWkTx4G90uhqdfbF85E4F_2w6c6G6P2Sg@mail.gmail.com>
- <CAFqHKTnOA5N-uADQLbdA-b+k-TOMdjZtCPsFsCo9jarMiNioLg@mail.gmail.com>
-In-Reply-To: 
- <CAFqHKTnOA5N-uADQLbdA-b+k-TOMdjZtCPsFsCo9jarMiNioLg@mail.gmail.com>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Sat, 28 Dec 2024 12:50:34 +0100
-X-Gmail-Original-Message-ID: 
- <CAGwozwF79xYrWkCSKpBaLSiXNEZz-5tmayWMbkw-of4zB=LPUQ@mail.gmail.com>
-Message-ID: 
- <CAGwozwF79xYrWkCSKpBaLSiXNEZz-5tmayWMbkw-of4zB=LPUQ@mail.gmail.com>
-Subject: Re: [PATCH 0/1] platform/x86: Add Lenovo Legion WMI Drivers
-To: Derek John Clark <derekjohn.clark@gmail.com>
-Cc: corbet@lwn.net, hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, luke@ljones.dev,
-	mpearson-lenovo@squebb.ca, nijs1@lenovo.com, pgriffais@valvesoftware.com,
-	platform-driver-x86@vger.kernel.org, shaohz1@lenovo.com, superm1@kernel.org,
-	zhangzx36@lenovo.com, johnfanv2@gmail.com, codyit@gmail.com, W_Armin@gmx.de
-Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <173538664757.17236.16977072296559972225@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-> I'll let them weigh in on this again if they want to, but I think it
-> was clear from those threads that this is a new way to use the class.
-> Armin's comment was related to the fan curve setting John was
-> discussing, which is specifically covered by the hwmon subsystem.
-> Hwmon does not cover platform profiles or PPT.
+On Tue, 24 Dec 2024 10:34:30 +0100
+Julien Stephan <jstephan@baylibre.com> wrote:
 
-I quote the following from Armin:
+> Rollback and remove the scoped version of iio_dvice_claim_direct_mode.
+> 
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> ---
+>  drivers/iio/adc/ad7380.c | 89 ++++++++++++++++++++++++++++--------------------
+>  1 file changed, 53 insertions(+), 36 deletions(-)
+> 
+> diff --git a/drivers/iio/adc/ad7380.c b/drivers/iio/adc/ad7380.c
+> index 4f32cb22f140442b831dc9a4f275e88e4ab2388e..4e26e0e7ac1d5a1c4c67118dbc34f2921fc171a4 100644
+> --- a/drivers/iio/adc/ad7380.c
+> +++ b/drivers/iio/adc/ad7380.c
+> @@ -675,15 +675,21 @@ static const struct regmap_config ad7380_regmap_config = {
+>  static int ad7380_debugfs_reg_access(struct iio_dev *indio_dev, u32 reg,
+>  				     u32 writeval, u32 *readval)
+>  {
+> -	iio_device_claim_direct_scoped(return  -EBUSY, indio_dev) {
+> -		struct ad7380_state *st = iio_priv(indio_dev);
+> +	struct ad7380_state *st = iio_priv(indio_dev);
+> +	int ret;
+>  
+> -		if (readval)
+> -			return regmap_read(st->regmap, reg, readval);
+> -		else
+> -			return regmap_write(st->regmap, reg, writeval);
+> -	}
+> -	unreachable();
+> +	ret = iio_device_claim_direct_mode(indio_dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (readval)
+> +		ret = regmap_read(st->regmap, reg, readval);
+> +	else
+> +		ret = regmap_write(st->regmap, reg, writeval);
+> +
+> +	iio_device_release_direct_mode(indio_dev);
+> +
+> +	return ret;
+>  }
+>  
+>  /*
+> @@ -920,6 +926,7 @@ static int ad7380_read_raw(struct iio_dev *indio_dev,
+>  {
+>  	struct ad7380_state *st = iio_priv(indio_dev);
+>  	const struct iio_scan_type *scan_type;
+> +	int ret;
+>  
+>  	scan_type = iio_get_current_scan_type(indio_dev, chan);
+>  
+> @@ -928,11 +935,16 @@ static int ad7380_read_raw(struct iio_dev *indio_dev,
+>  
+>  	switch (info) {
+>  	case IIO_CHAN_INFO_RAW:
+> -		iio_device_claim_direct_scoped(return -EBUSY, indio_dev) {
+> -			return ad7380_read_direct(st, chan->scan_index,
+> -						  scan_type, val);
+> -		}
+> -		unreachable();
+> +		ret = iio_device_claim_direct_mode(indio_dev);
+> +		if (ret)
+> +			return ret;
+> +
+> +		ret = ad7380_read_direct(st, chan->scan_index,
+> +					 scan_type, val);
+> +
+> +		iio_device_release_direct_mode(indio_dev);
+> +
+> +		return ret;
+>  	case IIO_CHAN_INFO_SCALE:
+>  		/*
+>  		 * According to the datasheet, the LSB size is:
+> @@ -1024,31 +1036,36 @@ static int ad7380_write_raw(struct iio_dev *indio_dev,
+>  		/* always enable resolution boost when oversampling is enabled */
+>  		boost = osr > 0 ? 1 : 0;
+>  
+> -		iio_device_claim_direct_scoped(return -EBUSY, indio_dev) {
+> -			ret = regmap_update_bits(st->regmap,
+> -					AD7380_REG_ADDR_CONFIG1,
+> -					AD7380_CONFIG1_OSR | AD7380_CONFIG1_RES,
+> -					FIELD_PREP(AD7380_CONFIG1_OSR, osr) |
+> -					FIELD_PREP(AD7380_CONFIG1_RES, boost));
+> +		ret = iio_device_claim_direct_mode(indio_dev);
+> +		if (ret)
+> +			return ret;
+>  
+> -			if (ret)
+> -				return ret;
+> +		ret = regmap_update_bits(st->regmap,
+> +					 AD7380_REG_ADDR_CONFIG1,
+> +					 AD7380_CONFIG1_OSR | AD7380_CONFIG1_RES,
+> +					 FIELD_PREP(AD7380_CONFIG1_OSR, osr) |
+> +					 FIELD_PREP(AD7380_CONFIG1_RES, boost));
+>  
+> -			st->oversampling_ratio = val;
+> -			st->resolution_boost_enabled = boost;
+> -
+> -			/*
+> -			 * Perform a soft reset. This will flush the oversampling
+> -			 * block and FIFO but will maintain the content of the
+> -			 * configurable registers.
+> -			 */
+> -			return regmap_update_bits(st->regmap,
+> -					AD7380_REG_ADDR_CONFIG2,
+> -					AD7380_CONFIG2_RESET,
+> -					FIELD_PREP(AD7380_CONFIG2_RESET,
+> -						   AD7380_CONFIG2_RESET_SOFT));
+> -		}
+> -		unreachable();
+> +		if (ret)
+> +			goto err;
+> +
+> +		st->oversampling_ratio = val;
+> +		st->resolution_boost_enabled = boost;
+> +
+> +		/*
+> +		 * Perform a soft reset. This will flush the oversampling
+> +		 * block and FIFO but will maintain the content of the
+> +		 * configurable registers.
+> +		 */
+> +		ret = regmap_update_bits(st->regmap,
+> +					 AD7380_REG_ADDR_CONFIG2,
+> +					 AD7380_CONFIG2_RESET,
+> +					 FIELD_PREP(AD7380_CONFIG2_RESET,
+> +						    AD7380_CONFIG2_RESET_SOFT));
+> +err:
+Labels within switch statements can become hard to maintainer / read.
 
-> The firmware-attribute class interface is only intended for attributes which are persistent
-> and cannot be exposed over other subsystem interfaces.
+Id' suggest factoring out the bits between claim and release as a single
+__ad7380_write_oversample() or something along those lines.
 
-The former part is not met here.
+Otherwise looks good to me and thanks for doing this.
 
-> > To rephrase, your ABI style is not intuitive, because it contains
-> > implementation details such as "gamezone", "capdata01", and "Other
-> > Method", in addition to the ABI being hardcoded to the WMI structure
-> > lenovo uses. The documentation uses those keywords as well.
->
-> Yeah, it's a driver for those interfaces... If you want an agnostic
-> BMOF driver then make one. This isn't that.
+Jonathan
 
-It's a driver for Legion Go and Legion laptops. _Not_ those
-interfaces. Which only exist in gen 7+ if I recall from John's driver.
-That was my comment.
 
-Establishing an ABI that works with older laptops and laptops that
-supersede those interfaces would be beneficial I'd say.
+> +		iio_device_release_direct_mode(indio_dev);
+> +
+> +		return ret;
+>  	default:
+>  		return -EINVAL;
+>  	}
+> 
 
-> > If I understand correctly your last sentence, Armin suggested much of
-> > the same (ie combine and merge).
->
-> You don't seem to, no. The suggestion was to use the component  driver
-> API to aggregate the Other Method driver with the capability data
-> driver so that the firmware-attributes class is only loaded when both
-> are present. That is decidedly different from breaking the kernel's
-> WMI driver requirements and merging two GUID's into one driver.
->
-> > GUID tables loading != drivers loading also, I would not pin that on
-> > the kernel.
->
-> What exactly do you think the following does?
->
->  +MODULE_DEVICE_TABLE(wmi, gamezone_wmi_id_table);
-
-Call the probe function that can -ENODEV
-
-> > I do not understand what "I hard code the page to custom" means.
-> > If you mean the capability data does not change you are right, they
-> > are hardcoded in the decompiled ACPI I am pretty sure (it has been
-> > close to a year now so I might be forgetting).
->
-> The capability data interface has a data block instance for every
-> attribute in every fan mode. SPL has one for quiet, balanced,
-> performance, and custom. The method for getting that data block (page)
-> is the same as calling get/set in Other Method (0x01030100 -
-> 0x0103FF00). Every page produces different values for each attribute,
-> but I am only ever retrieving the instance for custom (0x0103FF00) as
-> that's the only one where setting that method ID in Other Method
-> changes the values on the Legion Go. It is the only relevant data for
-> userspace. Other Gaming Series laptops might treat this differently,
-> where every fan mode has an applicable range. I'll need to do more
-> testing on other hardware to confirm that. In any case, this isn't
-> relevant as I'm dropping the gamezone check (as I've stated multiple
-> times in this discussion) and always setting/getting the custom method
-> ID for a given attribute.
-
-Hm, for some reason I missed the capability block when doing my RE
-[1]. Feel free to reference when making the driver.
-
-You should also provision for the fact some legion laptops have an
-extreme mode which is stubbed on the Legion Go
-
-Ok,
-let's wrap up this discussion and put a bow on it.
-
-I currently have two issues that block me from committing to your
-driver: novel use of kernel APIs/design and performance
-degradation/instability from unnecessary calls and checks, as those
-are (i) slower (ii) could error out (iii) could have incorrect data.
-
-The former can leave me with tech debt if your proposed ABI is vetoed
-and the latter would result in a degraded experience for my users; I
-would be putting in work to go backwards. I do not mention missing
-features, as that is something I could have also worked on if I
-committed to your driver.
-
-Therefore, I'm left in a situation where I have to wait for buy-in
-from kernel maintainers and for your V2, hoping it fixes the latter
-issue which you said it will only do partly.
-
-Best,
-Antheas
-
-[1] https://github.com/hhd-dev/hwinfo/tree/master/devices/legion_go#get-feature-command
