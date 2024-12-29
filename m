@@ -1,90 +1,89 @@
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB73259497;
-	Sun, 29 Dec 2024 05:58:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4CD17BEC6;
+	Sun, 29 Dec 2024 15:44:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735451929; cv=none; b=QERQEKOd1fvUV02X8+zPCPFK41E7AGnJ9zaw7wTQSCQ2uhks9Xn3gjEjuJN177H532MG0zXATN03SIDj5C1Lsl85LnjdhtLIOIVKTnlGGfcZtvjQKOhq7bGNpGHbqgDtzFZIX9aNFPItwMNSN7xjs5D+6pUSQ148bXs93Y04YIU=
+	t=1735487051; cv=none; b=e/Y/JGE76eAkQDLN4Ej+Fp7rHvIk8sA+gLMHGwMgr9hka6b05eRtBQ1s+tp11HJomm8szaxWcHHz7teMvGFMzoqc8530WyYLJNL9pa/5xu3gHyu5X70VX/Mpw6NEVni0mRt94gRlRnRY7M5fesZke/tJKpRVSu8JqVq2Zw+PXKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735451929; c=relaxed/simple;
-	bh=ADQiDv89xAW2ZGevAegOSNUFw8Erb3kCWI4O2dv/s60=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Uhd5+270gJwxxDGYdHoJeC497qjPeF7nEbNqriBrnq4WqGXNyg/3rpKS/3g9qdibqXDZLkc4ypy6CafiuslYfRnALcSesWyFbOBkENtz7sE9EyfMGYF/tKowMalMHFh7AbsT/hNlwsPgGzdLyEluqmap8whX5JO5hGNoMjL+t18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NEchKH7U; arc=none smtp.client-ip=209.85.218.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1735487051; c=relaxed/simple;
+	bh=jgV7EThc5OXrzqhmSCGvN/oGkk7Ql67JSQorXK5XrzY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=VIsobLibdgYJ9BgUaEyh4I8EXVWp79f3uQywnXHZTdMsek706yie6iHq3E2SQ1yl7V2KQXykTfGiNgYuWdsdbCbeGwh+mpSrPEfK3uzs3YgLy3+7PJU2JLI4ECxr3eNS/e1gdhjqF13W/mu+J5gU6tgqCVSIzhKU7J+mQ0kNam8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VFgwJApu; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NEchKH7U"
-Received: by mail-ej1-f66.google.com with SMTP id a640c23a62f3a-aaeecbb7309so678498766b.0;
-        Sat, 28 Dec 2024 21:58:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735451926; x=1736056726; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gOaO3GIHJbTPnVowygmPizFspt+znwbY2af+UA4iMaA=;
-        b=NEchKH7UQXwp+KCsV38dljtjpG4136GASM0jEJVlarusw+G9Cqay3PXBoskU9RvaM/
-         Uck5y6Ib3umQPEbfzLjmaoEwegGU5EydLzTAGIWEmpSRRGEG4XS4lEg264HG5aUY9QlC
-         tPruATNkHUr8MVlfCXADg8vn07a9wedkrBfOQbaZ/uwCSn76tK0SXudfU7SCbFk+CdUg
-         BUu1loKwgqZ4Kwt/bR6sz0If3eiP/nNHgNqF+vGVwKgMwFYUSIOj4pJemOGG9W5BGz11
-         vfyvMRnPdtJg1OYVkBRdJN6KifmUNaSoQ6EeRoRQutqgPib0oGRxFr+OziGL4xe9UwUx
-         QZtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735451926; x=1736056726;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gOaO3GIHJbTPnVowygmPizFspt+znwbY2af+UA4iMaA=;
-        b=sANrmLoUc3FgyjXD2R8EKxmLI0iMoE1V8HFH+vyhh+k4P3lGVc2yyBGSIM6f+Im4ZM
-         R3VpeWdxGlRf+OjwdJkc0+z4zLyn4YZy0rJqSHgggbXSq8H0SOVzGz05QIphAFILwDe9
-         185xK+oNQl0hvJudq3Z+0Ip0X7xAPUOG3e553rSI07cNLAqUhUy5+I8btzqnyEUx6Y2u
-         gJ+BVrN9Q+TXN6vmZkLudTm75dJVVEhztnd0Ci+XwYY4S0LNoQKVwv2fpT4fSgqCEMVR
-         khGkNFvyKbvxI4e/JtK7k0ficIxmXqV+fKwec7pU/o8/M8bA4xX1ZWihwaE3nDVpguW1
-         hdlA==
-X-Forwarded-Encrypted: i=1; AJvYcCUFPSLfBVFCEtL/HptIzoRx0v6j/sLHsTBD1CE/LUe8FO5qcI03Fx0TRXsNnx2kFmGYAP2uimdjnEKrLRUb@vger.kernel.org, AJvYcCWOhmqTiZCzcby27VdMYjSeFUg8rsuLptDFNHQvqq7qUJbve2fsFPBPs2bw8c9CHjV5xGnKD1vx9B0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1QE6FnLnuvwOVVdsmOwXFdoaNpU2lxqN6TwXMd3XXiU3z6Mn+
-	5NJkWq7kcddWK8T2UigDYaB8nY1kBTtJDfJjEZ3tWqLTsa3b1hWZ9lCe0hlWWlgJoXOwJSiSO1a
-	BsYGv1eWkBSbyem6Qt0xVusX2bryAMRiBugCWh8OPg+U=
-X-Gm-Gg: ASbGncv+L0oFsE6QtuWDXhoZ5jgz62QZLOg29cRKgpnIcb6PiRLYL/CHkjMDciCfE4C
-	LkI2st/IrATPoUadalU+qVVizyTY1Btji+Wo=
-X-Google-Smtp-Source: AGHT+IEghvvIfQoPMz+PP7ZizlnBePaNWLdNkAgdkNoTrqc2EavOIh9PBwbfodDJWb7eX7EGgiuA/PAZW4tAhIbrPO8=
-X-Received: by 2002:a17:907:86aa:b0:aa6:5eae:7ece with SMTP id
- a640c23a62f3a-aac33549659mr3223500366b.43.1735451926000; Sat, 28 Dec 2024
- 21:58:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VFgwJApu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1735487050; x=1767023050;
+  h=from:to:cc:in-reply-to:references:subject:message-id:
+   date:mime-version:content-transfer-encoding;
+  bh=jgV7EThc5OXrzqhmSCGvN/oGkk7Ql67JSQorXK5XrzY=;
+  b=VFgwJApu3Y1ax695uZHaVmxcY9brYTLRogVrsjp5b8J5g1VlmJCF5PmS
+   ro2VABgOEDKxVvfX2CVe6jultw7lE7Jqe70k6vYrvQtmVwPZast5wRmgU
+   vatAuSOOcz178ZZxIXsNkuYZgRdue28NxPitSWqVXyNygFwJEe4W1GLbY
+   sTxjzQgMvne7EuYiDrYrf7CJ4faNaSZNafsI1U0WQNYcl/zwRjNcM+P/n
+   9DS84f8gJSzIfbWFo8WGRxEE8z5Z6B/l20/b+yTpuB2xq0hGqqhgV5Sbd
+   /Fd3WGFfqwerZvBPDKmRTUmEgpkpCxP1eYCn5OIPjb9L+6hSTaD5v1aHT
+   w==;
+X-CSE-ConnectionGUID: yiI8rhDURJeDS/JtDQWS1w==
+X-CSE-MsgGUID: Q55HNPd7TnuKP8hK0adeBg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11299"; a="35672357"
+X-IronPort-AV: E=Sophos;i="6.12,274,1728975600"; 
+   d="scan'208";a="35672357"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2024 07:44:08 -0800
+X-CSE-ConnectionGUID: C/gIeM7IRRiZjO4cz6TScA==
+X-CSE-MsgGUID: Htx3j1UmS3Oe18rBM/WWRQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="131531623"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.202])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2024 07:44:05 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: corbet@lwn.net, hmh@hmh.eng.br, hdegoede@redhat.com, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ ibm-acpi-devel@lists.sourceforge.net, platform-driver-x86@vger.kernel.org, 
+ Vishnu Sankar <vishnuocv@gmail.com>
+Cc: mpearson-lenovo@squebb.ca
+In-Reply-To: <20241227231840.21334-1-vishnuocv@gmail.com>
+References: <20241227231840.21334-1-vishnuocv@gmail.com>
+Subject: Re: [PATCH] platform/x86: thinkpad-acpi: Add support for hotkey
+ 0x1401
+Message-Id: <173548704063.4495.17991964884526324774.b4-ty@linux.intel.com>
+Date: Sun, 29 Dec 2024 17:44:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241229042758.163842-1-shixinhe6@gmail.com> <qfagx4fjlluq4fox7fw5ltx63wxpifnr7lp3nkt63jm4wbtzp2@mna6znzgfqv2>
-In-Reply-To: <qfagx4fjlluq4fox7fw5ltx63wxpifnr7lp3nkt63jm4wbtzp2@mna6znzgfqv2>
-From: newBox shi <shixinhe6@gmail.com>
-Date: Sun, 29 Dec 2024 13:58:34 +0800
-Message-ID: <CABEB809afGY_ha6aXwDm28U7j_b8mHLycxp=PNfUdi017KtAaw@mail.gmail.com>
-Subject: Re: [PATCH] Documentation zram: fix description about huge page
- writeback example
-To: Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: minchan@kernel.org, philipp.reisner@linbit.com, lars.ellenberg@linbit.com, 
-	christoph.boehmwalder@linbit.com, corbet@lwn.net, 
-	linux-kernel@vger.kernel.org, drbd-dev@lists.linbit.com, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-I just changed 'incompressible' to 'huge'. I thought huge page is
-incompressible but incompressible page does not just include huge
-page. Given the example is `echo huge`, it may be better to use `huge
-page writeback'.
+On Sat, 28 Dec 2024 08:18:40 +0900, Vishnu Sankar wrote:
+
+> F8 mode key on Lenovo 2025 platforms use a different key code.
+> Adding support for the new keycode 0x1401.
+> 
+> Tested on X1 Carbon Gen 13 and X1 2-in-1 Gen 10.
+> 
+> 
 
 
-Sergey Senozhatsky <senozhatsky@chromium.org> =E4=BA=8E2024=E5=B9=B412=E6=
-=9C=8829=E6=97=A5=E5=91=A8=E6=97=A5 12:36=E5=86=99=E9=81=93=EF=BC=9A
->
-> On (24/12/29 04:27), Shi Xinhe wrote:
-> >
-> > Corrected the description to accurately reflect that huge page writebac=
-k example.
->
-> But what is the correction?  In zram huge page is incompressible page.
+Thank you for your contribution, it has been applied to my local
+review-ilpo-fixes branch. Note it will show up in the public
+platform-drivers-x86/review-ilpo-fixes branch only once I've pushed my
+local branch there, which might take a while.
+
+The list of commits applied:
+[1/1] platform/x86: thinkpad-acpi: Add support for hotkey 0x1401
+      commit: 7e16ae558a87ac9099b6a93a43f19b42d809fd78
+
+--
+ i.
+
