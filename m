@@ -1,102 +1,80 @@
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C524111A8;
-	Sun, 29 Dec 2024 04:28:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CFB7E555
+	for <linux-doc@vger.kernel.org>; Sun, 29 Dec 2024 04:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735446489; cv=none; b=LsiGE5IXLT7+VOMHSgztOYsW7bd9XPbwbs6VKcv0VmQHMToL/McdW668+H6qoAY85AEYyOR3n7FKG+RQyFALEl7UngPKBmnYldTispsZ5LkeK/CywOlqdq5MhrO+yNho3+cu6B6vV8N9WEbj1zGceHt6pdr1i7RoTZWn1L7tRJY=
+	t=1735446999; cv=none; b=pZ0Pw7wzsLilo+kVR24mqeVPNwZZt634Q6isz8/CrNOgvFLDOaaSAPU+Ec+rE6QiHJgjVles2wRJ1L8c98ai3SYEzQ9zT66ufPIJXw3xM31Gvky1ScR5mjEoc10ZV+lzaxeztdRpPSgvcP9/PYAuu4Vd7VXvcDbNy0zjR82dC44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735446489; c=relaxed/simple;
-	bh=VHsAOBTbo2aTuia/HCDkJys3h5kSfLDolbkTJ8rotWQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WHf+IbqwE8kNI/G2kZtHQQCPKKSJAvBAKGN2iubCS/Yzokzjp9ZvIndPQsyleQb+5EbXbbnSh1ybs27Fu9EebkRr+xSu1w4MxAmkIjeUbCDrMOUyzAWOmpEnGWz54Nhr+1fv76zdwg2VgYrM8FlfINtVOEvO1Ql1swn+WHotgLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RUp3mWWn; arc=none smtp.client-ip=209.85.216.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1735446999; c=relaxed/simple;
+	bh=aAaZQqYeN3sjoM1eXfGHf+ajogSmodIMUH4IMJ+Y418=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dkg7ndCbQEMTEtqcKEMS9YOjnyE0CiLOMgqlNhtS6/0oHfM1tlIEy0lRoaTUSKJyp/GT2Ky7L0eHtjMrpDgcM5AU6K0Od5brTQQGJ0pN2diNKXi84239QyAe1k6K02HTJ8LztqCZ/TK6Fnwebk/+fhCOoxcatuqVJVFsxeLoacs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=HP04pfGl; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RUp3mWWn"
-Received: by mail-pj1-f68.google.com with SMTP id 98e67ed59e1d1-2f441904a42so10988691a91.1;
-        Sat, 28 Dec 2024 20:28:07 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HP04pfGl"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2163bd70069so2066485ad.0
+        for <linux-doc@vger.kernel.org>; Sat, 28 Dec 2024 20:36:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735446487; x=1736051287; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oBrWL7GllNsi0LAiNro+Jy+rbseWxtpto9r5kXiY8ZM=;
-        b=RUp3mWWnnL5Qdd9qG8tim110m1ATheZER73tcgAEMwV1hN/iEA/t6ii4T2wC/HwaEx
-         uMm0R3/jtaJidMnt8wbhWtiYCfN9XQ9lAuiJnTIiar6LYUwwpZqG2cLgviJFBDIpXdsP
-         0IZbpAgxpQfhX34FqCpy2jOjqdORfi90A3xpQIoNilj8q8owDUxZxdKjHtCpnKF0jTme
-         +WDHbo7n/AcpOEOasDjjhDskR4k7VeSKc3VmykQ0tOB4gAMxXAixizRC2hGpDEv3E+3d
-         /DDalqGB5+CactCD/Zix/i3rEW+GvHVfevbjiy6TTHSOoadO4dj5Y/01VgO/qL8DbS7d
-         bSgg==
+        d=chromium.org; s=google; t=1735446998; x=1736051798; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fhoHuIrviDm79Rzafn1HMCTRe/3wZ+RwEGuu44Leo7Q=;
+        b=HP04pfGlNByW4e0sZIAklzx8nKFBswHI/pfHumrJuJr9rXX4m/dbthS0NkMoJaUgAA
+         mVIolMwbbMys9dqsUSZBWr8Ptvye3XhOsYU4ydibH6AWvUWCbmnd++ybY1unaA/L9Hmz
+         k7umEDjXY/mVMFhQhox1SNtyq3FC5weRJ2Wno=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735446487; x=1736051287;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oBrWL7GllNsi0LAiNro+Jy+rbseWxtpto9r5kXiY8ZM=;
-        b=gspnY/V9pMotomoBprRvpGXRkJiHN/r5TUKb8su0+TvTBKzcp40mVmhO62IZzBjXAl
-         NGurNWa5ULMHJVDL0ZmV/mLCh1ndrDSJ80DpUWUgaBZ2IyOCW+VTNlacsgYtTwk/74Iw
-         3/fDz0Yv+1atL5qOb58tiq0Cr9g+t8tAzo3Fb/xDeBZ+E6SDhyrrx6PLRMFvWGKoMRYN
-         XbNvcnfcEp7z2Q8S5sPFNvur1EFFc0N70Bpf3UyrlaH8plT13I2xvd6TCPeufQfm81FH
-         ufjOxjvBWLARUl91x7EZVikeiJTc1Ktc0AY8/euZS7L9ApAWbKtmwjgfFOp+RfAim4Uj
-         YZWw==
-X-Forwarded-Encrypted: i=1; AJvYcCWBfGeAzRlO2BSH8jld2tHIXG4IpRuXV+0/2GWvs3OORCv4VFedbHAtp/OltMEBOJJIOEm6XVCK71c=@vger.kernel.org, AJvYcCWF/tC5WRD87xLMZa52TuCgVkiq1DubPqN1DfMNOpgD1xJ9DX59JVcq5VtMUBwT8fUeQNSosT8pwn7mg1Wq@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXN0mIybSnrN41hZYeZp0tw47+nUuTSV11ebAnwBsWCfPxg/th
-	0v1FOZjQK9g6TG0TedXnHYBnh/OLw3QwULBEqetV2zNtWDDImbDb
-X-Gm-Gg: ASbGnct1gsBV6vmPVmzNR2z3qo9aAB7Xc/yAbBa+2J8uO1kmeRMgi3Zw198MLSFCbMr
-	TaVtSf7LOXKSbk9XsSW/5JSJdt3n8W/R6v83PSK0N/tLut96HpwsX5vLBhivvUVQxtiMyVMtX9M
-	c7lmA4rpaeP5NUo9vymrwP496YkEYrxuWeGEQdelbJ3dprYfr5LLkt/NaeYruO9FbA31pCldj0J
-	SSV4/X75V2i4mJzHOVa4SLGLN66Yd5NgkC62iihh+wBOSg85Ur5wUzzxwANX/Q8/bsd
-X-Google-Smtp-Source: AGHT+IHgUdW+0UmloENQn+1Zkn7yQW144gDP51T6HntWWBf+b3N+bM7oD5Wj4FfS53Ad3kkuvErKGg==
-X-Received: by 2002:a17:90b:2f45:b0:2f4:434d:c7ed with SMTP id 98e67ed59e1d1-2f452e1cc5cmr47887421a91.16.1735446486853;
-        Sat, 28 Dec 2024 20:28:06 -0800 (PST)
-Received: from shilearning.. ([180.109.90.38])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f47b3349a9sm10924394a91.5.2024.12.28.20.28.04
+        d=1e100.net; s=20230601; t=1735446998; x=1736051798;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fhoHuIrviDm79Rzafn1HMCTRe/3wZ+RwEGuu44Leo7Q=;
+        b=iCdT8bg7DUhAToXTTEBUDkU87w5kTVAUeFRjSFVo8Ax0ZfAm5iEpjQJuiZTjwOgqJh
+         bkGCLPYnimN+WCt7RrujwUUWJn9RBDp9rV617fvKBjxYKMyEv86A2bUhF+CEHrf2mNJN
+         7Jv2xBQvn4MvMf2tG85j+S4u3rRntk84ms0Nx6+6qZ+8KzS9ZhUXMpGhwu7XqzQtt62F
+         wT99Z4CLY80Y8sQnf+cIZO4cD3m2FcD8gJO/vf1zR0XzaTJGvEx5Ahb7ZUvhWEuvtd/w
+         tyLRwJ9riQscPDdOEFgNNZU5DvEv5ructw3YRnjuRY2VPJ7OcP76PsY0IXJTQPmqcNBU
+         l8Gg==
+X-Forwarded-Encrypted: i=1; AJvYcCUub45HUKnGNVZimDvOnzV5RLAZtK+5g9Fe67LfTh2sodYvoZA1amJe75U3sTW7soOTknb/ibvwFWc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmruAKS2q5in30ysLaksvGG6giCkcbid8p6nhSTr73Jb14lwzz
+	FxNliBLuvwHHzhoJ4PA4Skng28NcdwpLpuWduePukFrPUJUcYRjfdbnSDnI0cg==
+X-Gm-Gg: ASbGnctvQJNk7B2N7DcF9VpINawHpKmYlb42cTpzoavcmdOAy9VYWVyV2vA6mvOk0MU
+	N4lD37Q6XWbABCJEB+JG5wx08ljiIu+xR5jtR1JRRR7z6p5E0+/LgmyYLZh0ldyTFwAoMmVOwHQ
+	nQasgrxU0I5JODUc+N1XfP9hAGvyXtoWVMw+zIPy8RDmGfTRBYnG/ihV7LPXUYaud9JCBEh8nVw
+	0N+r/vawcElIb6AbZWJHmgufJpBgstGNMNitA2qb38fUy+CB2XK4El43tYE
+X-Google-Smtp-Source: AGHT+IHpB4lxQ3b1Hl94BfQscEhfLXiF9jx+bFESscdD3vO0Ynb7abuDXS6s97RIhF1oNJF0e1F9lg==
+X-Received: by 2002:a17:903:944:b0:215:6e01:ad19 with SMTP id d9443c01a7336-219e6ebc9f5mr525797245ad.29.1735446997900;
+        Sat, 28 Dec 2024 20:36:37 -0800 (PST)
+Received: from google.com ([2401:fa00:8f:203:76a8:6d89:3321:5163])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc964b1fsm156534505ad.37.2024.12.28.20.36.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Dec 2024 20:28:06 -0800 (PST)
-From: Shi Xinhe <shixinhe6@gmail.com>
-To: minchan@kernel.org
-Cc: senozhatsky@chromium.org,
-	philipp.reisner@linbit.com,
-	lars.ellenberg@linbit.com,
-	christoph.boehmwalder@linbit.com,
-	corbet@lwn.net,
-	linux-kernel@vger.kernel.org,
-	drbd-dev@lists.linbit.com,
-	linux-doc@vger.kernel.org,
-	Shi Xinhe <shixinhe6@gmail.com>
-Subject: [PATCH] Documentation zram: fix description about huge page writeback example
-Date: Sun, 29 Dec 2024 04:27:58 +0000
-Message-Id: <20241229042758.163842-1-shixinhe6@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Sat, 28 Dec 2024 20:36:37 -0800 (PST)
+Date: Sun, 29 Dec 2024 13:36:32 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Shi Xinhe <shixinhe6@gmail.com>
+Cc: minchan@kernel.org, senozhatsky@chromium.org, 
+	philipp.reisner@linbit.com, lars.ellenberg@linbit.com, christoph.boehmwalder@linbit.com, 
+	corbet@lwn.net, linux-kernel@vger.kernel.org, drbd-dev@lists.linbit.com, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation zram: fix description about huge page
+ writeback example
+Message-ID: <qfagx4fjlluq4fox7fw5ltx63wxpifnr7lp3nkt63jm4wbtzp2@mna6znzgfqv2>
+References: <20241229042758.163842-1-shixinhe6@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241229042758.163842-1-shixinhe6@gmail.com>
 
-Corrected the description to accurately reflect that huge page writeback example.
+On (24/12/29 04:27), Shi Xinhe wrote:
+> 
+> Corrected the description to accurately reflect that huge page writeback example.
 
-Signed-off-by: Shi Xinhe <shixinhe6@gmail.com>
----
- Documentation/admin-guide/blockdev/zram.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/blockdev/zram.rst b/Documentation/admin-guide/blockdev/zram.rst
-index 1576fb93f06c..48ba192e667b 100644
---- a/Documentation/admin-guide/blockdev/zram.rst
-+++ b/Documentation/admin-guide/blockdev/zram.rst
-@@ -343,7 +343,7 @@ To use the feature, admin should set up backing device via::
- 	echo /dev/sda5 > /sys/block/zramX/backing_dev
- 
- before disksize setting. It supports only partitions at this moment.
--If admin wants to use incompressible page writeback, they could do it via::
-+If admin wants to use huge page writeback, they could do it via::
- 
- 	echo huge > /sys/block/zramX/writeback
- 
--- 
-2.34.1
-
+But what is the correction?  In zram huge page is incompressible page.
