@@ -1,193 +1,146 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 853C62594A6;
-	Sun, 29 Dec 2024 20:46:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C320C18C31;
+	Sun, 29 Dec 2024 22:41:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735505173; cv=none; b=Y9+4i0BfYa5TvDKBSaraCy2AjMFlcKjI0t9WcRxUhr75PQzYm3cSFGfGSWxPYeMZVEoMuW9s5BNVz31OHCv/XUDxejro2G07+p+Wd+N7rDMTZJ+985liBvTGW/JhJyJv/AGgTgliLHNpznGxTmaNKxDMfI0q5Nj7ZPzDblA8/sE=
+	t=1735512113; cv=none; b=k35WHrYaxdZ5YGLO1YVvrr+WnD9lfxpUx2WKxlJfDyx6fwKv6NUEzJR2oAS8x8tr0R0UuHALmZTW57aYnJs0kFNuAhrwOZLDl88qo6qaP3R9Yd43u4p3NEWU/SbqBccYJ/5vSPNsuhZrCSMOBnCsYyMBS1Ljd2YNcc1Pqtutk3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735505173; c=relaxed/simple;
-	bh=lNVsELNJaS4AA9G4z2N9N/WgLt5qL/6/VmoyZ1Nj5B8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PKIrIPVoQOppF6i07BifYfCxGCB4BxX/OnBmIum2/VYK7t0722VAi24OVPHM6WihkKXJ9oaMoaD5jhfnb+lEe8d1sFFetXypDKNp/R9OYpjTn/WW49nl5nbclbU1jfyqwv3j8lu5cTZaTsxTmr0T97GZ/CiB26K5dAJpz0wRii0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=VoDsvHmU; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1735512113; c=relaxed/simple;
+	bh=q6wAg2B9W5k2ovQrxcoZOhYsVAOUmR9aGOmOIBy+Fs8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XC1zfT32Qv6+e5a2EHIjAkXSeNROVGSrh4uMOAGJOj/ZPTAzvAdpNXTpqJW1h9+CubWEnO7gtLMJUqtbMnf0OHqYCUKRYW6UCrRwE5SDY7kcJ4J5KpefFPo7DlSzGdyRop3lymtTqnpWcFmLGn3wwp0mpBtqEcfCENnOkOwGrHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=ZAeIaZEy; arc=none smtp.client-ip=185.138.42.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="VoDsvHmU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1735505143; x=1736109943; i=w_armin@gmx.de;
-	bh=n9HIfxahsMMjkAx4szIjgTvkDGt3ClxOXh/5u2Qu1Ms=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=VoDsvHmUJByWsRcMMSsxbiIp9qnIhqxxFJI2snLRECWIlpIOj1gOVlPcJddlLrIL
-	 /1YfqL48gbqSmJgDZM9EF4y/ji6+S1hAax0dQC6tf9JX6JmuHk9aP0Z86UGnMfU28
-	 /Ob8kBXFsbpnQ23XbKQcRAEi8PFccaRhDKDXKcwslR9EkM0CUlLiKzko6HE02Epfx
-	 rxS9EdGZ+mVvDxSFV0zgDRAw3vyBQ9Ock25DPGzfGiinlSjFxY2w1Q2CjgRufYHzw
-	 gkiQGB4FZJTeVJi13pKU/Qm4AyM4s7Yyb68YwC9exnnicPDNWz58izIzPgagpR+5M
-	 0tDvAmx5M7Xpwotjiw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.14] ([91.14.230.110]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MzQkE-1tf78J2q0G-010Ea4; Sun, 29
- Dec 2024 21:45:43 +0100
-Message-ID: <b7089d69-4d7b-42fb-90b3-bd13a27fcf1e@gmx.de>
-Date: Sun, 29 Dec 2024 21:45:40 +0100
+	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="ZAeIaZEy"
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	by linux1587.grserver.gr (Postfix) with ESMTPSA id 87BBA2E08D85;
+	Mon, 30 Dec 2024 00:41:38 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1735512099;
+	bh=q6wAg2B9W5k2ovQrxcoZOhYsVAOUmR9aGOmOIBy+Fs8=;
+	h=Received:From:Subject:To;
+	b=ZAeIaZEyFpzTtwIfyNW27XJImzwamilwquRVaHlr86CIKtFZfUH2ntaNefH4jYHYb
+	 3SihYkRBipXFfKE7+YGhW1wsimPmiNBdifKKHN1xO47Gw+M4LLbXfZ7nm6BX4CAh5B
+	 GRNmhuY2t8xybEqGloQjXmKkZBEwEh9SXSGsGdJQ=
+Authentication-Results: linux1587.grserver.gr;
+        spf=pass (sender IP is 209.85.208.180) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f180.google.com
+Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
+Received: by mail-lj1-f180.google.com with SMTP id
+ 38308e7fff4ca-30229d5b21cso19700001fa.1;
+        Sun, 29 Dec 2024 14:41:38 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU9c98hssoZ38iThs+JiYoMw+tr3UXMM8SFRkqs3kuXVSF2CZerq3vtSYj3tG/PQnKBCGIFyXc8eKuZIFBj@vger.kernel.org,
+ AJvYcCXFRO+nBfMLQVmU9diJtZlzxkbbx7J9eJ0CXFqOLjCmJ32o2A66c2RwGJaj/fKaFZ8V+VypUM45ODzDWJ4xJcHXQN+ifg==@vger.kernel.org,
+ AJvYcCXtmS0Et/kh/kTqu/hQydu2lGp8bjlhxzkVfZpi9asbDO1589T0GtBviebiup2wSTzgENhjtcH7/Bk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyj1+knbaBHqv1nargusXQXllAn4Ayb6wdnBoRqtV1urKuf573b
+	CxVYwk8mFiFgyEGpe7++stv8KLsF9SecmlzyV2DZC+PqFkJDHRbRnJm9GDRaX+O3huk+5mJMdWh
+	DUWgwbFkdoumQiOBeP5tBZ4rhwl0=
+X-Google-Smtp-Source: 
+ AGHT+IHbFNt6qFFnJeYWS47c/udA3neGhmpny1SBMOcMxDpfWetpzo0dqdABueqBTYmda+zarsLZJ45OLJT280ufiWk=
+X-Received: by 2002:a05:651c:61f:b0:302:1e65:f2a1 with SMTP id
+ 38308e7fff4ca-3046852b5a7mr71064781fa.12.1735512097809; Sun, 29 Dec 2024
+ 14:41:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/1] platform/x86: Add Lenovo Legion WMI Drivers
-To: Antheas Kapenekakis <lkml@antheas.dev>,
- Derek John Clark <derekjohn.clark@gmail.com>
-Cc: corbet@lwn.net, hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, luke@ljones.dev,
- mpearson-lenovo@squebb.ca, nijs1@lenovo.com, pgriffais@valvesoftware.com,
- platform-driver-x86@vger.kernel.org, shaohz1@lenovo.com, superm1@kernel.org,
- zhangzx36@lenovo.com, johnfanv2@gmail.com, codyit@gmail.com
 References: <20241217230645.15027-2-derekjohn.clark@gmail.com>
  <20241227184825.415286-1-lkml@antheas.dev>
  <CAFqHKT=Y66KNo-e+o+n76tmPEcqL4EBSUQNDXJcoP8B9NXguew@mail.gmail.com>
  <CAGwozwGpEWVQwEAFfWWkTx4G90uhqdfbF85E4F_2w6c6G6P2Sg@mail.gmail.com>
  <CAFqHKTnOA5N-uADQLbdA-b+k-TOMdjZtCPsFsCo9jarMiNioLg@mail.gmail.com>
  <CAGwozwF79xYrWkCSKpBaLSiXNEZz-5tmayWMbkw-of4zB=LPUQ@mail.gmail.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <CAGwozwF79xYrWkCSKpBaLSiXNEZz-5tmayWMbkw-of4zB=LPUQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:LipJCHyDf0nDf7mBf6xEVTH/YvMC1SJuo6jnxmAa9RZrK2KJ7Za
- vMGc4BGnGe7a15aqXWx2/przNcZw4g58kMaWFTs4ukRhUtb0IWdpD8yMc4SOo862CQnd7GH
- slJZPDvLxFDkWrxlOYXzgTwrGBelurebCzGftKHONMJG3GMOnP6PuDafL4SH7pEcsedTMTp
- 2A93xCabAirUZypw57nzg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:4crVK/3e1D4=;8VKabZG1LbP6Ro8O4MGiG40EvZ0
- wkSu1CKkIchsbL+IqMe8ayXWS/DSO3z2/4//+gMnlfaptOQ9xHnljrX+s0jlZSUpBTvIV/RIr
- /Eb3aVnNEnrbPCWcx5b3jEeTAPbI1wURhkR/JyBeXYGme+nitsvsC1l9d5pcnE1RCTXGVfzwX
- Ok8NgDxtTjkcr2TSg892K8Cc0cuhbiB/qaqaNu1kS2GiHhzOlYPnHev+M/Fk6q4KzxHeJn2li
- M3o4GJAjDEJ9JYy3LAtaejHqJtTVUIeVl+1uN7eXm87JiU66SXO+KhhtOccb2xoxXEqeERJ6o
- pCKEBD+1AZBJL5BzY5G/CulO2YYD9FVri3zWtlqSOWwadg83oEuc5OptpuYAAVFdaQg7/Ngry
- zesngylXN8IM1ihCidAeEMLFSSxRVlLd6RrqeMOeEKW5x4j2cCKqkDdgbveqVcGY3knuKuUfp
- Z4ijzLJLbRl+JCtJ5gc+rA4XqU2Jbq+NHxk/k+lq9MbYZzKOOnXYo1+V+Sq8BzTchLa5YXm2G
- 3Gtxb51Fudpxlq2FYfndhk0UR/UoooynowPYTzpzEqZlLcSIZY8Ttr6GV6QVJ18Xh0ujFzteQ
- jJ5KscZ8AmuCe2YibHT7LFUHQxWMh8dZfMEZVEWS8dcU6gcq+ic18fOnfltD2o2xm4OiQhQgF
- rAxOO+HGdMClS2QpVXwu6VcjvIxxAZ5KAnvVvEFcpkvilouyXMSZB2wM69DZwTD7lzsLsfaCm
- uSJW0uMmy/fZsfsjFsF3OzqCALGQKxmdiaszKtvezbktVLjdnHodn0mGJQHvLtwmDLj11/XVB
- eNI84KrnzjCJulZMxM8AQKfznVVtjWUXG5Cw0PUvCEXHqlh1RJ1INS5VxxNL0mvqmD/rJUQNW
- H3EjviLPFPHP701uNZHdtbnMamVsjZNDLerTtNkMe2feT71QXEmShtsO9dRtWU2itvJLhcGOm
- DAwnHjhP/OadHrNY9StQcS+09r40InZ9HBdFxGoblGavLwhVKI5lYcDqEKaBygbdGSdQrhcaA
- vCKVln4BGzIQcsENqwU0df+NPH1FTicYzYbv4BOpIa85KVCRjT0CL+oxqvObWHujM8WrDZ0Qa
- SvCiGmJIvRyz7XSVvfqo1S5SoUFz7ZEc7nXE2XdJreIR4r3TTHJIzo/V+UMMELtP8ItBa4q3g
- =
+ <b7089d69-4d7b-42fb-90b3-bd13a27fcf1e@gmx.de>
+In-Reply-To: <b7089d69-4d7b-42fb-90b3-bd13a27fcf1e@gmx.de>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Sun, 29 Dec 2024 23:41:26 +0100
+X-Gmail-Original-Message-ID: 
+ <CAGwozwEWNkUDCzSq7-Lei1yBAjpQjyZUtW7+8n_Cpn9xd4aR3A@mail.gmail.com>
+Message-ID: 
+ <CAGwozwEWNkUDCzSq7-Lei1yBAjpQjyZUtW7+8n_Cpn9xd4aR3A@mail.gmail.com>
+Subject: Re: [PATCH 0/1] platform/x86: Add Lenovo Legion WMI Drivers
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: Derek John Clark <derekjohn.clark@gmail.com>, corbet@lwn.net,
+ hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, luke@ljones.dev, mpearson-lenovo@squebb.ca,
+	nijs1@lenovo.com, pgriffais@valvesoftware.com,
+	platform-driver-x86@vger.kernel.org, shaohz1@lenovo.com, superm1@kernel.org,
+	zhangzx36@lenovo.com, johnfanv2@gmail.com, codyit@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+X-PPP-Message-ID: 
+ <173551209907.2054.9778889980899824006@linux1587.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
+X-Virus-Status: Clean
 
-Am 28.12.24 um 12:50 schrieb Antheas Kapenekakis:
+Hi Armin,
+indeed you covered everything.
 
->> I'll let them weigh in on this again if they want to, but I think it
->> was clear from those threads that this is a new way to use the class.
->> Armin's comment was related to the fan curve setting John was
->> discussing, which is specifically covered by the hwmon subsystem.
->> Hwmon does not cover platform profiles or PPT.
-> I quote the following from Armin:
->
->> The firmware-attribute class interface is only intended for attributes which are persistent
->> and cannot be exposed over other subsystem interfaces.
-> The former part is not met here.
+I am a bit hesitant about binding sppt, fppt, and spl into those
+interfaces as they need to be set in a very specific ordering and
+rules. E.g., spl < sppt < fppt after setting tdp and before the fan
+curve and after sleep maybe depending on device, after reboot maybe
+after keybind (Legion L + Y) as well. Which is not what's expected by
+the userspace programs consuming this interface. In addition, this
+would expose them to perusing users where they might be confused. I
+also know that its difficult by looking at a patch series to
+understand the nature of these values. However, given my previous
+email, you now have the full context you need to make a decision.
+If you think it is appropriate, it is fine by me.
 
-If Ilpo and Hans agree to extend the scope of the firmware-attribute class to also cover non-persistent
-firmware settings then i will not resist.
+I'd personally stick them next to platform_profile with a /name
+discoverability mechanism similar to hwmon, where tuning
+software can find them (something similar to Mario's RFC
+that I linked above). Other settings such as the bios light that
+interface is perfectly good for.
 
->
->>> To rephrase, your ABI style is not intuitive, because it contains
->>> implementation details such as "gamezone", "capdata01", and "Other
->>> Method", in addition to the ABI being hardcoded to the WMI structure
->>> lenovo uses. The documentation uses those keywords as well.
->> Yeah, it's a driver for those interfaces... If you want an agnostic
->> BMOF driver then make one. This isn't that.
-> It's a driver for Legion Go and Legion laptops. _Not_ those
-> interfaces. Which only exist in gen 7+ if I recall from John's driver.
-> That was my comment.
->
-> Establishing an ABI that works with older laptops and laptops that
-> supersede those interfaces would be beneficial I'd say.
+As for the hardware limits. You are absolutely right, the ACPI eforces
+none, incl. for Lenovo. And the quality is as you expect. For the
+Legion Go, they are quite creative. They added a battery 80%
+capacity limit by re-using the key value for booting from AC [1-2].
+They also used a weird ABI for the lighting interface to turn off
+the suspend light for a good half of the BIOSes, then they fixed it
+when they allowed to turn off the suspend light during sleep as well,
+which caused that option to break in Legion Space for I want to say
+two months. Nevertheless, nobody has broken a Legion Go yet
+messing with those settings by e.g., overclocking. It also brings
+into view that while the Legion Go uses a derived Legion bios it
+has started diverging a bit as it has its own vendor software.
 
-Excuse me for asking a stupid question here, but what WMI interfaces exactly are we currently arguing about?
+So I would say that it is good that the other function has a discovery
+mechanism and that gamezone has some bitmasks for that purpose as
+well. It means that if we tap on them during probe, at least for
+Legion laptops from the last 3 years, we can get pretty good support
+from the get go. Before that, it is a mix of EC + WMI (see [3]).
 
->>> If I understand correctly your last sentence, Armin suggested much of
->>> the same (ie combine and merge).
->> You don't seem to, no. The suggestion was to use the component  driver
->> API to aggregate the Other Method driver with the capability data
->> driver so that the firmware-attributes class is only loaded when both
->> are present. That is decidedly different from breaking the kernel's
->> WMI driver requirements and merging two GUID's into one driver.
->>
->>> GUID tables loading != drivers loading also, I would not pin that on
->>> the kernel.
->> What exactly do you think the following does?
->>
->>   +MODULE_DEVICE_TABLE(wmi, gamezone_wmi_id_table);
-> Call the probe function that can -ENODEV
->
->>> I do not understand what "I hard code the page to custom" means.
->>> If you mean the capability data does not change you are right, they
->>> are hardcoded in the decompiled ACPI I am pretty sure (it has been
->>> close to a year now so I might be forgetting).
->> The capability data interface has a data block instance for every
->> attribute in every fan mode. SPL has one for quiet, balanced,
->> performance, and custom. The method for getting that data block (page)
->> is the same as calling get/set in Other Method (0x01030100 -
->> 0x0103FF00). Every page produces different values for each attribute,
->> but I am only ever retrieving the instance for custom (0x0103FF00) as
->> that's the only one where setting that method ID in Other Method
->> changes the values on the Legion Go. It is the only relevant data for
->> userspace. Other Gaming Series laptops might treat this differently,
->> where every fan mode has an applicable range. I'll need to do more
->> testing on other hardware to confirm that. In any case, this isn't
->> relevant as I'm dropping the gamezone check (as I've stated multiple
->> times in this discussion) and always setting/getting the custom method
->> ID for a given attribute.
-> Hm, for some reason I missed the capability block when doing my RE
-> [1]. Feel free to reference when making the driver.
->
-> You should also provision for the fact some legion laptops have an
-> extreme mode which is stubbed on the Legion Go
->
-> Ok,
-> let's wrap up this discussion and put a bow on it.
->
-> I currently have two issues that block me from committing to your
-> driver: novel use of kernel APIs/design and performance
-> degradation/instability from unnecessary calls and checks, as those
-> are (i) slower (ii) could error out (iii) could have incorrect data.
->
-> The former can leave me with tech debt if your proposed ABI is vetoed
-> and the latter would result in a degraded experience for my users; I
-> would be putting in work to go backwards. I do not mention missing
-> features, as that is something I could have also worked on if I
-> committed to your driver.
->
-> Therefore, I'm left in a situation where I have to wait for buy-in
-> from kernel maintainers and for your V2, hoping it fixes the latter
-> issue which you said it will only do partly.
+In regards to firmware limits, it is something I would not include in
+the first patch series as it will just make this harder to merge, esp.
+if there are laptops with wrong limits. Then there are issues with
+overrides etc. I would advertise the limits through _min, _max so we
+can figure this out later and I would not do a runtime WMI check, as
+we have to run the check during probe anyway to populate sysfs, where
+it is natural to cache the limits.
 
-Regarding the firmware-attributes: if Ilpo and Hans give their OK, then i see no problems in using the firmware-attribute class for
-non-persistent firmware settings. I for my part would be OK with such a change.
+FInally, if indeed the gamezone function is Legion specific, and the
+key-value pairs of the Other function are legion specific, from a
+stylistic perspective I would tend towards making the ABI of the
+driver Legion specific and abstract away its WMI details. E.g., I'd
+use the name legion-wmi for a combined driver instead of
+lenovo-gamezone-wmi which would then not be useful if lenovo moves
+past gamezone. And I'd make sure it only loads on legion laptops. I'm
+not up to date on my WMI driver conventions, so this is just a
+suggestion.
 
-Regarding the enforcement of firmware limits: i believe that caching those limits during probing would solve the performance problem.
-If users want to override those limits when we can add a module param (marked as unsafe to taint the kernel if used) later which tells
-the driver to ignore those limits when writing firmware settings.
+Best,
+Antheas
 
-Any important points which i missed?
-
-Thanks,
-Armin Wolf
-
-> Best,
-> Antheas
->
-> [1] https://github.com/hhd-dev/hwinfo/tree/master/devices/legion_go#get-feature-command
+[1] https://github.com/BartoszCichecki/LenovoLegionToolkit/blob/21c0e8ca8b98181a2dedbec1e436d695932a4b0f/LenovoLegionToolkit.Lib/Enums.cs#L72
+[2] https://github.com/hhd-dev/adjustor/blob/188ef6c3e4d7020f2110dd29df6d78847026d41e/src/adjustor/core/lenovo.py#L241
+[3] https://github.com/johnfanv2/LenovoLegionLinux
