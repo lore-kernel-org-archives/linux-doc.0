@@ -1,54 +1,74 @@
-Received: from hosted.mailcow.de (hosted.mailcow.de [5.1.76.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6191E515;
-	Sat, 28 Dec 2024 20:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.1.76.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C524111A8;
+	Sun, 29 Dec 2024 04:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735418168; cv=none; b=B0nmaAnPyaIrjk0gD/gaJLpZXl8p0LuS9gnGyQ+Pss6FXzNpQA6AuNqBbNLZLLvOBfdwmc99KOEa+6zXZ3D0aRQ3GB/gI4B+5yLfvghuDT92P1y4lNOpue3I7TX16pjaXfGiwiC3EhcwPRJBzltV0XELDtuRJrZ90YgzvFNTvQ0=
+	t=1735446489; cv=none; b=LsiGE5IXLT7+VOMHSgztOYsW7bd9XPbwbs6VKcv0VmQHMToL/McdW668+H6qoAY85AEYyOR3n7FKG+RQyFALEl7UngPKBmnYldTispsZ5LkeK/CywOlqdq5MhrO+yNho3+cu6B6vV8N9WEbj1zGceHt6pdr1i7RoTZWn1L7tRJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735418168; c=relaxed/simple;
-	bh=KffvmpUB2jEZ5UfemKmUbVgUyON5bdLnmSoj7ZfH3Jg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gz+ZW8c7IfIKYyJDDSSSXyyGkDsG1xo5fTN4GYF4Ee2rL+liLZ5qliNqiWw29nmXE1GHNV+NrVUcf/XMWOmcOomhyijg37YBcuJm3Vp61y9Dgs58AgwgWZAn7Y6ae9KfNB8r3GNQFGb2J0d/GOPCDjY1EYI2NNsL0KRzSng0FVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fyralabs.com; spf=fail smtp.mailfrom=fyralabs.com; dkim=pass (2048-bit key) header.d=fyralabs.com header.i=@fyralabs.com header.b=eUo8spD5; arc=none smtp.client-ip=5.1.76.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fyralabs.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=fyralabs.com
+	s=arc-20240116; t=1735446489; c=relaxed/simple;
+	bh=VHsAOBTbo2aTuia/HCDkJys3h5kSfLDolbkTJ8rotWQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WHf+IbqwE8kNI/G2kZtHQQCPKKSJAvBAKGN2iubCS/Yzokzjp9ZvIndPQsyleQb+5EbXbbnSh1ybs27Fu9EebkRr+xSu1w4MxAmkIjeUbCDrMOUyzAWOmpEnGWz54Nhr+1fv76zdwg2VgYrM8FlfINtVOEvO1Ql1swn+WHotgLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RUp3mWWn; arc=none smtp.client-ip=209.85.216.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fyralabs.com header.i=@fyralabs.com header.b="eUo8spD5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fyralabs.com;
-	s=default; t=1735417557; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=q8njUUoU33aoapvcUM1e8V9ZxhyGAziGiKStM32tCYQ=;
-	b=eUo8spD5tvv+zQacezG5lgde4smzegb0Cm7VoajMY9Wcv52cRo+cUBGiwepiQJqKy7JnCU
-	8Hw4KdgMyx1WlniIhVoi0sAVFd3eDjYZ1FWUjPH7ML+Qf6cEOj2ruhMiPZypxpnI9lh54E
-	gvvwiKrsAUuK2NqXbzcKstomzPSQgfgM1hqXN/gHU9TCvrR9mBxx/2z+nWHG0GDEesMZXE
-	DVDn3cAg6gfxk6X/X77u9Uzp1GsWtJ0BIDaIQKkVOGeNZJxrey3nGKb0XaRHzodY4O0BAl
-	1ylUWrEofu2maN0pYTaXtuxDBa7cF+OMyxLWpAX16qIk/lUcGtzJwv88N14REg==
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5E69B5C0175;
-	Sat, 28 Dec 2024 21:25:53 +0100 (CET)
-From: Lleyton Gray <lleyton@fyralabs.com>
-To: 
-Cc: gargaditya08@live.com,
-	Lleyton Gray <lleyton@fyralabs.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Thomas Huth <thuth@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Xiongwei Song <xiongwei.song@windriver.com>,
-	Jeremy Linton <jeremy.linton@arm.com>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
-	Jonathan Marek <jonathan@marek.ca>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Kees Cook <kees@kernel.org>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RUp3mWWn"
+Received: by mail-pj1-f68.google.com with SMTP id 98e67ed59e1d1-2f441904a42so10988691a91.1;
+        Sat, 28 Dec 2024 20:28:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1735446487; x=1736051287; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oBrWL7GllNsi0LAiNro+Jy+rbseWxtpto9r5kXiY8ZM=;
+        b=RUp3mWWnnL5Qdd9qG8tim110m1ATheZER73tcgAEMwV1hN/iEA/t6ii4T2wC/HwaEx
+         uMm0R3/jtaJidMnt8wbhWtiYCfN9XQ9lAuiJnTIiar6LYUwwpZqG2cLgviJFBDIpXdsP
+         0IZbpAgxpQfhX34FqCpy2jOjqdORfi90A3xpQIoNilj8q8owDUxZxdKjHtCpnKF0jTme
+         +WDHbo7n/AcpOEOasDjjhDskR4k7VeSKc3VmykQ0tOB4gAMxXAixizRC2hGpDEv3E+3d
+         /DDalqGB5+CactCD/Zix/i3rEW+GvHVfevbjiy6TTHSOoadO4dj5Y/01VgO/qL8DbS7d
+         bSgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735446487; x=1736051287;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oBrWL7GllNsi0LAiNro+Jy+rbseWxtpto9r5kXiY8ZM=;
+        b=gspnY/V9pMotomoBprRvpGXRkJiHN/r5TUKb8su0+TvTBKzcp40mVmhO62IZzBjXAl
+         NGurNWa5ULMHJVDL0ZmV/mLCh1ndrDSJ80DpUWUgaBZ2IyOCW+VTNlacsgYtTwk/74Iw
+         3/fDz0Yv+1atL5qOb58tiq0Cr9g+t8tAzo3Fb/xDeBZ+E6SDhyrrx6PLRMFvWGKoMRYN
+         XbNvcnfcEp7z2Q8S5sPFNvur1EFFc0N70Bpf3UyrlaH8plT13I2xvd6TCPeufQfm81FH
+         ufjOxjvBWLARUl91x7EZVikeiJTc1Ktc0AY8/euZS7L9ApAWbKtmwjgfFOp+RfAim4Uj
+         YZWw==
+X-Forwarded-Encrypted: i=1; AJvYcCWBfGeAzRlO2BSH8jld2tHIXG4IpRuXV+0/2GWvs3OORCv4VFedbHAtp/OltMEBOJJIOEm6XVCK71c=@vger.kernel.org, AJvYcCWF/tC5WRD87xLMZa52TuCgVkiq1DubPqN1DfMNOpgD1xJ9DX59JVcq5VtMUBwT8fUeQNSosT8pwn7mg1Wq@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXN0mIybSnrN41hZYeZp0tw47+nUuTSV11ebAnwBsWCfPxg/th
+	0v1FOZjQK9g6TG0TedXnHYBnh/OLw3QwULBEqetV2zNtWDDImbDb
+X-Gm-Gg: ASbGnct1gsBV6vmPVmzNR2z3qo9aAB7Xc/yAbBa+2J8uO1kmeRMgi3Zw198MLSFCbMr
+	TaVtSf7LOXKSbk9XsSW/5JSJdt3n8W/R6v83PSK0N/tLut96HpwsX5vLBhivvUVQxtiMyVMtX9M
+	c7lmA4rpaeP5NUo9vymrwP496YkEYrxuWeGEQdelbJ3dprYfr5LLkt/NaeYruO9FbA31pCldj0J
+	SSV4/X75V2i4mJzHOVa4SLGLN66Yd5NgkC62iihh+wBOSg85Ur5wUzzxwANX/Q8/bsd
+X-Google-Smtp-Source: AGHT+IHgUdW+0UmloENQn+1Zkn7yQW144gDP51T6HntWWBf+b3N+bM7oD5Wj4FfS53Ad3kkuvErKGg==
+X-Received: by 2002:a17:90b:2f45:b0:2f4:434d:c7ed with SMTP id 98e67ed59e1d1-2f452e1cc5cmr47887421a91.16.1735446486853;
+        Sat, 28 Dec 2024 20:28:06 -0800 (PST)
+Received: from shilearning.. ([180.109.90.38])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f47b3349a9sm10924394a91.5.2024.12.28.20.28.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Dec 2024 20:28:06 -0800 (PST)
+From: Shi Xinhe <shixinhe6@gmail.com>
+To: minchan@kernel.org
+Cc: senozhatsky@chromium.org,
+	philipp.reisner@linbit.com,
+	lars.ellenberg@linbit.com,
+	christoph.boehmwalder@linbit.com,
+	corbet@lwn.net,
 	linux-kernel@vger.kernel.org,
-	linux-efi@vger.kernel.org
-Subject: [PATCH] x86/efistub: Add options for forcing Apple set_os protocol
-Date: Sat, 28 Dec 2024 12:21:58 -0800
-Message-ID: <20241228202212.89069-1-lleyton@fyralabs.com>
+	drbd-dev@lists.linbit.com,
+	linux-doc@vger.kernel.org,
+	Shi Xinhe <shixinhe6@gmail.com>
+Subject: [PATCH] Documentation zram: fix description about huge page writeback example
+Date: Sun, 29 Dec 2024 04:27:58 +0000
+Message-Id: <20241229042758.163842-1-shixinhe6@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,96 +77,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-commit 71e49eccdca6 ("x86/efistub: Call Apple set_os protocol on dual GPU
-Intel Macs") calls the Apple set_os protocol, but only on T2 Macbook Pro
-models. This causes issues on other T2 models when an egpu is used.
-Add two options which allow force enabling or disabling usage of the
-protocol to fix.
+Corrected the description to accurately reflect that huge page writeback example.
 
-Signed-off-by: Lleyton Gray <lleyton@fyralabs.com>
+Signed-off-by: Shi Xinhe <shixinhe6@gmail.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 7 ++++++-
- drivers/firmware/efi/libstub/efi-stub-helper.c  | 6 ++++++
- drivers/firmware/efi/libstub/efistub.h          | 2 ++
- drivers/firmware/efi/libstub/x86-stub.c         | 3 ++-
- 4 files changed, 16 insertions(+), 2 deletions(-)
+ Documentation/admin-guide/blockdev/zram.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 1518343bbe22..1d1b88c57c44 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1447,7 +1447,8 @@
- 	efi=		[EFI,EARLY]
- 			Format: { "debug", "disable_early_pci_dma",
- 				  "nochunk", "noruntime", "nosoftreserve",
--				  "novamap", "no_disable_early_pci_dma" }
-+				  "novamap", "no_disable_early_pci_dma",
-+				  "enable_apple_set_os", "disable_apple_set_os" }
- 			debug: enable misc debug output.
- 			disable_early_pci_dma: disable the busmaster bit on all
- 			PCI bridges while in the EFI boot stub.
-@@ -1464,6 +1465,10 @@
- 			novamap: do not call SetVirtualAddressMap().
- 			no_disable_early_pci_dma: Leave the busmaster bit set
- 			on all PCI bridges while in the EFI boot stub
-+			enable_apple_set_os: Report that macOS is being booted
-+			to the firmware, even if the device is not a dual GPU Mac.
-+			disable_apple_set_os: Disable reporting that macOS is being booted
-+			to the firmware, even if the device is a dual GPU Mac.
+diff --git a/Documentation/admin-guide/blockdev/zram.rst b/Documentation/admin-guide/blockdev/zram.rst
+index 1576fb93f06c..48ba192e667b 100644
+--- a/Documentation/admin-guide/blockdev/zram.rst
++++ b/Documentation/admin-guide/blockdev/zram.rst
+@@ -343,7 +343,7 @@ To use the feature, admin should set up backing device via::
+ 	echo /dev/sda5 > /sys/block/zramX/backing_dev
  
- 	efi_no_storage_paranoia [EFI,X86,EARLY]
- 			Using this parameter you can use more than 50% of
-diff --git a/drivers/firmware/efi/libstub/efi-stub-helper.c b/drivers/firmware/efi/libstub/efi-stub-helper.c
-index de659f6a815f..c33bb98bf79d 100644
---- a/drivers/firmware/efi/libstub/efi-stub-helper.c
-+++ b/drivers/firmware/efi/libstub/efi-stub-helper.c
-@@ -20,6 +20,8 @@
- bool efi_nochunk;
- bool efi_nokaslr = !IS_ENABLED(CONFIG_RANDOMIZE_BASE);
- bool efi_novamap;
-+bool efi_enable_apple_set_os;
-+bool efi_disable_apple_set_os;
+ before disksize setting. It supports only partitions at this moment.
+-If admin wants to use incompressible page writeback, they could do it via::
++If admin wants to use huge page writeback, they could do it via::
  
- static bool efi_noinitrd;
- static bool efi_nosoftreserve;
-@@ -95,6 +97,10 @@ efi_status_t efi_parse_options(char const *cmdline)
- 				efi_disable_pci_dma = true;
- 			if (parse_option_str(val, "no_disable_early_pci_dma"))
- 				efi_disable_pci_dma = false;
-+			if (parse_option_str(val, "enable_apple_set_os"))
-+				efi_enable_apple_set_os = true;
-+			if (parse_option_str(val, "disable_apple_set_os"))
-+				efi_disable_apple_set_os = true;
- 			if (parse_option_str(val, "debug"))
- 				efi_loglevel = CONSOLE_LOGLEVEL_DEBUG;
- 		} else if (!strcmp(param, "video") &&
-diff --git a/drivers/firmware/efi/libstub/efistub.h b/drivers/firmware/efi/libstub/efistub.h
-index 685098f9626f..3be4b5393812 100644
---- a/drivers/firmware/efi/libstub/efistub.h
-+++ b/drivers/firmware/efi/libstub/efistub.h
-@@ -39,6 +39,8 @@ extern bool efi_nokaslr;
- extern int efi_loglevel;
- extern int efi_mem_encrypt;
- extern bool efi_novamap;
-+extern bool efi_enable_apple_set_os;
-+extern bool efi_disable_apple_set_os;
- extern const efi_system_table_t *efi_system_table;
+ 	echo huge > /sys/block/zramX/writeback
  
- typedef union efi_dxe_services_table efi_dxe_services_table_t;
-diff --git a/drivers/firmware/efi/libstub/x86-stub.c b/drivers/firmware/efi/libstub/x86-stub.c
-index f8e465da344d..566118195f92 100644
---- a/drivers/firmware/efi/libstub/x86-stub.c
-+++ b/drivers/firmware/efi/libstub/x86-stub.c
-@@ -265,7 +265,8 @@ static void apple_set_os(void)
- 	} *set_os;
- 	efi_status_t status;
- 
--	if (!efi_is_64bit() || !apple_match_product_name())
-+	if (efi_disable_apple_set_os || !efi_is_64bit() ||
-+		!efi_enable_apple_set_os && !apple_match_product_name())
- 		return;
- 
- 	status = efi_bs_call(locate_protocol, &APPLE_SET_OS_PROTOCOL_GUID, NULL,
 -- 
-2.47.0
+2.34.1
 
