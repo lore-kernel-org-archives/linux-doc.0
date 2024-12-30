@@ -1,185 +1,160 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE8121632C8;
-	Mon, 30 Dec 2024 11:36:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2354E7FBA2;
+	Mon, 30 Dec 2024 13:41:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735558571; cv=none; b=qL8ZIHIwSxadqxwvzTp0NIsDoPuYD8wouOrvSOryzRq7gCVo3isachdecw9gbskTT+o+CQV25O2BxYf5/SqZM00ch/xV9aO14I05slZoerKu5tWjqeokxpYHFArzqYf0fh1uqkypmTyJdWyFxmj6/jySg4D+OclPcpCmfQQuwqI=
+	t=1735566083; cv=none; b=rURB02t5Tqj6mb+HXfDM5hVrfvPyQZT3FSWWmMu6+hgPmSGFBHO3hNOCfkcbEyxL4fjgmpuWAIfA0Cb+oep5D6KUn3Hn/XnIKxwXcEwxnMZehZP2jlgtNqG8gwi19ed7+BKRHzpLMY79Mc/AL6/M7CQHvJw+TMa39D3ZdMSVPQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735558571; c=relaxed/simple;
-	bh=ZXyecpas4eCabcwr/0t9ZV3eF/8o0qAtlAzrrJs1Z1M=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ON6VyESgxG8+sKHHWPLMcEA3JCYHJW1l21J8LbLDtVejqqJxz+EZprcVmU1zHDiRgTxkXRe7ajkv6pVRI8PQatJHfyr3101Xd+JexHiUHgfWrNo217x2c78lfoMCZd0sgzHlpKLvHMNq1LyuLtlkov8k7mO/P1EWnCrrRFpnsVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=nX3RT0T+; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1735566083; c=relaxed/simple;
+	bh=O9nWGQyQJsDyzmJA3itIeEChbWgOu9XTffMoFh8MzCU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jk1AvELlV61L/J+V15i6GUIAdMjHlmvazAwjD5squL2bNNFQ70AcSM4yz5pd0j2HlYRih48P/Hr2dHm/kSr/F9iQJSG8PU3onnTJkLCl2rcx97ozdnxyFBePlFxZ4CPTDlVXRv0hTho+Io6Z9HOH8DPzsMofGF9lJK8/uUuARWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=QGQ+d/MZ; arc=none smtp.client-ip=185.138.42.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nX3RT0T+"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C0B8160007;
-	Mon, 30 Dec 2024 11:35:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1735558558;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZXyecpas4eCabcwr/0t9ZV3eF/8o0qAtlAzrrJs1Z1M=;
-	b=nX3RT0T+rE2lMAHs+bicIONtjxrErMfma6Euo3h22mPvMzH6XkNBCqXQVP7WvnJq2ZmmzY
-	WfRfI3crflRXMQcQg/Tm547nTZGRtWGWqrxII7hj8WiWmFsYCizVXuHZTHymW0R7c61cvR
-	IUpqxd5kRMtah0r+wO/IsyNhy4ZufwZdlV+G7rbaYBQ2+pNH+ug0MMy6O0PQdbnof7UWTa
-	cS03WsY+oIVdSPa8/k3i2nP6BF0lL72jIbPmOQTP0ZzjFwXfA8Yg5FToFA43T6wR+/LBE7
-	oGIB6eLMTUq50UpATticbKPWcBebrgHuqthyFbYQz/3ysVnMfv96jk/m1ROrIA==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Petr Mladek <pmladek@suse.com>,  Steven Rostedt <rostedt@goodmis.org>,
-  Rasmus Villemoes <linux@rasmusvillemoes.dk>,  Sergey Senozhatsky
- <senozhatsky@chromium.org>,  Jonathan Corbet <corbet@lwn.net>,  John
- Ogness <john.ogness@linutronix.de>,  Andrew Morton
- <akpm@linux-foundation.org>,  Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>,  linux-doc@vger.kernel.org,
-  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] hexdump: Allow skipping identical lines
-In-Reply-To: <Z2rYBc7QTTvviT3s@smile.fi.intel.com> (Andy Shevchenko's message
-	of "Tue, 24 Dec 2024 17:49:25 +0200")
-References: <20240826162416.74501-1-miquel.raynal@bootlin.com>
-	<Zsy8JPaiGknBypw9@smile.fi.intel.com> <20240827110147.29a7481a@xps-13>
-	<Zs3UrlufPJ9wVyep@smile.fi.intel.com> <87frmdnvkl.fsf@bootlin.com>
-	<Z2rYBc7QTTvviT3s@smile.fi.intel.com>
-User-Agent: mu4e 1.12.7; emacs 29.4
-Date: Mon, 30 Dec 2024 12:35:57 +0100
-Message-ID: <87ed1p2yjm.fsf@bootlin.com>
+	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="QGQ+d/MZ"
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+	by linux1587.grserver.gr (Postfix) with ESMTPSA id 0FA8A2E02902;
+	Mon, 30 Dec 2024 15:41:14 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1735566075;
+	bh=O9nWGQyQJsDyzmJA3itIeEChbWgOu9XTffMoFh8MzCU=;
+	h=Received:From:Subject:To;
+	b=QGQ+d/MZ2Oqy9p6ArWIgx+oCr8lm7sDVxZLEB5qDY3y+1Ndu0aT9lrJB359xBlOGe
+	 ct7c+YAps06+Y+ekZxms2HlG3NdN0AQlkSrai2hfRYYUQNW1+m74vvsgkZkGaDKW2q
+	 6IECI7PNuUGbhoOU873arI5HlPXPs5Rm/+kUh8Rw=
+Authentication-Results: linux1587.grserver.gr;
+        spf=pass (sender IP is 209.85.208.178) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f178.google.com
+Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
+Received: by mail-lj1-f178.google.com with SMTP id
+ 38308e7fff4ca-3035046d4bfso85919341fa.0;
+        Mon, 30 Dec 2024 05:41:14 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU8j0pUuJxWK7/0twfKEY1I6lOg4nbwnkQZPFyk/E/TurqYyKZZWM7tEQIjAOSeQ1j/JmER683H8Y7XdQ+g3UQHOF7PVA==@vger.kernel.org,
+ AJvYcCWgrAeOPRXwvtpPpQO/Ld1TR+B5vh9qvA1vbIlMRHsU3e/jdBCVee+BHvrTmZ1EC5TQ8cubIDt0cUY=@vger.kernel.org,
+ AJvYcCX5Csj/r1/Cuaqc+6/ICiHRH3Rf6s5jFgkGjQFLXCTh44OcN46/eKkuXlurbZNXGEugHLykcQxIecrO/WSF@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy4mbvQHzsz64y4yxWlYVpFETJL18wGOZ+s0qhLlE+POV6ksVpM
+	eFcZITUFtFPPstvd4jWLC4JktI5ql8H2DLmbjivDmmIwC9OK/CX+gP+rVl+ZKzZL8/0kVTpjgik
+	wym7TJjLUrcurnpvDpsdOSfg7csU=
+X-Google-Smtp-Source: 
+ AGHT+IG3CE5NbizKjDlNO7LAHE3YbVWKYuAZCq2jpkBmc6tF9s89Ou+nJ6fJSIBh08Z4Wh3ESLZS0PxdGYWO79UuENE=
+X-Received: by 2002:a2e:a546:0:b0:304:588a:99e1 with SMTP id
+ 38308e7fff4ca-304685c21c6mr140783031fa.26.1735566074152; Mon, 30 Dec 2024
+ 05:41:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+References: <20241217230645.15027-2-derekjohn.clark@gmail.com>
+ <20241227184825.415286-1-lkml@antheas.dev>
+ <CAFqHKT=Y66KNo-e+o+n76tmPEcqL4EBSUQNDXJcoP8B9NXguew@mail.gmail.com>
+ <CAGwozwGpEWVQwEAFfWWkTx4G90uhqdfbF85E4F_2w6c6G6P2Sg@mail.gmail.com>
+ <CAFqHKTnOA5N-uADQLbdA-b+k-TOMdjZtCPsFsCo9jarMiNioLg@mail.gmail.com>
+ <CAGwozwF79xYrWkCSKpBaLSiXNEZz-5tmayWMbkw-of4zB=LPUQ@mail.gmail.com>
+ <b7089d69-4d7b-42fb-90b3-bd13a27fcf1e@gmx.de>
+ <CAGwozwEWNkUDCzSq7-Lei1yBAjpQjyZUtW7+8n_Cpn9xd4aR3A@mail.gmail.com>
+In-Reply-To: 
+ <CAGwozwEWNkUDCzSq7-Lei1yBAjpQjyZUtW7+8n_Cpn9xd4aR3A@mail.gmail.com>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Mon, 30 Dec 2024 14:41:02 +0100
+X-Gmail-Original-Message-ID: 
+ <CAGwozwF2EZpChf+eCn5pWy5_ctJ_qUgTrARgiBaW2hWk1CgX4A@mail.gmail.com>
+Message-ID: 
+ <CAGwozwF2EZpChf+eCn5pWy5_ctJ_qUgTrARgiBaW2hWk1CgX4A@mail.gmail.com>
+Subject: Re: [PATCH 0/1] platform/x86: Add Lenovo Legion WMI Drivers
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: Derek John Clark <derekjohn.clark@gmail.com>, corbet@lwn.net,
+ hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, luke@ljones.dev, mpearson-lenovo@squebb.ca,
+	nijs1@lenovo.com, pgriffais@valvesoftware.com,
+	platform-driver-x86@vger.kernel.org, shaohz1@lenovo.com, superm1@kernel.org,
+	zhangzx36@lenovo.com, johnfanv2@gmail.com, codyit@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+X-PPP-Message-ID: 
+ <173556607557.15476.3139278796124499836@linux1587.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
+X-Virus-Status: Clean
 
-Andy,
+I guess I am late on the party on [1], just reviewed the series. Quite
+a nice series
 
-On 24/12/2024 at 17:49:25 +02, Andy Shevchenko <andriy.shevchenko@linux.int=
-el.com> wrote:
+Given there is a class device for this now, it would make sense to me
+that "tunings" for each platform driver would go there
 
-> On Tue, Dec 24, 2024 at 12:56:26PM +0100, Miquel Raynal wrote:
->> On 27/08/2024 at 16:29:18 +03, Andy Shevchenko <andriy.shevchenko@linux.=
-intel.com> wrote:
->> > On Tue, Aug 27, 2024 at 11:01:47AM +0200, Miquel Raynal wrote:
->> >> andriy.shevchenko@linux.intel.com wrote on Mon, 26 Aug 2024 20:32:20
->> >> +0300:
->> >> > On Mon, Aug 26, 2024 at 06:24:14PM +0200, Miquel Raynal wrote:
+Antheas
+
+[1] https://lore.kernel.org/all/20241206031918.1537-11-mario.limonciello@amd.com/
+
+On Sun, 29 Dec 2024 at 23:41, Antheas Kapenekakis <lkml@antheas.dev> wrote:
 >
-> ...
+> Hi Armin,
+> indeed you covered everything.
 >
->> >> > Also here is the formal NAK till the series gains the test cases.
->> >>=20
->> >> What test cases are you talking about?
->> >
->> > Anything meaningful you come up with to show that the printed data is
->> > what it's expected. The module has a complimentary test case,
->> > lib/test_hexdump.c. Without changes in that file, there is no go
->> > to what ever golden ideas you have.
->>=20
->> I had a look. The tests never test the content of the kernel buffer,
->> while this is the only part that my changes have an impact on.
+> I am a bit hesitant about binding sppt, fppt, and spl into those
+> interfaces as they need to be set in a very specific ordering and
+> rules. E.g., spl < sppt < fppt after setting tdp and before the fan
+> curve and after sleep maybe depending on device, after reboot maybe
+> after keybind (Legion L + Y) as well. Which is not what's expected by
+> the userspace programs consuming this interface. In addition, this
+> would expose them to perusing users where they might be confused. I
+> also know that its difficult by looking at a patch series to
+> understand the nature of these values. However, given my previous
+> email, you now have the full context you need to make a decision.
+> If you think it is appropriate, it is fine by me.
 >
-> So, it means that after your change there will be a deviation between the=
- core
-> function that dumps into a buffer and one that prints message into the ke=
-rnel
-> buffer.
-
-No, it's always been like that. The formatting of the prefixes have
-always been totally different in this function, probably because filling
-a memory buffer and sending these messages to dmesg is fundamentally
-different and we may want a different behaviour *when sending to the
-kernel buffer*. That is what I believe is useful. If someone wishes to
-port the feature to the other functions, they can, but it is irrelevant
-to the change brought here.
-
-> Moreover it lefts seq_hex_dump() out of the picture.
-
-seq_hex_dump() has diverged already and is a very specific case that is
-probably under stability constraints, where trimming down the output
-lines is likely much less useful.
-
-I am not strongly opposed to it, but it is probably a bit useless.
-
-> I think you need to start from modifying hex_dump_to_buffer() to have a
-> functionality you want (note, there are cases in the kernel that use
-> hex_dump_to_buffer() for formatting messages in the kernel buffer and they
-> might want to have the same functionality to be available.
-
-No... that is not how these function work nor have been designed for,
-hex_dump_to_buffer is used as a line-oriented helper to fill a kernel
-buffer line which *is* a line-oriented buffer. A prefix gets added to
-it, and I want to skip the printing if it's redundant. Lines are sent
-one after the other using printk anyway. All this logic has nothing to
-do inside hex_dump_to_buffer at all. Plus, what you ask for would
-require a new buffer to be allocated, potentially big and unbounded,
-which would require a GFP flag (yay! a new parameter). And finally the
-implementation itself would be much less obvious if the algorithm was
-not line oriented.
-
-I am sorry, but I really took the time to understand your request but it
-is simply not working well technically nor conceptually desirable IMO.
-
->> These tests verify the hex_dump_to_buffer() logic, but never how it is u=
-sed
->> through the print_hex_dump_*() helpers.
+> I'd personally stick them next to platform_profile with a /name
+> discoverability mechanism similar to hwmon, where tuning
+> software can find them (something similar to Mario's RFC
+> that I linked above). Other settings such as the bios light that
+> interface is perfectly good for.
 >
-> I haven't checked and don't remember for sure, but KUnit rings a bell tha=
-t it
-> might be possible to test the actual kernel output. (However, after the a=
-bove
-> modifications been made it won't be needed anymore as test_hexdump.c will=
- be
-> extended to support new feature.)
+> As for the hardware limits. You are absolutely right, the ACPI eforces
+> none, incl. for Lenovo. And the quality is as you expect. For the
+> Legion Go, they are quite creative. They added a battery 80%
+> capacity limit by re-using the key value for booting from AC [1-2].
+> They also used a weird ABI for the lighting interface to turn off
+> the suspend light for a good half of the BIOSes, then they fixed it
+> when they allowed to turn off the suspend light during sleep as well,
+> which caused that option to break in Legion Space for I want to say
+> two months. Nevertheless, nobody has broken a Legion Go yet
+> messing with those settings by e.g., overclocking. It also brings
+> into view that while the Legion Go uses a derived Legion bios it
+> has started diverging a bit as it has its own vendor software.
 >
->> In this series I am just enabling a new way to print the content of the
->> buffer, like for instance enabling a prefix, which is not directly
->> related to the core implementation of hexdump.
->>=20
->> Hence, I am sorry, but I will disregard this request unless someone
->> comes up with a working idea which is worth the effort, considering the
->> minimum impact of this change and the fact that it is mostly (if not
->> only) for debugging purposes and will most likely never reach users.
+> So I would say that it is good that the other function has a discovery
+> mechanism and that gamezone has some bitmasks for that purpose as
+> well. It means that if we tap on them during probe, at least for
+> Legion laptops from the last 3 years, we can get pretty good support
+> from the get go. Before that, it is a mix of EC + WMI (see [3]).
 >
-> I'm sorry, but my NAK still stands. No tests =E2=80=94 no go.
-
-Please Andy, stop asking loads and loads of unachievable changes to fit
-your ideal. I am bringing something that I feel can be useful, just stop
-with your endless list of unrelated (and in this case unreachable)
-wishes. There is nothing testing the prefixes, if there was a suitable
-test case I would improve it, but there is none, because the test suite
-is not used like that.
-
-> And it does not matter if it's only for debugging or for ABI, we require =
-test
-> cases for the lib/ changes.
-
-Who's we? Where is this documented?
-There is no test case checking the kernel buffer printing.
-I'm not skilled enough to write one.
-
-> We don't know and don't care much about how these
-> new features will be utilized
-
-And this is typically what I dislike in some of your reviews. There is
-always a context, trying to ignore it is pointless.
-
-> (the requirement here is to have a user for it,
-> so you might need to consider to convert one of the existing user to use =
-a new
-> feature, besides the [updated] test cases).
-
-I know this is generally requested, but once again, dumping pages of
-data where this flag might be useful makes sense during debug sessions
-in very particular places, keeping these debug calls does not seem very
-useful to me, but that's certainly easier to achieve than your previous
-request.
-
-Miqu=C3=A8l
+> In regards to firmware limits, it is something I would not include in
+> the first patch series as it will just make this harder to merge, esp.
+> if there are laptops with wrong limits. Then there are issues with
+> overrides etc. I would advertise the limits through _min, _max so we
+> can figure this out later and I would not do a runtime WMI check, as
+> we have to run the check during probe anyway to populate sysfs, where
+> it is natural to cache the limits.
+>
+> FInally, if indeed the gamezone function is Legion specific, and the
+> key-value pairs of the Other function are legion specific, from a
+> stylistic perspective I would tend towards making the ABI of the
+> driver Legion specific and abstract away its WMI details. E.g., I'd
+> use the name legion-wmi for a combined driver instead of
+> lenovo-gamezone-wmi which would then not be useful if lenovo moves
+> past gamezone. And I'd make sure it only loads on legion laptops. I'm
+> not up to date on my WMI driver conventions, so this is just a
+> suggestion.
+>
+> Best,
+> Antheas
+>
+> [1] https://github.com/BartoszCichecki/LenovoLegionToolkit/blob/21c0e8ca8b98181a2dedbec1e436d695932a4b0f/LenovoLegionToolkit.Lib/Enums.cs#L72
+> [2] https://github.com/hhd-dev/adjustor/blob/188ef6c3e4d7020f2110dd29df6d78847026d41e/src/adjustor/core/lenovo.py#L241
+> [3] https://github.com/johnfanv2/LenovoLegionLinux
