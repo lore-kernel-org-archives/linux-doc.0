@@ -1,127 +1,194 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE01653365;
-	Mon, 30 Dec 2024 02:15:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D492F44;
+	Mon, 30 Dec 2024 07:04:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735524909; cv=none; b=fVy4FYJF1uKj8Y7+9f2BXZhGX3VUGeE7pOWp9S+j8DT1/NBi41KfbqmDhHz4LAKn7YYndtXZzd170PT0V0m9YAd+Yh1NRo4YMHdx4wvGU34PPJZM7iMHj0Ebny1kLB/jzI6JTegL+Wvj4TON5wgYx8cOyLUkpWPIEqWRbzyosoM=
+	t=1735542255; cv=none; b=ZkCaHWSvYm1iKMcjOsEAL6fyTjzBwYmKCTSkaZGEZTSy4iucZYfFyf3KY0XpDhSORdsVAshdXEltSgnWKYZeI/UMjt+VnzYeEgGnicGJddNXSKp48Uph+5/2Ytgxt+DhI3vp1mRdhfqZ4cjC5W7gGK+GfoJNtzO8Q4ueFYo4cb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735524909; c=relaxed/simple;
-	bh=Jqafyd9zY8TjYcsVNU4K5eexBduGf+gVBhzywrz8rEg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=vDqHLZc9LWbIXFMfAec4jnoWke1ZAODWhZyqCA58HFaLlUiWnWVHe+6ilsvYsqyaKflHJPxdu04fmDlsnPa+tSwYB7G7pt+tS0S/aExQksmcTxhwv75VbWIdCfQIsa8LfZhJWPakHcHkBrzN7bacZT6mNbEDlP/oAoyXlm19jLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.2.10.34])
-	by gateway (Coremail) with SMTP id _____8Ax6+EqAnJnpqVbAA--.48837S3;
-	Mon, 30 Dec 2024 10:15:06 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.2.10.34])
-	by front1 (Coremail) with SMTP id qMiowMCx3sUpAnJnslANAA--.59268S2;
-	Mon, 30 Dec 2024 10:15:05 +0800 (CST)
-From: Tianyang Zhang <zhangtianyang@loongson.cn>
-To: chenhuacai@kernel.org,
-	kernel@xen0n.name,
-	tglx@linutronix.de
-Cc: loongarch@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Tianyang Zhang <zhangtianyang@loongson.cn>
-Subject: [PATCH V2] irqchip/loongarch-avec:Add multi-nodes topology support
-Date: Mon, 30 Dec 2024 10:15:03 +0800
-Message-Id: <20241230021503.14012-1-zhangtianyang@loongson.cn>
-X-Mailer: git-send-email 2.20.1
+	s=arc-20240116; t=1735542255; c=relaxed/simple;
+	bh=hUBZxO3udcy2ZV80XHefHiKxRLTwPCiAJ35DVuSBUpA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o8uomIL15tOk6oLkf6P04CD5kdicwSi6gwZisqJYespwU+8ekkCtigLQPm1/XAX06IdKKi85Hv1ZHWeboARXBqmcT43gqQRgftfM6mSTzA4S2TZSuNpFC8yWWsG7vnvXrd/el9fIPw4WtHDROqd6CHY/sHLzuVUhW0PNmhsy6cQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Yz6kdZ7d; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Yz6kdZ7d"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BTNbTC9025760;
+	Mon, 30 Dec 2024 07:03:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=xUSMbY89H5WSfPtVNMoAeMf0ZXSlFH
+	MT/P3toWiTG7Y=; b=Yz6kdZ7d8OJnuSEXeE8/raCurL/g9unqwyaSjf9DhsbEH9
+	yxcuG8VFKJwpoJp6kQMQbLXXaK1a+eG9u8/BAAsSo6j6Yhl1e6gkr78J4gqkQi2O
+	q4lPShUsxxU8cjiu86arYOoVYze9qJyXD7O0kIugVuzltS1F0Dl53QWCvOCS2NBL
+	NgSYvXww2KpK04SIiCITsj7WYPPWcGDZ4r3RT/8mrK0dSX7DiVNGELZ5GXfpGPlK
+	lUtnmNAJyLfkPL8QwO2tRObit+heZRBX2ue2JOYR0RIvCZcX8YdebfgZx0BjlRqU
+	vG8SpRSZzPq3i8MCIe6dHGKLA8/o6/99f5HgtFDA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43ug8a10rv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 30 Dec 2024 07:03:59 +0000 (GMT)
+Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BU73wxA012671;
+	Mon, 30 Dec 2024 07:03:59 GMT
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43ug8a10rr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 30 Dec 2024 07:03:58 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BU5Z8VL014022;
+	Mon, 30 Dec 2024 07:03:58 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 43tv1xvmqa-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 30 Dec 2024 07:03:58 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BU73sAE19529986
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 30 Dec 2024 07:03:54 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4FC4B20040;
+	Mon, 30 Dec 2024 07:03:54 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6B23020043;
+	Mon, 30 Dec 2024 07:03:51 +0000 (GMT)
+Received: from li-c6426e4c-27cf-11b2-a85c-95d65bc0de0e.ibm.com (unknown [9.39.28.22])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Mon, 30 Dec 2024 07:03:51 +0000 (GMT)
+Date: Mon, 30 Dec 2024 12:33:42 +0530
+From: Gautam Menghani <gautam@linux.ibm.com>
+To: Vaibhav Jain <vaibhav@linux.ibm.com>
+Cc: linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+        kvm-ppc@vger.kernel.org, linux-doc@vger.kernel.org,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Vaidyanathan Srinivasan <svaidy@linux.vnet.ibm.com>,
+        sbhat@linux.ibm.com, kconsul@linux.ibm.com, amachhiw@linux.ibm.com
+Subject: Re: [PATCH 1/6] [DOC] powerpc: Document APIv2 KVM hcall spec for
+ Hostwide counters
+Message-ID: <fimq6f367gj3ypuke2slogz4i3zt4jfst4kwnrlzps3xinkoh5@arkajtap562s>
+References: <20241222140247.174998-1-vaibhav@linux.ibm.com>
+ <20241222140247.174998-2-vaibhav@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowMCx3sUpAnJnslANAA--.59268S2
-X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj93XoW7CFy3CF17Jr1xJw48Xr13GFX_yoW8try7pF
-	W5Xasxtr4UKa4xur9xK34DXryfAF4xKrW7ta47Ka1fWFWDCryDury0qF98ZFy8u395Z3WF
-	vr48JFWUu3W5ZacCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
-	Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
-	8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AK
-	xVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64
-	vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8G
-	jcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2I
-	x0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK
-	8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I
-	0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j1WlkUUUUU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241222140247.174998-2-vaibhav@linux.ibm.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: d6aAhfS7Z7wGfRoxHAP5oyfsVoACgzBP
+X-Proofpoint-ORIG-GUID: Q8_Tw7QByTCwtHvkwxcqqr37KD7uI3Yt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ mlxlogscore=971 bulkscore=0 mlxscore=0 adultscore=0 priorityscore=1501
+ clxscore=1011 spamscore=0 lowpriorityscore=0 malwarescore=0 phishscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412300058
 
-avecintc_init() enables the Advanced Interrupt Controller (AVEC) of
-the boot CPU node, but nothing enables the AVEC on secondary nodes.
+On Sun, Dec 22, 2024 at 07:32:29PM +0530, Vaibhav Jain wrote:
+> Update kvm-nested APIv2 documentation to include five new
+> Guest-State-Elements to fetch the hostwide counters. These counters are
+> per L1-Lpar and indicate the amount of Heap/Page-table memory allocated,
+> available and Page-table memory reclaimed for all L2-Guests active
+> instances
+> 
+> Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+> ---
+>  Documentation/arch/powerpc/kvm-nested.rst | 40 ++++++++++++++++-------
+>  1 file changed, 29 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/arch/powerpc/kvm-nested.rst b/Documentation/arch/powerpc/kvm-nested.rst
+> index 5defd13cc6c1..c506192f3f98 100644
+> --- a/Documentation/arch/powerpc/kvm-nested.rst
+> +++ b/Documentation/arch/powerpc/kvm-nested.rst
+> @@ -208,13 +208,9 @@ associated values for each ID in the GSB::
+>        flags:
+>           Bit 0: getGuestWideState: Request state of the Guest instead
+>             of an individual VCPU.
+> -         Bit 1: takeOwnershipOfVcpuState Indicate the L1 is taking
+> -           over ownership of the VCPU state and that the L0 can free
+> -           the storage holding the state. The VCPU state will need to
+> -           be returned to the Hypervisor via H_GUEST_SET_STATE prior
+> -           to H_GUEST_RUN_VCPU being called for this VCPU. The data
+> -           returned in the dataBuffer is in a Hypervisor internal
+> -           format.
+> +         Bit 1: getHostWideState: Request stats of the Host. This causes
+> +           the guestId and vcpuId parameters to be ignored and attempting
+> +           to get the VCPU/Guest state will cause an error.
 
-Move the enablement to the CPU hotplug callback so that secondary
-nodes get the AVEC enabled too. In theory enabling it once per node
-would be sufficient, but redundant enabling does no hard, so keep the
-code simple and do it unconditionally.
+s/Request stats/Request state
 
-Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
----
- drivers/irqchip/irq-loongarch-avec.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+>           Bits 2-63: Reserved
+>        guestId: ID obtained from H_GUEST_CREATE
+>        vcpuId: ID of the vCPU pass to H_GUEST_CREATE_VCPU
+> @@ -402,13 +398,14 @@ GSB element:
+>  
+>  The ID in the GSB element specifies what is to be set. This includes
+>  archtected state like GPRs, VSRs, SPRs, plus also some meta data about
+> -the partition like the timebase offset and partition scoped page
+> +the partition and  like the timebase offset and partition scoped page
+>  table information.
 
-diff --git a/drivers/irqchip/irq-loongarch-avec.c b/drivers/irqchip/irq-loongarch-avec.c
-index 0f6e465dd309..988d3e02ac54 100644
---- a/drivers/irqchip/irq-loongarch-avec.c
-+++ b/drivers/irqchip/irq-loongarch-avec.c
-@@ -56,6 +56,15 @@ struct avecintc_data {
- 	unsigned int		moving;
- };
- 
-+static inline void avecintc_enable(void)
-+{
-+	u64 value;
-+
-+	value = iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
-+	value |= IOCSR_MISC_FUNC_AVEC_EN;
-+	iocsr_write64(value, LOONGARCH_IOCSR_MISC_FUNC);
-+}
-+
- static inline void avecintc_ack_irq(struct irq_data *d)
- {
- }
-@@ -127,6 +136,8 @@ static int avecintc_cpu_online(unsigned int cpu)
- 
- 	guard(raw_spinlock)(&loongarch_avec.lock);
- 
-+	avecintc_enable();
-+
- 	irq_matrix_online(loongarch_avec.vector_matrix);
- 
- 	pending_list_init(cpu);
-@@ -339,7 +350,6 @@ static int __init irq_matrix_init(void)
- static int __init avecintc_init(struct irq_domain *parent)
- {
- 	int ret, parent_irq;
--	unsigned long value;
- 
- 	raw_spin_lock_init(&loongarch_avec.lock);
- 
-@@ -378,14 +388,13 @@ static int __init avecintc_init(struct irq_domain *parent)
- 				  "irqchip/loongarch/avecintc:starting",
- 				  avecintc_cpu_online, avecintc_cpu_offline);
- #endif
--	value = iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
--	value |= IOCSR_MISC_FUNC_AVEC_EN;
--	iocsr_write64(value, LOONGARCH_IOCSR_MISC_FUNC);
-+	avecintc_enable();
- 
- 	return ret;
- 
- out_remove_domain:
- 	irq_domain_remove(loongarch_avec.domain);
-+	loongarch_avec.domain = NULL;
- out_free_handle:
- 	irq_domain_free_fwnode(loongarch_avec.fwnode);
- out:
--- 
-2.20.1
+The statement that is already there looks correct IMO.
 
+>  
+>  +--------+-------+----+--------+----------------------------------+
+> -|   ID   | Size  | RW | Thread | Details                          |
+> -|        | Bytes |    | Guest  |                                  |
+> -|        |       |    | Scope  |                                  |
+> +|   ID   | Size  | RW |(H)ost  | Details                          |
+> +|        | Bytes |    |(G)uest |                                  |
+> +|        |       |    |(T)hread|                                  |
+> +|        |       |    |Scope   |                                  |
+>  +========+=======+====+========+==================================+
+>  | 0x0000 |       | RW |   TG   | NOP element                      |
+>  +--------+-------+----+--------+----------------------------------+
+> @@ -434,6 +431,27 @@ table information.
+>  |        |       |    |        |- 0x8 Table size.                 |
+>  +--------+-------+----+--------+----------------------------------+
+>  | 0x0007-|       |    |        | Reserved                         |
+> +| 0x07FF |       |    |        |                                  |
+> ++--------+-------+----+--------+----------------------------------+
+> +| 0x0800 | 0x08  | R  |   H    | Current usage in bytes of the    |
+> +|        |       |    |        | L0's Guest Management Space      |
+> ++--------+-------+----+--------+----------------------------------+
+> +| 0x0801 | 0x08  | R  |   H    | Max bytes available in the       |
+> +|        |       |    |        | L0's Guest Management Space      |
+> ++--------+-------+----+--------+----------------------------------+
+> +| 0x0802 | 0x08  | R  |   H    | Current usage in bytes of the    |
+> +|        |       |    |        | L0's Guest Page Table Management |
+> +|        |       |    |        | Space                            |
+> ++--------+-------+----+--------+----------------------------------+
+> +| 0x0803 | 0x08  | R  |   H    | Max bytes available in the L0's  |
+> +|        |       |    |        | Guest Page Table Management      |
+> +|        |       |    |        | Space                            |
+> ++--------+-------+----+--------+----------------------------------+
+> +| 0x0804 | 0x08  | R  |   H    | Amount of reclaimed L0 Guest's   |
+> +|        |       |    |        | Page Table Management Space due  |
+> +|        |       |    |        | to overcommit                    |
+
+I think it would be more clear to specify "... Management space for L1
+..." in the details of all above entries.
+
+> ++--------+-------+----+--------+----------------------------------+
+> +| 0x0805-|       |    |        | Reserved                         |
+>  | 0x0BFF |       |    |        |                                  |
+>  +--------+-------+----+--------+----------------------------------+
+>  | 0x0C00 | 0x10  | RW |   T    |Run vCPU Input Buffer:            |
+> -- 
+
+Also, the row 2 of this table mentions the 'takeOwnershipOfVcpuState' flag
+which is no longer supported. You can remove that as well.
+
+> 2.47.1
+> 
