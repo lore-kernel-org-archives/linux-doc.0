@@ -1,60 +1,62 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA42B1AA1C9
-	for <linux-doc@vger.kernel.org>; Mon, 30 Dec 2024 14:24:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D0F1AAA1A
+	for <linux-doc@vger.kernel.org>; Mon, 30 Dec 2024 14:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735568657; cv=none; b=ue2njfdJ8ZTQ+LTN6iHofCl8E7np3Hkp56ksoTqAolIkdbnZliiHdaUwsm6SXdam+Fxt99k9l8nnHiIV1qDkhP+OvK7zmIGP7rT6FidR+r7CpUd2vH8XYjwdTxqsHZPIrwS/W4UzNqxvPjSDXyDOpgYwDU1wG1BHauOb//S0gHM=
+	t=1735568658; cv=none; b=WDuMCkzwsh7+QRbsXWq0x5/FKwMCHYG99dCKRzBIo9g5k1qthNzma9MQMDBdzTe+1i2SRgBEnXEswRZJCXBopUlXELO7ztlE7zqHGo50WkBp5jyPdbtly/NQITPV09bKFm8dy5xFWHKiq0e5gYbvcxaV1tw0fzO6BlfGNK2RN3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735568657; c=relaxed/simple;
-	bh=oiJix/tgmbChwa9na2GrYW7aeE2jDNQ7OEhTDeyXwd0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Y6AuaFF/ZgAEF+oeRHuK/8VkAVaCVZE8DOZlmaZyt//qflxdlq2vyV4T0ga/QrEF7WAmiLqKttDDKdPDc8YJ75P56OPlrcDYPUdYqrGHOr31tqH2b5silVs5YlTRzexBcyZ81XBOlVZFWiET/hzlL6SrNWuOb929UzcfSJYpbA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=F/oYG3Zy; arc=none smtp.client-ip=209.85.218.41
+	s=arc-20240116; t=1735568658; c=relaxed/simple;
+	bh=riqKkyM9akRaX1QToakRQt2HKZxJfQmlWPKBKamryN0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SH0CIEi5YzrR26GwZsC1S7yJNqmpW5vSnjZFemTM73LzCHR9gi8M+sujt2v8NgV3RPzua+J2juX6wjFgGtAFrNEjnwkmy/NK6fuIn96jnTS9d1Qhxw9VNyQLWcOeOD9YM2CDKD3feqAQLHggUz/DL6z0l9QNT8kGDpxNrM6/joI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=AuOaDau/; arc=none smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="F/oYG3Zy"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-aaeecbb7309so823915166b.0
-        for <linux-doc@vger.kernel.org>; Mon, 30 Dec 2024 06:24:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="AuOaDau/"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-aa6c0d1833eso1911468366b.1
+        for <linux-doc@vger.kernel.org>; Mon, 30 Dec 2024 06:24:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1735568653; x=1736173453; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9uknHr3hp3ezkmFiUp5ZQdm4USPKD1WgCs/kZMmwq0Y=;
-        b=F/oYG3ZyskxiqWAxPaBMkBTDZY6+j9ZIt/FX2NdwCg/NKDdS7zu/3dtK6hBFpk6xQ1
-         zYWXAHHRcmsdk3i6tEL+rS60mKf+lEX7ulVegag0nvBqoc4/zmf6HVMgVT96K9WDn79p
-         aJIRaJOkvNv7B4yP1SQubUYQkPCdFJX9iPsS4aGSUqIYBZv06P90mYQYN0/CCzFQiFET
-         HEIkkVTEQlReWKaZwZB8A2IDU84JlYu2bGZhF/c1iwPy0r5nGV/7VoEbjarZjkl4gIga
-         mF9AyGZRGXe73HNVItw5Z8g7CVgi694d8QQGKZEM+VJKGz1eLJpztqQiYGavdWhzwyt9
-         pVXA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1735568655; x=1736173455; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/xjs7J+W/ttqDs1occ4gvPsm7x6ioMVSDeQBqY18Vao=;
+        b=AuOaDau/riCtxdZV6VY4TN5rnnUZGbHMXBYKabcB2wjmoqcE3ox7WeDdBKnXjEtpOA
+         KPpOzca0dtVuwcfu1zMv3GRXUUJ2l5ZmsZExLXy7fbx7ytG7bSiqEYlETPOil/X4w0Df
+         oY7tzIuat3jbdEv4CSPcOCZ/pDGfyDvGNDq88apQfGMAof4VyTt9Mzl+Kw2P54pDPx+Q
+         XDCB84Yvn+8mZ8rCQ6ROCn0lQ1YtFqfRgG15OBlXOCkeCyBlnuVVOI327dBaA+ksH14y
+         6MLNMHg77eDD0p52lAWqleWi60vnfRRyE5vQ5HaHepwluJDiSmL0F403k9gIlcP3QKFc
+         u/xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735568653; x=1736173453;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9uknHr3hp3ezkmFiUp5ZQdm4USPKD1WgCs/kZMmwq0Y=;
-        b=B+kfSa/9cGtP6BkSZ4LnmcMAxLnZLA/RCZGdunvCZlRBZFlssg7lI0Jep3Aby1spuR
-         rmdvYXyVpkG8TxI6PSGPM1w+EbAXeoAJ/cBQVhHZThRlJVeU7dqW9SbqSbIN1jQDF+Vq
-         2j3JRjOxGuM74oNil+ZCB2ShDYMYXWwn1HE3NQ84ByxPL5/2+82vck7Ae5F01n5Fslb1
-         8GoxOGBMxlRLuZ9EtbdD5IxipUi8YRymfZWcEjGX8sjcUfucZp3aIk10a1bm0Iq1EIRC
-         Q/kNJ43DOPWCq63WhMUxeBGqObgmePUGhqDci8sULUpXC62BByfqDIPkmsabpkKAbOBR
-         7SCA==
-X-Forwarded-Encrypted: i=1; AJvYcCU+1TSFuFiy4paFeDg6JRUAREPd3SVlWcLPx3rMtIhcLnVGAFERlFnlCZ8po5/R/lwyIcvjHxKcDAw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9Pes7XJ0v+yOBLmQSoXqDeZzpsL1HiCW7tnAf78rdve8RDwOb
-	nykfBHqPft4SLxXbHYtFz+q1wKnTIvktbuBD2mF5X8t+N1SB1dLl0cAhqqPRC4Y=
-X-Gm-Gg: ASbGncsk7AgszwSIE01iOzsaKClm5qbPPO+vKcqU9OrY1BiCmEIdCiE0bt8BOnNzkbq
-	7Cxh/EReC8lN/xfv7pb07jZOsrbdsUFJd82LHIsmqEF8+5zuBvmQv8TJMbmUlrHCj3UubuWXzN8
-	UtBne3DlTHQsDEyq9/L3IcTH+NXLazkxDuX8N9PeGplzA4D3MrKU0PR+W3dYpcs+yUSK1gX8SZT
-	KPhCIysYEaofGgFbozLFNIB9RojGXqusTo35fLWcmVHvltIInETzQ4w6Dxd1CSvDvwkx4//W7hV
-	BQABTkotqQ==
-X-Google-Smtp-Source: AGHT+IG9pX2Jtg59e9IBLaq5/OVGd909T5X3RwfK5IXGJn3jfKtBRqhcpOJ04jHXUGWa5tF/ZPyOYQ==
-X-Received: by 2002:a17:907:2ce2:b0:aa6:873b:ed8a with SMTP id a640c23a62f3a-aac33549f8fmr2141327466b.47.1735568653089;
-        Mon, 30 Dec 2024 06:24:13 -0800 (PST)
+        d=1e100.net; s=20230601; t=1735568655; x=1736173455;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/xjs7J+W/ttqDs1occ4gvPsm7x6ioMVSDeQBqY18Vao=;
+        b=fTGraP7iqVER9ubBySpyRJgXEPXf9wsMqn3bEzrg+nhJP8gtVWx5q2MuEwRi4oV40Y
+         21mU9mBldgiaBH5VKe5LsMCx5an+qG3cISme3zEjacJ3z58etZb4LP70GGBIvGmMZeeE
+         gwULA9esl36h/QTyRn2KbHfgm6H7EWyA5Hw84o5bwnxLIMKGG5zb8YScMRLzB8r67NyE
+         molYc9Z6ZkhdPyscWRqc/x79PRkOVZ65sInxnF5ODjbGh3tyD5UVwf3qRpHfs2Ujmxtf
+         JgCZw8Ft/pQ4swzi7lKLRXhgv8YNbkydhumUVWA+Lsi99TruXKzLM8UM+ABTF2uFLG2x
+         79SQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXumqSOyygvYdg77j8XsgAPzp1k6sZN0Z26iTpV+a1/fiN0lQNln5q6wJSbdvx8m6a6Kn4mxuLSKcE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9TIbnSCTj1S7Lpv+hxEYtTfNyNtaDQe6U3+y75p3oAUmdkEGG
+	pJlP98lhzJtQlq1oHuH/vABk0WlM5nlt8jFr/e12vQSRM2s0WP9TG6h1fqJjObg=
+X-Gm-Gg: ASbGncsFhXguJbgISCaKNAQB3KAoVYTmg1UvVtUZ97ALSzeoLo0VVllOPBzdY49XA9m
+	zKvCpaaHQUSaT3hhmJW76dRgEIbufF6Yfow+xG0mMw86iaY+njISoIam9CHUa+b+k79NG1GVR87
+	tFH+mS3Xjzduiz7iG3kXYX0pdQVcVRJr2v3/S4nrke6vidJR2k/4vmaQM2SbJLovs2UhVk4w/I/
+	m4g4xchhcfj4qvA2XE5M2dQ3EO17zuOdizJsd2tVuq4KzReKYhM4zdU1mtnN877ydZMJv+lT9wY
+	IACOTt7mgA==
+X-Google-Smtp-Source: AGHT+IFyy9NNGSmVpY1h0VDz0oNXG2SdHrUvBSZei4PSFoh1BjCSTNBFpNPjatAVgDk3IoRGxKn/Xg==
+X-Received: by 2002:a17:907:97d0:b0:aa6:2c18:aaa2 with SMTP id a640c23a62f3a-aac2d447071mr3266674866b.27.1735568654824;
+        Mon, 30 Dec 2024 06:24:14 -0800 (PST)
 Received: from localhost (p50915bc6.dip0.t-ipconnect.de. [80.145.91.198])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aaf5ca700a8sm145001866b.173.2024.12.30.06.24.12
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aaf379e34e4sm434430966b.121.2024.12.30.06.24.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Dec 2024 06:24:12 -0800 (PST)
+        Mon, 30 Dec 2024 06:24:14 -0800 (PST)
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
 To: Matthias Maennich <maennich@google.com>,
 	Jonathan Corbet <corbet@lwn.net>,
@@ -62,10 +64,12 @@ To: Matthias Maennich <maennich@google.com>,
 Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/2] doc: module: Two clearifications
-Date: Mon, 30 Dec 2024 15:23:58 +0100
-Message-ID: <20241230142357.3203913-4-u.kleine-koenig@baylibre.com>
+Subject: [PATCH v2 1/2] doc: module: Fix documented type of namespace
+Date: Mon, 30 Dec 2024 15:23:59 +0100
+Message-ID: <20241230142357.3203913-5-u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241230142357.3203913-4-u.kleine-koenig@baylibre.com>
+References: <20241230142357.3203913-4-u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -73,29 +77,36 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=665; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=oiJix/tgmbChwa9na2GrYW7aeE2jDNQ7OEhTDeyXwd0=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBncqz9GxMw5UOKxhNTXaB1LtY99gvY6c1IS7KtJ EA0ZWaIFTuJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZ3Ks/QAKCRCPgPtYfRL+ Tt2xB/4r/UmH1FwIemDs/k++CG3lEuTHuCyIBxqoC5ICms9EE70LL1YC0CT4Ylya5YSuRZ15Oaj s/s0yHMvtqUO6+z7xWU7wiD2gVWALMXlMSVkAfLhmOR6mfG/L/NemnNzmj5buJzTXzprYkbHLZK PcWAd6sAtkPHrzUPrNS+Lznv91WUG0LNzZYkr19WCrgpUtNqHPQbPEzXnHdXh4k0nXaEfckO03/ re9J7EfxjyRHrnMlwCHoJFePAtDRfysqO/ZxBMKtNmAsztGgaEo2pRRWo4e5GsefHLMiO01YGtg Q1PG/Y+eO2dnagHMI1SFQ9/VJsu+kchK8bWyDZRLxn7owTUn
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1482; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=riqKkyM9akRaX1QToakRQt2HKZxJfQmlWPKBKamryN0=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBncq0A/FFYP2Z9mEg4HqPUGtrDhRrubtr9oi/U2 gzkNxXj79mJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZ3KtAAAKCRCPgPtYfRL+ To+tB/wI8V+cIbuWFIQcN1/wDx5ot6AY7NFp1AL2rqCFEClcevQLZD32aKy+mJnl84fUXYOE7Gw paqI5TbyhWvADClUKdscANwoo+f2cv8NrUm3XVX+Y3hRMbokpQqMtgTZK37AA/M9auT2KzMUcrs nDsQ8aUEusLiYgYsCQtcka/gP9SrnnglpRd9aUEPLO9VOQtIgLENDYMpAJL8+QkfwNUHLoO+NrJ zttSaBblbfFNxMffoCajOaOeKnFUjD3CHcvk9gvjnldWkUV0jfQVUDd8o4U7dohOcBB+dTYgyEc hLJZYvbYzftTV708+qemmMtxRWhZVkTvtlX932V0UJfRAF66
 X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-Hello,
+Since commit cdd30ebb1b9f ("module: Convert symbol namespace to string
+literal") the namespace has to be a string. Fix accordingly.
 
-Changes since (implicit) v1, available at
-https://lore.kernel.org/linux-kernel/cover.1733305665.git.ukleinek@kernel.org:
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+Link: https://lore.kernel.org/r/6fe15069c01b31aaa68c6224bec2df9f4a449858.1733305665.git.ukleinek@kernel.org
+---
+ Documentation/core-api/symbol-namespaces.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- - Use "string constant" instead of "C-string" in patch #1
- - Drop #undef
- - Mention that before all #include statements is a usual place for the
-   definition of DEFAULT_SYMBOL_NAMESPACE.
-
-Uwe Kleine-König (2):
-  doc: module: Fix documented type of namespace
-  doc: module: DEFAULT_SYMBOL_NAMESPACE must be defined before #includes
-
- Documentation/core-api/symbol-namespaces.rst | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
-
-
-base-commit: 8155b4ef3466f0e289e8fcc9e6e62f3f4dceeac2
+diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
+index 27a9cccc792c..473d025657fd 100644
+--- a/Documentation/core-api/symbol-namespaces.rst
++++ b/Documentation/core-api/symbol-namespaces.rst
+@@ -41,9 +41,9 @@ entries.
+ In addition to the macros EXPORT_SYMBOL() and EXPORT_SYMBOL_GPL(), that allow
+ exporting of kernel symbols to the kernel symbol table, variants of these are
+ available to export symbols into a certain namespace: EXPORT_SYMBOL_NS() and
+-EXPORT_SYMBOL_NS_GPL(). They take one additional argument: the namespace.
+-Please note that due to macro expansion that argument needs to be a
+-preprocessor symbol. E.g. to export the symbol ``usb_stor_suspend`` into the
++EXPORT_SYMBOL_NS_GPL(). They take one additional argument: the namespace as a
++string constant. Note that this string must not contain whitespaces.
++E.g. to export the symbol ``usb_stor_suspend`` into the
+ namespace ``USB_STORAGE``, use::
+ 
+ 	EXPORT_SYMBOL_NS(usb_stor_suspend, "USB_STORAGE");
 -- 
 2.45.2
 
