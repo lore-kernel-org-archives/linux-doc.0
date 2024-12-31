@@ -1,107 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20AF13C918;
-	Tue, 31 Dec 2024 02:10:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B0A28E7;
+	Tue, 31 Dec 2024 03:23:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735611011; cv=none; b=rp4v8pqeEc95Pc5q56evSMmqyXrlzbowx/CLlvJ29gQ+vE6x8i83dFEMUP+ss7KK7o2LV37hkku/gtHoFtHebl4Dkai/ZyX5jrucx2PjD/hAQ/HUUy7FZ5MYn0QYgm4WhbWFuloPFsJKuIUT//kzqUbGQsA/VNz7Up+V40+hAZQ=
+	t=1735615409; cv=none; b=LOTEjnxdSMJ7ryX+Lq1V635TBZFvpAYofISfN6FGA7/YjOUOxvV4lwhN4CfGZ0IDsz/Tot4qRpoydtDkhHDyOx9GikBxoQnyXrnRB52EvDwORckZ3m7oVwekbCFjucXZQa/qLsvBx9CCGaBzhE9U8AkbHYXy5ekqL3wf+Eyc5HM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735611011; c=relaxed/simple;
-	bh=uACa4budD4RS8hP+CAygN8N3iO9gZnbLK8aHPZ2ufUw=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=T8szGcEpKDytQHiBuV/Qr6F6ywH0us2spWl2ebXATUzD4sovdQE4XuEmNjy81afOFrFgoOUi886XEz5C9XlWPj5Y0kjQF2aNj89OXCmpMa9yZw+7rvDAygN3bzeOFAYKoYqE2sKq7PxZcy1m3a6Ugpy3bEF0IxGXObiD9Pp36z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kX8BGjuI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1735615409; c=relaxed/simple;
+	bh=1BMCC/ejG0uVeQt4XhOANsrsiI4+TzlWT5g18YHtsXg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kLe3dejqdxykvHCVatcdUs5fuwaydcqWZtjdhJ29lD900f7R0JU1BxqP7aSSXa3iblFPKH8eD6TqjrN7H4pBvznnPJ9+RByuo6nCYQae4ChExy78qKuw7j0s0De8z9d0GBItzD8LAErszdfw92TitoPGG8JImN/FNI+bdJDBXS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jO5bHsX8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kX8BGjuI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E9EAC4AF09;
-	Tue, 31 Dec 2024 02:10:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jO5bHsX8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82D4FC4CED0;
+	Tue, 31 Dec 2024 03:23:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735611011;
-	bh=uACa4budD4RS8hP+CAygN8N3iO9gZnbLK8aHPZ2ufUw=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=kX8BGjuInzd+SfIEQNfwuCZBccnrLB04HKbzWsYEXgnO6CE2iGzZNuetr8EEumPDA
-	 IwwaYNni15nUiM58igGW8ius69E8HQLV4ueRGuuYGkvitk6oDEHBi4ocue+o862TuU
-	 JKXTX4tQAYSRW4QQsnlDpV0LL0vk/oCzCWdVjHfdKM0/S7kfHNMl16d2H2iHaTq2JA
-	 k8j84JGcVIb5r2jiS4f/7rqLxOTsWr7ZgpOo79Hc0i/v80pFeSo6zc6/pzerm/JF/P
-	 FJxOcp/YlKBbWGpyAmpbN6W/7enOfmuYH7n4BTw7jKkyBlW+t1jTBVj+TGvVJ19rkr
-	 f96wOmjg2tzqg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADD9D380A964;
-	Tue, 31 Dec 2024 02:10:32 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1735615408;
+	bh=1BMCC/ejG0uVeQt4XhOANsrsiI4+TzlWT5g18YHtsXg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=jO5bHsX8N3FWzmo67rXJ6Y5zvqNRVNTetasfEKgBtJXmwBDyRT4xBSIme057mr5oJ
+	 3pSiJAqW0gG1/MgOZl5nR4lDwMiY9cAhtjTLAa+SJN9CMVgwBY0wcdJ7mOmZhm6MIQ
+	 ckC1X+WEWXsKOWE7X6LgA+eaGDwQLUDZSfpTW90llao9GHvOsaeJTUz4E59NblNfrp
+	 eNiYIpnIXD3y1Q0LA1a8WH4klJkMWOptcOj/dENrcoFhV+SqPP5KqOEm1e915oFMZf
+	 UDQkULYP2aOgb0TX+GpsrmDZz5YRGhQ3T9DP5ni1Qdmljc1Uaoz6KiUW+KiqMNtQgM
+	 oaTJEQI1gG7xw==
+Date: Mon, 30 Dec 2024 19:23:26 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Gur Stavi <gur.stavi@huawei.com>
+Cc: <andrew+netdev@lunn.ch>, <cai.huoqing@linux.dev>, <corbet@lwn.net>,
+ <davem@davemloft.net>, <edumazet@google.com>, <gongfan1@huawei.com>,
+ <guoxin09@huawei.com>, <helgaas@kernel.org>, <horms@kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <meny.yossefi@huawei.com>, <netdev@vger.kernel.org>, <pabeni@redhat.com>,
+ <shenchenyang1@hisilicon.com>, <shijing34@huawei.com>,
+ <wulike1@huawei.com>, <zhoushuai28@huawei.com>
+Subject: Re: [PATCH net-next v01 1/1] hinic3: module initialization and
+ tx/rx logic
+Message-ID: <20241230192326.384fd21d@kernel.org>
+In-Reply-To: <20241230141435.2817079-1-gur.stavi@huawei.com>
+References: <20241227103134.21168df3@kernel.org>
+	<20241230141435.2817079-1-gur.stavi@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [net v3] net: wwan: t7xx: Fix FSM command timeout issue
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <173561103149.1487469.7896899204540542630.git-patchwork-notify@kernel.org>
-Date: Tue, 31 Dec 2024 02:10:31 +0000
-References: <20241224041552.8711-1-jinjian.song@fibocom.com>
-In-Reply-To: <20241224041552.8711-1-jinjian.song@fibocom.com>
-To: Jinjian Song <jinjian.song@fibocom.com>
-Cc: chandrashekar.devegowda@intel.com, chiranjeevi.rapolu@linux.intel.com,
- haijun.liu@mediatek.com, m.chetan.kumar@linux.intel.com,
- ricardo.martinez@linux.intel.com, loic.poulain@linaro.org,
- ryazanov.s.a@gmail.com, johannes@sipsolutions.net, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, angelogioacchino.delregno@collabora.com,
- linux-arm-kernel@lists.infradead.org, matthias.bgg@gmail.com, corbet@lwn.net,
- linux-mediatek@lists.infradead.org, helgaas@kernel.org,
- danielwinkler@google.com, korneld@google.com, andrew+netdev@lunn.ch,
- horms@kernel.org
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello:
-
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Tue, 24 Dec 2024 12:15:52 +0800 you wrote:
-> When driver processes the internal state change command, it use an
-> asynchronous thread to process the command operation. If the main
-> thread detects that the task has timed out, the asynchronous thread
-> will panic when executing the completion notification because the
-> main thread completion object has been released.
+On Mon, 30 Dec 2024 16:14:35 +0200 Gur Stavi wrote:
+> > > The most popular combination in the last 3 decades was little endian
+> > > CPUs with big endian device interfaces. Endianity conversion was a
+> > > necessity and therefore endian annotation became standard practice.
+> > > But it was never symmetric, conversion to/from BE was more common than
+> > > conversion to/from LE.
+> > >
+> > > As the pendulum moved from horizontal market to vertical market and major
+> > > companies started to develop both hw and sw, the hw engineers transformed
+> > > proprietary parts of the interface to little endian to save extra work in
+> > > the sw. AWS did it. Azure did it. Huawei did it. These vertical companies
+> > > do not care about endianity of CPUs they do not use.
+> > > This is not "corporate verbiage" this is a real market shift.  
+> >
+> > Don't misquote me. You did it in your previous reply, now you're doing
+> > it again.
+> >
+> > If you don't understand what I'm saying you can ask for clarifications.
 > 
-> BUG: unable to handle page fault for address: fffffffffffffff8
-> PGD 1f283a067 P4D 1f283a067 PUD 1f283c067 PMD 0
-> Oops: 0000 [#1] PREEMPT SMP NOPTI
-> RIP: 0010:complete_all+0x3e/0xa0
-> [...]
-> Call Trace:
->  <TASK>
->  ? __die_body+0x68/0xb0
->  ? page_fault_oops+0x379/0x3e0
->  ? exc_page_fault+0x69/0xa0
->  ? asm_exc_page_fault+0x22/0x30
->  ? complete_all+0x3e/0xa0
->  fsm_main_thread+0xa3/0x9c0 [mtk_t7xx (HASH:1400 5)]
->  ? __pfx_autoremove_wake_function+0x10/0x10
->  kthread+0xd8/0x110
->  ? __pfx_fsm_main_thread+0x10/0x10 [mtk_t7xx (HASH:1400 5)]
->  ? __pfx_kthread+0x10/0x10
->  ret_from_fork+0x38/0x50
->  ? __pfx_kthread+0x10/0x10
->  ret_from_fork_asm+0x1b/0x30
->  </TASK>
-> [...]
-> CR2: fffffffffffffff8
-> 
-> [...]
+> We studied previous submissions and followed their example.
+> Were the maintainers wrong to approve Amazon and Microsoft drivers?
 
-Here is the summary with links:
-  - [net,v3] net: wwan: t7xx: Fix FSM command timeout issue
-    https://git.kernel.org/netdev/net/c/4f619d518db9
+It's not a right or wrong question, more a cost/benefit question.
+I'm not sure the community benefits from merging every single company's
+paravirt driver, when virtio exists. I'd say having those drivers
+upstream is somewhere around neutral.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+BTW very often guidance for new drivers is set by problems with already
+merged drivers. Not that it's necessarily the case here, just sharing
+some general knowledge about the upstream process.
 
+> I don't understand what the problem is. Please clarify.
 
+Primarily the fact that you keep arguing as if joining the community
+was done by winning a fight. If annotating HW structures with endian
+is beyond your / your teams capabilities, that's okay, just replace
+the "will not be converted" with "are currently not converted" in 
+the comment.
+
+For your reference here are the development stats showing that
+Huawei is the biggest net-taker of code reviews in networking:
+https://lore.kernel.org/all/20241119191608.514ea226@kernel.org/
