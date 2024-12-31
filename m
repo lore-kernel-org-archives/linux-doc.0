@@ -1,376 +1,174 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF772114;
-	Tue, 31 Dec 2024 11:11:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1FA2F4A
+	for <linux-doc@vger.kernel.org>; Tue, 31 Dec 2024 14:57:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735643507; cv=none; b=i2Za6gvlgiW83eX01ZEMDU0Pu9myYWpvPeb/zA55W9VmK81X3eq0sH7EujJkom5I+S/R5j7xF+wQDC4BgcE2zFxjGEg6IakF5mjFyOaYepf/jgRoR5b6FBOeN6d7hnHK3H3/vh8LQTPhAqLSB84GG9V89L8czJm2DAuUe20FeJk=
+	t=1735657066; cv=none; b=ApRFBeRqUKhFpvAmPZAFzIFcCWuRwS69zEltO4pk5kvHPNYPA3CpQpk8y5NpXJ3rY9NoCS/dM3+V6sH5GNqpJFoKnaPV/ElwqmNCmI66wHyX1G+HO+M2aRWYpB9sIALUT9Yw/8fZSuLSLF5EnQkdK7EUnG/1YDHpyB8+wnc4iyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735643507; c=relaxed/simple;
-	bh=oSpNPhnSapEL+6s0xCNCbShAPfua6b3WeA39udNkqW0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=uCVQZgf5DueSnfQuxZitmj70osF83WXVzLzPxc+yCqOxTpe2Zjwjs6gurk/igQ85e3bHMATmBZzQVDYJc0em4Cbsnj3ObxPJPTr1RMtnI7aa3oB5LDPkYr4EQyawKYeQ6AD7WimQwKr/usrl7CYzbJAcs3p39enJENBp5Kf6Qfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NRcq9Xpx; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1735657066; c=relaxed/simple;
+	bh=lG6G+OxPE1awUf8hfVzkeSQs5YQ+IpIFFlNtB/qz0ks=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ohiZ9SLeadap9EzlBM1InIc80lypLjM5nz5DwVv66V/JTBm/gOCLIykRoqy7IJYplv8P94Ny10frn4ZOnExlZtK6cplVl+sr0S0bhc5kbIAfXQnXZ0PP8BW39T8enam9P3eFKtQiqcOTnCrCFsv7Qu84of5V2r+CCD2j3s+36pE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cMR92U0f; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NRcq9Xpx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735643505; x=1767179505;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=oSpNPhnSapEL+6s0xCNCbShAPfua6b3WeA39udNkqW0=;
-  b=NRcq9XpxWol6rANL09v/UJHJQV0pyFTQS9AeZ5B3HmtU9r2Nf6wChYyH
-   kaqHRQa2BmBcCkNK1DaN+wZJ+UdTXEcjMbFpWliVGpDTS4M//VdV+rVgw
-   nj3oMDDkbP6OoBKNWnh4vziKAh9bFGPUd8z96hcrDmUzWKo2oFf4K0h3D
-   MRHVkq4TB1uAbsAAeD3quIQoRVaphzAfqSXt5pBs2jt+O5+L+9YmcM5B7
-   ue2h034oIOMXEg0HCTQOO7ZQCJwN5OVuyXwbMhBKya0x9kK46MV5i0rZR
-   tmVdMNCY7/YJl1UC2y+ITgLyqsano8vXOfpAoSnKv9UjO7uASmvWNiTFr
-   w==;
-X-CSE-ConnectionGUID: 2NUYEcRbSTaz9j0Qei+z/A==
-X-CSE-MsgGUID: PqGY+gNuTQyH5oSwFVvy6g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11301"; a="36081933"
-X-IronPort-AV: E=Sophos;i="6.12,279,1728975600"; 
-   d="scan'208";a="36081933"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2024 03:11:44 -0800
-X-CSE-ConnectionGUID: qMIJUrvISe2wGpdHdO1FmQ==
-X-CSE-MsgGUID: M9eNjBZRQZKSnFG3PD+VDQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="105652701"
-Received: from iklimasz-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.180])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2024 03:11:34 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Simona Vetter
- <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan Teki
- <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
- <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Paul Kocialkowski <contact@paulk.fr>, Maxime Ripard
- <mripard@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Neil
- Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?utf-8?Q?Herv?=
- =?utf-8?Q?=C3=A9?= Codina
- <herve.codina@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, Paul
- Kocialkowski <paul.kocialkowski@bootlin.com>, Luca Ceresoli
- <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v5 03/10] drm/bridge: add support for refcounted DRM
- bridges
-In-Reply-To: <20241231-hotplug-drm-bridge-v5-3-173065a1ece1@bootlin.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cMR92U0f"
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-30229d5b229so107296331fa.0
+        for <linux-doc@vger.kernel.org>; Tue, 31 Dec 2024 06:57:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1735657062; x=1736261862; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NsA+h8MrPKDybGr9ensERG0vy6cAQACpfuRAvQRAwoY=;
+        b=cMR92U0fKiKjIxtJc+3F5IxD5+LBHT8v8V+xw1DzEiIH7CuMhH5of7+B/a/irMXkeB
+         1G7HGfDHMDBFa1atXaxr3aFFRbwgb7pLWM5xB+zfwni0bKxqg0A62MhdfDGBUjToes09
+         LyK7KSZUJ+pnxnQvY1TaQEswzhF8RqNB+nDr38b6GeEFnsPFv6FUnM5jGxEbUzLLKM62
+         S4aio+WVMhOUsBVDThlSnV4Ry7K3r9yMXsaWE/z3G7nrDs+uuH7uYS6s/QYaCc83IWWc
+         LcbGDterqIZrll6dci52Mbu9RqbWEi/nvG0N18d65vsN+sOCesRpCaHckBE4b+O+q5Fy
+         ZLpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735657062; x=1736261862;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NsA+h8MrPKDybGr9ensERG0vy6cAQACpfuRAvQRAwoY=;
+        b=rpcKqJrm/SoIrAEla/Jj34nfaQBt4AwI4L7Cw24QUxUyM1WVBgq+ZTTnE8NUNpvANP
+         mPkif6gdm6fNIpMOrc9BbEmgmDQrk1wVXjG+bik8W+zASpLcL8vp+vOKFZrRIETBNoS/
+         6OggADPcyZLyR8bJiPc7YYmjFPJ5KfWikow/uLnMHZfC/lOPuCowQkHuZK94aVQQPeYk
+         o6rWy2xmwvRjNT+bIZtqLNXHNX2V31KVKxQp0yoYy/ACBCP0MNXbsz2v2Ls237CpZFLu
+         +C62xwOkppJl6hLyAhY5lPKv0Knr4eIm4VCwhLc62d8K4XJ0tFjy3acjX5A+l5yYATCT
+         Bbyw==
+X-Forwarded-Encrypted: i=1; AJvYcCX7KBKzQxmdi0bYIQxqcW62h4P8gcCQBeXZEmHlGB1w8Nl8ESVo9ozzTKyxp5dh4iiTEbrTUoWnWCI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzhraDs1X+oKnlEfbuScudaJjWodOmCDTmBotctUIFxt+hjAEdm
+	JynJdwCBOjOf9agfxZTehxhQ4G7K5oCZ4DW0PjsN/r0NfdcFv9VeEeBc+DRmITc=
+X-Gm-Gg: ASbGnctvNwkBaf4XdXVylUWrvrekSshdYb/O0nQzGG00H/pR26F9wv4wXt8QFuyk78a
+	aUgoS+QqZ53yfnKLABkCuxeAZ75fGklw2eVvzcm0md6BiiZ5js77T1poqgxWtUrPQab4f6AljTw
+	7fzQby6UuAd+9sClPbBFsj9QUNG0rfKnNL9v7m5NcM5jBGv4SFlibcKwQJa9RXu0hQQR+fgJgxY
+	4eGaUpB0c2aXwX9DUAYlKm37fSINxzRRLpTgcl7zimtHjmXtSwnMV5JS7ze0KeZgHsS1F55cDru
+	fZPJpl8a3/BABsovDjTWV/h7MUsb19MyOH0J
+X-Google-Smtp-Source: AGHT+IHHabGJB7P2rP60P6ye1QnJHOTGO/MyUod3wpaOty8DPQW3aBi+vUhFMSCQxe+qZNkA2ZI2rQ==
+X-Received: by 2002:a2e:be09:0:b0:302:2a23:cf6 with SMTP id 38308e7fff4ca-30468519747mr130229991fa.12.1735657062365;
+        Tue, 31 Dec 2024 06:57:42 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3045ad6c595sm37483571fa.3.2024.12.31.06.57.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Dec 2024 06:57:41 -0800 (PST)
+Date: Tue, 31 Dec 2024 16:57:38 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
+	Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Paul Kocialkowski <contact@paulk.fr>, Maxime Ripard <mripard@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	=?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v5 08/10] drm/bridge: samsung-dsim: use supporting
+ variable for out_bridge
+Message-ID: <7kpgrgqp2jx6ivkwdc5ax3dfah2qkajaedpcdadldselr4bdlq@jewss2bdl4or>
 References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
- <20241231-hotplug-drm-bridge-v5-3-173065a1ece1@bootlin.com>
-Date: Tue, 31 Dec 2024 13:11:31 +0200
-Message-ID: <87seq4nm3g.fsf@intel.com>
+ <20241231-hotplug-drm-bridge-v5-8-173065a1ece1@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241231-hotplug-drm-bridge-v5-8-173065a1ece1@bootlin.com>
 
-On Tue, 31 Dec 2024, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
-> DRM bridges are currently considered as a fixed element of a DRM card, and
-> thus their lifetime is assumed to extend for as long as the card
-> exists. New use cases, such as hot-pluggable hardware with video bridges,
-> require DRM bridges to be added and removed to a DRM card without tearing
-> the card down. This is possible for connectors already (used by DP MST), so
-> add this possibility to DRM bridges as well.
->
-> Implementation is based on drm_connector_init() as far as it makes sense,
-> and differs when it doesn't. A difference is that bridges are not exposed
-> to userspace,hence struct drm_bridge does not embed a struct
-> drm_mode_object which would provide the refcount and the free_cb. So here
-> we add to struct drm_bridge just the refcount and free_cb fields (we don't
-> need other struct drm_mode_object fields here) and instead of using the
-> drm_mode_object_*() functions we reimplement from those functions the few
-> lines that drm_bridge needs for refcounting.
->
-> The function to enroll a private bridge driver data structure into
-> refcounting is based on drm_connector_init() and so called
-> drm_bridge_init() for symmetry, even though it does not initialize anything
-> except the refcounting and the funcs pointer which is needed to access
-> funcs->destroy.
->
+On Tue, Dec 31, 2024 at 11:40:02AM +0100, Luca Ceresoli wrote:
+> Instead of using dsi->out_bridge during the bridge search process, use a
+> temporary variable and assign dsi->out_bridge only on successful
+> completion.
+> 
+> The main goal is to be able to drm_bridge_get() the out_bridge before
+> setting it in dsi->out_bridge, which is done in a later commit. Setting
+> dsi->out_bridge as in current code would leave a use-after-free window in
+> case the bridge is deallocated by some other thread between
+> 'dsi->out_bridge = devm_drm_panel_bridge_add()' and drm_bridge_get().
+
+I don't think that's how refcounting should work. Any of the functions
+that give you the bridge should also increase refcount, requiring manual
+_put() call afterwards. We might need a separate API for that.
+
+> 
+> This change additionally avoids leaving an ERR_PTR value in dsi->out_bridge
+> on failure. This is not necessarily a problem but it is not clean.
+> 
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->
+> 
 > ---
->
+> 
 > This patch was added in v5.
 > ---
->  drivers/gpu/drm/drm_bridge.c |  87 ++++++++++++++++++++++++++++++++++++
->  include/drm/drm_bridge.h     | 102 +++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 189 insertions(+)
->
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index b1f0d25d55e23000521ac2ac37ee410348978ed4..6255ef59f73d8041a8cb7f2c6e23e5a67d1ae926 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -198,6 +198,85 @@
->  static DEFINE_MUTEX(bridge_lock);
->  static LIST_HEAD(bridge_list);
+>  drivers/gpu/drm/bridge/samsung-dsim.c | 15 +++++++++------
+>  1 file changed, 9 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
+> index f8b4fb8357659018ec0db65374ee5d05330639ae..c4d1563fd32019efde523dfc0863be044c05a826 100644
+> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+> @@ -1705,6 +1705,7 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+>  	struct device *dev = dsi->dev;
+>  	struct device_node *np = dev->of_node;
+>  	struct device_node *remote;
+> +	struct drm_bridge *out_bridge;
+>  	struct drm_panel *panel;
+>  	int ret;
 >  
-> +static void drm_bridge_put_void(void *data)
-> +{
-> +	struct drm_bridge *bridge = (struct drm_bridge *)data;
-> +
-> +	drm_bridge_put(bridge);
-> +}
-> +
-> +static void drm_bridge_free(struct kref *kref)
-> +{
-> +	struct drm_bridge *bridge = container_of(kref, struct drm_bridge, refcount);
-> +
-> +	DRM_DEBUG("bridge=%p\n", bridge);
-> +
-> +	WARN_ON(!bridge->funcs->destroy);
+> @@ -1740,21 +1741,23 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+>  
+>  	panel = of_drm_find_panel(remote);
+>  	if (!IS_ERR(panel)) {
+> -		dsi->out_bridge = devm_drm_panel_bridge_add(dev, panel);
+> +		out_bridge = devm_drm_panel_bridge_add(dev, panel);
+>  	} else {
+> -		dsi->out_bridge = of_drm_find_bridge(remote);
+> -		if (!dsi->out_bridge)
+> -			dsi->out_bridge = ERR_PTR(-EINVAL);
+> +		out_bridge = of_drm_find_bridge(remote);
+> +		if (!out_bridge)
+> +			out_bridge = ERR_PTR(-EINVAL);
+>  	}
 
-Please don't add new DRM_DEBUG or WARN_ON where you can use the
-drm_dbg_* or drm_WARN_ON variants.
+While looking at this patch, I think we should migrate the driver to
+drm_of_find_panel_or_bridge(). Then your patch might add a function
+close to devm_drm_of_get_bridge() or drmm_of_get_bridge(). Otherwise we
+end up having too much duplicate boilerplate code.
 
-> +
-> +	if (bridge->funcs->destroy)
-> +		bridge->funcs->destroy(bridge);
-> +}
-> +
-> +/**
-> + * drm_bridge_init - Initialize bridge and move private driver data
-> + *                   lifetime management to the DRM bridge core
-> + *
-> + * @dev: struct device of the device whose removal shall trigger deallocation
-> + * @bridge: the bridge to initialize
-> + * @funcs: funcs structure for @bridge, which must have a valid .destroy func
-> + *
-> + * Takes over lifetime of a private bridge driver struct which embeds a
-> + * struct drm_bridge. To be called by bridge drivers just after having
-> + * allocated such a private structure. Initializes refcount to 1 and
-> + * installs a callback which will call funcs->destroy when refcount drops
-> + * to zero.
-> + *
-> + * After calling this function a bridge becomes a bridge with dynamic
-> + * lifetime (aka a refcounted bridge).
-> + *
-> + * Drivers calling this function:
-> + *  - must not allocate the private structure using devm_*() functions
-> + *  - must not deallocate the private structure on device removal
-> + *  - must deallocate the private structure in funcs->destroy
-> + *
-> + * Drivers not calling this function:
-> + *  - must take care of freeing their private structure either by allocating
-> + *    it using devm_*() functions or free it explicitly on device removal
-> + *    using kfree()
-> + *  - must set funcs->destroy to NULL
-> + *
-> + * On failure, calls funcs->destroy, thus the caller does not need to free
-> + * the driver private struct in case of error.
-> + *
-> + * Returns:
-> + * Zero on success, error code on failure.
-> + */
-> +int drm_bridge_init(struct device *dev,
-> +		    struct drm_bridge *bridge,
-> +		    const struct drm_bridge_funcs *funcs)
-> +{
-> +	int err;
-> +
-> +	DRM_DEBUG("bridge=%p, funcs=%ps\n", bridge, funcs);
-> +
-> +	if (!(funcs && funcs->destroy)) {
-> +		dev_warn(dev, "Missing funcs or destroy func pointer\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	bridge->free_cb = drm_bridge_free;
-> +	kref_init(&bridge->refcount);
-> +
-> +	err = devm_add_action_or_reset(dev, drm_bridge_put_void, bridge);
-> +	if (err)
-> +		return err;
-> +
-> +	bridge->funcs = funcs;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_bridge_init);
-> +
->  /**
->   * drm_bridge_add - add the given bridge to the global bridge list
->   *
-> @@ -207,6 +286,10 @@ void drm_bridge_add(struct drm_bridge *bridge)
->  {
->  	struct drm_bridge *br, *tmp;
 >  
-> +	DRM_DEBUG("bridge=%p\n", bridge);
-> +
-> +	drm_bridge_get(bridge);
-> +
->  	mutex_init(&bridge->hpd_mutex);
+>  	of_node_put(remote);
 >  
->  	list_for_each_entry_safe(br, tmp, &bridge_list, list)
-> @@ -251,6 +334,8 @@ void drm_bridge_remove(struct drm_bridge *bridge)
->  {
->  	struct drm_bridge *br, *tmp;
+> -	if (IS_ERR(dsi->out_bridge)) {
+> -		ret = PTR_ERR(dsi->out_bridge);
+> +	if (IS_ERR(out_bridge)) {
+> +		ret = PTR_ERR(out_bridge);
+>  		DRM_DEV_ERROR(dev, "failed to find the bridge: %d\n", ret);
+>  		return ret;
+>  	}
 >  
-> +	DRM_DEBUG("bridge=%p\n", bridge);
+> +	dsi->out_bridge = out_bridge;
 > +
->  	mutex_lock(&bridge_lock);
->  	list_del_init(&bridge->list);
->  	mutex_unlock(&bridge_lock);
-> @@ -260,6 +345,8 @@ void drm_bridge_remove(struct drm_bridge *bridge)
->  			br->funcs->bridge_event_notify(br, DRM_EVENT_BRIDGE_REMOVE, bridge);
->  
->  	mutex_destroy(&bridge->hpd_mutex);
-> +
-> +	drm_bridge_put(bridge);
->  }
->  EXPORT_SYMBOL(drm_bridge_remove);
->  
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 6976bd842cedf9ce06abfb7306e7a3b4915f0378..a548a6acb02e3d70c8e34de965f648320420a7d5 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -31,6 +31,7 @@
->  #include <drm/drm_encoder.h>
->  #include <drm/drm_mode_object.h>
->  #include <drm/drm_modes.h>
-> +#include <drm/drm_print.h>
->  
->  struct device_node;
->  
-> @@ -89,6 +90,18 @@ struct drm_bridge_funcs {
->  	 */
->  	void (*detach)(struct drm_bridge *bridge);
->  
-> +	/**
-> +	 * @destroy:
-> +	 *
-> +	 * Clean up bridge resources for bridges with dynamic
-> +	 * lifetime. This is called when the bridge refcount drops to
-> +	 * zero. It is never called for bridges without dynamic lifetime.
-> +	 *
-> +	 * See drm_bridge_init() for info about bridges with dynamic
-> +	 * lifetime.
-> +	 */
-> +	void (*destroy)(struct drm_bridge *bridge);
-> +
->  	/**
->  	 * @mode_valid:
->  	 *
-> @@ -810,6 +823,18 @@ struct drm_bridge {
->  	const struct drm_bridge_timings *timings;
->  	/** @funcs: control functions */
->  	const struct drm_bridge_funcs *funcs;
-> +
-> +	/**
-> +	 * @refcount: reference count for bridges with dynamic lifetime
-> +	 * (see drm_bridge_init)
-> +	 */
-> +	struct kref refcount;
-> +	/**
-> +	 * @free_cb: free function callback, only set for bridges with
-> +	 * dynamic lifetime
-> +	 */
-> +	void (*free_cb)(struct kref *kref);
-> +
->  	/** @driver_private: pointer to the bridge driver's internal context */
->  	void *driver_private;
->  	/** @ops: bitmask of operations supported by the bridge */
-> @@ -890,6 +915,83 @@ drm_priv_to_bridge(struct drm_private_obj *priv)
->  	return container_of(priv, struct drm_bridge, base);
->  }
->  
-> +static inline bool drm_bridge_is_refcounted(struct drm_bridge *bridge)
-> +{
-> +	return bridge->free_cb;
-> +}
-> +
-> +/**
-> + * drm_bridge_get - Acquire a bridge reference
-> + * @bridge: DRM bridge
-> + *
-> + * This function increments the bridge's refcount.
-> + *
-> + * It does nothing on non-refcounted bridges. See drm_bridge_init().
-> + */
-> +static inline void drm_bridge_get(struct drm_bridge *bridge)
-> +{
-> +	if (!drm_bridge_is_refcounted(bridge))
-> +		return;
-> +
-> +	DRM_DEBUG("bridge=%p GET\n", bridge);
-> +
-> +	kref_get(&bridge->refcount);
-> +}
-> +
-> +/**
-> + * drm_bridge_put - Release a bridge reference
-> + * @bridge: DRM bridge
-> + *
-> + * This function decrements the bridge's reference count and frees the
-> + * object if the reference count drops to zero.
-> + *
-> + * It does nothing on non-refcounted bridges. See drm_bridge_init().
-> + *
-> + * See also drm_bridge_put_and_clear() which is more handy in many cases.
-> + */
-> +static inline void drm_bridge_put(struct drm_bridge *bridge)
-> +{
-> +	if (!drm_bridge_is_refcounted(bridge))
-> +		return;
-> +
-> +	DRM_DEBUG("bridge=%p PUT\n", bridge);
-> +
-> +	kref_put(&bridge->refcount, bridge->free_cb);
-> +}
-> +
-> +/**
-> + * drm_bridge_put_and_clear - Given a bridge pointer, clear the pointer
-> + *                            then put the bridge
-> + *
-> + * @br_ptr: pointer to a struct drm_bridge (must be != NULL)
-> + *
-> + * Helper to put a DRM bridge (whose pointer is passed), but only after
-> + * setting its pointer to NULL. Useful for drivers having struct drm_bridge
-> + * pointers they need to dispose of, without leaving a use-after-free
-> + * window where the pointed bridge might have been freed while still
-> + * holding a pointer to it.
-> + *
-> + * For example a driver having this private struct::
-> + *
-> + *     struct my_bridge {
-> + *         struct drm_bridge *remote_bridge;
-> + *         ...
-> + *     };
-> + *
-> + * can dispose of remote_bridge using::
-> + *
-> + *     drm_bridge_put_and_clear(my_bridge->remote_bridge);
-> + */
-> +#define drm_bridge_put_and_clear(br_ptr) do { \
-> +	struct drm_bridge **brpp = &(br_ptr); \
-> +	struct drm_bridge *brp = *brpp; \
-> +	*brpp = NULL; \
-> +	drm_bridge_put(brp); \
-> +} while (0)
-> +
-> +int drm_bridge_init(struct device *dev,
-> +		    struct drm_bridge *bridge,
-> +		    const struct drm_bridge_funcs *funcs);
->  void drm_bridge_add(struct drm_bridge *bridge);
->  int devm_drm_bridge_add(struct device *dev, struct drm_bridge *bridge);
->  void drm_bridge_remove(struct drm_bridge *bridge);
+>  	DRM_DEV_INFO(dev, "Attached %s device (lanes:%d bpp:%d mode-flags:0x%lx)\n",
+>  		     device->name, device->lanes,
+>  		     mipi_dsi_pixel_format_to_bpp(device->format),
+> 
+> -- 
+> 2.34.1
+> 
 
 -- 
-Jani Nikula, Intel
+With best wishes
+Dmitry
