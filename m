@@ -1,140 +1,270 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 436B7187872;
-	Tue, 31 Dec 2024 07:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4824D2114;
+	Tue, 31 Dec 2024 10:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735631795; cv=none; b=i/MdcR5guuTIAVWPYO1a0X1c9dWGPEft6oJeJh2uKiqUnwg17d2DjjfzzQBGlpn5Y0vxf0hall3oJ3pv5EYOk6HkZU7GxqsTs8jQfSez/cBqQjYOwtErdwwxmdES5nhXAAn2QaJpKSMNDW+CwGVwWA9fCPkzmGyvtjInTziuzNk=
+	t=1735641627; cv=none; b=ahGDnhR4fZHOKgtRzr3p0piY/EeaipXJB+O4SMMSDC0KkrMNVhyv2V8NQcTUiZ6kGZrJX1e6rGagKrx4/8BbNx731YYOXCHzb58icBTiF6ieNZaTx+bkY5EaQy1pR94LMEOa8rvQYt00EvFUNUz95M1JC2znmnD195Y9s6DIYzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735631795; c=relaxed/simple;
-	bh=ndUUuADRZQz4vc3PlHVVgIMHvNH2fkoeXFXOrUR7kB8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Kx6YdddsTW/ocvhq1iALshciv7HJCta45dDqnSHLpOyZgY492uHYJUCcaLTDS+sY9zlqunLLGpMEDh1H+HeZBRKTomIMT1ExcJABiZheTNE7zVfm4Xc7ChD8lIhFDufwJFcoC6j76BfOiCuNrX6OpSAFzGNg45KSP2+tCN1sj1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rCy8MsP3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1735641627; c=relaxed/simple;
+	bh=xSN9YxMqUfvd0ilIdREZNIejV8mYM/Bsq11M4a1vq4M=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=b35Pi9d1HZjEbm22ZmPErSklrGQxkdAeIzVN8ipi8yA1ZDoFxv64v4CrTix/TMSa5D13ysCOgkSGvIIpnxM0+SfdYBJZVQrqmIfWBpUBNt74PXCmQKeL1H6+IkvVNN8xB7qWq1/IPDLEeW4Lw9tWD+QfK7qoGLoogyG11F6pM80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=WPAPKtUY; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rCy8MsP3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D324DC4CED6;
-	Tue, 31 Dec 2024 07:56:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735631794;
-	bh=ndUUuADRZQz4vc3PlHVVgIMHvNH2fkoeXFXOrUR7kB8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=rCy8MsP34cl10Tjz/rqu94F3xEmYMAALWhwHrmYdd2SzmnCCc0MhKyOll665JcP7E
-	 qoheN+u5urTY+z5LjodvSXkdlLzXBlgXPmyI6b4SejgHe/Np4FktdsO4LnW90vbdpi
-	 Hwdka37ekHxk0HIx6STtn6eyw6p0PjO3GRHc1/m8jvnkHsyMSQqqQVzwGrLkmJLi5j
-	 d6eHkMR/zAgLn/GAaskhkcqGIz+g9WDLLjl53RxrkErZ8QmzZjnnR8ZjZCsorejWLO
-	 pcWvUnC76gf2QbSe7XT7rQrvpo1YZqJrLo+4sT5J/THOJJaEtrIKln31Eh9UFqakRT
-	 Wto6CKrFSnR4A==
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-aaf3c3c104fso479580466b.1;
-        Mon, 30 Dec 2024 23:56:34 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU2VDus3B5Zgv26yLc8YlQdYHZcqxJ6tNaoQH3gFx/ZAwoWTlnUH9W7f39vi6Nbqsqpbl09i7zFsNPjeeg4@vger.kernel.org, AJvYcCXm8LNl1gsMWUEGIcCbaNVUXoWdozpGewFa3lf7+rz8fQkd+Tn62STWa4gvYGulk1bf+mjYQA/2vRk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7D9OdX3uI8dA06rzEtrU/M8QNdgexauVOeRs3N1jxsGteKleH
-	741UACEXeuNSV6tLu1/yK3iz2qkOfiDRaMXdusQF9R1W7/zGmWgxtZvJ/3myCxJoL3RertVH1Yi
-	mTOljQ0RcYum/9GsJ+Ft1Igp7/Ls=
-X-Google-Smtp-Source: AGHT+IGDt2q3oaihd4nxTSrdiOqM2wthTkMTfJCpd3xfPOKk3o6ujAvaRNNHYx7yPwSLmtgVwkMKTQXD1PKcKhcUkQ4=
-X-Received: by 2002:a17:907:7fa9:b0:aab:d8de:217e with SMTP id
- a640c23a62f3a-aac2c005b7amr3182406266b.26.1735631793454; Mon, 30 Dec 2024
- 23:56:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="WPAPKtUY"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D16AEFF804;
+	Tue, 31 Dec 2024 10:40:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1735641616;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=W8zUqXj3O8IYkBLRhov4a12tIG87b03AACsNoJSr458=;
+	b=WPAPKtUY3pxjlFskCb8iIB53zr8YVO4xMR3hikXeN47PjsuMjsWfGhduVtXvg0YRlVCNWO
+	TkDY0bdJwxtsfjKK/H80zQiAZfgiBxG3WxvRZXPPl1oP8vpBu7dnoj76ZgYPdszVZq3Kij
+	YvcVAn+TH2z8qlWVSMc0j5/l2bL3gmi+Dm3OArDegpwrykTN6l8a8VhDYaMRsGJzh+rxZ7
+	DfvUZz1EQlvBS3Vfeb1EPMof9wWxcnaDKryjJqCJLWf6l+RkncccXxzrmXUsA3IeJDz0Zb
+	OVDWxO6UvcJk2T2Ax832es2Ge4kwPrXbnPXUSjF7us0fXrj8NkOl7xzn5i2U2A==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v5 00/10] Add support for hot-pluggable DRM bridges
+Date: Tue, 31 Dec 2024 11:39:54 +0100
+Message-Id: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241230021503.14012-1-zhangtianyang@loongson.cn>
-In-Reply-To: <20241230021503.14012-1-zhangtianyang@loongson.cn>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Tue, 31 Dec 2024 15:56:21 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H56tOfi1oqnwh1O94Z3sAS7sAbeKQ_U_O6AD98YVq6F=w@mail.gmail.com>
-Message-ID: <CAAhV-H56tOfi1oqnwh1O94Z3sAS7sAbeKQ_U_O6AD98YVq6F=w@mail.gmail.com>
-Subject: Re: [PATCH V2] irqchip/loongarch-avec:Add multi-nodes topology support
-To: Tianyang Zhang <zhangtianyang@loongson.cn>
-Cc: kernel@xen0n.name, tglx@linutronix.de, loongarch@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPvJc2cC/23PzWrDMAwH8FcpPs/D8leSnvoeZYfJVhJDGwcnN
+ R0l7z6nDAJLjn8h/SS92EQp0MTOpxdLlMMU4lCC+Tgx138PHfHgS2ZSSC0UNLyP83h7dNynO8c
+ UfOkAi7UlW7XUSFYGx0RteL7R61fJfZjmmH7eOzKs1T9O2iMuAxdcowE0hJXx5oIxzrcwfLp4Z
+ yuY5YYYEIeILAg5JVvprPXG7hG1IbU4fCyrgqB2UNWqFuiaPaI3pIHqENEr4rRviSwg/btkWZZ
+ f0vZr4IUBAAA=
+X-Change-ID: 20240319-hotplug-drm-bridge-16b86e67fe92
+To: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: Paul Kocialkowski <contact@paulk.fr>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ =?utf-8?q?Herv=C3=A9_Codina?= <herve.codina@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, 
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.2
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-Hi, Tianyang,
+Hello,
 
-On Mon, Dec 30, 2024 at 10:15=E2=80=AFAM Tianyang Zhang
-<zhangtianyang@loongson.cn> wrote:
->
-> avecintc_init() enables the Advanced Interrupt Controller (AVEC) of
-> the boot CPU node, but nothing enables the AVEC on secondary nodes.
->
-> Move the enablement to the CPU hotplug callback so that secondary
-> nodes get the AVEC enabled too. In theory enabling it once per node
-> would be sufficient, but redundant enabling does no hard, so keep the
-> code simple and do it unconditionally.
->
-> Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
-> ---
->  drivers/irqchip/irq-loongarch-avec.c | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/irqchip/irq-loongarch-avec.c b/drivers/irqchip/irq-l=
-oongarch-avec.c
-> index 0f6e465dd309..988d3e02ac54 100644
-> --- a/drivers/irqchip/irq-loongarch-avec.c
-> +++ b/drivers/irqchip/irq-loongarch-avec.c
-> @@ -56,6 +56,15 @@ struct avecintc_data {
->         unsigned int            moving;
->  };
->
-> +static inline void avecintc_enable(void)
-> +{
-> +       u64 value;
-> +
-> +       value =3D iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
-> +       value |=3D IOCSR_MISC_FUNC_AVEC_EN;
-> +       iocsr_write64(value, LOONGARCH_IOCSR_MISC_FUNC);
-> +}
-> +
->  static inline void avecintc_ack_irq(struct irq_data *d)
->  {
->  }
-> @@ -127,6 +136,8 @@ static int avecintc_cpu_online(unsigned int cpu)
->
->         guard(raw_spinlock)(&loongarch_avec.lock);
->
-> +       avecintc_enable();
-> +
->         irq_matrix_online(loongarch_avec.vector_matrix);
->
->         pending_list_init(cpu);
-> @@ -339,7 +350,6 @@ static int __init irq_matrix_init(void)
->  static int __init avecintc_init(struct irq_domain *parent)
->  {
->         int ret, parent_irq;
-> -       unsigned long value;
->
->         raw_spin_lock_init(&loongarch_avec.lock);
->
-> @@ -378,14 +388,13 @@ static int __init avecintc_init(struct irq_domain *=
-parent)
->                                   "irqchip/loongarch/avecintc:starting",
->                                   avecintc_cpu_online, avecintc_cpu_offli=
-ne);
->  #endif
-> -       value =3D iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
-> -       value |=3D IOCSR_MISC_FUNC_AVEC_EN;
-> -       iocsr_write64(value, LOONGARCH_IOCSR_MISC_FUNC);
-> +       avecintc_enable();
->
->         return ret;
->
->  out_remove_domain:
->         irq_domain_remove(loongarch_avec.domain);
-> +       loongarch_avec.domain =3D NULL;
-This is unnecessary, since no one checks it, and there is no memory
-leak even if without it.
+this series aims at supporting Linux devices with a DRM pipeline whose
+final components can be hot-plugged and hot-unplugged, including one or
+more bridges.
 
-Huacai
+If you already know the use case and the approach, feel free to skip to
+"Roadmap and current status" below for the ongoing changes.
 
->  out_free_handle:
->         irq_domain_free_fwnode(loongarch_avec.fwnode);
->  out:
-> --
-> 2.20.1
->
+Use case
+========
+
+This series targets a professional product (GE SUNH) that is composed of a
+"main" part running on battery, with the main SoC and able to work
+autonomously with limited features, and an optional "add-on" that enables
+more features by adding more hardware peripherals.
+
+The hotplug connector has a MIPI DSI bus. The addon has a DSI-to-LVDS
+bridge and an LVDS panel attached to it. Different addon models can have
+different components. As a consequence, a DRM bridge must be added and
+removed at runtime without tearing down the whole card, which is currently
+not possible.
+
+Up to v4 (link at the bottom) there was a single patch series implementing
+both the hotplug connector driver (based on device tree overlays) and the
+DRM aspects. Starting with v5 we have split the two series to let each part
+of the work progress with its own pace.
+
+DRM hotplug bridge driver
+=========================
+
+DRM natively supports pipelines whose display can be removed, but all the
+components preceding it (all the display controller and any bridges) are
+assumed to be fixed and cannot be plugged, removed or modified at runtime.
+
+This series adds support for DRM pipelines having a removable part after
+the encoder, thus also allowing bridges to be removed and reconnected at
+runtime, possibly with different components.
+
+This picture summarizes the DRM structure implemented by this series:
+
+ .------------------------.
+ |   DISPLAY CONTROLLER   |
+ | .---------.   .------. |
+ | | ENCODER |<--| CRTC | |
+ | '---------'   '------' |
+ '------|-----------------'
+        |
+        |DSI            HOTPLUG
+        V              CONNECTOR
+   .---------.        .--.    .-.        .---------.         .-------.
+   | 0 to N  |        | _|   _| |        | 1 to N  |         |       |
+   | BRIDGES |--DSI-->||_   |_  |--DSI-->| BRIDGES |--LVDS-->| PANEL |
+   |         |        |  |    | |        |         |         |       |
+   '---------'        '--'    '-'        '---------'         '-------'
+
+ [--- fixed components --]  [----------- removable add-on -----------]
+
+Fixed components include:
+
+ * all components up to the DRM encoder, usually part of the SoC
+ * optionally some bridges, in the SoC and/or as external chips
+
+Components on the removable add-on include:
+
+ * one or more bridges
+ * a fixed connector (not one natively supporting hotplug such as HDMI)
+ * the panel
+
+The video bus is MIPI DSI in the example and in the implementation provided
+by this series, but the implementation is meant to allow generalization to
+other video busses without native hotplug support, such as parallel video
+and LVDS.
+
+Note that the term "connector" in this context is different from the "DRM
+connector" abstraction already present in the DRM subsystem (struct
+drm_connector).
+
+More details in the commit message of patch 4.
+
+Roadmap and current status
+==========================
+
+Up to v4 the design idea was heavily based on a "hotplug bridge driver" to
+decouple the two sides of the DRM pipeline. After a long discussion during
+Linux Plumbers Conference 2024, a different strategy was agreed with other
+DRM developers, which adds:
+
+ 1. add refcounting to DRM bridges (struct drm_bridge)
+ 2. handle gracefully atomic updates during bridge removal
+ 3. avoid DSI host drivers to have dangling pointers to DSI devices
+ 4. finish the hotplug bridge work, moving code to the core and
+    potentially removing the hotplug-bridge itself (this needs to be
+    clarified as points 1-3 are developed)
+
+This version implements the first item. Items 2-4 have not yet been
+developed. This version is sent to allow discussing the bridge refcounting
+implementation as soon as possible.
+
+Patch series overview
+=====================
+
+ * 2 Preliminary patches (may to be removed as this work progresses):
+   - drm/bridge: allow bridges to be informed about added and removed bridges
+   - drm/encoder: add drm_encoder_cleanup_from()
+
+ * Implement refcounting in the drm_bridge core:
+   - drm/bridge: add support for refcounted DRM bridges
+   - drm/tests: bridge: add KUnit tests for DRM bridges (init and destroy)
+   - drm/bridge: add documentation of refcounted bridges
+
+ * Adapt some existing bridges to be refcounted and/or to refcount bridges
+   they take a pointer to:
+   - drm/bridge: ti-sn65dsi83: use dynamic lifetime management
+   - drm/bridge: panel: use dynamic lifetime management
+   - drm/bridge: samsung-dsim: use supporting variable for out_bridge
+   - drm/bridge: samsung-dsim: refcount the out_bridge
+
+ * Add hotplug-bridge (may be removed as this work progresses): 
+   - drm/bridge: hotplug-bridge: add driver to support hot-pluggable DSI bridges
+
+That's all
+==========
+
+Thanks for you patience in reading this!
+
+Luca
+
+Changes in v5:
+- Implemented DRM bridge refcounting
+- removed the non-DRM patches, now in a separate series
+- Updated To/Cc list
+- Link to v4: https://lore.kernel.org/r/20240917-hotplug-drm-bridge-v4-0-bc4dfee61be6@bootlin.com
+
+Changes in v4:
+- Replaced DRM bridge notifier with a new callback in struct drm_bridge_funcs
+- Added patch for missing devlink (LEDs used by backlight)
+- Various cleanups
+- Rebased on v6.11
+- Link to v3: https://lore.kernel.org/r/20240809-hotplug-drm-bridge-v3-0-b4c178380bc9@bootlin.com
+
+Changes in v3 (too many changes in v3 to mention them all, but here are the
+big ones):
+- Rewrote the DT format to allow fully decoupled overlays and to avoid
+  adding properties (with the NVMEM exception still to be solved)
+- Implemented device instantiation based on the new DT format: i2c in
+  i2c-core-of.c nobus-devices in the connector driver
+- DRM: insert/remove an LVDS DRM connector on hot(un)plug events
+- Added patch for a devlink issue on overlay removal (mostly to start
+  discussion)
+- Link to v2: https://lore.kernel.org/r/20240510-hotplug-drm-bridge-v2-0-ec32f2c66d56@bootlin.com
+
+Changes in v2:
+- Added bindings and driver for ge,sunh-addon-connector
+- Removed bindings for the hotplug-video-connector, this is now represented
+  in DT as part of the ge,sunh-addon-connector
+- Various monior improvements to the DRM hotplug-bridge driver
+- Link to v1: https://lore.kernel.org/r/20240326-hotplug-drm-bridge-v1-0-4b51b5eb75d5@bootlin.com
+
+Co-developed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Luca Ceresoli (10):
+      drm/bridge: allow bridges to be informed about added and removed bridges
+      drm/encoder: add drm_encoder_cleanup_from()
+      drm/bridge: add support for refcounted DRM bridges
+      drm/bridge: add documentation of refcounted bridges
+      drm/tests: bridge: add KUnit tests for DRM bridges (init and destroy)
+      drm/bridge: ti-sn65dsi83: use dynamic lifetime management
+      drm/bridge: panel: use dynamic lifetime management
+      drm/bridge: samsung-dsim: use supporting variable for out_bridge
+      drm/bridge: samsung-dsim: refcount the out_bridge
+      drm/bridge: hotplug-bridge: add driver to support hot-pluggable DSI bridges
+
+ Documentation/gpu/drm-kms-helpers.rst   |   6 +
+ MAINTAINERS                             |   5 +
+ drivers/gpu/drm/bridge/Kconfig          |  17 +
+ drivers/gpu/drm/bridge/Makefile         |   1 +
+ drivers/gpu/drm/bridge/hotplug-bridge.c | 695 ++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/bridge/panel.c          |  20 +-
+ drivers/gpu/drm/bridge/samsung-dsim.c   |  26 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c   |  13 +-
+ drivers/gpu/drm/drm_bridge.c            | 221 ++++++++++
+ drivers/gpu/drm/drm_encoder.c           |  21 +
+ drivers/gpu/drm/tests/Makefile          |   1 +
+ drivers/gpu/drm/tests/drm_bridge_test.c | 128 ++++++
+ include/drm/drm_bridge.h                | 125 ++++++
+ include/drm/drm_encoder.h               |   1 +
+ 14 files changed, 1261 insertions(+), 19 deletions(-)
+---
+base-commit: be4c56b4b053bc75d98260740df4f9ec261c9699
+change-id: 20240319-hotplug-drm-bridge-16b86e67fe92
+
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
+
