@@ -1,117 +1,140 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDDA114F9C4;
-	Wed,  1 Jan 2025 18:52:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA801F5FA;
+	Wed,  1 Jan 2025 21:35:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735757540; cv=none; b=umg0br1D+Pnk8Xui2ZETszalJ7YkgieTeyK4Hb2xBXjm/v3e3ccANEFNPCN1cfoQmne5C2vpl8QEag9R3+4f4jI0zjgh3DcnmGTtVFnj8Y49dU4GRLob2Rfx/hADaEBxcdmnA1qBFxCKZ/qL/KIMtv7zRrbWPblSP2ciGXhv4gc=
+	t=1735767336; cv=none; b=IlOFwMn+eOFsmiN3dNkeB1NWp9lRzqmnbIiCh/j0StDUVU0Gi+5Ueu/BuK9fagWdjTeFoI5FeFVigvRtOkXZWPGL6EDGMsbxiasQbLEeIiRhQtvX0u5j2PwrH0yvCDJl2RLdp+kbdxNJphb/LCOWHd1tDuMmmJN19MStHS8fgxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735757540; c=relaxed/simple;
-	bh=88gzwe1RYaSx41GG9PYpHhUQHz8FsNgCN5dWgCqL5HI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uoWQmozt2/+h0IFHjXGCmf7a1VLQXFgpFSG5dT+viNOECzd/8aSP8ANOhnU6UomJowsCc7IoL2iuNetZcd5sJHp5lEE2tw673eNJ8r7nnNKq+v11+zCoymHo2ZnTkeW7Gw3iP8+3oZzbNp/5tqxrvfYk9WMx1inkBNDg+3OxKaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=MtMvM8CP; arc=none smtp.client-ip=212.227.15.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1735767336; c=relaxed/simple;
+	bh=VI1FVtTdDy6zRISgwkKnUfrXpXMVcNAmZGQ25y0xwEI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=frgIP8Us/CU+ytYsfYM5nVKF142p0j7opsah+SU5XOQpwZ5uplNTeqDpuS90bL8W8Y1iA0rfIDc3dSF2Y2+2WiIPOhN1jkmjZVn8TvfVG+J9zxiw9PbLL/hN3p96haULy/IfnYfX5AguuDuvuw5d0XCMVA5BxhbqHbwr3vQmEjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=odGBA8SU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="MtMvM8CP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1735757535; x=1736362335; i=w_armin@gmx.de;
-	bh=655BWo2yyk8Zg5TDnrLLwtachmnydLyPFedK2k3CEY4=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=MtMvM8CPDM0XyuolTW9PAGjzMAfApgKREPeiX2HzeXWrnLA0WAXnAcTztYGIpkx+
-	 WRen6W/5u4fxpX4k9i//qrGbegimWNU0faO34063cv52LoOeJ1kLnplwpGF9G0vJs
-	 ZHTp4cvQD5gCTvKCZXcyw9SJsBviSxEMIy6U46RKrzkdKblfygAqM4HqOlmyTTMVw
-	 uce9QSHplUa7UwqSj8EoiZWCnEbZY6MWxpQkRlVariqeY1S6zNPa3rbU/u5AaitSq
-	 kyIUeU+izRbMJVVRzPRCRBNaMGfnE4UkU3e6HhpbYjT19a6eQzLYvFObvNi+G1pdu
-	 L/Jq07E9E3p/IT1akA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.14] ([91.14.230.110]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MatVh-1u4aMm0dSd-00bZPS; Wed, 01
- Jan 2025 19:52:15 +0100
-Message-ID: <df7d0307-0b21-4a58-a599-538a4ffdfd94@gmx.de>
-Date: Wed, 1 Jan 2025 19:52:14 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="odGBA8SU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48247C4CECE;
+	Wed,  1 Jan 2025 21:35:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735767335;
+	bh=VI1FVtTdDy6zRISgwkKnUfrXpXMVcNAmZGQ25y0xwEI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=odGBA8SUpOMTRk0lWCE5KBuLhXp5s7lgYnpbTfXfVNf4otCnhc5EK1ujpEJAlvuXT
+	 HMK5Jm7tqRPDNW9Bm5LG4JLzsAH3kWGHzy++ykCUDDK7i8DmSPndwvdwS/DWl4reTV
+	 quUTJjeHjic3oo+V57TmmK2C8z7Qe61jhUzi4UJfDQ0XWa+jk7uOPvYqRFAC5BpX3H
+	 uqn5PYO1vRI8AxbSj8z8DTGjCeNLrzDrZ5y9EUPTkYiF6dupQpYOG9rLo7qQeSlzQ8
+	 duA4Da+a4Q48HWLUUsX2QEVlcLwk52+QDCMvDd8cEAQTxd2zDNY/c2TI81ZguokdWO
+	 4eYcjw+HPzA/g==
+From: SeongJae Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Rae Moar <rmoar@google.com>,
+	Shuah Khan <shuah@kernel.org>,
+	damon@lists.linux.dev,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH 0/7] mm/damon: remove DAMON debugfs interface
+Date: Wed,  1 Jan 2025 13:35:20 -0800
+Message-Id: <20250101213527.74203-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: platform/x86: wmi: mention tool for invoking WMI
- methods
-To: Hridesh MG <hridesh699@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20250101092730.87160-1-hridesh699@gmail.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <20250101092730.87160-1-hridesh699@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Et/2Md1sXmRctOA8hYqBX6VUBfBuWXHoU+fUuYk0ZPd5sAaKtoC
- wFyrpeIk/Lcxchk3Q7vvTzFL1sRMO11AjkHDlMFh2yqFwu3zUuQR3NlWJVO8fa+U1SnI+FA
- OgbiLZWBdtgbyTnnpi/Pty4ewKrSTPKUTZWV0EFLJrZ+JOdTYGD649OL51d0AYADWJI2Dpj
- OBpOhfqy2Of3I+CUdWZlw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:q393CSOHL9U=;u4orO8bIjUMILMGZptF6Lfvbvb0
- 4ASdGSHDChVd3sNY3Gy185C9ZM6p1dZ63ACwu1q2f3kUmAuJOSIf4pmXKhtGvVf39g3Bo5FO0
- UcrJwar3jmKE6ZHgR9e3F0SwwLaOALvySzxYJfy/lnyd35SRBKvJ/XMEQ2Nt0nNQxiJFUX/ZR
- bCx6WgA8DEK4V8Bt40yCHc8OxoIxR07drfHaL3TdHA8L2JsjrMRx6CCZq35hLlkUMi2v3Yl56
- mlnpKKojt4nHVQ326S6Rkx/+QRrUsr4TMSlIiTGL2SKO7rzBY/naJtL4hOxr2eU9i+SsEg39X
- 1f6reuw0UPQrXk2p0PBVqVIOT8xUva63CpHo+dKCMFvv0Rh2TXHpMg7DJ026kzuQrnb6+Axzv
- GdlVYv4QKoiHPofreHuUD7dYX2tFopz/aKkeeyE5XKqulvWkCaDM8tl59FW5Wx0MlYF9pa7Wj
- 3neM7FONxpVO7zl2oiwG2SWy3OxHBb00rjrFQXTFZqEXUhRdlDtu/qHy3j+pFPZrZzgNkkMhB
- bag1GkLUbqIQ/zG30B4kJPksC1Ix5yAt/+3hjK4aRbbhRFUWQ7W+CVRLmkc1rgex/Y3K85aNE
- Q53OL3o1PsPVjtI317nq0wZ19bYYSPNegXMNiSM7fTjsoypbLe45XRk9Fj/HWcDb3rQtktI1t
- P3o0QzqSGS/8mw2jpIrdGG+i+JlRMdK6IEym0GXNvhPVJatGoKGHEEGilWmzqw0QbTQxlyhUy
- xa87LDZYbDEe8puh+9Ztz6G7TP984IP6r3Azzr52SXRHURcAlztYpzaOX6qAdng+OVJaXVoKm
- UQRpERuRM+KgbjAbXRB/+O5hZFdesl2qmP9+yBwWDFrwh0MnBkx6GbhIrnIXoOcpmMeYYFglG
- Jo1RXwAnC84VCMgx7M7I3FdkSxGjRpYn3aXdyV+ucUagU9d2xSdhdVB6gExqp8eKog0xTOpgt
- gReJPpmZhy0SLRjUK/I0xaaHJn/GP/keZcDKrj/mZmcoypRxwi6K0LRbI40ixjBojpPspYVo5
- 5l+FkCfb2wYEdOAILG83BaXo2XHOWD4U9NRTHtgtTGkBfkUa4yz1gV5rzvIW06HBIKmFXRe/b
- vlRze+i/wvtQSLQD7TfFjkPbsxiULqY14mitptW5d6dwcbVXXv34bfIGbl423BJmktiLvwuEo
- =
+Content-Transfer-Encoding: 8bit
 
-Am 01.01.25 um 10:27 schrieb Hridesh MG:
+DAMON debugfs interface was the only user interface of DAMON at the
+beginning[1].  However, it turned out the interface would be not good
+enough for long-term flexibility and stability.
 
-> Add a reference to WMIExplorer, a tool useful for inspecting and
-> invoking WMI methods on Windows. This can assist developers in testing
-> and understanding WMI device functionality when porting drivers to
-> Linux.
+In Feb 2022[2], we therefore introduced DAMON sysfs interface as an
+alternative user interface that aims long-term flexibility and
+stability.  With its introduction, DAMON debugfs interface has announced
+to be deprecated in near future.
 
-Nice find!
+In Feb 2023[3], we announced the official deprecation of DAMON debugfs
+interface.  In Jan 2024[4], we further made the deprecation difficult to
+be ignored.
 
-Reviewed-by: Armin Wolf <W_Armin@gmx.de>
+In Oct 2024[5], we posted an RFC version of this patch series as the
+last notice.
 
->
-> Signed-off-by: Hridesh MG <hridesh699@gmail.com>
-> ---
->   Documentation/wmi/driver-development-guide.rst | 4 ++++
->   1 file changed, 4 insertions(+)
->
-> diff --git a/Documentation/wmi/driver-development-guide.rst b/Documentat=
-ion/wmi/driver-development-guide.rst
-> index 676873c98680..f7e1089a0559 100644
-> --- a/Documentation/wmi/driver-development-guide.rst
-> +++ b/Documentation/wmi/driver-development-guide.rst
-> @@ -41,6 +41,10 @@ helps in understanding how the WMI device is supposed=
- to work. The path of the A
->   method associated with a given WMI device can be retrieved using the `=
-`lswmi`` utility
->   as mentioned above.
->
-> +If you are attempting to port a driver to Linux and are working on a Wi=
-ndows
-> +system, `WMIExplorer <https://github.com/vinaypamnani/wmie2>`_ can be u=
-seful
-> +for inspecting available WMI methods and invoking them directly.
-> +
->   Basic WMI driver structure
->   --------------------------
->
+And as of this writing, no problem or concerns about the removal plan
+have reported.  Apparently users are already moved to the alternative,
+or made good plans for the change.
+
+Remove the DAMON debugfs interface code from the tree.  Given the past
+timeline and the absence of reported problems or concerns, it is safe
+enough to be done.
+
+[1] https://lore.kernel.org/20210716081449.22187-1-sj38.park@gmail.com
+[2] https://lore.kernel.org/20220228081314.5770-1-sj@kernel.org
+[3] https://lore.kernel.org/20230209192009.7885-1-sj@kernel.org
+[4] https://lore.kernel.org/20240130013549.89538-1-sj@kernel.org
+[5] https://lore.kernel.org/20241015175412.60563-1-sj@kernel.org
+
+Changes from RFC
+(https://lore.kernel.org/20241015175412.60563-1-sj@kernel.org)
+- Rebased on latest mm-unstable
+- Update and wordsmith commit messages
+
+SeongJae Park (7):
+  Docs/admin-guide/mm/damon/usage: remove DAMON debugfs interface
+    documentation
+  Docs/mm/damon/design: update for removal of DAMON debugfs interface
+  selftests/damon/config: remove configs for DAMON debugfs interface
+    selftests
+  selftests/damon: remove tests for DAMON debugfs interface
+  kunit: configs: remove configs for DAMON debugfs interface tests
+  mm/damon: remove DAMON debugfs interface kunit tests
+  mm/damon: remove DAMON debugfs interface
+
+ Documentation/admin-guide/mm/damon/usage.rst  |  309 -----
+ Documentation/mm/damon/design.rst             |   23 +-
+ mm/damon/Kconfig                              |   30 -
+ mm/damon/Makefile                             |    1 -
+ mm/damon/dbgfs.c                              | 1148 -----------------
+ mm/damon/tests/.kunitconfig                   |    7 -
+ mm/damon/tests/dbgfs-kunit.h                  |  173 ---
+ tools/testing/kunit/configs/all_tests.config  |    3 -
+ tools/testing/selftests/damon/.gitignore      |    3 -
+ tools/testing/selftests/damon/Makefile        |   11 +-
+ tools/testing/selftests/damon/config          |    1 -
+ .../testing/selftests/damon/debugfs_attrs.sh  |   17 -
+ .../debugfs_duplicate_context_creation.sh     |   27 -
+ .../selftests/damon/debugfs_empty_targets.sh  |   21 -
+ .../damon/debugfs_huge_count_read_write.sh    |   22 -
+ .../damon/debugfs_rm_non_contexts.sh          |   19 -
+ .../selftests/damon/debugfs_schemes.sh        |   19 -
+ .../selftests/damon/debugfs_target_ids.sh     |   19 -
+ .../damon/debugfs_target_ids_pid_leak.c       |   68 -
+ .../damon/debugfs_target_ids_pid_leak.sh      |   22 -
+ ...fs_target_ids_read_before_terminate_race.c |   80 --
+ ...s_target_ids_read_before_terminate_race.sh |   14 -
+ .../selftests/damon/huge_count_read_write.c   |   46 -
+ 23 files changed, 11 insertions(+), 2072 deletions(-)
+ delete mode 100644 mm/damon/dbgfs.c
+ delete mode 100644 mm/damon/tests/dbgfs-kunit.h
+ delete mode 100755 tools/testing/selftests/damon/debugfs_attrs.sh
+ delete mode 100755 tools/testing/selftests/damon/debugfs_duplicate_context_creation.sh
+ delete mode 100755 tools/testing/selftests/damon/debugfs_empty_targets.sh
+ delete mode 100755 tools/testing/selftests/damon/debugfs_huge_count_read_write.sh
+ delete mode 100755 tools/testing/selftests/damon/debugfs_rm_non_contexts.sh
+ delete mode 100755 tools/testing/selftests/damon/debugfs_schemes.sh
+ delete mode 100755 tools/testing/selftests/damon/debugfs_target_ids.sh
+ delete mode 100644 tools/testing/selftests/damon/debugfs_target_ids_pid_leak.c
+ delete mode 100755 tools/testing/selftests/damon/debugfs_target_ids_pid_leak.sh
+ delete mode 100644 tools/testing/selftests/damon/debugfs_target_ids_read_before_terminate_race.c
+ delete mode 100755 tools/testing/selftests/damon/debugfs_target_ids_read_before_terminate_race.sh
+ delete mode 100644 tools/testing/selftests/damon/huge_count_read_write.c
+
+-- 
+2.39.5
