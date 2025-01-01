@@ -1,71 +1,43 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC863207;
-	Wed,  1 Jan 2025 09:27:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FFF4F4ED;
+	Wed,  1 Jan 2025 12:51:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735723667; cv=none; b=qKe5z2z1iv7+2gZsSmDT2aKCALz5ZCB0+FFhldQbZ2ryhgMF38njtyvg9P9iuOTJU7ks6+/rhI9l9dgPYa2KXlz0TOYpiCszrOXEepgR8jhuPnct/s9MumUqj5cG7jIBxiWH93sGqyt8rlk8+wbRMEtTC8kzHQrFkR20wZLoZo8=
+	t=1735735908; cv=none; b=AeGP/a9xpEBtqWQjvaNK/vQBM+122S/lGwRRn80VprDRNTTqv+WAHZ136qwT6l0/tze6i8h7pdSHedO7fRmleVJb+lmTSd+9M++D3U+aLVTRaeZhaQN7K4T+YW+xaMhdvFOB+oEt9csgWAJLcE/maXMMo6B3PUKXpV/Kmz6su38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735723667; c=relaxed/simple;
-	bh=7BEIZOyfQREsK3yKOTfXYxIVcqf4vjErqs1rA1GtByw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WUgBJBUWVs9BCRF/dmSMyPlN4HhMAd3ljPztxUpTJdfPyrDI9sx2i8UHFfTzVDh17iZndKOf73l5eWXp+he0LAJ79us3OA07UJDxlUIlFPjHQ5YDXXsn1L1VMumWdMVbVQPgsuMVifybeG5S/XAMOIkV6ZqL9ipa/+QjPBLoSYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bRXwm59H; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bRXwm59H"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2167141dfa1so138438015ad.1;
-        Wed, 01 Jan 2025 01:27:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735723665; x=1736328465; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gblQ2fahvEh9trckZJPo2LZE0BYb0Hq82UUGKz6pcTk=;
-        b=bRXwm59HaOvCY/qGiPutPAs0TJl3Acgfc8JUO7vPVfOD8Gw5vOJBKFFggikK0TLhgn
-         zlwbVIi+VlF0S+wyA6xkFKyp//P8qFFKcn1P4GH4nz+zG7f9xU815eev1Nw/jeihcscp
-         fj5tGAz2EDzJjag7rmEThH/AiE/47PxhysL65ZArAxP0LAGrZrp6867KbTTtVPLUdVMH
-         66HpaEq4613pmh25otf9tKK18UVVUOoJi4KlUU2IvTLMzgkveqKrT8N8vMY5NZh4U18X
-         shOULcUN2QUTA8bmr+cLVXeeik3mIvBG78CQ8NuTBk9fjBt1bW1aY57X2LRuxFSyOgud
-         SBKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735723665; x=1736328465;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gblQ2fahvEh9trckZJPo2LZE0BYb0Hq82UUGKz6pcTk=;
-        b=H0okF1PfvESH/fj8g8AVmPyRWZdsJnx7m28aitIi1czKwTu4YaKT/TU4YTZdoFSivb
-         GVuWX3S/37VX1HyiZ8eA8aIWeMVy6LvASQOCAsB9XC2wGJc6WoBEW7oKckVAuhPyI+6e
-         Y5J5jV3fKgC509y+7TctduqVW93HyU0Y5gb2kE46AFjWdfAzVVIEXbIInUR98NaJ7TBc
-         YAC9zW4vdz0KYuNAWlbd7G8HiN9BH2W+veWSxRlQ0ONTa9pKgVmPpJDJU+hTq/OjXXB4
-         0aHzwKZSF8GHoNQdJIoE/l61lqmom8dHhUfoVyK+S2O1jctaV4Kb5CEqYGjUJUDLBjXj
-         VIJw==
-X-Forwarded-Encrypted: i=1; AJvYcCV4+DkwL1TmqKbAbTrPgdTFhVSGrTQmhd+vaovtODLh07sF/Jx8gRifec5M+2uJQBoD6sm+Vbd6OT/f78vx@vger.kernel.org, AJvYcCWF1j/xlpaDbMtvmWkFTbPWh4XKowZvdgXS7FA39LhDus2sCotTYJPD8CD/5rpuE00eGy1jK66R5hK48+jmPwuJsrHE6g==@vger.kernel.org, AJvYcCXnqbyuvKW08Bu6rZudNU69JR5TtkQ6PTNBjZZEzQOj3U2qM+3woNcOf+ALAZq7i0abH2EjSiF0yrw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywh9RCV1bQXRJTbXpy5+2ainoPBTuQ6s3TTthWWs2px1WFkM3Xb
-	09m0Hr3M8cKwIb984yvYdidB87P8gX/DOMkyeL+Zm0CdPGL0Ci/v
-X-Gm-Gg: ASbGncty3rAthuzbgqFhGjP6t79zSEwgdYr5ED4SvE9yPgcl8YAwP2vD4FJelTSqbvD
-	4HdM0it6GTQo2PbMulMLTXUMpVZYqim1MEzbrWT+k2VMtXtkMQmc0KS/RHPUZOYlS0goY5610+H
-	8y8LgxvipvjrjvbEaqnG857zFC+6MhrJew08E433uULD5Libn3mYFYhBMmv6rlc+LZjMK9q+Y2r
-	VVORBTeujskqapIrwpRDhBomcXvQnbOqW+THQL0Glp4bxm89l+K7Mfsb4Hu6r4Dglc01i3W4kY=
-X-Google-Smtp-Source: AGHT+IEDuUDwvHyLny+l+shGKwUGQnJ95Mwn8E/IINK5Pn2t1JwwoYPrMjg5bMpKdAFcB/N0l7qtjw==
-X-Received: by 2002:a17:903:90d:b0:215:5d8c:7e46 with SMTP id d9443c01a7336-219e6d6b689mr683337275ad.27.1735723664896;
-        Wed, 01 Jan 2025 01:27:44 -0800 (PST)
-Received: from localhost.localdomain ([2401:4900:4f85:9b9e:7c33:d875:2ba6:356b])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9d44a0sm206427345ad.165.2025.01.01.01.27.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jan 2025 01:27:44 -0800 (PST)
-From: Hridesh MG <hridesh699@gmail.com>
-To: Armin Wolf <W_Armin@gmx.de>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Hridesh MG <hridesh699@gmail.com>,
-	platform-driver-x86@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Shuah Khan" <skhan@linuxfoundation.org>
-Subject: [PATCH] docs: platform/x86: wmi: mention tool for invoking WMI methods
-Date: Wed,  1 Jan 2025 14:57:29 +0530
-Message-ID: <20250101092730.87160-1-hridesh699@gmail.com>
-X-Mailer: git-send-email 2.47.1
+	s=arc-20240116; t=1735735908; c=relaxed/simple;
+	bh=IwxplZAz9jhr0m/iz3qfjuGl/NMLcfpHVKDOhruPslQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nsrybxSX8ha8wZbDpiQbXDBwFn5Ut0NauFUyrT/72lJiYYuXoLCE9rqIfjkJc54cUB9/trY0ez+R7xJ1/36+g42WO3DwqGZZPgrYB+wNOGxElevDq30+fHSlKGBXAMASCfM6RzdfJrIXmHBQBE4ibTHrh2Brf+ID7sWQrHR4bKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YNV3f5D0Kz6K5kL;
+	Wed,  1 Jan 2025 20:47:26 +0800 (CST)
+Received: from frapeml500005.china.huawei.com (unknown [7.182.85.13])
+	by mail.maildlp.com (Postfix) with ESMTPS id 966411402C7;
+	Wed,  1 Jan 2025 20:51:42 +0800 (CST)
+Received: from china (10.200.201.82) by frapeml500005.china.huawei.com
+ (7.182.85.13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 1 Jan
+ 2025 13:51:31 +0100
+From: Gur Stavi <gur.stavi@huawei.com>
+To: Gur Stavi <gur.stavi@huawei.com>, gongfan <gongfan1@huawei.com>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	<linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas
+	<helgaas@kernel.org>, Cai Huoqing <cai.huoqing@linux.dev>, Xin Guo
+	<guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, Zhou
+ Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
+	<shijing34@huawei.com>, Meny Yossefi <meny.yossefi@huawei.com>
+Subject: [PATCH net-next v03 0/1] net: hinic3: Add a driver for Huawei 3rd gen NIC
+Date: Wed, 1 Jan 2025 15:04:30 +0200
+Message-ID: <cover.1735735608.git.gur.stavi@huawei.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -73,32 +45,132 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ frapeml500005.china.huawei.com (7.182.85.13)
 
-Add a reference to WMIExplorer, a tool useful for inspecting and
-invoking WMI methods on Windows. This can assist developers in testing
-and understanding WMI device functionality when porting drivers to
-Linux.
+This is the 1/3 patch of the patch-set described below.
 
-Signed-off-by: Hridesh MG <hridesh699@gmail.com>
----
- Documentation/wmi/driver-development-guide.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+The patch-set contains driver for Huawei's 3rd generation HiNIC
+Ethernet device that will be available in the future.
 
-diff --git a/Documentation/wmi/driver-development-guide.rst b/Documentation/wmi/driver-development-guide.rst
-index 676873c98680..f7e1089a0559 100644
---- a/Documentation/wmi/driver-development-guide.rst
-+++ b/Documentation/wmi/driver-development-guide.rst
-@@ -41,6 +41,10 @@ helps in understanding how the WMI device is supposed to work. The path of the A
- method associated with a given WMI device can be retrieved using the ``lswmi`` utility
- as mentioned above.
- 
-+If you are attempting to port a driver to Linux and are working on a Windows
-+system, `WMIExplorer <https://github.com/vinaypamnani/wmie2>`_ can be useful
-+for inspecting available WMI methods and invoking them directly.
-+
- Basic WMI driver structure
- --------------------------
- 
+This is an SRIOV device, designed for data centers.
+Initially, the driver only supports VFs.
+
+Following the discussion over RFC01, the code will be submitted in
+separate smaller patches where until the last patch the driver is
+non-functional. The RFC02 submission contains overall view of the entire
+driver but every patch will be posted as a standalone submission.
+
+Changes:
+
+RFC V01: https://lore.kernel.org/netdev/cover.1730290527.git.gur.stavi@huawei.com
+
+RFC V02: https://lore.kernel.org/netdev/cover.1733990727.git.gur.stavi@huawei.com
+* Reduce overall line of code by removing optional functionality.
+* Break down into smaller patches.
+
+PATCH 01 V01: https://lore.kernel.org/netdev/cover.1734599672.git.gur.stavi@huawei.com
+* Documentation style and consistency fixes (from Bjorn Helgaas)
+* Use ipoll instead of custom code (from Andrew Lunn)
+* Move dev_set_drvdata up in initialization order (from Andrew Lunn)
+* Use netdev's max_mtu, min_mtu (from Andrew Lunn)
+* Fix variable 'xxx' set but not used warnings (from Linux patchwork)
+
+PATCH 01 V02: https://lore.kernel.org/netdev/cover.1735206602.git.gur.stavi@huawei.com
+* Add comment regarding usage of random MAC. (Andrew Lunn)
+* Add COMPILE_TEST to Kconfig (Jakub Kicinski)
+
+PATCH 01 V03:
+* Rephrase Kconfig comment (Jakub Kicinski)
+* Kconfig: add 'select AUXILIARY_BUS' (Kernel test robot)
+* ARCH=um: missing include 'net/ip6_checksum.h' (Kernel test robot)
+
+
+gongfan (1):
+  hinic3: module initialization and tx/rx logic
+
+ .../device_drivers/ethernet/huawei/hinic3.rst | 137 ++++
+ MAINTAINERS                                   |   7 +
+ drivers/net/ethernet/huawei/Kconfig           |   1 +
+ drivers/net/ethernet/huawei/Makefile          |   1 +
+ drivers/net/ethernet/huawei/hinic3/Kconfig    |  18 +
+ drivers/net/ethernet/huawei/hinic3/Makefile   |  21 +
+ .../ethernet/huawei/hinic3/hinic3_common.c    |  53 ++
+ .../ethernet/huawei/hinic3/hinic3_common.h    |  27 +
+ .../ethernet/huawei/hinic3/hinic3_hw_cfg.c    |  30 +
+ .../ethernet/huawei/hinic3/hinic3_hw_cfg.h    |  58 ++
+ .../ethernet/huawei/hinic3/hinic3_hw_comm.c   |  37 +
+ .../ethernet/huawei/hinic3/hinic3_hw_comm.h   |  13 +
+ .../ethernet/huawei/hinic3/hinic3_hw_intf.h   |  85 +++
+ .../net/ethernet/huawei/hinic3/hinic3_hwdev.c |  24 +
+ .../net/ethernet/huawei/hinic3/hinic3_hwdev.h |  82 +++
+ .../net/ethernet/huawei/hinic3/hinic3_hwif.c  |  15 +
+ .../net/ethernet/huawei/hinic3/hinic3_hwif.h  |  50 ++
+ .../net/ethernet/huawei/hinic3/hinic3_lld.c   | 410 +++++++++++
+ .../net/ethernet/huawei/hinic3/hinic3_lld.h   |  20 +
+ .../net/ethernet/huawei/hinic3/hinic3_main.c  | 421 +++++++++++
+ .../net/ethernet/huawei/hinic3/hinic3_mbox.c  |  17 +
+ .../net/ethernet/huawei/hinic3/hinic3_mbox.h  |  16 +
+ .../net/ethernet/huawei/hinic3/hinic3_mgmt.h  |  13 +
+ .../huawei/hinic3/hinic3_mgmt_interface.h     | 111 +++
+ .../huawei/hinic3/hinic3_netdev_ops.c         |  77 ++
+ .../ethernet/huawei/hinic3/hinic3_nic_cfg.c   | 254 +++++++
+ .../ethernet/huawei/hinic3/hinic3_nic_cfg.h   |  45 ++
+ .../ethernet/huawei/hinic3/hinic3_nic_dev.h   | 100 +++
+ .../ethernet/huawei/hinic3/hinic3_nic_io.c    |  21 +
+ .../ethernet/huawei/hinic3/hinic3_nic_io.h    | 117 +++
+ .../huawei/hinic3/hinic3_queue_common.c       |  65 ++
+ .../huawei/hinic3/hinic3_queue_common.h       |  51 ++
+ .../net/ethernet/huawei/hinic3/hinic3_rss.c   |  24 +
+ .../net/ethernet/huawei/hinic3/hinic3_rss.h   |  12 +
+ .../net/ethernet/huawei/hinic3/hinic3_rx.c    | 401 ++++++++++
+ .../net/ethernet/huawei/hinic3/hinic3_rx.h    |  91 +++
+ .../net/ethernet/huawei/hinic3/hinic3_tx.c    | 692 ++++++++++++++++++
+ .../net/ethernet/huawei/hinic3/hinic3_tx.h    | 129 ++++
+ .../net/ethernet/huawei/hinic3/hinic3_wq.c    |  29 +
+ .../net/ethernet/huawei/hinic3/hinic3_wq.h    |  75 ++
+ 40 files changed, 3850 insertions(+)
+ create mode 100644 Documentation/networking/device_drivers/ethernet/huawei/hinic3.rst
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/Kconfig
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/Makefile
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_common.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_common.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_hw_intf.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_hwdev.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_hwdev.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_hwif.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_hwif.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_lld.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_lld.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_main.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_mbox.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_mbox.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_mgmt.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_mgmt_interface.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_nic_cfg.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_queue_common.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_queue_common.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_rss.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_rss.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_rx.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_rx.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_tx.h
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_wq.c
+ create mode 100644 drivers/net/ethernet/huawei/hinic3/hinic3_wq.h
+
+
+base-commit: 9268abe611b09edc975aa27e6ce829f629352ff4
 -- 
-2.47.1
+2.45.2
 
