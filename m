@@ -1,223 +1,176 @@
-Received: from mail-m3276.qiye.163.com (mail-m3276.qiye.163.com [220.197.32.76])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37C2125D6
-	for <linux-doc@vger.kernel.org>; Thu,  2 Jan 2025 10:59:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2202613FEE
+	for <linux-doc@vger.kernel.org>; Thu,  2 Jan 2025 11:35:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735815573; cv=none; b=fGKI/nIJQL3L8mhcJGMWJbR+d6lx0IqaOZmoLf13E4Ma+hIchMJ330ybaQ7AQ0Hy5Bqjxetcoe+5E55LAXMND1kY++0fWKNXJp+WgRWKYlBopvRt64U0X8ia6s24db8aQazOvTIisGtWEkczF/3oHUT+c0eUxrximqMyqxPvk8M=
+	t=1735817756; cv=none; b=MIUH0svzZqJkVvys0sYIJJQIvTEQkj+WAkid4Lop/WGLZtgFoayFHzOhd3MP9yN6fbkHGGbH4d/bj+fgXLon0cp4ta+Ld6ieefo49t2CAPglpBcaMqX+7dL9uD2R9BQ5vHuQyIKh7Rjx7ieTIRN65ktkhTtSMHub5+KB0yMtxPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735815573; c=relaxed/simple;
-	bh=7uXB27ZKsHxJWPVyDsxSA62LNiCGdFYyXk/LxDMa+i8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=D+UQo/wtC1X4MHZqkrexAWqk8Jejm26Mu2YnFSHj2iELXVvedPyjRINIn8ss2s+EUfsfPgFkvr3RVM99BscxpgvyNE40YODZ0zknPTnt37E1BFL1wla8buMjI2/npaDE7Wqi/pleSPTRF2pG1RMsnjFkEfNdqljCpAzeM4IdqVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=RHfxyicH; arc=none smtp.client-ip=220.197.32.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
+	s=arc-20240116; t=1735817756; c=relaxed/simple;
+	bh=jPwzxu6JMhSPoRS2vMKIcwfSVYT3dafZi4QNVHv3NCg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bDUlNa8H6ZIgbyXjVX7Na5x24k0qetXHVT1xe5uI8FC1jueCdcjssjSAcY7AZoj28Rg3UIaJ1QwNxG4UYNgcRaWon+8VKfdEhdwz2uYCSl2q0u77PSzSekcN1h8CPeOzwB0GnQDAupc4MuMmuMEROPed+IQoir9B4T874tZajk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BYYVySp6; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="RHfxyicH"
-Received: from fedora.localdomain (unknown [1.193.59.150])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 78147324;
-	Thu, 2 Jan 2025 18:44:09 +0800 (GMT+08:00)
-From: Yuxian Mao <maoyuxian@cqsoftware.com.cn>
-To: alexs@kernel.org,
-	si.yanteng@linux.dev,
-	corbet@lwn.net
-Cc: zhaoyuehui@cqsoftware.com.cn,
-	zhaoshuo@cqsoftware.com.cn,
-	zhangwei@cqsoftware.com.cn,
-	linux-doc@vger.kernel.org,
-	Yuxian Mao <maoyuxian@cqsoftware.com.cn>
-Subject: [PATCH v2] docs/zh_CN: Add landlock index Chinese translation
-Date: Thu,  2 Jan 2025 18:44:04 +0800
-Message-ID: <20250102104406.17600-1-maoyuxian@cqsoftware.com.cn>
-X-Mailer: git-send-email 2.47.1
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BYYVySp6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1735817754;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=5ukftuiSSdjRUGWNl+Q9bxAz+SDSXpgm9QL3acZknL8=;
+	b=BYYVySp6njuXLX7gtoXJAAx5CVZ8YbZ+MGW9Ks+jmtrjymXaesAgkTy75mOH1raB7PRD+B
+	OJLMylEx75HVb+HO1ohV1avrOYGeJSkpBpQuqkZw2uisFJXzJtx7zFLeLLj3OX+pZkjZRD
+	s8Zr8eIS6NTBG6Gq6hn8O2fJzGiCw7s=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-689-i1dLoj4QMUS3vtzYgaUmUg-1; Thu, 02 Jan 2025 06:35:53 -0500
+X-MC-Unique: i1dLoj4QMUS3vtzYgaUmUg-1
+X-Mimecast-MFC-AGG-ID: i1dLoj4QMUS3vtzYgaUmUg
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-385e2579507so4945685f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 02 Jan 2025 03:35:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735817752; x=1736422552;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=5ukftuiSSdjRUGWNl+Q9bxAz+SDSXpgm9QL3acZknL8=;
+        b=mwH0AZN8gh1brMmX8TB8zfAO8RT6Qv00RU7b1+HIw/OCkCEwlH/MykZroGfE/PRmTc
+         jrQRx7OpWdWCAveuq0S3soplcGIbCmDjbz90xEzneo2990x2AuSJQn0e3u5WCpBbR0tj
+         ahgLkwQzHI7uyIWoCSKspzTehpNIVevGTkmbmKSKGkdJI1ABoqbb3lSTjt9kmDtpjAoJ
+         SMaqE6rRL0k3o/61We1ZIuB6e6v1bxodPkxMp2EMJPGV2WH0o00QICybgiZrHBix7V5G
+         MTsT+EzdD9oY/O1qQa7n1o63538CIConjJ+c6p6eC+pBE9PqLTKP7BEdu8UA3w76CblQ
+         FBYA==
+X-Forwarded-Encrypted: i=1; AJvYcCVMyRc//+a+gMJtyGWWUG/VkUDwI26ti+4OSt3OQy1k4YCXrGfAIChdEMgly93vrKE83oMtbZrER7s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjmQelnc2V1HPU1hWf89+eClIB6lwk4BIG5l/Sh5Mggwzp4w0r
+	xOw+c8Z1AxaewxnJefV4ikQBewAzl5nKH0zCbV7SXrQnrT6HMpBIyeAmczxC/ggnrdrTRaIUovu
+	V7/VrLdJg8zizjCPOM2AQ/GipVg2OoOykm86qWN0AEjf+8SKC1KzjckYL1w==
+X-Gm-Gg: ASbGnctbvKMiKInqEeeNLeRWoh+R594/KALxt+DUtmpccQvcbrZFe4KRykImFYR39Av
+	+d2hdB++P8haHYkhZXdj4CkpxevT3u50pCYkRIK4GQ42IYhvVNgVfjE6VzZAZnHTULD3/VfRCQ+
+	nu+8fvvif8gBjxqifLl1xPMLH1qR8uEmN2EL82K0xmT7MZ14EWKeuFdcuGPqh+jx+xnZR/5ukYV
+	nK9Rs9fmZqdZwXPJyVJWj7/r/ymTIojxIn/2s2h7UUlo93YjOneLAcdNvk82XFJCVkugt8rKjMf
+	g198bwFUnOZre9n3VNlc/WB+8ZBBQzxylP8UZ6UO5fwvOl/zxnvd3HjLIMw5xU6jQNmclOfrXj5
+	MsiIgdB6t
+X-Received: by 2002:a05:6000:480a:b0:386:1cd3:89fa with SMTP id ffacd0b85a97d-38a221fa8c6mr43353747f8f.33.1735817751898;
+        Thu, 02 Jan 2025 03:35:51 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHTvXfH9Yjkw7Lq8XjHNQdAJWD6JFUT9lIiaonrhZq0Se6kwgjVAxEZ6BjDbqnSc4iGe+BANQ==
+X-Received: by 2002:a05:6000:480a:b0:386:1cd3:89fa with SMTP id ffacd0b85a97d-38a221fa8c6mr43353722f8f.33.1735817751577;
+        Thu, 02 Jan 2025 03:35:51 -0800 (PST)
+Received: from ?IPV6:2003:cb:c735:9400:f91f:1f24:e403:81fe? (p200300cbc7359400f91f1f24e40381fe.dip0.t-ipconnect.de. [2003:cb:c735:9400:f91f:1f24:e403:81fe])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c84705esm38104596f8f.44.2025.01.02.03.35.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Jan 2025 03:35:50 -0800 (PST)
+Message-ID: <3a2d03dd-ee70-43b4-8b05-1be948bd0997@redhat.com>
+Date: Thu, 2 Jan 2025 12:35:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZHk8aVkNCSk9PQhpDSU9NSlYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKVUpCSFVOQlVKTktZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSExVSktLVU
-	pCS0tZBg++
-X-HM-Tid: 0a94269d957509d8kunm78147324
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MFE6Ljo5HzIXCy8eAQItGAs*
-	GihPCyJVSlVKTEhOQ0pPTU5LSExDVTMWGhIXVRYaFAIOAxIaFTsYCggUHQ8MGgkeVRgUFlUYFUVZ
-	V1kSC1lBWUpVSkJIVU5CVUpOS1lXWQgBWUFNTU9KNwY+
-DKIM-Signature:a=rsa-sha256;
-	b=RHfxyicH+gclvZa+OWIROM/WiDzUzJrQhGZjDZg8C+iqHlazSXbkhN0W87YzRY6xNiZIDPL0c6O0caoHIXQbH4ghkT6hGBVCUbpidnPAJaVdgAHahYSxaPCHZs59H0tl3PTf96Z4FO/6LOGd/i+o2SkCVX3a2VOzirH3oTo5Bik=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
-	bh=Kj01Lzc2zYLlnvpexzlnuPiIhx7e7iByJzjl596HA2w=;
-	h=date:mime-version:subject:message-id:from;
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] mm: add build-time option for hotplug memory default
+ online type
+To: Gregory Price <gourry@gourry.net>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, loongarch@lists.linux.dev,
+ kernel-team@meta.com, corbet@lwn.net, osalvador@suse.de,
+ akpm@linux-foundation.org, chenhuacai@kernel.org, kernel@xen0n.name,
+ gregkh@linuxfoundation.org, rafael@kernel.org
+References: <20241220210709.300066-1-gourry@gourry.net>
+ <5e958aaa-b1ac-4512-a592-0e1612032861@redhat.com>
+ <Z2edvO0X6H_IoMRz@gourry-fedora-PF4VCD3F>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <Z2edvO0X6H_IoMRz@gourry-fedora-PF4VCD3F>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Translate lwn/Documentation/security/landlock.rst into Chinese.
+On 22.12.24 06:03, Gregory Price wrote:
+> On Sat, Dec 21, 2024 at 04:30:21PM +0100, David Hildenbrand wrote:
+>>
+>>> -config MEMORY_HOTPLUG_DEFAULT_ONLINE
+>>> -	bool "Online the newly added memory blocks by default"
+>>> -	depends on MEMORY_HOTPLUG
+>>> +choice
+>>> +	prompt "Memory Hotplug Default Online Type"
+>>> +	default MHP_DEFAULT_ONLINE_TYPE_OFFLINE
+>>>    	help
+>>> +	  Default memory type for driver managed hotplug memory.
+>>
+>> We should call it "hotplugged memory" consistently, which it is from a pure
+>> core-mm perspective ("add memory").
+>>
+>> "Driver managed" reminds too much about add_memory_driver_managed(), which
+>> is only one case. Maybe just drop the "e.g., page tables" from the examples
+>> below.
+>>
+> 
+> I suppose it's accurate that this also affects VM-hotplugged memory,
+> which may not necessarily be "driver managed" in that regard. So it's
+> more accurate to just say "hotplugged memory" - although even that's not
+> quite completely accurate according to the definition in the docs.
+> 
+> Either way, will change it to "hotplugged memory".
 
-Update the translation through commit dad2f2071516
-("landlock: Fix grammar issues in documentation")
+The "really correct" thing might be "hot-added memory blocks", because 
+that's what it is from a Linux MM POV.
 
-Signed-off-by: Yuxian Mao <maoyuxian@cqsoftware.com.cn>
----
+Not sure though, if that will be particularly easier to grasp for end users.
 
-v2:
-
-complete the commit tag 
-
- .../translations/zh_CN/security/index.rst     |   2 +-
- .../translations/zh_CN/security/landlock.rst  | 123 ++++++++++++++++++
- 2 files changed, 124 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/security/landlock.rst
-
-diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
-index ceb700fe4561..3f68e3145322 100644
---- a/Documentation/translations/zh_CN/security/index.rst
-+++ b/Documentation/translations/zh_CN/security/index.rst
-@@ -18,6 +18,7 @@
-    lsm
-    siphash
-    digsig
-+   landlock
- 
- TODOLIST:
- * credentials
-@@ -29,6 +30,5 @@ TODOLIST:
- * SCTP
- * self-protection
- * tpm/index
--* landlock
- * secrets/index
- * ipe
-diff --git a/Documentation/translations/zh_CN/security/landlock.rst b/Documentation/translations/zh_CN/security/landlock.rst
-new file mode 100644
-index 000000000000..53b449b637b2
---- /dev/null
-+++ b/Documentation/translations/zh_CN/security/landlock.rst
-@@ -0,0 +1,123 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. Copyright ? 2017-2020 Micka?l Salaün <mic@digikod.net>
-+.. Copyright ? 2019-2020 ANSSI
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/security/landlock.rst
-+
-+:翻译:
-+
-+ 毛玉贤 Yuxian Mao <maoyuxian@cqsoftware.com.cn>
-+
-+======================
-+Landlock LSM: 内核文档
-+======================
-+
-+:作者: Mickaël Salaün
-+:日期: 2022年12月
-+
-+Landlock的目标是创建有范围的访问控制（即沙箱机制）。为了增强整个
-+系统的安全性，此功能应适用于任何进程，包括非特权进程。因为这些进
-+程可能被攻击或植入后门（即不可信任的），所以从内核和其他进程的角
-+度来看，Landlock的功能必须安全可用。因此，Landlock 的接口设计应当
-+尽量减少可能的攻击点。
-+
-+Landlock 旨在为非特权进程使用，同时遵循由其他访问控制机制（例如 DAC、LSM）
-+强制执行的系统安全策略。Landlock 规则不应与系统上强制执行的其他访问
-+控制相冲突，而只能添加额外的限制。
-+
-+任何用户都可以在其进程上强制执行Landlock规则集。这些规则集会以一种
-+确保只能添加更多约束的方式与继承的规则集合并和评估。
-+
-+
-+用户空间文档如下：
-+Documentation/userspace-api/landlock.rst.
-+
-+安全访问控制机制指导原则
-+========================
-+
-+* Landlock规则应侧重于对内核对象的访问控制，而非系统调用过滤（即
-+  系统调用参数），后者是seccomp-bpf要侧重的。
-+* 为了避免多种侧信道攻击（例如安全策略泄露、基于CPU的攻击），Landlock
-+  规则不应与用户空间进行程序化通信。
-+* 内核访问检查不应降低未沙盒化进程的访问请求速度。
-+* 与 Landlock 操作相关的计算（例如强制执行规则集）应仅影响请求这些
-+  操作的进程。
-+* 由沙盒化进程直接从内核中获得的资源（例如文件描述符）在被任何进程
-+  使用时，都应保留其获取时的作用域访问权限。
-+  Cf. `文件描述符访问权限`_.
-+
-+设计选择
-+========
-+
-+inode访问权限
-+-------------
-+
-+所有访问权限都与inode以及通过inode所访问到的内容相关。读取目录的
-+内容并不意味着有权读取该目录中列出的 inode 所对应文件的内容。实际
-+上，文件名是相对于其父目录而言的 ，一个 inode 可以通过多个文件名
-+（通过硬链接）来引用。删除文件链接这一操作仅直接影响对应目录，而
-+对被移除链接的inode并无影响。这就是“LANDLOCK_ACCESS_FS_REMOVE_FILE”
-+（文件系统移除文件访问权限）或“LANDLOCK_ACCESS_FS_REFER” （文件系
-+统引用访问权限）不能与文件绑定，而只能与目录绑定的原因。
-+
-+文件描述符访问权限
-+------------------
-+
-+在打开文件时，会检查访问权限并将其与文件描述符绑定。其基本原则是，
-+当在相同的 Landlock 域下执行时，等效的操作序列会产生相同的结果。
-+以LANDLOCK_ACCESS_FS_TRUNCATE权限为例，如果相关的文件层次结构没有
-+授予该访问权限，那么可能允许打开一个文件进行写操作，但不允许使用
-+ftruncate调用截断由此产生的文件描述符。
-+以下操作序列具有相同的语义，因此会产生相同的结果：
-+
-+* ``truncate(path);``
-+* ``int fd = open(path, O_WRONLY); ftruncate(fd); close(fd);``
-+
-+与文件访问模式类似（例如O_RDWR），即使文件描述符在进程之间传递
-+（例如通过Unix域套接字），文件描述符中的Landlock访问权限也会被保留。
-+这些访问权限即使在接收进程未被 Landlock 沙盒化的情况下也会被强制执行。
-+事实上，这是为了保持整个系统访问控制的一致性，避免通过文件描述符传递
-+而无意中绕过安全限制（即“混淆代理攻击”）。
-+
-+测试
-+====
-+
-+用户空间的向后兼容性测试、ptrace 限制测试和文件系统支持测试可以在这里
-+找到：tools/testing/selftests/landlock/
-+
-+内核结构
-+========
-+
-+对象
-+----
-+
-+该API在以下内核代码中：
-+
-+security/landlock/object.h
-+
-+文件系统
-+--------
-+
-+该API在以下内核代码中：
-+
-+security/landlock/fs.h
-+
-+规则集和域
-+----------
-+
-+域是与一组主体（即任务凭证）关联的只读规则集。每次在任务上执行规则集时，
-+都会复制当前域，并在新域中导入规则集作为新的规则层。 事实上，一旦进入
-+一个域，每条规则都与一个层级绑定。要授予对对象的访问权限，每一层中至少
-+有一条规则必须允许对该对象执行请求操作。然后，任务只能过渡到一个新的域，
-+该新域是当前域的约束和任务提供的规则集的约束的交集。任务自行沙盒化时，
-+主体的定义是隐式的，这使得推理变得更加简单，并有助于避免陷阱。
-+
-+该API在以下内核代码中：
-+
-+security/landlock/ruleset.h
-+
-+.. Links
-+.. _tools/testing/selftests/landlock/:
-+
-+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/tools/testing/selftests/landlock/
 -- 
-2.47.1
+Cheers,
+
+David / dhildenb
 
