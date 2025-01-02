@@ -1,82 +1,307 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1264610D;
-	Thu,  2 Jan 2025 17:33:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE6F17E472
+	for <linux-doc@vger.kernel.org>; Thu,  2 Jan 2025 17:53:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735839216; cv=none; b=CErwscqSJYZPb9INn9crSeFKt1s03fbF3/+wq/hODDzybyd4omvB9e2D7T2uiND9Ru1E1PzW/9N1TWbdMMpsBH1uutRoEJVN0Cj1pSY7eQ9nCfeHl4Qff3tOORLVpfJ2xQAZeZzu/FFR5v2Ja/Qca/RyukLiNM3sxSYg+Ew9Sx0=
+	t=1735840430; cv=none; b=kapIz+jQHYwSKDW+ohuavEGE07zQwvTtfTLSsf+Tr+r+7Jdg2IV2zFTDm870bWVBEh+tlG17jIvXkaBL/Uv+X2ARwQhtFl6Z9hVO/JUj7vIQdMb7tCdwyfu2YNO3Ee98VDUAthgkm4oUFEHLHxK8S41+QPwlYxelLTOM61QbF7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735839216; c=relaxed/simple;
-	bh=g/WWTgiawR9PJ4oGPUfsf/LvEFCMknOwNLRmuuyae2k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MyuFT+xJ30gM/V06JxtDLNWZ4e53i8be3w6gwTF88eNECHNxWV4Yw0I8SJ63eedUKnmly+BB2DVmgDaeW2Ac70CfKOgJZ19yKobHw0FBLMjlUSWRa9/I7LINXoGSf38wf54vk5oVMCjsYG+GISeV7rHktDjFrw94bFMgfJVyt1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZQ2I1Rc4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1735840430; c=relaxed/simple;
+	bh=bSRQ7F+OzBNbwdJoupKAXEUmasyou+jIoSijm1UfY2w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EsR7cMbrq1xm/CHJygJDOS9qm2E2t4qH+PtdVZvTlmOm/MowVE5peHC4hEPdnGFsG+rvUcg0Yuqjj1Cc/R19khF7/nLrQgYtQsvjqBwQLgryo1MZAOXSBxOVGq7KuXfFmjYVW1SfPcsSNXbJ/ROYtlPtWoTt/L4kPsMAwsgBE9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cVZZ0PVh; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZQ2I1Rc4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDC64C4CED0;
-	Thu,  2 Jan 2025 17:33:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735839216;
-	bh=g/WWTgiawR9PJ4oGPUfsf/LvEFCMknOwNLRmuuyae2k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZQ2I1Rc41hpmNvoN8irGwheT1lNzZ+FS5XiApubOClqpcN/p+WPWjnBrkEOecyb24
-	 fVHee+tqcepgI3wcCAnEGpwtgH9NNGO7DLj3mJMEyuX8A4KR+U17Gi+Ac2LEZVTLB9
-	 geOTCPjabNPQdkIJqOcT24MwO214UfU+DAzw8PwGS6632Qdsadt0CfDAtRi6zxNCcZ
-	 vDP1z8QoMP6hr/lu0B9L5dwTZefPhnBKDhCQgOYhoJkQXPmRK5g/7s12zEhbaaZ4e2
-	 dddpOu4K9IRv48hmIrCEqMCyxn++EF2NoD4g76GJ4NWaEt/l7FE0MEZScMRkT7HrS0
-	 kxUxqJ6zJ0twg==
-Date: Thu, 2 Jan 2025 11:33:34 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Cc: Fabio Estevam <festevam@denx.de>, kernel@pengutronix.de,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, linux-pm@vger.kernel.org,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	chrome-platform@lists.linux.dev,
-	Guenter Roeck <groeck@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	Benson Leung <bleung@chromium.org>,
-	linux-security-module@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael@kernel.org>, devicetree@vger.kernel.org,
-	Serge Hallyn <serge@hallyn.com>, Zhang Rui <rui.zhang@intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 09/11] dt-bindings: thermal: give OS some leeway in
- absence of critical-action
-Message-ID: <173583921303.72780.9548337351300599303.robh@kernel.org>
-References: <20241219-hw_protection-reboot-v1-0-263a0c1df802@pengutronix.de>
- <20241219-hw_protection-reboot-v1-9-263a0c1df802@pengutronix.de>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cVZZ0PVh"
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e3fd6cd9ef7so15278885276.1
+        for <linux-doc@vger.kernel.org>; Thu, 02 Jan 2025 09:53:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1735840427; x=1736445227; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vr8r//vN2Czec+tejyZLABnIxiih+moPq7M5hQENusQ=;
+        b=cVZZ0PVhcS0cH9nnu2/W+4xtUfECOhcdCQ7dzG/O2srLoIyqDwNa53D0tvMF6MENoB
+         y8CErPN/zR2aONKSUvAvOnod2hh9QcaVdRez1GA3OLj2EE63hK4DVqFcmLhQYeUfEftL
+         KJ7CLGCqD9qR6gwwKuq24ZrjrSfUoE2S8MbJJFVcoSbJviAiu8r3yc+hYHhcGr5Zi9hO
+         DyDWWBS3VSZgxuiqChTZ033QoWyyRJG+BiUBRIyPouwQKd98/NeEAtSTdhaYcRp7JIpp
+         k1t72Yh5t/WkktFXj01SXpakAqvcLt7THlXfmxlwU0wCH7XvQipeQLvttpiBVAHXv08+
+         dtkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735840427; x=1736445227;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Vr8r//vN2Czec+tejyZLABnIxiih+moPq7M5hQENusQ=;
+        b=Gh3oTnEry/pMS6mDnYoNYNH9hxnYBTJZOA9X21/Sg4VJt8F567QRcPwKLkrQjLmlgF
+         ePqRPhfCeNblGpGDHf5SGExxz17AkN4J+HEbawRFmMr0Vw5ITtpna87ZCPJPnhHsC9xZ
+         6k90i9gHUE0Gt1tQ2Mu2EAkKUm9Pj7yPS334Geh4vsYourR11Qq1zBrpUn+JpykYheRV
+         uVMIORvyXpK4DV3L6prld2TABLtAZQ+cRn02cxQGNwZKSWn22JI6blJ2YgCIQ116mHMY
+         RcPgH4Z2qgN5gwyUhJ2SFhgteTbaWr1YvE6pglVMCNgAmzxsJnYztrXhMZjENPdi3zze
+         8SPA==
+X-Forwarded-Encrypted: i=1; AJvYcCUjBiFhDEmZ5JIsKLSVz9ku0RD7EPn/GuXgOxJNVvaoA2Fkcys44H/5tjfhYF0VmgIXjQwzaJFZLzA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzO+EugiH/FcBAtmvl1xNRRwO04d2sw3xQK4K1RLIq7+AnfmEK3
+	BDdKdrOhoM/L26dSRJbxNDnHkIxdHS2ShWECh2GOgrAKEBJE8ailIySXAMNNG2eiuFIBtD+9sqU
+	soh0TUa9KJiHvmhtCRnpGzgQSRVvr0BYM4O8oMkZJ0Cvh9s6vrQ==
+X-Gm-Gg: ASbGncunA2zedxTOEx/x2GmcBnEAskvuTgBx+3iimGoS4XilLkE8ywBpGHhjXLNB4q3
+	q3DIHI7mufyXnu1TvJGgGK7vuZ1wPpsvoxGHASg==
+X-Google-Smtp-Source: AGHT+IGk7bu0mC922JwLX9wsU00L7s3HiJmMdoo9Mzmq87IWKCchv+EYdPQCyAedtINMva3EGggnhenJUHAMWLgAmoc=
+X-Received: by 2002:a05:690c:620c:b0:6ea:88d4:fd4f with SMTP id
+ 00721157ae682-6f3f7f07081mr293349917b3.18.1735840426897; Thu, 02 Jan 2025
+ 09:53:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241219-hw_protection-reboot-v1-9-263a0c1df802@pengutronix.de>
+References: <20241204191349.1730936-1-jthoughton@google.com> <Z2simHWeYbww90OZ@x1n>
+In-Reply-To: <Z2simHWeYbww90OZ@x1n>
+From: James Houghton <jthoughton@google.com>
+Date: Thu, 2 Jan 2025 12:53:11 -0500
+Message-ID: <CADrL8HUkP2ti1yWwp=1LwTX2Koit5Pk6LFcOyTpN2b+B3MfKuw@mail.gmail.com>
+Subject: Re: [PATCH v1 00/13] KVM: Introduce KVM Userfault
+To: Peter Xu <peterx@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	Yan Zhao <yan.y.zhao@intel.com>, Nikita Kalyazin <kalyazin@amazon.com>, 
+	Anish Moorthy <amoorthy@google.com>, Peter Gonda <pgonda@google.com>, 
+	David Matlack <dmatlack@google.com>, Wei W <wei.w.wang@intel.com>, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Dec 24, 2024 at 4:07=E2=80=AFPM Peter Xu <peterx@redhat.com> wrote:
+>
+> James,
 
-On Thu, 19 Dec 2024 08:31:30 +0100, Ahmad Fatoum wrote:
-> An operating system may allow its user to configure the action to be
-> undertaken on critical overtemperature events.
-> 
-> However, the bindings currently mandate an absence of the critical-action
-> property to be equal to critical-action = "shutdown", which would mean
-> any differing user configuration would violate the bindings.
-> 
-> Resolve this by documenting the absence of the property to mean that the
-> OS gets to decide.
-> 
-> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
-> ---
->  Documentation/devicetree/bindings/thermal/thermal-zones.yaml | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
+Hi Peter!
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> On Wed, Dec 04, 2024 at 07:13:35PM +0000, James Houghton wrote:
+> > This is a continuation of the original KVM Userfault RFC[1] from July.
+> > It contains the simplifications we talked about at LPC[2].
+> >
+> > Please see the RFC[1] for the problem description. In summary,
+> > guest_memfd VMs have no mechanism for doing post-copy live migration.
+> > KVM Userfault provides such a mechanism. Today there is no upstream
+> > mechanism for installing memory into a guest_memfd, but there will
+> > be one soon (e.g. [3]).
+> >
+> > There is a second problem that KVM Userfault solves: userfaultfd-based
+> > post-copy doesn't scale very well. KVM Userfault when used with
+> > userfaultfd can scale much better in the common case that most post-cop=
+y
+> > demand fetches are a result of vCPU access violations. This is a
+> > continuation of the solution Anish was working on[4]. This aspect of
+> > KVM Userfault is important for userfaultfd-based live migration when
+> > scaling up to hundreds of vCPUs with ~30us network latency for a
+> > PAGE_SIZE demand-fetch.
+>
+> I think it would be clearer to nail down the goal of the feature.  If it'=
+s
+> a perf-oriented feature we don't need to mention gmem, but maybe it's not=
+.
 
+In my mind, both the gmem aspect and the performance aspect are
+important. I don't think one is more important than the other, though
+the performance win aspect of this is more immediately useful.
+
+>
+> >
+> > The implementation in this series is version than the RFC[1]. It adds..=
+.
+> >  1. a new memslot flag is added: KVM_MEM_USERFAULT,
+> >  2. a new parameter, userfault_bitmap, into struct kvm_memory_slot,
+> >  3. a new KVM_RUN exit reason: KVM_MEMORY_EXIT_FLAG_USERFAULT,
+> >  4. a new KVM capability KVM_CAP_USERFAULT.
+> >
+> > KVM Userfault does not attempt to catch KVM's own accesses to guest
+> > memory. That is left up to userfaultfd.
+>
+> I assume it means this is an "perf optimization" feature then?  As it
+> doesn't work for remote-fault processes like firecracker, or
+> remote-emulated processes like QEMU's vhost-user?
+
+For the !gmem case, yes KVM Userfault is not a replacement for
+userfaultfd; for post-copy to function properly, we need to catch all
+attempted accesses to guest memory (including from things like
+vhost-net and KVM itself). It is indeed a performance optimization on
+top of userfaultfd.
+
+For setups where userfaultfd reader threads are running in a separate
+process from the vCPU threads, yes KVM Userfault will make it so that
+guest-mode vCPU faults will have to be initially handled by the vCPU
+threads themselves. The fault information can always be forwarded to a
+separate process afterwards, and the communication mechanism is
+totally up to userspace (so they can optimize for their exact
+use-case).
+
+> Even though it could still 100% cover x86_64's setup if it's not as
+> complicated as above?  I mean, I assumed above sentence was for archs lik=
+e
+> ARM that I remember having no-vcpu-context accesses so things like that i=
+s
+> not covered too.  Perhaps x86_64 is the goal?  If so, would also be good =
+to
+> mention some details.
+
+(In the !gmem case) It can't replace userfaultfd for any architecture
+as long as there are kernel components that want to read or write to
+guest memory.
+
+The only real reason to make KVM Userfault try to completely replace
+userfaultfd is to make post-copy with 1G pages work, but that requires
+(1) userspace to catch their own accesses and (2) non-KVM components
+catch their own accesses.
+
+(1) is a pain (IIUC, infeasible for QEMU) and error-prone even if it
+can be done, and (2) can essentially never be done upstream.
+
+So I'm not pushing for KVM Userfault to replace userfaultfd; it's not
+worth the extra/duplicated complexity. And at LPC, Paolo and Sean
+indicated that this direction was indeed wrong. I have another way to
+make this work in mind. :)
+
+For the gmem case, userfaultfd cannot be used, so KVM Userfault isn't
+replacing it. And as of right now anyway, KVM Userfault *does* provide
+a complete post-copy system for gmem.
+
+When gmem pages can be mapped into userspace, for post-copy to remain
+functional, userspace-mapped gmem will need userfaultfd integration.
+Keep in mind that even after this integration happens, userfaultfd
+alone will *not* be a complete post-copy solution, as vCPU faults
+won't be resolved via the userspace page tables.
+
+> >
+> > When enabling KVM_MEM_USERFAULT for a memslot, the second-stage mapping=
+s
+> > are zapped, and new faults will check `userfault_bitmap` to see if the
+> > fault should exit to userspace.
+> >
+> > When KVM_MEM_USERFAULT is enabled, only PAGE_SIZE mappings are
+> > permitted.
+> >
+> > When disabling KVM_MEM_USERFAULT, huge mappings will be reconstructed
+> > (either eagerly or on-demand; the architecture can decide).
+> >
+> > KVM Userfault is not compatible with async page faults. Nikita has
+> > proposed a new implementation of async page faults that is more
+> > userspace-driven that *is* compatible with KVM Userfault[5].
+> >
+> > Performance
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> > The takeaways I have are:
+> >
+> > 1. For cases where lock contention is not a concern, there is a
+> >    discernable win because KVM Userfault saves the trip through the
+> >    userfaultfd poll/read/WAKE cycle.
+> >
+> > 2. Using a single userfaultfd without KVM Userfault gets very slow as
+> >    the number of vCPUs increases, and it gets even slower when you add
+> >    more reader threads. This is due to contention on the userfaultfd
+> >    wait_queue locks. This is the contention that KVM Userfault avoids.
+> >    Compare this to the multiple-userfaultfd runs; they are much faster
+> >    because the wait_queue locks are sharded perfectly (1 per vCPU).
+> >    Perfect sharding is only possible because the vCPUs are configured t=
+o
+> >    touch only their own chunk of memory.
+>
+> I'll try to spend some more time after holidays on this perf issue. But
+> will still be after the 1g support on !coco gmem if it would work out. As
+> the 1g function is still missing in QEMU, so that one has higher priority
+> comparing to either perf or downtime (e.g. I'll also need to measure
+> whether QEMU will need minor fault, or stick with missing as of now).
+>
+> Maybe I'll also start to explore a bit on [g]memfd support on userfault,
+> I'm not sure whether anyone started working on some generic solution befo=
+re
+> for CoCo / gmem postcopy - we need to still have a solution for either
+> firecrackers or OVS/vhost-user.  I feel like we need that sooner or later=
+,
+> one way or another.  I think I'll start without minor faults support unti=
+l
+> justified, and if I'll ever be able to start it at all in a few months ne=
+xt
+> year..
+
+Yeah we'll need userfaultfd support for !coco gmem when gmem supports
+mapping into userspace to support setups that use OVS/vhost-user.
+
+And feel free to start with MISSING or MINOR, I don't mind. Eventually
+I'll probably need MINOR support; I'm happy to work on it when the
+time comes (I'm waiting for KVM Userfault to get merged and then for
+userspace mapping of gmem to get merged).
+
+FWIW, I think userspace mapping of gmem + userfaultfd support for
+userspace-mapped gmem + 1G page support for gmem =3D good 1G post-copy
+for QEMU (i.e., use gmem instead of hugetlbfs after gmem supports 1G
+pages).
+
+Remember the feedback I got from LSFMM a while ago? "don't use
+hugetlbfs." gmem seems like the natural replacement.
+
+> Let me know if there's any comment on above thoughts.
+>
+> I guess this feauture might be useful to QEMU too, but QEMU always needs
+> uffd or something similar, then we need to measure and justify this one
+> useful in a real QEMU setup.  For example, need to see how the page
+> transfer overhead compares with lock contentions when there're, say, 400
+> vcpus.  If some speedup on userfault + the transfer overhead is close to
+> what we can get with vcpu exits, then QEMU may still stick with a simple
+> model.  But not sure.
+
+It would be nice to integrate this into QEMU and see if there's a
+measurable win. I'll try to find some time to look into this.
+
+For GCE's userspace, there is a measurable win. Anish posted some
+results a while ago here[1].
+
+[1]: https://lore.kernel.org/kvm/CAF7b7mqrLP1VYtwB4i0x5HC1eYen9iMvZbKerCKWr=
+CFv7tDg5Q@mail.gmail.com/
+
+> When integrated with this feature, it also means some other overheads at
+> least to QEMU.  E.g., trap / resolve page fault needs two ops now (uffd a=
+nd
+> the bitmap).
+
+I think about it like this: instead of UFFDIO_CONTINUE + implicit wake
+(or even UFFDIO_CONTINUE + UFFDIO_WAKE; this is how my userspace does
+it actually), it is UFFDIO_CONTINUE (no wake) + bitmap set. So it's
+kind of still two "ops" either way... :) and updating the bitmap is
+really cheap compared to a userfaultfd wake-up.
+
+(Having two things that describe something like "we should fault on
+this page" is a little bit confusing.)
+
+> Meanwhile even if vcpu can get rid of uffd's one big
+> spinlock, it may contend again in userspace, either on page resolution or
+> on similar queuing.  I think I mentioned it previously but I guess it's
+> nontrivial to justify.  In all cases, I trust that you should have better
+> judgement on this.  It's just that QEMU can at least behave differently, =
+so
+> not sure how it'll go there.
+
+The contention that you may run into after you take away the uffd
+spinlock depends on what userspace is doing, yeah. For example in GCE,
+before the TDP MMU, we ran into KVM MMU lock contention, and then
+later we ran into eventfd issues in our network request
+submission/completion queues.
+
+>
+> Happy holidays. :)
+
+You too!
+
+Thanks for the feedback, Peter! Let me know if I've misunderstood any
+of the points you were making.
+
+> Thanks,
+>
+> --
+> Peter Xu
+>
