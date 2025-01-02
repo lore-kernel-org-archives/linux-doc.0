@@ -1,127 +1,138 @@
-Received: from mail-m49211.qiye.163.com (mail-m49211.qiye.163.com [45.254.49.211])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3D5A95E
-	for <linux-doc@vger.kernel.org>; Thu,  2 Jan 2025 12:28:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8421E1A23A0;
+	Thu,  2 Jan 2025 12:30:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735820892; cv=none; b=HmiWhrFfos6OiTu2BITVWwotyCdR6MW3mQ3VCTx2pErQTNIKPIS0T4RxFU/JWfl/kkuPUU17vkLoeMy3H6nHFlDnG56/N0PhQ4Q/fULJBFpHLaQdD//wYQ2YWSu5DISuk/lqOqVMw8Nw0zLERfobQ0gw+7oXWtLWeMI74K2wbIc=
+	t=1735821038; cv=none; b=f0qu2C93p++FccuaaSIYdAKoqghBXD7+v4RSNEDs7W8M/UbzLlvM5iyQIB18ptdhI/3aczYLthSCKexH/LouF4Rp/Q71mKx2XM0XWF978xmFvDvNchNdIU+S3ex/lUxqq/P57fX1mh4fizndbgEIpscSC53VyAZ0PM60XqaSsQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735820892; c=relaxed/simple;
-	bh=NDpgek3XCJSCbSSarpdhindNRgW4VXFTSEXY8GwQvB8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JiFzzu/7Bz1ESb5cGypjAXwdP0Gv+cgVXAZERm9nh9Bx6qrKUPpiYBnp7I0DYYBzBt+ByA/QjyEzkQeQ0x/Jd85w9jZhJgf9/ddeTDpmy5R2sAMzqi5nKPd6JOShbwgrG5FJEU1lYFD+7EbCKeWOvPuOEHOL+vCvAKKgZXjICmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=JqtA9VSq; arc=none smtp.client-ip=45.254.49.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
+	s=arc-20240116; t=1735821038; c=relaxed/simple;
+	bh=5Y53HP2kEwTqZJxhsBAZ3UIGAtplC1vps/WlfAM1w9w=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JTNbjjTcebYZcCtI07vH/69Gsca9/OfeyO/4J0I7Bdt+WmiwtKTpaM+dXsf7qNFTKoOT8hB3tDN7LmaG4MKigPNOWPgu3liTWyoQQ8ySbnmUGmQGozlTNhwjeu4V70l3kUaQB7H5fa7cm7P8ifZeeuRwk6EnjVsJMprrQn4bKmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BT+NulpX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="JqtA9VSq"
-Received: from [192.168.6.2] (unknown [1.193.59.150])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 77e15696;
-	Thu, 2 Jan 2025 16:58:49 +0800 (GMT+08:00)
-Message-ID: <95e4ad5a-d497-435a-949f-09b8ddb40ee9@cqsoftware.com.cn>
-Date: Thu, 2 Jan 2025 16:58:52 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BT+NulpX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBE4BC4CED7;
+	Thu,  2 Jan 2025 12:30:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735821037;
+	bh=5Y53HP2kEwTqZJxhsBAZ3UIGAtplC1vps/WlfAM1w9w=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=BT+NulpXbRBMoekFmZhX+SBJ+x9krUVQYwp7v87ECmwZd5FMVyfvJeuQDoBP2zX9z
+	 mRowweN388f0rC+iFNpRiMrvOnKU+gqnZAEcQRED+0HwVI8xRZB8z45buVtDy7f4KF
+	 uRqsN9t56Ak3cTPiTGgSJTa+oj9sxnS/q0zYLwsqiYwFJ6kz4wQbe+wP0Hxk5gy6qZ
+	 SjVRMHOoN+SQ3u/67qqp1LnEl6Tntp85lekpEsZlmWKuZ2o3mvecJrqJ1jIEziN5Li
+	 d5QTZ10B1u/XQDRS7fv7m7QUeHSChGXnVzgWhEHIi694hQ0sMIyulWoT89HZSoLnrn
+	 Ki93Ijyzns/4Q==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1tTKLT-008PkE-9O;
+	Thu, 02 Jan 2025 12:30:35 +0000
+Date: Thu, 02 Jan 2025 12:30:34 +0000
+Message-ID: <86ed1lpfdh.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Will Deacon <will@kernel.org>,	Ryan Roberts <ryan.roberts@arm.com>,
+	=?UTF-8?B?TWlrb8WCYWo=?= Lenczewski
+ <miko.lenczewski@arm.com>,<catalin.marinas@arm.com>,<corbet@lwn.net>,
+ <oliver.upton@linux.dev>,<joey.gouly@arm.com>,<suzuki.poulose@arm.com>,
+ <yuzenghui@huawei.com>,<linux-arm-kernel@lists.infradead.org>,
+ <linux-doc@vger.kernel.org>,<linux-kernel@vger.kernel.org>,
+ <kvmarm@lists.linux.dev>,<yangyicong@huawei.com>,<guohanjun@huawei.com>,
+ <wangkefeng.wang@huawei.com>,<liaochang1@huawei.com>,
+ <sunnanyong@huawei.com>,<linuxarm@huawei.com>
+Subject: Re: [RESEND RFC PATCH v1 2/5] arm64: Add BBM Level 2 cpu feature
+In-Reply-To: <20250102120704.00002984@huawei.com>
+References: <20241211160218.41404-1-miko.lenczewski@arm.com>
+	<20241211160218.41404-3-miko.lenczewski@arm.com>
+	<87cyhxs3xq.wl-maz@kernel.org>
+	<084c5ada-51af-4c1a-b50a-4401e62ddbd6@arm.com>
+	<86ikrprn7w.wl-maz@kernel.org>
+	<2b1cc228-a8d5-4383-ab25-abbbcccd2e2c@arm.com>
+	<86h678sy00.wl-maz@kernel.org>
+	<5c551e43-78e9-4336-ab16-b55c0d6c7f92@arm.com>
+	<20241219164528.GH24724@willie-the-truck>
+	<20250102120704.00002984@huawei.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/zh_CN: Add security digsig Chinese translation
-To: Yanteng Si <si.yanteng@linux.dev>, alexs@kernel.org, corbet@lwn.net
-Cc: zhaoyuehui@cqsoftware.com.cn, linux-doc@vger.kernel.org
-References: <20241227082836.16078-1-zhaoshuo@cqsoftware.com.cn>
- <6552aa64-01cf-4ff1-adc0-bcbed2ea7907@linux.dev>
-From: zhaoshuo <zhaoshuo@cqsoftware.com.cn>
-In-Reply-To: <6552aa64-01cf-4ff1-adc0-bcbed2ea7907@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaQ0IeVk8eHR0eSRlCGh1PTlYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKVUpCSFVOQlVKTktZV1kWGg8SFR0UWUFZT0tIVUpLSEpOTElVSktLVU
-	pCS0tZBg++
-X-HM-Tid: 0a94263d289f09d0kunm77e15696
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NTI6DTo5GTIVAygTTSIYPDUL
-	MDYKCw5VSlVKTEhOQ0tDSEhLT01KVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
-	WRILWUFZSlVKQkhVTkJVSk5LWVdZCAFZQUpMQk03Bg++
-DKIM-Signature:a=rsa-sha256;
-	b=JqtA9VSqJNrP4c88vgIjAk/wiP3hZTrOegnq+nGVHrUvLLm27fHKIhb8SLfq2y14lBbs9XWfzFYaP8n9SVQpL/AbgxeB/VDsPdQaxxZyAGOJtnY72AJTYdgHzekU99udMizYLDgmj6AXPGUR6eZjhKEqxIezmUZC4vaxvdCW7uE=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
-	bh=RyraPucvIrNk1a7stX0j/JEAHW6PLOAGqGRd+bs1KKU=;
-	h=date:mime-version:subject:message-id:from;
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: Jonathan.Cameron@huawei.com, will@kernel.org, ryan.roberts@arm.com, miko.lenczewski@arm.com, catalin.marinas@arm.com, corbet@lwn.net, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, yangyicong@huawei.com, guohanjun@huawei.com, wangkefeng.wang@huawei.com, liaochang1@huawei.com, sunnanyong@huawei.com, linuxarm@huawei.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
+Hi Jonathan,
 
-在 2025/1/2 15:32, Yanteng Si 写道:
-> Hi Zhao Shuo,
->
->
-> 在 2024/12/27 16:28, Shuo Zhao 写道:
->> Translate .../security/digsig.rst into Chinese.
->>
->> Update the translation through commit d56b699d76d1
->> ("Documentation: Fix typos").
->>
->> Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
->> ---
->>   .../translations/zh_CN/security/digsig.rst    | 100 ++++++++++++++++++
->>   .../translations/zh_CN/security/index.rst     |   2 +-
->>   2 files changed, 101 insertions(+), 1 deletion(-)
->>   create mode 100644 
->> Documentation/translations/zh_CN/security/digsig.rst
->>
->> diff --git a/Documentation/translations/zh_CN/security/digsig.rst 
->> b/Documentation/translations/zh_CN/security/digsig.rst
->> new file mode 100644
->> index 000000000000..96560d52859e
->> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/security/digsig.rst
->> @@ -0,0 +1,100 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +.. include:: ../disclaimer-zh_CN.rst
->> +
->> +:Original: Documentation/security/digsig.rst
->> +
->> +:翻译:
->> + 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
->> +
->> +===============
->> +数字签名验证API
->> +===============
->> +
->> +
->> +.. 内容
->> +
->> +   1.介绍
->> +   2.API
->> +   3.用户空间工具
->> +
->> +
->> +介绍
->> +====
->> +
->> +数字签名验证API提供了一种验证数字签名的方法。
->> +目前，数字签名被IMA/EVM完整性保护子系统使用。
->> +
->> +数字签名验证是GnuPG多精度整数(MPI)库精简后的内核移植版本来实现的。
-> how about:
-> 数字签名验证是通过精简的 GnuPG 多精度整数（MPI）库的内核移植来实现的。
+On Thu, 02 Jan 2025 12:07:04 +0000,
+Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
+> 
+> On Thu, 19 Dec 2024 16:45:28 +0000
+> Will Deacon <will@kernel.org> wrote:
+> 
+> > On Thu, Dec 12, 2024 at 04:03:52PM +0000, Ryan Roberts wrote:
+> > > >>> If anything, this should absolutely check for FAR_EL1 and assert that
+> > > >>> this is indeed caused by such change.  
+> > > >>
+> > > >> I'm not really sure how we would check this reliably? Without patch 5, the
+> > > >> problem is somewhat constrained; we could have as many changes in flight as
+> > > >> there are CPUs so we could keep a list of all the {mm_struct, VA-range} that are
+> > > >> being modified. But if patch 5 is confirmed to be architecturally sound, then
+> > > >> there is no "terminating tlbi" so there is no bound on the set of {mm_struct,
+> > > >> VA-range}'s that could legitimately cause a conflict abort.  
+> > > > 
+> > > > I didn't mean to imply that we should identify the exact cause of the
+> > > > abort. I was hoping to simply check that FAR_EL1 reports a userspace
+> > > > VA. Why wouldn't that work?  
+> > > 
+> > > Ahh gottya! Yes agreed, this sounds like the right approach.  
+> > 
+> > Please, can we just not bother handling conflict aborts at all outside of
+> > KVM? This is all dead code, it's complicated and it doesn't scale to the
+> > in-kernel use-cases that others want. There's also not been any attempt
+> > to add the pKVM support for handling host-side conflict aborts from what
+> > I can tell.
+> > 
+> > For now, I would suggest limiting this series just to the KVM support
+> > for handling a broken/malicious guest. If the contpte performance
+> > improvements are worthwhile (I've asked for data), then let's add support
+> > for the CPUs that handle the conflict in hardware (I believe this is far
+> > more common than reporting the abort) so that the in-kernel users can
+> > benefit whilst keeping the code manageable at the same time.
+> > 
+> 
+> Hi All,
+> 
+> Given direction the discussion is going in time to raise a hand.
+> 
+> Huawei has implementations that support BBML2, and might report TLB conflict
+> abort after changing block size directly until an appropriate TLB invalidation
+> instruction completes and this Implementation Choice is architecturally compliant.
 
-Ok.
+Compliant, absolutely. That's the letter of the spec. The usefulness
+aspect is, however, more debatable, and this is what Will is pointing
+out.
 
+Dealing with TLB Conflict aborts is an absolute pain if you need
+to handle it within the same Translation Regime and using the same
+TTBR as the one that has generated the fault. So at least for the time
+being, it might be preferable to only worry about the implementations
+that will promise to never generate such an abort and quietly perform
+an invalidation behind the kernel's back.
 
 Thanks,
 
-ZhaoShuo
+	M.
 
->
->
-> Thanks,
-> Yanteng
->
->
->
->>   * ipe
->
->
->
+-- 
+Without deviation from the norm, progress is not possible.
