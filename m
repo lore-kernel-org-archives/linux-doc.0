@@ -1,335 +1,184 @@
-Received: from mail-m127206.xmail.ntesmail.com (mail-m127206.xmail.ntesmail.com [115.236.127.206])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1306217996
-	for <linux-doc@vger.kernel.org>; Thu,  2 Jan 2025 09:19:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3472B2CF;
+	Thu,  2 Jan 2025 09:34:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735809545; cv=none; b=joVw6iJPGswnEoR4jBJU5hwjNRR3fLYeACN3EjFTinIiNBTTg9TNPgK4xkELeOKteWGep8EodK7DyWkNwJlfFEcorOV+XZKxW+S52QlukPRuJC+liAsyy9P0RIvQYssSqYk12izOfGOuei2YAOemkmcjCErAWgi32paUB/chmTc=
+	t=1735810458; cv=none; b=uzp/FuEmFNA//mmPPk3VionGGiMUjWTtPhRf727fV/Xw28oNsOeo4vOYhs2qBLX86AOxTtC6cURUvRf0S2Pna9wBOv9SkKJYztbFCJ1HXelayN44b9duRHPeLj3BneR1njK9nYqF2WgMI/ZuImnMDG+GJwwmqO/5jt88+Inor/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735809545; c=relaxed/simple;
-	bh=ImJgWxeT9J+RS54790XJBweGld/nUi6iC4pjeSo/35U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SKzz2kwIxfiRKvi+rc4z2H5evJT2FsPq9YtXSt4WRSS5lL1MeHyqkOjdFPvT5IRgIP8+EbgcJbfLZbUJsczNKfng/rDAwaIk7vyqemffynunTs5bU7+z4U5p+bRnsJoeOmp5hkH9m5/1CG58+COr2Zo11GXUhrOrPKMSHpmgVXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=dwEUVFLk; arc=none smtp.client-ip=115.236.127.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
+	s=arc-20240116; t=1735810458; c=relaxed/simple;
+	bh=t8RxYDmJeinIWxQ3CfdK+WVjZGI/+Zg2YwN3eic2Nuk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cdRhoEsaxSd3FuqKnmKKAkqMwgfG9lJW/CW1qanWpTAZcNh4D7xIJMccqjoduEkal+i+oeublpx3BlX5IaVeNXYPiFo+2jJLbLOaN7bi0HMqqpNDYkeaAkQxGJWOaxGoHRiT9xqR7QsBYRkIoFgwHU+yNzhl6KNUqb+vDMmwBwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=laxTfVX4; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="dwEUVFLk"
-Received: from [192.168.5.122] (unknown [1.193.59.150])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 77e43b65;
-	Thu, 2 Jan 2025 17:03:41 +0800 (GMT+08:00)
-Message-ID: <1ba408d4-c9a8-448d-8f20-05c552424fa0@cqsoftware.com.cn>
-Date: Thu, 2 Jan 2025 17:03:41 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="laxTfVX4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1735810457; x=1767346457;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=t8RxYDmJeinIWxQ3CfdK+WVjZGI/+Zg2YwN3eic2Nuk=;
+  b=laxTfVX4I0yUhIkMrwiSk/vnm/+/Z8da3lNDSljaQUZQt+pz8ux1Fc0V
+   7dq8ejPbeq/f9KYnPMOz1r/1F/SlpGB4HctsAoYxmr885h+xX/jgGchFb
+   wNevgacLQsXWILYyO3qj82mAtLS+aAmXq3p0IyuOPQOf2qmomBliOLCAM
+   b4SitDEwpx+GSSWlN4wN/tqfvZVKrAlIiSLxBxyZ5XXMJf7nBpvrGzf8p
+   1TPq7x0U1CTfpc8IQ7uUGS/K5Qi2Iym6i+6P5WWHsyxFWVTsCBybBoajE
+   aq/FHzS8OVqyDj+Nq+CkKwXKvv4Zn1Z7pZ3gUiWe8iHejbneegnlRvIeZ
+   Q==;
+X-CSE-ConnectionGUID: 3JcLoCwpQG+uR1ygk7JDgg==
+X-CSE-MsgGUID: IPlOuYQES/i2WiKTg5t0iw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="61416309"
+X-IronPort-AV: E=Sophos;i="6.12,285,1728975600"; 
+   d="scan'208";a="61416309"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 01:34:16 -0800
+X-CSE-ConnectionGUID: f7/ipxUcSzOHnoTiuZWaRQ==
+X-CSE-MsgGUID: bHbakAgHTsC4nIraC+g1lA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,285,1728975600"; 
+   d="scan'208";a="101643602"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 02 Jan 2025 01:34:12 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tTHak-0008MJ-1D;
+	Thu, 02 Jan 2025 09:34:10 +0000
+Date: Thu, 2 Jan 2025 17:33:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
+	Mario Limonciello <superm1@kernel.org>,
+	Luke Jones <luke@ljones.dev>, Xino Ni <nijs1@lenovo.com>,
+	Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+	"Cody T . -H . Chiu" <codyit@gmail.com>,
+	John Martens <johnfanv2@gmail.com>,
+	"Derek J . Clark" <derekjohn.clark@gmail.com>,
+	platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 4/4] platform/x86: Add Lenovo Other Mode WMI Driver
+Message-ID: <202501021728.uZ2voPKr-lkp@intel.com>
+References: <20250102004854.14874-5-derekjohn.clark@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: zhangwei@cqsoftware.com.cn
-Subject: Re: [PATCH] docs/zh_CN: Add siphash index Chinese translation
-To: Yanteng Si <si.yanteng@linux.dev>, alexs@kernel.org, corbet@lwn.net
-Cc: zhaoyuehui@cqsoftware.com.cn, zhaoshuo@cqsoftware.com.cn,
- linux-doc@vger.kernel.org
-References: <20241227091719.9054-1-zhangwei@cqsoftware.com.cn>
- <eef0f708-ae72-44eb-a1f5-8cdaceec081f@linux.dev>
- <f2205479-95c0-4037-8a3d-043b665fd783@linux.dev>
-From: =?UTF-8?B?5byg5beN?= <zhangwei@cqsoftware.com.cn>
-In-Reply-To: <f2205479-95c0-4037-8a3d-043b665fd783@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaGRoaVksdHhgdSUNCSU5DGlYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKVUpCSFVOQlVKTktZV1kWGg8SFR0UWUFZS1VLVUtVS1kG
-X-HM-Tid: 0a9426419dae03abkunm77e43b65
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MCI6GQw4ITIWNSgCCEMiOUMz
-	T01PCi9VSlVKTEhOQ0tDTUlISElOVTMWGhIXVQETGhUcDB4SOxgKCBQdDwwaCR5VGBQWVRgVRVlX
-	WRILWUFZSlVKQkhVTkJVSk5LWVdZCAFZQUpLQkNLNwY+
-DKIM-Signature:a=rsa-sha256;
-	b=dwEUVFLk8u0FlgqpgmyRuLgnT2d7eo0uaoE7ju3VihVADuwKvsDuNaWf0YcNlBMW92b5awu/XlYLBT8YvrLCHwJxrgbJeRDg6SISKhxUZimfOU4klqSc5Vl6hXMoyDWcXLnNJZ21o4F65FosTJmUoeC7kjlCMoAE3PspHzbFCxw=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
-	bh=1iPTQUAIioHh+k2MkzD8jRu2QDs+kVUb338Lll6DP/8=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250102004854.14874-5-derekjohn.clark@gmail.com>
+
+Hi Derek,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on amd-pstate/linux-next]
+[also build test ERROR on amd-pstate/bleeding-edge linus/master v6.13-rc5 next-20241220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Derek-J-Clark/platform-x86-Add-lenovo-wmi-drivers-Documentation/20250102-085149
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git linux-next
+patch link:    https://lore.kernel.org/r/20250102004854.14874-5-derekjohn.clark%40gmail.com
+patch subject: [PATCH v2 4/4] platform/x86: Add Lenovo Other Mode WMI Driver
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250102/202501021728.uZ2voPKr-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250102/202501021728.uZ2voPKr-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501021728.uZ2voPKr-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/platform/x86/lenovo-wmi-other.c: In function 'other_method_fw_attr_add':
+>> drivers/platform/x86/lenovo-wmi-other.c:288:64: error: implicit declaration of function 'MKDEV' [-Werror=implicit-function-declaration]
+     288 |         priv->fw_attr_dev = device_create(fw_attr_class, NULL, MKDEV(0, 0),
+         |                                                                ^~~~~
+   cc1: some warnings being treated as errors
 
 
-在 2025/1/2 16:02, Yanteng Si 写道:
->
->
->
-> 在 2025/1/2 15:52, Yanteng Si 写道:
->> Hi ZhangWei,
->>
->>
->> 在 2024/12/27 17:17, zhangwei 写道:
->>> Translate lwn/Documentation/security/siphash.rst into Chinese
->>>
->>> Update the translation through commit "92b3d24de890"
-> We need a complete commit tag.
->
-> Thanks，
-> Yanteng
+vim +/MKDEV +288 drivers/platform/x86/lenovo-wmi-other.c
 
-Okay, I'm going to change it
+   277	
+   278	static int other_method_fw_attr_add(struct lenovo_wmi_om_priv *priv)
+   279	{
+   280		int err, i;
+   281	
+   282		err = fw_attributes_class_get(&fw_attr_class);
+   283		if (err) {
+   284			pr_err("Failed to get firmware_attributes_class: %u\n", err);
+   285			return err;
+   286		}
+   287	
+ > 288		priv->fw_attr_dev = device_create(fw_attr_class, NULL, MKDEV(0, 0),
+   289						  NULL, "%s", FW_ATTR_FOLDER);
+   290		if (IS_ERR(priv->fw_attr_dev)) {
+   291			err = PTR_ERR(priv->fw_attr_dev);
+   292			pr_err("Failed to create firmware_attributes_class device: %u\n",
+   293			       err);
+   294			goto fail_class_get;
+   295		}
+   296	
+   297		priv->fw_attr_kset = kset_create_and_add("attributes", NULL,
+   298							 &priv->fw_attr_dev->kobj);
+   299		if (!priv->fw_attr_kset) {
+   300			err = -ENOMEM;
+   301			pr_err("Failed to create firmware_attributes_class kset: %u\n",
+   302			       err);
+   303			goto err_destroy_classdev;
+   304		}
+   305	
+   306		for (i = 0; i < ARRAY_SIZE(capdata01_attr_groups) - 1; i++) {
+   307			err = attr_capdata01_setup(
+   308				capdata01_attr_groups[i].tunable_attr);
+   309			if (err) {
+   310				pr_err("Failed to populate capability data for %s: %u\n",
+   311				       capdata01_attr_groups[i].attr_group->name, err);
+   312				continue;
+   313			}
+   314	
+   315			err = sysfs_create_group(&priv->fw_attr_kset->kobj,
+   316						 capdata01_attr_groups[i].attr_group);
+   317			if (err) {
+   318				pr_err("Failed to create sysfs-group for %s: %u\n",
+   319				       capdata01_attr_groups[i].attr_group->name, err);
+   320				goto err_remove_groups;
+   321			}
+   322		}
+   323	
+   324		return 0;
+   325	
+   326	err_remove_groups:
+   327		while (i-- > 0) {
+   328			sysfs_remove_group(&priv->fw_attr_kset->kobj,
+   329					   capdata01_attr_groups[i].attr_group);
+   330		}
+   331	
+   332		return err;
+   333	
+   334	err_destroy_classdev:
+   335		device_destroy(fw_attr_class, MKDEV(0, 0));
+   336	
+   337		return err;
+   338	
+   339	fail_class_get:
+   340		fw_attributes_class_put();
+   341	
+   342		return err;
+   343	}
+   344	
 
-
-Thanks，
-Zhangwei
-
->>>
->>> Signed-off-by: zhangwei <zhangwei@cqsoftware.com.cn>
->>> ---
->>>   .../translations/zh_CN/security/index.rst     |   2 +-
->>>   .../translations/zh_CN/security/siphash.rst   | 195 
->>> ++++++++++++++++++
->>>   2 files changed, 196 insertions(+), 1 deletion(-)
->>>   create mode 100644 
->>> Documentation/translations/zh_CN/security/siphash.rst
->>>
->>> diff --git a/Documentation/translations/zh_CN/security/index.rst 
->>> b/Documentation/translations/zh_CN/security/index.rst
->>> index c73cd289ac3e..ceb700fe4561 100644
->>> --- a/Documentation/translations/zh_CN/security/index.rst
->>> +++ b/Documentation/translations/zh_CN/security/index.rst
->>> @@ -16,6 +16,7 @@
->>>      :maxdepth: 1
->>>        lsm
->>> +   siphash
->>>      digsig
->>>     TODOLIST:
->>> @@ -27,7 +28,6 @@ TODOLIST:
->>>   * sak
->>>   * SCTP
->>>   * self-protection
->>> -* siphash
->>>   * tpm/index
->>>   * landlock
->>>   * secrets/index
->>> diff --git a/Documentation/translations/zh_CN/security/siphash.rst 
->>> b/Documentation/translations/zh_CN/security/siphash.rst
->>> new file mode 100644
->>> index 000000000000..94c9dd4362e0
->>> --- /dev/null
->>> +++ b/Documentation/translations/zh_CN/security/siphash.rst
->>> @@ -0,0 +1,195 @@
->>> +.. SPDX-License-Identifier: GPL-2.0
->>> +.. include:: ../disclaimer-zh_CN.rst
->>> +:Original: Documentation/security/siphash.rst
->>> +
->>> +:翻译:
->>> +
->>> + 张巍 zhangwei <zhangwei@cqsoftware.com.cn>
->>> +
->>> +=====================================
->>> +SipHash - 一种短输入伪随机函数（PRF）
->>> +=====================================
->>> +
->>> +：作者: Jason A.Donenfeld <jason@zx2c4.com>
->>> +
->>> +SipHash是一种加密安全的伪随机函数，即一种用于生成伪随机密钥的哈
->>> +希函数，因为其在处理短输入时表现出色，因此得名。其由密码学家
->>> +Daniel J. Bernstein和Jean-Philippe Aumasson设计。目的主要是替
->>> +代其他哈希函数，例如：jhash，md5_transform，sha1_transform等。
->>> +
->>> +SipHash采用一个完全由随机数生成的密钥，以及一个输入缓冲区或者
->>> +多个输入整数，它输出一个与随机数难以区分的整数，你可以将它作
->>> +为安全序列、安全cookies的一部分，或者对其进行掩码处理，以便在
->>> +哈希表中使用。
->>> +
->>> +生成钥匙
->> how about:
->> 生成密钥
->>
->> because you translate key as 密钥 in the after content.
->>> +========
->>> +
->>> +密钥应来源于加密安全的随机数生成，要么使用get random bytes
->>> +要么使用get random once::
->>> +
->>> +        siphash_key_t key;
->>> +        get_random_bytes(&key, sizeof(key));
->>> +
->>> +如果你的密钥来源不是这两个，那么你的做法是错的。
->>> +
->>> +使用函数
->>> +========
->>> +
->>> +这个函数有两个变种，一种是接受整数列表，另一种是接受缓冲区::
->>> +
->>> +        u64 siphash(const void *data, size_t len, const 
->>> siphash_key_t *key);
->>> +
->>> +和::
->>> +
->>> +        u64 siphash_1u64(u64, const siphash_key_t *key);
->>> +        u64 siphash_2u64(u64, u64, const siphash_key_t *key);
->>> +        u64 siphash_3u64(u64, u64, u64, const siphash_key_t *key);
->>> +        u64 siphash_4u64(u64, u64, u64, u64, const siphash_key_t 
->>> *key);
->>> +        u64 siphash_1u32(u32, const siphash_key_t *key);
->>> +        u64 siphash_2u32(u32, u32, const siphash_key_t *key);
->>> +        u64 siphash_3u32(u32, u32, u32, const siphash_key_t *key);
->>> +        u64 siphash_4u32(u32, u32, u32, u32, const siphash_key_t 
->>> *key);
->>> +
->>> +如果向一个通用的hsiphash函数传递一个恒定长度的常量，他将
->>> +在编译的时候将常量折叠，并自动选择一个优化后的函数。
->>> +
->>> +哈希表键函数的用法::
->>> +
->>> +        struct some_hashtable {
->>> +                DECLARE_HASHTABLE(hashtable, 8);
->>> +                siphash_key_t key;
->>> +        };
->>> +
->>> +        void init_hashtable(struct some_hashtable *table)
->>> +        {
->>> +                get_random_bytes(&table->key, sizeof(table->key));
->>> +        }
->>> +
->>> +        static inline hlist_head *some_hashtable_bucket(struct 
->>> some_hashtable *table, struct interesting_input *input)
->>> +        {
->>> +                return &table->hashtable[siphash(input, 
->>> sizeof(*input), &table->key) & (HASH_SIZE(table->hashtable) - 1)];
->>> +        }
->>> +
->>> +然后，你可以像往常一样对返回的哈希存储桶进行迭代。
->>> +
->>> +安全性
->>> +======
->>> +
->>> +SipHash有着非常高的安全性,因为其有128位的密钥。只要密钥是保密的，
->>> +即使攻击者看到多个输出，也无法猜测出函数的正确输出，因为2^128次
->>> +方个输出是非常庞大的。
->>> +
->>> +Linux实现了SipHash的“2-4”变体
->>> +
->>> +Struct-passing陷阱
->>> +==================
->>> +
->>> +通常情况下，XuY函数的输出长度不够大，因此你可能需要传递一个预填充
->>> +的结构体给SipHash，在这样做时，务必确保结构体没有填充空隙，最简单
->>> +的方法就是将结构体的成员按照大小降序的方式排序，并且使用offsetofend()
->>> +函数代替sizeof()来获取结构体大小，出于性能的考虑，如果可以的话，最
->>> +好将结构体按右边界对齐，示例如下::
->>> +
->>> +        const struct {
->>> +                struct in6_addr saddr;
->>> +                u32 counter;
->>> +                u16 dport;
->>> +        } __aligned(SIPHASH_ALIGNMENT) combined = {
->>> +                .saddr = *(struct in6_addr *)saddr,
->>> +                .counter = counter,
->>> +                .dport = dport
->>> +        };
->>> +        u64 h = siphash(&combined, offsetofend(typeof(combined), 
->>> dport), &secret);
->>> +
->>> +资源
->>> +====
->>> +
->>> +如果你有兴趣了解更多信息，请阅读SipHash论文:
->>> +https://131002.net/siphash/siphash.pdf
->>> +
->>> +------------------------------------------------------------------------------- 
->>>
->>> +
->>> +===========================================
->>> +HalfSipHash 是 SipHash 的一个较不安全的变种
->>> +===========================================
->>> +
->>> +：作者: Jason A.Donenfeld <jason@zx2c4.com>
->>> +
->>> +如果你认为SipHash的速度不够快，无法满足你的需求，那么你可以
->>> +使用HalfSipHash，这是一种令人担忧但是有用的选择。HalfSipHash
->>> +将SipHash的轮数从“2-4”降低到“1-3”，更令人担心的是，它使用一
->>> +个容易被穷举攻击的64位密钥(输出为32位)，而不是SipHash的128位
->>> +密钥，不过，这对于要求高性能“jhash”用户来说这是比较好的选择。
->>> +
->>> +HalfSipHash是通过 "hsiphash" 系列函数提供的。
->>> +
->>> +.. warning::
->>> +   绝对不要在作为哈希表键函数之外使用hsiphash函数，只有在你
->>> +   能完全能确定输出永远不会从内核传输出去的情况下才能使用，
->>> +   作为缓解哈希表泛洪拒绝服务攻击的一种手段，它仅在某些情况
->>> +   下比jhash好用。
->>> +
->>> +在64位的内核中，hsiphash函数实际上实现的是SipHash-1-3，这是一
->>> +种减少轮数的SipHash变形，而不是HalfSipHash-1-3。这是因为在64位
->>> +代码中SipHash-1-3的性能与HalfSipHash-1-3相当，甚至可能更快，请
->>> +注意，这并不意味这在64位的内核中，hsihpash函数与siphash函数相
->>> +同，也不意味着他们是安全的；hsihash函数仍然使用一种不太安全的
->>> +减少轮数的算法，并将输出截断为32位。
->>> +
->>> +生成哈希密钥
->>> +============
->>> +
->>> +密钥应始终来源于加密安全的随机数生成，要么使用get random bytes
->>> +要么使用get random once::
->>> +
->>> +        hsiphash_key_t key;
->>> +        get_random_bytes(&key, sizeof(key));
->>> +
->>> +如果你的钥匙来源不是这两个，那么你的做法是错的。
->>> +
->>> +使用哈希函数
->>> +============
->>> +
->>> +这个函数有两种变体，一个是接受整数列表，另一种是接受缓冲区::
->>> +
->>> +        u32 hsiphash(const void *data, size_t len, const 
->>> hsiphash_key_t *key);
->>> +
->>> +和::
->>> +
->>> +        u32 hsiphash_1u32(u32, const hsiphash_key_t *key);
->>> +        u32 hsiphash_2u32(u32, u32, const hsiphash_key_t *key);
->>> +        u32 hsiphash_3u32(u32, u32, u32, const hsiphash_key_t *key);
->>> +        u32 hsiphash_4u32(u32, u32, u32, u32, const hsiphash_key_t 
->>> *key);
->>> +
->>> +如果向一个通用的hsiphash函数传递一个恒定长度的常量，他将在编译
->>> +的时候将常量折叠，并自动选择一个优化后的函数。
->>> +
->>> +哈希表键函数的用法
->>> +==================
->>> +
->>> +::
->>> +
->>> +        struct some_hashtable {
->>> +                DECLARE_HASHTABLE(hashtable, 8);
->>> +                hsiphash_key_t key;
->>> +        };
->>> +
->>> +        void init_hashtable(struct some_hashtable *table)
->>> +        {
->>> +                get_random_bytes(&table->key, sizeof(table->key));
->>> +        }
->>> +
->>> +        static inline hlist_head *some_hashtable_bucket(struct 
->>> some_hashtable *table, struct interesting_input *input)
->>> +        {
->>> +                return &table->hashtable[hsiphash(input, 
->>> sizeof(*input), &table->key) & (HASH_SIZE(table->hashtable) - 1)];
->>> +        }
->>> +
->>> +然后，你可以像往常一样对返回的哈希存储桶进行迭代。
->>> +
->>> +性能
->>> +====
->>> +
->>> +hsiphash()大约比jhash()慢三倍，这是因为有许多替换，不过这些都不是问题， 
->>>
->>> +因为哈希表查找不是瓶颈。而且，这些牺牲是为了hsiphash()的安全性和DoS抗
->>> +性，这是值得的。
->>
->> Thanks,
->> Yanteng
->>
->>
->
->
->
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
