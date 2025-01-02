@@ -1,67 +1,35 @@
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+Received: from mail-m3276.qiye.163.com (mail-m3276.qiye.163.com [220.197.32.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8763FE4
-	for <linux-doc@vger.kernel.org>; Thu,  2 Jan 2025 06:56:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10AEA16C850
+	for <linux-doc@vger.kernel.org>; Thu,  2 Jan 2025 07:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735800974; cv=none; b=KSVNJ+c7jVaywXLG4StM0GgSAwifsAHAFLP5o9wx0qhbDk2UujQN6mXeEJMoFpLiEVn8e5QPaHnQVFZHH5x9ppxx1/8m023B1sTzOJ3PDFpWiOiwd0UsHWkrpNBhDJLlKReZAZGs6qiQlf3yIZu5944Ss0ToTuBd6LHjMsWVKR4=
+	t=1735802977; cv=none; b=r4tMkggFXYMsCXztQ6yWfLtQPNPsvTffou83mk8qCLPXpkBCtUqwYuzPJYvGpgD2+zRlXnGLWwyqBkMl6eRoyqB4tdH9efRfWsQvjekgM9KNhZH6T6mhQhGOKalvySUC5UkMKiuPCqV0Rsm/sGRUa7TkNMvF6MWWjVrrIs+F2Es=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735800974; c=relaxed/simple;
-	bh=0gDW088d7CLfvK66vLEBR48uHaN95rqDbDzOk1emwJk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
-	 References; b=SuH7iwXtuV7Hb0xZaCiWC7XcsSE7j4E9spKEOgL/2v14MpSw0OA0YlD2jfnKgWExQH1S00QwZmxOXshmj0O9v+xRlj/4reN93J7T9/jPcfBo/HXxfjcigejJ5OPqj+O0sw+fNG9xnmejRPA1nZl6Kdtpq3yt3sUybkdALhTLaw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=m8Gq+02V; arc=none smtp.client-ip=203.254.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1735802977; c=relaxed/simple;
+	bh=fkyRfjwaZ5cu/xhfMP6RfWfAHk3Yw29wFPelVukE9eA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HvwkyYJmfiLllfDtcekQ7B619iz8wNyNtWtEIJQH31vD1Adw/rSPl8OCpQEsaxHIuwKOkHJWnoNw3RAA30idU08AJy+0dBvgQ95SAbUrCgpxQgykQzyPcLewD+l2lUUrABPAXrn9dstpAtAS+4y+ZigX8S7qX/O3YgkQHKi2DPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=goqjxU3M; arc=none smtp.client-ip=220.197.32.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="m8Gq+02V"
-Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250102065608epoutp045746e8817f54e15299af5a80618f35bb~WzcjS-8KF2338423384epoutp04E
-	for <linux-doc@vger.kernel.org>; Thu,  2 Jan 2025 06:56:08 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250102065608epoutp045746e8817f54e15299af5a80618f35bb~WzcjS-8KF2338423384epoutp04E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1735800968;
-	bh=sNEFbUB8zkEiOY+7siydPf06XIZN3M0pujEkAF8JWKg=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=m8Gq+02V5thMeV0+V7yRMqPtKsWWOz4WngveGYkSMF0N0PCLdnyQ0mHXEsLMz4708
-	 HIFNW/irEhnqjeV5K/Q2+70iW1hQOQvPrAmjqZosbk0m555g/HWv1LNWRD0aUsjFO0
-	 m6nZzcR1XHQ12fZ99AfX+fZIdFathgwc48RxR8Vs=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas1p2.samsung.com (KnoxPortal) with ESMTP id
-	20250102065608epcas1p254a56b40f1c2d8a0294d221363c825cb~WzcjB92qO1051810518epcas1p2A;
-	Thu,  2 Jan 2025 06:56:08 +0000 (GMT)
-Received: from epsmgec1p1-new.samsung.com (unknown [182.195.36.224]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4YNyCr02Wfz4x9Pq; Thu,  2 Jan
-	2025 06:56:08 +0000 (GMT)
-Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
-	epsmgec1p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	CB.96.31735.78836776; Thu,  2 Jan 2025 15:56:07 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20250102065607epcas1p296c550a7ba26884e1c2810f872e537f4~WzciQ4CEy1331213312epcas1p2u;
-	Thu,  2 Jan 2025 06:56:07 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20250102065607epsmtrp13b215c3c8fdd22b0bed816425b19b8f5~WzciQIYc82835228352epsmtrp1L;
-	Thu,  2 Jan 2025 06:56:07 +0000 (GMT)
-X-AuditID: b6c32a4c-4e33d24000007bf7-73-677638872764
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	4A.D1.18729.78836776; Thu,  2 Jan 2025 15:56:07 +0900 (KST)
-Received: from localhost.localdomain (unknown [10.253.105.252]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20250102065607epsmtip28bf1b259f7ff31a9f81095f26868ac2f~WzciEPlfK2521325213epsmtip2B;
-	Thu,  2 Jan 2025 06:56:07 +0000 (GMT)
-From: Sangmoon Kim <sangmoon.kim@samsung.com>
-To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon
-	<will@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: Sangmoon Kim <sangmoon.kim@samsung.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: arm64: update memory layout for vmemmap region
-Date: Thu,  2 Jan 2025 15:52:37 +0900
-Message-ID: <20250102065554.1533781-1-sangmoon.kim@samsung.com>
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="goqjxU3M"
+Received: from localhost.localdomain (unknown [1.193.59.150])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 77a3a992;
+	Thu, 2 Jan 2025 15:24:13 +0800 (GMT+08:00)
+From: zhangwei <zhangwei@cqsoftware.com.cn>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net
+Cc: zhangwei <zhangwei@cqsoftware.com.cn>,
+	zhaoyuehui@cqsoftware.com.cn,
+	zhaoshuo@cqsoftware.com.cn,
+	maoyuxian@cqsoftware.com.cn,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] docs/zh_CN: Add sak index Chinese translation
+Date: Thu,  2 Jan 2025 15:24:03 +0800
+Message-ID: <20250102072404.3196-1-zhangwei@cqsoftware.com.cn>
 X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -69,109 +37,145 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrFKsWRmVeSWpSXmKPExsWy7bCmvm67RVm6wdapVhbvl/UwWjw50M5o
-	senxNVaLhW1LWCwu75rDZnHrQSOLRcsdUwd2jzXz1jB6bFrVyeaxeUm9x+K+yawefVtWMXp8
-	3iQXwBaVbZORmpiSWqSQmpecn5KZl26r5B0c7xxvamZgqGtoaWGupJCXmJtqq+TiE6DrlpkD
-	dImSQlliTilQKCCxuFhJ386mKL+0JFUhI7+4xFYptSAlp8CsQK84Mbe4NC9dLy+1xMrQwMDI
-	FKgwITtjydsjrAXXJSv+brvC2MDYLdrFyMEhIWAicanDtYuRi0NIYA+jxO6WKWwQzidGiWvn
-	L7NAON8YJS5u2gWU4QTr+Df7KyOILSSwl1GifxdU0RdGib2PH7KAJNgEdCW+zLsMViQiUCCx
-	cs9OJpAiZoE+RokF746zg+wWFnCV+HHLCaSGRUBV4tCHZewgNq+AvcS0FxPZIZbJS0xa08oM
-	EReUODnzCdh8ZqB489bZzCAzJQSusUtMO3CCEaLBRWL2ot3MELawxKvjW6AGSUm87G9jh2jo
-	Z5Q41d3FApGYwigx95omhG0s0dtzgRnkOGYBTYn1u/QhlvFJvPvawwoJL16JjjYhiGo1icev
-	7kKtlZHovzMfaqKHxOZlr5khARQrsWnfZ7YJjHKzkLwwC8kLsxCWLWBkXsUolVpQnJuemmxY
-	YKibl1oOj8zk/NxNjOBEqOWzg/H7+r96hxiZOBgPMUpwMCuJ8EaEl6QL8aYkVlalFuXHF5Xm
-	pBYfYjQFBuxEZinR5HxgKs4riTc0sTQwMTMysTC2NDZTEuc9c6UsVUggPbEkNTs1tSC1CKaP
-	iYNTqoEp6uL+5H2Ce/m2NNdbJyhs8za9MHeapKT8pC3rVnSJlJ+o/3rj+Tz7uFmfDn8TjWhg
-	iuZak2rEeX/CvAcl95uEuLnmLD+yUbafR1RPt2qX5Zq3Nd16aTudt5kqTbKyy3R6yM67Z93v
-	IttyJYfpsxds0bo3TXr6TBuuzacf7Svn25K72f6qsu0O46aTbG+Liy25DHctPjPl4cSHx2ND
-	PvjPZmBQdpKT9Ixc2T3zsM+5qRqv13U2uHb5nnnLaPIpWi3P8/Hd9T1OJ5uXCX+MlPuzfJ1D
-	IfetpN1L+ldNmnTBcsnCV5ONWl8c+P9g9fwzhUdLBJwNg38dsOR43jy3yvNb7Bb1pULpPe7p
-	umc7VpjvV2Ipzkg01GIuKk4EAJcYIWgNBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrILMWRmVeSWpSXmKPExsWy7bCSvG67RVm6wblfyhbvl/UwWjw50M5o
-	senxNVaLhW1LWCwu75rDZnHrQSOLRcsdUwd2jzXz1jB6bFrVyeaxeUm9x+K+yawefVtWMXp8
-	3iQXwBbFZZOSmpNZllqkb5fAlbHk7RHWguuSFX+3XWFsYOwW7WLk5JAQMJH4N/srYxcjF4eQ
-	wG5Gic1nj7BCJGQkdl7czNTFyAFkC0scPlwMUfMJqOZTOztIDZuArsSXeZcZQWwRgSKJ1Rv/
-	MoEUMQtMYJToubSRFaRZWMBV4sctJ5AaFgFViUMfloH18grYS0x7MZEdYpe8xKQ1rcwQcUGJ
-	kzOfsIDYzEDx5q2zmScw8s1CkpqFJLWAkWkVo2RqQXFuem6xYYFhXmq5XnFibnFpXrpecn7u
-	JkZwqGpp7mDcvuqD3iFGJg7GQ4wSHMxKIrwR4SXpQrwpiZVVqUX58UWlOanFhxilOViUxHnF
-	X/SmCAmkJ5akZqemFqQWwWSZODilGpjUZ69s0zN8udJYeT9Hx+mnd6LVpEz2eK62jpsZYlj0
-	5/zT6+ptqanfdk/aqBca1R+7UyRTRWhCg+zM2X7BcUGfVYUMF7f9y/HO8rywNveA5L1t53l2
-	hAR7zDqwYtvKRAO534uFPJadO3DI+Ma+DX9trgrdiE848KmqIvXCueuqzIttJgsI8xd/3pHU
-	2bXv5d9PQZHTMjZXlKVd/1JeccGsflqKptLnwO171ke9tfr55KMQy4l98xZVqj2Z+rNCylzy
-	5+6py/kUpbP7apccOJRv6WsetTvJWXrFZwG2xDKWreommwpvms8LXP/b4PbUSW1LMnbYfeK4
-	umBmZebzK65u96pvnZ5XVHGO95lx6L+TSizFGYmGWsxFxYkA+bVu18QCAAA=
-X-CMS-MailID: 20250102065607epcas1p296c550a7ba26884e1c2810f872e537f4
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250102065607epcas1p296c550a7ba26884e1c2810f872e537f4
-References: <CGME20250102065607epcas1p296c550a7ba26884e1c2810f872e537f4@epcas1p2.samsung.com>
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDHR4aVh9PS05DTBlJS0kZTlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUpCSFVOQlVKTktZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSExVSktLVU
+	pCS0tZBg++
+X-HM-Tid: 0a9425e689af03abkunm77a3a992
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MBQ6NTo4AzIcHyhNKE5MLC8W
+	CzBPCzNVSlVKTEhOQ0tJTU5PSk9LVTMWGhIXVQETGhUcDB4SOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSlVKQkhVTkJVSk5LWVdZCAFZQU9OTE43Bg++
+DKIM-Signature:a=rsa-sha256;
+	b=goqjxU3MAKEXrdUF8sUmPARfJ6mVoMUiEwjXYycKGMznxLBvhDmW6II5PMX/qEhz8WN8POysELrXSKR4CrHLvyfF31md2ViPKsLjCUojZ9OcinZ3X4kueBJ+C45jOBil/8gPUsvvi1lcYDa6PKFzSfJ/UJqEsR++iSacQBWRKRQ=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
+	bh=nvWJ7Jul+zblQdi7oCiRRuKaIBmsVZ3709aD4VzXvEQ=;
+	h=date:mime-version:subject:message-id:from;
 
-Commit 031e011d8b22 ("arm64: mm: Move PCI I/O emulation region above
-the vmemmap region") and commit b730b0f2b1fc ("arm64: mm: Move fixmap
-region above vmemmap region") have placed PCI I/O and fixmap region
-above vmemmap region.
+Translate lwn/Documentation/security/sak.rst into Chinese
 
-And commit 32697ff38287 ("arm64: vmemmap: Avoid base2 order of struct
-page size to dimension region") has moved vmemmap region to higher
-address.
+Update the translation through commit a3828074b04
 
-Update document as the memory layout modified by the previous patches.
-
-Signed-off-by: Sangmoon Kim <sangmoon.kim@samsung.com>
+Signed-off-by: zhangwei <zhangwei@cqsoftware.com.cn>
 ---
- Documentation/arch/arm64/memory.rst | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ .../translations/zh_CN/security/index.rst     |  2 +-
+ .../translations/zh_CN/security/sak.rst       | 86 +++++++++++++++++++
+ 2 files changed, 87 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/security/sak.rst
 
-diff --git a/Documentation/arch/arm64/memory.rst b/Documentation/arch/arm64/memory.rst
-index 8a658984b8bb..43c15cea2ec9 100644
---- a/Documentation/arch/arm64/memory.rst
-+++ b/Documentation/arch/arm64/memory.rst
-@@ -32,13 +32,13 @@ AArch64 Linux memory layout with 4KB pages + 4 levels (48-bit)::
-   ffff000000000000	ffff7fffffffffff	 128TB		kernel logical memory map
-  [ffff600000000000	ffff7fffffffffff]	  32TB		[kasan shadow region]
-   ffff800000000000	ffff80007fffffff	   2GB		modules
--  ffff800080000000	fffffbffefffffff	 124TB		vmalloc
--  fffffbfff0000000	fffffbfffdffffff	 224MB		fixed mappings (top down)
--  fffffbfffe000000	fffffbfffe7fffff	   8MB		[guard region]
--  fffffbfffe800000	fffffbffff7fffff	  16MB		PCI I/O space
--  fffffbffff800000	fffffbffffffffff	   8MB		[guard region]
--  fffffc0000000000	fffffdffffffffff	   2TB		vmemmap
--  fffffe0000000000	ffffffffffffffff	   2TB		[guard region]
-+  ffff800080000000	fffffdffbf7fffff	 126TB		vmalloc
-+  fffffdffbf800000	fffffdffbfffffff	   8MB		[guard region]
-+  fffffdffc0000000	ffffffffbfffffff	   2TB		vmemmap
-+  ffffffffc0000000	ffffffffc07fffff	   8MB		[guard region]
-+  ffffffffc0800000	ffffffffc17fffff	  16MB		PCI I/O	space
-+  ffffffffc1800000	ffffffffff7fffff	 992MB		fixed mappings (top down)
-+  ffffffffff800000	ffffffffffffffff	   8MB		[guard region]
+diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
+index bf42930c6fac..2e81f33889e5 100644
+--- a/Documentation/translations/zh_CN/security/index.rst
++++ b/Documentation/translations/zh_CN/security/index.rst
+@@ -17,6 +17,7 @@
  
- 
- AArch64 Linux memory layout with 64KB pages + 3 levels (52-bit with HW support)::
-@@ -49,13 +49,13 @@ AArch64 Linux memory layout with 64KB pages + 3 levels (52-bit with HW support):
-   fff0000000000000	ffff7fffffffffff	  ~4PB		kernel logical memory map
-  [fffd800000000000	ffff7fffffffffff]	 512TB		[kasan shadow region]
-   ffff800000000000	ffff80007fffffff	   2GB		modules
--  ffff800080000000	fffffbffefffffff	 124TB		vmalloc
--  fffffbfff0000000	fffffbfffdffffff	 224MB		fixed mappings (top down)
--  fffffbfffe000000	fffffbfffe7fffff	   8MB		[guard region]
--  fffffbfffe800000	fffffbffff7fffff	  16MB		PCI I/O space
--  fffffbffff800000	fffffbffffffffff	   8MB		[guard region]
--  fffffc0000000000	ffffffdfffffffff	  ~4TB		vmemmap
--  ffffffe000000000	ffffffffffffffff	 128GB		[guard region]
-+  ffff800080000000	fffffc1fbf7fffff	 124TB		vmalloc
-+  fffffc1fbf800000	fffffc1fbfffffff	   8MB		[guard region]
-+  fffffc1fc0000000	ffffffffbfffffff	  ~4TB		vmemmap
-+  ffffffffc0000000	ffffffffc07fffff	   8MB		[guard region]
-+  ffffffffc0800000	ffffffffc17fffff	  16MB		PCI I/O space
-+  ffffffffc1800000	ffffffffff7fffff	 992MB		fixed mappings (top down)
-+  ffffffffff800000	ffffffffffffffff	   8MB		[guard region]
- 
- 
- Translation table lookup with 4KB pages::
+    IMA-templates
+    lsm
++   sak
+    siphash
+    digsig
+    landlock
+@@ -26,7 +27,6 @@ TODOLIST:
+ * snp-tdx-threat-model
+ * keys/index
+ * lsm-development
+-* sak
+ * SCTP
+ * self-protection
+ * tpm/index
+diff --git a/Documentation/translations/zh_CN/security/sak.rst b/Documentation/translations/zh_CN/security/sak.rst
+new file mode 100644
+index 000000000000..574fe076201b
+--- /dev/null
++++ b/Documentation/translations/zh_CN/security/sak.rst
+@@ -0,0 +1,86 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/security/sak.rst
++
++:翻译:
++
++ 张巍 zhangwei <zhangwei@cqsoftware.com.cn>
++
++===========================
++Linux 安全注意键（SAK）处理
++===========================
++
++:日期: 2001年3月18日
++:作者: Andrew Morton
++
++操作系统的安全注意键是一种安全工具，用于防止系统上存在特洛伊
++木马密码捕获程序。它提供了一种无法规避的方式，用于终止所有可
++能伪装成登录应用程序的程序。用户需要在登录系统之前输入这个安
++全键。
++
++从键盘输入的方式生成安全注意键，Linux提供了两种相似但不同的
++方式。一种是按下ALT-SYSRQ-K组合键，但你不应该使用这种方式，
++因为它只有在内核启用了SYSRQ支持的情况下才能使用。
++
++正确生成SAK的方式是使用``loadkeys``来定义键序列。无论内核是否
++编译了sysrq支持，这种方式都能够正常工作。
++
++当键盘处于原始模式时，SAK 能够正常工作。这意味着，一旦定义，
++SAK 将终止正在运行的 X 服务器。如果系统处于运行级别 5，X 服
++务器将重新启动，这正是你希望发生的情况。
++
++你应该使用什么键序列？ CTRL-ALT-DEL用于重启机器，CTRL-ALT-
++BACKSPACE对X服务器有特殊作用。我们将选择CTRL-ALT-PAUSE。
++
++在你的rc.sysinit（或rc.local）文件中，添加以下命令::
++
++    echo "Control Alt keycode 101 = SAK" | /bin/loadkeys
++
++就这样！只有超级用户才能重新编程SAK键。
++
++.. note::
++
++  1. Linux SAK据说并不是C2级安全性的系统所要求的"真正的SAK"。
++     该原因作者也不知道
++
++  2. 在键盘输入的模式下，SAK会终止所有打开了/dev/console的应用
++     程序。
++
++     但是不幸的是，这也包括一些你实际上不希望被终止的程序。原因是
++     这些程序错误的保持了/dev/console的打开状态。务必确保向你的
++     Linux发行版提供商投诉这个问题。
++
++     你可以用以下的命令来识别将被SAK终止的程序::
++
++        # ls -l /proc/[0-9]*/fd/* | grep console
++        l-wx------    1 root     root           64 Mar 18 00:46 /proc/579/fd/0 -> /dev/console
++
++     然后::
++
++        # ps aux|grep 579
++        root       579  0.0  0.1  1088  436 ?        S    00:43   0:00 gpm -t ps/2
++
++     所以``gpm``会被SAK杀死。这应该gpm中的bug。它应该正在关闭标准输入，
++     你可以通过查找initscript来启动gpm并更改它：
++
++     老的::
++
++        daemon gpm
++
++     新的::
++
++        daemon gpm < /dev/null
++
++     Vixie cron似乎也有这个问题，并且需要采取相同的处理方式。
++
++     此外，某个著名的Linux发行版在它的rc.sysinit和rc scripts的脚本中
++     包含了以下三行代码::
++
++        exec 3<&0
++        exec 4>&1
++        exec 5>&2
++
++     这些代码会导致所有的守护进程将文件描述符3、4和5关联到/dev/console。
++     所以SAK会将他们所有都终止。一个简单的解决办法就是删掉这些代码，但是
++     这样做会导致系统管理应用程序出现异常 - 要对所有的情况进行充分测试。
 -- 
 2.47.1
 
