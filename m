@@ -1,314 +1,219 @@
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D62743ABD
-	for <linux-doc@vger.kernel.org>; Thu,  2 Jan 2025 08:02:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E6B188938
+	for <linux-doc@vger.kernel.org>; Thu,  2 Jan 2025 08:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735804963; cv=none; b=QhRWawtLOX+Y3UiOUYAysz6G70pWIgZb7DVnWh/xAjzrZC+BfBIEcFdloawj0vWvq2jW5wGPR5mJWHWccTWawscBtBPcWa3FV/4YRtgaX77TVt7lbYsLewLGF9mSI8TSy4JjMSGS08ayaSPMyJeNWbj/DZ7BDYrcjZ8uNjRqTGs=
+	t=1735805493; cv=none; b=J1QbLnDVAEzox+gIpcf+GOsYigRRVwkMo30ObU3clz5dgxWFRybYPJhGL9+/Q4EJMdMqooPOsSOF1rawB1oSle3LNypafEz0oQEar8k02+sIRBY6SPtRlLI3tvPEF7tYO3KK6ZA0eLWv1lziHABx58Plcf5LuPJmexyApQrlhwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735804963; c=relaxed/simple;
-	bh=63UbMg+ncDeZ04tz678IxEDppXL3lNRfW6qowf35ro4=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=kAE+1hCUaFEo7UpNJgnxTD80EpcSAiTNuv0ycZdI9CPraCAi3O5pIneyeyd+NturgH/VKRVEC0Yiumz1AsE0uyjLAXB7CxBGk5/LU2hGtZbXtdkktfImVsXZRmUnH8DhTkp2YWx0EJM31cK5MsFKgluzVDc7PU9ybTMwbv29JnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Rj7DxvnI; arc=none smtp.client-ip=91.218.175.183
+	s=arc-20240116; t=1735805493; c=relaxed/simple;
+	bh=riqO2sDFdM0lws4zQlNNRn1ecKXhpCYB4dsQz0JTuL4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EztiC1AkLSFcFYRI5ohVB5ZuM5UYKXVHBqIZgK9802XJsA2iFmgLOnWSHvVuwCwRks5YfheKZH67PRRBVUA+snZidaqdKSE3ZVXoKkMH9qUIQjKXqMCqY6C6sgDX23lOtdC4Z6gb1UfOAr2Pg18tRI/F9jr/gq1X6ClPB1+RX1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ugf+FGlm; arc=none smtp.client-ip=95.215.58.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Rj7DxvnI"
-Message-ID: <f2205479-95c0-4037-8a3d-043b665fd783@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ugf+FGlm"
+Message-ID: <30df1935-033e-486c-a7f3-041f545b2c91@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1735804957;
+	t=1735805489;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JgsnJYYJL2MS1NP0Ej31Cs9mDfhs/6mBOZFziVDs/5g=;
-	b=Rj7DxvnIVSkX4p9bFtcj6czz+N/zqIEw1lOtzx5rTlEV2mzPgZi3FDRoJIyw2pBXvQsvD2
-	U/oxd63OMBO8+GJ5i14jRVLru2m6MQlODoFmSZ6kMwbqzt3EYY+b+DEgimHBmXYEfoIBnG
-	q9x0CyPGOFELGWvw2LTovjxqYzB0G1g=
-Date: Thu, 2 Jan 2025 16:02:25 +0800
+	bh=DSf4anCA11nSVAw1f4HN+zUQ64fCTRk9SyYs4d0mu+M=;
+	b=ugf+FGlmCESUcOmwIYr/AU4wAh4FG5rExBr3HjLtmZBW3valGgjwmPjZFcZMl9Q2ThDNPi
+	BTwNp25rY7k5hAMmkRfpfraK3AXHLRAZdYU+pZjNlCuHUu/Eoho1hSZPouDMtmt8jFCaro
+	m/hd+D/fT/AtiRbqE5YNh9wLgWw8Tos=
+Date: Thu, 2 Jan 2025 16:11:21 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] docs/zh_CN: Add siphash index Chinese translation
+Subject: Re: [PATCH] docs/zh_CN: Add landlock index Chinese translation
+To: Yuxian Mao <maoyuxian@cqsoftware.com.cn>, alexs@kernel.org, corbet@lwn.net
+Cc: zhaoyuehui@cqsoftware.com.cn, zhaoshuo@cqsoftware.com.cn,
+ zhangwei@cqsoftware.com.cn, linux-doc@vger.kernel.org
+References: <20241227095243.4899-1-maoyuxian@cqsoftware.com.cn>
+Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Yanteng Si <si.yanteng@linux.dev>
-To: zhangwei <zhangwei@cqsoftware.com.cn>, alexs@kernel.org, corbet@lwn.net
-Cc: zhaoyuehui@cqsoftware.com.cn, zhaoshuo@cqsoftware.com.cn,
- linux-doc@vger.kernel.org
-References: <20241227091719.9054-1-zhangwei@cqsoftware.com.cn>
- <eef0f708-ae72-44eb-a1f5-8cdaceec081f@linux.dev>
-Content-Language: en-US
-In-Reply-To: <eef0f708-ae72-44eb-a1f5-8cdaceec081f@linux.dev>
+In-Reply-To: <20241227095243.4899-1-maoyuxian@cqsoftware.com.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
 
+Hi Yuxian
 
 
-在 2025/1/2 15:52, Yanteng Si 写道:
-> Hi ZhangWei,
+在 2024/12/27 17:52, Yuxian Mao 写道:
+> Translate lwn/Documentation/security/landlock.rst into Chinese.
 >
->
-> 在 2024/12/27 17:17, zhangwei 写道:
->> Translate lwn/Documentation/security/siphash.rst into Chinese
->>
->> Update the translation through commit "92b3d24de890"
+> Update the translation through commit "dad2f2071516"
 We need a complete commit tag.
+>
+> Signed-off-by: Yuxian Mao <maoyuxian@cqsoftware.com.cn>
+> ---
+>   .../translations/zh_CN/security/index.rst     |   2 +-
+>   .../translations/zh_CN/security/landlock.rst  | 123 ++++++++++++++++++
+>   2 files changed, 124 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/translations/zh_CN/security/landlock.rst
+>
+> diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
+> index ceb700fe4561..3f68e3145322 100644
+> --- a/Documentation/translations/zh_CN/security/index.rst
+> +++ b/Documentation/translations/zh_CN/security/index.rst
+> @@ -18,6 +18,7 @@
+>      lsm
+>      siphash
+>      digsig
+> +   landlock
+>   
+>   TODOLIST:
+>   * credentials
+> @@ -29,6 +30,5 @@ TODOLIST:
+>   * SCTP
+>   * self-protection
+>   * tpm/index
+> -* landlock
+>   * secrets/index
+>   * ipe
+> diff --git a/Documentation/translations/zh_CN/security/landlock.rst b/Documentation/translations/zh_CN/security/landlock.rst
+> new file mode 100644
+> index 000000000000..53b449b637b2
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/security/landlock.rst
+> @@ -0,0 +1,123 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. Copyright ? 2017-2020 Micka?l Salaün <mic@digikod.net>
+> +.. Copyright ? 2019-2020 ANSSI
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/security/landlock.rst
+> +
+> +:翻译:
+> +
+> + 毛玉贤 Yuxian Mao <maoyuxian@cqsoftware.com.cn>
+> +
+> +======================
+> +Landlock LSM: 内核文档
+> +======================
+> +
+> +:作者: Mickaël Salaün
+> +:日期: 2022年12月
+> +
+> +Landlock的目标是创建有范围的访问控制（即沙箱机制）。为了增强整个
+> +系统的安全性，此功能应适用于任何进程，包括非特权进程。因为这些进
+> +程可能被攻击或植入后门（即不可信任的），所以从内核和其他进程的角
+> +度来看，Landlock的功能必须安全可用。因此，Landlock 的接口设计应当
+> +尽量减少可能的攻击点。
+> +
+> +Landlock 旨在为非特权进程使用，同时遵循由其他访问控制机制（例如 DAC、LSM）
+> +强制执行的系统安全策略。Landlock 规则不应与系统上强制执行的其他访问
+> +控制相冲突，而只能添加额外的限制。
+> +
+> +任何用户都可以在其进程上强制执行Landlock规则集。这些规则集会以一种
+> +确保只能添加更多约束的方式与继承的规则集合并和评估。
+> +
+> +
+There is an extra blankline.
+> +用户空间文档如下：
+> +Documentation/userspace-api/landlock.rst.
+> +
+> +安全访问控制机制指导原则
+> +========================
+> +
+> +* Landlock规则应侧重于对内核对象的访问控制，而非系统调用过滤（即
+> +  系统调用参数），后者是seccomp-bpf要侧重的。
+> +* 为了避免多种侧信道攻击（例如安全策略泄露、基于CPU的攻击），Landlock
+> +  规则不应与用户空间进行程序化通信。
+> +* 内核访问检查不应降低未沙盒化进程的访问请求速度。
+> +* 与 Landlock 操作相关的计算（例如强制执行规则集）应仅影响请求这些
+> +  操作的进程。
+> +* 由沙盒化进程直接从内核中获得的资源（例如文件描述符）在被任何进程
+> +  使用时，都应保留其获取时的作用域访问权限。
+> +  Cf. `文件描述符访问权限`_.
+> +
+> +设计选择
+> +========
+> +
+> +inode访问权限
+> +-------------
+> +
+> +所有访问权限都与inode以及通过inode所访问到的内容相关。读取目录的
+> +内容并不意味着有权读取该目录中列出的 inode 所对应文件的内容。实际
+> +上，文件名是相对于其父目录而言的 ，一个 inode 可以通过多个文件名
+> +（通过硬链接）来引用。删除文件链接这一操作仅直接影响对应目录，而
+> +对被移除链接的inode并无影响。这就是“LANDLOCK_ACCESS_FS_REMOVE_FILE”
+> +（文件系统移除文件访问权限）或“LANDLOCK_ACCESS_FS_REFER” （文件系
+> +统引用访问权限）不能与文件绑定，而只能与目录绑定的原因。
+> +
+> +文件描述符访问权限
+> +------------------
+> +
+> +在打开文件时，会检查访问权限并将其与文件描述符绑定。其基本原则是，
+> +当在相同的 Landlock 域下执行时，等效的操作序列会产生相同的结果。
+> +以LANDLOCK_ACCESS_FS_TRUNCATE权限为例，如果相关的文件层次结构没有
+> +授予该访问权限，那么可能允许打开一个文件进行写操作，但不允许使用
+> +ftruncate调用截断由此产生的文件描述符。
+> +以下操作序列具有相同的语义，因此会产生相同的结果：
+> +
+> +* ``truncate(path);``
+> +* ``int fd = open(path, O_WRONLY); ftruncate(fd); close(fd);``
+> +
+> +与文件访问模式类似（例如O_RDWR），即使文件描述符在进程之间传递
+> +（例如通过Unix域套接字），文件描述符中的Landlock访问权限也会被保留。
+> +这些访问权限即使在接收进程未被 Landlock 沙盒化的情况下也会被强制执行。
+> +事实上，这是为了保持整个系统访问控制的一致性，避免通过文件描述符传递
+> +而无意中绕过安全限制（即“混淆代理攻击”）。
+> +
+> +测试
+> +====
+> +
+> +用户空间的向后兼容性测试、ptrace 限制测试和文件系统支持测试可以在这里
+> +找到：tools/testing/selftests/landlock/
+> +
+> +内核结构
+> +========
+> +
+> +对象
+> +----
+> +
+> +该API在以下内核代码中：
+> +
+> +security/landlock/object.h
+> +
+> +文件系统
+> +--------
+> +
+> +该API在以下内核代码中：
+> +
+> +security/landlock/fs.h
+> +
+> +规则集和域
+> +----------
+> +
+> +域是与一组主体（即任务凭证）关联的只读规则集。每次在任务上执行规则集时，
+> +都会复制当前域，并在新域中导入规则集作为新的规则层。 事实上，一旦进入
+> +一个域，每条规则都与一个层级绑定。要授予对对象的访问权限，每一层中至少
+> +有一条规则必须允许对该对象执行请求操作。然后，任务只能过渡到一个新的域，
+> +该新域是当前域的约束和任务提供的规则集的约束的交集。任务自行沙盒化时，
+> +主体的定义是隐式的，这使得推理变得更加简单，并有助于避免陷阱。
+> +
+> +该API在以下内核代码中：
+> +
+> +security/landlock/ruleset.h
+> +
+> +.. Links
+> +.. _tools/testing/selftests/landlock/:
+> +
+> +https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/tools/testing/selftests/landlock/
+
 
 Thanks，
 Yanteng
->>
->> Signed-off-by: zhangwei <zhangwei@cqsoftware.com.cn>
->> ---
->>   .../translations/zh_CN/security/index.rst     |   2 +-
->>   .../translations/zh_CN/security/siphash.rst   | 195 ++++++++++++++++++
->>   2 files changed, 196 insertions(+), 1 deletion(-)
->>   create mode 100644 
->> Documentation/translations/zh_CN/security/siphash.rst
->>
->> diff --git a/Documentation/translations/zh_CN/security/index.rst 
->> b/Documentation/translations/zh_CN/security/index.rst
->> index c73cd289ac3e..ceb700fe4561 100644
->> --- a/Documentation/translations/zh_CN/security/index.rst
->> +++ b/Documentation/translations/zh_CN/security/index.rst
->> @@ -16,6 +16,7 @@
->>      :maxdepth: 1
->>        lsm
->> +   siphash
->>      digsig
->>     TODOLIST:
->> @@ -27,7 +28,6 @@ TODOLIST:
->>   * sak
->>   * SCTP
->>   * self-protection
->> -* siphash
->>   * tpm/index
->>   * landlock
->>   * secrets/index
->> diff --git a/Documentation/translations/zh_CN/security/siphash.rst 
->> b/Documentation/translations/zh_CN/security/siphash.rst
->> new file mode 100644
->> index 000000000000..94c9dd4362e0
->> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/security/siphash.rst
->> @@ -0,0 +1,195 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +.. include:: ../disclaimer-zh_CN.rst
->> +:Original: Documentation/security/siphash.rst
->> +
->> +:翻译:
->> +
->> + 张巍 zhangwei <zhangwei@cqsoftware.com.cn>
->> +
->> +=====================================
->> +SipHash - 一种短输入伪随机函数（PRF）
->> +=====================================
->> +
->> +：作者: Jason A.Donenfeld <jason@zx2c4.com>
->> +
->> +SipHash是一种加密安全的伪随机函数，即一种用于生成伪随机密钥的哈
->> +希函数，因为其在处理短输入时表现出色，因此得名。其由密码学家
->> +Daniel J. Bernstein和Jean-Philippe Aumasson设计。目的主要是替
->> +代其他哈希函数，例如：jhash，md5_transform，sha1_transform等。
->> +
->> +SipHash采用一个完全由随机数生成的密钥，以及一个输入缓冲区或者
->> +多个输入整数，它输出一个与随机数难以区分的整数，你可以将它作
->> +为安全序列、安全cookies的一部分，或者对其进行掩码处理，以便在
->> +哈希表中使用。
->> +
->> +生成钥匙
-> how about:
-> 生成密钥
->
-> because you translate key as 密钥 in the after content.
->> +========
->> +
->> +密钥应来源于加密安全的随机数生成，要么使用get random bytes
->> +要么使用get random once::
->> +
->> +        siphash_key_t key;
->> +        get_random_bytes(&key, sizeof(key));
->> +
->> +如果你的密钥来源不是这两个，那么你的做法是错的。
->> +
->> +使用函数
->> +========
->> +
->> +这个函数有两个变种，一种是接受整数列表，另一种是接受缓冲区::
->> +
->> +        u64 siphash(const void *data, size_t len, const 
->> siphash_key_t *key);
->> +
->> +和::
->> +
->> +        u64 siphash_1u64(u64, const siphash_key_t *key);
->> +        u64 siphash_2u64(u64, u64, const siphash_key_t *key);
->> +        u64 siphash_3u64(u64, u64, u64, const siphash_key_t *key);
->> +        u64 siphash_4u64(u64, u64, u64, u64, const siphash_key_t *key);
->> +        u64 siphash_1u32(u32, const siphash_key_t *key);
->> +        u64 siphash_2u32(u32, u32, const siphash_key_t *key);
->> +        u64 siphash_3u32(u32, u32, u32, const siphash_key_t *key);
->> +        u64 siphash_4u32(u32, u32, u32, u32, const siphash_key_t *key);
->> +
->> +如果向一个通用的hsiphash函数传递一个恒定长度的常量，他将
->> +在编译的时候将常量折叠，并自动选择一个优化后的函数。
->> +
->> +哈希表键函数的用法::
->> +
->> +        struct some_hashtable {
->> +                DECLARE_HASHTABLE(hashtable, 8);
->> +                siphash_key_t key;
->> +        };
->> +
->> +        void init_hashtable(struct some_hashtable *table)
->> +        {
->> +                get_random_bytes(&table->key, sizeof(table->key));
->> +        }
->> +
->> +        static inline hlist_head *some_hashtable_bucket(struct 
->> some_hashtable *table, struct interesting_input *input)
->> +        {
->> +                return &table->hashtable[siphash(input, 
->> sizeof(*input), &table->key) & (HASH_SIZE(table->hashtable) - 1)];
->> +        }
->> +
->> +然后，你可以像往常一样对返回的哈希存储桶进行迭代。
->> +
->> +安全性
->> +======
->> +
->> +SipHash有着非常高的安全性,因为其有128位的密钥。只要密钥是保密的，
->> +即使攻击者看到多个输出，也无法猜测出函数的正确输出，因为2^128次
->> +方个输出是非常庞大的。
->> +
->> +Linux实现了SipHash的“2-4”变体
->> +
->> +Struct-passing陷阱
->> +==================
->> +
->> +通常情况下，XuY函数的输出长度不够大，因此你可能需要传递一个预填充
->> +的结构体给SipHash，在这样做时，务必确保结构体没有填充空隙，最简单
->> +的方法就是将结构体的成员按照大小降序的方式排序，并且使用offsetofend()
->> +函数代替sizeof()来获取结构体大小，出于性能的考虑，如果可以的话，最
->> +好将结构体按右边界对齐，示例如下::
->> +
->> +        const struct {
->> +                struct in6_addr saddr;
->> +                u32 counter;
->> +                u16 dport;
->> +        } __aligned(SIPHASH_ALIGNMENT) combined = {
->> +                .saddr = *(struct in6_addr *)saddr,
->> +                .counter = counter,
->> +                .dport = dport
->> +        };
->> +        u64 h = siphash(&combined, offsetofend(typeof(combined), 
->> dport), &secret);
->> +
->> +资源
->> +====
->> +
->> +如果你有兴趣了解更多信息，请阅读SipHash论文:
->> +https://131002.net/siphash/siphash.pdf
->> +
->> +------------------------------------------------------------------------------- 
->>
->> +
->> +===========================================
->> +HalfSipHash 是 SipHash 的一个较不安全的变种
->> +===========================================
->> +
->> +：作者: Jason A.Donenfeld <jason@zx2c4.com>
->> +
->> +如果你认为SipHash的速度不够快，无法满足你的需求，那么你可以
->> +使用HalfSipHash，这是一种令人担忧但是有用的选择。HalfSipHash
->> +将SipHash的轮数从“2-4”降低到“1-3”，更令人担心的是，它使用一
->> +个容易被穷举攻击的64位密钥(输出为32位)，而不是SipHash的128位
->> +密钥，不过，这对于要求高性能“jhash”用户来说这是比较好的选择。
->> +
->> +HalfSipHash是通过 "hsiphash" 系列函数提供的。
->> +
->> +.. warning::
->> +   绝对不要在作为哈希表键函数之外使用hsiphash函数，只有在你
->> +   能完全能确定输出永远不会从内核传输出去的情况下才能使用，
->> +   作为缓解哈希表泛洪拒绝服务攻击的一种手段，它仅在某些情况
->> +   下比jhash好用。
->> +
->> +在64位的内核中，hsiphash函数实际上实现的是SipHash-1-3，这是一
->> +种减少轮数的SipHash变形，而不是HalfSipHash-1-3。这是因为在64位
->> +代码中SipHash-1-3的性能与HalfSipHash-1-3相当，甚至可能更快，请
->> +注意，这并不意味这在64位的内核中，hsihpash函数与siphash函数相
->> +同，也不意味着他们是安全的；hsihash函数仍然使用一种不太安全的
->> +减少轮数的算法，并将输出截断为32位。
->> +
->> +生成哈希密钥
->> +============
->> +
->> +密钥应始终来源于加密安全的随机数生成，要么使用get random bytes
->> +要么使用get random once::
->> +
->> +        hsiphash_key_t key;
->> +        get_random_bytes(&key, sizeof(key));
->> +
->> +如果你的钥匙来源不是这两个，那么你的做法是错的。
->> +
->> +使用哈希函数
->> +============
->> +
->> +这个函数有两种变体，一个是接受整数列表，另一种是接受缓冲区::
->> +
->> +        u32 hsiphash(const void *data, size_t len, const 
->> hsiphash_key_t *key);
->> +
->> +和::
->> +
->> +        u32 hsiphash_1u32(u32, const hsiphash_key_t *key);
->> +        u32 hsiphash_2u32(u32, u32, const hsiphash_key_t *key);
->> +        u32 hsiphash_3u32(u32, u32, u32, const hsiphash_key_t *key);
->> +        u32 hsiphash_4u32(u32, u32, u32, u32, const hsiphash_key_t 
->> *key);
->> +
->> +如果向一个通用的hsiphash函数传递一个恒定长度的常量，他将在编译
->> +的时候将常量折叠，并自动选择一个优化后的函数。
->> +
->> +哈希表键函数的用法
->> +==================
->> +
->> +::
->> +
->> +        struct some_hashtable {
->> +                DECLARE_HASHTABLE(hashtable, 8);
->> +                hsiphash_key_t key;
->> +        };
->> +
->> +        void init_hashtable(struct some_hashtable *table)
->> +        {
->> +                get_random_bytes(&table->key, sizeof(table->key));
->> +        }
->> +
->> +        static inline hlist_head *some_hashtable_bucket(struct 
->> some_hashtable *table, struct interesting_input *input)
->> +        {
->> +                return &table->hashtable[hsiphash(input, 
->> sizeof(*input), &table->key) & (HASH_SIZE(table->hashtable) - 1)];
->> +        }
->> +
->> +然后，你可以像往常一样对返回的哈希存储桶进行迭代。
->> +
->> +性能
->> +====
->> +
->> +hsiphash()大约比jhash()慢三倍，这是因为有许多替换，不过这些都不是问题，
->> +因为哈希表查找不是瓶颈。而且，这些牺牲是为了hsiphash()的安全性和DoS抗
->> +性，这是值得的。
->
-> Thanks,
-> Yanteng
->
->
-
