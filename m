@@ -1,109 +1,127 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mail-m49211.qiye.163.com (mail-m49211.qiye.163.com [45.254.49.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46AF405F7;
-	Thu,  2 Jan 2025 12:07:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3D5A95E
+	for <linux-doc@vger.kernel.org>; Thu,  2 Jan 2025 12:28:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735819630; cv=none; b=HYKZOdaMiHfFg8X9usN7EMa0cvy2OH4JybEz610Pt4GXV6omkYUZEPVhkd5//x6bFeTWSqGVDnBCKrTqucTQTm3FtBanBfzZrUnmcaTilkeBgNM4lfa8rFprfyDNa4mDwaauLorh2YChphbhmKK2vvQQrQR7yIpsKCsOtqW3CgU=
+	t=1735820892; cv=none; b=HmiWhrFfos6OiTu2BITVWwotyCdR6MW3mQ3VCTx2pErQTNIKPIS0T4RxFU/JWfl/kkuPUU17vkLoeMy3H6nHFlDnG56/N0PhQ4Q/fULJBFpHLaQdD//wYQ2YWSu5DISuk/lqOqVMw8Nw0zLERfobQ0gw+7oXWtLWeMI74K2wbIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735819630; c=relaxed/simple;
-	bh=nPqphhQ3v/qlhIdSSar6/dfUS15VV96Jz/Xqxwk+xiQ=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pu9csURiINiCmfcAFy/M6QrTW61xf499U7BRxqMMVuVg8Nr5Fxftu5LzYkoAyqfTQT5PJ6Uy+2dJuPw4uP1LcweslSj9LhUeXKPVEzYYwBbp9hWrAwhFD8bjmK+rN+dKhem1NwOl+KQHnfd3rsoaWeoAawpXRCK++fv7JRiaiVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YP55k1CmQz6K6nF;
-	Thu,  2 Jan 2025 20:06:18 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id BF298140A9C;
-	Thu,  2 Jan 2025 20:07:06 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 2 Jan
- 2025 13:07:05 +0100
-Date: Thu, 2 Jan 2025 12:07:04 +0000
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: Will Deacon <will@kernel.org>
-CC: Ryan Roberts <ryan.roberts@arm.com>, Marc Zyngier <maz@kernel.org>,
-	=?UTF-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>,
-	<catalin.marinas@arm.com>, <corbet@lwn.net>, <oliver.upton@linux.dev>,
-	<joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <yuzenghui@huawei.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <kvmarm@lists.linux.dev>,
-	<yangyicong@huawei.com>, <guohanjun@huawei.com>,
-	<wangkefeng.wang@huawei.com>, <liaochang1@huawei.com>,
-	<sunnanyong@huawei.com>, <yangyicong@huawei.com>, <linuxarm@huawei.com>
-Subject: Re: [RESEND RFC PATCH v1 2/5] arm64: Add BBM Level 2 cpu feature
-Message-ID: <20250102120704.00002984@huawei.com>
-In-Reply-To: <20241219164528.GH24724@willie-the-truck>
-References: <20241211160218.41404-1-miko.lenczewski@arm.com>
-	<20241211160218.41404-3-miko.lenczewski@arm.com>
-	<87cyhxs3xq.wl-maz@kernel.org>
-	<084c5ada-51af-4c1a-b50a-4401e62ddbd6@arm.com>
-	<86ikrprn7w.wl-maz@kernel.org>
-	<2b1cc228-a8d5-4383-ab25-abbbcccd2e2c@arm.com>
-	<86h678sy00.wl-maz@kernel.org>
-	<5c551e43-78e9-4336-ab16-b55c0d6c7f92@arm.com>
-	<20241219164528.GH24724@willie-the-truck>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1735820892; c=relaxed/simple;
+	bh=NDpgek3XCJSCbSSarpdhindNRgW4VXFTSEXY8GwQvB8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JiFzzu/7Bz1ESb5cGypjAXwdP0Gv+cgVXAZERm9nh9Bx6qrKUPpiYBnp7I0DYYBzBt+ByA/QjyEzkQeQ0x/Jd85w9jZhJgf9/ddeTDpmy5R2sAMzqi5nKPd6JOShbwgrG5FJEU1lYFD+7EbCKeWOvPuOEHOL+vCvAKKgZXjICmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=JqtA9VSq; arc=none smtp.client-ip=45.254.49.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="JqtA9VSq"
+Received: from [192.168.6.2] (unknown [1.193.59.150])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 77e15696;
+	Thu, 2 Jan 2025 16:58:49 +0800 (GMT+08:00)
+Message-ID: <95e4ad5a-d497-435a-949f-09b8ddb40ee9@cqsoftware.com.cn>
+Date: Thu, 2 Jan 2025 16:58:52 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
- frapeml500008.china.huawei.com (7.182.85.71)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/zh_CN: Add security digsig Chinese translation
+To: Yanteng Si <si.yanteng@linux.dev>, alexs@kernel.org, corbet@lwn.net
+Cc: zhaoyuehui@cqsoftware.com.cn, linux-doc@vger.kernel.org
+References: <20241227082836.16078-1-zhaoshuo@cqsoftware.com.cn>
+ <6552aa64-01cf-4ff1-adc0-bcbed2ea7907@linux.dev>
+From: zhaoshuo <zhaoshuo@cqsoftware.com.cn>
+In-Reply-To: <6552aa64-01cf-4ff1-adc0-bcbed2ea7907@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaQ0IeVk8eHR0eSRlCGh1PTlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUpCSFVOQlVKTktZV1kWGg8SFR0UWUFZT0tIVUpLSEpOTElVSktLVU
+	pCS0tZBg++
+X-HM-Tid: 0a94263d289f09d0kunm77e15696
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NTI6DTo5GTIVAygTTSIYPDUL
+	MDYKCw5VSlVKTEhOQ0tDSEhLT01KVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSlVKQkhVTkJVSk5LWVdZCAFZQUpMQk03Bg++
+DKIM-Signature:a=rsa-sha256;
+	b=JqtA9VSqJNrP4c88vgIjAk/wiP3hZTrOegnq+nGVHrUvLLm27fHKIhb8SLfq2y14lBbs9XWfzFYaP8n9SVQpL/AbgxeB/VDsPdQaxxZyAGOJtnY72AJTYdgHzekU99udMizYLDgmj6AXPGUR6eZjhKEqxIezmUZC4vaxvdCW7uE=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
+	bh=RyraPucvIrNk1a7stX0j/JEAHW6PLOAGqGRd+bs1KKU=;
+	h=date:mime-version:subject:message-id:from;
 
-On Thu, 19 Dec 2024 16:45:28 +0000
-Will Deacon <will@kernel.org> wrote:
 
-> On Thu, Dec 12, 2024 at 04:03:52PM +0000, Ryan Roberts wrote:
-> > >>> If anything, this should absolutely check for FAR_EL1 and assert that
-> > >>> this is indeed caused by such change.  
-> > >>
-> > >> I'm not really sure how we would check this reliably? Without patch 5, the
-> > >> problem is somewhat constrained; we could have as many changes in flight as
-> > >> there are CPUs so we could keep a list of all the {mm_struct, VA-range} that are
-> > >> being modified. But if patch 5 is confirmed to be architecturally sound, then
-> > >> there is no "terminating tlbi" so there is no bound on the set of {mm_struct,
-> > >> VA-range}'s that could legitimately cause a conflict abort.  
-> > > 
-> > > I didn't mean to imply that we should identify the exact cause of the
-> > > abort. I was hoping to simply check that FAR_EL1 reports a userspace
-> > > VA. Why wouldn't that work?  
-> > 
-> > Ahh gottya! Yes agreed, this sounds like the right approach.  
-> 
-> Please, can we just not bother handling conflict aborts at all outside of
-> KVM? This is all dead code, it's complicated and it doesn't scale to the
-> in-kernel use-cases that others want. There's also not been any attempt
-> to add the pKVM support for handling host-side conflict aborts from what
-> I can tell.
-> 
-> For now, I would suggest limiting this series just to the KVM support
-> for handling a broken/malicious guest. If the contpte performance
-> improvements are worthwhile (I've asked for data), then let's add support
-> for the CPUs that handle the conflict in hardware (I believe this is far
-> more common than reporting the abort) so that the in-kernel users can
-> benefit whilst keeping the code manageable at the same time.
-> 
+在 2025/1/2 15:32, Yanteng Si 写道:
+> Hi Zhao Shuo,
+>
+>
+> 在 2024/12/27 16:28, Shuo Zhao 写道:
+>> Translate .../security/digsig.rst into Chinese.
+>>
+>> Update the translation through commit d56b699d76d1
+>> ("Documentation: Fix typos").
+>>
+>> Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+>> ---
+>>   .../translations/zh_CN/security/digsig.rst    | 100 ++++++++++++++++++
+>>   .../translations/zh_CN/security/index.rst     |   2 +-
+>>   2 files changed, 101 insertions(+), 1 deletion(-)
+>>   create mode 100644 
+>> Documentation/translations/zh_CN/security/digsig.rst
+>>
+>> diff --git a/Documentation/translations/zh_CN/security/digsig.rst 
+>> b/Documentation/translations/zh_CN/security/digsig.rst
+>> new file mode 100644
+>> index 000000000000..96560d52859e
+>> --- /dev/null
+>> +++ b/Documentation/translations/zh_CN/security/digsig.rst
+>> @@ -0,0 +1,100 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +.. include:: ../disclaimer-zh_CN.rst
+>> +
+>> +:Original: Documentation/security/digsig.rst
+>> +
+>> +:翻译:
+>> + 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+>> +
+>> +===============
+>> +数字签名验证API
+>> +===============
+>> +
+>> +
+>> +.. 内容
+>> +
+>> +   1.介绍
+>> +   2.API
+>> +   3.用户空间工具
+>> +
+>> +
+>> +介绍
+>> +====
+>> +
+>> +数字签名验证API提供了一种验证数字签名的方法。
+>> +目前，数字签名被IMA/EVM完整性保护子系统使用。
+>> +
+>> +数字签名验证是GnuPG多精度整数(MPI)库精简后的内核移植版本来实现的。
+> how about:
+> 数字签名验证是通过精简的 GnuPG 多精度整数（MPI）库的内核移植来实现的。
 
-Hi All,
+Ok.
 
-Given direction the discussion is going in time to raise a hand.
 
-Huawei has implementations that support BBML2, and might report TLB conflict
-abort after changing block size directly until an appropriate TLB invalidation
-instruction completes and this Implementation Choice is architecturally compliant.
+Thanks,
 
-Jonathan
+ZhaoShuo
 
-> Will
-> 
-
+>
+>
+> Thanks,
+> Yanteng
+>
+>
+>
+>>   * ipe
+>
+>
+>
