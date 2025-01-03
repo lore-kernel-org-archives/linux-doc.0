@@ -1,296 +1,171 @@
-Received: from mail-m127166.xmail.ntesmail.com (mail-m127166.xmail.ntesmail.com [115.236.127.166])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8C433DF
-	for <linux-doc@vger.kernel.org>; Fri,  3 Jan 2025 04:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6019B1B6541
+	for <linux-doc@vger.kernel.org>; Fri,  3 Jan 2025 06:00:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735877218; cv=none; b=iYwwE0sMqf3Fn/ZqfdcTuRHB5aF7+H9R6Syem3iF9bR/uPXhcO6fsNdeBC0DA2ITbWZrEWFyGG5LxfCezdAla6Ux3SRYyXIiXo3GHaHwKVdQ6udtrophE238ewBjBs6+u4zV1uGW9lnGA360riVqbRI9afosMwwgepVxXEDCjiQ=
+	t=1735884030; cv=none; b=gc4N6v+VTcRxV2n6qNCKw7KzgMH119+x1TcCjZy7SIlRRlXACayNwQLK2CiTnmyTMYf9VqjbwClOIw14iI1O7PqpxYopuVw1j4bNeKsZ08LrXmCe0CerSJ2IgRd0C46bklyWF67MAM/6rcawGOLul+Dc+3YPpR/t4qkZ2UB5iQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735877218; c=relaxed/simple;
-	bh=BOp1CQx3n9SYIostLEhjs3QJRqwdMhh3nkU+QsfGaKc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GQcHKsq1arHG7or29rhvrqz5JfoCQbrKGvSVMQb0Y0E+JVbRomh6+zPa+2aEE++45ikkeRJPydJQdJ1MVoCM8WADG0jlhQ+Xid+xFuwmVzcBlpsBFwWW203BYpXxmmfaGhILAusE6TGJ109Ng9oG/NSi5N506z2IAAx2mnz+4VI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=Vq5lC/bx; arc=none smtp.client-ip=115.236.127.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
+	s=arc-20240116; t=1735884030; c=relaxed/simple;
+	bh=SUli/KZdb7oxyfsFAomAiAGF5GY//oxCRvgUklHLl5I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gsw9PaOlioaouJcFvovCUmAgtuiCMicR+lVEqOqlphXrUTV0hfdlzNjrG5KQ56Qw5UTsuDrQXZ3xmXVwHPnWlzTn46FAHISrHgVQDgsgyIF+u243LkyNqvBW4Lu1Yk3bS25p2zA0UUCi8YPN29obylAnVI/t6rhzOmMQb39rvQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=F2Pwl2II; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="Vq5lC/bx"
-Received: from localhost.localdomain (unknown [1.193.59.150])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 78e4ce27;
-	Fri, 3 Jan 2025 09:44:29 +0800 (GMT+08:00)
-From: zhangwei <zhangwei@cqsoftware.com.cn>
-To: alexs@kernel.org,
-	si.yanteng@linux.dev,
-	corbet@lwn.net
-Cc: zhaoyuehui@cqsoftware.com.cn,
-	zhaoshuo@cqsoftware.com.cn,
-	linux-doc@vger.kernel.org,
-	zhangwei <zhangwei@cqsoftware.com.cn>
-Subject: [PATCH v2] docs/zh_CN: Add siphash index Chinese translation
-Date: Fri,  3 Jan 2025 09:44:22 +0800
-Message-ID: <20250103014422.2128-1-zhangwei@cqsoftware.com.cn>
-X-Mailer: git-send-email 2.47.1
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="F2Pwl2II"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-3043e84c687so105336791fa.1
+        for <linux-doc@vger.kernel.org>; Thu, 02 Jan 2025 22:00:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1735884024; x=1736488824; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OqK1XsqQcMf7JAQsvOfW8bTjaqo69FlQkujpR6CdauY=;
+        b=F2Pwl2IIZ96qWT/82sn+LMR0jRDBDYyLjimu6xWgmy+pvu9+SBu0BppceqlWCTXWrO
+         r6I5NtCEMMAUuJe9NtB2EHqrW85Lgdvh2L7/3fg6dv2rihEswdzzE9HHBZdtP6jbYFqe
+         30WEqo/hpwxeX2NM6KptXFngHkExCoLsKolbDMhaAP68/7je7+QQ5QP87yF0dfRvD7Ep
+         CS+sg9SVyu0ewUwWCQELmUD0s41YrTK+LHggxalS5F248qqwMRrJRshUV4tNRCdiS2Ru
+         YklREDNf434c6jiSwFFr4Of6iY8hs4WIWoYmdKnddo8yOCxLo/N8JKBmi3bJA3a0+cce
+         4eFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735884024; x=1736488824;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OqK1XsqQcMf7JAQsvOfW8bTjaqo69FlQkujpR6CdauY=;
+        b=DD2NPNuzCG4C8VOUo//4aBWcarh1QUE0Jg/Ue+Oml8eW+M4PJDN7sa1Tnu6HEdULH6
+         BSpx6z1WTcQtRb5/+B/oGj9eCwbkzPwzmJhNntsksHYm5N8nkiTKHgOlqvddjPoSPjVp
+         4GRrWOaodGTyo2f3DANFO4ypeBr8AYT7+zMkXkGq/ze82Wg6MtSJrfq8kxfbpltkj2Wn
+         dQxF1GMlOtmmOejCWgjawSPROnvQJXhGTyc28dm3WHmEXX+K4zrGAVWMF9nSM0TSuOb8
+         5N+xFfWi0sajTYSGZkJ3k3w24CPr0BT4sm8tShqmShGS5e8dltTx+D/InEyz2xLnE8WI
+         O3Ag==
+X-Forwarded-Encrypted: i=1; AJvYcCWzn2LzvKmq0neWQsq4JB0aFp7uiRfKa2z4qpg1lq8h8o3Gcpp3jaZuk23nhYqgY6fXAxgBzrlOlsM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEDRaEw43TPnKeTm/TAsIAINCUGXvAEmE/s0k4/n/xmFBeaEfd
+	yaRYH5D5J1AB8St7O1LHnkEXGBHQXWMn7ddsBpNSz6ScxIAr7OCw8u2TfZqVB/A=
+X-Gm-Gg: ASbGncvbnNCHSiyuio9MvZRea/7mQLHKXorGZCBdcjAtnCOGKUwdNcFHOiPi7PeYPoI
+	wO7JG+g5wZ/HyeUZSRuSU1Qmixpc52J/zyNBAl2oq5/6L/0es/WIY6ThbXQJbotPOJ2cV8ZCdYE
+	9YHEp7/S5RClLZRz37kHOXzgqPGAP1b1lMBpiqW/BRyYNneB6L2liS1IckXauumfZXZXXQzrdnV
+	YDPLamxSEH9OV0NhhQsoEVjijDfQzzeNo7VIk3UqHHx68P1XRwXkYLkzc5xce8WUJclhOmCR//z
+	CtSlqDVVNDGT3tBxwFMzyDftJ32z+sgyQp5Q
+X-Google-Smtp-Source: AGHT+IH3zYz7xZW+csvvf2W9sWK96IbaBnbltSVrtk8mtykDTw+7RfmJJMifDYxJfyLUrNG0Fzxe5Q==
+X-Received: by 2002:a05:6512:239b:b0:540:19d8:148f with SMTP id 2adb3069b0e04-5422954340emr16038660e87.32.1735884024223;
+        Thu, 02 Jan 2025 22:00:24 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54223821665sm4038439e87.177.2025.01.02.22.00.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jan 2025 22:00:22 -0800 (PST)
+Date: Fri, 3 Jan 2025 08:00:20 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
+	Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Paul Kocialkowski <contact@paulk.fr>, Maxime Ripard <mripard@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	=?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v5 08/10] drm/bridge: samsung-dsim: use supporting
+ variable for out_bridge
+Message-ID: <bfi7nfq5cy3wwc7i4oqqcqmd23g3ukfsqcky24axfumby357on@i2xnhpihyss4>
+References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
+ <20241231-hotplug-drm-bridge-v5-8-173065a1ece1@bootlin.com>
+ <7kpgrgqp2jx6ivkwdc5ax3dfah2qkajaedpcdadldselr4bdlq@jewss2bdl4or>
+ <20250102130149.5784c09b@booty>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDQkwaVkJNT0JIGU5OSElNHlYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKVUpCSFVOQlVKTktZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSExVSktLVU
-	pCS0tZBg++
-X-HM-Tid: 0a9429d5de1503abkunm78e4ce27
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Kzo6Dzo*TzIVLS5WTzwjFEJN
-	NzEKCTRVSlVKTEhOQ01DTUxLTkxIVTMWGhIXVQETGhUcDB4SOxgKCBQdDwwaCR5VGBQWVRgVRVlX
-	WRILWUFZSlVKQkhVTkJVSk5LWVdZCAFZQUJKTEM3Bg++
-DKIM-Signature:a=rsa-sha256;
-	b=Vq5lC/bxF3s+hpC6LuJBXioahRCFBK4dwyE3hAyNLOTaOSbmvsbd5W4spx9aLaiGINOf0k0k8IJQZUGqXaMAjh8/hesNs2VHwhNDyXE/V77RKISYBq/GNBroaaXlo3aPd3H6q4WkiTcf/5p7gzcnsb8uEckPQyGmVm/teQ1bAVs=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
-	bh=lgtYBQdmJRwKcls3cbFoNLM3HNLvxiZwm+cWfgHgvxY=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250102130149.5784c09b@booty>
 
-Translate lwn/Documentation/security/siphash.rst into Chinese
+On Thu, Jan 02, 2025 at 01:01:49PM +0100, Luca Ceresoli wrote:
+> Hi Dmitry,
+> 
+> On Tue, 31 Dec 2024 16:57:38 +0200
+> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+> 
+> > On Tue, Dec 31, 2024 at 11:40:02AM +0100, Luca Ceresoli wrote:
+> > > Instead of using dsi->out_bridge during the bridge search process, use a
+> > > temporary variable and assign dsi->out_bridge only on successful
+> > > completion.
+> > > 
+> > > The main goal is to be able to drm_bridge_get() the out_bridge before
+> > > setting it in dsi->out_bridge, which is done in a later commit. Setting
+> > > dsi->out_bridge as in current code would leave a use-after-free window in
+> > > case the bridge is deallocated by some other thread between
+> > > 'dsi->out_bridge = devm_drm_panel_bridge_add()' and drm_bridge_get().  
+> > 
+> > I don't think that's how refcounting should work. Any of the functions
+> > that give you the bridge should also increase refcount, requiring manual
+> > _put() call afterwards. We might need a separate API for that.
+> 
+> You're perfectly right.
+> 
+> > > This change additionally avoids leaving an ERR_PTR value in dsi->out_bridge
+> > > on failure. This is not necessarily a problem but it is not clean.
+> > > 
+> > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > > 
+> > > ---
+> > > 
+> > > This patch was added in v5.
+> > > ---
+> > >  drivers/gpu/drm/bridge/samsung-dsim.c | 15 +++++++++------
+> > >  1 file changed, 9 insertions(+), 6 deletions(-)
+> > > 
 
-Update the translation through commit 12fe434314c8
-("Documentation: siphash: Fix typo in the name of offsetofend macro")
+[...]
 
-Signed-off-by: zhangwei <zhangwei@cqsoftware.com.cn>
----
+> > > @@ -1740,21 +1741,23 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
+> > >  
+> > >  	panel = of_drm_find_panel(remote);
+> > >  	if (!IS_ERR(panel)) {
+> > > -		dsi->out_bridge = devm_drm_panel_bridge_add(dev, panel);
+> > > +		out_bridge = devm_drm_panel_bridge_add(dev, panel);
+> > >  	} else {
+> > > -		dsi->out_bridge = of_drm_find_bridge(remote);
+> > > -		if (!dsi->out_bridge)
+> > > -			dsi->out_bridge = ERR_PTR(-EINVAL);
+> > > +		out_bridge = of_drm_find_bridge(remote);
+> > > +		if (!out_bridge)
+> > > +			out_bridge = ERR_PTR(-EINVAL);
+> > >  	}  
+> > 
+> > While looking at this patch, I think we should migrate the driver to
+> > drm_of_find_panel_or_bridge().
+> 
+> Indeed, the code here is duplicating drm_of_find_panel_or_bridge(). I'm
+> going to convert it.
+> 
+> > Then your patch might add a function
+> > close to devm_drm_of_get_bridge() or drmm_of_get_bridge().
+> 
+> ...which would return a bridge pointer, with refcount already
+> incremented. Sure, except I think it should _not_ be a drmm, as
+> the bridge might itself disappear while the card keeps existing.
 
-v2:
+Feel free to add new one.
 
-Change the "生成钥匙" to the "生成密钥"
-Complete the commit tag
+> 
+> Luca
+> 
+> -- 
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
- .../translations/zh_CN/security/index.rst     |   2 +-
- .../translations/zh_CN/security/siphash.rst   | 195 ++++++++++++++++++
- 2 files changed, 196 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/security/siphash.rst
-
-diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
-index c73cd289ac3e..ceb700fe4561 100644
---- a/Documentation/translations/zh_CN/security/index.rst
-+++ b/Documentation/translations/zh_CN/security/index.rst
-@@ -16,6 +16,7 @@
-    :maxdepth: 1
- 
-    lsm
-+   siphash
-    digsig
- 
- TODOLIST:
-@@ -27,7 +28,6 @@ TODOLIST:
- * sak
- * SCTP
- * self-protection
--* siphash
- * tpm/index
- * landlock
- * secrets/index
-diff --git a/Documentation/translations/zh_CN/security/siphash.rst b/Documentation/translations/zh_CN/security/siphash.rst
-new file mode 100644
-index 000000000000..26dd8be699b3
---- /dev/null
-+++ b/Documentation/translations/zh_CN/security/siphash.rst
-@@ -0,0 +1,195 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+:Original: Documentation/security/siphash.rst
-+
-+:翻译:
-+
-+ 张巍 zhangwei <zhangwei@cqsoftware.com.cn>
-+
-+=====================================
-+SipHash - 一种短输入伪随机函数（PRF）
-+=====================================
-+
-+：作者: Jason A.Donenfeld <jason@zx2c4.com>
-+
-+SipHash是一种加密安全的伪随机函数，即一种用于生成伪随机密钥的哈
-+希函数，因为其在处理短输入时表现出色，因此得名。其由密码学家
-+Daniel J. Bernstein和Jean-Philippe Aumasson设计。目的主要是替
-+代其他哈希函数，例如：jhash，md5_transform，sha1_transform等。
-+
-+SipHash采用一个完全由随机数生成的密钥，以及一个输入缓冲区或者
-+多个输入整数，它输出一个与随机数难以区分的整数，你可以将它作
-+为安全序列、安全cookies的一部分，或者对其进行掩码处理，以便在
-+哈希表中使用。
-+
-+生成密钥
-+========
-+
-+密钥应来源于加密安全的随机数生成，要么使用get random bytes
-+要么使用get random once::
-+
-+        siphash_key_t key;
-+        get_random_bytes(&key, sizeof(key));
-+
-+如果你的密钥来源不是这两个，那么你的做法是错的。
-+
-+使用函数
-+========
-+
-+这个函数有两个变种，一种是接受整数列表，另一种是接受缓冲区::
-+
-+        u64 siphash(const void *data, size_t len, const siphash_key_t *key);
-+
-+和::
-+
-+        u64 siphash_1u64(u64, const siphash_key_t *key);
-+        u64 siphash_2u64(u64, u64, const siphash_key_t *key);
-+        u64 siphash_3u64(u64, u64, u64, const siphash_key_t *key);
-+        u64 siphash_4u64(u64, u64, u64, u64, const siphash_key_t *key);
-+        u64 siphash_1u32(u32, const siphash_key_t *key);
-+        u64 siphash_2u32(u32, u32, const siphash_key_t *key);
-+        u64 siphash_3u32(u32, u32, u32, const siphash_key_t *key);
-+        u64 siphash_4u32(u32, u32, u32, u32, const siphash_key_t *key);
-+
-+如果向一个通用的hsiphash函数传递一个恒定长度的常量，他将
-+在编译的时候将常量折叠，并自动选择一个优化后的函数。
-+
-+哈希表键函数的用法::
-+
-+        struct some_hashtable {
-+                DECLARE_HASHTABLE(hashtable, 8);
-+                siphash_key_t key;
-+        };
-+
-+        void init_hashtable(struct some_hashtable *table)
-+        {
-+                get_random_bytes(&table->key, sizeof(table->key));
-+        }
-+
-+        static inline hlist_head *some_hashtable_bucket(struct some_hashtable *table, struct interesting_input *input)
-+        {
-+                return &table->hashtable[siphash(input, sizeof(*input), &table->key) & (HASH_SIZE(table->hashtable) - 1)];
-+        }
-+
-+然后，你可以像往常一样对返回的哈希存储桶进行迭代。
-+
-+安全性
-+======
-+
-+SipHash有着非常高的安全性,因为其有128位的密钥。只要密钥是保密的，
-+即使攻击者看到多个输出，也无法猜测出函数的正确输出，因为2^128次
-+方个输出是非常庞大的。
-+
-+Linux实现了SipHash的“2-4”变体
-+
-+Struct-passing陷阱
-+==================
-+
-+通常情况下，XuY函数的输出长度不够大，因此你可能需要传递一个预填充
-+的结构体给SipHash，在这样做时，务必确保结构体没有填充空隙，最简单
-+的方法就是将结构体的成员按照大小降序的方式排序，并且使用offsetofend()
-+函数代替sizeof()来获取结构体大小，出于性能的考虑，如果可以的话，最
-+好将结构体按右边界对齐，示例如下::
-+
-+        const struct {
-+                struct in6_addr saddr;
-+                u32 counter;
-+                u16 dport;
-+        } __aligned(SIPHASH_ALIGNMENT) combined = {
-+                .saddr = *(struct in6_addr *)saddr,
-+                .counter = counter,
-+                .dport = dport
-+        };
-+        u64 h = siphash(&combined, offsetofend(typeof(combined), dport), &secret);
-+
-+资源
-+====
-+
-+如果你有兴趣了解更多信息，请阅读SipHash论文:
-+https://131002.net/siphash/siphash.pdf
-+
-+-------------------------------------------------------------------------------
-+
-+===========================================
-+HalfSipHash 是 SipHash 的一个较不安全的变种
-+===========================================
-+
-+：作者: Jason A.Donenfeld <jason@zx2c4.com>
-+
-+如果你认为SipHash的速度不够快，无法满足你的需求，那么你可以
-+使用HalfSipHash，这是一种令人担忧但是有用的选择。HalfSipHash
-+将SipHash的轮数从“2-4”降低到“1-3”，更令人担心的是，它使用一
-+个容易被穷举攻击的64位密钥(输出为32位)，而不是SipHash的128位
-+密钥，不过，这对于要求高性能“jhash”用户来说这是比较好的选择。
-+
-+HalfSipHash是通过 "hsiphash" 系列函数提供的。
-+
-+.. warning::
-+   绝对不要在作为哈希表键函数之外使用hsiphash函数，只有在你
-+   能完全能确定输出永远不会从内核传输出去的情况下才能使用，
-+   作为缓解哈希表泛洪拒绝服务攻击的一种手段，它仅在某些情况
-+   下比jhash好用。
-+
-+在64位的内核中，hsiphash函数实际上实现的是SipHash-1-3，这是一
-+种减少轮数的SipHash变形，而不是HalfSipHash-1-3。这是因为在64位
-+代码中SipHash-1-3的性能与HalfSipHash-1-3相当，甚至可能更快，请
-+注意，这并不意味这在64位的内核中，hsihpash函数与siphash函数相
-+同，也不意味着他们是安全的；hsihash函数仍然使用一种不太安全的
-+减少轮数的算法，并将输出截断为32位。
-+
-+生成哈希密钥
-+============
-+
-+密钥应始终来源于加密安全的随机数生成，要么使用get random bytes
-+要么使用get random once::
-+
-+        hsiphash_key_t key;
-+        get_random_bytes(&key, sizeof(key));
-+
-+如果你的钥匙来源不是这两个，那么你的做法是错的。
-+
-+使用哈希函数
-+============
-+
-+这个函数有两种变体，一个是接受整数列表，另一种是接受缓冲区::
-+
-+        u32 hsiphash(const void *data, size_t len, const hsiphash_key_t *key);
-+
-+和::
-+
-+        u32 hsiphash_1u32(u32, const hsiphash_key_t *key);
-+        u32 hsiphash_2u32(u32, u32, const hsiphash_key_t *key);
-+        u32 hsiphash_3u32(u32, u32, u32, const hsiphash_key_t *key);
-+        u32 hsiphash_4u32(u32, u32, u32, u32, const hsiphash_key_t *key);
-+
-+如果向一个通用的hsiphash函数传递一个恒定长度的常量，他将在编译
-+的时候将常量折叠，并自动选择一个优化后的函数。
-+
-+哈希表键函数的用法
-+==================
-+
-+::
-+
-+        struct some_hashtable {
-+                DECLARE_HASHTABLE(hashtable, 8);
-+                hsiphash_key_t key;
-+        };
-+
-+        void init_hashtable(struct some_hashtable *table)
-+        {
-+                get_random_bytes(&table->key, sizeof(table->key));
-+        }
-+
-+        static inline hlist_head *some_hashtable_bucket(struct some_hashtable *table, struct interesting_input *input)
-+        {
-+                return &table->hashtable[hsiphash(input, sizeof(*input), &table->key) & (HASH_SIZE(table->hashtable) - 1)];
-+        }
-+
-+然后，你可以像往常一样对返回的哈希存储桶进行迭代。
-+
-+性能
-+====
-+
-+hsiphash()大约比jhash()慢三倍，这是因为有许多替换，不过这些都不是问题，
-+因为哈希表查找不是瓶颈。而且，这些牺牲是为了hsiphash()的安全性和DoS抗
-+性，这是值得的。
 -- 
-2.47.1
-
+With best wishes
+Dmitry
