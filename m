@@ -1,177 +1,159 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C021BD9E3;
-	Fri,  3 Jan 2025 18:18:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C13188CCA;
+	Fri,  3 Jan 2025 18:20:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735928324; cv=none; b=KDzzyM3uZnEu+sIrlNsVPYmGw8vSScM7KWek5EsbA+Myun+QPePmzt5wHJzyGJQ9WXgi3uChOs4vQwHoA6zblg/glpKHL0YtVQ0Em6yvfwJo8Jrgf3uk5K+fOi3yNZGewf+Fu8n2vI38eltYcpi4KUxqVmrhYmisUzKoF+WAf6M=
+	t=1735928406; cv=none; b=JSGHIaZvvl65AnNeKC56306SEZIBrwST8Tf0JBivhXHg2eSQ2TaCDZUiJzWUUSBg31ZgprO8OoQ9GIez6EqLG6L9ibetrNtipZPJt7ETFm9KneVriMWDbREjaLS+FLaEVwEA3kFaS8upbhiuhncW6Cq/737AkBEkwGy5dha5IOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735928324; c=relaxed/simple;
-	bh=pxO/NktkU5DBpkU1jGn2Y3KNP8LSY+fi3uLD59T0a6Y=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Xyxfwl0COW+HqOavsyBIJiPz/8jUFiRHDIpUbCwlY/bcWf+PHVCApb1r1HUd4/h96Cna+AYQv7rxRbqO6Lpa3+MKhQdZ/1r9BllL691yVSOR+EDmZMyT9AN3Ogzc2wAkr6mbrd/uqCKD0HBYW6trgFBe+xn0b2OaBnfTcbySWBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YPsHt0PHNz6K6G1;
-	Sat,  4 Jan 2025 02:17:46 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id AD2E71404C4;
-	Sat,  4 Jan 2025 02:18:38 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 3 Jan
- 2025 19:18:37 +0100
-Date: Fri, 3 Jan 2025 18:18:36 +0000
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: Ryan Roberts <ryan.roberts@arm.com>
-CC: Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
- =?UTF-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>,
-	<catalin.marinas@arm.com>, <corbet@lwn.net>, <oliver.upton@linux.dev>,
-	<joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <yuzenghui@huawei.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <kvmarm@lists.linux.dev>,
-	<yangyicong@huawei.com>, <guohanjun@huawei.com>,
-	<wangkefeng.wang@huawei.com>, <liaochang1@huawei.com>,
-	<sunnanyong@huawei.com>, <linuxarm@huawei.com>
-Subject: Re: [RESEND RFC PATCH v1 2/5] arm64: Add BBM Level 2 cpu feature
-Message-ID: <20250103181836.000045b1@huawei.com>
-In-Reply-To: <2a6448f5-a48b-42fd-9589-acdb434f0a8a@arm.com>
-References: <20241211160218.41404-3-miko.lenczewski@arm.com>
-	<87cyhxs3xq.wl-maz@kernel.org>
-	<084c5ada-51af-4c1a-b50a-4401e62ddbd6@arm.com>
-	<86ikrprn7w.wl-maz@kernel.org>
-	<2b1cc228-a8d5-4383-ab25-abbbcccd2e2c@arm.com>
-	<86h678sy00.wl-maz@kernel.org>
-	<5c551e43-78e9-4336-ab16-b55c0d6c7f92@arm.com>
-	<20241219164528.GH24724@willie-the-truck>
-	<20250102120704.00002984@huawei.com>
-	<86ed1lpfdh.wl-maz@kernel.org>
-	<20250103153512.GD3816@willie-the-truck>
-	<2a6448f5-a48b-42fd-9589-acdb434f0a8a@arm.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1735928406; c=relaxed/simple;
+	bh=SGwD/TnnZ0U28x1rkorInSVO+DlibL55BzxH7BSE3bc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N3+lFdY6pYpoMRBJedxg1mKFWUXsBclrSJ1E/5o/9jy8wdHc2qtpC3yjWiD/egLrt/WdHRXKFw4Oxz0WLEdXSFrU8+nehf63K4/ys7t5Ck9hAYYxkeddDRvO0sZXtrKs6XyvkKPEfYnjm/ATEwtCqPjLjnzxsrP0Wxxf0DvEawA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-8442ec2adc7so465469139f.2;
+        Fri, 03 Jan 2025 10:20:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735928404; x=1736533204;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VefR8EGI5D8o7LjxqTAm0xJU0782DCp9CgfWtfqhV0Y=;
+        b=UQsWItmO+vaEKhmJkxYDMeeqecbEmdx4tJ6Yln+xPqqAcFEKmu15el9SZUCph4HOTJ
+         RHvrcZxVt6AKBhCnIVkVrOLSF0TKDsu4xr0PTy+l2mi7/Xqlw3TTGnVnBOwDLDm4FrN1
+         3WwR0flw3P8SYwd08JZFWHnmU5VMEI6omXGo2BhjLcOOYCQNOX/qZtYxXCNx76hRvnJr
+         iS7Plqjuz/bLe+YHVVQUPvUvtLt17VnH7FOlJxVaVdAuiI5Z0VymJFENz6psHUhJR7bw
+         5g/4KDJbUquNFHWi+S/U9y7gXKu9Zhq6kXoFOXUQh/zmCiTSCR1S3xG9SpHrPjpYL2Xg
+         mcmg==
+X-Forwarded-Encrypted: i=1; AJvYcCUW1yMNL+lRRdtiUFi73g4Dk1ou8doRm+XueQj+krrMAefuWBkM9N+NtrRDsWRSA04pJ+XFXh/LfJn9bTrQ11Hy+WdAww==@vger.kernel.org, AJvYcCWoYmZvWYSieUKvu2asHA5w8hWE09BXdRwowG9YNIsg98/9H0jSg1WqUa7ZGL9KlRu6lMCO6TudJm4NXha5@vger.kernel.org, AJvYcCXdHOCEfB5zqiQMrkEFqiOVAhkysI+3pJwpYtzyTD5xUkSoz9+rPDjquUOf7chkRD6cNkskHo5ecBk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzuvBUAWGquIoc1t2xAWD6cSytZZLu6l3IomEM5tbJ7Rxe+iZuS
+	fUVQAJmEpzjXcpwJz8kQozpBM5pDr3qQjXp9jhUK0PyWqClGLUHh0bPQbYOzRdQ=
+X-Gm-Gg: ASbGncu811UxeonW6JevyBtugLY/UBA77ajOIuoQWDX78HijZ2eTnchUhZZzf0P1nRv
+	6XD+pyda9x/QS6wPiilZojO0HblMaIvPeXuPzetSMvYo3Pko3IoCB+SQlKmrdxdXYcr7qnAmbDx
+	FOTkZPHNCdsD7TP+nleG9q1ySLIxRqVoud+qwmZCYq7G7UrpZ0HQprmoczVp+7UJIHA3zMEn+yX
+	utJO6GvjYXlgX9xGuAOWmNv5wvWEWL38QrLDABRHY6+zfD9Mrb2L39UG4aM/QW77aGqyOs8wwDs
+	4GpVoRmjz7xd53RKEtHkwhrJRA==
+X-Google-Smtp-Source: AGHT+IGUByHsixjfei9U1+OiTIblUnrijoO0zEbrOwaDhrMQ04zTRGnWHlOpAAXfNfuwFlk6t2S0pw==
+X-Received: by 2002:a05:6e02:1d9c:b0:3a7:87f2:b010 with SMTP id e9e14a558f8ab-3c2d1aa2b54mr399267615ab.5.1735928403708;
+        Fri, 03 Jan 2025 10:20:03 -0800 (PST)
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com. [209.85.166.173])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4e68bf7eaf0sm7745490173.68.2025.01.03.10.20.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Jan 2025 10:20:03 -0800 (PST)
+Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-3a8146a8ddaso46707065ab.1;
+        Fri, 03 Jan 2025 10:20:03 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWWFvKVU8xpyN/LhlIoiYZ8z33diGrdF8z8X2QjrSthqEiEfgT9OWA9vb9Bs+y6aCbxrooRCgvpHlijU/QVZ3kVN8pgKw==@vger.kernel.org, AJvYcCWkRaNnERMZpGUzTimdkX4WIm8xzaPTob0FT5SbOGxsZlLVJwMDnwm7bbTZXkwizUjcfc8D49EOP/eE5E3C@vger.kernel.org, AJvYcCXIzWtzO/ch4tI2W+hv9pdwdf1dxxiFUcgCgPc9JffLHbLSMDAY7V+3Hkdu8RpvHjz1AmSjfAGITp4=@vger.kernel.org
+X-Received: by 2002:a05:6e02:1aaa:b0:3a7:e103:3c43 with SMTP id
+ e9e14a558f8ab-3c2d514fb31mr437025985ab.19.1735928402870; Fri, 03 Jan 2025
+ 10:20:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500012.china.huawei.com (7.191.174.4) To
- frapeml500008.china.huawei.com (7.182.85.71)
+References: <20241226153031.49457-1-josh@joshuagrisham.com> <mvp4rhnpzjdfyacuzczg2y5vms7hnarxxwbnk3pbtfx3mg3mrm@vzceo5cfjfl6>
+In-Reply-To: <mvp4rhnpzjdfyacuzczg2y5vms7hnarxxwbnk3pbtfx3mg3mrm@vzceo5cfjfl6>
+From: Joshua Grisham <josh@joshuagrisham.com>
+Date: Fri, 3 Jan 2025 19:19:51 +0100
+X-Gmail-Original-Message-ID: <CAMF+KebdvjTKYAxWqk0dMaUc=jtqw624GKyc=j4gHJ2PBQK1gA@mail.gmail.com>
+Message-ID: <CAMF+KebdvjTKYAxWqk0dMaUc=jtqw624GKyc=j4gHJ2PBQK1gA@mail.gmail.com>
+Subject: Re: [PATCH v4] platform/x86: samsung-galaxybook: Add
+ samsung-galaxybook driver
+To: Kurt Borja <kuurtb@gmail.com>
+Cc: Joshua Grisham <josh@joshuagrisham.com>, ilpo.jarvinen@linux.intel.com, 
+	hdegoede@redhat.com, W_Armin@gmx.de, platform-driver-x86@vger.kernel.org, 
+	corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 3 Jan 2025 16:00:59 +0000
-Ryan Roberts <ryan.roberts@arm.com> wrote:
+Hi Kurt, thanks for the comments! Will respond inline below...
 
-> On 03/01/2025 15:35, Will Deacon wrote:
-> > On Thu, Jan 02, 2025 at 12:30:34PM +0000, Marc Zyngier wrote:  
-> >> On Thu, 02 Jan 2025 12:07:04 +0000,
-> >> Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:  
-> >>> On Thu, 19 Dec 2024 16:45:28 +0000
-> >>> Will Deacon <will@kernel.org> wrote:  
-> >>>> On Thu, Dec 12, 2024 at 04:03:52PM +0000, Ryan Roberts wrote:  
-> >>>>>>>> If anything, this should absolutely check for FAR_EL1 and assert that
-> >>>>>>>> this is indeed caused by such change.    
-> >>>>>>>
-> >>>>>>> I'm not really sure how we would check this reliably? Without patch 5, the
-> >>>>>>> problem is somewhat constrained; we could have as many changes in flight as
-> >>>>>>> there are CPUs so we could keep a list of all the {mm_struct, VA-range} that are
-> >>>>>>> being modified. But if patch 5 is confirmed to be architecturally sound, then
-> >>>>>>> there is no "terminating tlbi" so there is no bound on the set of {mm_struct,
-> >>>>>>> VA-range}'s that could legitimately cause a conflict abort.    
-> >>>>>>
-> >>>>>> I didn't mean to imply that we should identify the exact cause of the
-> >>>>>> abort. I was hoping to simply check that FAR_EL1 reports a userspace
-> >>>>>> VA. Why wouldn't that work?    
-> >>>>>
-> >>>>> Ahh gottya! Yes agreed, this sounds like the right approach.    
-> >>>>
-> >>>> Please, can we just not bother handling conflict aborts at all outside of
-> >>>> KVM? This is all dead code, it's complicated and it doesn't scale to the
-> >>>> in-kernel use-cases that others want. There's also not been any attempt
-> >>>> to add the pKVM support for handling host-side conflict aborts from what
-> >>>> I can tell.
-> >>>>
-> >>>> For now, I would suggest limiting this series just to the KVM support
-> >>>> for handling a broken/malicious guest. If the contpte performance
-> >>>> improvements are worthwhile (I've asked for data), then let's add support
-> >>>> for the CPUs that handle the conflict in hardware (I believe this is far
-> >>>> more common than reporting the abort) so that the in-kernel users can
-> >>>> benefit whilst keeping the code manageable at the same time.
-> >>>>  
-> >>>
-> >>> Given direction the discussion is going in time to raise a hand.
-> >>>
-> >>> Huawei has implementations that support BBML2, and might report TLB conflict
-> >>> abort after changing block size directly until an appropriate TLB invalidation
-> >>> instruction completes and this Implementation Choice is architecturally compliant.  
-> >>
-> >> Compliant, absolutely. That's the letter of the spec. The usefulness
-> >> aspect is, however, more debatable, and this is what Will is pointing
-> >> out.
-> >>
-> >> Dealing with TLB Conflict aborts is an absolute pain if you need
-> >> to handle it within the same Translation Regime and using the same
-> >> TTBR as the one that has generated the fault. So at least for the time
-> >> being, it might be preferable to only worry about the implementations
-> >> that will promise to never generate such an abort and quietly perform
-> >> an invalidation behind the kernel's back.  
-> > 
-> > Agreed. We're not dropping support for CPUs that don't give us what we'd
-> > like here, we're just not bending over to port and maintain new
-> > optimisations for them. I think that's a reasonable compromise?
+Den m=C3=A5n 30 dec. 2024 kl 18:50 skrev Kurt Borja <kuurtb@gmail.com>:
+>
+> > +     if (err)
+> > +             goto return_with_dbg;
+> > +
+> > +     galaxybook->has_kbd_backlight =3D true;
+> > +
+> > +     return 0;
+> > +
+> > +return_with_dbg:
+> > +     dev_dbg(&galaxybook->platform->dev,
+> > +             "failed to initialize kbd_backlight, error %d\n", err);
+> > +     return 0;
+>
+> Return `err` here.
+>
 
-Subject to usual maintainability vs performance questions sure.
-Given we are the ones with the implementation, it's perhaps up to us
-to prove the added complexity for a given optimization is worth the hassle
-(maybe leaning on Arm to help out ;)  We have some activity going on
-around this, but are unfortunately not ready to share.
+I actually intentionally want to return 0 here -- the feature is "not
+enabled" but other features of the driver can be (so probe should not
+fail and unload the module). Not all devices that have these ACPI IDs
+will have keyboard backlight (or various other features that are
+supported by this module), but do have other features, so those
+features that exist on the specific device should "work" ideally while
+others are not made available. This logic matches the behavior from
+before but just slightly refactored now to clean it up a bit. Per some
+other comments from Armin I will change a bit of this so the debug
+messages will be more clear at "point of use" so hopefully it will be
+even more clear; does this seem ok or should there also be a comment
+or clear text in the debug message that it will continue without
+failing the probe?
 
-> > 
-> > That said, thanks for raising this, Jonathan. It's a useful data point
-> > to know that TLB conflict aborts exist in the wild!  
+> > +     int mapped_profiles;
+> >  [...]
+> > +             /* if current mode value mapped to a supported platform_p=
+rofile_option, set it up */
+> > +             if (mode_profile !=3D IGNORE_PERFORMANCE_MODE_MAPPING) {
+> > +                     mapped_profiles++;
+>
+> mapped_profiles is uninitialized!!
+>
 
-My work here is done ;)
+Thank you! A total miss on my part .. and feels like just random
+chance that I have not had an issue so far (it seems like it has
+always grabbed fresh memory / a value that was already 0) but I will
+fix this :)
 
-> 
-> Indeed. Just to make it explicit; if we were to support all architecturally
-> compliant BBML2 implementations, we would need to drop the final patch in this
-> series. But since it sounds like we will be taking the approach of only allowing
-> these optimizations for implementations that never raise conflict abort and
-> handle it all in HW, it should be safe to keep the optimization in that final
-> patch. I'll work with Miko to get this bashed into shape and reposted.
+> > +     err =3D galaxybook_i8042_filter_install(galaxybook);
+> > +     if (err)
+> > +             return dev_err_probe(&galaxybook->platform->dev, err,
+> > +                                  "failed to initialize i8042_filter\n=
+");
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static void galaxybook_remove(struct platform_device *pdev)
+> > +{
+> > +     if (galaxybook_ptr)
+> > +             galaxybook_ptr =3D NULL;
+>
+> Please someone correct me if I'm wrong.
+>
+> Device resources get released after calling the .remove callback,
+> therefore there is a small window in which the i8042 filter is *still*
+> installed after this point, which means you could dereference a NULL
+> pointer.
+>
+> I suggest not using devres for the i8042 filter.
+>
 
-Obviously I'd want perf numbers to justify it (working on that) but I'd like
-to keep on the table the option of patch 5 being the only part that is dependent
-on being non conflict aborting hardware. I think even that is a performance
-question rather than a correctness one - it simply widens the window in which
-we might see a fault and have to dump the TLB. (I may well have missed something
-though).
+I believe you are correct, and I checked some of the driver core code
+and was able to pinpoint the exact sequence to confirm. This was also
+mentioned by Armin in a comment. My intention is that I will actually
+fold everything to do with this global pointer into the i8042 init /
+remove functions since it is the only thing that uses it, so hopefully
+all will work out ok. Also my intention further is if Armin's changes
+to add a context pointer to the i8042 filter hook get accepted and
+merged then I will move to that and remove this global pointer
+entirely :)
 
-As a side note on that last patch, it is easy to conceive of a BBML2
-solution that doesn't do conflict aborts, but for which it is still a performance
-nightmare to not flush. As a fictional implementation, where our CPUs get a conflict
-abort, we could instead have stalled the core and pushed the abort info to a management
-controller, and flushed the whole TLB to resolve (plus probably the CPU pipeline).
-If sufficiently rare that's not a totally stupid implementation (subject to some
-optimizations). It is basically offloading what we are going to do in software on
-a conflict abort with somewhat similar performance cost making widening the window
-a very bad idea.
+Thanks again for looking into this, and please feel free to say if
+there is anything else you find or something I responded with here
+that does not sound good!
 
-So the proposed allow list might need to be rather more nuanced than "can we get
-a fault?"  We all love per uarch performance related opt ins.
-
-Jonathan
-
-> 
-> Thanks,
-> Ryan
-> 
-> > 
-> > Will  
-> 
-> 
-
+Joshua
