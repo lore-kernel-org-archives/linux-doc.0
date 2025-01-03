@@ -1,117 +1,145 @@
-Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3FE14A09F;
-	Fri,  3 Jan 2025 00:45:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.138.36.223
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF4CB8F66;
+	Fri,  3 Jan 2025 01:11:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735865121; cv=none; b=KG4QQOl/IwX5nBx58PW6i+cqECU/4wnTSUW2bkiUP5H1PEJVNvzOg86/mdMTOw4XVaZT3HV19EZPk7k6ph2cwgIgMzobwIs7REUSOP5yVGcbGRHaCSMsYt3G7a4UYXqYqlqXKdqkwfT0U3hzuyu7hNqsGofl46Izf2CeHT54Qw0=
+	t=1735866670; cv=none; b=No774+APZi6UX5uSbRAW63xsqHvgRDZCOLOdhO6D5tBuOCiqZIOQuyjV6CPc3lFHUaKt6Mdvfi5bbeQrTpi/vJVVKNKu+OG9eS2mDqYeprgp7GnZHRhVXqOiHsp1tBh+6cOmEXfezV39NEvDZzpQx4EuCAbhPRy4b9XvjFXaZ/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735865121; c=relaxed/simple;
-	bh=edUiaiBQ7Qrsi4q5GX45z8CKGm14ZDYtkiUKGXx6TqI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qmVSL0QYGf/37kd5+OHSZIVi4qiix4FXVetIj2Nm+9mInS5jGaHHsFrmHhAtENKP4lF4UUoOPndmEJTfpvqYek+lkjEbD42KniYDhf5AX5QGTQgIg/eTaP7euyXNijK/j6oY0P5yRKlPcfV4/ASOfbfNosMZxt16O4e74XSPso0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=JCbSHfrR; arc=none smtp.client-ip=139.138.36.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="JCbSHfrR"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1735865118; x=1767401118;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=edUiaiBQ7Qrsi4q5GX45z8CKGm14ZDYtkiUKGXx6TqI=;
-  b=JCbSHfrR5+CwHraky4hA66XNSy2lhQ8wkB/7oC7Vs+JC1j2PXdquCd3T
-   CQ8O3JdkJ98HdR9BSixMSSa5+qTkH4vCuLrNtnnWYueMl9ambUN8e63If
-   Ibg0SJwqbtGPgck97Z9qYxHrzt5sKQqKQKCTTeWCqSUlpgHm0pc6/AMON
-   mewouaO+9myrHdljSfWSUUlk6s5P/FzI0SRRlnI/UgPC58K5me6zK0gdb
-   oeoSMpl76Apf2uRO1LUz5TT9wSRYBMsJ+pBq330v9G5xi4zSFgEYk3dDw
-   inmd8vqDwM9txjtI69in9MsbrMG+cDdxKnkub5oSSVHIpuqIfPXt1YHYF
-   g==;
-X-CSE-ConnectionGUID: 1tkKrDrTQH6p0m419u52OA==
-X-CSE-MsgGUID: Od9EQY2dSqGZJ2Pd7w8M3w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="173845385"
-X-IronPort-AV: E=Sophos;i="6.12,286,1728918000"; 
-   d="scan'208";a="173845385"
-Received: from unknown (HELO yto-r1.gw.nic.fujitsu.com) ([218.44.52.217])
-  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 09:44:06 +0900
-Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
-	by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 8A239D6EA1;
-	Fri,  3 Jan 2025 09:44:04 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id 5C07CD504E;
-	Fri,  3 Jan 2025 09:44:04 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id C895E20076D0F;
-	Fri,  3 Jan 2025 09:44:03 +0900 (JST)
-Received: from iaas-rpma.. (unknown [10.167.135.44])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 1213C1A006C;
-	Fri,  3 Jan 2025 08:44:02 +0800 (CST)
-From: Li Zhijian <lizhijian@fujitsu.com>
-To: linux-doc@vger.kernel.org
-Cc: Thorsten Leemhuis <linux@leemhuis.info>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-kernel@vger.kernel.org,
-	Li Zhijian <lizhijian@fujitsu.com>
-Subject: [PATCH] Documentation: Fix typo localmodonfig -> localmodconfig
-Date: Fri,  3 Jan 2025 08:43:58 +0800
-Message-Id: <20250103004358.1310121-1-lizhijian@fujitsu.com>
-X-Mailer: git-send-email 2.31.1
+	s=arc-20240116; t=1735866670; c=relaxed/simple;
+	bh=GYuUvnVbU/+wEqfe7u10lOwnnROhVDqOuZdKfHV8k7Q=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=Xq36LGS6+4VIVEp1awZ9AZQqUb/mdX3Yfk8PKIzMSp4c723sgFzwzswpMEup25QD12QxF9cTzVpTRT8oFz2+F2O7Hqzapm1lDcLAITZlHjDGp2X+2AfrEUcN24NTf0JKQ6WiQfM95OPMwsbvHQH7p1jEq0tIfQsXk2zxU/8dAGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.20.42.24])
+	by gateway (Coremail) with SMTP id _____8AxEK8gOXdn0m1dAA--.13705S3;
+	Fri, 03 Jan 2025 09:10:56 +0800 (CST)
+Received: from [10.20.42.24] (unknown [10.20.42.24])
+	by front1 (Coremail) with SMTP id qMiowMBxXccdOXdnkfcRAA--.18171S3;
+	Fri, 03 Jan 2025 09:10:56 +0800 (CST)
+Subject: Re: [PATCH V2] irqchip/loongarch-avec:Add multi-nodes topology
+ support
+To: Huacai Chen <chenhuacai@kernel.org>
+Cc: kernel@xen0n.name, tglx@linutronix.de, loongarch@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241230021503.14012-1-zhangtianyang@loongson.cn>
+ <CAAhV-H56tOfi1oqnwh1O94Z3sAS7sAbeKQ_U_O6AD98YVq6F=w@mail.gmail.com>
+From: Tianyang Zhang <zhangtianyang@loongson.cn>
+Message-ID: <367e4c5e-eeea-f0ba-0a63-d7d92aa35d7b@loongson.cn>
+Date: Fri, 3 Jan 2025 09:10:52 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <CAAhV-H56tOfi1oqnwh1O94Z3sAS7sAbeKQ_U_O6AD98YVq6F=w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28898.003
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28898.003
-X-TMASE-Result: 10--0.722500-10.000000
-X-TMASE-MatchedRID: Ll6vM9Ck4lD1FjL5pOozBYGD9MrmzQNzTJDl9FKHbrkzY4Z+W6z6mugo
-	SvaKsl/kIvrftAIhWmIVQaIxyJ2Ho9/K1ikJIsLO/e+uN180e5dtGams9PgywgziLcNJx/Sx2zy
-	DP4XJBPsKx6jkYhVsxnEN3Bug6vd/IPhxRQ8o5ncEClJgjzpjqH0tCKdnhB589yM15V5aWpj6C0
-	ePs7A07YVH0dq7wY7u0ajLfKHfEWFHpW5QJy8C2KT/FpUU64VreqdlFIbb/Jsk2nudZJ6GqyUAT
-	yKGR+kOZJB3WKCVtnFCfANOGOiCALjplylGOjMvjGtT3o7GSawVxRB/din+uJ07T8ZSLiAVvR84
-	/OmB1wQp4n8eQBnwiw==
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+Content-Language: en-US
+X-CM-TRANSID:qMiowMBxXccdOXdnkfcRAA--.18171S3
+X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj93XoWxWr1fXw17Zw1DJryfJr47GFX_yoW5Gw4fpa
+	98Xayjyr4UKa4xWrZIq34DXryayF4xKrZrta4xG3WfXrWDCr9rWFy8Xr909Fyku3yku3W0
+	vr48JF47u3W5ZacCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+	Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
+	8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AK
+	xVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
+	AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+	14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIx
+	kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
+	wI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
+	4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8zwZ7UU
+	UUU==
 
-It's noticed when I myself made the same spelling mistake while
-searching for localmodconfig
 
-Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
----
- Documentation/admin-guide/quickly-build-trimmed-linux.rst       | 2 +-
- .../admin-guide/verify-bugs-and-bisect-regressions.rst          | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/admin-guide/quickly-build-trimmed-linux.rst b/Documentation/admin-guide/quickly-build-trimmed-linux.rst
-index f08149bc53f8..07cfd8863b46 100644
---- a/Documentation/admin-guide/quickly-build-trimmed-linux.rst
-+++ b/Documentation/admin-guide/quickly-build-trimmed-linux.rst
-@@ -733,7 +733,7 @@ can easily happen that your self-built kernel will lack modules for tasks you
- did not perform before utilizing this make target. That's because those tasks
- require kernel modules that are normally autoloaded when you perform that task
- for the first time; if you didn't perform that task at least once before using
--localmodonfig, the latter will thus assume these modules are superfluous and
-+localmodconfig, the latter will thus assume these modules are superfluous and
- disable them.
- 
- You can try to avoid this by performing typical tasks that often will autoload
-diff --git a/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
-index 6281eae9e6bc..03c55151346c 100644
---- a/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
-+++ b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
-@@ -1431,7 +1431,7 @@ can easily happen that your self-built kernels will lack modules for tasks you
- did not perform at least once before utilizing this make target. That happens
- when a task requires kernel modules which are only autoloaded when you execute
- it for the first time. So when you never performed that task since starting your
--kernel the modules will not have been loaded -- and from localmodonfig's point
-+kernel the modules will not have been loaded -- and from localmodconfig's point
- of view look superfluous, which thus disables them to reduce the amount of code
- to be compiled.
- 
--- 
-2.47.0
+在 2024/12/31 下午3:56, Huacai Chen 写道:
+> Hi, Tianyang,
+>
+> On Mon, Dec 30, 2024 at 10:15 AM Tianyang Zhang
+> <zhangtianyang@loongson.cn> wrote:
+>> avecintc_init() enables the Advanced Interrupt Controller (AVEC) of
+>> the boot CPU node, but nothing enables the AVEC on secondary nodes.
+>>
+>> Move the enablement to the CPU hotplug callback so that secondary
+>> nodes get the AVEC enabled too. In theory enabling it once per node
+>> would be sufficient, but redundant enabling does no hard, so keep the
+>> code simple and do it unconditionally.
+>>
+>> Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
+>> ---
+>>   drivers/irqchip/irq-loongarch-avec.c | 17 +++++++++++++----
+>>   1 file changed, 13 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/irqchip/irq-loongarch-avec.c b/drivers/irqchip/irq-loongarch-avec.c
+>> index 0f6e465dd309..988d3e02ac54 100644
+>> --- a/drivers/irqchip/irq-loongarch-avec.c
+>> +++ b/drivers/irqchip/irq-loongarch-avec.c
+>> @@ -56,6 +56,15 @@ struct avecintc_data {
+>>          unsigned int            moving;
+>>   };
+>>
+>> +static inline void avecintc_enable(void)
+>> +{
+>> +       u64 value;
+>> +
+>> +       value = iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
+>> +       value |= IOCSR_MISC_FUNC_AVEC_EN;
+>> +       iocsr_write64(value, LOONGARCH_IOCSR_MISC_FUNC);
+>> +}
+>> +
+>>   static inline void avecintc_ack_irq(struct irq_data *d)
+>>   {
+>>   }
+>> @@ -127,6 +136,8 @@ static int avecintc_cpu_online(unsigned int cpu)
+>>
+>>          guard(raw_spinlock)(&loongarch_avec.lock);
+>>
+>> +       avecintc_enable();
+>> +
+>>          irq_matrix_online(loongarch_avec.vector_matrix);
+>>
+>>          pending_list_init(cpu);
+>> @@ -339,7 +350,6 @@ static int __init irq_matrix_init(void)
+>>   static int __init avecintc_init(struct irq_domain *parent)
+>>   {
+>>          int ret, parent_irq;
+>> -       unsigned long value;
+>>
+>>          raw_spin_lock_init(&loongarch_avec.lock);
+>>
+>> @@ -378,14 +388,13 @@ static int __init avecintc_init(struct irq_domain *parent)
+>>                                    "irqchip/loongarch/avecintc:starting",
+>>                                    avecintc_cpu_online, avecintc_cpu_offline);
+>>   #endif
+>> -       value = iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
+>> -       value |= IOCSR_MISC_FUNC_AVEC_EN;
+>> -       iocsr_write64(value, LOONGARCH_IOCSR_MISC_FUNC);
+>> +       avecintc_enable();
+>>
+>>          return ret;
+>>
+>>   out_remove_domain:
+>>          irq_domain_remove(loongarch_avec.domain);
+>> +       loongarch_avec.domain = NULL;
+> This is unnecessary, since no one checks it, and there is no memory
+> leak even if without it.
+>
+> Huacai
+Ok. I got it, thanks
+>
+>>   out_free_handle:
+>>          irq_domain_free_fwnode(loongarch_avec.fwnode);
+>>   out:
+>> --
+>> 2.20.1
+>>
 
