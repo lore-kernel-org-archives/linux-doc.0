@@ -1,279 +1,125 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 503251FA140;
-	Fri,  3 Jan 2025 15:05:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C17EEBB;
+	Fri,  3 Jan 2025 15:35:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735916710; cv=none; b=RhRiErTzW4296RAT4L9dideMu5EuWv6Gfs4jWVy2hDPnkzkn+4s9iund16NU8F/lse2VNjDTWdeLpGzM5SQ/FRBfFw3QaVewHo5zCFtqmCTOYSCVPkC0BdkW0Vv3lzbu/yBoBoBrgn5vGO5if6wPhfl+CrHl2RaE4H62SpVb/Q8=
+	t=1735918521; cv=none; b=YOulkhI1kXXydiklksSDlCAohJtb4ldyvWethdi9H12/kZWbjsf/K+IaBHFOWYgh+lcl2R0SlGa5uvDxcz6ALUJJXvdoshlNwHd7BIteZbKXadewA43nWJGqg6+dd8TFdp9dInkTQOU/i/v904gIAUuFjokIrW5lLLUVJ881PgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735916710; c=relaxed/simple;
-	bh=g+xedStwdu7vqJHteeHoaifSNpz/JPjXv9xm04kRPn8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=DLVdRW7AqidA+/ahCkB3ulZVLX08UGMHW5ug6JHGmQA1/ZKRMWEQo4nfPPu97YxN0l3uukNk7ogCOUx4GhptCJhiAw8/BhNG9/tC7FvuS+BLfI0jHQf/LDm8FIXSqGR30Bxc8tJDsEEy/yl7eUWhXmuqmiy+CD8NRcwVPy/oXAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=imTu2s/m; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1735918521; c=relaxed/simple;
+	bh=dkuPRC1mSjn4P8CTQpXiKsb9NwR2J22sVbc7YWENjVU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eDMtJk5GY+BuD9f3QBHDl/Au8XXzJIoiuTJYBlRZXQWIz6tM6DCpcisNM8ZE80FnhHfuxuLtx8f2vaeeEYU9B0MKPL9JTOLaLoy1gJ8zT1sEv0td4IqJZ0H32YLAOACDgmNoETK19Y0Vy6Ao4AHMQxrLnUXFU1PcgUuCDAN32z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O1KuaD0q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="imTu2s/m"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2eeb4d643a5so17680573a91.3;
-        Fri, 03 Jan 2025 07:05:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735916707; x=1736521507; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1HL+ntJjREdI9rDbxoGOYSFvSnek5hf/Fz0N6hXv0ew=;
-        b=imTu2s/mIWU4rbq0XcbvCQvdTUEtQsvCmx074uG5mel4jAXHSC2pAff3LAiSnVkzPz
-         FPlVrFRD2D/TzC4qj9pAivfPZ5plnM+dcdz3LqURLElcT4xllU4doU67TjfE4UFDEHgy
-         +STCkCp5hMJgQePrl5KrHv0u2j15XpsTGex8izRCWRjFpVk80NWAsUSrwXZsVY63G73T
-         4TaeClN09GF9IEIcG5c1pk3DzCe4Zh173SmIbdEOF98UtuXwUECWE7oMPkKnklUOzBSN
-         GKJr9NJHeDMgC/prVxl3HWP3k/IhxhLWt8ItJrpbx3THZkxBcoBCleudraZJ7WhFGmE2
-         RnHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735916707; x=1736521507;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1HL+ntJjREdI9rDbxoGOYSFvSnek5hf/Fz0N6hXv0ew=;
-        b=opQZPS7fVFkxLX6o3CfExSXBtXGdHMixoN5l8VsCMAy1w1mKTHyxiBUlSC7ZPcAS1z
-         Zh7q2nHqvOtqdU9JzoZPDinrhSCzWmJNmZ6QtTq09eXxO77GYQD+dGeiewb9MZKBHhcV
-         WsH4u7+928+gBZumNnlt6rXIFaH/aG7108Fd0c6x0QMaI764ZUk/iXkLGyYa/dSMfrKy
-         +6V5PTBO/leSrL7acA9x+I2ubtM1ND8hs1ISHs5bsayDUWgbpCwf123Sla5+77+cb6Pa
-         tAplddrOBJC1GQOZb5uorM/Qg7YAxhkMjwLLtZtprisokihjhlXv1U5+DU/A+ZoCmx2E
-         vy4g==
-X-Forwarded-Encrypted: i=1; AJvYcCUap9Of2FAActr4KD0UNBmePoWiUhYVA7BYusAaJqJMk5lq9bakWrxPke9glSQkk7cNlgXeZOxHzto=@vger.kernel.org, AJvYcCVCUpCEsIZ4+CIb8n1aiebCXRn2PPDIWkBvuub8QAFQhuzDLY3dZmpL58k9pMlm244hTdAVVroL@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuT2kwFCN+UL86hQmh6MQwq4K9h5Z39ILpzPJPba7AnLaCippy
-	q9HYfwgpb5UB3CK9E9tBhLRjlsOgNllpWUQRh4VGNxExnTCRazsD
-X-Gm-Gg: ASbGncvlLZq82RGZ65r6vus6Vkr21kwNVcmLZIjn8RHj7IjGBNdYUqrDwK5lZb7hj5X
-	x7i+7f46tYPZz7yI01MF04ebLOmMT0xMo1TxV5Nm9gdVemCH4v+Y3HRzbCQe1pkkq7M+oiZZ+oz
-	bA7Zxt2RG97sJ08hqmNiPmlpRlyZDI/V7ASVw6E2BmxtDRGBApO9GRXcVNigO/crnzxjj1C6gzF
-	p1Ik6KtKlGwWfT3sgrkPpcLIJt0kJ5aeICel7KferYVmQ==
-X-Google-Smtp-Source: AGHT+IFjMExgn79GILTUWDI+IttGXsuWX87E8XDfkKQxOQrTRs9cFV/F0fmm9JsGRsUA12UNI9SynQ==
-X-Received: by 2002:a17:90b:3d44:b0:2ea:696d:732f with SMTP id 98e67ed59e1d1-2f452eb12a3mr73835660a91.29.1735916707402;
-        Fri, 03 Jan 2025 07:05:07 -0800 (PST)
-Received: from ap.. ([182.213.254.91])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9629d0sm247047255ad.41.2025.01.03.07.04.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jan 2025 07:05:06 -0800 (PST)
-From: Taehee Yoo <ap420073@gmail.com>
-To: davem@davemloft.net,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	edumazet@google.com,
-	almasrymina@google.com,
-	donald.hunter@gmail.com,
-	corbet@lwn.net,
-	michael.chan@broadcom.com,
-	andrew+netdev@lunn.ch,
-	hawk@kernel.org,
-	ilias.apalodimas@linaro.org,
-	ast@kernel.org,
-	daniel@iogearbox.net,
-	john.fastabend@gmail.com,
-	dw@davidwei.uk,
-	sdf@fomichev.me,
-	asml.silence@gmail.com,
-	brett.creeley@amd.com,
-	linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: kory.maincent@bootlin.com,
-	maxime.chevallier@bootlin.com,
-	danieller@nvidia.com,
-	hengqi@linux.alibaba.com,
-	ecree.xilinx@gmail.com,
-	przemyslaw.kitszel@intel.com,
-	hkallweit1@gmail.com,
-	ahmed.zaki@intel.com,
-	rrameshbabu@nvidia.com,
-	idosch@nvidia.com,
-	jiri@resnulli.us,
-	bigeasy@linutronix.de,
-	lorenzo@kernel.org,
-	jdamato@fastly.com,
-	aleksander.lobakin@intel.com,
-	kaiyuanz@google.com,
-	willemb@google.com,
-	daniel.zahka@gmail.com,
-	ap420073@gmail.com
-Subject: [PATCH net-next v7 10/10] selftest: net-drv: hds: add test for HDS feature
-Date: Fri,  3 Jan 2025 15:03:25 +0000
-Message-Id: <20250103150325.926031-11-ap420073@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250103150325.926031-1-ap420073@gmail.com>
-References: <20250103150325.926031-1-ap420073@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O1KuaD0q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3970C4CECE;
+	Fri,  3 Jan 2025 15:35:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735918520;
+	bh=dkuPRC1mSjn4P8CTQpXiKsb9NwR2J22sVbc7YWENjVU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=O1KuaD0q/TR9Z9VX8BTduZF2dys6lmbAfhAI8bRnES3qkTy3CBDj21H5x/HzoYsBg
+	 2t9ZvhpSfHKK9Sic3ctzN1U95spySL9t7KT/0+u4btOxhayr53AR4x5ZA6aPLK58Jv
+	 5urJ3Cdw9XADU627FMHClUSdrePUc50OA118G5gDZSEtPAzCIB039F65oWmufeEy8p
+	 i7zMeU4m9jHccFKRpQmc9WpV8snU3y1JAHmPLAxrTdcfxMM3HIC+ztdpFV/N13Gnjm
+	 OwqD3168y7jsBxUNGK/9dp707yab1SsntJyv+QaM1WnJ8V1jaBBo04vIPzQG27ACY8
+	 PkhewEQcNobjg==
+Date: Fri, 3 Jan 2025 15:35:13 +0000
+From: Will Deacon <will@kernel.org>
+To: Marc Zyngier <maz@kernel.org>
+Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	=?utf-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>,
+	catalin.marinas@arm.com, corbet@lwn.net, oliver.upton@linux.dev,
+	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev,
+	yangyicong@huawei.com, guohanjun@huawei.com,
+	wangkefeng.wang@huawei.com, liaochang1@huawei.com,
+	sunnanyong@huawei.com, linuxarm@huawei.com
+Subject: Re: [RESEND RFC PATCH v1 2/5] arm64: Add BBM Level 2 cpu feature
+Message-ID: <20250103153512.GD3816@willie-the-truck>
+References: <20241211160218.41404-3-miko.lenczewski@arm.com>
+ <87cyhxs3xq.wl-maz@kernel.org>
+ <084c5ada-51af-4c1a-b50a-4401e62ddbd6@arm.com>
+ <86ikrprn7w.wl-maz@kernel.org>
+ <2b1cc228-a8d5-4383-ab25-abbbcccd2e2c@arm.com>
+ <86h678sy00.wl-maz@kernel.org>
+ <5c551e43-78e9-4336-ab16-b55c0d6c7f92@arm.com>
+ <20241219164528.GH24724@willie-the-truck>
+ <20250102120704.00002984@huawei.com>
+ <86ed1lpfdh.wl-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <86ed1lpfdh.wl-maz@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-HDS/HDS-thresh features were updated/implemented. so add some tests for
-these features.
+On Thu, Jan 02, 2025 at 12:30:34PM +0000, Marc Zyngier wrote:
+> On Thu, 02 Jan 2025 12:07:04 +0000,
+> Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
+> > On Thu, 19 Dec 2024 16:45:28 +0000
+> > Will Deacon <will@kernel.org> wrote:
+> > > On Thu, Dec 12, 2024 at 04:03:52PM +0000, Ryan Roberts wrote:
+> > > > >>> If anything, this should absolutely check for FAR_EL1 and assert that
+> > > > >>> this is indeed caused by such change.  
+> > > > >>
+> > > > >> I'm not really sure how we would check this reliably? Without patch 5, the
+> > > > >> problem is somewhat constrained; we could have as many changes in flight as
+> > > > >> there are CPUs so we could keep a list of all the {mm_struct, VA-range} that are
+> > > > >> being modified. But if patch 5 is confirmed to be architecturally sound, then
+> > > > >> there is no "terminating tlbi" so there is no bound on the set of {mm_struct,
+> > > > >> VA-range}'s that could legitimately cause a conflict abort.  
+> > > > > 
+> > > > > I didn't mean to imply that we should identify the exact cause of the
+> > > > > abort. I was hoping to simply check that FAR_EL1 reports a userspace
+> > > > > VA. Why wouldn't that work?  
+> > > > 
+> > > > Ahh gottya! Yes agreed, this sounds like the right approach.  
+> > > 
+> > > Please, can we just not bother handling conflict aborts at all outside of
+> > > KVM? This is all dead code, it's complicated and it doesn't scale to the
+> > > in-kernel use-cases that others want. There's also not been any attempt
+> > > to add the pKVM support for handling host-side conflict aborts from what
+> > > I can tell.
+> > > 
+> > > For now, I would suggest limiting this series just to the KVM support
+> > > for handling a broken/malicious guest. If the contpte performance
+> > > improvements are worthwhile (I've asked for data), then let's add support
+> > > for the CPUs that handle the conflict in hardware (I believe this is far
+> > > more common than reporting the abort) so that the in-kernel users can
+> > > benefit whilst keeping the code manageable at the same time.
+> > > 
+> > 
+> > Given direction the discussion is going in time to raise a hand.
+> > 
+> > Huawei has implementations that support BBML2, and might report TLB conflict
+> > abort after changing block size directly until an appropriate TLB invalidation
+> > instruction completes and this Implementation Choice is architecturally compliant.
+> 
+> Compliant, absolutely. That's the letter of the spec. The usefulness
+> aspect is, however, more debatable, and this is what Will is pointing
+> out.
+> 
+> Dealing with TLB Conflict aborts is an absolute pain if you need
+> to handle it within the same Translation Regime and using the same
+> TTBR as the one that has generated the fault. So at least for the time
+> being, it might be preferable to only worry about the implementations
+> that will promise to never generate such an abort and quietly perform
+> an invalidation behind the kernel's back.
 
-HDS tests are the same with `ethtool -G eth0 tcp-data-split <on | off |
-auto >` but `auto` depends on driver specification.
-So, it doesn't include `auto` case.
+Agreed. We're not dropping support for CPUs that don't give us what we'd
+like here, we're just not bending over to port and maintain new
+optimisations for them. I think that's a reasonable compromise?
 
-HDS-thresh tests are same with `ethtool -G eth0 hds-thresh <0 - MAX>`
-It includes both 0 and MAX cases. It also includes exceed case, MAX + 1.
+That said, thanks for raising this, Jonathan. It's a useful data point
+to know that TLB conflict aborts exist in the wild!
 
-Signed-off-by: Taehee Yoo <ap420073@gmail.com>
----
-
-v7:
- - Patch added.
-
- tools/testing/selftests/drivers/net/Makefile |   1 +
- tools/testing/selftests/drivers/net/hds.py   | 125 +++++++++++++++++++
- 2 files changed, 126 insertions(+)
- create mode 100755 tools/testing/selftests/drivers/net/hds.py
-
-diff --git a/tools/testing/selftests/drivers/net/Makefile b/tools/testing/selftests/drivers/net/Makefile
-index 0fec8f9801ad..a3bc22b32f2e 100644
---- a/tools/testing/selftests/drivers/net/Makefile
-+++ b/tools/testing/selftests/drivers/net/Makefile
-@@ -10,6 +10,7 @@ TEST_PROGS := \
- 	queues.py \
- 	stats.py \
- 	shaper.py \
-+	hds.py \
- # end of TEST_PROGS
- 
- include ../../lib.mk
-diff --git a/tools/testing/selftests/drivers/net/hds.py b/tools/testing/selftests/drivers/net/hds.py
-new file mode 100755
-index 000000000000..94790dbb0eeb
---- /dev/null
-+++ b/tools/testing/selftests/drivers/net/hds.py
-@@ -0,0 +1,125 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import errno
-+from lib.py import ksft_run, ksft_exit, ksft_eq, KsftSkipEx, KsftFailEx
-+from lib.py import EthtoolFamily, NlError
-+from lib.py import NetDrvEnv
-+
-+def get_hds(cfg, netnl) -> None:
-+    try:
-+        rings = netnl.rings_get({'header': {'dev-index': cfg.ifindex}})
-+    except NlError as e:
-+        raise KsftSkipEx('ring-get not supported by device')
-+    if 'tcp-data-split' not in rings:
-+        raise KsftSkipEx('tcp-data-split not supported by device')
-+
-+def get_hds_thresh(cfg, netnl) -> None:
-+    try:
-+        rings = netnl.rings_get({'header': {'dev-index': cfg.ifindex}})
-+    except NlError as e:
-+        raise KsftSkipEx('ring-get not supported by device')
-+    if 'hds-thresh' not in rings:
-+        raise KsftSkipEx('hds-thresh not supported by device')
-+
-+def set_hds_enable(cfg, netnl) -> None:
-+    try:
-+        netnl.rings_set({'header': {'dev-index': cfg.ifindex}, 'tcp-data-split': 'enabled'})
-+    except NlError as e:
-+        if e.error == errno.EINVAL:
-+            raise KsftSkipEx("disabling of HDS not supported by the device")
-+        elif e.error == errno.EOPNOTSUPP:
-+            raise KsftSkipEx("ring-set not supported by the device")
-+    try:
-+        rings = netnl.rings_get({'header': {'dev-index': cfg.ifindex}})
-+    except NlError as e:
-+        raise KsftSkipEx('ring-get not supported by device')
-+    if 'tcp-data-split' not in rings:
-+        raise KsftSkipEx('tcp-data-split not supported by device')
-+
-+    ksft_eq('enabled', rings['tcp-data-split'])
-+
-+def set_hds_disable(cfg, netnl) -> None:
-+    try:
-+        netnl.rings_set({'header': {'dev-index': cfg.ifindex}, 'tcp-data-split': 'disabled'})
-+    except NlError as e:
-+        if e.error == errno.EINVAL:
-+            raise KsftSkipEx("disabling of HDS not supported by the device")
-+        elif e.error == errno.EOPNOTSUPP:
-+            raise KsftSkipEx("ring-set not supported by the device")
-+    try:
-+        rings = netnl.rings_get({'header': {'dev-index': cfg.ifindex}})
-+    except NlError as e:
-+        raise KsftSkipEx('ring-get not supported by device')
-+    if 'tcp-data-split' not in rings:
-+        raise KsftSkipEx('tcp-data-split not supported by device')
-+
-+    ksft_eq('disabled', rings['tcp-data-split'])
-+
-+def set_hds_thresh_zero(cfg, netnl) -> None:
-+    try:
-+        netnl.rings_set({'header': {'dev-index': cfg.ifindex}, 'hds-thresh': 0})
-+    except NlError as e:
-+        if e.error == errno.EINVAL:
-+            raise KsftSkipEx("hds-thresh-set not supported by the device")
-+        elif e.error == errno.EOPNOTSUPP:
-+            raise KsftSkipEx("ring-set not supported by the device")
-+    try:
-+        rings = netnl.rings_get({'header': {'dev-index': cfg.ifindex}})
-+    except NlError as e:
-+        raise KsftSkipEx('ring-get not supported by device')
-+    if 'hds-thresh' not in rings:
-+        raise KsftSkipEx('hds-thresh not supported by device')
-+
-+    ksft_eq(0, rings['hds-thresh'])
-+
-+def set_hds_thresh_max(cfg, netnl) -> None:
-+    try:
-+        rings = netnl.rings_get({'header': {'dev-index': cfg.ifindex}})
-+    except NlError as e:
-+        raise KsftSkipEx('ring-get not supported by device')
-+    if 'hds-thresh' not in rings:
-+        raise KsftSkipEx('hds-thresh not supported by device')
-+    try:
-+        netnl.rings_set({'header': {'dev-index': cfg.ifindex}, 'hds-thresh': rings['hds-thresh-max']})
-+    except NlError as e:
-+        if e.error == errno.EINVAL:
-+            raise KsftSkipEx("hds-thresh-set not supported by the device")
-+        elif e.error == errno.EOPNOTSUPP:
-+            raise KsftSkipEx("ring-set not supported by the device")
-+    rings = netnl.rings_get({'header': {'dev-index': cfg.ifindex}})
-+    ksft_eq(rings['hds-thresh'], rings['hds-thresh-max'])
-+
-+def set_hds_thresh_gt(cfg, netnl) -> None:
-+    try:
-+        rings = netnl.rings_get({'header': {'dev-index': cfg.ifindex}})
-+    except NlError as e:
-+        raise KsftSkipEx('ring-get not supported by device')
-+    if 'hds-thresh' not in rings:
-+        raise KsftSkipEx('hds-thresh not supported by device')
-+    if 'hds-thresh-max' not in rings:
-+        raise KsftSkipEx('hds-thresh-max not defined by device')
-+    hds_gt = rings['hds-thresh-max'] + 1
-+    try:
-+        netnl.rings_set({'header': {'dev-index': cfg.ifindex}, 'hds-thresh': hds_gt})
-+    except NlError as e:
-+        if e.error == errno.EOPNOTSUPP:
-+            raise KsftSkipEx("ring-set not supported by the device")
-+        ksft_eq(e.error, errno.EINVAL)
-+    else:
-+        raise KsftFailEx("exceeded hds-thresh should be failed")
-+
-+def main() -> None:
-+    with NetDrvEnv(__file__, queue_count=3) as cfg:
-+        ksft_run([get_hds,
-+                  get_hds_thresh,
-+                  set_hds_disable,
-+                  set_hds_enable,
-+                  set_hds_thresh_zero,
-+                  set_hds_thresh_max,
-+                  set_hds_thresh_gt],
-+                 args=(cfg, EthtoolFamily()))
-+    ksft_exit()
-+
-+if __name__ == "__main__":
-+    main()
--- 
-2.34.1
-
+Will
