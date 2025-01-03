@@ -1,145 +1,97 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF4CB8F66;
-	Fri,  3 Jan 2025 01:11:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C241E3232;
+	Fri,  3 Jan 2025 01:21:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735866670; cv=none; b=No774+APZi6UX5uSbRAW63xsqHvgRDZCOLOdhO6D5tBuOCiqZIOQuyjV6CPc3lFHUaKt6Mdvfi5bbeQrTpi/vJVVKNKu+OG9eS2mDqYeprgp7GnZHRhVXqOiHsp1tBh+6cOmEXfezV39NEvDZzpQx4EuCAbhPRy4b9XvjFXaZ/o=
+	t=1735867308; cv=none; b=L1Mi+Knlo5TNPvGkpCZMyUt10jr/IotH+GTyrZVFwE2vIcnW5OlE97qEIuwG8sGjAQesPkAFCE/Lqjot4PXYqC03vQHfpz+DAqIC0caynGnbfZOHYk7CLy27pmwB1LseAWey+qWRqcDPoTmot7wx/RP3h0RKBCFkg+cGYPqf2Ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735866670; c=relaxed/simple;
-	bh=GYuUvnVbU/+wEqfe7u10lOwnnROhVDqOuZdKfHV8k7Q=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=Xq36LGS6+4VIVEp1awZ9AZQqUb/mdX3Yfk8PKIzMSp4c723sgFzwzswpMEup25QD12QxF9cTzVpTRT8oFz2+F2O7Hqzapm1lDcLAITZlHjDGp2X+2AfrEUcN24NTf0JKQ6WiQfM95OPMwsbvHQH7p1jEq0tIfQsXk2zxU/8dAGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.20.42.24])
-	by gateway (Coremail) with SMTP id _____8AxEK8gOXdn0m1dAA--.13705S3;
-	Fri, 03 Jan 2025 09:10:56 +0800 (CST)
-Received: from [10.20.42.24] (unknown [10.20.42.24])
-	by front1 (Coremail) with SMTP id qMiowMBxXccdOXdnkfcRAA--.18171S3;
-	Fri, 03 Jan 2025 09:10:56 +0800 (CST)
-Subject: Re: [PATCH V2] irqchip/loongarch-avec:Add multi-nodes topology
- support
-To: Huacai Chen <chenhuacai@kernel.org>
-Cc: kernel@xen0n.name, tglx@linutronix.de, loongarch@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241230021503.14012-1-zhangtianyang@loongson.cn>
- <CAAhV-H56tOfi1oqnwh1O94Z3sAS7sAbeKQ_U_O6AD98YVq6F=w@mail.gmail.com>
-From: Tianyang Zhang <zhangtianyang@loongson.cn>
-Message-ID: <367e4c5e-eeea-f0ba-0a63-d7d92aa35d7b@loongson.cn>
-Date: Fri, 3 Jan 2025 09:10:52 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+	s=arc-20240116; t=1735867308; c=relaxed/simple;
+	bh=oERkHMNpZAO8boq4patQNzNmzLxeyP9280etk+NkYxI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QRxy6EFy5pUuA4enRT8V/8YflH3TrMTOlBAWhW/R3DPxYxGMtQipvwjMLLuWVzUIey03ynD4zFDSh4NXFuimKkdID/60/JJlFtUF2OaDIBzaN91NkgED9SaJgiJWomFO6S10Y9SK3Nt7ZbO/04Je+iyBX3zPW6PJOnDUpU4Ak2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z905Qmmd; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z905Qmmd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1735867306; x=1767403306;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=oERkHMNpZAO8boq4patQNzNmzLxeyP9280etk+NkYxI=;
+  b=Z905QmmdNQci19gRstTjWicXbs7a4GuJc0bHNe8N8YB93A9IatqzQZ4P
+   MG8OWPOMm6kB/P7C1U0IAlh1cMBvLv75A5bYfQCEPKoAqS04bAswQlEzL
+   AzZMcD5L9U/4cL8dUV1pvCLEYSL6iIybunV5/wrVPV2CAzsqQvZVuHE6M
+   apPzAFENAtapHhWAmJETibz+W+UitHDRliOTDMADESm296YYKZsT5ua8z
+   T7EecfKSSDnwLPivWW1qN4LDHo0l6BsCOkN/agifTo5k2RszEl+5xUDxK
+   1x8Oi/d8stS+MA6dPhG7h6MwVGADxsRR7PF0yQQoPQciH+ENyedlPT/h/
+   g==;
+X-CSE-ConnectionGUID: DsLc9JjLRUGXpFkuOeRIeQ==
+X-CSE-MsgGUID: rsXLqi6mQvCyi7HOpq74Og==
+X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="36277847"
+X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
+   d="scan'208";a="36277847"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 17:21:46 -0800
+X-CSE-ConnectionGUID: l7d9TjMyT3+vsV64Qnxyyw==
+X-CSE-MsgGUID: haCY/+8GQc64Sj1azNOVCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="106695561"
+Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 17:21:40 -0800
+Message-ID: <33d397ce-c324-4594-9f83-8f7e513e86e7@linux.intel.com>
+Date: Fri, 3 Jan 2025 09:19:23 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAAhV-H56tOfi1oqnwh1O94Z3sAS7sAbeKQ_U_O6AD98YVq6F=w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 07/14] iommufd/viommu: Add iommufd_viommu_get_vdev_id
+ helper
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Nicolin Chen <nicolinc@nvidia.com>, kevin.tian@intel.com,
+ will@kernel.org, corbet@lwn.net, joro@8bytes.org,
+ suravee.suthikulpanit@amd.com, robin.murphy@arm.com, dwmw2@infradead.org,
+ shuah@kernel.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kselftest@vger.kernel.org,
+ linux-doc@vger.kernel.org, eric.auger@redhat.com, jean-philippe@linaro.org,
+ mdf@kernel.org, mshavit@google.com, shameerali.kolothum.thodi@huawei.com,
+ smostafa@google.com, ddutile@redhat.com, yi.l.liu@intel.com,
+ patches@lists.linux.dev
+References: <cover.1734477608.git.nicolinc@nvidia.com>
+ <21d7e63b97d81d0acf9127418a67efe386787261.1734477608.git.nicolinc@nvidia.com>
+ <56c65e50-5890-42af-85b7-85f8a1bf5cf5@linux.intel.com>
+ <Z2OpylDlhLXoo3dt@Asurada-Nvidia>
+ <74bc9dbe-3420-4f0c-9e32-db49327a723d@linux.intel.com>
+ <20250102202955.GE5556@nvidia.com>
 Content-Language: en-US
-X-CM-TRANSID:qMiowMBxXccdOXdnkfcRAA--.18171S3
-X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj93XoWxWr1fXw17Zw1DJryfJr47GFX_yoW5Gw4fpa
-	98Xayjyr4UKa4xWrZIq34DXryayF4xKrZrta4xG3WfXrWDCr9rWFy8Xr909Fyku3yku3W0
-	vr48JF47u3W5ZacCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
-	Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
-	8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AK
-	xVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
-	AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
-	14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIx
-	kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
-	wI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
-	4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8zwZ7UU
-	UUU==
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <20250102202955.GE5556@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 1/3/25 04:29, Jason Gunthorpe wrote:
+> On Mon, Dec 23, 2024 at 10:28:32AM +0800, Baolu Lu wrote:
+> 
+>> However, considering page fault scenarios, which are self-contained but
+>> linked to a hardware page table (hwpt), introduces ambiguity. Hwpt can
+>> be created with or without a vIOMMU. This raises the question: should
+>> the page fault message always report the iommufd device ID, or should
+>> the reporting depend on whether the hwpt was created from a vIOMMU?
+> I think every single event record read from the FD needs to clearly
+> specify what its fields are.
 
-在 2024/12/31 下午3:56, Huacai Chen 写道:
-> Hi, Tianyang,
->
-> On Mon, Dec 30, 2024 at 10:15 AM Tianyang Zhang
-> <zhangtianyang@loongson.cn> wrote:
->> avecintc_init() enables the Advanced Interrupt Controller (AVEC) of
->> the boot CPU node, but nothing enables the AVEC on secondary nodes.
->>
->> Move the enablement to the CPU hotplug callback so that secondary
->> nodes get the AVEC enabled too. In theory enabling it once per node
->> would be sufficient, but redundant enabling does no hard, so keep the
->> code simple and do it unconditionally.
->>
->> Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
->> ---
->>   drivers/irqchip/irq-loongarch-avec.c | 17 +++++++++++++----
->>   1 file changed, 13 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/irqchip/irq-loongarch-avec.c b/drivers/irqchip/irq-loongarch-avec.c
->> index 0f6e465dd309..988d3e02ac54 100644
->> --- a/drivers/irqchip/irq-loongarch-avec.c
->> +++ b/drivers/irqchip/irq-loongarch-avec.c
->> @@ -56,6 +56,15 @@ struct avecintc_data {
->>          unsigned int            moving;
->>   };
->>
->> +static inline void avecintc_enable(void)
->> +{
->> +       u64 value;
->> +
->> +       value = iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
->> +       value |= IOCSR_MISC_FUNC_AVEC_EN;
->> +       iocsr_write64(value, LOONGARCH_IOCSR_MISC_FUNC);
->> +}
->> +
->>   static inline void avecintc_ack_irq(struct irq_data *d)
->>   {
->>   }
->> @@ -127,6 +136,8 @@ static int avecintc_cpu_online(unsigned int cpu)
->>
->>          guard(raw_spinlock)(&loongarch_avec.lock);
->>
->> +       avecintc_enable();
->> +
->>          irq_matrix_online(loongarch_avec.vector_matrix);
->>
->>          pending_list_init(cpu);
->> @@ -339,7 +350,6 @@ static int __init irq_matrix_init(void)
->>   static int __init avecintc_init(struct irq_domain *parent)
->>   {
->>          int ret, parent_irq;
->> -       unsigned long value;
->>
->>          raw_spin_lock_init(&loongarch_avec.lock);
->>
->> @@ -378,14 +388,13 @@ static int __init avecintc_init(struct irq_domain *parent)
->>                                    "irqchip/loongarch/avecintc:starting",
->>                                    avecintc_cpu_online, avecintc_cpu_offline);
->>   #endif
->> -       value = iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
->> -       value |= IOCSR_MISC_FUNC_AVEC_EN;
->> -       iocsr_write64(value, LOONGARCH_IOCSR_MISC_FUNC);
->> +       avecintc_enable();
->>
->>          return ret;
->>
->>   out_remove_domain:
->>          irq_domain_remove(loongarch_avec.domain);
->> +       loongarch_avec.domain = NULL;
-> This is unnecessary, since no one checks it, and there is no memory
-> leak even if without it.
->
-> Huacai
-Ok. I got it, thanks
->
->>   out_free_handle:
->>          irq_domain_free_fwnode(loongarch_avec.fwnode);
->>   out:
->> --
->> 2.20.1
->>
+That would work.
 
+> Page fault need to clearly say it's field is a device ID.
+
+Each field of fault message has been specified in uapi/linux/iommufd.h.
+
+---
+baolu
