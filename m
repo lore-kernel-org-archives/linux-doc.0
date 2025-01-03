@@ -1,124 +1,177 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6347019DF99;
-	Fri,  3 Jan 2025 18:10:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C021BD9E3;
+	Fri,  3 Jan 2025 18:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735927842; cv=none; b=kkJ9tUuyov0IGq5OkADvKRohi1aAhoyxEVby7ua5drmFjNEt0pRzqiUrH0zrAfHJtVTHbGztG+gIjDAW5bGGMgFdj8Y1SWGAkc/WpI6J4H2kCS9zob0OPlUcQednATAEzCzHxopwPO8PtCx0PnSkI4dvibrNxNCNoPpOPhLA3Q8=
+	t=1735928324; cv=none; b=KDzzyM3uZnEu+sIrlNsVPYmGw8vSScM7KWek5EsbA+Myun+QPePmzt5wHJzyGJQ9WXgi3uChOs4vQwHoA6zblg/glpKHL0YtVQ0Em6yvfwJo8Jrgf3uk5K+fOi3yNZGewf+Fu8n2vI38eltYcpi4KUxqVmrhYmisUzKoF+WAf6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735927842; c=relaxed/simple;
-	bh=mmrrW0UtdJavzimPcQtqWi6jHdIVJcF63/YTt2D9FdM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JifUSQwSxNotlAOMsxZJf/aFpjvjwTQqIL55p6xQ+oYP5j1izJKmzAZyNG6yaKO2ikwXlof+u/Ld+I09VGFhJXRrf+EyNa5yYccaqf5c9c5OfVEpfvvZGZ9hWI/BSFWayvlYouaPr6xSuo3RokkFlxQchFHE07KKpKUsV8CF2SM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dETi0LjZ; arc=none smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dETi0LjZ"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-3011c7b39c7so149895591fa.1;
-        Fri, 03 Jan 2025 10:10:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735927838; x=1736532638; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PLFXk7CWm5CeFH4CJ2BryxK1xJTQRRhZZ2zbXcYmJ+U=;
-        b=dETi0LjZmiglgmy3oJ34LXSG45mCPAZiF095bxXl6gsvm4kDxHFgDcyQ6iT0/3vj6h
-         dAp9EXIcq81xF6LMVl9d3R+qT0jl5jOxB5RCnFd0NvBa8/traICjgdRzi8RdUwYTOzUp
-         57vgzrTU8XjFgH5jjatcpXEoSrpu+eC2rf+dr7p4bRai4tFsIXonsU/wNnKYd1/5qjPT
-         UZiBAvEC/jGrwbH9u6y/okBYRcPEHJz9qCHkAtJN8WP2LaxdDR4PZzBAlvuupogKt/Gt
-         5kNBp4/EXYB7OVREUi9WC+eGyQ3Dq9TIgtRx3RWXQyLZkvIVJh4p3Es6fpFojPS2kbJ3
-         NMGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735927838; x=1736532638;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PLFXk7CWm5CeFH4CJ2BryxK1xJTQRRhZZ2zbXcYmJ+U=;
-        b=jdD+c7cg8VL5KtHc5bnEtwQxOpenHceh8ER41W9wEA6rBJ0j8e+WD287bOlIGfxGiM
-         z87T6AafxDilOZFmGGRwnb11GT6aEFzU/txzZwGYoNMv2q3B8RSphf4cvOf8CAjftwuq
-         BDZ088AwTlYg+OTGYvkI/EDe13Dxcv1pHvfVL555RO+ZS+uhXDNbQwiAVN2TWvkYez1O
-         k4yCoI1ZpyWH86/rndo++36vQB7fmV3pPI8f6pqxPQ9mtCDjftlb3VtkKcv+EJ1Dcg0I
-         2Qh+AaD3unhkhch4D0NCVTJva5qiPG3YGkSYFkn/JoNcMn7l43SFU7seVym71BBFk9KA
-         M/Ow==
-X-Forwarded-Encrypted: i=1; AJvYcCU5tyAmw8mATX1aGavbNqUMym2blh6mtO7RRQKeQkJAuAK9cOL1eXw2zuxTT2Bui5BMglLczx5GB54=@vger.kernel.org, AJvYcCUzm1JCzXy7iXacOrEpepWBXjG8CD/SgrzuCFYYz7bkwfuBrMVMrmUH8IuXQuOo7cz7v6viWei/6pmUBgc=@vger.kernel.org, AJvYcCVg9lrxonLEaFRCA12l8C4U6zB+ku6EJ4tECbWRODHqHMhOlKGB53tFDal3tZHW06g88Ea2sWANKBJh8CTk@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHcFeWQelOxIIFpCoL/tWTF31U09cMXDxPVwXXwfD3vdPHT97Z
-	UZFKwcG9F0bOOU9bANl0ktzCwNuAHbTtz2HBZoLVGkPbsmksQ64Jj6E0sf5ENZuX7Hgfs3SsbbQ
-	P8dWitzthwUzXorYX1q3tExMD2ly4P0Nunvg=
-X-Gm-Gg: ASbGncspilF1lMHgFOgU/8T/nfy8GcIQ5lm0JQv15i6vAf0bfASss3nQ9MohOGjeU8u
-	MU7HYjVHDHkEBk5I1V3HvtqF7dNXteW5W8PdRJrk=
-X-Google-Smtp-Source: AGHT+IFWB0pf3RNhbDSkJ1fxYvPGGkjKobJWdHaRXiVCDt+UPZlvcGOCVBspY7jwA+/Y5UlMs0Jq6yA/1+HSppU8JaU=
-X-Received: by 2002:a2e:a581:0:b0:300:de99:fcd9 with SMTP id
- 38308e7fff4ca-304685f75f5mr173131361fa.29.1735927836597; Fri, 03 Jan 2025
- 10:10:36 -0800 (PST)
+	s=arc-20240116; t=1735928324; c=relaxed/simple;
+	bh=pxO/NktkU5DBpkU1jGn2Y3KNP8LSY+fi3uLD59T0a6Y=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Xyxfwl0COW+HqOavsyBIJiPz/8jUFiRHDIpUbCwlY/bcWf+PHVCApb1r1HUd4/h96Cna+AYQv7rxRbqO6Lpa3+MKhQdZ/1r9BllL691yVSOR+EDmZMyT9AN3Ogzc2wAkr6mbrd/uqCKD0HBYW6trgFBe+xn0b2OaBnfTcbySWBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YPsHt0PHNz6K6G1;
+	Sat,  4 Jan 2025 02:17:46 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id AD2E71404C4;
+	Sat,  4 Jan 2025 02:18:38 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 3 Jan
+ 2025 19:18:37 +0100
+Date: Fri, 3 Jan 2025 18:18:36 +0000
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Ryan Roberts <ryan.roberts@arm.com>
+CC: Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+ =?UTF-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>,
+	<catalin.marinas@arm.com>, <corbet@lwn.net>, <oliver.upton@linux.dev>,
+	<joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <yuzenghui@huawei.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <kvmarm@lists.linux.dev>,
+	<yangyicong@huawei.com>, <guohanjun@huawei.com>,
+	<wangkefeng.wang@huawei.com>, <liaochang1@huawei.com>,
+	<sunnanyong@huawei.com>, <linuxarm@huawei.com>
+Subject: Re: [RESEND RFC PATCH v1 2/5] arm64: Add BBM Level 2 cpu feature
+Message-ID: <20250103181836.000045b1@huawei.com>
+In-Reply-To: <2a6448f5-a48b-42fd-9589-acdb434f0a8a@arm.com>
+References: <20241211160218.41404-3-miko.lenczewski@arm.com>
+	<87cyhxs3xq.wl-maz@kernel.org>
+	<084c5ada-51af-4c1a-b50a-4401e62ddbd6@arm.com>
+	<86ikrprn7w.wl-maz@kernel.org>
+	<2b1cc228-a8d5-4383-ab25-abbbcccd2e2c@arm.com>
+	<86h678sy00.wl-maz@kernel.org>
+	<5c551e43-78e9-4336-ab16-b55c0d6c7f92@arm.com>
+	<20241219164528.GH24724@willie-the-truck>
+	<20250102120704.00002984@huawei.com>
+	<86ed1lpfdh.wl-maz@kernel.org>
+	<20250103153512.GD3816@willie-the-truck>
+	<2a6448f5-a48b-42fd-9589-acdb434f0a8a@arm.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241207193441.15767-1-yesanishhere@gmail.com>
- <Z1ggwXLAu+/Y817c@opensource.cirrus.com> <CABCoZhA1g4McaLtsQqZv=Y1UrEg4kmyMVjdJJTfDow0ho-WdCA@mail.gmail.com>
-In-Reply-To: <CABCoZhA1g4McaLtsQqZv=Y1UrEg4kmyMVjdJJTfDow0ho-WdCA@mail.gmail.com>
-From: anish kumar <yesanishhere@gmail.com>
-Date: Fri, 3 Jan 2025 10:10:25 -0800
-Message-ID: <CABCoZhAqhUxJSrELx1if1QYQK0wt_wrHMVcPwVbkRoqmHA2==A@mail.gmail.com>
-Subject: Re: [PATCH V5] Docs/sound: Update codec-to-codec documentation
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500012.china.huawei.com (7.191.174.4) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On Thu, Dec 12, 2024 at 1:35=E2=80=AFPM anish kumar <yesanishhere@gmail.com=
-> wrote:
->
-> On Tue, Dec 10, 2024 at 3:06=E2=80=AFAM Charles Keepax
-> <ckeepax@opensource.cirrus.com> wrote:
-> >
-> > On Sat, Dec 07, 2024 at 11:34:41AM -0800, anish kumar wrote:
-> > > +Boot-up logs will display message similar to:
-> > > +
-> > > +.. code-block:: text
-> > > +
-> > > +   ASoC: registered pcm #0 codec2codec(Playback Codec)
-> > > +
-> > > +To trigger this DAI link, a control interface is established by the
-> > > +DAPM core during internal DAI creation. This interface links to
-> > > +the ``snd_soc_dai_link_event`` function, which is invoked when a
-> > > +path connects in the DAPM core. A mixer must be created to trigger
-> > > +the connection, prompting the DAPM core to evaluate path
-> > > +connections and call the ``snd_soc_dai_link_event`` callback with
-> > > +SND_SOC_DAPM_*_PMU and SND_SOC_DAPM_*_PMD events.
-> > > +
-> >
-> > I am still not really following this, what are we trying to
-> > convey in this paragraph?
-> >
-> > What do we mean by a "control interface" here, is that referring
-> > to the kcontrol that is created to select the rate in the case
-> > of multiple rates? Or is it simply refering to the fact we call
-> > snd_soc_dapm_new_control_unlocked? But really that function is
-> > adding widgets, as I noted in my last email.
->
-> I mean snd_soc_dapm_new_control_unlocked gets called to
-> create the widget which gets triggered as part of DAPM path
-> enablement.
->
-> >
-> > Also what do we mean by a "A mixer must be created", I am not
-> > aware of any requirement for a mixer? The DAI link needs to be on
-> > a valid DAPM path, but I don't see any requirements other than
-> > that.
->
-> In my case, I was implementing a mixer widget that users could
-> trigger to enable the entire DAPM path. However, I believe it's
-> sufficient to simply state that there should be a mechanism to
-> trigger the codec-to-codec widget, enabling the full DAPM path.
-> >
-> > Thanks,
-> > Charles
-Could you please confirm if this explanation is clear? If so,
-I will proceed with submitting another revision of the patch.
+On Fri, 3 Jan 2025 16:00:59 +0000
+Ryan Roberts <ryan.roberts@arm.com> wrote:
+
+> On 03/01/2025 15:35, Will Deacon wrote:
+> > On Thu, Jan 02, 2025 at 12:30:34PM +0000, Marc Zyngier wrote:  
+> >> On Thu, 02 Jan 2025 12:07:04 +0000,
+> >> Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:  
+> >>> On Thu, 19 Dec 2024 16:45:28 +0000
+> >>> Will Deacon <will@kernel.org> wrote:  
+> >>>> On Thu, Dec 12, 2024 at 04:03:52PM +0000, Ryan Roberts wrote:  
+> >>>>>>>> If anything, this should absolutely check for FAR_EL1 and assert that
+> >>>>>>>> this is indeed caused by such change.    
+> >>>>>>>
+> >>>>>>> I'm not really sure how we would check this reliably? Without patch 5, the
+> >>>>>>> problem is somewhat constrained; we could have as many changes in flight as
+> >>>>>>> there are CPUs so we could keep a list of all the {mm_struct, VA-range} that are
+> >>>>>>> being modified. But if patch 5 is confirmed to be architecturally sound, then
+> >>>>>>> there is no "terminating tlbi" so there is no bound on the set of {mm_struct,
+> >>>>>>> VA-range}'s that could legitimately cause a conflict abort.    
+> >>>>>>
+> >>>>>> I didn't mean to imply that we should identify the exact cause of the
+> >>>>>> abort. I was hoping to simply check that FAR_EL1 reports a userspace
+> >>>>>> VA. Why wouldn't that work?    
+> >>>>>
+> >>>>> Ahh gottya! Yes agreed, this sounds like the right approach.    
+> >>>>
+> >>>> Please, can we just not bother handling conflict aborts at all outside of
+> >>>> KVM? This is all dead code, it's complicated and it doesn't scale to the
+> >>>> in-kernel use-cases that others want. There's also not been any attempt
+> >>>> to add the pKVM support for handling host-side conflict aborts from what
+> >>>> I can tell.
+> >>>>
+> >>>> For now, I would suggest limiting this series just to the KVM support
+> >>>> for handling a broken/malicious guest. If the contpte performance
+> >>>> improvements are worthwhile (I've asked for data), then let's add support
+> >>>> for the CPUs that handle the conflict in hardware (I believe this is far
+> >>>> more common than reporting the abort) so that the in-kernel users can
+> >>>> benefit whilst keeping the code manageable at the same time.
+> >>>>  
+> >>>
+> >>> Given direction the discussion is going in time to raise a hand.
+> >>>
+> >>> Huawei has implementations that support BBML2, and might report TLB conflict
+> >>> abort after changing block size directly until an appropriate TLB invalidation
+> >>> instruction completes and this Implementation Choice is architecturally compliant.  
+> >>
+> >> Compliant, absolutely. That's the letter of the spec. The usefulness
+> >> aspect is, however, more debatable, and this is what Will is pointing
+> >> out.
+> >>
+> >> Dealing with TLB Conflict aborts is an absolute pain if you need
+> >> to handle it within the same Translation Regime and using the same
+> >> TTBR as the one that has generated the fault. So at least for the time
+> >> being, it might be preferable to only worry about the implementations
+> >> that will promise to never generate such an abort and quietly perform
+> >> an invalidation behind the kernel's back.  
+> > 
+> > Agreed. We're not dropping support for CPUs that don't give us what we'd
+> > like here, we're just not bending over to port and maintain new
+> > optimisations for them. I think that's a reasonable compromise?
+
+Subject to usual maintainability vs performance questions sure.
+Given we are the ones with the implementation, it's perhaps up to us
+to prove the added complexity for a given optimization is worth the hassle
+(maybe leaning on Arm to help out ;)  We have some activity going on
+around this, but are unfortunately not ready to share.
+
+> > 
+> > That said, thanks for raising this, Jonathan. It's a useful data point
+> > to know that TLB conflict aborts exist in the wild!  
+
+My work here is done ;)
+
+> 
+> Indeed. Just to make it explicit; if we were to support all architecturally
+> compliant BBML2 implementations, we would need to drop the final patch in this
+> series. But since it sounds like we will be taking the approach of only allowing
+> these optimizations for implementations that never raise conflict abort and
+> handle it all in HW, it should be safe to keep the optimization in that final
+> patch. I'll work with Miko to get this bashed into shape and reposted.
+
+Obviously I'd want perf numbers to justify it (working on that) but I'd like
+to keep on the table the option of patch 5 being the only part that is dependent
+on being non conflict aborting hardware. I think even that is a performance
+question rather than a correctness one - it simply widens the window in which
+we might see a fault and have to dump the TLB. (I may well have missed something
+though).
+
+As a side note on that last patch, it is easy to conceive of a BBML2
+solution that doesn't do conflict aborts, but for which it is still a performance
+nightmare to not flush. As a fictional implementation, where our CPUs get a conflict
+abort, we could instead have stalled the core and pushed the abort info to a management
+controller, and flushed the whole TLB to resolve (plus probably the CPU pipeline).
+If sufficiently rare that's not a totally stupid implementation (subject to some
+optimizations). It is basically offloading what we are going to do in software on
+a conflict abort with somewhat similar performance cost making widening the window
+a very bad idea.
+
+So the proposed allow list might need to be rather more nuanced than "can we get
+a fault?"  We all love per uarch performance related opt ins.
+
+Jonathan
+
+> 
+> Thanks,
+> Ryan
+> 
+> > 
+> > Will  
+> 
+> 
+
