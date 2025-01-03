@@ -1,180 +1,202 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2052.outbound.protection.outlook.com [40.107.237.52])
+Received: from mail-m12797.qiye.163.com (mail-m12797.qiye.163.com [115.236.127.97])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A848A1A841F;
-	Fri,  3 Jan 2025 03:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735875058; cv=fail; b=WcbvJNc2PQMYbpO2tx9a6RxIXnR+uRK4V3UMATe2EmZmtdffWZ4qeufhka7HRFBaxP+a0SWlO+YcwZqwx7/2gviexla8DQBMvxDW0qmiQU0b+rH9ARDr+Kgsepk+Jzt/LrV0IH+tbsitbLYpMDtdrOGPApZ+Vewy0JET/qAjFZ4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735875058; c=relaxed/simple;
-	bh=Xh30XGBo73Frhq1QDT7A5HXd9SPLn5+PLCefq0QC/r0=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M8UoiouvP9xl3Mhzvdo/MkYG4BN+dWrGycp+42Xw5T793oJVdCGIGua+eEFTdHLoM0qRdSEmkZ/KWlKz+sP+gz/+RYSCRUITzD6IfhM+9iSKsH7BkThqD58cFBkoaQVPQRpt21C3jDUVQaBzcxfj+zP011rylIkxFKbsSdhhdGQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=m8hn85ia; arc=fail smtp.client-ip=40.107.237.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 521CE1514E4
+	for <linux-doc@vger.kernel.org>; Fri,  3 Jan 2025 03:50:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.97
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1735876238; cv=none; b=HgiMsWUa4RUH373T10tpBjQuSosLAVEYmnAsTtVXjO1FHojoraDKbuk6ys8bBhKZgwT6fiYX2tjk+ASHnOh+Jul+i5TJ0dnePnNRUoyQyup70NfYGjxw8NxyH0IPPaPUNJRr/KRk92DrlJoBgRCAg994APqRcANV9gA7Oo22jcA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1735876238; c=relaxed/simple;
+	bh=WGF57zTwUsaCMikhHlhBTudToO/CuqsneGVWBU74CIo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FFx55TzQ+h+rORUNRjDZp6Tsj6okvYVBWlQvX19YQ/q+ENoWVShntfk0LG1WTptJDUIC7IJo6lWfwBDtU+/uTkW9Uvo8ivHBaifpo+MsZPqnrFb+gt78usnhK0a7wLEWCJBF6HH3+2me297fuHtUnLGR0SynbP931mOAe/KX3sA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=bmE89Mwq; arc=none smtp.client-ip=115.236.127.97
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="m8hn85ia"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LtfptRFuB+Uj7waYyGBj1wQxMW+/dH/iJCH6UL0bSHJX5aBdWQ7AYep27PkrMzQ1djOD9iODglQZeDv3ntWWxO14qKbAJ7dXTC2w2JpajO5jQ/zuF9kFRjvkYPPG1wVCBkTuu8hFK5rAedsmQMQEgX/MyG4t6A57ao0AHw6V3NaGpEU1YC0kpoMgKrMqTh/m2D79pf7ceR+wAXVXoBi4SnsMmvOU3bWyD4rW8s1LQFLdg6SQ0FGuBVz2weyf9faGrt4DFo0ipE8bSygqunbJOePe4ET/Tryi9X/yhD/VucBHIi5ZUCkhrjogOuUe/3Z4LLLoDN27GAwYFR/Zr2LQTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VClTDqtsVt337smE9JJgA0ELO4R7gmBNJq7pGD0y0jE=;
- b=UjGnMyStCOPY22JbX91Dv7ifWPbKZkqyKT15vkYXyI5M76KE6YWb5xawBCJRsHlRkng+GmcU1p0KSGTIeoIrU7+H3TAUUVTU6s3pAfNYhGhlvPUBX44a8DMCNjS/gZGwmqRshzeYwVEaqEBhPWh7Q1P6Q88eg5vKxiW+SFLtL2J+ogH6tiW6N8NHgA+LsAX5tkCnvp+HaHcTTkC4z7k1UeszoW77adZ2s3R03Z8/oHfDAQl9Px4U99a5f++6iTByyzITacWHPK3CaewJ1yDji+ORRZ0fyOCWTdRjSsXSvF0VBfFDg8xfO35V8jdXVrxI751nhk1eZ8xyXBzNzVntgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VClTDqtsVt337smE9JJgA0ELO4R7gmBNJq7pGD0y0jE=;
- b=m8hn85iaI4UAaf0W6zvWroMF9Kn0pkojPM+zN2S5fLMpP9SrqZGsyLIs+673nC5AOSwjknPSusdKaQviOtAc5rSwhVEydPb70TmFciUPgUi0N1+hzFPJaFqvXzJNcMewh3RXv06ErFmtrc0HCFeKCn00y6U/FYwMPZvMzZHir0jPLv+LExMC3/S/3Mf7rDeC2RCxxIiRvkC6yCC9q3nGpmc86CFUdSvxkDI8sttZx2U4aAC8xEPdsTnxtufLESIADWULKg6XHOxip8udWWDRkoaPfJgkFR6KxmkfiSGUCMMlvc8GRBQglGtVNlKsvgW62Vh1BO8o39oKUm0E8ZqHwg==
-Received: from MN2PR11CA0026.namprd11.prod.outlook.com (2603:10b6:208:23b::31)
- by BL1PR12MB5996.namprd12.prod.outlook.com (2603:10b6:208:39c::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.13; Fri, 3 Jan
- 2025 03:30:47 +0000
-Received: from BN1PEPF0000468B.namprd05.prod.outlook.com
- (2603:10b6:208:23b:cafe::bc) by MN2PR11CA0026.outlook.office365.com
- (2603:10b6:208:23b::31) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8314.13 via Frontend Transport; Fri,
- 3 Jan 2025 03:30:47 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- BN1PEPF0000468B.mail.protection.outlook.com (10.167.243.136) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8314.11 via Frontend Transport; Fri, 3 Jan 2025 03:30:47 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 2 Jan 2025
- 19:30:26 -0800
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail205.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 2 Jan 2025
- 19:30:26 -0800
-Received: from Asurada-Nvidia (10.127.8.9) by mail.nvidia.com (10.129.68.9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4 via Frontend
- Transport; Thu, 2 Jan 2025 19:30:23 -0800
-Date: Thu, 2 Jan 2025 19:30:21 -0800
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: <kevin.tian@intel.com>, <will@kernel.org>, <corbet@lwn.net>,
-	<joro@8bytes.org>, <suravee.suthikulpanit@amd.com>, <robin.murphy@arm.com>,
-	<dwmw2@infradead.org>, <baolu.lu@linux.intel.com>, <shuah@kernel.org>,
-	<linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <eric.auger@redhat.com>,
-	<jean-philippe@linaro.org>, <mdf@kernel.org>, <mshavit@google.com>,
-	<shameerali.kolothum.thodi@huawei.com>, <smostafa@google.com>,
-	<ddutile@redhat.com>, <yi.l.liu@intel.com>, <patches@lists.linux.dev>
-Subject: Re: [PATCH v3 06/14] iommufd: Add IOMMUFD_OBJ_VIRQ and
- IOMMUFD_CMD_VIRQ_ALLOC
-Message-ID: <Z3dZzXblPIlxXEQ+@Asurada-Nvidia>
-References: <cover.1734477608.git.nicolinc@nvidia.com>
- <dc1252de7ff06c944cb7d91c91b4f61c25182f91.1734477608.git.nicolinc@nvidia.com>
- <20250102205246.GG5556@nvidia.com>
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="bmE89Mwq"
+Received: from fedora.localdomain (unknown [1.193.59.150])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 79039e0a;
+	Fri, 3 Jan 2025 10:34:52 +0800 (GMT+08:00)
+From: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net
+Cc: zhaoyuehui@cqsoftware.com.cn,
+	linux-doc@vger.kernel.org,
+	Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+Subject: [PATCH v2] docs/zh_CN: Add security digsig Chinese translation
+Date: Fri,  3 Jan 2025 10:34:48 +0800
+Message-ID: <20250103023449.23128-1-zhaoshuo@cqsoftware.com.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250102205246.GG5556@nvidia.com>
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF0000468B:EE_|BL1PR12MB5996:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0bd02fda-d8fe-4b3e-edfb-08dd2ba703ad
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|36860700013|82310400026|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?AP10rSWv2wCR6rDunCXMhMAtY2hhFImzJrDFtNjIlD+UANJH2QfFTGv/gmMe?=
- =?us-ascii?Q?Vh2k+IH0lAqqeLEJBsXKrn+E8jOif7aiDEH7UyCsAqNXg6KAj6B9RehrSlxv?=
- =?us-ascii?Q?J8jMCGoQaeCpwrXjgxUr0NXbOES4livux+hSen+1XGHzLKl3TyLnO9sY9haP?=
- =?us-ascii?Q?0sQcMVujJqwZd1SYozz3y8M5xYGYarAPSd7l9ZByFseQOd7cb2xSwxp6FUA0?=
- =?us-ascii?Q?gWn2cVQvhJTDgGfvJVGoJaPSlWVJEcFCWpjmg0yYuA/n5VFpMBvlOAlNJQE5?=
- =?us-ascii?Q?dCvk1/Q5RMWR0p+D2CP+anePxA2xTJzgH5+8VAn6IWbTP9mrj5gp1Hh6vlx2?=
- =?us-ascii?Q?BgTR6ByOH8KIGCIvMe9p1yzUpul+j0P3FRWhB/heN7TFRcRh5trhHlDRcQSS?=
- =?us-ascii?Q?nOr+Thg9pSOBS7j4Bk2hUbQ45p7aMMeyLnwvq62orurrUWKM/8iL1tcr5H0K?=
- =?us-ascii?Q?5G0i78ZUhTThMmuQTmuSx2jsS0rFNyV+iU92fqMOsQgOsOcPsz4cBmL12GJP?=
- =?us-ascii?Q?jvNpAYHTu6zBTZlXRnd6ROcwWpUDG/eUbuvj6ptNflFipPPzif6f/2tJudPg?=
- =?us-ascii?Q?OG/ygJin3qiEFE3HL0SduOXjDssGtZEII5AeLfO6T2cGpnyZ2uU6pfKUop0d?=
- =?us-ascii?Q?8/am6YoO8SvQoWgXFzxNNBfHQcD2LbUHHIJ2O+HbtmmdJyyZOoPrWH9XHvMk?=
- =?us-ascii?Q?aicIBV6zB0S1ayLG9TDIQbkRCpfJCGQMtYie5jNFdmeQdiejWjr3hCNcU5Z5?=
- =?us-ascii?Q?9jPIKCq+RFsTRATfJ6mH0aMFwndQJVjYCQlLoLnY5eBvqByBtl92KmslTm7s?=
- =?us-ascii?Q?+gxdNXF0aN6hGMO6kTVVNcqu7mydZTKaqygN0DJISHiqnJg/T/cu/P7eyO2N?=
- =?us-ascii?Q?K1uGrMVBoKUPCDW9Z8cnRB0scAXXDL14XbO1LrFQy9DfzeCJcPbTK+4nyg7z?=
- =?us-ascii?Q?Tt9r8oNI30fdVnElva38bSigzdDxaqbsMaikqYD6c6KgSAAckjLU+EMZEEg1?=
- =?us-ascii?Q?snnLBcRTWf1RvqJNbYAeJ3Dil1EKwr1xzewKBUhX5pyHAwCoGPdBNRgk8A/i?=
- =?us-ascii?Q?kNZp4lHWT1UBWfJqt4H3YFmo57V9AZ322KnB6DDk3vVXGFNblhRtu6WISOV4?=
- =?us-ascii?Q?GNyhxI+FWtTrgwRdNRhlJSze3EqBrhpvzGhZYw4j6c+oLAxjLcIGIHvXmXfy?=
- =?us-ascii?Q?Msozz5x1AG90s6JRxw7XYIFkPSCNc7kmj/wBqPxL3uz9TIVyhj0gfevzWsWS?=
- =?us-ascii?Q?Gi4325N6Q8ncO6iEWmZnowVk0Lz5QeMPSA/fo5eUJhYEWBB8a2ziQ7D6uYZM?=
- =?us-ascii?Q?AqnG8SQKLmQ5g4xR9qpwPKwoICtruKgLQbRY1UtpoKoRfZMWLPFOrkNhhPYA?=
- =?us-ascii?Q?kyJ0yPjyvIoItQpmLFWj1xkybRsMNk7DH4ZvCUbJNsT3sgmvbetKZvoZxDTF?=
- =?us-ascii?Q?KMRpXA3Cs2OTryCyTgHt2ReDMpMGkz0xbcfLPfWXk1c7UqirswCBiHomb3a2?=
- =?us-ascii?Q?16HfmFujEdRp7S0=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(376014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2025 03:30:47.5710
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0bd02fda-d8fe-4b3e-edfb-08dd2ba703ad
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN1PEPF0000468B.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5996
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaTUNIVkMYTkNMGUtLGh8aTlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUpCSFVOQlVKTktZV1kWGg8SFR0UWUFZT0tIVUpLSEpOTE5VSktLVU
+	pCS0tZBg++
+X-HM-Tid: 0a942a03fef709d0kunm79039e0a
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pk06MSo6CTIJMS40HT0iOBgQ
+	Nk4wFDhVSlVKTEhOQ0xKTUJIT0lIVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSlVKQkhVTkJVSk5LWVdZCAFZQU9PSUw3Bg++
+DKIM-Signature:a=rsa-sha256;
+	b=bmE89MwqGwOWYam4dVuGtBmzxMxgpqx4FDT6inNzBIPIIEgz6H3gU2wKr8ac4fyDU4ws66D5vdxdwbILIW8h9jU7nIvVBy0aHRkVnoyEY5i1dn0YoUVCD90iGC/Xz+3+lj0rP7Z8UvYQh6lkCyTiAubpUKyavRqtxBXN4HALF+0=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
+	bh=sR7DQUDyuExHhEQYvKm/Tdo7+46PemOGiYl3668irbg=;
+	h=date:mime-version:subject:message-id:from;
 
-On Thu, Jan 02, 2025 at 04:52:46PM -0400, Jason Gunthorpe wrote:
-> On Tue, Dec 17, 2024 at 09:00:19PM -0800, Nicolin Chen wrote:
-> > +/* An iommufd_virq_header packs a vIOMMU interrupt in an iommufd_virq queue */
-> > +struct iommufd_virq_header {
-> > +	struct list_head node;
-> > +	ssize_t irq_len;
-> > +	void *irq_data;
-> > +};
-> 
-> Based on how it is used in iommufd_viommu_report_irq()
-> 
-> +       header = kzalloc(sizeof(*header) + irq_len, GFP_KERNEL);
-> +       header->irq_data = (void *)header + sizeof(*header);
-> +       memcpy(header->irq_data, irq_ptr, irq_len);
-> 
-> It should be a flex array and use the various flexarray tools
-> 
-> struct iommufd_virq_header {
->        ssize_t irq_len;
->        u64 irq_data[] __counted_by(irq_len);
-> }
+Translate .../security/digsig.rst into Chinese.
 
-Changed to
--------------------------------------------------------------------------
-/* An iommufd_vevent represents a vIOMMU event in an iommufd_veventq */
-struct iommufd_vevent {
-	struct list_head node;
-	ssize_t data_len;
-	u64 event_data[] __counted_by(data_len);
-};
-[...]
-	vevent = kmalloc(struct_size(vevent, event_data, data_len), GFP_KERNEL);
--	header->irq_data = (void *)header + sizeof(*header);
--------------------------------------------------------------------------
+Update the translation through commit d56b699d76d1
+("Documentation: Fix typos")
 
-Thanks
-Nicolin
+Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+---
+
+v2:
+
+Add authors and dates and modify some translations.
+
+ .../translations/zh_CN/security/digsig.rst    | 103 ++++++++++++++++++
+ .../translations/zh_CN/security/index.rst     |   2 +-
+ 2 files changed, 104 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/security/digsig.rst
+
+diff --git a/Documentation/translations/zh_CN/security/digsig.rst b/Documentation/translations/zh_CN/security/digsig.rst
+new file mode 100644
+index 000000000000..3e690b504ec5
+--- /dev/null
++++ b/Documentation/translations/zh_CN/security/digsig.rst
+@@ -0,0 +1,103 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/security/digsig.rst
++
++:翻译:
++ 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
++
++===============
++数字签名验证API
++===============
++
++:作者: Dmitry Kasatkin
++:日期: 2011.06.10
++
++
++.. 内容
++
++   1.介绍
++   2.API
++   3.用户空间工具
++
++
++介绍
++====
++
++数字签名验证API提供了一种验证数字签名的方法。
++目前，数字签名被IMA/EVM完整性保护子系统使用。
++
++数字签名验证是通过精简的GnuPG多精度整数(MPI)库的内核移植来实现的。
++该内核版本提供了内存分配错误处理，已根据内核编码风格进行重构，并修复
++了checkpatch.pl报告的错误和警告。
++
++公钥和签名由头部和MPIs组成::
++
++	struct pubkey_hdr {
++		uint8_t		version;	/* 密钥格式版本 */
++		time_t		timestamp;	/* 密钥时间戳，目前为0 */
++		uint8_t		algo;
++		uint8_t		nmpi;
++		char		mpi[0];
++	} __packed;
++
++	struct signature_hdr {
++		uint8_t		version;	/* 签名格式版本 */
++		time_t		timestamp;	/* 签名时间戳 */
++		uint8_t		algo;
++		uint8_t		hash;
++		uint8_t		keyid[8];
++		uint8_t		nmpi;
++		char		mpi[0];
++	} __packed;
++
++keyid等同对整个密钥的内容进行SHA1哈希运算后的第12到19字节。
++签名头部用于生成签名的输入。这种方法确保了密钥或签名头部无法更改。
++它保护时间戳不被更改，并可以用于回滚保护。
++
++API
++===
++
++目前API仅包含一个函数::
++
++	digsig_verify() - 使用公钥进行数字签名验证
++
++	/**
++	* digsig_verify() - 使用公钥进行数字签名验证
++	* @keyring:   查找密钥的密钥环
++	* @sig:       数字签名
++	* @sigen:     签名的长度
++	* @data:      数据
++	* @datalen:   数据的长度
++	* @return:    成功时返回0，失败时返回 -EINVAL
++	*
++	* 验证数据相对于数字签名的完整性。
++	* 目前仅支持RSA算法。
++	* 通常将内容的哈希值作为此函数的数据。
++	*
++	*/
++	int digsig_verify(struct key *keyring, const char *sig, int siglen,
++				  const char *data, int datalen);
++
++用户空间工具
++============
++
++签名和密钥管理实用工具evm-utils提供了生成签名、加载密钥到内核密钥环中的功能。
++密钥可以是PEM格式，或转换为内核格式。
++当把密钥添加到内核密钥环时，keyid定义该密钥的名称：下面的示例中为5D2B05FC633EE3E8。
++
++以下是keyctl实用工具的示例输出::
++
++	$ keyctl show
++	Session Keyring
++	-3 --alswrv      0     0  keyring: _ses
++	603976250 --alswrv      0    -1   \_ keyring: _uid.0
++	817777377 --alswrv      0     0       \_ user: kmk
++	891974900 --alswrv      0     0       \_ encrypted: evm-key
++	170323636 --alswrv      0     0       \_ keyring: _module
++	548221616 --alswrv      0     0       \_ keyring: _ima
++	128198054 --alswrv      0     0       \_ keyring: _evm
++
++	$ keyctl list 128198054
++	1 key in keyring:
++	620789745: --alswrv     0     0 user: 5D2B05FC633EE3E8
+diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
+index 92e2d8a7dec8..c73cd289ac3e 100644
+--- a/Documentation/translations/zh_CN/security/index.rst
++++ b/Documentation/translations/zh_CN/security/index.rst
+@@ -16,6 +16,7 @@
+    :maxdepth: 1
+ 
+    lsm
++   digsig
+ 
+ TODOLIST:
+ * credentials
+@@ -28,7 +29,6 @@ TODOLIST:
+ * self-protection
+ * siphash
+ * tpm/index
+-* digsig
+ * landlock
+ * secrets/index
+ * ipe
+-- 
+2.47.1
+
