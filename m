@@ -1,197 +1,204 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E07E1F8928;
-	Fri,  3 Jan 2025 09:36:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 686F633991
+	for <linux-doc@vger.kernel.org>; Fri,  3 Jan 2025 09:49:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735896992; cv=none; b=u7A4/+MPi1LlNS4EEbfxYG4NfBzQfWIWdOPHBI0xUARcXm1JTQbivPjOcn1Kj8l0MKhjiQU5NtLZU6BpIwuVYrX/0vpEHXRdBZtqHCUnhMxIHRMkNZozdnBmgtElP2JtnYfOMbmZCjBFnA5u89hiPkv1pyGoeM+6Lw1LeI5AGos=
+	t=1735897756; cv=none; b=WF474rjwMQYc3M59baFdXkWI2Jq8FC1o9hpQEsUE0bL+n/O9HL1WbYPhM990pI3BmMhPaHJuHI11zDf6bOYkldss/jdlWPeNzlgfm/WXPI/qkzqHfCdlesH0z+fhs9q5T02OaH+HRUX19EUUlOt/mByjBVA1sOQndV5A4wxMMvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735896992; c=relaxed/simple;
-	bh=Sx8uKAcGsdLeQ5dFASF/J5pQFrJmaAaOb1DYwpTZsBc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ADanaOktVUWpCMVo7mw2gaEYGjDZHKFUi/xambWf6ykm1G0LWt+Flv1iztAuoH6KBnTelNx+WpO2xvD4mxFXjXCcwjsmXUPbZJr1qoe80d3+mAiUBQ8jN9/iWxIGnkvIq8FYbtEFXls/QV0Tz9DW1I1/Sh90flQJESvBTAjARYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FN3hW0bJ; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1735897756; c=relaxed/simple;
+	bh=7tz3clhlGDh26iUhNq465Z9+XtzEmxevSwZq22xFA4Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SN+/anweg41oyV0WB1m+UyizSKzV77Lw3TB+5Gmy4A5uq79LI8khvnXz4oC3bJXu+C+FwRW3f1HJyx/qbZn1q7VXDuIZp2dzIFknmP+hRtQdauniGaiFQIAvtL8PJHgXjGDwEEwO/SWCu/xd+MXwF7u0jJeIo6ftclHM/3GTBn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=o+QoKxpM; arc=none smtp.client-ip=91.218.175.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FN3hW0bJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735896991; x=1767432991;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=Sx8uKAcGsdLeQ5dFASF/J5pQFrJmaAaOb1DYwpTZsBc=;
-  b=FN3hW0bJyeKFsDxHymP8sIdeWePBh+g03FKJTtOTWqvJpJeyZP1m9QYt
-   PvZPOD5JNCGg66maZo3ePLixGuU7Sq5+Nk8En0DlxRh9jmGq3dDSHmX1k
-   AO1zqi0HWoECih7/9J15bDi3V7XfKhcXMg/XbTBnKWar/woHnASK9ph+G
-   NYfmHGPSVsFjIR4ctTwtKPfotpUnvn1A47jr+90p+g+7fnN3xLqt+3bfu
-   y/mLTnLXRbQ4kI/OYl0P8z3xXS2zLGgs2HTpMtUT71BbpvR2LG52aUlcF
-   KClLGPIrbOE6G7i6PdZfPb9l0lgmlj6T/yDaPXBD+zsy8GYHK04W/5V40
-   w==;
-X-CSE-ConnectionGUID: 4UFF/UkjTkivahOLRkbgig==
-X-CSE-MsgGUID: gOH/X8qZSP6hi3ae11j8oA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11303"; a="36297197"
-X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="36297197"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 01:36:30 -0800
-X-CSE-ConnectionGUID: dpAsRF1aSAyz83h/U1NpCg==
-X-CSE-MsgGUID: ZY8Ad0hhRHK5HgQtpi9ceA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,286,1728975600"; 
-   d="scan'208";a="102228910"
-Received: from dprybysh-mobl.ger.corp.intel.com (HELO localhost) ([10.245.246.242])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 01:36:20 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
- Teki <jagan@amarulasolutions.com>, Marek Szyprowski
- <m.szyprowski@samsung.com>, Catalin Marinas <catalin.marinas@arm.com>,
- Will
- Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Paul Kocialkowski <contact@paulk.fr>, Maxime Ripard <mripard@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?utf-8?Q?Herv?=
- =?utf-8?Q?=C3=A9?= Codina
- <herve.codina@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, Paul
- Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v5 03/10] drm/bridge: add support for refcounted DRM
- bridges
-In-Reply-To: <20250102130319.2e8079a9@booty>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
- <20241231-hotplug-drm-bridge-v5-3-173065a1ece1@bootlin.com>
- <87seq4nm3g.fsf@intel.com> <20250102130319.2e8079a9@booty>
-Date: Fri, 03 Jan 2025 11:36:17 +0200
-Message-ID: <87y0zsme7i.fsf@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="o+QoKxpM"
+Message-ID: <5564ed7d-d6f9-43a3-8da7-edbd96261d71@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1735897746;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m9a4mV0Gf9762Aje7b8+sURYyLL1AXBxLr3be070QfY=;
+	b=o+QoKxpMSxWTwUgDX39NPDIGu2nkP4/ryFOagsvHsn9XWAKjh0ge+aH6/DqQFzpMp97qtz
+	WmuPdTj0tkhq5/OlPHe2fMjqbPRm2ebMtIGcKWOCXVpswtr+JNz3Eqt9UzFZsvtDM5MjF/
+	XEv6gDX61kNiXzZxds2nWphrDaGA8O4=
+Date: Fri, 3 Jan 2025 17:49:00 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Subject: Re: [PATCH v2] docs/zh_CN: Add security digsig Chinese translation
+To: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>, alexs@kernel.org, corbet@lwn.net
+Cc: zhaoyuehui@cqsoftware.com.cn, linux-doc@vger.kernel.org
+References: <20250103023449.23128-1-zhaoshuo@cqsoftware.com.cn>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <20250103023449.23128-1-zhaoshuo@cqsoftware.com.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, 02 Jan 2025, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
-> Hello Jani,
+
+
+
+在 2025/1/3 10:34, Shuo Zhao 写道:
+> Translate .../security/digsig.rst into Chinese.
 >
-> thanks for your review.
+> Update the translation through commit d56b699d76d1
+> ("Documentation: Fix typos")
 >
-> On Tue, 31 Dec 2024 13:11:31 +0200
-> Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+Reviewed-by: Yanteng Si <siyanteng@linux.dev>
+
+
+Thanks,
+Yanteng
+> ---
 >
->> On Tue, 31 Dec 2024, Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
->> > DRM bridges are currently considered as a fixed element of a DRM card, and
->> > thus their lifetime is assumed to extend for as long as the card
->> > exists. New use cases, such as hot-pluggable hardware with video bridges,
->> > require DRM bridges to be added and removed to a DRM card without tearing
->> > the card down. This is possible for connectors already (used by DP MST), so
->> > add this possibility to DRM bridges as well.
->> >
->> > Implementation is based on drm_connector_init() as far as it makes sense,
->> > and differs when it doesn't. A difference is that bridges are not exposed
->> > to userspace,hence struct drm_bridge does not embed a struct
->> > drm_mode_object which would provide the refcount and the free_cb. So here
->> > we add to struct drm_bridge just the refcount and free_cb fields (we don't
->> > need other struct drm_mode_object fields here) and instead of using the
->> > drm_mode_object_*() functions we reimplement from those functions the few
->> > lines that drm_bridge needs for refcounting.
->> >
->> > The function to enroll a private bridge driver data structure into
->> > refcounting is based on drm_connector_init() and so called
->> > drm_bridge_init() for symmetry, even though it does not initialize anything
->> > except the refcounting and the funcs pointer which is needed to access
->> > funcs->destroy.
->> >
->> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->> >
->> > ---
->> >
->> > This patch was added in v5.
->> > ---
->> >  drivers/gpu/drm/drm_bridge.c |  87 ++++++++++++++++++++++++++++++++++++
->> >  include/drm/drm_bridge.h     | 102 +++++++++++++++++++++++++++++++++++++++++++
->> >  2 files changed, 189 insertions(+)
->> >
->> > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
->> > index b1f0d25d55e23000521ac2ac37ee410348978ed4..6255ef59f73d8041a8cb7f2c6e23e5a67d1ae926 100644
->> > --- a/drivers/gpu/drm/drm_bridge.c
->> > +++ b/drivers/gpu/drm/drm_bridge.c
->> > @@ -198,6 +198,85 @@
->> >  static DEFINE_MUTEX(bridge_lock);
->> >  static LIST_HEAD(bridge_list);
->> >  
->> > +static void drm_bridge_put_void(void *data)
->> > +{
->> > +	struct drm_bridge *bridge = (struct drm_bridge *)data;
->> > +
->> > +	drm_bridge_put(bridge);
->> > +}
->> > +
->> > +static void drm_bridge_free(struct kref *kref)
->> > +{
->> > +	struct drm_bridge *bridge = container_of(kref, struct drm_bridge, refcount);
->> > +
->> > +	DRM_DEBUG("bridge=%p\n", bridge);
->> > +
->> > +	WARN_ON(!bridge->funcs->destroy);  
->> 
->> Please don't add new DRM_DEBUG or WARN_ON where you can use the
->> drm_dbg_* or drm_WARN_ON variants.
+> v2:
 >
-> Good point. However drm_WARN_ON() cannot be used because it needs a
-> non-NULL struct drm_drm_device pointer which is not always available
-> here: in case of -EPROBE_DEFER it usually isn't. I guess I'll go for
-> drm_dbg_core() or drm_warn[_once](), even though none of them prints a
-> stack trace and I find that would be useful.
-
-drm_dbg_* can handle NULL drm device; maybe drm_WARN* should be modified
-to do so as well?
-
-> This is raising a loosely-related question about the DRM_DEBUG()s this
-> patch is adding, such as the one quoted above: would it make sense to
-> add a new drm_debug_category value for the bridge refcounting
-> functions? Or for bridges altogether? They are pretty different from
-> the core messages, and it may be useful to see only the refcounting
-> messages or only the core messages.
+> Add authors and dates and modify some translations.
 >
-> DRM_UT_BRIDGE?
-> DRM_UT_BRIDGE_REFCOUNT?
+>   .../translations/zh_CN/security/digsig.rst    | 103 ++++++++++++++++++
+>   .../translations/zh_CN/security/index.rst     |   2 +-
+>   2 files changed, 104 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/translations/zh_CN/security/digsig.rst
+>
+> diff --git a/Documentation/translations/zh_CN/security/digsig.rst b/Documentation/translations/zh_CN/security/digsig.rst
+> new file mode 100644
+> index 000000000000..3e690b504ec5
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/security/digsig.rst
+> @@ -0,0 +1,103 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/security/digsig.rst
+> +
+> +:翻译:
+> + 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+> +
+> +===============
+> +数字签名验证API
+> +===============
+> +
+> +:作者: Dmitry Kasatkin
+> +:日期: 2011.06.10
+> +
+> +
+> +.. 内容
+> +
+> +   1.介绍
+> +   2.API
+> +   3.用户空间工具
+> +
+> +
+> +介绍
+> +====
+> +
+> +数字签名验证API提供了一种验证数字签名的方法。
+> +目前，数字签名被IMA/EVM完整性保护子系统使用。
+> +
+> +数字签名验证是通过精简的GnuPG多精度整数(MPI)库的内核移植来实现的。
+> +该内核版本提供了内存分配错误处理，已根据内核编码风格进行重构，并修复
+> +了checkpatch.pl报告的错误和警告。
+> +
+> +公钥和签名由头部和MPIs组成::
+> +
+> +	struct pubkey_hdr {
+> +		uint8_t		version;	/* 密钥格式版本 */
+> +		time_t		timestamp;	/* 密钥时间戳，目前为0 */
+> +		uint8_t		algo;
+> +		uint8_t		nmpi;
+> +		char		mpi[0];
+> +	} __packed;
+> +
+> +	struct signature_hdr {
+> +		uint8_t		version;	/* 签名格式版本 */
+> +		time_t		timestamp;	/* 签名时间戳 */
+> +		uint8_t		algo;
+> +		uint8_t		hash;
+> +		uint8_t		keyid[8];
+> +		uint8_t		nmpi;
+> +		char		mpi[0];
+> +	} __packed;
+> +
+> +keyid等同对整个密钥的内容进行SHA1哈希运算后的第12到19字节。
+> +签名头部用于生成签名的输入。这种方法确保了密钥或签名头部无法更改。
+> +它保护时间戳不被更改，并可以用于回滚保护。
+> +
+> +API
+> +===
+> +
+> +目前API仅包含一个函数::
+> +
+> +	digsig_verify() - 使用公钥进行数字签名验证
+> +
+> +	/**
+> +	* digsig_verify() - 使用公钥进行数字签名验证
+> +	* @keyring:   查找密钥的密钥环
+> +	* @sig:       数字签名
+> +	* @sigen:     签名的长度
+> +	* @data:      数据
+> +	* @datalen:   数据的长度
+> +	* @return:    成功时返回0，失败时返回 -EINVAL
+> +	*
+> +	* 验证数据相对于数字签名的完整性。
+> +	* 目前仅支持RSA算法。
+> +	* 通常将内容的哈希值作为此函数的数据。
+> +	*
+> +	*/
+> +	int digsig_verify(struct key *keyring, const char *sig, int siglen,
+> +				  const char *data, int datalen);
+> +
+> +用户空间工具
+> +============
+> +
+> +签名和密钥管理实用工具evm-utils提供了生成签名、加载密钥到内核密钥环中的功能。
+> +密钥可以是PEM格式，或转换为内核格式。
+> +当把密钥添加到内核密钥环时，keyid定义该密钥的名称：下面的示例中为5D2B05FC633EE3E8。
+> +
+> +以下是keyctl实用工具的示例输出::
+> +
+> +	$ keyctl show
+> +	Session Keyring
+> +	-3 --alswrv      0     0  keyring: _ses
+> +	603976250 --alswrv      0    -1   \_ keyring: _uid.0
+> +	817777377 --alswrv      0     0       \_ user: kmk
+> +	891974900 --alswrv      0     0       \_ encrypted: evm-key
+> +	170323636 --alswrv      0     0       \_ keyring: _module
+> +	548221616 --alswrv      0     0       \_ keyring: _ima
+> +	128198054 --alswrv      0     0       \_ keyring: _evm
+> +
+> +	$ keyctl list 128198054
+> +	1 key in keyring:
+> +	620789745: --alswrv     0     0 user: 5D2B05FC633EE3E8
+> diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
+> index 92e2d8a7dec8..c73cd289ac3e 100644
+> --- a/Documentation/translations/zh_CN/security/index.rst
+> +++ b/Documentation/translations/zh_CN/security/index.rst
+> @@ -16,6 +16,7 @@
+>      :maxdepth: 1
+>   
+>      lsm
+> +   digsig
+>   
+>   TODOLIST:
+>   * credentials
+> @@ -28,7 +29,6 @@ TODOLIST:
+>   * self-protection
+>   * siphash
+>   * tpm/index
+> -* digsig
+>   * landlock
+>   * secrets/index
+>   * ipe
 
-IMO the biggest benefit of new categories would be for very noisy
-logging that you really only want enabled when debugging a specific
-issue. Otherwise, the hard part about adding new categories is their
-adoption.
-
-For example, we now have DRM_UT_DP, but it's only haphazardly used here
-and there. I don't really see a lot of point in having that separated
-from DRM_UT_KMS. When would you want one but not the other? How would
-you go about converting some KMS to DP logging, and why? What's special
-about DP, why don't we have an HDMI category? Etc.
-
-OTOH, DRM_UT_DP is also used for DP AUX transfer debug logging. I think
-that would've been a good category on its own: Do you want noisy logging
-about DPCD access or not? But not used for anything else.
-
-Oh, having written the above, I looked up a18b21929453 ("drm/dp_helper:
-Add DP aux channel tracing"). DRM_UT_DP *was* intended only for DP AUX
-message tracing, but its naming unfortunately suggests a broader
-category, and here we are.
-
-
-BR,
-Jani.
-
-
--- 
-Jani Nikula, Intel
