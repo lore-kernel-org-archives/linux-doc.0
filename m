@@ -1,143 +1,381 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352F95A79B;
-	Fri,  3 Jan 2025 12:53:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10EC442C;
+	Fri,  3 Jan 2025 15:03:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735908803; cv=none; b=UT0XXcNyuekPTx7uZstL2eYjCnlXOmnJWY9jhdknB6MAssaYThoKJesLbhkYnTPA+mXvIUf5pm5xgXHwWEuP4HFaA10WFgJLPMlVAaCFYDxOPRx7oy01/JiGWvDD1FHhsrQjUnkMV5q6J3p5QF4bZJ7Pf/MpdirQx6p07WQvYFQ=
+	t=1735916623; cv=none; b=eEKmbC3E075p6ilmfsd4mz1gBBas5qvXG5Gxgxx+0aYJ7j0gL1o6ZseL9di2CzSAH3ow/cVdJ8IgYGXuTooXwLcRvHLISC8iGBa3vz3O48q5CK4LGOIAlTBUaEdebgsF1X00gzvIWtXimf39JCNKVj+OisV81CKkT1QXUgUkIOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735908803; c=relaxed/simple;
-	bh=/vqqFN9SmH850jEKZh+jlSKNsU0K+YRxH846Eg9Fcrs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MFDLTwPD93E4O9Jznq9dQyb7JXGFgJ/+NzX/Ek70+H6Tr43GdyINs4TSZSIHedFvitviwYep9Gl+S+pxJFNFAu3J0Tw4VeLn7QZyc5456J/hFTocSaV5Wx2NtlrXUjbpIThfNe6rv93aB2m2qpUg9BD/iB2JyhN55A6sQ3uxXCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=A6V0AwrI; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	s=arc-20240116; t=1735916623; c=relaxed/simple;
+	bh=40gw3dbbxwVJDRB2mUyJFCgcyTSCaPPkP6RR8ATAqHA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nYwBudvChbw0iK9JNnt8WiqRYaE5hU5cwhevIPI/vAJiIm2Y19qMVSzf0lvswVGr8v7ZEHIf6q+tfaKMr6jWzlUfKTI7KsIgWeQkvQ049JDEb/eYDR9ssan2oCkPPwQ10PGBCHikBkv9CSc6ymBXoEIG5rhH4TyTvpiC1W8IcsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MD1HtJjb; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="A6V0AwrI"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=DKVboEEHNRArbFv5HhCe/ML6uqtCt1KVGfV9YH1TEdc=; t=1735908801;
-	x=1736340801; b=A6V0AwrIxA2TgDdxgEm+3lLIBSuGc7BuBL0XuwnMETx+rIS0+5hlvJHqlNvAg
-	E8n02sCAzDqRxdt+yCxsqDQYS+Jclrpywp0dn8FzqxJpsAMIDMgZxH7lCoQ9oNtALCNySYaUS9fYC
-	Qq0XseUMLdXVrLSU+Bb1HzbssHcgw+Vxq1wgIiCnRvhbgNCrLMubn3U2S8t0ozHwPkliuzNLpfM0w
-	N017v+BOLSXSB4jxMYH/T3QSRK+a8hDeih2ZrYJME0R1AJHKyvLboh/EPclr/qOYtb57GUKEg3GDS
-	ubNRnfajsxSic2X1kThPrQF0H2HESwpukCwUGrBalDfYOLPxgA==;
-Received: from [2a02:8108:8980:2478:87e9:6c79:5f84:367d]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128)
-	id 1tTgtD-000l2T-1Y;
-	Fri, 03 Jan 2025 13:34:55 +0100
-Message-ID: <5ce63958-a665-4e80-8359-55895f0e1605@leemhuis.info>
-Date: Fri, 3 Jan 2025 13:34:55 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MD1HtJjb"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-218c8aca5f1so216138455ad.0;
+        Fri, 03 Jan 2025 07:03:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1735916621; x=1736521421; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=D5cYNilNFUofX5YyYISRpt6QOKLelLdsHH370Yk87aE=;
+        b=MD1HtJjbUwxeE6AqKLlghmEgZP243muhLf74aLLa1hMDpyXgPIGm25Lg8wuWd6VTlU
+         I64oqt+dyRvO1X85Z3IDBSGSwtNaAx/ydxbZaEBYEAaUdsE9AKzcjbvTjeNSVyD/Fcq9
+         S3+aDTrFNf+SSybc3iClB/47m6EM/MxF8WYnYAJsMwV/aifMziymzgSNsh1Y9aEluEy2
+         1CfpHpGaCQul7cPpAxQm28aok1EQ2slVeccXn+FGkfIfDo0iwCBwYs0BAoaDJCXTHMcS
+         3IISq9bgIu1npvMX7+yPE0oj9kk6lCtnnMakX+DY+0Duzg3xPnGgB7zz6ketuBgvYNke
+         dspA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735916621; x=1736521421;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D5cYNilNFUofX5YyYISRpt6QOKLelLdsHH370Yk87aE=;
+        b=qILBykLFcwC2ZogHaiM3KEJ4EjpK6mUOKW0gRUVNnMcRxP7/qO1mRtu3LOC5D/GVK7
+         avWjD63PNOc05iynUK1ARrxg1n16NLoUCgNddeOP877RpdmlFeiQOg5ur+Volumae/4l
+         npd08ft/hSTNbpPxSjvBg6sTP0LWL91wOtvsmtr04aGVNm6gD1oGX6PFKMge941ZUVVD
+         14GziHL7C5mRKffNr9Xw5bUYEmFzSZO6bzZWd2NYBXvzTkTjdctqsdb775bNaEK2P2jI
+         5gl+vWv8VojZrNsvwJZECWp002S24jDAEcJukDB5eGQQOPBZXp1gwZ8qyTeTCbkWgWGE
+         DgUw==
+X-Forwarded-Encrypted: i=1; AJvYcCVtErsbW618fXkymWUBQcrmp/wHK1F3hXyTG/jy3JXptbUyH7dplD0OGZ95XCfx5I/GnG9sfxYp@vger.kernel.org, AJvYcCXe2Z3+ywfoHWrrBwWp7T6JRcGDWFnxDB/gLOU+4IPM5rAKAMUq3JGOoSHA3VHPTeaALzHAovbm/lU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yymo6oxfGYYNktvD6wKBDBXK6fYjZCq1+19nsO03WkOcDZadXBK
+	0ziOiRCh8yJf/oSJEysgcyXOZGE5HPcc/dwIqYngK9I3Ki7tRONq
+X-Gm-Gg: ASbGncvsWHS0wD2t2GeH1kVcnPCJXto09qK4KwDqQaCWJM4CFk8gcWxi3lHsp0b2yJj
+	wX90lk//77sxGiviRpmYuOWF0qOKz8pZh6HIum4IyVUAT6Dkr2x4CYxiGQ3JbYnfgRK/vjdVAKw
+	bT+pmfD7hGZ4AcXLVDeMqdEHvmBtsBRG07cAB+wyGdn9ZRZrubSR2Sk2gDVZIoRFUXOct6DPgVU
+	jwHto76XG8zo/tplLint7dSqzxMHUjHHhJKwWRGuHlAEA==
+X-Google-Smtp-Source: AGHT+IHeXJPfmaYU6QUmcZHXYL8o3EZKP9pLRsAoF56VuMnsYtVtB+LrMwW2wnxc+mOP36upZ3700Q==
+X-Received: by 2002:a17:902:e5cf:b0:216:7761:cc48 with SMTP id d9443c01a7336-219e6f14859mr805305835ad.40.1735916619843;
+        Fri, 03 Jan 2025 07:03:39 -0800 (PST)
+Received: from ap.. ([182.213.254.91])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9629d0sm247047255ad.41.2025.01.03.07.03.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jan 2025 07:03:39 -0800 (PST)
+From: Taehee Yoo <ap420073@gmail.com>
+To: davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	edumazet@google.com,
+	almasrymina@google.com,
+	donald.hunter@gmail.com,
+	corbet@lwn.net,
+	michael.chan@broadcom.com,
+	andrew+netdev@lunn.ch,
+	hawk@kernel.org,
+	ilias.apalodimas@linaro.org,
+	ast@kernel.org,
+	daniel@iogearbox.net,
+	john.fastabend@gmail.com,
+	dw@davidwei.uk,
+	sdf@fomichev.me,
+	asml.silence@gmail.com,
+	brett.creeley@amd.com,
+	linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org
+Cc: kory.maincent@bootlin.com,
+	maxime.chevallier@bootlin.com,
+	danieller@nvidia.com,
+	hengqi@linux.alibaba.com,
+	ecree.xilinx@gmail.com,
+	przemyslaw.kitszel@intel.com,
+	hkallweit1@gmail.com,
+	ahmed.zaki@intel.com,
+	rrameshbabu@nvidia.com,
+	idosch@nvidia.com,
+	jiri@resnulli.us,
+	bigeasy@linutronix.de,
+	lorenzo@kernel.org,
+	jdamato@fastly.com,
+	aleksander.lobakin@intel.com,
+	kaiyuanz@google.com,
+	willemb@google.com,
+	daniel.zahka@gmail.com,
+	ap420073@gmail.com
+Subject: [PATCH net-next v7 0/10] bnxt_en: implement tcp-data-split and thresh option
+Date: Fri,  3 Jan 2025 15:03:15 +0000
+Message-Id: <20250103150325.926031-1-ap420073@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: Fix typo localmodonfig -> localmodconfig
-To: Li Zhijian <lizhijian@fujitsu.com>, linux-doc@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-References: <20250103004358.1310121-1-lizhijian@fujitsu.com>
-From: Thorsten Leemhuis <linux@leemhuis.info>
-Content-Language: de-DE, en-US
-Autocrypt: addr=linux@leemhuis.info; keydata=
- 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 n7RI
-In-Reply-To: <20250103004358.1310121-1-lizhijian@fujitsu.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1735908801;b6016433;
-X-HE-SMSGID: 1tTgtD-000l2T-1Y
+Content-Transfer-Encoding: 8bit
 
-On 03.01.25 01:43, Li Zhijian wrote:
-> It's noticed when I myself made the same spelling mistake while
-> searching for localmodconfig
+This series implements hds-thresh ethtool command.
+This series also implements backend of tcp-data-split and
+hds-thresh ethtool command for bnxt_en driver.
+These ethtool commands are mandatory options for device memory TCP.
 
-:-D
+NICs that use the bnxt_en driver support tcp-data-split feature named
+HDS(header-data-split).
+But there is no implementation for the HDS to enable by ethtool.
+Only getting the current HDS status is implemented and the HDS is just
+automatically enabled only when either LRO, HW-GRO, or JUMBO is enabled.
+The hds_threshold follows the rx-copybreak value but it wasn't
+changeable.
 
-> Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
+Currently, bnxt_en driver enables tcp-data-split by default but not
+always work.
+There is hds_threshold value, which indicates that a packet size is
+larger than this value, a packet will be split into header and data.
+hds_threshold value has been 256, which is a default value of
+rx-copybreak value too.
+The rx-copybreak value hasn't been allowed to change so the
+hds_threshold too.
 
-Many thx for spotting and fixing this!
+This patchset decouples hds_threshold and rx-copybreak first.
+and make tcp-data-split, rx-copybreak, and
+hds-thresh configurable independently.
 
-Reviewed-by: Thorsten Leemhuis <linux@leemhuis.info>
+But the default configuration is the same.
+The default value of rx-copybreak is 256 and default
+hds-thresh is also 256.
 
-Ciao, Thorsten
+The behavior of rx-copybreak will probably be changed in almost all
+drivers. If HDS is not enabled, rx-copybreak copies both header and
+payload from a page.
+But if HDS is enabled, rx-copybreak copies only header from the first
+page.
+Due to this change, it may need to disable(set to 0) rx-copybreak when
+the HDS is required.
 
-> ---
->  Documentation/admin-guide/quickly-build-trimmed-linux.rst       | 2 +-
->  .../admin-guide/verify-bugs-and-bisect-regressions.rst          | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/quickly-build-trimmed-linux.rst b/Documentation/admin-guide/quickly-build-trimmed-linux.rst
-> index f08149bc53f8..07cfd8863b46 100644
-> --- a/Documentation/admin-guide/quickly-build-trimmed-linux.rst
-> +++ b/Documentation/admin-guide/quickly-build-trimmed-linux.rst
-> @@ -733,7 +733,7 @@ can easily happen that your self-built kernel will lack modules for tasks you
->  did not perform before utilizing this make target. That's because those tasks
->  require kernel modules that are normally autoloaded when you perform that task
->  for the first time; if you didn't perform that task at least once before using
-> -localmodonfig, the latter will thus assume these modules are superfluous and
-> +localmodconfig, the latter will thus assume these modules are superfluous and
->  disable them.
->  
->  You can try to avoid this by performing typical tasks that often will autoload
-> diff --git a/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
-> index 6281eae9e6bc..03c55151346c 100644
-> --- a/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
-> +++ b/Documentation/admin-guide/verify-bugs-and-bisect-regressions.rst
-> @@ -1431,7 +1431,7 @@ can easily happen that your self-built kernels will lack modules for tasks you
->  did not perform at least once before utilizing this make target. That happens
->  when a task requires kernel modules which are only autoloaded when you execute
->  it for the first time. So when you never performed that task since starting your
-> -kernel the modules will not have been loaded -- and from localmodonfig's point
-> +kernel the modules will not have been loaded -- and from localmodconfig's point
->  of view look superfluous, which thus disables them to reduce the amount of code
->  to be compiled.
->  
+There are several related options.
+TPA(HW-GRO, LRO), JUMBO, jumbo_thresh(firmware command), and Aggregation
+Ring.
+
+The aggregation ring is fundamental to these all features.
+When gro/lro/jumbo packets are received, NIC receives the first packet
+from the normal ring.
+follow packets come from the aggregation ring.
+
+These features are working regardless of HDS.
+If HDS is enabled, the first packet contains the header only, and the
+following packets contain only payload.
+So, HW-GRO/LRO is working regardless of HDS.
+
+There is another threshold value, which is jumbo_thresh.
+This is very similar to hds_thresh, but jumbo thresh doesn't split
+header and data.
+It just split the first and following data based on length.
+When NIC receives 1500 sized packet, and jumbo_thresh is 256(default, but
+follows rx-copybreak),
+the first data is 256 and the following packet size is 1500-256.
+
+Before this patch, at least if one of GRO, LRO, and JUMBO flags is
+enabled, the Aggregation ring will be enabled.
+If the Aggregation ring is enabled, both hds_threshold and
+jumbo_thresh are set to the default value of rx-copybreak.
+
+So, GRO, LRO, JUMBO frames, they larger than 256 bytes, they will
+be split into header and data if the protocol is TCP or UDP.
+for the other protocol, jumbo_thresh works instead of hds_thresh.
+
+This means that tcp-data-split relies on the GRO, LRO, and JUMBO flags.
+But by this patch, tcp-data-split no longer relies on these flags.
+If the tcp-data-split is enabled, the Aggregation ring will be
+enabled.
+Also, hds_threshold no longer follows rx-copybreak value, it will
+be set to the hds-thresh value by user-space, but the
+default value is still 256.
+
+If the protocol is TCP or UDP and the HDS is disabled and Aggregation
+ring is enabled, a packet will be split into several pieces due to
+jumbo_thresh.
+
+When single buffer XDP is attached, tcp-data-split is automatically
+disabled.
+
+LRO, GRO, and JUMBO are tested with BCM57414, BCM57504 and the firmware
+version is 230.0.157.0.
+I couldn't find any specification about minimum and maximum value
+of hds_threshold, but from my test result, it was about 0 ~ 1023.
+It means, over 1023 sized packets will be split into header and data if
+tcp-data-split is enabled regardless of hds_treshold value.
+When hds_threshold is 1500 and received packet size is 1400, HDS should
+not be activated, but it is activated.
+The maximum value of hds-thresh value is 256 because it
+has been working. It was decided very conservatively.
+
+I checked out the tcp-data-split(HDS) works independently of GRO, LRO,
+JUMBO.
+Also, I checked out tcp-data-split should be disabled automatically
+when XDP is attached and disallowed to enable it again while XDP is
+attached. I tested ranged values from min to max for
+hds-thresh and rx-copybreak, and it works.
+hds-thresh from 0 to 256, and rx-copybreak 0 to 256.
+When testing this patchset, I checked skb->data, skb->data_len, and
+nr_frags values.
+
+By this patchset, bnxt_en driver supports a force enable tcp-data-split,
+but it doesn't support for disable tcp-data-split.
+When tcp-data-split is explicitly enabled, HDS works always.
+When tcp-data-split is unknown, it depends on the current
+configuration of LRO/GRO/JUMBO.
+
+1/10 patch adds a new hds_config member in the ethtool_netdev_state.
+It indicates that what tcp-data-split value is really updated from
+userspace.
+So the driver can distinguish a passed tcp-data-split value is
+came from user or driver itself.
+
+2/10 patch adds hds-thresh command in the ethtool.
+This threshold value indicates if a received packet size is larger
+than this threshold, the packet's header and payload will be split.
+Example:
+   # ethtool -G <interface name> hds-thresh <value>
+This option can not be used when tcp-data-split is disabled or not
+supported.
+   # ethtool -G enp14s0f0np0 tcp-data-split on hds-thresh 256
+   # ethtool -g enp14s0f0np0
+   Ring parameters for enp14s0f0np0:
+   Pre-set maximums:
+   ...
+   Current hardware settings:
+   ...
+   TCP data split:         on
+   HDS thresh:  256
+
+3/10, 4/10 add condition checks for devmem and ethtool.
+If tcp-data-split is disabled or threshold value is not zero, setup of
+devmem will be failed.
+Also, tcp-data-split and hds-thresh will not be changed
+while devmem is running.
+
+5/10 add condition checks for netdev core.
+It disallows setup single buffer XDP program when tcp-data-split is
+enabled.
+
+6/10 patch implements .{set, get}_tunable() in the bnxt_en.
+The bnxt_en driver has been supporting the rx-copybreak feature but is
+not configurable, Only the default rx-copybreak value has been working.
+So, it changes the bnxt_en driver to be able to configure
+the rx-copybreak value.
+
+7/10 patch adds an implementation of tcp-data-split ethtool
+command.
+The HDS relies on the Aggregation ring, which is automatically enabled
+when either LRO, GRO, or large mtu is configured.
+So, if the Aggregation ring is enabled, HDS is automatically enabled by
+it.
+
+8/10 patch adds the implementation of hds-thresh logic
+in the bnxt_en driver.
+The default value is 256, which used to be the default rx-copybreak
+value.
+
+9/10 add HDS feature implementation for netdevsim.
+HDS feature is not common so far. Only a few NICs support this feature.
+There is no way to test HDS core-API unless we have proper hw NIC.
+In order to test HDS core-API without  hw NIC, netdevsim can be used.
+So, implements HDS contronplane for netdevsim.
+
+10/10 add selftest for HDS(tcp-data-split and HDS-thresh).
+The tcp-data-split tests are the same with
+`ethtool -G tcp-data-split <on | auto>`
+HDS-thresh tests are same with `ethtool -G eth0 hds-thresh <0 - MAX>`
+
+This series is tested with BCM57504 and netdevsim.
+
+v7:
+ - Reorder patches.
+ - Add review tag from Jakub. 1/10
+ - Do not export dev_xdp_sb_prog_count(). 1/10
+ - Use dev->ethtool->hds members instead of calling
+   ->get_ring_param(). 2/10
+ - Do not check XDP_SETUP_PROG_HW. 5/10
+ - return -EBUSY when interface is not running. 6/10.
+ - Use dev->ethtool->hds_thresh instead of bp->hds_thresh 8/10
+ - Add datapath implementation. 9/10
+ - Remove kernel_ethtool_ringparam in the struct nsim_ethtool. 9/10
+ - Add selftest patch 10/10
+
+v6:
+ - use hds_config instead of tcp_data_split_mod.
+ - Disallow to attach XDP when HDS is in use.
+ - Update ethtool_netlink_generated.h
+ - Use "HDS" instead of "HEADER_DATA_SPLIT"
+ - HDS_MAX is changed to 1023.
+ - Implement netdevsim HDS feature.
+ - Add Test tags from Andy.
+
+v5:
+ - Remove netdev_devmem_enabled() and use dev_get_min_mp_channel_count()
+   instead.
+ - change extack messages
+ - Drop implementation of device memory TCP for bnxt_en.
+ - Add Review tags from Mina.
+
+v4:
+ - Remove min rx-copybreak value.
+ - Do not support a disable of tcp-data-split by bnxt_en driver.
+ - Rename from tcp-data-split-thresh to hds-thresh.
+ - Add ETHTOOL_RING_USE_HDS_THRS flag.
+ - Add dev_xdp_sb_prog_count() helper.
+ - Reduce hole in struct bnxt.
+ - Use ETHTOOL_RING_USE_HDS_THRS in bnxt_en driver.
+ - Improve condition check.
+ - Add netdev_devmem_enabled() helper.
+ - Add netmem_is_pfmemalloc() helper.
+ - Do not select NET_DEVMEM in Kconfig for bnxt_en driver.
+ - Pass PP_FLAG_ALLOW_UNREADABLE_NETMEM flag unconditionally.
+ - Use gfp flag in __bnxt_alloc_rx_netmem() in the last patch.
+ - Do not add *offset in the __bnxt_alloc_rx_netmem() in the last patch.
+ - Do not pass queue_idx to bnxt_alloc_rx_page_pool() in the last patch.
+ - Add Test tag from Stanislav.
+ - Add Review tag from Brett.
+ - Add page_pool_recycle_direct_netmem() helper
+
+v3:
+ - Change headline
+ - Add condition checks for ethtool and devmem
+ - Fix documentation
+ - Move validation of tcp-data-split and thresh from dirver to core API
+ - Add implementation of device memory TCP for bnxt_en driver
+
+v2:
+ - Add tcp-data-split-thresh ethtool command
+ - Implement tcp-data-split-threh in the bnxt_en driver
+ - Define min/max rx-copybreak value
+ - Update commit message
+
+Taehee Yoo (10):
+  net: ethtool: add hds_config member in ethtool_netdev_state
+  net: ethtool: add support for configuring hds-thresh
+  net: devmem: add ring parameter filtering
+  net: ethtool: add ring parameter filtering
+  net: disallow setup single buffer XDP when tcp-data-split is enabled.
+  bnxt_en: add support for rx-copybreak ethtool command
+  bnxt_en: add support for tcp-data-split ethtool command
+  bnxt_en: add support for hds-thresh ethtool command
+  netdevsim: add HDS feature
+  selftest: net-drv: hds: add test for HDS feature
+
+ Documentation/netlink/specs/ethtool.yaml      |   8 ++
+ Documentation/networking/ethtool-netlink.rst  |  10 ++
+ drivers/net/ethernet/broadcom/bnxt/bnxt.c     |  32 +++--
+ drivers/net/ethernet/broadcom/bnxt/bnxt.h     |  12 +-
+ .../net/ethernet/broadcom/bnxt/bnxt_ethtool.c |  69 +++++++++-
+ drivers/net/ethernet/broadcom/bnxt/bnxt_xdp.c |   4 +
+ drivers/net/netdevsim/ethtool.c               |  15 ++-
+ drivers/net/netdevsim/netdev.c                |   9 ++
+ drivers/net/netdevsim/netdevsim.h             |   3 +
+ include/linux/ethtool.h                       |  10 ++
+ include/linux/netdevice.h                     |   1 +
+ .../uapi/linux/ethtool_netlink_generated.h    |   2 +
+ net/core/dev.c                                |  27 ++++
+ net/core/devmem.c                             |  11 ++
+ net/ethtool/netlink.h                         |   2 +-
+ net/ethtool/rings.c                           |  49 ++++++-
+ tools/testing/selftests/drivers/net/Makefile  |   1 +
+ tools/testing/selftests/drivers/net/hds.py    | 125 ++++++++++++++++++
+ 18 files changed, 369 insertions(+), 21 deletions(-)
+ create mode 100755 tools/testing/selftests/drivers/net/hds.py
+
+-- 
+2.34.1
 
