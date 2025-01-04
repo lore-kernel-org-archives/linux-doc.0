@@ -1,314 +1,373 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D52E1C1F29;
-	Fri,  3 Jan 2025 22:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735945104; cv=fail; b=CBJ+9RWYW+vc2F2UywqNWZfn7sPaEzQTR4nPpQiJqnnV0eNYolOOnVvLDXefw8tokGP8n+J6CSLD9kE2bVwZqZ6ZflNe06PTkMlamvreyXx1vTJqmnuy8XeTOzHCiFgE9CqGeDBV0m6BKLofMDas/RjQVd0eMOO/hKfNqT9CU5U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735945104; c=relaxed/simple;
-	bh=rqkb4gVd7gbUqb9BFfAHGdbJoM8g0fdndx3sBKOgzu4=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=iOaafUpdKd+1wLnD0zuejkVRMiqxfndc6/HI6pW2vQDbSwDUHDYf1HQcl0S3o0uC9c6jPA5ulpilPCok+93ObhGS9Er63Ppiio+6xHcy2M1Uw7WZ2R5Pybi4BM1lziSS1Dq/S23j1gBAVq7kHPc1Ly5rooufliHrhfQUVrfyvbI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fvQGJ2Ue; arc=fail smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fvQGJ2Ue"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735945102; x=1767481102;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=rqkb4gVd7gbUqb9BFfAHGdbJoM8g0fdndx3sBKOgzu4=;
-  b=fvQGJ2Uef4IC6GIJP44FePf61gJPVKHbJ48qiaNzNGYDWJAxv2L9FIHT
-   mQHdYcsmOKRz7FyK1nOTj86EoDi0rZZbrNG/XXC/guMYMe7LtbC8F4+wo
-   dryNszqcFnGrm1O7vUY44OvxoDdzO5slSAzCcgzhhxxl1HCaPOFmdzpG9
-   Qz559ZsiJH6yqE9pO1c1vaNDP2VHIbEESHhZfkSBz3Lq6nzk7SkncKV2c
-   N4nzX3xCJZHUrfEQk4sjTW6l+AwcwI+5+16Jl/9qcA30EWqmCT+zl4OSu
-   38JPMdp9aCzLLhdjGCLshxIZ6aZN6VBjdQ2++8FTErLF8kXIloMUwEpra
-   A==;
-X-CSE-ConnectionGUID: t2miqsJGSxygTU+svFsDfA==
-X-CSE-MsgGUID: 7ipwfTSVTqay/CMEYkX4Gw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11304"; a="36068022"
-X-IronPort-AV: E=Sophos;i="6.12,287,1728975600"; 
-   d="scan'208";a="36068022"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2025 14:58:22 -0800
-X-CSE-ConnectionGUID: uaf2taNNSc+m85EP6VFCTw==
-X-CSE-MsgGUID: gVRkNr00ShGtUZZiLUdbZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,287,1728975600"; 
-   d="scan'208";a="106858851"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 03 Jan 2025 14:58:22 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Fri, 3 Jan 2025 14:58:21 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Fri, 3 Jan 2025 14:58:21 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.171)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Fri, 3 Jan 2025 14:58:20 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KVbe1zAd/zhoToV/cMNENbtlwHDMKgI3dn0Vo/aJCUjwH/D0J9tCYszO29/oJMCPqddjGjuIBvpvcwxW95WC57RPGoZ5EIPhtvQT03g6JohHkAsxUTzYN1ZxJNoLRevKwzqbB8bHH3JdZs7XYYOtJ5nX8A5ccUETPZQMdKzIUScdH9GYu5OtQoOiPhUfy79rc2NJpWSLTC0xFuOJNt6rUyf5CDj+ax8cJaIu0lJB7lcb0z/C0a63zXTq615hpH6YFhA5xigi/ACgEQ1sDQ+qbv1i6z39rLpBuxml91nbTl5zA91MyJeRgQpvk/8VcyvCDeQumLAXAu0xyHt6XsWlhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NgL9WQ8oyVHpKpzaY5EIlKgsjOdaVmlSHa4DfubegGE=;
- b=LKPTdIdp6XCZ7uL+XI3JZPMK7urILi3iLy6wfMmVgOCBU/KEDtSv1iylgTZJl0O8gHku9c5S8BgR5deWUGo810UK1GwQJgsM32XCzjR8164eKd82Lj2N1zwwC2gkdqfG43Zeb+TJg6j6NyakkE8vcvOPlBkW2Hdh59q/DC1KCKhzZK1oysfbLYs1cX9sA4lLGXfbTDs5sYOkFGgobf9VlVZFjts9A1QwEY8gs1wc3s7SMGUlffDug320P3fsxbxfjMrOpXdKkjNqprX33UWQCCNs7+DLOQTEz2dMWeLPulWfFHEb+qYchazpBWSe1L8DRvJH7A2QXajm1zgK2Fymng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
- by DM6PR11MB4626.namprd11.prod.outlook.com (2603:10b6:5:2a9::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.14; Fri, 3 Jan
- 2025 22:58:01 +0000
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::6b05:74cf:a304:ecd8]) by PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::6b05:74cf:a304:ecd8%5]) with mapi id 15.20.8293.000; Fri, 3 Jan 2025
- 22:58:01 +0000
-Date: Fri, 3 Jan 2025 14:57:58 -0800
-From: Dan Williams <dan.j.williams@intel.com>
-To: Ira Weiny <ira.weiny@intel.com>, Dave Jiang <dave.jiang@intel.com>, Fan Ni
-	<fan.ni@samsung.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
-	Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
-CC: Dan Williams <dan.j.williams@intel.com>, Davidlohr Bueso
-	<dave@stgolabs.net>, Alison Schofield <alison.schofield@intel.com>, "Vishal
- Verma" <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
-	<linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<linux-hardening@vger.kernel.org>, Li Ming <ming.li@zohomail.com>
-Subject: Re: [PATCH v8 01/21] cxl/mbox: Flag support for Dynamic Capacity
- Devices (DCD)
-Message-ID: <67786b76a0c5_f58f294b1@dwillia2-xfh.jf.intel.com.notmuch>
-References: <20241210-dcd-type2-upstream-v8-0-812852504400@intel.com>
- <20241210-dcd-type2-upstream-v8-1-812852504400@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20241210-dcd-type2-upstream-v8-1-812852504400@intel.com>
-X-ClientProxiedBy: MW4PR04CA0070.namprd04.prod.outlook.com
- (2603:10b6:303:6b::15) To PH8PR11MB8107.namprd11.prod.outlook.com
- (2603:10b6:510:256::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E8E2F36;
+	Sat,  4 Jan 2025 01:07:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1735952860; cv=none; b=kD0lQQwl0TrvV8g+rDtSgF2RNKwZGFThQPgjK10jzroKVIXP9YlsDrZrdSm6HtK/9zqtHMU0g0qh1e88LPVMrNDOQsbUI7Nmw5h0gJsecEOUmJu3kzXnD3xluClRGyQBnHlHTAt4+vW//PjGNRQIgFmAFF17ntbsxpCz0o2JEt0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1735952860; c=relaxed/simple;
+	bh=H7P1iWJNDGXy2504Gdqqywf3Gde52eUnuXZCjcRsbrE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=B1ZAH9dpKvjjEgMP1hX0zUZCA+ZkGxYhR7iOvlW7o5jiZTABIca+vgzV+IBHW2pz85POdCMSDD9DQhQp1hXTy8wgxgotJKazltIEn5Avyn/yvrG00uEig8iTwIYX+SH2yEu8YBw3fM8jNUVFvFZyN+CtuWZO14KyGoMnyCYX0mY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-844e161a957so1002770139f.0;
+        Fri, 03 Jan 2025 17:07:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735952857; x=1736557657;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dw6KK5JtXFbd+d5Fqi1GUSbKIBoX0aBmLwEhl9Z2fbo=;
+        b=rs76FZFlq7GLMSbzbzPV5kcXm3c1h1+zZi2vTmdu3hMfCw347KoQmYGssqjBaZHF7G
+         jC8P7WDC4/l7i1vv1wb/w9m2Bpz9D8jCm46A19oICQZyK/Uvzb2fXTrxn0WtCHSNE3jq
+         7x2EmF0h/Am5yrREfyHaq6EwwcdLe+BFTGCVT2DsMxq425QmuN3fyR6JbGo5Cr2aodsn
+         e8LXTHRbfYJ7TSzs4YKp9szdFNoJJW64zJmq2uda6wwBIK5XD6qayeSEq3BfVJ84qVpu
+         PQr/G7gXoFMqW754o57syfNOiRlHHh6xJGlucCBerJw8kTpQA8P202iODGzmM2tj4kfs
+         7+wg==
+X-Forwarded-Encrypted: i=1; AJvYcCV7LqRrGtFEGaqjs8CBT2F8lhJFn8tSrGyFD67+F647cKvyIdmu/SDDSzYwCoTIavgibskBP5XOUSdWvL8m1XGqxgmP3A==@vger.kernel.org, AJvYcCXaNEHZ3KcjVahaSLcQqSkN5hwhsFGmTPINSXU3285rlhYYomHnAB3Txssw9va7ZqVkn6Dzn3JPBHE+4ufd@vger.kernel.org, AJvYcCXqeOkxfEnttH+/bRT8Xp1yw7/vB16io++9A6otKRS1lcW+vt6jiNVzCAhECqhQhO8TUnMHq5Wj+A0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPyjFRa0jTZYKYEl1Vty9LCBBMha2mNJsqHFam9+l67gXQRNiA
+	l/836BiI5CaqYRgiBc+Gt16ASyGfWAV7UyPNfaaU4G7UiCeHmqPj5RHNf37hqZw=
+X-Gm-Gg: ASbGnctXCDyevBVzT1SLZwJCy1n0hYJpKrNw7jOG4RzTVkB2MNeLW+AEcLG3CZ7Kh7a
+	0HGXaIsUvveTGMdeCG4J9PJI2Iia4Xk85yXTWswZ3DTKOARsXiUEHvPLvIWf5gwiF+lms9MFmMQ
+	hIN7Unyx15vwr8i4TquJmcFUeSbe3TnFZvJ+ckmutvx+H5doEe/3hFzHikMrHQswknO77upwoHM
+	wdNWxXXiRUzBGnsWdQR8ah69cgRmvgqB6oM+ZS9IrCmlywUnR1O8MJCLSoGSzdvZ4n1tRz/CPIF
+	PfVQuaFOw6AuhpW91cBlBpUimw==
+X-Google-Smtp-Source: AGHT+IFz06edrWGFID21Gz+MaEMA8j5MlhAsDhPBbsqQUsgYtv9r5336uX66cIYSU5PTbOaO/m6oGw==
+X-Received: by 2002:a05:6602:3429:b0:83a:b52b:5cbb with SMTP id ca18e2360f4ac-8499e4c69f1mr4517218639f.5.1735952857072;
+        Fri, 03 Jan 2025 17:07:37 -0800 (PST)
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com. [209.85.166.172])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4e68c1d9e34sm7902684173.121.2025.01.03.17.07.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Jan 2025 17:07:36 -0800 (PST)
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3a9cdcec53fso118399065ab.1;
+        Fri, 03 Jan 2025 17:07:36 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVSaIL1razEzjgPfr2r3qCAPv6YI4LiLQ0bjdBQLiZC39HSo7xLI9JVFF0UmyfYBYjRaJXuADpYmTE=@vger.kernel.org, AJvYcCWdkflc+LpFNa6gQwQkwmJ3NzEQaVSVLvSM1W33kv9o4Ke9x4ddFKIwejrWwqXer63Qb79JxW2x5EA4+6ha@vger.kernel.org, AJvYcCX27DhrcW0i6gFJoaUzRr8szdR1quQPSIaz3LCezhSeb8Buk1IokR0uSLJj8xUFn2AUrd+zGi+ty+ozvanztINbDvt8ng==@vger.kernel.org
+X-Received: by 2002:a05:6e02:3301:b0:3a7:fe8c:b012 with SMTP id
+ e9e14a558f8ab-3c2d533f2a0mr504488725ab.18.1735952856377; Fri, 03 Jan 2025
+ 17:07:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|DM6PR11MB4626:EE_
-X-MS-Office365-Filtering-Correlation-Id: 334c159f-5f32-4e65-413f-08dd2c4a12a7
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7416014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?PBw5O1M8dPXbVsSJBA/4aAOI0Uegc7r5pRBKXRQNro/OhvPoQuVbZ4+M4Wyi?=
- =?us-ascii?Q?D1KDbJRylRdwq8O6i6XmHTedVMEj0U8ZVTyZnnjyHxRZ9VqDOJOejZEHKmhS?=
- =?us-ascii?Q?UleejxCbJl4dHxjTqI4RW1YZEK4iDyDFCOtPgYg3gthv4QjNlYzg8TyUhlZg?=
- =?us-ascii?Q?iHfBbQO/RqbapfItuFROJMGyMRWG4oair13gPRJe7nOyLp26ZTB9cn9F2Niy?=
- =?us-ascii?Q?XtqefyxktPC1sW/JfF5DtnkXk7RTDKm/iWoOdP/US+9Fl24l33Uym4iIa9Oc?=
- =?us-ascii?Q?BXw7arEYgqquMLmBNxGcT0Nl8Tz3Yl0z2f3hBlXrVDeNMOBt3Ffqzsvluzb4?=
- =?us-ascii?Q?PS8tbxz8WegFm2ykRaCkZFFA60FZ1S60q4b0e0UY8bnzCmVzouhLObmThbA+?=
- =?us-ascii?Q?iA8U3ERqI4xWPIzYRIH0FKPjCUquB4CUhPzdAROB6SbI/+739FL12w0EE2y4?=
- =?us-ascii?Q?UumuH8dmX3tH45qL3pqH2oQk2Mr++2n1IrzcnWMjSd50AXs20D+k+Gwo/jNp?=
- =?us-ascii?Q?bxSQ+VuYQ34PiI77gOxY/yqqzAfC271tp7W1GmTLonL1b0PJ9Vzong4swZNd?=
- =?us-ascii?Q?FwUInFpOqvQ5+/5NclSjpC7zhaZ1g5dL6nHy6sTSGwLK4jQlzxLwDYJQ4hRR?=
- =?us-ascii?Q?uiIEFaACQxHnbf+p53V1mAnXkT6RxM/4+Vqe573SUMS6cUehBab5UllVM+hW?=
- =?us-ascii?Q?5SnMlUbAMjCtUeHyxWiE95Cx5rCI8ikAPLoMH9HLuVVco4qKAmKMChAAM2SZ?=
- =?us-ascii?Q?PXQDsyh7uicY6tBRBg/6dkULACn8dwmfGdXJ6a9uvrrZc/6f6RBpbfgfucNJ?=
- =?us-ascii?Q?QvwwPeR8YVLHm6eYWbm5kIcwP20G/4fo2cSasJzxGwRk8ZIc8pFfkxDuvuHU?=
- =?us-ascii?Q?pbQMTU0Xi/e6QApjs5h3lrfnbK0NPmwxKh2kPaVcUO7bbwL5rmOgXTTVgaYS?=
- =?us-ascii?Q?Empo7nAmIAS2oJ3UNr9+rJO4aQ5GfRwKuOcZMofU7vIzFwgSx6lcbCZH+rWL?=
- =?us-ascii?Q?RkQ3DKnT3yoW5/DfweUxqkzi5EI5t+j/Y2yJQTVsleCRZG8CbcIfEILlpl4L?=
- =?us-ascii?Q?RtpqtYjp3EP3GkPR6U2ST5lACg/Pp52SPy0TdLHxJLn0hB/4Oxvy1093DT2o?=
- =?us-ascii?Q?0u0o1tPZyiG8xvg8ereQ2hcfssveBR5LXuyz67E/y6VCMqU9xOUD5sDq7Yik?=
- =?us-ascii?Q?GTJLYylT8Ep0MrDNTMk34CiwQFDqx7YDvPBhsqP9NSHskUR3cPoWYPZ6G8Sh?=
- =?us-ascii?Q?ucnN7K8m9QO/tr2FuIpS/5NJoXhqbbuAFmEwm7lU6rWhhix6QsYxkmwbD3XX?=
- =?us-ascii?Q?Kzx2iiJCDFG2MBuRwV9JNmVoGBJVecd2yB1okj4xmfk85LVdi+kjNyZcQfyF?=
- =?us-ascii?Q?rF+wBRKhSxVmADtJCcCG7ITYv2t3?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7416014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6d0hdRXI1Hj8FyQQfdoyd6Qu5QOGbvmBge70JkEPYHU/lxhvhBFw8y5uPP08?=
- =?us-ascii?Q?/L9yAGQXp2Sups8o0tq/jFMqoVAvJOjAjpUBafaY30XdULSdc8TpDaoSRLG9?=
- =?us-ascii?Q?lZ022n/bbW6YqWK0AxQYD+xBVrx7WbtIQ3r96ghvcnpj6Y2JBTfrLGczMNkT?=
- =?us-ascii?Q?O2h/e7AKQQxbH3xkFqzINgQvpQWDvrV9UKsTbPvCflJOL+BsGxvabL7NSh75?=
- =?us-ascii?Q?R5O1hR5hklyI8nBi9wTiRIzkt9f1j/+xIdiAcDc6ZTKB2GvPT6/h7MsF+w2J?=
- =?us-ascii?Q?46lEpwlKKmODR61hcTUNA/F63x/F7aGcLl9OjBUiPKfldxpy4nf8ETFOX0YK?=
- =?us-ascii?Q?Z0hPwQQJ4BuTuyNKYiQx8LK5skRsdnOWYhP1YlR0dV28nhJNrMJAo32R6W/b?=
- =?us-ascii?Q?Op2yRlchbywvdtX+jCF0NQq3wdYKkodf+xLNbQu+snuSaLyU/ZBEp3+ljFkT?=
- =?us-ascii?Q?AxofjX2HqqNbJKLs6DujH/ox2RuXsVlsQbGBIXVCaVVKU0WK2h0WJOS6SHn1?=
- =?us-ascii?Q?InwHn49yMRNxdQpIk0CIrilzNjehCdb4lr84A7oy6NPLlEhXAgGgM+HNxePC?=
- =?us-ascii?Q?ToX2woNO5gIoPOLscAGo+FscJur88Bsn0Oc7ogAcoQi8b2DTKeGqJQIZPHDX?=
- =?us-ascii?Q?H0y1c150UHw6y7h3xAOkw2yk5AkajjW6uPamZty9VNZ9l6U8kFTctnaLmwye?=
- =?us-ascii?Q?Kz41gB9cl0p5VREVryDfWzZ88TRWHP4g7HfUDQNC7CPxNs/OyLnOaHD0cZoL?=
- =?us-ascii?Q?v7oHwRJ0hesOtb479WB5yIeFPpyf0UuDdVZ/nlN9MsDeWG4MA/Qc8HG854V+?=
- =?us-ascii?Q?wKx7GXUhgvnlfECwWB6P0X2GDJEIzCzmaml21QvG9shkKfSU/6rOty8/jOqs?=
- =?us-ascii?Q?osMikf0u+j6nwHgX296k+QqLpat+w/5zZn/WltVDirFFsf1Cp80A9uOzrZQo?=
- =?us-ascii?Q?oAYXsIin0by0YNKyLKq7XRdyxAZ19QGVQ2wj5fgFdExViW+peWsAiMfeqPu3?=
- =?us-ascii?Q?rHsk6JzZRpMWrRwtZF4/GlcBgjj1rFsI3vDDcIwJ5uRAkVKlLUFbCL4H6ZCK?=
- =?us-ascii?Q?vqrwx6lZCa/XsKDbb3OSYu9e+MoM47LpxmVjb0DuPHok2G5OMMgs8z5L7RVN?=
- =?us-ascii?Q?oMGzGy+5O+FztdoB4pxyNazXMHykmE5u0BlKQw9aJfFYWYvWtQGR58o9yqH2?=
- =?us-ascii?Q?22VUYZQtsMXpv1L070nwj/zZ07DtVU4mjkEH2BATVs9j+FjI3hrkTXKVJFXH?=
- =?us-ascii?Q?daXcAER1hYyZRsGKx1y1zeUhpStBY+C8unOoDrXO7rrY1MhWm3qwREgdsaB9?=
- =?us-ascii?Q?U2wt5a5gGeKWtZnf12uruI0po2uQF3N/4HAOKcvo3PvKlCIXARqP4DDs4Xfn?=
- =?us-ascii?Q?n24YGmCNa+yqcpcfg7B4nUS5PG3ZLVAsHFBFVF65OCbs6nMRpg9iwlNFmA7U?=
- =?us-ascii?Q?Qqb9cDxNqJ2KlporWs59K1vkYivbrpjTMhcQa06mLJik0xw6VoiXw6bAcIlk?=
- =?us-ascii?Q?8N7B9vpvDCU5mL1kp6XxFf771wh1IzJpTbBpC53OnRdioM/R30mk9OxUY00A?=
- =?us-ascii?Q?MnW3KZIjFDOQVAFjLZMrEgos9yK0jQbNHOKG6vVrsCwUfJDtZP+3pg9OorVi?=
- =?us-ascii?Q?pA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 334c159f-5f32-4e65-413f-08dd2c4a12a7
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jan 2025 22:58:01.0570
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uAkTTjS4ceZD1pNlOGYWAFciaUQAgm3TxPhK1BcJfeCZvwsIZcHi81jZxTy8PESg9x9IkhfVJocf1Gsiy6upJUJQP3LhiT8qBXPD+Yc5qfc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4626
-X-OriginatorOrg: intel.com
+References: <20241226153031.49457-1-josh@joshuagrisham.com> <0fbe58a9-ecca-437f-aa30-9d3a17c2bd43@gmx.de>
+In-Reply-To: <0fbe58a9-ecca-437f-aa30-9d3a17c2bd43@gmx.de>
+From: Joshua Grisham <josh@joshuagrisham.com>
+Date: Sat, 4 Jan 2025 02:07:24 +0100
+X-Gmail-Original-Message-ID: <CAMF+KeYdshNex2h4kLJari=kXVxgcOZw7GDutJrV6vKC0PTe6A@mail.gmail.com>
+Message-ID: <CAMF+KeYdshNex2h4kLJari=kXVxgcOZw7GDutJrV6vKC0PTe6A@mail.gmail.com>
+Subject: Re: [PATCH v4] platform/x86: samsung-galaxybook: Add
+ samsung-galaxybook driver
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: Joshua Grisham <josh@joshuagrisham.com>, ilpo.jarvinen@linux.intel.com, 
+	hdegoede@redhat.com, platform-driver-x86@vger.kernel.org, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Ira Weiny wrote:
-> Per the CXL 3.1 specification software must check the Command Effects
-> Log (CEL) for dynamic capacity command support.
-> 
-> Detect support for the DCD commands while reading the CEL, including:
-> 
-> 	Get DC Config
-> 	Get DC Extent List
-> 	Add DC Response
-> 	Release DC
-> 
-> Based on an original patch by Navneet Singh.
-> 
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Reviewed-by: Fan Ni <fan.ni@samsung.com>
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> Reviewed-by: Davidlohr Bueso <dave@stgolabs.net>
-> Reviewed-by: Li Ming <ming.li@zohomail.com>
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> ---
->  drivers/cxl/core/mbox.c | 33 +++++++++++++++++++++++++++++++++
->  drivers/cxl/cxlmem.h    | 15 +++++++++++++++
->  2 files changed, 48 insertions(+)
-> 
-> diff --git a/drivers/cxl/core/mbox.c b/drivers/cxl/core/mbox.c
-> index 548564c770c02c0a4571a00ae3f6de8f63183183..599934d066518341eb6ea9fc3319cd7098cbc2f3 100644
-> --- a/drivers/cxl/core/mbox.c
-> +++ b/drivers/cxl/core/mbox.c
-> @@ -164,6 +164,34 @@ static void cxl_set_security_cmd_enabled(struct cxl_security_state *security,
->  	}
->  }
->  
-> +static bool cxl_is_dcd_command(u16 opcode)
-> +{
-> +#define CXL_MBOX_OP_DCD_CMDS 0x48
-> +
-> +	return (opcode >> 8) == CXL_MBOX_OP_DCD_CMDS;
-> +}
-> +
-> +static void cxl_set_dcd_cmd_enabled(struct cxl_memdev_state *mds,
-> +				    u16 opcode)
-> +{
-> +	switch (opcode) {
-> +	case CXL_MBOX_OP_GET_DC_CONFIG:
-> +		set_bit(CXL_DCD_ENABLED_GET_CONFIG, mds->dcd_cmds);
-> +		break;
-> +	case CXL_MBOX_OP_GET_DC_EXTENT_LIST:
-> +		set_bit(CXL_DCD_ENABLED_GET_EXTENT_LIST, mds->dcd_cmds);
-> +		break;
-> +	case CXL_MBOX_OP_ADD_DC_RESPONSE:
-> +		set_bit(CXL_DCD_ENABLED_ADD_RESPONSE, mds->dcd_cmds);
-> +		break;
-> +	case CXL_MBOX_OP_RELEASE_DC:
-> +		set_bit(CXL_DCD_ENABLED_RELEASE, mds->dcd_cmds);
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +}
-> +
->  static bool cxl_is_poison_command(u16 opcode)
->  {
->  #define CXL_MBOX_OP_POISON_CMDS 0x43
-> @@ -751,6 +779,11 @@ static void cxl_walk_cel(struct cxl_memdev_state *mds, size_t size, u8 *cel)
->  			enabled++;
->  		}
->  
-> +		if (cxl_is_dcd_command(opcode)) {
-> +			cxl_set_dcd_cmd_enabled(mds, opcode);
-> +			enabled++;
-> +		}
-> +
->  		dev_dbg(dev, "Opcode 0x%04x %s\n", opcode,
->  			enabled ? "enabled" : "unsupported by driver");
->  	}
-> diff --git a/drivers/cxl/cxlmem.h b/drivers/cxl/cxlmem.h
-> index 2a25d1957ddb9772b8d4dca92534ba76a909f8b3..e8907c403edbd83c8a36b8d013c6bc3391207ee6 100644
-> --- a/drivers/cxl/cxlmem.h
-> +++ b/drivers/cxl/cxlmem.h
-> @@ -239,6 +239,15 @@ struct cxl_event_state {
->  	struct mutex log_lock;
->  };
->  
-> +/* Device enabled DCD commands */
-> +enum dcd_cmd_enabled_bits {
-> +	CXL_DCD_ENABLED_GET_CONFIG,
-> +	CXL_DCD_ENABLED_GET_EXTENT_LIST,
-> +	CXL_DCD_ENABLED_ADD_RESPONSE,
-> +	CXL_DCD_ENABLED_RELEASE,
-> +	CXL_DCD_ENABLED_MAX
-> +};
-> +
->  /* Device enabled poison commands */
->  enum poison_cmd_enabled_bits {
->  	CXL_POISON_ENABLED_LIST,
-> @@ -461,6 +470,7 @@ static inline struct cxl_dev_state *mbox_to_cxlds(struct cxl_mailbox *cxl_mbox)
->   * @lsa_size: Size of Label Storage Area
->   *                (CXL 2.0 8.2.9.5.1.1 Identify Memory Device)
->   * @firmware_version: Firmware version for the memory device.
-> + * @dcd_cmds: List of DCD commands implemented by memory device
->   * @enabled_cmds: Hardware commands found enabled in CEL.
->   * @exclusive_cmds: Commands that are kernel-internal only
->   * @total_bytes: sum of all possible capacities
-> @@ -485,6 +495,7 @@ struct cxl_memdev_state {
->  	struct cxl_dev_state cxlds;
->  	size_t lsa_size;
->  	char firmware_version[0x10];
-> +	DECLARE_BITMAP(dcd_cmds, CXL_DCD_ENABLED_MAX);
+Thanks again Armin for all of the very detailed comments -- they are
+always super helpful!! A few things I think are pretty obvious and I
+agree with, as well as where I missed as copy/paste when moving around
+stuff that you caught (great!), so I will not bother to respond to
+those here and will instead just fix them. :) For other things where I
+have some questions, I will respond inline below.
 
-Can you clarify why cxl_memdev_state needs this bitmap? In the case of
-'security' and 'poison' functionality there is a subset of functionality
-that can be enabled if some of the commands are missing. Like poison
-listing is still possible even if poison injection is missing. In the
-case of DCD it is all or nothing.
+Den tors 2 jan. 2025 kl 20:14 skrev Armin Wolf <W_Armin@gmx.de>:
+>
+> > +What:                /sys/class/firmware-attributes/*/attributes/usb_charging
+> > +Date:                December 2024
+> > +KernelVersion:       6.13
+> > +Contact:     Joshua Grisham <josh@joshuagrisham.com>
+> > +Description:
+> > +             This attribute can be used to control if USB ports can continue to deliver power to
+> > +             connected devices when the device is powered off or in a low sleep state. The value
+> > +             is a boolean represented by 0 for false and 1 for true.
+>
+> Hi,
+>
+> please move the documentation of the firmware attributes to samsung-galaxybook.rst to avoid cluttering
+> the subsystem docs with too much driver-specific entries.
+>
 
-In short, I do not think the cxl_memdev_state object needs to track
-anything more than a single "DCD capable" flag, and cxl_walk_cel() can
-check for all commands locally without carrying that bitmap around
-indefinitely.
+I guess I am a bit confused by the intention and usage
+firmware-attributes in general (including what should be in this
+documentation vs not) -- is the idea that these should be "relatively
+generic" attributes that control settings in the firmware that can
+persist across reboots and or steer the firmware/hardware in various
+ways (e.g. with admin password and/or pending reboot status etc) ? And
+if they are "relatively generic" (e.g. could be reused by more than
+one platform driver) then would the documentation belong here in a
+centralized place? Otherwise, if they are device-specific, why would
+they not be device attributes (e.g. via dev_groups for example),
+instead of firmware-attributes?
 
-Something simple like:
+> > +static void galaxybook_fw_attr_class_remove(void *data)
+> > +{
+> > +     device_destroy(fw_attr_class, MKDEV(0, 0));
+>
+> Please use device_unregister() instead since multiple devices might share the same devt of MKDEV(0, 0).
+> This would also allow you to remove the global variable "fw_attr_class".
+>
 
-cxl_walk_cel()
-    for (...) {
-      if (cxl_is_dcd_command()
-        set_bit(opcode & 0xf, &dcd_commands);
-    }
-    if (dcd_commands == 0xf)
-        mds->dcd_enabled = true;
-    else if (dcd_commands)
-        dev_dbg(...)
+Here I am a bit confused on exactly how this would/should look; all
+existing usages of fw_attr_class I can see use exactly this same
+pattern: device_create() and then device_destroy() with MKDEV(0, 0).
+Taking a look at the latest proposed changes from Thomas and it stil
+seems the intention is the same, just that it is slightly simplified
+and use pointer to the firmware_attributes_class directly instead of
+fetching it using fw_attributes_class_get(). Or is there a better way
+to do this (including usage of device_unregister() and/or something
+different with the devt) that will help solve some other problem(s)?
 
-...otherwise it begs the question why the driver would care about
-anything other than "all" dcd commands?
+> > +     sysfs_attr_init(&galaxybook->camera_lens_cover_attr);
+> > +     galaxybook->camera_lens_cover_attr.attr.name = "camera_lens_cover";
+> > +     galaxybook->camera_lens_cover_attr.attr.mode = 0644;
+> > +     galaxybook->camera_lens_cover_attr.show = camera_lens_cover_show;
+> > +     galaxybook->camera_lens_cover_attr.store = camera_lens_cover_store;
+> > +     err = sysfs_create_file(&galaxybook->fw_attrs_kset->kobj,
+> > +                             &galaxybook->camera_lens_cover_attr.attr);
+> > +     if (err)
+> > +             return err;
+> > +     return devm_add_action_or_reset(&galaxybook->platform->dev,
+> > +                                     galaxybook_camera_lens_cover_attr_remove, galaxybook);
+>
+> That is not how the firmware attribute interface is supposed to work. For each firmware attribute you need to
+> create an attribute group (with a unique name of course) with the following attributes:
+>
+> - type: should return "enumeration"
+> - current_value: should return the current value of the firmware attribute
+> - default_value: should return the default value of the firmware attribute
+> - display_name: should contain a user friendly description of the firmware attribute
+> - display_name_language_code: should return "en"
+> - possible_values: should return "0;1" since this firmware attributes are boolean values
+>
+> You can theoretically use sysfs_create_groups() to add all groups in one go to simplify error handling. Since each
+> attribute_group specifies a .is_visible callback you can handle the visibility of each group there.
+>
+> Those groups then need to be added to the fw_attrs_kset.
+>
+
+I guess as a follow-on to my earlier question regarding
+firmware-attributes; here I was assuming that as these are very simple
+"on vs off" attributes, I used the attribute "pending_reboot" as a
+pattern for what I implemented here as my "best guess" on what to do
+:) As there are not very many examples to look at then it was a bit of
+a "best guess" on my part; apologies if I completely missed the boat!
+I can of course add these entire groups but IMHO it does seem like
+quite a bit of overkill to have all of these various attributes for
+on/off or enabled/disabled kind of boolean switches -- my guess is
+that if it is somehow "known" that an attribute is a boolean, then it
+is relatively self-explanatory and the need for current / default /
+possible_values etc attributes within this enumeration type group
+should not be needed?  (this is why I followed "pending_reboot" as a
+pattern when I did this, but as said I can change this to whatever is
+deemed appropriate).
+
+Also there are several other platform drivers that implement a very
+similar device attribute as ones that I have added here as a firmware
+attribute (namely I am thinking of "USB Charging" which exists in
+several other pdx86 drivers but a few other devices should/would
+probably support this kind of "Power on Lid Open" attribute as well);
+in the event that maintainers of those drivers should and eventually
+do migrate over to use the same or similar firmware attribute for this
+same kind of setting, should it include all of these attributes in the
+standard "enumeration" type attribute group or is it possible / would
+it make sense to have some sort of boolean-based fw attr type that is
+a bit more simple and a bit more self-explanatory?
+
+> Just a small question: is the value of the camera lens cover persistent across reboots?
+>
+
+No (and I tested again to confirm), this "block recording" ACPI
+setting does not persist over reboots. Should this one be a device
+attribute (e.g. via dev_groups) instead of a firmware attribute in
+that case?
+
+> > +     /*
+> > +      * Value returned in iob0 will have the number of supported performance modes.
+> > +      * The performance mode values will then be given as a list after this (iob1-iobX).
+> > +      * Loop backwards from last value to first value (to handle fallback cases which come with
+> > +      * smaller values) and map each supported value to its correct platform_profile_option.
+> > +      */
+> > +     for (i = buf.iob0; i > 0; i--) {
+> > +             /*
+> > +              * Prefer mapping to at least performance, balanced, and low-power profiles, as they
+> > +              * are the profiles which are typically supported by userspace tools
+> > +              * (power-profiles-daemon, etc).
+> > +              * - performance = "ultra", otherwise "performance"
+> > +              * - balanced    = "optimized", otherwise "performance" when "ultra" is supported
+> > +              * - low-power   = "silent", otherwise "quiet"
+> > +              * Different models support different modes. Additional supported modes will be
+> > +              * mapped to profiles that fall in between these 3.
+> > +              */
+>
+> To be honest i would prefer if you remove this overly complicated mapping algorithm. I rather suggest that the
+> userspace utilities in question are updated to handle such situations themself (other drivers would also benefit
+> from this).
+>
+> I think the following static mappings would make sense:
+>
+> PERFORMANCE_MODE_ULTRA -> performance
+> PERFORMANCE_MODE_PERFORMANCE -> balanced-performance
+> PERFORMANCE_MODE_OPTIMIZED -> balanced
+> PERFORMANCE_MODE_QUIET -> quiet
+> PERFORMANCE_MODE_SILENT -> low-power
+>
+> The legacy performance modes should not override other performance modes, i. e. PERFORMANCE_MODE_PERFORMANCE_LEGACY
+> should not override PERFORMANCE_MODE_PERFORMANCE. However non-legacy performance modes should override legacy
+> performance modes.
+>
+> If you can be sure that legacy performance modes are not mixed with non-legacy performance modes then you can omit
+> the override mechanism.
+>
+
+This whole thing was a bit "tricky" and the reason why I built the
+logic in the way I did is that there are so many variations in these
+devices which have different modes enabled depending on the hardware
+and what generation (keep in mind that there are around 20-30
+different models as of this writing that work with this driver and
+many of them have slight variations on what hardware exists and/or
+which modes are supported for various features including this
+"performance mode"!).
+
+For background, here is the original GitHub issue where I worked with
+my community to initially go from hard-coded modes to dynamic based on
+response from the ACPI method which gives the list of "supported
+modes": https://github.com/joshuagrisham/samsung-galaxybook-extras/issues/31
+
+Basically, some devices only have 2 "actively used" performance modes,
+some have 3, and some have 4. Some devices only have the "legacy"
+modes, but newer devices report (according to the ACPI method +
+payload that responds with "supported modes" on said device) to
+support BOTH the "legacy" and the "newer" modes, but in Windows they
+are only using the new modes, while "legacy" modes are ignored by the
+Samsung-developed apps and services in Windows.
+
+The response from the "supported performance modes" method gives the
+total number of supported "modes" followed by a list of each of them,
+and will look something like this (using enum names here to hopefully
+help make more sense, but leaving out my prefix "PERFORMANCE_MODE_"
+for brevity...):
+
+On my "Pro" Galaxy Book, it looks like this:
+
+6 (# of supported modes), OPTIMIZED_LEGACY, PERFORMANCE_LEGACY,
+OPTIMIZED, QUIET, SILENT, PERFORMANCE
+
+Because I have seen that upower + GNOME integration does not even
+really work unless you have all three of low-power + balanced +
+performance available, then my goal was to map the above modes to
+these profiles:
+
+PERFORMANCE -> performance
+OPTIMIZED -> balanced
+QUIET -> quiet
+SILENT -> low-power
+
+(and, just as in Windows, ignore the "legacy" modes as I have a valid
+non-legacy mode to cover each different one)
+
+On the "Ultra" line of Galaxy Books, it looks like this:
+
+6, OPTIMIZED_LEGACY, PERFORMANCE_LEGACY, OPTIMIZED, QUIET, PERFORMANCE, ULTRA
+
+(so no SILENT, but add an ULTRA...)
+
+In this case, in order to ensure to map at least low-power + balanced
++ performance and fit the rest in between, I would want:
+
+ULTRA -> performance
+PERFORMANCE -> balanced-performance
+OPTIMIZED -> balanced
+QUIET -> low-power
+
+Both of these examples match exactly how these devices also work in
+Windows with Samsung's own developed applications and services.
+Namely, that when the newer modes exist, they use them instead of the
+"legacy" modes even though the ACPI method includes all of them as
+"supported." I think it would be good to maintain this behavior, as
+these are the values which Samsung is supporting already in Windows
+and the others are potentially untested and I would worry about
+potential issues including overheating or otherwise harming the device
+in some way.
+
+In cases where only the "legacy" modes exist, then those are the modes
+that are used in Windows (e.g. for some devices with SAM0427) and the
+ACPI method does not respond with anything except the legacy mode
+values. Some of the SAM0427 devices I have seen can look like this,
+for example:
+
+5, OPTIMIZED_LEGACY, PERFORMANCE_LEGACY, QUIET, SILENT, PERFORMANCE
+
+In this case, we want to map like this:
+
+PERFORMANCE -> performance
+OPTIMIZED_LEGACY -> balanced
+QUIET -> quiet
+SILENT -> low-power
+
+(using OPTIMIZED_LEGACY for balanced, as OPTIMIZED does not exist on
+this device, but there is a non-legacy mode for all of the others that
+should be used)
+
+So, with all of that background in mind, my idea and what I
+implemented was to basically take the list provided in response from
+the ACPI method, start from the end, looping backwards, and try to map
+them one-at-a-time, all the while checking if the desired profile for
+the given performance mode was already mapped or not, and if so,
+either "fitting it in" to another profile or just ignoring it.
+
+I am quite certain that the code can be cleaned up and/or refactored a
+bit, but I would hope that the result of the logic should stay the
+same (per what I described above); having said all of that, does it
+still make sense to try and simplify this somehow and/or any tips or
+recommendation how to achieve the desired result in a better way?
+
+> > +     if (galaxybook->kbd_backlight.brightness < galaxybook->kbd_backlight.max_brightness)
+>
+> Please use led_get_brightness() here.
+>
+
+When I looked at this originally I thought it would make sense to do
+this, but then found that this function is not part of leds.h in the
+kernel headers but instead you would have to include both
+<linux/leds.h> and also  "../../leds/leds.h" as a file header from the
+tree. Also, apart from led-core, there is only one LED driver that
+uses the function currently .. does this seem reasonable to include
+this extra file-based header or would it make more sense to just read
+the value of the member directly as all of the other drivers that need
+to do this work currently?
+
+(FWIW I did test to include this header file and it works fine to use
+the function instead, it just feels a bit "off"...)
+
+> > +static void galaxybook_remove(struct platform_device *pdev)
+> > +{
+> > +     if (galaxybook_ptr)
+> > +             galaxybook_ptr = NULL;
+>
+> As already being said, this will cause issues with the i8042 filter. I suggest you move the whole galaxybook_ptr
+> handling inside galaxybook_i8042_filter_install()/_remove().
+>
+
+Yes I think this makes sense as well and is what I will do in the next
+version in case your patch to pass a context pointer to i8042 filter
+does not go before then :)
+
+> All things considered the driver looks quite good, hoping for a v5 revision in the future :).
+>
+> Thanks,
+> Armin Wolf
+>
+
+Yes it has taken me a few days to get back and dig into this again due
+to the holidays, but am looking through it all again and will
+hopefully have a new version soon-ish to try and resolve more of the
+open issues. Thank you again for all of your help!!
+
+Best,
+Joshua
