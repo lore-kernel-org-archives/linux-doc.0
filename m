@@ -1,250 +1,285 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E614D1B85C0
-	for <linux-doc@vger.kernel.org>; Sat,  4 Jan 2025 11:38:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2672481728;
+	Sat,  4 Jan 2025 12:30:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735990688; cv=none; b=OEB7k86LFxrRTnq3+GrobfVYA5ktzoEJjgbMUR5O5b5VmElU7+JMTmVrnDk0cUHHIBJtX4tiK57xDpeSdcMG3T/BOOEOxDrg370boVr8AiWg4pLRnTS/ZjM83gdiDuxKmOptdWBCIiEtwNnNA+HkAGCYr0DDfRN9JpCob+nmEmw=
+	t=1735993838; cv=none; b=D/ibPK8u/4fBI4oLdAbT5aQG3lDImudC5blo5wzjZmamomWt5/50d6m8QfVTxmgC1e1nitCkwg3RjGR05M8iDzYJApSFDoELRdND9mN1RZh5Ol04gIHudEUjsXJbcU8RKo9yq7ubyMJtDZejVDmDeD15rnjI8zw0ajhbJe7aeAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735990688; c=relaxed/simple;
-	bh=hTfBgmtas93Tnli5iqk31hrfU/i+fFrxcy5u7ARi5CM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BhYFc/ZzkVA1XOGBfzgg/ETbQBNv3Zc4vvUL646wsoni0BOiA5izAujDy6l1xkl10Vv657uxaDZamxaYNZmS0vnIHlYUbcBF3Olb3lDrf7w68B/fEVfjWSIO4uosFoz0998SPMlBWGeMyMvJXIHn7mX8PFfDEK5Uq6hKdbA0R/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tU2Sm-0003tQ-95; Sat, 04 Jan 2025 12:37:04 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tU2Si-006pEi-0V;
-	Sat, 04 Jan 2025 12:37:00 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tU2Si-003pVb-2a;
-	Sat, 04 Jan 2025 12:37:00 +0100
-Date: Sat, 4 Jan 2025 12:37:00 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
-	Dent Project <dentproject@linuxfoundation.org>,
-	kernel@pengutronix.de,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	devicetree@vger.kernel.org,
-	Kalesh AP <kalesh-anakkur.purayil@broadcom.com>
-Subject: Re: [PATCH net-next v4 00/27] Add support for PSE budget evaluation
- strategy
-Message-ID: <Z3kdXIbKDLF1nP3f@pengutronix.de>
-References: <20250103-feature_poe_port_prio-v4-0-dc91a3c0c187@bootlin.com>
+	s=arc-20240116; t=1735993838; c=relaxed/simple;
+	bh=+1hSY2Ft7Oj3UkOvHVLbK+L/8bwp/5OQyQuJA4B+uSQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aMPjQ8qosE8yi8St91yc9Zu5xKFmZ8IT3uaFvPAVtgDw2m1sb3wj7MMbJg8kTpBZjvvkxG15DLKjJ1Gttwu54c2LxA7g5Udd7i/nxD+HkDqUwD6BojFO6YDzlKWComsdI3/oWLdRtaDIGEkEgVvR1OY/o6TgCfkvlmaswqgh7Ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JBy8ZalD; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JBy8ZalD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09B86C4CED1;
+	Sat,  4 Jan 2025 12:30:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735993837;
+	bh=+1hSY2Ft7Oj3UkOvHVLbK+L/8bwp/5OQyQuJA4B+uSQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=JBy8ZalDb/HE9s7tLLo2XDGM0e38CGwlUErR/8RGFFn1fOWT2wTcQ0KkcHig5+r6d
+	 nW0D3RBFRzqTmIrOVk9UFMlrFs9zhu1nku+L+7V+9kIMEQj0hSCZN/xdZbagt9B5zK
+	 UFu7aLQuCj6R8yu6MXKQvTr2gF5escAVMzE5iqbOKqz5En+JUJvpftfc3PEhO8Me5e
+	 l1We5HyLsXfwb8su7JSkBhj1vzCHYOMx6XjQwmV3r/ey1eW5tN/nAeUkdU9kztdvcy
+	 uUO+kAw9M7xIyZ+ZO9VzRHPmx5baeT7bI7g4F/adHjO1506x6cpJrX8RGUa+BoxbsT
+	 D/c1zKIUdxj5Q==
+Date: Sat, 4 Jan 2025 12:30:29 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: Michael Hennerich <michael.hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, David Lechner <dlechner@baylibre.com>, Lars-Peter
+ Clausen <lars@metafoo.de>, Jonathan Corbet <corbet@lwn.net>,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] iio: adc: ad4695: add offload-based oversampling
+ support
+Message-ID: <20250104123029.12a4e19e@jic23-huawei>
+In-Reply-To: <1c641b37-475a-4153-bcfc-e0e72d79fa76@baylibre.com>
+References: <20241217-ad4695-oversampling-v1-0-0b045d835dac@baylibre.com>
+	<20241217-ad4695-oversampling-v1-1-0b045d835dac@baylibre.com>
+	<20241219161301.3f708302@jic23-huawei>
+	<1c641b37-475a-4153-bcfc-e0e72d79fa76@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250103-feature_poe_port_prio-v4-0-dc91a3c0c187@bootlin.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Kory,
+On Thu, 2 Jan 2025 13:19:19 -0500
+Trevor Gamblin <tgamblin@baylibre.com> wrote:
 
-please, split this patch set. Some of them can be already taken. The
-upper limit for the patch set is 15 patches.
+> On 2024-12-19 11:13, Jonathan Cameron wrote:
+> > On Tue, 17 Dec 2024 16:47:28 -0500
+> > Trevor Gamblin <tgamblin@baylibre.com> wrote:
+> >  
+> >> Add support for the ad4695's oversampling feature when SPI offload is
+> >> available. This allows the ad4695 to set oversampling ratios on a
+> >> per-channel basis, raising the effective-number-of-bits from 16
+> >> (OSR == 1) to 17 (4), 18 (16), or 19 (64) for a given sample (i.e. one
+> >> full cycle through the auto-sequencer). The logic for reading and
+> >> writing sampling frequency for a given channel is also adjusted based on
+> >> the current oversampling ratio.
+> >>
+> >> The non-offload case isn't supported as there isn't a good way to
+> >> trigger the CNV pin in this mode. Support could be added in the future
+> >> if a use-case arises.
+> >>
+> >> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>  
+> > Hi Trevor,
+> >
+> > The clamping fun of get_calibbias seems overkill. If this isn't going to ever
+> > overflow an s64 maybe just use the high precision to do it the easy way.
+> > I'm not sure you can't just fit it in an s32 for that matter. I've just
+> > not done the maths to check.
+> >
+> > Jonathan
+> >
+> >  
+> >> +static unsigned int ad4695_get_calibbias(int val, int val2, int osr)
+> >> +{
+> >> +	unsigned int reg_val;
+> >> +
+> >> +	switch (osr) {
+> >> +	case 4:
+> >> +		if (val2 >= 0 && val > S16_MAX / 2)
+> >> +			reg_val = S16_MAX;
+> >> +		else if ((val2 < 0 ? -val : val) < S16_MIN / 2)  
+> > It has been a while, but IIRC if val2 < 0 then val == 0 as otherwise
+> > we carry the sign in the val part.  Sometimes we generalize that to
+> > make life easier for driver writers but I think you can use that here
+> > to simplify things.
+> >
+> > (for background look at __iio_str_to_fixpoint() - it's a bit of a hack
+> > to deal with integers have no negative 0)
+> >
+> > 		if (val > S16_MAX / 2)
+> > 			...
+> > 		else if (val < S16_MIN / 2)
+> > 			...	
+> > 		else if (val2 < 0) etc
+> >
+> > You may feel it is better to keep the code considering the val2 < 0 when
+> > val != 0 case and I don't mind that as it's not wrong, just overly complex!
+> >
+> > If you can easily clamp the overall range you can just do some maths
+> > with enough precision to get one number (probably a s64) and clamp that.
+> > Easy to sanity check for overflow based on val to ensure no overflows.  
+> 
+> Hi Jonathan,
+> 
+> I'm reviewing this again but I'm not entirely clear what you mean.
+> 
+> Are you suggesting that the entire switch block could be simplified 
+> (i.e. eliminating the previous simplification for the val2 < 0 case in 
+> the process), or that the calls to clamp_t can be combined?
+> 
+> I've tested out simplifying the val2 < 0 case locally and driver 
+> functionality still seems OK. Maybe I'm missing a third option.
+The extra info we can use is that val2 is always positive
+if val != 0 and it never takes a value beyond +- MICRO because
+otherwise val would be non 0 instead.
 
-Regards,
-Oleksij
 
-On Fri, Jan 03, 2025 at 10:12:49PM +0100, Kory Maincent wrote:
-> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-> 
-> This series brings support for budget evaluation strategy in the PSE
-> subsystem. PSE controllers can set priorities to decide which ports should
-> be turned off in case of special events like over-current.
-> 
-> I have added regulator maintainers to have their opinion on adding power
-> budget regulator constraint see patches 17 and 18.
-> There are also a core regulator change along the way patch 16.
-> I suppose I will need to merge them through the regulator tree.
-> Will it be possible to create an immutable tag to have this PSE series
-> based on them?
-> 
-> This patch series adds support for two budget evaluation strategy.
-> 1. Static Method:
-> 
->    This method involves distributing power based on PD classification.
->    It’s straightforward and stable, the PSE core keeping track of the
->    budget and subtracting the power requested by each PD’s class.
-> 
->    Advantages: Every PD gets its promised power at any time, which
->    guarantees reliability.
-> 
->    Disadvantages: PD classification steps are large, meaning devices
->    request much more power than they actually need. As a result, the power
->    supply may only operate at, say, 50% capacity, which is inefficient and
->    wastes money.
-> 
-> 2. Dynamic Method:
-> 
->    To address the inefficiencies of the static method, vendors like
->    Microchip have introduced dynamic power budgeting, as seen in the
->    PD692x0 firmware. This method monitors the current consumption per port
->    and subtracts it from the available power budget. When the budget is
->    exceeded, lower-priority ports are shut down.
-> 
->    Advantages: This method optimizes resource utilization, saving costs.
-> 
->    Disadvantages: Low-priority devices may experience instability.
-> 
-> The UAPI allows adding support for software port priority mode managed from
-> userspace later if needed.
-> 
-> The patch series is based on this fix merged in net:
-> https://lore.kernel.org/netdev/20241220170400.291705-1-kory.maincent@bootlin.com/
-> 
-> Several Reviewed-by have been removed due to the changes.
-> 
-> Thanks Oleksij for your pointers.
-> 
-> Patches 1-9: Cosmetics.
-> Patch 10: Adds support for last supported features in the TPS23881 drivers.
-> Patches 11,12: Add support for PSE index in PSE core and ethtool.
-> Patches 12-14: Add support for interrupt event report in PSE core, ethtool
-> 	     and ethtool specs.
-> Patch 15: Adds support for interrupt and event report in TPS23881 driver.
-> Patch 16: Fix regulator resolve supply
-> Patches 17,18: Add support for power budget in regulator framework.
-> Patch 19: Cosmetic.
-> Patches 20,21: Add support for PSE power domain in PSE core and ethtool.
-> Patches 22,23: Add support for port priority in PSE core, ethtool and
-> 	       ethtool specs.
-> Patches 24,25: Add support for port priority in PD692x0 drivers.
-> Patches 26,27: Add support for port priority in TPS23881 drivers.
-> 
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-> ---
-> Changes in v4:
-> - Remove disconnection policy.
-> - Rename port priority mode to budget evaluation strategy.
-> - Add cosmetic changes in PSE core.
-> - Add support for port priority in PD692x0 driver.
-> - Link to v3: https://lore.kernel.org/r/20241121-feature_poe_port_prio-v3-0-83299fa6967c@bootlin.com
-> 
-> Changes in v3:
-> - Move power budget to regulator core.
-> - Add disconnection policies with PIs using the same priority.
-> - Several fixes on the TPS23881 drivers.
-> - Several new cosmetic patches.
-> - Link to v2: https://lore.kernel.org/r/20241030-feature_poe_port_prio-v2-0-9559622ee47a@bootlin.com
-> 
-> Changes in v2:
-> - Rethink the port priority management.
-> - Add PSE id.
-> - Add support for PSE power domains.
-> - Add get power budget regulator constraint.
-> - Link to v1: https://lore.kernel.org/r/20241002-feature_poe_port_prio-v1-0-787054f74ed5@bootlin.com
-> 
-> ---
-> Kory Maincent (27):
->       net: pse-pd: Remove unused pse_ethtool_get_pw_limit function declaration
->       net: pse-pd: Avoid setting max_uA in regulator constraints
->       net: pse-pd: Add power limit check
->       net: pse-pd: tps23881: Simplify function returns by removing redundant checks
->       net: pse-pd: tps23881: Use helpers to calculate bit offset for a channel
->       net: pse-pd: tps23881: Add missing configuration register after disable
->       net: pse-pd: Use power limit at driver side instead of current limit
->       net: pse-pd: Split ethtool_get_status into multiple callbacks
->       net: pse-pd: Remove is_enabled callback from drivers
->       net: pse-pd: tps23881: Add support for power limit and measurement features
->       net: pse-pd: Add support for PSE device index
->       net: ethtool: Add support for new PSE device index description
->       net: ethtool: Add support for ethnl_info_init_ntf helper function
->       net: pse-pd: Add support for reporting events
->       net: pse-pd: tps23881: Add support for PSE events and interrupts
->       regulator: core: Resolve supply using of_node from regulator_config
->       regulator: Add support for power budget description
->       regulator: dt-bindings: Add regulator-power-budget property
->       net: pse-pd: Fix missing PI of_node description
->       net: pse-pd: Add support for PSE power domains
->       net: ethtool: Add support for new power domains index description
->       net: pse-pd: Add support for getting budget evaluation strategies
->       net: ethtool: Add PSE new budget evaluation strategy support feature
->       net: pse-pd: pd692x0: Add support for PSE PI priority feature
->       dt-bindings: net: pse-pd: microchip,pd692x0: Add manager regulator supply
->       net: pse-pd: tps23881: Add support for static port priority feature
->       dt-bindings: net: pse-pd: ti,tps23881: Add interrupt description
-> 
->  .../bindings/net/pse-pd/microchip,pd692x0.yaml     |   12 +-
->  .../bindings/net/pse-pd/ti,tps23881.yaml           |    6 +
->  .../devicetree/bindings/regulator/regulator.yaml   |    5 +
->  Documentation/netlink/specs/ethtool.yaml           |   52 +
->  Documentation/networking/ethtool-netlink.rst       |   94 ++
->  drivers/net/mdio/fwnode_mdio.c                     |   26 +-
->  drivers/net/pse-pd/pd692x0.c                       |  423 ++++++--
->  drivers/net/pse-pd/pse_core.c                      | 1029 ++++++++++++++++++--
->  drivers/net/pse-pd/pse_regulator.c                 |   23 +-
->  drivers/net/pse-pd/tps23881.c                      |  799 +++++++++++++--
->  drivers/regulator/core.c                           |  128 ++-
->  drivers/regulator/of_regulator.c                   |    3 +
->  include/linux/ethtool.h                            |   47 +
->  include/linux/ethtool_netlink.h                    |    9 +
->  include/linux/pse-pd/pse.h                         |  171 +++-
->  include/linux/regulator/consumer.h                 |   21 +
->  include/linux/regulator/driver.h                   |    2 +
->  include/linux/regulator/machine.h                  |    2 +
->  include/uapi/linux/ethtool.h                       |   54 +
->  include/uapi/linux/ethtool_netlink.h               |    1 -
->  include/uapi/linux/ethtool_netlink_generated.h     |   15 +
->  net/ethtool/common.c                               |   12 +
->  net/ethtool/common.h                               |    2 +
->  net/ethtool/netlink.c                              |    7 +-
->  net/ethtool/netlink.h                              |    2 +
->  net/ethtool/pse-pd.c                               |   98 +-
->  net/ethtool/strset.c                               |    5 +
->  27 files changed, 2698 insertions(+), 350 deletions(-)
-> ---
-> base-commit: 2e22297376fe1aa562799c774c3baac9b6db238b
-> change-id: 20240913-feature_poe_port_prio-a51aed7332ec
-> 
-> Best regards,
-> -- 
-> Köry Maincent, Bootlin
-> Embedded Linux and kernel engineering
-> https://bootlin.com
-> 
-> 
+Taking original code and ruling out cases.
++	case 4:
++		if (val2 >= 0 && val > S16_MAX / 2)
+// If val is non 0 then val2 is postive, so
+//		if (val > S16_MAX / 2)
+//			reg_val = S16_MAX;
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
++			reg_val = S16_MAX;
++		else if ((val2 < 0 ? -val : val) < S16_MIN / 2)
+
+// If val2 < 0 then val == 0 which is never less than S16_MIN / 2
+// So this condition never happens.
+
++			reg_val = S16_MIN;
++		else if (val2 < 0)
+// likewise, this is actually clamping val2 * 2 / MICRO which 
+// is never going to be anywhere near S16_MIN or S16_MAX as I think
+// it is always between +1 and -1 as val2 itself is limited to -MICRO to MICRO
+
++			reg_val = clamp_t(int,
++				-(val * 2 + -val2 * 2 / MICRO),
++				S16_MIN, S16_MAX);
++		else if (val < 0)
+//This one is fine.
++			reg_val = clamp_t(int,
++				val * 2 - val2 * 2 / MICRO,
++				S16_MIN, S16_MAX);
++		else
+//As is this one
++			reg_val = clamp_t(int,
++				val * 2 + val2 * 2 / MICRO,
++				S16_MIN, S16_MAX);
++		return reg_val;
+
+Maybe trick is to reorder into 3 conditions and set the value in a temporary integer.
+	int val_calc;
+	if (val > 0)
+		val_calc = val * 2 + val2 * 2 / MICRO;
+	else if (val < 0)
+		val_calc = -(val * 2 - val2 * 2 / MICRO);
+	else /* Only now does val2 sign matter as val == 0 */
+		val_calc = val2 * 2 / MICRO;
+
+Which can simplify because we know val is 0 for last case.
+Whether this is worth doing depends on trade off between
+docs needed to explain the code and shorter code.
+
+	/* Note that val2 > 0 if val != 0 and val2 range +- MICRO */
+	if (val < 0)
+		val_calc = val * 2 - val2 * 2 / MICRO;
+	else
+		val_calc = val * 2 + val2 * 2 / MICRO;
+
+	reg_val = clamp_t(int, val_calc, S16_MIN, S16_MAX);
+	
+One trivial additional simplication below.
+
+You might also be able to scale temporary up by 2 and ust
+have the switch statement set a scaling value.
+
+In this case scale == 4 in other cases below, 2, 1, and 8 for the default
+
+
+	if (val < 0)
+		val_calc = val * scale - val2 * scale / MICRO;
+	else
+		val_calc = val * scale + val2 * scale / MICRO;
+
+	val_calc /= 2; /* to remove the factor of 2 */
+
+	reg_val = clamp_t (int, val_calc, S16_MIN, S16_MAX);
+after the switch statement with comments when setting scale on the * 2
+multiplier to avoid the / 2 for case 64.
+
+> 
+> - Trevor
+> 
+> >
+> > 		
+> >
+> >  
+> >> +			reg_val = S16_MIN;
+> >> +		else if (val2 < 0)
+> >> +			reg_val = clamp_t(int,
+> >> +				-(val * 2 + -val2 * 2 / MICRO),
+> >> +				S16_MIN, S16_MAX);
+> >> +		else if (val < 0)
+> >> +			reg_val = clamp_t(int,
+> >> +				val * 2 - val2 * 2 / MICRO,
+> >> +				S16_MIN, S16_MAX);
+> >> +		else
+> >> +			reg_val = clamp_t(int,
+> >> +				val * 2 + val2 * 2 / MICRO,
+> >> +				S16_MIN, S16_MAX);
+> >> +		return reg_val;
+> >> +	case 16:
+> >> +		if (val2 >= 0 && val > S16_MAX)
+> >> +			reg_val = S16_MAX;
+> >> +		else if ((val2 < 0 ? -val : val) < S16_MIN)
+> >> +			reg_val = S16_MIN;
+> >> +		else if (val2 < 0)
+> >> +			reg_val = clamp_t(int,
+> >> +				-(val + -val2 / MICRO),
+> >> +				S16_MIN, S16_MAX);
+> >> +		else if (val < 0)
+> >> +			reg_val = clamp_t(int,
+> >> +				val - val2 / MICRO,
+> >> +				S16_MIN, S16_MAX);
+> >> +		else
+> >> +			reg_val = clamp_t(int,
+> >> +				val + val2 / MICRO,
+> >> +				S16_MIN, S16_MAX);
+> >> +		return reg_val;
+> >> +	case 64:
+> >> +		if (val2 >= 0 && val > S16_MAX * 2)
+> >> +			reg_val = S16_MAX;
+> >> +		else if ((val2 < 0 ? -val : val) < S16_MIN * 2)
+> >> +			reg_val = S16_MIN;
+> >> +		else if (val2 < 0)
+> >> +			reg_val = clamp_t(int,
+> >> +				-(val / 2 + -val2 / 2 / MICRO),
+> >> +				S16_MIN, S16_MAX);
+> >> +		else if (val < 0)
+> >> +			reg_val = clamp_t(int,
+> >> +				val / 2 - val2 / 2 / MICRO,
+
+For these val2 / 2 / MICRO always 0 so value of val2 never matters.
+
+> >> +				S16_MIN, S16_MAX);
+> >> +		else
+> >> +			reg_val = clamp_t(int,
+> >> +				val / 2 + val2 / 2 / MICRO,
+> >> +				S16_MIN, S16_MAX);
+> >> +		return reg_val;
+> >> +	default:
+> >> +		if (val2 >= 0 && val > S16_MAX / 4)
+> >> +			reg_val = S16_MAX;
+> >> +		else if ((val2 < 0 ? -val : val) < S16_MIN / 4)
+> >> +			reg_val = S16_MIN;
+> >> +		else if (val2 < 0)
+> >> +			reg_val = clamp_t(int,
+> >> +				-(val * 4 + -val2 * 4 / MICRO),
+> >> +				S16_MIN, S16_MAX);
+> >> +		else if (val < 0)
+> >> +			reg_val = clamp_t(int,
+> >> +				val * 4 - val2 * 4 / MICRO,
+> >> +				S16_MIN, S16_MAX);
+> >> +		else
+> >> +			reg_val = clamp_t(int,
+> >> +				val * 4 + val2 * 4 / MICRO,
+> >> +				S16_MIN, S16_MAX);
+> >> +		return reg_val;
+> >> +	}
+> >> +}
+> >> +  
+
