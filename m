@@ -1,80 +1,140 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B238C1C5F0E;
-	Sat,  4 Jan 2025 15:16:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B37136A;
+	Sat,  4 Jan 2025 15:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736003798; cv=none; b=inPBEV0bWUzSl+IbG70c1liKpAwKRM9a6zj2ujDxsgtl+GvvQAthWILoGxAZ69VPjR+SqFoprIEf2p0fBrJNiE6xgGB6aPmrly5Jf8n+IHiHoU3tRODGfRcrTQzMiPprhSeruS50sbbc/CVAYtqivqTzgM1F62RjywozPd9/jo0=
+	t=1736005057; cv=none; b=nT/73nDklpgxnnjxVYVf/qxZ00G7Fib76t+ARjRAgVmOngdyFDE7YwZZcb9wk2qjJAsoNHaKGGQNtXV1pHzRvnlkLDUM8VXS10uNqY8s4AIZtpOV+MLTZzzfnpl3yONy3/8Lm6AUuJVBwjf5ZnXmoc+ahUegkhCAALJbjdQh2kk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736003798; c=relaxed/simple;
-	bh=oPs4p93Ib0B5Me2dou5wIMwOuuoqXTZbEcFHYaPEolE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kP7rfYMpqfFDz8lTnFIau/75kXUstZCCIARA7Az61AvYCzsIQaHlkJexIZmUMLD7EKM06L+fUvMqhzyMrD/5YylYVoq3lCJaJ1ORPcw9oAISnBzHmxOctrXzRqEOQQgiKu7UbZRr/TevksIdzjBkhUnj5WK7pF2bMfrX9NZRX1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=S6PCl1Tl; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1736005057; c=relaxed/simple;
+	bh=oO6BTuR9MKO/Rp/vP/YeD7XEnx0FuPYuT7prs40/9b8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jtktkYfQ+o7SGRtxY7jFmGw6JVQRLwo+KSj9la/y4XwCJJRFRGMcoTavNzDZD3Djew3VZzvzsfQ84P6YiFngNuLB2N4rPpJe/apXWl3L8r0006tqVYcWIWbrhm0FJdpOMzAJGyhP24i9MQoDPCiF65FO6hJ52vPvvkL03zKn2oY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=F4i8QVe1; arc=none smtp.client-ip=185.138.42.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="S6PCl1Tl"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C06B9E0004;
-	Sat,  4 Jan 2025 15:16:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1736003787;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oPs4p93Ib0B5Me2dou5wIMwOuuoqXTZbEcFHYaPEolE=;
-	b=S6PCl1TlMQkMyGHj26drjlCWfU9X01E4aogd/OQzkjb+JfB66w0rUNLFWQ4LoENuvMaXfS
-	XbA6hdb0F25IYRmn9QyPD0qHSOwtIV/DxY8YOAkeatuN4RA/JRz501DQ7W6XUifGmqrf/w
-	vMesHaOi32WG4qg2EKLgHbYVvSOnHkAtOMJVv4wrdcFwlsg9P7RFIWv5smUCKsJB6Ssxn0
-	XjBk2zV14z/5re48BBGlQJgRBUw30o8hKQTOfGssfU8l7AbgNsfig+/FP59PLtTJBe4YpL
-	79yGNjD++kWZTx6hLqRglf+dTLGXLXp+64IZ4/ZIYho/eV5Je7sZ3ZAFeH9hXg==
-Date: Sat, 4 Jan 2025 16:16:22 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
- <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, Kyle Swenson
- <kyle.swenson@est.tech>, Dent Project <dentproject@linuxfoundation.org>,
- kernel@pengutronix.de, Maxime Chevallier <maxime.chevallier@bootlin.com>,
- devicetree@vger.kernel.org, Kalesh AP <kalesh-anakkur.purayil@broadcom.com>
-Subject: Re: [PATCH net-next v4 00/27] Add support for PSE budget evaluation
- strategy
-Message-ID: <20250104161622.7b82dfdf@kmaincent-XPS-13-7390>
-In-Reply-To: <Z3kdXIbKDLF1nP3f@pengutronix.de>
-References: <20250103-feature_poe_port_prio-v4-0-dc91a3c0c187@bootlin.com>
-	<Z3kdXIbKDLF1nP3f@pengutronix.de>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="F4i8QVe1"
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	by linux1587.grserver.gr (Postfix) with ESMTPSA id 407A82E08743;
+	Sat,  4 Jan 2025 17:37:22 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1736005043;
+	bh=oO6BTuR9MKO/Rp/vP/YeD7XEnx0FuPYuT7prs40/9b8=;
+	h=Received:From:Subject:To;
+	b=F4i8QVe1mBvli5oupsFSeSDfwaqOoPaku+szrTmpkJ1erKqMUlYrRzkBCSQY4XTIu
+	 NBtJFSXNJahstWy/0kKS07dQ1vuneyjdPi/NSDG/OiTK8ZV3Hmj8tZMuKCHUXHoffU
+	 0pl7pQkB89hflsj0oXNHq9BV2lR5FDgi5G7jGsdQ=
+Authentication-Results: linux1587.grserver.gr;
+        spf=pass (sender IP is 209.85.208.171) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f171.google.com
+Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-2ffd6af012eso180024161fa.2;
+        Sat, 04 Jan 2025 07:37:22 -0800 (PST)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW1566IxzoTYheLnU4q45PxrlrnfvkqlD+urcvcuq0lB/Hn0EkNcS4HUhlxEEEGRobX6/JHxOHo3uy697I=@vger.kernel.org,
+ AJvYcCWI/yTrCGUb6N79lqH80IyEaXvvekaRHtb8SScgo0T1GOk+MYt5q15qpJJVraZWUoPH3U7rAhhTUQk=@vger.kernel.org,
+ AJvYcCWJ/hixwMRZDjBFy9nXNlmEY4XsdNasexTS8IhmBZNSNAYGkMnu5gBHMoRis2pfAkQhhOr8jj+SHqo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEv5PBz2lbNc/lVPbJienin8D0zrRbZfs0bHBgo188Fxwvft6Y
+	ar7CSjC4tHbS0wrZuP9faBDrnnmNYC9Zx3K/y7JxNQK30rVf7zwQUxwYT3Z5tJf8adCDxXB7on8
+	wALRXc3DURiaWiH6vGGsq6+bfL2w=
+X-Google-Smtp-Source: 
+ AGHT+IGQuT3+RV479P8YTXLJj4Ou85qh2JdjQKRsZbm+qv09j7pzSTbsCqKn7zqUKMMqhzaC/WqWYEMGga9q6BN8xMc=
+X-Received: by 2002:a2e:a991:0:b0:300:33b1:f0e1 with SMTP id
+ 38308e7fff4ca-304684190bemr171519001fa.0.1736005041488; Sat, 04 Jan 2025
+ 07:37:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20241226112740.340804-1-lkml@antheas.dev>
+ <a8e6d5d5-703c-47df-ab57-58234fdeefc1@roeck-us.net>
+ <E24291F9-731F-4C27-96C7-BD08FBCF7A76@gmail.com>
+ <3b5b5486-9b11-484b-b5d9-6a830ad10130@roeck-us.net>
+In-Reply-To: <3b5b5486-9b11-484b-b5d9-6a830ad10130@roeck-us.net>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Sat, 4 Jan 2025 16:37:10 +0100
+X-Gmail-Original-Message-ID: 
+ <CAGwozwHwQcwbpiggZ5L9p6Gu+oDfnehH3XGVSaTOmkA5Ty+yyA@mail.gmail.com>
+Message-ID: 
+ <CAGwozwHwQcwbpiggZ5L9p6Gu+oDfnehH3XGVSaTOmkA5Ty+yyA@mail.gmail.com>
+Subject: Re: [PATCH 00/10] hwmon: (oxpsensors) Add 2024 OneXPlayer line-up,
+ add charge limiting and turbo LED, fix ABI
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: "Derek J. Clark" <derekjohn.clark@gmail.com>, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Joaquin Ignacio Aramendia <samsagax@gmail.com>,
+ Kevin Greenberg <kdgreenberg234@protonmail.com>,
+	Joshua Tam <csinaction@pm.me>, Parth Menon <parthasarathymenon@gmail.com>,
+	Eileen <eileen@one-netbook.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+X-PPP-Message-ID: 
+ <173600504267.15624.12799910774026201393@linux1587.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
+X-Virus-Status: Clean
 
-On Sat, 4 Jan 2025 12:37:00 +0100
-Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+Hi Guenter,
+I've spoken with Derek, and we are in agreement this should be moved.
 
-> Hi Kory,
->=20
-> please, split this patch set. Some of them can be already taken. The
-> upper limit for the patch set is 15 patches.
+Which part of the patch series do you want me to put the move in? Or
+is it something you want to do yourself prior to/after the patch
+series. lmk and I will coordinate for V2
 
-Ack, I will!
+As for @Joaquin, can you ack the move since you are the module author?
 
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Antheas
+
+On Fri, 27 Dec 2024 at 18:12, Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> On Thu, Dec 26, 2024 at 01:16:15PM -0800, Derek J. Clark wrote:
+> >
+> >
+> > On December 26, 2024 1:08:02 PM PST, Guenter Roeck <linux@roeck-us.net>=
+ wrote:
+> > >On Thu, Dec 26, 2024 at 12:27:30PM +0100, Antheas Kapenekakis wrote:
+> > >> This three part series updates the oxpsensors module to bring it in =
+line
+> > >> with its Windows OneXPlayer counterpart. First, it adds support for =
+all
+> > >> 2024 OneXPlayer handhelds and their special variants.
+> > >>
+> > >> Then, it adds the new charge limiting and bypass features that were =
+first
+> > >> introduced in the X1 and retrofit to older OneXFly variants and for
+> > >> controlling the turbo led found in the X1 models. For Bypass, it add=
+s a new
+> > >> bypass variant BypassS0 that is only active while the device is in t=
+he S0
+> > >> state.
+> > >>
+> > >
+> > >This is a hardware monitoring driver. It is not a charge controller dr=
+iver,
+> > >and it is not a LED controller driver. If such control is wanted/neede=
+d for
+> > >this system, it should be implemented either as mfd device with client=
+ drivers,
+> > >or the entire driver should be moved to platform drivers if there is a=
+ desire
+> > >to keep it as single driver.
+> > >
+> > >Guenter
+> >
+> > I think moving this to x86 platform makes a lot of sense to ensure two =
+separate drivers can't do async writes to the EC. We probably should have d=
+one that when adding the turbo button toggle anyway. I'll coordinate that e=
+ffort with Tobias and Antheas directly before moving forward.
+> >
+>
+> Fine with me, but "ensure two drivers can't do asynchronous writes" is no=
+t
+> really an argument. mfd supports that as well for pretty much all mfd
+> drivers.
+>
+> Guenter
