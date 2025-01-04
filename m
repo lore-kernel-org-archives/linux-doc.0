@@ -1,122 +1,124 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B200E1A29A;
-	Sat,  4 Jan 2025 15:51:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BEF615622E;
+	Sat,  4 Jan 2025 22:28:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736005870; cv=none; b=jjrejxJdGjxnghcvzkvDwqJ5futUYLem5tvstfGhL8MTuVBwIS4uXcWoxYLrqRt12FXkFS/KWiyUNARLhIvnO/W9b89+5nSIqS6PN3gOCYQptszOMBbxORza4TglsvtNsB8O8Sc7FWTFHh4NApsJfI1c6msw0kV66d+apky1y2Y=
+	t=1736029730; cv=none; b=S+BsArDz+G71OS562Ko1MNJycii5MYkI/uafW1+c4nvY7iPIxSaxFGJc3SG6LN8d080ZuA5cgOI67q9LLSd0IwRJt3WWtI2Oty0vLKiAacJjz4MR1bN/r3YBSM3CazNxL+To1fi9n5Qe/pM/HSZm29JrohET4P8Z4/uHujRNBnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736005870; c=relaxed/simple;
-	bh=RBIiuiFjZTpxRCUCA5H5LFIQ0Ajl+f2tKs+OE9cWLZU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NWAyIhKj7eDLOW8BmaYXr2DcK8Nq+HUG+MJl6OKz0qlNX0OFk4XK3CyMzbJw5gUOimO+zS1EyqK14wmQ3o3ji6qqVvg2EyvkLVERRN8EBzbiLNLFiq3X70BNMohl9DXTJ4logdXReINK4aKZOYyCX3VtBEXIw2OAZiBIviy2XRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=HiAHyemJ; arc=none smtp.client-ip=217.70.183.200
+	s=arc-20240116; t=1736029730; c=relaxed/simple;
+	bh=RRdrq518hxdeyT/stcSEEqy5yKMu7rkVxmPrcMbC84s=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=O4hJpYZ3Zl8Tld8yesddvFg73R+c8rsh7K9h1pKrr6+BZDxdxrfp0wG6TwNqdIzAT7RIp+pYkf2oqbkpJLu6DG6GoLLrZv3e6BbWQQTWNLTc0cnD8P1DsKoERtqT30VZrhiXb+1EKkfhYGJeLgH8K+VE27VQHPz8wrdSxbuUVTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ZElRm/dP; arc=none smtp.client-ip=217.70.183.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HiAHyemJ"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E907420007;
-	Sat,  4 Jan 2025 15:50:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ZElRm/dP"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0C8F840002;
+	Sat,  4 Jan 2025 22:28:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1736005860;
+	t=1736029725;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TdrLJAwV4nIBlrY07hTVpRYLBsbrsfDT2gkvXgyc5eM=;
-	b=HiAHyemJJP4vFqvfiO2it1UyZlzulAiw3Fmnwu3DL2oQ2rgbqV1WLf8KRJCNpMEWFL3Ynw
-	n879o8G0EImFXOL4eWjFSJ07cS7u2U9YjMcdiJ892NgITYcROCm8Ysc7pRLDTgDuUtiRy3
-	9lLUMuI5N+w6CnOY9PG4mlOxap+7KV266a7FGFpEosr2jPUGCq1VJQQeSMtaL9gLXk9XGF
-	BDx0NQ1y2rhmR02Kpv4ZtHwNqLdtLSeNHg9rxpmBWq/Wa0haMWBHnb0YjS0YYUKPnPjpm2
-	Wi6Y61z9UovLCzvcZG6cEWNZgkxXOjim84CRH4owkNGx7FvZPpGJ8mreZX69oQ==
-Date: Sat, 4 Jan 2025 16:50:56 +0100
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Nkb7TACNxPUTa9SfnvNPwm5VqzmLvKI0DDN4OmdnzcI=;
+	b=ZElRm/dPQ8JEkJ8T/NcjqlN+yBz5CF+RsPpsm3KwGXrTrWIRQVS/p+ikTl0XCX8QG9JJxv
+	ZllD+3ypryuz8/OKukDm+zjBjnxrD3P2w9T+0h/Z7i/f6FWs21jR6GYnJoi7BPDFVGlWvX
+	cikg5iqTYglhNddXbC5aLOmxk1dMnc7NMVTobdjagQZERfR58ISCw7yBblC14u9bPMZMlz
+	J4DTfEiiI5FeXg1Du8jDyAZ1EKmcRNvHdizlHJAk90NqNW5F9tM91qUE+Szhyxrgk+Adje
+	3EJBfYzjTUM5DUJ9VF41AZX3KV56GYWlcCFvDjaeS1OnLJR8gZBHqarqxYgiGw==
 From: Kory Maincent <kory.maincent@bootlin.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
- <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, Kyle Swenson
- <kyle.swenson@est.tech>, Dent Project <dentproject@linuxfoundation.org>,
- kernel@pengutronix.de, Maxime Chevallier <maxime.chevallier@bootlin.com>,
- devicetree@vger.kernel.org
-Subject: Re: [PATCH net-next v4 18/27] regulator: dt-bindings: Add
- regulator-power-budget property
-Message-ID: <20250104165056.749da353@kmaincent-XPS-13-7390>
-In-Reply-To: <mjtwntmupclvy2dvc66zxxob3py47lew47vq37hfi6v6pmbpne@nr62lnuilzya>
-References: <20250103-feature_poe_port_prio-v4-0-dc91a3c0c187@bootlin.com>
-	<20250103-feature_poe_port_prio-v4-18-dc91a3c0c187@bootlin.com>
-	<mjtwntmupclvy2dvc66zxxob3py47lew47vq37hfi6v6pmbpne@nr62lnuilzya>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Subject: [PATCH net-next 00/14] Arrange PSE core and update TPS23881 driver
+Date: Sat, 04 Jan 2025 23:27:25 +0100
+Message-Id: <20250104-b4-feature_poe_arrange-v1-0-92f804bd74ed@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAM21eWcC/x2MwQqDMBAFf0X23EAM0UJ/pRTZ6ovuJQmbtAjiv
+ xs8DszMQQUqKPTqDlL8pUiKDfpHR/PGcYWRpTE56wbbW2++3gRw/SmmnDCx6m09ebF+dMFxALU
+ 4K4Ls9/hNEdVE7JU+53kBAYqVMXIAAAA=
+To: Oleksij Rempel <o.rempel@pengutronix.de>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, 
+ Dent Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ Kory Maincent <kory.maincent@bootlin.com>, 
+ Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, 
+ Andrew Lunn <andrew@lunn.ch>
+X-Mailer: b4 0.15-dev-8cb71
 X-GND-Sasl: kory.maincent@bootlin.com
 
-On Sat, 4 Jan 2025 10:42:32 +0100
-Krzysztof Kozlowski <krzk@kernel.org> wrote:
+From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 
-> On Fri, Jan 03, 2025 at 10:13:07PM +0100, Kory Maincent wrote:
-> > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-> >=20
-> > Introduce a new property to describe the power budget of the regulator.
-> > This property will allow power management support for regulator consume=
-rs
-> > like PSE controllers, enabling them to make decisions based on the
-> > available power capacity.
-> >=20
-> > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-> > ---
-> >=20
-> > Changes in v3:
-> > - Add type.
-> > - Add unit in the name.
-> >=20
-> > Changes in v2:
-> > - new patch.
-> > ---
-> >  Documentation/devicetree/bindings/regulator/regulator.yaml | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/regulator/regulator.yaml
-> > b/Documentation/devicetree/bindings/regulator/regulator.yaml index
-> > 1ef380d1515e..c5a6b24ebe7b 100644 ---
-> > a/Documentation/devicetree/bindings/regulator/regulator.yaml +++
-> > b/Documentation/devicetree/bindings/regulator/regulator.yaml @@ -34,6
-> > +34,11 @@ properties: regulator-input-current-limit-microamp:
-> >      description: maximum input current regulator allows
-> > =20
-> > +  regulator-power-budget-miniwatt: =20
->=20
-> What sort of quantity prefix is a "mini"? How much is a mini?
+This patch includes several improvements to the PSE core for better
+implementation and maintainability:
 
-Oops, that is a brain fart sorry for this. Of course it is milliwatt.
+- Move the conversion between current limit and power limit from the driver
+  to the PSE core.
+- Update power and current limit checks.
+- Split the ethtool_get_status callback into multiple callbacks.
+- Add support for PSE device index.
+- Fix PSE PI of_node detection.
 
->=20
-> > +    description: power budget of the regulator
-> > +    $ref: /schemas/types.yaml#/definitions/uint32 =20
->=20
-> This should not be needed. Use proper unit from dtschema.
+Additionally, the TPS23881 driver has been updated to support power
+limit and measurement features, aligning with the new PSE core
+functionalities.
 
-Ok, I was mistaken. There are bindings with this ref in this file, so I tho=
-ught
-it was needed. I will remove it.
+This patch series is the first part of the budget evaluation strategy
+support patch series sent earlier:
+https://lore.kernel.org/netdev/20250104161622.7b82dfdf@kmaincent-XPS-13-7390/T/#t
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+Kory Maincent (14):
+      net: pse-pd: Remove unused pse_ethtool_get_pw_limit function declaration
+      net: pse-pd: Avoid setting max_uA in regulator constraints
+      net: pse-pd: Add power limit check
+      net: pse-pd: tps23881: Simplify function returns by removing redundant checks
+      net: pse-pd: tps23881: Use helpers to calculate bit offset for a channel
+      net: pse-pd: tps23881: Add missing configuration register after disable
+      net: pse-pd: Use power limit at driver side instead of current limit
+      net: pse-pd: Split ethtool_get_status into multiple callbacks
+      net: pse-pd: Remove is_enabled callback from drivers
+      net: pse-pd: tps23881: Add support for power limit and measurement features
+      net: pse-pd: Add support for PSE device index
+      net: ethtool: Add support for new PSE device index description
+      regulator: core: Resolve supply using of_node from regulator_config
+      net: pse-pd: Fix missing PI of_node description
+
+ Documentation/netlink/specs/ethtool.yaml       |   5 +
+ Documentation/networking/ethtool-netlink.rst   |   4 +
+ drivers/net/pse-pd/pd692x0.c                   | 224 ++++++------
+ drivers/net/pse-pd/pse_core.c                  | 206 ++++++++----
+ drivers/net/pse-pd/pse_regulator.c             |  23 +-
+ drivers/net/pse-pd/tps23881.c                  | 449 ++++++++++++++++++++-----
+ drivers/regulator/core.c                       |  39 ++-
+ include/linux/ethtool.h                        |  38 +++
+ include/linux/pse-pd/pse.h                     | 114 ++++---
+ include/uapi/linux/ethtool_netlink.h           |   1 -
+ include/uapi/linux/ethtool_netlink_generated.h |   1 +
+ net/ethtool/pse-pd.c                           |  12 +-
+ 12 files changed, 794 insertions(+), 322 deletions(-)
+---
+base-commit: 58eeb5a55bf1203cc6c01adc4cecbdc23ed2cc64
+change-id: 20250104-b4-feature_poe_arrange-7ad0462f2afe
+
+Best regards,
+-- 
+Köry Maincent, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
+
