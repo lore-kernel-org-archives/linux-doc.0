@@ -1,93 +1,75 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 260571DAC95;
-	Sat,  4 Jan 2025 22:29:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0924C5336D;
+	Sun,  5 Jan 2025 07:30:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736029744; cv=none; b=bCHM7/92uLMOY/1cJP/fNEvusrAZNYoRoww9DPM5TEEREwBW6LKLrJCrB4B10bS+57qxdfjwag7tL5OwMzkPHwwXiyfishU7lslBdwj4Ozdw61xSjqq0xqYJfpru8AMSD3vVMfo+NuYudR12FEoI9dUJpryGXikbQAs+fJiXvdo=
+	t=1736062239; cv=none; b=WNmUPVwDDYZ18flOBmyN43SA7xYK7rrK3DOUHJ/SVaE33r8d3RF7Z94/IbxAQkn0O4JoATXfLwjAwx0HcG4rjDMsvF6Pz6Bafr3lOiek4wDcY/LKcwnWJuXfb0DtxaI9zvuRMWnIn9GBi66R9p5AwVykoIIlW30fxIIMvlONzDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736029744; c=relaxed/simple;
-	bh=RZuO1r59PlVkQGPxJghut1VS50guz4rBU7rH1G5gD3Y=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=oofCGGdG8ibdR3yDRGWjqnvr3BnrXxotPsP6Ho3H2ZhvB56Setr+uVIt5X+a+btSOricE0BXbJ0REKVg6YmYqIpr0NAhA2rqnxHnL6r+hz3W880cOZ4F67aNSASvtTHaA4lV3UwwqUtHCoohREJgVaEoQJ6mjs5Fx1dn5m3MovU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ntI4SQGE; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ntI4SQGE"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BC6AE40004;
-	Sat,  4 Jan 2025 22:28:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1736029740;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4uU/plfv/Hiqay0ydln3tGT/UUrhcCr+rBb47n8URIY=;
-	b=ntI4SQGE1+dFIpdZBkaWD//vvYt0+yLqNzT7sI3FaQ19q5/gn0RDGTvwX3EYwFNS3Cxcpj
-	HZ8dtY0Z1TCVZnsx4XUaZBmuydBUhvsDLNF5XyIZCTFgZINc+cbyZqbj86Ff/tqKysVxTM
-	VOTDLTnqafi4RvkwzxKTs4/iPovowXOypm6gUp7BvYdFRHQ4Aztpgxii9hjnEyOhVBfdFE
-	q00UY2cseV5oqMVtw8xABwMhZar6dHLKDmfmJHKSbd7STztEuqcizscbzufFQbf6VRliSn
-	CCxFj+JzbJ56d0wqCMivUCPvPKVEcy4rSa/mpIvdchwTrTK14y4v31ujw8WAjg==
-From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Sat, 04 Jan 2025 23:27:39 +0100
-Subject: [PATCH net-next 14/14] net: pse-pd: Fix missing PI of_node
- description
+	s=arc-20240116; t=1736062239; c=relaxed/simple;
+	bh=HNe9BFiiNRFRW9DDoyrr+ZG8gM2e9MMFO6tgcFgwI5s=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=a/I/ZsoVz6WLKQCT+oRF+chEvCNzGwsFWREcJGol1j2wFezC2hlM3cL12Nt9atXpS9BolEras6yxNbmBXNX2lgA4Bpp7Hqjw/gHee6gDMJbC6ITosHprdSfNrjIxpl+CHytTTt9UJcAvrvRkbjF8Xmy89phbKZ3gAYkpp7eS5L4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YQppK0LQcz6M4MD;
+	Sun,  5 Jan 2025 15:28:57 +0800 (CST)
+Received: from frapeml100004.china.huawei.com (unknown [7.182.85.167])
+	by mail.maildlp.com (Postfix) with ESMTPS id 16852140B33;
+	Sun,  5 Jan 2025 15:30:27 +0800 (CST)
+Received: from frapeml500005.china.huawei.com (7.182.85.13) by
+ frapeml100004.china.huawei.com (7.182.85.167) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Sun, 5 Jan 2025 08:30:26 +0100
+Received: from frapeml500005.china.huawei.com ([7.182.85.13]) by
+ frapeml500005.china.huawei.com ([7.182.85.13]) with mapi id 15.01.2507.039;
+ Sun, 5 Jan 2025 08:30:26 +0100
+From: Gur Stavi <gur.stavi@huawei.com>
+To: Jakub Kicinski <kuba@kernel.org>
+CC: "Gongfan (Eric, Chip)" <gongfan1@huawei.com>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>,
+	"Eric Dumazet" <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Bjorn Helgaas <helgaas@kernel.org>, Cai Huoqing
+	<cai.huoqing@linux.dev>, "Guoxin (D)" <guoxin09@huawei.com>, shenchenyang
+	<shenchenyang1@hisilicon.com>, "zhoushuai (A)" <zhoushuai28@huawei.com>,
+	"Wulike (Collin)" <wulike1@huawei.com>, "shijing (A)" <shijing34@huawei.com>,
+	Meny Yossefi <meny.yossefi@huawei.com>
+Subject: RE: [PATCH net-next v03 0/1] net: hinic3: Add a driver for Huawei 3rd
+ gen NIC
+Thread-Topic: [PATCH net-next v03 0/1] net: hinic3: Add a driver for Huawei
+ 3rd gen NIC
+Thread-Index: AQHbXEvoj+6B8Sf7+0ymGQKWCbUo3LMDpHGAgAQozAA=
+Date: Sun, 5 Jan 2025 07:30:26 +0000
+Message-ID: <a8b81321186545708b8babf1805ae7ef@huawei.com>
+References: <cover.1735735608.git.gur.stavi@huawei.com>
+ <20250102085351.3436779b@kernel.org>
+In-Reply-To: <20250102085351.3436779b@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250104-b4-feature_poe_arrange-v1-14-92f804bd74ed@bootlin.com>
-References: <20250104-b4-feature_poe_arrange-v1-0-92f804bd74ed@bootlin.com>
-In-Reply-To: <20250104-b4-feature_poe_arrange-v1-0-92f804bd74ed@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, 
- Dent Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, 
- Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- Kory Maincent <kory.maincent@bootlin.com>
-X-Mailer: b4 0.15-dev-8cb71
-X-GND-Sasl: kory.maincent@bootlin.com
 
-From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-
-The PI of_node was not assigned in the regulator_config structure, leading
-to failures in resolving the correct supply when different power supplies
-are assigned to multiple PIs of a PSE controller. This fix ensures that the
-of_node is properly set in the regulator_config, allowing accurate supply
-resolution for each PI.
-
-Acked-by: Oleksij Rempel <o.rempel@pengutronix.de>
-Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
----
- drivers/net/pse-pd/pse_core.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/net/pse-pd/pse_core.c b/drivers/net/pse-pd/pse_core.c
-index 830e8d567d4d..be56b3f5425c 100644
---- a/drivers/net/pse-pd/pse_core.c
-+++ b/drivers/net/pse-pd/pse_core.c
-@@ -423,6 +423,7 @@ devm_pse_pi_regulator_register(struct pse_controller_dev *pcdev,
- 	rconfig.dev = pcdev->dev;
- 	rconfig.driver_data = pcdev;
- 	rconfig.init_data = rinit_data;
-+	rconfig.of_node = pcdev->pi[id].np;
- 
- 	rdev = devm_regulator_register(pcdev->dev, rdesc, &rconfig);
- 	if (IS_ERR(rdev)) {
-
--- 
-2.34.1
-
+PiBPbiBXZWQsIDEgSmFuIDIwMjUgMTU6MDQ6MzAgKzAyMDAgR3VyIFN0YXZpIHdyb3RlOg0KPiAN
+Cj4gOigNCj4gDQo+IFRoaXMgdHdvIGRvY3MgYXJlIHJlcXVpcmVkIHJlYWRpbmc6DQo+IA0KPiBo
+dHRwczovL2RvY3Mua2VybmVsLm9yZy9uZXh0L21haW50YWluZXIvZmVhdHVyZS1hbmQtZHJpdmVy
+LQ0KPiBtYWludGFpbmVycy5odG1sDQo+IGh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvZG9jL2h0bWwv
+bmV4dC9wcm9jZXNzL21haW50YWluZXItbmV0ZGV2Lmh0bWwNCj4gDQo+IFBsZWFzZSByZWFkIHRo
+ZSBtYWlsaW5nIGxpc3QuIFlvdSBwb3N0ZWQgdGhlIHBhdGNoZXMgd2hlbiBuZXQtbmV4dCB3YXMN
+Cj4gY2xvc2VkLg0KDQpPSy4gU29ycnkuDQpCdXQgdG9ydmFsZHMvbGludXguZ2l0IHdhcyBhdCBy
+YzUuDQpBbmQgbm93IGl0IGlzIGluZGljYXRlZCBhcyBvcGVuOiBodHRwczovL25ldGRldi5ib3Rz
+LmxpbnV4LmRldi9uZXQtbmV4dC5odG1sDQpXYXMgbmV0LW5leHQgY2xvc2VkIGZvciB0aGUgaG9s
+aWRheXM/DQoNCj4gLS0NCj4gcHctYm90OiBkZWZlcg0KPiBwdi1ib3Q6IGNsb3NlZA0K
