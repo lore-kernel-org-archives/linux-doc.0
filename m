@@ -1,228 +1,86 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D92A1DD0D4
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jan 2025 08:33:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+Received: from 189.cn (ptr.189.cn [183.61.185.102])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 003291D8DEE;
+	Mon,  6 Jan 2025 09:15:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=183.61.185.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736152411; cv=none; b=CpwX4GykvzcIbUCEAwhzZQIwvB0Bqa4GgFz1yafeSe4pkN47p/dm2UV2fMZFkUT3FFMxqZMc+/iMtGEBPThoEPwY3DKQD5v2V6OP5ke3AOMim5iX7a9P9csQIMgnKE3V2SifWCCUaGOsU0QAV2Vt0X80/g6pvPduenuPaL+XLXQ=
+	t=1736154914; cv=none; b=CqfqZJxVkXUfp2kcDuZWDobENz3WAfokTCV/X3QkqTQMmjz1no6vGGZIOLS+ZEKGiILaxrkPPq2+JH0BEPLdzf4fYa6BxjjvMHoaeg5RtWq3xSY1xFs7FREEqiUPWMaRZ2L1uFIw+Lf988XxWrfeWcXU7Gn5OUzkKidBOlUkHUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736152411; c=relaxed/simple;
-	bh=9rPX7enLQubJau7pA8Xr9gZgChYKgAcHlbg/6SijClA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nRd1M5QPKyH1NiGWJm8CW37knl89ZsHxStiqzLDgXJAjPJgG/tiqNOJnbzQlF5QE2DR/Falk3AAP49XTLtlhBCIxzfIBZntzuoIcK5fVJ1Jfrh4WZ2dCrwkpSyP6GupvxMjS+azMN8EI7Xf0PHtH1MbLKv49Syr3iZOb4Ve5X6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tUiXq-0003U4-WF; Mon, 06 Jan 2025 09:33:07 +0100
-Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tUiXm-0078Kr-0t;
-	Mon, 06 Jan 2025 09:33:03 +0100
-Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tUiXm-004MXU-33;
-	Mon, 06 Jan 2025 09:33:02 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
-	kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Simon Horman <horms@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH net-next v5 7/8] net: phy: dp83td510: add statistics support
-Date: Mon,  6 Jan 2025 09:33:00 +0100
-Message-Id: <20250106083301.1039850-8-o.rempel@pengutronix.de>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250106083301.1039850-1-o.rempel@pengutronix.de>
-References: <20250106083301.1039850-1-o.rempel@pengutronix.de>
+	s=arc-20240116; t=1736154914; c=relaxed/simple;
+	bh=Mxkrwt14fM4pwO4vEkcq1UxQWVbFPvDfuuaBuvnGlhY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MDRrvdFGdxUuk1kgnKgE6EzQN875HvxyGR/dvhh223HMCoTaG7+drUOpb0mMBG8VguWC9PKMJUH1pRn9H6xuccQIe0QTxOWeFRdXHr7qUG9IpoDYQbVRr8EAPLcUtXqGDM9LYv41JIC8YCJ5oZfk0SNwCjh08cQ4wuAJcUj79+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=189.cn; spf=pass smtp.mailfrom=189.cn; arc=none smtp.client-ip=183.61.185.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=189.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=189.cn
+HMM_SOURCE_IP:10.158.243.18:1666.1653008831
+HMM_ATTACHE_NUM:0000
+HMM_SOURCE_TYPE:SMTP
+Received: from clientip-123.150.8.42 (unknown [10.158.243.18])
+	by 189.cn (HERMES) with SMTP id D2E751001EF;
+	Mon,  6 Jan 2025 17:11:29 +0800 (CST)
+Received: from  ([123.150.8.42])
+	by gateway-153622-dep-5c5f88b874-pd459 with ESMTP id a2fb0e8641834e57994da1618bc59e83 for brgl@bgdev.pl;
+	Mon, 06 Jan 2025 17:11:29 CST
+X-Transaction-ID: a2fb0e8641834e57994da1618bc59e83
+X-Real-From: chensong_2000@189.cn
+X-Receive-IP: 123.150.8.42
+X-MEDUSA-Status: 0
+Sender: chensong_2000@189.cn
+Message-ID: <e8e3ad94-1a43-4439-91d9-15ad91aaea9b@189.cn>
+Date: Mon, 6 Jan 2025 17:11:28 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] drivers:gpio: introduce variants of gpiod_get_array
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: linus.walleij@linaro.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20241217085302.835165-1-chensong_2000@189.cn>
+ <ec5531e5-6fae-431e-bc58-73bb816d477d@189.cn>
+ <CAMRc=McNWBNCbCsNPvqUHrMtwfveeMCy5am+yNxVKUficat_VA@mail.gmail.com>
+Content-Language: en-US
+From: Song Chen <chensong_2000@189.cn>
+In-Reply-To: <CAMRc=McNWBNCbCsNPvqUHrMtwfveeMCy5am+yNxVKUficat_VA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Add support for reporting PHY statistics in the DP83TD510 driver. This
-includes cumulative tracking of transmit/receive packet counts, and
-error counts. Implemented functions to update and provide statistics via
-ethtool, with optional polling support enabled through `PHY_POLL_STATS`.
+Hi Bart,
 
-Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
----
-changes v2:
-- drop use of FIELD_GET
-- add comments
----
- drivers/net/phy/dp83td510.c | 112 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 112 insertions(+)
+在 2025/1/4 04:41, Bartosz Golaszewski 写道:
+> On Thu, Jan 2, 2025 at 2:25 AM Song Chen <chensong_2000@189.cn> wrote:
+>>
+>> Dear maintainers,
+>>
+>> It has been a while after this patch was sent. I'm not sure if i
+>> followed the idea suggested by Bart correctly, see [1], any comment will
+>> be appreciated.
+>>
+>> Best regards,
+>>
+>> Song
+>>
+>> [1]:https://lore.kernel.org/lkml/CAMRc=MfpwuMh-MH1UEHKky09iAs4g9=iGFPptARXzoZrVS8hdQ@mail.gmail.com/
+>>
+> 
+> I've been meaning to respond and it fell off my radar. We typically
+> don't add new calls without users so I'd love to see this patch in
+> conjunction with a conversion of some driver to using it in order to
+> prove that the change makes sense
+> 
+> Bart
+> 
 
-diff --git a/drivers/net/phy/dp83td510.c b/drivers/net/phy/dp83td510.c
-index 92aa3a2b9744..2edda7c231fc 100644
---- a/drivers/net/phy/dp83td510.c
-+++ b/drivers/net/phy/dp83td510.c
-@@ -34,6 +34,29 @@
- #define DP83TD510E_CTRL_HW_RESET		BIT(15)
- #define DP83TD510E_CTRL_SW_RESET		BIT(14)
- 
-+/*
-+ * DP83TD510E_PKT_STAT_x registers correspond to similarly named registers
-+ * in the datasheet (PKT_STAT_1 through PKT_STAT_6). These registers store
-+ * 32-bit or 16-bit counters for TX and RX statistics and must be read in
-+ * sequence to ensure the counters are cleared correctly.
-+ *
-+ * - DP83TD510E_PKT_STAT_1: Contains TX packet count bits [15:0].
-+ * - DP83TD510E_PKT_STAT_2: Contains TX packet count bits [31:16].
-+ * - DP83TD510E_PKT_STAT_3: Contains TX error packet count.
-+ * - DP83TD510E_PKT_STAT_4: Contains RX packet count bits [15:0].
-+ * - DP83TD510E_PKT_STAT_5: Contains RX packet count bits [31:16].
-+ * - DP83TD510E_PKT_STAT_6: Contains RX error packet count.
-+ *
-+ * Keeping the register names as defined in the datasheet helps maintain
-+ * clarity and alignment with the documentation.
-+ */
-+#define DP83TD510E_PKT_STAT_1			0x12b
-+#define DP83TD510E_PKT_STAT_2			0x12c
-+#define DP83TD510E_PKT_STAT_3			0x12d
-+#define DP83TD510E_PKT_STAT_4			0x12e
-+#define DP83TD510E_PKT_STAT_5			0x12f
-+#define DP83TD510E_PKT_STAT_6			0x130
-+
- #define DP83TD510E_AN_STAT_1			0x60c
- #define DP83TD510E_MASTER_SLAVE_RESOL_FAIL	BIT(15)
- 
-@@ -58,8 +81,16 @@ static const u16 dp83td510_mse_sqi_map[] = {
- 	0x0000  /* 24dB =< SNR */
- };
- 
-+struct dp83td510_stats {
-+	u64 tx_pkt_cnt;
-+	u64 tx_err_pkt_cnt;
-+	u64 rx_pkt_cnt;
-+	u64 rx_err_pkt_cnt;
-+};
-+
- struct dp83td510_priv {
- 	bool alcd_test_active;
-+	struct dp83td510_stats stats;
- };
- 
- /* Time Domain Reflectometry (TDR) Functionality of DP83TD510 PHY
-@@ -177,6 +208,85 @@ struct dp83td510_priv {
- #define DP83TD510E_ALCD_COMPLETE			BIT(15)
- #define DP83TD510E_ALCD_CABLE_LENGTH			GENMASK(10, 0)
- 
-+/**
-+ * dp83td510_update_stats - Update the PHY statistics for the DP83TD510 PHY.
-+ * @phydev: Pointer to the phy_device structure.
-+ *
-+ * The function reads the PHY statistics registers and updates the statistics
-+ * structure.
-+ *
-+ * Returns: 0 on success or a negative error code on failure.
-+ */
-+static int dp83td510_update_stats(struct phy_device *phydev)
-+{
-+	struct dp83td510_priv *priv = phydev->priv;
-+	u32 count;
-+	int ret;
-+
-+	/* The DP83TD510E_PKT_STAT registers are divided into two groups:
-+	 * - Group 1 (TX stats): DP83TD510E_PKT_STAT_1 to DP83TD510E_PKT_STAT_3
-+	 * - Group 2 (RX stats): DP83TD510E_PKT_STAT_4 to DP83TD510E_PKT_STAT_6
-+	 *
-+	 * Registers in each group are cleared only after reading them in a
-+	 * plain sequence (e.g., 1, 2, 3 for Group 1 or 4, 5, 6 for Group 2).
-+	 * Any deviation from the sequence, such as reading 1, 2, 1, 2, 3, will
-+	 * prevent the group from being cleared. Additionally, the counters
-+	 * for a group are frozen as soon as the first register in that group
-+	 * is accessed.
-+	 */
-+	ret = phy_read_mmd(phydev, MDIO_MMD_VEND2, DP83TD510E_PKT_STAT_1);
-+	if (ret < 0)
-+		return ret;
-+	/* tx_pkt_cnt_15_0 */
-+	count = ret;
-+
-+	ret = phy_read_mmd(phydev, MDIO_MMD_VEND2, DP83TD510E_PKT_STAT_2);
-+	if (ret < 0)
-+		return ret;
-+	/* tx_pkt_cnt_31_16 */
-+	count |= ret << 16;
-+	ethtool_stat_add(&priv->stats.tx_pkt_cnt, count);
-+
-+	ret = phy_read_mmd(phydev, MDIO_MMD_VEND2, DP83TD510E_PKT_STAT_3);
-+	if (ret < 0)
-+		return ret;
-+	/* tx_err_pkt_cnt */
-+	ethtool_stat_add(&priv->stats.tx_err_pkt_cnt, ret);
-+
-+	ret = phy_read_mmd(phydev, MDIO_MMD_VEND2, DP83TD510E_PKT_STAT_4);
-+	if (ret < 0)
-+		return ret;
-+	/* rx_pkt_cnt_15_0 */
-+	count = ret;
-+
-+	ret = phy_read_mmd(phydev, MDIO_MMD_VEND2, DP83TD510E_PKT_STAT_5);
-+	if (ret < 0)
-+		return ret;
-+	/* rx_pkt_cnt_31_16 */
-+	count |= ret << 16;
-+	ethtool_stat_add(&priv->stats.rx_pkt_cnt, count);
-+
-+	ret = phy_read_mmd(phydev, MDIO_MMD_VEND2, DP83TD510E_PKT_STAT_6);
-+	if (ret < 0)
-+		return ret;
-+	/* rx_err_pkt_cnt */
-+	ethtool_stat_add(&priv->stats.rx_err_pkt_cnt, ret);
-+
-+	return 0;
-+}
-+
-+static void dp83td510_get_phy_stats(struct phy_device *phydev,
-+				    struct ethtool_eth_phy_stats *eth_stats,
-+				    struct ethtool_phy_stats *stats)
-+{
-+	struct dp83td510_priv *priv = phydev->priv;
-+
-+	stats->tx_packets = priv->stats.tx_pkt_cnt;
-+	stats->tx_errors = priv->stats.tx_err_pkt_cnt;
-+	stats->rx_packets = priv->stats.rx_pkt_cnt;
-+	stats->rx_errors = priv->stats.rx_err_pkt_cnt;
-+}
-+
- static int dp83td510_config_intr(struct phy_device *phydev)
- {
- 	int ret;
-@@ -599,6 +709,8 @@ static struct phy_driver dp83td510_driver[] = {
- 	.get_sqi_max	= dp83td510_get_sqi_max,
- 	.cable_test_start = dp83td510_cable_test_start,
- 	.cable_test_get_status = dp83td510_cable_test_get_status,
-+	.get_phy_stats	= dp83td510_get_phy_stats,
-+	.update_stats	= dp83td510_update_stats,
- 
- 	.suspend	= genphy_suspend,
- 	.resume		= genphy_resume,
--- 
-2.39.5
+yes, agree, i planned to send a patchset with this one and s5m8767 
+together, but i had a question and haven't got any response from 
+Krzysztof yet. Maybe i was off his radar as well.
 
+I will send another mail to see how he thinks, you are in that thread, 
+please join the discussion.
+
+Many thanks
+
+Song
