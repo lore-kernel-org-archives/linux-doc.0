@@ -1,434 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4CD1DAC92;
-	Mon,  6 Jan 2025 02:33:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82CFA29A5;
+	Mon,  6 Jan 2025 02:41:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736130806; cv=none; b=M7MR5RS+zTAHKtYFHt0IfLmBBgvr735zPihp87moS85BlTrvFJv6CMu2HR/GsyrVffr4r1k+gKhWiuhbEWTJ8J1fcyyzHViakIad8+AxUhaAQGKFkVhT8C8zhxHjFUrbsz11lE+JLCdS/a29sM7/Lik0FNa72mH+nEdXFRwQi4k=
+	t=1736131290; cv=none; b=B99lHbWb5lTpOLJg+wqT7nYbzDsB2AinYkdV+1p/wWDSTw/TGEb/zT3QFIqN9c28Qb301r+jX/CypiFQM4+VnN9MZkzxgeBQv0h4Pli5mlIY6Dg0iZdBnJ2DGd0ZRBLGn6Y0F83kIDscPYA8bU2QqCKafm9DJ1FGFIET1pBhYhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736130806; c=relaxed/simple;
-	bh=7JnNyUTJL1Hheo06raVdfuNL/R7Y60z1c25PdrGGRI8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=TLBC32z2qt4kr00IVNZT+qKj+oV+5NTR9k2mtuycP6o5q7PQmpVNPbDdVd2vxRS9bXWvU7yDW5FQTCmsbd9kEuju4W6mPHLcfdcyKx8SXYVgDI78HTNicjVte4OhDn4jpj3jptT6CmakwuBaJrkARqfhaCkSWiHWjdY/9mmOpr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FecTuHHY; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1736131290; c=relaxed/simple;
+	bh=UJ/GocjO1JnefX2suW2+8t/0iNSkCdFLi5Lwd7DPWv8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EeLTMVTh7ip6t5TRtsSYylvKTNpXGYFt3G+IHI9M32p9SfMAxNNs41dRa0orbv7zmqPWHCGlp7s/EOtCR5ytNGmFMvElsrEobimsARmV/WRFdAHwLB1oK40nA8CaiiJFbsorNuIBMokjcKG4SFDl5jEoGGBfN5Fhl/dMf3110T4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A7oKZiDV; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FecTuHHY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736130804; x=1767666804;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=7JnNyUTJL1Hheo06raVdfuNL/R7Y60z1c25PdrGGRI8=;
-  b=FecTuHHYGdwsREVeZHwBbV67EPrLwribjAUuQRTN3nd1VpYQm3LKt/s5
-   3ykbZUyQvBDXPNkZTqLe8xdZFK9Dz4y2IA+PR9JxjZasWIPQBBTyKwWUD
-   bp+FC/mq7LBgiHrbfNZfUrjJ0vzA6n3kJk9cbITZqfTd/k162akd4/PaH
-   EfP4gVK4yVbeJf9ntcJI1UaTr0oplKW5L7G1EI9CNeBNzwQ3DjQuwNAxY
-   VI0YfPWI/NT9k08FxM3yogf/zFCEVUODUeTJa6bioRwnxTwChEpbtmjVb
-   QRdlRRLy8fEYAVEIDZkBbGN3EIpMcyTQQGGIy2sWJR3Xs0kiarSB7qfLT
-   g==;
-X-CSE-ConnectionGUID: 1iwHlLHgR9KyRk5lseNuRg==
-X-CSE-MsgGUID: Di38rzqcSgyL0KjG+juUqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="36171660"
-X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
-   d="scan'208";a="36171660"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 18:33:23 -0800
-X-CSE-ConnectionGUID: 8KsvcWk6TvC8gMAqadEnJg==
-X-CSE-MsgGUID: EQgzqVCeTTag1BrLe1Zevw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="125596146"
-Received: from shsensorbuild.sh.intel.com ([10.239.133.18])
-  by fmviesa002.fm.intel.com with ESMTP; 05 Jan 2025 18:33:19 -0800
-From: Even Xu <even.xu@intel.com>
-To: jikos@kernel.org,
-	bentiss@kernel.org,
-	corbet@lwn.net,
-	bagasdotme@gmail.com,
-	aaron.ma@canonical.com,
-	rdunlap@infradead.org,
-	mpearson-lenovo@squebb.ca
-Cc: linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Even Xu <even.xu@intel.com>,
-	Xinpeng Sun <xinpeng.sun@intel.com>,
-	Rui Zhang <rui1.zhang@intel.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: [PATCH v4 22/22] HID: intel-thc-hid: intel-quicki2c: Add PM implementation
-Date: Mon,  6 Jan 2025 10:31:51 +0800
-Message-Id: <20250106023151.3011329-23-even.xu@intel.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20250106023151.3011329-1-even.xu@intel.com>
-References: <20250106023151.3011329-1-even.xu@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A7oKZiDV"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-21619108a6bso183242865ad.3;
+        Sun, 05 Jan 2025 18:41:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736131289; x=1736736089; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q9r7101FkL4cUTNajyt0kBb7QcDMx3Tz/7fQB/09Pug=;
+        b=A7oKZiDVmqb6Ti9VOnAkHRk4jshPUZO6G6TqxPwyNE51EekOn5TXyzsjNqLZ8zRy9d
+         2Ovqq1Qydzjs98YbrYBGBlUXfzIKcOPv6Xom1rbrAzocqQYCJ2UuO+Xqdg44bAHjCvFl
+         OIzo5sIbxOmM8zO9lhMD/LtAL7AoxP1MSnQCWI8gluChFsx4o4vmrW7QImdkR+iX3Nl2
+         lHKXiV3iimeqf1KJQdUqqGjjUeDS/WvMUeK1w18Hgws0RWCWujfqanE8PQqy6livkBTh
+         byzpeMoTk1f++9RMiMOWZQK9OoqT/V0pX3S7JqlbgWxve8R9bZGnPuzRJsQyUunmz6xr
+         wW3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736131289; x=1736736089;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Q9r7101FkL4cUTNajyt0kBb7QcDMx3Tz/7fQB/09Pug=;
+        b=MUrWAVSQs+hLtGCoJoLhLQqdkFEulqOXVdqgiiGFJXipQ1k1CqtitQEfSd2G1JlE95
+         L2wkTmcTiWRbGxW8ffe4Oxufgvy/+gtzMwb/RcK/8nMtoEdM5GTeTk1ka89CIbHCMasB
+         EBJZyZse8PF2OVXwtiH8SemTloExzWOQVB3meKvhJJsQXhSefmHYR6QZLWjiOQ+74t9w
+         RAa7iKRfEP6DE0dPj4Vlw8VI8bsDXehM556Jcdm1GlLm4phTIx7+SgH2wsSYy/CDR07t
+         CPMbnuq+SP01Xqt4L3p295e2qUe3uiTQJp5f/gGS3VsnXWT5vO5tYP6maWIcTh5uD0l8
+         5h7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUmDUrZkiucNPOZ4kMVYnV8KVcR/uyt3VGSIjEX0fjBVPRpBRHRLmC490UxuXEfgis+Ppgi3bhln3I=@vger.kernel.org, AJvYcCV3kFbJp919ftJgVXBq7i8haPJ/jBVLig+pGVQQVOGB7x12CBVoDXBJGz11slUYDaDjK/ZTbFw6cIrxJ//0@vger.kernel.org, AJvYcCWT3ppi/HhigpxgwN2Xjmk7G1VSPIGrvXrjXHBYkWk9Xn2RU+wiEkRhGPXF9o2yekQqdzheAqviGtmFseG2gRonOAWoGg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZ2bPHsVveHYPNqyzH4sJ99B0j5pFZRbicar4yxXDYs4oAYu+k
+	MpBopS7+/IMe9WE+etyvIwmaYBTVpQ0wq96GF6ylUQgYBwfPrY6n9tU2o0ViY05MSQQkY8IpDu6
+	XqEQnQoyaDXU0u0OxP+qKhnlhdh4=
+X-Gm-Gg: ASbGncvX9VigSCzoLNH4flC20VyA4UEIFNjXAxfCuvHd9xnoiLwUGCdYyV8v7iSsKgY
+	OYjTQzgZtWb1qHmh+VmTEYfqr5YMJSbHh+9s=
+X-Google-Smtp-Source: AGHT+IHK151DmSwTrn4/ZjM7skg2d/VPG9UKGpVtd7XC1Ag7KosZQ2DnQg/pHKwe478w3IfiMWmCQZzMa0G2Hl5RiP4=
+X-Received: by 2002:a05:6a20:4394:b0:1e1:a716:3172 with SMTP id
+ adf61e73a8af0-1e5e04609a8mr82081016637.12.1736131288660; Sun, 05 Jan 2025
+ 18:41:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241227231840.21334-1-vishnuocv@gmail.com> <173548704063.4495.17991964884526324774.b4-ty@linux.intel.com>
+In-Reply-To: <173548704063.4495.17991964884526324774.b4-ty@linux.intel.com>
+From: Vishnu Sankar <vishnuocv@gmail.com>
+Date: Mon, 6 Jan 2025 11:40:43 +0900
+Message-ID: <CABxCQKuV8RwSsQkL7YBzGLL73vXMTF4HhiqMhyudVWN0ChuQng@mail.gmail.com>
+Subject: Re: [PATCH] platform/x86: thinkpad-acpi: Add support for hotkey 0x1401
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: corbet@lwn.net, hmh@hmh.eng.br, hdegoede@redhat.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	ibm-acpi-devel@lists.sourceforge.net, platform-driver-x86@vger.kernel.org, 
+	mpearson-lenovo@squebb.ca
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Implement THC QuickI2C driver power management callbacks.
+Thank you so much for accepting my patch.
 
-Co-developed-by: Xinpeng Sun <xinpeng.sun@intel.com>
-Signed-off-by: Xinpeng Sun <xinpeng.sun@intel.com>
-Signed-off-by: Even Xu <even.xu@intel.com>
-Tested-by: Rui Zhang <rui1.zhang@intel.com>
-Tested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-Reviewed-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
----
- .../intel-quicki2c/pci-quicki2c.c             | 233 ++++++++++++++++++
- .../intel-quicki2c/quicki2c-dev.h             |   8 +
- .../intel-quicki2c/quicki2c-hid.c             |   8 +
- 3 files changed, 249 insertions(+)
+On Mon, Dec 30, 2024 at 12:44=E2=80=AFAM Ilpo J=C3=A4rvinen
+<ilpo.jarvinen@linux.intel.com> wrote:
+>
+> On Sat, 28 Dec 2024 08:18:40 +0900, Vishnu Sankar wrote:
+>
+> > F8 mode key on Lenovo 2025 platforms use a different key code.
+> > Adding support for the new keycode 0x1401.
+> >
+> > Tested on X1 Carbon Gen 13 and X1 2-in-1 Gen 10.
+> >
+> >
+>
+>
+> Thank you for your contribution, it has been applied to my local
+> review-ilpo-fixes branch. Note it will show up in the public
+> platform-drivers-x86/review-ilpo-fixes branch only once I've pushed my
+> local branch there, which might take a while.
+>
+> The list of commits applied:
+> [1/1] platform/x86: thinkpad-acpi: Add support for hotkey 0x1401
+>       commit: 7e16ae558a87ac9099b6a93a43f19b42d809fd78
+>
+> --
+>  i.
+>
 
-diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
-index d417972ae9b0..b56c72124821 100644
---- a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
-+++ b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
-@@ -9,6 +9,7 @@
- #include <linux/irqreturn.h>
- #include <linux/pci.h>
- #include <linux/sizes.h>
-+#include <linux/pm_runtime.h>
- 
- #include "intel-thc-dev.h"
- #include "intel-thc-hw.h"
-@@ -289,10 +290,15 @@ static irqreturn_t quicki2c_irq_thread_handler(int irq, void *dev_id)
- 	struct quicki2c_device *qcdev = dev_id;
- 	int err_recover = 0;
- 	int int_mask;
-+	int ret;
- 
- 	if (qcdev->state == QUICKI2C_DISABLED)
- 		return IRQ_HANDLED;
- 
-+	ret = pm_runtime_resume_and_get(qcdev->dev);
-+	if (ret)
-+		return IRQ_HANDLED;
-+
- 	int_mask = thc_interrupt_handler(qcdev->thc_hw);
- 
- 	if (int_mask & BIT(THC_FATAL_ERR_INT) || int_mask & BIT(THC_TXN_ERR_INT) ||
-@@ -314,6 +320,9 @@ static irqreturn_t quicki2c_irq_thread_handler(int irq, void *dev_id)
- 		if (try_recover(qcdev))
- 			qcdev->state = QUICKI2C_DISABLED;
- 
-+	pm_runtime_mark_last_busy(qcdev->dev);
-+	pm_runtime_put_autosuspend(qcdev->dev);
-+
- 	return IRQ_HANDLED;
- }
- 
-@@ -639,6 +648,13 @@ static int quicki2c_probe(struct pci_dev *pdev,
- 
- 	qcdev->state = QUICKI2C_ENABLED;
- 
-+	/* Enable runtime power management */
-+	pm_runtime_use_autosuspend(qcdev->dev);
-+	pm_runtime_set_autosuspend_delay(qcdev->dev, DEFAULT_AUTO_SUSPEND_DELAY_MS);
-+	pm_runtime_mark_last_busy(qcdev->dev);
-+	pm_runtime_put_noidle(qcdev->dev);
-+	pm_runtime_put_autosuspend(qcdev->dev);
-+
- 	dev_dbg(&pdev->dev, "QuickI2C probe success\n");
- 
- 	return 0;
-@@ -674,6 +690,8 @@ static void quicki2c_remove(struct pci_dev *pdev)
- 	quicki2c_hid_remove(qcdev);
- 	quicki2c_dma_deinit(qcdev);
- 
-+	pm_runtime_get_noresume(qcdev->dev);
-+
- 	quicki2c_dev_deinit(qcdev);
- 
- 	pcim_iounmap_regions(pdev, BIT(0));
-@@ -703,6 +721,220 @@ static void quicki2c_shutdown(struct pci_dev *pdev)
- 	quicki2c_dev_deinit(qcdev);
- }
- 
-+static int quicki2c_suspend(struct device *device)
-+{
-+	struct pci_dev *pdev = to_pci_dev(device);
-+	struct quicki2c_device *qcdev;
-+	int ret;
-+
-+	qcdev = pci_get_drvdata(pdev);
-+	if (!qcdev)
-+		return -ENODEV;
-+
-+	/*
-+	 * As I2C is THC subsystem, no register auto save/restore support,
-+	 * need driver to do that explicitly for every D3 case.
-+	 */
-+	ret = thc_i2c_subip_regs_save(qcdev->thc_hw);
-+	if (ret)
-+		return ret;
-+
-+	ret = thc_interrupt_quiesce(qcdev->thc_hw, true);
-+	if (ret)
-+		return ret;
-+
-+	thc_interrupt_enable(qcdev->thc_hw, false);
-+
-+	thc_dma_unconfigure(qcdev->thc_hw);
-+
-+	return 0;
-+}
-+
-+static int quicki2c_resume(struct device *device)
-+{
-+	struct pci_dev *pdev = to_pci_dev(device);
-+	struct quicki2c_device *qcdev;
-+	int ret;
-+
-+	qcdev = pci_get_drvdata(pdev);
-+	if (!qcdev)
-+		return -ENODEV;
-+
-+	ret = thc_port_select(qcdev->thc_hw, THC_PORT_TYPE_I2C);
-+	if (ret)
-+		return ret;
-+
-+	ret = thc_i2c_subip_regs_restore(qcdev->thc_hw);
-+	if (ret)
-+		return ret;
-+
-+	thc_interrupt_config(qcdev->thc_hw);
-+
-+	thc_interrupt_enable(qcdev->thc_hw, true);
-+
-+	ret = thc_dma_configure(qcdev->thc_hw);
-+	if (ret)
-+		return ret;
-+
-+	ret = thc_interrupt_quiesce(qcdev->thc_hw, false);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int quicki2c_freeze(struct device *device)
-+{
-+	struct pci_dev *pdev = to_pci_dev(device);
-+	struct quicki2c_device *qcdev;
-+	int ret;
-+
-+	qcdev = pci_get_drvdata(pdev);
-+	if (!qcdev)
-+		return -ENODEV;
-+
-+	ret = thc_interrupt_quiesce(qcdev->thc_hw, true);
-+	if (ret)
-+		return ret;
-+
-+	thc_interrupt_enable(qcdev->thc_hw, false);
-+
-+	thc_dma_unconfigure(qcdev->thc_hw);
-+
-+	return 0;
-+}
-+
-+static int quicki2c_thaw(struct device *device)
-+{
-+	struct pci_dev *pdev = to_pci_dev(device);
-+	struct quicki2c_device *qcdev;
-+	int ret;
-+
-+	qcdev = pci_get_drvdata(pdev);
-+	if (!qcdev)
-+		return -ENODEV;
-+
-+	ret = thc_dma_configure(qcdev->thc_hw);
-+	if (ret)
-+		return ret;
-+
-+	thc_interrupt_enable(qcdev->thc_hw, true);
-+
-+	ret = thc_interrupt_quiesce(qcdev->thc_hw, false);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int quicki2c_poweroff(struct device *device)
-+{
-+	struct pci_dev *pdev = to_pci_dev(device);
-+	struct quicki2c_device *qcdev;
-+	int ret;
-+
-+	qcdev = pci_get_drvdata(pdev);
-+	if (!qcdev)
-+		return -ENODEV;
-+
-+	ret = thc_interrupt_quiesce(qcdev->thc_hw, true);
-+	if (ret)
-+		return ret;
-+
-+	thc_interrupt_enable(qcdev->thc_hw, false);
-+
-+	thc_ltr_unconfig(qcdev->thc_hw);
-+
-+	quicki2c_dma_deinit(qcdev);
-+
-+	return 0;
-+}
-+
-+static int quicki2c_restore(struct device *device)
-+{
-+	struct pci_dev *pdev = to_pci_dev(device);
-+	struct quicki2c_device *qcdev;
-+	int ret;
-+
-+	qcdev = pci_get_drvdata(pdev);
-+	if (!qcdev)
-+		return -ENODEV;
-+
-+	/* Reconfig THC HW when back from hibernate */
-+	ret = thc_port_select(qcdev->thc_hw, THC_PORT_TYPE_I2C);
-+	if (ret)
-+		return ret;
-+
-+	ret = thc_i2c_subip_init(qcdev->thc_hw, qcdev->i2c_slave_addr,
-+				 qcdev->i2c_speed_mode,
-+				 qcdev->i2c_clock_hcnt,
-+				 qcdev->i2c_clock_lcnt);
-+	if (ret)
-+		return ret;
-+
-+	thc_interrupt_config(qcdev->thc_hw);
-+
-+	thc_interrupt_enable(qcdev->thc_hw, true);
-+
-+	ret = thc_interrupt_quiesce(qcdev->thc_hw, false);
-+	if (ret)
-+		return ret;
-+
-+	ret = thc_dma_configure(qcdev->thc_hw);
-+	if (ret)
-+		return ret;
-+
-+	thc_ltr_config(qcdev->thc_hw,
-+		       qcdev->active_ltr_val,
-+		       qcdev->low_power_ltr_val);
-+
-+	thc_change_ltr_mode(qcdev->thc_hw, THC_LTR_MODE_ACTIVE);
-+
-+	return 0;
-+}
-+
-+static int quicki2c_runtime_suspend(struct device *device)
-+{
-+	struct pci_dev *pdev = to_pci_dev(device);
-+	struct quicki2c_device *qcdev;
-+
-+	qcdev = pci_get_drvdata(pdev);
-+	if (!qcdev)
-+		return -ENODEV;
-+
-+	thc_change_ltr_mode(qcdev->thc_hw, THC_LTR_MODE_LP);
-+
-+	pci_save_state(pdev);
-+
-+	return 0;
-+}
-+
-+static int quicki2c_runtime_resume(struct device *device)
-+{
-+	struct pci_dev *pdev = to_pci_dev(device);
-+	struct quicki2c_device *qcdev;
-+
-+	qcdev = pci_get_drvdata(pdev);
-+	if (!qcdev)
-+		return -ENODEV;
-+
-+	thc_change_ltr_mode(qcdev->thc_hw, THC_LTR_MODE_ACTIVE);
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops quicki2c_pm_ops = {
-+	.suspend = quicki2c_suspend,
-+	.resume = quicki2c_resume,
-+	.freeze = quicki2c_freeze,
-+	.thaw = quicki2c_thaw,
-+	.poweroff = quicki2c_poweroff,
-+	.restore = quicki2c_restore,
-+	.runtime_suspend = quicki2c_runtime_suspend,
-+	.runtime_resume = quicki2c_runtime_resume,
-+	.runtime_idle = NULL,
-+};
-+
- static const struct pci_device_id quicki2c_pci_tbl[] = {
- 	{PCI_VDEVICE(INTEL, THC_LNL_DEVICE_ID_I2C_PORT1), },
- 	{PCI_VDEVICE(INTEL, THC_LNL_DEVICE_ID_I2C_PORT2), },
-@@ -720,6 +952,7 @@ static struct pci_driver quicki2c_driver = {
- 	.probe = quicki2c_probe,
- 	.remove = quicki2c_remove,
- 	.shutdown = quicki2c_shutdown,
-+	.driver.pm = &quicki2c_pm_ops,
- 	.driver.probe_type = PROBE_PREFER_ASYNCHRONOUS,
- };
- 
-diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
-index 0fdac6ba1b04..6ddb584bd611 100644
---- a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
-+++ b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
-@@ -36,6 +36,14 @@
- #define QUICKI2C_DEFAULT_LP_LTR_VALUE		500
- #define QUICKI2C_RPM_TIMEOUT_MS			500
- 
-+/*
-+ * THC uses runtime auto suspend to dynamically switch between THC active LTR
-+ * and low power LTR to save CPU power.
-+ * Default value is 5000ms, that means if no touch event in this time, THC will
-+ * change to low power LTR mode.
-+ */
-+#define DEFAULT_AUTO_SUSPEND_DELAY_MS			5000
-+
- enum quicki2c_dev_state {
- 	QUICKI2C_NONE,
- 	QUICKI2C_RESETING,
-diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
-index e8e6f10b7952..5c3ec95bb3fd 100644
---- a/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
-+++ b/drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
-@@ -3,6 +3,7 @@
- 
- #include <linux/hid.h>
- #include <linux/input.h>
-+#include <linux/pm_runtime.h>
- 
- #include "quicki2c-dev.h"
- #include "quicki2c-hid.h"
-@@ -55,6 +56,10 @@ static int quicki2c_hid_raw_request(struct hid_device *hid,
- 	struct quicki2c_device *qcdev = hid->driver_data;
- 	int ret = 0;
- 
-+	ret = pm_runtime_resume_and_get(qcdev->dev);
-+	if (ret)
-+		return ret;
-+
- 	switch (reqtype) {
- 	case HID_REQ_GET_REPORT:
- 		ret = quicki2c_get_report(qcdev, rtype, reportnum, buf, len);
-@@ -67,6 +72,9 @@ static int quicki2c_hid_raw_request(struct hid_device *hid,
- 		break;
- 	}
- 
-+	pm_runtime_mark_last_busy(qcdev->dev);
-+	pm_runtime_put_autosuspend(qcdev->dev);
-+
- 	return ret;
- }
- 
--- 
-2.40.1
 
+--=20
+
+Regards,
+
+      Vishnu Sankar
+     +817015150407 (Japan)
