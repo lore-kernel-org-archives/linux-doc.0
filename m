@@ -1,66 +1,64 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B021C69D;
-	Mon,  6 Jan 2025 15:06:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15CF70813
+	for <linux-doc@vger.kernel.org>; Mon,  6 Jan 2025 15:29:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736176001; cv=none; b=LLHAhN6gX88CuaJ25S2lSZNgOS988XxLz7TWI+12uN41sLMtrCfKie8u59Sfu63+JiFS+/nLS+poLDxfLpaEILPqR8cwgC9a2GLDpguDIqfgiwpR/Lt90Bt0Ah591aH/ym7W9aJLCR8/REJO3SWL6iOQhi2hCayFomztJhNcm3E=
+	t=1736177381; cv=none; b=FndhLUDPaRosJu9RbpsAYBIJTUAuftO1GeY+m6fScTTU5gHvut4FHoQ71PdM3GohnZ0KZSXrlNrcMq/9V6yj4Fv2+IECOmjkZxAP0DM6DhXnmotn3ts1b2aMWAIs+zYbLLNLHGUW1EPupq6hR3jpPQO+qHXurrQqBs/PlT7YkwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736176001; c=relaxed/simple;
-	bh=7MrQJ3r6mSbPKuckh1m+7uu5zztQ0hqcka0Kr5b/qxw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=BMK0wc/9GzbpyUrkGRxoBgDGRjgnZUJb2A7ww4xAZFpGp8QVv4WcNy74k65CDojzo5YWEMf9AEvHC7Ia0uN0ssR5y12+nl0t60iiWLg7vIWr1bO10gsvw+2jA4p+hERcXEgpDGPZC22K/myaroDXprgQ0fwlFLDBGo9YbH8lI+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DuSczR4D; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736177381; c=relaxed/simple;
+	bh=x1w5/nJ9YfXQS4K6kMmdZYANpOa0hZaPXucXYRkx+jA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CxZrykgCdmb8icr9MvvD1KHszFO96bCSn/1DuvNyY9j7JvP1o9GHWepHenP76gVmQVd4nDUDUIHkeFFLnHMkRmTjA8F2HMJZLKMiJkijtuxqoBeaNjQeJi1dmZQODUs91QIU8iJnwZzwvkRdoCwfbeWQL50TleQOOhT4wabwoZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=3XsdwzlW; arc=none smtp.client-ip=209.85.161.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DuSczR4D"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2ef87d24c2dso16905694a91.1;
-        Mon, 06 Jan 2025 07:06:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="3XsdwzlW"
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5f31b3db5ecso6054015eaf.0
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jan 2025 07:29:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736175998; x=1736780798; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=VJKEJlulI18/Qi+7k18S7rwm+KabCNcrOyoabZEd+kE=;
-        b=DuSczR4DgAr7q8WoYZhBKE4mhLlsVa1B7vVuMnRRC0E7UjtkjQt0w7gJcgXgp9SFUo
-         HniXJb97BT/kgkyANZCul+QjFP+JBKdBpDe9H+onYfr1IIRnrN+hDZIfQE5VdD5wSNkl
-         ssAeKC8WIlkQnseDh0SudEyRbsY3VXiNQyFkxa6DBdkubHplCniksoDaPQVy8DbjgGzA
-         haRiaZDXEetkTaKHaG2IcERgRfobBFjEZPHrSAY+4bGbdpJWZEZewXfssajC6t5Dm/hf
-         h20LcdwBsErhvs0DuUVM8s9fDgfZ1LcZF4H+q9qzFTI9LcckvhaxUPBoSnws3hzv3/bZ
-         k4Uw==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736177378; x=1736782178; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AAND/sZPrYBsHz6UX5BJ7O5mUoHwQEQe92spT2hfYWQ=;
+        b=3XsdwzlW67qlKfSbS9ZkTcMF8RrtwyUJ6IK0kyB8pJbBu1wqb0xUdgVOLWZVURpqJ5
+         CTQxzSoDRA+QWnSka7mEyV1BrJulXra3leHyMv6+QWvqSN34GYn5/n7dA6VUW9YuhsiX
+         pH0uj7MaeRkH0k8Pc73WBeY4rW23vFnbBpv25nYbCA2BbCMNpORMp466KjiDOnEzuUA/
+         49k9y9TyLheNDNI9HGidvuazXE9t8IbQprCjlJsABiLkN0SGE00Q0CkhX+YAmkN1aAhu
+         M1azkf/iAWdJziG/X4+QG73AmTW/ADPuqeoOeeA27t7mjat3mJUcGegNnbPa6TblVZgo
+         aWtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736175998; x=1736780798;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VJKEJlulI18/Qi+7k18S7rwm+KabCNcrOyoabZEd+kE=;
-        b=o3eFyZ9YH+MvVGm1rW1RNowGb/lNZ8U/8oIH8nqL1b+vUhi2K9zFsA+lEAPKB6Dxdz
-         FYj71DC2cLqmpq/fp2Dv+BBW4E+tv3o2CGq5/7xEjA8ud8Y6Z2fldeXfQfppcrjQNrTx
-         WIaWhoiFhULSjzKlh2vXy3WErc2WcW7fOtQMsJLMw9Ns9HCLMn6n+gzw0Q9NI9BgMOfm
-         7LYSXqttaWKapklGt8UA3L4oQSOhDiVp0DLSCVgBY8i/Cg8HF/pop4ncG9Kv/euHJ+Tl
-         3Br6gCWqO3U9byhnaiDgOlLKACrR6+BCmVOfyCtk0a0PYXrM7yh57AM+FmnpmcGbV4yS
-         kjOg==
-X-Forwarded-Encrypted: i=1; AJvYcCW2hdjRvf1qIYsBE7yPJwhFCt6RsaucRC655sE9i2t6DM7bIImDemWOdQ5Tgtn9X5/1hx4fzc4qglQ+@vger.kernel.org, AJvYcCXQMVzUga8uvMIfWFBbOW1p8yNFSzmiZO9msP51Sgcg22C/cLfhe1f+GMraiejLvp8aKUtp9Kj+8i4W@vger.kernel.org, AJvYcCXg1hwrBsJnw43Kzz3G/yBYN4PZx53B86629kX2wdcn3MgFipeV0SfkX5QOn4ra79+0ZuCvIJ9j7cwwUys=@vger.kernel.org, AJvYcCXqu6g3YrSyTXpHueO+Y94nuoL9vRcOYntveJ7NSOTVBMTZSGtjE+1pDxBKmpcfCRb4GQJT87EegbKrCxy/@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPJKhomYYrHmS9Gq9dTvvA8eEf+PNPSkilr0luwGtnLVY0rOmy
-	TFkNBYBElGza7/84RzIMhJtJKRGVoLOnXrIgIDa/jcKnHEBYck6K
-X-Gm-Gg: ASbGnctADF2IlZpq2xYckwKZsb3go43QUZivoRr6ZB/7oWbTwZCAnQT85nXubV3Y4KO
-	kYpaKdJI3KokzuoZgthZYaAlN7pALFuiiakxWx7hjRUZGw48+l/o7xOnM0bE/W6tjhLF6PfZTCP
-	xS0cSxmViQGJVu0zPoJkCXWAoW8vBZSyTDuFIKwK8BP9AD7Gvx9U/QZdKCDsrf1M5zuWDxX0zhO
-	59z5I9oY1B8utcu3FgpMPS1zibZPLMnmudH9PCnK81quWmQSC2Kk/TcWeExsNeJTjq3rtCPvPzJ
-	U2ueuwrqs4bPtkW8JbTeIDm9HaCOfA==
-X-Google-Smtp-Source: AGHT+IHMQMZX11RrJfAJxnEk1Lte1C88F3XpNBYl4858wPY4LUsOrJ1ayMydlamti3jAVqcYAItK0Q==
-X-Received: by 2002:a17:90b:2d4c:b0:2ee:aed2:c15c with SMTP id 98e67ed59e1d1-2f452ec376amr77569031a91.28.1736175998177;
-        Mon, 06 Jan 2025 07:06:38 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dca028aesm292623325ad.264.2025.01.06.07.06.36
+        d=1e100.net; s=20230601; t=1736177378; x=1736782178;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AAND/sZPrYBsHz6UX5BJ7O5mUoHwQEQe92spT2hfYWQ=;
+        b=T6C7anUeqtSigcyip5v5Tm2afEOsSNyI6QP24P4tPGtDoHqtKTw68VIKqDWdBrX8VH
+         RLxxBCEjnZMdc+WHR6aiYkt2f8IFJxUz/f7o1Cwy7Pye4NtxACazsTyvjeu+/4DkPKf0
+         3jT5SJkiU4pYHzu+IfJIPz1+BKCtPlX5OsaT3XPra04cUGO6enb0iLr6JIWc4NokhBF6
+         4jJr32UkdZCm6rsLIp+jTzGIgo/DWijU2KPLFkZHFQjzt6mB1H4IARz+MSDOL963BPBp
+         IvNOEL/QMop/vbkbIaV1yUPwBnkjKn0Zu9p1anPU0Qal40bXV/svguzpgoS+/MZjOxlZ
+         mkpg==
+X-Forwarded-Encrypted: i=1; AJvYcCVx/9ymTB23MMoA1i/FygGCKvdcv7vNeciQslRnuDruc7itocxQCklDIAW4vhPbMzhPpnTB1H74eRg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfypKwvAdwa+X7FEUdrRPTq+tVsfOTJjdHcJmZQXgOFgsAsSYF
+	DYum5TYMNnKh9poqU26PyfOZ9oOBARJPfcARWnWqUuiOH2i0ZuaNOMaMnqGkVyg=
+X-Gm-Gg: ASbGnctnct1gItQugR2YPc+mqQ5HuI5BoPtW7oWw1GIOews26F/euyNyO1jipp3v/sb
+	njA0NAO0Q0u3u7Z2GDMFJ7S4VjtO0eKXZerIIIYvAvhKWOqFDeg4T0/cCGyN2SlpF90I5Xkzahw
+	ngygqdKZd5cOgiS0q+99r31ardn/9P3LtL2JAWnk5nU2Om5/LKCDsWO5VXJOvtZgWTVkeydxwgA
+	Wn74ad+oHJrhoPtC0g22+j4mK8FvF8NpYPdP2fmY1j8uuurplJUY/hCaa3oFc5c+auLXpzY4lqd
+	6IS3Gd8K5OtgFSD/fw==
+X-Google-Smtp-Source: AGHT+IGGFarXm8fuCrEMspCklEhyCFWSCb/tiAYFLqgh+VAs0QvDQ24qvEJxWJrzbVRKGM+gODxgxQ==
+X-Received: by 2002:a05:6870:8928:b0:29e:6814:19d with SMTP id 586e51a60fabf-2a7fb18a63emr33851967fac.9.1736177378016;
+        Mon, 06 Jan 2025 07:29:38 -0800 (PST)
+Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2a7d74c6959sm11593122fac.19.2025.01.06.07.29.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jan 2025 07:06:37 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <b3d86db1-cea8-4a42-9401-6fe3291e727e@roeck-us.net>
-Date: Mon, 6 Jan 2025 07:06:35 -0800
+        Mon, 06 Jan 2025 07:29:36 -0800 (PST)
+Message-ID: <4be16272-5197-4fa1-918c-c4cdfcaee02e@baylibre.com>
+Date: Mon, 6 Jan 2025 09:29:35 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,172 +66,88 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: Add INA233 device
-To: Krzysztof Kozlowski <krzk@kernel.org>, Leo Yang <leo.yang.sy0@gmail.com>,
- jdelvare@suse.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- Leo-Yang@quantatw.com, corbet@lwn.net, Delphine_CC_Chiu@Wiwynn.com,
- linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+Subject: Re: [PATCH RFC v2 3/4] iio: adc: ad7380: add alert support
+To: Jonathan Cameron <jic23@kernel.org>,
+ Julien Stephan <jstephan@baylibre.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250106071337.3017926-1-Leo-Yang@quantatw.com>
- <20250106071337.3017926-2-Leo-Yang@quantatw.com>
- <abdd156e-0c9b-477f-877c-0309c84c9d5b@kernel.org>
+References: <20241224-ad7380-add-alert-support-v2-0-7c89b2bf7cb3@baylibre.com>
+ <20241224-ad7380-add-alert-support-v2-3-7c89b2bf7cb3@baylibre.com>
+ <20241228142457.576f47d4@jic23-huawei>
 Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
- RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
- nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
- 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
- gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
- IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
- kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
- VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
- jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
- BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
- ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAlVcphcFCRmg06EACgkQyx8mb86fmYFg0RAA
- nzXJzuPkLJaOmSIzPAqqnutACchT/meCOgMEpS5oLf6xn5ySZkl23OxuhpMZTVX+49c9pvBx
- hpvl5bCWFu5qC1jC2eWRYU+aZZE4sxMaAGeWenQJsiG9lP8wkfCJP3ockNu0ZXXAXwIbY1O1
- c+l11zQkZw89zNgWgKobKzrDMBFOYtAh0pAInZ9TSn7oA4Ctejouo5wUugmk8MrDtUVXmEA9
- 7f9fgKYSwl/H7dfKKsS1bDOpyJlqhEAH94BHJdK/b1tzwJCFAXFhMlmlbYEk8kWjcxQgDWMu
- GAthQzSuAyhqyZwFcOlMCNbAcTSQawSo3B9yM9mHJne5RrAbVz4TWLnEaX8gA5xK3uCNCeyI
- sqYuzA4OzcMwnnTASvzsGZoYHTFP3DQwf2nzxD6yBGCfwNGIYfS0i8YN8XcBgEcDFMWpOQhT
- Pu3HeztMnF3HXrc0t7e5rDW9zCh3k2PA6D2NV4fews9KDFhLlTfCVzf0PS1dRVVWM+4jVl6l
- HRIAgWp+2/f8dx5vPc4Ycp4IsZN0l1h9uT7qm1KTwz+sSl1zOqKD/BpfGNZfLRRxrXthvvY8
- BltcuZ4+PGFTcRkMytUbMDFMF9Cjd2W9dXD35PEtvj8wnEyzIos8bbgtLrGTv/SYhmPpahJA
- l8hPhYvmAvpOmusUUyB30StsHIU2LLccUPPOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
- 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
- pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
- J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
- pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
- 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
- ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
- I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
- nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
- HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
- JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAlVcpi8FCRmg08MACgkQyx8mb86fmYHNRQ/+
- J0OZsBYP4leJvQF8lx9zif+v4ZY/6C9tTcUv/KNAE5leyrD4IKbnV4PnbrVhjq861it/zRQW
- cFpWQszZyWRwNPWUUz7ejmm9lAwPbr8xWT4qMSA43VKQ7ZCeTQJ4TC8kjqtcbw41SjkjrcTG
- wF52zFO4bOWyovVAPncvV9eGA/vtnd3xEZXQiSt91kBSqK28yjxAqK/c3G6i7IX2rg6pzgqh
- hiH3/1qM2M/LSuqAv0Rwrt/k+pZXE+B4Ud42hwmMr0TfhNxG+X7YKvjKC+SjPjqp0CaztQ0H
- nsDLSLElVROxCd9m8CAUuHplgmR3seYCOrT4jriMFBtKNPtj2EE4DNV4s7k0Zy+6iRQ8G8ng
- QjsSqYJx8iAR8JRB7Gm2rQOMv8lSRdjva++GT0VLXtHULdlzg8VjDnFZ3lfz5PWEOeIMk7Rj
- trjv82EZtrhLuLjHRCaG50OOm0hwPSk1J64R8O3HjSLdertmw7eyAYOo4RuWJguYMg5DRnBk
- WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
- HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <abdd156e-0c9b-477f-877c-0309c84c9d5b@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20241228142457.576f47d4@jic23-huawei>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 1/6/25 02:50, Krzysztof Kozlowski wrote:
-> On 06/01/2025 08:13, Leo Yang wrote:
->> Add TI INA233 Current and Power Monitor bindings.
+On 12/28/24 8:24 AM, Jonathan Cameron wrote:
+> On Tue, 24 Dec 2024 10:34:32 +0100
+> Julien Stephan <jstephan@baylibre.com> wrote:
 > 
-> Please use subject prefixes matching the subsystem. You can get them for
-> example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
-> your patch is touching. For bindings, the preferred subjects are
-> explained here:
-> https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
-> 
+>> The alert functionality is an out of range indicator and can be used as an
+>> early indicator of an out of bounds conversion result.
 >>
->> Signed-off-by: Leo Yang <Leo-Yang@quantatw.com>
->> ---
->>   .../bindings/hwmon/pmbus/ti,ina233.yaml       | 57 +++++++++++++++++++
->>   1 file changed, 57 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/ti,ina233.yaml
+>> ALERT_LOW_THRESHOLD and ALERT_HIGH_THRESHOLD registers are common to all
+>> channels.
 >>
->> diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/ti,ina233.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/ti,ina233.yaml
->> new file mode 100644
->> index 000000000000..2677c98dadd1
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/hwmon/pmbus/ti,ina233.yaml
->> @@ -0,0 +1,57 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +
+>> When using 1 SDO line (only mode supported by the driver right now), i.e
+>> data outputs only on SDOA, SDOB (or SDOD for 4 channels variants) is
+>> used as an alert pin. The alert pin is updated at the end of the
+>> conversion (set to low if an alert occurs) and is cleared on a falling
+>> edge of CS.
+>>
+>> The ALERT register contains information about the exact alert status:
+>> channel and direction. Unfortunately we can't read this register because
+>> in buffered read we cannot claim for direct mode.
+>>
+>> User can set high/low thresholds and enable event detection using the
+>> regular iio events:
+>>
+>>   events/in_thresh_falling_value
+>>   events/in_thresh_rising_value
+>>   events/thresh_either_en
+>>
+>> If the interrupt properties is present in the device tree, an IIO event
+>> will be generated for each interrupt received.
+>> Because we cannot read ALERT register, we can't determine the exact
+>> channel that triggers the alert, neither the direction (hight/low
+>> threshold violation), so we send and IIO_EV_DIR_EITHER event for all
+>> channels.
+>>
+>> In buffered reads, if input stays out of thresholds limit, an interrupt
+>> will be generated for each sample read, because the alert pin is cleared
+>> on a falling edge of CS (i.e when starting a new conversion). To avoid
+>> generating to much interrupt, we introduce a reset_timeout that can be
+>> used to disable interrupt for a given time (in ms)
+>>
+>>   events/thresh_either_reset_timeout
+>>
+>> When an interrupt is received, interrupts are disabled and re-enabled
+>> after thresh_either_reset_timeout ms. If the reset timeout is set to 0,
+>> interrupt are re-enabled directly.
+>> Note: interrupts are always disabled at least during the handling of the
+>> previous interrupt, because each read triggers 2 transactions, that can
+>> lead to 2 interrupts for a single user read. IRQF_ONESHOT is not enough,
+>> because, it postpones the 2nd irq after the handling of the first one,
+>> which can still trigger 2 interrupts for a single user read.
 > 
-> Drop blank line
+> After some of our recent discussions around interrupt handling and
+> the guarantees (that aren't) made, even disabling the interrupt doesn't
+> prevent some irq chips queuing up future interrupts.
 > 
->> +$id: http://devicetree.org/schemas/hwmon/pmbus/ti,ina233.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Texas Instruments INA233 of power/voltage/current monitors
->> +
->> +maintainers:
->> +  - Leo Yang <Leo-Yang@quantatw.com>
->> +
->> +description: |
->> +  INA233 High-Side or Low-Side Measurement, Bidirectional Current
->> +  and Power Monitor With I2C-, SMBus-, and PMBus-Compatible Interface.
->> +
->> +  Datasheet: https://www.ti.com/lit/ds/symlink/ina233.pdf
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - ti,ina233
+> https://lore.kernel.org/all/io53lznz3qp3jd5rohqsjhosnmdzd6d44sdbwu5jcfrs3rz2a2@orquwgflrtyc/
 > 
-> This does not fit existing ti,ina bindings?
+> I'm not sure this alert can actually work as a result :(
+> I am struggling to come up with a scheme that will work.
 > 
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  shunt-resistor:
+Would it work if we change it to a level-triggered interrupt instead of edge
+triggered?
 
-Should probably be shunt-resistor-micro-ohms.
-
->> +    description:
->> +      Shunt resistor value in micro-Ohms, Please refer to the actual circuit
->> +      resistor used.
->> +    default: 2000
-> 
-> Which schema brings the $ref for this property?
-> 
->> +
->> +  current-lsb:
->> +    description:
->> +	    Calculate the Maximum Expected Current(A) / 2^15 in micro ampere (uA/bit).
->> +	    e.g. 30A / 2^15 = 915 uA/bit
->> +    default: 1000
-> 
-> Missing ref, missing vendor prefix and missing actual explanation what
-> it is for. I don't understand the description at all.
-> 
-
-Also, the unit is missing.
-
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    i2c {
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
->> +
->> +        power-sensor@40 {
->> +            compatible = "ti,ina233";
->> +            reg = <0x40>;
->> +            shunt-resistor = /bits/ 32 <5000>;
-> 
-> Drop unusual syntax. Please take a look how all other bindings and DTS
-> is doing this.
-> 
->> +            current-lsb = /bits/ 16 <1000>;
->> +        };
->> +    };
->> \ No newline at end of file
-> 
-> You have patch errors.
-> 
-> Best regards,
-> Krzysztof
-> 
+Since the main purpose of this is to trigger a hardware shutdown, perhaps we
+could just omit the interrupt/emitting the event and keep the threshold and
+enable attributes if we can't come up with a reasonable way to handle the
+interrupts?
 
