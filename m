@@ -1,109 +1,84 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82CFA29A5;
-	Mon,  6 Jan 2025 02:41:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4874B11CBA;
+	Mon,  6 Jan 2025 02:50:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736131290; cv=none; b=B99lHbWb5lTpOLJg+wqT7nYbzDsB2AinYkdV+1p/wWDSTw/TGEb/zT3QFIqN9c28Qb301r+jX/CypiFQM4+VnN9MZkzxgeBQv0h4Pli5mlIY6Dg0iZdBnJ2DGd0ZRBLGn6Y0F83kIDscPYA8bU2QqCKafm9DJ1FGFIET1pBhYhA=
+	t=1736131811; cv=none; b=c/pkXbbhAhu0lidunRXkCnWP4My842Sj5xU1ChPwXc6r7LsW+0fTcNEDke7VMBtSXJFJeZdnEf4ZDYbm3L29L0fptleM2XDfX1EqOAY3MBrYDrtm3kWS2RJDrTgAi7pdvYhTWd7DHY4xd2Ku55JjGKAAxhg6BLhTyL18Ii5UIK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736131290; c=relaxed/simple;
-	bh=UJ/GocjO1JnefX2suW2+8t/0iNSkCdFLi5Lwd7DPWv8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EeLTMVTh7ip6t5TRtsSYylvKTNpXGYFt3G+IHI9M32p9SfMAxNNs41dRa0orbv7zmqPWHCGlp7s/EOtCR5ytNGmFMvElsrEobimsARmV/WRFdAHwLB1oK40nA8CaiiJFbsorNuIBMokjcKG4SFDl5jEoGGBfN5Fhl/dMf3110T4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A7oKZiDV; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736131811; c=relaxed/simple;
+	bh=pxVIE5U9doYqO1gtr5NtmGoE9CiEo7WfZB90wEQeGPk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nDaF2TROkLCLYCgk7VvEUnwxsNkFy2yngRCWkj//7CYJjkxyHvQmv6aFJjJEZCEdzKpUWuktfZB4qLl8jgxOwCLdOMoHazuREMU6P2Mnn8LO1cjGzR/cKowOkaV3HzjTcaLh5BN/82eJWh0melKb4osoFYef1GOW7P5A4qgfF64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EcCB7Yq3; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A7oKZiDV"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-21619108a6bso183242865ad.3;
-        Sun, 05 Jan 2025 18:41:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736131289; x=1736736089; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q9r7101FkL4cUTNajyt0kBb7QcDMx3Tz/7fQB/09Pug=;
-        b=A7oKZiDVmqb6Ti9VOnAkHRk4jshPUZO6G6TqxPwyNE51EekOn5TXyzsjNqLZ8zRy9d
-         2Ovqq1Qydzjs98YbrYBGBlUXfzIKcOPv6Xom1rbrAzocqQYCJ2UuO+Xqdg44bAHjCvFl
-         OIzo5sIbxOmM8zO9lhMD/LtAL7AoxP1MSnQCWI8gluChFsx4o4vmrW7QImdkR+iX3Nl2
-         lHKXiV3iimeqf1KJQdUqqGjjUeDS/WvMUeK1w18Hgws0RWCWujfqanE8PQqy6livkBTh
-         byzpeMoTk1f++9RMiMOWZQK9OoqT/V0pX3S7JqlbgWxve8R9bZGnPuzRJsQyUunmz6xr
-         wW3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736131289; x=1736736089;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Q9r7101FkL4cUTNajyt0kBb7QcDMx3Tz/7fQB/09Pug=;
-        b=MUrWAVSQs+hLtGCoJoLhLQqdkFEulqOXVdqgiiGFJXipQ1k1CqtitQEfSd2G1JlE95
-         L2wkTmcTiWRbGxW8ffe4Oxufgvy/+gtzMwb/RcK/8nMtoEdM5GTeTk1ka89CIbHCMasB
-         EBJZyZse8PF2OVXwtiH8SemTloExzWOQVB3meKvhJJsQXhSefmHYR6QZLWjiOQ+74t9w
-         RAa7iKRfEP6DE0dPj4Vlw8VI8bsDXehM556Jcdm1GlLm4phTIx7+SgH2wsSYy/CDR07t
-         CPMbnuq+SP01Xqt4L3p295e2qUe3uiTQJp5f/gGS3VsnXWT5vO5tYP6maWIcTh5uD0l8
-         5h7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUmDUrZkiucNPOZ4kMVYnV8KVcR/uyt3VGSIjEX0fjBVPRpBRHRLmC490UxuXEfgis+Ppgi3bhln3I=@vger.kernel.org, AJvYcCV3kFbJp919ftJgVXBq7i8haPJ/jBVLig+pGVQQVOGB7x12CBVoDXBJGz11slUYDaDjK/ZTbFw6cIrxJ//0@vger.kernel.org, AJvYcCWT3ppi/HhigpxgwN2Xjmk7G1VSPIGrvXrjXHBYkWk9Xn2RU+wiEkRhGPXF9o2yekQqdzheAqviGtmFseG2gRonOAWoGg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZ2bPHsVveHYPNqyzH4sJ99B0j5pFZRbicar4yxXDYs4oAYu+k
-	MpBopS7+/IMe9WE+etyvIwmaYBTVpQ0wq96GF6ylUQgYBwfPrY6n9tU2o0ViY05MSQQkY8IpDu6
-	XqEQnQoyaDXU0u0OxP+qKhnlhdh4=
-X-Gm-Gg: ASbGncvX9VigSCzoLNH4flC20VyA4UEIFNjXAxfCuvHd9xnoiLwUGCdYyV8v7iSsKgY
-	OYjTQzgZtWb1qHmh+VmTEYfqr5YMJSbHh+9s=
-X-Google-Smtp-Source: AGHT+IHK151DmSwTrn4/ZjM7skg2d/VPG9UKGpVtd7XC1Ag7KosZQ2DnQg/pHKwe478w3IfiMWmCQZzMa0G2Hl5RiP4=
-X-Received: by 2002:a05:6a20:4394:b0:1e1:a716:3172 with SMTP id
- adf61e73a8af0-1e5e04609a8mr82081016637.12.1736131288660; Sun, 05 Jan 2025
- 18:41:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EcCB7Yq3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736131810; x=1767667810;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=pxVIE5U9doYqO1gtr5NtmGoE9CiEo7WfZB90wEQeGPk=;
+  b=EcCB7Yq3wMw0QijJp67DiiksyppgftytIqcUWO3E2lJveesI6+PyLi07
+   QbC4FUdbvXsrjndnUMtQR5Yx7ytNyspYxMINuv3NqwDvbvV1LLVz5eUBM
+   wajcQ6T2rtk0g6s7ImM8BMrn3aJ/xtwERwDCA7TZTeNFNV0FHlhiZdHLQ
+   HMxRRlCbqyn2JdNYmkB4hxMAoXyWFKWKREgRjz2fgwU7VSRWZnMBogLhz
+   LV15FoMRmftPbG3o3kCQYofgYCvnhd04sgjA395Rmtht6HuYbpjr0hnIm
+   CaHrzEuNqfIcR8mLkGvflS6dk5Bw5ZHqud9O4QWbETawKK68Va2ypCbPa
+   w==;
+X-CSE-ConnectionGUID: cUJiuPhLTjmUNHOVE0mA4w==
+X-CSE-MsgGUID: MD6B0BS+SS6hHfV33NKryQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="53690606"
+X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
+   d="scan'208";a="53690606"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 18:50:10 -0800
+X-CSE-ConnectionGUID: pJzxby5TQBapEJrT6rfaGw==
+X-CSE-MsgGUID: oskUF8ejTMuiZEUNj5l2lw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="125599941"
+Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 18:49:50 -0800
+Message-ID: <821ed0c7-20ef-4695-9da8-a8f206f4318b@linux.intel.com>
+Date: Mon, 6 Jan 2025 10:47:44 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241227231840.21334-1-vishnuocv@gmail.com> <173548704063.4495.17991964884526324774.b4-ty@linux.intel.com>
-In-Reply-To: <173548704063.4495.17991964884526324774.b4-ty@linux.intel.com>
-From: Vishnu Sankar <vishnuocv@gmail.com>
-Date: Mon, 6 Jan 2025 11:40:43 +0900
-Message-ID: <CABxCQKuV8RwSsQkL7YBzGLL73vXMTF4HhiqMhyudVWN0ChuQng@mail.gmail.com>
-Subject: Re: [PATCH] platform/x86: thinkpad-acpi: Add support for hotkey 0x1401
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: corbet@lwn.net, hmh@hmh.eng.br, hdegoede@redhat.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	ibm-acpi-devel@lists.sourceforge.net, platform-driver-x86@vger.kernel.org, 
-	mpearson-lenovo@squebb.ca
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 01/14] iommufd: Keep IOCTL list in an alphabetical
+ order
+To: Nicolin Chen <nicolinc@nvidia.com>, jgg@nvidia.com, kevin.tian@intel.com,
+ corbet@lwn.net, will@kernel.org
+Cc: joro@8bytes.org, suravee.suthikulpanit@amd.com, robin.murphy@arm.com,
+ dwmw2@infradead.org, shuah@kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ eric.auger@redhat.com, jean-philippe@linaro.org, mdf@kernel.org,
+ mshavit@google.com, shameerali.kolothum.thodi@huawei.com,
+ smostafa@google.com, ddutile@redhat.com, yi.l.liu@intel.com,
+ patches@lists.linux.dev
+References: <cover.1735933254.git.nicolinc@nvidia.com>
+ <32abff935ee97fb0be3f675a2a61b535492e242c.1735933254.git.nicolinc@nvidia.com>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <32abff935ee97fb0be3f675a2a61b535492e242c.1735933254.git.nicolinc@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thank you so much for accepting my patch.
+On 1/4/25 03:43, Nicolin Chen wrote:
+> Move VDEVICE upward to keep the order. Also run clang-format for the same
+> coding style at line wrappings. No functional change.
+> 
+> Signed-off-by: Nicolin Chen<nicolinc@nvidia.com>
+> ---
+>   drivers/iommu/iommufd/main.c | 16 +++++++---------
+>   1 file changed, 7 insertions(+), 9 deletions(-)
 
-On Mon, Dec 30, 2024 at 12:44=E2=80=AFAM Ilpo J=C3=A4rvinen
-<ilpo.jarvinen@linux.intel.com> wrote:
->
-> On Sat, 28 Dec 2024 08:18:40 +0900, Vishnu Sankar wrote:
->
-> > F8 mode key on Lenovo 2025 platforms use a different key code.
-> > Adding support for the new keycode 0x1401.
-> >
-> > Tested on X1 Carbon Gen 13 and X1 2-in-1 Gen 10.
-> >
-> >
->
->
-> Thank you for your contribution, it has been applied to my local
-> review-ilpo-fixes branch. Note it will show up in the public
-> platform-drivers-x86/review-ilpo-fixes branch only once I've pushed my
-> local branch there, which might take a while.
->
-> The list of commits applied:
-> [1/1] platform/x86: thinkpad-acpi: Add support for hotkey 0x1401
->       commit: 7e16ae558a87ac9099b6a93a43f19b42d809fd78
->
-> --
->  i.
->
-
-
---=20
-
-Regards,
-
-      Vishnu Sankar
-     +817015150407 (Japan)
+Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
