@@ -1,179 +1,219 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8081DC05D;
-	Mon,  6 Jan 2025 10:52:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6670E1DC98D;
+	Mon,  6 Jan 2025 11:00:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736160772; cv=none; b=fh3MqKG/iHW8Ixjyw4Dd9TDkzPcrYJF1ZZPJaQmbG/k27InLVGqgEClCbHpWwmZgl13viADPCTl/jAkLvGPe9TkqbYAQcQ1U+DJ8GW800ubMzPlFX2TtwBeVLVWerewzTOwJ3brcO3bXuXsGrw3MuHjN0mmgAXkZw6ZC1nDH7JY=
+	t=1736161251; cv=none; b=NTLV7lOQjWjJPQrPOiv7FLCLrVJ/mlosSuDxW9Zwml3jbqONLlKjWGJR8AYeDQwxCK0ylH8Y4noJJK89hnZfPbioXlEdViEo0cKKDTVfk0x6jF70RNUDM/zxXag6+lSlcURTmeBfBkPLDlhLqeKCgKWTqsTjfmcdxCzbpEia0eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736160772; c=relaxed/simple;
-	bh=Q8Z1waplB19mCn1cuTl3dkKfZTG3BnJJmWsNjQ4Qku8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=kMxC5GCZiOJrfUTP///o/wNe0YJA+8mmSZjqXNcQ5txW/CYxoUrPwhbrozudphChphW7nGQjThO2LjiPwf/2xOAluAnaG+8VCSGg2+H+MJcKICcTFoXN5ys+tffURmQ6piy2Z0LNus/237QDuE0Rcba4DR7D+Ws9JbjN3RkydV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MvMpPbiE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736161251; c=relaxed/simple;
+	bh=epVUt6AtXxe7XJ0RVS9/SuPxMM19T7pb+boWvz5D5eg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=keVyJOtJpQ13mEjL8w/ixpkaFv8TgOqsJ8CyyoFSWOm9+n6oPoA1fXoKPxCsWrGxmjkq1BwIUGZlCdsF9C29La5UeqEkg0UWfkYdIuJWB/bGuDl9oUxeLeNd84TJCyTXewNUm1ulz85DgggW5iEQKgIslNd0/3hPZYLXlAvAV4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Pc+4eojU; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MvMpPbiE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A54DAC4CED2;
-	Mon,  6 Jan 2025 10:52:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736160772;
-	bh=Q8Z1waplB19mCn1cuTl3dkKfZTG3BnJJmWsNjQ4Qku8=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=MvMpPbiEX1tOXJPOqR9fjx0yh2R3COKzsAXfkGiaQKxQ/Cz2f4ZIUz2mY/3HihlaO
-	 3ACKmGd2m8xFpMtQYOi5VOj7v24JEZfiutBIb8JNFRT8shN7cCcqDiw4lCSy1TWS7X
-	 zSyuf8XJqL2beOF4vvnCPmYWiRQo0VWXt1ypePmLNJMP4buYyxUfi5GGEwBICvQtq/
-	 wvrz33GsgMbLcmlOszHJlvOEY+a00M5Ub1/NETStEGDa10OeLG7BV06SjIF9XEU6i5
-	 pm4JGeKweag3RDEnfmwPE5kTcqckxKFoePZHFu4DKHGVgvMps+MDW6Pz8uzLGN2/mt
-	 BoZFUSQPhnGiQ==
-Message-ID: <428c034c-79a2-4753-9af8-4dc5af7d310f@kernel.org>
-Date: Mon, 6 Jan 2025 11:52:46 +0100
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Pc+4eojU"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 505NainT007036;
+	Mon, 6 Jan 2025 11:00:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=MMvOnQ3PAmRpfPa+4Bal1+FvmYfaAW
+	4Wgr8onGT7XMg=; b=Pc+4eojU4+ztWQVNTlA7JVUyRDicaiYpV8T1V3Tg1fLvt7
+	j/e835ZUnDKtkIFWY1uFoGjPppSPPe5ZOojIcNJrDdo8sSMRNrPcoQnPBur0Pc9R
+	Aod+kl+X8RbyyhhkDrqTtm344r05jWOEekCavFLIshb/YXPmD1rBVz73djRYXa1v
+	HV9k9agOGWp2ATDMLGwzER1GBSBzMHKTDTFEK1CuJn3EvexHL286bnpzQglzgD/4
+	LPaNiZNymDVa1F+aY4uxc+JLc2znsoXae+BJ33pYLuNZI+/rAERt/iDB56ue+Vqd
+	pvAB+zKyXhdI0QqFewQxmP+DvqSIQwFaRdfhMbCg==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4403waj459-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 06 Jan 2025 11:00:37 +0000 (GMT)
+Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 506B0bN2007285;
+	Mon, 6 Jan 2025 11:00:37 GMT
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4403waj456-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 06 Jan 2025 11:00:37 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5067A2dn026179;
+	Mon, 6 Jan 2025 11:00:36 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 43yj11w2pu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 06 Jan 2025 11:00:36 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 506B0XbU18022732
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 6 Jan 2025 11:00:33 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0C0952004B;
+	Mon,  6 Jan 2025 11:00:33 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1D3532004D;
+	Mon,  6 Jan 2025 11:00:29 +0000 (GMT)
+Received: from vaibhav?linux.ibm.com (unknown [9.39.19.130])
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with SMTP;
+	Mon,  6 Jan 2025 11:00:28 +0000 (GMT)
+Received: by vaibhav@linux.ibm.com (sSMTP sendmail emulation); Mon, 06 Jan 2025 16:30:27 +0530
+From: Vaibhav Jain <vaibhav@linux.ibm.com>
+To: Gautam Menghani <gautam@linux.ibm.com>
+Cc: linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+        kvm-ppc@vger.kernel.org, linux-doc@vger.kernel.org,
+        Madhavan Srinivasan
+ <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas
+ Piggin <npiggin@gmail.com>,
+        Vaidyanathan Srinivasan
+ <svaidy@linux.vnet.ibm.com>,
+        sbhat@linux.ibm.com, kconsul@linux.ibm.com, amachhiw@linux.ibm.com
+Subject: Re: [PATCH 1/6] [DOC] powerpc: Document APIv2 KVM hcall spec for
+ Hostwide counters
+In-Reply-To: <fimq6f367gj3ypuke2slogz4i3zt4jfst4kwnrlzps3xinkoh5@arkajtap562s>
+References: <20241222140247.174998-1-vaibhav@linux.ibm.com>
+ <20241222140247.174998-2-vaibhav@linux.ibm.com>
+ <fimq6f367gj3ypuke2slogz4i3zt4jfst4kwnrlzps3xinkoh5@arkajtap562s>
+Date: Mon, 06 Jan 2025 16:30:27 +0530
+Message-ID: <87r05g1a2c.fsf@vajain21.in.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] hwmon: Add driver for TI INA233 Current and Power
- Monitor
-To: Leo Yang <leo.yang.sy0@gmail.com>, jdelvare@suse.com, linux@roeck-us.net,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- Leo-Yang@quantatw.com, corbet@lwn.net, Delphine_CC_Chiu@Wiwynn.com,
- linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250106071337.3017926-1-Leo-Yang@quantatw.com>
- <20250106071337.3017926-3-Leo-Yang@quantatw.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250106071337.3017926-3-Leo-Yang@quantatw.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: bWikSTz9elmrjbakW7_8KUhkOTrKYI1O
+X-Proofpoint-ORIG-GUID: HP5fThnEfEFF-rv-yt2L2GsciEvMNfBi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
+ lowpriorityscore=0 spamscore=0 suspectscore=0 bulkscore=0 mlxscore=0
+ clxscore=1015 adultscore=0 impostorscore=0 priorityscore=1501
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501060097
 
-On 06/01/2025 08:13, Leo Yang wrote:
-> Support ina233 driver for Meta Yosemite V4.
-> 
-> Driver for Texas Instruments INA233 Current and Power Monitor
-> With I2C-, SMBus-, and PMBus-Compatible Interface
-> 
-> According to the mail
-> https://lore.kernel.org/all/
-> 20230920054739.1561080-1-Delphine_CC_Chiu@wiwynn.com
+Hi Gautam,
 
-Don't break the URLs. It makes them difficult to use.
+Thanks for reviewing this patch. My responses to your review comments
+inline below:
 
+Gautam Menghani <gautam@linux.ibm.com> writes:
 
-> maintainer's suggested rewrite driver
-> 
+> On Sun, Dec 22, 2024 at 07:32:29PM +0530, Vaibhav Jain wrote:
+>> Update kvm-nested APIv2 documentation to include five new
+>> Guest-State-Elements to fetch the hostwide counters. These counters are
+>> per L1-Lpar and indicate the amount of Heap/Page-table memory allocated,
+>> available and Page-table memory reclaimed for all L2-Guests active
+>> instances
+>> 
+>> Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+>> ---
+>>  Documentation/arch/powerpc/kvm-nested.rst | 40 ++++++++++++++++-------
+>>  1 file changed, 29 insertions(+), 11 deletions(-)
+>> 
+>> diff --git a/Documentation/arch/powerpc/kvm-nested.rst b/Documentation/arch/powerpc/kvm-nested.rst
+>> index 5defd13cc6c1..c506192f3f98 100644
+>> --- a/Documentation/arch/powerpc/kvm-nested.rst
+>> +++ b/Documentation/arch/powerpc/kvm-nested.rst
+>> @@ -208,13 +208,9 @@ associated values for each ID in the GSB::
+>>        flags:
+>>           Bit 0: getGuestWideState: Request state of the Guest instead
+>>             of an individual VCPU.
+>> -         Bit 1: takeOwnershipOfVcpuState Indicate the L1 is taking
+>> -           over ownership of the VCPU state and that the L0 can free
+>> -           the storage holding the state. The VCPU state will need to
+>> -           be returned to the Hypervisor via H_GUEST_SET_STATE prior
+>> -           to H_GUEST_RUN_VCPU being called for this VCPU. The data
+>> -           returned in the dataBuffer is in a Hypervisor internal
+>> -           format.
+>> +         Bit 1: getHostWideState: Request stats of the Host. This causes
+>> +           the guestId and vcpuId parameters to be ignored and attempting
+>> +           to get the VCPU/Guest state will cause an error.
+>
+> s/Request stats/Request state
+>
+Its is 'Request stats' are this flag currently return Hostwide stat
+counters.
 
+>>           Bits 2-63: Reserved
+>>        guestId: ID obtained from H_GUEST_CREATE
+>>        vcpuId: ID of the vCPU pass to H_GUEST_CREATE_VCPU
+>> @@ -402,13 +398,14 @@ GSB element:
+>>  
+>>  The ID in the GSB element specifies what is to be set. This includes
+>>  archtected state like GPRs, VSRs, SPRs, plus also some meta data about
+>> -the partition like the timebase offset and partition scoped page
+>> +the partition and  like the timebase offset and partition scoped page
+>>  table information.
+>
+> The statement that is already there looks correct IMO.
+>
+Right. I will update it to reflect L1-lpar stats in v2.
+>>  
+>>  +--------+-------+----+--------+----------------------------------+
+>> -|   ID   | Size  | RW | Thread | Details                          |
+>> -|        | Bytes |    | Guest  |                                  |
+>> -|        |       |    | Scope  |                                  |
+>> +|   ID   | Size  | RW |(H)ost  | Details                          |
+>> +|        | Bytes |    |(G)uest |                                  |
+>> +|        |       |    |(T)hread|                                  |
+>> +|        |       |    |Scope   |                                  |
+>>  +========+=======+====+========+==================================+
+>>  | 0x0000 |       | RW |   TG   | NOP element                      |
+>>  +--------+-------+----+--------+----------------------------------+
+>> @@ -434,6 +431,27 @@ table information.
+>>  |        |       |    |        |- 0x8 Table size.                 |
+>>  +--------+-------+----+--------+----------------------------------+
+>>  | 0x0007-|       |    |        | Reserved                         |
+>> +| 0x07FF |       |    |        |                                  |
+>> ++--------+-------+----+--------+----------------------------------+
+>> +| 0x0800 | 0x08  | R  |   H    | Current usage in bytes of the    |
+>> +|        |       |    |        | L0's Guest Management Space      |
+>> ++--------+-------+----+--------+----------------------------------+
+>> +| 0x0801 | 0x08  | R  |   H    | Max bytes available in the       |
+>> +|        |       |    |        | L0's Guest Management Space      |
+>> ++--------+-------+----+--------+----------------------------------+
+>> +| 0x0802 | 0x08  | R  |   H    | Current usage in bytes of the    |
+>> +|        |       |    |        | L0's Guest Page Table Management |
+>> +|        |       |    |        | Space                            |
+>> ++--------+-------+----+--------+----------------------------------+
+>> +| 0x0803 | 0x08  | R  |   H    | Max bytes available in the L0's  |
+>> +|        |       |    |        | Guest Page Table Management      |
+>> +|        |       |    |        | Space                            |
+>> ++--------+-------+----+--------+----------------------------------+
+>> +| 0x0804 | 0x08  | R  |   H    | Amount of reclaimed L0 Guest's   |
+>> +|        |       |    |        | Page Table Management Space due  |
+>> +|        |       |    |        | to overcommit                    |
+>
+> I think it would be more clear to specify "... Management space for L1
+> ..." in the details of all above entries.
+>
+Agree, Updated that in v2.
 
+>> ++--------+-------+----+--------+----------------------------------+
+>> +| 0x0805-|       |    |        | Reserved                         |
+>>  | 0x0BFF |       |    |        |                                  |
+>>  +--------+-------+----+--------+----------------------------------+
+>>  | 0x0C00 | 0x10  | RW |   T    |Run vCPU Input Buffer:            |
+>> -- 
+>
+> Also, the row 2 of this table mentions the 'takeOwnershipOfVcpuState' flag
+> which is no longer supported. You can remove that as well.
+>
+Updating this document for 'takeOwnershipOfVcpuState' will be done as a
+separate patch and not part of this patch series
 
-> +INA233 HARDWARE MONITOR DRIVER
-> +M:	Leo Yang <Leo-Yang@quantatw.com>
-> +M:	Leo Yang <leo.yang.sy0@gmail.com>
-> +L:	linux-hwmon@vger.kernel.org
-> +S:	Odd Fixes
-> +F:	Documentation/devicetree/bindings/hwmon/ina233.txt
+>> 2.47.1
+>> 
+>
 
-There is no such file.
-
-
-...
-
-> +
-> +struct pmbus_driver_info ina233_info = {
-
-Why this cannot be const and static?
-
-> +	.pages = 1,
-> +	.format[PSC_VOLTAGE_IN] = direct,
-> +	.format[PSC_VOLTAGE_OUT] = direct,
-> +	.format[PSC_CURRENT_OUT] = direct,
-> +	.format[PSC_POWER] = direct,
-> +	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_INPUT
-> +		| PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT
-> +		| PMBUS_HAVE_POUT
-> +		| PMBUS_HAVE_VMON | PMBUS_HAVE_STATUS_VMON,
-> +	.m[PSC_VOLTAGE_IN] = 8,
-> +	.R[PSC_VOLTAGE_IN] = 2,
-> +	.m[PSC_VOLTAGE_OUT] = 8,
-> +	.R[PSC_VOLTAGE_OUT] = 2,
-> +	.read_word_data = ina233_read_word_data,
-> +};
-> +
-> +static int ina233_probe(struct i2c_client *client)
-> +{
-> +	int ret, m, R;
-> +	u32 rshunt;
-> +	u16 current_lsb;
-> +	u16 calibration;
-> +
-> +	/* If INA233 skips current/power, shunt-resistor and current-lsb aren't needed.	*/
-> +
-> +	/* read rshunt value (uOhm) */
-> +	ret = of_property_read_u32(client->dev.of_node, "shunt-resistor", &rshunt);
-> +	if (ret < 0 || !rshunt) {
-> +		dev_err(&client->dev, "Unable to read shunt-resistor or value is 0, default value %d uOhm is used.\n",
-> +			INA233_RSHUNT_DEFAULT);
-
-Your binding said this is optional, so how this can be an error?
-
-> +		rshunt = INA233_RSHUNT_DEFAULT;
-> +	}
-> +
-> +	/* read current_lsb value (uA/bit) */
-> +	ret = of_property_read_u16(client->dev.of_node, "current-lsb", &current_lsb);
-> +	if (ret < 0 || !current_lsb) {
-> +		dev_err(&client->dev, "Unable to read current_lsb or value is 0, default value %d uA/bit is used.\n",
-> +			INA233_CURRENT_LSB_DEFAULT);
-
-Same problem
-
-> +		current_lsb = INA233_CURRENT_LSB_DEFAULT;
-> +	}
-> +
-Best regards,
-Krzysztof
+-- 
+Cheers
+~ Vaibhav
