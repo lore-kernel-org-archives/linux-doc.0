@@ -1,175 +1,213 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2071.outbound.protection.outlook.com [40.107.244.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F5C71DEFDC
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jan 2025 17:26:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736184393; cv=none; b=ZZVz0w890PaDtjv7AqIjjuVtAgiAsL+sX9FtFJJ8V8REAHBNESJlmgUvIXiQNHF7i1hidZzNdjYXZdUPUsJ0yiu+v5EtRRMnDhc/ot3P6y4OInKfq2v4qoylUEVpr5x2wsAJHKRITwOjEgnIuABu2vxnOYSbiqphZox9FmUKVs0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736184393; c=relaxed/simple;
-	bh=yRwjxIVp6X2QV8L34y72ii3dXUdNCBl8vp4rZXZVvlo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Yu4JaLCeVajOz5BX1M0v+7Zh4Pr0B6SYY3s3Xw6dTj2IuUZntl3bmIwB9WrG+l0HHGAlE3jLytGaQ8bXMGUDKoBgbzTvRLv90ZHKz3lzXy1kHEYs+3v9fswAGt9hMQzMBYA0D+kEMYJsl0tbYsGKxBI4AMElIFJ3EcSwUQRtz3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CN4TRmmq; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B4A1DF24B;
+	Mon,  6 Jan 2025 18:46:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.71
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736189201; cv=fail; b=UEt6eLfR3TgtOM7UTvECTYfxsJEqAhuv/I69lbXQRzdw0eYVtf0nDI4reSMtVgtB71KyZ3eQCn5Z8C8mg3a2jcUnv2VQRICjkaLQLieXNC7I4lgDNVA7X6XFdtBe1HNvdrFYXVlnN/ldozqGioiNH1na5iuYRSPes2DFKV8Qs4M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736189201; c=relaxed/simple;
+	bh=BKnvbYyP9sHEuz1yR+C2wixPIW+WQnlx5/wC0sKbcfo=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kV59tpFe1WNdarLSkX8x25jm710s+o8dYOG03lubcklv4fk1u4adnds/kb1YgAAq9OFlGTc4G6khRuJsXL9UQl8sTBUVyU0cz1ssD4xMHoUmH1bafCZeq3vCy6TYxoMjedK388vo8FY274txSoiBX5waQey4wpgjAl9i/avp3pU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=mR86ZsHz; arc=fail smtp.client-ip=40.107.244.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CN4TRmmq"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-467896541e1so514071cf.0
-        for <linux-doc@vger.kernel.org>; Mon, 06 Jan 2025 09:26:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736184389; x=1736789189; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T6rxXklF4dZRAeJ2Ffa+a+2xKsUwbq1AwgjfUqcTc6Y=;
-        b=CN4TRmmqhZ2W00NJAoC1sZnWk2Na5NSXNnEmEj+oy5rN09cJ2isTros2ClJJoeqzeu
-         oy1FFf+TZcooe8p1iRE3ei/0HfHaU0fg3d/zxJN5i2jhdr5qHWXTXkI9nPd+XooFj/sz
-         zWUeOzYflJytBHv9O42k3XhQT96FgMyzVVCUYmtAPIX5Kn99MypUo1G1DFizLCrvBcv6
-         3CwpzBJKDn47P/t4vgJ7ybVFKHDY66bO/GK2al05MbbPYDsJikoKZRnEpKuUy+qFlQ8/
-         6K9plNgIOvWK6B9sGZUrgSpQtQDfpFt8muNWvcaauLxugUnniqX6hYr5kS1hvjGEZCif
-         kgXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736184389; x=1736789189;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=T6rxXklF4dZRAeJ2Ffa+a+2xKsUwbq1AwgjfUqcTc6Y=;
-        b=XNBMlpO4dOPrJzCePdGWnMmkv2zozgK6NmYFPawKGgc4V4e4Q5Q989i/QwRyS7ck+j
-         IJnVEHlq6schsMkArApnoyca52QWPB19hLkBCe2LNfq359OmRJXj7NIJOTPJ1yRwx1GO
-         +8/CTNgSPgz/ulAYNZPf+kgWTirUHQ1QfREoMyEUl/HSG2JDL9eqwQg+NFPaotkEY7Gn
-         5epdielQDS1Dn3DxXCxFevnhBiyRkvQYYukb6R3K7FlgnMR5rge4NlKWpKmgElVAzL8h
-         Q4npMzqye8Iox3bwLonxncPCQHxLDVMXuRJSEdOcSLoDT4GF0I9PpVcXDRm3fQKxIv1K
-         IKKg==
-X-Forwarded-Encrypted: i=1; AJvYcCWfPP97D9erOi2MP7/kXfkiG3UcBr4hSXIIgBUvm8UIpsMRuK/DosXphPkv1n27CdNyEjZuBzI9m6Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/H6+E+3EWnPyEzSVptZph0QxLb+u+khLVk4b3pYOpFt7nJwJT
-	UKqYjo5yqnA3Dfbe8iDwSk/WhJLgB9J1a7IMVtUVzbGt1hcAODWEXQFVfBigpoF+oQx+6MeyRkg
-	hT0VLmDjF2sWV1XKOZrCM67KS1kPaMpmaG2uA
-X-Gm-Gg: ASbGncvBZ2bCMxs0ufdulwBFBeikORhcbKd5QcwDxvbpIizP7fGcNJTyh8vxfUEM4kH
-	OJBnS47aUkGzlrMEgDo+Yk+O2arcdVLSxT0glHw==
-X-Google-Smtp-Source: AGHT+IFJCjq3wjm9kRCvwm8UoVMoNTKlObb/EWc2On4aKjNnEpuElJqH1BI9wHN48IrRIzMGVNSUTYt+Hm5YgR/7v/8=
-X-Received: by 2002:ac8:5a0a:0:b0:467:7ef7:88a3 with SMTP id
- d75a77b69052e-46b1fb09a9dmr7572121cf.16.1736184389095; Mon, 06 Jan 2025
- 09:26:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="mR86ZsHz"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HE+TK9aiKl8/7KpEfnEtNGI+sGOHualbyKBzeneViVa91C2qt9ep6hPJ0AViouJqCIp2+8My1DJoITYDUyFOneaPAj3WfXpMqydDK4yNMqqvaWQL1BfQ8NCPTWbWejMXnSRbDFc4VHwsGa49Hn0uFPmTv2jX5UtklGTi4y5lIhJab/JKZHB7r1DHiKwGJhj5xlTHhcPclF3DKafehb/l6i+oBhZe0o2J9ccB1EE4MEC/RxQGR1gVYw2LYJi0mvVyYOAaxh8kjSYY24BVjehF/G1IcGscEafbU2BoPe+/Bwd9GPa527DBr5xBcE9rWxpq4hV5vQa/Wr7UPWq+EyUo3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=G4pyQMQesI0VN6u/oMLqzRbScdAPSCw9Xw8P39SllYc=;
+ b=MssWKiyI4sG/SrNB0slqZ11POqt3WL68z3AkXyiRLpWGOKQOR7bS9bsle91WMmRIae7wpQr6dFlXCGiaorH/CmTWBBZ31VDnaLk4X+bbFpxJeNqEg4mXw3UuHE5Z/lwYiAHVKhW4NEEn8g5DCZ6FTnmkKzOx8zTru6HMHBtk4Czo996gxEA9qegOc2RKtY1ka5XrGMkOcmaeuVh1bVxhkh66Qrd1kyL7PIN61Jz/Jq+54lWtYDK8CviWLw7EhGkIgezlr3Z2s4m2Sj+0jRdvQa8ABAbMMmxtv4nJfiK2OgLxDX2t2Q9QOJKUvGu4z8sjeURzgJ3W8uDjdOQI1piEJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G4pyQMQesI0VN6u/oMLqzRbScdAPSCw9Xw8P39SllYc=;
+ b=mR86ZsHzIerCdRlHXJwq+LQ8ItceV28iTOT+JSKbFcxJdiuhp4y8AK/wfLUprddF0OvArWJPCmAR8MSysY/LTd6Jxt5lz2suSuucDPixtbuBmzWN8JzJwgvwE2mcV2hOZLWoxruW/MY2iL+gx3CD4847jRiRnWM3dCdrmYUSyLZ/zerByJ45zGB7mHVoSR901ubALKprPJlgH8cSwzPS1KRF2syfebE71+S8oiAKnr7Ny9am2aCtYI8SCCCO4NQMelSTFBd09mKvD5f2wCqt5I75904IQnmHV8DFY+g4Ea89Z93YttH0/wCBV0Pkq3VfS1Bhg2cxwAOItakUo5iQhQ==
+Received: from SA0PR11CA0094.namprd11.prod.outlook.com (2603:10b6:806:d1::9)
+ by SA0PR12MB4350.namprd12.prod.outlook.com (2603:10b6:806:92::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.17; Mon, 6 Jan
+ 2025 18:46:31 +0000
+Received: from SA2PEPF00003AEB.namprd02.prod.outlook.com
+ (2603:10b6:806:d1:cafe::d) by SA0PR11CA0094.outlook.office365.com
+ (2603:10b6:806:d1::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8314.18 via Frontend Transport; Mon,
+ 6 Jan 2025 18:46:31 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SA2PEPF00003AEB.mail.protection.outlook.com (10.167.248.11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8335.7 via Frontend Transport; Mon, 6 Jan 2025 18:46:31 +0000
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 6 Jan 2025
+ 10:46:18 -0800
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail204.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 6 Jan 2025
+ 10:46:17 -0800
+Received: from Asurada-Nvidia (10.127.8.9) by mail.nvidia.com (10.129.68.10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4 via Frontend
+ Transport; Mon, 6 Jan 2025 10:46:15 -0800
+Date: Mon, 6 Jan 2025 10:46:13 -0800
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Baolu Lu <baolu.lu@linux.intel.com>
+CC: <jgg@nvidia.com>, <kevin.tian@intel.com>, <corbet@lwn.net>,
+	<will@kernel.org>, <joro@8bytes.org>, <suravee.suthikulpanit@amd.com>,
+	<robin.murphy@arm.com>, <dwmw2@infradead.org>, <shuah@kernel.org>,
+	<linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <eric.auger@redhat.com>,
+	<jean-philippe@linaro.org>, <mdf@kernel.org>, <mshavit@google.com>,
+	<shameerali.kolothum.thodi@huawei.com>, <smostafa@google.com>,
+	<ddutile@redhat.com>, <yi.l.liu@intel.com>, <patches@lists.linux.dev>
+Subject: Re: [PATCH v4 14/14] iommu/arm-smmu-v3: Report events that belong to
+ devices attached to vIOMMU
+Message-ID: <Z3wk9TvmUhB3/zlk@Asurada-Nvidia>
+References: <cover.1735933254.git.nicolinc@nvidia.com>
+ <69a46c72e43ed086840be462eef731167d90a9d8.1735933254.git.nicolinc@nvidia.com>
+ <585fc99f-c2dc-459c-929a-c7c7631b9caf@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241226170710.1159679-1-surenb@google.com> <20241226170710.1159679-13-surenb@google.com>
- <20250106003821.3gtfxq33fqj4wm5b@master>
-In-Reply-To: <20250106003821.3gtfxq33fqj4wm5b@master>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Mon, 6 Jan 2025 09:26:18 -0800
-X-Gm-Features: AbW1kvbaXcBoTX_mpSsAlcDCw3o53cgg9-NCBUyOQF6QTVAS9PZy6MM4RcwFoVw
-Message-ID: <CAJuCfpE+kzSO4ei3jmKEn_nu=xETBwDu73C=izPJy6y+4wGx7Q@mail.gmail.com>
-Subject: Re: [PATCH v7 12/17] mm: replace vm_lock and detached flag with a
- reference count
-To: Wei Yang <richard.weiyang@gmail.com>
-Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org, 
-	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, mhocko@suse.com, 
-	vbabka@suse.cz, hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	klarasmodin@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <585fc99f-c2dc-459c-929a-c7c7631b9caf@linux.intel.com>
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003AEB:EE_|SA0PR12MB4350:EE_
+X-MS-Office365-Filtering-Correlation-Id: 77764df7-e657-45ff-f8ff-08dd2e826fc3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|36860700013|82310400026|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?BGOlOI6BMW2nbGCbJ20oaNvRebmWx/aSrVKG/eZtEMBj2YLTPiMM/s41SfJj?=
+ =?us-ascii?Q?gO81cPJU81IV8Wz0JCSUxnIHtbGHja0KE4Uoui5aTlOt5zOavXwxiNZAhF9n?=
+ =?us-ascii?Q?1VSdPrqZlDlBnjNORbTr0gObWzc7YcjGuaGl5Gn0AZjT6TDw8jW1Pz0K5qh5?=
+ =?us-ascii?Q?IcNnl4ELRD5WimUfWelXNX8ZIk6JT3FLefadOewQeOz0rhWJsHjpZqAyI1JR?=
+ =?us-ascii?Q?waTO+WRy37xXnz0HWiOUSDgm5mZXGA2wAtWui9+IClGsqN/E/IvWROW9P1O7?=
+ =?us-ascii?Q?RGQq6bauU6G7UrES8x3JS32pJvX4lkL3Yhss0oL8zBKIsjc3QPtGdLQKNxhS?=
+ =?us-ascii?Q?1z6r4hgg9zrsYdfXWYhn5Exdm4YSdLh32FjszModqG8sqz9+AYAhKQ0Nm/my?=
+ =?us-ascii?Q?UEVyDYIV731UO/AiilNsjJnBBbRsq/ljDwn5vDh03BnmKxHNSH3joNJDHxp6?=
+ =?us-ascii?Q?Cla+kEsa5VhWKpAyDG7eNFS43eJH8ZatXqO5SaBZFeZ3PbpgxLH2536TSMOx?=
+ =?us-ascii?Q?50Nbbqf9SvwztiVwTYh2cA8ypJ7yNQcsZCS3xF28CIEEdAjCgadWXddsN7R0?=
+ =?us-ascii?Q?0NedL2nT4NneDLiAP9ovo4Xm80Lz7V84av87zu/RymbGW1S+sYl4Mmgno8Dg?=
+ =?us-ascii?Q?+l3EatahAORr2E2JgnCVrIo88i7e1B0OijJaGxgzBEjEcpHF/COl1Y5RhmW0?=
+ =?us-ascii?Q?0qdtDAbB+rirEDgL8OwrRSxURuvRHrn/suNynF9cShTGIpEhtrYjsYzq0JpZ?=
+ =?us-ascii?Q?WgkzQK01vM0NbtSzWmw3d2lx0XXQ2ut+DTJlfVR6miwd5EJCl252ZnpyXkUl?=
+ =?us-ascii?Q?3Ng60aaEwW+iXZWoCm1Hkc29oVoRbUj+JllBzwf+M2LzTIK8YBezdaatK2Jj?=
+ =?us-ascii?Q?hbcmB61AnsDoZ2rmmezTdUr5/PiHqEdIy3Ex47ICvMvh6/sB8dvNYaZLseOc?=
+ =?us-ascii?Q?cTqVKQdHvzObg+Qctl0s4Rd4l7a4v9AoRUhcz23nXvyN+z7JjDz45frhHQZ8?=
+ =?us-ascii?Q?Bo4BK0U/874Bj69418kJlxCHGe1PITVNXG06B+k5+c3Xh8RHjsavHMBy9jt2?=
+ =?us-ascii?Q?wFTsauhJQWquobjF+LAO1Q0zUgOyhHan9qeplO5W46jvsrNZG4eNj8/9wCyV?=
+ =?us-ascii?Q?Uq8vCoSrKxP/AXUaW5/pYktEFG6HFPp9vGRLeXxeeUNLlcz5Dzggp3h1Vn+7?=
+ =?us-ascii?Q?0taLbFfoQwhQvPcvzvBE09EqKH6R7iRUXx31W/VqfjSj//0zVKQy5GXb5kiz?=
+ =?us-ascii?Q?H33vv0iXZdWsSapO7wJ4rwbvtVZPBDjAZ7NEcKSHZ1GrNgeBx1T6Nb4dY6bL?=
+ =?us-ascii?Q?8SmIXMIFe7icRW33hsAXK99WQLBLFeEtjId5dq5j9yIo7HaCeh7mAfnNqPXb?=
+ =?us-ascii?Q?TVloh6YAqFG/yWAe0OZj4QO/3/RIY+slSocvEIKZXtdtrkmK3m6mi4ddb8UC?=
+ =?us-ascii?Q?Ks0PCpY6HcX4asta82hg0/pTyXPYpSBg69bhu0iFQNWSAxIGOPnn4M40rZ5R?=
+ =?us-ascii?Q?duWGRkUn4M+xnpo=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(7416014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2025 18:46:31.0812
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77764df7-e657-45ff-f8ff-08dd2e826fc3
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF00003AEB.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4350
 
-On Sun, Jan 5, 2025 at 4:38=E2=80=AFPM Wei Yang <richard.weiyang@gmail.com>=
- wrote:
->
-> On Thu, Dec 26, 2024 at 09:07:04AM -0800, Suren Baghdasaryan wrote:
-> [...]
-> > /*
-> >  * Try to read-lock a vma. The function is allowed to occasionally yiel=
-d false
-> >  * locked result to avoid performance overhead, in which case we fall b=
-ack to
-> >@@ -710,6 +733,8 @@ static inline void vma_lock_init(struct vm_area_stru=
-ct *vma)
-> >  */
-> > static inline bool vma_start_read(struct vm_area_struct *vma)
-> > {
-> >+      int oldcnt;
-> >+
-> >       /*
-> >        * Check before locking. A race might cause false locked result.
-> >        * We can use READ_ONCE() for the mm_lock_seq here, and don't nee=
-d
-> >@@ -720,13 +745,20 @@ static inline bool vma_start_read(struct vm_area_s=
-truct *vma)
-> >       if (READ_ONCE(vma->vm_lock_seq) =3D=3D READ_ONCE(vma->vm_mm->mm_l=
-ock_seq.sequence))
-> >               return false;
-> >
-> >-      if (unlikely(down_read_trylock(&vma->vm_lock.lock) =3D=3D 0))
-> >+
-> >+      rwsem_acquire_read(&vma->vmlock_dep_map, 0, 0, _RET_IP_);
-> >+      /* Limit at VMA_REF_LIMIT to leave one count for a writer */
-> >+      if (unlikely(!__refcount_inc_not_zero_limited(&vma->vm_refcnt, &o=
-ldcnt,
-> >+                                                    VMA_REF_LIMIT))) {
-> >+              rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
-> >               return false;
-> >+      }
-> >+      lock_acquired(&vma->vmlock_dep_map, _RET_IP_);
-> >
-> >       /*
-> >-       * Overflow might produce false locked result.
-> >+       * Overflow of vm_lock_seq/mm_lock_seq might produce false locked=
- result.
-> >        * False unlocked result is impossible because we modify and chec=
-k
-> >-       * vma->vm_lock_seq under vma->vm_lock protection and mm->mm_lock=
-_seq
-> >+       * vma->vm_lock_seq under vma->vm_refcnt protection and mm->mm_lo=
-ck_seq
-> >        * modification invalidates all existing locks.
-> >        *
-> >        * We must use ACQUIRE semantics for the mm_lock_seq so that if w=
-e are
-> >@@ -734,10 +766,12 @@ static inline bool vma_start_read(struct vm_area_s=
-truct *vma)
-> >        * after it has been unlocked.
-> >        * This pairs with RELEASE semantics in vma_end_write_all().
-> >        */
-> >-      if (unlikely(vma->vm_lock_seq =3D=3D raw_read_seqcount(&vma->vm_m=
-m->mm_lock_seq))) {
-> >-              up_read(&vma->vm_lock.lock);
-> >+      if (unlikely(oldcnt & VMA_LOCK_OFFSET ||
-> >+                   vma->vm_lock_seq =3D=3D raw_read_seqcount(&vma->vm_m=
-m->mm_lock_seq))) {
->
-> I am not sure it worth mention. In case it is too trivial, just ignore.
->
-> If (oldcnt & VMA_LOCK_OFFSET), oldcnt + 1 > VMA_REF_LIMIT. This means
-> __refcount_inc_not_zero_limited() above would return false.
->
-> If my understanding is correct, we don't need to check it here.
+On Mon, Jan 06, 2025 at 11:01:32AM +0800, Baolu Lu wrote:
+> On 1/4/25 03:43, Nicolin Chen wrote:
+> > diff --git a/include/uapi/linux/iommufd.h b/include/uapi/linux/iommufd.h
+> > index 0a08aa82e7cc..55e3d5a14cca 100644
+> > --- a/include/uapi/linux/iommufd.h
+> > +++ b/include/uapi/linux/iommufd.h
+> > @@ -1016,9 +1016,24 @@ struct iommu_ioas_change_process {
+> >   /**
+> >    * enum iommu_veventq_type - Virtual Event Queue Type
+> >    * @IOMMU_VEVENTQ_TYPE_DEFAULT: Reserved for future use
+> > + * @IOMMU_VEVENTQ_TYPE_ARM_SMMUV3: ARM SMMUv3 Virtual Event Queue
+> >    */
+> >   enum iommu_veventq_type {
+> >   	IOMMU_VEVENTQ_TYPE_DEFAULT = 0,
+> > +	IOMMU_VEVENTQ_TYPE_ARM_SMMUV3 = 1,
+> > +};
+> > +
+> > +/**
+> > + * struct iommu_vevent_arm_smmuv3 - ARM SMMUv3 Virtual Event
+> > + *                                  (IOMMU_VEVENTQ_TYPE_ARM_SMMUV3)
+> > + * @evt: 256-bit ARM SMMUv3 Event record, little-endian.
+> > + *       (Refer to "7.3 Event records" in SMMUv3 HW Spec)
+> > + *
+> > + * StreamID field reports a virtual device ID. To receive a virtual event for a
+> > + * device, a vDEVICE must be allocated via IOMMU_VDEVICE_ALLOC.
+> > + */
+> > +struct iommu_vevent_arm_smmuv3 {
+> > +	__aligned_le64 evt[4];
+> >   };
+> 
+> Nit: I think it would be more readable to add a check in the vevent
+> reporting helper.
+> 
+> diff --git a/drivers/iommu/iommufd/driver.c b/drivers/iommu/iommufd/driver.c
+> index 77c34f8791ef..ccada0ada5ff 100644
+> --- a/drivers/iommu/iommufd/driver.c
+> +++ b/drivers/iommu/iommufd/driver.c
+> @@ -86,6 +86,9 @@ int iommufd_viommu_report_event(struct iommufd_viommu
+> *viommu,
+>         if (WARN_ON_ONCE(!data_len || !event_data))
+>                 return -EINVAL;
+> 
+> +       if (WARN_ON_ONCE(type != IOMMU_VEVENTQ_TYPE_ARM_SMMUV3))
+> +               return -EINVAL;
+> +
 
-Yes, you are correct, (oldcnt & VMA_LOCK_OFFSET) is not really needed
-here. I'll send a small fixup removing this check and adding a comment
-before __refcount_inc_not_zero_limited() explaining that it will fail
-if VMA_LOCK_OFFSET is set.
-Thanks,
-Suren.
+Hmm, that's a good point I think.
 
->
-> >+              vma_refcount_put(vma);
-> >               return false;
-> >       }
-> >+
-> >       return true;
-> > }
-> >
-> [...]
->
-> --
-> Wei Yang
-> Help you, Help me
+>         down_read(&viommu->veventqs_rwsem);
+> 
+>         veventq = iommufd_viommu_find_veventq(viommu, type);
+		    ^
+		    |
+We actually have been missing a type validation entirely, so the
+type could have been rejected by this function. Perhaps we should
+add a static list of supported types to struct iommufd_viommu_ops
+for drivers to report so that then the core could reject from the
+first place during a vEVENTQ allocation.
+
+> Or perhaps the compiler could automatically make a warning if the @type
+> is not one of those values in enum iommu_veventq_type?
+
+Just gave that a try. Mine doesn't give any warning. Not sure if
+needs to be some "-W" augment though..
+
+> Others look good to me.
+
+Thanks for the review!
+
+Nicolin
