@@ -1,219 +1,352 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6670E1DC98D;
-	Mon,  6 Jan 2025 11:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DA71DC9B4
+	for <linux-doc@vger.kernel.org>; Mon,  6 Jan 2025 11:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736161251; cv=none; b=NTLV7lOQjWjJPQrPOiv7FLCLrVJ/mlosSuDxW9Zwml3jbqONLlKjWGJR8AYeDQwxCK0ylH8Y4noJJK89hnZfPbioXlEdViEo0cKKDTVfk0x6jF70RNUDM/zxXag6+lSlcURTmeBfBkPLDlhLqeKCgKWTqsTjfmcdxCzbpEia0eo=
+	t=1736164215; cv=none; b=fL1M7FnK+N2k8FyhvpWNZ2uFfyqYbZw8qTQEPkZ4gdhTPqRGGdfEiSyApTtvyq/73vrVAkdiZ2httrTijPs2rjhCxVc+zZAN/Xmzr1YT69NqTWAq1BrTdTHP8bas3B3zu0QN72kvguMXeEZu/+2BnL/lULmJ/dmqcRJPbPUfE/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736161251; c=relaxed/simple;
-	bh=epVUt6AtXxe7XJ0RVS9/SuPxMM19T7pb+boWvz5D5eg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=keVyJOtJpQ13mEjL8w/ixpkaFv8TgOqsJ8CyyoFSWOm9+n6oPoA1fXoKPxCsWrGxmjkq1BwIUGZlCdsF9C29La5UeqEkg0UWfkYdIuJWB/bGuDl9oUxeLeNd84TJCyTXewNUm1ulz85DgggW5iEQKgIslNd0/3hPZYLXlAvAV4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Pc+4eojU; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1736164215; c=relaxed/simple;
+	bh=Irbw3ZOJ/7hvNqrlKM1Lzzx/wcqzc9FmVv78MxdhJyY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PgmweHlUR38J36nTx1oj9O2W+eLR/yXv2HHctoovnOGYHhiCmPGHfqEEWvEhB6+i6sPaLsiS9iY+68fo250jIkMlBxLVMEv8AWcZOrYXAQZqap2GEeu1slI/qOT1jH+Xbkvc0tVq6oLSqFtChzeN3cDIsT8PL1Fz/JiOlJNswAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eVl19NdA; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Pc+4eojU"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 505NainT007036;
-	Mon, 6 Jan 2025 11:00:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=MMvOnQ3PAmRpfPa+4Bal1+FvmYfaAW
-	4Wgr8onGT7XMg=; b=Pc+4eojU4+ztWQVNTlA7JVUyRDicaiYpV8T1V3Tg1fLvt7
-	j/e835ZUnDKtkIFWY1uFoGjPppSPPe5ZOojIcNJrDdo8sSMRNrPcoQnPBur0Pc9R
-	Aod+kl+X8RbyyhhkDrqTtm344r05jWOEekCavFLIshb/YXPmD1rBVz73djRYXa1v
-	HV9k9agOGWp2ATDMLGwzER1GBSBzMHKTDTFEK1CuJn3EvexHL286bnpzQglzgD/4
-	LPaNiZNymDVa1F+aY4uxc+JLc2znsoXae+BJ33pYLuNZI+/rAERt/iDB56ue+Vqd
-	pvAB+zKyXhdI0QqFewQxmP+DvqSIQwFaRdfhMbCg==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4403waj459-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 06 Jan 2025 11:00:37 +0000 (GMT)
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 506B0bN2007285;
-	Mon, 6 Jan 2025 11:00:37 GMT
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4403waj456-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 06 Jan 2025 11:00:37 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5067A2dn026179;
-	Mon, 6 Jan 2025 11:00:36 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 43yj11w2pu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 06 Jan 2025 11:00:36 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 506B0XbU18022732
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 6 Jan 2025 11:00:33 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0C0952004B;
-	Mon,  6 Jan 2025 11:00:33 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1D3532004D;
-	Mon,  6 Jan 2025 11:00:29 +0000 (GMT)
-Received: from vaibhav?linux.ibm.com (unknown [9.39.19.130])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with SMTP;
-	Mon,  6 Jan 2025 11:00:28 +0000 (GMT)
-Received: by vaibhav@linux.ibm.com (sSMTP sendmail emulation); Mon, 06 Jan 2025 16:30:27 +0530
-From: Vaibhav Jain <vaibhav@linux.ibm.com>
-To: Gautam Menghani <gautam@linux.ibm.com>
-Cc: linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
-        kvm-ppc@vger.kernel.org, linux-doc@vger.kernel.org,
-        Madhavan Srinivasan
- <maddy@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas
- Piggin <npiggin@gmail.com>,
-        Vaidyanathan Srinivasan
- <svaidy@linux.vnet.ibm.com>,
-        sbhat@linux.ibm.com, kconsul@linux.ibm.com, amachhiw@linux.ibm.com
-Subject: Re: [PATCH 1/6] [DOC] powerpc: Document APIv2 KVM hcall spec for
- Hostwide counters
-In-Reply-To: <fimq6f367gj3ypuke2slogz4i3zt4jfst4kwnrlzps3xinkoh5@arkajtap562s>
-References: <20241222140247.174998-1-vaibhav@linux.ibm.com>
- <20241222140247.174998-2-vaibhav@linux.ibm.com>
- <fimq6f367gj3ypuke2slogz4i3zt4jfst4kwnrlzps3xinkoh5@arkajtap562s>
-Date: Mon, 06 Jan 2025 16:30:27 +0530
-Message-ID: <87r05g1a2c.fsf@vajain21.in.ibm.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eVl19NdA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1736164211;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cpq33UCeXg21WZu8P3zwO8Ss4G+vMkNm9yeh35pyurE=;
+	b=eVl19NdADlKbjYuH/5ZGfLsqRYDg9TuqBVUNcfICtizryzQEla68hpe21VF7YPxz3lLfL3
+	WNKDw0arekJRgW9x1+vxwpYVwwjSpr6Zo8qvybRfQ6zVhRjViU+CflhCqMjdCeDHmKFvPq
+	Jmc9QrZb8sMp1nPlus+G61gLuicBo8s=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-624-Pd5avzZwMUaYnMmuhLId-w-1; Mon, 06 Jan 2025 06:50:10 -0500
+X-MC-Unique: Pd5avzZwMUaYnMmuhLId-w-1
+X-Mimecast-MFC-AGG-ID: Pd5avzZwMUaYnMmuhLId-w
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-aa6732a1af5so207186266b.3
+        for <linux-doc@vger.kernel.org>; Mon, 06 Jan 2025 03:50:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736164209; x=1736769009;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cpq33UCeXg21WZu8P3zwO8Ss4G+vMkNm9yeh35pyurE=;
+        b=pjuUi6PVwU3M8fALS1Zij2fEHy/egUuL4LlXCb/q/fAT25gzo2OdrH1XUZyvUH3CGY
+         mZXAhWQThr5Gd5kFlu2k21MGLK4zvJVFhnJiu8J3f5Ca28HAP7g6i37hZGlmbmCXSC5h
+         ccDBitgaLm4CHf8O2WECCERV+k1flYH5y4Iq8NXSrw8RN29LrrZJwPLmHIanKwbdIpn5
+         Eab1j88QP+HFbM+BkQlJBKK+0ZZhtvdysBr5hgjlMERAeQzfKQxJjDmztF6Xl5QmOrT8
+         S9e4xEadEeej1iasHkDXI719TlAp4pySOFLVUpi8C2RQEcIfZjwK+QaihS+m/+j/kxn+
+         SnGw==
+X-Forwarded-Encrypted: i=1; AJvYcCW10/yuJ5mZjce32HMELMUrl79cJQ7oY9iJCz4E/syfpFucY5GITbGfW5CvtT5QdxXz3Q62eEht/dc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhN7MPPGDU+o5QPYDL4KrVCxFnXLLW74Tk6r6cErT6NBmMUBqZ
+	g91HguuREPxRDfEZ4OG8SckOUmcErFXRciStkxCkTk7kh6hqboDYhh+2Wh8TtlCKi35pmjhpUgf
+	8e/QMxuUygoVPuSiHnH+4yaQD4CeVA7Mvuy6Op3niGVIxUPSASMRDAtBN3A==
+X-Gm-Gg: ASbGncvTJJ/N7Y4ZvEG92GFJW6nIDAAThWgJhWmD+cyBEn664L+zJXipvizUGzsMQs+
+	RiefCr4VmUuwLlvD4Rte6PrTmgpSPtP4gwkRFu0Bd8x8ahKdomdfTdT03d2ATTwLsQNez0NXCex
+	YP8RrH3o2sePojeQ23KJyh91mtZIishGlVRJRxQNsFLyS3bNlfC7KZ7U1LUahmu1ULQ6IFfNPE8
+	6FhUBPBathUbIJDG4JWJQUdhOiE8p0XKE1y/uvUoKb+WcPWgqx1I0Bq033T
+X-Received: by 2002:a17:907:3eaa:b0:aa6:6e10:61f6 with SMTP id a640c23a62f3a-aac34217a79mr4101540666b.52.1736164209009;
+        Mon, 06 Jan 2025 03:50:09 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHMp5wSDcCs5L+heJdCQakWpQLJTgR8yN6TypH1xRJO6ECiGXowA4x9M+MnmabS5RTqnj+KNQ==
+X-Received: by 2002:a17:907:3eaa:b0:aa6:6e10:61f6 with SMTP id a640c23a62f3a-aac34217a79mr4101538166b.52.1736164208479;
+        Mon, 06 Jan 2025 03:50:08 -0800 (PST)
+Received: from [10.40.98.157] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0f0653bbsm2272058266b.184.2025.01.06.03.50.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Jan 2025 03:50:08 -0800 (PST)
+Message-ID: <bfd9b7a4-ebef-49ff-8b86-bd61b1a06d38@redhat.com>
+Date: Mon, 6 Jan 2025 12:50:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: bWikSTz9elmrjbakW7_8KUhkOTrKYI1O
-X-Proofpoint-ORIG-GUID: HP5fThnEfEFF-rv-yt2L2GsciEvMNfBi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
- lowpriorityscore=0 spamscore=0 suspectscore=0 bulkscore=0 mlxscore=0
- clxscore=1015 adultscore=0 impostorscore=0 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501060097
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] platform/x86: samsung-galaxybook: Add
+ samsung-galaxybook driver
+To: Joshua Grisham <josh@joshuagrisham.com>
+Cc: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ ilpo.jarvinen@linux.intel.com, W_Armin@gmx.de,
+ platform-driver-x86@vger.kernel.org, corbet@lwn.net,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241216103855.18457-1-josh@joshuagrisham.com>
+ <13184052-baf2-4e7d-b8ef-9ba3f34d475a@t-8ch.de>
+ <66897a27-5f81-46fc-898d-682456d7f37f@redhat.com>
+ <CAMF+KeZ3uAWZuuPJcrrvTJS-TgyxkqXOY_w=wNw7eZQiUkV5YA@mail.gmail.com>
+Content-Language: en-US
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CAMF+KeZ3uAWZuuPJcrrvTJS-TgyxkqXOY_w=wNw7eZQiUkV5YA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Gautam,
+Hi,
 
-Thanks for reviewing this patch. My responses to your review comments
-inline below:
+Sorry for the very slow reply.
 
-Gautam Menghani <gautam@linux.ibm.com> writes:
+On 19-Dec-24 6:31 PM, Joshua Grisham wrote:
+> Thank you both Thomas and Hans for your review and comments! I am
+> working on a v4 of the patch but had a few questions which I wanted to
+> clarify (they can also come after in a v5 etc in case I managed to get
+> this ready to go before anyone has the time to confirm and/or clarify
+> some things!).
+> 
+> Den tis 17 dec. 2024 kl 15:23 skrev Hans de Goede <hdegoede@redhat.com>:
+>>
+>> On 16-Dec-24 5:46 PM, Thomas Weißschuh wrote:
+>>>> +Various hardware settings can be controlled by the following sysfs attributes:
+>>>> +
+>>>> +- ``allow_recording`` (allows or blocks usage of built-in camera and microphone)
+>>>> +- ``start_on_lid_open`` (power on automatically when opening the lid)
+>>>> +- ``usb_charge`` (allows USB ports to provide power even when device is off)
+>>>
+>>> Non-standard sysfs attributes should be avoided where possible.
+>>> Userspace will need bespoke code to handle them.
+>>> This looks like it could be handled by the standard firmware_attributes
+>>> interface.
+>>> This would standardize discovery and usage.
+>>
+>> Ack this really feels like firmware-attributes. I would not be surprised
+>> if there are matching BIOS settings and if changing those also changes
+>> the sysfs files and likewise if the sysfs settings persist over reboot.
+>>
+> 
+> Yes 2 of these (not this "allow_recording" I think) are available via
+> BIOS and all 3 of them persist over restarts.
 
-> On Sun, Dec 22, 2024 at 07:32:29PM +0530, Vaibhav Jain wrote:
->> Update kvm-nested APIv2 documentation to include five new
->> Guest-State-Elements to fetch the hostwide counters. These counters are
->> per L1-Lpar and indicate the amount of Heap/Page-table memory allocated,
->> available and Page-table memory reclaimed for all L2-Guests active
->> instances
->> 
->> Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
->> ---
->>  Documentation/arch/powerpc/kvm-nested.rst | 40 ++++++++++++++++-------
->>  1 file changed, 29 insertions(+), 11 deletions(-)
->> 
->> diff --git a/Documentation/arch/powerpc/kvm-nested.rst b/Documentation/arch/powerpc/kvm-nested.rst
->> index 5defd13cc6c1..c506192f3f98 100644
->> --- a/Documentation/arch/powerpc/kvm-nested.rst
->> +++ b/Documentation/arch/powerpc/kvm-nested.rst
->> @@ -208,13 +208,9 @@ associated values for each ID in the GSB::
->>        flags:
->>           Bit 0: getGuestWideState: Request state of the Guest instead
->>             of an individual VCPU.
->> -         Bit 1: takeOwnershipOfVcpuState Indicate the L1 is taking
->> -           over ownership of the VCPU state and that the L0 can free
->> -           the storage holding the state. The VCPU state will need to
->> -           be returned to the Hypervisor via H_GUEST_SET_STATE prior
->> -           to H_GUEST_RUN_VCPU being called for this VCPU. The data
->> -           returned in the dataBuffer is in a Hypervisor internal
->> -           format.
->> +         Bit 1: getHostWideState: Request stats of the Host. This causes
->> +           the guestId and vcpuId parameters to be ignored and attempting
->> +           to get the VCPU/Guest state will cause an error.
->
-> s/Request stats/Request state
->
-Its is 'Request stats' are this flag currently return Hostwide stat
-counters.
+Ok, then firmware-attributes definitely is a good match for these
+and I see you have already moved this functionality to
+the firmware-attributes class API for v4, good :)
 
->>           Bits 2-63: Reserved
->>        guestId: ID obtained from H_GUEST_CREATE
->>        vcpuId: ID of the vCPU pass to H_GUEST_CREATE_VCPU
->> @@ -402,13 +398,14 @@ GSB element:
->>  
->>  The ID in the GSB element specifies what is to be set. This includes
->>  archtected state like GPRs, VSRs, SPRs, plus also some meta data about
->> -the partition like the timebase offset and partition scoped page
->> +the partition and  like the timebase offset and partition scoped page
->>  table information.
->
-> The statement that is already there looks correct IMO.
->
-Right. I will update it to reflect L1-lpar stats in v2.
->>  
->>  +--------+-------+----+--------+----------------------------------+
->> -|   ID   | Size  | RW | Thread | Details                          |
->> -|        | Bytes |    | Guest  |                                  |
->> -|        |       |    | Scope  |                                  |
->> +|   ID   | Size  | RW |(H)ost  | Details                          |
->> +|        | Bytes |    |(G)uest |                                  |
->> +|        |       |    |(T)hread|                                  |
->> +|        |       |    |Scope   |                                  |
->>  +========+=======+====+========+==================================+
->>  | 0x0000 |       | RW |   TG   | NOP element                      |
->>  +--------+-------+----+--------+----------------------------------+
->> @@ -434,6 +431,27 @@ table information.
->>  |        |       |    |        |- 0x8 Table size.                 |
->>  +--------+-------+----+--------+----------------------------------+
->>  | 0x0007-|       |    |        | Reserved                         |
->> +| 0x07FF |       |    |        |                                  |
->> ++--------+-------+----+--------+----------------------------------+
->> +| 0x0800 | 0x08  | R  |   H    | Current usage in bytes of the    |
->> +|        |       |    |        | L0's Guest Management Space      |
->> ++--------+-------+----+--------+----------------------------------+
->> +| 0x0801 | 0x08  | R  |   H    | Max bytes available in the       |
->> +|        |       |    |        | L0's Guest Management Space      |
->> ++--------+-------+----+--------+----------------------------------+
->> +| 0x0802 | 0x08  | R  |   H    | Current usage in bytes of the    |
->> +|        |       |    |        | L0's Guest Page Table Management |
->> +|        |       |    |        | Space                            |
->> ++--------+-------+----+--------+----------------------------------+
->> +| 0x0803 | 0x08  | R  |   H    | Max bytes available in the L0's  |
->> +|        |       |    |        | Guest Page Table Management      |
->> +|        |       |    |        | Space                            |
->> ++--------+-------+----+--------+----------------------------------+
->> +| 0x0804 | 0x08  | R  |   H    | Amount of reclaimed L0 Guest's   |
->> +|        |       |    |        | Page Table Management Space due  |
->> +|        |       |    |        | to overcommit                    |
->
-> I think it would be more clear to specify "... Management space for L1
-> ..." in the details of all above entries.
->
-Agree, Updated that in v2.
+> Just so I am 100% clear what you mean here -- these type of attributes
+> should be created using the utilities available in
+> drivers/platform/x86/firmware_attributes_class.h so that they are
+> created under the path /sys/class/firmware-attributes/*/attributes/*/
+> ?
 
->> ++--------+-------+----+--------+----------------------------------+
->> +| 0x0805-|       |    |        | Reserved                         |
->>  | 0x0BFF |       |    |        |                                  |
->>  +--------+-------+----+--------+----------------------------------+
->>  | 0x0C00 | 0x10  | RW |   T    |Run vCPU Input Buffer:            |
->> -- 
->
-> Also, the row 2 of this table mentions the 'takeOwnershipOfVcpuState' flag
-> which is no longer supported. You can remove that as well.
->
-Updating this document for 'takeOwnershipOfVcpuState' will be done as a
-separate patch and not part of this patch series
+Yes.
 
->> 2.47.1
->> 
->
+> What exactly should they be named (any preference?)
 
--- 
-Cheers
-~ Vaibhav
+No preference for the naming, the firmware-attributes API just
+specifies how userspace can find out if something is
+an int/string/enumand valid values / range. Not naming of
+the attributes.
+
+> and should I also
+> add some documentation for them in
+> Documentation/ABI/testing/sysfs-class-firmware-attributes ?
+
+No unless you add new functionality like a new type to
+the firmware attributes API then these should not be
+documented there. It would be good to document them in
+driver specific documentation.
+
+> I am fairly sure I understand the concept and can agree that it kind
+> of makes a lot of sense to be able to standardize the userspace
+> interface, especially for attributes which do the exact same thing
+> across different vendors/devices (unless it just as easily possible to
+> go based on some pattern matching e.g. like is done in udev and upower
+> with "*kbd_backlight*" etc) but as of now it looks like the only
+> examples implemented are for thinklmi, dell-wmi, and hp-bioscfg that I
+> can see so far?
+
+Right, note the existing examples all actually read a list of
+firmware-attributes directly from the BIOS using a generic interface,
+which is somewhat different from how you plan to use this.
+
+Using the firmware-attributes class to control settings where each
+attribute needs to be manually added to the driver is new, but is
+e.g. also planned for asus-wmi and some other upcoming drivers.
+
+>> The allow-recording setting toggle is new to me. So this is changeable
+>> at runtime, interesting.
+>>
+>> Joshua above you write this toggle both the microphone mute and
+>> disables the camera?
+>>
+>> It would be good to report the camera state to userspace using
+>> a separate input/evdev device which reports SW_CAMERA_LENS_COVER
+>> as discussed here:
+>>
+>> https://lore.kernel.org/linux-media/CANiDSCtjpPG3XzaEOEeczZWO5gL-V_sj_Fv5=w82D6zKC9hnpw@mail.gmail.com/
+>>
+>> the plan is to make that the canonical API to reported "muted"
+>> cameras.
+>>
+>> What happens with the camera when recording is disallowed,
+>> dus it drop of the USB bus or does it only produce black
+>> frames ?
+>>
+>> It is a bit unexpected that this one button controls both
+>> microphone and camera mute. But given that unique behavior
+>> I guess that handling this in the kernel is probably best.
+>>
+>> The alsamixer should send some events for the mic mute/unmute
+>> I hope and we can use SW_CAMERA_LENS_COVER to report the camera
+>> state.
+>>
+> 
+> Yes this is kind of an interesting one, also... In the user manuals
+> for these Samsung devices, they actually call this feature "Block
+> Recording." See the second link here with the same title:
+> 
+> https://www.samsung.com/ca/support/computing/samsung-laptop-disable-the-webcam/
+> 
+> There is this software control in their "Samsung Settings" and/or
+> "Samsung Security" application plus the hotkey, but they both function
+> exactly the same (executing this ACPI method with the right payload).
+> The reason I called it "allow recording" is because I was trying to
+> take a simple approach in the beginning, and let the device value and
+> userspace value have a 1:1 mapping (you send 0x1 if you want the
+> webcam and mic to NOT block recording, i.e. be "allowed" and 0x0 if
+> you them to be blocked). I thought that echo 1 > block_recording to
+> turn OFF "blocking" felt backwards so I just reversed the name instead
+> ;) But in theory it could as easily be called "block_recording" and
+> the kernel driver could handle the flip (0x1 from userspace becomes
+> 0x0 to/from the device and vice-versa).
+> 
+> When you press the hotkey in Windows then there is an OSD popup from
+> their own background software, but nothing actually happens to the
+> devices themselves. Even in Linux via this driver or if you just
+> directly execute the ACPI method with the right values in the buffer,
+> what happens is that the image feed from the camera just becomes solid
+> black and the mic input is just completely silent. The USB camera
+> device is not removed or seemingly touched in anyway, and there does
+> not seem to be any kind of sound device event at all from what I can
+> tell (I tried to check using "amixer events" and a few other methods
+> but never saw anything, and the mixer control in alsa is always
+> un-muted like normal when toggling the feature on and off even though
+> it stops the sound from being able to be recorded).
+> 
+> It is as this switch name SW_CAMERA_LENS_COVER indicates, almost like
+> a physical (virtual?) cover has been drawn over the camera and the
+> microphone but they are still seen as operational and completely
+> unchanged from a device perspective.
+
+Right, so for the camera side of this, intercepting the key making
+the ACPI call and then reporting SW_CAMERA_LENS_COVER definitely
+is the right thing to do.
+
+The microphone also getting muted not at the mixer level but at
+some other hw level as a side-effect is something unique to
+samsung, I guess we can just ignore this wrt reporting it to
+userspace. Once GNOME/KDE get support for showing an OSD on
+SW_CAMERA_LENS_COVER changes (1) we will have a nice notification
+to the user and the mic also getting muted as a side-effect will
+then just be a Samsung peculiarity we will have to live with.
+
+1) now that more drivers are starting to actually report this
+I hope that at least GNOME will get OSD support for this soon.
+
+> What I have started with for now based on this thread, is that as it
+> seems like KE_SW key entries should have a "sw" struct with code and
+> value, that I am assuming I should send .code = SW_CAMERA_LENS_COVER,
+> .value = 0 for "cover is removed/off/not blocking", and .code =
+> SW_CAMERA_LENS_COVER, .value = 1 for "cover is placed/on/blocking",
+
+That is correct.
+
+> also it looks like I should send this event as part of init for the
+> current state at init time (the input device seems to have a "state"
+> associated to this switch) -- is this correct?
+
+That is also correct.
+
+> And then is there any events or functions that should be called to
+> notify of a mic mute switch (not actually to send the event to toggle
+> mic mute to userspace, but to just report to userspace somehow that
+> the mic has been muted by hardware, similar to this
+> SW_CAMERA_LENS_COVER or led_classdev_notify_brightness_hw_changed()
+> etc ?
+
+No, normally the EC controls the hw-mixer in the sound/codec chip
+and that sends an event. But that appears to not be happening here?
+
+We could add a SW_INTERNAL_MIC_MUTED event I guess. Although with this
+being a Samsung only thing I doubt userspace will ever get support
+for that and if it does then we end up with one OSD replacing the
+other quite quickly since typicalluy only 1 OSD will be shown at
+a time. So as I mentioned above, I would just go with only reporting
+SW_CAMERA_LENS_COVER and then consider the mic also getting muted
+a Smasung specific side-effect of this.
+
+Some UVC cameras also have an electronic "cover" switch rather then
+an actual cover, I guess those might also mute the builtin mic
+for UVc cams with a builtin mic, so having this is a side-effect
+is not that far fetched.
+
+> At the same time I am still not convinced what exactly the name of
+> this attribute should be ("allow_recording" vs "block_recording" vs
+> "camera_mic_privacy" etc ??)
+
+camera_mic_privacy or block_recording are both fine I think.
+
+> 
+> Other notifications that I am wondering what the "right" way to handle
+> / using the right interface:
+> 
+> - Are there better events to use for these which these devices are
+> reporting for "ACPI_NOTIFY_DEVICE_ON_TABLE" and
+> "ACPI_NOTIFY_DEVICE_OFF_TABLE" , i.e. some kind of standard
+> "switch"-like notification that the motion sensor in the device has
+> detected that it has been placed or lifted from a flat surface?
+
+The thinkpad_apci driver has /sys/bus/platform/devices/thinkpad_acpi/dytc_lapmode
+which will read 1 when the laptop thinks it is not on a table (and thus will
+limit max temperatures a bit to avoid someone getting a hot lap when
+actually having the laptop on their lap.
+
+I'm not aware of any other drivers having something similar. I do think
+that power-profiles-daemon checks the dytc_lapmode thing, so it might
+be good to have some standard interface for this, but that would need
+to be designed / decided upon .
+
+For v1 of your patch I would just dev_dbg() log these events and
+otherwise do nothing.
+
+> 
+> - When the battery charge control end threshold is reached, there is
+> an ACPI notification on this device as well that is the one I have
+> marked "ACPI_NOTIFY_BATTERY_STATE_CHANGED" -- the Samsung background
+> apps pop up a custom OSD that basically says something to the effect
+> that their "Battery saver is protecting the battery by stopping
+> charging" (can't remember the exact verbiage) and they change the
+> battery icon, but without doing anything else in my driver currently
+> the battery still reports state of "charging" even though it just sits
+> constantly at the percentage (and has the charging icon in GNOME etc).
+> I have seen the event come and go occasionally when I did not expect
+> it, but my working theory is that maybe it is if/when the battery
+> starts charging again if it dips too far below the target "end
+> threshold" and then notifies again when the threshold has been
+> reached. Armin also mentioned this before in a different mail; I guess
+> I would hope/expect there is an event or a function I could call to
+> have the state reflected correctly but I would not want that it
+> negatively impacts the normal behavior of charging the battery itself
+> (just that the state/icon would change would be ideal! as it functions
+> perfectly, it is just that the state and icon are not accurate).
+
+ATM there is no userspace API to communicate e.g. "charging stopped
+due to charge end threshold" and this is the first time I hear about
+us getting events from the hw for this.
+
+So for this one too I would say just dev_dbg() log the event and
+otherwise do nothing.
+
+We can always add an API later if we have an idea how userspace
+could / will use this.
+
+Regard,
+
+Hans
+
+
