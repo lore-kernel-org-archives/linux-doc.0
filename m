@@ -1,264 +1,192 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2040.outbound.protection.outlook.com [40.107.93.40])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8B45473C;
-	Mon,  6 Jan 2025 02:08:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.40
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736129294; cv=fail; b=FhQg3/VkogXNJtaMOL87+nC1C1SO8GhvujlbE/BAjDdwKTpXh5rhWlYiUr3UKyotil3Aj8pOU8p9CeunRP4mTVaZqJWF/658cProIbTen0u2hDwm1F1NfLk4bgZevq/E/JqRXLov29RXfysVCZuBLgSIU5qxGYtkIKVmDfSs23k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736129294; c=relaxed/simple;
-	bh=trey5jOE2u/trLGPnpRnBMFS92VDJndi+8cRSywMJzg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=XifkNmo/bAlApcaAlGfIei05iiAEn72LqQrLdtjFk+NINNszWJmbRKxliZwzsAiqR4i7NzRRAfkZhd1hu4bqIngh5kc3LDHR0g8Ij0wtQRkgnMQoT1TtP5kx7rMoPWCtnO5uMTqGRbiREaMdRJhlkEtaIZhUK8hCvobwpOqQr2Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=EgfET40I; arc=fail smtp.client-ip=40.107.93.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31FE7156C5E;
+	Mon,  6 Jan 2025 02:32:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736130729; cv=none; b=obhm+wHFf0hESnlRaUMesqCXJ7gZ/wB2cTy+syKGfA7TGZ3kc0Il3EqZBw5l3qQxDqUdmuXYzjTGL4aTBESakGWNpwRObAzfr3/uBsFc11+S0bwnauQYhyUN0YsAU3XggsfofWMmPmJbJOEvzYcdfOX/TMjtS4Eewua955GswCs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736130729; c=relaxed/simple;
+	bh=XrXMH/z+0R22w8CGfT7D9VQK1akBXXi0E6icghOn9jg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=i4zv2OsAIYBt1yxz6QrY3D1TJEMP0PRgsOzSR8rep+7AtzIc0sDKpO3mUjnLt0kwCieL1Qp63qaOn5uROKkjxz6CjPS0IKFWQ2z4fECE0+BFheo3iwPQl+3NX26dK7rt/jXzcCwg+fm50BeLty2LrTLGR/zMVOzcaLofZSSpFZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HTplzhzd; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="EgfET40I"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WAFcRxq93vRwrcwye+FyFzV862X2ra6DyYsWlwl3R7oe1uijUkQBjC7uD1A7kOdU80LJmVN/urDCMP41CxbOFs3TPDdyQF9EQOLkKcdFS8XfMMRVasCTY/t+IF+OE+9DXiJ3K+BECP06bmz6woqckVwgox30YLTSc1y/EXY+NieTIhmW0yg2f62em6m0tvrUm6K54b9cQjD6Z2A5bGsX5G6bwbzyt04szTHNRpd/d5sArYGZb8v3xyAdtdubnhp1vwHZRoKmtUvmKuYxcozimeEZgvlxdrzKw4n9qPC+xyty/aGbE//KdJzIUPGRIuVmcjKgQVRapAPxibByHLCYbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+hVCHEIpUQo/vZQnBNIGnZKWwYd0e1IulxgIyqJo8LQ=;
- b=YB8ZFqFL6QhV6HQ5Gw9ZQk6/3EPIi/UbyhN/xFjhaAyhAWS4yovz/cfsI2Z0OUcSOBuV2cAB/VduGd1W0q1zw7oMD6nkTR3/5AsBFYv7QS1dFf03AV1YnW64BHvLuhx+bvZqKLG2L8rV16/EmRVpdbgYl+z4HhRwPdKpnGvk/nei0MPFnlJaqOS+bVXXW11LlwVgIJXL85j0jVKXsmAPv1zhATCgeIrUMecr1W3qXidjkQFWBQjwjR021wyw5ANMhKxo20iiUdOLhabsKIIwb4HFlwBnP3D0x9vGCuUmcGHCoj07q1yM2ZPWixSSq2vR0zfInPGhEYpzJhaap1/lfA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+hVCHEIpUQo/vZQnBNIGnZKWwYd0e1IulxgIyqJo8LQ=;
- b=EgfET40ItMcHaTZagsuS3cl5jJXG6VNU8LGrXddmnFcY0yXsiDZ0jkT6GzyjNH1975tqBYkSq5x0kPzVhKisgsjH/rBRVeuGitzYKfBiACRbCKNGrkDlWfwZuiqnHAeeUK+rc0fTmriU+/CcO/ZsQ886IPUYqXSDkvz754mT5ZHUpuQWx4IGHUqr7I1KWjB0L7U1JyXWpjwS/pP6W36mQqEtkCxAklvQ3CBCJ80qDYB7mx0rnFwNMA8j9iCrgjJWYHXCeeCtV/aVFV3tGe4HCrSrucOniJOkDmu2ewtkYLe/x9xnDcYCq7lPGj9CZLOIQw+FuJpoEEjP+aX9IxmCZg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
- LV8PR12MB9153.namprd12.prod.outlook.com (2603:10b6:408:185::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.17; Mon, 6 Jan
- 2025 02:08:05 +0000
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe%6]) with mapi id 15.20.8314.015; Mon, 6 Jan 2025
- 02:08:04 +0000
-Date: Mon, 6 Jan 2025 13:07:58 +1100
-From: Alistair Popple <apopple@nvidia.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: akpm@linux-foundation.org, dan.j.williams@intel.com, 
-	linux-mm@kvack.org, lina@asahilina.net, zhang.lyra@gmail.com, 
-	gerald.schaefer@linux.ibm.com, vishal.l.verma@intel.com, dave.jiang@intel.com, 
-	logang@deltatee.com, bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca, 
-	catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com, 
-	dave.hansen@linux.intel.com, ira.weiny@intel.com, willy@infradead.org, djwong@kernel.org, 
-	tytso@mit.edu, linmiaohe@huawei.com, peterx@redhat.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de, david@fromorbit.com
-Subject: Re: [PATCH v4 12/25] mm/memory: Enhance
- insert_page_into_pte_locked() to create writable mappings
-Message-ID: <gjuqvidcpvzwqrwogeoygwnsbvlpa4fvsvaoq6rlfzcq4wxmh5@tdhz3f2fm4ga>
-References: <cover.18cbcff3638c6aacc051c44533ebc6c002bf2bd9.1734407924.git-series.apopple@nvidia.com>
- <25a23433cb70f0fe6af92042eb71e962fcbf092b.1734407924.git-series.apopple@nvidia.com>
- <d4d32e17-d8e2-4447-bd33-af41e89a528f@redhat.com>
- <6254ce2c-4a47-4501-b518-dedaddcbf91a@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6254ce2c-4a47-4501-b518-dedaddcbf91a@redhat.com>
-X-ClientProxiedBy: SYBPR01CA0195.ausprd01.prod.outlook.com
- (2603:10c6:10:16::15) To DS0PR12MB7726.namprd12.prod.outlook.com
- (2603:10b6:8:130::6)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HTplzhzd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736130726; x=1767666726;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=XrXMH/z+0R22w8CGfT7D9VQK1akBXXi0E6icghOn9jg=;
+  b=HTplzhzd/0BbJ2j67qeF+kwfnGjHDOByY0Tfo8jPkbKg7JPJX4B9j7y1
+   lapU+ldMMigWZ9hEWwKBF7khMUcr9vu7yt8mu7BvYqc4d1JEv/tG0CDwi
+   0yjCOx4d05f9VZRB0ppNWtf60xPqcc2scEiPjyVS9sw4uRxLJw8mCIVm9
+   oWDqQhJRFxHkulJu7+X4JPuiCiKWhVmjQJ+PM/UPVcR0Xqo6VrwByqw98
+   52ongs8Sdr7eSt4UXcpbD1Hkgmtw4cPKu58Ijlx+VNaExgLTCZklHljZB
+   q/U/obFWgxYm2q4moQhzUiMuiPPg/f7pnphFZt2PJ3Ytc8BS+R5+FAM0W
+   A==;
+X-CSE-ConnectionGUID: ptXR5mz8QPKLDe8GdxOK2w==
+X-CSE-MsgGUID: XARXtXbyQoeASlo+aeQQAg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11306"; a="36171394"
+X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
+   d="scan'208";a="36171394"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2025 18:32:05 -0800
+X-CSE-ConnectionGUID: o3OqeH3hTMyOEfNKezE9Xg==
+X-CSE-MsgGUID: qdvMReWQSQuVsy1lyTuuZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="125595878"
+Received: from shsensorbuild.sh.intel.com ([10.239.133.18])
+  by fmviesa002.fm.intel.com with ESMTP; 05 Jan 2025 18:32:03 -0800
+From: Even Xu <even.xu@intel.com>
+To: jikos@kernel.org,
+	bentiss@kernel.org,
+	corbet@lwn.net,
+	bagasdotme@gmail.com,
+	aaron.ma@canonical.com,
+	rdunlap@infradead.org,
+	mpearson-lenovo@squebb.ca
+Cc: linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Even Xu <even.xu@intel.com>
+Subject: [PATCH v4 00/22] Add Intel Touch Host Controller drivers
+Date: Mon,  6 Jan 2025 10:31:29 +0800
+Message-Id: <20250106023151.3011329-1-even.xu@intel.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|LV8PR12MB9153:EE_
-X-MS-Office365-Filtering-Correlation-Id: 08099fd0-03a1-4238-e1bf-08dd2df6f412
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?cITYSKQRF4nAAZv0ungvDBV7dDs1xhblmZ6R0EiAGsQbmQO75Km7ORqygUyl?=
- =?us-ascii?Q?N4Ez9UerIUCk0akdzCATTbjKkgtlofvCdQp0Pg6BZfrjX6Y0ARREu+91ZBTD?=
- =?us-ascii?Q?stz2p1We5+fHxoRzeXKG+3ZmI2zyGVhplec8E4tDH3HEkUxABC1/nmXDrgBb?=
- =?us-ascii?Q?Y3p8NUi0l0+C4GLliejn8IxexX3wmTV06vbER06hkE8lANuVv1oYdoJFz9Vb?=
- =?us-ascii?Q?7ITy+q5Ec1c9RJ9XACcOG5vnWUlHbfxU5dw5PT5FzlZYGyZKyDseuV5gFwwc?=
- =?us-ascii?Q?QqDhwFSJ7ngTBGwtS/8weWSLMcExMZlWMY12tgwa6nVR5FGbvdIgyWzVpJnm?=
- =?us-ascii?Q?/M/Q07IvGQDRXNxNxnUDKkqXHhQ5sXaF0haARVyPE+ZFlq1+PmPnS7Wvm+kc?=
- =?us-ascii?Q?pLH7snVDrrLMWrMG3uSdDaWt/Oler07VUSJDKbk8bNDZQob+Kzj1ks9/vgTn?=
- =?us-ascii?Q?S0Z7fCDWs/9m2FanqpCadhfyZoBRlXmjlrNV7aqqIhBtB/BHe/J2rhVHF76N?=
- =?us-ascii?Q?XfV8iM//Ngo5guQLEfATL2egbYD45SK5X5gNj/PXOjYpBEMeirggTg9MO9un?=
- =?us-ascii?Q?wcUYSPAJC0caVfK3zP3gia5voFVN2To2wXBI1wVadHnIjHLHC5/xBOzbGT9S?=
- =?us-ascii?Q?jUo4o+LGnt2zQP3SEoPKSH9ajKPMsmtKYvGpjfUWYk65+hMp5bIK/IfWqIQI?=
- =?us-ascii?Q?xasFWzGESh4LU2WDGqn4Fh5xdnACf8O1dZeWXoXv2/l5i/EoCzgb1JtWFhFQ?=
- =?us-ascii?Q?UubZQ+53CM1ozbFEdbMxenuNadxO5du3HchMQyO4kace0QJcIgEs8L71kRwe?=
- =?us-ascii?Q?5tU9LAUj5TvcBjXtUIs+9V203JRq3bvyK1XDZA1zVZUtpk5lVjb6KM3b7tUf?=
- =?us-ascii?Q?PyPrFQlUR3eW0HiWDJFd+Qs5sUVfQRcOnc5nmMupuPpdYTwMT3GA0um7LgEO?=
- =?us-ascii?Q?ArJYaIdA9mtNn/nv7iNjQGIjdjr7xyP0hRWP31jzJquwFrwl9hL0mKGfC3ZN?=
- =?us-ascii?Q?vwsDOb14XIsYwXFfuCUF/iFEyARwa8iF1S3YugsO0vnD+DLtXJIfci6ibP6i?=
- =?us-ascii?Q?FKutS/8nENuhfjSnn+r4dorgdDW+ea0pQnDiGn7yFoq4r5t329DX/6AJCOD7?=
- =?us-ascii?Q?2rwuNLsWGrT8UwBG1dH3oisUKGwFVEKGawNQCjNNM/MPuk10+3DLhRRryTPv?=
- =?us-ascii?Q?y/W8Z+SOBtPcxEuijutFRlWcSP9+xQgYOHYrmuzN3FLL6SAj1Siz9r88z1AB?=
- =?us-ascii?Q?RLhP48AgX6JN5RdXOuEZQu2vNnCthPv4fknwvr4iXO2vgQOyGWkWeXWQZ8lw?=
- =?us-ascii?Q?4g7/JKxvKXPdfmp6Tr1mPXc+gcs+IjDVo8SkfTAU7M85Z/fpvOPmRuHoaCaV?=
- =?us-ascii?Q?8Xdwx8aLw54VbNqD5VeDd7aEFowt?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7726.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?M4ArkhiKeKcwE60YDeOiSSW/y4eGefoZnfBhoj0Kj/yHFBfE3H4IgmbMsMxo?=
- =?us-ascii?Q?STDYqhw9IVvL8AR1i/YEeoyEUV1Q3Y9MC5TsSd2KPC23njqNQHcp37EysH1W?=
- =?us-ascii?Q?iq1GTPyDTIvzBTJO8vOWENnpiOOWsCH++Xx5XJlL5UBXF+aZt8igdJk4Wtpl?=
- =?us-ascii?Q?q1SzjaghYWp/3uJbr3wZSh8O/iMaa2H/qIigyz1Ury5kZbSJdMxYM7oIOHdm?=
- =?us-ascii?Q?R3aNfVU2y0yWo4RE0JrQNMtuXGtd43OJOWVx0thjYSTPE8H6aTdMbqXMS6SE?=
- =?us-ascii?Q?lryov6Nqp26TEuAlCP33BmJHQEBcQb8goqNx7oWna6MS4uV0+1qeR0Fva4n8?=
- =?us-ascii?Q?AmhyBMD5Aous9SksPsTrYLnlL759EO1t9OS+Gp+CBS7KNtZ9/fMAh9N99NRM?=
- =?us-ascii?Q?HBBgxStDWsWA93vBpLGY8aiWMqd7Y0OwlIe+thQY797CizwSSUm98XvOIlp1?=
- =?us-ascii?Q?9pF8M5+1PNQ2EH3Ve5RpZrGhR7xNl4k/1fwGe4/yINDIDhCZ+RXJmRaHEYAR?=
- =?us-ascii?Q?DzC0ELcX0uykleX32i+X21rpxkMHTUtKfjG5oQFe1uLyKOdG2sHTfMbeN1c6?=
- =?us-ascii?Q?m8ffN1FMRG5BFy87K0cC0hQ2yQJeexYGw37jiM4X8egegUsLhPniBazYXv+C?=
- =?us-ascii?Q?qttojlgtimt6AUYLkyXv+G40/qR9tX4EKwo+hG9OunYH2BkkAHF2wd09+Y/R?=
- =?us-ascii?Q?VOJ1Sng6DojNCxIP2qaJup+ZDr71QEYTwgGa/E4yyvKdAbz5YS8ZSA+MbFYJ?=
- =?us-ascii?Q?cvwBa4m+2BbGzAIgvnsylmoWPfglk6Hx4o90FtnUARw4T4YdLWq96ZDXENAK?=
- =?us-ascii?Q?Wd7Q2ii553hSD01XabWGYNVN4ngY4Fp2arCsQfY20XcFOTkU5SYmCYLYDQ9W?=
- =?us-ascii?Q?KqYxR58e45UaWbHsXFbSE6MDwFPj5/qp3Z9FQ4gUQ6/2I41724Id2KzaSyet?=
- =?us-ascii?Q?taomf1vhhd6sN7eAPKI1uNQjLFwvO7Z+TcaxG2i22Rn4mG4mj3CHMKWCI1bq?=
- =?us-ascii?Q?RaTX6Cys3seqRv4waUZqS84VM/rZVCbVMGAjmHIPvECEX5AahgtWO0BIFYcj?=
- =?us-ascii?Q?sB2NfGtRGf5kTzPnhFWO76IBkNK1YZiMzJ6DVwrNw/q5fCXGWxENsAsSNpDa?=
- =?us-ascii?Q?2487oA9cOamZqF1+m6AEKKilBPp/blYzg3NfnlHDN1wp1IoeoVFGidJ1hW7h?=
- =?us-ascii?Q?mK3/bN0JTaqcIVrTnzIHoUXwy041eUYlSC38waKccMddVKp7bSqMojdvlp9q?=
- =?us-ascii?Q?pbU9QQE5iIhdAa4wsrMT/+AgUVLt2w8oB2M2GLmDb98T/mTKqtzIO4h56jxV?=
- =?us-ascii?Q?LvpqhgImUfdxNPdX9DSbSvQt5UMoC7cbFy5iGzdlViWerfQa0a4GnFrLQarX?=
- =?us-ascii?Q?C3IoOCsj4gDoyBZwARmqmSTmQ3y0pSzsDAtrJd60x/2T2hAWUpYNkObAPEYt?=
- =?us-ascii?Q?3K3TUtp8AyGNVemeraT5v5vapYA1gxJIvjxN81NvEDSPSJWMoOOlW0IcAolr?=
- =?us-ascii?Q?BSOyDdLydjDBVAxtVN69gqRY8N2QqScbQaIg8nBmrAuuDjKKTAmycUDdX0tP?=
- =?us-ascii?Q?cRIRfNXUscWWnJzAPVucGAga7zhXcnjaA5oj8VA6?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08099fd0-03a1-4238-e1bf-08dd2df6f412
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2025 02:08:04.0496
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /lTVVfB5+rvnN3cylkXTbKpEYyqnhxz1lGso175z+6KC3GX4bxhU/2J8CLYswfgFjFKifu2ebNRB9y9t0zfS/A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9153
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 20, 2024 at 08:06:48PM +0100, David Hildenbrand wrote:
-> On 20.12.24 20:01, David Hildenbrand wrote:
-> > On 17.12.24 06:12, Alistair Popple wrote:
-> > > In preparation for using insert_page() for DAX, enhance
-> > > insert_page_into_pte_locked() to handle establishing writable
-> > > mappings.  Recall that DAX returns VM_FAULT_NOPAGE after installing a
-> > > PTE which bypasses the typical set_pte_range() in finish_fault.
-> > > 
-> > > Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> > > Suggested-by: Dan Williams <dan.j.williams@intel.com>
-> > > 
-> > > ---
-> > > 
-> > > Changes since v2:
-> > > 
-> > >    - New patch split out from "mm/memory: Add dax_insert_pfn"
-> > > ---
-> > >    mm/memory.c | 45 +++++++++++++++++++++++++++++++++++++--------
-> > >    1 file changed, 37 insertions(+), 8 deletions(-)
-> > > 
-> > > diff --git a/mm/memory.c b/mm/memory.c
-> > > index 06bb29e..cd82952 100644
-> > > --- a/mm/memory.c
-> > > +++ b/mm/memory.c
-> > > @@ -2126,19 +2126,47 @@ static int validate_page_before_insert(struct vm_area_struct *vma,
-> > >    }
-> > >    static int insert_page_into_pte_locked(struct vm_area_struct *vma, pte_t *pte,
-> > > -			unsigned long addr, struct page *page, pgprot_t prot)
-> > > +				unsigned long addr, struct page *page,
-> > > +				pgprot_t prot, bool mkwrite)
-> > >    {
-> > >    	struct folio *folio = page_folio(page);
-> > > +	pte_t entry = ptep_get(pte);
-> > >    	pte_t pteval;
-> > > -	if (!pte_none(ptep_get(pte)))
-> > > -		return -EBUSY;
-> > > +	if (!pte_none(entry)) {
-> > > +		if (!mkwrite)
-> > > +			return -EBUSY;
-> > > +
-> > > +		/*
-> > > +		 * For read faults on private mappings the PFN passed in may not
-> > > +		 * match the PFN we have mapped if the mapped PFN is a writeable
-> > > +		 * COW page.  In the mkwrite case we are creating a writable PTE
-> > > +		 * for a shared mapping and we expect the PFNs to match. If they
-> > > +		 * don't match, we are likely racing with block allocation and
-> > > +		 * mapping invalidation so just skip the update.
-> > > +		 */
-> > 
-> > Would it make sense to instead have here
-> > 
-> > /* See insert_pfn(). */
-> > 
-> > But ...
-> > 
-> > > +		if (pte_pfn(entry) != page_to_pfn(page)) {
-> > > +			WARN_ON_ONCE(!is_zero_pfn(pte_pfn(entry)));
-> > > +			return -EFAULT;
-> > > +		}
-> > > +		entry = maybe_mkwrite(entry, vma);
-> > > +		entry = pte_mkyoung(entry);
-> > > +		if (ptep_set_access_flags(vma, addr, pte, entry, 1))
-> > > +			update_mmu_cache(vma, addr, pte);
-> > 
-> > ... I am not sure if we want the above at all. Someone inserted a page,
-> > which is refcounted + mapcounted already.
-> > 
-> > Now you ignore that and do like the second insertion "worked" ?
-> > 
-> > No, that feels wrong, I suspect you will run into refcount+mapcount issues.
-> > 
-> > If there is already something, inserting must fail IMHO. If you want to
-> > change something to upgrade write permissions, then a different
-> > interface should be used.
-> 
-> Ah, now I realize that the early exit saves you because we won't adjust the
-> refcount +mapcount.
+Intel Touch Host Controller (THC) is a new high performance input IP
+which can benefit HID device's data transaction, such as touch screen,
+touch pad, stylus.
 
-Right.
- 
-> I still wonder if that really belongs in here, I would prefer to not play
-> such tricks to upgrade write permissions if possible.
+THC IP now evoluates to V4, it can support 3 different modes: IPTS,
+HIDSPI and HIDI2C. Here are upgrade history:
+- THC v1, for TGL/LKF, supports intel private IPTS (Intel Precise Touch
+  and Stylus) protocol ( IPTS mode)
+- THC v2, for ADL, adds industrial standard HID over SPI protocol
+  support (HIDSPI mode)
+- THC v3, for MTL, enhances HID over SPI mode
+- THC v4, for LNL, adds inudstrial standard HID over I2C protocol
+  support (HIDI2C mode) 
 
-As you have pointed out this was all inspired (ie. mostly copied)
-from the existing insert_pfn() implementation which is used from
-vmf_insert_mixed{_mkwrite}().
+Linux Surface community (https://github.com/linux-surface) already
+implemented IPTS mode. These patch series provides THC HIDSPI mode and
+THC HIDI2C mode support on Linux.
 
-I agree a different interface to upgrade permissions would be nice. However
-it's tricky because in general callers of these functions (eg. FS DAX) aren't
-aware if the page is already mapped by a PTE/PMD. They only know a fault has
-occured and the faulting permissions.
+These patch series includes:
+1. Document for THC hardware and software introduction.
+2. Intel THC Hardware layer driver which provides control interfaces
+   for protocol layer.
+3. Intel QuickSPI (R) driver working as a HIDSPI device driver which
+   implements HID over SPI protocol and flow.
+4. Intel QuickI2C (R) driver working as a HIDI2C device driver which
+   implements HID over I2C protocol and flow.
 
-This wouldn't be impossible to fix - the mm does provide vm_ops->page_mkwrite()
-for permission upgrades. The difficulty is that most filesystems that support
-FS DAX (ie. ext4, XFS) don't treat a vm_ops->page_mkwrite() call any differently
-from a vm_ops->fault() call due to write fault. Therefore the FS DAX code is
-unaware of whether or not this is a permission upgrade or initial writeable
-mapping of the page in the VMA.
+Change logs:
+v4:
+- Minor fix in documents
+- Typo fixes in patch 6 & patch 7 commit descriptions
 
-A further issue in there is currently no vm_ops->huge_mkwrite() callback.
+v3:
+- Change tables in documents from literal block to table format
+- Change symbol namespace to string literal according to patch:
+  commit cdd30ebb1b9f ("module: Convert symbol namespace to string literal")
+- Refine Kconfig description
+- Enhance Quickspi and Quicki2c driver by clearing THC hardware internal
+  state before doing initialization to avoid BIOS impacts.
+- A fix in Quicki2c driver when does set_report
 
-Obviously this could all be plumbed through the MM/FS layers, but that would
-require a separate patch series. Given the current implementation has no issues
-beyond the cosmetic I'd rather not delay this series any longer, especially as
-the cosmetic defect is largely pre-existing (vmf_insert_mixed{_mkwrite}() could
-have equally had a separate upgrade interface).
+v2:
+- Fix document format issues
+- Add THC device IDs for Intel Panther Lake (PTL) platform
 
-> --
->
-> Cheers,
-> 
-> David / dhildenb
-> 
+Even Xu (13):
+  HID: THC: Add documentation
+  HID: intel-thc-hid: intel-thc: Add THC DMA interfaces
+  HID: intel-thc-hid: intel-thc: Add THC I2C config interfaces
+  HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI driver hid layer
+  HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI ACPI interfaces
+  HID: intel-thc-hid: intel-quickspi: Add HIDSPI protocol implementation
+  HID: intel-thc-hid: intel-quickspi: Add PM implementation
+  HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C driver skeleton
+  HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C driver hid layer
+  HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C ACPI interfaces
+  HID: intel-thc-hid: intel-quicki2c: Add HIDI2C protocol implementation
+  HID: intel-thc-hid: intel-quicki2c: Complete THC QuickI2C driver
+  HID: intel-thc-hid: intel-quicki2c: Add PM implementation
+
+Xinpeng Sun (9):
+  HID: intel-thc-hid: Add basic THC driver skeleton
+  HID: intel-thc-hid: intel-thc: Add THC registers definition
+  HID: intel-thc-hid: intel-thc: Add THC PIO operation APIs
+  HID: intel-thc-hid: intel-thc: Add APIs for interrupt
+  HID: intel-thc-hid: intel-thc: Add THC LTR interfaces
+  HID: intel-thc-hid: intel-thc: Add THC interrupt handler
+  HID: intel-thc-hid: intel-thc: Add THC SPI config interfaces
+  HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI driver skeleton
+  HID: intel-thc-hid: intel-quickspi: Complete THC QuickSPI driver
+
+ Documentation/hid/index.rst                   |    1 +
+ Documentation/hid/intel-thc-hid.rst           |  568 ++++++
+ MAINTAINERS                                   |    6 +
+ drivers/hid/Kconfig                           |    2 +
+ drivers/hid/Makefile                          |    2 +
+ drivers/hid/intel-thc-hid/Kconfig             |   42 +
+ drivers/hid/intel-thc-hid/Makefile            |   22 +
+ .../intel-quicki2c/pci-quicki2c.c             |  966 ++++++++++
+ .../intel-quicki2c/quicki2c-dev.h             |  186 ++
+ .../intel-quicki2c/quicki2c-hid.c             |  166 ++
+ .../intel-quicki2c/quicki2c-hid.h             |   14 +
+ .../intel-quicki2c/quicki2c-protocol.c        |  224 +++
+ .../intel-quicki2c/quicki2c-protocol.h        |   20 +
+ .../intel-quickspi/pci-quickspi.c             |  987 +++++++++++
+ .../intel-quickspi/quickspi-dev.h             |  172 ++
+ .../intel-quickspi/quickspi-hid.c             |  165 ++
+ .../intel-quickspi/quickspi-hid.h             |   14 +
+ .../intel-quickspi/quickspi-protocol.c        |  414 +++++
+ .../intel-quickspi/quickspi-protocol.h        |   25 +
+ .../intel-thc-hid/intel-thc/intel-thc-dev.c   | 1578 +++++++++++++++++
+ .../intel-thc-hid/intel-thc/intel-thc-dev.h   |  116 ++
+ .../intel-thc-hid/intel-thc/intel-thc-dma.c   |  969 ++++++++++
+ .../intel-thc-hid/intel-thc/intel-thc-dma.h   |  146 ++
+ .../intel-thc-hid/intel-thc/intel-thc-hw.h    |  881 +++++++++
+ include/linux/hid-over-i2c.h                  |  117 ++
+ include/linux/hid-over-spi.h                  |  155 ++
+ 26 files changed, 7958 insertions(+)
+ create mode 100644 Documentation/hid/intel-thc-hid.rst
+ create mode 100644 drivers/hid/intel-thc-hid/Kconfig
+ create mode 100644 drivers/hid/intel-thc-hid/Makefile
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-dev.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-hid.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-protocol.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quicki2c/quicki2c-protocol.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/pci-quickspi.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-dev.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-hid.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-quickspi/quickspi-protocol.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dev.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.c
+ create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-dma.h
+ create mode 100644 drivers/hid/intel-thc-hid/intel-thc/intel-thc-hw.h
+ create mode 100644 include/linux/hid-over-i2c.h
+ create mode 100644 include/linux/hid-over-spi.h
+
+-- 
+2.40.1
+
