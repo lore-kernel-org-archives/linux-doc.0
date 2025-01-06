@@ -1,580 +1,1037 @@
-Received: from mail-m32111.qiye.163.com (mail-m32111.qiye.163.com [220.197.32.111])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31281DE8B3
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jan 2025 12:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87A21DC9BB;
+	Mon,  6 Jan 2025 13:05:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736167660; cv=none; b=OA0R+Mq0ETAWFVdpRIaI9Meyj12ylUCGd73XBONcEgS1135HWyTzOuh6+txWjjXVCaHe2I4MBF+du2ncPDJQX42LW4RzLsMGY5CXCXO5nIXKmj5uJXWavcpw+OMkuiwfObQ4r2+qkael4vEk1ZG9rjccY/9n3SSBnLSalN2IuVs=
+	t=1736168739; cv=none; b=Rk4NNNfcFgykSwBh3s1YnysMNiTg1zmnfHdKd7vOXznycQ3dIvMnqg6SvSHABwX7YPgdKKO8BkaaUTfeWiyANR/fbD6QqGOF5hbFd+iuB+msnIKy91GYR39NXaNh/8QzK7JgpRTXkGWbX5BuJZi2LR20P/6d31qDMcpAwtUJXAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736167660; c=relaxed/simple;
-	bh=zzYXv0TOmN4G/xzTk1MyXitChRLjgn2rwtW02TANVVw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lJhkWCwhru1keqav3XKOL+7X+1t6tAqo/nWKVKogYp2tFgM8d+xC47AZ25Ok2OIe5+iLEhHZLPX2ra/xlPh6YCQ18DR+C/ZPM+8SHeIAWBWcelx3DXmUrF9Nwi4gnddQjsuY75u4jmrNRoEIv0/cTL20a5kCFdrcoDnQTelA04Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=LzyVOgWb; arc=none smtp.client-ip=220.197.32.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
+	s=arc-20240116; t=1736168739; c=relaxed/simple;
+	bh=NdK8824/tV+4ToXjBjhbGKm5Cb0Ax+2vn7tTxHpBc8Q=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=b+kcEEOt84CYSZv3XEH/6F+yA8ocoKrnYpRwsm4w8Lc+huEzxhcV9EF+J1PFnis1b1UNnGNBYOxsb0UDDmEPZpx3olT6EXjW2tzYRhe6VaI4ga5aJlzYVaNcH8xzJOlPgpS1fvNVxpJ2BMVqivMqWCh8Mbqjsay1vLH4tX/S+lg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iUHsZAT0; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="LzyVOgWb"
-Received: from fedora.localdomain (unknown [171.8.192.198])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 7cd7d6fb;
-	Mon, 6 Jan 2025 13:57:46 +0800 (GMT+08:00)
-From: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
-To: alexs@kernel.org,
-	si.yanteng@linux.dev,
-	corbet@lwn.net
-Cc: zhaoyuehui@cqsoftware.com.cn,
-	zhaoshuo@cqsoftware.com.cn,
-	zhangwei@cqsoftware.com.cn,
-	maoyuxian@cqsoftware.com.cn,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2] docs/zh_CN: Add security credentials Chinese translation
-Date: Mon,  6 Jan 2025 13:57:44 +0800
-Message-ID: <20250106055744.20840-1-zhaoshuo@cqsoftware.com.cn>
-X-Mailer: git-send-email 2.47.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iUHsZAT0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736168737; x=1767704737;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=NdK8824/tV+4ToXjBjhbGKm5Cb0Ax+2vn7tTxHpBc8Q=;
+  b=iUHsZAT0eYIXvKKU+JEW0mgeOnWH8giX5dQAn1Te0NoFhKV4qIynu9nZ
+   gOcgB21ereJAQTtpKnHZNT/LS7qPSDMcqaGDGG1C+4Wl8cxad6z6EaRpa
+   AqgD1rMq/KJ5RQpx23Ip9G02KhIFDqiTL2CCCkLVbAOMxw2fz1poCgKvv
+   ZYU/k/zSTO2kBCv8OpQv6lkxqzlsLxPmkq7bJluNmPqcLiy53lvWo+OUe
+   YLAlkr4bFzh4skA8zwqngnZio0POKBnuVqcBfYzDiWlyCFJ1bLrxk4WWD
+   46BnBgtxutcQyFCpxUq1ANsRBE78zi/rhw9l5k1bEpZx9ftmvDzbZ/D/w
+   w==;
+X-CSE-ConnectionGUID: tZTOS/qQROKQUxHEG6gPbQ==
+X-CSE-MsgGUID: 4s0bAhXTQPmJ2AYpPn+7Xw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="61689115"
+X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
+   d="scan'208";a="61689115"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 05:05:36 -0800
+X-CSE-ConnectionGUID: t2aV4mwZT7uqcncM6rWeTw==
+X-CSE-MsgGUID: Lp31a1P5SPq8cmcnbHsNmw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,292,1728975600"; 
+   d="scan'208";a="102933198"
+Received: from spandruv-desk.jf.intel.com ([10.54.75.16])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 05:05:35 -0800
+Message-ID: <5886086c1ef2778f3b9614956d0a43dc21fc1942.camel@linux.intel.com>
+Subject: Re: [PATCH v4 01/22] HID: THC: Add documentation
+From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To: Even Xu <even.xu@intel.com>, jikos@kernel.org, bentiss@kernel.org, 
+	corbet@lwn.net, bagasdotme@gmail.com, aaron.ma@canonical.com, 
+	rdunlap@infradead.org, mpearson-lenovo@squebb.ca
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Sun Xinpeng <xinpeng.sun@intel.com>
+Date: Mon, 06 Jan 2025 05:05:35 -0800
+In-Reply-To: <20250106023151.3011329-2-even.xu@intel.com>
+References: <20250106023151.3011329-1-even.xu@intel.com>
+	 <20250106023151.3011329-2-even.xu@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaQ0weVkwYQh1DQkofGhoYTlYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKTEpVQ1VKQklVSkJDWVdZFhoPEhUdFFlBWU9LSFVKS0hKT0hMVUpLS1
-	VKQktLWQY+
-X-HM-Tid: 0a943a30d59709d0kunm7cd7d6fb
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NQw6Cyo*PjIRNRgqTjgePigV
-	MBpPCi5VSlVKTEhNSk9IS01MTENJVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
-	WRILWUFZSkxKVUNVSkJJVUpCQ1lXWQgBWUFJS0NLTTcG
-DKIM-Signature:a=rsa-sha256;
-	b=LzyVOgWbTYuQB756zB2eDU5uxqEKGdNqXZu4uLRgY72ac8A/BHjo5iaLAG2pGMrdICZ+98Yh6YAWSGFb7XvYHaZI+Bal68ZPJzNerU6X6CYBWNPBiGS0whThSQgD8EtxU5tgKtMcDr0XxeWT6HDh8/LYPyADCD+1S7nyCaNbuoA=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
-	bh=4EBL60DTpH/SkCGwrGdvDZ+SnC4uHU+Fpl78h6vj26k=;
-	h=date:mime-version:subject:message-id:from;
 
-Translate .../security/credentials.rst into Chinese.
+On Mon, 2025-01-06 at 10:31 +0800, Even Xu wrote:
+> Add Documentation/hid/intel-thc-hid.rst file to provide hardware
+> and software detail for intel THC drivers.
+>=20
+> Co-developed-by: Sun Xinpeng <xinpeng.sun@intel.com>
+> Signed-off-by: Sun Xinpeng <xinpeng.sun@intel.com>
+> Signed-off-by: Even Xu <even.xu@intel.com>
+> Reviewed-by: Srinivas Pandruvada
+> <srinivas.pandruvada@linux.intel.com>
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+> ---
 
-Update the translation through commit cf92ec602ac5
-("Documentation: remove current_security() reference")
+Change logs are missing?
+Also didn't receive any cover letter with any changes?
 
-Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
----
+Thanks,
+Srinivas
 
-v2:
-
-Modify some formatting and translation.
-
- .../zh_CN/security/credentials.rst            | 479 ++++++++++++++++++
- .../translations/zh_CN/security/index.rst     |   2 +-
- 2 files changed, 480 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/security/credentials.rst
-
-diff --git a/Documentation/translations/zh_CN/security/credentials.rst b/Documentation/translations/zh_CN/security/credentials.rst
-new file mode 100644
-index 000000000000..b42b86f96078
---- /dev/null
-+++ b/Documentation/translations/zh_CN/security/credentials.rst
-@@ -0,0 +1,479 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/security/credentials.rst
-+
-+:翻译:
-+ 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
-+
-+=============
-+Linux中的凭据
-+=============
-+
-+作者: David Howells <dhowells@redhat.com>
-+
-+.. contents:: :local:
-+
-+概述
-+====
-+
-+当一个对象对另一个对象进行操作时，Linux执行的安全检查包含几个部分：
-+
-+ 1. 对象
-+
-+     对象是可以直接由用户空间程序操作的系统中的实体。Linux具有多种可操作
-+     的对象，包括：
-+
-+	- 任务
-+	- 文件/索引节点
-+	- 套接字
-+	- 消息队列
-+	- 共享内存段
-+	- 信号量
-+	- 密钥
-+
-+     所有这些对象的描述的一部分是一组凭据。集合中的内容取决于对象的类型。
-+
-+ 2. 对象所有权
-+
-+     大多数对象的凭据中会有一个子集用来表示该对象的所有权。
-+     这用于资源会计和限制（如磁盘配额和任务资源限制）。
-+
-+     例如，在标准的UNIX文件系统中，这将由标记在索引节点上的UID定义。
-+
-+ 3. 客观上下文
-+
-+     此外在这些对象的凭据中，将有一个子集表示对象的“客观上下文”。
-+     这可能与（2）中相同，也可能不同 —— 例如，在标准的UNIX文件中，
-+     这是由标记在索引节点上的UID和GID定义的。
-+
-+     客观上下文是进行安全计算的一部分，当对象被操作时会用到。
-+
-+ 4. 主体
-+
-+     主体是正在对其他对象执行操作的对象。
-+
-+     系统中的大多数对象是不活动的：他们不会对系统中的其他对象起作用。
-+     进程/任务是明显的例外：它们可以访问和操纵其他对象。
-+
-+     任务之外的其他对象在某些情况下也可以是主体。例如，打开的文件可以使用
-+     名为 ``fcntl(F_SETOWN)`` 的任务给它的UID和EUID向一个任务发送SIGIO
-+     信号。在这种情况下，文件结构也会有一个主观上下文。
-+
-+ 5. 主观上下文
-+
-+     主体对其凭据有一个额外的解释。其凭据的一个子集形成了“主观上下文”。主观
-+     上下文在主体执行操作时作为安全计算的一部分使用。
-+
-+     例如，Linux任务在操作文件时会有FSUID、FSGID和附加组列表 —— 这些凭据
-+     与通常构成任务的客观上下文的真实UID和GID是相互独立的。
-+
-+ 6. 操作
-+
-+     Linux提供许多操作，主体可以对对象执行这些操作。可用的操作集取决于主体
-+     和对象的性质。
-+
-+
-+     操作包括读取、写入、创建和删除文件，以及派生（forking）或发送
-+     信号（signalling）和跟踪（tracing）任务等。
-+
-+ 7. 规则，访问控制列表和安全计算
-+
-+     当主体对对象进行操作时，会进行安全计算。这涉及到使用主观上下文、客观
-+     上下文和操作，并搜索一个或多个规则集，以确定在给定这些上下文的情况下，
-+     主体是否被授予或拒绝以所需方式对对象进行操作的权限。
-+
-+     主要有两个规则来源：
-+
-+     a. 自主访问控制（DAC）：
-+
-+	 有时，对象的描述中会包含一组规则。这就是所谓的“访问控制列表”或‘ACL’。
-+	 一个Linux文件可以提供多个ACL。
-+
-+	 例如，传统的UNIX文件包括一个权限掩码，它是一个简化的ACL，具有三个固定的
-+	 主体类别（“用户”、“组”和“其他”），每一个都可以被授予一定的特权（如“读取”、
-+	 “写入”和“执行” —— 无论这些映射对于对象意味着什么）。然而，UNIX文件权限不
-+	 允许任意指定主体，因此用途有限。
-+
-+	 Linux文件还可以支持POSIX ACL。这是一个规则列表，为任意主体授予各种权限。
-+
-+     b. 强制访问控制（MAC）：
-+
-+	 整个系统可能有一个或多个规则集，适用于所有主体和对象，不考虑它们的来源。
-+	 SELinux和Smack就是这种情况的例子。
-+
-+	 在SELinux和Smack的情况下，每个对象在其凭据中都被赋予一个标签。当请求执
-+	 行操作时，它们使用主体标签、对象标签和操作，寻找一个规则，该规则表示此操
-+	 作是授予还是拒绝的。
-+
-+
-+凭据类型
-+========
-+
-+Linux内核支持以下类型的凭据：
-+
-+ 1. 传统的UNIX凭据。
-+
-+	- 真实用户ID
-+	- 真实组ID
-+
-+     UID和GID由大多数（如果不是全部）Linux对象携带，即使有时它们需要被虚构出
-+     来（例如FAT或CIFS文件，这些文件来源于Windows）。这些（通常）定义了该对象
-+     的客观上下文，但任务在某些情况下略有不同。
-+
-+	- 有效用户ID，保存用户ID和FS用户ID
-+	- 有效组ID，保存组ID和FS组ID
-+	- 补充组
-+
-+     这些是仅由任务使用的额外凭据。通常，一个EUID/EGID/GROUPS 被用作主观上下文，
-+     而真实UID/GID 被用作客观上下文。对于任务，这并不总是正确的。
-+
-+ 2. 能力
-+
-+	- 允许的能力集合
-+	- 可继承的能力集合
-+	- 有效的能力集合
-+	- 能力边界集合
-+
-+     这些仅由任务携带，表示授予任务的超出普通任务权限的能力。这些可以通过传统
-+     UNIX凭据的更改进行隐式操作，但也可以通过 ``capset()`` 系统调用直接操作。
-+
-+     允许的能力是指进程可以通过 ``capset()`` 将其添加到其有效或允许集合中的
-+     那些能力。这个可继承的集合也可能受到这样的限制。
-+
-+     有效能力是任务本身实际可以使用的能力。
-+
-+     可继承能力是那些可以通过 ``execve()`` 传递的能力。
-+
-+     边界集限制了通过 ``execve()`` 继承的能力，特别是在以UID 0执行二进制文件时。
-+
-+ 3. 安全管理标记（securebits）
-+
-+     它们用于控制上述凭据在特定操作如execve()中的操作和继承方式。它们并不直接
-+     用作客观或主观凭据使用。
-+
-+ 4. 密钥和密钥环
-+
-+     这些仅由任务携带。它们用于携带和缓存不适合放入其他标准UNIX凭据中的安全令牌。
-+     它们用诸如使网络文件系统密钥在进程执行的文件访问时可用，而无需让普通程序了解
-+     涉及的安全细节。
-+
-+     密钥环是一种特殊类型的密钥。它们携带一组其他密钥，并可以搜索来查找所需的密钥。
-+     每个进程可以订阅多个密钥环：
-+
-+	每线程密钥
-+	每进程密钥环
-+	每会话密钥环
-+
-+     当进程访问一个密钥时，若尚不存在，则通常会将其缓存在一个密钥环中，以便将来的
-+     访问时找到该密钥。
-+
-+     有关密钥的更多信息，请参见 ``Documentation/translations/zh_CN/security/keys/*`` 。
-+
-+ 5. LSM
-+
-+     Linux安全模块允许在任务执行操作时施加额外的控制。目前，Linux支持几种LSM选项。
-+
-+     一些工作通过标记系统中的对象，并应用一组规则（策略）说明某个标签的任务可以对
-+     另一标签的对象执行哪些操作。
-+
-+ 6. AF_KEY
-+
-+     这是一种基于套接字网络协议栈中的凭据管理[RFC 2367]。本文档中没有讨论它,因为不
-+     直接与任务和文件凭据进行交互，而是保留了系统级的凭据。
-+
-+
-+当打开一个文件时，打开任务的主观上下文的一部分会记录在创建的文件结构中。
-+这使得使用该文件结构的操作可以使用这些凭据，而不是发出操作的任务的主观上下文。
-+一个例子是在网络文件系统上打开的文件，打开文件的凭据应该被呈现给服务器，而不管
-+实际进行读取或写入操作的是谁。
-+
-+
-+文件标记
-+========
-+
-+存储在磁盘上或通过网络获取的文件可能具有注释，构成该文件的客观安全上下文。
-+根据文件系统的类型，这些注释可能包括以下一项或多项：
-+
-+ * UNIX UID, GID, mode;
-+ * Windows user ID;
-+ * Access control list;
-+ * LSM security label;
-+ * UNIX exec privilege escalation bits (SUID/SGID);
-+ * File capabilities exec privilege escalation bits.
-+
-+将这些与任务的主观安全上下文进行比较，并根据比较结果允许或禁止执行某些操作。
-+在execve()的情况下，特权提升位起作用，并且可能允许由可执行文件的注释决定的
-+进程获得额外的特权。
-+
-+
-+任务凭据
-+========
-+
-+在Linux中，一个任务的所有凭据都保存在一个引用计数结构体‘struct cred’中，
-+通过(uid, gid)或(groups, keys, LSM security)进行访问。每个任务在其
-+task_struct中通过一个名为‘cred’的指针指向其凭据。
-+
-+一旦一组凭据已经准备好并提交，除非以下几种情况，否则不能更改：
-+
-+ 1. 其引用计数可以更改；
-+
-+ 2. 它所指向的 group_info 结构体的引用计数可以更改；
-+
-+ 3. 它所指向的安全数据的引用计数可以更改；
-+
-+ 4. 它所指向的任何密钥环的引用计数可以更改；
-+
-+ 5. 它所指向的任何密钥环可以被撤销、过期或其安全属性可以更改；
-+
-+ 6. 它所指向的任何密钥环的内容可以更改（密钥环的整个目的就是作为一组共享凭据，
-+    可由具有适当访问权限的任何人修改）。
-+
-+要更改cred结构体中的任何内容，必须遵循复制和替换的原则。首先进行复制，然后修
-+改副本，最后使用RCU（读-复制-更新）将任务指针更改为指向新的副本。有一些封装可
-+用于帮助执行这个过程（见下文）。
-+
-+一个任务只能修改自己的凭据；不再允许一个任务修改另一个任务的凭据。
-+这意味着 ``capset()`` 系统调用不再允许使用除当前进程之外的任何PID。
-+此外， ``keyctl_instantiate()`` 和 ``keyctl_negate()`` 函数也不再
-+允许在请求进程中附加到特定于进程的密钥环，因为实例化进程可能需要创建它们。
-+
-+
-+不可变凭据
-+----------
-+
-+一旦一组凭据已经被公开（例如通过调用 ``commit_creds()`` ），必须将其视为
-+不可变的,除了两个例外情况：
-+
-+ 1. 引用计数可以被修改。
-+
-+ 2. 虽然无法更改一组凭据的密钥环订阅，但订阅的密钥环的内容可以被更改。
-+
-+为了在编译时捕获意外的凭据修改，struct task_struct具有_const_指针指向其凭据集，
-+struct file也是如此。此外，某些函数如 ``get_cred()`` 和 ``put_cred()`` 在
-+const指针上操作，因此不需要进行类型转换，但需要临时放弃const限定，以便能够修改
-+引用计数。
-+
-+
-+访问任务凭据
-+------------
-+
-+任务只能修改自己的凭据，允许当前进程可以读取或替换自己的凭据，无需任何形式锁定的
-+情况下 —— 这极大简化了事情。它可以调用::
-+
-+	const struct cred *current_cred()
-+
-+获取指向其凭据结构的指针，并且之后不必释放它。
-+
-+有一些方便的封装用于检索任务凭据的特定方面（在每种情况下都只返回值）::
-+
-+	uid_t current_uid(void)		Current's real UID
-+	gid_t current_gid(void)		Current's real GID
-+	uid_t current_euid(void)	Current's effective UID
-+	gid_t current_egid(void)	Current's effective GID
-+	uid_t current_fsuid(void)	Current's file access UID
-+	gid_t current_fsgid(void)	Current's file access GID
-+	kernel_cap_t current_cap(void)	Current's effective capabilities
-+	struct user_struct *current_user(void)  Current's user account
-+
-+还有一些方便的封装，用于检索任务凭据的特定关联对::
-+
-+	void current_uid_gid(uid_t *, gid_t *);
-+	void current_euid_egid(uid_t *, gid_t *);
-+	void current_fsuid_fsgid(uid_t *, gid_t *);
-+
-+在从当前任务的凭据中检索后，通过其参数返回这些值对。
-+
-+
-+此外，还有一个函数用于获取当前进程的当前凭据集的引用::
-+
-+	const struct cred *get_current_cred(void);
-+
-+以及用于获取对一个实际上不存在于struct cred中的凭据的引用的函数::
-+
-+	struct user_struct *get_current_user(void);
-+	struct group_info *get_current_groups(void);
-+
-+分别获得对当前进程的 user accounting structure 和补充组列表的引用。
-+
-+一旦获得引用，就必须使用 ``put_cred（）``, ``free_uid（）`` 或
-+``put_group_info（）`` 来适当释放它。
-+
-+
-+访问其他任务的凭据
-+------------------
-+
-+虽然一个任务可以在不需要锁定的情况下访问自己的凭据，但想要访问另一个任务
-+的凭据的任务并非如此。它必须使用RCU读锁和 ``rcu_dereference（）``。
-+
-+``rcu_dereference()`` 是由::
-+
-+	const struct cred *__task_cred(struct task_struct *task);
-+
-+这应该在RCU读锁中使用，如下例所示::
-+
-+	void foo(struct task_struct *t, struct foo_data *f)
-+	{
-+		const struct cred *tcred;
-+		...
-+		rcu_read_lock();
-+		tcred = __task_cred(t);
-+		f->uid = tcred->uid;
-+		f->gid = tcred->gid;
-+		f->groups = get_group_info(tcred->groups);
-+		rcu_read_unlock();
-+		...
-+	}
-+
-+如果需要长时间持有另一个任务的凭据，并且可能在此过程中休眠，则调用方
-+应该使用以下函数来获取对这些凭据的引用::
-+
-+	const struct cred *get_task_cred(struct task_struct *task);
-+
-+这个函数内部完成了所有的RCU操作。当使用完这些凭据时，调用方必须调用put_cred()
-+函数释放它们。
-+
-+.. note::
-+   ``__task_cred()`` 的结果不应直接传递给 ``get_cred()`` ，
-+   因为这可能与 ``commit_cred()`` 发生竞争条件。
-+
-+还有一些方便的函数可以访问另一个任务凭据的特定部分，将RCU操作对调用方隐藏起来::
-+
-+	uid_t task_uid(task)		Task's real UID
-+	uid_t task_euid(task)		Task's effective UID
-+
-+如果调用方在此时已经持有RCU读锁，则应使用::
-+
-+	__task_cred(task)->uid
-+	__task_cred(task)->euid
-+
-+类似地，如果需要访问任务凭据的多个方面，应使用RCU读锁，调用 ``__task_cred()``
-+函数，将结果存储在临时指针中，然后从临时指针中调用凭据的各个方面，最后释放锁。
-+这样可以防止多次调用昂贵的RCU操作。
-+
-+如果需要访问另一个任务凭据的其他单个方面，可以使用::
-+
-+	task_cred_xxx(task, member)
-+
-+这里的‘member’是cred结构体的非指针成员。例如::
-+
-+	uid_t task_cred_xxx(task, suid);
-+
-+将从任务中检索‘struct cred::suid’，并执行适当的RCU操作。对于指针成员，
-+不能使用这种形式，因为它们指向的内容可能在释放RCU读锁的瞬间消失。
-+
-+
-+修改凭据
-+--------
-+
-+如先前提到的，一个任务只能修改自己的凭据，不能修改其他任务的凭据。这意味
-+着它不需要使用任何锁来修改自己的凭据。
-+
-+要修改当前进程的凭据，函数应首先调用::
-+
-+	struct cred *prepare_creds(void);
-+
-+这将锁定current->cred_replace_mutex，然后分配并构建当前进程凭据的副本。
-+如果成功，函数返回时仍然保持互斥锁。如果不成功（内存不足），则返回NULL。
-+
-+互斥锁防止 ``ptrace()`` 在进行凭据构建和更改的安全检查时更改进程的ptrace
-+状态，因为ptrace状态可能会改变结果，特别是在 ``execve()`` 的情况下。
-+
-+新的凭据集应适当地进行修改，并进行任何安全检查和挂钩。在此时，当前和建议的
-+凭据集都可用，因为current_cred()将返回当前的凭据集。
-+
-+在替换组列表时，必须在将其添加到凭据之前对新列表进行排序，因为使用二分查找
-+测试成员资格。实际上，这意味着在set_groups()或set_current_groups()之
-+前应调用groups_sort()。groups_sort()不能在共享的 ``struct group_list``
-+上调用，因为即使数组已经排序，它也可能作为排序过程的一部分对元素进行排列。
-+
-+当凭据集准备好时，应通过调用以下函数将其提交给当前进程::
-+
-+	int commit_creds(struct cred *new);
-+
-+这将修改凭据和进程的各个方面，给LSM提供机会做同样的修改，然后使用
-+``rcu_assign_pointer()`` 将新的凭据实际提交给 ``current->cred`` ，
-+释放 ``current->cred_replace_mutex`` 以允许 ``ptrace()`` 进行操
-+作，并通知调度程序和其他组件有关更改的情况。
-+
-+该函数保证返回0，以便可以在诸如 ``sys_setresuid()`` 函数的末尾进行尾调用。
-+
-+请注意，该函数会消耗调用者对新凭据的引用。调用者在此之后不应调用
-+``put_cred()`` 释放新凭据。
-+
-+此外，一旦新的凭据上调用了该函数，就不能进一步更改这些凭据。
-+
-+
-+如果在调用 ``prepare_creds()`` 之后安全检查失败或发生其他错误，
-+则应调用以下函数::
-+
-+	void abort_creds(struct cred *new);
-+
-+这将释放 ``prepare_creds()`` 获取的 ``current->cred_replace_mutex`` 的锁，
-+并释放新的凭据。
-+
-+一个典型的凭据修改函数看起来像这样::
-+
-+	int alter_suid(uid_t suid)
-+	{
-+		struct cred *new;
-+		int ret;
-+
-+		new = prepare_creds();
-+		if (!new)
-+			return -ENOMEM;
-+
-+		new->suid = suid;
-+		ret = security_alter_suid(new);
-+		if (ret < 0) {
-+			abort_creds(new);
-+			return ret;
-+		}
-+
-+		return commit_creds(new);
-+	}
-+
-+
-+管理凭据
-+--------
-+
-+有一些函数用来辅助凭据管理:
-+
-+ - ``void put_cred(const struct cred *cred);``
-+
-+	 这将释放对给定凭据集的引用。如果引用计数为零，凭据集将由
-+	 RCU系统安排进行销毁。
-+
-+ - ``const struct cred *get_cred(const struct cred *cred);``
-+
-+	 这将获取对活动凭据集的引用。返回指向凭据集的指针。
-+
-+ - ``struct cred *get_new_cred(struct cred *cred);``
-+
-+	 这将获取对当前正在构建且可变的凭据集的引用。返回指向凭据集的指针。
-+
-+打开文件凭据
-+============
-+
-+当打开新文件时，会获取对打开任务凭据的引用，并将其附加到文件结构体的
-+``f_cred`` 字段中，替代原来的 ``f_uid`` 和 ``f_gid`` 。原来访问
-+``file->f_uid`` 和 ``file->f_gid`` 的代码现在应访问 ``file->f_cred->fsuid``
-+和 ``file->f_cred->fsgid`` 。
-+
-+安全访问 ``f_cred`` 的情况下可以不使用RCU或加锁，因为指向凭据的指针
-+以及指向的凭据结构的内容在文件结构的整个生命周期中保持不变，除非是
-+上述列出的例外情况（参阅任务凭据部分）。
-+
-+为了避免“混淆代理”权限提升攻击，在打开的文件后续操作时，访问控制检查
-+应该使用这些凭据，而不是使用“当前”的凭据，因为该文件可能已经被传递给
-+一个更具特权的进程。
-+
-+覆盖VFS对凭据的使用
-+===================
-+
-+在某些情况下，需要覆盖VFS使用的凭据，可以通过使用不同的凭据集调用
-+如 ``vfs_mkdir()`` 来实现。以下是一些进行此操作的位置:
-+
-+ * ``sys_faccessat()``.
-+ * ``do_coredump()``.
-+ * nfs4recover.c.
-diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
-index 2e81f33889e5..c30d4e0210d1 100644
---- a/Documentation/translations/zh_CN/security/index.rst
-+++ b/Documentation/translations/zh_CN/security/index.rst
-@@ -15,6 +15,7 @@
- .. toctree::
-    :maxdepth: 1
- 
-+   credentials
-    IMA-templates
-    lsm
-    sak
-@@ -23,7 +24,6 @@
-    landlock
- 
- TODOLIST:
--* credentials
- * snp-tdx-threat-model
- * keys/index
- * lsm-development
--- 
-2.47.1
+> =C2=A0Documentation/hid/index.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> =C2=A0Documentation/hid/intel-thc-hid.rst | 568
+> ++++++++++++++++++++++++++++
+> =C2=A02 files changed, 569 insertions(+)
+> =C2=A0create mode 100644 Documentation/hid/intel-thc-hid.rst
+>=20
+> diff --git a/Documentation/hid/index.rst
+> b/Documentation/hid/index.rst
+> index af02cf7cfa82..baf156b44b58 100644
+> --- a/Documentation/hid/index.rst
+> +++ b/Documentation/hid/index.rst
+> @@ -18,4 +18,5 @@ Human Interface Devices (HID)
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0 hid-alps
+> =C2=A0=C2=A0=C2=A0 intel-ish-hid
+> +=C2=A0=C2=A0 intel-thc-hid
+> =C2=A0=C2=A0=C2=A0 amd-sfh-hid
+> diff --git a/Documentation/hid/intel-thc-hid.rst
+> b/Documentation/hid/intel-thc-hid.rst
+> new file mode 100644
+> index 000000000000..6c417205ac6a
+> --- /dev/null
+> +++ b/Documentation/hid/intel-thc-hid.rst
+> @@ -0,0 +1,568 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Intel Touch Host Controller (THC)
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Touch Host Controller is the name of the IP block in PCH that
+> interface with Touch Devices (ex:
+> +touchscreen, touchpad etc.). It is comprised of 3 key functional
+> blocks:
+> +
+> +- A natively half-duplex Quad I/O capable SPI master
+> +- Low latency I2C interface to support HIDI2C compliant devices
+> +- A HW sequencer with RW DMA capability to system memory
+> +
+> +It has a single root space IOSF Primary interface that supports
+> transactions to/from touch devices.
+> +Host driver configures and controls the touch devices over THC
+> interface. THC provides high
+> +bandwidth DMA services to the touch driver and transfers the HID
+> report to host system main memory.
+> +
+> +Hardware sequencer within the THC is responsible for transferring
+> (via DMA) data from touch devices
+> +into system memory. A ring buffer is used to avoid data loss due to
+> asynchronous nature of data
+> +consumption (by host) in relation to data production (by touch
+> device via DMA).
+> +
+> +Unlike other common SPI/I2C controllers, THC handles the HID device
+> data interrupt and reset
+> +signals directly.
+> +
+> +1. Overview
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +1.1 THC software/hardware stack
+> +-------------------------------
+> +
+> +Below diagram illustrates the high-level architecture of THC
+> software/hardware stack, which is fully
+> +capable of supporting HIDSPI/HIDI2C protocol in Linux OS.
+> +
+> +::
+> +
+> +=C2=A0 ----------------------------------------------
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +-----------------------------------+=
+=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 Input Device=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +-----------------------------------+=
+=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +-----------------------------------+=
+=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 H=
+ID Multi-touch Driver=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +-----------------------------------+=
+=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +-----------------------------------+=
+=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 HID Core=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +-----------------------------------+=
+=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +-----------------------------------+=
+=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 THC QuickSPI/QuickI=
+2C Driver=C2=A0=C2=A0 |=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +-----------------------------------+=
+=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +-----------------------------------+=
+=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 THC Har=
+dware Driver=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=
+=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +-----------------------------------+=
+=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +----------------+ +----------------+=
+=C2=A0=C2=A0 |
+> + |=C2=A0 SW=C2=A0 | PCI Bus Driver | | ACPI Resource=C2=A0 |=C2=A0=C2=A0=
+ |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +----------------+ +----------------+=
+=C2=A0=C2=A0 |
+> +=C2=A0 ----------------------------------------------
+> +=C2=A0 ----------------------------------------------
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +-----------------------------------+=
+=C2=A0=C2=A0 |
+> + |=C2=A0 HW=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 PCI Bus=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +-----------------------------------+=
+=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +-----------------------------------+=
+=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 THC Controller=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +-----------------------------------+=
+=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +-----------------------------------+=
+=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Touch IC=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 |
+> + |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 +-----------------------------------+=
+=C2=A0=C2=A0 |
+> +=C2=A0 ----------------------------------------------
+> +
+> +Touch IC (TIC), also as known as the Touch devices (touchscreen or
+> touchpad). The discrete analog
+> +components that sense and transfer either discrete touch data or
+> heatmap data in the form of HID
+> +reports over the SPI/I2C bus to the THC Controller on the host.
+> +
+> +THC Host Controller, which is a PCI device HBA (host bus adapter),
+> integrated into the PCH, that
+> +serves as a bridge between the Touch ICs and the host.
+> +
+> +THC Hardware Driver, provides THC hardware operation APIs for above
+> QuickSPI/QuickI2C driver, it
+> +accesses THC MMIO registers to configure and control THC hardware.
+> +
+> +THC QuickSPI/QuickI2C driver, also as known as HIDSPI/HIDI2C driver,
+> is registered as a HID
+> +low-level driver that manages the THC Controller and implements
+> HIDSPI/HIDI2C protocol.
+> +
+> +
+> +1.2 THC hardware diagram
+> +------------------------
+> +Below diagram shows THC hardware components::
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 --------------------=
+-------------
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 THC Controller=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 +-----------------=
+----------+=C2=A0 |
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 |=C2=A0=C2=A0=C2=
+=A0=C2=A0 PCI Config Space=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 |
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 +-----------------=
+----------+=C2=A0 |
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 +-----------------=
+----------+=C2=A0 |
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 +=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 MMIO Registers=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 =
+|
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 +-----------------=
+----------+=C2=A0 |
+> + +---------------+=C2=A0=C2=A0 |=C2=A0 +------------+ +------------+=C2=
+=A0 |
+> + | System Memory +---+--+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 DMA=C2=A0=C2=A0 =
+| |=C2=A0=C2=A0 PIO=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 |
+> + +---------------+=C2=A0=C2=A0 |=C2=A0 +------------+ +------------+=C2=
+=A0 |
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 +-----------------=
+----------+=C2=A0 |
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 |=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 HW Sequencer=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 |
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 +-----------------=
+----------+=C2=A0 |
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 +------------+ +--=
+----------+=C2=A0 |
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 |=C2=A0 SPI/I2C=C2=
+=A0=C2=A0 | |=C2=A0=C2=A0=C2=A0 GPIO=C2=A0=C2=A0=C2=A0 |=C2=A0 |
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 | Controller | | C=
+ontroller |=C2=A0 |
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 +------------+ +--=
+----------+=C2=A0 |
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 --------------------=
+-------------
+> +
+> +As THC is exposed as a PCI devices, so it has standard PCI config
+> space registers for PCI
+> +enumeration and configuration.
+> +
+> +MMIO Registers, which provide registers access for driver to
+> configure and control THC hardware,
+> +the registers include several categories: Interrupt status and
+> control, DMA configure,
+> +PIO (Programmed I/O, defined in section 3.2) status and control, SPI
+> bus configure, I2C subIP
+> +status and control, reset status and control...
+> +
+> +THC provides two ways for driver to communicate with external Touch
+> ICs: PIO and DMA.
+> +PIO can let driver manually write/read data to/from Touch ICs,
+> instead, THC DMA can
+> +automatically write/read data without driver involved.
+> +
+> +HW Sequencer includes THC major logic, it gets instruction from MMIO
+> registers to control
+> +SPI bus and I2C bus to finish a bus data transaction, it also can
+> automatically handle
+> +Touch ICs interrupt and start DMA receive/send data from/to Touch
+> ICs according to interrupt
+> +type. That means THC HW Sequencer understands HIDSPI/HIDI2C transfer
+> protocol, and handle
+> +the communication without driver involved, what driver needs to do
+> is just configure the THC
+> +properly, and prepare the formatted data packet or handle received
+> data packet.
+> +
+> +As THC supports HIDSPI/HIDI2C protocols, it has SPI controller and
+> I2C subIP in it to expose
+> +SPI bus and I2C bus. THC also integrates a GPIO controller to
+> provide interrupt line support
+> +and reset line support.
+> +
+> +2. THC Hardware Interface
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> +
+> +2.1 Host Interface
+> +------------------
+> +
+> +THC is exposed as "PCI Digitizer device" to the host. The PCI
+> product and device IDs are
+> +changed from different generations of processors. So the source code
+> which enumerates drivers
+> +needs to update from generation to generation.
+> +
+> +
+> +2.2 Device Interface
+> +--------------------
+> +
+> +THC supports two types of bus for Touch IC connection: Enhanced SPI
+> bus and I2C bus.
+> +
+> +2.2.1 SPI Port
+> +~~~~~~~~~~~~~~
+> +
+> +When PORT_TYPE =3D 00b in MMIO registers, THC uses SPI interfaces to
+> communicate with external
+> +Touch IC. THC enhanced SPI Bus supports different SPI modes:
+> standard Single IO mode,
+> +Dual IO mode and Quad IO mode.
+> +
+> +In Single IO mode, THC drives MOSI line to send data to Touch ICs,
+> and receives data from Touch
+> +ICs data from MISO line. In Dual IO mode, THC drivers MOSI and MISO
+> both for data sending, and
+> +also receives the data on both line. In Quad IO mode, there are
+> other two lines (IO2 and IO3)
+> +are added, THC drives MOSI (IO0), MISO (IO1), IO2 and IO3 at the
+> same time for data sending, and
+> +also receives the data on those 4 lines. Driver needs to configure
+> THC in different mode by
+> +setting different opcode.
+> +
+> +Beside IO mode, driver also needs to configure SPI bus speed. THC
+> supports up to 42MHz SPI clock
+> +on Intel Lunar Lake platform.
+> +
+> +For THC sending data to Touch IC, the data flow on SPI bus::
+> +
+> + | --------------------THC sends---------------------------------|
+> + <8Bits OPCode><24Bits Slave Address><Data><Data><Data>...........
+> +
+> +For THC receiving data from Touch IC, the data flow on SPI bus::
+> +
+> + | ---------THC Sends---------------||-----Touch IC sends--------|
+> + <8Bits OPCode><24Bits Slave Address><Data><Data><Data>...........
+> +
+> +2.2.2 I2C Port
+> +~~~~~~~~~~~~~~
+> +
+> +THC also integrates I2C controller in it, it's called I2C SubSystem.
+> When PORT_TYPE =3D 01, THC
+> +is configured to I2C mode. Comparing to SPI mode which can be
+> configured through MMIO registers
+> +directly, THC needs to use PIO read (by setting SubIP read opcode)
+> to I2C subIP APB registers'
+> +value and use PIO write (by setting SubIP write opcode) to do a
+> write operation.
+> +
+> +2.2.3 GPIO interface
+> +~~~~~~~~~~~~~~~~~~~~
+> +
+> +THC also includes two GPIO pins, one for interrupt and the other for
+> device reset control.
+> +
+> +Interrupt line can be configured to either level triggerred or edge
+> triggerred by setting MMIO
+> +Control register.
+> +
+> +Reset line is controlled by BIOS (or EFI) through ACPI _RST method,
+> driver needs to call this
+> +device ACPI _RST method to reset touch IC during initialization.
+> +
+> +3. High level concept
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +3.1 Opcode
+> +----------
+> +
+> +Opcode (operation code) is used to tell THC or Touch IC what the
+> operation will be, such as PIO
+> +read or PIO write.
+> +
+> +When THC is configured to SPI mode, opcodes are used for determining
+> the read/write IO mode.
+> +There are some OPCode examples for SPI IO mode:
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=C2=A0=C2=A0 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +opcode=C2=A0=C2=A0=C2=A0 Corresponding SPI command
+> +=3D=3D=3D=3D=3D=3D=3D=C2=A0=C2=A0 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +0x0B=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Read Single I/O
+> +0x02=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Write Single I/O
+> +0xBB=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Read Dual I/O
+> +0xB2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Write Dual I/O
+> +0xEB=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Read Quad I/O
+> +0xE2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Write Quad I/O
+> +=3D=3D=3D=3D=3D=3D=3D=C2=A0=C2=A0 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +In general, different touch IC has different OPCode definition.
+> According to HIDSPI
+> +protocol whitepaper, those OPCodes are defined in device ACPI table,
+> and driver needs to
+> +query those information through OS ACPI APIs during driver
+> initialization, then configures
+> +THC MMIO OPCode registers with correct setting.
+> +
+> +When THC is working in I2C mode, opcodes are used to tell THC what's
+> the next PIO type:
+> +I2C SubIP APB register read, I2C SubIP APB register write, I2C touch
+> IC device read,
+> +I2C touch IC device write, I2C touch IC device write followed by
+> read.
+> +
+> +Here are the THC pre-defined opcodes for I2C mode:
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=C2=A0=C2=A0 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=C2=A0=C2=A0
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +opcode=C2=A0=C2=A0=C2=A0 Corresponding I2C command=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> Address
+> +=3D=3D=3D=3D=3D=3D=3D=C2=A0=C2=A0 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=C2=A0=C2=A0
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +0x12=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Read I2C SubIP APB internal registers=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 0h -
+> FFh
+> +0x13=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Write I2C SubIP APB internal register=
+s=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 0h -
+> FFh
+> +0x14=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Read external Touch IC through I2C bu=
+s=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 N/A
+> +0x18=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Write external Touch IC through I2C b=
+us=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 N/A
+> +0x1C=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Write then read external Touch IC thr=
+ough I2C bus=C2=A0=C2=A0=C2=A0=C2=A0 N/A
+> +=3D=3D=3D=3D=3D=3D=3D=C2=A0=C2=A0 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=C2=A0=C2=A0
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +3.2 PIO
+> +-------
+> +
+> +THC provides a programmed I/O (PIO) access interface for the driver
+> to access the touch IC's
+> +configuration registers, or access I2C subIP's configuration
+> registers. To use PIO to perform
+> +I/O operations, driver should pre-program PIO control registers and
+> PIO data registers and kick
+> +off the sequencing cycle. THC uses different PIO opcodes to
+> distinguish different PIO
+> +operations (PIO read/write/write followed by read).
+> +
+> +If there is a Sequencing Cycle In Progress and an attempt is made to
+> program any of the control,
+> +address, or data register the cycle is blocked and a sequence error
+> will be encountered.
+> +
+> +A status bit indicates when the cycle has completed allowing the
+> driver to know when read results
+> +can be checked and/or when to initiate a new command. If enabled,
+> the cycle done assertion can
+> +interrupt driver with an interrupt.
+> +
+> +Because THC only has 16 FIFO registers for PIO, so all the data
+> transfer through PIO shouldn't
+> +exceed 64 bytes.
+> +
+> +As DMA needs max packet size for transferring configuration, and the
+> max packet size information
+> +always in HID device descriptor which needs THC driver to read it
+> out from HID Device (Touch IC).
+> +So PIO typical use case is, before DMA initialization, write RESET
+> command (PIO write), read
+> +RESET response (PIO read or PIO write followed by read), write Power
+> ON command (PIO write), read
+> +device descriptor (PIO read).
+> +
+> +For how to issue a PIO operation, here is the steps which driver
+> needs follow:
+> +
+> +- Program read/write data size in THC_SS_BC.
+> +- Program I/O target address in THC_SW_SEQ_DATA0_ADDR.
+> +- If write, program the write data in
+> THC_SW_SEQ_DATA0..THC_SW_SEQ_DATAn.
+> +- Program the PIO opcode in THC_SS_CMD.
+> +- Set TSSGO =3D 1 to start the PIO write sequence.
+> +- If THC_SS_CD_IE =3D 1, SW will receives a MSI when the PIO is
+> completed.
+> +- If read, read out the data in THC_SW_SEQ_DATA0..THC_SW_SEQ_DATAn.
+> +
+> +3.3 DMA
+> +-------
+> +
+> +THC has 4 DMA channels: Read DMA1, Read DMA2, Write DMA and Software
+> DMA.
+> +
+> +3.3.1 Read DMA Channel
+> +~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +THC has two Read DMA engines: 1st RxDMA (RxDMA1) and 2nd RxDMA
+> (RxDMA2). RxDMA1 is reserved for
+> +raw data mode. RxDMA2 is used for HID data mode and it is the RxDMA
+> engine currently driver uses
+> +for HID input report data retrieval.
+> +
+> +RxDMA's typical use case is auto receiving the data from Touch IC.
+> Once RxDMA is enabled by
+> +software, THC will start auto-handling receiving logic.
+> +
+> +For SPI mode, THC RxDMA sequence is: when Touch IC triggers a
+> interrupt to THC, THC reads out
+> +report header to identify what's the report type, and what's the
+> report length, according to
+> +above information, THC reads out report body to internal FIFO and
+> start RxDMA coping the data
+> +to system memory. After that, THC update interrupt cause register
+> with report type, and update
+> +RxDMA PRD table read pointer, then trigger a MSI interrupt to notify
+> driver RxDMA finishing
+> +data receiving.
+> +
+> +For I2C mode, THC RxDMA's behavior is a little bit different,
+> because of HIDI2C protocol difference
+> +with HIDSPI protocol, RxDMA only be used to receive input report.
+> The sequence is, when Touch IC
+> +triggers a interrupt to THC, THC first reads out 2 bytes from input
+> report address to determine the
+> +packet length, then use this packet length to start a DMA reading
+> from input report address for
+> +input report data. After that, THC update RxDMA PRD table read
+> pointer, then trigger a MSI interrupt
+> +to notify driver input report data is ready in system memory.
+> +
+> +All above sequence is hardware automatically handled, all driver
+> needs to do is configure RxDMA and
+> +waiting for interrupt ready then read out the data from system
+> memory.
+> +
+> +3.3.2 Software DMA channel
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +THC supports a software triggerred RxDMA mode to read the touch data
+> from touch IC. This SW RxDMA
+> +is the 3rd THC RxDMA engine with the similar functionalities as the
+> existing two RxDMAs, the only
+> +difference is this SW RxDMA is triggerred by software, and RxDMA2 is
+> triggerred by external Touch IC
+> +interrupt. It gives a flexiblity to software driver to use RxDMA
+> read Touch IC data in any time.
+> +
+> +Before software starts a SW RxDMA, it shall stop the 1st and 2nd
+> RxDMA, clear PRD read/write pointer
+> +and quiesce the device interrupt (THC_DEVINT_QUIESCE_HW_STS =3D 1),
+> other operations are the same with
+> +RxDMA.
+> +
+> +3.3.3 Write DMA Channel
+> +~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +THC has one write DMA engine, which can be used for sending data to
+> Touch IC automatically.
+> +According to HIDSPI and HIDI2C protocol, every time only one command
+> can be sent to touch IC, and
+> +before last command is completely handled, next command cannot be
+> sent, THC write DMA engine only
+> +supports single PRD table.
+> +
+> +What driver needs to do is, preparing PRD table and DMA buffer, then
+> copy data to DMA buffer and
+> +update PRD table with buffer address and buffer length, then start
+> write DMA. THC will
+> +automatically send the data to touch IC, and trigger a DMA
+> completion interrupt once transferring
+> +is done.
+> +
+> +3.4 PRD
+> +-------
+> +
+> +Physical Region Descriptor (PRD) provides the memory mapping
+> description for THC DMAs.
+> +
+> +3.4.1 PRD table and entry
+> +~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +In order to improve physical DMA memory usage, modern drivers trend
+> to allocate a virtually
+> +contiguous, but physically fragmented buffer of memory for each data
+> buffer. Linux OS also
+> +provide SGL (scatter gather list) APIs to support this usage.
+> +
+> +THC uses PRD table (physical region descriptor) to support the
+> corresponding OS kernel
+> +SGL that describes the virtual to physical buffer mapping.
+> +
+> +::
+> +
+> +=C2=A0 ------------------------=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ----------=
+----=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 --------------
+> + | PRD table base address +----+ PRD table #1 +-----+ PRD Entry #1 |
+> +=C2=A0 ------------------------=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ----------=
+----=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 --------------
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 --------------
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | PRD Entry #2 |
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 --------------
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 --------------
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | PRD Entry #n |
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 --------------
+> +
+> +The read DMA engine supports multiple PRD tables held within a
+> circular buffer that allow the THC
+> +to support multiple data buffers from the Touch IC. This allows host
+> SW to arm the Read DMA engine
+> +with multiple buffers, allowing the Touch IC to send multiple data
+> frames to the THC without SW
+> +interaction. This capability is required when the CPU processes
+> touch frames slower than the
+> +Touch IC can send them.
+> +
+> +To simplify the design, SW assumes worst-case memory fragmentation.
+> Therefore,each PRD table shall
+> +contain the same number of PRD entries, allowing for a global
+> register (per Touch IC) to hold the
+> +number of PRD-entries per PRD table.
+> +
+> +SW allocates up to 128 PRD tables per Read DMA engine as specified
+> in the THC_M_PRT_RPRD_CNTRL.PCD
+> +register field. The number of PRD tables should equal the number of
+> data buffers.
+> +
+> +Max OS memory fragmentation will be at a 4KB boundary, thus to
+> address 1MB of virtually contiguous
+> +memory 256 PRD entries are required for a single PRD Table. SW
+> writes the number of PRD entries
+> +for each PRD table in the THC_M_PRT_RPRD_CNTRL.PTEC register field.
+> The PRD entry's length must be
+> +multiple of 4KB except for the last entry in a PRD table.
+> +
+> +SW allocates all the data buffers and PRD tables only once at host
+> initialization.
+> +
+> +3.4.2 PRD Write pointer and read pointer
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +As PRD tables are organized as a Circular Buffer (CB), a read
+> pointer and a write pointer for a CB
+> +are needed.
+> +
+> +DMA HW consumes the PRD tables in the CB, one PRD entry at a time
+> until the EOP bit is found set
+> +in a PRD entry. At this point HW increments the PRD read pointer.
+> Thus, the read pointer points
+> +to the PRD which the DMA engine is currently processing. This
+> pointer rolls over once the circular
+> +buffer's depth has been traversed with bit[7] the Rollover bit. E.g.
+> if the DMA CB depth is equal
+> +to 4 entries (0011b), then the read pointers will follow this
+> pattern (HW is required to honor
+> +this behavior): 00h 01h 02h 03h 80h 81h 82h 83h 00h 01h ...
+> +
+> +The write pointer is updated by SW. The write pointer points to
+> location in the DMA CB, where the
+> +next PRD table is going to be stored. SW needs to ensure that this
+> pointer rolls over once the
+> +circular buffer's depth has been traversed with Bit[7] as the
+> rollover bit. E.g. if the DMA CB
+> +depth is equal to 5 entries (0100b), then the write pointers will
+> follow this pattern (SW is
+> +required to honor this behavior): 00h 01h 02h 03h 04h 80h 81h 82h
+> 83h 84h 00h 01h ..
+> +
+> +3.4.3 PRD descriptor structure
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Intel THC uses PRD entry descriptor for every PRD entry. Every PRD
+> entry descriptor occupies
+> +128 bits memories:
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=C2=A0=C2=A0 =
+=3D=3D=3D=3D=3D=3D=3D=3D=C2=A0=C2=A0
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +struct field=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bit(s=
+)=C2=A0=C2=A0=C2=A0=C2=A0 description
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=C2=A0=C2=A0 =
+=3D=3D=3D=3D=3D=3D=3D=3D=C2=A0=C2=A0
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +dest_addr=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 53..0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 destination memory address, a=
+s
+> every entry
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 is 4KB, ignore lowest 10 bits=
+ of
+> address.
+> +reserved1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 54..62=C2=A0=C2=A0=C2=A0=C2=A0 reserved
+> +int_on_completion=C2=A0=C2=A0=C2=A0=C2=A0 63=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 completion interrupt enable bit, if
+> this bit
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set it means THC will trigger=
+ a
+> completion
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 interrupt. This bit is set by=
+ SW
+> driver.
+> +len=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 87..64=C2=A0=C2=A0=C2=A0=C2=A0 how =
+many bytes of data in this
+> entry.
+> +end_of_prd=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 88=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 end of PRD table =
+bit, if this bit
+> is set,
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 it means this entry is last e=
+ntry
+> in this PRD
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 table. This bit is set by SW
+> driver.
+> +hw_status=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 90..89=C2=A0=C2=A0=C2=A0=C2=A0 HW status bits
+> +reserved2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 127..91=C2=A0=C2=A0=C2=A0 reserved
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=C2=A0=C2=A0 =
+=3D=3D=3D=3D=3D=3D=3D=3D=C2=A0=C2=A0
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +And one PRD table can include up to 256 PRD entries, as every
+> entries is 4K bytes, so every
+> +PRD table can describe 1M bytes memory.
+> +
+> +.. code-block:: c
+> +
+> +=C2=A0=C2=A0 struct thc_prd_table {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct thc_prd_entry entries[=
+PRD_ENTRIES_NUM];
+> +=C2=A0=C2=A0 };
+> +
+> +In general, every PRD table means one HID touch data packet. Every
+> DMA engine can support
+> +up to 128 PRD tables (except write DMA, write DMA only has one PRD
+> table). SW driver is responsible
+> +to get max packet length from touch IC, and use this max packet
+> length to create PRD entries for
+> +each PRD table.
+> +
+> +4. HIDSPI support (QuickSPI)
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> +
+> +Intel THC is total compatible with HIDSPI protocol, THC HW sequenser
+> can accelerate HIDSPI
+> +protocol transferring.
+> +
+> +4.1 Reset Flow
+> +--------------
+> +
+> +- Call ACPI _RST method to reset Touch IC device.
+> +- Read the reset response from TIC through PIO read.
+> +- Issue a command to retrieve device descriptor from Touch IC
+> through PIO write.
+> +- Read the device descriptor from Touch IC through PIO read.
+> +- If the device descriptor is valid, allocate DMA buffers and
+> configure all DMA channels.
+> +- Issue a command to retrieve report descriptor from Touch IC
+> through DMA.
+> +
+> +4.2 Input Report Data Flow
+> +--------------------------
+> +
+> +Basic Flow:
+> +
+> +- Touch IC interrupts the THC Controller using an in-band THC
+> interrupt.
+> +- THC Sequencer reads the input report header by transmitting read
+> approval as a signal
+> +=C2=A0 to the Touch IC to prepare for host to read from the device.
+> +- THC Sequencer executes a Input Report Body Read operation
+> corresponding to the value
+> +=C2=A0 reflected in =E2=80=9CInput Report Length=E2=80=9D field of the I=
+nput Report
+> Header.
+> +- THC DMA engine begins fetching data from the THC Sequencer and
+> writes to host memory
+> +=C2=A0 at PRD entry 0 for the current CB PRD table entry. This process
+> continues until the
+> +=C2=A0 THC Sequencer signals all data has been read or the THC DMA Read
+> Engine reaches the
+> +=C2=A0 end of it's last PRD entry (or both).
+> +- The THC Sequencer checks for the =E2=80=9CLast Fragment Flag=E2=80=9D =
+bit in the
+> Input Report Header.
+> +=C2=A0 If it is clear, the THC Sequencer enters an idle state.
+> +- If the =E2=80=9CLast Fragment Flag=E2=80=9D bit is enabled the THC Seq=
+uencer
+> enters End-of-Frame Processing.
+> +
+> +THC Sequencer End of Frame Processing:
+> +
+> +- THC DMA engine increments the read pointer of the Read PRD CB,
+> sets EOF interrupt status
+> +=C2=A0 in RxDMA2 register (THC_M_PRT_READ_DMA_INT_STS_2).
+> +- If THC EOF interrupt is enabled by the driver in the control
+> register (THC_M_PRT_READ_DMA_CNTRL_2),
+> +=C2=A0 generates interrupt to software.
+> +
+> +Sequence of steps to read data from RX DMA buffer:
+> +
+> +- THC QuickSPI driver checks CB write Ptr and CB read Ptr to
+> identify if any data frame in DMA
+> +=C2=A0 circular buffers.
+> +- THC QuickSPI driver gets first unprocessed PRD table.
+> +- THC QuickSPI driver scans all PRD entries in this PRD table to
+> calculate the total frame size.
+> +- THC QuickSPI driver copies all frame data out.
+> +- THC QuickSPI driver checks the data type according to input report
+> body, and calls related
+> +=C2=A0 callbacks to process the data.
+> +- THC QuickSPI driver updates write Ptr.
+> +
+> +4.3 Output Report Data Flow
+> +---------------------------
+> +
+> +Generic Output Report Flow:
+> +
+> +- HID core calls raw_request callback with a request to THC QuickSPI
+> driver.
+> +- THC QuickSPI Driver converts request provided data into the output
+> report packet and copies it
+> +=C2=A0 to THC's write DMA buffer.
+> +- Start TxDMA to complete the write operation.
+> +
+> +5. HIDI2C support (QuickI2C)
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> +
+> +5.1 Reset Flow
+> +--------------
+> +
+> +- Read device descriptor from Touch IC device through PIO write
+> followed by read.
+> +- If the device descriptor is valid, allocate DMA buffers and
+> configure all DMA channels.
+> +- Use PIO or TxDMA to write a SET_POWER request to TIC's command
+> register, and check if the
+> +=C2=A0 write operation is successfully completed.
+> +- Use PIO or TxDMA to write a RESET request to TIC's command
+> register. If the write operation
+> +=C2=A0 is successfully completed, wait for reset response from TIC.
+> +- Use SWDMA to read report descriptor through TIC's report
+> descriptor register.
+> +
+> +5.2 Input Report Data Flow
+> +--------------------------
+> +
+> +Basic Flow:
+> +
+> +- Touch IC asserts the interrupt indicating that it has an interrupt
+> to send to HOST.
+> +=C2=A0 THC Sequencer issues a READ request over the I2C bus. The HIDI2C
+> device returns the
+> +=C2=A0 first 2 bytes from the HIDI2C device which contains the length of
+> the received data.
+> +- THC Sequencer continues the Read operation as per the size of data
+> indicated in the
+> +=C2=A0 length field.
+> +- THC DMA engine begins fetching data from the THC Sequencer and
+> writes to host memory
+> +=C2=A0 at PRD entry 0 for the current CB PRD table entry. THC writes
+> 2Bytes for length field
+> +=C2=A0 plus the remaining data to RxDMA buffer. This process continues
+> until the THC Sequencer
+> +=C2=A0 signals all data has been read or the THC DMA Read Engine reaches
+> the end of it's last
+> +=C2=A0 PRD entry (or both).
+> +- THC Sequencer enters End-of-Input Report Processing.
+> +- If the device has no more input reports to send to the host, it
+> de-asserts the interrupt
+> +=C2=A0 line. For any additional input reports, device keeps the interrup=
+t
+> line asserted and
+> +=C2=A0 steps 1 through 4 in the flow are repeated.
+> +
+> +THC Sequencer End of Input Report Processing:
+> +
+> +- THC DMA engine increments the read pointer of the Read PRD CB,
+> sets EOF interrupt status
+> +=C2=A0 in RxDMA 2 register (THC_M_PRT_READ_DMA_INT_STS_2).
+> +- If THC EOF interrupt is enabled by the driver in the control
+> register
+> +=C2=A0 (THC_M_PRT_READ_DMA_CNTRL_2), generates interrupt to software.
+> +
+> +Sequence of steps to read data from RX DMA buffer:
+> +
+> +- THC QuickI2C driver checks CB write Ptr and CB read Ptr to
+> identify if any data frame in DMA
+> +=C2=A0 circular buffers.
+> +- THC QuickI2C driver gets first unprocessed PRD table.
+> +- THC QuickI2C driver scans all PRD entries in this PRD table to
+> calculate the total frame size.
+> +- THC QuickI2C driver copies all frame data out.
+> +- THC QuickI2C driver call hid_input_report to send the input report
+> content to HID core, which
+> +=C2=A0 includes Report ID + Report Data Content (remove the length field
+> from the original report
+> +=C2=A0 data).
+> +- THC QuickI2C driver updates write Ptr.
+> +
+> +5.3 Output Report Data Flow
+> +---------------------------
+> +
+> +Generic Output Report Flow:
+> +
+> +- HID core call THC QuickI2C raw_request callback.
+> +- THC QuickI2C uses PIO or TXDMA to write a SET_REPORT request to
+> TIC's command register. Report
+> +=C2=A0 type in SET_REPORT should be set to Output.
+> +- THC QuickI2C programs TxDMA buffer with TX Data to be written to
+> TIC's data register. The first
+> +=C2=A0 2 bytes should indicate the length of the report followed by the
+> report contents including
+> +=C2=A0 Report ID.
+> +
+> +6. THC Debugging
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +To debug THC, event tracing mechanism is used. To enable debug
+> logs::
+> +
+> +=C2=A0 echo 1 > /sys/kernel/debug/tracing/events/intel_thc/enable
+> +=C2=A0 cat /sys/kernel/debug/tracing/trace
+> +
+> +7. Reference
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +- HIDSPI:
+> https://download.microsoft.com/download/c/a/0/ca07aef3-3e10-4022-b1e9-c98=
+cea99465d/HidSpiProtocolSpec.pdf
+> +- HIDI2C:
+> https://download.microsoft.com/download/7/d/d/7dd44bb7-2a7a-4505-ac1c-722=
+7d3d96d5b/hid-over-i2c-protocol-spec-v1-0.docx
 
