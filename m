@@ -1,156 +1,264 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2040.outbound.protection.outlook.com [40.107.93.40])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A5D433DB;
-	Mon,  6 Jan 2025 00:38:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736123909; cv=none; b=FZswfZyJcj372FxTy5kcWes+l/muj2ixGFOkzSRjC66RNubVoqX0zZbl65jAhFamxzx4EquT94TkAMKGARU1wSurk6/zeIEf2CsRRTpUeNotWEkj3INAv44WpKmb/lJJ1+zjKGiCiS11ajJoP21Y0lrgOr1o/zk4P+rSpos0Bzw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736123909; c=relaxed/simple;
-	bh=buxvvvEb/wkhUWPVZDTzp8suH1opvpSXvHcbkdZSm4A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WpiVo/q/ruPRwC2vuERr7dlNNcHGy2O433gxK1libLzf8LmWWJJ3KhJuRAj9nUd0pLKpzHFbTggn313H5xSyHH5TpXqVItf4XtPjLUPzFD98eOVQjtEnYais7aMehRKCyGE+X5+UvKBLFa0j5sYviYDGGcpeyt4yJlD0d+VW2q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dNqe2c5M; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8B45473C;
+	Mon,  6 Jan 2025 02:08:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.40
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736129294; cv=fail; b=FhQg3/VkogXNJtaMOL87+nC1C1SO8GhvujlbE/BAjDdwKTpXh5rhWlYiUr3UKyotil3Aj8pOU8p9CeunRP4mTVaZqJWF/658cProIbTen0u2hDwm1F1NfLk4bgZevq/E/JqRXLov29RXfysVCZuBLgSIU5qxGYtkIKVmDfSs23k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736129294; c=relaxed/simple;
+	bh=trey5jOE2u/trLGPnpRnBMFS92VDJndi+8cRSywMJzg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=XifkNmo/bAlApcaAlGfIei05iiAEn72LqQrLdtjFk+NINNszWJmbRKxliZwzsAiqR4i7NzRRAfkZhd1hu4bqIngh5kc3LDHR0g8Ij0wtQRkgnMQoT1TtP5kx7rMoPWCtnO5uMTqGRbiREaMdRJhlkEtaIZhUK8hCvobwpOqQr2Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=EgfET40I; arc=fail smtp.client-ip=40.107.93.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dNqe2c5M"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-aaedd529ba1so1491905666b.1;
-        Sun, 05 Jan 2025 16:38:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736123906; x=1736728706; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ScyDvmN2hvlNSyorVRI/pPT6VvzNA2QQfFXIwD14bAc=;
-        b=dNqe2c5MiPw+VfWZ4ZK1YQuKRLlgKnxnBnACAvNf6DZCWo68cxVDYFciE3EDiYFqN0
-         nnE9o86ZuEHZ3UdrZZ4MGU3HYkMfJuAIsD2UAoD2xjc7DlLTuUkqMJ7TspcW0j+oFxO/
-         FiUeCE3Vlgqj0fEkotiu9QjTJos2GsoDpSKWGiZPYc6ZyYNfSIC0zqrT8od2KVOqZYN1
-         484YDTxm15RUjRWr6YDj2ebjHvH0OLN+upDUyExFGpZPINfT43iOq2Jo/VfmTSbdQ4oA
-         /yIl87E3HP7DHAH/LwkQvVg1+z8JUJVKInqZotgXne/ExFVsarZgQYqVGIfm4z7jJgIR
-         QEhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736123906; x=1736728706;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ScyDvmN2hvlNSyorVRI/pPT6VvzNA2QQfFXIwD14bAc=;
-        b=qXgD40VIzQkY7EuK1KWhb952szJ+HqWm65PwBtt9heM1UK7WrKSVPrasoT8heHPSLu
-         bSi1ggaWs7X+MXi6y+GD2NqMW1Nc8/DrXsXFkoeJFWhEX/f2LwjqG6boo6KBVAUJ2/24
-         mq2EUk44dzv4aB4uMj01olaXaTnumpM5HeeUx4bz8jXgEQ4ActcBMt9CK0V+9nt4RM9o
-         2sHdAidFYLLY9Fyfp40kJK2AfTK48IGSN07d8pmFx7/Gr22vapHE4mhJ6yDVd5yBfH40
-         Fvjay7E/ytx4SQ/oHCRpzNlNEcNfMWG5oPjMlXdM2/EEu/JluB01I79jcfjkHM/rwEff
-         1LEg==
-X-Forwarded-Encrypted: i=1; AJvYcCVF03+dOeidE2LQaCmZ6POFhiLxAbloQFNaBOmePW9cfgq37KhICexC7K20lolXWAqT/LjBxAI1UW65NZ9W@vger.kernel.org, AJvYcCW9Fxli7NDyxExi+AiVwSp//NAKLW+qY/16iGMm+X0APbZjk2SNjKfizlP9NrxDeWOu3KQg/IPT+k4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8Mnr+BGhOyjIxsgaFqs8bIQyuzyAgsn+f2T5dNjh5fpjO5WHm
-	6CSfrXihJYsgbF8bjZoqCSdTE416cEvXSCO5JiG0U9mZRArI7Qww
-X-Gm-Gg: ASbGncssolYRz48Uddq9V+/I26N1sgDSwEg60SJyNxb0JJ0Wo0ww3SVP4jmJTegcWr0
-	/nFkauRwfSmcXNmERPL2o7lAUAyT7o6/26v3BMS8/A95RQ09Lr2Vuiw7yl+/K36w7ppBtGqXakS
-	mf6qPFEfKNpjTfFV1bAM6KgRVfMYEYOerpvVOSxeyFV3gr8EeWqbubPxCe4D3DWSIEXbNh4kxUq
-	GYx3tZpoBksD+dzFqaY7t2Nb0KNLEepg8mK6H6p7ybRWjlOjSiai6rq
-X-Google-Smtp-Source: AGHT+IFuMFshYB4c1/i6O6qbKQRnohJMCYNPJsurHUTjRi208uWhTMf1HrBa011c4vtpyq7O1FLJjw==
-X-Received: by 2002:a05:6402:430c:b0:5d3:f55f:8349 with SMTP id 4fb4d7f45d1cf-5d81de1cf36mr120588497a12.33.1736123905414;
-        Sun, 05 Jan 2025 16:38:25 -0800 (PST)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0f066112sm2171123966b.179.2025.01.05.16.38.22
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 05 Jan 2025 16:38:23 -0800 (PST)
-Date: Mon, 6 Jan 2025 00:38:21 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org,
-	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com,
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
-	mjguzik@gmail.com, oliver.sang@intel.com,
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
-	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
-	hughd@google.com, lokeshgidra@google.com, minchan@google.com,
-	jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com,
-	pasha.tatashin@soleen.com, klarasmodin@gmail.com, corbet@lwn.net,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH v7 12/17] mm: replace vm_lock and detached flag with a
- reference count
-Message-ID: <20250106003821.3gtfxq33fqj4wm5b@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20241226170710.1159679-1-surenb@google.com>
- <20241226170710.1159679-13-surenb@google.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="EgfET40I"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WAFcRxq93vRwrcwye+FyFzV862X2ra6DyYsWlwl3R7oe1uijUkQBjC7uD1A7kOdU80LJmVN/urDCMP41CxbOFs3TPDdyQF9EQOLkKcdFS8XfMMRVasCTY/t+IF+OE+9DXiJ3K+BECP06bmz6woqckVwgox30YLTSc1y/EXY+NieTIhmW0yg2f62em6m0tvrUm6K54b9cQjD6Z2A5bGsX5G6bwbzyt04szTHNRpd/d5sArYGZb8v3xyAdtdubnhp1vwHZRoKmtUvmKuYxcozimeEZgvlxdrzKw4n9qPC+xyty/aGbE//KdJzIUPGRIuVmcjKgQVRapAPxibByHLCYbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+hVCHEIpUQo/vZQnBNIGnZKWwYd0e1IulxgIyqJo8LQ=;
+ b=YB8ZFqFL6QhV6HQ5Gw9ZQk6/3EPIi/UbyhN/xFjhaAyhAWS4yovz/cfsI2Z0OUcSOBuV2cAB/VduGd1W0q1zw7oMD6nkTR3/5AsBFYv7QS1dFf03AV1YnW64BHvLuhx+bvZqKLG2L8rV16/EmRVpdbgYl+z4HhRwPdKpnGvk/nei0MPFnlJaqOS+bVXXW11LlwVgIJXL85j0jVKXsmAPv1zhATCgeIrUMecr1W3qXidjkQFWBQjwjR021wyw5ANMhKxo20iiUdOLhabsKIIwb4HFlwBnP3D0x9vGCuUmcGHCoj07q1yM2ZPWixSSq2vR0zfInPGhEYpzJhaap1/lfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+hVCHEIpUQo/vZQnBNIGnZKWwYd0e1IulxgIyqJo8LQ=;
+ b=EgfET40ItMcHaTZagsuS3cl5jJXG6VNU8LGrXddmnFcY0yXsiDZ0jkT6GzyjNH1975tqBYkSq5x0kPzVhKisgsjH/rBRVeuGitzYKfBiACRbCKNGrkDlWfwZuiqnHAeeUK+rc0fTmriU+/CcO/ZsQ886IPUYqXSDkvz754mT5ZHUpuQWx4IGHUqr7I1KWjB0L7U1JyXWpjwS/pP6W36mQqEtkCxAklvQ3CBCJ80qDYB7mx0rnFwNMA8j9iCrgjJWYHXCeeCtV/aVFV3tGe4HCrSrucOniJOkDmu2ewtkYLe/x9xnDcYCq7lPGj9CZLOIQw+FuJpoEEjP+aX9IxmCZg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
+ LV8PR12MB9153.namprd12.prod.outlook.com (2603:10b6:408:185::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.17; Mon, 6 Jan
+ 2025 02:08:05 +0000
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe%6]) with mapi id 15.20.8314.015; Mon, 6 Jan 2025
+ 02:08:04 +0000
+Date: Mon, 6 Jan 2025 13:07:58 +1100
+From: Alistair Popple <apopple@nvidia.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: akpm@linux-foundation.org, dan.j.williams@intel.com, 
+	linux-mm@kvack.org, lina@asahilina.net, zhang.lyra@gmail.com, 
+	gerald.schaefer@linux.ibm.com, vishal.l.verma@intel.com, dave.jiang@intel.com, 
+	logang@deltatee.com, bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca, 
+	catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com, 
+	dave.hansen@linux.intel.com, ira.weiny@intel.com, willy@infradead.org, djwong@kernel.org, 
+	tytso@mit.edu, linmiaohe@huawei.com, peterx@redhat.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, nvdimm@lists.linux.dev, 
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
+	linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de, david@fromorbit.com
+Subject: Re: [PATCH v4 12/25] mm/memory: Enhance
+ insert_page_into_pte_locked() to create writable mappings
+Message-ID: <gjuqvidcpvzwqrwogeoygwnsbvlpa4fvsvaoq6rlfzcq4wxmh5@tdhz3f2fm4ga>
+References: <cover.18cbcff3638c6aacc051c44533ebc6c002bf2bd9.1734407924.git-series.apopple@nvidia.com>
+ <25a23433cb70f0fe6af92042eb71e962fcbf092b.1734407924.git-series.apopple@nvidia.com>
+ <d4d32e17-d8e2-4447-bd33-af41e89a528f@redhat.com>
+ <6254ce2c-4a47-4501-b518-dedaddcbf91a@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6254ce2c-4a47-4501-b518-dedaddcbf91a@redhat.com>
+X-ClientProxiedBy: SYBPR01CA0195.ausprd01.prod.outlook.com
+ (2603:10c6:10:16::15) To DS0PR12MB7726.namprd12.prod.outlook.com
+ (2603:10b6:8:130::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241226170710.1159679-13-surenb@google.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|LV8PR12MB9153:EE_
+X-MS-Office365-Filtering-Correlation-Id: 08099fd0-03a1-4238-e1bf-08dd2df6f412
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?cITYSKQRF4nAAZv0ungvDBV7dDs1xhblmZ6R0EiAGsQbmQO75Km7ORqygUyl?=
+ =?us-ascii?Q?N4Ez9UerIUCk0akdzCATTbjKkgtlofvCdQp0Pg6BZfrjX6Y0ARREu+91ZBTD?=
+ =?us-ascii?Q?stz2p1We5+fHxoRzeXKG+3ZmI2zyGVhplec8E4tDH3HEkUxABC1/nmXDrgBb?=
+ =?us-ascii?Q?Y3p8NUi0l0+C4GLliejn8IxexX3wmTV06vbER06hkE8lANuVv1oYdoJFz9Vb?=
+ =?us-ascii?Q?7ITy+q5Ec1c9RJ9XACcOG5vnWUlHbfxU5dw5PT5FzlZYGyZKyDseuV5gFwwc?=
+ =?us-ascii?Q?QqDhwFSJ7ngTBGwtS/8weWSLMcExMZlWMY12tgwa6nVR5FGbvdIgyWzVpJnm?=
+ =?us-ascii?Q?/M/Q07IvGQDRXNxNxnUDKkqXHhQ5sXaF0haARVyPE+ZFlq1+PmPnS7Wvm+kc?=
+ =?us-ascii?Q?pLH7snVDrrLMWrMG3uSdDaWt/Oler07VUSJDKbk8bNDZQob+Kzj1ks9/vgTn?=
+ =?us-ascii?Q?S0Z7fCDWs/9m2FanqpCadhfyZoBRlXmjlrNV7aqqIhBtB/BHe/J2rhVHF76N?=
+ =?us-ascii?Q?XfV8iM//Ngo5guQLEfATL2egbYD45SK5X5gNj/PXOjYpBEMeirggTg9MO9un?=
+ =?us-ascii?Q?wcUYSPAJC0caVfK3zP3gia5voFVN2To2wXBI1wVadHnIjHLHC5/xBOzbGT9S?=
+ =?us-ascii?Q?jUo4o+LGnt2zQP3SEoPKSH9ajKPMsmtKYvGpjfUWYk65+hMp5bIK/IfWqIQI?=
+ =?us-ascii?Q?xasFWzGESh4LU2WDGqn4Fh5xdnACf8O1dZeWXoXv2/l5i/EoCzgb1JtWFhFQ?=
+ =?us-ascii?Q?UubZQ+53CM1ozbFEdbMxenuNadxO5du3HchMQyO4kace0QJcIgEs8L71kRwe?=
+ =?us-ascii?Q?5tU9LAUj5TvcBjXtUIs+9V203JRq3bvyK1XDZA1zVZUtpk5lVjb6KM3b7tUf?=
+ =?us-ascii?Q?PyPrFQlUR3eW0HiWDJFd+Qs5sUVfQRcOnc5nmMupuPpdYTwMT3GA0um7LgEO?=
+ =?us-ascii?Q?ArJYaIdA9mtNn/nv7iNjQGIjdjr7xyP0hRWP31jzJquwFrwl9hL0mKGfC3ZN?=
+ =?us-ascii?Q?vwsDOb14XIsYwXFfuCUF/iFEyARwa8iF1S3YugsO0vnD+DLtXJIfci6ibP6i?=
+ =?us-ascii?Q?FKutS/8nENuhfjSnn+r4dorgdDW+ea0pQnDiGn7yFoq4r5t329DX/6AJCOD7?=
+ =?us-ascii?Q?2rwuNLsWGrT8UwBG1dH3oisUKGwFVEKGawNQCjNNM/MPuk10+3DLhRRryTPv?=
+ =?us-ascii?Q?y/W8Z+SOBtPcxEuijutFRlWcSP9+xQgYOHYrmuzN3FLL6SAj1Siz9r88z1AB?=
+ =?us-ascii?Q?RLhP48AgX6JN5RdXOuEZQu2vNnCthPv4fknwvr4iXO2vgQOyGWkWeXWQZ8lw?=
+ =?us-ascii?Q?4g7/JKxvKXPdfmp6Tr1mPXc+gcs+IjDVo8SkfTAU7M85Z/fpvOPmRuHoaCaV?=
+ =?us-ascii?Q?8Xdwx8aLw54VbNqD5VeDd7aEFowt?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7726.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?M4ArkhiKeKcwE60YDeOiSSW/y4eGefoZnfBhoj0Kj/yHFBfE3H4IgmbMsMxo?=
+ =?us-ascii?Q?STDYqhw9IVvL8AR1i/YEeoyEUV1Q3Y9MC5TsSd2KPC23njqNQHcp37EysH1W?=
+ =?us-ascii?Q?iq1GTPyDTIvzBTJO8vOWENnpiOOWsCH++Xx5XJlL5UBXF+aZt8igdJk4Wtpl?=
+ =?us-ascii?Q?q1SzjaghYWp/3uJbr3wZSh8O/iMaa2H/qIigyz1Ury5kZbSJdMxYM7oIOHdm?=
+ =?us-ascii?Q?R3aNfVU2y0yWo4RE0JrQNMtuXGtd43OJOWVx0thjYSTPE8H6aTdMbqXMS6SE?=
+ =?us-ascii?Q?lryov6Nqp26TEuAlCP33BmJHQEBcQb8goqNx7oWna6MS4uV0+1qeR0Fva4n8?=
+ =?us-ascii?Q?AmhyBMD5Aous9SksPsTrYLnlL759EO1t9OS+Gp+CBS7KNtZ9/fMAh9N99NRM?=
+ =?us-ascii?Q?HBBgxStDWsWA93vBpLGY8aiWMqd7Y0OwlIe+thQY797CizwSSUm98XvOIlp1?=
+ =?us-ascii?Q?9pF8M5+1PNQ2EH3Ve5RpZrGhR7xNl4k/1fwGe4/yINDIDhCZ+RXJmRaHEYAR?=
+ =?us-ascii?Q?DzC0ELcX0uykleX32i+X21rpxkMHTUtKfjG5oQFe1uLyKOdG2sHTfMbeN1c6?=
+ =?us-ascii?Q?m8ffN1FMRG5BFy87K0cC0hQ2yQJeexYGw37jiM4X8egegUsLhPniBazYXv+C?=
+ =?us-ascii?Q?qttojlgtimt6AUYLkyXv+G40/qR9tX4EKwo+hG9OunYH2BkkAHF2wd09+Y/R?=
+ =?us-ascii?Q?VOJ1Sng6DojNCxIP2qaJup+ZDr71QEYTwgGa/E4yyvKdAbz5YS8ZSA+MbFYJ?=
+ =?us-ascii?Q?cvwBa4m+2BbGzAIgvnsylmoWPfglk6Hx4o90FtnUARw4T4YdLWq96ZDXENAK?=
+ =?us-ascii?Q?Wd7Q2ii553hSD01XabWGYNVN4ngY4Fp2arCsQfY20XcFOTkU5SYmCYLYDQ9W?=
+ =?us-ascii?Q?KqYxR58e45UaWbHsXFbSE6MDwFPj5/qp3Z9FQ4gUQ6/2I41724Id2KzaSyet?=
+ =?us-ascii?Q?taomf1vhhd6sN7eAPKI1uNQjLFwvO7Z+TcaxG2i22Rn4mG4mj3CHMKWCI1bq?=
+ =?us-ascii?Q?RaTX6Cys3seqRv4waUZqS84VM/rZVCbVMGAjmHIPvECEX5AahgtWO0BIFYcj?=
+ =?us-ascii?Q?sB2NfGtRGf5kTzPnhFWO76IBkNK1YZiMzJ6DVwrNw/q5fCXGWxENsAsSNpDa?=
+ =?us-ascii?Q?2487oA9cOamZqF1+m6AEKKilBPp/blYzg3NfnlHDN1wp1IoeoVFGidJ1hW7h?=
+ =?us-ascii?Q?mK3/bN0JTaqcIVrTnzIHoUXwy041eUYlSC38waKccMddVKp7bSqMojdvlp9q?=
+ =?us-ascii?Q?pbU9QQE5iIhdAa4wsrMT/+AgUVLt2w8oB2M2GLmDb98T/mTKqtzIO4h56jxV?=
+ =?us-ascii?Q?LvpqhgImUfdxNPdX9DSbSvQt5UMoC7cbFy5iGzdlViWerfQa0a4GnFrLQarX?=
+ =?us-ascii?Q?C3IoOCsj4gDoyBZwARmqmSTmQ3y0pSzsDAtrJd60x/2T2hAWUpYNkObAPEYt?=
+ =?us-ascii?Q?3K3TUtp8AyGNVemeraT5v5vapYA1gxJIvjxN81NvEDSPSJWMoOOlW0IcAolr?=
+ =?us-ascii?Q?BSOyDdLydjDBVAxtVN69gqRY8N2QqScbQaIg8nBmrAuuDjKKTAmycUDdX0tP?=
+ =?us-ascii?Q?cRIRfNXUscWWnJzAPVucGAga7zhXcnjaA5oj8VA6?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 08099fd0-03a1-4238-e1bf-08dd2df6f412
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2025 02:08:04.0496
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /lTVVfB5+rvnN3cylkXTbKpEYyqnhxz1lGso175z+6KC3GX4bxhU/2J8CLYswfgFjFKifu2ebNRB9y9t0zfS/A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9153
 
-On Thu, Dec 26, 2024 at 09:07:04AM -0800, Suren Baghdasaryan wrote:
-[...]
-> /*
->  * Try to read-lock a vma. The function is allowed to occasionally yield false
->  * locked result to avoid performance overhead, in which case we fall back to
->@@ -710,6 +733,8 @@ static inline void vma_lock_init(struct vm_area_struct *vma)
->  */
-> static inline bool vma_start_read(struct vm_area_struct *vma)
-> {
->+	int oldcnt;
->+
-> 	/*
-> 	 * Check before locking. A race might cause false locked result.
-> 	 * We can use READ_ONCE() for the mm_lock_seq here, and don't need
->@@ -720,13 +745,20 @@ static inline bool vma_start_read(struct vm_area_struct *vma)
-> 	if (READ_ONCE(vma->vm_lock_seq) == READ_ONCE(vma->vm_mm->mm_lock_seq.sequence))
-> 		return false;
+On Fri, Dec 20, 2024 at 08:06:48PM +0100, David Hildenbrand wrote:
+> On 20.12.24 20:01, David Hildenbrand wrote:
+> > On 17.12.24 06:12, Alistair Popple wrote:
+> > > In preparation for using insert_page() for DAX, enhance
+> > > insert_page_into_pte_locked() to handle establishing writable
+> > > mappings.  Recall that DAX returns VM_FAULT_NOPAGE after installing a
+> > > PTE which bypasses the typical set_pte_range() in finish_fault.
+> > > 
+> > > Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> > > Suggested-by: Dan Williams <dan.j.williams@intel.com>
+> > > 
+> > > ---
+> > > 
+> > > Changes since v2:
+> > > 
+> > >    - New patch split out from "mm/memory: Add dax_insert_pfn"
+> > > ---
+> > >    mm/memory.c | 45 +++++++++++++++++++++++++++++++++++++--------
+> > >    1 file changed, 37 insertions(+), 8 deletions(-)
+> > > 
+> > > diff --git a/mm/memory.c b/mm/memory.c
+> > > index 06bb29e..cd82952 100644
+> > > --- a/mm/memory.c
+> > > +++ b/mm/memory.c
+> > > @@ -2126,19 +2126,47 @@ static int validate_page_before_insert(struct vm_area_struct *vma,
+> > >    }
+> > >    static int insert_page_into_pte_locked(struct vm_area_struct *vma, pte_t *pte,
+> > > -			unsigned long addr, struct page *page, pgprot_t prot)
+> > > +				unsigned long addr, struct page *page,
+> > > +				pgprot_t prot, bool mkwrite)
+> > >    {
+> > >    	struct folio *folio = page_folio(page);
+> > > +	pte_t entry = ptep_get(pte);
+> > >    	pte_t pteval;
+> > > -	if (!pte_none(ptep_get(pte)))
+> > > -		return -EBUSY;
+> > > +	if (!pte_none(entry)) {
+> > > +		if (!mkwrite)
+> > > +			return -EBUSY;
+> > > +
+> > > +		/*
+> > > +		 * For read faults on private mappings the PFN passed in may not
+> > > +		 * match the PFN we have mapped if the mapped PFN is a writeable
+> > > +		 * COW page.  In the mkwrite case we are creating a writable PTE
+> > > +		 * for a shared mapping and we expect the PFNs to match. If they
+> > > +		 * don't match, we are likely racing with block allocation and
+> > > +		 * mapping invalidation so just skip the update.
+> > > +		 */
+> > 
+> > Would it make sense to instead have here
+> > 
+> > /* See insert_pfn(). */
+> > 
+> > But ...
+> > 
+> > > +		if (pte_pfn(entry) != page_to_pfn(page)) {
+> > > +			WARN_ON_ONCE(!is_zero_pfn(pte_pfn(entry)));
+> > > +			return -EFAULT;
+> > > +		}
+> > > +		entry = maybe_mkwrite(entry, vma);
+> > > +		entry = pte_mkyoung(entry);
+> > > +		if (ptep_set_access_flags(vma, addr, pte, entry, 1))
+> > > +			update_mmu_cache(vma, addr, pte);
+> > 
+> > ... I am not sure if we want the above at all. Someone inserted a page,
+> > which is refcounted + mapcounted already.
+> > 
+> > Now you ignore that and do like the second insertion "worked" ?
+> > 
+> > No, that feels wrong, I suspect you will run into refcount+mapcount issues.
+> > 
+> > If there is already something, inserting must fail IMHO. If you want to
+> > change something to upgrade write permissions, then a different
+> > interface should be used.
 > 
->-	if (unlikely(down_read_trylock(&vma->vm_lock.lock) == 0))
->+
->+	rwsem_acquire_read(&vma->vmlock_dep_map, 0, 0, _RET_IP_);
->+	/* Limit at VMA_REF_LIMIT to leave one count for a writer */
->+	if (unlikely(!__refcount_inc_not_zero_limited(&vma->vm_refcnt, &oldcnt,
->+						      VMA_REF_LIMIT))) {
->+		rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
-> 		return false;
->+	}
->+	lock_acquired(&vma->vmlock_dep_map, _RET_IP_);
+> Ah, now I realize that the early exit saves you because we won't adjust the
+> refcount +mapcount.
+
+Right.
+ 
+> I still wonder if that really belongs in here, I would prefer to not play
+> such tricks to upgrade write permissions if possible.
+
+As you have pointed out this was all inspired (ie. mostly copied)
+from the existing insert_pfn() implementation which is used from
+vmf_insert_mixed{_mkwrite}().
+
+I agree a different interface to upgrade permissions would be nice. However
+it's tricky because in general callers of these functions (eg. FS DAX) aren't
+aware if the page is already mapped by a PTE/PMD. They only know a fault has
+occured and the faulting permissions.
+
+This wouldn't be impossible to fix - the mm does provide vm_ops->page_mkwrite()
+for permission upgrades. The difficulty is that most filesystems that support
+FS DAX (ie. ext4, XFS) don't treat a vm_ops->page_mkwrite() call any differently
+from a vm_ops->fault() call due to write fault. Therefore the FS DAX code is
+unaware of whether or not this is a permission upgrade or initial writeable
+mapping of the page in the VMA.
+
+A further issue in there is currently no vm_ops->huge_mkwrite() callback.
+
+Obviously this could all be plumbed through the MM/FS layers, but that would
+require a separate patch series. Given the current implementation has no issues
+beyond the cosmetic I'd rather not delay this series any longer, especially as
+the cosmetic defect is largely pre-existing (vmf_insert_mixed{_mkwrite}() could
+have equally had a separate upgrade interface).
+
+> --
+>
+> Cheers,
 > 
-> 	/*
->-	 * Overflow might produce false locked result.
->+	 * Overflow of vm_lock_seq/mm_lock_seq might produce false locked result.
-> 	 * False unlocked result is impossible because we modify and check
->-	 * vma->vm_lock_seq under vma->vm_lock protection and mm->mm_lock_seq
->+	 * vma->vm_lock_seq under vma->vm_refcnt protection and mm->mm_lock_seq
-> 	 * modification invalidates all existing locks.
-> 	 *
-> 	 * We must use ACQUIRE semantics for the mm_lock_seq so that if we are
->@@ -734,10 +766,12 @@ static inline bool vma_start_read(struct vm_area_struct *vma)
-> 	 * after it has been unlocked.
-> 	 * This pairs with RELEASE semantics in vma_end_write_all().
-> 	 */
->-	if (unlikely(vma->vm_lock_seq == raw_read_seqcount(&vma->vm_mm->mm_lock_seq))) {
->-		up_read(&vma->vm_lock.lock);
->+	if (unlikely(oldcnt & VMA_LOCK_OFFSET ||
->+		     vma->vm_lock_seq == raw_read_seqcount(&vma->vm_mm->mm_lock_seq))) {
-
-I am not sure it worth mention. In case it is too trivial, just ignore.
-
-If (oldcnt & VMA_LOCK_OFFSET), oldcnt + 1 > VMA_REF_LIMIT. This means
-__refcount_inc_not_zero_limited() above would return false.
-
-If my understanding is correct, we don't need to check it here.
-
->+		vma_refcount_put(vma);
-> 		return false;
-> 	}
->+
-> 	return true;
-> }
+> David / dhildenb
 > 
-[...]
-
--- 
-Wei Yang
-Help you, Help me
