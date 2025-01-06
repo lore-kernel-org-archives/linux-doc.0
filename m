@@ -1,98 +1,92 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA568634A
-	for <linux-doc@vger.kernel.org>; Mon,  6 Jan 2025 14:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFDA13D893;
+	Mon,  6 Jan 2025 14:56:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736175113; cv=none; b=XEjPdCf61G7X+VY/NCyQh+YBO48F4cZ3fcd+1viLFEqH4C4frSWjCKF7AWe+9aLUtPOEZl54OjMOYVkDhqO3QZiRzGULmnRVEBUtQwxjOtH9W9rND4pjlM9nRDcV6vPxGfHGHU0knNc09Do+x82C5l+nPr5eQlwDj3h9jJ9jxIg=
+	t=1736175392; cv=none; b=PNpI0TLuGGDP98n32EDsvazPJOHkPpJLKA7UsTizw1zwx6l/adPy3EW0LhndafeUa40372rw3D9pmSeAnFLyP3SnUhpVV9/fqvaDDr5P7ENbknmZCWCFJMlwDK7mUMdzKUgWxs/NbBVPjQ80k0nqi85cwLtlAUV3dx7eZrz6mpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736175113; c=relaxed/simple;
-	bh=AYH/DfLSVgqLvfrtVkQLR326FQZjIqBODaw1Gcw5CHA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qAXTw5SMo4zk6KTigGM2/s5cbErekxNEuhzymKsbyLZocEv4gk4dblXlzuQnu0aSmzfOmePqgLlpn9KWlw3BVQWT1rlG1khndveAd/C5x9cDixK6XkTYAChNSKayOsNxNX9hLf6ozuNqR/BAe1BqYCEhfiDKZ5TMuJNV2s5DMjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1tUoSJ-0002GT-91; Mon, 06 Jan 2025 15:51:47 +0100
-Message-ID: <adf12374-30e1-48bd-9f73-fabc5a8c2357@pengutronix.de>
-Date: Mon, 6 Jan 2025 15:51:46 +0100
+	s=arc-20240116; t=1736175392; c=relaxed/simple;
+	bh=Di6LmjJ9gF4qTqhZHjx/v4Wweb6edJ/P+X63RD48/Y8=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=I97TXFmWg1/5RRu9QzwJoI8VItTI3JQeV82YjgGZ0gGVYNWER6li7U534jfreMvGEpZOtxn1ypZZeTEUngvnt0HoaDCen7h8yPjEXnZcR5n0qG10KuGefHcP+iXh5p6eO6m/UYhTXiVh99C63ka2Fu2hmYILAkKtjCk6pSMKGDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ALGKh/18; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ALGKh/18"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD107C4CED2;
+	Mon,  6 Jan 2025 14:56:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736175392;
+	bh=Di6LmjJ9gF4qTqhZHjx/v4Wweb6edJ/P+X63RD48/Y8=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=ALGKh/18X2i9Q3c5JybYrCBw+dTCHFsLv+Ppzx9XLmb+SVXiWcDV7W65iCc9AqAcL
+	 n+pR1ODa7wERwef7yp95ZYdTRjdL0eivnUSCy6MyxHyhghXMpGz1O/T+jVaLqJH+R5
+	 mtw6pU91x+Yq4BzLgpw7I3QCjcmONETSmup6K10QlKgjIg/gPZwM3AVHvrkbJDeASK
+	 MzCSqOI0Sfxe4vfj81q53E3ZuFJRjdPfx2DjjfjpsM137q04sJGil7tlmOb9F2SltE
+	 heSNlckn6m9FHWTX1L9sK+aT7pcaUYzq0Ij5/V6ijylld4IdjwoNXu9SXHadQvf9ts
+	 9dy8cVaT/i4iw==
+Date: Mon, 06 Jan 2025 08:56:30 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 2/2] docs: process: submitting-patches: clarify
- imperative mood suggestion
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Borislav Petkov <bp@suse.de>,
- Rob Herring <robh@kernel.org>, Frank Li <Frank.li@nxp.com>,
- kernel@pengutronix.de
-References: <20241220-submitting-patches-imperative-v1-0-ee874c1859b3@pengutronix.de>
- <20241220-submitting-patches-imperative-v1-2-ee874c1859b3@pengutronix.de>
- <87r05p10bt.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-In-Reply-To: <87r05p10bt.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Delphine_CC_Chiu@Wiwynn.com, jdelvare@suse.com, corbet@lwn.net, 
+ linux-kernel@vger.kernel.org, Leo-Yang@quantatw.com, 
+ linux-hwmon@vger.kernel.org, krzk+dt@kernel.org, devicetree@vger.kernel.org, 
+ linux-doc@vger.kernel.org, conor+dt@kernel.org, linux@roeck-us.net
+To: Leo Yang <leo.yang.sy0@gmail.com>
+In-Reply-To: <20250106071337.3017926-2-Leo-Yang@quantatw.com>
+References: <20250106071337.3017926-1-Leo-Yang@quantatw.com>
+ <20250106071337.3017926-2-Leo-Yang@quantatw.com>
+Message-Id: <173617539096.200230.9323212327548655095.robh@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: Add INA233 device
 
-Hello Jon,
 
-On 30.12.24 19:40, Jonathan Corbet wrote:
-> Ahmad Fatoum <a.fatoum@pengutronix.de> writes:
+On Mon, 06 Jan 2025 15:13:36 +0800, Leo Yang wrote:
+> Add TI INA233 Current and Power Monitor bindings.
 > 
->> While we expect commit message titles to use the imperative mood,
->> it's ok for commit message bodies to first include a blurb describing
->> the background of the patch, before delving into what's being done
->> to address the situation.
->>
->> Make this clearer by adding a clarification after the imperative mood
->> suggestion as well as listing Rob Herring's commit 52bb69be6790
->> ("dt-bindings: ata: pata-common: Add missing additionalProperties on
->> child nodes") as a good example commit message.
->>
->> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
-> 
-> I'm rather less convinced about this one.  We already have a whole
-> section on describing changes.  Given that this crucial document is
-> already long and hard enough to get through, I don't really think that
-> adding some duplicate information - and the noise of more labels - is
-> going to improve things.
-
-Do you agree with the content of the patch in principle?
-
-My changes were motivated by a disagreement about the necessity of having
-to use the imperative mood throughout as I described in my cover letter,
-so I still think think that a clarification is appropriate.
-
-Would a v2 without the example at the end be acceptable?
-
-Thanks,
-Ahmad
-
-
-
-
-> 
-> Thanks,
-> 
-> jon
+> Signed-off-by: Leo Yang <Leo-Yang@quantatw.com>
+> ---
+>  .../bindings/hwmon/pmbus/ti,ina233.yaml       | 57 +++++++++++++++++++
+>  1 file changed, 57 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/ti,ina233.yaml
 > 
 
+My bot found errors running 'make dt_binding_check' on your patch:
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/hwmon/pmbus/ti,ina233.yaml:35:1: [error] syntax error: found character '\t' that cannot start any token (syntax)
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/hwmon/pmbus/ti,ina233.yaml: ignoring, error parsing file
+./Documentation/devicetree/bindings/hwmon/pmbus/ti,ina233.yaml:35:1: found character that cannot start any token
+make[2]: *** Deleting file 'Documentation/devicetree/bindings/hwmon/pmbus/ti,ina233.example.dts'
+Documentation/devicetree/bindings/hwmon/pmbus/ti,ina233.yaml:35:1: found character that cannot start any token
+make[2]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/hwmon/pmbus/ti,ina233.example.dts] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1506: dt_binding_check] Error 2
+make: *** [Makefile:251: __sub-make] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250106071337.3017926-2-Leo-Yang@quantatw.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
