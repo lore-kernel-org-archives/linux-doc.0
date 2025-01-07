@@ -1,873 +1,637 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8341D95B3;
-	Tue,  7 Jan 2025 18:21:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C77C18A6D4
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jan 2025 18:31:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736274091; cv=none; b=HYHyj65jFD/OCJVjYqFLqcRQpMkjh1PpVCtschamA5MBhwNr1Ob6RejRwYQsEmCV0jMm0hSeLBFbeko4jad5rulPMxx6WFLm0Y32zdZJ3HcGn0l99F/CXqTox3sP8s1UQwz/RKnE+dENZ8ONrv5xIZ3Xj78xTi9Nl+/WvRbKTpU=
+	t=1736274687; cv=none; b=TdBELy595x/cQ8xN3rsfdYrvgd0w5csQvEeT4gykVwHcouyP8VTuGGQCEMnrWELhSBgQg/w60zj1tw8UhZZNxdSs1fyBCDZGt7ikWgd3GTzdkgksDFXQ4PQD2UoHHZS+eMBJ5sUbq/4A/JoXzvHP5mL13vRtIjffn8V9mkBeNJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736274091; c=relaxed/simple;
-	bh=Rs2aSfXqzGjyzojHjNmSP7Kdfwhre8qnrP53YnqASmQ=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=ZKofPn6zxbQ8YRp3ZOCUHYhQvhauVpX1yPqtLhAxPsOq512vm539azJRNIeA0R/qdud57nZacYv4dhnJVXo8QeoSkh6JyaodMcByLnJcYLoGDq7G0CVJ/r0g2Qny2BKCQr+/0vU3ARsy5mY4aYa+hm5aQCRvXxmDu6+eEy9X1uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PhQ+Bt8+; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1736274687; c=relaxed/simple;
+	bh=V8PjDbrA0VZ4LvROpcX3ogGlKxj1aHP3YXy8Vs0t3Fo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jsaR4Vj32nFuLYHar1xq0cjlwVLfNkMYduBepuFKjNDp3G/WPIAud05pixapeXGizHEEQeu0UM88uCwCAs7s29JhV0AH0fU8SuXElhoHTJnM1i/TC3Z8C85L8dBFps2li6aBCBjT38CJT+atjNZ1UOAM+wozJ6A9m6PCAAFYC4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IC2msdfc; arc=none smtp.client-ip=209.85.166.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PhQ+Bt8+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736274088; x=1767810088;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=Rs2aSfXqzGjyzojHjNmSP7Kdfwhre8qnrP53YnqASmQ=;
-  b=PhQ+Bt8+iDIMlYFxVYpZU+YKJZhHooHUzYLv/vlHVrRkifJ2NineZQfl
-   eBjaJD86s40dHQG3YECQyYMvm6CtNY0XN+VRBPm5jYYDxmQIQ1fOm4COX
-   8MSEqugPvHc0QatXqng29OGL4qPjecO+p3WZ7LdTNkIV+h4mgTzy/7TCM
-   PB+cf0Is3PaTZuOvTAv7aABby80AnFDNsHZbkeD6Jje8jmvkjizGn1z4p
-   t+oTE9APP4VeHIFchrZ3OMAfDdSkHlL17btLVN+Vsr/1xGha2FXCnLGNM
-   FHjmBe6J+W/Otv2s+QglunPSYJwj6SouV4dSZJfMryhn2UqFYU9U4o+SR
-   A==;
-X-CSE-ConnectionGUID: GwJWUL7JSgqd9uti74mN6g==
-X-CSE-MsgGUID: EE7FyB9eRbSlYQKBU+JW6w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="36358750"
-X-IronPort-AV: E=Sophos;i="6.12,296,1728975600"; 
-   d="scan'208";a="36358750"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 10:21:27 -0800
-X-CSE-ConnectionGUID: c5/7q5VvS92sjVK5FS4ckw==
-X-CSE-MsgGUID: jPS2VAkJSMmhYVlWe/BN2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="107897325"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.206])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2025 10:21:22 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 7 Jan 2025 20:21:19 +0200 (EET)
-To: Derek John Clark <derekjohn.clark@gmail.com>
-cc: Mario Limonciello <superm1@kernel.org>, 
-    Hans de Goede <hdegoede@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-    Luke Jones <luke@ljones.dev>, Xino Ni <nijs1@lenovo.com>, 
-    Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>, 
-    Mark Pearson <mpearson-lenovo@squebb.ca>, 
-    "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
-    "Cody T . -H . Chiu" <codyit@gmail.com>, 
-    John Martens <johnfanv2@gmail.com>, platform-driver-x86@vger.kernel.org, 
-    linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 4/4] platform/x86: Add Lenovo Other Mode WMI Driver
-In-Reply-To: <CAFqHKTmd12wZdCK_-+SbGNdvwzXTawmu9ob3_k1cHoy0XBVS-Q@mail.gmail.com>
-Message-ID: <5914557f-ba32-825a-a483-8ffe0311a61f@linux.intel.com>
-References: <20250102004854.14874-1-derekjohn.clark@gmail.com> <20250102004854.14874-5-derekjohn.clark@gmail.com> <8620c791-4cf0-44fe-9869-18be4baed465@kernel.org> <CAFqHKTmd12wZdCK_-+SbGNdvwzXTawmu9ob3_k1cHoy0XBVS-Q@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IC2msdfc"
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3a9d0c28589so6835ab.0
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jan 2025 10:31:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1736274684; x=1736879484; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5IZmCERbL1GmUWWKlKf1Fkap/8PoZZun7MNTEJAlgeo=;
+        b=IC2msdfc5JwiHzf4gLPt5YwIRwG0+OuCUUScOTaGsSL/fuDR1UIHr5BoSY3bGFwq+z
+         06MIqSgFjImqhp4vPiDyX7Er6V4a7l7A2ruNvnIyocVpZxpQxJfPTbxSIYUuDSYpcu+s
+         WS5mdAymUEBDDCLsa/FW1WrVBWZS1zpzgTXJDDMRyOgZ6O23Hglt9Wj0Dgt0VpN78mIZ
+         zUHLE5dnGXq7f17zxpv8SKzttmaTsBqRCYjiEh7lqg3cbTUXXodYVVcg8sFrcCKiaehW
+         /H3poZa4f8MXU2+/BycWFlzTUxWoYdfQFTSraI5n7Xj2dU7FaxU5ooibNlcHE1642mqw
+         6Dqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736274684; x=1736879484;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5IZmCERbL1GmUWWKlKf1Fkap/8PoZZun7MNTEJAlgeo=;
+        b=YSLDlo43qxrXEhi8hEYWrbJwYN159YKcLK9ZNTP/P6PCW/ktMHQUtFnwkLIFfll58K
+         KOZVSqTKfu2/dYa5DUqGbfoXTH+KoMARBJHEsnCJPIwwGg0ZTqw6KbUh+r35FhPnPimM
+         qHRh2NJ2+yWW8BWOs3M99+Keex3vMrCXlw/rAAng1JL4X7NHR/UPq122vF2ikK1CrU3V
+         hkRxngFjWD3vhL5fTzfKW1gX+tr1gNhshK3DNiQAS8tnMml4/wEkHqOdr2RgtlF4N73Z
+         t1nJ4MPIiTZ78fFZ2aHMLMqKToUJuFpe97wKyAs3RAmDTfq0GRBrXWEIGqHK+GlW/W0k
+         CKPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVOVuMH1l+yipLhBZDB3+mUbA1vfMV/jLpRpg/lPRTAMrlTSpmOyE+3E9jTNYOBDlFqvp6LRbbiIIg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6er/aye6YSC1TdrCjnRPGgi6YVk1kghDLlb9Hf9qvjnbLxAAY
+	xsXeFXJEJON5enkpU30jIOd2FIKUfYg1WPptBP+si+63cU9gqPmeCDiaQ2eZGvevnDTjBiaVafj
+	dRZjk/Enj/9jbM8en7HeaTfU772X7awXlaUTB
+X-Gm-Gg: ASbGncsyTZrjn6IhjhjMYVT/kFdit3NulM9+qCb66uX4FoHmAPFZDNawSbFqQ8j5ECZ
+	NNiF554TJpBS/YSJXHhOUJG9r4FYoqwMuuqFelyjBQbleTwwxIbWLbO4OcC49ziicNtEo9w==
+X-Google-Smtp-Source: AGHT+IFiwBCBahYctnYPQwHDyNuIZfVMQsiJREPq2lfa8COIKpaXOGX2E3C3VA5MBqBoMjX19ZVHfFlfzZtB/ZEnCqw=
+X-Received: by 2002:a05:6e02:1a66:b0:3a7:7d6e:fef9 with SMTP id
+ e9e14a558f8ab-3ce333ace12mr3725625ab.27.1736274683382; Tue, 07 Jan 2025
+ 10:31:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-980477018-1736274079=:1001"
+References: <20241218-perf_syscalltbl-v4-0-bc8caef2ca8e@rivosinc.com> <20241218-perf_syscalltbl-v4-16-bc8caef2ca8e@rivosinc.com>
+In-Reply-To: <20241218-perf_syscalltbl-v4-16-bc8caef2ca8e@rivosinc.com>
+From: Ian Rogers <irogers@google.com>
+Date: Tue, 7 Jan 2025 10:31:12 -0800
+X-Gm-Features: AbW1kvaMbrvxjUhQ4wmMCxXieh5BF7iC3saitrnc0ieAcj07IJJzhm0SMZWJXgw
+Message-ID: <CAP-5=fWbOrwt4b2Y79=iqRr5yRC7R6sgpkoQg6jBpGPW2dpPzA@mail.gmail.com>
+Subject: Re: [PATCH v4 16/16] perf tools: Remove dependency on libaudit
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Adrian Hunter <adrian.hunter@intel.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	Christian Brauner <brauner@kernel.org>, Guo Ren <guoren@kernel.org>, 
+	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>, 
+	James Clark <james.clark@linaro.org>, Mike Leach <mike.leach@linaro.org>, 
+	Leo Yan <leo.yan@linux.dev>, Jonathan Corbet <corbet@lwn.net>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Albert Ou <aou@eecs.berkeley.edu>, linux-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-security-module@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-csky@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323328-980477018-1736274079=:1001
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-
-On Thu, 2 Jan 2025, Derek John Clark wrote:
-> On Wed, Jan 1, 2025 at 7:40=E2=80=AFPM Mario Limonciello <superm1@kernel.=
-org> wrote:
-> > On 1/1/25 18:47, Derek J. Clark wrote:
-> > > Adds lenovo-wmi-other.c which provides a driver for the Lenovo
-> > > "Other Mode" WMI interface that comes on some Lenovo "Gaming
-> > > Series" hardware. Provides a firmware-attributes class which
-> > > enables the use of tunable knobs for SPL, SPPT, and FPPT.
-> > >
-> > > v2:
-> > > - Use devm_kzalloc to ensure driver can be instanced, remove global
-> > >    reference.
-> > > - Ensure reverse Christmas tree for all variable declarations.
-> > > - Remove extra whitespace.
-> > > - Use guard(mutex) in all mutex instances, global mutex.
-> > > - Use pr_fmt instead of adding the driver name to each pr_err.
-> > > - Remove noisy pr_info usage.
-> > > - Rename other_method_wmi to lenovo_wmi_om_priv and om_wmi to priv.
-> > > - Use list to get the lenovo_wmi_om_priv instance in some macro
-> > >    called functions as the data provided by the macros that use it
-> > >    doesn't pass a member of the struct for use in container_of.
-> > > - Do not rely on GameZone interface to grab the current fan mode.
-> > >
-> > > Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
-> > > ---
-> > >   MAINTAINERS                             |   1 +
-> > >   drivers/platform/x86/Kconfig            |  12 +
-> > >   drivers/platform/x86/Makefile           |   1 +
-> > >   drivers/platform/x86/lenovo-wmi-other.c | 385 +++++++++++++++++++++=
-+++
-> > >   drivers/platform/x86/lenovo-wmi.h       | 116 +++++++
-> > >   5 files changed, 515 insertions(+)
-> > >   create mode 100644 drivers/platform/x86/lenovo-wmi-other.c
-> > >
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index c9374c395905..318e1e517eed 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -13040,6 +13040,7 @@ L:    platform-driver-x86@vger.kernel.org
-> > >   S:  Maintained
-> > >   F:  drivers/platform/x86/lenovo-wmi-capdata01.c
-> > >   F:  drivers/platform/x86/lenovo-wmi-gamezone.c
-> > > +F:   drivers/platform/x86/lenovo-wmi-other.c
-> > >   F:  drivers/platform/x86/lenovo-wmi.h
-> > >
-> > >   LETSKETCH HID TABLET DRIVER
-> > > diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kcon=
-fig
-> > > index a2c1ab47ad9e..e2285ab987c5 100644
-> > > --- a/drivers/platform/x86/Kconfig
-> > > +++ b/drivers/platform/x86/Kconfig
-> > > @@ -481,6 +481,18 @@ config LENOVO_WMI_DATA01
-> > >         To compile this driver as a module, choose M here: the module=
- will
-> > >         be called lenovo_wmi_capdata01.
-> > >
-> > > +config LENOVO_WMI_TUNING
-> > > +     tristate "Lenovo Other Method WMI Driver"
-> > > +     depends on LENOVO_WMI_DATA01
-> > > +     select FW_ATTR_CLASS
-> > > +     help
-> > > +       Say Y here if you have a WMI aware Lenovo Legion device and w=
-ould like to use the
-> > > +       firmware_attributes API to control various tunable settings t=
-ypically exposed by
-> > > +       Lenovo software in Windows.
-> > > +
-> > > +       To compile this driver as a module, choose M here: the module=
- will
-> > > +       be called lenovo_wmi_other.
-> > > +
-> > >   config IDEAPAD_LAPTOP
-> > >       tristate "Lenovo IdeaPad Laptop Extras"
-> > >       depends on ACPI
-> > > diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Mak=
-efile
-> > > index 6c96cc3f3855..3e059b3c3647 100644
-> > > --- a/drivers/platform/x86/Makefile
-> > > +++ b/drivers/platform/x86/Makefile
-> > > @@ -70,6 +70,7 @@ obj-$(CONFIG_YT2_1380)              +=3D lenovo-yog=
-a-tab2-pro-1380-fastcharger.o
-> > >   obj-$(CONFIG_LENOVO_WMI_CAMERA)     +=3D lenovo-wmi-camera.o
-> > >   obj-$(CONFIG_LENOVO_WMI_GAMEZONE)   +=3D lenovo-wmi-gamezone.o
-> > >   obj-$(CONFIG_LENOVO_WMI_DATA01)     +=3D lenovo-wmi-capdata01.o
-> > > +obj-$(CONFIG_LENOVO_WMI_TUNING)      +=3D lenovo-wmi-other.o
-> > >
-> > >   # Intel
-> > >   obj-y                               +=3D intel/
-> > > diff --git a/drivers/platform/x86/lenovo-wmi-other.c b/drivers/platfo=
-rm/x86/lenovo-wmi-other.c
-> > > new file mode 100644
-> > > index 000000000000..2392faa74973
-> > > --- /dev/null
-> > > +++ b/drivers/platform/x86/lenovo-wmi-other.c
-> > > @@ -0,0 +1,385 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > > +/*
-> > > + * Lenovo Other Method WMI interface driver. This driver uses the fw=
-_attributes
-> > > + * class to expose the various WMI functions provided by the "Other =
-Method" WMI
-> > > + * interface. This enables CPU and GPU power limit as well as variou=
-s other
-> > > + * attributes for devices that fall under the "Gaming Series" of Len=
-ovo laptop
-> > > + * devices. Each attribute exposed by the "Other Method"" interface =
-has a
-> > > + * corresponding LENOVO_CAPABILITY_DATA_01 struct that allows the dr=
-iver to
-> > > + * probe details about the attribute such as set/get support, step, =
-min, max,
-> > > + * and default value. Each attibute has multiple pages, one for each=
- of the
-> > > + * fan profiles managed by the GameZone interface, so it must be pro=
-bed prior
-> > > + * to returning the current_value.
-> > > + *
-> > > + * These attributes typically don't fit anywhere else in the sysfs a=
-nd are set
-> > > + * in Windows using one of Lenovo's multiple user applications.
-> > > + *
-> > > + * Copyright(C) 2024 Derek J. Clark <derekjohn.clark@gmail.com>
-> > > + */
-> > > +
-> > > +#include <linux/list.h>
-> > > +#include "lenovo-wmi.h"
-> > > +#include "firmware_attributes_class.h"
-> > > +
-> > > +#define FW_ATTR_FOLDER "lenovo-wmi-other"
-> > > +#define LENOVO_OTHER_METHOD_GUID "DC2A8805-3A8C-41BA-A6F7-092E0089CD=
-3B"
-> > > +
-> > > +/* Device IDs */
-> > > +#define WMI_DEVICE_ID_CPU 0x01
-> > > +
-> > > +/* WMI_DEVICE_ID_CPU feature IDs */
-> > > +#define WMI_FEATURE_ID_CPU_SPPT 0x01 /* Short Term Power Limit */
-> > > +#define WMI_FEATURE_ID_CPU_FPPT 0x03 /* Long Term Power Limit */
-> > > +#define WMI_FEATURE_ID_CPU_SPL 0x02 /* Peak Power Limit */
-> > > +#define WMI_FEATURE_ID_CPU_FPPT_BAD 0x03 /* Long Term Power Limit */
-> >
-> > What exactly is WMI_FEATURE_ID_CPU_FPPT_BAD?  I don't see it used in th=
-e
-> > code at all.
-> >
->=20
-> Something I was going to add a quirk for based on some bad gouge but
-> missed in my cleanup. I'll remove.
->=20
-> > > +
-> > > +/* Method IDs */
-> > > +#define WMI_METHOD_ID_VALUE_GET 17 /* Other Method Getter */
-> > > +#define WMI_METHOD_ID_VALUE_SET 18 /* Other Method Setter */
-> > > +
-> > > +static DEFINE_MUTEX(call_mutex);
-> > > +static DEFINE_MUTEX(om_list_mutex);
-> > > +static LIST_HEAD(om_wmi_list);
-> > > +
-> > > +struct lenovo_wmi_om_priv {
-> > > +     struct wmi_device *wdev;
-> > > +     struct device *fw_attr_dev;
-> > > +     struct kset *fw_attr_kset;
-> > > +     struct list_head list;
-> > > +};
-> > > +
-> > > +static inline struct lenovo_wmi_om_priv *get_first_wmi_priv(void)
-> > > +{
-> > > +     guard(mutex)(&om_list_mutex);
-> > > +     return list_first_entry_or_null(&om_wmi_list, struct lenovo_wmi=
-_om_priv,
-> > > +                                     list);
-> > > +}
-> > > +
-> > > +static const struct wmi_device_id lenovo_wmi_other_id_table[] =3D {
-> > > +     { LENOVO_OTHER_METHOD_GUID, NULL },
-> > > +     {}
-> > > +};
-> > > +
-> > > +/* Tunable Attributes */
-> > > +struct tunable_attr_01 ppt_pl1_spl =3D { .device_id =3D WMI_DEVICE_I=
-D_CPU,
-> > > +                                    .feature_id =3D WMI_FEATURE_ID_C=
-PU_SPL };
-> > > +struct tunable_attr_01 ppt_pl2_sppt =3D { .device_id =3D WMI_DEVICE_=
-ID_CPU,
-> > > +                                     .feature_id =3D WMI_FEATURE_ID_=
-CPU_SPPT };
-> > > +struct tunable_attr_01 ppt_pl3_fppt =3D { .device_id =3D WMI_DEVICE_=
-ID_CPU,
-> > > +                                     .feature_id =3D WMI_FEATURE_ID_=
-CPU_FPPT };
-> > > +
-> > > +struct capdata01_attr_group {
-> > > +     const struct attribute_group *attr_group;
-> > > +     struct tunable_attr_01 *tunable_attr;
-> > > +};
-> > > +
-> > > +static const struct class *fw_attr_class;
-> > > +
-> > > +/**
-> > > + * attr_capdata01_setup() - Get the data of the specified attribute
-> > > + * from LENOVO_CAPABILITY_DATA_01 and store it.
-> > > + * @tunable_attr: The attribute to be populated.
-> > > + *
-> > > + * Returns: Either 0 or an error.
-> > > + */
-> > > +static int attr_capdata01_setup(struct tunable_attr_01 *tunable_attr=
+On Wed, Dec 18, 2024 at 1:25=E2=80=AFAM Charlie Jenkins <charlie@rivosinc.c=
+om> wrote:
+>
+> All architectures now support HAVE_SYSCALL_TABLE_SUPPORT, so the flag is
+> no longer needed. With the removal of the flag, the related
+> GENERIC_SYSCALL_TABLE can also be removed. libaudit was only used as a
+> fallback for when HAVE_SYSCALL_TABLE_SUPPORT was not defined, so
+> libaudit is also no longer needed for any architecture.
+>
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> ---
+>  Documentation/admin-guide/workload-tracing.rst |  2 +-
+>  tools/build/feature/Makefile                   |  4 --
+>  tools/build/feature/test-libaudit.c            | 11 ------
+>  tools/perf/Documentation/perf-check.txt        |  1 -
+>  tools/perf/Makefile.config                     | 31 +--------------
+>  tools/perf/Makefile.perf                       | 15 --------
+>  tools/perf/builtin-check.c                     |  1 -
+>  tools/perf/builtin-help.c                      |  2 -
+>  tools/perf/builtin-trace.c                     | 30 ---------------
+>  tools/perf/perf.c                              |  6 +--
+>  tools/perf/tests/make                          |  7 +---
+>  tools/perf/util/env.c                          |  4 +-
+>  tools/perf/util/generate-cmdlist.sh            |  4 +-
+>  tools/perf/util/syscalltbl.c                   | 52 --------------------=
+------
+>  tools/perf/util/syscalltbl.h                   |  1 -
+>  15 files changed, 10 insertions(+), 161 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/workload-tracing.rst b/Documentati=
+on/admin-guide/workload-tracing.rst
+> index b2e254ec8ee846afe78eede74a825b51c6ab119b..6be38c1b9c5bb4be899fd261c=
+6d2911abcf959dc 100644
+> --- a/Documentation/admin-guide/workload-tracing.rst
+> +++ b/Documentation/admin-guide/workload-tracing.rst
+> @@ -83,7 +83,7 @@ scripts/ver_linux is a good way to check if your system=
+ already has
+>  the necessary tools::
+>
+>    sudo apt-get build-essentials flex bison yacc
+> -  sudo apt install libelf-dev systemtap-sdt-dev libaudit-dev libslang2-d=
+ev libperl-dev libdw-dev
+> +  sudo apt install libelf-dev systemtap-sdt-dev libslang2-dev libperl-de=
+v libdw-dev
+>
+>  cscope is a good tool to browse kernel sources. Let's install it now::
+>
+> diff --git a/tools/build/feature/Makefile b/tools/build/feature/Makefile
+> index 680f9b07150f906c0bae1ab990cc01bb0d6b0de6..cb1e3e2feedf39d7b95442baf=
+c87d43dc84a740d 100644
+> --- a/tools/build/feature/Makefile
+> +++ b/tools/build/feature/Makefile
+> @@ -13,7 +13,6 @@ FILES=3D                                          \
+>           test-gtk2.bin                          \
+>           test-gtk2-infobar.bin                  \
+>           test-hello.bin                         \
+> -         test-libaudit.bin                      \
+>           test-libbfd.bin                        \
+>           test-libbfd-buildid.bin               \
+>           test-disassembler-four-args.bin        \
+> @@ -232,9 +231,6 @@ $(OUTPUT)test-libunwind-debug-frame-arm.bin:
+>  $(OUTPUT)test-libunwind-debug-frame-aarch64.bin:
+>         $(BUILD) -lelf -llzma -lunwind-aarch64
+>
+> -$(OUTPUT)test-libaudit.bin:
+> -       $(BUILD) -laudit
+> -
+>  $(OUTPUT)test-libslang.bin:
+>         $(BUILD) -lslang
+>
+> diff --git a/tools/build/feature/test-libaudit.c b/tools/build/feature/te=
+st-libaudit.c
+> deleted file mode 100644
+> index f5b0863fa1ec240795339428d8deed98a946d405..0000000000000000000000000=
+000000000000000
+> --- a/tools/build/feature/test-libaudit.c
+> +++ /dev/null
+> @@ -1,11 +0,0 @@
+> -// SPDX-License-Identifier: GPL-2.0
+> -#include <libaudit.h>
+> -
+> -extern int printf(const char *format, ...);
+> -
+> -int main(void)
+> -{
+> -       printf("error message: %s\n", audit_errno_to_name(0));
+> -
+> -       return audit_open();
+> -}
+> diff --git a/tools/perf/Documentation/perf-check.txt b/tools/perf/Documen=
+tation/perf-check.txt
+> index 31741499e7867c9b712227f31a2958fd641d474a..e6d2ceeb2ca7de850f41b1baa=
+0375b6f984bb08f 100644
+> --- a/tools/perf/Documentation/perf-check.txt
+> +++ b/tools/perf/Documentation/perf-check.txt
+> @@ -51,7 +51,6 @@ feature::
+>                  dwarf_getlocations      /  HAVE_LIBDW_SUPPORT
+>                  dwarf-unwind            /  HAVE_DWARF_UNWIND_SUPPORT
+>                  auxtrace                /  HAVE_AUXTRACE_SUPPORT
+> -                libaudit                /  HAVE_LIBAUDIT_SUPPORT
+>                  libbfd                  /  HAVE_LIBBFD_SUPPORT
+>                  libcapstone             /  HAVE_LIBCAPSTONE_SUPPORT
+>                  libcrypto               /  HAVE_LIBCRYPTO_SUPPORT
+> diff --git a/tools/perf/Makefile.config b/tools/perf/Makefile.config
+> index 2da9fd705f187a8e4881b3b6ebbe5e0ec8584474..878e4cec8fdefaf6a7ae3c964=
+d9c62ebd8d1d149 100644
+> --- a/tools/perf/Makefile.config
+> +++ b/tools/perf/Makefile.config
+> @@ -28,20 +28,7 @@ include $(srctree)/tools/scripts/Makefile.arch
+>
+>  $(call detected_var,SRCARCH)
+>
+> -ifneq ($(NO_SYSCALL_TABLE),1)
+> -  NO_SYSCALL_TABLE :=3D 1
+> -
+> -  # architectures that use the generic syscall table scripts
+> -  ifneq ($(filter $(SRCARCH), $(generic_syscall_table_archs)),)
+> -    NO_SYSCALL_TABLE :=3D 0
+> -    CFLAGS +=3D -DGENERIC_SYSCALL_TABLE
+> -    CFLAGS +=3D -I$(OUTPUT)tools/perf/arch/$(SRCARCH)/include/generated
+> -  endif
+> -
+> -  ifneq ($(NO_SYSCALL_TABLE),1)
+> -    CFLAGS +=3D -DHAVE_SYSCALL_TABLE_SUPPORT
+> -  endif
+> -endif
+> +CFLAGS +=3D -I$(OUTPUT)tools/perf/arch/$(SRCARCH)/include/generated
+>
+>  # Additional ARCH settings for ppc
+>  ifeq ($(SRCARCH),powerpc)
+> @@ -776,21 +763,7 @@ ifndef NO_LIBUNWIND
+>  endif
+>
+>  ifneq ($(NO_LIBTRACEEVENT),1)
+> -  ifeq ($(NO_SYSCALL_TABLE),0)
+> -    $(call detected,CONFIG_TRACE)
+> -  else
+> -    ifndef NO_LIBAUDIT
+> -      $(call feature_check,libaudit)
+> -      ifneq ($(feature-libaudit), 1)
+> -        $(warning No libaudit.h found, disables 'trace' tool, please ins=
+tall audit-libs-devel or libaudit-dev)
+> -        NO_LIBAUDIT :=3D 1
+> -      else
+> -        CFLAGS +=3D -DHAVE_LIBAUDIT_SUPPORT
+> -        EXTLIBS +=3D -laudit
+> -        $(call detected,CONFIG_TRACE)
+> -      endif
+> -    endif
+> -  endif
+> +  $(call detected,CONFIG_TRACE)
+>  endif
+>
+>  ifndef NO_LIBCRYPTO
+> diff --git a/tools/perf/Makefile.perf b/tools/perf/Makefile.perf
+> index 2c6a509c800d3037933c9b49e5a7dafbf78fda0c..ab2d075ff3a23350a5eea1250=
+8cf0376f1d9f4e8 100644
+> --- a/tools/perf/Makefile.perf
+> +++ b/tools/perf/Makefile.perf
+> @@ -59,8 +59,6 @@ include ../scripts/utilities.mak
+>  #
+>  # Define NO_LIBNUMA if you do not want numa perf benchmark
+>  #
+> -# Define NO_LIBAUDIT if you do not want libaudit support
+> -#
+>  # Define NO_LIBBIONIC if you do not want bionic support
+>  #
+>  # Define NO_LIBCRYPTO if you do not want libcrypto (openssl) support
+> @@ -119,10 +117,6 @@ include ../scripts/utilities.mak
+>  #
+>  # Define LIBBPF_DYNAMIC to enable libbpf dynamic linking.
+>  #
+> -# Define NO_SYSCALL_TABLE=3D1 to disable the use of syscall id to/from n=
+ame tables
+> -# generated from the kernel .tbl or unistd.h files and use, if available=
+, libaudit
+> -# for doing the conversions to/from strings/id.
+> -#
+>  # Define NO_LIBPFM4 to disable libpfm4 events extension.
+>  #
+>  # Define NO_LIBDEBUGINFOD if you do not want support debuginfod
+> @@ -310,11 +304,7 @@ ifeq ($(filter feature-dump,$(MAKECMDGOALS)),feature=
+-dump)
+>  FEATURE_TESTS :=3D all
+>  endif
+>  endif
+> -# architectures that use the generic syscall table
+> -generic_syscall_table_archs :=3D riscv arc csky arm sh sparc xtensa x86 =
+alpha parisc arm64 loongarch mips powerpc s390
+> -ifneq ($(filter $(SRCARCH), $(generic_syscall_table_archs)),)
+>  include $(srctree)/tools/perf/scripts/Makefile.syscalls
+> -endif
+>  include Makefile.config
+>  endif
+>
+> @@ -1099,11 +1089,6 @@ endif
+>                 $(INSTALL) $(OUTPUT)perf-archive -t '$(DESTDIR_SQ)$(perfe=
+xec_instdir_SQ)'
+>         $(call QUIET_INSTALL, perf-iostat) \
+>                 $(INSTALL) $(OUTPUT)perf-iostat -t '$(DESTDIR_SQ)$(perfex=
+ec_instdir_SQ)'
+> -ifndef NO_LIBAUDIT
+> -       $(call QUIET_INSTALL, strace/groups) \
+> -               $(INSTALL) -d -m 755 '$(DESTDIR_SQ)$(STRACE_GROUPS_INSTDI=
+R_SQ)'; \
+> -               $(INSTALL) trace/strace/groups/* -m 644 -t '$(DESTDIR_SQ)=
+$(STRACE_GROUPS_INSTDIR_SQ)'
+> -endif
+>  ifndef NO_LIBPERL
+>         $(call QUIET_INSTALL, perl-scripts) \
+>                 $(INSTALL) -d -m 755 '$(DESTDIR_SQ)$(perfexec_instdir_SQ)=
+/scripts/perl/Perf-Trace-Util/lib/Perf/Trace'; \
+> diff --git a/tools/perf/builtin-check.c b/tools/perf/builtin-check.c
+> index 2346536a5ee14f91ecd10bd130a64676e871e1b2..7aed7b9f4f5270527ee1d3632=
+7eb6a01f196a46a 100644
+> --- a/tools/perf/builtin-check.c
+> +++ b/tools/perf/builtin-check.c
+> @@ -31,7 +31,6 @@ struct feature_status supported_features[] =3D {
+>         FEATURE_STATUS("dwarf_getlocations", HAVE_LIBDW_SUPPORT),
+>         FEATURE_STATUS("dwarf-unwind", HAVE_DWARF_UNWIND_SUPPORT),
+>         FEATURE_STATUS("auxtrace", HAVE_AUXTRACE_SUPPORT),
+> -       FEATURE_STATUS("libaudit", HAVE_LIBAUDIT_SUPPORT),
+>         FEATURE_STATUS("libbfd", HAVE_LIBBFD_SUPPORT),
+>         FEATURE_STATUS("libcapstone", HAVE_LIBCAPSTONE_SUPPORT),
+>         FEATURE_STATUS("libcrypto", HAVE_LIBCRYPTO_SUPPORT),
+> diff --git a/tools/perf/builtin-help.c b/tools/perf/builtin-help.c
+> index 0854d3cd9f6a304cd9cb50ad430d5706d91df0e9..7be6fb6df595923c15ae51747=
+d5bf17d867ae785 100644
+> --- a/tools/perf/builtin-help.c
+> +++ b/tools/perf/builtin-help.c
+> @@ -447,9 +447,7 @@ int cmd_help(int argc, const char **argv)
+>  #ifdef HAVE_LIBELF_SUPPORT
+>                 "probe",
+>  #endif
+> -#if defined(HAVE_LIBAUDIT_SUPPORT) || defined(HAVE_SYSCALL_TABLE_SUPPORT=
 )
-> > > +{
-> > > +     struct capability_data_01 cap_data;
-> > > +     int mode =3D SMARTFAN_MODE_CUSTOM;
-> > > +     int err;
-> > > +
-> >
-> > Why the whitespace here?  Seems unnecessary.
-> >
-> > > +     struct lenovo_wmi_attr_id attr_id =3D { mode << 8,
-> >
-> > As mode is only used here, I would just do:
-> >
-> > { SMARTFAN_MODE_CUSTOM << 8,
-> >
-> > To avoid the extra variable.
-> >
->=20
-> Acked.
+>                 "trace",
+> -#endif
+>         NULL };
+>         const char *builtin_help_usage[] =3D {
+>                 "perf help [--all] [--man|--web|--info] [command]",
+> diff --git a/tools/perf/builtin-trace.c b/tools/perf/builtin-trace.c
+> index 3c46de1a8d79bfe64ad6661929f2bdc98ebba55e..80941db5bd48f11236c759bab=
+cc1c545149c8e3f 100644
+> --- a/tools/perf/builtin-trace.c
+> +++ b/tools/perf/builtin-trace.c
+> @@ -2074,30 +2074,11 @@ static int trace__read_syscall_info(struct trace =
+*trace, int id)
+>         const char *name =3D syscalltbl__name(trace->sctbl, id);
+>         int err;
+>
+> -#ifdef HAVE_SYSCALL_TABLE_SUPPORT
+>         if (trace->syscalls.table =3D=3D NULL) {
+>                 trace->syscalls.table =3D calloc(trace->sctbl->syscalls.m=
+ax_id + 1, sizeof(*sc));
+>                 if (trace->syscalls.table =3D=3D NULL)
+>                         return -ENOMEM;
+>         }
+> -#else
+> -       if (id > trace->sctbl->syscalls.max_id || (id =3D=3D 0 && trace->=
+syscalls.table =3D=3D NULL)) {
+> -               // When using libaudit we don't know beforehand what is t=
+he max syscall id
+> -               struct syscall *table =3D realloc(trace->syscalls.table, =
+(id + 1) * sizeof(*sc));
+> -
+> -               if (table =3D=3D NULL)
+> -                       return -ENOMEM;
+> -
+> -               // Need to memset from offset 0 and +1 members if brand n=
+ew
+> -               if (trace->syscalls.table =3D=3D NULL)
+> -                       memset(table, 0, (id + 1) * sizeof(*sc));
+> -               else
+> -                       memset(table + trace->sctbl->syscalls.max_id + 1,=
+ 0, (id - trace->sctbl->syscalls.max_id) * sizeof(*sc));
+> -
+> -               trace->syscalls.table         =3D table;
+> -               trace->sctbl->syscalls.max_id =3D id;
+> -       }
+> -#endif
+>         sc =3D trace->syscalls.table + id;
+>         if (sc->nonexistent)
+>                 return -EEXIST;
+> @@ -2448,18 +2429,7 @@ static struct syscall *trace__syscall_info(struct =
+trace *trace,
+>
+>         err =3D -EINVAL;
+>
+> -#ifdef HAVE_SYSCALL_TABLE_SUPPORT
+>         if (id > trace->sctbl->syscalls.max_id) {
+> -#else
+> -       if (id >=3D trace->sctbl->syscalls.max_id) {
+> -               /*
+> -                * With libaudit we don't know beforehand what is the max=
+_id,
+> -                * so we let trace__read_syscall_info() figure that out a=
+s we
+> -                * go on reading syscalls.
+> -                */
+> -               err =3D trace__read_syscall_info(trace, id);
+> -               if (err)
+> -#endif
+>                 goto out_cant_read;
+>         }
+>
+> diff --git a/tools/perf/perf.c b/tools/perf/perf.c
+> index a2987f2cfe1a3958f53239ed1a4eec3f87d7466a..f0617cc41f5fe638986e5d831=
+6a6b3056c2c4bc5 100644
+> --- a/tools/perf/perf.c
+> +++ b/tools/perf/perf.c
+> @@ -84,7 +84,7 @@ static struct cmd_struct commands[] =3D {
+>  #endif
+>         { "kvm",        cmd_kvm,        0 },
+>         { "test",       cmd_test,       0 },
+> -#if defined(HAVE_LIBTRACEEVENT) && (defined(HAVE_LIBAUDIT_SUPPORT) || de=
+fined(HAVE_SYSCALL_TABLE_SUPPORT))
+> +#if defined(HAVE_LIBTRACEEVENT)
+>         { "trace",      cmd_trace,      0 },
+>  #endif
+>         { "inject",     cmd_inject,     0 },
+> @@ -514,10 +514,6 @@ int main(int argc, const char **argv)
+>                 fprintf(stderr,
+>                         "trace command not available: missing libtraceeve=
+nt devel package at build time.\n");
+>                 goto out;
+> -#elif !defined(HAVE_LIBAUDIT_SUPPORT) && !defined(HAVE_SYSCALL_TABLE_SUP=
+PORT)
+> -               fprintf(stderr,
+> -                       "trace command not available: missing audit-libs =
+devel package at build time.\n");
+> -               goto out;
+>  #else
+>                 setup_path();
+>                 argv[0] =3D "trace";
+> diff --git a/tools/perf/tests/make b/tools/perf/tests/make
+> index a7fcbd589752a90459815bd21075528c6dfa4d94..0ee94caf9ec19820a94a87dd4=
+6a7ccf1cefb844a 100644
+> --- a/tools/perf/tests/make
+> +++ b/tools/perf/tests/make
+> @@ -86,7 +86,6 @@ make_no_libdw_dwarf_unwind :=3D NO_LIBDW_DWARF_UNWIND=
+=3D1
+>  make_no_backtrace   :=3D NO_BACKTRACE=3D1
+>  make_no_libcapstone :=3D NO_CAPSTONE=3D1
+>  make_no_libnuma     :=3D NO_LIBNUMA=3D1
+> -make_no_libaudit    :=3D NO_LIBAUDIT=3D1
+>  make_no_libbionic   :=3D NO_LIBBIONIC=3D1
+>  make_no_auxtrace    :=3D NO_AUXTRACE=3D1
+>  make_no_libbpf     :=3D NO_LIBBPF=3D1
+> @@ -97,7 +96,6 @@ make_no_libllvm     :=3D NO_LIBLLVM=3D1
+>  make_with_babeltrace:=3D LIBBABELTRACE=3D1
+>  make_with_coresight :=3D CORESIGHT=3D1
+>  make_no_sdt        :=3D NO_SDT=3D1
+> -make_no_syscall_tbl :=3D NO_SYSCALL_TABLE=3D1
+>  make_no_libpfm4     :=3D NO_LIBPFM4=3D1
+>  make_with_gtk2      :=3D GTK2=3D1
+>  make_refcnt_check   :=3D EXTRA_CFLAGS=3D"-DREFCNT_CHECKING=3D1"
+> @@ -122,10 +120,10 @@ make_static         :=3D LDFLAGS=3D-static NO_PERF_=
+READ_VDSO32=3D1 NO_PERF_READ_VDSOX3
+>  # all the NO_* variable combined
+>  make_minimal        :=3D NO_LIBPERL=3D1 NO_LIBPYTHON=3D1 NO_GTK2=3D1
+>  make_minimal        +=3D NO_DEMANGLE=3D1 NO_LIBELF=3D1 NO_BACKTRACE=3D1
+> -make_minimal        +=3D NO_LIBNUMA=3D1 NO_LIBAUDIT=3D1 NO_LIBBIONIC=3D1
+> +make_minimal        +=3D NO_LIBNUMA=3D1 NO_LIBBIONIC=3D1
+>  make_minimal        +=3D NO_LIBDW_DWARF_UNWIND=3D1 NO_AUXTRACE=3D1 NO_LI=
+BBPF=3D1
+>  make_minimal        +=3D NO_LIBCRYPTO=3D1 NO_SDT=3D1 NO_JVMTI=3D1 NO_LIB=
+ZSTD=3D1
+> -make_minimal        +=3D NO_LIBCAP=3D1 NO_SYSCALL_TABLE=3D1 NO_CAPSTONE=
+=3D1
+> +make_minimal        +=3D NO_LIBCAP=3D1 NO_CAPSTONE=3D1
+>
+>  # $(run) contains all available tests
+>  run :=3D make_pure
+> @@ -158,7 +156,6 @@ run +=3D make_no_libdw_dwarf_unwind
+>  run +=3D make_no_backtrace
+>  run +=3D make_no_libcapstone
+>  run +=3D make_no_libnuma
+> -run +=3D make_no_libaudit
+>  run +=3D make_no_libbionic
+>  run +=3D make_no_auxtrace
+>  run +=3D make_no_libbpf
+> diff --git a/tools/perf/util/env.c b/tools/perf/util/env.c
+> index 919fe6f205937cea11318fbf53f592aab7578040..be3081ff6204aa80f2855f5e4=
+184e66412627ad3 100644
+> --- a/tools/perf/util/env.c
+> +++ b/tools/perf/util/env.c
 
-Where does that << 8 come from? It smells like a field inside mode_id? If=
-=20
-that's the case, FIELD_PREP() should be used instead of the open-coded=20
-shift.
+I think this is missing:
+```
+diff --git a/tools/perf/util/env.c b/tools/perf/util/env.c
+index b917bc18e9fe..cae4f6d63318 100644
+--- a/tools/perf/util/env.c
++++ b/tools/perf/util/env.c
+@@ -480,7 +480,7 @@ const char *perf_env__arch(struct perf_env *env)
+        return normalize_arch(arch_name);
+ }
 
-> > > +                                           tunable_attr->feature_id,
-> > > +                                           tunable_attr->device_id }=
-;
-> > > +
-> > > +     err =3D lenovo_wmi_capdata01_get(attr_id, &cap_data);
-> > > +     if (err) {
-> > > +             pr_err("Failed to get capability data: %u\n", err);
-> > > +             return err;
-> > > +     }
-> > > +
-> > > +     if (cap_data.supported < 1)
-> > > +             return -EOPNOTSUPP;
-> > > +
-> > > +     tunable_attr->capdata =3D cap_data;
-> > > +
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +/**
-> > > + * attr_capdata01_show() - Get the value of the specified attribute =
-property
-> > > + * from LENOVO_CAPABILITY_DATA_01.
-> > > + * @kobj: Pointer to the driver object.
-> > > + * @kobj_attribute: Pointer to the attribute calling this function.
-> > > + * @buf: The buffer to write to.
-> > > + * @tunable_attr: The attribute to be read.
-> > > + * @prop: The property of this attribute to be read.
-> > > + *
-> > > + * This function is intended to be generic so it can be called from =
-any "_show"
-> > > + * attribute which works only with integers.
-> > > + *
-> > > + * If the WMI is success, then the sysfs attribute is notified.
-> > > + *
-> > > + * Returns: Either count, or an error.
-> > > + */
-> > > +ssize_t attr_capdata01_show(struct kobject *kobj, struct kobj_attrib=
-ute *attr,
-> > > +                         char *buf, struct tunable_attr_01 *tunable_=
-attr,
-> > > +                         enum attribute_property prop)
-> > > +{
-> > > +     struct capability_data_01 cap_data;
-> > > +     int retval;
-> > > +
-> > > +     cap_data =3D tunable_attr->capdata;
-> > > +
-> > > +     switch (prop) {
-> > > +     case DEFAULT_VAL:
-> > > +             retval =3D cap_data.default_value;
-> > > +             break;
-> > > +     case MAX_VAL:
-> > > +             retval =3D cap_data.max_value;
-> > > +             break;
-> > > +     case MIN_VAL:
-> > > +             retval =3D cap_data.min_value;
-> > > +             break;
-> > > +     case STEP_VAL:
-> > > +             retval =3D cap_data.step;
-> > > +             break;
-> > > +     default:
-> > > +             return -EINVAL;
-> > > +     }
-> > > +     return sysfs_emit(buf, "%u\n", retval);
-> > > +}
-> > > +
-> > > +/* Simple attribute creation */
-> > > +
-> > > +/*
-> > > + * att_current_value_store() - Set the current value of the given at=
-tribute
-> > > + * @kobj: Pointer to the driver object.
-> > > + * @kobj_attribute: Pointer to the attribute calling this function.
-> > > + * @buf: The buffer to read from, this is parsed to `int` type.
-> > > + * @count: Required by sysfs attribute macros, pass in from the call=
-ee attr.
-> > > + * @tunable_attr: The attribute to be stored.
-> > > + *
-> > > + * This function is intended to be generic so it can be called from =
-any
-> > > + * attribute's "current_value_store" which works only with integers.=
- The
-> > > + * integer to be sent to the WMI method is range checked and an erro=
-r returned
-> > > + * if out of range.
-> > > + *
-> > > + * If the value is valid and WMI is success, then the sysfs attribut=
-e is
-> > > + * notified.
-> > > + *
-> > > + * Returns: Either count, or an error.
-> > > + */
-> > > +ssize_t attr_current_value_store(struct kobject *kobj,
-> > > +                              struct kobj_attribute *attr, const cha=
-r *buf,
-> > > +                              size_t count,
-> > > +                              struct tunable_attr_01 *tunable_attr)
-> > > +{
-> > > +     struct capability_data_01 cap_data;
-> > > +     struct lenovo_wmi_om_priv *priv;
-> > > +     int mode =3D SMARTFAN_MODE_CUSTOM;
-> > > +     u32 value;
-> > > +     int err;
-> > > +
-> > > +     struct lenovo_wmi_attr_id attr_id =3D { mode << 8,
-> >
-> > Similar comment about the mode here too.
-> >
-> > > +                                           tunable_attr->feature_id,
-> > > +                                           tunable_attr->device_id }=
-;
-> > > +
-> > > +     err =3D kstrtouint(buf, 10, &value);
-> > > +     if (err) {
-> > > +             pr_err("Error converting value to int: %u\n", err);
-> > > +             return err;
-> > > +     }
-> > > +
-> > > +     cap_data =3D tunable_attr->capdata;
-> > > +
-> > > +     if (value < cap_data.min_value || value > cap_data.max_value)
-> > > +             return -EINVAL;
-> > > +
-> > > +     priv =3D get_first_wmi_priv();
-> > > +     if (!priv)
-> > > +             return -ENODEV;
-> > > +
-> > > +     guard(mutex)(&call_mutex);
-> > > +     err =3D lenovo_wmidev_evaluate_method_2(priv->wdev, 0x0,
-> > > +                                           WMI_METHOD_ID_VALUE_SET,
-> > > +                                           *(int *)&attr_id, value, =
-NULL);
-> > > +
-> > > +     if (err) {
-> > > +             pr_err("Error setting attribute: %u\n", err);
-> > > +             return err;
-> > > +     }
-> > > +
-> > > +     tunable_attr->store_value =3D value;
-> > > +
-> > > +     sysfs_notify(kobj, NULL, attr->attr.name);
-> > > +
-> > > +     return count;
-> > > +};
-> > > +
-> > > +/*
-> > > + * attr_current_value_show() - Get the current value of the given at=
-tribute
-> > > + * @kobj: Pointer to the driver object.
-> > > + * @kobj_attribute: Pointer to the attribute calling this function.
-> > > + * @buf: The buffer to write to.
-> > > + * @tunable_attr: The attribute to be read.
-> > > + *
-> > > + * This function is intended to be generic so it can be called from =
-any "_show"
-> > > + * attribute which works only with integers.
-> > > + *
-> > > + * If the WMI is success, then the sysfs attribute is notified.
-> > > + *
-> > > + * Returns: Either count, or an error.
-> > > + */
-> > > +ssize_t attr_current_value_show(struct kobject *kobj,
-> > > +                             struct kobj_attribute *attr, char *buf,
-> > > +                             struct tunable_attr_01 *tunable_attr)
-> > > +{
-> > > +     struct lenovo_wmi_om_priv *priv;
-> > > +     int mode =3D SMARTFAN_MODE_CUSTOM;
-> > > +     int retval;
-> > > +     int err;
-> > > +
-> > > +     struct lenovo_wmi_attr_id attr_id =3D { mode << 8,
-> >
-> > Same comment about SMARTFAN_MODE_CUSTOM here.
-> >
->=20
-> In this case it may be needed, discussion ongoing in thread 0/4.
->=20
-> > > +                                           tunable_attr->feature_id,
-> > > +                                           tunable_attr->device_id }=
-;
-> > > +
-> > > +     priv =3D get_first_wmi_priv();
-> > > +     if (!priv)
-> > > +             return -ENODEV;
-> > > +
-> > > +     guard(mutex)(&call_mutex);
-> > > +     err =3D lenovo_wmidev_evaluate_method_1(priv->wdev, 0x0,
-> > > +                                           WMI_METHOD_ID_VALUE_GET,
-> > > +                                           *(int *)&attr_id, &retval=
-);
-> > > +
-> > > +     if (err) {
-> > > +             pr_err("Error getting attribute: %u\n", err);
-> > > +             return err;
-> > > +     }
-> > > +
-> > > +     return sysfs_emit(buf, "%u\n", retval);
-> > > +}
-> > > +
-> > > +ATTR_GROUP_LL_TUNABLE_CAP01(ppt_pl1_spl, "ppt_pl1_spl",
-> > > +                         "Set the CPU sustained power limit");
-> > > +ATTR_GROUP_LL_TUNABLE_CAP01(ppt_pl2_sppt, "ppt_pl2_sppt",
-> > > +                         "Set the CPU slow package power tracking li=
-mit");
-> > > +ATTR_GROUP_LL_TUNABLE_CAP01(ppt_pl3_fppt, "ppt_pl3_fppt",
-> > > +                         "Set the CPU fast package power tracking li=
-mit");
-> > > +
-> > > +static const struct capdata01_attr_group capdata01_attr_groups[] =3D=
- {
-> > > +     { &ppt_pl1_spl_attr_group, &ppt_pl1_spl },
-> > > +     { &ppt_pl2_sppt_attr_group, &ppt_pl2_sppt },
-> > > +     { &ppt_pl3_fppt_attr_group, &ppt_pl3_fppt },
-> > > +     {},
-> > > +};
-> > > +
-> > > +static int other_method_fw_attr_add(struct lenovo_wmi_om_priv *priv)
-> > > +{
-> > > +     int err, i;
-> > > +
-> > > +     err =3D fw_attributes_class_get(&fw_attr_class);
-> > > +     if (err) {
-> > > +             pr_err("Failed to get firmware_attributes_class: %u\n",=
- err);
-> > > +             return err;
-> > > +     }
-> > > +
-> > > +     priv->fw_attr_dev =3D device_create(fw_attr_class, NULL, MKDEV(=
-0, 0),
-> > > +                                       NULL, "%s", FW_ATTR_FOLDER);
-> > > +     if (IS_ERR(priv->fw_attr_dev)) {
-> > > +             err =3D PTR_ERR(priv->fw_attr_dev);
-> > > +             pr_err("Failed to create firmware_attributes_class devi=
-ce: %u\n",
-> > > +                    err);
-> > > +             goto fail_class_get;
-> > > +     }
-> > > +
-> > > +     priv->fw_attr_kset =3D kset_create_and_add("attributes", NULL,
-> > > +                                              &priv->fw_attr_dev->ko=
-bj);
-> > > +     if (!priv->fw_attr_kset) {
-> > > +             err =3D -ENOMEM;
-> > > +             pr_err("Failed to create firmware_attributes_class kset=
-: %u\n",
-> > > +                    err);
-> > > +             goto err_destroy_classdev;
-> > > +     }
-> > > +
-> > > +     for (i =3D 0; i < ARRAY_SIZE(capdata01_attr_groups) - 1; i++) {
-> > > +             err =3D attr_capdata01_setup(
-> > > +                     capdata01_attr_groups[i].tunable_attr);
-> > > +             if (err) {
-> > > +                     pr_err("Failed to populate capability data for =
-%s: %u\n",
-> > > +                            capdata01_attr_groups[i].attr_group->nam=
-e, err);
-> >
-> > This specific error could be a bit noisy because it's a dependency on
-> > the other driver in case one attribute returns not supported.
-> >
-> > Could you instead detect EOPNOTSUPP specifically and only show error if
-> > not EOPNOTSUPP?
-> >
->=20
-> Easy fix, will do. I'll also add a wmi_dev_exists() here before the
-> loop to exit early.
->=20
-> > > +                     continue;
-> > > +             }
-> > > +
-> > > +             err =3D sysfs_create_group(&priv->fw_attr_kset->kobj,
-> > > +                                      capdata01_attr_groups[i].attr_=
-group);
-> > > +             if (err) {
-> > > +                     pr_err("Failed to create sysfs-group for %s: %u=
-\n",
-> > > +                            capdata01_attr_groups[i].attr_group->nam=
-e, err);
-> > > +                     goto err_remove_groups;
-> > > +             }
-> > > +     }
-> > > +
-> > > +     return 0;
-> > > +
-> > > +err_remove_groups:
-> > > +     while (i-- > 0) {
-> > > +             sysfs_remove_group(&priv->fw_attr_kset->kobj,
-> > > +                                capdata01_attr_groups[i].attr_group)=
-;
-> > > +     }
-> > > +
-> > > +     return err;
-> > > +
-> > > +err_destroy_classdev:
-> > > +     device_destroy(fw_attr_class, MKDEV(0, 0));
-> > > +
-> > > +     return err;
-> > > +
-> > > +fail_class_get:
-> > > +     fw_attributes_class_put();
-> > > +
-> > > +     return err;
+-#if defined(HAVE_SYSCALL_TABLE_SUPPORT) && defined(HAVE_LIBTRACEEVENT)
++#if defined(HAVE_LIBTRACEEVENT)
+ #include "trace/beauty/arch_errno_names.c"
+ #endif
+```
+as otherwise arch_syscalls__strerrno_function won't be defined below.
 
-I highly suspect the intermediate return errs in the previous labels will=
-=20
-cause leaks. Don't you want to rollback everything on error?
+Thanks,
+Ian
 
---=20
- i.
-
-
-> > > +}
-> > > +
-> > > +static int lenovo_wmi_other_probe(struct wmi_device *wdev, const voi=
-d *context)
-> > > +{
-> > > +     struct lenovo_wmi_om_priv *priv;
-> > > +
-> > > +     priv =3D devm_kzalloc(&wdev->dev, sizeof(*priv), GFP_KERNEL);
-> > > +     if (!priv)
-> > > +             return -ENOMEM;
-> > > +
-> > > +     priv->wdev =3D wdev;
-> > > +
-> > > +     guard(mutex)(&om_list_mutex);
-> > > +     list_add_tail(&priv->list, &om_wmi_list);
-> > > +
-> > > +     return other_method_fw_attr_add(priv);
-> > > +}
-> > > +
-> > > +static void lenovo_wmi_other_remove(struct wmi_device *wdev)
-> > > +{
-> > > +     struct lenovo_wmi_om_priv *priv =3D dev_get_drvdata(&wdev->dev)=
-;
-> > > +
-> > > +     guard(mutex)(&om_list_mutex);
-> > > +     list_del(&priv->list);
-> > > +     kset_unregister(priv->fw_attr_kset);
-> > > +     device_destroy(fw_attr_class, MKDEV(0, 0));
-> > > +     fw_attributes_class_put();
-> > > +}
-> > > +
-> > > +static struct wmi_driver lenovo_wmi_other_driver =3D {
-> > > +     .driver =3D { .name =3D "lenovo_wmi_other" },
-> > > +     .id_table =3D lenovo_wmi_other_id_table,
-> > > +     .probe =3D lenovo_wmi_other_probe,
-> > > +     .remove =3D lenovo_wmi_other_remove,
-> > > +};
-> > > +
-> > > +module_wmi_driver(lenovo_wmi_other_driver);
-> > > +
-> > > +MODULE_IMPORT_NS("CAPDATA_WMI");
-> > > +MODULE_DEVICE_TABLE(wmi, lenovo_wmi_other_id_table);
-> > > +MODULE_AUTHOR("Derek J. Clark <derekjohn.clark@gmail.com>");
-> > > +MODULE_DESCRIPTION("Lenovo Other Method WMI Driver");
-> > > +MODULE_LICENSE("GPL");
-> > > diff --git a/drivers/platform/x86/lenovo-wmi.h b/drivers/platform/x86=
-/lenovo-wmi.h
-> > > index 53cea84a956b..1c8358551ba6 100644
-> > > --- a/drivers/platform/x86/lenovo-wmi.h
-> > > +++ b/drivers/platform/x86/lenovo-wmi.h
-> > > @@ -42,6 +42,14 @@ struct lenovo_wmi_attr_id {
-> > >       u32 device_id : 8; /* CPU/GPU/... */
-> > >   } __packed;
-> > >
-> > > +enum attribute_property {
-> > > +     DEFAULT_VAL,
-> > > +     MAX_VAL,
-> > > +     MIN_VAL,
-> > > +     STEP_VAL,
-> > > +     SUPPORTED,
-> > > +};
-> > > +
-> > >   /* Data struct for LENOVO_CAPABILITY_DATA_01 */
-> > >   struct capability_data_01 {
-> > >       u32 id;
-> > > @@ -52,6 +60,14 @@ struct capability_data_01 {
-> > >       u32 max_value;
-> > >   };
-> > >
-> > > +/* Tunable attribute that uses LENOVO_CAPABILITY_DATA_01 */
-> > > +struct tunable_attr_01 {
-> > > +     struct capability_data_01 capdata;
-> > > +     u32 device_id;
-> > > +     u32 feature_id;
-> > > +     u32 store_value;
-> > > +};
-> > > +
-> > >   /* General Use functions */
-> > >   static int lenovo_wmidev_evaluate_method(struct wmi_device *wdev, u=
-8 instance,
-> > >                                        u32 method_id, struct acpi_buf=
-fer *in,
-> > > @@ -122,4 +138,104 @@ int lenovo_wmidev_evaluate_method_1(struct wmi_=
-device *wdev, u8 instance,
-> > >   int lenovo_wmi_capdata01_get(struct lenovo_wmi_attr_id attr_id,
-> > >                            struct capability_data_01 *cap_data);
-> > >
-> > > +/* Other Method attribute functions */
-> > > +ssize_t attr_capdata01_show(struct kobject *kobj, struct kobj_attrib=
-ute *attr,
-> > > +                         char *buf, struct tunable_attr_01 *tunable_=
-attr,
-> > > +                         enum attribute_property prop);
-> > > +
-> > > +ssize_t attr_current_value_store(struct kobject *kobj,
-> > > +                              struct kobj_attribute *attr, const cha=
-r *buf,
-> > > +                              size_t count,
-> > > +                              struct tunable_attr_01 *tunable_attr);
-> > > +
-> > > +ssize_t attr_current_value_show(struct kobject *kobj,
-> > > +                             struct kobj_attribute *attr, char *buf,
-> > > +                             struct tunable_attr_01 *tunable_attr);
-> > > +
-> > > +ssize_t int_type_show(struct kobject *kobj, struct kobj_attribute *a=
-ttr,
-> > > +                   char *buf);
-> > > +
-> > > +ssize_t int_type_show(struct kobject *kobj, struct kobj_attribute *a=
-ttr,
-> > > +                   char *buf)
-> > > +{
-> > > +     return sysfs_emit(buf, "integer\n");
-> > > +}
-> > > +
-> > > +/* Other Method attribute macros */
-> > > +#define __LL_ATTR_RO(_func, _name)                                  =
-  \
-> > > +     {                                                             \
-> > > +             .attr =3D { .name =3D __stringify(_name), .mode =3D 044=
-4 }, \
-> > > +             .show =3D _func##_##_name##_show,                      =
- \
-> > > +     }
-> > > +
-> > > +#define __LL_ATTR_RO_AS(_name, _show)                               =
-  \
-> > > +     {                                                             \
-> > > +             .attr =3D { .name =3D __stringify(_name), .mode =3D 044=
-4 }, \
-> > > +             .show =3D _show,                                       =
- \
-> > > +     }
-> > > +
-> > > +#define __LL_ATTR_RW(_func, _name) \
-> > > +     __ATTR(_name, 0644, _func##_##_name##_show, _func##_##_name##_s=
-tore)
-> > > +
-> > > +/* Shows a formatted static variable */
-> > > +#define __ATTR_SHOW_FMT(_prop, _attrname, _fmt, _val)               =
-          \
-> > > +     static ssize_t _attrname##_##_prop##_show(                     =
-       \
-> > > +             struct kobject *kobj, struct kobj_attribute *attr, char=
- *buf) \
-> > > +     {                                                              =
-       \
-> > > +             return sysfs_emit(buf, _fmt, _val);                    =
-       \
-> > > +     }                                                              =
-       \
-> > > +     static struct kobj_attribute attr_##_attrname##_##_prop =3D    =
-         \
-> > > +             __LL_ATTR_RO(_attrname, _prop)
-> > > +
-> > > +/* Attribute current_value show/store */
-> > > +#define __LL_TUNABLE_RW_CAP01(_attrname)                            =
-          \
-> > > +     static ssize_t _attrname##_current_value_store(                =
-       \
-> > > +             struct kobject *kobj, struct kobj_attribute *attr,     =
-       \
-> > > +             const char *buf, size_t count)                         =
-       \
-> > > +     {                                                              =
-       \
-> > > +             return attr_current_value_store(kobj, attr, buf, count,=
-       \
-> > > +                                             &_attrname);           =
-       \
-> > > +     }                                                              =
-       \
-> > > +     static ssize_t _attrname##_current_value_show(                 =
-       \
-> > > +             struct kobject *kobj, struct kobj_attribute *attr, char=
- *buf) \
-> > > +     {                                                              =
-       \
-> > > +             return attr_current_value_show(kobj, attr, buf, &_attrn=
-ame);  \
-> > > +     }                                                              =
-       \
-> > > +     static struct kobj_attribute attr_##_attrname##_current_value =
-=3D       \
-> > > +             __LL_ATTR_RW(_attrname, current_value)
-> > > +
-> > > +/* Attribute property show only */
-> > > +#define __LL_TUNABLE_RO_CAP01(_prop, _attrname, _prop_type)         =
-          \
-> > > +     static ssize_t _attrname##_##_prop##_show(                     =
-       \
-> > > +             struct kobject *kobj, struct kobj_attribute *attr, char=
- *buf) \
-> > > +     {                                                              =
-       \
-> > > +             return attr_capdata01_show(kobj, attr, buf, &_attrname,=
-       \
-> > > +                                        _prop_type);                =
-       \
-> > > +     }                                                              =
-       \
-> > > +     static struct kobj_attribute attr_##_attrname##_##_prop =3D    =
-         \
-> > > +             __LL_ATTR_RO(_attrname, _prop)
-> > > +
-> > > +#define ATTR_GROUP_LL_TUNABLE_CAP01(_attrname, _fsname, _dispname)  =
-   \
-> > > +     __LL_TUNABLE_RW_CAP01(_attrname);                              =
-\
-> > > +     __LL_TUNABLE_RO_CAP01(default_value, _attrname, DEFAULT_VAL);  =
-\
-> > > +     __ATTR_SHOW_FMT(display_name, _attrname, "%s\n", _dispname);   =
-\
-> > > +     __LL_TUNABLE_RO_CAP01(max_value, _attrname, MAX_VAL);          =
-\
-> > > +     __LL_TUNABLE_RO_CAP01(min_value, _attrname, MIN_VAL);          =
-\
-> > > +     __LL_TUNABLE_RO_CAP01(scalar_increment, _attrname, STEP_VAL);  =
-\
-> > > +     static struct kobj_attribute attr_##_attrname##_type =3D       =
-  \
-> > > +             __LL_ATTR_RO_AS(type, int_type_show);                  =
-\
-> > > +     static struct attribute *_attrname##_attrs[] =3D {             =
-  \
-> > > +             &attr_##_attrname##_current_value.attr,                =
-\
-> > > +             &attr_##_attrname##_default_value.attr,                =
-\
-> > > +             &attr_##_attrname##_display_name.attr,                 =
-\
-> > > +             &attr_##_attrname##_max_value.attr,                    =
-\
-> > > +             &attr_##_attrname##_min_value.attr,                    =
-\
-> > > +             &attr_##_attrname##_scalar_increment.attr,             =
-\
-> > > +             &attr_##_attrname##_type.attr,                         =
-\
-> > > +             NULL,                                                  =
-\
-> > > +     };                                                             =
-\
-> > > +     static const struct attribute_group _attrname##_attr_group =3D =
-{ \
-> > > +             .name =3D _fsname, .attrs =3D _attrname##_attrs        =
-    \
-> > > +     }
-> > > +
-> > >   #endif /* !_LENOVO_WMI_H_ */
-> >
->=20
---8323328-980477018-1736274079=:1001--
+> @@ -482,13 +482,13 @@ const char *perf_env__arch(struct perf_env *env)
+>
+>  const char *perf_env__arch_strerrno(struct perf_env *env __maybe_unused,=
+ int err __maybe_unused)
+>  {
+> -#if defined(HAVE_SYSCALL_TABLE_SUPPORT) && defined(HAVE_LIBTRACEEVENT)
+> +#if defined(HAVE_LIBTRACEEVENT)
+>         if (env->arch_strerrno =3D=3D NULL)
+>                 env->arch_strerrno =3D arch_syscalls__strerrno_function(p=
+erf_env__arch(env));
+>
+>         return env->arch_strerrno ? env->arch_strerrno(err) : "no arch sp=
+ecific strerrno function";
+>  #else
+> -       return "!(HAVE_SYSCALL_TABLE_SUPPORT && HAVE_LIBTRACEEVENT)";
+> +       return "!HAVE_LIBTRACEEVENT";
+>  #endif
+>  }
+>
+> diff --git a/tools/perf/util/generate-cmdlist.sh b/tools/perf/util/genera=
+te-cmdlist.sh
+> index 1b5140e5ce9975fac87b2674dc694f9d4e439a5f..6a73c903d69050df69267a8ae=
+aeeac1ed170efe1 100755
+> --- a/tools/perf/util/generate-cmdlist.sh
+> +++ b/tools/perf/util/generate-cmdlist.sh
+> @@ -38,7 +38,7 @@ do
+>  done
+>  echo "#endif /* HAVE_LIBELF_SUPPORT */"
+>
+> -echo "#if defined(HAVE_LIBTRACEEVENT) && (defined(HAVE_LIBAUDIT_SUPPORT)=
+ || defined(HAVE_SYSCALL_TABLE_SUPPORT))"
+> +echo "#if defined(HAVE_LIBTRACEEVENT)"
+>  sed -n -e 's/^perf-\([^        ]*\)[   ].* audit*/\1/p' command-list.txt=
+ |
+>  sort |
+>  while read cmd
+> @@ -51,7 +51,7 @@ do
+>             p
+>       }' "Documentation/perf-$cmd.txt"
+>  done
+> -echo "#endif /* HAVE_LIBTRACEEVENT && (HAVE_LIBAUDIT_SUPPORT || HAVE_SYS=
+CALL_TABLE_SUPPORT) */"
+> +echo "#endif /* HAVE_LIBTRACEEVENT */"
+>
+>  echo "#ifdef HAVE_LIBTRACEEVENT"
+>  sed -n -e 's/^perf-\([^        ]*\)[   ].* traceevent.*/\1/p' command-li=
+st.txt |
+> diff --git a/tools/perf/util/syscalltbl.c b/tools/perf/util/syscalltbl.c
+> index 210f61b0a7a264a427ebb602185d3a9da2f426f4..928aca4cd6e9f2f26c5c4fd82=
+5b4538c064a4cc3 100644
+> --- a/tools/perf/util/syscalltbl.c
+> +++ b/tools/perf/util/syscalltbl.c
+> @@ -10,20 +10,12 @@
+>  #include <linux/compiler.h>
+>  #include <linux/zalloc.h>
+>
+> -#ifdef HAVE_SYSCALL_TABLE_SUPPORT
+>  #include <string.h>
+>  #include "string2.h"
+>
+> -#if defined(GENERIC_SYSCALL_TABLE)
+>  #include <syscall_table.h>
+>  const int syscalltbl_native_max_id =3D SYSCALLTBL_MAX_ID;
+>  static const char *const *syscalltbl_native =3D syscalltbl;
+> -#else
+> -const int syscalltbl_native_max_id =3D 0;
+> -static const char *const syscalltbl_native[] =3D {
+> -       [0] =3D "unknown",
+> -};
+> -#endif
+>
+>  struct syscall {
+>         int id;
+> @@ -131,47 +123,3 @@ int syscalltbl__strglobmatch_first(struct syscalltbl=
+ *tbl, const char *syscall_g
+>         *idx =3D -1;
+>         return syscalltbl__strglobmatch_next(tbl, syscall_glob, idx);
+>  }
+> -
+> -#else /* HAVE_SYSCALL_TABLE_SUPPORT */
+> -
+> -#include <libaudit.h>
+> -
+> -struct syscalltbl *syscalltbl__new(void)
+> -{
+> -       struct syscalltbl *tbl =3D zalloc(sizeof(*tbl));
+> -       if (tbl)
+> -               tbl->audit_machine =3D audit_detect_machine();
+> -       return tbl;
+> -}
+> -
+> -void syscalltbl__delete(struct syscalltbl *tbl)
+> -{
+> -       free(tbl);
+> -}
+> -
+> -const char *syscalltbl__name(const struct syscalltbl *tbl, int id)
+> -{
+> -       return audit_syscall_to_name(id, tbl->audit_machine);
+> -}
+> -
+> -int syscalltbl__id(struct syscalltbl *tbl, const char *name)
+> -{
+> -       return audit_name_to_syscall(name, tbl->audit_machine);
+> -}
+> -
+> -int syscalltbl__id_at_idx(struct syscalltbl *tbl __maybe_unused, int idx=
+)
+> -{
+> -       return idx;
+> -}
+> -
+> -int syscalltbl__strglobmatch_next(struct syscalltbl *tbl __maybe_unused,
+> -                                 const char *syscall_glob __maybe_unused=
+, int *idx __maybe_unused)
+> -{
+> -       return -1;
+> -}
+> -
+> -int syscalltbl__strglobmatch_first(struct syscalltbl *tbl, const char *s=
+yscall_glob, int *idx)
+> -{
+> -       return syscalltbl__strglobmatch_next(tbl, syscall_glob, idx);
+> -}
+> -#endif /* HAVE_SYSCALL_TABLE_SUPPORT */
+> diff --git a/tools/perf/util/syscalltbl.h b/tools/perf/util/syscalltbl.h
+> index 2b53b7ed25a6affefd3d85012198eab2f2af550c..362411a6d849b1f67ec54b343=
+45364c04ad90f89 100644
+> --- a/tools/perf/util/syscalltbl.h
+> +++ b/tools/perf/util/syscalltbl.h
+> @@ -3,7 +3,6 @@
+>  #define __PERF_SYSCALLTBL_H
+>
+>  struct syscalltbl {
+> -       int audit_machine;
+>         struct {
+>                 int max_id;
+>                 int nr_entries;
+>
+> --
+> 2.34.1
+>
