@@ -1,26 +1,50 @@
-Received: from mail-m3276.qiye.163.com (mail-m3276.qiye.163.com [220.197.32.76])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463E82594B2
-	for <linux-doc@vger.kernel.org>; Tue,  7 Jan 2025 06:28:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8491F2594B2;
+	Tue,  7 Jan 2025 06:29:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736231331; cv=none; b=i4xLHRbX+Q+YeI+Z23ZiBuZdZ9k6GOxutvET/jckmgVZVn7L1f5bkt+ci7n//VoEMqro7vnymve9beY5Qv0ECH3X/QmaOMTHFM7zT82SjxfvCb8ys+fsCFq2w13of6W9kWnLO6KDklAxc1I5zV+Ha3W4hdYI2EnSC1zDFQcmusE=
+	t=1736231386; cv=none; b=Lp/Zr+di0aUVpIXztSbkPjrGJG9o4Ul4ORyrrNeEY9EwBG+SpDlhXe83jly6169fKeuX6VQbr4Vgo0KVibTkKl22UiWFeUwnlICZklrFT55e1jR8zKeANnqC1Hh1f/WoHq8vXzQq65XlJtAM2OWRvQob6Fn+SSlj/HUZROKnalQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736231331; c=relaxed/simple;
-	bh=KAHPBtnlRV6WbCQhdv0iyLRuIYJXnWxhXqaMqOQmJTY=;
+	s=arc-20240116; t=1736231386; c=relaxed/simple;
+	bh=2ZNBQV83qRYlGIdvmpF5D7UXo7BcBAAFyvP+LUtLJ7w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LGWwYbt5GIPV6rrtdA3WmzJGDFnmXJthQf6F0woySVIjN4BUcHLleyxSaK7H/YJGwCbgYlnrCTUpIm9HDWNsGo2hT+3m9WUu2EaR4DAqHEZVEsTOXyPVdcm7ddBhO6D13CqspcYWcPqyuwQ6TWsUWKZwpdqqdACYRNt/ArUaTIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=BuT7pEfi; arc=none smtp.client-ip=220.197.32.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
+	 In-Reply-To:Content-Type; b=Y6yWCXuq2K+tRJ4ORaXtuYxk8ItTsoQ1fhXOJcDAxRlUNzF7PFQSCCFwgp1/1KDZzY8p/xYsbU+wivudYFYQNgrbs4vXtsXQOMtgZYdRc9KTVP6GSouaiqE9Ovin0UEMCbPU/mr12rIBMuw7aGWPqfZpBFm4EWvqnGpeAgRtBw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UNBWoCvz; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="BuT7pEfi"
-Received: from [192.168.6.2] (unknown [171.8.192.198])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 7ef4fbce;
-	Tue, 7 Jan 2025 13:53:13 +0800 (GMT+08:00)
-Message-ID: <551c040d-4331-4f05-a690-ed1cd2e28490@cqsoftware.com.cn>
-Date: Tue, 7 Jan 2025 13:53:12 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UNBWoCvz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736231385; x=1767767385;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=2ZNBQV83qRYlGIdvmpF5D7UXo7BcBAAFyvP+LUtLJ7w=;
+  b=UNBWoCvzsnJEGqch395+NFIK6PndJBatctHUMd5+zyjvNTFJEd+4f55x
+   kmzoeF3st2KDjNmCe6Cp52x4CnQTDNK/37iibTXS9VVuYiY1nRP9LzlHG
+   6ihHAnQof/BwnOEvzVosC7fGyBa3l+tU0KvWIZVZ0tieEceD+Cr8Q8m7E
+   OgS1ufVDr08UjPSXo3Coq0vTjxumTTRbe6d18Zpi1OXF/bccIGpcOLlcF
+   OSmQACn0UAgI8Z/ebpxGFt7ggpy2wO9ale2rlW83PnbLktyVkkQcKiRTi
+   jko9b3TlCKPZ0m7kZuQzyMtKLHCI+QSYqEKe0eVVQu9bj2iEbaq49jni0
+   w==;
+X-CSE-ConnectionGUID: HH1f5mX4T9uklcF/lg2aVg==
+X-CSE-MsgGUID: zxRoSKnXQs2oN9N315IllQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="61775234"
+X-IronPort-AV: E=Sophos;i="6.12,294,1728975600"; 
+   d="scan'208";a="61775234"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 22:29:44 -0800
+X-CSE-ConnectionGUID: SW9KnGenTBmE8P1OnGYz/Q==
+X-CSE-MsgGUID: qJ2kkw5RQxOVafkwq6rSiA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="106702442"
+Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 22:29:40 -0800
+Message-ID: <150e283f-1858-4282-912d-0bb78719b46b@linux.intel.com>
+Date: Tue, 7 Jan 2025 14:27:39 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -28,65 +52,51 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/zh_CN: Add security credentials Chinese translation
-To: Alex Shi <seakeel@gmail.com>
-Cc: alexs@kernel.org, si.yanteng@linux.dev, corbet@lwn.net,
- zhaoyuehui@cqsoftware.com.cn, zhangwei@cqsoftware.com.cn,
- maoyuxian@cqsoftware.com.cn, linux-doc@vger.kernel.org
-References: <20250103061547.20947-1-zhaoshuo@cqsoftware.com.cn>
- <CAJy-AmmhXThUa3yU4Rc_o8abP06E8MypKTdrcZv6U8Z6A9co-g@mail.gmail.com>
-From: zhaoshuo <zhaoshuo@cqsoftware.com.cn>
-In-Reply-To: <CAJy-AmmhXThUa3yU4Rc_o8abP06E8MypKTdrcZv6U8Z6A9co-g@mail.gmail.com>
+Subject: Re: [PATCH v4 14/14] iommu/arm-smmu-v3: Report events that belong to
+ devices attached to vIOMMU
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
+ joro@8bytes.org, suravee.suthikulpanit@amd.com, robin.murphy@arm.com,
+ dwmw2@infradead.org, shuah@kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ eric.auger@redhat.com, jean-philippe@linaro.org, mdf@kernel.org,
+ mshavit@google.com, shameerali.kolothum.thodi@huawei.com,
+ smostafa@google.com, ddutile@redhat.com, yi.l.liu@intel.com,
+ patches@lists.linux.dev
+References: <cover.1735933254.git.nicolinc@nvidia.com>
+ <69a46c72e43ed086840be462eef731167d90a9d8.1735933254.git.nicolinc@nvidia.com>
+ <585fc99f-c2dc-459c-929a-c7c7631b9caf@linux.intel.com>
+ <Z3wk9TvmUhB3/zlk@Asurada-Nvidia> <Z3yvZsq77bpnaoAb@Asurada-Nvidia>
+ <75456867-8993-4be4-bcdf-14df28fe92cc@linux.intel.com>
+ <Z3zDA3xx6w6dSQY+@Asurada-Nvidia>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <Z3zDA3xx6w6dSQY+@Asurada-Nvidia>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDH04dVh1OTkxCSk1PH0pIQ1YVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKTEpVQ1VKQklVSkJDWVdZFhoPEhUdFFlBWU9LSFVKS0hKT0hMVUpLS1
-	VKQktLWQY+
-X-HM-Tid: 0a943f53077e09d0kunm7ef4fbce
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NAw6NAw5IzILExxCQx8vCTAi
-	KkhPCRFVSlVKTEhNSUlCSkJPTk5PVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
-	WRILWUFZSkxKVUNVSkJJVUpCQ1lXWQgBWUFKSUxPNwY+
-DKIM-Signature:a=rsa-sha256;
-	b=BuT7pEfiYVZY3XTLaXRdTmCo7kUppZco3APkvkgCorxME44pI08K9P96KfQnfK/T+rCNBv4drQn0hdsJ8fIu0xtrjQYw0RDoFWRVFPuBDoH8q5h0aVBN9JD/yg2bF7LifPWTQKmpjZbs0ofaVVyDjfSyBwsqUVkPNn5ZBgnHPj0=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
-	bh=+dX1erblQlPdTOWArhRquFOLCjsmVJwDkHM91Q7Geww=;
-	h=date:mime-version:subject:message-id:from;
 
+On 1/7/25 14:00, Nicolin Chen wrote:
+> On Tue, Jan 07, 2025 at 01:54:00PM +0800, Baolu Lu wrote:
+>> On 1/7/25 12:36, Nicolin Chen wrote:
+>>> +static bool arm_vsmmu_supports_veventq(unsigned int type)
+>>> +{
+>>> +	return type == IOMMU_VIOMMU_TYPE_ARM_SMMUV3;
+>> Do you need to check the hardware capabilities before reporting this? I
+>> am not familiar with the ARM architecture, but typically it's better to
+>> make it like this,
+>>
+>> static bool arm_vsmmu_supports_veventq(struct iommufd_viommu *viommu,
+>>                                         enum iommu_veventq_type type)
+>> {
+>> 	if (type != IOMMU_VEVENTQ_TYPE_ARM_SMMUV3)
+>> 		return false;
+>>
+>> 	if (hardware_not_capable(viommu))
+>> 		return false;
+> I think the ARM version of viommu_alloc op has already implemented
+> enough capability checks and rejected any of hardware_not_capable.
+> So, viommu shouldn't be a thing that the driver could actually use
+> to call this helper 🙂
 
-在 2025/1/7 13:22, Alex Shi 写道:
-> Shuo Zhao <zhaoshuo@cqsoftware.com.cn> 于2025年1月3日周五 14:15写道：
-> ...
->
->> +
->> + 3. 客观上下文
->> +
->> +        此外在这些对象的凭据中，将有一个子集表示对象的“客观上下文”。
->> +        这可能与（2）中相同，也可能不同 —— 例如，在标准的UNIX文件中，
->> +        这是由标记在索引节点上的UID和GID定义的。
->> +
->> +        客观上下文是进行安全计算的一部分，当对象被操作时会用到。
->> +
-> ...
->
->> +
->> + 5. 主观上下文
->> +
->> +        主体对其凭据有一个额外的解释。其凭据的一个子集形成了“主观上下文”。主观
->> +        上下文在主体执行操作时作为安全计算的一部分使用。
->> +
->> +        例如，Linux任务在操作文件时会有FSUID、FSGID和附加组列表 —— 这些凭据
->> +        与通常构成任务的客观上下文的真实UID和GID是相互独立的。
->> +
-> Anyway, I'm still confused on the 客观 and 主观 context, translation. Is
-> it better to use
-> 对象上下文， 主体上下文？
-> No idea.
-
-Yes, this seems to correspond better with the previous text.
-
-
-Thanks,
-
-ZhaoShuo
-
+Okay, fair enough.
