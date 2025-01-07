@@ -1,23 +1,23 @@
-Received: from mail-m49242.qiye.163.com (mail-m49242.qiye.163.com [45.254.49.242])
+Received: from mail-m4920.qiye.163.com (mail-m4920.qiye.163.com [45.254.49.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048B5647
-	for <linux-doc@vger.kernel.org>; Tue,  7 Jan 2025 09:28:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.242
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4261E22E6
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jan 2025 09:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736242123; cv=none; b=ZEJc9n98GLdkqgRGlr2laA+S+awhFbMv2gPn9A3PKgxHMhjeJ8imozHYCv4sYbrCseVwgtFmqAjY9HbdaUFcHBTEZDOWKQGh6NHS1afHK/z913EktVBgi1ZcPgiVgjxPAt4YjHNLqdQVtc20oJxZTmFjwgdv5n2LTZSqCBQ90jk=
+	t=1736242818; cv=none; b=eAQi2M7Q//Ps/wd7cahf8x6JRVKefe5SX/t3eiKNqbwwwX7fXu+SlKype4dt24iFvwbOmF2iTG+rqJfj7Y/jRFLD1fPYmcsC3Znm8jcezcooRMWLZUfAZa28fkzOZpYvO+N8vSD/03K/9phElGmcJI06XUQwqBLU/GnTCjy5If4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736242123; c=relaxed/simple;
-	bh=wDX8RAt2Oc1KUWuhm4B8ODB1H9kiMonK8XpmhxZGXmw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QCU0XDUKinXlG9367Fk649wAqlKmZpKuToHjzuxMKcRxR/LTLK1yjs03o/Sh19ljbkXM+kHAnxLsisOnOc+7UvUZbYckjr0egz2Zv3fUzwGaHGLM34fIce1Bac2hSp0KKu6Euw+lGmS3GU2adfC+3c8Db0232/ucHGHioLm1NSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=HqBTfxQh; arc=none smtp.client-ip=45.254.49.242
+	s=arc-20240116; t=1736242818; c=relaxed/simple;
+	bh=UTuXHtn1KXsO6bPlKZN6/IA2VTiW3V5AiqNRVyPIvnU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SN1Ex9m3NSmuz9y3YnPSOw/hlv9KEecpCnzGLG2hPRMD+Ab2qOzXx2Q1T2Md7GptsMuVPTwNbFmujLLkFDci/tQK9lT734Zpyiz2YlfcMuS77SyLrauCQ81K4RFvAwl0s9/Qjh/6ToOx26YAunwIb97Q7vgjIQnplzv8r5+ccNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=ZQ9st1bK; arc=none smtp.client-ip=45.254.49.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="HqBTfxQh"
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="ZQ9st1bK"
 Received: from fedora.localdomain (unknown [171.8.192.198])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 7f80c40a;
-	Tue, 7 Jan 2025 17:23:19 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 7f54433a;
+	Tue, 7 Jan 2025 16:24:36 +0800 (GMT+08:00)
 From: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
 To: alexs@kernel.org,
 	si.yanteng@linux.dev,
@@ -26,11 +26,10 @@ Cc: zhaoyuehui@cqsoftware.com.cn,
 	zhaoshuo@cqsoftware.com.cn,
 	zhangwei@cqsoftware.com.cn,
 	maoyuxian@cqsoftware.com.cn,
-	linux-doc@vger.kernel.org,
-	Yanteng Si <siyanteng@linux.dev>
-Subject: [PATCH v4] docs/zh_CN: Add security credentials Chinese translation
-Date: Tue,  7 Jan 2025 17:23:17 +0800
-Message-ID: <20250107092318.21371-1-zhaoshuo@cqsoftware.com.cn>
+	linux-doc@vger.kernel.org
+Subject: [PATCH v3] docs/zh_CN: Add security credentials Chinese translation
+Date: Tue,  7 Jan 2025 16:24:32 +0800
+Message-ID: <20250107082433.20810-1-zhaoshuo@cqsoftware.com.cn>
 X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -41,17 +40,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCSEpOVkpCGEgdGBkZGRpITlYVFAkWGhdVEwETFh
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDSUsZVkNOTRkZS0JDTUJCT1YVFAkWGhdVEwETFh
 	oSFyQUDg9ZV1kYEgtZQVlKTEpVQ1VKQklVSkJDWVdZFhoPEhUdFFlBWU9LSFVKS0hKT0hMVUpLS1
 	VKQktLWQY+
-X-HM-Tid: 0a944013635809d0kunm7f80c40a
+X-HM-Tid: 0a943fdd9f9309d0kunm7f54433a
 X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6KzY6GBw4EzIVKRI1ORQiKD41
-	OTIKCRpVSlVKTEhNSU9KQ0tKTU5IVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
-	WRILWUFZSkxKVUNVSkJJVUpCQ1lXWQgBWUFJS0JMSDcG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Ok06PCo4PTIXLRMWGQ8BDU0*
+	LBYKCxVVSlVKTEhNSUhDSUxMTE1KVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSkxKVUNVSkJJVUpCQ1lXWQgBWUFJS0xCSTcG
 DKIM-Signature:a=rsa-sha256;
-	b=HqBTfxQhzePxhQnx9O/jLcRJiHD7i6PgX1AONfSOT1/WODRCD9iPtgIx1XneAgQlbjPQqG3KrTVSMtJvPJpxPJi9Oi4RNGEP5qKC7jqtPgPT7Qt4n2FUeeCCSKgikd2j5BcI1KzA22Xx9UipCfd1BD92UuATK2HL3a5hwdpeX0Q=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
-	bh=w8SFwdqP99VMXplypLCrMHwWoaYYRCxW4bYNv0L2Bnc=;
+	b=ZQ9st1bKcaOAeD1PY4+U0/5XgxOIwSh0m6AZPLcoO3sA37t5D4JsNoA5oQgnWJri3kXKrwq2jEbs6krOkZ07szkB4wDb7W5OqaZRG2PcEHj1hGPFTmYH+WvIcv3WJ3RYiFsbsKBLDy8e5a/3MzeCS/Le6mtX13xl4pEGfdlQKD0=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
+	bh=BfOQshWS7YScOAP4NdTXsaFtXl/JUKmnVg+CpUfqEQI=;
 	h=date:mime-version:subject:message-id:from;
 
 Translate .../security/credentials.rst into Chinese.
@@ -59,22 +58,12 @@ Translate .../security/credentials.rst into Chinese.
 Update the translation through commit cf92ec602ac5
 ("Documentation: remove current_security() reference")
 
-Reviewed-by: Yanteng Si <siyanteng@linux.dev>
-Reviewed-by: Alex Shi <alexs@kernel.org>
 Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
 ---
-
-v4:
-
-Pick up Alex's Reviewed-by tag.
 
 v3:
 
 Revise some translations.
-
-v2:
-
-Modify some formatting and translation.
 
  .../zh_CN/security/credentials.rst            | 479 ++++++++++++++++++
  .../translations/zh_CN/security/index.rst     |   2 +-
