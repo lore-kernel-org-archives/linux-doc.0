@@ -1,78 +1,111 @@
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F13CD1D8DFE;
-	Tue,  7 Jan 2025 21:11:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02A61E1C22
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jan 2025 21:29:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736284268; cv=none; b=O6xw7UvnNF/fzyVovrxqc8NJuL204qmdXrcczobdJKZp4aprpw1t1kmKyGakReAP+f89fbjUICEyY1lJdPvPVK1eAFMulNjP1avVzujnPDhEB5KOexCglSoJAlborayM6/+9/bUzBhFzDARktz6UDFmKpDW7Ab1/rXO0rIMfjgU=
+	t=1736285355; cv=none; b=CBY1oq9A9909nELCTiLriKg1UGDNZPLDJQeNe4tVJfONo3jQkK3K+K6KOjxLvayWcp/HjRk+nQTbjM3q5TTmazDU6w0pRrHrVDzRXaVFjk0ZmTpfMx5rVNEz8m0ocSD0iNJiNYgz9cfEZpOCRNUN8XHcd9FtSZAf81t79zFbWL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736284268; c=relaxed/simple;
-	bh=WfcEzCEVu4DeR2h92Sq0A6eiH0nM6HU/BvVWJyg9gfo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VBVSfLMYv0nATLxP1uet6lqpAyLDAL3Mkm6Fr1Jj5+musqp2jvujzlU03oyjxTm9HMFh/591kGDvNs1Jn8YaIeSKpTLYGWSVjgsxtVCW93rQ576GQp3QmlGZMVkhBCkqDGfdVkcwRLwyQEqfvIEVpLvduD33Oxe3v7DJzhbQN0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=Uf5NZX7/; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
+	s=arc-20240116; t=1736285355; c=relaxed/simple;
+	bh=OsOEHTJ5U5in1wEkrP4n+Apuq2cXdOq92Jbtdpg90hI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dom+eFul9lLWHv6VHeb0zQYCVWOPEtjA9r6T5akujQvKg6SzUqO3rXyYqJ3F6EGdCwXgK2OY5wmWuL/FTBfB1ZsT0CVXDCpoBBdKY1A4jMsyWAjZ6JOwjx114YqiUNfZ2znIkfe0Dc8+sdy5bgVGQauf168E/G2JrkaJOXV7xZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=z6Sh/5ce; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="Uf5NZX7/"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Content-Type:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Lndng4N3lO1ivo9syb5BDhuB4i7UvrhyhygqCR2rS2A=; b=Uf5NZX7/Mi4QtnsOxAyrXmNQtL
-	aBFequoaRBP0u5aZt0Wr4/ZomaFQPqmGRxRW6Ufhhjy05EKZewosHc37L21+tjm2XpZZEc11O5ehB
-	59JUaRVcOjS9kPlcSnSaEefCn6HTwEn1wjUvrVIPVIqbspfEQ32SnQRqaH+hKROfuhVuCmixgSOwR
-	ZDHgysSKj8SkDWZki+r7vXFmXRubzkP0dxVAOmD8emXYof2O3ozJXmcXPc22uA2tSpDBBjIKiqGE6
-	JyKezXKbRuDLDAAnTvFGyLDm9v4NjFueZNnCjKf/XG6cMPO8y+IrRjGNGoMbvIBoSknOuf0vMmUSt
-	DEQpShAA==;
-Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.localnet)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1tVGqe-008hkY-3C;
-	Tue, 07 Jan 2025 15:10:53 -0600
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Peter Zijlstra <peterz@infradead.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
- linux-api@vger.kernel.org, wine-devel@winehq.org,
- =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
- Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
- Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
-Subject: Re: [PATCH v7 00/30] NT synchronization primitive driver
-Date: Tue, 07 Jan 2025 15:10:48 -0600
-Message-ID: <8516093.NyiUUSuA9g@camazotz>
-In-Reply-To: <20250107194241.GC28303@noisy.programming.kicks-ass.net>
-References:
- <20241213193511.457338-1-zfigura@codeweavers.com>
- <2025010738-amicably-art-f746@gregkh>
- <20250107194241.GC28303@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="z6Sh/5ce"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2163affd184so7675ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jan 2025 13:29:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1736285353; x=1736890153; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=f4yvsaQrMUrrq9MPI20igNRxIiF2iJVeY3n5V9os2bg=;
+        b=z6Sh/5ceB0NwLkiWnIoqYHDiSAh73Ct7jJh2OL9brM9gFkWwqYx+JevbsKywt9Ghpr
+         8WhCkMiuoBCQvwybEv7nSwZOKwo8eog/DkYApDpBJ3K9dF4GxGxYr0gpKGUjH0gyLwRa
+         qB+EzKDAX+2RJnYQ2wzLCyfwCY8qDNkikAXPYWVOnBEXjPT9bb/NAK1UGUry00XU4HXI
+         2S0fya6YTwILe/rQA8atOzjqRftAAJwTZcMbSvj8jZmAzS0rnOYoHxmfC8KaYmm+PiSK
+         ue9hvFGgjUI5DtpNF33tLeb/bsIfKYNDgMRzMlbMzbyoYaTuGhpyNsluykbMdT5kLw1Y
+         soYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736285353; x=1736890153;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f4yvsaQrMUrrq9MPI20igNRxIiF2iJVeY3n5V9os2bg=;
+        b=FdjyVCx3um58xTUbJzFsTD9S6fS7Jzs2pWwgReXFj0TyBz+fugjSG81mAp0oSWz0+L
+         ees44adrREzRHaQ5uoRNoP8lcf5ThFFAJFP5NSM/CAouFbkSMwsl/tHsC+/gfvPg1y7M
+         93R1yryFiTEHYIsZ7yZMaT0HGoGFNnNrXwOqtMHa4vIlGAiqY+LR5P3FWquXdzwGUrcm
+         Z1fpBcf/eCjMPK6i49+4frAgW/HqgFZRY9ah4gqP5oTE2A8qbQXyD+XR/Sqr26AcXJy1
+         DXfII8KvxtU1vWs6O2K+gdoAAQxxTR6ozg5Cbz3fZg0cDouNZnsgShfLiwD2V7/YYrHS
+         YoTA==
+X-Forwarded-Encrypted: i=1; AJvYcCVLgS4T71jQJmem2oh2BImb3acyU8ABsibU+OZz5RUW+4eF5Il0CHT5d0nV0aAsz6IMVJk2+XOReJM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzb5JI/Uob+WxulaB+vn1ZutQLxCXuJ0anV1pJhu7kVTZNZsHWJ
+	xKC0FAJ2ntDDENIzXo3C6iKF6GOpGIbjdVH4hVzHqTdjctcqNpGbq2cVXEIS7w==
+X-Gm-Gg: ASbGnctm76Ix76Xui7U2ACuzmtXflajQ+WgvMsGm0Q1bxd+X6+P4sg9GL12NLo+9Ks4
+	Zq/sXsxAjPXq1hT/t4lcFqkSCj3K1qBfR0xki+aCrZAusLXdd88BIfkGRstFzoYqQ0A9wYnYiJr
+	mwY9UMkCwP8JDgboEo7rGLvR59JLGddYWXNWucWuXSUq8sxEFa7CQZvjm1thd++OfeuXEtVRzOS
+	LYzR9wxoXGlvlafwJo1TlsPxX5qtjwN+MqHxQJYfZqQFCYp9hGVexNSu3y0500jWn2/noeDAiEa
+	FMFjemN3Dc9EL7R87RA=
+X-Google-Smtp-Source: AGHT+IEWDsZlogzDB0XzyYchGeAnkHiHP9TjvYM+KlO+Y/4JXyUM5GmM8Qs2UgpL19SqZeUJKwWCXQ==
+X-Received: by 2002:a17:902:fb4f:b0:20c:a55b:aef1 with SMTP id d9443c01a7336-21a840fd5damr504765ad.6.1736285353131;
+        Tue, 07 Jan 2025 13:29:13 -0800 (PST)
+Received: from google.com (57.145.233.35.bc.googleusercontent.com. [35.233.145.57])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad8fccd5sm34019862b3a.168.2025.01.07.13.29.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jan 2025 13:29:12 -0800 (PST)
+Date: Tue, 7 Jan 2025 21:29:08 +0000
+From: Carlos Llamas <cmllamas@google.com>
+To: Li Li <dualli@chromium.org>
+Cc: dualli@google.com, corbet@lwn.net, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	donald.hunter@gmail.com, gregkh@linuxfoundation.org,
+	arve@android.com, tkjos@android.com, maco@android.com,
+	joel@joelfernandes.org, brauner@kernel.org, surenb@google.com,
+	arnd@arndb.de, masahiroy@kernel.org, bagasdotme@gmail.com,
+	horms@kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+	hridya@google.com, smoreland@google.com, kernel-team@android.com
+Subject: Re: [PATCH v11 2/2] binder: report txn errors via generic netlink
+Message-ID: <Z32cpF4tkP5hUbgv@google.com>
+References: <20241218203740.4081865-1-dualli@chromium.org>
+ <20241218203740.4081865-3-dualli@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241218203740.4081865-3-dualli@chromium.org>
 
-On Tuesday, 7 January 2025 13:42:41 CST Peter Zijlstra wrote:
-> On Tue, Jan 07, 2025 at 06:06:03PM +0100, Greg Kroah-Hartman wrote:
-> > Given a lack of complaints, I've now applied this to my testing tree.
-> > Thanks for sticking with it!
-> 
-> Right, so I acked v6, which wasn't preserved. The v7 changes are minor
-> and seem fine (IIRc I even suggested them some very very long time ago).
+On Wed, Dec 18, 2024 at 12:37:40PM -0800, Li Li wrote:
+> From: Li Li <dualli@google.com>
 
-I wasn't sure it was fine to preserve the ack across changes (even if they were the ones you suggested) and decided to err on the safe side.
+> @@ -6137,6 +6264,11 @@ static int binder_release(struct inode *nodp, struct file *filp)
+>  
+>  	binder_defer_work(proc, BINDER_DEFERRED_RELEASE);
+>  
+> +	if (proc->pid == proc->context->report_portid) {
+> +		proc->context->report_portid = 0;
+> +		proc->context->report_flags = 0;
 
-Thank you for the review!
+Isn't ->portid the pid from the netlink report manager? How is this ever
+going to match a certain proc->pid here? Is this manager supposed to
+_also_ open a regular binder fd?
 
+It seems we are tying the cleanup of the netlink interface to the exit
+of the regular binder device, correct? This seems unfortunate as using
+the netlink interface should be independent.
 
+I was playing around with this patch with my own PoC and now I'm stuck:
+  root@debian:~# ./binder-netlink
+  ./binder-netlink: nlmsgerr No permission to set flags from 1301: Unknown error -1
+
+Is there a different way to reset the protid?
+
+--
+Carlos Llamas
