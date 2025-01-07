@@ -1,127 +1,141 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 778AA1E0084
-	for <linux-doc@vger.kernel.org>; Tue,  7 Jan 2025 21:41:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C371A8411;
+	Tue,  7 Jan 2025 22:13:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736286090; cv=none; b=TlT0M5WiXN/vHXSglDWqZrtsTePQnH5cDih8BjvbpwyvgZ5BDmGnv0Sbs5QAnNIPtXNSnsblPTRVpnPA8NVu12v6Dk3C6aknydZ05cpK1LAz0YaG3OmG247nObojKhQbtGD2geVsTNBumgPEYo76o2GAHhdAA6bnTYdC8ypOgns=
+	t=1736288039; cv=none; b=lmAyI/z551e8V9b1XBNPVmdnMRVXcSSEx+/HUQhcaKw50JkSSu0tHfE5EmtBNuqCWvAeCxJsyMiw7CvhwaYCEzJwfpqXEYmFB4pbUvUdHHzIfnyY7tDIQ3v/5UPJ4cX76nhkohz19cSo75gfqngoxi9fma8WzA237mwx5Cm6fUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736286090; c=relaxed/simple;
-	bh=lpWKviEZo4bxM8FXJ8znVcvZY1r1EUP8KwYPFjPwLkY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qfv5cuTbfkbWlBTTQ1aEQUPpywI4jwAezc0jXMHYkmI3eUeyY5Ou0UwP5S4e/c6t8mn5hp89RNdsjZhr5BgrZBie8BDKVBGehLyRnPxLolgcgRg/6NlC7UKaGxqGpLKmnBq1gRUSIKYpMgQ90EAAqXYPy12VomdHa6IZCOkLxwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rJKqu2bQ; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1736288039; c=relaxed/simple;
+	bh=HdwVvS5YRWYy+X66YIRHR2jVXTWZeiPKiRtuluGslOM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AZx8LXklNVgwxy7vPcxvXHEhYpQ26zac0pJmaP2keL4S3d5OVC9R3U4/6l4t8avoo22r/O4xHVKfTK+2Z4KYM2kjrk+O9WVnGyn6u4nOCNoe2CHIGrHUHwvayr4Xl8jmvu7Xk6mCyEDDD1ObZdIBLqg6rCSw0cwoYYky6KD59qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OpgPdyoI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rJKqu2bQ"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-215740b7fb8so39885ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 07 Jan 2025 13:41:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736286089; x=1736890889; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=unXEBPo8awHZ2Z1rF9jBBJWiHGlrbX40mqZQQ+A6Pko=;
-        b=rJKqu2bQcea7guTbC2FPbTVj9vl7Z3T9HB6kDwRdZKmW+kRcuM6s+EPqNkETQfNZTC
-         OICOgzg9L7NWOiMGE0AY5AqWgw02vSjz3YNRZJSagIxo/yKFQ0TGDjyEmUTSlc0Gza9A
-         vrcMD4pzlGRLS9tZfp7JxJrx4FZUZwkGFIA4kUJgykw82p0/Y51UrqWLrO9cweULhQOv
-         D7xay0ikT0Y8lbTIcubMdjad84oGj8wEo0Ie56+DWxwXP+j9ZeOw0ZCrCpyUEJSK2Wgv
-         u17tyOkwZ5XrKw8ouzRHbqGurmd4+ecneGnoEeckw2qbTBTO0q3/3cwi4DaiFma57+eY
-         /j2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736286089; x=1736890889;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=unXEBPo8awHZ2Z1rF9jBBJWiHGlrbX40mqZQQ+A6Pko=;
-        b=WXbJVX8ui9KpPxWqFwg8ZtJiPkVD4RVa34VLkHVUND/sGt2oILAn2buXZhfTtJa44a
-         V3rY3rPzdeU93ryYFYNdnfUcZe6ZQMswGCu+xoK3mN+x+kOHI1s+a+G11CWafl09kvuk
-         IQa4zvZDl4FCUA/nvOP7xbxPaQ94gE+gXJo5G+8DfW0e4gDrYy1/VWJVr8j62qSREDWm
-         YFxFrhJ5PFiiuH/LSit8TWhWNZLVvBnHiICQxlN++P8/YlbkTuwOvMI590rAh418OYNx
-         xdbXaUcSuBQjzfWfL1FrrIcL3H2af9O8jKF62TDBlEuVsDbZn5kNwPiKZn6/pPE0KCLw
-         NX5g==
-X-Forwarded-Encrypted: i=1; AJvYcCU5QiOoD03FuvM+6Uz6D6ddJtLFCbrabV5ZP0AwbjjpLl2YldsaMg/BOW+ztdRMaEbT+kBzxdJejUY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzo8IvdDHVHCi6VusEh0LtSLqgp3FPdT2U+3PrKqj7zH78wVzwi
-	tjJgprGTKrIpQam5RAzN27KHkWKN6MoaP5r2oZf1W/CNGtZ47YmDATKJouG15A==
-X-Gm-Gg: ASbGnctZdLM8l1vSk2qjEHB3/tqgyuU81WkgdInIniIGfraYEr9peQCBc3YUu2nUGAn
-	uJUUmk/RkPhOGbUBts2kOFmjjPLNDDdqGACfiCWYHfrg/Uga/0Co9T7HSvWzvxaePMHkFXWkGcf
-	59kMrxP0kIeOw4ws6DycLA3WfxYWjxD4row9xiUWiGjdmgKPgSPm79H5/bs5gNVT99l8YtxbflI
-	RIYFNXMpv48CxbyvQVvT68svqTMcZKFNGT0Q2XJc5IEmI/tq5w5ZSMKlKOAhK16mLKRaLoJ8gkt
-	pKadrz8OiDjH9+0P5YY=
-X-Google-Smtp-Source: AGHT+IG3hEhfXeKWewYxbqr5NVyNbPqv0I027EJ/i4H/5/AUmYmTqt4fR8mqPv9GpwTbRhwaYzCZDw==
-X-Received: by 2002:a17:902:fa4f:b0:20c:f40e:6ec3 with SMTP id d9443c01a7336-21a84189e0emr559145ad.22.1736286088554;
-        Tue, 07 Jan 2025 13:41:28 -0800 (PST)
-Received: from google.com (57.145.233.35.bc.googleusercontent.com. [35.233.145.57])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc963103sm316291215ad.52.2025.01.07.13.41.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jan 2025 13:41:28 -0800 (PST)
-Date: Tue, 7 Jan 2025 21:41:24 +0000
-From: Carlos Llamas <cmllamas@google.com>
-To: Li Li <dualli@chromium.org>
-Cc: dualli@google.com, corbet@lwn.net, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	donald.hunter@gmail.com, gregkh@linuxfoundation.org,
-	arve@android.com, tkjos@android.com, maco@android.com,
-	joel@joelfernandes.org, brauner@kernel.org, surenb@google.com,
-	arnd@arndb.de, masahiroy@kernel.org, bagasdotme@gmail.com,
-	horms@kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-	hridya@google.com, smoreland@google.com, kernel-team@android.com
-Subject: Re: [PATCH v11 2/2] binder: report txn errors via generic netlink
-Message-ID: <Z32fhN6yq673YwmO@google.com>
-References: <20241218203740.4081865-1-dualli@chromium.org>
- <20241218203740.4081865-3-dualli@chromium.org>
- <Z32cpF4tkP5hUbgv@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OpgPdyoI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52376C4AF0B;
+	Tue,  7 Jan 2025 22:13:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736288039;
+	bh=HdwVvS5YRWYy+X66YIRHR2jVXTWZeiPKiRtuluGslOM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=OpgPdyoI/qXFxuUK81gR/mdcIXwSac7xdGwvvzlqkTsJ7l/XMqD8X/V4uak7N+RBH
+	 w+22MTJmLffp6nc/8w+LcZgGQIcyOWBeklFCU814y1beSb2mZjEbMb4P9JL+Ub/WnI
+	 +8gObIc0+nZP/apsne0U+LSf9xyhuIL1hz7lXKlP44B/pPAyV1OcMpU64Jcb2MsNTK
+	 En67oY+tT0jTfLQIylts6UNtBikn9/hOWuS5gJ6mQBjkcmT9W3fyT2f5qih2eqPjeX
+	 Iho/V/uK8PKVhoMPKHzwtmNy52IfuUJWscCISuTCV8QMmArMT0URbw0f9rw+z1aUpQ
+	 E98VKc5MYxhYg==
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e5372a2fbddso24460954276.3;
+        Tue, 07 Jan 2025 14:13:59 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV5LmQqL2MmQefaBUMtEDTwSNEGpnyW13v63bkYNNvRRXN2e6B8PWZsFrhrDoKC+dXHf7sp49t8ayM9K1pJ@vger.kernel.org, AJvYcCX69jgWFMTnIs9j4szhlPNdbat52Uqb45cSkX6lZbA0VDw/aOhV5bvI3uIJ1wghvMPFsQK27Eh+DvE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2IQ43r8yo3FRwrPJD5AnIztSzXnWfTaUtWwcrBnUZwSfXwabm
+	BhGt5eFGM91mK8f1rsUdh1uzjjzIS6dS1kr8Nw43v33WR33VPRwD270oiimIaAnEmBFU7bCgr9Y
+	ziYgiAhzRr0lzFDQvfXvDUiMtXw==
+X-Google-Smtp-Source: AGHT+IFsh1HXmQAP2bGRyE7hz1zGs5lIpyqneBnIDxdxSA54RLNAftmVAVswBtYnrPy5s6t9RW1k/So8Ym4UnckSWiI=
+X-Received: by 2002:a05:690c:4509:b0:6ef:4a57:fc98 with SMTP id
+ 00721157ae682-6f5312246ebmr6224027b3.16.1736288038565; Tue, 07 Jan 2025
+ 14:13:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z32cpF4tkP5hUbgv@google.com>
+References: <20241220072240.1003352-1-anshuman.khandual@arm.com>
+ <20250102160402.GB3990035-robh@kernel.org> <Z30adHnQ7ZFaU9UR@arm.com>
+In-Reply-To: <Z30adHnQ7ZFaU9UR@arm.com>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 7 Jan 2025 16:13:47 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLLnh1o4L1=PpNt5brBwZZCgp7mOygByOYakchrzc29Ow@mail.gmail.com>
+X-Gm-Features: AbW1kvYLKFdW_S3KNw6GmCK3ZvUZjTNYLuDcgaEWTnLEiyEGd8fjimnTAOW_1VM
+Message-ID: <CAL_JsqLLnh1o4L1=PpNt5brBwZZCgp7mOygByOYakchrzc29Ow@mail.gmail.com>
+Subject: Re: [PATCH 0/7] arm64/boot: Enable EL2 requirements for FEAT_PMUv3p9
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>, linux-arm-kernel@lists.infradead.org, 
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, Ryan Roberts <ryan.roberts@arm.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Oliver Upton <oliver.upton@linux.dev>, 
+	Jonathan Corbet <corbet@lwn.net>, Eric Auger <eric.auger@redhat.com>, kvmarm@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 07, 2025 at 09:29:08PM +0000, Carlos Llamas wrote:
-> On Wed, Dec 18, 2024 at 12:37:40PM -0800, Li Li wrote:
-> > From: Li Li <dualli@google.com>
-> 
-> > @@ -6137,6 +6264,11 @@ static int binder_release(struct inode *nodp, struct file *filp)
-> >  
-> >  	binder_defer_work(proc, BINDER_DEFERRED_RELEASE);
-> >  
-> > +	if (proc->pid == proc->context->report_portid) {
-> > +		proc->context->report_portid = 0;
-> > +		proc->context->report_flags = 0;
-> 
-> Isn't ->portid the pid from the netlink report manager? How is this ever
-> going to match a certain proc->pid here? Is this manager supposed to
-> _also_ open a regular binder fd?
-> 
-> It seems we are tying the cleanup of the netlink interface to the exit
-> of the regular binder device, correct? This seems unfortunate as using
-> the netlink interface should be independent.
-> 
-> I was playing around with this patch with my own PoC and now I'm stuck:
->   root@debian:~# ./binder-netlink
->   ./binder-netlink: nlmsgerr No permission to set flags from 1301: Unknown error -1
-> 
-> Is there a different way to reset the protid?
-> 
+On Tue, Jan 7, 2025 at 6:13=E2=80=AFAM Catalin Marinas <catalin.marinas@arm=
+.com> wrote:
+>
+> On Thu, Jan 02, 2025 at 10:04:02AM -0600, Rob Herring wrote:
+> > On Fri, Dec 20, 2024 at 12:52:33PM +0530, Anshuman Khandual wrote:
+> > > This series adds fine grained trap control in EL2 required for FEAT_P=
+MUv3p9
+> > > registers like PMICNTR_EL0, PMICFILTR_EL0, and PMUACR_EL1 which are a=
+lready
+> > > being used in the kernel. This is required to prevent their EL1 acces=
+s trap
+> > > into EL2.
+> > >
+> > > PMZR_EL0 register trap control i.e HDFGWTR2_EL2.nPMZR_EL0 remains unc=
+hanged
+> > > for now as it does not get accessed in the kernel, and there is no pl=
+an for
+> > > its access from user space.
+> > >
+> > > I have taken the liberty to pick up all the review tags for patches r=
+elated
+> > > to tools sysreg update from the KVM FGT2 V2 patch series posted earli=
+er.
+> > >
+> > > https://lore.kernel.org/all/20241210055311.780688-1-anshuman.khandual=
+@arm.com/
+> > >
+> > > Rob had earler mentioned about FEAT_FGT2 based trap control requireme=
+nt for
+> > > FEAT_PMUv3p9 registers that are currently being used in kernel. The c=
+ontext
+> > > can be found here.
+> > >
+> > > https://lore.kernel.org/all/20241216234251.GA629562-robh@kernel.org/
+> > >
+> > > This series is based on v6.13-rc3
+> > >
+> > > Cc: Catalin Marinas <catalin.marinas@arm.com>
+> > > Cc: Will Deacon <will@kernel.org>
+> > > Cc: Marc Zyngier <maz@kernel.org>
+> > > Cc: Ryan Roberts <ryan.roberts@arm.com>
+> > > Cc: Mark Rutland <mark.rutland@arm.com>
+> > > Cc: Mark Brown <robh@kernel.org>
+> > > Cc: Rob Herring <robh@kernel.org>
+> > > Cc: Oliver Upton <oliver.upton@linux.dev>
+> > > Cc: Jonathan Corbet <corbet@lwn.net>
+> > > Cc: Eric Auger <eric.auger@redhat.com>
+> > > Cc: kvmarm@lists.linux.dev
+> > > Cc: linux-doc@vger.kernel.org
+> > > Cc: linux-kernel@vger.kernel.org
+> > > Cc: linux-arm-kernel@lists.infradead.org
+> > >
+> > > Anshuman Khandual (7):
+> > >   arm64/sysreg: Update register fields for ID_AA64MMFR0_EL1
+> > >   arm64/sysreg: Add register fields for HDFGRTR2_EL2
+> > >   arm64/sysreg: Add register fields for HDFGWTR2_EL2
+> > >   arm64/sysreg: Add register fields for HFGITR2_EL2
+> > >   arm64/sysreg: Add register fields for HFGRTR2_EL2
+> > >   arm64/sysreg: Add register fields for HFGWTR2_EL2
+> > >   arm64/boot: Enable EL2 requirements for FEAT_PMUv3p9
+> >
+> > In case it is not clear, this series should be applied to 6.13 as the 2
+> > PMUv3p9 features already landed in 6.13 (per counter EL0 control) and
+> > 6.12 (ICNTR).
+>
+> So is this a fix that needs backporting to 6.12 or 6.13, e.g. fix for
+> d8226d8cfbaf ("perf: arm_pmuv3: Add support for Armv9.4 PMU instruction
+> counter")? It's pretty late in the cycle to take the series for 6.13.
 
-Furthermore, this seems to be a problem when the report manager exits
-without a binder instance, we still think the report is enabled:
+Ideally, yes. But given the state of h/w implementations, backporting
+it later is probably fine if that is your preference.
 
-[  202.821346] binder: Failed to send binder netlink message to 597: -111
-[  202.821421] binder: Failed to send binder netlink message to 597: -111
-[  202.821304] binder: Failed to send binder netlink message to 597: -111
-[  202.821306] binder: Failed to send binder netlink message to 597: -111
-[  202.821387] binder: Failed to send binder netlink message to 597: -111
-[  202.821464] binder: Failed to send binder netlink message to 597: -111
-[  202.821467] binder: Failed to send binder netlink message to 597: -111
-[  202.821344] binder: Failed to send binder netlink message to 597: -111
-[  202.822513] binder: Failed to send binder netlink message to 597: -111
-[  202.822152] binder: Failed to send binder netlink message to 597: -111
-[  202.822683] binder: Failed to send binder netlink message to 597: -111
-[  202.822629] binder: Failed to send binder netlink message to 597: -111
+> But does KVM actually expose the feature to EL1 in ID_AA64DFR1_EL1 and
+> than traps it at EL2?
+
+As Marc pointed out KVM only advertises PMUv3.8. Regardless, guest
+accesses to these registers are trapped with or without this series.
+
+Rob
