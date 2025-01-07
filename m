@@ -1,96 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486DF1F5406;
-	Tue,  7 Jan 2025 16:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAF849652
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jan 2025 16:48:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736268167; cv=none; b=XLjT0/BsufRY/P44ut92Bwo4SgoMIIz/NbF9/gRgZDvC7M+lG/WIiyA8uEY/GPaGcKS5p0GPCfXYaeDOuXMM005NNu1xHeOK9dtY34qIr2+5TNTZPcvUOYCwQ4qn+EDBqt9e+QGeOX8MAQY4T+ePuDxjvV/BpBXoGTNjH8q72zo=
+	t=1736268504; cv=none; b=B7OPNMkN4A4OR/MPAGEN7gn7JpW2xXPfT/Hg8VZJZflOyGKUSr1OR03LKmhMO1aOYvK0ur8tbDO5OeiUn9vahJdWofPTCxlcvAG+SaCfGXzzdYCRdaZj+xUxWVkH0kxiBcaXxJmgXI7vL16BSNJ5Lk5NwOICt34dpBUXKId1MD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736268167; c=relaxed/simple;
-	bh=7m9srgpMEiXCY3EwU421KJCD1mkHAQtbO2dhdmFCRw0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uf8IWaYsX3VXWvS8IaV5uxVSyKJYjKfez5JdP+k8aGtfoW6XoTujqeICliO8dlYTSIR8oByq/QphUNVfWyxLUZCDOjiiOoUN+JQxR0x6f3ikF7uOkQguYnkNsmOFzc0Shnna7OsDO24yigLOOeFuCQUXNz45fx8FiqGVTqyKRTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CWF6m7NP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736268504; c=relaxed/simple;
+	bh=nAdNZglN2eO4OkvGU3IXwgna8Nskk9l2fhG//Xse65Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ChXlaGhgU6VNV+bKSHpeWM0F6lDc0bwaT4Y+1fgPyka+47+EHZWZXBi/x0hLAW+eazQtSrSWoJzPSh54S8IV0r9HViDRisqyiYCaaZPklz2kFdl4/RHg6UEyciihBsEZle3ftDj+q7UU6kzyngml3sZErJFxpzyDua8lElJ4xpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=S8PQbwgz; arc=none smtp.client-ip=209.85.210.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CWF6m7NP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F22AC4CED6;
-	Tue,  7 Jan 2025 16:42:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736268167;
-	bh=7m9srgpMEiXCY3EwU421KJCD1mkHAQtbO2dhdmFCRw0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CWF6m7NPfxEG40b4664zvEnm1bLBbYX24kosBrfehIi+uCYikhhmwIgk8aX6vTd3M
-	 WX73/yYf7UoE0cTeCqfXrk4UF9hU0ugpJGt/sStNIL4JTMessrl/tX5ZXJMkQntu2s
-	 dP7uYqFoQDO1Is5Q9HmqxckBWzw84D67zhOsV1gnEh7EHT/clAiHIH9jE2IhW5wdYZ
-	 czkQPMsMiZ1jtXLgnhrabVozQQE/fGQ18EJxYvdPTxa817TFIT+y/bO+QKs//XuRRa
-	 IL8Pzfqr1VbRW7vrYKgqIQ/jM4tsj2FH3aL+3iofcfaDbEpFg+kYGWWS3LnDEEYI/l
-	 +FQTBg+LuFrNA==
-From: Will Deacon <will@kernel.org>
-To: Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Mark Brown <broonie@kernel.org>
-Cc: kernel-team@android.com,
-	Will Deacon <will@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 0/9] arm64: Support 2024 dpISA extensions
-Date: Tue,  7 Jan 2025 16:42:38 +0000
-Message-Id: <173626298431.2741856.11908646584681839796.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20241211-arm64-2024-dpisa-v4-0-0fd403876df2@kernel.org>
-References: <20241211-arm64-2024-dpisa-v4-0-0fd403876df2@kernel.org>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="S8PQbwgz"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-71e17ab806bso8384239a34.2
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jan 2025 08:48:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736268501; x=1736873301; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=t2CMOR/p6KhjwdOJ+daE2KH7z8aBE6xeU8fSpxafapw=;
+        b=S8PQbwgzcxrh4EhaHyFV70m7F/TmiputzPKzMtWqFrsUuam2nzZP2arVJg+7yuOSD2
+         PRKlkz97QrbzJ16ylMVJFDZnvOfk+56nDukJyNRnzhT9MzVEu5BsDLSkUsbRhQ6j0c+0
+         Ici9fq3HarAduCxnTUgZbSiy6UPuQP9qPRGYu/tOL1xg4KcNa29ajHCqnSd0INOANayA
+         DqPdNfrtzwd4KFLEG/LZptSOHKdn+ZhvCMPGuRAvsLb777P42FqEtnyZ1YPKfn0iqAN9
+         3A2ARymBXWhTrJZX0O0iIzFmwKtCXh+6nlWNVqA76zTqrp9PD4kP+CjIxoZFTHcbmOzB
+         Vxgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736268501; x=1736873301;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=t2CMOR/p6KhjwdOJ+daE2KH7z8aBE6xeU8fSpxafapw=;
+        b=oB8fOCbQz7oxVuvxYLZrBq2CPXG3PA09TQpDTXjgeOc6B8NIIKiCeRA/dmF93wTC/h
+         U/RnU6gMsX4JjM4vzOeDzENp/QSQcr88lyayVj/R6DT/vt7jue4kVwTzyyMiDeFgeEYC
+         S8q9eWt2Wag/NYkgpZF0AEv4Id5Fl1PUV0TMIq296QoBTi/+HktmuQGMHPv4gPHTgMqx
+         M1p9+vrlF3rZp00sMmU9Bh/z4d9pW04pFn48FpmHLNUdDzvEqG0vghI0VBWhPRdT5Egy
+         nTnXKZywst8JXD4PzV9u+ArLawk6WHacM6slzMLHLVEzzlJmhpgZG4B05fzMIW3XH+i8
+         2XBg==
+X-Forwarded-Encrypted: i=1; AJvYcCUWM178TzyE4x4OGbQvbyTfpF/+wpsAZk3DsETN/5rNpq53slkTMhTEgKdAM49O2ggLKfPEfk34sKU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0nVuH5H7eXQInTH1gx5mZtYqy035HWnReCP/WBOHHiykwEibj
+	jJ8VvSl+0BxmwvQh5CNbnHYBKkmTzlT4LrLv7a/kPMWX4A7eA5fLqN/3Gudm4rs=
+X-Gm-Gg: ASbGncu0v0HyJ3lk98sA1vCbVRMBT2WtVDDaMMXaeYCbSK41EmV89GS6dMneocq7kzX
+	vl/ntcRm7Iu0YcCTE8anM5Ht/+hQLbvbeMyHofl5qAlh6KGzrtbehNQWVTkaIfVKN6M1l9Xd8qR
+	/PoXZC14H4kQYBUi+6e4hAxQDBcalJ3b2YCOZ3LpC84/O+PJe2u3Ew3jEXM6JX5WEv+9pwQhZG5
+	9SSuFiOsgcqlR4p02GIOpN4Lx6umLIcXWQfjFuRQdccWI7GSaL2rvf4cfzpz+0B3SatbQT/zxqT
+	BOxQgPgCFzkVkfPi0g==
+X-Google-Smtp-Source: AGHT+IHII89kez2WQk20utvd/AETbzX49+VrbyvKcDMVkyyN63b1MuFUr+kVHHKqUXgjrhD1B7itbw==
+X-Received: by 2002:a05:6830:3108:b0:71a:5f45:ac3f with SMTP id 46e09a7af769-720ff67da00mr42829898a34.2.1736268500853;
+        Tue, 07 Jan 2025 08:48:20 -0800 (PST)
+Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-71fc976ba23sm10397861a34.1.2025.01.07.08.48.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Jan 2025 08:48:19 -0800 (PST)
+Message-ID: <e3ef72e6-4f39-488f-9aaa-2bbc91e43bc4@baylibre.com>
+Date: Tue, 7 Jan 2025 10:48:18 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/5] iio: adc: ad7380: do not use
+ iio_device_claim_direct_scoped anymore
+To: Julien Stephan <jstephan@baylibre.com>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20250107-ad7380-add-alert-support-v3-0-bce10afd656b@baylibre.com>
+ <20250107-ad7380-add-alert-support-v3-1-bce10afd656b@baylibre.com>
+From: David Lechner <dlechner@baylibre.com>
+Content-Language: en-US
+In-Reply-To: <20250107-ad7380-add-alert-support-v3-1-bce10afd656b@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 11 Dec 2024 01:02:45 +0000, Mark Brown wrote:
-> The 2024 architecture release includes a number of data processing
-> extensions, mostly SVE and SME additions with a few others.  These are
-> all very straightforward extensions which add instructions but no
-> architectural state so only need hwcaps and exposing of the ID registers
-> to KVM guests and userspace.
+On 1/7/25 2:48 AM, Julien Stephan wrote:
+> Conditionnal scoped handlers are turning out to be a real pain:
+> readability issues, compiler and linker handling issues among others so
+> rollback and remove the scoped version of iio_dvice_claim_direct_mode.
 > 
+> To impove code readability factorize code to set oversampling ratio.
 > 
-> [...]
+> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+> ---
 
-For the sysreg definitions that Marc's fantastic script is happy with,
-applied to arm64 (for-next/cpufeature), thanks!
+FYI, might want to hold off on this until we see how [1] ends up.
 
-[1/9] arm64/sysreg: Update ID_AA64PFR2_EL1 to DDI0601 2024-09
-      https://git.kernel.org/arm64/c/1ad9a56442a0
-[2/9] arm64/sysreg: Update ID_AA64ISAR3_EL1 to DDI0601 2024-09
-      https://git.kernel.org/arm64/c/054339beae58
-[3/9] arm64/sysreg: Update ID_AA64FPFR0_EL1 to DDI0601 2024-09
-      https://git.kernel.org/arm64/c/12b5ff517a19
-[4/9] arm64/sysreg: Update ID_AA64ZFR0_EL1 to DDI0601 2024-09
-      https://git.kernel.org/arm64/c/9a43ee864349
+[1]: https://lore.kernel.org/linux-iio/20250105172613.1204781-1-jic23@kernel.org/
 
-[6/9] arm64/sysreg: Update ID_AA64ISAR2_EL1 to DDI0601 2024-09
-      https://git.kernel.org/arm64/c/d66e21d59ed0
-
-The KVM patch needs an Ack from the maintainers and the hwcap change
-probably needs checking in light of [1].
-
-Cheers,
--- 
-Will
-
-[1] https://lore.kernel.org/r/20250106174020.1793678-1-maz@kernel.org
-
-https://fixes.arm64.dev
-https://next.arm64.dev
-https://will.arm64.dev
