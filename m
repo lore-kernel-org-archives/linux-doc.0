@@ -1,67 +1,122 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D0439FF3;
-	Tue,  7 Jan 2025 13:51:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D6D1F1922;
+	Tue,  7 Jan 2025 14:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736257864; cv=none; b=C2+BNgS05Fk/eigVZClW5XpAewkrwLGwURs/ZcKef2KDiCMh7A0wopryf9t/b3kwO8Ax3LGUEB70GDqkq4z/BjU3D9uD11FYck2TRxzPzEcpIAbPY6wB5fC4hqN1h44zPqcasghDq39WIT3B1QAKqLPTZnt0BonH9f+YRDp6JIM=
+	t=1736261558; cv=none; b=Zt2vK1HzdS3bzKcOCTU4S18sgerQHgP26Hacoop2kBt6XxbMVdHJvFAIfEuhcx1FXps1KUJ0mgDZ1p4WKcmVKIqEnrn18Hf43DK8lt0rHtkaes67XiD8DLbufJEu2zVQ2mpbz+mEyuHBmQoyciFVTLMcGIXa04vaD7E9f6YGeEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736257864; c=relaxed/simple;
-	bh=v6R+8psuWm2S8FVjNAFp1FwJQEmIC5d0m8nBQCiuZfQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IIzO6HH7fH8ZabkN965Gpz2geegAAqktJ+0Rh1/fumwmkFRaKtL/95lgzink2sYATiHtfIytNyURkJm5VrFTCxzpwUbv3zfDY4ssUao+kR7XSlfvKa8HWdWfDuFrPemMl1e+fyV53EPhuXbOBdC9VyiDTTrIeudOCqOUnajIr1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YSC8t1PCcz6J6bt;
-	Tue,  7 Jan 2025 21:49:50 +0800 (CST)
-Received: from frapeml500005.china.huawei.com (unknown [7.182.85.13])
-	by mail.maildlp.com (Postfix) with ESMTPS id 00FF31409EA;
-	Tue,  7 Jan 2025 21:50:55 +0800 (CST)
-Received: from china (10.200.201.82) by frapeml500005.china.huawei.com
- (7.182.85.13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 7 Jan
- 2025 14:50:43 +0100
-From: Gur Stavi <gur.stavi@huawei.com>
-To: <sumang@marvell.com>
-CC: <andrew+netdev@lunn.ch>, <cai.huoqing@linux.dev>, <corbet@lwn.net>,
-	<davem@davemloft.net>, <edumazet@google.com>, <gongfan1@huawei.com>,
-	<guoxin09@huawei.com>, <gur.stavi@huawei.com>, <helgaas@kernel.org>,
-	<horms@kernel.org>, <kuba@kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <meny.yossefi@huawei.com>,
-	<netdev@vger.kernel.org>, <pabeni@redhat.com>, <shenchenyang1@hisilicon.com>,
-	<shijing34@huawei.com>, <wulike1@huawei.com>, <zhoushuai28@huawei.com>
-Subject: RE: [EXTERNAL] [PATCH net-next v03 1/1] hinic3: module initialization and tx/rx logic
-Date: Tue, 7 Jan 2025 16:03:42 +0200
-Message-ID: <20250107140342.3553459-1-gur.stavi@huawei.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <SJ0PR18MB5216BED17023369322EE4A6ADB152@SJ0PR18MB5216.namprd18.prod.outlook.com>
-References: <SJ0PR18MB5216BED17023369322EE4A6ADB152@SJ0PR18MB5216.namprd18.prod.outlook.com>
+	s=arc-20240116; t=1736261558; c=relaxed/simple;
+	bh=MOH868ngW9dUOwN4thFNX1TPcOFJP2qf8DZugGyoX8g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BdpK0Ax56ueHgCmqJuPEGmrvu4lD4i29jhwVizQ5FBQgBia+iUVs8HurMxMMwV/qVHyWtk7KAD76U5Ivrtwz31B4ju96NQ/glsW5BSMelFFyfceDEz/2nGiaPAsy+QM8OgXrMFqEFnP1FongVPX7rZaIpuKCLXUh/2fN7a2c9EU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kU3/lptp; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kU3/lptp"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-aa6b4cc7270so2264526366b.0;
+        Tue, 07 Jan 2025 06:52:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736261555; x=1736866355; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qy9mDmEp3duyQlRFahCU21spYZivWlH+YgZaad61gT0=;
+        b=kU3/lptpCfQs5ohBFmomLBRl6kMYTJ24fbXdic9GAxa6oorF7llMAMXhDEt2FL/Rt6
+         /0d41whm9KhpRPQx8Uaiiw12Ptdmv/TJJ4EJItOe4O4QC7Rbv5SEGJbmkZJwzjVIG38o
+         1+3LMYXVZ6KY5zix+cfcv9bndlNlus2Pe4ZJLhWWIW25awz+LG3zdqV3ZUyXx0VIVdoT
+         M9pUT6YvUsIJ9lReY9X9IhLTJMzGgBg2P8bVuO03f1L6o5R/upx4LSw+kPPdoBGX4xTe
+         puoqT2SKAVsLtPmL6KBPlWXj6NTTIUA40o8+p5JbdJycAi4p5uCogJaNC4/VSHSUSnWJ
+         RQjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736261555; x=1736866355;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qy9mDmEp3duyQlRFahCU21spYZivWlH+YgZaad61gT0=;
+        b=fjjk87hcpBsKU65nvlk5yDrXKDy/Oh/1yVY1Ikr1Xuc66SrbebDlYYpjHSROKkXK9H
+         6IrCAVogLdlmCXnwvjGCpBApT1pFd/qtzC+wFixWkz0O0EKsrY7nLGqLLYHOV3alI1G2
+         7tGx8YADaw3eL4zXn6JDvv10cJR8JvtJT8lkRHsZUBNVAVKF+5vA+Ete7y4jTmCY1HE2
+         zmCxh150ZyJN4aM8eEWvdF0bUCVlPz+Ai1goGEnijZIWPJgjnlY3nV6o+KkbmyR6+BqZ
+         ojOua858dDz554+BSjDu0GJNDIjm/e/o6fBKzig5MUATggtUdx3plDFazTOnjryNQrUq
+         ntmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUIIG6Q/xIFGO47jbQ0MMgxRwWyjJjSPL9SwGVVBiE7pkuI5+SzTo58qPY+JpaoJfBLy7fHVvjX@vger.kernel.org, AJvYcCUmcYIehdG2HJlff6oEW3mFULirQI9lf4PjDh2TH+GxKY1b3tozvVkhP78gd3jEZtKIY0f9tcFyTN4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxm8Y4MUb04hvoPjTo4KFtFa6Jt5SnxJEgEHyUzMZ8zJagFjCSV
+	wU9ujgMd8JK+s/PssYJ/5GXgvUvorNNcAlV4sbq6j6u4UHZazdoit7S2kaNW0yweKegc1NS2eSy
+	Pon0AjanFQ5R6/Qr1JUWPg7uaEEo=
+X-Gm-Gg: ASbGncsDphxnRGaH9E1wKedMnQe4IzVaOyDUcXOSxz4UoZyqecwULfCxq7qATD3PeGv
+	GDYUwjIcr/Uw3nZGzr2qNlt9lMmosovXF2BBLzdk=
+X-Google-Smtp-Source: AGHT+IFr4AsIDZ/804Oq5/41YNjTqilp4vsNEac0k/8HSVxc03qpEYsbHpINeUQ1HRthjeTyKuJxDj81+FPOXYB8j+o=
+X-Received: by 2002:a50:cc48:0:b0:5d3:cf89:bd3e with SMTP id
+ 4fb4d7f45d1cf-5d81de1c92cmr120964554a12.30.1736261554968; Tue, 07 Jan 2025
+ 06:52:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- frapeml500005.china.huawei.com (7.182.85.13)
+References: <20250103150325.926031-1-ap420073@gmail.com> <20250103150325.926031-3-ap420073@gmail.com>
+ <20250106184854.4028c83d@kernel.org> <20250106190456.104e313e@kernel.org>
+In-Reply-To: <20250106190456.104e313e@kernel.org>
+From: Taehee Yoo <ap420073@gmail.com>
+Date: Tue, 7 Jan 2025 23:52:23 +0900
+Message-ID: <CAMArcTUZA=Ox5VgSG1+PqErrLwqXkiT1JOY7gzuXBUOJw_2HKA@mail.gmail.com>
+Subject: Re: [PATCH net-next v7 02/10] net: ethtool: add support for
+ configuring hds-thresh
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com, 
+	almasrymina@google.com, donald.hunter@gmail.com, corbet@lwn.net, 
+	michael.chan@broadcom.com, andrew+netdev@lunn.ch, hawk@kernel.org, 
+	ilias.apalodimas@linaro.org, ast@kernel.org, daniel@iogearbox.net, 
+	john.fastabend@gmail.com, dw@davidwei.uk, sdf@fomichev.me, 
+	asml.silence@gmail.com, brett.creeley@amd.com, linux-doc@vger.kernel.org, 
+	netdev@vger.kernel.org, kory.maincent@bootlin.com, 
+	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
+	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
+	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
+	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
+	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
+	willemb@google.com, daniel.zahka@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> >+static int comm_msg_to_mgmt_sync(struct hinic3_hwdev *hwdev, u16 cmd,
-> >const void *buf_in,
-> >+				 u32 in_size, void *buf_out, u32 *out_size)
-> >+{
-> >+	return hinic3_send_mbox_to_mgmt(hwdev, HINIC3_MOD_COMM, cmd,
-> >buf_in,
-> >+					in_size, buf_out, out_size, 0);
-> >+}
-> [Suman] Any reason we need this wrapper? We can directly call hinic3_send_m=
-> box_to_mgmt() from hinic3_func_reset()
+On Tue, Jan 7, 2025 at 12:04=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
 
-This wrapper is used frequently (10 times or more) and it reduces number
-of parameters from 8 to 6.
+Hi Jakub,
+Thanks a lot for the review!
 
-> >+
+> On Mon, 6 Jan 2025 18:48:54 -0800 Jakub Kicinski wrote:
+> > >   * @module_fw_flash_in_progress: Module firmware flashing is in prog=
+ress.
+> > > @@ -1141,6 +1148,7 @@ int ethtool_virtdev_set_link_ksettings(struct n=
+et_device *dev,
+> > >  struct ethtool_netdev_state {
+> > >     struct xarray           rss_ctx;
+> > >     struct mutex            rss_lock;
+> > > +   u32                     hds_thresh;
+> >
+> > this value is checked in devmem.c but nothing ever sets it.
+> > net/ethtool/rings.c needs to handle it like it handles
+> > dev->ethtool->hds_config
+>
+> Oh, I see you set it in the driver in patch 8.
+> That should work, my only concern is that this is not how
+> any of the other ethtool config options work today.
+> And there isn't any big warning in the code here telling
+> driver authors that they are responsible for the state update.
+>
+> So even tho your patches are correct I still think it's better
+> to handle it like hds_config, just for consistency.
+
+Thanks, I will set hds_thresh in the ethnl_set_rings() like the hds_config.
+So, I will remove code setting hds_thresh in the netdevsim and bnxt driver.
+Also, I will change the comments of hds_thresh and hds_thresh_max to
+your suggestion!
+
+Thank you so much!
+Taehee Yoo
