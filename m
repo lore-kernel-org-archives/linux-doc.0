@@ -1,115 +1,130 @@
-Received: from mail-m49225.qiye.163.com (mail-m49225.qiye.163.com [45.254.49.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08E41E0DE5
-	for <linux-doc@vger.kernel.org>; Tue,  7 Jan 2025 10:59:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.225
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F2F148838;
+	Tue,  7 Jan 2025 11:13:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736247574; cv=none; b=TS0umbrtJ/XP3sjicE5GagKknrZ2j9FTSvEXR9234/Ub4mP5vurrsJ8Ix2qqZi7Z6dfDt9zQ7fuXYtivrHd+AXjvfGl6xVIUWPiA65BDe07Wn9e9a27NjQD3ihN/iCNr29AB0lWLVBItrewZWRH/81/kIV0hZ5S647rQ6tRgjoM=
+	t=1736248421; cv=none; b=Tm3SalvoIMUw2zRmGnnoIwenxLHXrZJ+/Qsg9QLkQIlQC7qMbdLjlGHObjNbk3Iu8jDkMvUTDA92WDBpm7jSaPu5WdEIk2LYgIgQO48HGaKhZTSlC4zWjKrrqCNVEOolP0SXLPJNQzK7TC5GaFh/c0IMcoDDFoAuXU9F92bT7CU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736247574; c=relaxed/simple;
-	bh=0a9DJmMTV7rJesITGO76xi+z8Ln+aQ0a6FD2bUv+B2s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=doQQCv9Kh1bQQHzG3lfXItfjug+mQG+XopgzyRRaRl9KuShVqRPywFwBafcSOQ4WAuQo2HBAUyocTMRLWpLVm2RWltWtFKvAHjs1PII+6dDFAe64fYhgJH4ETT2zRu467PA2Vwy5vOfs/xR6d+gmSSDLYSTYem67yVdPnWQY8HI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=BY/4DKME; arc=none smtp.client-ip=45.254.49.225
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
+	s=arc-20240116; t=1736248421; c=relaxed/simple;
+	bh=6XE/aliWGr+W26o2fjUc7Z25p+2CU6ECbOVEjcYQUIo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eoPkNf5L5kzc39ULOHt0cB03drBj72CKsfUWD9KHDyWQdJO5uu/v13tC4GInj2Dnqpw0Sb4KWA6uzUebcbO7/8VDFGgvjGwKE4bcAUzWyGDsMvu7IVEsoi4pPukQRN4xJ6tNvp4PStqie9KnyJfP43Q0E5ENiluZ7xAXIyVRxVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f2jBYZxG; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="BY/4DKME"
-Received: from fedora.localdomain (unknown [171.8.192.198])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 7ee19620;
-	Tue, 7 Jan 2025 13:16:42 +0800 (GMT+08:00)
-From: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
-To: alexs@kernel.org,
-	si.yanteng@linux.dev,
-	corbet@lwn.net
-Cc: zhaoyuehui@cqsoftware.com.cn,
-	zhaoshuo@cqsoftware.com.cn,
-	zhangwei@cqsoftware.com.cn,
-	maoyuxian@cqsoftware.com.cn,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] docs/zh_CN: Add security lsm-development Chinese translation
-Date: Tue,  7 Jan 2025 13:16:39 +0800
-Message-ID: <20250107051640.23347-1-zhaoshuo@cqsoftware.com.cn>
-X-Mailer: git-send-email 2.47.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f2jBYZxG"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5d7e3f1fc01so3149572a12.2;
+        Tue, 07 Jan 2025 03:13:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736248417; x=1736853217; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Mr/GzVDnk1vhkDYSLmfDLR/Vh+afBQJAWF7/ClflUCc=;
+        b=f2jBYZxGwdZA+IyB2BNEEIk6jKkUIc8tOht0pllgCegkrJcHH2phQ0rzI0erGCQ9oA
+         gIkii9X+yqEamrUccoSg+sizpmEVrenGxfBC4rD+PJlvzhEO4VI2GsJaKp5D8wR2sv3H
+         gFdURjtlpxE8IZEin5oXuGGEqwhW9atweqobULzscrJ+c4J2EV7XN9aHhpE3s07YePKD
+         oxj9l7blapODNCuDLPp9iA/Pic7SGnG9SHo53uXFsFk29gAUo+Kis9IFx2bU+VE2VmH8
+         O8Zp014bFudDIcxsKM3B6WaCLfXo4Cb68Hn7X8UmdQ4+nYBZcyNeP9sveJr05sLqwHS5
+         FUHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736248417; x=1736853217;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Mr/GzVDnk1vhkDYSLmfDLR/Vh+afBQJAWF7/ClflUCc=;
+        b=c/k2UTJva6KAK7ai/+M+iB6ld4pIYAm1H17jnxoMn2KH+3m37twEVa1tqUcIzqAz2b
+         +bkTo4VvlCN9Lm4nMuoL3mBlvWwRIsBpVD0HSolqHyHdbN8VK3oNZd9lUV6L+NLa0iBP
+         4QRzfrT1nGsjJGRy3Cq27Iww2Je8HNuNLdAfscXa2AqedVxnR5KkodJ/iDzC02LrMbjb
+         8dkTVKDsdPWkzOC2JK3iWD7PtnB9ia58NdZXmeXejXQvwXyY+PM44q9qJMQ92l7TwkXH
+         Cbl9s6CcUveyJso0UjEtqGp+/+lgflgwaKIAvU3I60MgP+Wwfibz1Bew2pifD2ktEPuu
+         JIjg==
+X-Forwarded-Encrypted: i=1; AJvYcCUC/phCYDZO2CW0ZEWLI89nmB1fy9KXRz3Jsc4zEh7LBqhzmPnjxUWwgxj5Fm+sh0tKf1dTTGXVUjdcCcL9@vger.kernel.org, AJvYcCUQK17cfA5rzAo8mYCw/kS4YTP+wvjmrg0RgGnir4bObV6T8vaLPsEH0wlkJsisjUCEOlV5Rp/IJQOCc6lcyA==@vger.kernel.org, AJvYcCVYZ3FFWKv2PBL/frv3en6oPRNEZsgQHkwxdDhh/Fq/yd/AX+IQAfiylD9n4DAztf9nH226t+w8Zno=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYJx14wH2MHxT13zJm8O6OHPV9gt1dhRwYVYftaS8aqR9b3uxn
+	bDssxbQFHx/6R0rxgtj36pwXP6t1wJ7WEllBbFyqzRGyqlv3mg0PFq03BRrApyiPH7MF0XfOi8p
+	BV8n5dzdqDbCg0FWFj7QJg83MqSpxMZRi+H0=
+X-Gm-Gg: ASbGncszF77vi+Ta9sUKuLnZujXN0MS81aoTr5Y1O3mncR2+cw6cXr7OA0xWVL573vY
+	q5UU7zmdUQlo9SfI7zZUUl4obUdJzaI1A66ZkWQ==
+X-Google-Smtp-Source: AGHT+IHZOZuGh+Cq1RVbbzN662zcy1YLAMdsH19pgW8fy9okRskaf6pwCzHbHpwNVgGdw916i0lU9B/Y72Gdu/rdaCk=
+X-Received: by 2002:a05:6402:528a:b0:5d3:f141:ccf6 with SMTP id
+ 4fb4d7f45d1cf-5d81de16c82mr57619463a12.32.1736248416238; Tue, 07 Jan 2025
+ 03:13:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaT0NOVk1MHkIeHUxNSx9NQ1YVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKTEpVQ1VKQklVSkJDWVdZFhoPEhUdFFlBWU9LSFVKS0hKT0hMVUpLS1
-	VKQktLWQY+
-X-HM-Tid: 0a943f31999409d0kunm7ee19620
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PT46NAw5FjIXMRwSGD84Gh0j
-	Ly5PFDZVSlVKTEhNSUlMS0tITkJMVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
-	WRILWUFZSkxKVUNVSkJJVUpCQ1lXWQgBWUFJSkxKNwY+
-DKIM-Signature:a=rsa-sha256;
-	b=BY/4DKMEB5vc2BbuasYB49VHSEKe5CHGlNn2DPwm7B4N/XmgbWu1V3Yuf7okTM1WTfq+6QrugdX7qqvqQdc3o7SFh7itNdyfaQDAVI6eCdksWc07znoBedmUkNwGNNHVhEf82XumSmgT1sz97E6o+lqclN/H0A9b6Nac9sOz5ac=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
-	bh=tQ27GM3Y6kmVER1Sj7w2dJaIm87FHGQbUwTVfjoSKe0=;
-	h=date:mime-version:subject:message-id:from;
+References: <cf07f705d63f04ebf7ba4ecafdc9ab6f63960e3d.1736239148.git.geert+renesas@glider.be>
+In-Reply-To: <cf07f705d63f04ebf7ba4ecafdc9ab6f63960e3d.1736239148.git.geert+renesas@glider.be>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Tue, 7 Jan 2025 12:13:25 +0100
+X-Gm-Features: AbW1kvYLrDdrgGevJS4mpM4stjr2b9nsS6FuxuvYsZ9qIZgGsUE-v-JWNUQx-d4
+Message-ID: <CAOQ4uxjESOJsb2GDx-c==_cLtF=wqtDAprcDmjwiq25hyzQFwA@mail.gmail.com>
+Subject: Re: [PATCH] overlayfs.rst: Fix and improve grammar
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Jonathan Corbet <corbet@lwn.net>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-unionfs@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Translate .../security/lsm-development.rst into Chinese.
+On Tue, Jan 7, 2025 at 9:45=E2=80=AFAM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+>   - Correct "in a way the" to "in a way that",
+>   - Add a comma to improve readability.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Update the translation through commit 6d2ed653185b
-("lsm: move hook comments docs to security/security.c")
+Acked-by: Amir Goldstein <amir73il@gmail.com>
 
-Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
----
- .../translations/zh_CN/security/index.rst     |  2 +-
- .../zh_CN/security/lsm-development.rst        | 19 +++++++++++++++++++
- 2 files changed, 20 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/security/lsm-development.rst
+John,
 
-diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
-index c30d4e0210d1..5842568585a0 100644
---- a/Documentation/translations/zh_CN/security/index.rst
-+++ b/Documentation/translations/zh_CN/security/index.rst
-@@ -18,6 +18,7 @@
-    credentials
-    IMA-templates
-    lsm
-+   lsm-development
-    sak
-    siphash
-    digsig
-@@ -26,7 +27,6 @@
- TODOLIST:
- * snp-tdx-threat-model
- * keys/index
--* lsm-development
- * SCTP
- * self-protection
- * tpm/index
-diff --git a/Documentation/translations/zh_CN/security/lsm-development.rst b/Documentation/translations/zh_CN/security/lsm-development.rst
-new file mode 100644
-index 000000000000..7ed3719a9d07
---- /dev/null
-+++ b/Documentation/translations/zh_CN/security/lsm-development.rst
-@@ -0,0 +1,19 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/security/lsm-development.rst
-+
-+:翻译:
-+ 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
-+
-+=================
-+Linux安全模块开发
-+=================
-+
-+基于https://lore.kernel.org/r/20071026073721.618b4778@laptopd505.fenrus.org，
-+当一种新的LSM的意图（它试图防范什么，以及在哪些情况下人们会期望使用它）在
-+``Documentation/admin-guide/LSM/`` 中适当记录下来后，就会被接受进入内核。
-+这使得LSM的代码可以很轻松的与其目标进行对比，从而让最终用户和发行版可以更
-+明智地决定那些LSM适合他们的需求。
-+
-+有关可用的 LSM 钩子接口的详细文档，请参阅 ``security/security.c`` 及相关结构。
--- 
-2.47.1
+Please take this patch via the documentation tree,
+as I have no overlayfs patches queued for v6.14.
 
+Thanks,
+Amir.
+
+> ---
+>  Documentation/filesystems/overlayfs.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/file=
+systems/overlayfs.rst
+> index 4c8387e1c88068fa..a93dddeae199491a 100644
+> --- a/Documentation/filesystems/overlayfs.rst
+> +++ b/Documentation/filesystems/overlayfs.rst
+> @@ -266,7 +266,7 @@ Non-directories
+>  Objects that are not directories (files, symlinks, device-special
+>  files etc.) are presented either from the upper or lower filesystem as
+>  appropriate.  When a file in the lower filesystem is accessed in a way
+> -the requires write-access, such as opening for write access, changing
+> +that requires write-access, such as opening for write access, changing
+>  some metadata etc., the file is first copied from the lower filesystem
+>  to the upper filesystem (copy_up).  Note that creating a hard-link
+>  also requires copy_up, though of course creation of a symlink does
+> @@ -549,8 +549,8 @@ Nesting overlayfs mounts
+>
+>  It is possible to use a lower directory that is stored on an overlayfs
+>  mount. For regular files this does not need any special care. However, f=
+iles
+> -that have overlayfs attributes, such as whiteouts or "overlay.*" xattrs =
+will be
+> -interpreted by the underlying overlayfs mount and stripped out. In order=
+ to
+> +that have overlayfs attributes, such as whiteouts or "overlay.*" xattrs,=
+ will
+> +be interpreted by the underlying overlayfs mount and stripped out. In or=
+der to
+>  allow the second overlayfs mount to see the attributes they must be esca=
+ped.
+>
+>  Overlayfs specific xattrs are escaped by using a special prefix of
+> --
+> 2.43.0
+>
+>
