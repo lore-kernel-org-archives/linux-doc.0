@@ -1,64 +1,65 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89BB91DFD8F
-	for <linux-doc@vger.kernel.org>; Tue,  7 Jan 2025 08:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4311E0B7D
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jan 2025 08:48:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736239712; cv=none; b=KZ0lxglkwfRKJV/d48dNujIxIM8bIelTZjNkKMZ8icG9TnMjWnt7CVU7kgz1b93myAIoPaoeaB2Px1We2KcAhe6npT7bsqqsA2MdCm7904NkP6TtutQLGMmZQ6Ro3iWqp7OzfLMSfnXEoaulL4ky3DrfRFLCCrJKOqlq4HSYsyw=
+	t=1736239714; cv=none; b=cq9Wr6yO61bnYBEs7p4rf9afi+TdxeE0CE5rUT/vjJgkF4z+clhFR3reHmTAzSJeydbv9a8T05W4fqfhtTZ1IY+2kteLFlHvhcxWJ77jF+gqCaLy1ZDd1Nq4Rt/DQSZtx9gSQFNh/f4MUk50PELVrLVzB5Y6+r6idYHXugL6Eac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736239712; c=relaxed/simple;
-	bh=JScDeqYbIVgdtvzMG6HJz7Q+oqkApB4u2j+TWaPzgQw=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=bcmIsp68o0K9cbEg/eUHgC0+io8WtDk55Ok/GmUnD18hDXWP1peuwUAEtmLqY/7pMftcamhKjYfjmlbUsPCOdNRRYObAmGoO/VFcl5Fej3aKdTdLt2afYOtA+NNaS8/2CRQoiqRPbYYopk/2qhnXRjd3NKH3chsYeafZ4RRjEqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Y6vAod/9; arc=none smtp.client-ip=209.85.221.66
+	s=arc-20240116; t=1736239714; c=relaxed/simple;
+	bh=OpXFBqIRxayWYy838v0tIReyzOHoFPXkfb3RieMBDm0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=pIot6e7mqWmxcgDsmcrcONReOYepsCyLzS55cBo2JQTkANhpmlkLdqZq8E5whC1qhHfHS9PJ+qTz3sp18hoecxYNpjW45g3MDi5iLu/0PlSz9xfrEH3exoDNBlYhqMSUPNEsxsFSilX62XcLpgi8OsxgObGgGLvqvRejMZ4YWn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=C3DYJO4L; arc=none smtp.client-ip=209.85.128.68
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Y6vAod/9"
-Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-385e1fcb0e1so8357660f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 07 Jan 2025 00:48:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="C3DYJO4L"
+Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-43624b2d453so156999225e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jan 2025 00:48:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736239706; x=1736844506; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9ItiK4KQmv9BFEgfm1xUxikYdoeP+k/ONB82cnNZD4I=;
-        b=Y6vAod/9DK8x6lgzZVd8nwPX+mzhIvKx0HF5wLpGwu/HjSc6huWwVGq55nFsE/2L2k
-         bDk27FU1n7Ar7wAd3wsWwwc/ilRbBkD3YDxCGgbJMt5mlIZlFs2MyoctkfV0+VXsORQP
-         QdAldbRfmbzwk4H+WUyI+gL1Dyfk5zEjmcamHMM8IhDxVeEWccXefrY6NVYBf6uh1SFf
-         jQMITWvJEh5DvdkZZxLq6fVfcujM00g9RijNUZBBq2gLZJQyP4PSjqsd7NiZ4AY+lXFH
-         46AA3ef7IIquz00wmq0YHNCIIuCd+HFJ0IrwddljQnIq/IW7upx7IglOnQnIgdJoFt0W
-         bvuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736239706; x=1736844506;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736239709; x=1736844509; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9ItiK4KQmv9BFEgfm1xUxikYdoeP+k/ONB82cnNZD4I=;
-        b=YE4czpZ+3u661anYPMQHxp+yUni8/Qo5LtNtniQCwiEboXo95ZRbpbw1jCScv+jm2T
-         YGEbrWB1kdt47qIqjYvyHEfuZuwI75WSqPttyETpzVnfX/8Dw5CtbXLrsNvFLiKCgrnb
-         hobExTZSKP6cqgMAWBhMHcoUyotaFFJ9ppOAEc/Tx55/g6WP4/47F4n27VVDvMUH49Jt
-         z17Bb+ChkTzaWJ6yHP9B+GLKgc/xhMK5IzuQ3Y71RpouXInjdq10X61T91UFK2QFgcqP
-         jwgmNOeJ8oLiQoFNbZ+X9J7xUxTHakoFZm+IVT3/RVe1EGQHoJbYFBbUQEqQuRJSmkrm
-         +qhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWE+DmHD3ZI59j0UuruzrkOqvv55b0IChtswTbaHqxLOUv//jqKAuj4c8Qks9UD51eQ+7JEa3LXjPE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyeHii85E1oyjyWBBGmL5WmBKbbHokOStBd6wjxXQJkFz+O9Gf5
-	ZPhigVnmfbt4LFb5vYfBheaP9V6fDMEaYTfvaDxHj8KU96CyEyyxKRV8Ls58KJM=
-X-Gm-Gg: ASbGncvs3OgyU+ZGmoHj2ZWmurMRVrKfu6b9QDCKxoCVipdSFsXC/wO+0FZKieYUtz5
-	XL5VdsUOszn0r3leZR9c2Igk5NL7ReY7DdNJ7vDV9zt2Kp9VSgyB+UBZpvMR1L53vFSe4kQNIom
-	yfhJTbj9GKXHgbe4shhjR2ZFz4US7jqpuLjplK9p+LST6EiL6IxioYxWZqPb4yurYZ895d/r1Pr
-	2I7pZsqgtGgLntwc8ZXnJj22FLCCrAoHNgetJzbq1hUzy8AdG3l1rWti46neMWZwq5LpGw+uk3g
-	DxGbbpncZVV71zWDBVKLHrQOr9wzb0MuTmvf6cfekL9dkjKpmA==
-X-Google-Smtp-Source: AGHT+IEbBLYRYCCKspoyVREKqnRmx9SNp7XWgbWQMLHo9S6x46APPiifoVfwToumEY7p9eUH6PnFnQ==
-X-Received: by 2002:a5d:47af:0:b0:385:fb66:faee with SMTP id ffacd0b85a97d-38a221fa4b5mr43671082f8f.18.1736239705779;
-        Tue, 07 Jan 2025 00:48:25 -0800 (PST)
+        bh=lQojh4vJndN41Gj34B/frazp8U3nnF6i/HJBJX4kBzw=;
+        b=C3DYJO4L3pN+pAM+7BvaLyNePlU7cTdRTQS6LIEaG0pdFyffq3Gj48fYlkQ3JQ2bIX
+         mUFPkI/av7KE6x3SeXSieM13TD6DMygrIpdcAJDvEbMF5AnxJ7p2SC+9csbzsAQHfXcH
+         BNomysibtaiJAFLlZ5zQudmkBwOkNT86CbxfLQ5zbw4MxbdI0J8OgzKHugocKARD9yit
+         pF1WBpPTPY5TTifjTtpRYdAtU2apzjDrhWzYTohj2Sc97bPSPQ+Nyzrdo245dv4o003Q
+         Wf3yj3o6H/1yxcsJ7QI+CE8sZrRT2qxVUfLtC8uw7u4WWLGJ67jB4nHSt4QVb8Y12640
+         nmMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736239709; x=1736844509;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lQojh4vJndN41Gj34B/frazp8U3nnF6i/HJBJX4kBzw=;
+        b=ANuSYrDciuaj39Dzbpr4bNjnB8CnOkoDmpFFT/8F6K87mTVWWj3hMUDHveBwvDkzbh
+         ejV6a1AcaJPyG2ssVxOatKCYF9LCATEf1wnW+vhu9jlIul6WEQD5GcbRl1FZgjubOv3a
+         cPdX40/J5Eq5ye/c0H6GTL2uoR5rMLeMJklcKpIELUS7KU0O2nI3OUz6ZOoTIFMB/jxr
+         xQ/rRvPsqVqGcTqTCW6Gwhf7RiNUOuegSNElDwsiujEJsWu1QXzxxzsN3zefnfxDYyVG
+         XtEF6cFpS6h2f79zl4/HwdxJZc1xO98FaiDxRiZ/WkrTGsRo8+4JGx+vZj8633Mmsz0D
+         /XQw==
+X-Forwarded-Encrypted: i=1; AJvYcCUPzzim78HxNDvxy8tULjTstuq2Pnrt0y+H8JQ242Mzc/GbhUK6foDwwf0SGjani17A7YvlYVf+Yps=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxX7FFZNmfYDBSdKq2kPn3gKTNt5BU27SmlbqTIdBq0fTt49jLw
+	v5D51Lolw+qb49jyB1bzUahniKnv2PADkfOqqOsZdDTSQCR3BuOmpI82YcD+MxU=
+X-Gm-Gg: ASbGncvYXDf0vl6Aaf/YWyvzQj2lqKgJy/SMGg6AEqyHHEq9jUjL09b2k5YyfFSXRgF
+	ZTPkIhXgCPt9CXOuZvpnNXEkBSEGjHkIJvwlEGJOKNc/M+6OkpqNZAWTY9CVSFJ2NNUOJSjcNlS
+	n8HWzzvAGzdVw2hH0Trzg1GMD4p+AzeE1o3WdoWqkW2mTE+3wVeVHIMv7o0VSGGFz/+xxBox6XD
+	oVG8O9fK8D2NXp02uPovgjmN2cvWSMgYViHci+W+hSDaDrj6te+hum5sLQdCtWH74Q2TtFzriY6
+	Ti54kEJqKajxu+T52y1nIIYK8QScKttEo7zVq4n3HiOL/vRQQw==
+X-Google-Smtp-Source: AGHT+IEWVn/IlSWfib9pQwA3jHGI2sLUhKtfgApNDeKG4eEkxqTaxRrq6BjH7PlJzVCaWSGLc9PRjg==
+X-Received: by 2002:a05:600c:4709:b0:436:1ac2:1acf with SMTP id 5b1f17b1804b1-43668a3a35dmr460164025e9.20.1736239709462;
+        Tue, 07 Jan 2025 00:48:29 -0800 (PST)
 Received: from [192.168.1.62] (2a02-842a-d52e-6101-6fd0-06c4-5d68-f0a5.rev.sfr.net. [2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c828817sm50722280f8f.1.2025.01.07.00.48.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c828817sm50722280f8f.1.2025.01.07.00.48.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jan 2025 00:48:25 -0800 (PST)
+        Tue, 07 Jan 2025 00:48:28 -0800 (PST)
 From: Julien Stephan <jstephan@baylibre.com>
-Subject: [PATCH v3 0/5] iio: adc: ad7380: add alert support
-Date: Tue, 07 Jan 2025 09:48:24 +0100
-Message-Id: <20250107-ad7380-add-alert-support-v3-0-bce10afd656b@baylibre.com>
+Date: Tue, 07 Jan 2025 09:48:28 +0100
+Subject: [PATCH v3 4/5] iio: adc: ad7380: add alert support
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,11 +68,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFjqfGcC/42NTQ6CMBhEr2K6tqYt1RZX3sO46M+HNEGKLTQSw
- t0tuCBxYVxN3iTzZkIRgoOIzrsJBUguOt9mKPY7ZGrV3gE7mxkxwjglrMTKikKSHBarBkKP49B
- 1Pie3xNqTASWNRXneBajca1Vfbx8O8BzyQ7+VtYu9D+N6n+jS/vGUKKbYkuJYckK1kPKi1dg4H
- eBg/AMt3sQ2F2P8h4thgoWRpWa6EkYXX655nt8tI0KqJAEAAA==
-X-Change-ID: 20241029-ad7380-add-alert-support-4d0dd6cea8cd
+Message-Id: <20250107-ad7380-add-alert-support-v3-4-bce10afd656b@baylibre.com>
+References: <20250107-ad7380-add-alert-support-v3-0-bce10afd656b@baylibre.com>
+In-Reply-To: <20250107-ad7380-add-alert-support-v3-0-bce10afd656b@baylibre.com>
 To: Lars-Peter Clausen <lars@metafoo.de>, 
  Michael Hennerich <Michael.Hennerich@analog.com>, 
  =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
@@ -81,61 +80,269 @@ Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org, Julien Stephan <jstephan@baylibre.com>
 X-Mailer: b4 0.14.2
 
-Hello,
+The alert functionality is an out of range indicator and can be used as
+an early indicator of an out of bounds conversion result.
 
-The ad738x family includes a built-in alert mechanism for early
-detection of out-of-bounds conversion results. This series introduces
-this functionality to the ad7380 family.
+ALERT_LOW_THRESHOLD and ALERT_HIGH_THRESHOLD registers are common to all
+channels.
 
-This is the first non RFC version of the series (RFC available at [1] and [2]).
+When using 1 SDO line (only mode supported by the driver right now), i.e
+data outputs only on SDOA, SDOB (or SDOD for 4 channels variants) is
+used as an alert pin. The alert pin is updated at the end of the
+conversion (set to low if an alert occurs) and is cleared on a falling
+edge of CS.
 
-Given the fact that the main use case is to hardwire the interrupt line
-and according to discussions in V2 about interrupts, I think the best is
-to not generate events, at least while we don't have a reasonable way to
-correctly and efficiently handle interrupts.
+The ALERT register contains information about the exact alert status:
+channel and direction. ALERT register can be accessed using debugfs if
+enabled.
 
-Events attributes are still populated to allow user to set a threshold
-and enable alert detection, so alert pin can be hardwired.
+User can set high/low thresholds and enable alert detection using the
+regular iio events attributes:
 
-Userspace event can still be added later if needed.
+  events/in_thresh_falling_value events/in_thresh_rising_value
+  events/thresh_either_en
 
-[1]: https://lore.kernel.org/r/20241029-ad7380-add-aleyyrt-support-v1-1-d0359401b788@baylibre.com
-[2]: https://lore.kernel.org/r/20241224-ad7380-add-alert-support-v2-0-7c89b2bf7cb3@baylibre.com
+In most use cases, user will hardwire the alert pin to trigger a shutdown.
+
+In theory, we could generate userspace IIO events for alerts, but this
+is not implemented yet for several reasons [1]. This can be implemented
+later if a real use case actually requires it.
 
 Signed-off-by: Julien Stephan <jstephan@baylibre.com>
+
+[1] https://lore.kernel.org/all/4be16272-5197-4fa1-918c-c4cdfcaee02e@baylibre.com/
 ---
-Changes in v3:
-- split regmap cache commit in two
-- remove interrupt handling completely, updating commit messages,
-  driver, and doc
-- fix minor comments from v2 review
-- improve commit message for iio_device_claim_direct_scoped removal
-- Link to v2: https://lore.kernel.org/r/20241224-ad7380-add-alert-support-v2-0-7c89b2bf7cb3@baylibre.com
+ drivers/iio/adc/ad7380.c | 189 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 189 insertions(+)
 
-Changes in v2:
-- fix read/write high/low thresholds
-- add reset_timeout mechanism for buffered reads
-- implement regcache
-- add cleanup patch to remove iio_device_claim_direct_scoped calls
-- add alert section in the Documentation page
-- Link to v1: https://lore.kernel.org/r/20241029-ad7380-add-aleyyrt-support-v1-1-d0359401b788@baylibre.com
+diff --git a/drivers/iio/adc/ad7380.c b/drivers/iio/adc/ad7380.c
+index a532de4422082df8503454d66fc49f75b52cff68..1fc694c1557cead906ce199c7777bddf9d29d400 100644
+--- a/drivers/iio/adc/ad7380.c
++++ b/drivers/iio/adc/ad7380.c
+@@ -34,6 +34,7 @@
+ #include <linux/util_macros.h>
+ 
+ #include <linux/iio/buffer.h>
++#include <linux/iio/events.h>
+ #include <linux/iio/iio.h>
+ #include <linux/iio/trigger_consumer.h>
+ #include <linux/iio/triggered_buffer.h>
+@@ -112,6 +113,24 @@ struct ad7380_chip_info {
+ 	const struct ad7380_timing_specs *timing_specs;
+ };
+ 
++static const struct iio_event_spec ad7380_events[] = {
++	{
++		.type = IIO_EV_TYPE_THRESH,
++		.dir = IIO_EV_DIR_RISING,
++		.mask_shared_by_dir = BIT(IIO_EV_INFO_VALUE),
++	},
++	{
++		.type = IIO_EV_TYPE_THRESH,
++		.dir = IIO_EV_DIR_FALLING,
++		.mask_shared_by_dir = BIT(IIO_EV_INFO_VALUE),
++	},
++	{
++		.type = IIO_EV_TYPE_THRESH,
++		.dir = IIO_EV_DIR_EITHER,
++		.mask_shared_by_all = BIT(IIO_EV_INFO_ENABLE),
++	},
++};
++
+ enum {
+ 	AD7380_SCAN_TYPE_NORMAL,
+ 	AD7380_SCAN_TYPE_RESOLUTION_BOOST,
+@@ -214,6 +233,8 @@ static const struct iio_scan_type ad7380_scan_type_16_u[] = {
+ 	.has_ext_scan_type = 1,							\
+ 	.ext_scan_type = ad7380_scan_type_##bits##_##sign,			\
+ 	.num_ext_scan_type = ARRAY_SIZE(ad7380_scan_type_##bits##_##sign),	\
++	.event_spec = ad7380_events,						\
++	.num_event_specs = ARRAY_SIZE(ad7380_events),				\
+ }
+ 
+ #define AD7380_CHANNEL(index, bits, diff, sign)		\
+@@ -1157,12 +1178,180 @@ static int ad7380_get_current_scan_type(const struct iio_dev *indio_dev,
+ 					    : AD7380_SCAN_TYPE_NORMAL;
+ }
+ 
++static int ad7380_read_event_config(struct iio_dev *indio_dev,
++				    const struct iio_chan_spec *chan,
++				    enum iio_event_type type,
++				    enum iio_event_direction dir)
++{
++	struct ad7380_state *st = iio_priv(indio_dev);
++	int alert_en, tmp, ret;
++
++	ret = iio_device_claim_direct_mode(indio_dev);
++	if (ret)
++		return ret;
++
++	ret = regmap_read(st->regmap, AD7380_REG_ADDR_CONFIG1, &tmp);
++
++	iio_device_release_direct_mode(indio_dev);
++
++	if (ret)
++		return ret;
++
++	alert_en = FIELD_GET(AD7380_CONFIG1_ALERTEN, tmp);
++
++	return alert_en;
++}
++
++static int ad7380_write_event_config(struct iio_dev *indio_dev,
++				     const struct iio_chan_spec *chan,
++				     enum iio_event_type type,
++				     enum iio_event_direction dir,
++				     bool state)
++{
++	struct ad7380_state *st = iio_priv(indio_dev);
++	int ret;
++
++	ret = iio_device_claim_direct_mode(indio_dev);
++	if (ret)
++		return ret;
++
++	ret = regmap_update_bits(st->regmap,
++				 AD7380_REG_ADDR_CONFIG1,
++				 AD7380_CONFIG1_ALERTEN,
++				 FIELD_PREP(AD7380_CONFIG1_ALERTEN, state));
++
++	iio_device_release_direct_mode(indio_dev);
++
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++static int ad7380_read_event_value(struct iio_dev *indio_dev,
++				   const struct iio_chan_spec *chan,
++				   enum iio_event_type type,
++				   enum iio_event_direction dir,
++				   enum iio_event_info info,
++				   int *val, int *val2)
++{
++	struct ad7380_state *st = iio_priv(indio_dev);
++	int ret, tmp;
++
++	switch (info) {
++	case IIO_EV_INFO_VALUE:
++		ret = iio_device_claim_direct_mode(indio_dev);
++
++		switch (dir) {
++		case IIO_EV_DIR_RISING:
++			ret = regmap_read(st->regmap,
++					  AD7380_REG_ADDR_ALERT_HIGH_TH,
++					  &tmp);
++			if (ret)
++				return ret;
++
++			*val = FIELD_GET(AD7380_ALERT_HIGH_TH, tmp);
++			ret = IIO_VAL_INT;
++			break;
++		case IIO_EV_DIR_FALLING:
++			ret = regmap_read(st->regmap,
++					  AD7380_REG_ADDR_ALERT_LOW_TH,
++					  &tmp);
++			if (ret)
++				return ret;
++
++			FIELD_GET(AD7380_ALERT_LOW_TH, tmp);
++			ret = IIO_VAL_INT;
++			break;
++		default:
++			ret = -EINVAL;
++			break;
++		}
++
++		iio_device_release_direct_mode(indio_dev);
++		return ret;
++	default:
++		return -EINVAL;
++	}
++}
++
++static int ad7380_write_event_value(struct iio_dev *indio_dev,
++				    const struct iio_chan_spec *chan,
++				    enum iio_event_type type,
++				    enum iio_event_direction dir,
++				    enum iio_event_info info,
++				    int val, int val2)
++{
++	struct ad7380_state *st = iio_priv(indio_dev);
++	const struct iio_scan_type *scan_type;
++	int ret;
++	u16 th;
++
++	switch (info) {
++	case IIO_EV_INFO_VALUE:
++		ret = iio_device_claim_direct_mode(indio_dev);
++		if (ret)
++			return ret;
++
++		/*
++		 * According to the datasheet,
++		 * AD7380_REG_ADDR_ALERT_HIGH_TH[11:0] are the 12 MSB of the
++		 * 16-bits internal alert high register. LSB are set to 0xf.
++		 * AD7380_REG_ADDR_ALERT_LOW_TH[11:0] are the 12 MSB of the
++		 * 16 bits internal alert low register. LSB are set to 0x0.
++		 *
++		 * When alert is enabled the conversion from the adc is compared
++		 * immediately to the alert high/low thresholds, before any
++		 * oversampling. This means that the thresholds are the same for
++		 * normal mode and oversampling mode.
++		 */
++
++		/* Extract the 12 MSB of val */
++		scan_type = iio_get_current_scan_type(indio_dev, chan);
++		if (IS_ERR(scan_type))
++			return PTR_ERR(scan_type);
++
++		th = val >> (scan_type->realbits - 12);
++
++		switch (dir) {
++		case IIO_EV_DIR_RISING:
++			ret = regmap_write(st->regmap,
++					   AD7380_REG_ADDR_ALERT_HIGH_TH,
++					   th);
++			if (ret)
++				return ret;
++
++			break;
++		case IIO_EV_DIR_FALLING:
++			ret = regmap_write(st->regmap,
++					   AD7380_REG_ADDR_ALERT_LOW_TH,
++					   th);
++			if (ret)
++				return ret;
++
++			break;
++		default:
++			ret = -EINVAL;
++			break;
++		}
++
++		iio_device_release_direct_mode(indio_dev);
++		return ret;
++	default:
++		return -EINVAL;
++	}
++}
++
+ static const struct iio_info ad7380_info = {
+ 	.read_raw = &ad7380_read_raw,
+ 	.read_avail = &ad7380_read_avail,
+ 	.write_raw = &ad7380_write_raw,
+ 	.get_current_scan_type = &ad7380_get_current_scan_type,
+ 	.debugfs_reg_access = &ad7380_debugfs_reg_access,
++	.read_event_config = &ad7380_read_event_config,
++	.write_event_config = &ad7380_write_event_config,
++	.read_event_value = &ad7380_read_event_value,
++	.write_event_value = &ad7380_write_event_value,
+ };
+ 
+ static int ad7380_init(struct ad7380_state *st, bool external_ref_en)
 
----
-Julien Stephan (5):
-      iio: adc: ad7380: do not use iio_device_claim_direct_scoped anymore
-      iio: adc: ad7380: enable regmap cache
-      iio: adc: ad7380: do not store osr in private data structure
-      iio: adc: ad7380: add alert support
-      docs: iio: ad7380: add alert support
-
- Documentation/iio/ad7380.rst |  32 +++-
- drivers/iio/adc/ad7380.c     | 394 +++++++++++++++++++++++++++++++++++++------
- 2 files changed, 369 insertions(+), 57 deletions(-)
----
-base-commit: 5ab39233382c621d3271cc274d1534e1b687f4d3
-change-id: 20241029-ad7380-add-alert-support-4d0dd6cea8cd
-
-Best regards,
 -- 
-Julien Stephan <jstephan@baylibre.com>
+2.47.1
 
