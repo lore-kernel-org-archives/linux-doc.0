@@ -1,75 +1,135 @@
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B00519ABCE
-	for <linux-doc@vger.kernel.org>; Tue,  7 Jan 2025 10:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F19FD1AAA10;
+	Tue,  7 Jan 2025 10:22:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736244739; cv=none; b=UGXUEs6khOfiE2pJjKSqUYROB8XAfHWPSmpm9eQGfQ3x/lCk+jO+LJZDKj2u1nueD5w6LK9ZczWiRC5BkLJJx2G68E1lfsfegI4vG+n9sJi4XDPob0BjpMP7NPrY1x+sNrf+6Drk+ccUdILjMtC9O30/K8W3d0GR9bgOLTcLm20=
+	t=1736245331; cv=none; b=iMbv4rJ2J4G6V7gEKH8NBQpcYQ4p6W1Ddajodj929dipgtkIi95vqnTjhNMBSiOY+a8L76psdqpRZVpuZOhZoxvzt1PWmpMfmeLHeP5tHdt4DdlhVVHNW1Laz3YtQnp/FwKplY+rSZ3oMBRXCCkAsIX0cZSmu9jvz+KhvGiGSug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736244739; c=relaxed/simple;
-	bh=ttsPJhPOqySGX2RCAhvyQ0FiTpHuJV7dXnoWrd8WeWg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AdDJUY7fcarxo0avvA9zbunH0g2kvxyc0UBJ+nFNTgcONWkDoJaGMnUWN57XiaFis8YDDlDwAtvk/VpEABHOynOAQGKLdRA0Gkwnrq3zyUVrwNHtiRNsMFmXpGx0+ytIzuDpPwrYu0RITemmrOzmMAEXNegvpSuu+9CEf6XWbNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VBNH/8AP; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1736245331; c=relaxed/simple;
+	bh=Wb3Ea2iB8+M8aL3ooVQ7LOltSr1/6YrzyALThhjx3TI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BTtZ0mBlPpnKiSZrhwsLWjOuQjwsAeAbyNJBgMbd8t5ZqvtPvUnAlwJUP8sIzVCvvsINqmaJBnpfGzUSj3BSUefiJRk66zlHmMsBlaYOPkbNwdgltT1OpcGw0oBPleDZoVBG0Z2vrg5LGaeJzPm8yU3l2dBdTo8VIjyvEZIuaEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DmNfU8nW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VBNH/8AP"
-Message-ID: <22c7b835-b07b-4e25-86c4-ea24ebf851f3@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1736244733;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ttsPJhPOqySGX2RCAhvyQ0FiTpHuJV7dXnoWrd8WeWg=;
-	b=VBNH/8AP/h7OLXtoEKlTTUhKUpxxcoeEowbmVL0sCR6O2OUiYpAU+SnwhCprUKTCS+N1ve
-	QIT3HX1VeYZtM46kROvGVMl0dOmKJe3wDE/34+O5l/RB5lJKX3Oo7WVrFaY7UZCU69t7WJ
-	Xoi2rQAy3piQ511V7NtXdNSCD2wrFPs=
-Date: Tue, 7 Jan 2025 18:11:09 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DmNfU8nW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9714C4CED6;
+	Tue,  7 Jan 2025 10:22:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736245329;
+	bh=Wb3Ea2iB8+M8aL3ooVQ7LOltSr1/6YrzyALThhjx3TI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DmNfU8nWLBuNkkgcsPZZpv1EIaEoOmLXTmnqfJ7XOpK5AJw9NqvsA3rEgqpDN6KC5
+	 EZ76YiWsYoDWHKtTxeQatN+C76DPga3faVhdtz65TJA1pNiNIDp0Xi9E6WR+HMIRIo
+	 A9C/Bs8BYOMGaV2VDJhV4DblSUS6C6i2jFyeTgcJUtkzd1DFJq83UmW9OXwC4FiAiH
+	 2sQXwWwCaUn+POtfJdpu4jlcDVJMVSi8iOJ7a2uhALOBAjd2aGCFULZQXV2Ga3JnHF
+	 bCbT8o9lJWPYxp4wTD+je9bEbeDHVZL7Lxq9U+LW6fgyNsfouVZmYHAR6CWYr3+QuV
+	 GTy4uwlc5HzZA==
+Date: Tue, 7 Jan 2025 12:22:04 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Steffen Klassert <steffen.klassert@secunet.com>
+Cc: Jianbo Liu <jianbol@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Eric Dumazet <edumazet@google.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
+	netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
+	Potnuri Bharat Teja <bharat@chelsio.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>
+Subject: Re: [PATCH ipsec-next 1/2] xfrm: Support ESN context update to
+ hardware for TX
+Message-ID: <20250107102204.GB87447@unreal>
+References: <874f965d786606b0b4351c976f50271349f68b03.1734611621.git.leon@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v4] docs/zh_CN: Add security credentials Chinese
- translation
-To: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>, alexs@kernel.org, corbet@lwn.net,
- zhangwei@cqsoftware.com.cn, maoyuxian@cqsoftware.com.cn
-Cc: zhaoyuehui@cqsoftware.com.cn, linux-doc@vger.kernel.org,
- Yanteng Si <siyanteng@linux.dev>
-References: <20250107092318.21371-1-zhaoshuo@cqsoftware.com.cn>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <20250107092318.21371-1-zhaoshuo@cqsoftware.com.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <874f965d786606b0b4351c976f50271349f68b03.1734611621.git.leon@kernel.org>
 
-Hi Zhaoshuo, Zhangwei, Yuxian,
-
-
-在 2025/1/7 17:23, Shuo Zhao 写道:
-> Translate .../security/credentials.rst into Chinese.
->
-> Update the translation through commit cf92ec602ac5
-> ("Documentation: remove current_security() reference")
->
-> Reviewed-by: Yanteng Si <siyanteng@linux.dev>
-Sorry, I wrote the wrong email address. There are also  other emails
-with the same wrong address. Could you please help correct them?
-My email:
-
-si.yanteng@linux.dev
-
-Thanks,
-Yanteng
-
-> Reviewed-by: Alex Shi <alexs@kernel.org>
-> Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+On Thu, Dec 19, 2024 at 02:37:29PM +0200, Leon Romanovsky wrote:
+> From: Jianbo Liu <jianbol@nvidia.com>
+> 
+> Previously xfrm_dev_state_advance_esn() was added for RX only. But
+> it's possible that ESN context also need to be synced to hardware for
+> TX, so call it for outbound in this patch.
+> 
+> Signed-off-by: Jianbo Liu <jianbol@nvidia.com>
+> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 > ---
->
+>  Documentation/networking/xfrm_device.rst                 | 3 ++-
+>  drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c          | 3 +++
+>  drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c | 3 +++
+>  net/xfrm/xfrm_replay.c                                   | 1 +
+>  4 files changed, 9 insertions(+), 1 deletion(-)
 
+Steffen,
+
+This is kindly reminder.
+
+Thanks
+
+> 
+> diff --git a/Documentation/networking/xfrm_device.rst b/Documentation/networking/xfrm_device.rst
+> index bfea9d8579ed..66f6e9a9b59a 100644
+> --- a/Documentation/networking/xfrm_device.rst
+> +++ b/Documentation/networking/xfrm_device.rst
+> @@ -169,7 +169,8 @@ the stack in xfrm_input().
+>  
+>  	hand the packet to napi_gro_receive() as usual
+>  
+> -In ESN mode, xdo_dev_state_advance_esn() is called from xfrm_replay_advance_esn().
+> +In ESN mode, xdo_dev_state_advance_esn() is called from
+> +xfrm_replay_advance_esn() for RX, and xfrm_replay_overflow_offload_esn for TX.
+>  Driver will check packet seq number and update HW ESN state machine if needed.
+>  
+>  Packet offload mode:
+> diff --git a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c b/drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c
+> index bc3af0054406..e56e4f238795 100644
+> --- a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c
+> +++ b/drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c
+> @@ -6559,6 +6559,9 @@ static void cxgb4_advance_esn_state(struct xfrm_state *x)
+>  {
+>  	struct adapter *adap = netdev2adap(x->xso.dev);
+>  
+> +	if (x->xso.dir != XFRM_DEV_OFFLOAD_IN)
+> +		return;
+> +
+>  	if (!mutex_trylock(&uld_mutex)) {
+>  		dev_dbg(adap->pdev_dev,
+>  			"crypto uld critical resource is under use\n");
+> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c
+> index ca92e518be76..3dd4f2492090 100644
+> --- a/drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c
+> +++ b/drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c
+> @@ -980,6 +980,9 @@ static void mlx5e_xfrm_advance_esn_state(struct xfrm_state *x)
+>  	struct mlx5e_ipsec_sa_entry *sa_entry_shadow;
+>  	bool need_update;
+>  
+> +	if (x->xso.dir != XFRM_DEV_OFFLOAD_IN)
+> +		return;
+> +
+>  	need_update = mlx5e_ipsec_update_esn_state(sa_entry);
+>  	if (!need_update)
+>  		return;
+> diff --git a/net/xfrm/xfrm_replay.c b/net/xfrm/xfrm_replay.c
+> index bc56c6305725..e500aebbad22 100644
+> --- a/net/xfrm/xfrm_replay.c
+> +++ b/net/xfrm/xfrm_replay.c
+> @@ -729,6 +729,7 @@ static int xfrm_replay_overflow_offload_esn(struct xfrm_state *x, struct sk_buff
+>  		}
+>  
+>  		replay_esn->oseq = oseq;
+> +		xfrm_dev_state_advance_esn(x);
+>  
+>  		if (xfrm_aevent_is_on(net))
+>  			xfrm_replay_notify(x, XFRM_REPLAY_UPDATE);
+> -- 
+> 2.47.0
+> 
+> 
