@@ -1,130 +1,264 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F2F148838;
-	Tue,  7 Jan 2025 11:13:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF3217C9E8
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jan 2025 11:29:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736248421; cv=none; b=Tm3SalvoIMUw2zRmGnnoIwenxLHXrZJ+/Qsg9QLkQIlQC7qMbdLjlGHObjNbk3Iu8jDkMvUTDA92WDBpm7jSaPu5WdEIk2LYgIgQO48HGaKhZTSlC4zWjKrrqCNVEOolP0SXLPJNQzK7TC5GaFh/c0IMcoDDFoAuXU9F92bT7CU=
+	t=1736249391; cv=none; b=Dho2vshyE56iSUHsdLxRhmfi0bJ1Ave7E8PGfbVXtSN0KgtgXha9J92nJZ4ZKOp/O4UKApGL3IdR+IM52p9fKRUtA34C2rsXhJBA6+lm4IWmz7yz8T3kFNuYM3yN7ZXKtyQbSrUJRXy4tu8rC28f5E1lMkwAykwjj8fDE2Ntw+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736248421; c=relaxed/simple;
-	bh=6XE/aliWGr+W26o2fjUc7Z25p+2CU6ECbOVEjcYQUIo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eoPkNf5L5kzc39ULOHt0cB03drBj72CKsfUWD9KHDyWQdJO5uu/v13tC4GInj2Dnqpw0Sb4KWA6uzUebcbO7/8VDFGgvjGwKE4bcAUzWyGDsMvu7IVEsoi4pPukQRN4xJ6tNvp4PStqie9KnyJfP43Q0E5ENiluZ7xAXIyVRxVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f2jBYZxG; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736249391; c=relaxed/simple;
+	bh=UUKH+3f7te6b8Lcca0m/RZwQdYdbtuMENEk9IWOoe1Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lUzepIt5Rp/hP0IaUsFFgdwzn9J7tfHyvTBm5jDxQvKrOb50u+wlcixZKSjkrKCLgYkWu+vSVx/7GRPeER6+Ki+ixEUwByh4yDLxlf/L0XvpsR4BKYirqwWxwTNoRkj3yhZ3J9vQtkJc5F9Ffs/UXRahPKlLr7RWu4boAy2e/8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=L2PxUMFp; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f2jBYZxG"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5d7e3f1fc01so3149572a12.2;
-        Tue, 07 Jan 2025 03:13:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736248417; x=1736853217; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Mr/GzVDnk1vhkDYSLmfDLR/Vh+afBQJAWF7/ClflUCc=;
-        b=f2jBYZxGwdZA+IyB2BNEEIk6jKkUIc8tOht0pllgCegkrJcHH2phQ0rzI0erGCQ9oA
-         gIkii9X+yqEamrUccoSg+sizpmEVrenGxfBC4rD+PJlvzhEO4VI2GsJaKp5D8wR2sv3H
-         gFdURjtlpxE8IZEin5oXuGGEqwhW9atweqobULzscrJ+c4J2EV7XN9aHhpE3s07YePKD
-         oxj9l7blapODNCuDLPp9iA/Pic7SGnG9SHo53uXFsFk29gAUo+Kis9IFx2bU+VE2VmH8
-         O8Zp014bFudDIcxsKM3B6WaCLfXo4Cb68Hn7X8UmdQ4+nYBZcyNeP9sveJr05sLqwHS5
-         FUHw==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="L2PxUMFp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1736249386;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=dT6jaGzM8ONtg5YiCq4PRzv+lHLx9HZ9naYINeLLcq4=;
+	b=L2PxUMFpoNxd6WOAT4mqXwr6PtvHCmEsleESDwiRR6ddc0rzRDzMLddtWP/SumJOhmqROm
+	00Y7AxQt9qWnTY9um2qiOcNdrOIOACv8mlrDqptzYaxTjAaOSednVCbkv7RGZQjEfVn0Ap
+	0q90OqXCh/XI5lUqAKtFf7i68NncsN4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-546-5NZ9XEEMOoKkouoeqWZhNg-1; Tue, 07 Jan 2025 06:29:45 -0500
+X-MC-Unique: 5NZ9XEEMOoKkouoeqWZhNg-1
+X-Mimecast-MFC-AGG-ID: 5NZ9XEEMOoKkouoeqWZhNg
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-43626224274so46778755e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jan 2025 03:29:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736248417; x=1736853217;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Mr/GzVDnk1vhkDYSLmfDLR/Vh+afBQJAWF7/ClflUCc=;
-        b=c/k2UTJva6KAK7ai/+M+iB6ld4pIYAm1H17jnxoMn2KH+3m37twEVa1tqUcIzqAz2b
-         +bkTo4VvlCN9Lm4nMuoL3mBlvWwRIsBpVD0HSolqHyHdbN8VK3oNZd9lUV6L+NLa0iBP
-         4QRzfrT1nGsjJGRy3Cq27Iww2Je8HNuNLdAfscXa2AqedVxnR5KkodJ/iDzC02LrMbjb
-         8dkTVKDsdPWkzOC2JK3iWD7PtnB9ia58NdZXmeXejXQvwXyY+PM44q9qJMQ92l7TwkXH
-         Cbl9s6CcUveyJso0UjEtqGp+/+lgflgwaKIAvU3I60MgP+Wwfibz1Bew2pifD2ktEPuu
-         JIjg==
-X-Forwarded-Encrypted: i=1; AJvYcCUC/phCYDZO2CW0ZEWLI89nmB1fy9KXRz3Jsc4zEh7LBqhzmPnjxUWwgxj5Fm+sh0tKf1dTTGXVUjdcCcL9@vger.kernel.org, AJvYcCUQK17cfA5rzAo8mYCw/kS4YTP+wvjmrg0RgGnir4bObV6T8vaLPsEH0wlkJsisjUCEOlV5Rp/IJQOCc6lcyA==@vger.kernel.org, AJvYcCVYZ3FFWKv2PBL/frv3en6oPRNEZsgQHkwxdDhh/Fq/yd/AX+IQAfiylD9n4DAztf9nH226t+w8Zno=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYJx14wH2MHxT13zJm8O6OHPV9gt1dhRwYVYftaS8aqR9b3uxn
-	bDssxbQFHx/6R0rxgtj36pwXP6t1wJ7WEllBbFyqzRGyqlv3mg0PFq03BRrApyiPH7MF0XfOi8p
-	BV8n5dzdqDbCg0FWFj7QJg83MqSpxMZRi+H0=
-X-Gm-Gg: ASbGncszF77vi+Ta9sUKuLnZujXN0MS81aoTr5Y1O3mncR2+cw6cXr7OA0xWVL573vY
-	q5UU7zmdUQlo9SfI7zZUUl4obUdJzaI1A66ZkWQ==
-X-Google-Smtp-Source: AGHT+IHZOZuGh+Cq1RVbbzN662zcy1YLAMdsH19pgW8fy9okRskaf6pwCzHbHpwNVgGdw916i0lU9B/Y72Gdu/rdaCk=
-X-Received: by 2002:a05:6402:528a:b0:5d3:f141:ccf6 with SMTP id
- 4fb4d7f45d1cf-5d81de16c82mr57619463a12.32.1736248416238; Tue, 07 Jan 2025
- 03:13:36 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736249384; x=1736854184;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=dT6jaGzM8ONtg5YiCq4PRzv+lHLx9HZ9naYINeLLcq4=;
+        b=jLw2tkvv+cTQSL2FU5A4DyRwnIHggyUKiRsms79ZxPx+AwlNe415Vu0BIZxI4R3fJp
+         at+eSUtQcYp0DWYOBSdBtTYftVCgKzQUmXQo6+CPcELrdzr61BeVwYKwYRf5eDQkl9uv
+         r4H3ecsDMfXsyjKYZ0T5OXU+EkkiRFgdf5f/55+SNvPFAe5j0C0wBHQlWzMvJW6YsU92
+         q8Fe0ZQMcOkYsiXcULjiNNCkKuyWbDan/CiQADOC9uBL2PNo8oFMWg6SFMbX1Fzh1VyN
+         7E0N8klDnSsJv+jimTnBLH95eal2Vzw7t05t3TV02rBkMF9MnnRjxyE3dxF8dG7Ho1Rn
+         4FWA==
+X-Forwarded-Encrypted: i=1; AJvYcCVEDt5HmyMo4ROVZj3QMp+LT8tHeHoShf1AqQP0eSegefkKjEeHXkPcDHXVjlp529dSqeBRiE3uWvI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzllW61e22lSBuJvGfxgo1kS4MeXzBWTXCrz7jj9ZaDDutsJ7HL
+	1UOO2AVhnbEwRwWttnlouw68+qvFi4eZsUih12hvmavQwgRQa4ApcX1OeR4FjgEUOxOkX9gQ4Us
+	F4kHiDxsdBwLBQ1GIUmPAzWy1fP5PZ6Xkm5YPLoI2qAa6Mm39aNMVAf/FkQ==
+X-Gm-Gg: ASbGnctppWCifm4gf0Gbuxx0GMHoUFQn5+XWi9Rl6dM5KNrQJqwR0dvDEqQvDYaxmu1
+	QLmedGIy78tIInlPG3VZXWDuJ9AyMGBLItT/7Hge/FXuSkODRc/xRWqpHbBWDLooF7WvyrpVUb8
+	t3I2X+vvB8E2aOLe0hnNk987yVSDRKuws4Gkq7l3HJkqKiybNxtJtVQbNqzhbLpGmwUcwARa8uh
+	l2yiilETUmsaritpVEv/YhWepeJJAhjcI/RweV4JiQe4IH5nj0lKqettxoW5uP5BjpMv/CSLyt8
+	n+Rh1Hk9V8SiTapnpPwiNLqRcH0Ty2kcP99lXZMeRikf4PJHs3+VNHqV0RBNoqiBTP58K/gGHUK
+	ukImaL3xp
+X-Received: by 2002:a05:600c:45d2:b0:434:f7f0:1880 with SMTP id 5b1f17b1804b1-436cf562615mr96542645e9.32.1736249383790;
+        Tue, 07 Jan 2025 03:29:43 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHJ3qnj0FFqFijLuXZ4Dwc22AX0w86kSYGeu3WGMLaEQBJgLzuIVM01ibBPmcl6KS6iZpaLSA==
+X-Received: by 2002:a05:600c:45d2:b0:434:f7f0:1880 with SMTP id 5b1f17b1804b1-436cf562615mr96542315e9.32.1736249383367;
+        Tue, 07 Jan 2025 03:29:43 -0800 (PST)
+Received: from ?IPV6:2003:cb:c719:1700:56dc:6a88:b509:d3f3? (p200300cbc719170056dc6a88b509d3f3.dip0.t-ipconnect.de. [2003:cb:c719:1700:56dc:6a88:b509:d3f3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43656b3b214sm635741635e9.28.2025.01.07.03.29.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Jan 2025 03:29:42 -0800 (PST)
+Message-ID: <35b64e41-b9b1-4fdb-af4f-1296602592ff@redhat.com>
+Date: Tue, 7 Jan 2025 12:29:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cf07f705d63f04ebf7ba4ecafdc9ab6f63960e3d.1736239148.git.geert+renesas@glider.be>
-In-Reply-To: <cf07f705d63f04ebf7ba4ecafdc9ab6f63960e3d.1736239148.git.geert+renesas@glider.be>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 7 Jan 2025 12:13:25 +0100
-X-Gm-Features: AbW1kvYLrDdrgGevJS4mpM4stjr2b9nsS6FuxuvYsZ9qIZgGsUE-v-JWNUQx-d4
-Message-ID: <CAOQ4uxjESOJsb2GDx-c==_cLtF=wqtDAprcDmjwiq25hyzQFwA@mail.gmail.com>
-Subject: Re: [PATCH] overlayfs.rst: Fix and improve grammar
-To: Geert Uytterhoeven <geert+renesas@glider.be>, Jonathan Corbet <corbet@lwn.net>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-unionfs@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 12/25] mm/memory: Enhance insert_page_into_pte_locked()
+ to create writable mappings
+To: Alistair Popple <apopple@nvidia.com>
+Cc: akpm@linux-foundation.org, dan.j.williams@intel.com, linux-mm@kvack.org,
+ lina@asahilina.net, zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
+ vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
+ bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca, catalin.marinas@arm.com,
+ will@kernel.org, mpe@ellerman.id.au, npiggin@gmail.com,
+ dave.hansen@linux.intel.com, ira.weiny@intel.com, willy@infradead.org,
+ djwong@kernel.org, tytso@mit.edu, linmiaohe@huawei.com, peterx@redhat.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
+ david@fromorbit.com
+References: <cover.18cbcff3638c6aacc051c44533ebc6c002bf2bd9.1734407924.git-series.apopple@nvidia.com>
+ <25a23433cb70f0fe6af92042eb71e962fcbf092b.1734407924.git-series.apopple@nvidia.com>
+ <d4d32e17-d8e2-4447-bd33-af41e89a528f@redhat.com>
+ <6254ce2c-4a47-4501-b518-dedaddcbf91a@redhat.com>
+ <gjuqvidcpvzwqrwogeoygwnsbvlpa4fvsvaoq6rlfzcq4wxmh5@tdhz3f2fm4ga>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <gjuqvidcpvzwqrwogeoygwnsbvlpa4fvsvaoq6rlfzcq4wxmh5@tdhz3f2fm4ga>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 7, 2025 at 9:45=E2=80=AFAM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
->   - Correct "in a way the" to "in a way that",
->   - Add a comma to improve readability.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On 06.01.25 03:07, Alistair Popple wrote:
+> On Fri, Dec 20, 2024 at 08:06:48PM +0100, David Hildenbrand wrote:
+>> On 20.12.24 20:01, David Hildenbrand wrote:
+>>> On 17.12.24 06:12, Alistair Popple wrote:
+>>>> In preparation for using insert_page() for DAX, enhance
+>>>> insert_page_into_pte_locked() to handle establishing writable
+>>>> mappings.  Recall that DAX returns VM_FAULT_NOPAGE after installing a
+>>>> PTE which bypasses the typical set_pte_range() in finish_fault.
+>>>>
+>>>> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+>>>> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+>>>>
+>>>> ---
+>>>>
+>>>> Changes since v2:
+>>>>
+>>>>     - New patch split out from "mm/memory: Add dax_insert_pfn"
+>>>> ---
+>>>>     mm/memory.c | 45 +++++++++++++++++++++++++++++++++++++--------
+>>>>     1 file changed, 37 insertions(+), 8 deletions(-)
+>>>>
+>>>> diff --git a/mm/memory.c b/mm/memory.c
+>>>> index 06bb29e..cd82952 100644
+>>>> --- a/mm/memory.c
+>>>> +++ b/mm/memory.c
+>>>> @@ -2126,19 +2126,47 @@ static int validate_page_before_insert(struct vm_area_struct *vma,
+>>>>     }
+>>>>     static int insert_page_into_pte_locked(struct vm_area_struct *vma, pte_t *pte,
+>>>> -			unsigned long addr, struct page *page, pgprot_t prot)
+>>>> +				unsigned long addr, struct page *page,
+>>>> +				pgprot_t prot, bool mkwrite)
+>>>>     {
+>>>>     	struct folio *folio = page_folio(page);
+>>>> +	pte_t entry = ptep_get(pte);
+>>>>     	pte_t pteval;
+>>>> -	if (!pte_none(ptep_get(pte)))
+>>>> -		return -EBUSY;
+>>>> +	if (!pte_none(entry)) {
+>>>> +		if (!mkwrite)
+>>>> +			return -EBUSY;
+>>>> +
+>>>> +		/*
+>>>> +		 * For read faults on private mappings the PFN passed in may not
+>>>> +		 * match the PFN we have mapped if the mapped PFN is a writeable
+>>>> +		 * COW page.  In the mkwrite case we are creating a writable PTE
+>>>> +		 * for a shared mapping and we expect the PFNs to match. If they
+>>>> +		 * don't match, we are likely racing with block allocation and
+>>>> +		 * mapping invalidation so just skip the update.
+>>>> +		 */
+>>>
+>>> Would it make sense to instead have here
+>>>
+>>> /* See insert_pfn(). */
+>>>
+>>> But ...
+>>>
+>>>> +		if (pte_pfn(entry) != page_to_pfn(page)) {
+>>>> +			WARN_ON_ONCE(!is_zero_pfn(pte_pfn(entry)));
+>>>> +			return -EFAULT;
+>>>> +		}
+>>>> +		entry = maybe_mkwrite(entry, vma);
+>>>> +		entry = pte_mkyoung(entry);
+>>>> +		if (ptep_set_access_flags(vma, addr, pte, entry, 1))
+>>>> +			update_mmu_cache(vma, addr, pte);
+>>>
+>>> ... I am not sure if we want the above at all. Someone inserted a page,
+>>> which is refcounted + mapcounted already.
+>>>
+>>> Now you ignore that and do like the second insertion "worked" ?
+>>>
+>>> No, that feels wrong, I suspect you will run into refcount+mapcount issues.
+>>>
+>>> If there is already something, inserting must fail IMHO. If you want to
+>>> change something to upgrade write permissions, then a different
+>>> interface should be used.
+>>
+>> Ah, now I realize that the early exit saves you because we won't adjust the
+>> refcount +mapcount.
+> 
+> Right.
+>   
+>> I still wonder if that really belongs in here, I would prefer to not play
+>> such tricks to upgrade write permissions if possible.
+> 
+> As you have pointed out this was all inspired (ie. mostly copied)
+> from the existing insert_pfn() implementation which is used from
+> vmf_insert_mixed{_mkwrite}().
+> 
+> I agree a different interface to upgrade permissions would be nice. However
+> it's tricky because in general callers of these functions (eg. FS DAX) aren't
+> aware if the page is already mapped by a PTE/PMD. They only know a fault has
+> occured and the faulting permissions.
+> 
+> This wouldn't be impossible to fix - the mm does provide vm_ops->page_mkwrite()
+> for permission upgrades. The difficulty is that most filesystems that support
+> FS DAX (ie. ext4, XFS) don't treat a vm_ops->page_mkwrite() call any differently
+> from a vm_ops->fault() call due to write fault. Therefore the FS DAX code is
+> unaware of whether or not this is a permission upgrade or initial writeable
+> mapping of the page in the VMA.
+> 
+> A further issue in there is currently no vm_ops->huge_mkwrite() callback.
+> 
+> Obviously this could all be plumbed through the MM/FS layers, but that would
+> require a separate patch series. Given the current implementation has no issues
+> beyond the cosmetic I'd rather not delay this series any longer, especially as
+> the cosmetic defect is largely pre-existing (vmf_insert_mixed{_mkwrite}() could
+> have equally had a separate upgrade interface).
 
-Acked-by: Amir Goldstein <amir73il@gmail.com>
+Fine with me, just stumbled over it an thought "that looks odd".
 
-John,
+-- 
+Cheers,
 
-Please take this patch via the documentation tree,
-as I have no overlayfs patches queued for v6.14.
+David / dhildenb
 
-Thanks,
-Amir.
-
-> ---
->  Documentation/filesystems/overlayfs.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/file=
-systems/overlayfs.rst
-> index 4c8387e1c88068fa..a93dddeae199491a 100644
-> --- a/Documentation/filesystems/overlayfs.rst
-> +++ b/Documentation/filesystems/overlayfs.rst
-> @@ -266,7 +266,7 @@ Non-directories
->  Objects that are not directories (files, symlinks, device-special
->  files etc.) are presented either from the upper or lower filesystem as
->  appropriate.  When a file in the lower filesystem is accessed in a way
-> -the requires write-access, such as opening for write access, changing
-> +that requires write-access, such as opening for write access, changing
->  some metadata etc., the file is first copied from the lower filesystem
->  to the upper filesystem (copy_up).  Note that creating a hard-link
->  also requires copy_up, though of course creation of a symlink does
-> @@ -549,8 +549,8 @@ Nesting overlayfs mounts
->
->  It is possible to use a lower directory that is stored on an overlayfs
->  mount. For regular files this does not need any special care. However, f=
-iles
-> -that have overlayfs attributes, such as whiteouts or "overlay.*" xattrs =
-will be
-> -interpreted by the underlying overlayfs mount and stripped out. In order=
- to
-> +that have overlayfs attributes, such as whiteouts or "overlay.*" xattrs,=
- will
-> +be interpreted by the underlying overlayfs mount and stripped out. In or=
-der to
->  allow the second overlayfs mount to see the attributes they must be esca=
-ped.
->
->  Overlayfs specific xattrs are escaped by using a special prefix of
-> --
-> 2.43.0
->
->
