@@ -1,71 +1,71 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D6D1F1922;
-	Tue,  7 Jan 2025 14:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7DA2C190;
+	Tue,  7 Jan 2025 14:56:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736261558; cv=none; b=Zt2vK1HzdS3bzKcOCTU4S18sgerQHgP26Hacoop2kBt6XxbMVdHJvFAIfEuhcx1FXps1KUJ0mgDZ1p4WKcmVKIqEnrn18Hf43DK8lt0rHtkaes67XiD8DLbufJEu2zVQ2mpbz+mEyuHBmQoyciFVTLMcGIXa04vaD7E9f6YGeEY=
+	t=1736261779; cv=none; b=nTrdXXpZrz6vKWa2YEAAb7bWZ9znu8Pf68RMxezIvqf3TnxJD/p3ywsYmNF+M1f/TpXMqS0XaA+UVNHXgTc9QhmHPMITzSq/2S8sbh8ESeUhTZZrm/RuuFGqAyS9ytnLZfiipA9HVrSyHofn3lPPfTfkTW+lD34yP0D0twIT3Q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736261558; c=relaxed/simple;
-	bh=MOH868ngW9dUOwN4thFNX1TPcOFJP2qf8DZugGyoX8g=;
+	s=arc-20240116; t=1736261779; c=relaxed/simple;
+	bh=Tb08g295VdLrJ4TqI1vVZ+9DBlbWYG4te86mQu7tK0A=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BdpK0Ax56ueHgCmqJuPEGmrvu4lD4i29jhwVizQ5FBQgBia+iUVs8HurMxMMwV/qVHyWtk7KAD76U5Ivrtwz31B4ju96NQ/glsW5BSMelFFyfceDEz/2nGiaPAsy+QM8OgXrMFqEFnP1FongVPX7rZaIpuKCLXUh/2fN7a2c9EU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kU3/lptp; arc=none smtp.client-ip=209.85.218.43
+	 To:Cc:Content-Type; b=fPvjXUMO3BBDzWJy81Y03MwHbl7sY2sYGgJVRd52M1E5Nfk60dU6SVAKQb//mT4a0q0zBXvJ4cRHDr5yNol0PECJ97jIf8CdTA0tokmwv6nITmpanGWFXSwGuDib0WhNBJKyAggFFLNslbHIYWsBRKMYWencohnQXbO7ddrxCjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JmXNY8ko; arc=none smtp.client-ip=209.85.208.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kU3/lptp"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-aa6b4cc7270so2264526366b.0;
-        Tue, 07 Jan 2025 06:52:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JmXNY8ko"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5d3e6274015so27690654a12.0;
+        Tue, 07 Jan 2025 06:56:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736261555; x=1736866355; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1736261776; x=1736866576; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qy9mDmEp3duyQlRFahCU21spYZivWlH+YgZaad61gT0=;
-        b=kU3/lptpCfQs5ohBFmomLBRl6kMYTJ24fbXdic9GAxa6oorF7llMAMXhDEt2FL/Rt6
-         /0d41whm9KhpRPQx8Uaiiw12Ptdmv/TJJ4EJItOe4O4QC7Rbv5SEGJbmkZJwzjVIG38o
-         1+3LMYXVZ6KY5zix+cfcv9bndlNlus2Pe4ZJLhWWIW25awz+LG3zdqV3ZUyXx0VIVdoT
-         M9pUT6YvUsIJ9lReY9X9IhLTJMzGgBg2P8bVuO03f1L6o5R/upx4LSw+kPPdoBGX4xTe
-         puoqT2SKAVsLtPmL6KBPlWXj6NTTIUA40o8+p5JbdJycAi4p5uCogJaNC4/VSHSUSnWJ
-         RQjg==
+        bh=ZP6lcPhq7uA2jdevV7sPC88C18fJe8/9rJWhgSofyNQ=;
+        b=JmXNY8koEXdnsuTRDQ1z9zvpAm5tREB4YDqi3DtCv5wjDkARXPamNq1ww/zFCzHVuo
+         3zoE70F8ZFrVDhMcv3pwLfm77RO8Ri02LB3xnbiUP87xLH9l3vqwiLkRKChMXFa/8ez/
+         tMviETlWwtEfAlQAETSZb+lds+a0yWUwhK/xB9qlqFP5Ox0/NK1cuLkzcb13G7jcJWcd
+         DtqY4WmndbAfw9CJowoIHSKhK2SViMUNfd1ao8UxRihRaWL9geCRlpu6vIJQG75dVAkY
+         hmET3rWnHWNyDnOJtw9VgMH7ak6myaMgMrVjN4Z53QUnCw3MdKdypEAWH32icFF9EwGl
+         2y3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736261555; x=1736866355;
+        d=1e100.net; s=20230601; t=1736261776; x=1736866576;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qy9mDmEp3duyQlRFahCU21spYZivWlH+YgZaad61gT0=;
-        b=fjjk87hcpBsKU65nvlk5yDrXKDy/Oh/1yVY1Ikr1Xuc66SrbebDlYYpjHSROKkXK9H
-         6IrCAVogLdlmCXnwvjGCpBApT1pFd/qtzC+wFixWkz0O0EKsrY7nLGqLLYHOV3alI1G2
-         7tGx8YADaw3eL4zXn6JDvv10cJR8JvtJT8lkRHsZUBNVAVKF+5vA+Ete7y4jTmCY1HE2
-         zmCxh150ZyJN4aM8eEWvdF0bUCVlPz+Ai1goGEnijZIWPJgjnlY3nV6o+KkbmyR6+BqZ
-         ojOua858dDz554+BSjDu0GJNDIjm/e/o6fBKzig5MUATggtUdx3plDFazTOnjryNQrUq
-         ntmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUIIG6Q/xIFGO47jbQ0MMgxRwWyjJjSPL9SwGVVBiE7pkuI5+SzTo58qPY+JpaoJfBLy7fHVvjX@vger.kernel.org, AJvYcCUmcYIehdG2HJlff6oEW3mFULirQI9lf4PjDh2TH+GxKY1b3tozvVkhP78gd3jEZtKIY0f9tcFyTN4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxm8Y4MUb04hvoPjTo4KFtFa6Jt5SnxJEgEHyUzMZ8zJagFjCSV
-	wU9ujgMd8JK+s/PssYJ/5GXgvUvorNNcAlV4sbq6j6u4UHZazdoit7S2kaNW0yweKegc1NS2eSy
-	Pon0AjanFQ5R6/Qr1JUWPg7uaEEo=
-X-Gm-Gg: ASbGncsDphxnRGaH9E1wKedMnQe4IzVaOyDUcXOSxz4UoZyqecwULfCxq7qATD3PeGv
-	GDYUwjIcr/Uw3nZGzr2qNlt9lMmosovXF2BBLzdk=
-X-Google-Smtp-Source: AGHT+IFr4AsIDZ/804Oq5/41YNjTqilp4vsNEac0k/8HSVxc03qpEYsbHpINeUQ1HRthjeTyKuJxDj81+FPOXYB8j+o=
-X-Received: by 2002:a50:cc48:0:b0:5d3:cf89:bd3e with SMTP id
- 4fb4d7f45d1cf-5d81de1c92cmr120964554a12.30.1736261554968; Tue, 07 Jan 2025
- 06:52:34 -0800 (PST)
+        bh=ZP6lcPhq7uA2jdevV7sPC88C18fJe8/9rJWhgSofyNQ=;
+        b=a9tdOeIJcWTOT6danPNpbfuD59j/rgm7QiSCXCIsiVQUt1MUvPjYrYGj2JYmkkpDda
+         WiRC79TgW4OXWLlyvBn8a9V6pIqScrtD/4XMt5+pP1yQkwEzgNAr+NIUP2N8b117cyuX
+         JHw4jqSZRPGyenNSeBhRrlrjnO/bsT0/TPm7crh57ZsHxEY3K6MhfMGb1pBJdR8gvqMr
+         8s9oiIuFryR0Pm3O539E/NYPuFxbJyxF0IImdJY1T/uuolk2e0Xy/+4EksbYvuF3YrXs
+         38em96vcJYj6FYUr0Yyz7Eg/Gjqk3MICaS+CZq4sXe4sghnT7FeIFCykxJyPiEUpp6cI
+         EVvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVkMPHYYaFpVq9ed/oAdzgJs3VvMj9M/HKRO9r369QheKfIZKTSSVKNSlyblpcj3e7oeBcSMiG/@vger.kernel.org, AJvYcCWIXYvVNkoMyCwq85QC35Ai6Qlmtsyi1lXf7scKcjTAI+hHYW0LoVpRuIJyV6qhTZBROBKbICF4w54=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOM+9rXKbUT3c4RrMpTsTu9Qt7iuXsZcKJVCAwwqJxRf964xxB
+	W+EV9BS0hDjVUJwjo0GOEv2ZPsO1nIogtfiNTn2lVY2g4u/Kjqcutp00+3cH6uxYfpShJcIJnqq
+	g8TGUdz5tbhgzsQuHdQ0FTghobX3bEbfOnkU=
+X-Gm-Gg: ASbGncvbevXCZ44WlHSOXZ/efET6cXVf7BSS3toynsE01APHNxT+6VGfdZ4ySL0gC1/
+	ir0jSrgKoZ5p4vQ0buP+ytb7ltbfi0hNR4vJphYM=
+X-Google-Smtp-Source: AGHT+IGl+7BYq30b/tUNfG36roKW12ay27pmjIA9wMZ18w78UyDB80x6HQup55YurEj0MhXQj9Kt0BJNkT/V0lVd9Y0=
+X-Received: by 2002:a05:6402:3221:b0:5d0:bcdd:ff97 with SMTP id
+ 4fb4d7f45d1cf-5d81dd83edemr52676622a12.5.1736261774613; Tue, 07 Jan 2025
+ 06:56:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250103150325.926031-1-ap420073@gmail.com> <20250103150325.926031-3-ap420073@gmail.com>
- <20250106184854.4028c83d@kernel.org> <20250106190456.104e313e@kernel.org>
-In-Reply-To: <20250106190456.104e313e@kernel.org>
+References: <20250103150325.926031-1-ap420073@gmail.com> <20250103150325.926031-11-ap420073@gmail.com>
+ <20250106190112.6ae27767@kernel.org>
+In-Reply-To: <20250106190112.6ae27767@kernel.org>
 From: Taehee Yoo <ap420073@gmail.com>
-Date: Tue, 7 Jan 2025 23:52:23 +0900
-Message-ID: <CAMArcTUZA=Ox5VgSG1+PqErrLwqXkiT1JOY7gzuXBUOJw_2HKA@mail.gmail.com>
-Subject: Re: [PATCH net-next v7 02/10] net: ethtool: add support for
- configuring hds-thresh
+Date: Tue, 7 Jan 2025 23:56:03 +0900
+Message-ID: <CAMArcTUzQiJfeH4+EUgUYrJdgUor5qv1wKN9sLd7CtwrNV2Utg@mail.gmail.com>
+Subject: Re: [PATCH net-next v7 10/10] selftest: net-drv: hds: add test for
+ HDS feature
 To: Jakub Kicinski <kuba@kernel.org>
 Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com, 
 	almasrymina@google.com, donald.hunter@gmail.com, corbet@lwn.net, 
@@ -83,40 +83,28 @@ Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 7, 2025 at 12:04=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
+On Tue, Jan 7, 2025 at 12:01=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
 ote:
 >
 
 Hi Jakub,
 Thanks a lot for the review!
 
-> On Mon, 6 Jan 2025 18:48:54 -0800 Jakub Kicinski wrote:
-> > >   * @module_fw_flash_in_progress: Module firmware flashing is in prog=
-ress.
-> > > @@ -1141,6 +1148,7 @@ int ethtool_virtdev_set_link_ksettings(struct n=
-et_device *dev,
-> > >  struct ethtool_netdev_state {
-> > >     struct xarray           rss_ctx;
-> > >     struct mutex            rss_lock;
-> > > +   u32                     hds_thresh;
-> >
-> > this value is checked in devmem.c but nothing ever sets it.
-> > net/ethtool/rings.c needs to handle it like it handles
-> > dev->ethtool->hds_config
+> On Fri,  3 Jan 2025 15:03:25 +0000 Taehee Yoo wrote:
+> > +    try:
+> > +        netnl.rings_set({'header': {'dev-index': cfg.ifindex}, 'hds-th=
+resh': hds_gt})
+> > +    except NlError as e:
+> > +        if e.error =3D=3D errno.EOPNOTSUPP:
+> > +            raise KsftSkipEx("ring-set not supported by the device")
+> > +        ksft_eq(e.error, errno.EINVAL)
+> > +    else:
+> > +        raise KsftFailEx("exceeded hds-thresh should be failed")
 >
-> Oh, I see you set it in the driver in patch 8.
-> That should work, my only concern is that this is not how
-> any of the other ethtool config options work today.
-> And there isn't any big warning in the code here telling
-> driver authors that they are responsible for the state update.
->
-> So even tho your patches are correct I still think it's better
-> to handle it like hds_config, just for consistency.
+> Nice work on the tests! FWIW you could use ksft_raises(NlError) here,
+> but this works too. You can leave it as is if you prefer.
 
-Thanks, I will set hds_thresh in the ethnl_set_rings() like the hds_config.
-So, I will remove code setting hds_thresh in the netdevsim and bnxt driver.
-Also, I will change the comments of hds_thresh and hds_thresh_max to
-your suggestion!
+Thanks for the suggestion, I will change it after tests!
 
-Thank you so much!
+Thanks a lot,
 Taehee Yoo
