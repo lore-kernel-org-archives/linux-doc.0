@@ -1,98 +1,75 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8021E2606;
-	Tue,  7 Jan 2025 10:10:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B00519ABCE
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jan 2025 10:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736244633; cv=none; b=RgPdfBMO4CoQnVkLSzjYdeHulNlgv7BlgkTpySAU+YHP7D4+a5aiCeadHzLq6Fk8AeiAM7SmahKWwxWJOTdCfl8f7xqGnRYPtjrbM45H6GQWbOTyrrSMZcLI3WMptNzknvMiKigIHEjEuyNorI0JEyD0/wmr/RvEYEYmLUO/szE=
+	t=1736244739; cv=none; b=UGXUEs6khOfiE2pJjKSqUYROB8XAfHWPSmpm9eQGfQ3x/lCk+jO+LJZDKj2u1nueD5w6LK9ZczWiRC5BkLJJx2G68E1lfsfegI4vG+n9sJi4XDPob0BjpMP7NPrY1x+sNrf+6Drk+ccUdILjMtC9O30/K8W3d0GR9bgOLTcLm20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736244633; c=relaxed/simple;
-	bh=Mhto81Z6MhtXiGgKkqFllrVaZvgvVjmX68GSIQvAYBk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RQ+qg7hMQRnq5Y+06G3D3EWQ6DWx1NB52hPdpUsPXY678bL9Yn5TpD3isBb6v+JTCuXzYEXyPCjrEBDX1O4+/VEJYl8WEokvigKZ61f2hO/r3fxq/KhOlORB/gxeOOd4HFWMpZYEe0EbifcU0AphECsdJb7utWy3iqnrxgPOLJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YS6Fw0Rpzz6M4X5;
-	Tue,  7 Jan 2025 18:08:52 +0800 (CST)
-Received: from frapeml500005.china.huawei.com (unknown [7.182.85.13])
-	by mail.maildlp.com (Postfix) with ESMTPS id 343B514038F;
-	Tue,  7 Jan 2025 18:10:25 +0800 (CST)
-Received: from china (10.200.201.82) by frapeml500005.china.huawei.com
- (7.182.85.13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 7 Jan
- 2025 11:10:13 +0100
-From: Gur Stavi <gur.stavi@huawei.com>
-To: <sumang@marvell.com>
-CC: <andrew+netdev@lunn.ch>, <cai.huoqing@linux.dev>, <corbet@lwn.net>,
-	<davem@davemloft.net>, <edumazet@google.com>, <gongfan1@huawei.com>,
-	<guoxin09@huawei.com>, <gur.stavi@huawei.com>, <helgaas@kernel.org>,
-	<horms@kernel.org>, <kuba@kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <meny.yossefi@huawei.com>,
-	<netdev@vger.kernel.org>, <pabeni@redhat.com>, <shenchenyang1@hisilicon.com>,
-	<shijing34@huawei.com>, <wulike1@huawei.com>, <zhoushuai28@huawei.com>
-Subject: RE: [EXTERNAL] [PATCH net-next v03 1/1] hinic3: module initialization and tx/rx logic
-Date: Tue, 7 Jan 2025 12:23:11 +0200
-Message-ID: <20250107102311.3552206-1-gur.stavi@huawei.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <SJ0PR18MB5216BED17023369322EE4A6ADB152@SJ0PR18MB5216.namprd18.prod.outlook.com>
-References: <SJ0PR18MB5216BED17023369322EE4A6ADB152@SJ0PR18MB5216.namprd18.prod.outlook.com>
+	s=arc-20240116; t=1736244739; c=relaxed/simple;
+	bh=ttsPJhPOqySGX2RCAhvyQ0FiTpHuJV7dXnoWrd8WeWg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AdDJUY7fcarxo0avvA9zbunH0g2kvxyc0UBJ+nFNTgcONWkDoJaGMnUWN57XiaFis8YDDlDwAtvk/VpEABHOynOAQGKLdRA0Gkwnrq3zyUVrwNHtiRNsMFmXpGx0+ytIzuDpPwrYu0RITemmrOzmMAEXNegvpSuu+9CEf6XWbNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VBNH/8AP; arc=none smtp.client-ip=95.215.58.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VBNH/8AP"
+Message-ID: <22c7b835-b07b-4e25-86c4-ea24ebf851f3@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1736244733;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ttsPJhPOqySGX2RCAhvyQ0FiTpHuJV7dXnoWrd8WeWg=;
+	b=VBNH/8AP/h7OLXtoEKlTTUhKUpxxcoeEowbmVL0sCR6O2OUiYpAU+SnwhCprUKTCS+N1ve
+	QIT3HX1VeYZtM46kROvGVMl0dOmKJe3wDE/34+O5l/RB5lJKX3Oo7WVrFaY7UZCU69t7WJ
+	Xoi2rQAy3piQ511V7NtXdNSCD2wrFPs=
+Date: Tue, 7 Jan 2025 18:11:09 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [PATCH v4] docs/zh_CN: Add security credentials Chinese
+ translation
+To: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>, alexs@kernel.org, corbet@lwn.net,
+ zhangwei@cqsoftware.com.cn, maoyuxian@cqsoftware.com.cn
+Cc: zhaoyuehui@cqsoftware.com.cn, linux-doc@vger.kernel.org,
+ Yanteng Si <siyanteng@linux.dev>
+References: <20250107092318.21371-1-zhaoshuo@cqsoftware.com.cn>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <20250107092318.21371-1-zhaoshuo@cqsoftware.com.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- frapeml500005.china.huawei.com (7.182.85.13)
+X-Migadu-Flow: FLOW_OUT
 
-> >+static struct hinic3_adev *hinic3_add_one_adev(struct hinic3_hwdev
-> >*hwdev,
-> >+					       enum hinic3_service_type svc_type)
-> >+{
-> >+	struct hinic3_adev *hadev;
-> >+	const char *svc_name;
-> >+	int ret;
-> >+
-> >+	hadev =3D kzalloc(sizeof(*hadev), GFP_KERNEL);
-> >+	if (!hadev)
-> >+		return NULL;
-> >+
-> >+	svc_name =3D hinic3_adev_devices[svc_type].name;
-> >+	hadev->adev.name =3D svc_name;
-> >+	hadev->adev.id =3D hwdev->dev_id;
-> >+	hadev->adev.dev.parent =3D hwdev->dev;
-> >+	hadev->adev.dev.release =3D hinic3_comm_adev_release;
-> >+	hadev->svc_type =3D svc_type;
-> >+	hadev->hwdev =3D hwdev;
-> >+
-> >+	ret =3D auxiliary_device_init(&hadev->adev);
-> >+	if (ret) {
-> >+		dev_err(hwdev->dev, "failed init adev %s %u\n",
-> >+			svc_name, hwdev->dev_id);
-> >+		kfree(hadev);
-> >+		return NULL;
-> >+	}
-> >+
-> >+	ret =3D auxiliary_device_add(&hadev->adev);
-> >+	if (ret) {
-> >+		dev_err(hwdev->dev, "failed to add adev %s %u\n",
-> >+			svc_name, hwdev->dev_id);
-> >+		auxiliary_device_uninit(&hadev->adev);
+Hi Zhaoshuo, Zhangwei, Yuxian,
 
-> [Suman] memleak for hadev?
 
-No. Calling auxiliary_device_uninit after a successful
-auxiliary_device_init will trigger a call to hinic3_comm_adev_release
-that releases the memory.
+在 2025/1/7 17:23, Shuo Zhao 写道:
+> Translate .../security/credentials.rst into Chinese.
+>
+> Update the translation through commit cf92ec602ac5
+> ("Documentation: remove current_security() reference")
+>
+> Reviewed-by: Yanteng Si <siyanteng@linux.dev>
+Sorry, I wrote the wrong email address. There are also  other emails
+with the same wrong address. Could you please help correct them?
+My email:
 
-> >+		return NULL;
-> >+	}
-> >+
-> >+	return hadev;
-> >+}
-> >+
+si.yanteng@linux.dev
+
+Thanks,
+Yanteng
+
+> Reviewed-by: Alex Shi <alexs@kernel.org>
+> Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+> ---
+>
+
