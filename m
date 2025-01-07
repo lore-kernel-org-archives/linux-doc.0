@@ -1,34 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F031E3768;
-	Tue,  7 Jan 2025 12:13:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0B0191F66;
+	Tue,  7 Jan 2025 12:28:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736252025; cv=none; b=HaBpV+1S27gmFsENSq8c/WZyFDes+eLZIAEpqr3glsLTI8MQJ0Zja0LsMP9xIHQ48ZMiV+Rj8P2HCLfPZ+2RJhTJmomxbEbIuV28AFDdd4wzDcyV54KTsQgyul0YctlDl5wB7lF0WApOlB9hBxdux/sP93q6u7p5/NmPcJmvrjM=
+	t=1736252894; cv=none; b=e6ZuNWNPa809/z4AoYVDEq/ABY23kluF7V2VEjynOhb2UQV7LYlSPzvbdfFZGb+fduaZrRDWAMsY78Pe5g6icUUyb13KdmvGDW2J3bbRCIj1J2DxCrD8YEOVKTQqgNoi6uGZPzcYM7bllBO5LTeWm1/Cy5RtnzgBNv9tPEWOq6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736252025; c=relaxed/simple;
-	bh=Rr8N3nfmbgf1QQlVa1CLDPfJ/ryDS+FZiURDeZGBMVE=;
+	s=arc-20240116; t=1736252894; c=relaxed/simple;
+	bh=1/HcQq/YmuWJo6riIlJTFgZjpKLXFivEYEiYy2oVg24=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LO0OOyMim6N5bAlTOgiFnns6nssc/mAxiWrH/zpGo5TKQGT7ZWnX+hLf3McQ6OfENDA/0inNvbLLw9e878SHcqo7sKEEBmQGO5ymptqLBNe0OfrqgbXRpMv/o/0sUf+4otSDl+jjk3qpYpNAGl5+4EuY1AlqJ3EA42Xdp8Y8Sg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6044C4CED6;
-	Tue,  7 Jan 2025 12:13:42 +0000 (UTC)
-Date: Tue, 7 Jan 2025 12:13:40 +0000
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
-	linux-arm-kernel@lists.infradead.org, Will Deacon <will@kernel.org>,
-	Marc Zyngier <maz@kernel.org>, Ryan Roberts <ryan.roberts@arm.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Eric Auger <eric.auger@redhat.com>, kvmarm@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/7] arm64/boot: Enable EL2 requirements for FEAT_PMUv3p9
-Message-ID: <Z30adHnQ7ZFaU9UR@arm.com>
-References: <20241220072240.1003352-1-anshuman.khandual@arm.com>
- <20250102160402.GB3990035-robh@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=J0ZU7fH2aUXQ79hr1k5axCHJPyxRSYqcfjHZAAaAxQvjcQRNvyhchQcC22WITe8OKTap1zOuKpbml0eEzFyAcmgjld/IaaedkuUFhIsDGuN4iOHupVP6A13Pz+g0Hsy9NDpkBIaZ/K6rY4eofV63Aj6XLjiwrufV3Ci2AVryhkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zb7ELEkE; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zb7ELEkE"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-aa6c0dbce1fso2166860166b.2;
+        Tue, 07 Jan 2025 04:28:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736252891; x=1736857691; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mxVpDxmMIrZ8O4h3kBmPYeM/tvN24AqibedskpkkqlE=;
+        b=Zb7ELEkErnZjOwM/wCsRLH8P8FONm2OiOnYf5ft93hCfPZIJHGjTXSL1TsC871EwkL
+         +xc6kgbT9So4fZhX9aO6UUDsnhx8MqqelFEF8Mp4XLAFxCgjsAV4YSJptaWkvT7ILAVt
+         Xcxx9cpTgYSbrz0lMNAv5nzlwWQXiXM/Co3Hpr/jTLfJOaQnhyr1GoQoF3a8HcpRWrKc
+         0eRhK/gL/TS8tQ4xl6g1ehRrHyXcHe2uw7WLUngwjRRyPrra0d5r9HyyGu9LPhK7bHIq
+         plNfTtV9poR0YvM424kLygmnIji+ZoN4IlY6RkyNLkRb2Cwb/TdxDiLzg6HtVF8VGJ6C
+         kSkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736252891; x=1736857691;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=mxVpDxmMIrZ8O4h3kBmPYeM/tvN24AqibedskpkkqlE=;
+        b=DsxyPqNenwVKNwmycow1hHzQT/flAcBtfAZmYgUajjN5/GgDmLCVQLVZ5j30DEYR/g
+         aa4kYuJDYEVWLCpr2Dmh1QLKEPMbsjhuy0Khm3M0EjSzrQWkVUOMD5vJyTGidIviqMU+
+         623/WzURwbwQWGkxpFsEvcVzgcxax6AFT78WtH7+bqNqGFP2my9yoevIvhC/w/DAfbcc
+         ChumseGUvSCwQWEfc4pL8nvWfvF4hnq+TiV7ACMjOYKQHvK7Yo6hjwbQqCRdB9gRhBrX
+         dJ8vlqAuHoTsKW3+vtW/u1xr4ZMpLw3Q9GA0HIsFRnd12TOTx7H2eJ0qvsx6hxhNiCmS
+         RfQg==
+X-Forwarded-Encrypted: i=1; AJvYcCV+2wCxEEtWl3jVJ1A7WY+oQbwr2Scr0cRnd4wYOX4TMtjYN7v8/c1WzNASuSBb4Pe4W0z2VDs/QVlaL6Ro@vger.kernel.org, AJvYcCW14B9ala+0vnZXhTmvhr26E803be0nFQQrjtubUe70SZUmhL2qoXg5NxqEJsnglgnmA1Yd7r8wHUQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+9B6gGmSIjSNtXgwyopdsCiipHPz5O8jJZggKuM5O2yhg7dWJ
+	eDjmVI01lU1fQZFdzW9t+/N+Et1/eEJD7h1DKWueGfcWkxqHl9Og
+X-Gm-Gg: ASbGnctK3SOG4khj7cuXJyvj6dE2JDbemitdrlgA9IKWkGs3xDYRgSC0MJ7N94STAed
+	cAwmEC3q/lN7RzxfUwCUuFVFL8/0p3UKhNDWN/GWcQAfsvIFEqg5zc48Y5ZOEn6B6dLAh5/5gML
+	IVCJ56mJh5u0Ux1uJ8d4FzDaRVFoAlQAKgc8GZR3+JUAZT5kY+aOMHAqfgPAwmCOKmiTcrqSDLa
+	JD1i6pjU1JUkIw7S3rszm+94ZDhbTjNJA1WbsulRPPl18Viw86DYBra
+X-Google-Smtp-Source: AGHT+IE374I3W2qVaFGb9oLlN9bOkRTGBFfaEZCdrtGtGIpchcuGWoTSBfL2KwKVgqlNpUznpHrXvw==
+X-Received: by 2002:a05:6402:5245:b0:5d3:ba42:e9fa with SMTP id 4fb4d7f45d1cf-5d81ddc01a0mr151395377a12.16.1736252890854;
+        Tue, 07 Jan 2025 04:28:10 -0800 (PST)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aac0e894f22sm2356783166b.50.2025.01.07.04.28.09
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 07 Jan 2025 04:28:09 -0800 (PST)
+Date: Tue, 7 Jan 2025 12:28:09 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, richard.weiyang@gmail.com,
+	peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
+	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz,
+	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
+	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
+	hughd@google.com, lokeshgidra@google.com, minchan@google.com,
+	jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com,
+	pasha.tatashin@soleen.com, klarasmodin@gmail.com, corbet@lwn.net,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH 1/1] mm: remove extra check for VMA_LOCK_OFFSET when
+ read-locking a vma
+Message-ID: <20250107122809.ofddv3yw44ciaklm@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+References: <20250107030415.721474-1-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,66 +84,58 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250102160402.GB3990035-robh@kernel.org>
+In-Reply-To: <20250107030415.721474-1-surenb@google.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 
-On Thu, Jan 02, 2025 at 10:04:02AM -0600, Rob Herring wrote:
-> On Fri, Dec 20, 2024 at 12:52:33PM +0530, Anshuman Khandual wrote:
-> > This series adds fine grained trap control in EL2 required for FEAT_PMUv3p9
-> > registers like PMICNTR_EL0, PMICFILTR_EL0, and PMUACR_EL1 which are already
-> > being used in the kernel. This is required to prevent their EL1 access trap
-> > into EL2.
-> > 
-> > PMZR_EL0 register trap control i.e HDFGWTR2_EL2.nPMZR_EL0 remains unchanged
-> > for now as it does not get accessed in the kernel, and there is no plan for
-> > its access from user space.
-> > 
-> > I have taken the liberty to pick up all the review tags for patches related
-> > to tools sysreg update from the KVM FGT2 V2 patch series posted earlier.
-> > 
-> > https://lore.kernel.org/all/20241210055311.780688-1-anshuman.khandual@arm.com/
-> > 
-> > Rob had earler mentioned about FEAT_FGT2 based trap control requirement for
-> > FEAT_PMUv3p9 registers that are currently being used in kernel. The context
-> > can be found here.
-> > 
-> > https://lore.kernel.org/all/20241216234251.GA629562-robh@kernel.org/
-> > 
-> > This series is based on v6.13-rc3
-> > 
-> > Cc: Catalin Marinas <catalin.marinas@arm.com>
-> > Cc: Will Deacon <will@kernel.org>
-> > Cc: Marc Zyngier <maz@kernel.org>
-> > Cc: Ryan Roberts <ryan.roberts@arm.com>
-> > Cc: Mark Rutland <mark.rutland@arm.com>
-> > Cc: Mark Brown <robh@kernel.org>
-> > Cc: Rob Herring <robh@kernel.org>
-> > Cc: Oliver Upton <oliver.upton@linux.dev>
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: Eric Auger <eric.auger@redhat.com>
-> > Cc: kvmarm@lists.linux.dev
-> > Cc: linux-doc@vger.kernel.org
-> > Cc: linux-kernel@vger.kernel.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > 
-> > Anshuman Khandual (7):
-> >   arm64/sysreg: Update register fields for ID_AA64MMFR0_EL1
-> >   arm64/sysreg: Add register fields for HDFGRTR2_EL2
-> >   arm64/sysreg: Add register fields for HDFGWTR2_EL2
-> >   arm64/sysreg: Add register fields for HFGITR2_EL2
-> >   arm64/sysreg: Add register fields for HFGRTR2_EL2
-> >   arm64/sysreg: Add register fields for HFGWTR2_EL2
-> >   arm64/boot: Enable EL2 requirements for FEAT_PMUv3p9
+On Mon, Jan 06, 2025 at 07:04:15PM -0800, Suren Baghdasaryan wrote:
+>Since we limit vm_refcnt at VMA_REF_LIMIT and it's smaller than
+>VMA_LOCK_OFFSET, there is no need to check again if VMA_LOCK_OFFSET bit
+>is set. Remove the extra check and add a clarifying comment.
+>
+>Fixes: e8f32ff00a66 ("mm: replace vm_lock and detached flag with a reference count")
+>Suggested-by: Wei Yang <richard.weiyang@gmail.com>
+>Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+
+Reviewed-by: Wei Yang <richard.weiyang@gmail.com>
+
+>---
+>Applies over mm-unstable
+>
+> include/linux/mm.h | 9 ++++++---
+> 1 file changed, 6 insertions(+), 3 deletions(-)
+>
+>diff --git a/include/linux/mm.h b/include/linux/mm.h
+>index 486638d22fc6..b5f262fc7dc5 100644
+>--- a/include/linux/mm.h
+>+++ b/include/linux/mm.h
+>@@ -747,7 +747,11 @@ static inline bool vma_start_read(struct mm_struct *mm, struct vm_area_struct *v
 > 
-> In case it is not clear, this series should be applied to 6.13 as the 2 
-> PMUv3p9 features already landed in 6.13 (per counter EL0 control) and 
-> 6.12 (ICNTR). 
-
-So is this a fix that needs backporting to 6.12 or 6.13, e.g. fix for
-d8226d8cfbaf ("perf: arm_pmuv3: Add support for Armv9.4 PMU instruction
-counter")? It's pretty late in the cycle to take the series for 6.13.
-
-But does KVM actually expose the feature to EL1 in ID_AA64DFR1_EL1 and
-than traps it at EL2?
+> 
+> 	rwsem_acquire_read(&vma->vmlock_dep_map, 0, 0, _RET_IP_);
+>-	/* Limit at VMA_REF_LIMIT to leave one count for a writer */
+>+	/*
+>+	 * Limit at VMA_REF_LIMIT to leave one count for a writer.
+>+	 * If VMA_LOCK_OFFSET is set, __refcount_inc_not_zero_limited() will fail
+>+	 * because VMA_REF_LIMIT is less than VMA_LOCK_OFFSET.
+>+	 */
+> 	if (unlikely(!__refcount_inc_not_zero_limited(&vma->vm_refcnt, &oldcnt,
+> 						      VMA_REF_LIMIT))) {
+> 		rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
+>@@ -766,8 +770,7 @@ static inline bool vma_start_read(struct mm_struct *mm, struct vm_area_struct *v
+> 	 * after it has been unlocked.
+> 	 * This pairs with RELEASE semantics in vma_end_write_all().
+> 	 */
+>-	if (unlikely(oldcnt & VMA_LOCK_OFFSET ||
+>-		     vma->vm_lock_seq == raw_read_seqcount(&mm->mm_lock_seq))) {
+>+	if (unlikely(vma->vm_lock_seq == raw_read_seqcount(&mm->mm_lock_seq))) {
+> 		vma_refcount_put(vma);
+> 		return false;
+> 	}
+>
+>base-commit: f349e79bfbf3abfade8011797ff6d0d47b67dab7
+>-- 
+>2.47.1.613.gc27f4b7a9f-goog
 
 -- 
-Catalin
+Wei Yang
+Help you, Help me
