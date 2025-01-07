@@ -1,173 +1,194 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387771DF75E
-	for <linux-doc@vger.kernel.org>; Tue,  7 Jan 2025 08:51:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617A6198E78
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jan 2025 08:53:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736239897; cv=none; b=nU2PDFBojtI4w8cmdns7q4SuAcLddFf6CivTi/grI8FcIZ+NYvWnWA0+uSoy+4u67SNjmHJGtTD7DRmaRvhBtBtE7bJ3TyU+ewwEg/deCPoK/zBnceA4TlHaJYc+ob+Y7uGBNSDfl5BJ2nouLmkV+cFDhLQBo6jc5d1lZONoLeQ=
+	t=1736239986; cv=none; b=MAMEG9I+orJXjgvzm5rwwKGJjngtvpx7M2NWvuE3XBi3g4pCLYq7bwsWEtGr82BCJ2T6oDBIwspHi4ZKJ1MCEQ6182k9Swm7Vn2iXBg2YSITu2L6Vytmb56axdVf+hboTgDbD2M2IPRJssTkpwBeKPPmDc4t0kICuM4uMDvPogs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736239897; c=relaxed/simple;
-	bh=FmBULqY9alLp8d+GTGqYk0NziFVxOyBNAsCFJrTsjus=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N7yIJJp2i2Q478azCA3w/eX3ZxOokWV3pXhnzJlHD+5HzcAyDejDnRm386Lh4yQt0H5QqopIoWGR0ESt2/XAViTVOCqoiwFc63e+L6QJqsj3XaYUHGOWpO5jJmWQNOb2vdB9+VC5HQmKNSubdOe77oYhhSAS8L1jmZyyCwbL3n4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=G2cCdtbj; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1736239986; c=relaxed/simple;
+	bh=RAZ8B2TjHNV2J3bRcyQ3voja76blAjKla1lrERpShDM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oNiKXsHo84HKu2/EI0s8L3f5T9a5qeLifHPoR+HUxBkU0SrNHxP1+9gI8r8tyEyOgaJvufB9/I/jzFX7RAGcrH+bKRXBPygGrPJrPIgXi5Ju9yxPjlwUff87xohmKD0SZFG16VQcISqxsuBmFZ29XopNY6PKe1+m1ktb+fIaE98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=tI9DObh9; arc=none smtp.client-ip=91.218.175.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="G2cCdtbj"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5d414b8af7bso30355558a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 07 Jan 2025 00:51:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736239892; x=1736844692; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MhlC61/Vg4ptYrQVqTalA4DHgqPi+NyL1l7e0TmM9w0=;
-        b=G2cCdtbjdJIC3KXUCrWuv+idkDf6JiObXwEXbOPjAiuA3W0bVSx0nlcdy0yInmWObs
-         GwAElsHb0l3lG2OiK2Th8DrFweJIRjmWFDeMdW8czeDDi2q7rMiXgG74eHxuopf8XHuL
-         bBZwpCq4Y3WIxGS8AUAx4eUgZYtJseu+BeHnswFQsLfswAT8TWd8/yCLPrIi1NCYEYKl
-         BYuR8uILUF3o3RFfYErAL13oMBKTpIlX1k2isLJnfEyAaNIvqlTDGD+ikyZV4R6IoG+f
-         k/i7k+yOM1HJ0kt8sqiesUeT+5tg2A6L5CJyyLTzvhXyr2dlXugnkTsspzVpbgafEIkD
-         rWaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736239892; x=1736844692;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MhlC61/Vg4ptYrQVqTalA4DHgqPi+NyL1l7e0TmM9w0=;
-        b=pjx2XgxqESC1jecLTEJbTPI14XF2pA9e5vpQ733YzLs+i+VkdlKlQRJUswGAoOjqaB
-         OTBEE/eFoK9pP9peVI8xba+jc6GCLW5uR0WJArxpf01X2cLUivY7Ql3OIX9yMhISslTV
-         FoajmLDyMXTuc8PYkYgiPL8gbOAmpVJetLOoXU2nbrBa1mAvNb25uJXz5hjveZHyrEXg
-         kylxqr+VG13Ij1ol1knTRv0ASEyvHIMiiuHFY0YhYl2F4ADnUfXgIWi7t0VJ/EsYGcWB
-         iBK6Px+hz1ugNRpmYq2GooDzQ+cMSxFHrkpJUxSrjbkI08PLOAPb1R4mmh2WDmqsJ1Rs
-         7v7A==
-X-Forwarded-Encrypted: i=1; AJvYcCWEyZ3tPIqwhHyWYdIbXNfFt9xy1ecfjud9Gzf5RZXBAfbkY5pNepjMNjK3t43B5w2Uend0ZMLl9kY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+IGv/OEIP3hSG80ml8uyQRLgPeojf7QnEwTciSnltuDDFTQdp
-	V2C6B7rzRumz2lgOoGrjeb+YMjajFYOrb/bqBbTqewjL1RzmyCr7C6GauMiAEQAH+fAlzfQ7S3M
-	ZWDOvDuygOVS0ftOTaXSFvxY6GQRgzsZDXdrLlA==
-X-Gm-Gg: ASbGncswowmihNHVcNWGRVaPoZjdJsHhBQ437urbgJn25FUKH4RkpUv87/DrBydohHd
-	IuOeAm5cJgAUX6nOAP+2K2CzgmI6ge4k6bzHn
-X-Google-Smtp-Source: AGHT+IE8dAAPByPZ1ICsZb09vPa6RulR3AkN+SEZ3EWISmJKgqoMt6BVW0u/OXnTgEZt3uRnqtYTJ9jNbbAFWYpEBQg=
-X-Received: by 2002:a17:907:704:b0:aac:23db:af61 with SMTP id
- a640c23a62f3a-aac2874937fmr6090693266b.3.1736239892555; Tue, 07 Jan 2025
- 00:51:32 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="tI9DObh9"
+Message-ID: <dce2df44-62f9-4ade-a51d-42828171884f@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1736239975;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nxPCTW6t6hAIX3dNXOZF3PlV+zZHru904oityxwPfLU=;
+	b=tI9DObh9ybvORsqazqLUyNKiB1nZDXE+MEAe7hgGXuIWYm//ZtX5d2saG7SjcTmrwQ/kT6
+	LKR9SswwdIga8Hw4ynffv51ZFNWQ0tJUEQJzjs+8X6Ni/7Zc5cA5d0sqcVioWDRNUfEgsC
+	DrQeH2e9ltuFpqWR1b3VUT0q8pIxsHk=
+Date: Tue, 7 Jan 2025 16:52:03 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241224-ad7380-add-alert-support-v2-0-7c89b2bf7cb3@baylibre.com>
- <20241224-ad7380-add-alert-support-v2-3-7c89b2bf7cb3@baylibre.com>
- <20241228142457.576f47d4@jic23-huawei> <4be16272-5197-4fa1-918c-c4cdfcaee02e@baylibre.com>
-In-Reply-To: <4be16272-5197-4fa1-918c-c4cdfcaee02e@baylibre.com>
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Tue, 7 Jan 2025 09:51:23 +0100
-Message-ID: <CAEHHSvb_BRB-ygksULL4+o4eFEPSC4zOs1yBptFd8QzZtS0Dhw@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 3/4] iio: adc: ad7380: add alert support
-To: David Lechner <dlechner@baylibre.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] docs/zh_CN: Add security IMA-templates Chinese
+ translation
+To: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>, alexs@kernel.org, corbet@lwn.net
+Cc: zhaoyuehui@cqsoftware.com.cn, zhangwei@cqsoftware.com.cn,
+ maoyuxian@cqsoftware.com.cn, linux-doc@vger.kernel.org
+References: <20241231072236.18836-1-zhaoshuo@cqsoftware.com.cn>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <20241231072236.18836-1-zhaoshuo@cqsoftware.com.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Le lun. 6 janv. 2025 =C3=A0 16:29, David Lechner <dlechner@baylibre.com> a =
-=C3=A9crit :
+
+
+
+在 2024/12/31 15:22, Shuo Zhao 写道:
+> Translate .../security/IMA-templates.rst into Chinese.
 >
-> On 12/28/24 8:24 AM, Jonathan Cameron wrote:
-> > On Tue, 24 Dec 2024 10:34:32 +0100
-> > Julien Stephan <jstephan@baylibre.com> wrote:
-> >
-> >> The alert functionality is an out of range indicator and can be used a=
-s an
-> >> early indicator of an out of bounds conversion result.
-> >>
-> >> ALERT_LOW_THRESHOLD and ALERT_HIGH_THRESHOLD registers are common to a=
-ll
-> >> channels.
-> >>
-> >> When using 1 SDO line (only mode supported by the driver right now), i=
-.e
-> >> data outputs only on SDOA, SDOB (or SDOD for 4 channels variants) is
-> >> used as an alert pin. The alert pin is updated at the end of the
-> >> conversion (set to low if an alert occurs) and is cleared on a falling
-> >> edge of CS.
-> >>
-> >> The ALERT register contains information about the exact alert status:
-> >> channel and direction. Unfortunately we can't read this register becau=
-se
-> >> in buffered read we cannot claim for direct mode.
-> >>
-> >> User can set high/low thresholds and enable event detection using the
-> >> regular iio events:
-> >>
-> >>   events/in_thresh_falling_value
-> >>   events/in_thresh_rising_value
-> >>   events/thresh_either_en
-> >>
-> >> If the interrupt properties is present in the device tree, an IIO even=
-t
-> >> will be generated for each interrupt received.
-> >> Because we cannot read ALERT register, we can't determine the exact
-> >> channel that triggers the alert, neither the direction (hight/low
-> >> threshold violation), so we send and IIO_EV_DIR_EITHER event for all
-> >> channels.
-> >>
-> >> In buffered reads, if input stays out of thresholds limit, an interrup=
-t
-> >> will be generated for each sample read, because the alert pin is clear=
-ed
-> >> on a falling edge of CS (i.e when starting a new conversion). To avoid
-> >> generating to much interrupt, we introduce a reset_timeout that can be
-> >> used to disable interrupt for a given time (in ms)
-> >>
-> >>   events/thresh_either_reset_timeout
-> >>
-> >> When an interrupt is received, interrupts are disabled and re-enabled
-> >> after thresh_either_reset_timeout ms. If the reset timeout is set to 0=
-,
-> >> interrupt are re-enabled directly.
-> >> Note: interrupts are always disabled at least during the handling of t=
-he
-> >> previous interrupt, because each read triggers 2 transactions, that ca=
-n
-> >> lead to 2 interrupts for a single user read. IRQF_ONESHOT is not enoug=
-h,
-> >> because, it postpones the 2nd irq after the handling of the first one,
-> >> which can still trigger 2 interrupts for a single user read.
-> >
-> > After some of our recent discussions around interrupt handling and
-> > the guarantees (that aren't) made, even disabling the interrupt doesn't
-> > prevent some irq chips queuing up future interrupts.
-> >
-> > https://lore.kernel.org/all/io53lznz3qp3jd5rohqsjhosnmdzd6d44sdbwu5jcfr=
-s3rz2a2@orquwgflrtyc/
-> >
-> > I'm not sure this alert can actually work as a result :(
-> > I am struggling to come up with a scheme that will work.
-> >
-> Would it work if we change it to a level-triggered interrupt instead of e=
-dge
-> triggered?
+> Update the translation through commit 398c42e2c46c
+> ("ima: support fs-verity file digest based version 3 signatures").
 >
-> Since the main purpose of this is to trigger a hardware shutdown, perhaps=
- we
-> could just omit the interrupt/emitting the event and keep the threshold a=
-nd
-> enable attributes if we can't come up with a reasonable way to handle the
-> interrupts?
+> Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+Reviewed-by: Yanteng Si <siyanteng@linux.dev>
+
+Thanks,
+Yanteng
+> ---
+>   .../zh_CN/security/IMA-templates.rst          | 97 +++++++++++++++++++
+>   .../translations/zh_CN/security/index.rst     |  2 +-
+>   2 files changed, 98 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/translations/zh_CN/security/IMA-templates.rst
 >
+> diff --git a/Documentation/translations/zh_CN/security/IMA-templates.rst b/Documentation/translations/zh_CN/security/IMA-templates.rst
+> new file mode 100644
+> index 000000000000..b391c9d03882
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/security/IMA-templates.rst
+> @@ -0,0 +1,97 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/security/IMA-templates.rst
+> +
+> +:翻译:
+> + 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+> +
+> +===============
+> +IMA模板管理机制
+> +===============
+> +
+> +
+> +介绍
+> +====
+> +
+> +原始的 ``ima`` 模板是固定长度的，包含文件数据的哈希值和路径名。文件数据
+> +哈希值限制为20字节(md5/sha1)。路径名是一个以空字符终止的字符串，长度限
+> +制为255个字符内。
+> +为了克服这些限制并添加额外的文件元数据，通过定义额外的模板来扩展当前版本
+> +的IMA这是有必要的。例如，可能报告的信息包括索引节点的 UID/GID或索引节点
+> +及访问它进程的LSM标签。
+> +
+> +然而，引入这个功能的主要问题是，每次定义一个新模板时，生成和显示度量列表
+> +的函数都需要包含处理新格式的代码，因此，这些函数的规模随着时间的推移会
+> +显著增长。
+> +
+> +提出的解决方案通过将模板管理与其余IMA代码分离来解决这个问题。该解决方案
+> +的核心是定义两个新的数据结构：一个是模板描述符，用于确定度量列表中应包含
+> +哪些信息；另一个是模板字段，用于生成和显示给定类型的数据。
+> +
+> +使用这些结构管理模板非常简单。为了支持一种新的数据类型，开发人员定义字段
+> +标识符，并实现两个函数，分别为init()和show()，用于生成和显示度量条目。
+> +定义一个新的模板描述符需要通过 ``ima_template_fmt`` 内核命令行参数指定
+> +模板格式(一个由 ``|`` 字符分隔的字段标识符字符串)。在启动时，IMA通过将格
+> +式转换从支持的模板字段集合中选取模板字段数组，来初始化所选的模板描述符。
+> +
+> +在初始化步骤之后，IMA将调用 ``ima_alloc_init_template()`` (这是为新模板
+> +管理机制所打补丁中定义的新函数)，通过使用在内核配置选择的模板描述符或者新引
+> +入的 ``ima_template`` 和 ``ima_template_fmt`` 内核命令行参数，生成一个新
+> +的度量条目。在这一阶段，新架构的优势得以清晰展示：后一个函数将不会包含处理给
+> +定模板的特定代码，而是简单地调用与所选模板描述符关联的模板字段的 ``init()``
+> +方法，并将结果(指向已分配数据的指针和数据长度)存储在度量条目结构中。
+> +
+> +相同的机制也用于显示度量条目。函数 ``ima[_ascii]_measurements_show()`` 会为
+> +每个条目检索用于生成该条目的模板描述符，并为模板字段结构数组中的每一项调用show()
+> +方法。
+> +
+> +
+> +
+> +支持的模板字段和描述符
+> +======================
+> +
+> +下面是支持的模板字段列表 ``('<identifier>': description)`` ，可以通过将其标识符
+> +添加到格式字符串中用于定义新的模板描述符(后续将添加对更多数据类型的支持):
+> +
+> + - 'd'：事件的摘要(即测量文件的摘要)，通过SHA1或MD5哈希算法计算；
+> + - 'n'：事件的名称(即文件名)，大小至多255字节；
+> + - 'd-ng'：事件的摘要，通过任意哈希算法计算(字段格式：<hash algo>:digest)；
+> + - 'd-ngv2'：与d-ng相同，但以"ima"或"verity"摘要类型为前缀
+> +   (字段格式：<digest type>:<hash algo>:digest)；
+> + - 'd-modsig'：不含附加modsig的事件摘要；
+> + - 'n-ng'：事件的名称，没有大小限制；
+> + - 'sig'：文件签名，基于文件的/文件系统验证的摘要[1]，或EVM便携式签名，
+> +   如果'security.ima'包含文件哈希；
+> + - 'modsig'：附加的文件签名；
+> + - 'buf'：用于生成哈希的缓冲区数据，没有大小限制；
+> + - 'evmsig'：EVM便携式签名；
+> + - 'iuid'：索引节点的UID；
+> + - 'igid'：索引节点的GID；
+> + - 'imode'：索引节点的模式；
+> + - 'xattrnames'：xattr名称的列表(由``|``分隔)，仅当xattr存在时；
+> + - 'xattrlengths'：xattr长度的列表(u32)，仅当xattr存在时；
+> + - 'xattrvalues'：xattr值的列表；
+> +
+> +
+> +下面是已定义的模板描述符列表：
+> +
+> + - "ima"：其格式是 ``d|n`` ；
+> + - "ima-ng"(默认)：其格式是 ``d-ng|n-ng`` ；
+> + - "ima-ngv2"：其格式是 ``d-ngv2|n-ng`` ；
+> + - "ima-sig"：其格式是 ``d-ng|n-ng|sig`` ；
+> + - "ima-sigv2"：其格式是 ``d-ngv2|n-ng|sig`` ；
+> + - "ima-buf"：其格式是 ``d-ng|n-ng|buf`` ；
+> + - "ima-modsig"：其格式是 ``d-ng|n-ng|sig|d-modsig|modsig`` ；
+> + - "evm-sig"：其格式是 ``d-ng|n-ng|evmsig|xattrnames|xattrlengths|xattrvalues|iuid|igid|imode`` ；
+> +
+> +
+> +
+> +使用
+> +====
+> +
+> +要指定用于生成度量条目的模板描述符，目前支持以下方法:
+> +
+> + - 从内核配置所支持模板描述符中选择一个模板描述符( ``ima-ng`` 是默认选择)；
+> + - 通过 ``ima_template=`` 参数从内核命令行指定模板描述符名称；
+> + - 通过内核命令行参数 ``ima_template_fmt=`` 注册一个具有自定义格式的新模板描述符。
+> diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
+> index 3f68e3145322..bf42930c6fac 100644
+> --- a/Documentation/translations/zh_CN/security/index.rst
+> +++ b/Documentation/translations/zh_CN/security/index.rst
+> @@ -15,6 +15,7 @@
+>   .. toctree::
+>      :maxdepth: 1
+>   
+> +   IMA-templates
+>      lsm
+>      siphash
+>      digsig
+> @@ -23,7 +24,6 @@
+>   TODOLIST:
+>   * credentials
+>   * snp-tdx-threat-model
+> -* IMA-templates
+>   * keys/index
+>   * lsm-development
+>   * sak
 
-Hi Jonathan, and David,
-
-I think this is getting very complicated for something not that useful
-in practice.
-If needed we can go back on this later to find an appropriate solution.
-I sent a non RFC V3 version, removing the interrupt handling? Does
-that work for you?
-
-Cheers
-Julein
