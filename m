@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF1533086;
-	Tue,  7 Jan 2025 02:50:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F05AB7082B;
+	Tue,  7 Jan 2025 02:52:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736218230; cv=none; b=YVsNzPgNP1+0kIJ5T9UElvjxhtRcGLKM+RKsIOthCZYR9p+l8mHtgIrBPu385I9dLXuAVnGo5poISBLtcijQA5WPDXiH7eEYtiPClB9j5MwmZC5o8bnzuf/ZCB8yMAj2ql3Nyq+TDB4srqgxhdrTiZvIUbA3MnR02FKwhpUa6iA=
+	t=1736218342; cv=none; b=CxBjh/RKfiXOgiXp28gaA9rMRc7tFJwud2Ev43JU0g19dLEL0im8tgkSlqxR0SE35Uzifw0YAifW3WDA4Dcjq+MrTqJeZ4RX7wyrt1U/fOQYwWbI5yzlzFewN27YRJ5S9EwAAqH6HA9s9cH4pv2656sjmFSZNKQkpmn4OdB2Ps4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736218230; c=relaxed/simple;
-	bh=56CVjBvjx6FP5/HNpzGbBM3HRk3zUM6Fh7oD1qCe6wQ=;
+	s=arc-20240116; t=1736218342; c=relaxed/simple;
+	bh=XVJJMqKAu7+VbR801LY1pXogtX3xd9vplo928xn2JKY=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AUKTfvPXEOtvkhynmJ6EJmw677JGh1R3Pzfh12SuM7PjDLyjS1SNUfR10azK1Qfnzx+1sSKnNXIJK7t8YA25uTPBJdUH/qCoPcRC0akIedAbfPzMoCIfio0D6lH83JNcSaR02v8NyCeEZZPerfI+NKnr74AOdodVdvtuGY5UDmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fIP/vzoE; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=DITd+EmXqTr9lNyB/yWUT/FnqIHXPKqE0hT/8s/7EuziYm5hdxd/TzmsprMBc604SIN7a/p45XZ1DPa4M19QiyoNYVgGcbw3iIiZe7ob3ecTg0rcmN6WO9WnEDIXbkeqPEIaVTxK3xA7Bt8tZ/FR8RfJw0op4SmA04tDedQliUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pB0drO3c; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fIP/vzoE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0B97C4CED2;
-	Tue,  7 Jan 2025 02:50:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pB0drO3c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55C8CC4CED2;
+	Tue,  7 Jan 2025 02:52:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736218227;
-	bh=56CVjBvjx6FP5/HNpzGbBM3HRk3zUM6Fh7oD1qCe6wQ=;
+	s=k20201202; t=1736218341;
+	bh=XVJJMqKAu7+VbR801LY1pXogtX3xd9vplo928xn2JKY=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=fIP/vzoEWhq4m3C3TK3X5Hj9FLNK2AJ56YtTGABRpMBRmPchiQDC8eueCb+qVpO0m
-	 oH1rgn21ZKFA4sNbujogdsgiXNasm8qolqC2q9RnODbWgmUnVFNqQLZWJcRBaMbTmC
-	 4PA8MkeUAJEK79rPvmejMU89lf/vZCqQ+7cwRo3bXEV3PHI0+qspcRwDRfALDwVTKr
-	 fREIwwZNZXbDw4PYPRwexmwU4V7LhYFpcaZgh9CauZ6y/5Gft1XQDx1sgx8x35ZVoi
-	 dHw58I2o3fmxALLyY+WGbsu6QVTy5r04tfLqQhWDrz+JdYL20Eg+9GZzEdHGoqz1G3
-	 2KoD3jv2t4TPg==
-Date: Mon, 6 Jan 2025 18:50:26 -0800
+	b=pB0drO3cT2vWvb6ISuvGRV34VXnYNx0MGox3/mmkNgnqV+NcLwp5MDa4kTJSNalnZ
+	 nSJ91tROQvAMbRbZaFu5r8evnb3r4afp7ExAi/wF1poYcrHmSWTsTmqSVx7J35fcPC
+	 /KJXfSJlq7yyb0tWb72d0gazDYdjU3nhpxj7P2HPIEAgL1oyDtWtoDEtBSZyFUziMn
+	 HaZV9GoZEOai4GGLvXjZdLWUWAXJ1dzD3gQP2hM9v03gvegQnn9fDaRJfBjPgztGxL
+	 0Q3HABiGa1LR6+zfhjNrSOjnjyFRk3VTAoDpjWJgXcdxwylZS4zDUjlUxslJDi1Fog
+	 x2PhRJBhFtCMQ==
+Date: Mon, 6 Jan 2025 18:52:19 -0800
 From: Jakub Kicinski <kuba@kernel.org>
 To: Taehee Yoo <ap420073@gmail.com>
 Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
@@ -43,12 +43,12 @@ Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
  bigeasy@linutronix.de, lorenzo@kernel.org, jdamato@fastly.com,
  aleksander.lobakin@intel.com, kaiyuanz@google.com, willemb@google.com,
  daniel.zahka@gmail.com
-Subject: Re: [PATCH net-next v7 04/10] net: ethtool: add ring parameter
- filtering
-Message-ID: <20250106185026.6ecdea0e@kernel.org>
-In-Reply-To: <20250103150325.926031-5-ap420073@gmail.com>
+Subject: Re: [PATCH net-next v7 05/10] net: disallow setup single buffer XDP
+ when tcp-data-split is enabled.
+Message-ID: <20250106185219.74f93c7e@kernel.org>
+In-Reply-To: <20250103150325.926031-6-ap420073@gmail.com>
 References: <20250103150325.926031-1-ap420073@gmail.com>
-	<20250103150325.926031-5-ap420073@gmail.com>
+	<20250103150325.926031-6-ap420073@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,10 +58,12 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri,  3 Jan 2025 15:03:19 +0000 Taehee Yoo wrote:
-> While the devmem is running, the tcp-data-split and
-> hds-thresh configuration should not be changed.
-> If user tries to change tcp-data-split and threshold value while the
-> devmem is running, it fails and shows extack message.
+On Fri,  3 Jan 2025 15:03:20 +0000 Taehee Yoo wrote:
+> When a single buffer XDP is attached, NIC should guarantee only single
+> page packets will be received.
+> tcp-data-split feature splits packets into header and payload. single
+> buffer XDP can't handle it properly.
+> So attaching single buffer XDP should be disallowed when tcp-data-split
+> is enabled.
 
-Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+Acked-by: Jakub Kicinski <kuba@kernel.org>
