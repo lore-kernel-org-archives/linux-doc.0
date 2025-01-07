@@ -1,64 +1,80 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAF849652
-	for <linux-doc@vger.kernel.org>; Tue,  7 Jan 2025 16:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7A516DEB1;
+	Tue,  7 Jan 2025 16:48:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736268504; cv=none; b=B7OPNMkN4A4OR/MPAGEN7gn7JpW2xXPfT/Hg8VZJZflOyGKUSr1OR03LKmhMO1aOYvK0ur8tbDO5OeiUn9vahJdWofPTCxlcvAG+SaCfGXzzdYCRdaZj+xUxWVkH0kxiBcaXxJmgXI7vL16BSNJ5Lk5NwOICt34dpBUXKId1MD4=
+	t=1736268511; cv=none; b=q+aMFy5/Nx5qUnr93o4ZXl+QPujIw1p+m8qUFyZILVbhlwN/gg1Bq2gT7WTM96JPqk+n3k7sSc+fALhYjla/XvfCxTGZ4yeuagdX0XVML+MKSlO3jpTq5ydTlueRkWmgEMXWUAQkWz6tFj4ca8cncY4loazkdR367+qUvTK+Uuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736268504; c=relaxed/simple;
-	bh=nAdNZglN2eO4OkvGU3IXwgna8Nskk9l2fhG//Xse65Y=;
+	s=arc-20240116; t=1736268511; c=relaxed/simple;
+	bh=tKuS7uc5goMK8XZQk55sNPlOYxNb4wE9EvUvJ7SdXVE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ChXlaGhgU6VNV+bKSHpeWM0F6lDc0bwaT4Y+1fgPyka+47+EHZWZXBi/x0hLAW+eazQtSrSWoJzPSh54S8IV0r9HViDRisqyiYCaaZPklz2kFdl4/RHg6UEyciihBsEZle3ftDj+q7UU6kzyngml3sZErJFxpzyDua8lElJ4xpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=S8PQbwgz; arc=none smtp.client-ip=209.85.210.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	 In-Reply-To:Content-Type; b=oyqP2KiPwBTbSfumT24w2TnTnKMuMOjmjl60QSk20RilPAVIRv0D450awzC8lKj+Zs9WLpvBQzwxtmnmAwEE4sKQKTZjeYoai7tieR1OahhSH/rh5MGcryneASuhzF3Rb862CDCdgbvN0K1t4bEmQUd1t3n0c/ooX47YOOPWXYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hNMUeux9; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=l0Ci9xgr; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hNMUeux9; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=l0Ci9xgr; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="S8PQbwgz"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-71e17ab806bso8384239a34.2
-        for <linux-doc@vger.kernel.org>; Tue, 07 Jan 2025 08:48:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736268501; x=1736873301; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=t2CMOR/p6KhjwdOJ+daE2KH7z8aBE6xeU8fSpxafapw=;
-        b=S8PQbwgzcxrh4EhaHyFV70m7F/TmiputzPKzMtWqFrsUuam2nzZP2arVJg+7yuOSD2
-         PRKlkz97QrbzJ16ylMVJFDZnvOfk+56nDukJyNRnzhT9MzVEu5BsDLSkUsbRhQ6j0c+0
-         Ici9fq3HarAduCxnTUgZbSiy6UPuQP9qPRGYu/tOL1xg4KcNa29ajHCqnSd0INOANayA
-         DqPdNfrtzwd4KFLEG/LZptSOHKdn+ZhvCMPGuRAvsLb777P42FqEtnyZ1YPKfn0iqAN9
-         3A2ARymBXWhTrJZX0O0iIzFmwKtCXh+6nlWNVqA76zTqrp9PD4kP+CjIxoZFTHcbmOzB
-         Vxgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736268501; x=1736873301;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t2CMOR/p6KhjwdOJ+daE2KH7z8aBE6xeU8fSpxafapw=;
-        b=oB8fOCbQz7oxVuvxYLZrBq2CPXG3PA09TQpDTXjgeOc6B8NIIKiCeRA/dmF93wTC/h
-         U/RnU6gMsX4JjM4vzOeDzENp/QSQcr88lyayVj/R6DT/vt7jue4kVwTzyyMiDeFgeEYC
-         S8q9eWt2Wag/NYkgpZF0AEv4Id5Fl1PUV0TMIq296QoBTi/+HktmuQGMHPv4gPHTgMqx
-         M1p9+vrlF3rZp00sMmU9Bh/z4d9pW04pFn48FpmHLNUdDzvEqG0vghI0VBWhPRdT5Egy
-         nTnXKZywst8JXD4PzV9u+ArLawk6WHacM6slzMLHLVEzzlJmhpgZG4B05fzMIW3XH+i8
-         2XBg==
-X-Forwarded-Encrypted: i=1; AJvYcCUWM178TzyE4x4OGbQvbyTfpF/+wpsAZk3DsETN/5rNpq53slkTMhTEgKdAM49O2ggLKfPEfk34sKU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0nVuH5H7eXQInTH1gx5mZtYqy035HWnReCP/WBOHHiykwEibj
-	jJ8VvSl+0BxmwvQh5CNbnHYBKkmTzlT4LrLv7a/kPMWX4A7eA5fLqN/3Gudm4rs=
-X-Gm-Gg: ASbGncu0v0HyJ3lk98sA1vCbVRMBT2WtVDDaMMXaeYCbSK41EmV89GS6dMneocq7kzX
-	vl/ntcRm7Iu0YcCTE8anM5Ht/+hQLbvbeMyHofl5qAlh6KGzrtbehNQWVTkaIfVKN6M1l9Xd8qR
-	/PoXZC14H4kQYBUi+6e4hAxQDBcalJ3b2YCOZ3LpC84/O+PJe2u3Ew3jEXM6JX5WEv+9pwQhZG5
-	9SSuFiOsgcqlR4p02GIOpN4Lx6umLIcXWQfjFuRQdccWI7GSaL2rvf4cfzpz+0B3SatbQT/zxqT
-	BOxQgPgCFzkVkfPi0g==
-X-Google-Smtp-Source: AGHT+IHII89kez2WQk20utvd/AETbzX49+VrbyvKcDMVkyyN63b1MuFUr+kVHHKqUXgjrhD1B7itbw==
-X-Received: by 2002:a05:6830:3108:b0:71a:5f45:ac3f with SMTP id 46e09a7af769-720ff67da00mr42829898a34.2.1736268500853;
-        Tue, 07 Jan 2025 08:48:20 -0800 (PST)
-Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-71fc976ba23sm10397861a34.1.2025.01.07.08.48.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jan 2025 08:48:19 -0800 (PST)
-Message-ID: <e3ef72e6-4f39-488f-9aaa-2bbc91e43bc4@baylibre.com>
-Date: Tue, 7 Jan 2025 10:48:18 -0600
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hNMUeux9";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="l0Ci9xgr";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hNMUeux9";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="l0Ci9xgr"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C1B601F390;
+	Tue,  7 Jan 2025 16:48:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1736268505; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=r1ee9Brv86Habj3Hz3ipxefYUSa38rtgSs4O+8idEk0=;
+	b=hNMUeux9oL7BYfShkjDnzZkYdfQLSWa/6OpAHgBdh1dUZM+G0+CXz2igzCG0CM+oj9Bhch
+	uYIdw9Sf2zRXMRjw6+uVacGFhQ2jJJojTGP98/xyNZ/AUxrEJRiwn6A4hRModt8ZUzxLyW
+	gqllXHKZkPGAgNgYoLIVM4HwF6Zy8BQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1736268505;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=r1ee9Brv86Habj3Hz3ipxefYUSa38rtgSs4O+8idEk0=;
+	b=l0Ci9xgrc8IIl/FUAAa5J/rfwCkGvYssgzCAkzsS0xntMTu0d1yNZ/m+b7N9RYNYZlgk2g
+	5knx8vfcBWs26iAw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1736268505; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=r1ee9Brv86Habj3Hz3ipxefYUSa38rtgSs4O+8idEk0=;
+	b=hNMUeux9oL7BYfShkjDnzZkYdfQLSWa/6OpAHgBdh1dUZM+G0+CXz2igzCG0CM+oj9Bhch
+	uYIdw9Sf2zRXMRjw6+uVacGFhQ2jJJojTGP98/xyNZ/AUxrEJRiwn6A4hRModt8ZUzxLyW
+	gqllXHKZkPGAgNgYoLIVM4HwF6Zy8BQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1736268505;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=r1ee9Brv86Habj3Hz3ipxefYUSa38rtgSs4O+8idEk0=;
+	b=l0Ci9xgrc8IIl/FUAAa5J/rfwCkGvYssgzCAkzsS0xntMTu0d1yNZ/m+b7N9RYNYZlgk2g
+	5knx8vfcBWs26iAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7F6AD13763;
+	Tue,  7 Jan 2025 16:48:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 805VHtlafWf9YwAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Tue, 07 Jan 2025 16:48:25 +0000
+Message-ID: <bd6c05ad-efc4-46f1-b34c-1bfd2877852c@suse.cz>
+Date: Tue, 7 Jan 2025 17:48:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -66,34 +82,99 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/5] iio: adc: ad7380: do not use
- iio_device_claim_direct_scoped anymore
-To: Julien Stephan <jstephan@baylibre.com>,
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20250107-ad7380-add-alert-support-v3-0-bce10afd656b@baylibre.com>
- <20250107-ad7380-add-alert-support-v3-1-bce10afd656b@baylibre.com>
-From: David Lechner <dlechner@baylibre.com>
+Subject: Re: [PATCH v7 04/17] mm: modify vma_iter_store{_gfp} to indicate if
+ it's storing a new vma
 Content-Language: en-US
-In-Reply-To: <20250107-ad7380-add-alert-support-v3-1-bce10afd656b@baylibre.com>
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
+ lorenzo.stoakes@oracle.com, mhocko@suse.com, hannes@cmpxchg.org,
+ mjguzik@gmail.com, oliver.sang@intel.com, mgorman@techsingularity.net,
+ david@redhat.com, peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net,
+ paulmck@kernel.org, brauner@kernel.org, dhowells@redhat.com,
+ hdanton@sina.com, hughd@google.com, lokeshgidra@google.com,
+ minchan@google.com, jannh@google.com, shakeel.butt@linux.dev,
+ souravpanda@google.com, pasha.tatashin@soleen.com, klarasmodin@gmail.com,
+ corbet@lwn.net, linux-doc@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, kernel-team@android.com
+References: <20241226170710.1159679-1-surenb@google.com>
+ <20241226170710.1159679-5-surenb@google.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
+ KxRWDHX0R2tgpFDXHnzZcQywawu8eSq0LxzxFNYMvtB7sV1pxYwej2qx9B75qW2plBs+7+YB
+ 87tMFA+u+L4Z5xAzIimfLD5EKC56kJ1CsXlM8S/LHcmdD9Ctkn3trYDNnat0eoAcfPIP2OZ+
+ 9oe9IF/R28zmh0ifLXyJQQz5ofdj4bPf8ecEW0rhcqHfTD8k4yK0xxt3xW+6Exqp9n9bydiy
+ tcSAw/TahjW6yrA+6JhSBv1v2tIm+itQc073zjSX8OFL51qQVzRFr7H2UQG33lw2QrvHRXqD
+ Ot7ViKam7v0Ho9wEWiQOOZlHItOOXFphWb2yq3nzrKe45oWoSgkxKb97MVsQ+q2SYjJRBBH4
+ 8qKhphADYxkIP6yut/eaj9ImvRUZZRi0DTc8xfnvHGTjKbJzC2xpFcY0DQbZzuwsIZ8OPJCc
+ LM4S7mT25NE5kUTG/TKQCk922vRdGVMoLA7dIQrgXnRXtyT61sg8PG4wcfOnuWf8577aXP1x
+ 6mzw3/jh3F+oSBHb/GcLC7mvWreJifUL2gEdssGfXhGWBo6zLS3qhgtwjay0Jl+kza1lo+Cv
+ BB2T79D4WGdDuVa4eOrQ02TxqGN7G0Biz5ZLRSFzQSQwLn8fbwARAQABzSBWbGFzdGltaWwg
+ QmFia2EgPHZiYWJrYUBzdXNlLmN6PsLBlAQTAQoAPgIbAwULCQgHAwUVCgkICwUWAgMBAAIe
+ AQIXgBYhBKlA1DSZLC6OmRA9UCJPp+fMgqZkBQJkBREIBQkRadznAAoJECJPp+fMgqZkNxIQ
+ ALZRqwdUGzqL2aeSavbum/VF/+td+nZfuH0xeWiO2w8mG0+nPd5j9ujYeHcUP1edE7uQrjOC
+ Gs9sm8+W1xYnbClMJTsXiAV88D2btFUdU1mCXURAL9wWZ8Jsmz5ZH2V6AUszvNezsS/VIT87
+ AmTtj31TLDGwdxaZTSYLwAOOOtyqafOEq+gJB30RxTRE3h3G1zpO7OM9K6ysLdAlwAGYWgJJ
+ V4JqGsQ/lyEtxxFpUCjb5Pztp7cQxhlkil0oBYHkudiG8j1U3DG8iC6rnB4yJaLphKx57NuQ
+ PIY0Bccg+r9gIQ4XeSK2PQhdXdy3UWBr913ZQ9AI2usid3s5vabo4iBvpJNFLgUmxFnr73SJ
+ KsRh/2OBsg1XXF/wRQGBO9vRuJUAbnaIVcmGOUogdBVS9Sun/Sy4GNA++KtFZK95U7J417/J
+ Hub2xV6Ehc7UGW6fIvIQmzJ3zaTEfuriU1P8ayfddrAgZb25JnOW7L1zdYL8rXiezOyYZ8Fm
+ ZyXjzWdO0RpxcUEp6GsJr11Bc4F3aae9OZtwtLL/jxc7y6pUugB00PodgnQ6CMcfR/HjXlae
+ h2VS3zl9+tQWHu6s1R58t5BuMS2FNA58wU/IazImc/ZQA+slDBfhRDGYlExjg19UXWe/gMcl
+ De3P1kxYPgZdGE2eZpRLIbt+rYnqQKy8UxlszsBNBFsZNTUBCACfQfpSsWJZyi+SHoRdVyX5
+ J6rI7okc4+b571a7RXD5UhS9dlVRVVAtrU9ANSLqPTQKGVxHrqD39XSw8hxK61pw8p90pg4G
+ /N3iuWEvyt+t0SxDDkClnGsDyRhlUyEWYFEoBrrCizbmahOUwqkJbNMfzj5Y7n7OIJOxNRkB
+ IBOjPdF26dMP69BwePQao1M8Acrrex9sAHYjQGyVmReRjVEtv9iG4DoTsnIR3amKVk6si4Ea
+ X/mrapJqSCcBUVYUFH8M7bsm4CSxier5ofy8jTEa/CfvkqpKThTMCQPNZKY7hke5qEq1CBk2
+ wxhX48ZrJEFf1v3NuV3OimgsF2odzieNABEBAAHCwXwEGAEKACYCGwwWIQSpQNQ0mSwujpkQ
+ PVAiT6fnzIKmZAUCZAUSmwUJDK5EZgAKCRAiT6fnzIKmZOJGEACOKABgo9wJXsbWhGWYO7mD
+ 8R8mUyJHqbvaz+yTLnvRwfe/VwafFfDMx5GYVYzMY9TWpA8psFTKTUIIQmx2scYsRBUwm5VI
+ EurRWKqENcDRjyo+ol59j0FViYysjQQeobXBDDE31t5SBg++veI6tXfpco/UiKEsDswL1WAr
+ tEAZaruo7254TyH+gydURl2wJuzo/aZ7Y7PpqaODbYv727Dvm5eX64HCyyAH0s6sOCyGF5/p
+ eIhrOn24oBf67KtdAN3H9JoFNUVTYJc1VJU3R1JtVdgwEdr+NEciEfYl0O19VpLE/PZxP4wX
+ PWnhf5WjdoNI1Xec+RcJ5p/pSel0jnvBX8L2cmniYnmI883NhtGZsEWj++wyKiS4NranDFlA
+ HdDM3b4lUth1pTtABKQ1YuTvehj7EfoWD3bv9kuGZGPrAeFNiHPdOT7DaXKeHpW9homgtBxj
+ 8aX/UkSvEGJKUEbFL9cVa5tzyialGkSiZJNkWgeHe+jEcfRT6pJZOJidSCdzvJpbdJmm+eED
+ w9XOLH1IIWh7RURU7G1iOfEfmImFeC3cbbS73LQEFGe1urxvIH5K/7vX+FkNcr9ujwWuPE9b
+ 1C2o4i/yZPLXIVy387EjA6GZMqvQUFuSTs/GeBcv0NjIQi8867H3uLjz+mQy63fAitsDwLmR
+ EP+ylKVEKb0Q2A==
+In-Reply-To: <20241226170710.1159679-5-surenb@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[32];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[infradead.org,oracle.com,suse.com,cmpxchg.org,gmail.com,intel.com,techsingularity.net,redhat.com,stgolabs.net,kernel.org,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	R_RATELIMIT(0.00)[to_ip_from(RLumbhs4xhzuuihrchnpuyb6qu)]
+X-Spam-Score: -4.30
+X-Spam-Flag: NO
 
-On 1/7/25 2:48 AM, Julien Stephan wrote:
-> Conditionnal scoped handlers are turning out to be a real pain:
-> readability issues, compiler and linker handling issues among others so
-> rollback and remove the scoped version of iio_dvice_claim_direct_mode.
+On 12/26/24 18:06, Suren Baghdasaryan wrote:
+> vma_iter_store() functions can be used both when adding a new vma and
+> when updating an existing one. However for existing ones we do not need
+> to mark them attached as they are already marked that way. Add a parameter
+> to distinguish the usage and skip vma_mark_attached() when not needed.
 > 
-> To impove code readability factorize code to set oversampling ratio.
-> 
-> Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> ---
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
-FYI, might want to hold off on this until we see how [1] ends up.
-
-[1]: https://lore.kernel.org/linux-iio/20250105172613.1204781-1-jic23@kernel.org/
+Seems like an overkill? Looks the common case is the "true" case so add a
+variant for the false case? Also seems no _store_gfp caller uses false so
+that doesn't need to exist anyway?
 
