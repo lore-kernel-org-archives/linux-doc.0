@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CEF018C0C;
-	Tue,  7 Jan 2025 02:48:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF1533086;
+	Tue,  7 Jan 2025 02:50:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736218136; cv=none; b=WZwOiuWUaXAUO1ACaoE/ONM8C/qy6wdTASUGyDVXw5xVy2xX0HDuKaQH9rcKrhwB3fxs99aOxgztpt+pvSq5KbpZ5hyFBe3BzEQsyH2KSGQuEn+ugz5leh5bXZXmwAwTb0gahXjv4k1yKlBi5PPQvwpMEYQET4YIoumHHPGC7b0=
+	t=1736218230; cv=none; b=YVsNzPgNP1+0kIJ5T9UElvjxhtRcGLKM+RKsIOthCZYR9p+l8mHtgIrBPu385I9dLXuAVnGo5poISBLtcijQA5WPDXiH7eEYtiPClB9j5MwmZC5o8bnzuf/ZCB8yMAj2ql3Nyq+TDB4srqgxhdrTiZvIUbA3MnR02FKwhpUa6iA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736218136; c=relaxed/simple;
-	bh=Br6oU1kRRpFM+1QOHH/MTQhAn3UdicbftXFU4AaOTOo=;
+	s=arc-20240116; t=1736218230; c=relaxed/simple;
+	bh=56CVjBvjx6FP5/HNpzGbBM3HRk3zUM6Fh7oD1qCe6wQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M0ed0gcLmQbX97MHvyVRyWv6ZKMZn0p+eV9fjvMaROp5vV9mtmoJBLVlxvV/XyNdaCsEGbnNh27HPEkAiAQXsikZLSvDk48p9I2AVYDnJZb8YSETejscdRl7LdoV96AKhktUgTOHk2qfUatUEOoXa5cAqephTJqspAVCq6ynMwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bz7KT+ek; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=AUKTfvPXEOtvkhynmJ6EJmw677JGh1R3Pzfh12SuM7PjDLyjS1SNUfR10azK1Qfnzx+1sSKnNXIJK7t8YA25uTPBJdUH/qCoPcRC0akIedAbfPzMoCIfio0D6lH83JNcSaR02v8NyCeEZZPerfI+NKnr74AOdodVdvtuGY5UDmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fIP/vzoE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bz7KT+ek"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3FEFC4CED2;
-	Tue,  7 Jan 2025 02:48:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fIP/vzoE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0B97C4CED2;
+	Tue,  7 Jan 2025 02:50:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736218136;
-	bh=Br6oU1kRRpFM+1QOHH/MTQhAn3UdicbftXFU4AaOTOo=;
+	s=k20201202; t=1736218227;
+	bh=56CVjBvjx6FP5/HNpzGbBM3HRk3zUM6Fh7oD1qCe6wQ=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Bz7KT+ekiCPXAK/Z+aVKQmZ38vqfehKuYkf3+HT73cUQQ2T7qujiF5CAS6gTG0fEn
-	 p2wRSb/n816obJbBZzkx+XClS5oLdpQ3CAVkfonxYHweTpAYgIsqCVJquZZny1M4QT
-	 Mc/Upqqd6TpbH3FnE2y0HEfArSRw/aGKCFXy463hgkyKEuL1pRZFdyIcqsZgiGdd99
-	 kl7u0RZRPDbKHEv2bC7qZs8kNjOU9huU7WvgSxOaBEknCiDO+h/fo9iyOix3CKZxfs
-	 wyHqmcSQCLyYjDVgJuMXhHvsb5a45TsgAmOOdXHKgyILERA7nIRN16VWPnyYzaHQvG
-	 iAVZUQOfQ3pWQ==
-Date: Mon, 6 Jan 2025 18:48:54 -0800
+	b=fIP/vzoEWhq4m3C3TK3X5Hj9FLNK2AJ56YtTGABRpMBRmPchiQDC8eueCb+qVpO0m
+	 oH1rgn21ZKFA4sNbujogdsgiXNasm8qolqC2q9RnODbWgmUnVFNqQLZWJcRBaMbTmC
+	 4PA8MkeUAJEK79rPvmejMU89lf/vZCqQ+7cwRo3bXEV3PHI0+qspcRwDRfALDwVTKr
+	 fREIwwZNZXbDw4PYPRwexmwU4V7LhYFpcaZgh9CauZ6y/5Gft1XQDx1sgx8x35ZVoi
+	 dHw58I2o3fmxALLyY+WGbsu6QVTy5r04tfLqQhWDrz+JdYL20Eg+9GZzEdHGoqz1G3
+	 2KoD3jv2t4TPg==
+Date: Mon, 6 Jan 2025 18:50:26 -0800
 From: Jakub Kicinski <kuba@kernel.org>
 To: Taehee Yoo <ap420073@gmail.com>
 Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
@@ -43,12 +43,12 @@ Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
  bigeasy@linutronix.de, lorenzo@kernel.org, jdamato@fastly.com,
  aleksander.lobakin@intel.com, kaiyuanz@google.com, willemb@google.com,
  daniel.zahka@gmail.com
-Subject: Re: [PATCH net-next v7 02/10] net: ethtool: add support for
- configuring hds-thresh
-Message-ID: <20250106184854.4028c83d@kernel.org>
-In-Reply-To: <20250103150325.926031-3-ap420073@gmail.com>
+Subject: Re: [PATCH net-next v7 04/10] net: ethtool: add ring parameter
+ filtering
+Message-ID: <20250106185026.6ecdea0e@kernel.org>
+In-Reply-To: <20250103150325.926031-5-ap420073@gmail.com>
 References: <20250103150325.926031-1-ap420073@gmail.com>
-	<20250103150325.926031-3-ap420073@gmail.com>
+	<20250103150325.926031-5-ap420073@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,40 +58,10 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Fri,  3 Jan 2025 15:03:17 +0000 Taehee Yoo wrote:
-> diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
-> index 4e451084d58a..8bab30e91022 100644
-> --- a/include/linux/ethtool.h
-> +++ b/include/linux/ethtool.h
-> @@ -78,6 +78,8 @@ enum {
->   * @cqe_size: Size of TX/RX completion queue event
->   * @tx_push_buf_len: Size of TX push buffer
->   * @tx_push_buf_max_len: Maximum allowed size of TX push buffer
-> + * @hds_thresh: Threshold value of header-data-split-thresh
-> + * @hds_thresh_max: Maximum supprted threshold of header-data-split-thresh
+On Fri,  3 Jan 2025 15:03:19 +0000 Taehee Yoo wrote:
+> While the devmem is running, the tcp-data-split and
+> hds-thresh configuration should not be changed.
+> If user tries to change tcp-data-split and threshold value while the
+> devmem is running, it fails and shows extack message.
 
-supprted -> supported
-
-Maybe let's rephrase these as:
-
- * @hds_thresh: Packet size threshold for header data split (HDS)
- * @hds_thresh_max: Maximum supported setting for @hds_threshold
-
->   */
-
->   * @module_fw_flash_in_progress: Module firmware flashing is in progress.
-> @@ -1141,6 +1148,7 @@ int ethtool_virtdev_set_link_ksettings(struct net_device *dev,
->  struct ethtool_netdev_state {
->  	struct xarray		rss_ctx;
->  	struct mutex		rss_lock;
-> +	u32			hds_thresh;
-
-this value is checked in devmem.c but nothing ever sets it.
-net/ethtool/rings.c needs to handle it like it handles
-dev->ethtool->hds_config
-
->  	u8			hds_config;
->  	unsigned		wol_enabled:1;
->  	unsigned		module_fw_flash_in_progress:1;
--- 
-pw-bot: cr
+Reviewed-by: Jakub Kicinski <kuba@kernel.org>
