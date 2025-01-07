@@ -1,65 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [195.130.137.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D72419E806;
-	Tue,  7 Jan 2025 07:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1DBE1E2845
+	for <linux-doc@vger.kernel.org>; Tue,  7 Jan 2025 08:44:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736233912; cv=none; b=mHXcAEN4QssauzEoMs7PTz+19tODst81eInvpIEztfhTqgi65qRfcyjYau4Qgwh41iPM5rygTBpi0UzcDNQgDxwzww7QBWJ9lR7DpZQPn193ROwbj4nRkEYzw3mkAbFf8nd9eee6AKvi+Q1XVy31J0Nkhj1S/L1iASSnT65JEjM=
+	t=1736239485; cv=none; b=c2Yj47/0Mh9VzZOdjG4J9CLzOSFzYw2sn10GI2Q1hiLtUkEeHv5G9R4eWoNW4izMaeZqgIQXsp31+A3Esv5omTiatvnpbBVmuTXpi5n+pFWEHUWZNtlshOM08A5nG/8y0YgBKkEZOIqL/4JMDIQ2jtAoJDV3YS+9jWCBS5QVX9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736233912; c=relaxed/simple;
-	bh=kz4dkqGY63si1DYaVHHi6BHE15iPw9g7NKwyNebekAQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gmQ8F585CMTfuGgxRy6gbzliVJwpHmVLTxKRgmi44UXXEgvxCVrGRimab4Ch9+kSk/y/baACR8u+hy5qAsDSwyLQTQJDK1zGcEvr9wLPRXN7HZfSmIlJGwCeGSDSj+ClQoiscpSbgNY8MUsizgjAaIeO8nILfm8j1kVmkqQUYeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QcYa9JFm; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QcYa9JFm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F7E9C4CED6;
-	Tue,  7 Jan 2025 07:11:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736233911;
-	bh=kz4dkqGY63si1DYaVHHi6BHE15iPw9g7NKwyNebekAQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QcYa9JFmkH9J6YtIIyZoP8qmjyoPfv1xVKOC1FcX3xAI99vSrG++GpxetEtzc/6hY
-	 2bjrSl7CQnWszl9f1p1T6QuyInt7amACuxSeaIO77JF/b0Q/oSecJ0vlOR7zUuVVAb
-	 9etMUj2OuR3+o91OAkGqUAg2pKQr6cI/fBvDMZiAHhc1OqK13hBpQRKCOBdjQGw0Sp
-	 djdDUyAzJVrrzsc/b5GgtTMIa1RPW92OoaF7OtNyJcQVRKT1GbvmnIXmvO7i3ZbsqU
-	 gf2LWudNGF7PJh/GWewDDfBIzixTucb8z87Tnj22HS5u/VTuJHJ/CwuvdQyYJUSeU5
-	 1ys+3RR+lMOaA==
-Date: Tue, 7 Jan 2025 08:11:48 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: John Erasmus Mari Geronimo <johnerasmusmari.geronimo@analog.com>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH 1/2] dt-bindings: hwmon: adm1275: add adm1273
-Message-ID: <sl3eoqolbui4ce55v63ht3sc4k5o5jmvdvxnvwsmqwibawjbdr@4zwkr34gtlpd>
-References: <20250106131740.305988-1-johnerasmusmari.geronimo@analog.com>
- <20250106131740.305988-2-johnerasmusmari.geronimo@analog.com>
+	s=arc-20240116; t=1736239485; c=relaxed/simple;
+	bh=5P9iZOWC+nkrEWb3FOIQ8gioITybKsrDoTgdL1L/wyU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pMVsJ5pJbV1lgL1yl3MF3ulCT1ZKRdGT24XQKwEu03VRWTIJLl9aNMODPpFQHaud92g25+O2oHmZ2fxGpR4AO2/6eMlaWt3xMv5eN4OwOwVQqYtVNOcDUqWtnfOHgEsmb2xFgOskDRC5E2QlR8wdJe8EMiGImBwFHOaVEh/fh2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:39d4:dc4e:b4ce:1377])
+	by laurent.telenet-ops.be with cmsmtp
+	id y8kZ2D00U3AZZFy018kZWv; Tue, 07 Jan 2025 09:44:35 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tV5CP-00000008Zi0-3z6C;
+	Tue, 07 Jan 2025 09:44:33 +0100
+Received: from geert by rox.of.borg with local (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tV5CT-00000004lQd-20pE;
+	Tue, 07 Jan 2025 09:44:33 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Miklos Szeredi <miklos@szeredi.hu>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-unionfs@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] overlayfs.rst: Fix and improve grammar
+Date: Tue,  7 Jan 2025 09:44:28 +0100
+Message-ID: <cf07f705d63f04ebf7ba4ecafdc9ab6f63960e3d.1736239148.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250106131740.305988-2-johnerasmusmari.geronimo@analog.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 06, 2025 at 09:17:39PM +0800, John Erasmus Mari Geronimo wrote:
-> Add support for the adm1273 Hot-Swap Controller and Digital Power
-> and Energy Monitor
-> 
-> Signed-off-by: John Erasmus Mari Geronimo <johnerasmusmari.geronimo@analog.com>
-> ---
->  Documentation/devicetree/bindings/hwmon/adi,adm1275.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+  - Correct "in a way the" to "in a way that",
+  - Add a comma to improve readability.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ Documentation/filesystems/overlayfs.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/filesystems/overlayfs.rst
+index 4c8387e1c88068fa..a93dddeae199491a 100644
+--- a/Documentation/filesystems/overlayfs.rst
++++ b/Documentation/filesystems/overlayfs.rst
+@@ -266,7 +266,7 @@ Non-directories
+ Objects that are not directories (files, symlinks, device-special
+ files etc.) are presented either from the upper or lower filesystem as
+ appropriate.  When a file in the lower filesystem is accessed in a way
+-the requires write-access, such as opening for write access, changing
++that requires write-access, such as opening for write access, changing
+ some metadata etc., the file is first copied from the lower filesystem
+ to the upper filesystem (copy_up).  Note that creating a hard-link
+ also requires copy_up, though of course creation of a symlink does
+@@ -549,8 +549,8 @@ Nesting overlayfs mounts
+ 
+ It is possible to use a lower directory that is stored on an overlayfs
+ mount. For regular files this does not need any special care. However, files
+-that have overlayfs attributes, such as whiteouts or "overlay.*" xattrs will be
+-interpreted by the underlying overlayfs mount and stripped out. In order to
++that have overlayfs attributes, such as whiteouts or "overlay.*" xattrs, will
++be interpreted by the underlying overlayfs mount and stripped out. In order to
+ allow the second overlayfs mount to see the attributes they must be escaped.
+ 
+ Overlayfs specific xattrs are escaped by using a special prefix of
+-- 
+2.43.0
 
