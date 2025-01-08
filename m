@@ -1,96 +1,100 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2F81FF7B4;
-	Wed,  8 Jan 2025 17:00:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 154AC1FFC7B;
+	Wed,  8 Jan 2025 17:26:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736355605; cv=none; b=YVRJvDv0YETAR9kuvp6zqqGaAJkpwUpEMq29XyJuczHbyTY5eYIT2HWq+Q4wJNknZ2EzPfS8iNHvidgfoyxJ7MeMB+vGbR6T5sXaEWl1fjchtTO3jI+gDrEMMZcTfQEaiwnrqvY574r9xUSJYqlVULNmARvyBofLoyXD2GweyQA=
+	t=1736357211; cv=none; b=LrTVa13OvG4lImGj315c3rJBA3jq5pBqRdKiis7uwj/vVG93/f0L5o1BU5ij9PG9+h3oF/FyhD/1I8uTW9L/sBRpODIRBsGE4O0hFILSecHrjjDMe2W7l8qJqTfS68d1G9IVXcjOO/ejIjJXX9hHFpPc+40+NmWawH+ct76l75Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736355605; c=relaxed/simple;
-	bh=HFVc8oLbaMpPOiOm4hXv8z+FIyZjllGwd4MTZEyB5Os=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sn+1smZGLZH7rOfojRaHkAXec4Sh0Jq6gLkORipM5fkEkGd8DTPr5v20hNI2ExRpch/39UzkOsgCV0FKgRwk74To08NAzPuG3k4T7KdgkVLOAixYStxFAPOaeQSNrGK58/m0YsL+0m0c6FVrpGxUXQUHvmAKcha2lJxLUUhb3jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=pcYKJSqo; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1736357211; c=relaxed/simple;
+	bh=tIIhLJb11NqDqWXBo/NWi6wvo01S8sFAFxHTXh8cKV0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=DB6IXkxyBnUqFB9Rgf7wA9Up1UMhndZ8JOEQouhRx6958kh4hIn8+6ajtaH4928KyNNtjGCyxA6Y6ZieK+Of3SCJYn6RPLBq0OVTyV0RSXN5r17ZcsEZbHISM5YVokUHvLjJ8TBFd/dbCqEP7GTz5UEChtQKfyBnkomJ2gbI1gU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hzH3em/1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="pcYKJSqo"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=KlH41KXb6DEhXWYu4j1AZW/YcnxDGl2H1tPl1BECyjA=; b=pcYKJSqo34eAhorobLO7X0ODm2
-	xLDLot5xhhBbBJxp75+mj8A+HY4rltgVpkUrxJ5d0Ritf/lHp/KdQ5w1UmIhgkb//hvNHt/maTze5
-	tolADuZJKquheTQUa1yRbaR0lZojJoQukvNaHrG0xqpceAqfxtH/8Kdp2/p55DqQLgQ8=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1tVZPP-002dK9-Gt; Wed, 08 Jan 2025 17:59:55 +0100
-Date: Wed, 8 Jan 2025 17:59:55 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Luo Jie <quic_luoj@quicinc.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lei Wei <quic_leiwei@quicinc.com>,
-	Suruchi Agarwal <quic_suruchia@quicinc.com>,
-	Pavithra R <quic_pavir@quicinc.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
-	quic_kkumarcs@quicinc.com, quic_linchen@quicinc.com,
-	srinivas.kandagatla@linaro.org, bartosz.golaszewski@linaro.org,
-	john@phrozen.org
-Subject: Re: [PATCH net-next v2 12/14] net: ethernet: qualcomm: Initialize
- PPE L2 bridge settings
-Message-ID: <4dbf1550-32e9-4cce-bf0c-8b92dbd49b50@lunn.ch>
-References: <20250108-qcom_ipq_ppe-v2-0-7394dbda7199@quicinc.com>
- <20250108-qcom_ipq_ppe-v2-12-7394dbda7199@quicinc.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hzH3em/1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F3D6C4CED3;
+	Wed,  8 Jan 2025 17:26:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736357210;
+	bh=tIIhLJb11NqDqWXBo/NWi6wvo01S8sFAFxHTXh8cKV0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=hzH3em/1M8euyLT6vG28pOZjaQDQrNnyQvzgJ6XnQXUI2sDBbUzrEBNEbEGoTEaRe
+	 EFKV/R/VhSGMhSl+s55L9lsE0w0m3ZPuITN5pKOsq9POkdyAB+IuvHyATwuWsQqNUv
+	 /HGEGhvpW1NryBSe/1ozgV0ep6bK7zI72E/z+NsWoqmdyST6SImmryAEClSo1e7EVU
+	 VmYw18MToWbBDVCrIlHVqXDblX5kfuQojJYqwqpmq4WhBh7T1VTJFIYv1YrN37Rx3Y
+	 AeU1WLG5zQrkqb4EcqDaKVKxif1wEw6JD/LFUIaoUgCEoEPEnfjfoJc4YdmeYyNagh
+	 lGTKu213UHydA==
+From: SeongJae Park <sj@kernel.org>
+To: SeongJae Park <sj@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH 07/10] Docs/mm/damon/design: document pass/block filters behaviors
+Date: Wed,  8 Jan 2025 09:26:46 -0800
+Message-Id: <20250108172646.6226-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250108040454.1283-1-sj@kernel.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250108-qcom_ipq_ppe-v2-12-7394dbda7199@quicinc.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 08, 2025 at 09:47:19PM +0800, Luo Jie wrote:
-> From: Lei Wei <quic_leiwei@quicinc.com>
+On Tue, 7 Jan 2025 20:04:54 -0800 SeongJae Park <sj@kernel.org> wrote:
+
+> On Tue, 7 Jan 2025 12:17:36 -0800 SeongJae Park <sj@kernel.org> wrote:
 > 
-> Configure the default L2 bridge settings for the PPE ports to
-> enable L2 frame forwarding between CPU port and PPE Ethernet
-> ports.
+[...]
+> > +The fact that the action can be applied to any memory as long as no block
+> > +filter explicitly excluded it means that installing pass filters without any
+> > +block filter after those is same to not installing the pass filters, in terms
+> > +of the ``action`` applying.  Statistics for DAMOS filters will still be
+> > +accounted, though.
+> 
+> The above last sentence is right in a sense, but not useful and could only
+> confuse readers.  The statistics for DAMOS filters are filters passed size
+> stat, which is provided as per-scheme accumulated stat and per-region instant
+> information.  The stat is for any memory that be able to apply the DAMOS action
+> after the filters check stage.  Hence, whether it has passed the stage due to
+> existence of a pass filter that matches the memory, or the absence of any
+> matching filter is distinguishable.
+> 
+> > It is therefore still useful for monitoring purpose.
+> 
+> Hence, the above sentence is completely wrong.  The case (installing pass
+> filtrs without any block filter after those) is not useful even for monitoring
+> purpose.
+> 
+> The RFC version of this patch was mentioning it correctly, but was not clearly
+> describing why it is not also useless for even monitoring purpose.  I was also
+> confused due to the absence of the context.  I will rewrite this part and send
+> the whole series again as v2.
 
-It would be good to have an 'only' in there:
+Another reason that I was confused is the conflict of the term.  The term
+'pass' at sz_filters_passed stat means passing through the filters checking
+stage.  The same term 'pass' at "DAMOS pass filter" means it will let the
+memory that matches to its criteria pass the stage.  Hence, the term for
+'sz_filters_passed' is a superset of it for 'DAMOS pass filter'.  This is
+obviously confusing.
 
-> to _only_
-> enable L2 frame forwarding between CPU port and PPE Ethernet
-> ports
+I will rename things that introduced by this series to be called "allow"
+instead of "pass" in v2.
 
-That makes it clear there is no port to port forwarding, the ports are
-isolated.
 
-> The per-port L2 bridge settings are initialized as follows:
-> For PPE CPU port, the PPE bridge TX is enabled and FDB learn is
-> disabled. For PPE physical port, the PPE bridge TX is disabled
-> and FDB learn is enabled by default and the L2 forward action
-> is initialized as forward to CPU port.
+Thanks,
+SJ
 
-Why is learning needed on physical ports? In general, switches forward
-unknown destination addresses to the CPU. Which is what you want when
-the ports are isolated from each other. Everything goes to the
-CPU. But maybe this switch does not work like this?
-
-	Andrew
-
+> 
+> 
+> Thanks,
+> SJ
+> 
+> [...]
