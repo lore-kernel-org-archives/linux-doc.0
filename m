@@ -1,64 +1,64 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1AE18858A
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jan 2025 02:08:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE6A11974FE
+	for <linux-doc@vger.kernel.org>; Wed,  8 Jan 2025 02:08:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736302096; cv=none; b=i6C5HsEmvpvi4wz9HN3mRlaC0pv4rQ53JVPsvd4PkhHqdri3PdyztMo4UqPzJLNNwJYcWChUIpH0Tx8sicU711n2hRv1meBiDHT4O2wgQBX/g/WDSTxOsFh8l84ObJToRkYSkpoIT2gnsmhNVna2Mn6kO0WmZVjiXxM6IJ3pstg=
+	t=1736302097; cv=none; b=H5X1e/MVi7gW07xcDsNZ2wxPk6Ph45F+ux4l6dMkVvhJ4wD945oCTHY7kYjUI6+mydlnLWB1DjTTe5r75BVl45/OKRMTausgkuYq2OQicPkTSzZQgvdN7iTSNk1lIs6BPJirF4N3ZXikaNtXETA7nFC0SJE5/ehw8I323xCpOyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736302096; c=relaxed/simple;
-	bh=In4WKSPDuGrXSsW1qi6BwC8Z5UQ8yZH/Gn59zCTgjRk=;
+	s=arc-20240116; t=1736302097; c=relaxed/simple;
+	bh=ChjCi+WDWxIeAEQr9uB+RlwWvFzZ2k5NiZ20md8SwKA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SqIocPw4wq+YSlb7aDOk/+619DBzJnKo85MYph9CoqJjTJy/hbuxYT9U61cZN+zuIjjuEYmnT+dglnR86yJHvwgeBFtgqP14Cxwyy3EIaOZYdefmwOV8/A15raLM0EpadTp+DErmrUaOZfqBt1+zV+QOfDlBk2IzZxYdvikl6gY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=zPgMDrYr; arc=none smtp.client-ip=209.85.214.180
+	 In-Reply-To:To:Cc; b=AUfGLkT3ObqAw5yb9LRxXu+UBfL+izi0rUpAOY9qGU95hTSMPgNviVgyBMeG/Udb3hFawMxyc7H+ug7fWN/feRb4klMSMX1ubYca7XzY/6lfKmMriokAyZYV8T0IaT9NARhpjxG1EkLqHPQCemEv4SteLXpX6GQdAVT8fhxYaMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=OTZHjyHA; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="zPgMDrYr"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-21654fdd5daso222436565ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 07 Jan 2025 18:08:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="OTZHjyHA"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2165cb60719so244041675ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 07 Jan 2025 18:08:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1736302092; x=1736906892; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1736302095; x=1736906895; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=10LmYqKv19aje8sntIFV/R2i9EqxMFmjtiwpp8rrMlU=;
-        b=zPgMDrYr8zY6659X1iImU/3j7P/5zfRNXwwTdajXkh9pfW/mAbpN5S7upmFgN5UzqT
-         +WpnBM1z7SJUVDujt2EmWsvXBp8wF6rQ8RyC3gVGvg9mCSmVYcrq3aMleQ7iLVxAOq0d
-         5di3CgmMngtyqcpNBtofWDI/YnBPRDg++7D6yA9XDJyYtHYVgj3mfHLS8i4yWy8icdxQ
-         9aW6xFbc7/CqbQUPNMRynZM+YeJGLWfeNRKM3lOFoXV56QTdTr/2j1dbliZgj4Kfb3sd
-         WRzYWQsI0tR3O7DFjwhXzWZ4NZuFrIPstL/QV8Icib3ldLRogjz9Hy9MWSbYSZ8dJsOR
-         68MQ==
+        bh=05wirhUQV9Km8dQngc0z5Y797cbCbqNKIhJCCOZ4z1g=;
+        b=OTZHjyHAqOQ5vnA6sweEHgQGMyVzHRVXV4UKdUqK8bGL6pRHrxeqxc0E0OpPa51sd/
+         pzkKdmX5TgHArzBulCWqpI15TLFm3oQLm+58sx0VqiRrCDIIBD2Yt/1+jkRYc8s+4iFh
+         V+2fFgoZehZJl0rGSrSz5zmUMhlshI9adlJn9OO7HzzLMFkhG8wciQrkCxgboeQ8A6p2
+         ep9h187kyRwp9/zrKFhai2QvIh0Nu9SY/EXApq7XUUZw4InlGBb+aMcbf2xih2PVMhjc
+         5P6D44FMnBmMEUIyTgqUuwj3rFjoqkim4yMp6ipRGKfQ4lLy40QLEDpVav4B5STy0F2f
+         p/bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736302092; x=1736906892;
+        d=1e100.net; s=20230601; t=1736302095; x=1736906895;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=10LmYqKv19aje8sntIFV/R2i9EqxMFmjtiwpp8rrMlU=;
-        b=Ke6YLL9r85t0dvs6Fzvv4jBguSpY+uYj+JmVbOWJCfbcDpmglf54MafAWbHX1N3mJJ
-         ZuuNdqoEZybCAU8nTl8Ob5co76WRe7oWteoaY++Di41gRhOWggOWdhgWlT3fEptH5wuz
-         /y9v8krhlwNTaFRDVkJJ+Tc6EOQQI34OkZDBmDo2Hzt/xLZBrWHw7OoXyzVGGj13LLsT
-         atk3TpqLPdsI6BCCbEIRDhv/U9oWN2bVbSneWoH8YHk5mcR6K98SYXceg99T1NkvlrK3
-         H3FSUIcFU8JNsPQr7VpDO/i5Ye9rHrsksGIVQCzYjkuZ0FhB2BbkX9szXyZbh7Y3j31K
-         SQlA==
-X-Forwarded-Encrypted: i=1; AJvYcCVjvnLfVlgQsw7Uki8tSR5fU6oEoGyT1yKsbA2UHmt+r+QRzgzy96gZSoiDVq/bgKtZK2HYkmMvf8k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFiyZwSv1T08lrSl6zZMDnpk9QdZ5Fo52GYE4UFN5zfJyM6upe
-	QMai3Oz4CQDEtmZ9sYB/vV17Lgc5KQmNHzVTEvJMCff+YJw2dpJ3lnfOvWwZlW4=
-X-Gm-Gg: ASbGncuTJoWe8GcGui7hotkMKlE0/hHwVVEnxIYxWdoPzEWPkSpkhNJPxzUO1dpaM5H
-	fU581I+sKK9Y1uX07CDKjynxlwBNyPeQlMQ1xYyRPeR3qvoAbZGIqJIT2u2buz8FJ+7CngB6p90
-	+xzkOWxVE9jHAuJYpTNp9W7ID/y6S5KHMG56q9UIvwpUfEZctzSimztVL9TYgU/8oy7krPZJArR
-	SK1UetMZHctIYbPcSTik9LOvJGfUBjkTeOCu1cG9hlU2leZ8sSc+0sozaQDd2augzOQTFzD
-X-Google-Smtp-Source: AGHT+IEofSRP/rbAD1y/Csx4ENQMqaTL0WI/3zDA2H7TL6yv9dR01QAT8JELG079U4b/zZPbnpn11Q==
-X-Received: by 2002:a17:902:f546:b0:216:51b0:6600 with SMTP id d9443c01a7336-21a83f691eamr17725355ad.24.1736302092587;
-        Tue, 07 Jan 2025 18:08:12 -0800 (PST)
+        bh=05wirhUQV9Km8dQngc0z5Y797cbCbqNKIhJCCOZ4z1g=;
+        b=sq3s388EcHVUBSQcEeqatHIlOKJA3oVFUMGQq+EALEIaO2zLN4uUirLs0UBHsIqAyT
+         xB/aiSNJp/LEQl+27VvhabXh4qWauMH4gYviLymKdQOofKq6M9RJU88fpC03bMPGnMP2
+         5p/s7OibISDBusr7P0KrurCsWJWa0lXnB+muwa6Y3HPEN2UeV1crqTsv3hBrZ3V2kSVF
+         EtM5InKxoFbEHBnyedL6jzr21PMluVHltf1D4diAx+L7/A9vayfTdY1n7XsS538SJFta
+         +jb7OGVn8aq3ZLmYiypouh+HNRFZ0UcU/PKdpg3BvwDMyDenODAOhv2UfsL6KcpehFEr
+         JHxA==
+X-Forwarded-Encrypted: i=1; AJvYcCXaNY/rfc6oD3l5GqX/Nv0Nw+SI//kWyRlbjdK8TflcnWv10N3bw8MVfgNWGRPHhBfdE21AMAy9t6s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiZ+Os8xBVI6nDERRwt1xgImBwJSpfnGk0xcZNvCGc73r/wAgm
+	zI4eG7j9+vssE5W2jg83FckDs/+tY0sd9QB/fS+DIpfFOnF3u1B5XCnzres/d30=
+X-Gm-Gg: ASbGnctbx2zWr8gVsdHWeboRA5y6divrmy8iCJqjdG5cHdozP3w68K5Cn7tFBEOIAdr
+	rxWtUqsOBoNBZX+7PRWJGA/Z4v42371MrKnbqWpbaMkZLfO9oLF1rruHgphSsX1XI+0HusOMIPz
+	Qw33JCsNGq3FpzEVTXiEpXCSktX2zqXOQDcIL807ldOFW1bbNbA/1b1K/e65Cre0EwRVvoGBj97
+	Tk8Z9Voq7l8hJk/bzKYIEZCRxVUY0Uik8Mk3rkOBYLrrS6IncmpZrZnLwYuVHiCJgUVs8un
+X-Google-Smtp-Source: AGHT+IFi2PqHlIH+52R3oy0dD5sKhEOY4OR/hJLyrqZkUQEHEQ6USqVAO5de5/oV21XIKeSPaGh+ig==
+X-Received: by 2002:a17:902:e544:b0:216:414e:aa53 with SMTP id d9443c01a7336-21a83fffc58mr17459665ad.52.1736302095071;
+        Tue, 07 Jan 2025 18:08:15 -0800 (PST)
 Received: from charlie.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dca0282fsm316662405ad.259.2025.01.07.18.08.10
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dca0282fsm316662405ad.259.2025.01.07.18.08.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jan 2025 18:08:11 -0800 (PST)
+        Tue, 07 Jan 2025 18:08:14 -0800 (PST)
 From: Charlie Jenkins <charlie@rivosinc.com>
-Date: Tue, 07 Jan 2025 18:07:50 -0800
-Subject: [PATCH v5 02/16] perf tools: arc: Support generic syscall headers
+Date: Tue, 07 Jan 2025 18:07:51 -0800
+Subject: [PATCH v5 03/16] perf tools: csky: Support generic syscall headers
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,7 +67,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250107-perf_syscalltbl-v5-2-935de46d3175@rivosinc.com>
+Message-Id: <20250107-perf_syscalltbl-v5-3-935de46d3175@rivosinc.com>
 References: <20250107-perf_syscalltbl-v5-0-935de46d3175@rivosinc.com>
 In-Reply-To: <20250107-perf_syscalltbl-v5-0-935de46d3175@rivosinc.com>
 To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
@@ -91,76 +91,61 @@ Cc: linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
  Charlie Jenkins <charlie@rivosinc.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2826; i=charlie@rivosinc.com;
- h=from:subject:message-id; bh=In4WKSPDuGrXSsW1qi6BwC8Z5UQ8yZH/Gn59zCTgjRk=;
- b=owGbwMvMwCHWx5hUnlvL8Y3xtFoSQ3rtPYbJF9PnLLZt76psZFr7QUrcLVOV2ddpylubxgOZk
- 5KLr1p3lLIwiHEwyIopsvBca2BuvaNfdlS0bALMHFYmkCEMXJwCMBHNTEaGrxbaUd35NzKnN99Z
- lr25n+tbUk/GlH+rxb7Xl+fO+pN4kuG/64xvX+/oLW7eunPepZM19WdDvJ+8ez3R6q3xh5vRXZJ
- H+AA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2180; i=charlie@rivosinc.com;
+ h=from:subject:message-id; bh=ChjCi+WDWxIeAEQr9uB+RlwWvFzZ2k5NiZ20md8SwKA=;
+ b=owGbwMvMwCHWx5hUnlvL8Y3xtFoSQ3rtPYaYTbPWX7C8HZuyJozv7X4R1uVCB48EzF6yUXjjl
+ D1XvJ5qd5SyMIhxMMiKKbLwXGtgbr2jX3ZUtGwCzBxWJpAhDFycAjCRGGtGhvmPtZbqs372ft3t
+ f3r+x3QFvTiZJQeTJ2WLT61ljLxlYMnI0LT179QtLo0678tvatco14VN2jjx7SvJk5ekOM6lrVi
+ VyAEA
 X-Developer-Key: i=charlie@rivosinc.com; a=openpgp;
  fpr=7D834FF11B1D8387E61C776FFB10D1F27D6B1354
 
-Arc uses the generic syscall table, use that in perf instead of
+csky uses the generic syscall table, use that in perf instead of
 requiring libaudit.
 
 Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
 ---
- tools/perf/Makefile.config                           | 2 +-
- tools/perf/Makefile.perf                             | 3 ++-
- tools/perf/arch/arc/entry/syscalls/Kbuild            | 2 ++
- tools/perf/arch/arc/entry/syscalls/Makefile.syscalls | 3 +++
- tools/perf/arch/arc/include/syscall_table.h          | 2 ++
- 5 files changed, 10 insertions(+), 2 deletions(-)
+ tools/perf/Makefile.perf                              | 2 +-
+ tools/perf/arch/csky/entry/syscalls/Kbuild            | 2 ++
+ tools/perf/arch/csky/entry/syscalls/Makefile.syscalls | 3 +++
+ tools/perf/arch/csky/include/syscall_table.h          | 2 ++
+ 4 files changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/tools/perf/Makefile.config b/tools/perf/Makefile.config
-index 6d66a7bad30d184d871ef85b09091e2720d09787..4e05dd2e9596e87cdd0dc91f4c5b071b4545c574 100644
---- a/tools/perf/Makefile.config
-+++ b/tools/perf/Makefile.config
-@@ -36,7 +36,7 @@ ifneq ($(NO_SYSCALL_TABLE),1)
-   endif
- 
-   # architectures that use the generic syscall table scripts
--  ifeq ($(SRCARCH),riscv)
-+  ifneq ($(filter $(SRCARCH), $(generic_syscall_table_archs)),)
-     NO_SYSCALL_TABLE := 0
-     CFLAGS += -DGENERIC_SYSCALL_TABLE
-     CFLAGS += -I$(OUTPUT)arch/$(SRCARCH)/include/generated
 diff --git a/tools/perf/Makefile.perf b/tools/perf/Makefile.perf
-index bf0516e328aa4f8a251b4f3eb172fd191772b00a..44b9e33b9568f638ba12ad688833fdb661c16c16 100644
+index 44b9e33b9568f638ba12ad688833fdb661c16c16..3fe47bd21c0ea39473c584c82383ca5d4daf580f 100644
 --- a/tools/perf/Makefile.perf
 +++ b/tools/perf/Makefile.perf
-@@ -311,7 +311,8 @@ FEATURE_TESTS := all
+@@ -311,7 +311,7 @@ FEATURE_TESTS := all
  endif
  endif
  # architectures that use the generic syscall table
--ifeq ($(SRCARCH),riscv)
-+generic_syscall_table_archs := riscv arc
-+ifneq ($(filter $(SRCARCH), $(generic_syscall_table_archs)),)
+-generic_syscall_table_archs := riscv arc
++generic_syscall_table_archs := riscv arc csky
+ ifneq ($(filter $(SRCARCH), $(generic_syscall_table_archs)),)
  include $(srctree)/tools/perf/scripts/Makefile.syscalls
  endif
- include Makefile.config
-diff --git a/tools/perf/arch/arc/entry/syscalls/Kbuild b/tools/perf/arch/arc/entry/syscalls/Kbuild
+diff --git a/tools/perf/arch/csky/entry/syscalls/Kbuild b/tools/perf/arch/csky/entry/syscalls/Kbuild
 new file mode 100644
 index 0000000000000000000000000000000000000000..11707c481a24ecf4e220e51eb1aca890fe929a13
 --- /dev/null
-+++ b/tools/perf/arch/arc/entry/syscalls/Kbuild
++++ b/tools/perf/arch/csky/entry/syscalls/Kbuild
 @@ -0,0 +1,2 @@
 +# SPDX-License-Identifier: GPL-2.0
 +syscall-y += syscalls_32.h
-diff --git a/tools/perf/arch/arc/entry/syscalls/Makefile.syscalls b/tools/perf/arch/arc/entry/syscalls/Makefile.syscalls
+diff --git a/tools/perf/arch/csky/entry/syscalls/Makefile.syscalls b/tools/perf/arch/csky/entry/syscalls/Makefile.syscalls
 new file mode 100644
-index 0000000000000000000000000000000000000000..391d30ab7a831b72d2ed3f2e7966fdbf558a9ed7
+index 0000000000000000000000000000000000000000..ea2dd10d0571df464574a9c0232ada0ac1f79a3f
 --- /dev/null
-+++ b/tools/perf/arch/arc/entry/syscalls/Makefile.syscalls
++++ b/tools/perf/arch/csky/entry/syscalls/Makefile.syscalls
 @@ -0,0 +1,3 @@
 +# SPDX-License-Identifier: GPL-2.0
 +
-+syscall_abis_32 += arc time32 renameat stat64 rlimit
-diff --git a/tools/perf/arch/arc/include/syscall_table.h b/tools/perf/arch/arc/include/syscall_table.h
++syscall_abis_32 += csky time32 stat64 rlimit
+diff --git a/tools/perf/arch/csky/include/syscall_table.h b/tools/perf/arch/csky/include/syscall_table.h
 new file mode 100644
 index 0000000000000000000000000000000000000000..4c942821662d95216765b176a84d5fc7974e1064
 --- /dev/null
-+++ b/tools/perf/arch/arc/include/syscall_table.h
++++ b/tools/perf/arch/csky/include/syscall_table.h
 @@ -0,0 +1,2 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +#include <asm/syscalls_32.h>
