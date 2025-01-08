@@ -1,202 +1,227 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1522594A2;
-	Wed,  8 Jan 2025 09:30:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E88194A6B;
+	Wed,  8 Jan 2025 09:37:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736328637; cv=none; b=CzJTGTvIQyoxx46nhpJJlB52p4hql5LKG0LVmrnwzAfO5HYKXTy8s7xx09Io5wzusTSfAwCKyccS+MzvrOWN39ylWYOxr0ET8/620m1+FUx1F1Zd400+jq837dwfSYd41FzcySiXJGk4FtBh7WGDr+xyApWt9hbwzO3UqbmZ9LA=
+	t=1736329044; cv=none; b=i+mzKqlOENMfZZnNASx+5/Q5wTbKsgxd/32wiChsL2GdjxGKgZVesn0PN5xIQzD+qtKmKvS81c4NxN0l17TpizORM0vvL5x2xOxcX/g8kyPVgwKlpztvpgNpQmQ+95qjLunfg8d4ftuo6KbZ2pPw0G8h5q+fg0d437EIQpE7psE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736328637; c=relaxed/simple;
-	bh=QViLy/GzMVpMLURgu6CKy7VMLOWMqPuo+67Y90jsBKM=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D8A2+FM/E2Y9z9FIeRPazTz14Fft4TgTTVvPZ2VK8Kuo1QhUJCAzvQMJj+hZ3lK20XCPKz0pOv86uT849G/rzPK5WS6Ot3aZvizWueTfYj+L0Pz1IpKwM23+61zMSHTdAY86reOeulU+5oPv6yhFgFEnZYPoUUfgw4XrUnV/Oz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WTsZXfFY; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736329044; c=relaxed/simple;
+	bh=4yX6WkLrA/zkhyFpNjqD/1hXJ5fy5zSQ8FVukTiwn3Y=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=XmrmlyqDge7NCBoc6KmmyrRxwUbKb5ZyDSjP7ERKiJ2cxcuFQYBttfq6BgPpb1sV+FUe2fyVxw3iDgJtQokEUy8Vf/d3BkYqky1ooBViCQLxFXwqSV42+SdIpo/HdNLxnbP3WD/iMS5BLtyx2V/665tVLDzyrrJDQI3Xn4dQ8sU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aLk8a0zb; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WTsZXfFY"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2efe25558ddso18692508a91.2;
-        Wed, 08 Jan 2025 01:30:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736328635; x=1736933435; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=U5QPT5hAYtzAAHlcpV6TvTAuoenPd313KzNDPXtMQNA=;
-        b=WTsZXfFYQIuwo/fs5x3tbsdNfAigt1rqptYz+miaIZuIJvS8QE3nhTMQP9SLptDWIT
-         JbVwrRG9R+BD2wHmOOKBl66E5nXzKLtbiUmS40XW0guMJLeqW3xwQmndSqOWVuQP5/Rf
-         8DMKIJqQJHz5dEQ17KvRDnVkKSlYBP6BElRnHIwgquz8P0V3J4vkcDKnn+MDoDJuBYGD
-         lhUfcbl3g4I9aVUNtAKQ2BnuVCdLDXCCn8hDZIzEWT+YjM49awRrDOnLYxsHZbcgRdIt
-         ugi0eRIBDSQM1XidliWNwawlXRkgwagny0L9ENzIwLrnCfNorLMQEHrv0WPWDwbswjdj
-         7GDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736328635; x=1736933435;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U5QPT5hAYtzAAHlcpV6TvTAuoenPd313KzNDPXtMQNA=;
-        b=SLNKSysVAaLRLys8qAkLTsYYfp+DfhASiqlQxKmqWcabQWHaBQpfEFKOCxc/1TXYUm
-         vy91xbA+byQsIrtIQ6yI066i828Invzi1J5gh1oCFjML2bGGtW62nUSfqcB1banib3XD
-         dmktD0rK4mRUDbs2XNb5RJkHqSyd8iJU8EVddZ2L55oOAemwODH/9RNxFcuPsS0ddlus
-         F6Pc42TNNlcP9vfFV4UyyPHGTiSV+u+QfUnBCec5K5bc06xnm15gDiij8kLUzNCgmOcH
-         WNWBBQBRDnST4IJFBcPmz1xftlKEfCphMabE4W/qiq/OgOyfeFzWEpSeakCR6y8vcB2k
-         elEg==
-X-Forwarded-Encrypted: i=1; AJvYcCU2W2Z6+vmAFeIr1pc7RJXrPlpVKSs6RTj6wQEBGKmOfJG4LE0z3060VHjcPbATigdn0iNLLsTiibw+1PLi@vger.kernel.org, AJvYcCUP3KK0ZvOpgGzDyI1d4Vk/5d2KUxoStwvS2Sw/IgFUeCp9SahBIIfw/D7otDe6fuvj1hofaMakuP0=@vger.kernel.org, AJvYcCV4sbIjRg6FAWDUh2ERhDP5HmU8Tqg0CAQuz1/vB+iDc82eneIdeN8EsC01pTMDyVHJds1R4Zg3Ebzby5//@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyEF3OB2odq/xyHclDsd0vtg1f22vy6kzS535wV4bpRgOFNzrx
-	9FD74cej9EfIUgOQF9OLmSFnHO22D+xbHr6MMWCuq0cgLN5lnah5
-X-Gm-Gg: ASbGncsM6UCPfIjmhrKsZuEKBN+PDVkxp5E5btcXPQyp8x1oGWY+Hjpss7T8Icr64Db
-	5/k/vp2wirYWJZNuLaBOxoyQn/r8X8hi7USBawt5HPMVrBCbRJguXxhgiH2gzHH5HX7WMjMko4P
-	G0yd8m786lhz/oM/eLxwLL5bd/ntkmaUx01jtC4DtK5HxVgG1BvRFYiMXT4cM01jua6wAndBPUi
-	UDzJ8riwRT+pOH/1LX0SVDMu6zYRRCDPFToxBIrpCKtG7Xg1EEq9eBe
-X-Google-Smtp-Source: AGHT+IGJjX1QfT0R1lf+GM2tb+pmcW8FxBgztE1zI+2WxJeK8I17qMPt5fIXbAVJXU1rl0T3Ptzs/g==
-X-Received: by 2002:a17:90b:5146:b0:2ee:c457:bf83 with SMTP id 98e67ed59e1d1-2f548eca259mr3067533a91.19.1736328634573;
-        Wed, 08 Jan 2025 01:30:34 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f54a265fffsm1116880a91.2.2025.01.08.01.30.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 01:30:33 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id B5B0441E5F02; Wed, 08 Jan 2025 16:30:22 +0700 (WIB)
-Date: Wed, 8 Jan 2025 16:30:22 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Michael Kelley <mhklinux@outlook.com>,
-	"haiyangz@microsoft.com" <haiyangz@microsoft.com>,
-	"wei.liu@kernel.org" <wei.liu@kernel.org>,
-	"decui@microsoft.com" <decui@microsoft.com>,
-	"kys@microsoft.com" <kys@microsoft.com>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 1/1] Documentation: hyperv: Add overview of guest VM
- hibernation
-Message-ID: <Z35FriFiFcQn4Wi7@archie.me>
-References: <20250107202047.316025-1-mhklinux@outlook.com>
- <Z335xwWRTjyX0u6G@archie.me>
- <SN6PR02MB4157AC80E1975CE9BB6E3E62D4122@SN6PR02MB4157.namprd02.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aLk8a0zb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736329042; x=1767865042;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=4yX6WkLrA/zkhyFpNjqD/1hXJ5fy5zSQ8FVukTiwn3Y=;
+  b=aLk8a0zbchv4jcrwAVoqrM/SasnZtBM9pCDJ4Jf48Q1y+91jvAMTbj7h
+   v5QQuVnhpZ3e7ksJckn/96mVRU5nqehJ45ZUv08wOw8mjxrSGJXQyoryP
+   TPVz0A6QLl5t0cMNovP7uYcG8T89dXH1CNpcv5papoHIkYrLU7ydwI6P+
+   thjUCIoIMiulmPmlum1OQWGXYiZhMuFcAiNMXRu+0fa9S0HK1EBQO8GYT
+   diJ+HyUoE23egX5rojL2GR3OJJVl7ne4D5QbuynE9QNBiJIqfPKPdAakX
+   GLp/nqDW27Sb2IAn/OEVE7I3qbnqEP+NUWHd2VxZO5npnfGc2fzZrK0jX
+   w==;
+X-CSE-ConnectionGUID: tvgoalWZQCSsZ+h0qXi+Qg==
+X-CSE-MsgGUID: GcCkMipST3iOfz2Tzkt+Og==
+X-IronPort-AV: E=McAfee;i="6700,10204,11308"; a="59010771"
+X-IronPort-AV: E=Sophos;i="6.12,297,1728975600"; 
+   d="scan'208";a="59010771"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 01:37:14 -0800
+X-CSE-ConnectionGUID: WhTAuBsWQS283loDZRsd2Q==
+X-CSE-MsgGUID: ws95QPgKQ4SfNY8eQc+ZnA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,297,1728975600"; 
+   d="scan'208";a="107912940"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.87])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 01:37:10 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Wed, 8 Jan 2025 11:37:07 +0200 (EET)
+To: Derek John Clark <derekjohn.clark@gmail.com>
+cc: Mario Limonciello <superm1@kernel.org>, 
+    Hans de Goede <hdegoede@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+    Luke Jones <luke@ljones.dev>, Xino Ni <nijs1@lenovo.com>, 
+    Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>, 
+    Mark Pearson <mpearson-lenovo@squebb.ca>, 
+    "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
+    "Cody T . -H . Chiu" <codyit@gmail.com>, 
+    John Martens <johnfanv2@gmail.com>, platform-driver-x86@vger.kernel.org, 
+    linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 4/4] platform/x86: Add Lenovo Other Mode WMI Driver
+In-Reply-To: <CAFqHKTnJwpgABhkGH6Z=AFC5=YzMLPb7qzX5p-V+tHzsW6RHOg@mail.gmail.com>
+Message-ID: <b76e4a39-3386-4540-d775-813624af34d1@linux.intel.com>
+References: <20250102004854.14874-1-derekjohn.clark@gmail.com> <20250102004854.14874-5-derekjohn.clark@gmail.com> <8620c791-4cf0-44fe-9869-18be4baed465@kernel.org> <CAFqHKTmd12wZdCK_-+SbGNdvwzXTawmu9ob3_k1cHoy0XBVS-Q@mail.gmail.com>
+ <5914557f-ba32-825a-a483-8ffe0311a61f@linux.intel.com> <CAFqHKTnJwpgABhkGH6Z=AFC5=YzMLPb7qzX5p-V+tHzsW6RHOg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Ovyy0gUq7zMeP6EX"
-Content-Disposition: inline
-In-Reply-To: <SN6PR02MB4157AC80E1975CE9BB6E3E62D4122@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Type: multipart/mixed; boundary="8323328-207786947-1736329027=:1082"
+
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--8323328-207786947-1736329027=:1082
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+
+On Tue, 7 Jan 2025, Derek John Clark wrote:
+> On Tue, Jan 7, 2025 at 10:21=E2=80=AFAM Ilpo J=C3=A4rvinen
+> <ilpo.jarvinen@linux.intel.com> wrote:
+> >
+> > On Thu, 2 Jan 2025, Derek John Clark wrote:
+> > > On Wed, Jan 1, 2025 at 7:40=E2=80=AFPM Mario Limonciello <superm1@ker=
+nel.org> wrote:
+> > > > On 1/1/25 18:47, Derek J. Clark wrote:
+> > > > > Adds lenovo-wmi-other.c which provides a driver for the Lenovo
+> > > > > "Other Mode" WMI interface that comes on some Lenovo "Gaming
+> > > > > Series" hardware. Provides a firmware-attributes class which
+> > > > > enables the use of tunable knobs for SPL, SPPT, and FPPT.
+> > > > >
+> > > > > v2:
+> > > > > - Use devm_kzalloc to ensure driver can be instanced, remove glob=
+al
+> > > > >    reference.
+> > > > > - Ensure reverse Christmas tree for all variable declarations.
+> > > > > - Remove extra whitespace.
+> > > > > - Use guard(mutex) in all mutex instances, global mutex.
+> > > > > - Use pr_fmt instead of adding the driver name to each pr_err.
+> > > > > - Remove noisy pr_info usage.
+> > > > > - Rename other_method_wmi to lenovo_wmi_om_priv and om_wmi to pri=
+v.
+> > > > > - Use list to get the lenovo_wmi_om_priv instance in some macro
+> > > > >    called functions as the data provided by the macros that use i=
+t
+> > > > >    doesn't pass a member of the struct for use in container_of.
+> > > > > - Do not rely on GameZone interface to grab the current fan mode.
+> > > > >
+> > > > > Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
 
 
---Ovyy0gUq7zMeP6EX
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> > > > > +static int other_method_fw_attr_add(struct lenovo_wmi_om_priv *p=
+riv)
+> > > > > +{
+> > > > > +     int err, i;
+> > > > > +
+> > > > > +     err =3D fw_attributes_class_get(&fw_attr_class);
+> > > > > +     if (err) {
+> > > > > +             pr_err("Failed to get firmware_attributes_class: %u=
+\n", err);
+> > > > > +             return err;
+> > > > > +     }
+> > > > > +
+> > > > > +     priv->fw_attr_dev =3D device_create(fw_attr_class, NULL, MK=
+DEV(0, 0),
+> > > > > +                                       NULL, "%s", FW_ATTR_FOLDE=
+R);
+> > > > > +     if (IS_ERR(priv->fw_attr_dev)) {
+> > > > > +             err =3D PTR_ERR(priv->fw_attr_dev);
+> > > > > +             pr_err("Failed to create firmware_attributes_class =
+device: %u\n",
+> > > > > +                    err);
+> > > > > +             goto fail_class_get;
+> > > > > +     }
+> > > > > +
+> > > > > +     priv->fw_attr_kset =3D kset_create_and_add("attributes", NU=
+LL,
+> > > > > +                                              &priv->fw_attr_dev=
+->kobj);
+> > > > > +     if (!priv->fw_attr_kset) {
+> > > > > +             err =3D -ENOMEM;
+> > > > > +             pr_err("Failed to create firmware_attributes_class =
+kset: %u\n",
+> > > > > +                    err);
+> > > > > +             goto err_destroy_classdev;
+> > > > > +     }
+> > > > > +
+> > > > > +     for (i =3D 0; i < ARRAY_SIZE(capdata01_attr_groups) - 1; i+=
++) {
+> > > > > +             err =3D attr_capdata01_setup(
+> > > > > +                     capdata01_attr_groups[i].tunable_attr);
+> > > > > +             if (err) {
+> > > > > +                     pr_err("Failed to populate capability data =
+for %s: %u\n",
+> > > > > +                            capdata01_attr_groups[i].attr_group-=
+>name, err);
+> > > >
+> > > > This specific error could be a bit noisy because it's a dependency =
+on
+> > > > the other driver in case one attribute returns not supported.
+> > > >
+> > > > Could you instead detect EOPNOTSUPP specifically and only show erro=
+r if
+> > > > not EOPNOTSUPP?
+> > > >
+> > >
+> > > Easy fix, will do. I'll also add a wmi_dev_exists() here before the
+> > > loop to exit early.
+> > >
+> > > > > +                     continue;
+> > > > > +             }
+> > > > > +
+> > > > > +             err =3D sysfs_create_group(&priv->fw_attr_kset->kob=
+j,
+> > > > > +                                      capdata01_attr_groups[i].a=
+ttr_group);
+> > > > > +             if (err) {
+> > > > > +                     pr_err("Failed to create sysfs-group for %s=
+: %u\n",
+> > > > > +                            capdata01_attr_groups[i].attr_group-=
+>name, err);
+> > > > > +                     goto err_remove_groups;
+> > > > > +             }
+> > > > > +     }
+> > > > > +
+> > > > > +     return 0;
+> > > > > +
+> > > > > +err_remove_groups:
+> > > > > +     while (i-- > 0) {
+> > > > > +             sysfs_remove_group(&priv->fw_attr_kset->kobj,
+> > > > > +                                capdata01_attr_groups[i].attr_gr=
+oup);
+> > > > > +     }
+> > > > > +
+> > > > > +     return err;
+> > > > > +
+> > > > > +err_destroy_classdev:
+> > > > > +     device_destroy(fw_attr_class, MKDEV(0, 0));
+> > > > > +
+> > > > > +     return err;
+> > > > > +
+> > > > > +fail_class_get:
+> > > > > +     fw_attributes_class_put();
+> > > > > +
+> > > > > +     return err;
+> >
+> > I highly suspect the intermediate return errs in the previous labels wi=
+ll
+> > cause leaks. Don't you want to rollback everything on error?
+>=20
+> To clarify, you mean remove the returns in each fail case before
+> fail_class_get so they will fall through? That would make more sense,
+> yeah.
 
-On Wed, Jan 08, 2025 at 04:50:15AM +0000, Michael Kelley wrote:
-> From: Bagas Sanjaya <bagasdotme@gmail.com> Sent: Tuesday, January 7, 2025=
- 8:07 PM
-> >=20
-> > On Tue, Jan 07, 2025 at 12:20:47PM -0800, mhkelley58@gmail.com wrote:
-> > > +VMBus devices are identified by class and instance GUID. (See section
-> > > +"VMBus device creation/deletion" in
-> > > +Documentation/virt/hyperv/vmbus.rst.) Upon resume from hibernation,
-> > > +the resume functions expect that the devices offered by Hyper-V have
-> > > +the same class/instance GUIDs as the devices present at the time of
-> > > +hibernation. Having the same class/instance GUIDs allows the offered
-> > > +devices to be matched to the primary VMBus channel data structures in
-> > > +the memory of the now resumed hibernation image. If any devices are
-> > > +offered that don't match primary VMBus channel data structures that
-> > > +already exist, they are processed normally as newly added devices. If
-> > > +primary VMBus channels that exist in the resumed hibernation image a=
-re
-> > > +not matched with a device offered in the resumed VM, the resume
-> > > +sequence waits for 10 seconds, then proceeds. But the unmatched devi=
-ce
-> > > +is likely to cause errors in the resumed VM.
-> >=20
-> > Did you mean for example, conflicting synthetic NICs?
->=20
-> In the resumed hibernation image, the unmatched device is in a weird
-> state where it is exist and has a driver, but is no longer "open" in the =
-VMBus
-> layer. Any attempt to do I/O to the device will fail, and interrupts rece=
-ived
-> from the device are ignored. Presumably there's user space software or a
-> network connection that has the device open and expects to be able to
-> interact with it. That software will error out due to the I/O failure.
->=20
-> I haven't thought through all the implications of such a scenario, so
-> just left the documentation as "likely to cause errors" without going
-> into detail. It's an unsupported scenario, so not likely something that
-> will be improved.
->=20
-> I don't think the issue is necessarily conflicting NICs, though if a NIC =
-with
-> a different instance GUID was offered, it would show up as a new NIC
-> in the resumed image, and that might cause conflicts/confusion with
-> the "dead" NIC.
+Yes, the returns before the fail_class_get label and before the=20
+err_destroy_classdev label.
 
-Understand.
-
->=20
-> >=20
-> > > +The Linux ends of Hyper-V sockets are forced closed at the time of
-> > > +hibernation. The guest can't force closing the host end of the socke=
-t,
-> > > +but any host-side actions on the host end will produce an error.
-> >=20
-> > Nothing can be done on host-side?
->=20
-> Not really.  Whatever host-side software that is using the Hyper-V
-> socket will just get an error that next time it tries to do I/O over
-> the socket.
->=20
-> Is there something you had in mind that the host could/should do?
-
-None really.
-
->=20
-> >=20
-> > > +Virtual PCI devices are physical PCI devices that are mapped directly
-> > > +into the VM's physical address space so the VM can interact directly
-> > > +the hardware. vPCI devices include those accessed via what Hyper-V
-> > "... interact directly with the hardware."
->=20
-> Thanks for your careful reading.  I'll add the missing "with".  :-)
->=20
-> > > +calls "Discrete Device Assignment" (DDA), as well as SR-IOV NIC
-> > > +Virtual Functions (VF) devices. See Documentation/virt/hyperv/vpci.r=
-st.
-> > > +
-> > > <snipped>...
-> > > +SR-IOV NIC VFs similarly have a VMBus identity as well as a PCI
-> > > +identity, and overall are processed similarly to DDA devices. A
-> > > +difference is that VFs are not offered to the VM during initial boot
-> > > +of the VM. Instead, the VMBus synthetic NIC driver first starts
-> > > +operating and communicates to Hyper-V that it is prepared to accept a
-> > > +VF, and then the VF offer is made. However, if the VMBus connection =
-is
-> > > +unloaded and then re-established without the VM being rebooted (as
-> > > +happens in Steps 3 and 5 in the Detailed Hibernation Sequence above,
-> > > +and similarly in the Detailed Resume Sequence), VFs are already part
-> >                                                   "... that are already=
- ..."
->=20
-> Right. I'll fix this wording problem as well.
-
-OK, thanks!
+Both seemed to break the usual rollback pattern and it looked to me when
+I tracked the callchains an error here will lead to a probe failure so I'd=
+=20
+expect you want to rollback everything in case of an error, not just the=20
+latest step. (In some cases probe is allowed to succeed partially but I=20
+didn't see any indication of that here.)
 
 --=20
-An old man doll... just what I always wanted! - Clara
+ i.
 
---Ovyy0gUq7zMeP6EX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ35FpwAKCRD2uYlJVVFO
-oxPKAP0XC8l/vuGJ5lYvorjMxiURQaPKFIFcmBV864e8/1YYaAD5AXgZz5KYLwIq
-4FhUgbtfufp4Hw3znaLUUThvDfmy9AE=
-=hGJ8
------END PGP SIGNATURE-----
-
---Ovyy0gUq7zMeP6EX--
+--8323328-207786947-1736329027=:1082--
