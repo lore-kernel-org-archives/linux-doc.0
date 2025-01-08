@@ -1,166 +1,157 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98C45201258
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jan 2025 19:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E861E1AA795
+	for <linux-doc@vger.kernel.org>; Wed,  8 Jan 2025 19:17:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736363271; cv=none; b=mvKLh7rqtU3ctkQ4A5VtR0NShleHrEYjtwMECZNy/8xs+uh2aSKG6WCnPDMRZhlwA6PW/SjweA6QiFnFHn2NVZ/HOES9YkNPpFWqDbLNJdujIT0NRfl3L8wCnrw32ynD4UehCzleo4vMabsh0LwjEU5elU70hBpbp1umanSieNg=
+	t=1736363847; cv=none; b=SwXgUqBfX+uNBJVM37awgdmqXmg3WIHMWP+CrY0UX4MrqCpJkDjq+dyotuEFeldj75ZT75YTBmX9NcAk8P/92dwXDzD2vY0Mr99QgPm1bE4z7bUO8L6fobEJez5tEj1y36ZwFA05d7jToOhjUF9r8pvkR8M16/hDMxtuANKXTz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736363271; c=relaxed/simple;
-	bh=vt+AzVIZuw6/ySFiGbX1NpVmbOo90FUgY6oDpC9e6KE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=poZGMegpL3bhlQ/Stl218devXxebGn6DCzw7mudYVbi6bf/V9U8IHrXCvMC93lXv9uhkGI5EeXJEY7Dr2qeLdJNnjXqYj9UIzXVwt6t7gvKDI/D/RLM7QW7jgVfnuv64sjmdW2GrMsEiYL11mpheNW/dXDs+MDr9TTmL5eCQmUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4NQGkMPZ; arc=none smtp.client-ip=209.85.214.171
+	s=arc-20240116; t=1736363847; c=relaxed/simple;
+	bh=b/Q7TOvf8WLVwTE4niLudX/QD/arpX2ry+yQCDwFIS8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZhJ33YTex9fl0iJTDHkdxARPUNuv6wAnw37K6bd/xVrAqC6Zwpg7buhYehH5TAc/ieZyopdBOrO1EXeWoxdkJ2E0oW3Gg/h0GuVwsYqKsN2Zg89oyKSf7Vr1cjqKPd3Bi8FjI+TJjhkJXMXeQnOQ4Mj8SonvoUNpB1jDTa0HIQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=M2NNm9Hd; arc=none smtp.client-ip=209.85.160.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4NQGkMPZ"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-219f6ca9a81so13355ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jan 2025 11:07:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="M2NNm9Hd"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-467896541e1so32071cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 08 Jan 2025 11:17:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736363269; x=1736968069; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=DSL2se5e/t308Q1OEAVUL1lC0F/ZUqtNo7wlxbQIq0k=;
-        b=4NQGkMPZsIwc9dmshw1Xr9pofRIp9HbvxhFNsEYMr7hTSzYDPSlfWo5V1P+b3eqCau
-         9JlmBS6KdM+4G+ZjuWNQS/wFxpUbPZQJ6VUeyCyyeVOXKJwvhC4Z7Q00ncv9awzCj4Cc
-         6e99vHo7xd+TmFAJt7KhdMO3Mu2uMtjzrg3u4F6JbOli1oyFJfayhIOreM0NT1D9XPCu
-         DeZbhAbKufw2Mj+PF9MR/SH9csV0HAGxUw6lIPjkqBFFW4yGXFzKr7Crkf+8ARDOJSgg
-         taNoyjaSHOL+Vil09lPyJBEphw46f5NUNPx6UJwOK4wb9ptHFPYgKdhNlWh+uauj1pT/
-         YIYA==
+        d=google.com; s=20230601; t=1736363845; x=1736968645; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BuDJhrl4BaQcccQ0ggv6/6Artahh68C0TXyt6JOc41Y=;
+        b=M2NNm9Hd50RkRF+zCR4gxbB6x9pqOHgPZ36+LLbPySaJkyazfgcb7XpOYYYmW8+Zjy
+         FgIzDHX5HLnI96c4e48NAqCSomPAgM4pqb+h0wBJ+yx7mWspz1qMPkZ+6fSCR4dp+LFE
+         lujfH4X7E/M4uK/Iwj0/LvwTM0X8HdcqrbgFfSpEde6jgMK2A9C0hWD65Q5oh9UfkG6F
+         iN6TNzbo4bWiUAoWiStPpZegwLTZejmQtN1DJjGKnH2pwZge6aneoSsoTruTx/U0iznh
+         hiIH2IIyw0TJ/clruReYhJjd2CFa7nUGXFRzhRT+0pIOM2C3Vs5EbGzczh7tZnUYcrsz
+         JLUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736363269; x=1736968069;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DSL2se5e/t308Q1OEAVUL1lC0F/ZUqtNo7wlxbQIq0k=;
-        b=PMf+Bq8zcZJUjEajlSd8bzfUI5nCv/8Vsmvsgt/svoYSJRFjWN5yAULHs9iGnjqkKm
-         otP/FipzSO11kcNCHUTEKZih96ilcz/mYpwKh6QIHToEHO6MLW1RLRGWFL0o0lJcts55
-         Lm6gUK6tjGYtkxc9pLLB6Q74cZf5sHCLX8b0SORN9K4Ruq9V5uiUKBbnlfDbXEQZR1Ch
-         gfeok5eXnjR7SAAplADEaGZ0kFJGZxYqSby/qM3L47Xp6AQEaTfBO6PWvGYiY7a9dP00
-         dfwAMf+UrwvjZYefkzzaZ/OSGuxxEtC7xPN3Hf2RTCsuGcejJmLd5cmvAlgd9ZxMGbFx
-         eYTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV2270sNFNGpgv19OUlcVjbPzXrVMVrg3dhe0W9cVLQIqst+5r//YVhL3Av/xYY0sp8Hibn9qf/tLM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxI/KXx+JssPFZrkHxR8dUvthKtc+VKvhu5Dymebw4NKQRWRKVR
-	8GuIupSa26oDzsSlYI7RJDYzbkhBmhI49r1CapFNvInwQNXoBngg4D3p6Z+9Zg==
-X-Gm-Gg: ASbGncteVI4tGH4rZKC5y0CKBUfKPpGfb1mj60d2bfGWDraQbBUq+/358Uz7QFLaA9v
-	q+iq310tEVXM8+/zB6K/fequdug3Ho39oGB6ibfrM6loHpCA4Zqky6wsWKTuRXQD4DLahaa8qwn
-	w8rbvnaGMfKoRgekVWUNN/H4OQrquwpn4OMyYA/gVkSGsAn14DVhJnTPh0UulOR0hKo2kVbC8fP
-	4grL7JrTEIDAKClH3BvMkmWAo0+ik2nGCTLJyQsr2zQuR0ZRh23pTwbShWQaujujl51oi5Obo+h
-	FpSvtVl2maOLFOI3Xso=
-X-Google-Smtp-Source: AGHT+IEUjmRWZJskunQnwYY6vsI4FMXJpSCHJ5szmBiRQr//+9AoUgKAKktesMA8sfh5f/By14EqNg==
-X-Received: by 2002:a17:903:1304:b0:216:25a2:2ed6 with SMTP id d9443c01a7336-21a8eb132e3mr126155ad.14.1736363268609;
-        Wed, 08 Jan 2025 11:07:48 -0800 (PST)
-Received: from google.com (57.145.233.35.bc.googleusercontent.com. [35.233.145.57])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-851b3816e8dsm31601152a12.63.2025.01.08.11.07.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 11:07:48 -0800 (PST)
-Date: Wed, 8 Jan 2025 19:07:44 +0000
-From: Carlos Llamas <cmllamas@google.com>
-To: Li Li <dualli@chromium.org>
-Cc: dualli@google.com, corbet@lwn.net, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	donald.hunter@gmail.com, gregkh@linuxfoundation.org,
-	arve@android.com, tkjos@android.com, maco@android.com,
-	joel@joelfernandes.org, brauner@kernel.org, surenb@google.com,
-	arnd@arndb.de, masahiroy@kernel.org, bagasdotme@gmail.com,
-	horms@kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-	hridya@google.com, smoreland@google.com, kernel-team@android.com
-Subject: Re: [PATCH v11 2/2] binder: report txn errors via generic netlink
-Message-ID: <Z37NALuyABWOYJUj@google.com>
-References: <20241218203740.4081865-1-dualli@chromium.org>
- <20241218203740.4081865-3-dualli@chromium.org>
- <Z32cpF4tkP5hUbgv@google.com>
- <Z32fhN6yq673YwmO@google.com>
- <CANBPYPi6O827JiJjEhL_QUztNXHSZA9iVSyzuXPNNgZdOzGk=Q@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1736363845; x=1736968645;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BuDJhrl4BaQcccQ0ggv6/6Artahh68C0TXyt6JOc41Y=;
+        b=IoH0yZJrRDfCaVO6XAonsia9cWUi0e59vy4YvuZS0vTJT+gNgRvqeWuF3lkTFwP4L5
+         IgVvPT8erAco1H5dApExnrjwhy/Gr9y4L0CA0p6V3ZbU5kPkpU2AfGtwKZstBvZn+iHo
+         enGPwUpnf6E1VkQ7cOroGZLvQVmfem9B6hgzdHO83ala+erUPJGviRD2xKTgky/QzKG6
+         jEBvc/JvoRUWDpnhUdewbaBxFnHjaLkC65Yc2Ijs18OH8l84xWRh9MjzyuFMLLAtRKCP
+         HfxdYX9719/YQ903lgU3H7wh2cr+gSi3WN69oWw5dVV0DvFrMhi3LcRBkJMgLrPB17O3
+         191A==
+X-Forwarded-Encrypted: i=1; AJvYcCVAf9o1U7W/2FLnLTXPixTIWpE1VfyacA3laf9V2SsRkuHyXboqdRaanaocoiQS+h8x5VugAJq5ws8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFs5QiHoj/VC/HfvQix48wxhyDno8iE20Y/+fzjXpXuVvDcagI
+	jaLiKk0q3phqXtQ17cqlyDxJdRXpI+mPAUyXXl5fcFifvTnlU8vtw7UMLa9QRa9oJq2a9KmMkXN
+	E6/ezxZbFhCq7VCZagwCbvL9xBWasFm5DjAIR
+X-Gm-Gg: ASbGnct7teK71jrwYdQkREo628Ap6q4okAzpw8L+9xbVZ+7kt3qLN/Y7R179N+GtjTe
+	1m4pywcdmjHl8OSVqtZBh2NcsL8iVuC3eQ6MrRhVtFIK7ZlHUqo0wxdRh2JDh7szlsrw=
+X-Google-Smtp-Source: AGHT+IEWKfjb2sJGpu5As1nzg8K1rKZqtSGnRBmo21D1OvbVa57GrwHS6ccA8uzqF1PCvrQDPTvyug79TWwkzzBUD6c=
+X-Received: by 2002:ac8:7fc2:0:b0:460:4620:232b with SMTP id
+ d75a77b69052e-46c7bef3f7amr141631cf.28.1736363844616; Wed, 08 Jan 2025
+ 11:17:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANBPYPi6O827JiJjEhL_QUztNXHSZA9iVSyzuXPNNgZdOzGk=Q@mail.gmail.com>
+References: <20241226170710.1159679-1-surenb@google.com> <20241226170710.1159679-17-surenb@google.com>
+ <5bbc5573-4a10-4c89-bc69-6cf6117be915@suse.cz> <CAJuCfpGXShhwxDaGOtAcSZrdH6J=O6RGcuR8tN3Ax0OVMQUupg@mail.gmail.com>
+ <22c002b5-9aca-460b-90fb-772adb9e5f61@suse.cz>
+In-Reply-To: <22c002b5-9aca-460b-90fb-772adb9e5f61@suse.cz>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Wed, 8 Jan 2025 11:17:13 -0800
+X-Gm-Features: AbW1kvYUlotPCa6SD_1FT8EQdIWNRV6GJbNS5R6FvwKXbg9KHLyiDGnzc2umO20
+Message-ID: <CAJuCfpE=W4RUwj7yosa3wWzi=EbLdts=1VHV1f-Wy04ZAc9UDw@mail.gmail.com>
+Subject: Re: [PATCH v7 16/17] mm: make vma cache SLAB_TYPESAFE_BY_RCU
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org, 
+	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, mhocko@suse.com, 
+	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
+	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
+	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
+	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
+	klarasmodin@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 07, 2025 at 04:00:39PM -0800, Li Li wrote:
-> On Tue, Jan 7, 2025 at 1:41 PM Carlos Llamas <cmllamas@google.com> wrote:
+On Wed, Jan 8, 2025 at 11:00=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
+ote:
+>
+> On 1/8/25 19:44, Suren Baghdasaryan wrote:
+> > On Wed, Jan 8, 2025 at 10:21=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz=
+> wrote:
+> >>
+> >> On 12/26/24 18:07, Suren Baghdasaryan wrote:
+> >> > To enable SLAB_TYPESAFE_BY_RCU for vma cache we need to ensure that
+> >> > object reuse before RCU grace period is over will be detected by
+> >> > lock_vma_under_rcu(). Current checks are sufficient as long as vma
+> >> > is detached before it is freed. Implement this guarantee by calling
+> >> > vma_ensure_detached() before vma is freed and make vm_area_cachep
+> >> > SLAB_TYPESAFE_BY_RCU. This will facilitate vm_area_struct reuse and
+> >> > will minimize the number of call_rcu() calls.
+> >> >
+> >> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> >>
+> >> I've noticed vm_area_dup() went back to the approach of "we memcpy
+> >> everything including vma_lock and detached (now the vm_refcnt) followe=
+d by a
+> >> vma_init_lock(..., true) that does refcount_set(&vma->vm_refcnt, 0);
+> >> Is that now safe against a racing lock_vma_under_rcu()? I think it's n=
+ot?
 > >
-> > On Tue, Jan 07, 2025 at 09:29:08PM +0000, Carlos Llamas wrote:
-> > > On Wed, Dec 18, 2024 at 12:37:40PM -0800, Li Li wrote:
-> > > > From: Li Li <dualli@google.com>
-> > >
-> > > > @@ -6137,6 +6264,11 @@ static int binder_release(struct inode *nodp, struct file *filp)
-> > > >
-> > > >     binder_defer_work(proc, BINDER_DEFERRED_RELEASE);
-> > > >
-> > > > +   if (proc->pid == proc->context->report_portid) {
-> > > > +           proc->context->report_portid = 0;
-> > > > +           proc->context->report_flags = 0;
-> > >
-> > > Isn't ->portid the pid from the netlink report manager? How is this ever
-> > > going to match a certain proc->pid here? Is this manager supposed to
-> > > _also_ open a regular binder fd?
-> > >
-> > > It seems we are tying the cleanup of the netlink interface to the exit
-> > > of the regular binder device, correct? This seems unfortunate as using
-> > > the netlink interface should be independent.
-> > >
-> > > I was playing around with this patch with my own PoC and now I'm stuck:
-> > >   root@debian:~# ./binder-netlink
-> > >   ./binder-netlink: nlmsgerr No permission to set flags from 1301: Unknown error -1
-> > >
-> > > Is there a different way to reset the protid?
-> > >
-> >
-> > Furthermore, this seems to be a problem when the report manager exits
-> > without a binder instance, we still think the report is enabled:
-> >
-> > [  202.821346] binder: Failed to send binder netlink message to 597: -111
-> > [  202.821421] binder: Failed to send binder netlink message to 597: -111
-> > [  202.821304] binder: Failed to send binder netlink message to 597: -111
-> > [  202.821306] binder: Failed to send binder netlink message to 597: -111
-> > [  202.821387] binder: Failed to send binder netlink message to 597: -111
-> > [  202.821464] binder: Failed to send binder netlink message to 597: -111
-> > [  202.821467] binder: Failed to send binder netlink message to 597: -111
-> > [  202.821344] binder: Failed to send binder netlink message to 597: -111
-> > [  202.822513] binder: Failed to send binder netlink message to 597: -111
-> > [  202.822152] binder: Failed to send binder netlink message to 597: -111
-> > [  202.822683] binder: Failed to send binder netlink message to 597: -111
-> > [  202.822629] binder: Failed to send binder netlink message to 597: -111
-> 
-> As the file path (linux/drivers/android/binder.c) suggested,
-> binder driver is designed to work as the essential IPC in the
-> Android OS, where binder is used by all system and user apps.
-> 
-> So the binder netlink is designed to be used with binder IPC.
+> > I think it's safe because vma created by vm_area_dup() is not in the
+> > vma tree yet, so lock_vma_under_rcu() does not see it until it's added
+> > into the tree. Note also that at the time when the new vma gets added
+> > into the tree, the vma has to be write-locked
+> > (vma_iter_store()->vma_mark_attached()->vma_assert_write_locked()).
+> > So, lock_vma_under_rcu() won't use the new vma even after it's added
+> > into the tree until we unlock the vma.
+>
+>
+> What about something like this, where vma starts out as attached as thus
+> reachable:
 
-Ok, I assume this decision was made because no better alternative was
-found. Otherwise it would be best to avoid the dependency. This could
-become an issue e.g. if the admin process was to be split in the future
-or some other restructuring happens.
+Huh, very clever sequence.
 
-That's why I ask of there is a way to cleanup the netlink info without
-relying on the binder fd closing. Something cleaner, there might be some
-callback we can install on the netlink infra? I could look later into
-this.
+>
+> A:                      B:      C:
+> lock_vma_under_rcu()
+>   vma =3D mas_walk()
+>   vma_start_read()
+>     vm_lock_seq =3D=3D mm->mm_lock_seq.sequence
+>
+                           vma_start_write
+>                         vma detached and freed
+>
+>                                 vm_area_dup()
+>                                 - vma reallocated
+>                                 - memcpy() copies non-zero refcnt from or=
+ig
+>
+>     __refcount_inc_not_zero_limited() succeeds
+>
+>                                 vma_init_lock();
+>                                 refcount_set(&vma->vm_refcnt, 0);
+>
+>     - vm_lock_seq validation fails (could it even succeed?)
 
-> The manager service also uses the binder interface to communicate
-> to all other processes. When it exits, the binder file is closed,
-> where the netlink interface is reset.
+It can succeed if task C drops the vma write-lock before A validates
+vm_lock_seq.
 
-Again, communicating with other processes via binder and setting up a
-transaction report should be separate functionalities that don't rely on
-eachother.
+>     vma_refcount_put(vma);
+>       __refcount_dec_and_test makes refcount -1
 
-Also, it seems the admin process would have to initially bind() to all
-binder contexts preventing other from doing so? Sound like this should
-be restricted to certain capability or maybe via selinux (if possible)
-instead of relying on the portid. Thoughts?
+Yeah, I guess I will have to keep vm_refcnt at 0 across reuse, so
+memcpy() in vm_area_dup() should be replaced. I'll make the changes.
+Thanks for analyzing this, Vlastimil!
 
---
-Carlos Llamas
+>
+>
+>
