@@ -1,93 +1,91 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248EE19F489;
-	Wed,  8 Jan 2025 16:24:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B46A201259;
+	Wed,  8 Jan 2025 16:39:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736353502; cv=none; b=Rz8auN0N5CAgK3Q39uX7SnPU0zCmxuVpfGdniUrBYoHripSTdDIzZJr6cKLxc3QgvOJ4Hn9dlgoN0NG6nvFmrirSTK9gIr4cCC0twQPRVsrYpTCgbVfvOYzcNgNnvVjP9h+LHvKimn0BJSv9RN1by+fqRRUHQeve02uakVUpaHM=
+	t=1736354351; cv=none; b=G+mpe3aS4w2MdIm7I6skd+UpRydW+fIZGVFCJET4ifobGKyeaWCuCyYQpXdJgiesrW+5HXsTnzGpBDPcmXBPiBIrzdkMyAn8yA8cs9FJA7zJUKi0ccXb6Ip702dMoKTrTW/a3ig2ldUXtTDIeKQK+rg3RQngXyDxfzM7sjPO4sA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736353502; c=relaxed/simple;
-	bh=kPcx6EqSyZVL/wllFQBgnGtYWem7gRt24tVGvP/oRJY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OPhtxlcumSZBrv/Jd5xozF4maZdeMxJ97x4ojAerPxVeCmgd+GGURSBNep0G3W5VmTEAgtiNN2DV3Tky9fS6JwtdnDTgeMqJx4y1aeMg/HhbHDtoQ+cseH5lU1nj2bMzijaJJRnfTLCaPuw2gKlBWuorRdiybYHtInhS6iJRZFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jyIuwa/3; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1736354351; c=relaxed/simple;
+	bh=yY5at5aIn3MRzmWv95JNi9saz7slbhEsQ5ueAhtaLtU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YGg61pCZ14IeClOFxUTMglO63gFoIQrQKg1XJEBmbQjvjVlzUNDxLDR0E5cgvqtPzzsnp7kkvtBBE/TJyKldDHuJGedTXWya8qqW6Ah3Q6OBuoRgSaKutZ2Xp60NSkzIj/V23AKAmHHA9xmdI0LR8b1Ahb05Kh3nYofkKeYovUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rS6u/XKo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jyIuwa/3"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 154F6C000B;
-	Wed,  8 Jan 2025 16:24:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1736353498;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ywtVfbBrJlMkzZ3DHOkUmnWcxehi+NF/Go9lQQuP9pg=;
-	b=jyIuwa/3h8m9CFtJWbn4mMTWJLXgd1MWVSLOyRzcff31dtX/En5BFl0Wmjva0jB72akhHa
-	uLrCvbm4tTH6eT6fcP3ZcVbKKwj8mLBk1YObhV5lSxKVwf9/XdlpznhViGJlLNQjReLfQ9
-	EWDCv9r9WC7wiM0Qkx1VEeu5We083nQP+D6atw6Cryk8hstRoIH46k/8xm+6k4r9LQkMmO
-	StU+DNPHLqjVkeycrGIKZ998H/GdISoc3CPPtz4w8EWj0dzxC73z65FX4sbBFlbrflv5wP
-	fTwenF8/n04WtvEBjFlGebvEMMWfGuNcPMflSrAVmNO0IIHWIdY9zb60iG2M6Q==
-Date: Wed, 8 Jan 2025 17:24:56 +0100
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Oleksij Rempel <o.rempel@pengutronix.de>, Jakub Kicinski
- <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Jonathan
- Corbet <corbet@lwn.net>, kernel@pengutronix.de,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, Simon Horman
- <horms@kernel.org>, Russell King <linux@armlinux.org.uk>,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v5 2/8] net: ethtool: plumb PHY stats to PHY
- drivers
-Message-ID: <20250108172456.522517ff@fedora.home>
-In-Reply-To: <95111e20-d08a-42e5-b8cc-801e34d15040@lunn.ch>
-References: <20250106083301.1039850-1-o.rempel@pengutronix.de>
-	<20250106083301.1039850-3-o.rempel@pengutronix.de>
-	<20250107180216.5802e941@kernel.org>
-	<Z35ApuS2S1heAqXe@pengutronix.de>
-	<95111e20-d08a-42e5-b8cc-801e34d15040@lunn.ch>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rS6u/XKo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E483FC4CED3;
+	Wed,  8 Jan 2025 16:39:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736354351;
+	bh=yY5at5aIn3MRzmWv95JNi9saz7slbhEsQ5ueAhtaLtU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=rS6u/XKovMOEglFU3aFUsrAx/jm6K5I/vHIMdaJiwAJiAttR6nlZgnhjc+hayZmxr
+	 uFNCuHTrCCEN3Fl6BW5HZHCVuWQfx0Lyn3HbPVJeT/1oUWza+CMvf0ntYkcB0ngEVG
+	 JGcw6ooPLHDuT65wfIcxhtskkUgND9uBHbsfQ8VlUIQMG/QNcincivc5YLROmBa16s
+	 xZe5RqSK2jYWMVa40jROReW/JC+lCFjtwBY3Ia4765Rq0hVLLbqbeIdsLViiRACMep
+	 KbTcG+HzUB8WKnMuy0Bpa1+wcsysPz4+U5tEY4NnLhd5r7ft2AWL/OkyQepqPN9ubY
+	 JpJlMfFjvRlBg==
+From: Will Deacon <will@kernel.org>
+To: Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Mark Brown <broonie@kernel.org>
+Cc: kernel-team@android.com,
+	Will Deacon <will@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	Mark Rutland <mark.rutland@arm.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v5 0/5] arm64: Support 2024 dpISA extensions
+Date: Wed,  8 Jan 2025 16:38:53 +0000
+Message-Id: <173634366811.504438.8117405131587549387.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20250107-arm64-2024-dpisa-v5-0-7578da51fc3d@kernel.org>
+References: <20250107-arm64-2024-dpisa-v5-0-7578da51fc3d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: maxime.chevallier@bootlin.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Andrew, Oleksij,
-
-On Wed, 8 Jan 2025 17:03:25 +0100
-Andrew Lunn <andrew@lunn.ch> wrote:
-
-> > On one side I need to address the request to handle phydev specific
-> > thing withing the PHYlib framework. On other side, I can't do it without
-> > openen a pandora box of build dependencies. It will be a new main-side-quest
-> > to resolve build dependency of net/ethtool/ and PHYlib. The workaround is to
-> > put this functions to the header.  
+On Tue, 07 Jan 2025 22:59:40 +0000, Mark Brown wrote:
+> The 2024 architecture release includes a number of data processing
+> extensions, mostly SVE and SME additions with a few others.  These are
+> all very straightforward extensions which add instructions but no
+> architectural state so only need hwcaps and exposing of the ID registers
+> to KVM guests and userspace.
 > 
-> Yes, the code is like this because phylib can be a module, and when it
-> is, you would end up with unresolved symbols if ethtool code is built
-> in. There are circular dependence as well, if both ethtool and phylib
-> are module. The inlines help solve this.
 > 
-> However, the number of these inline functions keeps growing. At some
-> point, we might want a different solution. Maybe phylib needs to
-> register a structure of ops with ethtool when it loads?
+> [...]
 
-Isn't it already the case with the ethtool_phy_ops singleton ? Maybe we
-can add wrap the get_phy_stats / get_link_ext_stats ops to the
-ethtool_phy_ops ? My understanding was that this singleton served this
-purpose.
+Applied to arm64 (for-next/cpufeature), thanks!
 
-Thanks,
+[1/5] arm64: Filter out SVE hwcaps when FEAT_SVE isn't implemented
+      https://git.kernel.org/arm64/c/064737920bdb
+[2/5] arm64/sysreg: Update ID_AA64SMFR0_EL1 to DDI0601 2024-12
+      https://git.kernel.org/arm64/c/47e4717eb6fc
+[3/5] arm64/hwcap: Describe 2024 dpISA extensions to userspace
+      https://git.kernel.org/arm64/c/819935464cb2
+[4/5] KVM: arm64: Allow control of dpISA extensions in ID_AA64ISAR3_EL1
+      https://git.kernel.org/arm64/c/fd22af17a458
+[5/5] kselftest/arm64: Add 2024 dpISA extensions to hwcap test
+      https://git.kernel.org/arm64/c/8600640d21cf
 
-Maxime
+Cheers,
+-- 
+Will
 
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
