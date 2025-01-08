@@ -1,23 +1,23 @@
-Received: from mail-m118216.qiye.163.com (mail-m118216.qiye.163.com [115.236.118.216])
+Received: from mail-m121148.qiye.163.com (mail-m121148.qiye.163.com [115.236.121.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325CA225D7
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jan 2025 08:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.118.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD332225D7
+	for <linux-doc@vger.kernel.org>; Wed,  8 Jan 2025 08:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.121.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736323305; cv=none; b=LCgVfFflWr9R6IPFh5WIv3eS4iQxw2DPlDEPz/ApBj8ZgKy5l9jmevW5wbHMHq2IQkwCtHl0Nin/7XVptOYWbjzq5CZCXUQysapujYEFzVQBG5mvjwNVlqbIVAgm3+LSKnkHzUraV7wCe1yW4Rzrlxn55sbwvZ8ChrNCcqDEqjE=
+	t=1736323381; cv=none; b=u2jhSD91tfS3OHpzD5w9W6dPgGuKZan7XDz+MtE1UQnfkjwD04NYZWY7C1stQ7oEen8OVX+F/NRkNzsjDopeH+x19kCghvq7Xw/bE8A4y3pTtRrLWqOXWdTrwEWD2IRru9S2287gczVdZjLbdPXMzY34q3bIvr9qF2jr+HSC8S4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736323305; c=relaxed/simple;
-	bh=lQTsziA1gjRl42Hn7jns8gfJPZzHQepcBZe9ahvvKaY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=itgOkSMUunalbRXE7vxaJFpVRus8DId5uuP3tE7Vnvbw5fIkn2SIpmtqn3zyNIG25JD2kWiFw/+sZOJsWrTH+qjnzDFVbHu1UMECuxbipNXWWQeWuThdP22XTvbjcLto2jV1visg0yZYaA64B0CGbPIk5Clpo0KGe042dXS6T9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=K5Et4iao; arc=none smtp.client-ip=115.236.118.216
+	s=arc-20240116; t=1736323381; c=relaxed/simple;
+	bh=KRU3P0FdyDO027VC7NE1p6G22ENZtxYVsVOwgNjH1Aw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BqgiIogk2BDIjtsJWfjzQ0lisKtygObR1f1UWyLapbATzBosf9KkCpGl3/SlfGzGkfDauSCu/Ke8JGDeqzqa64Q95SA82JvazIRFFEUdavFXmmQSKeMFU5NUBZ+t7HUjGzeCvauguADgw2DYh6NSAJ5nb54s1v4B4+PgPbhsD2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=SEalHNaQ; arc=none smtp.client-ip=115.236.121.148
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="K5Et4iao"
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="SEalHNaQ"
 Received: from fedora.localdomain (unknown [171.8.192.198])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 8178b084;
-	Wed, 8 Jan 2025 16:01:38 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 81762cac;
+	Wed, 8 Jan 2025 15:57:42 +0800 (GMT+08:00)
 From: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
 To: alexs@kernel.org,
 	si.yanteng@linux.dev,
@@ -27,9 +27,9 @@ Cc: zhaoyuehui@cqsoftware.com.cn,
 	zhangwei@cqsoftware.com.cn,
 	maoyuxian@cqsoftware.com.cn,
 	linux-doc@vger.kernel.org
-Subject: [PATCH v3] docs/zh_CN: Add security digsig Chinese translation
-Date: Wed,  8 Jan 2025 16:01:35 +0800
-Message-ID: <20250108080136.19398-1-zhaoshuo@cqsoftware.com.cn>
+Subject: [PATCH v2] docs/zh_CN: Add security IMA-templates Chinese translation
+Date: Wed,  8 Jan 2025 15:57:38 +0800
+Message-ID: <20250108075740.19342-1-zhaoshuo@cqsoftware.com.cn>
 X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -40,170 +40,139 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDTE5DVh4YGEJKGkhOSUgZTlYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKTEpVQ1VKQklVSkJDWVdZFhoPEhUdFFlBWU9LSFVKS0hKTkxOVUpLS1
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCQhhLVhlNSh9NGkxITUlKGVYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKTEpVQ1VKQklVSkJDWVdZFhoPEhUdFFlBWU9LSFVKS0hKT0hMVUpLS1
 	VKQktLWQY+
-X-HM-Tid: 0a9444eef49209d0kunm8178b084
+X-HM-Tid: 0a9444eb5ab309d0kunm81762cac
 X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6M1E6Djo6EzINAxdPGDQxEyM8
-	FTEwCQ5VSlVKTEhNSElISUJCTk9MVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
-	WRILWUFZSkxKVUNVSkJJVUpCQ1lXWQgBWUFPTkpKNwY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PjI6Fww*DjINLRc*CQIaFBZJ
+	QwEwFD5VSlVKTEhNSElIS01IT0hLVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSkxKVUNVSkJJVUpCQ1lXWQgBWUFOQktONwY+
 DKIM-Signature:a=rsa-sha256;
-	b=K5Et4iao4VfU3NT9KQhMfqtakklV3b4UwclYM2LCRKJk83ZcyRvAA+LYtfNquvSaVyu15oDqZrqtj3vmsi7GwEqchueF8OqkrrXeLc06QxbMF8Qdy78/YoYHq5CNCopQpejZKcBRY4vcFUdurgcO9xP0P8qbjTSVv5eWfNtUygI=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
-	bh=p23BqIAOi00svCxPL4gTiGHjOAKUThClrexipC6Zdwc=;
+	b=SEalHNaQtdtuhXF8x0QtQrAyYp2iDU2h5osasZVBHYu7U8/e3Aq1LgyiGsTKWgVk/IO5X24lUtM/gv5AsEWua1C85Xno057h9LKSZxlyxjCNi5GR9CBmO0R4mzqxrISGn2KBvQi2i5zFxmW7pvq4ZWSLZVHa5G7/LcHQloLa/Rg=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
+	bh=swRZP0/Eu4KR7R8EJ8yFRxeod7tIsseTox0vzkJOYrA=;
 	h=date:mime-version:subject:message-id:from;
 
-Translate .../security/digsig.rst into Chinese.
+Translate .../security/IMA-templates.rst into Chinese.
 
-Update the translation through commit d56b699d76d1
-("Documentation: Fix typos")
+Update the translation through commit 398c42e2c46c
+("ima: support fs-verity file digest based version 3 signatures").
 
 Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
 Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
 ---
 
-v3:
+v2:
 
 Change the email address.
 
-v2:
+ .../zh_CN/security/IMA-templates.rst          | 97 +++++++++++++++++++
+ 1 file changed, 97 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/security/IMA-templates.rst
 
-Add authors and dates and modify some translations.
-
- .../translations/zh_CN/security/digsig.rst    | 103 ++++++++++++++++++
- .../translations/zh_CN/security/index.rst     |   2 +-
- 2 files changed, 104 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/security/digsig.rst
-
-diff --git a/Documentation/translations/zh_CN/security/digsig.rst b/Documentation/translations/zh_CN/security/digsig.rst
+diff --git a/Documentation/translations/zh_CN/security/IMA-templates.rst b/Documentation/translations/zh_CN/security/IMA-templates.rst
 new file mode 100644
-index 000000000000..3e690b504ec5
+index 000000000000..b391c9d03882
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/security/digsig.rst
-@@ -0,0 +1,103 @@
++++ b/Documentation/translations/zh_CN/security/IMA-templates.rst
+@@ -0,0 +1,97 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/security/digsig.rst
++:Original: Documentation/security/IMA-templates.rst
 +
 +:翻译:
 + 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
 +
 +===============
-+数字签名验证API
++IMA模板管理机制
 +===============
-+
-+:作者: Dmitry Kasatkin
-+:日期: 2011.06.10
-+
-+
-+.. 内容
-+
-+   1.介绍
-+   2.API
-+   3.用户空间工具
 +
 +
 +介绍
 +====
 +
-+数字签名验证API提供了一种验证数字签名的方法。
-+目前，数字签名被IMA/EVM完整性保护子系统使用。
++原始的 ``ima`` 模板是固定长度的，包含文件数据的哈希值和路径名。文件数据
++哈希值限制为20字节(md5/sha1)。路径名是一个以空字符终止的字符串，长度限
++制为255个字符内。
++为了克服这些限制并添加额外的文件元数据，通过定义额外的模板来扩展当前版本
++的IMA这是有必要的。例如，可能报告的信息包括索引节点的 UID/GID或索引节点
++及访问它进程的LSM标签。
 +
-+数字签名验证是通过精简的GnuPG多精度整数(MPI)库的内核移植来实现的。
-+该内核版本提供了内存分配错误处理，已根据内核编码风格进行重构，并修复
-+了checkpatch.pl报告的错误和警告。
++然而，引入这个功能的主要问题是，每次定义一个新模板时，生成和显示度量列表
++的函数都需要包含处理新格式的代码，因此，这些函数的规模随着时间的推移会
++显著增长。
 +
-+公钥和签名由头部和MPIs组成::
++提出的解决方案通过将模板管理与其余IMA代码分离来解决这个问题。该解决方案
++的核心是定义两个新的数据结构：一个是模板描述符，用于确定度量列表中应包含
++哪些信息；另一个是模板字段，用于生成和显示给定类型的数据。
 +
-+	struct pubkey_hdr {
-+		uint8_t		version;	/* 密钥格式版本 */
-+		time_t		timestamp;	/* 密钥时间戳，目前为0 */
-+		uint8_t		algo;
-+		uint8_t		nmpi;
-+		char		mpi[0];
-+	} __packed;
++使用这些结构管理模板非常简单。为了支持一种新的数据类型，开发人员定义字段
++标识符，并实现两个函数，分别为init()和show()，用于生成和显示度量条目。
++定义一个新的模板描述符需要通过 ``ima_template_fmt`` 内核命令行参数指定
++模板格式(一个由 ``|`` 字符分隔的字段标识符字符串)。在启动时，IMA通过将格
++式转换从支持的模板字段集合中选取模板字段数组，来初始化所选的模板描述符。
 +
-+	struct signature_hdr {
-+		uint8_t		version;	/* 签名格式版本 */
-+		time_t		timestamp;	/* 签名时间戳 */
-+		uint8_t		algo;
-+		uint8_t		hash;
-+		uint8_t		keyid[8];
-+		uint8_t		nmpi;
-+		char		mpi[0];
-+	} __packed;
++在初始化步骤之后，IMA将调用 ``ima_alloc_init_template()`` (这是为新模板
++管理机制所打补丁中定义的新函数)，通过使用在内核配置选择的模板描述符或者新引
++入的 ``ima_template`` 和 ``ima_template_fmt`` 内核命令行参数，生成一个新
++的度量条目。在这一阶段，新架构的优势得以清晰展示：后一个函数将不会包含处理给
++定模板的特定代码，而是简单地调用与所选模板描述符关联的模板字段的 ``init()``
++方法，并将结果(指向已分配数据的指针和数据长度)存储在度量条目结构中。
 +
-+keyid等同对整个密钥的内容进行SHA1哈希运算后的第12到19字节。
-+签名头部用于生成签名的输入。这种方法确保了密钥或签名头部无法更改。
-+它保护时间戳不被更改，并可以用于回滚保护。
++相同的机制也用于显示度量条目。函数 ``ima[_ascii]_measurements_show()`` 会为
++每个条目检索用于生成该条目的模板描述符，并为模板字段结构数组中的每一项调用show()
++方法。
 +
-+API
-+===
 +
-+目前API仅包含一个函数::
 +
-+	digsig_verify() - 使用公钥进行数字签名验证
++支持的模板字段和描述符
++======================
 +
-+	/**
-+	* digsig_verify() - 使用公钥进行数字签名验证
-+	* @keyring:   查找密钥的密钥环
-+	* @sig:       数字签名
-+	* @sigen:     签名的长度
-+	* @data:      数据
-+	* @datalen:   数据的长度
-+	* @return:    成功时返回0，失败时返回 -EINVAL
-+	*
-+	* 验证数据相对于数字签名的完整性。
-+	* 目前仅支持RSA算法。
-+	* 通常将内容的哈希值作为此函数的数据。
-+	*
-+	*/
-+	int digsig_verify(struct key *keyring, const char *sig, int siglen,
-+				  const char *data, int datalen);
++下面是支持的模板字段列表 ``('<identifier>': description)`` ，可以通过将其标识符
++添加到格式字符串中用于定义新的模板描述符(后续将添加对更多数据类型的支持):
 +
-+用户空间工具
-+============
++ - 'd'：事件的摘要(即测量文件的摘要)，通过SHA1或MD5哈希算法计算；
++ - 'n'：事件的名称(即文件名)，大小至多255字节；
++ - 'd-ng'：事件的摘要，通过任意哈希算法计算(字段格式：<hash algo>:digest)；
++ - 'd-ngv2'：与d-ng相同，但以"ima"或"verity"摘要类型为前缀
++   (字段格式：<digest type>:<hash algo>:digest)；
++ - 'd-modsig'：不含附加modsig的事件摘要；
++ - 'n-ng'：事件的名称，没有大小限制；
++ - 'sig'：文件签名，基于文件的/文件系统验证的摘要[1]，或EVM便携式签名，
++   如果'security.ima'包含文件哈希；
++ - 'modsig'：附加的文件签名；
++ - 'buf'：用于生成哈希的缓冲区数据，没有大小限制；
++ - 'evmsig'：EVM便携式签名；
++ - 'iuid'：索引节点的UID；
++ - 'igid'：索引节点的GID；
++ - 'imode'：索引节点的模式；
++ - 'xattrnames'：xattr名称的列表(由``|``分隔)，仅当xattr存在时；
++ - 'xattrlengths'：xattr长度的列表(u32)，仅当xattr存在时；
++ - 'xattrvalues'：xattr值的列表；
 +
-+签名和密钥管理实用工具evm-utils提供了生成签名、加载密钥到内核密钥环中的功能。
-+密钥可以是PEM格式，或转换为内核格式。
-+当把密钥添加到内核密钥环时，keyid定义该密钥的名称：下面的示例中为5D2B05FC633EE3E8。
 +
-+以下是keyctl实用工具的示例输出::
++下面是已定义的模板描述符列表：
 +
-+	$ keyctl show
-+	Session Keyring
-+	-3 --alswrv      0     0  keyring: _ses
-+	603976250 --alswrv      0    -1   \_ keyring: _uid.0
-+	817777377 --alswrv      0     0       \_ user: kmk
-+	891974900 --alswrv      0     0       \_ encrypted: evm-key
-+	170323636 --alswrv      0     0       \_ keyring: _module
-+	548221616 --alswrv      0     0       \_ keyring: _ima
-+	128198054 --alswrv      0     0       \_ keyring: _evm
++ - "ima"：其格式是 ``d|n`` ；
++ - "ima-ng"(默认)：其格式是 ``d-ng|n-ng`` ；
++ - "ima-ngv2"：其格式是 ``d-ngv2|n-ng`` ；
++ - "ima-sig"：其格式是 ``d-ng|n-ng|sig`` ；
++ - "ima-sigv2"：其格式是 ``d-ngv2|n-ng|sig`` ；
++ - "ima-buf"：其格式是 ``d-ng|n-ng|buf`` ；
++ - "ima-modsig"：其格式是 ``d-ng|n-ng|sig|d-modsig|modsig`` ；
++ - "evm-sig"：其格式是 ``d-ng|n-ng|evmsig|xattrnames|xattrlengths|xattrvalues|iuid|igid|imode`` ；
 +
-+	$ keyctl list 128198054
-+	1 key in keyring:
-+	620789745: --alswrv     0     0 user: 5D2B05FC633EE3E8
-diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
-index 92e2d8a7dec8..c73cd289ac3e 100644
---- a/Documentation/translations/zh_CN/security/index.rst
-+++ b/Documentation/translations/zh_CN/security/index.rst
-@@ -16,6 +16,7 @@
-    :maxdepth: 1
- 
-    lsm
-+   digsig
- 
- TODOLIST:
- * credentials
-@@ -28,7 +29,6 @@ TODOLIST:
- * self-protection
- * siphash
- * tpm/index
--* digsig
- * landlock
- * secrets/index
- * ipe
++
++
++使用
++====
++
++要指定用于生成度量条目的模板描述符，目前支持以下方法:
++
++ - 从内核配置所支持模板描述符中选择一个模板描述符( ``ima-ng`` 是默认选择)；
++ - 通过 ``ima_template=`` 参数从内核命令行指定模板描述符名称；
++ - 通过内核命令行参数 ``ima_template_fmt=`` 注册一个具有自定义格式的新模板描述符。
 -- 
-2.47.1
+2.43.5
 
