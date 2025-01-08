@@ -1,126 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36EA51EB36;
-	Wed,  8 Jan 2025 02:02:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B657E14B080;
+	Wed,  8 Jan 2025 02:04:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736301740; cv=none; b=oBwnL8U23h0LP56XiSrBLbrhNUio0cDj4FkfE03a8bZQ/BSLMxdDR8uBRwYpB3HVOktyY6T4yI+rn4FfX6ltA+fPBMNGHDXIzahyuD6A9V9WmpSTv0D+9OQ7SXqHsLiMFzedrlt12boWo5xbDFq7hriVI6OhI/ePH9zY5hxr8iw=
+	t=1736301855; cv=none; b=M/vMzCE+91NCXXoLPfN6AolVHHoZhVwJl7i5y3RUM1WaZP4Ntfe1vJtxOYFo2GDRshNv2ieFKZeodAiMY4V46vNbgs8mDSY6FvaqAjUka8ovvPBlcFn+v/5QyKBFc/6jEsYSca00XefYQLCB51OW6Tk8Wgxo/w9odyIPVZeWuAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736301740; c=relaxed/simple;
-	bh=oOdJutS4sIxAU8lwWOhQeM5+8TdbPeObSInMi0lPYNU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=B8oQCEYqwUprbNEB989r7E8w6kv6cSNWkEAV2zKrKQE48Jy5a3RkQq+0Y0T7HpBpml8TJJzfTxpYs9UPRzq0pUm/TCHY0VcAL72MWxmm7L/H9FdCEf3wTkS31gUZwMJAdl6HJ0T5AqcUY7FMtgon6qaZEiu//7gHR1cCHEi9Ay0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J6J1zFSk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736301855; c=relaxed/simple;
+	bh=kL1oqk2hMD5HIHbEo8gjZHPzUhB4284/QRlU+RprCN0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O8evf66XCtNaKo31swnEwJkNTWKtqQomAB4PnAb2q6zD1WAvBFitLqofm7L6iZVyqkPeDcc6URKztq1GKewwwX7u+Ud8Wsp1lW+rRmV7ncJUvURY1w3eo3AmRpVCiKPrlb/Qgtd2q7rHQhIS8AJ7PJsQSokXWkjEVJ867FEyH2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=dfziqjIq; arc=none smtp.client-ip=115.124.30.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J6J1zFSk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09E7CC4CED6;
-	Wed,  8 Jan 2025 02:02:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736301738;
-	bh=oOdJutS4sIxAU8lwWOhQeM5+8TdbPeObSInMi0lPYNU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=J6J1zFSkvZYoJG/A1L/j4o2mxdDfxcu8Gd6V4QE264c5POIYI3J1FWDyb/iBJsus7
-	 CeR+uzA+OXOfCOljCXwuPxqMRafCk8vzD3F1p01aFMioJaQVNFaj7gScsMqw6WW6LP
-	 NxLS3NHh1wRYbyg7qW09nvqXmaehoTJZR93T3VHcyFtbg/ucsxvbx6lNJgYVNFDQxf
-	 KFdF60Q0qjsW+cZLtenSo0iYQfglLR/BYnowHhTZDCqeQVYWrrh80nK+j4U1BvyTxy
-	 V9M/l9k1X1rswyk856T2x8x+vqjK8BaytrwGeQ5cLky+cS8+ggHej5ULipsb5DgJI6
-	 enUyTsq/2fr8Q==
-Date: Tue, 7 Jan 2025 18:02:16 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Jonathan
- Corbet <corbet@lwn.net>, kernel@pengutronix.de,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, Simon Horman
- <horms@kernel.org>, Russell King <linux@armlinux.org.uk>, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v5 2/8] net: ethtool: plumb PHY stats to PHY
- drivers
-Message-ID: <20250107180216.5802e941@kernel.org>
-In-Reply-To: <20250106083301.1039850-3-o.rempel@pengutronix.de>
-References: <20250106083301.1039850-1-o.rempel@pengutronix.de>
-	<20250106083301.1039850-3-o.rempel@pengutronix.de>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="dfziqjIq"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1736301843; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=jkbhlsZBTgwdfhhDyY2mVNdz7Ru2qqcr0zjKFyRhbdM=;
+	b=dfziqjIqS5cxBiQmYsG2wEmeEz18vr27MhIJ0dKR6itNVWHomSdjBUvJdBxMVbCGYMKSq6/efg5RPVc3txbPGazbiLmFOpvl8DWlrNfyfpfdaWxkBcn5xkOtUs+CAg7/2bTgrCqIaC4I007WZSXR66Gb0bYmMbOv8NoMl1A4eTs=
+Received: from localhost.localdomain(mailfrom:cp0613@linux.alibaba.com fp:SMTPD_---0WNC7t7x_1736301833 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 08 Jan 2025 10:04:02 +0800
+From: cp0613@linux.alibaba.com
+To: corbet@lwn.net,
+	paul.walmsley@sifive.com,
+	palmer@dabbelt.com,
+	aou@eecs.berkeley.edu
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	Chen Pei <cp0613@linux.alibaba.com>
+Subject: [PATCH] Documentation: riscv: Remove KPROBES_ON_FTRACE
+Date: Wed,  8 Jan 2025 10:03:42 +0800
+Message-ID: <20250108020342.4172-1-cp0613@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon,  6 Jan 2025 09:32:55 +0100 Oleksij Rempel wrote:
-> +	/**
-> +	 * @get_link_stats: Retrieve link statistics.
-> +	 * @dev: The PHY device for which the statistics are retrieved.
-> +	 * @link_stats: structure where link-specific stats will be stored.
-> +	 *
-> +	 * Retrieves link-related statistics for the given PHY device. The input
-> +	 * structure is pre-initialized with `ETHTOOL_STAT_NOT_SET`, and the
-> +	 * driver must only modify members corresponding to supported
-> +	 * statistics. Unmodified members will remain set to
-> +	 * `ETHTOOL_STAT_NOT_SET` and will not be returned to userspace.
-> +	 *
-> +	 * Return: 0 on success or a negative error code on failure.
+From: Chen Pei <cp0613@linux.alibaba.com>
 
-These get callbacks return void
+Since commit 7caa9765465f60 ("ftrace: riscv: move from REGS to ARGS"),
+kprobe on ftrace is not supported by riscv.
 
-> +	 */
-> +	void (*get_link_stats)(struct phy_device *dev,
-> +			       struct ethtool_link_ext_stats *link_stats);
->  	/** @get_sset_count: Number of statistic counters */
->  	int (*get_sset_count)(struct phy_device *dev);
->  	/** @get_strings: Names of the statistic counters */
-> @@ -1777,6 +1810,49 @@ static inline bool phy_is_pseudo_fixed_link(struct phy_device *phydev)
->  	return phydev->is_pseudo_fixed_link;
->  }
->  
-> +/**
-> + * phy_ethtool_get_phy_stats - Retrieve standardized PHY statistics
-> + * @phydev: Pointer to the PHY device
-> + * @phy_stats: Pointer to ethtool_eth_phy_stats structure
-> + * @phydev_stats: Pointer to ethtool_phy_stats structure
-> + *
-> + * Fetches PHY statistics using a kernel-defined interface for consistent
-> + * diagnostics. Unlike phy_ethtool_get_stats(), which allows custom stats,
-> + * this function enforces a standardized format for better interoperability.
-> + */
-> +static inline void phy_ethtool_get_phy_stats(struct phy_device *phydev,
-> +					struct ethtool_eth_phy_stats *phy_stats,
-> +					struct ethtool_phy_stats *phydev_stats)
-> +{
-> +	if (!phydev->drv || !phydev->drv->get_phy_stats)
-> +		return;
-> +
-> +	mutex_lock(&phydev->lock);
-> +	phydev->drv->get_phy_stats(phydev, phy_stats, phydev_stats);
-> +	mutex_unlock(&phydev->lock);
-> +}
-> +
-> +/**
-> + * phy_ethtool_get_link_ext_stats - Retrieve extended link statistics for a PHY
-> + * @phydev: Pointer to the PHY device
-> + * @link_stats: Pointer to the structure to store extended link statistics
-> + *
-> + * Populates the ethtool_link_ext_stats structure with link down event counts
-> + * and additional driver-specific link statistics, if available.
-> + */
-> +static inline void phy_ethtool_get_link_ext_stats(struct phy_device *phydev,
-> +				    struct ethtool_link_ext_stats *link_stats)
-> +{
-> +	link_stats->link_down_events = READ_ONCE(phydev->link_down_events);
-> +
-> +	if (!phydev->drv || !phydev->drv->get_link_stats)
-> +		return;
-> +
-> +	mutex_lock(&phydev->lock);
-> +	phydev->drv->get_link_stats(phydev, link_stats);
-> +	mutex_unlock(&phydev->lock);
-> +}
+And commit 3308172276db5d ("trace: riscv: Remove deprecated kprobe on
+ftrace support") removed the relevant code, but left out the
+documentation, so fix that.
 
-Do these have to be static inlines?
+Signed-off-by: Chen Pei <cp0613@linux.alibaba.com>
+---
+ Documentation/features/debug/kprobes-on-ftrace/arch-support.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Seemds like it will just bloat the header, and make alignment more
-painful.
+diff --git a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
+index 02febc883..d937b7a03 100644
+--- a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
++++ b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
+@@ -20,7 +20,7 @@
+     |    openrisc: | TODO |
+     |      parisc: |  ok  |
+     |     powerpc: |  ok  |
+-    |       riscv: |  ok  |
++    |       riscv: | TODO |
+     |        s390: |  ok  |
+     |          sh: | TODO |
+     |       sparc: | TODO |
+-- 
+2.43.0
+
