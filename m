@@ -1,89 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76DB3134AB;
-	Wed,  8 Jan 2025 14:02:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45DA21FDE09;
+	Wed,  8 Jan 2025 14:09:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736344972; cv=none; b=kBSu10+gYpU6DlxFOVqOpLYq7WkoV/7EkBXG5sny78EBFy345WiapoyLPbVI5tYOCUjF63CQkN/pjwCipH1VHdUp6pfMbky3WM/qfMrzcacrRHSwAWAVfUp8i+6L+V6Lr+rBPurTOmUYwCPqmsB30Det27UrcK8cpTpXMdwsFFk=
+	t=1736345366; cv=none; b=qOIhguOcS1VXDxFlZ9Z6NB1FrZUilk/Wyq7WdzwdxAugEPJqGMhTEhI31n2ABsfgH6QJ7PhWcbTVZL1OJVe7JCYlTlh9HXn9egGAkzspREV2zWfNbhJzbPRuoYJ4Y9f87z8h8MovzHHfoinFspMGL6gsdC/imev3lHb/X2nO7is=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736344972; c=relaxed/simple;
-	bh=9dNRfXB4OfeAdPDgfa4xC8ckj17X/+Ol6//WEederRI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=d/YuTkEvIDNGA4tQhddWFchzTK6NwiR5LQCG91Oo2p+pPlYxjy12mcq/QFRgk0+q49S/mDRLFH3DYbPIr4OdmgbP88i4hDCFVB/FQIlrKeON9Oyoagl2taxAPBzcPHzKvHSdeQ5fm1gmcJQhlLAlIeo/d1EBWLmPP6X0mHZSnok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UQjHX4px; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736345366; c=relaxed/simple;
+	bh=PuHFyvQcUpNFXvyiurlAF4absPlp7FXEo06xZZ4fOyY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EK0eKsMUScRMkBfLXzZqFkmHPsede/qOJg1P+rFCQLa37qt1kSh5ypGjxGkdMEIiBeQscUw5GhpAw6h9ihCA1bYCNFESRkUoxjKOLvlkp6jPW4NiLt2qyDTFJlORtAoArmTSVhvMJghTcnzyUWgXAwsut41mPYOfzOzTA97Ymj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SCtxyL65; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UQjHX4px"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00AAAC4CED3;
-	Wed,  8 Jan 2025 14:02:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736344972;
-	bh=9dNRfXB4OfeAdPDgfa4xC8ckj17X/+Ol6//WEederRI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=UQjHX4pxIrqQqJUhXqdLbhDEdSRsPT6cqEpEuVVEh+7Dn3B/Kh30OkyE/GphMleM/
-	 O/cCoSTimnIh8HYdda4uPZR7IgSis7Odc/Rwxyu4y0bDt5sz169y0VdexCCaX57Lfi
-	 m5qvWICUYWKewnTTK7giKQ7Rv3JYD20NEzgHDdF4PZDvvxAZZkTPAKkaxF/VHzqwbU
-	 /VueXznXeyMgF5NPDgH1SPKANUuKwGWZNL6AENknE2nmn5TcwLgK2DMl+8vzNRM4pD
-	 uXj5Ph1r7YyB07Xf570EmucyfcKy9CFyus7ddmth013Y/6u+WuGZh6CFBWuIQzlKB6
-	 ldygxAnVxUHyA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1tVWe1-00ABHf-J8;
-	Wed, 08 Jan 2025 14:02:49 +0000
-Date: Wed, 08 Jan 2025 14:02:48 +0000
-Message-ID: <86tta9wghj.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Will Deacon <will@kernel.org>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Eric Auger <eric.auger@redhat.com>,
-	kvmarm@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/7] arm64/boot: Enable EL2 requirements for FEAT_PMUv3p9
-In-Reply-To: <CAL_JsqKKiEOj=a1k6U-bB0F6-ht7QokDnh3bspHupp-QG=haSg@mail.gmail.com>
-References: <20241220072240.1003352-1-anshuman.khandual@arm.com>
-	<20250102160402.GB3990035-robh@kernel.org>
-	<Z30adHnQ7ZFaU9UR@arm.com>
-	<CAL_JsqLLnh1o4L1=PpNt5brBwZZCgp7mOygByOYakchrzc29Ow@mail.gmail.com>
-	<86wmf5wo8u.wl-maz@kernel.org>
-	<CAL_JsqKKiEOj=a1k6U-bB0F6-ht7QokDnh3bspHupp-QG=haSg@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SCtxyL65"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736345364; x=1767881364;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=PuHFyvQcUpNFXvyiurlAF4absPlp7FXEo06xZZ4fOyY=;
+  b=SCtxyL65pT1jJukT8JbBK0SsD8ZqiwPPABTYCSYIiQYg28BfjVLrju4i
+   GEvkVMbuMhZwLTIQPbegNNfFB35Va1YZUo9oV0b8wseqJ7ofyqfcngNMf
+   5DzM4mExHvW1HxqOlCG/7Fl4SjNW8gRnRF3MQIpeNpRC7Q9LpEIvkH3E3
+   Tq7RgSr4uf3wGHwwTmE+lgi+ycGJE/AzpEMOnc7nOTUXRf7o5xDOD+X7P
+   JxhdTo08EE6QPjeuCiGuyskbR2qol1qW90hwA/FOJfqpr0zoRVWY369Je
+   rxcCxet/HWx96P/P7Cydnk3AQ2lIeWmKwNTW55+1NGU5m566Z/o2bzsNB
+   g==;
+X-CSE-ConnectionGUID: XQR70E4hQi6ejIEi9Dzb9A==
+X-CSE-MsgGUID: G5cLkamWTuq0d3a7y+8fwQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="36266773"
+X-IronPort-AV: E=Sophos;i="6.12,298,1728975600"; 
+   d="scan'208";a="36266773"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 06:09:23 -0800
+X-CSE-ConnectionGUID: 5MuKVUQjTz6NCWioya/ZbQ==
+X-CSE-MsgGUID: ten+V83oQxySAdeEDBFw7w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,298,1728975600"; 
+   d="scan'208";a="102903221"
+Received: from unknown (HELO [10.237.72.199]) ([10.237.72.199])
+  by fmviesa006.fm.intel.com with ESMTP; 08 Jan 2025 06:09:17 -0800
+Message-ID: <b029c775-a0cf-4991-95b7-a02187c0863b@linux.intel.com>
+Date: Wed, 8 Jan 2025 16:10:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: robh@kernel.org, catalin.marinas@arm.com, anshuman.khandual@arm.com, linux-arm-kernel@lists.infradead.org, will@kernel.org, ryan.roberts@arm.com, mark.rutland@arm.com, oliver.upton@linux.dev, corbet@lwn.net, eric.auger@redhat.com, kvmarm@lists.linux.dev, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v32 02/32] xhci: sideband: add initial api to register a
+ secondary interrupter entity
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
+ lgirdwood@gmail.com, krzk+dt@kernel.org,
+ pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
+ tiwai@suse.com, robh@kernel.org, gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20250108012213.1659364-1-quic_wcheng@quicinc.com>
+ <20250108012213.1659364-3-quic_wcheng@quicinc.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20250108012213.1659364-3-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 08 Jan 2025 13:47:16 +0000,
-Rob Herring <robh@kernel.org> wrote:
->
-> Out of curiosity, why do we care if there's a splat or not for a not
-> well behaved guest?
+On 8.1.2025 3.21, Wesley Cheng wrote:
+> From: Mathias Nyman <mathias.nyman@linux.intel.com>
+> 
+> Introduce XHCI sec intr, which manages the USB endpoints being requested by
+> a client driver.  This is used for when client drivers are attempting to
+> offload USB endpoints to another entity for handling USB transfers.  XHCI
+> sec intr will allow for drivers to fetch the required information about the
+> transfer ring, so the user can submit transfers independently.  Expose the
+> required APIs for drivers to register and request for a USB endpoint and to
+> manage XHCI secondary interrupters.
 
-The only well behaved guest is the one that doesn't run.
+The "sec intr" above should also be renamed back to "sideband"
 
-Getting that splat is an indication of a *KVM* bug which fails to
-correctly emulate the architecture (feature not advertised ->
-instructions must silently UNDEF).
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+-Mathias
