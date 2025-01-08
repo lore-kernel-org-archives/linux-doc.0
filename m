@@ -1,65 +1,64 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777651FBC8D
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jan 2025 12:49:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB411FAC5E
+	for <linux-doc@vger.kernel.org>; Wed,  8 Jan 2025 12:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736340588; cv=none; b=hhruix/X/c1MAQg5Eo4Nh+YVSOnf7iuwx0wGrfsmbw4DOmBRV/7J0IbRJKl/zHz32R++jquGmvqTeRsB2vGRz0CA29J2fF2AbPrqudSgfEFuP/iER+sB3DcdC3c+W5R6Lc4TZClbmk3dqRfD9rMtGD4T51Bhki5pdnTj1oi+HAs=
+	t=1736340588; cv=none; b=pXzN8fJFJFjVjaAlnVzRaxGJHUr5aVzRLChF2M/JBuawl67f/iYgzsKcq7IVvT0IEg9aBK7dzLiRA9Yi/F7AT9y0E3VpUU7/58myKt/ye/6bl8cvHZ8Sae8JcSg4AJi2l1FSrP6+vrj9jKPYOnGK02MxcYVqHWEmObfnQ83siZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1736340588; c=relaxed/simple;
-	bh=JiKbZ9Dc0gtggUQQiZa957Mbp+mx1KjmP3cEz6HLKJw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=JXYGxy09PV/IwQpPo6f6YRPvrkatPSJTcgKjx4Pm5/9D0iox8E35lAZIA5Rendjh5I7Mxy7SlCTaT8jjVd7QjZyYTOiIF0FIWC89LSyj0rUlPHLtbGC+SgtESYmzh/RW5L7/wO9G7xsF29GfixiVmZPZn/lMDrZt5vRM1HtK20E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=V1ji1sbT; arc=none smtp.client-ip=209.85.221.41
+	bh=KmGydHgNNLZRZ14xArcryaDxetquTR6NLcfmO0s4HBk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=FHa/d46zMGbKNou+u3hp5ZAwxuPnDks8zMv68yVWWFRYVEbp8crbUM2iCHWsGD3q8Iz+aF+PGd62LN6lEfUuZRdBy3B8hy++oVtFIJM+UH/nh60TZbj4pd6DGt2GErWrgifnSjQpCxyDlqTOzPR81qBSK+Z2iA2qKE9Hxp3AAb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=THSWOCdq; arc=none smtp.client-ip=209.85.221.68
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="V1ji1sbT"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-385e0e224cbso8364016f8f.2
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jan 2025 04:49:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="THSWOCdq"
+Received: by mail-wr1-f68.google.com with SMTP id ffacd0b85a97d-385e0e224cbso8364002f8f.2
+        for <linux-doc@vger.kernel.org>; Wed, 08 Jan 2025 04:49:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736340585; x=1736945385; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gpTEVIUx2zsR6KrubLLJzhSMtP7WWrv/YPCN+rrmWfE=;
-        b=V1ji1sbT7uWp1qrT4j2zGjg6L/9duvaEvyOxzlgOzLcOwi+2Fj0Ydgwt7zFTkbIJ2W
-         9FtCY4hNFke058XvGBVABecSG0n9EU/oSSO93JK9ZqqMRNm1sgD2DoVLrGWBnZiEN0go
-         Eoi555EqOe8ey5uTmzdNvHI/KxZ0ZFwqp3IdZNoX1go4y/c19+YTsIt65tLK5Fq3DzFj
-         dSsdTu96wscA5USTLlZhSOhCjRvC9Hr1MFuWBiTRsp5uETcqduvgw+RV/lb6rclz1KWT
-         2F3BFosXZjSs+s5rNzyUqSImLdy0fOYbWZ09JrtBln7+KUvlDC8ZhZsiOO85yV9L/QEh
-         eEcQ==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736340583; x=1736945383; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kTPRHlVS1liPDPiJyJ4YA3l7fo0hLRRppQlZFlUkkhI=;
+        b=THSWOCdqTN2GT162hlTYP4HGhcmUJrDQPK8bYWzWzB0a/pEwqye0tbZac6PMragmA2
+         oCGiaIVJpZJ6XCVriCt+8YGoTk8n6suojogGkaK6VBplhRCMga3NUQA+ui+WsUx+F7Bj
+         otskIZx93q2kdLGZsFACoSi3AUR9dbMapurV2lxv2cViKhj0DcURbbGJ4EYb3yXdQfqs
+         KQmFu9NftRbLrIkfSjdLCdLvnoxYUYuxCmyGK5ueF+jr/GYXFSw0PoEP8vVe7WH+b/Qp
+         a3PZU1s2WtwgZMd94cgOzyeOa/+OxRp98QkdWk6oa60Xkne77oevVAgBpJkqSXa1eyuR
+         fZrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736340585; x=1736945385;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gpTEVIUx2zsR6KrubLLJzhSMtP7WWrv/YPCN+rrmWfE=;
-        b=hjaTW5r1vpVUAFZvAaEt9ADX1Lc0HkeytIHIcFxJ7grC+vaQO9XJyFjQ41vdYGa87b
-         b8ZOnPez85M5Hdcs0s9CILqbE5qt35GnCkU0XFBowKh/aMYjmYZSWoUUyDbTq3cKS+4Z
-         idmBH5w488HzYPWTuz173eBb4lnqZKoD2lfJc5LkKF5ErMujWcrhkxgnFieOhSsxAUq6
-         OAf02TiPWwaWhDX344wDdDg2KY5sH2rpHIL9quwd9D5BAsNo7q6MVOjbr+/srRPux1f1
-         93rbL74OrtFIYzjmA3DQBVTrmBXjfgvJq2vFBb4jFlYfUWUVDZzBsBhecWBto5sN5M27
-         X8tQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXdgOe581goKqmwo7GoP3oXJyOwA2K/QlC3iMH+VIRXlbMOHNMa115oZroOLGwadBE1l6KiyozLBjY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLtQmlSCDaMS817Z3Lw/PrXVs9Rm0RJjpkAaK6J9kht/YPqf2t
-	M3LfLfzWRsNX5v+Z8ciahU9Ac8Vud7SRa1PtUaErbZxlPfulv1+ZrE7B0f7o05I=
-X-Gm-Gg: ASbGncurpj44b/emI7NPOm0lK8DRreBvASsYo5duzaB5S48r3D21mx/jWKZ2x7KiPpr
-	Hp0V4v4T4pfrjdfWtrntQLFU9mOQ3T7M293Cfsv2EZVQ9Ttd+LxAdRLsi2KqO7uxofHOxmKWpJp
-	SSk2D4W64KJoT3k43eDKCLICWfz6115OTpaqhCtryczqAgToU4QgSn/W5b/c/VcO4+zt8TsiSEP
-	3nTrh/99KxpB9QTbnOeB2ajsyGNRqzfodIjFayB8mL0p2EJlbgkSjfHtSAS5nIkZ3MHM2MQQSVe
-	3QirRpJIuYyKSZWNL+g/nUQ00YsD+L6IG9ztLOQxYiuyMPq5fDfDQQ==
-X-Google-Smtp-Source: AGHT+IHvoSPBsQF/zm7w0rdXalA6GzUY9WExMWrYVqa4uKyDTat1oJdLA0hTNsE97vT1IdC9ulsKTg==
-X-Received: by 2002:a05:6000:186d:b0:38a:20d9:32e6 with SMTP id ffacd0b85a97d-38a87308c4bmr2326100f8f.45.1736340584729;
-        Wed, 08 Jan 2025 04:49:44 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736340583; x=1736945383;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kTPRHlVS1liPDPiJyJ4YA3l7fo0hLRRppQlZFlUkkhI=;
+        b=W5NWn1qZkSwcND6qkko21zS/wHdJrx9ek9nV/NzSemTOR6kdukHSLx4wOt2QeccUze
+         lVdkOJ6APUUhSsAmxBY5JhX/ew/ou4Ll8LzlHD0bc3eI/zfRBWWQvY6/BYJJc8MGq/GP
+         obxhTEHhbzqRK5fpsq0HKK/7kO610nt+Fnd9C8O5RkM2JYXX0YanF4NktMZnr2AU4qQC
+         /Wn04OzrMyiqezB1ubvmChwHFSL34wCPzUpYiq8+l8MLbwxfRp/BWPgaVfJy2WLcavjT
+         1oV4H8vA2JRGJZ3Oe5EVPQAVCPRPrJm51R9GCIC52yFd1zxUPawCdoZsu8UfDFQZWnpH
+         mTNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU313fvqEEK3gNO8Q+v8Fi/LRg9hkft1m4grxT6UUr01NwiuEbaeu8l6m1lfMXX7Z+7QrbYU7CcuB8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZvrb5XV+c19wlzo1+ftPaueN+OtE8QyN7WRUYIzcGLmDFRzJf
+	0M9vQRTpZEqjy00rkgdIYsju8bN5HYmmiiiA+ZuDsbmhQEYKlUsAssyrhC3oics=
+X-Gm-Gg: ASbGncuNS6O9Xnfi0BbJNTzgu12hWB3J211N9jIRecz05B+4zyP+0whSGi3ALemqbc4
+	WDLL0UG20Do7Fjq9+zSiYadXopn1jecMGKEP/3/TXjnZJXYIdgbchAaGwUOSXGxOcoTgJY43DRM
+	tQtA4eLfz63hcvYnebIPoc2uNdquBkapPE+Q2YOHQtbmyuCzirG4Bg7//pg7lnDlPms+kudXB2k
+	lIMvcz9xr/59GBG4P4FNGG7CuDHja2nELGNjHSOreBMtm8NIi0S+ce2t4WJ4O6sWDdelL7y2f+0
+	uGAdA6obPdTGHiwnCK2vqCA86etZir0OvqFfIRN8XNvIhGfNM+l2jg==
+X-Google-Smtp-Source: AGHT+IH2/6ZUjBDO77lZA0i6ON5WHfOGrSu5OgNDrSVHzUtHNMDrY0bgyO6kLF9SSUphC3YN0b80/Q==
+X-Received: by 2002:a05:6000:4a0c:b0:386:33e8:20f4 with SMTP id ffacd0b85a97d-38a8731b9c1mr1951004f8f.59.1736340582772;
+        Wed, 08 Jan 2025 04:49:42 -0800 (PST)
 Received: from jstephan-bl.local (2a02-842a-d52e-6101-6fd0-06c4-5d68-f0a5.rev.sfr.net. [2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2da63eesm19846805e9.3.2025.01.08.04.49.43
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2da63eesm19846805e9.3.2025.01.08.04.49.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 04:49:44 -0800 (PST)
+        Wed, 08 Jan 2025 04:49:42 -0800 (PST)
 From: Julien Stephan <jstephan@baylibre.com>
-Date: Wed, 08 Jan 2025 13:49:34 +0100
-Subject: [PATCH v4 2/5] iio: adc: ad7380: enable regmap cache
+Subject: [PATCH v4 0/5] iio: adc: ad7380: add alert support
+Date: Wed, 08 Jan 2025 13:49:32 +0100
+Message-Id: <20250108-ad7380-add-alert-support-v4-0-1751802471ba@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,9 +67,12 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250108-ad7380-add-alert-support-v4-2-1751802471ba@baylibre.com>
-References: <20250108-ad7380-add-alert-support-v4-0-1751802471ba@baylibre.com>
-In-Reply-To: <20250108-ad7380-add-alert-support-v4-0-1751802471ba@baylibre.com>
+X-B4-Tracking: v=1; b=H4sIAFx0fmcC/43N3YrCMBAF4FeRXG9k8tMm9cr3EC+SzFQDrq1JW
+ xTpuxsVEZZFvDqcgfnOlWVKkTJbLa4s0RRz7I6l6J8FC3t33BGPWDqTILUA2XCHRlkogdwdKA0
+ 8j33fldQIiHUgZwOy8t4nauP5QW+2z57oNJaF4X3cxzx06fKYn8T9+sXSJLjgCKpqNAhvrF17d
+ zlEn2gZul92dyf5tqTUHyzJgZtgGy99a4JX/1jqZVUgwHywVLF8IAGuxbqq/R9rnucbcfLqinA
+ BAAA=
+X-Change-ID: 20241029-ad7380-add-alert-support-4d0dd6cea8cd
 To: Lars-Peter Clausen <lars@metafoo.de>, 
  Michael Hennerich <Michael.Hennerich@analog.com>, 
  =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
@@ -80,51 +82,69 @@ Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org, Julien Stephan <jstephan@baylibre.com>
 X-Mailer: b4 0.14.2
 
-Enable regmap cache, to avoid useless access on spi bus.
+Hello,
 
-Reviewed-by: David Lechner <dlechner@baylibre.com>
+The ad738x family includes a built-in alert mechanism for early
+detection of out-of-bounds conversion results. This series introduces
+this functionality to the ad7380 family.
+
+This is the first non RFC version of the series (RFC available at [1] and [2]).
+
+Given the fact that the main use case is to hardwire the interrupt line
+and according to discussions in V2 about interrupts, I think the best is
+to not generate events, at least while we don't have a reasonable way to
+correctly and efficiently handle interrupts.
+
+Events attributes are still populated to allow user to set a threshold
+and enable alert detection, so alert pin can be hardwired.
+
+Userspace event can still be added later if needed.
+
+[1]: https://lore.kernel.org/r/20241029-ad7380-add-aleyyrt-support-v1-1-d0359401b788@baylibre.com
+[2]: https://lore.kernel.org/r/20241224-ad7380-add-alert-support-v2-0-7c89b2bf7cb3@baylibre.com
+
 Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
- drivers/iio/adc/ad7380.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+Changes in v4:
+- docs: fix some nitpicks from David Lechner
+- driver: fix some nitpicks from David Lechner and use helper functions
+  to get/set the thresholds
+- driver: fix reading the low threshold value
+- add Reviewed-by tag from David Lechner
+- Link to v3: https://lore.kernel.org/r/20250107-ad7380-add-alert-support-v3-0-bce10afd656b@baylibre.com
 
-diff --git a/drivers/iio/adc/ad7380.c b/drivers/iio/adc/ad7380.c
-index bc7d58850a3e2a84a241d81377e3dc14c43fc101..b97d2978289e92ad502cd6a67de43d2b51cdab56 100644
---- a/drivers/iio/adc/ad7380.c
-+++ b/drivers/iio/adc/ad7380.c
-@@ -663,6 +663,20 @@ static int ad7380_regmap_reg_read(void *context, unsigned int reg,
- 	return 0;
- }
- 
-+static const struct reg_default ad7380_reg_defaults[] = {
-+	{ AD7380_REG_ADDR_ALERT_LOW_TH, 0x800 },
-+	{ AD7380_REG_ADDR_ALERT_HIGH_TH, 0x7FF },
-+};
-+
-+static const struct regmap_range ad7380_volatile_reg_ranges[] = {
-+	regmap_reg_range(AD7380_REG_ADDR_CONFIG2, AD7380_REG_ADDR_ALERT),
-+};
-+
-+static const struct regmap_access_table ad7380_volatile_regs = {
-+	.yes_ranges = ad7380_volatile_reg_ranges,
-+	.n_yes_ranges = ARRAY_SIZE(ad7380_volatile_reg_ranges),
-+};
-+
- static const struct regmap_config ad7380_regmap_config = {
- 	.reg_bits = 3,
- 	.val_bits = 12,
-@@ -670,6 +684,10 @@ static const struct regmap_config ad7380_regmap_config = {
- 	.reg_write = ad7380_regmap_reg_write,
- 	.max_register = AD7380_REG_ADDR_ALERT_HIGH_TH,
- 	.can_sleep = true,
-+	.reg_defaults = ad7380_reg_defaults,
-+	.num_reg_defaults = ARRAY_SIZE(ad7380_reg_defaults),
-+	.volatile_table = &ad7380_volatile_regs,
-+	.cache_type = REGCACHE_MAPLE,
- };
- 
- static int ad7380_debugfs_reg_access(struct iio_dev *indio_dev, u32 reg,
+Changes in v3:
+- split regmap cache commit in two
+- remove interrupt handling completely, updating commit messages,
+  driver, and doc
+- fix minor comments from v2 review
+- improve commit message for iio_device_claim_direct_scoped removal
+- Link to v2: https://lore.kernel.org/r/20241224-ad7380-add-alert-support-v2-0-7c89b2bf7cb3@baylibre.com
 
+Changes in v2:
+- fix read/write high/low thresholds
+- add reset_timeout mechanism for buffered reads
+- implement regcache
+- add cleanup patch to remove iio_device_claim_direct_scoped calls
+- add alert section in the Documentation page
+- Link to v1: https://lore.kernel.org/r/20241029-ad7380-add-aleyyrt-support-v1-1-d0359401b788@baylibre.com
+
+---
+Julien Stephan (5):
+      iio: adc: ad7380: do not use iio_device_claim_direct_scoped anymore
+      iio: adc: ad7380: enable regmap cache
+      iio: adc: ad7380: do not store osr in private data structure
+      iio: adc: ad7380: add alert support
+      docs: iio: ad7380: add alert support
+
+ Documentation/iio/ad7380.rst |  33 +++-
+ drivers/iio/adc/ad7380.c     | 402 +++++++++++++++++++++++++++++++++++++------
+ 2 files changed, 378 insertions(+), 57 deletions(-)
+---
+base-commit: 5ab39233382c621d3271cc274d1534e1b687f4d3
+change-id: 20241029-ad7380-add-alert-support-4d0dd6cea8cd
+
+Best regards,
 -- 
-2.47.1
+Julien Stephan <jstephan@baylibre.com>
 
