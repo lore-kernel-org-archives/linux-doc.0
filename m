@@ -1,166 +1,213 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D50D013AD38;
-	Wed,  8 Jan 2025 13:47:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11222D613;
+	Wed,  8 Jan 2025 13:48:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736344048; cv=none; b=ealalzBhpVEUL8zlT+TR/eA+2CVdClkwJ9uDb20st5BcUXRsW5i7NWuORMQhWiA2F4kaRCjn+q3HxDv50RVnLQM9XHNXo86/c3PlRe03Iuq7a6u13lwQORO6Ko1BQtsgZRUD2ZH8Uc9zAzxRIFD4qr24x0wEfPiZxGYOPg7hSzw=
+	t=1736344082; cv=none; b=CNOxRA5nlz+lJl3/4xKMBvRxW7D2rZVh7eQu4QRp0D9gKtYMnI2oVyCFGNHdr7BzJSzYCpWOz8xXjgzCnL2eyzBBkAeSmfsGFAFau6V1lOfwSUNtc2Wey3XUOhuEFEqgG7MRNyB4kHVlPeuZ5FRDSeR87yVbKc6Xeo0HP2dfoSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736344048; c=relaxed/simple;
-	bh=iDNamHCAwQl0X+MRiiBGDfWJxaI3lHejxXJi8++osIA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sLLauioObFw57XGSznYsqcz1Ip3lMvNulcvyk1+6HOZRmRHRR4ilc7B3uakxTy5qLKo1lfswx6A8ZT3mtRJ1jbifOg9feFoSrzs3EqdZZ5V1pjou6z3ZYkC9UDAiDjX96jP+wpxMV2XK5gsLLJWsyZc0bSHqU3tX/b5lINu/ciA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OCwQJlGs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736344082; c=relaxed/simple;
+	bh=6X1gYyK1GGLYOhTdZXppCSXrnuFmBKt6qqjZh8JvCRo=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=VFssfVRL6kznA4hExMiJhEg6suXBZOG0IqD43YbDUNnpxczVtiB9duwChNi5h/8A2uFulqXGlXdt0p8f1roHXSXkCori6M8PqwC7xD932AJCPlFF5wsj9DAreqoMevImncpRe8/CedUvOSmUtQDB0dhven8Q45Syh9iez49l+aQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=o3TqLC//; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OCwQJlGs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75455C4CEE0;
-	Wed,  8 Jan 2025 13:47:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736344048;
-	bh=iDNamHCAwQl0X+MRiiBGDfWJxaI3lHejxXJi8++osIA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=OCwQJlGsMGp9LcA/LF7DLK1lfm+rdDs7VdZ1pJr1MpirW3CkKJ4a+NItJt9DzgUda
-	 Q1BwEfpQZofO2cpyHcjG9ajGXHbSvZO2+LW9CLBK66bjitBKNtqEd1BbfRlsCeHVdU
-	 TnXP8rT61pTKOeyKeGQJX9IY2gcu33jLf64CsU2qKHnk5pMTiSmsxXVRPGLUWvpfZ5
-	 8oN3pPUVpocnG1q4jd13Ggt6kbdgoQyQJnnPfjhnulhqfSK7XNwOEDVhkHz6L42hwg
-	 9i5GqJ1nqvPDP4bXYCGm01x8tUVjy9zSXjvOGJZ8SRw7iZhtmWTDEICQ7scvo6LbL5
-	 ISum1Txih8oOg==
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-e3fd6cd9ef7so1523511276.1;
-        Wed, 08 Jan 2025 05:47:28 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU0f0gF7/BXFTU8/zSHZoGjqSbQQOXoFvdDCxYM7KXLjJtK1uHZk77GQrYw9xFgCQIevwol75fUZU0=@vger.kernel.org, AJvYcCXFhVoIO2+3rv/LQoW7OW+74katfeTu3Jjb+Fe0CxbTANaJNmQX83Vid3RkfwUEW3N17PiJS7InEWVMEoLa@vger.kernel.org
-X-Gm-Message-State: AOJu0YyaD3pT4n5S09RKB7c7rGe3axJYDNOquiCqa2T6Tigm9wqjd0O1
-	urAiV3m+0SrxkW6+ZjD40qVX0BhlWt48Zc0DLzjMf13q/EEaUP7LgwOsw+br+mWSAlrUwMjhwqG
-	Ar2kclmuqBf1nhiEzvfm1G5bdyg==
-X-Google-Smtp-Source: AGHT+IH/HoCh7iApFExTgK70tS8gnK3byIgatKuJQ9XWlZYeeyUhDND3HhzQhh9e5u+mAfK0LC8FIfVT1PMhc8aUJAE=
-X-Received: by 2002:a05:690c:7343:b0:6ee:6a2a:a517 with SMTP id
- 00721157ae682-6f5204a0aeamr50431497b3.18.1736344047646; Wed, 08 Jan 2025
- 05:47:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="o3TqLC//"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 508BkVR8004943;
+	Wed, 8 Jan 2025 13:47:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=nWcHn+CQMYys+lNFsH3D/s
+	ff+aF0Ba/k48wFAM19cW8=; b=o3TqLC//uMek+KyxnZlRbJnQRA7GyuFAOYZy5w
+	iswkumfya4vJETXPOPJnac+CraxO6188/QwU9TvhgHVxZIcQNy+CPdA3iu2r7/df
+	tzGs6D01/DCksz57qKbqCfa8Vn2ko4+AwdFKD2qPIEBZt9mcPLfb5oz4uSwYmxPq
+	aGTU5kIW3ziJggXCFOP2fWymKx9EdZMszRFFUuLT5edXnRp/42o94p/jWaZxyTR6
+	Brs2D/vA3s4+iF9+EWUj8yCg1zbX++sK4i4iESp0xH7Mq/8pby2wZgJvFMbjHAqx
+	FcnG8SLCtrK6hjVACLtz3SCsUwEZgjMQz1ozgYqn0FeAxSiA==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 441pkurn8g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Jan 2025 13:47:44 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 508DlhvH001506
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 8 Jan 2025 13:47:43 GMT
+Received: from nsssdc-sh01-lnx.ap.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 8 Jan 2025 05:47:37 -0800
+From: Luo Jie <quic_luoj@quicinc.com>
+Subject: [PATCH net-next v2 00/14] Add PPE driver for Qualcomm IPQ9574 SoC
+Date: Wed, 8 Jan 2025 21:47:07 +0800
+Message-ID: <20250108-qcom_ipq_ppe-v2-0-7394dbda7199@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241220072240.1003352-1-anshuman.khandual@arm.com>
- <20250102160402.GB3990035-robh@kernel.org> <Z30adHnQ7ZFaU9UR@arm.com>
- <CAL_JsqLLnh1o4L1=PpNt5brBwZZCgp7mOygByOYakchrzc29Ow@mail.gmail.com> <86wmf5wo8u.wl-maz@kernel.org>
-In-Reply-To: <86wmf5wo8u.wl-maz@kernel.org>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 8 Jan 2025 07:47:16 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKKiEOj=a1k6U-bB0F6-ht7QokDnh3bspHupp-QG=haSg@mail.gmail.com>
-X-Gm-Features: AbW1kvawNH_g5vPEtQdvfsRHRiawZ8B5iayR8ahv4DqoIAoRSC9AWkLlkP0eoFA
-Message-ID: <CAL_JsqKKiEOj=a1k6U-bB0F6-ht7QokDnh3bspHupp-QG=haSg@mail.gmail.com>
-Subject: Re: [PATCH 0/7] arm64/boot: Enable EL2 requirements for FEAT_PMUv3p9
-To: Marc Zyngier <maz@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Anshuman Khandual <anshuman.khandual@arm.com>, 
-	linux-arm-kernel@lists.infradead.org, Will Deacon <will@kernel.org>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Mark Rutland <mark.rutland@arm.com>, 
-	Oliver Upton <oliver.upton@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Eric Auger <eric.auger@redhat.com>, kvmarm@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANuBfmcC/x2N3QqCQBSEX0XOdSv7J0ZXvUeIbNsxT9T+qhjiu
+ 7cJczHDx8xskDERZrhUGyRcKJN3JchTBXY07omMHiWD5LLhgp9ZtP7TU4h9CMiM0VYPhpt7q6B
+ UQsKB1mPuBg4n5nCdoCtkpDz59D1+FnHwMqm5EEWaK1Ur2bQNEyzOZPv37F/XvyNn6/II3b7vP
+ 5sQ7rKtAAAA
+To: Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S. Miller"
+	<davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>, Lei Wei <quic_leiwei@quicinc.com>,
+        Suruchi Agarwal
+	<quic_suruchia@quicinc.com>,
+        Pavithra R <quic_pavir@quicinc.com>,
+        "Simon
+ Horman" <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook
+	<kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        "Philipp
+ Zabel" <p.zabel@pengutronix.de>
+CC: <linux-arm-msm@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+        <quic_kkumarcs@quicinc.com>, <quic_linchen@quicinc.com>,
+        <srinivas.kandagatla@linaro.org>, <bartosz.golaszewski@linaro.org>,
+        <john@phrozen.org>, Luo Jie <quic_luoj@quicinc.com>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1736344057; l=5524;
+ i=quic_luoj@quicinc.com; s=20240808; h=from:subject:message-id;
+ bh=6X1gYyK1GGLYOhTdZXppCSXrnuFmBKt6qqjZh8JvCRo=;
+ b=z1SepfXhTCOCKnsaSPVR47LdQmbFLQsBl5yeTGSkYT8xCEmRyxWzQrBel4E45SB0aeXq/huR5
+ Lbn2IsDz2YrAy+R4rpF/395UZ1ba2xfvbK/MXV9u5EHedPZlmAd83Bw
+X-Developer-Key: i=quic_luoj@quicinc.com; a=ed25519;
+ pk=P81jeEL23FcOkZtXZXeDDiPwIwgAHVZFASJV12w3U6w=
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: AJEukMw2z_DCfCNdnxSBbUaqof5AXsF7
+X-Proofpoint-ORIG-GUID: AJEukMw2z_DCfCNdnxSBbUaqof5AXsF7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ lowpriorityscore=0 spamscore=0 priorityscore=1501 impostorscore=0
+ suspectscore=0 mlxscore=0 mlxlogscore=999 clxscore=1011 adultscore=0
+ bulkscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501080115
 
-On Wed, Jan 8, 2025 at 5:15=E2=80=AFAM Marc Zyngier <maz@kernel.org> wrote:
->
-> On Tue, 07 Jan 2025 22:13:47 +0000,
-> Rob Herring <robh@kernel.org> wrote:
-> >
-> > On Tue, Jan 7, 2025 at 6:13=E2=80=AFAM Catalin Marinas <catalin.marinas=
-@arm.com> wrote:
-> > >
-> > > On Thu, Jan 02, 2025 at 10:04:02AM -0600, Rob Herring wrote:
-> > > > On Fri, Dec 20, 2024 at 12:52:33PM +0530, Anshuman Khandual wrote:
-> > > > > This series adds fine grained trap control in EL2 required for FE=
-AT_PMUv3p9
-> > > > > registers like PMICNTR_EL0, PMICFILTR_EL0, and PMUACR_EL1 which a=
-re already
-> > > > > being used in the kernel. This is required to prevent their EL1 a=
-ccess trap
-> > > > > into EL2.
-> > > > >
-> > > > > PMZR_EL0 register trap control i.e HDFGWTR2_EL2.nPMZR_EL0 remains=
- unchanged
-> > > > > for now as it does not get accessed in the kernel, and there is n=
-o plan for
-> > > > > its access from user space.
-> > > > >
-> > > > > I have taken the liberty to pick up all the review tags for patch=
-es related
-> > > > > to tools sysreg update from the KVM FGT2 V2 patch series posted e=
-arlier.
-> > > > >
-> > > > > https://lore.kernel.org/all/20241210055311.780688-1-anshuman.khan=
-dual@arm.com/
-> > > > >
-> > > > > Rob had earler mentioned about FEAT_FGT2 based trap control requi=
-rement for
-> > > > > FEAT_PMUv3p9 registers that are currently being used in kernel. T=
-he context
-> > > > > can be found here.
-> > > > >
-> > > > > https://lore.kernel.org/all/20241216234251.GA629562-robh@kernel.o=
-rg/
-> > > > >
-> > > > > This series is based on v6.13-rc3
-> > > > >
-> > > > > Cc: Catalin Marinas <catalin.marinas@arm.com>
-> > > > > Cc: Will Deacon <will@kernel.org>
-> > > > > Cc: Marc Zyngier <maz@kernel.org>
-> > > > > Cc: Ryan Roberts <ryan.roberts@arm.com>
-> > > > > Cc: Mark Rutland <mark.rutland@arm.com>
-> > > > > Cc: Mark Brown <robh@kernel.org>
-> > > > > Cc: Rob Herring <robh@kernel.org>
-> > > > > Cc: Oliver Upton <oliver.upton@linux.dev>
-> > > > > Cc: Jonathan Corbet <corbet@lwn.net>
-> > > > > Cc: Eric Auger <eric.auger@redhat.com>
-> > > > > Cc: kvmarm@lists.linux.dev
-> > > > > Cc: linux-doc@vger.kernel.org
-> > > > > Cc: linux-kernel@vger.kernel.org
-> > > > > Cc: linux-arm-kernel@lists.infradead.org
-> > > > >
-> > > > > Anshuman Khandual (7):
-> > > > >   arm64/sysreg: Update register fields for ID_AA64MMFR0_EL1
-> > > > >   arm64/sysreg: Add register fields for HDFGRTR2_EL2
-> > > > >   arm64/sysreg: Add register fields for HDFGWTR2_EL2
-> > > > >   arm64/sysreg: Add register fields for HFGITR2_EL2
-> > > > >   arm64/sysreg: Add register fields for HFGRTR2_EL2
-> > > > >   arm64/sysreg: Add register fields for HFGWTR2_EL2
-> > > > >   arm64/boot: Enable EL2 requirements for FEAT_PMUv3p9
-> > > >
-> > > > In case it is not clear, this series should be applied to 6.13 as t=
-he 2
-> > > > PMUv3p9 features already landed in 6.13 (per counter EL0 control) a=
-nd
-> > > > 6.12 (ICNTR).
-> > >
-> > > So is this a fix that needs backporting to 6.12 or 6.13, e.g. fix for
-> > > d8226d8cfbaf ("perf: arm_pmuv3: Add support for Armv9.4 PMU instructi=
-on
-> > > counter")? It's pretty late in the cycle to take the series for 6.13.
-> >
-> > Ideally, yes. But given the state of h/w implementations, backporting
-> > it later is probably fine if that is your preference.
-> >
-> > > But does KVM actually expose the feature to EL1 in ID_AA64DFR1_EL1 an=
-d
-> > > than traps it at EL2?
-> >
-> > As Marc pointed out KVM only advertises PMUv3.8. Regardless, guest
-> > accesses to these registers are trapped with or without this series.
->
-> And most probably generates a nice splat in the kernel log, as nobody
-> updated KVM to handle *correctly* PMICNTR_EL0 traps, let alone deal
-> with the FGT2 registers.
+The PPE (packet process engine) hardware block is available in Qualcomm
+IPQ chipsets that support PPE architecture, such as IPQ9574 and IPQ5332.
+The PPE in the IPQ9574 SoC includes six ethernet ports (6 GMAC and 6
+XGMAC), which are used to connect with external PHY devices by PCS. The
+PPE also includes packet processing offload capabilities for various
+networking functions such as route and bridge flows, VLANs, different
+tunnel protocols and VPN. It also includes an L2 switch function for
+bridging packets among the 6 ethernet ports and the CPU port. The CPU
+port enables packet transfer between the ethernet ports and the ARM
+cores in the SoC, using the ethernet DMA.
 
-Isn't that this series[1]? Should that have come first, I guess I know
-that *now*.
+This patch series is the first part of a three part series that will
+together enable Ethernet function for IPQ9574 SoC. While support is
+initially being added for IPQ9574 SoC, the driver will be easily
+extendable to enable Ethernet support for other IPQ SoC such as IPQ5332.
+The driver can also be extended later for adding support for L2/L3
+network offload features that the PPE can support. The functionality
+to be enabled by each of the three series (to be posted sequentially)
+is as below:
 
-Out of curiosity, why do we care if there's a splat or not for a not
-well behaved guest?
+Part 1: The PPE patch series (this series), which enables the platform
+driver, probe and initialization/configuration of different PPE hardware
+blocks.
 
-Rob
+Part 2: The PPE MAC patch series, which enables the phylink operations
+for the PPE ethernet ports.
 
-[1] https://lore.kernel.org/all/20241210055311.780688-1-anshuman.khandual@a=
-rm.com/
+Part 3: The PPE EDMA patch series, which enables the Rx/Tx Ethernet DMA
+and netdevice driver for the 6 PPE ethernet ports.
+
+A more detailed description of the functions enabled by part 1 is below:
+1. Initialize PPE device hardware functions such as buffer management,
+   queue management, scheduler and clocks in order to bring up PPE
+   device.
+2. Enable platform driver and probe functions
+3. Register debugfs file to provide access to various PPE packet
+   counters. These statistics are recorded by the various hardware
+   process counters, such as port RX/TX, CPU code and hardware queue
+   counters.
+4. A detailed introduction of PPE along with the PPE hardware diagram
+   in the first two patches (dt-bindings and documentation).
+
+Below is a reference to an earlier RFC discussion with the community
+about enabling ethernet driver support for Qualcomm IPQ9574 SoC. This
+writeup can help provide a higher level architectural view of various
+other drivers that support the PPE such as clock and PCS drivers.
+https://lore.kernel.org/linux-arm-msm/d2929bd2-bc9e-4733-a89f-2a187e8bf917@quicinc.com/
+
+Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
+---
+Changes in v2:
+- Represent the PPE hardware hierarchy in dtbindings, add PPE hardware diagram.
+- Remove all SoC specific hardware properties from dtbindings since driver
+  maintains them.
+- Move out the PCS (UNIPHY) handling into a separate PCS driver posted
+  separately at below.
+  https://lore.kernel.org/all/20240110114033.32575-1-quic_luoj@quicinc.com/
+- Move out the PPE MAC patches into a separate series to limit patch count to
+  15 or less. (PPE MAC patches will be posted sequentially after this series).
+- Rename the hardware initialization related files from ppe_ops.c[h] to
+  ppe_config.c[h]
+- Improve PPE driver documentation and diagram.
+- Fix dtbinding check errors.
+- Link to v1: https://lore.kernel.org/r/20240110114033.32575-1-quic_luoj@quicinc.com
+
+---
+Lei Wei (2):
+      docs: networking: Add PPE driver documentation for Qualcomm IPQ9574 SoC
+      net: ethernet: qualcomm: Initialize PPE L2 bridge settings
+
+Luo Jie (12):
+      dt-bindings: net: Add PPE for Qualcomm IPQ9574 SoC
+      net: ethernet: qualcomm: Add PPE driver for IPQ9574 SoC
+      net: ethernet: qualcomm: Initialize PPE buffer management for IPQ9574
+      net: ethernet: qualcomm: Initialize PPE queue management for IPQ9574
+      net: ethernet: qualcomm: Initialize the PPE scheduler settings
+      net: ethernet: qualcomm: Initialize PPE queue settings
+      net: ethernet: qualcomm: Initialize PPE service code settings
+      net: ethernet: qualcomm: Initialize PPE port control settings
+      net: ethernet: qualcomm: Initialize PPE RSS hash settings
+      net: ethernet: qualcomm: Initialize PPE queue to Ethernet DMA ring mapping
+      net: ethernet: qualcomm: Add PPE debugfs support for PPE counters
+      MAINTAINERS: Add maintainer for Qualcomm PPE driver
+
+ .../devicetree/bindings/net/qcom,ipq9574-ppe.yaml  |  459 +++++
+ .../networking/device_drivers/ethernet/index.rst   |    1 +
+ .../device_drivers/ethernet/qualcomm/ppe/ppe.rst   |  197 ++
+ MAINTAINERS                                        |    8 +
+ drivers/net/ethernet/qualcomm/Kconfig              |   15 +
+ drivers/net/ethernet/qualcomm/Makefile             |    1 +
+ drivers/net/ethernet/qualcomm/ppe/Makefile         |    7 +
+ drivers/net/ethernet/qualcomm/ppe/ppe.c            |  234 +++
+ drivers/net/ethernet/qualcomm/ppe/ppe.h            |   39 +
+ drivers/net/ethernet/qualcomm/ppe/ppe_config.c     | 2003 ++++++++++++++++++++
+ drivers/net/ethernet/qualcomm/ppe/ppe_config.h     |  313 +++
+ drivers/net/ethernet/qualcomm/ppe/ppe_debugfs.c    |  692 +++++++
+ drivers/net/ethernet/qualcomm/ppe/ppe_debugfs.h    |   16 +
+ drivers/net/ethernet/qualcomm/ppe/ppe_regs.h       |  559 ++++++
+ 14 files changed, 4544 insertions(+)
+---
+base-commit: 40384c840ea1944d7c5a392e8975ed088ecf0b37
+change-id: 20250108-qcom_ipq_ppe-aa4c4fa0ab73
+
+Best regards,
+-- 
+Luo Jie <quic_luoj@quicinc.com>
+
