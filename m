@@ -1,162 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61451F890B;
-	Wed,  8 Jan 2025 11:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695B71F76D3
+	for <linux-doc@vger.kernel.org>; Wed,  8 Jan 2025 11:17:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736334917; cv=none; b=G58iJ6SeS9r5mC8uy7kqejIzKQWM8p1GfD4zYYWlj8g4iVMAbNMapGDrfjLSuYQ3J2NL7E2S+DOE5lyBPfx42fmLclq66xPb5Xn0sdHQjA0LSsUEQXp8l2kk0rKCrX39BS5uW28TpmHiyIbPh8Y5OJK6NGdomCgkGRomFUZYS1U=
+	t=1736335061; cv=none; b=gAtfCsUwHYKL5mcG9zW62h36OtUbJYnJ45hWcDe1+uUVGeO5mn2edkWGRwKyZuJDj9uFZJydmmgpuzXx6HElYHQx+rLC5UxPDLeQtfusC44ODWBtX4R5QQuSctHH/QRcvz4YyLhG3xI14Uu7a9buFyQ0CtJnbKwgaNqCv+weCLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736334917; c=relaxed/simple;
-	bh=Elaxu5tvDfDqTfiI1npE4/wrE2bdRCCJwzlgYNjlzvg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qStOn57Oqpw2J+/eh62F/PkCj8t9QI85G8WwrQaXx2ZuS6jAtSVeV7KuFFDH8q3NZVAJGDXPOn0lIuyh00eXRRada0mO61snKrHGxEuHhohdQ2p3nU/GQSBE2N2LnyRl1yx9LcWRhWKRi6yQx9hMz9AMwWfwuSWHfxKm6YXsebI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eZWaMFUd; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eZWaMFUd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 185B5C4CEDD;
-	Wed,  8 Jan 2025 11:15:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736334916;
-	bh=Elaxu5tvDfDqTfiI1npE4/wrE2bdRCCJwzlgYNjlzvg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=eZWaMFUdQ4BXOsA3Wj9/uv5gb1OM+OW8JSJohPFzVH3Rme2gPMdH+cvxN0LpMVjdr
-	 F9M+IumsPFG9Z/QlgsSzcKM0XzKx08+taXkrvxXrHPpkMzFMR1X7iuNuX9oF5EA3pq
-	 whSSXwsu33PwIjN1oQLDWREDfZsQDbxezQv97LsC3B75cnVLNUHTeNf6exzd8tOC7q
-	 ridPe5ZrkOD1n5tnFDrkU8G5Cwh5fVHSUKb6fG1+cC/naJVEC2P6QgkV1GwmNBNXvi
-	 zq6GwF3QY6yYHtMZIRblFPxZch9sSE/t+aaPo+f7M8E+bh8ZIo8XEzEQKxcxQyGrtH
-	 VpdGNqQ11DGzg==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1tVU1p-00A7G3-NT;
-	Wed, 08 Jan 2025 11:15:13 +0000
-Date: Wed, 08 Jan 2025 11:15:13 +0000
-Message-ID: <86wmf5wo8u.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Will Deacon <will@kernel.org>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Oliver Upton <oliver.upton@linux.dev>,
+	s=arc-20240116; t=1736335061; c=relaxed/simple;
+	bh=udZmKdb1BKdJU4EjvkQw/dwr0g6d6q6pWsI1yaE6/js=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qvqjb05S93u0ZmchwLInUvf6MsHKrs3NH6mGRHowgx2076ZWX55uSdeRO4Q+7S4B3bCujwLymcV4IxlYqqN/SKBhgU/MiCNXc9S/C4YXdEKhLxnc94+YyddijVLpHtE5AiorgYRz+NMKfrpT26ej8gVb2UGEwsDDG1sbn6SFUJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tVU41-0007Vv-Mn; Wed, 08 Jan 2025 12:17:29 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tVU40-007VZ6-10;
+	Wed, 08 Jan 2025 12:17:29 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tVU40-00BTtk-37;
+	Wed, 08 Jan 2025 12:17:28 +0100
+Date: Wed, 8 Jan 2025 12:17:28 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Eric Auger <eric.auger@redhat.com>,
-	kvmarm@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/7] arm64/boot: Enable EL2 requirements for FEAT_PMUv3p9
-In-Reply-To: <CAL_JsqLLnh1o4L1=PpNt5brBwZZCgp7mOygByOYakchrzc29Ow@mail.gmail.com>
-References: <20241220072240.1003352-1-anshuman.khandual@arm.com>
-	<20250102160402.GB3990035-robh@kernel.org>
-	<Z30adHnQ7ZFaU9UR@arm.com>
-	<CAL_JsqLLnh1o4L1=PpNt5brBwZZCgp7mOygByOYakchrzc29Ow@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next 10/14] net: pse-pd: tps23881: Add support for
+ power limit and measurement features
+Message-ID: <Z35eyDt9sWGtjUdI@pengutronix.de>
+References: <20250104-b4-feature_poe_arrange-v1-0-92f804bd74ed@bootlin.com>
+ <20250104-b4-feature_poe_arrange-v1-10-92f804bd74ed@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: robh@kernel.org, catalin.marinas@arm.com, anshuman.khandual@arm.com, linux-arm-kernel@lists.infradead.org, will@kernel.org, ryan.roberts@arm.com, mark.rutland@arm.com, oliver.upton@linux.dev, corbet@lwn.net, eric.auger@redhat.com, kvmarm@lists.linux.dev, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250104-b4-feature_poe_arrange-v1-10-92f804bd74ed@bootlin.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Tue, 07 Jan 2025 22:13:47 +0000,
-Rob Herring <robh@kernel.org> wrote:
->=20
-> On Tue, Jan 7, 2025 at 6:13=E2=80=AFAM Catalin Marinas <catalin.marinas@a=
-rm.com> wrote:
-> >
-> > On Thu, Jan 02, 2025 at 10:04:02AM -0600, Rob Herring wrote:
-> > > On Fri, Dec 20, 2024 at 12:52:33PM +0530, Anshuman Khandual wrote:
-> > > > This series adds fine grained trap control in EL2 required for FEAT=
-_PMUv3p9
-> > > > registers like PMICNTR_EL0, PMICFILTR_EL0, and PMUACR_EL1 which are=
- already
-> > > > being used in the kernel. This is required to prevent their EL1 acc=
-ess trap
-> > > > into EL2.
-> > > >
-> > > > PMZR_EL0 register trap control i.e HDFGWTR2_EL2.nPMZR_EL0 remains u=
-nchanged
-> > > > for now as it does not get accessed in the kernel, and there is no =
-plan for
-> > > > its access from user space.
-> > > >
-> > > > I have taken the liberty to pick up all the review tags for patches=
- related
-> > > > to tools sysreg update from the KVM FGT2 V2 patch series posted ear=
-lier.
-> > > >
-> > > > https://lore.kernel.org/all/20241210055311.780688-1-anshuman.khandu=
-al@arm.com/
-> > > >
-> > > > Rob had earler mentioned about FEAT_FGT2 based trap control require=
-ment for
-> > > > FEAT_PMUv3p9 registers that are currently being used in kernel. The=
- context
-> > > > can be found here.
-> > > >
-> > > > https://lore.kernel.org/all/20241216234251.GA629562-robh@kernel.org/
-> > > >
-> > > > This series is based on v6.13-rc3
-> > > >
-> > > > Cc: Catalin Marinas <catalin.marinas@arm.com>
-> > > > Cc: Will Deacon <will@kernel.org>
-> > > > Cc: Marc Zyngier <maz@kernel.org>
-> > > > Cc: Ryan Roberts <ryan.roberts@arm.com>
-> > > > Cc: Mark Rutland <mark.rutland@arm.com>
-> > > > Cc: Mark Brown <robh@kernel.org>
-> > > > Cc: Rob Herring <robh@kernel.org>
-> > > > Cc: Oliver Upton <oliver.upton@linux.dev>
-> > > > Cc: Jonathan Corbet <corbet@lwn.net>
-> > > > Cc: Eric Auger <eric.auger@redhat.com>
-> > > > Cc: kvmarm@lists.linux.dev
-> > > > Cc: linux-doc@vger.kernel.org
-> > > > Cc: linux-kernel@vger.kernel.org
-> > > > Cc: linux-arm-kernel@lists.infradead.org
-> > > >
-> > > > Anshuman Khandual (7):
-> > > >   arm64/sysreg: Update register fields for ID_AA64MMFR0_EL1
-> > > >   arm64/sysreg: Add register fields for HDFGRTR2_EL2
-> > > >   arm64/sysreg: Add register fields for HDFGWTR2_EL2
-> > > >   arm64/sysreg: Add register fields for HFGITR2_EL2
-> > > >   arm64/sysreg: Add register fields for HFGRTR2_EL2
-> > > >   arm64/sysreg: Add register fields for HFGWTR2_EL2
-> > > >   arm64/boot: Enable EL2 requirements for FEAT_PMUv3p9
-> > >
-> > > In case it is not clear, this series should be applied to 6.13 as the=
- 2
-> > > PMUv3p9 features already landed in 6.13 (per counter EL0 control) and
-> > > 6.12 (ICNTR).
-> >
-> > So is this a fix that needs backporting to 6.12 or 6.13, e.g. fix for
-> > d8226d8cfbaf ("perf: arm_pmuv3: Add support for Armv9.4 PMU instruction
-> > counter")? It's pretty late in the cycle to take the series for 6.13.
->=20
-> Ideally, yes. But given the state of h/w implementations, backporting
-> it later is probably fine if that is your preference.
->=20
-> > But does KVM actually expose the feature to EL1 in ID_AA64DFR1_EL1 and
-> > than traps it at EL2?
->=20
-> As Marc pointed out KVM only advertises PMUv3.8. Regardless, guest
-> accesses to these registers are trapped with or without this series.
+On Sat, Jan 04, 2025 at 11:27:35PM +0100, Kory Maincent wrote:
+> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+> 
+> Expand PSE callbacks to support the newly introduced
+> pi_get/set_pw_limit() and pi_get_voltage() functions. These callbacks
+> allow for power limit configuration in the TPS23881 controller.
+> 
+> Additionally, the patch includes the pi_get_pw_class() the
+> pi_get_actual_pw(), and the pi_get_pw_limit_ranges') callbacks providing
+> more comprehensive PoE status reporting.
+> 
+> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 
-And most probably generates a nice splat in the kernel log, as nobody
-updated KVM to handle *correctly* PMICNTR_EL0 traps, let alone deal
-with the FGT2 registers.
+Acked-by: Oleksij Rempel <o.rempel@pengutronix.de>
 
-	M.
-
---=20
-Without deviation from the norm, progress is not possible.
+Thank you!
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
