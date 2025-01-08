@@ -1,201 +1,235 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B918B1E1C3B;
-	Wed,  8 Jan 2025 22:31:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736375476; cv=fail; b=Q+pk1LiY7FRRdXIa4STpvkPY29FdHPg+Bp2EcgwU13G1Fsnp5EOxvp1ZkiZchf4DbJPxioEbss9a1gi7zcBN4rcyb80it4RQDjXcT2urXcZWZGrPEqUzhGLJfoL+myN2w7MN6JNBNUIG+N3MsxFrCrDYHUYjPcEpjuQ2lj/X6Lg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736375476; c=relaxed/simple;
-	bh=Ce2+BfJSZKhTHcX12QKljG2tsQBO7DwT02/kJt5KTo0=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=MCoK+Nm/kk1G6DGxv1LdGNiptSlnu5uERgWn9tQK7B0ZYNEBAp24Lte7Cm2Ng+R5SL8hJeQk/vqnziDeHOnWmbFb5tlLIZP4vayQUSoYQx/h6l/QHcIPb/r3dOpIX0qo8CU9Fj5z+VU3KMFL8D1beQ666HlAADV+35B5cWsU908=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hg3jHXoh; arc=fail smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C451A0706;
+	Wed,  8 Jan 2025 22:39:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736375995; cv=none; b=LPIUyTwt805/TjWiRZY0btDY0d4SpdsfCZinIOUmC9qqvToosICJZomFBsQ4w3z7EU4p/cHeP9pjD54ARrvKiht8QpbA15x/mV7qEuV//yKCkpDaLqKEJ+5GUVUvIYvZdjasymwkrVG+6mww9w/FOqaLJwtDAqv892xhTRx2eVk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736375995; c=relaxed/simple;
+	bh=aBBMJt3YnEOGFN+NC1GBIijIU/2oGQEkFVJlezEYi8o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gKPsmnEwYtf6vMF8wf7UcmJ9DGA0cSZFy229ouvMmADNV7nrWh9NiRbmeMJsVOpzILSb6gk14IFNhuVpZqwhx2P47Gqt6nxdrrCG4le9sWw9qK7td4LElcw61xmk7y/3cSZHLN2SbklxhMB5iHuO8caz8laDq8Wue0UuXj12d3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n/mZSHn5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hg3jHXoh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736375475; x=1767911475;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=Ce2+BfJSZKhTHcX12QKljG2tsQBO7DwT02/kJt5KTo0=;
-  b=Hg3jHXohYza6ZEkxAocE94EjFWXQlcspozugkRp5VqLi8An8jAwK0qZ4
-   xblA+W0fXVDqZkPiM7YcgBRfV25w1R/75NZSK0sn4KTCiTkpyJUabKiii
-   NOdAJ7XzyaoCiACmCSJx2e/zOBAFMKdYuR7QMCoJeAEjKOHAzLq3+94vN
-   hj12kNbOok2wpuTsbkBVQ0itgkBNzsW2JNKqSn2hbmf/cRWbypDm0CK99
-   5pY/cn2AOjJ/b4d0nKgEtYWnAwZsn6VljdT4fjwcV3E9rchEIvcyEsykh
-   FrZIGDt9mhNdAczTVzafORlBjLXceatSIz6lGXmkpJ+QsCH5VUz+dboW4
-   Q==;
-X-CSE-ConnectionGUID: njGv70pYRPaPiY43mtv4AQ==
-X-CSE-MsgGUID: mE8ouR8ATiOT6PaW/obxUw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="40386091"
-X-IronPort-AV: E=Sophos;i="6.12,299,1728975600"; 
-   d="scan'208";a="40386091"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 14:31:14 -0800
-X-CSE-ConnectionGUID: sIe2cLOaTSq2+IFlqu6OAw==
-X-CSE-MsgGUID: ryLKBlBZR66qAdy4lMiuMw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,299,1728975600"; 
-   d="scan'208";a="103723763"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 Jan 2025 14:31:12 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Wed, 8 Jan 2025 14:31:11 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Wed, 8 Jan 2025 14:31:11 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.46) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Wed, 8 Jan 2025 14:31:10 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Zk1KBOY1I7eufmB0mLtTNGOAGrrztzEUEOimSe5uT45D8/f6TsYZVLfQ2/OgH2tB5gRTFaeDrIVhjq8Rt4Ysove9KsAzFzjlS8zFiTzk0DT/HmbSH+l0q7FZGWU0dOSrJEW/yCbiI6HplR0ScvmwsQ4MfgXFDduQUOUsQ5U70EUhE+zvTxhVMkjfReDyHe9l+3EJhbCY/ZRrXpjSlwySB27vhjbYE1nbJ6RAt8klmTlHCc237vWrL8HGNnOlGiUJL0LcYAO2MeYoLy20a/Z1gnuB4auNAytBuQz5QTC2TQ0L+AEMYoQr4suc7j1NxLt25xe9pq8CRjwPdvQwuJDrzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZUqv0Ksbm+/HEaOsgldlwIOMzDG6U+KhCwAb9+DqhZc=;
- b=izcSxrfk+kQqgJmeAAQrG66bkLoSXC+BumrxaL+Y1MV+phncUqwd5y3iQsjbrU1Oe88n+LfepUaWehPLyEe0E6nmXKnl/oG1BhTylSY1Yye3Waa3UbHXP9gYEbFjC2cepNve5t0JiMxqfasjPB/8kvWUJMDXloA5VZNJ9MoRpTaFlhzLAZKm/J1M+dHS0vA3HnXmCjyC0el1Z6+7rBzTvnNWJ+ZFpGZ19FXVdxk3r1U3gy/XzBXhBF3nzXmAXjBkEqH0k1iMEnLDEKrH4RK+6QrOji24b2tsT+AyofK7sGT85CHb7bkj4c+9kvd85vG5+8p7aJlznlqdW+gPWS5mKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
- by IA1PR11MB6515.namprd11.prod.outlook.com (2603:10b6:208:3a1::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8314.18; Wed, 8 Jan
- 2025 22:31:04 +0000
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::6b05:74cf:a304:ecd8]) by PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::6b05:74cf:a304:ecd8%4]) with mapi id 15.20.8314.015; Wed, 8 Jan 2025
- 22:31:04 +0000
-Date: Wed, 8 Jan 2025 14:30:59 -0800
-From: Dan Williams <dan.j.williams@intel.com>
-To: Alistair Popple <apopple@nvidia.com>, <akpm@linux-foundation.org>,
-	<dan.j.williams@intel.com>, <linux-mm@kvack.org>
-CC: Alistair Popple <apopple@nvidia.com>, <lina@asahilina.net>,
-	<zhang.lyra@gmail.com>, <gerald.schaefer@linux.ibm.com>,
-	<vishal.l.verma@intel.com>, <dave.jiang@intel.com>, <logang@deltatee.com>,
-	<bhelgaas@google.com>, <jack@suse.cz>, <jgg@ziepe.ca>,
-	<catalin.marinas@arm.com>, <will@kernel.org>, <mpe@ellerman.id.au>,
-	<npiggin@gmail.com>, <dave.hansen@linux.intel.com>, <ira.weiny@intel.com>,
-	<willy@infradead.org>, <djwong@kernel.org>, <tytso@mit.edu>,
-	<linmiaohe@huawei.com>, <david@redhat.com>, <peterx@redhat.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linuxppc-dev@lists.ozlabs.org>,
-	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>, <linux-ext4@vger.kernel.org>,
-	<linux-xfs@vger.kernel.org>, <jhubbard@nvidia.com>, <hch@lst.de>,
-	<david@fromorbit.com>
-Subject: Re: [PATCH v5 02/25] fs/dax: Return unmapped busy pages from
- dax_layout_busy_page_range()
-Message-ID: <677efca34ca0b_f58f2943e@dwillia2-xfh.jf.intel.com.notmuch>
-References: <cover.425da7c4e76c2749d0ad1734f972b06114e02d52.1736221254.git-series.apopple@nvidia.com>
- <db02794f12a4cc8c659a1123bdc90fcb4dcb1104.1736221254.git-series.apopple@nvidia.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <db02794f12a4cc8c659a1123bdc90fcb4dcb1104.1736221254.git-series.apopple@nvidia.com>
-X-ClientProxiedBy: MW4PR04CA0269.namprd04.prod.outlook.com
- (2603:10b6:303:88::34) To PH8PR11MB8107.namprd11.prod.outlook.com
- (2603:10b6:510:256::6)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n/mZSHn5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 518F2C4CEE1;
+	Wed,  8 Jan 2025 22:39:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736375994;
+	bh=aBBMJt3YnEOGFN+NC1GBIijIU/2oGQEkFVJlezEYi8o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=n/mZSHn5KPJvphh3IbFUFXaOK+YsJHIj11RQFS6EltlqcN2L4/AU8P8QQBxtmvEHw
+	 xyWJ2Et4X/wp9bDq9bOc9SM5v3m/vjqOleZWnfW7VYyfAMZxWd7Ud4XolcB5RWX/8n
+	 vTY5kVet5gsG0aLzqTDd0NvEDVhCGRwL9Ci1gUNZPeNUiRfcPPS6YvsOtYfKAqXP9v
+	 fnRyN1RuNrcyOulTxuMWG5FdOk7ZdbI17eiY2KSnw/i5unp57PblOwd/+7uNlD3suD
+	 nNvDeZsB6ZuQVr5PiYVjks8VpN2vIC07ztEHFvwvcRYqlUA9kHsBFWSHJRYSv3BCE6
+	 Ufbqh7CgKXE+A==
+Date: Wed, 8 Jan 2025 19:39:51 -0300
+From: Arnaldo Carvalho de Melo <acme@kernel.org>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Namhyung Kim <namhyung@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	Christian Brauner <brauner@kernel.org>, Guo Ren <guoren@kernel.org>,
+	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
+	James Clark <james.clark@linaro.org>,
+	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
+	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
+	linux-csky@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 00/16] perf tools: Use generic syscall scripts for all
+ archs
+Message-ID: <Z37-t9fhnmSghIPe@x1>
+References: <20250107-perf_syscalltbl-v5-0-935de46d3175@rivosinc.com>
+ <Z368mNynBTDWPM6R@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|IA1PR11MB6515:EE_
-X-MS-Office365-Filtering-Correlation-Id: bdae4f87-bf2d-401e-e312-08dd303422e0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ZViParltpZlqeDozfF0T2Koomhsr2ax2cRxDLoYcGtU5EqcW1CAmjJnSB78n?=
- =?us-ascii?Q?MBy2BJfCjW7Dj9dRfrUglM9U2UUDg9/Rx7f11aPHzoS82VXPmrg5+txZX68+?=
- =?us-ascii?Q?AaRG/r0S6wz4KNDmXvOlAiBsx/1Nkoi8VsKONkvJk/Pm39z9ue41ulF3dE6e?=
- =?us-ascii?Q?DgPTILe5K/4CaMwJkzjG1CAB8ycsnqE5LLAvGm0LegmGVAzN3utK8W7Mw/ev?=
- =?us-ascii?Q?KnI+4HxzC8xL9dRbnVMGxmqZBytv12zWHY2yvYKY+EP3aEL0rR1ISqQSC2di?=
- =?us-ascii?Q?MATMB4ewP68u+1wiNnneSN4F9rIN01X6b9v1YMfGS2hBZuHsqyMQQMhaDj0m?=
- =?us-ascii?Q?4+idFk9mwcpRL3GnB1Iwn7bvrZSroMGX8Hw9ClYw5fugQBYbiCeUO+MMOemu?=
- =?us-ascii?Q?muTeZ7JJWpej9PzTbFwoug2E5YH+UxOODsEe7wYhYA7eKRx1tGIO0Ze06+3P?=
- =?us-ascii?Q?RkeGFQ8imOXWxbpqitoa8bUn4EIN0TCS64XIurf/H3hQJsCTAFrCQdHShGdl?=
- =?us-ascii?Q?wbo55t1V3dxkzHpcWxJEHWhzk9k6HQ/Js5+CyRauSCdjZWOwtnOjEH2v3Luw?=
- =?us-ascii?Q?h/M0T2DsfTjzklNRskQzF3gI/astosK9GuIXXG+6rOCSF8w+3RXEXlGMJFtF?=
- =?us-ascii?Q?XbdA0lQWBShgeKSmqpvNmLxBRSuI2BOfJDdpkLrQrzS7ErWplYaNLdajReR1?=
- =?us-ascii?Q?X3UCQfVXKjjSoP9S8+WZlHqoFH+wd4K9smdQgN5RrvkwZnrVxYPm7rHLptW9?=
- =?us-ascii?Q?7d/gqAIvOS2ZFeBzpomkA7oysuCIa6UdnmLGlUnrSZ8A2VgOk202j4UN017j?=
- =?us-ascii?Q?RM3qwnG447sbuN5gi5HLKvVGwDTK3oo0aF/ciDq2vtALLk0OXws4t/DNvvIl?=
- =?us-ascii?Q?i4Rs321eV0FlDulKmlpDqXWOwa5Muhp2XBYaPIWIz5jJTWqBX8gw3Bix9Egz?=
- =?us-ascii?Q?J3e60QtQbrhW4GI/MTjvzcJ1x/y/nzlr6KM4QawNE/2Ync8Rcd140T7mPSt+?=
- =?us-ascii?Q?mcTI7C7x6uC38N+zwS9Y6FEE6nQqodKHwyEibaAuBoMJRcwJDREd7CHsXzpt?=
- =?us-ascii?Q?oCWOxXDQzKgy+kjTfMdxD/sYVGulzYnnqahCrVUNc8sO0KmKbwOK6tdkvDpC?=
- =?us-ascii?Q?qq7W4Pk0VVHdarwn3QVDBuMbfBxm/9XUPJoxuWzNofpdywtluq/sFK8mnzc5?=
- =?us-ascii?Q?FqAMC3TnqI/HbIS5nfji9I/fE0N9QXtrXgLf7UtQmlBNL9VCouiYobndFZVg?=
- =?us-ascii?Q?OcDXtI1sAPd1JO7FSfPihbGfQP8DKXZIaV6FOFAomcr5OyVv9s6K8RD9Jk/U?=
- =?us-ascii?Q?VfjbO93iZPgV7Jj01oCNeY644nWmLDpIwJclK7bimD7KcU3war83YzXv1hE5?=
- =?us-ascii?Q?NT2hDzaHNa8tpTfbJDAAT07noq+W?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Eh3VDFQ5cctR5h6XBYd94LwnS41LOU1dWquAq+DxzGxBOf6eCA4NWEZDri4h?=
- =?us-ascii?Q?4IZTUEm2Y7GDEf4VGO9dltUImSe+XO7RTXyYZN9ykrJaFOOwb7u8vi9bA1y2?=
- =?us-ascii?Q?+oDBASvmCtpKZGLO2lMw6cwa9gajxgwQ4DTZ6lVEfk9ebHcNv/qVY6bLTL80?=
- =?us-ascii?Q?86IXtIoNKxXH9TiFl9BBYlDgaKXE95aykqcF963rfbfY2ooEjmAvZDRQVorN?=
- =?us-ascii?Q?H4Fo4HpvQp+vrv7frjH4WSb4I0DzubDC0lq4hKGmdEf4KqFV551L16P1vjMT?=
- =?us-ascii?Q?J03YAAyFOjz3/jCSsg5cf4J0mad7uuWmLH6QtiXThxvLgtGuakka0Yq49oYs?=
- =?us-ascii?Q?NJb4242UdGxoTUfJFvyDbiBIa4HvYe237CJS/LKznx0h0pGDzAAou+eerKTW?=
- =?us-ascii?Q?7p9XfAEJIma4e7vPtP41nt4e/KihD35BQ7zB48bgARh7rxhczAYovGxnDiiS?=
- =?us-ascii?Q?vjAVN1DV6t0tDvGV2QdrnrpnbTdPtCna72tK2EQEzTWexZ0dELEEdvFo4vER?=
- =?us-ascii?Q?bJKPQRgQtPvyuWzE367+B6zqSN8FNBTNznxyp3sSMyyQRsAp1POzR324S0qb?=
- =?us-ascii?Q?WjG7yHLZC5YIx2TvIhPv9qXadO+0nxoAniAjD08E/Ae3yM+Hp6BpKlmoSSM+?=
- =?us-ascii?Q?eUJiw3l9N+YGFAGbS0MembN9hjZ1H7723LBCxrT9Rv58KREOq5dHs1QffhtZ?=
- =?us-ascii?Q?+JqpKSpcNxRYxthJfXNk//lZs8z7HC21jaQwgmftrRPbm1yH3JXzPL+5aAzd?=
- =?us-ascii?Q?6r27s8hCcyNBgkIaoUNVEhvJAoPRAZcV/GviuHaKOEvw/oSsGJtUoDvj7wwU?=
- =?us-ascii?Q?fokQbHO2DWdRNshRncln1Xservo2wxnMglXJqvuawksTfM2kjA3sPuxKftJ2?=
- =?us-ascii?Q?tH1VIET6TByekztdgbd26Np1vfFgp4rxwSgze4SFz1TnJPA4QE9LEI5ofeeM?=
- =?us-ascii?Q?7LATVXjFm9I1MGIQZ6rFzKItmRI9lqeSmK33AiGokpww1f/z6WrfRi4+NoQ5?=
- =?us-ascii?Q?dAsjMHGv0vlco1JmD6UYAgLUSX/pgaWE5GkS/Z1q0rewRZkD69qY5ryEr21b?=
- =?us-ascii?Q?96TZUnin9VyKzXfDNznBm09wxSbdppmXuFDZhTMiBmhuARTRV/7gmahXAiXd?=
- =?us-ascii?Q?kQaPDkqJxOLm4PdSlmEgwGsF6VG7LF0rlXLvv+XWySiES0IFaPiFyEGEkHgO?=
- =?us-ascii?Q?U+OkHw+kaqtHgzId2vgBz6OxT27aDX3TFNhXuBOEKKaJAwnoRrQOo5zOqKX5?=
- =?us-ascii?Q?5n2wN3Xaa/fJHYV7Plplp7QZPYhXrZIlZ4u1zC45RcZYISBUOfOKYvc/+DZ/?=
- =?us-ascii?Q?tRKxc3j8rMVNYebBgUMDmOkCz9jkhwzQYagwuzhfV/UpScHoUaK2+zs4/kml?=
- =?us-ascii?Q?i3jQOwF6Iid82+CoIkTkiWP5f8HvvnnYH/e8QGvslz8VrXDUzT/hLXQ2ASo6?=
- =?us-ascii?Q?FgglLWNj1R18iIOBQGl6+ZxUDvBikc6Xd55yhDHWAqyzR4HV8OYQdlhrsYhn?=
- =?us-ascii?Q?V+uR28HLIlioMRGMqyty//8BJc9OO/1Q1lAY9/u4Ceh4PGWnvPm4u7kq84EU?=
- =?us-ascii?Q?lmsojmTYow2VOR1A5YVoJLai9nQTneNg/kMOg/sjy7HrL6Wu9U8n6/EUtqlN?=
- =?us-ascii?Q?PQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: bdae4f87-bf2d-401e-e312-08dd303422e0
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2025 22:31:03.9691
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mPPWGdZU6GcTJ8/rvLuJSwJYs1OIP5G/Xg/+8yLW6S2OYZpQfjeZ4UcwdurA6IFeyGLH3c4EAON7IWQJ2wOTyf38McanhXHoh7hgM7+xfHk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB6515
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z368mNynBTDWPM6R@google.com>
 
-Alistair Popple wrote:
-> dax_layout_busy_page_range() is used by file systems to scan the DAX
-> page-cache to unmap mapping pages from user-space and to determine if
-> any pages in the given range are busy, either due to ongoing DMA or
-> other get_user_pages() usage.
+On Wed, Jan 08, 2025 at 09:57:44AM -0800, Namhyung Kim wrote:
+> Hello,
 > 
-> Currently it checks to see the file mapping is mapped into user-space
-> with mapping_mapped() and returns early if not, skipping the check for
-> DMA busy pages. This is wrong as pages may still be undergoing DMA
-> access even if they have subsequently been unmapped from
-> user-space. Fix this by dropping the check for mapping_mapped().
+> On Tue, Jan 07, 2025 at 06:07:48PM -0800, Charlie Jenkins wrote:
+> > Standardize the generation of syscall headers around syscall tables.
+> > Previously each architecture independently selected how syscall headers
+> > would be generated, or would not define a way and fallback onto
+> > libaudit. Convert all architectures to use a standard syscall header
+> > generation script and allow each architecture to override the syscall
+> > table to use if they do not use the generic table.
+> > 
+> > As a result of these changes, no architecture will require libaudit, and
+> > so the fallback case of using libaudit is removed by this series.
+> > 
+> > Testing:
+> > 
+> > I have tested that the syscall mappings of id to name generation works
+> > as expected for every architecture, but I have only validated that perf
+> > trace compiles and runs as expected on riscv, arm64, and x86_64.
+> > 
+> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > Reviewed-by: Ian Rogers <irogers@google.com>
+> > Tested-by: Ian Rogers <irogers@google.com>
 > 
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+> Acked-by: Namhyung Kim <namhyung@kernel.org>
 
-Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+So, somehow the first patch of this series didn't reach my inbox, b4
+found it, and in it perf now does;
+
+tools/perf/scripts/Makefile.syscalls
+
+  include $(srctree)/scripts/Kbuild.include
+
+I.e. it uses a file that is outside tools/ so normal devel in the kernel
+community may end up breaking tools/ living code, something we decided
+not to have.
+
+I noticed this while doing a: "make -C tools/perf build-test", the first
+test creates a perf tarball and then tries to build it after
+uncompressing it somewhere out of the checked out kernel source tree:
+
+⬢ [acme@toolbox perf-tools-next]$ make help | grep perf
+  perf-tar-src-pkg    - Build the perf source tarball with no compression
+  perf-targz-src-pkg  - Build the perf source tarball with gzip compression
+  perf-tarbz2-src-pkg - Build the perf source tarball with bz2 compression
+  perf-tarxz-src-pkg  - Build the perf source tarball with xz compression
+  perf-tarzst-src-pkg - Build the perf source tarball with zst compression
+⬢ [acme@toolbox perf-tools-next]$ make perf-tarxz-src-pkg
+  UPD     .tmp_HEAD
+  COPY    .tmp_perf/HEAD
+  GEN     .tmp_perf/PERF-VERSION-FILE
+  PERF_VERSION = 6.13.rc2.g48d3eefaa683
+  ARCHIVE perf-6.13.0-rc2.tar.xz
+⬢ [acme@toolbox perf-tools-next]$ mv perf-6.13.0-rc2.tar.xz ~
+⬢ [acme@toolbox perf-tools-next]$ cd ~
+⬢ [acme@toolbox ~]$ tar xvf perf-6.13.0-rc2.tar.xz | tail -5
+perf-6.13.0-rc2/tools/scripts/Makefile.include
+perf-6.13.0-rc2/tools/scripts/syscall.tbl
+perf-6.13.0-rc2/tools/scripts/utilities.mak
+perf-6.13.0-rc2/HEAD
+perf-6.13.0-rc2/PERF-VERSION-FILE
+⬢ [acme@toolbox ~]$ cd perf-6.13.0-rc2/
+⬢ [acme@toolbox perf-6.13.0-rc2]$ make -C tools/perf
+make: Entering directory '/home/acme/perf-6.13.0-rc2/tools/perf'
+  BUILD:   Doing 'make -j28' parallel build
+Warning: Skipped check-headers due to missing ../../include
+
+Auto-detecting system features:
+...                                   libdw: [ on  ]
+...                                   glibc: [ on  ]
+...                                  libbfd: [ on  ]
+...                          libbfd-buildid: [ on  ]
+...                                  libelf: [ on  ]
+...                                 libnuma: [ on  ]
+...                  numa_num_possible_cpus: [ on  ]
+...                                 libperl: [ on  ]
+...                               libpython: [ on  ]
+...                               libcrypto: [ on  ]
+...                               libunwind: [ on  ]
+...                             libcapstone: [ on  ]
+...                               llvm-perf: [ on  ]
+...                                    zlib: [ on  ]
+...                                    lzma: [ on  ]
+...                               get_cpuid: [ on  ]
+...                                     bpf: [ on  ]
+...                                  libaio: [ on  ]
+...                                 libzstd: [ on  ]
+
+/home/acme/perf-6.13.0-rc2/tools/perf/scripts/Makefile.syscalls:18: /home/acme/perf-6.13.0-rc2/scripts/Kbuild.include: No such file or directory
+make[2]: *** No rule to make target '/home/acme/perf-6.13.0-rc2/scripts/Kbuild.include'.  Stop.
+make[1]: *** [Makefile.perf:286: sub-make] Error 2
+make: *** [Makefile:76: all] Error 2
+make: Leaving directory '/home/acme/perf-6.13.0-rc2/tools/perf'
+⬢ [acme@toolbox perf-6.13.0-rc2]$ 
+
+This would probably (it does, just tested, but read on) make it work:
+
+⬢ [acme@toolbox perf-tools-next]$ git diff
+diff --git a/tools/perf/MANIFEST b/tools/perf/MANIFEST
+index dc42de1785cee715..83ef5d1365880929 100644
+--- a/tools/perf/MANIFEST
++++ b/tools/perf/MANIFEST
+@@ -22,6 +22,7 @@ tools/lib/str_error_r.c
+ tools/lib/vsprintf.c
+ tools/lib/zalloc.c
+ scripts/bpf_doc.py
++scripts/Kbuild.include
+ tools/bpf/bpftool
+ kernel/bpf/disasm.c
+ kernel/bpf/disasm.h
+⬢ [acme@toolbox perf-tools-next]$
+
+As now we would find it, but then it references some other part of the
+kernel's Kbuild system:
+
+⬢ [acme@toolbox perf-tools-next]$ grep -w srctree scripts/Kbuild.include
+build := -f $(srctree)/scripts/Makefile.build obj
+clean := -f $(srctree)/scripts/Makefile.clean obj
+⬢ [acme@toolbox perf-tools-next]$
+
+And perf has:
+
+⬢ [acme@toolbox perf-tools-next]$ find tools/ -name Makefile.build
+tools/build/Makefile.build
+⬢ [acme@toolbox perf-tools-next]$
+
+And we also have:
+
+⬢ [acme@toolbox perf-tools-next]$ ls -la tools/scripts/
+total 40
+drwxr-xr-x. 1 acme acme   106 Jan  8 19:13 .
+drwxr-xr-x. 1 acme acme   514 Jan  8 11:39 ..
+-rw-r--r--. 1 acme acme  1224 Jan  8 11:41 Makefile.arch
+-rw-r--r--. 1 acme acme  6205 Dec 20 21:48 Makefile.include
+-rw-r--r--. 1 acme acme 17401 Jan  8 19:13 syscall.tbl
+-rw-r--r--. 1 acme acme  6186 Dec 20 21:48 utilities.mak
+⬢ [acme@toolbox perf-tools-next]$
+
+And:
+
+⬢ [acme@toolbox perf-tools-next]$ grep -w build tools/build/Makefile.include 
+build := -f $(srctree)/tools/build/Makefile.build dir=. obj
+	$(SILENT_MAKE) -C $(srctree)/tools/build CFLAGS= LDFLAGS= $(OUTPUT)fixdep
+	$(Q)$(MAKE) -C $(srctree)/tools/build clean
+⬢ [acme@toolbox perf-tools-next]$
+
+That is also in:
+
+⬢ [acme@toolbox perf-tools-next]$ grep -w build scripts/Kbuild.include 
+# Shorthand for $(Q)$(MAKE) -f scripts/Makefile.build obj=
+# $(Q)$(MAKE) $(build)=dir
+build := -f $(srctree)/scripts/Makefile.build obj
+# the interrupted recipe. So, you can safely stop the build by Ctrl-C (Make
+# (1) PHONY targets are always build
+# (2) No target, so we better build it
+⬢ [acme@toolbox perf-tools-next]$
+
+So it seems we need to look at what we're using from the kernel's
+scripts/Makefile.build to have it in a tools/build/ file.
+
+Its late here and I'll have to stop at this point, please take a look to
+see if this can be easily resolved so that we can merge your series, I
+very much like to say goodbye to one more tools/perf library dependency
+:-)
+
+Best regards,
+
+- Arnaldo
