@@ -1,144 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8482319995E;
-	Wed,  8 Jan 2025 09:42:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C421F76D4;
+	Wed,  8 Jan 2025 10:19:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736329377; cv=none; b=DNecJ9InZ2CH6WGur/6Pb30XTgCDihKqGovLAelquckc4ZFTHl0iJRa5FNcTu2t49ecHPkm6WaUeQaYS+xHQSAqC/ntChK0Bt0mimYQA9k09oFAK5advDfCY/0wGDpzfQnG0sE1shb3x5yGJIUr2wB4zdsTa55oumiuix8jVcek=
+	t=1736331585; cv=none; b=DQBhVXDKxzyk6RKcI12mXOXs2jk/o5eauX+7PdtDN/uebB4F1ICCHnpb7dT8EfkrMv5d2kOZZz1MGl2IQCatX4oeAvn87QsdRAHj4F0Rpqj2Br6niAXN3DIMH0rc3CXjsdQbzhSizseon46xi+24BqghBFvFI/Unckp8XCOh3Ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736329377; c=relaxed/simple;
-	bh=63viRNtU92cC3Sq4KYkQMj1dhelzfXETfgdJzzPPyKk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Qid8OLa567invEZi8Qm0njY4e1lI358WezoVgO40uWITc0JwhaxOxMNwTyNt8hSBwfw8BB8SUHPnJna8duR9XyLjeVYAGoY1N80XcnHR5KxfkhDkGRpeaUkryBxK8HxX2jAF56K3V47V5e/L/Ai65uDL5T7kEyUldJK5U8Uk/GA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ha1F9tOS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736331585; c=relaxed/simple;
+	bh=2F1NrFzFunGtkEPuCgh3gTbxu8JlwOElD4NMwPMw67A=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LnX91Hd4BQaGgcT1J1qlcloQyW8OlCjaGFCeJO28F2XvT8v1TsXH1eKEYnV4v3kHfUDPGWokCTBlSHt6hC5PaCvOeYLf8q/divfdZuelNlKlV8Pxm0YOQ7qUElYVYGn4GgPMYONhNeuUv/68QFiS4RW5OaZxwOlJgi5DDrH6W+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ckOeQpx3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ha1F9tOS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1058DC4CEE0;
-	Wed,  8 Jan 2025 09:42:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ckOeQpx3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CACFDC4CEDF;
+	Wed,  8 Jan 2025 10:19:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736329377;
-	bh=63viRNtU92cC3Sq4KYkQMj1dhelzfXETfgdJzzPPyKk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Ha1F9tOSh1dOLcyB58gE1vZQwzcy4VnjIT77LKqOSFnyn/SbuHtvsv9AWsfY7QT+h
-	 TeAQNrsIOyr9z11+R1PSyUyicvHgXxsSJrgY0zTRx07SDdK7UUBjESRLfSGWfYHBXn
-	 4ifLq947WKAjEcqRQhpLSnQoo42xD4nYD60rCjHuqpbnhp+AQq3AdlaRqTgl60JgM1
-	 f97zadQrXmezx0QI4hKj96wtfsNbz/UgOxwubyx/5RHkoFsd8GjFtbCmZcwfeRJwIX
-	 ag6pAGFbLWIIgB7UicZ8bd3cy5DwpThUXV0bm6jsqSLrZgTQOpISxRyZP6tgFrOI2t
-	 f6ETe9lxnNPmQ==
-Message-ID: <4a4f9773-186c-475c-bfac-72e696233501@kernel.org>
-Date: Wed, 8 Jan 2025 10:42:51 +0100
+	s=k20201202; t=1736331584;
+	bh=2F1NrFzFunGtkEPuCgh3gTbxu8JlwOElD4NMwPMw67A=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ckOeQpx3w5mjprCv5AV/IH16AL96ahmq6Hj0lHRYHNlsrg/TbNLS60vqF2Mmy7X49
+	 vlp12ql28ghZCV3hrVC9rzeHOZVSEP/bcALI7uU/FH2DEmAPKA1JVgPHkSrHG7Fcx4
+	 pLgBfary+k6KLNV6iFIOpXzyA6JGqovw2VhHOPNliRbZRl9D75U5tt93omiZ/25QXi
+	 GObV26ziRRStjVHELkFRDbZmw/sSG04ASlPwCJZVg5YquDmEMkvCrB6EQt/4FM2283
+	 ac4io9IIsm0DGeyOUDLihHQ3+r7X7W5xcg/9bBqGxbSH/8ghmmJ1XI2giKA9ZJ9G38
+	 RJXfZCXGYvIrw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=valley-girl.lan)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1tVTA6-00A65Z-C0;
+	Wed, 08 Jan 2025 10:19:42 +0000
+From: Marc Zyngier <maz@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Mostafa Saleh <smostafa@google.com>
+Cc: corbet@lwn.net,
+	Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v3] Documentation: Update the behaviour of "kvm-arm.mode"
+Date: Wed,  8 Jan 2025 10:19:38 +0000
+Message-Id: <173633157442.11636.146865542234649551.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20241025093259.2216093-1-smostafa@google.com>
+References: <20241025093259.2216093-1-smostafa@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] dt-bindings: hwmon: adi,max31827: add MAX31875
-To: John Erasmus Mari Geronimo <johnerasmusmari.geronimo@analog.com>,
- devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-References: <20250108082531.15467-1-johnerasmusmari.geronimo@analog.com>
- <20250108082531.15467-3-johnerasmusmari.geronimo@analog.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250108082531.15467-3-johnerasmusmari.geronimo@analog.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, smostafa@google.com, corbet@lwn.net, will@kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On 08/01/2025 09:25, John Erasmus Mari Geronimo wrote:
-> Add max31875 to dt-bindings of max31827
-> MAX31875 is low-power I2C temperature sensor similar to MAX31827
+On Fri, 25 Oct 2024 09:32:59 +0000, Mostafa Saleh wrote:
+> Commit 5053c3f0519c ("KVM: arm64: Use hVHE in pKVM by default on CPUs with
+> VHE support") modified the behaviour of "kvm-arm.mode=protected" without
+> the updating the kernel parameters doc.
 > 
-> Signed-off-by: John Erasmus Mari Geronimo <johnerasmusmari.geronimo@analog.com>
-> ---
->  .../bindings/hwmon/adi,max31827.yaml           | 18 ++++++++++++++++--
->  1 file changed, 16 insertions(+), 2 deletions(-)
+> Update it to match the current implementation.
 > 
-> diff --git a/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
-> index f60e06ab7..9363fa371 100644
-> --- a/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
-> +++ b/Documentation/devicetree/bindings/hwmon/adi,max31827.yaml
-> @@ -4,16 +4,19 @@
->  $id: http://devicetree.org/schemas/hwmon/adi,max31827.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
->  
-> -title: Analog Devices MAX31827, MAX31828, MAX31829 Low-Power Temperature Switch
-> +title: Analog Devices MAX31827, MAX31828, MAX31829, MAX31875 Low-Power Temperature Switch
->  
->  maintainers:
-> -  - Daniel Matyas <daniel.matyas@analog.com>
-> +  - John Erasmus Mari Geronimo <johnerasmusmari.geronimo@analog.com>
+> Also, update required architecture version for nested virtualization as
+> suggested by Marc.
+> 
+> [...]
+
+Applied to next, thanks!
+
+[1/1] Documentation: Update the behaviour of "kvm-arm.mode"
+      commit: e8440c1e2d23a9ca5e0af1a18be637cbd5a5d44f
+
+Cheers,
+
+	M.
+-- 
+Without deviation from the norm, progress is not possible.
 
 
-This needs to be explained in commit msg.
-
->  
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: adi,max31875
-> +
-> +    then:
-> +      properties:
-> +        adi,fault-q:
-> +          enum: [1, 2, 4, 6]
-
-You need to update top-level property to allow 6. Then narrow the
-choices for rest of the variants.
-
->  
->  required:
->    - compatible
-
-
-Best regards,
-Krzysztof
