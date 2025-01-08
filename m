@@ -1,64 +1,66 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB411FAC5E
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jan 2025 12:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1031FBC94
+	for <linux-doc@vger.kernel.org>; Wed,  8 Jan 2025 12:49:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736340588; cv=none; b=pXzN8fJFJFjVjaAlnVzRaxGJHUr5aVzRLChF2M/JBuawl67f/iYgzsKcq7IVvT0IEg9aBK7dzLiRA9Yi/F7AT9y0E3VpUU7/58myKt/ye/6bl8cvHZ8Sae8JcSg4AJi2l1FSrP6+vrj9jKPYOnGK02MxcYVqHWEmObfnQ83siZE=
+	t=1736340589; cv=none; b=UwkloucKOWG+ApwOTQyMLxKOWPoegBqGx9viMe2UNIuwo2tzyAyjk5mJO64JZSYI6VxAOYDclo+M9zE0hSjTPojap9Na0qDuhziExjrERbhNosehPq+hLEc5sYV/Sz/zt+GbXT3aW3P2OrocmYbZPmfMMsQV6UIQGuo36GG1Hs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736340588; c=relaxed/simple;
-	bh=KmGydHgNNLZRZ14xArcryaDxetquTR6NLcfmO0s4HBk=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=FHa/d46zMGbKNou+u3hp5ZAwxuPnDks8zMv68yVWWFRYVEbp8crbUM2iCHWsGD3q8Iz+aF+PGd62LN6lEfUuZRdBy3B8hy++oVtFIJM+UH/nh60TZbj4pd6DGt2GErWrgifnSjQpCxyDlqTOzPR81qBSK+Z2iA2qKE9Hxp3AAb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=THSWOCdq; arc=none smtp.client-ip=209.85.221.68
+	s=arc-20240116; t=1736340589; c=relaxed/simple;
+	bh=t81/yNLGUuGTbNCX3xw1FFNci9RHYp8JgJnWXFdWioA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=TTRR7SAqjMY+X4jhbB9Vf6p108TMSvivLAFDfkeZbKHU4B+mn22XBQnjsEphh0oACyfpJ06JKDxCP+TetAp/tRRUHoYvvLbMO300r56F9dOSRIfBbJsqfE7PRaPkB8PrvVPnK+C9H4WqKDDOwf+6Sx/BYM6G8N8bG7BkEkWEla8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=pfZqzCOG; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="THSWOCdq"
-Received: by mail-wr1-f68.google.com with SMTP id ffacd0b85a97d-385e0e224cbso8364002f8f.2
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jan 2025 04:49:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="pfZqzCOG"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43675b1155bso161130375e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 08 Jan 2025 04:49:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736340583; x=1736945383; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kTPRHlVS1liPDPiJyJ4YA3l7fo0hLRRppQlZFlUkkhI=;
-        b=THSWOCdqTN2GT162hlTYP4HGhcmUJrDQPK8bYWzWzB0a/pEwqye0tbZac6PMragmA2
-         oCGiaIVJpZJ6XCVriCt+8YGoTk8n6suojogGkaK6VBplhRCMga3NUQA+ui+WsUx+F7Bj
-         otskIZx93q2kdLGZsFACoSi3AUR9dbMapurV2lxv2cViKhj0DcURbbGJ4EYb3yXdQfqs
-         KQmFu9NftRbLrIkfSjdLCdLvnoxYUYuxCmyGK5ueF+jr/GYXFSw0PoEP8vVe7WH+b/Qp
-         a3PZU1s2WtwgZMd94cgOzyeOa/+OxRp98QkdWk6oa60Xkne77oevVAgBpJkqSXa1eyuR
-         fZrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736340583; x=1736945383;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736340586; x=1736945386; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kTPRHlVS1liPDPiJyJ4YA3l7fo0hLRRppQlZFlUkkhI=;
-        b=W5NWn1qZkSwcND6qkko21zS/wHdJrx9ek9nV/NzSemTOR6kdukHSLx4wOt2QeccUze
-         lVdkOJ6APUUhSsAmxBY5JhX/ew/ou4Ll8LzlHD0bc3eI/zfRBWWQvY6/BYJJc8MGq/GP
-         obxhTEHhbzqRK5fpsq0HKK/7kO610nt+Fnd9C8O5RkM2JYXX0YanF4NktMZnr2AU4qQC
-         /Wn04OzrMyiqezB1ubvmChwHFSL34wCPzUpYiq8+l8MLbwxfRp/BWPgaVfJy2WLcavjT
-         1oV4H8vA2JRGJZ3Oe5EVPQAVCPRPrJm51R9GCIC52yFd1zxUPawCdoZsu8UfDFQZWnpH
-         mTNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU313fvqEEK3gNO8Q+v8Fi/LRg9hkft1m4grxT6UUr01NwiuEbaeu8l6m1lfMXX7Z+7QrbYU7CcuB8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZvrb5XV+c19wlzo1+ftPaueN+OtE8QyN7WRUYIzcGLmDFRzJf
-	0M9vQRTpZEqjy00rkgdIYsju8bN5HYmmiiiA+ZuDsbmhQEYKlUsAssyrhC3oics=
-X-Gm-Gg: ASbGncuNS6O9Xnfi0BbJNTzgu12hWB3J211N9jIRecz05B+4zyP+0whSGi3ALemqbc4
-	WDLL0UG20Do7Fjq9+zSiYadXopn1jecMGKEP/3/TXjnZJXYIdgbchAaGwUOSXGxOcoTgJY43DRM
-	tQtA4eLfz63hcvYnebIPoc2uNdquBkapPE+Q2YOHQtbmyuCzirG4Bg7//pg7lnDlPms+kudXB2k
-	lIMvcz9xr/59GBG4P4FNGG7CuDHja2nELGNjHSOreBMtm8NIi0S+ce2t4WJ4O6sWDdelL7y2f+0
-	uGAdA6obPdTGHiwnCK2vqCA86etZir0OvqFfIRN8XNvIhGfNM+l2jg==
-X-Google-Smtp-Source: AGHT+IH2/6ZUjBDO77lZA0i6ON5WHfOGrSu5OgNDrSVHzUtHNMDrY0bgyO6kLF9SSUphC3YN0b80/Q==
-X-Received: by 2002:a05:6000:4a0c:b0:386:33e8:20f4 with SMTP id ffacd0b85a97d-38a8731b9c1mr1951004f8f.59.1736340582772;
-        Wed, 08 Jan 2025 04:49:42 -0800 (PST)
+        bh=/ILpJ8cyEJ/3U1U5xHGXrfoZNcmFJHQkvJM8+6HPLCw=;
+        b=pfZqzCOGNjdLQx1chrdfBhl9ZObI+GNJ0YzKT9GzwV25PwqjZDU84j4TfUI+A6BQrj
+         m7KSPtxskZq+CF3XaVIxE2pl2u1XAskJm2P4XX6KFEem1e9ZNl/xLrwprd6s24WfVbkj
+         XDNxjbGj4Jkeq/MLhCHOrXMvBK6jSHRH6l2MK6V1WENgWuAU43FBmsrkAlxAaXdHxUKI
+         PfH70AEj5Dbo/kyCs39gIoPphaj51cVkG8SNlNlsigaj9i5ShXnwIuNh89lYtoJmq9pm
+         hNDWzt3YAE+ov3OGhVCpcsavWaaETdZly4/5+NVswTGocfSkElXnTq+wVM3drZEJaywY
+         81HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736340586; x=1736945386;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/ILpJ8cyEJ/3U1U5xHGXrfoZNcmFJHQkvJM8+6HPLCw=;
+        b=SRZtdce6iGr9UzpOHcjs5t8sndzLbIr0z7IXqKKPjoLncOeQx+CGrcbkodWpQbNf7O
+         ZFOzW5LhylCk8jJGsw8XviHZOS+O60YdnKam1zUypmO/Bwu/wv7aJDRouwGbStwFE7sC
+         qVUH00mKYDR5L/SER/yDikm6GPiKRhbZKXxBvcGnhVBkSolNKAvhSWvGUd0EDMkcRK9l
+         NoiM3dhHTbISjrDZRkgLs4SjqzQ/3TwNuUDwbT8SQYRVXQgLbEToQ8UsSgKbpB9N1BLc
+         QdEF9e6XI8J7egtQFNHbn4vX5PVo4tv4TrYQN/eh01DiugnlAGCCSn0II7ZYavUFRFI3
+         NnYA==
+X-Forwarded-Encrypted: i=1; AJvYcCVr5N/LwSqBFCLSEYYH+tk6TCaMljt9rQ2QwFO3UQGZxDqjHSHvrv33NAGaL3WGB6FG4CoJQUMw5ng=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIZV/aMcwW1QI56SPCa1EvnBg6MrvdVC/8BpV4fiUvsxTLrR2g
+	JtCI+dPvrSUf8a5a5ogjgH77Badef8m+UULntw/8W3MJyUBOCuXHV8opvhitn3E=
+X-Gm-Gg: ASbGncuQbAdiZ4DPLzq/yw4JE1HTdaCs894y1dBPkqwyq5tYqeyHQyZWaMhvZlRwv5x
+	7+vchUhyZrmFUJ25J8CIVz0P2s6dOaSgMuxDKgn1kjAll8NNFNVkpJjZqNtfy2wOEOeJ+J/Jbab
+	pflx2jvBeSothIJfzjB7sIYsDLSjGk7avaACoRU8bTI9FLJ41AgyUpfFJ9y1GBa85GKa0sJ6dWy
+	M9tI1aty2ii3raVExD0KXa7JmRF4OxRiMzxxA6HrYuWgQamixAj/rcIpbTWvAHdKvjPWkmLzkYq
+	OniiueSgaceU6y5+7JK3PJiVeC/Ya1Hezms39u26YSyZdI0Uiek8sA==
+X-Google-Smtp-Source: AGHT+IEJUKPIsY0/+87opxSoC/qv+r+Aof0lKFXqkysIxkeur2mxHgvy0OB9e0pOpf72jDBsYf4V4A==
+X-Received: by 2002:a05:600c:138a:b0:434:a781:f5d5 with SMTP id 5b1f17b1804b1-436e271bcb3mr24895925e9.30.1736340585622;
+        Wed, 08 Jan 2025 04:49:45 -0800 (PST)
 Received: from jstephan-bl.local (2a02-842a-d52e-6101-6fd0-06c4-5d68-f0a5.rev.sfr.net. [2a02:842a:d52e:6101:6fd0:6c4:5d68:f0a5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2da63eesm19846805e9.3.2025.01.08.04.49.42
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2da63eesm19846805e9.3.2025.01.08.04.49.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 04:49:42 -0800 (PST)
+        Wed, 08 Jan 2025 04:49:45 -0800 (PST)
 From: Julien Stephan <jstephan@baylibre.com>
-Subject: [PATCH v4 0/5] iio: adc: ad7380: add alert support
-Date: Wed, 08 Jan 2025 13:49:32 +0100
-Message-Id: <20250108-ad7380-add-alert-support-v4-0-1751802471ba@baylibre.com>
+Date: Wed, 08 Jan 2025 13:49:35 +0100
+Subject: [PATCH v4 3/5] iio: adc: ad7380: do not store osr in private data
+ structure
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,12 +69,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFx0fmcC/43N3YrCMBAF4FeRXG9k8tMm9cr3EC+SzFQDrq1JW
- xTpuxsVEZZFvDqcgfnOlWVKkTJbLa4s0RRz7I6l6J8FC3t33BGPWDqTILUA2XCHRlkogdwdKA0
- 8j33fldQIiHUgZwOy8t4nauP5QW+2z57oNJaF4X3cxzx06fKYn8T9+sXSJLjgCKpqNAhvrF17d
- zlEn2gZul92dyf5tqTUHyzJgZtgGy99a4JX/1jqZVUgwHywVLF8IAGuxbqq/R9rnucbcfLqinA
- BAAA=
-X-Change-ID: 20241029-ad7380-add-alert-support-4d0dd6cea8cd
+Message-Id: <20250108-ad7380-add-alert-support-v4-3-1751802471ba@baylibre.com>
+References: <20250108-ad7380-add-alert-support-v4-0-1751802471ba@baylibre.com>
+In-Reply-To: <20250108-ad7380-add-alert-support-v4-0-1751802471ba@baylibre.com>
 To: Lars-Peter Clausen <lars@metafoo.de>, 
  Michael Hennerich <Michael.Hennerich@analog.com>, 
  =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
@@ -82,69 +81,213 @@ Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org, Julien Stephan <jstephan@baylibre.com>
 X-Mailer: b4 0.14.2
 
-Hello,
+Since regmap cache is now enabled, we don't need to store the
+oversampling ratio in the private data structure.
 
-The ad738x family includes a built-in alert mechanism for early
-detection of out-of-bounds conversion results. This series introduces
-this functionality to the ad7380 family.
-
-This is the first non RFC version of the series (RFC available at [1] and [2]).
-
-Given the fact that the main use case is to hardwire the interrupt line
-and according to discussions in V2 about interrupts, I think the best is
-to not generate events, at least while we don't have a reasonable way to
-correctly and efficiently handle interrupts.
-
-Events attributes are still populated to allow user to set a threshold
-and enable alert detection, so alert pin can be hardwired.
-
-Userspace event can still be added later if needed.
-
-[1]: https://lore.kernel.org/r/20241029-ad7380-add-aleyyrt-support-v1-1-d0359401b788@baylibre.com
-[2]: https://lore.kernel.org/r/20241224-ad7380-add-alert-support-v2-0-7c89b2bf7cb3@baylibre.com
-
+Reviewed-by: David Lechner <dlechner@baylibre.com>
 Signed-off-by: Julien Stephan <jstephan@baylibre.com>
 ---
-Changes in v4:
-- docs: fix some nitpicks from David Lechner
-- driver: fix some nitpicks from David Lechner and use helper functions
-  to get/set the thresholds
-- driver: fix reading the low threshold value
-- add Reviewed-by tag from David Lechner
-- Link to v3: https://lore.kernel.org/r/20250107-ad7380-add-alert-support-v3-0-bce10afd656b@baylibre.com
+ drivers/iio/adc/ad7380.c | 79 +++++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 65 insertions(+), 14 deletions(-)
 
-Changes in v3:
-- split regmap cache commit in two
-- remove interrupt handling completely, updating commit messages,
-  driver, and doc
-- fix minor comments from v2 review
-- improve commit message for iio_device_claim_direct_scoped removal
-- Link to v2: https://lore.kernel.org/r/20241224-ad7380-add-alert-support-v2-0-7c89b2bf7cb3@baylibre.com
+diff --git a/drivers/iio/adc/ad7380.c b/drivers/iio/adc/ad7380.c
+index b97d2978289e92ad502cd6a67de43d2b51cdab56..a532de4422082df8503454d66fc49f75b52cff68 100644
+--- a/drivers/iio/adc/ad7380.c
++++ b/drivers/iio/adc/ad7380.c
+@@ -582,7 +582,6 @@ struct ad7380_state {
+ 	const struct ad7380_chip_info *chip_info;
+ 	struct spi_device *spi;
+ 	struct regmap *regmap;
+-	unsigned int oversampling_ratio;
+ 	bool resolution_boost_enabled;
+ 	unsigned int ch;
+ 	bool seq;
+@@ -710,6 +709,36 @@ static int ad7380_debugfs_reg_access(struct iio_dev *indio_dev, u32 reg,
+ 	return ret;
+ }
+ 
++/**
++ * ad7380_regval_to_osr - convert OSR register value to ratio
++ * @regval: register value to check
++ *
++ * Returns: the ratio corresponding to the OSR register. If regval is not in
++ * bound, return 1 (oversampling disabled)
++ *
++ */
++static int ad7380_regval_to_osr(unsigned int regval)
++{
++	if (regval >= ARRAY_SIZE(ad7380_oversampling_ratios))
++		return 1;
++
++	return ad7380_oversampling_ratios[regval];
++}
++
++static int ad7380_get_osr(struct ad7380_state *st, int *val)
++{
++	u32 tmp;
++	int ret;
++
++	ret = regmap_read(st->regmap, AD7380_REG_ADDR_CONFIG1, &tmp);
++	if (ret)
++		return ret;
++
++	*val = ad7380_regval_to_osr(FIELD_GET(AD7380_CONFIG1_OSR, tmp));
++
++	return 0;
++}
++
+ /*
+  * When switching channel, the ADC require an additional settling time.
+  * According to the datasheet, data is value on the third CS low. We already
+@@ -725,11 +754,15 @@ static int ad7380_set_ch(struct ad7380_state *st, unsigned int ch)
+ 			.unit = SPI_DELAY_UNIT_NSECS,
+ 		}
+ 	};
+-	int ret;
++	int oversampling_ratio, ret;
+ 
+ 	if (st->ch == ch)
+ 		return 0;
+ 
++	ret = ad7380_get_osr(st, &oversampling_ratio);
++	if (ret)
++		return ret;
++
+ 	ret = regmap_update_bits(st->regmap,
+ 				 AD7380_REG_ADDR_CONFIG1,
+ 				 AD7380_CONFIG1_CH,
+@@ -740,9 +773,9 @@ static int ad7380_set_ch(struct ad7380_state *st, unsigned int ch)
+ 
+ 	st->ch = ch;
+ 
+-	if (st->oversampling_ratio > 1)
++	if (oversampling_ratio > 1)
+ 		xfer.delay.value = T_CONVERT_0_NS +
+-			T_CONVERT_X_NS * (st->oversampling_ratio - 1) *
++			T_CONVERT_X_NS * (oversampling_ratio - 1) *
+ 			st->chip_info->num_simult_channels / AD7380_NUM_SDO_LINES;
+ 
+ 	return spi_sync_transfer(st->spi, &xfer, 1);
+@@ -753,20 +786,25 @@ static int ad7380_set_ch(struct ad7380_state *st, unsigned int ch)
+  * @st:		device instance specific state
+  * @scan_type:	current scan type
+  */
+-static void ad7380_update_xfers(struct ad7380_state *st,
++static int ad7380_update_xfers(struct ad7380_state *st,
+ 				const struct iio_scan_type *scan_type)
+ {
+ 	struct spi_transfer *xfer = st->seq ? st->seq_xfer : st->normal_xfer;
+ 	unsigned int t_convert = T_CONVERT_NS;
++	int oversampling_ratio, ret;
+ 
+ 	/*
+ 	 * In the case of oversampling, conversion time is higher than in normal
+ 	 * mode. Technically T_CONVERT_X_NS is lower for some chips, but we use
+ 	 * the maximum value for simplicity for now.
+ 	 */
+-	if (st->oversampling_ratio > 1)
++	ret = ad7380_get_osr(st, &oversampling_ratio);
++	if (ret)
++		return ret;
++
++	if (oversampling_ratio > 1)
+ 		t_convert = T_CONVERT_0_NS + T_CONVERT_X_NS *
+-			(st->oversampling_ratio - 1) *
++			(oversampling_ratio - 1) *
+ 			st->chip_info->num_simult_channels / AD7380_NUM_SDO_LINES;
+ 
+ 	if (st->seq) {
+@@ -779,7 +817,7 @@ static void ad7380_update_xfers(struct ad7380_state *st,
+ 			st->chip_info->num_simult_channels;
+ 		xfer[3].rx_buf = xfer[2].rx_buf + xfer[2].len;
+ 		/* Additional delay required here when oversampling is enabled */
+-		if (st->oversampling_ratio > 1)
++		if (oversampling_ratio > 1)
+ 			xfer[2].delay.value = t_convert;
+ 		else
+ 			xfer[2].delay.value = 0;
+@@ -791,6 +829,8 @@ static void ad7380_update_xfers(struct ad7380_state *st,
+ 		xfer[1].len = BITS_TO_BYTES(scan_type->storagebits) *
+ 			st->chip_info->num_simult_channels;
+ 	}
++
++	return 0;
+ }
+ 
+ static int ad7380_triggered_buffer_preenable(struct iio_dev *indio_dev)
+@@ -798,6 +838,7 @@ static int ad7380_triggered_buffer_preenable(struct iio_dev *indio_dev)
+ 	struct ad7380_state *st = iio_priv(indio_dev);
+ 	const struct iio_scan_type *scan_type;
+ 	struct spi_message *msg = &st->normal_msg;
++	int ret;
+ 
+ 	/*
+ 	 * Currently, we always read all channels at the same time. The scan_type
+@@ -809,7 +850,6 @@ static int ad7380_triggered_buffer_preenable(struct iio_dev *indio_dev)
+ 
+ 	if (st->chip_info->has_mux) {
+ 		unsigned int index;
+-		int ret;
+ 
+ 		/*
+ 		 * Depending on the requested scan_mask and current state,
+@@ -840,7 +880,9 @@ static int ad7380_triggered_buffer_preenable(struct iio_dev *indio_dev)
+ 
+ 	}
+ 
+-	ad7380_update_xfers(st, scan_type);
++	ret = ad7380_update_xfers(st, scan_type);
++	if (ret)
++		return ret;
+ 
+ 	return spi_optimize_message(st->spi, msg);
+ }
+@@ -913,7 +955,9 @@ static int ad7380_read_direct(struct ad7380_state *st, unsigned int scan_index,
+ 			return ret;
+ 	}
+ 
+-	ad7380_update_xfers(st, scan_type);
++	ret = ad7380_update_xfers(st, scan_type);
++	if (ret)
++		return ret;
+ 
+ 	ret = spi_sync(st->spi, &st->normal_msg);
+ 	if (ret < 0)
+@@ -991,7 +1035,16 @@ static int ad7380_read_raw(struct iio_dev *indio_dev,
+ 
+ 		return IIO_VAL_INT;
+ 	case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
+-		*val = st->oversampling_ratio;
++		ret = iio_device_claim_direct_mode(indio_dev);
++		if (ret)
++			return ret;
++
++		ret = ad7380_get_osr(st, val);
++
++		iio_device_release_direct_mode(indio_dev);
++
++		if (ret)
++			return ret;
+ 
+ 		return IIO_VAL_INT;
+ 	default:
+@@ -1058,7 +1111,6 @@ static int ad7380_set_oversampling_ratio(struct ad7380_state *st, int val)
+ 	if (ret)
+ 		return ret;
+ 
+-	st->oversampling_ratio = val;
+ 	st->resolution_boost_enabled = boost;
+ 
+ 	/*
+@@ -1134,7 +1186,6 @@ static int ad7380_init(struct ad7380_state *st, bool external_ref_en)
+ 	}
+ 
+ 	/* This is the default value after reset. */
+-	st->oversampling_ratio = 1;
+ 	st->ch = 0;
+ 	st->seq = false;
+ 
 
-Changes in v2:
-- fix read/write high/low thresholds
-- add reset_timeout mechanism for buffered reads
-- implement regcache
-- add cleanup patch to remove iio_device_claim_direct_scoped calls
-- add alert section in the Documentation page
-- Link to v1: https://lore.kernel.org/r/20241029-ad7380-add-aleyyrt-support-v1-1-d0359401b788@baylibre.com
-
----
-Julien Stephan (5):
-      iio: adc: ad7380: do not use iio_device_claim_direct_scoped anymore
-      iio: adc: ad7380: enable regmap cache
-      iio: adc: ad7380: do not store osr in private data structure
-      iio: adc: ad7380: add alert support
-      docs: iio: ad7380: add alert support
-
- Documentation/iio/ad7380.rst |  33 +++-
- drivers/iio/adc/ad7380.c     | 402 +++++++++++++++++++++++++++++++++++++------
- 2 files changed, 378 insertions(+), 57 deletions(-)
----
-base-commit: 5ab39233382c621d3271cc274d1534e1b687f4d3
-change-id: 20241029-ad7380-add-alert-support-4d0dd6cea8cd
-
-Best regards,
 -- 
-Julien Stephan <jstephan@baylibre.com>
+2.47.1
 
