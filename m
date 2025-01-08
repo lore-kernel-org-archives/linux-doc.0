@@ -1,84 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from a.mx.secunet.com (a.mx.secunet.com [62.96.220.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C421F76D4;
-	Wed,  8 Jan 2025 10:19:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC5F18B463;
+	Wed,  8 Jan 2025 10:25:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.96.220.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736331585; cv=none; b=DQBhVXDKxzyk6RKcI12mXOXs2jk/o5eauX+7PdtDN/uebB4F1ICCHnpb7dT8EfkrMv5d2kOZZz1MGl2IQCatX4oeAvn87QsdRAHj4F0Rpqj2Br6niAXN3DIMH0rc3CXjsdQbzhSizseon46xi+24BqghBFvFI/Unckp8XCOh3Ko=
+	t=1736331930; cv=none; b=FGRPJ9olmSitNGxJcakRaLhqnegrd9WwRDgESTjxEdtscmtIxaVgHhEH2jFpkCMmr7/2Y1ilRZzsDz+VaIof/CcK6S9V1tB5DK37krv6yj77JYpSJvtncG3pLTZd6Hc+gtAlcIezsAtan1p2aHNUBhJBZP5+xa4C4fH9dfMbBBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736331585; c=relaxed/simple;
-	bh=2F1NrFzFunGtkEPuCgh3gTbxu8JlwOElD4NMwPMw67A=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LnX91Hd4BQaGgcT1J1qlcloQyW8OlCjaGFCeJO28F2XvT8v1TsXH1eKEYnV4v3kHfUDPGWokCTBlSHt6hC5PaCvOeYLf8q/divfdZuelNlKlV8Pxm0YOQ7qUElYVYGn4GgPMYONhNeuUv/68QFiS4RW5OaZxwOlJgi5DDrH6W+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ckOeQpx3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736331930; c=relaxed/simple;
+	bh=3cZ55hodolcBonWydC/oE7gQh6CX1J5FFqedEknJZJQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D9sGrMATHMWkGtcz9/DyGMBkZhLIGOLKNVL81dPUy7/eRsNUssXltdmoSu26CsJjwiE0jl3wKuk1b+U0SVoG8OZs6/2qRekdaScooD/yFI+SfwP6mmphSAU7fq3PzuiXG69puvBe0IkvSdkMclc2Cp7SWQdrVpRztzalCfT3KDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=secunet.com; spf=pass smtp.mailfrom=secunet.com; dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b=gUJbR3m3; arc=none smtp.client-ip=62.96.220.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=secunet.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=secunet.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ckOeQpx3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CACFDC4CEDF;
-	Wed,  8 Jan 2025 10:19:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736331584;
-	bh=2F1NrFzFunGtkEPuCgh3gTbxu8JlwOElD4NMwPMw67A=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ckOeQpx3w5mjprCv5AV/IH16AL96ahmq6Hj0lHRYHNlsrg/TbNLS60vqF2Mmy7X49
-	 vlp12ql28ghZCV3hrVC9rzeHOZVSEP/bcALI7uU/FH2DEmAPKA1JVgPHkSrHG7Fcx4
-	 pLgBfary+k6KLNV6iFIOpXzyA6JGqovw2VhHOPNliRbZRl9D75U5tt93omiZ/25QXi
-	 GObV26ziRRStjVHELkFRDbZmw/sSG04ASlPwCJZVg5YquDmEMkvCrB6EQt/4FM2283
-	 ac4io9IIsm0DGeyOUDLihHQ3+r7X7W5xcg/9bBqGxbSH/8ghmmJ1XI2giKA9ZJ9G38
-	 RJXfZCXGYvIrw==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=valley-girl.lan)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1tVTA6-00A65Z-C0;
-	Wed, 08 Jan 2025 10:19:42 +0000
-From: Marc Zyngier <maz@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Mostafa Saleh <smostafa@google.com>
-Cc: corbet@lwn.net,
-	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v3] Documentation: Update the behaviour of "kvm-arm.mode"
-Date: Wed,  8 Jan 2025 10:19:38 +0000
-Message-Id: <173633157442.11636.146865542234649551.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20241025093259.2216093-1-smostafa@google.com>
-References: <20241025093259.2216093-1-smostafa@google.com>
+	dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b="gUJbR3m3"
+Received: from localhost (localhost [127.0.0.1])
+	by a.mx.secunet.com (Postfix) with ESMTP id 74B8020842;
+	Wed,  8 Jan 2025 11:25:25 +0100 (CET)
+X-Virus-Scanned: by secunet
+Received: from a.mx.secunet.com ([127.0.0.1])
+	by localhost (a.mx.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id RUVdqUoOIaqi; Wed,  8 Jan 2025 11:25:24 +0100 (CET)
+Received: from cas-essen-01.secunet.de (rl1.secunet.de [10.53.40.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by a.mx.secunet.com (Postfix) with ESMTPS id DC64720839;
+	Wed,  8 Jan 2025 11:25:24 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 a.mx.secunet.com DC64720839
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secunet.com;
+	s=202301; t=1736331924;
+	bh=usGPeQ402tsz9Fi75tKbQFlNSZtqq/m5TNddeEQ1ofg=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To:From;
+	b=gUJbR3m3btQZajtjq8qboCjn8896kCM0S6a2Sw6gXB2ufHgD0U6BPKA28Dgtzvdoe
+	 eCYwAncSUsaOxq9XIozt+Tu0OvoAsH1gTE00/IbjuDZClIvo3G0uaMMNsL3SmTPNI1
+	 A2YYoGoGING3SVYrv4KxMOh0tjwdeAmCQipxy52Z0MNIHZFUKy42nJvxOZiCbyXfOX
+	 n3UKdGzGaTifhipYMyOFIybRVJRnHRsTRwBpnyUWclczfev6akSA+WRPWo65xP/RTJ
+	 hCRP3GpWvDGjD7JbR7g0LlFA3KlSZS3kp1YYx7WAhhp6tpQg+zLTIjlHI+N0mHlsin
+	 Ltib/SSRC/gmA==
+Received: from mbx-essen-02.secunet.de (10.53.40.198) by
+ cas-essen-01.secunet.de (10.53.40.201) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 8 Jan 2025 11:25:24 +0100
+Received: from gauss2.secunet.de (10.182.7.193) by mbx-essen-02.secunet.de
+ (10.53.40.198) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 8 Jan
+ 2025 11:25:24 +0100
+Received: by gauss2.secunet.de (Postfix, from userid 1000)
+	id 0F9DC3183F0A; Wed,  8 Jan 2025 11:25:24 +0100 (CET)
+Date: Wed, 8 Jan 2025 11:25:23 +0100
+From: Steffen Klassert <steffen.klassert@secunet.com>
+To: Leon Romanovsky <leon@kernel.org>
+CC: Jianbo Liu <jianbol@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"Eric Dumazet" <edumazet@google.com>, Herbert Xu
+	<herbert@gondor.apana.org.au>, Jakub Kicinski <kuba@kernel.org>, Jonathan
+ Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+	<linux-rdma@vger.kernel.org>, <netdev@vger.kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, "Potnuri Bharat Teja" <bharat@chelsio.com>, Saeed
+ Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>
+Subject: Re: [PATCH ipsec-next 1/2] xfrm: Support ESN context update to
+ hardware for TX
+Message-ID: <Z35Sk688mOcePbJE@gauss3.secunet.de>
+References: <874f965d786606b0b4351c976f50271349f68b03.1734611621.git.leon@kernel.org>
+ <20250107102204.GB87447@unreal>
+ <Z30WcStdG5Z4tDru@gauss3.secunet.de>
+ <20250107120905.GD87447@unreal>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, smostafa@google.com, corbet@lwn.net, will@kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250107120905.GD87447@unreal>
+X-ClientProxiedBy: cas-essen-02.secunet.de (10.53.40.202) To
+ mbx-essen-02.secunet.de (10.53.40.198)
+X-EXCLAIMER-MD-CONFIG: 2c86f778-e09b-4440-8b15-867914633a10
 
-On Fri, 25 Oct 2024 09:32:59 +0000, Mostafa Saleh wrote:
-> Commit 5053c3f0519c ("KVM: arm64: Use hVHE in pKVM by default on CPUs with
-> VHE support") modified the behaviour of "kvm-arm.mode=protected" without
-> the updating the kernel parameters doc.
+On Tue, Jan 07, 2025 at 02:09:05PM +0200, Leon Romanovsky wrote:
+> On Tue, Jan 07, 2025 at 12:56:33PM +0100, Steffen Klassert wrote:
+> > On Tue, Jan 07, 2025 at 12:22:04PM +0200, Leon Romanovsky wrote:
+> > > On Thu, Dec 19, 2024 at 02:37:29PM +0200, Leon Romanovsky wrote:
+> > > > From: Jianbo Liu <jianbol@nvidia.com>
+> > > > 
+> > > > Previously xfrm_dev_state_advance_esn() was added for RX only. But
+> > > > it's possible that ESN context also need to be synced to hardware for
+> > > > TX, so call it for outbound in this patch.
+> > > > 
+> > > > Signed-off-by: Jianbo Liu <jianbol@nvidia.com>
+> > > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > > > ---
+> > > >  Documentation/networking/xfrm_device.rst                 | 3 ++-
+> > > >  drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c          | 3 +++
+> > > >  drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c | 3 +++
+> > > >  net/xfrm/xfrm_replay.c                                   | 1 +
+> > > >  4 files changed, 9 insertions(+), 1 deletion(-)
+> > > 
+> > > Steffen,
+> > > 
+> > > This is kindly reminder.
+> > 
+> > Sorry for the dealy, the holidays came faster than expected :)
+> > 
+> > > > diff --git a/net/xfrm/xfrm_replay.c b/net/xfrm/xfrm_replay.c
+> > > > index bc56c6305725..e500aebbad22 100644
+> > > > --- a/net/xfrm/xfrm_replay.c
+> > > > +++ b/net/xfrm/xfrm_replay.c
+> > > > @@ -729,6 +729,7 @@ static int xfrm_replay_overflow_offload_esn(struct xfrm_state *x, struct sk_buff
+> > > >  		}
+> > > >  
+> > > >  		replay_esn->oseq = oseq;
+> > > > +		xfrm_dev_state_advance_esn(x);
+> > 
+> > This is the only line of code that this patchset adds
+> > to the xfrm stack, so merging this through mlx5 might
+> > create less conflicts.
+> > 
+> > In case you want to do that, you can add my 'Acked-by'
+> > to this patch. Otherwise I'll pull it into the ipsec-next
+> > tree tomorrow.
 > 
-> Update it to match the current implementation.
-> 
-> Also, update required architecture version for nested virtualization as
-> suggested by Marc.
-> 
-> [...]
+> Let's do it through your tree, please. IMHO, it is more appropriate.
 
-Applied to next, thanks!
-
-[1/1] Documentation: Update the behaviour of "kvm-arm.mode"
-      commit: e8440c1e2d23a9ca5e0af1a18be637cbd5a5d44f
-
-Cheers,
-
-	M.
--- 
-Without deviation from the norm, progress is not possible.
-
-
+Ok, series applied to ipsec-next, thanks everyone!
