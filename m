@@ -1,81 +1,80 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7768C1FECBD;
-	Wed,  8 Jan 2025 18:04:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061AA4F5E0;
+	Wed,  8 Jan 2025 18:05:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736359455; cv=none; b=WAOER07HlJ3xYBLSeGCUAz0ruYZaLyEqRQ78ohNWTt8VBdi2YHha6CQBKi3gMv8JeelAxziA3xOTKmGj6J7puSfyQpRmxZP4myPIfwO+t/fUttfk7yRkv22PkH40+BMpsqzfiMXK7fDs6uta/SJ2ch6uLIoOvbGE1L2bUegxXaw=
+	t=1736359556; cv=none; b=RZobnlDxKzJmSkMESt/g33AcWKi2dMsc2659XRQ1khEcrkhwc/ZHP2y+TsaS+skWKgU4yNcw7Av9LwI+jKt0VKy/YWko8RPU+qCxLqOs2uLM/3QpI8vVKaPY0ibEKfQx4eI4UjYssewBF5VwKZp1FJuNXvrHFdOpFzs6D29gsg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736359455; c=relaxed/simple;
-	bh=8R2XSHGVqdQXpdb4FUctuwio24PfF1TOS0orPy+ml44=;
+	s=arc-20240116; t=1736359556; c=relaxed/simple;
+	bh=iCjJUyHztqI8FquwVehZGazD94xzMJkUgV+MiYMdi2c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eTzt8K6iUzZNGLVeo8UHtUs6I5sJI5bczxAyNFtx6cMNXT350oW3hJxwZnLCMpBbO9HgElDAkcyn22OdC8J6jwRj8IrktNTrq7Qp2PSawB9/YhNUbCL7Vpgv8iHtGO4JxwKie1Kc/mjP+zddE8JBV6WojgiBHwdAhDHtXrNNwVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ddx26eL9; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=2uR8swvh; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=COZ04nYl; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=DapUm3vo; arc=none smtp.client-ip=195.135.223.131
+	 In-Reply-To:Content-Type; b=DZcfskK1QLnsgguz2XUlTrg2qcrBN//AbzP5srnBjRC6rLiZgYL9yqmZrIeOTuuDZgAVa1daTVI2ehw9+L/8ZMfov4XAkdTzJWUtGjEP4LxJ/Tm7Eb1yDU+b1tRp+L8Pkmr2qquWWBTun05cwY8hkfBlioVZo2HhSh63V0YfJOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hLit5dL2; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=aeOuvTEe; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jQyUdihh; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=qL0Csa1r; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ddx26eL9";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="2uR8swvh";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="COZ04nYl";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="DapUm3vo"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hLit5dL2";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="aeOuvTEe";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jQyUdihh";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="qL0Csa1r"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1663E1F385;
-	Wed,  8 Jan 2025 18:04:10 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id ED41B1F385;
+	Wed,  8 Jan 2025 18:05:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1736359451; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1736359553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=kJOfqpteTkENd9oTA2jIYJFgnSCpujF1dC7mWHoM7sI=;
-	b=ddx26eL9Xt2NKyQFNquTQusQlk/UocEW7qHr+aTeX17rzTmXUUWlkixkUDtR9Kq5CsQpDO
-	euyx2mqPt2yFjXzs3gU3t6nKcGYHNHdMnrp7RNnSINc4SLK52rhgTsfqdeAAho4cWdBchS
-	YnQ1dpr7ZnF6cprYB12gGpZNFKPt63k=
+	bh=8o0fOIjvlsIix+BF0/4NjnEamwniCIjMH4vTxOVi3lI=;
+	b=hLit5dL2W7AAv50h/R7W0IbSQQkZ4oKM6qiGKW5O71cgJlRnuomNaKUO30mdiKVs7tODrL
+	vXukLWyXpvDX2qyP0EpJ8HBtnZxyIrJNISh+Hi8HhPVNyy1MC9b5nzBVncfVIYSoTqzabl
+	aDR237AGchmZZOcl12lL5/ocNh3vx6I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1736359451;
+	s=susede2_ed25519; t=1736359553;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=kJOfqpteTkENd9oTA2jIYJFgnSCpujF1dC7mWHoM7sI=;
-	b=2uR8swvhwieg62K4QPJWx7Q3KwpIrXU/u7c1dNH30rgcdrLmD10cuRDxX3lAsu2gFyIdvR
-	c5J1FKalLxEJ25Aw==
+	bh=8o0fOIjvlsIix+BF0/4NjnEamwniCIjMH4vTxOVi3lI=;
+	b=aeOuvTEej3Tbe7HZPEn0XJQhfkdMUqyAMDABYpCkHZScUfhDWVu05r1YrXwy8oD0QaxWJI
+	+iqV67h2E9liUqBQ==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=COZ04nYl;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=DapUm3vo
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1736359450; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1736359552; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=kJOfqpteTkENd9oTA2jIYJFgnSCpujF1dC7mWHoM7sI=;
-	b=COZ04nYlUEW8QCrUYosgMEM3M++JUKq2J1uL7ocLSUD9mYQC8pgON7BV0BXxDMG2QAfFb+
-	aihs9LjOpEsTiNqhf0ViBIB2LN5r9YMMzOa0qOzKWl6xdp/49fFp1kqjRp4STymMiyovN0
-	Bjup20MWHUm04RyHsFu+HyHsjJ0x1OQ=
+	bh=8o0fOIjvlsIix+BF0/4NjnEamwniCIjMH4vTxOVi3lI=;
+	b=jQyUdihh/dYQQ4iFONIzGDrQwvrYJUvcf+ushj8jB4qy+ZH06y70/j3l6KlBC1YjN/zsop
+	J5hE1eEX8zm7b2JC3cvXUpZQnPv9XKkB6AFw2JKNolZvohNkfoQHhCLXZotvcbIiT7tbOg
+	98ALsdyxrRdhOXIXtVWHBYi90S6SF5U=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1736359450;
+	s=susede2_ed25519; t=1736359552;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=kJOfqpteTkENd9oTA2jIYJFgnSCpujF1dC7mWHoM7sI=;
-	b=DapUm3vonTatBRnHjFZ9oJPUXKneZbdvLzuQcL2Upvze0skmr/O3zyvTYUC7lCe/d/jjTs
-	YDrgiOb8gSDlflAA==
+	bh=8o0fOIjvlsIix+BF0/4NjnEamwniCIjMH4vTxOVi3lI=;
+	b=qL0Csa1rXAZzPEJoG3R0mJJn2QBYk2u4YqZq6HYuXRIO0UCzHYP4vh+DUS5oMT5iGLWDDe
+	10TwO7MqJ7Zq9GCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C6FC31351A;
-	Wed,  8 Jan 2025 18:04:09 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AC2521351A;
+	Wed,  8 Jan 2025 18:05:52 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id NnPSLxm+fmfNEAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Wed, 08 Jan 2025 18:04:09 +0000
-Message-ID: <d61ba920-13bd-4e38-9200-97d00a4feba5@suse.cz>
-Date: Wed, 8 Jan 2025 19:04:09 +0100
+	id 3IxCKYC+fmdIEQAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Wed, 08 Jan 2025 18:05:52 +0000
+Message-ID: <994f1ee6-4ab6-431f-a931-61e290afd89f@suse.cz>
+Date: Wed, 8 Jan 2025 19:05:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,7 +82,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 14/17] mm: remove extra vma_numab_state_init() call
+Subject: Re: [PATCH v7 15/17] mm: prepare lock_vma_under_rcu() for vma reuse
+ possibility
 Content-Language: en-US
 To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
 Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
@@ -97,7 +97,7 @@ Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
  corbet@lwn.net, linux-doc@vger.kernel.org, linux-mm@kvack.org,
  linux-kernel@vger.kernel.org, kernel-team@android.com
 References: <20241226170710.1159679-1-surenb@google.com>
- <20241226170710.1159679-15-surenb@google.com>
+ <20241226170710.1159679-16-surenb@google.com>
 From: Vlastimil Babka <vbabka@suse.cz>
 Autocrypt: addr=vbabka@suse.cz; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -138,63 +138,117 @@ Autocrypt: addr=vbabka@suse.cz; keydata=
  w9XOLH1IIWh7RURU7G1iOfEfmImFeC3cbbS73LQEFGe1urxvIH5K/7vX+FkNcr9ujwWuPE9b
  1C2o4i/yZPLXIVy387EjA6GZMqvQUFuSTs/GeBcv0NjIQi8867H3uLjz+mQy63fAitsDwLmR
  EP+ylKVEKb0Q2A==
-In-Reply-To: <20241226170710.1159679-15-surenb@google.com>
+In-Reply-To: <20241226170710.1159679-16-surenb@google.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 1663E1F385
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00];
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[32];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
+	RCPT_COUNT_TWELVE(0.00)[32];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_CC(0.00)[infradead.org,oracle.com,suse.com,cmpxchg.org,gmail.com,intel.com,techsingularity.net,redhat.com,stgolabs.net,kernel.org,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLk41rrgs15z4i1nmqiwtynpyh)];
-	RCVD_COUNT_TWO(0.00)[2];
+	R_RATELIMIT(0.00)[to_ip_from(RLumbhs4xhzuuihrchnpuyb6qu)];
+	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.cz:dkim,suse.cz:mid];
+	RCVD_COUNT_TWO(0.00)[2];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:email]
 X-Spam-Flag: NO
+X-Spam-Level: 
 
 On 12/26/24 18:07, Suren Baghdasaryan wrote:
-> vma_init() already memset's the whole vm_area_struct to 0, so there is
-> no need to an additional vma_numab_state_init().
+> Once we make vma cache SLAB_TYPESAFE_BY_RCU, it will be possible for a vma
+> to be reused and attached to another mm after lock_vma_under_rcu() locks
+> the vma. lock_vma_under_rcu() should ensure that vma_start_read() is using
+> the original mm and after locking the vma it should ensure that vma->vm_mm
+> has not changed from under us.
 > 
 > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
 Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
 
 > ---
->  include/linux/mm.h | 1 -
->  1 file changed, 1 deletion(-)
+>  include/linux/mm.h | 10 ++++++----
+>  mm/memory.c        |  7 ++++---
+>  2 files changed, 10 insertions(+), 7 deletions(-)
 > 
 > diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 99f4720d7e51..40bbe815df11 100644
+> index 40bbe815df11..56a7d70ca5bd 100644
 > --- a/include/linux/mm.h
 > +++ b/include/linux/mm.h
-> @@ -947,7 +947,6 @@ static inline void vma_init(struct vm_area_struct *vma, struct mm_struct *mm)
->  	vma->vm_mm = mm;
->  	vma->vm_ops = &vma_dummy_vm_ops;
->  	INIT_LIST_HEAD(&vma->anon_vma_chain);
-> -	vma_numab_state_init(vma);
->  	vma_lockdep_init(vma);
->  	vma_init_lock(vma, false);
->  }
+> @@ -730,8 +730,10 @@ static inline void vma_refcount_put(struct vm_area_struct *vma)
+>   * Try to read-lock a vma. The function is allowed to occasionally yield false
+>   * locked result to avoid performance overhead, in which case we fall back to
+>   * using mmap_lock. The function should never yield false unlocked result.
+> + * False locked result is possible if mm_lock_seq overflows or if vma gets
+> + * reused and attached to a different mm before we lock it.
+>   */
+> -static inline bool vma_start_read(struct vm_area_struct *vma)
+> +static inline bool vma_start_read(struct mm_struct *mm, struct vm_area_struct *vma)
+>  {
+>  	int oldcnt;
+>  
+> @@ -742,7 +744,7 @@ static inline bool vma_start_read(struct vm_area_struct *vma)
+>  	 * we don't rely on for anything - the mm_lock_seq read against which we
+>  	 * need ordering is below.
+>  	 */
+> -	if (READ_ONCE(vma->vm_lock_seq) == READ_ONCE(vma->vm_mm->mm_lock_seq.sequence))
+> +	if (READ_ONCE(vma->vm_lock_seq) == READ_ONCE(mm->mm_lock_seq.sequence))
+>  		return false;
+>  
+>  
+> @@ -767,7 +769,7 @@ static inline bool vma_start_read(struct vm_area_struct *vma)
+>  	 * This pairs with RELEASE semantics in vma_end_write_all().
+>  	 */
+>  	if (unlikely(oldcnt & VMA_LOCK_OFFSET ||
+> -		     vma->vm_lock_seq == raw_read_seqcount(&vma->vm_mm->mm_lock_seq))) {
+> +		     vma->vm_lock_seq == raw_read_seqcount(&mm->mm_lock_seq))) {
+>  		vma_refcount_put(vma);
+>  		return false;
+>  	}
+> @@ -905,7 +907,7 @@ struct vm_area_struct *lock_vma_under_rcu(struct mm_struct *mm,
+>  
+>  static inline void vma_lockdep_init(struct vm_area_struct *vma) {}
+>  static inline void vma_init_lock(struct vm_area_struct *vma, bool reset_refcnt) {}
+> -static inline bool vma_start_read(struct vm_area_struct *vma)
+> +static inline bool vma_start_read(struct mm_struct *mm, struct vm_area_struct *vma)
+>  		{ return false; }
+>  static inline void vma_end_read(struct vm_area_struct *vma) {}
+>  static inline void vma_start_write(struct vm_area_struct *vma) {}
+> diff --git a/mm/memory.c b/mm/memory.c
+> index 2def47b5dff0..9cc93c2f79f3 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -6414,7 +6414,7 @@ struct vm_area_struct *lock_vma_under_rcu(struct mm_struct *mm,
+>  	if (!vma)
+>  		goto inval;
+>  
+> -	if (!vma_start_read(vma))
+> +	if (!vma_start_read(mm, vma))
+>  		goto inval;
+>  
+>  	/*
+> @@ -6424,8 +6424,9 @@ struct vm_area_struct *lock_vma_under_rcu(struct mm_struct *mm,
+>  	 * fields are accessible for RCU readers.
+>  	 */
+>  
+> -	/* Check since vm_start/vm_end might change before we lock the VMA */
+> -	if (unlikely(address < vma->vm_start || address >= vma->vm_end))
+> +	/* Check if the vma we locked is the right one. */
+> +	if (unlikely(vma->vm_mm != mm ||
+> +		     address < vma->vm_start || address >= vma->vm_end))
+>  		goto inval_end_read;
+>  
+>  	rcu_read_unlock();
 
