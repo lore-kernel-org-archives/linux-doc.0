@@ -1,125 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5328220B20;
-	Wed,  8 Jan 2025 04:04:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1625020B20;
+	Wed,  8 Jan 2025 04:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736309097; cv=none; b=UhohW5oUdcROyEVpBD3TN166iXzszT2NugJuXO1voay4KKeG+UiV/gyoA2iixzVpjzNsQu6Y69fNNZHnEJIYlvfqSkNvVhcdMT2FCOYJasj2q3XlOZ2GCXHdBu/fn5UteO9oLg2ICjv0ovtE4QW58iO5PwS4rHvaGFBoO9YA+qo=
+	t=1736309197; cv=none; b=EklphDFyMKUWfAK96Q8Dszi4tuz1tePbrTWndmwF3UrsiThhDZfsA5R4BYedS1p99Dmki/KgpFZxMzwjImmB3kwtlrXmRdZymNk+RdkV1CWFGh3fqfLtKcNeENwVX1wX4cdX9mdMuIQEikVBKDkq3e76OmBsXh6yLff0vxh6V84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736309097; c=relaxed/simple;
-	bh=g8XiEqSr/aXbZ1sJ4dxqWee2PjNC8HDo6PiAWIA2Dlg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=KNOu/rkl/uFcMccrYBmwx554w8SFFdVoCBfaN3BZn9AxJy1bAwWVrpMOVunWNOeKmAKW6KOL0cmnwq/GMGjQTGPjIe4cQWFS6kqd05Md9mJfbDLv4zkUl+eWSOze3t457wMyljNprsMlCvC3aRMBLvtAIV+nX6gSRJXWGC7QiRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g3B1EOQF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736309197; c=relaxed/simple;
+	bh=H3Ir9Z6YEOKuNI+Bk8J8mNq/UyY9/Wrb45UUaO9p1P8=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U7ZARcHOEhniG7rbTLkD5M26pNiwnYodWjYyYEen6QuvLrKxdGn6eTUkjMsnioP2f6kC7KOAWye+aMIWZk3TFodfS9ioymDcdp1YwqDj16UtVxMReANlc8SKQbIE8zdIGUKNqj3IVhyCVozwiY8jVrB9q37O/TfWJwJpBgCixMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WyOnGQoN; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g3B1EOQF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABED3C4CED0;
-	Wed,  8 Jan 2025 04:04:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736309096;
-	bh=g8XiEqSr/aXbZ1sJ4dxqWee2PjNC8HDo6PiAWIA2Dlg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=g3B1EOQFdiP53gYyVUlSkZK+aFra8bE00Nby8Nj7K5RnURGW1YMMzEQ9NjMkDsf4T
-	 9+q2Z6oZoCxKgVI32I5pHeTpd9YZ9v3is1bvYPIV0I3/UOSGgmALZ0+RYGGRqjp2qr
-	 ROnCF0N0M4kKFABQx5GocHmdg9VX3xi5CuXmLhC2fMpZCZ0t9OXO4pq2zCn/raf7dI
-	 ngzSYyuiKJ6RhTKZKCuWoFe3OZ1DcY0QyQLHCWdkLh9nC+Zv1DpFDzWNaMphLVf2Mv
-	 z1Cru56s7R4VBmWoXzASlBnBmeu6kBW2HGqeydHYJJ7j9G6jpkP0tk+zkc40lVf2Pv
-	 yonEsOBQ9W0Iw==
-From: SeongJae Park <sj@kernel.org>
-To: SeongJae Park <sj@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH 07/10] Docs/mm/damon/design: document pass/block filters behaviors
-Date: Tue,  7 Jan 2025 20:04:54 -0800
-Message-Id: <20250108040454.1283-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250107201739.79484-8-sj@kernel.org>
-References: 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WyOnGQoN"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2164b662090so212039385ad.1;
+        Tue, 07 Jan 2025 20:06:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736309195; x=1736913995; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ONfbWeP0iDQviDfnB2GD4XLWQZBCEfcI8wqguNnYwV8=;
+        b=WyOnGQoNkcVLf4oefFVng0MRKPXoAg/7/T+Qryf7mivO+vrXyM0jbK5CRhnm0BLWK1
+         14vTV9VG3LLyiuKLm2x/hjz57CPFHByPLMIoEbzMeiBS6OyGRbVjDpBKeh0zF7el08MD
+         hrXKCIqtfuJrXgv0cGXK8k6dcAMSzHhE6HFvgk/R9bgNPRHY+Rcp3aY2g7N2gw9Jzy58
+         h/K+muGbn52urpRk1WjbNPoAlNlxQEAuTpv0a9wwrojoTCXkPsZgmG38mJNVJIiOm7gf
+         l9xKcZjICTcyvETFooPd3PTvGSqHSSRw4Rbpkp73ueVAal9AzqzIqw3cy7p4MLwSvu9d
+         TZgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736309195; x=1736913995;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ONfbWeP0iDQviDfnB2GD4XLWQZBCEfcI8wqguNnYwV8=;
+        b=w8dmPotWBtueU2KQbkCcv/MZyG1gOPzjdnPuL6pgl7TZc8jlM+Qw4RX0pFnN+EkFFn
+         TA5SG8JhcV02n7VC76v92cxJquDPaZPK8XKt8TojjCNglJvzOiJ+RMjWhzstZ7nD/KRc
+         BC4CX9nXaQkscoZfbL0ZAnrKMKKnXYvA1jrnjXJ98glhUbd6+mz90ZKhftpCxAPQ9f1/
+         5wbeh1HAoXFWvIH0K9bSrn/IUHwSZ0KPWVAbKT7ceHcaM4DKycgjO5YUPZBy1dNEI9wy
+         2h++pGqULtXPDRUhq5eN07zhqlcWn6cWWKDNMDMkPGTwl83RR5QWdG4x4hfQ3ZNZtFcQ
+         zdyg==
+X-Forwarded-Encrypted: i=1; AJvYcCVUdVeYZpbdAhpsw3vt2mcGq0Znnxw9arYGmjq58fCQTB015rjSBKLtUGyjQZAIIhrCigtbaQ9fTSY=@vger.kernel.org, AJvYcCWYtASAADt7NaIqOHb+F3O0LcOWHT5Q4dOJ4pcbgg4FnWplv05oJAuVxtYjAsu9J3B6inCYI/fkA/+jsYWQ@vger.kernel.org, AJvYcCXyY9/hKVFunU94Q6sqrWD5rKhVD7czSDeNtUBeFI8sevFyUMU0eOO+x/kbUCdjlsBdoApdSFNfVQdwFwia@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzu02UJTDhSw+zb4rDEKA/6nyEYAuq91YaevkNU+FbYRzL2RkeR
+	wqIH/mjiruNGGY2pTLU6uBBF8sliktONN7lmIsL9r/Oe2Ww38mEq
+X-Gm-Gg: ASbGncu6GdHHLwQTRLcHwWQkdOL3bt4GvRb4oy4PEu0V1dOabI5/u7EstlFwopMD82b
+	Hzb5yCNi1J+bK/2zf3l7EJ7Jqn1t28dCj3kbOG4iWJ2uzBXxXF9NQshy4b2lIkuE/9fYH5Sn0K0
+	hMLO+ACkKBBTqBalUuYHRX/YsPC6sFC+vAr96QUVvoslFGMZVKMJh8D+tbR/SyvMAmDOE67YAE0
+	AfIV1CEBiu2e+MUkaTqJk8C7em0HTehwabYZGmkW57sGulyc0ziJqlQ
+X-Google-Smtp-Source: AGHT+IEOOASpxD85SpPsLTkeOZpCqpEWSC//B3nAE3UBolTsjMklHB/Qw7G7kvC4fGdON+ypsLX3FA==
+X-Received: by 2002:a17:902:d50d:b0:216:4c88:d939 with SMTP id d9443c01a7336-21a83fc77cemr19688465ad.38.1736309195035;
+        Tue, 07 Jan 2025 20:06:35 -0800 (PST)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9f842esm317615005ad.218.2025.01.07.20.06.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jan 2025 20:06:34 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 2F983420B892; Wed, 08 Jan 2025 11:06:31 +0700 (WIB)
+Date: Wed, 8 Jan 2025 11:06:31 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: mhklinux@outlook.com, haiyangz@microsoft.com, wei.liu@kernel.org,
+	decui@microsoft.com, kys@microsoft.com, corbet@lwn.net,
+	linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] Documentation: hyperv: Add overview of guest VM
+ hibernation
+Message-ID: <Z335xwWRTjyX0u6G@archie.me>
+References: <20250107202047.316025-1-mhklinux@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="676hDs5ENvvMNeOp"
+Content-Disposition: inline
+In-Reply-To: <20250107202047.316025-1-mhklinux@outlook.com>
 
-On Tue, 7 Jan 2025 12:17:36 -0800 SeongJae Park <sj@kernel.org> wrote:
 
-> Update DAMOS filters design document to describe the pass/block
-> behavior of filters.
-> 
-> Signed-off-by: SeongJae Park <sj@kernel.org>
-> ---
->  Documentation/mm/damon/design.rst | 34 +++++++++++++++++++++++++++----
->  1 file changed, 30 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
-> index 449eb33688c2..3682e719b8a6 100644
-> --- a/Documentation/mm/damon/design.rst
-> +++ b/Documentation/mm/damon/design.rst
-> @@ -504,9 +504,35 @@ have a list of latency-critical processes.
->  
->  To let users optimize DAMOS schemes with such special knowledge, DAMOS provides
->  a feature called DAMOS filters.  The feature allows users to set an arbitrary
-> -number of filters for each scheme.  Each filter specifies the type of target
-> -memory, and whether it should exclude the memory of the type (filter-out), or
-> -all except the memory of the type (filter-in).
-> +number of filters for each scheme.  Each filter specifies
+--676hDs5ENvvMNeOp
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jan 07, 2025 at 12:20:47PM -0800, mhkelley58@gmail.com wrote:
+> +VMBus devices are identified by class and instance GUID. (See section
+> +"VMBus device creation/deletion" in
+> +Documentation/virt/hyperv/vmbus.rst.) Upon resume from hibernation,
+> +the resume functions expect that the devices offered by Hyper-V have
+> +the same class/instance GUIDs as the devices present at the time of
+> +hibernation. Having the same class/instance GUIDs allows the offered
+> +devices to be matched to the primary VMBus channel data structures in
+> +the memory of the now resumed hibernation image. If any devices are
+> +offered that don't match primary VMBus channel data structures that
+> +already exist, they are processed normally as newly added devices. If
+> +primary VMBus channels that exist in the resumed hibernation image are
+> +not matched with a device offered in the resumed VM, the resume
+> +sequence waits for 10 seconds, then proceeds. But the unmatched device
+> +is likely to cause errors in the resumed VM.
+
+Did you mean for example, conflicting synthetic NICs?
+
+> +The Linux ends of Hyper-V sockets are forced closed at the time of
+> +hibernation. The guest can't force closing the host end of the socket,
+> +but any host-side actions on the host end will produce an error.
+
+Nothing can be done on host-side?
+
+> +Virtual PCI devices are physical PCI devices that are mapped directly
+> +into the VM's physical address space so the VM can interact directly
+> +the hardware. vPCI devices include those accessed via what Hyper-V
+"... interact directly with the hardware."
+> +calls "Discrete Device Assignment" (DDA), as well as SR-IOV NIC
+> +Virtual Functions (VF) devices. See Documentation/virt/hyperv/vpci.rst.
 > +
-> +- a type of memory (``type``),
-> +- whether it is for the memory of the type or all except the type
-> +  (``matching``), and
-> +- whether it is to allow (pass through the filter) or reject (block) applying
-> +  the scheme's action to the memory (``pass``).
-> +
-> +When multiple filters are installed, each filter is evaluated in the installed
-> +order.  If a part of memory is matched to one of the filter, next filters are
-> +ignored.  If a part of memory is not matched to any of the filters, the default
-> +behavior is applied.  That is, as long as it fulfills other conditions of the
-> +scheme including the access pattern and quotas, the action will be applied to
-> +the part of the memory.
-> +
-> +For example, let's assume 1) a filter for passing anonymous pages and 2)
-> +another filter for blocking young pages are installed in the order.  If a page
-> +of a region that eligible to apply the scheme's action is an anonymous page,
-> +the scheme's action will be applied to the page regardless of whether it is
-> +young or not, since it matches with the first filter.  If the page is not
-> +anonymous but young, the scheme's action will not be applied, since the second
-> +filter blocks it.  If the page is neither anonymous nor young, no filter is
-> +involved, so the action will be applied to the page.
-> +
-> +The fact that the action can be applied to any memory as long as no block
-> +filter explicitly excluded it means that installing pass filters without any
-> +block filter after those is same to not installing the pass filters, in terms
-> +of the ``action`` applying.  Statistics for DAMOS filters will still be
-> +accounted, though.
+> <snipped>...
+> +SR-IOV NIC VFs similarly have a VMBus identity as well as a PCI
+> +identity, and overall are processed similarly to DDA devices. A
+> +difference is that VFs are not offered to the VM during initial boot
+> +of the VM. Instead, the VMBus synthetic NIC driver first starts
+> +operating and communicates to Hyper-V that it is prepared to accept a
+> +VF, and then the VF offer is made. However, if the VMBus connection is
+> +unloaded and then re-established without the VM being rebooted (as
+> +happens in Steps 3 and 5 in the Detailed Hibernation Sequence above,
+> +and similarly in the Detailed Resume Sequence), VFs are already part
+                                                  "... that are already ..."
+> +of the VM and are offered to the re-established VMBus connection
+> +without intervention by the synthetic NIC driver.
 
-The above last sentence is right in a sense, but not useful and could only
-confuse readers.  The statistics for DAMOS filters are filters passed size
-stat, which is provided as per-scheme accumulated stat and per-region instant
-information.  The stat is for any memory that be able to apply the DAMOS action
-after the filters check stage.  Hence, whether it has passed the stage due to
-existence of a pass filter that matches the memory, or the absence of any
-matching filter is distinguishable.
+Thanks.
 
-> It is therefore still useful for monitoring purpose.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-Hence, the above sentence is completely wrong.  The case (installing pass
-filtrs without any block filter after those) is not useful even for monitoring
-purpose.
+--676hDs5ENvvMNeOp
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The RFC version of this patch was mentioning it correctly, but was not clearly
-describing why it is not also useless for even monitoring purpose.  I was also
-confused due to the absence of the context.  I will rewrite this part and send
-the whole series again as v2.
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ335wwAKCRD2uYlJVVFO
+ozuZAQDRYUwxON4iNNRuBnzFnLzs+GvI5MdP6h3woDe7HC8rTQD+MipWV/qOjA0a
+Lbm9mU+/hLqVJL8TwD4y178PXfV8PgM=
+=Blp1
+-----END PGP SIGNATURE-----
 
-Thanks,
-SJ
-
-[...]
+--676hDs5ENvvMNeOp--
