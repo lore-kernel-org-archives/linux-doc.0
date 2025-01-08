@@ -1,127 +1,92 @@
-Received: from a.mx.secunet.com (a.mx.secunet.com [62.96.220.36])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC5F18B463;
-	Wed,  8 Jan 2025 10:25:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.96.220.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8A1D1F3D53
+	for <linux-doc@vger.kernel.org>; Wed,  8 Jan 2025 11:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736331930; cv=none; b=FGRPJ9olmSitNGxJcakRaLhqnegrd9WwRDgESTjxEdtscmtIxaVgHhEH2jFpkCMmr7/2Y1ilRZzsDz+VaIof/CcK6S9V1tB5DK37krv6yj77JYpSJvtncG3pLTZd6Hc+gtAlcIezsAtan1p2aHNUBhJBZP5+xa4C4fH9dfMbBBI=
+	t=1736334598; cv=none; b=qC/NOGlaLTQ74Uqgw37cTBa7IoRDK+jL3WhQrpZ6lV9tB6LwAs0043020IPUJ4BWxiyeeOw3axVS0m7LzPLNWsxsh/rftFq3eMl0KRBpzYLbyDhrzaeqML5U/BjZGKXhAWwZJC7Y1NvPbpT5KUMIBOD5fWsdh4n2gHwBJixTmIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736331930; c=relaxed/simple;
-	bh=3cZ55hodolcBonWydC/oE7gQh6CX1J5FFqedEknJZJQ=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D9sGrMATHMWkGtcz9/DyGMBkZhLIGOLKNVL81dPUy7/eRsNUssXltdmoSu26CsJjwiE0jl3wKuk1b+U0SVoG8OZs6/2qRekdaScooD/yFI+SfwP6mmphSAU7fq3PzuiXG69puvBe0IkvSdkMclc2Cp7SWQdrVpRztzalCfT3KDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=secunet.com; spf=pass smtp.mailfrom=secunet.com; dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b=gUJbR3m3; arc=none smtp.client-ip=62.96.220.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=secunet.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=secunet.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b="gUJbR3m3"
-Received: from localhost (localhost [127.0.0.1])
-	by a.mx.secunet.com (Postfix) with ESMTP id 74B8020842;
-	Wed,  8 Jan 2025 11:25:25 +0100 (CET)
-X-Virus-Scanned: by secunet
-Received: from a.mx.secunet.com ([127.0.0.1])
-	by localhost (a.mx.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id RUVdqUoOIaqi; Wed,  8 Jan 2025 11:25:24 +0100 (CET)
-Received: from cas-essen-01.secunet.de (rl1.secunet.de [10.53.40.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by a.mx.secunet.com (Postfix) with ESMTPS id DC64720839;
-	Wed,  8 Jan 2025 11:25:24 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 a.mx.secunet.com DC64720839
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secunet.com;
-	s=202301; t=1736331924;
-	bh=usGPeQ402tsz9Fi75tKbQFlNSZtqq/m5TNddeEQ1ofg=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To:From;
-	b=gUJbR3m3btQZajtjq8qboCjn8896kCM0S6a2Sw6gXB2ufHgD0U6BPKA28Dgtzvdoe
-	 eCYwAncSUsaOxq9XIozt+Tu0OvoAsH1gTE00/IbjuDZClIvo3G0uaMMNsL3SmTPNI1
-	 A2YYoGoGING3SVYrv4KxMOh0tjwdeAmCQipxy52Z0MNIHZFUKy42nJvxOZiCbyXfOX
-	 n3UKdGzGaTifhipYMyOFIybRVJRnHRsTRwBpnyUWclczfev6akSA+WRPWo65xP/RTJ
-	 hCRP3GpWvDGjD7JbR7g0LlFA3KlSZS3kp1YYx7WAhhp6tpQg+zLTIjlHI+N0mHlsin
-	 Ltib/SSRC/gmA==
-Received: from mbx-essen-02.secunet.de (10.53.40.198) by
- cas-essen-01.secunet.de (10.53.40.201) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 8 Jan 2025 11:25:24 +0100
-Received: from gauss2.secunet.de (10.182.7.193) by mbx-essen-02.secunet.de
- (10.53.40.198) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 8 Jan
- 2025 11:25:24 +0100
-Received: by gauss2.secunet.de (Postfix, from userid 1000)
-	id 0F9DC3183F0A; Wed,  8 Jan 2025 11:25:24 +0100 (CET)
-Date: Wed, 8 Jan 2025 11:25:23 +0100
-From: Steffen Klassert <steffen.klassert@secunet.com>
-To: Leon Romanovsky <leon@kernel.org>
-CC: Jianbo Liu <jianbol@nvidia.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"Eric Dumazet" <edumazet@google.com>, Herbert Xu
-	<herbert@gondor.apana.org.au>, Jakub Kicinski <kuba@kernel.org>, Jonathan
- Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-	<linux-rdma@vger.kernel.org>, <netdev@vger.kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, "Potnuri Bharat Teja" <bharat@chelsio.com>, Saeed
- Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>
-Subject: Re: [PATCH ipsec-next 1/2] xfrm: Support ESN context update to
- hardware for TX
-Message-ID: <Z35Sk688mOcePbJE@gauss3.secunet.de>
-References: <874f965d786606b0b4351c976f50271349f68b03.1734611621.git.leon@kernel.org>
- <20250107102204.GB87447@unreal>
- <Z30WcStdG5Z4tDru@gauss3.secunet.de>
- <20250107120905.GD87447@unreal>
+	s=arc-20240116; t=1736334598; c=relaxed/simple;
+	bh=H+IO6TuiinYCCpi0BMlm2Zwvivor9TWeHcFQ5oB/WKk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GgdWWJMAZw1iSwwgBSvWoMlYrBSWYaz+D+SSWYaB5/Oh9U/73jH+36vubS2KGi3XoWFa+u2ggo0a3+wy2Zentw9tr14e//ztsHw3l/yEFcv4bMi1oKMlmzpdOE9U5kzWgaUPbKqfNXIVbSXMtUpNhniPTCjmQEUQsdhbRbhfruo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tVTwT-0005dj-CH; Wed, 08 Jan 2025 12:09:41 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tVTwR-007VLf-0X;
+	Wed, 08 Jan 2025 12:09:39 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tVTwR-00BTNj-2e;
+	Wed, 08 Jan 2025 12:09:39 +0100
+Date: Wed, 8 Jan 2025 12:09:39 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next 09/14] net: pse-pd: Remove is_enabled callback
+ from drivers
+Message-ID: <Z35c82RKe7vIcjTG@pengutronix.de>
+References: <20250104-b4-feature_poe_arrange-v1-0-92f804bd74ed@bootlin.com>
+ <20250104-b4-feature_poe_arrange-v1-9-92f804bd74ed@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250107120905.GD87447@unreal>
-X-ClientProxiedBy: cas-essen-02.secunet.de (10.53.40.202) To
- mbx-essen-02.secunet.de (10.53.40.198)
-X-EXCLAIMER-MD-CONFIG: 2c86f778-e09b-4440-8b15-867914633a10
+In-Reply-To: <20250104-b4-feature_poe_arrange-v1-9-92f804bd74ed@bootlin.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Tue, Jan 07, 2025 at 02:09:05PM +0200, Leon Romanovsky wrote:
-> On Tue, Jan 07, 2025 at 12:56:33PM +0100, Steffen Klassert wrote:
-> > On Tue, Jan 07, 2025 at 12:22:04PM +0200, Leon Romanovsky wrote:
-> > > On Thu, Dec 19, 2024 at 02:37:29PM +0200, Leon Romanovsky wrote:
-> > > > From: Jianbo Liu <jianbol@nvidia.com>
-> > > > 
-> > > > Previously xfrm_dev_state_advance_esn() was added for RX only. But
-> > > > it's possible that ESN context also need to be synced to hardware for
-> > > > TX, so call it for outbound in this patch.
-> > > > 
-> > > > Signed-off-by: Jianbo Liu <jianbol@nvidia.com>
-> > > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > > > ---
-> > > >  Documentation/networking/xfrm_device.rst                 | 3 ++-
-> > > >  drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c          | 3 +++
-> > > >  drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.c | 3 +++
-> > > >  net/xfrm/xfrm_replay.c                                   | 1 +
-> > > >  4 files changed, 9 insertions(+), 1 deletion(-)
-> > > 
-> > > Steffen,
-> > > 
-> > > This is kindly reminder.
-> > 
-> > Sorry for the dealy, the holidays came faster than expected :)
-> > 
-> > > > diff --git a/net/xfrm/xfrm_replay.c b/net/xfrm/xfrm_replay.c
-> > > > index bc56c6305725..e500aebbad22 100644
-> > > > --- a/net/xfrm/xfrm_replay.c
-> > > > +++ b/net/xfrm/xfrm_replay.c
-> > > > @@ -729,6 +729,7 @@ static int xfrm_replay_overflow_offload_esn(struct xfrm_state *x, struct sk_buff
-> > > >  		}
-> > > >  
-> > > >  		replay_esn->oseq = oseq;
-> > > > +		xfrm_dev_state_advance_esn(x);
-> > 
-> > This is the only line of code that this patchset adds
-> > to the xfrm stack, so merging this through mlx5 might
-> > create less conflicts.
-> > 
-> > In case you want to do that, you can add my 'Acked-by'
-> > to this patch. Otherwise I'll pull it into the ipsec-next
-> > tree tomorrow.
+On Sat, Jan 04, 2025 at 11:27:34PM +0100, Kory Maincent wrote:
+> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 > 
-> Let's do it through your tree, please. IMHO, it is more appropriate.
+> The is_enabled callback is now redundant as the admin_state can be obtained
+> directly from the driver and provides the same information.
+> 
+> To simplify functionality, the core will handle this internally, making
+> the is_enabled callback unnecessary at the driver level. Remove the
+> callback from all drivers.
+> 
+> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 
-Ok, series applied to ipsec-next, thanks everyone!
+Acked-by: Oleksij Rempel <o.rempel@pengutronix.de>
+
+Thank you!
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
