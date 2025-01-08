@@ -1,76 +1,64 @@
-Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B657E14B080;
-	Wed,  8 Jan 2025 02:04:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE3C1362;
+	Wed,  8 Jan 2025 02:05:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736301855; cv=none; b=M/vMzCE+91NCXXoLPfN6AolVHHoZhVwJl7i5y3RUM1WaZP4Ntfe1vJtxOYFo2GDRshNv2ieFKZeodAiMY4V46vNbgs8mDSY6FvaqAjUka8ovvPBlcFn+v/5QyKBFc/6jEsYSca00XefYQLCB51OW6Tk8Wgxo/w9odyIPVZeWuAg=
+	t=1736301902; cv=none; b=LkQYUDpRLNwYv503HtRLpnTo+mZfNY4pyh6455eUs9SzxEjf27pVJl5cg25DKjlFeeCVeUgQrBZSLkwm4rxHyzyqGSYcmxw74Yq109gp0eDmuloceBgEZFNQcrPs1Oo9qAdPySQ4eJVlP2yBUgRueaJjdgobBNRubr+jPWrlacg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736301855; c=relaxed/simple;
-	bh=kL1oqk2hMD5HIHbEo8gjZHPzUhB4284/QRlU+RprCN0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O8evf66XCtNaKo31swnEwJkNTWKtqQomAB4PnAb2q6zD1WAvBFitLqofm7L6iZVyqkPeDcc6URKztq1GKewwwX7u+Ud8Wsp1lW+rRmV7ncJUvURY1w3eo3AmRpVCiKPrlb/Qgtd2q7rHQhIS8AJ7PJsQSokXWkjEVJ867FEyH2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=dfziqjIq; arc=none smtp.client-ip=115.124.30.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1736301902; c=relaxed/simple;
+	bh=zOm0QRPlDsgJ3SJ52Rl5J19iHS6mxMEQN62LPtbqo/c=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=l9aSafv6AyO7Lye8dnV8nHaGSnzTyA9Ok6z6l9B0YrvELDvq7aCenG4tBciF6pJKCXEgBoXwIAlCRgLqOMw2jUX6k8ahJhuEoP7Xlnz8na3JdpLb2fJBa9r9/L/on5m/4XlGBhukui7JXCmG6K9TTEuMPH1wVB24px9kzJIdYqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vAd3tS8p; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="dfziqjIq"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1736301843; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=jkbhlsZBTgwdfhhDyY2mVNdz7Ru2qqcr0zjKFyRhbdM=;
-	b=dfziqjIqS5cxBiQmYsG2wEmeEz18vr27MhIJ0dKR6itNVWHomSdjBUvJdBxMVbCGYMKSq6/efg5RPVc3txbPGazbiLmFOpvl8DWlrNfyfpfdaWxkBcn5xkOtUs+CAg7/2bTgrCqIaC4I007WZSXR66Gb0bYmMbOv8NoMl1A4eTs=
-Received: from localhost.localdomain(mailfrom:cp0613@linux.alibaba.com fp:SMTPD_---0WNC7t7x_1736301833 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 08 Jan 2025 10:04:02 +0800
-From: cp0613@linux.alibaba.com
-To: corbet@lwn.net,
-	paul.walmsley@sifive.com,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	Chen Pei <cp0613@linux.alibaba.com>
-Subject: [PATCH] Documentation: riscv: Remove KPROBES_ON_FTRACE
-Date: Wed,  8 Jan 2025 10:03:42 +0800
-Message-ID: <20250108020342.4172-1-cp0613@linux.alibaba.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vAd3tS8p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03903C4CED6;
+	Wed,  8 Jan 2025 02:05:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736301901;
+	bh=zOm0QRPlDsgJ3SJ52Rl5J19iHS6mxMEQN62LPtbqo/c=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=vAd3tS8pECdB5JScFXH879Fy9fzxYrNvUtZjtnzDUMOqRY6Wancws4QxClm9XnFuc
+	 vPwgI5BOwSbjRFEJoSfKB2KNKgRFjd0ZGLx41P6nybVIrD2JRVrLZ5rXAg167JhDJE
+	 9KCRn5hlVrfPjGNKJFT2J6CWiXVjNxVk4BMy12gDBocdX1gCHwJdOLY1ydpPDlMs++
+	 KFgTJ2vfB54fF2h0jRaXg17/6DQih/dr0jbzWf5YEOv6QwE39JmHVZVyFTKoKLSn/l
+	 ZBaHZCbzry+o8ob/p9XNyun+T2nAwi5gvJw/aSk9+3hCbunAp8nEaHUVGoF2mMdStv
+	 ZcqbTO5qB8JAQ==
+Date: Tue, 7 Jan 2025 18:05:00 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Jonathan
+ Corbet <corbet@lwn.net>, Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
+ kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, Simon Horman <horms@kernel.org>, Russell King
+ <linux@armlinux.org.uk>, Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v5 6/8] ethtool: add helper to prevent invalid
+ statistics exposure to userspace
+Message-ID: <20250107180500.34be6ded@kernel.org>
+In-Reply-To: <20250106083301.1039850-7-o.rempel@pengutronix.de>
+References: <20250106083301.1039850-1-o.rempel@pengutronix.de>
+	<20250106083301.1039850-7-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Chen Pei <cp0613@linux.alibaba.com>
+On Mon,  6 Jan 2025 09:32:59 +0100 Oleksij Rempel wrote:
+> Introduce a new helper function, `ethtool_stat_add`, to update 64-bit
+> statistics with proper handling of the reserved value
+> `ETHTOOL_STAT_NOT_SET`. This ensures that statistics remain valid and
+> are always reported to userspace, even if the driver accidentally sets
+> `ETHTOOL_STAT_NOT_SET` during an update.
 
-Since commit 7caa9765465f60 ("ftrace: riscv: move from REGS to ARGS"),
-kprobe on ftrace is not supported by riscv.
-
-And commit 3308172276db5d ("trace: riscv: Remove deprecated kprobe on
-ftrace support") removed the relevant code, but left out the
-documentation, so fix that.
-
-Signed-off-by: Chen Pei <cp0613@linux.alibaba.com>
----
- Documentation/features/debug/kprobes-on-ftrace/arch-support.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-index 02febc883..d937b7a03 100644
---- a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-+++ b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-@@ -20,7 +20,7 @@
-     |    openrisc: | TODO |
-     |      parisc: |  ok  |
-     |     powerpc: |  ok  |
--    |       riscv: |  ok  |
-+    |       riscv: | TODO |
-     |        s390: |  ok  |
-     |          sh: | TODO |
-     |       sparc: | TODO |
--- 
-2.43.0
-
+u64 can't wrap. If it could we should be using a wider type 
+to count packets/bytes. I don't see the need for this, sorry 
+for missing the discussion.
