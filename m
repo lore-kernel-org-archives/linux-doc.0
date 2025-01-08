@@ -1,139 +1,97 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3EB18B03;
-	Wed,  8 Jan 2025 00:52:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329C31C6BE;
+	Wed,  8 Jan 2025 01:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736297541; cv=none; b=gWrr6IOE5Tw+zsGqMQh3Vt+eJuh4kdKD865IE0ESnEla3d/dDEQiuE3PURlUmSYYFZwmm2OPpra2jbW0kcZjhoQuHj4w5cXDzwiNMC1TGjZz+u6vMtr5tbykR5sL1WFtBAXUeZlpIJY53kN797rfg+UY/+tCj5XQEfRnIuvYd0o=
+	t=1736298957; cv=none; b=genPxpA4qbcUNWsKdjrTpTd6VSmGEsCzseL60ymv2UjrdRO5exEPSIt7tYfIeZ2BlyT4ArPk1kxx5kCpZy1Jipg2kfARDsoAQSpN6iO6QYh8AgOXN92mP0YVXsUvdpNrxZdpWDrC0SbNCrnivGb4au1JwJU+J5vgpuCEXr8rL+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736297541; c=relaxed/simple;
-	bh=1hx0HDoca09glfJvvZptYA4vHPtCyl6rM3asrb5Q9xw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FHAdSfORXzEgEQy3u58Dc4un+7OYILTo8qK51eGuePYlFXZSMJbuSaZcSLY98du2VqjCfLI25n0850wv0fqECfFobVOlk+aNqppJ0JZFL6ks8xn/NUtyvO6QvaYffK5QPAkIo0/edxC4a3pURxb5YHXhOx6GIflIEMnH8uM9vC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lJqvgQKc; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736298957; c=relaxed/simple;
+	bh=wD43T99hnDZZ1TfHbAJqtofmnbYDVr8UZRA0UkUtU5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eT4sGUDjBtoLS5rcQvNN96xz+tYJ23D/nTkFa9W5bq83HtWQzizSO39fo1VVI63sjUHHr2MR6hk0DtfJ5Dmw+BoVoNMNWehSLrKn8PMzGKrBGBvcv2j72E2A5F3RtM6HVdq5RBVUsBGUeSWRUkJycRkPU7p25S+wfyd8aS1zEBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rcg4NnXw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lJqvgQKc"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-21619108a6bso223421205ad.3;
-        Tue, 07 Jan 2025 16:52:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736297538; x=1736902338; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1dfx2gHGrXCO/ACBZjbBp33mO0W09QUa07tyODs/ZN4=;
-        b=lJqvgQKcGHghdZxuUBui6QCnE5jdIveo2IE2n6zAuanwyDz32cMk5zUhsi9hR9FmL5
-         bLYJuuzt6QflGMc3jiTxpr26XJKFYbnDYZWuVB0Iav2u7E2Gf1MK6WxOpvtDA0X4Nt67
-         vPEeaF1qj1a+dDpBdiq4JDRqIH4bJKRmaNJKSVuE5x1o+oxKPYTkT8EwVwDn8Ceih5xT
-         x6Dpv917EGVT/xwZQeUCsqFx6kzedyUNiKGrjFXNMMLtWsOtXa939/P+wnxzXD8G3Ppa
-         Gm5O0M0zTnjRIKqwu4h7rzDJ4swzFjBaJLmh4W1qx4MlVgG9xv7EnCxvm1OK/KLUNcUg
-         NeIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736297538; x=1736902338;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1dfx2gHGrXCO/ACBZjbBp33mO0W09QUa07tyODs/ZN4=;
-        b=sID+woxmgIQ9is8wJ4Fm/IZhCOWrjCPJ6KsOBgY9i9xlquM3cF/sAqg59mujaVn95A
-         uE9NbccFXkdW+3RYK6ojB1sPtEdLvriiW3Juz01ILOJVvZIpAWCxC6M7j4zz1XJyRHif
-         AtbbRTrRXj7z6Tp0NtXLHIHbU1bn4zJ0JgtqDeJkqg41IdX5VGCY9lmd8+N+uhHAWNbH
-         v4nfJvPJck1upJsw4IlPrZN5lOdMNdsdyiRGDORQs5DvNSePDiWN51SXsIKGSCqBlAhU
-         DimtV50+FLwiNQnX/TO5ElU1JUVa8V2hqJUedIuErzPs/FJ2iAqDZYRFaC/QJxjdw/87
-         d0mQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVbCHozQzat6PVdnQHsYg8V+UZakz45kA5BkMZuDhJQf8+N4IVPJxP9NlKUMfsvHrmI9+clwNhdYVQ=@vger.kernel.org, AJvYcCXh7dkKBLv/jVO/gma/GocTnSfo/JbVtgF3ZlxE5NE6r+/ZW9ccfYByq3G2U840Ytz0TVb+t28OIrMKflNT@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJTT1hJrnSE/6wi2SjeAdIC7kMa6kDSw3yR06Fznu4VNq/G+at
-	IH52+B/vD5QI4QdBzo2ycIi7U+CNgWLHnDCmMaVQQaMVG16Tws/h
-X-Gm-Gg: ASbGncvskFJlcsLAElly+xEBv+JxvAHXRlYiOnCi8/CjnU+WA4HDVfxuvMsYKtU2zda
-	jxb1gcg7xEtn8VbZR+8f64Z5FZCxzT8g+pkmrNtbOODC9BBAWSigHpqzk3xOiN+H2ci13AoxpDJ
-	MgSaniuOk02JjahDKedPW7xqsec0iTvRlrt15bkcWfsPn412eYbyoNWqo0csNkMszWXwTXPL8A8
-	J/FMrciMNecYEbZD1bzeFcr3FFx2PvrGIx8hFWGRvu7Qp/w/D5JS/7Q
-X-Google-Smtp-Source: AGHT+IG7mpfIG46AVyEADl19kYJFxv9ku3b84PmnXvPjHnvu0Yysxj1YqbKGV51yeLhxo+VRS7uf6Q==
-X-Received: by 2002:a17:902:da88:b0:216:1543:195d with SMTP id d9443c01a7336-21a83f64026mr15288275ad.25.1736297536788;
-        Tue, 07 Jan 2025 16:52:16 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f54a2efcb5sm155526a91.47.2025.01.07.16.52.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jan 2025 16:52:15 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 13555420B892; Wed, 08 Jan 2025 07:52:12 +0700 (WIB)
-Date: Wed, 8 Jan 2025 07:52:12 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] overlayfs.rst: Fix and improve grammar
-Message-ID: <Z33MPLsHoqmniFUE@archie.me>
-References: <cf07f705d63f04ebf7ba4ecafdc9ab6f63960e3d.1736239148.git.geert+renesas@glider.be>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rcg4NnXw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8EF3C4CED6;
+	Wed,  8 Jan 2025 01:15:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736298956;
+	bh=wD43T99hnDZZ1TfHbAJqtofmnbYDVr8UZRA0UkUtU5w=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=rcg4NnXwiEXuFcjkYB8pZuCu8zfuJS4pk0Ujy8cn2d9JoYJHzvJ4ohPmdfDLpuN9+
+	 07gtpiRwtD+/Sk+HHKUf1ngjvbwrYYjWEslQREbtfBghq65TnJb8HgN6+h1tFH2qC4
+	 I4ShebvyqYgEV/tPK2kocK7ZaibLMUdmBMenWT0narbeFCtkqhTX4Ky/MthkO2RfVi
+	 q/lf267bBDqm0vWg550khk91NDHNBlUsV16l573TpNuhJlZKSOiKRYdJXna4K1MNEv
+	 Ua1j6pmfAilgeaOAo9YXYRQ8Uq7Jx1CKmRJmO7ho4YFbymjYu3gkBiUox/7527iv90
+	 2sqcrywk2RJQQ==
+Date: Tue, 7 Jan 2025 17:15:54 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>, Mark
+ Brown <broonie@kernel.org>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org, Kyle Swenson
+ <kyle.swenson@est.tech>, Dent Project <dentproject@linuxfoundation.org>,
+ kernel@pengutronix.de, Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next 08/14] net: pse-pd: Split ethtool_get_status
+ into multiple callbacks
+Message-ID: <20250107171554.742dcf59@kernel.org>
+In-Reply-To: <20250104-b4-feature_poe_arrange-v1-8-92f804bd74ed@bootlin.com>
+References: <20250104-b4-feature_poe_arrange-v1-0-92f804bd74ed@bootlin.com>
+	<20250104-b4-feature_poe_arrange-v1-8-92f804bd74ed@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="QWsARqyR9kJYqaWU"
-Content-Disposition: inline
-In-Reply-To: <cf07f705d63f04ebf7ba4ecafdc9ab6f63960e3d.1736239148.git.geert+renesas@glider.be>
-
-
---QWsARqyR9kJYqaWU
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 07, 2025 at 09:44:28AM +0100, Geert Uytterhoeven wrote:
-> diff --git a/Documentation/filesystems/overlayfs.rst b/Documentation/file=
-systems/overlayfs.rst
-> index 4c8387e1c88068fa..a93dddeae199491a 100644
-> --- a/Documentation/filesystems/overlayfs.rst
-> +++ b/Documentation/filesystems/overlayfs.rst
-> @@ -266,7 +266,7 @@ Non-directories
->  Objects that are not directories (files, symlinks, device-special
->  files etc.) are presented either from the upper or lower filesystem as
->  appropriate.  When a file in the lower filesystem is accessed in a way
-> -the requires write-access, such as opening for write access, changing
-> +that requires write-access, such as opening for write access, changing
->  some metadata etc., the file is first copied from the lower filesystem
->  to the upper filesystem (copy_up).  Note that creating a hard-link
->  also requires copy_up, though of course creation of a symlink does
-> @@ -549,8 +549,8 @@ Nesting overlayfs mounts
-> =20
->  It is possible to use a lower directory that is stored on an overlayfs
->  mount. For regular files this does not need any special care. However, f=
-iles
-> -that have overlayfs attributes, such as whiteouts or "overlay.*" xattrs =
-will be
-> -interpreted by the underlying overlayfs mount and stripped out. In order=
- to
-> +that have overlayfs attributes, such as whiteouts or "overlay.*" xattrs,=
- will
-> +be interpreted by the underlying overlayfs mount and stripped out. In or=
-der to
->  allow the second overlayfs mount to see the attributes they must be esca=
-ped.
-> =20
->  Overlayfs specific xattrs are escaped by using a special prefix of
+On Sat, 04 Jan 2025 23:27:33 +0100 Kory Maincent wrote:
+> diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
+> index f711bfd75c4d..2bdf7e72ee50 100644
+> --- a/include/linux/ethtool.h
+> +++ b/include/linux/ethtool.h
+> @@ -1323,4 +1323,40 @@ struct ethtool_c33_pse_pw_limit_range {
+>  	u32 min;
+>  	u32 max;
+>  };
+> +
+> +/**
+> + * struct ethtool_pse_control_status - PSE control/channel status.
+> + *
+> + * @podl_admin_state: operational state of the PoDL PSE
+> + *	functions. IEEE 802.3-2018 30.15.1.1.2 aPoDLPSEAdminState
+> + * @podl_pw_status: power detection status of the PoDL PSE.
+> + *	IEEE 802.3-2018 30.15.1.1.3 aPoDLPSEPowerDetectionStatus:
+> + * @c33_admin_state: operational state of the PSE
+> + *	functions. IEEE 802.3-2022 30.9.1.1.2 aPSEAdminState
+> + * @c33_pw_status: power detection status of the PSE.
+> + *	IEEE 802.3-2022 30.9.1.1.5 aPSEPowerDetectionStatus:
+> + * @c33_pw_class: detected class of a powered PD
+> + *	IEEE 802.3-2022 30.9.1.1.8 aPSEPowerClassification
+> + * @c33_actual_pw: power currently delivered by the PSE in mW
+> + *	IEEE 802.3-2022 30.9.1.1.23 aPSEActualPower
+> + * @c33_ext_state_info: extended state information of the PSE
+> + * @c33_avail_pw_limit: available power limit of the PSE in mW
+> + *	IEEE 802.3-2022 145.2.5.4 pse_avail_pwr
+> + * @c33_pw_limit_ranges: supported power limit configuration range. The =
+driver
+> + *	is in charge of the memory allocation
+> + * @c33_pw_limit_nb_ranges: number of supported power limit configuration
+> + *	ranges
+> + */
 
-Looks good, thanks!
+Is there a reason this is defined in ethtool.h?
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---QWsARqyR9kJYqaWU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ33MMgAKCRD2uYlJVVFO
-owfZAQDsWmD/+nhm1RaatemFWcRM11H7FTHTht0jdK6WdFtDwAD8Ds3LMo7qfMlE
-n8SXLrJJ2x8efIu9x0YF6/fkx3Km0wc=
-=64/5
------END PGP SIGNATURE-----
-
---QWsARqyR9kJYqaWU--
+I have a weak preference towards keeping it in pse-pd/pse.h
+since touching ethtool.h rebuilds bulk of networking code.
+=46rom that perspective it's also suboptimal that pse-pd/pse.h
+pulls in ethtool.h.
