@@ -1,74 +1,60 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270AE17E900;
-	Wed,  8 Jan 2025 16:59:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2F81FF7B4;
+	Wed,  8 Jan 2025 17:00:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736355591; cv=none; b=ZKqwntJG7AZuGRORWbQFPw2SSljytixBxjPiHbEpGzg2GkyegLCIp2HYP/RGDyaMwRxt/l7UphabN8yIofGlOORr7BdfZLarbfFcsJnH59xqWDXD3ITO94Sn82HVE6lib86K2nR2PZr/s2EiMTgKvM8+btwqvIU4iTcEotYxl4I=
+	t=1736355605; cv=none; b=YVRJvDv0YETAR9kuvp6zqqGaAJkpwUpEMq29XyJuczHbyTY5eYIT2HWq+Q4wJNknZ2EzPfS8iNHvidgfoyxJ7MeMB+vGbR6T5sXaEWl1fjchtTO3jI+gDrEMMZcTfQEaiwnrqvY574r9xUSJYqlVULNmARvyBofLoyXD2GweyQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736355591; c=relaxed/simple;
-	bh=JqPedtS4bBqDNnepHzyCUSb9YvSVk85EsIqDKP/NF1o=;
+	s=arc-20240116; t=1736355605; c=relaxed/simple;
+	bh=HFVc8oLbaMpPOiOm4hXv8z+FIyZjllGwd4MTZEyB5Os=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IdemjRVrwHZgMnuay3xAW3jOv2srpJ/T6c+guguGBcjPgB9X3SLH3WhFzX9cc1O+u30HvlDcbyy783dEhkHcQqhIRPVwmjrJl4xusxzfCCws0oicjoGxv6OPZShMqHlJY/XDlE7YWaBr6OXMcW+nM15GN3PM4k/1G/d8F8r1C00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oqbj/83m; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=sn+1smZGLZH7rOfojRaHkAXec4Sh0Jq6gLkORipM5fkEkGd8DTPr5v20hNI2ExRpch/39UzkOsgCV0FKgRwk74To08NAzPuG3k4T7KdgkVLOAixYStxFAPOaeQSNrGK58/m0YsL+0m0c6FVrpGxUXQUHvmAKcha2lJxLUUhb3jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=pcYKJSqo; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oqbj/83m"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-21649a7bcdcso245665285ad.1;
-        Wed, 08 Jan 2025 08:59:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736355589; x=1736960389; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=g2tKK5msDTDbDFhmplvsaAyUPPVpNmbWjoxNu7wuVCY=;
-        b=Oqbj/83msO+F9tTA+PzrYDJK2YIJsWLh2QMk2lwd15Sa6SRzlz9CENGtDwj4ieZSKv
-         Cucc+fxvO6InlcgATd7tVD1dk1L4YCsK4W1BDWGRtRWZu3iNXHysYbzQA/wzkjNZ6t52
-         P1a53ptRBxpcmM6nFkB8H4GC3M009ULblAd2Qzb5EW/YuPzCx7ViuOWKazl9Zta0VLOY
-         ZjdQ8OeTWiqVtNtlh0yuH1tLNia04CfIQ+pI2EFSjPjpqtVyj5eQOuH+RrqCpnw6L1Nv
-         SB2jPLHFOreDZe9zRg8W2VLalKTkB5OalyyltPd5ulZBHV1RM1BcG+lT9jGO6etLKTaA
-         8F/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736355589; x=1736960389;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g2tKK5msDTDbDFhmplvsaAyUPPVpNmbWjoxNu7wuVCY=;
-        b=AmENpAY9uE+Sj3L1hyis1XMxWbqZDPjBFX1tFQD/YPpwBG6eJW4avelD64UgbNbij3
-         nftl0lx9kYxUuqws5UG9qUUieXCiBcco9FaJaBgPnKj1XC1iNdc5gjo3H83a73KuQMNd
-         XBiqvSUEaBHxqfUKZu8DSxDY+T5VNeVmikn7neY+wAJLLdExAHtwUOpSOxykJd+DXggl
-         QKh6/rv0kW/F2/IIYDsSkbvpqbBXFV5p7HfrVvWGp5hJn5ocs58y6+bGvmkDQA1fsjLS
-         S+sKkuk8BSM9ReCqeSAVjpCCSE1hTL4DV4C/mmZtBhUiBpPRFTm6LO35veBapbIN+reg
-         OFDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUOt/AUn0cl2/z+5tM/ceW1QUAnQZ+ZODfKyUgILfVSN6qsdTiIkFtwzhZYJB8WocXDjXiWh5uGYDw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yywt4NoxkzSLydIMx6r+yJXDnE65GsgtEyTsY0KC8fgrFpUYFt2
-	DmiEsJfkDhovJHJwIQ2qGmDhPyH8wpK6P4ma6FE+uSmPXIaHAh7Z
-X-Gm-Gg: ASbGnctiMvNvNnwdVAcdDRqTINzlD/CNKLdw90slUtG1LcD6WK7sgpRUpX5EnOBOkoK
-	zbiYWn3apOay8r+jgT8AzZUXXXrZ4ArYQlgPcHPwmhVLQrcbaI7u5cSWGxCk1yu3C2giWXtARaZ
-	NQo8QQklHasekVSnPIMuIUS7Cw+50ApgokpJRLhZLvJ2aV7DQuyTJmgwmXyfj+1dtl4nYpQwlQA
-	7ZHAQzj3SVey2A2qCTbxFO3jtEqC/u+nJ0d4mhjSUmBRtzPXOtwvRmmHdSd5hOv8OtLDw==
-X-Google-Smtp-Source: AGHT+IF4i+AfBGblXNIfRUhsZKQvagsXm/WFhBhCKp5lRjQv6mrXVhJyRiNVbYyPgFG/+B8RHvtgCA==
-X-Received: by 2002:a17:902:d485:b0:216:32c4:f7f5 with SMTP id d9443c01a7336-21a83f54d55mr43629775ad.19.1736355589295;
-        Wed, 08 Jan 2025 08:59:49 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dca01919sm329405185ad.241.2025.01.08.08.59.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 08:59:48 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 8 Jan 2025 08:59:46 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: nuno.sa@analog.com
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	Daniel Nilsson <daniel.nilsson@flex.com>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	Robin Getz <rgetz503@gmail.com>,
-	Erik Rosen <erik.rosen@metormote.com>
-Subject: Re: [PATCH] hwmon: (pmbus/max15301): add support for MAX15303
-Message-ID: <db8bd6c0-a9f8-4f9d-82ab-2dcb41e04eea@roeck-us.net>
-References: <20250108-dev-max15303-v1-1-9154eb2c9d9e@analog.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="pcYKJSqo"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=KlH41KXb6DEhXWYu4j1AZW/YcnxDGl2H1tPl1BECyjA=; b=pcYKJSqo34eAhorobLO7X0ODm2
+	xLDLot5xhhBbBJxp75+mj8A+HY4rltgVpkUrxJ5d0Ritf/lHp/KdQ5w1UmIhgkb//hvNHt/maTze5
+	tolADuZJKquheTQUa1yRbaR0lZojJoQukvNaHrG0xqpceAqfxtH/8Kdp2/p55DqQLgQ8=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1tVZPP-002dK9-Gt; Wed, 08 Jan 2025 17:59:55 +0100
+Date: Wed, 8 Jan 2025 17:59:55 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Luo Jie <quic_luoj@quicinc.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lei Wei <quic_leiwei@quicinc.com>,
+	Suruchi Agarwal <quic_suruchia@quicinc.com>,
+	Pavithra R <quic_pavir@quicinc.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
+	quic_kkumarcs@quicinc.com, quic_linchen@quicinc.com,
+	srinivas.kandagatla@linaro.org, bartosz.golaszewski@linaro.org,
+	john@phrozen.org
+Subject: Re: [PATCH net-next v2 12/14] net: ethernet: qualcomm: Initialize
+ PPE L2 bridge settings
+Message-ID: <4dbf1550-32e9-4cce-bf0c-8b92dbd49b50@lunn.ch>
+References: <20250108-qcom_ipq_ppe-v2-0-7394dbda7199@quicinc.com>
+ <20250108-qcom_ipq_ppe-v2-12-7394dbda7199@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,19 +63,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250108-dev-max15303-v1-1-9154eb2c9d9e@analog.com>
+In-Reply-To: <20250108-qcom_ipq_ppe-v2-12-7394dbda7199@quicinc.com>
 
-On Wed, Jan 08, 2025 at 04:44:23PM +0000, Nuno Sa via B4 Relay wrote:
-> From: Nuno Sa <nuno.sa@analog.com>
+On Wed, Jan 08, 2025 at 09:47:19PM +0800, Luo Jie wrote:
+> From: Lei Wei <quic_leiwei@quicinc.com>
 > 
-> The MAX15303 is a full-featured, flexible, efficient, 6A digital
-> point-of-load (PoL) controller with integrated switching MOSFETs. It
-> contains advanced power management and telemetry features.
-> 
-> Tested-by: Robin Getz <rgetz503@gmail.com>
-> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+> Configure the default L2 bridge settings for the PPE ports to
+> enable L2 frame forwarding between CPU port and PPE Ethernet
+> ports.
 
-Applied.
+It would be good to have an 'only' in there:
 
-Thanks,
-Guenter
+> to _only_
+> enable L2 frame forwarding between CPU port and PPE Ethernet
+> ports
+
+That makes it clear there is no port to port forwarding, the ports are
+isolated.
+
+> The per-port L2 bridge settings are initialized as follows:
+> For PPE CPU port, the PPE bridge TX is enabled and FDB learn is
+> disabled. For PPE physical port, the PPE bridge TX is disabled
+> and FDB learn is enabled by default and the L2 forward action
+> is initialized as forward to CPU port.
+
+Why is learning needed on physical ports? In general, switches forward
+unknown destination addresses to the CPU. Which is what you want when
+the ports are isolated from each other. Everything goes to the
+CPU. But maybe this switch does not work like this?
+
+	Andrew
+
