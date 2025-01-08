@@ -1,257 +1,223 @@
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450CC18D626;
-	Wed,  8 Jan 2025 21:37:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736372237; cv=none; b=nJwesbH2VBGfgK90xdA3qaLD33JXnxNXngSv/pWQA7CxY2s+t2xyEd1J/JYmRh5M/VJ01hNVrf9gJ38ir+G8t5FMKGwNAAgppBG5M1f9X1uUeCL1FZpR97iHIT6Imr0uoHpDQ5cWwdapzMf3XWen42WPoJ6ZeySzh/PnwivPN34=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736372237; c=relaxed/simple;
-	bh=kFFX/loN5gfU/XWf0hvJYB3hary3hW6cVZcZPtKcAi0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GqHbwB5GGZraVgyIEopG2AsVu7F2pjC8Z7BOVUXkMLI4upAu28KPWWdFATzdwVpXKNmpjUs8evzaraJWaaIa9FhXv8kuyyZAddy35iazy82PKgO76Oe2OqZXnvZWzB4n1nZaoB4limbSpRJww9/WAoFoEY3F4evpe+o4+/LukhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-84a1ce51187so6683839f.1;
-        Wed, 08 Jan 2025 13:37:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736372234; x=1736977034;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rkr035lGoBmwz9KK8ReaaYxQpEWXurjEKYgsDndAqWE=;
-        b=sX0LGDtiH4fetCdXQG0jbKi/R7lxvSj4mJ6cczpfJDYOMbpwh+hAVcZ+BNSiNGqCAq
-         9we+R8S0Bpg+jmalmhfo8UG/ytgXVkqiKCOmuyg0gT/Dk6/oPUjr8NoitUvRhncvR5rT
-         7QKMoyXEas1nKPO/yNE6JBIurTgMDGgoXnWSkS9fzSmreGG9Hk7YZoKRrkLuHlO4V68o
-         5/RpLPgrQX8p7YZ1QH2qQGhszZ+RC7z0btdL+427dvmp26Prz8YhAKm58xwWkaNedEyQ
-         XQOaJsOq88/pHG30BLFrJe1XcAYUStJF70BljIahaU665j7R7sHFjTf60oK4cKflywBX
-         azBw==
-X-Forwarded-Encrypted: i=1; AJvYcCUYe3vPBM0piH6JrSb8MwftNn4GV6Ce8Wt9tM/VOsk9gIZizLTKKOHI+eSv4NrEAXPDRGnMwYRAXkM=@vger.kernel.org, AJvYcCVRxlg+VsBaAkxbySaR4dV4ZUQkeUCZuF9yX1B0FQjrM2AWhuGJfSxmjHgGXLJTS8NfV+oF2v3IbJv/50Gimy7iGxp33Q==@vger.kernel.org, AJvYcCVU79Zj7AuuMw3kUMHeui5N0MNXXuLzc77dDlthI6L2ZAg7jfT99RYJGZClMj+3yxMRjKLsQOF4tjwz5/nb@vger.kernel.org
-X-Gm-Message-State: AOJu0YyA6UdannjaUXAYzPLw8cyQ3k9z6vPIKAwkropI9GgUU4dSTMY4
-	tCPZDmxckcgv03iIl+8K3U3irllacV0neXcTNH0kGKvqwa6OIuEGkLTAwkyl
-X-Gm-Gg: ASbGnctUiMzBKoy76yDg+b3jNKP19qjNDtiYrwrBuHHqmuOl/84EqTvc0OnsJ+83MJA
-	7rfyQSI+q493t4yUXV8bcV4sRNU1pIn+KF8e2B18AvD5WotDqJUesSXqJjbNVw+hxcGA5XLMMV/
-	4IMLm6Ga9xZwNUusaIOaiSdZs+Zt4cUkG9hDQlCupHvFHpnftGsuj74he+3yzkCtHaH5T5eOq+G
-	+iMDfpERO1M4a5+da9E3n8AGg8WxdFxXiK0jpQjhXBvWltXCfXs1J9Rnec9Z3gnmREprxgTBewj
-	K5cNqb/0TWAue0bEX1TMjWljNA==
-X-Google-Smtp-Source: AGHT+IEFjYultJ3p8PyY6/IYhiiw91MX8ljurrhXAk5QjM+siQ0uEMCir/KTwYgjmiV5fntkG4YBvg==
-X-Received: by 2002:a05:6602:4c06:b0:841:a652:b0c8 with SMTP id ca18e2360f4ac-84ce003c439mr470135839f.3.1736372234308;
-        Wed, 08 Jan 2025 13:37:14 -0800 (PST)
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com. [209.85.166.178])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-84d61fca4f0sm199439f.44.2025.01.08.13.37.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jan 2025 13:37:13 -0800 (PST)
-Received: by mail-il1-f178.google.com with SMTP id e9e14a558f8ab-3a8f1c97ef1so583565ab.2;
-        Wed, 08 Jan 2025 13:37:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUstPAUmrMs1hQfUo5i74JhyrvWGlyOfES3YND8qAsKP6P04KZe77aAYvxCNOx+xbW/7Jwbn82XhV4=@vger.kernel.org, AJvYcCWxEA7lPzZd8kLcFnvwGMyy7imhjfhgdKi9x55w/CqRp7VQdSuNwdtsb+k9zIC+AIGhGW1s9FZ9pE6saXkAfEYQd9PaHg==@vger.kernel.org, AJvYcCXsFkRRrH8DQHUuDthRIQJu5skKbQFY+S146rWGVc3CiCgH2q7w3k5uXCL9u7efq9rvdYMZTr4c5vfUhLAP@vger.kernel.org
-X-Received: by 2002:a92:cda6:0:b0:3a7:e0d1:e255 with SMTP id
- e9e14a558f8ab-3ce3aa75a70mr38853085ab.23.1736372233405; Wed, 08 Jan 2025
- 13:37:13 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECCF2040AD;
+	Wed,  8 Jan 2025 21:52:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736373131; cv=fail; b=d5J2doLpzWwVHPFDMF1ypH2dCVk1mXKQjmh8UO/6jxk3SZ+k/e17RRGBZ75k1JAmOoucDw4b6gOqUWRjlVHc+/AKxBoEcXx7y1wnptMGPrFdvc288ROdQKYbSW/t+PxvW8kUZWoe9ao3u0pQlYm0iIncnURjFzfa6aKiSqeYoyY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736373131; c=relaxed/simple;
+	bh=KiAmBIUuV+En4f0W1609LSCOyBlQmJhL4abuUH3TUtA=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=W84EHWftoUogcUR8eCX01y/cB5B1Irod+ygPJY6GMXkYTqV7m/uF7zXvqQ6gt0Mddyu/Y2WBQw08ZAYmS5zHs3z+049Wkh76qxunkRmTQQKItZk7/ZSpMIyCf3E7B1fbbZwzaw1CfXaV2ZcM8uqtW2e8/Un6XnEAw2ba10CqHkY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YkA1wUIP; arc=fail smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YkA1wUIP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736373129; x=1767909129;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=KiAmBIUuV+En4f0W1609LSCOyBlQmJhL4abuUH3TUtA=;
+  b=YkA1wUIPXPofXeXKFwOSFYBpbaCrc3zG+kMQaz+uy6IWPw0pIxx1etNx
+   qv/RH6XRoSWAQTUzTWB1q3YN33NhhlANtbhQEgjOxp3mqjhaLMOuu67hs
+   4OiVjHKmLyx4HR1sZDuFBBYCDTxy3Jm0WAVxhSVfM1Gi0p0rAkgH8bvwO
+   lsNVoh9ZPnpcARJjqcyILNQtrYYV3mkrFhoQLoRUWLnYHQg12L9G49ztn
+   sdJ/Ryp5MCSilr1I+YWYv90FrNc2JnDte0aV4c9PJBhUF/CqrAVr5fEKn
+   v6VXw0cKyN6TPjXvqbieyWimrZV0QHcnA9Rjzp1R9y26CfgeMG9Hqtzyw
+   Q==;
+X-CSE-ConnectionGUID: FfpzskJDQZ+W3gGz7KdXZQ==
+X-CSE-MsgGUID: QVLruFDoR8OcBfI+uOJIKw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="54034450"
+X-IronPort-AV: E=Sophos;i="6.12,299,1728975600"; 
+   d="scan'208";a="54034450"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 13:52:07 -0800
+X-CSE-ConnectionGUID: uYUh7DFcT9S5gmND+zQnzA==
+X-CSE-MsgGUID: RZGrm8k6RXeRCbsyG2U7Dg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,299,1728975600"; 
+   d="scan'208";a="108209888"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 Jan 2025 13:52:07 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Wed, 8 Jan 2025 13:52:06 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Wed, 8 Jan 2025 13:52:06 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.175)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Wed, 8 Jan 2025 13:52:05 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NPog+HGfPxdnMfyBfrV79wW2y8v8glEEM+dx9/IhHRCmy5+gjoGBm9PUDCihxi9b9fZUQAFo+1BXoSG4oRGiQC6xq+e23np2t5GOuML54n6tIWCJE3yuPybEE9YMQANGRwHo1fzIpA9QMQHY23NEaqKcglt5YthCtBiqvBoqmsS3eGmYriiz/t2DceyGZKf9i5qCkV8e3Spnod/+08HYkQFnKaxtG7EvfJkOoro14+eZV0jEvLLjHBU0HRm/NPOqSOjW+m+AONWFWnKuc7JhkcapFxHxwKozTTMgmbdxkJxfgUO4H453yYqOTFqXpiQBdRGTc4x/V7wz7jcKrgUxBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4FMvKpwn06CwLDJ3y2HvrddZiSBH1RttXUEp8yc3GW0=;
+ b=W3LVpjglL8h7wv1V2ZQl45ZnoTLCTKkohKbh+sezNvGzUHLvBC3axLhFSqpAPVHE0ac0rPB10ZxLw010kc3oI8sv3mbdy9xmDJIgiJq3USnzKN/zzNvufRGYoov74nybTeF+O/AH0LinaeDJud1P+h10QFFCbWVhkPeJAys8S1mznwfz1Pdl2NkWcmcAsyiFc0QSBRisJOQYn17i6W6RtArh6OpVTTD6yfsMQysQ9/NAabL5sClnJWN5LBRXAjdT2bTK6jktNgOjbRofCQKz7Fp/OzP4QXHnngoNPV3d47r7w5UeBG/RR/AnU7sIcSN4irKHHzZjsvPoS/WWcAsjAQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
+ by MN2PR11MB4661.namprd11.prod.outlook.com (2603:10b6:208:26b::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.10; Wed, 8 Jan
+ 2025 21:52:03 +0000
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::6b05:74cf:a304:ecd8]) by PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::6b05:74cf:a304:ecd8%4]) with mapi id 15.20.8314.015; Wed, 8 Jan 2025
+ 21:52:03 +0000
+Date: Wed, 8 Jan 2025 13:51:58 -0800
+From: Dan Williams <dan.j.williams@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>, Alistair Popple
+	<apopple@nvidia.com>
+CC: <dan.j.williams@intel.com>, <linux-mm@kvack.org>, <lina@asahilina.net>,
+	<zhang.lyra@gmail.com>, <gerald.schaefer@linux.ibm.com>,
+	<vishal.l.verma@intel.com>, <dave.jiang@intel.com>, <logang@deltatee.com>,
+	<bhelgaas@google.com>, <jack@suse.cz>, <jgg@ziepe.ca>,
+	<catalin.marinas@arm.com>, <will@kernel.org>, <mpe@ellerman.id.au>,
+	<npiggin@gmail.com>, <dave.hansen@linux.intel.com>, <ira.weiny@intel.com>,
+	<willy@infradead.org>, <djwong@kernel.org>, <tytso@mit.edu>,
+	<linmiaohe@huawei.com>, <david@redhat.com>, <peterx@redhat.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linuxppc-dev@lists.ozlabs.org>,
+	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-ext4@vger.kernel.org>,
+	<linux-xfs@vger.kernel.org>, <jhubbard@nvidia.com>, <hch@lst.de>,
+	<david@fromorbit.com>
+Subject: Re: [PATCH v5 00/25] fs/dax: Fix ZONE_DEVICE page reference counts
+Message-ID: <677ef37ec8d26_2aff429467@dwillia2-xfh.jf.intel.com.notmuch>
+References: <cover.425da7c4e76c2749d0ad1734f972b06114e02d52.1736221254.git-series.apopple@nvidia.com>
+ <20250107222643.80d5509219d6b66c15b1b8af@linux-foundation.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250107222643.80d5509219d6b66c15b1b8af@linux-foundation.org>
+X-ClientProxiedBy: MW4PR03CA0176.namprd03.prod.outlook.com
+ (2603:10b6:303:8d::31) To PH8PR11MB8107.namprd11.prod.outlook.com
+ (2603:10b6:510:256::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241226153031.49457-1-josh@joshuagrisham.com> <fb019bc7-72ba-4b1b-9260-36cac76a5a60@t-8ch.de>
-In-Reply-To: <fb019bc7-72ba-4b1b-9260-36cac76a5a60@t-8ch.de>
-From: Joshua Grisham <josh@joshuagrisham.com>
-Date: Wed, 8 Jan 2025 22:37:01 +0100
-X-Gmail-Original-Message-ID: <CAMF+KebS6eEGEVzrO3Bm3CfL7OYP7-XxUp7hLiDiwUrjWOEJYQ@mail.gmail.com>
-X-Gm-Features: AbW1kvbmyuYMBguk01h3aHUr1AdfWMg0_FyKKmCBr1-LaIYtK-36cGslhh9a5E4
-Message-ID: <CAMF+KebS6eEGEVzrO3Bm3CfL7OYP7-XxUp7hLiDiwUrjWOEJYQ@mail.gmail.com>
-Subject: Re: [PATCH v4] platform/x86: samsung-galaxybook: Add
- samsung-galaxybook driver
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>
-Cc: Joshua Grisham <josh@joshuagrisham.com>, ilpo.jarvinen@linux.intel.com, 
-	hdegoede@redhat.com, W_Armin@gmx.de, platform-driver-x86@vger.kernel.org, 
-	corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|MN2PR11MB4661:EE_
+X-MS-Office365-Filtering-Correlation-Id: cddb1d73-2dbe-4588-a87e-08dd302eaf9e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?vd7RAj9aI7bUStBnKdTOY45MMAfSi7m8zchWPxWX+MsseXbWTi+HR8KOpfJD?=
+ =?us-ascii?Q?LF0mEMKn3Gj0s03TibXYasjHAa9kd2hgcR7A4TgRANKwwas54HA2UseFKfx5?=
+ =?us-ascii?Q?TkPYwMgL7QUCH9Zy9mwPDZWYApx3S3V3SfknpNLZDn1CZYDuOo2FYs4SdXzn?=
+ =?us-ascii?Q?Lc+NL4eiMRNO7XmJfHMxoZVhU1zOUICKwyaPZq7DJdj/4uwrI7mnXz8f3fnn?=
+ =?us-ascii?Q?g2clrKxMnXnmMLU+y/aI0SL/Rf7F13I1Bem9nPsvslqsqyz00XqktUddSITr?=
+ =?us-ascii?Q?lUl8jEeqPE6mQ1u3S/d6yWbn+PYAEzcNBJQ3YTdTfWrYekdJdJ4uoKpoVreH?=
+ =?us-ascii?Q?ZcEnCJBXuvWDH0WAVZUHn4gEFy6WM8VV/QyrMfby8eH36WRrg18KEG3u4WHc?=
+ =?us-ascii?Q?cJioMxrKdwjdVhPemLccIl2DeiXtqXeoAn55bQMzcil56qOOqknHQEsLQVDI?=
+ =?us-ascii?Q?Du75/VmTe7OygFwU3uzKlrrIiuHL5X5IjiuOqSlfYPHKz9kBcZJmK9MkedBt?=
+ =?us-ascii?Q?Mv/zWuuD/MP14AbVsDA4El6usu6Krv0ZoQ2u6j/2H5if+Lt2latG2tj7lH2/?=
+ =?us-ascii?Q?Si+cc7A29YbAMs/LPzTbDnii/+gYp/2aEa1fNneV78wn1V5T+F6DbD0szC9k?=
+ =?us-ascii?Q?D+8K0NYn9itShHzKKcBAYRf0E22OPBL1Wa1QBoz6ujrWGwgwip3vNaNVbNkn?=
+ =?us-ascii?Q?DGLT2poK5MGcaXG3y3ltmJdYtNgpSZhNJpLWgLCHg9Bw0T8sxJqRYUrcsJqz?=
+ =?us-ascii?Q?HjtvyZ7tIOUKbYwRRBgC7pVdTok+DByAdqiHoaoxoVY8FfaOyc50Ws1YNfJ9?=
+ =?us-ascii?Q?RliZLVoSvA1+l+JaC11lxHWC6ZG3JW+IzphRgdnY2Q1lzitnE72V0KIctBvH?=
+ =?us-ascii?Q?zRhHEDJvyHgStH2maBUo+mCA0mUUXM4K5oSLvwc3zaQxy/gd0QpbkYo1LBSD?=
+ =?us-ascii?Q?0GDVbKWWC22irjxLXTLOfKO1EhFYFlPGlrXdpj45jOSy5cg/36lGSzTSA9X7?=
+ =?us-ascii?Q?i6DWH/bnX/kiHjcj9qqwxGwenaT5Aukd15ykJBqA5FJ3HbsZD4LYbl8j/x6p?=
+ =?us-ascii?Q?6ptWw/Wyjq/99b6zhH+5FpxpvJeY9lqU6vl/diGG4EwaMF9PEnVL2a0MPS8a?=
+ =?us-ascii?Q?U4NqrnCJRXK/hGLlArEm55fOJaPqs6W5gIK10sTjU0pznowuWqwhHnOKtdyU?=
+ =?us-ascii?Q?FHlGqrQXXg888S9EoZ976wag2hnn1Op8juAb8gkZce3jQciBb/G7bPolLIiU?=
+ =?us-ascii?Q?W7lzsNeFFzjqi4SG6/bD9VG4kn4QJqZQfPwCIO2iZfc99uhWHJ4TYAxIoyH6?=
+ =?us-ascii?Q?1uYtbxNflOyj4N5/RtMXuz4U32jTWg0Ue8YyFlIM17n0qg=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PEGM1CDchaVi3bAjBL1qzjKYARNCpEwTiubzmjfIBClDz1Qh49sdnm7kSfvx?=
+ =?us-ascii?Q?J7Y9gH8E2QlaTBRrR078LcRXAZVdDki0Qwtrb6BC9gqeZ2sRddFM++XH8H/D?=
+ =?us-ascii?Q?fFrvW/HlIjum5if9uNLURSKBEWsCU7yEMusb3HJx/gwYiPrXzRIYDxiwQmZY?=
+ =?us-ascii?Q?5vVawqhL0ljFqOTkTroy0fkbxiWyIHKG1aGehQe8k9RAUmlYPh6nrJgXs6mV?=
+ =?us-ascii?Q?5S2F4stO5hHhvg1eOKiledstnzJLjoSesgvcxe+jyu73D4UHLPUl1AthgC/C?=
+ =?us-ascii?Q?/obF0goXfM9PRTnD1op6byTxvVZveBsJ+NF18wf8CPdCHFVry4L90XOnWPC3?=
+ =?us-ascii?Q?OAhMHZeLceI7nOgHNBM8s0ovV0avL4Tf8kRP56S7osqytVrVyh0u4QBgQ+29?=
+ =?us-ascii?Q?Ee9xTFSQFYu4edzGzzo8T9NK3VpCzal9Y6BJmjtCKnnW7uY5sWTwNuUZ1RrG?=
+ =?us-ascii?Q?ifWm7wjM2Spl53lwdztxcwKFYcPztCagwEwbfmKmh8BKKftr5uA6BYj3bxuA?=
+ =?us-ascii?Q?7jdopOMhIDSE3Qol7O1Fcu4km1Zg/O4+qTYl4KJKwAkj13WSEMLSLDxeBNlD?=
+ =?us-ascii?Q?w2WCbLGVfL7IIhxaQB91zPv0aS7gm/1/nruB4Z/Pmdl8hDRuJyliS7zNX73g?=
+ =?us-ascii?Q?NYMc0HgVbTLtRl83TaBfvxD+0kyqzZckcuT9DXDp0Tm0yxePL105v+bA9htn?=
+ =?us-ascii?Q?z2fIEiF6fJzL1FuPEu7ST3q3Cwh1v1LM6ySkPFHI+7gJuUovzqbyWDsXr2wz?=
+ =?us-ascii?Q?jpKKAWQWUpt8Wh5L5arl3EX00CrF6ClIzCf63N1aIIpTuEgeEufdmpfOvCKk?=
+ =?us-ascii?Q?29G4ZIxbfJNcFrq7sZgbgYXfYfMDs8swlL8vpPMCZesgCRdDerQKyWnRVW1R?=
+ =?us-ascii?Q?9fsvlrI2/2ps7z5NPWN5BIl3G7B5WgO4475ggETWzH+NIZbh7zCy+dByCkUe?=
+ =?us-ascii?Q?/mASKehpjBVfi9nZc1eer1zblAfq9YA7S/l5oc12R05ruS5gs/DMnQQOXwYN?=
+ =?us-ascii?Q?iygXMcvZOAHvO95FH9m3kai0w6fw9kcl05ZSgIfVVk1RrqpxHTM87mVhCuRq?=
+ =?us-ascii?Q?6QruB+yTAzw8ZA44U9wY2cN/x0VPQnqN1n4NUPXJdArPdtxKagZQYAg5nygf?=
+ =?us-ascii?Q?nnPB6QhIb+Np8A1UOctatcUfqQWfyRYIbMCClXKtz5q6+PvF+woMT56lvSjR?=
+ =?us-ascii?Q?DgkyaMS6JKGVO8BtwtEboCeLBst/JUNqYZjNhXUNJxbtmSNOjhJca4RmQhBP?=
+ =?us-ascii?Q?xAAxM0qMC7GDFGSjrEtcl4uovWNFlT8MhDsKnlAnafHashYqaU9nFvb9y2Ok?=
+ =?us-ascii?Q?xgmf375hdoAxqQ1T5iySgtguAl9xWlEVVaLym2faNAiUwramtn0gk1uvVB35?=
+ =?us-ascii?Q?S5RhhDFRLqNq3J9RoxsqUVPFqNVoK/qLjFaf18uQc5Lq4e+3NcWt5gZeNNNI?=
+ =?us-ascii?Q?hxVhrf4eyNx82AxWjUlxHZMv6KwMXsyqqnADq5QXHocXTlDOttLydNf51dz/?=
+ =?us-ascii?Q?fsREaiOUtNbRGFB8/8ej+fO9eI+VZtAlDaOWcE203aKMMNUks+KWz5xI5oSc?=
+ =?us-ascii?Q?VJWp21rLudNPUhlqMWnFvAVKoshuY1KDy4xAa1y100OW6KffuuH1N05ZXz1D?=
+ =?us-ascii?Q?Tg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: cddb1d73-2dbe-4588-a87e-08dd302eaf9e
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2025 21:52:03.1084
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: O+DmFBUQ3ByAU2CLU7SdMwXBjRKzTI5QFcDSRbLfXEJ6L4UswmwD0bQ+VZI0p4x6wSO4ph6Rt1Sg15kdHtMd7H7YXDcvBl3P+xuqqVwflTM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4661
+X-OriginatorOrg: intel.com
 
-Hi Thomas! I was prepping my v5 patch to send in and trying to figure
-out everything I changed for the change list comments, but I stumbled
-on a few comments here that I wanted to ask you about as I realized I
-did not fully address them.
+Andrew Morton wrote:
+> On Tue,  7 Jan 2025 14:42:16 +1100 Alistair Popple <apopple@nvidia.com> wrote:
+> 
+> > Device and FS DAX pages have always maintained their own page
+> > reference counts without following the normal rules for page reference
+> > counting. In particular pages are considered free when the refcount
+> > hits one rather than zero and refcounts are not added when mapping the
+> > page.
+> > 
+> > Tracking this requires special PTE bits (PTE_DEVMAP) and a secondary
+> > mechanism for allowing GUP to hold references on the page (see
+> > get_dev_pagemap). However there doesn't seem to be any reason why FS
+> > DAX pages need their own reference counting scheme.
+> > 
+> > By treating the refcounts on these pages the same way as normal pages
+> > we can remove a lot of special checks. In particular pXd_trans_huge()
+> > becomes the same as pXd_leaf(), although I haven't made that change
+> > here. It also frees up a valuable SW define PTE bit on architectures
+> > that have devmap PTE bits defined.
+> > 
+> > It also almost certainly allows further clean-up of the devmap managed
+> > functions, but I have left that as a future improvment. It also
+> > enables support for compound ZONE_DEVICE pages which is one of my
+> > primary motivators for doing this work.
+> > 
+> 
+> https://lkml.kernel.org/r/wysuus23bqmjtwkfu3zutqtmkse3ki3erf45x32yezlrl24qto@xlqt7qducyld
+> made me expect merge/build/runtime issues, however this series merges
+> and builds OK on mm-unstable.  Did something change?  What's the story
+> here?
+> 
+> Oh well, it built so I'll ship it!
 
-Den fre 3 jan. 2025 kl 20:37 skrev Thomas Wei=C3=9Fschuh <thomas@t-8ch.de>:
->
+So my plan is to review this latest set on top of -next as is and then
+rebase (or ask Alistair to rebase) on a mainline tag so I can identify
+the merge conflicts with -mm and communicate those to Linus.
 
-> > +This driver implements the
-> > +Documentation/userspace-api/sysfs-platform_profile.rst interface for w=
-orking
->
-> You can make this real reST link which will be converted into a
-> hyperlink.
->
-
-Here I actually tried this a few different ways (linking to the entire
-page instead of a specific section within the page) but would always
-get a warning and then no link when I built the docs. However, from
-finding other examples then I found just giving the path like this is
-actually giving me a link in both the htmldocs and pdfdocs with the
-title of the target page exactly as I wanted... with that in mind,
-does it seem ok to leave as-is or is there a syntax that you would
-recommend instead to link directly to a page (and not a section within
-a page)?
-
-> > +static int galaxybook_acpi_method(struct samsung_galaxybook *galaxyboo=
-k, acpi_string method,
-> > +                               struct sawb *in_buf, size_t len, struct=
- sawb *out_buf)
->
-> in_buf and out_buf are always the same.
->
-> > +{
-> > +     struct acpi_buffer output =3D {ACPI_ALLOCATE_BUFFER, NULL};
-> > +     union acpi_object in_obj, *out_obj;
-> > +     struct acpi_object_list input;
-> > +     acpi_status status;
-> > +     int err;
-> > +
-> > +     in_obj.type =3D ACPI_TYPE_BUFFER;
-> > +     in_obj.buffer.length =3D len;
-> > +     in_obj.buffer.pointer =3D (u8 *)in_buf;
-> > +
-> > +     input.count =3D 1;
-> > +     input.pointer =3D &in_obj;
-> > +
-> > +     status =3D acpi_evaluate_object_typed(galaxybook->acpi->handle, m=
-ethod, &input, &output,
-> > +                                         ACPI_TYPE_BUFFER);
-> > +
-> > +     if (ACPI_FAILURE(status)) {
-> > +             dev_err(&galaxybook->acpi->dev, "failed to execute method=
- %s; got %s\n",
-> > +                     method, acpi_format_exception(status));
-> > +             return -EIO;
-> > +     }
-> > +
-> > +     out_obj =3D output.pointer;
-> > +
-> > +     if (out_obj->buffer.length !=3D len || out_obj->buffer.length < S=
-AWB_GUNM_POS + 1) {
-> > +             dev_err(&galaxybook->acpi->dev, "failed to execute method=
- %s; "
-> > +                     "response length mismatch\n", method);
-> > +             err =3D -EPROTO;
-> > +             goto out_free;
-> > +     }
-> > +     if (out_obj->buffer.pointer[SAWB_RFLG_POS] !=3D RFLG_SUCCESS) {
-> > +             dev_err(&galaxybook->acpi->dev, "failed to execute method=
- %s; "
-> > +                     "device did not respond with success code 0x%x\n"=
-,
-> > +                     method, RFLG_SUCCESS);
-> > +             err =3D -ENXIO;
-> > +             goto out_free;
-> > +     }
-> > +     if (out_obj->buffer.pointer[SAWB_GUNM_POS] =3D=3D GUNM_FAIL) {
-> > +             dev_err(&galaxybook->acpi->dev,
-> > +                     "failed to execute method %s; device responded wi=
-th failure code 0x%x\n",
-> > +                     method, GUNM_FAIL);
-> > +             err =3D -ENXIO;
-> > +             goto out_free;
-> > +     }
-> > +
-> > +     memcpy(out_buf, out_obj->buffer.pointer, len);
->
-> Nit: This memcpy() could be avoided by having the ACPI core write directl=
-y
-> into out_buf. It would also remove the allocation.
->
-
-Now I have replaced in_buf and out_buf with just one parameter, buf.
-Now it feels like I cannot write directly to it (since I am reusing
-the same buf as the outgoing value) so have left the memcpy in place.
-I guess I would need to choose to have 2 buffers or use one and do a
-memcpy at the end like this (which is how I have it now in my v5
-draft) .. am I thinking wrong here and/or is there a preference
-between the two alternatives? I can just for now say that "usage" of
-this function in all of the other functions feels easier to just have
-one buffer... :)
-
-> > +static int power_on_lid_open_acpi_set(struct samsung_galaxybook *galax=
-ybook, const bool value)
-> > +{
-> > +     struct sawb buf =3D { 0 };
-> > +
-> > +     buf.safn =3D SAFN;
-> > +     buf.sasb =3D SASB_POWER_MANAGEMENT;
-> > +     buf.gunm =3D GUNM_POWER_MANAGEMENT;
-> > +     buf.guds[0] =3D GUDS_POWER_ON_LID_OPEN;
-> > +     buf.guds[1] =3D GUDS_POWER_ON_LID_OPEN_SET;
-> > +     buf.guds[2] =3D value ? 1 : 0;
->
-> No need for the ternary.
->
-
-I did not have this before but it was requested to be added by Ilpo
-IIRC. I am ok with either way but would just need to know which is
-preferred between the two :)
-
-> > +static void galaxybook_i8042_filter_remove(void *data)
-> > +{
-> > +     struct samsung_galaxybook *galaxybook =3D data;
-> > +
-> > +     i8042_remove_filter(galaxybook_i8042_filter);
-> > +     if (galaxybook->has_kbd_backlight)
-> > +             cancel_work_sync(&galaxybook->kbd_backlight_hotkey_work);
-> > +     if (galaxybook->has_camera_lens_cover)
-> > +             cancel_work_sync(&galaxybook->camera_lens_cover_hotkey_wo=
-rk);
-> > +}
-> > +
-> > +static int galaxybook_i8042_filter_install(struct samsung_galaxybook *=
-galaxybook)
-> > +{
-> > +     int err;
-> > +
-> > +     if (!galaxybook->has_kbd_backlight && !galaxybook->has_camera_len=
-s_cover)
-> > +             return 0;
-> > +
-> > +     if (galaxybook->has_kbd_backlight)
-> > +             INIT_WORK(&galaxybook->kbd_backlight_hotkey_work,
-> > +                       galaxybook_kbd_backlight_hotkey_work);
-> > +
-> > +     if (galaxybook->has_camera_lens_cover)
-> > +             INIT_WORK(&galaxybook->camera_lens_cover_hotkey_work,
-> > +                       galaxybook_camera_lens_cover_hotkey_work);
->
-> I would just always initialize and cancel the work_structs.
-> This is no hot path and it makes the code simpler.
->
-
-I apologize but I don't think I am 100% following what you mean here.
-Is there an example or more information that can be provided so I can
-know what should be changed here?
-
-> > +     err =3D galaxybook_enable_acpi_notify(galaxybook);
-> > +     if (err)
-> > +             dev_warn(&galaxybook->platform->dev, "failed to enable AC=
-PI notifications; "
-> > +                      "some hotkeys will not be supported\n");
->
-> Will this dev_warn() trigger always for certain devices? If so a
-> dev_info() would be more appropriate IMO.
->
-
-Yes good point here; for the devices which have this condition, they
-will get this message every single time, so I will change it to info.
-I can also change it to debug if that makes even more sense.
-
-> [...]
-
-Other than these I think (hope) I have tried to address everything
-else from all other comments. I will hold off on sending this v5 in
-case you reply soon-ish but otherwise will go ahead and send it as-is
-in the next day or two just to keep the feedback cycle going.
-
-Thank you again!
-
-Best regards,
-Joshua
+I will double check that you have pulled these back out of mm-unstable
+before doing that to avoid a double-commit conflicts in -next, but for
+now exposure in mm-unstable is good to flush out issues.
