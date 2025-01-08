@@ -1,244 +1,231 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C86B200B95
-	for <linux-doc@vger.kernel.org>; Wed,  8 Jan 2025 17:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4196197558;
+	Wed,  8 Jan 2025 17:57:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736358831; cv=none; b=gJfEfMD7A7VadRWPpXnWBpb/suhsfooy2wfb0NUm6HjkxXrY9gGzERyVPkN0xOtJj27MC8iwWwkgOVVxeKCSmpuoexM+7S1MavFC8bRp0pS5pcPNqYOC+N5RbTYgKCl3+cg5yzWmP+jH0towosLbomlq+C0lI+Dfz9m1NgbdGPc=
+	t=1736359069; cv=none; b=pnOfxWjyLmE6oycw7hqO+LjzC/rXfRUXL19R8JHtyK/lvyBOewJcIUbuseoI5AvWHZ+9G3gjsClTKpCOTemAZ9LHQth3IjlRqxG3h8ZmptWc/lnW2K1x/yKnVc/JdaF6g+QNU390AcEFHT11ZFV/08UDmzijkBsSGQmuCO7lzek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736358831; c=relaxed/simple;
-	bh=CEINr0XI5ImMC+SyJ/wX9pveaFaf7NBlb8Wcxsug8D4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nGyBtXaJ3dtO6FTos4FlY9r1mUsEC9TaXxGeuuqjr4wFeoe9qb5DRKKklnwBBm9iPzIlfAOb2fNdeXkt6uwnpFVYLlaQLUG+AnidHyLThYCcKa86IRotl3GiK9zc9EWoo/5nrZgFSKWxW71obHjyE/I+/LhD7aKzP9jQFEc7CHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xEO1iCSC; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1736359069; c=relaxed/simple;
+	bh=P+YhiCnx0Fp70+mXuaY1U/h12ess8tXc7AGuGDtQ7hE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RcS6x12DWVCD+hhZH8SlThom4/NMA4HrF+/VF3JncFeENx3iDrmGED1HegzE4lms69ZCWpSb0umfLvpwGnuOqE3Ah8vUeTO1KcjGwy9pzeBRD02okpa07k1731llfjKGYOMEh+PWRm/uaAN3BGNA+F83xTrx8kSEAo0bhDdYii4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d9bHZMjV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xEO1iCSC"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4679b5c66d0so2711cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jan 2025 09:53:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736358828; x=1736963628; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5EoM3QLEADWKdisZlB73KCViB6HUGAhzb6FiYcO4P+w=;
-        b=xEO1iCSCEgBNUqqkOAhPE7CA6biltjr29fmTWp3/nIugHDRYNjAbBqi45+eFh5v+l4
-         ukADoDpnDZfrPLkW8DPlpm9y4jCsilKJID7JYwcevVckFe/TRzbC+sBZBwR1Z6N55y+K
-         zRc8EwgwqMNpNorSGQ6KAy2KAmQUrcLT8o9LIy3z5Ng1dn5u5wZ+V5wGg33qsHj8pODL
-         GSAIM6Wvs06orWyesoHQ4yUdm/sc0h8tNQInQb1t8JcM+VpdAzZ5TN5E+cG0+G6j0n0H
-         EJfFx9XOWC2MXa/8KhU9m6opZ1GdQQLqBXaykS8coDhkUjNtzW3u7asEaMP1ewUCz5Ab
-         Srdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736358828; x=1736963628;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5EoM3QLEADWKdisZlB73KCViB6HUGAhzb6FiYcO4P+w=;
-        b=lxlCUZ7hFUxcoFUWGW2Ra56NE60bn0GWP0gTeCpus6CNIsgBycBeo20PhokqCx+hfS
-         gYVWADVI+PcNwzMHLBD+U6J23ZTlRk+jXNd5VNsWqeq2rDOzOBjDVfIct3Y18dlRdh0G
-         91AOuUAhpZgh9o1FfvNRbgsUZPYGtylow9yxoTRcs24Hunbsb/MPRDQY2G3HAxF2FwKR
-         CLiUbeVmbSTKVKSrnm69yXBXJzXjjsNGAN1Vwlm01pe7ZsZfAqFECMXaVOOvZMDOxGQW
-         SrhOvrYOdx2pU7p8iN7T67nUD2mcekqQLoJE/DiMe6L6DngtF0KGoL2TvlZ6yWtVxs23
-         fY5g==
-X-Forwarded-Encrypted: i=1; AJvYcCVjsO8frJDQr3IPS7UHrzPZL5zI4w81vHd0u89WsponkdxH0misF/tTv/i6gqCl0eL65UyqBxjWSvY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyzZF5neLnYu2udUzAj6NCkfkjCqB/5EB3VFVFxBrY2IFvmzwg4
-	rBsoQUK3+GLArPFqMbGpIPN224gXeBEELmn0AkesjV6SfExhMhClekhI54jaRhSWZ8IFLmVzEiT
-	q4mQKCEmeaf3HzHNNM/Xz6SWm5EloI5H11F1P
-X-Gm-Gg: ASbGncshpl8RkCJFwt1E4SJK88XUfbhqmo9Bg4CM2t8CAOzs1ZZpdD3ZfzDpDpjfoQD
-	z5YGE19Vf0GKPreRY0paZ4Wv/k8XflTLHESCMTpNz7R5LCT41KAiuBpFJHAvJ6bUuF2yB
-X-Google-Smtp-Source: AGHT+IF3onN1dSxPeEH4rOHY3xCaJmWbin0sIkVhLw2wPpH9Ldpr9m3xKR8GbjCV0NjyNax+7aY2kg58Y2EpHSV7lT8=
-X-Received: by 2002:ac8:5702:0:b0:463:95e2:71f8 with SMTP id
- d75a77b69052e-46c71fcc5cbmr3060671cf.15.1736358828108; Wed, 08 Jan 2025
- 09:53:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d9bHZMjV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87DF0C4CED3;
+	Wed,  8 Jan 2025 17:57:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736359068;
+	bh=P+YhiCnx0Fp70+mXuaY1U/h12ess8tXc7AGuGDtQ7hE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=d9bHZMjVCr+k/1eiOgqOrnlMilnmf/PXn6MNsroSTQ86uPz253XnM3tlOK3DtplsG
+	 0XzccyhCmfJyjVX8/HuHpiFtZZbSlqdCqTBgfzfkp9L3DW1iQxOm9MwPUQnC0HSi+M
+	 kT0lzW6YJddSjJ/DdsMZY+m/DIUuva+aEkplaCROg0DIrlu0SybzpfXFJ83pdVVJWl
+	 YFLJeyz/pkr9PFbVPlC6U5ClFFhSVKUL9A8AcKtbLDvJwBUAOY6mDQMzLu/mvmVWet
+	 jmUvtdCe+5JWXlgxNslVO2K8Uxq3tR4fV/ruEfWCamnpzYFN8Y0f3iDbkdx3IZeg4q
+	 4CMidtmZGGL+w==
+Date: Wed, 8 Jan 2025 09:57:44 -0800
+From: Namhyung Kim <namhyung@kernel.org>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	=?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
+	=?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>,
+	Christian Brauner <brauner@kernel.org>, Guo Ren <guoren@kernel.org>,
+	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
+	James Clark <james.clark@linaro.org>,
+	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
+	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
+	linux-csky@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 00/16] perf tools: Use generic syscall scripts for all
+ archs
+Message-ID: <Z368mNynBTDWPM6R@google.com>
+References: <20250107-perf_syscalltbl-v5-0-935de46d3175@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241226170710.1159679-1-surenb@google.com> <20241226170710.1159679-13-surenb@google.com>
- <ec71eaa7-a5e5-4d83-a405-782d63cf5c53@suse.cz>
-In-Reply-To: <ec71eaa7-a5e5-4d83-a405-782d63cf5c53@suse.cz>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 8 Jan 2025 09:53:37 -0800
-X-Gm-Features: AbW1kvYkb7SBofGVioBAJ4Dim5wk2UnfLEOoRN87bgU15ULOmiC1cK-0_FEvh7k
-Message-ID: <CAJuCfpF6YO43H4fxZOFE1WksBwYzM3iMmo0k=TgovQ63vQ3S=Q@mail.gmail.com>
-Subject: Re: [PATCH v7 12/17] mm: replace vm_lock and detached flag with a
- reference count
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org, 
-	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, mhocko@suse.com, 
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	klarasmodin@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250107-perf_syscalltbl-v5-0-935de46d3175@rivosinc.com>
 
-On Wed, Jan 8, 2025 at 3:52=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wro=
-te:
->
-> On 12/26/24 18:07, Suren Baghdasaryan wrote:
-> > rw_semaphore is a sizable structure of 40 bytes and consumes
-> > considerable space for each vm_area_struct. However vma_lock has
-> > two important specifics which can be used to replace rw_semaphore
-> > with a simpler structure:
-> > 1. Readers never wait. They try to take the vma_lock and fall back to
-> > mmap_lock if that fails.
-> > 2. Only one writer at a time will ever try to write-lock a vma_lock
-> > because writers first take mmap_lock in write mode.
-> > Because of these requirements, full rw_semaphore functionality is not
-> > needed and we can replace rw_semaphore and the vma->detached flag with
-> > a refcount (vm_refcnt).
-> > When vma is in detached state, vm_refcnt is 0 and only a call to
-> > vma_mark_attached() can take it out of this state. Note that unlike
-> > before, now we enforce both vma_mark_attached() and vma_mark_detached()
-> > to be done only after vma has been write-locked. vma_mark_attached()
-> > changes vm_refcnt to 1 to indicate that it has been attached to the vma
-> > tree. When a reader takes read lock, it increments vm_refcnt, unless th=
-e
-> > top usable bit of vm_refcnt (0x40000000) is set, indicating presence of
-> > a writer. When writer takes write lock, it both increments vm_refcnt an=
-d
-> > sets the top usable bit to indicate its presence. If there are readers,
-> > writer will wait using newly introduced mm->vma_writer_wait. Since all
-> > writers take mmap_lock in write mode first, there can be only one write=
-r
-> > at a time. The last reader to release the lock will signal the writer
-> > to wake up.
-> > refcount might overflow if there are many competing readers, in which c=
-ase
-> > read-locking will fail. Readers are expected to handle such failures.
-> >
-> > Suggested-by: Peter Zijlstra <peterz@infradead.org>
-> > Suggested-by: Matthew Wilcox <willy@infradead.org>
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
->
-> >   */
-> >  static inline bool vma_start_read(struct vm_area_struct *vma)
-> >  {
-> > +     int oldcnt;
-> > +
-> >       /*
-> >        * Check before locking. A race might cause false locked result.
-> >        * We can use READ_ONCE() for the mm_lock_seq here, and don't nee=
-d
-> > @@ -720,13 +745,20 @@ static inline bool vma_start_read(struct vm_area_=
-struct *vma)
-> >       if (READ_ONCE(vma->vm_lock_seq) =3D=3D READ_ONCE(vma->vm_mm->mm_l=
-ock_seq.sequence))
-> >               return false;
-> >
-> > -     if (unlikely(down_read_trylock(&vma->vm_lock.lock) =3D=3D 0))
-> > +
-> > +     rwsem_acquire_read(&vma->vmlock_dep_map, 0, 0, _RET_IP_);
->
-> I don't know much about lockdep, but I see that down_read() does
->
-> rwsem_acquire_read(&sem->dep_map, 0, 0, _RET_IP_);
->
-> down_read_trylock() does
->
-> rwsem_acquire_read(&sem->dep_map, 0, 1, _RET_IP_);
->
-> This is passing the down_read()-like variant but it behaves like a tryloc=
-k, no?
+Hello,
 
-Yes, you are correct, this should behave like a trylock. I'll fix it.
+On Tue, Jan 07, 2025 at 06:07:48PM -0800, Charlie Jenkins wrote:
+> Standardize the generation of syscall headers around syscall tables.
+> Previously each architecture independently selected how syscall headers
+> would be generated, or would not define a way and fallback onto
+> libaudit. Convert all architectures to use a standard syscall header
+> generation script and allow each architecture to override the syscall
+> table to use if they do not use the generic table.
+> 
+> As a result of these changes, no architecture will require libaudit, and
+> so the fallback case of using libaudit is removed by this series.
+> 
+> Testing:
+> 
+> I have tested that the syscall mappings of id to name generation works
+> as expected for every architecture, but I have only validated that perf
+> trace compiles and runs as expected on riscv, arm64, and x86_64.
+> 
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> Reviewed-by: Ian Rogers <irogers@google.com>
+> Tested-by: Ian Rogers <irogers@google.com>
 
->
-> > +     /* Limit at VMA_REF_LIMIT to leave one count for a writer */
->
-> It's mainly to not increase as much as VMA_LOCK_OFFSET bit could become
-> false positively set set by readers, right?
+Acked-by: Namhyung Kim <namhyung@kernel.org>
 
-Correct.
+Thanks,
+Namhyung
 
-> The "leave one count" sounds
-> like an implementation detail of VMA_REF_LIMIT and will change if Liam's
-> suggestion is proven feasible?
-
-Yes. I already tested Liam's suggestion and it seems to be working
-fine. This comment will be gone in the next revision.
-
->
-> > +     if (unlikely(!__refcount_inc_not_zero_limited(&vma->vm_refcnt, &o=
-ldcnt,
-> > +                                                   VMA_REF_LIMIT))) {
-> > +             rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
-> >               return false;
-> > +     }
-> > +     lock_acquired(&vma->vmlock_dep_map, _RET_IP_);
-> >
-> >       /*
-> > -      * Overflow might produce false locked result.
-> > +      * Overflow of vm_lock_seq/mm_lock_seq might produce false locked=
- result.
-> >        * False unlocked result is impossible because we modify and chec=
-k
-> > -      * vma->vm_lock_seq under vma->vm_lock protection and mm->mm_lock=
-_seq
-> > +      * vma->vm_lock_seq under vma->vm_refcnt protection and mm->mm_lo=
-ck_seq
-> >        * modification invalidates all existing locks.
-> >        *
-> >        * We must use ACQUIRE semantics for the mm_lock_seq so that if w=
-e are
-> > @@ -734,10 +766,12 @@ static inline bool vma_start_read(struct vm_area_=
-struct *vma)
-> >        * after it has been unlocked.
-> >        * This pairs with RELEASE semantics in vma_end_write_all().
-> >        */
-> > -     if (unlikely(vma->vm_lock_seq =3D=3D raw_read_seqcount(&vma->vm_m=
-m->mm_lock_seq))) {
-> > -             up_read(&vma->vm_lock.lock);
-> > +     if (unlikely(oldcnt & VMA_LOCK_OFFSET ||
-> > +                  vma->vm_lock_seq =3D=3D raw_read_seqcount(&vma->vm_m=
-m->mm_lock_seq))) {
-> > +             vma_refcount_put(vma);
-> >               return false;
-> >       }
-> > +
-> >       return true;
-> >  }
-> >
-> > @@ -749,8 +783,17 @@ static inline bool vma_start_read(struct vm_area_s=
-truct *vma)
-> >   */
-> >  static inline bool vma_start_read_locked_nested(struct vm_area_struct =
-*vma, int subclass)
-> >  {
-> > +     int oldcnt;
-> > +
-> >       mmap_assert_locked(vma->vm_mm);
-> > -     down_read_nested(&vma->vm_lock.lock, subclass);
-> > +     rwsem_acquire_read(&vma->vmlock_dep_map, subclass, 0, _RET_IP_);
->
-> Same as above?
-
-Ack.
-
->
-> > +     /* Limit at VMA_REF_LIMIT to leave one count for a writer */
->
-> Also
-
-Ack.
-
->
-> > +     if (unlikely(!__refcount_inc_not_zero_limited(&vma->vm_refcnt, &o=
-ldcnt,
-> > +                                                   VMA_REF_LIMIT))) {
-> > +             rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
-> > +             return false;
-> > +     }
-> > +     lock_acquired(&vma->vmlock_dep_map, _RET_IP_);
-> >       return true;
-> >  }
-> >
+> 
+> ---
+> Changes in v5:
+> - Remove references to HAVE_SYSCALL_TABLE_SUPPORT that were
+>   missed/recently introduced
+> - Rebase on perf-tools-next
+> - Install headers to $(OUTPUT)arch instead of $(OUTPUT)tools/perf/arch
+> - Link to v4: https://lore.kernel.org/r/20241218-perf_syscalltbl-v4-0-bc8caef2ca8e@rivosinc.com
+> 
+> Changes in v4:
+> - Remove audit_machine member of syscalltbl struct (Ian)
+> - Rebase on perf-tools-next
+> - Link to v3: https://lore.kernel.org/r/20241216-perf_syscalltbl-v3-0-239f032481d5@rivosinc.com
+> 
+> Changes in v3:
+> - Fix compiliation when OUTPUT is empty
+> - Correct unused headers to be .h instead of .c  (Namhyung)
+> - Make variable definition of supported archs (Namhyung)
+> - Convert += into := for syscalls headers (Namhyung)
+> - Link to v2: https://lore.kernel.org/r/20241212-perf_syscalltbl-v2-0-f8ca984ffe40@rivosinc.com
+> 
+> Changes in v2:
+> - Rebase onto 6.13-rc2
+> - Fix output path so it generates to /tools/perf/arch properly
+> - Link to v1: https://lore.kernel.org/r/20241104-perf_syscalltbl-v1-0-9adae5c761ef@rivosinc.com
+> 
+> ---
+> Charlie Jenkins (16):
+>       perf tools: Create generic syscall table support
+>       perf tools: arc: Support generic syscall headers
+>       perf tools: csky: Support generic syscall headers
+>       perf tools: arm: Support syscall headers
+>       perf tools: sh: Support syscall headers
+>       perf tools: sparc: Support syscall headers
+>       perf tools: xtensa: Support syscall header
+>       perf tools: x86: Use generic syscall scripts
+>       perf tools: alpha: Support syscall header
+>       perf tools: parisc: Support syscall header
+>       perf tools: arm64: Use syscall table
+>       perf tools: loongarch: Use syscall table
+>       perf tools: mips: Use generic syscall scripts
+>       perf tools: powerpc: Use generic syscall table scripts
+>       perf tools: s390: Use generic syscall table scripts
+>       perf tools: Remove dependency on libaudit
+> 
+>  Documentation/admin-guide/workload-tracing.rst     |   2 +-
+>  tools/build/feature/Makefile                       |   4 -
+>  tools/build/feature/test-libaudit.c                |  11 -
+>  tools/perf/Documentation/perf-check.txt            |   2 -
+>  tools/perf/Makefile.config                         |  39 +-
+>  tools/perf/Makefile.perf                           |  12 +-
+>  tools/perf/arch/alpha/entry/syscalls/Kbuild        |   2 +
+>  .../arch/alpha/entry/syscalls/Makefile.syscalls    |   5 +
+>  tools/perf/arch/alpha/entry/syscalls/syscall.tbl   | 504 ++++++++++++++++++++
+>  tools/perf/arch/alpha/include/syscall_table.h      |   2 +
+>  tools/perf/arch/arc/entry/syscalls/Kbuild          |   2 +
+>  .../perf/arch/arc/entry/syscalls/Makefile.syscalls |   3 +
+>  tools/perf/arch/arc/include/syscall_table.h        |   2 +
+>  tools/perf/arch/arm/entry/syscalls/Kbuild          |   4 +
+>  .../perf/arch/arm/entry/syscalls/Makefile.syscalls |   2 +
+>  tools/perf/arch/arm/entry/syscalls/syscall.tbl     | 483 +++++++++++++++++++
+>  tools/perf/arch/arm/include/syscall_table.h        |   2 +
+>  tools/perf/arch/arm64/Makefile                     |  22 -
+>  tools/perf/arch/arm64/entry/syscalls/Kbuild        |   3 +
+>  .../arch/arm64/entry/syscalls/Makefile.syscalls    |   6 +
+>  tools/perf/arch/arm64/entry/syscalls/mksyscalltbl  |  46 --
+>  .../perf/arch/arm64/entry/syscalls/syscall_32.tbl  | 476 +++++++++++++++++++
+>  .../perf/arch/arm64/entry/syscalls/syscall_64.tbl  |   1 +
+>  tools/perf/arch/arm64/include/syscall_table.h      |   8 +
+>  tools/perf/arch/csky/entry/syscalls/Kbuild         |   2 +
+>  .../arch/csky/entry/syscalls/Makefile.syscalls     |   3 +
+>  tools/perf/arch/csky/include/syscall_table.h       |   2 +
+>  tools/perf/arch/loongarch/Makefile                 |  22 -
+>  tools/perf/arch/loongarch/entry/syscalls/Kbuild    |   2 +
+>  .../loongarch/entry/syscalls/Makefile.syscalls     |   3 +
+>  .../arch/loongarch/entry/syscalls/mksyscalltbl     |  45 --
+>  tools/perf/arch/loongarch/include/syscall_table.h  |   2 +
+>  tools/perf/arch/mips/entry/syscalls/Kbuild         |   2 +
+>  .../arch/mips/entry/syscalls/Makefile.syscalls     |   5 +
+>  tools/perf/arch/mips/entry/syscalls/mksyscalltbl   |  32 --
+>  tools/perf/arch/mips/include/syscall_table.h       |   2 +
+>  tools/perf/arch/parisc/entry/syscalls/Kbuild       |   3 +
+>  .../arch/parisc/entry/syscalls/Makefile.syscalls   |   6 +
+>  tools/perf/arch/parisc/entry/syscalls/syscall.tbl  | 463 +++++++++++++++++++
+>  tools/perf/arch/parisc/include/syscall_table.h     |   8 +
+>  tools/perf/arch/powerpc/Makefile                   |  25 -
+>  tools/perf/arch/powerpc/entry/syscalls/Kbuild      |   3 +
+>  .../arch/powerpc/entry/syscalls/Makefile.syscalls  |   6 +
+>  .../perf/arch/powerpc/entry/syscalls/mksyscalltbl  |  39 --
+>  tools/perf/arch/powerpc/include/syscall_table.h    |   8 +
+>  tools/perf/arch/riscv/Makefile                     |  22 -
+>  tools/perf/arch/riscv/entry/syscalls/Kbuild        |   2 +
+>  .../arch/riscv/entry/syscalls/Makefile.syscalls    |   4 +
+>  tools/perf/arch/riscv/entry/syscalls/mksyscalltbl  |  47 --
+>  tools/perf/arch/riscv/include/syscall_table.h      |   8 +
+>  tools/perf/arch/s390/Makefile                      |  21 -
+>  tools/perf/arch/s390/entry/syscalls/Kbuild         |   2 +
+>  .../arch/s390/entry/syscalls/Makefile.syscalls     |   5 +
+>  tools/perf/arch/s390/entry/syscalls/mksyscalltbl   |  32 --
+>  tools/perf/arch/s390/include/syscall_table.h       |   2 +
+>  tools/perf/arch/sh/entry/syscalls/Kbuild           |   2 +
+>  .../perf/arch/sh/entry/syscalls/Makefile.syscalls  |   4 +
+>  tools/perf/arch/sh/entry/syscalls/syscall.tbl      | 472 +++++++++++++++++++
+>  tools/perf/arch/sh/include/syscall_table.h         |   2 +
+>  tools/perf/arch/sparc/entry/syscalls/Kbuild        |   3 +
+>  .../arch/sparc/entry/syscalls/Makefile.syscalls    |   5 +
+>  tools/perf/arch/sparc/entry/syscalls/syscall.tbl   | 514 +++++++++++++++++++++
+>  tools/perf/arch/sparc/include/syscall_table.h      |   8 +
+>  tools/perf/arch/x86/Build                          |   1 -
+>  tools/perf/arch/x86/Makefile                       |  25 -
+>  tools/perf/arch/x86/entry/syscalls/Kbuild          |   3 +
+>  .../perf/arch/x86/entry/syscalls/Makefile.syscalls |   6 +
+>  tools/perf/arch/x86/entry/syscalls/syscalltbl.sh   |  42 --
+>  tools/perf/arch/x86/include/syscall_table.h        |   8 +
+>  tools/perf/arch/xtensa/entry/syscalls/Kbuild       |   2 +
+>  .../arch/xtensa/entry/syscalls/Makefile.syscalls   |   4 +
+>  tools/perf/arch/xtensa/entry/syscalls/syscall.tbl  | 439 ++++++++++++++++++
+>  tools/perf/arch/xtensa/include/syscall_table.h     |   2 +
+>  tools/perf/builtin-check.c                         |   2 -
+>  tools/perf/builtin-help.c                          |   2 -
+>  tools/perf/builtin-trace.c                         |  30 --
+>  tools/perf/check-headers.sh                        |   9 +
+>  tools/perf/perf.c                                  |   6 +-
+>  tools/perf/scripts/Makefile.syscalls               |  61 +++
+>  tools/perf/scripts/syscalltbl.sh                   |  86 ++++
+>  tools/perf/tests/make                              |   7 +-
+>  tools/perf/util/env.c                              |   6 +-
+>  tools/perf/util/generate-cmdlist.sh                |   4 +-
+>  tools/perf/util/syscalltbl.c                       |  90 +---
+>  tools/perf/util/syscalltbl.h                       |   1 -
+>  tools/scripts/syscall.tbl                          | 409 ++++++++++++++++
+>  86 files changed, 4103 insertions(+), 623 deletions(-)
+> ---
+> base-commit: 034b5b147bf7f44a45e39334725f8633b7ca8c3b
+> change-id: 20240913-perf_syscalltbl-6f98defcc6f5
+> -- 
+> - Charlie
+> 
