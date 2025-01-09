@@ -1,48 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76460194A6C
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 18:33:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E6318893C
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 18:37:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736447641; cv=none; b=SVeBgKn/5/XkA2UzqL6wk7a3jesrf/J6/Kdm9CIRX4Td8V6W2hW5D7Q9uiJNvD6o8dugsfNU61BEW7b1nHG146sqlod3byopchzfzilN99xpbr+2CYS06qM9KILSOKO2xWxxr8cMyUsz8WkbgCvOTfZjp+ZkE4vEgnoCJEGHNFs=
+	t=1736447847; cv=none; b=DqnlM2x05xJOnC9Azl8Wisu9X6BWGjyPrFHEMcM7uDHMDi3XPYiznF/ICuRqM4QDon5s0dkY4RTfsGJziIojcss1MqtYQOmN/xf77JfcJU9VuFRsoxDH97AYjheD383l+uWp4G6vlNTKou20xHqipkOqWQUeRXwuviECmqoQcJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736447641; c=relaxed/simple;
-	bh=x51KGaT02l2b3n/FApXL0qL/csBD9VruTvHfCk3pQP4=;
+	s=arc-20240116; t=1736447847; c=relaxed/simple;
+	bh=RjtB1elVRS7bHzbXvJapVw2pF2+jtkcn4jVDa9HzQAI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ha3auMqFXzrw1MERabc6nJe8IwH8wlh/WmFdE+U8xat675fIAK1zPQNlLlHp5a738g76Sw5duSlubA+PPSl3pGgST9PnyaUL8KLJ/W9drP0MB/SNUrg89mR8ECIdPiYTMRerMcVNzbN02re9jCWR7YrSfUA/GhirPbECM97Ccvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=IgylLzMI; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=fPhdH9OhumAjUYMSIgp3SAyzw8mtV5FM3zVmT6B06VWAUTpvl2qFSLOu/XyO4fGPuF4MVRyrBUD5u/zBsTB4Tt5OIxj+FHuEzJ5WMiE4nyty/1h1nGpwxeHiv2835dirogeUNToE56WM30wu6LRFaCN6KI9gvuzOuqVSMRhRPI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CkHW033E; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="IgylLzMI"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0B374404F0
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CkHW033E"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 29777404F0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1736447631; bh=ENXguRXrBBFRx9OgfN6ouoXecgsknov3RNJhS+pwL+c=;
+	t=1736447841; bh=+iWfAxGwch2SQLfNN6yj9UvJNFWT7vIGzIzawICUUyk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=IgylLzMI+cBmlWPHqckhYq84xLmL8rGHukSYDdnyZGbyrBmVoP0tcg4IqxM6iw+gM
-	 Bs7rMpVHV4ctGsdJ4pS1QMezbr31f31Oe/OFkKL2c0YRwRpsf/tdeEWjFJH5f90Ep4
-	 326JeqE8Ki0emFCK+gOSRWWuS2ZFhQt+SDF8DeO98f6Ih2qKFR8zYoK3b/x69eY9KZ
-	 ivkkh4Qu7ocjjy2XM9VTkRrsmyCMc2QolNCcpGh4SL774uudF95D/Si4nv8pilUPET
-	 NYXe37IPHL4oa6H2+nVoa4vVZL9x4rQO/GOGox5lwuvEBMCMvH52OYgAWilTdzOnXw
-	 fIKqnU+zx09Fw==
+	b=CkHW033Ev2WyAL7BgvT9l1+230ouPAzsVIUWVfmhm/bQXDnoGe/GA+FDdCCJKhTPg
+	 v7uSOfjGKTTiRo64EfbuGu5S7EESkN1M4b16GAh9lCAbCOMCSY1fsR/T7Cxzw2hsq5
+	 O5ZIi0ILbcwCgfktz9kbEJGNmwXUhdBw+asJKupImVbEqVrBMHMUGopRjjwhq5faR3
+	 8vRTkq2MjmdkPvIdKgrHF0UhUMYsaM1hRJG8Z6+2ZKdmWF4GfDGxK7A1qk2BK/IRiu
+	 Z0GXSPbOnW2BSEtm/oDi3SWY7C1jSam0edaVGHjRYUflA7rS9Rg4BIjMCUih9C5pjT
+	 8BBR9pgU29KqQ==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0B374404F0;
-	Thu,  9 Jan 2025 18:33:50 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 29777404F0;
+	Thu,  9 Jan 2025 18:37:21 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>, alexs@kernel.org,
  si.yanteng@linux.dev
 Cc: zhaoyuehui@cqsoftware.com.cn, zhaoshuo@cqsoftware.com.cn,
  zhangwei@cqsoftware.com.cn, maoyuxian@cqsoftware.com.cn,
  linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] docs/zh_CN: Add security digsig Chinese translation
-In-Reply-To: <20250108080136.19398-1-zhaoshuo@cqsoftware.com.cn>
-References: <20250108080136.19398-1-zhaoshuo@cqsoftware.com.cn>
-Date: Thu, 09 Jan 2025 11:33:50 -0700
-Message-ID: <87jzb3n8fl.fsf@trenco.lwn.net>
+Subject: Re: [PATCH v2] docs/zh_CN: Add security IMA-templates Chinese
+ translation
+In-Reply-To: <20250108075740.19342-1-zhaoshuo@cqsoftware.com.cn>
+References: <20250108075740.19342-1-zhaoshuo@cqsoftware.com.cn>
+Date: Thu, 09 Jan 2025 11:37:20 -0700
+Message-ID: <87frlrn89r.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,27 +54,22 @@ Content-Type: text/plain
 
 Shuo Zhao <zhaoshuo@cqsoftware.com.cn> writes:
 
-> Translate .../security/digsig.rst into Chinese.
+> Translate .../security/IMA-templates.rst into Chinese.
 >
-> Update the translation through commit d56b699d76d1
-> ("Documentation: Fix typos")
+> Update the translation through commit 398c42e2c46c
+> ("ima: support fs-verity file digest based version 3 signatures").
 >
 > Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
 > Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
 > ---
 >
-> v3:
+> v2:
 >
 > Change the email address.
 >
-> v2:
->
-> Add authors and dates and modify some translations.
->
->  .../translations/zh_CN/security/digsig.rst    | 103 ++++++++++++++++++
->  .../translations/zh_CN/security/index.rst     |   2 +-
->  2 files changed, 104 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/security/digsig.rst
+>  .../zh_CN/security/IMA-templates.rst          | 97 +++++++++++++++++++
+>  1 file changed, 97 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/security/IMA-templates.rst
 
 Applied, thanks.
 
