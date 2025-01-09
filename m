@@ -1,132 +1,131 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24FB7200B95;
-	Thu,  9 Jan 2025 17:51:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE73198A32;
+	Thu,  9 Jan 2025 17:52:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736445108; cv=none; b=taDw5wrgPdpF0ihjNY3p1jFLML5BtR0MczBUz1+8qZvgg6WnTXYEpT6uUIMwisjtVluMtmn14J5oov/Av/7IthGEt61rtn8zT7DoxKoZf0BzX/ILA54Z8w2vKrqHYPFJUE/t2kxCq5VPQUKbKL1LqYkb1cZhgVIVuji+QET16Lg=
+	t=1736445127; cv=none; b=LQYYEmwtLrLPn/BYtZ8p3U9bQEt5gOodhHjg+bPM0K7j4SP+PZPK49hgebLexZ6UWf0ku/u9PklZtcGNsIkUOMoTroIa5jssir9F7JanDDfCWio2fyk9jiskilqwXjscG3ZlLGzDCh1C9XFX+rW+fqnCpXQ6dkb/cHslzuHKTdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736445108; c=relaxed/simple;
-	bh=IPoCvtuIbYdm4duAoYfcI65fUkKJC3T/ANKcwt19fcA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BKclcyqkYLbt9gSCrynEhNmmyqfbqVr6uS4sCTtAv0pZUtaDO8BZlvBTnhKMkQRSayo0WXWZZu8OwhGvd82qiGakpSbLdSa837WiTWILgpFqWQmDt67xGlOd3/7Xg7ofzSKGfcX2QOTMb0JPUaFSqFD/WRsS6zt/bXYL24lprmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LYYfWteP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736445127; c=relaxed/simple;
+	bh=G5CNd0F6kBeo7WGXY+3uBhghJdC70IEAanK9+fFs46Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Epkoq/QEqpQJ/x7Q481VvkYmpuqss9IEMjTPf78JyvqF4BqXfX0TI9h10phabGW1VjuNW9bg9/J3u6rraFLuNXmhjFh1mYVauE5hdPRwpo9PDAmFf+NERmx/MoxMKJCTOoJyjzAtCuT9OWf+Fv/K5QrouTpVBYA14+5OmnR+yTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T4ssNGvO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LYYfWteP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE000C4CED2;
-	Thu,  9 Jan 2025 17:51:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T4ssNGvO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0AD8C4CEDF;
+	Thu,  9 Jan 2025 17:52:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736445108;
-	bh=IPoCvtuIbYdm4duAoYfcI65fUkKJC3T/ANKcwt19fcA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LYYfWtePMZTuxd4s2GRIBuHgMcxlCm6/g/nwHTX+qzJ7Q6oLzDb2N+B1qx/ANy6JG
-	 L1b4uwDm3AKkYPa/sfWJjSAL66RbSTW3nLyZWT9jTaASpJ4cEXQ74jjvoyilcVQY1d
-	 PP7mKtMt24H07N0YUyegP4mhDWuLcRUT9CUFr2gTBJQRpEUpGiCB83EIe8lfy2Xhzu
-	 oTP6cwo+p9jhLLfM95fIY6vLvK5qkcacQKOoIytnlhKZccWnrLkiW12ZH6my+gSpAs
-	 EQd6ed51aVz/lHT/cjkYTLpliY6WIn34vQifkLkZ5cCzCG4V6mPAg0TeF79cD7jOhU
-	 yuOlq4RRSgFHw==
-From: SeongJae Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SeongJae Park <sj@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH v2 10/10] Docs/admin-guide/mm/damon/usage: document DAMOS filter 'allow' sysfs file
-Date: Thu,  9 Jan 2025 09:51:26 -0800
-Message-Id: <20250109175126.57878-11-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250109175126.57878-1-sj@kernel.org>
-References: <20250109175126.57878-1-sj@kernel.org>
+	s=k20201202; t=1736445127;
+	bh=G5CNd0F6kBeo7WGXY+3uBhghJdC70IEAanK9+fFs46Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T4ssNGvOYO0GrVuVdqFOW0WLmQvIE10vp8FN2EJqni7EGvi6zYCp3K+q2dp6h8Eeh
+	 h0+po04upZfRSWBkxx+FYhyOFXEQ3GQJhA4VOwYESk9xvaTjBdNRIiDJdcjhKkzab9
+	 OHla+2wQgOjgKoWYSCjf8RM74as+VJSR1wvXE7Wa5GzYKbXafn1I2G8Pvo6XiNj5k9
+	 khjg+AdWftpoRv/TiHZxheaIL6qufh8WbT3yPhoWf4bQ51r8zEv+iD/UYrdfmjZuFa
+	 oAF9s5DYbQfxibuITn+q2OFcJ6gdZel4IbYmJJjZP3mPZ5ER70cQr0BDQyQxNa7vja
+	 buFF5CyOZRNjw==
+Date: Thu, 9 Jan 2025 17:52:00 +0000
+From: Simon Horman <horms@kernel.org>
+To: Luo Jie <quic_luoj@quicinc.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Lei Wei <quic_leiwei@quicinc.com>,
+	Suruchi Agarwal <quic_suruchia@quicinc.com>,
+	Pavithra R <quic_pavir@quicinc.com>,
+	Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
+	quic_kkumarcs@quicinc.com, quic_linchen@quicinc.com,
+	srinivas.kandagatla@linaro.org, bartosz.golaszewski@linaro.org,
+	john@phrozen.org
+Subject: Re: [PATCH net-next v2 07/14] net: ethernet: qualcomm: Initialize
+ PPE queue settings
+Message-ID: <20250109175200.GP7706@kernel.org>
+References: <20250108-qcom_ipq_ppe-v2-0-7394dbda7199@quicinc.com>
+ <20250108-qcom_ipq_ppe-v2-7-7394dbda7199@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250108-qcom_ipq_ppe-v2-7-7394dbda7199@quicinc.com>
 
-Update DAMON usage document for the newly added 'allow' sysfs file for
-DAMOS filters.
+On Wed, Jan 08, 2025 at 09:47:14PM +0800, Luo Jie wrote:
+> Configure unicast and multicast hardware queues for the PPE
+> ports to enable packet forwarding between the ports.
+> 
+> Each PPE port is assigned with a range of queues. The queue ID
+> selection for a packet is decided by the queue base and queue
+> offset that is configured based on the internal priority and
+> the RSS hash value of the packet.
+> 
+> Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
+> ---
+>  drivers/net/ethernet/qualcomm/ppe/ppe_config.c | 357 ++++++++++++++++++++++++-
+>  drivers/net/ethernet/qualcomm/ppe/ppe_config.h |  63 +++++
+>  drivers/net/ethernet/qualcomm/ppe/ppe_regs.h   |  21 ++
+>  3 files changed, 440 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/ethernet/qualcomm/ppe/ppe_config.c b/drivers/net/ethernet/qualcomm/ppe/ppe_config.c
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 33 +++++++++++---------
- 1 file changed, 19 insertions(+), 14 deletions(-)
+...
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index 8df3357dcfa3..f0d0c20711d6 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -83,7 +83,7 @@ comma (",").
-     │ │ │ │ │ │ │ │ │ 0/target_metric,target_value,current_value
-     │ │ │ │ │ │ │ :ref:`watermarks <sysfs_watermarks>`/metric,interval_us,high,mid,low
-     │ │ │ │ │ │ │ :ref:`filters <sysfs_filters>`/nr_filters
--    │ │ │ │ │ │ │ │ 0/type,matching,memcg_id
-+    │ │ │ │ │ │ │ │ 0/type,matching,memcg_id,allow
-     │ │ │ │ │ │ │ :ref:`stats <sysfs_schemes_stats>`/nr_tried,sz_tried,nr_applied,sz_applied,sz_ops_filter_passed,qt_exceeds
-     │ │ │ │ │ │ │ :ref:`tried_regions <sysfs_schemes_tried_regions>`/total_bytes
-     │ │ │ │ │ │ │ │ 0/start,end,nr_accesses,age,sz_filter_passed
-@@ -406,13 +406,14 @@ number (``N``) to the file creates the number of child directories named ``0``
- to ``N-1``.  Each directory represents each filter.  The filters are evaluated
- in the numeric order.
- 
--Each filter directory contains six files, namely ``type``, ``matcing``,
--``memcg_path``, ``addr_start``, ``addr_end``, and ``target_idx``.  To ``type``
--file, you can write one of five special keywords: ``anon`` for anonymous pages,
--``memcg`` for specific memory cgroup, ``young`` for young pages, ``addr`` for
--specific address range (an open-ended interval), or ``target`` for specific
--DAMON monitoring target filtering.  Meaning of the types are same to the
--description on the :ref:`design doc <damon_design_damos_filters>`.
-+Each filter directory contains seven files, namely ``type``, ``matching``,
-+``allow``, ``memcg_path``, ``addr_start``, ``addr_end``, and ``target_idx``.
-+To ``type`` file, you can write one of five special keywords: ``anon`` for
-+anonymous pages, ``memcg`` for specific memory cgroup, ``young`` for young
-+pages, ``addr`` for specific address range (an open-ended interval), or
-+``target`` for specific DAMON monitoring target filtering.  Meaning of the
-+types are same to the description on the :ref:`design doc
-+<damon_design_damos_filters>`.
- 
- In case of the memory cgroup filtering, you can specify the memory cgroup of
- the interest by writing the path of the memory cgroup from the cgroups mount
-@@ -422,25 +423,29 @@ specify the start and end address of the range to ``addr_start`` and
- you can specify the index of the target between the list of the DAMON context's
- monitoring targets list to ``target_idx`` file.
- 
--You can write ``Y`` or ``N`` to ``matching`` file to filter out pages that does
--or does not match to the type, respectively.  Then, the scheme's action will
--not be applied to the pages that specified to be filtered out.
-+You can write ``Y`` or ``N`` to ``matching`` file to specify whether the filter
-+is for memory that matches the ``type``.  You can write ``Y`` or ``N`` to
-+``allow`` file to specify if applying the action to the memory that satisfies
-+the ``type`` and ``matching`` should be allowed or not.
- 
- For example, below restricts a DAMOS action to be applied to only non-anonymous
- pages of all memory cgroups except ``/having_care_already``.::
- 
-     # echo 2 > nr_filters
--    # # filter out anonymous pages
-+    # # disallow anonymous pages
-     echo anon > 0/type
-     echo Y > 0/matching
-+    echo N > 0/allow
-     # # further filter out all cgroups except one at '/having_care_already'
-     echo memcg > 1/type
-     echo /having_care_already > 1/memcg_path
-     echo Y > 1/matching
-+    echo N > 1/allow
- 
- Refer to the :ref:`DAMOS filters design documentation
--<damon_design_damos_filters>` for more details including when each of the
--filters are supported and differences on stats.
-+<damon_design_damos_filters>` for more details including how multiple filters
-+of different ``allow`` works, when each of the filters are supported, and
-+differences on stats.
- 
- .. _sysfs_schemes_stats:
- 
--- 
-2.39.5
+> @@ -673,6 +701,111 @@ static struct ppe_scheduler_port_config ppe_port_sch_config[] = {
+>  	},
+>  };
+>  
+> +/* The scheduler resource is applied to each PPE port, The resource
+> + * includes the unicast & multicast queues, flow nodes and DRR nodes.
+> + */
+> +static struct ppe_port_schedule_resource ppe_scheduler_res[] = {
+> +	{	.ucastq_start	= 0,
+> +		.ucastq_end	= 63,
+> +		.mcastq_start	= 256,
+> +		.ucastq_end	= 271,
+
+Hi Luo Jie,
+
+This appears to duplicate the initialisation of .ucastq_end.
+Should the line above initialise .mcastq_end instead?
+
+Likewise for other elements of this array.
+
+Flagged by W=1 builds with both clang-19 and gcc-14.
+
+> +		.flow_id_start	= 0,
+> +		.flow_id_end	= 0,
+> +		.l0node_start	= 0,
+> +		.l0node_end	= 7,
+> +		.l1node_start	= 0,
+> +		.l1node_end	= 0,
+> +	},
+> +	{	.ucastq_start	= 144,
+> +		.ucastq_end	= 159,
+> +		.mcastq_start	= 272,
+> +		.ucastq_end	= 275,
+> +		.flow_id_start	= 36,
+> +		.flow_id_end	= 39,
+> +		.l0node_start	= 48,
+> +		.l0node_end	= 63,
+> +		.l1node_start	= 8,
+> +		.l1node_end	= 11,
+> +	},
+
+...
+
+> +};
+
+...
