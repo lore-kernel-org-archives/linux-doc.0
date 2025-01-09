@@ -1,227 +1,112 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD52A21519C
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 09:38:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF5D2165E2
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 09:45:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736415498; cv=none; b=sw/Xku6+wJWquNl4x+mLt3ft7jaGPQbX7JTlDFEuA6U1SrLclcJ/gqSQm3lZsyOkMk+QgxAt0c/NPXt2BDoZqk5DJl3fDl3yvNgID9Zq2nPCD4EBlq0wey8BJrGBpQLnU6/Xa82TxyzsugLmXijvu5FCsSgI+y7lC8xh9u3iuVk=
+	t=1736415929; cv=none; b=nnlqEv92y7QuyZVDpzJy0I3Qf1zZOZObT+EUpziacP5qLR8Sa1lKeWP/4zRdvzb37AdvqnfD7F+gWE3vy824mev1b1AS2tKJL/CM2wL8wAqLm3DYCjjex4f7FBHpZclnzpv68aRX+h0ZkCae7QwHaFYaDJxae0YmDSZcICd/19k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736415498; c=relaxed/simple;
-	bh=Mf8o7lroOT1imCTt2bwlE12K0z806yPl+dcKb86wiOg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TE4Aou7ArX9AhrNPGbqb+6Jd0ViJ8BWpDdA+lrhyM2RWuy8IlI/x8MoXQ5cHMaKDBBNIVagiMR/4K8kZ/Ko2/2YZhEk9DkeccMaZciFSIqnUk4tvF86UnxnYmULmiLeHpnMMyhC2bcGjgn+edPT/FR7UhmBx1fZa/noH58h4LSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=FQgZAh0A; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="FQgZAh0A"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2164b1f05caso10131295ad.3
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jan 2025 01:38:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1736415496; x=1737020296; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iX5Xv7vZXmp6Diw4dhkXM/NBpxHnqibMmwyNh801U+c=;
-        b=FQgZAh0AaMVrQgZ8bguWTv62TPN4AXuQrBKi0vXwfZSilwTTsV3PU3zYVpJ5ZhNHqO
-         ApT7x04fomqwmru9eysocHk5eBlWPiW1MjUqIeTpQQeBg1Q/sA9U2qP8ZmWUzQziiSek
-         SHORWixaV3Rat0D98HXSI17BIGMBmLahXr3XQHbmuvirQCAq2kVP7jScJaiM+vQgM9UV
-         D1Ark3iiW6P/Z7rCywAMzyr3MBs6c5YJV2Po/Vd9wayMTuXbI82hssme4h+Ap1EB6UYd
-         UOd6KZkS63tDhP9DjJqeW7QZvr6qsLMl9Vm21nNwc///EgjEBfrSq60x3nN/xnsSq6FX
-         1hDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736415496; x=1737020296;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iX5Xv7vZXmp6Diw4dhkXM/NBpxHnqibMmwyNh801U+c=;
-        b=KRWoKdr02pxVNIxA2oszocYt2W9OljwT/xV6Sobwp0ts4YdHS+09vuwqIDIsqmVTqk
-         ZZhZ5FcCH6e4UjQodMmVOZZz5N1tdB+Ndn4AdgutYxLFovPi68zu+dirwoiK0iChAYL0
-         B3uyr+d7gK9MX5fhGV7cbl3dHHc8v6HM8QYI56pNwxtK+Nb2/9Z1RY7WSxx6NBgzNe1s
-         k8Y8j1EpPFp/q44mSy6c/OJoR67kw/n5vq2UR93ae2vAwyTlm937kPCWK0JjNHm9N0OX
-         u8HU2htbEmv7lGs2RuLhibXzs+xNNMYiQRuEDqipYAn4ukOD+6L64TbmN0D/5fkAQtEH
-         t+jg==
-X-Forwarded-Encrypted: i=1; AJvYcCUYvamWn/o3XRengLAJ+TzlOvXbAxBSBepJFr0XtST7eWH1pZH3+o9wnY2PthBQ/85lu5Qf/RUuHX0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzXP/5ELR/bSynfRDUrVnL3VDM5vp0X1j0GP0J5He4jKrbpQ7qO
-	8mzQPxmzyIh+Yxm46UtJeDPNB3zYutSwrPXnP3dBo689HeoHjfDi3F56UYgGy6E=
-X-Gm-Gg: ASbGncv4V2TEjRPCKxKIUkGozA3coHI4EAAeiHFVhSZTrv2p3Mhn5kBHjbnhx0rW1vo
-	PPNgN/YqIRvRJCbPiwfFyIxf9Bl8CyCWIgtMaFZiM77DYIdzFZKSDXfPOIFPf2syf59qKGZ3MiF
-	gt3rfI2m0qQTofTHfFI/nK0VMhneZC84FoKzIvucvjUfG8dRpXPdVeFcCyHuFPM/o/B+SWZH4tD
-	HqyEChtZuGUNEavO6ZzBz4Mg0cUg/orsqkuq7ISfxoGmkXbdsJ7ZoCu2YvRwIrqT5E=
-X-Google-Smtp-Source: AGHT+IE6uJuEESeHnIQxeeue01pEKjS62LqgqXa6Hf+8Q13I/VJgPMpbucR025bUQAgc88TrZ6Nz2A==
-X-Received: by 2002:a17:903:1251:b0:215:9894:5670 with SMTP id d9443c01a7336-21a83f591cemr79565855ad.16.1736415496269;
-        Thu, 09 Jan 2025 01:38:16 -0800 (PST)
-Received: from [157.82.203.37] ([157.82.203.37])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a917687c0sm8556475ad.17.2025.01.09.01.38.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jan 2025 01:38:15 -0800 (PST)
-Message-ID: <ad580d7b-2bd1-401e-bb7b-b67ec943918f@daynix.com>
-Date: Thu, 9 Jan 2025 18:38:10 +0900
+	s=arc-20240116; t=1736415929; c=relaxed/simple;
+	bh=0Lf1hvxJlw8NY5me4Cd+9DkMBtiJ1x0BsZtQ8w+6NRU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=krH63Uqw79980l1gWoec75xEZKPsRMtvJ7wnc+4AP4Qtow7FuJRQ4dFeY0A8TQE3brHY256klz5fVwA9p5Trk5jvapYlKtgOdIMnowe4Mfh/5AZYzdK8F97qNYL/ei7nt+HCKfwGQ/bQphCU2BoqMe/Ny95nDzWRCtZMPFvl2Ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tVp64-00088C-Ch; Thu, 09 Jan 2025 10:45:00 +0100
+Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tVp62-007fa2-0F;
+	Thu, 09 Jan 2025 10:44:58 +0100
+Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tVp62-000PMj-2V;
+	Thu, 09 Jan 2025 10:44:58 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
+	kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	Simon Horman <horms@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net-next v6 0/7] Introduce unified and structured PHY
+Date: Thu,  9 Jan 2025 10:44:50 +0100
+Message-Id: <20250109094457.97466-1-o.rempel@pengutronix.de>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] tun: Set num_buffers for virtio 1.0
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jason Wang <jasowang@redhat.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, kvm@vger.kernel.org,
- virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Andrew Melnychenko <andrew@daynix.com>,
- Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com,
- devel@daynix.com
-References: <20250109-tun-v2-0-388d7d5a287a@daynix.com>
- <20250109-tun-v2-3-388d7d5a287a@daynix.com>
- <20250109023144-mutt-send-email-mst@kernel.org>
- <20250109023829-mutt-send-email-mst@kernel.org>
-Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <20250109023829-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On 2025/01/09 16:40, Michael S. Tsirkin wrote:
-> On Thu, Jan 09, 2025 at 02:32:25AM -0500, Michael S. Tsirkin wrote:
->> On Thu, Jan 09, 2025 at 03:58:45PM +0900, Akihiko Odaki wrote:
->>> The specification says the device MUST set num_buffers to 1 if
->>> VIRTIO_NET_F_MRG_RXBUF has not been negotiated.
->>>
->>> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
->>
->>
->> How do we know this is v1 and not v0? Confused.
-> 
-> Ah I got it, you assume userspace will over-write it
-> if VIRTIO_NET_F_MRG_RXBUF is set.
-> If we are leaving this up to userspace, why not let it do
-> it always?
+This patch set introduces a unified and well-structured interface for
+reporting PHY statistics. Instead of relying on arbitrary strings in PHY
+drivers, this interface provides a consistent and structured way to
+expose PHY statistics to userspace via ethtool.
 
-tun may be used with vhost_net, which does not set the field.
+The initial groundwork for this effort was laid by Jakub Kicinski, who
+contributed patches to plumb PHY statistics to drivers and added support
+for structured statistics in ethtool. Building on Jakub's work, I tested
+the implementation with several PHYs, addressed a few issues, and added
+support for statistics in two specific PHY drivers.
 
-> 
->>> ---
->>>   drivers/net/tap.c      |  2 +-
->>>   drivers/net/tun.c      |  6 ++++--
->>>   drivers/net/tun_vnet.c | 14 +++++++++-----
->>>   drivers/net/tun_vnet.h |  4 ++--
->>>   4 files changed, 16 insertions(+), 10 deletions(-)
->>>
->>> diff --git a/drivers/net/tap.c b/drivers/net/tap.c
->>> index 60804855510b..fe9554ee5b8b 100644
->>> --- a/drivers/net/tap.c
->>> +++ b/drivers/net/tap.c
->>> @@ -713,7 +713,7 @@ static ssize_t tap_put_user(struct tap_queue *q,
->>>   	int total;
->>>   
->>>   	if (q->flags & IFF_VNET_HDR) {
->>> -		struct virtio_net_hdr vnet_hdr;
->>> +		struct virtio_net_hdr_v1 vnet_hdr;
->>>   
->>>   		vnet_hdr_len = READ_ONCE(q->vnet_hdr_sz);
->>>   
->>> diff --git a/drivers/net/tun.c b/drivers/net/tun.c
->>> index dbf0dee92e93..f211d0580887 100644
->>> --- a/drivers/net/tun.c
->>> +++ b/drivers/net/tun.c
->>> @@ -1991,7 +1991,9 @@ static ssize_t tun_put_user_xdp(struct tun_struct *tun,
->>>   	size_t total;
->>>   
->>>   	if (tun->flags & IFF_VNET_HDR) {
->>> -		struct virtio_net_hdr gso = { 0 };
->>> +		struct virtio_net_hdr_v1 gso = {
->>> +			.num_buffers = __virtio16_to_cpu(true, 1)
->>> +		};
->>>   
->>>   		vnet_hdr_sz = READ_ONCE(tun->vnet_hdr_sz);
->>>   		ret = tun_vnet_hdr_put(vnet_hdr_sz, iter, &gso);
->>> @@ -2044,7 +2046,7 @@ static ssize_t tun_put_user(struct tun_struct *tun,
->>>   	}
->>>   
->>>   	if (vnet_hdr_sz) {
->>> -		struct virtio_net_hdr gso;
->>> +		struct virtio_net_hdr_v1 gso;
->>>   
->>>   		ret = tun_vnet_hdr_from_skb(tun->flags, tun->dev, skb, &gso);
->>>   		if (ret < 0)
->>> diff --git a/drivers/net/tun_vnet.c b/drivers/net/tun_vnet.c
->>> index ffb2186facd3..a7a7989fae56 100644
->>> --- a/drivers/net/tun_vnet.c
->>> +++ b/drivers/net/tun_vnet.c
->>> @@ -130,15 +130,17 @@ int tun_vnet_hdr_get(int sz, unsigned int flags, struct iov_iter *from,
->>>   EXPORT_SYMBOL_GPL(tun_vnet_hdr_get);
->>>   
->>>   int tun_vnet_hdr_put(int sz, struct iov_iter *iter,
->>> -		     const struct virtio_net_hdr *hdr)
->>> +		     const struct virtio_net_hdr_v1 *hdr)
->>>   {
->>> +	int content_sz = MIN(sizeof(*hdr), sz);
->>> +
->>>   	if (iov_iter_count(iter) < sz)
->>>   		return -EINVAL;
->>>   
->>> -	if (copy_to_iter(hdr, sizeof(*hdr), iter) != sizeof(*hdr))
->>> +	if (copy_to_iter(hdr, content_sz, iter) != content_sz)
->>>   		return -EFAULT;
->>>   
->>> -	if (iov_iter_zero(sz - sizeof(*hdr), iter) != sz - sizeof(*hdr))
->>> +	if (iov_iter_zero(sz - content_sz, iter) != sz - content_sz)
->>>   		return -EFAULT;
->>>   
->>>   	return 0;
->>> @@ -154,11 +156,11 @@ EXPORT_SYMBOL_GPL(tun_vnet_hdr_to_skb);
->>>   
->>>   int tun_vnet_hdr_from_skb(unsigned int flags, const struct net_device *dev,
->>>   			  const struct sk_buff *skb,
->>> -			  struct virtio_net_hdr *hdr)
->>> +			  struct virtio_net_hdr_v1 *hdr)
->>>   {
->>>   	int vlan_hlen = skb_vlan_tag_present(skb) ? VLAN_HLEN : 0;
->>>   
->>> -	if (virtio_net_hdr_from_skb(skb, hdr,
->>> +	if (virtio_net_hdr_from_skb(skb, (struct virtio_net_hdr *)hdr,
->>>   				    tun_vnet_is_little_endian(flags), true,
->>>   				    vlan_hlen)) {
->>>   		struct skb_shared_info *sinfo = skb_shinfo(skb);
->>> @@ -176,6 +178,8 @@ int tun_vnet_hdr_from_skb(unsigned int flags, const struct net_device *dev,
->>>   		return -EINVAL;
->>>   	}
->>>   
->>> +	hdr->num_buffers = 1;
->>> +
->>>   	return 0;
->>>   }
->>>   EXPORT_SYMBOL_GPL(tun_vnet_hdr_from_skb);
->>> diff --git a/drivers/net/tun_vnet.h b/drivers/net/tun_vnet.h
->>> index 2dfdbe92bb24..d8fd94094227 100644
->>> --- a/drivers/net/tun_vnet.h
->>> +++ b/drivers/net/tun_vnet.h
->>> @@ -12,13 +12,13 @@ int tun_vnet_hdr_get(int sz, unsigned int flags, struct iov_iter *from,
->>>   		     struct virtio_net_hdr *hdr);
->>>   
->>>   int tun_vnet_hdr_put(int sz, struct iov_iter *iter,
->>> -		     const struct virtio_net_hdr *hdr);
->>> +		     const struct virtio_net_hdr_v1 *hdr);
->>>   
->>>   int tun_vnet_hdr_to_skb(unsigned int flags, struct sk_buff *skb,
->>>   			const struct virtio_net_hdr *hdr);
->>>   
->>>   int tun_vnet_hdr_from_skb(unsigned int flags, const struct net_device *dev,
->>>   			  const struct sk_buff *skb,
->>> -			  struct virtio_net_hdr *hdr);
->>> +			  struct virtio_net_hdr_v1 *hdr);
->>>   
->>>   #endif /* TUN_VNET_H */
->>>
->>> -- 
->>> 2.47.1
-> 
+Most of changes are tracked in separate patches.
+changes v6:
+- drop ethtool_stat_add patch
+changes v5:
+- rebase against latest net-next
+
+Jakub Kicinski (2):
+  net: ethtool: plumb PHY stats to PHY drivers
+  net: ethtool: add support for structured PHY statistics
+
+Oleksij Rempel (5):
+  ethtool: linkstate: migrate linkstate functions to support multi-PHY
+    setups
+  Documentation: networking: update PHY error counter diagnostics in
+    twisted pair guide
+  net: phy: introduce optional polling interface for PHY statistics
+  net: phy: dp83td510: add statistics support
+  net: phy: dp83tg720: add statistics support
+
+ .../twisted_pair_layer1_diagnostics.rst       |  39 +++--
+ Documentation/networking/ethtool-netlink.rst  |   1 +
+ drivers/net/phy/dp83td510.c                   | 112 ++++++++++++
+ drivers/net/phy/dp83tg720.c                   | 161 ++++++++++++++++++
+ drivers/net/phy/phy.c                         |  63 +++++++
+ drivers/net/phy/phy_device.c                  |   2 +
+ include/linux/ethtool.h                       |  23 +++
+ include/linux/phy.h                           |  57 +++++++
+ include/linux/phylib_stubs.h                  |  42 +++++
+ include/uapi/linux/ethtool.h                  |   2 +
+ include/uapi/linux/ethtool_netlink.h          |  14 ++
+ net/ethtool/linkstate.c                       |  26 ++-
+ net/ethtool/netlink.h                         |   1 +
+ net/ethtool/stats.c                           |  55 ++++++
+ net/ethtool/strset.c                          |   5 +
+ 15 files changed, 583 insertions(+), 20 deletions(-)
+
+--
+2.39.5
 
