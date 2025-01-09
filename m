@@ -1,117 +1,73 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1491F192D7E;
-	Thu,  9 Jan 2025 17:42:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82EFB17B421;
+	Thu,  9 Jan 2025 17:48:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736444563; cv=none; b=ru29GR42VRQTzOE5v3mLbOoSKrJVM76zexm/AglEvs9GPELxa8vP7fnR4EQ3jn0ikZdwAgXvJ1Er/GdPirqgPT+IVLDmp3znwrudSlk8pOtuAykEAg/lNhx2kLmZq3bO0cEVKostu43o34JuLJs4G6ERUCJwcvFB1JZ+q5Xw6XQ=
+	t=1736444908; cv=none; b=CN7hQJAkI4MmIduGXSDlU4dvUQaDAdmmziZCqdE5E9XPUnGW80e5t8z1j3PjmtLQ6wVrn7jVbYrbdbhpYhCiHffoanYai9hZXZTe8fQHatTZprvobwkDgF+wn8Jusu2pglOPV/4YT5bXaJtuzzf87Sb+HGm802QUobW4It06XFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736444563; c=relaxed/simple;
-	bh=EijKJl28wp+gcuB4mOs6c/TVvHLtx/iw+sxnVMthWYE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uUSUOFJeoo1vCSgon1yjWfBZ8qlMsubpJKKHcP/0fDN23awdwgc1GE9tqam5y0Ya+kTq1azQMCE7DP+miRW6IAghnMwIe6SMe6aA36U/Mze0IWDQ9MeikS8es1tDjZYh2Uj5iRvbCG0EjY7qxE5zFiAczzwZhSB5VsHdgYALRho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p7qV75z4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736444908; c=relaxed/simple;
+	bh=nwF2wJILxsbe6koxpQXtd2nB0Ync5bXMj6SGjlKEwFg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NMvGR5jrvGeVxttx0WS8gNpxzFxoYXjxpxH0guoVpgD/58fAxgAK/6VNil8lbq+Dr1xxqQzQM+ZESL4xb9TGjSaGsFwxrA/hVAAAKnMWM1pQX+DHUzN8zCHw+oqP5/5U8xIlv6uedku5IWGzFvV5NPT017/MtWgiBWAm5hr4M8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VkPvYxt2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p7qV75z4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7544C4CED2;
-	Thu,  9 Jan 2025 17:42:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VkPvYxt2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A2F8C4CED2;
+	Thu,  9 Jan 2025 17:48:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736444561;
-	bh=EijKJl28wp+gcuB4mOs6c/TVvHLtx/iw+sxnVMthWYE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p7qV75z4FmBSLJbt39+WewUqPOjCeSu1TiqeR1vuQkGR/v/WEhXbohOlZi0J+cNg6
-	 EYZtY1F9KLKvJfwJtHMO0ly3KoBUnd6Yx0UxjqPCCkuuU0GcqPM2pOxcrpOqts8nVl
-	 3oBUhaXCkkdMsevFFbau9KMsobHOlKvyKbG2dO89xQ4HEZ+69koBU+V1BUF3BC9YyB
-	 Q6G2KRzajkCcw7rzt9BZLP9jPvwOuonRLKt5grRbl+8fBYT19skPaRWWdkSzzxxngt
-	 pPUT9KinyWtt1hMxSE+5M9d/2iC3OTsea25obE9autsUMHykBLcZkLdMz3ZduwJaG9
-	 0BSS/fh5yCDbQ==
-Date: Thu, 9 Jan 2025 17:42:34 +0000
-From: Simon Horman <horms@kernel.org>
-To: Luo Jie <quic_luoj@quicinc.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lei Wei <quic_leiwei@quicinc.com>,
-	Suruchi Agarwal <quic_suruchia@quicinc.com>,
-	Pavithra R <quic_pavir@quicinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
-	quic_kkumarcs@quicinc.com, quic_linchen@quicinc.com,
-	srinivas.kandagatla@linaro.org, bartosz.golaszewski@linaro.org,
-	john@phrozen.org
-Subject: Re: [PATCH net-next v2 06/14] net: ethernet: qualcomm: Initialize
- the PPE scheduler settings
-Message-ID: <20250109174234.GO7706@kernel.org>
-References: <20250108-qcom_ipq_ppe-v2-0-7394dbda7199@quicinc.com>
- <20250108-qcom_ipq_ppe-v2-6-7394dbda7199@quicinc.com>
+	s=k20201202; t=1736444906;
+	bh=nwF2wJILxsbe6koxpQXtd2nB0Ync5bXMj6SGjlKEwFg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=VkPvYxt2FS2k3iUsJ4zwxKlOa035hiDEkOR/4Hk6a4AB0gYPBGPBcp24psEFdOszZ
+	 VqQCPATEjH+6kyywBS58K8xkRNUJ6mB4lpb8BidsaItN5Ka3BjizPmVAlSGzp75Ljw
+	 uDNGvXwcqA1xxlbJ+eB/Q1XdyONsQbgfjWho0RwWAB+f3/ZPwqUfvskIuQvZkRoI1Y
+	 ddhCj9YaEK7WaQEfzjOb+mLjEzeApMHolc+18E+sbKkuMH6Ba99A+548gY7W3430rx
+	 Fe5jCIXIPHaUPbkS0AwuCYsrjq2fTbuPm+fSZVr5B7ENVP0ryfp23x1oIma9aXTCic
+	 pYL+DD42vyGeA==
+Date: Thu, 9 Jan 2025 09:48:24 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Jonathan
+ Corbet <corbet@lwn.net>, kernel@pengutronix.de,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, Simon Horman
+ <horms@kernel.org>, Russell King <linux@armlinux.org.uk>, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v6 2/7] net: ethtool: plumb PHY stats to PHY
+ drivers
+Message-ID: <20250109094824.39cef463@kernel.org>
+In-Reply-To: <Z4AHEEX1c0gcGEV6@pengutronix.de>
+References: <20250109094457.97466-1-o.rempel@pengutronix.de>
+	<20250109094457.97466-3-o.rempel@pengutronix.de>
+	<20250109080758.608e6e1a@kernel.org>
+	<Z4AHEEX1c0gcGEV6@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250108-qcom_ipq_ppe-v2-6-7394dbda7199@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 08, 2025 at 09:47:13PM +0800, Luo Jie wrote:
-> The PPE scheduler settings determine the priority of scheduling the
-> packet across the different hardware queues per PPE port.
-> 
-> Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
-> ---
->  drivers/net/ethernet/qualcomm/ppe/ppe_config.c | 789 ++++++++++++++++++++++++-
->  drivers/net/ethernet/qualcomm/ppe/ppe_config.h |  37 ++
->  drivers/net/ethernet/qualcomm/ppe/ppe_regs.h   |  97 +++
->  3 files changed, 922 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/net/ethernet/qualcomm/ppe/ppe_config.c b/drivers/net/ethernet/qualcomm/ppe/ppe_config.c
+On Thu, 9 Jan 2025 18:27:44 +0100 Oleksij Rempel wrote:
+> > So we traded on set of static inlines for another?
+> > What's wrong with adding a C source which is always built in?
+> > Like drivers/net/phy/stubs.c, maybe call it drivers/net/phy/accessors.c
+> > or drivers/net/phy/helpers.c =20
+>=20
+> I chose the current stubs approach based on existing examples like
+> hw_timestamps. Any implementation, including the current one, will have
+> zero kernel size impact because each function is only used once. While
+> moving them to a C source file is an option, it doesn't seem necessary
+> given the current usage pattern. Do we really want to spend more time on
+> this for something that won=E2=80=99t impact functionality or size? :)
 
-...
+If we keep following existing approaches we'll not have any chance=20
+to improve :/
 
-> +/**
-> + * ppe_queue_scheduler_set - Configure scheduler for PPE hardware queue
-> + * @ppe_dev: PPE device
-> + * @node_id: PPE queue ID or flow ID
-> + * @flow_level: Flow level scheduler or queue level scheduler
-> + * @port: PPE port ID set scheduler configuration
-> + * @scheduler_cfg: PPE scheduler configuration
-> + *
-> + * PPE scheduler configuration supports queue level and flow level on
-> + * the PPE egress port.
-> + *
-> + * Return 0 on success, negative error code on failure.
-
-Nit: The tooling would prefer this last line formatted as;
-
-    * Return: ...
-
-or
-
-    * Returns: ...
-
-Flagged by ./scripts/kernel-doc -none -Wall
-
-> + */
-> +int ppe_queue_scheduler_set(struct ppe_device *ppe_dev,
-> +			    int node_id, bool flow_level, int port,
-> +			    struct ppe_scheduler_cfg scheduler_cfg)
-> +{
-> +	if (flow_level)
-> +		return ppe_scheduler_l1_queue_map_set(ppe_dev, node_id,
-> +						      port, scheduler_cfg);
-> +
-> +	return ppe_scheduler_l0_queue_map_set(ppe_dev, node_id,
-> +					      port, scheduler_cfg);
-> +}
-
-...
+But if you feel strongly it's fine. You do need to respin to fix what
+Simon pointed out tho, either way.
