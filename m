@@ -1,74 +1,73 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5D71885AA;
-	Thu,  9 Jan 2025 18:52:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F127BA2D
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 18:52:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736448740; cv=none; b=dUPuosbM4sRgzyBArmQuwTawvVLasINBCOuhx2N9QnZt+37eN23YFJffUuyZ16vsPzYgxQ7iVspi8sWIqgyVgJlqzbKFPyz1S0UpaJfeukKWgfhySNioDICdo8tiHT1ZuhyYi7Sr6BcOZRozggH/w1p7thSUYOfPHEIvTr6Ctqc=
+	t=1736448781; cv=none; b=Dql22tL/sHVag68aXqengHOn+qVEU0W9bG+LUns508UhPF3M1TcLAr8MZpoImfy573LUoHX1SybkvIGNa78LkCS/Br5kbDQDa9ON6luQFtw43vo9rKKkEkdb7OWiYgBtUby1l11nQjNwV79CV6UBqCzVWemNxioLC4YcACl2dv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736448740; c=relaxed/simple;
-	bh=4VbnyxJPsvFJI9ioTp6YjulEmqkNmoKsW35wonu5C7M=;
+	s=arc-20240116; t=1736448781; c=relaxed/simple;
+	bh=7Em7w9pq4xdbHR0MCzXVClVHHgfPGxC/Zc3IL38Ad9Y=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=SMLjWaiz2/LWg9NmtO2W/rSTWiFvjl3NwaAH5rHdWALAdVXUAm+PPL5wgLQ/dAGFQppcB2AyHYDqgydsLhf00loZvitab/E3+GWBUI9L7aKGUbsLAeXrRpcYyEEX3EEMCxK3d3VW42YPX88ZDYmSdfoMoQJlBWcu3N/AWif9bNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=s1Bdlq9N; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=jbF9Fox4NtpsoD4W7kLJqXUMNLDlu1l+nZ4AGH3gGoLDpkQRjC8+Jh79ZXbwLdI5J9gBY/gXGS9++eXBYKezwJ4cdc5vK6i+pcsAarmGGnpS2TUdyFjJjUP3eT8tdDFWRhtVGJwLRHUJn1duFhzjmmd7/dk29u/P42wAnInIu8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Qw0hvehz; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="s1Bdlq9N"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CECF2404F0
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Qw0hvehz"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C3923404F0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1736448736; bh=1arKNjpAeSPG67yGlAsno8ZO0XDLiTIQrl9AnZR+pi4=;
+	t=1736448779; bh=X6AWk6HeyhfPP/RjKFW7tXVQterQNiZ+oZXleomZPtY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=s1Bdlq9N5X2xSpbJg5DdzrH5AIDaQ6FreHLyWJ7SXaRLe1JUXzDcmineEP6PcFvWJ
-	 8iymXa+MDiM/YFI4gMhziL2QRYf/tu43+6KEnjrNzUfrmW1IEmxxwd880lfqCsBP5D
-	 Dj4m1KNwi+Sc1wXnXf2MyjcWPauaMV9KCsrMae1+uUEN2MGeki+bOlCfLSXW3Sx8nt
-	 5FmQ34qfs06ldx/yZ+DVKYaDgtdjs3Rt1acKbcQ+qO2c65/EbD9JdTAOvKiX94FIHN
-	 YHQYKwXTUlS+83yTkHw9u2Xmt2zv6Jul3rocpuv2cziJfAFRnPwtGaGBQ/DQOburaA
-	 fHoqUCpH8QFmg==
+	b=Qw0hvehzLhZbCPdlHK73aa4FLhYM58Sx8vRRETl6CiA9P5j8lVxcX3hgnlLGHdHBC
+	 8BJtAqtIJaQtTrkVK4VmrhSqz1uDmn2LyQDmpn8LnDLr99v9KKMePR4cKdjEv16Tii
+	 hXYRg34oViiDH3eOdfH9uQeRxNJMn2LwOnLNNlDzmSaZ12XLoXxrAKb1R8PYIbH7AQ
+	 evIA4i5LSEf0qGSllhjOOXOiVvXBXlMhZ+6YTGdmaSgOkq416F//m1CdDDlYbqk3Xi
+	 oXFHqfIk9L8qd3r+2fz3p1InLFbGGVvOOKzvwYsT2QruRdT7Xbs11baADmHUoYf2Pq
+	 Rnj/aisTsR49Q==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id CECF2404F0;
-	Thu,  9 Jan 2025 18:52:15 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id C3923404F0;
+	Thu,  9 Jan 2025 18:52:58 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Amir Goldstein <amir73il@gmail.com>, Geert Uytterhoeven
- <geert+renesas@glider.be>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-unionfs@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] overlayfs.rst: Fix and improve grammar
-In-Reply-To: <CAOQ4uxjESOJsb2GDx-c==_cLtF=wqtDAprcDmjwiq25hyzQFwA@mail.gmail.com>
-References: <cf07f705d63f04ebf7ba4ecafdc9ab6f63960e3d.1736239148.git.geert+renesas@glider.be>
- <CAOQ4uxjESOJsb2GDx-c==_cLtF=wqtDAprcDmjwiq25hyzQFwA@mail.gmail.com>
-Date: Thu, 09 Jan 2025 11:52:14 -0700
-Message-ID: <87tta7lt0h.fsf@trenco.lwn.net>
+To: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>, alexs@kernel.org,
+ si.yanteng@linux.dev
+Cc: zhaoyuehui@cqsoftware.com.cn, zhaoshuo@cqsoftware.com.cn,
+ zhangwei@cqsoftware.com.cn, maoyuxian@cqsoftware.com.cn,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs/zh_CN: Add security lsm-development Chinese
+ translation
+In-Reply-To: <20250107051640.23347-1-zhaoshuo@cqsoftware.com.cn>
+References: <20250107051640.23347-1-zhaoshuo@cqsoftware.com.cn>
+Date: Thu, 09 Jan 2025 11:52:57 -0700
+Message-ID: <87plkvlsza.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Amir Goldstein <amir73il@gmail.com> writes:
+Shuo Zhao <zhaoshuo@cqsoftware.com.cn> writes:
 
-> On Tue, Jan 7, 2025 at 9:45=E2=80=AFAM Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
->>
->>   - Correct "in a way the" to "in a way that",
->>   - Add a comma to improve readability.
->>
->> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Translate .../security/lsm-development.rst into Chinese.
 >
-> Acked-by: Amir Goldstein <amir73il@gmail.com>
+> Update the translation through commit 6d2ed653185b
+> ("lsm: move hook comments docs to security/security.c")
 >
-> John,
->
-> Please take this patch via the documentation tree,
-> as I have no overlayfs patches queued for v6.14.
+> Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+> ---
+>  .../translations/zh_CN/security/index.rst     |  2 +-
+>  .../zh_CN/security/lsm-development.rst        | 19 +++++++++++++++++++
+>  2 files changed, 20 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/security/lsm-development.rst
 
-OK, applied, thanks.
+This one, too, does not apply; please resend as an explicit series.
+
+Thanks,
 
 jon
