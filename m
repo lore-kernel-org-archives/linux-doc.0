@@ -1,60 +1,55 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C93E18EFD4
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 17:16:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736442993; cv=none; b=TmIhbZgRjQ/8o2XTij5wGaMkPvavp+WLFSL2vHOQsNbKDAmoLZGmHYfGXNKwzK1RUL/8QnjbDgcWfRaglzfGzkRAIa+oFacSBbST51jY7gIExuLVN+BJ6Waf8Z+UfriwqwoTc3Bma8z3lSXWRxpIT2fnBT0WYEBrL663qtem0Ow=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736442993; c=relaxed/simple;
-	bh=fxIjWL5dye//UM7o23CJHjfk0JMYszjlpt2i+u8prkE=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683751885BE;
+	Thu,  9 Jan 2025 17:17:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736443077; cv=pass; b=IlUyWjuYYGsmu7cWjv4kmG97Fz8+cern9hBkPLXe53j9F1nfluJ74EIRFr9q0x8d1VsMRsPzfR0iYg0lo1yxV1tdWlwyFRlhCvqfT6bHMcgZZqBe0z5K6uLMIOjb6mPubMEQvesYcDfiY6C3DuODz6oy13ETgny1xEq7dJpYWGY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736443077; c=relaxed/simple;
+	bh=W1QfxSWHxU+vFr0Jc1oCufSw4DUSXCg4WvMOvv2keNU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hOijaMj92xUUXkGwqUEb3yT+qErskxiXxT/iV6FxyBhXQyccweImQiD2R/39CaMqbvSX5OLGcL92YsXhNhvpTWEP1Hgc08iW0B8Ta+z3qQRe6pHRduI8oQy4Rdn1am/WcaDnC6ShFkBgRgMO/DjLf114zdKLNTHxXlfCXnh0uJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tVw8p-0004m8-HC; Thu, 09 Jan 2025 18:16:19 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tVw8p-0001Cy-0c;
-	Thu, 09 Jan 2025 18:16:19 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1tVw8p-00027O-0F;
-	Thu, 09 Jan 2025 18:16:19 +0100
-Date: Thu, 9 Jan 2025 18:16:19 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
-	Dent Project <dentproject@linuxfoundation.org>,
-	kernel@pengutronix.de,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v2 11/15] net: pse-pd: Add support for PSE
- device index
-Message-ID: <Z4AEY5cBv02YXepS@pengutronix.de>
-References: <20250109-b4-feature_poe_arrange-v2-0-55ded947b510@bootlin.com>
- <20250109-b4-feature_poe_arrange-v2-11-55ded947b510@bootlin.com>
- <20250109075926.52a699de@kernel.org>
- <20250109170957.1a4bad9c@kmaincent-XPS-13-7390>
- <Z3_415FoqTn_sV87@pengutronix.de>
- <20250109174942.391cbe6a@kmaincent-XPS-13-7390>
+	 Content-Type:Content-Disposition:In-Reply-To; b=O5fWj0VmPP8HJ1qtP+sVs92gzyu4O7b1mvOX9b+JF1nw6FQi1cVO0QqwxFx3o3LZPFEOhlxwvy6NF2UF5KbCMn8T9SsD0G5CbMQpzJWY2SnNaUS4hXqW2J+RQd1r0cyGQB/Q37pV+0W8u8HKZQwYMRaSFUpjRGxNq98AEThBlp8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=h/D1DK2/; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="h/D1DK2/"
+ARC-Seal: i=1; a=rsa-sha256; t=1736443057; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=FMpUXLC1XrWffqWGQYxHhGkgkmqBZu2gQwKEDs/gaU/44dE8/dvRMyn0JjmL1XBMFzw10N7VgX2WqMq8h0Pwy27iPJEQ7OZsPZsD4Z4IHU2dtvYwIL3PG1hJ43hGUct9w2+Nt2TswFk0Hf3EwFSF1YcLyNirEm13t1877ztmtsc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1736443057; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=+yG4OPAZpwIkncDT1rYy9OAueHzOXEav9rjjTgZquuo=; 
+	b=f/SVc2ZysbCWixcukR+OmomYl5cUBboXuvbEt9BjaDjcb6hlHcaU8Zuu+8fK5+OkFWX0d5bXF81PB9CRZmrBZ2EhU0ajMTl93KEZhlIBCDMt7mG93XJAyMYsK+VVXiXb6gbcq7I9DMfGLX9HFwYHpH08gfbkSPQGNztLRNgEFDs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+	dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1736443057;
+	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+	bh=+yG4OPAZpwIkncDT1rYy9OAueHzOXEav9rjjTgZquuo=;
+	b=h/D1DK2/sEp3O4fYtPnOcu6U7Qt2MZ/NFxcO3KiGLsuKYXpP1GnPRjG+K8SxqTbb
+	Fsx/C3z9hGYki0tV5S24WzXgWVHyivk+jPE2DJiGgWdT2LBEec/tvYJSrFwF9f+fZvy
+	TxjTtErNOvO4FbW9oyEyjoEA/boTP/cFfs/glKok=
+Received: by mx.zohomail.com with SMTPS id 1736443055727574.1082045890414;
+	Thu, 9 Jan 2025 09:17:35 -0800 (PST)
+Date: Thu, 9 Jan 2025 17:17:31 +0000
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 2/4] drm/file: Add driver-specific memory region key
+ printing helper
+Message-ID: <x5ywvy7nimvbdhuag67zrex6tjvkx2qzmepziyh2uj5fxpomjy@mpbxdpsjg6hf>
+References: <20250108210259.647030-1-adrian.larumbe@collabora.com>
+ <20250108210259.647030-3-adrian.larumbe@collabora.com>
+ <a4775792-f193-4694-82c2-c5c4c13e3cea@ursulin.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,54 +58,197 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250109174942.391cbe6a@kmaincent-XPS-13-7390>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a4775792-f193-4694-82c2-c5c4c13e3cea@ursulin.net>
 
-On Thu, Jan 09, 2025 at 05:49:42PM +0100, Kory Maincent wrote:
-> On Thu, 9 Jan 2025 17:27:03 +0100
-> Oleksij Rempel <o.rempel@pengutronix.de> wrote:
-> 
-> > On Thu, Jan 09, 2025 at 05:09:57PM +0100, Kory Maincent wrote:
-> > > On Thu, 9 Jan 2025 07:59:26 -0800
-> > > Jakub Kicinski <kuba@kernel.org> wrote:
-> > >   
-> > > > On Thu, 09 Jan 2025 11:18:05 +0100 Kory Maincent wrote:  
-> >  [...]  
-> > > > 
-> > > > This index is not used in the series, I see later on you'll add power
-> > > > evaluation strategy but that also seems to be within a domain not
-> > > > device?
-> > > > 
-> > > > Doesn't it make sense to move patches 11-14 to the next series?
-> > > > The other 11 patches seem to my untrained eye to reshuffle existing
-> > > > stuff, so they would make sense as a cohesive series. 
-> 
-> I think I should only drop patch 11 and 12 from this series which add something
-> new while the rest is reshuffle or fix code.
-> 
-> > > Indeed PSE index is used only as user information but there is nothing
-> > > correlated. You are right maybe we can add PSE index when we have something
-> > > usable for it.  
+On 09.01.2025 13:05, Tvrtko Ursulin wrote:
+> On 08/01/2025 21:02, Adrián Larumbe wrote:
+> > This is motivated by the desire of some dirvers (eg. Panthor) to print the
+> > size of internal memory regions with a prefix that reflects the driver
+> > name, as suggested in the previous documentation commit.
 > > 
-> > No user, means, it is not exposed to the user space, it is not about
-> > actual user space users.
+> > That means a minor refactoring of print_size() was needed so as to make it
+> > more generic in the format of key strings it takes as input.
+> > 
+> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> > Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> > ---
+> >   drivers/gpu/drm/drm_file.c | 60 +++++++++++++++++++++++++++++++++-----
+> >   include/drm/drm_file.h     |  2 ++
+> >   2 files changed, 54 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> > index cb5f22f5bbb6..5deae4cffa79 100644
+> > --- a/drivers/gpu/drm/drm_file.c
+> > +++ b/drivers/gpu/drm/drm_file.c
+> > @@ -830,8 +830,7 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e)
+> >   }
+> >   EXPORT_SYMBOL(drm_send_event);
+> > -static void print_size(struct drm_printer *p, const char *stat,
+> > -		       const char *region, u64 sz)
+> > +static void print_size(struct drm_printer *p, const char *key, u64 sz)
+> >   {
+> >   	const char *units[] = {"", " KiB", " MiB"};
+> >   	unsigned u;
+> > @@ -842,9 +841,54 @@ static void print_size(struct drm_printer *p, const char *stat,
+> >   		sz = div_u64(sz, SZ_1K);
+> >   	}
+> > -	drm_printf(p, "drm-%s-%s:\t%llu%s\n", stat, region, sz, units[u]);
+> > +	drm_printf(p, "%s:\t%llu%s\n", key, sz, units[u]);
+> >   }
+> > +#define KEY_LEN 1024
+> > +#define DRM_PREFIX "drm"
+> > +
+> > +static void
+> > +print_size_region(struct drm_printer *p, const char *stat,
+> > +		  const char *region, u64 sz)
+> > +{
+> > +	char key[KEY_LEN+1] = {0};
 > 
-> I may have understood incorrectly but still. Not sure the PSE device index is
-> interesting for now even in the budget evaluation strategy series. It is
-> related to PSE power domains therefore PSE power domain index solely should be
-> sufficient.
+> A kilobyte of stack makes me a bit uneasy.
+> 
+> Would it not work to make print_size take a prefix and also avoid string
+> operations? Something like, not compile tested:
 
-Oh.. You can drop it for now. :)
+This looks good to me, I had insisted we mandate a maximum key length, but
+like you said on IRC there's truly no need for this.
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> index 2289e71e2fa2..efa4593babbc 100644
+> --- a/drivers/gpu/drm/drm_file.c
+> +++ b/drivers/gpu/drm/drm_file.c
+> @@ -830,8 +830,12 @@ void drm_send_event(struct drm_device *dev, struct
+> drm_pending_event *e)
+>  }
+>  EXPORT_SYMBOL(drm_send_event);
+> 
+> -static void print_size(struct drm_printer *p, const char *stat,
+> -		       const char *region, u64 sz)
+> +static void
+> +drm_fdinfo_print_size(struct drm_printer *p,
+> +		      const char *prefix,
+> +		      const char *stat,
+> +		      const char *region,
+> +		      u64 sz)
+>  {
+>  	const char *units[] = {"", " KiB", " MiB"};
+>  	unsigned u;
+> @@ -842,8 +846,10 @@ static void print_size(struct drm_printer *p, const char
+> *stat,
+>  		sz = div_u64(sz, SZ_1K);
+>  	}
+> 
+> -	drm_printf(p, "drm-%s-%s:\t%llu%s\n", stat, region, sz, units[u]);
+> +	drm_printf(p, "%s-%s-%s:\t%llu%s\n",
+> +		   prefix, stat, region, sz, units[u]);
+>  }
+> +EXPORT_SYMBOL(drm_fdinfo_print_size);
+> 
+>  int drm_memory_stats_is_zero(const struct drm_memory_stats *stats)
+>  {
+> @@ -868,17 +874,23 @@ void drm_print_memory_stats(struct drm_printer *p,
+>  			    enum drm_gem_object_status supported_status,
+>  			    const char *region)
+>  {
+> -	print_size(p, "total", region, stats->private + stats->shared);
+> -	print_size(p, "shared", region, stats->shared);
+> +	const char *prefix = "drm";
+> +
+> +	drm_fdinfo_print_size(p, prefix, "total", region,
+> +			      stats->private + stats->shared);
+> +	drm_fdinfo_print_size(p, prefix, "shared", region, stats->shared);
+> 
+>  	if (supported_status & DRM_GEM_OBJECT_ACTIVE)
+> -		print_size(p, "active", region, stats->active);
+> +		drm_fdinfo_print_size(p, prefix, "active", region,
+> +				      stats->active);
+> 
+>  	if (supported_status & DRM_GEM_OBJECT_RESIDENT)
+> -		print_size(p, "resident", region, stats->resident);
+> +		drm_fdinfo_print_size(p, prefix, "resident", region,
+> +				      stats->resident);
+> 
+>  	if (supported_status & DRM_GEM_OBJECT_PURGEABLE)
+> -		print_size(p, "purgeable", region, stats->purgeable);
+> +		drm_fdinfo_print_size(p, prefix, "purgeable", region,
+> +				      stats->purgeable);
+>  }
+>  EXPORT_SYMBOL(drm_print_memory_stats);
+> 
+> ?
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+> > +
+> > +	if (strnlen(stat, KEY_LEN) + strnlen(region, KEY_LEN) +
+> > +	    strlen(DRM_PREFIX) + 2 > KEY_LEN)
+> > +		return;
+> > +
+> > +	snprintf(key, sizeof(key), "%s-%s-%s", DRM_PREFIX, stat, region);
+> > +	print_size(p, key, sz);
+> > +}
+> > +
+> > +/**
+> > + * drm_driver_print_size - A helper to print driver-specific k:v pairs
+> > + * @p: The printer to print output to
+> > + * @file: DRM file private data
+> > + * @subkey: Name of the key minus the driver name
+> > + * @sz: Size value expressed in bytes
+> > + *
+> > + * Helper to display key:value pairs where the value is a numerical
+> > + * size expressed in bytes. It's useful for driver-internal memory
+> > + * whose objects aren't exposed to UM through a DRM handle.
+> > + */
+> > +void drm_driver_print_size(struct drm_printer *p, struct drm_file *file,
+> > +			   const char *subkey, u64 sz)
+> > +{
+> > +	char key[KEY_LEN+1] = {0};
+> > +	char *drv_name = file->minor->dev->driver->name;
+> > +
+> > +	if (strnlen(subkey, KEY_LEN) + strlen(drv_name) + 1 > KEY_LEN)
+> > +		return;
+> > +
+> > +	snprintf(key, sizeof(key), "%s-%s", drv_name, subkey);
+> > +	print_size(p, key, sz);
+> > +}
+> > +EXPORT_SYMBOL(drm_driver_print_size);
+> > +
+> > +#undef DRM_PREFIX
+> > +#undef KEY_LEN
+> > +
+> >   /**
+> >    * drm_print_memory_stats - A helper to print memory stats
+> >    * @p: The printer to print output to
+> > @@ -858,15 +902,15 @@ void drm_print_memory_stats(struct drm_printer *p,
+> >   			    enum drm_gem_object_status supported_status,
+> >   			    const char *region)
+> >   {
+> > -	print_size(p, "total", region, stats->private + stats->shared);
+> > -	print_size(p, "shared", region, stats->shared);
+> > -	print_size(p, "active", region, stats->active);
+> > +	print_size_region(p, "total", region, stats->private + stats->shared);
+> > +	print_size_region(p, "shared", region, stats->shared);
+> > +	print_size_region(p, "active", region, stats->active);
+> >   	if (supported_status & DRM_GEM_OBJECT_RESIDENT)
+> > -		print_size(p, "resident", region, stats->resident);
+> > +		print_size_region(p, "resident", region, stats->resident);
+> >   	if (supported_status & DRM_GEM_OBJECT_PURGEABLE)
+> > -		print_size(p, "purgeable", region, stats->purgeable);
+> > +		print_size_region(p, "purgeable", region, stats->purgeable);
+> >   }
+> >   EXPORT_SYMBOL(drm_print_memory_stats);
+> > diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> > index f0ef32e9fa5e..07da14859289 100644
+> > --- a/include/drm/drm_file.h
+> > +++ b/include/drm/drm_file.h
+> > @@ -494,6 +494,8 @@ struct drm_memory_stats {
+> >   enum drm_gem_object_status;
+> > +void drm_driver_print_size(struct drm_printer *p, struct drm_file *file,
+> > +			   const char *subkey, u64 sz);
+> >   void drm_print_memory_stats(struct drm_printer *p,
+> >   			    const struct drm_memory_stats *stats,
+> >   			    enum drm_gem_object_status supported_status,
+
+Adrian Larumbe
