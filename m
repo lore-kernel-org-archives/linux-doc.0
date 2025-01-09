@@ -1,86 +1,139 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 459311A23B0;
-	Thu,  9 Jan 2025 11:52:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C52216E37;
+	Thu,  9 Jan 2025 12:46:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736423531; cv=none; b=FRTQ4NOOTPzDx/9+NOf+QMxApY4cpHgjvIQw61yFeAzsJ7xLkwfrhsxDt0yKywlQcNcECfZqwAAvGxOQ1xuGjwluboi9mLFL9fnBHHI9I09JoazhtlNd1ByWVciW0uZMYbWfs3pH96pGj3hK6x3Yh47Yh8pHHronYld5ZDtcScs=
+	t=1736426780; cv=none; b=p1wvoSrurTnxMlKA8Z9xtup9LFsos73aYlYs+NpEVYPlSPbQiOzuY0ClfMMlDVkG86hm75x0ZLVRqJ39+vK3Y6KHCrsapo2/J1LF3EJ3/YrWlFjGq4o87+Ya2IN4gLMqKMENBOSJSP30vt6g2iy7FzyjR42zx0nu6CrMRLGCwOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736423531; c=relaxed/simple;
-	bh=zbUr2ORaIkJpc84p9F8I0++Zs6AuCLIK/hoxp0neO8w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HBXmqbzvcTru0WZdMtcrKqGXKf4JhzWEB3+OfaugcpF4OQ3S43RtUnBAnTuNTE+KuxKzwRxkeDJf5VAL0TtrvzpJeyRNaPc3K+J9lC9nPLZ+G2x1o3tBlrr21QOTKYiPVdFlonwBkcchIt334NnsTS8qPQNcXve+mwbJX2jaAHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=X5hC5ARD; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1736426780; c=relaxed/simple;
+	bh=nOOZA+iN0ga0CTphyM/C05+qgOczZ68TEd0WLotUewg=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=KLmbaAeFCp6TgOP0r0KdtNF5ImN+Wb50AgQZO8ihSXNF+lsZN6JV0RNYJ0Z/m+QvY4sj6x6M1VNr5yhs+PuimaAv9xGBCtaRiDBNQR4kWymGBbqJSNJN0TqWGYENUV1ulFjMkyKThZfD0R9tCJgxuLeEIldf6B4/V/gW09lJH7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fvRoZwRM; arc=none smtp.client-ip=209.85.222.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="X5hC5ARD"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=zbUr2ORaIkJpc84p9F8I0++Zs6AuCLIK/hoxp0neO8w=; b=X5hC5ARDFM6hCrKId9Q/HqW+K4
-	7HSaIZ0W2LopxKSDeNw23xMgiMCfXQK021md811KZ6Z1fXMHa8DIxIcAgqtZP/cm2IsXXa4Q5FEz+
-	Wl/0+MF604bc+7Y+3NbG7bjPQ0ul2GXanmG0m0TVGsn5re3Pm4B8oMMXawhNIaR3BFo5TNNmIDTSb
-	SfM6FrmSoZhvgqyttixVHymdaUyRTWvEWBFcVQH0MXhVc8lP2MJX46OTapPbJiaiMqsq6hzdbU5uG
-	NzVyaJqHWWYQUPL/mATs1Wvqe8tQgFagpKucaB8B75rQ3xMIE5vfpiPTdGynvFjewQkgkmuhFPj9D
-	TB06am8Q==;
-Received: from 77-249-17-89.cable.dynamic.v4.ziggo.nl ([77.249.17.89] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tVr4h-00000009YkZ-0su6;
-	Thu, 09 Jan 2025 11:51:43 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id C705B30057A; Thu,  9 Jan 2025 12:51:42 +0100 (CET)
-Date: Thu, 9 Jan 2025 12:51:42 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, willy@infradead.org, liam.howlett@oracle.com,
-	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz,
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
-	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
-	hughd@google.com, lokeshgidra@google.com, minchan@google.com,
-	jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com,
-	pasha.tatashin@soleen.com, klarasmodin@gmail.com,
-	richard.weiyang@gmail.com, corbet@lwn.net,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH v8 00/16] move per-vma lock into vm_area_struct
-Message-ID: <20250109115142.GC2981@noisy.programming.kicks-ass.net>
-References: <20250109023025.2242447-1-surenb@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fvRoZwRM"
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-7b85d5cc39eso87453285a.3;
+        Thu, 09 Jan 2025 04:46:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736426777; x=1737031577; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kaPMLCUZXOj8V/TsoKhneA/pbfWV2N1nHu6od460Xzw=;
+        b=fvRoZwRMvr5M/MLiHu4/wjKv6pIXRtlIZXjCImm2KGwBN8zmaSX1NjxlzebJvvr/QK
+         enQ+pTbyap/SMJmZKseFnH27xnx7GQAUpwXV2RveO2tBTzDcYtFKn8Vrqx9hSeg5Pzew
+         Ta6PQ8sesIuV7hE+h46OikRUBwoqHodMahXI7xAphfnDlZeZ+1pF+49Lvr2SaoRIiVq3
+         BLsB4FZR6+uc1VsvswzCgquThpNrvI/BcqEM89Pu2PmDvPgMVHR+OV1IN+HXWDHiToXL
+         48K0w4y53Hh2LoGhH/UNgrZGRBG10DKbmpc8Qum1Vc3NcChXiJ25eMs+iz3dxBwE2Sl/
+         wh/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736426777; x=1737031577;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=kaPMLCUZXOj8V/TsoKhneA/pbfWV2N1nHu6od460Xzw=;
+        b=wX9UYrGAhzRzaVioXKMg0g6DAfet2PVRLBNpJ5xSopSBM17/T3bg2ZAXk8Rfn30Ao9
+         3mPsJG7u8jD23NoC91/dh+JPKS3O+7zZUftqkmSViCi+WtyT/segvJO/IJ4zbs7uIEre
+         0+XcDIP4LZjmcF4/ks/tmDnTSXiYMjyltABnHVau53+wwm7rb7v017xCNNxVEoweGHbm
+         z9sUzF+BmAdn+5UWUD6hTUsGi3SDDPuMFWcer+M+Olc0yWi1VpiSLa9PykVb3tR4NDOG
+         8FgywiGrXTm/zZqbz7QaebpckzN3rXMCIROAPEl9KAq7la88KRr9czjKfbWoSS7/EjKK
+         U7mQ==
+X-Forwarded-Encrypted: i=1; AJvYcCURWYcFuaNu6VJZwalB584a/mzeDyRc6h8UCC1qguwoR3ou4HVZBdbXPfF/hGyXEQJJefWVnwqaPvm38zTVTXjK@vger.kernel.org, AJvYcCUkaJFEShQ0LhXToNzOloP5CekWcGzGXxFQBIjWF2s/6EgFSk7KrFA2azE8Kbh9XxfLruA=@vger.kernel.org, AJvYcCUrlRjwYs2JqEXVDKlCCQodaFAJ2fTZVu4EBJ73Og+VCyd0aDIVZfc04UhaoVk3vSz2QHcf6yWcvpNBqFA+@vger.kernel.org, AJvYcCVYZhGyEyxCYhYLSbYaRaWVB537feG/zIYcbJIWW1PJMC8KhuOwgYgouT7Epqz+gDSgy+5fK+ni@vger.kernel.org, AJvYcCW6IY0XLhpA0mIIvp0FWZ4/Uq3nu+4LsHD4h1VvVnxe+TCl8wswai4hq4UT4OuemTiThInFpC/oZx4I@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw00mAZAtw1hhDB44QuHsQaxhOIAaWXBu9aRkcS1wPyIRAq6iQw
+	hckMKAdFePZ3lftHb/mDQz79lEu9j3/McUJ2Rrtq300827xAgWsZ
+X-Gm-Gg: ASbGnctRW9bcYo2V9/31gJ+TVIQIV1D13IbG9vqGdgInL2ZC7z8PtGzs7W4f/ihBDHz
+	onFR5Kbl4BypUTARCK7ejXQBCVBHHGDHSTMgQ/dTkj7rFe6P3cqbru3KZuZRNcQN0gZiSbHKQIG
+	d5Ebkd8dj7ONdwcl1hs7Orm9v+UVp5lqMGV2wUS38bTrWPpJ+IHrerBUttrcc7ZgBYC1IEj8lFL
+	+PPywj39KDAqgHkHEOdkfxZI6a3XSSTCTI+9SjMhRhk4OvRohuV7S4uWKveI4+V4hoXLjnGHkQH
+	pXkIcCxUT1AGMVgVXvSKI6A8nlyZ
+X-Google-Smtp-Source: AGHT+IElltpq0Se5BPymgSR44p/+E1b35WmaB/SUjKp4ksNe7YwiYRSh+K5j9T3I6qKRunWydJbAbg==
+X-Received: by 2002:a05:620a:444f:b0:7b6:f1be:4f7e with SMTP id af79cd13be357-7bcd9755084mr912637385a.26.1736426777023;
+        Thu, 09 Jan 2025 04:46:17 -0800 (PST)
+Received: from localhost (15.60.86.34.bc.googleusercontent.com. [34.86.60.15])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7bce3516068sm62500685a.100.2025.01.09.04.46.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jan 2025 04:46:16 -0800 (PST)
+Date: Thu, 09 Jan 2025 07:46:15 -0500
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Jason Wang <jasowang@redhat.com>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+ Shuah Khan <shuah@kernel.org>, 
+ linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ netdev@vger.kernel.org, 
+ kvm@vger.kernel.org, 
+ virtualization@lists.linux-foundation.org, 
+ linux-kselftest@vger.kernel.org, 
+ Yuri Benditovich <yuri.benditovich@daynix.com>, 
+ Andrew Melnychenko <andrew@daynix.com>, 
+ Stephen Hemminger <stephen@networkplumber.org>, 
+ gur.stavi@huawei.com, 
+ devel@daynix.com
+Message-ID: <677fc517b7b6e_362bc12945@willemb.c.googlers.com.notmuch>
+In-Reply-To: <571a2d61-5fbe-4e49-b4d1-6bf0c7604a57@daynix.com>
+References: <20250109-tun-v2-0-388d7d5a287a@daynix.com>
+ <20250109-tun-v2-2-388d7d5a287a@daynix.com>
+ <20250109023056-mutt-send-email-mst@kernel.org>
+ <571a2d61-5fbe-4e49-b4d1-6bf0c7604a57@daynix.com>
+Subject: Re: [PATCH v2 2/3] tun: Pad virtio header with zero
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250109023025.2242447-1-surenb@google.com>
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 08, 2025 at 06:30:09PM -0800, Suren Baghdasaryan wrote:
-> Back when per-vma locks were introduces, vm_lock was moved out of
-> vm_area_struct in [1] because of the performance regression caused by
-> false cacheline sharing. Recent investigation [2] revealed that the
-> regressions is limited to a rather old Broadwell microarchitecture and
-> even there it can be mitigated by disabling adjacent cacheline
-> prefetching, see [3].
-> Splitting single logical structure into multiple ones leads to more
-> complicated management, extra pointer dereferences and overall less
-> maintainable code. When that split-away part is a lock, it complicates
-> things even further. With no performance benefits, there are no reasons
-> for this split. Merging the vm_lock back into vm_area_struct also allows
-> vm_area_struct to use SLAB_TYPESAFE_BY_RCU later in this patchset.
-> This patchset:
-> 1. moves vm_lock back into vm_area_struct, aligning it at the cacheline
-> boundary and changing the cache to be cacheline-aligned to minimize
-> cacheline sharing;
-> 2. changes vm_area_struct initialization to mark new vma as detached until
-> it is inserted into vma tree;
-> 3. replaces vm_lock and vma->detached flag with a reference counter;
-> 4. changes vm_area_struct cache to SLAB_TYPESAFE_BY_RCU to allow for their
-> reuse and to minimize call_rcu() calls.
+Akihiko Odaki wrote:
+> On 2025/01/09 16:31, Michael S. Tsirkin wrote:
+> > On Thu, Jan 09, 2025 at 03:58:44PM +0900, Akihiko Odaki wrote:
+> >> tun used to simply advance iov_iter when it needs to pad virtio header,
+> >> which leaves the garbage in the buffer as is. This is especially
+> >> problematic when tun starts to allow enabling the hash reporting
+> >> feature; even if the feature is enabled, the packet may lack a hash
+> >> value and may contain a hole in the virtio header because the packet
+> >> arrived before the feature gets enabled or does not contain the
+> >> header fields to be hashed. If the hole is not filled with zero, it is
+> >> impossible to tell if the packet lacks a hash value.
 
-Does not clean up that reattach nonsense :-(
+Zero is a valid hash value, so cannot be used as an indication that
+hashing is inactive.
+
+> >> In theory, a user of tun can fill the buffer with zero before calling
+> >> read() to avoid such a problem, but leaving the garbage in the buffer is
+> >> awkward anyway so fill the buffer in tun.
+> >>
+> >> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> > 
+> > But if the user did it, you have just overwritten his value,
+> > did you not?
+> 
+> Yes. but that means the user expects some part of buffer is not filled 
+> after read() or recvmsg(). I'm a bit worried that not filling the buffer 
+> may break assumptions others (especially the filesystem and socket 
+> infrastructures in the kernel) may have.
+
+If this is user memory that is ignored by the kernel, just reflected
+back, then there is no need in general to zero it. There are many such
+instances, also in msg_control.
+
+If not zeroing leads to ambiguity with the new feature, that would be
+a reason to add it -- it is always safe to do so.
+ 
+> If we are really confident that it will not cause problems, this 
+> behavior can be opt-in based on a flag or we can just write some 
+> documentation warning userspace programmers to initialize the buffer.
