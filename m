@@ -1,147 +1,219 @@
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DADC13D52B
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 02:45:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A294DDDC;
+	Thu,  9 Jan 2025 03:04:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736390727; cv=none; b=GqMOSqK7hrswCViSdeExoyK9lHHq+I7BHV87bvEVuAmmiWti23aKFNsLy4yqhNOuJ0xSV0PFeIYCYiinH1He6YyjFfF/ro/y4b4FgWlmeJD7JUtdMez6x2j0SYD8samYfdYxrTC+ew43PknKqCGgHfrUCDyexCC1D08WIBp+KgU=
+	t=1736391867; cv=none; b=B5llVd0Qk+ZEMYL/HivClqU6ci+Ko9IoKBF5kr2vdlw6KTiKigeXgk49mbV0uZg8fA4tpNuT0IvQHMKV5SEacHN5fcje/3m9B6hCsvsvW5r3tAIwMZaGnSSLoV+0ueXZ8VbnfxUUfJLgZ+L/PfF3iuC1dWbc4wAbeHe2YSfuvbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736390727; c=relaxed/simple;
-	bh=yv1T2vpA8dVb6VPRRbYikq8ZPXeFw6WYagcb6xiMJ/M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:MIME-Version:
-	 Content-Type:References; b=kZCsgPqwozdU5H7adqvxt8KpNZIlvGyeNic3ZA/VJgBUz2nLHbFf6oFAMmlP6KQKeDF0LxRvFLJ3miv1ij7V2GlQiBBthV0Wl290HorqBguYaYAyFjxBNFGyz/yrFnsB2L7uRF8P9fUUa9XPH5OJ0tT0F5aW15tLA6ydn0akHAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=nJz+pwdR; arc=none smtp.client-ip=203.254.224.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1736391867; c=relaxed/simple;
+	bh=H+efbh5BGCH2wkrZmg9BbCvhr2NcFys/9Aemx96z4qU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jO9JQDXUsijs9Sl2aSzOhIMC1kBrB2cxGUwg5RFAqgxZQRMfrLuuI3INl9ZyrRKrIIqDsT+Okcoeve9bEvCP1CuUJ4GOlZh02iQDkUokK0ev+huBb0PFsrDcKHYu/Yuy0ld+6xBqem44/IOYMZ3w3vQHriBMYGEL68GXukpuSQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RV4MVTmc; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="nJz+pwdR"
-Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20250109024522epoutp030c1dc4c14491f8a5880112d34ec0b8e8~Y5imFQnkY2630126301epoutp03P
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 02:45:22 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20250109024522epoutp030c1dc4c14491f8a5880112d34ec0b8e8~Y5imFQnkY2630126301epoutp03P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1736390722;
-	bh=sEUvxAlaFrOzDB5FB/QVUuqwckCcowLo9iu/iZGaWU4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nJz+pwdR7WVZgkhxvDE+dhxa0cQ2isiaeYwXNE/Rol56xFl/OBDOyrrbiq7Q8kFwZ
-	 hQEVBrW7e+44Ul5EkMy4qWQnpVvuKlozbj3PvjZhYnQd2BX4TeZT1q4KwHvAwGlfHs
-	 OPYWAVqunaPWqOGsgqGx/sDz2CW8tWoMFWLmH7S0=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas1p3.samsung.com (KnoxPortal) with ESMTP id
-	20250109024521epcas1p3cfde285b76ae5769293a85951d02dc3e~Y5iloxEGD0949409494epcas1p3a;
-	Thu,  9 Jan 2025 02:45:21 +0000 (GMT)
-Received: from epsmges1p1.samsung.com (unknown [182.195.36.223]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4YT8KF3Msgz4x9QK; Thu,  9 Jan
-	2025 02:45:21 +0000 (GMT)
-Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
-	epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	B4.6B.21650.1483F776; Thu,  9 Jan 2025 11:45:21 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20250109024520epcas1p1659320196eff30afbbea57a1665b978c~Y5ikqoaiU2273122731epcas1p1Q;
-	Thu,  9 Jan 2025 02:45:20 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20250109024520epsmtrp137a472e6ff4448e66d039e146eb5bbbb~Y5ikp03Bg2100921009epsmtrp1j;
-	Thu,  9 Jan 2025 02:45:20 +0000 (GMT)
-X-AuditID: b6c32a35-093de70000005492-80-677f3841f9e5
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	A8.79.33707.0483F776; Thu,  9 Jan 2025 11:45:20 +0900 (KST)
-Received: from localhost.localdomain (unknown [10.253.105.252]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20250109024520epsmtip1ea35cc816648c977d3c047c37e9e1104~Y5ikarYjB0925209252epsmtip1K;
-	Thu,  9 Jan 2025 02:45:20 +0000 (GMT)
-From: Sangmoon Kim <sangmoon.kim@samsung.com>
-To: will@kernel.org
-Cc: ardb@kernel.org, catalin.marinas@arm.com, corbet@lwn.net,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, sangmoon.kim@samsung.com
-Subject: RE: [PATCH] docs: arm64: update memory layout for vmemmap region
-Date: Thu,  9 Jan 2025 11:44:36 +0900
-Message-ID: <20250109024459.2632388-1-sangmoon.kim@samsung.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250108135748.GA9367@willie-the-truck>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RV4MVTmc"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2164b662090so5962105ad.1;
+        Wed, 08 Jan 2025 19:04:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736391865; x=1736996665; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=TbVa9AGOBMOZjVwfIhOO8Ux0mTrqTFTDIDsrP0opqQg=;
+        b=RV4MVTmcLIr1HsnSUm6PFYGdyNJbHDxdRaKeSW1npEZsV9g5O9qu07HJGGVZ98gDIg
+         kBq+xd8Py3tg7Ba9B6do7ir7CzoWNg5GzYSuxjk/7eICZ8eTQk4TrK8TyY8JSLYUTtMR
+         dvTr3mM4bjOhD6HCDRD34VLownk01awYKZkuk1CrivE/WaFgFrp5gdz99hVAs+xKuEZc
+         vONUZ+2nsh54RMPYeOMic0U5pELUujDnlNL1qXv9C6kbKWreuulVmkYkwIu+SfF7y0UU
+         +49jpjI5tjR7+OZSUaqGo9i2EUiNh+J6+5gxQIewht0xu30NpvHA75rqr7f2frcwkqH6
+         CtIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736391865; x=1736996665;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TbVa9AGOBMOZjVwfIhOO8Ux0mTrqTFTDIDsrP0opqQg=;
+        b=HQ7tVv7eNyoF/ovci/Y0hXjGyX4VnSiRaljXp7Ab1S2dNkJR4HLiMBBa/MKKR4Dvqr
+         Eg53mbtWaA0UaASBqLOE9FI+fpKdtThTTVpsXSwxDoQ4/ySKC1wZ7QRF3HPfVFqBn4Zt
+         0GPAgA3M3VjhiWroR4JAkM10qwXK28/dqsaG3+/OyJlpeVhthNfY5a12hRNSZw2WsDwD
+         qv2CfRH3Lm69cnBLKMJT0YjDOqCRFlgJVgpsM3Q1LX6JKUusBur0OWrV8/K2PFpzo21k
+         AHmKUZ6SQhRge0VQER92iG+Z+GjBfLulTlE4QM+1tq18fovGB3py3rFjNaEsDYQ5rouD
+         B1Nw==
+X-Forwarded-Encrypted: i=1; AJvYcCUrF9FRUvXiaSfL5amZJFKZQEmRcqi4C4q8dAOzWgXt9xQSWX9u51Ign9oMazZ99257Q9ROEgnD7FXP@vger.kernel.org, AJvYcCVBVoMpYzPkZPhbjF4UQ9K7Zv2xdWtEtsI6iOUGlRV2BsK5KhUqgGitFFJfAHNID9/yMfD2WQOPmA5/HijK@vger.kernel.org, AJvYcCXHJQEj+4mZkQ9hgeeQ1fghO+uaYyTc98XnkRxg85bwZnE0Zvl/ABWru1guOVts7FYtBH13tiBWTNLV@vger.kernel.org, AJvYcCXJizVmpCVxMJirJdwfx5EpAR0Nl9USrn8R9nOQ0OfY9Q4k6lxMujj808otzBFxJVIOY7B0Y/rpmYbfGSs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzwgth2O3gqSq6iDKw5gmIl5jGsj06Da/Y5bx7zzg3Ck3k9xfwj
+	XDvc3vZ78c0Asd66eqrKc4bFoANdhXQLHo6TqJSJMSvBMUnRsTAM
+X-Gm-Gg: ASbGncvYNdHdbj42J10daDCIv7+Atxvk/715WIRKytu+dOIJP9pnhvPR4kgoVWuX6vr
+	o2Yqw/DMaGYNMaOLG7YtGIJpLLNd2Cr8fdJLYhnDnPD+XAZiM+KXw6V6HAm9d4Os2OkJmWiqCJ7
+	LG4eTpRfsspYVL5YqimY/gqazhztPZahfm5yyffKbNWnjzPEzycsUSiK+29JHnf9dA8yHBHNmRa
+	BfTjRjVuox/VhwrVkuzRuvBNeorBMPMN/ZuiF1vl51LknP6YmrrtUoP5NJ1TXg+QrdlgvIIUsFi
+	IETEO8iBMwXvAbHyhIOE+DU2foQhNQ==
+X-Google-Smtp-Source: AGHT+IHr3XalJCgdndpm2YtOGGTwzIlMq7ZeKDnaqt2kyfSXPCVMC1duy7eDXmCgpopHUkAA4n3oIg==
+X-Received: by 2002:a17:902:f68b:b0:216:2a5a:89d3 with SMTP id d9443c01a7336-21a83f70d13mr72465125ad.25.1736391864688;
+        Wed, 08 Jan 2025 19:04:24 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-a317a07d050sm213759a12.15.2025.01.08.19.04.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Jan 2025 19:04:23 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <f1e16043-4841-411c-8feb-435b59d7f65a@roeck-us.net>
+Date: Wed, 8 Jan 2025 19:04:22 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] hwmon: Add driver for TI INA233 Current and Power
+ Monitor
+To: Leo Yang <leo.yang.sy0@gmail.com>
+Cc: jdelvare@suse.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, Leo-Yang@quantatw.com, corbet@lwn.net,
+ Delphine_CC_Chiu@wiwynn.com, linux-hwmon@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20250106071337.3017926-1-Leo-Yang@quantatw.com>
+ <20250106071337.3017926-3-Leo-Yang@quantatw.com>
+ <b2a336dc-c029-4a95-9807-8e8b82f75ec9@roeck-us.net>
+ <CAAfUjZE2x_Fafogna2yhnnohZrGmtW5G3Q64AVhYwVEXuGoaBw@mail.gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <CAAfUjZE2x_Fafogna2yhnnohZrGmtW5G3Q64AVhYwVEXuGoaBw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphk+LIzCtJLcpLzFFi42LZdljTQNfRoj7doLFF0uLnl/eMFu+X9TBa
-	PDnQzmix6fE1VouFbUtYLC7vmsNmcetBI4tFyx1TBw6PNfPWMHpsWtXJ5rF5Sb3H4r7JrB59
-	W1YxenzeJBfAFpVtk5GamJJapJCal5yfkpmXbqvkHRzvHG9qZmCoa2hpYa6kkJeYm2qr5OIT
-	oOuWmQN0jpJCWWJOKVAoILG4WEnfzqYov7QkVSEjv7jEVim1ICWnwKxArzgxt7g0L10vL7XE
-	ytDAwMgUqDAhO+PoI62Co5wVC2dYNjBeYO9i5OSQEDCR+PXgCxOILSSwg1Hi5teCLkYuIPsT
-	o0Tz1D5WOGfnzVtAVRxgHQ+n8kHEdzJKLHo8lw3C+cIosfjFXrBRbAK6El/mXWYEaRAREJZ4
-	+DIFpIYZpGFy63VWkBphAU+J7/OnMYPYLAKqEqt/bQXr5RWwl1jaeRvqPHmJSWtamUHmcAqY
-	SrT8VYYoEZQ4OfMJC4jNDFTSvHU2M8h8CYGP7BIXuv5A9bpItPzrY4awhSVeHd8CFZeSeNnf
-	xg7R0M8ocaq7iwUiMYVRYu41TQjbWKK35wLYYmYBTYn1u/QhlvFJvPvawwoJCF6JjjYhiGo1
-	icev7jJC2DIS/XfmQ030kHiwYDI7JHQ7GCXmHJGawCg/C8kLs5C8MAth2QJG5lWMYqkFxbnp
-	qcWGBYbwGE3Oz93ECE6OWqY7GCe+/aB3iJGJg/EQowQHs5IIr6VsbboQb0piZVVqUX58UWlO
-	avEhRlNg+E5klhJNzgem57ySeEMTSwMTMyMTC2NLYzMlcd4zV8pShQTSE0tSs1NTC1KLYPqY
-	ODilGpiaXUuFHxpPPilj/WVzKhdDppUpX9z+2xMubrVm8t5qfsq0dldG6t6Z4Uv3ZkSqdMc3
-	u897MGdW2K1u1fNaj31+x2iezVZvyuzx5fkUyOak4/SgTDrTJuG++dmzq77Pj976I0Wdx9T+
-	qmmp9cuYhJBbUYtUF/3ubef3P+f8dFdJnHHdxQ+H8/arS4ucsfYP9T1+RVfJpXTWh5ALqz+2
-	rwt6uXGnw6VWie61O7ImMt10tfd4FC+/NDe+mvlptfRS7aMzzobM0lv/z+qvy9e1qyef3jtv
-	M8d7lWP+E6qZ79U3fLLXTz9WIeZVlGxxqvjXjZkPPn5xluEtXM5fvbwx/+oExXfl7O8fMmb+
-	EjT+e1aJpTgj0VCLuag4EQCeQ95qFwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKLMWRmVeSWpSXmKPExsWy7bCSnK6DRX26wYVdWhY/v7xntHi/rIfR
-	4smBdkaLTY+vsVosbFvCYnF51xw2i1sPGlksWu6YOnB4rJm3htFj06pONo/NS+o9FvdNZvXo
-	27KK0ePzJrkAtigum5TUnMyy1CJ9uwSujKOPtAqOclYsnGHZwHiBvYuRg0NCwETi4VS+LkZO
-	DiGB7YwSL7u5QGwJARmJnRc3M0GUCEscPlzcxcgFVPKJUWLLkbPsIDVsAroSX+ZdZgSpEQGq
-	efgyBaSGWeAgo0TLrW2MIDXCAp4S3+dPYwaxWQRUJVb/2soEYvMK2Ess7bzNDrFLXmLSmlZm
-	kDmcAqYSLX+VIc4xkVj74jkjRLmgxMmZT1hAbGag8uats5knMArMQpKahSS1gJFpFaNoakFx
-	bnpucoGhXnFibnFpXrpecn7uJkZwSGsF7WBctv6v3iFGJg7GQ4wSHMxKIryWsrXpQrwpiZVV
-	qUX58UWlOanFhxilOViUxHmVczpThATSE0tSs1NTC1KLYLJMHJxSDUw1p0My/rlc0baeMLHH
-	wuyjs/VK2WkW1bdVSm9VXbgf1Tq5K1pxAeeVT+la9z6ueG29fSuXWQ/rRtly/S9KSz/LSkZo
-	m7zJbdPbslW/9N+SZd0C7c86Dx0KZWnavynAzUpu486gyAw1X611QVIFZTnrUmPfS2bkBm/f
-	4fBW1Md/vtHjl7WBi3jXfladrrl5/e65sYWvAvXfqjMseK/aorMpUOS10Jv09jhJw01p11af
-	fDEnIvDhgpaXyb0LVu64pH1g4tPfIZdWd9pe5+S+5r/bXz75t6Py3emOX2XNm79Zv25mnbls
-	ttOL1PltqtOTD/6eEWDbvqC0+s6tT3O+9qjxv7y74PUsrSszfIWEN7xVYinOSDTUYi4qTgQA
-	0AwAItgCAAA=
-X-CMS-MailID: 20250109024520epcas1p1659320196eff30afbbea57a1665b978c
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250109024520epcas1p1659320196eff30afbbea57a1665b978c
-References: <20250108135748.GA9367@willie-the-truck>
-	<CGME20250109024520epcas1p1659320196eff30afbbea57a1665b978c@epcas1p1.samsung.com>
 
+On 1/8/25 16:50, Leo Yang wrote:
+> Hi Guenter,
+> 
+> On Mon, Jan 6, 2025 at 11:31 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>>
+>> Besides, while I did point out a number of problems, but I did not suggest
+>> to "rewrite the driver".
+>>
+>> Since this is v2 of this driver, the submission should have been versioned,
+>> and a change log should have been provided.
+>>
+> 
+> Sorry this is my first v2 patch,
+> I should have been more aware of this problem, thank you.
+> 
+>>
+>> Why not just pass the power coefficient directly as parameter ?
+>>
+>>> +     if (1000000 % *m) {
+>>
+>> I fail to understand the logic here. Why scale if and only if m is a clean
+>> multiple of 1000000 ? Scale if m == 1000001 but not if m == 1000000 ?
+>> Please explain.
+>>
+>>> +             /* Default value, Scaling to keep integer precision,
+>>> +              * Change it if you need
+>>
+>> This comment does not provide any actual information and thus does not
+>> add any value. Change to what ? Why ? And, again, why not scale if
+>> m is a multiple of 1000000, no matter how large or small it is ?
+>>
+> 
+> When we calculate the Telemetry and Warning Conversion Coefficients,
+> the m-value of the current needs to be calculated via Equation:
+> 1(A)/Current_LSB(A).
+> 
+> The number 1000000 comes from A->uA to match the unit uA of Current_LSB.
+> Try to prevent the loss of fractional precision in integer.
+> 
+> But this is not enough,
+> according to spec 7.5.4 Reading Telemetry Data and Warning Thresholds
+> If there is decimal information in m, we should try to move the decimal point
+> so that the value of m is between -32768 and 32767 and maximize it as much
+> as possible to minimize rounding errors.
+> 
+> Therefore, if m does not have decimal information, even if the value of m is
+> scaled up, it is not possible to minimize rounding errors.
+> 
+> But my comments are not clear enough, I'll fix it.
+> 
+>>> +
+>>> +     /* Maximize while keeping it bounded.*/
+>>> +     while (scaled_m > MAX_M_VAL || scaled_m < MIN_M_VAL) {
+>>> +             scaled_m /= 10;
+>>
+>> This looks wrong. If scaled_m < MIN_M_VAL it doesn't make sense
+>> to decrease it even more.
+>>
+> 
+> In this part, I try to move the decimal point so that the value of m is between
+> -32768 and 32767.
+> Assuming scaled_m = -40001, I can scale it to m = -4000 and adjust it by R++
+> 
+Sorry, I missed that MIN_M_VAL is negative.
 
-> -----Original Message-----
-> From: Will Deacon <will@kernel.org>
-> Sent: Wednesday, January 8, 2025 10:58 PM
-> 
-> On Thu, Jan 02, 2025 at 03:52:37PM +0900, Sangmoon Kim wrote:
-> > Commit 031e011d8b22 ("arm64: mm: Move PCI I/O emulation region above
-> > the vmemmap region") and commit b730b0f2b1fc ("arm64: mm: Move fixmap
-> > region above vmemmap region") have placed PCI I/O and fixmap region
-> > above vmemmap region.
-> >
-> > And commit 32697ff38287 ("arm64: vmemmap: Avoid base2 order of struct
-> > page size to dimension region") has moved vmemmap region to higher
-> > address.
-> >
-> > Update document as the memory layout modified by the previous patches.
-> >
-> > Signed-off-by: Sangmoon Kim <sangmoon.kim@samsung.com>
-> > ---
-> >  Documentation/arch/arm64/memory.rst | 28 ++++++++++++++--------------
-> >  1 file changed, 14 insertions(+), 14 deletions(-)
-> 
-> To be honest with you, this document is pretty stale (it doesn't even
-> mention 16k pages) and almost impossible to keep in-sync with the code.
-> I'd be inclined to remove these tables; we have ptdump support if people
-> really want to see where things are.
-> 
-> Will
-> 
+Guenter
 
-I get it. Thank you for your answer.
+>>> +             scale_factor++;
+>>> +     }
+>>> +     /* Scale up only if fractional part exists. */
+>>> +     while (scaled_m * 10 < MAX_M_VAL && scaled_m * 10 > MIN_M_VAL && !is_integer) {
+>>
+>> This looks just as wrong. If scaled_m > 10 * MIN_M_VAL, why increase it even more ?
+>>
+> 
+> I think the purpose of spec is to keep as many integers as possible in m, and
+> then save the information in decimals via R to minimize rounding errors.
+> So here I keep the positive numbers as close to 32767 as possible, and the
+> negative numbers as close to -32768 as possible.
+> 
+> And thank you for the suggestions, they are very helpful and I will
+> try to fix them.
+> 
+> 
+> Best Regards,
+> 
+> Leo Yang
 
-Sangmoon
