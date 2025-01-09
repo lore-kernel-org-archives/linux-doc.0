@@ -1,55 +1,55 @@
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5C118BC26
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 02:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BCF18C93C
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 02:30:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736389857; cv=none; b=QXXQLULmdgpEkqbShxzwic2PS0M5fhZ8l9qqECz+RjMSwDUyQT0IsrfkBjFfB+Fwqbcl4HvxwNtWuY5jyr2bkg405GUJaNGRWgRGRU8hUoyjFs/YugITOcVEAd+38LCf9hmFB2l137xKd4qw7wZacYj2l36amipcN6WHu7aQ9D0=
+	t=1736389858; cv=none; b=t7lPzV/Q7w0hBdFLdh/LRBHJMcZqxBEflB++4CzVTXYy5tGEhG6nTznb2gSI+kt+rYQ++my9ciI72fpqs93Srh1kF7ga84Rpqff0Z1S3MVPDn/g+gJvtQ15w4kVsN8YiMPmm3QSJfvdBNZrkkChq4zsJdLZVopPFqMcZSINouww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736389857; c=relaxed/simple;
-	bh=T13/ezDy1zA8roi/Zowvjt9SXeJDqVkDzndw5y9kEeI=;
+	s=arc-20240116; t=1736389858; c=relaxed/simple;
+	bh=Qia36dBQMFQkzJ/g+u6JwVjRWXRWMlEMhpHTtKIeCdo=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=eYb8VSXZokfjnEZhc66rXoagXHdfO9MBobkTw9IdF/b3uajkHKeXj1UvUjBWCfZ9LTW9N40H9/ntAickDeR/iw1ItMhnfgugWhveRwlacMLxM0jey6DdtOjoKkaMVTrczxwIahPQDhtUQKBfsAsORyHYLns/E5F8SS+bSELq36k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XE8DatbM; arc=none smtp.client-ip=209.85.214.202
+	 To:Cc:Content-Type; b=ev2yi27I3I6R9XRF3se1eq67E0TzsiCpBWOd9gR5ajppAqMHiG9szxOSmg9XUR6uI936nceOOq+fc7MxqCeS9FSPrq1s0F1R3sDllkFOQCkpaDCBlZ83vdyH8oh94qn5u5E2BH9s7YrdAOaQWczRRkY3reLo3lh2X5AYQtaN9FI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ycwy91v5; arc=none smtp.client-ip=209.85.216.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XE8DatbM"
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2165433e229so6680485ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jan 2025 18:30:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ycwy91v5"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2ef9b9981f1so1140926a91.3
+        for <linux-doc@vger.kernel.org>; Wed, 08 Jan 2025 18:30:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736389855; x=1736994655; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1736389857; x=1736994657; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dhc7tvmwjQaP4b5E/hXUfzy8UCkIkS3jsDCXbxBg4ZU=;
-        b=XE8DatbMyLvcwj8tkrsB1CU8uHRloynCGLicn6fKLUbRlQVItDyzDndVoTsNtR1IVT
-         OufbYPEAZhq9zJMSsiICJyBY1AuKnZwnRTCj9w+7uJ0sVc6E5BpbHP53i3DCCN5GlX4/
-         5MKQoVbPx+OZUxZibLurRrU8suO78E38SFCnTZ6kJ+Qp6ZsgelKxmvMMqdp54lRFxJYb
-         tYfvBP8IFNMNx+jPMbmwrlpAFPD7nQ9D2gdAsG0Pw5pbdnXP28AEggB881BWhnvxzhE5
-         aqIPx3OVsJzCosTIvCefYq0YXSIWZIzHEP+pC3ZcURGvKb82aVkLHi9yNGkSyhcNpzdv
-         kypA==
+        bh=Ff+5kmdnRB8ZntTSRUYdaKZe919gijOnrfCBbK9Q5zw=;
+        b=ycwy91v5/8IHr4Mw1Q0ReJ6+i+VLtArgnu8AM5BpjYHOSeqosq0F4QjwWwQgS7N0nO
+         WI/VVtoOOP64YwtTc8bsGE8iM2elyfQVz6MgeYomgHF44R0WIyz0ueLX9iNaxZUJcUtm
+         CEWVbalwciVoFbNF8MxID+VVPH5pfcDpokUdk9NgLDiYsrPVze34qPvtFL0Kxm6Y9OeD
+         DIp68vqLIfeWFoNx3GSZeJQDWcOf4hFg+LbB9nzM4855RSg2VkXn8S0AxIKKmQ19WPbM
+         DhuIY4DFNeNZShnmCCcfn5nT2criW9K1DmKq2vFvvpUccH4tGWbIXr9/fWfJi6taAR7c
+         6vQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736389855; x=1736994655;
+        d=1e100.net; s=20230601; t=1736389857; x=1736994657;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dhc7tvmwjQaP4b5E/hXUfzy8UCkIkS3jsDCXbxBg4ZU=;
-        b=Tl3ubFSgNCtFJYif5Tdlr5Frm0x8ChHx46d7fR0Pd6+Nnr7Q+fz9K8+uX2VzvpJOhc
-         2nVoi3rjKYMWZY5jGIGv7trfUmSr90BZw7VR9Q75JjSVY2K5ideM0p584yfVSVmPKZZW
-         eHQmomhe1YdfyLIdGngt56TzbQjbf5EJ7tvfdDbg5bZgBdEZhU8rslXBh8b4y15YFhTA
-         gVu9V26+MtryP2nVledYDnd/rCbuJw3EsIqaOf/3jSaHn9o8VfBG6SV3sUg6D65EoCaY
-         lE76LJDSWKlgUQIi3rFB//KbrNtLw+gp8LuZ8nxOnTW64e68KO1LN8SkcERHIB5tBq1V
-         cV/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUVxhGvsgb0m9imUU69QGitI+LeskQdW5uApfCuy6JHjivqdAvWagBLruWKQWS+ysfW3ybygEmcIgI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/y6mrmZobLByDUx6EiZw+h+n25aRCVxn1zGqJd+HOhP0cAuAO
-	DdbwyaCnw5tcp4eiRRZEMxCrvWvAu2sLU12E3A9xG8IApGLsiu5/umwbl72y587ynKD1/lSU39T
-	AFw==
-X-Google-Smtp-Source: AGHT+IGEJut09X73iREifwmtH1pTDK91otd2DkI7NLMgJYUa+WdvvMkSg9t/WQnzDQh+UWszvk42Ntw5lL8=
-X-Received: from plhu17.prod.google.com ([2002:a17:903:1251:b0:216:2dc4:50c1])
- (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:ecce:b0:215:7446:2151
- with SMTP id d9443c01a7336-21a83f36facmr63729185ad.4.1736389855012; Wed, 08
- Jan 2025 18:30:55 -0800 (PST)
-Date: Wed,  8 Jan 2025 18:30:21 -0800
+        bh=Ff+5kmdnRB8ZntTSRUYdaKZe919gijOnrfCBbK9Q5zw=;
+        b=rxbIpX3KvsIyaTP//E9TPSEBb4xj+aT1JxptBdyfgPnHKD6yaZ/B5791LZW3hbHv7g
+         AI4Y0AseJx8NuQ7j3ksHlldt/Jy8nA0zpzSVUpsRZGs1McBr7kViPi6v9iRfSs1mz1+l
+         guh/YLnlZsmH4WZ+d1T9r5wnBs5YKF1G8Sk0OlYCRpvGP3tidH8Skr3CaVmXI5zGIIHg
+         1YhTCgPipgBzNqh9cETRnvX8lNnSjFtqHbhQ9WuG0I6ApSeapPstEuI07qGWI47rKbig
+         Wwagq1HsH1LERLBxnMB3ebkurDF2OwHp25mV1cMoUOwaojPrHfU50ItfvNGURy0QhwEd
+         Y0wA==
+X-Forwarded-Encrypted: i=1; AJvYcCXNxYIyyeMrwQtM90J3nih2vwGYKBCJA8nm8QaKuqn6EWUgA8Yg5cQM2AMfG6pc1NvW2og7L6pfdXk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyVtigj7+7smho7KS5GMbraUpbTMZGbzMKX3NybOY18+HlPsj3v
+	wsxz/tL8NpIpe7Rdy1d1CT/XjxiZ2i0Zvm2cUHeYhxpw1Xa0RX87i3Y8KF3fvUjmUUaQZ1Kk72C
+	JNw==
+X-Google-Smtp-Source: AGHT+IHHneXTiyqKXlP1VpELIhdiUZ7vx0qpWsk0pXxK4l9MO/2MOdaa5NjDmeJ2cE4v/bbSs8TX2rtPRrA=
+X-Received: from pfar8.prod.google.com ([2002:a05:6a00:a908:b0:728:2357:646a])
+ (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:350d:b0:1e1:b105:87b
+ with SMTP id adf61e73a8af0-1e88cfdc0f5mr8799971637.23.1736389856900; Wed, 08
+ Jan 2025 18:30:56 -0800 (PST)
+Date: Wed,  8 Jan 2025 18:30:22 -0800
 In-Reply-To: <20250109023025.2242447-1-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20250109023025.2242447-1-surenb@google.com>
 X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
-Message-ID: <20250109023025.2242447-13-surenb@google.com>
-Subject: [PATCH v8 12/16] mm/debug: print vm_refcnt state when dumping the vma
+Message-ID: <20250109023025.2242447-14-surenb@google.com>
+Subject: [PATCH v8 13/16] mm: remove extra vma_numab_state_init() call
 From: Suren Baghdasaryan <surenb@google.com>
 To: akpm@linux-foundation.org
 Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com, 
@@ -76,46 +76,26 @@ Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
 	kernel-team@android.com, surenb@google.com
 Content-Type: text/plain; charset="UTF-8"
 
-vm_refcnt encodes a number of useful states:
-- whether vma is attached or detached
-- the number of current vma readers
-- presence of a vma writer
-Let's include it in the vma dump.
+vma_init() already memset's the whole vm_area_struct to 0, so there is
+no need to an additional vma_numab_state_init().
 
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
 ---
- mm/debug.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ include/linux/mm.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/mm/debug.c b/mm/debug.c
-index 8d2acf432385..325d7bf22038 100644
---- a/mm/debug.c
-+++ b/mm/debug.c
-@@ -178,6 +178,17 @@ EXPORT_SYMBOL(dump_page);
- 
- void dump_vma(const struct vm_area_struct *vma)
- {
-+#ifdef CONFIG_PER_VMA_LOCK
-+	pr_emerg("vma %px start %px end %px mm %px\n"
-+		"prot %lx anon_vma %px vm_ops %px\n"
-+		"pgoff %lx file %px private_data %px\n"
-+		"flags: %#lx(%pGv) refcnt %x\n",
-+		vma, (void *)vma->vm_start, (void *)vma->vm_end, vma->vm_mm,
-+		(unsigned long)pgprot_val(vma->vm_page_prot),
-+		vma->anon_vma, vma->vm_ops, vma->vm_pgoff,
-+		vma->vm_file, vma->vm_private_data,
-+		vma->vm_flags, &vma->vm_flags, refcount_read(&vma->vm_refcnt));
-+#else
- 	pr_emerg("vma %px start %px end %px mm %px\n"
- 		"prot %lx anon_vma %px vm_ops %px\n"
- 		"pgoff %lx file %px private_data %px\n"
-@@ -187,6 +198,7 @@ void dump_vma(const struct vm_area_struct *vma)
- 		vma->anon_vma, vma->vm_ops, vma->vm_pgoff,
- 		vma->vm_file, vma->vm_private_data,
- 		vma->vm_flags, &vma->vm_flags);
-+#endif
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index ec7c064792ff..aca65cc0a26e 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -948,7 +948,6 @@ static inline void vma_init(struct vm_area_struct *vma, struct mm_struct *mm)
+ 	vma->vm_mm = mm;
+ 	vma->vm_ops = &vma_dummy_vm_ops;
+ 	INIT_LIST_HEAD(&vma->anon_vma_chain);
+-	vma_numab_state_init(vma);
+ 	vma_lock_init(vma, false);
  }
- EXPORT_SYMBOL(dump_vma);
  
 -- 
 2.47.1.613.gc27f4b7a9f-goog
