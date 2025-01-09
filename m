@@ -1,49 +1,46 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F127BA2D
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 18:52:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA991BA2D;
+	Thu,  9 Jan 2025 18:53:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736448781; cv=none; b=Dql22tL/sHVag68aXqengHOn+qVEU0W9bG+LUns508UhPF3M1TcLAr8MZpoImfy573LUoHX1SybkvIGNa78LkCS/Br5kbDQDa9ON6luQFtw43vo9rKKkEkdb7OWiYgBtUby1l11nQjNwV79CV6UBqCzVWemNxioLC4YcACl2dv8=
+	t=1736448805; cv=none; b=XX/dNi8MlgpUjNxfClm0cFZ9KbIxc0zXhT6s9WOu1DZ16IG3qO0eg8mGlL8kRKCKo74HKqUUzssYrUSowLbN6saSTij5TMntCon239SkmNAVHsct9jfzyfATf0m62GrfFhL4+p6C/PGjnyioZXfhWHwRcEr1CuZm2bgNaDM9ZSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736448781; c=relaxed/simple;
-	bh=7Em7w9pq4xdbHR0MCzXVClVHHgfPGxC/Zc3IL38Ad9Y=;
+	s=arc-20240116; t=1736448805; c=relaxed/simple;
+	bh=ld//G/JqzIfs8hQpyy4O2y2OA6BPhlUmZ7uMY6FHLw8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=jbF9Fox4NtpsoD4W7kLJqXUMNLDlu1l+nZ4AGH3gGoLDpkQRjC8+Jh79ZXbwLdI5J9gBY/gXGS9++eXBYKezwJ4cdc5vK6i+pcsAarmGGnpS2TUdyFjJjUP3eT8tdDFWRhtVGJwLRHUJn1duFhzjmmd7/dk29u/P42wAnInIu8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Qw0hvehz; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=Ef4zjlpnjUcbL3iZY9Z3ZB6LMnyFFg8Z1c2HQ2PeBgAX2yF77VIwPx15ZtoYZNUBbaxPS07r0wFj2djWFAnfvX9t0EZtrbKgQWkF2P3+Wqplb+ojC5zEwLUmS19qbL3ZerLfvup68KXIRN3bQ2lWMnzXUBA1dVonj0KfC8M05n8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=LWBeBwKP; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Qw0hvehz"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C3923404F0
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="LWBeBwKP"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 06570404F0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1736448779; bh=X6AWk6HeyhfPP/RjKFW7tXVQterQNiZ+oZXleomZPtY=;
+	t=1736448803; bh=KrmapTjRlxpC1YX9zLaFoJD2SL9ulQUWjDQyoshsuHw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Qw0hvehzLhZbCPdlHK73aa4FLhYM58Sx8vRRETl6CiA9P5j8lVxcX3hgnlLGHdHBC
-	 8BJtAqtIJaQtTrkVK4VmrhSqz1uDmn2LyQDmpn8LnDLr99v9KKMePR4cKdjEv16Tii
-	 hXYRg34oViiDH3eOdfH9uQeRxNJMn2LwOnLNNlDzmSaZ12XLoXxrAKb1R8PYIbH7AQ
-	 evIA4i5LSEf0qGSllhjOOXOiVvXBXlMhZ+6YTGdmaSgOkq416F//m1CdDDlYbqk3Xi
-	 oXFHqfIk9L8qd3r+2fz3p1InLFbGGVvOOKzvwYsT2QruRdT7Xbs11baADmHUoYf2Pq
-	 Rnj/aisTsR49Q==
+	b=LWBeBwKPnrjOoGc4iM0h/J3aAbvrLv6z4w/FsqMGPLcZ9a0tKPXl9AqYX6JrcwJsq
+	 EOITn5YyOTITySS8ZfjI3II0kkD44grzwhIKpGlGqxaOZT+RnTXXljgBwXZQMqoKwi
+	 I6ttrEhxqXRE9iWMmlTf8QJADmaIau1bgTlJNfe/oahKsGHD/Z3Yc0d8HQuHAgZ0Ny
+	 1YaEwXmr2S34wmR/p8DdCqWBaZ1fvu+vOzf7157QUbI3+DJ9jTOt/+xSykLDIsS8A6
+	 Xr6Y9BkMTMWEy3g+k4vyLfv0ob3MeZtnlRm2imDlkufyRsce8fEAgen1RI+q3lbMOy
+	 7stgwyYI/YsMw==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C3923404F0;
-	Thu,  9 Jan 2025 18:52:58 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 06570404F0;
+	Thu,  9 Jan 2025 18:53:22 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>, alexs@kernel.org,
- si.yanteng@linux.dev
-Cc: zhaoyuehui@cqsoftware.com.cn, zhaoshuo@cqsoftware.com.cn,
- zhangwei@cqsoftware.com.cn, maoyuxian@cqsoftware.com.cn,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs/zh_CN: Add security lsm-development Chinese
- translation
-In-Reply-To: <20250107051640.23347-1-zhaoshuo@cqsoftware.com.cn>
-References: <20250107051640.23347-1-zhaoshuo@cqsoftware.com.cn>
-Date: Thu, 09 Jan 2025 11:52:57 -0700
-Message-ID: <87plkvlsza.fsf@trenco.lwn.net>
+To: Li Zhijian <lizhijian@fujitsu.com>, linux-doc@vger.kernel.org
+Cc: Thorsten Leemhuis <linux@leemhuis.info>, linux-kernel@vger.kernel.org,
+ Li Zhijian <lizhijian@fujitsu.com>
+Subject: Re: [PATCH] Documentation: Fix typo localmodonfig -> localmodconfig
+In-Reply-To: <20250103004358.1310121-1-lizhijian@fujitsu.com>
+References: <20250103004358.1310121-1-lizhijian@fujitsu.com>
+Date: Thu, 09 Jan 2025 11:53:22 -0700
+Message-ID: <87ldvjlsyl.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,22 +49,17 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Shuo Zhao <zhaoshuo@cqsoftware.com.cn> writes:
+Li Zhijian <lizhijian@fujitsu.com> writes:
 
-> Translate .../security/lsm-development.rst into Chinese.
+> It's noticed when I myself made the same spelling mistake while
+> searching for localmodconfig
 >
-> Update the translation through commit 6d2ed653185b
-> ("lsm: move hook comments docs to security/security.c")
->
-> Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+> Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
 > ---
->  .../translations/zh_CN/security/index.rst     |  2 +-
->  .../zh_CN/security/lsm-development.rst        | 19 +++++++++++++++++++
->  2 files changed, 20 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/security/lsm-development.rst
+>  Documentation/admin-guide/quickly-build-trimmed-linux.rst       | 2 +-
+>  .../admin-guide/verify-bugs-and-bisect-regressions.rst          | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 
-This one, too, does not apply; please resend as an explicit series.
-
-Thanks,
+Applied, thanks.
 
 jon
