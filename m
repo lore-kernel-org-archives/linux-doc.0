@@ -1,55 +1,55 @@
-Received: from mail-qt1-f201.google.com (mail-qt1-f201.google.com [209.85.160.201])
+Received: from mail-qv1-f73.google.com (mail-qv1-f73.google.com [209.85.219.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763AA205AB5
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 20:50:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6438F205E13
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 20:50:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736455805; cv=none; b=l4C18Tk+yoT4LduI52LqotZUStkA9YYErDEAh1LWFn0yBt7GAjnd2PBjL+cNTZR0hXF4RsnVjMYj/uDRpjpRM2t5RYHobARGgirUao0mxck5A7Ud8ljqXmeIYH/XuH3BB/NeDYrLRU5CDu2qy87odHy7O9vgJLcJTWxzpm9VNIk=
+	t=1736455805; cv=none; b=SSBc62BgfrslMwKnrTedyrNiTe1UESt7BIiFjeG30smvFIKcC/lSy4avxj3sODzcnb6DuLj4ZeDDqKZtE5Gie4gRuSG+HgljMtAIJASB0hb0frcz/Kd5rFux8p6C5lvi+RVxn1J1FaFQl8kmIa+W1raRz2czXKjb8L08H6xrnto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1736455805; c=relaxed/simple;
-	bh=Bf6Z/SdUsbkpIsqoT2JIQQkVc3cDT9ghaIOkviu+ke8=;
+	bh=wX30xj9sJm8y6Ulhl1IoKeVlsOrKZuVPq174Ef2/lmg=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=ADiRjRDsBFDSW/Y2X5Bi5zcQ8cpzb8uXWdTfRwCmmvi2Lzns/ZGXTtljooAVYQr6bT6rhPKQyqd2stqx5fDX6YeWHPMinA58suopvGRyL5S7Hc0laGzCrqS+EOfAzELWTCS9Ap/8nNNXLythhSay5mIrX3L9zADFZDUwMDK04Ak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XKvnVZX5; arc=none smtp.client-ip=209.85.160.201
+	 To:Cc:Content-Type; b=ogXiuK0z06bVVBTdYrpPpFm7D2/Bgbk+Zd4tx0e+mZZJ4sJwIsUw8nQdRhZl23RN9eYVFSeUbNCwFY3WaXHJm5A6Rm5FcIQwlY+kAgheygAvgbQq3JRX6W8Z8cT4a/QC6whUpwWT3b1G7p6Yc3fu0/C9bdOzbYfUooYERBDPMpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WlCdUd61; arc=none smtp.client-ip=209.85.219.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XKvnVZX5"
-Received: by mail-qt1-f201.google.com with SMTP id d75a77b69052e-468f80df8caso24685731cf.2
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jan 2025 12:50:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WlCdUd61"
+Received: by mail-qv1-f73.google.com with SMTP id 6a1803df08f44-6dfa69e6983so14000946d6.1
+        for <linux-doc@vger.kernel.org>; Thu, 09 Jan 2025 12:50:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736455800; x=1737060600; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1736455802; x=1737060602; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ej4vKCsRcXi3JRFU5yXFClNg+jWCgVgQEDR3f6Axo50=;
-        b=XKvnVZX53ule8fsbj+y0ODeoguCnwbs4AppPD6dYohQG0IVcsTq9Wc/PzEeZxwOOts
-         SOzF59ti/yPAf6ZnKEVI2TWAV6LqOIhs/T0xwb2X5442vyG1iFMqv+1QT1iB82ax2+kJ
-         36rgyIhocAVPUvxPwFAuikBPR0bfbHEz9ceRCvqM8gd7JY1Ca90FFJUc4ptq3XLXR763
-         tlU6dWx4OFkqlvhmsE8fFZl8ygqH5peXACJMsW+JqgwXM4/D+XUob67JkkHjzJxJc535
-         OR5bZKmyb6W0se36a8r3GUuNXq/oZOM5UQmZXtDv7zsn1+ZAlAICDSjekWNkwFLW+r+B
-         ar+w==
+        bh=O767jE59AeAMsTglDWemPeR1CkI5EMgHAt7K2sI2JAg=;
+        b=WlCdUd619YU8lYk986ZY4xjT3n6gmOwDPGl5+xf/JRzVAaIN7N9QmlRJx0dlHQ4BxR
+         eX8r/UJ8YTO2Fglf+hSatu3nSIvBc8kN0o4/C1YK5FYVsyeBjmxecijdFVqZTU/BogUf
+         jtbcbgd41FIzi7Tz8wgb9IEs8phkhwf9b6H3PauPzdi3FaKQR/fluydOUL0tJmEEOMRh
+         tFHArHoI3yTVHm64fj1JwlHpkbguH9RnUh2pmvz9hgNSC1lsVh5fDTeJ/f/MzghN8ZXf
+         V3J10OLS1/zvXt4LA6UyHn9fAAsBx/aziEqsNt3v3pNBJOFZTd/v6ZOP74bJJnlj9tD/
+         RsuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736455800; x=1737060600;
+        d=1e100.net; s=20230601; t=1736455802; x=1737060602;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ej4vKCsRcXi3JRFU5yXFClNg+jWCgVgQEDR3f6Axo50=;
-        b=AxkHhyGkTltWmaikAKe2GDfqGyuc/Kk8Antoi/Qq6K2vx+ICt7n5XHRmU4gY98Tw1E
-         cpS+HmDbJQzdLTpHkkx034QUFX7HHHzhx4v8FfD/gvGS6PPrK/lxqodIxOOboDr5EyPW
-         25nc0sghAKuwx8rheqYQQqenC17yD1HE/WuzV4ObyxYw5aN3qbFa+M7PI8KMSt9NQcyX
-         dh0OglMhlbZdsMRGZZUPSuIgUIb9VMNpY6B/K/OO3ydJz/icGLrGivah0966TV13eCEp
-         X74Cy6yMbLf7u0ItFt8K/t+q1hNnvpEZpiuC7Grp0PiYLAw+kbWIiU0WYB2mOGqH8qrQ
-         zwSA==
-X-Forwarded-Encrypted: i=1; AJvYcCULDNeDZ5J/Sikf8AEzBAtpWX/KsFoMIgXb9kW5L6Um8QOrQtdAKXUQdxhwds1LDD/Itd4i5qPBiy4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxdmpg/g7IR5zEF4efw633TfADHki5GP8jLn6ZYtELTmYdZgRB6
-	sgTmGYCqUeeCZkioKgGUNKe87XDzjoW3D2rwqT2FsFGLVjuIJAKutIOXCtsfcBWjxx83q9NiIiL
-	ew2lXNFrnmtE9u5EuVA==
-X-Google-Smtp-Source: AGHT+IEjWh1ifMEjbhq2t/4s1LokEzVaJxOMILKR5p4NmJRJSQEQbDzHfJF1YycGc5qCqnm1VGVZZj4bYy7TorUf
-X-Received: from qtbiw5.prod.google.com ([2002:a05:622a:6f85:b0:466:928b:3b7c])
+        bh=O767jE59AeAMsTglDWemPeR1CkI5EMgHAt7K2sI2JAg=;
+        b=YQSwNhiqtqz/CFW/kIDtD+EFCfExpPQGbVEhVht+ONJ1N/WB3h+YGwocn4cqRXQcqf
+         0nc21bcigdec5L6B2Pr5E7/ub44P1BbkFrtl6FDCx1zqHU+hnt2MItdWqouSEg0C4asZ
+         mELN+lH39g1dxhLWuivxGddE1H/42MHpL5GlwtG8rr3+H7xk1EBMKE/F0UotWNcROwQi
+         TkGUWXMxJpmHlquLqTNPqaTH655D392q7Ct8TV4VC6zAIP5Plt/A2oWcUoXf7ih2w8j6
+         rHT9Nc2Z6S+290PMNIY1Izd3N5nUlvwzlNqC9zkjn8ZoZVZKcpurGD5O2WaQm9RG6M2g
+         P37Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXT7OSgb8C+mzQGL7uHNkfvwBBEvUEjdP/2d5otF9z2Ui4qoqGeWf+GpadGH1AXZBI/VeJDMNVifsI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhhIvvnE1Fge2rsdckrls6uIEgezaKTCz6tO6DX7st40hZdJgx
+	x1uSdtyD8SeVNHtGYLIPvn0FWIXcJqrUBNnXgkNMO4i9eU8gUY4xGKJQ9hzfkRr++H2lL12Vq0a
+	QE2JPuwmrr6lYOZwvBg==
+X-Google-Smtp-Source: AGHT+IFgx6gAPenNPcGigBK2pqFto4Hhpu9WmCDI55SJzVOesvWzc1cj0nZb4kbFOEWQTb6nHd4wPYt7OTvCG9XJ
+X-Received: from qvboq1.prod.google.com ([2002:a05:6214:4601:b0:6d8:f326:1f33])
  (user=jthoughton job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:622a:14e:b0:467:5926:fcf2 with SMTP id d75a77b69052e-46c7107e0b4mr103936581cf.9.1736455800057;
- Thu, 09 Jan 2025 12:50:00 -0800 (PST)
-Date: Thu,  9 Jan 2025 20:49:22 +0000
+ 2002:a05:6214:2688:b0:6d4:1c9d:4f47 with SMTP id 6a1803df08f44-6df9b238643mr125150226d6.13.1736455802071;
+ Thu, 09 Jan 2025 12:50:02 -0800 (PST)
+Date: Thu,  9 Jan 2025 20:49:24 +0000
 In-Reply-To: <20250109204929.1106563-1-jthoughton@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20250109204929.1106563-1-jthoughton@google.com>
 X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
-Message-ID: <20250109204929.1106563-7-jthoughton@google.com>
-Subject: [PATCH v2 06/13] KVM: arm64: Add support for KVM_MEM_USERFAULT
+Message-ID: <20250109204929.1106563-9-jthoughton@google.com>
+Subject: [PATCH v2 08/13] KVM: selftests: Fix prefault_mem logic
 From: James Houghton <jthoughton@google.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>
 Cc: Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
@@ -72,84 +72,35 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
 	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-Adhering to the requirements of KVM Userfault:
-1. When it is toggled on, zap the second stage with
-   kvm_arch_flush_shadow_memslot(). This is to respect userfault-ness.
-2. When KVM_MEM_USERFAULT is enabled, restrict new second-stage mappings
-   to be PAGE_SIZE, just like when dirty logging is enabled.
-
-Do not zap the second stage when KVM_MEM_USERFAULT is disabled to remain
-consistent with the behavior when dirty logging is disabled.
+The previous logic didn't handle the case where memory was partitioned
+AND we were using a single userfaultfd. It would only prefault the first
+vCPU's memory and not the rest.
 
 Signed-off-by: James Houghton <jthoughton@google.com>
 ---
- arch/arm64/kvm/Kconfig |  1 +
- arch/arm64/kvm/mmu.c   | 26 +++++++++++++++++++++++++-
- 2 files changed, 26 insertions(+), 1 deletion(-)
+ tools/testing/selftests/kvm/demand_paging_test.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/kvm/Kconfig b/arch/arm64/kvm/Kconfig
-index ead632ad01b4..d89b4088b580 100644
---- a/arch/arm64/kvm/Kconfig
-+++ b/arch/arm64/kvm/Kconfig
-@@ -38,6 +38,7 @@ menuconfig KVM
- 	select HAVE_KVM_VCPU_RUN_PID_CHANGE
- 	select SCHED_INFO
- 	select GUEST_PERF_EVENTS if PERF_EVENTS
-+	select HAVE_KVM_USERFAULT
- 	help
- 	  Support hosting virtualized guest machines.
+diff --git a/tools/testing/selftests/kvm/demand_paging_test.c b/tools/testing/selftests/kvm/demand_paging_test.c
+index 0202b78f8680..315f5c9037b4 100644
+--- a/tools/testing/selftests/kvm/demand_paging_test.c
++++ b/tools/testing/selftests/kvm/demand_paging_test.c
+@@ -172,11 +172,13 @@ static void run_test(enum vm_guest_mode mode, void *arg)
+ 	memset(guest_data_prototype, 0xAB, demand_paging_size);
  
-diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-index c9d46ad57e52..e099bdcfac42 100644
---- a/arch/arm64/kvm/mmu.c
-+++ b/arch/arm64/kvm/mmu.c
-@@ -1493,7 +1493,7 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
- 	 * logging_active is guaranteed to never be true for VM_PFNMAP
- 	 * memslots.
- 	 */
--	if (logging_active) {
-+	if (logging_active || kvm_memslot_userfault(memslot)) {
- 		force_pte = true;
- 		vma_shift = PAGE_SHIFT;
- 	} else {
-@@ -1582,6 +1582,13 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
- 	mmu_seq = vcpu->kvm->mmu_invalidate_seq;
- 	mmap_read_unlock(current->mm);
+ 	if (p->uffd_mode == UFFDIO_REGISTER_MODE_MINOR) {
+-		num_uffds = p->single_uffd ? 1 : nr_vcpus;
+-		for (i = 0; i < num_uffds; i++) {
++		for (i = 0; i < nr_vcpus; i++) {
+ 			vcpu_args = &memstress_args.vcpu_args[i];
+ 			prefault_mem(addr_gpa2alias(vm, vcpu_args->gpa),
+ 				     vcpu_args->pages * memstress_args.guest_page_size);
++			if (!p->partition_vcpu_memory_access)
++				/* We prefaulted everything */
++				break;
+ 		}
+ 	}
  
-+	if (kvm_gfn_userfault(kvm, memslot, gfn)) {
-+		kvm_prepare_memory_fault_exit(vcpu, gfn << PAGE_SHIFT,
-+					      PAGE_SIZE, write_fault,
-+					      exec_fault, false, true);
-+		return -EFAULT;
-+	}
-+
- 	pfn = __kvm_faultin_pfn(memslot, gfn, write_fault ? FOLL_WRITE : 0,
- 				&writable, &page);
- 	if (pfn == KVM_PFN_ERR_HWPOISON) {
-@@ -2073,6 +2080,23 @@ void kvm_arch_commit_memory_region(struct kvm *kvm,
- 				   enum kvm_mr_change change)
- {
- 	bool log_dirty_pages = new && new->flags & KVM_MEM_LOG_DIRTY_PAGES;
-+	u32 new_flags = new ? new->flags : 0;
-+	u32 changed_flags = (new_flags) ^ (old ? old->flags : 0);
-+
-+	/*
-+	 * If KVM_MEM_USERFAULT has been enabled, drop all the stage-2 mappings
-+	 * so that we can respect userfault-ness.
-+	 */
-+	if ((changed_flags & KVM_MEM_USERFAULT) &&
-+	    (new_flags & KVM_MEM_USERFAULT) &&
-+	    change == KVM_MR_FLAGS_ONLY)
-+		kvm_arch_flush_shadow_memslot(kvm, old);
-+
-+	/*
-+	 * Nothing left to do if not toggling dirty logging.
-+	 */
-+	if (!(changed_flags & KVM_MEM_LOG_DIRTY_PAGES))
-+		return;
- 
- 	/*
- 	 * At this point memslot has been committed and there is an
 -- 
 2.47.1.613.gc27f4b7a9f-goog
 
