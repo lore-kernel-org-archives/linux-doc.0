@@ -1,73 +1,125 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82EFB17B421;
-	Thu,  9 Jan 2025 17:48:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A192B9BF;
+	Thu,  9 Jan 2025 17:51:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736444908; cv=none; b=CN7hQJAkI4MmIduGXSDlU4dvUQaDAdmmziZCqdE5E9XPUnGW80e5t8z1j3PjmtLQ6wVrn7jVbYrbdbhpYhCiHffoanYai9hZXZTe8fQHatTZprvobwkDgF+wn8Jusu2pglOPV/4YT5bXaJtuzzf87Sb+HGm802QUobW4It06XFE=
+	t=1736445097; cv=none; b=KykJPcKoZbcdwPM8JX/bJEzmnxtlLIFAR1cuS3M11HC8cstJP8GHsnm/dVUO/nrjydbVkcBpZujApQk7fW5/LMtko9Q9xYqc2GZszraGmp9XctLUfod6P0NzMj0EpK9ufrFrc1xsn9CM91Mo+12piEcFMSwBsRDkWRcc+sS4Y0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736444908; c=relaxed/simple;
-	bh=nwF2wJILxsbe6koxpQXtd2nB0Ync5bXMj6SGjlKEwFg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NMvGR5jrvGeVxttx0WS8gNpxzFxoYXjxpxH0guoVpgD/58fAxgAK/6VNil8lbq+Dr1xxqQzQM+ZESL4xb9TGjSaGsFwxrA/hVAAAKnMWM1pQX+DHUzN8zCHw+oqP5/5U8xIlv6uedku5IWGzFvV5NPT017/MtWgiBWAm5hr4M8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VkPvYxt2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736445097; c=relaxed/simple;
+	bh=woo04ygL2lxI0dVd85HArE72awMxk5N2D1/jValkf2I=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=upJulq1qAKOerGnNHASrXMsWpvhd2VAqyEcASGWmIRxcIvn2d85iyJbaCPY6dY17UjnMRsgIGNd0yNGQue7FANGo6ruuC6AZHg3Pnexv3TEC9OAOm8t/EJ93aQGqsiEYvjGx1ZbSZdNiYsu5ImfCgsPQpPLfIHHhAl/ZJcffzzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=muOPzRPW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VkPvYxt2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A2F8C4CED2;
-	Thu,  9 Jan 2025 17:48:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="muOPzRPW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA164C4CED2;
+	Thu,  9 Jan 2025 17:51:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736444906;
-	bh=nwF2wJILxsbe6koxpQXtd2nB0Ync5bXMj6SGjlKEwFg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=VkPvYxt2FS2k3iUsJ4zwxKlOa035hiDEkOR/4Hk6a4AB0gYPBGPBcp24psEFdOszZ
-	 VqQCPATEjH+6kyywBS58K8xkRNUJ6mB4lpb8BidsaItN5Ka3BjizPmVAlSGzp75Ljw
-	 uDNGvXwcqA1xxlbJ+eB/Q1XdyONsQbgfjWho0RwWAB+f3/ZPwqUfvskIuQvZkRoI1Y
-	 ddhCj9YaEK7WaQEfzjOb+mLjEzeApMHolc+18E+sbKkuMH6Ba99A+548gY7W3430rx
-	 Fe5jCIXIPHaUPbkS0AwuCYsrjq2fTbuPm+fSZVr5B7ENVP0ryfp23x1oIma9aXTCic
-	 pYL+DD42vyGeA==
-Date: Thu, 9 Jan 2025 09:48:24 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Jonathan
- Corbet <corbet@lwn.net>, kernel@pengutronix.de,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, Simon Horman
- <horms@kernel.org>, Russell King <linux@armlinux.org.uk>, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v6 2/7] net: ethtool: plumb PHY stats to PHY
- drivers
-Message-ID: <20250109094824.39cef463@kernel.org>
-In-Reply-To: <Z4AHEEX1c0gcGEV6@pengutronix.de>
-References: <20250109094457.97466-1-o.rempel@pengutronix.de>
-	<20250109094457.97466-3-o.rempel@pengutronix.de>
-	<20250109080758.608e6e1a@kernel.org>
-	<Z4AHEEX1c0gcGEV6@pengutronix.de>
+	s=k20201202; t=1736445097;
+	bh=woo04ygL2lxI0dVd85HArE72awMxk5N2D1/jValkf2I=;
+	h=From:To:Cc:Subject:Date:From;
+	b=muOPzRPW3Nr68uZt8dg57w9O3cgi6VuGjMnUCVtlyLgoA0CjjuyVx4Z7BbgdyzArE
+	 bBQoK74AXble0yFErTawdkb1VlzHqvgDyAMC2rGPGS/OAF84pRA9Dz9omHmKkwt+kY
+	 s73d/MufXJNoScOTY22nt8JGwPWVlZDdQrXFN6nlXpqCiPOMFxEF2sOIHnOAXS7qfH
+	 epzPkzyCdI5mL9/tQsD1WVr7s63JZSNsE3zyYcX//gnBPJYlRw5VRk6SpgSYAZBeir
+	 geSdGPlrQthIburKjhhmiS5IIZZ7LSVi/4PyevunzXUFia1UWK1jLIxWC+l938u9Z1
+	 lNvylffMyBOtQ==
+From: SeongJae Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH v2 00/10] mm/damon: extend DAMOS filters for inclusion
+Date: Thu,  9 Jan 2025 09:51:16 -0800
+Message-Id: <20250109175126.57878-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, 9 Jan 2025 18:27:44 +0100 Oleksij Rempel wrote:
-> > So we traded on set of static inlines for another?
-> > What's wrong with adding a C source which is always built in?
-> > Like drivers/net/phy/stubs.c, maybe call it drivers/net/phy/accessors.c
-> > or drivers/net/phy/helpers.c =20
->=20
-> I chose the current stubs approach based on existing examples like
-> hw_timestamps. Any implementation, including the current one, will have
-> zero kernel size impact because each function is only used once. While
-> moving them to a C source file is an option, it doesn't seem necessary
-> given the current usage pattern. Do we really want to spend more time on
-> this for something that won=E2=80=99t impact functionality or size? :)
+DAMOS fitlers are exclusive filters.  It only excludes memory of given
+criterias from the DAMOS action targets.  This has below limitations.
 
-If we keep following existing approaches we'll not have any chance=20
-to improve :/
+First, the name is not explicitly explaining the behavior.  This
+actually resulted in users' confusions[1].  Secondly, combined uses of
+multiple filters provide only restriced coverages.  For example,
+building a DAMOS scheme that applies the action to memory that belongs
+to cgroup A "or" cgroup B is impossible.  A workaround would be using
+two schemes that fitlers out memory that not belong to cgroup A and
+cgroup B, respectively.  It is cumbersome, and difficult to control
+quota-like per-scheme features in an orchestration.  Monitoring of
+filters-passed memory statistic will also be complicated.
 
-But if you feel strongly it's fine. You do need to respin to fix what
-Simon pointed out tho, either way.
+Extend DAMOS filters to support not only exclusion (rejecting), but also
+inclusion (allowing) behavior.  For this, add a new damos_filter struct
+field called 'allow' for DAMON kernel API users.  The filter works as an
+inclusion or exclusion filter when it is set or unset, respectively.
+For DAMON user-space ABI users, add a DAMON sysfs file of same name
+under DAMOS filter sysfs directory.  To prevent exposing a behavioral
+change to old users, set rejecting as the default behavior.
+
+Note that allow-filters work for only inclusion, not exclusion of memory
+that not satisfying the criteria.  And the default behavior of DAMOS for
+memory that no filter has involved is that the action can be applied to
+those memory.  Also, filters-passed memory statistics are for any memory
+that passed through the DAMOS filters check stage.  These implies
+installing allow-filters at the endof the filter list is useless.  Refer
+to the design doc change of this series for more details.
+
+[1] https://lore.kernel.org/20240320165619.71478-1-sj@kernel.org
+
+Revision History
+================
+
+Changes from v1
+(https://lore.kernel.org/20250107201739.79484-1-sj@kernel.org)
+- Correct wrong comments and documents about pass filters without
+  successing block filters
+- Rename 'pass/block' to 'allow/reject'
+  (to avoid confusion with sz_[ops]_filter_pass)
+
+Changes from RFC v2
+(https://lore.kernel.org/20241227210819.63776-1-sj@kernel.org)
+- Wordsmith messages
+- Wordsmith design documentation about monitoring-purpose usage
+- Rebase on latest mm-unstable
+
+Changes from RFC v1
+(https://lore.kernel.org/20241226221445.78433-1-sj@kernel.org)
+- Fix encoding issue on the last patch
+
+SeongJae Park (10):
+  mm/damon: fixup damos_filter kernel-doc
+  mm/damon/core: add damos_filter->allow field
+  mm/damon/core: support damos_filter->allow
+  mm/damon/paddr: support damos_filter->allow
+  mm/damon: add 'allow' argument to damos_new_filter()
+  mm/damon/sysfs-schemes: add a file for setting damos_filter->allow
+  Docs/mm/damon/design: document allow/reject DAMOS filter behaviors
+  Docs/ABI/damon: document DAMOS filter allow sysfs file
+  Docs/admin-guide/mm/damon/usage: omit DAMOS filter details in favor of
+    design doc
+  Docs/admin-guide/mm/damon/usage: document DAMOS filter 'allow' sysfs
+    file
+
+ .../ABI/testing/sysfs-kernel-mm-damon         | 13 +++--
+ Documentation/admin-guide/mm/damon/usage.rst  | 54 ++++++++++---------
+ Documentation/mm/damon/design.rst             | 33 ++++++++++--
+ include/linux/damon.h                         | 15 +++---
+ mm/damon/core.c                               | 12 +++--
+ mm/damon/paddr.c                              |  9 ++--
+ mm/damon/reclaim.c                            |  2 +-
+ mm/damon/sysfs-schemes.c                      | 32 ++++++++++-
+ mm/damon/tests/core-kunit.h                   | 14 ++---
+ 9 files changed, 127 insertions(+), 57 deletions(-)
+
+-- 
+2.39.5
