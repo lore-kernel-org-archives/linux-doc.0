@@ -1,102 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A74521578B;
-	Thu,  9 Jan 2025 10:16:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6305321579F;
+	Thu,  9 Jan 2025 10:18:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736417818; cv=none; b=NHvz9pHy4qo3I2Mmja0ED5v9svcCxn6egNEHSl9WZ784aqeYudM360IItP3CZ7yDc/RDBezrb2hOFYCPhqTJ4UXIAgBvAcGerobmnTHCDXxqnxm1IuII7pfOgqKsNDW3tAuRAdTj5qJasEuww2yREU78tgCd0vkYJvr4+CLG524=
+	t=1736417934; cv=none; b=op1e2ji/uBqsxqOH2i/j24+EpQ1xwobLl2UTCcfl6Ns4U3K15Jc8hWT3vopesuHjoNFRhNh5Uo5p0zX0CcOWNStwBbb01Lkd3MfuC8klq6XEX8VGZBbhJFbk1EL/op2RzAOkwZ7+E7yYaBTGfmjnjQmOgu/lZVOiSdVAZjacMqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736417818; c=relaxed/simple;
-	bh=o2gV8+qd+OstVBKFXAlKb6b8WAzoR3uhP+40NL99g4c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fJq7xjFzM1rPePuX+Y8K6uUYcOnF9lLGrIQ+sV1utp9ZA2BZ0Gdy7YI0KVC6VGR9MUaFayPo4yejpkmfQPKmlOxdajSNhMXG2zE5O9gsLYU0fwDirG3+jerW4UhzPq9ONteBtXpo055ZknaAQKaEIL/zrefxXCOYz34ejY9cMEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mv6bo9gr; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1736417934; c=relaxed/simple;
+	bh=m2/2B8DgsQWKP2dTKHY6Uo/hbqT8KQFiKmV/nwAePok=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=civ6GGSALJ6Sjy+vZU9ycLYurX9rwz/tLfx/a6MGwL5NMhYJNA7gxGCj//il22EDnlFMNN5LjRl3hg7RpNIdnNjG8AlvsARIHp2xbxlsQYklaeKr4yYJPfpnn87Jx54t6I30ZWyQX0FRtmsnGCbaid4ghrKyBy/RoWhNyysfRRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=STwe3ogN; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mv6bo9gr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736417817; x=1767953817;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=o2gV8+qd+OstVBKFXAlKb6b8WAzoR3uhP+40NL99g4c=;
-  b=Mv6bo9grXkpaJ6XkqcOrEk7xmpyD/Y39hUejyI73LHGjUUyxWWVPiRB3
-   gN0i/H8/Sz04rW8MA5Jew7zZPRs5LJdHtfmD4oHzLm8VgOhfhrrZeboa3
-   /08mVDFCz3IHDeKim8azrQiZWSI5omDbbGObVz/7GRFdFjSaZjJX4aqJ1
-   Uc5WlF2+5X48T2W3TnuthmcWbLptXigWSoP9pc2NXvpSg4K0CoSDl+dy8
-   zO35nir2zV/8XafyxgZKytKAvDZPY7phbXctRM+PUfuBcO4SCXFOgZqDP
-   8NGYXL9lZ6jzlOiYwRTaGK2lVgtggh85D837gJBs3SjhYAMxhKciajA4A
-   Q==;
-X-CSE-ConnectionGUID: O/DLvZC6Q5CSOnWRFSpXqg==
-X-CSE-MsgGUID: E4YutE46RmKB5UVfbg1X6Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="36830884"
-X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
-   d="scan'208";a="36830884"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 02:16:56 -0800
-X-CSE-ConnectionGUID: 6hdmEu8SSXO2+Mp4RQEcaQ==
-X-CSE-MsgGUID: T0zJ1WQTRYmQeydN1S1tag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
-   d="scan'208";a="103329234"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 09 Jan 2025 02:16:52 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tVpas-000HMR-1U;
-	Thu, 09 Jan 2025 10:16:50 +0000
-Date: Thu, 9 Jan 2025 18:15:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Leo Yang <leo.yang.sy0@gmail.com>, jdelvare@suse.com,
-	linux@roeck-us.net, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, Leo-Yang@quantatw.com, corbet@lwn.net,
-	Delphine_CC_Chiu@wiwynn.com, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/2] hwmon: Add driver for TI INA233 Current and Power
- Monitor
-Message-ID: <202501091702.8ZdJcvFC-lkp@intel.com>
-References: <20250106071337.3017926-3-Leo-Yang@quantatw.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="STwe3ogN"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8CF61E000C;
+	Thu,  9 Jan 2025 10:18:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1736417924;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=QQzbUGpRpqJpruHFivHLZPolA0wMskDZ+pQZE56/8yo=;
+	b=STwe3ogNYIyg384FVkecEy4NjGiK7VWz9GpTOtrGo5O+Sk8v5NlCILz4bgJIA9P56WDrrO
+	A8ugqZsA9abF6kSoDts56RkRlZMnJlz6hDWA8z/IXEmIuqAG3XaiJedMJ9Y5l7RbI0Sd7x
+	ufjsg+1XDAXsSSx7z6wM4TY0jYrW1XtAGduqrZt/Jj6Lz2pvW2LyZ3IcmGCAzN1hctx78u
+	RVLuuhKm5WccoWUUtf6X4dFk3MRAovYmnuiw/tyVmPSoZDT1qGR7sZKmdkJ9HoFn4L/g+v
+	yvwIdro+XQGDLnhmcyxfoF4K/bkSwgJ/2r4DBm+wYRIN1WqA9x+IFe25Xg2NVg==
+From: Kory Maincent <kory.maincent@bootlin.com>
+Subject: [PATCH net-next v2 00/15] Arrange PSE core and update TPS23881
+ driver
+Date: Thu, 09 Jan 2025 11:17:54 +0100
+Message-Id: <20250109-b4-feature_poe_arrange-v2-0-55ded947b510@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250106071337.3017926-3-Leo-Yang@quantatw.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAFKif2cC/4WNUQrCMBBEr1L220gaolW/vIeUkjQbu6BJ2cRSK
+ b27IRfwc3gzbzZIyIQJbs0GjAsliqEEdWhgnEx4oiBXMiipTrKVWlgtPJr8YRzmiINhrq3OOKn
+ PyivjEcp4ZvS0VvEDAmYRcM3QFzJRypG/9XFpK/8nX1ohxVX5i9TWdRrd3caYXxSOY3xDv+/7D
+ 6tQh5bIAAAA
+To: Oleksij Rempel <o.rempel@pengutronix.de>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, 
+ Dent Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ Kory Maincent <kory.maincent@bootlin.com>, 
+ Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, 
+ Andrew Lunn <andrew@lunn.ch>
+X-Mailer: b4 0.15-dev-8cb71
+X-GND-Sasl: kory.maincent@bootlin.com
 
-Hi Leo,
+From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 
-kernel test robot noticed the following build errors:
+This patch includes several improvements to the PSE core for better
+implementation and maintainability:
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v6.13-rc6 next-20250108]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+- Move the conversion between current limit and power limit from the driver
+  to the PSE core.
+- Update power and current limit checks.
+- Split the ethtool_get_status callback into multiple callbacks.
+- Add support for PSE device index.
+- Fix PSE PI of_node detection.
+- Clean ethtool header of PSE structures.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Leo-Yang/dt-bindings-Add-INA233-device/20250106-151934
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20250106071337.3017926-3-Leo-Yang%40quantatw.com
-patch subject: [PATCH 2/2] hwmon: Add driver for TI INA233 Current and Power Monitor
-config: i386-randconfig-001-20250108 (https://download.01.org/0day-ci/archive/20250109/202501091702.8ZdJcvFC-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250109/202501091702.8ZdJcvFC-lkp@intel.com/reproduce)
+Additionally, the TPS23881 driver has been updated to support power
+limit and measurement features, aligning with the new PSE core
+functionalities.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501091702.8ZdJcvFC-lkp@intel.com/
+This patch series is the first part of the budget evaluation strategy
+support patch series sent earlier:
+https://lore.kernel.org/netdev/20250104161622.7b82dfdf@kmaincent-XPS-13-7390/T/#t
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+Changes in v2:
+- Add a patch to clean ethtool header of PSE structures
+- Link to v1: https://lore.kernel.org/r/20250104-b4-feature_poe_arrange-v1-0-92f804bd74ed@bootlin.com
 
->> ERROR: modpost: "__divdi3" [drivers/hwmon/pmbus/ina233.ko] undefined!
+---
+Kory Maincent (15):
+      net: pse-pd: Remove unused pse_ethtool_get_pw_limit function declaration
+      net: pse-pd: Avoid setting max_uA in regulator constraints
+      net: pse-pd: Add power limit check
+      net: pse-pd: tps23881: Simplify function returns by removing redundant checks
+      net: pse-pd: tps23881: Use helpers to calculate bit offset for a channel
+      net: pse-pd: tps23881: Add missing configuration register after disable
+      net: pse-pd: Use power limit at driver side instead of current limit
+      net: pse-pd: Split ethtool_get_status into multiple callbacks
+      net: pse-pd: Remove is_enabled callback from drivers
+      net: pse-pd: tps23881: Add support for power limit and measurement features
+      net: pse-pd: Add support for PSE device index
+      net: ethtool: Add support for new PSE device index description
+      regulator: core: Resolve supply using of_node from regulator_config
+      net: pse-pd: Fix missing PI of_node description
+      net: pse-pd: Clean ethtool header of PSE structures
 
+ Documentation/netlink/specs/ethtool.yaml       |   5 +
+ Documentation/networking/ethtool-netlink.rst   |   4 +
+ drivers/net/pse-pd/pd692x0.c                   | 224 ++++++------
+ drivers/net/pse-pd/pse_core.c                  | 207 ++++++++----
+ drivers/net/pse-pd/pse_regulator.c             |  23 +-
+ drivers/net/pse-pd/tps23881.c                  | 449 ++++++++++++++++++++-----
+ drivers/regulator/core.c                       |  39 ++-
+ include/linux/ethtool.h                        |  20 --
+ include/linux/pse-pd/pse.h                     | 138 ++++++--
+ include/uapi/linux/ethtool_netlink.h           |   1 -
+ include/uapi/linux/ethtool_netlink_generated.h |   1 +
+ net/ethtool/pse-pd.c                           |  12 +-
+ 12 files changed, 798 insertions(+), 325 deletions(-)
+---
+base-commit: 849b7ca06e68813750c71c4c204372999cea6d0a
+change-id: 20250104-b4-feature_poe_arrange-7ad0462f2afe
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Köry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
