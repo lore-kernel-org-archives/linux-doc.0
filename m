@@ -1,275 +1,197 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C74B1F94C
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 02:29:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8302486334
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 02:30:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736389767; cv=none; b=U6Hp+sCR13ZpoBw8KfW9HkB2Bgn2qqAwxwm0bB0UyRLqvoPFtWLFHnp+7hGYrXchAq7LjYY63/DOJjgX6frqcKTvH1DNMSer/gwwT7J8jYjB7hP4RvMRi/8g92AemNXwqQ6dONp7h4fHfngEpDfFdGZ28qTuWVZdO2Fbkp3LEN4=
+	t=1736389831; cv=none; b=oTQbLzv/leslcdsck7yMom+V3lCvmlT/06EdOpLE08bJ8WCuyNzHTle40qstq0Vg3D7K63D545AjnBkgLEOTw2g4BE1eB+2isMz6tPiBplkDZnOx6OmwY+aHsDgCwqtnaAp5Cu71UMpWf6U6OZVZMeyyTBnn4iSih80cC/p/lOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736389767; c=relaxed/simple;
-	bh=8+qyBcO8apxheZk8Ce9xa2+qlvFR3OyMr82XXfWcAZ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nt+dx0SbAWl/Z1DkNoHwciYVEOnP5OACHfN3gW7aUGUCSpnmb1yYGNWrMO5uZ/bkBy5dBnRx4JfTBeVS+btoaheC5kruRL59k2eTxAbSUVv/Ojxvms0OH5qJjbODAXpYuz1SIJYuFpkBwHu2cPJBlL+9HVb01AYwaaR97TiCiKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=Gv5Peo3u; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1736389831; c=relaxed/simple;
+	bh=0L2k9PDqLJwLoeEJmi5dGskV69cyESphdNQuyIPB6V0=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=d+XdKIwC6jywMM3BCtD9IZC8ZGeBrsOGoMsoUdCNYdHyrRcIQmRM7xBNdftnkHAD//JeOpyzhhfWgWX2EdhWOa1LvAzhPDSB6+vhSDoG53Qt78xCqrhzIamBerwi36Z9AoAogmTt7VutagjlcJKiUGEgxmAKhf+ddoyvYKsDJoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kjukbdXK; arc=none smtp.client-ip=209.85.216.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--surenb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Gv5Peo3u"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-21669fd5c7cso5682305ad.3
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jan 2025 18:29:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kjukbdXK"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2f550d28f7dso766753a91.3
+        for <linux-doc@vger.kernel.org>; Wed, 08 Jan 2025 18:30:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1736389764; x=1736994564; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=tuHlyCZ2v8Z/UOiT+zevmWuAaJTETQXAMxBjxTo/5Xo=;
-        b=Gv5Peo3u4Ohdbw8NnuFYZI6AbOfW2iNkNmeQAM4mPxbLHQahsR1TlyUtAY4lMfU/zE
-         6fGu9bMim87xmRHXepDITyJg5/iYC+enlXS9hsrzTf8hEPylETnWOUGzy9UQa2E+RGiZ
-         DvwBExJ6oWqV3CSE5xXEeS/g5stsqhSBPF7U5hDhjur88U5I1er04P8Hy1Wdr+CSvI4Y
-         YveYF7WHciO6CoIODJwK07UQsByydBf4abz0yViY8MAHjRT1ydJAGRiNdJEvShHWvw7S
-         TLDQoIiO6uv0YoG3MWkELUzONcmiTXlqFad6HMyOebHwqKnfxr9sBoyra0K1tFNsfa9L
-         xk0w==
+        d=google.com; s=20230601; t=1736389829; x=1736994629; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Cpo3070ozIigd1UD5sogM22USQlvAcQS+SrPZOPOiVU=;
+        b=kjukbdXKSQ1+q97iL3M5kWteh1keQinQ4j7yloBxH6rcrKGASLhulEkNMlZrlCLKLd
+         4r9jTnnZOwznSdxpmk3Zw/Y5Lo0Ug4QKJ12X87PT0sh+2vC8QPKrvvoTznUt+aGdup4F
+         CrGEqOQ2RjV+khLNqGYZpNO2oRkLUGGXwvXKfbExQ7KimxEfTAo1AeF9+RggvBuVKLcq
+         A/vP1/ncbLQVpSH9TrdX1U+XkuoIVSUwBsmf0qgnfdXuNXp02rVqxyyzPdF1W/nSZl8Q
+         F57PNWwgFpLF5WxrGskmR3pfPgxRoYEb3jvwKHGEilcztRhiSn3FbuupMX4ZkcG7Y9tv
+         EHBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736389764; x=1736994564;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tuHlyCZ2v8Z/UOiT+zevmWuAaJTETQXAMxBjxTo/5Xo=;
-        b=tfIsk63eN4hyPQHmT1eYx6UMOxVRcdOtAUjaP/TrWL/WxJY+dsqg/ixqH3aSmz1S1W
-         GbUn3Q5YuP8uxA0UmoGFHTsFsnkh9kfvf9DIQZIbfgHOIrB00PrX3MO/+sHxnhWLu1/N
-         rp7kH18ftwZcus86uKkhfRhf3KHeu+FyExnoPv1yUWi5S0vhNFPmBs5RjXqDCTrmp00p
-         khaU/HbpG/L2leqROG2FAsVlfn+5BxnZiYHOJxe2fyvKtwdqqSIlTPf0XETNII+xzu/e
-         mHOnYp2rIPbkdqOxGsvRoP5YnOZWTwM0zUktwt0v9aIG72E+OyDVjmVxRirHxuHLYd8b
-         7g/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVzTpCCyi9bK6Nz4z6DioQjWcRZ7mA6NjUtdDX60/fesgRJ74cKmzCRRiXB118KKmIdl3+UCbxzJQA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0RVMe6JRAHy5VHtkK60ij4oUOXSrSx8OSzql5etb0Xycdp4Sw
-	o1yqEsTPmNdltV1OsqFDmK8PgBxZfjnpcL6x7bGEsx8hQLNyTLuYBukoPFQJlRo=
-X-Gm-Gg: ASbGnctQBmcwaauCG4ATeBiF1isV8dZ7yehWedpevZuM3K4mMPbwvcEltu2XY2EoJKV
-	PpIUSehkQFAHwKoxJNkDkQPerEoqT4AniMeb7II1JBaPUZc5h681aZHVVsojavF7JDiIsP+amoU
-	jEKq916ndDFUa5Mwb0CAn4AlBfjFJ+sRcoEklNPEJYGZxyz15S5KV9LGI2fQUX3A/c1Zt+T0HbT
-	DrIp+CmY/Q90ETv67FZQh0qzlOjBxFvjuZQaPTlXZ37s/s=
-X-Google-Smtp-Source: AGHT+IEiW0hQMlynZLTeSqEG8t5Hx4KJYijsRSL5BopHzTcxKBDRtDH+iOQvqvSzplZg51yWB1kRWw==
-X-Received: by 2002:a05:6a00:e8e:b0:72a:bc6a:3a87 with SMTP id d2e1a72fcca58-72d21df17bfmr7052394b3a.0.1736389764464;
-        Wed, 08 Jan 2025 18:29:24 -0800 (PST)
-Received: from ghost ([50.145.13.30])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-a31d4d6b477sm161833a12.61.2025.01.08.18.29.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 18:29:23 -0800 (PST)
-Date: Wed, 8 Jan 2025 18:29:20 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc: Namhyung Kim <namhyung@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Christian Brauner <brauner@kernel.org>, Guo Ren <guoren@kernel.org>,
-	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
-	James Clark <james.clark@linaro.org>,
-	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
-	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
-	linux-csky@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 00/16] perf tools: Use generic syscall scripts for all
- archs
-Message-ID: <Z380gLRYAKVPVEet@ghost>
-References: <20250107-perf_syscalltbl-v5-0-935de46d3175@rivosinc.com>
- <Z368mNynBTDWPM6R@google.com>
- <Z37-t9fhnmSghIPe@x1>
+        d=1e100.net; s=20230601; t=1736389829; x=1736994629;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Cpo3070ozIigd1UD5sogM22USQlvAcQS+SrPZOPOiVU=;
+        b=Xc3hzH/6xMg4Exyr6VCYgkyIGfM6uvmVwoLrfS2LtKZqksZDzwt/uvhU1km7hrT0Zu
+         REVdIa4AJUrVE+hKw9v9WFXB63FemMhb1eayLrt18lC8RhkdRw+ryBoFE/uhGdKlov2s
+         vxqEz4ap6hl0iplisi3oP+T8FXclrilBfBdFhR9QQNTm1cGguH/kgvU7cHmmUSV2lhs7
+         GlIMld0DCkPEmkYI2s4duu0r+9llqI66FjttdPASSzCCaCaGzjqZu1yLfh2tWdU8+Lg8
+         bYF+JeW/UsnehDyuJ8jcz7v1XnfRJ2P8WwwxdPOv1Ui/lu6qFM+5qAkHgnYcCaIWkODR
+         kryw==
+X-Forwarded-Encrypted: i=1; AJvYcCVe0KKcanrgXZHPWlZ+uRDpcSx5zakYRrO4uYWCWvxEDNhOnlRgPWoc85gAza1/hZLJbNGr1YUUzHY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRQLagBNG0HNAb42Cnof3OdwKYLtJK5aLG2fCi9q5S+5I4uX5k
+	QFZ9PGlc3ZEGm3JXiaNg+sPPbOyep2qxxKN6s3djC6/XWzpOq+KBX7CtdSMwfA/SBOD4W7bHbXL
+	JCA==
+X-Google-Smtp-Source: AGHT+IFWRwQyRHtcEUyRY/wfEsf25Xa6VuwC5jEhGExKs0dL9+I/VX06a6PUWB7b7J8ztc5+nZicWF+9Xfs=
+X-Received: from pfbca11.prod.google.com ([2002:a05:6a00:418b:b0:725:936f:c305])
+ (user=surenb job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:1942:b0:725:d956:aa6f
+ with SMTP id d2e1a72fcca58-72d21f7f5a6mr7847896b3a.5.1736389828787; Wed, 08
+ Jan 2025 18:30:28 -0800 (PST)
+Date: Wed,  8 Jan 2025 18:30:09 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z37-t9fhnmSghIPe@x1>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
+Message-ID: <20250109023025.2242447-1-surenb@google.com>
+Subject: [PATCH v8 00/16] move per-vma lock into vm_area_struct
+From: Suren Baghdasaryan <surenb@google.com>
+To: akpm@linux-foundation.org
+Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com, 
+	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz, 
+	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
+	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
+	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
+	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
+	klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	kernel-team@android.com, surenb@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jan 08, 2025 at 07:39:51PM -0300, Arnaldo Carvalho de Melo wrote:
-> On Wed, Jan 08, 2025 at 09:57:44AM -0800, Namhyung Kim wrote:
-> > Hello,
-> > 
-> > On Tue, Jan 07, 2025 at 06:07:48PM -0800, Charlie Jenkins wrote:
-> > > Standardize the generation of syscall headers around syscall tables.
-> > > Previously each architecture independently selected how syscall headers
-> > > would be generated, or would not define a way and fallback onto
-> > > libaudit. Convert all architectures to use a standard syscall header
-> > > generation script and allow each architecture to override the syscall
-> > > table to use if they do not use the generic table.
-> > > 
-> > > As a result of these changes, no architecture will require libaudit, and
-> > > so the fallback case of using libaudit is removed by this series.
-> > > 
-> > > Testing:
-> > > 
-> > > I have tested that the syscall mappings of id to name generation works
-> > > as expected for every architecture, but I have only validated that perf
-> > > trace compiles and runs as expected on riscv, arm64, and x86_64.
-> > > 
-> > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > > Reviewed-by: Ian Rogers <irogers@google.com>
-> > > Tested-by: Ian Rogers <irogers@google.com>
-> > 
-> > Acked-by: Namhyung Kim <namhyung@kernel.org>
-> 
-> So, somehow the first patch of this series didn't reach my inbox, b4
-> found it, and in it perf now does;
-> 
-> tools/perf/scripts/Makefile.syscalls
-> 
->   include $(srctree)/scripts/Kbuild.include
-> 
-> I.e. it uses a file that is outside tools/ so normal devel in the kernel
-> community may end up breaking tools/ living code, something we decided
-> not to have.
-> 
-> I noticed this while doing a: "make -C tools/perf build-test", the first
-> test creates a perf tarball and then tries to build it after
-> uncompressing it somewhere out of the checked out kernel source tree:
-> 
-> ⬢ [acme@toolbox perf-tools-next]$ make help | grep perf
->   perf-tar-src-pkg    - Build the perf source tarball with no compression
->   perf-targz-src-pkg  - Build the perf source tarball with gzip compression
->   perf-tarbz2-src-pkg - Build the perf source tarball with bz2 compression
->   perf-tarxz-src-pkg  - Build the perf source tarball with xz compression
->   perf-tarzst-src-pkg - Build the perf source tarball with zst compression
-> ⬢ [acme@toolbox perf-tools-next]$ make perf-tarxz-src-pkg
->   UPD     .tmp_HEAD
->   COPY    .tmp_perf/HEAD
->   GEN     .tmp_perf/PERF-VERSION-FILE
->   PERF_VERSION = 6.13.rc2.g48d3eefaa683
->   ARCHIVE perf-6.13.0-rc2.tar.xz
-> ⬢ [acme@toolbox perf-tools-next]$ mv perf-6.13.0-rc2.tar.xz ~
-> ⬢ [acme@toolbox perf-tools-next]$ cd ~
-> ⬢ [acme@toolbox ~]$ tar xvf perf-6.13.0-rc2.tar.xz | tail -5
-> perf-6.13.0-rc2/tools/scripts/Makefile.include
-> perf-6.13.0-rc2/tools/scripts/syscall.tbl
-> perf-6.13.0-rc2/tools/scripts/utilities.mak
-> perf-6.13.0-rc2/HEAD
-> perf-6.13.0-rc2/PERF-VERSION-FILE
-> ⬢ [acme@toolbox ~]$ cd perf-6.13.0-rc2/
-> ⬢ [acme@toolbox perf-6.13.0-rc2]$ make -C tools/perf
-> make: Entering directory '/home/acme/perf-6.13.0-rc2/tools/perf'
->   BUILD:   Doing 'make -j28' parallel build
-> Warning: Skipped check-headers due to missing ../../include
-> 
-> Auto-detecting system features:
-> ...                                   libdw: [ on  ]
-> ...                                   glibc: [ on  ]
-> ...                                  libbfd: [ on  ]
-> ...                          libbfd-buildid: [ on  ]
-> ...                                  libelf: [ on  ]
-> ...                                 libnuma: [ on  ]
-> ...                  numa_num_possible_cpus: [ on  ]
-> ...                                 libperl: [ on  ]
-> ...                               libpython: [ on  ]
-> ...                               libcrypto: [ on  ]
-> ...                               libunwind: [ on  ]
-> ...                             libcapstone: [ on  ]
-> ...                               llvm-perf: [ on  ]
-> ...                                    zlib: [ on  ]
-> ...                                    lzma: [ on  ]
-> ...                               get_cpuid: [ on  ]
-> ...                                     bpf: [ on  ]
-> ...                                  libaio: [ on  ]
-> ...                                 libzstd: [ on  ]
-> 
-> /home/acme/perf-6.13.0-rc2/tools/perf/scripts/Makefile.syscalls:18: /home/acme/perf-6.13.0-rc2/scripts/Kbuild.include: No such file or directory
-> make[2]: *** No rule to make target '/home/acme/perf-6.13.0-rc2/scripts/Kbuild.include'.  Stop.
-> make[1]: *** [Makefile.perf:286: sub-make] Error 2
-> make: *** [Makefile:76: all] Error 2
-> make: Leaving directory '/home/acme/perf-6.13.0-rc2/tools/perf'
-> ⬢ [acme@toolbox perf-6.13.0-rc2]$ 
-> 
-> This would probably (it does, just tested, but read on) make it work:
-> 
-> ⬢ [acme@toolbox perf-tools-next]$ git diff
-> diff --git a/tools/perf/MANIFEST b/tools/perf/MANIFEST
-> index dc42de1785cee715..83ef5d1365880929 100644
-> --- a/tools/perf/MANIFEST
-> +++ b/tools/perf/MANIFEST
-> @@ -22,6 +22,7 @@ tools/lib/str_error_r.c
->  tools/lib/vsprintf.c
->  tools/lib/zalloc.c
->  scripts/bpf_doc.py
-> +scripts/Kbuild.include
->  tools/bpf/bpftool
->  kernel/bpf/disasm.c
->  kernel/bpf/disasm.h
-> ⬢ [acme@toolbox perf-tools-next]$
-> 
-> As now we would find it, but then it references some other part of the
-> kernel's Kbuild system:
-> 
-> ⬢ [acme@toolbox perf-tools-next]$ grep -w srctree scripts/Kbuild.include
-> build := -f $(srctree)/scripts/Makefile.build obj
-> clean := -f $(srctree)/scripts/Makefile.clean obj
-> ⬢ [acme@toolbox perf-tools-next]$
-> 
-> And perf has:
-> 
-> ⬢ [acme@toolbox perf-tools-next]$ find tools/ -name Makefile.build
-> tools/build/Makefile.build
-> ⬢ [acme@toolbox perf-tools-next]$
-> 
-> And we also have:
-> 
-> ⬢ [acme@toolbox perf-tools-next]$ ls -la tools/scripts/
-> total 40
-> drwxr-xr-x. 1 acme acme   106 Jan  8 19:13 .
-> drwxr-xr-x. 1 acme acme   514 Jan  8 11:39 ..
-> -rw-r--r--. 1 acme acme  1224 Jan  8 11:41 Makefile.arch
-> -rw-r--r--. 1 acme acme  6205 Dec 20 21:48 Makefile.include
-> -rw-r--r--. 1 acme acme 17401 Jan  8 19:13 syscall.tbl
-> -rw-r--r--. 1 acme acme  6186 Dec 20 21:48 utilities.mak
-> ⬢ [acme@toolbox perf-tools-next]$
-> 
-> And:
-> 
-> ⬢ [acme@toolbox perf-tools-next]$ grep -w build tools/build/Makefile.include 
-> build := -f $(srctree)/tools/build/Makefile.build dir=. obj
-> 	$(SILENT_MAKE) -C $(srctree)/tools/build CFLAGS= LDFLAGS= $(OUTPUT)fixdep
-> 	$(Q)$(MAKE) -C $(srctree)/tools/build clean
-> ⬢ [acme@toolbox perf-tools-next]$
-> 
-> That is also in:
-> 
-> ⬢ [acme@toolbox perf-tools-next]$ grep -w build scripts/Kbuild.include 
-> # Shorthand for $(Q)$(MAKE) -f scripts/Makefile.build obj=
-> # $(Q)$(MAKE) $(build)=dir
-> build := -f $(srctree)/scripts/Makefile.build obj
-> # the interrupted recipe. So, you can safely stop the build by Ctrl-C (Make
-> # (1) PHONY targets are always build
-> # (2) No target, so we better build it
-> ⬢ [acme@toolbox perf-tools-next]$
-> 
-> So it seems we need to look at what we're using from the kernel's
-> scripts/Makefile.build to have it in a tools/build/ file.
-> 
-> Its late here and I'll have to stop at this point, please take a look to
-> see if this can be easily resolved so that we can merge your series, I
-> very much like to say goodbye to one more tools/perf library dependency
-> :-)
+Back when per-vma locks were introduces, vm_lock was moved out of
+vm_area_struct in [1] because of the performance regression caused by
+false cacheline sharing. Recent investigation [2] revealed that the
+regressions is limited to a rather old Broadwell microarchitecture and
+even there it can be mitigated by disabling adjacent cacheline
+prefetching, see [3].
+Splitting single logical structure into multiple ones leads to more
+complicated management, extra pointer dereferences and overall less
+maintainable code. When that split-away part is a lock, it complicates
+things even further. With no performance benefits, there are no reasons
+for this split. Merging the vm_lock back into vm_area_struct also allows
+vm_area_struct to use SLAB_TYPESAFE_BY_RCU later in this patchset.
+This patchset:
+1. moves vm_lock back into vm_area_struct, aligning it at the cacheline
+boundary and changing the cache to be cacheline-aligned to minimize
+cacheline sharing;
+2. changes vm_area_struct initialization to mark new vma as detached until
+it is inserted into vma tree;
+3. replaces vm_lock and vma->detached flag with a reference counter;
+4. changes vm_area_struct cache to SLAB_TYPESAFE_BY_RCU to allow for their
+reuse and to minimize call_rcu() calls.
 
-Thank you for pointing this out. We can use tools/build/Build.include
-which seems to have everything that is required.  A "space" convenience
-variable needs to be added, but that is all. I'll send an updated
-version with that change.
+Pagefault microbenchmarks show performance improvement:
+Hmean     faults/cpu-1    507926.5547 (   0.00%)   506519.3692 *  -0.28%*
+Hmean     faults/cpu-4    479119.7051 (   0.00%)   481333.6802 *   0.46%*
+Hmean     faults/cpu-7    452880.2961 (   0.00%)   455845.6211 *   0.65%*
+Hmean     faults/cpu-12   347639.1021 (   0.00%)   352004.2254 *   1.26%*
+Hmean     faults/cpu-21   200061.2238 (   0.00%)   229597.0317 *  14.76%*
+Hmean     faults/cpu-30   145251.2001 (   0.00%)   164202.5067 *  13.05%*
+Hmean     faults/cpu-48   106848.4434 (   0.00%)   120641.5504 *  12.91%*
+Hmean     faults/cpu-56    92472.3835 (   0.00%)   103464.7916 *  11.89%*
+Hmean     faults/sec-1    507566.1468 (   0.00%)   506139.0811 *  -0.28%*
+Hmean     faults/sec-4   1880478.2402 (   0.00%)  1886795.6329 *   0.34%*
+Hmean     faults/sec-7   3106394.3438 (   0.00%)  3140550.7485 *   1.10%*
+Hmean     faults/sec-12  4061358.4795 (   0.00%)  4112477.0206 *   1.26%*
+Hmean     faults/sec-21  3988619.1169 (   0.00%)  4577747.1436 *  14.77%*
+Hmean     faults/sec-30  3909839.5449 (   0.00%)  4311052.2787 *  10.26%*
+Hmean     faults/sec-48  4761108.4691 (   0.00%)  5283790.5026 *  10.98%*
+Hmean     faults/sec-56  4885561.4590 (   0.00%)  5415839.4045 *  10.85%*
 
-- Charlie
+Changes since v7 [4]:
+- Removed additional parameter for vma_iter_store() and introduced
+vma_iter_store_attached() instead, per Vlastimil Babka and
+Liam R. Howlett
+- Fixed coding style nits, per Vlastimil Babka
+- Added Reviewed-bys and Acked-bys, per Vlastimil Babka
+- Added Reviewed-bys and Acked-bys, per Liam R. Howlett
+- Added Acked-by, per Davidlohr Bueso
+- Removed unnecessary patch changeing nommu.c
+- Folded a fixup patch [5] into the patch it was fixing
+- Changed calculation in __refcount_add_not_zero_limited() to avoid
+overflow, to change the limit to be inclusive and to use INT_MAX to
+indicate no limits, per Vlastimil Babka and Matthew Wilcox
+- Folded a fixup patch [6] into the patch it was fixing
+- Added vm_refcnt rules summary in the changelog, per Liam R. Howlett
+- Changed writers to not increment vm_refcnt and adjusted VMA_REF_LIMIT
+to not reserve one count for a writer, per Liam R. Howlett
+- Changed vma_refcount_put() to wake up writers only when the last reader
+is leaving, per Liam R. Howlett
+- Fixed rwsem_acquire_read() parameters when read-locking a vma to match
+the way down_read_trylock() does lockdep, per Vlastimil Babka
+- Folded vma_lockdep_init() into vma_lock_init() for simplicity
+- Brought back vma_copy() to keep vm_refcount at 0 during reuse,
+per Vlastimil Babka
 
-> 
-> Best regards,
-> 
-> - Arnaldo
+What I did not include in this patchset:
+- Liam's suggestion to change dump_vma() output since it's unclear to me
+how it should look like. The patch is for debug only and not critical for
+the rest of the series, we can change the output later or even drop it if
+necessary.
+
+[1] https://lore.kernel.org/all/20230227173632.3292573-34-surenb@google.com/
+[2] https://lore.kernel.org/all/ZsQyI%2F087V34JoIt@xsang-OptiPlex-9020/
+[3] https://lore.kernel.org/all/CAJuCfpEisU8Lfe96AYJDZ+OM4NoPmnw9bP53cT_kbfP_pR+-2g@mail.gmail.com/
+[4] https://lore.kernel.org/all/20241226170710.1159679-1-surenb@google.com/
+[5] https://lore.kernel.org/all/20250107030415.721474-1-surenb@google.com/
+[6] https://lore.kernel.org/all/20241226200335.1250078-1-surenb@google.com/
+
+Patchset applies over mm-unstable after reverting v7
+(current SHA range: 588f0086398e - fb2270654630)
+
+Suren Baghdasaryan (16):
+  mm: introduce vma_start_read_locked{_nested} helpers
+  mm: move per-vma lock into vm_area_struct
+  mm: mark vma as detached until it's added into vma tree
+  mm: introduce vma_iter_store_attached() to use with attached vmas
+  mm: mark vmas detached upon exit
+  types: move struct rcuwait into types.h
+  mm: allow vma_start_read_locked/vma_start_read_locked_nested to fail
+  mm: move mmap_init_lock() out of the header file
+  mm: uninline the main body of vma_start_write()
+  refcount: introduce __refcount_{add|inc}_not_zero_limited
+  mm: replace vm_lock and detached flag with a reference count
+  mm/debug: print vm_refcnt state when dumping the vma
+  mm: remove extra vma_numab_state_init() call
+  mm: prepare lock_vma_under_rcu() for vma reuse possibility
+  mm: make vma cache SLAB_TYPESAFE_BY_RCU
+  docs/mm: document latest changes to vm_lock
+
+ Documentation/mm/process_addrs.rst |  44 +++++----
+ include/linux/mm.h                 | 152 ++++++++++++++++++++++-------
+ include/linux/mm_types.h           |  36 ++++---
+ include/linux/mmap_lock.h          |   6 --
+ include/linux/rcuwait.h            |  13 +--
+ include/linux/refcount.h           |  20 +++-
+ include/linux/slab.h               |   6 --
+ include/linux/types.h              |  12 +++
+ kernel/fork.c                      | 128 +++++++++++-------------
+ mm/debug.c                         |  12 +++
+ mm/init-mm.c                       |   1 +
+ mm/memory.c                        |  94 +++++++++++++++---
+ mm/mmap.c                          |   3 +-
+ mm/userfaultfd.c                   |  32 +++---
+ mm/vma.c                           |  23 ++---
+ mm/vma.h                           |  15 ++-
+ tools/testing/vma/linux/atomic.h   |   5 +
+ tools/testing/vma/vma_internal.h   |  93 ++++++++----------
+ 18 files changed, 435 insertions(+), 260 deletions(-)
+
+-- 
+2.47.1.613.gc27f4b7a9f-goog
+
