@@ -1,55 +1,55 @@
-Received: from mail-ua1-f74.google.com (mail-ua1-f74.google.com [209.85.222.74])
+Received: from mail-vs1-f74.google.com (mail-vs1-f74.google.com [209.85.217.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F056B2054E2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E8DE204F8A
 	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 20:49:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.74
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736455800; cv=none; b=CuLdMn8ybkDOxME9970nvQ84h1aFSf2AmpBlMHavC/UC2vsmJ5fRiXimx/unBVZYI4dY8Mizq6ZVv6SvK1NqXAbeVFa4/6mQO6aDxbPPBBFnyC0c2s+z520l0MB+Q6olHUcNwJF7MH7XvUWQs6MY3vPKys2MZXlFEyadMQTZCeA=
+	t=1736455801; cv=none; b=hkU6h8Os+qAOxGGwwtGFwCM4N07qVSscVV3LwzEVjQyPcQtpCu8/JlSYwBTS22jXPDlYrCz6XN5GrT5TbhuA86XPguVSWTbCtvGpBlbKbMr4lRZICBKsndNTaJhHgbTxygpW6XJvMOQiVIKQMS+OYnTJLrmSxSP7Ox6oY+vAJbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736455800; c=relaxed/simple;
-	bh=HNfpPbc0B5+oiokqFlBEDy9D4Azs1/AaYZmxA0SH3Sc=;
+	s=arc-20240116; t=1736455801; c=relaxed/simple;
+	bh=CmgtQ2eKueuvA0O3zOIgnVmBoSBMqtMP0Wab4N434t0=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Ws3ZRyLqMHz1zWEpeanrsVUTq/OXN9QYbazuAxrHBrOpxa7G0Qmu/hHpkAzU/ZOKCBj2vyyDdibph5PqazWtBP1Ey0tYaWJHH+6VgPa+DE01wyZFPnvMk2QXrEZofsBNn/AEwtGeQN8iQjjhdefkOumD1v3VvuY9ElUAZztw11s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LiAyCuwj; arc=none smtp.client-ip=209.85.222.74
+	 To:Cc:Content-Type; b=dghJwht9aDd/fJqsQGXuAQWsMziGAwOAS5MetVkH/LoDveEyUpeJ8Mt1hr97Vwn4FKMM4queFT+P0iyFJaOdfpYClqr5qQAYzFvOJG2NtvBz2HLZQ3CkC3gd+v1MHej7fe5VoWNksLpUdp/uzyZeSEMedGih9qjf0EsgTUB8fUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=p2Ypn3us; arc=none smtp.client-ip=209.85.217.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LiAyCuwj"
-Received: by mail-ua1-f74.google.com with SMTP id a1e0cc1a2514c-85bbbba5b59so331041241.0
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jan 2025 12:49:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="p2Ypn3us"
+Received: by mail-vs1-f74.google.com with SMTP id ada2fe7eead31-4b115b28adbso227643137.3
+        for <linux-doc@vger.kernel.org>; Thu, 09 Jan 2025 12:49:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736455798; x=1737060598; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1736455797; x=1737060597; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sy46ZKdMOYPNfFozinwrK5U4YnAl6mgCHSprJv2I5EE=;
-        b=LiAyCuwjezVniwNKKASD5bBlkD7sA4eWP3Jg1YTyIlzNR1+HrBnfpLHFRCHADZcE7V
-         xDsN8VNRWnN5JHAOMDPNV+pUHviJR6bl5DhyXnHmD4GKHpZsJE1L0BE3odnB3jtYFjhi
-         +cFTsSmnmiDWuXFuy2UlDHnXY3m+2mmSIZbOfXrD9qAv8Ila4AipFifEtafpnror4Q3y
-         rF21EUWJihAFlG8ISK00ovsfuaMc+xHzVEpPYktVcpNmXbIsgqemMxdaw4Nz7ZN9HTYS
-         bsFxMIxeXRZQqh3+X7tHmx97R6cGyr4ae1WtnAB2Q5VrWbN/LhjS3jcAPwu3pQ9za3cS
-         hnIA==
+        bh=inJmWA70Ac+hZHw9fDPSAlORU93rduBYUNSCVpvyraE=;
+        b=p2Ypn3us1MoEIQVIpqufx0haf3J6pgjd9V2/GtF2sO68+YNnC23rxFKfkjWfS0oKgc
+         MMnUCB+BpokOcbPoLsDZxp3Jgldm3aqzvTVMjljvRh/xyEwK/H2ro7tQ3iAAKpJCp25C
+         oXKh/CvoLYzoTnaGXubOoMbAiak9H3D/N2wNB/wA1gel+JVmkhEcPBztebSMDB0e4Q8w
+         Da4YpwDuTktoVv5NW/ofp+vz41YgyQ98BFsrwUqnyxxz6IMHo7052eQaNzHM+TtecsI0
+         5L4ZaOCeqh4Srsbqmu9gAX9ucOED+i4EdfCMyxeX0eagK5OoCXVo2MGG3zze8gjNdA76
+         eYcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736455798; x=1737060598;
+        d=1e100.net; s=20230601; t=1736455797; x=1737060597;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sy46ZKdMOYPNfFozinwrK5U4YnAl6mgCHSprJv2I5EE=;
-        b=e5dBCp3gbao5/YUs8PPx6inOorZ6aXipNzehCj5h8D2Shefwa57esQt36s9t6JFcXG
-         wd/GCKDoL/Gk0l2ONKIacLSRPB0QeGYZgZbCeL7P4Ct6DPqnCMxh1zjlxdaefXI1UfXu
-         amvjkwu+qUVyUd/v2P+3RTonPDC8dlN+Jk4JsGjhG5CeWLwkCpdX+Pqxw1DXkqUSksca
-         ETb2rvpE006MfRb2GCCDqyEoKEAb+nGY5ct+zT4TiDxICp0W9RPjS77iz6tap6sWdrt0
-         U7KEk0KVrd3g1EHt3VThxb6HXLzITNZwfiUmapyswSSlAe+ldKfeKPwu5SRysb61BKRI
-         4TEw==
-X-Forwarded-Encrypted: i=1; AJvYcCUaA8F34pStxW6OO7Ak+88O5GbaEJ9IeeVfEHRQc3AJQ6ddNIjz/JVmiXCH5BmwMDLMFkci+ey9pZM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwABaftnDPTnNt/SNmFV5G0+LFdlwJuVhUTny1IpZ41DwDIhTd6
-	wNxwfrtncs/wh2hB9EgVdo1qy3+6YwuyAJWP7ag4XXEi6zqY6wB0yfXs9TiVq3E4WdDmViZyJO9
-	9u5s3m5gvKbqpREqWxw==
-X-Google-Smtp-Source: AGHT+IGxjoRseI0ptp1PpNGkamYSZpMVzGlMOrPqkiBhNVZ0uPSquo0Jh6/07xFgWyNiCB/pmTP7I9swsH2tkGpZ
-X-Received: from vsvj16.prod.google.com ([2002:a05:6102:3e10:b0:4b4:f067:c6f])
+        bh=inJmWA70Ac+hZHw9fDPSAlORU93rduBYUNSCVpvyraE=;
+        b=aiDNEfhFmixb3mG4OkSb6OLgWNJo/SBj3JKyOS0gAoFoEKjtzBZEFfeYuKnjhHwdfd
+         fPW98g6dvDX9XUr7CDJVSRKHtt4SzOKc85a8jyJftfcCMdOgP2/JZg2TbbkHS3oGoe2m
+         ksSlthRRSLYS2SR7eiodftZAR7v04h/wR2wbEMFR5CW4YPCPsanz6odFx8J9kli1Ka2o
+         8ti4ecM2bS3KMVnhINxlwa/vXmynLNTZehdZDC36e0lC0qNOyavSm0mFGsHT5/Nol4E4
+         muojt1duCnTAopgrTIqTuX+YPlxYFRSkcIFtYJ7aUMGQUzM3bi7Db0L97bN/DPNAcJNd
+         v5Og==
+X-Forwarded-Encrypted: i=1; AJvYcCWyCkpYOMVlVnRogOQSFp+Hfw0632wvSAxmosiR+EPxToyTwIvCVepbihHlVEeX/VNqJm2ymcJ6+0A=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywej7xitQ0/WhbJgVO73a68WY8rHuO7M/DoR8tksFxd5/S+Thbl
+	XhfVrhtFwbJNAXEkuw8vzpZ4qW0TpQzFERuTxzQqgXVO4Ajd/K9CYmuLuADVU6s698zU4O0kPpR
+	rr0x9wrMs7E1ngrzTbA==
+X-Google-Smtp-Source: AGHT+IGmWC0I9uhGcwdr2Gd8ZWKOxj9FqNl2pt1I3pHNzlZaCTTUBXu0xZZz+qkK1VqDCdKw56Aw4mYDSrKY0XUr
+X-Received: from vsbka9.prod.google.com ([2002:a05:6102:8009:b0:4b4:eb7c:c900])
  (user=jthoughton job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6102:c12:b0:4b1:1a11:fe3 with SMTP id ada2fe7eead31-4b3d0f15e35mr7763898137.8.1736455797824;
+ 2002:a05:6102:38cd:b0:4b2:adca:c13a with SMTP id ada2fe7eead31-4b3d0f05fbamr8311073137.12.1736455797065;
  Thu, 09 Jan 2025 12:49:57 -0800 (PST)
-Date: Thu,  9 Jan 2025 20:49:19 +0000
+Date: Thu,  9 Jan 2025 20:49:18 +0000
 In-Reply-To: <20250109204929.1106563-1-jthoughton@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,9 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20250109204929.1106563-1-jthoughton@google.com>
 X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
-Message-ID: <20250109204929.1106563-4-jthoughton@google.com>
-Subject: [PATCH v2 03/13] KVM: Allow late setting of KVM_MEM_USERFAULT on
- guest_memfd memslot
+Message-ID: <20250109204929.1106563-3-jthoughton@google.com>
+Subject: [PATCH v2 02/13] KVM: Add KVM_MEMORY_EXIT_FLAG_USERFAULT
 From: James Houghton <jthoughton@google.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>
 Cc: Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
@@ -73,55 +72,26 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
 	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-Currently guest_memfd memslots can only be deleted. Slightly change the
-logic to allow KVM_MR_FLAGS_ONLY changes when the only flag being
-changed is KVM_MEM_USERFAULT.
+This flag is used for vCPU memory faults caused by KVM Userfault; i.e.,
+the bit in `userfault_bitmap` corresponding to the faulting gfn was set.
 
 Signed-off-by: James Houghton <jthoughton@google.com>
 ---
- virt/kvm/kvm_main.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ include/uapi/linux/kvm.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index 4bceae6a6401..882c1f7b4aa8 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -2015,9 +2015,6 @@ int __kvm_set_memory_region(struct kvm *kvm,
- 		if ((kvm->nr_memslot_pages + npages) < kvm->nr_memslot_pages)
- 			return -EINVAL;
- 	} else { /* Modify an existing slot. */
--		/* Private memslots are immutable, they can only be deleted. */
--		if (mem->flags & KVM_MEM_GUEST_MEMFD)
--			return -EINVAL;
- 		if ((mem->userspace_addr != old->userspace_addr) ||
- 		    (npages != old->npages) ||
- 		    ((mem->flags ^ old->flags) & KVM_MEM_READONLY))
-@@ -2031,6 +2028,16 @@ int __kvm_set_memory_region(struct kvm *kvm,
- 			return 0;
- 	}
- 
-+	/*
-+	 * Except for being able to set KVM_MEM_USERFAULT, private memslots are
-+	 * immutable, they can only be deleted.
-+	 */
-+	if (mem->flags & KVM_MEM_GUEST_MEMFD &&
-+	    !(change == KVM_MR_CREATE ||
-+	      (change == KVM_MR_FLAGS_ONLY &&
-+	       (mem->flags ^ old->flags) == KVM_MEM_USERFAULT)))
-+		return -EINVAL;
-+
- 	if ((change == KVM_MR_CREATE || change == KVM_MR_MOVE) &&
- 	    kvm_check_memslot_overlap(slots, id, base_gfn, base_gfn + npages))
- 		return -EEXIST;
-@@ -2046,7 +2053,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
- 	new->npages = npages;
- 	new->flags = mem->flags;
- 	new->userspace_addr = mem->userspace_addr;
--	if (mem->flags & KVM_MEM_GUEST_MEMFD) {
-+	if (mem->flags & KVM_MEM_GUEST_MEMFD && change == KVM_MR_CREATE) {
- 		r = kvm_gmem_bind(kvm, new, mem->guest_memfd, mem->guest_memfd_offset);
- 		if (r)
- 			goto out;
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 7ade5169d373..c302edf1c984 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -444,6 +444,7 @@ struct kvm_run {
+ 		/* KVM_EXIT_MEMORY_FAULT */
+ 		struct {
+ #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1ULL << 3)
++#define KVM_MEMORY_EXIT_FLAG_USERFAULT	(1ULL << 4)
+ 			__u64 flags;
+ 			__u64 gpa;
+ 			__u64 size;
 -- 
 2.47.1.613.gc27f4b7a9f-goog
 
