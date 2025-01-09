@@ -1,128 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E392144B4;
-	Thu,  9 Jan 2025 09:14:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C28215070;
+	Thu,  9 Jan 2025 09:15:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736414078; cv=none; b=Pd3tzEi+NB/jyVgXVu0iFhhdtNN7+70F8RVgR4FM1VGC95h+B/+cXClcpr2oVS1+HmC1uDz9l6dwgC2GemrwVS1pbE6xIKC7BiHoYATypw6WkLi92gHIkaAHlFoDYHiXTzDsUMLVH8xxh9rD3n+tXlKDHzB+1tNM0W9/ifjy4DI=
+	t=1736414130; cv=none; b=TeS26heAvkoTUbjXj03fxLkyUKHRkwyzHrQYg4T5XxTZyP4dOSWq+cj1M4fn87ynFl3Ou4jh5QtjaPjxJ4Y55ZxD3oihNkhwKDN9xoB2h6W8u9bczlC5D3Trg5qbREuFkWSm22SxGE7lAzZF8P3nRZu4rzUYOUBzGNHtJ3KiZ0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736414078; c=relaxed/simple;
-	bh=2HNgAKFmKo7yf2l5LKA8MUvfyeXVrje4RSSD4LqOP9M=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=Wvcmf50hZ74/bRdoiGQCF4QVIe454Uh5EfiGSMMEM5pZelf1qfO59+A6MnO1Ocngv1ILcwaZ6iXLlag9nfc3oLIwT4zovFx80MXvTqFGkxRfVZq+e/jyk15tZ0IZMp1+UuQqFtDzjelBlow5PzqKhe1b7vPYftsKF1HPysV5xH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k65ZYYID; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736414130; c=relaxed/simple;
+	bh=XonJNleXueCiBlpzejK+vB2VywAex0avXvLejhJ9BKs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dADe3ABodLRbJx0NU1gAR5lDMyFPXfP2Wntgu6KzJSHTzJuW9fnJZmlsOkY3YYoggm2D8c6HS7uRT4NBvP6EyjtIYH8/y8W4vLTzjsUAMGB/zf5uJj6LNBIJ+Xn3GjFp4UhxTA6yv66Lvwqlc+UDfQWu6EXIngYhqscKcBVFhDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DKF36eSW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k65ZYYID"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2D43C4CED2;
-	Thu,  9 Jan 2025 09:14:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DKF36eSW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B237C4CEDF;
+	Thu,  9 Jan 2025 09:15:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736414078;
-	bh=2HNgAKFmKo7yf2l5LKA8MUvfyeXVrje4RSSD4LqOP9M=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=k65ZYYIDeqaxarLbBRosNVmZCsAa5y3McirAJ8g/C+ZL10xlfgQtxknasylU/upQV
-	 b8ZzebvELG8jibqUqHY33rUPTAN6CoL/yJCin/sUZhL5BTvOGrp8qAwkwFKJU/5fWk
-	 F4pifiqmU+h5tFbTO3d3IznhQI9T0ZXSSa7DjIrSTcQQko4kRVP0AzMH8Dm5h1vqv/
-	 sJFgSDH7gzVW/wYp4p+t+ulEwUpEZjc8jkQ9G+BPIWpSqP9Z7S3k7XPjIPZPRou4vE
-	 N4MMl3CceZQGr0aZMhXDt2D1+lMS4rq8S/Iv67A8O4TseHBJ8m995Gz7CDr1PRZPrh
-	 ZVMf6A/+76pSg==
-Date: Thu, 9 Jan 2025 10:14:35 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: Even Xu <even.xu@intel.com>
-cc: bentiss@kernel.org, corbet@lwn.net, bagasdotme@gmail.com, 
-    aaron.ma@canonical.com, rdunlap@infradead.org, mpearson-lenovo@squebb.ca, 
-    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 00/22] Add Intel Touch Host Controller drivers
-In-Reply-To: <20250106023151.3011329-1-even.xu@intel.com>
-Message-ID: <830920o1-p118-5oq5-po4o-905n04949ro7@xreary.bet>
-References: <20250106023151.3011329-1-even.xu@intel.com>
+	s=k20201202; t=1736414130;
+	bh=XonJNleXueCiBlpzejK+vB2VywAex0avXvLejhJ9BKs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DKF36eSWPanxZKCMweCQnSYx9VcN/32Nol9RpoJsFPW4g2O6Rdrf+tW95FmH7b/hk
+	 gYfw650Ox6DZ2HDw1rJKaTUIe0N8cme5Gu2GYl9l6pYkoGHshSgz7eu7vr/kCZ7D0Q
+	 FSMqu80ksLLGg+PotK41x26bUFF1j2/L13werB3/d8Ogdi33dgVZvtNVrLZGPPszrv
+	 OJ6gIXi5BOSBg3VT1JYAVCy1so4ib7V7BWjQsInL9UVaktBm0ZxiOakZd3+vEkEebN
+	 yByxkFuq/05vM90gtR7eb1ZfFChbMqrtntl0na6zuWGQMeOO3b1QRmwEc15A99PKOp
+	 u25QGb1TDMoZQ==
+Date: Thu, 9 Jan 2025 10:15:26 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Luo Jie <quic_luoj@quicinc.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Lei Wei <quic_leiwei@quicinc.com>, Suruchi Agarwal <quic_suruchia@quicinc.com>, 
+	Pavithra R <quic_pavir@quicinc.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, 
+	quic_kkumarcs@quicinc.com, quic_linchen@quicinc.com, srinivas.kandagatla@linaro.org, 
+	bartosz.golaszewski@linaro.org, john@phrozen.org
+Subject: Re: [PATCH net-next v2 01/14] dt-bindings: net: Add PPE for Qualcomm
+ IPQ9574 SoC
+Message-ID: <s7z6d6mza3a6bzmokwnuszpgkjqh2gnnxowdqklewzswogaapn@rhb5uhes7gbw>
+References: <20250108-qcom_ipq_ppe-v2-0-7394dbda7199@quicinc.com>
+ <20250108-qcom_ipq_ppe-v2-1-7394dbda7199@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250108-qcom_ipq_ppe-v2-1-7394dbda7199@quicinc.com>
 
-On Mon, 6 Jan 2025, Even Xu wrote:
+On Wed, Jan 08, 2025 at 09:47:08PM +0800, Luo Jie wrote:
+> +    required:
+> +      - clocks
+> +      - clock-names
+> +      - resets
+> +      - interrupts
+> +      - interrupt-names
+> +
+> +  ethernet-ports:
 
-> Intel Touch Host Controller (THC) is a new high performance input IP
-> which can benefit HID device's data transaction, such as touch screen,
-> touch pad, stylus.
-> 
-> THC IP now evoluates to V4, it can support 3 different modes: IPTS,
-> HIDSPI and HIDI2C. Here are upgrade history:
-> - THC v1, for TGL/LKF, supports intel private IPTS (Intel Precise Touch
->   and Stylus) protocol ( IPTS mode)
-> - THC v2, for ADL, adds industrial standard HID over SPI protocol
->   support (HIDSPI mode)
-> - THC v3, for MTL, enhances HID over SPI mode
-> - THC v4, for LNL, adds inudstrial standard HID over I2C protocol
->   support (HIDI2C mode) 
-> 
-> Linux Surface community (https://github.com/linux-surface) already
-> implemented IPTS mode. These patch series provides THC HIDSPI mode and
-> THC HIDI2C mode support on Linux.
-> 
-> These patch series includes:
-> 1. Document for THC hardware and software introduction.
-> 2. Intel THC Hardware layer driver which provides control interfaces
->    for protocol layer.
-> 3. Intel QuickSPI (R) driver working as a HIDSPI device driver which
->    implements HID over SPI protocol and flow.
-> 4. Intel QuickI2C (R) driver working as a HIDI2C device driver which
->    implements HID over I2C protocol and flow.
-> 
-> Change logs:
-> v4:
-> - Minor fix in documents
-> - Typo fixes in patch 6 & patch 7 commit descriptions
-> 
-> v3:
-> - Change tables in documents from literal block to table format
-> - Change symbol namespace to string literal according to patch:
->   commit cdd30ebb1b9f ("module: Convert symbol namespace to string literal")
-> - Refine Kconfig description
-> - Enhance Quickspi and Quicki2c driver by clearing THC hardware internal
->   state before doing initialization to avoid BIOS impacts.
-> - A fix in Quicki2c driver when does set_report
-> 
-> v2:
-> - Fix document format issues
-> - Add THC device IDs for Intel Panther Lake (PTL) platform
-> 
-> Even Xu (13):
->   HID: THC: Add documentation
->   HID: intel-thc-hid: intel-thc: Add THC DMA interfaces
->   HID: intel-thc-hid: intel-thc: Add THC I2C config interfaces
->   HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI driver hid layer
->   HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI ACPI interfaces
->   HID: intel-thc-hid: intel-quickspi: Add HIDSPI protocol implementation
->   HID: intel-thc-hid: intel-quickspi: Add PM implementation
->   HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C driver skeleton
->   HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C driver hid layer
->   HID: intel-thc-hid: intel-quicki2c: Add THC QuickI2C ACPI interfaces
->   HID: intel-thc-hid: intel-quicki2c: Add HIDI2C protocol implementation
->   HID: intel-thc-hid: intel-quicki2c: Complete THC QuickI2C driver
->   HID: intel-thc-hid: intel-quicki2c: Add PM implementation
-> 
-> Xinpeng Sun (9):
->   HID: intel-thc-hid: Add basic THC driver skeleton
->   HID: intel-thc-hid: intel-thc: Add THC registers definition
->   HID: intel-thc-hid: intel-thc: Add THC PIO operation APIs
->   HID: intel-thc-hid: intel-thc: Add APIs for interrupt
->   HID: intel-thc-hid: intel-thc: Add THC LTR interfaces
->   HID: intel-thc-hid: intel-thc: Add THC interrupt handler
->   HID: intel-thc-hid: intel-thc: Add THC SPI config interfaces
->   HID: intel-thc-hid: intel-quickspi: Add THC QuickSPI driver skeleton
->   HID: intel-thc-hid: intel-quickspi: Complete THC QuickSPI driver
+This device really looks like DSA or other ethernet switch, so I would
+really expect proper $ref in top-level.
 
-Now queued in hid.git#for-6.14/intel-thc.
+> +    type: object
+> +    additionalProperties: false
+> +    properties:
+> +      '#address-cells':
+> +        const: 1
+> +      '#size-cells':
+> +        const: 0
+> +
+> +    patternProperties:
+> +      "^port@[1-6]$":
+> +        type: object
+> +        $ref: ethernet-controller.yaml#
 
-Thanks,
+Everything here is duplicating DSA or ethernet-switch, so that's
+surprising.
 
--- 
-Jiri Kosina
-SUSE Labs
+> +        unevaluatedProperties: false
+> +        description:
+> +          PPE port that includes the MAC used to connect the external
+> +          switch or PHY via the PCS.
+
+Best regards,
+Krzysztof
 
