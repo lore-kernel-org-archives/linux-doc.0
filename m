@@ -1,65 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E84021B1BF;
-	Thu,  9 Jan 2025 14:59:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D4821C9E3;
+	Thu,  9 Jan 2025 15:22:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736434755; cv=none; b=bnmcedMDhyvciu2lZ89/HrDBllbrmij4E+Sz8qrlLkzWoqttb2u6kt+gGa8hUefDvDgVqGsWQZiBEGlj6YSVU8y3mHa9yNam9utrV/YhBUkDitLg7/9gq8mU8D/ymV0kvbgRwtV9wP1LfSFee4GeBRG5HYi3aBLB2HiHzATOs9s=
+	t=1736436125; cv=none; b=Lnn4si5ghapuSdFtCHrb5ahletyP4HYeeLMCVMpCwfT1pMp92ypM+am7Ey+MSRYkuap1c76jk5aPmaNMQTHUhJxZzWD401148SuV9HmQsNm4Jcs28za+LRtTbYXFrnvRBY1Lqc53+fm8JFlQGDi9uPpahb53JC5yWUg3s7xr+vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736434755; c=relaxed/simple;
-	bh=QCz/F6D39yrq5YHjo8W2G2CPuj8D7Rf/NYf0VnAbVMk=;
+	s=arc-20240116; t=1736436125; c=relaxed/simple;
+	bh=KSbYmEcsjxUrDnDGQDXOw1T/IEyrDbOPywV7XksaE+g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q8GES7q5tTYMlAkklXm9rbM65Agys8mcNeDbCsBXW9C09ROuh98uvG7Ba6OXZ9BWgogrSYdYC6zgcFjtiE9fFcisl4yd/QoLbYppVT1OUzzg24U4TfYDhcgGaCzXg6UuXbm+9p5qhAO4fPP0VsiF+bTJ1f4L0QXlvoWUfYDXqbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YoAYw1Uq; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=qZoW6rlmyGnW3E1vmxfsFbhoRSJAKcVKUXGH2Z20jhzQ66k0Xaw9sIbO2uFoaXiYVmVFeSFV4uIpBqUiDIoCXxmPDsz6wD+hC6/o6+ieDOXHZ10y1acgrslT2fcezAzqvj0sEkLb+mdSgam4Vh2FEE9zcC+Hxwht9bSDfuZ2BPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lPZh1U/C; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YoAYw1Uq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736434753; x=1767970753;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QCz/F6D39yrq5YHjo8W2G2CPuj8D7Rf/NYf0VnAbVMk=;
-  b=YoAYw1Uq0z0oXfV6MJSdketpvbObca+iah4U1C9m9sLV4HERvxHCmRRf
-   /CVn1DCl3N2OpTr9xbOjmFMyrZDk1sLMc4RwE7ssTUa+yU7Fn81ptKcFP
-   9wXDm8zGKBkTrLTl/NzweF/GG3hkS9gOnGS31w0riczfV3vc5Vw1+Z4fY
-   EUA3+rc006LlZyGhz8k0W1koyNRBdFJ0bl72fCoSrCJzfeZp3gQNMEHA6
-   wXM2L4kWjO1UiYh8qca2JbdYi0W5ysKz9wqO31oAc65N5Amr+dJ/aVC/A
-   UV0RkThgf+uaX9aYl+rZTi5ZIcWepOyeMhPj9PaCfN06YICZVmGejsjVt
-   Q==;
-X-CSE-ConnectionGUID: hsmGbBJCRBaSNIuMAXw+tA==
-X-CSE-MsgGUID: kDEh+enqQw68krG9HezC9A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="40642630"
-X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
-   d="scan'208";a="40642630"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 06:59:10 -0800
-X-CSE-ConnectionGUID: NgsS1z6RSWytKefcAdP0NQ==
-X-CSE-MsgGUID: JLgDTiHwRtuWSBtyVqWD2g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
-   d="scan'208";a="103950378"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Jan 2025 06:59:07 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tVu01-000HhL-0W;
-	Thu, 09 Jan 2025 14:59:05 +0000
-Date: Thu, 9 Jan 2025 22:59:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Leo Yang <leo.yang.sy0@gmail.com>, jdelvare@suse.com,
-	linux@roeck-us.net, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, Leo-Yang@quantatw.com, corbet@lwn.net,
-	Delphine_CC_Chiu@wiwynn.com, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lPZh1U/C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D18F8C4CED2;
+	Thu,  9 Jan 2025 15:22:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736436124;
+	bh=KSbYmEcsjxUrDnDGQDXOw1T/IEyrDbOPywV7XksaE+g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lPZh1U/C/504zBArCv8KPey2qcvIB3P927beWsXbNdybBBQhtIzV4yVbZMrSMuKWV
+	 BABkWpSi3wQFOY/hwRM3xKJflUYnPmC78JR+VTpYbAhQUVNYgHAmXfwIloSeLPo16M
+	 HBhRshFdupgVQfjFOF7aePflqYAB9HMU/yNeYHHJrqUqxlY0eK8zPdrfptodR1SIur
+	 KavjNKvm8LqXZgKEFuO76jHycTcr3rWt+l/1xu1k0FTFnVuO1mlX3OkSZBsvlZ361r
+	 XLYmRDxXFtBTh4W91pueUzScoW0PGRb1qQqf8yZjaKCO+/Gm4h7WnH30i2IEyT81c4
+	 MtB2vUsNRzlOg==
+Date: Thu, 9 Jan 2025 15:21:59 +0000
+From: Simon Horman <horms@kernel.org>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	Russell King <linux@armlinux.org.uk>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
 	linux-doc@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/2] hwmon: Add driver for TI INA233 Current and Power
- Monitor
-Message-ID: <202501092213.X9mbPW5Q-lkp@intel.com>
-References: <20250106071337.3017926-3-Leo-Yang@quantatw.com>
+Subject: Re: [PATCH net-next v6 2/7] net: ethtool: plumb PHY stats to PHY
+ drivers
+Message-ID: <20250109152159.GI7706@kernel.org>
+References: <20250109094457.97466-1-o.rempel@pengutronix.de>
+ <20250109094457.97466-3-o.rempel@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,90 +52,90 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250106071337.3017926-3-Leo-Yang@quantatw.com>
+In-Reply-To: <20250109094457.97466-3-o.rempel@pengutronix.de>
 
-Hi Leo,
+On Thu, Jan 09, 2025 at 10:44:52AM +0100, Oleksij Rempel wrote:
+> From: Jakub Kicinski <kuba@kernel.org>
+> 
+> Introduce support for standardized PHY statistics reporting in ethtool
+> by extending the PHYLIB framework. Add the functions
+> phy_ethtool_get_phy_stats() and phy_ethtool_get_link_ext_stats() to
+> provide a consistent interface for retrieving PHY-level and
+> link-specific statistics. These functions are used within the ethtool
+> implementation to avoid direct access to the phy_device structure
+> outside of the PHYLIB framework.
+> 
+> A new structure, ethtool_phy_stats, is introduced to standardize PHY
+> statistics such as packet counts, byte counts, and error counters.
+> Drivers are updated to include callbacks for retrieving PHY and
+> link-specific statistics, ensuring values are explicitly set only for
+> supported fields, initialized with ETHTOOL_STAT_NOT_SET to avoid
+> ambiguity.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 
-kernel test robot noticed the following build errors:
+...
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v6.13-rc6 next-20250109]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
+> index e4b04cdaa995..e629c3b1a940 100644
+> --- a/drivers/net/phy/phy.c
+> +++ b/drivers/net/phy/phy.c
+> @@ -615,6 +615,49 @@ int phy_ethtool_get_stats(struct phy_device *phydev,
+>  }
+>  EXPORT_SYMBOL(phy_ethtool_get_stats);
+>  
+> +/**
+> + * phy_ethtool_get_phy_stats - Retrieve standardized PHY statistics
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Leo-Yang/dt-bindings-Add-INA233-device/20250106-151934
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20250106071337.3017926-3-Leo-Yang%40quantatw.com
-patch subject: [PATCH 2/2] hwmon: Add driver for TI INA233 Current and Power Monitor
-config: i386-randconfig-r072-20250109 (https://download.01.org/0day-ci/archive/20250109/202501092213.X9mbPW5Q-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250109/202501092213.X9mbPW5Q-lkp@intel.com/reproduce)
+nit: __phy_ethtool_get_phy_stats
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501092213.X9mbPW5Q-lkp@intel.com/
+> + * @phydev: Pointer to the PHY device
+> + * @phy_stats: Pointer to ethtool_eth_phy_stats structure
+> + * @phydev_stats: Pointer to ethtool_phy_stats structure
+> + *
+> + * Fetches PHY statistics using a kernel-defined interface for consistent
+> + * diagnostics. Unlike phy_ethtool_get_stats(), which allows custom stats,
+> + * this function enforces a standardized format for better interoperability.
+> + */
+> +void __phy_ethtool_get_phy_stats(struct phy_device *phydev,
+> +				 struct ethtool_eth_phy_stats *phy_stats,
+> +				 struct ethtool_phy_stats *phydev_stats)
+> +{
+> +	if (!phydev->drv || !phydev->drv->get_phy_stats)
+> +		return;
+> +
+> +	mutex_lock(&phydev->lock);
+> +	phydev->drv->get_phy_stats(phydev, phy_stats, phydev_stats);
+> +	mutex_unlock(&phydev->lock);
+> +}
+> +
+> +/**
+> + * phy_ethtool_get_link_ext_stats - Retrieve extended link statistics for a PHY
 
-All errors (new ones prefixed by >>):
+nit: __phy_ethtool_get_link_ext_stats
 
-   ld: drivers/hwmon/pmbus/ina233.o: in function `calculate_coef':
->> drivers/hwmon/pmbus/ina233.c:59: undefined reference to `__divdi3'
+> + * @phydev: Pointer to the PHY device
+> + * @link_stats: Pointer to the structure to store extended link statistics
+> + *
+> + * Populates the ethtool_link_ext_stats structure with link down event counts
+> + * and additional driver-specific link statistics, if available.
+> + */
+> +void __phy_ethtool_get_link_ext_stats(struct phy_device *phydev,
+> +				      struct ethtool_link_ext_stats *link_stats)
+> +{
+> +	link_stats->link_down_events = READ_ONCE(phydev->link_down_events);
+> +
+> +	if (!phydev->drv || !phydev->drv->get_link_stats)
+> +		return;
+> +
+> +	mutex_lock(&phydev->lock);
+> +	phydev->drv->get_link_stats(phydev, link_stats);
+> +	mutex_unlock(&phydev->lock);
+> +}
+> +
+>  /**
+>   * phy_ethtool_get_plca_cfg - Get PLCA RS configuration
+>   * @phydev: the phy_device struct
 
-
-vim +59 drivers/hwmon/pmbus/ina233.c
-
-    23	
-    24	static int calculate_coef(int *m, int *R, bool power)
-    25	{
-    26		s64 scaled_m;
-    27		int scale_factor = 0;
-    28		int scale_coef = 1;
-    29		int power_coef = 1;
-    30		bool is_integer = false;
-    31	
-    32		if (*m == 0) {
-    33			*R = 0;
-    34			return -1;
-    35		}
-    36	
-    37		if (power)
-    38			power_coef = 25;
-    39	
-    40		if (1000000 % *m) {
-    41			/* Default value, Scaling to keep integer precision,
-    42			 * Change it if you need
-    43			 */
-    44			scale_factor = -3;
-    45			scale_coef = 1000;
-    46		} else {
-    47			is_integer = true;
-    48		}
-    49	
-    50		/*
-    51		 * Unit Conversion (Current_LSB A->uA) and use scaling(scale_factor)
-    52		 * to keep integer precision.
-    53		 * Formulae referenced from spec.
-    54		 */
-    55		scaled_m = div_s64(1000000 * scale_coef, *m * power_coef);
-    56	
-    57		/* Maximize while keeping it bounded.*/
-    58		while (scaled_m > MAX_M_VAL || scaled_m < MIN_M_VAL) {
-  > 59			scaled_m /= 10;
-    60			scale_factor++;
-    61		}
-    62		/* Scale up only if fractional part exists. */
-    63		while (scaled_m * 10 < MAX_M_VAL && scaled_m * 10 > MIN_M_VAL && !is_integer) {
-    64			scaled_m *= 10;
-    65			scale_factor--;
-    66		}
-    67	
-    68		*m = scaled_m;
-    69		*R = scale_factor;
-    70		return 0;
-    71	}
-    72	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+...
