@@ -1,680 +1,275 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A20A142905;
-	Thu,  9 Jan 2025 03:42:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736394176; cv=none; b=KmPQ8EpuL9NRaL8JXdCBwFuhv+mDljgrN59GFx0yjQ5HoZVS2bA39X8BY/Hmrpko7I1Hp/LLS3i6GeK1FynmKu7L2380pncFNr0ZdZWY1i/BRO37V8Sgm3x4rAYayEzlVEiq0fG3U2JQd4zh4n1asejT3g4Cz3y7hUzSF4zZ7fw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736394176; c=relaxed/simple;
-	bh=0jczcywZzm7zDtpDbF+SAh9vXqdFoANo4qjVnrdMKr8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Fw7A4fJ9l80xkTln8ZppwBBl/0ASLE2aLXxq1/jZm5+ERBkyFKixzV54MT1XjXb3Mp1ok1sgodirgVSLRL2dHulRLlXST3+CoaJPu/fiAkgFc83we8XmVLlsYIW+h1EvxWvu5RdEGNTpoG78yk4ndDaLTaXFoycYHWC2ClO/iSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=CRxK7BGd; arc=none smtp.client-ip=117.135.210.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2048.outbound.protection.outlook.com [40.107.100.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E012F2F;
+	Thu,  9 Jan 2025 04:38:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736397522; cv=fail; b=fdrFMwFAjWTrHV6qsB2+zTxfCVJ57DRxh8oh718sb849wiVqfugMVRrPE1uXqNGhiXDk1EbMlFZ59hkiZnWUOiyyy0JURWynfBfI931DhQHFtEpPGZGafqDRRAFesM2Zbj7J2gEEWBW+L+BPE7PM7pZQ4voAV99/qMcSVLP06bQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736397522; c=relaxed/simple;
+	bh=ofQZ38QYWfEnreds0ElvUVsbTcI6pLaaY9iqpjSo3e4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=DtTm0BgYYhntr58AA38nN/QNV5Ff0THq1j2totCUPGfJWFvr8C83mLjlfELq7SDTThdLYHXBLgZ63tmTkWSWV1eJBYoe8QuSQUz7ctafzmrnhn1zTwo6+OnGXNDCEIqiGDF3QR8sJve7k/1gxXh6f26qnB3zL9RozqMIlpRIG+w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=UOWHQ43O; arc=fail smtp.client-ip=40.107.100.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="CRxK7BGd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=vYEuI
-	3zas+jH7nkAGpg2gUIcZ/dI/FzpckCMeupQ9Lk=; b=CRxK7BGdv2Uv2uPZPEUnk
-	B3ouJGyfi3VcoSD39YIZjknE3xZ+p/vEmdflBpnAFT7sNnO2XqSYuy+pjnoeVJ05
-	MV9SHoySI6cfp7KNMP0gdpTdtM0tpI7T01hCepGuKkIuBguXl37t3xiflxQSIUOO
-	ZGO3pf/pB922K+uO1pcjZA=
-Received: from localhost.localdomain (unknown [47.252.33.72])
-	by gzsmtp5 (Coremail) with SMTP id QCgvCgAXYaYcRX9na6O1Jw--.42275S4;
-	Thu, 09 Jan 2025 11:40:45 +0800 (CST)
-From: Jiayuan Chen <mrpre@163.com>
-To: bpf@vger.kernel.org,
-	jakub@cloudflare.com,
-	john.fastabend@gmail.com
-Cc: netdev@vger.kernel.org,
-	martin.lau@linux.dev,
-	ast@kernel.org,
-	edumazet@google.com,
-	davem@davemloft.net,
-	dsahern@kernel.org,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	linux-kernel@vger.kernel.org,
-	song@kernel.org,
-	andrii@kernel.org,
-	mhal@rbox.co,
-	yonghong.song@linux.dev,
-	daniel@iogearbox.net,
-	xiyou.wangcong@gmail.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	eddyz87@gmail.com,
-	cong.wang@bytedance.com,
-	shuah@kernel.org,
-	mykolal@fb.com,
-	jolsa@kernel.org,
-	haoluo@google.com,
-	sdf@fomichev.me,
-	kpsingh@kernel.org,
-	linux-doc@vger.kernel.org,
-	Jiayuan Chen <mrpre@163.com>
-Subject: [PATCH bpf v4 2/3] selftests/bpf: add strparser test for bpf
-Date: Thu,  9 Jan 2025 11:40:04 +0800
-Message-ID: <20250109034005.861063-3-mrpre@163.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20250109034005.861063-1-mrpre@163.com>
-References: <20250109034005.861063-1-mrpre@163.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="UOWHQ43O"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=O0v93JqFwzlsqoDt6Yfz3a9NqGemIXRvoeA4j66ag8D9jbOauIS0/DQOASIiNamqlOe3Y5vgo3/llcyNestr3crlGaZRRx6irC/4uCECs2WHDr+4MyoFhxkgwCMDlrMeBCdUivcO40RtmAsjbXo6Bpt9neHkVtP3nqDYy4G2bsKg88QkrYG0gwnWcJR6ANStf3r4UEKexcL5QuHedgqetIFKdpnBAe+Zy67wHzckSCMfp6pVV/YeO1YdomKYP4xT0kO9fOlBspODBPHmDVI1nqlufxHPRJM3ecRqDDRV87SruQKjgTsnbPQxOrKaHgznzaVanwkUTz0OIyxqWWK4Iw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pZ2YvM8gfp17nTPL4mYb4m25g/l7LdazDxHe8bA4t2o=;
+ b=pSGa87vjMSvMqX5KWPT2t2ijhcX+e5e91+BOwf1+u77vwQRXmpq2S9Jn6+wRBeLfrEsIaXVB/N7KbM5LQraVWpw3pGn7WGW+78gj74Qn7eBeH58+aJH1O47OkA4wPpT6B73frajvjkZudPAd0cDaXNHm8sOHK6sAlh6VKqbstx0MhXqdVgEs1lDuKkqvbUElji9NLXKvFYjbEgsWUG5ee36C8TjZWfFC7VOGOYU8LABY2Ta2e2JxU7SPlyMLa+CsNIqYulLH2G4rm3twoPiZtqbC/eIhicX4TKGymZSsgx5UizQIT2qNB5rqo9VVDH/PY0jbTQJ2lBvDNJcdNApmVw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pZ2YvM8gfp17nTPL4mYb4m25g/l7LdazDxHe8bA4t2o=;
+ b=UOWHQ43O3ewnYL2KH/k954OGR7FdrQNsFjThs0l7pDrRany7S5Bn5yXyW7OQQJAo+dTxOZ5lAu57b4dsVNvunEhncTmjYLCDDX4mYDZukw7+gGOr7dnWJW43HiQkPfbHH4p+casEf65BA083wyT1pryaImG8tnAKbTR6h/kjmUwfCMBDS33VkukvTdvEEqxtaiGjCD4BI3kSSUtjln3frI076pRZ37aTnUIqChFmw7r1+PGcchUHb34fwSrmSQAw6Zz1INyy67WDQEk9sbpfkvaKbhmk8kP8guXQlx8xAUJOK1yyt/kKUYVCR+JL86mdBt7jkBXT9CLrwRGcsOgQIQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
+ IA0PR12MB8840.namprd12.prod.outlook.com (2603:10b6:208:490::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.10; Thu, 9 Jan
+ 2025 04:38:38 +0000
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe%7]) with mapi id 15.20.8335.011; Thu, 9 Jan 2025
+ 04:38:37 +0000
+Date: Thu, 9 Jan 2025 15:38:33 +1100
+From: Alistair Popple <apopple@nvidia.com>
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: akpm@linux-foundation.org, linux-mm@kvack.org, lina@asahilina.net, 
+	zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com, vishal.l.verma@intel.com, 
+	dave.jiang@intel.com, logang@deltatee.com, bhelgaas@google.com, jack@suse.cz, 
+	jgg@ziepe.ca, catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au, 
+	npiggin@gmail.com, dave.hansen@linux.intel.com, ira.weiny@intel.com, 
+	willy@infradead.org, djwong@kernel.org, tytso@mit.edu, linmiaohe@huawei.com, 
+	david@redhat.com, peterx@redhat.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linuxppc-dev@lists.ozlabs.org, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	jhubbard@nvidia.com, hch@lst.de, david@fromorbit.com, Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH v5 01/25] fuse: Fix dax truncate/punch_hole fault path
+Message-ID: <27pzaod6lj2mwn3refns5c4titbsrqhxcxjeuae6piom6rzqgy@mxb4m4jyej5s>
+References: <cover.425da7c4e76c2749d0ad1734f972b06114e02d52.1736221254.git-series.apopple@nvidia.com>
+ <f20cc2603bd33ee05ec4bc4cc7327cec61119796.1736221254.git-series.apopple@nvidia.com>
+ <677efc80b6fcd_f58f2943@dwillia2-xfh.jf.intel.com.notmuch>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <677efc80b6fcd_f58f2943@dwillia2-xfh.jf.intel.com.notmuch>
+X-ClientProxiedBy: SYBPR01CA0171.ausprd01.prod.outlook.com
+ (2603:10c6:10:52::15) To DS0PR12MB7726.namprd12.prod.outlook.com
+ (2603:10b6:8:130::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:QCgvCgAXYaYcRX9na6O1Jw--.42275S4
-X-Coremail-Antispam: 1Uf129KBjvAXoW3Zw1xCw15Zry3Xw18Cw1fXrb_yoW8CF48Ao
-	Z3uan5X3yxGwnxJrykW34DCw4fWF4xXr4DXr47J3yUuF1jyF42vayUGws3Ww1akr4Sgryf
-	JFWjva4rWr45Ar4fn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvj4RPWrWUUUUU
-X-CM-SenderInfo: xpus2vi6rwjhhfrp/1tbiDwnPp2d-QGaV3gAAsb
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|IA0PR12MB8840:EE_
+X-MS-Office365-Filtering-Correlation-Id: 078f67dc-c95f-4aad-f68b-08dd30677bcd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?nPdOuIEL77bcCVTjV1oYCwT/IUc+4XXL4bjz5G0s3jYRk5axr3psq914xnxp?=
+ =?us-ascii?Q?Em+4S+gg2PvFxKazi/4FLtXBp5CkzGZDERZjR2NOObeYPTU0bGyWZVXJf0Dp?=
+ =?us-ascii?Q?RK5Y1jwe63+KQZEc4heKsREahvPv8DHgsj7WXIDgW7ZfYmeKNxc8T7sgDfj9?=
+ =?us-ascii?Q?s1E6PDPitsMN2sfbYU9LDh0XjuD/T/f+k3q9PpjGbjX+uAoXZBs1Mk5UwOyZ?=
+ =?us-ascii?Q?LofCTfMq8AB0LAaQJYYe7pd8I9ctAlGTtTBB8sPVwOh4gAj5Es5TMSpOaN5r?=
+ =?us-ascii?Q?u1t80Je+WMeTr9qPKO3dgwIkURG71E/CF1GeJsEqr1rt12qhelq5MPUUWN/k?=
+ =?us-ascii?Q?TduzQUDM+geVOiSyY4l4GeWfyuPNWDBMn+pG4jFCQR/kWslP21bhBmWZ1I/i?=
+ =?us-ascii?Q?inkdgpOV9kJsF62VQ2wIqRr6aMOgAWzo3NLLEmwZPFMG59ejVRWb88hAPAQE?=
+ =?us-ascii?Q?FYv4SzkEXHVc9Jd5sglFCEyY7kLY2sYZ6xCyr22fn0YynRy3W8LfmA6HluYm?=
+ =?us-ascii?Q?JC6DrCJWMcLvm3td6QizhEiE53aAYF/276X3ygjQmPLHavlrn16C/wEVfYZy?=
+ =?us-ascii?Q?J8eruaK3bJu1hkGmyCh4FnHNVQfIVemjfc7kHneLFr1msXbu3f6ewxY16Hps?=
+ =?us-ascii?Q?eyWPj0ZZQcSVY04AAPcbLNWyW7hYzi9DTQtwmdmkUCehQugQlv1R+TsrrUQU?=
+ =?us-ascii?Q?lGE/u9ookqflEi+NKM6wnCpQ5AzAUoVDQglo285iJi/QHqzQ6gG2L0Qifyfl?=
+ =?us-ascii?Q?egU3IEOMnDK2U4M2ArTIzdYxIkcDZuFDbiw1U0IGUmHz8o78EHL7VjhQ+u/H?=
+ =?us-ascii?Q?sSP7iUdJsaE4Fzkvj3HCyTm2MFjEFLxi256bUSQt2k5YIb0UgGFCdHs/P6YU?=
+ =?us-ascii?Q?fj82W0oTjrCGehAu8YQhn7JVF4RhjcrgLfYSVPAT/Y3gPDQBCqlb/8b+4F/P?=
+ =?us-ascii?Q?sDWDaifksFfdmYOwzaDAY7wJvTHSVOtraSWbnyWdWGT/WutK5Mbo6H/EZyX5?=
+ =?us-ascii?Q?57uq1g2mBaRL2vZg9rT9qZEx6jwZ515/UDG3wbL3WofIZa+U36I1KcD7yNrX?=
+ =?us-ascii?Q?FDHqf0yRh8DUaEW1zwEKYFj1rjeAq21+aZsK6KOCv113xBXAGeY9etbgflVr?=
+ =?us-ascii?Q?nZmWWtX9qPw/H5v8p+hALEJwHOaSghDLKgengKoQQ7azSwoKFU6hP2t354S0?=
+ =?us-ascii?Q?RbJJMDMmC+rsgjG83q4zje1UfgqGQ9hzW3Ps2fjtZqfCoEnjJ0zMgX/+nn9N?=
+ =?us-ascii?Q?uDMeGCmUFotPfCN9uHcluvEQ9FNQOzbvxS62+uN3ZYPtZ/R4Jg+SjUJmawgz?=
+ =?us-ascii?Q?aX0Mn9Jji93PsaESoCEOdS/6voQvcXtUFijh8X6feuMyJYLWo/0qE32jdiYj?=
+ =?us-ascii?Q?PmJcENfXrOAwWD90oP1q7RxF1HzI?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7726.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?WiH+tvJX95+OzE0jD4o1HC3s7TKbLF8k89OQl0bW1CvFR3Gdj9pIBYVv0/ly?=
+ =?us-ascii?Q?9pUWooj9lU6O1iZBXPrM5qCE/5GqCADpr5+cIORD+Nzuk/KCZ+1YaWYLCCh8?=
+ =?us-ascii?Q?OJrpirt3q+ZpqwYH4Pn3ee/5SbJ89/PeqaDZCqtCgajctfA6eC2YDD/B5KM5?=
+ =?us-ascii?Q?GJ7psilMbWoI0KjTksDWDX9NCG39zcdPGdt5kHPB2lP7SHKLdRVFUKKHcIdA?=
+ =?us-ascii?Q?F65uXiYk7h9oMQNw/MkgJie+kXfWbF/pVmIIYoiUAmiNsT8297pdXl0tANAP?=
+ =?us-ascii?Q?ZqwT5Vkh7hv7On7gFtjkglyhGNgtNM43dTvMvPeF7IOkZGK9lgkbK8KyleYg?=
+ =?us-ascii?Q?eb8XCKBRdRrrRntmO58IMaUrNqdA5oqiroP4rA/HlYafi8uDhmjorjwmmDxv?=
+ =?us-ascii?Q?UtD8+xkra7go4+pgCGMCHkzx+wIoSJEqyMdqUtBMnVf5dCvIL0O3g7KhOzpa?=
+ =?us-ascii?Q?ymcMjZvyCr6zVmZa6p71SRDG5/WMMkL8hS2dBseiB68JMGpRJQd2sPVixpbr?=
+ =?us-ascii?Q?9OfeiQxAByWi8Vk02xv97wLHHYjmgoyd2N25ZE/Picb26uOwrzKaSKb4AlVn?=
+ =?us-ascii?Q?IgnCThNlxI1PTc1bjAYp/kuq5Nqzfz6kV3tAZwUr4p8kmjudBChbk4/uDHoh?=
+ =?us-ascii?Q?DN5jIr3OnGDO2X2EYWvRUSkd71kLo2RKEyic6/tbd8XV2NNkVIlrFubk5urq?=
+ =?us-ascii?Q?VvrhElf2YfesOd7jqLeGTCVc7dqvncupvCc7058Uk7JWWlBPLUM/NKHxDkXv?=
+ =?us-ascii?Q?PUSPr1JCIcaPfLO7spPliw3AuOR3B8KIkgcssW/UC5vjkllbCSCfNo7IxEil?=
+ =?us-ascii?Q?UL0yeryQWQela2e2U6/pasaB+JivxbJPaTUaGrmEhqNWxKK2W9azeCxSLO+C?=
+ =?us-ascii?Q?b5BkcVAei8zHEHtmH30Fs9SrCiktITRlZytrKogfniaFcVcPcsrvRqaO1N4I?=
+ =?us-ascii?Q?cFBCM+ISAEDNK2DALyXRefrwuCx+BXz67tqH1fjRITdQQlPvJtyJLCZ+Coyr?=
+ =?us-ascii?Q?SFWXVEMSTTEwweh3mBfUQ6ue6BMg0ilTAEMfgUIQpeIqmBI1bMx07LxbWskA?=
+ =?us-ascii?Q?WlCPI7KeAeh6MngmD9L11/+VAyYvBOpfCkCyf92z8evyFE08CAYPXIgLg2tY?=
+ =?us-ascii?Q?Q+ZM8s9fsnLCBq+l/5Zu/TRt0i0y7IydcsUKzoCIvRjxM7U3SMMKeogbnElV?=
+ =?us-ascii?Q?DUiAW6N0ieGdtB10XA7k0NlYex+0is57FI1dUfxxWsH7+Jz26eaSf3jOcOe2?=
+ =?us-ascii?Q?OOcJj+r769fjrK40MqN32afkK2P21OUQLyccrJN5QZ1CeFfJt7dS2Ax/XXiK?=
+ =?us-ascii?Q?Zj5Fq0zjG86NpUbnpY3akL2tW8j7faqdOIgvj4D74MskX1PPMLeJIi19yzIX?=
+ =?us-ascii?Q?8i50W1SLEdlRY8OjhyZtemS2rH+XJVbGmHHqYdxbISfh6DhF93GmfZKYC/I0?=
+ =?us-ascii?Q?+3YREvM0k2yNV0vKxGhkgqAmqBIr9Ak64euO7LgpTESRhUrDDItqTebPPRqr?=
+ =?us-ascii?Q?9sscqkFtZhvA9hlPytu6SwOinllhcH3BiAcdCpss3M9tAb/tRfXhdUdWGLng?=
+ =?us-ascii?Q?xXEIu/SQT/is+WHGPC/OIwdWFqfUbLqXQUju9U8h?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 078f67dc-c95f-4aad-f68b-08dd30677bcd
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jan 2025 04:38:37.4763
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CekoDtQa013J7kBJMMRxZYAa0mm5E6R4yRWbXahedE0mShpvfk4snuBAa52/8bwOArbafJNEC6dCEvYcgv8Bqg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8840
 
-Add test cases for bpf + strparser and separated them from
-sockmap_basic, as strparser has more encapsulation and parsing
-capabilities compared to sockmap.
+On Wed, Jan 08, 2025 at 02:30:24PM -0800, Dan Williams wrote:
+> Alistair Popple wrote:
+> > FS DAX requires file systems to call into the DAX layout prior to
+> > unlinking inodes to ensure there is no ongoing DMA or other remote
+> > access to the direct mapped page. The fuse file system implements
+> > fuse_dax_break_layouts() to do this which includes a comment
+> > indicating that passing dmap_end == 0 leads to unmapping of the whole
+> > file.
+> > 
+> > However this is not true - passing dmap_end == 0 will not unmap
+> > anything before dmap_start, and further more
+> > dax_layout_busy_page_range() will not scan any of the range to see if
+> > there maybe ongoing DMA access to the range.
+> 
+> It would be useful to clarify that this is bug was found by inspection
+> and that there are no known end user reports of trouble but that the
+> failure more would look like random fs corruption. The window is hard to
+> hit because a block needs to be truncated, reallocated to
+> a file, and written to before stale DMA could corrupt it. So that may
+> contribute to the fact that fuse-dax users have not reported an issue
+> since v5.10.
+> 
+> > Fix this by checking for dmap_end == 0 in fuse_dax_break_layouts() and
+> > pass the entire file range to dax_layout_busy_page_range().
+> 
+> That's not what this patch does, maybe a rebase error that pushed the
+> @dmap_end fixup after the call to dax_layout_busy_page_range?
 
-Signed-off-by: Jiayuan Chen <mrpre@163.com>
----
- .../selftests/bpf/prog_tests/sockmap_basic.c  |  53 --
- .../selftests/bpf/prog_tests/sockmap_strp.c   | 452 ++++++++++++++++++
- .../selftests/bpf/progs/test_sockmap_strp.c   |  53 ++
- 3 files changed, 505 insertions(+), 53 deletions(-)
- create mode 100644 tools/testing/selftests/bpf/prog_tests/sockmap_strp.c
- create mode 100644 tools/testing/selftests/bpf/progs/test_sockmap_strp.c
+Ha. Yep. I spotted this when doing the conversion to
+dax_layout_busy_page_range() and then had to rebase it into a stand alone patch
+for easy review. Obviously I put the check in the wrong spot, although it ends
+up in the right spot at the end of the series.
 
-diff --git a/tools/testing/selftests/bpf/prog_tests/sockmap_basic.c b/tools/testing/selftests/bpf/prog_tests/sockmap_basic.c
-index 884ad87783d5..244057f49970 100644
---- a/tools/testing/selftests/bpf/prog_tests/sockmap_basic.c
-+++ b/tools/testing/selftests/bpf/prog_tests/sockmap_basic.c
-@@ -531,57 +531,6 @@ static void test_sockmap_skb_verdict_shutdown(void)
- 	test_sockmap_pass_prog__destroy(skel);
- }
- 
--static void test_sockmap_stream_pass(void)
--{
--	int zero = 0, sent, recvd;
--	int verdict, parser;
--	int err, map;
--	int c = -1, p = -1;
--	struct test_sockmap_pass_prog *pass = NULL;
--	char snd[256] = "0123456789";
--	char rcv[256] = "0";
--
--	pass = test_sockmap_pass_prog__open_and_load();
--	verdict = bpf_program__fd(pass->progs.prog_skb_verdict);
--	parser = bpf_program__fd(pass->progs.prog_skb_parser);
--	map = bpf_map__fd(pass->maps.sock_map_rx);
--
--	err = bpf_prog_attach(parser, map, BPF_SK_SKB_STREAM_PARSER, 0);
--	if (!ASSERT_OK(err, "bpf_prog_attach stream parser"))
--		goto out;
--
--	err = bpf_prog_attach(verdict, map, BPF_SK_SKB_STREAM_VERDICT, 0);
--	if (!ASSERT_OK(err, "bpf_prog_attach stream verdict"))
--		goto out;
--
--	err = create_pair(AF_INET, SOCK_STREAM, &c, &p);
--	if (err)
--		goto out;
--
--	/* sk_data_ready of 'p' will be replaced by strparser handler */
--	err = bpf_map_update_elem(map, &zero, &p, BPF_NOEXIST);
--	if (!ASSERT_OK(err, "bpf_map_update_elem(p)"))
--		goto out_close;
--
--	/*
--	 * as 'prog_skb_parser' return the original skb len and
--	 * 'prog_skb_verdict' return SK_PASS, the kernel will just
--	 * pass it through to original socket 'p'
--	 */
--	sent = xsend(c, snd, sizeof(snd), 0);
--	ASSERT_EQ(sent, sizeof(snd), "xsend(c)");
--
--	recvd = recv_timeout(p, rcv, sizeof(rcv), SOCK_NONBLOCK,
--			     IO_TIMEOUT_SEC);
--	ASSERT_EQ(recvd, sizeof(rcv), "recv_timeout(p)");
--
--out_close:
--	close(c);
--	close(p);
--
--out:
--	test_sockmap_pass_prog__destroy(pass);
--}
- 
- static void test_sockmap_skb_verdict_fionread(bool pass_prog)
- {
-@@ -1101,8 +1050,6 @@ void test_sockmap_basic(void)
- 		test_sockmap_progs_query(BPF_SK_SKB_VERDICT);
- 	if (test__start_subtest("sockmap skb_verdict shutdown"))
- 		test_sockmap_skb_verdict_shutdown();
--	if (test__start_subtest("sockmap stream parser and verdict pass"))
--		test_sockmap_stream_pass();
- 	if (test__start_subtest("sockmap skb_verdict fionread"))
- 		test_sockmap_skb_verdict_fionread(true);
- 	if (test__start_subtest("sockmap skb_verdict fionread on drop"))
-diff --git a/tools/testing/selftests/bpf/prog_tests/sockmap_strp.c b/tools/testing/selftests/bpf/prog_tests/sockmap_strp.c
-new file mode 100644
-index 000000000000..d3178a7a0e29
---- /dev/null
-+++ b/tools/testing/selftests/bpf/prog_tests/sockmap_strp.c
-@@ -0,0 +1,452 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <error.h>
-+#include <netinet/tcp.h>
-+#include <test_progs.h>
-+#include "sockmap_helpers.h"
-+#include "test_skmsg_load_helpers.skel.h"
-+#include "test_sockmap_strp.skel.h"
-+#define STRP_PKT_HEAD_LEN 4
-+#define STRP_PKT_BODY_LEN 6
-+#define STRP_PKT_FULL_LEN (STRP_PKT_HEAD_LEN + STRP_PKT_BODY_LEN)
-+static const char packet[STRP_PKT_FULL_LEN] = "head+body\0";
-+static const int test_packet_num = 100;
-+
-+/* current implementation of tcp_bpf_recvmsg_parser() invoke
-+ * data_ready with sk held if skb exist in sk_receive_queue.
-+ * Then for data_ready implementation of strparser, it will
-+ * delay the read operation if sk was held and EAGAIN is returned.
-+ */
-+static int sockmap_strp_consume_pre_data(int p)
-+{
-+	int recvd;
-+	bool retried = false;
-+	char rcv[10];
-+
-+retry:
-+	errno = 0;
-+	recvd = recv_timeout(p, rcv, sizeof(rcv), 0, 1);
-+	if (recvd < 0 && errno == EAGAIN && retried == false) {
-+		/* On the first call, EAGAIN will certainly be returned.
-+		 * Waiting 1 second is pretty enough wait workqueue finish.
-+		 */
-+		sleep(1);
-+		retried = true;
-+		goto retry;
-+	}
-+
-+	if (!ASSERT_EQ(recvd, STRP_PKT_FULL_LEN, "recv_timeout(pre-data)") ||
-+	    !ASSERT_OK(memcmp(packet, rcv, STRP_PKT_FULL_LEN),
-+				"memcmp pre-data"))
-+		return -1;
-+	return 0;
-+}
-+
-+static struct test_sockmap_strp *sockmap_strp_init(int *out_map, bool pass,
-+						   bool need_parser)
-+{
-+	struct test_sockmap_strp *strp = NULL;
-+	int verdict, parser;
-+	int err;
-+
-+	strp = test_sockmap_strp__open_and_load();
-+	*out_map = bpf_map__fd(strp->maps.sock_map);
-+
-+	if (need_parser)
-+		parser = bpf_program__fd(strp->progs.prog_skb_parser_partial);
-+	else
-+		parser = bpf_program__fd(strp->progs.prog_skb_parser);
-+
-+	if (pass)
-+		verdict = bpf_program__fd(strp->progs.prog_skb_verdict_pass);
-+	else
-+		verdict = bpf_program__fd(strp->progs.prog_skb_verdict);
-+
-+	err = bpf_prog_attach(parser, *out_map, BPF_SK_SKB_STREAM_PARSER, 0);
-+	if (!ASSERT_OK(err, "bpf_prog_attach stream parser"))
-+		goto err;
-+
-+	err = bpf_prog_attach(verdict, *out_map, BPF_SK_SKB_STREAM_VERDICT, 0);
-+	if (!ASSERT_OK(err, "bpf_prog_attach stream verdict"))
-+		goto err;
-+
-+	return strp;
-+err:
-+	test_sockmap_strp__destroy(strp);
-+	return NULL;
-+}
-+
-+/* Dispatch packets to different socket by packet size:
-+ *
-+ *                      ------  ------
-+ *                     | pkt4 || pkt1 |... > remote socket
-+ *  ------ ------     / ------  ------
-+ * | pkt8 | pkt7 |...
-+ *  ------ ------     \ ------  ------
-+ *                     | pkt2 || pkt3 |... > local socket
-+ *                      ------  ------
-+ */
-+static void test_sockmap_strp_dispatch_pkt(int family, int sotype)
-+{
-+	int i, j, zero = 0, one = 1, recvd;
-+	int err, map;
-+	int c0 = -1, p0 = -1, c1 = -1, p1 = -1;
-+	struct test_sockmap_strp *strp = NULL;
-+	int test_cnt = 6;
-+	char rcv[10];
-+	struct {
-+		char	data[7];
-+		int	data_len;
-+		int	send_cnt;
-+		int	*receiver;
-+	} send_dir[2] = {
-+		/* data expected to deliver to local */
-+		{"llllll", 6, 0, &p0},
-+		/* data expected to deliver to remote */
-+		{"rrrrr",  5, 0, &c1}
-+	};
-+
-+	strp = sockmap_strp_init(&map, false, false);
-+	if (!ASSERT_TRUE(strp, "sockmap_strp_init"))
-+		return;
-+
-+	err = create_socket_pairs(family, sotype, &c0, &c1, &p0, &p1);
-+	if (!ASSERT_OK(err, "create_socket_pairs()"))
-+		goto out;
-+
-+	err = bpf_map_update_elem(map, &zero, &p0, BPF_NOEXIST);
-+	if (!ASSERT_OK(err, "bpf_map_update_elem(p0)"))
-+		goto out_close;
-+
-+	err = bpf_map_update_elem(map, &one, &p1, BPF_NOEXIST);
-+	if (!ASSERT_OK(err, "bpf_map_update_elem(p1)"))
-+		goto out_close;
-+
-+	err = setsockopt(c1, IPPROTO_TCP, TCP_NODELAY, &zero, sizeof(zero));
-+	if (!ASSERT_OK(err, "setsockopt(TCP_NODELAY)"))
-+		goto out_close;
-+
-+	/* deliver data with data size greater than 5 to local */
-+	strp->data->verdict_max_size = 5;
-+
-+	for (i = 0; i < test_cnt; i++) {
-+		int d = i % 2;
-+
-+		xsend(c0, send_dir[d].data, send_dir[d].data_len, 0);
-+		send_dir[d].send_cnt++;
-+	}
-+
-+	for (i = 0; i < 2; i++) {
-+		for (j = 0; j < send_dir[i].send_cnt; j++) {
-+			int expected = send_dir[i].data_len;
-+
-+			recvd = recv_timeout(*send_dir[i].receiver, rcv,
-+					     expected, MSG_DONTWAIT,
-+					     IO_TIMEOUT_SEC);
-+			if (!ASSERT_EQ(recvd, expected, "recv_timeout()"))
-+				goto out_close;
-+			if (!ASSERT_OK(memcmp(send_dir[i].data, rcv, recvd),
-+				       "memcmp(rcv)"))
-+				goto out_close;
-+		}
-+	}
-+out_close:
-+	close(c0);
-+	close(c1);
-+	close(p0);
-+	close(p1);
-+out:
-+	test_sockmap_strp__destroy(strp);
-+}
-+
-+/* We have multiple packets in one skb
-+ * ------------ ------------ ------------
-+ * |  packet1  |   packet2  |  ...
-+ * ------------ ------------ ------------
-+ */
-+static void test_sockmap_strp_multiple_pkt(int family, int sotype)
-+{
-+	int i, zero = 0;
-+	int sent, recvd, total;
-+	int err, map;
-+	int c = -1, p = -1;
-+	struct test_sockmap_strp *strp = NULL;
-+	char *snd = NULL, *rcv = NULL;
-+
-+	strp = sockmap_strp_init(&map, true, true);
-+	if (!ASSERT_TRUE(strp, "sockmap_strp_init"))
-+		return;
-+
-+	err = create_pair(family, sotype, &c, &p);
-+	if (err)
-+		goto out;
-+
-+	err = bpf_map_update_elem(map, &zero, &p, BPF_NOEXIST);
-+	if (!ASSERT_OK(err, "bpf_map_update_elem(zero, p)"))
-+		goto out_close;
-+
-+	/* construct multiple packets in one buffer */
-+	total = test_packet_num * STRP_PKT_FULL_LEN;
-+	snd = malloc(total);
-+	rcv = malloc(total + 1);
-+	if (!ASSERT_TRUE(snd, "malloc(snd)") ||
-+	    !ASSERT_TRUE(rcv, "malloc(rcv)"))
-+		goto out_close;
-+
-+	for (i = 0; i < test_packet_num; i++) {
-+		memcpy(snd + i * STRP_PKT_FULL_LEN,
-+		       packet, STRP_PKT_FULL_LEN);
-+	}
-+
-+	sent = xsend(c, snd, total, 0);
-+	if (!ASSERT_EQ(sent, total, "xsend(c)"))
-+		goto out_close;
-+
-+	/* try to recv one more byte to avoid truncation check */
-+	recvd = recv_timeout(p, rcv, total + 1, MSG_DONTWAIT, IO_TIMEOUT_SEC);
-+	if (!ASSERT_EQ(recvd, total, "recv(rcv)"))
-+		goto out_close;
-+
-+	/* we sent TCP segment with multiple encapsulation
-+	 * then check whether packets are handled correctly
-+	 */
-+	if (!ASSERT_OK(memcmp(snd, rcv, total), "memcmp(snd, rcv)"))
-+		goto out_close;
-+
-+out_close:
-+	close(c);
-+	close(p);
-+	if (snd)
-+		free(snd);
-+	if (rcv)
-+		free(rcv);
-+out:
-+	test_sockmap_strp__destroy(strp);
-+}
-+
-+/* Test strparser with partial read */
-+static void test_sockmap_strp_partial_read(int family, int sotype)
-+{
-+	int zero = 0, recvd, off;
-+	int err, map;
-+	int c = -1, p = -1;
-+	struct test_sockmap_strp *strp = NULL;
-+	char rcv[STRP_PKT_FULL_LEN + 1] = "0";
-+
-+	strp = sockmap_strp_init(&map, true, true);
-+	if (!ASSERT_TRUE(strp, "sockmap_strp_init"))
-+		return;
-+
-+	err = create_pair(family, sotype, &c, &p);
-+	if (err)
-+		goto out;
-+
-+	/* sk_data_ready of 'p' will be replaced by strparser handler */
-+	err = bpf_map_update_elem(map, &zero, &p, BPF_NOEXIST);
-+	if (!ASSERT_OK(err, "bpf_map_update_elem(zero, p)"))
-+		goto out_close;
-+
-+	/* 1.1 send partial head, 1 byte header left*/
-+	off = STRP_PKT_HEAD_LEN - 1;
-+	xsend(c, packet, off, 0);
-+	recvd = recv_timeout(p, rcv, sizeof(rcv), MSG_DONTWAIT, 1);
-+	if (!ASSERT_EQ(-1, recvd, "insufficient head, should no data recvd"))
-+		goto out_close;
-+
-+	/* 1.2 send remaining head and body */
-+	xsend(c, packet + off, STRP_PKT_FULL_LEN - off, 0);
-+	recvd = recv_timeout(p, rcv, sizeof(rcv), MSG_DONTWAIT, IO_TIMEOUT_SEC);
-+	if (!ASSERT_EQ(recvd, STRP_PKT_FULL_LEN, "should full data recvd"))
-+		goto out_close;
-+
-+	/* 2.1 send partial head, 1 byte header left */
-+	off = STRP_PKT_HEAD_LEN - 1;
-+	xsend(c, packet, off, 0);
-+
-+	/* 2.2 send remaining head and partial body, 1 byte body left */
-+	xsend(c, packet + off, STRP_PKT_FULL_LEN - off - 1, 0);
-+	off = STRP_PKT_FULL_LEN - 1;
-+	recvd = recv_timeout(p, rcv, sizeof(rcv), MSG_DONTWAIT, 1);
-+	if (!ASSERT_EQ(-1, recvd, "insufficient body, should no data read"))
-+		goto out_close;
-+
-+	/* 2.3 send remaining body */
-+	xsend(c, packet + off, STRP_PKT_FULL_LEN - off, 0);
-+	recvd = recv_timeout(p, rcv, sizeof(rcv), MSG_DONTWAIT, IO_TIMEOUT_SEC);
-+	if (!ASSERT_EQ(recvd, STRP_PKT_FULL_LEN, "should full data recvd"))
-+		goto out_close;
-+
-+out_close:
-+	close(c);
-+	close(p);
-+
-+out:
-+	test_sockmap_strp__destroy(strp);
-+}
-+
-+/* Test simple soket read/write with strparser + FIONREAD */
-+static void test_sockmap_strp_pass(int family, int sotype, bool fionread)
-+{
-+	int zero = 0, pkt_size = STRP_PKT_FULL_LEN, sent, recvd, avail;
-+	int err, map;
-+	int c = -1, p = -1;
-+	int test_cnt = 10, i;
-+	struct test_sockmap_strp *strp = NULL;
-+	char rcv[STRP_PKT_FULL_LEN + 1] = "0";
-+
-+	strp = sockmap_strp_init(&map, true, true);
-+	if (!ASSERT_TRUE(strp, "sockmap_strp_init"))
-+		return;
-+
-+	err = create_pair(family, sotype, &c, &p);
-+	if (err)
-+		goto out;
-+
-+	/* inject some data before bpf process, it should be read
-+	 * correctly because we check sk_receive_queue in
-+	 * tcp_bpf_recvmsg_parser()
-+	 */
-+	sent = xsend(c, packet, pkt_size, 0);
-+	if (!ASSERT_EQ(sent, pkt_size, "xsend(pre-data)"))
-+		goto out_close;
-+
-+	/* sk_data_ready of 'p' will be replaced by strparser handler */
-+	err = bpf_map_update_elem(map, &zero, &p, BPF_NOEXIST);
-+	if (!ASSERT_OK(err, "bpf_map_update_elem(p)"))
-+		goto out_close;
-+
-+	/* consume previous data we injected */
-+	if (sockmap_strp_consume_pre_data(p))
-+		goto out_close;
-+
-+	/* Previously, we encountered issues such as deadlocks and
-+	 * sequence errors that resulted in the inability to read
-+	 * continuously. Therefore, we perform multiple iterations
-+	 * of testing here.
-+	 */
-+	for (i = 0; i < test_cnt; i++) {
-+		sent = xsend(c, packet, pkt_size, 0);
-+		if (!ASSERT_EQ(sent, pkt_size, "xsend(c)"))
-+			goto out_close;
-+
-+		recvd = recv_timeout(p, rcv, sizeof(rcv), MSG_DONTWAIT,
-+				     IO_TIMEOUT_SEC);
-+		if (!ASSERT_EQ(recvd, pkt_size, "recv_timeout(p)") ||
-+		    !ASSERT_OK(memcmp(packet, rcv, pkt_size),
-+				  "memcmp"))
-+			goto out_close;
-+	}
-+
-+	if (fionread) {
-+		sent = xsend(c, packet, pkt_size, 0);
-+		if (!ASSERT_EQ(sent, pkt_size, "second xsend(c)"))
-+			goto out_close;
-+
-+		err = ioctl(p, FIONREAD, &avail);
-+		if (!ASSERT_OK(err, "ioctl(FIONREAD) error") ||
-+		    !ASSERT_EQ(avail, pkt_size, "ioctl(FIONREAD)"))
-+			goto out_close;
-+
-+		recvd = recv_timeout(p, rcv, sizeof(rcv), MSG_DONTWAIT,
-+				     IO_TIMEOUT_SEC);
-+		if (!ASSERT_EQ(recvd, pkt_size, "second recv_timeout(p)") ||
-+		    !ASSERT_OK(memcmp(packet, rcv, pkt_size),
-+			      "second memcmp"))
-+			goto out_close;
-+	}
-+
-+out_close:
-+	close(c);
-+	close(p);
-+
-+out:
-+	test_sockmap_strp__destroy(strp);
-+}
-+
-+/* Test strparser with verdict mode */
-+static void test_sockmap_strp_verdict(int family, int sotype)
-+{
-+	int zero = 0, one = 1, sent, recvd, off;
-+	int err, map;
-+	int c0 = -1, p0 = -1, c1 = -1, p1 = -1;
-+	struct test_sockmap_strp *strp = NULL;
-+	char rcv[STRP_PKT_FULL_LEN + 1] = "0";
-+
-+	strp = sockmap_strp_init(&map, false, true);
-+	if (!ASSERT_TRUE(strp, "sockmap_strp_init"))
-+		return;
-+
-+	/* We simulate a reverse proxy server.
-+	 * When p0 receives data from c0, we forward it to c1.
-+	 * From c1's perspective, it will consider this data
-+	 * as being sent by p1.
-+	 */
-+	err = create_socket_pairs(family, sotype, &c0, &c1, &p0, &p1);
-+	if (!ASSERT_OK(err, "create_socket_pairs()"))
-+		goto out;
-+
-+	err = bpf_map_update_elem(map, &zero, &p0, BPF_NOEXIST);
-+	if (!ASSERT_OK(err, "bpf_map_update_elem(p0)"))
-+		goto out_close;
-+
-+	err = bpf_map_update_elem(map, &one, &p1, BPF_NOEXIST);
-+	if (!ASSERT_OK(err, "bpf_map_update_elem(c1)"))
-+		goto out_close;
-+
-+	sent = xsend(c0, packet, STRP_PKT_FULL_LEN, 0);
-+	if (!ASSERT_EQ(sent, STRP_PKT_FULL_LEN, "xsend(c0)"))
-+		goto out_close;
-+
-+	recvd = recv_timeout(c1, rcv, sizeof(rcv), MSG_DONTWAIT,
-+			     IO_TIMEOUT_SEC);
-+	if (!ASSERT_EQ(recvd, STRP_PKT_FULL_LEN, "recv_timeout(p1)") ||
-+	    !ASSERT_OK(memcmp(packet, rcv, STRP_PKT_FULL_LEN),
-+			  "received data does not match the sent data"))
-+		goto out_close;
-+
-+	/* send again to ensure the stream is functioning correctly. */
-+	sent = xsend(c0, packet, STRP_PKT_FULL_LEN, 0);
-+	if (!ASSERT_EQ(sent, STRP_PKT_FULL_LEN, "second xsend(c0)"))
-+		goto out_close;
-+
-+	/* partial read */
-+	off = STRP_PKT_FULL_LEN / 2;
-+	recvd = recv_timeout(c1, rcv, off, MSG_DONTWAIT,
-+			     IO_TIMEOUT_SEC);
-+	recvd += recv_timeout(c1, rcv + off, sizeof(rcv) - off, MSG_DONTWAIT,
-+			      IO_TIMEOUT_SEC);
-+
-+	if (!ASSERT_EQ(recvd, STRP_PKT_FULL_LEN, "partial recv_timeout(c1)") ||
-+	    !ASSERT_OK(memcmp(packet, rcv, STRP_PKT_FULL_LEN),
-+			  "partial received data does not match the sent data"))
-+		goto out_close;
-+
-+out_close:
-+	close(c0);
-+	close(c1);
-+	close(p0);
-+	close(p1);
-+out:
-+	test_sockmap_strp__destroy(strp);
-+}
-+
-+void test_sockmap_strp(void)
-+{
-+	if (test__start_subtest("sockmap strp tcp pass"))
-+		test_sockmap_strp_pass(AF_INET, SOCK_STREAM, false);
-+	if (test__start_subtest("sockmap strp tcp v6 pass"))
-+		test_sockmap_strp_pass(AF_INET6, SOCK_STREAM, false);
-+	if (test__start_subtest("sockmap strp tcp pass fionread"))
-+		test_sockmap_strp_pass(AF_INET, SOCK_STREAM, true);
-+	if (test__start_subtest("sockmap strp tcp v6 pass fionread"))
-+		test_sockmap_strp_pass(AF_INET6, SOCK_STREAM, true);
-+	if (test__start_subtest("sockmap strp tcp verdict"))
-+		test_sockmap_strp_verdict(AF_INET, SOCK_STREAM);
-+	if (test__start_subtest("sockmap strp tcp v6 verdict"))
-+		test_sockmap_strp_verdict(AF_INET6, SOCK_STREAM);
-+	if (test__start_subtest("sockmap strp tcp partial read"))
-+		test_sockmap_strp_partial_read(AF_INET, SOCK_STREAM);
-+	if (test__start_subtest("sockmap strp tcp multiple packets"))
-+		test_sockmap_strp_multiple_pkt(AF_INET, SOCK_STREAM);
-+	if (test__start_subtest("sockmap strp tcp dispatch"))
-+		test_sockmap_strp_dispatch_pkt(AF_INET, SOCK_STREAM);
-+}
-diff --git a/tools/testing/selftests/bpf/progs/test_sockmap_strp.c b/tools/testing/selftests/bpf/progs/test_sockmap_strp.c
-new file mode 100644
-index 000000000000..dde3d5bec515
---- /dev/null
-+++ b/tools/testing/selftests/bpf/progs/test_sockmap_strp.c
-@@ -0,0 +1,53 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/bpf.h>
-+#include <bpf/bpf_helpers.h>
-+#include <bpf/bpf_endian.h>
-+int verdict_max_size = 10000;
-+struct {
-+	__uint(type, BPF_MAP_TYPE_SOCKMAP);
-+	__uint(max_entries, 20);
-+	__type(key, int);
-+	__type(value, int);
-+} sock_map SEC(".maps");
-+
-+SEC("sk_skb/stream_verdict")
-+int prog_skb_verdict(struct __sk_buff *skb)
-+{
-+	__u32 one = 1;
-+
-+	if (skb->len > verdict_max_size)
-+		return SK_PASS;
-+
-+	return bpf_sk_redirect_map(skb, &sock_map, one, 0);
-+}
-+
-+SEC("sk_skb/stream_verdict")
-+int prog_skb_verdict_pass(struct __sk_buff *skb)
-+{
-+	return SK_PASS;
-+}
-+
-+SEC("sk_skb/stream_parser")
-+int prog_skb_parser(struct __sk_buff *skb)
-+{
-+	return skb->len;
-+}
-+
-+SEC("sk_skb/stream_parser")
-+int prog_skb_parser_partial(struct __sk_buff *skb)
-+{
-+	/* agreement with the test program on a 4-byte size header
-+	 * and 6-byte body.
-+	 */
-+	if (skb->len < 4) {
-+		/* need more header to determine full length */
-+		return 0;
-+	}
-+	/* return full length decoded from header.
-+	 * the return value may be larger than skb->len which
-+	 * means framework must wait body coming.
-+	 */
-+	return 10;
-+}
-+
-+char _license[] SEC("license") = "GPL";
--- 
-2.43.5
+> However, I don't think this is quite the right fix, more below...
 
+Yeah, I like your version better so will respin with that.
+
+> > Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> > Fixes: 6ae330cad6ef ("virtiofs: serialize truncate/punch_hole and dax fault path")
+> > Cc: Vivek Goyal <vgoyal@redhat.com>
+> > 
+> > ---
+> > 
+> > I am not at all familiar with the fuse file system driver so I have no
+> > idea if the comment is relevant or not and whether the documented
+> > behaviour for dmap_end == 0 is ever relied upon. However this seemed
+> > like the safest fix unless someone more familiar with fuse can confirm
+> > that dmap_end == 0 is never used.
+> 
+> It is used in several places and has been wrong since day one. I believe
+> the original commit simply misunderstood that
+> dax_layout_busy_page_range() semantics are analogous to
+> invalidate_inode_pages2_range() semantics in terms of what @start and
+> @end mean.
+> 
+> You can add:
+> 
+> Co-developed-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+> 
+> ...if you end up doing a resend, or I will add it on applying to
+> nvdimm.git if the rebase does not end up being too prickly.
+
+Looks like I accidentally dropped a PPC fix so will do a respin for that. And
+the kernel build bot was complaining about incorrect documentation so will fix
+that while I'm at it.
+
+> -- 8< --
+> diff --git a/fs/fuse/dax.c b/fs/fuse/dax.c
+> index c5d1feaa239c..455c4a16080b 100644
+> --- a/fs/fuse/dax.c
+> +++ b/fs/fuse/dax.c
+> @@ -681,7 +681,6 @@ static int __fuse_dax_break_layouts(struct inode *inode, bool *retry,
+>  			0, 0, fuse_wait_dax_page(inode));
+>  }
+>  
+> -/* dmap_end == 0 leads to unmapping of whole file */
+>  int fuse_dax_break_layouts(struct inode *inode, u64 dmap_start,
+>  				  u64 dmap_end)
+>  {
+> @@ -693,10 +692,6 @@ int fuse_dax_break_layouts(struct inode *inode, u64 dmap_start,
+>  		ret = __fuse_dax_break_layouts(inode, &retry, dmap_start,
+>  					       dmap_end);
+>  	} while (ret == 0 && retry);
+> -	if (!dmap_end) {
+> -		dmap_start = 0;
+> -		dmap_end = LLONG_MAX;
+> -	}
+>  
+>  	return ret;
+>  }
+> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> index 0b2f8567ca30..bc6c8936c529 100644
+> --- a/fs/fuse/dir.c
+> +++ b/fs/fuse/dir.c
+> @@ -1936,7 +1936,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  	if (FUSE_IS_DAX(inode) && is_truncate) {
+>  		filemap_invalidate_lock(mapping);
+>  		fault_blocked = true;
+> -		err = fuse_dax_break_layouts(inode, 0, 0);
+> +		err = fuse_dax_break_layouts(inode, 0, -1);
+>  		if (err) {
+>  			filemap_invalidate_unlock(mapping);
+>  			return err;
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index 082ee374f694..cef7a8f75821 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -253,7 +253,7 @@ static int fuse_open(struct inode *inode, struct file *file)
+>  
+>  	if (dax_truncate) {
+>  		filemap_invalidate_lock(inode->i_mapping);
+> -		err = fuse_dax_break_layouts(inode, 0, 0);
+> +		err = fuse_dax_break_layouts(inode, 0, -1);
+>  		if (err)
+>  			goto out_inode_unlock;
+>  	}
+> @@ -2890,7 +2890,7 @@ static long fuse_file_fallocate(struct file *file, int mode, loff_t offset,
+>  	inode_lock(inode);
+>  	if (block_faults) {
+>  		filemap_invalidate_lock(inode->i_mapping);
+> -		err = fuse_dax_break_layouts(inode, 0, 0);
+> +		err = fuse_dax_break_layouts(inode, 0, -1);
+>  		if (err)
+>  			goto out;
+>  	}
