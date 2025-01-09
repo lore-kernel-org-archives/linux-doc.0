@@ -1,77 +1,93 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C331991A1;
-	Thu,  9 Jan 2025 19:37:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C09984039;
+	Thu,  9 Jan 2025 19:44:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736451462; cv=none; b=k3Di2S/nOzMGziuHgCzG9hW4qjK6Y0Wl3YR2hI9uB8kJ8eKKZKxJan4ZAiV/UmbHpgi7D6LBTx4e04PchnvcrBs+T4XQc3eVRL6Ff7vyMaT2M9a4RLdagr3VIDiH3LgQSHUzlBj7WWiDA2iU6ZjJwYZDhPL1G1qV3oCQXU/fIV4=
+	t=1736451861; cv=none; b=I1e/N3n6610nJ6DIIiD39pNmi4t5pg1689lAhY0BYfdmnQfT/HLYKo46kTgIVsApTobeuuQuIsC1JZqZQ4uAMPJjqC9uRo2ooyHtY8P+PrJ4jmaGj4HYA2iz4LbVH7qi0Tr9g5kcW/RpSpVwygS+gVqltLgyuqheCGyBghox/Co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736451462; c=relaxed/simple;
-	bh=8i/f8GuvMeLs4WMQUbcg8ipvBdf9ek5LEG92EUnbQVU=;
+	s=arc-20240116; t=1736451861; c=relaxed/simple;
+	bh=VhUlWXxhcPYfPnIFpC60MlvDTdocby7zN8Lhd6I/91w=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=NDkE21aDTve3/8rf0/ApuoT4VsOazt07My7EyyeZxrPVEmnCqkowMdVLSv7kEY22jXWBFTdh8pD4UzEhsm5OCgB1AqI66g4LLYGMnKFXni4n3Ww9BHzQ+qLw0G90wQLMK5kItjRYV79303GdL53kCjuZZiiWV2S4jp+uY2jXcq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=WdLwg8rY; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=tjCaVidlIWfEK+I1h8wQl50YiaUlEgoHo8M9MF0Z+xgbdOE951jVsac8KtmUBWWIlyOdYCK2avqrLfpLTqrVPv4ItfG7qztz4hsNnZp3sAIMomMN7M5PmwG4SVnWtzhA3V/lEroXN03dzuAwr+SHlA68oY6CzIXwU1AIYKhmJj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=SjR5QXKU; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="WdLwg8rY"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 804CD404F0
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="SjR5QXKU"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net ADF31404F0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1736451460; bh=5lybfzGIttZyfFlI+1s+G5Tw9qLLc/8gfnajJYNNMiA=;
+	t=1736451856; bh=rdVYRBAD7Lq1tG95dVLavCm62tW6IVj9Z+YZ+gmJRTs=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=WdLwg8rYLAsbqYFeN/ZoOicIsh9bN2lNQIVumd+ZrYE1hbYX4uXkRNZXGbwVrnzBy
-	 P8lH/LrjeL3Lr1uii6T7092uhyOyy/yTIY7rWYwoqBzreoTPGyDBTo2B9V3BrkSD7v
-	 sWhbqMRHs7/HBmFPjzfM5IWEqduHhd9VBYpZI1L9WESzdF8w6/5A7fHABIVA2ctVQV
-	 csxMKiCxAH1adhE3Hcx7OFCKUMncJDwkBUDNMU98fCYIkmMD9kslQzs5cja4GMmVny
-	 P2BMTGG/lyeTEMOXqDC6I8PcXJ2vXrNnJzTBCwa5Eg8j5xmHIp1e7DMLOPQ8m2j8ch
-	 YyWPLziyPR9oA==
+	b=SjR5QXKUCn7IremDZcZxetv20hSNDhdJubROpUlpfDwJuqtAxvJ24G0gFpSoCDUmy
+	 iknzQTvyMHVXrDnuADu96IDTcTkZA/zMLkPvSKDFWCBogAX6L7gJOVDOwy2Pqmb9rg
+	 Ev+i6Ssmq3qSDZa8TesGAnGxJII+E13Rb66D5rvG4w/Sgumg5TtLzMNCFB90yAwu/0
+	 JtVv0yZchVFUXylVLpofQm9pC0hEl6I88neYm5L+Jh/UlCTIBPkhqHFxXeTWnRLEM7
+	 5l350bqpKte4jkvZEOIr6XarOrmcmsgV+4CUDDqeJ5rjK4DbHlwYQwtdPEwfTupwlT
+	 6SRgA+gNHx7lQ==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 804CD404F0;
-	Thu,  9 Jan 2025 19:37:40 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id ADF31404F0;
+	Thu,  9 Jan 2025 19:44:16 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Matthias Maennich
- <maennich@google.com>, Masahiro Yamada <masahiroy@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] doc: module: Two clearifications
-In-Reply-To: <20241230142357.3203913-4-u.kleine-koenig@baylibre.com>
-References: <20241230142357.3203913-4-u.kleine-koenig@baylibre.com>
-Date: Thu, 09 Jan 2025 12:37:39 -0700
-Message-ID: <874j27lqws.fsf@trenco.lwn.net>
+To: Jianhui Zhou <jianhuizz@qq.com>, akpm@linux-foundation.org,
+ paulmck@kernel.org, jonaszhou@zhaoxin.com
+Cc: thuth@redhat.com, rostedt@goodmis.org, david@redhat.com,
+ victor@mojatatu.com, andrii@kernel.org, xiongwei.song@windriver.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Jianhui Zhou
+ <jianhuizz@qq.com>, Tejun Heo <tj@kernel.org>
+Subject: Re: [PATCH] Documentation: Remove the outdated prompt under
+ cgroup_disable option in kernel-parameters.txt
+In-Reply-To: <tencent_50D7C8F43461B5F8CF055C15970A1A36C305@qq.com>
+References: <tencent_50D7C8F43461B5F8CF055C15970A1A36C305@qq.com>
+Date: Thu, 09 Jan 2025 12:44:15 -0700
+Message-ID: <87zfjzkc1c.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com> writes:
+It would have been good to include the cgroup maintainer here; adding
+Tejun.
 
-> Hello,
->
-> Changes since (implicit) v1, available at
-> https://lore.kernel.org/linux-kernel/cover.1733305665.git.ukleinek@kernel=
-.org:
->
->  - Use "string constant" instead of "C-string" in patch #1
->  - Drop #undef
->  - Mention that before all #include statements is a usual place for the
->    definition of DEFAULT_SYMBOL_NAMESPACE.
->
-> Uwe Kleine-K=C3=B6nig (2):
->   doc: module: Fix documented type of namespace
->   doc: module: DEFAULT_SYMBOL_NAMESPACE must be defined before #includes
->
->  Documentation/core-api/symbol-namespaces.rst | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
+Looking at the code, it's far from clear to me that the other cgroups
+pay attention to this parameter.  Can somebody convince me that this
+change is correct?
 
-Applied, thanks.
+Thanks,
 
 jon
+
+Jianhui Zhou <jianhuizz@qq.com> writes:
+
+> Disabling options other than memory is currently
+> supported according to the cgroup_disable function.
+> So it can be removed.
+>
+> Signed-off-by: Jianhui Zhou <jianhuizz@qq.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 3 ---
+>  1 file changed, 3 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 3872bc6ec49d..3c562653016f 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -609,9 +609,6 @@
+>  			- if foo is an optional feature then the feature is
+>  			  disabled and corresponding cgroup files are not
+>  			  created
+> -			{Currently only "memory" controller deal with this and
+> -			cut the overhead, others just disable the usage. So
+> -			only cgroup_disable=memory is actually worthy}
+>  			Specifying "pressure" disables per-cgroup pressure
+>  			stall information accounting feature
+>  
+> -- 
+> 2.25.1
