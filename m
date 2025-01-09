@@ -1,116 +1,102 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC30E2153F9;
-	Thu,  9 Jan 2025 09:47:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A74521578B;
+	Thu,  9 Jan 2025 10:16:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736416037; cv=none; b=Ddz7Dp2jatsbjKwSPGApixEwLXZHs/P3lvIDUPg3r1A+kTBUoq/ojaKbFyi6XmQnHNlEf6fYaqS1LJfwogr8oPIUckOQ+Ah6DocUgvKEyuO14P/bJrbztMg+eht+Uhuv4jXgLpfGDi0cm/C8peZDo/z9DsMGD7NPiF7Gk9ybFg4=
+	t=1736417818; cv=none; b=NHvz9pHy4qo3I2Mmja0ED5v9svcCxn6egNEHSl9WZ784aqeYudM360IItP3CZ7yDc/RDBezrb2hOFYCPhqTJ4UXIAgBvAcGerobmnTHCDXxqnxm1IuII7pfOgqKsNDW3tAuRAdTj5qJasEuww2yREU78tgCd0vkYJvr4+CLG524=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736416037; c=relaxed/simple;
-	bh=RJmrHncmAiYfQZgHBbGZ9N6pX/NJqX1TU++10eqVLQ4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aiOIjt+OVXizR9k5D4S7wDUNWFSa0d5pdx/P/0DJGu3JEU6Q2qnDuzREs/ROxlM2q3dcrjQq9YipdBsyPZ/rqAlFMCQXJS0XMVAyYwbK93zQQ3VLMfJ85KNdMCNv1hZ5bTmZqS1poM+cUYDuVj28xDQijijzFnlEEWrsv8+6FrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=iPbKZEA4; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1736417818; c=relaxed/simple;
+	bh=o2gV8+qd+OstVBKFXAlKb6b8WAzoR3uhP+40NL99g4c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fJq7xjFzM1rPePuX+Y8K6uUYcOnF9lLGrIQ+sV1utp9ZA2BZ0Gdy7YI0KVC6VGR9MUaFayPo4yejpkmfQPKmlOxdajSNhMXG2zE5O9gsLYU0fwDirG3+jerW4UhzPq9ONteBtXpo055ZknaAQKaEIL/zrefxXCOYz34ejY9cMEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mv6bo9gr; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="iPbKZEA4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=W1HRi
-	UHKkNK4KFvLch5WDTwcRDvo+NOPbJJW0YrzMOo=; b=iPbKZEA4hgy3lQ6oQTBGv
-	cPjpLZ9Jh6cSxmHzlTWBZqmZ+i6uV46rguUsC3YSUOvz4q7vuesrjYAZPOcSg/yC
-	7RQ7BUtLnKp9IGCSIYQEmdMaYB9TFm+C+xH/l+j0IMp2oYgu83LRccwnqi2abY6m
-	BCXEw1JQ+RGHpnkerArunk=
-Received: from localhost.localdomain (unknown [])
-	by gzsmtp4 (Coremail) with SMTP id PygvCgBnDnRlmn9no5XNEA--.12216S5;
-	Thu, 09 Jan 2025 17:44:48 +0800 (CST)
-From: Jiayuan Chen <mrpre@163.com>
-To: bpf@vger.kernel.org,
-	jakub@cloudflare.com,
-	john.fastabend@gmail.com
-Cc: netdev@vger.kernel.org,
-	martin.lau@linux.dev,
-	ast@kernel.org,
-	edumazet@google.com,
-	davem@davemloft.net,
-	dsahern@kernel.org,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	linux-kernel@vger.kernel.org,
-	song@kernel.org,
-	andrii@kernel.org,
-	mhal@rbox.co,
-	yonghong.song@linux.dev,
-	daniel@iogearbox.net,
-	xiyou.wangcong@gmail.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	eddyz87@gmail.com,
-	cong.wang@bytedance.com,
-	shuah@kernel.org,
-	mykolal@fb.com,
-	jolsa@kernel.org,
-	haoluo@google.com,
-	sdf@fomichev.me,
-	kpsingh@kernel.org,
-	linux-doc@vger.kernel.org,
-	Jiayuan Chen <mrpre@163.com>
-Subject: [PATCH bpf v5 3/3] bpf, strparser, docs: Add new callback for bpf
-Date: Thu,  9 Jan 2025 17:44:01 +0800
-Message-ID: <20250109094402.50838-4-mrpre@163.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20250109094402.50838-1-mrpre@163.com>
-References: <20250109094402.50838-1-mrpre@163.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mv6bo9gr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736417817; x=1767953817;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=o2gV8+qd+OstVBKFXAlKb6b8WAzoR3uhP+40NL99g4c=;
+  b=Mv6bo9grXkpaJ6XkqcOrEk7xmpyD/Y39hUejyI73LHGjUUyxWWVPiRB3
+   gN0i/H8/Sz04rW8MA5Jew7zZPRs5LJdHtfmD4oHzLm8VgOhfhrrZeboa3
+   /08mVDFCz3IHDeKim8azrQiZWSI5omDbbGObVz/7GRFdFjSaZjJX4aqJ1
+   Uc5WlF2+5X48T2W3TnuthmcWbLptXigWSoP9pc2NXvpSg4K0CoSDl+dy8
+   zO35nir2zV/8XafyxgZKytKAvDZPY7phbXctRM+PUfuBcO4SCXFOgZqDP
+   8NGYXL9lZ6jzlOiYwRTaGK2lVgtggh85D837gJBs3SjhYAMxhKciajA4A
+   Q==;
+X-CSE-ConnectionGUID: O/DLvZC6Q5CSOnWRFSpXqg==
+X-CSE-MsgGUID: E4YutE46RmKB5UVfbg1X6Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="36830884"
+X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
+   d="scan'208";a="36830884"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 02:16:56 -0800
+X-CSE-ConnectionGUID: 6hdmEu8SSXO2+Mp4RQEcaQ==
+X-CSE-MsgGUID: T0zJ1WQTRYmQeydN1S1tag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
+   d="scan'208";a="103329234"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 09 Jan 2025 02:16:52 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tVpas-000HMR-1U;
+	Thu, 09 Jan 2025 10:16:50 +0000
+Date: Thu, 9 Jan 2025 18:15:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Leo Yang <leo.yang.sy0@gmail.com>, jdelvare@suse.com,
+	linux@roeck-us.net, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, Leo-Yang@quantatw.com, corbet@lwn.net,
+	Delphine_CC_Chiu@wiwynn.com, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/2] hwmon: Add driver for TI INA233 Current and Power
+ Monitor
+Message-ID: <202501091702.8ZdJcvFC-lkp@intel.com>
+References: <20250106071337.3017926-3-Leo-Yang@quantatw.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PygvCgBnDnRlmn9no5XNEA--.12216S5
-X-Coremail-Antispam: 1Uf129KBjvdXoWrKryDXFyruFy5GF4rAw17trb_yoWkCrcEka
-	yS9Fs5GFykZF43KayUua1kWr93GrWI9r18ZF4rtFZxC348XrykXF95Jrn5Zr18WrW3ury3
-	K3s5JFyfJr129jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRRdWrJUUUUU==
-X-CM-SenderInfo: xpus2vi6rwjhhfrp/1tbiDwbPp2d-kzTJjQAAsa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250106071337.3017926-3-Leo-Yang@quantatw.com>
 
-sockmap with strparser need customized read operations to fix copied_seq
-error.
+Hi Leo,
 
-Signed-off-by: Jiayuan Chen <mrpre@163.com>
----
- Documentation/networking/strparser.rst | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/Documentation/networking/strparser.rst b/Documentation/networking/strparser.rst
-index 6cab1f74ae05..e41c18eee2f4 100644
---- a/Documentation/networking/strparser.rst
-+++ b/Documentation/networking/strparser.rst
-@@ -112,7 +112,7 @@ Functions
- Callbacks
- =========
- 
--There are six callbacks:
-+There are seven callbacks:
- 
-     ::
- 
-@@ -182,6 +182,15 @@ There are six callbacks:
-     the length of the message. skb->len - offset may be greater
-     then full_len since strparser does not trim the skb.
- 
-+    ::
-+
-+	int (*read_sock)(struct strparser *strp, read_descriptor_t *desc,
-+                     sk_read_actor_t recv_actor);
-+
-+    read_sock is called when the user specify it, allowing for customized
-+    read operations. If the callback is not set (NULL in strp_init) native
-+    read_sock operation of the socket is used.
-+
-     ::
- 
- 	int (*read_sock_done)(struct strparser *strp, int err);
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v6.13-rc6 next-20250108]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Leo-Yang/dt-bindings-Add-INA233-device/20250106-151934
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20250106071337.3017926-3-Leo-Yang%40quantatw.com
+patch subject: [PATCH 2/2] hwmon: Add driver for TI INA233 Current and Power Monitor
+config: i386-randconfig-001-20250108 (https://download.01.org/0day-ci/archive/20250109/202501091702.8ZdJcvFC-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250109/202501091702.8ZdJcvFC-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501091702.8ZdJcvFC-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "__divdi3" [drivers/hwmon/pmbus/ina233.ko] undefined!
+
 -- 
-2.43.5
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
