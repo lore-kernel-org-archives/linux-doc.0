@@ -1,146 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 333A210E3;
-	Thu,  9 Jan 2025 03:22:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12B6F4A2D;
+	Thu,  9 Jan 2025 03:42:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736392978; cv=none; b=gfCKxWJI3vG6GLVetTM2D8BWt3R8LMsqshk60wrYkqQJbVH+ZCdjG98DVF5h3yCbykiZUYtrnGQJsRvmXjnktfjfwxz9ItMlg0o5SA70ja9rS7hZBJcobaJ+pBygCHZoilF4jz3D7cVxa7pPkqRaKuqkS2bPfIfBMIWbWWjj0jM=
+	t=1736394137; cv=none; b=ryiXTUa0F40wSQFHx80Nq2W/IfyD9m2KcXpszLO+hd2kaaCLqG+nJdMyuJ8k2u+nGJVmrHbZdI0K0dMRij9gGgvUCNWaq6aeO4ZTYuFdYRUcmGzXurvRe4sEBK3fBoyLN9V0o2tq3mDjBtj+fsJwq2kYUcFON/ErMQC9AiS9+jQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736392978; c=relaxed/simple;
-	bh=UK4Z7qZ2n3DHOwfe1/RSpWrSJ+hABJq4TrbP8dFCHbo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Iy/SiqgRtWdx9e94lYZHXYiEbxF7Jm0FfpWXtc1Z3O8OXAFS4T48s4rT/nJYszA/KqL/wNW0SKVsHLcKt9E8wJOZwj2QW4xzMaitO+8IlZL39xIaOhRyROGdRvu4tUjV6nyxYBDgaxmCesaTF8hLe9vsPJdYcl0DoIsojp6cR8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=my1iiEIX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736394137; c=relaxed/simple;
+	bh=LJZ2nUI/GG2GnRM8M1WxMzv6vt9edqJCSAD+UOgdUmw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eO8L6bD/zGCAoz7BcGL1jSAIBcIs0E721NRJNYj1GuJ2bkFMjqhvIVjjfQt6H7IudS+3nuzaQQiecyMZuuL9lfYw73DzsEnJbxKg0S9vv90sOn/YaeaD6aIt1NhQqp+0npVG+cCV172fE5pikYwtc23NAWxqtZ9WhFGNWCM8kPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=oB4alu/p; arc=none smtp.client-ip=117.135.210.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="my1iiEIX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A52A3C4CEE7;
-	Thu,  9 Jan 2025 03:22:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736392977;
-	bh=UK4Z7qZ2n3DHOwfe1/RSpWrSJ+hABJq4TrbP8dFCHbo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=my1iiEIXhKbbCPWnQayM2Jb/3gnxaDwAXkWHNpWKa+vWn0OkMn3IPlAS/cXTcFJEA
-	 nMCEZBQhNKWHHygacyYEY/upkop0UkXwgrqtpm9pZ5kvcMewJSGZumqTNJi/5N070u
-	 Y200NC0tYWn3yzZLCr4zNATvv0p9T9e3jxKqlWSAf3diWoxYt4QqEpDcKhz/qlaxII
-	 2VQLz3AO4v6GZ9h54B6fZZfPzF6iL0xjqqCGJIoQPHcTDjdXzFQsfpuGbSbTXc88fK
-	 wtuOvcgel2cecwFDrYKuTLknwbZOwMyXY/stJbNr7RhTuvPWkcNuxn6vhImsF7KkeY
-	 3JNLFfyuMMrNg==
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5d90a5581fcso616883a12.1;
-        Wed, 08 Jan 2025 19:22:57 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU+Na0kwo2GmROAVodXWu8IObpuJeuEc24jW8OtLV+BaH9vxinPxEp2VB06OMsYojltiYKVqWbONZrC8A==@vger.kernel.org, AJvYcCUV7tUbXTNPOq48tH8MeGzglloSi5oAsNIZzOnwT5k2A2MbkDA0T9amd9E1Y3nTzv1L5RdKmPOHbOTQzdjtOP+nfbo63H1L@vger.kernel.org, AJvYcCUys0nSnXJ4/Iwjk5mOgQhkv3zj0G5P6n/O8lAW34q6GT0aBXxQk4nYAS6TNJlzUhN9UiFD+v4mJ2zZYDHQ@vger.kernel.org, AJvYcCVE86aLQMGj7HtSbJSYuDxkTg/G+o1BhbW1aTIvnhvdqnUmrKAoKo9NZqa8rLvtFpNJqTcXl/LRcUfeZJuIC2NvPA==@vger.kernel.org, AJvYcCXAM4gVli5NDbpS3rTs9D+oJ9pCQqUIRa+qbRPI5kBioqDOH+R/Hwc/iXOHKddIXQANinA=@vger.kernel.org, AJvYcCXr3q9uc9C8Vm2sntVzbmsaG1E6G/wzeTdeSoS+is7/TpkRAATY6mm+jPr39zNiOLfEcBs4PzvBHmA1@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJ1qaC529ag3Qt2G7f2ehJUJAFXp0uTDkLHB68PGtbHFRDuyqT
-	YcRVcNiygJ53vARc9h3Uez94W2w1bGbl6vX/sPsO2BVOD9IsJxn+lLN78bkAZ57XeGmNh0uSiyU
-	Bzy2wNnBWTbsQe4zG6W9xNCPnV2E=
-X-Google-Smtp-Source: AGHT+IF2vfwWk/hX1fppoOgb3+DWHmntV4ZAONyRFvI6o1pxOXRZKk7PnjDU1irlzVBy8ipamhJ7KiIEeYXxp0Ftx84=
-X-Received: by 2002:a05:6402:3225:b0:5d3:bab1:513f with SMTP id
- 4fb4d7f45d1cf-5d972e178cbmr4906639a12.18.1736392976133; Wed, 08 Jan 2025
- 19:22:56 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="oB4alu/p"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=CebMC
+	NI4PIbKZdhA2SCMDBTyDltj8KPOIjjMYZgPmkw=; b=oB4alu/pe6qBbOXN3IdZ2
+	BTps/B432eL58V4dCx1TDs4hoQqIHAi0gm3SYsXo4wO0hjevUA18VtIT9gsLDrUa
+	nQkk9iOAouIk6qinObfrMOk+bzo1K6d65TDp3cxnPcZiZrIW+ubA60Bt37f730I9
+	cdpnBCXinNQ+An/UJ5k+Ew=
+Received: from localhost.localdomain (unknown [47.252.33.72])
+	by gzsmtp5 (Coremail) with SMTP id QCgvCgAXYaYcRX9na6O1Jw--.42275S2;
+	Thu, 09 Jan 2025 11:40:22 +0800 (CST)
+From: Jiayuan Chen <mrpre@163.com>
+To: bpf@vger.kernel.org,
+	jakub@cloudflare.com,
+	john.fastabend@gmail.com
+Cc: netdev@vger.kernel.org,
+	martin.lau@linux.dev,
+	ast@kernel.org,
+	edumazet@google.com,
+	davem@davemloft.net,
+	dsahern@kernel.org,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	linux-kernel@vger.kernel.org,
+	song@kernel.org,
+	andrii@kernel.org,
+	mhal@rbox.co,
+	yonghong.song@linux.dev,
+	daniel@iogearbox.net,
+	xiyou.wangcong@gmail.com,
+	horms@kernel.org,
+	corbet@lwn.net,
+	eddyz87@gmail.com,
+	cong.wang@bytedance.com,
+	shuah@kernel.org,
+	mykolal@fb.com,
+	jolsa@kernel.org,
+	haoluo@google.com,
+	sdf@fomichev.me,
+	kpsingh@kernel.org,
+	linux-doc@vger.kernel.org,
+	Jiayuan Chen <mrpre@163.com>
+Subject: [PATCH bpf v4 0/3] bpf: fix wrong copied_seq calculation
+Date: Thu,  9 Jan 2025 11:40:02 +0800
+Message-ID: <20250109034005.861063-1-mrpre@163.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250108-perf_syscalltbl-v6-0-7543b5293098@rivosinc.com> <20250108-perf_syscalltbl-v6-3-7543b5293098@rivosinc.com>
-In-Reply-To: <20250108-perf_syscalltbl-v6-3-7543b5293098@rivosinc.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Thu, 9 Jan 2025 11:22:44 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTQFq41rpBMsEodungBHPbzd2zn9F02fB6dJxnYAr81HJg@mail.gmail.com>
-X-Gm-Features: AbW1kvaPnl9RqcyhYmWgfOMmK2I_eaC06_BB36DSFhf4vdK4RFvF9kDCvTmwHLc
-Message-ID: <CAJF2gTQFq41rpBMsEodungBHPbzd2zn9F02fB6dJxnYAr81HJg@mail.gmail.com>
-Subject: Re: [PATCH v6 03/16] perf tools: csky: Support generic syscall headers
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	Christian Brauner <brauner@kernel.org>, John Garry <john.g.garry@oracle.com>, 
-	Will Deacon <will@kernel.org>, James Clark <james.clark@linaro.org>, 
-	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linux.dev>, 
-	Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-security-module@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-csky@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:QCgvCgAXYaYcRX9na6O1Jw--.42275S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxWFyrGFyfXw4kuryDAFyxKrg_yoW5GFWDpa
+	ykC34rGrsrtFyIvwsrA3yIgF4Fgw4rGayUGr1Fg3yfZr4UKryYqrs7Kayayr98GrWrZFyU
+	ur15Wrs0934DuFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piCeHfUUUUU=
+X-CM-SenderInfo: xpus2vi6rwjhhfrp/1tbiWxnPp2d-PnPPEgAAsi
 
-On Thu, Jan 9, 2025 at 10:36=E2=80=AFAM Charlie Jenkins <charlie@rivosinc.c=
-om> wrote:
->
-> csky uses the generic syscall table, use that in perf instead of
-> requiring libaudit.
->
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-LGTM! Thx
+A previous commit described in this topic
+http://lore.kernel.org/bpf/20230523025618.113937-9-john.fastabend@gmail.com
+directly updated 'sk->copied_seq' in the tcp_eat_skb() function when the
+action of a BPF program was SK_REDIRECT. For other actions, like SK_PASS,
+the update logic for 'sk->copied_seq' was moved to
+tcp_bpf_recvmsg_parser() to ensure the accuracy of the 'fionread' feature.
 
-For c-sky part.
+That commit works for a single stream_verdict scenario, as it also
+modified 'sk_data_ready->sk_psock_verdict_data_ready->tcp_read_skb'
+to remove updating 'sk->copied_seq'.
 
-Acked-by: Guo Ren <guoren@kernel.org>
+However, for programs where both stream_parser and stream_verdict are
+active(strparser purpose), tcp_read_sock() was used instead of
+tcp_read_skb() (sk_data_ready->strp_data_ready->tcp_read_sock)
+tcp_read_sock() now still update 'sk->copied_seq', leading to duplicated
+updates.
 
-> ---
->  tools/perf/Makefile.perf                              | 2 +-
->  tools/perf/arch/csky/entry/syscalls/Kbuild            | 2 ++
->  tools/perf/arch/csky/entry/syscalls/Makefile.syscalls | 3 +++
->  tools/perf/arch/csky/include/syscall_table.h          | 2 ++
->  4 files changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/tools/perf/Makefile.perf b/tools/perf/Makefile.perf
-> index 44b9e33b9568f638ba12ad688833fdb661c16c16..3fe47bd21c0ea39473c584c82=
-383ca5d4daf580f 100644
-> --- a/tools/perf/Makefile.perf
-> +++ b/tools/perf/Makefile.perf
-> @@ -311,7 +311,7 @@ FEATURE_TESTS :=3D all
->  endif
->  endif
->  # architectures that use the generic syscall table
-> -generic_syscall_table_archs :=3D riscv arc
-> +generic_syscall_table_archs :=3D riscv arc csky
->  ifneq ($(filter $(SRCARCH), $(generic_syscall_table_archs)),)
->  include $(srctree)/tools/perf/scripts/Makefile.syscalls
->  endif
-> diff --git a/tools/perf/arch/csky/entry/syscalls/Kbuild b/tools/perf/arch=
-/csky/entry/syscalls/Kbuild
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..11707c481a24ecf4e220e51eb=
-1aca890fe929a13
-> --- /dev/null
-> +++ b/tools/perf/arch/csky/entry/syscalls/Kbuild
-> @@ -0,0 +1,2 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +syscall-y +=3D syscalls_32.h
-> diff --git a/tools/perf/arch/csky/entry/syscalls/Makefile.syscalls b/tool=
-s/perf/arch/csky/entry/syscalls/Makefile.syscalls
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..ea2dd10d0571df464574a9c02=
-32ada0ac1f79a3f
-> --- /dev/null
-> +++ b/tools/perf/arch/csky/entry/syscalls/Makefile.syscalls
-> @@ -0,0 +1,3 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +syscall_abis_32 +=3D csky time32 stat64 rlimit
-> diff --git a/tools/perf/arch/csky/include/syscall_table.h b/tools/perf/ar=
-ch/csky/include/syscall_table.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..4c942821662d95216765b176a=
-84d5fc7974e1064
-> --- /dev/null
-> +++ b/tools/perf/arch/csky/include/syscall_table.h
-> @@ -0,0 +1,2 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#include <asm/syscalls_32.h>
->
-> --
-> 2.34.1
->
+In summary, for strparser + SK_PASS, copied_seq is redundantly calculated
+in both tcp_read_sock() and tcp_bpf_recvmsg_parser().
 
+The issue causes incorrect copied_seq calculations, which prevent
+correct data reads from the recv() interface in user-land.
 
---=20
-Best Regards
- Guo Ren
+Also we added test cases for bpf + strparser and separated them from
+sockmap_basic, as strparser has more encapsulation and parsing
+capabilities compared to sockmap.
+
+Fixes: e5c6de5fa025 ("bpf, sockmap: Incorrectly handling copied_seq")
+
+---
+V3 -> v4:
+https://lore.kernel.org/bpf/20241218053408.437295-1-mrpre@163.com/
+Avoid introducing new proto_ops. (Daniel Borkmann).
+Add more edge test cases for strparser + bpf.
+Fix patchwork fail of test cases code.
+
+V1 -> V3:
+https://lore.kernel.org/bpf/20241209152740.281125-1-mrpre@163.com/
+Fix patchwork fail by adding Fixes tag.
+Save skb data offset for ENOMEM. (John Fastabend)
+---
+
+Jiayuan Chen (3):
+  bpf: fix wrong copied_seq calculation
+  selftests/bpf: add strparser test for bpf
+  bpf, strparser, docs: Add new callback for bpf
+
+ Documentation/networking/strparser.rst        |  11 +-
+ include/linux/skmsg.h                         |   2 +
+ include/net/strparser.h                       |   2 +
+ include/net/tcp.h                             |   3 +
+ net/core/skmsg.c                              |  42 ++
+ net/ipv4/tcp.c                                |  31 +-
+ net/strparser/strparser.c                     |  11 +-
+ .../selftests/bpf/prog_tests/sockmap_basic.c  |  53 --
+ .../selftests/bpf/prog_tests/sockmap_strp.c   | 452 ++++++++++++++++++
+ .../selftests/bpf/progs/test_sockmap_strp.c   |  53 ++
+ 10 files changed, 599 insertions(+), 61 deletions(-)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/sockmap_strp.c
+ create mode 100644 tools/testing/selftests/bpf/progs/test_sockmap_strp.c
+
+-- 
+2.43.5
+
