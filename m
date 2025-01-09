@@ -1,66 +1,63 @@
-Received: from mail-qk1-f201.google.com (mail-qk1-f201.google.com [209.85.222.201])
+Received: from mail-ua1-f74.google.com (mail-ua1-f74.google.com [209.85.222.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 375D620103A
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 20:49:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731EC20013C
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 20:49:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736455798; cv=none; b=V0+91h+jo7XJo8bpJiDjU4TzX8gy05txSL8CGjMIOqLm1A0KqmCLV7ltDlfQytx70PyfdHV5uFPLTz146eEJ0U4VILbaLA+JSko2v0CjJHi+85gltg1L7gRLjlYSbh3cUeJ5287Kp/w0iZHYqulyQoutXym4y6PWHo9UehSAN3s=
+	t=1736455799; cv=none; b=Ds3XrTvNz/99Qh0bFfNT4Ad0GF0titWHKMIFTmZjNBtr7BqDd84SI7dTAaR15qWX7arTooxJ5oPCpib42ZNVW35zn2SlqiEuh2BQ/HD753o0tqzRJ+yn54PZV7mBbk0BiFPkHZYMZrYUb2sYRgqJmv2FYYi2QwK7tu2YZO3WLRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736455798; c=relaxed/simple;
-	bh=6egPkffTqCljeChAEC1xtjQx5okoA3w1tTDlM9Q/gaY=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=uRy7MlTSkfSODVqQ7VJTT+7f0hXqgK91Vg1rf0w+/G9kZpv2zq96VbXXN/Ek5c62kBsbjHkMdw9M7K0hkjSyzioyG57kJcvLN4FRHAueE75jn2PM1/SMNvbbiORM3FFUhwlTWij3XwbvBVAPLLykU3SIkUII9CDpJoZLNtaqyO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ufEASTQR; arc=none smtp.client-ip=209.85.222.201
+	s=arc-20240116; t=1736455799; c=relaxed/simple;
+	bh=YkgfGnO9YuSs6jW3cToj++wCeLfYHp3+3X5IEmvRJsw=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=BV2bN0ZeNk4dRUnaqYwr4AwHZOEsh6J6DmBvGEY7rAUdHZRNcnFvitNh690whjit43+NILonYIrXIGv6ouFozfZeVuGkQ6yxoly5JNEozs9nU9R9yKNYCq6mY41RLBY2ynRkYW17Boz2LLnY0XNNB/Vp9wxd1a8KPxRSnyqPJUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kigySOQf; arc=none smtp.client-ip=209.85.222.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ufEASTQR"
-Received: by mail-qk1-f201.google.com with SMTP id af79cd13be357-7b6e9fb0436so355197385a.0
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jan 2025 12:49:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kigySOQf"
+Received: by mail-ua1-f74.google.com with SMTP id a1e0cc1a2514c-85c5f455e41so345914241.2
+        for <linux-doc@vger.kernel.org>; Thu, 09 Jan 2025 12:49:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736455796; x=1737060596; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4wiJ4r6U+4DKwl7a0Sm0LZeZPdZmNUbmXckiwF/fu60=;
-        b=ufEASTQRfOty4pmHjO1Estca+rcvTERGUu2gZN4b85yJsQ0tsrrGcfIov4vM74s8tw
-         FC8KjmaTzJ23QUa7ggMsdJnsOK9TBDqmrgzhebLvAEfI7ckwLn6gcjnPXKWreQIte1BD
-         429CUj/kxserARkbjufgOuNr8aYAhNmJcP519hg+m/xlVTwjIrDIQ5Bszk709Fnj6KgC
-         IBtQYuUAEJcRarEXZFXqxRbejeifzLRAO4NS5V8/Q9eDPk0BrqUKi3zgdNHufEbz7vxZ
-         pZhg4EQfLv1hLw/k0auVh0CCxiiullcAypWBP7olJEE7WZ5xtYLG83Ik5KiF1m1I7gov
-         K9jQ==
+        d=google.com; s=20230601; t=1736455795; x=1737060595; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=zwxnelFEQr4C3vtPtPgRGtQjenWxHSmpAHQLFMvsChA=;
+        b=kigySOQf9F7mPOeTIucYwMozlQPEGSPtfiqy0+MOz/fWj/rZwCIM9TLx2tk58EkMhW
+         9qfGYebfxLrmbxV+gwz7MPYAVSb9DBSIY6ItjF/Da5E82AzwXw+D5GLgosfNvnr6+cLl
+         aBz0LO/hSQdjJYHpPW1u9ekA79iGsd97u7FgtNk0Uj8Gapb2Opt+/WoS9baOcsG0L3b4
+         9e8mU1pMhl/NVk2yR4ab2RiAxJY2pR/D0nFZb3Le6IUkcbfsVyzX+PwH4Bfj+3itJZON
+         Q0/9AZq60fondEhYMK4Hku9OdP7K7TTAVFJO3TVdMwibwdXYSO2udpgu2+yNk+lXK5oX
+         cjOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736455796; x=1737060596;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4wiJ4r6U+4DKwl7a0Sm0LZeZPdZmNUbmXckiwF/fu60=;
-        b=nkLMrgUxkEODRUzLKLhXjJw0MzAOYOfQhY7CI7CqgjQeAN4lXSl5aFrFte1m4z607b
-         gDKuJeMqbIJh0quBNvIBE0FBVCNrRuK5erqV2sCy50Rd06inZ1LGaNtMGrgdMHSLVK2o
-         sfnDOGyhfHjQaIpMR4vagWUgYBGdboQcvWQBjY1d95dpNlrte8M4fmDVQ99Xf3TypR0u
-         hyWbEM6jVXj1Zyzu9hmSU4s5eV1HaaMOqiVxhCz0fKYfIt/hOvJ2GQ8/d15VtqLGZg1U
-         IMVhn1GV5Udg9DhFO4XFU3nzUzp/8NvNn2FmyvItcwoqyUufkXpZt6yz+W6ISSagDoTB
-         gokA==
-X-Forwarded-Encrypted: i=1; AJvYcCVLKPLMoNUE0KdS40oIELeVoIB1ZfHlQUxiGDdFaviHNux0OaXQKEg4q15n6inJoGeX5VseaLq5fOw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPT8kHGUq1p7mDRdUMiy9FrBYmho4sHsLq5z+tg3qqHYgMntOV
-	0oUkcpXiwgzjbxMot/pqhUi9MlSop9kCWHmjC1oGqCGWy77REq5XVFaKEdlf5EMfRboC833aJ7+
-	bu68+41WbeoL+DzRe4Q==
-X-Google-Smtp-Source: AGHT+IG26IPp3qbl2E13g/CbVexbYg/eWO5E84o5Ua+axOZx93ciuXt5lAWy60cQgF+PsXPiSlHQOVHo5aFaWyuK
-X-Received: from qkkl1.prod.google.com ([2002:a37:f501:0:b0:7b6:e209:1c29])
+        d=1e100.net; s=20230601; t=1736455795; x=1737060595;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zwxnelFEQr4C3vtPtPgRGtQjenWxHSmpAHQLFMvsChA=;
+        b=AKxN3LyCyqSscrZDjpuTb9udkKqITukJOy+C434w0GiebFQLTDApKMlQlQmtIoZZQC
+         gBEM9++ADDKMghNP+Di8J1I58EI0q9r8vN3vnr4rPaHwLta8oQbxdgU3Eda7DdlGJK1f
+         1KsOyr8VV7I/QTyW32KRNnEWJyw4o5yEsUAMva9Z+vvjUkkdIWxlbFbC6EAg4gFZGNiT
+         O9oQ2JhVDZ6LooEwcfIgXWPWl1ebI5xermoWDPlpcjnFMap6osYCH5JFFtSzbWzL2xA9
+         VGtRu1MruM1Ha5hWbUSKTvWp6ALSgdnppvA5qqAVKLmzJeTvVbj28k5wtL2rgUsdoLlI
+         EpwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX5K9aKU1tWpgtczxtB+dP6DA/zMedRWs1hdthtLjsCl+iCnye/shi9VvR2WkC+UQpYFCQ7fv4ZWlY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyXXR+nqwMAwTQXSFP/O1umFCDFqfiKxNTjAVissKzPXWxStqPr
+	sV1OUEtptGQa17Pxoo3iBh83F7x2kDUuQji/n4NawzHJXdZD1Gd5R0CL55wCEkzJ0rduYaBdA4S
+	zkza2rAx7sKwmg09LkA==
+X-Google-Smtp-Source: AGHT+IEQb1u/rfnn1fSyPTU2pPIfyZ5lKsGhAlzX80eQpvo3eWAajg+PF8bqh67MyuBcqLLCXncCH9d2iaL7ubsN
+X-Received: from vsbbq8.prod.google.com ([2002:a05:6102:5348:b0:4af:b35d:162c])
  (user=jthoughton job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:620a:d87:b0:7b6:d632:37cf with SMTP id af79cd13be357-7bcd9729affmr1146945885a.3.1736455796215;
- Thu, 09 Jan 2025 12:49:56 -0800 (PST)
-Date: Thu,  9 Jan 2025 20:49:17 +0000
-In-Reply-To: <20250109204929.1106563-1-jthoughton@google.com>
+ 2002:a05:6102:2b92:b0:4af:f892:e9f0 with SMTP id ada2fe7eead31-4b3d0f2d8f1mr8447963137.14.1736455795460;
+ Thu, 09 Jan 2025 12:49:55 -0800 (PST)
+Date: Thu,  9 Jan 2025 20:49:16 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20250109204929.1106563-1-jthoughton@google.com>
 X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
-Message-ID: <20250109204929.1106563-2-jthoughton@google.com>
-Subject: [PATCH v2 01/13] KVM: Add KVM_MEM_USERFAULT memslot flag and bitmap
+Message-ID: <20250109204929.1106563-1-jthoughton@google.com>
+Subject: [PATCH v2 00/13] KVM: Introduce KVM Userfault
 From: James Houghton <jthoughton@google.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>
 Cc: Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
@@ -72,156 +69,104 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
 	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-Use one of the 14 reserved u64s in struct kvm_userspace_memory_region2
-for the user to provide `userfault_bitmap`.
+This is a v2 of KVM Userfault, mostly unchanged from v1[5]. Changelog here:
 
-The memslot flag indicates if KVM should be reading from the
-`userfault_bitmap` field from the memslot. The user is permitted to
-provide a bogus pointer. If the pointer cannot be read from, we will
-return -EFAULT (with no other information) back to the user.
+v1->v2:
+- For arm64, no longer zap stage 2 when disabling KVM_MEM_USERFAULT
+  (thanks Oliver).
+- Fix the userfault_bitmap validation and casts (thanks kernel test
+  robot).
+- Fix _Atomic cast for the userfault bitmap in the selftest (thanks
+  kernel test robot).
+- Pick up Reviewed-by on doc changes (thanks Bagas).
 
-Signed-off-by: James Houghton <jthoughton@google.com>
----
- include/linux/kvm_host.h | 14 ++++++++++++++
- include/uapi/linux/kvm.h |  4 +++-
- virt/kvm/Kconfig         |  3 +++
- virt/kvm/kvm_main.c      | 35 +++++++++++++++++++++++++++++++++++
- 4 files changed, 55 insertions(+), 1 deletion(-)
+And here is a trimmed down cover letter from v1, slightly modified
+given the small arm64 change:
 
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index 401439bb21e3..f7a3dfd5e224 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -590,6 +590,7 @@ struct kvm_memory_slot {
- 	unsigned long *dirty_bitmap;
- 	struct kvm_arch_memory_slot arch;
- 	unsigned long userspace_addr;
-+	unsigned long __user *userfault_bitmap;
- 	u32 flags;
- 	short id;
- 	u16 as_id;
-@@ -724,6 +725,11 @@ static inline bool kvm_arch_has_readonly_mem(struct kvm *kvm)
- }
- #endif
- 
-+static inline bool kvm_has_userfault(struct kvm *kvm)
-+{
-+	return IS_ENABLED(CONFIG_HAVE_KVM_USERFAULT);
-+}
-+
- struct kvm_memslots {
- 	u64 generation;
- 	atomic_long_t last_used_slot;
-@@ -2553,4 +2559,12 @@ long kvm_arch_vcpu_pre_fault_memory(struct kvm_vcpu *vcpu,
- 				    struct kvm_pre_fault_memory *range);
- #endif
- 
-+int kvm_gfn_userfault(struct kvm *kvm, struct kvm_memory_slot *memslot,
-+		      gfn_t gfn);
-+
-+static inline bool kvm_memslot_userfault(struct kvm_memory_slot *memslot)
-+{
-+	return memslot->flags & KVM_MEM_USERFAULT;
-+}
-+
- #endif
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 343de0a51797..7ade5169d373 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -40,7 +40,8 @@ struct kvm_userspace_memory_region2 {
- 	__u64 guest_memfd_offset;
- 	__u32 guest_memfd;
- 	__u32 pad1;
--	__u64 pad2[14];
-+	__u64 userfault_bitmap;
-+	__u64 pad2[13];
- };
- 
- /*
-@@ -51,6 +52,7 @@ struct kvm_userspace_memory_region2 {
- #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
- #define KVM_MEM_READONLY	(1UL << 1)
- #define KVM_MEM_GUEST_MEMFD	(1UL << 2)
-+#define KVM_MEM_USERFAULT	(1UL << 3)
- 
- /* for KVM_IRQ_LINE */
- struct kvm_irq_level {
-diff --git a/virt/kvm/Kconfig b/virt/kvm/Kconfig
-index 54e959e7d68f..9eb1fae238b1 100644
---- a/virt/kvm/Kconfig
-+++ b/virt/kvm/Kconfig
-@@ -124,3 +124,6 @@ config HAVE_KVM_ARCH_GMEM_PREPARE
- config HAVE_KVM_ARCH_GMEM_INVALIDATE
-        bool
-        depends on KVM_PRIVATE_MEM
-+
-+config HAVE_KVM_USERFAULT
-+       bool
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index de2c11dae231..4bceae6a6401 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -1541,6 +1541,9 @@ static int check_memory_region_flags(struct kvm *kvm,
- 	    !(mem->flags & KVM_MEM_GUEST_MEMFD))
- 		valid_flags |= KVM_MEM_READONLY;
- 
-+	if (kvm_has_userfault(kvm))
-+		valid_flags |= KVM_MEM_USERFAULT;
-+
- 	if (mem->flags & ~valid_flags)
- 		return -EINVAL;
- 
-@@ -1974,6 +1977,12 @@ int __kvm_set_memory_region(struct kvm *kvm,
- 		return -EINVAL;
- 	if ((mem->memory_size >> PAGE_SHIFT) > KVM_MEM_MAX_NR_PAGES)
- 		return -EINVAL;
-+	if (mem->flags & KVM_MEM_USERFAULT &&
-+	    ((mem->userfault_bitmap != untagged_addr(mem->userfault_bitmap)) ||
-+	     !access_ok((void __user *)(unsigned long)mem->userfault_bitmap,
-+			DIV_ROUND_UP(mem->memory_size >> PAGE_SHIFT, BITS_PER_LONG)
-+			 * sizeof(long))))
-+		return -EINVAL;
- 
- 	slots = __kvm_memslots(kvm, as_id);
- 
-@@ -2042,6 +2051,9 @@ int __kvm_set_memory_region(struct kvm *kvm,
- 		if (r)
- 			goto out;
- 	}
-+	if (mem->flags & KVM_MEM_USERFAULT)
-+		new->userfault_bitmap =
-+		  (unsigned long __user *)(unsigned long)mem->userfault_bitmap;
- 
- 	r = kvm_set_memslot(kvm, old, new, change);
- 	if (r)
-@@ -6426,3 +6438,26 @@ void kvm_exit(void)
- 	kvm_irqfd_exit();
- }
- EXPORT_SYMBOL_GPL(kvm_exit);
-+
-+int kvm_gfn_userfault(struct kvm *kvm, struct kvm_memory_slot *memslot,
-+		       gfn_t gfn)
-+{
-+	unsigned long bitmap_chunk = 0;
-+	off_t offset;
-+
-+	if (!kvm_memslot_userfault(memslot))
-+		return 0;
-+
-+	if (WARN_ON_ONCE(!memslot->userfault_bitmap))
-+		return 0;
-+
-+	offset = gfn - memslot->base_gfn;
-+
-+	if (copy_from_user(&bitmap_chunk,
-+			   memslot->userfault_bitmap + offset / BITS_PER_LONG,
-+			   sizeof(bitmap_chunk)))
-+		return -EFAULT;
-+
-+	/* Set in the bitmap means that the gfn is userfault */
-+	return !!(bitmap_chunk & (1ul << (offset % BITS_PER_LONG)));
-+}
+Please see the RFC[1] for the problem description. In summary,
+guest_memfd VMs have no mechanism for doing post-copy live migration.
+KVM Userfault provides such a mechanism.
+
+There is a second problem that KVM Userfault solves: userfaultfd-based
+post-copy doesn't scale very well. KVM Userfault when used with
+userfaultfd can scale much better in the common case that most post-copy
+demand fetches are a result of vCPU access violations. This is a
+continuation of the solution Anish was working on[3]. This aspect of
+KVM Userfault is important for userfaultfd-based live migration when
+scaling up to hundreds of vCPUs with ~30us network latency for a
+PAGE_SIZE demand-fetch.
+
+The implementation in this series is version than the RFC[1]. It adds...
+ 1. a new memslot flag is added: KVM_MEM_USERFAULT,
+ 2. a new parameter, userfault_bitmap, into struct kvm_memory_slot,
+ 3. a new KVM_RUN exit reason: KVM_MEMORY_EXIT_FLAG_USERFAULT,
+ 4. a new KVM capability KVM_CAP_USERFAULT.
+
+KVM Userfault does not attempt to catch KVM's own accesses to guest
+memory. That is left up to userfaultfd.
+
+When enabling KVM_MEM_USERFAULT for a memslot, the second-stage mappings
+are zapped, and new faults will check `userfault_bitmap` to see if the
+fault should exit to userspace.
+
+When KVM_MEM_USERFAULT is enabled, only PAGE_SIZE mappings are
+permitted.
+
+When disabling KVM_MEM_USERFAULT, huge mappings will be reconstructed
+consistent with dirty log disabling. So on x86, huge mappings will be
+reconstructed, but on arm64, they won't be.
+
+KVM Userfault is not compatible with async page faults. Nikita has
+proposed a new implementation of async page faults that is more
+userspace-driven that *is* compatible with KVM Userfault[4].
+
+See v1 for more performance details[5]. They are unchanged in this v2.
+
+This series is based on the latest kvm/next.
+
+[1]: https://lore.kernel.org/kvm/20240710234222.2333120-1-jthoughton@google.com/
+[2]: https://lpc.events/event/18/contributions/1757/
+[3]: https://lore.kernel.org/all/20240215235405.368539-1-amoorthy@google.com/
+[4]: https://lore.kernel.org/kvm/20241118123948.4796-1-kalyazin@amazon.com/#t
+[5]: https://lore.kernel.org/kvm/20241204191349.1730936-1-jthoughton@google.com/
+
+James Houghton (13):
+  KVM: Add KVM_MEM_USERFAULT memslot flag and bitmap
+  KVM: Add KVM_MEMORY_EXIT_FLAG_USERFAULT
+  KVM: Allow late setting of KVM_MEM_USERFAULT on guest_memfd memslot
+  KVM: Advertise KVM_CAP_USERFAULT in KVM_CHECK_EXTENSION
+  KVM: x86/mmu: Add support for KVM_MEM_USERFAULT
+  KVM: arm64: Add support for KVM_MEM_USERFAULT
+  KVM: selftests: Fix vm_mem_region_set_flags docstring
+  KVM: selftests: Fix prefault_mem logic
+  KVM: selftests: Add va_start/end into uffd_desc
+  KVM: selftests: Add KVM Userfault mode to demand_paging_test
+  KVM: selftests: Inform set_memory_region_test of KVM_MEM_USERFAULT
+  KVM: selftests: Add KVM_MEM_USERFAULT + guest_memfd toggle tests
+  KVM: Documentation: Add KVM_CAP_USERFAULT and KVM_MEM_USERFAULT
+    details
+
+ Documentation/virt/kvm/api.rst                |  33 +++-
+ arch/arm64/kvm/Kconfig                        |   1 +
+ arch/arm64/kvm/mmu.c                          |  26 +++-
+ arch/x86/kvm/Kconfig                          |   1 +
+ arch/x86/kvm/mmu/mmu.c                        |  27 +++-
+ arch/x86/kvm/mmu/mmu_internal.h               |  20 ++-
+ arch/x86/kvm/x86.c                            |  36 +++--
+ include/linux/kvm_host.h                      |  19 ++-
+ include/uapi/linux/kvm.h                      |   6 +-
+ .../selftests/kvm/demand_paging_test.c        | 145 ++++++++++++++++--
+ .../testing/selftests/kvm/include/kvm_util.h  |   5 +
+ .../selftests/kvm/include/userfaultfd_util.h  |   2 +
+ tools/testing/selftests/kvm/lib/kvm_util.c    |  42 ++++-
+ .../selftests/kvm/lib/userfaultfd_util.c      |   2 +
+ .../selftests/kvm/set_memory_region_test.c    |  33 ++++
+ virt/kvm/Kconfig                              |   3 +
+ virt/kvm/kvm_main.c                           |  54 ++++++-
+ 17 files changed, 419 insertions(+), 36 deletions(-)
+
+
+base-commit: 10b2c8a67c4b8ec15f9d07d177f63b563418e948
 -- 
 2.47.1.613.gc27f4b7a9f-goog
 
