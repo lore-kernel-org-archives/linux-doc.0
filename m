@@ -1,212 +1,250 @@
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F56813B2B8;
-	Thu,  9 Jan 2025 21:33:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C921FDE18;
+	Thu,  9 Jan 2025 21:36:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736458425; cv=none; b=BTHVWRHe0O6CTcx3ANNYrlJtTO9R/yZqHxKCJxhWiH8+WHwP48oqYHATylq1QP9T+W/VPaCK4aJ1mVnjFlomH6DQfoQh0Q/IgShWdRvG5iml6/C4tXIPP/h3BzWDM+hIdtspgTQmMyfTXhICEew5IWBhxIooz1sKhHMCShb2GFg=
+	t=1736458611; cv=none; b=VVPo6ZXZb0GV3tzZmoIpjbjeQgec33Ckc38OdyM9SQwKjJusUUw4TQ0DqJkls1YkpaZarOfOeX5OPc1WNUL6wsjLDBlTPipw1635BZ6Avv1KXGFmxNwGrNFnvVshdI8KB+qCpltFkAOUarzrFOoEWKf+ag8Vgzv7U8DHCxOyj2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736458425; c=relaxed/simple;
-	bh=hMVg4l0Xb088MiEEOfRE9qEvSVtU7ZGMohLFU9Bf1Rk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XQI0qmWXdmGjP88F1trgXXTcBJ4qyx/hBEhNx0rP7ydb06SrwadR6qHQDdCZ5pYZt2Ud3QvHNcU/LR7oWHNdKOQDsUE66EjitfKH2eXSV2qQn2KvA5rWAe4r7TCIYl20YiP9YYfLxGU4chBJYdjhLe+4iUDwBz/C6UaCqqTaCAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-844e9b83aaaso100581839f.3;
-        Thu, 09 Jan 2025 13:33:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736458422; x=1737063222;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=znzf9Ws5srA6nvuUT9olkx1+/Y2WL0svrtrPLYOzwvw=;
-        b=dgLAaEmQRr+w+lXgkrXXIJ9/gIJw7/0Z1gz40b5noLd7bUP1CuALExrVtbBXsUM0qL
-         8aDM1QqmyAQmo25s/xBRi1vGT2dBRzst7zRcv09Zasp8NoiYS3+iPjxtILp9T6+meRRw
-         9wgaHHw2KMWIs8PmrJICTZydu0Iqcco/o/6RM9XEeWPoQiPTFLt3R7zXRcfi0GaH34eR
-         a7WFcIrgDucFYtT1z+7AhjHh+H3UDIP9rS5h5eKZu0d32AXfziol4RqlGYb7iJt9X9Pg
-         ztMhvgc/VnFApqFf0BayVB01JWc11kc9Lt9b7dhTprzpvNoXLXMXKk7EMFqrNEnIBT6X
-         ynNA==
-X-Forwarded-Encrypted: i=1; AJvYcCUq+gRO5YBPBju8bXype0GUk0r4U0aPzi+1xMZDkBTlg1KZ/GsFjKdD741W6ZV2Ml72AwSSc6OZEiv044ws@vger.kernel.org, AJvYcCVE3vrvZzDYQVWOvwrdFu6ax3b1tPnHBGu5tGr/h71lr2KpdHNX4AyOgO5EETeh/Lu7UYlK/ZWxcg8KrCv7fKnYyYu3UA==@vger.kernel.org, AJvYcCWwMaWpmN25S1QO0ClRAz8QOhrqdGxssDmHlymIEQRX49B0pXIvNoTruEPPkAD/3p0e5j5uBMkyUcU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqUsXj9w9iV4DM/MOR5k1E591lgr6Q5pZyHTHzZx3OXn6TwPw+
-	64Dqk0EW/cPTwFSBd5Ry69zPrJg9kOcjeIKFVc4o7CkB1BPUpkuvwUoGkQf1X6Q=
-X-Gm-Gg: ASbGncu3w4TmTAhrVbvtf+a2pZnW+R9LSofxKneTJ98HEmK3iCPBNOetTdkr3+47eMQ
-	m0hRF15slNeuvAU79vVqIJRZzxtUDsnXnDs2xY5cfeAg55BEhvcg1l0kVdVCLea7sk5zTjsrvgy
-	S3tXT1U38bh1cgEEx0HHzyoJkh+yR5PIQzNDSZnmi8MjChgRNKsBQN5kXAL3u1UQg49kGsS98Ub
-	ukW7aSH4z4uW6xUft9JVInzw9C+mdq1r+nEXSKH3NOtLl5ACYWlSBJl/Bv41XxOdHoPBktVdEO1
-	29Y/vaUbCzKBcX8oNJnNAw==
-X-Google-Smtp-Source: AGHT+IFhTKhDciia02C2XFywBgKS+lwXbztq1imFXbD1lAzPN5l05+sEeFR/vhVYLzlAaSCMqER1Ng==
-X-Received: by 2002:a05:6e02:1945:b0:3a7:e800:7d37 with SMTP id e9e14a558f8ab-3ce3a878177mr60022405ab.10.1736458422292;
-        Thu, 09 Jan 2025 13:33:42 -0800 (PST)
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com. [209.85.166.44])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3ce4add8827sm5723695ab.35.2025.01.09.13.33.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jan 2025 13:33:42 -0800 (PST)
-Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-844bff5ba1dso90946339f.1;
-        Thu, 09 Jan 2025 13:33:42 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUIeEhIAjliWDeY7O/pbrgsKmm5hCyUflcy/LfxY+PZDOARfmNP2qI0tPP93VxvXFXUm79X2dzo6TrltTfj@vger.kernel.org, AJvYcCWRJORIZqzozGYaDa6M9jgW0BpPT6ydESzfbNmYxDsWdfe/XKYZr77DJ7emEHw9RNPkuZPv1m6SMGM=@vger.kernel.org, AJvYcCXydqQXN+2/HEtDnQp5sEAMKGqR3dfOP3K7VyFIX/yIqNk6HCUBP96L5fnEopgrkgIa9QPSBo3K71+1o/PxhjYsAyjGNA==@vger.kernel.org
-X-Received: by 2002:a92:c26d:0:b0:3a7:87f2:b00e with SMTP id
- e9e14a558f8ab-3ce3a8bb3cbmr63769435ab.19.1736458421839; Thu, 09 Jan 2025
- 13:33:41 -0800 (PST)
+	s=arc-20240116; t=1736458611; c=relaxed/simple;
+	bh=l0RB3I6i0T0OuPbfF0kh733DwnxZ6N585tNMBOTxZOU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AHBIOVVlooXyD1LFlM45YJst4X+Hm/qOAgkA2/XFt3G3n5bFT4hdTkMw420kd62G5E+dS0uaepq2CGe3TMCNH8U9dOOhmiN6j3dV7O5Umy5WHac/PnalK3vY6T50lvuRUduSYXBDH91O+2N/6LDDYIUjX7MWosBGiU43W6pvfnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=Iw0dxFzN; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="Iw0dxFzN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1736458603; x=1737063403; i=w_armin@gmx.de;
+	bh=YCCSeRUB1/hYEH3xu7zZfCUwidZ1F3t39g2toAPUydE=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=Iw0dxFzN1ULStl5OLdcyDAUKY5SlkuKHjwyrlkqgse0UAEYIxoWTMAJ24pcpyNCe
+	 voejhVjJA3MlneJ3KgtRe6UZzK2M3NF5WSQrlOhYTj+BN3ROkz4ra4jitEFIqy9r+
+	 AfCJajDbXkpqfWUijQxkvrGacIwl/qmBZ6KTUZj+FJObbHRTs+6S1vfijG3kQLni7
+	 34aqmqfbbOX/lPs3P0DyaeDy50GvP2LqypDfQxT1Moil6QvJSCaONq+uiGnffJuVT
+	 a8vbKlYUhM9bi/MKifN8AKujIdVeEmnrChM6J+Kqu5/IUEwR3/J1I67ypE+RS6VIE
+	 +niLu4ClR7xBJooYUg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.0.69] ([91.14.230.110]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MCKFk-1tfO7l0Vhy-004a3z; Thu, 09
+ Jan 2025 22:36:43 +0100
+Message-ID: <a568a6b7-64d0-4ac1-86ed-19fd96887241@gmx.de>
+Date: Thu, 9 Jan 2025 22:36:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241226153031.49457-1-josh@joshuagrisham.com>
- <fb019bc7-72ba-4b1b-9260-36cac76a5a60@t-8ch.de> <CAMF+KebS6eEGEVzrO3Bm3CfL7OYP7-XxUp7hLiDiwUrjWOEJYQ@mail.gmail.com>
- <19caaf5c-dbdd-43a4-989f-35a810dbe91a@t-8ch.de>
-In-Reply-To: <19caaf5c-dbdd-43a4-989f-35a810dbe91a@t-8ch.de>
-From: Joshua Grisham <josh@joshuagrisham.com>
-Date: Thu, 9 Jan 2025 22:33:30 +0100
-X-Gmail-Original-Message-ID: <CAMF+KebyMbv_t1-BvjfcXRBK-hGo=o0-Nt3LgKkUyBLfmV_4bg@mail.gmail.com>
-X-Gm-Features: AbW1kvY6F_jIx5ub_reAAqdxOhienkhT5tjNAQfIR-NFeT3LEFEMOzwd1z0AqmE
-Message-ID: <CAMF+KebyMbv_t1-BvjfcXRBK-hGo=o0-Nt3LgKkUyBLfmV_4bg@mail.gmail.com>
-Subject: Re: [PATCH v4] platform/x86: samsung-galaxybook: Add
- samsung-galaxybook driver
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>
-Cc: Joshua Grisham <josh@joshuagrisham.com>, ilpo.jarvinen@linux.intel.com, 
-	hdegoede@redhat.com, W_Armin@gmx.de, platform-driver-x86@vger.kernel.org, 
-	corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] platform/x86: Add lenovo-wmi drivers Documentation
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Mario Limonciello <superm1@kernel.org>,
+ Luke Jones <luke@ljones.dev>, Xino Ni <nijs1@lenovo.com>,
+ Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+ "Cody T . -H . Chiu" <codyit@gmail.com>, John Martens <johnfanv2@gmail.com>,
+ platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250102004854.14874-1-derekjohn.clark@gmail.com>
+ <20250102004854.14874-2-derekjohn.clark@gmail.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <20250102004854.14874-2-derekjohn.clark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:aYz5rokSvJejkIBe64J58f6Hfo78eO1R0+gscn6vp0tJhlyl35U
+ bbQBS1hyzIf39BO+DoN4kejE3mL+5CpdF1hIZaJBa0hlagIAVNIfYeBbuhRjSGI8scWlxd9
+ Wo5ZlKyFgZf1Tko+J4qRfRgoO1trY/w6+7r1h2XCZIXn3plP47iBIUTVcaiRMp9t5KDgozS
+ HBLv07/LSYGBamzX7ZHkA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:9WGyMRjH/DU=;GVQ58EwSwUC6VZVu4Qs0q74M4QL
+ fe5/KzD5XZ449LVNR30bco4/1U5qfdpcrolkwN8aPcodE7vgJgcIPqVsaTgSTsFLHq3gaUHpc
+ vAEuGgB9Z/8iD+hbE91Nlv95PA1OnmvC4DFVhb5EFdIJYDkrEaheDz5x42Y0We+vkBvJ54sg5
+ 5bpjNrA6dm7FBsOKMNcRVbbsFsDSttMmxeirr42QfH5kM2v7Xq8d+Q33iPyGNqhtA3rRjk3kG
+ nfHUqEh6dr5AcEOdi7LXcwb5/t9QnJovfQ46NvCLHA+CYxcsftUz5mdlpVNmChGyIVXaRfDeG
+ l9pEN+Md2PPbu3+kJYiB9YW5sgtC+4J280xiTl1c28+nCNrX/rZdKZrlwaHLONKhBBzuvdcLA
+ Iauu8EZ55dJNzTdoTc0hhSoeI/7+cNzz6ek8SirhikzoCYxxZWBetoltx92Pp/9i/m3AtWXJ+
+ WWVTJjYJzOxGVCj3YH2ijx9aUPh1TUXwgwYNVj+6eLEOtoB0hANgRtTM8kqi4DyShXEdVrR5j
+ mZrmjFohPS6rSe72SdcgEk1ODXNdWXqgXC5UAt7EtHPYfvMmqu7GiZdjWbm7QEf/okTK0Cp2b
+ JGVgp0mh+QftlW+llEjMquP6f2EHMPDfRZ0OWONR7Ap1K32zZi7ytzhK9kqezUVhIo2tKaQvB
+ aUTn5MYo9d/54H5WrObin20O9WsCqzxTFWfHuglACIJ05IxXuF2ZzQGyJWzGl/1VWrQAZtasH
+ Y10PT6imeJj16Sq597OehVwIEa6WJRhFCoKyDjqR2NS9aoEHZoKXhW+1de/VYDCGPBgDpw42F
+ e7CTUQEPy2BocgZhwObjztzEGnB4hnPF5ZgQrns7UTS2cztUcAIcKAc1p+W6kWlYEQvgxqy7r
+ 25/+p0cAB8f9BsNAUN9HfK+bfj7U6yNfBw/Ei7t6/y6+lTrGIgLjiQrRTHXZ48INVtQj3dhAz
+ cNIYH2h33t9QqPrZrwWbdOygW0EgGRlVGyQRD3y7Uc4ZM6jOFSskZVfWkWHS0MZTIXFm11F7w
+ czEHf00FpDFu0POlmumdaUpKopmBOKFuDnmjikbRm+owwHKtNqZDEKEJpcnFPZ/1idznErLL/
+ H6c8r1pMBY2trov81BwpD5tDtdqF5p
 
-Hi Thomas,
+Am 02.01.25 um 01:47 schrieb Derek J. Clark:
 
-Den ons 8 jan. 2025 kl 23:07 skrev Thomas Wei=C3=9Fschuh <thomas@t-8ch.de>:
+> Adds documentation for all lenovo-wmi* drivers.
+
+Hi,
+
+while i would prefer separate documentation files for each driver, grouping them together for now
+is also fine. We can split them later should the combined file become to big.
+
 >
-> If it works, then leave it as is.
-> To exact warning would have been nice though :-)
+> v2:
+> - Update description of Custom Profile to include the need to manually
+>    set it.
+> - Remove all references to Legion hardware.
+> - Add section for lemovo-wmi-camera.c driver as it follows the same
+>    naming convention.
 >
-> Did you try :ref:`userspace-api/sysfs-platform_profile`?
+> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> ---
+>   Documentation/wmi/devices/lenovo-wmi.rst | 104 +++++++++++++++++++++++
+>   1 file changed, 104 insertions(+)
+>   create mode 100644 Documentation/wmi/devices/lenovo-wmi.rst
 >
+> diff --git a/Documentation/wmi/devices/lenovo-wmi.rst b/Documentation/wmi/devices/lenovo-wmi.rst
+> new file mode 100644
+> index 000000000000..62c2ec9505bd
+> --- /dev/null
+> +++ b/Documentation/wmi/devices/lenovo-wmi.rst
+> @@ -0,0 +1,104 @@
+> +.. SPDX-License-Identifier: GPL-2.0-or-later
+> +======================================================
+> +Lenovo WMI Interface Drivers (lenovo-wmi)
 
-Just tried this specifically again and the warning was:
-./Documentation/admin-guide/laptops/samsung-galaxybook.rst:72:
-WARNING: undefined label: 'userspace-api/sysfs-platform_profile'
-[ref.ref]
+Since we are talking about multiple drivers, i suggest you change this line to:
 
-As it seems to work exactly as intended with only having the path as
-clear text (a link is added in both pdf and html plus the title of the
-target page is displayed as the link text) then I will leave as-is for
-now but please say if you would like for me to try anything else!
+	Lenovo WMI Interface Drivers (lenovo-wmi-*)
 
-> > > > +static int galaxybook_acpi_method(struct samsung_galaxybook *galax=
-ybook, acpi_string method,
-> > > > +                               struct sawb *in_buf, size_t len, st=
-ruct sawb *out_buf)
-> > >
-> > > in_buf and out_buf are always the same.
-> > >
-> > > > +{
-> > > > +     struct acpi_buffer output =3D {ACPI_ALLOCATE_BUFFER, NULL};
-> > > > +     union acpi_object in_obj, *out_obj;
-> > > > +     struct acpi_object_list input;
-> > > > +     acpi_status status;
-> > > > +     int err;
-> > > > +
-> > > > +     in_obj.type =3D ACPI_TYPE_BUFFER;
-> > > > +     in_obj.buffer.length =3D len;
-> > > > +     in_obj.buffer.pointer =3D (u8 *)in_buf;
-> > > > +
-> > > > +     input.count =3D 1;
-> > > > +     input.pointer =3D &in_obj;
-> > > > +
-> > > > +     status =3D acpi_evaluate_object_typed(galaxybook->acpi->handl=
-e, method, &input, &output,
-> > > > +                                         ACPI_TYPE_BUFFER);
-> > > > +
-> > > > +     if (ACPI_FAILURE(status)) {
-> > > > +             dev_err(&galaxybook->acpi->dev, "failed to execute me=
-thod %s; got %s\n",
-> > > > +                     method, acpi_format_exception(status));
-> > > > +             return -EIO;
-> > > > +     }
-> > > > +
-> > > > +     out_obj =3D output.pointer;
-> > > > +
-> > > > +     if (out_obj->buffer.length !=3D len || out_obj->buffer.length=
- < SAWB_GUNM_POS + 1) {
-> > > > +             dev_err(&galaxybook->acpi->dev, "failed to execute me=
-thod %s; "
-> > > > +                     "response length mismatch\n", method);
-> > > > +             err =3D -EPROTO;
-> > > > +             goto out_free;
-> > > > +     }
-> > > > +     if (out_obj->buffer.pointer[SAWB_RFLG_POS] !=3D RFLG_SUCCESS)=
- {
-> > > > +             dev_err(&galaxybook->acpi->dev, "failed to execute me=
-thod %s; "
-> > > > +                     "device did not respond with success code 0x%=
-x\n",
-> > > > +                     method, RFLG_SUCCESS);
-> > > > +             err =3D -ENXIO;
-> > > > +             goto out_free;
-> > > > +     }
-> > > > +     if (out_obj->buffer.pointer[SAWB_GUNM_POS] =3D=3D GUNM_FAIL) =
-{
-> > > > +             dev_err(&galaxybook->acpi->dev,
-> > > > +                     "failed to execute method %s; device responde=
-d with failure code 0x%x\n",
-> > > > +                     method, GUNM_FAIL);
-> > > > +             err =3D -ENXIO;
-> > > > +             goto out_free;
-> > > > +     }
-> > > > +
-> > > > +     memcpy(out_buf, out_obj->buffer.pointer, len);
-> > >
-> > > Nit: This memcpy() could be avoided by having the ACPI core write dir=
-ectly
-> > > into out_buf. It would also remove the allocation.
-> > >
-> >
-> > Now I have replaced in_buf and out_buf with just one parameter, buf.
-> > Now it feels like I cannot write directly to it (since I am reusing
-> > the same buf as the outgoing value) so have left the memcpy in place.
-> > I guess I would need to choose to have 2 buffers or use one and do a
-> > memcpy at the end like this (which is how I have it now in my v5
-> > draft) .. am I thinking wrong here and/or is there a preference
-> > between the two alternatives? I can just for now say that "usage" of
-> > this function in all of the other functions feels easier to just have
-> > one buffer... :)
->
-> I'm not sure if there is a preference.
->
-> But why can't you modify the buffer if it is shared between input and
-> output? The caller already has to accept that its buffer will be
-> overwritten.
-> If it is overwritten once or twice should not matter.
->
-> But maybe I'm misunderstanding.
->
+> +======================================================
+> +
+> +Introduction
+> +============
+> +Lenovo WMI interfaces are broken up into multiple GUIDs, some of which
+> +require cross-references between GUIDs for some functionality. The "Custom
+> +Mode" interface is a legacy interface for managing and displaying CPU & GPU
+> +power and hwmon settings and readings. The "Other Method" interface is a
+> +modern interface that replaces most "Custom Mode" interface methods. The
+> +"GameZone" interface adds advanced features such as fan profiles and
+> +overclocking. The "Lighting" interface adds control of various status
+> +lights related to different hardware components.
+> +
+> +Each interface has a different data structure associated with it that
+> +provides detailed information about each attribute provided by the
+> +interface. These data structs are retrieved from additional WMI device
+> +data block GUIDs:
+> + - "Custom Mode" uses LENOVO_FAN_TABLE_DATA, LENOVO_FAN_TEST_DATA,
+> +   LENOVO_CPU_OVERCLOCKING_DATA, LENOVO_DISCRETE_DATA, and
+> +   LENOVO_GPU_OVERCLOCKING_DATA depending on the feature.
+> + - "Other Method" uses LENOVO_CAPABILITY_DATA_00,
+> +   LENOVO_CAPABILITY_DATA_01, and LENOVO_CAPABILITY_DATA_02 depending on
+> +   the feature.
+> + - "GameZone" uses LENOVO_GAMEZONE_CPU_OC_DATA and
+> +   LENOVO_GAMEZONE_GPU_OC_DATA depending on the feature.
+> + - The "Lighting" interface uses LENOVO_LIGHTING_DATA.
+> +
+> +.. note::
+> +   Currently only the "GameZone", "Other Method", and
+> +   LENOVO_CAPABILITY_DATA_01 interfaces are implemented by these drivers.
+> +
+> +GameZone
+> +--------
+> +WMI GUID "887B54E3-DDDC-4B2C-8B88-68A26A8835D0"
 
-There is a very non-zero chance that I am trying to do this completely
-wrong ;) but basically if I swap
+Please add the MOF of the WMI class here so that future developers know which methods, etc
+the WMI interface supports.
 
-struct acpi_buffer output =3D {ACPI_ALLOCATE_BUFFER, NULL};
-to
-struct acpi_buffer output =3D {len, buf};
-or even
-struct acpi_buffer output =3D {len, (u8 *)buf};
+> +
+> +The GameZone WMI interface provides platform-profile and fan curve settings
+> +for devices that fall under the "Gaming Series" of Lenovo devices.
+> +
+> +The following platform profiles are supported:
+> + - quiet
+> + - balanced
+> + - performance
+> + - custom
 
-Then I am getting return code of AE_BUFFER_OVERFLOW when trying to
-call the method, even though when using ACPI_ALLOCATE_BUFFER len is
-always the same as the allocated out_obj->buffer.length.
+Please add some technical documentation about the WMI methods used by those functions. You can take a look at
+Documentation/wmi/devices/msi-wmi-platform.rst for inspiration.
 
-I have also tried a few variations of using a union acpi_object and
-setting the buffer member properties etc but always I am getting
-AE_BUFFER_OVERFLOW so it seems like something is a bit off on the
-length or I am using the wrong types or something. I have tried
-looking through the entire tree and using ACPI_ALLOCATE_BUFFER is
-almost universal so it is tough to find examples to try and understand
-what else might be possible without really digging deep into the ACPI
-tree.
+> +
+> +Custom Profile
+> +~~~~~~~~~~~~~~
+> +The custom profile represents a hardware mode on Lenovo devices that enables
+> +user modifications to Package Power Tracking (PPT) settings. When an
+> +attribute exposed by the "Other Method" WMI interface is to be modified,
+> +the GameZone driver must first be switched to the "custom" profile manually
+> +or the setting will have no effect. If another profile is set from the list
+> +of supported profiles, the BIOS will override any user PPT settings when
+> +switching to that profile.
+> +
+> +
+> +Other Method
+> +----------
+> +WMI GUID "DC2A8805-3A8C-41BA-A6F7-092E0089CD3B"
+> +
+> +The Other Method WMI interface uses the fw_attributes class to expose
+> +various WMI attributes provided by the interface in the sysfs. This enables
+> +CPU and GPU power limit tuning as well as various other attributes for
+> +devices that fall under the "Gaming Series" of Lenovo devices. Each
+> +attribute exposed by the Other Method interface has corresponding
+> +capability data blocks which allow the driver to probe details about the
+> +attribute. Each attibute has multiple pages, one for each of the platform
+> +profiles managed by the "GameZone" interface. For all properties only the
+> +"Custom" profile values are reported by this driver to ensure any userspace
+> +applications reading them have accurate tunable value ranges. Attributes
+> +are exposed in sysfs under the following path:
+> +/sys/class/firmware-attributes/lenovo-wmi-other/attributes
 
-If you know right off the top of your head then please feel free to
-mention, otherwise I will keep the new buffer and do a memcpy and free
-the newly allocated buffer at the end for the time being!
+Same as above.
 
-Thanks again!
-Joshua
+> +
+> +LENOVO_CAPABILITY_DATA_01
+> +~~~~~~~~~~~~~~~~~~~~~~~~~
+> +WMI GUID "7A8F5407-CB67-4D6E-B547-39B3BE018154"
+> +
+> +The LENOVO_CAPABILITY_DATA_01 interface provides information on various
+> +power limits of integrated CPU and GPU components.
+> +
+> +The following attributes are supported:
+> + - ppt_pl1_spl: Platform Profile Tracking Sustained Power Limit
+> + - ppt_pl2_sppt: Platform Profile Tracking Slow Package Power Tracking
+> + - ppt_pl3_fppt: Platform Profile Tracking Fast Package Power Tracking
+> +
+> +Each attribute has the following properties:
+> + - current_value
+> + - default_value
+> + - display_name
+> + - max_value
+> + - min_value
+> + - scalar_increment
+> + - type
+> +
+> +
+> + Camera
+> + ______
+
+I get the following error when trying to build the documentation:
+
+	Sphinx parallel build error:
+	docutils.utils.SystemMessage: /home/wolf/Dokumente/Kernel/platform-drivers-x86/Documentation/wmi/devices/lenovo-wmi.rst:99: (SEVERE/4) Unexpected section title.
+
+Please fix this.
+
+Also please add some technical details here to. However in this case this is optional since this patch series focuses
+on the Gaming Series drivers.
+
+Thanks,
+Armin Wolf
+
+> + WMI GUID "50C76F1F-D8E4-D895-0A3D-62F4EA400013"
+> +
+> + The Camera driver provides WMI event notifications for camera button
+> + toggling.
+> +
