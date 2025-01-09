@@ -1,84 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F29482B9BF;
-	Thu,  9 Jan 2025 16:50:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3FA18E377
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 17:15:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736441405; cv=none; b=UydTd6yTAztj06E32CYVkB+Z6H+zPAnPscFR0j8rvH+vMrpg/wWPmf5EFxGX8N6rptDkktcz+bY+sB60n7zRzdfSxAm7k521si7rP/crS9jv5fbCi2Fx83FwRqlGxE3fJ2ZjLLDUWPmAIFcBtZ2q+Y7fhTCvWR2MvB4GK0Rn1wY=
+	t=1736442937; cv=none; b=Kco6XWk25ws4YIx/wgFh23/1A0b3sKnhOr0P2ww1VEPuq8kVV6Pq5AEbjcvCXA/Wv3UdffqC394Tna+Ekz7EKHxaCxlqVy7ySfoIF8qidqEneriUm8yRhi47kAv1yg4C58KnBd2SnkYU6EqI1HichtAH0ZEbjGA6565oggtti3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736441405; c=relaxed/simple;
-	bh=S8rwKFOvyflEr0R8Ts5q3F/jP0ym6aYxPZCSsxOYjSw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=K/RwEOx354rydWHXYBjW+XA2MKfQpC9nQaxoeb4yMt2DHkynGqCkig6GRNX6K9C+5BGiNlF1M5xjzO2KuiP+AJFEtgJ/HWxOUzjo6OXN3OOoLz2s+z5gR4zHqDG8nOeWOv5I07kX5FidaQ16moydJulmouOjJ6xsP32TgIM6gEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W5dZnLCN; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W5dZnLCN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9C80C4CED2;
-	Thu,  9 Jan 2025 16:50:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736441404;
-	bh=S8rwKFOvyflEr0R8Ts5q3F/jP0ym6aYxPZCSsxOYjSw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=W5dZnLCNhhQifAZBY0EcBq77j5ccmAAAEJ72JPvrByfJQ5OYZjUhtWWj4MD+mclVc
-	 +yAWH4WIx1rXd3qNQ4Rmo0ma63tBy9M08DEbi9KfrmfLete8g57MjZ7O7W+lIB0fDL
-	 0fGvSwPWVifxE7EKyINdXmeLVnW1WwItLeHPVRPpSxdjjnaRoMsl/Ega0egPplTMoJ
-	 C51b0NFkXD+wtr2ns9V5+9YXTshGOqPQNeuAObDvbvaVdHPKrsDZngKDRJhj7gCMP2
-	 G5/thFnSWp2TZyv+TZ5Q21lg+LPG+f1FYIgwIXV9nRzx/ysudnC5bvS66ePYzbzJcE
-	 XFYqnf31vit3Q==
-Date: Thu, 9 Jan 2025 08:50:02 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Kory Maincent <kory.maincent@bootlin.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, Kyle Swenson
- <kyle.swenson@est.tech>, Dent Project <dentproject@linuxfoundation.org>,
- kernel@pengutronix.de, Maxime Chevallier <maxime.chevallier@bootlin.com>
+	s=arc-20240116; t=1736442937; c=relaxed/simple;
+	bh=DkpigTSzsMCdpG0U6KP0O6rYL7Q69tSF4Bjhhjbe56M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h7+t/hYAS1XIJTKKcUgQO/jJ8WUIUzPeij8TYy7INkYqLvPm8g6E20c4cKEfVp4gS+3oO3lhLW0BLFvCpO83gJMTaPWJoAhF63fbE2YOFX0nSQ17L7Md47orGkevY/dvUDv+u/BgfuYEkIikyVpueYcHFkKFhXG2IvdgssF4Sk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tVw7u-0004dw-T2; Thu, 09 Jan 2025 18:15:22 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tVw7u-0001Cs-0r;
+	Thu, 09 Jan 2025 18:15:22 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tVw7u-00026m-0U;
+	Thu, 09 Jan 2025 18:15:22 +0100
+Date: Thu, 9 Jan 2025 18:15:22 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Kory Maincent <kory.maincent@bootlin.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
 Subject: Re: [PATCH net-next v2 11/15] net: pse-pd: Add support for PSE
  device index
-Message-ID: <20250109085002.74b6931c@kernel.org>
-In-Reply-To: <Z3_415FoqTn_sV87@pengutronix.de>
+Message-ID: <Z4AEKjvy029NLQrL@pengutronix.de>
 References: <20250109-b4-feature_poe_arrange-v2-0-55ded947b510@bootlin.com>
-	<20250109-b4-feature_poe_arrange-v2-11-55ded947b510@bootlin.com>
-	<20250109075926.52a699de@kernel.org>
-	<20250109170957.1a4bad9c@kmaincent-XPS-13-7390>
-	<Z3_415FoqTn_sV87@pengutronix.de>
+ <20250109-b4-feature_poe_arrange-v2-11-55ded947b510@bootlin.com>
+ <20250109075926.52a699de@kernel.org>
+ <20250109170957.1a4bad9c@kmaincent-XPS-13-7390>
+ <Z3_415FoqTn_sV87@pengutronix.de>
+ <20250109085002.74b6931c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250109085002.74b6931c@kernel.org>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Thu, 9 Jan 2025 17:27:03 +0100 Oleksij Rempel wrote:
-> > > This index is not used in the series, I see later on you'll add power
-> > > evaluation strategy but that also seems to be within a domain not
-> > > device?
+On Thu, Jan 09, 2025 at 08:50:02AM -0800, Jakub Kicinski wrote:
+> On Thu, 9 Jan 2025 17:27:03 +0100 Oleksij Rempel wrote:
+> > > > This index is not used in the series, I see later on you'll add power
+> > > > evaluation strategy but that also seems to be within a domain not
+> > > > device?
+> > > > 
+> > > > Doesn't it make sense to move patches 11-14 to the next series?
+> > > > The other 11 patches seem to my untrained eye to reshuffle existing
+> > > > stuff, so they would make sense as a cohesive series.  
 > > > 
-> > > Doesn't it make sense to move patches 11-14 to the next series?
-> > > The other 11 patches seem to my untrained eye to reshuffle existing
-> > > stuff, so they would make sense as a cohesive series.  
-> > 
-> > Indeed PSE index is used only as user information but there is nothing
-> > correlated. You are right maybe we can add PSE index when we have something
-> > usable for it.  
+> > > Indeed PSE index is used only as user information but there is nothing
+> > > correlated. You are right maybe we can add PSE index when we have something
+> > > usable for it.  
+> 
+> Oh, maybe you want to do the devlink-y thing then?
+> Devlink identifies its devices by what I'd call "sysfs name" -
+> bus name and device name.
+> This is more meaningful to user than an artificial ID.
+> Downside is it won't work well if you have multiple objects
+> under a single struct device, or multiple struct device for
+> one ASIC (e.g. multiple PCIe PFs on one PCIe card)
+> 
+> > No user, means, it is not exposed to the user space, it is not about
+> > actual user space users.
+> 
+> Can't parse this :)
 
-Oh, maybe you want to do the devlink-y thing then?
-Devlink identifies its devices by what I'd call "sysfs name" -
-bus name and device name.
-This is more meaningful to user than an artificial ID.
-Downside is it won't work well if you have multiple objects
-under a single struct device, or multiple struct device for
-one ASIC (e.g. multiple PCIe PFs on one PCIe card)
-
-> No user, means, it is not exposed to the user space, it is not about
-> actual user space users.
-
-Can't parse this :)
+OK, please forget it :)
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
