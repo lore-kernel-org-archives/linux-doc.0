@@ -1,49 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690E92F43
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 19:32:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5422D1AF0B6;
+	Thu,  9 Jan 2025 19:35:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736451154; cv=none; b=I78Ln2nxMnoeq+kEsmj4aToUrRyon5Ywyji24VMRuzyngmbA3vdRUMjzWK8cbGNVVfRB32XES33X8UItnXSYIEDJwc7MmmanMuvzId9U6HqkpuqoyzBWYalw0V5bipkK0hSSlklfuxg99mC1ycD/1ucGQZya1ww5Mv1mL/NG0k0=
+	t=1736451322; cv=none; b=dSY3HlpaiI3EoeQClcNNG/hcSYdDSgOorOJg7kZ4c1gbb93crivr4XK3GLOQ5nRHwGIQa9TvA1Fp7Z+8kwXGG7A/tAVMDd6jpj15aik8lOCFwrpBEQBCpp4cAsUg3jJYJgdyUwgf6mZ1m2FFFpJlwmvvUOuG+XwoxfhtLfNE+2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736451154; c=relaxed/simple;
-	bh=nghkOl1K190HiJFBbm0WL+3KEGEYlGjXnSMo3hpTvDA=;
+	s=arc-20240116; t=1736451322; c=relaxed/simple;
+	bh=/dStl9YVIzqFHw+2wBBaEo5qwQUkT68eAx4eH8QAz1s=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=tPqm2txcM6KnVak4tDCUJG0KXivz62elOn1oFhVmQ8ofvoeVmlyhdhtbCkIiGc/vrUkXmKtcRGaou7rELF2QLi6T79d275oufh16naW4yBhFH5KXI/RjYW61aUbfio1QecazP8QsK8PX1N2cixPCQ9G95eHmKyDb3XphfMWEEUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=OkSYpHBC; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=caelgXuuqZXxdcNpbQ76Yo2eJuzWqQwmO/gq1+IqWwsMJrFvcQ/cwBOjGnF3hLQ8lvchAOHHZyBqqw0ts5P8/z8/Q0r7kU6I7+2WF08tdfshHFOgKHtd15yzRVOniveOXfXROaVXf+B0YhbSBl03zudKIhg0Nd4FDQ6VjtUQO1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=cmZZKOzS; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="OkSYpHBC"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6D398404F0
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="cmZZKOzS"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6A7D6404F0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1736451152; bh=I6lPwd/8Lu6toVWaVDDHyv4GVQgWDWFQdVFrweor3a8=;
+	t=1736451320; bh=FHa3xHxP33h1cdafMj0CtyDwF6lW8OH/ql35po48Ld4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=OkSYpHBCr+syoCYqLw7QIb8Kmj/s535Hjb/utq2ry7r3WGag7THCzFQ2V0raor6yk
-	 cAfBidW+w5Q+hzha0mppzemsyOwIIKVUO4n77idAWIMNdiIjfu2H7WkdfThZeCu4iX
-	 jOJTLOsaMbI39c+AAaJ2PavwyPvMwhK78pYy876acy4eSEVKVS7KwIA/c+XkezzvHp
-	 w5us5rl8EFxuMk0aFsT9nA5P1CI8nq5fr7fpSNlxJ2JrUwuyUeQG6pS3p9/0kL0cS2
-	 ooYjISwWeS22tyIfSny8/rX5A1OFIHFanMVotWcuQTCImawD1roxlgd3ryM2Wda5nG
-	 E405rkgvt0j9A==
+	b=cmZZKOzSAbIm/nL2JEvtCWS52zaas3Xbx+ZovaOs+BjLjq3OlV4vR/FzWAnD2Iu+6
+	 xvn1+agg31lyOkOxmeSWuOfnSh/vKfBkMCgS80+TwTfhbyBNHRRkOHG3QxLNs7Mf82
+	 tQqJCYmz75vi2gSaNzoIJUIpwagWvo8yRaCglBnZLUoZODiaVOYz9Bsg5K2bOgFvBO
+	 GwweXG9Vx5A+kiTBcEsmZI0+SExz/4TientGfTgf/OWUNeBVsefgYG03j0oSyXdNWG
+	 M3oRXm50H/urjqwRjC0I8CHZjEeiBP7/LsyaZzJwGLGqAXfjbsc6LHFL/vCyaHQ08l
+	 j4yfJVlRFbvWw==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6D398404F0;
-	Thu,  9 Jan 2025 19:32:32 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6A7D6404F0;
+	Thu,  9 Jan 2025 19:35:20 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Yuxian Mao <maoyuxian@cqsoftware.com.cn>, alexs@kernel.org,
- si.yanteng@linux.dev
-Cc: zhaoyuehui@cqsoftware.com.cn, zhaoshuo@cqsoftware.com.cn,
- zhangwei@cqsoftware.com.cn, linux-doc@vger.kernel.org, Yuxian Mao
- <maoyuxian@cqsoftware.com.cn>
-Subject: Re: [PATCH v3] docs/zh_CN: Add landlock index Chinese translation
-In-Reply-To: <877c73n82e.fsf@trenco.lwn.net>
-References: <20250108071142.3538-1-maoyuxian@cqsoftware.com.cn>
- <877c73n82e.fsf@trenco.lwn.net>
-Date: Thu, 09 Jan 2025 12:32:31 -0700
-Message-ID: <87cygvlr5c.fsf@trenco.lwn.net>
+To: Lubomir Rintel <lrintel@redhat.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Lubomir Rintel
+ <lkundrak@v3.sk>
+Subject: Re: [PATCH] Documentation/kernel-parameters: Fix a reference to
+ vga-softcursor.rst
+In-Reply-To: <20241231190240.417446-1-lkundrak@v3.sk>
+References: <20241231190240.417446-1-lkundrak@v3.sk>
+Date: Thu, 09 Jan 2025 12:35:19 -0700
+Message-ID: <878qrjlr0o.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,36 +50,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Jonathan Corbet <corbet@lwn.net> writes:
+Lubomir Rintel <lrintel@redhat.com> writes:
 
-> Yuxian Mao <maoyuxian@cqsoftware.com.cn> writes:
+> A very minor oversight that dates all the way back to rst migration in
+> commit 9d85025b0418 ("docs-rst: create an user's manual book").
 >
->> Translate lwn/Documentation/security/landlock.rst into Chinese.
->>
->> Update the translation through commit dad2f2071516
->> ("landlock: Fix grammar issues in documentation")
->>
->> Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
->> Signed-off-by: Yuxian Mao <maoyuxian@cqsoftware.com.cn>
->> ---
->>
->> v3:
->>
->> change the email address of Yanteng Si
->>
->> v2:
->>
->> complete the commit tag 
->>
->>  .../translations/zh_CN/security/index.rst     |   2 +-
->>  .../translations/zh_CN/security/landlock.rst  | 123 ++++++++++++++++++
->>  2 files changed, 124 insertions(+), 1 deletion(-)
->>  create mode 100644 Documentation/translations/zh_CN/security/landlock.rst
+> Fixes: 9d85025b0418 ("docs-rst: create an user's manual book")
+> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> This patch, too, does not apply; please base it on docs-next and resend.
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 3872bc6ec49d..da19728b5bee 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -7474,7 +7474,7 @@
+>  	vt.cur_default=	[VT] Default cursor shape.
+>  			Format: 0xCCBBAA, where AA, BB, and CC are the same as
+>  			the parameters of the <Esc>[?A;B;Cc escape sequence;
+> -			see VGA-softcursor.txt. Default: 2 = underline.
+> +			see vga-softcursor.rst. Default: 2 = underline.
+>  
 
-Version 2 of this patch did apply, so I have taken that and applied the
-Reviewed-by fix in v3 by hand.
+I've applied this, but dropped the Fixes tag - the named commit was
+simply a rename and didn't actually introduce the error.
 
 Thanks,
 
