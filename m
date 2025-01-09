@@ -1,218 +1,268 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31647E0E8
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 02:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0E286334
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 02:36:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736389966; cv=none; b=Wx8D30pxRSH09k15oMXeIu69N1hBlyA1epKGfjshoRPT9ej4js0iOdzDEPLQpXgGiFoe6auNwDOe50ryWYdHUNuBBipXbv+Wi9K70L70wj5dZJUt2xiqS0ybqltOdo1tq3xE3w//2ouVJP/T2Rub4LK+v0rruBjC6jJ4hMhIffQ=
+	t=1736390197; cv=none; b=DYlZ46qYNgZmm6hvOkntfQ9PKEuIzIYzEgzG3dYWYIfS/ndxYOvMyTIFWHIULpuUHVhyl3yciDg8da+ULgk7z5PG3uK9sKGHyw9OdLbQc3EH0PtZDBd/BiglyzMW30O2WK7JoBvsxiM9w9fjRnHX70+z6N92+zYlErzX+qoJadM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736389966; c=relaxed/simple;
-	bh=ZAGALXZau5L0JwchcsOctjQ7GYF4ZElzle+KbrpJXSc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ijYHmy0YfK4dBuUdhmrb2dO02V2E5UPCksO72CtpP6kIHOWS+eHoZEg0xhfV4t1bzIaeA/Ui8KdW2l4QZQvgGmpAIXWrIhaszE595QYPt/Lz4gFzVe/wxa/G+w2nGeG13KKDJje7qWLwjC+EOi/chtL5l0JNtGd/wL1SKf7TqjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=i+LP+u5B; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1736390197; c=relaxed/simple;
+	bh=CkN9zgjRYdK6ib1BGk/wy0hvCiY7z/m6EKqbAny7MMs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=UxolRqa4b0rRJ0vfT4pKOAyRhw7zq/zXgDwVzLyYGasTpIpL3sTLN7eHov7aSvv44mn8Xvqqa+qTWW728X31kMJY9aWJjhOCybViLSrrrqU/cO3H9zOcEsf6a4xiVbi+cHZ3oVhKIYIId5QIK3hqaiaYjEe58DznDUIzC+7x9r4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=DrH0T5lK; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="i+LP+u5B"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4678c9310afso79331cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 08 Jan 2025 18:32:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="DrH0T5lK"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-21628b3fe7dso5552665ad.3
+        for <linux-doc@vger.kernel.org>; Wed, 08 Jan 2025 18:36:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736389962; x=1736994762; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kHrbsakMUyUhUtfojeMHFZoQ67su4b13YWHH4z/fGBI=;
-        b=i+LP+u5BZQw2PcYryTG18ob4vXo8dOGnURmNUXtRaFSXG4MZ92ZHagBV+NUbWA6TeE
-         VuZbYF7xXnKj+S2x3FamLCpmhljT1zw5ykivWEkZzwiKULeGzKS9MrGsgrx7CWJa1EUf
-         eP8uRE9ljAyerId+ykM2wuCi5dbXRIiUPDSqK8ibHcTBBFaePTl/FHkmu3iPc3vmGbiR
-         n8twvAvy9Wg6pn+tx5F1qZPHTSTOo0sKBzew5e9AY/ySiel3n1RZjm6N6vFGUSJ6biCO
-         iFyTvWwMXXp7MprC7xepGJLphhKWiIlTXXEGT1p0hOZARVtgcxzBwtBIqHWzHq2PSoRd
-         PQ8Q==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1736390194; x=1736994994; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=I51d2M6Nb8gDRIel/ILjTKh0DzQqG02tg1ivGr+O7F0=;
+        b=DrH0T5lKRXkOJsRs2mnhfdKNnb+7eMgNE1zvx0eKY5inZgwPNZW9hMZqVLmiUsWC/O
+         DPTlPUGcV00QIMnSB6UXPrdKa1XO2RHgPgPZ8DtSnMuQtHj2N8ZURUQFFysKXBFm+xjb
+         XJqznRUF6AJL1+Z00R5YAE2FJ9wiEGr4xXHtFJTterbJs/J2xlrbxM6CrgKvnFJiXdQu
+         xhq714x3HeFm2chroKRIlR3jZdGXhGZXKrAmNBmKIqssrKpWFLb0wdHOb+Cq9qumkhp+
+         Lr60aEYrrUgxLOgFDOv43cj2oeIPBHu3MlXVMGHdzuoK3N7Rq6rcteL7likCr34kBe1X
+         YA5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736389962; x=1736994762;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kHrbsakMUyUhUtfojeMHFZoQ67su4b13YWHH4z/fGBI=;
-        b=S732BwO97T2cC8K93rjHLsQf/DNwbjyslK4tJkAC9eD5J1IhN+oQwX8MzUTvBIJ+x3
-         4qaGhp+y1tBcEuqUjs18U0z8vgJq6dPF+O88Bp2fbsctvcgUIptSHPA17/3+m+H7sjp8
-         0Mi6VON4wpZqXI5eKfR7u6x9KRzFMo1sYjsSP5Ya7IbZ6wkSr5AvRnxKUWlSfILf3UB7
-         kcxIAmQF48H511DSmSMUc/W6Ucp1/pcqbQxQteisCLZAG4E/NqLLVZHaenOS8rxWqlot
-         WxU297r/RDOSA7I/II8UBSaA7wqj6wetnds87uYvhWfbvvniHH/Q847Osvmu7IUwweAN
-         0zwA==
-X-Forwarded-Encrypted: i=1; AJvYcCWs2b3CT9Lxt3llguTPLf52OXn5NJr3CI4GVUuaecarz8+5/duheql4+giGNOVRqD4igbxtjPgtnYA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyi9NOr4pF3WYwp46knfpN6mZfyeag+7dqH4DhubU3kQooipJe6
-	alsysPOSM/rPU5LS80P1fl8IxkhNcOLWITU0I471zZGJzwyUesO3TDi5s6r5b4olsLBSxjneELp
-	Z8XE54yqL99Yyk8+aaaQEIEyBM714qKi5cA/y
-X-Gm-Gg: ASbGncvOVaStclzrzdsOaE4Yfmmhyrgjt9DA8lY3f71ZLturmn2uQAWY2xonPR0BtLL
-	XoBh92aXLBIK9zgMtAGlr7b2rW3eWHSrpu1xJfllHAVLEXjcIMCYc7v4udv6pEWTXE6I=
-X-Google-Smtp-Source: AGHT+IGQATD3rtk7a2/kU7mE1nJxm3MeXJmCuUfEH3kCePw/J6JcsC5zZ5VygDcpnO+vHBqn4e/KnRhFso4RxF/u8hQ=
-X-Received: by 2002:a05:622a:5cf:b0:467:8f1e:7304 with SMTP id
- d75a77b69052e-46c7cf3d965mr863061cf.13.1736389961559; Wed, 08 Jan 2025
- 18:32:41 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736390194; x=1736994994;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=I51d2M6Nb8gDRIel/ILjTKh0DzQqG02tg1ivGr+O7F0=;
+        b=Xa5fpANBDpo1cAfYe9C/a3I/kV/rw8sxPn3uhCJ2W3gEdGZc6ObpR3JqLXcEPcrnD3
+         sN9rbFSyjVVQ6vqBd/rsuXKZMPes5cC5DkSM0AATJ/YVhlHdpHz5ngski2qYOV+RTajE
+         xY7DZpVdepeXagL7f9ChiFhwqmY/SY0HQwR+TZhUOlh3tCiMepu15/s3hI7kQM345Wr9
+         4vvU+/OQFfSAe4Ji95klWCjouCdxISFBknVDzFDS0gjARf45X0ln0xTeQn8YjBd7v2qw
+         rkhfx6bp3908gQ/EyF9Wwqf/alu1b9VdVr0vVcjUt0J4e6JK49pKLJjJ9rUvOmbw4IAZ
+         3dYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUP56a1dWFkEE6PweSE2j/yITfxQrI5UNb4/UWUJwVO4le1mMcATKhadcabldhn2PSz5iP8hImWyn4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDoRQNa0ceWrbD2IO0b6olFNAG6nin2M8+tlqXD47RMRmiH6vV
+	CuyUvPu616Lu0JlK40Y5Rfy8fuCOI31z3c1+Y7RFw0xbDwLmbC9D+58h/u8IRws=
+X-Gm-Gg: ASbGncsL0TweQiTLmfNI9gQ6/0R9nykRgqC6NA1DXZ6bknEjBsYn9vjTd1qf+dNa1PP
+	9GA1vOw5xLaunBTEXxFn5doDcMGbBd5A3rJEfY1nhA0ECJmGnu+ERKL1qkYk5+Xbdr6TxxzD57F
+	F0Hqtb48k4/s8loWp9McMBwD0VesByysj/Z7XzAk16XVTBpNTh2eCnwxjxDHNfrPE7Up5zFTqz1
+	9BycM37ZMkMYlPsd+0myltY05ZKD1M7gSEf4ZGGRhxhk6n10mJOZXSekT3h1zECZcGrod19
+X-Google-Smtp-Source: AGHT+IGU+EnNkPh98/eCTOoUpYdnqQoIm/f07npTqwzUXHUHY5XONu6jNV9WUSNgnodrupj5bSX8pw==
+X-Received: by 2002:a17:903:32ce:b0:215:b8c6:338a with SMTP id d9443c01a7336-21a83f338a5mr70718545ad.4.1736390194573;
+        Wed, 08 Jan 2025 18:36:34 -0800 (PST)
+Received: from charlie.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9176bed6sm1434365ad.12.2025.01.08.18.36.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jan 2025 18:36:33 -0800 (PST)
+From: Charlie Jenkins <charlie@rivosinc.com>
+Subject: [PATCH v6 00/16] perf tools: Use generic syscall scripts for all
+ archs
+Date: Wed, 08 Jan 2025 18:36:15 -0800
+Message-Id: <20250108-perf_syscalltbl-v6-0-7543b5293098@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250109023025.2242447-1-surenb@google.com>
-In-Reply-To: <20250109023025.2242447-1-surenb@google.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 8 Jan 2025 18:32:29 -0800
-X-Gm-Features: AbW1kvYkK7SZe4-TwmVQFLKcuQgZE5KKkcowOifh-d8LBFXGEuFb8-H-EYVLZCM
-Message-ID: <CAJuCfpEM_+AkWFhSBTNo+n6oLmMeSAQAfDtiX=4cmRd44PUckg@mail.gmail.com>
-Subject: Re: [PATCH v8 00/16] move per-vma lock into vm_area_struct
-To: akpm@linux-foundation.org
-Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com, 
-	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz, 
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAB82f2cC/23QTWrDMBAF4KsErauif0td9R4lBEWaaQSuHaQgG
+ oLvXtlQGiov38B885gHKZATFPJ2eJAMNZU0Ty2YlwMJFz99Ak2xZSKYUMxxSa+Q8VTuJfhxvJ1
+ HatDZCBiCQU3a1jUDpu9N/Di2fEnlNuf7dqDydbpZnDPVWZVTRp2PHnQYDAd8z6nOJU3hNcxfZ
+ OWq+CMEFz0hGoE2eGcVIii2Q8hnwvSEbISQDpkUyvKodwj1TNieUI04h1YDUARvYYfQv4RmnA0
+ 9oddfSB1BmSj58L/Fsiw/njqytL0BAAA=
+X-Change-ID: 20240913-perf_syscalltbl-6f98defcc6f5
+To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+ Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+ Adrian Hunter <adrian.hunter@intel.com>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
+ =?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+ Christian Brauner <brauner@kernel.org>, Guo Ren <guoren@kernel.org>, 
+ John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>, 
+ James Clark <james.clark@linaro.org>, Mike Leach <mike.leach@linaro.org>, 
+ Leo Yan <leo.yan@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
+ Arnd Bergmann <arnd@arndb.de>
+Cc: linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, linux-security-module@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-csky@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+ Charlie Jenkins <charlie@rivosinc.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8708; i=charlie@rivosinc.com;
+ h=from:subject:message-id; bh=CkN9zgjRYdK6ib1BGk/wy0hvCiY7z/m6EKqbAny7MMs=;
+ b=owGbwMvMwCHWx5hUnlvL8Y3xtFoSQ3q9mbLN79t3tHVE2S69aJC4rfdJ4exTXaEdBy00BI+qZ
+ J1apHSoo5SFQYyDQVZMkYXnWgNz6x39sqOiZRNg5rAygQxh4OIUgIn80WT4H71eaMW0BTu5zj7c
+ xsMRe/P90tk2ixizrvbVC83/qtB/U5uRYTbvHm/etoVPPnN8NrFjDf6lHLaNI31vWPoM6aM/mF/
+ pMAEA
+X-Developer-Key: i=charlie@rivosinc.com; a=openpgp;
+ fpr=7D834FF11B1D8387E61C776FFB10D1F27D6B1354
 
-On Wed, Jan 8, 2025 at 6:30=E2=80=AFPM Suren Baghdasaryan <surenb@google.co=
-m> wrote:
->
-> Back when per-vma locks were introduces, vm_lock was moved out of
-> vm_area_struct in [1] because of the performance regression caused by
-> false cacheline sharing. Recent investigation [2] revealed that the
-> regressions is limited to a rather old Broadwell microarchitecture and
-> even there it can be mitigated by disabling adjacent cacheline
-> prefetching, see [3].
-> Splitting single logical structure into multiple ones leads to more
-> complicated management, extra pointer dereferences and overall less
-> maintainable code. When that split-away part is a lock, it complicates
-> things even further. With no performance benefits, there are no reasons
-> for this split. Merging the vm_lock back into vm_area_struct also allows
-> vm_area_struct to use SLAB_TYPESAFE_BY_RCU later in this patchset.
-> This patchset:
-> 1. moves vm_lock back into vm_area_struct, aligning it at the cacheline
-> boundary and changing the cache to be cacheline-aligned to minimize
-> cacheline sharing;
-> 2. changes vm_area_struct initialization to mark new vma as detached unti=
-l
-> it is inserted into vma tree;
-> 3. replaces vm_lock and vma->detached flag with a reference counter;
-> 4. changes vm_area_struct cache to SLAB_TYPESAFE_BY_RCU to allow for thei=
-r
-> reuse and to minimize call_rcu() calls.
->
-> Pagefault microbenchmarks show performance improvement:
-> Hmean     faults/cpu-1    507926.5547 (   0.00%)   506519.3692 *  -0.28%*
-> Hmean     faults/cpu-4    479119.7051 (   0.00%)   481333.6802 *   0.46%*
-> Hmean     faults/cpu-7    452880.2961 (   0.00%)   455845.6211 *   0.65%*
-> Hmean     faults/cpu-12   347639.1021 (   0.00%)   352004.2254 *   1.26%*
-> Hmean     faults/cpu-21   200061.2238 (   0.00%)   229597.0317 *  14.76%*
-> Hmean     faults/cpu-30   145251.2001 (   0.00%)   164202.5067 *  13.05%*
-> Hmean     faults/cpu-48   106848.4434 (   0.00%)   120641.5504 *  12.91%*
-> Hmean     faults/cpu-56    92472.3835 (   0.00%)   103464.7916 *  11.89%*
-> Hmean     faults/sec-1    507566.1468 (   0.00%)   506139.0811 *  -0.28%*
-> Hmean     faults/sec-4   1880478.2402 (   0.00%)  1886795.6329 *   0.34%*
-> Hmean     faults/sec-7   3106394.3438 (   0.00%)  3140550.7485 *   1.10%*
-> Hmean     faults/sec-12  4061358.4795 (   0.00%)  4112477.0206 *   1.26%*
-> Hmean     faults/sec-21  3988619.1169 (   0.00%)  4577747.1436 *  14.77%*
-> Hmean     faults/sec-30  3909839.5449 (   0.00%)  4311052.2787 *  10.26%*
-> Hmean     faults/sec-48  4761108.4691 (   0.00%)  5283790.5026 *  10.98%*
-> Hmean     faults/sec-56  4885561.4590 (   0.00%)  5415839.4045 *  10.85%*
->
-> Changes since v7 [4]:
-> - Removed additional parameter for vma_iter_store() and introduced
-> vma_iter_store_attached() instead, per Vlastimil Babka and
-> Liam R. Howlett
-> - Fixed coding style nits, per Vlastimil Babka
-> - Added Reviewed-bys and Acked-bys, per Vlastimil Babka
-> - Added Reviewed-bys and Acked-bys, per Liam R. Howlett
-> - Added Acked-by, per Davidlohr Bueso
-> - Removed unnecessary patch changeing nommu.c
-> - Folded a fixup patch [5] into the patch it was fixing
-> - Changed calculation in __refcount_add_not_zero_limited() to avoid
-> overflow, to change the limit to be inclusive and to use INT_MAX to
-> indicate no limits, per Vlastimil Babka and Matthew Wilcox
-> - Folded a fixup patch [6] into the patch it was fixing
-> - Added vm_refcnt rules summary in the changelog, per Liam R. Howlett
-> - Changed writers to not increment vm_refcnt and adjusted VMA_REF_LIMIT
-> to not reserve one count for a writer, per Liam R. Howlett
-> - Changed vma_refcount_put() to wake up writers only when the last reader
-> is leaving, per Liam R. Howlett
-> - Fixed rwsem_acquire_read() parameters when read-locking a vma to match
-> the way down_read_trylock() does lockdep, per Vlastimil Babka
-> - Folded vma_lockdep_init() into vma_lock_init() for simplicity
-> - Brought back vma_copy() to keep vm_refcount at 0 during reuse,
-> per Vlastimil Babka
->
-> What I did not include in this patchset:
-> - Liam's suggestion to change dump_vma() output since it's unclear to me
-> how it should look like. The patch is for debug only and not critical for
-> the rest of the series, we can change the output later or even drop it if
-> necessary.
->
-> [1] https://lore.kernel.org/all/20230227173632.3292573-34-surenb@google.c=
-om/
-> [2] https://lore.kernel.org/all/ZsQyI%2F087V34JoIt@xsang-OptiPlex-9020/
-> [3] https://lore.kernel.org/all/CAJuCfpEisU8Lfe96AYJDZ+OM4NoPmnw9bP53cT_k=
-bfP_pR+-2g@mail.gmail.com/
-> [4] https://lore.kernel.org/all/20241226170710.1159679-1-surenb@google.co=
-m/
-> [5] https://lore.kernel.org/all/20250107030415.721474-1-surenb@google.com=
-/
-> [6] https://lore.kernel.org/all/20241226200335.1250078-1-surenb@google.co=
-m/
->
-> Patchset applies over mm-unstable after reverting v7
-> (current SHA range: 588f0086398e - fb2270654630)
+Standardize the generation of syscall headers around syscall tables.
+Previously each architecture independently selected how syscall headers
+would be generated, or would not define a way and fallback onto
+libaudit. Convert all architectures to use a standard syscall header
+generation script and allow each architecture to override the syscall
+table to use if they do not use the generic table.
 
-^^^ Please note that to apply this patchset over mm-unstable you
-should revert the previous version. Thanks!
+As a result of these changes, no architecture will require libaudit, and
+so the fallback case of using libaudit is removed by this series.
 
->
-> Suren Baghdasaryan (16):
->   mm: introduce vma_start_read_locked{_nested} helpers
->   mm: move per-vma lock into vm_area_struct
->   mm: mark vma as detached until it's added into vma tree
->   mm: introduce vma_iter_store_attached() to use with attached vmas
->   mm: mark vmas detached upon exit
->   types: move struct rcuwait into types.h
->   mm: allow vma_start_read_locked/vma_start_read_locked_nested to fail
->   mm: move mmap_init_lock() out of the header file
->   mm: uninline the main body of vma_start_write()
->   refcount: introduce __refcount_{add|inc}_not_zero_limited
->   mm: replace vm_lock and detached flag with a reference count
->   mm/debug: print vm_refcnt state when dumping the vma
->   mm: remove extra vma_numab_state_init() call
->   mm: prepare lock_vma_under_rcu() for vma reuse possibility
->   mm: make vma cache SLAB_TYPESAFE_BY_RCU
->   docs/mm: document latest changes to vm_lock
->
->  Documentation/mm/process_addrs.rst |  44 +++++----
->  include/linux/mm.h                 | 152 ++++++++++++++++++++++-------
->  include/linux/mm_types.h           |  36 ++++---
->  include/linux/mmap_lock.h          |   6 --
->  include/linux/rcuwait.h            |  13 +--
->  include/linux/refcount.h           |  20 +++-
->  include/linux/slab.h               |   6 --
->  include/linux/types.h              |  12 +++
->  kernel/fork.c                      | 128 +++++++++++-------------
->  mm/debug.c                         |  12 +++
->  mm/init-mm.c                       |   1 +
->  mm/memory.c                        |  94 +++++++++++++++---
->  mm/mmap.c                          |   3 +-
->  mm/userfaultfd.c                   |  32 +++---
->  mm/vma.c                           |  23 ++---
->  mm/vma.h                           |  15 ++-
->  tools/testing/vma/linux/atomic.h   |   5 +
->  tools/testing/vma/vma_internal.h   |  93 ++++++++----------
->  18 files changed, 435 insertions(+), 260 deletions(-)
->
-> --
-> 2.47.1.613.gc27f4b7a9f-goog
->
+Testing:
+
+I have tested that the syscall mappings of id to name generation works
+as expected for every architecture, but I have only validated that perf
+trace compiles and runs as expected on riscv, arm64, and x86_64.
+
+Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+Reviewed-by: Ian Rogers <irogers@google.com>
+Tested-by: Ian Rogers <irogers@google.com>
+Acked-by: Namhyung Kim <namhyung@kernel.org>
+
+---
+Changes in v6:
+- Use tools/build/Build.include instead of scripts/Kbuild.include
+- Link to v5: https://lore.kernel.org/r/20250107-perf_syscalltbl-v5-0-935de46d3175@rivosinc.com
+
+Changes in v5:
+- Remove references to HAVE_SYSCALL_TABLE_SUPPORT that were
+  missed/recently introduced
+- Rebase on perf-tools-next
+- Install headers to $(OUTPUT)arch instead of $(OUTPUT)tools/perf/arch
+- Link to v4: https://lore.kernel.org/r/20241218-perf_syscalltbl-v4-0-bc8caef2ca8e@rivosinc.com
+
+Changes in v4:
+- Remove audit_machine member of syscalltbl struct (Ian)
+- Rebase on perf-tools-next
+- Link to v3: https://lore.kernel.org/r/20241216-perf_syscalltbl-v3-0-239f032481d5@rivosinc.com
+
+Changes in v3:
+- Fix compiliation when OUTPUT is empty
+- Correct unused headers to be .h instead of .c  (Namhyung)
+- Make variable definition of supported archs (Namhyung)
+- Convert += into := for syscalls headers (Namhyung)
+- Link to v2: https://lore.kernel.org/r/20241212-perf_syscalltbl-v2-0-f8ca984ffe40@rivosinc.com
+
+Changes in v2:
+- Rebase onto 6.13-rc2
+- Fix output path so it generates to /tools/perf/arch properly
+- Link to v1: https://lore.kernel.org/r/20241104-perf_syscalltbl-v1-0-9adae5c761ef@rivosinc.com
+
+---
+Charlie Jenkins (16):
+      perf tools: Create generic syscall table support
+      perf tools: arc: Support generic syscall headers
+      perf tools: csky: Support generic syscall headers
+      perf tools: arm: Support syscall headers
+      perf tools: sh: Support syscall headers
+      perf tools: sparc: Support syscall headers
+      perf tools: xtensa: Support syscall header
+      perf tools: x86: Use generic syscall scripts
+      perf tools: alpha: Support syscall header
+      perf tools: parisc: Support syscall header
+      perf tools: arm64: Use syscall table
+      perf tools: loongarch: Use syscall table
+      perf tools: mips: Use generic syscall scripts
+      perf tools: powerpc: Use generic syscall table scripts
+      perf tools: s390: Use generic syscall table scripts
+      perf tools: Remove dependency on libaudit
+
+ Documentation/admin-guide/workload-tracing.rst     |   2 +-
+ tools/build/Build.include                          |   2 +
+ tools/build/feature/Makefile                       |   4 -
+ tools/build/feature/test-libaudit.c                |  11 -
+ tools/perf/Documentation/perf-check.txt            |   2 -
+ tools/perf/Makefile.config                         |  39 +-
+ tools/perf/Makefile.perf                           |  12 +-
+ tools/perf/arch/alpha/entry/syscalls/Kbuild        |   2 +
+ .../arch/alpha/entry/syscalls/Makefile.syscalls    |   5 +
+ tools/perf/arch/alpha/entry/syscalls/syscall.tbl   | 504 ++++++++++++++++++++
+ tools/perf/arch/alpha/include/syscall_table.h      |   2 +
+ tools/perf/arch/arc/entry/syscalls/Kbuild          |   2 +
+ .../perf/arch/arc/entry/syscalls/Makefile.syscalls |   3 +
+ tools/perf/arch/arc/include/syscall_table.h        |   2 +
+ tools/perf/arch/arm/entry/syscalls/Kbuild          |   4 +
+ .../perf/arch/arm/entry/syscalls/Makefile.syscalls |   2 +
+ tools/perf/arch/arm/entry/syscalls/syscall.tbl     | 483 +++++++++++++++++++
+ tools/perf/arch/arm/include/syscall_table.h        |   2 +
+ tools/perf/arch/arm64/Makefile                     |  22 -
+ tools/perf/arch/arm64/entry/syscalls/Kbuild        |   3 +
+ .../arch/arm64/entry/syscalls/Makefile.syscalls    |   6 +
+ tools/perf/arch/arm64/entry/syscalls/mksyscalltbl  |  46 --
+ .../perf/arch/arm64/entry/syscalls/syscall_32.tbl  | 476 +++++++++++++++++++
+ .../perf/arch/arm64/entry/syscalls/syscall_64.tbl  |   1 +
+ tools/perf/arch/arm64/include/syscall_table.h      |   8 +
+ tools/perf/arch/csky/entry/syscalls/Kbuild         |   2 +
+ .../arch/csky/entry/syscalls/Makefile.syscalls     |   3 +
+ tools/perf/arch/csky/include/syscall_table.h       |   2 +
+ tools/perf/arch/loongarch/Makefile                 |  22 -
+ tools/perf/arch/loongarch/entry/syscalls/Kbuild    |   2 +
+ .../loongarch/entry/syscalls/Makefile.syscalls     |   3 +
+ .../arch/loongarch/entry/syscalls/mksyscalltbl     |  45 --
+ tools/perf/arch/loongarch/include/syscall_table.h  |   2 +
+ tools/perf/arch/mips/entry/syscalls/Kbuild         |   2 +
+ .../arch/mips/entry/syscalls/Makefile.syscalls     |   5 +
+ tools/perf/arch/mips/entry/syscalls/mksyscalltbl   |  32 --
+ tools/perf/arch/mips/include/syscall_table.h       |   2 +
+ tools/perf/arch/parisc/entry/syscalls/Kbuild       |   3 +
+ .../arch/parisc/entry/syscalls/Makefile.syscalls   |   6 +
+ tools/perf/arch/parisc/entry/syscalls/syscall.tbl  | 463 +++++++++++++++++++
+ tools/perf/arch/parisc/include/syscall_table.h     |   8 +
+ tools/perf/arch/powerpc/Makefile                   |  25 -
+ tools/perf/arch/powerpc/entry/syscalls/Kbuild      |   3 +
+ .../arch/powerpc/entry/syscalls/Makefile.syscalls  |   6 +
+ .../perf/arch/powerpc/entry/syscalls/mksyscalltbl  |  39 --
+ tools/perf/arch/powerpc/include/syscall_table.h    |   8 +
+ tools/perf/arch/riscv/Makefile                     |  22 -
+ tools/perf/arch/riscv/entry/syscalls/Kbuild        |   2 +
+ .../arch/riscv/entry/syscalls/Makefile.syscalls    |   4 +
+ tools/perf/arch/riscv/entry/syscalls/mksyscalltbl  |  47 --
+ tools/perf/arch/riscv/include/syscall_table.h      |   8 +
+ tools/perf/arch/s390/Makefile                      |  21 -
+ tools/perf/arch/s390/entry/syscalls/Kbuild         |   2 +
+ .../arch/s390/entry/syscalls/Makefile.syscalls     |   5 +
+ tools/perf/arch/s390/entry/syscalls/mksyscalltbl   |  32 --
+ tools/perf/arch/s390/include/syscall_table.h       |   2 +
+ tools/perf/arch/sh/entry/syscalls/Kbuild           |   2 +
+ .../perf/arch/sh/entry/syscalls/Makefile.syscalls  |   4 +
+ tools/perf/arch/sh/entry/syscalls/syscall.tbl      | 472 +++++++++++++++++++
+ tools/perf/arch/sh/include/syscall_table.h         |   2 +
+ tools/perf/arch/sparc/entry/syscalls/Kbuild        |   3 +
+ .../arch/sparc/entry/syscalls/Makefile.syscalls    |   5 +
+ tools/perf/arch/sparc/entry/syscalls/syscall.tbl   | 514 +++++++++++++++++++++
+ tools/perf/arch/sparc/include/syscall_table.h      |   8 +
+ tools/perf/arch/x86/Build                          |   1 -
+ tools/perf/arch/x86/Makefile                       |  25 -
+ tools/perf/arch/x86/entry/syscalls/Kbuild          |   3 +
+ .../perf/arch/x86/entry/syscalls/Makefile.syscalls |   6 +
+ tools/perf/arch/x86/entry/syscalls/syscalltbl.sh   |  42 --
+ tools/perf/arch/x86/include/syscall_table.h        |   8 +
+ tools/perf/arch/xtensa/entry/syscalls/Kbuild       |   2 +
+ .../arch/xtensa/entry/syscalls/Makefile.syscalls   |   4 +
+ tools/perf/arch/xtensa/entry/syscalls/syscall.tbl  | 439 ++++++++++++++++++
+ tools/perf/arch/xtensa/include/syscall_table.h     |   2 +
+ tools/perf/builtin-check.c                         |   2 -
+ tools/perf/builtin-help.c                          |   2 -
+ tools/perf/builtin-trace.c                         |  30 --
+ tools/perf/check-headers.sh                        |   9 +
+ tools/perf/perf.c                                  |   6 +-
+ tools/perf/scripts/Makefile.syscalls               |  61 +++
+ tools/perf/scripts/syscalltbl.sh                   |  86 ++++
+ tools/perf/tests/make                              |   7 +-
+ tools/perf/util/env.c                              |   6 +-
+ tools/perf/util/generate-cmdlist.sh                |   4 +-
+ tools/perf/util/syscalltbl.c                       |  90 +---
+ tools/perf/util/syscalltbl.h                       |   1 -
+ tools/scripts/syscall.tbl                          | 409 ++++++++++++++++
+ 87 files changed, 4105 insertions(+), 623 deletions(-)
+---
+base-commit: 034b5b147bf7f44a45e39334725f8633b7ca8c3b
+change-id: 20240913-perf_syscalltbl-6f98defcc6f5
+-- 
+- Charlie
+
