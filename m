@@ -1,39 +1,43 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A067A215798;
-	Thu,  9 Jan 2025 10:19:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F23A201017;
+	Thu,  9 Jan 2025 10:30:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736417948; cv=none; b=QbLUxnZAFkRHnAW49WOEGzWurb8As5Hkdw62kNG38VCtgFCJV5qbR979yBxH5tOIySLy0cM8kJdLWKBi+7CRq4H31DvAHs5ITBXJrcSgRu+8eGjHA2JaBeYaGSFGk1zx5FXQ0LEYzJzqCR7dXGQ1iD2wKffk4ayJXtohsagqwHk=
+	t=1736418647; cv=none; b=qywd3StSzEGSWBiAN0vZ50LmybBe/ZtGbfCOIehW8P2pxP2J8PUMUWnSpSl36SiudZZ2YJhwcjmsVcCnQv25ucd1LRuzfR9gQsp8f98pPffP3w91cGnPiFWTcN+zsVVpjCqzkdkQuF78gGnmjprexJsqodItomXWyrsoGHafsmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736417948; c=relaxed/simple;
-	bh=BgmI5+f007NY5MqD0r01vDQ+FUmwMv2BXyDMGcXeHKc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Md1xdQ6iSC7supTWtJ4Q+l2JbgwN6yTFbwqFnZloqhvZsJoHz8SrR2YIgJNz4bolr8MFowOmkrnEWjcYaE40pbLkcCoG1npJDeOTXfKuDxH4QTVdTdmpQyT5CMb3H/oSnMzku3cXU+85M925b4iu4148de45iI+g+EyvVmHpNqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=XeB5g4g4; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1736418647; c=relaxed/simple;
+	bh=D6fcbSWRWn9yzEmx5MRVWirdFHj8a4fT76swNtjcgp0=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=qFwOZ2tXiJiw4qMrdUCyiuO5Sr5Zsa9PsJ1Vsy/zAKBUK83yQjCCEmn+2tcCBeop2ncYKEGYHbG9joTMLuuw3RaHpomj3mLA6J86QFsn5HCCE4/goTC2Z/g1SqkyV+3UCUe8GFM/a4fl1ZCWKZhomwnk28cQjVPUZ7JssfyH+O4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZMLehiCK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="XeB5g4g4"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 76565E0007;
-	Thu,  9 Jan 2025 10:18:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1736417940;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HqfcEwFHnXLFfj7PAufEvNIFPEEn0o3jJJxQOZR4YCY=;
-	b=XeB5g4g4w/LE2a7HhfO9zVE+CdnHDTRRrnPL0hTF0aKU8fWX7/pG/7R/Bc8yYe1n2tuuMD
-	U1JhQKEA4LCkhfQKEfKeitnCOCbrxJYdI/brqwr5wgnI2RvjU7pdzndxggy1xD652VmTzR
-	LCeS2bAjeJcc385HohL/bXWYI8cV5AnOVH+8Td4DhDDbcb1pnEpmlQP/rRW/n9kJbOnAC2
-	KJvTvPquTGy+/3GYl+/BI91/4CxSHDHFbwH8qTeMEQchhOO5O7Fcx7dfjkSSNn2DTW03wq
-	qFFxWgE37VaDXkLY0v2+JE8dpRI9Uytv7CF9MumsrXVp7UGgIGYnlmJC1rmxWQ==
-From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Thu, 09 Jan 2025 11:18:09 +0100
-Subject: [PATCH net-next v2 15/15] net: pse-pd: Clean ethtool header of PSE
- structures
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZMLehiCK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47AC8C4CED2;
+	Thu,  9 Jan 2025 10:30:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736418647;
+	bh=D6fcbSWRWn9yzEmx5MRVWirdFHj8a4fT76swNtjcgp0=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=ZMLehiCKl0LzsMf8QY76OFIkDjZwBsRC8ODHpyzrZneZMocc9HPsSGQgsGmACDSDE
+	 aB2lDq7WU7h57y+F9L2MkYyCBDW7lQ64HDyc/Bz1i4rZHt/xeNndkEazEBJoCj3gzu
+	 pnVMzNiGeQwk7F9e5IbvFaQwayDS1UBjsqyUkLjz4u7Y2EtqGq5Z2JwHaJ/3BG1cvB
+	 BhLDkulKLHistxwxXVq17MhLDVWKT9+0KKQqhnUYFlrI46riiYqQkv/pBTGW1GlogA
+	 zhaCsDTZmG+3jbJoVPYI+GTznVDBS0hBB238Tg/BowsCuJOIdYn3W9rVMTr4b4aOhz
+	 8r+7rxLzvs5BQ==
+From: Lee Jones <lee@kernel.org>
+To: Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>
+In-Reply-To: <20241218182001.41476-1-vicentiu.galanopulo@remote-tech.co.uk>
+References: <20241218182001.41476-1-vicentiu.galanopulo@remote-tech.co.uk>
+Subject: Re: [PATCH v10 0/3] Add LED1202 LED Controller
+Message-Id: <173641864500.2570436.16962617577776709228.b4-ty@kernel.org>
+Date: Thu, 09 Jan 2025 10:30:45 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,125 +45,29 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250109-b4-feature_poe_arrange-v2-15-55ded947b510@bootlin.com>
-References: <20250109-b4-feature_poe_arrange-v2-0-55ded947b510@bootlin.com>
-In-Reply-To: <20250109-b4-feature_poe_arrange-v2-0-55ded947b510@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
- linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, 
- Dent Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, 
- Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- Kory Maincent <kory.maincent@bootlin.com>
-X-Mailer: b4 0.15-dev-8cb71
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.13.0
 
-From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+On Wed, 18 Dec 2024 18:19:52 +0000, Vicentiu Galanopulo wrote:
+> The LED1202 is a 12-channel low quiescent current LED driver with:
+>   * Supply range from 2.6 V to 5 V
+>   * 20 mA current capability per channel
+>   * 1.8 V compatible I2C control interface
+>   * 8-bit analog dimming individual control
+>   * 12-bit local PWM resolution
+>   * 8 programmable patterns
+> 
+> [...]
 
-Remove PSE-specific structures from the ethtool header to improve code
-modularity, maintain independent headers, and reduce incremental build
-time.
+Applied, thanks!
 
-Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
----
+[1/3] Documentation:leds: Add leds-st1202.rst
+      commit: 132e6687a118cedda0f59ada4af5ce42d0d05043
+[2/3] dt-bindings: leds: Add LED1202 LED Controller
+      commit: 599b92fd0efa8b7c43e7f58c9dd0f7951f7cbf09
+[3/3] leds: Add LED1202 I2C driver
+      commit: 939757aafeb9c266dda37657ee5f7a73ffd35ae2
 
-Changes in v2:
-- New patch.
----
- drivers/net/pse-pd/pse_core.c |  1 +
- include/linux/ethtool.h       | 20 --------------------
- include/linux/pse-pd/pse.h    | 22 +++++++++++++++++++++-
- 3 files changed, 22 insertions(+), 21 deletions(-)
-
-diff --git a/drivers/net/pse-pd/pse_core.c b/drivers/net/pse-pd/pse_core.c
-index be56b3f5425c..e907543824d6 100644
---- a/drivers/net/pse-pd/pse_core.c
-+++ b/drivers/net/pse-pd/pse_core.c
-@@ -6,6 +6,7 @@
- //
- 
- #include <linux/device.h>
-+#include <linux/ethtool.h>
- #include <linux/of.h>
- #include <linux/pse-pd/pse.h>
- #include <linux/regulator/driver.h>
-diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
-index f711bfd75c4d..843e2557a197 100644
---- a/include/linux/ethtool.h
-+++ b/include/linux/ethtool.h
-@@ -1303,24 +1303,4 @@ struct ethtool_forced_speed_map {
- 
- void
- ethtool_forced_speed_maps_init(struct ethtool_forced_speed_map *maps, u32 size);
--
--/* C33 PSE extended state and substate. */
--struct ethtool_c33_pse_ext_state_info {
--	enum ethtool_c33_pse_ext_state c33_pse_ext_state;
--	union {
--		enum ethtool_c33_pse_ext_substate_error_condition error_condition;
--		enum ethtool_c33_pse_ext_substate_mr_pse_enable mr_pse_enable;
--		enum ethtool_c33_pse_ext_substate_option_detect_ted option_detect_ted;
--		enum ethtool_c33_pse_ext_substate_option_vport_lim option_vport_lim;
--		enum ethtool_c33_pse_ext_substate_ovld_detected ovld_detected;
--		enum ethtool_c33_pse_ext_substate_power_not_available power_not_available;
--		enum ethtool_c33_pse_ext_substate_short_detected short_detected;
--		u32 __c33_pse_ext_substate;
--	};
--};
--
--struct ethtool_c33_pse_pw_limit_range {
--	u32 min;
--	u32 max;
--};
- #endif /* _LINUX_ETHTOOL_H */
-diff --git a/include/linux/pse-pd/pse.h b/include/linux/pse-pd/pse.h
-index be877dea6a11..1452ed7ca6d7 100644
---- a/include/linux/pse-pd/pse.h
-+++ b/include/linux/pse-pd/pse.h
-@@ -5,7 +5,6 @@
- #ifndef _LINUX_PSE_CONTROLLER_H
- #define _LINUX_PSE_CONTROLLER_H
- 
--#include <linux/ethtool.h>
- #include <linux/list.h>
- #include <uapi/linux/ethtool.h>
- 
-@@ -16,6 +15,27 @@
- 
- struct phy_device;
- struct pse_controller_dev;
-+struct netlink_ext_ack;
-+
-+/* C33 PSE extended state and substate. */
-+struct ethtool_c33_pse_ext_state_info {
-+	enum ethtool_c33_pse_ext_state c33_pse_ext_state;
-+	union {
-+		enum ethtool_c33_pse_ext_substate_error_condition error_condition;
-+		enum ethtool_c33_pse_ext_substate_mr_pse_enable mr_pse_enable;
-+		enum ethtool_c33_pse_ext_substate_option_detect_ted option_detect_ted;
-+		enum ethtool_c33_pse_ext_substate_option_vport_lim option_vport_lim;
-+		enum ethtool_c33_pse_ext_substate_ovld_detected ovld_detected;
-+		enum ethtool_c33_pse_ext_substate_power_not_available power_not_available;
-+		enum ethtool_c33_pse_ext_substate_short_detected short_detected;
-+		u32 __c33_pse_ext_substate;
-+	};
-+};
-+
-+struct ethtool_c33_pse_pw_limit_range {
-+	u32 min;
-+	u32 max;
-+};
- 
- /**
-  * struct pse_control_config - PSE control/channel configuration.
-
--- 
-2.34.1
+--
+Lee Jones [李琼斯]
 
