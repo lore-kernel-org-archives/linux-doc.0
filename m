@@ -1,131 +1,212 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62586204C0B
-	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 21:14:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F56813B2B8;
+	Thu,  9 Jan 2025 21:33:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736457277; cv=none; b=kG+DNgqE+emHulz+G7Ka1ilnyJqCTtY0biPSdDwd4P50GNUtDE/szt9rKxOIfNsl2+jUJ7pEQAF274vTFtVv1xfVsw8wv/EYVo0IoflZQZIpD5YUT+8frO2OwYA0J8IIs1j8kW5UOgqPjOQziTlCRFLq43WP4GPWVXmO4wHoyFQ=
+	t=1736458425; cv=none; b=BTHVWRHe0O6CTcx3ANNYrlJtTO9R/yZqHxKCJxhWiH8+WHwP48oqYHATylq1QP9T+W/VPaCK4aJ1mVnjFlomH6DQfoQh0Q/IgShWdRvG5iml6/C4tXIPP/h3BzWDM+hIdtspgTQmMyfTXhICEew5IWBhxIooz1sKhHMCShb2GFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736457277; c=relaxed/simple;
-	bh=eYzvAapvrXbZXgh9jcwIv3jWk//AlYNgrkVgN3CMHpk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JZvdhrg7JswQjI+NA2rogYegh+/20Z5/fsTR70y63mLzYlyG04G2QMm9Nxlj6BgfQzSyzCOFZojwL69Gav4dUhIU6py2ib3gh4qepupY+RXBAacYmRDCstKCEzJecTeAOxbiGGyrNs5V3HSOtgwUw0DqnUs+MrGEJzZjbElPmmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=R0YnG8Cd; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="R0YnG8Cd"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2ef8c012913so1840358a91.3
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jan 2025 13:14:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1736457274; x=1737062074; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=rWi0Eghj3xi161PysLI0KrpGNdQD8oYgIL/QlYOb5cw=;
-        b=R0YnG8Cd03KerAHlX2oRKaYHqn8UXUNqY1Kbdg/Wh5RM8yrMp7yeCQWeSO3CSqzruF
-         FgACscr9401LBSlZD2DiZ5lrr6brdqokDeRVJy137hFHePapiRhQKDpA39XoThklfnuN
-         ApbG5FTMlhmRIULuoSQl3uyOUdDCoPvXYhX2vnaNPKO9wXI83hUIi0KkSNbjQ2ahvl4q
-         hEwNIcf7dmv9XpX8lCKggPicGUxsUAmdfa7Q4a+vj6+afo3zvvVt3QKxUgVpBVTI1y9i
-         VO7CSLRfuJttSVLwyiEYVK2SdN+t1OyK0efCibNObANRqYdvB2SK2338jbh84+RymfJO
-         7krA==
+	s=arc-20240116; t=1736458425; c=relaxed/simple;
+	bh=hMVg4l0Xb088MiEEOfRE9qEvSVtU7ZGMohLFU9Bf1Rk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XQI0qmWXdmGjP88F1trgXXTcBJ4qyx/hBEhNx0rP7ydb06SrwadR6qHQDdCZ5pYZt2Ud3QvHNcU/LR7oWHNdKOQDsUE66EjitfKH2eXSV2qQn2KvA5rWAe4r7TCIYl20YiP9YYfLxGU4chBJYdjhLe+4iUDwBz/C6UaCqqTaCAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-844e9b83aaaso100581839f.3;
+        Thu, 09 Jan 2025 13:33:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736457274; x=1737062074;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rWi0Eghj3xi161PysLI0KrpGNdQD8oYgIL/QlYOb5cw=;
-        b=GniKMPFhCC3qLZLyvMHPuvFE1KeYiV3AohMlgoHZevdq60xL88ZDH8nXv9TpkUiJwN
-         ftHWWOlY9UXPJutHajh9yQeyOyWTYtB0ay29GTYZLVG7dEklv2RWCLCeQK7mvxtBdehP
-         UlpN5Ew6szdhzo32DuXdB5MFQKZ8C71p31YfZfviBXNgti9wFdn4UYbTAKrT9Ne8/cR/
-         pd3YRl9vbMR0W8ifkH4KsCQYl4RfVjdAs/rWfR3VS/+aCIx/M6tMhLyH1PQO/8uMaC2L
-         2pCPyB+b2tSLlemqP75d4HrcRE4WEyf4AblOvxIjOG1fEQhZWBm7+Oyiy3RiB0Mi+LYp
-         YtcA==
-X-Forwarded-Encrypted: i=1; AJvYcCWAje93MX3q36FN7iYuT6wOLV9APbRfTRSeRrYTSQjy5bMzL3BNK4GR5CgLV/WuAwFUnND7fKnTSxQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YypwNubcTD9EL+sSvVafYBYNUzYXb2qA89fiXbu/mnaFVaKS1YJ
-	u4Kjq5nTnRiFm7dCbuE67LZAj6YDEeMQvtT5YjRrAI+rN+Vbgo58l+UC8K7BRWQ=
-X-Gm-Gg: ASbGnctzVTYRsRw/D3YjBrLOFBEsWmJhs2NbqQHIOWAG5RN76lBjxhhSbrDkHcVlhbR
-	HG6Nm+Ofi+nxXEdzPRw46EyjLFgHkw//5BMkHV1LdRLm/OzyJR5y8UxPaT3CzUZbORwV9Xhf9Ck
-	ogA1jdGnxDZswSE0YrkZ5LZ8uroerPxzrzhxodHISbcN9Qm+RzaSk3CROtrhjKbIfZTcFsUEA6q
-	t+ZxpNAEXBW7oCaM1IcjcpKPulwA65v4SkGv7zzRmD6hHU0JugR
-X-Google-Smtp-Source: AGHT+IGGpIFpDMCF6QbYUycaFsLmnN4FCC576ZSX1GeEVOuZ9RO46wvil+eTCx3t+IaGa75ky/Kjtw==
-X-Received: by 2002:a17:90b:520e:b0:2f2:ab09:c256 with SMTP id 98e67ed59e1d1-2f548f424b1mr12478961a91.33.1736457273807;
-        Thu, 09 Jan 2025 13:14:33 -0800 (PST)
-Received: from ghost ([2601:647:6700:64d0:691c:638a:ff10:3765])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f54a2ad3b7sm4117850a91.31.2025.01.09.13.14.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jan 2025 13:14:33 -0800 (PST)
-Date: Thu, 9 Jan 2025 13:14:29 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Christian Brauner <brauner@kernel.org>, Guo Ren <guoren@kernel.org>,
-	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
-	James Clark <james.clark@linaro.org>,
-	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
-	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
-	linux-csky@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 00/16] perf tools: Use generic syscall scripts for all
- archs
-Message-ID: <Z4A8NU02WVBDGrYZ@ghost>
-References: <20250108-perf_syscalltbl-v6-0-7543b5293098@rivosinc.com>
- <Z3_ybwWW3QZvJ4V6@x1>
- <Z4AoFA974kauIJ9T@ghost>
- <Z4A2Y269Ffo0ERkS@x1>
+        d=1e100.net; s=20230601; t=1736458422; x=1737063222;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=znzf9Ws5srA6nvuUT9olkx1+/Y2WL0svrtrPLYOzwvw=;
+        b=dgLAaEmQRr+w+lXgkrXXIJ9/gIJw7/0Z1gz40b5noLd7bUP1CuALExrVtbBXsUM0qL
+         8aDM1QqmyAQmo25s/xBRi1vGT2dBRzst7zRcv09Zasp8NoiYS3+iPjxtILp9T6+meRRw
+         9wgaHHw2KMWIs8PmrJICTZydu0Iqcco/o/6RM9XEeWPoQiPTFLt3R7zXRcfi0GaH34eR
+         a7WFcIrgDucFYtT1z+7AhjHh+H3UDIP9rS5h5eKZu0d32AXfziol4RqlGYb7iJt9X9Pg
+         ztMhvgc/VnFApqFf0BayVB01JWc11kc9Lt9b7dhTprzpvNoXLXMXKk7EMFqrNEnIBT6X
+         ynNA==
+X-Forwarded-Encrypted: i=1; AJvYcCUq+gRO5YBPBju8bXype0GUk0r4U0aPzi+1xMZDkBTlg1KZ/GsFjKdD741W6ZV2Ml72AwSSc6OZEiv044ws@vger.kernel.org, AJvYcCVE3vrvZzDYQVWOvwrdFu6ax3b1tPnHBGu5tGr/h71lr2KpdHNX4AyOgO5EETeh/Lu7UYlK/ZWxcg8KrCv7fKnYyYu3UA==@vger.kernel.org, AJvYcCWwMaWpmN25S1QO0ClRAz8QOhrqdGxssDmHlymIEQRX49B0pXIvNoTruEPPkAD/3p0e5j5uBMkyUcU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqUsXj9w9iV4DM/MOR5k1E591lgr6Q5pZyHTHzZx3OXn6TwPw+
+	64Dqk0EW/cPTwFSBd5Ry69zPrJg9kOcjeIKFVc4o7CkB1BPUpkuvwUoGkQf1X6Q=
+X-Gm-Gg: ASbGncu3w4TmTAhrVbvtf+a2pZnW+R9LSofxKneTJ98HEmK3iCPBNOetTdkr3+47eMQ
+	m0hRF15slNeuvAU79vVqIJRZzxtUDsnXnDs2xY5cfeAg55BEhvcg1l0kVdVCLea7sk5zTjsrvgy
+	S3tXT1U38bh1cgEEx0HHzyoJkh+yR5PIQzNDSZnmi8MjChgRNKsBQN5kXAL3u1UQg49kGsS98Ub
+	ukW7aSH4z4uW6xUft9JVInzw9C+mdq1r+nEXSKH3NOtLl5ACYWlSBJl/Bv41XxOdHoPBktVdEO1
+	29Y/vaUbCzKBcX8oNJnNAw==
+X-Google-Smtp-Source: AGHT+IFhTKhDciia02C2XFywBgKS+lwXbztq1imFXbD1lAzPN5l05+sEeFR/vhVYLzlAaSCMqER1Ng==
+X-Received: by 2002:a05:6e02:1945:b0:3a7:e800:7d37 with SMTP id e9e14a558f8ab-3ce3a878177mr60022405ab.10.1736458422292;
+        Thu, 09 Jan 2025 13:33:42 -0800 (PST)
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com. [209.85.166.44])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3ce4add8827sm5723695ab.35.2025.01.09.13.33.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jan 2025 13:33:42 -0800 (PST)
+Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-844bff5ba1dso90946339f.1;
+        Thu, 09 Jan 2025 13:33:42 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUIeEhIAjliWDeY7O/pbrgsKmm5hCyUflcy/LfxY+PZDOARfmNP2qI0tPP93VxvXFXUm79X2dzo6TrltTfj@vger.kernel.org, AJvYcCWRJORIZqzozGYaDa6M9jgW0BpPT6ydESzfbNmYxDsWdfe/XKYZr77DJ7emEHw9RNPkuZPv1m6SMGM=@vger.kernel.org, AJvYcCXydqQXN+2/HEtDnQp5sEAMKGqR3dfOP3K7VyFIX/yIqNk6HCUBP96L5fnEopgrkgIa9QPSBo3K71+1o/PxhjYsAyjGNA==@vger.kernel.org
+X-Received: by 2002:a92:c26d:0:b0:3a7:87f2:b00e with SMTP id
+ e9e14a558f8ab-3ce3a8bb3cbmr63769435ab.19.1736458421839; Thu, 09 Jan 2025
+ 13:33:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z4A2Y269Ffo0ERkS@x1>
+References: <20241226153031.49457-1-josh@joshuagrisham.com>
+ <fb019bc7-72ba-4b1b-9260-36cac76a5a60@t-8ch.de> <CAMF+KebS6eEGEVzrO3Bm3CfL7OYP7-XxUp7hLiDiwUrjWOEJYQ@mail.gmail.com>
+ <19caaf5c-dbdd-43a4-989f-35a810dbe91a@t-8ch.de>
+In-Reply-To: <19caaf5c-dbdd-43a4-989f-35a810dbe91a@t-8ch.de>
+From: Joshua Grisham <josh@joshuagrisham.com>
+Date: Thu, 9 Jan 2025 22:33:30 +0100
+X-Gmail-Original-Message-ID: <CAMF+KebyMbv_t1-BvjfcXRBK-hGo=o0-Nt3LgKkUyBLfmV_4bg@mail.gmail.com>
+X-Gm-Features: AbW1kvY6F_jIx5ub_reAAqdxOhienkhT5tjNAQfIR-NFeT3LEFEMOzwd1z0AqmE
+Message-ID: <CAMF+KebyMbv_t1-BvjfcXRBK-hGo=o0-Nt3LgKkUyBLfmV_4bg@mail.gmail.com>
+Subject: Re: [PATCH v4] platform/x86: samsung-galaxybook: Add
+ samsung-galaxybook driver
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>
+Cc: Joshua Grisham <josh@joshuagrisham.com>, ilpo.jarvinen@linux.intel.com, 
+	hdegoede@redhat.com, W_Armin@gmx.de, platform-driver-x86@vger.kernel.org, 
+	corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 09, 2025 at 05:49:39PM -0300, Arnaldo Carvalho de Melo wrote:
-> On Thu, Jan 09, 2025 at 11:48:36AM -0800, Charlie Jenkins wrote:
-> > On Thu, Jan 09, 2025 at 12:59:43PM -0300, Arnaldo Carvalho de Melo wrote:
-> > > ⬢ [acme@toolbox perf-tools-next]$ git log --oneline -1 ; time make -C tools/perf build-test
-> > > d06826160a982494 (HEAD -> perf-tools-next) perf tools: Remove dependency on libaudit
-> > > make: Entering directory '/home/acme/git/perf-tools-next/tools/perf'
-> > > - tarpkg: ./tests/perf-targz-src-pkg .
-> > >                  make_static: cd . && make LDFLAGS=-static NO_PERF_READ_VDSO32=1 NO_PERF_READ_VDSOX32=1 NO_JVMTI=1 NO_LIBTRACEEVENT=1 NO_LIBELF=1 -j28  DESTDIR=/tmp/tmp.JJT3tvN7bV
-> > >               make_with_gtk2: cd . && make GTK2=1 -j28  DESTDIR=/tmp/tmp.BF53V2qpl3
-> > > - /home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_FEATURE_DUMP: cd . && make FEATURE_DUMP_COPY=/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_FEATURE_DUMP  feature-dump
-> > > cd . && make FEATURE_DUMP_COPY=/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_FEATURE_DUMP feature-dump
-> > >          make_no_libbionic_O: cd . && make NO_LIBBIONIC=1 FEATURES_DUMP=/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_FEATURE_DUMP -j28 O=/tmp/tmp.KZuQ0q2Vs6 DESTDIR=/tmp/tmp.0sxMyH91gS
-> > >            make_util_map_o_O: cd . && make util/map.o FEATURES_DUMP=/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_FEATURE_DUMP -j28 O=/tmp/tmp.Y0Mx3KLREI DESTDIR=/tmp/tmp.wg9HCVVLHE
-> > >               make_install_O: cd . && make install FEATURES_DUMP=/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_FEATURE_DUMP -j28 O=/tmp/tmp.P0LEBAkW1X DESTDIR=/tmp/tmp.agTavZndFN
-> > >   failed to find: etc/bash_completion.d/perf
-> > 
-> > Is this something introduced by this patch?
-> 
-> I don't think so.
-> 
-> BTW this series is already pushed out to perf-tools-next:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git/log/?h=perf-tools-next
-> 
-> Thanks!
-> 
-> - Arnaldo
+Hi Thomas,
 
-Thank you!
+Den ons 8 jan. 2025 kl 23:07 skrev Thomas Wei=C3=9Fschuh <thomas@t-8ch.de>:
+>
+> If it works, then leave it as is.
+> To exact warning would have been nice though :-)
+>
+> Did you try :ref:`userspace-api/sysfs-platform_profile`?
+>
 
-- Charlie
+Just tried this specifically again and the warning was:
+./Documentation/admin-guide/laptops/samsung-galaxybook.rst:72:
+WARNING: undefined label: 'userspace-api/sysfs-platform_profile'
+[ref.ref]
 
+As it seems to work exactly as intended with only having the path as
+clear text (a link is added in both pdf and html plus the title of the
+target page is displayed as the link text) then I will leave as-is for
+now but please say if you would like for me to try anything else!
+
+> > > > +static int galaxybook_acpi_method(struct samsung_galaxybook *galax=
+ybook, acpi_string method,
+> > > > +                               struct sawb *in_buf, size_t len, st=
+ruct sawb *out_buf)
+> > >
+> > > in_buf and out_buf are always the same.
+> > >
+> > > > +{
+> > > > +     struct acpi_buffer output =3D {ACPI_ALLOCATE_BUFFER, NULL};
+> > > > +     union acpi_object in_obj, *out_obj;
+> > > > +     struct acpi_object_list input;
+> > > > +     acpi_status status;
+> > > > +     int err;
+> > > > +
+> > > > +     in_obj.type =3D ACPI_TYPE_BUFFER;
+> > > > +     in_obj.buffer.length =3D len;
+> > > > +     in_obj.buffer.pointer =3D (u8 *)in_buf;
+> > > > +
+> > > > +     input.count =3D 1;
+> > > > +     input.pointer =3D &in_obj;
+> > > > +
+> > > > +     status =3D acpi_evaluate_object_typed(galaxybook->acpi->handl=
+e, method, &input, &output,
+> > > > +                                         ACPI_TYPE_BUFFER);
+> > > > +
+> > > > +     if (ACPI_FAILURE(status)) {
+> > > > +             dev_err(&galaxybook->acpi->dev, "failed to execute me=
+thod %s; got %s\n",
+> > > > +                     method, acpi_format_exception(status));
+> > > > +             return -EIO;
+> > > > +     }
+> > > > +
+> > > > +     out_obj =3D output.pointer;
+> > > > +
+> > > > +     if (out_obj->buffer.length !=3D len || out_obj->buffer.length=
+ < SAWB_GUNM_POS + 1) {
+> > > > +             dev_err(&galaxybook->acpi->dev, "failed to execute me=
+thod %s; "
+> > > > +                     "response length mismatch\n", method);
+> > > > +             err =3D -EPROTO;
+> > > > +             goto out_free;
+> > > > +     }
+> > > > +     if (out_obj->buffer.pointer[SAWB_RFLG_POS] !=3D RFLG_SUCCESS)=
+ {
+> > > > +             dev_err(&galaxybook->acpi->dev, "failed to execute me=
+thod %s; "
+> > > > +                     "device did not respond with success code 0x%=
+x\n",
+> > > > +                     method, RFLG_SUCCESS);
+> > > > +             err =3D -ENXIO;
+> > > > +             goto out_free;
+> > > > +     }
+> > > > +     if (out_obj->buffer.pointer[SAWB_GUNM_POS] =3D=3D GUNM_FAIL) =
+{
+> > > > +             dev_err(&galaxybook->acpi->dev,
+> > > > +                     "failed to execute method %s; device responde=
+d with failure code 0x%x\n",
+> > > > +                     method, GUNM_FAIL);
+> > > > +             err =3D -ENXIO;
+> > > > +             goto out_free;
+> > > > +     }
+> > > > +
+> > > > +     memcpy(out_buf, out_obj->buffer.pointer, len);
+> > >
+> > > Nit: This memcpy() could be avoided by having the ACPI core write dir=
+ectly
+> > > into out_buf. It would also remove the allocation.
+> > >
+> >
+> > Now I have replaced in_buf and out_buf with just one parameter, buf.
+> > Now it feels like I cannot write directly to it (since I am reusing
+> > the same buf as the outgoing value) so have left the memcpy in place.
+> > I guess I would need to choose to have 2 buffers or use one and do a
+> > memcpy at the end like this (which is how I have it now in my v5
+> > draft) .. am I thinking wrong here and/or is there a preference
+> > between the two alternatives? I can just for now say that "usage" of
+> > this function in all of the other functions feels easier to just have
+> > one buffer... :)
+>
+> I'm not sure if there is a preference.
+>
+> But why can't you modify the buffer if it is shared between input and
+> output? The caller already has to accept that its buffer will be
+> overwritten.
+> If it is overwritten once or twice should not matter.
+>
+> But maybe I'm misunderstanding.
+>
+
+There is a very non-zero chance that I am trying to do this completely
+wrong ;) but basically if I swap
+
+struct acpi_buffer output =3D {ACPI_ALLOCATE_BUFFER, NULL};
+to
+struct acpi_buffer output =3D {len, buf};
+or even
+struct acpi_buffer output =3D {len, (u8 *)buf};
+
+Then I am getting return code of AE_BUFFER_OVERFLOW when trying to
+call the method, even though when using ACPI_ALLOCATE_BUFFER len is
+always the same as the allocated out_obj->buffer.length.
+
+I have also tried a few variations of using a union acpi_object and
+setting the buffer member properties etc but always I am getting
+AE_BUFFER_OVERFLOW so it seems like something is a bit off on the
+length or I am using the wrong types or something. I have tried
+looking through the entire tree and using ACPI_ALLOCATE_BUFFER is
+almost universal so it is tough to find examples to try and understand
+what else might be possible without really digging deep into the ACPI
+tree.
+
+If you know right off the top of your head then please feel free to
+mention, otherwise I will keep the new buffer and do a memcpy and free
+the newly allocated buffer at the end for the time being!
+
+Thanks again!
+Joshua
