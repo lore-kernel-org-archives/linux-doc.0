@@ -1,92 +1,104 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E77721C193;
-	Thu,  9 Jan 2025 16:10:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E61153800
+	for <linux-doc@vger.kernel.org>; Thu,  9 Jan 2025 16:27:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736439011; cv=none; b=IKWC3ad4V1CUy9KBMtmgAQyS8oSr/A6tbOc6yn/wpT4Y4aglePdCj2lU0/5YGpKWpjcgqYo09YWjE6SURZzzCOL1j7F75Uf8O757k1WwJszMQtmYBp/LSQbfrtTzmgGhlWDy3cW/+D479J2/E11JEpaWgQOKCYx5YhKFyFXDxGE=
+	t=1736440050; cv=none; b=Tc4zAr13+lvXqrvY7vD0YKhy9ZdgpZfNnSs6zyyGsPD+DQAOm/xb3w+pWGIURcEaL1VTKHp1sUsZ4RNrKbeeSfs2E496HpghEaFm4zdLb3/Hs6tzpFtEZHngCer9eP0Qbm45U7dN3SbKbrYumTTOfeRe5QZVXQf4XsoNKnIIUgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736439011; c=relaxed/simple;
-	bh=wkNHglqoC/wJFkHT+8fds+/YPFBVcl/4zM9Ngw0M+vw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ayYpy0/DMpeq0RXJen8/zyRXjLCmhBzT2KtmeOpZ4j7EYxziLtr4V5DruKDfZL3AmCQiNIYL+Z6zx7kEmpcvzdBGgeL2u1dT6iAuhj6dkoRDKr2RvqiMyvHR8IWnq9wzfqePX5y2ThEflchwFCFg69JyslC6dLJbkGGN5EsW7zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JmGHSnVb; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JmGHSnVb"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 77BF8FF803;
-	Thu,  9 Jan 2025 16:09:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1736439000;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wkNHglqoC/wJFkHT+8fds+/YPFBVcl/4zM9Ngw0M+vw=;
-	b=JmGHSnVbJikDRRwlqAS6fCPX+Bl3b+MpGUczWvbdrAnKz8K7oYEPePlw6E3SfyjtOlitz5
-	wf/Yp8Rn18sLrajVaF/g8jy2powggrRFlFKtMBIl8cPFTeuLxdmzd7ymcVI2KkPwvZmj42
-	TLNf2I9/N8J/KkEl+2CH/uaEhgXlMNXLUdplXBDQ8I4VvJ3wqTG4YjZUKikiSV2N8Klvyo
-	pCMNyqX3sHa3aayFlsSsbUJu0Bz0aAxwcG0oJHuBUlYaJzMjviUJ1tcZbn7AalZKgmRSPT
-	u0YoLP22we22rDUgmwjvaUFdycAvqOwdXd7+BV03gXHS8a+sIk96mg3jYxm+vQ==
-Date: Thu, 9 Jan 2025 17:09:57 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Oleksij Rempel <o.rempel@pengutronix.de>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, Kyle Swenson
- <kyle.swenson@est.tech>, Dent Project <dentproject@linuxfoundation.org>,
- kernel@pengutronix.de, Maxime Chevallier <maxime.chevallier@bootlin.com>
+	s=arc-20240116; t=1736440050; c=relaxed/simple;
+	bh=LGrMbpGbumR9Cyu0T/UXw/+NPRwpsavIvCI8lKtgS+s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UGL4wORYFQ7jlI+QMYMgK7hm0PkptYTWgcpsCEb3BRVYy4fsUGegwgHfebeKvj6WhAKLv9WCdo+gnxYP2U4JADEZlseHCtWDjNbNjyLFn9dlA3wFe6/ky8sCy29bMH77uaAPhx0kQ5/UMwwVJkZathMBsXQWg6rAgWYGXg5LfxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tVvNF-0007jf-4e; Thu, 09 Jan 2025 17:27:09 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tVvN9-0000oo-1S;
+	Thu, 09 Jan 2025 17:27:03 +0100
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1tVvN9-0001L1-14;
+	Thu, 09 Jan 2025 17:27:03 +0100
+Date: Thu, 9 Jan 2025 17:27:03 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
 Subject: Re: [PATCH net-next v2 11/15] net: pse-pd: Add support for PSE
  device index
-Message-ID: <20250109170957.1a4bad9c@kmaincent-XPS-13-7390>
-In-Reply-To: <20250109075926.52a699de@kernel.org>
+Message-ID: <Z3_415FoqTn_sV87@pengutronix.de>
 References: <20250109-b4-feature_poe_arrange-v2-0-55ded947b510@bootlin.com>
-	<20250109-b4-feature_poe_arrange-v2-11-55ded947b510@bootlin.com>
-	<20250109075926.52a699de@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+ <20250109-b4-feature_poe_arrange-v2-11-55ded947b510@bootlin.com>
+ <20250109075926.52a699de@kernel.org>
+ <20250109170957.1a4bad9c@kmaincent-XPS-13-7390>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250109170957.1a4bad9c@kmaincent-XPS-13-7390>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Thu, 9 Jan 2025 07:59:26 -0800
-Jakub Kicinski <kuba@kernel.org> wrote:
+On Thu, Jan 09, 2025 at 05:09:57PM +0100, Kory Maincent wrote:
+> On Thu, 9 Jan 2025 07:59:26 -0800
+> Jakub Kicinski <kuba@kernel.org> wrote:
+> 
+> > On Thu, 09 Jan 2025 11:18:05 +0100 Kory Maincent wrote:
+> > > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+> > > 
+> > > Add support for a PSE device index to report the PSE controller index to
+> > > the user through ethtool. This will be useful for future support of power
+> > > domains and port priority management.  
+> > 
+> > This index is not used in the series, I see later on you'll add power
+> > evaluation strategy but that also seems to be within a domain not
+> > device?
+> > 
+> > Doesn't it make sense to move patches 11-14 to the next series?
+> > The other 11 patches seem to my untrained eye to reshuffle existing
+> > stuff, so they would make sense as a cohesive series.
+> 
+> Indeed PSE index is used only as user information but there is nothing
+> correlated. You are right maybe we can add PSE index when we have something
+> usable for it.
 
-> On Thu, 09 Jan 2025 11:18:05 +0100 Kory Maincent wrote:
-> > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-> >=20
-> > Add support for a PSE device index to report the PSE controller index to
-> > the user through ethtool. This will be useful for future support of pow=
-er
-> > domains and port priority management. =20
->=20
-> This index is not used in the series, I see later on you'll add power
-> evaluation strategy but that also seems to be within a domain not
-> device?
->=20
-> Doesn't it make sense to move patches 11-14 to the next series?
-> The other 11 patches seem to my untrained eye to reshuffle existing
-> stuff, so they would make sense as a cohesive series.
+No user, means, it is not exposed to the user space, it is not about
+actual user space users.
 
-Indeed PSE index is used only as user information but there is nothing
-correlated. You are right maybe we can add PSE index when we have something
-usable for it.
-
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
