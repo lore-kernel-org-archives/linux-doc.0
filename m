@@ -1,158 +1,152 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1860F217F5C;
-	Thu,  9 Jan 2025 14:36:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7A321B19F;
+	Thu,  9 Jan 2025 14:41:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736433381; cv=none; b=R/vwWrjSDnddlNpQRxLUOPukf+L4L2qUn/V2pq1POqa0uy+W0+gFy65gtiwopv2utEB0UZdVwsqG7h+3PXoepRiZo0McgwIWnkx1G7Ceqr8JRwyOZWPjgDMQL+6Sch5QceJla+bUuL2hhQ7Ohp4SNih6YPslXOCyzC1pau76DF4=
+	t=1736433700; cv=none; b=fhP9CFC3Ei7PWzsZPWQVveMh/lY9HvSzMk5bDB/14rinBFGiknqaHcpMKMd+F6DpkrWftIReY3UjISVaw6epLz8BqQX2ii0+9xuZbVCzDDw+ypyDGyXALA2iIJyIGU/dRL5Gp1xBfOAwpiGBerkavY0SexU6cdPb8lbmAlnzGo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736433381; c=relaxed/simple;
-	bh=msjFFpRNIoIz+b905oDvoFmaWYdAZMtswIZ6602H/P0=;
-	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=j1K/k33YR7MUps//tPQdJl04UzWOfsPLZN+hNEt48jOgOMIhsb0RGd3iHXSzDMol9dPi3ZwVddPpP6poCC6g4XStmC3eYJEE+YPiBaIjJogDED5WEPf9iRCz+NeGDJ2ZyT4gE8SwFgevm6blsnBUfmBeFi5SMcay8hI1feHbc3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T0DMy7mN; arc=none smtp.client-ip=209.85.222.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736433700; c=relaxed/simple;
+	bh=AEG/PRplX7Q9Ar4R6s9BNcxTSrxfVQJ2ez+AGOhphAg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JjT5E7HkerGhBVnzKRqPLMRXNAiOYHuARGM2ie08TqahVVOVmYxewKpw7ud8zF3F0Ugg1xX97k1fq1qMqREoGrhI8LxfVv9mpYk+HSw1uNdUls1tYW1VzjvzLUBLjhpMJgUvdtA/uwv4xnxekM4Es3f1Go6VYfl8y67bnnIZ7u8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=wyx7EjPR; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=G4456YoX; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=wyx7EjPR; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=G4456YoX; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T0DMy7mN"
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7ba0fa25f07so76119085a.2;
-        Thu, 09 Jan 2025 06:36:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736433379; x=1737038179; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QNunDNoIF2mrY2oVc9mlVfBWrl6u/4dyH5yl1p2uXyM=;
-        b=T0DMy7mNXZaWp2NIzgA7kdxs0X0CX/RqKF7VVrZwAZ2NqP1sfJvt67QyTcl11rExgp
-         QFmVtqpvxkjL2q+dC0imfV3Mk69SReMERHwB19aOrwNS9bsGjMVTbOwX+UZ1OTT88nNA
-         7S8yXc9u9RGLNugdCf8/UMZZGf2VUu/beGBKF4zud3zqYQJHxziwJi1pdyfj+YKtGN/3
-         +kjolqqAttm81vtvcHL7U4TTlzD3Ud+kazxtm/uycpxqtNE/eXxmfnvPQjSeS9r1HxDx
-         0hSnwrIG3B32o23C1jTTPmfes+t2NFReC1nBalfQeSlhcBV0+w8q7JYAhB8ckTZO6a9q
-         lYkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736433379; x=1737038179;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QNunDNoIF2mrY2oVc9mlVfBWrl6u/4dyH5yl1p2uXyM=;
-        b=h/KvEYimD7uhq3QkBuIwPmQ6yr/hybxa0Kr9RPsMffCaVX6On5TykBaKDDq5nVTCur
-         1lUol2yjfcmx9xnwUwcdIBLhMou1beJmOnaYsWoXRj2qtUH8myIEC0a+Y9joVuLqzC4H
-         ZqSLfbQjEOI89GLIzzbZvDBMpgAh4aZNzPBmKt3HJbKcPXOIMegQFBkthz0ouTSVN6J8
-         1RdXATMExfZ9w5WT88SfqI3vsMWezlPLjcDlri4e9hpkd7BG7GTKAXqubPMiTZQbgYAi
-         Gqou6zN4r87CqwQyreazAeEiu/fBHlM42hEa19+s2kXzqOTgFZeX55uJ9P+GGtJ7+JSf
-         EvsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU5MNYdE5HUvlGU+haQchDZidbAfBZjZwUjNSdfn3f4JrVyMoaEVFc9fBPfqar5L0hqrakt5PpbIcK5@vger.kernel.org, AJvYcCVToJIz0W7fa16ZW4ezm9QRYpDhtkm5G07BikgkX6suucMFEOvlh+ESMjplPT4y1lcXZPQZwfPQYthyg4yX@vger.kernel.org, AJvYcCVs04AON25hkCJxhktv7gR1g+DwyL37k6ndMuKuedUOXTV0cSK01fzIpD3/klpclHddT9Q1afAgQ9+rGDRBEPis@vger.kernel.org, AJvYcCW9D+6MjmFqBfCXgljNeCm7UAVq/aZUqr9KvIGMhHHVxS60S4hDKWNXJL7wNhGp/MEUVpXLTJ0+@vger.kernel.org, AJvYcCXBGPfIc0xX3WbByN86kopjLjco79E5ILN4631Ev+bTGgybFDS4HT7QCs/YdCSsgslWB0g=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/BokhRgND5/uUXgxaFXAu9/EdhwWuaeOgSu1pMyBSnCK9wkcj
-	6LCpxIM1on8AzzZgmAHs1Afem+UIelQ9XhNgdxxyiRsytjVUxmmv
-X-Gm-Gg: ASbGncv1Ue+VOVGWXdyyKyzOMQU1HWFcsndEHUY473lO1pRB9rDkIWxYXsfRumox/yr
-	rYtzRRt2byOUXPzEavqKlZsQwopHqC+H+wH0vbFjYfCoZGWnema/GPGGDEegiR05Y8kJFeiEIiT
-	pVBLJk8H7zbReFIVHRMNBwQ3zcOhFz6heEM/DcH3LYijGQyIaTfndJ4lKqbwN+xpkAUmrH4cKpY
-	yqiKWIK41wWVOSFPccf54XLDt0kHgNq46avvCQJuZrs8Gld+2TOQHrr3e5EQ0u+18zbfA1QwQjN
-	iSsUyITOLmwThqG0WPVfzunkcC9n
-X-Google-Smtp-Source: AGHT+IFryBKl+CgzeHnlshqOHgd4HEgss/hRNR6TRDEv+l/RB0gB9QwsktP04rpoXg5ryVYIaPfcmg==
-X-Received: by 2002:a05:620a:4142:b0:7b7:106a:19b7 with SMTP id af79cd13be357-7bcd970d4b8mr1005540485a.18.1736433378983;
-        Thu, 09 Jan 2025 06:36:18 -0800 (PST)
-Received: from localhost (15.60.86.34.bc.googleusercontent.com. [34.86.60.15])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7bce3516068sm71749885a.100.2025.01.09.06.36.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jan 2025 06:36:18 -0800 (PST)
-Date: Thu, 09 Jan 2025 09:36:18 -0500
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
- Jason Wang <jasowang@redhat.com>, 
- "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
- Shuah Khan <shuah@kernel.org>, 
- linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- netdev@vger.kernel.org, 
- kvm@vger.kernel.org, 
- virtualization@lists.linux-foundation.org, 
- linux-kselftest@vger.kernel.org, 
- Yuri Benditovich <yuri.benditovich@daynix.com>, 
- Andrew Melnychenko <andrew@daynix.com>, 
- Stephen Hemminger <stephen@networkplumber.org>, 
- gur.stavi@huawei.com, 
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Message-ID: <677fdee2b56d_362bc129446@willemb.c.googlers.com.notmuch>
-In-Reply-To: <20250109-rss-v6-5-b1c90ad708f6@daynix.com>
-References: <20250109-rss-v6-0-b1c90ad708f6@daynix.com>
- <20250109-rss-v6-5-b1c90ad708f6@daynix.com>
-Subject: Re: [PATCH v6 5/6] selftest: tun: Add tests for virtio-net hashing
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="wyx7EjPR";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="G4456YoX";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="wyx7EjPR";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="G4456YoX"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 96A9321109;
+	Thu,  9 Jan 2025 14:41:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1736433696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QR0ick1q/InlbfFc7W+83ZVxC/nbKmQ1hUsG6IYhMDc=;
+	b=wyx7EjPRYHuaWEuIObJGaDc3SjVPtL91zfhWbQ4NTu64ZHhC4aNOUpTL5gsfoNvQaq2KNR
+	YudOzeGTSo2PrkRMLaIvKn/ddgf3qaNA1DvhXtjWHQBYCeN6sO50sLnc/Qc5vsgZHJ7Tr9
+	BvNVxYLm9aM6+8RDnkqHl9xHb6jj/Js=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1736433696;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QR0ick1q/InlbfFc7W+83ZVxC/nbKmQ1hUsG6IYhMDc=;
+	b=G4456YoXRQb7ZxxTea/XFnbLl1uE7+q7HQOHjwnksXHEEjBKddfeyTvGogI0LFYa44dfoP
+	CR+szlg2WjODWoCA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=wyx7EjPR;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=G4456YoX
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1736433696; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QR0ick1q/InlbfFc7W+83ZVxC/nbKmQ1hUsG6IYhMDc=;
+	b=wyx7EjPRYHuaWEuIObJGaDc3SjVPtL91zfhWbQ4NTu64ZHhC4aNOUpTL5gsfoNvQaq2KNR
+	YudOzeGTSo2PrkRMLaIvKn/ddgf3qaNA1DvhXtjWHQBYCeN6sO50sLnc/Qc5vsgZHJ7Tr9
+	BvNVxYLm9aM6+8RDnkqHl9xHb6jj/Js=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1736433696;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QR0ick1q/InlbfFc7W+83ZVxC/nbKmQ1hUsG6IYhMDc=;
+	b=G4456YoXRQb7ZxxTea/XFnbLl1uE7+q7HQOHjwnksXHEEjBKddfeyTvGogI0LFYa44dfoP
+	CR+szlg2WjODWoCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5821A139AB;
+	Thu,  9 Jan 2025 14:41:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +x79FCDgf2coZAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Thu, 09 Jan 2025 14:41:36 +0000
+Message-ID: <c592118f-be6a-4d82-b925-80e102a7aba2@suse.cz>
+Date: Thu, 9 Jan 2025 15:42:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 10/16] refcount: introduce
+ __refcount_{add|inc}_not_zero_limited
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
+ lorenzo.stoakes@oracle.com, mhocko@suse.com, hannes@cmpxchg.org,
+ mjguzik@gmail.com, oliver.sang@intel.com, mgorman@techsingularity.net,
+ david@redhat.com, peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net,
+ paulmck@kernel.org, brauner@kernel.org, dhowells@redhat.com,
+ hdanton@sina.com, hughd@google.com, lokeshgidra@google.com,
+ minchan@google.com, jannh@google.com, shakeel.butt@linux.dev,
+ souravpanda@google.com, pasha.tatashin@soleen.com, klarasmodin@gmail.com,
+ richard.weiyang@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
+References: <20250109023025.2242447-1-surenb@google.com>
+ <20250109023025.2242447-11-surenb@google.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Content-Language: en-US
+In-Reply-To: <20250109023025.2242447-11-surenb@google.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 96A9321109
+X-Spam-Score: -3.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[33];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[infradead.org,oracle.com,suse.com,cmpxchg.org,gmail.com,intel.com,techsingularity.net,redhat.com,stgolabs.net,kernel.org,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	TAGGED_RCPT(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLk41rrgs15z4i1nmqiwtynpyh)];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-Akihiko Odaki wrote:
-> The added tests confirm tun can perform RSS and hash reporting, and
-> reject invalid configurations for them.
+On 1/9/25 3:30 AM, Suren Baghdasaryan wrote:
+> Introduce functions to increase refcount but with a top limit above which
+> they will fail to increase (the limit is inclusive). Setting the limit to
+> INT_MAX indicates no limit.
 > 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> ---
->  tools/testing/selftests/net/Makefile |   2 +-
->  tools/testing/selftests/net/tun.c    | 558 ++++++++++++++++++++++++++++++++++-
->  2 files changed, 551 insertions(+), 9 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/net/Makefile b/tools/testing/selftests/net/Makefile
-> index cb2fc601de66..92762ce3ebd4 100644
-> --- a/tools/testing/selftests/net/Makefile
-> +++ b/tools/testing/selftests/net/Makefile
-> @@ -121,6 +121,6 @@ $(OUTPUT)/reuseport_bpf_numa: LDLIBS += -lnuma
->  $(OUTPUT)/tcp_mmap: LDLIBS += -lpthread -lcrypto
->  $(OUTPUT)/tcp_inq: LDLIBS += -lpthread
->  $(OUTPUT)/bind_bhash: LDLIBS += -lpthread
-> -$(OUTPUT)/io_uring_zerocopy_tx: CFLAGS += -I../../../include/
-> +$(OUTPUT)/io_uring_zerocopy_tx $(OUTPUT)/tun: CFLAGS += -I../../../include/
->  
->  include bpf.mk
-> diff --git a/tools/testing/selftests/net/tun.c b/tools/testing/selftests/net/tun.c
-> index 463dd98f2b80..9424d897e341 100644
-> --- a/tools/testing/selftests/net/tun.c
-> +++ b/tools/testing/selftests/net/tun.c
-> @@ -2,21 +2,37 @@
->  
->  #define _GNU_SOURCE
->  
-> +#include <endian.h>
->  #include <errno.h>
->  #include <fcntl.h>
-> +#include <stddef.h>
->  #include <stdio.h>
->  #include <stdlib.h>
->  #include <string.h>
->  #include <unistd.h>
-> -#include <linux/if.h>
-> +#include <net/if.h>
-> +#include <netinet/ip.h>
-> +#include <sys/ioctl.h>
-> +#include <sys/socket.h>
-> +#include <linux/compiler.h>
-> +#include <linux/icmp.h>
-> +#include <linux/if_arp.h>
->  #include <linux/if_tun.h>
-> +#include <linux/ipv6.h>
->  #include <linux/netlink.h>
->  #include <linux/rtnetlink.h>
-> -#include <sys/ioctl.h>
-> -#include <sys/socket.h>
-> +#include <linux/sockios.h>
-> +#include <linux/tcp.h>
-> +#include <linux/udp.h>
-> +#include <linux/virtio_net.h>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
-Are all these include changes strictly needed? Iff so, might as well
-fix ordering to be alphabetical (lexicographic).
-  
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
+
