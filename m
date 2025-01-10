@@ -1,119 +1,133 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD721C75E2
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 02:39:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554DC26ACD
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 03:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736476778; cv=none; b=YVbUQlgyLvAgKFv+JDpcrGpkprSMS+TanOUWwthgedQrH2SwXYhWzhEAR2EE/pvJZD7+SbAQEIZr9KcuQrOTOjomrBDjyyxnQV8X3pr0K/HsfnJzhPegSSvVk4BN9YPpHiuUsPI9kSHgberokxonQHjvJYHFRTzQv81oNXMJ+mU=
+	t=1736479503; cv=none; b=baolT/AWcT3sQBPwiPQVcndI9MYm4i78NAbdJRKVCX5otq2B4752bprCJqA+u/A+PELx5MOCo9B/RKrV6AmX3pHABbw6jsrBVyOjcGf7owv/tLbSJwAecqc9z1GLyR2rUUuShArPODHd20ysawcmPyUUtAhKLeCY2OSy6p0uxbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736476778; c=relaxed/simple;
-	bh=wNfG6a4nWV+WDHvlYEywMmAzMAZoADg+1dGCgUfBAow=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WhD7jo6K8DOzsAn1iW+7mJ9NqUdwsVq3lcsliy7NlVq22n7eIiyEkimTYYaCM9NPaejzFP49PePT3Udc6gBjuvCQz9VGU/u1BFEwY9D7hG1e+sOVvbp+MaDSK9xDIvU5EKhwe0Q035cLGsjNduzbvbc2WKVLo7Z+qIy1QbIpU/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=AC7FTdxX; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1736479503; c=relaxed/simple;
+	bh=xiIZOksV9gK8x5lTS+rlahAEFaL/qj64KXL6RVencw0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XPGVTbJuf8CYb102zwepKJSzBlFyqF1BmSpEFeCEJbmuLo7fXIJJCnwp3lExdR4DyixHDQBb/a/WRK1/4SoNa+xTzuzmn/MH2VOdpOPs3hpm0uHmBOQRtx7on3lAcFmjrxP+Oq6zXTMtT29nuReVsYQ5pdhSkMU1S+frRHc13g0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FGoWxuua; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="AC7FTdxX"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2ee786b3277so2080199a91.1
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jan 2025 18:39:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1736476776; x=1737081576; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mr2zl9tokZEmJRNbwSPk2x5ju4GlaTGsmKHBRm106nw=;
-        b=AC7FTdxXayw7v/b/N4r3gcPdZJE6h3u6NcGuQT60PYF+SccMrAciT40DCDvAvVMRfz
-         6dqqc8cjXV8w4Gas32/NfUPg/yLnBUzxkHJ1CO0f/GQ3F70z5iefLzUSzpKPUOVTntNC
-         9jyR0u1JBD5GDNY7gjIEq2UAOE6na0zcXBAUbZcz//8EeD78Oz0y73DpqWcIfWxOq46O
-         Q1DLNVEXJKxO1TEt7bypjGsJtOI7EtsSFm12DWWSJarQYtr5mmawblUn6gd9PmKhliFR
-         rj+xmDQwXurKl5erlqNHhKtRrgpSEuTnd1F8JOG5XcObhptH5tXh1OdozHh8QS6BRNJS
-         8sAw==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FGoWxuua"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1736479500;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ux/EFJGUhHtGiPWKsNCatUDg5uRU42FVCWFIHQvV8s8=;
+	b=FGoWxuua4vh9ZGE34vxHBfMXrmAA0IqaqUQSOfBG14Fh7uMn7akli2l2u5ChCY5ZzuQiai
+	o3YzTmCAGJczKmJVWDj/QvsEw8WVVAySuMG3y+UmmTVj+YEtpATcoctzDK/WfsG1GDdbiF
+	EMBAkw/0kZAYfn+UfNrFcYCF29oT4Qs=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-648-BYKOalNVNhO9kZbTipbQgg-1; Thu, 09 Jan 2025 22:24:58 -0500
+X-MC-Unique: BYKOalNVNhO9kZbTipbQgg-1
+X-Mimecast-MFC-AGG-ID: BYKOalNVNhO9kZbTipbQgg
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-2eebfd6d065so4203078a91.3
+        for <linux-doc@vger.kernel.org>; Thu, 09 Jan 2025 19:24:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736476776; x=1737081576;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Mr2zl9tokZEmJRNbwSPk2x5ju4GlaTGsmKHBRm106nw=;
-        b=XS8/K31I/JjNCqnQygGn4RDnTlfeoviddY4fQem4QdzdPbUQAfBjS1IchHfTFV7PSn
-         v0Z0hbvvkwMny1qf06wQrpr4CQuITom91yBNtHTn1A+Nn2pHzRC6AntxpxPXNVRgH4G0
-         IR+PaIB/5HSK01kJFATut/jPAIEXTcua1T5PJIbzSwzxx2CacPq11aakZQYG9azOcCwP
-         d6YOFqtPeNQCisaRouquVVu6u2VYvqNKYNrbS95JM4AWaklFsi2v0wjhHNVFqhwcRbA5
-         8CCPdJ+zFEI3kLUZy3h5Nk27ItzlrtgKlW60T/CKN5rN9wjWw8O0LLLTGy+y4pSmZyWe
-         6gKA==
-X-Forwarded-Encrypted: i=1; AJvYcCXh9idX1yfcrP4Q3yV12HZIp7Lu9JWbSqP84RpjarAB8BSDEVlNLZYIsC3uGQ5A+lmU4sUaxvaUSvs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz21lott8thRfS2qznbU17YZLw4rbgw2V2fnNm+mCPxmR9iWKYe
-	xPhI/zAfRXAWRSBGwjvRzircp5XfTgGySiCvuUKw3bUo2KAtjuk/nF5F2pwk790=
-X-Gm-Gg: ASbGncvlOjagG4M28sx4z3zJu/Y+cp8wCCkVBhg99DKAuGqivBmqXQGkvvHyZnkcow5
-	tlNFS2wqhaSzmJTroH4HGtEZ2BJ7hQp0pdom3/alSb9Ok3SPpTysiVMT01XQ/I6vw9z67t23CBr
-	PMwU+uxHk5aLzVgVoPQBMMnYMMuFX0ccWWjU8CSj7TJbzU2WtopF5e9oLVld6gYepee6+Xg5G/o
-	CdExoY2cYvyY4ZP3jCx/8Nc6oFyniP3ZooX5fBNr/SHJNaHgtli
-X-Google-Smtp-Source: AGHT+IEELWBKHxdbrUGocMcdse//zbn0a7mfhRS+t2cLR4rGWCWkHhICwizRk/m67LS+t2LFMSJfyw==
-X-Received: by 2002:a17:90a:e18c:b0:2ea:8fee:508d with SMTP id 98e67ed59e1d1-2f548f45fb4mr13311438a91.30.1736476775943;
-        Thu, 09 Jan 2025 18:39:35 -0800 (PST)
-Received: from ghost ([2601:647:6700:64d0:691c:638a:ff10:3765])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9f233836sm4473465ad.207.2025.01.09.18.39.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jan 2025 18:39:35 -0800 (PST)
-Date: Thu, 9 Jan 2025 18:39:33 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: cp0613@linux.alibaba.com
-Cc: corbet@lwn.net, paul.walmsley@sifive.com, palmer@dabbelt.com,
-	aou@eecs.berkeley.edu, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH] Documentation: riscv: Remove KPROBES_ON_FTRACE
-Message-ID: <Z4CIZSpbbUATs8TN@ghost>
-References: <20250108020342.4172-1-cp0613@linux.alibaba.com>
+        d=1e100.net; s=20230601; t=1736479498; x=1737084298;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ux/EFJGUhHtGiPWKsNCatUDg5uRU42FVCWFIHQvV8s8=;
+        b=CqH0+Bc6jT4vJxGPZbbM18WPNxsaDAtf3nDqkKmF+v5vRkQKQN5VH0tj0AjAaMvD5I
+         gvyqVkiWdLunFH3uOSE3qSOqnSEKcRfoAkJsN5KcfPWJBPUE/vbsS+iBrdsTlyV8a1/u
+         KdZs8I4sig1wN3t0KRJAAEs2QNNW2cZK4q+P6Vb947qSbaUeo0Mt9IwiNFZhZiSzRKQn
+         j/GRplsT2/vr07PgdQFkFkU3do9uEKB3sOoM+G9c8Q2T7M/+P5ySm8UANLt8t+PnEHT8
+         m1IC5pXaTMzvdzvdj3tU6d90UgGR9bdWCrjUNs4jCoWycxVnDhSlazeSR9YPEgW8+MZ/
+         l1mg==
+X-Forwarded-Encrypted: i=1; AJvYcCVq45kL2ssvsopzl2nThldGVFjyhx4M3T/8ufMprT5t4U3OYfoaj5H+7tSLtuXKwIxp3abHWuB9c9c=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyer815AGannaewoequfUz4RHtk+m4gdutsxOtAM4fn1rmNtVOQ
+	MGLLqY8Pq7VnwNieW8Jv9oraT4CHRNGLCFfi22el9V79hmKfoBD7igaj7HMHo3v4EiA8NNAzoCR
+	G5iVbSaVf5Tx8CjrLyX4RnNAMjCaQqj7/IrQijyfMkopN7wpm875dnLIlunWMQc8Fb/dT9GaK/L
+	UbK63AblHJ2VL1zOzNzFxHq7Uy1/GsARfP
+X-Gm-Gg: ASbGncte4jK/BnXmLXIdPJeMvMbdwhnQTPA6MuaLm+xNFny+stlseZVhGxeyCB3Rn+b
+	J6Hi3D8pv5E+2ULRRAhxRX15WrLWEXIRC1qhs1bg=
+X-Received: by 2002:a17:90b:2f45:b0:2ef:2f49:7d7f with SMTP id 98e67ed59e1d1-2f548ece7afmr14119973a91.18.1736479497868;
+        Thu, 09 Jan 2025 19:24:57 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGl4su9kuwxLueN6s9pabolA/u0yv9vnPxFtYkK0ZVCk201Nafu3Va6ZCJu8GUQ/vQJh85IIDkmsOql8mxd8mA=
+X-Received: by 2002:a17:90b:2f45:b0:2ef:2f49:7d7f with SMTP id
+ 98e67ed59e1d1-2f548ece7afmr14119944a91.18.1736479497484; Thu, 09 Jan 2025
+ 19:24:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250108020342.4172-1-cp0613@linux.alibaba.com>
+References: <20250109-tun-v2-0-388d7d5a287a@daynix.com> <20250109-tun-v2-1-388d7d5a287a@daynix.com>
+In-Reply-To: <20250109-tun-v2-1-388d7d5a287a@daynix.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Fri, 10 Jan 2025 11:24:45 +0800
+X-Gm-Features: AbW1kvayDbWMw6YuULfNbkLhEoUv0nyH0UVx2PFd5rLWnQcrUga4t_8H0CMLDNk
+Message-ID: <CACGkMEs2S=G-Y077hCeFE57ar0h1A5EaySOOTcvFZUVC0oGdXQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] tun: Unify vnet implementation
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, kvm@vger.kernel.org, 
+	virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
+	Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko <andrew@daynix.com>, 
+	Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com, devel@daynix.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 08, 2025 at 10:03:42AM +0800, cp0613@linux.alibaba.com wrote:
-> From: Chen Pei <cp0613@linux.alibaba.com>
-> 
-> Since commit 7caa9765465f60 ("ftrace: riscv: move from REGS to ARGS"),
-> kprobe on ftrace is not supported by riscv.
-> 
-> And commit 3308172276db5d ("trace: riscv: Remove deprecated kprobe on
-> ftrace support") removed the relevant code, but left out the
-> documentation, so fix that.
-> 
-> Signed-off-by: Chen Pei <cp0613@linux.alibaba.com>
-
-Perhaps this should have a fixes tag for the commit that removed the
-support?
-
-Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
-Fixes: 3308172276db5d ("trace: riscv: Remove deprecated kprobe on ftrace support")
-
+On Thu, Jan 9, 2025 at 2:59=E2=80=AFPM Akihiko Odaki <akihiko.odaki@daynix.=
+com> wrote:
+>
+> Both tun and tap exposes the same set of virtio-net-related features.
+> Unify their implementations to ease future changes.
+>
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 > ---
->  Documentation/features/debug/kprobes-on-ftrace/arch-support.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-> index 02febc883..d937b7a03 100644
-> --- a/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-> +++ b/Documentation/features/debug/kprobes-on-ftrace/arch-support.txt
-> @@ -20,7 +20,7 @@
->      |    openrisc: | TODO |
->      |      parisc: |  ok  |
->      |     powerpc: |  ok  |
-> -    |       riscv: |  ok  |
-> +    |       riscv: | TODO |
->      |        s390: |  ok  |
->      |          sh: | TODO |
->      |       sparc: | TODO |
-> -- 
-> 2.43.0
-> 
-> 
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+>  MAINTAINERS            |   1 +
+>  drivers/net/Kconfig    |   5 ++
+>  drivers/net/Makefile   |   1 +
+>  drivers/net/tap.c      | 172 ++++++----------------------------------
+>  drivers/net/tun.c      | 208 ++++++++-----------------------------------=
+------
+>  drivers/net/tun_vnet.c | 186 +++++++++++++++++++++++++++++++++++++++++++
+>  drivers/net/tun_vnet.h |  24 ++++++
+>  7 files changed, 273 insertions(+), 324 deletions(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 910305c11e8a..1be8a452d11f 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -23903,6 +23903,7 @@ F:      Documentation/networking/tuntap.rst
+>  F:     arch/um/os-Linux/drivers/
+>  F:     drivers/net/tap.c
+>  F:     drivers/net/tun.c
+> +F:     drivers/net/tun_vnet.h
+>
+>  TURBOCHANNEL SUBSYSTEM
+>  M:     "Maciej W. Rozycki" <macro@orcam.me.uk>
+> diff --git a/drivers/net/Kconfig b/drivers/net/Kconfig
+> index 1fd5acdc73c6..255c8f9f1d7c 100644
+> --- a/drivers/net/Kconfig
+> +++ b/drivers/net/Kconfig
+> @@ -395,6 +395,7 @@ config TUN
+>         tristate "Universal TUN/TAP device driver support"
+>         depends on INET
+>         select CRC32
+> +       select TUN_VNET
+
+I don't think we need a dedicated Kconfig option here.
+
+Btw, fixes should come first as it simplifies the backporting.
+
+Thanks
+
