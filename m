@@ -1,263 +1,135 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0B620FABA;
-	Fri, 10 Jan 2025 14:33:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F229211283
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 14:39:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736519615; cv=none; b=qqtsiFbJQ3SMtF9Ha9P10wgOWTVctyu3RA8BwXXOhc3Q50a0fSuIF41+Bdjv6IDoKhblD3lCIhCVrPSd/7EMbWl+YOillb2saPNGoIK1a/0dnzUhX18zy0heXK/8ViL8Z9SomOy+/6IVHzDhhomKJCPwXZh5nSvNduEQUVfcknw=
+	t=1736519974; cv=none; b=Ko0MzvGaRJNaUetq5Mwn9nx/5dvk4rt9hlvTCG71YKgyZ6TuYfAQprVUUJfYoT0uU8fFRdRzY7DaO9GQGk7m9+T0MCsozRjXq10bXHSG/uNzEsuRjFTj7qHLE1UY3+UDHXYOm5uzHaO+nA4EzQ7HHDMPLG/FZdQSTEJ02eTI62A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736519615; c=relaxed/simple;
-	bh=AUOJLS1WFXuSGp6gQZhjWZW3fXzMXeK65/uFwVfuyEc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VcBZ5HGomTE3VubNKNLB3pXQxaX6pxXJrlPbDU5WDfyX80BYHjCKWELkVsWk5CiTake5gCMAudn4YCdTcqeViH5hpp2Tl46mxeTF4OETGU+Md0sb86kJ4kJqOfBhZDXO03TK7r79biOSCletXyymZHtKEiV2FawEggqN7R+hJeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=IHL0dZWf; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=M9Au6QAM; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=IHL0dZWf; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=M9Au6QAM; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1736519974; c=relaxed/simple;
+	bh=dNcVzZTesBokg/jzESekrq3gcdde//x7yKqO6CtNHGM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=jDg9sOAOPytgsPig3aqOzLoFxu+gUXXAtsv9Y8ziOGnKoF5Ojsn6/vSa7urIyfXZJN0DB7/cjEuhHRVcHQJI+kfnxWWNtA1J7c7IOIXoa+xbPDekpGc0jwODW+y6pHUWYP80PWbfig40J8IFriqeMI2i7+mi1ReORVmrxrNO8lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=HjYkbY5B; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="IHL0dZWf";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="M9Au6QAM";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="IHL0dZWf";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="M9Au6QAM"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4A38A211D1;
-	Fri, 10 Jan 2025 14:33:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1736519611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V4C/s0MxsTOXL5AbxkJ23UHjTuZjrHS8oE31bAjfwqE=;
-	b=IHL0dZWfWmcIEC7eWUsbGKhWJBj0g08H38toyl+QBJR75o0ZLMTx3x+S045LiAmIaMgv7y
-	MHynxZYPAPNc3vpdqJKTBpZpjkXIKB25RcMgCCjwbg6UcxUCJO5N3R9danXKDlafgQtJJL
-	Di6KR4GyvCxsovnNSFV5IITGDfTd1ug=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1736519611;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V4C/s0MxsTOXL5AbxkJ23UHjTuZjrHS8oE31bAjfwqE=;
-	b=M9Au6QAMbfF2DS53b08gz2fn8f/b2Up+1akYWHuEhviRj7rgONgUfcpaXONBNAyIHoQ1sy
-	xNWjuAcpG2UxWUDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1736519611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V4C/s0MxsTOXL5AbxkJ23UHjTuZjrHS8oE31bAjfwqE=;
-	b=IHL0dZWfWmcIEC7eWUsbGKhWJBj0g08H38toyl+QBJR75o0ZLMTx3x+S045LiAmIaMgv7y
-	MHynxZYPAPNc3vpdqJKTBpZpjkXIKB25RcMgCCjwbg6UcxUCJO5N3R9danXKDlafgQtJJL
-	Di6KR4GyvCxsovnNSFV5IITGDfTd1ug=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1736519611;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V4C/s0MxsTOXL5AbxkJ23UHjTuZjrHS8oE31bAjfwqE=;
-	b=M9Au6QAMbfF2DS53b08gz2fn8f/b2Up+1akYWHuEhviRj7rgONgUfcpaXONBNAyIHoQ1sy
-	xNWjuAcpG2UxWUDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1E45B13763;
-	Fri, 10 Jan 2025 14:33:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id d5whB7svgWdDdQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Fri, 10 Jan 2025 14:33:31 +0000
-Message-ID: <95e9d80e-6c19-4a1f-9c21-307006858dff@suse.cz>
-Date: Fri, 10 Jan 2025 15:34:26 +0100
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="HjYkbY5B"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4361b0ec57aso21469705e9.0
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 06:39:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736519971; x=1737124771; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yvV3AHUuYO6Tr9wrbauX5wDzxdO09agrWxXF+HRfAWU=;
+        b=HjYkbY5BRbbMZ0l9kgNjutWDNTtw3NLD825Z+YvjmMW6HodK/yZSECY1R95IoQ4B3v
+         upvLo5uJybvtN+tXKso7M+ilEPLQ30XZmoM60B8DXC7rOufKjKHFOEP7eamqgrzPTqzF
+         b8jBb0Q+xB2jt2ZnXbZf7i/Mp7S3LpKGGrpPQ6oiplkjDU5RDYXxjeI7m6oFSDzy9qMu
+         ti7ZZMgR8Nn05/b62oZOp5pOUAZI0ZEcKAm2dHNULe1ddVYK5hKiOqB+LY1u2XJS7+NR
+         qjS8WrEUPPZXcS9FFGXnR2YBr/eIhQaH6NgXYA3TsQfXOPJoxkKc5YzhDVEuYXq5eXzu
+         uvjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736519971; x=1737124771;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=yvV3AHUuYO6Tr9wrbauX5wDzxdO09agrWxXF+HRfAWU=;
+        b=TUVLd/UCQiAiaadJDGBSRHBtTTnMO1DVxGMQwutSn4QvSMg8i+6p7U4ofzJvIA71Gr
+         0bILyzubBuf19bL9klYuyVJ0+CIYlomcWKdSkQOBiGPfF7X8e07b8WWni9MQus+CT9tz
+         NG8W4f0eFzdWh/wqaI3ASda3csnvjtAiyO1uV+IvR2yc86/FzkpiBPN6Ak5Qt3csrBJQ
+         Qm/RSg22XrTFRqIz6P+RXVYLLfM1zJV8o+RBLcI8aqMlUiq6+LSAtn3tGfWQO4CAzOkQ
+         ClZLAhx5s0cIpLwYw1jLMshPZ1BAmTgw8y1/kn87TWLoFCQ4h3DfSyMr3BJZ32qlIhaq
+         gDuw==
+X-Forwarded-Encrypted: i=1; AJvYcCWgJsV9LLGuaqosR80zxuP9F6/RUGT+7vuOJqXNSzOF4dMktZuVySQ6oJ7Z0U8c2tai/d8e/r9q5vU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxobJy7qPqEFJFxVFe+3/I4ZXYt4iltIz5M7lx3J47GSdqLEVyY
+	wyViF/j8I7sj5+j/0EUsQWbzC7fPdBOkr+5DB4sexSW3ig7R6kA+O5+Zu9Eq/28=
+X-Gm-Gg: ASbGncuH80I1KB0JK7wGMspMNuNKH8nByRhgW3wrGGXZEFOUgITqtIu+DETj5PX1DxD
+	vkyOM2Gp8/JHe5MVDKj6h/W3IOGTtvibzMnLmwrvhqhihmjlp5STn7B6LMZ0XYkw1svMXO006qi
+	ntBB+byEfhjteTr2S767EP+MfFkvc2xwFvS9gEpUfvRV8yqAbLK3LTMBBMr0nLDnGHhlQmkk3RJ
+	U9UPp1R+FbJVpzYOR9A/RFMIROxGaDHM2kkQhgb11gnX9VMz9TwGsk=
+X-Google-Smtp-Source: AGHT+IFsvuIAj4E6ymt7QQeU2pHWrvkUqe+Ac8WeW/VVn+1zRvvfjuYtDvvzhEKp8rrWDBKxsvfdDA==
+X-Received: by 2002:a05:6000:1563:b0:385:f44a:a53 with SMTP id ffacd0b85a97d-38a872cfe40mr8748169f8f.4.1736519970862;
+        Fri, 10 Jan 2025 06:39:30 -0800 (PST)
+Received: from localhost ([2a01:e0a:448:76e0:cfad:dcf2:8a42:1d83])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e37d447sm4625706f8f.4.2025.01.10.06.39.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Jan 2025 06:39:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 11/16] mm: replace vm_lock and detached flag with a
- reference count
-To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
-Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
- lorenzo.stoakes@oracle.com, mhocko@suse.com, hannes@cmpxchg.org,
- mjguzik@gmail.com, oliver.sang@intel.com, mgorman@techsingularity.net,
- david@redhat.com, peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net,
- paulmck@kernel.org, brauner@kernel.org, dhowells@redhat.com,
- hdanton@sina.com, hughd@google.com, lokeshgidra@google.com,
- minchan@google.com, jannh@google.com, shakeel.butt@linux.dev,
- souravpanda@google.com, pasha.tatashin@soleen.com, klarasmodin@gmail.com,
- richard.weiyang@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
-References: <20250109023025.2242447-1-surenb@google.com>
- <20250109023025.2242447-12-surenb@google.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-Content-Language: en-US
-In-Reply-To: <20250109023025.2242447-12-surenb@google.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_RCPT(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[33];
-	RCVD_TLS_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[infradead.org,oracle.com,suse.com,cmpxchg.org,gmail.com,intel.com,techsingularity.net,redhat.com,stgolabs.net,kernel.org,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLumbhs4xhzuuihrchnpuyb6qu)];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
+Date: Fri, 10 Jan 2025 15:39:29 +0100
+Message-Id: <D6YGYCYXJSOF.3BIXI0UPGNNZW@baylibre.com>
+Cc: "Lars-Peter Clausen" <lars@metafoo.de>, "Michael Hennerich"
+ <Michael.Hennerich@analog.com>, =?utf-8?q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>, <linux-iio@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 2/6] iio: adc: ad4030: add driver for ad4030-24
+From: "Esteban Blanc" <eblanc@baylibre.com>
+To: "Jonathan Cameron" <jic23@kernel.org>, "Marcelo Schmitt"
+ <marcelo.schmitt1@gmail.com>
+X-Mailer: aerc 0.18.2
+References: <20241219-eblanc-ad4630_v1-v2-0-f36e55907bf5@baylibre.com>
+ <20241219-eblanc-ad4630_v1-v2-2-f36e55907bf5@baylibre.com>
+ <Z2eqOSN2Uk8SfTq1@debian-BULLSEYE-live-builder-AMD64>
+ <20241223120419.757eadfb@jic23-huawei>
+In-Reply-To: <20241223120419.757eadfb@jic23-huawei>
 
-On 1/9/25 3:30 AM, Suren Baghdasaryan wrote:
-> rw_semaphore is a sizable structure of 40 bytes and consumes
-> considerable space for each vm_area_struct. However vma_lock has
-> two important specifics which can be used to replace rw_semaphore
-> with a simpler structure:
-> 1. Readers never wait. They try to take the vma_lock and fall back to
-> mmap_lock if that fails.
-> 2. Only one writer at a time will ever try to write-lock a vma_lock
-> because writers first take mmap_lock in write mode.
-> Because of these requirements, full rw_semaphore functionality is not
-> needed and we can replace rw_semaphore and the vma->detached flag with
-> a refcount (vm_refcnt).
-> When vma is in detached state, vm_refcnt is 0 and only a call to
-> vma_mark_attached() can take it out of this state. Note that unlike
-> before, now we enforce both vma_mark_attached() and vma_mark_detached()
-> to be done only after vma has been write-locked. vma_mark_attached()
-> changes vm_refcnt to 1 to indicate that it has been attached to the vma
-> tree. When a reader takes read lock, it increments vm_refcnt, unless the
-> top usable bit of vm_refcnt (0x40000000) is set, indicating presence of
-> a writer. When writer takes write lock, it sets the top usable bit to
-> indicate its presence. If there are readers, writer will wait using newly
-> introduced mm->vma_writer_wait. Since all writers take mmap_lock in write
-> mode first, there can be only one writer at a time. The last reader to
-> release the lock will signal the writer to wake up.
-> refcount might overflow if there are many competing readers, in which case
-> read-locking will fail. Readers are expected to handle such failures.
-> In summary:
-> 1. all readers increment the vm_refcnt;
-> 2. writer sets top usable (writer) bit of vm_refcnt;
-> 3. readers cannot increment the vm_refcnt if the writer bit is set;
-> 4. in the presence of readers, writer must wait for the vm_refcnt to drop
-> to 1 (ignoring the writer bit), indicating an attached vma with no readers;
-> 5. vm_refcnt overflow is handled by the readers.
-> 
-> Suggested-by: Peter Zijlstra <peterz@infradead.org>
-> Suggested-by: Matthew Wilcox <willy@infradead.org>
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+On Mon Dec 23, 2024 at 1:04 PM CET, Jonathan Cameron wrote:
+>
+> Just commenting on one particular bit feedback. Makes sure to address the
+> rest!
+>
+> > > +
+> > > +static int ad4030_get_chan_calibscale(struct iio_dev *indio_dev,
+> > > +				      struct iio_chan_spec const *chan,
+> > > +				      int *val,
+> > > +				      int *val2)
+> > > +{
+> > > +	struct ad4030_state *st =3D iio_priv(indio_dev);
+> > > +	u16 gain;
+> > > +	int ret;
+> > > +
+> > > +	ret =3D regmap_bulk_read(st->regmap, AD4030_REG_GAIN_CHAN(chan->add=
+ress),
+> > > +			       st->rx_data.raw, AD4030_REG_GAIN_BYTES_NB);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	gain =3D get_unaligned_be16(st->rx_data.raw); =20
+> > My impression is that it is a bit odd to handle endianness after/before
+> > calling regmap_read/write(). Can you try set
+> > .val_format_endian_default =3D REGMAP_ENDIAN_BIG, in ad4030_regmap_bus?
+> > If that doesn't help, what about doing the get/set_unaligned stuff with=
+in
+> > the bus read/write calls?
+>
+> Unless these are all 16 bit registers (in which case push it into the
+> regmap side of things), then a bulk read is not implying the registers
+> read are one value. They could just be a load of registers next to each o=
+ther.
+> As such the regmap core won't touch them and endian conversion here, at t=
+he
+> layer where we know they are related is the right thing to do.
+>
+> It's  not worth dual regmap stuff just because we have a few pairs of
+> registers.=20
 
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+In fact I've already set `.val_format_endian_default =3D REGMAP_ENDIAN_BIG`
+but it has any effect as registers are 8bits long.
 
-But think there's a problem that will manifest after patch 15.
-Also I don't feel qualified enough about the lockdep parts though
-(although I think I spotted another issue with those, below) so best if
-PeterZ can review those.
-Some nits below too.
+Most of the time registers are not related to each other. It's only for
+offset and scale that multiple registers form one number
 
-> +
-> +static inline void vma_refcount_put(struct vm_area_struct *vma)
-> +{
-> +	int oldcnt;
-> +
-> +	if (!__refcount_dec_and_test(&vma->vm_refcnt, &oldcnt)) {
-> +		rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
-
-Shouldn't we rwsem_release always? And also shouldn't it precede the
-refcount operation itself?
-
-> +		if (is_vma_writer_only(oldcnt - 1))
-> +			rcuwait_wake_up(&vma->vm_mm->vma_writer_wait);
-
-Hmm hmm we should maybe read the vm_mm pointer before dropping the
-refcount? In case this races in a way that is_vma_writer_only tests true
-but the writer meanwhile finishes and frees the vma. It's safe now but
-not after making the cache SLAB_TYPESAFE_BY_RCU ?
-
-> +	}
-> +}
-> +
-
->  static inline void vma_end_read(struct vm_area_struct *vma)
->  {
->  	rcu_read_lock(); /* keeps vma alive till the end of up_read */
-
-This should refer to vma_refcount_put(). But after fixing it I think we
-could stop doing this altogether? It will no longer keep vma "alive"
-with SLAB_TYPESAFE_BY_RCU.
-
-> -	up_read(&vma->vm_lock.lock);
-> +	vma_refcount_put(vma);
->  	rcu_read_unlock();
->  }
->  
-
-<snip>
-
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -6370,9 +6370,41 @@ struct vm_area_struct *lock_mm_and_find_vma(struct mm_struct *mm,
->  #endif
->  
->  #ifdef CONFIG_PER_VMA_LOCK
-> +static inline bool __vma_enter_locked(struct vm_area_struct *vma, unsigned int tgt_refcnt)
-> +{
-> +	/*
-> +	 * If vma is detached then only vma_mark_attached() can raise the
-> +	 * vm_refcnt. mmap_write_lock prevents racing with vma_mark_attached().
-> +	 */
-> +	if (!refcount_add_not_zero(VMA_LOCK_OFFSET, &vma->vm_refcnt))
-> +		return false;
-> +
-> +	rwsem_acquire(&vma->vmlock_dep_map, 0, 0, _RET_IP_);
-> +	rcuwait_wait_event(&vma->vm_mm->vma_writer_wait,
-> +		   refcount_read(&vma->vm_refcnt) == tgt_refcnt,
-> +		   TASK_UNINTERRUPTIBLE);
-> +	lock_acquired(&vma->vmlock_dep_map, _RET_IP_);
-> +
-> +	return true;
-> +}
-> +
-> +static inline void __vma_exit_locked(struct vm_area_struct *vma, bool *detached)
-> +{
-> +	*detached = refcount_sub_and_test(VMA_LOCK_OFFSET, &vma->vm_refcnt);
-> +	rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
-> +}
-> +
->  void __vma_start_write(struct vm_area_struct *vma, unsigned int mm_lock_seq)
->  {
-> -	down_write(&vma->vm_lock.lock);
-> +	bool locked;
-> +
-> +	/*
-> +	 * __vma_enter_locked() returns false immediately if the vma is not
-> +	 * attached, otherwise it waits until refcnt is (VMA_LOCK_OFFSET + 1)
-> +	 * indicating that vma is attached with no readers.
-> +	 */
-> +	locked = __vma_enter_locked(vma, VMA_LOCK_OFFSET + 1);
-
-Wonder if it would be slightly better if tgt_refcount was just 1 (or 0
-below in vma_mark_detached()) and the VMA_LOCK_OFFSET added to it in
-__vma_enter_locked() itself as it's the one adding it in the first place.
-
+--=20
+Esteban Blanc
+BayLibre
