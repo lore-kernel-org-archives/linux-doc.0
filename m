@@ -1,155 +1,89 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B8572054E0
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 10:45:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB1D20550F
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 10:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736505952; cv=none; b=B5kRui3aXIBRwchnq2LNcCjb6sWQqc8vDtDUlPToz6RDE1+4oxTflfn+wxdrFiIMqlLRFzhYeMWfyIC6j7eFqpIoVbgKMSsWHzymht17Ena6PeD9Ms7DIVdF9mezpvvAOe3luzCeL4BCZqhUBKUyYg6vULqaBpHK8U1zfGupBQE=
+	t=1736506128; cv=none; b=Rd5ida2MRlrIa+/he4I5/XfkH8M7mHKmvpg371aZ8IKuv2gKFU14VmGU9vgUS/Uch851TFvlRs87Qdt6dYy2Hwsw/Lu2tUOyZCmQXnVC4hLXDvrvcM4ZbztwftaFbtjYbDnm47sDl2OwFxtQWMDBC8Gex7u2kdPS8cC2nrR4LEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736505952; c=relaxed/simple;
-	bh=xwTt7EqwBQG9jsW/MlOAUi0BI8IrI3gTou3huVPPuY0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S04BBJ5Tl1ISdIrAHABgqAWXqUT/X64UachgnJdt386AQ1Ja5J3rjdxL0qqtmMpFq0bkGW+McEbx/QGt9lh7QsPj6lYi0kJp9Dpvx6m+O7XT00wTwQKH8ce2tecatnSbf8mjV95xCxGpPBUZ12sDAQOpQIv+u+/XH+789cI5CRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=p+9k1nB1; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
+	s=arc-20240116; t=1736506128; c=relaxed/simple;
+	bh=8UbyxEGzxGrKmnEXKWU5X0EhBYyltwhOR+qZ7CYftFg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RG6I/6k5OQAH4SyASbUaOF8KSMwdAmE2cdqZnA6vytKOYUL2FXdZaFcA1QOH00IVcExF/RtdZk8WjXvWzWaqFvp7xFg4plvyrFhSUWyV1a2NpTeZbNKA6/mO7rLZXPwBF+pWqLNS1AnFU8eKZBrH0IP4IwIPcJ938vVprxGUJpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZiM0FBOo; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="p+9k1nB1"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-21661be2c2dso29269625ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 02:45:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1736505950; x=1737110750; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lsqFmJrwySuAsgeQ23Hdp8zYfHgcqjGeQVThq/MnWD0=;
-        b=p+9k1nB1y1wLV4WAMd6GxCzPpVGINnfcjx4nS24pw7fZ/hn3Ly9tYIkV5IySy0AbyK
-         aOXcSz4wHFF9tbEmM93KdWsCVwG5WqVjTyWSOk65sD/ojHlm9ICq09k1pWkhKAleJW2Y
-         GTpwiuoMSgAUOr/YqrhWk0gdTtaC6LTn5HtGSjUDFQo8I1HMsLOeti+9umCaqx44hAZc
-         QTyJXAhs//a1i3RM15mcLV/fA+lMeyVQITdrIQtXuahzFtoXTgRyQ4kghTD5jz7Z9KMq
-         0wMQx+ee12Ua1YNIKaehndgJ07Kvrs3dmjzDAheUSpLTmyVK9vJRpmy333GkrjNXUT/F
-         IiAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736505950; x=1737110750;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lsqFmJrwySuAsgeQ23Hdp8zYfHgcqjGeQVThq/MnWD0=;
-        b=NwO6iZRLNBazbCjsiJ1pBRFGZYphOpYn1TUq+WncirY/quMEtlpToTFAkqg+tWrbtl
-         jIxPPlUxCEbxtuyKzV9andVfHTOstXSgCjYVL1urOISbmPeYTA3uZr677gBTfox0bvKW
-         n/YEVq0+Rb6dC88e8xAsKoNQiOeAAKChh+pZxQc1n6lK8cp+3bX6/XCgtoKUgJlfw3sa
-         4/uDa+C6rAAg6nnY5xTY3qPaPRBrdqfey20Fw+OsPvWRTUqNycr5C60rkx4pDDz5H21t
-         XHFLweKK0Fa7qFRVQOSZtqZ0fTqekL2GYXRC8aYobRomBWxlD169AtaMmoq7wLeRFI3x
-         9fzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU3FRihszohLil5w9Yf0H3cROavUtJ/OUSVOD+5Viot9S9u7Qd5ljYR8Qq1zdLKkeRjNjLlqnbfwro=@vger.kernel.org
-X-Gm-Message-State: AOJu0YydNGUYoKCoONBiLkTMLYGRR71Hp9THw/60uFPcp8OMyw6aEJ9V
-	0+oDa26YE6p4T4CcqOg80WC4wju8TSt6Vp9Qi4nfwKDW3JmSyqBrGfHIYfzlPfo=
-X-Gm-Gg: ASbGncsdoNgxTjTtSKpHisO1roL7SOXKh2QyT2s/t6JiZfgKtQ4Rzh6Kx5dj1vie4LZ
-	T8FzjT7N0GlQshJ35KCQn2/YF06siRAz2YTpdjFWWkwUIAJcIFAsA8KATbWSzEahRenHaX6wpPW
-	U98bM8G/GQCRLAt5gy/2PxWHJJjDhfgAo7bLNIcazWhBRsGy1UCzWZ2MKI4O4WjiL9UaQN4X3ac
-	k0OKOz+SvmZ4WwKZkdU0Q8YD2LiEoeOeMp/cZyipjUFMrbzzXha90/alynITDFU6PI=
-X-Google-Smtp-Source: AGHT+IFPsdQcQ1JqLrS7hF+DlyZPpDcSA6WD6jF46cfVg9u5bIjzxZ5xlWPHe2yN4Ld9eivHDLICVA==
-X-Received: by 2002:a17:902:ecc5:b0:216:7cbf:9500 with SMTP id d9443c01a7336-21a83f36df7mr150799945ad.6.1736505950548;
-        Fri, 10 Jan 2025 02:45:50 -0800 (PST)
-Received: from [157.82.203.37] ([157.82.203.37])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9f10e0dfsm11714655ad.41.2025.01.10.02.45.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jan 2025 02:45:50 -0800 (PST)
-Message-ID: <3a5001b5-9a07-4dfd-8cec-1e5f7180b88a@daynix.com>
-Date: Fri, 10 Jan 2025 19:45:44 +0900
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZiM0FBOo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736506126; x=1768042126;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8UbyxEGzxGrKmnEXKWU5X0EhBYyltwhOR+qZ7CYftFg=;
+  b=ZiM0FBOoW7F6YUgvYWtracUNMDX2vNGmoY5Kvpqyu7+qou4AKLgSH4La
+   vw317I7sAj1TwDrkRFd5NSc53H5eJ2Oi8J5HNBh2nRYRaY4CMIJnr7XeU
+   qoZ1I3PY1PhFj2ikxJyJ1HsUthPI3JfEXXNJtqkS7bPDQ99+JiDWAXb7d
+   x7SZ2AAn6JejBrabWGLmVkfayq0BhFlaK/v75M0TX3UypEuf+EwRUm1dp
+   uSIEu/3zXJ7q0DXml82lp8QOHbLt85Sx+kA45U75C2PZWaP+kNHwcVopG
+   Z/hvPC2BnRd9m7kJPtmgbHqlsTFDKnKQwFtZVFW1oWyiQOMHXvVc5ZbTx
+   A==;
+X-CSE-ConnectionGUID: gYXOY5MTS0qdUtnWmgJevg==
+X-CSE-MsgGUID: mOtDVBL8QuijQ2HcxDMRJA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36822293"
+X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
+   d="scan'208";a="36822293"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 02:48:45 -0800
+X-CSE-ConnectionGUID: spHEIs6AQlyHZL7vcpKk+w==
+X-CSE-MsgGUID: oJ2dw3KXR16Bt05Kl5GySw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="103587558"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 10 Jan 2025 02:48:44 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tWCZE-000J4Z-2Z;
+	Fri, 10 Jan 2025 10:48:40 +0000
+Date: Fri, 10 Jan 2025 18:48:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dhanunjanrao Katta <katta.dhanunjanrao@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>, linux-doc@vger.kernel.org
+Subject: [xilinx-xlnx:lkp_test 117/504] htmldocs: Warning:
+ Documentation/devicetree/bindings/sound/xlnx,v-uhdsdi-audio.txt references a
+ file that doesn't exist:
+ Documentation/devicetree/bindings/sound/xlnx,audio-formatter.txt
+Message-ID: <202501101859.GVxw5yM2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] tun: Pad virtio header with zero
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Jason Wang <jasowang@redhat.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, kvm@vger.kernel.org,
- virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Andrew Melnychenko <andrew@daynix.com>,
- Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com,
- devel@daynix.com
-References: <20250109-tun-v2-0-388d7d5a287a@daynix.com>
- <20250109-tun-v2-2-388d7d5a287a@daynix.com>
- <20250109023056-mutt-send-email-mst@kernel.org>
- <571a2d61-5fbe-4e49-b4d1-6bf0c7604a57@daynix.com>
- <677fc517b7b6e_362bc12945@willemb.c.googlers.com.notmuch>
- <5e193a94-8f5a-4a2a-b4c4-3206c21c0b63@daynix.com>
- <20250110033306-mutt-send-email-mst@kernel.org>
-Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <20250110033306-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2025/01/10 17:33, Michael S. Tsirkin wrote:
-> On Fri, Jan 10, 2025 at 01:38:06PM +0900, Akihiko Odaki wrote:
->> On 2025/01/09 21:46, Willem de Bruijn wrote:
->>> Akihiko Odaki wrote:
->>>> On 2025/01/09 16:31, Michael S. Tsirkin wrote:
->>>>> On Thu, Jan 09, 2025 at 03:58:44PM +0900, Akihiko Odaki wrote:
->>>>>> tun used to simply advance iov_iter when it needs to pad virtio header,
->>>>>> which leaves the garbage in the buffer as is. This is especially
->>>>>> problematic when tun starts to allow enabling the hash reporting
->>>>>> feature; even if the feature is enabled, the packet may lack a hash
->>>>>> value and may contain a hole in the virtio header because the packet
->>>>>> arrived before the feature gets enabled or does not contain the
->>>>>> header fields to be hashed. If the hole is not filled with zero, it is
->>>>>> impossible to tell if the packet lacks a hash value.
->>>
->>> Zero is a valid hash value, so cannot be used as an indication that
->>> hashing is inactive.
->>
->> Zeroing will initialize the hash_report field to
->> VIRTIO_NET_HASH_REPORT_NONE, which tells it does not have a hash value.
->>
->>>
->>>>>> In theory, a user of tun can fill the buffer with zero before calling
->>>>>> read() to avoid such a problem, but leaving the garbage in the buffer is
->>>>>> awkward anyway so fill the buffer in tun.
->>>>>>
->>>>>> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
->>>>>
->>>>> But if the user did it, you have just overwritten his value,
->>>>> did you not?
->>>>
->>>> Yes. but that means the user expects some part of buffer is not filled
->>>> after read() or recvmsg(). I'm a bit worried that not filling the buffer
->>>> may break assumptions others (especially the filesystem and socket
->>>> infrastructures in the kernel) may have.
->>>
->>> If this is user memory that is ignored by the kernel, just reflected
->>> back, then there is no need in general to zero it. There are many such
->>> instances, also in msg_control.
->>
->> More specifically, is there any instance of recvmsg() implementation which
->> returns N and does not fill the complete N bytes of msg_iter?
-> 
-> The one in tun. It was a silly idea but it has been here for years now.
+tree:   https://github.com/Xilinx/linux-xlnx lkp_test
+head:   9ac6b4acf9144465ac1408d4d799635dec0223a0
+commit: f719101fc152b7713d99c9ef08f619032856d71a [117/504] ASoC: dt-bindings: xlnx,audio-formatter: Update binding to yaml
+reproduce: (https://download.01.org/0day-ci/archive/20250110/202501101859.GVxw5yM2-lkp@intel.com/reproduce)
 
-Except tun. If there is such an example of recvmsg() implementation and 
-it is not accidental and people have agreed to keep it functioning, we 
-can confidently say this construct is safe without fearing pushback from 
-people maintaining filesystem/networking infrastructure. Ultimately I 
-want those people decide if this can be supported for the future or not.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501101859.GVxw5yM2-lkp@intel.com/
 
-> 
-> 
->>>
->>> If not zeroing leads to ambiguity with the new feature, that would be
->>> a reason to add it -- it is always safe to do so.
->>>> If we are really confident that it will not cause problems, this
->>>> behavior can be opt-in based on a flag or we can just write some
->>>> documentation warning userspace programmers to initialize the buffer.
-> 
+All warnings (new ones prefixed by >>):
 
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/sound/xlnx,v-uhdsdi-audio.txt references a file that doesn't exist: Documentation/devicetree/bindings/display/xlnx/xlnx,sdi-tx.txt
+>> Warning: Documentation/devicetree/bindings/sound/xlnx,v-uhdsdi-audio.txt references a file that doesn't exist: Documentation/devicetree/bindings/sound/xlnx,audio-formatter.txt
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+   Using alabaster theme
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
