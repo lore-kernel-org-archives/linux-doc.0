@@ -1,114 +1,159 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8183F20E006
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 15:35:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC7420E6E5;
+	Fri, 10 Jan 2025 15:35:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736523317; cv=none; b=j9sDvldP8FBOyDqUCoDKCDVhzUb6L0DlNa1l7I2MAcHibJ1/uhawF8U1PY8R052ctLe/+PKN1SQAUoYYu9usEID346p3mP7GaJg+JXOaj8DQ89lU88YoLTbuP5NZu1njPM55Og2wk501sssntMroBQcx9D8ohnp+cKdsiHJngHU=
+	t=1736523339; cv=none; b=f+Hq9mwmbYyMIRzC43yA8+QeDD9kzmDQNOYZt9BItcU87kW7EQQNsLRcSKO+DD886AzrS6mAr4bviYUOeSoWrYuI8fiVxWV5DIZgj5VfperL48ozNR0wLy9gOJnrah1lApV95m17zYA8pi5GlOetyedtt35zAuJH5SB+XUVyz28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736523317; c=relaxed/simple;
-	bh=d5Sw7dBjPFZKUxDbI6GyHLqIDgVlaRFY7ylsIvSUQHM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IqvTJCKpk4xK9dGqMYoAfNN6a7M8F4FjpsxNqu/HRMmZKIfaHXKbtpa0bNjs6C/vF/dT84BpJ8IbvJrFEN2M22Ywhnwkjn55qqStk+McBmN0e1fqxONs1sAjXvqLsjC/uuRavxYYpbvUv55i477pVxvUTALvBIjk2ojmaFIol4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=JMHZGONB; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1736523339; c=relaxed/simple;
+	bh=vkDFVjYGpU8b/zOSIDYDAIaSzNvg1FGBb/o2TlAZGSY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fEreTRabGaSleedyflSXEECgnQAoe0Ru97Liz01zxa1ClCRnfEyeCKX9XYOJE4SegWkTcfy7xwBOLm5GSgLioR/eP7nFlqMPEwgfmOR1dvpOQfejfwjPpi7oQ80OUXFwYN+3xqEwak4qoClXM/8wMOcvSN+rQEO0dGotsTOL2aU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Bpnn421p; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=1Rf/rFZe; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Bpnn421p; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=1Rf/rFZe; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="JMHZGONB"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-436637e8c8dso23635035e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 07:35:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1736523313; x=1737128113; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hzALuTeGsxrz2Ujv8VfVqM+kWyzyAjXVBbotfhCob1I=;
-        b=JMHZGONB7jeXGuWb6XanYWOGxnuBwuzm7IfsDf8wv31352q0Sde5ynA/XDAGETFn6+
-         HOdZeU031qQfXxGAQ8s6WDnSYMiSRfV9XTma3TlO2XRgaM+NE7kpyZLzBcH7iChjao8N
-         iVVtkM4wBSyProMvyqLvt3V/X92GLrCdZlCHM9el9LnfcXcrXMqioAzgDnecLl4K0zly
-         SRNgC/DvfHiLc+Zr4BUDPKfBpL5JYL/chBSvwFD0TQRH5VbvAa+ebAgRoAIGeTn69P9o
-         3n+efToQYyGJlzRD1ksLkS7orDIx8ihW14i/2CMBknh8W+TWTfHMiBNu1SrblgFJsUST
-         InJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736523313; x=1737128113;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hzALuTeGsxrz2Ujv8VfVqM+kWyzyAjXVBbotfhCob1I=;
-        b=Hd1QI2frLSWB8YK9Y0+1GsSEvrlyvt4Wtp+Mdg2A4A0wxkpMbKmkuRCSQuF4ZhHZdw
-         HlDDOQHIDDNTsGNkfuNQx963JBKrIeJR/LUmErR/EBhWq8XIhFnjiWiFTKo6EAGVtSHg
-         UcVc6aKC2ax6rHBhOyByjZ9d2qJCjZPZ1WRqrCEDUNjcNn51DUaHSxvsy6LeP93xGnSm
-         D5cAHuhrtiGUimB29Ly+blt5toZ7rbGo5ZP9dHT17CcqACxamZtV14s0dgzwwpXkM16B
-         LzC6tYxiBVyXghX4LtDCa/G54ETYL2tAkLigE1C6SAXbkjIOEv71EQHRKbIjNfw7fOj2
-         z+Kw==
-X-Forwarded-Encrypted: i=1; AJvYcCUW+WROs2gRl+scL1m7JGfWmw2M1aeqab2JG2CWFjeeQDu9PpoRDs0NlcV39LErD0jKQhY/bv4RNPg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+d3oQlVetaqn9FLuS1JJjVBD/b7jBVsLA909WIt2SW3SI6f97
-	w46W1QEPf3dp/XZZ87SDT8IJNJ+A0aDVWf+X5QBJTONzAWXKyGJSEEq4XgSBuX0=
-X-Gm-Gg: ASbGncsGoBecxZiwEDg8LPibXt2AbUokpOQbA8ySXvXZ9geHDy6vxJaIwVBIk+4Zhqm
-	VZK++/WZW2vbj99y+huElkj3z24BFho6YsdPWjNQZeZMImpbmaxfqh6cVAd81SW86opYXgFpUAL
-	LPYqLdOyj8FrbgWkcNPjA/IorHGCNnTjzbT464idgaUShsWysE+XwXZkLvwB2Rd1ak0ygIPuke3
-	olgSNeqwxcU05AKbkdbbyDH9+sTcy8MnNXYvZlu8QiFeSYFxfel5BibWUs=
-X-Google-Smtp-Source: AGHT+IHQELDGjlEtVs1OouSf4OZtyUs/61z6YsUdiHktml3cGrNJbR8ZCZW5j57nJeAB18w3daTKJQ==
-X-Received: by 2002:a05:600c:4455:b0:434:f623:a004 with SMTP id 5b1f17b1804b1-436e26adfd7mr26396275e9.16.1736523313395;
-        Fri, 10 Jan 2025 07:35:13 -0800 (PST)
-Received: from blackdock.suse.cz ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2da7768sm91710555e9.5.2025.01.10.07.35.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jan 2025 07:35:13 -0800 (PST)
-Date: Fri, 10 Jan 2025 16:35:10 +0100
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Waiman Long <llong@redhat.com>
-Cc: Li Zhijian <lizhijian@fujitsu.com>, linux-doc@vger.kernel.org, 
-	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation/cgroup-v2: Update memory.numa_stat
- description to reflect possible units
-Message-ID: <2piu6sz3vkjl3scu6puo45ewu5ffuzv6ikeetgt6rizpswkcec@2uezwhes37io>
-References: <20250110123019.423725-1-lizhijian@fujitsu.com>
- <a8d5ded2-6921-4c6b-890d-17227147c28d@redhat.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Bpnn421p";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="1Rf/rFZe";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Bpnn421p";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="1Rf/rFZe"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 430592116F;
+	Fri, 10 Jan 2025 15:35:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1736523335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=O7cJOrGVmPv31AML6QCANk75igLQl02QfxGviw3WTZU=;
+	b=Bpnn421prCq/UXCYN64tsZ1x4llmtDyDCHuxGeooytS97TLYxbiju5zaVBvRhscYKu/v+H
+	2qw1ZFBQCTVFKqc9W7Zdno4YmULfn3h0qhtvYkz9fLwsnVacgpUxl3DBPY5yDAZ6jVQnPT
+	bYf1q+cqIjy+UgETY4lHaNnqEdID0HM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1736523335;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=O7cJOrGVmPv31AML6QCANk75igLQl02QfxGviw3WTZU=;
+	b=1Rf/rFZe5rw7aBsuOFurKUBRlep1YnXaZNhZW2ySSmj8TpFDe2L1FRS0Vy5XWtkFPAj25O
+	4UOWhcIampASe/DQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1736523335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=O7cJOrGVmPv31AML6QCANk75igLQl02QfxGviw3WTZU=;
+	b=Bpnn421prCq/UXCYN64tsZ1x4llmtDyDCHuxGeooytS97TLYxbiju5zaVBvRhscYKu/v+H
+	2qw1ZFBQCTVFKqc9W7Zdno4YmULfn3h0qhtvYkz9fLwsnVacgpUxl3DBPY5yDAZ6jVQnPT
+	bYf1q+cqIjy+UgETY4lHaNnqEdID0HM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1736523335;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=O7cJOrGVmPv31AML6QCANk75igLQl02QfxGviw3WTZU=;
+	b=1Rf/rFZe5rw7aBsuOFurKUBRlep1YnXaZNhZW2ySSmj8TpFDe2L1FRS0Vy5XWtkFPAj25O
+	4UOWhcIampASe/DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1B2B513A86;
+	Fri, 10 Jan 2025 15:35:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id IRReBkc+gWeuCgAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Fri, 10 Jan 2025 15:35:35 +0000
+Message-ID: <745d6935-3732-4639-a1d4-ead73d590597@suse.cz>
+Date: Fri, 10 Jan 2025 16:36:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3oon2oaiqfe67wkw"
-Content-Disposition: inline
-In-Reply-To: <a8d5ded2-6921-4c6b-890d-17227147c28d@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 00/16] move per-vma lock into vm_area_struct
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org,
+ liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, mhocko@suse.com,
+ hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
+ mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
+ oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org,
+ dhowells@redhat.com, hdanton@sina.com, hughd@google.com,
+ lokeshgidra@google.com, minchan@google.com, jannh@google.com,
+ shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com,
+ klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net,
+ linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ kernel-team@android.com
+References: <20250109023025.2242447-1-surenb@google.com>
+ <52ecd3fa-5978-4f4b-b969-c42b00a5b885@suse.cz>
+ <CAJuCfpExmxZFh_RB9t0+KmiJMiPOQ9priEx1xz63SCMTL=b8uw@mail.gmail.com>
+ <CAJuCfpEgWOi09QPfTJTNp5mO2=SMx-svSYRmUs8XYZG131Labw@mail.gmail.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Content-Language: en-US
+In-Reply-To: <CAJuCfpEgWOi09QPfTJTNp5mO2=SMx-svSYRmUs8XYZG131Labw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_RCPT(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[33];
+	RCVD_TLS_ALL(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux-foundation.org,infradead.org,oracle.com,suse.com,cmpxchg.org,gmail.com,intel.com,techsingularity.net,redhat.com,stgolabs.net,kernel.org,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
+	R_RATELIMIT(0.00)[to_ip_from(RLumbhs4xhzuuihrchnpuyb6qu)];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 
 
---3oon2oaiqfe67wkw
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] Documentation/cgroup-v2: Update memory.numa_stat
- description to reflect possible units
-MIME-Version: 1.0
 
-On Fri, Jan 10, 2025 at 10:26:40AM -0500, Waiman Long <llong@redhat.com> wr=
-ote:
-> > -	All memory amounts are in bytes.
-> > +	All memory amounts are in bytes or bytes.
->=20
-> You mean "bytes or pages". Right?
+On 1/10/25 1:16 AM, Suren Baghdasaryan wrote:
+> On Thu, Jan 9, 2025 at 7:59 AM Suren Baghdasaryan <surenb@google.com> wrote:
+>>
+>> On Thu, Jan 9, 2025 at 5:40 AM Vlastimil Babka <vbabka@suse.cz> wrote:
+>>>
+>>> Btw the subject became rather incomplete given all the series does :)
+>>
+>> Missed this one. What do you think is worth mentioning here? It's
+>> true, the patchset does many small things but I wanted to outline the
+>> main conceptual changes. Please LMK if you think there are more
+>> changes big enough to be mentioned here.
+> 
+> I just realized that your comment was only about the subject of this
+> cover letter. Maybe something like this:
+> 
+> per-vma lock and vm_area_struct cache optimizations
 
-Despite both variant are logically correct, the docs should better say:
-+	All memory amounts are in bytes unless said otherwise.
-(so that it points to respective explainers).
+arguably the biggest change here is:
 
-HTH,
-Michal
+reimplement per-vma lock as a refcount
 
---3oon2oaiqfe67wkw
-Content-Type: application/pgp-signature; name="signature.asc"
+but yours is ok to, don't want to bikeshed
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCZ4E+KAAKCRAt3Wney77B
-SZFUAP9hLFjYqd3/wr4uFM4W9vQFUjRXegr01fomOrtEJf8s9wEAmzHh5AOwn5F1
-klsrKNloo7jlKJuiIi955hnrZUEhpQc=
-=couS
------END PGP SIGNATURE-----
-
---3oon2oaiqfe67wkw--
