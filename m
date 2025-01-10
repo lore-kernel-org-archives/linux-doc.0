@@ -1,254 +1,246 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0BC211700
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 15:57:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0425620A5FB;
+	Fri, 10 Jan 2025 15:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736524623; cv=none; b=mdxTz0xty1IJWUMfQAyhuQiJHJf9phb1KINIv6VFFodjLzpv5aQQn5myZVowhrEdhpUHCv62BNTfxULAuqfGlSswiDSQpp+ZfgvZJ0UHI0gF3D7Gy+9BboFNK2avPDDfFD5IxsTCYKrgkowJhwdoxoUB5L+w1Olmxa3s8wyK3h0=
+	t=1736524771; cv=none; b=tca2jIxxdXst7dGrfLGpPf+zXWZx1qNuDhgvv6F62L6z+nM+bILXx5Eseqw1yTa+TUxdLrECjvW7G2sSwCRjK5rJ23BW0Y9v+kc3Ea7B3SKUuZM35RIJn6pd/9aLLaUk2BewsZWCRhZCmu45883dIlat3pIiA3Z0OP/fzFPwTL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736524623; c=relaxed/simple;
-	bh=ZWQnE4V/sciRvQJHBIiopL/QJII+mb3qds15tD7SyeM=;
+	s=arc-20240116; t=1736524771; c=relaxed/simple;
+	bh=VOf3joCRWku7JV0qqkb/JfzkQ/NlhMLlK3RE73Tu0Ec=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JzHNP3EAqBwcbVWDWlmyMTRhFJHFlO7ypEjoqOu1XmTDyr7yVW3cbEglcuSbk/gTKSH3TR3VPUmebpfIX8/aZvzZHeMp60l7vk7AelNqqMt4/GuhniFa5boWJTbqrDLfkG6EbgmuYXQfjke+LkHXSUFohlRCefwAc5KlGSFeWS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=o7iJ6nBE; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="o7iJ6nBE"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-467896541e1so278811cf.0
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 07:57:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736524620; x=1737129420; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sgIuWlG0iYUIu/hJwevRd5bkgowBtO2Ectr/9l9FLrM=;
-        b=o7iJ6nBEjETWjiqVe+jwMpMDm9IA4bsxlNCU/KCd7Jj/Xowfu4lvK9TZZXEPwSexsQ
-         4/jVE/Y/4rtcXIHZJKj9mmIeW7362h2hWIlxUm+NCfvRpyWk4ZIEv4eVJ9NDIY5Yd9AY
-         y6BOldkiDaPqleJWzi+AclNJROfY6Om0BEAnCBLkGYl6Q1U9KOPR8vhHTnME5TDVdDvK
-         r6xiYmmapkOtilNA0FMocORO+fJryEdhEAcod2n+wQCR1R8a60E5DYwbUjpo3k/jyEZ+
-         sqmsWQWvlR5MSaHc/ZiAbnHPPiCeR3Xb1NK76yTOUpu978TmN8pG98f/hylc0fHmTmHJ
-         9O5g==
+	 To:Cc:Content-Type; b=A7o5jK4q1D6DjLkTSWzh1VeP8b2baWvA6aE0dsuTdBRqcuVoo3v5yYXtteuKqtAZ5h9u+wUdNZBx7C2fh/2tM+Txo13saow5ArCZJLABnLGer0Tk1Ej7sUpOLF4eKUOx0IVMRow+S02TC2NGi1n9rgAzwysUA1XTizKOWar78tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-3a81324bbdcso13819405ab.1;
+        Fri, 10 Jan 2025 07:59:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736524620; x=1737129420;
+        d=1e100.net; s=20230601; t=1736524769; x=1737129569;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sgIuWlG0iYUIu/hJwevRd5bkgowBtO2Ectr/9l9FLrM=;
-        b=Z24uCUIaauG1z8NZbB+J+bS92/ELIA/C277yNkdsRrVdAPCfv0ujfMpTSCyXsy5SLY
-         4hCRXCoPRy1+vjCcTYxZyVlGTS+jHZHQfr/h/XuiNlt7XVdFime/zccopc+6k/bhPUaJ
-         tR/z4oE6sZFsKBTB/+dVy7HDulKqUG1bKLLWl+LZcYho98oC3hYvcJrN03hvGvAlS/cI
-         8ZaVWRIaJG4gYI2+dqIekqpAh/Abo2ht86dArNOUCvnJD+WUdwb8ATGGvk3/sjzTbSUM
-         yFGQ/pLCzTdLyO4Iy6PzPz0tBaUO5sxXt9HUFV0Vg8WCJcIHiyrhukxM9iqRNqFK1aoA
-         T1pg==
-X-Forwarded-Encrypted: i=1; AJvYcCVlWK9Wo6XZFZxSn3RhqFB7r+n67m4j3f6mnu4q/CXLTI4axpbf5v89ja0W9MWRrHwpMm6nUiEa9Sg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfcFvHpyrJeYBJB9940nQBb7rQDtSg77I95UIMjRu40Qj+u1nz
-	8EgnQALakRohE95WOQJL41pAasPsohEijEoNyVmcVZr9nf3BaD9sMMOnnVE1KIdr4Hd61+WKunS
-	3kcmQY5PNZtOY5mVmFHubjXyLZFAkgWYBNYd3
-X-Gm-Gg: ASbGncu9IZQRNAR5oSypY9xCkfpHk3G/TELLufqvH1rqwsL7LENVzQLodzC9uXdImHZ
-	d927ss5V23uU5h8q1jtli3OVPB8F8kzN+pUYmug==
-X-Google-Smtp-Source: AGHT+IGLb2CAeqiZD/8GbTG1MnBA0ktLsQb5WmpcoG2ySAzx/iBiB28LB/q5DMRnDRzipnuqZH4XzPnlVHDk4mlp/44=
-X-Received: by 2002:ac8:5dcb:0:b0:460:463d:78dd with SMTP id
- d75a77b69052e-46c87e0774bmr3897261cf.4.1736524620163; Fri, 10 Jan 2025
- 07:57:00 -0800 (PST)
+        bh=jHBFG2hXwHCpEKoHsn8D+NY3oc8cJ69pO24XioRtFak=;
+        b=Map6Nm5WLajYQPZ7IukeVVurWm9363g5YSYjZ72xCueXXxjNe0iWqhM3Z+WEA+Kfk0
+         xG4TbwUCdCNQjAwSuEEv8DyKoeAf3PHE9VXL8/GvjW7XdDZyaeMhQ+OOzW8y20koPzGQ
+         pbfaZzQezAFAeNr09qXNYHtK5DG7VogWsE29+bnwlEFRoFUG8JWJDTR3s6qHx4y+65xi
+         aJEHF5XKJoFeti13w3IQRH92xw6ITpdYQ3AUSQXsDkool4Hdi55J2bB4QwZ2mCFFVya9
+         ri/ws+EGbejw4/oPFyVjoNLDeL8uuUVQ8/vEz8/mG8ESQnz4aCC3PKbHh6TxxBXnnFVp
+         UbRw==
+X-Forwarded-Encrypted: i=1; AJvYcCUvxzyEdoepoEdL2H8y3NuiJEvJsxTyWJISR0qq6rGSBzTq+KRFjW6PKQ9u+ez8YKpEHFn6xQRIgu8=@vger.kernel.org, AJvYcCVT8WGIi1dfMhz6N24Ksfd0zgm9I4/GyII60s1eMUYhB/TvAch2wJm+pHgTyqDGHDAjrrgEsJpWhlEjLRyxOElxqFLMxg==@vger.kernel.org, AJvYcCWb/05MEnGaxLKtqA4VWH/N/GVTuHzUE7/qsjZbZksqN+byfQKVKfMRZYYvW822QbynB6r6rXyOYgDDVIZM@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2/j6Ad+t8m0elN9KP0kQxtHT8XeRJhktpsOleX5sH1kPEsq+x
+	T+yiNIRPDKSsZswWxT1+6/ACP5W6WVkjRB5EB/I9aL8Cts5X84cQqAu7siJ+jTg=
+X-Gm-Gg: ASbGnctgMqmfeoirVawvSjeD5kl3pDCVDKPKBgxJZcyUVeFMogqOva/L8OODPLvogy2
+	nLAP6ZNRkhmSU+GnDpa51Xf3NFk+4cevcDaf4EXkmA6dYyvw0dIqXR15icZjwI6pnG4k7KiEW+b
+	zYnzzI2tj5bCOYbYGrH1W9p0jX4VVDzDqsuPCKzaZQq/3AC0pkoMoAWVI/P7x7uKEZUHcvtjxJg
+	jQ3X4VVoFKOryIZVkWvm2AEn6wKDihXXiB7qUFnBzUPXsvgZeJcyMIz8hR+QM+lw5ShU0evnQtk
+	2YN7I2h2jW+7HbV3+BokDg==
+X-Google-Smtp-Source: AGHT+IEAdGK+Nhqi95tYqBxHQGi/KlTwHX8df1ZQ9G34mxVF90bIqSW+KiWFGDrOrpLy67+BtNNT5g==
+X-Received: by 2002:a05:6e02:1f8a:b0:3cc:b7e4:6264 with SMTP id e9e14a558f8ab-3ce3a892c05mr89228965ab.0.1736524768982;
+        Fri, 10 Jan 2025 07:59:28 -0800 (PST)
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com. [209.85.166.45])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3ce4addb410sm10371545ab.41.2025.01.10.07.59.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Jan 2025 07:59:28 -0800 (PST)
+Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-844e61f3902so155165939f.0;
+        Fri, 10 Jan 2025 07:59:28 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWUJmlBtqY3TgWF4KvgGCJuCq2eElY1My8G6NHHkzUJ7VvXJbbMxeMdCtKu32aOSPG/kzBHXHynb7Y=@vger.kernel.org, AJvYcCX39uAn24AmW5fe0JzUQXtuneS5z5fy75TaYzAB96OGTYeB0R47krls11Z5drdqXrDPm/WCLAUssFuLQhm1wyww9PZliQ==@vger.kernel.org, AJvYcCXkF8GDp8E3PvnWwXhG7Zn/ZPrdcbhdJRomOllDb1QdYvL9vv35JUipXOfBHSP6prGKNXSAoMVXq50K7Kpv@vger.kernel.org
+X-Received: by 2002:a05:6e02:13a2:b0:3a7:e732:472a with SMTP id
+ e9e14a558f8ab-3ce3a9a4ac6mr89825995ab.2.1736524767919; Fri, 10 Jan 2025
+ 07:59:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250109023025.2242447-1-surenb@google.com> <20250109023025.2242447-12-surenb@google.com>
- <95e9d80e-6c19-4a1f-9c21-307006858dff@suse.cz>
-In-Reply-To: <95e9d80e-6c19-4a1f-9c21-307006858dff@suse.cz>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Fri, 10 Jan 2025 07:56:49 -0800
-X-Gm-Features: AbW1kvavpdXYE4--jH1sVL17CixKdlsI4s7MECSReNY6bDKG9VehthZoGzAjGbU
-Message-ID: <CAJuCfpH_=JRSXHDsw1QSYxUk6Q=gSH26_Fm0bqCmSKR-NqDj4Q@mail.gmail.com>
-Subject: Re: [PATCH v8 11/16] mm: replace vm_lock and detached flag with a
- reference count
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org, 
-	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, mhocko@suse.com, 
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	kernel-team@android.com
+References: <20250109220745.69977-1-josh@joshuagrisham.com> <30f6644c-bf35-dd5e-4f1c-d1f1915b97da@linux.intel.com>
+In-Reply-To: <30f6644c-bf35-dd5e-4f1c-d1f1915b97da@linux.intel.com>
+From: Joshua Grisham <josh@joshuagrisham.com>
+Date: Fri, 10 Jan 2025 16:59:16 +0100
+X-Gmail-Original-Message-ID: <CAMF+KeaN_FXjEHOw72LD7GgfFyhjjXjY+ask4vxd1jV+zXn=Mw@mail.gmail.com>
+X-Gm-Features: AbW1kvYOduiRt--ToaafK15apWbhlB2OstFOd_AfbotoogeTRg7xNSAp_ZuqXSo
+Message-ID: <CAMF+KeaN_FXjEHOw72LD7GgfFyhjjXjY+ask4vxd1jV+zXn=Mw@mail.gmail.com>
+Subject: Re: [PATCH v5] platform/x86: samsung-galaxybook: Add
+ samsung-galaxybook driver
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Joshua Grisham <josh@joshuagrisham.com>, W_Armin@gmx.de, thomas@t-8ch.de, 
+	kuurtb@gmail.com, Hans de Goede <hdegoede@redhat.com>, platform-driver-x86@vger.kernel.org, 
+	corbet@lwn.net, linux-doc@vger.kernel.org, 
+	LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 10, 2025 at 6:33=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
-ote:
+Hi Ilpo, thanks for taking the time! Few clarifications/comments below...
+
+Den fre 10 jan. 2025 kl 12:30 skrev Ilpo J=C3=A4rvinen
+<ilpo.jarvinen@linux.intel.com>:
 >
-> On 1/9/25 3:30 AM, Suren Baghdasaryan wrote:
-> > rw_semaphore is a sizable structure of 40 bytes and consumes
-> > considerable space for each vm_area_struct. However vma_lock has
-> > two important specifics which can be used to replace rw_semaphore
-> > with a simpler structure:
-> > 1. Readers never wait. They try to take the vma_lock and fall back to
-> > mmap_lock if that fails.
-> > 2. Only one writer at a time will ever try to write-lock a vma_lock
-> > because writers first take mmap_lock in write mode.
-> > Because of these requirements, full rw_semaphore functionality is not
-> > needed and we can replace rw_semaphore and the vma->detached flag with
-> > a refcount (vm_refcnt).
-> > When vma is in detached state, vm_refcnt is 0 and only a call to
-> > vma_mark_attached() can take it out of this state. Note that unlike
-> > before, now we enforce both vma_mark_attached() and vma_mark_detached()
-> > to be done only after vma has been write-locked. vma_mark_attached()
-> > changes vm_refcnt to 1 to indicate that it has been attached to the vma
-> > tree. When a reader takes read lock, it increments vm_refcnt, unless th=
-e
-> > top usable bit of vm_refcnt (0x40000000) is set, indicating presence of
-> > a writer. When writer takes write lock, it sets the top usable bit to
-> > indicate its presence. If there are readers, writer will wait using new=
-ly
-> > introduced mm->vma_writer_wait. Since all writers take mmap_lock in wri=
-te
-> > mode first, there can be only one writer at a time. The last reader to
-> > release the lock will signal the writer to wake up.
-> > refcount might overflow if there are many competing readers, in which c=
-ase
-> > read-locking will fail. Readers are expected to handle such failures.
-> > In summary:
-> > 1. all readers increment the vm_refcnt;
-> > 2. writer sets top usable (writer) bit of vm_refcnt;
-> > 3. readers cannot increment the vm_refcnt if the writer bit is set;
-> > 4. in the presence of readers, writer must wait for the vm_refcnt to dr=
-op
-> > to 1 (ignoring the writer bit), indicating an attached vma with no read=
-ers;
-> > 5. vm_refcnt overflow is handled by the readers.
-> >
-> > Suggested-by: Peter Zijlstra <peterz@infradead.org>
-> > Suggested-by: Matthew Wilcox <willy@infradead.org>
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
->
-> Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
->
-> But think there's a problem that will manifest after patch 15.
-> Also I don't feel qualified enough about the lockdep parts though
-> (although I think I spotted another issue with those, below) so best if
-> PeterZ can review those.
-> Some nits below too.
->
-> > +
-> > +static inline void vma_refcount_put(struct vm_area_struct *vma)
+> > +static int get_performance_mode_profile(struct samsung_galaxybook *gal=
+axybook,
+> > +                                     const u8 performance_mode,
+> > +                                     enum platform_profile_option *pro=
+file)
 > > +{
-> > +     int oldcnt;
-> > +
-> > +     if (!__refcount_dec_and_test(&vma->vm_refcnt, &oldcnt)) {
-> > +             rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
+> > +     for (int i =3D 0; i < PLATFORM_PROFILE_LAST; i++) {
 >
-> Shouldn't we rwsem_release always? And also shouldn't it precede the
-> refcount operation itself?
+> unsigned int is preferred for loop variables that never should become
+> negative.
+>
 
-Yes. Hillf pointed to the same issue. It will be fixed in the next version.
+Thanks for the catch! There are a few other places with a for loop
+using int i so I will go ahead and change all of them to unsigned ints
+for the next version unless you say otherwise.
 
+> > +     if (num_mapped =3D=3D 0) {
+> > +             dev_dbg(&galaxybook->platform->dev, "failed to map any pe=
+rformance modes\n");
+> > +             return 0;
 >
-> > +             if (is_vma_writer_only(oldcnt - 1))
-> > +                     rcuwait_wake_up(&vma->vm_mm->vma_writer_wait);
+> Should this return error instead? I assume it's because you want to
+> initialize with part of the features only but...
 >
-> Hmm hmm we should maybe read the vm_mm pointer before dropping the
-> refcount? In case this races in a way that is_vma_writer_only tests true
-> but the writer meanwhile finishes and frees the vma. It's safe now but
-> not after making the cache SLAB_TYPESAFE_BY_RCU ?
 
-Hmm. But if is_vma_writer_only() is true that means the writed is
-blocked and is waiting for the reader to drop the vm_refcnt. IOW, it
-won't proceed and free the vma until the reader calls
-rcuwait_wake_up(). Your suggested change is trivial and I can do it
-but I want to make sure I'm not missing something. Am I?
+Yes at this point it is "no harm, no foul": the profile_handler has
+not been set up, platform profile has not been registered, and
+has_performance_mode is false, so I want that it just exits and the
+probe continues to init other features (e.g. devices with SAM0427 have
+kbd backlight controller and firmware attributes but not this specific
+performance_mode implementation, so for them this function will just
+stop anywhere along the way at whatever point it fails and just "not
+doing anything else" but still let them use the other features of the
+driver... all other features that then check against
+has_performance_mode will see that it is false and just skip that
+part). Does this still seem ok or is there any adjustment you would
+like to see for this?
 
+> > +     /* if startup performance_mode fails to match a profile, try to s=
+et init mode */
+> > +     err =3D get_performance_mode_profile(galaxybook, performance_mode=
+, NULL);
+> > +     if (err) {
+> > +             if (init_performance_mode =3D=3D GB_PERFORMANCE_MODE_UNKN=
+OWN) {
+> > +                     dev_err(&galaxybook->platform->dev, "missing init=
+ial performance mode\n");
+> > +                     return -ENODATA;
+> > +             }
+> > +             err =3D performance_mode_acpi_set(galaxybook, init_perfor=
+mance_mode);
+> > +             if (err) {
+> > +                     dev_err(&galaxybook->platform->dev,
+> > +                             "failed to set initial performance mode 0=
+x%x\n",
+> > +                             init_performance_mode);
+> > +                     return err;
 >
-> > +     }
-> > +}
-> > +
+> ...why these two cases then result in failing everything vs. just platfor=
+m
+> profile feature? Not an end of the world but it feels inconsistent to me.
 >
-> >  static inline void vma_end_read(struct vm_area_struct *vma)
-> >  {
-> >       rcu_read_lock(); /* keeps vma alive till the end of up_read */
->
-> This should refer to vma_refcount_put(). But after fixing it I think we
-> could stop doing this altogether? It will no longer keep vma "alive"
-> with SLAB_TYPESAFE_BY_RCU.
 
-Yeah, I think the comment along with rcu_read_lock()/rcu_read_unlock()
-here can be safely removed.
+I am glad you bring this up, as it forces me think through this a few
+more rounds... basically what happens is that the device will always
+come up from a fresh boot with the value of 0x0 as the "current
+performance mode" as response from the ACPI method, even though for
+most devices value 0x0 is the "legacy" optimized value that should not
+be used.
 
->
-> > -     up_read(&vma->vm_lock.lock);
-> > +     vma_refcount_put(vma);
-> >       rcu_read_unlock();
-> >  }
-> >
->
-> <snip>
->
-> > --- a/mm/memory.c
-> > +++ b/mm/memory.c
-> > @@ -6370,9 +6370,41 @@ struct vm_area_struct *lock_mm_and_find_vma(stru=
-ct mm_struct *mm,
-> >  #endif
-> >
-> >  #ifdef CONFIG_PER_VMA_LOCK
-> > +static inline bool __vma_enter_locked(struct vm_area_struct *vma, unsi=
-gned int tgt_refcnt)
+In Windows, the Samsung background apps take care of this by storing
+last-used value from previous session and then re-applying it after
+startup (and the same happens with various userspace services on
+platform profile from what I have seen, actually).
+
+But since the driver does not map 0x0 to any valid profile unless the
+device only has the "legacy" optimized mode, then my function
+get_performance_mode_profile() will return -ENODATA in this initial
+startup state of 0x0. What I noticed is that the first time after this
+that you run platform_profile_cycle() after this, there is a little
+"hiccup" and an error "Failed to get profile for handler .." is
+printed in the kernel log from platform_profile.c (without pr_fmt by
+the way), but then it just works anyway and starts to pick up from the
+first enabled profile and then can continue to cycle.
+
+My bit of code here was to basically try to "force" to set the profile
+to whatever was successfully mapped as "balanced" upon a fresh startup
+so that when platform_profile_cycle() first runs there would not be
+any condition where get_performance_mode_profile() would return
+-ENODATA. Then the userspace tools would take over anyway and restore
+your last session's latest used profile so it would not matter so
+much. In the end, really the aim I guess is to avoid this error
+message in the kernel log, but otherwise everything works even though
+there is an error message printed, but this is maybe a bit overkill?
+And by the way, that, as you say, we should probably not fail the
+entire feature just because of this, but let the error happen anyway
+and let everything work after that.
+
+Possibly more "simple" alternatives I can think of off the top of my head:
+
+1. Let get_performance_mode_profile() return 0 instead of -ENODATA if
+nothing is matched , this way a non-mapped performance mode would
+always just set platform_profile_cycle() to the start of the cycle I
+guess/would hope? and/or add a special case in
+get_performance_mode_profile() for performance_mode=3D0 to just return 0
+to get the same effect ? (though what happens if we have not enabled
+PLATFORM_PROFILE_LOW_POWER in the choices? even though the function
+returned 0, will platform_profile see that 0 is not supported, and
+just keep moving on until it gets to the first one that is? If so then
+this will work, but I have not yet tested or fully checked the code to
+ensure that this will actually be the behavior...)
+
+2. Try to do the logic which I did with this init_performance_mode,
+but in case init_profile_mode is not set, just skip it and let the
+error come from platform_profile_cycle() anyway and it should start to
+work. In this case I think it would be good if the user is maybe
+flagged somehow and create a bug for this, because I would want to be
+able to work with them to see what modes are reported by their device
+and see if the mapping needs to be updated in some way.
+
+3. Do neither of these, remove everything with init_performance_mode,
+and just let platform_profile_cycle() fail upon startup and print the
+error message and then it should just start working after anyway.
+
+4. Map 0x0 performance_mode to PLATFORM_PROFILE_CUSTOM in case the
+"legacy" mode with this value is not mapped, then the hotkey would not
+work to cycle the profile at first as the user would be forced to set
+the profile to a value via either a GUI or the sysfs interface before
+they can begin to use the hotkey to cycle the profile. Once they do
+this the very first time, then the userspace tools should kick in
+after this (upon every restart for example) to set the profile to the
+prior session's last used profile and then the hotkey will start to
+work to cycle the profile anyway in that session without any
+intervention from the user at all (so it is the very first time that
+they start their environment up, assuming that the prior value does
+not get cleared somehow due to some combo like the module being
+removed/blacklisted and then they restart, then add it back, etc, or
+some other corner-case situation?)
+
+I do think that something should change, maybe the most
+straight-forward are either 1 or 2 in this list, but not sure if there
+are any opinions or preferences on these or if there are other better
+options I did not think of here?
+
+> > +static ssize_t current_value_store(struct kobject *kobj, struct kobj_a=
+ttribute *attr,
+> > +                                const char *buf, size_t count)
 > > +{
-> > +     /*
-> > +      * If vma is detached then only vma_mark_attached() can raise the
-> > +      * vm_refcnt. mmap_write_lock prevents racing with vma_mark_attac=
-hed().
-> > +      */
-> > +     if (!refcount_add_not_zero(VMA_LOCK_OFFSET, &vma->vm_refcnt))
-> > +             return false;
+> > +     struct galaxybook_fw_attr *fw_attr =3D
+> > +             container_of(attr, struct galaxybook_fw_attr, current_val=
+ue);
+> > +     struct samsung_galaxybook *galaxybook =3D fw_attr->galaxybook;
 > > +
-> > +     rwsem_acquire(&vma->vmlock_dep_map, 0, 0, _RET_IP_);
-> > +     rcuwait_wait_event(&vma->vm_mm->vma_writer_wait,
-> > +                refcount_read(&vma->vm_refcnt) =3D=3D tgt_refcnt,
-> > +                TASK_UNINTERRUPTIBLE);
-> > +     lock_acquired(&vma->vmlock_dep_map, _RET_IP_);
-> > +
-> > +     return true;
-> > +}
-> > +
-> > +static inline void __vma_exit_locked(struct vm_area_struct *vma, bool =
-*detached)
-> > +{
-> > +     *detached =3D refcount_sub_and_test(VMA_LOCK_OFFSET, &vma->vm_ref=
-cnt);
-> > +     rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
-> > +}
-> > +
-> >  void __vma_start_write(struct vm_area_struct *vma, unsigned int mm_loc=
-k_seq)
-> >  {
-> > -     down_write(&vma->vm_lock.lock);
-> > +     bool locked;
-> > +
-> > +     /*
-> > +      * __vma_enter_locked() returns false immediately if the vma is n=
-ot
-> > +      * attached, otherwise it waits until refcnt is (VMA_LOCK_OFFSET =
-+ 1)
-> > +      * indicating that vma is attached with no readers.
-> > +      */
-> > +     locked =3D __vma_enter_locked(vma, VMA_LOCK_OFFSET + 1);
+> > +     bool value;
 >
-> Wonder if it would be slightly better if tgt_refcount was just 1 (or 0
-> below in vma_mark_detached()) and the VMA_LOCK_OFFSET added to it in
-> __vma_enter_locked() itself as it's the one adding it in the first place.
-
-Well, it won't be called tgt_refcount then. Maybe "bool vma_attached"
-and inside __vma_enter_locked() we do:
-
-unsigned int tgt_refcnt =3D VMA_LOCK_OFFSET + vma_attached ? 1 : 0;
-
-Is that better?
-
+> Remove the extra empty line from within variable declarations.
 >
+
+Yes sorry this was just a miss when so much got moved around due to
+the big changes between v4 and v5; will fix this and the other small
+straight-forward issues for v6 :)
+
+> --
+>  i.
+
+Thanks again!
+Joshua
