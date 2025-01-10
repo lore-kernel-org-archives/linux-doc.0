@@ -1,115 +1,159 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF5420ADFE
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 10:23:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F45220ADD6
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 10:25:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736504631; cv=none; b=PoGT47+yC0N7jKYB8UPskKfOPyhLR0XDrmmduptv0keXjx90ZhVRKw9eFoTaq7YU59rwE8RCsfi6V5BDazB1pyR1Bg2HHdjsXNTVwqIwZkBNxdfwHEALu7Y8K++6fW0BQWK2Pw00TbiCL7Ao71aJKfSslSpEhuA1lgun4R6wLyY=
+	t=1736504739; cv=none; b=AbeiP6e9jSKH7KQ0FUt1JPEHtWuRNqCLrfC618jfy1jmtJ03l5E4OJUrdm+94h143fLqRwz+WO9fllG77zJ4wgAgLPpKENmECba74jVOz3T6nZe92YnyvEaCvBT5mncCxYZUHaE+4SiCq/jBzZ7KFqlG6Qw0b0t0C2sBv9z3kX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736504631; c=relaxed/simple;
-	bh=xjzJiHVG1rcoDk2fTADzQ9apBt/E2B/VHNJo4JUJl8g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bjse7eSiSfwIsr0mZz+YAttrOOkqOuwfT68AGv3Yx4fJS4I6baL95OBfNOvF4kh5dfF4CwGr8R775ybA7UymA6Z6npAn70KAxZS9vJEFCoYu5z6yNGe+XX6sojcHVYp0N+x6QwKctol+DxMVsxB/wPE6p4Jp3tCAGXhYQ6Qp8dg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OIgWTgOn; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1736504739; c=relaxed/simple;
+	bh=8au50NRA9MKnrMJHspaeqOs6+2vtRBg/UI1G2kjsrFM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TPxHR3hQY+hP6RcYNDc9sEmIv0KqOQw0kiiPVadi4BBG6QEJQFsAhkyYEcgXwcYDClv8LkbrwUksIfd+AW3AmHjPDlBhHQBISmtRUUiGXiSJXjMKrIMvNQoG3Ys1vTPsDztxoPgag3/xI82YtvFEoHDiYkdw2sih0SRBhJE9jxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=rPx28O8B; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OIgWTgOn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1736504628;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jp3bnJiwix2Gu1b46TgPaNYsSc3q3ZVFUH5fpD6tH7A=;
-	b=OIgWTgOncQYJ76cz7i+EwYWMSXfiGGie255eEfaLbw44SQqmfuL0fRdOeBlYTtNxlt9B2l
-	Y/msrtl1oW+l/h6dCiznGspbUNRERmJEYo4pbQuC2avJbe4bkjxWvL2K8mj492Mh84aSTx
-	prR/e7BABVnk2xfoY5viNt/HxNDxNfs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-440-0Cy_YG9mOc2B1Ff3MNJ2zg-1; Fri, 10 Jan 2025 05:23:46 -0500
-X-MC-Unique: 0Cy_YG9mOc2B1Ff3MNJ2zg-1
-X-Mimecast-MFC-AGG-ID: 0Cy_YG9mOc2B1Ff3MNJ2zg
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-436328fcfeeso16757915e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 02:23:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="rPx28O8B"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-21669fd5c7cso30745895ad.3
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 02:25:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1736504736; x=1737109536; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TpdUX+5YwuD+zGTb80IjIfkrR9ePLf07c4eG06u5O1I=;
+        b=rPx28O8BA99xifr668QAkwYFvFv2g5E6Tr/OumlUk3zI3csntVeILrEf5vVW+5NSXW
+         i0GT3ghmCMbbnW5MEGixVZSGoyyrmESIuRfxSrOhB1KKGApE0vO/PpOpEOnH31caLkzy
+         10XNoQfuGpQA0au1ycNjqv6mAjuRS5ApFx9JaRH1nu9nPNEd0W/S4YhVTJueJpvwhTIX
+         1H8zilqJh8n21AasvRHMn3mV/3xlj7M9gWaXyR5R1uF1Ir0ptadG9lvRusH5OakIz88u
+         esiHsbODEFTWSNffxHCj9pZlPfHgWuW3MDKHbtmCQyp/Gr+XHHaHoFxeP+jtITiIt6UY
+         rvSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736504625; x=1737109425;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1736504736; x=1737109536;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jp3bnJiwix2Gu1b46TgPaNYsSc3q3ZVFUH5fpD6tH7A=;
-        b=nET9Xip+VUq9ExG/Bc8JVDfEEr4i4UDHkZaFc3IC9D6ZkrVEgDVOhBlTxrnSi3Nr9N
-         4i3OvauEPFJfg1hb/YvqM9tCmUNoSPAY5m3UXToSyQaFhlhu25BR+Tfh0VdBTUyGDz6Z
-         gopj977Legsu0645NGT/s9LRUwbiI2fs6JE7u/YqHanXjaZ1bivHXMsbfympR+ln+jPH
-         LFOsBkCaNwxtOXTQ9Frxm0pX49HS2r6bidKuLN/6j0jbBzcvnNS+QIInAtcFY45dLLly
-         9lEP5/mAV1StFUZWjdLZCPZp2Yyztflx6i2X6EKcUtxWIuQYkrLAiaz2zMyUl6/aAOlQ
-         aBiA==
-X-Forwarded-Encrypted: i=1; AJvYcCW+gAZkLcKYaRbWKG9vnJKl4grMDUdVOp4kGYeF87+47D1BREmdMQHtO79TTgPj9pSeNUP7a59eMz4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJ+umK/Tsr3liPp3RW5Mds6BvAQNdGY2FjIyoVzl3hYTKspQjw
-	d7H5Cyx9XRPpBZt6rgzVP/e7AOlX+G8fvZmLo90y3FDtrs1Jqjlqrq1VpJdgsAWG11SBLqr9CVn
-	NsWldQUolpmYzh3WaX0tfiqinakNrB0KFovbK2gOAj4My6G1OWKyCTD1R+w==
-X-Gm-Gg: ASbGncsaKFeQr1otP+J1vWluTZZrFcgiFtMZ0NxgPHooLbW+bB6V7R8IQp3xUk0tj6L
-	TaHN3bPpr4tL+GIEEV2WqyyRnRgXWaOgkqqccmAZQUO1vV3eT/95Uu+zS5RMamQXgWUQhy5Tm8V
-	+mO3+zNlvlK4iSie3bcs5dVdiec2M9WoNIpJ+ghzfiIErUKnfXGlfS9mdlxksEG6bVY3DXN4cdd
-	BPGlEUyn3eaU2REiYmvCH4YUkwnuIStPU0TEnOMaz0tEvDuSJDC
-X-Received: by 2002:a05:600c:1e09:b0:436:e751:e445 with SMTP id 5b1f17b1804b1-436e751e61fmr82747495e9.5.1736504625690;
-        Fri, 10 Jan 2025 02:23:45 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGCfvXG8JypksNxAK+IHkKlFtMebcL1LMAzRXVW08Nh57eky+TRviObBgV58/zlzJhK4cMqJA==
-X-Received: by 2002:a05:600c:1e09:b0:436:e751:e445 with SMTP id 5b1f17b1804b1-436e751e61fmr82747375e9.5.1736504625358;
-        Fri, 10 Jan 2025 02:23:45 -0800 (PST)
-Received: from redhat.com ([2a06:c701:740d:3500:7f3a:4e66:9c0d:1416])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e9e03e5fsm47436835e9.18.2025.01.10.02.23.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jan 2025 02:23:44 -0800 (PST)
-Date: Fri, 10 Jan 2025 05:23:40 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: Akihiko Odaki <akihiko.odaki@daynix.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
-	linux-kselftest@vger.kernel.org,
-	Yuri Benditovich <yuri.benditovich@daynix.com>,
-	Andrew Melnychenko <andrew@daynix.com>,
-	Stephen Hemminger <stephen@networkplumber.org>,
-	gur.stavi@huawei.com, devel@daynix.com
-Subject: Re: [PATCH v2 3/3] tun: Set num_buffers for virtio 1.0
-Message-ID: <20250110052246-mutt-send-email-mst@kernel.org>
-References: <20250109-tun-v2-0-388d7d5a287a@daynix.com>
- <20250109-tun-v2-3-388d7d5a287a@daynix.com>
- <CACGkMEsm5DCb+n3NYeRjmq3rAANztZz5QmV8rbPNo+cH-=VzDQ@mail.gmail.com>
+        bh=TpdUX+5YwuD+zGTb80IjIfkrR9ePLf07c4eG06u5O1I=;
+        b=Zds7fUCAiN8rDMIOzWCd9AEqdvgP9hCdMirgwoqvddPm+Pr/ZVh1aCI4FgD45PEqr0
+         MBq/O8yMBmEJDcheLbpDhGvhXhiM39iInbIU336T05ywjJmazV/qcPINlFHh8D6f9+dH
+         SrN64X9xn/hxpaA0KJ61IdCZzlYFYpFpewyMgkzGBJMK3Hdrd6R1wwbjNyfsKSgQv4st
+         K6HG22Vj7gyVfgoXguSjizEnxWxL6QIeglZdaq5k7rpGB1yfZFk7wh+FKw6Jp3pmI92r
+         aWZPBUPKRbXb0n0WWlURCp0bTZHvTp7tKORNrtyFRaeTNgFY6EjpxcfZUI1BQfhn0jmo
+         fdoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVHqsGCsvqi2JAAeM9imzh+O8yjx0WcDL0rM9uaYLpnsVznm5SQVcL+eL2k0rs9x2il+wyPUJbLxZk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRPUtGx2l0af39vG2HbcTJyuvCn7VD3hOEuccJVFnmxLIDWw1Z
+	BO8IoolfY7/KZC8kITs5ZBq5EbjF3n7HtVQGAhH/2cRUSFKYOMYBsaKMEvp6B0c=
+X-Gm-Gg: ASbGncu5Yo88d5pOPcVLPeYFkvZLIPM67hacM/PkjiNayH9Qj4sz8vUVF76d0JWqEc0
+	aWTfgacKBCmFEhnBTJI0XKjFgG2dgapzqWbJe0xqwff8Fr0nknSUgi0dFFmQnJkHMse96AHYbem
+	K4nMUNKnpikO+uvgtE4vRxJ44Gn2XhIm30vrH9lFWtggpb0kIpWZ8V5msyVUMONjprRf/seZvNL
+	yL6/7YCF4jDYsmCH4PpA06vAiTzG9AubLvam+QdmQ6/qt7ucIQhlLlO6T8suzVZF7M=
+X-Google-Smtp-Source: AGHT+IEPk96o1z16upoqDF0UlLrtkOdu9nG1oSobpYhznvCU7YqxeKG3oXL/nadW69o0yG72TxPalw==
+X-Received: by 2002:a17:902:dacf:b0:215:b5c6:9ed3 with SMTP id d9443c01a7336-21a83f43b28mr154387855ad.12.1736504735978;
+        Fri, 10 Jan 2025 02:25:35 -0800 (PST)
+Received: from [157.82.203.37] ([157.82.203.37])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9f253b6csm11183165ad.220.2025.01.10.02.25.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Jan 2025 02:25:35 -0800 (PST)
+Message-ID: <4843eb55-eff2-4bc8-bed2-ba12dd46b573@daynix.com>
+Date: Fri, 10 Jan 2025 19:25:29 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] tun: Pad virtio header with zero
+To: Jason Wang <jasowang@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, kvm@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Andrew Melnychenko <andrew@daynix.com>,
+ Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com,
+ devel@daynix.com
+References: <20250109-tun-v2-0-388d7d5a287a@daynix.com>
+ <20250109-tun-v2-2-388d7d5a287a@daynix.com>
+ <CACGkMEs73Pms5FB3ouzrLsDjAsQ4OhMMDVD2LnO6kVHCsN0A0w@mail.gmail.com>
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <CACGkMEs73Pms5FB3ouzrLsDjAsQ4OhMMDVD2LnO6kVHCsN0A0w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACGkMEsm5DCb+n3NYeRjmq3rAANztZz5QmV8rbPNo+cH-=VzDQ@mail.gmail.com>
 
-On Fri, Jan 10, 2025 at 11:27:13AM +0800, Jason Wang wrote:
+On 2025/01/10 12:27, Jason Wang wrote:
 > On Thu, Jan 9, 2025 at 2:59 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
-> >
-> > The specification says the device MUST set num_buffers to 1 if
-> > VIRTIO_NET_F_MRG_RXBUF has not been negotiated.
+>>
+>> tun used to simply advance iov_iter when it needs to pad virtio header,
+>> which leaves the garbage in the buffer as is. This is especially
+>> problematic when tun starts to allow enabling the hash reporting
+>> feature; even if the feature is enabled, the packet may lack a hash
+>> value and may contain a hole in the virtio header because the packet
+>> arrived before the feature gets enabled or does not contain the
+>> header fields to be hashed. If the hole is not filled with zero, it is
+>> impossible to tell if the packet lacks a hash value.
 > 
-> Have we agreed on how to fix the spec or not?
+> I'm not sure I will get here, could we do this in the series of hash reporting?
+
+I'll create another series dedicated for this and num_buffers change as 
+suggested by Willem.
+
 > 
-> As I replied in the spec patch, if we just remove this "MUST", it
-> looks like we are all fine?
+>>
+>> In theory, a user of tun can fill the buffer with zero before calling
+>> read() to avoid such a problem, but leaving the garbage in the buffer is
+>> awkward anyway so fill the buffer in tun.
+>>
+>> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+>> ---
+>>   drivers/net/tun_vnet.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/net/tun_vnet.c b/drivers/net/tun_vnet.c
+>> index fe842df9e9ef..ffb2186facd3 100644
+>> --- a/drivers/net/tun_vnet.c
+>> +++ b/drivers/net/tun_vnet.c
+>> @@ -138,7 +138,8 @@ int tun_vnet_hdr_put(int sz, struct iov_iter *iter,
+>>          if (copy_to_iter(hdr, sizeof(*hdr), iter) != sizeof(*hdr))
+>>                  return -EFAULT;
+>>
+>> -       iov_iter_advance(iter, sz - sizeof(*hdr));
+>> +       if (iov_iter_zero(sz - sizeof(*hdr), iter) != sz - sizeof(*hdr))
+>> +               return -EFAULT;
+>>
+>>          return 0;
+> 
+> There're various callers of iov_iter_advance(), do we need to fix them all?
+
+No. For example, there are iov_iter_advance() calls for SOCK_ZEROCOPY in 
+tun_get_user() and tap_get_user(). They are fine as they are not writing 
+buffers after skipping.
+
+The problem is that read_iter() and recvmsg() says it wrote N bytes but 
+it leaves some of this N bytes uninialized. Such an implementation may 
+be created even without iov_iter_advance() (for example just returning a 
+too big number), and it is equally problematic with the current 
+tun_get_user()/tap_get_user().
+
+Regards,
+Akihiko Odaki
+
 > 
 > Thanks
-
-We should replace MUST with SHOULD but it is not all fine,
-ignoring SHOULD is a quality of implementation issue.
+> 
+>>   }
+> 
+>>
+>> --
+>> 2.47.1
+>>
+> 
 
