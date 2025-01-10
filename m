@@ -1,510 +1,118 @@
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9DD8208983;
-	Fri, 10 Jan 2025 07:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB1C1F12FD;
+	Fri, 10 Jan 2025 08:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736495023; cv=none; b=dF+GCU+EGGCM2VZIi5IXX5reB31xldrfsymgkuOFr2Odaqs27Cz/I+sq4Tq1fCx4lCxb5C0TM09AiNXr5K3FfZKHFnfxAM+ip0sjGtaXNZaT5OPG/m4azunHT7WdWpZw5Ub1qVBpNVrG3Q9I9CboGehD+mgcPe6b4orkJDYNGi8=
+	t=1736496962; cv=none; b=sj8dN/Gh9s5lxoO2H6GA5LOcUwwft6lZ3wkAYGKzIK5Zx0aegUb/IOJPO4uznpXrKNPOJj9NdZgp6bhKckW5bNeROtEm5RhU2TOA6b0ccoGu6xXLruv3aZlF6Jtodgcuy8rKAlQGOgVJnvpkXNgpGpVpc+p4RLOy5rhARzS6bEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736495023; c=relaxed/simple;
-	bh=/QYnwh2qbypXbhOK3qXMRK8SLwh0z1+2J8+Cthvx25E=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Zde58PZ0/iMi+zVcAEykz9VxtMhuyhPrrbvdd5kVaBESL0wKYppURMwVw5DQH40Z1J+lImI2BBoClY4FYyr0yjwt1P5mnzyCJ8oGnunFI2AcFMQ42S4tvehvmWz3ECKN/lELiRTvtqOIju4fwPW3byxMc6I5XeHDWGPxfH0wQSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=h1dRsv/5; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	s=arc-20240116; t=1736496962; c=relaxed/simple;
+	bh=LiGgblo3umRJF8TlDZD0wLYlW/FE/mYXjvtrFKkWIZI=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=Mk24cAbhtM5bKBFSoM6JP99fGQfykqg49gW2FhBdu9YItaeC9QsfQWQV7KlLToLKOC7bjBV7fWDUeFayegnZ3awkHQRnW9oSpyXvz4NKxBTTl68wuqw3I1MvM7CStOcJLMTqeVhns8r9RKG/HrQZ4tLNWf6vBkDM8NPbG6sjAdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EDt+urWA; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="h1dRsv/5"
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50A7PDkd010241;
-	Fri, 10 Jan 2025 02:43:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=j+Vrj
-	q+K1KP6RaaZRE2hHba/thYOEjo1P2sV9Z7lr8E=; b=h1dRsv/5XYaF4VMKOt8aq
-	RnjO0+mcmw3q0/8smWzU7RDIjOwswZ73KyIeN3NPSees5BA905yi6Bb52MJehieO
-	fBHng3njC1z+I9muELe3scB4fNQEamJzlihXsR+Rbno5tGTHwi25AIg/HrXQjb5K
-	xnKoPJK2Fk8Z0EgQSpqdYEQIi0udEkez/VUPZ9xKXXRPa1p/gKgRM02+p/567oi6
-	29yjzMHc8uyrw3LUQfpUMVftu/a0t+nnfdHxCxo31rNADSVHq3RkvZzGYdaFZWMa
-	3Gc3ht91hN6NQAQvgsShyGpKup69nJ3gC47NiSLw9GofNO39N9+i+uHhUH6UVME9
-	Q==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 442y558296-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Jan 2025 02:43:25 -0500 (EST)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 50A7hOaX051840
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 10 Jan 2025 02:43:24 -0500
-Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Fri, 10 Jan
- 2025 02:43:24 -0500
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server id 15.2.986.14 via Frontend
- Transport; Fri, 10 Jan 2025 02:43:24 -0500
-Received: from dell-precision-robert.ad.analog.com ([10.48.65.204])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 50A7gvov032122;
-	Fri, 10 Jan 2025 02:43:17 -0500
-From: Robert Budai <robert.budai@analog.com>
-To: Nuno Sa <nuno.sa@analog.com>,
-        Ramona Gradinariu
-	<ramona.gradinariu@analog.com>,
-        Antoniu Miclaus <antoniu.miclaus@analog.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Michael Hennerich
-	<Michael.Hennerich@analog.com>,
-        Jonathan Cameron <jic23@kernel.org>, Rob
- Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor
- Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Robert Budai
-	<robert.budai@analog.com>,
-        Alex Lanzano <lanzano.alex@gmail.com>, <linux-iio@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-Subject: [PATCH v4 6/6] docs: iio: add documentation for adis16550 driver
-Date: Fri, 10 Jan 2025 09:42:54 +0200
-Message-ID: <20250110074254.38966-7-robert.budai@analog.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250110074254.38966-1-robert.budai@analog.com>
-References: <20250110074254.38966-1-robert.budai@analog.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EDt+urWA"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2166360285dso29812545ad.1;
+        Fri, 10 Jan 2025 00:16:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736496961; x=1737101761; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GE7toJHqZ/lOJiKN1P4097tohp+GcRxpdh5cgt9S0R8=;
+        b=EDt+urWAxgcNrLIBa4V//4qVdqozNsgKRRC7tSeds+p/eqykfpYyghji2XOsV3bMUJ
+         K++5vxTXLGefK+vyY3/zau0r71BW1QnDD9PPdt0ZPNy8aJaCNHKhzyrx840ZZrX8hQ8I
+         JINBGy1SamHK5Q6tYNeCKfVzeOhcF0b0ZYbSh3Eivuu7zpw2TllrHd4fzCDi4hNOYtUj
+         gbHAtqMiXJzpCPZuR/pESgldwaD9oE4jvUW1IpVEw1wPT3fAwVa4Rl70lmtF/jus7E63
+         tHhN4Nrh7hxPgi5IN+RACyF23iteAQ7O7hZvVvoWCOA9GqVyEi4sgRBRZRcEJvsZSGsU
+         X8IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736496961; x=1737101761;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GE7toJHqZ/lOJiKN1P4097tohp+GcRxpdh5cgt9S0R8=;
+        b=GThmlflV1F53JZP1j5usNapKgwD07ImOuWXiKJ2CCwvCSHDbt9iGs75uBSyMMNRbfa
+         rNDpoptuTid57D0bO2vBusXDM1+LFcwteloJU70g/bybn99Y+Kjnz92wX9uSh5vG8s0W
+         tDGkgI+iPPUJBPZuWIFOBISG8vvL02mbQffojUybsuTF13dHuEn4rzmKyZLumUUUi2fy
+         CVcm98zf7it4c+kzX5DXxW6W7J5pYewq1NLxDsuqFyRSuka3ETDFetAPpNkX+u1tnMJT
+         cMTF/nj7FQ4HNi6DAF9maF3JOIjYErfaNoNVXcCtCGXTMYXQ0M+sT/P7Jo2HLamK3wjc
+         xJTg==
+X-Forwarded-Encrypted: i=1; AJvYcCUVKDVsQKagv/+rgiFAexiWD7/216ZcPziSbswiKB46m4tjR9FkUZWijkxVLaRvftXx8uA5X57Roeq68qc=@vger.kernel.org, AJvYcCX/nAlB02QUDXkmgXFNusDnjOtzDx+ctVm7+BAWiXMwovi5TGEDa2mJPyehu123ISZqwuHydj+eEi6Z@vger.kernel.org, AJvYcCX9jnPAllqPl/5uZoOeJyx4MmSpEyW+VSSgN5ubJWAMUjFJWTZGZbWNQXlQ9UEpcrJ2FDbQ+PvBzHIN@vger.kernel.org, AJvYcCXPS8ufOme9a0lrxXWw2jiLxqeyLoAOKiAf/+a7EoaDQQBzNArd2R/NCbwhJFbiOOMsFtSsWgjobw3ut0YV@vger.kernel.org
+X-Gm-Message-State: AOJu0YylY1YN7TTp5IXakjmhoEXjv1mGfs/wk0Ol4FinAPiUjOrOq4h6
+	KBZxNhQZu/ht1m0Phg2k/LDayl4KqYpIVkN71dnIow2M0CIgm6Hp
+X-Gm-Gg: ASbGncs9HbtB07xxtjyEjZIot8wfHqS27xRRPoabvDk9k2pfSO9jJYCY3ml0W+heSVg
+	J6LWzBiIicO6MnJgSv2lwVbG7xbl6BtmhkpNXALkxtf5c4dUMqJ3LFUazIZCKUx/qdLddwcypVp
+	TkIAw3ZZNt8MEueqZ1jp8t4x6d2MDWyeprb9E7bGk1f07Jea5KCJ22t6X0/gkIgEBWXKwbBtYsJ
+	vODqyeEKyj2c6d7tAEVmLcieQJUe6XO/AICF9vJM4zuyvLDkXOROmo3gHrkw+wlvLWohY0Xbf4o
+	0ozDTCyHJJ1XWoSEYtIcz0XZkLK79gEZOaKb
+X-Google-Smtp-Source: AGHT+IHHpkpMA3xc9bN3IOIVKgSEjBL7aumxbhH6ZR4yf9yi6y05xsBLqGWoNi9xt/b4j7U7uM+Lcg==
+X-Received: by 2002:a17:902:f706:b0:216:6c88:efd9 with SMTP id d9443c01a7336-21a83f4bbf8mr159668545ad.15.1736496960764;
+        Fri, 10 Jan 2025 00:16:00 -0800 (PST)
+Received: from leo-pc.tail3f5402.ts.net (61-220-246-151.hinet-ip.hinet.net. [61.220.246.151])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-a31de806694sm2431837a12.69.2025.01.10.00.15.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jan 2025 00:16:00 -0800 (PST)
+From: Leo Yang <leo.yang.sy0@gmail.com>
+X-Google-Original-From: Leo Yang <Leo-Yang@quantatw.com>
+To: jdelvare@suse.com,
+	linux@roeck-us.net,
+	robh@kernel.org,
+	davem@davemloft.net,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	Leo-Yang@quantatw.com,
+	corbet@lwn.net,
+	Delphine_CC_Chiu@Wiwynn.com,
+	linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 0/2] hwmon: Add support for INA233
+Date: Fri, 10 Jan 2025 16:15:44 +0800
+Message-Id: <20250110081546.61667-1-Leo-Yang@quantatw.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="y"
 Content-Transfer-Encoding: 8bit
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-ORIG-GUID: ME8W6JRzw7PIIIvICkwJk54aY6O5k9ZN
-X-Proofpoint-GUID: ME8W6JRzw7PIIIvICkwJk54aY6O5k9ZN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- priorityscore=1501 bulkscore=0 suspectscore=0 adultscore=0 mlxlogscore=999
- spamscore=0 phishscore=0 clxscore=1015 mlxscore=0 lowpriorityscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501100063
 
-Add documentation for adis16550 driver which describes the driver
-device files and shows how the user may use the ABI for various
-scenarios (configuration, measurement, etc.).
+Support ina233 driver with binding documents.
 
-Co-developed-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
-Signed-off-by: Robert Budai <robert.budai@analog.com>
+---
+Change in v2:    
+  1. Merge the binding files into ti,ina2xx.yaml.  
+  2. Fix typo and non-sense dev_err.
+  3. Improve program logic.
+  4. pmbus_driver_info changed to be allocated in probe.
+  - Link to v1: https://lore.kernel.org/linux-hwmon/20250106071337.3017926-1-Leo-Yang@quantatw.com/
+---
+Change in v1:     
+  1. Change to pmbus standard practice of getting MFR_READ_VSHUNT
+     through vmon.
+  2. Change the way MFR_CALIBRATION is hard-coded to be obtained by
+     calculation.
+  - Link to origin: https://lore.kernel.org/linux-hwmon/20230920054739.1561080-1-Delphine_CC_Chiu@wiwynn.com/
 ---
 
-v4:
-- removed extra text bits from the documentation
+Leo Yang (2):
+  dt-bindings: hwmon: ti,ina2xx: Add INA233 device
+  hwmon: Add driver for TI INA232 Current and Power Monitor
 
- Documentation/iio/adis16550.rst | 378 ++++++++++++++++++++++++++++++++
- Documentation/iio/index.rst     |   1 +
- 2 files changed, 379 insertions(+)
- create mode 100644 Documentation/iio/adis16550.rst
+ .../devicetree/bindings/hwmon/ti,ina2xx.yaml  |  17 ++
+ Documentation/hwmon/ina233.rst                |  77 ++++++++
+ MAINTAINERS                                   |   8 +
+ drivers/hwmon/pmbus/Kconfig                   |   9 +
+ drivers/hwmon/pmbus/Makefile                  |   1 +
+ drivers/hwmon/pmbus/ina233.c                  | 184 ++++++++++++++++++
+ 6 files changed, 296 insertions(+)
+ create mode 100644 Documentation/hwmon/ina233.rst
+ create mode 100644 drivers/hwmon/pmbus/ina233.c
 
-diff --git a/Documentation/iio/adis16550.rst b/Documentation/iio/adis16550.rst
-new file mode 100644
-index 000000000000..1ea85fb77bb8
---- /dev/null
-+++ b/Documentation/iio/adis16550.rst
-@@ -0,0 +1,378 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+================
-+ADIS16550 driver
-+================
-+
-+This driver supports Analog Device's IMUs on SPI bus.
-+
-+1. Supported devices
-+====================
-+
-+* `ADIS16550 <https://www.analog.com/ADIS16550>`_
-+
-+The ADIS16550 is a complete inertial system that includes a triaxis gyroscope
-+and a triaxis accelerometer. The factory calibration characterizes each sensor for
-+sensitivity, bias, and alignment. As a result, each sensor has its own dynamic
-+compensation formulas that provide accurate sensor measurements.
-+
-+1. Device attributes
-+====================
-+
-+Accelerometer, gyroscope measurements are always provided. Furthermore, the
-+driver offers the capability to retrieve the delta angle and the delta velocity
-+measurements computed by the device.
-+
-+The delta angle measurements represent a calculation of angular displacement
-+between each sample update, while the delta velocity measurements represent a
-+calculation of linear velocity change between each sample update.
-+
-+Finally, temperature data are provided which show a coarse measurement of
-+the temperature inside of the IMU device. This data is most useful for
-+monitoring relative changes in the thermal environment.
-+
-+Each IIO device, has a device folder under ``/sys/bus/iio/devices/iio:deviceX``,
-+where X is the IIO index of the device. Under these folders reside a set of
-+device files, depending on the characteristics and features of the hardware
-+device in questions. These files are consistently generalized and documented in
-+the IIO ABI documentation.
-+
-+The following tables show the adis16550 related device files, found in the
-+specific device folder path ``/sys/bus/iio/devices/iio:deviceX``.
-+
-++-------------------------------------------+----------------------------------------------------------+
-+| 3-Axis Accelerometer related device files | Description                                              |
-++-------------------------------------------+----------------------------------------------------------+
-+| in_accel_scale                            | Scale for the accelerometer channels.                    |
-++-------------------------------------------+----------------------------------------------------------+
-+| in_accel_filter_low_pass_3db_frequency    | Bandwidth for the accelerometer channels.                |
-++-------------------------------------------+----------------------------------------------------------+
-+| in_accel_x_calibbias                      | Calibration offset for the X-axis accelerometer channel. |
-++-------------------------------------------+----------------------------------------------------------+
-+| in_accel_x_calibscale                     | Calibration scale for the X-axis accelerometer channel.  |
-++-------------------------------------------+----------------------------------------------------------+
-+| in_accel_x_raw                            | Raw X-axis accelerometer channel value.                  |
-++-------------------------------------------+----------------------------------------------------------+
-+| in_accel_y_calibbias                      | Calibration offset for the Y-axis accelerometer channel. |
-++-------------------------------------------+----------------------------------------------------------+
-+| in_accel_y_calibscale                     | Calibration scale for the Y-axis accelerometer channel.  |
-++-------------------------------------------+----------------------------------------------------------+
-+| in_accel_y_raw                            | Raw Y-axis accelerometer channel value.                  |
-++-------------------------------------------+----------------------------------------------------------+
-+| in_accel_z_calibbias                      | Calibration offset for the Z-axis accelerometer channel. |
-++-------------------------------------------+----------------------------------------------------------+
-+| in_accel_z_calibscale                     | Calibration scale for the Z-axis accelerometer channel.  |
-++-------------------------------------------+----------------------------------------------------------+
-+| in_accel_z_raw                            | Raw Z-axis accelerometer channel value.                  |
-++-------------------------------------------+----------------------------------------------------------+
-+| in_deltavelocity_scale                    | Scale for delta velocity channels.                       |
-++-------------------------------------------+----------------------------------------------------------+
-+| in_deltavelocity_x_raw                    | Raw X-axis delta velocity channel value.                 |
-++-------------------------------------------+----------------------------------------------------------+
-+| in_deltavelocity_y_raw                    | Raw Y-axis delta velocity channel value.                 |
-++-------------------------------------------+----------------------------------------------------------+
-+| in_deltavelocity_z_raw                    | Raw Z-axis delta velocity channel value.                 |
-++-------------------------------------------+----------------------------------------------------------+
-+
-++--------------------------------------------+------------------------------------------------------+
-+| 3-Axis Gyroscope related device files      | Description                                          |
-++--------------------------------------------+------------------------------------------------------+
-+| in_anglvel_scale                           | Scale for the gyroscope channels.                    |
-++--------------------------------------------+------------------------------------------------------+
-+| in_anglvel_filter_low_pass_3db_frequency   | Scale for the gyroscope channels.                    |
-++--------------------------------------------+------------------------------------------------------+
-+| in_anglvel_x_calibbias                     | Calibration offset for the X-axis gyroscope channel. |
-++--------------------------------------------+------------------------------------------------------+
-+| in_anglvel_x_calibscale                    | Calibration scale for the X-axis gyroscope channel.  |
-++--------------------------------------------+------------------------------------------------------+
-+| in_anglvel_x_raw                           | Raw X-axis gyroscope channel value.                  |
-++--------------------------------------------+------------------------------------------------------+
-+| in_anglvel_y_calibbias                     | Calibration offset for the Y-axis gyroscope channel. |
-++--------------------------------------------+------------------------------------------------------+
-+| in_anglvel_y_calibscale                    | Calibration scale for the Y-axis gyroscope channel.  |
-++--------------------------------------------+------------------------------------------------------+
-+| in_anglvel_y_raw                           | Raw Y-axis gyroscope channel value.                  |
-++--------------------------------------------+------------------------------------------------------+
-+| in_anglvel_z_calibbias                     | Calibration offset for the Z-axis gyroscope channel. |
-++--------------------------------------------+------------------------------------------------------+
-+| in_anglvel_z_calibscale                    | Calibration scale for the Z-axis gyroscope channel.  |
-++--------------------------------------------+------------------------------------------------------+
-+| in_anglvel_z_raw                           | Raw Z-axis gyroscope channel value.                  |
-++--------------------------------------------+------------------------------------------------------+
-+| in_deltaangl_scale                         | Scale for delta angle channels.                      |
-++--------------------------------------------+------------------------------------------------------+
-+| in_deltaangl_x_raw                         | Raw X-axis delta angle channel value.                |
-++--------------------------------------------+------------------------------------------------------+
-+| in_deltaangl_y_raw                         | Raw Y-axis delta angle channel value.                |
-++--------------------------------------------+------------------------------------------------------+
-+| in_deltaangl_z_raw                         | Raw Z-axis delta angle channel value.                |
-++--------------------------------------------+------------------------------------------------------+
-+
-++----------------------------------+-------------------------------------------+
-+| Temperature sensor related files | Description                               |
-++----------------------------------+-------------------------------------------+
-+| in_temp0_raw                     | Raw temperature channel value.            |
-++----------------------------------+-------------------------------------------+
-+| in_temp0_offset                  | Offset for the temperature sensor channel.|
-++----------------------------------+-------------------------------------------+
-+| in_temp0_scale                   | Scale for the temperature sensor channel. |
-++----------------------------------+-------------------------------------------+
-+
-++----------------------------+--------------------------------------------------------------------------------+
-+| Miscellaneous device files | Description                                                                    |
-++----------------------------+--------------------------------------------------------------------------------+
-+| name                       | Name of the IIO device.                                                        |
-++----------------------------+--------------------------------------------------------------------------------+
-+| sampling_frequency         | Currently selected sample rate.                                                |
-++----------------------------+--------------------------------------------------------------------------------+
-+| write_lock_enable          | Lock the device from further configuration. Only a reset will remove the lock. |
-++----------------------------+--------------------------------------------------------------------------------+
-+
-+The following table shows the adis16550 related device debug files, found in the
-+specific device debug folder path ``/sys/kernel/debug/iio/iio:deviceX``.
-+
-++----------------------+-------------------------------------------------------------------------+
-+| Debugfs device files | Description                                                             |
-++----------------------+-------------------------------------------------------------------------+
-+| serial_number        | The serial number of the chip in hexadecimal format.                    |
-++----------------------+-------------------------------------------------------------------------+
-+| product_id           | Chip specific product id (16550).                                       |
-++----------------------+-------------------------------------------------------------------------+
-+| flash_count          | The number of flash writes performed on the device.                     |
-++----------------------+-------------------------------------------------------------------------+
-+| firmware_revision    | String containing the firmware revision in the following format ##.##.  |
-++----------------------+-------------------------------------------------------------------------+
-+| firmware_date        | String containing the firmware date in the following format mm-dd-yyyy. |
-++----------------------+-------------------------------------------------------------------------+
-+
-+Channels processed values
-+-------------------------
-+
-+A channel value can be read from its _raw attribute. The value returned is the
-+raw value as reported by the devices. To get the processed value of the channel,
-+apply the following formula:
-+
-+.. code-block:: bash
-+
-+        processed value = (_raw + _offset) * _scale
-+
-+Where _offset and _scale are device attributes. If no _offset attribute is
-+present, simply assume its value is 0.
-+
-+The adis16550 driver offers data for 5 types of channels, the table below shows
-+the measurement units for the processed value, which are defined by the IIO
-+framework:
-+
-++--------------------------------------+---------------------------+
-+| Channel type                         | Measurement unit          |
-++--------------------------------------+---------------------------+
-+| Acceleration on X, Y, and Z axis     | Meters per Second squared |
-++--------------------------------------+---------------------------+
-+| Angular velocity on X, Y and Z axis  | Radians per second        |
-++--------------------------------------+---------------------------+
-+| Delta velocity on X. Y, and Z axis   | Meters per Second         |
-++--------------------------------------+---------------------------+
-+| Delta angle on X, Y, and Z axis      | Radians                   |
-++--------------------------------------+---------------------------+
-+| Temperature                          | Millidegrees Celsius      |
-++--------------------------------------+---------------------------+
-+
-+Usage examples
-+--------------
-+
-+Show device name:
-+
-+.. code-block:: bash
-+
-+	root:/sys/bus/iio/devices/iio:device0> cat name
-+        adis16550
-+
-+Show accelerometer channels value:
-+
-+.. code-block:: bash
-+
-+        root:/sys/bus/iio/devices/iio:device0> cat in_accel_x_raw
-+        6903851
-+        root:/sys/bus/iio/devices/iio:device0> cat in_accel_y_raw
-+        5650550
-+        root:/sys/bus/iio/devices/iio:device0> cat in_accel_z_raw
-+        104873530
-+        root:/sys/bus/iio/devices/iio:device0> cat in_accel_scale
-+        0.000000095
-+
-+- X-axis acceleration = in_accel_x_raw * in_accel_scale = 0.655865845 m/s^2
-+- Y-axis acceleration = in_accel_y_raw * in_accel_scale = 0.53680225 m/s^2
-+- Z-axis acceleration = in_accel_z_raw * in_accel_scale = 9.96298535 m/s^2
-+
-+Show gyroscope channels value:
-+
-+.. code-block:: bash
-+
-+        root:/sys/bus/iio/devices/iio:device0> cat in_anglvel_x_raw
-+        193309
-+        root:/sys/bus/iio/devices/iio:device0> cat in_anglvel_y_raw
-+        -763676
-+        root:/sys/bus/iio/devices/iio:device0> cat in_anglvel_z_raw
-+        -358108
-+        root:/sys/bus/iio/devices/iio:device0> cat in_anglvel_scale
-+        0.000000003
-+
-+- X-axis angular velocity = in_anglvel_x_raw * in_anglvel_scale = 0.000579927 rad/s
-+- Y-axis angular velocity = in_anglvel_y_raw * in_anglvel_scale = −0.002291028 rad/s
-+- Z-axis angular velocity = in_anglvel_z_raw * in_anglvel_scale = −0.001074324 rad/s
-+
-+Set calibration offset for accelerometer channels:
-+
-+.. code-block:: bash
-+
-+        root:/sys/bus/iio/devices/iio:device0> cat in_accel_x_calibbias
-+        0
-+
-+        root:/sys/bus/iio/devices/iio:device0> echo 5000 > in_accel_x_calibbias
-+        root:/sys/bus/iio/devices/iio:device0> cat in_accel_x_calibbias
-+        5000
-+
-+Set calibration offset for gyroscope channels:
-+
-+.. code-block:: bash
-+
-+        root:/sys/bus/iio/devices/iio:device0> cat in_anglvel_y_calibbias
-+        0
-+
-+        root:/sys/bus/iio/devices/iio:device0> echo -5000 > in_anglvel_y_calibbias
-+        root:/sys/bus/iio/devices/iio:device0> cat in_anglvel_y_calibbias
-+        -5000
-+
-+Set sampling frequency:
-+
-+.. code-block:: bash
-+
-+	root:/sys/bus/iio/devices/iio:device0> cat sampling_frequency
-+        4000.000000
-+
-+        root:/sys/bus/iio/devices/iio:device0> echo 1000 > sampling_frequency
-+        1000.000000
-+
-+Set bandwidth for accelerometer channels:
-+
-+.. code-block:: bash
-+
-+        root:/sys/bus/iio/devices/iio:device0> cat in_accel_filter_low_pass_3db_frequency
-+        0
-+
-+        root:/sys/bus/iio/devices/iio:device0> echo 100 > in_accel_filter_low_pass_3db_frequency
-+        root:/sys/bus/iio/devices/iio:device0> cat in_accel_filter_low_pass_3db_frequency
-+        100
-+
-+Show serial number:
-+
-+.. code-block:: bash
-+
-+        root:/sys/kernel/debug/iio/iio:device0> cat serial_number
-+        0x000000b6
-+
-+Show product id:
-+
-+.. code-block:: bash
-+
-+        root:/sys/kernel/debug/iio/iio:device0> cat product_id
-+        16550
-+
-+Show flash count:
-+
-+.. code-block:: bash
-+
-+        root:/sys/kernel/debug/iio/iio:device0> cat flash_count
-+        13
-+
-+Show firmware revision:
-+
-+.. code-block:: bash
-+
-+        root:/sys/kernel/debug/iio/iio:device0> cat firmware_revision
-+        1.5
-+
-+Show firmware date:
-+
-+.. code-block:: bash
-+
-+        root:/sys/kernel/debug/iio/iio:device0> cat firmware_date
-+        28-04-2021
-+
-+3. Device buffers
-+=================
-+
-+This driver supports IIO buffers.
-+
-+The device supports retrieving the raw acceleration, gyroscope, delta velocity,
-+delta angle and temperature measurements using buffers.
-+
-+However, when retrieving acceleration or gyroscope data using buffers, delta
-+readings will not be available and vice versa. This is because the device only
-+allows to read either acceleration and gyroscope data or delta velocity and
-+delta angle data at a time and switching between these two burst data selection
-+modes is time consuming.
-+
-+Usage examples
-+--------------
-+
-+Set device trigger in current_trigger, if not already set:
-+
-+.. code-block:: bash
-+
-+        root:/sys/bus/iio/devices/iio:device0> cat trigger/current_trigger
-+
-+        root:/sys/bus/iio/devices/iio:device0> echo adis16550-dev0 > trigger/current_trigger
-+        root:/sys/bus/iio/devices/iio:device0> cat trigger/current_trigger
-+        adis16550-dev0
-+
-+Select channels for buffer read:
-+
-+.. code-block:: bash
-+
-+        root:/sys/bus/iio/devices/iio:device0> echo 1 > scan_elements/in_deltavelocity_x_en
-+        root:/sys/bus/iio/devices/iio:device0> echo 1 > scan_elements/in_deltavelocity_y_en
-+        root:/sys/bus/iio/devices/iio:device0> echo 1 > scan_elements/in_deltavelocity_z_en
-+        root:/sys/bus/iio/devices/iio:device0> echo 1 > scan_elements/in_temp0_en
-+
-+Set the number of samples to be stored in the buffer:
-+
-+.. code-block:: bash
-+
-+        root:/sys/bus/iio/devices/iio:device0> echo 10 > buffer/length
-+
-+Enable buffer readings:
-+
-+.. code-block:: bash
-+
-+        root:/sys/bus/iio/devices/iio:device0> echo 1 > buffer/enable
-+
-+Obtain buffered data:
-+
-+.. code-block:: bash
-+
-+        root:/sys/bus/iio/devices/iio:device0> hexdump -C /dev/iio\:device0
-+        ...
-+        0000cdf0  00 00 0d 2f 00 00 08 43  00 00 09 09 00 00 a4 5f  |.../...C......._|
-+        0000ce00  00 00 0d 2f 00 00 07 de  00 00 08 db 00 00 a4 4b  |.../...........K|
-+        0000ce10  00 00 0d 2f 00 00 07 58  00 00 08 a3 00 00 a4 55  |.../...X.......U|
-+        0000ce20  00 00 0d 2f 00 00 06 d6  00 00 08 5c 00 00 a4 62  |.../.......\...b|
-+        0000ce30  00 00 0d 2f 00 00 06 45  00 00 08 37 00 00 a4 47  |.../...E...7...G|
-+        0000ce40  00 00 0d 2f 00 00 05 d4  00 00 08 30 00 00 a3 fa  |.../.......0....|
-+        0000ce50  00 00 0d 2f 00 00 05 d0  00 00 08 12 00 00 a3 d3  |.../............|
-+        0000ce60  00 00 0d 2f 00 00 05 dd  00 00 08 2e 00 00 a3 e9  |.../............|
-+        0000ce70  00 00 0d 2f 00 00 05 cc  00 00 08 51 00 00 a3 d5  |.../.......Q....|
-+        0000ce80  00 00 0d 2f 00 00 05 ba  00 00 08 22 00 00 a3 9a  |.../......."....|
-+        0000ce90  00 00 0d 2f 00 00 05 9c  00 00 07 d9 00 00 a3 40  |.../...........@|
-+        0000cea0  00 00 0d 2f 00 00 05 68  00 00 07 94 00 00 a2 e4  |.../...h........|
-+        0000ceb0  00 00 0d 2f 00 00 05 25  00 00 07 8d 00 00 a2 ce  |.../...%........|
-+        ...
-+
-+See ``Documentation/iio/iio_devbuf.rst`` for more information about how buffered
-+data is structured.
-+
-+4. IIO Interfacing Tools
-+========================
-+
-+See ``Documentation/iio/iio_tools.rst`` for the description of the available IIO
-+interfacing tools.
-diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-index 074dbbf7ba0a..2c3fa1716a69 100644
---- a/Documentation/iio/index.rst
-+++ b/Documentation/iio/index.rst
-@@ -26,6 +26,7 @@ Industrial I/O Kernel Drivers
-    ad7944
-    adis16475
-    adis16480
-+   adis16550
-    adxl380
-    bno055
-    ep93xx_adc
 -- 
-2.34.1
+2.39.2
 
