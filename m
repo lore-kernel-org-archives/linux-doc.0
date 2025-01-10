@@ -1,274 +1,481 @@
-Received: from out203-205-221-153.mail.qq.com (out203-205-221-153.mail.qq.com [203.205.221.153])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0B42063C7;
-	Fri, 10 Jan 2025 12:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B479120DD47;
+	Fri, 10 Jan 2025 12:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736511676; cv=none; b=lXQLoe7obAwdkHLm8IGBf5fBzRG2FuGay1rVlvKZZgefkoRZBj+Ycvzb66tgabWh3ZXjP2LvW69ANb9acGj4+lSL5oWoUkoJSgmEjTRNihZfwSzSFF+F+9p/dTNtbpDRbTrErofC9vU+CFTSCsOEjFxx+FkPfV1Mi45Ln7j27RE=
+	t=1736512052; cv=none; b=Sh0IlACHJe9kCwPD+mhFN7A10nKTSArb9ZU020dFR28DH83acJdX2Q3dzdVZsP1AHRYgCu8Tf7Xl9xI7AdEQoT9TdGzfTmypolbmvbdxVmhuaGXuIxxZekxFLYK294iYTzIzjkqsqHlWWsq2798Q7R0UyiNLPwEDgZLyzL+fdFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736511676; c=relaxed/simple;
-	bh=YIt07cdTZ+/lsSWeEviWIYluwoLNvS5FzDICoI8N/Dg=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=a8XoKyeJU64HwnHyfzfpMYbuVa1AGz9qkDxHqZ/SxUiJcsvp2GXvRWazjKU5UG9KMYOiOxaJxOoWFIEKEkWrtO70BjigxoH7xkLFyogSYzbMvq5Xfxx5gjs7uV1O0NSvtWxpfg7pMsqgLUfLMjbqMucFwuduCWBxkUV4eYNuQ8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=Red54.com; spf=pass smtp.mailfrom=red54.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=Ar+oe1D5; arc=none smtp.client-ip=203.205.221.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=Red54.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=red54.com
+	s=arc-20240116; t=1736512052; c=relaxed/simple;
+	bh=f9FylgJj59fAmz/fHDmaPBuiqg9UIdFPtPa5lA00AmA=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=UvSALte6ANjWKBbu8FjCVoD4ah5s8WMzD4ORwXGUF8gg9q7pbPn04khaKtIWZolyMvPU5GnSCLl66UIEgLNnxdG+qj9DqxoF0bYVtCsBfwSJkkUQbvczEFcXMsY0M6iax9e9woT5dWRLsNPdwpUx2gjwum6rCM6xKPC0dZjYxdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VR6tAlXQ; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="Ar+oe1D5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1736511664; bh=6fdN0gKKRNNJOG4fOocIyM3P49OZ4LlaNAvBNEw+wXU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Ar+oe1D59VaqYXTZAbfubbMAB2h/tRUjkERzU58QgQfgCH/9LkMWf//McRMn8bWLd
-	 VTcg6eM3rSLnxHt8WGubz5Bq8MVQCu83ttSixVJIMCjcLZ+M1NYvQxjjQXG/W0k/Bp
-	 NJ7r9cj95VUixgJP3kwfC/sz7DrJ5RG00RkfZKfs=
-Received: from mail.red54.com ([185.220.101.102])
-	by newxmesmtplogicsvrszgpua8-0.qq.com (NewEsmtp) with SMTP
-	id 52F87847; Fri, 10 Jan 2025 20:20:47 +0800
-X-QQ-mid: xmsmtpt1736511647tju0h5rg1
-Message-ID: <tencent_F8CFC8ED723F6E8103B4AF3D98D63D7F1F08@qq.com>
-X-QQ-XMAILINFO: MyirvGjpKb1jifP4Fsi15Ro29ATGj9Tz3AK6VNYjQX4QXwr8JWIgr3tWD9plMi
-	 l4LhqFHbtL2hIufyZH85ipnqXqFm/r6qnYDtyVjcvbv5XcQ3Mjy21+fhqR6f/lz4TCpl9R7ydQxh
-	 Nb2VksbDVqsX6SlHnMF+Ef52+SmYJgMsEewCqa/49pYNY2ABeimmhtjyOL5J1eqLT3hXrGnGxUAb
-	 NmLl3goHm5fsUotLw+UtDeCbBoHe2z22YFR92NWXIHRBBr9ZWwSTRhGh6QCXb4DRsL+Fohz5Q39R
-	 DrfBKH7SN3WJqYdu/pgL3/6jXr6ChUATBcv9aYRPXPAZThuUwEv+SolLC/tiXNvQMUlyx//JKQzL
-	 +SSLtrOXZDnDl0gVONPneBf9v0zKC2f/EcwmvZf5PGMAvUp1zX4bjkHi3dE7oGjUAYi82lBnmhJv
-	 NBggAU73itCdDuG1/wp8/mrGpPj7AbzUIK5BbDgFYQbPvVZHGgtU7UeCHtJVuvbXq2MEMAIOi3Cn
-	 sLyH9Ae+z0ir3Gs6h7PL/a3RE2O8In28Vzn10SsQu9x0ynS9QV8LXBolKbwrZYRqcEy39uGy1Yx3
-	 Cn38ZLmuW3ESXlGMtIk+sfLpoFEpJ6JjOn8fmcLINGz8w9tRC68XS6i/Fow4CSoIyssijzpLbQaf
-	 QhUoYN5CKP/abUi41NV1yQ7VhOIDovDmLDh8VB96VVShtGbJooVG5Poc6ftpoZdn7Z8/p1I79D24
-	 c5lO/+w8GcZ5eJ5+ZUEqI2zof7uW1DWvl6F1oQkvi18O5Yz8/VRrrppr8x50RJI0PiDGNC7mo8BI
-	 pWCyBL6q//WY0Uc3ZM0sFPwsPDlS4omZ10eu+KjZ2VIV55kP8lnae36ST0D0lPgaiTcvHi59XB6V
-	 ls4AecJF1EajfzMZWSUQDE0rSolbjCP3BtG4DzR5o+Wo+A+8Ln9fPoedUfhH8mCrNLxFySGEj8NO
-	 R5t8J0PRdOAdenD2iQanVEc+FrHFWhu0BHaeVz2NQ=
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
-Sender: yeking@red54.com
-From: Yeking@Red54.com
-To: kuba@kernel.org
-Cc: =?UTF-8?q?=E8=B0=A2=E8=87=B4=E9=82=A6=20=28XIE=20Zhibang=29?= <Yeking@Red54.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Theodore Ts'o" <tytso@mit.edu>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Whitcroft <apw@canonical.com>,
-	Joe Perches <joe@perches.com>,
-	Dwaipayan Ray <dwaipayanray1@gmail.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	tech-board-discuss@lists.linux.dev
-Subject: [PATCH] Add short author date to Fixes tag
-Date: Fri, 10 Jan 2025 12:20:09 +0000
-X-OQ-MSGID: <20250110122009.79873-1-Yeking@Red54.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <tencent_6CF6E720909156A227D23AE8CFE4F9BA5D05@qq.com>
-References: <tencent_6CF6E720909156A227D23AE8CFE4F9BA5D05@qq.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VR6tAlXQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736512051; x=1768048051;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=f9FylgJj59fAmz/fHDmaPBuiqg9UIdFPtPa5lA00AmA=;
+  b=VR6tAlXQyQPoq5MaqNnzsZ2vgW3SLKUt7Yl4i4UUcEeLMSoD7zbyroou
+   gAZ5TD3nNwtq07Tv37qOqIT8JjdqUhmg3NFMVSWU4oZCyTjLTgDPdZFZ5
+   ebCGvWVLAmc9LkDxaRqGKyzkekDZOI4fJqNfBNTZ478Pc7xqUOCpLraBI
+   Ks+WOQtBjWoZbiCdW29mvfo8q0tHzqpqXwZDzKbn5mHshr2PjbYDSIc82
+   1jJ2pYcGW4Dds8Cy5zFaWdgq25zbh5q1wNi4OX1gQVOvxpgFD9P33bgDR
+   GYiTJV25OQSUliMRwBp17Ka/o5vWV2nD32MnVgmQbc+7VAozJnxOwpzE1
+   w==;
+X-CSE-ConnectionGUID: AL26z5RzS4GgX4VKc3HGHA==
+X-CSE-MsgGUID: ucz+KPsrToC4VO1Ar3/USA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="54220775"
+X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
+   d="scan'208";a="54220775"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 04:27:31 -0800
+X-CSE-ConnectionGUID: 11edMklMTCej+KmzBfSlJQ==
+X-CSE-MsgGUID: kRkC6YAOSJuMe6unfrnf5w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="107764867"
+Received: from apaszkie-mobl2.apaszkie-mobl2 (HELO localhost) ([10.245.244.158])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 04:27:25 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Fri, 10 Jan 2025 14:27:21 +0200 (EET)
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>
+cc: Hans de Goede <hdegoede@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+    Mario Limonciello <superm1@kernel.org>, Luke Jones <luke@ljones.dev>, 
+    Xino Ni <nijs1@lenovo.com>, Zhixin Zhang <zhangzx36@lenovo.com>, 
+    Mia Shao <shaohz1@lenovo.com>, Mark Pearson <mpearson-lenovo@squebb.ca>, 
+    "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
+    "Cody T . -H . Chiu" <codyit@gmail.com>, 
+    John Martens <johnfanv2@gmail.com>, platform-driver-x86@vger.kernel.org, 
+    linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 2/4] platform/x86: Add Lenovo GameZone WMI Driver
+In-Reply-To: <20250102004854.14874-3-derekjohn.clark@gmail.com>
+Message-ID: <487ff49a-b521-600d-16bf-db3122295812@linux.intel.com>
+References: <20250102004854.14874-1-derekjohn.clark@gmail.com> <20250102004854.14874-3-derekjohn.clark@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 
-From: 谢致邦 (XIE Zhibang) <Yeking@Red54.com>
+On Wed, 1 Jan 2025, Derek J. Clark wrote:
 
-The old Fixes tag style is at least 10 years old. It lacks date
-information, which can lead to misjudgment. So I added short author date
-to avoid this. This make it clear at a glance and reduce
-misunderstandings.
+> Adds lenovo-wmi-gamezone.c which provides a driver for the Lenovo
+> GameZone WMI interface that comes on Lenovo "Gaming Series" hardware.
+> Provides ACPI platform profiles over WMI.
+> 
+> v2:
+> - Use devm_kzalloc to ensure driver can be instanced, remove global
+>   reference.
+> - Ensure reverse Christmas tree for all variable declarations.
+> - Remove extra whitespace.
+> - Use guard(mutex) in all mutex instances, global mutex.
+> - Use pr_fmt instead of adding the driver name to each pr_err.
+> - Remove noisy pr_info usage.
+> - Rename gamezone_wmi to lenovo_wmi_gz_priv and gz_wmi to priv.
+> - Remove GZ_WMI symbol exporting.
+> 
+> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> ---
+>  MAINTAINERS                                |   7 +
+>  drivers/platform/x86/Kconfig               |  11 ++
+>  drivers/platform/x86/Makefile              |   1 +
+>  drivers/platform/x86/lenovo-wmi-gamezone.c | 203 +++++++++++++++++++++
+>  drivers/platform/x86/lenovo-wmi.h          | 105 +++++++++++
+>  5 files changed, 327 insertions(+)
+>  create mode 100644 drivers/platform/x86/lenovo-wmi-gamezone.c
+>  create mode 100644 drivers/platform/x86/lenovo-wmi.h
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index baf0eeb9a355..8f8a6aec6b92 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13034,6 +13034,13 @@ S:	Maintained
+>  W:	http://legousb.sourceforge.net/
+>  F:	drivers/usb/misc/legousbtower.c
+>  
+> +LENOVO WMI drivers
+> +M:	Derek J. Clark <derekjohn.clark@gmail.com>
+> +L:	platform-driver-x86@vger.kernel.org
+> +S:	Maintained
+> +F:	drivers/platform/x86/lenovo-wmi-gamezone.c
+> +F:	drivers/platform/x86/lenovo-wmi.h
+> +
+>  LETSKETCH HID TABLET DRIVER
+>  M:	Hans de Goede <hdegoede@redhat.com>
+>  L:	linux-input@vger.kernel.org
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> index 0258dd879d64..9a6ac7fdec9f 100644
+> --- a/drivers/platform/x86/Kconfig
+> +++ b/drivers/platform/x86/Kconfig
+> @@ -459,6 +459,17 @@ config IBM_RTL
+>  	 state = 0 (BIOS SMIs on)
+>  	 state = 1 (BIOS SMIs off)
+>  
+> +config LENOVO_WMI_GAMEZONE
+> +	tristate "Lenovo GameZone WMI Driver"
+> +	depends on ACPI_WMI
+> +	select ACPI_PLATFORM_PROFILE
+> +	help
+> +	  Say Y here if you have a WMI aware Lenovo Legion device and would like to use the
+> +	  platform-profile firmware interface.
+> +
+> +	  To compile this driver as a module, choose M here: the module will
+> +	  be called lenovo_wmi_gamezone.
+> +
+>  config IDEAPAD_LAPTOP
+>  	tristate "Lenovo IdeaPad Laptop Extras"
+>  	depends on ACPI
+> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
+> index e1b142947067..7cb29a480ed2 100644
+> --- a/drivers/platform/x86/Makefile
+> +++ b/drivers/platform/x86/Makefile
+> @@ -68,6 +68,7 @@ obj-$(CONFIG_THINKPAD_LMI)	+= think-lmi.o
+>  obj-$(CONFIG_YOGABOOK)		+= lenovo-yogabook.o
+>  obj-$(CONFIG_YT2_1380)		+= lenovo-yoga-tab2-pro-1380-fastcharger.o
+>  obj-$(CONFIG_LENOVO_WMI_CAMERA)	+= lenovo-wmi-camera.o
+> +obj-$(CONFIG_LENOVO_WMI_GAMEZONE)	+= lenovo-wmi-gamezone.o
+>  
+>  # Intel
+>  obj-y				+= intel/
+> diff --git a/drivers/platform/x86/lenovo-wmi-gamezone.c b/drivers/platform/x86/lenovo-wmi-gamezone.c
+> new file mode 100644
+> index 000000000000..da5e2bc41f39
+> --- /dev/null
+> +++ b/drivers/platform/x86/lenovo-wmi-gamezone.c
+> @@ -0,0 +1,203 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Lenovo GameZone WMI interface driver. The GameZone WMI interface provides
+> + * platform profile and fan curve settings for devices that fall under the
+> + * "Gaming Series" of Lenovo Legion devices.
+> + *
+> + * Copyright(C) 2024 Derek J. Clark <derekjohn.clark@gmail.com>
+> + */
+> +
+> +#include <linux/platform_profile.h>
+> +#include "lenovo-wmi.h"
+> +
+> +#define LENOVO_GAMEZONE_GUID "887B54E3-DDDC-4B2C-8B88-68A26A8835D0"
+> +
+> +/* Method IDs */
+> +#define WMI_METHOD_ID_SMARTFAN_SUPP 43 /* IsSupportSmartFan */
+> +#define WMI_METHOD_ID_SMARTFAN_SET 44 /* SetSmartFanMode */
+> +#define WMI_METHOD_ID_SMARTFAN_GET 45 /* GetSmartFanMode */
+> +
+> +static DEFINE_MUTEX(call_mutex);
+> +
+> +static const struct wmi_device_id lenovo_wmi_gamezone_id_table[] = {
+> +	{ LENOVO_GAMEZONE_GUID, NULL }, /* LENOVO_GAMEZONE_DATA */
+> +	{}
+> +};
+> +
+> +struct lenovo_wmi_gz_priv {
+> +	struct wmi_device *wdev;
+> +	enum platform_profile_option current_profile;
+> +	struct platform_profile_handler pprof;
+> +	bool platform_profile_support;
+> +};
+> +
+> +/* Platform Profile Methods */
+> +static int lenovo_wmi_gamezone_platform_profile_supported(
+> +	struct platform_profile_handler *pprof, int *supported)
+> +{
+> +	struct lenovo_wmi_gz_priv *priv;
+> +
+> +	priv = container_of(pprof, struct lenovo_wmi_gz_priv, pprof);
+> +
+> +	guard(mutex)(&call_mutex);
+> +	return lenovo_wmidev_evaluate_method_1(
+> +		priv->wdev, 0x0, WMI_METHOD_ID_SMARTFAN_SUPP, 0, supported);
+> +}
+> +
+> +static int
+> +lenovo_wmi_gamezone_profile_get(struct platform_profile_handler *pprof,
+> +				enum platform_profile_option *profile)
+> +{
+> +	struct lenovo_wmi_gz_priv *priv;
+> +	int sel_prof;
+> +	int err;
+> +
+> +	priv = container_of(pprof, struct lenovo_wmi_gz_priv, pprof);
+> +
+> +	guard(mutex)(&call_mutex);
+> +	err = lenovo_wmidev_evaluate_method_1(
+> +		priv->wdev, 0x0, WMI_METHOD_ID_SMARTFAN_GET, 0, &sel_prof);
+> +	if (err) {
+> +		pr_err("Error getting fan profile from WMI interface: %d\n",
+> +		       err);
+> +		return err;
+> +	}
+> +
+> +	switch (sel_prof) {
+> +	case SMARTFAN_MODE_QUIET:
+> +		*profile = PLATFORM_PROFILE_QUIET;
+> +		break;
+> +	case SMARTFAN_MODE_BALANCED:
+> +		*profile = PLATFORM_PROFILE_BALANCED;
+> +		break;
+> +	case SMARTFAN_MODE_PERFORMANCE:
+> +		*profile = PLATFORM_PROFILE_PERFORMANCE;
+> +		break;
+> +	case SMARTFAN_MODE_CUSTOM:
+> +		*profile = PLATFORM_PROFILE_CUSTOM;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +	priv->current_profile = *profile;
+> +
+> +	return 0;
+> +}
+> +
+> +static int
+> +lenovo_wmi_gamezone_profile_set(struct platform_profile_handler *pprof,
+> +				enum platform_profile_option profile)
+> +{
+> +	struct lenovo_wmi_gz_priv *priv;
+> +	int sel_prof;
+> +	int err;
+> +
+> +	switch (profile) {
+> +	case PLATFORM_PROFILE_QUIET:
+> +		sel_prof = SMARTFAN_MODE_QUIET;
+> +		break;
+> +	case PLATFORM_PROFILE_BALANCED:
+> +		sel_prof = SMARTFAN_MODE_BALANCED;
+> +		break;
+> +	case PLATFORM_PROFILE_PERFORMANCE:
+> +		sel_prof = SMARTFAN_MODE_PERFORMANCE;
+> +		break;
+> +	case PLATFORM_PROFILE_CUSTOM:
+> +		sel_prof = SMARTFAN_MODE_CUSTOM;
+> +		break;
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	priv = container_of(pprof, struct lenovo_wmi_gz_priv, pprof);
+> +
+> +	guard(mutex)(&call_mutex);
+> +	err = lenovo_wmidev_evaluate_method_1(
+> +		priv->wdev, 0x0, WMI_METHOD_ID_SMARTFAN_SET, sel_prof, NULL);
+> +	if (err) {
+> +		pr_err("Error setting fan profile on WMI interface: %u\n", err);
+> +		return err;
+> +	}
+> +
+> +	priv->current_profile = profile;
+> +	return 0;
+> +}
+> +
+> +/* Driver Setup */
+> +static int platform_profile_setup(struct lenovo_wmi_gz_priv *priv)
+> +{
+> +	int supported;
+> +	int err;
+> +
+> +	err = lenovo_wmi_gamezone_platform_profile_supported(&priv->pprof,
+> +							     &supported);
+> +	if (err) {
+> +		pr_err("Error checking platform profile support: %d\n", err);
+> +		return err;
+> +	}
+> +
+> +	priv->platform_profile_support = supported;
+> +
+> +	if (!supported)
+> +		return -EOPNOTSUPP;
+> +
+> +	priv->pprof.name = "lenovo-wmi-gamezone";
+> +	priv->pprof.profile_get = lenovo_wmi_gamezone_profile_get;
+> +	priv->pprof.profile_set = lenovo_wmi_gamezone_profile_set;
+> +
+> +	set_bit(PLATFORM_PROFILE_QUIET, priv->pprof.choices);
+> +	set_bit(PLATFORM_PROFILE_BALANCED, priv->pprof.choices);
+> +	set_bit(PLATFORM_PROFILE_PERFORMANCE, priv->pprof.choices);
+> +	set_bit(PLATFORM_PROFILE_CUSTOM, priv->pprof.choices);
+> +
+> +	err = lenovo_wmi_gamezone_profile_get(&priv->pprof,
+> +					      &priv->current_profile);
+> +	if (err) {
+> +		pr_err("Error getting current platform profile: %d\n", err);
+> +		return err;
+> +	}
+> +
+> +	guard(mutex)(&call_mutex);
+> +	err = platform_profile_register(&priv->pprof);
+> +	if (err) {
+> +		pr_err("Error registering platform profile: %d\n", err);
+> +		return err;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int lenovo_wmi_gamezone_probe(struct wmi_device *wdev,
+> +				     const void *context)
+> +{
+> +	struct lenovo_wmi_gz_priv *priv;
+> +
+> +	priv = devm_kzalloc(&wdev->dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	priv->wdev = wdev;
+> +	return platform_profile_setup(priv);
+> +}
+> +
+> +static void lenovo_wmi_gamezone_remove(struct wmi_device *wdev)
+> +{
+> +	struct lenovo_wmi_gz_priv *priv = dev_get_drvdata(&wdev->dev);
+> +
+> +	guard(mutex)(&call_mutex);
+> +	platform_profile_remove(&priv->pprof);
+> +}
+> +
+> +static struct wmi_driver lenovo_wmi_gamezone_driver = {
+> +	.driver = { .name = "lenovo_wmi_gamezone" },
+> +	.id_table = lenovo_wmi_gamezone_id_table,
+> +	.probe = lenovo_wmi_gamezone_probe,
+> +	.remove = lenovo_wmi_gamezone_remove,
+> +};
+> +
+> +module_wmi_driver(lenovo_wmi_gamezone_driver);
+> +
+> +MODULE_DEVICE_TABLE(wmi, lenovo_wmi_gamezone_id_table);
+> +MODULE_AUTHOR("Derek J. Clark <derekjohn.clark@gmail.com>");
+> +MODULE_DESCRIPTION("Lenovo GameZone WMI Driver");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/platform/x86/lenovo-wmi.h b/drivers/platform/x86/lenovo-wmi.h
+> new file mode 100644
+> index 000000000000..8a302c6c47cb
+> --- /dev/null
+> +++ b/drivers/platform/x86/lenovo-wmi.h
+> @@ -0,0 +1,105 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later
+> + *
+> + * Lenovo Legion WMI interface driver. The Lenovo Legion WMI interface is
+> + * broken up into multiple GUID interfaces that require cross-references
+> + * between GUID's for some functionality. The "Custom Mode" interface is a
+> + * legacy interface for managing and displaying CPU & GPU power and hwmon
+> + * settings and readings. The "Other Mode" interface is a modern interface
+> + * that replaces or extends the "Custom Mode" interface methods. The
+> + * "GameZone" interface adds advanced features such as fan profiles and
+> + * overclocking. The "Lighting" interface adds control of various status
+> + * lights related to different hardware components. "Other Method" uses
+> + * the data structs LENOVO_CAPABILITY_DATA_00, LENOVO_CAPABILITY_DATA_01
+> + * and LENOVO_CAPABILITY_DATA_02 structs for capability information.
+> + *
+> + * Copyright(C) 2024 Derek J. Clark <derekjohn.clark@gmail.com>
+> + *
+> + */
+> +
+> +#define pr_fmt(fmt) "%s:%s: " fmt, KBUILD_MODNAME, __func__
 
-For example:
+Don't include __func__ into pr_fmt(). Including __func__ into any >dbg 
+level message is not helpful to user, the error/warning/info should be 
+written in plain English, not in terms of code/function names.
 
-Old Fixes tag style:
-* Fixes: fd3040b9394c ("net: ethernet: Add driver for Sunplus SP7021")
-* Fixes: a76053707dbf ("dev_ioctl: split out ndo_eth_ioctl")
-This will make people mistakenly think that "a76053707dbf" broke
-"fd3040b9394c".[1]
+The usual pr_fmt() boilerplate is this:
 
-New Fixes tag style:
-* Fixes: fd3040b9394c ("net: ethernet: Add driver for Sunplus SP7021", 2022-05-08)
-* Fixes: a76053707dbf ("dev_ioctl: split out ndo_eth_ioctl", 2021-07-27)
-This makes it clear that the newly introduced driver did not follow the
-existing changes.
+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 
-[1] https://lore.kernel.org/all/20250109180212.71e4e53c@kernel.org/
-
-docs: submitting-patches: The short author date of old example
-"54a4f0239f2e" is 2010-05-05, which is not immediately obvious as
-YYYY-MM-DD, so change example.
-
-Fixes: 8401aa1f5997 ("Documentation/SubmittingPatches: describe the Fixes: tag", 2014-06-06)
-Signed-off-by: 谢致邦 (XIE Zhibang) <Yeking@Red54.com>
----
- Documentation/process/5.Posting.rst           |  2 +-
- Documentation/process/maintainer-tip.rst      |  4 +--
- .../process/researcher-guidelines.rst         |  2 +-
- Documentation/process/submitting-patches.rst  |  8 ++---
- scripts/checkpatch.pl                         | 30 +++++++++++--------
- 5 files changed, 25 insertions(+), 21 deletions(-)
-
-diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
-index b3eff03ea249..38c9c94e7448 100644
---- a/Documentation/process/5.Posting.rst
-+++ b/Documentation/process/5.Posting.rst
-@@ -199,7 +199,7 @@ document; what follows here is a brief summary.
- One tag is used to refer to earlier commits which introduced problems fixed by
- the patch::
- 
--	Fixes: 1f2e3d4c5b6a ("The first line of the commit specified by the first 12 characters of its SHA-1 ID")
-+	Fixes: 1f2e3d4c5b6a ("The first line of the commit specified by the first 12 characters of its SHA-1 ID", 2024-12-31)
- 
- Another tag is used for linking web pages with additional backgrounds or
- details, for example an earlier discussion which leads to the patch or a
-diff --git a/Documentation/process/maintainer-tip.rst b/Documentation/process/maintainer-tip.rst
-index e374b67b3277..fb97a6853e42 100644
---- a/Documentation/process/maintainer-tip.rst
-+++ b/Documentation/process/maintainer-tip.rst
-@@ -270,7 +270,7 @@ Ordering of commit tags
- To have a uniform view of the commit tags, the tip maintainers use the
- following tag ordering scheme:
- 
-- - Fixes: 12char-SHA1 ("sub/sys: Original subject line")
-+ - Fixes: 12char-SHA1 ("sub/sys: Original subject line", YYYY-MM-DD)
- 
-    A Fixes tag should be added even for changes which do not need to be
-    backported to stable kernels, i.e. when addressing a recently introduced
-@@ -295,7 +295,7 @@ following tag ordering scheme:
-      The recent replacement of foo with bar left an unused instance of
-      variable foo around. Remove it.
- 
--     Fixes: abcdef012345678 ("x86/xxx: Replace foo with bar")
-+     Fixes: abcdef012345678 ("x86/xxx: Replace foo with bar", 2024-12-31)
-      Signed-off-by: J.Dev <j.dev@mail>
- 
-    The latter puts the information about the patch into the focus and
-diff --git a/Documentation/process/researcher-guidelines.rst b/Documentation/process/researcher-guidelines.rst
-index beb484c5965d..472ca0a4684d 100644
---- a/Documentation/process/researcher-guidelines.rst
-+++ b/Documentation/process/researcher-guidelines.rst
-@@ -149,7 +149,7 @@ For example::
-   [1] https://url/to/leakmagic/details
- 
-   Reported-by: Researcher <researcher@email>
--  Fixes: aaaabbbbccccdddd ("Introduce support for FooBar")
-+  Fixes: aaaabbbbccccdddd ("Introduce support for FooBar", 2024-12-31)
-   Signed-off-by: Author <author@email>
-   Reviewed-by: Reviewer <reviewer@email>
- 
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index 1518bd57adab..4df1e722130b 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -148,7 +148,7 @@ the SHA-1 ID, and the one line summary.  Do not split the tag across multiple
- lines, tags are exempt from the "wrap at 75 columns" rule in order to simplify
- parsing scripts.  For example::
- 
--	Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the number of pages it actually freed")
-+	Fixes: 6a451e2c5c03 ("ALSA: hda/tas2781: Ignore SUBSYS_ID not found for tas2563 projects", 2024-12-30)
- 
- The following ``git config`` settings can be used to add a pretty format for
- outputting the above style in the ``git log`` or ``git show`` commands::
-@@ -156,12 +156,12 @@ outputting the above style in the ``git log`` or ``git show`` commands::
- 	[core]
- 		abbrev = 12
- 	[pretty]
--		fixes = Fixes: %h (\"%s\")
-+		fixes = Fixes: %h (\"%s\", %as)
- 
- An example call::
- 
--	$ git log -1 --pretty=fixes 54a4f0239f2e
--	Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the number of pages it actually freed")
-+	$ git log -1 --pretty=fixes 6a451e2c5c03
-+	Fixes: 6a451e2c5c03 ("ALSA: hda/tas2781: Ignore SUBSYS_ID not found for tas2563 projects", 2024-12-30)
- 
- .. _split_changes:
- 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 9eed3683ad76..580d5620ec7d 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -1228,15 +1228,15 @@ sub git_is_single_file {
- }
- 
- sub git_commit_info {
--	my ($commit, $id, $desc) = @_;
-+	my ($commit, $id, $desc, $date) = @_;
- 
--	return ($id, $desc) if ((which("git") eq "") || !(-e "$gitroot"));
-+	return ($id, $desc, $date) if ((which("git") eq "") || !(-e "$gitroot"));
- 
--	my $output = `${git_command} log --no-color --format='%H %s' -1 $commit 2>&1`;
-+	my $output = `${git_command} log --no-color --format='%H %s %as' -1 $commit 2>&1`;
- 	$output =~ s/^\s*//gm;
- 	my @lines = split("\n", $output);
- 
--	return ($id, $desc) if ($#lines < 0);
-+	return ($id, $desc, $date) if ($#lines < 0);
- 
- 	if ($lines[0] =~ /^error: short SHA1 $commit is ambiguous/) {
- # Maybe one day convert this block of bash into something that returns
-@@ -1253,10 +1253,11 @@ sub git_commit_info {
- 		$id = undef;
- 	} else {
- 		$id = substr($lines[0], 0, 12);
--		$desc = substr($lines[0], 41);
-+		$desc = substr($lines[0], 41, -11);
-+		$date = substr($lines[0], -10);
- 	}
- 
--	return ($id, $desc);
-+	return ($id, $desc, $date);
- }
- 
- $chk_signoff = 0 if ($file);
-@@ -3214,16 +3215,19 @@ sub process {
- 			my $orig_commit = $2;
- 			my $title;
- 			my $title_has_quotes = 0;
-+			my $date;
- 			$fixes_tag = 1;
- 			if (defined $3) {
-+				$date = substr($3, -11, 10);
- 				# Always strip leading/trailing parens then double quotes if existing
--				$title = substr($3, 1, -1);
-+				$title = substr($3, 1, -13);
- 				if ($title =~ /^".*"$/) {
- 					$title = substr($title, 1, -1);
- 					$title_has_quotes = 1;
- 				}
- 			} else {
--				$title = "commit title"
-+				$title = "commit title";
-+				$date = "YYYY-MM-DD";
- 			}
- 
- 
-@@ -3234,15 +3238,15 @@ sub process {
- 			my $id_case = not ($orig_commit !~ /[A-F]/);
- 
- 			my $id = "0123456789ab";
--			my ($cid, $ctitle) = git_commit_info($orig_commit, $id,
--							     $title);
-+			my ($cid, $ctitle, $cdate) = git_commit_info($orig_commit, $id,
-+							     $title, $date);
- 
--			if ($ctitle ne $title || $tag_case || $tag_space ||
-+			if ($ctitle ne $title || $cdate ne $date || $tag_case || $tag_space ||
- 			    $id_length || $id_case || !$title_has_quotes) {
- 				if (WARN("BAD_FIXES_TAG",
--				     "Please use correct Fixes: style 'Fixes: <12 chars of sha1> (\"<title line>\")' - ie: 'Fixes: $cid (\"$ctitle\")'\n" . $herecurr) &&
-+				     "Please use correct Fixes: style 'Fixes: <12 chars of sha1> (\"<title line>\", YYYY-MM-DD)' - ie: 'Fixes: $cid (\"$ctitle\", $cdate)'\n" . $herecurr) &&
- 				    $fix) {
--					$fixed[$fixlinenr] = "Fixes: $cid (\"$ctitle\")";
-+					$fixed[$fixlinenr] = "Fixes: $cid (\"$ctitle\", $cdate)";
- 				}
- 			}
- 		}
 -- 
-2.43.0
+ i.
 
+> +
+> +#ifndef _LENOVO_WMI_H_
+> +#define _LENOVO_WMI_H_
+> +
+> +#include <linux/mutex.h>
+> +#include <linux/types.h>
+> +#include <linux/wmi.h>
+> +
+> +/* Platform Profile Modes */
+> +#define SMARTFAN_MODE_QUIET 0x01
+> +#define SMARTFAN_MODE_BALANCED 0x02
+> +#define SMARTFAN_MODE_PERFORMANCE 0x03
+> +#define SMARTFAN_MODE_CUSTOM 0xFF
+> +
+> +struct wmi_method_args {
+> +	u32 arg0;
+> +	u32 arg1;
+> +};
+> +
+> +/* General Use functions */
+> +static int lenovo_wmidev_evaluate_method(struct wmi_device *wdev, u8 instance,
+> +					 u32 method_id, struct acpi_buffer *in,
+> +					 struct acpi_buffer *out)
+> +{
+> +	acpi_status status;
+> +
+> +	status = wmidev_evaluate_method(wdev, instance, method_id, in, out);
+> +
+> +	if (ACPI_FAILURE(status))
+> +		return -EIO;
+> +
+> +	return 0;
+> +};
+> +
+> +int lenovo_wmidev_evaluate_method_2(struct wmi_device *wdev, u8 instance,
+> +				    u32 method_id, u32 arg0, u32 arg1,
+> +				    u32 *retval);
+> +
+> +int lenovo_wmidev_evaluate_method_2(struct wmi_device *wdev, u8 instance,
+> +				    u32 method_id, u32 arg0, u32 arg1,
+> +				    u32 *retval)
+> +{
+> +	struct wmi_method_args args = { arg0, arg1 };
+> +	struct acpi_buffer input = { (acpi_size)sizeof(args), &args };
+> +	struct acpi_buffer output = { ACPI_ALLOCATE_BUFFER, NULL };
+> +	union acpi_object *ret_obj = NULL;
+> +	int err;
+> +
+> +	err = lenovo_wmidev_evaluate_method(wdev, instance, method_id, &input,
+> +					    &output);
+> +
+> +	if (err) {
+> +		pr_err("Attempt to get method value failed.\n");
+> +		return err;
+> +	}
+> +
+> +	if (retval) {
+> +		ret_obj = (union acpi_object *)output.pointer;
+> +		if (!ret_obj) {
+> +			pr_err("Failed to get valid ACPI object from WMI interface\n");
+> +			return -EIO;
+> +		}
+> +		if (ret_obj->type != ACPI_TYPE_INTEGER) {
+> +			pr_err("WMI query returnd ACPI object with wrong type.\n");
+> +			kfree(ret_obj);
+> +			return -EIO;
+> +		}
+> +		*retval = (u32)ret_obj->integer.value;
+> +	}
+> +
+> +	kfree(ret_obj);
+> +
+> +	return 0;
+> +}
+> +
+> +int lenovo_wmidev_evaluate_method_1(struct wmi_device *wdev, u8 instance,
+> +				    u32 method_id, u32 arg0, u32 *retval);
+> +
+> +int lenovo_wmidev_evaluate_method_1(struct wmi_device *wdev, u8 instance,
+> +				    u32 method_id, u32 arg0, u32 *retval)
+> +{
+> +	return lenovo_wmidev_evaluate_method_2(wdev, instance, method_id, arg0,
+> +					       0, retval);
+> +}
+> +
+> +#endif /* !_LENOVO_WMI_H_ */
+> 
