@@ -1,123 +1,115 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4C8204F78;
-	Fri, 10 Jan 2025 10:58:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA1020550A
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 11:12:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736506713; cv=none; b=E4EtPymy1M5XsDxkmrC3N0Gk+ENQlOU0+kO4sIMctf37xmMdFT19OOQ6XDnaE58JIUWv0izlyi0CZJ/l1KehuCViEQYm+QzPz+YIbG3ByqgiJltC7oDhF7REztkGZm/pZFUBofgY/mPHj1AxT0SBLn72XOUhtKd6LvUiDCkt6xU=
+	t=1736507554; cv=none; b=plV+33CwNTFSdAPt1lEdNwHhstUpMt9aZ3VDPddNkWStFlQWSY48XH1h7B8j4xgrCGQIcTG5WeiYoGIkWklNzqbwGSdEsMmnHn/RqovGXaWixtOh24glnSnNaVxzH7u/ykMmhPOq91dhs1A21c3KQiqQAkSz8f0TFNX7rBlk2ZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736506713; c=relaxed/simple;
-	bh=7sgbvjoq+l8CcDrnbHruJJ/K/9vuaiQN2XqOaBbLuxs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hy+eSTtK5xLHWHpTt0u3mQn51Ikq/wEmcHO3QWYtaMsYcIQb8feSQCVqIYBA1vLRD5G5RLnO89YJq6EVe6hwYIUkTipYS1UsXZk+0aDz7TFpg8BJdsTJk0VB1kq+IrHnnH9ASTxNUmAKXoLpfO67+Pf4HyFn3E/H5caH6ZlQ9Vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mfDiYJXu; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1736507554; c=relaxed/simple;
+	bh=qXSynCY96TYG7wZ7OASI5Muii12uM+aBd0x+fKz2Q64=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fE82IGeDN61HGtSTUi5Nj9IpYJQU/KdKaxt6NAl0Ewh4n36N+UbtF4GXnQa7ywUrNtqOFtGOqQOm2yyhzr6UFlp81VpriavJ/rfd1XlrIKa8Bjiq8UniVTxFd5iGa4hqWQk02S1fzRBJzE/7RBDAM9JuiXCinc5boAxb6RF72K4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=MwO3UGQ8; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mfDiYJXu"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BCD341C0005;
-	Fri, 10 Jan 2025 10:58:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1736506707;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iP0T2q4tU7B7N3TVY1oYdB+gv51bfdkKfL8uFYzMvBU=;
-	b=mfDiYJXuc4O4Dw9f4EtCAg5t4sVt2sC6nStKLOKhTJtkwamhqfFEHeqLMuipKfNVdWRIVo
-	R1FLIbP1pSbS9NBOnjbIyHubUclEyvA+RRKg9/RFvCiDmJ+t3biMVKdJyD0sw2VZRypJ7x
-	NzBFfAMWWFlgQ6d7v9iPqagyb1C4i2XNU6IDdkxnTFG8VjXbbxDexXRvuAaSIS3blTS966
-	Jnw4wK9ZjGKluQv0nUbeM3I0vG5Qb+JRoqqtGMB0Lc9rGOfPeZUJ9GSkHiwtUf8vPZVgoC
-	J69IEJDPNwOLu5c1/q7o1s7cwol0oFTK5uwJynkj3YHMAVRGgyB/kUYltbsruQ==
-Date: Fri, 10 Jan 2025 11:58:19 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan
- Teki <jagan@amarulasolutions.com>, Marek Szyprowski
- <m.szyprowski@samsung.com>, Catalin Marinas <catalin.marinas@arm.com>, Will
- Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Paul Kocialkowski <contact@paulk.fr>, Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?UTF-8?Q?Herv?=
- =?UTF-8?Q?=C3=A9?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, Paul
- Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v5 08/10] drm/bridge: samsung-dsim: use supporting
- variable for out_bridge
-Message-ID: <20250110115819.55bc887b@booty>
-In-Reply-To: <20250102130149.5784c09b@booty>
-References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
-	<20241231-hotplug-drm-bridge-v5-8-173065a1ece1@bootlin.com>
-	<7kpgrgqp2jx6ivkwdc5ax3dfah2qkajaedpcdadldselr4bdlq@jewss2bdl4or>
-	<20250102130149.5784c09b@booty>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="MwO3UGQ8"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2164b1f05caso32712275ad.3
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 03:12:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1736507552; x=1737112352; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fUI/Gf/iNdZ2kON6E6PSrhEkMNvEUQIh/sL8yMhLamQ=;
+        b=MwO3UGQ8TvdlcnS1Er/wPY9ota4qi9gGOgTNt7g7S6YG1L9H3gqX0ExQeXxKJnXL7X
+         XeAWFpsMp3pjyvWra0SCvqOuqk/80Ss1ztp4HN27fDmWYrpuva407XWMh4/xOAEXA3KJ
+         WuOh5DzuQ4gbLE0fUUS7YS/+tghLtkvK+s5eGulTypBG7qqUOlAMyYF9c7Z+TLIAXXwW
+         UE9+ude3fE3mDWHLqpT9hK6iDDqMJCmdSPQ2vfvJ015wBRsVUBZDs2Tw0Jz3m2fwhswE
+         9BT0HSyyEVIF8eiJ9+cOWEtoHXvBzBFnnCNhJrTMzYH6h9prUzxWAnD2O7WOPlgDTkiH
+         UdzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736507552; x=1737112352;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fUI/Gf/iNdZ2kON6E6PSrhEkMNvEUQIh/sL8yMhLamQ=;
+        b=Nl4jaRO/bYJDvm1QjlcTLu1TXuGCQKKg7CjbeQSd4ICvfpGNU02Z3pWsehMH0nVTqy
+         cIhtZHA7giqjvZ9i1+Hg1H1tkt2fWXSKJYum7eghQjtOWn6JOMTeBvlr4q/P2p1938+h
+         VNxnh7d3XbjQLp7xVmjjAqyyse3qtu6y3VwFjVFPtt9IOFYpseB1gROqwdT51Y2UZs5h
+         yTMueSHqIjyxRoS8Fq539snR0jVPq3Zj6XMix1MbauPD1r5kknUZoGfLYXUf16l40Si8
+         4kL1BXxuP4jlKeK4ZlSFGJorX7CSL6kfO86eFnMjQCu7mVRlVEck0IZx3ZbuftQEKmgE
+         KCsA==
+X-Forwarded-Encrypted: i=1; AJvYcCVhgVRAfhii56toA0H5HN68CEn5Nt9BJjCPPWZ8dNiqUTn/+AG4WMX13JoKL7oeD2kAzZ36FVt8mzg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YycSyApuutA/IAPYNQcGGh3oOpw42v+hzIkEIpj7QlFD34PwTh5
+	CQdrAHsxp8516O1aMN6PdC3Yp9kxpDQOvpayOCKEL5qCj/G4IZG+paLJKUkSUrI=
+X-Gm-Gg: ASbGncviIyDbRqNQ12gVS/pheUk7lt3j2MT1JyCmNymeXSjWStJqiKJUkT2DJ26w+CF
+	+Mk+m6YMVaq5slPCdqYCyR0pt3cMAmiUfI+YiA1ACAG3MH9SAQqJRKuZtiTEEimy/isdUau7/WZ
+	NZzwRLWFLdPQ5XYsbfHyHbbRS36oT/QfU+Mhg9xiiXD8zT2m9HZ8ReooUhRwru8ED+Zzlh30q9z
+	W1kCD4PcMxXa8p1zb7q7ZQUL6V4XB5sBdQ181zktPu2tWmaCfixgmBz2gFpyBeo5KA=
+X-Google-Smtp-Source: AGHT+IFsisJKA6JOrR0eUj5WfV8wXSlwG+ErpDxaHPAWov6uHn2OYu5jltHENp4vvgdoL273AAhZWg==
+X-Received: by 2002:a05:6a20:244d:b0:1d9:fbc:457c with SMTP id adf61e73a8af0-1e88d0a4770mr18461822637.36.1736507552500;
+        Fri, 10 Jan 2025 03:12:32 -0800 (PST)
+Received: from [157.82.203.37] ([157.82.203.37])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72d4056a2cfsm1373935b3a.51.2025.01.10.03.12.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Jan 2025 03:12:32 -0800 (PST)
+Message-ID: <2e015ee6-8a3b-43fb-b119-e1921139c74b@daynix.com>
+Date: Fri, 10 Jan 2025 20:12:25 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] tun: Set num_buffers for virtio 1.0
+To: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, kvm@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Andrew Melnychenko <andrew@daynix.com>,
+ Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com,
+ devel@daynix.com
+References: <20250109-tun-v2-0-388d7d5a287a@daynix.com>
+ <20250109-tun-v2-3-388d7d5a287a@daynix.com>
+ <CACGkMEsm5DCb+n3NYeRjmq3rAANztZz5QmV8rbPNo+cH-=VzDQ@mail.gmail.com>
+ <20250110052246-mutt-send-email-mst@kernel.org>
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <20250110052246-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Dmitry,
-
-On Thu, 2 Jan 2025 13:01:49 +0100
-Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
-
-> > > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-> > > index f8b4fb8357659018ec0db65374ee5d05330639ae..c4d1563fd32019efde523dfc0863be044c05a826 100644
-> > > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> > > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> > > @@ -1705,6 +1705,7 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
-> > >  	struct device *dev = dsi->dev;
-> > >  	struct device_node *np = dev->of_node;
-> > >  	struct device_node *remote;
-> > > +	struct drm_bridge *out_bridge;
-> > >  	struct drm_panel *panel;
-> > >  	int ret;
-> > >  
-> > > @@ -1740,21 +1741,23 @@ static int samsung_dsim_host_attach(struct mipi_dsi_host *host,
-> > >  
-> > >  	panel = of_drm_find_panel(remote);
-> > >  	if (!IS_ERR(panel)) {
-> > > -		dsi->out_bridge = devm_drm_panel_bridge_add(dev, panel);
-> > > +		out_bridge = devm_drm_panel_bridge_add(dev, panel);
-> > >  	} else {
-> > > -		dsi->out_bridge = of_drm_find_bridge(remote);
-> > > -		if (!dsi->out_bridge)
-> > > -			dsi->out_bridge = ERR_PTR(-EINVAL);
-> > > +		out_bridge = of_drm_find_bridge(remote);
-> > > +		if (!out_bridge)
-> > > +			out_bridge = ERR_PTR(-EINVAL);
-> > >  	}    
-> > 
-> > While looking at this patch, I think we should migrate the driver to
-> > drm_of_find_panel_or_bridge().  
+On 2025/01/10 19:23, Michael S. Tsirkin wrote:
+> On Fri, Jan 10, 2025 at 11:27:13AM +0800, Jason Wang wrote:
+>> On Thu, Jan 9, 2025 at 2:59 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>>>
+>>> The specification says the device MUST set num_buffers to 1 if
+>>> VIRTIO_NET_F_MRG_RXBUF has not been negotiated.
+>>
+>> Have we agreed on how to fix the spec or not?
+>>
+>> As I replied in the spec patch, if we just remove this "MUST", it
+>> looks like we are all fine?
+>>
+>> Thanks
 > 
-> Indeed, the code here is duplicating drm_of_find_panel_or_bridge(). I'm
-> going to convert it.
+> We should replace MUST with SHOULD but it is not all fine,
+> ignoring SHOULD is a quality of implementation issue.
+> 
 
-Or maybe not. A similar work has been attempted in the past [0] and
-then reverted. There are many subtleties one would need to take care of
-before getting this right, I don't think opening this other can of
-worms in the middle of the bridge refcounting work makes sense.
+Should we really replace it? It would mean that a driver conformant with 
+the current specification may not be compatible with a device conformant 
+with the future specification.
 
-[0] https://patchwork.freedesktop.org/patch/482751/
-
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+We are going to fix all implementations known to buggy (QEMU and Linux) 
+anyway so I think it's just fine to leave that part of specification as is.
