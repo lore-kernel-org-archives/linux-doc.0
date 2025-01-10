@@ -1,120 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B611FF7DA;
-	Fri, 10 Jan 2025 08:41:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0701520A5CD
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 09:23:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736498480; cv=none; b=f9UIDezlijvHBYVKVCO/Oy12DrD2GpBaTsleOKCpC+EshrBbhCtyZUCYbP/cpirzatlkKXa51jRfih1mbYrNGrOoSqVBOsfGnTwMgiAni9OHBs29wRM4j6FEG2kq8L+6GWeH8N5KF9vVVksUW0t+gwoAgDCOys77UFwMtHgxKnM=
+	t=1736501002; cv=none; b=ndrVGq4Vn4YrVulTmRe+3weq38Y/00Q6fZzBhEcHgmOkTidMAxAvIlVxePmQw/AlU/FhrzmhVAr7qfbAMmPc+zo10T02xkphxXNzgZy83ye5uYlfDbtHvIt/0VpDx3/K7FE0dA+e+xkOX6BxHPHe8a52MUDLiNJNzFAJqYG4GjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736498480; c=relaxed/simple;
-	bh=fote5o0Oj9WeGqML9lH+CluM630gf4KooiiwUL4DwAI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tWVowy4c6gswmRQSioUBzGkmysrtPMGTdzQzUQJmxXcVrxX50iDDEKJZpMLGIZcvKpB+rtnZdso1DA7fPePSsySSOy0jtfIA+/qHYGN0SH5zc8yXWFOQzRvrOjxBkCDXYd/WW0uxm976SEQNFJbNGRH0jyBkdEjomc0FDKG6pSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=z7VT/eob; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736501002; c=relaxed/simple;
+	bh=GAAiDMP/3K4jNuOVlmV9gxFHfSeVsLR0ZBJB5nV0ODY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Xpfyw+ZIdHZjccaSoJ2/IXqknYzoquUHTHk+hKq84epn31hSWUkZqmRgucjeZm+m+V3YuT0wrNOO2UivLWzRo8dmH8gkQwLZqbFCE2k5JFaknsx6xhxw3/gndeTOTiS4z6J46PP6zivZZEkevDGJuif/nV8QHkU3avY/bt+nrac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gB9Kg2xC; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="z7VT/eob"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F204C4CED6;
-	Fri, 10 Jan 2025 08:41:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1736498479;
-	bh=fote5o0Oj9WeGqML9lH+CluM630gf4KooiiwUL4DwAI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=z7VT/eobJrtDIfsonQk9q0dsRF1S9VuWJHXzUq4jeL/UZtw80LPZ5zYNGJ6vc97Pe
-	 y0hQOY7/M4WON0jNmRnhxtCbng3AFaFI5tu/XcJfH3eJ/mhGnGkM4qjInmSiN/EubQ
-	 XvIm4jlxAlUohITJRzPMppa7amWv1SKcenvzwxL4=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greg@wind.rmcc.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>
-Subject: [PATCH] Documentation: bug-hunting.rst: remove odd contact information
-Date: Fri, 10 Jan 2025 09:41:01 +0100
-Message-ID: <2025011005-resistant-uncork-9814@gregkh>
-X-Mailer: git-send-email 2.47.1
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gB9Kg2xC"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2eed82ca5b4so2971167a91.2
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 01:23:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1736501000; x=1737105800; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/8n2ma/ziuKr5ZfTxLhXrZB/sBg/b3H77RWqJjKv6Y0=;
+        b=gB9Kg2xC5PBgtMD9f0qHxBXsloikaXrpP1crQa++P/3YKybNU+12FN/gWN+bxBXzgZ
+         Ppx3QneoHqpZrq+MHvh5QJVHZnUzkpCWNcabqNTO4N+SaTNRUSd+AVTSRVpmExPZmQ7d
+         A/ScG4hgYiV6QgBqjMMXLhkBbNw8PI0wBDBSuxRUJkwDX8xsP+SEdsAPqMqD6UHoZXVg
+         6NpkeCfdrxN9jkgCl4S7U3vWGpbvhyApzK9dGwz71q1Wq8qaemKTP3wbw1gD9/QWBy6m
+         N/D/zgbKxZjSw9BYEA+dYvI3NXs3K1u6PheIqKqkBJ2ImIm02P09joqgw4qRnj6WBII1
+         /ziA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736501000; x=1737105800;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/8n2ma/ziuKr5ZfTxLhXrZB/sBg/b3H77RWqJjKv6Y0=;
+        b=i9DR9q0HMLSWRSUF1HJy8fCS3ZQvN99Yk2+V9n7AoJxoX9lI3uf0no5RVZxXcGXik/
+         V+KUf+GGNY4rydfObz6XecdKPVyTLK7fg0aVbEAyLaCcyu1YvcZsogZaNKasxvtCE3jR
+         115JOTYDk0k0j+HKy3uTAMY7vqhLzM2m5I+l+pN565OBjq9nKrMMDML6a7EbPmDmp+vF
+         rhyTM7pDVbC7vwYPvZZ2psQ9c7h0/ypnK6ZLMocX8hgXiT3OocbcvckQZOTm7AlFKgK2
+         TZsWVYEd6GSQ0mSXPW/+uUxfsczJBcqtYgSm6d8se5utOdnMXl1DUwW2K1yQHIAbQlBI
+         k7wg==
+X-Forwarded-Encrypted: i=1; AJvYcCUhj/6Cy41jofCBN5LSRqQAJpKKb4lzN/3CfpHGQnmDZb47ZzkXlTU720FL7ZgaKBIqM54pIv2V9m4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywem9qWUq0GqdYCcp3dNrs2BQY1IhmuCFpBRGFZXG82G7Z4HT3K
+	4WwwJCJdhi7jyaHpY2b2u0JtfkOWiByQAFONsxamewK2nRTKv9IrQS4F5yVl6C5GqQasiPLS4kO
+	3vIGYavH3/FCyQEfO5uZwjewkR54BhXey+Ra/
+X-Gm-Gg: ASbGncttbg2rak1Q7ra/3Vod3PnUbBxJpc5s3prhCrtjctOZa8I2Yxp8in4WD4Tma4y
+	X15lUCmlGRTTCP8HCEXXQgKl/JZ02meDxe5LS8z1OskxeJIo7gxO5wgnjDGgvlVWy3LbAyw==
+X-Google-Smtp-Source: AGHT+IEav7llRQkaGRkKqlm4jpxalFoMFJLbH+c+XE/B2dEdXVu/vLKg6ejDqUmr3L00UB4/cFzFuVkFajos5hgHzXU=
+X-Received: by 2002:a17:90b:5483:b0:2ea:3d2e:a0d7 with SMTP id
+ 98e67ed59e1d1-2f548f2a897mr15945376a91.15.1736501000183; Fri, 10 Jan 2025
+ 01:23:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3416; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=fote5o0Oj9WeGqML9lH+CluM630gf4KooiiwUL4DwAI=; b=owGbwMvMwCRo6H6F97bub03G02pJDOkNd5VSXYzkBKbfnrfx3X92v4azmguF46Q6jrzMujdnx qoNpfded8SwMAgyMciKKbJ82cZzdH/FIUUvQ9vTMHNYmUCGMHBxCsBEbIQY5lfuqWiaoP9J7tqS rfrZvXxHvuQI8DNMdyxI+SG600D21N/T8Ypvn/prdNQDAA==
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250110073056.2594638-1-quic_jiangenj@quicinc.com>
+In-Reply-To: <20250110073056.2594638-1-quic_jiangenj@quicinc.com>
+From: Marco Elver <elver@google.com>
+Date: Fri, 10 Jan 2025 10:22:44 +0100
+X-Gm-Features: AbW1kvbwJdd-Q4HHGj93BJhXupMaNDNojdpH0KA2V7DRnVCIXbRzJRAefX-Qlpc
+Message-ID: <CANpmjNOg9=WbFpJQFQBOo1z_KuV7DKQTZB7=GfiYyvoam5Dm=w@mail.gmail.com>
+Subject: Re: [PATCH] kcov: add unique cover, edge, and cmp modes
+To: Joey Jiao <quic_jiangenj@quicinc.com>
+Cc: dvyukov@google.com, andreyknvl@gmail.com, corbet@lwn.net, 
+	akpm@linux-foundation.org, gregkh@linuxfoundation.org, nogikh@google.com, 
+	pierre.gondois@arm.com, cmllamas@google.com, quic_zijuhu@quicinc.com, 
+	richard.weiyang@gmail.com, tglx@linutronix.de, arnd@arndb.de, 
+	catalin.marinas@arm.com, will@kernel.org, dennis@kernel.org, tj@kernel.org, 
+	cl@linux.com, ruanjinjie@huawei.com, colyli@suse.de, 
+	andriy.shevchenko@linux.intel.com, kernel@quicinc.com, 
+	quic_likaid@quicinc.com, kasan-dev@googlegroups.com, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 
-At the bottom of the bug-hunting.rst file there is a "signature" which
-doesn't seem to make much sense.  It seems to predate git, and perhaps
-was from an earlier bug report that got copied into the document, but
-now makes no sense so remove it.
+On Fri, 10 Jan 2025 at 08:33, Joey Jiao <quic_jiangenj@quicinc.com> wrote:
+>
+> From: "Jiao, Joey" <quic_jiangenj@quicinc.com>
+>
+> The current design of KCOV risks frequent buffer overflows. To mitigate
+> this, new modes are introduced: KCOV_TRACE_UNIQ_PC, KCOV_TRACE_UNIQ_EDGE,
+> and KCOV_TRACE_UNIQ_CMP. These modes allow for the recording of unique
+> PCs, edges, and comparison operands (CMP).
 
-Cc: <greg@wind.rmcc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Alex Shi <alexs@kernel.org>
-Cc: Yanteng Si <si.yanteng@linux.dev>
-Cc: Hu Haowen <2023002089@link.tyut.edu.cn>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- Documentation/admin-guide/bug-hunting.rst              |  9 ---------
- .../translations/zh_CN/admin-guide/bug-hunting.rst     |  9 ---------
- .../translations/zh_TW/admin-guide/bug-hunting.rst     | 10 ----------
- 3 files changed, 28 deletions(-)
+There ought to be a cover letter explaining the motivation for this,
+and explaining why the new modes would help. Ultimately, what are you
+using KCOV for where you encountered this problem?
 
-diff --git a/Documentation/admin-guide/bug-hunting.rst b/Documentation/admin-guide/bug-hunting.rst
-index 1d0f8ceb3075..ce6f4e8ca487 100644
---- a/Documentation/admin-guide/bug-hunting.rst
-+++ b/Documentation/admin-guide/bug-hunting.rst
-@@ -368,12 +368,3 @@ processed by ``klogd``::
- 	Aug 29 09:51:01 blizard kernel: Call Trace: [oops:_oops_ioctl+48/80] [_sys_ioctl+254/272] [_system_call+82/128]
- 	Aug 29 09:51:01 blizard kernel: Code: c7 00 05 00 00 00 eb 08 90 90 90 90 90 90 90 90 89 ec 5d c3
- 
-----------------------------------------------------------------------------
--
--::
--
--  Dr. G.W. Wettstein           Oncology Research Div. Computing Facility
--  Roger Maris Cancer Center    INTERNET: greg@wind.rmcc.com
--  820 4th St. N.
--  Fargo, ND  58122
--  Phone: 701-234-7556
-diff --git a/Documentation/translations/zh_CN/admin-guide/bug-hunting.rst b/Documentation/translations/zh_CN/admin-guide/bug-hunting.rst
-index decb9b26d2f1..c3f6a83294dc 100644
---- a/Documentation/translations/zh_CN/admin-guide/bug-hunting.rst
-+++ b/Documentation/translations/zh_CN/admin-guide/bug-hunting.rst
-@@ -329,12 +329,3 @@ sysklogd发行版附带了一个补丁，它修改了 ``modules-2.0.0`` 包，
- 	Aug 29 09:51:01 blizard kernel: Call Trace: [oops:_oops_ioctl+48/80] [_sys_ioctl+254/272] [_system_call+82/128]
- 	Aug 29 09:51:01 blizard kernel: Code: c7 00 05 00 00 00 eb 08 90 90 90 90 90 90 90 90 89 ec 5d c3
- 
-----------------------------------------------------------------------------
--
--::
--
--  Dr. G.W. Wettstein           Oncology Research Div. Computing Facility
--  Roger Maris Cancer Center    INTERNET: greg@wind.rmcc.com
--  820 4th St. N.
--  Fargo, ND  58122
--  Phone: 701-234-7556
-diff --git a/Documentation/translations/zh_TW/admin-guide/bug-hunting.rst b/Documentation/translations/zh_TW/admin-guide/bug-hunting.rst
-index c139ec99cab1..b25ecc44d735 100644
---- a/Documentation/translations/zh_TW/admin-guide/bug-hunting.rst
-+++ b/Documentation/translations/zh_TW/admin-guide/bug-hunting.rst
-@@ -332,13 +332,3 @@ sysklogd發行版附帶了一個補丁，它修改了 ``modules-2.0.0`` 包，
- 	Aug 29 09:51:01 blizard kernel: Call Trace: [oops:_oops_ioctl+48/80] [_sys_ioctl+254/272] [_system_call+82/128]
- 	Aug 29 09:51:01 blizard kernel: Code: c7 00 05 00 00 00 eb 08 90 90 90 90 90 90 90 90 89 ec 5d c3
- 
-----------------------------------------------------------------------------
--
--::
--
--  Dr. G.W. Wettstein           Oncology Research Div. Computing Facility
--  Roger Maris Cancer Center    INTERNET: greg@wind.rmcc.com
--  820 4th St. N.
--  Fargo, ND  58122
--  Phone: 701-234-7556
--
--- 
-2.47.1
+> Key changes include:
+> - KCOV_TRACE_UNIQ_[PC|EDGE] can be used together to replace KCOV_TRACE_PC.
+> - KCOV_TRACE_UNIQ_CMP can be used to replace KCOV_TRACE_CMP mode.
+> - Introduction of hashmaps to store unique coverage data.
+> - Pre-allocated entries in kcov_map_init during KCOV_INIT_TRACE to avoid
+>   performance issues with kmalloc.
+> - New structs and functions for managing memory and unique coverage data.
+> - Example program demonstrating the usage of the new modes.
 
+This should be a patch series, carefully splitting each change into a
+separate patch.
+https://docs.kernel.org/process/submitting-patches.html#split-changes
+
+> With the new hashmap and pre-alloced memory pool added, cover size can't
+> be set to higher value like 1MB in KCOV_TRACE_PC or KCOV_TRACE_CMP modes
+> in 2GB device with 8 procs, otherwise it causes frequent oom.
+>
+> For KCOV_TRACE_UNIQ_[PC|EDGE|CMP] modes, smaller cover size like 8KB can
+> be used.
+>
+> Signed-off-by: Jiao, Joey <quic_jiangenj@quicinc.com>
+
+As-is it's hard to review, and the motivation is unclear. A lot of
+code was moved and changed, and reviewers need to understand why that
+was done besides your brief explanation above.
+
+Generally, KCOV has very tricky constraints, due to being callable
+from any context, including NMI. This means adding new dependencies
+need to be carefully reviewed. For one, we can see this in genalloc's
+header:
+
+> * The lockless operation only works if there is enough memory
+> * available.  If new memory is added to the pool a lock has to be
+> * still taken.  So any user relying on locklessness has to ensure
+> * that sufficient memory is preallocated.
+> *
+> * The basic atomic operation of this allocator is cmpxchg on long.
+> * On architectures that don't have NMI-safe cmpxchg implementation,
+> * the allocator can NOT be used in NMI handler.  So code uses the
+> * allocator in NMI handler should depend on
+> * CONFIG_ARCH_HAVE_NMI_SAFE_CMPXCHG.
+
+And you are calling gen_pool_alloc() from __sanitizer_cov_trace_pc.
+Which means this implementation is likely broken on
+!CONFIG_ARCH_HAVE_NMI_SAFE_CMPXCHG architectures (do we have
+architectures like that, that support KCOV?).
+
+There are probably other sharp corners due to the contexts KCOV can
+run in, but would simply ask you to carefully reason about why each
+new dependency is safe.
