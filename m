@@ -1,81 +1,80 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A3F24B254;
-	Fri, 10 Jan 2025 22:14:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F418E223336;
+	Fri, 10 Jan 2025 22:26:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736547271; cv=none; b=I2pr/73lfhSK3t8cBq23/bu4e+dPy1J5J9Stf/LmcRCqpb7mWlg1Y8v5J3DAFCo4NBW+6sBlB4qVRsA2N5zluQIGEyWsAwGDSOTTuQVaH5Tq9WJzk/JKZDU4c6XupJcMGIzkvUcOdoq6flmBH3Ph2/nnBduKVPIZE2cD+vdLXTE=
+	t=1736547987; cv=none; b=jZFTbNGZUXL0xkhREan6diYDzPq/cgHy0jo9w2i1vwCcdDRgB1VdXzidwFfA4Y47eRpzrm3ZecqsLiy05R65m07rZAKdCmATDxO1iw3Oos/7uY8b/OIvH73oP+7bIQ1hGuTB0IAw6f41Rkr5oU7zHRYJaxp6/rS3070uiSH74ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736547271; c=relaxed/simple;
-	bh=Fjz9Rq5xOxUNFT+QV5ywh7Pml3c1LJaIYOKW2eqU0cw=;
+	s=arc-20240116; t=1736547987; c=relaxed/simple;
+	bh=9SLn3TzGhIFWZoDOEys0+yUzASUbKFAejyO03fxzr+A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R4dNZv/hKA+X6hl0/g+78jsxMRubmBZ+dWbwx1PwDQIUnlRjA8WWrC4/6nyho1G0qoWbb/jAF3LcUVKHZrstBWFQMKtGFsw7HnY/FQxmQESuZBCISYp8x/URNvgEfvJlFppYbi6gAQemJ2M/VFZc3q02rYEIYVZORHgQ93trJh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Uz++8OA/; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=nutB2144; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=OoIKBSBW; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=9Vzcdyqn; arc=none smtp.client-ip=195.135.223.131
+	 In-Reply-To:Content-Type; b=ZqxXbWihjUWMusqYj/7vvCQ7QpuNchpN/z6sbBHQO1nmAek//bTRy6X0vZos2K24XU4RiwqfAijYpFWgQwibmWYYgbGxulKJL46edqWS/IOEK3dw5ot9qYSp81OYScH+ZVB91H1mOBGM1q1I5AgxPBTN9jxWS1qv5poYCp8gpfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=yaIXwGTw; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=HBG+h87d; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=yaIXwGTw; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=HBG+h87d; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Uz++8OA/";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="nutB2144";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="OoIKBSBW";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="9Vzcdyqn"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="yaIXwGTw";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="HBG+h87d";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="yaIXwGTw";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="HBG+h87d"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DA1111F37C;
-	Fri, 10 Jan 2025 22:14:23 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id F23DE1F37C;
+	Fri, 10 Jan 2025 22:26:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1736547264; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1736547982; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=9fCOLrPZKmNtYtn9PSY8KZegUu8wjK4R3eSGZGp0IZ8=;
-	b=Uz++8OA/Z3v+N/USU2yJaUB+Dp6QOTIh7YpPH7M8J9CGZiU1QXZfir7N40VkVDbUmMf9dt
-	uOw4+HKj2dsq/Hf1hJ77d2VjXQ3FHXJL67Ty1DDwkBxxou3vamhVSsLZ5nNihVuQDnvhC9
-	MurR/VBGGuaMSabd/suNpUERBspPlgY=
+	bh=XrUJqvSKua1pTOltZwf101kBSilLp8nnmoZG5OyBtnI=;
+	b=yaIXwGTwVU5uVMjT+fWUcdUb5TFFIMNhtXTNPWzD12Db7xntFIomus1yulitR/mTySxxWG
+	IUmakO+2w4g+F5SuZrAg/797k5w+5hwHAR0h11QjxG2DKiO/S411FclNUCt1dph28p4USw
+	k+O26jbZw+Y9viOi1KWglvNGnrt/C5c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1736547264;
+	s=susede2_ed25519; t=1736547982;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=9fCOLrPZKmNtYtn9PSY8KZegUu8wjK4R3eSGZGp0IZ8=;
-	b=nutB21443HQpUNvP+mheRsFd7LsQIBE/iRSwWwjhT4Usn2B2setpJzvTEJhyaM0I0xB+Rc
-	Do2E+ZTQCmBx0fBw==
+	bh=XrUJqvSKua1pTOltZwf101kBSilLp8nnmoZG5OyBtnI=;
+	b=HBG+h87d/R4yC3hhbs9L/gL0BSmN44isGf/Wf63Sn8beOoUG1R1PfFq8U8oshhPiSEq6ez
+	P5ftxcqG4Cty+TCg==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=OoIKBSBW;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=9Vzcdyqn
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1736547263; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1736547982; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=9fCOLrPZKmNtYtn9PSY8KZegUu8wjK4R3eSGZGp0IZ8=;
-	b=OoIKBSBWn1SWG3G2LpDoCAyKQ5DtY2xUnk00opNYLbrATp+FhbaehMEMygATV5Q+mMVfKq
-	iIpgEodH95byrEO3UX8gHa2b2hKY/di8GXPlbAVbZR8gmKef8LVjJkAD+7Yyrw2zxgfrup
-	D7VvxmWQt5eTCrOcKymbckr7clYC4M8=
+	bh=XrUJqvSKua1pTOltZwf101kBSilLp8nnmoZG5OyBtnI=;
+	b=yaIXwGTwVU5uVMjT+fWUcdUb5TFFIMNhtXTNPWzD12Db7xntFIomus1yulitR/mTySxxWG
+	IUmakO+2w4g+F5SuZrAg/797k5w+5hwHAR0h11QjxG2DKiO/S411FclNUCt1dph28p4USw
+	k+O26jbZw+Y9viOi1KWglvNGnrt/C5c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1736547263;
+	s=susede2_ed25519; t=1736547982;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=9fCOLrPZKmNtYtn9PSY8KZegUu8wjK4R3eSGZGp0IZ8=;
-	b=9Vzcdyqn567AjNS5qM3fWPpRyJvKKhcAAXqqDmaF05ljjE4o/XJjb803Bq0GTBnQDYiTGa
-	5wufc09LSgBbCHAA==
+	bh=XrUJqvSKua1pTOltZwf101kBSilLp8nnmoZG5OyBtnI=;
+	b=HBG+h87d/R4yC3hhbs9L/gL0BSmN44isGf/Wf63Sn8beOoUG1R1PfFq8U8oshhPiSEq6ez
+	P5ftxcqG4Cty+TCg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 95EF213A86;
-	Fri, 10 Jan 2025 22:14:23 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AE87D13A86;
+	Fri, 10 Jan 2025 22:26:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GNPTI7+bgWe6dwAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Fri, 10 Jan 2025 22:14:23 +0000
-Message-ID: <2d0029de-146b-41fe-86d3-7a3472bf3607@suse.cz>
-Date: Fri, 10 Jan 2025 23:14:23 +0100
+	id YuFfKY2egWeeegAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Fri, 10 Jan 2025 22:26:21 +0000
+Message-ID: <bf7fd920-4c51-44f3-bf3e-8cfe2bb5f8a6@suse.cz>
+Date: Fri, 10 Jan 2025 23:26:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,7 +82,9 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 15/16] mm: make vma cache SLAB_TYPESAFE_BY_RCU
+Subject: Re: [PATCH v8 11/16] mm: replace vm_lock and detached flag with a
+ reference count
+Content-Language: en-US
 To: Suren Baghdasaryan <surenb@google.com>
 Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org,
  liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, mhocko@suse.com,
@@ -97,10 +98,9 @@ Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org,
  linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  kernel-team@android.com
 References: <20250109023025.2242447-1-surenb@google.com>
- <20250109023025.2242447-16-surenb@google.com>
- <41ebce1a-9cc0-471e-ac20-25efea9a933a@suse.cz>
- <CAJuCfpFhphgecjyWFv6fPmx_3+3wDF9wtDHxZS3tohiEAMLuag@mail.gmail.com>
-Content-Language: en-US
+ <20250109023025.2242447-12-surenb@google.com>
+ <95e9d80e-6c19-4a1f-9c21-307006858dff@suse.cz>
+ <CAJuCfpH_=JRSXHDsw1QSYxUk6Q=gSH26_Fm0bqCmSKR-NqDj4Q@mail.gmail.com>
 From: Vlastimil Babka <vbabka@suse.cz>
 Autocrypt: addr=vbabka@suse.cz; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -141,66 +141,93 @@ Autocrypt: addr=vbabka@suse.cz; keydata=
  w9XOLH1IIWh7RURU7G1iOfEfmImFeC3cbbS73LQEFGe1urxvIH5K/7vX+FkNcr9ujwWuPE9b
  1C2o4i/yZPLXIVy387EjA6GZMqvQUFuSTs/GeBcv0NjIQi8867H3uLjz+mQy63fAitsDwLmR
  EP+ylKVEKb0Q2A==
-In-Reply-To: <CAJuCfpFhphgecjyWFv6fPmx_3+3wDF9wtDHxZS3tohiEAMLuag@mail.gmail.com>
+In-Reply-To: <CAJuCfpH_=JRSXHDsw1QSYxUk6Q=gSH26_Fm0bqCmSKR-NqDj4Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: DA1111F37C
-X-Spam-Score: -3.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00];
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[33];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	URIBL_BLOCKED(0.00)[suse.cz:mid,imap1.dmz-prg2.suse.org:helo];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[linux-foundation.org,infradead.org,oracle.com,suse.com,cmpxchg.org,gmail.com,intel.com,techsingularity.net,redhat.com,stgolabs.net,kernel.org,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
 	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	MID_RHS_MATCH_FROM(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLumbhs4xhzuuihrchnpuyb6qu)];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,infradead.org,oracle.com,suse.com,cmpxchg.org,gmail.com,intel.com,techsingularity.net,redhat.com,stgolabs.net,kernel.org,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
+	RCPT_COUNT_TWELVE(0.00)[33];
+	RCVD_COUNT_TWO(0.00)[2];
 	TAGGED_RCPT(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLk41rrgs15z4i1nmqiwtynpyh)];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:mid,suse.cz:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[]
 X-Spam-Flag: NO
 X-Spam-Level: 
 
-On 1/10/25 17:07, Suren Baghdasaryan wrote:
-> On Fri, Jan 10, 2025 at 7:31 AM Vlastimil Babka <vbabka@suse.cz> wrote:
-> 
-> I see vm_area_dup() being used in dup_mmap() and I think this comment
-> is about this usage in case the src vma changes from under us.
-> However, vm_area_dup() is also used when we simply duplicate an
-> existing vma while holding an mmap_write_lock, like in __split_vma().
-> In these cases there is no possibility of a race and copied value
-> should hold. Maybe I should amend this comment like this:
-> 
-> /*
->  * src->shared.rb may be modified concurrently when called from dup_mmap(),
->  * but the clone will reinitialize it.
->  */
-> 
-> WDYT?
-
-Sounds good, thanks!
-
+On 1/10/25 16:56, Suren Baghdasaryan wrote:
+>> > --- a/mm/memory.c
+>> > +++ b/mm/memory.c
+>> > @@ -6370,9 +6370,41 @@ struct vm_area_struct *lock_mm_and_find_vma(struct mm_struct *mm,
+>> >  #endif
+>> >
+>> >  #ifdef CONFIG_PER_VMA_LOCK
+>> > +static inline bool __vma_enter_locked(struct vm_area_struct *vma, unsigned int tgt_refcnt)
+>> > +{
+>> > +     /*
+>> > +      * If vma is detached then only vma_mark_attached() can raise the
+>> > +      * vm_refcnt. mmap_write_lock prevents racing with vma_mark_attached().
+>> > +      */
+>> > +     if (!refcount_add_not_zero(VMA_LOCK_OFFSET, &vma->vm_refcnt))
+>> > +             return false;
+>> > +
+>> > +     rwsem_acquire(&vma->vmlock_dep_map, 0, 0, _RET_IP_);
+>> > +     rcuwait_wait_event(&vma->vm_mm->vma_writer_wait,
+>> > +                refcount_read(&vma->vm_refcnt) == tgt_refcnt,
+>> > +                TASK_UNINTERRUPTIBLE);
+>> > +     lock_acquired(&vma->vmlock_dep_map, _RET_IP_);
+>> > +
+>> > +     return true;
+>> > +}
+>> > +
+>> > +static inline void __vma_exit_locked(struct vm_area_struct *vma, bool *detached)
+>> > +{
+>> > +     *detached = refcount_sub_and_test(VMA_LOCK_OFFSET, &vma->vm_refcnt);
+>> > +     rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
+>> > +}
+>> > +
+>> >  void __vma_start_write(struct vm_area_struct *vma, unsigned int mm_lock_seq)
+>> >  {
+>> > -     down_write(&vma->vm_lock.lock);
+>> > +     bool locked;
+>> > +
+>> > +     /*
+>> > +      * __vma_enter_locked() returns false immediately if the vma is not
+>> > +      * attached, otherwise it waits until refcnt is (VMA_LOCK_OFFSET + 1)
+>> > +      * indicating that vma is attached with no readers.
+>> > +      */
+>> > +     locked = __vma_enter_locked(vma, VMA_LOCK_OFFSET + 1);
 >>
->>
+>> Wonder if it would be slightly better if tgt_refcount was just 1 (or 0
+>> below in vma_mark_detached()) and the VMA_LOCK_OFFSET added to it in
+>> __vma_enter_locked() itself as it's the one adding it in the first place.
+> 
+> Well, it won't be called tgt_refcount then. Maybe "bool vma_attached"
+> and inside __vma_enter_locked() we do:
+> 
+> unsigned int tgt_refcnt = VMA_LOCK_OFFSET + vma_attached ? 1 : 0;
+> 
+> Is that better?
 
+Yeah I think so as it centralizes the target refcount logic into a single
+place __vma_enter_locked().
+Hm but then it's weird that __vma_start_write() would set vma_attached to
+true and yet it handles also a case where it's not attached.
+Maybe call the parameter "detaching" and switch the 0 and 1?
