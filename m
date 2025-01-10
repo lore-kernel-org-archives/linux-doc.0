@@ -1,171 +1,190 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2047.outbound.protection.outlook.com [40.107.220.47])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A66618C03A;
-	Fri, 10 Jan 2025 21:35:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736544940; cv=fail; b=VIFf7BrlXXekKBicdwVX5oge5uw4+zJ/OZ2U2odXAsrIw1bKk7Mp6hdcLFVetzdXTt2G0W4VNUAwXhEAywgMIwiuUnZFANk0MGJcXmu9KEgg3RO3CPSaTYpWw6cKgvBuZ+fv0Ue0MC8AYVEz1EiOOkC0TCtESRsj+ZzrX7nrbHY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736544940; c=relaxed/simple;
-	bh=Ha+nbIGQj49hVmmLAOVuTwO+p7quJvbadCXwhqiMsJg=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VwFsf3KOiXecLuLEYKcmo2Cv+vkhjmrFQQV/gYeZD1lC/vMIIzZE38BlrI/q/Te8ST2t8g3jGGf/Qw3C04kczkLyMjBh4t34QWjpJ4+THXBApEGjjAUC1VJtJ29SyN5CK14e3dwlddTHITfEeENGLvjpfu+jV3gSNP3POWDncC4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=hWIDM/Pd; arc=fail smtp.client-ip=40.107.220.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0EFD20A5C8;
+	Fri, 10 Jan 2025 21:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736545517; cv=none; b=AGOoWhkaZot98QWy+E9gzAr8SoAYZTqNlQeywekB2DPLEVwAEuyZYSRKyN9prOqmNaMMRJ/e2Q0U8xonAsOyULnrmtQ9WYLaoeeH5kWsF08SfzA4mDnwoOZejzHMWO9MqFRAwsOtAYvmj9pYMfQ+OEvRkYi+38isYNBXdZ0KftA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736545517; c=relaxed/simple;
+	bh=xJ9ceeeueJluSqw8A81wHH2lzb+kbQCceW1Q4h1ZH1Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vw7aXA9+fngT7dBY77GZbDsP1KnJcQtOxkESvmcVpUP1widLqsy1wxZuU9DyQaijo1EFKrddTKnpkjWz6cYyAHC5gf+x1g4AdovWNOY/RZ3SzkTURCa2+1FRqyb2Xlu5Sp6FiiUR2hq6ZFNhu2GBd3rNuDIGaF1w/ObaT4nvqN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TM+4UqQE; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="hWIDM/Pd"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Es9bmdT19DtcyVQQRihEMqmbtf6rBOiJQFtu3dQ/Vr6qrzOUplIYOEgNUV6NrT33BOfLQlgvWGrbSD6uuGNvZbCDAHaSfqnvYmOJGBNQrednyUXgb6PO5p+SqaTOcISJCWkKhxAbhneFE30jzNMDQM0Uck6htFudc9f7gc/6SrKKABYmFBTpxjvCUZ0o0YaAQGKWCOyFdUevGrrR7LBm0XOLL8d5oWJT8vYyCznkQ9C3Bmnb/4dZGKji62Pb0LWkdsMfsmtR4oyAMx+4CE6z7xc6LY/xel0ET+R5qx7A2jrK+khY8s50VQIQHdeWWa/Sw5lwL4bCC4VctLU2x7Pgkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=N6F4CEX0HCScRS53M2QIKYlRv/30MMJywdF7XjLXNCo=;
- b=sKpoKjHBd665CSKApXHr0/YCBJUkB1xFuNtYDY6Cu/9JZapF9IxkWluaV/gyeeO1VaBGfRbzVS/JoMrXwM2y1rHnNBX7gYDn31/fUTc58ARqw0IIlXlApx3ko0IgojbLAtnhVaJZGM4ZANzwNm7XfviKbJVXVAmbuWyjVLORCzrvjZVLIZrArN9tzxU4L/qQNYSwcdfKs2si/YaZZ1HsW46nxIv08GCLdbCemWliBBM9Wwmz/zCDgp89FHtYuy2xRu0ywh4n1XFvqAEjJmGIazoiVGNkjJFxa4vhvHR3MfWbCeGHb21H6py40QwrsN/XLGkDZHj67gQ6VTpYuFGsRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N6F4CEX0HCScRS53M2QIKYlRv/30MMJywdF7XjLXNCo=;
- b=hWIDM/Pd5UQwPY3+4bwCzbbB7V+ex2xFlqeoTU2l/wmAwL4Z4U8xXss4gBaCM7yNwmgD2AXQ0vWNq+Dm5B4D+WUGWY/z0M+ZVU6yM75v61RAVvIiQwauSGbD0Np1UQDVvOnOvpb1mTfqfgICEU3c1QysMJJoq745wvKJcbZ6jcXTPoXRr8jvCbk7YH/NWsW62CFVdAf0Srb/mtq3KFYEECCN+gZhUjQtr5BXUx2I2HFSyFzSxOV7P2/iktEN8/l3GfEIkkMB4fxAVYRRHSjwdOodEJfZkQFkwzoN9uZs4GuR56z6NWfZtvj5a4hlMQnSEx50kTMXXMdKyZ830p2biQ==
-Received: from CH0PR03CA0268.namprd03.prod.outlook.com (2603:10b6:610:e5::33)
- by CYYPR12MB8853.namprd12.prod.outlook.com (2603:10b6:930:cb::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.10; Fri, 10 Jan
- 2025 21:35:33 +0000
-Received: from CH2PEPF00000143.namprd02.prod.outlook.com
- (2603:10b6:610:e5:cafe::64) by CH0PR03CA0268.outlook.office365.com
- (2603:10b6:610:e5::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8335.15 via Frontend Transport; Fri,
- 10 Jan 2025 21:35:32 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- CH2PEPF00000143.mail.protection.outlook.com (10.167.244.100) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8335.7 via Frontend Transport; Fri, 10 Jan 2025 21:35:32 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 10 Jan
- 2025 13:35:15 -0800
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 10 Jan
- 2025 13:35:14 -0800
-Received: from Asurada-Nvidia (10.127.8.9) by mail.nvidia.com (10.129.68.6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4 via Frontend
- Transport; Fri, 10 Jan 2025 13:35:12 -0800
-Date: Fri, 10 Jan 2025 13:35:10 -0800
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-CC: "jgg@nvidia.com" <jgg@nvidia.com>, "corbet@lwn.net" <corbet@lwn.net>,
-	"will@kernel.org" <will@kernel.org>, "joro@8bytes.org" <joro@8bytes.org>,
-	"suravee.suthikulpanit@amd.com" <suravee.suthikulpanit@amd.com>,
-	"robin.murphy@arm.com" <robin.murphy@arm.com>, "dwmw2@infradead.org"
-	<dwmw2@infradead.org>, "baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>,
-	"shuah@kernel.org" <shuah@kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "iommu@lists.linux.dev"
-	<iommu@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "eric.auger@redhat.com" <eric.auger@redhat.com>,
-	"jean-philippe@linaro.org" <jean-philippe@linaro.org>, "mdf@kernel.org"
-	<mdf@kernel.org>, "mshavit@google.com" <mshavit@google.com>,
-	"shameerali.kolothum.thodi@huawei.com"
-	<shameerali.kolothum.thodi@huawei.com>, "smostafa@google.com"
-	<smostafa@google.com>, "ddutile@redhat.com" <ddutile@redhat.com>, "Liu, Yi L"
-	<yi.l.liu@intel.com>, "patches@lists.linux.dev" <patches@lists.linux.dev>
-Subject: Re: [PATCH v5 07/14] iommufd/viommu: Add iommufd_viommu_get_vdev_id
- helper
-Message-ID: <Z4GSjvNIG8WdnAVH@Asurada-Nvidia>
-References: <cover.1736237481.git.nicolinc@nvidia.com>
- <1dc30375464927950e12a5a52ed0433c3b01b8d6.1736237481.git.nicolinc@nvidia.com>
- <BN9PR11MB5276544E0043A69C66F354488C1C2@BN9PR11MB5276.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TM+4UqQE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736545515; x=1768081515;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xJ9ceeeueJluSqw8A81wHH2lzb+kbQCceW1Q4h1ZH1Y=;
+  b=TM+4UqQECH0JkDC1knHYhs7xXNxYldiXKL/rkmcOzNtBLIFmxTnp/Wmo
+   x6ya+LC4QPWCem6bOP1jRH5fVIAXb+juSJq4gvb+LZAiwOct3gmPfyxOb
+   xtzCUOkGEbUNNTUQtepsyQ+skf6GRup2TI4IoEPKA7E3DFV5qjAZNUsDn
+   Awkfk9e9ewvEPXZiMAoFH7Y0IQ0q9rmFZ5X+px5PH/RqmesUXdE10gY+J
+   w4ilbKUiLJN+QvXS15OUtYdqKu911ZWg9Qdh5r+s8bzD1G1r/A4OmBMu8
+   d1PK44SZ9GPrfcK9DCMklVeU3b7eq74xtGFExsKIqyLB0HkpjYG+TdsS3
+   Q==;
+X-CSE-ConnectionGUID: 2/DYJ1ZUQqe6ipfXWduLoA==
+X-CSE-MsgGUID: IFtC5L9lSa+mmkrkOP/X8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="24460188"
+X-IronPort-AV: E=Sophos;i="6.12,305,1728975600"; 
+   d="scan'208";a="24460188"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 13:45:13 -0800
+X-CSE-ConnectionGUID: HramPdvaShmQkYBvamrh9Q==
+X-CSE-MsgGUID: ZRGQhrpJRAWJ07uqz520og==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="127134376"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 10 Jan 2025 13:45:11 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tWMoX-000JmR-0N;
+	Fri, 10 Jan 2025 21:45:09 +0000
+Date: Sat, 11 Jan 2025 05:44:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Joshua Grisham <josh@joshuagrisham.com>, W_Armin@gmx.de,
+	thomas@t-8ch.de, kuurtb@gmail.com, ilpo.jarvinen@linux.intel.com,
+	hdegoede@redhat.com, platform-driver-x86@vger.kernel.org,
+	corbet@lwn.net, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Joshua Grisham <josh@joshuagrisham.com>
+Subject: Re: [PATCH v5] platform/x86: samsung-galaxybook: Add
+ samsung-galaxybook driver
+Message-ID: <202501110509.FukyduTN-lkp@intel.com>
+References: <20250109220745.69977-1-josh@joshuagrisham.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <BN9PR11MB5276544E0043A69C66F354488C1C2@BN9PR11MB5276.namprd11.prod.outlook.com>
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF00000143:EE_|CYYPR12MB8853:EE_
-X-MS-Office365-Filtering-Correlation-Id: 83e78fbd-75e6-402c-50b5-08dd31beb63b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|376014|36860700013|82310400026|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?/HFsqrcXNDWifXLUD+rlQu5S/tKA9XJYs35d5v6uFu53g8P67tpp+MUHtdVj?=
- =?us-ascii?Q?vv2LRuSkpO438FgmmrmIZdaRrq679TYr2vTW4bXnof9Zu6jqoWuKTRtLlsiQ?=
- =?us-ascii?Q?k9EzUqKkZ5L/5dfVjhpoTj31oBPJIokRnEfeVoPSyRoQIpIISsLUeglvnsl2?=
- =?us-ascii?Q?2Yumm5/dfLpudGVPkn7pzgnJ0JjhngckKsS5O7d9pDHy/I7DKOgYJRIuuton?=
- =?us-ascii?Q?63qkvEjjMc/EufGCI6mzLG+KdDsWL/fanbexRo1mkCpDyZNfcfduQuxmZ+r6?=
- =?us-ascii?Q?PBgT5+Owrfowpjzit4vTOHk2tppBwpPt67rdUjpJeU+VK99KLFDBcneQXIZF?=
- =?us-ascii?Q?IFHuqYRVJ3G4EFVIL/x68kwz296wV0jgIYCloiEGSILyHIZcWGKbhv6rOcQE?=
- =?us-ascii?Q?QMua2UXdZ9J91msSRKd4YuTO6vZK/e27LSMvBLMpDIb5dnIFFG4opiZzeHW+?=
- =?us-ascii?Q?UHRnJfukEUPMt6t2PukUu2bBjQjojY24oM6Ru91ROP4HvQhSoyFErSrF7Cmd?=
- =?us-ascii?Q?0+S8kzu55Te0i99Ax9af7v4ub43fOAz56z1+G0hoPMB35bEaoL/BwsqqVR4n?=
- =?us-ascii?Q?TR5GZ2B5ZQxhxYqewHe0132xRw0ieNgt/7ODIN6WL3DP5fD7GluBl53iwrN0?=
- =?us-ascii?Q?M/QJAT6fH2dY540VObQ8gc9zIM+ETGf2WEaOnmxWWsjb2x9breOYDqYna5+H?=
- =?us-ascii?Q?Vrs4JUj+gVed7+sZbZoQAfnoYnIuUTtcuQ+unihrBByel/Ale3DRdsfjg74K?=
- =?us-ascii?Q?kJIJFuNeC3ibulwrtao4hBA5AomRGX33cE2xEGKsOc2ZZzFh2whWDBrPGZ44?=
- =?us-ascii?Q?0Bx4Xuy90GyFLVRGpjjTG2/deUTMqlejKxrOXMJ/1muLD9RjTkiy6Asz7qrr?=
- =?us-ascii?Q?k6Ct5bluOLna90fm8sWcC894p9JiO4w52lMXrRrKGcHveU879njbyYNh/FwJ?=
- =?us-ascii?Q?+ml+kwwgw2AejagONbbStiwckTyFxJNCZI/Vg319CMt9Zz1IP+MV6PGDSNJD?=
- =?us-ascii?Q?+Cm4dKzqG1K1T4pXpltW1Lxcu25EYHXqE9BhcmeAIXoejXw9gBKQlr2XeiYv?=
- =?us-ascii?Q?Nj/1NyQJd73tZDh/ewE8caUCiQXLSECW4rKbtrS08gACuYvGCzX2p8E8x+UO?=
- =?us-ascii?Q?CPjEnnLPxKP6fO8TTcgxU0dN6v+riqh6zEoTTx+XxaSgUWhxH7RgCPMSqy+q?=
- =?us-ascii?Q?I7FZYjeuQxBYw/8hAV4awZ++4UhYSYFnmcAbeIimg3EzRa595PhV0M3lYDVV?=
- =?us-ascii?Q?yl5qlFTK7Pfyt9UsG/r/Z2rB8JZwRIQUdf3sgjYFoUmsK6uNrOUeCRSkPFIL?=
- =?us-ascii?Q?RY45PwnuBemWWKrKFzfS37TPBnMp8VFqju5ibZ4JfDXshutTF38qvRU5n7dz?=
- =?us-ascii?Q?ImhzBbtRdvj2/aMJrlxNXpcj5KjkbSJH8nVhN65xwQWPHXEbAqs+Hrel3hLQ?=
- =?us-ascii?Q?ZXH+TJj/kzOc1mI5OK17Lb1XG0jXYd48/W43t+ovTfqFJ+reNHokmTuPl9Pp?=
- =?us-ascii?Q?v1uowJdhgTI/5NE=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(36860700013)(82310400026)(7053199007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2025 21:35:32.5803
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83e78fbd-75e6-402c-50b5-08dd31beb63b
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH2PEPF00000143.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8853
+In-Reply-To: <20250109220745.69977-1-josh@joshuagrisham.com>
 
-On Fri, Jan 10, 2025 at 07:07:36AM +0000, Tian, Kevin wrote:
-> > From: Nicolin Chen <nicolinc@nvidia.com>
-> > Sent: Wednesday, January 8, 2025 1:10 AM
-> > +
-> > +	xa_lock(&viommu->vdevs);
-> > +	xa_for_each(&viommu->vdevs, index, vdev) {
-> > +		if (vdev && vdev->dev == dev) {
-> > +			vdev_id = (unsigned long)vdev->id;
-> > +			break;
-> > +		}
-> > +	}
-> 
-> Nit. No need to check vdev pointer as commented in last review.
+Hi Joshua,
 
-Oh, I missed that. Will drop it.
+kernel test robot noticed the following build errors:
 
-> Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.13-rc6 next-20250110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks
-Nicolin
+url:    https://github.com/intel-lab-lkp/linux/commits/Joshua-Grisham/platform-x86-samsung-galaxybook-Add-samsung-galaxybook-driver/20250110-061059
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250109220745.69977-1-josh%40joshuagrisham.com
+patch subject: [PATCH v5] platform/x86: samsung-galaxybook: Add samsung-galaxybook driver
+config: x86_64-randconfig-077-20250111 (https://download.01.org/0day-ci/archive/20250111/202501110509.FukyduTN-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250111/202501110509.FukyduTN-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501110509.FukyduTN-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/platform/x86/samsung-galaxybook.c: In function 'galaxybook_profile_init':
+   drivers/platform/x86/samsung-galaxybook.c:759:36: error: 'struct platform_profile_handler' has no member named 'name'
+     759 |         galaxybook->profile_handler.name = DRIVER_NAME;
+         |                                    ^
+   drivers/platform/x86/samsung-galaxybook.c:760:36: error: 'struct platform_profile_handler' has no member named 'dev'
+     760 |         galaxybook->profile_handler.dev = &galaxybook->platform->dev;
+         |                                    ^
+   drivers/platform/x86/samsung-galaxybook.c:764:15: error: implicit declaration of function 'devm_platform_profile_register'; did you mean 'platform_profile_register'? [-Werror=implicit-function-declaration]
+     764 |         err = devm_platform_profile_register(&galaxybook->profile_handler);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               platform_profile_register
+   In file included from include/linux/kobject.h:20,
+                    from include/linux/energy_model.h:7,
+                    from include/linux/device.h:16,
+                    from include/linux/acpi.h:14,
+                    from drivers/platform/x86/samsung-galaxybook.c:14:
+   drivers/platform/x86/samsung-galaxybook.c: In function 'galaxybook_fw_attr_init':
+>> drivers/platform/x86/samsung-galaxybook.c:1057:33: error: 'fw_attr' is a pointer; did you mean to use '->'?
+    1057 |         sysfs_attr_init(&fw_attr.display_name);
+         |                                 ^
+   include/linux/sysfs.h:55:10: note: in definition of macro 'sysfs_attr_init'
+      55 |         (attr)->key = &__key;                           \
+         |          ^~~~
+   drivers/platform/x86/samsung-galaxybook.c:1063:33: error: 'fw_attr' is a pointer; did you mean to use '->'?
+    1063 |         sysfs_attr_init(&fw_attr.current_value);
+         |                                 ^
+   include/linux/sysfs.h:55:10: note: in definition of macro 'sysfs_attr_init'
+      55 |         (attr)->key = &__key;                           \
+         |          ^~~~
+   cc1: some warnings being treated as errors
+
+
+vim +1057 drivers/platform/x86/samsung-galaxybook.c
+
+  1031	
+  1032	static int galaxybook_fw_attr_init(struct samsung_galaxybook *galaxybook,
+  1033					   const enum galaxybook_fw_attr_id fw_attr_id,
+  1034					   int (*get_value)(struct samsung_galaxybook *galaxybook,
+  1035							    bool *value),
+  1036					   int (*set_value)(struct samsung_galaxybook *galaxybook,
+  1037							    const bool value))
+  1038	{
+  1039		struct galaxybook_fw_attr *fw_attr;
+  1040		struct attribute **attrs;
+  1041		int err;
+  1042	
+  1043		fw_attr = devm_kzalloc(&galaxybook->platform->dev, sizeof(*fw_attr), GFP_KERNEL);
+  1044		if (!fw_attr)
+  1045			return -ENOMEM;
+  1046	
+  1047		attrs = devm_kcalloc(&galaxybook->platform->dev, NUM_FW_ATTR_ENUM_ATTRS + 1,
+  1048				     sizeof(*attrs), GFP_KERNEL);
+  1049		if (!attrs)
+  1050			return -ENOMEM;
+  1051	
+  1052		attrs[0] = &fw_attr_type.attr;
+  1053		attrs[1] = &fw_attr_default_value.attr;
+  1054		attrs[2] = &fw_attr_possible_values.attr;
+  1055		attrs[3] = &fw_attr_display_name_language_code.attr;
+  1056	
+> 1057		sysfs_attr_init(&fw_attr.display_name);
+  1058		fw_attr->display_name.attr.name = "display_name";
+  1059		fw_attr->display_name.attr.mode = 0444;
+  1060		fw_attr->display_name.show = display_name_show;
+  1061		attrs[4] = &fw_attr->display_name.attr;
+  1062	
+  1063		sysfs_attr_init(&fw_attr.current_value);
+  1064		fw_attr->current_value.attr.name = "current_value";
+  1065		fw_attr->current_value.attr.mode = 0644;
+  1066		fw_attr->current_value.show = current_value_show;
+  1067		fw_attr->current_value.store = current_value_store;
+  1068		attrs[5] = &fw_attr->current_value.attr;
+  1069	
+  1070		attrs[6] = NULL;
+  1071	
+  1072		fw_attr->galaxybook = galaxybook;
+  1073		fw_attr->fw_attr_id = fw_attr_id;
+  1074		fw_attr->attr_group.name = galaxybook_fw_attr_name[fw_attr_id];
+  1075		fw_attr->attr_group.attrs = attrs;
+  1076		fw_attr->get_value = get_value;
+  1077		fw_attr->set_value = set_value;
+  1078	
+  1079		err = sysfs_create_group(&galaxybook->fw_attrs_kset->kobj, &fw_attr->attr_group);
+  1080		if (err)
+  1081			return err;
+  1082	
+  1083		return devm_add_action_or_reset(&galaxybook->platform->dev,
+  1084						galaxybook_fw_attr_remove, fw_attr);
+  1085	}
+  1086	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
