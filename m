@@ -1,246 +1,155 @@
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0425620A5FB;
-	Fri, 10 Jan 2025 15:59:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71563211285
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 16:07:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736524771; cv=none; b=tca2jIxxdXst7dGrfLGpPf+zXWZx1qNuDhgvv6F62L6z+nM+bILXx5Eseqw1yTa+TUxdLrECjvW7G2sSwCRjK5rJ23BW0Y9v+kc3Ea7B3SKUuZM35RIJn6pd/9aLLaUk2BewsZWCRhZCmu45883dIlat3pIiA3Z0OP/fzFPwTL8=
+	t=1736525270; cv=none; b=l5HN6OtUJuaeasklKG+XBUkU45U2txZtBbxSo9ZEHf7riBND809iscHKI92QQOhzbBJoYHbCzIXI74qLcXkHrOxafjISHR1Gi/1uX+b3+sslEG4In5nST/AyP+knZAS2BZsvKk5MiWFkU8TveObnQX590CigF7XgQQRTU1Kd9Ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736524771; c=relaxed/simple;
-	bh=VOf3joCRWku7JV0qqkb/JfzkQ/NlhMLlK3RE73Tu0Ec=;
+	s=arc-20240116; t=1736525270; c=relaxed/simple;
+	bh=NKf2LPf0ciHOld1ocX8LGjDxsiohmNp0UCGHWl1dHBs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A7o5jK4q1D6DjLkTSWzh1VeP8b2baWvA6aE0dsuTdBRqcuVoo3v5yYXtteuKqtAZ5h9u+wUdNZBx7C2fh/2tM+Txo13saow5ArCZJLABnLGer0Tk1Ej7sUpOLF4eKUOx0IVMRow+S02TC2NGi1n9rgAzwysUA1XTizKOWar78tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-3a81324bbdcso13819405ab.1;
-        Fri, 10 Jan 2025 07:59:29 -0800 (PST)
+	 To:Cc:Content-Type; b=Ws2quEcbflSXDHVdxqy5J08pI90jSlAz1XfW7pqCEntUvwU74LTAxOd9OM5icYQoC/+megAJ5kTSdtAioFOoHngNSJvUZM3hsn+e0JhYMDS1+CRaClT46BSA3zvELVi/ARcIGXp6Kp4z5aoGiikz0/M0qWdwuLxljMSsBgUVIvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=C3RMCilW; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="C3RMCilW"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4678c9310afso229121cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 08:07:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1736525267; x=1737130067; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HuoSwo768mhftGn+VFoye9hxmZUgc0ATyWlHTOv+ogE=;
+        b=C3RMCilWCzUS1Qm26bvazBSfuA26U3RzxsKaDPpE3R9H3NuKksW/7xfrHN+MeuZS/h
+         kbw35UCnsYrB4hxipMtJtYIF7a8lo7p2OxPP4VLbT894VgSa0uim+Ynxy5krozpd+xQG
+         kUlMZQ9vRMPYU6FmrtlAAMrJZa18wzdxTEhSANP8M/2cGQH6+++bWn4GV+zBxhz8SdUk
+         AkfplaODTHrLdFJaufuYvyupOWHnJmJAn5fbi4/8kdv4KlNqvexiDd4y3TVDF47EKg1Z
+         YeBvvWuY1duMKWXwHncYVQccdEGYbR0MuCyGRVVl2WBk9/lZi2ExRizQ5G5GHawnBaES
+         6eaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736524769; x=1737129569;
+        d=1e100.net; s=20230601; t=1736525267; x=1737130067;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jHBFG2hXwHCpEKoHsn8D+NY3oc8cJ69pO24XioRtFak=;
-        b=Map6Nm5WLajYQPZ7IukeVVurWm9363g5YSYjZ72xCueXXxjNe0iWqhM3Z+WEA+Kfk0
-         xG4TbwUCdCNQjAwSuEEv8DyKoeAf3PHE9VXL8/GvjW7XdDZyaeMhQ+OOzW8y20koPzGQ
-         pbfaZzQezAFAeNr09qXNYHtK5DG7VogWsE29+bnwlEFRoFUG8JWJDTR3s6qHx4y+65xi
-         aJEHF5XKJoFeti13w3IQRH92xw6ITpdYQ3AUSQXsDkool4Hdi55J2bB4QwZ2mCFFVya9
-         ri/ws+EGbejw4/oPFyVjoNLDeL8uuUVQ8/vEz8/mG8ESQnz4aCC3PKbHh6TxxBXnnFVp
-         UbRw==
-X-Forwarded-Encrypted: i=1; AJvYcCUvxzyEdoepoEdL2H8y3NuiJEvJsxTyWJISR0qq6rGSBzTq+KRFjW6PKQ9u+ez8YKpEHFn6xQRIgu8=@vger.kernel.org, AJvYcCVT8WGIi1dfMhz6N24Ksfd0zgm9I4/GyII60s1eMUYhB/TvAch2wJm+pHgTyqDGHDAjrrgEsJpWhlEjLRyxOElxqFLMxg==@vger.kernel.org, AJvYcCWb/05MEnGaxLKtqA4VWH/N/GVTuHzUE7/qsjZbZksqN+byfQKVKfMRZYYvW822QbynB6r6rXyOYgDDVIZM@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2/j6Ad+t8m0elN9KP0kQxtHT8XeRJhktpsOleX5sH1kPEsq+x
-	T+yiNIRPDKSsZswWxT1+6/ACP5W6WVkjRB5EB/I9aL8Cts5X84cQqAu7siJ+jTg=
-X-Gm-Gg: ASbGnctgMqmfeoirVawvSjeD5kl3pDCVDKPKBgxJZcyUVeFMogqOva/L8OODPLvogy2
-	nLAP6ZNRkhmSU+GnDpa51Xf3NFk+4cevcDaf4EXkmA6dYyvw0dIqXR15icZjwI6pnG4k7KiEW+b
-	zYnzzI2tj5bCOYbYGrH1W9p0jX4VVDzDqsuPCKzaZQq/3AC0pkoMoAWVI/P7x7uKEZUHcvtjxJg
-	jQ3X4VVoFKOryIZVkWvm2AEn6wKDihXXiB7qUFnBzUPXsvgZeJcyMIz8hR+QM+lw5ShU0evnQtk
-	2YN7I2h2jW+7HbV3+BokDg==
-X-Google-Smtp-Source: AGHT+IEAdGK+Nhqi95tYqBxHQGi/KlTwHX8df1ZQ9G34mxVF90bIqSW+KiWFGDrOrpLy67+BtNNT5g==
-X-Received: by 2002:a05:6e02:1f8a:b0:3cc:b7e4:6264 with SMTP id e9e14a558f8ab-3ce3a892c05mr89228965ab.0.1736524768982;
-        Fri, 10 Jan 2025 07:59:28 -0800 (PST)
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com. [209.85.166.45])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3ce4addb410sm10371545ab.41.2025.01.10.07.59.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jan 2025 07:59:28 -0800 (PST)
-Received: by mail-io1-f45.google.com with SMTP id ca18e2360f4ac-844e61f3902so155165939f.0;
-        Fri, 10 Jan 2025 07:59:28 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWUJmlBtqY3TgWF4KvgGCJuCq2eElY1My8G6NHHkzUJ7VvXJbbMxeMdCtKu32aOSPG/kzBHXHynb7Y=@vger.kernel.org, AJvYcCX39uAn24AmW5fe0JzUQXtuneS5z5fy75TaYzAB96OGTYeB0R47krls11Z5drdqXrDPm/WCLAUssFuLQhm1wyww9PZliQ==@vger.kernel.org, AJvYcCXkF8GDp8E3PvnWwXhG7Zn/ZPrdcbhdJRomOllDb1QdYvL9vv35JUipXOfBHSP6prGKNXSAoMVXq50K7Kpv@vger.kernel.org
-X-Received: by 2002:a05:6e02:13a2:b0:3a7:e732:472a with SMTP id
- e9e14a558f8ab-3ce3a9a4ac6mr89825995ab.2.1736524767919; Fri, 10 Jan 2025
- 07:59:27 -0800 (PST)
+        bh=HuoSwo768mhftGn+VFoye9hxmZUgc0ATyWlHTOv+ogE=;
+        b=FVS/51St4Xob7gKJ2P9nuc0uDCVfabl9NCMUUBkEQF9jTxlDu48TnTBouKSSjmu6B5
+         wqKeo3H3M4Bm3YcyY/24IcB35jvbiYQ+W1PAVFonw0DW4fRTlXmAzc+gvlBtaZUURIo5
+         Y4eaEvUPTM6aftzr8/EcAogM4OoSluzvAyHhg3xt7aFN4w5GJtui7yTULqcHicPb9QvW
+         TuOJYKzCpIeOsu2CWL908tiyXY/xhl+GWEKF8nYWBAgpgK3Mf4ZkwAQFnNbVKABCbUZs
+         RUCnOGIiJD88mKzzOR6GxnpLeB0bSeaF5e3Lvu+I3C4TbdW1Yv5F72tgOUzdWO4XT7+0
+         g4Tw==
+X-Forwarded-Encrypted: i=1; AJvYcCX+nKGuoY/jqcsiOV2vIqckpjkvAGaNu7+xOBk8WSknJlu4AvmNefsU7HyQW/H6cCCkZyCsCYdeKEY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDic7S2V3S+tllN/9QEGviKSuJRidaCxSbjBqUKmssNcPeMeGi
+	1xjU951skvwTzS/eEqiS8QJs3bE8TOXZmxKxts1Fj3qcDK0Oa+a3USrG2AN7Dp9htb8/s6L0YSQ
+	HwCZjZudrCiTuAnMzL5qCKq5jVnxGbTOb2BAh
+X-Gm-Gg: ASbGncsdGOzwAes28s2pIMutO3h8SKZ6Trnn0V9lknm58zDs2UIC+C4+e7UdvTEDd2W
+	xsl1lT/HjZG9uXycaWjeY/suZsTtpHRY3wcrxZA==
+X-Google-Smtp-Source: AGHT+IHyV4k57UNejKjA2zCtXjcsUG+QSokEacjoANRn6PhX8p2751CgLfYsK6JB8hsH48QMqMho8xCXtXiibZlXmAI=
+X-Received: by 2002:ac8:5f0b:0:b0:467:84a1:df08 with SMTP id
+ d75a77b69052e-46c89df3ccamr2973981cf.23.1736525267100; Fri, 10 Jan 2025
+ 08:07:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250109220745.69977-1-josh@joshuagrisham.com> <30f6644c-bf35-dd5e-4f1c-d1f1915b97da@linux.intel.com>
-In-Reply-To: <30f6644c-bf35-dd5e-4f1c-d1f1915b97da@linux.intel.com>
-From: Joshua Grisham <josh@joshuagrisham.com>
-Date: Fri, 10 Jan 2025 16:59:16 +0100
-X-Gmail-Original-Message-ID: <CAMF+KeaN_FXjEHOw72LD7GgfFyhjjXjY+ask4vxd1jV+zXn=Mw@mail.gmail.com>
-X-Gm-Features: AbW1kvYOduiRt--ToaafK15apWbhlB2OstFOd_AfbotoogeTRg7xNSAp_ZuqXSo
-Message-ID: <CAMF+KeaN_FXjEHOw72LD7GgfFyhjjXjY+ask4vxd1jV+zXn=Mw@mail.gmail.com>
-Subject: Re: [PATCH v5] platform/x86: samsung-galaxybook: Add
- samsung-galaxybook driver
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Joshua Grisham <josh@joshuagrisham.com>, W_Armin@gmx.de, thomas@t-8ch.de, 
-	kuurtb@gmail.com, Hans de Goede <hdegoede@redhat.com>, platform-driver-x86@vger.kernel.org, 
-	corbet@lwn.net, linux-doc@vger.kernel.org, 
-	LKML <linux-kernel@vger.kernel.org>
+References: <20250109023025.2242447-1-surenb@google.com> <20250109023025.2242447-16-surenb@google.com>
+ <41ebce1a-9cc0-471e-ac20-25efea9a933a@suse.cz>
+In-Reply-To: <41ebce1a-9cc0-471e-ac20-25efea9a933a@suse.cz>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Fri, 10 Jan 2025 08:07:36 -0800
+X-Gm-Features: AbW1kvbgpZuPEdva_E5IThJS2jJBJJsAW198oHHkkeTkV2QlMmxg9161lihYxSk
+Message-ID: <CAJuCfpFhphgecjyWFv6fPmx_3+3wDF9wtDHxZS3tohiEAMLuag@mail.gmail.com>
+Subject: Re: [PATCH v8 15/16] mm: make vma cache SLAB_TYPESAFE_BY_RCU
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org, 
+	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, mhocko@suse.com, 
+	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
+	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
+	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
+	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
+	klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	kernel-team@android.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Ilpo, thanks for taking the time! Few clarifications/comments below...
-
-Den fre 10 jan. 2025 kl 12:30 skrev Ilpo J=C3=A4rvinen
-<ilpo.jarvinen@linux.intel.com>:
+On Fri, Jan 10, 2025 at 7:31=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
+ote:
 >
-> > +static int get_performance_mode_profile(struct samsung_galaxybook *gal=
-axybook,
-> > +                                     const u8 performance_mode,
-> > +                                     enum platform_profile_option *pro=
-file)
-> > +{
-> > +     for (int i =3D 0; i < PLATFORM_PROFILE_LAST; i++) {
+> On 1/9/25 3:30 AM, Suren Baghdasaryan wrote:
+> > To enable SLAB_TYPESAFE_BY_RCU for vma cache we need to ensure that
+> > object reuse before RCU grace period is over will be detected by
+> > lock_vma_under_rcu().
+> > Current checks are sufficient as long as vma is detached before it is
+> > freed. The only place this is not currently happening is in exit_mmap()=
+.
+> > Add the missing vma_mark_detached() in exit_mmap().
+> > Another issue which might trick lock_vma_under_rcu() during vma reuse
+> > is vm_area_dup(), which copies the entire content of the vma into a new
+> > one, overriding new vma's vm_refcnt and temporarily making it appear as
+> > attached. This might trick a racing lock_vma_under_rcu() to operate on
+> > a reused vma if it found the vma before it got reused. To prevent this
+> > situation, we should ensure that vm_refcnt stays at detached state (0)
+> > when it is copied and advances to attached state only after it is added
+> > into the vma tree. Introduce vma_copy() which preserves new vma's
+> > vm_refcnt and use it in vm_area_dup(). Since all vmas are in detached
+> > state with no current readers when they are freed, lock_vma_under_rcu()
+> > will not be able to take vm_refcnt after vma got detached even if vma
+> > is reused.
+> > Finally, make vm_area_cachep SLAB_TYPESAFE_BY_RCU. This will facilitate
+> > vm_area_struct reuse and will minimize the number of call_rcu() calls.
+> >
+> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 >
-> unsigned int is preferred for loop variables that never should become
-> negative.
+> Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
 >
+> You could also drop the reset_refcnt parameter of vma_lock_init() now,
+> as the usage in vm_area_dup() should now be just setting 0 over 0. Maybe
+> a VM_WARN_ON if it's not 0 already?
 
-Thanks for the catch! There are a few other places with a for loop
-using int i so I will go ahead and change all of them to unsigned ints
-for the next version unless you say otherwise.
+Yeah, that's a good idea. Will do.
 
-> > +     if (num_mapped =3D=3D 0) {
-> > +             dev_dbg(&galaxybook->platform->dev, "failed to map any pe=
-rformance modes\n");
-> > +             return 0;
+> And a comment in vm_area_struct definition to consider vma_copy() when
+> adding any new field?
+
+Sure, will add.
+
 >
-> Should this return error instead? I assume it's because you want to
-> initialize with part of the features only but...
+> > +     /*
+> > +      * src->shared.rb may be modified concurrently, but the clone
+> > +      * will be reinitialized.
+> > +      */
+> > +     data_race(memcpy(&dest->shared, &src->shared, sizeof(dest->shared=
+)));
 >
+> The comment makes it sound as if we didn't need to do it at all? But I
+> didn't verify. If we do need it in some cases (i.e. the just allocated
+> vma might have garbage from previous lifetime, but src is well defined
+> and it's a case where it's not reinitialized afterwards) maybe the
+> comment should say? Or if it's either reinitialized later or zeroes at
+> src, we could memset() the zeroes instead of memcpying them, etc.
 
-Yes at this point it is "no harm, no foul": the profile_handler has
-not been set up, platform profile has not been registered, and
-has_performance_mode is false, so I want that it just exits and the
-probe continues to init other features (e.g. devices with SAM0427 have
-kbd backlight controller and firmware attributes but not this specific
-performance_mode implementation, so for them this function will just
-stop anywhere along the way at whatever point it fails and just "not
-doing anything else" but still let them use the other features of the
-driver... all other features that then check against
-has_performance_mode will see that it is false and just skip that
-part). Does this still seem ok or is there any adjustment you would
-like to see for this?
+I see vm_area_dup() being used in dup_mmap() and I think this comment
+is about this usage in case the src vma changes from under us.
+However, vm_area_dup() is also used when we simply duplicate an
+existing vma while holding an mmap_write_lock, like in __split_vma().
+In these cases there is no possibility of a race and copied value
+should hold. Maybe I should amend this comment like this:
 
-> > +     /* if startup performance_mode fails to match a profile, try to s=
-et init mode */
-> > +     err =3D get_performance_mode_profile(galaxybook, performance_mode=
-, NULL);
-> > +     if (err) {
-> > +             if (init_performance_mode =3D=3D GB_PERFORMANCE_MODE_UNKN=
-OWN) {
-> > +                     dev_err(&galaxybook->platform->dev, "missing init=
-ial performance mode\n");
-> > +                     return -ENODATA;
-> > +             }
-> > +             err =3D performance_mode_acpi_set(galaxybook, init_perfor=
-mance_mode);
-> > +             if (err) {
-> > +                     dev_err(&galaxybook->platform->dev,
-> > +                             "failed to set initial performance mode 0=
-x%x\n",
-> > +                             init_performance_mode);
-> > +                     return err;
+/*
+ * src->shared.rb may be modified concurrently when called from dup_mmap(),
+ * but the clone will reinitialize it.
+ */
+
+WDYT?
+
 >
-> ...why these two cases then result in failing everything vs. just platfor=
-m
-> profile feature? Not an end of the world but it feels inconsistent to me.
 >
-
-I am glad you bring this up, as it forces me think through this a few
-more rounds... basically what happens is that the device will always
-come up from a fresh boot with the value of 0x0 as the "current
-performance mode" as response from the ACPI method, even though for
-most devices value 0x0 is the "legacy" optimized value that should not
-be used.
-
-In Windows, the Samsung background apps take care of this by storing
-last-used value from previous session and then re-applying it after
-startup (and the same happens with various userspace services on
-platform profile from what I have seen, actually).
-
-But since the driver does not map 0x0 to any valid profile unless the
-device only has the "legacy" optimized mode, then my function
-get_performance_mode_profile() will return -ENODATA in this initial
-startup state of 0x0. What I noticed is that the first time after this
-that you run platform_profile_cycle() after this, there is a little
-"hiccup" and an error "Failed to get profile for handler .." is
-printed in the kernel log from platform_profile.c (without pr_fmt by
-the way), but then it just works anyway and starts to pick up from the
-first enabled profile and then can continue to cycle.
-
-My bit of code here was to basically try to "force" to set the profile
-to whatever was successfully mapped as "balanced" upon a fresh startup
-so that when platform_profile_cycle() first runs there would not be
-any condition where get_performance_mode_profile() would return
--ENODATA. Then the userspace tools would take over anyway and restore
-your last session's latest used profile so it would not matter so
-much. In the end, really the aim I guess is to avoid this error
-message in the kernel log, but otherwise everything works even though
-there is an error message printed, but this is maybe a bit overkill?
-And by the way, that, as you say, we should probably not fail the
-entire feature just because of this, but let the error happen anyway
-and let everything work after that.
-
-Possibly more "simple" alternatives I can think of off the top of my head:
-
-1. Let get_performance_mode_profile() return 0 instead of -ENODATA if
-nothing is matched , this way a non-mapped performance mode would
-always just set platform_profile_cycle() to the start of the cycle I
-guess/would hope? and/or add a special case in
-get_performance_mode_profile() for performance_mode=3D0 to just return 0
-to get the same effect ? (though what happens if we have not enabled
-PLATFORM_PROFILE_LOW_POWER in the choices? even though the function
-returned 0, will platform_profile see that 0 is not supported, and
-just keep moving on until it gets to the first one that is? If so then
-this will work, but I have not yet tested or fully checked the code to
-ensure that this will actually be the behavior...)
-
-2. Try to do the logic which I did with this init_performance_mode,
-but in case init_profile_mode is not set, just skip it and let the
-error come from platform_profile_cycle() anyway and it should start to
-work. In this case I think it would be good if the user is maybe
-flagged somehow and create a bug for this, because I would want to be
-able to work with them to see what modes are reported by their device
-and see if the mapping needs to be updated in some way.
-
-3. Do neither of these, remove everything with init_performance_mode,
-and just let platform_profile_cycle() fail upon startup and print the
-error message and then it should just start working after anyway.
-
-4. Map 0x0 performance_mode to PLATFORM_PROFILE_CUSTOM in case the
-"legacy" mode with this value is not mapped, then the hotkey would not
-work to cycle the profile at first as the user would be forced to set
-the profile to a value via either a GUI or the sysfs interface before
-they can begin to use the hotkey to cycle the profile. Once they do
-this the very first time, then the userspace tools should kick in
-after this (upon every restart for example) to set the profile to the
-prior session's last used profile and then the hotkey will start to
-work to cycle the profile anyway in that session without any
-intervention from the user at all (so it is the very first time that
-they start their environment up, assuming that the prior value does
-not get cleared somehow due to some combo like the module being
-removed/blacklisted and then they restart, then add it back, etc, or
-some other corner-case situation?)
-
-I do think that something should change, maybe the most
-straight-forward are either 1 or 2 in this list, but not sure if there
-are any opinions or preferences on these or if there are other better
-options I did not think of here?
-
-> > +static ssize_t current_value_store(struct kobject *kobj, struct kobj_a=
-ttribute *attr,
-> > +                                const char *buf, size_t count)
-> > +{
-> > +     struct galaxybook_fw_attr *fw_attr =3D
-> > +             container_of(attr, struct galaxybook_fw_attr, current_val=
-ue);
-> > +     struct samsung_galaxybook *galaxybook =3D fw_attr->galaxybook;
-> > +
-> > +     bool value;
->
-> Remove the extra empty line from within variable declarations.
->
-
-Yes sorry this was just a miss when so much got moved around due to
-the big changes between v4 and v5; will fix this and the other small
-straight-forward issues for v6 :)
-
-> --
->  i.
-
-Thanks again!
-Joshua
