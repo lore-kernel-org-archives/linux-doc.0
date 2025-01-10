@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA20209F45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16A0209F3B
 	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 06:05:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736489144; cv=none; b=CwM7FAunM0WRZ/mhj7yLo/RpP5rGTUDNVqWBXz7p5Fg7hx6aFcoqQzvcL1NKHdO3TElR2+xgdVvgJ1TIbBzPhjRM7BueM4st8nP39R7zUt8U0GgMDYkKxpkTSfkD1p+ncsJzqcaebVKKT8TxdzpOxNPEGHJHCOEwv2pawrl4NZ8=
+	t=1736489145; cv=none; b=A2sHE8JyFRLLq8s8YCQWa/36bUuZ3xHDOoyNOrPoK+Y7JTElFaB6EotWDTQeMYoTo2Bjt9E2kJJoTmZXil0QX+9qBCVQ+aisEgpa8BfEMqdbshYQntIBUji8RAU4waC7c2P1nlg/sYFqSJPh6cVv3Ptj47gwKTWUadkiA+VNjeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736489144; c=relaxed/simple;
-	bh=IezSPtzCA+GIk5IpkRFZvleekPS1quzOod7dsNbrjWo=;
+	s=arc-20240116; t=1736489145; c=relaxed/simple;
+	bh=gImEFlvmkpRbXF7UroFhzQwXwCYkPElBz1uZmIG7Ke8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=KufJ5OixgMf/oV9K1JyIkaczkGGYqoVNj9AgfgdRJf3HHzLSnEUix1yGajkxbU+xc98sTaN4amo7v8D7zpGdDZddtMSpypALjQWPL+405PNOUB5pVcT9i/vQSdZms413bYQ+5cCOInjA+VgB0ZIuAFY1Zqscjxw0v+udLCD7KTA=
+	 MIME-Version; b=CYY1DZ1iKagnTv7Nr5zRxflJfgCQkUkGlBZsXqZe5GbU7o9Ak5HSPoeSJ9HBMzm75YZJytHLILT5ShCJcd8+krEM/i74dzPQ9YhsUyJBqKv6pwhhwOBXIESHuuMHMrLWCQfwySFXvs7UNGfq3EfoEEnrcGAX49JsSXl/Hh+TZdg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,16 +18,16 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ore@pengutronix.de>)
-	id 1tW895-0007oD-Ok; Fri, 10 Jan 2025 07:05:23 +0100
+	id 1tW895-0007oH-Ok; Fri, 10 Jan 2025 07:05:23 +0100
 Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <ore@pengutronix.de>)
-	id 1tW891-0006lE-37;
-	Fri, 10 Jan 2025 07:05:19 +0100
+	id 1tW892-0006lL-0E;
+	Fri, 10 Jan 2025 07:05:20 +0100
 Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.96)
 	(envelope-from <ore@pengutronix.de>)
-	id 1tW891-002z9c-2s;
+	id 1tW891-002zAG-3B;
 	Fri, 10 Jan 2025 07:05:19 +0100
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: "David S. Miller" <davem@davemloft.net>,
@@ -45,9 +45,9 @@ Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
 	Russell King <linux@armlinux.org.uk>,
 	Maxime Chevallier <maxime.chevallier@bootlin.com>,
 	linux-doc@vger.kernel.org
-Subject: [PATCH net-next v7 1/7] ethtool: linkstate: migrate linkstate functions to support multi-PHY setups
-Date: Fri, 10 Jan 2025 07:05:11 +0100
-Message-Id: <20250110060517.711683-2-o.rempel@pengutronix.de>
+Subject: [PATCH net-next v7 5/7] net: phy: introduce optional polling interface for PHY statistics
+Date: Fri, 10 Jan 2025 07:05:15 +0100
+Message-Id: <20250110060517.711683-6-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250110060517.711683-1-o.rempel@pengutronix.de>
 References: <20250110060517.711683-1-o.rempel@pengutronix.de>
@@ -63,93 +63,98 @@ X-SA-Exim-Mail-From: ore@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Adapt linkstate_get_sqi() and linkstate_get_sqi_max() to take a
-phy_device argument directly, enabling support for setups with
-multiple PHYs. The previous assumption of a single PHY attached to
-a net_device no longer holds.
-
-Use ethnl_req_get_phydev() to identify the appropriate PHY device
-for the operation. Update linkstate_prepare_data() and related
-logic to accommodate this change, ensuring compatibility with
-multi-PHY configurations.
+Add an optional polling interface for PHY statistics to simplify driver
+implementation.
 
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 ---
 changes v3:
-- s/ETHTOOL_A_PLCA_HEADER/ETHTOOL_A_LINKSTATE_HEADER
+- update commit message
+changes v2:
+- drop PHY_POLL_STATS
+- add function comments
 ---
- net/ethtool/linkstate.c | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+ drivers/net/phy/phy.c | 20 ++++++++++++++++++++
+ include/linux/phy.h   | 21 +++++++++++++++++++++
+ 2 files changed, 41 insertions(+)
 
-diff --git a/net/ethtool/linkstate.c b/net/ethtool/linkstate.c
-index 34d76e87847d..459cfea7652d 100644
---- a/net/ethtool/linkstate.c
-+++ b/net/ethtool/linkstate.c
-@@ -26,9 +26,8 @@ const struct nla_policy ethnl_linkstate_get_policy[] = {
- 		NLA_POLICY_NESTED(ethnl_header_policy_stats),
- };
- 
--static int linkstate_get_sqi(struct net_device *dev)
-+static int linkstate_get_sqi(struct phy_device *phydev)
- {
--	struct phy_device *phydev = dev->phydev;
- 	int ret;
- 
- 	if (!phydev)
-@@ -46,9 +45,8 @@ static int linkstate_get_sqi(struct net_device *dev)
- 	return ret;
+diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
+index 38bbe01a6073..ca3f24a5f8a7 100644
+--- a/drivers/net/phy/phy.c
++++ b/drivers/net/phy/phy.c
+@@ -1441,6 +1441,23 @@ static int phy_enable_interrupts(struct phy_device *phydev)
+ 	return phy_config_interrupt(phydev, PHY_INTERRUPT_ENABLED);
  }
  
--static int linkstate_get_sqi_max(struct net_device *dev)
-+static int linkstate_get_sqi_max(struct phy_device *phydev)
- {
--	struct phy_device *phydev = dev->phydev;
- 	int ret;
- 
- 	if (!phydev)
-@@ -100,19 +98,28 @@ static int linkstate_prepare_data(const struct ethnl_req_info *req_base,
- {
- 	struct linkstate_reply_data *data = LINKSTATE_REPDATA(reply_base);
- 	struct net_device *dev = reply_base->dev;
-+	struct nlattr **tb = info->attrs;
-+	struct phy_device *phydev;
- 	int ret;
- 
-+	phydev = ethnl_req_get_phydev(req_base, tb[ETHTOOL_A_LINKSTATE_HEADER],
-+				      info->extack);
-+	if (IS_ERR(phydev)) {
-+		ret = PTR_ERR(phydev);
-+		goto out;
-+	}
++/**
++ * phy_update_stats - Update PHY device statistics if supported.
++ * @phydev: Pointer to the PHY device structure.
++ *
++ * If the PHY driver provides an update_stats callback, this function
++ * invokes it to update the PHY statistics. If not, it returns 0.
++ *
++ * Return: 0 on success, or a negative error code if the callback fails.
++ */
++static int phy_update_stats(struct phy_device *phydev)
++{
++	if (!phydev->drv->update_stats)
++		return 0;
 +
- 	ret = ethnl_ops_begin(dev);
- 	if (ret < 0)
- 		return ret;
- 	data->link = __ethtool_get_link(dev);
++	return phydev->drv->update_stats(phydev);
++}
++
+ /**
+  * phy_request_interrupt - request and enable interrupt for a PHY device
+  * @phydev: target phy_device struct
+@@ -1510,6 +1527,9 @@ static enum phy_state_work _phy_state_machine(struct phy_device *phydev)
+ 	case PHY_RUNNING:
+ 		err = phy_check_link_status(phydev);
+ 		func = &phy_check_link_status;
++
++		if (!err)
++			err = phy_update_stats(phydev);
+ 		break;
+ 	case PHY_CABLETEST:
+ 		err = phydev->drv->cable_test_get_status(phydev, &finished);
+diff --git a/include/linux/phy.h b/include/linux/phy.h
+index 2fcaf96d3aed..6e368a9fb801 100644
+--- a/include/linux/phy.h
++++ b/include/linux/phy.h
+@@ -1173,6 +1173,24 @@ struct phy_driver {
+ 	 */
+ 	void (*get_link_stats)(struct phy_device *dev,
+ 			       struct ethtool_link_ext_stats *link_stats);
++
++	/**
++	 * @update_stats: Trigger periodic statistics updates.
++	 * @dev: The PHY device for which statistics updates are triggered.
++	 *
++	 * Periodically gathers statistics from the PHY device to update locally
++	 * maintained 64-bit counters. This is necessary for PHYs that implement
++	 * reduced-width counters (e.g., 16-bit or 32-bit) which can overflow
++	 * more frequently compared to 64-bit counters. By invoking this
++	 * callback, drivers can fetch the current counter values, handle
++	 * overflow detection, and accumulate the results into local 64-bit
++	 * counters for accurate reporting through the `get_phy_stats` and
++	 * `get_link_stats` interfaces.
++	 *
++	 * Return: 0 on success or a negative error code on failure.
++	 */
++	int (*update_stats)(struct phy_device *dev);
++
+ 	/** @get_sset_count: Number of statistic counters */
+ 	int (*get_sset_count)(struct phy_device *dev);
+ 	/** @get_strings: Names of the statistic counters */
+@@ -1663,6 +1681,9 @@ static inline bool phy_polling_mode(struct phy_device *phydev)
+ 		if (phydev->drv->flags & PHY_POLL_CABLE_TEST)
+ 			return true;
  
--	ret = linkstate_get_sqi(dev);
-+	ret = linkstate_get_sqi(phydev);
- 	if (linkstate_sqi_critical_error(ret))
- 		goto out;
- 	data->sqi = ret;
++	if (phydev->drv->update_stats)
++		return true;
++
+ 	return phydev->irq == PHY_POLL;
+ }
  
--	ret = linkstate_get_sqi_max(dev);
-+	ret = linkstate_get_sqi_max(phydev);
- 	if (linkstate_sqi_critical_error(ret))
- 		goto out;
- 	data->sqi_max = ret;
-@@ -127,9 +134,9 @@ static int linkstate_prepare_data(const struct ethnl_req_info *req_base,
- 			   sizeof(data->link_stats) / 8);
- 
- 	if (req_base->flags & ETHTOOL_FLAG_STATS) {
--		if (dev->phydev)
-+		if (phydev)
- 			data->link_stats.link_down_events =
--				READ_ONCE(dev->phydev->link_down_events);
-+				READ_ONCE(phydev->link_down_events);
- 
- 		if (dev->ethtool_ops->get_link_ext_stats)
- 			dev->ethtool_ops->get_link_ext_stats(dev,
 -- 
 2.39.5
 
