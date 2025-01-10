@@ -1,71 +1,72 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71563211285
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 16:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF96A211A05
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 16:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736525270; cv=none; b=l5HN6OtUJuaeasklKG+XBUkU45U2txZtBbxSo9ZEHf7riBND809iscHKI92QQOhzbBJoYHbCzIXI74qLcXkHrOxafjISHR1Gi/1uX+b3+sslEG4In5nST/AyP+knZAS2BZsvKk5MiWFkU8TveObnQX590CigF7XgQQRTU1Kd9Ts=
+	t=1736525319; cv=none; b=oDUnzEipwEEhgCVeEHjXTEigtprxsss32/kFXDfduibVYGA1ZNEj0olmjJKoafvWQTJFVHORVSO+kEXSMDMMDMzBeqKvf3bWQLyEpIOy3ZTDcfKO2pIOZXig4i7lRiAhu1ihtP85WwUK38MMuXWLQEowgKs4oK+f9WYLncGMxf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736525270; c=relaxed/simple;
-	bh=NKf2LPf0ciHOld1ocX8LGjDxsiohmNp0UCGHWl1dHBs=;
+	s=arc-20240116; t=1736525319; c=relaxed/simple;
+	bh=eQdKZjRxeeydam05FMMTDoKcgoiA9rwBSCpvxVwWxe8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ws2quEcbflSXDHVdxqy5J08pI90jSlAz1XfW7pqCEntUvwU74LTAxOd9OM5icYQoC/+megAJ5kTSdtAioFOoHngNSJvUZM3hsn+e0JhYMDS1+CRaClT46BSA3zvELVi/ARcIGXp6Kp4z5aoGiikz0/M0qWdwuLxljMSsBgUVIvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=C3RMCilW; arc=none smtp.client-ip=209.85.160.178
+	 To:Cc:Content-Type; b=MJ/BACOadKzdX0sffPSUrZMuuKB64w1Lkc7W8jzIQtFMS3ijDXlvIMqUSR3HcOFUGocTcI5xSEIPINC4HBPKkjx7b/RtOHbBlSpq0dukfLMfDIiijaJUgEj3rgsHhtkNjgYha20Q5getqvaoWOUHjt7cY04w6qkGA6iSzzGwp7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ra7uroeM; arc=none smtp.client-ip=209.85.160.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="C3RMCilW"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4678c9310afso229121cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 08:07:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ra7uroeM"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-467896541e1so283001cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 08:08:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736525267; x=1737130067; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1736525317; x=1737130117; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HuoSwo768mhftGn+VFoye9hxmZUgc0ATyWlHTOv+ogE=;
-        b=C3RMCilWCzUS1Qm26bvazBSfuA26U3RzxsKaDPpE3R9H3NuKksW/7xfrHN+MeuZS/h
-         kbw35UCnsYrB4hxipMtJtYIF7a8lo7p2OxPP4VLbT894VgSa0uim+Ynxy5krozpd+xQG
-         kUlMZQ9vRMPYU6FmrtlAAMrJZa18wzdxTEhSANP8M/2cGQH6+++bWn4GV+zBxhz8SdUk
-         AkfplaODTHrLdFJaufuYvyupOWHnJmJAn5fbi4/8kdv4KlNqvexiDd4y3TVDF47EKg1Z
-         YeBvvWuY1duMKWXwHncYVQccdEGYbR0MuCyGRVVl2WBk9/lZi2ExRizQ5G5GHawnBaES
-         6eaQ==
+        bh=eQdKZjRxeeydam05FMMTDoKcgoiA9rwBSCpvxVwWxe8=;
+        b=Ra7uroeM5Y53hoa7ZHCxJ7fWBT91OqRfv0K14IEj30c8BCnW/BnWRfNZvcrucwXf14
+         KBey1imxK4s2TiUeBoQmBD6n+YjpnAtXSYe53Stsk30JcTNHdQzrCevp9JCyRJD1gvzX
+         L2b5wnsTe3H020cop+eHOI2qXAqo296fWbP5z28GtUurFx0yOh3wV+o3oPGdO+hTLKos
+         vBPP41K5SN2hCWSaT/Q+paBYZj7TFMflzgBesTm5hfLtTWAJ2UHc92yLatUY4GWHKzb5
+         fqMuZfIPOvrgAZwK2cVX8gr8EvdqUB96QM/+EC76dNHbZ5VCWSu6698avEWD+z+Xg1tM
+         J6Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736525267; x=1737130067;
+        d=1e100.net; s=20230601; t=1736525317; x=1737130117;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HuoSwo768mhftGn+VFoye9hxmZUgc0ATyWlHTOv+ogE=;
-        b=FVS/51St4Xob7gKJ2P9nuc0uDCVfabl9NCMUUBkEQF9jTxlDu48TnTBouKSSjmu6B5
-         wqKeo3H3M4Bm3YcyY/24IcB35jvbiYQ+W1PAVFonw0DW4fRTlXmAzc+gvlBtaZUURIo5
-         Y4eaEvUPTM6aftzr8/EcAogM4OoSluzvAyHhg3xt7aFN4w5GJtui7yTULqcHicPb9QvW
-         TuOJYKzCpIeOsu2CWL908tiyXY/xhl+GWEKF8nYWBAgpgK3Mf4ZkwAQFnNbVKABCbUZs
-         RUCnOGIiJD88mKzzOR6GxnpLeB0bSeaF5e3Lvu+I3C4TbdW1Yv5F72tgOUzdWO4XT7+0
-         g4Tw==
-X-Forwarded-Encrypted: i=1; AJvYcCX+nKGuoY/jqcsiOV2vIqckpjkvAGaNu7+xOBk8WSknJlu4AvmNefsU7HyQW/H6cCCkZyCsCYdeKEY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDic7S2V3S+tllN/9QEGviKSuJRidaCxSbjBqUKmssNcPeMeGi
-	1xjU951skvwTzS/eEqiS8QJs3bE8TOXZmxKxts1Fj3qcDK0Oa+a3USrG2AN7Dp9htb8/s6L0YSQ
-	HwCZjZudrCiTuAnMzL5qCKq5jVnxGbTOb2BAh
-X-Gm-Gg: ASbGncsdGOzwAes28s2pIMutO3h8SKZ6Trnn0V9lknm58zDs2UIC+C4+e7UdvTEDd2W
-	xsl1lT/HjZG9uXycaWjeY/suZsTtpHRY3wcrxZA==
-X-Google-Smtp-Source: AGHT+IHyV4k57UNejKjA2zCtXjcsUG+QSokEacjoANRn6PhX8p2751CgLfYsK6JB8hsH48QMqMho8xCXtXiibZlXmAI=
-X-Received: by 2002:ac8:5f0b:0:b0:467:84a1:df08 with SMTP id
- d75a77b69052e-46c89df3ccamr2973981cf.23.1736525267100; Fri, 10 Jan 2025
- 08:07:47 -0800 (PST)
+        bh=eQdKZjRxeeydam05FMMTDoKcgoiA9rwBSCpvxVwWxe8=;
+        b=UfaRiXS/CfOe4tHiqPm3oT7Fikp16CZsGWQwar6NGrXdc0u+G1n02vxHtlxMq9qu6k
+         eolMiPLkPfmr8TpHLIpK9X49DnY3ONm2ou5p78fIydCwYG1ax2/v+gfyHziAy8M839aM
+         qFRj7hseq56a0Sp0wzs6Ld0AlpMxkw/OGvgoFCKWho3jV0/HFnc1QlGrn+epkY9p4LPW
+         89oWAMlIHdLZ1ZUKtuTC6T0rwGgTwvyxyTcxDsZC3628QHRtjtrlcl7D/kUmGx4WS/Tf
+         0Q2P6MeK2zIsVqSDJOoycuMsN/dNBJjidJfKI0nz8hChQZdDmFoeyD/HxQxZ7LlRp+F7
+         YkuA==
+X-Forwarded-Encrypted: i=1; AJvYcCUa0mZrsTGR3DkB3sPrW8iXWmgAqLRRA64sVllSwP5EEizY0BjdPWM+igBHbx3mv4XDsTWJ/J0etlk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGkCqFn0o3Lzh3fybsz8QAgb1BJlY+DEGiK2AuGIw0QsgcBH/s
+	reubTg+NDZVp/9P5njjgjUd38DNVfb/OiqDO2RP2ZURTSYz+gcojAYf4ZCx22YwWSJ7TRl/StR4
+	H8kmkgmL0RJD0+YedF+la+1pzyRsatnCXF8nU
+X-Gm-Gg: ASbGnctMz2Efx47PAzcjFJF86KHdFiHI554o6kSd8ctlNbsq7p65ez7ckijyVZz8hZm
+	rxZe0RVD1Dw52DUZVOlNRi681oy0oxmjTjdr6wQ==
+X-Google-Smtp-Source: AGHT+IGiEnegCes1VOKgTzv3fYf1w1YMWN1N5jLmOhLl+H0+epGB3/C8YqB/esdrW+qcXlYZjNShopYqHsG6eKOAMOc=
+X-Received: by 2002:ac8:5755:0:b0:466:90dd:19f3 with SMTP id
+ d75a77b69052e-46c89dad79dmr2807921cf.7.1736525316551; Fri, 10 Jan 2025
+ 08:08:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250109023025.2242447-1-surenb@google.com> <20250109023025.2242447-16-surenb@google.com>
- <41ebce1a-9cc0-471e-ac20-25efea9a933a@suse.cz>
-In-Reply-To: <41ebce1a-9cc0-471e-ac20-25efea9a933a@suse.cz>
+References: <20250109023025.2242447-1-surenb@google.com> <52ecd3fa-5978-4f4b-b969-c42b00a5b885@suse.cz>
+ <CAJuCfpExmxZFh_RB9t0+KmiJMiPOQ9priEx1xz63SCMTL=b8uw@mail.gmail.com>
+ <CAJuCfpEgWOi09QPfTJTNp5mO2=SMx-svSYRmUs8XYZG131Labw@mail.gmail.com> <745d6935-3732-4639-a1d4-ead73d590597@suse.cz>
+In-Reply-To: <745d6935-3732-4639-a1d4-ead73d590597@suse.cz>
 From: Suren Baghdasaryan <surenb@google.com>
-Date: Fri, 10 Jan 2025 08:07:36 -0800
-X-Gm-Features: AbW1kvbgpZuPEdva_E5IThJS2jJBJJsAW198oHHkkeTkV2QlMmxg9161lihYxSk
-Message-ID: <CAJuCfpFhphgecjyWFv6fPmx_3+3wDF9wtDHxZS3tohiEAMLuag@mail.gmail.com>
-Subject: Re: [PATCH v8 15/16] mm: make vma cache SLAB_TYPESAFE_BY_RCU
+Date: Fri, 10 Jan 2025 08:08:25 -0800
+X-Gm-Features: AbW1kvbMGxfnandwwSSoXFOuwVZJhT_NUPWmEZUi4ln9zuiNvcnTYFwE8Mgsw44
+Message-ID: <CAJuCfpG7CXMqCHTqY-RAeitsGS+j1r10rJM4bSiug3i6By+b-Q@mail.gmail.com>
+Subject: Re: [PATCH v8 00/16] move per-vma lock into vm_area_struct
 To: Vlastimil Babka <vbabka@suse.cz>
 Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org, 
 	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, mhocko@suse.com, 
@@ -81,75 +82,36 @@ Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 10, 2025 at 7:31=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
+On Fri, Jan 10, 2025 at 7:35=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
 ote:
 >
-> On 1/9/25 3:30 AM, Suren Baghdasaryan wrote:
-> > To enable SLAB_TYPESAFE_BY_RCU for vma cache we need to ensure that
-> > object reuse before RCU grace period is over will be detected by
-> > lock_vma_under_rcu().
-> > Current checks are sufficient as long as vma is detached before it is
-> > freed. The only place this is not currently happening is in exit_mmap()=
-.
-> > Add the missing vma_mark_detached() in exit_mmap().
-> > Another issue which might trick lock_vma_under_rcu() during vma reuse
-> > is vm_area_dup(), which copies the entire content of the vma into a new
-> > one, overriding new vma's vm_refcnt and temporarily making it appear as
-> > attached. This might trick a racing lock_vma_under_rcu() to operate on
-> > a reused vma if it found the vma before it got reused. To prevent this
-> > situation, we should ensure that vm_refcnt stays at detached state (0)
-> > when it is copied and advances to attached state only after it is added
-> > into the vma tree. Introduce vma_copy() which preserves new vma's
-> > vm_refcnt and use it in vm_area_dup(). Since all vmas are in detached
-> > state with no current readers when they are freed, lock_vma_under_rcu()
-> > will not be able to take vm_refcnt after vma got detached even if vma
-> > is reused.
-> > Finally, make vm_area_cachep SLAB_TYPESAFE_BY_RCU. This will facilitate
-> > vm_area_struct reuse and will minimize the number of call_rcu() calls.
+>
+>
+> On 1/10/25 1:16 AM, Suren Baghdasaryan wrote:
+> > On Thu, Jan 9, 2025 at 7:59=E2=80=AFAM Suren Baghdasaryan <surenb@googl=
+e.com> wrote:
+> >>
+> >> On Thu, Jan 9, 2025 at 5:40=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz=
+> wrote:
+> >>>
+> >>> Btw the subject became rather incomplete given all the series does :)
+> >>
+> >> Missed this one. What do you think is worth mentioning here? It's
+> >> true, the patchset does many small things but I wanted to outline the
+> >> main conceptual changes. Please LMK if you think there are more
+> >> changes big enough to be mentioned here.
 > >
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > I just realized that your comment was only about the subject of this
+> > cover letter. Maybe something like this:
+> >
+> > per-vma lock and vm_area_struct cache optimizations
 >
-> Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+> arguably the biggest change here is:
 >
-> You could also drop the reset_refcnt parameter of vma_lock_init() now,
-> as the usage in vm_area_dup() should now be just setting 0 over 0. Maybe
-> a VM_WARN_ON if it's not 0 already?
+> reimplement per-vma lock as a refcount
 
-Yeah, that's a good idea. Will do.
-
-> And a comment in vm_area_struct definition to consider vma_copy() when
-> adding any new field?
-
-Sure, will add.
+Ok, I'll use that. Thanks!
 
 >
-> > +     /*
-> > +      * src->shared.rb may be modified concurrently, but the clone
-> > +      * will be reinitialized.
-> > +      */
-> > +     data_race(memcpy(&dest->shared, &src->shared, sizeof(dest->shared=
-)));
->
-> The comment makes it sound as if we didn't need to do it at all? But I
-> didn't verify. If we do need it in some cases (i.e. the just allocated
-> vma might have garbage from previous lifetime, but src is well defined
-> and it's a case where it's not reinitialized afterwards) maybe the
-> comment should say? Or if it's either reinitialized later or zeroes at
-> src, we could memset() the zeroes instead of memcpying them, etc.
-
-I see vm_area_dup() being used in dup_mmap() and I think this comment
-is about this usage in case the src vma changes from under us.
-However, vm_area_dup() is also used when we simply duplicate an
-existing vma while holding an mmap_write_lock, like in __split_vma().
-In these cases there is no possibility of a race and copied value
-should hold. Maybe I should amend this comment like this:
-
-/*
- * src->shared.rb may be modified concurrently when called from dup_mmap(),
- * but the clone will reinitialize it.
- */
-
-WDYT?
-
->
+> but yours is ok to, don't want to bikeshed
 >
