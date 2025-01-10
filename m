@@ -1,286 +1,323 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B862212D6E;
-	Fri, 10 Jan 2025 16:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7139E2135A6
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 16:50:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736527820; cv=none; b=twWnm8Lnncn/A+U9sdzu6hvJbPq3nNscWOejhMOfdZ/sLTAJDq3dwyIDqfOgLcrJECyh35+i1jg+GRVKT0l6eq1U5ExF6Dqk2NJu/g65eWOqc9MXduHGJUP3ZyN/9szTmimjSz806XHc39jN+5xUWITk8CvDARYUEascx9IHpXc=
+	t=1736527855; cv=none; b=EirC4Ca6sr3ktiGJXWk7g7PKnbHHvpAMOl7c4egxhWol9sVkWJbgGaQqwSRE6ROKUPDdRZ4Fnkv69iYyI2on+m8oX/ywg6OzXnDvxocuBLhuU4ubrJI69QbE2VRZRrIR3z33WcKnac/SAZOsUMHMvx+X9TtWnIyho2ZTpfbMzA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736527820; c=relaxed/simple;
-	bh=5VSUGSu9BR1n/nKzKdICXzahPQ4soShf72WzqIUuGnE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XHIJ1kXmEGtbA7sbhO9Fsv8tCeUPB0UE8Kwj8p/4NKuge2fOJiGUPVsVKy6jJFiI9PXOmaHP+d/RPbiFZWOu8tnSD55T06JhHuoYcL50TJPODhAN9bnxT9FtcW6Wmhj4fE4mFgg4LEe4X1zqGH/lYvDTyGvVq++NPfkB66zv0k4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vHRV9nyq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736527855; c=relaxed/simple;
+	bh=32jDSlcxVmVQ1SuZ1FL1ZdFCZVEPpZLkGbcPedAJ6Bk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jHhDQMCxsB3WlkfpaR0GuDQpEotJgMuSTu56pTL13yjLTDHaXACgvXgW4jU7zZLGWNC18wEQbHXOo16aJhNSfoB218bnbxgmqD4N1MRt4ezSAEZwzQAVUKuzGVCVlnd0lN3zdQbQt+i1T5+sJT36Px+wF4ec0SmanLkno9oZZ8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EH6PbA2u; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vHRV9nyq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09E81C4CED6;
-	Fri, 10 Jan 2025 16:50:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736527820;
-	bh=5VSUGSu9BR1n/nKzKdICXzahPQ4soShf72WzqIUuGnE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vHRV9nyqpL+Ro7f3yAiw9q++PTaPDuF/ivKV9lmJ4Ukmz/yQRbrjnqsoGlttY/XBE
-	 Hq9zsm1IRvDBUJnmkp4CMx5ZoJwmszsP87Mt6ywM6PqXIwvlKTF6CPT/tknjZuZk7j
-	 w8Vnd87saIzejPxlLTyqpOGOqOhVoMYtwGiWX5Qe3IUJCaT066yCqLUUrgRR5rdbMj
-	 ty7WZb3SdAG0Y0EjvRRAXWvRACRC9iMC0RVfZTAL3YY9+yQVa2QyyJhQn6G9vgxX4P
-	 CiyXkEafzE/5RH7p1+fdiZxkwvvPC6ygb5InHSPPT0iJ2/hXirT2MXnGJ0/qT2Axab
-	 jaN+omHLMWPwQ==
-Date: Fri, 10 Jan 2025 08:50:19 -0800
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Alistair Popple <apopple@nvidia.com>
-Cc: akpm@linux-foundation.org, dan.j.williams@intel.com, linux-mm@kvack.org,
-	alison.schofield@intel.com, lina@asahilina.net,
-	zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
-	vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
-	bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca,
-	catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au,
-	npiggin@gmail.com, dave.hansen@linux.intel.com, ira.weiny@intel.com,
-	willy@infradead.org, tytso@mit.edu, linmiaohe@huawei.com,
-	david@redhat.com, peterx@redhat.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, nvdimm@lists.linux.dev,
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
-	jhubbard@nvidia.com, hch@lst.de, david@fromorbit.com,
-	chenhuacai@kernel.org, kernel@xen0n.name, loongarch@lists.linux.dev
-Subject: Re: [PATCH v6 07/26] fs/dax: Ensure all pages are idle prior to
- filesystem unmount
-Message-ID: <20250110165019.GK6156@frogsfrogsfrogs>
-References: <cover.11189864684e31260d1408779fac9db80122047b.1736488799.git-series.apopple@nvidia.com>
- <704662ae360abeb777ed00efc6f8f232a79ae4ff.1736488799.git-series.apopple@nvidia.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EH6PbA2u"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-467896541e1so296551cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 08:50:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1736527851; x=1737132651; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tJ3BBM8ln6ISkso43QvSblhvjQJh7nb5EsHUKP5H+LQ=;
+        b=EH6PbA2u7MkYzDpOpbUr9heIiHtYKSfMo7qTh/ckBFaePTMFsbdk6b50tPDQVEffAI
+         OrejV5JcRGwTBA/sLKPIncXjnndRqDvXHwUu/pZOjoSrxbGqTQsd06nX3taJ3T1IHe2P
+         94vVrAoXl6BuVXQs1NG2yJJFrm57na9PMsi44gW819cPo+wI+RYskz4ipxlTbtyNebJT
+         CKHPLWEDfRMkY6HK26Jg7MISDWI5IFeApPGtEbXJg6lCOEeiWCVh9wKOnyigViy1Z0EN
+         QFsnXd3YHqSMYEwv8unBIUk/AR8tY+3knJZm1sgZRbzxPLjiryfikOhhGduY1iUn/esE
+         e80Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736527851; x=1737132651;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tJ3BBM8ln6ISkso43QvSblhvjQJh7nb5EsHUKP5H+LQ=;
+        b=A7Fma5Q3Xoo7t71uB9fKMs4sUyyB3eDWaBwwraiOTRAr8kxGRNwPsfDb53O1HgXG19
+         +68YPUlPqg9KMzBIPATIjdyRd/eo5O6t4eD0RxFtN/D7pepIGKWTi2KLJkredhoiV7J6
+         SeZt+iEDedHzQ4I9Db0bh1CxY16VYrn18a9DuvJybsbqbLgzpPZOuJ09LIN20VJPd3kf
+         a2vZIVyRW4TQ6+gI/16RjcStRtUZRY5RvHZ2Xx1xLpKgRZo08gsffJzQsbbw+PBaAdAO
+         z1bCvpjIL/T7ZOD71/Xla9BXdFGxJTATqLHvQ1kg1tBh18ffdIZU9GonZBszWB5dXd1z
+         hUpw==
+X-Forwarded-Encrypted: i=1; AJvYcCU9z+IYG1SpOHCWUMceeWvjFwhCjxjMUXVPVdGwcNF8BuOQkQIAP4AqCUAyrWfpkUySQ4radkApvSU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YySIMPS/4Uweu1BhXvpPmyxXwRWnAVl7Abmn7tuJ9M4l3ieZFZP
+	rvkhcvA4sTWwy2x1Pm7Wo68KFlCPu5VWzMWakZXjObvLMnaPuUVWOGHYjmNSOs2NS7qYZkA+VTr
+	eCa4GRrIWsML8R1CA01WM5sklN3JUFHmln87R
+X-Gm-Gg: ASbGncvMvFNTOdHsoLo/F2v9YQtp9wSDeMzgfj85Y15R09b9zHDSXROlpLw+cQhuYBp
+	QLYDteDHbBIF5SXfoGqEPqzPNk28+pf4rWsvS1g==
+X-Google-Smtp-Source: AGHT+IEwVPU7ki8mes1OagoxZWTiyu4JoBUB/ovIA3aC1wGRPF/kCcQxbxtNLQXC4RzXdolyDc8NDx+b2yNJ5KmyAnE=
+X-Received: by 2002:ac8:7e8e:0:b0:460:4620:232b with SMTP id
+ d75a77b69052e-46c87f4a867mr3811261cf.28.1736527851056; Fri, 10 Jan 2025
+ 08:50:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <704662ae360abeb777ed00efc6f8f232a79ae4ff.1736488799.git-series.apopple@nvidia.com>
+References: <20250109023025.2242447-1-surenb@google.com> <20250109023025.2242447-12-surenb@google.com>
+ <95e9d80e-6c19-4a1f-9c21-307006858dff@suse.cz> <CAJuCfpH_=JRSXHDsw1QSYxUk6Q=gSH26_Fm0bqCmSKR-NqDj4Q@mail.gmail.com>
+ <CAJuCfpE+eza4eZ9Hckvuj2MarLwaXoTFTNtUdw375Ugo=dUfvg@mail.gmail.com>
+In-Reply-To: <CAJuCfpE+eza4eZ9Hckvuj2MarLwaXoTFTNtUdw375Ugo=dUfvg@mail.gmail.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Fri, 10 Jan 2025 08:50:40 -0800
+X-Gm-Features: AbW1kvawcsM6ilvgNUS6_fgR9__YcADp-x515-vZeNXJSxpO5E4zadNzEofPNUU
+Message-ID: <CAJuCfpEq5BpE6wb+cNi=UOZGKMr8ozxAtA0T1Eq49opnEWjvFw@mail.gmail.com>
+Subject: Re: [PATCH v8 11/16] mm: replace vm_lock and detached flag with a
+ reference count
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org, 
+	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, mhocko@suse.com, 
+	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
+	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
+	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
+	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
+	klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 10, 2025 at 05:00:35PM +1100, Alistair Popple wrote:
-> File systems call dax_break_mapping() prior to reallocating file
-> system blocks to ensure the page is not undergoing any DMA or other
-> accesses. Generally this is needed when a file is truncated to ensure
-> that if a block is reallocated nothing is writing to it. However
-> filesystems currently don't call this when an FS DAX inode is evicted.
-> 
-> This can cause problems when the file system is unmounted as a page
-> can continue to be under going DMA or other remote access after
-> unmount. This means if the file system is remounted any truncate or
-> other operation which requires the underlying file system block to be
-> freed will not wait for the remote access to complete. Therefore a
-> busy block may be reallocated to a new file leading to corruption.
-> 
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> 
-> ---
-> 
-> Changes for v5:
-> 
->  - Don't wait for pages to be idle in non-DAX mappings
-> ---
->  fs/dax.c            | 29 +++++++++++++++++++++++++++++
->  fs/ext4/inode.c     | 32 ++++++++++++++------------------
->  fs/xfs/xfs_inode.c  |  9 +++++++++
->  fs/xfs/xfs_inode.h  |  1 +
->  fs/xfs/xfs_super.c  | 18 ++++++++++++++++++
->  include/linux/dax.h |  2 ++
->  6 files changed, 73 insertions(+), 18 deletions(-)
-> 
-> diff --git a/fs/dax.c b/fs/dax.c
-> index 7008a73..4e49cc4 100644
-> --- a/fs/dax.c
-> +++ b/fs/dax.c
-> @@ -883,6 +883,14 @@ static int wait_page_idle(struct page *page,
->  				TASK_INTERRUPTIBLE, 0, 0, cb(inode));
->  }
->  
-> +static void wait_page_idle_uninterruptible(struct page *page,
-> +					void (cb)(struct inode *),
-> +					struct inode *inode)
-> +{
-> +	___wait_var_event(page, page_ref_count(page) == 1,
-> +			TASK_UNINTERRUPTIBLE, 0, 0, cb(inode));
-> +}
-> +
->  /*
->   * Unmaps the inode and waits for any DMA to complete prior to deleting the
->   * DAX mapping entries for the range.
-> @@ -911,6 +919,27 @@ int dax_break_mapping(struct inode *inode, loff_t start, loff_t end,
->  }
->  EXPORT_SYMBOL_GPL(dax_break_mapping);
->  
-> +void dax_break_mapping_uninterruptible(struct inode *inode,
-> +				void (cb)(struct inode *))
-> +{
-> +	struct page *page;
-> +
-> +	if (!dax_mapping(inode->i_mapping))
-> +		return;
-> +
-> +	do {
-> +		page = dax_layout_busy_page_range(inode->i_mapping, 0,
-> +						LLONG_MAX);
-> +		if (!page)
-> +			break;
-> +
-> +		wait_page_idle_uninterruptible(page, cb, inode);
-> +	} while (true);
-> +
-> +	dax_delete_mapping_range(inode->i_mapping, 0, LLONG_MAX);
-> +}
-> +EXPORT_SYMBOL_GPL(dax_break_mapping_uninterruptible);
-> +
->  /*
->   * Invalidate DAX entry if it is clean.
->   */
-> diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-> index ee8e83f..fa35161 100644
-> --- a/fs/ext4/inode.c
-> +++ b/fs/ext4/inode.c
-> @@ -163,6 +163,18 @@ int ext4_inode_is_fast_symlink(struct inode *inode)
->  	       (inode->i_size < EXT4_N_BLOCKS * 4);
->  }
->  
-> +static void ext4_wait_dax_page(struct inode *inode)
-> +{
-> +	filemap_invalidate_unlock(inode->i_mapping);
-> +	schedule();
-> +	filemap_invalidate_lock(inode->i_mapping);
-> +}
-> +
-> +int ext4_break_layouts(struct inode *inode)
-> +{
-> +	return dax_break_mapping_inode(inode, ext4_wait_dax_page);
-> +}
-> +
->  /*
->   * Called at the last iput() if i_nlink is zero.
->   */
-> @@ -181,6 +193,8 @@ void ext4_evict_inode(struct inode *inode)
->  
->  	trace_ext4_evict_inode(inode);
->  
-> +	dax_break_mapping_uninterruptible(inode, ext4_wait_dax_page);
-> +
->  	if (EXT4_I(inode)->i_flags & EXT4_EA_INODE_FL)
->  		ext4_evict_ea_inode(inode);
->  	if (inode->i_nlink) {
-> @@ -3902,24 +3916,6 @@ int ext4_update_disksize_before_punch(struct inode *inode, loff_t offset,
->  	return ret;
->  }
->  
-> -static void ext4_wait_dax_page(struct inode *inode)
-> -{
-> -	filemap_invalidate_unlock(inode->i_mapping);
-> -	schedule();
-> -	filemap_invalidate_lock(inode->i_mapping);
-> -}
-> -
-> -int ext4_break_layouts(struct inode *inode)
-> -{
-> -	struct page *page;
-> -	int error;
-> -
-> -	if (WARN_ON_ONCE(!rwsem_is_locked(&inode->i_mapping->invalidate_lock)))
-> -		return -EINVAL;
-> -
-> -	return dax_break_mapping_inode(inode, ext4_wait_dax_page);
-> -}
-> -
->  /*
->   * ext4_punch_hole: punches a hole in a file by releasing the blocks
->   * associated with the given offset and length
-> diff --git a/fs/xfs/xfs_inode.c b/fs/xfs/xfs_inode.c
-> index 4410b42..c7ec5ab 100644
-> --- a/fs/xfs/xfs_inode.c
-> +++ b/fs/xfs/xfs_inode.c
-> @@ -2997,6 +2997,15 @@ xfs_break_dax_layouts(
->  	return dax_break_mapping_inode(inode, xfs_wait_dax_page);
->  }
->  
-> +void
-> +xfs_break_dax_layouts_uninterruptible(
-> +	struct inode		*inode)
-> +{
-> +	xfs_assert_ilocked(XFS_I(inode), XFS_MMAPLOCK_EXCL);
-> +
-> +	dax_break_mapping_uninterruptible(inode, xfs_wait_dax_page);
-> +}
-> +
->  int
->  xfs_break_layouts(
->  	struct inode		*inode,
-> diff --git a/fs/xfs/xfs_inode.h b/fs/xfs/xfs_inode.h
-> index c4f03f6..613797a 100644
-> --- a/fs/xfs/xfs_inode.h
-> +++ b/fs/xfs/xfs_inode.h
-> @@ -594,6 +594,7 @@ xfs_itruncate_extents(
->  }
->  
->  int	xfs_break_dax_layouts(struct inode *inode);
-> +void xfs_break_dax_layouts_uninterruptible(struct inode *inode);
->  int	xfs_break_layouts(struct inode *inode, uint *iolock,
->  		enum layout_break_reason reason);
->  
-> diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
-> index 8524b9d..73ec060 100644
-> --- a/fs/xfs/xfs_super.c
-> +++ b/fs/xfs/xfs_super.c
-> @@ -751,6 +751,23 @@ xfs_fs_drop_inode(
->  	return generic_drop_inode(inode);
->  }
->  
-> +STATIC void
-> +xfs_fs_evict_inode(
-> +	struct inode		*inode)
-> +{
-> +	struct xfs_inode	*ip = XFS_I(inode);
-> +	uint			iolock = XFS_IOLOCK_EXCL | XFS_MMAPLOCK_EXCL;
-> +
-> +	if (IS_DAX(inode)) {
-> +		xfs_ilock(ip, iolock);
-> +		xfs_break_dax_layouts_uninterruptible(inode);
-> +		xfs_iunlock(ip, iolock);
+On Fri, Jan 10, 2025 at 8:47=E2=80=AFAM Suren Baghdasaryan <surenb@google.c=
+om> wrote:
+>
+> On Fri, Jan 10, 2025 at 7:56=E2=80=AFAM Suren Baghdasaryan <surenb@google=
+.com> wrote:
+> >
+> > On Fri, Jan 10, 2025 at 6:33=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz=
+> wrote:
+> > >
+> > > On 1/9/25 3:30 AM, Suren Baghdasaryan wrote:
+> > > > rw_semaphore is a sizable structure of 40 bytes and consumes
+> > > > considerable space for each vm_area_struct. However vma_lock has
+> > > > two important specifics which can be used to replace rw_semaphore
+> > > > with a simpler structure:
+> > > > 1. Readers never wait. They try to take the vma_lock and fall back =
+to
+> > > > mmap_lock if that fails.
+> > > > 2. Only one writer at a time will ever try to write-lock a vma_lock
+> > > > because writers first take mmap_lock in write mode.
+> > > > Because of these requirements, full rw_semaphore functionality is n=
+ot
+> > > > needed and we can replace rw_semaphore and the vma->detached flag w=
+ith
+> > > > a refcount (vm_refcnt).
+> > > > When vma is in detached state, vm_refcnt is 0 and only a call to
+> > > > vma_mark_attached() can take it out of this state. Note that unlike
+> > > > before, now we enforce both vma_mark_attached() and vma_mark_detach=
+ed()
+> > > > to be done only after vma has been write-locked. vma_mark_attached(=
+)
+> > > > changes vm_refcnt to 1 to indicate that it has been attached to the=
+ vma
+> > > > tree. When a reader takes read lock, it increments vm_refcnt, unles=
+s the
+> > > > top usable bit of vm_refcnt (0x40000000) is set, indicating presenc=
+e of
+> > > > a writer. When writer takes write lock, it sets the top usable bit =
+to
+> > > > indicate its presence. If there are readers, writer will wait using=
+ newly
+> > > > introduced mm->vma_writer_wait. Since all writers take mmap_lock in=
+ write
+> > > > mode first, there can be only one writer at a time. The last reader=
+ to
+> > > > release the lock will signal the writer to wake up.
+> > > > refcount might overflow if there are many competing readers, in whi=
+ch case
+> > > > read-locking will fail. Readers are expected to handle such failure=
+s.
+> > > > In summary:
+> > > > 1. all readers increment the vm_refcnt;
+> > > > 2. writer sets top usable (writer) bit of vm_refcnt;
+> > > > 3. readers cannot increment the vm_refcnt if the writer bit is set;
+> > > > 4. in the presence of readers, writer must wait for the vm_refcnt t=
+o drop
+> > > > to 1 (ignoring the writer bit), indicating an attached vma with no =
+readers;
+> > > > 5. vm_refcnt overflow is handled by the readers.
+> > > >
+> > > > Suggested-by: Peter Zijlstra <peterz@infradead.org>
+> > > > Suggested-by: Matthew Wilcox <willy@infradead.org>
+> > > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > >
+> > > Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+> > >
+> > > But think there's a problem that will manifest after patch 15.
+> > > Also I don't feel qualified enough about the lockdep parts though
+> > > (although I think I spotted another issue with those, below) so best =
+if
+> > > PeterZ can review those.
+> > > Some nits below too.
+> > >
+> > > > +
+> > > > +static inline void vma_refcount_put(struct vm_area_struct *vma)
+> > > > +{
+> > > > +     int oldcnt;
+> > > > +
+> > > > +     if (!__refcount_dec_and_test(&vma->vm_refcnt, &oldcnt)) {
+> > > > +             rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
+> > >
+> > > Shouldn't we rwsem_release always? And also shouldn't it precede the
+> > > refcount operation itself?
+> >
+> > Yes. Hillf pointed to the same issue. It will be fixed in the next vers=
+ion.
+> >
+> > >
+> > > > +             if (is_vma_writer_only(oldcnt - 1))
+> > > > +                     rcuwait_wake_up(&vma->vm_mm->vma_writer_wait)=
+;
+> > >
+> > > Hmm hmm we should maybe read the vm_mm pointer before dropping the
+> > > refcount? In case this races in a way that is_vma_writer_only tests t=
+rue
+> > > but the writer meanwhile finishes and frees the vma. It's safe now bu=
+t
+> > > not after making the cache SLAB_TYPESAFE_BY_RCU ?
+> >
+> > Hmm. But if is_vma_writer_only() is true that means the writed is
+> > blocked and is waiting for the reader to drop the vm_refcnt. IOW, it
+> > won't proceed and free the vma until the reader calls
+> > rcuwait_wake_up(). Your suggested change is trivial and I can do it
+> > but I want to make sure I'm not missing something. Am I?
+>
+> Ok, after thinking some more, I think the race you might be referring
+> to is this:
+>
+> writer                                           reader
+>
+>     __vma_enter_locked
+>         refcount_add_not_zero(VMA_LOCK_OFFSET, ...)
+>                                                     vma_refcount_put
+>                                                        __refcount_dec_and=
+_test()
+>                                                            if
+> (is_vma_writer_only())
+>         rcuwait_wait_event(&vma->vm_mm->vma_writer_wait, ...)
+>     __vma_exit_locked
+>         refcount_sub_and_test(VMA_LOCK_OFFSET, ...)
+>     free the vma
+>
+> rcuwait_wake_up(&vma->vm_mm->vma_writer_wait);
 
-If we're evicting the inode, why is it necessary to take i_rwsem and the
-mmap invalidation lock?  Shouldn't the evicting thread be the only one
-with access to this inode?
+Sorry, this should be more readable:
 
---D
+writer             reader
 
-> +	}
-> +
-> +	truncate_inode_pages_final(&inode->i_data);
-> +	clear_inode(inode);
-> +}
-> +
->  static void
->  xfs_mount_free(
->  	struct xfs_mount	*mp)
-> @@ -1189,6 +1206,7 @@ static const struct super_operations xfs_super_operations = {
->  	.destroy_inode		= xfs_fs_destroy_inode,
->  	.dirty_inode		= xfs_fs_dirty_inode,
->  	.drop_inode		= xfs_fs_drop_inode,
-> +	.evict_inode		= xfs_fs_evict_inode,
->  	.put_super		= xfs_fs_put_super,
->  	.sync_fs		= xfs_fs_sync_fs,
->  	.freeze_fs		= xfs_fs_freeze,
-> diff --git a/include/linux/dax.h b/include/linux/dax.h
-> index ef9e02c..7c3773f 100644
-> --- a/include/linux/dax.h
-> +++ b/include/linux/dax.h
-> @@ -274,6 +274,8 @@ static inline int __must_check dax_break_mapping_inode(struct inode *inode,
->  {
->  	return dax_break_mapping(inode, 0, LLONG_MAX, cb);
->  }
-> +void dax_break_mapping_uninterruptible(struct inode *inode,
-> +				void (cb)(struct inode *));
->  int dax_dedupe_file_range_compare(struct inode *src, loff_t srcoff,
->  				  struct inode *dest, loff_t destoff,
->  				  loff_t len, bool *is_same,
-> -- 
-> git-series 0.9.1
-> 
+__vma_enter_locked
+    refcount_add_not_zero(VMA_LOCK_OFFSET, ...)
+                   vma_refcount_put
+                       __refcount_dec_and_test()
+                           if (is_vma_writer_only())
+
+    rcuwait_wait_event()
+__vma_exit_locked
+    refcount_sub_and_test(VMA_LOCK_OFFSET, ...)
+free the vma
+
+                               rcuwait_wake_up(); <-- access to vma->vm_mm
+
+>
+> I think it's possible and your suggestion of storing the mm before
+> doing __refcount_dec_and_test() should work. Thanks for pointing this
+> out! I'll fix it in the next version.
+>
+> >
+> > >
+> > > > +     }
+> > > > +}
+> > > > +
+> > >
+> > > >  static inline void vma_end_read(struct vm_area_struct *vma)
+> > > >  {
+> > > >       rcu_read_lock(); /* keeps vma alive till the end of up_read *=
+/
+> > >
+> > > This should refer to vma_refcount_put(). But after fixing it I think =
+we
+> > > could stop doing this altogether? It will no longer keep vma "alive"
+> > > with SLAB_TYPESAFE_BY_RCU.
+> >
+> > Yeah, I think the comment along with rcu_read_lock()/rcu_read_unlock()
+> > here can be safely removed.
+> >
+> > >
+> > > > -     up_read(&vma->vm_lock.lock);
+> > > > +     vma_refcount_put(vma);
+> > > >       rcu_read_unlock();
+> > > >  }
+> > > >
+> > >
+> > > <snip>
+> > >
+> > > > --- a/mm/memory.c
+> > > > +++ b/mm/memory.c
+> > > > @@ -6370,9 +6370,41 @@ struct vm_area_struct *lock_mm_and_find_vma(=
+struct mm_struct *mm,
+> > > >  #endif
+> > > >
+> > > >  #ifdef CONFIG_PER_VMA_LOCK
+> > > > +static inline bool __vma_enter_locked(struct vm_area_struct *vma, =
+unsigned int tgt_refcnt)
+> > > > +{
+> > > > +     /*
+> > > > +      * If vma is detached then only vma_mark_attached() can raise=
+ the
+> > > > +      * vm_refcnt. mmap_write_lock prevents racing with vma_mark_a=
+ttached().
+> > > > +      */
+> > > > +     if (!refcount_add_not_zero(VMA_LOCK_OFFSET, &vma->vm_refcnt))
+> > > > +             return false;
+> > > > +
+> > > > +     rwsem_acquire(&vma->vmlock_dep_map, 0, 0, _RET_IP_);
+> > > > +     rcuwait_wait_event(&vma->vm_mm->vma_writer_wait,
+> > > > +                refcount_read(&vma->vm_refcnt) =3D=3D tgt_refcnt,
+> > > > +                TASK_UNINTERRUPTIBLE);
+> > > > +     lock_acquired(&vma->vmlock_dep_map, _RET_IP_);
+> > > > +
+> > > > +     return true;
+> > > > +}
+> > > > +
+> > > > +static inline void __vma_exit_locked(struct vm_area_struct *vma, b=
+ool *detached)
+> > > > +{
+> > > > +     *detached =3D refcount_sub_and_test(VMA_LOCK_OFFSET, &vma->vm=
+_refcnt);
+> > > > +     rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
+> > > > +}
+> > > > +
+> > > >  void __vma_start_write(struct vm_area_struct *vma, unsigned int mm=
+_lock_seq)
+> > > >  {
+> > > > -     down_write(&vma->vm_lock.lock);
+> > > > +     bool locked;
+> > > > +
+> > > > +     /*
+> > > > +      * __vma_enter_locked() returns false immediately if the vma =
+is not
+> > > > +      * attached, otherwise it waits until refcnt is (VMA_LOCK_OFF=
+SET + 1)
+> > > > +      * indicating that vma is attached with no readers.
+> > > > +      */
+> > > > +     locked =3D __vma_enter_locked(vma, VMA_LOCK_OFFSET + 1);
+> > >
+> > > Wonder if it would be slightly better if tgt_refcount was just 1 (or =
+0
+> > > below in vma_mark_detached()) and the VMA_LOCK_OFFSET added to it in
+> > > __vma_enter_locked() itself as it's the one adding it in the first pl=
+ace.
+> >
+> > Well, it won't be called tgt_refcount then. Maybe "bool vma_attached"
+> > and inside __vma_enter_locked() we do:
+> >
+> > unsigned int tgt_refcnt =3D VMA_LOCK_OFFSET + vma_attached ? 1 : 0;
+> >
+> > Is that better?
+> >
+> > >
