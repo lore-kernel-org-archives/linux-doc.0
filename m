@@ -1,151 +1,126 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670F720ADE9
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 12:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE57120B806;
+	Fri, 10 Jan 2025 12:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736511402; cv=none; b=rFT3Vg1VD6QiKSW4lJ8wDkYE0Pqz9ZmicqUm+9dG+gNGfUti66TRxzLhA1+WyOFFZaw/XMZLUoM/ABUI1gkZYybl9BHxaIk7P0bucrp0wqfJnWhKWdMXJliBvBHvJ8DUUYrST0EyRk2DdB/eYh14aMsbfAG+5ZmP7T0srVRjAuQ=
+	t=1736511437; cv=none; b=cLbAxOCPElXHF3NySvC1szhLupkqPin4t7XPpD2vqXyuCmVIhkUtFU8aMMOB8KoVXn1KLxuV8kWNSY5hLgOExawPODdktQ519A3uwDeuyCRcwLMLoccPX3fRw4UiAZbj/lHG5omm6fTMJm/W0mABCg8h4Mg6ypK3r/EM/WzuA6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736511402; c=relaxed/simple;
-	bh=GGOk9D+nunM4T0ya75OKBiLrbBFOemHDDh2uU6HnyHs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QiB/zTI6hUpfkMzR58FhFXhXJJ7Pf5C+1fbTaRYeILdK8gn5YogXRMK8B8/GvalTo3qKD133oA3cO3sGtRML41pkMqIPBcwua6ryc42WIL1XbnsoDc/EybSRsZR1DcmXvSgdyG9OL2WIXwSf6uxAkVx+LGzEh74S0yp8mcgeO0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gqstwN2g; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1736511437; c=relaxed/simple;
+	bh=pCaqy0TV70zpA2C9umleMdUaaugCzRAc7t3yONUx9G0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fLcn9RS9PUXfBB7xFaoEjIMCTxHyK4ho/1eh0f6kUD8Sl4HKb+CotLppRI1WEgG9GuXtfxYyKYja6cLg7zM6m2BW8gYHCnmHSB/JIj0X6ekAdWxPkdIBAl97qhB0rlCHwf0hwA+F8GeS5jbJYKTGOit2X4fYMQJVz0+PbwEyB0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f/IoV/wa; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gqstwN2g"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-30167f4c1e3so17266481fa.3
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 04:16:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736511398; x=1737116198; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dx6LfbWoOZVo4WZlNr29Yr02kRZ3p+X0xl0ciBlTxio=;
-        b=gqstwN2goIWjnQl6JTQ2rLF9l/WYOfYotrlBr+fQe+kOKP0NCkZi7107acw2ij06u0
-         cUKWMMhBIzxcugohZArlf8Gg329Qumspc0FQtlp5P14T67Gm29r00F9VoR/HG/ixHRLo
-         ePYsGEHnIVS+b6Efe+o4LMOzz3j2TdDrF6fdjuJg5B3nnZEzgS/NOvRaVp8y2VUeVcyj
-         QM42Ys0OE882T6rIWfrGffNHuHluCk8uA1+ikMRF4M8hsjrWP7rwetO/njVa+szf1eGR
-         jOC3ztv69yEG9sD9iXq2uW/OXDYJZ0EUKMXDRRWzg2A7MHQAdmOzMi2GFvQVy3wql1hV
-         EaCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736511398; x=1737116198;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dx6LfbWoOZVo4WZlNr29Yr02kRZ3p+X0xl0ciBlTxio=;
-        b=hBqcaNboyA4SOS7uPQY7+ec/oLyhDh3dPyu3Xin9S/fiu4xs+9J0Ie+Hdb4ViBfUMB
-         FrFmHZo/1skCxwPGJPLOU9hU/Bakb0BCgDZ/eDCk4FkdDCpYNXnaJT+mOXC+Qvip9hG9
-         k3UwTzM5Jk4bq/5Ej+SKelFTes3EfPKlT6wKf1b7lSEoF1qQrt/gi6V8rOJJHPFk2Mlg
-         VhjlPUtmSw9iz3/CZ8hHoXqG4L/tFA10NaRuNVV66w8lOpHrLOjO1MJz1OSh13fQUSzD
-         xHTqOU0XGTyE7k+bLKXjxB3j+kkkB/505jXI8Of+YnVCJGcbq/J/uQQmDeij8cBtx6Vv
-         cslA==
-X-Forwarded-Encrypted: i=1; AJvYcCU0QhJVHj+wXNv1OuU1PNkOcV91aDilW7KCTmDQI9GNfub2KojjteIPturo/r2JrPj1bZs6wxQ7dzU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrjBXfOu5aQLxvHmApiLJ5M/a83bn7iHmo7qyv1Wu1NNF4LSSK
-	noIHe72qsBZfqNDAjNFWph55qzWmY2IfJghWnJYjcqenw38jw4vEM4sM/gEru6BDJLV5qk6jqB3
-	Xm//XcYmoggEv7Vd5OCCAMZCRiYKel0Mfo1d6
-X-Gm-Gg: ASbGncu5QEioUB5/C3SQc7fNIi2aoY/tRPrCm+C0/GEySAVsOk0tXC3CFon1aaUFbSX
-	vLMoiQDfSAQU6A4Vo7czyDCSa13/G9WXLoTd/bvOaAkbL4BdUkWukb8ej3FbCOm2cmKdawa4=
-X-Google-Smtp-Source: AGHT+IGVz7X+fbBVIzBdInnx2bkV3sGGjpZi0hhX8DWvZ9b1BNEo4hsq0wEuqhU72LBjprO2Rqcz30cGAQVOyHHn4rc=
-X-Received: by 2002:a05:651c:19a6:b0:300:2464:c0c2 with SMTP id
- 38308e7fff4ca-305f453158amr29422851fa.8.1736511398361; Fri, 10 Jan 2025
- 04:16:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/IoV/wa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736511435; x=1768047435;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pCaqy0TV70zpA2C9umleMdUaaugCzRAc7t3yONUx9G0=;
+  b=f/IoV/waGLBz0/ULQ9Do3GIa8hBHmnuThcUE4li2q/l635JC07ozbmIU
+   Rjal9MqrQcLXjnwEfGsOmPmgaHynTXiYvuxrnC1SrhfnOnvw88CHFg71f
+   nQBXUMQk/UIbiXDi5VycNWlDkwOji4GuAeVmXbGShM0jcXFK24ngmFbaC
+   VNYjEZ2Sqwx+1S4kM67HkwbJNnQ4s4glvBHvNDzU+bsIOxKpQgmd4L8fp
+   //LAyXRZ7OpHCcuxjAoa9WUkcIHR4GcY+8MOK4ncM3jDmR0FsSki6/Ont
+   Oz/ykhBgjp7rKP7Gu1HLQsxEX4KApnd6meBhio25z+jkJvxIxT4e1SHDM
+   w==;
+X-CSE-ConnectionGUID: DOwkVXtzTHaGHz64/KUmEw==
+X-CSE-MsgGUID: 0ZuCgqWISfW82ERgpYznhQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="39619737"
+X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
+   d="scan'208";a="39619737"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 04:17:15 -0800
+X-CSE-ConnectionGUID: kC9N6R1QRfergmtgNji9Mw==
+X-CSE-MsgGUID: /b2WQs2yQ1ufe5UhGxwYRw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
+   d="scan'208";a="108722874"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 10 Jan 2025 04:17:11 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tWDwq-000JCl-0e;
+	Fri, 10 Jan 2025 12:17:08 +0000
+Date: Fri, 10 Jan 2025 20:16:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yoshihiro Furudera <fj5100bi@fujitsu.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 1/2] perf: Fujitsu: Add the Uncore MAC PMU driver
+Message-ID: <202501101956.vOyuZzUh-lkp@intel.com>
+References: <20250109054544.2342442-2-fj5100bi@fujitsu.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250110073056.2594638-1-quic_jiangenj@quicinc.com> <CANpmjNOg9=WbFpJQFQBOo1z_KuV7DKQTZB7=GfiYyvoam5Dm=w@mail.gmail.com>
-In-Reply-To: <CANpmjNOg9=WbFpJQFQBOo1z_KuV7DKQTZB7=GfiYyvoam5Dm=w@mail.gmail.com>
-From: Dmitry Vyukov <dvyukov@google.com>
-Date: Fri, 10 Jan 2025 13:16:27 +0100
-X-Gm-Features: AbW1kvYg6Yj75R_YQTMDFKYPIK4IFfqRlUkZXLVrw7rnxTU_BdbrBR450FQtMuY
-Message-ID: <CACT4Y+Zm5Vz1LL7m_BubwV=bMPgVjOVNpp12nDZRi5oesH47WA@mail.gmail.com>
-Subject: Re: [PATCH] kcov: add unique cover, edge, and cmp modes
-To: Marco Elver <elver@google.com>
-Cc: Joey Jiao <quic_jiangenj@quicinc.com>, andreyknvl@gmail.com, corbet@lwn.net, 
-	akpm@linux-foundation.org, gregkh@linuxfoundation.org, nogikh@google.com, 
-	pierre.gondois@arm.com, cmllamas@google.com, quic_zijuhu@quicinc.com, 
-	richard.weiyang@gmail.com, tglx@linutronix.de, arnd@arndb.de, 
-	catalin.marinas@arm.com, will@kernel.org, dennis@kernel.org, tj@kernel.org, 
-	cl@linux.com, ruanjinjie@huawei.com, colyli@suse.de, 
-	andriy.shevchenko@linux.intel.com, kernel@quicinc.com, 
-	quic_likaid@quicinc.com, kasan-dev@googlegroups.com, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250109054544.2342442-2-fj5100bi@fujitsu.com>
 
-On Fri, 10 Jan 2025 at 10:23, Marco Elver <elver@google.com> wrote:
-> > From: "Jiao, Joey" <quic_jiangenj@quicinc.com>
-> >
-> > The current design of KCOV risks frequent buffer overflows. To mitigate
-> > this, new modes are introduced: KCOV_TRACE_UNIQ_PC, KCOV_TRACE_UNIQ_EDGE,
-> > and KCOV_TRACE_UNIQ_CMP. These modes allow for the recording of unique
-> > PCs, edges, and comparison operands (CMP).
->
-> There ought to be a cover letter explaining the motivation for this,
-> and explaining why the new modes would help. Ultimately, what are you
-> using KCOV for where you encountered this problem?
->
-> > Key changes include:
-> > - KCOV_TRACE_UNIQ_[PC|EDGE] can be used together to replace KCOV_TRACE_PC.
-> > - KCOV_TRACE_UNIQ_CMP can be used to replace KCOV_TRACE_CMP mode.
-> > - Introduction of hashmaps to store unique coverage data.
-> > - Pre-allocated entries in kcov_map_init during KCOV_INIT_TRACE to avoid
-> >   performance issues with kmalloc.
-> > - New structs and functions for managing memory and unique coverage data.
-> > - Example program demonstrating the usage of the new modes.
->
-> This should be a patch series, carefully splitting each change into a
-> separate patch.
-> https://docs.kernel.org/process/submitting-patches.html#split-changes
->
-> > With the new hashmap and pre-alloced memory pool added, cover size can't
-> > be set to higher value like 1MB in KCOV_TRACE_PC or KCOV_TRACE_CMP modes
-> > in 2GB device with 8 procs, otherwise it causes frequent oom.
-> >
-> > For KCOV_TRACE_UNIQ_[PC|EDGE|CMP] modes, smaller cover size like 8KB can
-> > be used.
-> >
-> > Signed-off-by: Jiao, Joey <quic_jiangenj@quicinc.com>
->
-> As-is it's hard to review, and the motivation is unclear. A lot of
-> code was moved and changed, and reviewers need to understand why that
-> was done besides your brief explanation above.
->
-> Generally, KCOV has very tricky constraints, due to being callable
-> from any context, including NMI. This means adding new dependencies
-> need to be carefully reviewed. For one, we can see this in genalloc's
-> header:
->
-> > * The lockless operation only works if there is enough memory
-> > * available.  If new memory is added to the pool a lock has to be
-> > * still taken.  So any user relying on locklessness has to ensure
-> > * that sufficient memory is preallocated.
-> > *
-> > * The basic atomic operation of this allocator is cmpxchg on long.
-> > * On architectures that don't have NMI-safe cmpxchg implementation,
-> > * the allocator can NOT be used in NMI handler.  So code uses the
-> > * allocator in NMI handler should depend on
-> > * CONFIG_ARCH_HAVE_NMI_SAFE_CMPXCHG.
->
-> And you are calling gen_pool_alloc() from __sanitizer_cov_trace_pc.
-> Which means this implementation is likely broken on
-> !CONFIG_ARCH_HAVE_NMI_SAFE_CMPXCHG architectures (do we have
-> architectures like that, that support KCOV?).
->
-> There are probably other sharp corners due to the contexts KCOV can
-> run in, but would simply ask you to carefully reason about why each
-> new dependency is safe.
+Hi Yoshihiro,
 
-I am also concerned about the performance effect. Does it add a stack
-frame to __sanitizer_cov_trace_pc()? Please show disassm of the
-function before/after.
+kernel test robot noticed the following build errors:
 
-Also, I have concerns about interrupts and reentrancy. We are still
-getting some reentrant calls from interrupts (not all of them are
-filtered by in_task() check). I am afraid these complex hashmaps will
-corrupt.
+[auto build test ERROR on arm-perf/for-next/perf]
+[also build test ERROR on linus/master v6.13-rc6 next-20250110]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yoshihiro-Furudera/perf-Fujitsu-Add-the-Uncore-MAC-PMU-driver/20250109-135249
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git for-next/perf
+patch link:    https://lore.kernel.org/r/20250109054544.2342442-2-fj5100bi%40fujitsu.com
+patch subject: [PATCH v3 1/2] perf: Fujitsu: Add the Uncore MAC PMU driver
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20250110/202501101956.vOyuZzUh-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250110/202501101956.vOyuZzUh-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501101956.vOyuZzUh-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/perf/fujitsu_mac_pmu.c: In function 'fujitsu_mac_counter_start':
+>> drivers/perf/fujitsu_mac_pmu.c:41:31: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+      41 | #define EVSEL(__val)          FIELD_GET(MAC_EVTYPE_MASK, __val)
+         |                               ^~~~~~~~~
+   drivers/perf/fujitsu_mac_pmu.c:110:24: note: in expansion of macro 'EVSEL'
+     110 |         writeq_relaxed(EVSEL(event->attr.config), macpmu->regs + MAC_PM_EVTYPE(idx));
+         |                        ^~~~~
+
+
+vim +/FIELD_GET +41 drivers/perf/fujitsu_mac_pmu.c
+
+    39	
+    40	/* MAC_PM_EVTYPEx */
+  > 41	#define EVSEL(__val)          FIELD_GET(MAC_EVTYPE_MASK, __val)
+    42	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
