@@ -1,210 +1,254 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3EA9211A0E;
-	Fri, 10 Jan 2025 15:56:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0BC211700
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 15:57:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736524576; cv=none; b=cd+hk3bqGIbVh+jBRVEXezzyaIIbPiTjysA0FerZq4mYikzPjfUZsFaPaS2t1NiHq6Qdme0AHEY2akh2a0Siasv+dYcS5lU7TP/KOTY1tCsa9Ru1oFI41JbQkXzM6N6vXJKbBmkcu06QLYW9yiMVturY0UF1fZf9Z3wBLFZphso=
+	t=1736524623; cv=none; b=mdxTz0xty1IJWUMfQAyhuQiJHJf9phb1KINIv6VFFodjLzpv5aQQn5myZVowhrEdhpUHCv62BNTfxULAuqfGlSswiDSQpp+ZfgvZJ0UHI0gF3D7Gy+9BboFNK2avPDDfFD5IxsTCYKrgkowJhwdoxoUB5L+w1Olmxa3s8wyK3h0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736524576; c=relaxed/simple;
-	bh=ToQsmdXKWvCSr0BzBHqM+gitrOvjxQz7G5WKePtfSrM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=agme8UJCE65hzQDjeo9D080Yhb+9kMQX4Sw9gBJEzQDimm3txauJhL54L/aMwyTeVDQlHIlINZrrH0rWZ57SLBLiw8nhG7odjipoQyehYlqfu289ZJZqnW35tJFkJL3CeR8i2M3orv5kwORfO5ZVPrsmRWSQqAd/r8vLyW0lm3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lZxOX1LQ; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736524623; c=relaxed/simple;
+	bh=ZWQnE4V/sciRvQJHBIiopL/QJII+mb3qds15tD7SyeM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JzHNP3EAqBwcbVWDWlmyMTRhFJHFlO7ypEjoqOu1XmTDyr7yVW3cbEglcuSbk/gTKSH3TR3VPUmebpfIX8/aZvzZHeMp60l7vk7AelNqqMt4/GuhniFa5boWJTbqrDLfkG6EbgmuYXQfjke+LkHXSUFohlRCefwAc5KlGSFeWS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=o7iJ6nBE; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lZxOX1LQ"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21654fdd5daso36633505ad.1;
-        Fri, 10 Jan 2025 07:56:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="o7iJ6nBE"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-467896541e1so278811cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 07:57:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736524574; x=1737129374; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=LXdERwEI8Ur+tD6AM4wNZnNq7gIDWzgVayKNEYmnTHs=;
-        b=lZxOX1LQFFtw59TvOy8ei79313zve1hEJXSxHuzx4TewlEvOP/fX+D6PWgpoSBgu0T
-         d38fdyYZu8dPFEjuFcrAnXV0RFKf0+EzqS9CW/o0CxaZ5omCplgKY7LkIn/fRiuX7NWl
-         YxPl3qSKr7sLVq9B07QCT9z2OWDlIld5sPF6+W1XutVG5DQWQKeyrHE67TahMKSeZvAF
-         z2RUIM3rqEvoCbxmZl+z2bccHazw4owDzSA60QPegKD5D119DDEZ6/7zLQMEFHzUcdcz
-         rVO3//qsGrU8AOmni7ECgewbd35e/PiYr5n8eA8d/2xfKiGRMwExigH5ekFL/ey712mW
-         Z7RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736524574; x=1737129374;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1736524620; x=1737129420; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LXdERwEI8Ur+tD6AM4wNZnNq7gIDWzgVayKNEYmnTHs=;
-        b=KT01ljD0RFH1CjuokeWQCCPcg0bN4KNGN1iG8Qf07cPsftzoH/Fe99SxlXhXgKFga8
-         kd0rMGIYNeOZk4e3mq3/ip1UbHytZQHBoxxsWkPDKiUTYd+o8PxN0vxin95YQtoQH010
-         mMDF/DU0wmV9olh4nhoEX3QEsDR5TblKJwWpmNGvqruMYpoXzWE3Gi6/ugUktvcOGnE8
-         Nokh08AccdCxF3M6b/CNouSbiov/lpJoojMPqvpnkWVXmHGibxORMR9LFyyAnW8DIYih
-         OjdjhExjRAdKG+I6a8GbpgD6l4iIqhSvuCW/Bu/v7zNGZ/0WvgQobOi9waUpcLGfkMBh
-         JWfg==
-X-Forwarded-Encrypted: i=1; AJvYcCWQhjPTICIQCFtG5et989ov95+qD3MCSjpvY+EV//UUsRrU9NA6LeWvA5W/S4BVhnp/1Qk/+ZjZzQKC@vger.kernel.org, AJvYcCWguGeiqOqZMWW4phfLb6jtcesGshqOlGVE2k6jZ8m5S9wru2NaqSnSOWmuhemFnTDup/vI58wCceHwWHMw@vger.kernel.org, AJvYcCWlllIqO1I5+StCp4bth9zqZb2lZ0LtOOAYlAmqFR8TCrsSUcqNkXkUC0fW0QK3DThrIE/ihu/fY42N@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNYwKoGjF9EfM5pJFdm0PIjbdlB7XchhmNyxABUawBagfm9MCd
-	aWFiaw2lH5dg3EzXsStHeNn+ENy69GMjAafRzjMYZ8OkVCI5SZhIdilgeA==
-X-Gm-Gg: ASbGncslzwSbgaUgPFJTQmfvjDXyYuKNrqYVgt5Gtom5i8YeMMvlHsFUAI2teIgGtyq
-	smyCjatNUgv+mXxWnMOELvXmX6WFu+MNhrnpQRTRv7xCo1YMLIRp+QY/hcVwz9Myd1oIDxTHTc3
-	yADy0l0n2Lcn6HSSmPng7wekHSbuVI9w1c1FdNgiN2Ll+oXwbmRjezHGfWhmw1C+D1bCw5kzCGX
-	16g7p9wqPlD8p+rT2vwwxl3n20BqA6vVW8YoRGzsREX5XxsBbm1jd6uyyKqd2HjLsby6q1WkK99
-	dazghpm5T+9p5egwF39Qw7oiwTzGWw==
-X-Google-Smtp-Source: AGHT+IFbGN0UTfy48hBPWj2ftdGuYJ/F3oFaeWpbL2uK16+Id0qeNQwDjaX3vevSq0MczbEmX58BSQ==
-X-Received: by 2002:a05:6a00:2388:b0:728:e906:e466 with SMTP id d2e1a72fcca58-72d21ff5241mr16996813b3a.21.1736524574023;
-        Fri, 10 Jan 2025 07:56:14 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72d40548916sm1700480b3a.36.2025.01.10.07.56.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jan 2025 07:56:13 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <ba0e0e2b-01ba-4261-ace9-82485e1c253e@roeck-us.net>
-Date: Fri, 10 Jan 2025 07:56:11 -0800
+        bh=sgIuWlG0iYUIu/hJwevRd5bkgowBtO2Ectr/9l9FLrM=;
+        b=o7iJ6nBEjETWjiqVe+jwMpMDm9IA4bsxlNCU/KCd7Jj/Xowfu4lvK9TZZXEPwSexsQ
+         4/jVE/Y/4rtcXIHZJKj9mmIeW7362h2hWIlxUm+NCfvRpyWk4ZIEv4eVJ9NDIY5Yd9AY
+         y6BOldkiDaPqleJWzi+AclNJROfY6Om0BEAnCBLkGYl6Q1U9KOPR8vhHTnME5TDVdDvK
+         r6xiYmmapkOtilNA0FMocORO+fJryEdhEAcod2n+wQCR1R8a60E5DYwbUjpo3k/jyEZ+
+         sqmsWQWvlR5MSaHc/ZiAbnHPPiCeR3Xb1NK76yTOUpu978TmN8pG98f/hylc0fHmTmHJ
+         9O5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736524620; x=1737129420;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sgIuWlG0iYUIu/hJwevRd5bkgowBtO2Ectr/9l9FLrM=;
+        b=Z24uCUIaauG1z8NZbB+J+bS92/ELIA/C277yNkdsRrVdAPCfv0ujfMpTSCyXsy5SLY
+         4hCRXCoPRy1+vjCcTYxZyVlGTS+jHZHQfr/h/XuiNlt7XVdFime/zccopc+6k/bhPUaJ
+         tR/z4oE6sZFsKBTB/+dVy7HDulKqUG1bKLLWl+LZcYho98oC3hYvcJrN03hvGvAlS/cI
+         8ZaVWRIaJG4gYI2+dqIekqpAh/Abo2ht86dArNOUCvnJD+WUdwb8ATGGvk3/sjzTbSUM
+         yFGQ/pLCzTdLyO4Iy6PzPz0tBaUO5sxXt9HUFV0Vg8WCJcIHiyrhukxM9iqRNqFK1aoA
+         T1pg==
+X-Forwarded-Encrypted: i=1; AJvYcCVlWK9Wo6XZFZxSn3RhqFB7r+n67m4j3f6mnu4q/CXLTI4axpbf5v89ja0W9MWRrHwpMm6nUiEa9Sg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfcFvHpyrJeYBJB9940nQBb7rQDtSg77I95UIMjRu40Qj+u1nz
+	8EgnQALakRohE95WOQJL41pAasPsohEijEoNyVmcVZr9nf3BaD9sMMOnnVE1KIdr4Hd61+WKunS
+	3kcmQY5PNZtOY5mVmFHubjXyLZFAkgWYBNYd3
+X-Gm-Gg: ASbGncu9IZQRNAR5oSypY9xCkfpHk3G/TELLufqvH1rqwsL7LENVzQLodzC9uXdImHZ
+	d927ss5V23uU5h8q1jtli3OVPB8F8kzN+pUYmug==
+X-Google-Smtp-Source: AGHT+IGLb2CAeqiZD/8GbTG1MnBA0ktLsQb5WmpcoG2ySAzx/iBiB28LB/q5DMRnDRzipnuqZH4XzPnlVHDk4mlp/44=
+X-Received: by 2002:ac8:5dcb:0:b0:460:463d:78dd with SMTP id
+ d75a77b69052e-46c87e0774bmr3897261cf.4.1736524620163; Fri, 10 Jan 2025
+ 07:57:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/2] hwmon: (lm90): Add support for NCT7716, NCT7717
- and NCT7718
-To: Ming Yu <a0282524688@gmail.com>, tmyu0@nuvoton.com, jdelvare@suse.com,
- corbet@lwn.net, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20250110082612.4107571-1-a0282524688@gmail.com>
- <20250110082612.4107571-2-a0282524688@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20250110082612.4107571-2-a0282524688@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250109023025.2242447-1-surenb@google.com> <20250109023025.2242447-12-surenb@google.com>
+ <95e9d80e-6c19-4a1f-9c21-307006858dff@suse.cz>
+In-Reply-To: <95e9d80e-6c19-4a1f-9c21-307006858dff@suse.cz>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Fri, 10 Jan 2025 07:56:49 -0800
+X-Gm-Features: AbW1kvavpdXYE4--jH1sVL17CixKdlsI4s7MECSReNY6bDKG9VehthZoGzAjGbU
+Message-ID: <CAJuCfpH_=JRSXHDsw1QSYxUk6Q=gSH26_Fm0bqCmSKR-NqDj4Q@mail.gmail.com>
+Subject: Re: [PATCH v8 11/16] mm: replace vm_lock and detached flag with a
+ reference count
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org, 
+	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, mhocko@suse.com, 
+	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
+	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
+	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
+	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
+	klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 1/10/25 00:26, Ming Yu wrote:
-...
-> @@ -2288,7 +2329,19 @@ static const char *lm90_detect_nuvoton(struct i2c_client *client, int chip_id,
->   	if (config2 < 0)
->   		return NULL;
->   
-> -	if (address == 0x4c && !(config1 & 0x2a) && !(config2 & 0xf8)) {
-> +	if (address == 0x48 && !(config1 & 0x30) && !(config2 & 0xfe) &&
+On Fri, Jan 10, 2025 at 6:33=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
+ote:
+>
+> On 1/9/25 3:30 AM, Suren Baghdasaryan wrote:
+> > rw_semaphore is a sizable structure of 40 bytes and consumes
+> > considerable space for each vm_area_struct. However vma_lock has
+> > two important specifics which can be used to replace rw_semaphore
+> > with a simpler structure:
+> > 1. Readers never wait. They try to take the vma_lock and fall back to
+> > mmap_lock if that fails.
+> > 2. Only one writer at a time will ever try to write-lock a vma_lock
+> > because writers first take mmap_lock in write mode.
+> > Because of these requirements, full rw_semaphore functionality is not
+> > needed and we can replace rw_semaphore and the vma->detached flag with
+> > a refcount (vm_refcnt).
+> > When vma is in detached state, vm_refcnt is 0 and only a call to
+> > vma_mark_attached() can take it out of this state. Note that unlike
+> > before, now we enforce both vma_mark_attached() and vma_mark_detached()
+> > to be done only after vma has been write-locked. vma_mark_attached()
+> > changes vm_refcnt to 1 to indicate that it has been attached to the vma
+> > tree. When a reader takes read lock, it increments vm_refcnt, unless th=
+e
+> > top usable bit of vm_refcnt (0x40000000) is set, indicating presence of
+> > a writer. When writer takes write lock, it sets the top usable bit to
+> > indicate its presence. If there are readers, writer will wait using new=
+ly
+> > introduced mm->vma_writer_wait. Since all writers take mmap_lock in wri=
+te
+> > mode first, there can be only one writer at a time. The last reader to
+> > release the lock will signal the writer to wake up.
+> > refcount might overflow if there are many competing readers, in which c=
+ase
+> > read-locking will fail. Readers are expected to handle such failures.
+> > In summary:
+> > 1. all readers increment the vm_refcnt;
+> > 2. writer sets top usable (writer) bit of vm_refcnt;
+> > 3. readers cannot increment the vm_refcnt if the writer bit is set;
+> > 4. in the presence of readers, writer must wait for the vm_refcnt to dr=
+op
+> > to 1 (ignoring the writer bit), indicating an attached vma with no read=
+ers;
+> > 5. vm_refcnt overflow is handled by the readers.
+> >
+> > Suggested-by: Peter Zijlstra <peterz@infradead.org>
+> > Suggested-by: Matthew Wilcox <willy@infradead.org>
+> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+>
+> Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+>
+> But think there's a problem that will manifest after patch 15.
+> Also I don't feel qualified enough about the lockdep parts though
+> (although I think I spotted another issue with those, below) so best if
+> PeterZ can review those.
+> Some nits below too.
+>
+> > +
+> > +static inline void vma_refcount_put(struct vm_area_struct *vma)
+> > +{
+> > +     int oldcnt;
+> > +
+> > +     if (!__refcount_dec_and_test(&vma->vm_refcnt, &oldcnt)) {
+> > +             rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
+>
+> Shouldn't we rwsem_release always? And also shouldn't it precede the
+> refcount operation itself?
 
-Why config1 & 0x30 (instead of 0x3e) ?
+Yes. Hillf pointed to the same issue. It will be fixed in the next version.
 
-> +	    convrate <= 0x08) {
-> +		if (chip_id == 0x90)
-> +			name = "nct7717";
-> +		else if (chip_id == 0x91)
-> +			name = "nct7716";
-> +	} else if (address == 0x49 && !(config1 & 0x30) && !(config2 & 0xfe) &&
-> +		   convrate <= 0x08) {
-> +		name = "nct7716";
+>
+> > +             if (is_vma_writer_only(oldcnt - 1))
+> > +                     rcuwait_wake_up(&vma->vm_mm->vma_writer_wait);
+>
+> Hmm hmm we should maybe read the vm_mm pointer before dropping the
+> refcount? In case this races in a way that is_vma_writer_only tests true
+> but the writer meanwhile finishes and frees the vma. It's safe now but
+> not after making the cache SLAB_TYPESAFE_BY_RCU ?
 
-Please also check the chip ID, and the other unused configuration register bits.
+Hmm. But if is_vma_writer_only() is true that means the writed is
+blocked and is waiting for the reader to drop the vm_refcnt. IOW, it
+won't proceed and free the vma until the reader calls
+rcuwait_wake_up(). Your suggested change is trivial and I can do it
+but I want to make sure I'm not missing something. Am I?
 
-> +	} else if (address == 0x4c && !(config1 & 0x18) && !(config2 & 0xf8) &&
-> +		   convrate <= 0x08) {
-> +		name = "nct7718";
+>
+> > +     }
+> > +}
+> > +
+>
+> >  static inline void vma_end_read(struct vm_area_struct *vma)
+> >  {
+> >       rcu_read_lock(); /* keeps vma alive till the end of up_read */
+>
+> This should refer to vma_refcount_put(). But after fixing it I think we
+> could stop doing this altogether? It will no longer keep vma "alive"
+> with SLAB_TYPESAFE_BY_RCU.
 
-Please also check the chip ID (0x90 according to the datasheet). Why not check bit 5
-of config1 ?
+Yeah, I think the comment along with rcu_read_lock()/rcu_read_unlock()
+here can be safely removed.
 
-If there is a reason for not checking the reserved configuration register bits,
-please add a comment to the code explaining the reason.
+>
+> > -     up_read(&vma->vm_lock.lock);
+> > +     vma_refcount_put(vma);
+> >       rcu_read_unlock();
+> >  }
+> >
+>
+> <snip>
+>
+> > --- a/mm/memory.c
+> > +++ b/mm/memory.c
+> > @@ -6370,9 +6370,41 @@ struct vm_area_struct *lock_mm_and_find_vma(stru=
+ct mm_struct *mm,
+> >  #endif
+> >
+> >  #ifdef CONFIG_PER_VMA_LOCK
+> > +static inline bool __vma_enter_locked(struct vm_area_struct *vma, unsi=
+gned int tgt_refcnt)
+> > +{
+> > +     /*
+> > +      * If vma is detached then only vma_mark_attached() can raise the
+> > +      * vm_refcnt. mmap_write_lock prevents racing with vma_mark_attac=
+hed().
+> > +      */
+> > +     if (!refcount_add_not_zero(VMA_LOCK_OFFSET, &vma->vm_refcnt))
+> > +             return false;
+> > +
+> > +     rwsem_acquire(&vma->vmlock_dep_map, 0, 0, _RET_IP_);
+> > +     rcuwait_wait_event(&vma->vm_mm->vma_writer_wait,
+> > +                refcount_read(&vma->vm_refcnt) =3D=3D tgt_refcnt,
+> > +                TASK_UNINTERRUPTIBLE);
+> > +     lock_acquired(&vma->vmlock_dep_map, _RET_IP_);
+> > +
+> > +     return true;
+> > +}
+> > +
+> > +static inline void __vma_exit_locked(struct vm_area_struct *vma, bool =
+*detached)
+> > +{
+> > +     *detached =3D refcount_sub_and_test(VMA_LOCK_OFFSET, &vma->vm_ref=
+cnt);
+> > +     rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
+> > +}
+> > +
+> >  void __vma_start_write(struct vm_area_struct *vma, unsigned int mm_loc=
+k_seq)
+> >  {
+> > -     down_write(&vma->vm_lock.lock);
+> > +     bool locked;
+> > +
+> > +     /*
+> > +      * __vma_enter_locked() returns false immediately if the vma is n=
+ot
+> > +      * attached, otherwise it waits until refcnt is (VMA_LOCK_OFFSET =
++ 1)
+> > +      * indicating that vma is attached with no readers.
+> > +      */
+> > +     locked =3D __vma_enter_locked(vma, VMA_LOCK_OFFSET + 1);
+>
+> Wonder if it would be slightly better if tgt_refcount was just 1 (or 0
+> below in vma_mark_detached()) and the VMA_LOCK_OFFSET added to it in
+> __vma_enter_locked() itself as it's the one adding it in the first place.
 
-> +	} else if (address == 0x4c && !(config1 & 0x2a) && !(config2 & 0xf8)) {
->   		if (chip_id == 0x01 && convrate <= 0x09) {
->   			/* W83L771W/G */
->   			name = "w83l771";
-> @@ -2297,6 +2350,7 @@ static const char *lm90_detect_nuvoton(struct i2c_client *client, int chip_id,
->   			name = "w83l771";
->   		}
->   	}
-> +
->   	return name;
->   }
->   
-> @@ -2484,6 +2538,10 @@ static int lm90_detect(struct i2c_client *client, struct i2c_board_info *info)
->   		name = lm90_detect_maxim(client, common_address, chip_id,
->   					 config1, convrate);
->   		break;
-> +	case 0x50:	/* Nuvoton */
-> +	case 0x5c:	/* Winbond/Nuvoton */
+Well, it won't be called tgt_refcount then. Maybe "bool vma_attached"
+and inside __vma_enter_locked() we do:
 
-The new detection code should be implemented as separate function to avoid
-weakening the detection mechanism. I would suggest to rename the current
-lm90_detect_nuvoton() to lm90_detect_winbond() and introduce a new
-lm90_detect_nuvoton(). Alternatively, add something like lm90_detect_nuvoton_50().
+unsigned int tgt_refcnt =3D VMA_LOCK_OFFSET + vma_attached ? 1 : 0;
 
-Given that all new chips have a chip ID register (called device ID), I would suggest
-to arrange the new code around the chip IDs. Since all chips have another chip ID
-register at address 0xfd, it would make sense to check that register as well.
-That would only require a single check since it looks like the value is the same
-for all chips. Something like
+Is that better?
 
-	int chid = i2c_smbus_read_byte_data(client, 0xfd);
-	...
-
-	if (chid < 0 || config2 < 0)
-		return NULL;
-
-	if (chid != 0x50 || convrate > 0x08)
-		return NULL;
-
-	switch (chip_id) {
-	case 0x90:
-		...
-	case 0x91:
-		...
-	default:
-		...
-	}
-
-Thanks,
-Guenter
-
+>
