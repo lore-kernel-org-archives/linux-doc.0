@@ -1,65 +1,120 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECA41ADFE4;
-	Fri, 10 Jan 2025 08:36:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B611FF7DA;
+	Fri, 10 Jan 2025 08:41:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736498215; cv=none; b=mTpWLF9S9exCbO+iA9nesQSpFgBMlw9Sqnc7XuUGhTCYg0FY2vOA8Jw8+jmmokokuxwtJYwwLYhrRgt5w7DfCvXx7qndxDKSEavt/ZFw4bBSF/6P07rdUOfDHQZdOnHpRF/5oG0VD7holRzE7aQvQhhFjotL2ITkeHZrQQSPSyw=
+	t=1736498480; cv=none; b=f9UIDezlijvHBYVKVCO/Oy12DrD2GpBaTsleOKCpC+EshrBbhCtyZUCYbP/cpirzatlkKXa51jRfih1mbYrNGrOoSqVBOsfGnTwMgiAni9OHBs29wRM4j6FEG2kq8L+6GWeH8N5KF9vVVksUW0t+gwoAgDCOys77UFwMtHgxKnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736498215; c=relaxed/simple;
-	bh=0nMT0czq+QV+lXjsmvxpiof08d2/4souiJ7M7uwZ/n8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZKh1GNN94iXzwzdoHZGI8Dm5W0p2SQJ3OVroqXPG3U6IAdkUR0RlzMPbcG+Olq3ahuFIs+8x9bwK+E/PqJsUEel4k9a/KkNloDyZO9g2i9cYQB5Pm1DluGdoQjoqG2xRCGWcOznNrFuIFxVHTvjKzfhkN5IyjFq9CeJvoTiZipQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o/PNZKYm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736498480; c=relaxed/simple;
+	bh=fote5o0Oj9WeGqML9lH+CluM630gf4KooiiwUL4DwAI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tWVowy4c6gswmRQSioUBzGkmysrtPMGTdzQzUQJmxXcVrxX50iDDEKJZpMLGIZcvKpB+rtnZdso1DA7fPePSsySSOy0jtfIA+/qHYGN0SH5zc8yXWFOQzRvrOjxBkCDXYd/WW0uxm976SEQNFJbNGRH0jyBkdEjomc0FDKG6pSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=z7VT/eob; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o/PNZKYm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9578C4CED6;
-	Fri, 10 Jan 2025 08:36:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736498214;
-	bh=0nMT0czq+QV+lXjsmvxpiof08d2/4souiJ7M7uwZ/n8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=o/PNZKYmapZ7llWPrBIMtFlpQPrbTWVJYreddZCqh7DQKJxjgLPwtezbSlqf1JPIT
-	 ajmIkNWl34cECKLsduqh7lM135O/eWTmrKcgP7/j7blV6sChTEIgQKa1OJMtmWQ7oo
-	 5mIf5XwIPG7m4iJ63LQIa5/hhW6cEuNDnnVnTwtAkoDOtV49SqKZ5QgKiKEHsmQTz+
-	 TngccmEH6UAkvNiQQDqxx9Sb6YDOrMX3ET7Fu3pd+2/KgP6E3GLRxf0fSv3jQNWrdc
-	 vW/9FsCPYxhJorBeMKJ6zEuTEV4lALmo0MdnXdXrLwav7lE/602s9/q3tHRP2yWAgF
-	 igTs6DjfBpUNA==
-Date: Fri, 10 Jan 2025 09:36:51 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Leo Yang <leo.yang.sy0@gmail.com>
-Cc: jdelvare@suse.com, linux@roeck-us.net, robh@kernel.org, 
-	davem@davemloft.net, krzk+dt@kernel.org, conor+dt@kernel.org, Leo-Yang@quantatw.com, 
-	corbet@lwn.net, Delphine_CC_Chiu@wiwynn.com, linux-hwmon@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: ti,ina2xx: Add INA233 device
-Message-ID: <pmg3xfdr2tu4yaed5hmi3ttj43gqmgzguckbfonr24o6l33pem@nfuxw3cbkzt2>
-References: <20250110081546.61667-1-Leo-Yang@quantatw.com>
- <20250110081546.61667-2-Leo-Yang@quantatw.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="z7VT/eob"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F204C4CED6;
+	Fri, 10 Jan 2025 08:41:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1736498479;
+	bh=fote5o0Oj9WeGqML9lH+CluM630gf4KooiiwUL4DwAI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=z7VT/eobJrtDIfsonQk9q0dsRF1S9VuWJHXzUq4jeL/UZtw80LPZ5zYNGJ6vc97Pe
+	 y0hQOY7/M4WON0jNmRnhxtCbng3AFaFI5tu/XcJfH3eJ/mhGnGkM4qjInmSiN/EubQ
+	 XvIm4jlxAlUohITJRzPMppa7amWv1SKcenvzwxL4=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greg@wind.rmcc.com,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>
+Subject: [PATCH] Documentation: bug-hunting.rst: remove odd contact information
+Date: Fri, 10 Jan 2025 09:41:01 +0100
+Message-ID: <2025011005-resistant-uncork-9814@gregkh>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250110081546.61667-2-Leo-Yang@quantatw.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3416; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=fote5o0Oj9WeGqML9lH+CluM630gf4KooiiwUL4DwAI=; b=owGbwMvMwCRo6H6F97bub03G02pJDOkNd5VSXYzkBKbfnrfx3X92v4azmguF46Q6jrzMujdnx qoNpfded8SwMAgyMciKKbJ82cZzdH/FIUUvQ9vTMHNYmUCGMHBxCsBEbIQY5lfuqWiaoP9J7tqS rfrZvXxHvuQI8DNMdyxI+SG600D21N/T8Ypvn/prdNQDAA==
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 10, 2025 at 04:15:45PM +0800, Leo Yang wrote:
-> Add TI INA233 Current and Power Monitor bindings.
-> 
-> Signed-off-by: Leo Yang <Leo-Yang@quantatw.com>
+At the bottom of the bug-hunting.rst file there is a "signature" which
+doesn't seem to make much sense.  It seems to predate git, and perhaps
+was from an earlier bug report that got copied into the document, but
+now makes no sense so remove it.
 
-Also, SoB does not match From.
+Cc: <greg@wind.rmcc.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Alex Shi <alexs@kernel.org>
+Cc: Yanteng Si <si.yanteng@linux.dev>
+Cc: Hu Haowen <2023002089@link.tyut.edu.cn>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ Documentation/admin-guide/bug-hunting.rst              |  9 ---------
+ .../translations/zh_CN/admin-guide/bug-hunting.rst     |  9 ---------
+ .../translations/zh_TW/admin-guide/bug-hunting.rst     | 10 ----------
+ 3 files changed, 28 deletions(-)
 
-Please run scripts/checkpatch.pl and fix reported warnings. After that,
-run also 'scripts/checkpatch.pl --strict' and (probably) fix more
-warnings. Some warnings can be ignored, especially from --strict run,
-but the code here looks like it needs a fix. Feel free to get in touch
-if the warning is not clear.
-
-Best regards,
-Krzysztof
+diff --git a/Documentation/admin-guide/bug-hunting.rst b/Documentation/admin-guide/bug-hunting.rst
+index 1d0f8ceb3075..ce6f4e8ca487 100644
+--- a/Documentation/admin-guide/bug-hunting.rst
++++ b/Documentation/admin-guide/bug-hunting.rst
+@@ -368,12 +368,3 @@ processed by ``klogd``::
+ 	Aug 29 09:51:01 blizard kernel: Call Trace: [oops:_oops_ioctl+48/80] [_sys_ioctl+254/272] [_system_call+82/128]
+ 	Aug 29 09:51:01 blizard kernel: Code: c7 00 05 00 00 00 eb 08 90 90 90 90 90 90 90 90 89 ec 5d c3
+ 
+----------------------------------------------------------------------------
+-
+-::
+-
+-  Dr. G.W. Wettstein           Oncology Research Div. Computing Facility
+-  Roger Maris Cancer Center    INTERNET: greg@wind.rmcc.com
+-  820 4th St. N.
+-  Fargo, ND  58122
+-  Phone: 701-234-7556
+diff --git a/Documentation/translations/zh_CN/admin-guide/bug-hunting.rst b/Documentation/translations/zh_CN/admin-guide/bug-hunting.rst
+index decb9b26d2f1..c3f6a83294dc 100644
+--- a/Documentation/translations/zh_CN/admin-guide/bug-hunting.rst
++++ b/Documentation/translations/zh_CN/admin-guide/bug-hunting.rst
+@@ -329,12 +329,3 @@ sysklogd发行版附带了一个补丁，它修改了 ``modules-2.0.0`` 包，
+ 	Aug 29 09:51:01 blizard kernel: Call Trace: [oops:_oops_ioctl+48/80] [_sys_ioctl+254/272] [_system_call+82/128]
+ 	Aug 29 09:51:01 blizard kernel: Code: c7 00 05 00 00 00 eb 08 90 90 90 90 90 90 90 90 89 ec 5d c3
+ 
+----------------------------------------------------------------------------
+-
+-::
+-
+-  Dr. G.W. Wettstein           Oncology Research Div. Computing Facility
+-  Roger Maris Cancer Center    INTERNET: greg@wind.rmcc.com
+-  820 4th St. N.
+-  Fargo, ND  58122
+-  Phone: 701-234-7556
+diff --git a/Documentation/translations/zh_TW/admin-guide/bug-hunting.rst b/Documentation/translations/zh_TW/admin-guide/bug-hunting.rst
+index c139ec99cab1..b25ecc44d735 100644
+--- a/Documentation/translations/zh_TW/admin-guide/bug-hunting.rst
++++ b/Documentation/translations/zh_TW/admin-guide/bug-hunting.rst
+@@ -332,13 +332,3 @@ sysklogd發行版附帶了一個補丁，它修改了 ``modules-2.0.0`` 包，
+ 	Aug 29 09:51:01 blizard kernel: Call Trace: [oops:_oops_ioctl+48/80] [_sys_ioctl+254/272] [_system_call+82/128]
+ 	Aug 29 09:51:01 blizard kernel: Code: c7 00 05 00 00 00 eb 08 90 90 90 90 90 90 90 90 89 ec 5d c3
+ 
+----------------------------------------------------------------------------
+-
+-::
+-
+-  Dr. G.W. Wettstein           Oncology Research Div. Computing Facility
+-  Roger Maris Cancer Center    INTERNET: greg@wind.rmcc.com
+-  820 4th St. N.
+-  Fargo, ND  58122
+-  Phone: 701-234-7556
+-
+-- 
+2.47.1
 
