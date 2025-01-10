@@ -1,126 +1,95 @@
-Received: from esa10.hc1455-7.c3s2.iphmx.com (esa10.hc1455-7.c3s2.iphmx.com [139.138.36.225])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 898DC20D4F7;
-	Fri, 10 Jan 2025 12:29:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.138.36.225
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97DE220D4E1;
+	Fri, 10 Jan 2025 12:32:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736512175; cv=none; b=M8YRKhjGoUkugSrL164KTGi9EQfss5ScCSnCDMiiIRW5Zh94HnDrm2A3dJwWGP4DhYmwpb+bJ7KqfznK86kL02A7WDKgB2Gu4dRQsJwg2Ahw+VOKf/fN80KKgQC29osgWZPVbjRA9BQsjmmDJj+IA5GZLNqQq5f3yyyxu0N01A0=
+	t=1736512348; cv=none; b=Ih9Lu+/6SK0LaneDUIWGOnYSaPai8kNPf8m9W+5v18S5D7HjRl1Q0znz5kPWvDHC5jPnD6Jag6Ibfr/6WahYGDkydvHMZ8SaTrXVhai5ByXlxLOTU67VlFtKIs4g39zXPZPkyKkEq6+c9PMTO+hyr9rEHRLqES5QgjF5NURLb8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736512175; c=relaxed/simple;
-	bh=lCOchsCcSRvNCiXrD4uJhCOB3/weni28KEmIqfS0Lt8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e1hVUYQvNGNO3/+/OIBy4ngvIZwTTRjJ6r9/Su8tnF51JlPFSqtRJe11EMRFsSKdxTW5o45xVowesxDG45O5NhrSLpYvJWQVdrmMRnHe5alHLZtwu3arrAT79vfYqx4Ft2OzSL8mEVQ1Cm/u+Huy53ax0SpuPIQ9ul9yLQs1s3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=KTkpg0zT; arc=none smtp.client-ip=139.138.36.225
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
+	s=arc-20240116; t=1736512348; c=relaxed/simple;
+	bh=bjvVQlcM4bFSsPXE11EEKQs+RuZA4XgPeYuFOqI3bz0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JgMGX83anGcoW3+p0wYX+PC0onBdTXwKYdhlFxL0RwQLr8N3q99/gWkhXnepilNEr8PHOQpXPVT9+KuckdCNhzrzMqFOYqYkJe0KyQhjkIDpk1v73ebhRApR3Q9mp1iUYKOV48HnT+ufvgB3sXAKcjJRAkQiGNVWFG65tWZtAoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=k5qK/XC/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="KTkpg0zT"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1736512173; x=1768048173;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=lCOchsCcSRvNCiXrD4uJhCOB3/weni28KEmIqfS0Lt8=;
-  b=KTkpg0zTl2AgVVeBBJNNX/wJYT1hSwalOr7CloM8CzL6VVZGSYI8tjk0
-   7x005zlw4grwWLcZtfASepQXFpTbJSPJGi4tUVlPL8Trtbl0TOwR1fQbe
-   NmF0gnK90qb3kYQ4lJXefIAuW3vnLNpMvKMuKtW+6rkHVA9l5ef99C0nO
-   Pny0TQbVVaF18gXDLhyCKxHbdA6NRYITs/wWwvufok1BL0XB6rvjnma1L
-   x4WHIZOmd9VdmU2y8rGJJIy0V/JhVjjQacT/PUj2UnDbeegZ9XCX0JgKa
-   ve7qVxw8UgYJg7uzNn2jkNB/eVutLPozFi8xjWXsgRGvh6pNIzABUyI4O
-   g==;
-X-CSE-ConnectionGUID: We2fsczjTfmHAkkBSJQHvw==
-X-CSE-MsgGUID: ayCZOc63TRqbu2HhM+385g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="173535461"
-X-IronPort-AV: E=Sophos;i="6.12,303,1728918000"; 
-   d="scan'208";a="173535461"
-Received: from unknown (HELO yto-r1.gw.nic.fujitsu.com) ([218.44.52.217])
-  by esa10.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 21:29:24 +0900
-Received: from yto-m3.gw.nic.fujitsu.com (yto-nat-yto-m3.gw.nic.fujitsu.com [192.168.83.66])
-	by yto-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 1D9ECD6EA9;
-	Fri, 10 Jan 2025 21:29:23 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by yto-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id E01D610362;
-	Fri, 10 Jan 2025 21:29:22 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 6D7E1202C3CBB;
-	Fri, 10 Jan 2025 21:29:22 +0900 (JST)
-Received: from iaas-rdma.. (unknown [10.167.135.44])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 69ADB1A000B;
-	Fri, 10 Jan 2025 20:29:21 +0800 (CST)
-From: Li Zhijian <lizhijian@fujitsu.com>
-To: linux-doc@vger.kernel.org
-Cc: Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	mkoutny@suse.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	cgroups@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Li Zhijian <lizhijian@fujitsu.com>
-Subject: [PATCH] Documentation/cgroup-v2: Update memory.numa_stat description to reflect possible units
-Date: Fri, 10 Jan 2025 20:30:19 +0800
-Message-ID: <20250110123019.423725-1-lizhijian@fujitsu.com>
-X-Mailer: git-send-email 2.44.0
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="k5qK/XC/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E571C4CED6;
+	Fri, 10 Jan 2025 12:32:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1736512346;
+	bh=bjvVQlcM4bFSsPXE11EEKQs+RuZA4XgPeYuFOqI3bz0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=k5qK/XC/sdGOnWQ6BmuLTfu55pkxvqF+TEWzKkPf1ijqBQstf1A/tB/cBiT7jrzyG
+	 kLOfEubzYXbsR79B1OZY46qlqMjXp1ZEf04R5F+/xhnRZE8oC3hh4k7rz3aH9n40DZ
+	 c5wfbQjYyZD/LkTmOdtJr95Qv+4FFv+FffmYLD6s=
+Date: Fri, 10 Jan 2025 13:32:22 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Yeking@red54.com
+Cc: kuba@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Theodore Ts'o <tytso@mit.edu>, Andy Whitcroft <apw@canonical.com>,
+	Joe Perches <joe@perches.com>,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, tech-board-discuss@lists.linux.dev
+Subject: Re: [PATCH] Add short author date to Fixes tag
+Message-ID: <2025011032-gargle-showing-7500@gregkh>
+References: <tencent_6CF6E720909156A227D23AE8CFE4F9BA5D05@qq.com>
+ <tencent_F8CFC8ED723F6E8103B4AF3D98D63D7F1F08@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28914.007
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28914.007
-X-TMASE-Result: 10--4.161800-10.000000
-X-TMASE-MatchedRID: v+sphrBU45GgOUOBLqPMtLPx3rO+jk2QK2GKtdiFmTnVjNsehGf0vb8F
-	Hrw7frluf146W0iUu2tUmZgXoV1CCxTfVlVWxWRBxvp0tuDMx3l9LQinZ4QefCP/VFuTOXUTC5M
-	umjkcRzWOhzOa6g8KrW3ALrb2ZTUcsGc/8dUNSsWCTTZ5QyGVyETZPqz6c0Gny6LvC6Dn+51Zim
-	nmYhta94salhnTWXtbvvbbTLm8c7HVmqyAbNs4LBXBt/mUREyAj/ZFF9Wfm7hNy7ppG0IjcFQqk
-	0j7vLVUewMSBDreIdk=
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+In-Reply-To: <tencent_F8CFC8ED723F6E8103B4AF3D98D63D7F1F08@qq.com>
 
-The description of the memory.numa_stat file has been updated to clarify
-that the output values can be in bytes or pages. This change ensures that
-users are aware that the unit of measurement for memory values can vary
-and should be verified by consulting the memory.stat
+On Fri, Jan 10, 2025 at 12:20:09PM +0000, Yeking@Red54.com wrote:
+> From: 谢致邦 (XIE Zhibang) <Yeking@Red54.com>
+> 
+> The old Fixes tag style is at least 10 years old. It lacks date
+> information, which can lead to misjudgment. So I added short author date
+> to avoid this. This make it clear at a glance and reduce
+> misunderstandings.
+> 
+> For example:
+> 
+> Old Fixes tag style:
+> * Fixes: fd3040b9394c ("net: ethernet: Add driver for Sunplus SP7021")
+> * Fixes: a76053707dbf ("dev_ioctl: split out ndo_eth_ioctl")
+> This will make people mistakenly think that "a76053707dbf" broke
+> "fd3040b9394c".[1]
+> 
+> New Fixes tag style:
+> * Fixes: fd3040b9394c ("net: ethernet: Add driver for Sunplus SP7021", 2022-05-08)
+> * Fixes: a76053707dbf ("dev_ioctl: split out ndo_eth_ioctl", 2021-07-27)
+> This makes it clear that the newly introduced driver did not follow the
+> existing changes.
 
-It's known that
-workingset_*, pgdemote_* and pgpromote_success are counted in pages
+Please no, you will break all of our tooling and scripts that parse
+these types of fields.  The git commit id and commit header is all we
+need to properly determine this type of information, no need to add a
+date in here at all.
 
-Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
----
- Documentation/admin-guide/cgroup-v2.rst | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+There's no issue with "making things clear" that I can tell, and no,
+listing multiple fixes lines does NOT mean that a previous line broke
+something at all.  It just means that a single commit happened to fix
+multiple commits (which frankly is a rare thing, and one that our
+scripts already have a hard enough time dealing with...)
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 315ede811c9d..5d1d44547409 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1427,7 +1427,7 @@ The following nested keys are defined.
- 	types of memory, type-specific details, and other information
- 	on the state and past events of the memory management system.
- 
--	All memory amounts are in bytes.
-+	All memory amounts are in bytes or bytes.
- 
- 	The entries are ordered to be human readable, and new entries
- 	can show up in the middle. Don't rely on items remaining in a
-@@ -1673,11 +1673,12 @@ The following nested keys are defined.
- 	application performance by combining this information with the
- 	application's CPU allocation.
- 
--	All memory amounts are in bytes.
--
- 	The output format of memory.numa_stat is::
- 
--	  type N0=<bytes in node 0> N1=<bytes in node 1> ...
-+	  type N0=<value for node 0> N1=<value for node 1> ...
-+
-+        The 'value' can be in bytes or pages, depending on the specific
-+        type of memory. To determine the unit, refer to the memory.stat.
- 
- 	The entries are ordered to be human readable, and new entries
- 	can show up in the middle. Don't rely on items remaining in a
--- 
-2.44.0
+So I don't think you need to add a date here.  Dates also really do not
+mean much with commits, what matters is what release a commit is in, not
+when it was originally made.  We have commits that take years to show up
+in a release, so if you only look at a date, you will be mistaken many
+times as it's not showing what came before what many times (i.e. we
+apply commits out-of-date-order all the time.)
 
+thanks,
+
+greg k-h
