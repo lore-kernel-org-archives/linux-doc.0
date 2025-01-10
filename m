@@ -1,80 +1,48 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC7420E6E5;
-	Fri, 10 Jan 2025 15:35:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03077211A2D;
+	Fri, 10 Jan 2025 15:37:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736523339; cv=none; b=f+Hq9mwmbYyMIRzC43yA8+QeDD9kzmDQNOYZt9BItcU87kW7EQQNsLRcSKO+DD886AzrS6mAr4bviYUOeSoWrYuI8fiVxWV5DIZgj5VfperL48ozNR0wLy9gOJnrah1lApV95m17zYA8pi5GlOetyedtt35zAuJH5SB+XUVyz28=
+	t=1736523445; cv=none; b=Pcg5ng9gxOtRGwUX0DiA0OsoIlDhHV5LVRprT6OP6OdK3d91klkkV4J0hoAdtBRgY/mWRDvZdoi8HLzXihvofZNoEcfPXy3IHTXD0W6SeTVH9NWg0x8S2QX+oEK8tvOZ0x/AvnD+tpPs9HOC+VL3aiEx73FIWs2PucgFZtKerMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736523339; c=relaxed/simple;
-	bh=vkDFVjYGpU8b/zOSIDYDAIaSzNvg1FGBb/o2TlAZGSY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fEreTRabGaSleedyflSXEECgnQAoe0Ru97Liz01zxa1ClCRnfEyeCKX9XYOJE4SegWkTcfy7xwBOLm5GSgLioR/eP7nFlqMPEwgfmOR1dvpOQfejfwjPpi7oQ80OUXFwYN+3xqEwak4qoClXM/8wMOcvSN+rQEO0dGotsTOL2aU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Bpnn421p; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=1Rf/rFZe; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Bpnn421p; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=1Rf/rFZe; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1736523445; c=relaxed/simple;
+	bh=Z/bsfZHLqn7sUe4vDHhHfLRhvjd61kqXFBkhmq0D8vg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=qVKq8fozb9AxdvRhBL1OvWlyZzGj6Gc1brPSE4/nfX3qOLEHwiZaUQ5HkQHPPGjekA3DzHROpDqH9E1o5j5BIkVhQYMxUMKl3+NqzlU+Tk/Zz6WeaUAGrciTG7Sf/z+V3A5OkL5erBzjszqIxW5C3CSNeXbthseO6Kt1vLMfoTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=fFtDnhcF; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Bpnn421p";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="1Rf/rFZe";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Bpnn421p";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="1Rf/rFZe"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 430592116F;
-	Fri, 10 Jan 2025 15:35:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1736523335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O7cJOrGVmPv31AML6QCANk75igLQl02QfxGviw3WTZU=;
-	b=Bpnn421prCq/UXCYN64tsZ1x4llmtDyDCHuxGeooytS97TLYxbiju5zaVBvRhscYKu/v+H
-	2qw1ZFBQCTVFKqc9W7Zdno4YmULfn3h0qhtvYkz9fLwsnVacgpUxl3DBPY5yDAZ6jVQnPT
-	bYf1q+cqIjy+UgETY4lHaNnqEdID0HM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1736523335;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O7cJOrGVmPv31AML6QCANk75igLQl02QfxGviw3WTZU=;
-	b=1Rf/rFZe5rw7aBsuOFurKUBRlep1YnXaZNhZW2ySSmj8TpFDe2L1FRS0Vy5XWtkFPAj25O
-	4UOWhcIampASe/DQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1736523335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O7cJOrGVmPv31AML6QCANk75igLQl02QfxGviw3WTZU=;
-	b=Bpnn421prCq/UXCYN64tsZ1x4llmtDyDCHuxGeooytS97TLYxbiju5zaVBvRhscYKu/v+H
-	2qw1ZFBQCTVFKqc9W7Zdno4YmULfn3h0qhtvYkz9fLwsnVacgpUxl3DBPY5yDAZ6jVQnPT
-	bYf1q+cqIjy+UgETY4lHaNnqEdID0HM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1736523335;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O7cJOrGVmPv31AML6QCANk75igLQl02QfxGviw3WTZU=;
-	b=1Rf/rFZe5rw7aBsuOFurKUBRlep1YnXaZNhZW2ySSmj8TpFDe2L1FRS0Vy5XWtkFPAj25O
-	4UOWhcIampASe/DQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1B2B513A86;
-	Fri, 10 Jan 2025 15:35:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id IRReBkc+gWeuCgAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Fri, 10 Jan 2025 15:35:35 +0000
-Message-ID: <745d6935-3732-4639-a1d4-ead73d590597@suse.cz>
-Date: Fri, 10 Jan 2025 16:36:34 +0100
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="fFtDnhcF"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50A9wnHU012011;
+	Fri, 10 Jan 2025 15:37:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	pcaB471v/EE7pbHbVZ/gzy+IGGkuqwQSaMJRbgn0Bv8=; b=fFtDnhcFkqijZ/eK
+	thCE/FMs6C0ACoa4HyH4mKN4krKBMCGkEaliR8KUMNU8gNnH8Idr8w0W+XDGTwCM
+	jFKarnmygA6xW8urvPVl6iEZc/CuYLwXumZQ8Ng+9BfgqSU+y3Kz2Lq2YbvYbxfv
+	7FmoiqkZMgSf2QQulmJJ1FX7DyHQ7Rr4y5GjTJyHBmkwAVDkFPi3GHRsqqv7v4cc
+	R3ylGnrIile8BSUc0rvz37itx6UrevJ0B7tDZQSaib2/IfUHHM0QlwkxpA/oDwc7
+	NyKwNUvTXLUdWtSCsKRQ6SVcsB1yB5XQeBGRgWctYqOnJRRd83kXUwMkSjNKHcC9
+	LItTUQ==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4431d48vuh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 10 Jan 2025 15:37:07 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50AFb6qP002889
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 10 Jan 2025 15:37:06 GMT
+Received: from [10.253.12.10] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 10 Jan
+ 2025 07:37:00 -0800
+Message-ID: <50a42c90-bbe7-4bdd-90dd-c8bfe4d4051d@quicinc.com>
+Date: Fri, 10 Jan 2025 23:36:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,78 +50,97 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 00/16] move per-vma lock into vm_area_struct
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org,
- liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, mhocko@suse.com,
- hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
- mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
- oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org,
- dhowells@redhat.com, hdanton@sina.com, hughd@google.com,
- lokeshgidra@google.com, minchan@google.com, jannh@google.com,
- shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com,
- klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net,
- linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- kernel-team@android.com
-References: <20250109023025.2242447-1-surenb@google.com>
- <52ecd3fa-5978-4f4b-b969-c42b00a5b885@suse.cz>
- <CAJuCfpExmxZFh_RB9t0+KmiJMiPOQ9priEx1xz63SCMTL=b8uw@mail.gmail.com>
- <CAJuCfpEgWOi09QPfTJTNp5mO2=SMx-svSYRmUs8XYZG131Labw@mail.gmail.com>
-From: Vlastimil Babka <vbabka@suse.cz>
+Subject: Re: [PATCH net-next v2 08/14] net: ethernet: qualcomm: Initialize PPE
+ service code settings
+To: Simon Horman <horms@kernel.org>
+CC: Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S. Miller"
+	<davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>, Lei Wei <quic_leiwei@quicinc.com>,
+        Suruchi Agarwal
+	<quic_suruchia@quicinc.com>,
+        Pavithra R <quic_pavir@quicinc.com>,
+        "Jonathan
+ Corbet" <corbet@lwn.net>, Kees Cook <kees@kernel.org>,
+        "Gustavo A. R. Silva"
+	<gustavoars@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        <linux-arm-msm@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+        <quic_kkumarcs@quicinc.com>, <quic_linchen@quicinc.com>,
+        <srinivas.kandagatla@linaro.org>, <bartosz.golaszewski@linaro.org>,
+        <john@phrozen.org>
+References: <20250108-qcom_ipq_ppe-v2-0-7394dbda7199@quicinc.com>
+ <20250108-qcom_ipq_ppe-v2-8-7394dbda7199@quicinc.com>
+ <20250109175845.GQ7706@kernel.org>
 Content-Language: en-US
-In-Reply-To: <CAJuCfpEgWOi09QPfTJTNp5mO2=SMx-svSYRmUs8XYZG131Labw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_RCPT(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[33];
-	RCVD_TLS_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,infradead.org,oracle.com,suse.com,cmpxchg.org,gmail.com,intel.com,techsingularity.net,redhat.com,stgolabs.net,kernel.org,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLumbhs4xhzuuihrchnpuyb6qu)];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
+From: Jie Luo <quic_luoj@quicinc.com>
+In-Reply-To: <20250109175845.GQ7706@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: GDOoK8I8GJC-t7MO56NwjeOuF5zGrryY
+X-Proofpoint-GUID: GDOoK8I8GJC-t7MO56NwjeOuF5zGrryY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
+ malwarescore=0 phishscore=0 mlxlogscore=999 spamscore=0 mlxscore=0
+ lowpriorityscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501100122
 
 
 
-On 1/10/25 1:16 AM, Suren Baghdasaryan wrote:
-> On Thu, Jan 9, 2025 at 7:59 AM Suren Baghdasaryan <surenb@google.com> wrote:
+On 1/10/2025 1:58 AM, Simon Horman wrote:
+> On Wed, Jan 08, 2025 at 09:47:15PM +0800, Luo Jie wrote:
+>> PPE service code is a special code (0-255) that is defined by PPE for
+>> PPE's packet processing stages, as per the network functions required
+>> for the packet.
 >>
->> On Thu, Jan 9, 2025 at 5:40 AM Vlastimil Babka <vbabka@suse.cz> wrote:
->>>
->>> Btw the subject became rather incomplete given all the series does :)
+>> For packet being sent out by ARM cores on Ethernet ports, The service
+>> code 1 is used as the default service code. This service code is used
+>> to bypass most of packet processing stages of the PPE before the packet
+>> transmitted out PPE port, since the software network stack has already
+>> processed the packet.
 >>
->> Missed this one. What do you think is worth mentioning here? It's
->> true, the patchset does many small things but I wanted to outline the
->> main conceptual changes. Please LMK if you think there are more
->> changes big enough to be mentioned here.
+>> Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
 > 
-> I just realized that your comment was only about the subject of this
-> cover letter. Maybe something like this:
+> ...
 > 
-> per-vma lock and vm_area_struct cache optimizations
+>> diff --git a/drivers/net/ethernet/qualcomm/ppe/ppe_config.h b/drivers/net/ethernet/qualcomm/ppe/ppe_config.h
+> 
+> ...
+> 
+>> +/**
+>> + * struct ppe_sc_bypss - PPE service bypass bitmaps
+> 
+> nit: struct ppe_sc_bypass
 
-arguably the biggest change here is:
+OK. Will correct it.
 
-reimplement per-vma lock as a refcount
-
-but yours is ok to, don't want to bikeshed
+> 
+>> + * @ingress: Bitmap of features that can be bypassed on the ingress packet.
+>> + * @egress: Bitmap of features that can be bypassed on the egress packet.
+>> + * @counter: Bitmap of features that can be bypassed on the counter type.
+>> + * @tunnel: Bitmap of features that can be bypassed on the tunnel packet.
+>> + */
+>> +struct ppe_sc_bypass {
+>> +	DECLARE_BITMAP(ingress, PPE_SC_BYPASS_INGRESS_SIZE);
+>> +	DECLARE_BITMAP(egress, PPE_SC_BYPASS_EGRESS_SIZE);
+>> +	DECLARE_BITMAP(counter, PPE_SC_BYPASS_COUNTER_SIZE);
+>> +	DECLARE_BITMAP(tunnel, PPE_SC_BYPASS_TUNNEL_SIZE);
+>> +};
+> 
+> ...
 
