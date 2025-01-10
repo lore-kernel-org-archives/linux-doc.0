@@ -1,213 +1,448 @@
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2042.outbound.protection.outlook.com [40.107.101.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9ED20A5EE;
-	Fri, 10 Jan 2025 21:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736546321; cv=fail; b=aAABmDD17Xs1VKAJy6rloM4H8h8c0FjTDtPyTjNHPAQq+eAn2wPJw9/TDrfJ0g1IyGlfJ7IhuLEoGm4IwNFf7J4qwAarsnbPK+2o25nvn6bIioYUZ2/6ouKbmXX546omGYf7KiznGDn7wUIrxnSlT0ruepFFCigq1xGHvBEX9cM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736546321; c=relaxed/simple;
-	bh=GUZbj71mEy5vuoVWfBuU/QCnJu2EWqQHVowHDmSXdU0=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xk2JkYPYF7uszoSN12qqldzR9LCg6FE2ZPRFFjsVHyLP+Fo2/4lrfX3ec5iHeU17XAOizQr3eRbiuyqrzzBXftM7ylLHEOkB4lB7MP3aReifa60Ue7Zn1wfWy19kyFmTKMNwvvhISl7QOV8BDrbcIF2AZRXsoyCPM1CVk6k8S2I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=hQkDXDoo; arc=fail smtp.client-ip=40.107.101.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1AD2213E84;
+	Fri, 10 Jan 2025 22:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736547080; cv=none; b=FJ1NFlj4apf08ccgeb4uLLPKXa9j+W+Pe0d+X3b/2yjozr+oWihBvQNLIwiReBPY5BO0OOHRixax3q+TaJpQDgy/YgaJnhLt8p/DWB9fyeP6pQ0aguc8C1AuOGH/O6EWlP61JeGzm2DjqILut6cB9G/7Ae2v/pfBF4fAcphBI9Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736547080; c=relaxed/simple;
+	bh=syTqK8umJqQeTKRbtSNmuWi80l1dxHGMTRF06U9pq0s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=em0KmrB+m/XJ12GT7fCnVrrGfEHzhFlJe7bU9E3tiM4aRnlyy7uxMq8FWmSEqUid7l4ejh6txOhtc8SzwfMzwlXxnx67fLIibs4ueeSnVw2nI6CjhYB6L2V1pqB3loi+x147U2F1kRNR1Y9uAV36nUYoochvGWPjrQ7aWNozZfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fU/su+bh; arc=none smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="hQkDXDoo"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=amVlqeXstqZuk+eQ2qKR1cYG+UUj3o6FAy3Wm+nRpaYRRrNtd4p1unI61dcbjs32Zla5T7CecS9JMTAQjrgfcUYLobU+IVa7e7hakAd1Vc7UP67MS5M5hIXdG6Y0MfoHVKyjFH0xuF/ungRL95xymCtEa8ylu+x/faT7c5DkoJSrzSnvpGNcY5EsH/E5M9Oi9+Y4uXJcjGiQawkTpYo+eD17W/0/7OHM92A61up+csS2j8pHM62gDoXbt9z7rF11ZAiIFQ7z6qg5KgDhMq2NR0lBgQma9bmolpyPqTo/bSk+BP/RLPAd8jKDPmZPMvFRaU/t5QWegbF6qonmC4J2xQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hJY/oyJ/rYLMf8rjP9KD6Uzi/DBklaBugSDHe2pdZ50=;
- b=H7WhsOo5twnVXTm/jCNAGsEpx54LowbDqSaqErMOna9llhaeXVHEPjDy3JRoXpQ/7vH+qUzxdU2155bhUb0cBHRBq/KzntdWE6UzCQKcLbKfE3fzi69Tz4CVyuTeygJyQu8Dj0EXh7Gd0feIqkGwm9rE4LO+f74RaRkqYEX+KOenD5YtKGuKYOqd7Em5D7hgwnYd/INnm64l9WgM1CXWEV2bXyMv1+CAFQsr/AklW9jXVJOiJZz32p2t5CjhZcwZZv+FxppRL1b4gSc7WPIJcO9jvb95nOjAfoAV7iPRMdN6HPy0R9O5xI+1YgkZWn3b6ZPeP0KhXSlms57MSviftg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hJY/oyJ/rYLMf8rjP9KD6Uzi/DBklaBugSDHe2pdZ50=;
- b=hQkDXDoosjtin6DvUqUHsOkvsZoxG3HJRUSkARZPOPcuvKrvBLAp+kiFtv1icHT67o8x+9CpLAb/zBqEmKCxHXOo+zF4IhQAZog8Gec0Ey+7M/535HcIYYI3KSMLS1XGG5MnhvGQhP25uvH3DJFvjP7NrWvdti5YmEbeu74TYpRfrUlSNlz5N+bPu5vlfuJ+2+QEpwQ5zMWkbqo5w15LezJi2Lqk+RlgLT9Se7CIIMaCFZJWauyme60TUBj/E1gPubyANhnEP8V6vOF8MOkCO9kBzUTJrJAIK7vXtSfZF4/RBLc0aY08lwy+IaHhIyym5md7CtWkWzQ8EbGxhEy3EA==
-Received: from BYAPR02CA0021.namprd02.prod.outlook.com (2603:10b6:a02:ee::34)
- by SN7PR12MB8791.namprd12.prod.outlook.com (2603:10b6:806:32a::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.12; Fri, 10 Jan
- 2025 21:58:35 +0000
-Received: from SJ5PEPF000001CA.namprd05.prod.outlook.com
- (2603:10b6:a02:ee:cafe::94) by BYAPR02CA0021.outlook.office365.com
- (2603:10b6:a02:ee::34) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8335.13 via Frontend Transport; Fri,
- 10 Jan 2025 21:58:35 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SJ5PEPF000001CA.mail.protection.outlook.com (10.167.242.39) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8335.7 via Frontend Transport; Fri, 10 Jan 2025 21:58:35 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 10 Jan
- 2025 13:58:25 -0800
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail205.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 10 Jan
- 2025 13:58:25 -0800
-Received: from Asurada-Nvidia (10.127.8.9) by mail.nvidia.com (10.129.68.6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4 via Frontend
- Transport; Fri, 10 Jan 2025 13:58:23 -0800
-Date: Fri, 10 Jan 2025 13:58:21 -0800
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: <kevin.tian@intel.com>, <corbet@lwn.net>, <will@kernel.org>,
-	<joro@8bytes.org>, <suravee.suthikulpanit@amd.com>, <robin.murphy@arm.com>,
-	<dwmw2@infradead.org>, <baolu.lu@linux.intel.com>, <shuah@kernel.org>,
-	<linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <eric.auger@redhat.com>,
-	<jean-philippe@linaro.org>, <mdf@kernel.org>, <mshavit@google.com>,
-	<shameerali.kolothum.thodi@huawei.com>, <smostafa@google.com>,
-	<ddutile@redhat.com>, <yi.l.liu@intel.com>, <patches@lists.linux.dev>
-Subject: Re: [PATCH v5 06/14] iommufd: Add IOMMUFD_OBJ_VEVENTQ and
- IOMMUFD_CMD_VEVENTQ_ALLOC
-Message-ID: <Z4GX/R6lRwuhlBJQ@Asurada-Nvidia>
-References: <cover.1736237481.git.nicolinc@nvidia.com>
- <86e78625c48d0c8fb815496dbc57708b98a46ec7.1736237481.git.nicolinc@nvidia.com>
- <20250110174842.GI396083@nvidia.com>
- <Z4F0uZBg05J7Nuhl@Asurada-Nvidia>
- <20250110194950.GI5556@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fU/su+bh"
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6d8fa32d3d6so31299166d6.2;
+        Fri, 10 Jan 2025 14:11:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736547077; x=1737151877; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l8d7mL60/9ae/t6MIPlthD0cmdA0DYmThHS6BUmO3vE=;
+        b=fU/su+bhvhdONsKYucIHpTFZmEHqs30oKjRZA5RCl84Bici+G9aoGzbFSGSmqWe8xa
+         0hVmfqr1NX8u8fdY1QRJ11P/kvu7wXMoa4EKs7mDM2b4piAH//mNyRout/FbwMdDw9r4
+         BK3JozTRi09XkAgftDV7G5UDwTWoSITRO//9jk4GqnQGVjvSU5hJhso/lyB6CANccJdd
+         g8LU/2hlLtpMASTyoquRPSexxATfvahrxr67UeqibdnkhikO9Fm3VOfd4Yt7xXIr0YVP
+         KkOD+0sJogWubZ5XWK+NlMmepA9utpHYfJsMVRC4I7wAYpootzdN8NDVBPIV7tEX8xzy
+         TyDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736547077; x=1737151877;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l8d7mL60/9ae/t6MIPlthD0cmdA0DYmThHS6BUmO3vE=;
+        b=aGJwkjiKzTTfWJBxgrkWPx/Osy0TxcZPd89h5AFE9h+HeIboS9b98mkRRKxEPcLM0N
+         F3G1ex5OrCTP4e2JKsI8y6y4cgW1Kl0aKRPGp4DaFtK/YDN6reAOGvUyOOAx/GpPLw+a
+         jRQF5t56vYDANycIn45+ShH7/dH3DSRjr6tLXMurDwAZNDw/wcCuAYkThxVl2gbaXIb5
+         FFzAjRsNwRDT/rgisiSVbaSF8FzF07iz9Nc+bpXpXlfJogGncqquvt/gRb7vYhmCXEyw
+         nw3sTCuz1a3y9RPc/zZxcrYawhx4heIbO/xDPcJJNBODR8Fao7+xccgd/nIUVByNFPTp
+         jhpg==
+X-Forwarded-Encrypted: i=1; AJvYcCV8GBO9ciFDKmEdOGUDLIPckYvRiWDWLG73/XMww0U84iRyw2y4wykoFITsMBAq30hLlhgShxdmrJ4JUntl@vger.kernel.org, AJvYcCXE6gH4yd5SqiuhKHCiYlA7ENwtklI7939R2MO8su8EIBGppGkxFbLDBmG4tKwu6CcYlxSn7NxCzTU=@vger.kernel.org, AJvYcCXderl3BBQi2O2YBd+qIPN1Hn2C3BSkx5ZMfV9IJadGfsdLdOGvEH3DdNbNnjrgtHdGLpHT9vWlMAE4fVA4ZXHwMyIoEA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBWD+TBUVYG9Z8J55ilDeZLAHmsATAOQ2vTyT9xCL/8yn2oiAb
+	7ZEUmDaIwx/9I4aByImcjEJ9iQppR/Y24sJnZFSuiCyNoAEj3ZF7KA0roawYeXnMOwoNsfgUm9F
+	mpro5Xx/1zIat0m1A66Tpin+2rMw=
+X-Gm-Gg: ASbGncsKqyGgTlbep4Hujks8hp+VJZAaVrXqD/TfHE0+FSmaL6oPfY6Gy0CwTgozo++
+	SnirS9kmpvwzzSRbrYOQ0Of/dYU7pnlWkIwoQU0U=
+X-Google-Smtp-Source: AGHT+IHbLJ4eGQydNzn9692+/2umlSfb/j0d7d7i2tSk7HVSzouYJVw3J8p7zHmKjCSrKMaYNzGltDmeF83fXmuyU1w=
+X-Received: by 2002:a05:6214:daf:b0:6df:9771:978e with SMTP id
+ 6a1803df08f44-6df9b2ff13amr142909006d6.34.1736547076546; Fri, 10 Jan 2025
+ 14:11:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250110194950.GI5556@nvidia.com>
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001CA:EE_|SN7PR12MB8791:EE_
-X-MS-Office365-Filtering-Correlation-Id: d1f49e53-39c2-44fb-d61f-08dd31c1ee8c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700013|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?W8YziFOA6+jBTDKEC79Hc2PEBNFjM3kOP3o9YMXmyliHe04WsPErFOdhDWpx?=
- =?us-ascii?Q?STcKOn5Glj0Ezv2AmC3vZwZcRqKAxhmYgrY80vWxS78dDQ4XLqRSNj7A8P6b?=
- =?us-ascii?Q?AB4EbseIQcAe59vAYNBslAmn4AQxKTtvKfTtoPUFwEx0xs4JgqviM4WN/GKD?=
- =?us-ascii?Q?26GG853mFEeANDIBrlQyC4lOxcYRB7BpOI11x6j2Osmphym52c8i0KoPOXcN?=
- =?us-ascii?Q?RFRLjvoZIDl7wqTKsqZaFPo/Lupuyctl0ayzAYVRroXu2KCvNbf4XIyhOUlX?=
- =?us-ascii?Q?3o+GNoI5UMj3amk8uwJtkeozcSNXkHY2tgkiZH4M3N6P63oH3BjWQIBg/c9+?=
- =?us-ascii?Q?q4leflnkaP3ZaxOgdddPMNpHRUtL7l2nhcqipJkIBWJzStigIDCumw42PMf8?=
- =?us-ascii?Q?PgI9L00+IyXoqlnUx2oG7aOuWTEd1s/OWdDp69sprsNhaNrIVZyACpvjbIXm?=
- =?us-ascii?Q?y+KHy0qgdwtwklP/SnyH+MHU6fNQEWK5UxuR1WlPc45CPg8RvbhzvHB77v83?=
- =?us-ascii?Q?xHFcYcdMTpT3EiQmvro6PlN+9nBS1RdSktlJTQZk4njLNFNMAshZVFj5esEM?=
- =?us-ascii?Q?1s9Sh2E1EN9o6Q/38ACkmLRa7XQ7bmERp6Awc/JXENz3NPz0lpTHzWhJvSQ5?=
- =?us-ascii?Q?eaO2DZPWVW+kKQI9DzNCeJ8vqIRolRKd0jqncG14Y+5s0Hh6NJ9TprgH0kQb?=
- =?us-ascii?Q?V9WONTzbcOyTlMlx3vEMsLDyS4tT3Fr/mEag9zcSK3IlK7GLUpuFO7xq1shw?=
- =?us-ascii?Q?ITLz4t+AG9hdkN606jMs2fLgNbZIyYJ5aJJN/UjIlOrq4ytNm3E2gWbxt/o8?=
- =?us-ascii?Q?iN7tU4yTqH40CvGVtt16zgjhwDeLY//xZHeHJoavuKIWsmC5tNKSmEwgLFEF?=
- =?us-ascii?Q?Ta9n03EfHMql56IAiW4WkXDYbh+nylB8bRSaYCoD51mUx71LRcv/6sKoSClq?=
- =?us-ascii?Q?mA9qnvkQ5cQkhvcmgs2dmt0N0IHvIynEcQupMKhIj2KwDHvRr92dpc4c6Mg/?=
- =?us-ascii?Q?j0Oju5aQv6Scy/7mhfj4kp2WMfyZhXFcpfFyWiaS/VNFBnleqIEeCqlUtgS6?=
- =?us-ascii?Q?XXwY1F0Abu3iyROfCVO0xi0t56fF8B9UPmXT8w2D6l1DdPzE6zrGfesWK66f?=
- =?us-ascii?Q?X326kTswMT0DZrPvCshlqeCRB15g1LRcRbGL73mSkY/IVDeV4yiMOT+bvdKk?=
- =?us-ascii?Q?8Pk64H3wWs20+9wagVVd0zeayuOqlZpLxpQ1nVBvTOd0USPzTOiXfCiuNLbS?=
- =?us-ascii?Q?336k6uZmElot5VQIAK0LmsJKVEZnhnAoQw6843svdbzKCgB87+rhBvza3v0j?=
- =?us-ascii?Q?+il0QaWcEFeSo1L2x36HIOghZzYsmyQ5zGlV00/8FyWp+8LqFAZ7nJTgkkti?=
- =?us-ascii?Q?xOEfqdZeDqrMaI+K700I4K0TM845OeSdh5JrVsA3MA5lVIYEZ/Yx27BLMoOd?=
- =?us-ascii?Q?4j1fR8Wcgirueb6EIYWCzYrw2Y905TNrlcFRvUDdwllI3AwolYwILgnV/hD+?=
- =?us-ascii?Q?MtLSyBWX+D0PoCI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2025 21:58:35.6822
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1f49e53-39c2-44fb-d61f-08dd31c1ee8c
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF000001CA.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8791
+References: <20250102004854.14874-1-derekjohn.clark@gmail.com>
+ <20250102004854.14874-4-derekjohn.clark@gmail.com> <7ebb09b7-337d-4a9c-ba5c-bed874209fd4@gmx.de>
+In-Reply-To: <7ebb09b7-337d-4a9c-ba5c-bed874209fd4@gmx.de>
+From: Derek John Clark <derekjohn.clark@gmail.com>
+Date: Fri, 10 Jan 2025 14:11:05 -0800
+X-Gm-Features: AbW1kvak3yDg4MrMpBbD2u6YRoCMN7IZ3JN5vUZfqIAfXe_571SLumM7fWymlS8
+Message-ID: <CAFqHKT=Lx3LbDTY=1YEmn9OmhrkQOnvA5yuJbJi2_8-+N-y-Aw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] platform/x86: Add Lenovo Capability Data 01 WMI Driver
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: Hans de Goede <hdegoede@redhat.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Mario Limonciello <superm1@kernel.org>, Luke Jones <luke@ljones.dev>, 
+	Xino Ni <nijs1@lenovo.com>, Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>, 
+	Mark Pearson <mpearson-lenovo@squebb.ca>, 
+	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, "Cody T . -H . Chiu" <codyit@gmail.com>, 
+	John Martens <johnfanv2@gmail.com>, platform-driver-x86@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 10, 2025 at 03:49:50PM -0400, Jason Gunthorpe wrote:
-> On Fri, Jan 10, 2025 at 11:27:53AM -0800, Nicolin Chen wrote:
-> > On Fri, Jan 10, 2025 at 01:48:42PM -0400, Jason Gunthorpe wrote:
-> > > On Tue, Jan 07, 2025 at 09:10:09AM -0800, Nicolin Chen wrote:
-> > > 
-> > > > +static ssize_t iommufd_veventq_fops_read(struct iommufd_eventq *eventq,
-> > > > +					 char __user *buf, size_t count,
-> > > > +					 loff_t *ppos)
-> > > > +{
-> > > > +	size_t done = 0;
-> > > > +	int rc = 0;
-> > > > +
-> > > > +	if (*ppos)
-> > > > +		return -ESPIPE;
-> > > > +
-> > > > +	mutex_lock(&eventq->mutex);
-> > > > +	while (!list_empty(&eventq->deliver) && count > done) {
-> > > > +		struct iommufd_vevent *cur = list_first_entry(
-> > > > +			&eventq->deliver, struct iommufd_vevent, node);
-> > > > +
-> > > > +		if (cur->data_len > count - done)
-> > > > +			break;
-> > > > +
-> > > > +		if (copy_to_user(buf + done, cur->event_data, cur->data_len)) {
-> > > > +			rc = -EFAULT;
-> > > > +			break;
-> > > > +		}
-> > > 
-> > > Now that I look at this more closely, the fault path this is copied
-> > > from is not great.
-> > > 
-> > > This copy_to_user() can block while waiting on a page fault, possibily
-> > > for a long time. While blocked the mutex is held and we can't add more
-> > > entries to the list.
-> > >
-> > > That will cause the shared IRQ handler in the iommu driver to back up,
-> > > which would cause a global DOS.
-> > >
-> > > This probably wants to be organized to look more like
-> > > 
-> > > while (itm = eventq_get_next_item(eventq)) {
-> > >    if (..) {
-> > >        eventq_restore_failed_item(eventq);
-> > >        return -1;
-> > >    }
-> > > }
-> > > 
-> > > Where the next_item would just be a simple spinlock across the linked
-> > > list manipulation.
-> > 
-> > Would it be simpler by just limiting one node per read(), i.e.
-> > no "while (!list_empty)" and no block?
-> > 
-> > The report() adds one node at a time, and wakes up the poll()
-> > each time of adding a node. And user space could read one event
-> > at a time too?
-> 
-> That doesn't really help, the issue is it holds the lock over the
-> copy_to_user() which it is doing because it doesn't want pull the item off
-> the list and then try to handle the failure and put it back.
+On Thu, Jan 9, 2025 at 2:35=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wrote:
+>
+> Am 02.01.25 um 01:47 schrieb Derek J. Clark:
+>
+> > Adds lenovo-wmi-capdata01.c which provides a driver for the
+> > LENOVO_CAPABILITY_DATA_01 WMI data block that comes on "Other Method"
+> > enabled hardware. Provides an interface for querying if a given
+> > attribute is supported by the hardware, as well as its default_value,
+> > max_value, min_value, and step increment.
+> >
+> > v2:
+> > - Use devm_kzalloc to ensure driver can be instanced, remove global
+> >    reference.
+> > - Ensure reverse Christmas tree for all variable declarations.
+> > - Remove extra whitespace.
+> > - Use guard(mutex) in all mutex instances, global mutex.
+> > - Use pr_fmt instead of adding the driver name to each pr_err.
+> > - Remove noisy pr_info usage.
+> > - Rename capdata_wmi to lenovo_wmi_cd01_priv and cd01_wmi to priv.
+> > - Use list to get the lenovo_wmi_cd01_priv instance in
+> >    lenovo_wmi_capdata01_get as none of the data provided by the macros
+> >    that will use it can pass a member of the struct for use in
+> >    container_of.
+> >
+> > Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> > ---
+> >   MAINTAINERS                                 |   1 +
+> >   drivers/platform/x86/Kconfig                |  11 ++
+> >   drivers/platform/x86/Makefile               |   1 +
+> >   drivers/platform/x86/lenovo-wmi-capdata01.c | 131 +++++++++++++++++++=
++
+> >   drivers/platform/x86/lenovo-wmi.h           |  20 +++
+> >   5 files changed, 164 insertions(+)
+> >   create mode 100644 drivers/platform/x86/lenovo-wmi-capdata01.c
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 8f8a6aec6b92..c9374c395905 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -13038,6 +13038,7 @@ LENOVO WMI drivers
+> >   M:  Derek J. Clark <derekjohn.clark@gmail.com>
+> >   L:  platform-driver-x86@vger.kernel.org
+> >   S:  Maintained
+> > +F:   drivers/platform/x86/lenovo-wmi-capdata01.c
+> >   F:  drivers/platform/x86/lenovo-wmi-gamezone.c
+> >   F:  drivers/platform/x86/lenovo-wmi.h
+> >
+> > diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfi=
+g
+> > index 9a6ac7fdec9f..a2c1ab47ad9e 100644
+> > --- a/drivers/platform/x86/Kconfig
+> > +++ b/drivers/platform/x86/Kconfig
+> > @@ -470,6 +470,17 @@ config LENOVO_WMI_GAMEZONE
+> >         To compile this driver as a module, choose M here: the module w=
+ill
+> >         be called lenovo_wmi_gamezone.
+> >
+> > +config LENOVO_WMI_DATA01
+> > +     tristate "Lenovo Legion WMI capability Data 01 Driver"
+> > +     depends on ACPI_WMI
+> > +     help
+> > +       Say Y here if you have a WMI aware Lenovo Legion device in the =
+"Gaming Series"
+> > +       line of hardware. This interface is a dependency for exposing t=
+unable power
+> > +       settings.
+> > +
+> > +       To compile this driver as a module, choose M here: the module w=
+ill
+> > +       be called lenovo_wmi_capdata01.
+>
+> Could it be that the resulting module will be called lenovo-wmi-capdata01=
+? Also if its a mere
+> dependency without any value when being used alone then it would make sen=
+se to hide it from
+> users by removing the help texts:
+>
+>         config LENOVO_WMI_DATA01
+>                 tristate
+>                 depends on ACPI_WMI
+>
 
-Hmm, it seems that I haven't got your first narrative straight..
+Makes sense, Will do
 
-Would you mind elaborate "copy_to_user() can block while waiting
-on a page fault"? When would this happen?
+> > +
+> >   config IDEAPAD_LAPTOP
+> >       tristate "Lenovo IdeaPad Laptop Extras"
+> >       depends on ACPI
+> > diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makef=
+ile
+> > index 7cb29a480ed2..6c96cc3f3855 100644
+> > --- a/drivers/platform/x86/Makefile
+> > +++ b/drivers/platform/x86/Makefile
+> > @@ -69,6 +69,7 @@ obj-$(CONFIG_YOGABOOK)              +=3D lenovo-yogab=
+ook.o
+> >   obj-$(CONFIG_YT2_1380)              +=3D lenovo-yoga-tab2-pro-1380-fa=
+stcharger.o
+> >   obj-$(CONFIG_LENOVO_WMI_CAMERA)     +=3D lenovo-wmi-camera.o
+> >   obj-$(CONFIG_LENOVO_WMI_GAMEZONE)   +=3D lenovo-wmi-gamezone.o
+> > +obj-$(CONFIG_LENOVO_WMI_DATA01)      +=3D lenovo-wmi-capdata01.o
+> >
+> >   # Intel
+> >   obj-y                               +=3D intel/
+> > diff --git a/drivers/platform/x86/lenovo-wmi-capdata01.c b/drivers/plat=
+form/x86/lenovo-wmi-capdata01.c
+> > new file mode 100644
+> > index 000000000000..b10a6e4b320f
+> > --- /dev/null
+> > +++ b/drivers/platform/x86/lenovo-wmi-capdata01.c
+> > @@ -0,0 +1,131 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > +/*
+> > + * LENOVO_CAPABILITY_DATA_01 WMI data block driver. This interface pro=
+vides
+> > + * information on tunable attributes used by the "Other Method" WMI in=
+terface,
+> > + * including if it is supported by the hardware, the default_value, ma=
+x_value,
+> > + * min_value, and step increment.
+> > + *
+> > + * Copyright(C) 2024 Derek J. Clark <derekjohn.clark@gmail.com>
+> > + */
+> > +
+> > +#include <linux/list.h>
+> > +#include "lenovo-wmi.h"
+> > +
+> > +#define LENOVO_CAPABILITY_DATA_01_GUID "7A8F5407-CB67-4D6E-B547-39B3BE=
+018154"
+> > +
+> > +static DEFINE_MUTEX(cd01_call_mutex);
+>
+> Does the WMI interface really rely on such mutual exclusion of callers? I=
+f no then
+> please remove this mutex.
+>
 
-Thanks
-Nicolin
+As with the other drivers, will remove.
+
+> > +static DEFINE_MUTEX(cd01_list_mutex);
+> > +static LIST_HEAD(cd01_wmi_list);
+> > +
+> > +static const struct wmi_device_id lenovo_wmi_capdata01_id_table[] =3D =
+{
+> > +     { LENOVO_CAPABILITY_DATA_01_GUID, NULL },
+> > +     {}
+> > +};
+> > +
+> > +struct lenovo_wmi_cd01_priv {
+> > +     struct wmi_device *wdev;
+> > +     struct list_head list;
+> > +};
+> > +
+> > +static inline struct lenovo_wmi_cd01_priv *get_first_wmi_priv(void)
+> > +{
+> > +     guard(mutex)(&cd01_list_mutex);
+> > +     return list_first_entry_or_null(&cd01_wmi_list,
+> > +                                     struct lenovo_wmi_cd01_priv, list=
+);
+>
+> Two things:
+>
+> 1. This will cause issues should a WMI device in this list be removed whi=
+le a
+> consumer is using it. In this case you will need extend the scope of the =
+list mutex.
+>
+> 2. Do multiple capdata01 WMI devices exist in any systems? If no then ple=
+ase consider
+> using the component framework (https://docs.kernel.org/driver-api/compone=
+nt.html) which
+> will simplify the interop between the consumer driver of capdata01 and th=
+is driver.
+>
+
+I looked into this and struggled with it for a while, do you have any
+good examples I can reference?
+Will this allow me to pass struct lenovo_wmi_cd01_priv *priv to this
+function from the other mode driver? If so, should I avoid calling it
+priv since it will be accessible outside the driver?
+
+> > +}
+> > +
+> > +int lenovo_wmi_capdata01_get(struct lenovo_wmi_attr_id attr_id,
+> > +                          struct capability_data_01 *cap_data)
+> > +{
+> > +     u32 attribute_id =3D *(int *)&attr_id;
+>
+> This will cause alignment issues, please use FIELD_GET()/FIELD_PREP() to =
+construct a u32 to
+> pass to this function.
+>
+
+Can do.
+
+> > +     struct lenovo_wmi_cd01_priv *priv;
+> > +     union acpi_object *ret_obj;
+> > +     int instance_idx;
+> > +     int count;
+> > +
+> > +     priv =3D get_first_wmi_priv();
+> > +     if (!priv)
+> > +             return -ENODEV;
+> > +
+> > +     guard(mutex)(&cd01_call_mutex);
+> > +     count =3D wmidev_instance_count(priv->wdev);
+> > +     pr_info("Got instance count: %u\n", count);
+> > +
+> > +     for (instance_idx =3D 0; instance_idx < count; instance_idx++) {
+> > +             ret_obj =3D wmidev_block_query(priv->wdev, instance_idx);
+> > +             if (!ret_obj) {
+> > +                     pr_err("WMI Data block query failed.\n");
+> > +                     continue;
+> > +             }
+> > +
+> > +             if (ret_obj->type !=3D ACPI_TYPE_BUFFER) {
+> > +                     pr_err("WMI Data block query returned wrong type.=
+\n");
+> > +                     kfree(ret_obj);
+> > +                     continue;
+> > +             }
+> > +
+> > +             if (ret_obj->buffer.length !=3D sizeof(*cap_data)) {
+> > +                     pr_err("WMI Data block query returned wrong buffe=
+r length: %u vice expected %lu.\n",
+> > +                            ret_obj->buffer.length, sizeof(*cap_data))=
+;
+> > +                     kfree(ret_obj);
+> > +                     continue;
+> > +             }
+> > +
+> > +             memcpy(cap_data, ret_obj->buffer.pointer,
+> > +                    ret_obj->buffer.length);
+> > +             kfree(ret_obj);
+> > +
+> > +             if (cap_data->id !=3D attribute_id)
+> > +                     continue;
+> > +             break;
+> > +     }
+>
+> Maybe it would make sense to read this data during device initialization =
+and store it
+> inside an array? This way looking up capability data would be _much_ fast=
+er especially
+> since WMI calls are usually quite slow.
+>
+
+I was looking into this as I agree that would be preferable but wasn't
+able to get a working version. Since I don't know the array length at
+compile time I tried using krealloc_array after getting
+wmidev_instance_count to resize a capdata array stored in priv, but
+that would result in the driver crashing for some reason. I'll take
+another shot at it.
+
+> Also this function is way to noisy when it comes to error messages. Pleas=
+e leave this
+> to the caller of this function.
+
+Can do. If I don't get a ret_obj should I quit the loop here?
+
+> > +
+> > +     if (cap_data->id !=3D attribute_id) {
+> > +             pr_err("Unable to find capability data for attribute_id %=
+x\n",
+> > +                    attribute_id);
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     return 0;
+> > +}
+> > +EXPORT_SYMBOL_NS_GPL(lenovo_wmi_capdata01_get, "CAPDATA_WMI");
+> > +
+> > +static int lenovo_wmi_capdata01_probe(struct wmi_device *wdev,
+> > +                                   const void *context)
+> > +
+> > +{
+> > +     struct lenovo_wmi_cd01_priv *priv;
+> > +
+> > +     priv =3D devm_kzalloc(&wdev->dev, sizeof(*priv), GFP_KERNEL);
+> > +     if (!priv)
+> > +             return -ENOMEM;
+> > +
+> > +     priv->wdev =3D wdev;
+> > +
+> > +     guard(mutex)(&cd01_list_mutex);
+> > +     list_add_tail(&priv->list, &cd01_wmi_list);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static void lenovo_wmi_capdata01_remove(struct wmi_device *wdev)
+> > +{
+> > +     struct lenovo_wmi_cd01_priv *priv =3D dev_get_drvdata(&wdev->dev)=
+;
+> > +
+> > +     guard(mutex)(&cd01_list_mutex);
+> > +     list_del(&priv->list);
+> > +}
+> > +
+> > +static struct wmi_driver lenovo_wmi_capdata01_driver =3D {
+> > +     .driver =3D { .name =3D "lenovo_wmi_capdata01" },
+>
+> Please set ".probe_type =3D PROBE_PREFER_ASYNCHRONOUS".
+>
+
+Ack
+
+> > +     .id_table =3D lenovo_wmi_capdata01_id_table,
+> > +     .probe =3D lenovo_wmi_capdata01_probe,
+> > +     .remove =3D lenovo_wmi_capdata01_remove,
+>
+> Please set ".no_singleton =3D true".
+>
+
+Ack
+
+Thanks,
+Derek
+
+> Thanks,
+> Armin Wolf
+>
+> > +};
+> > +
+> > +module_wmi_driver(lenovo_wmi_capdata01_driver);
+> > +
+> > +MODULE_DEVICE_TABLE(wmi, lenovo_wmi_capdata01_id_table);
+> > +MODULE_AUTHOR("Derek J. Clark <derekjohn.clark@gmail.com>");
+> > +MODULE_DESCRIPTION("Lenovo Capability Data 01 WMI Driver");
+> > +MODULE_LICENSE("GPL");
+> > diff --git a/drivers/platform/x86/lenovo-wmi.h b/drivers/platform/x86/l=
+enovo-wmi.h
+> > index 8a302c6c47cb..53cea84a956b 100644
+> > --- a/drivers/platform/x86/lenovo-wmi.h
+> > +++ b/drivers/platform/x86/lenovo-wmi.h
+> > @@ -36,6 +36,22 @@ struct wmi_method_args {
+> >       u32 arg1;
+> >   };
+> >
+> > +struct lenovo_wmi_attr_id {
+> > +     u32 mode_id : 16; /* Fan profile */
+> > +     u32 feature_id : 8; /* Attribute (SPL/SPPT/...) */
+> > +     u32 device_id : 8; /* CPU/GPU/... */
+> > +} __packed;
+> > +
+> > +/* Data struct for LENOVO_CAPABILITY_DATA_01 */
+> > +struct capability_data_01 {
+> > +     u32 id;
+> > +     u32 supported;
+> > +     u32 default_value;
+> > +     u32 step;
+> > +     u32 min_value;
+> > +     u32 max_value;
+> > +};
+> > +
+> >   /* General Use functions */
+> >   static int lenovo_wmidev_evaluate_method(struct wmi_device *wdev, u8 =
+instance,
+> >                                        u32 method_id, struct acpi_buffe=
+r *in,
+> > @@ -102,4 +118,8 @@ int lenovo_wmidev_evaluate_method_1(struct wmi_devi=
+ce *wdev, u8 instance,
+> >                                              0, retval);
+> >   }
+> >
+> > +/* LENOVO_CAPABILITY_DATA_01 exported functions */
+> > +int lenovo_wmi_capdata01_get(struct lenovo_wmi_attr_id attr_id,
+> > +                          struct capability_data_01 *cap_data);
+> > +
+> >   #endif /* !_LENOVO_WMI_H_ */
