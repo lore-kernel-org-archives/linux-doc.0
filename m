@@ -1,163 +1,299 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 105B0215058;
-	Fri, 10 Jan 2025 18:52:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3F6224B241
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 19:07:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736535165; cv=none; b=L5ubWgiCpHLYn/5rMFfmrek/HYRPhPFu3Ujm6rKR0mpgbvd37ILRcWxMBgaTYvTZG4w0LFKd4HcMVz7E2+MaTSePJkLIhb1yThcK9ztNcVKIakCUyeMm/JWUp4wZImVTHe2L+FxAp6c+fxWW7FpI2jYHwHwY0+VbSOKG1mC16Ac=
+	t=1736536079; cv=none; b=TXQOZE5V0c+HjRbl3bu/P55DQOhIoLGNBJOnhHn9IEjqBAdxlKb1F/JZhHG4jJEXHpTXNc4DaVuwr9+ceFrdIWcXctAq2n/MmN7s/kjjBW64mMQPid7CQY4y7pgs1rV+EuNFzWHVueBHIlDHb70UddL1xzUU7SCw29Qz91zqDxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736535165; c=relaxed/simple;
-	bh=ew5XgI3zhdST5X2UaL5ouhohLppujWeUu4n87xwMgTs=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=LQ3KAJzZGVUCnHZ/zH+ipT9R9Vtig1Jdh1bW3P/ZtyQDtyyUfeHB23c+zAFQykwwsbm9IcO0vTiyrS55Uzf9Ubu7MXJaBLztBGIwrtAT96DH2kUL/cfEpM2/ju+MQz8K/rh1y6ArmRs6W4b6Qin371h+9ZFC39HqgP8sc1Knaf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lMNKBENO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736536079; c=relaxed/simple;
+	bh=ZkrO2xwfolRDPaqbhvZRbSl0EuWqf5r+JED3WBi3ok0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=HX7+Oat3V4aFMTcZe22mEyzBLr0mgoCNkSDNkc/tyu5SSRozfKULvUS8O7V8NRHbmJEbpmou9gMrpsGGW40Ep6Q/idHG3SVMOf3SobLZ5epYj7O9nCvKTYj0/Ms7RnVZE+iMj/uLIq8+HJrsOZ+jsTwrZsV+bEu3ttFuQZ8vF5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZmhnN5Fu; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lMNKBENO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78C0EC4CED6;
-	Fri, 10 Jan 2025 18:52:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736535164;
-	bh=ew5XgI3zhdST5X2UaL5ouhohLppujWeUu4n87xwMgTs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lMNKBENOmMQzlS+PAUYCNfYlNbOmaFYkeYcwNC3a6R18W7BN6tuZJBOqu0SpfjYKo
-	 pq0OwD4oZqBYWcENh+fgMWlWwbHxAe6diuDG/DE5UI7VNxS5U5lePu8X13ZtVHCCiT
-	 xhA+/EZdpAWjLjWHsHQFIIHkBKRowHFq6lwhpq/2ZhS/Q30SeL7hgB3kf31yPCVYxB
-	 yIWOmS/seNziAb6R9XN+SGFRXJTujhH0IS9PJrdhtTNMZswONEludKyEvJjBxi/h/0
-	 DGqlbBU6TqWzOupor6LhgMiedHBCRNCRegZMl+iemLT/yKtv+snuFl9GHFjoWANDlU
-	 U7rpWdkkCsH0g==
-From: SeongJae Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SeongJae Park <sj@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 4/5] Docs/admin-guide/mm/damon/start: update snapshot example
-Date: Fri, 10 Jan 2025 10:52:31 -0800
-Message-Id: <20250110185232.54907-5-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250110185232.54907-1-sj@kernel.org>
-References: <20250110185232.54907-1-sj@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZmhnN5Fu"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4678c9310afso22821cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 11:07:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1736536076; x=1737140876; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qTi2nvSv0ABbvAbGtBJHojiB4NNIn2oSG/eUDgHwzqw=;
+        b=ZmhnN5FuqracjViwBn5PnKFvLxrXfn+W2aotuesUrk9xYjFhN5XCJk40U41XYujO17
+         JrQz0wBxw1WOBcrCrbVRR54EFaK16PAEZWD7P1uYtNCguq9sJwPj77pqH1Ryu0ur/Za7
+         Hklnws9MXVxfbiNaQQPKLFuOyrXf2sR3Ks/KjXr94xcaWLv6gOm56nwKgQWMB1d4LUy/
+         D2ERb1SGbe+7p3hFehmq1E/rP6C+DItZ82Yp/IKgk7IOYsyFx/5iUgff8XsobeJzdPsp
+         /n+dtabAb4R7p6eCJWmiyp5zt+qb4+aExQ+XHSGfcq8chu9IB4Bk/5OXPPv4vB5fI7a5
+         /dkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736536076; x=1737140876;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qTi2nvSv0ABbvAbGtBJHojiB4NNIn2oSG/eUDgHwzqw=;
+        b=gr5EdZYMnI7/XLEQMfeuhpzrYZgat5d1+IBTJghS8hsKFpNLEbBo90s4CxtdtCdbBX
+         sq5eJQEX5P0p5TKfCt4YjUQPZoHJzP2juqQAQ/tejhHeQgM9jg502FiRkotzkuM3l/3Q
+         2LnvdfP1+zvQ1XnWIK+PODUb+NhoZ/YHjqebagCnSh19g8T/s8f+1O2BJYzySL/wWZop
+         9Gq3AE4ec8w7KaJknUJQ0YiHnrLITOKXE1ZMzl3bOBxNYKJTHHUuYhCGYEAMoHSYg25g
+         ySvMcH/W9pftetXm7NpGauj62DRXIJhs69GPmemmq7FK5Wj4/6P2pVzi8uSeimgw6isw
+         WYQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUfH06mQTFuGVs1GWzfNb191CUv7Bz6Ps+EyvTib65HDq2a38Wb1GgUroHaUiEoQSBF7Zev0b8Nf2s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyb6qMcU0ObYN8tM5CeIMqquKUSzXOI+DvSQjNfgXtoCqfaUtLh
+	UYFqgBzLt+ShvDZ4wu7zDQkPD89vHzSwEBTedO8pXGNH03Vecg2JJkl/D9CdCWjD9btgmHDNNYm
+	HH08gQGwtROuQFENO3hpftFg9ER6mUfNH8vab
+X-Gm-Gg: ASbGncvmi0fgCWW/i0TNv82s3V3hI4q7x9rZ98NW5h3j0pCP3QQa0+FBq0z+v6f6pVQ
+	5rqxp0OFRKsN4HfotKb3syCuIdT1Nav89IOu5gQ==
+X-Google-Smtp-Source: AGHT+IEoXAcMVmHCXCyc8rjGNXE1ti4IyklXI+uMV2SwUHXGaGWMs4W9yqmVxDUBR+OVWVJ548l1xVR/OQhXEz92QFM=
+X-Received: by 2002:a05:622a:2c1:b0:460:491e:d2a2 with SMTP id
+ d75a77b69052e-46c89dad5a8mr3557021cf.17.1736536076139; Fri, 10 Jan 2025
+ 11:07:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250109023025.2242447-1-surenb@google.com> <20250109023025.2242447-16-surenb@google.com>
+ <wyaz55ugm2qcggi4gjovv4wyxehkcdvtjw77wnrere3eyhi6vf@whfigsczbni5>
+In-Reply-To: <wyaz55ugm2qcggi4gjovv4wyxehkcdvtjw77wnrere3eyhi6vf@whfigsczbni5>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Fri, 10 Jan 2025 11:07:44 -0800
+X-Gm-Features: AbW1kvYAAyQ3QGj7QebBVjDM6a0dnRe16Ld1SPpTzou8WRN4-K0wMA_sYKPRcJg
+Message-ID: <CAJuCfpG4BeBqyQQ1sGMuQa3mdK0HjAFOWp8pT1iWXWFsiO-8OA@mail.gmail.com>
+Subject: Re: [PATCH v8 15/16] mm: make vma cache SLAB_TYPESAFE_BY_RCU
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, Suren Baghdasaryan <surenb@google.com>, 
+	akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org, 
+	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz, 
+	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
+	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
+	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
+	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
+	klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Two of DAMON user-space tool (damo) commands that are used for examples
-on DAMON getting started document, namely 'damo show' and 'damo report
-heats' are deprecated[1,2], and replaced by new commands that provides
-same functions with unified and simplified user interfaces.  Also the
-example output of 'damo show' is outdated.  'damo schemes' command is
-not deprecated, but users are recommended to use 'damo start' or 'damo
-tune' instead.
+On Fri, Jan 10, 2025 at 9:48=E2=80=AFAM Liam R. Howlett <Liam.Howlett@oracl=
+e.com> wrote:
+>
+> * Suren Baghdasaryan <surenb@google.com> [250108 21:31]:
+> > To enable SLAB_TYPESAFE_BY_RCU for vma cache we need to ensure that
+> > object reuse before RCU grace period is over will be detected by
+> > lock_vma_under_rcu().
+> > Current checks are sufficient as long as vma is detached before it is
+> > freed. The only place this is not currently happening is in exit_mmap()=
+.
+> > Add the missing vma_mark_detached() in exit_mmap().
+> > Another issue which might trick lock_vma_under_rcu() during vma reuse
+> > is vm_area_dup(), which copies the entire content of the vma into a new
+> > one, overriding new vma's vm_refcnt and temporarily making it appear as
+> > attached. This might trick a racing lock_vma_under_rcu() to operate on
+> > a reused vma if it found the vma before it got reused. To prevent this
+> > situation, we should ensure that vm_refcnt stays at detached state (0)
+> > when it is copied and advances to attached state only after it is added
+> > into the vma tree. Introduce vma_copy() which preserves new vma's
+> > vm_refcnt and use it in vm_area_dup(). Since all vmas are in detached
+> > state with no current readers when they are freed, lock_vma_under_rcu()
+> > will not be able to take vm_refcnt after vma got detached even if vma
+> > is reused.
+> > Finally, make vm_area_cachep SLAB_TYPESAFE_BY_RCU. This will facilitate
+> > vm_area_struct reuse and will minimize the number of call_rcu() calls.
+> >
+> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > ---
+> >  include/linux/mm.h               |  2 -
+> >  include/linux/mm_types.h         | 10 +++--
+> >  include/linux/slab.h             |  6 ---
+> >  kernel/fork.c                    | 72 ++++++++++++++++++++------------
+> >  mm/mmap.c                        |  3 +-
+> >  mm/vma.c                         | 11 ++---
+> >  mm/vma.h                         |  2 +-
+> >  tools/testing/vma/vma_internal.h |  7 +---
+> >  8 files changed, 59 insertions(+), 54 deletions(-)
+> >
+> > diff --git a/include/linux/mm.h b/include/linux/mm.h
+> > index 1d6b1563b956..a674558e4c05 100644
+> > --- a/include/linux/mm.h
+> > +++ b/include/linux/mm.h
+> > @@ -258,8 +258,6 @@ void setup_initial_init_mm(void *start_code, void *=
+end_code,
+> >  struct vm_area_struct *vm_area_alloc(struct mm_struct *);
+> >  struct vm_area_struct *vm_area_dup(struct vm_area_struct *);
+> >  void vm_area_free(struct vm_area_struct *);
+> > -/* Use only if VMA has no other users */
+> > -void __vm_area_free(struct vm_area_struct *vma);
+> >
+> >  #ifndef CONFIG_MMU
+> >  extern struct rb_root nommu_region_tree;
+> > diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> > index 2d83d79d1899..93bfcd0c1fde 100644
+> > --- a/include/linux/mm_types.h
+> > +++ b/include/linux/mm_types.h
+> > @@ -582,6 +582,12 @@ static inline void *folio_get_private(struct folio=
+ *folio)
+> >
+> >  typedef unsigned long vm_flags_t;
+> >
+> > +/*
+> > + * freeptr_t represents a SLUB freelist pointer, which might be encode=
+d
+> > + * and not dereferenceable if CONFIG_SLAB_FREELIST_HARDENED is enabled=
+.
+> > + */
+> > +typedef struct { unsigned long v; } freeptr_t;
+> > +
+> >  /*
+> >   * A region containing a mapping of a non-memory backed file under NOM=
+MU
+> >   * conditions.  These are held in a global tree and are pinned by the =
+VMAs that
+> > @@ -695,9 +701,7 @@ struct vm_area_struct {
+> >                       unsigned long vm_start;
+> >                       unsigned long vm_end;
+> >               };
+> > -#ifdef CONFIG_PER_VMA_LOCK
+> > -             struct rcu_head vm_rcu; /* Used for deferred freeing. */
+> > -#endif
+> > +             freeptr_t vm_freeptr; /* Pointer used by SLAB_TYPESAFE_BY=
+_RCU */
+> >       };
+> >
+> >       /*
+> > diff --git a/include/linux/slab.h b/include/linux/slab.h
+> > index 10a971c2bde3..681b685b6c4e 100644
+> > --- a/include/linux/slab.h
+> > +++ b/include/linux/slab.h
+> > @@ -234,12 +234,6 @@ enum _slab_flag_bits {
+> >  #define SLAB_NO_OBJ_EXT              __SLAB_FLAG_UNUSED
+> >  #endif
+> >
+> > -/*
+> > - * freeptr_t represents a SLUB freelist pointer, which might be encode=
+d
+> > - * and not dereferenceable if CONFIG_SLAB_FREELIST_HARDENED is enabled=
+.
+> > - */
+> > -typedef struct { unsigned long v; } freeptr_t;
+> > -
+> >  /*
+> >   * ZERO_SIZE_PTR will be returned for zero sized kmalloc requests.
+> >   *
+> > diff --git a/kernel/fork.c b/kernel/fork.c
+> > index 9d9275783cf8..770b973a099c 100644
+> > --- a/kernel/fork.c
+> > +++ b/kernel/fork.c
+> > @@ -449,6 +449,41 @@ struct vm_area_struct *vm_area_alloc(struct mm_str=
+uct *mm)
+> >       return vma;
+> >  }
+> >
+>
+> There exists a copy_vma() which copies the vma to a new area in the mm
+> in rmap.  Naming this vma_copy() is confusing :)
+>
+> It might be better to just put this code in the vm_area_dup() or call it
+> __vm_area_dup(), or __vma_dup() ?
 
-Update the examples to use the replacements, recommdnations, and
-up-to-date output formats.
+Hmm. It's not really duplicating a vma but copying its content (no
+allocation). How about __vm_area_copy() to indicate it is copying
+vm_area_struct content?
 
-[1] https://git.kernel.org/sj/damo/c/3272e0ac94ecc5e1
-[2] https://git.kernel.org/sj/damo/c/da3ec66bbdd9e87d
+>
+> > +static void vma_copy(const struct vm_area_struct *src, struct vm_area_=
+struct *dest)
+> > +{
+> > +     dest->vm_mm =3D src->vm_mm;
+> > +     dest->vm_ops =3D src->vm_ops;
+> > +     dest->vm_start =3D src->vm_start;
+> > +     dest->vm_end =3D src->vm_end;
+> > +     dest->anon_vma =3D src->anon_vma;
+> > +     dest->vm_pgoff =3D src->vm_pgoff;
+> > +     dest->vm_file =3D src->vm_file;
+> > +     dest->vm_private_data =3D src->vm_private_data;
+> > +     vm_flags_init(dest, src->vm_flags);
+> > +     memcpy(&dest->vm_page_prot, &src->vm_page_prot,
+> > +            sizeof(dest->vm_page_prot));
+> > +     /*
+> > +      * src->shared.rb may be modified concurrently, but the clone
+> > +      * will be reinitialized.
+> > +      */
+> > +     data_race(memcpy(&dest->shared, &src->shared, sizeof(dest->shared=
+)));
+> > +     memcpy(&dest->vm_userfaultfd_ctx, &src->vm_userfaultfd_ctx,
+> > +            sizeof(dest->vm_userfaultfd_ctx));
+> > +#ifdef CONFIG_ANON_VMA_NAME
+> > +     dest->anon_name =3D src->anon_name;
+> > +#endif
+> > +#ifdef CONFIG_SWAP
+> > +     memcpy(&dest->swap_readahead_info, &src->swap_readahead_info,
+> > +            sizeof(dest->swap_readahead_info));
+> > +#endif
+> > +#ifndef CONFIG_MMU
+> > +     dest->vm_region =3D src->vm_region;
+> > +#endif
+> > +#ifdef CONFIG_NUMA
+> > +     dest->vm_policy =3D src->vm_policy;
+> > +#endif
+> > +}
+> > +
+> >  struct vm_area_struct *vm_area_dup(struct vm_area_struct *orig)
+> >  {
+> >       struct vm_area_struct *new =3D kmem_cache_alloc(vm_area_cachep, G=
+FP_KERNEL);
+> > @@ -458,11 +493,7 @@ struct vm_area_struct *vm_area_dup(struct vm_area_=
+struct *orig)
+> >
+> >       ASSERT_EXCLUSIVE_WRITER(orig->vm_flags);
+> >       ASSERT_EXCLUSIVE_WRITER(orig->vm_file);
+> > -     /*
+> > -      * orig->shared.rb may be modified concurrently, but the clone
+> > -      * will be reinitialized.
+> > -      */
+> > -     data_race(memcpy(new, orig, sizeof(*new)));
+> > +     vma_copy(orig, new);
+> >       vma_lock_init(new, true);
+>
+> I think this suffers from a race still?
+>
+> That is, we can still race between vm_lock_seq =3D=3D mm_lock_seq and the
+> lock acquire, where a free and reuse happens.  In the even that the
+> reader is caught between the sequence and lock taking, the
+> vma->vmlock_dep_map may not be replaced and it could see the old lock
+> (or zero?) and things go bad:
+>
+> It could try to take vmlock_dep_map =3D=3D 0 in read mode.
+>
+> It can take the old lock, detect the refcnt is wrong and release the new
+> lock.
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/start.rst | 67 ++++++++++++--------
- 1 file changed, 40 insertions(+), 27 deletions(-)
+I don't think this race can happen. Notice a call to
+vma_assert_detached() inside vm_area_free(), so before vma is freed
+and possibly reused, it has to be detached. vma_mark_detached()
+ensures that there are no current or future readers by executing the
+__vma_enter_locked() + __vma_exit_locked() sequence if vm_refcnt is
+not already at 0. Once __vma_exit_locked() is done, vm_refcnt is at 0
+and any new reader will be rejected on
+__refcount_inc_not_zero_limited(), before even checking vm_lock_seq =3D=3D
+mm_lock_seq. Even if a reader tries to sneak in between
+__vma_enter_locked() and __vma_exit_locked() calls,
+__refcount_inc_not_zero_limited() will reject it because
+VMA_LOCK_OFFSET is set and VMA_REF_LIMIT will be violated.
+IOW, when VMA is freed, it's guaranteed to be detached with no current
+or future readers, therefore "race between vm_lock_seq =3D=3D mm_lock_seq
+and the lock acquire, where a free and reuse happens" should not be
+possible.
 
-diff --git a/Documentation/admin-guide/mm/damon/start.rst b/Documentation/admin-guide/mm/damon/start.rst
-index c4dddf6733cd..ede14b679d02 100644
---- a/Documentation/admin-guide/mm/damon/start.rst
-+++ b/Documentation/admin-guide/mm/damon/start.rst
-@@ -42,32 +42,45 @@ the execution. ::
- 
-     $ git clone https://github.com/sjp38/masim; cd masim; make
-     $ sudo damo start "./masim ./configs/stairs.cfg --quiet"
--    $ sudo ./damo show
--    0   addr [85.541 TiB  , 85.541 TiB ) (57.707 MiB ) access 0 %   age 10.400 s
--    1   addr [85.541 TiB  , 85.542 TiB ) (413.285 MiB) access 0 %   age 11.400 s
--    2   addr [127.649 TiB , 127.649 TiB) (57.500 MiB ) access 0 %   age 1.600 s
--    3   addr [127.649 TiB , 127.649 TiB) (32.500 MiB ) access 0 %   age 500 ms
--    4   addr [127.649 TiB , 127.649 TiB) (9.535 MiB  ) access 100 % age 300 ms
--    5   addr [127.649 TiB , 127.649 TiB) (8.000 KiB  ) access 60 %  age 0 ns
--    6   addr [127.649 TiB , 127.649 TiB) (6.926 MiB  ) access 0 %   age 1 s
--    7   addr [127.998 TiB , 127.998 TiB) (120.000 KiB) access 0 %   age 11.100 s
--    8   addr [127.998 TiB , 127.998 TiB) (8.000 KiB  ) access 40 %  age 100 ms
--    9   addr [127.998 TiB , 127.998 TiB) (4.000 KiB  ) access 0 %   age 11 s
--    total size: 577.590 MiB
--    $ sudo ./damo stop
-+    $ sudo damo report access
-+    heatmap: 641111111000000000000000000000000000000000000000000000[...]33333333333333335557984444[...]7
-+    # min/max temperatures: -1,840,000,000, 370,010,000, column size: 3.925 MiB
-+    0   addr 86.182 TiB   size 8.000 KiB   access 0 %   age 14.900 s
-+    1   addr 86.182 TiB   size 8.000 KiB   access 60 %  age 0 ns
-+    2   addr 86.182 TiB   size 3.422 MiB   access 0 %   age 4.100 s
-+    3   addr 86.182 TiB   size 2.004 MiB   access 95 %  age 2.200 s
-+    4   addr 86.182 TiB   size 29.688 MiB  access 0 %   age 14.100 s
-+    5   addr 86.182 TiB   size 29.516 MiB  access 0 %   age 16.700 s
-+    6   addr 86.182 TiB   size 29.633 MiB  access 0 %   age 17.900 s
-+    7   addr 86.182 TiB   size 117.652 MiB access 0 %   age 18.400 s
-+    8   addr 126.990 TiB  size 62.332 MiB  access 0 %   age 9.500 s
-+    9   addr 126.990 TiB  size 13.980 MiB  access 0 %   age 5.200 s
-+    10  addr 126.990 TiB  size 9.539 MiB   access 100 % age 3.700 s
-+    11  addr 126.990 TiB  size 16.098 MiB  access 0 %   age 6.400 s
-+    12  addr 127.987 TiB  size 132.000 KiB access 0 %   age 2.900 s
-+    total size: 314.008 MiB
-+    $ sudo damo stop
- 
- The first command of the above example downloads and builds an artificial
- memory access generator program called ``masim``.  The second command asks DAMO
--to execute the artificial generator process start via the given command and
--make DAMON monitors the generator process.  The third command retrieves the
--current snapshot of the monitored access pattern of the process from DAMON and
--shows the pattern in a human readable format.
--
--Each line of the output shows which virtual address range (``addr [XX, XX)``)
--of the process is how frequently (``access XX %``) accessed for how long time
--(``age XX``).  For example, the fifth region of ~9 MiB size is being most
--frequently accessed for last 300 milliseconds.  Finally, the fourth command
--stops DAMON.
-+to start the program via the given command and make DAMON monitors the newly
-+started process.  The third command retrieves the current snapshot of the
-+monitored access pattern of the process from DAMON and shows the pattern in a
-+human readable format.
-+
-+The first line of the output shows the relative access temperature (hotness) of
-+the regions in a single row hetmap format.  Each column on the heatmap
-+represents regions of same size on the monitored virtual address space.  The
-+position of the colun on the row and the number on the column represents the
-+relative location and access temperature of the region.  ``[...]`` means
-+unmapped huge regions on the virtual address spaces.  The second line shows
-+additional information for better understanding the heatmap.
-+
-+Each line of the output from the third line shows which virtual address range
-+(``addr XX size XX``) of the process is how frequently (``access XX %``)
-+accessed for how long time (``age XX``).  For example, the evelenth region of
-+~9.5 MiB size is being most frequently accessed for last 3.7 seconds.  Finally,
-+the fourth command stops DAMON.
- 
- Note that DAMON can monitor not only virtual address spaces but multiple types
- of address spaces including the physical address space.
-@@ -95,7 +108,7 @@ Visualizing Recorded Patterns
- You can visualize the pattern in a heatmap, showing which memory region
- (x-axis) got accessed when (y-axis) and how frequently (number).::
- 
--    $ sudo damo report heats --heatmap stdout
-+    $ sudo damo report heatmap
-     22222222222222222222222222222222222222211111111111111111111111111111111111111100
-     44444444444444444444444444444444444444434444444444444444444444444444444444443200
-     44444444444444444444444444444444444444433444444444444444444444444444444444444200
-@@ -160,6 +173,6 @@ Data Access Pattern Aware Memory Management
- Below command makes every memory region of size >=4K that has not accessed for
- >=60 seconds in your workload to be swapped out. ::
- 
--    $ sudo damo schemes --damos_access_rate 0 0 --damos_sz_region 4K max \
--                        --damos_age 60s max --damos_action pageout \
--                        <pid of your workload>
-+    $ sudo damo start --damos_access_rate 0 0 --damos_sz_region 4K max \
-+                      --damos_age 60s max --damos_action pageout \
-+                      <pid of your workload>
--- 
-2.39.5
+Did I understand your concern correctly and does my explanation make
+sense to you?
+
+>
+> Thanks,
+> Liam
