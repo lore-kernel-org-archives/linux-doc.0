@@ -1,135 +1,128 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F229211283
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 14:39:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8953120E709;
+	Fri, 10 Jan 2025 14:43:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736519974; cv=none; b=Ko0MzvGaRJNaUetq5Mwn9nx/5dvk4rt9hlvTCG71YKgyZ6TuYfAQprVUUJfYoT0uU8fFRdRzY7DaO9GQGk7m9+T0MCsozRjXq10bXHSG/uNzEsuRjFTj7qHLE1UY3+UDHXYOm5uzHaO+nA4EzQ7HHDMPLG/FZdQSTEJ02eTI62A=
+	t=1736520210; cv=none; b=T8ztTNa++iRO1NhEFmH2u3RqZ/DAf2mHdZhuMIt1hXUW4nVxewUsOMllyy39P7Uxm6QrvUAfhW9cvsUNzwh0/wLwuj9pSYLwzKebeg83YRW1O3YmHj+PYvCEHHRXT2bGZ3iN7QUgKZ1PxePJP76ThdMbNO65PoL2CmJEJQsvwxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736519974; c=relaxed/simple;
-	bh=dNcVzZTesBokg/jzESekrq3gcdde//x7yKqO6CtNHGM=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=jDg9sOAOPytgsPig3aqOzLoFxu+gUXXAtsv9Y8ziOGnKoF5Ojsn6/vSa7urIyfXZJN0DB7/cjEuhHRVcHQJI+kfnxWWNtA1J7c7IOIXoa+xbPDekpGc0jwODW+y6pHUWYP80PWbfig40J8IFriqeMI2i7+mi1ReORVmrxrNO8lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=HjYkbY5B; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1736520210; c=relaxed/simple;
+	bh=NPB5NFD4Tgx2JiOc65v+cROQTjUVAMnTM2bpuZWaG2A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jEmF/A50PdGXjSasqNr7aC9mvn1MqGCC5cTZkUgyZgliJyEo8TWUAAKtXFow/p71xes1162dYKwo6+e5UjIDSoqUPD3V2OCRXpqtUWMW4S4ILjZR2gVyLaXihEmPKTP/4zIPdw0X99Sm7whwfTcyNNCi1szkFqx4YAaFtHZpx2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=unDx1OIS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="HjYkbY5B"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4361b0ec57aso21469705e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 06:39:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736519971; x=1737124771; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yvV3AHUuYO6Tr9wrbauX5wDzxdO09agrWxXF+HRfAWU=;
-        b=HjYkbY5BRbbMZ0l9kgNjutWDNTtw3NLD825Z+YvjmMW6HodK/yZSECY1R95IoQ4B3v
-         upvLo5uJybvtN+tXKso7M+ilEPLQ30XZmoM60B8DXC7rOufKjKHFOEP7eamqgrzPTqzF
-         b8jBb0Q+xB2jt2ZnXbZf7i/Mp7S3LpKGGrpPQ6oiplkjDU5RDYXxjeI7m6oFSDzy9qMu
-         ti7ZZMgR8Nn05/b62oZOp5pOUAZI0ZEcKAm2dHNULe1ddVYK5hKiOqB+LY1u2XJS7+NR
-         qjS8WrEUPPZXcS9FFGXnR2YBr/eIhQaH6NgXYA3TsQfXOPJoxkKc5YzhDVEuYXq5eXzu
-         uvjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736519971; x=1737124771;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=yvV3AHUuYO6Tr9wrbauX5wDzxdO09agrWxXF+HRfAWU=;
-        b=TUVLd/UCQiAiaadJDGBSRHBtTTnMO1DVxGMQwutSn4QvSMg8i+6p7U4ofzJvIA71Gr
-         0bILyzubBuf19bL9klYuyVJ0+CIYlomcWKdSkQOBiGPfF7X8e07b8WWni9MQus+CT9tz
-         NG8W4f0eFzdWh/wqaI3ASda3csnvjtAiyO1uV+IvR2yc86/FzkpiBPN6Ak5Qt3csrBJQ
-         Qm/RSg22XrTFRqIz6P+RXVYLLfM1zJV8o+RBLcI8aqMlUiq6+LSAtn3tGfWQO4CAzOkQ
-         ClZLAhx5s0cIpLwYw1jLMshPZ1BAmTgw8y1/kn87TWLoFCQ4h3DfSyMr3BJZ32qlIhaq
-         gDuw==
-X-Forwarded-Encrypted: i=1; AJvYcCWgJsV9LLGuaqosR80zxuP9F6/RUGT+7vuOJqXNSzOF4dMktZuVySQ6oJ7Z0U8c2tai/d8e/r9q5vU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxobJy7qPqEFJFxVFe+3/I4ZXYt4iltIz5M7lx3J47GSdqLEVyY
-	wyViF/j8I7sj5+j/0EUsQWbzC7fPdBOkr+5DB4sexSW3ig7R6kA+O5+Zu9Eq/28=
-X-Gm-Gg: ASbGncuH80I1KB0JK7wGMspMNuNKH8nByRhgW3wrGGXZEFOUgITqtIu+DETj5PX1DxD
-	vkyOM2Gp8/JHe5MVDKj6h/W3IOGTtvibzMnLmwrvhqhihmjlp5STn7B6LMZ0XYkw1svMXO006qi
-	ntBB+byEfhjteTr2S767EP+MfFkvc2xwFvS9gEpUfvRV8yqAbLK3LTMBBMr0nLDnGHhlQmkk3RJ
-	U9UPp1R+FbJVpzYOR9A/RFMIROxGaDHM2kkQhgb11gnX9VMz9TwGsk=
-X-Google-Smtp-Source: AGHT+IFsvuIAj4E6ymt7QQeU2pHWrvkUqe+Ac8WeW/VVn+1zRvvfjuYtDvvzhEKp8rrWDBKxsvfdDA==
-X-Received: by 2002:a05:6000:1563:b0:385:f44a:a53 with SMTP id ffacd0b85a97d-38a872cfe40mr8748169f8f.4.1736519970862;
-        Fri, 10 Jan 2025 06:39:30 -0800 (PST)
-Received: from localhost ([2a01:e0a:448:76e0:cfad:dcf2:8a42:1d83])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e37d447sm4625706f8f.4.2025.01.10.06.39.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jan 2025 06:39:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="unDx1OIS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8930CC4CED6;
+	Fri, 10 Jan 2025 14:43:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736520210;
+	bh=NPB5NFD4Tgx2JiOc65v+cROQTjUVAMnTM2bpuZWaG2A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=unDx1OISNdVw+hc8QQjFywLA6bLYlIkgLF4Bu7z2BJxXHdNArtLsIO3LnoVN3Xc2J
+	 ElKUQ7HQgy+0EQlk+p7C1h+CRo6UJZUbFs17FeQzBTgPSgLzAzSzR8RRMQK+BpTkPo
+	 YZpCmpVc+iA1oMKoCoYqhPH06j/lx/o0iEfNXD86f8TKZLgUgzKSOGsAR7Tl2e6liZ
+	 NI2WnSXGbNbj7oXPq5MTSo9NgPX6laQhclxAcalJAfwG2s3ua+UaUQpZsC4Z8KlrCa
+	 xxoQP9cZwSV/uwlUDIPDgO8MJm9pe1vcTuBIx4fqx1Ph4XJD8l/RBPAd9eDKkeYXUU
+	 m1C1mzZLZYlfQ==
+Date: Fri, 10 Jan 2025 11:43:27 -0300
+From: Arnaldo Carvalho de Melo <acme@kernel.org>
+To: Athira Rajeev <atrajeev@linux.vnet.ibm.com>
+Cc: Charlie Jenkins <charlie@rivosinc.com>,
+	Namhyung Kim <namhyung@kernel.org>, Ian Rogers <irogers@google.com>,
+	Hari Bathini <hbathini@linux.ibm.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	Christian Brauner <brauner@kernel.org>, Guo Ren <guoren@kernel.org>,
+	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
+	James Clark <james.clark@linaro.org>,
+	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
+	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
+	linux-csky@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 00/16] perf tools: Use generic syscall scripts for all
+ archs
+Message-ID: <Z4EyD_RgjjeD6G4K@x1>
+References: <20250108-perf_syscalltbl-v6-0-7543b5293098@rivosinc.com>
+ <Z3_ybwWW3QZvJ4V6@x1>
+ <Z4AoFA974kauIJ9T@ghost>
+ <Z4A2Y269Ffo0ERkS@x1>
+ <Z4A8NU02WVBDGrYZ@ghost>
+ <8639C367-2669-4924-83D8-15EAFAC42699@linux.vnet.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 10 Jan 2025 15:39:29 +0100
-Message-Id: <D6YGYCYXJSOF.3BIXI0UPGNNZW@baylibre.com>
-Cc: "Lars-Peter Clausen" <lars@metafoo.de>, "Michael Hennerich"
- <Michael.Hennerich@analog.com>, =?utf-8?q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Jonathan Corbet" <corbet@lwn.net>, <linux-iio@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 2/6] iio: adc: ad4030: add driver for ad4030-24
-From: "Esteban Blanc" <eblanc@baylibre.com>
-To: "Jonathan Cameron" <jic23@kernel.org>, "Marcelo Schmitt"
- <marcelo.schmitt1@gmail.com>
-X-Mailer: aerc 0.18.2
-References: <20241219-eblanc-ad4630_v1-v2-0-f36e55907bf5@baylibre.com>
- <20241219-eblanc-ad4630_v1-v2-2-f36e55907bf5@baylibre.com>
- <Z2eqOSN2Uk8SfTq1@debian-BULLSEYE-live-builder-AMD64>
- <20241223120419.757eadfb@jic23-huawei>
-In-Reply-To: <20241223120419.757eadfb@jic23-huawei>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8639C367-2669-4924-83D8-15EAFAC42699@linux.vnet.ibm.com>
 
-On Mon Dec 23, 2024 at 1:04 PM CET, Jonathan Cameron wrote:
->
-> Just commenting on one particular bit feedback. Makes sure to address the
-> rest!
->
-> > > +
-> > > +static int ad4030_get_chan_calibscale(struct iio_dev *indio_dev,
-> > > +				      struct iio_chan_spec const *chan,
-> > > +				      int *val,
-> > > +				      int *val2)
-> > > +{
-> > > +	struct ad4030_state *st =3D iio_priv(indio_dev);
-> > > +	u16 gain;
-> > > +	int ret;
-> > > +
-> > > +	ret =3D regmap_bulk_read(st->regmap, AD4030_REG_GAIN_CHAN(chan->add=
-ress),
-> > > +			       st->rx_data.raw, AD4030_REG_GAIN_BYTES_NB);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	gain =3D get_unaligned_be16(st->rx_data.raw); =20
-> > My impression is that it is a bit odd to handle endianness after/before
-> > calling regmap_read/write(). Can you try set
-> > .val_format_endian_default =3D REGMAP_ENDIAN_BIG, in ad4030_regmap_bus?
-> > If that doesn't help, what about doing the get/set_unaligned stuff with=
-in
-> > the bus read/write calls?
->
-> Unless these are all 16 bit registers (in which case push it into the
-> regmap side of things), then a bulk read is not implying the registers
-> read are one value. They could just be a load of registers next to each o=
-ther.
-> As such the regmap core won't touch them and endian conversion here, at t=
-he
-> layer where we know they are related is the right thing to do.
->
-> It's  not worth dual regmap stuff just because we have a few pairs of
-> registers.=20
+On Fri, Jan 10, 2025 at 12:34:46PM +0530, Athira Rajeev wrote:
+> 
+> 
+> > On 10 Jan 2025, at 2:44 AM, Charlie Jenkins <charlie@rivosinc.com> wrote:
+> > 
+> > On Thu, Jan 09, 2025 at 05:49:39PM -0300, Arnaldo Carvalho de Melo wrote:
+> >> On Thu, Jan 09, 2025 at 11:48:36AM -0800, Charlie Jenkins wrote:
+> >>> On Thu, Jan 09, 2025 at 12:59:43PM -0300, Arnaldo Carvalho de Melo wrote:
+> >>>> ⬢ [acme@toolbox perf-tools-next]$ git log --oneline -1 ; time make -C tools/perf build-test
+> >>>> d06826160a982494 (HEAD -> perf-tools-next) perf tools: Remove dependency on libaudit
+> >>>> make: Entering directory '/home/acme/git/perf-tools-next/tools/perf'
+> >>>> - tarpkg: ./tests/perf-targz-src-pkg .
+> >>>>                 make_static: cd . && make LDFLAGS=-static NO_PERF_READ_VDSO32=1 NO_PERF_READ_VDSOX32=1 NO_JVMTI=1 NO_LIBTRACEEVENT=1 NO_LIBELF=1 -j28  DESTDIR=/tmp/tmp.JJT3tvN7bV
+> >>>>              make_with_gtk2: cd . && make GTK2=1 -j28  DESTDIR=/tmp/tmp.BF53V2qpl3
+> >>>> - /home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_FEATURE_DUMP: cd . && make FEATURE_DUMP_COPY=/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_FEATURE_DUMP  feature-dump
+> >>>> cd . && make FEATURE_DUMP_COPY=/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_FEATURE_DUMP feature-dump
+> >>>>         make_no_libbionic_O: cd . && make NO_LIBBIONIC=1 FEATURES_DUMP=/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_FEATURE_DUMP -j28 O=/tmp/tmp.KZuQ0q2Vs6 DESTDIR=/tmp/tmp.0sxMyH91gS
+> >>>>           make_util_map_o_O: cd . && make util/map.o FEATURES_DUMP=/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_FEATURE_DUMP -j28 O=/tmp/tmp.Y0Mx3KLREI DESTDIR=/tmp/tmp.wg9HCVVLHE
+> >>>>              make_install_O: cd . && make install FEATURES_DUMP=/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_FEATURE_DUMP -j28 O=/tmp/tmp.P0LEBAkW1X DESTDIR=/tmp/tmp.agTavZndFN
+> >>>>  failed to find: etc/bash_completion.d/perf
+> >>> 
+> >>> Is this something introduced by this patch?
+> >> 
+> >> I don't think so.
+> >> 
+> >> BTW this series is already pushed out to perf-tools-next:
+> >> 
+> >> https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git/log/?h=perf-tools-next
+> >> 
+> >> Thanks!
+> >> 
+> >> - Arnaldo
+> > 
+> > Thank you!
+> > 
+> > - Charlie
+> 
+> Hi Charlie, Arnaldo
+> 
+> While testing the series, I hit compilation issue in powerpc
+> 
+> Snippet of logs:
 
-In fact I've already set `.val_format_endian_default =3D REGMAP_ENDIAN_BIG`
-but it has any effect as registers are 8bits long.
+Yeah, Stephen Rothwell noticed it in linux next and Charlie provided a
+fix, so I squashed it all together and will push it soon:
 
-Most of the time registers are not related to each other. It's only for
-offset and scale that multiple registers form one number
+    Link: https://lore.kernel.org/r/20250108-perf_syscalltbl-v6-14-7543b5293098@rivosinc.com
+    Link: https://lore.kernel.org/lkml/20250110100505.78d81450@canb.auug.org.au
+    [ Stephen Rothwell noticed on linux-next that the powerpc build for perf was broken and ...]
+    Link: https://lore.kernel.org/lkml/20250109-perf_powerpc_spu-v1-1-c097fc43737e@rivosinc.com
+    [ ... Charlie fixed it up and asked for it to be squashed to avoid breaking bisection. o
 
---=20
-Esteban Blanc
-BayLibre
+Thanks for the report!
+
+- Arnaldo
