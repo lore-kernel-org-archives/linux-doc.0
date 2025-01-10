@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE57208976
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 06:05:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA20209F45
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 06:05:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736489143; cv=none; b=fEwhY2i709wUaoaQ974q/nD+eeNUQdJvoK6dWbDCXTbkIAEYPAlgchpcs9F3rlh2ehplDy9a1Hw10TCHzqOChjw/pZWQBuk6Z5dLshikpr/A6sWvvPDVSCjpQRw6EPlKKEzGc3atlL3yANP9YosVWOHQ6OJDFIxPKbF8NnSXR8k=
+	t=1736489144; cv=none; b=CwM7FAunM0WRZ/mhj7yLo/RpP5rGTUDNVqWBXz7p5Fg7hx6aFcoqQzvcL1NKHdO3TElR2+xgdVvgJ1TIbBzPhjRM7BueM4st8nP39R7zUt8U0GgMDYkKxpkTSfkD1p+ncsJzqcaebVKKT8TxdzpOxNPEGHJHCOEwv2pawrl4NZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736489143; c=relaxed/simple;
-	bh=2wXbYqaWGW9mOPTkLt5y4RaTyBb9rPot160rt9mK8bo=;
+	s=arc-20240116; t=1736489144; c=relaxed/simple;
+	bh=IezSPtzCA+GIk5IpkRFZvleekPS1quzOod7dsNbrjWo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=jvPYhBqiBd7JxYSPLiYi2yDkh+AefsWi5tPdN6J7Y1mmZFtVqhcoCLNjtZx9RJMIeF7bU+T+UuDMefvGOOrRuTo6cQNRBgNH7HKLP1L12A8oSbIGVXpBLjxzIe5C1Ui0wwOk3/MB09Ckvof3jnCjrS4gmNAIFzUZzzhiCtXkHxs=
+	 MIME-Version; b=KufJ5OixgMf/oV9K1JyIkaczkGGYqoVNj9AgfgdRJf3HHzLSnEUix1yGajkxbU+xc98sTaN4amo7v8D7zpGdDZddtMSpypALjQWPL+405PNOUB5pVcT9i/vQSdZms413bYQ+5cCOInjA+VgB0ZIuAFY1Zqscjxw0v+udLCD7KTA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,16 +18,16 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ore@pengutronix.de>)
-	id 1tW895-0007oF-Oq; Fri, 10 Jan 2025 07:05:23 +0100
+	id 1tW895-0007oD-Ok; Fri, 10 Jan 2025 07:05:23 +0100
 Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <ore@pengutronix.de>)
-	id 1tW892-0006lI-07;
-	Fri, 10 Jan 2025 07:05:20 +0100
+	id 1tW891-0006lE-37;
+	Fri, 10 Jan 2025 07:05:19 +0100
 Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.96)
 	(envelope-from <ore@pengutronix.de>)
-	id 1tW891-002zA6-36;
+	id 1tW891-002z9c-2s;
 	Fri, 10 Jan 2025 07:05:19 +0100
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: "David S. Miller" <davem@davemloft.net>,
@@ -45,9 +45,9 @@ Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
 	Russell King <linux@armlinux.org.uk>,
 	Maxime Chevallier <maxime.chevallier@bootlin.com>,
 	linux-doc@vger.kernel.org
-Subject: [PATCH net-next v7 4/7] Documentation: networking: update PHY error counter diagnostics in twisted pair guide
-Date: Fri, 10 Jan 2025 07:05:14 +0100
-Message-Id: <20250110060517.711683-5-o.rempel@pengutronix.de>
+Subject: [PATCH net-next v7 1/7] ethtool: linkstate: migrate linkstate functions to support multi-PHY setups
+Date: Fri, 10 Jan 2025 07:05:11 +0100
+Message-Id: <20250110060517.711683-2-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250110060517.711683-1-o.rempel@pengutronix.de>
 References: <20250110060517.711683-1-o.rempel@pengutronix.de>
@@ -63,71 +63,93 @@ X-SA-Exim-Mail-From: ore@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Replace generic instructions for monitoring error counters with a
-procedure using the unified PHY statistics interface (`--all-groups`).
+Adapt linkstate_get_sqi() and linkstate_get_sqi_max() to take a
+phy_device argument directly, enabling support for setups with
+multiple PHYs. The previous assumption of a single PHY attached to
+a net_device no longer holds.
+
+Use ethnl_req_get_phydev() to identify the appropriate PHY device
+for the operation. Update linkstate_prepare_data() and related
+logic to accommodate this change, ensuring compatibility with
+multi-PHY configurations.
 
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 ---
- .../twisted_pair_layer1_diagnostics.rst       | 39 +++++++++++++------
- 1 file changed, 28 insertions(+), 11 deletions(-)
+changes v3:
+- s/ETHTOOL_A_PLCA_HEADER/ETHTOOL_A_LINKSTATE_HEADER
+---
+ net/ethtool/linkstate.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/networking/diagnostic/twisted_pair_layer1_diagnostics.rst b/Documentation/networking/diagnostic/twisted_pair_layer1_diagnostics.rst
-index c9be5cc7e113..079e17effadf 100644
---- a/Documentation/networking/diagnostic/twisted_pair_layer1_diagnostics.rst
-+++ b/Documentation/networking/diagnostic/twisted_pair_layer1_diagnostics.rst
-@@ -713,17 +713,23 @@ driver supports reporting such events.
+diff --git a/net/ethtool/linkstate.c b/net/ethtool/linkstate.c
+index 34d76e87847d..459cfea7652d 100644
+--- a/net/ethtool/linkstate.c
++++ b/net/ethtool/linkstate.c
+@@ -26,9 +26,8 @@ const struct nla_policy ethnl_linkstate_get_policy[] = {
+ 		NLA_POLICY_NESTED(ethnl_header_policy_stats),
+ };
  
- - **Monitor Error Counters**:
+-static int linkstate_get_sqi(struct net_device *dev)
++static int linkstate_get_sqi(struct phy_device *phydev)
+ {
+-	struct phy_device *phydev = dev->phydev;
+ 	int ret;
  
--  - While some NIC drivers and PHYs provide error counters, there is no unified
--    set of PHY-specific counters across all hardware. Additionally, not all
--    PHYs provide useful information related to errors like CRC errors, frame
--    drops, or link flaps. Therefore, this step is dependent on the specific
--    hardware and driver support.
--
--  - **Next Steps**: Use `ethtool -S <interface>` to check if your driver
--    provides useful error counters. In some cases, counters may provide
--    information about errors like link flaps or physical layer problems (e.g.,
--    excessive CRC errors), but results can vary significantly depending on the
--    PHY.
-+  - Use `ethtool -S <interface> --all-groups` to retrieve standardized interface
-+    statistics if the driver supports the unified interface:
-+
-+  - **Command:** `ethtool -S <interface> --all-groups`
-+
-+  - **Example Output (if supported)**:
-+
-+    .. code-block:: bash
-+
-+      phydev-RxFrames: 100391
-+      phydev-RxErrors: 0
-+      phydev-TxFrames: 9
-+      phydev-TxErrors: 0
-+
-+  - If the unified interface is not supported, use `ethtool -S <interface>` to
-+    retrieve MAC and PHY counters. Note that non-standardized PHY counter names
-+    vary by driver and must be interpreted accordingly:
+ 	if (!phydev)
+@@ -46,9 +45,8 @@ static int linkstate_get_sqi(struct net_device *dev)
+ 	return ret;
+ }
  
-   - **Command:** `ethtool -S <interface>`
+-static int linkstate_get_sqi_max(struct net_device *dev)
++static int linkstate_get_sqi_max(struct phy_device *phydev)
+ {
+-	struct phy_device *phydev = dev->phydev;
+ 	int ret;
  
-@@ -740,6 +746,17 @@ driver supports reporting such events.
-     condition) or kernel log messages (e.g., link up/down events) to further
-     diagnose the issue.
+ 	if (!phydev)
+@@ -100,19 +98,28 @@ static int linkstate_prepare_data(const struct ethnl_req_info *req_base,
+ {
+ 	struct linkstate_reply_data *data = LINKSTATE_REPDATA(reply_base);
+ 	struct net_device *dev = reply_base->dev;
++	struct nlattr **tb = info->attrs;
++	struct phy_device *phydev;
+ 	int ret;
  
-+  - **Compare Counters**:
++	phydev = ethnl_req_get_phydev(req_base, tb[ETHTOOL_A_LINKSTATE_HEADER],
++				      info->extack);
++	if (IS_ERR(phydev)) {
++		ret = PTR_ERR(phydev);
++		goto out;
++	}
 +
-+    - Compare the egress and ingress frame counts reported by the PHY and MAC.
-+
-+    - A small difference may occur due to sampling rate differences between the
-+      MAC and PHY drivers, or if the PHY and MAC are not always fully
-+      synchronized in their UP or DOWN states.
-+
-+    - Significant discrepancies indicate potential issues in the data path
-+      between the MAC and PHY.
-+
- When All Else Fails...
- ~~~~~~~~~~~~~~~~~~~~~~
+ 	ret = ethnl_ops_begin(dev);
+ 	if (ret < 0)
+ 		return ret;
+ 	data->link = __ethtool_get_link(dev);
  
+-	ret = linkstate_get_sqi(dev);
++	ret = linkstate_get_sqi(phydev);
+ 	if (linkstate_sqi_critical_error(ret))
+ 		goto out;
+ 	data->sqi = ret;
+ 
+-	ret = linkstate_get_sqi_max(dev);
++	ret = linkstate_get_sqi_max(phydev);
+ 	if (linkstate_sqi_critical_error(ret))
+ 		goto out;
+ 	data->sqi_max = ret;
+@@ -127,9 +134,9 @@ static int linkstate_prepare_data(const struct ethnl_req_info *req_base,
+ 			   sizeof(data->link_stats) / 8);
+ 
+ 	if (req_base->flags & ETHTOOL_FLAG_STATS) {
+-		if (dev->phydev)
++		if (phydev)
+ 			data->link_stats.link_down_events =
+-				READ_ONCE(dev->phydev->link_down_events);
++				READ_ONCE(phydev->link_down_events);
+ 
+ 		if (dev->ethtool_ops->get_link_ext_stats)
+ 			dev->ethtool_ops->get_link_ext_stats(dev,
 -- 
 2.39.5
 
