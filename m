@@ -1,143 +1,201 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0701520A5CD
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 09:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C032920B1EE
+	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 09:28:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736501002; cv=none; b=ndrVGq4Vn4YrVulTmRe+3weq38Y/00Q6fZzBhEcHgmOkTidMAxAvIlVxePmQw/AlU/FhrzmhVAr7qfbAMmPc+zo10T02xkphxXNzgZy83ye5uYlfDbtHvIt/0VpDx3/K7FE0dA+e+xkOX6BxHPHe8a52MUDLiNJNzFAJqYG4GjE=
+	t=1736501334; cv=none; b=aisIqCdhtZt+R4hS2gGidnmvGE4P1ENPXaqzOZcfQF9XyjcC17fCMXiMHz80dvF1vbaaJsSL0Wvs0rcmarOWNvKEbrJwoI7BkcK1yUZ4fUb4VR6GtX++p3Yp4YAqTnMG/CfrE+4S3t7VcB7YeHtR9yLJIjCyZgmR7/InVzFvfmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736501002; c=relaxed/simple;
-	bh=GAAiDMP/3K4jNuOVlmV9gxFHfSeVsLR0ZBJB5nV0ODY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Xpfyw+ZIdHZjccaSoJ2/IXqknYzoquUHTHk+hKq84epn31hSWUkZqmRgucjeZm+m+V3YuT0wrNOO2UivLWzRo8dmH8gkQwLZqbFCE2k5JFaknsx6xhxw3/gndeTOTiS4z6J46PP6zivZZEkevDGJuif/nV8QHkU3avY/bt+nrac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gB9Kg2xC; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1736501334; c=relaxed/simple;
+	bh=GWGuc3VMdr5N9fv2KHCFN5USR+3NK9F0l8JRZS0PRfE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=SYxz//sVqbFVTDJVro4WlXAk4XiSYTJ6eq457cSDuVGiBxr89yw/ls6K4LDuncwMJdXXYs0zrzfH1qYzAY6cPnVdhYyZYvmI5M+DCMBFYukFKs5+C/fvKPF8r0meYvXISHJm71yuAZtnFdRrXdYkmRUiOGj7HeQZxzCVYSgudS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=W10UwH6h; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gB9Kg2xC"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2eed82ca5b4so2971167a91.2
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 01:23:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="W10UwH6h"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-21670dce0a7so37462815ad.1
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 01:28:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736501000; x=1737105800; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/8n2ma/ziuKr5ZfTxLhXrZB/sBg/b3H77RWqJjKv6Y0=;
-        b=gB9Kg2xC5PBgtMD9f0qHxBXsloikaXrpP1crQa++P/3YKybNU+12FN/gWN+bxBXzgZ
-         Ppx3QneoHqpZrq+MHvh5QJVHZnUzkpCWNcabqNTO4N+SaTNRUSd+AVTSRVpmExPZmQ7d
-         A/ScG4hgYiV6QgBqjMMXLhkBbNw8PI0wBDBSuxRUJkwDX8xsP+SEdsAPqMqD6UHoZXVg
-         6NpkeCfdrxN9jkgCl4S7U3vWGpbvhyApzK9dGwz71q1Wq8qaemKTP3wbw1gD9/QWBy6m
-         N/D/zgbKxZjSw9BYEA+dYvI3NXs3K1u6PheIqKqkBJ2ImIm02P09joqgw4qRnj6WBII1
-         /ziA==
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1736501332; x=1737106132; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=igRjP8Z8IeTK8JEZO8XtaE1DaoQy9k12HA0KbHTX3XM=;
+        b=W10UwH6hhB491Ig8wawPXAGEtrvHrsYtOB5aK6Vm9VEk0ketzi+m9fs0oIwvcPscjJ
+         kVnug2qJfIgPZTXRTpV+5m5dbBY8oo1ARQrzx80+n9eDjCW9078AljHrD74+VAUS5yOj
+         9FQpqK1SLS1gkb3HDYGZ+VT01MbItAgcgvX7o4hMqqsoLH7d4S7DssCXp0va/fWvAqbA
+         5KdLi4EEzQwUYbz6Pu8U7Q6K5nyjLMlwoOACKjznM84I36emEl34uzJ+fZ0oot0db0R6
+         O15SAeWRieCUWMTGg7DJnYzS9y2857GF2Zyt3xfhMwmmrGABb4e9/g3F1BNVib2ZQYmd
+         OvRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736501000; x=1737105800;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/8n2ma/ziuKr5ZfTxLhXrZB/sBg/b3H77RWqJjKv6Y0=;
-        b=i9DR9q0HMLSWRSUF1HJy8fCS3ZQvN99Yk2+V9n7AoJxoX9lI3uf0no5RVZxXcGXik/
-         V+KUf+GGNY4rydfObz6XecdKPVyTLK7fg0aVbEAyLaCcyu1YvcZsogZaNKasxvtCE3jR
-         115JOTYDk0k0j+HKy3uTAMY7vqhLzM2m5I+l+pN565OBjq9nKrMMDML6a7EbPmDmp+vF
-         rhyTM7pDVbC7vwYPvZZ2psQ9c7h0/ypnK6ZLMocX8hgXiT3OocbcvckQZOTm7AlFKgK2
-         TZsWVYEd6GSQ0mSXPW/+uUxfsczJBcqtYgSm6d8se5utOdnMXl1DUwW2K1yQHIAbQlBI
-         k7wg==
-X-Forwarded-Encrypted: i=1; AJvYcCUhj/6Cy41jofCBN5LSRqQAJpKKb4lzN/3CfpHGQnmDZb47ZzkXlTU720FL7ZgaKBIqM54pIv2V9m4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywem9qWUq0GqdYCcp3dNrs2BQY1IhmuCFpBRGFZXG82G7Z4HT3K
-	4WwwJCJdhi7jyaHpY2b2u0JtfkOWiByQAFONsxamewK2nRTKv9IrQS4F5yVl6C5GqQasiPLS4kO
-	3vIGYavH3/FCyQEfO5uZwjewkR54BhXey+Ra/
-X-Gm-Gg: ASbGncttbg2rak1Q7ra/3Vod3PnUbBxJpc5s3prhCrtjctOZa8I2Yxp8in4WD4Tma4y
-	X15lUCmlGRTTCP8HCEXXQgKl/JZ02meDxe5LS8z1OskxeJIo7gxO5wgnjDGgvlVWy3LbAyw==
-X-Google-Smtp-Source: AGHT+IEav7llRQkaGRkKqlm4jpxalFoMFJLbH+c+XE/B2dEdXVu/vLKg6ejDqUmr3L00UB4/cFzFuVkFajos5hgHzXU=
-X-Received: by 2002:a17:90b:5483:b0:2ea:3d2e:a0d7 with SMTP id
- 98e67ed59e1d1-2f548f2a897mr15945376a91.15.1736501000183; Fri, 10 Jan 2025
- 01:23:20 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736501332; x=1737106132;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=igRjP8Z8IeTK8JEZO8XtaE1DaoQy9k12HA0KbHTX3XM=;
+        b=ETT5rd/jxis/k9/fg0AuQHkN1bakkAQwEKVmT77s7xtKT1txQkINs34FvwxI+k5ZY0
+         mPRhr8jqLqGNbVbRl6VYGFDP6qYSnxJC3DSKxX5c7kZdVW6m+XrflYskC3bwPx8144lF
+         r8WY9DmTALUY22pshFf40F4BBaUTjyohGJYyvLavSTjwpJuHvsD9F8qqe2PuSISmiW0S
+         ygXV3bjTPiuNDa+2ll378ffnj5fiZxuwYkAy2t5mLD3zPLrLsWdeR0Q6WNoUAI+C0O03
+         EY6ObxQRoSL7S5uTf7sMH/AxMKbj/8y+nLyfPssDzIpxiM9LNsS4LaDCNUNopbxLbTK0
+         tMSg==
+X-Forwarded-Encrypted: i=1; AJvYcCWlKsxNxBc8vE6iKkGGwmSBDIWTWrmPcfNXW3lIWtGSRfdpveaNW7c1QlaegF7i6jwrZf14A+28+0M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAiOoKAG+ovfwqDNEEDomLI0xm4bxfGiHr6PLOdFBziVp0ybgh
+	oHz8v2QpdGie6bKjZneOUWgb8P4iKOHHIHjMXjcy1ZDh8LlvlJicXketvyGF8HE=
+X-Gm-Gg: ASbGncuJX+LTsX4S4wb6FkMDR+ZafaMWWiWNgsisxZJ3ACOoH7DM4oO7qltcjm1CYtv
+	t2XO68AHQy7PYogsXg3vNRdEaPkBjRmEEC4GCBPKgqQDgiJ0C42SpLLsFi0s0HFLCKj7wuhy7vt
+	mZGp2nfgP/EUFUoof+8CVIct3X1szAd0FUprV6R144SbXsVCZejM6AS7+ITfTiw8eY4VWOH3OGg
+	kCuQJ9RACVfW1u5XfHFnWBS9lhNoGTU6NcPB2Fx6YPyWNmTMZ4Dwg/23XGrTCncQrA=
+X-Google-Smtp-Source: AGHT+IEbncdNgeHV3NRD5L3UNOBwnx4pcPRNgcfCcKKAqBupE3LuCLH6YhUM6tqENcH7rFNBH/3/jQ==
+X-Received: by 2002:a17:902:dac6:b0:216:4a8a:2665 with SMTP id d9443c01a7336-21a84012a17mr153359295ad.50.1736501332180;
+        Fri, 10 Jan 2025 01:28:52 -0800 (PST)
+Received: from [157.82.203.37] ([157.82.203.37])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9f22d5fcsm10340475ad.176.2025.01.10.01.28.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Jan 2025 01:28:51 -0800 (PST)
+Message-ID: <0bcbbc09-e4dd-4e16-ac1a-c9d3f368c145@daynix.com>
+Date: Fri, 10 Jan 2025 18:28:46 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250110073056.2594638-1-quic_jiangenj@quicinc.com>
-In-Reply-To: <20250110073056.2594638-1-quic_jiangenj@quicinc.com>
-From: Marco Elver <elver@google.com>
-Date: Fri, 10 Jan 2025 10:22:44 +0100
-X-Gm-Features: AbW1kvbwJdd-Q4HHGj93BJhXupMaNDNojdpH0KA2V7DRnVCIXbRzJRAefX-Qlpc
-Message-ID: <CANpmjNOg9=WbFpJQFQBOo1z_KuV7DKQTZB7=GfiYyvoam5Dm=w@mail.gmail.com>
-Subject: Re: [PATCH] kcov: add unique cover, edge, and cmp modes
-To: Joey Jiao <quic_jiangenj@quicinc.com>
-Cc: dvyukov@google.com, andreyknvl@gmail.com, corbet@lwn.net, 
-	akpm@linux-foundation.org, gregkh@linuxfoundation.org, nogikh@google.com, 
-	pierre.gondois@arm.com, cmllamas@google.com, quic_zijuhu@quicinc.com, 
-	richard.weiyang@gmail.com, tglx@linutronix.de, arnd@arndb.de, 
-	catalin.marinas@arm.com, will@kernel.org, dennis@kernel.org, tj@kernel.org, 
-	cl@linux.com, ruanjinjie@huawei.com, colyli@suse.de, 
-	andriy.shevchenko@linux.intel.com, kernel@quicinc.com, 
-	quic_likaid@quicinc.com, kasan-dev@googlegroups.com, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/6] virtio_net: Add functions for hashing
+To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Jason Wang <jasowang@redhat.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, kvm@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Andrew Melnychenko <andrew@daynix.com>,
+ Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com
+References: <20250109-rss-v6-0-b1c90ad708f6@daynix.com>
+ <20250109-rss-v6-1-b1c90ad708f6@daynix.com>
+ <677fd98d89df1_362bc12942f@willemb.c.googlers.com.notmuch>
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <677fd98d89df1_362bc12942f@willemb.c.googlers.com.notmuch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 10 Jan 2025 at 08:33, Joey Jiao <quic_jiangenj@quicinc.com> wrote:
->
-> From: "Jiao, Joey" <quic_jiangenj@quicinc.com>
->
-> The current design of KCOV risks frequent buffer overflows. To mitigate
-> this, new modes are introduced: KCOV_TRACE_UNIQ_PC, KCOV_TRACE_UNIQ_EDGE,
-> and KCOV_TRACE_UNIQ_CMP. These modes allow for the recording of unique
-> PCs, edges, and comparison operands (CMP).
+On 2025/01/09 23:13, Willem de Bruijn wrote:
+> Akihiko Odaki wrote:
+>> They are useful to implement VIRTIO_NET_F_RSS and
+>> VIRTIO_NET_F_HASH_REPORT.
+> 
+> Toeplitz potentially has users beyond virtio. I wonder if we should
+> from the start implement this as net/core/rss.c.
 
-There ought to be a cover letter explaining the motivation for this,
-and explaining why the new modes would help. Ultimately, what are you
-using KCOV for where you encountered this problem?
+Or in lib/toeplitz.c just as like lib/siphash.c. I just chose the 
+easiest option to implement everything in include/linux/virtio_net.h.
 
-> Key changes include:
-> - KCOV_TRACE_UNIQ_[PC|EDGE] can be used together to replace KCOV_TRACE_PC.
-> - KCOV_TRACE_UNIQ_CMP can be used to replace KCOV_TRACE_CMP mode.
-> - Introduction of hashmaps to store unique coverage data.
-> - Pre-allocated entries in kcov_map_init during KCOV_INIT_TRACE to avoid
->   performance issues with kmalloc.
-> - New structs and functions for managing memory and unique coverage data.
-> - Example program demonstrating the usage of the new modes.
+> 
+>   
+>> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+>> ---
+>>   include/linux/virtio_net.h | 188 +++++++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 188 insertions(+)
+>>
+>> diff --git a/include/linux/virtio_net.h b/include/linux/virtio_net.h
+>> index 02a9f4dc594d..3b25ca75710b 100644
+>> --- a/include/linux/virtio_net.h
+>> +++ b/include/linux/virtio_net.h
+>> @@ -9,6 +9,194 @@
+>>   #include <uapi/linux/tcp.h>
+>>   #include <uapi/linux/virtio_net.h>
+>>   
+>> +struct virtio_net_hash {
+>> +	u32 value;
+>> +	u16 report;
+>> +};
+>> +
+>> +struct virtio_net_toeplitz_state {
+>> +	u32 hash;
+>> +	const u32 *key;
+>> +};
+>> +
+>> +#define VIRTIO_NET_SUPPORTED_HASH_TYPES (VIRTIO_NET_RSS_HASH_TYPE_IPv4 | \
+>> +					 VIRTIO_NET_RSS_HASH_TYPE_TCPv4 | \
+>> +					 VIRTIO_NET_RSS_HASH_TYPE_UDPv4 | \
+>> +					 VIRTIO_NET_RSS_HASH_TYPE_IPv6 | \
+>> +					 VIRTIO_NET_RSS_HASH_TYPE_TCPv6 | \
+>> +					 VIRTIO_NET_RSS_HASH_TYPE_UDPv6)
+>> +
+>> +#define VIRTIO_NET_RSS_MAX_KEY_SIZE 40
+>> +
+>> +static inline void virtio_net_toeplitz_convert_key(u32 *input, size_t len)
+>> +{
+>> +	while (len >= sizeof(*input)) {
+>> +		*input = be32_to_cpu((__force __be32)*input);
+>> +		input++;
+>> +		len -= sizeof(*input);
+>> +	}
+>> +}
+>> +
+>> +static inline void virtio_net_toeplitz_calc(struct virtio_net_toeplitz_state *state,
+>> +					    const __be32 *input, size_t len)
+>> +{
+>> +	while (len >= sizeof(*input)) {
+>> +		for (u32 map = be32_to_cpu(*input); map; map &= (map - 1)) {
+>> +			u32 i = ffs(map);
+>> +
+>> +			state->hash ^= state->key[0] << (32 - i) |
+>> +				       (u32)((u64)state->key[1] >> i);
+>> +		}
+>> +
+>> +		state->key++;
+>> +		input++;
+>> +		len -= sizeof(*input);
+>> +	}
+>> +}
+> 
+> Have you verified that this algorithm matches a known toeplitz
+> implementation. And computes the expected values for the test
+> inputs in
+> 
+> https://learn.microsoft.com/en-us/windows-hardware/drivers/network/verifying-the-rss-hash-calculation
 
-This should be a patch series, carefully splitting each change into a
-separate patch.
-https://docs.kernel.org/process/submitting-patches.html#split-changes
+Yes.
 
-> With the new hashmap and pre-alloced memory pool added, cover size can't
-> be set to higher value like 1MB in KCOV_TRACE_PC or KCOV_TRACE_CMP modes
-> in 2GB device with 8 procs, otherwise it causes frequent oom.
->
-> For KCOV_TRACE_UNIQ_[PC|EDGE|CMP] modes, smaller cover size like 8KB can
-> be used.
->
-> Signed-off-by: Jiao, Joey <quic_jiangenj@quicinc.com>
-
-As-is it's hard to review, and the motivation is unclear. A lot of
-code was moved and changed, and reviewers need to understand why that
-was done besides your brief explanation above.
-
-Generally, KCOV has very tricky constraints, due to being callable
-from any context, including NMI. This means adding new dependencies
-need to be carefully reviewed. For one, we can see this in genalloc's
-header:
-
-> * The lockless operation only works if there is enough memory
-> * available.  If new memory is added to the pool a lock has to be
-> * still taken.  So any user relying on locklessness has to ensure
-> * that sufficient memory is preallocated.
-> *
-> * The basic atomic operation of this allocator is cmpxchg on long.
-> * On architectures that don't have NMI-safe cmpxchg implementation,
-> * the allocator can NOT be used in NMI handler.  So code uses the
-> * allocator in NMI handler should depend on
-> * CONFIG_ARCH_HAVE_NMI_SAFE_CMPXCHG.
-
-And you are calling gen_pool_alloc() from __sanitizer_cov_trace_pc.
-Which means this implementation is likely broken on
-!CONFIG_ARCH_HAVE_NMI_SAFE_CMPXCHG architectures (do we have
-architectures like that, that support KCOV?).
-
-There are probably other sharp corners due to the contexts KCOV can
-run in, but would simply ask you to carefully reason about why each
-new dependency is safe.
+> 
+> We have a toeplitz implementation in
+> tools/testing/selftests/net/toeplitz.c that can also be used as
+> reference.
+ > >> +
+>> +static inline u8 virtio_net_hash_key_length(u32 types)
+>> +{
+>> +	size_t len = 0;
+>> +
+>> +	if (types & VIRTIO_NET_HASH_REPORT_IPv4)
+>> +		len = max(len,
+>> +			  sizeof(struct flow_dissector_key_ipv4_addrs));
+>> +
+>> +	if (types &
+>> +	    (VIRTIO_NET_HASH_REPORT_TCPv4 | VIRTIO_NET_HASH_REPORT_UDPv4))
+>> +		len = max(len,
+>> +			  sizeof(struct flow_dissector_key_ipv4_addrs) +
+>> +			  sizeof(struct flow_dissector_key_ports));
+>> +
+>> +	if (types & VIRTIO_NET_HASH_REPORT_IPv6)
+>> +		len = max(len,
+>> +			  sizeof(struct flow_dissector_key_ipv6_addrs));
+>> +
+>> +	if (types &
+>> +	    (VIRTIO_NET_HASH_REPORT_TCPv6 | VIRTIO_NET_HASH_REPORT_UDPv6))
+>> +		len = max(len,
+>> +			  sizeof(struct flow_dissector_key_ipv6_addrs) +
+>> +			  sizeof(struct flow_dissector_key_ports));
+>> +
+>> +	return len + 4;
+> 
+> Avoid magic constants. Please use sizeof or something else to signal
+> what this 4 derives from.
