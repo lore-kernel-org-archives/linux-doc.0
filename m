@@ -1,105 +1,116 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7FC12066C8
-	for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 07:37:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2EED206F1B;
+	Fri, 10 Jan 2025 07:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736494635; cv=none; b=dHE8643JT83hxqbMmMUJvdIQQSPKyTYL/fBNM0gymS8ZLTMDYA6NQ3ViO2eVz/6S3JkBkD/h7+E35cM+yn+SlGygiFunLoHhj8rmG7e+QJSKvGnBjZR6PMQ4qgzrbTLQiYnEb/VJuB74ICkZH2T39UdXSzfYrrIxwWFPJSFl2GE=
+	t=1736495010; cv=none; b=iNc0ENLBwxm6JOeVOCCpMJ3CzW0EX/AQi7LOYtfLvWseR/W2eS/ME9aFTMg/lr470uQwRsdHEb9LBv+l6Fl2CFW2a6Gw3G0RuYZgtEZtheuxT9F5cp5N7ZjPXn7XI0d32nM7wUL4PBMptFhbXZgmCKLUWstVM1wCOKtL3f6jcLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736494635; c=relaxed/simple;
-	bh=lKkX0jSDmzCgHP0q2ZI55ieL6iTIROIb0PrZYeN893Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R7BfO6VICWIydnPrOM7aj9OZwdxsqDQLiCDGONnWQgIdMTeNNmm09ZCXnmvs8k1IsyoorKPSabbnZQmA6i2xu2rEIcsNPyEUH0+H36kN5DFgZt8EXp3GOMhvbujS3lQMVf0bKdh5eXa0TzK0AuNYi1gMlL2vnlTqG8rj77L106I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QLLSpljM; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1736495010; c=relaxed/simple;
+	bh=7N0olu4BlMRguZ5wloHWkhC+2NeWyOGqmceCcv0hPUY=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lhN7x9KHqGzXO4rn3VK7eqALY9Unbsg48AaoEVEmW92FjiXhcKvxBm58nMtJCAjvA4xJbC3C8YWTYken8PXqMi8U1en6l7E8u/hLqKI5VUmN/8ffdigM7y++AViY44yGPbmxtMz4DtDXf2RfFlHecY6Kb+edu+nqjVnuo5PW9pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=DFCSwCio; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QLLSpljM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1736494632;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lKkX0jSDmzCgHP0q2ZI55ieL6iTIROIb0PrZYeN893Q=;
-	b=QLLSpljM8n+I/4XrN9pqJY8Q/snSUYtrzlUFL7MHbjkUFR+blXvc3R9nY1eBnyxdSzciYj
-	Rg/D2KC8ESDPZTHhMBG+d0PFWqBUrhGZPj3HDvNRKDBnG3bUw//uhbqEJ9y8iwZKYluwuC
-	u3l8WP/vF6NF1QFhe3qHO1p69YY6FAg=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-163-nSS0nyNNM4qXi4ygHA40HQ-1; Fri, 10 Jan 2025 02:37:11 -0500
-X-MC-Unique: nSS0nyNNM4qXi4ygHA40HQ-1
-X-Mimecast-MFC-AGG-ID: nSS0nyNNM4qXi4ygHA40HQ
-Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-5d3dbddb891so2959391a12.0
-        for <linux-doc@vger.kernel.org>; Thu, 09 Jan 2025 23:37:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736494630; x=1737099430;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lKkX0jSDmzCgHP0q2ZI55ieL6iTIROIb0PrZYeN893Q=;
-        b=CHCu0yYL9r8bt5NwMdlo1DXMQ8Bui4jhnOfQ2fXdo8caR6oiqUXJ3WR1jVLgIl/dfz
-         SPhFpTWAT4/+Eqzh5V9lk0bXBDZ9M7RLKNTPXYBOQ7AZydQ069oOIPXBW5uSC3OiMchX
-         Uvb29sr1UZXhQE9tM7IbinJsdKyk4uWk1e4GUFjlpFllxEzMG4KkHv7/L+wer32CUXwU
-         a8hZtWdTpnfLYSYHS2mTaRzXmVjNN2aEfHpTtYNvqK7HOSAKAIW2HDDrPVIVw56bxXr0
-         Ar1lWUJlwZ/CIpAWTz5ER7w4KvJ/+pBLzuKw0OHfsshuwB4UltiWA4OfzmiRA6V4ZXzL
-         n6CQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU+ipFTYrDOhEvAy+iGMTdWW/GpnOBx/EXXEkbNyATShkf03wSks+T30M6KR5bO39ogtx9VLU4dOXw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrLp4shzzaUWAf1tCeWOUsmQHJ7wTOcg4w8EBvKdsevIOqeds7
-	9JA4RivG8RVIkokR6AOeAS7WGhitWD9mxEbmsHZA8k8V8W4ySk+C6jQXj0AsfF/K4/JNkA9bHV3
-	7n+x7GwQE0TU5nDejEAIbl1r98IaqlpRzS9Aq2qc+RXjAquLn4kUUcHEA1ST1Ld6Tg7TWLk5tfw
-	tOh6BPiCkY2J1SMj5/7ThNFj9HvhZ1Z73E
-X-Gm-Gg: ASbGnctdk8spiyyXwyANxgwA/gNpvN+7kQ2jQoO/FXJuRxGD3fMb2mpaTSRpLcQ/fI0
-	QbiK4g2piwglwzqrtEoqizsOOcKnm0aiTTy9ZUaQ=
-X-Received: by 2002:a17:907:3d91:b0:aa6:7ff9:d248 with SMTP id a640c23a62f3a-ab2c3c452c8mr540919766b.8.1736494630061;
-        Thu, 09 Jan 2025 23:37:10 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFM+E3EJ9VIADqft4XZeqnSe1+lGGIJwDA4N/xijHGbaNmJmQVeQUzAlHVdy720k+fmj7KB/3fUzKLdRp4U0YE=
-X-Received: by 2002:a17:907:3d91:b0:aa6:7ff9:d248 with SMTP id
- a640c23a62f3a-ab2c3c452c8mr540917566b.8.1736494629743; Thu, 09 Jan 2025
- 23:37:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="DFCSwCio"
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50A6LCD3001985;
+	Fri, 10 Jan 2025 02:43:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=
+	content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=cwERC/HaSv5cWLlyrMkI/z2Ygoq
+	6SWAxVZxBwsI3Sos=; b=DFCSwCioGZ7B/Fx7kJ3+ZKF6zr/KGphJI4rHwOz3kWT
+	VHSmpNTiutuLdEtkHpszN1zviuM5Os5V12KFbGJGZc1rlZ4WMMRb/MbOtGowC64I
+	l+TcsnIrayADCZ8lWOPnFGGfMj/BfFqA2UMZ0OMBj3YWN5Vg8QwGqnGkAbpNG2RY
+	lVSHpCvuPLIeOFomcfnRStKpDFORYTO6mLfqaIouQorJsHWbBEBBkC1WkbgR8j3Q
+	nZCYqlrooTkmIByYnw5kLpJ++JbQ6yYdXxC+8rmxIp6hGsKTOmwJYXWPsVYdvKkW
+	/oRJP7jREXl1VaXAhasZ6UVGRFyO88SfzlAAXnRRqOg==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 442mavam1q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 10 Jan 2025 02:43:11 -0500 (EST)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 50A7hAwc051810
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 10 Jan 2025 02:43:10 -0500
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Fri, 10 Jan
+ 2025 02:43:10 -0500
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Fri, 10 Jan 2025 02:43:10 -0500
+Received: from dell-precision-robert.ad.analog.com ([10.48.65.204])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 50A7gvop032122;
+	Fri, 10 Jan 2025 02:42:59 -0500
+From: Robert Budai <robert.budai@analog.com>
+To: Nuno Sa <nuno.sa@analog.com>,
+        Ramona Gradinariu
+	<ramona.gradinariu@analog.com>,
+        Antoniu Miclaus <antoniu.miclaus@analog.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich
+	<Michael.Hennerich@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>, Rob
+ Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor
+ Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Robert Budai
+	<robert.budai@analog.com>,
+        Alex Lanzano <lanzano.alex@gmail.com>, <linux-iio@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: [PATCH v4 0/6] Add support for ADIS16550 and ADIS16550W
+Date: Fri, 10 Jan 2025 09:42:48 +0200
+Message-ID: <20250110074254.38966-1-robert.budai@analog.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250109-rss-v6-0-b1c90ad708f6@daynix.com> <677fd829b7a84_362bc129431@willemb.c.googlers.com.notmuch>
-In-Reply-To: <677fd829b7a84_362bc129431@willemb.c.googlers.com.notmuch>
-From: Lei Yang <leiyang@redhat.com>
-Date: Fri, 10 Jan 2025 15:36:32 +0800
-X-Gm-Features: AbW1kvYh6DcaW0cgKJgVFtgsup_78mHRUFkOPq--rB-NQ70GCEus3ijRcbVoJWE
-Message-ID: <CAPpAL=zta_HNWcWsbL=0ymRfd_ZKx1nZ=F+Jo4kLXaUnqFnLDA@mail.gmail.com>
-Subject: Re: [PATCH v6 0/6] tun: Introduce virtio-net hashing feature
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Jason Wang <jasowang@redhat.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
-	kvm@vger.kernel.org, virtualization@lists.linux-foundation.org, 
-	linux-kselftest@vger.kernel.org, 
-	Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko <andrew@daynix.com>, 
-	Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-ORIG-GUID: sI04RTTAfgY72GnptvE2XQzZ7dd_hSji
+X-Proofpoint-GUID: sI04RTTAfgY72GnptvE2XQzZ7dd_hSji
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
+ bulkscore=0 adultscore=0 clxscore=1015 mlxlogscore=999 phishscore=0
+ lowpriorityscore=0 malwarescore=0 priorityscore=1501 suspectscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501100063
 
-I tested this series of patches v6 with virtio-net regression tests,
-everything works fine.
+Add support for ADIS16550 and ADIS16550W
 
-Tested-by: Lei Yang <leiyang@redhat.com>
+Robert Budai (6):
+  iio: imu: adis: Add custom ops struct
+  iio: imu: adis: Add reset to custom ops
+  iio: imu: adis: Add DIAG_STAT register size
+  dt-bindings: iio: Add adis16550 bindings
+  iio: imu: adis16550: add adis16550 support
+  docs: iio: add documentation for adis16550 driver
 
-On Thu, Jan 9, 2025 at 10:07=E2=80=AFPM Willem de Bruijn
-<willemdebruijn.kernel@gmail.com> wrote:
->
-> Akihiko Odaki wrote:
-> > This series depends on: "[PATCH v2 0/3] tun: Unify vnet implementation
-> > and fill full vnet header"
-> > https://lore.kernel.org/r/20250109-tun-v2-0-388d7d5a287a@daynix.com
->
-> As mentioned elsewhere: let's first handle that patch series and
-> return to this series only when that is complete.
->
+ .../bindings/iio/imu/adi,adis16550.yaml       |   96 ++
+ Documentation/iio/adis16550.rst               |  378 ++++++
+ Documentation/iio/index.rst                   |    1 +
+ MAINTAINERS                                   |    9 +
+ drivers/iio/imu/Kconfig                       |   13 +
+ drivers/iio/imu/Makefile                      |    1 +
+ drivers/iio/imu/adis.c                        |   30 +-
+ drivers/iio/imu/adis16550.c                   | 1202 +++++++++++++++++
+ include/linux/iio/imu/adis.h                  |   33 +-
+ 9 files changed, 1749 insertions(+), 14 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
+ create mode 100644 Documentation/iio/adis16550.rst
+ create mode 100644 drivers/iio/imu/adis16550.c
+
+-- 
+2.34.1
 
