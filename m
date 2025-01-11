@@ -1,92 +1,66 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07EF282899;
-	Sat, 11 Jan 2025 16:11:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E0C82899;
+	Sat, 11 Jan 2025 17:07:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736611876; cv=none; b=nMxNo/MPNK46Iac6Brxd4C44a6LXN3ZVDYst3tk47YounMN/EOcKS1SoXjmcU1z/RXUj4xmIhqrQkg4pyCLRA4sRRwto0qZii+bRJ/B5JR+d9LWUh+PxmyGcrdulnVk1CJGJ4Vkcv0XwEf6Nfo4sWuwMKXxh4qiFhzOi+UT651E=
+	t=1736615279; cv=none; b=aakvd1x2mwjffOS1fHsdYTUiHM+pGWDlRyF6QiSVOaCCjHkCaIlxUyv5aXqV0nbbASPvK0bS/IQrUfW+AE1svWvg5X9qIKabZvXfoZRt+eZv8kggcPs6/VO3dxwQmX+DJ5T437iVT2xYey58bmsOUL4vBvNf23lkJlhdHNCVSwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736611876; c=relaxed/simple;
-	bh=VCaVMaDJXywQsj6GMlzr7aUlMmv7pmEVlJbeNUR5OKY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oXD5AytPYEt2Z9de+AQyUtWsz7bpOAxznr9xdIXuyDL3ai+SubwG8KIVIuI8Dv2yn5skfWnuVtKUFuewH1AklxuS7k8f9tqNpl2uerV7Kh9Uw7BP+KeG9hjbNtEni/oXjxSNDLmQdDsXU+tJo4G6CWJhKdwxAyhvpE0Bmdxi32U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dAwb4hX9; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dAwb4hX9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B812DC4CED2;
-	Sat, 11 Jan 2025 16:11:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736611875;
-	bh=VCaVMaDJXywQsj6GMlzr7aUlMmv7pmEVlJbeNUR5OKY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=dAwb4hX9rnXZh7IUFTskMNKeaELTEdu8w/NxZvFKm6+y6dwH0nDjSRKt/XkxypgtT
-	 lpza6gO8qQxGNopNopkIR0DnhsLtdeonfK+ouNqlt0AhF4yfRWrVgYTrKmtPoh8FD3
-	 DCG59zsR3GahGeckcbvx46hXR//0JyhA9rxpQjoYuQU/GuAXu0f5P3Fo8msNYwkwGW
-	 VnOTXMdpvLzcWNpEM1Wb8TQ1FyLV+JRdkCRaWDwSVLXSLPMdbm7aZ5A/j98TcwlZtF
-	 wgWkDv285iXNQDHIW8/DFQ9y+EbDItdrqnxtjWsuXHinYbolY/u8L9r9ZS3fZygRkO
-	 FOwjejKrtLfCw==
-From: carlos.bilbao@kernel.org
-To: corbet@lwn.net
-Cc: avadhut.naik@amd.com,
-	akpm@linux-foundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>,
-	Carlos Bilbao <carlos.bilbao@kernel.org>
-Subject: [PATCH] mailmap, docs: Update email to carlos.bilbao@kernel.org
-Date: Sat, 11 Jan 2025 10:11:06 -0600
-Message-ID: <20250111161110.862131-1-carlos.bilbao@kernel.org>
-X-Mailer: git-send-email 2.43.5
+	s=arc-20240116; t=1736615279; c=relaxed/simple;
+	bh=SJ708UIPDH6Cav15Wrw4sB7zhS7ivQqVfme3X1x9qb0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YxMGrxGnvT2QkstG4LHuQO67RfLNwGg9at4aD1lqoY17yutFP97uidfoMzhWHHPxoTgR5h3Pnkg7fTJkg88PsM6jbASL6FNYuzi8k/M33bzj19Ks+6oo/gUG1xx8b7HmhLoOCmbnZ8GUEDn2nVxGepuqkjsEz1k/EhVUrxQdxSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E423C4CED2;
+	Sat, 11 Jan 2025 17:07:57 +0000 (UTC)
+Date: Sat, 11 Jan 2025 12:09:35 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Jacob Keller <jacob.e.keller@intel.com>
+Cc: <Yeking@Red54.com>, <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Theodore Ts'o <tytso@mit.edu>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, "Andy Whitcroft" <apw@canonical.com>, Joe
+ Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas
+ Bulwahn <lukas.bulwahn@gmail.com>, "Andrew Morton"
+ <akpm@linux-foundation.org>, <workflows@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <tech-board-discuss@lists.linux.dev>
+Subject: Re: [PATCH] Add short author date to Fixes tag
+Message-ID: <20250111120935.769ab9a3@gandalf.local.home>
+In-Reply-To: <52541f79-ba1c-49c9-a576-45c3472d1c79@intel.com>
+References: <tencent_6CF6E720909156A227D23AE8CFE4F9BA5D05@qq.com>
+	<tencent_F8CFC8ED723F6E8103B4AF3D98D63D7F1F08@qq.com>
+	<20250110080331.04645768@gandalf.local.home>
+	<52541f79-ba1c-49c9-a576-45c3472d1c79@intel.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+On Fri, 10 Jan 2025 16:21:35 -0800
+Jacob Keller <jacob.e.keller@intel.com> wrote:
 
-Update .mailmap to reflect my new (and final) primary email address,
-carlos.bilbao@kernel.org. This ensures consistent attribution in Git
-history. Also update my contact information in file
-Documentation/translations/sp_SP/index.rst to help contributors reach out
-for Spanish translations.
+> I personally find the date helpful as it can help place a commit without
+> needing to take the extra time to do a lookup.
 
-Signed-off-by: Carlos Bilbao <carlos.bilbao@kernel.org>
----
- .mailmap                                   | 3 +++
- Documentation/translations/sp_SP/index.rst | 2 +-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+I've never found dates to be meaningful. I'm always more concerned about
+when a commit was added to mainline. Thus the version where the commit was
+added is very important for me. This is why I keep a bare clone of Linus's
+tree and commonly do:
 
-diff --git a/.mailmap b/.mailmap
-index 5ff0e5d681e7..83837191affb 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -140,6 +140,9 @@ Cai Huoqing <cai.huoqing@linux.dev> <caihuoqing@baidu.com>
- Can Guo <quic_cang@quicinc.com> <cang@codeaurora.org>
- Carl Huang <quic_cjhuang@quicinc.com> <cjhuang@codeaurora.org>
- Carlos Bilbao <carlos.bilbao.osdev@gmail.com> <carlos.bilbao@amd.com>
-+Carlos Bilbao <carlos.bilbao@kernel.org> <carlos.bilbao.osdev@gmail.com>
-+Carlos Bilbao <carlos.bilbao@kernel.org> <carlos.bilbao@amd.com>
-+Carlos Bilbao <carlos.bilbao@kernel.org> <bilbao@vt.edu>
- Changbin Du <changbin.du@intel.com> <changbin.du@gmail.com>
- Changbin Du <changbin.du@intel.com> <changbin.du@intel.com>
- Chao Yu <chao@kernel.org> <chao2.yu@samsung.com>
-diff --git a/Documentation/translations/sp_SP/index.rst b/Documentation/translations/sp_SP/index.rst
-index aae7018b0d1a..2b50283e1608 100644
---- a/Documentation/translations/sp_SP/index.rst
-+++ b/Documentation/translations/sp_SP/index.rst
-@@ -7,7 +7,7 @@ Traducción al español
- 
- 	\kerneldocCJKoff
- 
--:maintainer: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-+:maintainer: Carlos Bilbao <carlos.bilbao@kernel.org>
- 
- .. _sp_disclaimer:
- 
--- 
-2.43.5
+ $ git describe --contains fd3040b9394c
+v5.19-rc1~159^2~154^2
+ $ git describe --contains a76053707dbf
+v5.15-rc1~157^2~376^2~4
 
+I can easily see that a76053707dbf was added in 5.15 and fd3040b9394c was
+added in 5.19. The amount of work needed to add dates to Fixes tags would
+greatly exceed the amount of added work someone would need to do to do the
+above operations if they wanted to know the order of commits.
+
+-- Steve
