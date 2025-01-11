@@ -1,932 +1,230 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91885193;
-	Sat, 11 Jan 2025 00:10:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736554258; cv=none; b=s3Knmal5KsSu+MLso0dOJfXTn64YcjLmr/4sCYH/WT+4BkMqwrO/7Fw6lHgYrCqmQ/BQ2gYK2aRTLZrgWZLDpTe9KfHzo0GVLI1omza5rjKVJzUCEGrgxKvCmx8ldkRhuFcMRinj04lfuele4Ye4XOKM8DNG6UIRxVS79tTh05E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736554258; c=relaxed/simple;
-	bh=bxr4s7NS+htpjkCADRvSXtIep0V/pthLOhGaGu25GUQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SU6z5LCnzxZZ3B3132a02SOONuyWzDuJCggqIt87D//5gjanHpaHLzjqg4ZTwJx9T4dNjJxrtsXghUa09jLobjFOQ98xrdVBfoCMVIgIepNjeDaGpcWZWchkXichvGsj+60HyaDEeRLr450sr7L+JE/qzsCSKIzALaW0OXFg9kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=P1cOHRV1; arc=none smtp.client-ip=212.227.17.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 602EB1C27;
+	Sat, 11 Jan 2025 00:21:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736554902; cv=fail; b=d+lGyRmVR3c1MUYIP5ZErnsvBm1FO9e0gC0sRyvmIhSzMzOo4RNoe/RBz1t17blx+duIbUGrsZSXD6jsfudltv/6UPnw6Wwimzbkj3eGtwSG4FVMqLYBv626YVm4+AadkHU6v7DJLlI2T8OAsufM1rmrLTBo51E1vcRZR9xBmoQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736554902; c=relaxed/simple;
+	bh=juMdQtcCktZ31hCGgQPVGQGEax0a8XjB9k07ElMj0Ig=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=LORY/FKaJh4nmsfcGLBueyRPoOWcZozj4+8N3TwjgoVY2rCyfp0yk/YAprEdpu4Tp+44UlWTz72kzfqjFnnvAm3vtvXOyo2L36cVjd5sVwZ/R0nngj//I1mDHUzYQAjB9SEpcA76C0G+b6h3HM9dQgWAs6qQAiy7UAI5qEYWkos=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RgK8MXjz; arc=fail smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="P1cOHRV1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1736554230; x=1737159030; i=w_armin@gmx.de;
-	bh=MQ849oGVfIvRUnD0vhkGWCHhAM9WBDTqhrJyQTrrWFc=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=P1cOHRV1WT41JC31+tVk2DW0Zi9GUnY7WvV7bByCGzdST6mmrtl58fXG6pbqznXJ
-	 3XwFpgXRam70I/ktHEomyMW41vvY6XRn/AP1bM+HdTESS0JDK+X94/otZPde3gEVN
-	 vl/EAu0zPvkHrnW/R745WGKqA2G7p/WHtC3NmPoFFbJtL7U8tNtrWNzO8NhNQUQso
-	 N79ASJ1R666IBUrqkCvIyuF9J7loJOfZR3CcM+tClGR8Tzwb1JbTcJiTf0ip42WJM
-	 5tPBhOqumUxnO7J2juK4QiOPX0zhF3Yt2PZz8jzgAMT4ZXsCQcbtsybR4WrKwTfWG
-	 eOtsxi7CEhEmSJcFYw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.69] ([91.14.230.110]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MvsJ5-1tG6YE2LlX-015xQL; Sat, 11
- Jan 2025 01:10:29 +0100
-Message-ID: <403ebdd5-1659-467e-b883-1369360ce973@gmx.de>
-Date: Sat, 11 Jan 2025 01:10:26 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RgK8MXjz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736554900; x=1768090900;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=juMdQtcCktZ31hCGgQPVGQGEax0a8XjB9k07ElMj0Ig=;
+  b=RgK8MXjzgajKxYMPYq1a0PQkghZitU75PgsIZ/xQJmM6gUaLOYG1DLmR
+   gXUQ0OdtUPPWzEuJfY25AhzinUy9jnGH43garHlTKfUVTBuNA9Z9sKM7m
+   +ICatITYQIntyiLmzD16/jfC95W5ytmkerjrbnZZWFjnZSiUSSQB2K2pH
+   xhDv/d77G7xXkyCB04uQVzAigXUyKynM3mbd0IjGicyrF23xSaT5cVejW
+   RyxqFpkorINeJJYqKA/Mql+OSfxO/2hsGe9D/of8UVSmuZIgojcdokrFY
+   Lk+X6197IVTueB+wZRD+4M2nP8DUb6PXK0AvPh723uxnXdi2dL0//k91Y
+   A==;
+X-CSE-ConnectionGUID: EJfPT1j5SNCPjBE2hLgCfg==
+X-CSE-MsgGUID: +sTM3BBCRHOwRg8LMRrbRQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11311"; a="37023609"
+X-IronPort-AV: E=Sophos;i="6.12,305,1728975600"; 
+   d="scan'208";a="37023609"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 16:21:40 -0800
+X-CSE-ConnectionGUID: 85qUeQhKSsCFXQpVqBVcbQ==
+X-CSE-MsgGUID: MsIzhr6nShSjUwzyb0sfGQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="108983554"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Jan 2025 16:21:40 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Fri, 10 Jan 2025 16:21:39 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Fri, 10 Jan 2025 16:21:39 -0800
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.49) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Fri, 10 Jan 2025 16:21:39 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nGe8/81AAGX8ZVuJ5ugcOUesyTMiglW9NwJdoQDYb094u0Nk3q7Vd5L9hfoPGYhJ7Knykm4VVAACXQ51IkLkBXET0HnVPx7pCKjPhmDk3Vm1hfApshsSWwnRGnCCsPI/F9czkBmLXMOt67cPKV7htew406X+MIts1QDBw4crgoMZ6VvQBovB14yoI6RufOpvr5UFKRbsuk8VE7S19sGNypJU64yupcn7tdElZ5K1c1b3MkS9Jth+rNZOVBWEZqGmPwWJZFEmxy6Wa/BAAKvQcyD/pMop8Hhh5w+f/+U5pEgDgen599ZoUY8/g7aQhkODDEQGGkDykI07Jee/U/ORcA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FAdDmTV6J1kYvUZyK1971Lh7NgoVBIPMG7UHi2hpKkc=;
+ b=XA2C0Guv86ii7/V1nqdPnQV7B68lhGn63oQ1q5DIh3zn3D+4cuZv5m0Q6iEUDRLPqdIEWk2UTmfiSDsV0DzqzkT0uR00jQAKpUzBdseWppsiHszR69MrDqpWUOQjGNebezCKiVIsDupG8AlvRSoErVxwZzFlWUms7C3jFTfxXotpOhH2EAAFECM1gLVtR6BmtjbANhq5kZznYiyQ1xGZZQbiXQoSU7U/96BRELCj+5XciGZFjmws/4OGNSd+JikpQHK5wIGNADyskoctvAZsxEj8UnnkTbd4uTOu0vcHNIeCuDg2BxZl9Mtu24kjXZH+aOaLb22pzA7BwWSac1rbLg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CO1PR11MB5089.namprd11.prod.outlook.com (2603:10b6:303:9b::16)
+ by CYXPR11MB8661.namprd11.prod.outlook.com (2603:10b6:930:e4::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.11; Sat, 11 Jan
+ 2025 00:21:37 +0000
+Received: from CO1PR11MB5089.namprd11.prod.outlook.com
+ ([fe80::7de8:e1b1:a3b:b8a8]) by CO1PR11MB5089.namprd11.prod.outlook.com
+ ([fe80::7de8:e1b1:a3b:b8a8%5]) with mapi id 15.20.8335.012; Sat, 11 Jan 2025
+ 00:21:37 +0000
+Message-ID: <52541f79-ba1c-49c9-a576-45c3472d1c79@intel.com>
+Date: Fri, 10 Jan 2025 16:21:35 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Add short author date to Fixes tag
+To: Steven Rostedt <rostedt@goodmis.org>, <Yeking@Red54.com>
+CC: <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Theodore Ts'o
+	<tytso@mit.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Andy
+ Whitcroft" <apw@canonical.com>, Joe Perches <joe@perches.com>, Dwaipayan Ray
+	<dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, "Andrew
+ Morton" <akpm@linux-foundation.org>, <workflows@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<tech-board-discuss@lists.linux.dev>
+References: <tencent_6CF6E720909156A227D23AE8CFE4F9BA5D05@qq.com>
+ <tencent_F8CFC8ED723F6E8103B4AF3D98D63D7F1F08@qq.com>
+ <20250110080331.04645768@gandalf.local.home>
+Content-Language: en-US
+From: Jacob Keller <jacob.e.keller@intel.com>
+In-Reply-To: <20250110080331.04645768@gandalf.local.home>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0101.namprd03.prod.outlook.com
+ (2603:10b6:a03:333::16) To CO1PR11MB5089.namprd11.prod.outlook.com
+ (2603:10b6:303:9b::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] platform/x86: Add Lenovo Other Mode WMI Driver
-To: Derek John Clark <derekjohn.clark@gmail.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Mario Limonciello <superm1@kernel.org>,
- Luke Jones <luke@ljones.dev>, Xino Ni <nijs1@lenovo.com>,
- Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
- "Cody T . -H . Chiu" <codyit@gmail.com>, John Martens <johnfanv2@gmail.com>,
- platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250102004854.14874-1-derekjohn.clark@gmail.com>
- <20250102004854.14874-5-derekjohn.clark@gmail.com>
- <333019ec-524d-4933-aa6e-459cd1f7b10f@gmx.de>
- <CAFqHKTnM6Bs6AdPFisRZ1d3yFx_eFZap4Y-42=kSth9VSoAU0A@mail.gmail.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <CAFqHKTnM6Bs6AdPFisRZ1d3yFx_eFZap4Y-42=kSth9VSoAU0A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:DturEe0NkEJ4UM3NmHo74b5+1fvjTrSUJQ/KVIwXEvqeQwNd+o9
- 18n1fjzNusnPnBLQib9s363/wvMgS+eLCSxXMjyaWQeUOOB958vTT4vicKR/Zn6tg2kZv9l
- Y6mJe1rURVZGsGxvXzUwcNDdfj5V8jL9OGBXAgbqV/PCly7mhm6J1/EWOyk3zHe3zadA4Qp
- lbTndb7fDWQcsmrUTAkDg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:fSuLkQWTdNc=;URT4QvhQR6gHeiMccSuAAJ92JgY
- FBn0s81Ozg8gzaBXmjNj9fo8HGoVnilankWACKRSlxU2UXX9Yt4cQscJYJeJ7tE1Cr/IAz6Ph
- lkFsDuoiQ/F9XMzcEtJFjDgCwPhxy3EPK1W1E4McLoO4XK8mBPCAfQ6uSX0mECWcdGMzpcEZm
- v61+28sARN33pSLoq4pXFHQrz+hF0dHXvzgwaoqYFS3PvNPjH2dK1VdNZCx5Jbj5BSMng7FIg
- DJzhcTXFaecD+F9RS3H+PIP86au/xKFqg6oCYaFDYLiNTIBVftzgUXtNnc97vx0T6cZUh8MWZ
- tTkRjGFtaAtDBGRnQUCjddP9f4SbXnJAdhuCFhZ0j9q732MpEyF7FgAr2dnMMpNCaUUWluQpA
- qG9Kf9gGEFhmSjGod8/7zC3qJjpyM+0gWjPEK2KJ1BtyszwHW5sWPPux8sBhqJOccBeQL5dei
- E7TMOF1IZzQPj6Dh/9IVq4xmj3EYdJ3wc0eEdXsPZQzaNjBdXh4E9u2NG7THPR1u0BbvlQe4f
- JNtlfbMr7J0zlDrqlPLqePJAJoPyPykZJOV6i2izrkMlro3sEGocTqswkX2qjaZwKf88nxKeo
- /SQEcctPGsoj+Q73wyFlf96qqoimOFozWAzFx8xqzUMnGpkhkwCyq2ksX/oWRoG2yD4ZiqKwT
- s1az1VQjQeMS47uZE+X+c1evkvFTfp2iLBAomYfYiD201nEMDpV5Zj7+JVfVVArrb3KBbzKBF
- YUGs+YurgMeZj1Y9ap2TjTjvCTj3gOEIvkmfeZidhMWuLKza0n/ofkTVNlAyRcdKpWryhM7xk
- I4kNjWguLtSTTZsADbV4KRl2WxBr2/TxG0a7CCVE5kYilqY3S4kJNqwZlt9Qr5TN8v5jq6SYD
- posvJ8zHQGQOVFOlOHcZq49P2YhYD0WAIneEEIsCMrEsGYUX4fhS9u+LnxnawZZX1U9l3C2V6
- vzzCzXS4Wu9f7IK+blecOFUf4IpQmZ+TaluOtJ6KILSsARkncsuVwSvC+/2HkLI/G14d9JAnZ
- BQS3H4D9j/94MgZM1pUrnVWdhbfL1Ui648Xp1cq90c3/Oii/+IZnfSUjuBUfvs9cWnhcE95NJ
- gGQw1LhitHSHhujAshgWMyY397CnO5
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PR11MB5089:EE_|CYXPR11MB8661:EE_
+X-MS-Office365-Filtering-Correlation-Id: 51c7b113-83b4-45af-3a8c-08dd31d5e9a2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?a1VXTEFvdGtJTm1yT3pqbTEzL0FuYjh6WkdVRnFuWGdxaFp0aFdJVXlZa3Ur?=
+ =?utf-8?B?cWxHMEZzdGlLWXhvbUJQV0NSY3pZdVRxU2MwRTl1eEU4RVpxUGtGckFEU2E4?=
+ =?utf-8?B?dyt0Tzc5b1dQRkZGcnJDWkdRcVpIVkgvSkgvQ09acisxcjJrTzdCbDFLcGFQ?=
+ =?utf-8?B?OXFvUHJ4OWJaMmNHbHdhSmN6OE5tTTRQSy8zUTh0T1FNWTYwbU9nU0E2TTZX?=
+ =?utf-8?B?bi9PbEVmOFhmYm1xSnUxZUZ6VVJYd1A4eHdCVlBKOWRJc0puWDNPaUZzcG1I?=
+ =?utf-8?B?WkJDREZwNjJac0J0ajR2blhXZlp6Zm9ldVdjektiaEdKZ2pUWlBoZ29SbGcy?=
+ =?utf-8?B?VXZVRVVBUEdDeGNIUzZMbXdkQVFiRWdGMTBvenFTTjlpMXJ4SEZnd21iS3ov?=
+ =?utf-8?B?MXQwUVh0ZUxFMmJ4RWJHUUdCMFBhMk1zcGRxZTZQZ0R5dlk5MmFocVBObm1W?=
+ =?utf-8?B?WTNQZnFkbkFYUmVXcUZRc1Y2VlBXNDhYQ0dUekVUZit3SGlFa1JNZEZWWXVq?=
+ =?utf-8?B?SFJYZm9tUG1iVDY3bjRURUxiQTVoNWRhSHNNSFU0a3ZyOVVHKzRPZStxejZ0?=
+ =?utf-8?B?R255R1I0NEFQZW45RFByRWlPeUlUS1JBSFB5YXZoR2d3RkFkNHFnWUhSR20x?=
+ =?utf-8?B?SVQ2V1ZMcmVTeThoM1dlQ3hQZGVkR0g0cnZQTmdUSWl0d0QrRU9OT05jWU8v?=
+ =?utf-8?B?MzM4S1BkV3E4azRNUW54QUlyem1qcENmUi80Nlo3dU9RTlBpVS83M2swSHFa?=
+ =?utf-8?B?bnV3RDV5d2sraWJsd2NaQ1V3bE5HSloxOW1nTEZEWnN3OWtIK1RPSHBkSFNn?=
+ =?utf-8?B?V09tcVVTK3B3TVlub3RBYmZXYTAxaXhoWVo2UWRNeU44ZDZkd2s2Q2xlUzVh?=
+ =?utf-8?B?ZXBlQlF1akUyU2dIRUJuTW1aODl1OXMwSzNzQzFjSlNCYm5PYXVxV1EydmpU?=
+ =?utf-8?B?VlFWQjgxTGVqUXJCTGo1dncwU1FCNFUzRmxiamhiSEpTbW9YcVhwblQvTGkx?=
+ =?utf-8?B?YmErbHJPM0VDcUtPeGhlTnpvZS9qZ1JOTVZYUTB4eGJPREdTejhlOWc3L29u?=
+ =?utf-8?B?VXc4TWFmSVJiSVJYSXAvaEYvNTl4MEpydDdFeEhvRHVRVXpqTWFEU0FSNTFI?=
+ =?utf-8?B?WjMyUG9XbEdVZFkzbTdyRVd6WmliU2gybE1LOWJMelhua3piN1BLTUNTTkdP?=
+ =?utf-8?B?NGNkZTJPSjgvQVdCYkZWd1h6NG5hMlB6eFJiNjJ1alZ1b09YbHlhSmFjS012?=
+ =?utf-8?B?NzRmeWsxUm5DUnptWS9aaE94NVpnMmtCdXB4WmJEaVZuVklGZnVacERTcExN?=
+ =?utf-8?B?dC9Ec1hZNUk0WGUyU0tzRDdsNnowZE1BWGlCMTRVc1Q3WVplSHlOaUxqN0pt?=
+ =?utf-8?B?dEp1US8vaE9IZGMzTTRjM001VyswcUNzTlBybXdtajRQeGliN1NSTUZKNDN2?=
+ =?utf-8?B?eUR3MFlhZ2hDcDk2VGxPQ1FPaHdteVBqZGtXMGo4aEQycjhvaHl1VGxUSlhx?=
+ =?utf-8?B?VzMxMUVXMHN3aGw3WkN1UW1SZ1oxM1p2VmRJcGpjK2xjNjA2M0JvU2VLNy9D?=
+ =?utf-8?B?SG8vSDUxZmdPc0pVSUFDR3pVTzNBNHB4NVo1bHNyK0hTMXFGdDhSUFhEMkNP?=
+ =?utf-8?B?amoyejA0U2tQdStyZ2lJQVZsUmt4elg0cUFxbWRLU3BqcXllMTRyR1h4UGNB?=
+ =?utf-8?B?ME9YeDZSem5mU1h1U2NxRXdyS1p5eHhERENRcEhROXZqZ3ZiVnlkaXJuUXpW?=
+ =?utf-8?B?TmtjSW1lbXlhTkdvS1dJMCtUNWxnb2JEWDcxcWY1NUVrd2xEL3hST0tDdTNJ?=
+ =?utf-8?B?aFk0WjA2VzBVMkxodHZJaVV0SXlsYUdpcmtnZ3lNRDJYanJGdG1qd0I1Y1I5?=
+ =?utf-8?Q?AcGiUJnHAn35u?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5089.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aTM1YTdiUjI1UC9WL0dMWkdvbGtlaVhyMjA4a1ZEdk03dzRnanVsWCsxVzlk?=
+ =?utf-8?B?ZWYxV1l0NkZNNjM1MkxmV3duSzAzekFxTnBvd0dta2FVSDFSTEk4ZDRBaTVY?=
+ =?utf-8?B?ck0rUWI3Vlhwb0JEck51QkVtVzlJWTJnczhBQmtsV3AxZzJzTjNlbnFvMS84?=
+ =?utf-8?B?WWdmUFhnTEg1b1F1T2xpYk1LVXFpd0FVamkzRVNtV3U0elVBTCt3NlQxNTBs?=
+ =?utf-8?B?ZXhaYnJGdTg4bUJmd0t2Y3U2Wjk4N2RzdEJ6ZTlFNWs0MERkM2NKK1ZxVFdn?=
+ =?utf-8?B?SWZxTDNxM1FpQ25nbTNBbGxoTGRFM2phVzUxaG5peTRabUxqYzh5ektNZzRi?=
+ =?utf-8?B?N3BnYm5QR2ltSU82ZjBvdmcxWjNESGk1RkZybmxnTjBBUGhlWElyYTQ2WEc5?=
+ =?utf-8?B?T3RrRVk3RDBOK3JJWTlNb1gxKzQ3ZFVzMW1Fdm1kcVJmOU5Jc2Nnc3FSRTJH?=
+ =?utf-8?B?b1NmdURadnZtRVFnYVZkanlpcVl4RGxTSkQ5NFFVV2lRYmJZUUFHOTIxUk54?=
+ =?utf-8?B?NVNaTk5BTTBqbXMvaWNRcVVZNUE3ZGJ1YkdTd0pFQlZKdkE5UU9YK1V6SVRP?=
+ =?utf-8?B?Rng2V1dwTUxTQyttT3VJTmI0RnBmdFNuSmdEOFZVUW9MUGV5N1E1bkZ5QVkv?=
+ =?utf-8?B?VjBPSDNJTE1kMDNrZGQrTURBS1ZkbzB2MGVkRnlXUnBIUE8zY0FFT1lsakVH?=
+ =?utf-8?B?aTJYL1hhNXFLOGp2WSs0N3o3Z0hyNmN0cGsyR2tVeVU1amdJRnN1andOMGo2?=
+ =?utf-8?B?U1AzMVFMQW1WNWcyeHBoQlhuLzBrcEVqWTRUNEh1UTlaMDFsRXovMDMrSHJq?=
+ =?utf-8?B?ck5qaE9ycHNNVDl4RDIyL0U0ZWdOVWZ5YjZ2aHVIMUN4T1Y0NWRIRUJCVEQw?=
+ =?utf-8?B?K2RkRnVvWFRRUjNvemt3WXk4QlFLQVN4UUthWnZvRUxnMnVFaE9HSkNnd2xI?=
+ =?utf-8?B?ZExGQWVlL0F2YkFQbGRwaE9qTnNnMVRSV1EzZkJrN3QwZE1EWTZWVjRWTXhl?=
+ =?utf-8?B?VVZjc1d6c290TUEzVGNWTGhnWWZadldaRm9VOWxRMUo0UFBhU2plbDFCR2kx?=
+ =?utf-8?B?VlBtdjhjaXV4SkVFY29RYmxhVWVkbFBUSXN3OC8xV0c1VG9wV3Z1MDU2QnZi?=
+ =?utf-8?B?VlM5SGRiQTRZdzZFbTY0Yys2WE1IQXE3b2RHUS9ua1AyWFJQRGE0UENlWjlI?=
+ =?utf-8?B?NHJFZWZJVTllOWZNZUdVUXU0dTlvMm5tMTlRbGlrY2lJVXMwNWEraDM3V0Zt?=
+ =?utf-8?B?ZmFaTjB2Q2RhUFl3Qk9sb1ZCVEJJalV5Z1dsamFLdVlrWTNSM05lMHI5bndT?=
+ =?utf-8?B?V3BXWjNRTzU4K0w3bE9rRTRpWWRwRVhnU3JPOGljUEoyMVhraEU0QXNSeElh?=
+ =?utf-8?B?Sy9zU0l0WEY1OVRGTkR5NDNhSlVBUHg4bjJsMFdQK0Fkd0dKOWFjVGtvU012?=
+ =?utf-8?B?KzVkeFlmNW1nM1BPMXhSNG5lbmJWdWZiM05UUmlSdlFWSVBMb2d6d1F2VW5J?=
+ =?utf-8?B?WEUzMUx4ZUVROXpkMlhPUGZZSnc1cEFzd3RsTUtad1pyRjJUdnoxQ1cyYzdT?=
+ =?utf-8?B?S2RvcnJ6SzV0aUVKNmhLd3BqRldoSW92dzV6b2hhWVJPMkg1eHZGQU5hQktF?=
+ =?utf-8?B?alQ5QVVEZ1h2S3NWT2ZPZU9GR3U5OWM3MTdNUnlJblRZcEZYS1BIeFJjdTBZ?=
+ =?utf-8?B?MkVpTUhydHZsQ1NIR3pGQklWQklFaDVSLzcrZUFoU3RiYzVIRm1TS2VqSk5j?=
+ =?utf-8?B?TVlpenF6bUhJcmw3eXk1MlVkTUlkTy9nRlQ3R0NxMDZ1RjR4akd0ZFAzRFRD?=
+ =?utf-8?B?Z3hsbVM0UmtBWVlZRWZ6QkEwSDdhYnBUTDlScWRTL25YOGdrNlM0NS9tZzVq?=
+ =?utf-8?B?cWFxZ1BHRjFSSTR5UEhHTDhZZFQ3UWhqWEF6U2QzOHk2WU00OUcyMVR3M3Ji?=
+ =?utf-8?B?RFFKd1NmcnVHem1GUDMxY0MvQ2hlYlhpU01FSFl6S3BCWG1RYzUxeS8ySmpn?=
+ =?utf-8?B?VlZGbUxKSzhHMmpWVThyVWZ0TWFjZWRSZXBxMm90MXRKVUdLenBYUDI0RFpI?=
+ =?utf-8?B?TTlQV2p0ZTd5YWFHV0Eremh4a2wyeXZRQjR0Zlh0RGNKMzJmMG80SWdsUmY5?=
+ =?utf-8?B?NjNDdTZEeGxYRW9DZHpRN1ppeFNocnpjekVEUXg4cXJaM1ZDcHFZUC8xcE5L?=
+ =?utf-8?B?UGc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51c7b113-83b4-45af-3a8c-08dd31d5e9a2
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5089.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2025 00:21:37.5994
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kJkgxn7mnv/T4oqLbvCjAV4LH7xjFt73LJxU7UX77K18VfM03EuP+Tk5qUTAlrGPJvWBxBMdC7B+xkp7jLT3Ko2VrtDbri8F9qCCLlgLkSg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR11MB8661
+X-OriginatorOrg: intel.com
 
-Am 10.01.25 um 23:33 schrieb Derek John Clark:
 
-> On Thu, Jan 9, 2025 at 3:00=E2=80=AFPM Armin Wolf <W_Armin@gmx.de> wrote=
-:
->> Am 02.01.25 um 01:47 schrieb Derek J. Clark:
->>
->>> Adds lenovo-wmi-other.c which provides a driver for the Lenovo
->>> "Other Mode" WMI interface that comes on some Lenovo "Gaming
->>> Series" hardware. Provides a firmware-attributes class which
->>> enables the use of tunable knobs for SPL, SPPT, and FPPT.
->>>
->>> v2:
->>> - Use devm_kzalloc to ensure driver can be instanced, remove global
->>>     reference.
->>> - Ensure reverse Christmas tree for all variable declarations.
->>> - Remove extra whitespace.
->>> - Use guard(mutex) in all mutex instances, global mutex.
->>> - Use pr_fmt instead of adding the driver name to each pr_err.
->>> - Remove noisy pr_info usage.
->>> - Rename other_method_wmi to lenovo_wmi_om_priv and om_wmi to priv.
->>> - Use list to get the lenovo_wmi_om_priv instance in some macro
->>>     called functions as the data provided by the macros that use it
->>>     doesn't pass a member of the struct for use in container_of.
->>> - Do not rely on GameZone interface to grab the current fan mode.
->>>
->>> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
->>> ---
->>>    MAINTAINERS                             |   1 +
->>>    drivers/platform/x86/Kconfig            |  12 +
->>>    drivers/platform/x86/Makefile           |   1 +
->>>    drivers/platform/x86/lenovo-wmi-other.c | 385 +++++++++++++++++++++=
-+++
->>>    drivers/platform/x86/lenovo-wmi.h       | 116 +++++++
->>>    5 files changed, 515 insertions(+)
->>>    create mode 100644 drivers/platform/x86/lenovo-wmi-other.c
->>>
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index c9374c395905..318e1e517eed 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -13040,6 +13040,7 @@ L:    platform-driver-x86@vger.kernel.org
->>>    S:  Maintained
->>>    F:  drivers/platform/x86/lenovo-wmi-capdata01.c
->>>    F:  drivers/platform/x86/lenovo-wmi-gamezone.c
->>> +F:   drivers/platform/x86/lenovo-wmi-other.c
->>>    F:  drivers/platform/x86/lenovo-wmi.h
->>>
->>>    LETSKETCH HID TABLET DRIVER
->>> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconf=
-ig
->>> index a2c1ab47ad9e..e2285ab987c5 100644
->>> --- a/drivers/platform/x86/Kconfig
->>> +++ b/drivers/platform/x86/Kconfig
->>> @@ -481,6 +481,18 @@ config LENOVO_WMI_DATA01
->>>          To compile this driver as a module, choose M here: the module=
- will
->>>          be called lenovo_wmi_capdata01.
->>>
->>> +config LENOVO_WMI_TUNING
->>> +     tristate "Lenovo Other Method WMI Driver"
->>> +     depends on LENOVO_WMI_DATA01
->> I think we should use "select LENOVO_WMI_DATA01" here. Ideally CONFIG_L=
-ENOVO_WMI_DATA01
->> will automatically be enabled/disabled if users enable/disable CONFIG_L=
-ENOVO_WMI_TUNING.
->>
-> Makes sense with the other change. Will do.
->
->>> +     select FW_ATTR_CLASS
->>> +     help
->>> +       Say Y here if you have a WMI aware Lenovo Legion device and wo=
-uld like to use the
->>> +       firmware_attributes API to control various tunable settings ty=
-pically exposed by
->>> +       Lenovo software in Windows.
->>> +
->>> +       To compile this driver as a module, choose M here: the module =
-will
->>> +       be called lenovo_wmi_other.
->> Check the module name again.
->>
->>> +
->>>    config IDEAPAD_LAPTOP
->>>        tristate "Lenovo IdeaPad Laptop Extras"
->>>        depends on ACPI
->>> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Make=
-file
->>> index 6c96cc3f3855..3e059b3c3647 100644
->>> --- a/drivers/platform/x86/Makefile
->>> +++ b/drivers/platform/x86/Makefile
->>> @@ -70,6 +70,7 @@ obj-$(CONFIG_YT2_1380)              +=3D lenovo-yoga=
--tab2-pro-1380-fastcharger.o
->>>    obj-$(CONFIG_LENOVO_WMI_CAMERA)     +=3D lenovo-wmi-camera.o
->>>    obj-$(CONFIG_LENOVO_WMI_GAMEZONE)   +=3D lenovo-wmi-gamezone.o
->>>    obj-$(CONFIG_LENOVO_WMI_DATA01)     +=3D lenovo-wmi-capdata01.o
->>> +obj-$(CONFIG_LENOVO_WMI_TUNING)      +=3D lenovo-wmi-other.o
->>>
->>>    # Intel
->>>    obj-y                               +=3D intel/
->>> diff --git a/drivers/platform/x86/lenovo-wmi-other.c b/drivers/platfor=
-m/x86/lenovo-wmi-other.c
->>> new file mode 100644
->>> index 000000000000..2392faa74973
->>> --- /dev/null
->>> +++ b/drivers/platform/x86/lenovo-wmi-other.c
->>> @@ -0,0 +1,385 @@
->>> +// SPDX-License-Identifier: GPL-2.0-or-later
->>> +/*
->>> + * Lenovo Other Method WMI interface driver. This driver uses the fw_=
-attributes
->>> + * class to expose the various WMI functions provided by the "Other M=
-ethod" WMI
->>> + * interface. This enables CPU and GPU power limit as well as various=
- other
->>> + * attributes for devices that fall under the "Gaming Series" of Leno=
-vo laptop
->>> + * devices. Each attribute exposed by the "Other Method"" interface h=
-as a
->>> + * corresponding LENOVO_CAPABILITY_DATA_01 struct that allows the dri=
-ver to
->>> + * probe details about the attribute such as set/get support, step, m=
-in, max,
->>> + * and default value. Each attibute has multiple pages, one for each =
-of the
->>> + * fan profiles managed by the GameZone interface, so it must be prob=
-ed prior
->>> + * to returning the current_value.
->>> + *
->>> + * These attributes typically don't fit anywhere else in the sysfs an=
-d are set
->>> + * in Windows using one of Lenovo's multiple user applications.
->>> + *
->>> + * Copyright(C) 2024 Derek J. Clark <derekjohn.clark@gmail.com>
->>> + */
->>> +
->>> +#include <linux/list.h>
->>> +#include "lenovo-wmi.h"
->>> +#include "firmware_attributes_class.h"
->>> +
->>> +#define FW_ATTR_FOLDER "lenovo-wmi-other"
->>> +#define LENOVO_OTHER_METHOD_GUID "DC2A8805-3A8C-41BA-A6F7-092E0089CD3=
-B"
->>> +
->>> +/* Device IDs */
->>> +#define WMI_DEVICE_ID_CPU 0x01
->>> +
->>> +/* WMI_DEVICE_ID_CPU feature IDs */
->>> +#define WMI_FEATURE_ID_CPU_SPPT 0x01 /* Short Term Power Limit */
->>> +#define WMI_FEATURE_ID_CPU_FPPT 0x03 /* Long Term Power Limit */
->>> +#define WMI_FEATURE_ID_CPU_SPL 0x02 /* Peak Power Limit */
->>> +#define WMI_FEATURE_ID_CPU_FPPT_BAD 0x03 /* Long Term Power Limit */
->>> +
->>> +/* Method IDs */
->>> +#define WMI_METHOD_ID_VALUE_GET 17 /* Other Method Getter */
->>> +#define WMI_METHOD_ID_VALUE_SET 18 /* Other Method Setter */
->>> +
->>> +static DEFINE_MUTEX(call_mutex);
->> Is this mutex really necessary? If not then remove it please.
->>
-> Same as other drivers, will remove.
->
->>> +static DEFINE_MUTEX(om_list_mutex);
->>> +static LIST_HEAD(om_wmi_list);
->>> +
->>> +struct lenovo_wmi_om_priv {
->>> +     struct wmi_device *wdev;
->>> +     struct device *fw_attr_dev;
->>> +     struct kset *fw_attr_kset;
->>> +     struct list_head list;
->>> +};
->>> +
->>> +static inline struct lenovo_wmi_om_priv *get_first_wmi_priv(void)
->>> +{
->>> +     guard(mutex)(&om_list_mutex);
->>> +     return list_first_entry_or_null(&om_wmi_list, struct lenovo_wmi_=
-om_priv,
->>> +                                     list);
->>> +}
->>> +
->>> +static const struct wmi_device_id lenovo_wmi_other_id_table[] =3D {
->>> +     { LENOVO_OTHER_METHOD_GUID, NULL },
->>> +     {}
->>> +};
->> Please move the list of device ids closer to the driver struct.
->>
-> Will do.
->
->>> +
->>> +/* Tunable Attributes */
->>> +struct tunable_attr_01 ppt_pl1_spl =3D { .device_id =3D WMI_DEVICE_ID=
-_CPU,
->>> +                                    .feature_id =3D WMI_FEATURE_ID_CP=
-U_SPL };
->>> +struct tunable_attr_01 ppt_pl2_sppt =3D { .device_id =3D WMI_DEVICE_I=
-D_CPU,
->>> +                                     .feature_id =3D WMI_FEATURE_ID_C=
-PU_SPPT };
->>> +struct tunable_attr_01 ppt_pl3_fppt =3D { .device_id =3D WMI_DEVICE_I=
-D_CPU,
->>> +                                     .feature_id =3D WMI_FEATURE_ID_C=
-PU_FPPT };
->>> +
->>> +struct capdata01_attr_group {
->>> +     const struct attribute_group *attr_group;
->>> +     struct tunable_attr_01 *tunable_attr;
->> Would it make sense to do something similar with each attribute, so tha=
-t each attribute
->> can use container_of() to access lenovo_wmi_om_priv without having to u=
-se a list lookup?
->>
->> This would of course mean that each attribute as to be allocated dynami=
-cally.
->>
->> Heep in mind that we are currently working on a new API for registering=
- firmware-atrtibute class
->> devices which should fix this.
->>
-> I'm not sure I understand what you mean exactly. I think what you're
-> saying is, instead of an attr_group, allocate each attribute as a
-> struct in priv?
 
-Kind of. I envisioned something like this (pseudo code):
+On 1/10/2025 5:03 AM, Steven Rostedt wrote:
+> On Fri, 10 Jan 2025 12:20:09 +0000
+> Yeking@Red54.com wrote:
+> 
+>> The old Fixes tag style is at least 10 years old. It lacks date
+>> information, which can lead to misjudgment. So I added short author date
+>> to avoid this. This make it clear at a glance and reduce
+>> misunderstandings.
+> 
+> How can it lead to misjudgment? If you have two or more hashes matching, do
+> you really think they'll have the same subjects?
+> 
+> I do not plan on doing this. It's pointless.
+> 
+> -- Steve
 
-	struct firmware_attribute {
-		struct kobj_attribute attr;
-		struct lenovo_wmi_om_priv;
-	}
+While the addition of the date is a widely used variant within the git
+community, this was rejected by the kernel community in the past as
+well. I remember posting fixes tags with the date several years ago and
+getting push back.
 
-This would allow you to use container_of() to access priv, but would force=
- you to allocate each attribute separately.
-Maybe you can wait with the lenovo-wmi-other driver until the improved fir=
-mware-attribute class device API has landed.
-Meanwhile we can focus on the lenovo-wmi-gamezone driver.
+I tried to find reference to these discussions but I can't seem to
+locate them anymore on the archives.
 
->>> +};
->>> +
->>> +static const struct class *fw_attr_class;
->>> +
->>> +/**
->>> + * attr_capdata01_setup() - Get the data of the specified attribute
->>> + * from LENOVO_CAPABILITY_DATA_01 and store it.
->>> + * @tunable_attr: The attribute to be populated.
->>> + *
->>> + * Returns: Either 0 or an error.
->>> + */
->>> +static int attr_capdata01_setup(struct tunable_attr_01 *tunable_attr)
->>> +{
->>> +     struct capability_data_01 cap_data;
->>> +     int mode =3D SMARTFAN_MODE_CUSTOM;
->>> +     int err;
->>> +
->>> +     struct lenovo_wmi_attr_id attr_id =3D { mode << 8,
->>> +                                           tunable_attr->feature_id,
->>> +                                           tunable_attr->device_id };
->> Please use FIELD_GET()/FIELD_PREP() here.
->>
-> Can do.
->
->>> +
->>> +     err =3D lenovo_wmi_capdata01_get(attr_id, &cap_data);
->>> +     if (err) {
->>> +             pr_err("Failed to get capability data: %u\n", err);
->>> +             return err;
->>> +     }
->>> +
->>> +     if (cap_data.supported < 1)
->>> +             return -EOPNOTSUPP;
->>> +
->>> +     tunable_attr->capdata =3D cap_data;
->>> +
->>> +     return 0;
->>> +}
->>> +
->>> +/**
->>> + * attr_capdata01_show() - Get the value of the specified attribute p=
-roperty
->>> + * from LENOVO_CAPABILITY_DATA_01.
->>> + * @kobj: Pointer to the driver object.
->>> + * @kobj_attribute: Pointer to the attribute calling this function.
->>> + * @buf: The buffer to write to.
->>> + * @tunable_attr: The attribute to be read.
->>> + * @prop: The property of this attribute to be read.
->>> + *
->>> + * This function is intended to be generic so it can be called from a=
-ny "_show"
->>> + * attribute which works only with integers.
->>> + *
->>> + * If the WMI is success, then the sysfs attribute is notified.
->>> + *
->>> + * Returns: Either count, or an error.
->>> + */
->>> +ssize_t attr_capdata01_show(struct kobject *kobj, struct kobj_attribu=
-te *attr,
->>> +                         char *buf, struct tunable_attr_01 *tunable_a=
-ttr,
->>> +                         enum attribute_property prop)
->>> +{
->>> +     struct capability_data_01 cap_data;
->>> +     int retval;
->>> +
->>> +     cap_data =3D tunable_attr->capdata;
->>> +
->>> +     switch (prop) {
->>> +     case DEFAULT_VAL:
->>> +             retval =3D cap_data.default_value;
->>> +             break;
->>> +     case MAX_VAL:
->>> +             retval =3D cap_data.max_value;
->>> +             break;
->>> +     case MIN_VAL:
->>> +             retval =3D cap_data.min_value;
->>> +             break;
->>> +     case STEP_VAL:
->>> +             retval =3D cap_data.step;
->>> +             break;
->>> +     default:
->>> +             return -EINVAL;
->>> +     }
->>> +     return sysfs_emit(buf, "%u\n", retval);
->>> +}
->>> +
->>> +/* Simple attribute creation */
->>> +
->>> +/*
->>> + * att_current_value_store() - Set the current value of the given att=
-ribute
->>> + * @kobj: Pointer to the driver object.
->>> + * @kobj_attribute: Pointer to the attribute calling this function.
->>> + * @buf: The buffer to read from, this is parsed to `int` type.
->>> + * @count: Required by sysfs attribute macros, pass in from the calle=
-e attr.
->>> + * @tunable_attr: The attribute to be stored.
->>> + *
->>> + * This function is intended to be generic so it can be called from a=
-ny
->>> + * attribute's "current_value_store" which works only with integers. =
-The
->>> + * integer to be sent to the WMI method is range checked and an error=
- returned
->>> + * if out of range.
->>> + *
->>> + * If the value is valid and WMI is success, then the sysfs attribute=
- is
->>> + * notified.
->>> + *
->>> + * Returns: Either count, or an error.
->>> + */
->>> +ssize_t attr_current_value_store(struct kobject *kobj,
->>> +                              struct kobj_attribute *attr, const char=
- *buf,
->>> +                              size_t count,
->>> +                              struct tunable_attr_01 *tunable_attr)
->>> +{
->>> +     struct capability_data_01 cap_data;
->>> +     struct lenovo_wmi_om_priv *priv;
->>> +     int mode =3D SMARTFAN_MODE_CUSTOM;
->>> +     u32 value;
->>> +     int err;
->>> +
->>> +     struct lenovo_wmi_attr_id attr_id =3D { mode << 8,
->>> +                                           tunable_attr->feature_id,
->>> +                                           tunable_attr->device_id };
->>> +
->>> +     err =3D kstrtouint(buf, 10, &value);
->>> +     if (err) {
->>> +             pr_err("Error converting value to int: %u\n", err);
->>> +             return err;
->>> +     }
->>> +
->>> +     cap_data =3D tunable_attr->capdata;
->>> +
->>> +     if (value < cap_data.min_value || value > cap_data.max_value)
->>> +             return -EINVAL;
->>> +
->>> +     priv =3D get_first_wmi_priv();
->>> +     if (!priv)
->>> +             return -ENODEV;
->>> +
->>> +     guard(mutex)(&call_mutex);
->>> +     err =3D lenovo_wmidev_evaluate_method_2(priv->wdev, 0x0,
->>> +                                           WMI_METHOD_ID_VALUE_SET,
->>> +                                           *(int *)&attr_id, value, N=
-ULL);
->>> +
->>> +     if (err) {
->>> +             pr_err("Error setting attribute: %u\n", err);
->> This error message is unnecessary, please drop it.
->>
-> Ack
->
->>> +             return err;
->>> +     }
->>> +
->>> +     tunable_attr->store_value =3D value;
->> Is this value used anywhere? If no then please drop it.
->>
-> It isn't, will do.
->>> +
->>> +     sysfs_notify(kobj, NULL, attr->attr.name);
->> AFAIK this is unnecessary since userspace already expects the attribute=
- value to
->> change after an write access. This is only meant to be used should the =
-value be
->> changed by for example the underlying hardware without user interventio=
-n.
->>
-> I can drop this too.
->
->>> +
->>> +     return count;
->>> +};
->>> +
->>> +/*
->>> + * attr_current_value_show() - Get the current value of the given att=
-ribute
->>> + * @kobj: Pointer to the driver object.
->>> + * @kobj_attribute: Pointer to the attribute calling this function.
->>> + * @buf: The buffer to write to.
->>> + * @tunable_attr: The attribute to be read.
->>> + *
->>> + * This function is intended to be generic so it can be called from a=
-ny "_show"
->>> + * attribute which works only with integers.
->>> + *
->>> + * If the WMI is success, then the sysfs attribute is notified.
->>> + *
->>> + * Returns: Either count, or an error.
->>> + */
->>> +ssize_t attr_current_value_show(struct kobject *kobj,
->>> +                             struct kobj_attribute *attr, char *buf,
->>> +                             struct tunable_attr_01 *tunable_attr)
->>> +{
->>> +     struct lenovo_wmi_om_priv *priv;
->>> +     int mode =3D SMARTFAN_MODE_CUSTOM;
->>> +     int retval;
->>> +     int err;
->>> +
->>> +     struct lenovo_wmi_attr_id attr_id =3D { mode << 8,
->>> +                                           tunable_attr->feature_id,
->>> +                                           tunable_attr->device_id };
->>> +
->>> +     priv =3D get_first_wmi_priv();
->>> +     if (!priv)
->>> +             return -ENODEV;
->>> +
->>> +     guard(mutex)(&call_mutex);
->>> +     err =3D lenovo_wmidev_evaluate_method_1(priv->wdev, 0x0,
->>> +                                           WMI_METHOD_ID_VALUE_GET,
->>> +                                           *(int *)&attr_id, &retval)=
-;
->>> +
->>> +     if (err) {
->>> +             pr_err("Error getting attribute: %u\n", err);
->>> +             return err;
->>> +     }
->>> +
->>> +     return sysfs_emit(buf, "%u\n", retval);
->>> +}
->>> +
->>> +ATTR_GROUP_LL_TUNABLE_CAP01(ppt_pl1_spl, "ppt_pl1_spl",
->>> +                         "Set the CPU sustained power limit");
->>> +ATTR_GROUP_LL_TUNABLE_CAP01(ppt_pl2_sppt, "ppt_pl2_sppt",
->>> +                         "Set the CPU slow package power tracking lim=
-it");
->>> +ATTR_GROUP_LL_TUNABLE_CAP01(ppt_pl3_fppt, "ppt_pl3_fppt",
->>> +                         "Set the CPU fast package power tracking lim=
-it");
->>> +
->>> +static const struct capdata01_attr_group capdata01_attr_groups[] =3D =
-{
->>> +     { &ppt_pl1_spl_attr_group, &ppt_pl1_spl },
->>> +     { &ppt_pl2_sppt_attr_group, &ppt_pl2_sppt },
->>> +     { &ppt_pl3_fppt_attr_group, &ppt_pl3_fppt },
->>> +     {},
->>> +};
->>> +
->>> +static int other_method_fw_attr_add(struct lenovo_wmi_om_priv *priv)
->>> +{
->>> +     int err, i;
->>> +
->>> +     err =3D fw_attributes_class_get(&fw_attr_class);
->>> +     if (err) {
->>> +             pr_err("Failed to get firmware_attributes_class: %u\n", =
-err);
->>> +             return err;
->>> +     }
->>> +
->>> +     priv->fw_attr_dev =3D device_create(fw_attr_class, NULL, MKDEV(0=
-, 0),
->>> +                                       NULL, "%s", FW_ATTR_FOLDER);
->>> +     if (IS_ERR(priv->fw_attr_dev)) {
->>> +             err =3D PTR_ERR(priv->fw_attr_dev);
->>> +             pr_err("Failed to create firmware_attributes_class devic=
-e: %u\n",
->>> +                    err);
->>> +             goto fail_class_get;
->>> +     }
->>> +
->>> +     priv->fw_attr_kset =3D kset_create_and_add("attributes", NULL,
->>> +                                              &priv->fw_attr_dev->kob=
-j);
->>> +     if (!priv->fw_attr_kset) {
->>> +             err =3D -ENOMEM;
->>> +             pr_err("Failed to create firmware_attributes_class kset:=
- %u\n",
->>> +                    err);
->>> +             goto err_destroy_classdev;
->>> +     }
->>> +
->>> +     for (i =3D 0; i < ARRAY_SIZE(capdata01_attr_groups) - 1; i++) {
->>> +             err =3D attr_capdata01_setup(
->>> +                     capdata01_attr_groups[i].tunable_attr);
->>> +             if (err) {
->>> +                     pr_err("Failed to populate capability data for %=
-s: %u\n",
->>> +                            capdata01_attr_groups[i].attr_group->name=
-, err);
->>> +                     continue;
->>> +             }
->>> +
->>> +             err =3D sysfs_create_group(&priv->fw_attr_kset->kobj,
->>> +                                      capdata01_attr_groups[i].attr_g=
-roup);
->> AFAIK there exists sysfs_create_groups(). Together with the *_is_visibl=
-e callbacks this
->> should simplify this part of your code a lot.
->>
-> Part of this code is caching the capability data so it doesn't need to
-> be called after probe. If I can get the cached list working in that
-> driver I can drop storing it here and use _is_visible as a macro
-> component.
+I personally find the date helpful as it can help place a commit without
+needing to take the extra time to do a lookup.
 
-OK.
-
->>> +             if (err) {
->>> +                     pr_err("Failed to create sysfs-group for %s: %u\=
-n",
->>> +                            capdata01_attr_groups[i].attr_group->name=
-, err);
->>> +                     goto err_remove_groups;
->>> +             }
->>> +     }
->>> +
->>> +     return 0;
->>> +
->>> +err_remove_groups:
->>> +     while (i-- > 0) {
->>> +             sysfs_remove_group(&priv->fw_attr_kset->kobj,
->>> +                                capdata01_attr_groups[i].attr_group);
->>> +     }
->>> +
->>> +     return err;
->> Please remove this return statement, since the other resources need to =
-be cleaned up too.
-> Agree. Ilpo noted these as well.
->
->> Also where do you clean up the kset?
-> I'll add it here.
->
->>> +
->>> +err_destroy_classdev:
->>> +     device_destroy(fw_attr_class, MKDEV(0, 0));
->> Please use device_unregister() instead.
->>
-> Ack
->
->>> +
->>> +     return err;
->> ...
->>> +
->>> +fail_class_get:
->>> +     fw_attributes_class_put();
->>> +
->>> +     return err;
->>> +}
->>> +
->>> +static int lenovo_wmi_other_probe(struct wmi_device *wdev, const void=
- *context)
->>> +{
->>> +     struct lenovo_wmi_om_priv *priv;
->>> +
->>> +     priv =3D devm_kzalloc(&wdev->dev, sizeof(*priv), GFP_KERNEL);
->>> +     if (!priv)
->>> +             return -ENOMEM;
->>> +
->>> +     priv->wdev =3D wdev;
->> Missing dev_set_drvdata().
->>
-> Ack
->
->>> +
->>> +     guard(mutex)(&om_list_mutex);
->>> +     list_add_tail(&priv->list, &om_wmi_list);
->>> +
->>> +     return other_method_fw_attr_add(priv);
->>> +}
->>> +
->>> +static void lenovo_wmi_other_remove(struct wmi_device *wdev)
->>> +{
->>> +     struct lenovo_wmi_om_priv *priv =3D dev_get_drvdata(&wdev->dev);
->>> +
->>> +     guard(mutex)(&om_list_mutex);
->>> +     list_del(&priv->list);
->>> +     kset_unregister(priv->fw_attr_kset);
->>> +     device_destroy(fw_attr_class, MKDEV(0, 0));
->>> +     fw_attributes_class_put();
->>> +}
->>> +
->>> +static struct wmi_driver lenovo_wmi_other_driver =3D {
->>> +     .driver =3D { .name =3D "lenovo_wmi_other" },
->> .probe_type =3D PROBE_PREFER_ASYNCHRONOUS
->>
-> Ack
->
->>> +     .id_table =3D lenovo_wmi_other_id_table,
->>> +     .probe =3D lenovo_wmi_other_probe,
->>> +     .remove =3D lenovo_wmi_other_remove,
->> .no_singleton =3D true
->>
-> Ack
->
->> In this case please make sure that the name of the firmware-attributes =
-class device is unique.
->> You can use an IDA (https://docs.kernel.org/core-api/idr.html) for this=
-.
-> Will do, thanks.
->
->>> +};
->>> +
->>> +module_wmi_driver(lenovo_wmi_other_driver);
->>> +
->>> +MODULE_IMPORT_NS("CAPDATA_WMI");
->>> +MODULE_DEVICE_TABLE(wmi, lenovo_wmi_other_id_table);
->>> +MODULE_AUTHOR("Derek J. Clark <derekjohn.clark@gmail.com>");
->>> +MODULE_DESCRIPTION("Lenovo Other Method WMI Driver");
->>> +MODULE_LICENSE("GPL");
->>> diff --git a/drivers/platform/x86/lenovo-wmi.h b/drivers/platform/x86/=
-lenovo-wmi.h
->>> index 53cea84a956b..1c8358551ba6 100644
->>> --- a/drivers/platform/x86/lenovo-wmi.h
->>> +++ b/drivers/platform/x86/lenovo-wmi.h
->>> @@ -42,6 +42,14 @@ struct lenovo_wmi_attr_id {
->>>        u32 device_id : 8; /* CPU/GPU/... */
->>>    } __packed;
->>>
->>> +enum attribute_property {
->>> +     DEFAULT_VAL,
->>> +     MAX_VAL,
->>> +     MIN_VAL,
->>> +     STEP_VAL,
->>> +     SUPPORTED,
->>> +};
->>> +
->>>    /* Data struct for LENOVO_CAPABILITY_DATA_01 */
->>>    struct capability_data_01 {
->>>        u32 id;
->>> @@ -52,6 +60,14 @@ struct capability_data_01 {
->>>        u32 max_value;
->>>    };
->>>
->>> +/* Tunable attribute that uses LENOVO_CAPABILITY_DATA_01 */
->>> +struct tunable_attr_01 {
->>> +     struct capability_data_01 capdata;
->>> +     u32 device_id;
->>> +     u32 feature_id;
->>> +     u32 store_value;
->>> +};
->>> +
->>>    /* General Use functions */
->>>    static int lenovo_wmidev_evaluate_method(struct wmi_device *wdev, u=
-8 instance,
->>>                                         u32 method_id, struct acpi_buf=
-fer *in,
->>> @@ -122,4 +138,104 @@ int lenovo_wmidev_evaluate_method_1(struct wmi_d=
-evice *wdev, u8 instance,
->>>    int lenovo_wmi_capdata01_get(struct lenovo_wmi_attr_id attr_id,
->>>                             struct capability_data_01 *cap_data);
->>>
->>> +/* Other Method attribute functions */
->>> +ssize_t attr_capdata01_show(struct kobject *kobj, struct kobj_attribu=
-te *attr,
->>> +                         char *buf, struct tunable_attr_01 *tunable_a=
-ttr,
->>> +                         enum attribute_property prop);
->>> +
->>> +ssize_t attr_current_value_store(struct kobject *kobj,
->>> +                              struct kobj_attribute *attr, const char=
- *buf,
->>> +                              size_t count,
->>> +                              struct tunable_attr_01 *tunable_attr);
->>> +
->>> +ssize_t attr_current_value_show(struct kobject *kobj,
->>> +                             struct kobj_attribute *attr, char *buf,
->>> +                             struct tunable_attr_01 *tunable_attr);
->>> +
->>> +ssize_t int_type_show(struct kobject *kobj, struct kobj_attribute *at=
-tr,
->>> +                   char *buf);
->>> +
->>> +ssize_t int_type_show(struct kobject *kobj, struct kobj_attribute *at=
-tr,
->>> +                   char *buf)
->>> +{
->>> +     return sysfs_emit(buf, "integer\n");
->>> +}
->>> +
->>> +/* Other Method attribute macros */
->>> +#define __LL_ATTR_RO(_func, _name)                                   =
- \
->>> +     {                                                             \
->>> +             .attr =3D { .name =3D __stringify(_name), .mode =3D 0444=
- }, \
->>> +             .show =3D _func##_##_name##_show,                       =
-\
->>> +     }
->>> +
->>> +#define __LL_ATTR_RO_AS(_name, _show)                                =
- \
->>> +     {                                                             \
->>> +             .attr =3D { .name =3D __stringify(_name), .mode =3D 0444=
- }, \
->>> +             .show =3D _show,                                        =
-\
->>> +     }
->>> +
->>> +#define __LL_ATTR_RW(_func, _name) \
->>> +     __ATTR(_name, 0644, _func##_##_name##_show, _func##_##_name##_st=
-ore)
->>> +
->>> +/* Shows a formatted static variable */
->>> +#define __ATTR_SHOW_FMT(_prop, _attrname, _fmt, _val)                =
-         \
->>> +     static ssize_t _attrname##_##_prop##_show(                      =
-      \
->>> +             struct kobject *kobj, struct kobj_attribute *attr, char =
-*buf) \
->>> +     {                                                               =
-      \
->>> +             return sysfs_emit(buf, _fmt, _val);                     =
-      \
->>> +     }                                                               =
-      \
->>> +     static struct kobj_attribute attr_##_attrname##_##_prop =3D     =
-        \
->>> +             __LL_ATTR_RO(_attrname, _prop)
->>> +
->>> +/* Attribute current_value show/store */
->>> +#define __LL_TUNABLE_RW_CAP01(_attrname)                             =
-         \
->>> +     static ssize_t _attrname##_current_value_store(                 =
-      \
->>> +             struct kobject *kobj, struct kobj_attribute *attr,      =
-      \
->>> +             const char *buf, size_t count)                          =
-      \
->>> +     {                                                               =
-      \
->>> +             return attr_current_value_store(kobj, attr, buf, count, =
-      \
->>> +                                             &_attrname);            =
-      \
->>> +     }                                                               =
-      \
->>> +     static ssize_t _attrname##_current_value_show(                  =
-      \
->>> +             struct kobject *kobj, struct kobj_attribute *attr, char =
-*buf) \
->>> +     {                                                               =
-      \
->>> +             return attr_current_value_show(kobj, attr, buf, &_attrna=
-me);  \
->>> +     }                                                               =
-      \
->>> +     static struct kobj_attribute attr_##_attrname##_current_value =
-=3D       \
->>> +             __LL_ATTR_RW(_attrname, current_value)
->>> +
->>> +/* Attribute property show only */
->>> +#define __LL_TUNABLE_RO_CAP01(_prop, _attrname, _prop_type)          =
-         \
->>> +     static ssize_t _attrname##_##_prop##_show(                      =
-      \
->>> +             struct kobject *kobj, struct kobj_attribute *attr, char =
-*buf) \
->>> +     {                                                               =
-      \
->>> +             return attr_capdata01_show(kobj, attr, buf, &_attrname, =
-      \
->>> +                                        _prop_type);                 =
-      \
->>> +     }                                                               =
-      \
->>> +     static struct kobj_attribute attr_##_attrname##_##_prop =3D     =
-        \
->>> +             __LL_ATTR_RO(_attrname, _prop)
->>> +
->>> +#define ATTR_GROUP_LL_TUNABLE_CAP01(_attrname, _fsname, _dispname)   =
-  \
->>> +     __LL_TUNABLE_RW_CAP01(_attrname);                              \
->>> +     __LL_TUNABLE_RO_CAP01(default_value, _attrname, DEFAULT_VAL);  \
->>> +     __ATTR_SHOW_FMT(display_name, _attrname, "%s\n", _dispname);   \
->>> +     __LL_TUNABLE_RO_CAP01(max_value, _attrname, MAX_VAL);          \
->>> +     __LL_TUNABLE_RO_CAP01(min_value, _attrname, MIN_VAL);          \
->>> +     __LL_TUNABLE_RO_CAP01(scalar_increment, _attrname, STEP_VAL);  \
->>> +     static struct kobj_attribute attr_##_attrname##_type =3D        =
- \
->>> +             __LL_ATTR_RO_AS(type, int_type_show);                  \
->>> +     static struct attribute *_attrname##_attrs[] =3D {              =
- \
->>> +             &attr_##_attrname##_current_value.attr,                \
->>> +             &attr_##_attrname##_default_value.attr,                \
->>> +             &attr_##_attrname##_display_name.attr,                 \
->>> +             &attr_##_attrname##_max_value.attr,                    \
->>> +             &attr_##_attrname##_min_value.attr,                    \
->>> +             &attr_##_attrname##_scalar_increment.attr,             \
->>> +             &attr_##_attrname##_type.attr,                         \
->>> +             NULL,                                                  \
->>> +     };                                                             \
->>> +     static const struct attribute_group _attrname##_attr_group =3D {=
- \
->>> +             .name =3D _fsname, .attrs =3D _attrname##_attrs         =
-   \
->>> +     }
->> Is there a reason why this needs to be put inside the header? If no the=
-n please put this
->> inside the driver.
-> To clarify, you mean the macros? I was under the impression they
-> belonged in headers but I can move them. I will move some of the
-> enums/structs as well which are referenced here and the driver only.
-
-I mean both the macros and the show functions. They are only used inside l=
-enovo-wmi-other, so there
-is no reason to expose them inside the public header.
-
-Thanks,
-Armin Wolf
-
->
->> Thanks,
->> Armin Wolf
->>
->>> +
->>>    #endif /* !_LENOVO_WMI_H_ */
+However, all of the existing tooling we have for the kernel does not
+support the date, and I think its not worth trying to change it at this
+point. It doesn't make sense to break all this tooling for information
+which is accessible in other forms. Indeed, as long as the hash is
+sufficiently long, the change of a collision is minimal.
