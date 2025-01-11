@@ -1,79 +1,82 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82CF433981;
-	Sat, 11 Jan 2025 12:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA1E199EB7;
+	Sat, 11 Jan 2025 12:39:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736597411; cv=none; b=etwV+/VR697LZ+dc2+60F77Dtms0Y+N4XS3QFDsAzntUZiHoIAmih4+oOYRX52LEp6pIbWfjBLOrPIyKo1CFRmZRqGyXfDRVEBIYSO6cNJJS+HQzBQ3FDGf/PQhf/Q7VYolkN3Tkd96Iqt7EiYoe97CqmaT+SwgVPxOc+oOi2Ss=
+	t=1736599145; cv=none; b=IUlSm4k0Lm1amvfrxzUYM2NNtrdo9+iEtCvr3RhXzmFsL/cJDvsyQWJU9VNUxOP1KjFp+4uIBGbFakP5bsjrKX1TynFRQ8aijOIz/lpO/S4KxrV7SRd7Vb0vJpeNqE8Net5vV+tu7u6x/ohFT71CwIQYRaTDhLzJkE6zxXGkbfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736597411; c=relaxed/simple;
-	bh=GShfHRmpLs5MBpU4DB93wLBxi0Cg7zKKzF9jRBl21nI=;
+	s=arc-20240116; t=1736599145; c=relaxed/simple;
+	bh=0SUteaRZ0/2JatYYIey7j+YlOh26WKWoULSo1RJMELw=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=njMY1n2c/pG2O3j+LfPuxdkq9OUeljxElR8o5agXihBKQN0yoq2ZD2sknZ+lOgidnQt9LdhCnRkXQM8SQ7d2Rl4s1R61sxoIktFvCvJNY/2PN87VjzwsQVWdPpeJpSVlTXLtx0O2ikjcY9mOUURgKZGHa29diEmyzy2TJmHG0yQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ncNOoVhF; arc=none smtp.client-ip=209.85.128.53
+	 MIME-Version:Content-Type; b=FKvNeH/dTeGLG7YLxC/8X9z69feks9P8VM8W7vaF3+SwNuZ76XAL+x6GW+Yy2ArxgyImXDfC0MTXLMYT4NSmNuVFc7wKn4QoazGaTo0ZbZTlCRRsoDmsnxAYCv/JpxKYr7aRzTU7YR2auBNGZNxxkF8v14vOghUHYWdA7LoQ+WQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OAqsXcoI; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ncNOoVhF"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-436637e8c8dso30849265e9.1;
-        Sat, 11 Jan 2025 04:10:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OAqsXcoI"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-38789e5b6a7so1631645f8f.1;
+        Sat, 11 Jan 2025 04:39:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736597408; x=1737202208; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1736599142; x=1737203942; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lTT7ZUTuipiKXlRUDfKl1K6geEftjapKSYCPm3RShOs=;
-        b=ncNOoVhFByCqPLol7/Cd9De97jTs01gp7cPDXQFQSUscGWIINxZP/6Hrkv2NaMlGXV
-         u3SQ+mYAFTYJ8QG5W/y8a0ayOcmKMxXDDtUU9C50PwYEbrOg+y8lPsObVXrsfzSspvTI
-         M0zWQCyORlLIKf6pdbes1o3+/6W5zxAsVBHEm9id/fhWWEK1wUyiifcwiF8AMfuIAgvg
-         pWJJ8z/9mQSH0ViiGcFCnSq5LDmOWFNU9OGzG0Ae1PjYLI6FcmIiW4ySPZzLB9jl6CZ8
-         0azyCZx/93PJpmRWwtb//lxtV3Ip7TYxrqEZCG6iuVq6mW3QODvWKqwJiRs6dii37QbM
-         IM1A==
+        bh=xjcUr7iPo16VpAzzLGdT20/uMUcDtwg+n1cza3W2ZFU=;
+        b=OAqsXcoIrXm48+Xluc5yzTzPe3S1BNnFkhtDrAXDazuCI7btmnqBBo9rR1TrfLg8JB
+         447WVWmgdROTEgvTjGNKoVWnVdam+AU8g8cB5poWG2C7m9wBATefzMxlVOQihHyjXhXG
+         OOF7qW51opvVB9tx2SMoD2ydxtum4yC1rHqFW3Uk1CFzjhCtjVrFV89Ykv0CRYKhsaqd
+         jFKlwz6FJQ/0sAbnL4dGwtoouNJfa9B1S1LRd6biMM/mxxYpJPLQANwYazLGTiPyxI8E
+         F1ZzdKR4rZKyLkxKy70cxfhtWqVZt/9clDA6usjjamXO9K1vHftxXMFfnOu9iFFZneIl
+         lklg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736597408; x=1737202208;
+        d=1e100.net; s=20230601; t=1736599142; x=1737203942;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lTT7ZUTuipiKXlRUDfKl1K6geEftjapKSYCPm3RShOs=;
-        b=xEdV4eTHil6Yq375Wha5b4oSgqIygD0Lmgj3CyIcbaY0zrMMlIvhx4lSybR2DVr9l1
-         of0EefZfKD4cDaeYW7+GJa93zEj7qMMXjp0m/nVK9PBtsjPoY1gGOCsET/DuP/PRNlke
-         IgE61nwTQRBY8M7thDZUMwCYNExuTBr2BQcK8XeCk6HrXujNRKkqEd/lWYsn+868hccT
-         RxcsEs7kYt6nvAUnetkMNu/5R4ajAd/B5k+Hu4bk3bYJiqRoQJjXoVLEYwIqQyltaCY0
-         he1BTxrDrzaHOn+h2YXmItFFNnHrW6exKf9CCpavGNs5uosCquA6VRVLmvIgQxDE1asa
-         qcNA==
-X-Forwarded-Encrypted: i=1; AJvYcCV8Zr+IvxjZdvwUnsHZLTYSEAPOh8itorMo0VR8jskl0is+thqXAPUhOIisvRTf044QvPs8IpBf9Y0=@vger.kernel.org, AJvYcCVWVINSRN9fjuEa0Y3Z10TvbiDZ7sokmeIPRweGahVUqADZU1lf6NOkh6ISIiWOb5exOcVVwbgxdCBeC1X/@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLe79BgUq8VLW1APOsNsrFG4zbCneQTKG3/bqKZroUzUVG6hbQ
-	zlG/L9C88+afrErMrrV24qjTlAJ4i1qyVH+F/MCOtiX9XULBgCbh
-X-Gm-Gg: ASbGncteqjy9hvahAKgj5f9cSI9HRYyjYUWgpzWyk6wY+jmojzyYfR751ghDLuW7ZFE
-	1MXG14WrpVu/H1v7JdGPYOYh8U5U4S6/r6Q5FDKyQz6BcUUlPJajY8Kd2dKlNF5vpTJyNz5xpl5
-	Dyye2/Pd0qbln05HQ9nri01w6I7bzMs6yNyASN5iM4exTY/Hz6wymgit30RkmjUEiDpFk0XvUkc
-	JHdIco6ud5o5Ybo/KXVgWTqrSSEYgmlI+VWt6ZTJSkzNrMC0d3AWKaKo2gP7eAng+5kDRsggB6H
-	HCLagiq2cn6ksVNemY4=
-X-Google-Smtp-Source: AGHT+IFrHsg1CYIsa5jLn+ZmI7J8sQqRgF7QGi5a6JusD2wxK4uj9M2hhb+kBNx0cXhJW3cVl5rqeQ==
-X-Received: by 2002:a05:600c:1c1a:b0:434:f753:600f with SMTP id 5b1f17b1804b1-436e26ba95dmr120579765e9.19.1736597407475;
-        Sat, 11 Jan 2025 04:10:07 -0800 (PST)
+        bh=xjcUr7iPo16VpAzzLGdT20/uMUcDtwg+n1cza3W2ZFU=;
+        b=ihsBdU+spKPsDyLzb0aB2vOqh96xf9r4bAp8UEygtP1ISldlgP/9Qaikr36VQ4o+kk
+         j/aJG792YtBmylvvRZD4iKjT9SXiEXhbeil23E4LgTALkxk6FIsLps0/LEnZKuZmMi99
+         8p6j7pWiDAjQdJnaa1MD/W4tQu+3y0fqSOEGaPLPBSMB7Dx0hnbbV16wGA6xClC2foG8
+         mVm6OBHaPQkiEpzCW9nYg+uxAEBxwyVehNAwEsOILQihV0YphqrZ3V+XroDr0/5V4noX
+         jUatYE+dVZ3ntDMGtyuUplrPtrGxduCZKvWjmy0Al3IQOMCVAR6yACtXP4zisK++iwyC
+         bDqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU34159k9HL44hD1pWEQkUyDF/5XJ0fXmel69GH8KkAPnJA6Ou3512oZuCss1PZDTGp6YD1jX5fHpmD6URZ@vger.kernel.org, AJvYcCWIULTJK8OYJmZyIJGgs1IDSajPQHRDI41+h912EO4abpBkR+TVUMMe9im9VbGw+dqDa0Wj90N6nLY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUw3mWfv+6g1WCE9fDuft35PbhmvnSB2XuaaUuaj8juWaq1Br3
+	PK0wjk0jOnK8RzZtBKQKZylS9vPa6NkStPhgFIv6htcG6eUVxfrj
+X-Gm-Gg: ASbGncvbt5mCQlQzC4HqRO10f929mUNRp463A26pmUmiYB08Ix3aRVdOKdYhWrwvuCw
+	tdz+hGH1B8j0paffY4p85EU0f5j98gnTluNSk76+NswiNA8MynhV++SFAIadAQhBSKxHDkCptQ7
+	4SlwglZVSLJYj1fZRiI18LWBx/EWhleD/FE9T2opFSZfkn+ETokIVzB6ivk4DONt1K1H/Y4PADj
+	M1w+mshmtBTO7MtxVm2Z317Ub4+/DnKJwFwFtAGenkQHVSBOGrsjdliWfVZCD+kHeH6VOHXSadT
+	FxeXvsvhGWci+/zp7o8=
+X-Google-Smtp-Source: AGHT+IHyM+5JHDmoYe0STSSA5fjw6i003CpLYyIbIAV2BpVbC08OESNUvTt7cMMoFTKPDG8cc94ZZg==
+X-Received: by 2002:a5d:6d02:0:b0:385:df43:223c with SMTP id ffacd0b85a97d-38a87303941mr13248409f8f.13.1736599142095;
+        Sat, 11 Jan 2025 04:39:02 -0800 (PST)
 Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2dc08eesm117328125e9.10.2025.01.11.04.10.05
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e3853b6sm7087513f8f.44.2025.01.11.04.39.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jan 2025 04:10:06 -0800 (PST)
-Date: Sat, 11 Jan 2025 12:10:05 +0000
+        Sat, 11 Jan 2025 04:39:01 -0800 (PST)
+Date: Sat, 11 Jan 2025 12:39:00 +0000
 From: David Laight <david.laight.linux@gmail.com>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky
- <senozhatsky@chromium.org>, Jonathan Corbet <corbet@lwn.net>, John Ogness
- <john.ogness@linutronix.de>, Andrew Morton <akpm@linux-foundation.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] hexdump: Allow skipping identical lines
-Message-ID: <20250111121005.0fc89c94@pumpkin>
-In-Reply-To: <87o70dsmj1.fsf@bootlin.com>
-References: <20250110-perso-hexdump-v2-0-7f9a6a799170@bootlin.com>
-	<20250110-perso-hexdump-v2-2-7f9a6a799170@bootlin.com>
-	<20250110193930.26b08c2f@pumpkin>
-	<87o70dsmj1.fsf@bootlin.com>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org,
+ liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, mhocko@suse.com,
+ vbabka@suse.cz, hannes@cmpxchg.org, mjguzik@gmail.com,
+ oliver.sang@intel.com, mgorman@techsingularity.net, david@redhat.com,
+ peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
+ brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
+ hughd@google.com, lokeshgidra@google.com, minchan@google.com,
+ jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com,
+ pasha.tatashin@soleen.com, klarasmodin@gmail.com,
+ richard.weiyang@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH v9 10/17] refcount: introduce
+ __refcount_{add|inc}_not_zero_limited
+Message-ID: <20250111123900.643e4b49@pumpkin>
+In-Reply-To: <20250111042604.3230628-11-surenb@google.com>
+References: <20250111042604.3230628-1-surenb@google.com>
+	<20250111042604.3230628-11-surenb@google.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -84,56 +87,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sat, 11 Jan 2025 10:54:58 +0100
-Miquel Raynal <miquel.raynal@bootlin.com> wrote:
+On Fri, 10 Jan 2025 20:25:57 -0800
+Suren Baghdasaryan <surenb@google.com> wrote:
 
-> Hi David,
-> 
-> On 10/01/2025 at 19:39:30 GMT, David Laight <david.laight.linux@gmail.com> wrote:
-> 
-> > On Fri, 10 Jan 2025 19:42:05 +0100
-> > Miquel Raynal <miquel.raynal@bootlin.com> wrote:
-> >  
-> >> When dumping long buffers (especially for debug purposes) it may be very
-> >> convenient to sometimes avoid spitting all the lines of the buffer if
-> >> the lines are identical. Typically on embedded devices, the console
-> >> would be wired to a UART running at 115200 bauds, which makes the dumps
-> >> very (very) slow. In this case, having a flag to avoid printing
-> >> duplicated lines is handy.  
-> > ...   
-> >>  enum {
-> >>  	DUMP_FLAG_ASCII,
-> >> +	DUMP_FLAG_SKIP_IDENTICAL_LINES,
-> >>  };  
-> > ...  
-> >> +		if (flags & DUMP_FLAG_SKIP_IDENTICAL_LINES) {  
-> >
-> >
-> > That doesn't look right to me.
-> > You want:
-> > enum {
-> > 	DUMP_FLAG_HEX_ONLY = false,
-> > 	DUMP_FLAG_ASCII = true,
-> > 	DUMP_FLAG_SKIP_IDENTICAL_LINES = BIT(1),
-> > };
-> >
-> > and maybe you can get away with not changing all the other files.  
-> 
-> I'm a bit sad all the time spent on these changes will go to trash :),
-> they kind of looked "nicer", but for sure this approach would be
-> transparent. I can definitely try that.
+> Introduce functions to increase refcount but with a top limit above which
+> they will fail to increase (the limit is inclusive). Setting the limit to
+> INT_MAX indicates no limit.
 
-The only way the big patch would ever get applied is if Linus himself
-decided it was a good idea and 'just applied it'.
-Otherwise it needs an ack from all the maintainers.
+This function has never worked as expected!
+I've removed the update and added in the rest of the code.
 
-The other way to avoid having to change all the files is to rename the
-function and add a compile-time wrapper for the old users.
-So you'd end up with (something like):
-#define hexdump(args, ascii) hexdump_new(args, ascii ? DUMP_FLAG_ASCII : DUMP_FLAG_HEX_ONLY)
+> diff --git a/include/linux/refcount.h b/include/linux/refcount.h
+> index 35f039ecb272..5072ba99f05e 100644
+> --- a/include/linux/refcount.h
+> +++ b/include/linux/refcount.h
+> @@ -137,13 +137,23 @@ static inline unsigned int refcount_read(const refcount_t *r)
+>  }
+>  
+>  static inline __must_check __signed_wrap
+> -bool __refcount_add_not_zero(int i, refcount_t *r, int *oldp)
+>  {
+>  	int old = refcount_read(r);
+>  
+>  	do {
+>  		if (!old)
+>  			break;
+>
+>  	} while (!atomic_try_cmpxchg_relaxed(&r->refs, &old, old + i));
+>  
+>  	if (oldp)
+>		*oldp = old;
+?
+>	if (unlikely(old < 0 || old + i < 0))
+>		refcount_warn_saturate(r, REFCOUNT_ADD_NOT_ZERO_OVF);
+>
+>  	return old;
+>  }
 
-But in this case you might be away with binary compatibility.
+The saturate test just doesn't work as expected.
+In C signed integer overflow is undefined (probably so that cpu that saturate/trap
+signed overflow can be conformant) and gcc uses that to optimise code.
+
+So if you compile (https://www.godbolt.org/z/WYWo84Weq):
+int inc_wraps(int i)
+{
+    return i < 0 || i + 1 < 0;
+}
+the second test is optimised away.
+I don't think the kernel compiles disable this optimisation.
 
 	David
-
 
