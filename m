@@ -1,253 +1,219 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5076524B22A;
-	Sat, 11 Jan 2025 13:45:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0A21DDD1;
+	Sat, 11 Jan 2025 14:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736603127; cv=none; b=FK/3ccwt5H46lLZJKiYisTkXA1XaI8Em85ZF1MCsL8gGsvx7VlquKIPZ8GlU98kIzUlgUD+upe+odvZw9TXJRT+eEn1YYslV0f9sNT9vPLL8qFiL9tiOYCBpE9Ib5n+4qdybit3OafAcMdxbl3nDVRkv1wqkG5ZsBSRemrcm61I=
+	t=1736604291; cv=none; b=qrWTrZ9Tnv0M6D65Rs9XW3/PhnXUkEduuJhlwZYu7KNR51wuLBeTEreWZrxPfvtO3Slv+dry9MaozSsoimaWCL8MBs8pbcm0E1z1GpSGLoqi/4vxIQaDznzCZmqUp0GxeEq86CG3n2MautIQ+LBveSPYXyoLGSwL3SJ7PPz6oYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736603127; c=relaxed/simple;
-	bh=plJ5l5dhx6gUE80P4bXSr2/X35gI50O+7t23jOEXrlg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hwOPj+ZO++1B8MAJz9WuR0ig8CMuf1N80v6FsJRC7AGpl6jQQXlxNHV7o6HZnXPp+fxafCOnR0kLxHWYFToxIcwfLOyOLV4EhSISh2jqjISBAGXzZwl4Z04Dc3MsZOAITnPM3bWRAVYGqiyWomtpVcjgKo6s1QuOjxCOxRjStL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZWqjLJVb; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736604291; c=relaxed/simple;
+	bh=QB45REJ1/TwDzgCfjCr2HirkG5WamaEmnKHMi13rTME=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=fCVd4lGN3SR9xMimEeXSzJrLK4d+XHE26FD0r91XMpwd7Tgdz8HzsEWQ8p+ODZtOU2PID1NFHVe2mUUsXYCkUr1tUcY02/dvIT2lhUX3W7XgKV0rEZuYfKdRMjuvyxtNrdx8WLznOXjxululhOLa//g7czjMVicubRdKwUxPquM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.vnet.ibm.com; spf=none smtp.mailfrom=linux.vnet.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=lzAOD3IH; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.vnet.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.vnet.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZWqjLJVb"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5d3f57582a2so7665229a12.1;
-        Sat, 11 Jan 2025 05:45:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736603124; x=1737207924; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y2VkHxnXVvczOiim35DmLDoGGBLm6dk8vE3eitMmdBc=;
-        b=ZWqjLJVbU8tqdFgaZXfySbZje9rT1mb10PIn7bRure0a2xULV4AZeuUKjgPYJJMQo2
-         kS/61FLl+EwFLQ9BmTezglnh3Th+8kkl6vrdFGi3K7Fl1pIUdKEjZH4cTaih1HwY9E0t
-         5farv/UZWeGwa/eM8ZyrjBCqujsOonceELKSDmZQJ0M4BuDnsN9eSQ2VrzFX4OnkFtiw
-         cUOm76gM97QataD85zOjWiHXrcLgOJex9xeMEO9ilHE8ZXjLD2ysTlbEXnxxv5THcFK3
-         3cp13RA7gevSee2AB6WqNkj8fNvAXJgC2ZviYx8LgZkIopcVBYnjbYfFkobwWxiEhRXF
-         roDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736603124; x=1737207924;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Y2VkHxnXVvczOiim35DmLDoGGBLm6dk8vE3eitMmdBc=;
-        b=uxd0yUjL4iLJ2ylXV0CoEw/Y7IP5D+N2kJPXvukkLVRNXjp46H8v4h7NbsFTu6dKgr
-         FxrbnnCLAYZpQQVBECP2UJMS/b1+v5g0B9dWvll0uQgx+MJoGd0n9Ld7NWagvdJZ1nVP
-         b37VkLYk9odx0DzajOg2P0NPbJ/rUn25aeFZWV5XF8MAU+Ykqfw3qfeDOoubRMQi2q0C
-         R7nF6Hk8rQTg8GotA+2qb57Z1tkxz4QOLtZsggNxiEhZ2wb/HRXz29I9JZcn1eCN9Zdu
-         Ecue14j3ZzVOxkl+IAyM/iiQLugDg9UguBGgnv3XEI9B1znuKPWAtewCGmqCPWANZhGo
-         DXpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU5s3+QHpKcNqEf0TmvU/+3HIlV4aaJvuPmt12fhyTTYLjQLWsqVXlT3ZbjzsGVAgXpQQYiA5Iw@vger.kernel.org, AJvYcCXSf7jpnURdDYJaAHl3lTBeBEpDLP3fFvSFj6XMixsk5m/K5Hv7m/PkgtuJh4M2Od0j6GmuWOqkh1Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKrdsiUK/MSz9tqyVA3OS25awq1aojAL+ZBfLegAIhJ06zZV+p
-	snNj/pmhw3UEQgWjTkfuqCg+xfLog4ifIVlo0tOBQn419JUiUdYLfSh8Fw47DaYHCd5TWODQlMP
-	qgaFZNf1Lxw2mtxXIy06mGepDS5M=
-X-Gm-Gg: ASbGncudJL9NpgfwRLWi6IZpiXBJg4iFbeXwiW2XLUm008MSug8StEWZzEKSdYWaqyI
-	wB5mxDTrBNqQmLAoZauBjX6996dMoszliu10cUVs=
-X-Google-Smtp-Source: AGHT+IHBY4UN5s2GFcT273rm7SVawsHEwUksSjTsp7Zq1VGFhu2AfK0FcVpoFHSu8RtmcdCzj0JBiLgR3v7eH2O/O0Q=
-X-Received: by 2002:a05:6402:50d1:b0:5d3:f041:140e with SMTP id
- 4fb4d7f45d1cf-5d98627dfa5mr9216536a12.13.1736603123353; Sat, 11 Jan 2025
- 05:45:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="lzAOD3IH"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50B7PNME000920;
+	Sat, 11 Jan 2025 14:04:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=J2lbfO
+	GB8gg7wUXgcCKWwEjh/GIQdeP4KglNFtDE9I8=; b=lzAOD3IHOM+LF+0a5FCa7Y
+	bADezBvhwGwklBA4suWH6lgpbqO1H4Gtdvf9a4WwyOuV0djj3mU4v5JBzC4QSwjM
+	wrx/9ymlxvo3VLali/3cEoUQzq/6innMi3v7uRENscc855giXs3sP/JQfMyITdsW
+	ytDjgjXk6w6TVMvupMAuAfiVGJOIsLYblVdno/WfOl7xS1aQvccyj+n4I6ma0LkA
+	2pWkF3RrBglyT1kotvcwRu5fsKDl+82NR6Olmsf4KgWWd4855f/PBqXrb2JruOnH
+	eUmfaEG++S+q5swlGz8blYUTSlyA+03MD8xV1uPRhp4FSzdPoujt7be2YMvSn5FQ
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 443e2nhxjg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 11 Jan 2025 14:04:16 +0000 (GMT)
+Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 50BE4FWv022141;
+	Sat, 11 Jan 2025 14:04:15 GMT
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 443e2nhxje-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 11 Jan 2025 14:04:15 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50BALm66003572;
+	Sat, 11 Jan 2025 14:04:14 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 43yfatqk76-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 11 Jan 2025 14:04:14 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50BE4CcR27853066
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 11 Jan 2025 14:04:13 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D45802004B;
+	Sat, 11 Jan 2025 14:04:12 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4E1BA20040;
+	Sat, 11 Jan 2025 14:04:00 +0000 (GMT)
+Received: from smtpclient.apple (unknown [9.61.242.252])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Sat, 11 Jan 2025 14:03:59 +0000 (GMT)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250103150325.926031-1-ap420073@gmail.com> <20250103150325.926031-9-ap420073@gmail.com>
- <Z4FwxI-HcjcP2SIt@JRM7P7Q02P.dhcp.broadcom.net>
-In-Reply-To: <Z4FwxI-HcjcP2SIt@JRM7P7Q02P.dhcp.broadcom.net>
-From: Taehee Yoo <ap420073@gmail.com>
-Date: Sat, 11 Jan 2025 22:45:11 +0900
-X-Gm-Features: AbW1kvb9AXIRqFJ_FFNP8HHqTzF4VRHJLZS2B84xyFtkFbb3FI1Rs9_gz9f-ZLo
-Message-ID: <CAMArcTWCh-z7q0b=p9Q_x3T18xZFP_JSOwyM_ygox0OZwyvmBA@mail.gmail.com>
-Subject: Re: [PATCH net-next v7 08/10] bnxt_en: add support for hds-thresh
- ethtool command
-To: Andy Gospodarek <andrew.gospodarek@broadcom.com>
-Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
-	edumazet@google.com, almasrymina@google.com, donald.hunter@gmail.com, 
-	corbet@lwn.net, michael.chan@broadcom.com, andrew+netdev@lunn.ch, 
-	hawk@kernel.org, ilias.apalodimas@linaro.org, ast@kernel.org, 
-	daniel@iogearbox.net, john.fastabend@gmail.com, dw@davidwei.uk, 
-	sdf@fomichev.me, asml.silence@gmail.com, brett.creeley@amd.com, 
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org, kory.maincent@bootlin.com, 
-	maxime.chevallier@bootlin.com, danieller@nvidia.com, hengqi@linux.alibaba.com, 
-	ecree.xilinx@gmail.com, przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, 
-	ahmed.zaki@intel.com, rrameshbabu@nvidia.com, idosch@nvidia.com, 
-	jiri@resnulli.us, bigeasy@linutronix.de, lorenzo@kernel.org, 
-	jdamato@fastly.com, aleksander.lobakin@intel.com, kaiyuanz@google.com, 
-	willemb@google.com, daniel.zahka@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3818.100.11.1.3\))
+Subject: Re: [PATCH v6 00/16] perf tools: Use generic syscall scripts for all
+ archs
+From: Athira Rajeev <atrajeev@linux.vnet.ibm.com>
+In-Reply-To: <Z4EyD_RgjjeD6G4K@x1>
+Date: Sat, 11 Jan 2025 19:33:46 +0530
+Cc: Charlie Jenkins <charlie@rivosinc.com>, Namhyung Kim <namhyung@kernel.org>,
+        Ian Rogers <irogers@google.com>, Hari Bathini <hbathini@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@kernel.org>, Adrian Hunter <adrian.hunter@intel.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
+        =?utf-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>,
+        Christian Brauner <brauner@kernel.org>, Guo Ren <guoren@kernel.org>,
+        John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
+        James Clark <james.clark@linaro.org>,
+        Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linux.dev>,
+        Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
+        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-security-module@vger.kernel.org,
+        bpf@vger.kernel.org, linux-csky@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <721EF5C4-5B22-4654-8328-F3616CDD1D29@linux.vnet.ibm.com>
+References: <20250108-perf_syscalltbl-v6-0-7543b5293098@rivosinc.com>
+ <Z3_ybwWW3QZvJ4V6@x1> <Z4AoFA974kauIJ9T@ghost> <Z4A2Y269Ffo0ERkS@x1>
+ <Z4A8NU02WVBDGrYZ@ghost>
+ <8639C367-2669-4924-83D8-15EAFAC42699@linux.vnet.ibm.com>
+ <Z4EyD_RgjjeD6G4K@x1>
+To: Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Charlie Jenkins <charlie@rivosinc.com>
+X-Mailer: Apple Mail (2.3818.100.11.1.3)
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 4t0XeC8NVubnR-Ul2Eg3y8vjelW9NEDY
+X-Proofpoint-GUID: ih83BF0cpgnFHXX9AyELYSHOM8UwQ-Qx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 suspectscore=0
+ phishscore=0 mlxlogscore=999 lowpriorityscore=0 bulkscore=0
+ priorityscore=1501 spamscore=0 mlxscore=0 clxscore=1015 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501110120
 
-On Sat, Jan 11, 2025 at 4:11=E2=80=AFAM Andy Gospodarek
-<andrew.gospodarek@broadcom.com> wrote:
->
 
-Hi Andy,
-Thank you so much for your review and testing!
 
-> On Fri, Jan 03, 2025 at 03:03:23PM +0000, Taehee Yoo wrote:
-> > The bnxt_en driver has configured the hds_threshold value automatically
-> > when TPA is enabled based on the rx-copybreak default value.
-> > Now the hds-thresh ethtool command is added, so it adds an
-> > implementation of hds-thresh option.
-> >
-> > Configuration of the hds-thresh is applied only when
-> > the tcp-data-split is enabled. The default value of
-> > hds-thresh is 256, which is the default value of
-> > rx-copybreak, which used to be the hds_thresh value.
-> >
-> > The maximum hds-thresh is 1023.
-> >
-> >    # Example:
-> >    # ethtool -G enp14s0f0np0 tcp-data-split on hds-thresh 256
-> >    # ethtool -g enp14s0f0np0
-> >    Ring parameters for enp14s0f0np0:
-> >    Pre-set maximums:
-> >    ...
-> >    HDS thresh:  1023
-> >    Current hardware settings:
-> >    ...
-> >    TCP data split:         on
-> >    HDS thresh:  256
-> >
-> > Tested-by: Stanislav Fomichev <sdf@fomichev.me>
-> > Tested-by: Andy Gospodarek <gospo@broadcom.com>
->
-> Still looks good.
+> On 10 Jan 2025, at 8:13=E2=80=AFPM, Arnaldo Carvalho de Melo =
+<acme@kernel.org> wrote:
+>=20
+> On Fri, Jan 10, 2025 at 12:34:46PM +0530, Athira Rajeev wrote:
+>>=20
+>>=20
+>>> On 10 Jan 2025, at 2:44=E2=80=AFAM, Charlie Jenkins =
+<charlie@rivosinc.com> wrote:
+>>>=20
+>>> On Thu, Jan 09, 2025 at 05:49:39PM -0300, Arnaldo Carvalho de Melo =
+wrote:
+>>>> On Thu, Jan 09, 2025 at 11:48:36AM -0800, Charlie Jenkins wrote:
+>>>>> On Thu, Jan 09, 2025 at 12:59:43PM -0300, Arnaldo Carvalho de Melo =
+wrote:
+>>>>>> =E2=AC=A2 [acme@toolbox perf-tools-next]$ git log --oneline -1 ; =
+time make -C tools/perf build-test
+>>>>>> d06826160a982494 (HEAD -> perf-tools-next) perf tools: Remove =
+dependency on libaudit
+>>>>>> make: Entering directory =
+'/home/acme/git/perf-tools-next/tools/perf'
+>>>>>> - tarpkg: ./tests/perf-targz-src-pkg .
+>>>>>>                make_static: cd . && make LDFLAGS=3D-static =
+NO_PERF_READ_VDSO32=3D1 NO_PERF_READ_VDSOX32=3D1 NO_JVMTI=3D1 =
+NO_LIBTRACEEVENT=3D1 NO_LIBELF=3D1 -j28  DESTDIR=3D/tmp/tmp.JJT3tvN7bV
+>>>>>>             make_with_gtk2: cd . && make GTK2=3D1 -j28  =
+DESTDIR=3D/tmp/tmp.BF53V2qpl3
+>>>>>> - =
+/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_FEATURE_DUMP: cd . =
+&& make =
+FEATURE_DUMP_COPY=3D/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_F=
+EATURE_DUMP  feature-dump
+>>>>>> cd . && make =
+FEATURE_DUMP_COPY=3D/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_F=
+EATURE_DUMP feature-dump
+>>>>>>        make_no_libbionic_O: cd . && make NO_LIBBIONIC=3D1 =
+FEATURES_DUMP=3D/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_FEATU=
+RE_DUMP -j28 O=3D/tmp/tmp.KZuQ0q2Vs6 DESTDIR=3D/tmp/tmp.0sxMyH91gS
+>>>>>>          make_util_map_o_O: cd . && make util/map.o =
+FEATURES_DUMP=3D/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_FEATU=
+RE_DUMP -j28 O=3D/tmp/tmp.Y0Mx3KLREI DESTDIR=3D/tmp/tmp.wg9HCVVLHE
+>>>>>>             make_install_O: cd . && make install =
+FEATURES_DUMP=3D/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_FEATU=
+RE_DUMP -j28 O=3D/tmp/tmp.P0LEBAkW1X DESTDIR=3D/tmp/tmp.agTavZndFN
+>>>>>> failed to find: etc/bash_completion.d/perf
+>>>>>=20
+>>>>> Is this something introduced by this patch?
+>>>>=20
+>>>> I don't think so.
+>>>>=20
+>>>> BTW this series is already pushed out to perf-tools-next:
+>>>>=20
+>>>> =
+https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git/l=
+og/?h=3Dperf-tools-next
+>>>>=20
+>>>> Thanks!
+>>>>=20
+>>>> - Arnaldo
+>>>=20
+>>> Thank you!
+>>>=20
+>>> - Charlie
+>>=20
+>> Hi Charlie, Arnaldo
+>>=20
+>> While testing the series, I hit compilation issue in powerpc
+>>=20
+>> Snippet of logs:
+>=20
+> Yeah, Stephen Rothwell noticed it in linux next and Charlie provided a
+> fix, so I squashed it all together and will push it soon:
+>=20
+>    Link: =
+https://lore.kernel.org/r/20250108-perf_syscalltbl-v6-14-7543b5293098@rivo=
+sinc.com
+>    Link: =
+https://lore.kernel.org/lkml/20250110100505.78d81450@canb.auug.org.au
+>    [ Stephen Rothwell noticed on linux-next that the powerpc build for =
+perf was broken and ...]
+>    Link: =
+https://lore.kernel.org/lkml/20250109-perf_powerpc_spu-v1-1-c097fc43737e@r=
+ivosinc.com
+>    [ ... Charlie fixed it up and asked for it to be squashed to avoid =
+breaking bisection. o
+>=20
+> Thanks for the report!
+>=20
+Sure,
+Thanks Charlie for the fix
 
-I'm going to send v8 patch, and there is a change for bnxt driver.
-Drivers no longer need to set dev->ethtool->hds_thresh by themselves
-instead, the ethtool core sets hds_thresh value.
+I tested on latest tmp.perf-tools-next and compiles fine
 
->
-> > Signed-off-by: Taehee Yoo <ap420073@gmail.com>
-> > ---
-> >
-> > v7:
-> >  - Use dev->ethtool->hds_thresh instead of bp->hds_thresh
-> >
-> > v6:
-> >  - HDS_MAX is changed to 1023.
-> >  - Add Test tag from Andy.
-> >
-> > v5:
-> >  - No changes.
-> >
-> > v4:
-> >  - Reduce hole in struct bnxt.
-> >  - Add ETHTOOL_RING_USE_HDS_THRS to indicate bnxt_en driver support
-> >    header-data-split-thresh option.
-> >  - Add Test tag from Stanislav.
-> >
-> > v3:
-> >  - Drop validation logic tcp-data-split and tcp-data-split-thresh.
-> >
-> > v2:
-> >  - Patch added.
-> >
-> >  drivers/net/ethernet/broadcom/bnxt/bnxt.c         | 4 +++-
-> >  drivers/net/ethernet/broadcom/bnxt/bnxt.h         | 2 ++
-> >  drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 7 ++++++-
-> >  3 files changed, 11 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/et=
-hernet/broadcom/bnxt/bnxt.c
-> > index 7198d05cd27b..df03f218a570 100644
-> > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> > @@ -4603,6 +4603,7 @@ void bnxt_set_tpa_flags(struct bnxt *bp)
-> >  static void bnxt_init_ring_params(struct bnxt *bp)
-> >  {
-> >       bp->rx_copybreak =3D BNXT_DEFAULT_RX_COPYBREAK;
-> > +     bp->dev->ethtool->hds_thresh =3D BNXT_DEFAULT_RX_COPYBREAK;
-> >  }
-> >
-> >  /* bp->rx_ring_size, bp->tx_ring_size, dev->mtu, BNXT_FLAG_{G|L}RO fla=
-gs must
-> > @@ -6562,6 +6563,7 @@ static void bnxt_hwrm_update_rss_hash_cfg(struct =
-bnxt *bp)
-> >
-> >  static int bnxt_hwrm_vnic_set_hds(struct bnxt *bp, struct bnxt_vnic_in=
-fo *vnic)
-> >  {
-> > +     u16 hds_thresh =3D (u16)bp->dev->ethtool->hds_thresh;
-> >       struct hwrm_vnic_plcmodes_cfg_input *req;
-> >       int rc;
-> >
-> > @@ -6578,7 +6580,7 @@ static int bnxt_hwrm_vnic_set_hds(struct bnxt *bp=
-, struct bnxt_vnic_info *vnic)
-> >                                         VNIC_PLCMODES_CFG_REQ_FLAGS_HDS=
-_IPV6);
-> >               req->enables |=3D
-> >                       cpu_to_le32(VNIC_PLCMODES_CFG_REQ_ENABLES_HDS_THR=
-ESHOLD_VALID);
-> > -             req->hds_threshold =3D cpu_to_le16(bp->rx_copybreak);
-> > +             req->hds_threshold =3D cpu_to_le16(hds_thresh);
-> >       }
-> >       req->vnic_id =3D cpu_to_le32(vnic->fw_vnic_id);
-> >       return hwrm_req_send(bp, req);
-> > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.h b/drivers/net/et=
-hernet/broadcom/bnxt/bnxt.h
-> > index 7dc06e07bae2..8f481dd9c224 100644
-> > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.h
-> > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.h
-> > @@ -2779,6 +2779,8 @@ struct bnxt {
-> >  #define SFF_MODULE_ID_QSFP28                 0x11
-> >  #define BNXT_MAX_PHY_I2C_RESP_SIZE           64
-> >
-> > +#define BNXT_HDS_THRESHOLD_MAX                       1023
-> > +
-> >  static inline u32 bnxt_tx_avail(struct bnxt *bp,
-> >                               const struct bnxt_tx_ring_info *txr)
-> >  {
-> > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c b/driver=
-s/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-> > index 413007190f50..829697bfdab3 100644
-> > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-> > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-> > @@ -833,6 +833,9 @@ static void bnxt_get_ringparam(struct net_device *d=
-ev,
-> >       ering->rx_pending =3D bp->rx_ring_size;
-> >       ering->rx_jumbo_pending =3D bp->rx_agg_ring_size;
-> >       ering->tx_pending =3D bp->tx_ring_size;
-> > +
-> > +     kernel_ering->hds_thresh =3D dev->ethtool->hds_thresh;
-> > +     kernel_ering->hds_thresh_max =3D BNXT_HDS_THRESHOLD_MAX;
-> >  }
-> >
-> >  static int bnxt_set_ringparam(struct net_device *dev,
-> > @@ -869,6 +872,7 @@ static int bnxt_set_ringparam(struct net_device *de=
-v,
-> >                       bp->flags &=3D ~BNXT_FLAG_HDS;
-> >       }
-> >
-> > +     dev->ethtool->hds_thresh =3D kernel_ering->hds_thresh;
+Tested-by: Athira Rajeev <atrajeev@linux.vnet.ibm.com>
 
-This will be removed and the 2/10 patch includes setting hds_thresh value
-in the ethnl_set_rings().
+Thanks
+Athira
 
-> >       bp->rx_ring_size =3D ering->rx_pending;
-> >       bp->tx_ring_size =3D ering->tx_pending;
-> >       bnxt_set_ring_params(bp);
-> > @@ -5390,7 +5394,8 @@ const struct ethtool_ops bnxt_ethtool_ops =3D {
-> >                                    ETHTOOL_COALESCE_STATS_BLOCK_USECS |
-> >                                    ETHTOOL_COALESCE_USE_ADAPTIVE_RX |
-> >                                    ETHTOOL_COALESCE_USE_CQE,
-> > -     .supported_ring_params  =3D ETHTOOL_RING_USE_TCP_DATA_SPLIT,
-> > +     .supported_ring_params  =3D ETHTOOL_RING_USE_TCP_DATA_SPLIT |
-> > +                               ETHTOOL_RING_USE_HDS_THRS,
-> >       .get_link_ksettings     =3D bnxt_get_link_ksettings,
-> >       .set_link_ksettings     =3D bnxt_set_link_ksettings,
-> >       .get_fec_stats          =3D bnxt_get_fec_stats,
-> > --
-> > 2.34.1
-> >
 
-Thanks a lot!
-Taehee Yoo
+> - Arnaldo
+
+
