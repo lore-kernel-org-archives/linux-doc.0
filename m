@@ -1,90 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1537B24B240;
-	Sat, 11 Jan 2025 01:30:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A7DC24B240
+	for <linux-doc@vger.kernel.org>; Sat, 11 Jan 2025 01:34:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736559050; cv=none; b=GmWvCyx+16ML/g4ARzbRQNZ/qmWe4wgJfV26VnyGjSe3PV2ZF0Dn2nsZA1+Xt1rLPXeK75Fh0tkmq89Uhn90GWwWOLqWEpJ0eEfyAt05vZrIQEjjzC8KkFVoQU5piBbfh5upI9L9OthVtevbDmETAMImE/0AZOUQhVexNAOQMVo=
+	t=1736559252; cv=none; b=nQ8Pl9TlUfKbAPKCdt0QrUQ0emjyFG4BpW/9Z7vHQouX30Y8QsgC3Qc3mRSdKwjHQ10dQHYtOg2AwRGsKa7fHZJhRvL1r6ec5gYKw6lvBqVXJFwFX3QzQUVnq7EQVoB/VYfilT0wPUAZGwVRYRiWcfGFPJLr33Rq42HYFl3g3UA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736559050; c=relaxed/simple;
-	bh=7I1OBfWbo908Mx7qvQkrDHGouLRf+dWAo5fEwim6p1w=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=N+OdPa5g/1NrhMK6t4w0PV8rMguk4pGpVgTnDU3pxtJSgFnQNdQV/q8Yhzqk8QUXA25nhfLlQuJrl2n42IFIY0YDyH7BT82q1Gfqx5ZSOcjbp2YD1/bLyWfxhOiug04y2IUHDt46sqp/ICJBNJmxIeQm4rowWWt8AgKPQTt4rDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=wCdNg1TF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736559252; c=relaxed/simple;
+	bh=JEUh/+d1BmGTQBj+1pBImNiVXvqB0eqaD7CDLj0ojrY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Hmc5RF47FAEd/hIst6ZTYAl+s3oo/77srawA/nxamPbep6qOKV0I1bazLrWLQvI3ncCeSQBl6hk/3OqGar8JLd/B1PhmS9y3tH1bArGuDztWJN3X0xCxLlSuCL0+LvE9tiHFwQGR1JZqALyUBL1/oZpOZLv1JfnexsKaKw4LTHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iS4nyDs1; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="wCdNg1TF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CC51C4CED6;
-	Sat, 11 Jan 2025 01:30:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1736559049;
-	bh=7I1OBfWbo908Mx7qvQkrDHGouLRf+dWAo5fEwim6p1w=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=wCdNg1TFG2mQ2V7JLabBLagQ3iPh1FJkujMfPxuiGPq8mHSUiRbicfuDz2i9VqjFf
-	 EAUFhX6Dmh7OxXqZl8IYRBtst8NCQct6t/dFbEismIfwpRA3Qoo2LI1c6LPpWu8fRG
-	 2Kmoai3+QNA8Ga1fKjMEVJkS7d/Z4QkUiwdQ67Rg=
-Date: Fri, 10 Jan 2025 17:30:48 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: Alistair Popple <apopple@nvidia.com>, <linux-mm@kvack.org>,
- <alison.schofield@intel.com>, <lina@asahilina.net>, <zhang.lyra@gmail.com>,
- <gerald.schaefer@linux.ibm.com>, <vishal.l.verma@intel.com>,
- <dave.jiang@intel.com>, <logang@deltatee.com>, <bhelgaas@google.com>,
- <jack@suse.cz>, <jgg@ziepe.ca>, <catalin.marinas@arm.com>,
- <will@kernel.org>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
- <dave.hansen@linux.intel.com>, <ira.weiny@intel.com>,
- <willy@infradead.org>, <djwong@kernel.org>, <tytso@mit.edu>,
- <linmiaohe@huawei.com>, <david@redhat.com>, <peterx@redhat.com>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linuxppc-dev@lists.ozlabs.org>,
- <nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
- <linux-fsdevel@vger.kernel.org>, <linux-ext4@vger.kernel.org>,
- <linux-xfs@vger.kernel.org>, <jhubbard@nvidia.com>, <hch@lst.de>,
- <david@fromorbit.com>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
- <loongarch@lists.linux.dev>
-Subject: Re: [PATCH v6 00/26] fs/dax: Fix ZONE_DEVICE page reference counts
-Message-Id: <20250110173048.5565901e0fec24556325bd18@linux-foundation.org>
-In-Reply-To: <6780c6d43d73e_2aff42943b@dwillia2-xfh.jf.intel.com.notmuch>
-References: <cover.11189864684e31260d1408779fac9db80122047b.1736488799.git-series.apopple@nvidia.com>
-	<6780c6d43d73e_2aff42943b@dwillia2-xfh.jf.intel.com.notmuch>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iS4nyDs1"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4679b5c66d0so97411cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 17:34:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1736559250; x=1737164050; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JEUh/+d1BmGTQBj+1pBImNiVXvqB0eqaD7CDLj0ojrY=;
+        b=iS4nyDs14EvqJvpXeLOuvQXq4aarRgGlaytLW3dnYR75G1fgxBAA47HiavTnGsSjC5
+         4OTmNfRWv0L2d6eZ/rqarjZeVjckD2T9I1mOj4LkDSK3gIR0/3+4wJ+AjC6WjB33D+V7
+         geQuMPxp30S1R/2Hw7mX4zdVUlznIbRKQWaUBK+78hScL01rxzOQMD5opB8uCiua8Kpm
+         HD0tDBgA/ZNdqm7lukGOnsdOF4n9qArKYhU1i/Q//rN4SRkMoDckavhCB/W+3pnQKBKE
+         max3GBu/ezTVKPLXVCW2pALUtEqx51yc5rr6BpRJK6R/iVGOw9fqp55fQwCgoMDf1NF/
+         k1tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736559250; x=1737164050;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JEUh/+d1BmGTQBj+1pBImNiVXvqB0eqaD7CDLj0ojrY=;
+        b=wogAkacN/tLUtQW7TpywzuVaniDTi4q19aL4iVM42qNaevGvdLOBwEW1MRveBpOBXb
+         NU52TvrQN5IrL0AE0zcCon1VWbC7sefnKfofOprSEpcsp7akWMRUxrsSMOszuYUMSzfc
+         BfPKfGwhwKQ3ohxPfBTXxCf6vFcb/vM+dvPd3dTxxfzeGkfOISY+i3I+1WK8NUf+Vc1J
+         3cRE4ok3hL70bT3UTEm+DGE/SL3Qs+b/p5cePzoAokwrlgy+AWAONJIHDNXvbR19rsC5
+         cXRqwDuhsX3Gu4jYRGqAso3pxKlei+vVSSVri+qlSeva+wr14z1/SbLSd3AlfZwVk8y4
+         m38Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX/knjnMlPPukWjAzU7SrOUy/SR7DAKuqjoJjasebamFKTH6548xl53Tcql0UtiwwjNfN/W/7oISCU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyvux6Ok8+WKJi7P/GcxfupBglazA1j/LITq8vHN/KrQ6yMuaLr
+	NtPKjWj1fYJQvH7hXA2AFGvL9aS3HwaH24AW63Wxj4+S630XPWtA4nqKfoveAo6O5GXOK2tz+cV
+	P2AUcBTwqLaxNSmhPhU9Nu+khAqj4WH08jQt4
+X-Gm-Gg: ASbGncvXxdkI4yZbQhMc7cmTxJRz1oo9iuATesXm6sD51YAdkAQP4qo4WHvjIOyOkpu
+	Cd5uIwkkCi0OfbtOl0mWUxyThdSkMUs8bq5snuxrG66BQzOHKRPgQN9kd182Jx7a2JcL+
+X-Google-Smtp-Source: AGHT+IGHbclh7SZmnJswzscNXROgeqOcz/CwjWYYVI1ybbrckQeiqbl1iyMXqypPWgox2k4LVk0udD8QWMnDDVS473k=
+X-Received: by 2002:a05:622a:5c91:b0:46c:78e4:a9cc with SMTP id
+ d75a77b69052e-46c89deb173mr5302301cf.25.1736559249750; Fri, 10 Jan 2025
+ 17:34:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+References: <20250109023025.2242447-1-surenb@google.com> <20250109023025.2242447-11-surenb@google.com>
+ <c592118f-be6a-4d82-b925-80e102a7aba2@suse.cz>
+In-Reply-To: <c592118f-be6a-4d82-b925-80e102a7aba2@suse.cz>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Fri, 10 Jan 2025 17:33:58 -0800
+X-Gm-Features: AbW1kvbGyQtSOr1LzNwk5Tqlyagko4NQcl1ELQtkqqfKknNPKVxB25pZ-ZXAH4o
+Message-ID: <CAJuCfpHfb6f+_o+yj5796Lswwf-y=iu3gxyq2MZm0XFUUuGx3Q@mail.gmail.com>
+Subject: Re: [PATCH v8 10/16] refcount: introduce __refcount_{add|inc}_not_zero_limited
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org, 
+	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, mhocko@suse.com, 
+	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
+	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
+	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
+	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
+	klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 9 Jan 2025 23:05:56 -0800 Dan Williams <dan.j.williams@intel.com> wrote:
+On Thu, Jan 9, 2025 at 6:41=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wro=
+te:
+>
+> On 1/9/25 3:30 AM, Suren Baghdasaryan wrote:
+> > Introduce functions to increase refcount but with a top limit above whi=
+ch
+> > they will fail to increase (the limit is inclusive). Setting the limit =
+to
+> > INT_MAX indicates no limit.
+> >
+> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+>
+> Acked-by: Vlastimil Babka <vbabka@suse.cz>
 
-> >  - Remove PTE_DEVMAP definitions from Loongarch which were added since
-> >    this series was initially written.
-> [..]
-> > 
-> > base-commit: e25c8d66f6786300b680866c0e0139981273feba
-> 
-> If this is going to go through nvdimm.git I will need it against a
-> mainline tag baseline. Linus will want to see the merge conflicts.
-> 
-> Otherwise if that merge commit is too messy, or you would rather not
-> rebase, then it either needs to go one of two options:
-> 
-> - Andrew's tree which is the only tree I know of that can carry
->   patches relative to linux-next.
+Thanks Vlastimil!
+Since per David's suggestion in v7 I'll be adding a new static check
+in this patch, I won't add your Acked-by in v9 until you have a chance
+to look at it again.
 
-I used to be able to do that but haven't got around to setting up such
-a thing with mm.git.  This is the first time the need has arisen,
-really.
-
-> - Wait for v6.14-rc1 
-
-I'm thinking so.  Darrick's review comments indicate that we'll be seeing a v7.
-
-> and get this into nvdimm.git early in the cycle
->   when the conflict storm will be low.
-
-erk.  This patchset hits mm/ a lot, and nvdimm hardly at all.  Is it
-not practical to carry this in mm.git?
-
+>
