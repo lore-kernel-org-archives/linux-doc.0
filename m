@@ -1,219 +1,388 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0A21DDD1;
-	Sat, 11 Jan 2025 14:04:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A987D374F1;
+	Sat, 11 Jan 2025 14:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736604291; cv=none; b=qrWTrZ9Tnv0M6D65Rs9XW3/PhnXUkEduuJhlwZYu7KNR51wuLBeTEreWZrxPfvtO3Slv+dry9MaozSsoimaWCL8MBs8pbcm0E1z1GpSGLoqi/4vxIQaDznzCZmqUp0GxeEq86CG3n2MautIQ+LBveSPYXyoLGSwL3SJ7PPz6oYw=
+	t=1736606743; cv=none; b=KInqpDa/16/uJxH4rodtd2vW5OjtkQsCYqo/XLTdsS4EhF63o6KnRlxZPNiF7HfCcJjdWCs32Uy0rQWc/IzZ7m1tlvXhAr3ewCg8RWF3xi62xXLb/KGIwe5QZK6tOI6zkTUMrhCpPcVMO5FQo/cLOAA8HD/TuTzv7eROrwIkXjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736604291; c=relaxed/simple;
-	bh=QB45REJ1/TwDzgCfjCr2HirkG5WamaEmnKHMi13rTME=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=fCVd4lGN3SR9xMimEeXSzJrLK4d+XHE26FD0r91XMpwd7Tgdz8HzsEWQ8p+ODZtOU2PID1NFHVe2mUUsXYCkUr1tUcY02/dvIT2lhUX3W7XgKV0rEZuYfKdRMjuvyxtNrdx8WLznOXjxululhOLa//g7czjMVicubRdKwUxPquM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.vnet.ibm.com; spf=none smtp.mailfrom=linux.vnet.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=lzAOD3IH; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.vnet.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.vnet.ibm.com
+	s=arc-20240116; t=1736606743; c=relaxed/simple;
+	bh=8dmJFmr+CNvyUQEr4ZoqT27wOuDxLgNiqk6AYBeHMwc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qD7E+vUArhI2JT82z/7rYux9sjbI8rxKiXejjD6mNRhxJDEMl5s98mj1xGEWVeV761lF0xypXysoAIYv/PoKCmbdhfxT2BB9CZJj4KfFow9/IW5Ox7a90MXewPLbeNkYPbgGxdaUx2BaWoxHJZWwFaj9Tc7Mhu6mYkwZ/94Ji3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vt4U0NuB; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="lzAOD3IH"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50B7PNME000920;
-	Sat, 11 Jan 2025 14:04:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=J2lbfO
-	GB8gg7wUXgcCKWwEjh/GIQdeP4KglNFtDE9I8=; b=lzAOD3IHOM+LF+0a5FCa7Y
-	bADezBvhwGwklBA4suWH6lgpbqO1H4Gtdvf9a4WwyOuV0djj3mU4v5JBzC4QSwjM
-	wrx/9ymlxvo3VLali/3cEoUQzq/6innMi3v7uRENscc855giXs3sP/JQfMyITdsW
-	ytDjgjXk6w6TVMvupMAuAfiVGJOIsLYblVdno/WfOl7xS1aQvccyj+n4I6ma0LkA
-	2pWkF3RrBglyT1kotvcwRu5fsKDl+82NR6Olmsf4KgWWd4855f/PBqXrb2JruOnH
-	eUmfaEG++S+q5swlGz8blYUTSlyA+03MD8xV1uPRhp4FSzdPoujt7be2YMvSn5FQ
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 443e2nhxjg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 11 Jan 2025 14:04:16 +0000 (GMT)
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 50BE4FWv022141;
-	Sat, 11 Jan 2025 14:04:15 GMT
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 443e2nhxje-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 11 Jan 2025 14:04:15 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50BALm66003572;
-	Sat, 11 Jan 2025 14:04:14 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 43yfatqk76-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 11 Jan 2025 14:04:14 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50BE4CcR27853066
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 11 Jan 2025 14:04:13 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D45802004B;
-	Sat, 11 Jan 2025 14:04:12 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4E1BA20040;
-	Sat, 11 Jan 2025 14:04:00 +0000 (GMT)
-Received: from smtpclient.apple (unknown [9.61.242.252])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Sat, 11 Jan 2025 14:03:59 +0000 (GMT)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vt4U0NuB"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-21680814d42so41635285ad.2;
+        Sat, 11 Jan 2025 06:45:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736606741; x=1737211541; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=M8NYr85s0MeTvI7T818H2Knfld038HA1epUX/qDFS68=;
+        b=Vt4U0NuBqAFYcUqXTtemTzHQXeCUjN9ZOZh9mOPPOiETBQSAmBT8OQML0oXXilsY0G
+         tqBgZ1dwRgRdL8LTn9UtnM+BTswyWQe8htTVZ+Ty1eoIR1uyLcAieebJQmrQRY3uWEZA
+         wE8tnOwkthLk+rq/ctFdi77N7zN8A1SRdbyDezN2tenka4OGlW0bnk/pihonHmPIPxaG
+         yRPJTno56bhJJp5tHr9oSGeeeSRkDR+l24oSYzcEljrlywwoQn3j3Z6mqL+v6F/GMZcj
+         aU+Ez360g6qa8MTevqjfgcv7vQXbF+8/kj6otwAU8qdSjht+ntW/Fd8FQ3dParQyNdju
+         SPwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736606741; x=1737211541;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=M8NYr85s0MeTvI7T818H2Knfld038HA1epUX/qDFS68=;
+        b=fX16EKWWxvCddVm6kNaXPvFzACWEhbiEsiO946w8YmCOrUgtNs6RLf9TWXhQkWpqDz
+         7dHHF9mLHSP0b3vfKb8lBHaULHawq+Ti+Fa3OpHWnjGLMP5pp8zjXKGcucGm78x54Nzn
+         e24V1Ua3lbhGynARwrXpBT6ky4Tc9H9mMHqzgNd1LLjKt9D4qh3bc4IFalLZXv3uKEg3
+         wadBzSbGPVB0mjQ/xAXkeGRcJmhLYTYmoSc0sk7Zn0rog5PxfO3//uGjaLnOnCFECESa
+         C1IKZaRSRtqjkydvxWv5XgYrdsPLbZbPEWZXgzJGUD8rdrXIlKeolnn6Ih52exl1LiG7
+         eBWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWLgNZAStQulOqn26KQTajSN26+eudjUr7woIhR3ebXnQD2WSiOp7ItHqzo+6m0cBHuyrFmvwYV6do=@vger.kernel.org, AJvYcCXvM+6xCMlUXzU19Pw+Oaxpzi/cOHBZtvymP2gpgLN1clLplwqBlg9Q8MbuO/See5V8C/Nfz+Qa@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBhH7tnAI5OcAsuLFWZRVdcXQHCYaGngLnn2acNyGFhmJT7jU1
+	Ljvi10AhkL407qTG5IvAgaJWEQ1EL/dREiicbuQwEWIwWpHo+zog
+X-Gm-Gg: ASbGncs6VBOlJnBwtCj5rBfdNtUh1QdpL68wa6qiaTU4oGa6DaE9Osx2fjUyhslNDts
+	sGz4vQZZ3DPD+KzquAq7GNVwXuyrq3LSM5UHldx659tNE7gfnxWfGMwzg81og9M/f7FnPbJ00eN
+	VxYb5tuPB/L48xJuTPeg7H3GXN8+G08jyUs8xEJfQPK62IdL1Sjg1N3bFodk012gkaphLYk7/6t
+	QjQ4uOrqub4fLlo6Zw/Ffm2O6royVIjEZv86qdndtRGrA==
+X-Google-Smtp-Source: AGHT+IGJjwq0E5eZIaWDs+9HtGJKmrZ/9LFg9jp0LJ/icyv4o/tbign9VwOFn6pGSqiHBKxGK+sdFQ==
+X-Received: by 2002:a05:6a20:7491:b0:1e1:9f57:eacb with SMTP id adf61e73a8af0-1e88d0e0f11mr25323700637.14.1736606740780;
+        Sat, 11 Jan 2025 06:45:40 -0800 (PST)
+Received: from ap.. ([182.213.254.91])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72d40594a06sm3097466b3a.80.2025.01.11.06.45.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Jan 2025 06:45:40 -0800 (PST)
+From: Taehee Yoo <ap420073@gmail.com>
+To: davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	edumazet@google.com,
+	netdev@vger.kernel.org,
+	almasrymina@google.com,
+	donald.hunter@gmail.com,
+	corbet@lwn.net,
+	michael.chan@broadcom.com,
+	andrew+netdev@lunn.ch,
+	hawk@kernel.org,
+	ilias.apalodimas@linaro.org,
+	ast@kernel.org,
+	daniel@iogearbox.net,
+	john.fastabend@gmail.com,
+	dw@davidwei.uk,
+	sdf@fomichev.me,
+	asml.silence@gmail.com,
+	brett.creeley@amd.com,
+	linux-doc@vger.kernel.org
+Cc: kory.maincent@bootlin.com,
+	maxime.chevallier@bootlin.com,
+	danieller@nvidia.com,
+	hengqi@linux.alibaba.com,
+	ecree.xilinx@gmail.com,
+	przemyslaw.kitszel@intel.com,
+	hkallweit1@gmail.com,
+	ahmed.zaki@intel.com,
+	rrameshbabu@nvidia.com,
+	idosch@nvidia.com,
+	jiri@resnulli.us,
+	bigeasy@linutronix.de,
+	lorenzo@kernel.org,
+	jdamato@fastly.com,
+	aleksander.lobakin@intel.com,
+	kaiyuanz@google.com,
+	willemb@google.com,
+	daniel.zahka@gmail.com,
+	ap420073@gmail.com
+Subject: [PATCH net-next v8 0/10] bnxt_en: implement tcp-data-split and thresh option
+Date: Sat, 11 Jan 2025 14:45:03 +0000
+Message-Id: <20250111144513.1289403-1-ap420073@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3818.100.11.1.3\))
-Subject: Re: [PATCH v6 00/16] perf tools: Use generic syscall scripts for all
- archs
-From: Athira Rajeev <atrajeev@linux.vnet.ibm.com>
-In-Reply-To: <Z4EyD_RgjjeD6G4K@x1>
-Date: Sat, 11 Jan 2025 19:33:46 +0530
-Cc: Charlie Jenkins <charlie@rivosinc.com>, Namhyung Kim <namhyung@kernel.org>,
-        Ian Rogers <irogers@google.com>, Hari Bathini <hbathini@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>, Adrian Hunter <adrian.hunter@intel.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
-        =?utf-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>,
-        Christian Brauner <brauner@kernel.org>, Guo Ren <guoren@kernel.org>,
-        John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
-        James Clark <james.clark@linaro.org>,
-        Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linux.dev>,
-        Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
-        linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-security-module@vger.kernel.org,
-        bpf@vger.kernel.org, linux-csky@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <721EF5C4-5B22-4654-8328-F3616CDD1D29@linux.vnet.ibm.com>
-References: <20250108-perf_syscalltbl-v6-0-7543b5293098@rivosinc.com>
- <Z3_ybwWW3QZvJ4V6@x1> <Z4AoFA974kauIJ9T@ghost> <Z4A2Y269Ffo0ERkS@x1>
- <Z4A8NU02WVBDGrYZ@ghost>
- <8639C367-2669-4924-83D8-15EAFAC42699@linux.vnet.ibm.com>
- <Z4EyD_RgjjeD6G4K@x1>
-To: Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Charlie Jenkins <charlie@rivosinc.com>
-X-Mailer: Apple Mail (2.3818.100.11.1.3)
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 4t0XeC8NVubnR-Ul2Eg3y8vjelW9NEDY
-X-Proofpoint-GUID: ih83BF0cpgnFHXX9AyELYSHOM8UwQ-Qx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 suspectscore=0
- phishscore=0 mlxlogscore=999 lowpriorityscore=0 bulkscore=0
- priorityscore=1501 spamscore=0 mlxscore=0 clxscore=1015 malwarescore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501110120
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
+This series implements hds-thresh ethtool command.
+This series also implements backend of tcp-data-split and
+hds-thresh ethtool command for bnxt_en driver.
+These ethtool commands are mandatory options for device memory TCP.
 
+NICs that use the bnxt_en driver support tcp-data-split feature named
+HDS(header-data-split).
+But there is no implementation for the HDS to enable by ethtool.
+Only getting the current HDS status is implemented and the HDS is just
+automatically enabled only when either LRO, HW-GRO, or JUMBO is enabled.
+The hds_threshold follows the rx-copybreak value but it wasn't
+changeable.
 
-> On 10 Jan 2025, at 8:13=E2=80=AFPM, Arnaldo Carvalho de Melo =
-<acme@kernel.org> wrote:
->=20
-> On Fri, Jan 10, 2025 at 12:34:46PM +0530, Athira Rajeev wrote:
->>=20
->>=20
->>> On 10 Jan 2025, at 2:44=E2=80=AFAM, Charlie Jenkins =
-<charlie@rivosinc.com> wrote:
->>>=20
->>> On Thu, Jan 09, 2025 at 05:49:39PM -0300, Arnaldo Carvalho de Melo =
-wrote:
->>>> On Thu, Jan 09, 2025 at 11:48:36AM -0800, Charlie Jenkins wrote:
->>>>> On Thu, Jan 09, 2025 at 12:59:43PM -0300, Arnaldo Carvalho de Melo =
-wrote:
->>>>>> =E2=AC=A2 [acme@toolbox perf-tools-next]$ git log --oneline -1 ; =
-time make -C tools/perf build-test
->>>>>> d06826160a982494 (HEAD -> perf-tools-next) perf tools: Remove =
-dependency on libaudit
->>>>>> make: Entering directory =
-'/home/acme/git/perf-tools-next/tools/perf'
->>>>>> - tarpkg: ./tests/perf-targz-src-pkg .
->>>>>>                make_static: cd . && make LDFLAGS=3D-static =
-NO_PERF_READ_VDSO32=3D1 NO_PERF_READ_VDSOX32=3D1 NO_JVMTI=3D1 =
-NO_LIBTRACEEVENT=3D1 NO_LIBELF=3D1 -j28  DESTDIR=3D/tmp/tmp.JJT3tvN7bV
->>>>>>             make_with_gtk2: cd . && make GTK2=3D1 -j28  =
-DESTDIR=3D/tmp/tmp.BF53V2qpl3
->>>>>> - =
-/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_FEATURE_DUMP: cd . =
-&& make =
-FEATURE_DUMP_COPY=3D/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_F=
-EATURE_DUMP  feature-dump
->>>>>> cd . && make =
-FEATURE_DUMP_COPY=3D/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_F=
-EATURE_DUMP feature-dump
->>>>>>        make_no_libbionic_O: cd . && make NO_LIBBIONIC=3D1 =
-FEATURES_DUMP=3D/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_FEATU=
-RE_DUMP -j28 O=3D/tmp/tmp.KZuQ0q2Vs6 DESTDIR=3D/tmp/tmp.0sxMyH91gS
->>>>>>          make_util_map_o_O: cd . && make util/map.o =
-FEATURES_DUMP=3D/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_FEATU=
-RE_DUMP -j28 O=3D/tmp/tmp.Y0Mx3KLREI DESTDIR=3D/tmp/tmp.wg9HCVVLHE
->>>>>>             make_install_O: cd . && make install =
-FEATURES_DUMP=3D/home/acme/git/perf-tools-next/tools/perf/BUILD_TEST_FEATU=
-RE_DUMP -j28 O=3D/tmp/tmp.P0LEBAkW1X DESTDIR=3D/tmp/tmp.agTavZndFN
->>>>>> failed to find: etc/bash_completion.d/perf
->>>>>=20
->>>>> Is this something introduced by this patch?
->>>>=20
->>>> I don't think so.
->>>>=20
->>>> BTW this series is already pushed out to perf-tools-next:
->>>>=20
->>>> =
-https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git/l=
-og/?h=3Dperf-tools-next
->>>>=20
->>>> Thanks!
->>>>=20
->>>> - Arnaldo
->>>=20
->>> Thank you!
->>>=20
->>> - Charlie
->>=20
->> Hi Charlie, Arnaldo
->>=20
->> While testing the series, I hit compilation issue in powerpc
->>=20
->> Snippet of logs:
->=20
-> Yeah, Stephen Rothwell noticed it in linux next and Charlie provided a
-> fix, so I squashed it all together and will push it soon:
->=20
->    Link: =
-https://lore.kernel.org/r/20250108-perf_syscalltbl-v6-14-7543b5293098@rivo=
-sinc.com
->    Link: =
-https://lore.kernel.org/lkml/20250110100505.78d81450@canb.auug.org.au
->    [ Stephen Rothwell noticed on linux-next that the powerpc build for =
-perf was broken and ...]
->    Link: =
-https://lore.kernel.org/lkml/20250109-perf_powerpc_spu-v1-1-c097fc43737e@r=
-ivosinc.com
->    [ ... Charlie fixed it up and asked for it to be squashed to avoid =
-breaking bisection. o
->=20
-> Thanks for the report!
->=20
-Sure,
-Thanks Charlie for the fix
+Currently, bnxt_en driver enables tcp-data-split by default but not
+always work.
+There is hds_threshold value, which indicates that a packet size is
+larger than this value, a packet will be split into header and data.
+hds_threshold value has been 256, which is a default value of
+rx-copybreak value too.
+The rx-copybreak value hasn't been allowed to change so the
+hds_threshold too.
 
-I tested on latest tmp.perf-tools-next and compiles fine
+This patchset decouples hds_threshold and rx-copybreak first.
+and make tcp-data-split, rx-copybreak, and
+hds-thresh configurable independently.
 
-Tested-by: Athira Rajeev <atrajeev@linux.vnet.ibm.com>
+But the default configuration is the same.
+The default value of rx-copybreak is 256 and default
+hds-thresh is also 256.
 
-Thanks
-Athira
+The behavior of rx-copybreak will probably be changed in almost all
+drivers. If HDS is not enabled, rx-copybreak copies both header and
+payload from a page.
+But if HDS is enabled, rx-copybreak copies only header from the first
+page.
+Due to this change, it may need to disable(set to 0) rx-copybreak when
+the HDS is required.
 
+There are several related options.
+TPA(HW-GRO, LRO), JUMBO, jumbo_thresh(firmware command), and Aggregation
+Ring.
 
-> - Arnaldo
+The aggregation ring is fundamental to these all features.
+When gro/lro/jumbo packets are received, NIC receives the first packet
+from the normal ring.
+follow packets come from the aggregation ring.
 
+These features are working regardless of HDS.
+If HDS is enabled, the first packet contains the header only, and the
+following packets contain only payload.
+So, HW-GRO/LRO is working regardless of HDS.
+
+There is another threshold value, which is jumbo_thresh.
+This is very similar to hds_thresh, but jumbo thresh doesn't split
+header and data.
+It just split the first and following data based on length.
+When NIC receives 1500 sized packet, and jumbo_thresh is 256(default, but
+follows rx-copybreak),
+the first data is 256 and the following packet size is 1500-256.
+
+Before this patch, at least if one of GRO, LRO, and JUMBO flags is
+enabled, the Aggregation ring will be enabled.
+If the Aggregation ring is enabled, both hds_threshold and
+jumbo_thresh are set to the default value of rx-copybreak.
+
+So, GRO, LRO, JUMBO frames, they larger than 256 bytes, they will
+be split into header and data if the protocol is TCP or UDP.
+for the other protocol, jumbo_thresh works instead of hds_thresh.
+
+This means that tcp-data-split relies on the GRO, LRO, and JUMBO flags.
+But by this patch, tcp-data-split no longer relies on these flags.
+If the tcp-data-split is enabled, the Aggregation ring will be
+enabled.
+Also, hds_threshold no longer follows rx-copybreak value, it will
+be set to the hds-thresh value by user-space, but the
+default value is still 256.
+
+If the protocol is TCP or UDP and the HDS is disabled and Aggregation
+ring is enabled, a packet will be split into several pieces due to
+jumbo_thresh.
+
+When single buffer XDP is attached, tcp-data-split is automatically
+disabled.
+
+LRO, GRO, and JUMBO are tested with BCM57414, BCM57504 and the firmware
+version is 230.0.157.0.
+I couldn't find any specification about minimum and maximum value
+of hds_threshold, but from my test result, it was about 0 ~ 1023.
+It means, over 1023 sized packets will be split into header and data if
+tcp-data-split is enabled regardless of hds_treshold value.
+When hds_threshold is 1500 and received packet size is 1400, HDS should
+not be activated, but it is activated.
+The maximum value of hds-thresh value is 256 because it
+has been working. It was decided very conservatively.
+
+I checked out the tcp-data-split(HDS) works independently of GRO, LRO,
+JUMBO.
+Also, I checked out tcp-data-split should be disabled automatically
+when XDP is attached and disallowed to enable it again while XDP is
+attached. I tested ranged values from min to max for
+hds-thresh and rx-copybreak, and it works.
+hds-thresh from 0 to 256, and rx-copybreak 0 to 256.
+When testing this patchset, I checked skb->data, skb->data_len, and
+nr_frags values.
+
+By this patchset, bnxt_en driver supports a force enable tcp-data-split,
+but it doesn't support for disable tcp-data-split.
+When tcp-data-split is explicitly enabled, HDS works always.
+When tcp-data-split is unknown, it depends on the current
+configuration of LRO/GRO/JUMBO.
+
+1/10 patch adds a new hds_config member in the ethtool_netdev_state.
+It indicates that what tcp-data-split value is really updated from
+userspace.
+So the driver can distinguish a passed tcp-data-split value is
+came from user or driver itself.
+
+2/10 patch adds hds-thresh command in the ethtool.
+This threshold value indicates if a received packet size is larger
+than this threshold, the packet's header and payload will be split.
+Example:
+   # ethtool -G <interface name> hds-thresh <value>
+This option can not be used when tcp-data-split is disabled or not
+supported.
+   # ethtool -G enp14s0f0np0 tcp-data-split on hds-thresh 256
+   # ethtool -g enp14s0f0np0
+   Ring parameters for enp14s0f0np0:
+   Pre-set maximums:
+   ...
+   Current hardware settings:
+   ...
+   TCP data split:         on
+   HDS thresh:  256
+
+3/10, 4/10 add condition checks for devmem and ethtool.
+If tcp-data-split is disabled or threshold value is not zero, setup of
+devmem will be failed.
+Also, tcp-data-split and hds-thresh will not be changed
+while devmem is running.
+
+5/10 add condition checks for netdev core.
+It disallows setup single buffer XDP program when tcp-data-split is
+enabled.
+
+6/10 patch implements .{set, get}_tunable() in the bnxt_en.
+The bnxt_en driver has been supporting the rx-copybreak feature but is
+not configurable, Only the default rx-copybreak value has been working.
+So, it changes the bnxt_en driver to be able to configure
+the rx-copybreak value.
+
+7/10 patch adds an implementation of tcp-data-split ethtool
+command.
+The HDS relies on the Aggregation ring, which is automatically enabled
+when either LRO, GRO, or large mtu is configured.
+So, if the Aggregation ring is enabled, HDS is automatically enabled by
+it.
+
+8/10 patch adds the implementation of hds-thresh logic
+in the bnxt_en driver.
+The default value is 256, which used to be the default rx-copybreak
+value.
+
+9/10 add HDS feature implementation for netdevsim.
+HDS feature is not common so far. Only a few NICs support this feature.
+There is no way to test HDS core-API unless we have proper hw NIC.
+In order to test HDS core-API without  hw NIC, netdevsim can be used.
+It implements HDS control and data plane for netdevsim.
+
+10/10 add selftest for HDS(tcp-data-split and HDS-thresh).
+The tcp-data-split tests are the same with
+`ethtool -G tcp-data-split <on | auto>`
+HDS-thresh tests are same with `ethtool -G eth0 hds-thresh <0 - MAX>`
+
+This series is tested with BCM57504 and netdevsim.
+
+v8:
+ - Make the handling of hds_thresh similar to hds_config. 2/10
+ - Update comments of hds_thresh and hds_thresh_max. 2/10
+ - Remove unnecessary setting hds value in the drivers. 8,9/10
+ - Use ksft_raises. 10/10
+ - Add Review and Ack tags from Jakub.
+
+v7:
+ - Reorder patches.
+ - Add review tag from Jakub. 1/10
+ - Do not export dev_xdp_sb_prog_count(). 1/10
+ - Use dev->ethtool->hds members instead of calling
+   ->get_ring_param(). 2/10
+ - Do not check XDP_SETUP_PROG_HW. 5/10
+ - return -EBUSY when interface is not running. 6/10.
+ - Use dev->ethtool->hds_thresh instead of bp->hds_thresh 8/10
+ - Add datapath implementation. 9/10
+ - Remove kernel_ethtool_ringparam in the struct nsim_ethtool. 9/10
+ - Add selftest patch 10/10
+
+v6:
+ - use hds_config instead of tcp_data_split_mod.
+ - Disallow to attach XDP when HDS is in use.
+ - Update ethtool_netlink_generated.h
+ - Use "HDS" instead of "HEADER_DATA_SPLIT"
+ - HDS_MAX is changed to 1023.
+ - Implement netdevsim HDS feature.
+ - Add Test tags from Andy.
+
+v5:
+ - Remove netdev_devmem_enabled() and use dev_get_min_mp_channel_count()
+   instead.
+ - change extack messages
+ - Drop implementation of device memory TCP for bnxt_en.
+ - Add Review tags from Mina.
+
+v4:
+ - Remove min rx-copybreak value.
+ - Do not support a disable of tcp-data-split by bnxt_en driver.
+ - Rename from tcp-data-split-thresh to hds-thresh.
+ - Add ETHTOOL_RING_USE_HDS_THRS flag.
+ - Add dev_xdp_sb_prog_count() helper.
+ - Reduce hole in struct bnxt.
+ - Use ETHTOOL_RING_USE_HDS_THRS in bnxt_en driver.
+ - Improve condition check.
+ - Add netdev_devmem_enabled() helper.
+ - Add netmem_is_pfmemalloc() helper.
+ - Do not select NET_DEVMEM in Kconfig for bnxt_en driver.
+ - Pass PP_FLAG_ALLOW_UNREADABLE_NETMEM flag unconditionally.
+ - Use gfp flag in __bnxt_alloc_rx_netmem() in the last patch.
+ - Do not add *offset in the __bnxt_alloc_rx_netmem() in the last patch.
+ - Do not pass queue_idx to bnxt_alloc_rx_page_pool() in the last patch.
+ - Add Test tag from Stanislav.
+ - Add Review tag from Brett.
+ - Add page_pool_recycle_direct_netmem() helper
+
+v3:
+ - Change headline
+ - Add condition checks for ethtool and devmem
+ - Fix documentation
+ - Move validation of tcp-data-split and thresh from dirver to core API
+ - Add implementation of device memory TCP for bnxt_en driver
+
+v2:
+ - Add tcp-data-split-thresh ethtool command
+ - Implement tcp-data-split-threh in the bnxt_en driver
+ - Define min/max rx-copybreak value
+ - Update commit message
+
+Taehee Yoo (10):
+  net: ethtool: add hds_config member in ethtool_netdev_state
+  net: ethtool: add support for configuring hds-thresh
+  net: devmem: add ring parameter filtering
+  net: ethtool: add ring parameter filtering
+  net: disallow setup single buffer XDP when tcp-data-split is enabled.
+  bnxt_en: add support for rx-copybreak ethtool command
+  bnxt_en: add support for tcp-data-split ethtool command
+  bnxt_en: add support for hds-thresh ethtool command
+  netdevsim: add HDS feature
+  selftest: net-drv: hds: add test for HDS feature
+
+ Documentation/netlink/specs/ethtool.yaml      |   8 ++
+ Documentation/networking/ethtool-netlink.rst  |  10 ++
+ drivers/net/ethernet/broadcom/bnxt/bnxt.c     |  32 +++--
+ drivers/net/ethernet/broadcom/bnxt/bnxt.h     |  12 +-
+ .../net/ethernet/broadcom/bnxt/bnxt_ethtool.c |  68 +++++++++-
+ drivers/net/ethernet/broadcom/bnxt/bnxt_xdp.c |   4 +
+ drivers/net/netdevsim/ethtool.c               |  12 +-
+ drivers/net/netdevsim/netdev.c                |   9 ++
+ drivers/net/netdevsim/netdevsim.h             |   3 +
+ include/linux/ethtool.h                       |  11 ++
+ include/linux/netdevice.h                     |   1 +
+ .../uapi/linux/ethtool_netlink_generated.h    |   2 +
+ net/core/dev.c                                |  27 ++++
+ net/core/devmem.c                             |  11 ++
+ net/ethtool/netlink.h                         |   2 +-
+ net/ethtool/rings.c                           |  51 +++++++-
+ tools/testing/selftests/drivers/net/Makefile  |   1 +
+ tools/testing/selftests/drivers/net/hds.py    | 120 ++++++++++++++++++
+ 18 files changed, 363 insertions(+), 21 deletions(-)
+ create mode 100755 tools/testing/selftests/drivers/net/hds.py
+
+-- 
+2.34.1
 
