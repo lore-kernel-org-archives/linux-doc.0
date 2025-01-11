@@ -1,95 +1,100 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE853156F54
-	for <linux-doc@vger.kernel.org>; Sat, 11 Jan 2025 09:45:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D3CB1494D9;
+	Sat, 11 Jan 2025 09:55:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736588756; cv=none; b=SM85jiToof5sc/1t15zN51suTR72CIYLv1uTC60G/Prrn1UXtpIIPg4dOv3ymgAWGMSBLoFH2xu07/1lfBt9OugqSV83zUg5PhcFqrr+YhMY98kKSVjOLO2sBRlJUIodIKiSM5XYVuA8is2+kR7/JpnTFyqCRO0r6WVxRjDuoxQ=
+	t=1736589304; cv=none; b=RMyYSunZVySmytEDV35U+ERwFHPUhbLhk8GHD+Xl+79vH0tDn/d9SQLlnMW6AoRR/I4350iXsaXhWkdDKV4ZtLjErE4dSg8VV/4zn0apcXwGMAIVEZZ4ZuSRpPVwvFo7YoCQADTYSB48HuQ9EVD51yzmVD0b9bGSXFBZfp7FMaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736588756; c=relaxed/simple;
-	bh=oWH2l2Is7xlqMrYGBqUebxyAWxzhjEcfg1lrJhwyF+g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cyxuLZZvVbCrTqefJrm2PcMaNkc8J0UwF2eDIChXZkIqFqRMqP/Bg9dS7FeUYM9lZuQp8x0p6EmEM1mxnpbOo+E5/e2YifJXG3SpvyKT5xJbhtf+GlFtSv5PX2m4tPaman2aNDjftfaTbSSZBfytpJGIx3OpElSuIdE1+kQhqak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OAQzGE9n; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1736589304; c=relaxed/simple;
+	bh=tTuCUsiT8nJImOQJbatEc0Pltr0wRSV2f9a8lVw6S08=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=rwzbCrqLA6UhxuOpOFyqepIknre1OgoNl25d1MDcDDkPStbiAEYyWcrhrnlpgFHLxP7/kVfNbvptSp9XW0snc+u/3Z9TW9xIsfoL7sdcylcjkajniZaqD/Z9HTD5AaiVkhnOfHVNBIjf9JruE9ln2p3g1u/Vs2AmKmRIPw/smaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=p1ONRouF; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OAQzGE9n"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4678c9310afso24761cf.1
-        for <linux-doc@vger.kernel.org>; Sat, 11 Jan 2025 01:45:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736588754; x=1737193554; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oWH2l2Is7xlqMrYGBqUebxyAWxzhjEcfg1lrJhwyF+g=;
-        b=OAQzGE9nbDWs9EyVwDBZoHIKSqfiguimpdn3fNLxBDs0ytrg7WWEu35Iz+T+jNoHOP
-         heUhb/FI28/DeT8TEbfhlyjHVrL1uP/xM/TBKzm2eaij/VPvEB3nJsOsGlDG2dV9Nvxo
-         I3SWDRS9jUjVTMkuOUQ1qsyBNYVUScbU0RoJfCe09ZjCVasMTsxSNg5dG0q8jfE5I1d2
-         KP7JARmwyFtEtl0lwAoOaRVgvLD1UZpbjn6eZdA7UYT4GDbt2B5Uhg12+U73XoTNFx+9
-         vEx/b6lUQYW2lnem09GeAepE5HUXB71h14ux2WHNmbPLLEuPUqeO120NHhpP0f65rGGK
-         Aa/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736588754; x=1737193554;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oWH2l2Is7xlqMrYGBqUebxyAWxzhjEcfg1lrJhwyF+g=;
-        b=K7YYyuYI8YAmqNqWJr/p0fRGvMV4wGwlrSzU9ApbytqX/iRRQ0F3C7LGtfhvaXymV/
-         tyVARXTzsqaHT1WxurVPVlUz+VizC4FQriRSuMBDpS8L/U5N1JWNR9O5oeuj2nML/3ON
-         bHf2F48JPbTke2XU4/nzMqFY+yyZgSt8NmeZ5f914Ab+6PxRyClbUJM4ymRXC8OgmO6M
-         /G/pR3AWUSd1+y18XtEE8hEpWJ6DRtv43qZjcO5RBFNkDd3HthmonGsw3NVYgn7TVZyZ
-         TP7lAV57nBvz3cES8kWzxOZFBUiIKfbAkUvW38WwUBXfWZEqoel/LKhoZpXqFOYjbxHi
-         8k2g==
-X-Forwarded-Encrypted: i=1; AJvYcCVIdJ3CnoENDfGjXS8sPTkbS+YC2FLQsorrwuY3c0rgINte/GS1PIw7XFvnfxtC2TbnrTdnnoCzOwY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIz7XhHpuhbbq2V94sWtHMBwSVNXW19Y1bkq0N9LYtYLTGIALf
-	FYQSW0KC3zLpXIFEcNEi27HX0hiUzDh3kq5JwC5apvsnfEttZTOwimERvnjmKC19DCAPcxOTy6r
-	Ftl5p77A7DOoMQotJ37zqQ/2Ieu5wYnAXL5Pc
-X-Gm-Gg: ASbGncvz/sEzHjZziOMPsUZ4fYgALudEfbe4z5VzG0S9UWyyZ+BV/z3bYQW2yOTaYmp
-	yBhd9mXzMWdDmY9Sz7mAMXuLsUJ9U9+yPAOh3tQ==
-X-Google-Smtp-Source: AGHT+IGhIG2CngGEbgawYJjo0rZQOmtUym3oXRx6tZFSBOM4GfAYmvCUJp9dfUNCK3WK8BUs1iJeig+fCZsKFy6cjbM=
-X-Received: by 2002:ac8:118a:0:b0:46c:9f17:12dd with SMTP id
- d75a77b69052e-46c9f171447mr414841cf.19.1736588753300; Sat, 11 Jan 2025
- 01:45:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="p1ONRouF"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0268A1C0003;
+	Sat, 11 Jan 2025 09:54:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1736589300;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rQruXORObHFSK2+gwF1X665y/vw+SakXoRGGHcqKIL0=;
+	b=p1ONRouFirx8BgSv0LzEab/Ye1bHqQBGJm6YoFniYappDi5BtRy2Fg3plzc6Hed+S+ScGT
+	oHoBupHeXl6esegclkRRoPq64mDkGuDScYRmPVQ4CExMtptnOOG/W0oAMEZTlUH/Tw/EIo
+	dweb5GncEgzWJobchObqZv+7sEwOv5pDWERZBiBn7ZcopxKy63YufGrD0W83l3ykIcsCac
+	3RYaDKvKG6U5Ytz0ns4Ly00RVCqowh+m3TCCovPasVOtB/q5Jczj+PE1GFMuq4B7sEuXNx
+	2qKlgPsb0/GnmpmyznPXhvHlstMmwEM0lcA3yr9TEZY3D/1zkMVgKcd+eTU3xQ==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Petr Mladek <pmladek@suse.com>,  Steven Rostedt <rostedt@goodmis.org>,
+  Rasmus Villemoes <linux@rasmusvillemoes.dk>,  Sergey Senozhatsky
+ <senozhatsky@chromium.org>,  Jonathan Corbet <corbet@lwn.net>,  John
+ Ogness <john.ogness@linutronix.de>,  Andrew Morton
+ <akpm@linux-foundation.org>,  Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>,  Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>,  linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] hexdump: Allow skipping identical lines
+In-Reply-To: <20250110193930.26b08c2f@pumpkin> (David Laight's message of
+	"Fri, 10 Jan 2025 19:39:30 +0000")
+References: <20250110-perso-hexdump-v2-0-7f9a6a799170@bootlin.com>
+	<20250110-perso-hexdump-v2-2-7f9a6a799170@bootlin.com>
+	<20250110193930.26b08c2f@pumpkin>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Sat, 11 Jan 2025 10:54:58 +0100
+Message-ID: <87o70dsmj1.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250111042604.3230628-1-surenb@google.com> <Z4H5Et1Hd-JxOJKM@casper.infradead.org>
-In-Reply-To: <Z4H5Et1Hd-JxOJKM@casper.infradead.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Sat, 11 Jan 2025 01:45:41 -0800
-X-Gm-Features: AbW1kvbii1zCUiOl90M4f1ttosMhVd4eHlKP_X8K3onQwYNCQW4CfAqU6ROBXJo
-Message-ID: <CAJuCfpHxGfv8568Kvh784f2cc1XZQCi2Gv=9accf6T-3+GSoaA@mail.gmail.com>
-Subject: Re: [PATCH v9 00/17] reimplement per-vma lock as a refcount
-To: Matthew Wilcox <willy@infradead.org>
-Cc: akpm@linux-foundation.org, peterz@infradead.org, liam.howlett@oracle.com, 
-	lorenzo.stoakes@oracle.com, david.laight.linux@gmail.com, mhocko@suse.com, 
-	vbabka@suse.cz, hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-On Fri, Jan 10, 2025 at 8:52=E2=80=AFPM Matthew Wilcox <willy@infradead.org=
-> wrote:
->
-> On Fri, Jan 10, 2025 at 08:25:47PM -0800, Suren Baghdasaryan wrote:
-> > - Added static check for no-limit case in __refcount_add_not_zero_limit=
-ed,
-> > per David Laight
->
-> Ugh, no, don't listen to David.
+Hi David,
 
-I thought his suggestion to add a check which can be verified at
-compile time made sense. Could you please explain why that's a bad
-idea? I'm really curious.
+On 10/01/2025 at 19:39:30 GMT, David Laight <david.laight.linux@gmail.com> =
+wrote:
+
+> On Fri, 10 Jan 2025 19:42:05 +0100
+> Miquel Raynal <miquel.raynal@bootlin.com> wrote:
+>
+>> When dumping long buffers (especially for debug purposes) it may be very
+>> convenient to sometimes avoid spitting all the lines of the buffer if
+>> the lines are identical. Typically on embedded devices, the console
+>> would be wired to a UART running at 115200 bauds, which makes the dumps
+>> very (very) slow. In this case, having a flag to avoid printing
+>> duplicated lines is handy.
+> ...=20
+>>  enum {
+>>  	DUMP_FLAG_ASCII,
+>> +	DUMP_FLAG_SKIP_IDENTICAL_LINES,
+>>  };
+> ...
+>> +		if (flags & DUMP_FLAG_SKIP_IDENTICAL_LINES) {
+>
+>
+> That doesn't look right to me.
+> You want:
+> enum {
+> 	DUMP_FLAG_HEX_ONLY =3D false,
+> 	DUMP_FLAG_ASCII =3D true,
+> 	DUMP_FLAG_SKIP_IDENTICAL_LINES =3D BIT(1),
+> };
+>
+> and maybe you can get away with not changing all the other files.
+
+I'm a bit sad all the time spent on these changes will go to trash :),
+they kind of looked "nicer", but for sure this approach would be
+transparent. I can definitely try that.
+
+Thanks,
+Miqu=C3=A8l
