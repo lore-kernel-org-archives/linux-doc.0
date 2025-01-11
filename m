@@ -1,62 +1,37 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785911531E1
-	for <linux-doc@vger.kernel.org>; Sat, 11 Jan 2025 05:20:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23E9199B8;
+	Sat, 11 Jan 2025 05:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736572845; cv=none; b=CeC/X8C+Q97ajMbK6M/Fktej/bgxE775k8HP3cv+9UOs8Uzfs7W/Hjzi6I5KkrjWEzLz1763uWB2VbjFKI5J0VkXrxyO5MZPC/qF1AD8vca1LVlQNGAsH3YFvxfDShuhy2FhLjgnp/hpiOKvE7tc76sPhWAVlevFQ05uNr3b50g=
+	t=1736573790; cv=none; b=aGDHVKy2a5qawU0SqasL+rEj1tXLZE35mkmgXx5HxeJK4GO2bDt3iyIWIswdukkANidD7/ZYka8MEED0lGP7AHiq460HMI4Y6BZ7Xqws9A0LqKYvL37WzCUXi9GR1HOMzs/tIXmdl9qsSpcHIw3TuWjakKNM24QTieXtQTg2Y2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736572845; c=relaxed/simple;
-	bh=XVHylNyHspfxsR5nvSnwfDtdr3rAkF+h/5oVprq5HmI=;
+	s=arc-20240116; t=1736573790; c=relaxed/simple;
+	bh=div/BNnugOUlohVxKQ7bHzCzzS7RRSUsqGn2+oSsIGo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IDyNsIAGcXYJUFGAmnLRcJk1Wn8baCgENU4AncK4OqHo2fcoFPdDcWz2kINIaFU34CbA70K4xtwvv9A0nlG20LyVID+OPAi5VNc/TA/YMBkszV86coIPm2TNZ8fVz35gNRkT3ZyPjo+xphCvmk3d6eXMdny0dnGm/ju8Y95i24c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=bOfXdCai; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
+	 In-Reply-To:Content-Type; b=KCYQS3l25Wk4Q334Q7wFMd32NTnQCHiNux/OX1DBUp13WbL3A26GfC+LJMvSMzSoTqS8lV+NYfmnkrDt8ZPP7eqf+azLPMneQLxpyQsR3rr+F8cO+7ZwJt9gJyOKabXXyAAaayW03tdE02hYoKwI4WnFOk8JzVR8xD4XtbSj0hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vUu9QsY8; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="bOfXdCai"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2166360285dso47065045ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 10 Jan 2025 21:20:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1736572843; x=1737177643; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pK2F+RBTaMSDxoEAtE8SM5XYDPlI0601AzyscCoxm2I=;
-        b=bOfXdCai1SgljamBeP8QyR/JOQ4FbYnxuK7GlXHkGsDCeuRp9U+8zmW3OJUq30S6B1
-         SLa6ui19ir6Lii6Trn9iWYfLppdt2W2DT2w6uVPu0JmvrGjHdcHfvfUrxUEcU8uJkXXL
-         xL/mJqYiE8jR0eGvLV3CTmAFFoj8P0gn+JzbOc8tBxXMdCQwURAHVbMQTA6y3sf/fsrC
-         XgLfftoWAKAE0rZKBAgYfjfI7C5co3rTYyLJZD2h2FcVghQVngthc0nH6jU9roNHK12Z
-         wgCM/ETTekDHCgV/LyvrzNM1jNLyws6i6E1Km7UE513DdwrEWS8JILzSAYFUjCM9ksyk
-         jLog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736572843; x=1737177643;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pK2F+RBTaMSDxoEAtE8SM5XYDPlI0601AzyscCoxm2I=;
-        b=SQ3vtbmqkio3GIVeQ5xDdoOB2Z/R09Q9B+ArCk/2iEGrqOdI7ksAQuzDasIwtNFAjc
-         Rxsw08sMpDPTdJpqWJVSPzDiuHVimvTYUtm98ttV6m5fITzufQNAWNMNvaxlZa3ewziZ
-         i4fzzc622wDJeHDS1QN6ydMUJtk108gGTxkKfZtm9SVraHVR+f5JkvUyh5f1ox8iDas+
-         va+jDBo0yIAsXKmxFEhGovcOzgAJhGoWe+NaAidrqsqIon/ykecph+o2tkPptNkQTaL3
-         MI7mzRlKKTl+4HPqMGfSe0esPiuS0vHGfh9SJso5OeeTa61Sv9BC1hmntMD+wXy5bQRa
-         g6QA==
-X-Gm-Message-State: AOJu0YzCVFbOaLGMqqwArXNhBSihtXkdIo1x/CD+RGwAISqXH+A4/6DV
-	J1LPp513gJcybMoaf10+8SRxgLrNrmzE/VTPqZnfaePe+OWESm8Ep2PXq9o6zSM=
-X-Gm-Gg: ASbGncv/XEcObsVT+ec9UDbhjvXQ35aqHkMNj2ozXiRuBS8np2hcKW1xiE8gZdjyAjn
-	VJiDfJ8y/G3Nq3lN+cDt4H9IZrWhphh4+5Rcc6DxnlhsOr3xDnuCEAx8ixkVanMnNtFBJxiMSOw
-	M1UugiKoDj8zzuiVQ+7qVoCvFVtyOfr650XgDFJKBdbxSRjr82JPbzPL5JIEcI0rmcz/BeG61kT
-	xagnLqZiZbUZHxeO37EZGnvh+zL6/msB+G23YC1TxmuBGn01gc5w5CI3eDLYHyvgzw=
-X-Google-Smtp-Source: AGHT+IGBR3qO11ykBQufc7YwvifpdR2xYxMPWXbJI07PD0vx+LDE0o4MSNzVKFuQj6IitF6hcz/7jA==
-X-Received: by 2002:a05:6a00:858a:b0:727:d55e:4bee with SMTP id d2e1a72fcca58-72d21f112c8mr16427488b3a.1.1736572842758;
-        Fri, 10 Jan 2025 21:20:42 -0800 (PST)
-Received: from [157.82.203.37] ([157.82.203.37])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-a3c259314b1sm3095729a12.9.2025.01.10.21.20.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jan 2025 21:20:42 -0800 (PST)
-Message-ID: <5f689383-055e-4140-8b87-1f1fa92634e8@daynix.com>
-Date: Sat, 11 Jan 2025 14:20:39 +0900
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vUu9QsY8"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=8Y81yq88NfBB4+Cvqg7GiqvoeFzTaJZM27Li1Q6bv/8=; b=vUu9QsY8AgduxY0w15mXpMIFLs
+	5Shb6LBUgBgXimpEPkHm1MgTmx2s2z53XHCs0UF4MOKSt548K2gQvtAIaIbCqIopJAR57vwM+RHjw
+	VFfrmDf8SY/pOzLw7JKMjKZa31FjVfs0dH+htfbgouPIlQZs0qrnfxApKfTrN3d4VIVPVxnb2uusi
+	jY1xUQXY+GEFAq+j4NpsfZ13h2qKYXknpBuOUFu76QLb6sf5GKpP78uERketltkZbwXiqfFmuZ3NH
+	MWHJV1r9Jz1Il88SKJ5R38tAZCA/JuLzyNezfjcPOuCJ14T5Zb84QKGRSF1XbGg5dnp++a4p6Rq1X
+	I/SrJsFg==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tWUAT-0000000Ex76-1s60;
+	Sat, 11 Jan 2025 05:36:17 +0000
+Message-ID: <b960e89b-e0d5-4274-8710-981442b2caba@infradead.org>
+Date: Fri, 10 Jan 2025 21:36:09 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,57 +39,46 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: Fix config_acs= example
-To: Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas <bhelgaas@google.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org
-References: <20240915-acs-v1-1-b9ee536ee9bd@daynix.com>
+Subject: Re: [PATCH v2 2/2] hexdump: Allow skipping identical lines
+To: Miquel Raynal <miquel.raynal@bootlin.com>, Petr Mladek
+ <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>, John Ogness <john.ogness@linutronix.de>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250110-perso-hexdump-v2-0-7f9a6a799170@bootlin.com>
+ <20250110-perso-hexdump-v2-2-7f9a6a799170@bootlin.com>
 Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <20240915-acs-v1-1-b9ee536ee9bd@daynix.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250110-perso-hexdump-v2-2-7f9a6a799170@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 Hi,
 
-It seems this patch has been forgotten for a while but it is still 
-valid. Can anyone take a look at this?
+On 1/10/25 10:42 AM, Miquel Raynal wrote:
+> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+> index ecccc0473da9c10f45f2464566f690472c61401e..90e6616284d1faf5882019eba8de6bebffe4883a 100644
+> --- a/Documentation/core-api/printk-formats.rst
+> +++ b/Documentation/core-api/printk-formats.rst
+> @@ -310,7 +310,9 @@ Raw buffer as a hex string
+>  
+>  For printing small buffers (up to 64 bytes long) as a hex string with a
+>  certain separator. For larger buffers consider using
+> -:c:func:`print_hex_dump`.
+> +:c:func:`print_hex_dump`, especially since dupplicated lines can be
 
-On 2024/09/15 10:36, Akihiko Odaki wrote:
-> The documentation used to say:
->> For example,
->>    pci=config_acs=10x
->> would configure all devices that support ACS to enable P2P Request
->> Redirect, disable Translation Blocking, and leave Source Validation
->> unchanged from whatever power-up or firmware set it to.
-> 
-> However, a flag specification always needs to be suffixed with "@" and a
-> PCI device string, which is missing in this example. It needs to be
-> suffixed with "@pci:0:0" to configure all devices that support ACS in
-> particular.
-> 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> ---
->   Documentation/admin-guide/kernel-parameters.txt | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index ee2984e46c06..5611903c27a9 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -4604,7 +4604,7 @@
->   				  '1' – force enabled
->   				  'x' – unchanged
->   				For example,
-> -				  pci=config_acs=10x
-> +				  pci=config_acs=10x@pci:0:0
->   				would configure all devices that support
->   				ACS to enable P2P Request Redirect, disable
->   				Translation Blocking, and leave Source
-> 
-> ---
-> base-commit: 46a0057a5853cbdb58211c19e89ba7777dc6fd50
-> change-id: 20240911-acs-3043a2737cc9
-> 
-> Best regards,
+                                              duplicated
+
+> +skipped automatically to reduce the overhead with the
+> +``DUMP_FLAG_SKIP_IDENTICAL_LINES`` flag.
+>  
+>  MAC/FDDI addresses
+>  ------------------
+
+-- 
+~Randy
 
