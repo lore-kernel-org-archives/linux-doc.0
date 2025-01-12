@@ -1,171 +1,196 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6DA1CFBC;
-	Sat, 11 Jan 2025 22:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7DAE14A8B;
+	Sun, 12 Jan 2025 02:58:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736635824; cv=none; b=DFSr49uWcpc+GH4c8asi4L4SuSzM5Sk0/UHi554XhN46cXPNx5kPDUXf91hVu0ZDIo/01qCKunVmkJRQtKLx5L2SucbXAGph1Y+p2ROzjoD7gF0uOoua7XNOhFm0LJvEXehIsbSwLoHhniYyZeLYx3mG8iINlTbY6s04LNOYG6Y=
+	t=1736650700; cv=none; b=EQKHsfIbMB81648xQr9Z1BXnVpwyqd90eIc9AfHKj+j39X9z+MvYzsjTzJUS5xjTA5eoRgVNr0E4veELTrrEJ1ByUpuo0jV4PPnFgnftzn0PnwhqDTQkCuXe3uh3XDeffqgKeWsIsOHYI8OtmW6Z7j2wlkHP/bOijOqUtZZbi2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736635824; c=relaxed/simple;
-	bh=aoULqWpiMcsmUvfvQkZzbeOxU5VUPFiAPqbXw8Q82s4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tsa+XlUmnQa0fmQfKp3j4uuyvRIHArfSmqd7vWteSmkpxj44vps/N9QEaOVBlCL/1X0faRhxG5i0xwH/L/4LKxjJ+en8lqPM6UF+LN2ZzzFJ/53HX/3vakfPhx4xTqlPyHW0HE+6dvUv6/jQnP/6LgCwJ9L5XXxUPcxbGRo6dqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Neg1POe0; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736650700; c=relaxed/simple;
+	bh=IxEiiB3f0xJ4EWEPemzriMdc3QLi6o48eQiRZ3IMPnI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P20JEuFvDTV4Hk4nP/4+fwdPgn1BXGwss2QReP/HiimTn3tqMmmMpSbwe91JnGkplafTKEGMZmHU8Nywi6iZEjZt64X47WyEphbW5l6Y0tTkxRi3fw66muDCpFI2mN91CPd5eVZxNjvKXlEEkCPB1DbOlcUDrfEnrdiCnHQmGQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RVUKIneM; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Neg1POe0"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-aaec111762bso581532366b.2;
-        Sat, 11 Jan 2025 14:50:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736635819; x=1737240619; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i9AHpR9KMQk31tLjxrqdKa0iwHZyqgzyJjqUeEzoJOw=;
-        b=Neg1POe0CXheL9LpqUoe032MpdKqwGCY6An10mkcZeQMDW9JbspajLEfQ6GTQD/FM8
-         pQ63IoFR8ofrSz0NDRlO6Vaf0w+m3g683KG0eUCLYpZWvU6sEsrSdHt9r7Tw6w5XuqHz
-         7YvsU0zoCkYIRxUnHHHJuY3v2q+OUbow/OJMIIk3AhMnhGfwfXB7/YKapkbwTgtp8aVQ
-         ZNK6hBAKrasTKAKiXsy6hdTtQLTbiazRWqRf/LnjhVLvy8GcknoiBGMzoDqUUXRUjL22
-         Y84VkUXF1DsO19PgvX9XFKSlVLw1oaTRAaFS+1A68NOtTjeGw6JDKZIfHKz2W80nL94O
-         GhGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736635819; x=1737240619;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=i9AHpR9KMQk31tLjxrqdKa0iwHZyqgzyJjqUeEzoJOw=;
-        b=dF+oOt18VydhnwV6snRmdUEUMtPOt4nJ3RIf8sS9InbWELXgdChgngcGwRozCKFnHD
-         SPzTw3QHQgYwuddPjPMWL/arLdXBJ3bRwP6iESTZr4fjvxaXYowYMy/vOS46k61+Rt1C
-         2+eRbvUqCfKFvwlhENqIEl4qdFekodmDdoyhJAwOUZvsQAtzGN8Ss+WneY2SCC2rFton
-         Hm+x4yt7/6einIA5C/qEfGWRJATAeMIe93UkzS3qIodmDVQK0WqFQHC7+an4IQCYblKt
-         THMJpqT6ylh6fJOyJkC6CAQ9iXJpWYpwMWSFlj5LbXv7ctnQxLKpBGKU8tGDqVwRyO6U
-         0haA==
-X-Forwarded-Encrypted: i=1; AJvYcCWVLc7KZBBH7NHB99wKl2XZe2iFclFxjZBVNgkedjwm5O6ZOVgGadopXmVTrOL5H/U6ONWFUQXcuifcxaHO@vger.kernel.org, AJvYcCXMZG1wziwvvuadsv3OISnm1ABW9cSK9anZHfZb+DAJC+6Kzm9YFK9r9UWvH8MAsCvBqsPWvW8zYQs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YygrCjK85XB72xIjWiGJv7o+PvbxHRtC/tp6uAasjBxsXmSLxjI
-	BO3JE0PfxYpauacuNCwW/3n3nnBL+q3H7pBhg2PkxgQUIeYsFAsm
-X-Gm-Gg: ASbGncvNoG24eWbTyAcMx3Gpy7UrDT/2ul+t2yA38e3Dkzz4Q1Ei6ul0tUaaRe9Gpdp
-	bCWq0w//WhhxrCEPd9bVtEe49gP3jxQBrkC7NdiaG+2gOsX8QN7h/EKk1d3hqsgWSv/BQ2aYhx3
-	gVp2tqK2c6zEDCx8XhGTogDT+CO5bZv/yul6Gx2Y9OeAkeQAiz6fN7sGdqcMiXKlUDAFt597lxi
-	CgHy9a5XyOZPpx5oabnRaXzdmWflL8DvInYDEVfLs6msaFXIgKiDsVxRABGaT8j9VxyRVmE9Wm3
-	k1Ee9jy6W/8t0ct8lis=
-X-Google-Smtp-Source: AGHT+IFMDE/fo3e4b07YXU3QufQHgZJ90mpUplpkrxnJ5Yo0ABb7vStkVqRX9F6WEWaLw7bZUn+dfQ==
-X-Received: by 2002:a17:907:720f:b0:aa6:75e1:1864 with SMTP id a640c23a62f3a-ab2ab6a8b3emr1575759066b.4.1736635818690;
-        Sat, 11 Jan 2025 14:50:18 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c95af24bsm314096066b.134.2025.01.11.14.50.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jan 2025 14:50:18 -0800 (PST)
-Date: Sat, 11 Jan 2025 22:50:16 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
- peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
- lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz,
- hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
- mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
- oleg@redhat.com, dave@stgolabs.net, brauner@kernel.org,
- dhowells@redhat.com, hdanton@sina.com, hughd@google.com,
- lokeshgidra@google.com, minchan@google.com, jannh@google.com,
- shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com,
- klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net,
- linux-doc@vger.kernel.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, kernel-team@android.com, nathan@kernel.org
-Subject: Re: [PATCH v9 10/17] refcount: introduce
- __refcount_{add|inc}_not_zero_limited - clang 17.0.1 bug
-Message-ID: <20250111225016.660c5784@pumpkin>
-In-Reply-To: <20250111221939.3a36908d@pumpkin>
-References: <20250111042604.3230628-1-surenb@google.com>
-	<20250111042604.3230628-11-surenb@google.com>
-	<20250111123900.643e4b49@pumpkin>
-	<9086dca2-3d53-4147-abc8-bf2d1cca0b5a@paulmck-laptop>
-	<20250111221939.3a36908d@pumpkin>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RVUKIneM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736650698; x=1768186698;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IxEiiB3f0xJ4EWEPemzriMdc3QLi6o48eQiRZ3IMPnI=;
+  b=RVUKIneM4iojvxHupYknEl+6klQEmTVMj6leoQt53U8krEATq/NJ90Xo
+   S6NoNkZZlCMYZjILXbP1Q9rPW8VRx/DHHfXENEY9alYt9ZMC4mkA4ygp5
+   bdk81yizeBLunVqRAzNn6Ng2HnTFOqrX9e+/dvwJihnu647ZENkskvBdN
+   VYotSSr2r9WRvG/3ukEAIETWbuBvEEW6x+i76AtKYaT0OcMlVbhYqEEy3
+   E8DwyYgHQgcbpK03D8F1zRJh8VfOuyyoK9/x9uuQ5H5ewOvpdnhTeXTP1
+   yycmy2hSZBrMp5DWW6ttmKRLtaDlRB5lsJI2BJVeQka06yvJy0StAMduT
+   w==;
+X-CSE-ConnectionGUID: cM+BXA2mRsWCQEgKHz6FRQ==
+X-CSE-MsgGUID: oUJVA9SgRpWbeYWOmGAtTA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="47567872"
+X-IronPort-AV: E=Sophos;i="6.12,308,1728975600"; 
+   d="scan'208";a="47567872"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 18:58:18 -0800
+X-CSE-ConnectionGUID: 9W+LehN2Q+ybaFdfBxKJFg==
+X-CSE-MsgGUID: Ji1haj5NSwahhisAC/YH0w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="141387404"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 11 Jan 2025 18:58:12 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tWoAy-000LVl-38;
+	Sun, 12 Jan 2025 02:58:08 +0000
+Date: Sun, 12 Jan 2025 10:57:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Joey Jiao <quic_jiangenj@quicinc.com>, dvyukov@google.com,
+	andreyknvl@gmail.com, corbet@lwn.net, akpm@linux-foundation.org,
+	gregkh@linuxfoundation.org, nogikh@google.com, elver@google.com,
+	pierre.gondois@arm.com, cmllamas@google.com,
+	quic_zijuhu@quicinc.com, richard.weiyang@gmail.com,
+	tglx@linutronix.de, arnd@arndb.de, catalin.marinas@arm.com,
+	will@kernel.org, dennis@kernel.org, tj@kernel.org, cl@linux.com,
+	ruanjinjie@huawei.com, colyli@suse.de,
+	andriy.shevchenko@linux.intel.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kernel@quicinc.com,
+	quic_likaid@quicinc.com, kasan-dev@googlegroups.com,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH] kcov: add unique cover, edge, and cmp modes
+Message-ID: <202501121036.JNteuRXG-lkp@intel.com>
+References: <20250110073056.2594638-1-quic_jiangenj@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250110073056.2594638-1-quic_jiangenj@quicinc.com>
 
-On Sat, 11 Jan 2025 22:19:39 +0000
-David Laight <david.laight.linux@gmail.com> wrote:
+Hi Joey,
 
-> On Sat, 11 Jan 2025 10:30:40 -0800
-> "Paul E. McKenney" <paulmck@kernel.org> wrote:
-> 
-> > On Sat, Jan 11, 2025 at 12:39:00PM +0000, David Laight wrote:  
-> > > On Fri, 10 Jan 2025 20:25:57 -0800
-> > > Suren Baghdasaryan <surenb@google.com> wrote:
-> > >     
-> > > > Introduce functions to increase refcount but with a top limit above which
-> > > > they will fail to increase (the limit is inclusive). Setting the limit to
-> > > > INT_MAX indicates no limit.    
-> > > 
-> > > This function has never worked as expected!
-> > > I've removed the update and added in the rest of the code.
-> > >     
-> > > > diff --git a/include/linux/refcount.h b/include/linux/refcount.h
-> > > > index 35f039ecb272..5072ba99f05e 100644
-> > > > --- a/include/linux/refcount.h
-> > > > +++ b/include/linux/refcount.h
-> > > > @@ -137,13 +137,23 @@ static inline unsigned int refcount_read(const refcount_t *r)
-> > > >  }
-> > > >  
-> > > >  static inline __must_check __signed_wrap
-> > > > -bool __refcount_add_not_zero(int i, refcount_t *r, int *oldp)
-> > > >  {
-> > > >  	int old = refcount_read(r);
-> > > >  
-> > > >  	do {
-> > > >  		if (!old)
-> > > >  			break;
-> > > >
-> > > >  	} while (!atomic_try_cmpxchg_relaxed(&r->refs, &old, old + i));
-> > > >  
-> > > >  	if (oldp)
-> > > >		*oldp = old;    
-> > > ?    
-> > > >	if (unlikely(old < 0 || old + i < 0))
-> > > >		refcount_warn_saturate(r, REFCOUNT_ADD_NOT_ZERO_OVF);
-> > > >
-> > > >  	return old;
-> > > >  }    
-> > > 
-> > > The saturate test just doesn't work as expected.
-> > > In C signed integer overflow is undefined (probably so that cpu that saturate/trap
-> > > signed overflow can be conformant) and gcc uses that to optimise code.
-> > > 
-> > > So if you compile (https://www.godbolt.org/z/WYWo84Weq):
-> > > int inc_wraps(int i)
-> > > {
-> > >     return i < 0 || i + 1 < 0;
-> > > }
-> > > the second test is optimised away.
-> > > I don't think the kernel compiles disable this optimisation.    
-> > 
-> > Last I checked, my kernel compiles specified -fno-strict-overflow.
-> > What happens if you try that in godbolt?  
-> 
-> That does make gcc generated the wanted object code.
-> I know that compilation option has come up before, but I couldn't remember the
-> name or whether it was disabled :-(
-> 
-> You do get much better object code from return (i | i + 1) < 0;
-> And that is likely to be much better still if you need a conditional jump.
+kernel test robot noticed the following build errors:
 
-I've just checked some more cases (see https://www.godbolt.org/z/YoM9odTbe).
-gcc 11 onwards generates the same code code for the two expressions.
+[auto build test ERROR on 9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe]
 
-Rather more worryingly clang 17.0.1 is getting this one wrong:
-   return i < 0 || i + 1 < 0 ? foo(i) : bar(i);
-It ignores the 'i + 1' test even with -fno-strict-overflow.
-That is more representative of the actual code.
+url:    https://github.com/intel-lab-lkp/linux/commits/Joey-Jiao/kcov-add-unique-cover-edge-and-cmp-modes/20250110-153559
+base:   9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe
+patch link:    https://lore.kernel.org/r/20250110073056.2594638-1-quic_jiangenj%40quicinc.com
+patch subject: [PATCH] kcov: add unique cover, edge, and cmp modes
+config: um-randconfig-002-20250112 (https://download.01.org/0day-ci/archive/20250112/202501121036.JNteuRXG-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f5cd181ffbb7cb61d582fe130d46580d5969d47a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250112/202501121036.JNteuRXG-lkp@intel.com/reproduce)
 
-What have I missed now?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501121036.JNteuRXG-lkp@intel.com/
 
-	David
+All errors (new ones prefixed by >>):
 
+>> kernel/kcov.c:309:41: error: no member named 'type' in 'struct kcov_entry'
+     309 |                         if (entry->ent == ent->ent && entry->type == ent->type &&
+         |                                                       ~~~~~  ^
+   kernel/kcov.c:309:54: error: no member named 'type' in 'struct kcov_entry'
+     309 |                         if (entry->ent == ent->ent && entry->type == ent->type &&
+         |                                                                      ~~~  ^
+>> kernel/kcov.c:310:15: error: no member named 'arg1' in 'struct kcov_entry'
+     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
+         |                             ~~~~~  ^
+   kernel/kcov.c:310:28: error: no member named 'arg1' in 'struct kcov_entry'
+     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
+         |                                            ~~~  ^
+>> kernel/kcov.c:310:43: error: no member named 'arg2' in 'struct kcov_entry'
+     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
+         |                                                         ~~~~~  ^
+   kernel/kcov.c:310:56: error: no member named 'arg2' in 'struct kcov_entry'
+     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
+         |                                                                        ~~~  ^
+   kernel/kcov.c:343:29: error: no member named 'type' in 'struct kcov_entry'
+     343 |                         area[start_index] = ent->type;
+         |                                             ~~~  ^
+   kernel/kcov.c:344:33: error: no member named 'arg1' in 'struct kcov_entry'
+     344 |                         area[start_index + 1] = ent->arg1;
+         |                                                 ~~~  ^
+   kernel/kcov.c:345:33: error: no member named 'arg2' in 'struct kcov_entry'
+     345 |                         area[start_index + 2] = ent->arg2;
+         |                                                 ~~~  ^
+   9 errors generated.
+
+
+vim +309 kernel/kcov.c
+
+   290	
+   291	static notrace inline void kcov_map_add(struct kcov_map *map, struct kcov_entry *ent,
+   292						struct task_struct *t, unsigned int mode)
+   293	{
+   294		struct kcov *kcov;
+   295		struct kcov_entry *entry;
+   296		unsigned int key = hash_key(ent);
+   297		unsigned long pos, start_index, end_pos, max_pos, *area;
+   298	
+   299		kcov = t->kcov;
+   300	
+   301		if ((mode == KCOV_MODE_TRACE_UNIQ_PC ||
+   302		     mode == KCOV_MODE_TRACE_UNIQ_EDGE))
+   303			hash_for_each_possible_rcu(map->buckets, entry, node, key) {
+   304				if (entry->ent == ent->ent)
+   305					return;
+   306			}
+   307		else
+   308			hash_for_each_possible_rcu(map->buckets, entry, node, key) {
+ > 309				if (entry->ent == ent->ent && entry->type == ent->type &&
+ > 310				    entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
+   311					return;
+   312				}
+   313			}
+   314	
+   315		entry = (struct kcov_entry *)gen_pool_alloc(map->pool, 1 << MIN_POOL_ALLOC_ORDER);
+   316		if (unlikely(!entry))
+   317			return;
+   318	
+   319		barrier();
+   320		memcpy(entry, ent, sizeof(*entry));
+   321		hash_add_rcu(map->buckets, &entry->node, key);
+   322	
+   323		if (mode == KCOV_MODE_TRACE_UNIQ_PC || mode == KCOV_MODE_TRACE_UNIQ_CMP)
+   324			area = t->kcov_area;
+   325		else
+   326			area = kcov->map_edge->area;
+   327	
+   328		pos = READ_ONCE(area[0]) + 1;
+   329		if (mode == KCOV_MODE_TRACE_UNIQ_PC || mode == KCOV_MODE_TRACE_UNIQ_EDGE) {
+   330			if (likely(pos < t->kcov_size)) {
+   331				WRITE_ONCE(area[0], pos);
+   332				barrier();
+   333				area[pos] = ent->ent;
+   334			}
+   335		} else {
+   336			start_index = 1 + (pos - 1) * KCOV_WORDS_PER_CMP;
+   337			max_pos = t->kcov_size * sizeof(unsigned long);
+   338			end_pos = (start_index + KCOV_WORDS_PER_CMP) * sizeof(u64);
+   339			if (likely(end_pos <= max_pos)) {
+   340				/* See comment in __sanitizer_cov_trace_pc(). */
+   341				WRITE_ONCE(area[0], pos);
+   342				barrier();
+   343				area[start_index] = ent->type;
+   344				area[start_index + 1] = ent->arg1;
+   345				area[start_index + 2] = ent->arg2;
+   346				area[start_index + 3] = ent->ent;
+   347			}
+   348		}
+   349	}
+   350	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
