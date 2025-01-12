@@ -1,121 +1,166 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from pv50p00im-ztdg10012101.me.com (pv50p00im-ztdg10012101.me.com [17.58.6.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3D2EEC3;
-	Sun, 12 Jan 2025 04:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD4052F88
+	for <linux-doc@vger.kernel.org>; Sun, 12 Jan 2025 10:34:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.6.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736655649; cv=none; b=f6dMkHYIaRu3rdChA/WFkOEX/AznRtAGHRV9dQQbQBaGx5v9oYPd5FpQsHinlB3rxxXom0hSDFYL37sf56en6H73xcmMiM/ACnBZ+VNIkzETgaHLjgH1trZpUj1GS6SK/V0UOYI5Q9kKNsTTvZA59IotVWBGR1lqluxfX7dD79U=
+	t=1736678063; cv=none; b=ilvj5JOJsfnaT5xisxLrT9PCAYkoqEtod55rMyhxwQt+27hnPqODAfeKN1geblA/epbhrzzOaenaoh+Jj8IBmeMS7NkswPsVCC8frPLwJBDfNbR08B5cIorCgncQYdmTQ5N7YLQ4L7BwfhqICOF+qIT1UekM/8B4to2Ba+pKm/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736655649; c=relaxed/simple;
-	bh=PsXlJXwMTiylzvvaJJ5glc9HgqWL/RFU5UJO4hTG0I4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F+hanZJ/3/9wUHqW2SrOpAdvNz0hpOd7CIH2JJa5kFK4lLsLzFejwOebAtR6HHnpB2vRcXqXXz2N9Odw4VYxRsnhED4c0pSQy/J/H7JAcZea5i4ceMj+jAkg7xIMcESa45DztO8hhNKUdlvPlgeYyS9Jm56bS0JE5cYQSVZi6Co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W/iSl+FC; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1736678063; c=relaxed/simple;
+	bh=3FHViZNhsnIGyl1B07yO21MkDv2x1odcdNhOic7TRxU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=or3HnZXybYokZ4nIhh9U6pIq4yO3+V51/n8g+V6pkvbn7YUQezPyVJpY7EtHgsNj0TB60dutaBKydILAOGoP834Y8a6NJe4zLiLqrg5VG0THS6e9FyqHV5+WKM5P+Lmclne3DIkgz3P9+25yEDF2+8VD1Y7xX0QcIXyuMEcoVi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=iWPBCl59; arc=none smtp.client-ip=17.58.6.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W/iSl+FC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736655647; x=1768191647;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PsXlJXwMTiylzvvaJJ5glc9HgqWL/RFU5UJO4hTG0I4=;
-  b=W/iSl+FCGSvkbuBLpylBsifZM/KHSLgNcojawXWjlQjbntpZAOre1GNE
-   pk6Z/HTYi/4WmOWtaZVaXMxZ+kAeZaGLruonkHogx1YkaiQ5+N1RsvSN0
-   7YiEIJ7A6SAnzmgeus6v0Ggvqb2TAZk7IGOxhc855zsnnzrriGpYbp/8o
-   D7SSDDj2wD5dqDRdMxtRZRxD70kdoRfpLgj7wjaJBR0C5gXCUDAQqKYA7
-   gstxkSHAMViR6wu4lZ++Flcgz8V0pTvgBNwz7+uH5/+iFALynssNwHkWK
-   StQ1zHSe/NRLWi8Amo+Xumu5gPArTA+YhffNCJkfIj9a6HJcH0qiXtWCU
-   w==;
-X-CSE-ConnectionGUID: d5pXEnbgSMaWzxCJBHPx6Q==
-X-CSE-MsgGUID: G7SeGpWSRZmSbgFEJNiP4w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="40848698"
-X-IronPort-AV: E=Sophos;i="6.12,308,1728975600"; 
-   d="scan'208";a="40848698"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 20:20:47 -0800
-X-CSE-ConnectionGUID: sn4n80bVT1u2NrlKa7XqSw==
-X-CSE-MsgGUID: zbElPrt2SViwkc8TIZ7Q5Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,308,1728975600"; 
-   d="scan'208";a="103908282"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 11 Jan 2025 20:20:43 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tWpSr-000LZH-1C;
-	Sun, 12 Jan 2025 04:20:41 +0000
-Date: Sun, 12 Jan 2025 12:20:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Robert Budai <robert.budai@analog.com>, Nuno Sa <nuno.sa@analog.com>,
-	Ramona Gradinariu <ramona.gradinariu@analog.com>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alex Lanzano <lanzano.alex@gmail.com>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4 5/6] iio: imu: adis16550: add adis16550 support
-Message-ID: <202501121221.84e3uKFl-lkp@intel.com>
-References: <20250110074254.38966-6-robert.budai@analog.com>
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="iWPBCl59"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+	s=1a1hai; t=1736678061;
+	bh=8jMXg0idzjhO9yKUsQVdQUgEnwemCWgYliWqvHMBjlc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:
+	 x-icloud-hme;
+	b=iWPBCl59XMzTpNRbCNQ3Br6g2eU5eIt2Ne7+2ZWSJ+VIwLWocW0nxIE98HizKyfwN
+	 Pg0GHPsFlGGUiQFXcDfj6VIGGNkT8esQ1SDKpr2Xuz9EPTKc3NYYSGPeoUmjGijw2O
+	 /duPK1lWMtsYqxI6YYk+Ut/HrVuQzk589KO1oGyBbW7r9KHJ6yhcPaeb8jY05RNCvx
+	 E4IYrJ9r0ZQZ4JzChRvyzk9kOAd+G/DaOCFDmvNAvne0gNEBh4NF6Gubl4zrO95HQ6
+	 B5JAbGfbjP+s6Y9dY0hEIsg4IgKx96QBU/AXoIDm7rpwvt35qz2Nko7CWGJzK1CJnx
+	 Dfk4ItnZQQDVw==
+Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
+	by pv50p00im-ztdg10012101.me.com (Postfix) with ESMTPSA id 130417402EF;
+	Sun, 12 Jan 2025 10:34:14 +0000 (UTC)
+From: Zijun Hu <zijun_hu@icloud.com>
+Date: Sun, 12 Jan 2025 18:33:52 +0800
+Subject: [PATCH] usb: phy: Remove API devm_usb_put_phy()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250110074254.38966-6-robert.budai@analog.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250112-remove_api-v1-1-49cc8f792ac9@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAI+ag2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDQ0Mj3aLU3Pyy1PjEgkxdiyRTw8TENDNLU9MkJaCGgqLUtMwKsGHRsbW
+ 1AEv/tfFcAAAA
+X-Change-ID: 20250112-remove_api-8b51aaf6955b
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Zijun Hu <zijun_hu@icloud.com>, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+ Zijun Hu <quic_zijuhu@quicinc.com>
+X-Mailer: b4 0.14.2
+X-Proofpoint-ORIG-GUID: yabnjCFcLoJiaOwQ4gLPzDE9uhHMGQk0
+X-Proofpoint-GUID: yabnjCFcLoJiaOwQ4gLPzDE9uhHMGQk0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-12_04,2025-01-10_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=828 spamscore=0
+ clxscore=1011 adultscore=0 malwarescore=0 bulkscore=0 mlxscore=0
+ suspectscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2308100000 definitions=main-2501120094
+X-Apple-Remote-Links: v=1;h=KCk=;charset=UTF-8
 
-Hi Robert,
+From: Zijun Hu <quic_zijuhu@quicinc.com>
 
-kernel test robot noticed the following build errors:
+Static devm_usb_phy_match() is only called by API devm_usb_put_phy(), and
+the API has no caller now.
 
-[auto build test ERROR on jic23-iio/togreg]
-[also build test ERROR on linus/master v6.13-rc6 next-20250110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Remove the API and the static function.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Robert-Budai/iio-imu-adis-Add-custom-ops-struct/20250110-154645
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20250110074254.38966-6-robert.budai%40analog.com
-patch subject: [PATCH v4 5/6] iio: imu: adis16550: add adis16550 support
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250112/202501121221.84e3uKFl-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250112/202501121221.84e3uKFl-lkp@intel.com/reproduce)
+Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
+---
+ Documentation/driver-api/driver-model/devres.rst |  1 -
+ drivers/usb/phy/phy.c                            | 26 ------------------------
+ include/linux/usb/phy.h                          |  5 -----
+ 3 files changed, 32 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501121221.84e3uKFl-lkp@intel.com/
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+index d594d0ea0e9dfaf30f9ef805b0a0272763a4601e..d75728eb05f85eca4e0fbf7961bfa8181106a778 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -404,7 +404,6 @@ PHY
+   devm_usb_get_phy()
+   devm_usb_get_phy_by_node()
+   devm_usb_get_phy_by_phandle()
+-  devm_usb_put_phy()
+ 
+ PINCTRL
+   devm_pinctrl_get()
+diff --git a/drivers/usb/phy/phy.c b/drivers/usb/phy/phy.c
+index 1ce134505cee86102eb2d93ca1d09a52b684d3bb..e1435bc596622ce40f64355573f82f57bc8282bf 100644
+--- a/drivers/usb/phy/phy.c
++++ b/drivers/usb/phy/phy.c
+@@ -346,13 +346,6 @@ static void devm_usb_phy_release2(struct device *dev, void *_res)
+ 	usb_put_phy(res->phy);
+ }
+ 
+-static int devm_usb_phy_match(struct device *dev, void *res, void *match_data)
+-{
+-	struct usb_phy **phy = res;
+-
+-	return *phy == match_data;
+-}
+-
+ static void usb_charger_init(struct usb_phy *usb_phy)
+ {
+ 	usb_phy->chg_type = UNKNOWN_TYPE;
+@@ -614,25 +607,6 @@ struct usb_phy *devm_usb_get_phy_by_phandle(struct device *dev,
+ }
+ EXPORT_SYMBOL_GPL(devm_usb_get_phy_by_phandle);
+ 
+-/**
+- * devm_usb_put_phy - release the USB PHY
+- * @dev: device that wants to release this phy
+- * @phy: the phy returned by devm_usb_get_phy()
+- *
+- * destroys the devres associated with this phy and invokes usb_put_phy
+- * to release the phy.
+- *
+- * For use by USB host and peripheral drivers.
+- */
+-void devm_usb_put_phy(struct device *dev, struct usb_phy *phy)
+-{
+-	int r;
+-
+-	r = devres_release(dev, devm_usb_phy_release, devm_usb_phy_match, phy);
+-	dev_WARN_ONCE(dev, r, "couldn't find PHY resource\n");
+-}
+-EXPORT_SYMBOL_GPL(devm_usb_put_phy);
+-
+ /**
+  * usb_put_phy - release the USB PHY
+  * @x: the phy returned by usb_get_phy()
+diff --git a/include/linux/usb/phy.h b/include/linux/usb/phy.h
+index e4de6bc1f69b6287cb49882c3235b824bb474d13..0fa9885a1038bf747fe462982b4097a3fb1a8ec5 100644
+--- a/include/linux/usb/phy.h
++++ b/include/linux/usb/phy.h
+@@ -223,7 +223,6 @@ extern struct usb_phy *devm_usb_get_phy_by_phandle(struct device *dev,
+ extern struct usb_phy *devm_usb_get_phy_by_node(struct device *dev,
+ 	struct device_node *node, struct notifier_block *nb);
+ extern void usb_put_phy(struct usb_phy *);
+-extern void devm_usb_put_phy(struct device *dev, struct usb_phy *x);
+ extern void usb_phy_set_event(struct usb_phy *x, unsigned long event);
+ extern void usb_phy_set_charger_current(struct usb_phy *usb_phy,
+ 					unsigned int mA);
+@@ -259,10 +258,6 @@ static inline void usb_put_phy(struct usb_phy *x)
+ {
+ }
+ 
+-static inline void devm_usb_put_phy(struct device *dev, struct usb_phy *x)
+-{
+-}
+-
+ static inline void usb_phy_set_event(struct usb_phy *x, unsigned long event)
+ {
+ }
 
-All errors (new ones prefixed by >>):
+---
+base-commit: 594c82329eef335ad90f5276ae0d2dff4d6d2668
+change-id: 20250112-remove_api-8b51aaf6955b
 
->> drivers/iio/imu/adis16550.c:1202:18: error: expected ';' after top level declarator
-    1202 | MODULE_IMPORT_NS(IIO_ADISLIB);
-         |                  ^
-   1 error generated.
-
-
-vim +1202 drivers/iio/imu/adis16550.c
-
-  1196	
-  1197	MODULE_AUTHOR("Nuno Sa <nuno.sa@analog.com>");
-  1198	MODULE_AUTHOR("Ramona Gradinariu <ramona.gradinariu@analog.com>");
-  1199	MODULE_AUTHOR("Antoniu Miclaus <antoniu.miclaus@analog.com>");
-  1200	MODULE_DESCRIPTION("Analog Devices ADIS16550 IMU driver");
-  1201	MODULE_LICENSE("GPL");
-> 1202	MODULE_IMPORT_NS(IIO_ADISLIB);
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Zijun Hu <quic_zijuhu@quicinc.com>
+
