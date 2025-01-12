@@ -1,166 +1,126 @@
-Received: from pv50p00im-ztdg10012101.me.com (pv50p00im-ztdg10012101.me.com [17.58.6.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD4052F88
-	for <linux-doc@vger.kernel.org>; Sun, 12 Jan 2025 10:34:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.6.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C5C1465A5;
+	Sun, 12 Jan 2025 10:54:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736678063; cv=none; b=ilvj5JOJsfnaT5xisxLrT9PCAYkoqEtod55rMyhxwQt+27hnPqODAfeKN1geblA/epbhrzzOaenaoh+Jj8IBmeMS7NkswPsVCC8frPLwJBDfNbR08B5cIorCgncQYdmTQ5N7YLQ4L7BwfhqICOF+qIT1UekM/8B4to2Ba+pKm/k=
+	t=1736679277; cv=none; b=rw02grCfbWqhQuzf/hESWjX8gVLeS2KCDKPYuO6Sv3nqgSwhq438XXRpTQejDHsbtrQqMuK1bpwYgC0a/LJYunxyyzmgoQgdtKNN/iMPFxGUE2A8LG2zcGBgrRkpG1t+vtGh1dnISKLgp3vgo3fLYkJWBRIwsD3zG5IvR7cLhD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736678063; c=relaxed/simple;
-	bh=3FHViZNhsnIGyl1B07yO21MkDv2x1odcdNhOic7TRxU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=or3HnZXybYokZ4nIhh9U6pIq4yO3+V51/n8g+V6pkvbn7YUQezPyVJpY7EtHgsNj0TB60dutaBKydILAOGoP834Y8a6NJe4zLiLqrg5VG0THS6e9FyqHV5+WKM5P+Lmclne3DIkgz3P9+25yEDF2+8VD1Y7xX0QcIXyuMEcoVi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=iWPBCl59; arc=none smtp.client-ip=17.58.6.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="iWPBCl59"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
-	s=1a1hai; t=1736678061;
-	bh=8jMXg0idzjhO9yKUsQVdQUgEnwemCWgYliWqvHMBjlc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:
-	 x-icloud-hme;
-	b=iWPBCl59XMzTpNRbCNQ3Br6g2eU5eIt2Ne7+2ZWSJ+VIwLWocW0nxIE98HizKyfwN
-	 Pg0GHPsFlGGUiQFXcDfj6VIGGNkT8esQ1SDKpr2Xuz9EPTKc3NYYSGPeoUmjGijw2O
-	 /duPK1lWMtsYqxI6YYk+Ut/HrVuQzk589KO1oGyBbW7r9KHJ6yhcPaeb8jY05RNCvx
-	 E4IYrJ9r0ZQZ4JzChRvyzk9kOAd+G/DaOCFDmvNAvne0gNEBh4NF6Gubl4zrO95HQ6
-	 B5JAbGfbjP+s6Y9dY0hEIsg4IgKx96QBU/AXoIDm7rpwvt35qz2Nko7CWGJzK1CJnx
-	 Dfk4ItnZQQDVw==
-Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
-	by pv50p00im-ztdg10012101.me.com (Postfix) with ESMTPSA id 130417402EF;
-	Sun, 12 Jan 2025 10:34:14 +0000 (UTC)
-From: Zijun Hu <zijun_hu@icloud.com>
-Date: Sun, 12 Jan 2025 18:33:52 +0800
-Subject: [PATCH] usb: phy: Remove API devm_usb_put_phy()
+	s=arc-20240116; t=1736679277; c=relaxed/simple;
+	bh=tsu/pUIVQMSANOGKXx/ye25i/RfVf9ppAdxgP3tlJJ0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hl9eCyouxvBp3rUE/4RG2gnSWtHyix9AfxiNRsPq4yD+srMXIHpoTsYLIGDEzXltcc1gEWkMS+4FTa/Fj6ez4rf1JvTJZpbxS4FoWc9cAbrYYYAzyDX35ghwS32aKQkPoNc7fTpYTDQhuTHnKzvXspe/kEWqbWQVs4pX93A3KQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-85ba92b3acfso1580772241.1;
+        Sun, 12 Jan 2025 02:54:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736679274; x=1737284074;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vRgOV65ZBzyKNAloWHfMUJcB+IW/ajMq0Yt82HQb7B0=;
+        b=Y1mPi0vP8O3rAMNs6trcVB/USMoiHY8883EYOVFZg5xvIJ+VQeTy45ORdUnRTP0psX
+         4ic3AI+qm279C5EjVWWskRCv34Ij9ib8Yn3MD19axclQ5VjwZtJ1346imAQfpb8htOZp
+         Smi2Gi40gf6Gbyn37QNjbieE89fNZz4lXymv/qN9tXlcv7xNXMIqcvhEc5KV7wG9B/qL
+         Q1NI+EsXWnXb7xixP0tBil5Pu6fqgn1jWElGU6LwFbTTTxX3owJ9INrJPy7Wl5LV/5wf
+         zEt2XhXYjY5dowH2eK6qd8qvFGdf49TQLnznxViKz92QPpptP2DbigIpVcVl9OglCtFo
+         ZGFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUDi/gRKMN7hrjNb8UH7lDqQGu8DEgRNKOqWyfTr/RiW+Gxu83OwQnCc8Ss16Lv94j8As4VQpiMyHuTjzRO@vger.kernel.org, AJvYcCW+q6odZmVm/cb7YAyf65VA+0DcqMJXbL7xwMc5qCSVQYsXlU2HQI9/8s1FZuPtDZamPfNmKmv/6D0=@vger.kernel.org, AJvYcCX51xBVgWcZUrTOuvVFtd3JNzZ1+jDE6DlTbcfvC2UFP3rthsNaWx8aSY8OIy24nqoERAPhKf9c2pmz@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3gcOu5lsZNZskbm2Nl3GL7uE5C+lIVdnSdUn73vDwlZI8Ugpk
+	IeH93WU7ZQfzRXIfjzjY084gO/an/ONt573+7s2msAdk+c8xFB090z/ELiL3
+X-Gm-Gg: ASbGnctvgaklkRdPgnXmc0ETlJWRh1QdZ0UiO3K1rXb+CMClkdKbrZew/lPFu43mHfI
+	GwmLd4iXgRNuYD42+AcjSjeNIIbSElAO/3h9T2TiVoGKDnNiLS+laTqzTjU/U2vajbokqa96Kct
+	iLIqPvi+j5/5k7sGDJElMtAK1cKcEx+iDIkQQbPChgq1Zi24jkqDLyXfTxDIIsac/TuDhErETln
+	Sp36M5xmfd8xdsrO1YMtyqNVoDTVqtrdA5cpm2H6+2wP/Zyq3RXTsx91rptAnzclCEVeKcUV0px
+	dHcJPlIEfw1l10GfBNJcicI=
+X-Google-Smtp-Source: AGHT+IE/PCWsD0QjFga2NeWyXkubnzhjEhUFCTZDGGxV7by+nqx19h5myQzusmntGjaaXFib4bRtJg==
+X-Received: by 2002:a05:6102:38c8:b0:4b2:5ca3:f82a with SMTP id ada2fe7eead31-4b3d0dd08b6mr15826988137.7.1736679273719;
+        Sun, 12 Jan 2025 02:54:33 -0800 (PST)
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com. [209.85.221.175])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b608f86a63sm3741758137.16.2025.01.12.02.54.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Jan 2025 02:54:33 -0800 (PST)
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5189105c5f5so2112714e0c.0;
+        Sun, 12 Jan 2025 02:54:33 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW7LCXL/k3fAi782k0+X+oZrVTF6B4T27JjkbSuMGZyYjoiRKY4DOwffHIK6M4zIKy6VLcGqd36mB2x2d+h@vger.kernel.org, AJvYcCWLWa6hi+2dBonwV2peT+BY0fbQ8wZHhfoBU3KK22NeBBMnCP4YoCdaOOi2i9dk4sSZORbteCA1Bhc=@vger.kernel.org, AJvYcCWxZUz19WAz6+N/r45HmD57uh81NG3PvMviGacp6uV8C83CiScMzqLNID5HTTf+FYvJpIMnnZ9okoeq@vger.kernel.org
+X-Received: by 2002:a05:6102:38c8:b0:4b2:5ca3:f82a with SMTP id
+ ada2fe7eead31-4b3d0dd08b6mr15826979137.7.1736679272990; Sun, 12 Jan 2025
+ 02:54:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250112-remove_api-v1-1-49cc8f792ac9@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIAI+ag2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDQ0Mj3aLU3Pyy1PjEgkxdiyRTw8TENDNLU9MkJaCGgqLUtMwKsGHRsbW
- 1AEv/tfFcAAAA
-X-Change-ID: 20250112-remove_api-8b51aaf6955b
-To: Jonathan Corbet <corbet@lwn.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Zijun Hu <zijun_hu@icloud.com>, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
- Zijun Hu <quic_zijuhu@quicinc.com>
-X-Mailer: b4 0.14.2
-X-Proofpoint-ORIG-GUID: yabnjCFcLoJiaOwQ4gLPzDE9uhHMGQk0
-X-Proofpoint-GUID: yabnjCFcLoJiaOwQ4gLPzDE9uhHMGQk0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-12_04,2025-01-10_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=828 spamscore=0
- clxscore=1011 adultscore=0 malwarescore=0 bulkscore=0 mlxscore=0
- suspectscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2308100000 definitions=main-2501120094
-X-Apple-Remote-Links: v=1;h=KCk=;charset=UTF-8
+References: <tencent_6CF6E720909156A227D23AE8CFE4F9BA5D05@qq.com>
+ <tencent_F8CFC8ED723F6E8103B4AF3D98D63D7F1F08@qq.com> <20250110080331.04645768@gandalf.local.home>
+ <52541f79-ba1c-49c9-a576-45c3472d1c79@intel.com> <20250111120935.769ab9a3@gandalf.local.home>
+In-Reply-To: <20250111120935.769ab9a3@gandalf.local.home>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Sun, 12 Jan 2025 11:54:21 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU095ySTFJEs7bvX8kN2kBcnnUkec3hbUxUbJBGf8B=pA@mail.gmail.com>
+X-Gm-Features: AbW1kvZA6Tb8TFzuviqQnF-fwAUNvyH5HZEKrzD7_oBtcZOXXyKMxvDdqMHE6SA
+Message-ID: <CAMuHMdU095ySTFJEs7bvX8kN2kBcnnUkec3hbUxUbJBGf8B=pA@mail.gmail.com>
+Subject: Re: [PATCH] Add short author date to Fixes tag
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Jacob Keller <jacob.e.keller@intel.com>, Yeking@red54.com, kuba@kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, "Theodore Ts'o" <tytso@mit.edu>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andy Whitcroft <apw@canonical.com>, 
+	Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, tech-board-discuss@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Zijun Hu <quic_zijuhu@quicinc.com>
+Hi Steven,
 
-Static devm_usb_phy_match() is only called by API devm_usb_put_phy(), and
-the API has no caller now.
+On Sat, Jan 11, 2025 at 6:08=E2=80=AFPM Steven Rostedt <rostedt@goodmis.org=
+> wrote:
+> On Fri, 10 Jan 2025 16:21:35 -0800
+> Jacob Keller <jacob.e.keller@intel.com> wrote:
+>
+> > I personally find the date helpful as it can help place a commit withou=
+t
+> > needing to take the extra time to do a lookup.
+>
+> I've never found dates to be meaningful. I'm always more concerned about
+> when a commit was added to mainline. Thus the version where the commit wa=
+s
+> added is very important for me. This is why I keep a bare clone of Linus'=
+s
+> tree and commonly do:
+>
+>  $ git describe --contains fd3040b9394c
+> v5.19-rc1~159^2~154^2
+>  $ git describe --contains a76053707dbf
+> v5.15-rc1~157^2~376^2~4
+>
+> I can easily see that a76053707dbf was added in 5.15 and fd3040b9394c was
+> added in 5.19. The amount of work needed to add dates to Fixes tags would
+> greatly exceed the amount of added work someone would need to do to do th=
+e
+> above operations if they wanted to know the order of commits.
 
-Remove the API and the static function.
+FTR, while I do not support adding dates to Fixes-tags, I would just
+need to make a small modification to my fixes alias:
 
-Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
----
- Documentation/driver-api/driver-model/devres.rst |  1 -
- drivers/usb/phy/phy.c                            | 26 ------------------------
- include/linux/usb/phy.h                          |  5 -----
- 3 files changed, 32 deletions(-)
+$ git help fixes
+'fixes' is aliased to 'show --format=3D'Fixes: %h ("%s")' -s'
 
-diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-index d594d0ea0e9dfaf30f9ef805b0a0272763a4601e..d75728eb05f85eca4e0fbf7961bfa8181106a778 100644
---- a/Documentation/driver-api/driver-model/devres.rst
-+++ b/Documentation/driver-api/driver-model/devres.rst
-@@ -404,7 +404,6 @@ PHY
-   devm_usb_get_phy()
-   devm_usb_get_phy_by_node()
-   devm_usb_get_phy_by_phandle()
--  devm_usb_put_phy()
- 
- PINCTRL
-   devm_pinctrl_get()
-diff --git a/drivers/usb/phy/phy.c b/drivers/usb/phy/phy.c
-index 1ce134505cee86102eb2d93ca1d09a52b684d3bb..e1435bc596622ce40f64355573f82f57bc8282bf 100644
---- a/drivers/usb/phy/phy.c
-+++ b/drivers/usb/phy/phy.c
-@@ -346,13 +346,6 @@ static void devm_usb_phy_release2(struct device *dev, void *_res)
- 	usb_put_phy(res->phy);
- }
- 
--static int devm_usb_phy_match(struct device *dev, void *res, void *match_data)
--{
--	struct usb_phy **phy = res;
--
--	return *phy == match_data;
--}
--
- static void usb_charger_init(struct usb_phy *usb_phy)
- {
- 	usb_phy->chg_type = UNKNOWN_TYPE;
-@@ -614,25 +607,6 @@ struct usb_phy *devm_usb_get_phy_by_phandle(struct device *dev,
- }
- EXPORT_SYMBOL_GPL(devm_usb_get_phy_by_phandle);
- 
--/**
-- * devm_usb_put_phy - release the USB PHY
-- * @dev: device that wants to release this phy
-- * @phy: the phy returned by devm_usb_get_phy()
-- *
-- * destroys the devres associated with this phy and invokes usb_put_phy
-- * to release the phy.
-- *
-- * For use by USB host and peripheral drivers.
-- */
--void devm_usb_put_phy(struct device *dev, struct usb_phy *phy)
--{
--	int r;
--
--	r = devres_release(dev, devm_usb_phy_release, devm_usb_phy_match, phy);
--	dev_WARN_ONCE(dev, r, "couldn't find PHY resource\n");
--}
--EXPORT_SYMBOL_GPL(devm_usb_put_phy);
--
- /**
-  * usb_put_phy - release the USB PHY
-  * @x: the phy returned by usb_get_phy()
-diff --git a/include/linux/usb/phy.h b/include/linux/usb/phy.h
-index e4de6bc1f69b6287cb49882c3235b824bb474d13..0fa9885a1038bf747fe462982b4097a3fb1a8ec5 100644
---- a/include/linux/usb/phy.h
-+++ b/include/linux/usb/phy.h
-@@ -223,7 +223,6 @@ extern struct usb_phy *devm_usb_get_phy_by_phandle(struct device *dev,
- extern struct usb_phy *devm_usb_get_phy_by_node(struct device *dev,
- 	struct device_node *node, struct notifier_block *nb);
- extern void usb_put_phy(struct usb_phy *);
--extern void devm_usb_put_phy(struct device *dev, struct usb_phy *x);
- extern void usb_phy_set_event(struct usb_phy *x, unsigned long event);
- extern void usb_phy_set_charger_current(struct usb_phy *usb_phy,
- 					unsigned int mA);
-@@ -259,10 +258,6 @@ static inline void usb_put_phy(struct usb_phy *x)
- {
- }
- 
--static inline void devm_usb_put_phy(struct device *dev, struct usb_phy *x)
--{
--}
--
- static inline void usb_phy_set_event(struct usb_phy *x, unsigned long event)
- {
- }
+Gr{oetje,eeting}s,
 
----
-base-commit: 594c82329eef335ad90f5276ae0d2dff4d6d2668
-change-id: 20250112-remove_api-8b51aaf6955b
+                        Geert
 
-Best regards,
--- 
-Zijun Hu <quic_zijuhu@quicinc.com>
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
