@@ -1,200 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E2D1714B7;
-	Sun, 12 Jan 2025 15:48:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7661BAEDC;
+	Sun, 12 Jan 2025 15:51:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736696926; cv=none; b=t+n8HdphNfyEHmmAhj+bsFMQnCv38SEo5VgcWQy+vd6DrW+n6AE7Nzr6z2X7+RmVN/nHBbHStJskStTtwx456JF1TUwW2F9udN449YuJc1qtZdoSCp3WGApH5Yb06MAjTnusyanF+yC426+vlysrp2ObTKe4Pgt67pT9WNeYGMU=
+	t=1736697073; cv=none; b=LC+wA8DYorVZBgaf0AriLsArxR4BMaVeaUubHm6v4lxJdWMe6bdk4R8MxdHG2nF2paH0TaLAP8g9QvcR7RlAbpvWHOPap2eF4CkvnuPAR6m4WMcjlUIDcooYStz2IAjYjPCSsx3V3DALBr2p7JNzkkNbDZFBnmJhJ2WOPkOpyJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736696926; c=relaxed/simple;
-	bh=TRmLNF/zsWGWfXzX0ZwU7gbwlpaHkbEbkAWudDeVirM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IUPHq2LfmS6oSfEBz9xiNPs1vNLmrsyEoyy4vXuztm2Z1OEHRTR3UY6O+qOkcr76BrK2Z6D9wc20tV8zNBRMe7MooOQEv2wJlDWSA0L6/IGa5oAaMRlxa1x+NY7b7hx2tQbPNonA6ErU5/fGSes+S3kbpZsQMJdIHYmQJI7r7fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lKbi+8N+; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lKbi+8N+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 827E8C4CEDF;
-	Sun, 12 Jan 2025 15:48:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736696926;
-	bh=TRmLNF/zsWGWfXzX0ZwU7gbwlpaHkbEbkAWudDeVirM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=lKbi+8N+vtfCY/Qg32UIZVlqLbBGcreQMWlkyPY4x2T3Zq69FIl42vBArFcnLy7Y0
-	 bhLr0WcVeWd1GPeWwLj0mqI5Mps06o4krBJavOmGcITQziKTe3TTuATFF3upWUq1M1
-	 05Uul37/Z3ogaYWbCYGZC5spSwTxsGoNr5Aa78OxXLHd0xAjfKsxYDOcIiwB0RrKE9
-	 DWE9gh/PqPTHeRyDP5dh2Wwc/CkD0TnQ8OfeXvra6OK4IMyRik1VvBFHqW7akBL+M0
-	 E4M/e2RXvuyzP78F4lifx9LOLRHwTsdXALZ3kU1n6UZAu8sA2b/PDq+xSOcqlW8mpF
-	 SeoXaQ3Qs4vlA==
-Date: Sun, 12 Jan 2025 15:48:36 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Robert Budai <robert.budai@analog.com>
-Cc: Nuno Sa <nuno.sa@analog.com>, Ramona Gradinariu
- <ramona.gradinariu@analog.com>, Antoniu Miclaus
- <antoniu.miclaus@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Alex Lanzano
- <lanzano.alex@gmail.com>, <linux-iio@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v4 4/6] dt-bindings: iio: Add adis16550 bindings
-Message-ID: <20250112154836.47feeea8@jic23-huawei>
-In-Reply-To: <20250110074254.38966-5-robert.budai@analog.com>
-References: <20250110074254.38966-1-robert.budai@analog.com>
-	<20250110074254.38966-5-robert.budai@analog.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1736697073; c=relaxed/simple;
+	bh=CAjVSJwg2hQJBUdPPkdWwoqTmFKoP7sCht21kA+Dvtc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Tnr/3uKebm6rcL6QrfJRJz+ypnu9/bV0MlRg72PAC4PxZnJulxFjXwm9gthVabsFludJ6IbDXvNLgoOu0c8C4GIMfEn8dAYNkzPouRf4Gp68LV+6ZvDd7hcOAdm6ysAGlW/cA4yNWC4y3AUievhkyYGSODW/hQ7gyMObOlda3mA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-aa69107179cso676267766b.0;
+        Sun, 12 Jan 2025 07:51:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736697070; x=1737301870;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ojo6rpVsQOShQmgPfJGcLHfKrOA2VqG0QBnNPGXTc9w=;
+        b=cb+2TYyMkC/iiETCjlKULPCjfiVvqnJ5pzKmCnisVUSvLEaDI0LYC5j+Vgo5WXc4d8
+         XAoapUtO07bF/JpeWi6r7JXaOr9iDp23kx7PYkiQhv4WtCMoqoAXtIww2GUtA1jZwn11
+         EyDVH0EpJ5lSOTAe+mf2N2E4OvRFZuyBL8s/+VOj/ywbi676yXh2+NMnNtjeapDEwm+a
+         3DJ99rSF/UJO4auyHh5Z/BbHQZWvaUzjWHG3Y2BASwu3/FBdZsuD1KJyMCEnKvXbUGj1
+         ayeieCZzcKM+MyeAsCm7OtQt0ie0cSyfJDUUJLlIaNhr6l+0W7VypvB+ZnuHZTGF0AXc
+         Y7uQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUUwqbPut+N5STw8NAnQDJHnwfeKNNTlXchAwNGCRC1F3yPwIKm6Z/Nb9KARIG5jHzZ4Ei7yaPXxEfx@vger.kernel.org, AJvYcCUWXBHR8gtC0yK8fgUpZPIrSUHBHyk8ZEIsEB0Axgiuk2SP1ek1JSTIOemkgHYtRoR0d6en6UJqjyc=@vger.kernel.org, AJvYcCV3CxWDYJlZ9bKkc6/v1+xUwuYCT2SbrHdui4BVPqm4KubLOoRRVd12XDkFJWjXRiTbBaL618UgGWHTBxp+@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4y+VRk+ShaB1fsZU9kSRtXOqpndzmc407fAIdm9NQzro3OdEk
+	IscGe415wbk1LWDVckGt1JobVWmuLIIqX45qN6UTApM5RSGb96ogcON2OA5qWfw=
+X-Gm-Gg: ASbGnctdm+QUq05UUPUJgzbiEMHR3HH2l9X/PyXQ9bywiyXnjXe711Qgpkqxfl8E/QW
+	uOU3ou6ST+pn3sPvj3Ewnzb9xMvfCvGHuDraS3f/WP4g6uyZh6n74EPBnmVmSBhoCI0Yvjufnfl
+	C+a9p24FMbbbFwBd2Xe8Dh0GMzD9in5WtLT/bNy7LhBzGqPklBtToRB+StqkQSkFjC9VkXBjt5J
+	20lBZjU7oNMK9ZoqUPW8TnCsJ3NCVG9P7IZ3V/cdf8k+hW5zxG4LUkBHgPEcNVAqIs2RA6oU1U5
+	v0uRs1XwFMY=
+X-Google-Smtp-Source: AGHT+IEGnUZND4N3UywLpGJw/USQH1GlQV6Yp/yTNat/BS8S9sif1gHW5w8UZ+3L2a9285ej9YjkIg==
+X-Received: by 2002:a17:907:6d0e:b0:aaf:5c9:19f9 with SMTP id a640c23a62f3a-ab2ab6f3455mr1609669866b.27.1736697069487;
+        Sun, 12 Jan 2025 07:51:09 -0800 (PST)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com. [209.85.208.53])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c9563ae8sm387243066b.129.2025.01.12.07.51.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Jan 2025 07:51:09 -0800 (PST)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5d3cf094768so6239750a12.0;
+        Sun, 12 Jan 2025 07:51:09 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUxhkST6HKD2Me9eUPrJBzzFCDRyDpxMg3Y324gezUC+eMrb4189OO+AuABxXkmNrewuYjtxaqpCpaJAbvE@vger.kernel.org, AJvYcCWblMoKjJQcyPGyMNYpXIIktozwKiojY7v1etW5JZNc6JNet+xyj/+BlN/SDjO8Ep0b52cylkYuUSU=@vger.kernel.org, AJvYcCXh7ZRh9jwJ+RT1Y4QGCGgJjecoFPislZyvRdhVh2H2HY1qJdtesL2HA7zkv4gXd/8W0iPD7E72U5RG@vger.kernel.org
+X-Received: by 2002:a17:907:70c:b0:aa6:7d82:5411 with SMTP id
+ a640c23a62f3a-ab2abc6ca52mr1659041866b.40.1736697069149; Sun, 12 Jan 2025
+ 07:51:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20250112152946.761150-1-ojeda@kernel.org> <20250112152946.761150-3-ojeda@kernel.org>
+In-Reply-To: <20250112152946.761150-3-ojeda@kernel.org>
+From: Neal Gompa <neal@gompa.dev>
+Date: Sun, 12 Jan 2025 10:50:32 -0500
+X-Gmail-Original-Message-ID: <CAEg-Je81VAYecajUjYVJKBJUT+YqKemWsWEoWFgOcF=vtfPRPw@mail.gmail.com>
+X-Gm-Features: AbW1kvbn33SbtjplUZmkNvnmbm5gMpbukWC4yMx1bRK1ShqczijYBGnS7iH4t3o
+Message-ID: <CAEg-Je81VAYecajUjYVJKBJUT+YqKemWsWEoWFgOcF=vtfPRPw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] docs: submitting-patches: clarify difference between
+ Acked-by and Reviewed-by
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
+	Sami Tolvanen <samitolvanen@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Luis Chamberlain <mcgrof@kernel.org>, tech-board@groups.linuxfoundation.org, 
+	Steven Rostedt <rostedt@goodmis.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Dan Williams <dan.j.williams@intel.com>, "Darrick J. Wong" <djwong@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 10 Jan 2025 09:42:52 +0200
-Robert Budai <robert.budai@analog.com> wrote:
-
-> Document the ADIS16550 device devicetree bindings.
-> 
-> Co-developed-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
-> Signed-off-by: Robert Budai <robert.budai@analog.com>
+On Sun, Jan 12, 2025 at 10:30=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> wr=
+ote:
+>
+> Newcomers to the kernel need to learn the different tags that are
+> used in commit messages and when to apply them. Acked-by is sometimes
+> misunderstood, since the documentation did not really clarify (up to
+> the previous commit) when it should be used, especially compared to
+> Reviewed-by.
+>
+> The previous commit already clarified who the usual providers of Acked-by
+> tags are, with examples. Thus provide a clarification paragraph for
+> the comparison with Reviewed-by, and give a couple examples reusing the
+> cases given above, in the previous commit.
+>
+> Acked-by: Shuah Khan <skhan@linuxfoundation.org>
+> Acked-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 > ---
-> 
-> 4:
-> - applied styling changes to the bindings file
-> - restricted sync-mode to intervals 1-2 
-> 
->  .../bindings/iio/imu/adi,adis16550.yaml       | 96 +++++++++++++++++++
->  MAINTAINERS                                   |  9 ++
->  2 files changed, 105 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml b/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
-> new file mode 100644
-> index 000000000000..e7ccf3883e55
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
-> @@ -0,0 +1,96 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/iio/imu/adi,adis16550.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>  Documentation/process/submitting-patches.rst | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation=
+/process/submitting-patches.rst
+> index c7a28af235f7..7b0ac7370cb1 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -480,6 +480,12 @@ mergers will sometimes manually convert an acker's "=
+yep, looks good to me"
+>  into an Acked-by: (but note that it is usually better to ask for an
+>  explicit ack).
+>
+> +Acked-by: is also less formal than Reviewed-by:.  For instance, maintain=
+ers may
+> +use it to signify that they are OK with a patch landing, but they may no=
+t have
+> +reviewed it as thoroughly as if a Reviewed-by: was provided.  Similarly,=
+ a key
+> +user may not have carried out a technical review of the patch, yet they =
+may be
+> +satisfied with the general approach, the feature or the user-facing inte=
+rface.
 > +
-> +title: Analog Devices ADIS16550 and similar IMUs
-> +
-> +maintainers:
-> +  - Nuno Sa <nuno.sa@analog.com>
-> +  - Ramona Gradinariu <ramona.gradinariu@analog.com>
-> +  - Antoniu Miclaus <antoniu.miclaus@analog.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - adi,adis16550
-> +      - adi,adis16550w
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  spi-cpha: true
-> +
-> +  spi-cpol: true
-> +
-> +  spi-max-frequency:
-> +    maximum: 15000000
-> +
-> +  vdd-supply: true
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    description:
-> +      RESET active low pin.
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description: If not provided, then the internal clock is used.
-> +
-> +  adi,sync-mode:
-> +    description:
-> +      Configures the device SYNC pin. The following modes are supported
-> +      0 - output_sync
-> +      1 - direct_sync
-> +      2 - scaled_sync
+>  Acked-by: does not necessarily indicate acknowledgement of the entire pa=
+tch.
+>  For example, if a patch affects multiple subsystems and has an Acked-by:=
+ from
+>  one subsystem maintainer then this usually indicates acknowledgement of =
+just
+> --
+> 2.48.0
+>
 
-A little more on these would be good.  They are 'weird' options
-that are not commonly seen so help the reader out.
+This doesn't make sense as a distinction. What defines "thoroughly"?
+To be honest, I think you should go the other way and become okay with
+people sending Reviewed-by tags when people have looked over a patch
+and consider it good to land.
 
-For scaled_sync don't we need information on the scale for it to be useful?
-If we had that then a value of 1 would mean direct sync and wouldn't need
-another control. 
-
-I'm not fully understanding the usecases for this.
-
-If we have a say a pulse per second input, the control of the scale should
-be userspace anyway.  So maybe this maps to the input clock that we can elect to
-use and control the effective frequency of by using scaled sync?
-
-I'm not sure what pulse sync is. Grepping the datasheet didn't give me
-anything that seemed related.   The sync pin is input only so I'm also
-not sure on output sync.
-
-> +      3 - pulse_sync
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 1
-> +    maximum: 2
-
-You describe 0 to 3 but only allow 1 or 2?
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - spi-cpha
-> +  - spi-cpol
-> +  - spi-max-frequency
-> +  - vdd-supply
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        adi,sync-mode:
-> +          const: 2
-> +
-> +    then:
-> +      dependencies:
-> +        adi,sync-mode: [ clocks ]
-> +
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    spi {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        imu@0 {
-> +            compatible = "adi,adis16550";
-> +            reg = <0>;
-> +            spi-max-frequency = <15000000>;
-> +            spi-cpol;
-> +            spi-cpha;
-> +            vdd-supply = <&vdd>;
-> +            interrupts = <4 IRQ_TYPE_EDGE_FALLING>;
-> +            interrupt-parent = <&gpio>;
-> +        };
-> +    };
-> +...
+To me, Acked-by mostly makes sense as a tag for people who *won't*
+review the code, not for those who *will*. Blending Acked-by and
+Reviewed-by just creates confusion.
 
 
+--=20
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
