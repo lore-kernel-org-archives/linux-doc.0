@@ -1,136 +1,200 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB091714B7;
-	Sun, 12 Jan 2025 15:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E2D1714B7;
+	Sun, 12 Jan 2025 15:48:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736696864; cv=none; b=KcErR6GNg7bwXf5KifikNcFGPNeK3R22OS9Vtz17Ef12kYnRgxGvLYrecD5NHXSRLkbs8KOHGGG3NTKHnACtlv6NiBj0C/a4d2tFd6he7BJXQUxmMs9KrBCK62AmDlMUUqBkwHZ5qK73hNC54pW60eLRDn+VKSbDkEX3RxmHYy0=
+	t=1736696926; cv=none; b=t+n8HdphNfyEHmmAhj+bsFMQnCv38SEo5VgcWQy+vd6DrW+n6AE7Nzr6z2X7+RmVN/nHBbHStJskStTtwx456JF1TUwW2F9udN449YuJc1qtZdoSCp3WGApH5Yb06MAjTnusyanF+yC426+vlysrp2ObTKe4Pgt67pT9WNeYGMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736696864; c=relaxed/simple;
-	bh=LXeZMhXpbNWXXCw5j0HTKXlK5NN4ENbRgYHtNKHteRI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ah8zaWC4aQisCOHin12fEbwst/X7cmiqAaOrMwfl1bVJjxV5xEma6M1K4mlOvmUglAHhd3Mh12zVKcr6LupxlsWTGvLV/mSLqZftQc3gVOrXs6Cc4t9EhlkFRjfSICN5mJkqrcGR2/zynuil0m2W1/bOArsMROFMRsTysGdxras=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5d122cf8dd1so5892629a12.2;
-        Sun, 12 Jan 2025 07:47:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736696860; x=1737301660;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HjyLEJ4LmDRPMeg7pmyVRbONKVM6G+SXKClWu3uonXY=;
-        b=nN94T6Ax9eYrYD7fvF/Clqo4uC4O/X2L11k13D5eMBDeW1+dP4/ibGJ+LiQFpJpKgF
-         xgl1FH/ENNar3E8GbIfcFFKu02y70A73rF2qAapkqWGDfGyMRPD8UEYVkmtkMoMXUbDF
-         ivpuwGrFryABvUL61UNZp4Qwj39374k4wj1fSCOKYzkS5xMFsu5wAqvdyvOIQJ/754Ly
-         9M8G3ufxZCYSBWjLoYlUytVQ2irhmP6dCa2wNCtGLWncAity6KkWFslQIYPsW54P5SDr
-         AK/3FtoqeTcEmcjUPMjch+IGbs74CBRF1k3Zs8NPMjHkoEyjNenwISCcZjR/vGOy/7ag
-         Hl1w==
-X-Forwarded-Encrypted: i=1; AJvYcCVyx/0OeAhjLAIupVSTh9epvX6Taue3olU4DZKjkn0sHjHQMKdBH2JknLFdjJW1xaGB0Lbwumw8CCn6+y8K@vger.kernel.org, AJvYcCWHCFx5OL8C9O0rCnH4NiOzpLJ0TamSllYpqZvZ8Chlc+6Ia8YU7k6ikn0JqprjJWZk2BYSjETGhuB0@vger.kernel.org, AJvYcCX9Qxm1w7ZMP9ZTeNgOIwMwe/2xnQ34bN8gs2ImziLW1C3JiX4UD6Pyb/EGRUdC8Yl+Xvivc+x9eg0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxl/19g0dyNe+Dc/WXS7PuJl3zrTMKqbLWz4Pboguki+hFDYmcn
-	rRlgKpM7KOAMxkKw9/tR/zIQ5zsl2ILG9F0Ib2xxcHjZP+aWIOXWBSExcR6/wRc=
-X-Gm-Gg: ASbGncvyFUUKNZ4g/7jA1BDqRtEI8hlW6C6Erw3VY9LCGHwi2d5/IGvPfo7cCydQSFg
-	ddiF5zlEHU4WDCdcSiXFt2ciYvNrg2fSGo8ZXc7ej6yjDuAzMJYoJOGJULm+CdsbdaTl5d06B4H
-	2aEa85rrvzhDtM0t3H82/W193qmt10hNAVG3AkPka2YT8wTf/N8zOliBcPD4Yf6i4qXh3MKUbhR
-	BJzcRRRNYFl/6/ka/1D7bW93ugxNNMsg6BRaOo+cqWUKJLg0Lh/KuMAFyRo95QjRlDL2SPgOx2o
-	yOaDXcJXV5o=
-X-Google-Smtp-Source: AGHT+IFen4g+f+G4u4vkoTsPoMLdr7qPvfJGaAxYZaJ14Erb/X/r43xbc2CpvZWgWF4yR/+VzdGJjQ==
-X-Received: by 2002:a17:907:6022:b0:ab2:b6e2:fcc8 with SMTP id a640c23a62f3a-ab2b6e2ff0dmr1204588166b.10.1736696860232;
-        Sun, 12 Jan 2025 07:47:40 -0800 (PST)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com. [209.85.218.53])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c90dc59bsm383978166b.76.2025.01.12.07.47.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 Jan 2025 07:47:39 -0800 (PST)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-aae81f4fdc4so697611066b.0;
-        Sun, 12 Jan 2025 07:47:39 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV+DeP9fJi5SsekSIGC/HScIZXnY0i/TYuJ6KlS8MqM/MdYFS4SrQe9HyVYEdfZKPaaOYUd586t3U0=@vger.kernel.org, AJvYcCVgQQV4kh95uF15M99xyHGQndP2lipeict94iPC1QB0y19+3set1b9Ww6WlzgmIOJRuY6HL0YE1/nAD@vger.kernel.org, AJvYcCWn8Zw57R9qGTvLPmCdnLApRQPpc9sAiKXZ79BLdLRF7tO2YTtzJyVCc49Dw+oAn69bDF1aU+wHVC0E0YwT@vger.kernel.org
-X-Received: by 2002:a17:906:f58a:b0:aa6:b473:8500 with SMTP id
- a640c23a62f3a-ab2abcaafb9mr1563993366b.42.1736696859012; Sun, 12 Jan 2025
- 07:47:39 -0800 (PST)
+	s=arc-20240116; t=1736696926; c=relaxed/simple;
+	bh=TRmLNF/zsWGWfXzX0ZwU7gbwlpaHkbEbkAWudDeVirM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IUPHq2LfmS6oSfEBz9xiNPs1vNLmrsyEoyy4vXuztm2Z1OEHRTR3UY6O+qOkcr76BrK2Z6D9wc20tV8zNBRMe7MooOQEv2wJlDWSA0L6/IGa5oAaMRlxa1x+NY7b7hx2tQbPNonA6ErU5/fGSes+S3kbpZsQMJdIHYmQJI7r7fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lKbi+8N+; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lKbi+8N+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 827E8C4CEDF;
+	Sun, 12 Jan 2025 15:48:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736696926;
+	bh=TRmLNF/zsWGWfXzX0ZwU7gbwlpaHkbEbkAWudDeVirM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lKbi+8N+vtfCY/Qg32UIZVlqLbBGcreQMWlkyPY4x2T3Zq69FIl42vBArFcnLy7Y0
+	 bhLr0WcVeWd1GPeWwLj0mqI5Mps06o4krBJavOmGcITQziKTe3TTuATFF3upWUq1M1
+	 05Uul37/Z3ogaYWbCYGZC5spSwTxsGoNr5Aa78OxXLHd0xAjfKsxYDOcIiwB0RrKE9
+	 DWE9gh/PqPTHeRyDP5dh2Wwc/CkD0TnQ8OfeXvra6OK4IMyRik1VvBFHqW7akBL+M0
+	 E4M/e2RXvuyzP78F4lifx9LOLRHwTsdXALZ3kU1n6UZAu8sA2b/PDq+xSOcqlW8mpF
+	 SeoXaQ3Qs4vlA==
+Date: Sun, 12 Jan 2025 15:48:36 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Robert Budai <robert.budai@analog.com>
+Cc: Nuno Sa <nuno.sa@analog.com>, Ramona Gradinariu
+ <ramona.gradinariu@analog.com>, Antoniu Miclaus
+ <antoniu.miclaus@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Alex Lanzano
+ <lanzano.alex@gmail.com>, <linux-iio@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v4 4/6] dt-bindings: iio: Add adis16550 bindings
+Message-ID: <20250112154836.47feeea8@jic23-huawei>
+In-Reply-To: <20250110074254.38966-5-robert.budai@analog.com>
+References: <20250110074254.38966-1-robert.budai@analog.com>
+	<20250110074254.38966-5-robert.budai@analog.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250112152946.761150-1-ojeda@kernel.org> <20250112152946.761150-4-ojeda@kernel.org>
-In-Reply-To: <20250112152946.761150-4-ojeda@kernel.org>
-From: Neal Gompa <neal@gompa.dev>
-Date: Sun, 12 Jan 2025 10:47:02 -0500
-X-Gmail-Original-Message-ID: <CAEg-Je-Knta8BtYSbZgX8cZ9Gd-2cpDAUE83dCJZbTbqmSfcKA@mail.gmail.com>
-X-Gm-Features: AbW1kvY9sYe2UFYvoFMKHsHDuhdS2s-k0EW0KFNp10f0YtNTJge0UUivViciomU
-Message-ID: <CAEg-Je-Knta8BtYSbZgX8cZ9Gd-2cpDAUE83dCJZbTbqmSfcKA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] docs: submitting-patches: clarify that signers may
- use their discretion on tags
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
-	Sami Tolvanen <samitolvanen@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Luis Chamberlain <mcgrof@kernel.org>, tech-board@groups.linuxfoundation.org, 
-	Steven Rostedt <rostedt@goodmis.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Dan Williams <dan.j.williams@intel.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jan 12, 2025 at 10:30=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> wr=
-ote:
->
-> Tags are really appreciated by maintainers in general, since it means
-> someone is willing to put their name on a commit, be it as a reviewer,
-> tester, etc.
->
-> However, signers (i.e. submitters carrying tags from previous versions
-> and maintainers applying patches) may need to take or drop tags, on a
-> case-by-case basis, for different reasons.
->
-> Yet this is not explicitly spelled out in the documentation, thus there
-> may be instances [1] where contributors may feel unwelcome.
->
-> Thus, to clarify, state this clearly.
->
-> Link: https://lore.kernel.org/rust-for-linux/CAEg-Je-h4NitWb2ErFGCOqt0KQf=
-XuyKWLhpnNHCdRzZdxi018Q@mail.gmail.com/ [1]
-> Suggested-by: Dan Williams <dan.j.williams@intel.com>
-> Acked-by: Shuah Khan <skhan@linuxfoundation.org>
-> Acked-by: Dan Williams <dan.j.williams@intel.com>
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+On Fri, 10 Jan 2025 09:42:52 +0200
+Robert Budai <robert.budai@analog.com> wrote:
+
+> Document the ADIS16550 device devicetree bindings.
+> 
+> Co-developed-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+> Signed-off-by: Robert Budai <robert.budai@analog.com>
 > ---
->  Documentation/process/submitting-patches.rst | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation=
-/process/submitting-patches.rst
-> index 7b0ac7370cb1..6754bc15f989 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -614,6 +614,10 @@ process nor the requirement to Cc: stable@vger.kerne=
-l.org on all stable
->  patch candidates. For more information, please read
->  Documentation/process/stable-kernel-rules.rst.
->
-> +Finally, while providing tags is welcome and typically very appreciated,=
- please
-> +note that signers (i.e. submitters and maintainers) may use their discre=
-tion in
-> +applying offered tags.
+> 
+> 4:
+> - applied styling changes to the bindings file
+> - restricted sync-mode to intervals 1-2 
+> 
+>  .../bindings/iio/imu/adi,adis16550.yaml       | 96 +++++++++++++++++++
+>  MAINTAINERS                                   |  9 ++
+>  2 files changed, 105 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml b/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
+> new file mode 100644
+> index 000000000000..e7ccf3883e55
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
+> @@ -0,0 +1,96 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/imu/adi,adis16550.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
->  .. _the_canonical_patch_format:
->
->  The canonical patch format
-> --
-> 2.48.0
->
+> +title: Analog Devices ADIS16550 and similar IMUs
+> +
+> +maintainers:
+> +  - Nuno Sa <nuno.sa@analog.com>
+> +  - Ramona Gradinariu <ramona.gradinariu@analog.com>
+> +  - Antoniu Miclaus <antoniu.miclaus@analog.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - adi,adis16550
+> +      - adi,adis16550w
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  spi-cpha: true
+> +
+> +  spi-cpol: true
+> +
+> +  spi-max-frequency:
+> +    maximum: 15000000
+> +
+> +  vdd-supply: true
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description:
+> +      RESET active low pin.
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +    description: If not provided, then the internal clock is used.
+> +
+> +  adi,sync-mode:
+> +    description:
+> +      Configures the device SYNC pin. The following modes are supported
+> +      0 - output_sync
+> +      1 - direct_sync
+> +      2 - scaled_sync
 
-A tag must not be dropped without the tag submitter's authorization.
-Otherwise it doesn't matter what you write here, the submitter *will*
-feel unwelcome.
+A little more on these would be good.  They are 'weird' options
+that are not commonly seen so help the reader out.
 
-It is rude and discouraging to do so without their acceptance of doing so.
+For scaled_sync don't we need information on the scale for it to be useful?
+If we had that then a value of 1 would mean direct sync and wouldn't need
+another control. 
+
+I'm not fully understanding the usecases for this.
+
+If we have a say a pulse per second input, the control of the scale should
+be userspace anyway.  So maybe this maps to the input clock that we can elect to
+use and control the effective frequency of by using scaled sync?
+
+I'm not sure what pulse sync is. Grepping the datasheet didn't give me
+anything that seemed related.   The sync pin is input only so I'm also
+not sure on output sync.
+
+> +      3 - pulse_sync
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 1
+> +    maximum: 2
+
+You describe 0 to 3 but only allow 1 or 2?
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - spi-cpha
+> +  - spi-cpol
+> +  - spi-max-frequency
+> +  - vdd-supply
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        adi,sync-mode:
+> +          const: 2
+> +
+> +    then:
+> +      dependencies:
+> +        adi,sync-mode: [ clocks ]
+> +
+> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    spi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        imu@0 {
+> +            compatible = "adi,adis16550";
+> +            reg = <0>;
+> +            spi-max-frequency = <15000000>;
+> +            spi-cpol;
+> +            spi-cpha;
+> +            vdd-supply = <&vdd>;
+> +            interrupts = <4 IRQ_TYPE_EDGE_FALLING>;
+> +            interrupt-parent = <&gpio>;
+> +        };
+> +    };
+> +...
 
 
---=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
