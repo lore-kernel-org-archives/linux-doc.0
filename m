@@ -1,289 +1,331 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EAE83A8D0;
-	Mon, 13 Jan 2025 16:35:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736786147; cv=fail; b=SE22U9cBmraFS5opPxk6lSNAUZycua8v2iK8Bx7Zp4Vk+txU7f9hSLqJxvpIZB4zk367DQ7e/fDe8JSDTNWMVkaAwr6t1zhGOZUAZIVFl+wEKP1bDhHA8zhN92EyrcksIaIBauP933c7P59TB8y4Nc4MqiQwd0rsBt6r8U7eVzk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736786147; c=relaxed/simple;
-	bh=NhWJNqDxxmWWg49YuqeaI4q+7A8rxESj1Av87G4ysAc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=AiN5O8dVDlQcLzrt25MGfFbB/zIYeGXOTWILIQTOfQcNIpDf+vMTJ7/hI1GzfAFlrEdZ2jx0DgCPct/FVmbT3i5ol25ewiUjppwtPEDAbKw1kUuF8+WfzncJmW4fcfdsWp16SqKqcqvx0F7qm0pc39BjOlUSTgXkbl4FZi9iH3A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=mWWyKge2; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=se7iWUJw; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8B024024E;
+	Mon, 13 Jan 2025 16:39:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736786361; cv=none; b=K+JS/RtsptA0J6XV53e4nlfUkBH9HUnn4pBJFStA8eKRIPCn3U35riVjdRgzgAmj58613jaOc3w34PBi9YAxoRd0cN/7k7393neY8/dDS5RrzOuYZL4l2zqRC2YmVEtnEJZxMFz0R3FC2I/EFs4IW/s4NxvMPTzekq8PKUh5O4k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736786361; c=relaxed/simple;
+	bh=7yznwIi42BWHftKG3KqqtvRJ/fpAO2hGQPkmVEWTBvA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OH+pLke1PUW4NrmSUSjHsuBPjEe7LET/jA476WnvQLWPDlSWZoZS+wEqT0XyEOiVM4M8uoh4Hz+82zto8Ul9SzCJWN3v4ywiWpBWtEtHDYX8Nu3sYuqD5qKDJ/DuoM3+SOM6nIFbZNd2zeMs50dFmakzXORnpaLMXdc6YWZeDdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KLlpfmd/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="mWWyKge2";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="se7iWUJw"
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50DGXv1I014210;
-	Mon, 13 Jan 2025 16:35:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2023-11-20; bh=WYote8DDBbMQ7FfgrV
-	11++ra+g/TYTV9QmRCS5yKshA=; b=mWWyKge2lEWAiOfO5Ub1Ct/MESMlumYoSn
-	GQCvwGPhxruNLxILf4BJQXRpK9iT2TW0af815PPkMAzywOJSwSvx12apdLPjPdI1
-	b4eBi7BpI7xlMbCF7uXjz7DqVRtvaVVvC/ZHZbbabTupcjPLMI7b4pXelYHh3CYN
-	YKnANxB1SBYo3/bofxQzwMI705Ju0s3FUkEN3bRX5PG/mBgNzceP7ku6zfB/2RmY
-	sJEV04u59xcP5MQTm9OCILX9CBv6BsRTISUf4itw3SzuGbQQ7qVpENTypD/ySf+R
-	ZH1cz4U1Brgrejvdm6QyQVitR06CdknlRpJyY62KHgK8nYnxOIlw==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 443gh8uvjp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 13 Jan 2025 16:35:13 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 50DGTwg8020265;
-	Mon, 13 Jan 2025 16:35:12 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2168.outbound.protection.outlook.com [104.47.57.168])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 443f3dfajm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 13 Jan 2025 16:35:12 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Xl3rYzV/zZSBOs9g7p+wd0mN0/+er1YhIKxrBLiDu2+1g4NFnCwu2DFRJJQ2jHpuNi3V88fDrHgqDQJHa/eq7mWxFIXnrDO6LsKjknmXfZAyYOYwC8UKdz8Jys4S2SkDlVjVFCPtEm8JSE66MfoKmMiUO+YVp8xMtFouzONRIi+yqLey8mXENSe0XHmKxLGzW5lEGiks+YXVMcfSmnj/uBrypGEIDGSHc7wvPtMvrnmZ2kEker/jDT1rOPJ23drhX1gZY7yDnybEkB7hQWuQ/6Mlm09HyNE6jD1VJBHVMFlxULrwAFnMAgG8rEGeLCz0XHXsAhjSWPihNLvFBgLAIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WYote8DDBbMQ7FfgrV11++ra+g/TYTV9QmRCS5yKshA=;
- b=XO1FJXIkb6P5o04M4bJP0wM8B7ONQ6nuaQXoUMMZeo/4wD9vcIgGjk7fPrBilV8vRrec3wJ4vhjkUFwhF30NRFYwVn6+7eMJqnvHQ3agtOpgG+AQVRzjo/mf7Hn/dpoWUW3//1Ol2e2VnOsoUjfMTvbTYYJ7t89DvzZflSyQerMs9T+GNYDXv1Wygmn7D0/xqf72gVK82MTSxKjXQdpbGVHbAd7ATcMULOjBCO+zSGlxxLM+/ltsMBXxjK4PycQ1tr0t7wMYo/1h81izqu9KoDALQVy4lf3up/+2hZS/+Eghb2iFK9o/asfcFRtTeVaxxLpgOfw9NcNxl5rXB08UQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WYote8DDBbMQ7FfgrV11++ra+g/TYTV9QmRCS5yKshA=;
- b=se7iWUJwsX0e+gDW8Nxd71wbUKhk/kVf+IzOJ7ISVe5EK6yXnX1JvKchZL3ojjtWnkdarW1na5xHRYpDy3kZfWiwTkVaIjmphlQht6eZKSvTz/R4SWnRUD76c2WzPuSWcuhxmlgis98pKKUYjpW5t/QKItn9iBV+GmH8sjeD8FU=
-Received: from PH0PR10MB5777.namprd10.prod.outlook.com (2603:10b6:510:128::16)
- by MW4PR10MB5812.namprd10.prod.outlook.com (2603:10b6:303:18e::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.17; Mon, 13 Jan
- 2025 16:35:09 +0000
-Received: from PH0PR10MB5777.namprd10.prod.outlook.com
- ([fe80::75a8:21cc:f343:f68c]) by PH0PR10MB5777.namprd10.prod.outlook.com
- ([fe80::75a8:21cc:f343:f68c%6]) with mapi id 15.20.8335.017; Mon, 13 Jan 2025
- 16:35:09 +0000
-Date: Mon, 13 Jan 2025 11:35:04 -0500
-From: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
-        peterz@infradead.org, willy@infradead.org,
-        david.laight.linux@gmail.com, mhocko@suse.com, vbabka@suse.cz,
-        hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
-        mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
-        oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
-        brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
-        hughd@google.com, lokeshgidra@google.com, minchan@google.com,
-        jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com,
-        pasha.tatashin@soleen.com, klarasmodin@gmail.com,
-        richard.weiyang@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        kernel-team@android.com
-Subject: Re: [PATCH v9 13/17] mm/debug: print vm_refcnt state when dumping
- the vma
-Message-ID: <frtb77uu5k6low4zub25h4eqkg5jm4rnul3ncrlniwjrgh7vbb@szwcka2qivp7>
-Mail-Followup-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Suren Baghdasaryan <surenb@google.com>, 
-	akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org, 
-	david.laight.linux@gmail.com, mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org, 
-	mjguzik@gmail.com, oliver.sang@intel.com, mgorman@techsingularity.net, 
-	david@redhat.com, peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net, 
-	paulmck@kernel.org, brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com, 
-	hughd@google.com, lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	kernel-team@android.com
-References: <20250111042604.3230628-1-surenb@google.com>
- <20250111042604.3230628-14-surenb@google.com>
- <60b60b02-5dbf-4bb0-8301-0e2f511bbc7f@lucifer.local>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <60b60b02-5dbf-4bb0-8301-0e2f511bbc7f@lucifer.local>
-User-Agent: NeoMutt/20240425
-X-ClientProxiedBy: YT4P288CA0019.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:b01:d4::21) To PH0PR10MB5777.namprd10.prod.outlook.com
- (2603:10b6:510:128::16)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KLlpfmd/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3939C4CED6;
+	Mon, 13 Jan 2025 16:39:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736786360;
+	bh=7yznwIi42BWHftKG3KqqtvRJ/fpAO2hGQPkmVEWTBvA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KLlpfmd/IoMZQf0B0YYjLx4o9rP8DTZKejG1O8vfSWPjyCS2XILDAckd5gCmh6rP9
+	 /T3Cvy+yTMVmmH/N/GjaylSnqiT89TAh3GxFJJHcBOU6LvkJ1h9xixjVinLXuHU4nt
+	 ECYSTKSgqiAwbGNNiCncyIrMBlpzr+1QMbZ5pAqEB1ClImKQff9LEJGRjIsbcjET4n
+	 +MFgQikxj6ac6i20rUdYKPRtDh8nUehKNFQt3wM6//DN8Ciu9YvhK4xLhJOX5xdZCx
+	 2IqstzSR51IgAV3sdE5yQvpQD2u3T19UHIhd9gDBToQ2stuE58sZE1PDTJqiixqlpi
+	 hMUJ03H6PRjHQ==
+Date: Mon, 13 Jan 2025 08:39:20 -0800
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Alistair Popple <apopple@nvidia.com>
+Cc: akpm@linux-foundation.org, dan.j.williams@intel.com, linux-mm@kvack.org,
+	alison.schofield@intel.com, lina@asahilina.net,
+	zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
+	vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
+	bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca,
+	catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au,
+	npiggin@gmail.com, dave.hansen@linux.intel.com, ira.weiny@intel.com,
+	willy@infradead.org, tytso@mit.edu, linmiaohe@huawei.com,
+	david@redhat.com, peterx@redhat.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, nvdimm@lists.linux.dev,
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
+	jhubbard@nvidia.com, hch@lst.de, david@fromorbit.com,
+	chenhuacai@kernel.org, kernel@xen0n.name, loongarch@lists.linux.dev
+Subject: Re: [PATCH v6 07/26] fs/dax: Ensure all pages are idle prior to
+ filesystem unmount
+Message-ID: <20250113163920.GE1306365@frogsfrogsfrogs>
+References: <cover.11189864684e31260d1408779fac9db80122047b.1736488799.git-series.apopple@nvidia.com>
+ <704662ae360abeb777ed00efc6f8f232a79ae4ff.1736488799.git-series.apopple@nvidia.com>
+ <20250110165019.GK6156@frogsfrogsfrogs>
+ <p5vmaqlzge3dkkpnwceewi4io5ngqaczfa7ysujwa45kkevnam@sqc5usu7vgde>
+ <20250113024940.GW1306365@frogsfrogsfrogs>
+ <o4zau42ynlekxemrzubcmfxhdk7v73ffhevdyle6w6dpqaeziq@5dvnxtrwj25b>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB5777:EE_|MW4PR10MB5812:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7fba4768-d5ce-479d-36d3-08dd33f03ec2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?iDY1agfmIZOSu1CUCXVVVak5wxRCo6lduk/1I4fJLYBUzoGhU9aPJSwTHXrB?=
- =?us-ascii?Q?kjY0MC10UJxbhY2f16sKHf6Te7uIk5d/YZdx0RDBVpapeD7bLSSIDuOe3AZv?=
- =?us-ascii?Q?kTxxLHEDZwYmpbnsefQD2FIc2tbt6SnWtUcUM1MIzmhOTtcdrKyp4QzGsZ+E?=
- =?us-ascii?Q?7FQNTuvvPSO+VaMxWQowWmCR7w6qX5AEVcI3Btl3m3EpXwLWvpInXQkk6ho3?=
- =?us-ascii?Q?DnXVHeA9vN5mpm513iPcOPgeulyNXFml7+UVnCQUZQPxQksprpg1JzjQ0wzY?=
- =?us-ascii?Q?D5ubf3aejc0njECumcIvQ/Jrj2Dl7fbk5omaR3eP7iTqdSFd2Srj5IEwczeE?=
- =?us-ascii?Q?eac9JEgtB/Tfa1t3kHaJt+x4/JVIhJqfkE6Vv8bJuvFCSXBEmR1kyJ2OxiiL?=
- =?us-ascii?Q?bSpx15OlsmZl9ee4PenQ/cFGEgsAoa+D6J6Aixgmf8yHrwwusSo7W8XceAX3?=
- =?us-ascii?Q?LAI5c/t5yjI0MgLpV/vkaJQSLJpgi/j6/7YMTDeq587gqsYGdYz3T5FBeD+y?=
- =?us-ascii?Q?9kkMno3SJPI3VBMFTmRxZBHcikHPKjqMjGGD3KynaJTRM0y8Uk+9G1OVOxne?=
- =?us-ascii?Q?hoe5UlOoXH/szPypEkge4yVLN9rl8fcqFe5fwwMULgvjixPlWeARbt1SiAqb?=
- =?us-ascii?Q?eU/KvuYXPtJCBRbjOrrIuowj0mIYcurOGABxx/eQgitvI6Ep0LYxv5HOtTr9?=
- =?us-ascii?Q?fg0gttDIq3Wo4Xg5BnCm6SThn4kOR96YYFlvzKkslTTPNEngoD0s8eGWliS3?=
- =?us-ascii?Q?SXRFkUOTqBAn5wzX38Maxjm4Fxg8ab8mdNt/cxBhryWsuMNmu5uLRuGeN3Uo?=
- =?us-ascii?Q?vU6ZmayaNFN4hbaVp0Yme6Cn36KCydWECGq4hECqfe1GM7eI6BYnQUd7eMyJ?=
- =?us-ascii?Q?DSTPm4ar7WvNku6GZmZWqh51jU8MqlnkTtNKYKG7dWKgOlxpGXEa5bzxCUeq?=
- =?us-ascii?Q?E9IwgI7g/X+bFdO3uyLn2dVjYFcWFWN4wievhhdbHDnxwKpzVct260ConLyK?=
- =?us-ascii?Q?oa5a9bC6EgVtcnoaNQnpU4e8I09KEm70x3wsH9m4XMI700hZ82jOYcyRE1Rw?=
- =?us-ascii?Q?LZHJvDvLoKAp0nUytOzS+4V0Q4xSKF+m5v4elCi3f18GfeNaufF2CS5vxCjf?=
- =?us-ascii?Q?8cA96yiQhhG1bONLJN7s3GbN7PT0yDIjg50qKEYPWrwNu1v+FLN7UocVhnlh?=
- =?us-ascii?Q?SyQdSibWGiUhS4a3xVOXuMh40DORDQjfnigQHOlN9tQydiV7VattnviGDR0k?=
- =?us-ascii?Q?q3Qf3qxBusPz+KMpvQeGuliIKJfFNup3PON2+gMDSI5ufh9GKW6mBXzZl8Dy?=
- =?us-ascii?Q?Mvdzyln+TdYJPCY7dN18qScoI33gRdE1E6tBNfFCuJ42eu/MLMNv5lKz2FHH?=
- =?us-ascii?Q?ErT+ugMsGcFUL5Pc/eZx8XnDQjuu?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5777.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?hMzeeJcqxs0xhTOuGoPLxeu0l72rtKIDNYjpcmPJIx8eBkp8upMsTJgKOtxH?=
- =?us-ascii?Q?gOCVyf2z3RjkX6CrLI8ohpGkLB75Ff08ulkFtCZi9QusJLLKTE8tnfWIk6j8?=
- =?us-ascii?Q?ntwAcXejZeRVDCXvMpEtuE/cf1RNeZrpeJXWUFP1oH5qfPg9z9B+2XVnj7Mv?=
- =?us-ascii?Q?lOuyOxCtY6WKBiecvFHz5J68N48X6oFMqLem/LiID4fDsFrULfv8NxmJgayN?=
- =?us-ascii?Q?jbmDhSEKXumXy9zweydCk/fxMGAOPHeWaIeZtFMoCRoG8xnEMrguLiCsgKQ/?=
- =?us-ascii?Q?CmYAFDnBWMQZYl72yWYmyq1fGmc6RdesfGQ0HQ1Uq9HLSbGdb84jl0mj8UUP?=
- =?us-ascii?Q?HjZMJsxobKrgNYOBZ166wc+WWWaiU5vJD8zyKLRf1ZspqyvQ2BcPuK63V6jd?=
- =?us-ascii?Q?oj5LNcnlRgksb+geaef7PUzJCG88Ua6ZEqogJtI3gztkXzPy3BWJsS0YFpFd?=
- =?us-ascii?Q?6nIDPrPTMvmfbBAg6VN14n0vfNzGMBRlgix+qn3MpnnkV/Nsnnwq2HjqNDiO?=
- =?us-ascii?Q?cDmipee/vaZ4S6QizyZoISXaIflais5fzpxzgiZEdk9oecMBjhQL0JKgnomH?=
- =?us-ascii?Q?CYeXP+7zWjjt5LgcRBo0GFa2U6HbTyaHKadX0uv1QDOs4Fv69s5NyqO0LLKK?=
- =?us-ascii?Q?/6uUOi79BXmsWAiAnqYfmHk+CT7mLLKDKUSb+F/rb7/plusOvMUKze0e0w9W?=
- =?us-ascii?Q?ivLUQ78G/UDUOpX4gQiemawQWrbli2opywEY9Kl7k9VGKuvuOmXE7+cLnJNX?=
- =?us-ascii?Q?BFpxu8oYoradPdiq+lZe58gwjN4OZ9BrpGn3Qgpk6IXPz++BjQ7X5bTkWRid?=
- =?us-ascii?Q?KCfZCQDE74yON1F6H9dZuLyTSBNSYrxbEiUZAPF1vPpPD3pxXK7LMTYYl/qL?=
- =?us-ascii?Q?r/lQrVq4UolusXJLGKhpyL8rhAng8Hv4VgVH24hOccv40XimlpuqhI4dav24?=
- =?us-ascii?Q?tGGuvZMvg/FPshsEVAIWR6bEOKHldFL9NJb5lCNKUJweSs86IEdgs4roeYxp?=
- =?us-ascii?Q?deRHZunmCs5v6qDCkRXEReoAhTnATx+uVlC6ayw2BpgeIU5RQv7P+y8cHBwa?=
- =?us-ascii?Q?OhOtsWzh9mU/FvKt0mh1UbXtlcqRayHRwv47djaImNL+7g+r0MZDkyfxEzO9?=
- =?us-ascii?Q?zDQYcRQaOC7SJUCoQO0TjRCxeJujYmYMpXxAw9IL2RBzrgN1M41x+PuUogqY?=
- =?us-ascii?Q?zVRv7wL0gjtNqVAksIVm0/3p6bX35tK8+0QJ6JNmGduJ444r2ZPRrkJEHQaZ?=
- =?us-ascii?Q?0J/aWz/c70gcuWB6I1om41wHIElfDGsv3Hk6A7Os6MoGmsFGE+JfwJ++An7e?=
- =?us-ascii?Q?zTy4hEee8b4+CTThETOEsFFhP3E3rb5hXvLNcnYlU4OVopsGgq3oL5VDcBdF?=
- =?us-ascii?Q?qNsNWENpB4clGZ4IX2DbuYXKAfVZC57i7uNyQzO8pwt00v16Dkhpyeaoz7YK?=
- =?us-ascii?Q?RAtwEViH0Mg1GTgBPhEnJKjWXra2mZaSjJrZp7LjRMyUJ490jzPbU5moh12d?=
- =?us-ascii?Q?qu0tjyo1OCGSkQ0/C18/e6vFdZCsXo0KPnJ15grXx/4nfPn0MYz59E0XUuHf?=
- =?us-ascii?Q?RzMdPEVFWySdONJpUQeftS+Hts8Z00FSvWrlbLGb?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	89ZpjnyAmaUXXJaF2/SNnO+sJUzrBDkrNqb5UFfl7Vk8sWHONleJ2MNas+FOmDAl3o14bFVRrvjdGYT2QQPaHnMIHj8IVqYXiviCeT4QnWYxQUtScS0pFC3kOB/BAJjWOjHpNfCIzcBK2nOXYPOEcm9WcXNDuBYm7JO/nqBALnJdGHYKSiFvJcT0D/ef2v6/qSyaalkg2hTQPf0BzOYtvbc/2Cgbe72SKpcWaXqF3fNz+RbXdn73/mlLA7Xsfvf5sMJqrwYpPHc924SfKmPr6hTJw9I0XhvM1ptC2yp11wvIkIHxK/nHM+k4IN0jV/DBvI1HB+E3rKnCdPyuZ1rLVtkre2hBHhrJNQ3VLLNq8Alz7E1CtkLBTIt/LCH4NnVgRHjaaCocmBdGpBZGX0kqG8Y0NToKI1oNJaqfc2IY0DkI37aFGHwMcFVw+zkWjh4raILreSb8Xcpmh2bA/nSLavXPa/mQb6bbmJNwub613Wc2m9OSez6UJp28i2GHDRL1BFzKUxozecNrNrJcCTNBXoIIBOIG0jD8gNYEsB14eQ4eQ3eklC2CQSDI7Jz9Vvj4eHs7jBYh7eTDRYtLDtlQeAmlWsflTZbfbHHhF+StfDk=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7fba4768-d5ce-479d-36d3-08dd33f03ec2
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5777.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2025 16:35:09.6330
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ul9kDMuQ2FveAoWXYNVI+lY09Q33Dl+rIdy+iaiCJOLdTrnywvJyJ/DcAnI98AYpsN6j3hBzh2bCm11gSINm8g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB5812
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-13_06,2025-01-13_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 spamscore=0
- suspectscore=0 phishscore=0 malwarescore=0 mlxscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2411120000
- definitions=main-2501130135
-X-Proofpoint-GUID: MY8dU7PMwbqQSjlaE-bCJ-m1nW2l1shc
-X-Proofpoint-ORIG-GUID: MY8dU7PMwbqQSjlaE-bCJ-m1nW2l1shc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <o4zau42ynlekxemrzubcmfxhdk7v73ffhevdyle6w6dpqaeziq@5dvnxtrwj25b>
 
-* Lorenzo Stoakes <lorenzo.stoakes@oracle.com> [250113 11:21]:
-> On Fri, Jan 10, 2025 at 08:26:00PM -0800, Suren Baghdasaryan wrote:
-> > vm_refcnt encodes a number of useful states:
-> > - whether vma is attached or detached
-> > - the number of current vma readers
-> > - presence of a vma writer
-> > Let's include it in the vma dump.
-> >
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > Acked-by: Vlastimil Babka <vbabka@suse.cz>
-> > ---
-> >  mm/debug.c | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> >
-> > diff --git a/mm/debug.c b/mm/debug.c
-> > index 8d2acf432385..325d7bf22038 100644
-> > --- a/mm/debug.c
-> > +++ b/mm/debug.c
-> > @@ -178,6 +178,17 @@ EXPORT_SYMBOL(dump_page);
-> >
-> >  void dump_vma(const struct vm_area_struct *vma)
-> >  {
-> > +#ifdef CONFIG_PER_VMA_LOCK
-> > +	pr_emerg("vma %px start %px end %px mm %px\n"
-> > +		"prot %lx anon_vma %px vm_ops %px\n"
-> > +		"pgoff %lx file %px private_data %px\n"
-> > +		"flags: %#lx(%pGv) refcnt %x\n",
-> > +		vma, (void *)vma->vm_start, (void *)vma->vm_end, vma->vm_mm,
-> > +		(unsigned long)pgprot_val(vma->vm_page_prot),
-> > +		vma->anon_vma, vma->vm_ops, vma->vm_pgoff,
-> > +		vma->vm_file, vma->vm_private_data,
-> > +		vma->vm_flags, &vma->vm_flags, refcount_read(&vma->vm_refcnt));
-> > +#else
-> >  	pr_emerg("vma %px start %px end %px mm %px\n"
-> >  		"prot %lx anon_vma %px vm_ops %px\n"
-> >  		"pgoff %lx file %px private_data %px\n"
-> > @@ -187,6 +198,7 @@ void dump_vma(const struct vm_area_struct *vma)
-> >  		vma->anon_vma, vma->vm_ops, vma->vm_pgoff,
-> >  		vma->vm_file, vma->vm_private_data,
-> >  		vma->vm_flags, &vma->vm_flags);
-> > +#endif
-> >  }
+On Mon, Jan 13, 2025 at 04:48:31PM +1100, Alistair Popple wrote:
+> On Sun, Jan 12, 2025 at 06:49:40PM -0800, Darrick J. Wong wrote:
+> > On Mon, Jan 13, 2025 at 11:57:18AM +1100, Alistair Popple wrote:
+> > > On Fri, Jan 10, 2025 at 08:50:19AM -0800, Darrick J. Wong wrote:
+> > > > On Fri, Jan 10, 2025 at 05:00:35PM +1100, Alistair Popple wrote:
+> > > > > File systems call dax_break_mapping() prior to reallocating file
+> > > > > system blocks to ensure the page is not undergoing any DMA or other
+> > > > > accesses. Generally this is needed when a file is truncated to ensure
+> > > > > that if a block is reallocated nothing is writing to it. However
+> > > > > filesystems currently don't call this when an FS DAX inode is evicted.
+> > > > > 
+> > > > > This can cause problems when the file system is unmounted as a page
+> > > > > can continue to be under going DMA or other remote access after
+> > > > > unmount. This means if the file system is remounted any truncate or
+> > > > > other operation which requires the underlying file system block to be
+> > > > > freed will not wait for the remote access to complete. Therefore a
+> > > > > busy block may be reallocated to a new file leading to corruption.
+> > > > > 
+> > > > > Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> > > > > 
+> > > > > ---
+> > > > > 
+> > > > > Changes for v5:
+> > > > > 
+> > > > >  - Don't wait for pages to be idle in non-DAX mappings
+> > > > > ---
+> > > > >  fs/dax.c            | 29 +++++++++++++++++++++++++++++
+> > > > >  fs/ext4/inode.c     | 32 ++++++++++++++------------------
+> > > > >  fs/xfs/xfs_inode.c  |  9 +++++++++
+> > > > >  fs/xfs/xfs_inode.h  |  1 +
+> > > > >  fs/xfs/xfs_super.c  | 18 ++++++++++++++++++
+> > > > >  include/linux/dax.h |  2 ++
+> > > > >  6 files changed, 73 insertions(+), 18 deletions(-)
+> > > > > 
+> > > > > diff --git a/fs/dax.c b/fs/dax.c
+> > > > > index 7008a73..4e49cc4 100644
+> > > > > --- a/fs/dax.c
+> > > > > +++ b/fs/dax.c
+> > > > > @@ -883,6 +883,14 @@ static int wait_page_idle(struct page *page,
+> > > > >  				TASK_INTERRUPTIBLE, 0, 0, cb(inode));
+> > > > >  }
+> > > > >  
+> > > > > +static void wait_page_idle_uninterruptible(struct page *page,
+> > > > > +					void (cb)(struct inode *),
+> > > > > +					struct inode *inode)
+> > > > > +{
+> > > > > +	___wait_var_event(page, page_ref_count(page) == 1,
+> > > > > +			TASK_UNINTERRUPTIBLE, 0, 0, cb(inode));
+> > > > > +}
+> > > > > +
+> > > > >  /*
+> > > > >   * Unmaps the inode and waits for any DMA to complete prior to deleting the
+> > > > >   * DAX mapping entries for the range.
+> > > > > @@ -911,6 +919,27 @@ int dax_break_mapping(struct inode *inode, loff_t start, loff_t end,
+> > > > >  }
+> > > > >  EXPORT_SYMBOL_GPL(dax_break_mapping);
+> > > > >  
+> > > > > +void dax_break_mapping_uninterruptible(struct inode *inode,
+> > > > > +				void (cb)(struct inode *))
+> > > > > +{
+> > > > > +	struct page *page;
+> > > > > +
+> > > > > +	if (!dax_mapping(inode->i_mapping))
+> > > > > +		return;
+> > > > > +
+> > > > > +	do {
+> > > > > +		page = dax_layout_busy_page_range(inode->i_mapping, 0,
+> > > > > +						LLONG_MAX);
+> > > > > +		if (!page)
+> > > > > +			break;
+> > > > > +
+> > > > > +		wait_page_idle_uninterruptible(page, cb, inode);
+> > > > > +	} while (true);
+> > > > > +
+> > > > > +	dax_delete_mapping_range(inode->i_mapping, 0, LLONG_MAX);
+> > > > > +}
+> > > > > +EXPORT_SYMBOL_GPL(dax_break_mapping_uninterruptible);
+> > > > > +
+> > > > >  /*
+> > > > >   * Invalidate DAX entry if it is clean.
+> > > > >   */
+> > > > > diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
+> > > > > index ee8e83f..fa35161 100644
+> > > > > --- a/fs/ext4/inode.c
+> > > > > +++ b/fs/ext4/inode.c
+> > > > > @@ -163,6 +163,18 @@ int ext4_inode_is_fast_symlink(struct inode *inode)
+> > > > >  	       (inode->i_size < EXT4_N_BLOCKS * 4);
+> > > > >  }
+> > > > >  
+> > > > > +static void ext4_wait_dax_page(struct inode *inode)
+> > > > > +{
+> > > > > +	filemap_invalidate_unlock(inode->i_mapping);
+> > > > > +	schedule();
+> > > > > +	filemap_invalidate_lock(inode->i_mapping);
+> > > > > +}
+> > > > > +
+> > > > > +int ext4_break_layouts(struct inode *inode)
+> > > > > +{
+> > > > > +	return dax_break_mapping_inode(inode, ext4_wait_dax_page);
+> > > > > +}
+> > > > > +
+> > > > >  /*
+> > > > >   * Called at the last iput() if i_nlink is zero.
+> > > > >   */
+> > > > > @@ -181,6 +193,8 @@ void ext4_evict_inode(struct inode *inode)
+> > > > >  
+> > > > >  	trace_ext4_evict_inode(inode);
+> > > > >  
+> > > > > +	dax_break_mapping_uninterruptible(inode, ext4_wait_dax_page);
+> > > > > +
+> > > > >  	if (EXT4_I(inode)->i_flags & EXT4_EA_INODE_FL)
+> > > > >  		ext4_evict_ea_inode(inode);
+> > > > >  	if (inode->i_nlink) {
+> > > > > @@ -3902,24 +3916,6 @@ int ext4_update_disksize_before_punch(struct inode *inode, loff_t offset,
+> > > > >  	return ret;
+> > > > >  }
+> > > > >  
+> > > > > -static void ext4_wait_dax_page(struct inode *inode)
+> > > > > -{
+> > > > > -	filemap_invalidate_unlock(inode->i_mapping);
+> > > > > -	schedule();
+> > > > > -	filemap_invalidate_lock(inode->i_mapping);
+> > > > > -}
+> > > > > -
+> > > > > -int ext4_break_layouts(struct inode *inode)
+> > > > > -{
+> > > > > -	struct page *page;
+> > > > > -	int error;
+> > > > > -
+> > > > > -	if (WARN_ON_ONCE(!rwsem_is_locked(&inode->i_mapping->invalidate_lock)))
+> > > > > -		return -EINVAL;
+> > > > > -
+> > > > > -	return dax_break_mapping_inode(inode, ext4_wait_dax_page);
+> > > > > -}
+> > > > > -
+> > > > >  /*
+> > > > >   * ext4_punch_hole: punches a hole in a file by releasing the blocks
+> > > > >   * associated with the given offset and length
+> > > > > diff --git a/fs/xfs/xfs_inode.c b/fs/xfs/xfs_inode.c
+> > > > > index 4410b42..c7ec5ab 100644
+> > > > > --- a/fs/xfs/xfs_inode.c
+> > > > > +++ b/fs/xfs/xfs_inode.c
+> > > > > @@ -2997,6 +2997,15 @@ xfs_break_dax_layouts(
+> > > > >  	return dax_break_mapping_inode(inode, xfs_wait_dax_page);
+> > > > >  }
+> > > > >  
+> > > > > +void
+> > > > > +xfs_break_dax_layouts_uninterruptible(
+> > > > > +	struct inode		*inode)
+> > > > > +{
+> > > > > +	xfs_assert_ilocked(XFS_I(inode), XFS_MMAPLOCK_EXCL);
+> > > > > +
+> > > > > +	dax_break_mapping_uninterruptible(inode, xfs_wait_dax_page);
+> > > > > +}
+> > > > > +
+> > > > >  int
+> > > > >  xfs_break_layouts(
+> > > > >  	struct inode		*inode,
+> > > > > diff --git a/fs/xfs/xfs_inode.h b/fs/xfs/xfs_inode.h
+> > > > > index c4f03f6..613797a 100644
+> > > > > --- a/fs/xfs/xfs_inode.h
+> > > > > +++ b/fs/xfs/xfs_inode.h
+> > > > > @@ -594,6 +594,7 @@ xfs_itruncate_extents(
+> > > > >  }
+> > > > >  
+> > > > >  int	xfs_break_dax_layouts(struct inode *inode);
+> > > > > +void xfs_break_dax_layouts_uninterruptible(struct inode *inode);
+> > > > >  int	xfs_break_layouts(struct inode *inode, uint *iolock,
+> > > > >  		enum layout_break_reason reason);
+> > > > >  
+> > > > > diff --git a/fs/xfs/xfs_super.c b/fs/xfs/xfs_super.c
+> > > > > index 8524b9d..73ec060 100644
+> > > > > --- a/fs/xfs/xfs_super.c
+> > > > > +++ b/fs/xfs/xfs_super.c
+> > > > > @@ -751,6 +751,23 @@ xfs_fs_drop_inode(
+> > > > >  	return generic_drop_inode(inode);
+> > > > >  }
+> > > > >  
+> > > > > +STATIC void
+> > > > > +xfs_fs_evict_inode(
+> > > > > +	struct inode		*inode)
+> > > > > +{
+> > > > > +	struct xfs_inode	*ip = XFS_I(inode);
+> > > > > +	uint			iolock = XFS_IOLOCK_EXCL | XFS_MMAPLOCK_EXCL;
+> > > > > +
+> > > > > +	if (IS_DAX(inode)) {
+> > > > > +		xfs_ilock(ip, iolock);
+> > > > > +		xfs_break_dax_layouts_uninterruptible(inode);
+> > > > > +		xfs_iunlock(ip, iolock);
+> > > > 
+> > > > If we're evicting the inode, why is it necessary to take i_rwsem and the
+> > > > mmap invalidation lock?  Shouldn't the evicting thread be the only one
+> > > > with access to this inode?
+> > > 
+> > > Hmm, good point. I think you're right. I can easily stop taking
+> > > XFS_IOLOCK_EXCL. Not taking XFS_MMAPLOCK_EXCL is slightly more difficult because
+> > > xfs_wait_dax_page() expects it to be taken. Do you think it is worth creating a
+> > > separate callback (xfs_wait_dax_page_unlocked()?) specifically for this path or
+> > > would you be happy with a comment explaining why we take the XFS_MMAPLOCK_EXCL
+> > > lock here?
+> > 
+> > There shouldn't be any other threads removing "pages" from i_mapping
+> > during eviction, right?  If so, I think you can just call schedule()
+> > directly from dax_break_mapping_uninterruptble.
 > 
-> This is pretty horribly duplicative and not in line with how this kind of
-> thing is done in the rest of the file. You're just adding one entry, so why
-> not:
+> Oh right, and I guess you are saying the same would apply to ext4 so no need to
+> cycle the filemap lock there either, which I've just noticed is buggy anyway. So
+> I can just remove the callback entirely for dax_break_mapping_uninterruptible.
+
+Right.  You might want to rename dax_break_layouts_uninterruptible to
+make it clearer that it's for evictions and doesn't go through the
+mmap invalidation lock.
+
+> > (dax mappings aren't allowed supposed to persist beyond unmount /
+> > eviction, just like regular pagecache, right??)
 > 
-> void dump_vma(const struct vm_area_struct *vma)
-> {
-> 	pr_emerg("vma %px start %px end %px mm %px\n"
-> 		"prot %lx anon_vma %px vm_ops %px\n"
-> 		"pgoff %lx file %px private_data %px\n"
-> #ifdef CONFIG_PER_VMA_LOCK
-> 		"refcnt %x\n"
-> #endif
-> 		"flags: %#lx(%pGv)\n",
-> 		vma, (void *)vma->vm_start, (void *)vma->vm_end, vma->vm_mm,
-> 		(unsigned long)pgprot_val(vma->vm_page_prot),
-> 		vma->anon_vma, vma->vm_ops, vma->vm_pgoff,
-> 		vma->vm_file, vma->vm_private_data,
-> 		vma->vm_flags,
-> #ifdef CONFIG_PER_VMA_LOCK
-> 		refcount_read(&vma->vm_refcnt),
-> #endif
-> 		&vma->vm_flags);
-> }
+> Right they're not *supposed* to, but until at least this patch is applied they
+> can ;-)
 
-right, I had an issue with this as well.
+Yikes!
 
-Another option would be:
+--D
 
- 	pr_emerg("vma %px start %px end %px mm %px\n"
- 		"prot %lx anon_vma %px vm_ops %px\n"
- 		"pgoff %lx file %px private_data %px\n",
-		<big mess here>);
-	dump_vma_refcnt();
-	pr_emerg("flags:...", vma_vm_flags);
-
-
-Then dump_vma_refcnt() either dumps the refcnt or does nothing,
-depending on the config option.
-
-Either way is good with me.  Lorenzo's suggestion is in line with the
-file and it's clear as to why the refcnt might be missing, but I don't
-really see this being an issue in practice.
-
-Thanks,
-Liam
-
+>  - Alistair
+> 
+> > --D
+> > 
+> > >  - Alistair
+> > > 
+> > > > --D
+> > > > 
+> > > > > +	}
+> > > > > +
+> > > > > +	truncate_inode_pages_final(&inode->i_data);
+> > > > > +	clear_inode(inode);
+> > > > > +}
+> > > > > +
+> > > > >  static void
+> > > > >  xfs_mount_free(
+> > > > >  	struct xfs_mount	*mp)
+> > > > > @@ -1189,6 +1206,7 @@ static const struct super_operations xfs_super_operations = {
+> > > > >  	.destroy_inode		= xfs_fs_destroy_inode,
+> > > > >  	.dirty_inode		= xfs_fs_dirty_inode,
+> > > > >  	.drop_inode		= xfs_fs_drop_inode,
+> > > > > +	.evict_inode		= xfs_fs_evict_inode,
+> > > > >  	.put_super		= xfs_fs_put_super,
+> > > > >  	.sync_fs		= xfs_fs_sync_fs,
+> > > > >  	.freeze_fs		= xfs_fs_freeze,
+> > > > > diff --git a/include/linux/dax.h b/include/linux/dax.h
+> > > > > index ef9e02c..7c3773f 100644
+> > > > > --- a/include/linux/dax.h
+> > > > > +++ b/include/linux/dax.h
+> > > > > @@ -274,6 +274,8 @@ static inline int __must_check dax_break_mapping_inode(struct inode *inode,
+> > > > >  {
+> > > > >  	return dax_break_mapping(inode, 0, LLONG_MAX, cb);
+> > > > >  }
+> > > > > +void dax_break_mapping_uninterruptible(struct inode *inode,
+> > > > > +				void (cb)(struct inode *));
+> > > > >  int dax_dedupe_file_range_compare(struct inode *src, loff_t srcoff,
+> > > > >  				  struct inode *dest, loff_t destoff,
+> > > > >  				  loff_t len, bool *is_same,
+> > > > > -- 
+> > > > > git-series 0.9.1
+> > > > > 
+> > > 
+> 
