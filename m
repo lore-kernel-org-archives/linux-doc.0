@@ -1,85 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A93421F9F41;
-	Mon, 13 Jan 2025 23:08:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C491F9F6B;
+	Mon, 13 Jan 2025 23:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736809717; cv=none; b=iWIoy2m8WlyIMDLlvfIgIz3kP1IXcp9KZ57ZF0Ca7y38t47cWOXv4/jZq/cflMDDmyB4Hz3ju0q1IVyMEZ0wMnktGyHVE0cVk8SSJjw7STGHRRpQqTuonkM4maHm7a0VGnOdYe4tmp2aX9V/fNSStbK9YVP+f1POqfgRZ5FXL0U=
+	t=1736810878; cv=none; b=C7HCo23fJzh5Fm34O6vtnPWn9di+MLRwTOOlTWRSQCAoXmHRHY9llqYbOKFcifYd//9rujvz3D2ioqhP+JtEsLcRGrkj5iLKpDjukEkEnQZjZN5OPAV67t+QpmKr1DGZU6HBR3oF1oBV0nWnX+/3bD01LJdihA28lwuBw3djQxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736809717; c=relaxed/simple;
-	bh=6Pr8sRn/Rq5+odPii8sgehP4s/inRUn/CvARMw36TaU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TdJKWwKOqgDyGx02oHczHJDneOSGR3sICsDuXC00jDbA7E9uMoyVOJuOi2NxT52AihN10cTsE31MTMtg2YSEWE1JpEElx1leCKEWZNoVGsX9G1gdezIVfvZ2kv5EpOzNdszx2MyKA2smyBdZQwvNlv3T1ZVLwGwq0ZL1fZZIBxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=obEu3jb3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736810878; c=relaxed/simple;
+	bh=1yIrDXcZYhcyxN986ZYGN1NBDhALQeVPow6Y93lrGvk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=hjC+6JPQeufBKma6VEzyqTMzjgRGeqw2smpQRB0hXirJ64EHIUcOeMX/rZKM74FT7fIFFDnvRa/lELQTM/mEvIrJM89mrJlecKB8SUj18zQCAtwidXedoj43/awo22NBCoc3Eo/skNCuG3o4G7Vk6QyXsbSNt/2gq2CJb1zc2Xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=NBxX3fYm; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="obEu3jb3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD075C4CEE3;
-	Mon, 13 Jan 2025 23:08:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736809717;
-	bh=6Pr8sRn/Rq5+odPii8sgehP4s/inRUn/CvARMw36TaU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=obEu3jb3cK/4jP5A0JHywLxL5xe4+d9LP2Hn+9+P/d/CTFxy4AAigiUX6ngIU/txU
-	 u1Nu2fh6X0i5JJv3G/LGowjzjqYJlO+tcHcAsDkE8qwIV14zLRWx6fX+FznRtSRBNT
-	 gGwIQEYJWaNOfB0vrY2rpw9Fxfa2nQQFEnjvVkUJlDUv/n3QL74DRMPg6wNH3spZLo
-	 NmVP64fnKSGEVgZCR2yhW6MlygXhryFvN8r9PtZBPpm1iKDDR9Fw7M4tzg7AuaZC52
-	 vF2vLe6M5oQfbywSb+3eepSMcfvLZxPsGcTqAqYIz0JZX5IRpTL9I3s2fBQ3txIe3v
-	 yangHiINDHhfA==
-Date: Mon, 13 Jan 2025 15:08:34 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Taehee Yoo <ap420073@gmail.com>
-Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
- netdev@vger.kernel.org, almasrymina@google.com, donald.hunter@gmail.com,
- corbet@lwn.net, michael.chan@broadcom.com, andrew+netdev@lunn.ch,
- hawk@kernel.org, ilias.apalodimas@linaro.org, ast@kernel.org,
- daniel@iogearbox.net, john.fastabend@gmail.com, dw@davidwei.uk,
- sdf@fomichev.me, asml.silence@gmail.com, brett.creeley@amd.com,
- linux-doc@vger.kernel.org, kory.maincent@bootlin.com,
- maxime.chevallier@bootlin.com, danieller@nvidia.com,
- hengqi@linux.alibaba.com, ecree.xilinx@gmail.com,
- przemyslaw.kitszel@intel.com, hkallweit1@gmail.com, ahmed.zaki@intel.com,
- rrameshbabu@nvidia.com, idosch@nvidia.com, jiri@resnulli.us,
- bigeasy@linutronix.de, lorenzo@kernel.org, jdamato@fastly.com,
- aleksander.lobakin@intel.com, kaiyuanz@google.com, willemb@google.com,
- daniel.zahka@gmail.com
-Subject: Re: [PATCH net-next v8 0/10] bnxt_en: implement tcp-data-split and
- thresh option
-Message-ID: <20250113150834.729de40d@kernel.org>
-In-Reply-To: <20250111144513.1289403-1-ap420073@gmail.com>
-References: <20250111144513.1289403-1-ap420073@gmail.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="NBxX3fYm"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50DKs85a025453;
+	Mon, 13 Jan 2025 23:27:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	2SMsbRwfz/DxTuCO//N0aO2VimKu/X+j8sEr189L7cM=; b=NBxX3fYmHO7pFTkW
+	CxDmXJWXtqmN/0mSvZEeVCydo1uyUjl1grP80r/9Mp3ISgZ1Um7keDXto3NJnkyf
+	moiyL9LSCnGklyKDkRr8IeIXAU1ZnRNRRyULC7s+tOb/whdYZYUD27lJjX6rPQtM
+	Szj7ECkHuxkP4Eb3NaWi7y9uHNIiaSN6LLeMmlcSqJpAY1quZpx6BtKXEucsQyeJ
+	mNpeUtxk86O7dE4OAeC5z48EzuO6pqYz+Leg47ylr0qiU/cYloXMB5gGr3ULjJ8h
+	Ym8a3fmb4kCT4F3eNjwfWtubjvE4OZsduVQjkkBF3QCezvpYNPo98x51uTeoAZ2O
+	eQ9dQw==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 445a9288q0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 13 Jan 2025 23:27:39 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50DNRcEe030837
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 13 Jan 2025 23:27:38 GMT
+Received: from [10.110.66.138] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 13 Jan
+ 2025 15:27:37 -0800
+Message-ID: <f8a9e454-72f4-4979-b29d-109700b2a204@quicinc.com>
+Date: Mon, 13 Jan 2025 15:27:24 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v32 01/32] usb: host: xhci: Repurpose event handler for
+ skipping interrupter events
+To: =?UTF-8?Q?Micha=C5=82_Pecio?= <michal.pecio@gmail.com>
+CC: <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>, <conor+dt@kernel.org>,
+        <corbet@lwn.net>, <devicetree@vger.kernel.org>,
+        <dmitry.torokhov@gmail.com>, <gregkh@linuxfoundation.org>,
+        <krzk+dt@kernel.org>, <lgirdwood@gmail.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <mathias.nyman@intel.com>, <perex@perex.cz>,
+        <pierre-louis.bossart@linux.intel.com>, <robh@kernel.org>,
+        <srinivas.kandagatla@linaro.org>, <tiwai@suse.com>
+References: <20250113143632.63c52d74@foxbook>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <20250113143632.63c52d74@foxbook>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: CNsYdWrGujrNWaOAdifB8Kkp4WjMkrQ2
+X-Proofpoint-ORIG-GUID: CNsYdWrGujrNWaOAdifB8Kkp4WjMkrQ2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ suspectscore=0 impostorscore=0 adultscore=0 priorityscore=1501 spamscore=0
+ lowpriorityscore=0 clxscore=1015 mlxlogscore=999 phishscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
+ definitions=main-2501130184
 
-On Sat, 11 Jan 2025 14:45:03 +0000 Taehee Yoo wrote:
-> This series implements hds-thresh ethtool command.
-> This series also implements backend of tcp-data-split and
-> hds-thresh ethtool command for bnxt_en driver.
-> These ethtool commands are mandatory options for device memory TCP.
+Hi Michal,
 
-Patch 9 doesn't apply cleanly, could you rebase and repost?
+On 1/13/2025 5:36 AM, Michał Pecio wrote:
+> Hi,
+>
+>> Depending on the interrupter use case, the OS may only be used to
+>> handle the interrupter event ring clean up.
+> What do you mean by "cleanup"? Because I see that this patch ends up
+> acknowledging events to the xHC and I don't know why it would do so?
 
-Applying: net: ethtool: add hds_config member in
-ethtool_netdev_state Applying: net: ethtool: add support for configuring hds-thresh
-Applying: net: devmem: add ring parameter filtering
-Applying: net: ethtool: add ring parameter filtering
-Applying: net: disallow setup single buffer XDP when tcp-data-split is enabled.
-Applying: bnxt_en: add support for rx-copybreak ethtool command
-Applying: bnxt_en: add support for tcp-data-split ethtool command
-Applying: bnxt_en: add support for hds-thresh ethtool command
-Applying: netdevsim: add HDS feature
-Using index info to reconstruct a base tree...
-M	drivers/net/netdevsim/netdev.c
-M	drivers/net/netdevsim/netdevsim.h
-Falling back to patching base and 3-way merge...
-Auto-merging drivers/net/netdevsim/netdevsim.h
-Auto-merging drivers/net/netdevsim/netdev.c
-Applying: selftest: net-drv: hds: add test for HDS feature
--- 
-pw-bot: cr
+
+Cleanup so that we can ensure there are no pending events that were left once the secondary interrupter is disabled.  Based on previous feedback, there are use cases where the OS may actually want to handle events occurring on the secondary interrupter, but that support will take some time to implement/test.
+
+
+>> In these scenarios, event TRBs don't need to be handled by the OS,
+>> so introduce an xhci interrupter flag to tag if the events from an
+>> interrupter needs to be handled or not.
+> Right, and if the OS isn't handling those events because they are owned
+> by a coprocessor then it shouldn't be acknowledging them either, which
+> has the effect that the xHC considers their memory free for reuse.
+
+
+This implementation was done as part of an effort to consolidate the cleanup of the pending events with the same path as the handling of events for the main/primary interrupter:
+
+https://lore.kernel.org/linux-usb/33dfa0c5-c43f-79f6-2700-beee2e5d389f@quicinc.com/
+
+
+> Also, what happens when Linux goes to sleep and this IRQ stops running?
+> I expected that the coprocessor itself should be updating the xHC about
+> its own progress.
+
+
+Currently, Linux is not expected to go to sleep if the coprocessor is active.  The coprocessor will notify when the audio stream is enabled and disabled, and the USB device runtime PM counters are incremented/decremented respectively.  If Linux forcefully goes to sleep, then support is there to ensure the coprocessor's audio stream is disabled before entering suspend.
+
+
+>
+> Is it a bug? How is this stuff supposed to work?
+>
+> How are future developers supposed to know how it is supposed to work?
+> I imagine that few of them will have Qualcomm hardware for testing.
+
+
+Most of the implementation details of the overall mechanisms are highlighted in the cover letter, so can you clarify what you are suggesting that needs to be done for this statement?
+
+
+>
+>> static int xhci_handle_event_trb(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
+>> 				 union xhci_trb *event)
+>> {
+>> 	u32 trb_type;
+>>
+>> +	/*
+>> +	 * Some interrupters do not need to handle event TRBs, as they may be
+>> +	 * managed by another entity, but rely on the OS to clean up.
+>> +	 */
+>> +	if (ir->skip_events)
+>> +		return 0;
+> This function is only called from one place so the caller could perform
+> this check and don't waste time calling it.
+
+
+I'm open to do it from either place.  We have to ensure that we cycle through each pending event during the cleanup phase.
+
+
+Thanks
+
+Wesley Cheng
+
