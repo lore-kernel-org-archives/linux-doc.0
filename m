@@ -1,52 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074041494A7;
-	Mon, 13 Jan 2025 17:47:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27BCB24022F;
+	Mon, 13 Jan 2025 17:49:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736790431; cv=none; b=Q6L1msrSj2NK2NGcFGMvb0/zPika4vBKUanYJBryTO5bQDGZRgU4DdaiyLC55NYiF6SGpLqXP3+94BnL7OpXYzKK3PUYlHk0+lImp72nSOBXetSl+Tz2oh6mPEz+EWwKvomTocYDpJcAKzRRUjWYTWvjoWMCJx+zNsq/yLkEqeA=
+	t=1736790583; cv=none; b=kst/DewYd92sTBC3E23zEIVupv36wJEC9u51ICtaVsaqgqfgNmnbDxcT3B6mBN/sth16zaVhGami4vYDFLz1stydz9rZ/9e11ZH3Bg8kC/wusPQ+Cmwb1JpVUMOFU1q2HjAqEubTdXCxfY+qsDwk4EDxPMYQd3IFZCXlK5YRPbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736790431; c=relaxed/simple;
-	bh=UEut3SNd53RgLH7EweUyY0BNRszVLzCR2TgXDZy+T+c=;
+	s=arc-20240116; t=1736790583; c=relaxed/simple;
+	bh=syxR3d91rGK32jPVBjjK4XsbCKfLAhrwmx1hcm6W1cU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=njY7zNmYDh3wH2lcuIAXF6qwuIbfGH+ClCzSPH9LjtJprwwsYolzGAu19fk+yAgd5AgV9NpEkDPOCeXk/27tKoTnSrpkYOL4ko/KkHSnAMwi+Se2w441GRI77KebXj6DqHtCwEmIY+JixJVqQ03An+0zh+gc8pZVYP5GobNw9Tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=fwo65gjC; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=EMmWOApDoKcLpCgUrPxzSnAKhEys2rvE4CjXuaGCAFRssnUMz/5jPNXVdSdwqFXuDgCqvs7646sEZcHwFmk0rSVm7zULYoFhgOYpamA2DRPsiA5avHjDdrIX3PEM+Gymou5NnfIRC6B5LyXItuImJpkNkM+Kbtw0L576KaZVTCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=pAShgS1W; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="fwo65gjC"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 152A6404F5
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="pAShgS1W"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 545C9404F5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1736790429; bh=m4FbUsYx+NEdoipGIuGZHGLLbLspNQt/AmLV+dDNrZY=;
+	t=1736790581; bh=YFV52yk/D5CvXBpds7DH4HDAfMkeNRMix/bPQdwx0R8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=fwo65gjCOQSXqf4l3O5YCcr0W8RmG/x8d38NyXH5Lh1zOGQSHcT7a61qJe7MM3VuR
-	 PLl42yCLIXTfRkkMT4SdQAly/aWC7FSdej3M80bm8PtyMGXajKF8fE/fX0CHh1gFMM
-	 qnUFg2UyS8HFuNAWY5oaEzaqgQCTrnNX/8ljTotxcb/usuLv9bs9uWnaI8t5XeIvgk
-	 QsrEZJFRY/eAgUemDQ4TMal4UBZwDWzApTTkbhddhXsXUFQDMK2jahNxzEMrNq3dFG
-	 zBfwaAStCJADnH0UdV700na2ir5oMnySYnfJqM3XoDSX81Ix7jnmuGMn3/5+Gd+aVc
-	 z2taqTe7W8u4A==
+	b=pAShgS1WzlMEFZsliCMyZMx6CU9Bv1/K4gV6/09qZnOMBIFLPk/R4qyB9B08pUabz
+	 UNssQ+XIJlXuxr4PTi7NHjYLHUGCHnYROit+I2lR5u6M7TsTr0u3GHZoqsp/E3Xkw8
+	 TsRXENZepK1YbvzOX/e1Ue9QB0M8oWgSWfof9AKb/LoKvRPyujSJIOExp+1GHKGd5E
+	 66wMbbjkUYaEfKr0jMnmT9Nep/fWnaE6SRZf5jJktAPw8cR+6qeZfKALc+HKu4nygE
+	 aqmNV43ZCmwVDoT6K4Uv6OQMNPil+VU5jhklL8ilbaSwVrqmNVWH9b6JH4Xtp05agM
+	 58W7dCBAcALbg==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 152A6404F5;
-	Mon, 13 Jan 2025 17:47:09 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 545C9404F5;
+	Mon, 13 Jan 2025 17:49:41 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, patches@lists.linux.dev, Miguel Ojeda
- <ojeda@kernel.org>, Neal Gompa <neal@gompa.dev>, Sami Tolvanen
- <samitolvanen@google.com>, Masahiro Yamada <masahiroy@kernel.org>, Luis
- Chamberlain <mcgrof@kernel.org>, tech-board@groups.linuxfoundation.org,
- Steven Rostedt <rostedt@goodmis.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Linus Torvalds
- <torvalds@linux-foundation.org>
-Subject: Re: [PATCH 0/3] Clarifications around Acked-by and "# Suffix" proposal
-In-Reply-To: <20250112152946.761150-1-ojeda@kernel.org>
-References: <20250112152946.761150-1-ojeda@kernel.org>
-Date: Mon, 13 Jan 2025 10:47:08 -0700
-Message-ID: <875xmibo83.fsf@trenco.lwn.net>
+To: Li Zhijian <lizhijian@fujitsu.com>, linux-doc@vger.kernel.org
+Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ mkoutny@suse.com, cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Waiman Long <llong@redhat.com>, Li Zhijian <lizhijian@fujitsu.com>
+Subject: Re: [PATCH v2] Documentation/cgroup-v2: Update
+ memory.{stat,numa_stat} description to reflect possible units
+In-Reply-To: <20250113010530.432396-1-lizhijian@fujitsu.com>
+References: <20250110123019.423725-1-lizhijian@fujitsu.com>
+ <20250113010530.432396-1-lizhijian@fujitsu.com>
+Date: Mon, 13 Jan 2025 10:49:40 -0700
+Message-ID: <871px6bo3v.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,28 +52,58 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Miguel Ojeda <ojeda@kernel.org> writes:
+Li Zhijian <lizhijian@fujitsu.com> writes:
 
-> A patch series that aims to clarify what the purpose of the Acked-by tag is,
-> in order to help newcomers understand the kernel process better, as well as
-> to give extra flexibility on the usage of the Acked-by tag.
+> The description of the memory.{stat,numa_stat} file has been updated to
+> clarify that the output values can be in bytes or pages.
+> This change ensures that users are aware that the unit of measurement for
+> memory values can vary and should be verified by consulting the memory.stat
 >
-> It formalizes one of the proposals from [1]: "# Suffix" for Acked-by.
+> It's known that
+> workingset_*, pg* are counted in pages
 >
-> I hope this helps!
+> Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>a
+> ---
+> V2: updated the document as suggestion from Michal
+>     updated subject and commit log
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
 >
-> Link: https://lore.kernel.org/rust-for-linux/CANiq72m4fea15Z0fFZauz8N2madkBJ0G7Dc094OwoajnXmROOA@mail.gmail.com/ [1]
->
-> Miguel Ojeda (3):
->   docs: submitting-patches: clarify Acked-by and introduce "# Suffix"
->   docs: submitting-patches: clarify difference between Acked-by and
->     Reviewed-by
->   docs: submitting-patches: clarify that signers may use their
->     discretion on tags
->
->  Documentation/process/submitting-patches.rst | 22 ++++++++++++++++++--
->  1 file changed, 20 insertions(+), 2 deletions(-)
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 315ede811c9d..0a43be0c32d1 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1427,7 +1427,7 @@ The following nested keys are defined.
+>  	types of memory, type-specific details, and other information
+>  	on the state and past events of the memory management system.
+>  
+> -	All memory amounts are in bytes.
+> +	All memory amounts are in bytes unless said otherwise.
+>  
+>  	The entries are ordered to be human readable, and new entries
+>  	can show up in the middle. Don't rely on items remaining in a
+> @@ -1673,11 +1673,12 @@ The following nested keys are defined.
+>  	application performance by combining this information with the
+>  	application's CPU allocation.
+>  
+> -	All memory amounts are in bytes.
+> -
+>  	The output format of memory.numa_stat is::
+>  
+> -	  type N0=<bytes in node 0> N1=<bytes in node 1> ...
+> +	  type N0=<value for node 0> N1=<value for node 1> ...
+> +
+> +        The 'value' can be in bytes or pages, depending on the specific
+> +        type of memory. To determine the unit, refer to the memory.stat.
 
-I've applied the set, thanks.
+This seems like useful information - but can we really not give better
+guidance to our readers on how to interpret this value?  What in "the
+memory.stat" will tell them which units are in use?
+
+(Even better, could we fix the code to always return the same units
+without breaking something somewhere?)
+
+Thanks,
 
 jon
