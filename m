@@ -1,57 +1,57 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A0CB1F8F18
-	for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 21:08:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B0B1CACF3
+	for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 21:14:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736802523; cv=none; b=mvPzsvQmwZmgXEtGREkYnfVnu0JMY27nqoit4cZA4uqJnhoaVqTiwyhW9OeRXdUJsXWLdjbJYQLAZAYpgAPI+j9ul6irgL7G7gCiBNThsbR9QH/PVn4MMb3Y6bvNdF6rpTg8EDOkl1F2qBsEXzYRr6pStQ3oUDa2Cm0LWuGkVlA=
+	t=1736802882; cv=none; b=fOPhd0R5OhTXH4cCmD9Tr1d+E9dIPJt40Ir0v0/t4k0Gey7EkG/A9Exye4ykWCKLr9TVU/UlHf6cysxFxeE9plfBXAt8uoaQiYf3zaLZzOlclt6IEtrq4UaWK/Y845GV/dI8Mk7C+NYvOPdS1hV0v71xDUQbVPzjmgUc57KWSas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736802523; c=relaxed/simple;
-	bh=MBGlhDhnhjPa0tsPVQDHSBXSHkL3LByiEJDAXpwxRco=;
+	s=arc-20240116; t=1736802882; c=relaxed/simple;
+	bh=UNkuPJ1DtTDZfa5Ximfs2uBmy/S3L06ykWxrBpXoHdc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IdqJjidXujwVIzviVTI+sbAMoIZIbaZElX3sGpUdza3opExaHDydksboQPTFbEg59H0KCpvEmzW6CcifkfTGKioyMsj9k2CtsshZwv1Fy6Yuc9ud/Yn+E3BfwkmaWVlNZ/kPmt8TmWjHDZqD1Q5A8iUU6RDIpECajgXTuBIrH68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kh1lVA0c; arc=none smtp.client-ip=209.85.160.180
+	 To:Cc:Content-Type; b=kg9+BlOHuTLhqzOIRmya6HSZQg/U2Q3gLoIs6OIyGnKqk2zCJVwxpRx7+vrjMyNEpnv3/Z0BFsrYpcP0viiqcELL1Y/23eiIoTW4viMnO38Z9sCwSMl/UwjsYEQ4/N0rTDatI17wxOFRy1bGRDc4aC5WP+gkKPzuolqCMAXUCwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bBpyha+Y; arc=none smtp.client-ip=209.85.160.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kh1lVA0c"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4679b5c66d0so5071cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 13:08:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bBpyha+Y"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-467896541e1so65971cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 13:14:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736802520; x=1737407320; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1736802880; x=1737407680; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wu/nG6orYg47gQ+AqOtZPPOYCw8QfPvh5WeBFkmFbCc=;
-        b=kh1lVA0cQVOAqS5vf9FUALHxtEkTORAwaxerV2Hx05gLjx5EzG+EcEle/S5V0M3KwB
-         Q66g3A4tfT5UpMhM/2s77KS9sc7t446MIcBqSUMHZtcFEkJII5JkoQkY7YkZMzYMkrmP
-         0+cob8Yqj3mDCoXLNEQI+ajzkr958YXUJMLwzFbX7OkCG4DtemSWQjZE4dVzbpdZ1+R+
-         fS21CbW5rK9mdsEVPJ/HHzUR+MdAMDmcl53um9o6l3iWz61kqw1hA0bw17+BwqPbbfDs
-         Jr4GeRy0Ic8kegLcuUh458E7zPMdRrzrs2eWBL11O1meACo7FFzll0TQ91RSoJBGrX3V
-         phNw==
+        bh=HGjAxZWeoR4eIf6Vg1CVCHX5fLV66MedHmHZbmp5W/0=;
+        b=bBpyha+Y0Ay6GpIUiO3VWsoH2XeaH7AFcaOOj7Mer/+90oFEXP1MBann/nj23XYIjr
+         JJVfj4y1nLnXxi2FMs5/VoEuathQEEPDSwghe4/nhss0Rtx0q1fmoLYq2Kroo74ktXS5
+         WaAOs5O3VkCzmHwF8I9y5ul51H4uZLn+RqqQ6qJT86Af9Zhl6WtHqVmrR8Dc5FRrWAp5
+         +7IBDfb0GVJ+91f4rcuUmR3iF4pebXo6V118Qwfsrb5oj5rAhYQxJMD8IG86Bpk1RF2m
+         nektxs65JsbUIQIeKMZWRVEqxj2ozyRsiM6cWLy1OxhxUsdEyiim1MIR9Av0xqUXamrg
+         JVyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736802520; x=1737407320;
+        d=1e100.net; s=20230601; t=1736802880; x=1737407680;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wu/nG6orYg47gQ+AqOtZPPOYCw8QfPvh5WeBFkmFbCc=;
-        b=XLjlKHaNSV/2Hvu3Tee7nKSOl10DaDVbTlRp8UUJbtsA188aljAiyWvFnOjDVMgkZu
-         lmuIapFeiqnZuTw2h/lecj8Q8o6hoXK67aAY8KHVtTa+wF1DXqudaVX+TwI7jkfObFsA
-         sgVXe0Bac1meVwSzCRHbZk1+XsMNVdZa6CxgC406RlBfAlRYEvWEM5rShspBiFTkdIrE
-         6BhMTrRaEJ7Z6/L7rI3Kfiy7d2+oycAfWHco/LdeXSAy8+cdMyD5AOFZuZDeJ8ruGm6r
-         Bu0TBzvq3ncXso9/HwIFjXymHB8jUvr4Bdt3gXaqi7IhECTS3j3wAQTEXlSHng9AldGQ
-         X9uA==
-X-Forwarded-Encrypted: i=1; AJvYcCW9dmt6yOBsIWtf0cjr753It0PqQ7MwHPaBih6+pFve6TIEyHBiZ36A1rxxYFeJBF7+CWMkUWmKxWc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPGnHKAKr6NNDJ1jRrsmyzndUj0XtNQXREmGjoueBOnxumwcZF
-	osuxsmNFT+ndar0zUSaiSi+OYK/1MLsTcSnDH23RuSeB08R38yD8X5ZSAqWSD+POi95HeatTWuJ
-	MmgCiZ/1e0mQH1+ialyFHNhrlWmDJedQyE5rT
-X-Gm-Gg: ASbGncuzZ6CoU40VHJczTShRAL0cm6r+xNgMN6jhZF9lqhskyIXZTv9ty2gukd8q1q8
-	YSCQqu25r0hBvmamcatWXVOxFlzVVGlg/cWDrfA==
-X-Google-Smtp-Source: AGHT+IGe7S1/aB4dFspMIFJVlQNEFLRUC7b1lRSOyvwJKhMCo1+Ol6kucHZ6LetMmLESzC/RseERgXBBIFgeH+0xsh4=
-X-Received: by 2002:ac8:5acd:0:b0:466:9660:18a2 with SMTP id
- d75a77b69052e-46de96eac52mr598091cf.16.1736802519806; Mon, 13 Jan 2025
- 13:08:39 -0800 (PST)
+        bh=HGjAxZWeoR4eIf6Vg1CVCHX5fLV66MedHmHZbmp5W/0=;
+        b=NxoMSSmjTBnrpRCAgkrGwQv5GIfWLhC7Q0DGqW/1qCC9LZGEzO4dWZkb7PUQpgunix
+         oUEtOp0RLWffBsN6Yr4ZXS/rdTeEZ4ghCYhG1tVERW8e9g4YU7Db8p9dAJENTj1e5uLr
+         jdRVuC1WZW2/wOnWXEoGJRT5dD/xQk+RN7gY1+GmTfMF+Km99vLZrjvOy22bdYp6SLJ7
+         RmCwxavHHz12lBOogAiXZCBhH8P/+c+EXBdHc3KmFGeYpjEp3BoV8nJbU39FGbtseSIq
+         Jkgz3mmatMJWSrP7kBK2mLXbSFzydXMKpJatSQnRA45yD4wwVr6q1+MKkzqOCPuc3mV2
+         lFHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWmLtbnCzQz0OqcHGR+0DimATZ9OXg1m4+71TthyNlY9ZJYqkVMJTsNFHkvazcjzkmmIaMNR45LawU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YznJMQzUnju8jE8JqL2luIs0JTrUP9Tr9OX1tpro824q/ZcaRoX
+	VQhaaGjIz9xBQOdu0KUrNncij2mfzIJMOs55ruQmDyFJW1YZGaNYT4RebPEXqp/V3IpPHcjRLrC
+	8hp3+M6+fEYNe80YU39pnSppKKHXtOUSksl4e
+X-Gm-Gg: ASbGncsXPOjJZPOQfO9gpXQhhg9opkXFzwfOsljXPHBp9iPteB5x3koLfR/pJSujRj9
+	1//8y4FGeUlV1QVIXfWG5QfP8t0Kr3E33aqfLdw==
+X-Google-Smtp-Source: AGHT+IFqAHFj/WuITWcnJw0D7SXwO5J6urUwH0ERPP4GcRKHt1QNDBndCsxDS0ry+WgFlJY6haMyPc6RKz2I8foTck8=
+X-Received: by 2002:a05:622a:1907:b0:465:18f3:79cc with SMTP id
+ d75a77b69052e-46de99be6admr516171cf.11.1736802879667; Mon, 13 Jan 2025
+ 13:14:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,12 +60,13 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250111042604.3230628-1-surenb@google.com> <20250111042604.3230628-12-surenb@google.com>
  <gdipfy63r4wxiqlnglsjzatpej6jjswimuzadm2l57o2e45u56@qfd763n4ysft>
- <CAJuCfpGu4UVXiBaivTVOGNBVVz3rhZ+VY27gT3_R0cTij5fTGw@mail.gmail.com> <20250113014729.ms5sdfnhynlamgrk@master>
-In-Reply-To: <20250113014729.ms5sdfnhynlamgrk@master>
+ <CAJuCfpGu4UVXiBaivTVOGNBVVz3rhZ+VY27gT3_R0cTij5fTGw@mail.gmail.com>
+ <20250113014729.ms5sdfnhynlamgrk@master> <20250113022545.56e2qaggdgqzlukz@master>
+In-Reply-To: <20250113022545.56e2qaggdgqzlukz@master>
 From: Suren Baghdasaryan <surenb@google.com>
-Date: Mon, 13 Jan 2025 13:08:28 -0800
-X-Gm-Features: AbW1kvZoBMx33p2ZfPu8c19JCyuLeA_eoFBFTur6_G3RyvhowsY0pclQkJ14OQs
-Message-ID: <CAJuCfpEHEYKhpf7n6nQuB=s_okV=uQZ37OhWfki+iHgwxUmUHw@mail.gmail.com>
+Date: Mon, 13 Jan 2025 13:14:28 -0800
+X-Gm-Features: AbW1kvaF5imeB8Llt20RxA_EepFLh2dl-i0UYq1OwEZlpBTwFdjifQbVhR-9Npw
+Message-ID: <CAJuCfpHajPX4i=oNB3jJ=OKX_g__1WuOWzEPFETDyzk+QP0rPg@mail.gmail.com>
 Subject: Re: [PATCH v9 11/17] mm: replace vm_lock and detached flag with a
  reference count
 To: Wei Yang <richard.weiyang@gmail.com>
@@ -83,205 +84,95 @@ Cc: Mateusz Guzik <mjguzik@gmail.com>, akpm@linux-foundation.org, peterz@infrade
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jan 12, 2025 at 5:47=E2=80=AFPM Wei Yang <richard.weiyang@gmail.com=
+On Sun, Jan 12, 2025 at 6:25=E2=80=AFPM Wei Yang <richard.weiyang@gmail.com=
 > wrote:
 >
-> On Sat, Jan 11, 2025 at 12:14:47PM -0800, Suren Baghdasaryan wrote:
-> >On Sat, Jan 11, 2025 at 3:24=E2=80=AFAM Mateusz Guzik <mjguzik@gmail.com=
-> wrote:
+> On Mon, Jan 13, 2025 at 01:47:29AM +0000, Wei Yang wrote:
+> >On Sat, Jan 11, 2025 at 12:14:47PM -0800, Suren Baghdasaryan wrote:
+> >>On Sat, Jan 11, 2025 at 3:24=E2=80=AFAM Mateusz Guzik <mjguzik@gmail.co=
+m> wrote:
+> >>>
+> >>> On Fri, Jan 10, 2025 at 08:25:58PM -0800, Suren Baghdasaryan wrote:
+> >>>
+> >>> So there were quite a few iterations of the patch and I have not been
+> >>> reading majority of the feedback, so it may be I missed something,
+> >>> apologies upfront. :)
+> >>>
+> >
+> >Hi, I am new to memory barriers. Hope not bothering.
+> >
+> >>> >  /*
+> >>> >   * Try to read-lock a vma. The function is allowed to occasionally=
+ yield false
+> >>> >   * locked result to avoid performance overhead, in which case we f=
+all back to
+> >>> > @@ -710,6 +742,8 @@ static inline void vma_lock_init(struct vm_area=
+_struct *vma)
+> >>> >   */
+> >>> >  static inline bool vma_start_read(struct vm_area_struct *vma)
+> >>> >  {
+> >>> > +     int oldcnt;
+> >>> > +
+> >>> >       /*
+> >>> >        * Check before locking. A race might cause false locked resu=
+lt.
+> >>> >        * We can use READ_ONCE() for the mm_lock_seq here, and don't=
+ need
+> >>> > @@ -720,13 +754,19 @@ static inline bool vma_start_read(struct vm_a=
+rea_struct *vma)
+> >>> >       if (READ_ONCE(vma->vm_lock_seq) =3D=3D READ_ONCE(vma->vm_mm->=
+mm_lock_seq.sequence))
+> >>> >               return false;
+> >>> >
+> >>> > -     if (unlikely(down_read_trylock(&vma->vm_lock.lock) =3D=3D 0))
+> >>> > +     /*
+> >>> > +      * If VMA_LOCK_OFFSET is set, __refcount_inc_not_zero_limited=
+() will fail
+> >>> > +      * because VMA_REF_LIMIT is less than VMA_LOCK_OFFSET.
+> >>> > +      */
+> >>> > +     if (unlikely(!__refcount_inc_not_zero_limited(&vma->vm_refcnt=
+, &oldcnt,
+> >>> > +                                                   VMA_REF_LIMIT))=
+)
+> >>> >               return false;
+> >>> >
+> >>>
+> >>> Replacing down_read_trylock() with the new routine loses an acquire
+> >>> fence. That alone is not a problem, but see below.
 > >>
-> >> On Fri, Jan 10, 2025 at 08:25:58PM -0800, Suren Baghdasaryan wrote:
+> >>Hmm. I think this acquire fence is actually necessary. We don't want
+> >>the later vm_lock_seq check to be reordered and happen before we take
+> >>the refcount. Otherwise this might happen:
 > >>
-> >> So there were quite a few iterations of the patch and I have not been
-> >> reading majority of the feedback, so it may be I missed something,
-> >> apologies upfront. :)
+> >>reader             writer
+> >>if (vm_lock_seq =3D=3D mm_lock_seq) // check got reordered
+> >>        return false;
+> >>                       vm_refcnt +=3D VMA_LOCK_OFFSET
+> >>                       vm_lock_seq =3D=3D mm_lock_seq
+> >>                       vm_refcnt -=3D VMA_LOCK_OFFSET
+> >>if (!__refcount_inc_not_zero_limited())
+> >>        return false;
 > >>
+> >>Both reader's checks will pass and the reader would read-lock a vma
+> >>that was write-locked.
+> >>
+> >
+> >Here what we plan to do is define __refcount_inc_not_zero_limited() with
+> >acquire fence, e.g. with atomic_try_cmpxchg_acquire(), right?
+> >
 >
-> Hi, I am new to memory barriers. Hope not bothering.
+> BTW, usually we pair acquire with release.
 >
-> >> >  /*
-> >> >   * Try to read-lock a vma. The function is allowed to occasionally =
-yield false
-> >> >   * locked result to avoid performance overhead, in which case we fa=
-ll back to
-> >> > @@ -710,6 +742,8 @@ static inline void vma_lock_init(struct vm_area_=
-struct *vma)
-> >> >   */
-> >> >  static inline bool vma_start_read(struct vm_area_struct *vma)
-> >> >  {
-> >> > +     int oldcnt;
-> >> > +
-> >> >       /*
-> >> >        * Check before locking. A race might cause false locked resul=
-t.
-> >> >        * We can use READ_ONCE() for the mm_lock_seq here, and don't =
-need
-> >> > @@ -720,13 +754,19 @@ static inline bool vma_start_read(struct vm_ar=
-ea_struct *vma)
-> >> >       if (READ_ONCE(vma->vm_lock_seq) =3D=3D READ_ONCE(vma->vm_mm->m=
-m_lock_seq.sequence))
-> >> >               return false;
-> >> >
-> >> > -     if (unlikely(down_read_trylock(&vma->vm_lock.lock) =3D=3D 0))
-> >> > +     /*
-> >> > +      * If VMA_LOCK_OFFSET is set, __refcount_inc_not_zero_limited(=
-) will fail
-> >> > +      * because VMA_REF_LIMIT is less than VMA_LOCK_OFFSET.
-> >> > +      */
-> >> > +     if (unlikely(!__refcount_inc_not_zero_limited(&vma->vm_refcnt,=
- &oldcnt,
-> >> > +                                                   VMA_REF_LIMIT)))
-> >> >               return false;
-> >> >
-> >>
-> >> Replacing down_read_trylock() with the new routine loses an acquire
-> >> fence. That alone is not a problem, but see below.
-> >
-> >Hmm. I think this acquire fence is actually necessary. We don't want
-> >the later vm_lock_seq check to be reordered and happen before we take
-> >the refcount. Otherwise this might happen:
-> >
-> >reader             writer
-> >if (vm_lock_seq =3D=3D mm_lock_seq) // check got reordered
-> >        return false;
-> >                       vm_refcnt +=3D VMA_LOCK_OFFSET
-> >                       vm_lock_seq =3D=3D mm_lock_seq
-> >                       vm_refcnt -=3D VMA_LOCK_OFFSET
-> >if (!__refcount_inc_not_zero_limited())
-> >        return false;
-> >
-> >Both reader's checks will pass and the reader would read-lock a vma
-> >that was write-locked.
-> >
->
-> Here what we plan to do is define __refcount_inc_not_zero_limited() with
-> acquire fence, e.g. with atomic_try_cmpxchg_acquire(), right?
+> The __vma_start_write() provide release fence when locked, so for this pa=
+rt
+> we are ok, right?
 
-Correct. __refcount_inc_not_zero_limited() does not do that in this
-version but I'll fix that.
-
->
-> >>
-> >> > +     rwsem_acquire_read(&vma->vmlock_dep_map, 0, 1, _RET_IP_);
-> >> >       /*
-> >> > -      * Overflow might produce false locked result.
-> >> > +      * Overflow of vm_lock_seq/mm_lock_seq might produce false loc=
-ked result.
-> >> >        * False unlocked result is impossible because we modify and c=
-heck
-> >> > -      * vma->vm_lock_seq under vma->vm_lock protection and mm->mm_l=
-ock_seq
-> >> > +      * vma->vm_lock_seq under vma->vm_refcnt protection and mm->mm=
-_lock_seq
-> >> >        * modification invalidates all existing locks.
-> >> >        *
-> >> >        * We must use ACQUIRE semantics for the mm_lock_seq so that i=
-f we are
-> >> > @@ -735,9 +775,10 @@ static inline bool vma_start_read(struct vm_are=
-a_struct *vma)
-> >> >        * This pairs with RELEASE semantics in vma_end_write_all().
-> >> >        */
-> >> >       if (unlikely(vma->vm_lock_seq =3D=3D raw_read_seqcount(&vma->v=
-m_mm->mm_lock_seq))) {
->
-> One question here is would compiler optimize the read of vm_lock_seq here=
-,
-> since we have read it at the beginning?
->
-> Or with the acquire fence added above, compiler won't optimize it.
-
-Correct. See "ACQUIRE operations" section in
-https://www.kernel.org/doc/Documentation/memory-barriers.txt,
-specifically this: "It guarantees that all memory operations after the
-ACQUIRE operation will appear to happen after the ACQUIRE operation
-with respect to the other components of the system.".
-
-> Or we should use REACE_ONCE(vma->vm_lock_seq) here?
->
-> >>
-> >> The previous modification of this spot to raw_read_seqcount loses the
-> >> acquire fence, making the above comment not line up with the code.
-> >
-> >Is it? From reading the seqcount code
-> >(https://elixir.bootlin.com/linux/v6.13-rc3/source/include/linux/seqlock=
-.h#L211):
-> >
-> >raw_read_seqcount()
-> >    seqprop_sequence()
-> >        __seqprop(s, sequence)
-> >            __seqprop_sequence()
-> >                smp_load_acquire()
-> >
-> >smp_load_acquire() still provides the acquire fence. Am I missing someth=
-ing?
-> >
-> >>
-> >> I don't know if the stock code (with down_read_trylock()) is correct a=
-s
-> >> is -- looks fine for cursory reading fwiw. However, if it indeed works=
-,
-> >> the acquire fence stemming from the lock routine is a mandatory part o=
-f
-> >> it afaics.
-> >>
-> >> I think the best way forward is to add a new refcount routine which
-> >> ships with an acquire fence.
-> >
-> >I plan on replacing refcount_t usage here with an atomic since, as
-> >Hillf noted, refcount is not designed to be used for locking. And will
-> >make sure the down_read_trylock() replacement will provide an acquire
-> >fence.
-> >
->
-> Hmm.. refcount_t is defined with atomic_t. I am lost why replacing refcou=
-nt_t
-> with atomic_t would help.
-
-My point is that refcount_t is not designed for locking, so changing
-refcount-related functions and adding fences there would be wrong. So,
-I'll move to using more generic atomic_t and will implement the
-functionality I need without affecting refcounting functions.
+Yes, __vma_start_write() -> __vma_exit_locked() ->
+refcount_sub_and_test() and this function provides release memory
+ordering, see https://elixir.bootlin.com/linux/v6.12.6/source/include/linux=
+/refcount.h#L289
 
 >
-> >>
-> >> Otherwise I would suggest:
-> >> 1. a comment above __refcount_inc_not_zero_limited saying there is an
-> >>    acq fence issued later
-> >> 2. smp_rmb() slapped between that and seq accesses
-> >>
-> >> If the now removed fence is somehow not needed, I think a comment
-> >> explaining it is necessary.
-> >>
-> >> > @@ -813,36 +856,33 @@ static inline void vma_assert_write_locked(str=
-uct vm_area_struct *vma)
-> >> >
-> >> >  static inline void vma_assert_locked(struct vm_area_struct *vma)
-> >> >  {
-> >> > -     if (!rwsem_is_locked(&vma->vm_lock.lock))
-> >> > +     if (refcount_read(&vma->vm_refcnt) <=3D 1)
-> >> >               vma_assert_write_locked(vma);
-> >> >  }
-> >> >
-> >>
-> >> This now forces the compiler to emit a load from vm_refcnt even if
-> >> vma_assert_write_locked expands to nothing. iow this wants to hide
-> >> behind the same stuff as vma_assert_write_locked.
-> >
-> >True. I guess I'll have to avoid using vma_assert_write_locked() like th=
-is:
-> >
-> >static inline void vma_assert_locked(struct vm_area_struct *vma)
-> >{
-> >        unsigned int mm_lock_seq;
-> >
-> >        VM_BUG_ON_VMA(refcount_read(&vma->vm_refcnt) <=3D 1 &&
-> >                                          !__is_vma_write_locked(vma,
-> >&mm_lock_seq), vma);
-> >}
-> >
-> >Will make the change.
-> >
-> >Thanks for the feedback!
 >
 > --
 > Wei Yang
