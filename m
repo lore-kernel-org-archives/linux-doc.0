@@ -1,287 +1,294 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF75240230
-	for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 16:31:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736785919; cv=none; b=fWJ/kZQFyuXvCnb66kEeuHVkJeWItUdachWwfCplFMmTCCLu5zDHkokmYyX43V7OvKf2GgRcU3SqZt2f4TtMnZs41QoTBSK5oo5TQ+Tar9jQy0anWCUuG+pUtDvp7PKQvQdQ547IxohVkqsoESCQ+Chb8xcM+K5RYs7P09+042A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736785919; c=relaxed/simple;
-	bh=I1Ket/sTRwg89EaeP/EEVOyzGiB2J30949t4bXLOWsk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DGZ7DX1XpFCZKDRLS2YR6f07PdFExV7a+Y18dwGv9yySrXRSPV3TgQmG/DDFdKPVJdecqrPVTeZsCQLuegmEkO91tzZA+DUT6gTdm268mXA/j+ixXPgrsYgGgzWDyumR0WCW/TjubxfmduF8MfYUqP4IuJCPqKt7u6UKbkaGkc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fyWfF/aF; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF2C3A8D0;
+	Mon, 13 Jan 2025 16:34:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736786063; cv=fail; b=RA6f33c5dhvl1L2dKXmsbcS0MQQjn0bzyjVIqomTdqG7RuvN5TMUgagVI0OIAFDTWiBwtChF6erMaTRaQtOvNI6jSduygJphsXLpDcvNmpQrhOrpfM/wwQrFt9ulhWiI0HwcE3zEUfBEugFy/QjfMsi80lzam9GmR0WXgjEdoFU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736786063; c=relaxed/simple;
+	bh=yVteZi23jweYnPdSpHeM7tjMtxCxIE17LmHvQwAfwX4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=jxnvV11/OHN1USkKgbn6hHwPP8Y4jND/hOKxFPx/ihD6X1hjyMoLqUG2yXSiZicHR5Ztoi06iJmbA/nAgawJ8c2wSULS96Sz5E2TrMQfaD3hvwQ5/65U5msyjus2SWU7Yo4LCUx7jb3sxFo1+4uNkndLcMG+2Vdv225g0bfOzc0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=KUt5tskt; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=DSjsDnpH; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fyWfF/aF"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4678c9310afso380481cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 08:31:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="KUt5tskt";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="DSjsDnpH"
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50DGXoM8017208;
+	Mon, 13 Jan 2025 16:33:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2023-11-20; bh=KOG5MRPgR/YHfmXXAQ
+	RwjaEPNclF5D7mrORSZ7ZOdpw=; b=KUt5tsktprWXZTbaE4HLTC5Vr7jq6UGqTQ
+	LJET6/ftmUK8B0lvYmlT89YtCj/TjzUGmR3DGuhISjthXPbFa0RZu5wwv+/gXVQH
+	R5l+18v6bepBVYYH4H5hhyxPmOEuGst6aZifmzO59TvB6SsaFHxy5nSydMNmW5dm
+	1TWO9JLpTqylkaQ2Hb5YNQzWfb11GVDHW0+NYTAmqm5RlEuMN3GthQt0vm4NuadM
+	irQBfoASZti73bbO14nVHkCKDP7zssv6G/c1UjDphzyHg15exeAiMMMezbAkeZOy
+	D9pN6YnsdvK54amGf/4OxKHfka1J93B6/4upe8pe5mzo2UFNW3gA==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 443g8sc0nm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 13 Jan 2025 16:33:49 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 50DGQ2Qa020430;
+	Mon, 13 Jan 2025 16:33:44 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2170.outbound.protection.outlook.com [104.47.59.170])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 443f3df93e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 13 Jan 2025 16:33:43 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZkKFmomuQ0Yqhp+G6j9YlFVXEHbLIHktLhSkQSDDJ5tMgG9VVcOBSafxKtL7BvsTz3mBn6upbYuI+G2SRGJ6jqpzovQR56rAXNZmiQqIH25GaaQLkztpc5GQ40C4wqxPcbTvs2sYyHkG67gtmIFC/OUFke2VNLhssS+OOuSBM5NdokepAQkI9XMhSw3PZ5jEU0m/JQ/vIVu5mJqqxBRhP2PzbK7hMWI9lGzJKB00M5QpsskvnL7BAFSZTSgvn3hUS2KdrJEmzxa4nmdm5/hMS/Vs/8Wfy4gjPFbjI7sEcmGvbaxigPzzbPSPCYH93Xj3B4HQZxN7eZL+VDx3rsztBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KOG5MRPgR/YHfmXXAQRwjaEPNclF5D7mrORSZ7ZOdpw=;
+ b=DBjf69Zlsc5NDcURabHNp/lcqZR/WHiTWWD8AkkMH5YL84faBf69n8To4y3nJXuD/LdQZPCvmsE7IqPLvJlymQRX9dc4h83eYWBNqkySZNn59TkzySUaKuNKT0tY1MQgXlg3CsaNe/KC5nbEXIWz/QWeMTloEHe6VQGpDeciZfgxtePKwri8Y8mfv7QuQei+SPk+ZWMIkJR2CRRYS64V7QK4F9piK/+0WT1Bjhje05WtqLk02CY06VaYjNc+kNKBzSJv4w7SFdpYe+CtK0aChuzYCPfUAb/BeA7O3DQXRyi9ti2zGDBLHge+AyHd7GA1DEWhvANd3osdb6y4icfjfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736785917; x=1737390717; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RBPvIovHQiD9n8xzkcacIlBFecfDAv7IoE1iz0kn/Yo=;
-        b=fyWfF/aF9VhlV4q9teI5iDF+mjlIBb7WC7Ui6MFSsoSRDhgtUfCbJCAi3Vz8NGsD3F
-         Cce6cR49axeDb73QllJgbRsGJMeEx7ZK0oOuMRmaoAma5YfGzEYqmjH7T6AcqQx7YT6V
-         iBYzMFqTCARTl43XiShq/yRSz60mYoYWh5zEJnt1OA0nl2zfxx2lB6edLYNkTvBDZaOl
-         kFU+Cu0jk+1LC7faFp6Rt+k1ysMP5lxmnJXNNsbIQ15eWVj80CFz3rS2nKIp0TKjcFSO
-         neDYdCwpJNt0ipXLucJC2C5nnmo+NpncL+XOQmLWjv6HxhDSKDoa7R1l7VcJhFTC3nVN
-         XfbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736785917; x=1737390717;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RBPvIovHQiD9n8xzkcacIlBFecfDAv7IoE1iz0kn/Yo=;
-        b=LxJObrLyHOfk8AJ/rRHHiye22tVrgo10HmyPXU3mQyiMbXMKRINg4SenwZu+Y8l02y
-         jRr4fn7HGGH5CBXxUciS9BmMc8P0XNeB9ri4UvnO7fSaVStjHAf3BYPwrvZyBlBDvDfm
-         2eAPGYD5YlcH6f8aYS6l4BfrGNp1tRfcZjjs0IaovLpPrjd/yBbtFWtiyfA34q/+V34n
-         FUg1yDN+z8dmr5+g+eBuEzu0bo/pXL8oliG2aRyt7UkcPjN3ZURnJRA5M7K0+8MQvpdz
-         KPTo8Cawk8tCe0cy7ufXQKe3d2HV8sjmILIA0MW1bG4IznocvgFJr3M2U5YLGZqJCju9
-         QO1w==
-X-Forwarded-Encrypted: i=1; AJvYcCWo8nwX/eJAwbt13DwslvbjkQsJUDjbyTiRzSM6gY53Du1xIZdMFGE6p+Ja/DIljW1wTXu5WwyidVQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZ9DfUb6rZpM2ykp8dZzsl8NEskAbWh39mzSz/qCp3FcHjWkvf
-	hpEW3FCJ3mPXATNDx/OvXMyv0HKqyOV0UtMIg/+II3YOH25OEYF9jYzabwfB9LRX/TTOmEb6zaP
-	VayRWt7Tr0Rapo4oMLS1Em+/LRCNDq4uuGGHe
-X-Gm-Gg: ASbGncvH6y1AgXYo0GJSKeNRkuxDx+Il9dwVPmrRXK2JirMZtsdTQg1u/qFecMlyxjp
-	eJDozwtKWlMt2LBzGX0+Wk0bKOz41x+D/TSNg/A==
-X-Google-Smtp-Source: AGHT+IFdQ/9E90a49DORAdfOsNHvSpnAOsbcfqHZKomsT7w6CTF3kENfUIOD+Q/U2yNdDUgYVQkGACVRv9JrAFuL6to=
-X-Received: by 2002:ac8:7f54:0:b0:46c:70b1:c5e4 with SMTP id
- d75a77b69052e-46c89d3a757mr12363361cf.3.1736785916740; Mon, 13 Jan 2025
- 08:31:56 -0800 (PST)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KOG5MRPgR/YHfmXXAQRwjaEPNclF5D7mrORSZ7ZOdpw=;
+ b=DSjsDnpHFFJhj/KyFiwSH5jsSDYU7OkLUyHbVISWOsXDWp8dxgex3vux/3SfxDQKwnvZBc/QBXB79v3GPepvdmat+Jtr11pSgZabRlfuExHrrqLf5IlAOk9giqKlLG00whrTzAbq3lNgBLBR+9L0b2QlP68l/C2Ntlj1wBUDrbk=
+Received: from BYAPR10MB3366.namprd10.prod.outlook.com (2603:10b6:a03:14f::25)
+ by DM6PR10MB4393.namprd10.prod.outlook.com (2603:10b6:5:223::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.11; Mon, 13 Jan
+ 2025 16:33:41 +0000
+Received: from BYAPR10MB3366.namprd10.prod.outlook.com
+ ([fe80::baf2:dff1:d471:1c9]) by BYAPR10MB3366.namprd10.prod.outlook.com
+ ([fe80::baf2:dff1:d471:1c9%4]) with mapi id 15.20.8335.017; Mon, 13 Jan 2025
+ 16:33:41 +0000
+Date: Mon, 13 Jan 2025 16:33:38 +0000
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org,
+        liam.howlett@oracle.com, david.laight.linux@gmail.com, mhocko@suse.com,
+        vbabka@suse.cz, hannes@cmpxchg.org, mjguzik@gmail.com,
+        oliver.sang@intel.com, mgorman@techsingularity.net, david@redhat.com,
+        peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net,
+        paulmck@kernel.org, brauner@kernel.org, dhowells@redhat.com,
+        hdanton@sina.com, hughd@google.com, lokeshgidra@google.com,
+        minchan@google.com, jannh@google.com, shakeel.butt@linux.dev,
+        souravpanda@google.com, pasha.tatashin@soleen.com,
+        klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH v9 17/17] docs/mm: document latest changes to vm_lock
+Message-ID: <096e5619-a717-4263-983c-e55c8c26f7e9@lucifer.local>
+References: <20250111042604.3230628-1-surenb@google.com>
+ <20250111042604.3230628-18-surenb@google.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250111042604.3230628-18-surenb@google.com>
+X-ClientProxiedBy: LO4P123CA0664.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:316::8) To BYAPR10MB3366.namprd10.prod.outlook.com
+ (2603:10b6:a03:14f::25)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250111042604.3230628-1-surenb@google.com> <20250111042604.3230628-5-surenb@google.com>
- <6e9329ba-8dad-423f-9741-e5447f85659f@lucifer.local>
-In-Reply-To: <6e9329ba-8dad-423f-9741-e5447f85659f@lucifer.local>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Mon, 13 Jan 2025 08:31:45 -0800
-X-Gm-Features: AbW1kvZRZB3TkQoH7dhtoCM6Tu-jcq-DdPD4z7nWFcRSAcC0CvKRy7IYHlibKrk
-Message-ID: <CAJuCfpGa9YSVtT9hapQqd9r5WFTzyAALtaK6kD7CPBKk+cvgmQ@mail.gmail.com>
-Subject: Re: [PATCH v9 04/17] mm: introduce vma_iter_store_attached() to use
- with attached vmas
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org, 
-	liam.howlett@oracle.com, david.laight.linux@gmail.com, mhocko@suse.com, 
-	vbabka@suse.cz, hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR10MB3366:EE_|DM6PR10MB4393:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2742924f-b265-4e2f-2248-08dd33f00a47
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?49Yj/BGtU8vmdyAIinguLKeodluyBKPia/Q06qGNL8+l6+4rYCwUFnKjfj+h?=
+ =?us-ascii?Q?BhzvD/+kbP3RD9BD43yg3zzG9X2EE6yQ2kSurHaKT6dA5JXpQyE4dLv1RYiJ?=
+ =?us-ascii?Q?E2gxiztw1zpXQ/OdxMgVT/lO0seCjyO2TH9PuOnH+eqAeIeVBxC7ZqEoXSL2?=
+ =?us-ascii?Q?TPBEkpvt21woW9JheEuM12h5fNKBcijzbVue1UHJkDMaAR6GZ2az0R3GuNqS?=
+ =?us-ascii?Q?f6R3m9SzOOayZ4m+UB/7gGw0k4m5H3V78y6R3mUOV07iQ3c6oiC33aeZ7yaB?=
+ =?us-ascii?Q?BuU20P6SMgMprgCsrdR/kyYQL+0duoNyn4Q1Avz3E9ZZN6BRr9eq11t1NuV1?=
+ =?us-ascii?Q?pY9bg1/H5aa//YbSu79k2cQwq59j8KUrrubvLZu7xl07kGVNlxUA+qrcvyhh?=
+ =?us-ascii?Q?KvGW4Bg70R8V7WteH5e0T7xahMXxej5NhAJsv3xkEq/JsiWjbTKSGHpM1jbj?=
+ =?us-ascii?Q?K6FZgSlC//g0f131P0AkmfXZKQKEt8Hew+hWw7T3xVITGTNaorzVG+vahbWJ?=
+ =?us-ascii?Q?oqBBJhkGgsKaZQTyAcTCjxVTVAzVvT6YljytKsZxDCyB1CMy48V2Pag6aUfw?=
+ =?us-ascii?Q?dn6ZCRdX7bzUuCwOAso1vMzwbH2TKUmzSZDNuz1LHfyRWT6lZksrFUH8Ip/x?=
+ =?us-ascii?Q?WwPg6yT1SnKPXH88NULlfKAe4Zffiq0pFOdnrg+c/vVSu2pJY+8TkEMzKZkh?=
+ =?us-ascii?Q?BTyC2X9ak3U263PN0/y9tOZsJJ2yIh5M+1jaD7xRgwAJsw+Y9a3fT23a16Uh?=
+ =?us-ascii?Q?Wx8UqUIGGMlTop79nhVf8RLdW36INOHK/d5HJ2VpDc2FS90HsoNFjFXts2cK?=
+ =?us-ascii?Q?hyGfqCL2o+i3MiA5aqTpDGXtAsAzmoHqzGR14HI9OLP8WkbbasTE6PmbvCS/?=
+ =?us-ascii?Q?SwtZkrC8Gj4BweWh60M0WPsjKAytmWQk0kXC8tl8PQ0oeIXnffC7joR3Miwn?=
+ =?us-ascii?Q?1MzXq6hZE8sSPY7J39tiooWwluNmNWvFS9BvMryvc2YkktszqVI/NvXgCX8m?=
+ =?us-ascii?Q?xJgRlEaz+T5ICxZmDo88yTofDTDi1BaubaJq/X693WAj53fX7/GJAtKJkpXB?=
+ =?us-ascii?Q?N9cmHn6abmFG0d5Q16nHW2sr58UlPtr11L9nNqQDK1SiDnn/tR8pD+V8hDZM?=
+ =?us-ascii?Q?5MePtUNnnbTTT+bXwDv7p+bZqAUQslYmduaPkr1xQ/vamDaPkE5vbPz+66TW?=
+ =?us-ascii?Q?uDr58xJybeYjhL8EWAHGGx7KdhTZkUikCdj8ZjVBchEC7rTTtKutQLoaTjuI?=
+ =?us-ascii?Q?0EsPT2yEBmPRO59vMUHlYRJD1l6qyK14yhuha4h938BrKpuV7faDWdCeOp83?=
+ =?us-ascii?Q?jMh/K6b9YNjs2/NyvLIwpxZmAeq/VkUg30jEzWxu9YsfInX8ZbTwt00vWSZ/?=
+ =?us-ascii?Q?wJbhYGto2wzc3XtqRP4cvPod15Of?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR10MB3366.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?8elkNvbrMW/+gAXjPCHXsfV1r8r0zk3SgB7236nJX/18akkwlEpYaNTClikf?=
+ =?us-ascii?Q?uUB+Mtiyb3hBTeCukdz9SxDMEJA/CUeaRPh/066rd7O62QTIUG6LbXvxrE+C?=
+ =?us-ascii?Q?tnQeGSum53XOPs3RluxdiUpDIxaq0ZLkWbzkRQ3tKHHdpXUMw1/iMBAVBSpY?=
+ =?us-ascii?Q?eUYXJBb4/kz6v6DD8/41+SyaBIM9qIanBF9MufZGds6NDGPq0cULx/vuKD7x?=
+ =?us-ascii?Q?/NBVcihEKvPIb3rzLxaZxICZir088+/3O1GzmTCLp9f95psES4Az1cmRGwP4?=
+ =?us-ascii?Q?VEGZi00GeY32K2Hnvxj2Z3NECkNFBwCKGVYF33oAKsy7zEfoNaPICh97KzTr?=
+ =?us-ascii?Q?GkRP2g0X7NSLq0yoUCn4Q+QqaFEDIRpD6NlNWcVjCFNRSpGREcba4UFvL0XB?=
+ =?us-ascii?Q?AJtODExg4winGe1J0UHXgF3S4qkLlPYDvDCwo6SjjumUbqjStCPw0nEYno+t?=
+ =?us-ascii?Q?42nqovnnsqZLIi1z46FC2tMVHibMPUXoeWgtCpmouVD84qcPjZuMcXiBdevp?=
+ =?us-ascii?Q?i1wZbkbz/LwOoZj00nGYIO7KPv25S5/PwGT4I1aYTJT54hpr3AvtCpYl5ld+?=
+ =?us-ascii?Q?dZVfZK9OW3qoFbHoDgoIdh1wEa2Yk1j0Hg1KP2Aqu3HWSS9y04eyCxz7aU7B?=
+ =?us-ascii?Q?L6ntASE+bE1wRdZDTtDAbQ8TNd4Mkakdzi3m/DggRRWq1ZW+L9PyHgpwIaKr?=
+ =?us-ascii?Q?SNgN/1g3CjabLyIezLlz/KEEPl6VzF5uTT0poNvst7fzhCKrGSjXBG6ApieY?=
+ =?us-ascii?Q?G9MYvC2IYoOFOh9twaUzC87kAz5FB7xNxWAqI1ozU7IY2vIWS0bqnkK7SniM?=
+ =?us-ascii?Q?uQmSMD5HuHvlBMbMdzQaNU2SKIwl3uvCNbJOfXz1ZDMB0LkGm8575bRsiB7a?=
+ =?us-ascii?Q?JEe7bmmR2ovfqdR37BBCaHYn77mzqppVeKMQueEBkRa7CjV2cxYylTa6ugTZ?=
+ =?us-ascii?Q?gV8F1YF63DqUdXMB1pznwtHJzR614t4DxsoEaG7lwyWxbVWEwwwUXLc2yjMT?=
+ =?us-ascii?Q?wDGhZ5LB8UgROikgZ9+qDKj7CeTgpNc13lhW9czCkX6N40PfBBsPUqXvLkBA?=
+ =?us-ascii?Q?/9jb9D/yM6sbwPxBI5/hqZc4zTwVcTOBJ1tCHaZa7YtZ8SrJgA1EWNaDao8r?=
+ =?us-ascii?Q?i6F0sf5Q5w9Jsyl5rkycVi4CRhiVOYPTFm9EKrfpEkoFAj+dov/ip+yBvpPZ?=
+ =?us-ascii?Q?N0aToiRukyPC9en/MUUd2f7JMcq3WhJJxF7Ie8d2/2jwScx2s8lHtBBtBP7E?=
+ =?us-ascii?Q?aWGYqb1kHmCtQiX9YuA8m4YP1AwyRxYMOo7V77rRmAMDK/DT0ZjKChv4cK2Y?=
+ =?us-ascii?Q?RraHdkUcBPHYoI5hH26qXOjzHoPAkex5K9d0bWOs+J6iXGt5dJpDOUNsCeaA?=
+ =?us-ascii?Q?byD7V475wVUavvXVrSR67LlsbZ853r15lVO+JZ83FdixMI/uPUIeudBwz6FN?=
+ =?us-ascii?Q?LYsyaN6Dx/KV1sgMdCzkcRXJYwl5+xO+fhL6g2vdEKV+hgov6jxZaNn8J8Vh?=
+ =?us-ascii?Q?VkjP2uq7u87muRFM+CZ5vAIY5OqmR891pvSqDvIgD3l0m1WjS3hniIlZ2P62?=
+ =?us-ascii?Q?JnYL8MHe4Dp/hYON75aL9X4TraRn8KLmxSrlRNBbtGlB/eWRT8/YK3WitIvp?=
+ =?us-ascii?Q?hw=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	nKpgu0UklAHhR3K2xaLtgYl4/LprDl59EPLLysJaFhkUWj4V7PS6W2zQ7y5xojYEysshxPdQ5kssvmE2HhaQ6lDKPgkGhcjNAfNQXcMIYNfM67v5FjqYUxhG988REoxpZjgQLlyIaH+hq1DlLN4KMPFjTW5n8SeOZEym7x5jUSlP3ZVNY/wTXEa64GWm+WGctaKeMHgLLJbSK6Khz3pT3HTogL3F5LekeptLvP3O+OQnQWC00LKcvXLgjdQ6NS/OxQkMZRqg6Yn2dzRa1GW8Zy8BOwWWPbp91UlPZ8rSUH3oGtIfCDytTLzKaSK2GTQg4gHqI6LnxbuWipuoIh1UN1f28VPzS8ZQriLY64I4aBDPcMyPBt+hNpVQi3GLRpXOmsxFHVgwa9rBVQx9X4suNF/LfpvTKhX3hoVBlHjrKPY9dz2V3u7NsAyVKpiWYc3RnyV3fW9l/4JKt2dO9cuWwfbQdd5Ytl7mACN6Fcrwz+wh2Po8eWz6HCFXDj53w2sQE7Eqn7fssUfAOFE+0mjoZ6wwjLhUl8eKl7+TRCchDXQ/M/VwHVAVbAfYaDQWeBl7HXbtnYNyNqMTdQOUVyiI8kat8chlahq3Oc6W/gmpeFs=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2742924f-b265-4e2f-2248-08dd33f00a47
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3366.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2025 16:33:41.6804
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: f2h8HIiXDCyt9SAGmngmdC2vGDh64kZVjNu+3MyRADclG2ldqTe4pPaxpW+Umfx6hqwhTf/SL7m65loeVczE8a7sz/FoAGiEfizHzQ5RIFY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB4393
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-13_06,2025-01-13_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 spamscore=0
+ suspectscore=0 phishscore=0 malwarescore=0 mlxscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2411120000
+ definitions=main-2501130135
+X-Proofpoint-GUID: 8PreicC8fnHji_gq2uO5T17p6gideNFz
+X-Proofpoint-ORIG-GUID: 8PreicC8fnHji_gq2uO5T17p6gideNFz
 
-On Mon, Jan 13, 2025 at 3:58=E2=80=AFAM Lorenzo Stoakes
-<lorenzo.stoakes@oracle.com> wrote:
+On Fri, Jan 10, 2025 at 08:26:04PM -0800, Suren Baghdasaryan wrote:
+> Change the documentation to reflect that vm_lock is integrated into vma
+> and replaced with vm_refcnt.
+> Document newly introduced vma_start_read_locked{_nested} functions.
 >
-> On Fri, Jan 10, 2025 at 08:25:51PM -0800, Suren Baghdasaryan wrote:
-> > vma_iter_store() functions can be used both when adding a new vma and
-> > when updating an existing one. However for existing ones we do not need
-> > to mark them attached as they are already marked that way. Introduce
-> > vma_iter_store_attached() to be used with already attached vmas.
->
-> OK I guess the intent of this is to reinstate the previously existing
-> asserts, only explicitly checking those places where we attach.
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> Reviewed-by: Liam R. Howlett <Liam.Howlett@Oracle.com>
 
-No, the motivation is to prevern re-attaching an already attached vma
-or re-detaching an already detached vma for state consistency. I guess
-I should amend the description to make that clear.
+Apart from small nit, LGTM, thanks for doing this!
 
->
-> I'm a little concerned that by doing this, somebody might simply invoke
-> this function without realising the implications.
+Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
-Well, in that case somebody should get an assertion. If
-vma_iter_store() is called against already attached vma, we get this
-assertion:
+> ---
+>  Documentation/mm/process_addrs.rst | 44 ++++++++++++++++++------------
+>  1 file changed, 26 insertions(+), 18 deletions(-)
+>
+> diff --git a/Documentation/mm/process_addrs.rst b/Documentation/mm/process_addrs.rst
+> index 81417fa2ed20..f573de936b5d 100644
+> --- a/Documentation/mm/process_addrs.rst
+> +++ b/Documentation/mm/process_addrs.rst
+> @@ -716,9 +716,14 @@ calls :c:func:`!rcu_read_lock` to ensure that the VMA is looked up in an RCU
+>  critical section, then attempts to VMA lock it via :c:func:`!vma_start_read`,
+>  before releasing the RCU lock via :c:func:`!rcu_read_unlock`.
+>
+> -VMA read locks hold the read lock on the :c:member:`!vma->vm_lock` semaphore for
+> -their duration and the caller of :c:func:`!lock_vma_under_rcu` must release it
+> -via :c:func:`!vma_end_read`.
+> +In cases when the user already holds mmap read lock, :c:func:`!vma_start_read_locked`
+> +and :c:func:`!vma_start_read_locked_nested` can be used. These functions do not
+> +fail due to lock contention but the caller should still check their return values
+> +in case they fail for other reasons.
+> +
+> +VMA read locks increment :c:member:`!vma.vm_refcnt` reference counter for their
+> +duration and the caller of :c:func:`!lock_vma_under_rcu` must drop it via
+> +:c:func:`!vma_end_read`.
+>
+>  VMA **write** locks are acquired via :c:func:`!vma_start_write` in instances where a
+>  VMA is about to be modified, unlike :c:func:`!vma_start_read` the lock is always
+> @@ -726,9 +731,9 @@ acquired. An mmap write lock **must** be held for the duration of the VMA write
+>  lock, releasing or downgrading the mmap write lock also releases the VMA write
+>  lock so there is no :c:func:`!vma_end_write` function.
+>
+> -Note that a semaphore write lock is not held across a VMA lock. Rather, a
+> -sequence number is used for serialisation, and the write semaphore is only
+> -acquired at the point of write lock to update this.
+> +Note that when write-locking a VMA lock, the :c:member:`!vma.vm_refcnt` is temporarily
+> +modified so that readers can detect the presense of a writer. The reference counter is
+> +restored once the vma sequence number used for serialisation is updated.
+>
+>  This ensures the semantics we require - VMA write locks provide exclusive write
+>  access to the VMA.
+> @@ -738,7 +743,7 @@ Implementation details
+>
+>  The VMA lock mechanism is designed to be a lightweight means of avoiding the use
+>  of the heavily contended mmap lock. It is implemented using a combination of a
+> -read/write semaphore and sequence numbers belonging to the containing
+> +reference counter and sequence numbers belonging to the containing
+>  :c:struct:`!struct mm_struct` and the VMA.
+>
+>  Read locks are acquired via :c:func:`!vma_start_read`, which is an optimistic
+> @@ -779,28 +784,31 @@ release of any VMA locks on its release makes sense, as you would never want to
+>  keep VMAs locked across entirely separate write operations. It also maintains
+>  correct lock ordering.
+>
+> -Each time a VMA read lock is acquired, we acquire a read lock on the
+> -:c:member:`!vma->vm_lock` read/write semaphore and hold it, while checking that
+> -the sequence count of the VMA does not match that of the mm.
+> +Each time a VMA read lock is acquired, we increment :c:member:`!vma.vm_refcnt`
+> +reference counter and check that the sequence count of the VMA does not match
+> +that of the mm.
+>
+> -If it does, the read lock fails. If it does not, we hold the lock, excluding
+> -writers, but permitting other readers, who will also obtain this lock under RCU.
+> +If it does, the read lock fails and :c:member:`!vma.vm_refcnt` is dropped.
+> +If it does not, we keep the reference counter raised, excluding writers, but
+> +permitting other readers, who can also obtain this lock under RCU.
+>
+>  Importantly, maple tree operations performed in :c:func:`!lock_vma_under_rcu`
+>  are also RCU safe, so the whole read lock operation is guaranteed to function
+>  correctly.
+>
+> -On the write side, we acquire a write lock on the :c:member:`!vma->vm_lock`
+> -read/write semaphore, before setting the VMA's sequence number under this lock,
+> -also simultaneously holding the mmap write lock.
+> +On the write side, we set a bit in :c:member:`!vma.vm_refcnt` which can't be
+> +modified by readers and wait for all readers to drop their reference count.
+> +Once there are no readers, VMA's sequence number is set to match that of the
 
-vma_iter_store()
-  vma_mark_attached()
-    vma_assert_detached()
+Nit: 'the VMA's sequence number' seems to read better here.
 
-If vma_iter_store_attached() is called against a detached vma, we get this =
-one:
-
-vma_iter_store_attached()
-  vma_assert_attached()
-
-Does that address your concern?
-
+> +mm. During this entire operation mmap write lock is held.
 >
-> Can we have something functional like
+>  This way, if any read locks are in effect, :c:func:`!vma_start_write` will sleep
+>  until these are finished and mutual exclusion is achieved.
 >
-> vma_iter_store_new() and vma_iter_store_overwrite()
-
-Ok. A bit more churn but should not be too bad.
-
+> -After setting the VMA's sequence number, the lock is released, avoiding
+> -complexity with a long-term held write lock.
+> +After setting the VMA's sequence number, the bit in :c:member:`!vma.vm_refcnt`
+> +indicating a writer is cleared. From this point on, VMA's sequence number will
+> +indicate VMA's write-locked state until mmap write lock is dropped or downgraded.
 >
-> ?
+> -This clever combination of a read/write semaphore and sequence count allows for
+> +This clever combination of a reference counter and sequence count allows for
+>  fast RCU-based per-VMA lock acquisition (especially on page fault, though
+>  utilised elsewhere) with minimal complexity around lock ordering.
 >
-> I don't like us just leaving vma_iter_store() quietly making an assumptio=
-n
-> that a caller doesn't necessarily realise.
+> --
+> 2.47.1.613.gc27f4b7a9f-goog
 >
-> Also it's more greppable this way.
->
-> I had a look through callers and it does seem you've snagged them all
-> correctly.
->
-> >
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
-> > ---
-> >  include/linux/mm.h | 12 ++++++++++++
-> >  mm/vma.c           |  8 ++++----
-> >  mm/vma.h           | 11 +++++++++--
-> >  3 files changed, 25 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/include/linux/mm.h b/include/linux/mm.h
-> > index 2b322871da87..2f805f1a0176 100644
-> > --- a/include/linux/mm.h
-> > +++ b/include/linux/mm.h
-> > @@ -821,6 +821,16 @@ static inline void vma_assert_locked(struct vm_are=
-a_struct *vma)
-> >               vma_assert_write_locked(vma);
-> >  }
-> >
-> > +static inline void vma_assert_attached(struct vm_area_struct *vma)
-> > +{
-> > +     VM_BUG_ON_VMA(vma->detached, vma);
-> > +}
-> > +
-> > +static inline void vma_assert_detached(struct vm_area_struct *vma)
-> > +{
-> > +     VM_BUG_ON_VMA(!vma->detached, vma);
-> > +}
-> > +
-> >  static inline void vma_mark_attached(struct vm_area_struct *vma)
-> >  {
-> >       vma->detached =3D false;
-> > @@ -866,6 +876,8 @@ static inline void vma_end_read(struct vm_area_stru=
-ct *vma) {}
-> >  static inline void vma_start_write(struct vm_area_struct *vma) {}
-> >  static inline void vma_assert_write_locked(struct vm_area_struct *vma)
-> >               { mmap_assert_write_locked(vma->vm_mm); }
-> > +static inline void vma_assert_attached(struct vm_area_struct *vma) {}
-> > +static inline void vma_assert_detached(struct vm_area_struct *vma) {}
-> >  static inline void vma_mark_attached(struct vm_area_struct *vma) {}
-> >  static inline void vma_mark_detached(struct vm_area_struct *vma) {}
-> >
-> > diff --git a/mm/vma.c b/mm/vma.c
-> > index d603494e69d7..b9cf552e120c 100644
-> > --- a/mm/vma.c
-> > +++ b/mm/vma.c
-> > @@ -660,14 +660,14 @@ static int commit_merge(struct vma_merge_struct *=
-vmg,
-> >       vma_set_range(vmg->vma, vmg->start, vmg->end, vmg->pgoff);
-> >
-> >       if (expanded)
-> > -             vma_iter_store(vmg->vmi, vmg->vma);
-> > +             vma_iter_store_attached(vmg->vmi, vmg->vma);
-> >
-> >       if (adj_start) {
-> >               adjust->vm_start +=3D adj_start;
-> >               adjust->vm_pgoff +=3D PHYS_PFN(adj_start);
-> >               if (adj_start < 0) {
-> >                       WARN_ON(expanded);
-> > -                     vma_iter_store(vmg->vmi, adjust);
-> > +                     vma_iter_store_attached(vmg->vmi, adjust);
-> >               }
-> >       }
->
-> I kind of feel this whole function (that yes, I added :>) though derived
-> from existing logic) needs rework, as it's necessarily rather confusing.
->
-> But hey, that's on me :)
->
-> But this does look right... OK see this as a note-to-self...
->
-> >
-> > @@ -2845,7 +2845,7 @@ int expand_upwards(struct vm_area_struct *vma, un=
-signed long address)
-> >                               anon_vma_interval_tree_pre_update_vma(vma=
-);
-> >                               vma->vm_end =3D address;
-> >                               /* Overwrite old entry in mtree. */
-> > -                             vma_iter_store(&vmi, vma);
-> > +                             vma_iter_store_attached(&vmi, vma);
-> >                               anon_vma_interval_tree_post_update_vma(vm=
-a);
-> >
-> >                               perf_event_mmap(vma);
-> > @@ -2925,7 +2925,7 @@ int expand_downwards(struct vm_area_struct *vma, =
-unsigned long address)
-> >                               vma->vm_start =3D address;
-> >                               vma->vm_pgoff -=3D grow;
-> >                               /* Overwrite old entry in mtree. */
-> > -                             vma_iter_store(&vmi, vma);
-> > +                             vma_iter_store_attached(&vmi, vma);
-> >                               anon_vma_interval_tree_post_update_vma(vm=
-a);
-> >
-> >                               perf_event_mmap(vma);
-> > diff --git a/mm/vma.h b/mm/vma.h
-> > index 2a2668de8d2c..63dd38d5230c 100644
-> > --- a/mm/vma.h
-> > +++ b/mm/vma.h
-> > @@ -365,9 +365,10 @@ static inline struct vm_area_struct *vma_iter_load=
-(struct vma_iterator *vmi)
-> >  }
-> >
-> >  /* Store a VMA with preallocated memory */
-> > -static inline void vma_iter_store(struct vma_iterator *vmi,
-> > -                               struct vm_area_struct *vma)
-> > +static inline void vma_iter_store_attached(struct vma_iterator *vmi,
-> > +                                        struct vm_area_struct *vma)
-> >  {
-> > +     vma_assert_attached(vma);
-> >
-> >  #if defined(CONFIG_DEBUG_VM_MAPLE_TREE)
-> >       if (MAS_WARN_ON(&vmi->mas, vmi->mas.status !=3D ma_start &&
-> > @@ -390,7 +391,13 @@ static inline void vma_iter_store(struct vma_itera=
-tor *vmi,
-> >
-> >       __mas_set_range(&vmi->mas, vma->vm_start, vma->vm_end - 1);
-> >       mas_store_prealloc(&vmi->mas, vma);
-> > +}
-> > +
-> > +static inline void vma_iter_store(struct vma_iterator *vmi,
-> > +                               struct vm_area_struct *vma)
-> > +{
-> >       vma_mark_attached(vma);
-> > +     vma_iter_store_attached(vmi, vma);
-> >  }
-> >
->
-> See comment at top, and we need some comments here to explain why we're
-> going to pains to do this.
-
-Ack. I'll amend the patch description to make that clear.
-
->
-> What about mm/nommu.c? I guess these cases are always new VMAs.
-
-CONFIG_PER_VMA_LOCK depends on !CONFIG_NOMMU, so for nommu case all
-these attach/detach functions become NOPs.
-
->
-> We probably definitely need to check this series in a nommu setup, have y=
-ou
-> done this? As I can see this breaking things. Then again I suppose you'd
-> have expected bots to moan by now...
->
-> >  static inline unsigned long vma_iter_addr(struct vma_iterator *vmi)
-> > --
-> > 2.47.1.613.gc27f4b7a9f-goog
-> >
