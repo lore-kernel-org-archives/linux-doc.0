@@ -1,466 +1,208 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2074.outbound.protection.outlook.com [40.107.92.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5B41CD210
-	for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 19:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736794828; cv=none; b=lJsGF6AVaZj2p/8VgECSVgaR0iR6b/3RX71C8EW7/72EdhT/FrXI+JInghUMDGcyju57GQTRZbWOEQzgx/7FzaslipV4+qDSzLQEZkECZvMa9ZPHOMiP5IbYmFv5Q0/R1pyWtxfotuFrMGAX3w8EcFcfVrOEGHqfnP0awv19qVA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736794828; c=relaxed/simple;
-	bh=Uk8bHfgtYjEjUNXGTgw5n/3M1iC0/QUU9h7O3uED9fc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SQUeQmUZCRLQEBNXDD4u0NpdFydB45AivrXJ8HWkAu8jDfIXbgvaF+I+XMUbSSu58iJ2T0bqD/juf+9OSy9bWIvT9ODRc9knx4mIO/n7JsNDcydCttBlh2uWFMOkcivLLRMAFdRPP7rrbB02UdNoNwfyoYjbS/eSe+2vb6mKNeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xKffSBeZ; arc=none smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6EBC240251;
+	Mon, 13 Jan 2025 19:01:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.74
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736794895; cv=fail; b=H6TCZx8pxhOfIQCsRFSOr8eVUelt7eVJ9iccvSfPoCaaXZ05qlVYhnOmfRvFrQy6fjYc7TANq909QaBwwDOrhdiEUfuprvlJmYpXRvHwRLqqFOJaoSFP7luOq56h23kRyVPPxrjuo1/ZNrR3xQ7hsRrDDKOmheEMUSiPQnQtitQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736794895; c=relaxed/simple;
+	bh=e5D6dxFdL6les3qOyYYqsCy23v57A9mn81iH43pBOqU=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fpzgLWZKYT3w0+TTMUEi6uuug8Y9UPMhEWAVaLL2eMC1TK1P3s5zho8JIJMIBuEI5tPKqNJ1bW1aL+R1TZwP5fOF1vDpVRl2/ezMSBwDpSfQHp+kgR9yVxJUr7v+Qn5k8hy3a0Qx2glYviUwbYHVGSZ28EDi7zoYFhWSBfaLPBs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=HLmy2aTk; arc=fail smtp.client-ip=40.107.92.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xKffSBeZ"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-467abce2ef9so25541cf.0
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 11:00:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736794819; x=1737399619; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ouVlFUZRREhIoHjGwLjVd+KkkJaABABdY0WLsWGy1pI=;
-        b=xKffSBeZt8BaiG+/21Df/w2NrlO0GDXb23n/hEQXjRdJlUpXDq+y0RX5YpC9tCeulA
-         QT/FooAf+JhwgtRTt/IG560sorX+8TAnhUQIYv3ov9IkDfE4gyhZscqGlF7PstmAL60w
-         oavDi17qthBTQVdLHWIkrqAztG2R01QMdmaak5m/STWJHkkiLiNYy1rE5xrYVV39o1Td
-         yqm1d3MXPLUADAYTE4QhIGRwrdFNGFKFVA0gaHeWZQCGeaWgUX9x0w60EjMkrj7QKtrC
-         v8mjt7XR4A7FztXsyo5WP3+RVh3sq+ghO7/VNwKoWOnDc1bqLn3bkdxU4mjHLJu6L2dh
-         sKiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736794819; x=1737399619;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ouVlFUZRREhIoHjGwLjVd+KkkJaABABdY0WLsWGy1pI=;
-        b=uxWlGHn7GFO5dTmwrofEoqsPOOl3+Y8qJVH16nTH+uf23T2k6klwlN8712Kdo+0XvE
-         VAs1aHnForEfqX3jkAn1BC1Ac5F4MJ06qU9wuzNN1FazzqLNxcKf9nWSaKAw5Pyyp4MV
-         YH8knSSWJM0LNNck9QHWpbomCMJ3Hrv8Yi+WorMYFo+dCjwRouZifjrKspAJHzVpA4CC
-         8sxHxMqk+jI99yW86NzI30xZNXhGMBZHsjInsFHeDRX4/pVnLXeh8g0PiUaM/MemySMn
-         oVgJhmFqc7yd6MIhG7jVsPeI3UdUblJEbSUdf0bKrzHe+7InePcdu6wx4AwcMcrBBmvS
-         tFMg==
-X-Forwarded-Encrypted: i=1; AJvYcCU+PvEAGx4Sfe946lKiqGOBirGiCFOSce+Zpf3vjnYnmhlg86TNGKOyT8+lW7Lww2/ekQUyyG3d6k4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZbYwcafJO3ogQYs3IlwJRX5ws4pbKqy3pAKU6+8ZavCTvJfuv
-	eZ5kHxHxiBKAADzl3HYNIBKZyRliL4s2pYWUwgHT8sIRdbRIne0RulT6EpYwDcn5eMj8uI0x5i5
-	KFMe8D1wGhEx/02wOGS5nsl5lPazmnI/ZrVbs
-X-Gm-Gg: ASbGncseCnSKZ9XTvsQCMI55K//X6S8eydQciLrj6eousNfUpu6cwPy1CYQRVFherdr
-	UXJzZm7XwAAX+6U50pYGkWggu82gXEAnS+Qh+IA==
-X-Google-Smtp-Source: AGHT+IFiFwIAJreck2eXuGVLCOpCUJxrqm617YL59uzixOqSrS1FvAoVIadqd4lHXuvB/ws5gDgj75RK3fW/jzook1c=
-X-Received: by 2002:ac8:5d50:0:b0:466:7926:c69 with SMTP id
- d75a77b69052e-46de97879d8mr46011cf.20.1736794818718; Mon, 13 Jan 2025
- 11:00:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="HLmy2aTk"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YULzVPJCeoNPp4GeXlok1o4Xa/Mmz9eDCs+NV9zpsuTGe5PrEIOysiQwbfaiB2K3/NyCE2xM2pR2cr/rFS39y2RSocnnwrI0VXK+3zlzzzPcuBVXdwIEdWR1Lvy6AGRUyZuAaGUSxGL0pI5uqTyl9uSL5+JrzSeYnThH2f44OVN81WuFBi35UyH50paa4AC20VHAJqNqdveGxVzgLEiotnBI5kB1pYub1OM809GRfVPEe42s0bNas6+NB7NUe5JsZbX2XhDGpwXtZwPJXVgV+ARmJvMmEIG1G6hEueAT01nDkFt6cOpeGUelyWwKefMDlr0XT5rrs9r1Pgka8TXrVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CXRBw3xLC8HkupB416xfNOcJbozaIA86suw8QpYRrXc=;
+ b=byr/c0dYs9SdgwX0gQG2nqTbfMJdQPleWnAsPU+y3DtkZEOHgVypkE8z83GgPCUvDcmamV/fcr8n33RnaoT3BS3cDR7eYiyRkul9ANDJEjfXws9EGV7ZpnVIDYOZQ59ZHGLOitdCIM9dq/0Wkit5rseplcw02RM3fZlIlkkXH8O6Cpmc93GEg9VbbROI6YPooBMBg3K7v1NDd9Y/qv1TOun33xT2oUzl3+MKPCQd8STqkbmtyrQYPXiXlab/EhKga91R1QosWTUkY8U05cLlex6ynkDZK/lz4FS90CTzpvtVr5xctnf8hVACh4Ig6sv0w1AToCt3VQ1KZyWYtbSkOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CXRBw3xLC8HkupB416xfNOcJbozaIA86suw8QpYRrXc=;
+ b=HLmy2aTkHPYjqdo1dPfihLv/IaPbMrglQTRSTWNWdWhsFkePA5NMvb1aq6/CHdQ7AslDIR9yiahk4hjZgkGwqwIBNjNKCV2nqP2uXYJxquKvJibG914iMwEPjSHWvC5MNlDgCBRBLUPT02EVdhfMI59tLBQUsgvC9So3NtN6hVs5/n6+IJDBJkXPnO2ooqcB2I2KDih2EphhqYe4x8xpuha46Wn4h9EEwcqoPX2lX6Dn+KLH7E3fTaPA13rT5ri0ZvxLKO9ejrlOeTrzhFt3Rf8q9KA82kKgmjgQb5ugulC0ym72xZ4oiF3DCP/orY+omf8yc8AQUrD4IMCoVNRbSQ==
+Received: from SA0PR11CA0045.namprd11.prod.outlook.com (2603:10b6:806:d0::20)
+ by SA1PR12MB7151.namprd12.prod.outlook.com (2603:10b6:806:2b1::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.18; Mon, 13 Jan
+ 2025 19:01:28 +0000
+Received: from SA2PEPF00003F68.namprd04.prod.outlook.com
+ (2603:10b6:806:d0:cafe::19) by SA0PR11CA0045.outlook.office365.com
+ (2603:10b6:806:d0::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8335.17 via Frontend Transport; Mon,
+ 13 Jan 2025 19:01:28 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ SA2PEPF00003F68.mail.protection.outlook.com (10.167.248.43) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8356.11 via Frontend Transport; Mon, 13 Jan 2025 19:01:28 +0000
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 13 Jan
+ 2025 11:01:13 -0800
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail204.nvidia.com
+ (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 13 Jan
+ 2025 11:01:12 -0800
+Received: from Asurada-Nvidia (10.127.8.10) by mail.nvidia.com (10.129.68.8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4 via Frontend
+ Transport; Mon, 13 Jan 2025 11:01:11 -0800
+Date: Mon, 13 Jan 2025 11:01:10 -0800
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: <will@kernel.org>
+CC: <jgg@nvidia.com>, <kevin.tian@intel.com>, <corbet@lwn.net>,
+	<oe-kbuild-all@lists.linux.dev>, <joro@8bytes.org>,
+	<suravee.suthikulpanit@amd.com>, <robin.murphy@arm.com>,
+	<dwmw2@infradead.org>, <baolu.lu@linux.intel.com>, <shuah@kernel.org>,
+	<linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <eric.auger@redhat.com>,
+	<jean-philippe@linaro.org>, <mdf@kernel.org>, <mshavit@google.com>,
+	<shameerali.kolothum.thodi@huawei.com>, <smostafa@google.com>,
+	<ddutile@redhat.com>, <yi.l.liu@intel.com>, <patches@lists.linux.dev>
+Subject: Re: [PATCH v5 14/14] iommu/arm-smmu-v3: Report events that belong to
+ devices attached to vIOMMU
+Message-ID: <Z4Vi9raM/lOot/SQ@Asurada-Nvidia>
+References: <03c01be90e53f743a91b6c1376c408404b891867.1736237481.git.nicolinc@nvidia.com>
+ <202501091822.4ocbIobQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250111042604.3230628-1-surenb@google.com> <f5e26a57-ec77-4df8-8b4f-5a718a046894@lucifer.local>
- <CAJuCfpEf4SZVCH+HfJsvJLbvvMFnm0tyh0P1YwjMeYk-nP0RdA@mail.gmail.com> <5aecdfec-5939-4627-a27b-f2057a95fb65@lucifer.local>
-In-Reply-To: <5aecdfec-5939-4627-a27b-f2057a95fb65@lucifer.local>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Mon, 13 Jan 2025 11:00:07 -0800
-X-Gm-Features: AbW1kvbdq65ih4O_ouYS9lC3SM0GkRt4MwWyHNynzPPrbMuh3Qv-A3rG0pdfQLU
-Message-ID: <CAJuCfpH-tj-=_E1rjt+WTVWffY3hH0sAkeORB4oZos13CwJMkA@mail.gmail.com>
-Subject: Re: [PATCH v9 00/17] reimplement per-vma lock as a refcount
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org, 
-	liam.howlett@oracle.com, david.laight.linux@gmail.com, mhocko@suse.com, 
-	vbabka@suse.cz, hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <202501091822.4ocbIobQ-lkp@intel.com>
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003F68:EE_|SA1PR12MB7151:EE_
+X-MS-Office365-Filtering-Correlation-Id: c1b91a22-f096-4db8-232a-08dd3404af7a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?8f5S4/miFkdIvB1saISHe/3iUgKsEsAIdpsujnXd4lUolsK21weuueJ2zc75?=
+ =?us-ascii?Q?MWdKM1MDLQOeZxGTMMj4lDb15Dj4KB5u8twnpmVtP1VYYKNcbM14TkXULzdw?=
+ =?us-ascii?Q?/mibjGGJLS3eHLEvXC/QaclNnxLa6RQhflKaszhhjth8ovlBumL2I/J1IkTG?=
+ =?us-ascii?Q?sSkExiNyRD7YrrB6Ca+e4YmFnZXBeCoXHfOvw8lItI7CbJefu03OU1hpi/s2?=
+ =?us-ascii?Q?cmWm9hf8i1YckxbMGe8rjsUuWIjTWgtqmzSHApq0ZaoyWH0F+unA8MiC3Xx+?=
+ =?us-ascii?Q?74ePAzt6dNmOLhTFcwrOdWDtolxBlKVSCmbg3/+xm1uBBWpzleSH+eHIT5V8?=
+ =?us-ascii?Q?6MDjiT7U8p13tM82aUiXvEkqlAbziRjQBdFp0W/wVuojJ2MEShabtvooKbRP?=
+ =?us-ascii?Q?GepjzX7bvUaLuE/g7mftkSZsp9cCmFT8oOyTr+1oDkJjKruezNXV9ZMUJbLS?=
+ =?us-ascii?Q?TcThM3sUS5lLdwZQMrwRgFqt8Cs2NqeOHpN+iJ33tMVkqoxot0/0dEAFMepP?=
+ =?us-ascii?Q?r8cFO/bW+aovoC0XYg/NfQuGo9lBMFcnpneV/xqfJzbYD3zEBryQOc45OC9/?=
+ =?us-ascii?Q?kwbfvc1jmBoXRMdNclgF7C7xVkZ+o+2BcXlq0SxGogB6d91k4Yp9CeeaibL9?=
+ =?us-ascii?Q?2gCM0BTlOHBQsLiHffUXCZgG8vsODUDUkp6LUCA4CYqhGjX+heknxCu9C07C?=
+ =?us-ascii?Q?2CVn5lxr3gbc4t+O+dWrrypBV+XHCuqEG0tk63TjvEXBTa6fWYHU693Ti2Ls?=
+ =?us-ascii?Q?mpPFpLEt426IFO0qI9xcaVo5NOjUf6j3fqd7u735khiZ9OurPLcjlo0y03k3?=
+ =?us-ascii?Q?e2LqXeG+w5Oe2I3p0uKrZijaLXAX9UmyG1qWR4ADnMQp+qLXxxEtHiHPtnKl?=
+ =?us-ascii?Q?Qd3dy8M44MJacCEZJy1Q/Dn5TllldocLTGze7pmKstkP928ttOSKLAFA20HG?=
+ =?us-ascii?Q?u+3jQ8MTroCU8y9aqqJVfz2LcE8mo0vL/5sAytBZ8vjs3UjAgFYy1Q2R9eB+?=
+ =?us-ascii?Q?z985WRHjJ5X84PWuYCITNrrM45pDmRBZ0IeGAyVf8LfeBj2fYiuUphc63MrX?=
+ =?us-ascii?Q?Jc8bkaB4qdbUHk65COEO/zgIlOs+LRKtWc+kkvnnLysEXNnQqmgTUVrWFXMI?=
+ =?us-ascii?Q?hJDOiG36omxjKGyihoXrGdOQTCgahPhREPTdJBfpxOv9quKsy67VA0CW1vkT?=
+ =?us-ascii?Q?iW4+2WTZV+iI/ROevf+4Q4NgoCTWJXhKBgj+bvrgYL7OhCwRuVKBNom7kQCj?=
+ =?us-ascii?Q?to8hmwQkt2K+EOCuSMyaXBcsykqdruX6CGf0CcPbdXSEqYbR54b8KOpdkIFB?=
+ =?us-ascii?Q?g4Fhte857GnmUNWIZ/2FbChdoVF8m8o9+uKQOqZNack4/LCdk4Z/IZhgUbH5?=
+ =?us-ascii?Q?A24ZmdC2lfnFS18IDvyGA21RJ77OkJO57YTWsPyuiHj9TvS3iMTuhE9lKTbt?=
+ =?us-ascii?Q?Zrum1BKVJKqjHJGSXyXiMjb83+5NROkfPy8zh81vCjK6lDtnplxOlL4FYjdk?=
+ =?us-ascii?Q?PRZdQmOWTV7SvBI=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2025 19:01:28.3446
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: c1b91a22-f096-4db8-232a-08dd3404af7a
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF00003F68.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7151
 
-On Mon, Jan 13, 2025 at 9:11=E2=80=AFAM Lorenzo Stoakes
-<lorenzo.stoakes@oracle.com> wrote:
->
-> On Mon, Jan 13, 2025 at 08:58:37AM -0800, Suren Baghdasaryan wrote:
-> > On Mon, Jan 13, 2025 at 4:14=E2=80=AFAM Lorenzo Stoakes
-> > <lorenzo.stoakes@oracle.com> wrote:
-> > >
-> > > A nit on subject, I mean this is part of what this series does, and h=
-ey -
-> > > we have only so much text to put in here - but isn't this both
-> > > reimplementing per-VMA lock as a refcount _and_ importantly allocatin=
-g VMAs
-> > > using the RCU typesafe mechanism?
-> > >
-> > > Do we have to do both in one series? Can we split this out? I mean ma=
-ybe
-> > > that's just churny and unnecessary, but to me this series is 'allocat=
-e VMAs
-> > > RCU safe and refcount VMA lock' or something like this. Maybe this is
-> > > nitty... but still :)
-> >
-> > There is "motivational dependency" because one of the main reasons I'm
-> > converting the vm_lock into vm_refcnt is to make it easier to add
-> > SLAB_TYPESAFE_BY_RCU (see my last reply to Hillf). But technically we
-> > can leave the SLAB_TYPESAFE_BY_RCU out of this series if that makes
-> > thighs easier. That would be the 2 patches at the end:
->
-> Right yeah... maybe it's better to do it in one hit.
->
-> >
-> > mm: prepare lock_vma_under_rcu() for vma reuse possibility
-> > mm: make vma cache SLAB_TYPESAFE_BY_RCU
-> >
-> > I made sure that each patch is bisectable, so there should not be a
-> > problem with tracking issues.
-> >
-> > >
-> > > One general comment here - this is a really major change in how this =
-stuff
-> > > works, and yet I don't see any tests anywhere in the series.
-> >
-> > Hmm. I was diligently updating the tests to reflect the replacement of
-> > vm_lock with vm_refcnt and adding assertions for detach/attach cases.
-> > This actually reminds me that I missed updading vm_area_struct in
-> > vma_internal.h for the member regrouping patch; will add that. I think
-> > the only part that did not affect tests is SLAB_TYPESAFE_BY_RCU but I
-> > was not sure what kind of testing I can add for that. Any suggestions
-> > would be welcomed.
->
-> And to be clear I'm super grateful you did that :) thanks, be good to
-> change the member regrouping thing also.
->
-> But that doesn't change the fact that this series has exactly zero tests
-> for it. And for something so broad, it feels like a big issue, we really
-> want to be careful with something so big here.
->
-> You've also noticed that I've cleverly failed to _actually_ suggest
-> SLAB_TYPESAFE_BY_RCU tests, and mea culpa - it's super hard to think of h=
-ow
-> to test that.
->
-> Liam has experience doing RCU testing this for the maple tree stuff, but =
-it
-> wasn't pretty and wasn't easy and would probably require massive rework t=
-o
-> expose this stuff to some viable testing environment, or in other words -
-> is unworkable.
->
-> HOWEVER, I feel like maybe we could try to create scenarios where we migh=
-t
-> trigger reuse bugs?
->
-> Perhaps some userland code, perhaps even constrained by cgroup, that maps=
- a
-> ton of stuff and unmaps in a loop in parallel?
->
-> Perhaps create scenarios with shared memory where we up refcounts a lot t=
-oo?
+On Thu, Jan 09, 2025 at 07:04:10PM +0800, kernel test robot wrote:
+> sparse warnings: (new ones prefixed by >>)
+> >> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c:461:21: sparse: sparse: invalid assignment: &=
+>    drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c:461:21: sparse:    left side has type restricted __le64
+>    drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c:461:21: sparse:    right side has type unsigned long long
+>    drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c:462:21: sparse: sparse: invalid assignment: |=
+>    drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c:462:21: sparse:    left side has type restricted __le64
+>    drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c:462:21: sparse:    right side has type unsigned long long
+> >> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c:464:23: sparse: sparse: cast from restricted __le64
+>    drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c:465:23: sparse: sparse: cast from restricted __le64
 
-I have this old spf_test
-(https://github.com/surenbaghdasaryan/spf_test/blob/main/spf_test.c)
-which I often use to weed out vma locking issues because it starts
-multiple threads doing mmap + page faults. Perhaps we can repackage it
-into a test/benchmark for testing contention on mmap/vma locks?
+I fixed these with the followings:
+-----------------------------------------------------------------------------------
+diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c
+index 0c7a5894ba07..aa453e842a39 100644
+--- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c
++++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c
+@@ -457,20 +457,28 @@ struct iommufd_viommu *arm_vsmmu_alloc(struct device *dev,
+ 	return &vsmmu->core;
+ }
+ 
++/* This is basically iommu_vevent_arm_smmuv3 in u64 for conversion */
++struct arm_vsmmu_evt {
++	union {
++		u64 evt[EVTQ_ENT_DWORDS];
++		struct iommu_vevent_arm_smmuv3 uevt;
++	};
++};
++
+ int arm_vmaster_report_event(struct arm_smmu_vmaster *vmaster, u64 *evt)
+ {
+-	struct iommu_vevent_arm_smmuv3 vevt =
+-		*(struct iommu_vevent_arm_smmuv3 *)evt;
++	struct arm_vsmmu_evt *vevt = (struct arm_vsmmu_evt *)evt;
++	int i;
+ 
+-	vevt.evt[0] &= ~EVTQ_0_SID;
+-	vevt.evt[0] |= FIELD_PREP(EVTQ_0_SID, vmaster->vsid);
++	vevt->evt[0] &= ~EVTQ_0_SID;
++	vevt->evt[0] |= FIELD_PREP(EVTQ_0_SID, vmaster->vsid);
+ 
+-	vevt.evt[0] = cpu_to_le64(vevt.evt[0]);
+-	vevt.evt[1] = cpu_to_le64(vevt.evt[1]);
++	for (i = 0; i < EVTQ_ENT_DWORDS; i++)
++		vevt->uevt.evt[i] = cpu_to_le64(vevt->evt[i]);
+ 
+ 	return iommufd_viommu_report_event(&vmaster->vsmmu->core,
+-					   IOMMU_VEVENTQ_TYPE_ARM_SMMUV3, &vevt,
+-					   sizeof(vevt));
++					   IOMMU_VEVENTQ_TYPE_ARM_SMMUV3,
++					   &vevt->uevt, sizeof(vevt->uevt));
+ }
+ 
+ MODULE_IMPORT_NS("IOMMUFD");
+-----------------------------------------------------------------------------------
 
->
-> Anyway, this is necessarily nebulous without further investigation, what =
-I
-> was thinking more concretely is:
->
-> Using the VMA userland testing:
->
-> 1. Assert reference count correctness across locking scenarios and variou=
-s
->    VMA operations.
-> 2. Assert correct detached/not detached state across different scenarios.
->
-> This won't quite be complete as not everything is separated out quite
-> enough to allow things like process tear down/forking etc. to be explicit=
-ly
-> tested but you can unit tests the VMA bits at least.
->
-> One note on this, I intend to split the vma.c file into multiple files in
-> tools/testing/vma/ so if you add tests here it'd be worth probably puttin=
-g
-> them into a new file.
->
-> I'm happy to help with this if you need any assistance, feel free to ping=
-!
+This also fixes the array size from 2 to EVTQ_ENT_DWORDS==(4).
 
-As a starting point I was thinking of changing
-vma_assert_attached()/vma_assert_detached() and
-vma_mark_attached()/vma_mark_detached() to return a bool and use
-WARN_ON_ONCE() (to address your concern about asserts being dependent
-on CONFIG_DEBUG_VM) like this:
+@Will,
+Would it be possible for you to ack or review the two SMMU patches
+in this series? I am still hoping Jason might be able to take this
+after I respin a v6.
 
-static inline bool vma_assert_detached()
-{
-    return !WARN_ON_ONCE(atomic_read(&vma->vm_refcnt));
-}
-
-static inline bool vma_mark_attached(struct vm_area_struct *vma)
-{
-    vma_assert_write_locked(vma);
-    if (!vma_assert_detached(vma))
-        return false;
-
-    atomic_set(&vma->vm_refcnt, 1);
-    return true;
-}
-
-With that we can add correctness checks in the tools/testing/vma/vma.c
-for different states, for example in the alloc_and_link_vma() we can
-check that after vma_link() the vma is indeed attached:
-
-ASSERT_TRUE(vma_assert_attached(vma));
-
-This might not cover all states but is probably a good starting point. WDYT=
-?
-
->
-> Sorry to put this on you so late in the series, I realise it's annoying,
-> but I feel like things have changed a lot and obviously aggregated with t=
-wo
-> series in one in effect and these are genuine concerns that at this stage=
- I
-> feel like we need to try to at least make some headway on.
->
-> >
-> > >
-> > > I know it's tricky to write tests for this, but the new VMA testing
-> > > environment should make it possible to test a _lot_ more than we prev=
-iously
-> > > could.
-> > >
-> > > However due to some (*ahem*) interesting distribution of where functi=
-ons
-> > > are, most notably stuff in kernel/fork.c, I guess we can't test
-> > > _everything_ there effectively.
-> > >
-> > > But I do feel like we should be able to do better than having absolut=
-ely no
-> > > testing added for this?
-> >
-> > Again, I'm open to suggestions for SLAB_TYPESAFE_BY_RCU testing but
-> > for the rest I thought the tests were modified accordingly.
->
-> See above ^
->
-> >
-> > >
-> > > I think there's definitely quite a bit you could test now, at least i=
-n
-> > > asserting fundamentals in tools/testing/vma/vma.c.
-> > >
-> > > This can cover at least detached state asserts in various scenarios.
-> >
-> > Ok, you mean to check that VMA re-attachment/re-detachment would
-> > trigger assertions? I'll look into adding tests for that.
->
-> Yeah this is one, see above :)
->
-> >
-> > >
-> > > But that won't cover off the really gnarly stuff here around RCU slab
-> > > allocation, and determining precisely how to test that in a sensible =
-way is
-> > > maybe less clear.
-> > >
-> > > But I'd like to see _something_ here please, this is more or less
-> > > fundamentally changing how all VMAs are allocated and to just have no=
-thing
-> > > feels unfortunate.
-> >
-> > Again, I'm open to suggestions on what kind of testing I can add for
-> > SLAB_TYPESAFE_BY_RCU change.
->
-> See above
->
-> >
-> > >
-> > > I'm already nervous because we've hit issues coming up to v9 and we'r=
-e not
-> > > 100% sure if a recent syzkaller is related to these changes or not, I=
-'m not
-> > > sure how much we can get assurances with tests but I'd like something=
-.
-> >
-> > If you are referring to the issue at [1], I think David ran the
-> > syzcaller against mm-stable that does not contain this patchset and
-> > the issue still triggered (see [2]). This of course does not guarantee
-> > that this patchset has no other issues :) I'll try adding tests for
-> > re-attaching, re-detaching and welcome ideas on how to test
-> > SLAB_TYPESAFE_BY_RCU transition.
-> > Thanks,
-> > Suren.
->
-> OK that's reassuring!
->
-> >
-> > [1] https://lore.kernel.org/all/6758f0cc.050a0220.17f54a.0001.GAE@googl=
-e.com/
-> > [2] https://lore.kernel.org/all/67823fba.050a0220.216c54.001c.GAE@googl=
-e.com/
-> >
-> > >
-> > > Thanks!
-> > >
-> > > On Fri, Jan 10, 2025 at 08:25:47PM -0800, Suren Baghdasaryan wrote:
-> > > > Back when per-vma locks were introduces, vm_lock was moved out of
-> > > > vm_area_struct in [1] because of the performance regression caused =
-by
-> > > > false cacheline sharing. Recent investigation [2] revealed that the
-> > > > regressions is limited to a rather old Broadwell microarchitecture =
-and
-> > > > even there it can be mitigated by disabling adjacent cacheline
-> > > > prefetching, see [3].
-> > > > Splitting single logical structure into multiple ones leads to more
-> > > > complicated management, extra pointer dereferences and overall less
-> > > > maintainable code. When that split-away part is a lock, it complica=
-tes
-> > > > things even further. With no performance benefits, there are no rea=
-sons
-> > > > for this split. Merging the vm_lock back into vm_area_struct also a=
-llows
-> > > > vm_area_struct to use SLAB_TYPESAFE_BY_RCU later in this patchset.
-> > > > This patchset:
-> > > > 1. moves vm_lock back into vm_area_struct, aligning it at the cache=
-line
-> > > > boundary and changing the cache to be cacheline-aligned to minimize
-> > > > cacheline sharing;
-> > > > 2. changes vm_area_struct initialization to mark new vma as detache=
-d until
-> > > > it is inserted into vma tree;
-> > > > 3. replaces vm_lock and vma->detached flag with a reference counter=
-;
-> > > > 4. regroups vm_area_struct members to fit them into 3 cachelines;
-> > > > 5. changes vm_area_struct cache to SLAB_TYPESAFE_BY_RCU to allow fo=
-r their
-> > > > reuse and to minimize call_rcu() calls.
-> > > >
-> > > > Pagefault microbenchmarks show performance improvement:
-> > > > Hmean     faults/cpu-1    507926.5547 (   0.00%)   506519.3692 *  -=
-0.28%*
-> > > > Hmean     faults/cpu-4    479119.7051 (   0.00%)   481333.6802 *   =
-0.46%*
-> > > > Hmean     faults/cpu-7    452880.2961 (   0.00%)   455845.6211 *   =
-0.65%*
-> > > > Hmean     faults/cpu-12   347639.1021 (   0.00%)   352004.2254 *   =
-1.26%*
-> > > > Hmean     faults/cpu-21   200061.2238 (   0.00%)   229597.0317 *  1=
-4.76%*
-> > > > Hmean     faults/cpu-30   145251.2001 (   0.00%)   164202.5067 *  1=
-3.05%*
-> > > > Hmean     faults/cpu-48   106848.4434 (   0.00%)   120641.5504 *  1=
-2.91%*
-> > > > Hmean     faults/cpu-56    92472.3835 (   0.00%)   103464.7916 *  1=
-1.89%*
-> > > > Hmean     faults/sec-1    507566.1468 (   0.00%)   506139.0811 *  -=
-0.28%*
-> > > > Hmean     faults/sec-4   1880478.2402 (   0.00%)  1886795.6329 *   =
-0.34%*
-> > > > Hmean     faults/sec-7   3106394.3438 (   0.00%)  3140550.7485 *   =
-1.10%*
-> > > > Hmean     faults/sec-12  4061358.4795 (   0.00%)  4112477.0206 *   =
-1.26%*
-> > > > Hmean     faults/sec-21  3988619.1169 (   0.00%)  4577747.1436 *  1=
-4.77%*
-> > > > Hmean     faults/sec-30  3909839.5449 (   0.00%)  4311052.2787 *  1=
-0.26%*
-> > > > Hmean     faults/sec-48  4761108.4691 (   0.00%)  5283790.5026 *  1=
-0.98%*
-> > > > Hmean     faults/sec-56  4885561.4590 (   0.00%)  5415839.4045 *  1=
-0.85%*
-> > > >
-> > > > Changes since v8 [4]:
-> > > > - Change subject for the cover letter, per Vlastimil Babka
-> > > > - Added Reviewed-by and Acked-by, per Vlastimil Babka
-> > > > - Added static check for no-limit case in __refcount_add_not_zero_l=
-imited,
-> > > > per David Laight
-> > > > - Fixed vma_refcount_put() to call rwsem_release() unconditionally,
-> > > > per Hillf Danton and Vlastimil Babka
-> > > > - Use a copy of vma->vm_mm in vma_refcount_put() in case vma is fre=
-ed from
-> > > > under us, per Vlastimil Babka
-> > > > - Removed extra rcu_read_lock()/rcu_read_unlock() in vma_end_read()=
-,
-> > > > per Vlastimil Babka
-> > > > - Changed __vma_enter_locked() parameter to centralize refcount log=
-ic,
-> > > > per Vlastimil Babka
-> > > > - Amended description in vm_lock replacement patch explaining the e=
-ffects
-> > > > of the patch on vm_area_struct size, per Vlastimil Babka
-> > > > - Added vm_area_struct member regrouping patch [5] into the series
-> > > > - Renamed vma_copy() into vm_area_init_from(), per Liam R. Howlett
-> > > > - Added a comment for vm_area_struct to update vm_area_init_from() =
-when
-> > > > adding new members, per Vlastimil Babka
-> > > > - Updated a comment about unstable src->shared.rb when copying a vm=
-a in
-> > > > vm_area_init_from(), per Vlastimil Babka
-> > > >
-> > > > [1] https://lore.kernel.org/all/20230227173632.3292573-34-surenb@go=
-ogle.com/
-> > > > [2] https://lore.kernel.org/all/ZsQyI%2F087V34JoIt@xsang-OptiPlex-9=
-020/
-> > > > [3] https://lore.kernel.org/all/CAJuCfpEisU8Lfe96AYJDZ+OM4NoPmnw9bP=
-53cT_kbfP_pR+-2g@mail.gmail.com/
-> > > > [4] https://lore.kernel.org/all/20250109023025.2242447-1-surenb@goo=
-gle.com/
-> > > > [5] https://lore.kernel.org/all/20241111205506.3404479-5-surenb@goo=
-gle.com/
-> > > >
-> > > > Patchset applies over mm-unstable after reverting v8
-> > > > (current SHA range: 235b5129cb7b - 9e6b24c58985)
-> > > >
-> > > > Suren Baghdasaryan (17):
-> > > >   mm: introduce vma_start_read_locked{_nested} helpers
-> > > >   mm: move per-vma lock into vm_area_struct
-> > > >   mm: mark vma as detached until it's added into vma tree
-> > > >   mm: introduce vma_iter_store_attached() to use with attached vmas
-> > > >   mm: mark vmas detached upon exit
-> > > >   types: move struct rcuwait into types.h
-> > > >   mm: allow vma_start_read_locked/vma_start_read_locked_nested to f=
-ail
-> > > >   mm: move mmap_init_lock() out of the header file
-> > > >   mm: uninline the main body of vma_start_write()
-> > > >   refcount: introduce __refcount_{add|inc}_not_zero_limited
-> > > >   mm: replace vm_lock and detached flag with a reference count
-> > > >   mm: move lesser used vma_area_struct members into the last cachel=
-ine
-> > > >   mm/debug: print vm_refcnt state when dumping the vma
-> > > >   mm: remove extra vma_numab_state_init() call
-> > > >   mm: prepare lock_vma_under_rcu() for vma reuse possibility
-> > > >   mm: make vma cache SLAB_TYPESAFE_BY_RCU
-> > > >   docs/mm: document latest changes to vm_lock
-> > > >
-> > > >  Documentation/mm/process_addrs.rst |  44 ++++----
-> > > >  include/linux/mm.h                 | 156 ++++++++++++++++++++++---=
-----
-> > > >  include/linux/mm_types.h           |  75 +++++++-------
-> > > >  include/linux/mmap_lock.h          |   6 --
-> > > >  include/linux/rcuwait.h            |  13 +--
-> > > >  include/linux/refcount.h           |  24 ++++-
-> > > >  include/linux/slab.h               |   6 --
-> > > >  include/linux/types.h              |  12 +++
-> > > >  kernel/fork.c                      | 129 +++++++++++-------------
-> > > >  mm/debug.c                         |  12 +++
-> > > >  mm/init-mm.c                       |   1 +
-> > > >  mm/memory.c                        |  97 ++++++++++++++++--
-> > > >  mm/mmap.c                          |   3 +-
-> > > >  mm/userfaultfd.c                   |  32 +++---
-> > > >  mm/vma.c                           |  23 ++---
-> > > >  mm/vma.h                           |  15 ++-
-> > > >  tools/testing/vma/linux/atomic.h   |   5 +
-> > > >  tools/testing/vma/vma_internal.h   |  93 ++++++++---------
-> > > >  18 files changed, 465 insertions(+), 281 deletions(-)
-> > > >
-> > > > --
-> > > > 2.47.1.613.gc27f4b7a9f-goog
-> > > >
+Thanks!
+Nicolin
