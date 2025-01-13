@@ -1,140 +1,86 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B18224023A
-	for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 17:03:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B784522BAB7
+	for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 17:11:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736787784; cv=none; b=RU6QWch0C++4dWDMafV8xqeMRn0mPAvcBVCPludkPORo8HP8wZ0miz7eEp/qAMnlRWzXCktzYh2d3McPiqnAkBFSDzp/+fWoOS+tDUiDtRIWpSBwqW997lA3dp5V76FiwHkx84Hboxvezf8xaz0EUUYUm7cGcsbewvI4kS8Y1PE=
+	t=1736788320; cv=none; b=lb2R5jDLb3HaFZhtF9HkwbPqoyBwPFc42gzznpibN/vL8yLfkxZ9UjIkcp0eAAJYNTaNJwdjiXzdM9caMgXN2zyBKFB9/mpZJAxeAMrf84gMKtDuOG8cY0yMcTfwbwYyU7kImyZ2+7h7w2G7Lqb1+0nda51Ps54Z6fEKgyC6V34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736787784; c=relaxed/simple;
-	bh=eGog2//UMCAOh7DR1wJkgtEx5G5E0EOdW3KlVDnssUM=;
+	s=arc-20240116; t=1736788320; c=relaxed/simple;
+	bh=fFGMZRcBbMYAXRx+GAT4f+tlfsYIUmoTxc2SmeHoMBw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qu6i6etKSjm4PhyuvK6XKQO2UfLTKjSCKfmJIaio/ltku4oqf2bAlAQFs7Ki7lTh/Qnh9Qu5/OA5Dpo73lcDUNuwqYHpmcYbKsuOwH5+TmtIOh9zBMRTVQLw2Qyk2muET19DaGCvpt8p3nVso6homKqWMjnu2Wh7l2oLeWzJ/Mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=E7XnPXrO; arc=none smtp.client-ip=209.85.160.171
+	 To:Cc:Content-Type; b=qPwzTEFvCiQuMuEat8YYF4GBazqSzr6zhIcovxlroPyp9LyOuO2fKawVzk/nVkeFNkATyHP66zKvX8/+B0Xs8lGex8ihASBhw9CTygPXjdXYFuaLrLIs6RwvrhuT63DsAKaiq5lB8hHmKLV3GEhu/LOZgBYG7/OdGy7bb1S8YzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TUUn6ovP; arc=none smtp.client-ip=209.85.160.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="E7XnPXrO"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-467896541e1so500451cf.0
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 09:03:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TUUn6ovP"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-467896541e1so502461cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 09:11:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736787781; x=1737392581; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HBxGDkceMU12zhfBryQTAu2EO0ZBqIU54/StMx3RiBA=;
-        b=E7XnPXrOIF7MWCUeJ15SYThoiJ6Vd0/mO/MXgjBFfVIydcvjmlAbYtDH1eoh69IPcw
-         1HqdRuDAIWzrNHrXt/9TMQH3AoylMzLdt6GpMTqDPp+QxX2GYGKo6EMk60PGyp/9HuD5
-         O6vAQraA6s6kJiSZQCCH5Ias4wpH95B7SFOJXk4WdurUtzWg3AY6UvD7KsVUs+lSp6nJ
-         s5wYbwPoLPwbu0B/ISCffkJtD5G6q414mtMUI+0BhZQcsOlVJ1hYhBU2hMQV7/4SJkYB
-         I4a8HQIKsyRKim8WzDm3qSIDthRl/BV33MZJLxD0QfxusiFlEuKCkus6gZhz8rCozBqD
-         +F8A==
+        d=google.com; s=20230601; t=1736788317; x=1737393117; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ImmRHf9zuyLTRiwQMWhBeDJONBL5wnCdnMuLTY0ohsE=;
+        b=TUUn6ovP+JKkbl4Tx+Ey51lnDFdJI6Hp40FwX3QRNLO3/7bvsvzOwpeHT3SPq9XMS8
+         uajPTS0qsAIAGEtkK+HttzVei48krT0kk8XuaZXz+li4lekgpPgXPdo9M2AGfalMHuYy
+         t9V4iLVryz5fwqLSxLtK7NrMSnWGvEfaK65GCAERzAjgMY1wfFhaah1zDMjtP+AFV8XW
+         Z44ZPkr7aNQtRVvNAI6qydQGi/GNc1ObihQ7RzCxBrJKsHWuTDgypF9kizd5u5WMHJ9b
+         rjTWAykRaw+VLfaMaWeabDbI1IL9gT7sCUYiif/6jmrQoo39CiSTcCvTamitYJ+A+xsX
+         k8vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736787781; x=1737392581;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HBxGDkceMU12zhfBryQTAu2EO0ZBqIU54/StMx3RiBA=;
-        b=b9NbjpOGT0LUlLkZYT5HF14pAJLsHREZcDFFx+AVZX9+lfVNHNAHpcETutH2q2BbF8
-         xnn8TmGeMPgcGwwtLTa9N7qyanSZa3IEsLdElBLqFQVkmYDsSKCT0s4DznRY4cVsCDaE
-         v5dgYNEWuTcC0XEBIbSo9w/1qZW7FMhNutAKlXo3Gbr1j17zd3+FvKDgf3+S6ScH3m8q
-         6XLVxd2VVrNr4CdUSK7ulnoEwMFg6MWL4Z3kZcOd+2yStjIjpaNuuhM3WJuXK7I1kVyU
-         CtAkwl8eh8dtfT+bIKX6sDJ+7dlnijiSMx/AYzGOucZUm+XYTWkMyHCN8G/fCAZ5RZzi
-         8nKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVnxLR6zgPbJKRFSoR5TW1xrcAxhrfOnaNj1YdiOA1SQ3pA4sFno2gPjs4KtX3q20qlEKdAmlcXNxE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMQGkhS5uCDwhAJrjI7zw3Spha8KILGI5vUhubvxL7Mr54g55S
-	NKfZ3ZYM4coXe1NLR+RGT1SHHNw6JYYUFZLKCGc6S0VcLiRVtrLagAMYICkr4S5c1K4juuaQaH3
-	kQdBspVbVtAO633JQydMdlioseYVPP8AASFzE
-X-Gm-Gg: ASbGncsxh9cg/pjjZsOEMKVMnqllCSJ2VIfIzursSS/7NnWdhFSQrpwV4kwBo5WAFVo
-	NDKKXFBysE6CQ68+B2OWWSHVp6FR5swyZASavwg==
-X-Google-Smtp-Source: AGHT+IHZUqiUW2TdTijDnYW298vWshWfjCjNGwibZ85BeH2x4uiKxeyc0KowefHIQpDbMbw+3IhjXToAVqSqDQW5sv4=
-X-Received: by 2002:a05:622a:2c1:b0:460:491e:d2a2 with SMTP id
- d75a77b69052e-46c89dad5a8mr10535521cf.17.1736787781064; Mon, 13 Jan 2025
- 09:03:01 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736788317; x=1737393117;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ImmRHf9zuyLTRiwQMWhBeDJONBL5wnCdnMuLTY0ohsE=;
+        b=JUUois3bX5+u68hHBbqIxWnqyFJ6tyUofdKixiyj8tceVU8/CfSRhal9co81mL4xfj
+         gyfo9wPBkg5hj5GCea04VJRi2ea80Yv5k+m76iu5RjxXwf8kGxuFaA06ToKzsZ0B3Q6N
+         M7Be4FzR3DjjkoKphh50ONpsFyD4fHo+9J5biyLcgH2uBRai4dBFFpoTvWRy6RAA0sNy
+         5Iekq4L4t5eP+TVlKM1b9GH4LFu/JjVbf9SeX2CormYvgpq/NS9f3T9InaBR1Q9uDPLV
+         Rw8OM4mSzF6Qbr2auuoiXYlnybhW5AZdfvN2CYS7070yU2cpyrTbMknEltibFVK+DFnb
+         W81Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVG7AMHohrEg5fwK+EO86oluOSzgBK/yrYLK6sbF15MFwl83gtkkCs/+iYyZGfyuRx/G/hH1vQgrTY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUeCZu/DjSY52PM1O0jLCIfii679Hje/hRRVmmlNwUTalGUqta
+	W9TKnFINcduHY4kWbU+XfxATa8GYFF5Ix0Gmvooor8pXUxqdcUguZdX9mD4Eg+ZkNbpasoJAHpj
+	EhIl1Sfwugvx9sD8Tl3nhUm+A7xePTwee1xw9HEtb8ZZ6ab3H966jGOI=
+X-Gm-Gg: ASbGncu2tsejHqSAmP0zE72M5YqPzxFbmd8wMYrdnq9acnKDNB/cZIdx3gAU+fE6G1y
+	j1ZPleS1PyQVJ9+7gjZVnOS9SfhjQW5/vt/F1p9l60FZjeb1si7p9+uxvMyUUlZ7Zms6N
+X-Google-Smtp-Source: AGHT+IGo3Srs/QzsIp455q7U2BPko5eERA3EW4uDnZfKfluZZyswKr9TsIw1CWFwcHz5vJAcqIfkvNr76jLm2pwYbtE=
+X-Received: by 2002:ac8:5a13:0:b0:467:7ef7:88a3 with SMTP id
+ d75a77b69052e-46c87e439d1mr11030131cf.16.1736788317341; Mon, 13 Jan 2025
+ 09:11:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250111042604.3230628-1-surenb@google.com> <20250111042604.3230628-6-surenb@google.com>
- <5d46531b-570b-4f81-90f3-2fb157664f87@lucifer.local>
-In-Reply-To: <5d46531b-570b-4f81-90f3-2fb157664f87@lucifer.local>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Mon, 13 Jan 2025 09:02:50 -0800
-X-Gm-Features: AbW1kva24UmjIHnrtwbQDfckK6vVILPLXKlOEFQ433jaxF1GXtqbqRlIBqKlthI
-Message-ID: <CAJuCfpGJu88XgJUJ45aSPQNfUw4UuBRtGzB4HSybiP8xzyUTPQ@mail.gmail.com>
-Subject: Re: [PATCH v9 05/17] mm: mark vmas detached upon exit
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org, 
-	liam.howlett@oracle.com, david.laight.linux@gmail.com, mhocko@suse.com, 
-	vbabka@suse.cz, hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	kernel-team@android.com
+References: <20250113-checkpatch-ignore-v1-0-63a7a740f568@google.com> <Z4U9R2m0xVTRMlkk@casper.infradead.org>
+In-Reply-To: <Z4U9R2m0xVTRMlkk@casper.infradead.org>
+From: Brendan Jackman <jackmanb@google.com>
+Date: Mon, 13 Jan 2025 18:11:46 +0100
+X-Gm-Features: AbW1kvboVADLMkd1llq6zW-djwXEXL2YOxOPJFz5UT3x-Cm7pzvT7WHzKM2MKiE
+Message-ID: <CA+i-1C2HfdPuXCNXEwkF20kFWnSnr-7r4-FJXf5czuAuufZkhg@mail.gmail.com>
+Subject: Re: [PATCH 0/2] checkpatch: Add support for Checkpatch-ignore patch footer
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
+	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 13, 2025 at 4:05=E2=80=AFAM Lorenzo Stoakes
-<lorenzo.stoakes@oracle.com> wrote:
->
-> On Fri, Jan 10, 2025 at 08:25:52PM -0800, Suren Baghdasaryan wrote:
-> > When exit_mmap() removes vmas belonging to an exiting task, it does not
-> > mark them as detached since they can't be reached by other tasks and th=
-ey
-> > will be freed shortly. Once we introduce vma reuse, all vmas will have =
-to
-> > be in detached state before they are freed to ensure vma when reused is
-> > in a consistent state. Add missing vma_mark_detached() before freeing t=
-he
-> > vma.
->
-> Hmm this really makes me worry that we'll see bugs from this detached
-> stuff, do we make this assumption anywhere else I wonder?
+On Mon, 13 Jan 2025 at 17:20, Matthew Wilcox <willy@infradead.org> wrote:
+> I think humans should always ignore checkpatch.  It's basically
+> worthless.
 
-This is the only place which does not currently detach the vma before
-freeing it. If someone tries adding a case like that in the future,
-they will be met with vma_assert_detached() inside vm_area_free().
+Do you know of anything better? I guess it's feasible to build
+something that's actually good at this job using tree-sitter or
+something, maybe it exists. But outside of projects that just enforce
+clang-format or whatever, checkpatch.pl is still the best (or perhaps
+least bad) thing I've personally experienced.
 
->
-> >
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
->
-> But regardless, prima facie, this looks fine, so:
->
-> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->
-> > ---
-> >  mm/vma.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/mm/vma.c b/mm/vma.c
-> > index b9cf552e120c..93ff42ac2002 100644
-> > --- a/mm/vma.c
-> > +++ b/mm/vma.c
-> > @@ -413,10 +413,12 @@ void remove_vma(struct vm_area_struct *vma, bool =
-unreachable)
-> >       if (vma->vm_file)
-> >               fput(vma->vm_file);
-> >       mpol_put(vma_policy(vma));
-> > -     if (unreachable)
-> > +     if (unreachable) {
-> > +             vma_mark_detached(vma);
-> >               __vm_area_free(vma);
-> > -     else
-> > +     } else {
-> >               vm_area_free(vma);
-> > +     }
-> >  }
-> >
-> >  /*
-> > --
-> > 2.47.1.613.gc27f4b7a9f-goog
-> >
+I won't deny that most error types have only ever presented themselves
+to me as noise. But the basic "don't do braces like that" and "you
+have a stray space here" stuff has been useful.
