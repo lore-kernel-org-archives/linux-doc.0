@@ -1,130 +1,156 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857571FDA63;
-	Mon, 13 Jan 2025 09:36:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A8B22AE76;
+	Mon, 13 Jan 2025 09:36:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736760977; cv=none; b=tqDBbxMpWiTArTFDYB6kT76HoohhJqsUKGa96cEHsgiizNI3SJaNoacH448gvqnjj4pjp2s5HxMicWKPM2kDPShkw5npvv5BoVQEaqFpuO7JlK2TsI1RSBZu7OkF1QSmv1krxqWDYx8jkwudq3Mu3P3KIptk6B1+k29Zzf7l8GE=
+	t=1736761002; cv=none; b=Rq5lTExhsE9q+ijW9gveIsewNyBuW3Sxsa6HE6z0girxyH5Af4tZDRBlF+nV3FPJjmkt9VSLxwGVq9bdEin3RpzG+qmdPU1+jButoKJ3yzV1SrVPkV0cjmxXO7INaYkuTlWbxxm6HmVffF3lgdctlh3QltdG4PUJlLy+d6VK74U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736760977; c=relaxed/simple;
-	bh=RW0IbrWGGhZ+kGsKiV1PoqoKZ43xN3Rb/RvffF98to4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tDvz81iRu5GsuMmyVSkvXbXU2cA/rqFoPEIiBHmvNFrxy28r7bIetqXYUU/SmTliz1jmbGD+xroFZhMkDSY3FRP7MutgVatGbgmbXqFWjjrHPtlbKIUvW0oOChl24KP7GuQ/spc9Xe2tw0dPeGaev0rnpm27GTUIRbrNG7VxbZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nAVeyN3E; arc=none smtp.client-ip=209.85.208.51
+	s=arc-20240116; t=1736761002; c=relaxed/simple;
+	bh=CnSGARktw4IXiEEBL5guac/mAy2S/VeEr/vvlM4oBsY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=BTVbQMS5z8Zp3fNBqOZzQJS/o9AWJnasoaEpSQIj/h5YSepNbFplKQ/jmInLy5mWRWFUnMIcucChVdh/e/UMZTVFglQIwX6huTP+k9n/34HpANumwBL/n8HN0Wnuq/AY3saHYrx8XcFe93pJyrCC3V/icUSwl8xywVB/NbFiY6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RN56A3YJ; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nAVeyN3E"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5d3d479b1e6so5758083a12.2;
-        Mon, 13 Jan 2025 01:36:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RN56A3YJ"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-388cae9eb9fso2114850f8f.3;
+        Mon, 13 Jan 2025 01:36:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736760973; x=1737365773; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZKymjPp3wDUBMtRWsKLPyBQowq0RQ31ZQwkL7ESbekc=;
-        b=nAVeyN3EiyinUGTXTMu/ND5q7EAkDWfUlMVh50UkGixuqugqTgGVabQtuG4MetH/Nh
-         yzUAWjayl83p+2lMccNu/bYpdVrttkoDf3LLNW4ElpSxUSPirnu3C4FSVlVG1MNMCd39
-         BD3FiwAtwC5sgawGaznCPKuymidFZ6ajYQn8FaA3b1Qqc78Y//9vDgXX3bEUzkZxsxrW
-         wKb9AU0tZp460GSvaiTVaXnXI0g8ooaJIL3nBIkzH8yzo/ehSD2u6K9hVFWBb6AWWiK0
-         T3YTrTz2hXZ+6hzlPXLBoXDsmkJGsuUPJ38aTd0jbzMvQS7JQMPSQceIDJngMMyXfl2l
-         izbA==
+        d=gmail.com; s=20230601; t=1736760999; x=1737365799; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=7nyUSHHP0yR3ZtnhpxdtDCyqMGbgmdlP3dka+ZfZ0PI=;
+        b=RN56A3YJ6jJ9fVBaydvYqdI4fjOnhhIAeKz4rWms8cOcwKkCmZ8FSbM0FSPa0vUSIV
+         Rc/sEXT4Fid1WJfLdAIoV0GDy1D8pTF42GdIhUnxEwZcajMHyT9PzVth+KVXf8gek3hk
+         bBYywYes7exrSuR09QkFVBZ4nT21p3Q1sb21WFFANDDg5cAnH6AO/NmVgfQ9hHf7I/a4
+         dfAYeRWp3j/8+j3F8rBVbovmeT5wbCwSJHTNLxrU6wnWLxnCGifqAyLKReU3bnbXJncU
+         PDOuiSANTK3NXwtRHL0JwqM8gYs55Y9yH/tV0xxbh1Y7eA1skQcHXixRGDutJx80nty/
+         83bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736760973; x=1737365773;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZKymjPp3wDUBMtRWsKLPyBQowq0RQ31ZQwkL7ESbekc=;
-        b=Gvbcp4RINBJe3L1i1D3WRW0HyAf4ShJccH1AU0273CkhkSJ7wi1rfhZrwlxNHsbHjb
-         GXhvEwaNOrdO0CKsGXflfExUm28a0cnhxLl7e4maaGq6GQbs1yQQCfLsAbZo5KI5uNz1
-         rpfGFqy9nZrfw2jrlQ3ZVzv+7YiQOzc4eU8nLHVixH1CGbBaXvdDPl2Ak+K6QCpukdnI
-         v8LawphTx95vAxd8TvOJ+oBVfxDkVvlt5svH6g0LLWApzcKzG7/UNEtpoNh8cMhM7scf
-         uSSKRYPMaGml/N9ITk+a1R0i/niNZu55/Hp+alRwJAcjHOcQBtAMJtvxTqHGaSegk8AV
-         N6Gg==
-X-Forwarded-Encrypted: i=1; AJvYcCUhE9NekbKBpBIZa7yeYyJLgheroafkl3V93hbVyN4jijffokwTxHl1+6xgqw0+a+PS+HBbZK+7zVM=@vger.kernel.org, AJvYcCXg+FMICdPwL+Q42QCcZt6ZJfZZU1K0KEgpj/+/NF67Hq+ok2etHhaoFLH+ZlkeZ2AIcS+aDjgYMuzZhDfi@vger.kernel.org
-X-Gm-Message-State: AOJu0Yys8bILjOWLyvm6RCUQSVq68VapnX7QHIxSp1mmMbTgONF9Ar9c
-	g3m0/kQZLTty55TyX+63Uef4Affmde9d/DuzRiCGniBsyvah/ttf
-X-Gm-Gg: ASbGncvfXszM+3HLlTrV/TGJXXIgijVT9tbIlG5k0+QbaJyvyLevfK2uz10OYp31vAi
-	BLLa5p20k52lubIPm6snbnmwyf4CRTuqTDT+hEsUiDnttPCs13QJR2pWTib7niQHN8Zwu47v5fu
-	tctbJRoGKusRu/eYjj4zhtVjZ+A2XcSSaQaLuISKGJnEXgBUnmikZnJk4GF2SYk+LO3NvQIAbbk
-	nXP51yVVItW/tgfGofdGBvOWgLXuwcZN1tBa6rkthvjvppsjNUrC0mS
-X-Google-Smtp-Source: AGHT+IHN3qpmk53tayv+FrYb02RvjHAFDFMQxe7I9AMfQiMhg6tn9/PsELN1xEfTAZ3v5GNb1RTEaQ==
-X-Received: by 2002:a05:6402:270d:b0:5d9:ad1:dafc with SMTP id 4fb4d7f45d1cf-5d972e639famr44878290a12.25.1736760972566;
-        Mon, 13 Jan 2025 01:36:12 -0800 (PST)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c95624ccsm473199266b.126.2025.01.13.01.36.11
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 13 Jan 2025 01:36:11 -0800 (PST)
-Date: Mon, 13 Jan 2025 09:36:11 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org,
-	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com,
-	david.laight.linux@gmail.com, mhocko@suse.com, vbabka@suse.cz,
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
-	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
-	hughd@google.com, lokeshgidra@google.com, minchan@google.com,
-	jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com,
-	pasha.tatashin@soleen.com, klarasmodin@gmail.com,
-	richard.weiyang@gmail.com, corbet@lwn.net,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH v9 11/17] mm: replace vm_lock and detached flag with a
- reference count
-Message-ID: <20250113093611.hmjmizvt73mrq2y2@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20250111042604.3230628-1-surenb@google.com>
- <20250111042604.3230628-12-surenb@google.com>
+        d=1e100.net; s=20230601; t=1736760999; x=1737365799;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7nyUSHHP0yR3ZtnhpxdtDCyqMGbgmdlP3dka+ZfZ0PI=;
+        b=LcPVutEpoGqa91xvLsiPv9fqpaH7Kc0/Q6KZNJRsXyVWwJf7/nwA551akBnHk8u72f
+         Oyn9tbI6gEnQ33h2hHzgJJpHAJ9z+Lxz0CpIocyug4M57zw6EOyjc5dRbauhX6mQFVjn
+         0UeV4WRaB68dH53ebSH2SFjTfZL2sZYrz6/+EkFc8BaXgUfswFKn9JIwZJITwWUixqkf
+         tgjrDCpdKEUUdSKgQIPm/9mMbXSDtL4OPrUk7G4fLKv2eeLFRVD0S0MnET8ebquvjdTf
+         udaUkTyG2EMBRNsFHfm7QiYTBUVR4gwtHHM7D3zOKAck0VD7BO8GOkh4y2Bs3op0dkbp
+         G+DQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVUr1Q+0SGFz0f2wWUTb3RCBpwW77Jc0mbSN9oW73RYq6lBNviEfFWcabN/PEMs8pliCFUIAHqGD7LK@vger.kernel.org, AJvYcCXK0LVKO7YdbGK9RDXkiiTuGjbvlI6NvqDXzA2edACz4wDyM7ca8QFmt8AQEdd4t9sSgSgBQ49nuV8U@vger.kernel.org, AJvYcCXU2Pv4+8A/TQmzT4BX/62Nb0rH4hMYCJi0c9iXpHMg7EGPJATex0se8O+JDZyaq6M3NFWQ6dFozGHf@vger.kernel.org, AJvYcCXvB+tLYRVMWBKd/2rfwa5weZVvjnjqs+vFI5AuWCuSJsewkp02tb0GdJhq7gEGUIN4nG7EFj2ysIzvcy2g@vger.kernel.org
+X-Gm-Message-State: AOJu0YyeE4P9Q0ZAxfEifGI0kcmfYMYaxf/FAGPvsopIWRB7U55NvFNo
+	h5cgUF5IBNIcyoVr2MqgfRl+g2ODplXJ39req9u+33bsSchkqumr
+X-Gm-Gg: ASbGncuACnq2de47WrvIjcW2UfPjlAMeO63N/ZLnzbdH/mcOClDl7y2p6iIs6aR7R8O
+	Juqu5pCXlEOeA+4Z1F8+qtKDNUGvjkV/kOPCGGSI1KHEbnSaP4kKVo382KxFD2FbUMqjs5jqipW
+	rUhYx4bFd9afZYnmiJ9srpJsLEoV9Gz9ayE31psIYuL3aqBGGspU1DkUbp27wMZLNvRVJASBQYg
+	p2WL81l+Kn3jDUY5cdgvUBuxb/yC7f/aiUW155bFh46Oiw03TBmY9F/41Z5r3HH53EUHe8t/8nA
+	oPsfSkOnSFPHOi/eU4ctg5YPLkxu
+X-Google-Smtp-Source: AGHT+IESwRCXbGth1qot4cl0kyw6thE3Qlkh6tb8Sk5ZxVbqvaA8AEXyrAMpEIhD/zBSCKA7evuCVg==
+X-Received: by 2002:a05:6000:1acc:b0:385:db39:2cf with SMTP id ffacd0b85a97d-38a872c943fmr16012470f8f.12.1736760999113;
+        Mon, 13 Jan 2025 01:36:39 -0800 (PST)
+Received: from ?IPv6:2001:818:ea8e:7f00:2575:914:eedd:620e? ([2001:818:ea8e:7f00:2575:914:eedd:620e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e4b80d4sm11395176f8f.85.2025.01.13.01.36.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jan 2025 01:36:38 -0800 (PST)
+Message-ID: <c5bbfd1555a8a141caca944f2bb1b6eccb88fd67.camel@gmail.com>
+Subject: Re: [PATCH v4 5/6] iio: imu: adis16550: add adis16550 support
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>, Robert Budai
+ <robert.budai@analog.com>
+Cc: Nuno Sa <nuno.sa@analog.com>, Ramona Gradinariu	
+ <ramona.gradinariu@analog.com>, Antoniu Miclaus
+ <antoniu.miclaus@analog.com>,  Lars-Peter Clausen	 <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley	
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Alex Lanzano	
+ <lanzano.alex@gmail.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, 	linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Date: Mon, 13 Jan 2025 09:36:38 +0000
+In-Reply-To: <20250112161141.563064c2@jic23-huawei>
+References: <20250110074254.38966-1-robert.budai@analog.com>
+		<20250110074254.38966-6-robert.budai@analog.com>
+	 <20250112161141.563064c2@jic23-huawei>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250111042604.3230628-12-surenb@google.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
 
-On Fri, Jan 10, 2025 at 08:25:58PM -0800, Suren Baghdasaryan wrote:
-[...]
-> 
->+static inline bool is_vma_writer_only(int refcnt)
->+{
->+	/*
->+	 * With a writer and no readers, refcnt is VMA_LOCK_OFFSET if the vma
->+	 * is detached and (VMA_LOCK_OFFSET + 1) if it is attached. Waiting on
->+	 * a detached vma happens only in vma_mark_detached() and is a rare
->+	 * case, therefore most of the time there will be no unnecessary wakeup.
->+	 */
->+	return refcnt & VMA_LOCK_OFFSET && refcnt <= VMA_LOCK_OFFSET + 1;
+On Sun, 2025-01-12 at 16:11 +0000, Jonathan Cameron wrote:
+> On Fri, 10 Jan 2025 09:42:53 +0200
+> Robert Budai <robert.budai@analog.com> wrote:
+>=20
+> > The ADIS16550 is a complete inertial system that includes a triaxis
+> > gyroscope and a triaxis accelerometer. Each inertial sensor in
+> > the ADIS16550 combines industry leading MEMS only technology
+> > with signal conditioning that optimizes dynamic performance. The
+> > factory calibration characterizes each sensor for sensitivity, bias,
+> > and alignment. As a result, each sensor has its own dynamic com-
+> > pensation formulas that provide accurate sensor measurements
+> >=20
+> > Co-developed-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+> > Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+> > Co-developed-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> > Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> > Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+> > Signed-off-by: Robert Budai <robert.budai@analog.com>
+> > ---
+> >=20
+> > 4:
+> > - reorganized channels to match the order in the datasheet
+> > - removed extra checks and goto statements
+> > - for buffer memory allocation used only kfree, since adis library alre=
+ady
+> > takes care of freeing the buffer
+>=20
+> That last bit makes for a mess wrt to who owns the buffer and lifetime
+> management. Suggestions inline.
+>=20
+>=20
 
-It looks equivalent to 
+...
 
-	return (refcnt == VMA_LOCK_OFFSET) || (refcnt == VMA_LOCK_OFFSET + 1);
+> > +
+> > +	/*
+> > +	 * Allocate the xfer and buffer for the burst read operation. The
+> > buffer
+> > +	 * is used to store the burst data and the xfer is used to send the
+> > burst
+> > +	 * command and receive the data. On device remove the adis libraary
+> > is going
+>=20
+> library.
+>=20
+> > +	 * to free the xfer and buffer.
+>=20
+> That is a horrible lifetime control.=C2=A0 They should either be allocate=
+d in the
+> library
+> and freed in the library or allocated and freed in the driver.=C2=A0 Mixi=
+ng that
+> doesn't
+> make sense.
 
-And its generated code looks a little simpler.
+Agreed. TBH, I did not remembered at all to suggest ignoring the library an=
+d let
+it call kfree() on NULL. I also don't like that much of how things are done=
+ in
+the lib but I don't think it would be that straight to change things for th=
+e non
+'burst mode' cases. For the devices implementing 'burst mode' doing the fre=
+e +
+allocation on every update_scan_modes seems unnecessary. Anyways, maybe
+something worth looking at in the future.
 
->+}
->+
->+static inline void vma_refcount_put(struct vm_area_struct *vma)
->+{
->+	/* Use a copy of vm_mm in case vma is freed after we drop vm_refcnt */
->+	struct mm_struct *mm = vma->vm_mm;
->+	int oldcnt;
->+
->+	rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
->+	if (!__refcount_dec_and_test(&vma->vm_refcnt, &oldcnt)) {
->+
->+		if (is_vma_writer_only(oldcnt - 1))
->+			rcuwait_wake_up(&mm->vma_writer_wait);
->+	}
->+}
->+
+- Nuno S=C3=A1
 
--- 
-Wei Yang
-Help you, Help me
