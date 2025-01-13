@@ -1,65 +1,123 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2561023A0F5;
-	Mon, 13 Jan 2025 14:51:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D88229808;
+	Mon, 13 Jan 2025 14:55:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736779866; cv=none; b=qb536lrh6ar/2wKZWfQm6h+EN5tL1Lgb2o9634ttv5LQv/VNL3CIJfUOFziyFS6QNl6quCiHDVPTBY06zoPKEEKQRy7gU2Z7GoXzyTFZDu7miWxYF8TEyhtf+1vNGWXGX4kbwZdIEFcE4+ZFa/E8z51a3gKqfSrUCGYO1wWw09U=
+	t=1736780105; cv=none; b=C0hOxr8sKPc2fpBjFwWsGxhoAaupK4JTV2+EFQxjjEJfb2QhvDYIL7RrkmmrPu/nRR2psZZ+Y1kif1N+YtkeRr+BgDtL4HNaxiCyzDT9ag6F9wH1/UOizyAWoFYB+oExRJP6dfy8EcOrYZop8hWuZ8JIP6s17+CcKWAew6Supgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736779866; c=relaxed/simple;
-	bh=z1ZXZIx/z4V5KmNpppQT5YoVYk/9fQs4q8arZzj0uns=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D7N5i6dPZ2NtgNFxLXqhihACrwAr8CsImcOKTjW3UNCVNIny9g/P4nkYjhC33xF4zUfkhlk+CR8VE42YMT0mcUbi5ek7yfCGvA4jkCKFq09oo+Mw3ndrYvTpHsQynnZBvSa7+izv4pN2Z4/37KfR/Cpt+ZRAMis+/zDaJHQZyzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1C02C4CED6;
-	Mon, 13 Jan 2025 14:51:03 +0000 (UTC)
-Date: Mon, 13 Jan 2025 09:51:01 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Jacob Keller <jacob.e.keller@intel.com>, Yeking@red54.com,
- kuba@kernel.org, Jonathan Corbet <corbet@lwn.net>, "Theodore Ts'o"
- <tytso@mit.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andy
- Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, Dwaipayan Ray
- <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Andrew
- Morton <akpm@linux-foundation.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- tech-board-discuss@lists.linux.dev
-Subject: Re: [PATCH] Add short author date to Fixes tag
-Message-ID: <20250113095101.4e0fff91@gandalf.local.home>
-In-Reply-To: <CAMuHMdU095ySTFJEs7bvX8kN2kBcnnUkec3hbUxUbJBGf8B=pA@mail.gmail.com>
-References: <tencent_6CF6E720909156A227D23AE8CFE4F9BA5D05@qq.com>
-	<tencent_F8CFC8ED723F6E8103B4AF3D98D63D7F1F08@qq.com>
-	<20250110080331.04645768@gandalf.local.home>
-	<52541f79-ba1c-49c9-a576-45c3472d1c79@intel.com>
-	<20250111120935.769ab9a3@gandalf.local.home>
-	<CAMuHMdU095ySTFJEs7bvX8kN2kBcnnUkec3hbUxUbJBGf8B=pA@mail.gmail.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1736780105; c=relaxed/simple;
+	bh=rMXm59SPTsrymD3C2yxFqEbLQ1YAvMyEOn3UiB05slc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CFyompBHsOUSwU1TUrXceIB8Rs65E5ZOi/vwU7ovAGIZ3O1IN1lmt6Dgm2R3AW9KP3YRsg5eSxfQq2XY/zxaFVG+jWdst7fo6bcAKBSP4h0MWeuqfOQ4Vc+NGpyMT7zdFGNK7pLrTd+f5v7cY0Ac6HYSrDoBHsCw5e5D+iCttfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ljKxA0aF; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ljKxA0aF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADB7AC4CEE2;
+	Mon, 13 Jan 2025 14:55:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736780105;
+	bh=rMXm59SPTsrymD3C2yxFqEbLQ1YAvMyEOn3UiB05slc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ljKxA0aFAxh2ONCcjbhbD784GF9s1PYXJEEhRvReBgZEd6mDOgNWpdwwkyWfeJtFD
+	 ms5xEGQtINBAIYgUytnrPynqhAUDRqfv74ujLH6UCshPh2cTPoJ8hPIZXvR3svIiA7
+	 o7F2SGfoA9kSXA0z25eLW/4YvTTMEneP+GangqZLdQgRreaEQhitpVt0fc/v6k9WRZ
+	 cHiPMwk4/ZkoSkgvizHC3Z1Z7DkSrh/HkjwDNIqWHODpNSrreAduK5Y/WeqkUAORaC
+	 kmspZTxOCvVnKX0NexSwAos/8QKdXhniXRbJetXIy518kJYNu8Z9wNyrPdc2P/rmCr
+	 sNZbLt631SwvQ==
+Date: Mon, 13 Jan 2025 11:55:02 -0300
+From: Arnaldo Carvalho de Melo <acme@kernel.org>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	Christian Brauner <brauner@kernel.org>, Guo Ren <guoren@kernel.org>,
+	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
+	James Clark <james.clark@linaro.org>,
+	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
+	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
+	linux-csky@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 00/16] perf tools: Use generic syscall scripts for all
+ archs
+Message-ID: <Z4UpRqywqYPZSUM_@x1>
+References: <20250108-perf_syscalltbl-v6-0-7543b5293098@rivosinc.com>
+ <Z3_ybwWW3QZvJ4V6@x1>
+ <Z4AoFA974kauIJ9T@ghost>
+ <Z4A2Y269Ffo0ERkS@x1>
+ <Z4BEygdXmofWBr0-@x1>
+ <Z4BVK3D7sN-XYg2o@ghost>
+ <Z4F1dXQLPGZ3JFI5@ghost>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z4F1dXQLPGZ3JFI5@ghost>
 
-On Sun, 12 Jan 2025 11:54:21 +0100
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+On Fri, Jan 10, 2025 at 11:31:01AM -0800, Charlie Jenkins wrote:
+> On Thu, Jan 09, 2025 at 03:00:59PM -0800, Charlie Jenkins wrote:
+> > Ooh okay I see, the quiet commands were being ignored as-is. We could
+> > add the lines to handle this to Makefile.syscalls, but I think the
+> > better solution is to move the lines from Makefile.build to
+> > Makefile.perf to be more generically available. Here is a patch for
+> > that. I also added the comment from the kernel Makefile describing what
+> > this does.
 
-> FTR, while I do not support adding dates to Fixes-tags, I would just
-> need to make a small modification to my fixes alias:
-> 
-> $ git help fixes
-> 'fixes' is aliased to 'show --format='Fixes: %h ("%s")' -s'
+> > From 8dcec7f5d937ede3d33c687573dc2f1654ddc59e Mon Sep 17 00:00:00 2001
+> > From: Charlie Jenkins <charlie@rivosinc.com>
+> > Date: Thu, 9 Jan 2025 14:36:40 -0800
+> > Subject: [PATCH] perf tools: Expose quiet/verbose variables in Makefile.perf
+> > 
+> > The variables to make builds silent/verbose live inside
+> > tools/build/Makefile.build. Move those variables to the top-level
+> > Makefile.perf to be generally available.
 
-Hmm, I've just been manually adding the Fixes tags ;-) That's because when
-I add a fixes tag, I also do a more in depth analysis to make sure the
-commit being tagged is really the cause of the problem. A lot of my fixes
-tags are due to very subtle bugs, and a lot of times its a combination of
-event that happened.
+<SNIP applied patch>
+ 
+> Let me know how you want to handle this, I can send this out as a
+> separate patch if that's better.
 
+I used the patch you provided above after hand editing the message
+before feeding it to 'git am', added these comments:
 
-That said, maybe one day I'll use a script or alias in the future.
+    Committer testing:
+    
+    See the SYSCALL lines, now they are consistent with the other
+    operations in other lines:
+    
+      SYSTBL  /tmp/build/perf-tools-next/arch/x86/include/generated/asm/syscalls_32.h
+      SYSTBL  /tmp/build/perf-tools-next/arch/x86/include/generated/asm/syscalls_64.h
+      GEN     /tmp/build/perf-tools-next/common-cmds.h
+      GEN     /tmp/build/perf-tools-next/arch/arm64/include/generated/asm/sysreg-defs.h
+      PERF_VERSION = 6.13.rc2.g3d94bb6ed1d0
+      GEN     perf-archive
+      MKDIR   /tmp/build/perf-tools-next/jvmti/
+      MKDIR   /tmp/build/perf-tools-next/jvmti/
+      MKDIR   /tmp/build/perf-tools-next/jvmti/
+      MKDIR   /tmp/build/perf-tools-next/jvmti/
+      GEN     perf-iostat
+      CC      /tmp/build/perf-tools-next/jvmti/libjvmti.o
+      CC      /tmp/build/perf-tools-next/jvmti/jvmti_agent.o
+    
+    Reported-by: Arnaldo Carvalho de Melo <acme@redhat.com>
+    Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+    Tested-by: Arnaldo Carvalho de Melo <acme@redhat.com>
 
--- Steve
+Thanks,
+
+- Arnaldo
