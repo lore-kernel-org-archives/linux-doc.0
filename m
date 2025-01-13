@@ -1,132 +1,140 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A99232392
-	for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 08:54:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7CC233D69;
+	Mon, 13 Jan 2025 08:58:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736758445; cv=none; b=No80tvPbkTDOzWXvjSnmxQ9wFk+KoyRajQZnb9WpItbInxCCEcTEO6xaJj3ze2VAmLVQRtg36/ibfJiVWCSYN/vaONbOlhFOoVGD9zmZAnb+HCJv5eHM/nVyeL+KuSYCeHPogr12mlj6QeTwTIrjZODjhGx3cKfgwS2uu+5+XR8=
+	t=1736758732; cv=none; b=J31NVfYzSNoGwUMFD2RB+ycfY6ICYHfVjSDmA2MWLYOer/6qrPcYFw3fh50uudRE+oAVM8jR+r5fMR8eUZiUUa852lbpqCGNjquXW9sAz/AuZqvMycyqvV/wouuvcrjJ1Nf6JwtjJNG7dMmAYuZ6YahI3rf7gOu5cOJigUNrqfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736758445; c=relaxed/simple;
-	bh=8KIk020yR2Ka06d1okI1R9aNEP5xeWNNv7rGAsAygco=;
+	s=arc-20240116; t=1736758732; c=relaxed/simple;
+	bh=85R1p6gQJr4UEBPOTjv1pFZtVlbImt2PJxVoHdctKXA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ejh+i6iEjBxRlVvrpeAcBTdDCbyJS9FxsWenU94sMTdmWnlenwyFOrzjKxG1YJYKpd+7HaQWFhWFE8WpDaR4Qqc83vezczkvqHULVOVjTYAv5zzHR/QXMaoMIz4J1LYZLlXB0nYM5YTipgpxCWJOf14k33s7fz0f4LZn/WHxFhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=ars8z+AH; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=k3f3CV9A8zEK9h/+fZFaPWC1lbMckZB6dnSIv5ZU40IbYr0XsbffrtJA8eQu6Ge5qkPEZnhiTgCT6huucfS5XMSU+4sawY/cL0iQ7idFAbU5wVw8phK4Y81SJe1b9EUsHO0+wWYLdmzZDgge5RJhxD6dKA81tMVDRt3J/lI+c0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IlTSkW+o; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="ars8z+AH"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ab2e308a99bso514676166b.1
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 00:54:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IlTSkW+o"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2165448243fso82608325ad.1;
+        Mon, 13 Jan 2025 00:58:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1736758440; x=1737363240; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1736758729; x=1737363529; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pdlz8or/j2SZsqBQFu80d2cIXQqxqGv/i2pD+MRAWJ4=;
-        b=ars8z+AHWO5a9phSfhL7uNOt5QF1Ir3mh9uo5yhRe4sC90Spwr7fAttLcpZsR6n3wL
-         zGwEGnEwqmynLY6IsfosDWrHP9y1bFDwjl/URdzKbTjFIpZeLba4vy72eU3kZlVDTIg0
-         QW6ydiHuZ9WzhndC9EU4qjybmflEKd2bkKsaXN9eQ8Rk+tf65j5eC8bZEsA8Wqt3/x4m
-         q7Us0Y/xXIW3CR3EvXh88M1n8zAifSGrO3GpdA7ZAUntgM2Pey3HY7OxpGfx2cbUzUn9
-         xPTRGAXxKcXeRwI8DmCe/T4uynEWtPhjEPuxHh2ZbiSioyJWDg4OZrimRCT2V9cndtfb
-         ssOQ==
+        bh=EXlVDJ2NycQnRr5wc9OwcaqGxsGbrhb5YE+RIHs567A=;
+        b=IlTSkW+o18uM5Mr3tvGaI5DozTFRAvf027mAndk7cNM9Re+Az5zFdiMxf/4frfZhuG
+         YofUgh2J9RzcD9f24IpjTcW3dd3TM4xxVmc6ZUZ6y8YCGhMzIpZi/Ry5jy7tZpHEjZ0c
+         k2xdLs3nBhtX1JyV/Lmkl/GpfsJNgA9RtHMoEBhIUoZbo/bM6+306LBXHE9aqVLPewDh
+         Hpw6R6Trs3ogTuJuFdWpAjccZP1rSbwuJGg9JrscXB9lw96ey3KOtqthipUaXelVEBfS
+         Fu9wl3Kr4wLLbwuBRzaNxYBZKBO2ni3pLFjZtdY+/nXXNlJ282T5PpUhqMPiI2luYoYZ
+         G24w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736758440; x=1737363240;
+        d=1e100.net; s=20230601; t=1736758729; x=1737363529;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Pdlz8or/j2SZsqBQFu80d2cIXQqxqGv/i2pD+MRAWJ4=;
-        b=nmvMrVQpmsS7YC9tYU6Mf5tIf/nEtj0eK/69TQFTs+49+TMwT5AeEPoT0BqiC6BwEA
-         zUhx0b6bC65i73WmbvTVmmgt5bYawFXs0/jlvouSuOqi9q3Fu5C8qAs3DibrZAm/3WxN
-         GrLfV5HYDpecd9xjDa/Ng7Jm4/QskWjmEhE+GeuZNq+Iklj8e4WTSkZNMmnIfYXPWBMW
-         V/HZkPZwS62NQqddwQYUWhuXnfFW2pe6LAEPWwp2LE8X+eWhjWVrKxa6PuO4AQd0dprT
-         PIiQJ3cbCS8TcrS5ahsFXeh6PzrhbYTUbA9ATvo0wCbhgN4yE99//JgTAiqdwTW4idtQ
-         sNaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU48MEyVTrXwNMfflhPBbsiG2WUB5ufsJdUbRoOIJXEowFMnOIgP4m+0j5X7n9dPcN6IGgP2Qefqg0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxV27CxU/XhBKLemHqmDmPo/bfL4cNZBu7HFSiR5Tyde+z0FAti
-	16qRsDH4IW50OOF3KYJDPpdJy2pCjh/I5zREZcnC3elFUiNNnJY3rNaGDI3wRsg=
-X-Gm-Gg: ASbGncvvaYY0izGexfAWjvcQ9OB/rbJk1GH8g2VtaO4riFUcbxfjGuzzlxpevdx/oaQ
-	rKzMnw+hnuauNZ/YQfUN/OX0/Pal1L8w/iGGNAGkMVKJ9VaUFb/HNfbyB4sWANfCOBC7nZ+kOzY
-	83mxFLttW2vKCpyjrDHTQizocFg7dpJWqcBDSf5Sbumwi1VpbtvDglfO2aPqy5GRqWetyqA5xh7
-	uKn7V7h6k7OEhan8Ut9Zp8AH9UF6zhOj23BXRtaLv7w50v+Xnm+tvIBiACH7BmPB2gfZgkGin5G
-	7usvcBxUBQZuZAPad52d0udWyNxrBX0JFs33hHifeQ==
-X-Google-Smtp-Source: AGHT+IGrUXeyMcpjKt8l6r7fafi2mX5rutzDSKCfV7zy1dqdywkWqv2gi/08sBQDRIu3dr8UvuvhZw==
-X-Received: by 2002:a17:907:9447:b0:aa5:b1bb:10db with SMTP id a640c23a62f3a-ab2c3c2833bmr1266276866b.1.1736758440035;
-        Mon, 13 Jan 2025 00:54:00 -0800 (PST)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c95624c1sm474230466b.131.2025.01.13.00.53.59
+        bh=EXlVDJ2NycQnRr5wc9OwcaqGxsGbrhb5YE+RIHs567A=;
+        b=bd8AZu5WA4ZVz7aAK7nGQus0GYXg9Lu0ICM+FJUA+8q9Dbk0I39eqjC7MGQxHJxMYM
+         STspRbD+e6+CzmfT/Q18e4f93Jy/8YH9LSenjmWHhkNTFkw+hBgoFet/jCABBrtRFp5T
+         txnGIalHxwZzlfYrT8mSzItgbqIua9EaSbve36LMuMyhiy9GojSgBXtADVj6XVi0oC51
+         keLBvRS92lLwfG8DjsKHN1ph3678le2S/m7Rs7g3dvAfa4cbmPM7/7iWqUz30zXG1lSi
+         /O4q6nL58BLeC+fgm58qhtdnbx97b6bjNr3HAHSOJD+/2G30Chwwj5IVi/7BEjYp8dYT
+         chJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV1vvTqCzoXKj+G8x1ZF4QXFBuk+r6/zhsQceIXvprNseEbzqp8DNQ445DUNFLGG7PsL1M8XZYsHjpn@vger.kernel.org, AJvYcCWNN3pdXBZYiXkNLc0NQggYjfH+lKBjFzTBevYiY3udZehObMk9H3E5Na36y223KCzHLwAmdWOP@vger.kernel.org, AJvYcCXH6ICmj4UUiOD1g95J52utLdrl6AAvlU84Z5jhWjE4CPhZb/bzf9u0dmHovprZf80YOTeT3lQrpiL5eXP6@vger.kernel.org
+X-Gm-Message-State: AOJu0YxzaCTWOBR1ieZbhEnEIm4sFi/e1mbUVHewc2Tha86A2s+i1j1p
+	9TlVuq+gaDM5o8jhXzsxX3rBGbpP8iFKhMCkS/zVJDD5hgzOqXC/YZZXcQ==
+X-Gm-Gg: ASbGncurFu1SNCaEjevuMoLV05Be8hWmXLPR93iIDyJ5JXCJEUSmOzjB96Eu7lH+E1D
+	+Wcce0gN37lqgQoRAI2D9bTXhxRk7OF5PxL38e9Zxbdk5xajoH7mdsEO5TJ8nKZb5LwKow3jAFy
+	6dqLhnd7MMrSjFU39wwIqxN6CNOIyV33z/Ncyeu9VzfmSB+qXOIPQgYoxO+d3HekUngM3GX/yJv
+	KAO3xgf/4Ys7Zwi1kixaM1uk8xQMV6O3BPuYptYLFTGPAosV1973+Cv
+X-Google-Smtp-Source: AGHT+IGCQpUk/1Fyi1JXHGdo6MAwD/GD8s4y0QHGsyGsMRQkxoVoquwQa6mL3V/1RLYvJZc3shKzEw==
+X-Received: by 2002:a05:6a00:3a02:b0:728:e81c:2bf4 with SMTP id d2e1a72fcca58-72d21f4eefbmr27013046b3a.11.1736758729146;
+        Mon, 13 Jan 2025 00:58:49 -0800 (PST)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72d4056da6asm5575551b3a.69.2025.01.13.00.58.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jan 2025 00:53:59 -0800 (PST)
-Date: Mon, 13 Jan 2025 09:53:58 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Yunhui Cui <cuiyunhui@bytedance.com>
-Cc: alexghiti@rivosinc.com, andybnac@gmail.com, aou@eecs.berkeley.edu, 
-	charlie@rivosinc.com, cleger@rivosinc.com, conor.dooley@microchip.com, 
-	conor@kernel.org, corbet@lwn.net, evan@rivosinc.com, jesse@rivosinc.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, palmer@dabbelt.com, paul.walmsley@sifive.com, 
-	samuel.holland@sifive.com, shuah@kernel.org
-Subject: Re: [PATCH v3 1/3] RISC-V: Enable cbo.clean/flush in usermode
-Message-ID: <20250113-62458ced6e6997eca091f325@orel>
-References: <20250113083635.73826-1-cuiyunhui@bytedance.com>
+        Mon, 13 Jan 2025 00:58:47 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 6BE0A4208FBF; Mon, 13 Jan 2025 15:58:45 +0700 (WIB)
+Date: Mon, 13 Jan 2025 15:58:45 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Li Zhijian <lizhijian@fujitsu.com>, linux-doc@vger.kernel.org
+Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+	mkoutny@suse.com, Jonathan Corbet <corbet@lwn.net>,
+	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Waiman Long <llong@redhat.com>
+Subject: Re: [PATCH v2] Documentation/cgroup-v2: Update
+ memory.{stat,numa_stat} description to reflect possible units
+Message-ID: <Z4TVxXF0-G7hnLr6@archie.me>
+References: <20250110123019.423725-1-lizhijian@fujitsu.com>
+ <20250113010530.432396-1-lizhijian@fujitsu.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="9Q58+IwG1F/0coK5"
 Content-Disposition: inline
-In-Reply-To: <20250113083635.73826-1-cuiyunhui@bytedance.com>
+In-Reply-To: <20250113010530.432396-1-lizhijian@fujitsu.com>
 
-On Mon, Jan 13, 2025 at 04:36:33PM +0800, Yunhui Cui wrote:
-> Enabling cbo.clean and cbo.flush in user mode makes it more
-> convenient to manage the cache state and achieve better performance.
-> 
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
-> ---
->  arch/riscv/kernel/cpufeature.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-> index c0916ed318c2..60d180b98f52 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -30,6 +30,7 @@
->  #define NUM_ALPHA_EXTS ('z' - 'a' + 1)
->  
->  static bool any_cpu_has_zicboz;
-> +static bool any_cpu_has_zicbom;
->  
->  unsigned long elf_hwcap __read_mostly;
->  
-> @@ -87,6 +88,8 @@ static int riscv_ext_zicbom_validate(const struct riscv_isa_ext_data *data,
->  		pr_err("Zicbom disabled as cbom-block-size present, but is not a power-of-2\n");
->  		return -EINVAL;
->  	}
+
+--9Q58+IwG1F/0coK5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Jan 13, 2025 at 09:05:30AM +0800, Li Zhijian wrote:
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admi=
+n-guide/cgroup-v2.rst
+> index 315ede811c9d..0a43be0c32d1 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1427,7 +1427,7 @@ The following nested keys are defined.
+>  	types of memory, type-specific details, and other information
+>  	on the state and past events of the memory management system.
+> =20
+> -	All memory amounts are in bytes.
+> +	All memory amounts are in bytes unless said otherwise.
+                                       "... unless otherwise specified."
+> =20
+>  	The entries are ordered to be human readable, and new entries
+>  	can show up in the middle. Don't rely on items remaining in a
+> @@ -1673,11 +1673,12 @@ The following nested keys are defined.
+>  	application performance by combining this information with the
+>  	application's CPU allocation.
+> =20
+> -	All memory amounts are in bytes.
+> -
+>  	The output format of memory.numa_stat is::
+> =20
+> -	  type N0=3D<bytes in node 0> N1=3D<bytes in node 1> ...
+> +	  type N0=3D<value for node 0> N1=3D<value for node 1> ...
 > +
-> +	any_cpu_has_zicbom = true;
->  	return 0;
->  }
->  
-> @@ -944,6 +947,11 @@ void __init riscv_user_isa_enable(void)
->  		current->thread.envcfg |= ENVCFG_CBZE;
->  	else if (any_cpu_has_zicboz)
->  		pr_warn("Zicboz disabled as it is unavailable on some harts\n");
-> +
-> +	if (riscv_has_extension_unlikely(RISCV_ISA_EXT_ZICBOM))
-> +		current->thread.envcfg |= ENVCFG_CBCFE;
-> +	else if (any_cpu_has_zicbom)
-> +		pr_warn("Zicbom disabled as it is unavailable on some harts\n");
->  }
->  
->  #ifdef CONFIG_RISCV_ALTERNATIVE
-> -- 
-> 2.39.2
->
+> +        The 'value' can be in bytes or pages, depending on the specific
+> +        type of memory. To determine the unit, refer to the memory.stat.
+> =20
+>  	The entries are ordered to be human readable, and new entries
+>  	can show up in the middle. Don't rely on items remaining in a
 
-Please use a cover letter with a changelog or at least changelogs under
-the '---' of each patch.
+The rest LGTM.
 
-Thanks,
-drew
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--9Q58+IwG1F/0coK5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ4TVvwAKCRD2uYlJVVFO
+o3DKAQDlBYjfwbEyB44MzI3FFsl+vU6+/b/r2rkx5uYPviwSggEA4upQIKkW+fXF
+a+cxFGpYI3d2LGlRR95QXscE0ZkdlAg=
+=TD45
+-----END PGP SIGNATURE-----
+
+--9Q58+IwG1F/0coK5--
