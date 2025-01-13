@@ -1,161 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A8221ADB4;
-	Mon, 13 Jan 2025 12:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E169D1FDA65;
+	Mon, 13 Jan 2025 12:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736771757; cv=none; b=BED9BHFEWdehPtG16bK9MeidofNY9dtH8kqg2CyxANunen06OpO0nyRnHTU5HbGUOg3VI5cBr9jYB10QNegOBAAgG20eeJIuBapSF1yfsthIKkgMjTUroZXyHR++aQrjyBuWQ+z7MTbgpQUNDPWlu2VD47lXfNJpmbmtSoiVUpo=
+	t=1736771894; cv=none; b=iboJR0UY1YY2OcPjjP2jjJuvl95uObXRQbaNeoLO2MCl+JvCRRbCQnwYolfuzTIDqsKHszLkE01Jfw2j6SPJUrzWxGXuiLuh8+1BQoWkJRtkyVRcr7Tjli6Pb7Gx+WuBeKoG0FA2NwM/Tkwyz95/QhUY/BMgVvs3uxoCwtxQuqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736771757; c=relaxed/simple;
-	bh=OT+qTBRM84wBLWwhlJIvn6iR+bgdiSz9xRDhjEVoZ5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uoUILLOVGNMW3JlDBf2j8OOpJGgLud4qyuBZz3dyENS9t1TCssAI67e/HsVBuMxeTamFOx5mlWsVnyz5fho+wCICDec0s1hBcfAfsKOlfCDR9a64o70lJfXv1dphMB+0y3UWKxWCTGoxQvmXyX/9LAOQbCs1+anB081CCZvf6xM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C2RVk83s; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1736771894; c=relaxed/simple;
+	bh=SoyAfk6H80s16ml/wFRyRtoTVekP6uGYgQVIOJfPrA8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=SYKd8qEiMGqtDAiZtxMtrB10Kw/86+LBv7lwHQGwSzKwmoTrpDgzsKfWSv3ulLoH6pZt01SqUrFM6trenf+Ntu1PftBBHOK20gdiwADmldiqbOuhDqpa3cf3MYXchscQ4vDjudlowE3eQA8jk4wAfksx0j5Knp8xW49uQNOhC3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E8tlZAGh; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C2RVk83s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E8tlZAGh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736771756; x=1768307756;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OT+qTBRM84wBLWwhlJIvn6iR+bgdiSz9xRDhjEVoZ5I=;
-  b=C2RVk83sAZ7d2D+v7eAWOLZ+OziSVly/KsX+zVWDuHLbNRrzvIkQDl/E
-   t8xfLzMf0djiYH4gOkp36JlGamPXU7RDzQYqdV4EAvBeA68C27+D3yRwh
-   Zlz0rt1kezl+BbNZ+HX7TiA506r/vJ3r/tg5Q2lOBkMpdx4jpscG3em73
-   uj/Ye8+f7ebmG/GBUtUQ0H4mSRiu7zjq6MOtZUmdJWogwFereZAPUlfmD
-   gc4onOHkolDbrWyH5+ltpQlC/KeRxOqelMwMb9AxfYAG5bJC1bgoIuowC
-   RfTOcDi+Q6UFD+E6h9e5sCb855YSdS7fayvDlvuZAZaOa24Qb9mooE4iZ
-   A==;
-X-CSE-ConnectionGUID: KaqdjK+1SRCvakRCP9bKOQ==
-X-CSE-MsgGUID: kBV0fCzzSYi1m3uiE5q9CA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="54576950"
+  t=1736771893; x=1768307893;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version:content-transfer-encoding;
+  bh=SoyAfk6H80s16ml/wFRyRtoTVekP6uGYgQVIOJfPrA8=;
+  b=E8tlZAGh6FkOifTEzs6NssZxVZM+kVHZ61t6PxpLZlpvP+/gpU570TPg
+   a6jU0dGvzk9FzchmdRou2inVYbNKbw5VssK5agP/QtAm6gmwbYO/f/cZx
+   6msagTjPLMM/rXESAoad1MWdmb4ZGnxJe2jA5yOXWYrJHwI/UFMLlaUKi
+   b7rUcezUXPNsWrYfqIfdOLKtZDykOXoZdmipAcsoZo/XAddvc8MsHLtQo
+   6cI8qTrKB1qFTUPbfZtz9/rPfqkdRHjqD2IE1ma5sbvbBsiqGZuup5Sv1
+   2OsZsLFLyoVvT0C9pWBPBQFQD/wTUB97tzIXrbNwuMEOz9U8v/oA/tiTg
+   w==;
+X-CSE-ConnectionGUID: WzpC09hGTiexR7hH3Bu2Pg==
+X-CSE-MsgGUID: bLIbgYwXR3qfZF7O+WAyDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="47608312"
 X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="54576950"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2025 04:35:48 -0800
-X-CSE-ConnectionGUID: r/CM+xrbTBSpqEORCqxMIg==
-X-CSE-MsgGUID: 3ZfXLBNqRhSiXX0+N+ofDg==
+   d="scan'208";a="47608312"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2025 04:38:12 -0800
+X-CSE-ConnectionGUID: roRnDMGcRP2ip8o05MSGMw==
+X-CSE-MsgGUID: v0pBQv8LQR2divxzr90rQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="109450257"
-Received: from unknown (HELO smile.fi.intel.com) ([10.237.72.154])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2025 04:35:45 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tXJfS-00000000SV4-01C6;
-	Mon, 13 Jan 2025 14:35:42 +0200
-Date: Mon, 13 Jan 2025 14:35:41 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Ogness <john.ogness@linutronix.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] hexdump: Allow skipping identical lines
-Message-ID: <Z4UInSRCSXzNN5Ug@smile.fi.intel.com>
-References: <20250110-perso-hexdump-v2-0-7f9a6a799170@bootlin.com>
- <20250110-perso-hexdump-v2-2-7f9a6a799170@bootlin.com>
+   d="scan'208";a="104551210"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.145])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2025 04:38:03 -0800
+From: Jani Nikula <jani.nikula@intel.com>
+To: Neal Gompa <neal@gompa.dev>, Miguel Ojeda <ojeda@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ patches@lists.linux.dev, Sami Tolvanen <samitolvanen@google.com>, Masahiro
+ Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
+ tech-board@groups.linuxfoundation.org, Steven Rostedt
+ <rostedt@goodmis.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linus
+ Torvalds <torvalds@linux-foundation.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Dan Williams <dan.j.williams@intel.com>,
+ "Darrick J. Wong" <djwong@kernel.org>
+Subject: Re: [PATCH 2/3] docs: submitting-patches: clarify difference
+ between Acked-by and Reviewed-by
+In-Reply-To: <CAEg-Je81VAYecajUjYVJKBJUT+YqKemWsWEoWFgOcF=vtfPRPw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250112152946.761150-1-ojeda@kernel.org>
+ <20250112152946.761150-3-ojeda@kernel.org>
+ <CAEg-Je81VAYecajUjYVJKBJUT+YqKemWsWEoWFgOcF=vtfPRPw@mail.gmail.com>
+Date: Mon, 13 Jan 2025 14:38:00 +0200
+Message-ID: <87ikqij3dj.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250110-perso-hexdump-v2-2-7f9a6a799170@bootlin.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 10, 2025 at 07:42:05PM +0100, Miquel Raynal wrote:
-> When dumping long buffers (especially for debug purposes) it may be very
-> convenient to sometimes avoid spitting all the lines of the buffer if
-> the lines are identical. Typically on embedded devices, the console
-> would be wired to a UART running at 115200 bauds, which makes the dumps
-> very (very) slow. In this case, having a flag to avoid printing
-> duplicated lines is handy.
-> 
-> Example of a made up repetitive output:
-> 0f 53 63 47 56 55 78 7a aa b7 8c ff ff ff ff ff
-> ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> ff ff ff ff ff ff ff ff ff ff ff ff 01 2a 39 eb
-> 
-> Same but with the flag enabled:
-> 0f 53 63 47 56 55 78 7a aa b7 8c ff ff ff ff ff
-> ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> *
-> ff ff ff ff ff ff ff ff ff ff ff ff 01 2a 39 eb
+On Sun, 12 Jan 2025, Neal Gompa <neal@gompa.dev> wrote:
+> On Sun, Jan 12, 2025 at 10:30=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> =
+wrote:
+>>
+>> Newcomers to the kernel need to learn the different tags that are
+>> used in commit messages and when to apply them. Acked-by is sometimes
+>> misunderstood, since the documentation did not really clarify (up to
+>> the previous commit) when it should be used, especially compared to
+>> Reviewed-by.
+>>
+>> The previous commit already clarified who the usual providers of Acked-by
+>> tags are, with examples. Thus provide a clarification paragraph for
+>> the comparison with Reviewed-by, and give a couple examples reusing the
+>> cases given above, in the previous commit.
+>>
+>> Acked-by: Shuah Khan <skhan@linuxfoundation.org>
+>> Acked-by: Dan Williams <dan.j.williams@intel.com>
+>> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+>> ---
+>>  Documentation/process/submitting-patches.rst | 6 ++++++
+>>  1 file changed, 6 insertions(+)
+>>
+>> diff --git a/Documentation/process/submitting-patches.rst b/Documentatio=
+n/process/submitting-patches.rst
+>> index c7a28af235f7..7b0ac7370cb1 100644
+>> --- a/Documentation/process/submitting-patches.rst
+>> +++ b/Documentation/process/submitting-patches.rst
+>> @@ -480,6 +480,12 @@ mergers will sometimes manually convert an acker's =
+"yep, looks good to me"
+>>  into an Acked-by: (but note that it is usually better to ask for an
+>>  explicit ack).
+>>
+>> +Acked-by: is also less formal than Reviewed-by:.  For instance, maintai=
+ners may
+>> +use it to signify that they are OK with a patch landing, but they may n=
+ot have
+>> +reviewed it as thoroughly as if a Reviewed-by: was provided.  Similarly=
+, a key
+>> +user may not have carried out a technical review of the patch, yet they=
+ may be
+>> +satisfied with the general approach, the feature or the user-facing int=
+erface.
+>> +
+>>  Acked-by: does not necessarily indicate acknowledgement of the entire p=
+atch.
+>>  For example, if a patch affects multiple subsystems and has an Acked-by=
+: from
+>>  one subsystem maintainer then this usually indicates acknowledgement of=
+ just
+>> --
+>> 2.48.0
+>>
+>
+> This doesn't make sense as a distinction. What defines "thoroughly"?
+> To be honest, I think you should go the other way and become okay with
+> people sending Reviewed-by tags when people have looked over a patch
+> and consider it good to land.
+>
+> To me, Acked-by mostly makes sense as a tag for people who *won't*
+> review the code, not for those who *will*. Blending Acked-by and
+> Reviewed-by just creates confusion.
 
-Still thinking that it's not okay to leave the cases where hex_dump_to_buffer()
-is being used for the similar. I would expect that to be modified as well.
-As told in v1 thread this can be achieved using a context data, instead of
-providing zillion fields, one of which may be a kind of CRC32 checksum that
-makes this work without any additional allocation.
+As a maintainer, I mostly use Acked-by for two slightly different cases:
 
-But I won't prevent you to go with this if you get a blessing from other
-PRINTK/PRINTF maintainers/reviewers.
+1) I've seen the patch. I have no objections to it being merged, I
+   approve of it. I haven't done a detailed review of it. Additionally,
+   I may indicate whether a detailed review (by someone else) is
+   required, or whether I think the ack is sufficient for merging.
 
-...
+2) I'm fine with the patch to the area I maintain being merged via some
+   other maintainers' repositories. I may or may not have also given my
+   Reviewed-by in this case, which alone is not an approval to merge via
+   other trees.
 
->  #include <linux/types.h>
-> +#include <linux/string.h>
-
-Can we keep it ordered (to some extent)? I know that types.h is misplaced here.
-
->  #include <linux/ctype.h>
->  #include <linux/errno.h>
->  #include <linux/kernel.h>
-
-...
-
-> +		if (flags & DUMP_FLAG_SKIP_IDENTICAL_LINES) {
-
-> +			if (i && !memcmp(ptr + i, ptr + prev_i, linelen)) {
-> +				prev_i = i;
-
-Can we rather use a hash function or so instead of memcmp()?
-
-> +				if (same_line)
-> +					continue;
-> +				same_line = true;
-> +				printk("%s*\n", level);
-> +				continue;
-
-> +			} else {
-
-Redundant 'else'.
-
-> +				prev_i = i;
-> +				same_line = false;
-> +			}
-> +		}
-
-Something like
-
-	unsigned long hcur, hprev = ~0; // any unrealistic init value
-	...
-		if (flags & DUMP_FLAG_SKIP_IDENTICAL_LINES) {
-			hcur = $HASH($LINE);
-			if (hcur == hprev) {
-				...
-				continue;
-			}
-			hprev = hcur;
-		}
+I think this pretty much aligns with the patch series.
 
 
--- 
-With Best Regards,
-Andy Shevchenko
+BR,
+Jani.
 
-
+--=20
+Jani Nikula, Intel
