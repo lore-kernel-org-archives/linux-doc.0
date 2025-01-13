@@ -1,108 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9516222CF1F;
-	Mon, 13 Jan 2025 13:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2AED125B2;
+	Mon, 13 Jan 2025 13:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736775425; cv=none; b=M3zLWUjBEwWh/KgYaiHoeY/gysrnYNHc4hYdhQ22tDtKWtdgGGNCvA3STFBTEPo1YHFlWxI3tpUgzvsgDuA2q7gsbZQqtBAcuNWoysc3wnTxfDHqvIH0az1BAXWTMj/hhZeziKc3QukVLphjNYsxt5Va7ibqMGepqaFRT/8RtjA=
+	t=1736775491; cv=none; b=VX7U5qNfDMeHumokBhi7W3vfXTit0lYTZKL9ARRtbZYxZnuvFtrPS/cUnI8yenvl0jdbaFkLc1je9DtA/47p1pSXqa9WBykxbwaYyVdpgQTco8r//mWc4x8mZI8dRj22ABoffAjiaeLP1rsQ0zT9boC+Ec6wrFuRCgKmrJeAnyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736775425; c=relaxed/simple;
-	bh=bUBozldLrA+tN5+cri5z0CuwhtvWendkH1kzInKSEq4=;
+	s=arc-20240116; t=1736775491; c=relaxed/simple;
+	bh=nHN3ZaTTiEw6x6KDpMqEEiPy8Os0si5mupUZrQsZhAQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b4zDw5TR/eWCwG7CwIQsBm8G1jJ5WwYb/NUfqRihXvi1as6RIRRcpnQtiDyH76lSKOZJHPO7CRsmX/cyypKWYZHqtqKWHX7NeBniNAXEDwMArXTfLnl+EAFz4/Xi/n9+S2warrqiCQWA0mCCU65uFH+2Ao+xdCJfKX0wrgD9tqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k+UE78Dr; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=um6hO14BRtsGZsEY2I4uGLyyT/CNnNQkcYjIQ9GwiT0gTh6aA9VeOMANWSHK94dmLcY/8XZ+IWz2u1tZu/uq6itHgC7M2iS2lnURqKI2UGQwJWFd2ocihl4jAgjRco5rujm/2SbQF1xMAnywToz29Du9rvwAdA2u5HLon264nPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=w7vN9zyB; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k+UE78Dr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21E53C4CED6;
-	Mon, 13 Jan 2025 13:37:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736775425;
-	bh=bUBozldLrA+tN5+cri5z0CuwhtvWendkH1kzInKSEq4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k+UE78DrNjpBo9PvgdtwxUuPgmwqmI1oaJLBQMQeyWgcEa9VnVIzvVJ4qAJpwMZe3
-	 tP8LBb+/nFr9AJ2tw7Z99e3AHPi3kZr9fI5ipMuTo7+uqKJOmcJ6HE4eOgczoM1asd
-	 uLEzBNAjYPiEPManL1Y8G/fix+LYheEH4B39haADD0QWC3kKycFG99wy4kL0Z3emEB
-	 jgvbHuWtDtQjnneI9H4iv+8/v6HWLpalmhAFPJi7AaaTl6A2JhNWutDGGW2YNSN5mt
-	 toKzPRghb6esG/tFWusU89RMFxes86NRN16E7NbHMh2uipmCJ0qwI+WD6/P9A9yxEu
-	 +m8DlXlAyKi8Q==
-Date: Mon, 13 Jan 2025 13:36:59 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Neal Gompa <neal@gompa.dev>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, patches@lists.linux.dev,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	tech-board@groups.linuxfoundation.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 3/3] docs: submitting-patches: clarify that signers may
- use their discretion on tags
-Message-ID: <523e2f74-ff67-42b1-8cc6-2956c856c833@sirena.org.uk>
-References: <20250112152946.761150-1-ojeda@kernel.org>
- <20250112152946.761150-4-ojeda@kernel.org>
- <CAEg-Je-Knta8BtYSbZgX8cZ9Gd-2cpDAUE83dCJZbTbqmSfcKA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="w7vN9zyB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=K3/LnQGpJFz1AF0FoQuzUY+SDS8BerFJpfW2HEfDwmg=; b=w7vN9zyBghaON2SXZA2zkbWGCK
+	ioUyHajgaWLXq1Ib45mo9URWcz+QYj2uk2rSGyvvWk6gKSlh0xAGaFn+/vYKTPPEjQBBTKotFLOHf
+	7yrV/eE6KxMgDbDc5GoZh9aJ+iqrDhXSEKiWxY0AIjoNPJKWgcbSqy/1Y+DUVUxnkAQU=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1tXKdd-0046S9-3A; Mon, 13 Jan 2025 14:37:53 +0100
+Date: Mon, 13 Jan 2025 14:37:53 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Lei Wei <quic_leiwei@quicinc.com>
+Cc: Luo Jie <quic_luoj@quicinc.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Suruchi Agarwal <quic_suruchia@quicinc.com>,
+	Pavithra R <quic_pavir@quicinc.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
+	quic_kkumarcs@quicinc.com, quic_linchen@quicinc.com,
+	srinivas.kandagatla@linaro.org, bartosz.golaszewski@linaro.org,
+	john@phrozen.org
+Subject: Re: [PATCH net-next v2 12/14] net: ethernet: qualcomm: Initialize
+ PPE L2 bridge settings
+Message-ID: <8bdde187-b329-480d-a745-16871276a331@lunn.ch>
+References: <20250108-qcom_ipq_ppe-v2-0-7394dbda7199@quicinc.com>
+ <20250108-qcom_ipq_ppe-v2-12-7394dbda7199@quicinc.com>
+ <4dbf1550-32e9-4cce-bf0c-8b92dbd49b50@lunn.ch>
+ <c67f4510-e71b-4211-8fe2-35dabfc7b44e@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="OJsS87fX618Yyo0C"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAEg-Je-Knta8BtYSbZgX8cZ9Gd-2cpDAUE83dCJZbTbqmSfcKA@mail.gmail.com>
-X-Cookie: You will outgrow your usefulness.
+In-Reply-To: <c67f4510-e71b-4211-8fe2-35dabfc7b44e@quicinc.com>
 
+> > Why is learning needed on physical ports? In general, switches forward
+> > unknown destination addresses to the CPU. Which is what you want when
+> > the ports are isolated from each other. Everything goes to the
+> > CPU. But maybe this switch does not work like this?
+> > 
+> 
+> L2 forwarding can be disabled in PPE in two ways:
+> 
+> 1.) Keep the learning enabled (which is the default HW setting) and
+> configure the FDB-miss-action to redirect to CPU.
+> 
+> This works because even if FDB learning is enabled, we need to represent
+> the bridge and the physical ports using their 'virtual switch instance'
+> (VSI) in the PPE HW, and create the 'port membership' for the bridge VSI
+> (the list of slave ports), before FDB based forwarding can take place. Since
+> we do not yet support switchdev, these VSI are not created and packets are
+> always forwarded to CPU due to FDB miss.
+> 
+> (or)
+> 
+> 2.) Explicitly disable learning either globally or on the ports.
+> 
+> With method 1 we can achieve packet forwarding to CPU without explicitly
+> disabling learning. When switchdev is enabled later, L2 forwarding can be
+> enabled as a natural extension on top of this configuration. So we have
+> chosen the first approach.
 
---OJsS87fX618Yyo0C
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+How does ageing work in this setup? Will a cable unplug/plug flush all
+the learned entries? Is ageing set to some reasonable default in case
+a MAC address moves?
 
-On Sun, Jan 12, 2025 at 10:47:02AM -0500, Neal Gompa wrote:
-> On Sun, Jan 12, 2025 at 10:30=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> =
-wrote:
-
-> > +Finally, while providing tags is welcome and typically very appreciate=
-d, please
-> > +note that signers (i.e. submitters and maintainers) may use their disc=
-retion in
-> > +applying offered tags.
-> > +
-
-> A tag must not be dropped without the tag submitter's authorization.
-> Otherwise it doesn't matter what you write here, the submitter *will*
-> feel unwelcome.
-
-> It is rude and discouraging to do so without their acceptance of doing so.
-
-As well as the issues that Miguel and Greg mentioned there's cases where
-we specifically want to drop tags, the most obvious one being that if a
-patch or possibly even it's context changes substantially between
-versions that will invalidate the testing or review that was done on
-prior versions.  Perhaps we might want something like "please note that
-while the default is to apply tags signers..." but I don't think we'd
-want anything stronger.
-
---OJsS87fX618Yyo0C
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeFFvoACgkQJNaLcl1U
-h9AMawf/RDVc9QITXwisNyheXl8wCZ+1FAqXf0USgJDR7Ptsogz9dHSl2M+2AOLe
-yJVnHXWVirQfunQ/ipUFyqZbzEH1f5HEv1e+r+1k7MQkbGcK1UTFKvLWGLySiHrk
-DVUDPRUejJnTn62xGuKB2QYbY4M34CyIsi3qR/dDM8XVc7J6aGlsUabbLdyYRiM2
-D/HPQc8k2kvW/QITElrHR6CLyE1ujKmpEbWfCmyhVj42UCN8GyQv3mv21SToo3qH
-sz5/Gz2MjnA/+SwSXZvjLIvHI699/TEsgntSHrH2Mc1ZyTCyNxuODNDZ9b7pS4ys
-b2GRgd5YQ0jSaj8TsHX2NUzTQc01QA==
-=nNXE
------END PGP SIGNATURE-----
-
---OJsS87fX618Yyo0C--
+	Andrew
