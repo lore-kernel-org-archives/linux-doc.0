@@ -1,61 +1,63 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2AED125B2;
-	Mon, 13 Jan 2025 13:38:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF6F23ED68
+	for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 14:15:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736775491; cv=none; b=VX7U5qNfDMeHumokBhi7W3vfXTit0lYTZKL9ARRtbZYxZnuvFtrPS/cUnI8yenvl0jdbaFkLc1je9DtA/47p1pSXqa9WBykxbwaYyVdpgQTco8r//mWc4x8mZI8dRj22ABoffAjiaeLP1rsQ0zT9boC+Ec6wrFuRCgKmrJeAnyM=
+	t=1736777709; cv=none; b=FsyCE6nujnj/LR4zqHYHtxZ2wu4rgH9A0Wo36UcfQdyRsTHY3XNPnzNGBzf3nu6dQNPjm9tCtWptwikjVZ36NDCagQ6a7rUJpXtF3m9G/+fQwPqTlpNQF0qib+Ke3BDXJ45341a6BD/vPrZa0tjv23L8CrzkDqWrpgKKAc7T8GA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736775491; c=relaxed/simple;
-	bh=nHN3ZaTTiEw6x6KDpMqEEiPy8Os0si5mupUZrQsZhAQ=;
+	s=arc-20240116; t=1736777709; c=relaxed/simple;
+	bh=gniWYhXWfG/kTIEpG2o605h1qixBRejJa9c4NLSlU58=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=um6hO14BRtsGZsEY2I4uGLyyT/CNnNQkcYjIQ9GwiT0gTh6aA9VeOMANWSHK94dmLcY/8XZ+IWz2u1tZu/uq6itHgC7M2iS2lnURqKI2UGQwJWFd2ocihl4jAgjRco5rujm/2SbQF1xMAnywToz29Du9rvwAdA2u5HLon264nPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=w7vN9zyB; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=TXPPIBYkhV5+o4MfxC14AmUUYqW19daywtUcwDKwSrVZ1HQgNLJbHTtOw7CRA5UAAhdRJiRJ/NTjENQbYctzWlif5NgorywAcl2h4yLfKNBAh3r1Vz+ErfSQNiT7bgym8qOyeohUQOzLRZPoLytCQOHvZHh0db8wPqdPoyhOPKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=hSOIfovK; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="w7vN9zyB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=K3/LnQGpJFz1AF0FoQuzUY+SDS8BerFJpfW2HEfDwmg=; b=w7vN9zyBghaON2SXZA2zkbWGCK
-	ioUyHajgaWLXq1Ib45mo9URWcz+QYj2uk2rSGyvvWk6gKSlh0xAGaFn+/vYKTPPEjQBBTKotFLOHf
-	7yrV/eE6KxMgDbDc5GoZh9aJ+iqrDhXSEKiWxY0AIjoNPJKWgcbSqy/1Y+DUVUxnkAQU=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1tXKdd-0046S9-3A; Mon, 13 Jan 2025 14:37:53 +0100
-Date: Mon, 13 Jan 2025 14:37:53 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Lei Wei <quic_leiwei@quicinc.com>
-Cc: Luo Jie <quic_luoj@quicinc.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Suruchi Agarwal <quic_suruchia@quicinc.com>,
-	Pavithra R <quic_pavir@quicinc.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	linux-arm-msm@vger.kernel.org, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
-	quic_kkumarcs@quicinc.com, quic_linchen@quicinc.com,
-	srinivas.kandagatla@linaro.org, bartosz.golaszewski@linaro.org,
-	john@phrozen.org
-Subject: Re: [PATCH net-next v2 12/14] net: ethernet: qualcomm: Initialize
- PPE L2 bridge settings
-Message-ID: <8bdde187-b329-480d-a745-16871276a331@lunn.ch>
-References: <20250108-qcom_ipq_ppe-v2-0-7394dbda7199@quicinc.com>
- <20250108-qcom_ipq_ppe-v2-12-7394dbda7199@quicinc.com>
- <4dbf1550-32e9-4cce-bf0c-8b92dbd49b50@lunn.ch>
- <c67f4510-e71b-4211-8fe2-35dabfc7b44e@quicinc.com>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="hSOIfovK"
+Received: from cwcc.thunk.org (pool-173-48-82-229.bstnma.fios.verizon.net [173.48.82.229])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 50DEDxax009455
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 13 Jan 2025 09:14:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1736777643; bh=cstIT/Ge3hyyls2hAQtO81zaohHddliLPg+dh7uODCk=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=hSOIfovKFPLX72TdZC02j1laOT/1OIZdi+DpTQM8UDL5DTU0pM92n0WB+nQRJ5I5Y
+	 y6kGFbVAMY6xM9LIIQ9OUeSKm+WQ+Jh5sJlUGCwGgyt0LC+GL42u3IAL+hrpFsvXaA
+	 AiExrhGB8awNEgIQ3MVzP5UQKrZqS+oFYp5Zs8H3CzfuXXsk/FVJvg5ohhT8OyHF5/
+	 f+n3MCGpywCVmD5uEpoA9lhPK4LssNFhh//W5+bemeo418sV/A6JRTCDbu38CKrTrf
+	 Kl7JWNHd6IKC5youmtspCyAemnGQHyywA6R8tnYFXM3y+S9wR4UmVSBxMfJpM0SyTI
+	 p2eLQR8JgBlRg==
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+	id 6A20F15C0135; Mon, 13 Jan 2025 09:13:59 -0500 (EST)
+Date: Mon, 13 Jan 2025 09:13:59 -0500
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: Neal Gompa <neal@gompa.dev>
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@lists.linux.dev,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        tech-board@groups.linuxfoundation.org,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        "Darrick J. Wong" <djwong@kernel.org>
+Subject: Re: [PATCH 2/3] docs: submitting-patches: clarify difference between
+ Acked-by and Reviewed-by
+Message-ID: <20250113141359.GD1514771@mit.edu>
+References: <20250112152946.761150-1-ojeda@kernel.org>
+ <20250112152946.761150-3-ojeda@kernel.org>
+ <CAEg-Je81VAYecajUjYVJKBJUT+YqKemWsWEoWFgOcF=vtfPRPw@mail.gmail.com>
+ <CANiq72kQOrvi5=1RUScEpov79RNzA3vna9KW6MoYmj8XJZhpQQ@mail.gmail.com>
+ <CAEg-Je9Cs54SkvhzbSq=2v2QYMo=mwUuGqFcs6cvi7nFgw6+Ug@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,37 +66,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c67f4510-e71b-4211-8fe2-35dabfc7b44e@quicinc.com>
+In-Reply-To: <CAEg-Je9Cs54SkvhzbSq=2v2QYMo=mwUuGqFcs6cvi7nFgw6+Ug@mail.gmail.com>
 
-> > Why is learning needed on physical ports? In general, switches forward
-> > unknown destination addresses to the CPU. Which is what you want when
-> > the ports are isolated from each other. Everything goes to the
-> > CPU. But maybe this switch does not work like this?
-> > 
+On Sun, Jan 12, 2025 at 11:35:29AM -0500, Neal Gompa wrote:
+> I've had my Reviewed-by tags silently ignored or deliberately stripped
+> because even though I've done a technical review, the maintainer does
+> not believe that I did. Therefore, what I am saying is that
+> maintainers seem to speciously decide whether an Acked-by or
+> Reviewed-by tag is appropriate or not *after* someone has sent it.
 > 
-> L2 forwarding can be disabled in PPE in two ways:
-> 
-> 1.) Keep the learning enabled (which is the default HW setting) and
-> configure the FDB-miss-action to redirect to CPU.
-> 
-> This works because even if FDB learning is enabled, we need to represent
-> the bridge and the physical ports using their 'virtual switch instance'
-> (VSI) in the PPE HW, and create the 'port membership' for the bridge VSI
-> (the list of slave ports), before FDB based forwarding can take place. Since
-> we do not yet support switchdev, these VSI are not created and packets are
-> always forwarded to CPU due to FDB miss.
-> 
-> (or)
-> 
-> 2.) Explicitly disable learning either globally or on the ports.
-> 
-> With method 1 we can achieve packet forwarding to CPU without explicitly
-> disabling learning. When switchdev is enabled later, L2 forwarding can be
-> enabled as a natural extension on top of this configuration. So we have
-> chosen the first approach.
+> This is the fundamental problem I have right now. This decision is not
+> the maintainer's to make, it is the submitter's.
 
-How does ageing work in this setup? Will a cable unplug/plug flush all
-the learned entries? Is ageing set to some reasonable default in case
-a MAC address moves?
+Nope, it's is *absolutely* the maintainer's to make.  If I don't trust
+the reviewer, or reviewer is known to be someone who is only giving
+English grammer or policy nit-picking, I am absolutely going to ignore
+the reviewer, and in some cases, tell the patch submitter that should
+feel to ignore the reviewer or feel that they should be obliged to pay
+attention to certain reviewers.
 
-	Andrew
+Note also that a submitter is not obliged to resend a patch if someone
+sends an Acked-by or Reviewed-by.  There are tools like b4 or
+patchwork that will blindly add all tags, and then it's up to the
+maintainer to remove any b.s. tags that maintainer doesn't feel up to
+the subsystem's standards.
+
+						- Ted
