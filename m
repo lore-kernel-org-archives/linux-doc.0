@@ -1,156 +1,177 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93362235BE1;
-	Mon, 13 Jan 2025 09:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64B46235C11;
+	Mon, 13 Jan 2025 09:59:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736761703; cv=none; b=eUhg4ME5NZ2p6om/0Tba36MhikR8NySnCoUjc+3XO5IxrobGj1YByELHBP1BP7eqiYDIYWoR0c2jLc0FJpUduVEktb5VBr3dRwd3V4OKAQwzI3qjEtfZ/mft5qsOMWlBuDCJFdok1d8duqUVrQjCrg38vq6+7DL/LGc2XGcXaP8=
+	t=1736762348; cv=none; b=pxYk7L0YPVJwqS1aP+e26RLpA4EOXYHdZ26qdYU/ZunxNmgGD4a92brwqb4Y63hXkgMSqDTcWALS+vYrWQet9INVJhYmX+ptjl4Nbl+RgVoUlkhCX8g3MIu3sAIJVmBe+L3dwFJzV/WHucuT3KAbU/EfyRPQg5UYxWCWKhcOBkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736761703; c=relaxed/simple;
-	bh=K1BDBCF50o+cf6oIS2bDIVzget03lGHDrSxQPLcWEWo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=EadJYJuYqFbS+Sc+7tqNZY6Gl280ARvt2vWqeNSqOY0eFe4iNNQVZx9WwuEoFfAVWc+/jhRXOOY5KuVPAMqC4lNKZ+hqZX3sHmclG0zFvafHF9A8sJCYM5vziETceR9w82crRqsf6LlVjD/eOT9NfpnIdH+jvSNvJtqkOvwKXt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xneq+C3T; arc=none smtp.client-ip=209.85.221.41
+	s=arc-20240116; t=1736762348; c=relaxed/simple;
+	bh=pefOdtjuBewUlf1x48BRP+8ngRMMxzVKrGCyQOHzgV8=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J5z9aTaLKvcJX0cDfudBW8R7YWIxMWpRLKFXS4ekmpu2+sHNSesELIp9C+qgzfADMgrI03fSjsUrwIjdjHZmFUClP7Xoy1NyJ8xx8W2ifZOKD01IwDWOGZgAqQkhrd+llWvwenpPKj5oNz/St1QEd+pDIDhu05IeZ9Usr0liegM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h8mjGkj/; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xneq+C3T"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-385e27c75f4so2861116f8f.2;
-        Mon, 13 Jan 2025 01:48:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h8mjGkj/"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2161eb94cceso47901765ad.2;
+        Mon, 13 Jan 2025 01:59:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736761700; x=1737366500; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Fy5J9GnPTErNI4yJwKHrFSmYyUl9mPrEtPLLIWCLOlo=;
-        b=Xneq+C3T9sQPjL3lY/ZsNv3qD4F2JyjyAvxE2LimBOAn7YOEz0wolbvXtsAhkQT/ZI
-         5qNNkTcA3RYIAIsvZB4w9POStn/27HFemyqFWUZH1jQayikTc14fV9CUllx3HI1csutX
-         rW+u1t4xTovMR+O3oW0IUHSTlShCr1zXr1gG2hcyy/iSYBy9z9vidXKIDrnKkOQyU1Ko
-         dqckowXAv5Xn8uFPw/3iLIjhOxnMP0CdqTzbZpP7yk8x/y95V5FshKjLcp5mWBg2wQ2n
-         I9dheTw5+yNZ5ftj2TS+s2kmWgmg7/Ap6hiVbq6EglVXBMo8mYPqBaWdBtL+FTx7VQJ8
-         XRTQ==
+        d=gmail.com; s=20230601; t=1736762346; x=1737367146; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=B2XgwgcEm81FTA4UwtwdCcdVayE5rYoFV+/lCyIbct0=;
+        b=h8mjGkj/eaJqu0PIvfeLzADCV+NLZmc9YK9LtwkAo+R09wfhRx4i00+2n50HEmTiRQ
+         xOGulx93Eb+LlTD3iPVBim0AWRU16lluhTvnepnLmCDCNKvVj740fDQiNuI+bpPuA1qy
+         HJQSARuCCBQgbR23aw6H2wglSkqXYjMDlVA5ZEqikqkEuRzJHiHayOCnXAwY/sOe4YGn
+         YJ6dyudMgAg4K+cnSOZ05poy04hmRdY0dqNpn1XE1LF+6ymDAyvqEidi04azYl1bHrxo
+         1zYdgw8jYWy/kACa2MYJ8SiVVEUwGwMKy6czu34w6Zxonfunwy1XyBk+pWUU5B0uRtX8
+         B5zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736761700; x=1737366500;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Fy5J9GnPTErNI4yJwKHrFSmYyUl9mPrEtPLLIWCLOlo=;
-        b=mvlXIQhZzPZp6QRLIzHelczrNtvhIzQAd0VKp8FjWhigknYdJFwov9WzZ/gTdn2K/P
-         0YY30mZqMjmWMQGCTJB2G6ijVvjMjMfA+tmiguZ4azVMt6/OP1z0ag3OGvErN6BJEpup
-         i/Fjwpl0bBr+vsgwaF6TwSe0o/aowcaZo9Qbb+DFzROVnVeimjVflIVL2GYGCDpXTwuw
-         +Uu6AlvFTY/l2oMjq5Lu7gvLTR2Pt7NJLXSx+i+CBZS4/EqrGHKNhFGepe7DqrcccrUy
-         ZaASUuOWYN+jfIibRKKLnhXirsroKCEda5bHxnQsSm1GcxPnpsgZXDpYk4fgcMIGiPfj
-         65Mw==
-X-Forwarded-Encrypted: i=1; AJvYcCU+ftGehHqM9mWxuiHHEs5BiOaUZePKix5RAoJkWYD+5cTXX/EFja3yG/sprRL+vCsmzNgB0FUnnlMA@vger.kernel.org, AJvYcCX2Uvbd1ZlL6ZRLEcKwmwiTnsT+SY1XDR4HDLHtd8dDPAmQ4Pj2DA893B/6QmUqhRn3TqWBVnFvBC9hiSe8@vger.kernel.org, AJvYcCXDAySVNgmuxD7BYZACGlDSQV+a+F0CK9Sf9nkbqmLlLBNvz9jDzfmPhQObivNIK3tkk0DmlGIRvhW2@vger.kernel.org, AJvYcCXnB4oExAtUwMQZbIrwFvkgQyCfT2F3Ez+CpsT6vzLqMF/YHamGIxouBAFFVBj9LFKAndE4nme/Y/Lr@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9Wpom8uSpjSvA5bHTDwFtA42cA1ovVP1Dwpd43ss1ceADIkmC
-	IWw6BZ9AKAIV1SB34xcor4f+ZA+YTknX9w6FvKlkJ2IK5y7s/1ov
-X-Gm-Gg: ASbGncvKYPrLyEp8VQe6HIwUsZegfDYhzTL9eskAqU7+pwwtUw8R1hIY2tI8AIKCs+7
-	G38m1/1pIqgR50iUYUbcojQYecZeMGtPefmt/dVQxI+vqqfvhEJ1d9B6cY/uoed7b1ez2A3czlE
-	bX981NGcL59DKe79DaHrgUX+D7wiZh762QUTcZoyY1qN+t8++yZljMyjAZ3RK+8XhcjckJzyZAX
-	erpq062jSsQOCotp6ldnFDQkIbYYtOLvE2kkCMGlaVuXFbdZDS+/3TUL9m0HRHM4ChDpkf17zCT
-	X/Fe6USDrnWNBK/LQHOYMs1zj7EC
-X-Google-Smtp-Source: AGHT+IFGu8xgHnqA3SbOcsPF1QRNB0WruVSNr3NRE+jXFVca/FLalIOi+c3lwexlaOqMBBn1B/F3+w==
-X-Received: by 2002:a05:6000:186b:b0:388:da2a:12fa with SMTP id ffacd0b85a97d-38a8733badamr15583169f8f.52.1736761699522;
-        Mon, 13 Jan 2025 01:48:19 -0800 (PST)
-Received: from ?IPv6:2001:818:ea8e:7f00:2575:914:eedd:620e? ([2001:818:ea8e:7f00:2575:914:eedd:620e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2e92a50sm170561255e9.36.2025.01.13.01.48.18
+        d=1e100.net; s=20230601; t=1736762346; x=1737367146;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=B2XgwgcEm81FTA4UwtwdCcdVayE5rYoFV+/lCyIbct0=;
+        b=YLPB8jgZCsn+aRnTSUtxqeWLj1AmJCOOgw3Dg9CXfnbIqdC8TaaRbvhzAKwnlbssmN
+         XL23OWwOYmfvpDREvHcyN44gbfvhdusfRgsvRxIzi+cHANVaNMGZVrPD2aamLztoXdTR
+         TP7REnaxJrwXSOLYdIpLiiMPOEN9VK5SQIz6qjsewY3ZEDdBNzlHtdA9d2L3zqccegXK
+         eAZOATN+at5guGbY2E97McS9aAZyzmCDEtLEjpmbjqv8Jr5yqY+QysE/jW1kaB8dwSIR
+         1KgMJuelTovoBZOL2Os8T361rUg2SIARSwWQylpcvxRNrNZPHaTGLpjDaRJM05tJXJb5
+         BlQw==
+X-Forwarded-Encrypted: i=1; AJvYcCWJ+kO4PSQe6lkT5XCBdbCB+8U9bLBMJkmMaWS2XPT4BkxqDbC8jlwnukjaMqNjfj/jPnGZAshWU5w=@vger.kernel.org, AJvYcCXIVNPSSdZqGWD2cxzre2vX7PwXOi4OTjF85d5CKSiPm5glND1fNwyx506E9vHHeiEkNYB6e8DmfQXf8ClP@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxijVNStQ6pF8wA9OM0G8XsMnHkaa7AT9y6C7RsWcro3BrsBrc
+	DTZnN0TvlLhQvVedo/dYvfdz/0KfzeIL31d22iwByVgY7ChO5ubA
+X-Gm-Gg: ASbGncuvwFpqRfF/AEjekG5JQPu6sW/d9ZVdQ5I1CQblWC4sP0gnRfyi1F9J/+DzcCS
+	MxiQgID1hbxE6OGWhFssBIbSu2Cwv67mtXhjTI2OMUogzymu/NbVI27kpAnGwUMN1/YrQAwow5i
+	nOTbLKxMjZmWeItsUEF5bTfjEKpvpyO979jr5mMe/Aa/e8cGKiYVpK2V2COdOPxDt5xCCMku3mi
+	a5xDOZdLvYUVCJnTf3KcDW8Wu1PwZbXmhMaGp9A8g2vyWp7+LEM3/vi
+X-Google-Smtp-Source: AGHT+IGMS8vDidegKAQYAYEXKNCSbPMzVmBDdv8sRLdPXpDqW6H634CWN8qDD/2MjceQhHprhPbBpQ==
+X-Received: by 2002:a05:6a20:2d22:b0:1e6:8f23:ba70 with SMTP id adf61e73a8af0-1e88d0efac6mr32595168637.41.1736762345352;
+        Mon, 13 Jan 2025 01:59:05 -0800 (PST)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72d4065c475sm5591774b3a.117.2025.01.13.01.59.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jan 2025 01:48:19 -0800 (PST)
-Message-ID: <604cf5b9c5f2efef4618b9e99bd8d8bf24f999a1.camel@gmail.com>
-Subject: Re: [PATCH v4 5/6] iio: imu: adis16550: add adis16550 support
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>, Robert Budai
- <robert.budai@analog.com>
-Cc: Nuno Sa <nuno.sa@analog.com>, Ramona Gradinariu	
- <ramona.gradinariu@analog.com>, Antoniu Miclaus
- <antoniu.miclaus@analog.com>,  Lars-Peter Clausen	 <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley	
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Alex Lanzano	
- <lanzano.alex@gmail.com>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, 	linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Date: Mon, 13 Jan 2025 09:48:18 +0000
-In-Reply-To: <20250112161141.563064c2@jic23-huawei>
-References: <20250110074254.38966-1-robert.budai@analog.com>
-		<20250110074254.38966-6-robert.budai@analog.com>
-	 <20250112161141.563064c2@jic23-huawei>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2 
+        Mon, 13 Jan 2025 01:59:04 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id F3EA14208FBF; Mon, 13 Jan 2025 16:59:00 +0700 (WIB)
+Date: Mon, 13 Jan 2025 16:59:00 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Nir Lichtman <nir@lichtman.org>, corbet@lwn.net,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com
+Subject: Re: [PATCH v2] Documentation: Fix x86_64 UEFI outdated references to
+ elilo
+Message-ID: <Z4Tj5NyguaU8xoKV@archie.me>
+References: <20250108113522.GA897677@lichtman.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-
-On Sun, 2025-01-12 at 16:11 +0000, Jonathan Cameron wrote:
-> On Fri, 10 Jan 2025 09:42:53 +0200
-> Robert Budai <robert.budai@analog.com> wrote:
->=20
-> > The ADIS16550 is a complete inertial system that includes a triaxis
-> > gyroscope and a triaxis accelerometer. Each inertial sensor in
-> > the ADIS16550 combines industry leading MEMS only technology
-> > with signal conditioning that optimizes dynamic performance. The
-> > factory calibration characterizes each sensor for sensitivity, bias,
-> > and alignment. As a result, each sensor has its own dynamic com-
-> > pensation formulas that provide accurate sensor measurements
-> >=20
-> > Co-developed-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
-> > Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
-> > Co-developed-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> > Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> > Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
-> > Signed-off-by: Robert Budai <robert.budai@analog.com>
-> > ---
-> >=20
-> > 4:
-> > - reorganized channels to match the order in the datasheet
-> > - removed extra checks and goto statements
-> > - for buffer memory allocation used only kfree, since adis library alre=
-ady
-> > takes care of freeing the buffer
->=20
-> That last bit makes for a mess wrt to who owns the buffer and lifetime
-> management. Suggestions inline.
->=20
-> Jonathan
->=20
-> > diff --git a/drivers/iio/imu/adis16550.c b/drivers/iio/imu/adis16550.c
-> > new file mode 100644
-> > index 000000000000..49c3ff9ef1e2
-> > --- /dev/null
-> > +++ b/drivers/iio/imu/adis16550.c
-> > @@ -0,0 +1,1202 @@
-> ...
->=20
->=20
-> > +static int adis16550_set_accl_filter_freq(struct adis16550 *st, int
-> > freq_hz)
-> > +{
-> > +	bool en =3D false;
-> > +
-> > +	if (freq_hz)
-> > +		en =3D true;
-> > +
-> > +	return __adis_update_bits(&st->adis, ADIS16550_REG_CONFIG,
-> > +				=C2=A0 ADIS16550_ACCL_FIR_EN_MASK,
-> > +				=C2=A0
-> > (u32)FIELD_PREP(ADIS16550_ACCL_FIR_EN_MASK, en));
->=20
-> Why is the cast needed? Only bit 3 is set.
-
-Typically this is needed for the cases where we want to write in 2 byte
-registers and we want to make sure sizeof(val) (on the macro evaluation) gi=
-ves
-us the proper size. But yes, for this case as we want 4 bytes, it should no=
-t be
-needed. Hmm but I think we might get 'unsigned long' from FIELD_PREP() sinc=
-e
-mask is also of that type?
-
-- Nuno S=C3=A1=20
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="he/EB48cMPiCLH+2"
+Content-Disposition: inline
+In-Reply-To: <20250108113522.GA897677@lichtman.org>
 
 
+--he/EB48cMPiCLH+2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Jan 08, 2025 at 11:35:22AM +0000, Nir Lichtman wrote:
+> diff --git a/Documentation/arch/x86/x86_64/uefi.rst b/Documentation/arch/=
+x86/x86_64/uefi.rst
+> index fbc30c9a071d..3949d83a9915 100644
+> --- a/Documentation/arch/x86/x86_64/uefi.rst
+> +++ b/Documentation/arch/x86/x86_64/uefi.rst
+> @@ -12,14 +12,19 @@ with EFI firmware and specifications are listed below.
+> =20
+>  1. UEFI specification:  http://www.uefi.org
+> =20
+> -2. Booting Linux kernel on UEFI x86_64 platform requires bootloader
+> -   support. Elilo with x86_64 support can be used.
+> +2. Booting Linux kernel on UEFI x86_64 platform can either be
+> +   done using the <Documentation/admin-guide/efi-stub.rst> or using a se=
+parate bootloader.
+> =20
+>  3. x86_64 platform with EFI/UEFI firmware.
+> =20
+>  Mechanics
+>  ---------
+> =20
+> +Refer to <Documentation/admin-guide/efi-stub.rst> to learn how to use th=
+e EFI stub.
+> +
+> +Below are general EFI setup guidelines on the x86_64 platform,
+> +regardless of whether you use the EFI stub or a separate bootloader.
+> +
+>  - Build the kernel with the following configuration::
+> =20
+>  	CONFIG_FB_EFI=3Dy
+> @@ -31,16 +36,27 @@ Mechanics
+>  	CONFIG_EFI=3Dy
+>  	CONFIG_EFIVAR_FS=3Dy or m		# optional
+> =20
+> -- Create a VFAT partition on the disk
+> -- Copy the following to the VFAT partition:
+> +- Create a VFAT partition on the disk with the EFI System flag
+> +    You can do this with fdisk with the following commands:
+> +
+> +        1. g - initialize a GPT partition table
+> +        2. n - create a new partition
+> +        3. t - change the partition type to "EFI System" (number 1)
+> +        4. w - write and save the changes
+> +
+> +    Afterwards, initialize the VFAT filesystem by running mkfs::
+> +
+> +        mkfs.fat /dev/<your-partition>
+> +
+> +- Copy the boot files to the VFAT partition:
+> +    If you use the EFI stub method, the kernel acts also as an EFI execu=
+table.
+> +
+> +    You can just copy the bzImage to the EFI/boot/bootx64.efi path on th=
+e partition
+> +    so that it will automatically get booted, see the <Documentation/adm=
+in-guide/efi-stub.rst> page
+> +    for additional instructions regarding passage of kernel parameters a=
+nd initramfs.
+> =20
+> -	elilo bootloader with x86_64 support, elilo configuration file,
+> -	kernel image built in first step and corresponding
+> -	initrd. Instructions on building elilo and its dependencies
+> -	can be found in the elilo sourceforge project.
+> +    If you use a custom bootloader, refer to the relevant documentation =
+for help on this part.
+> =20
+> -- Boot to EFI shell and invoke elilo choosing the kernel image built
+> -  in first step.
+>  - If some or all EFI runtime services don't work, you can try following
+>    kernel command line parameters to turn off some or all EFI runtime
+>    services.
+
+Looks good, thanks!
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--he/EB48cMPiCLH+2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ4Tj3QAKCRD2uYlJVVFO
+o1HrAP9tDeI2qNFydIAOAb4si18nqSsFsifI9Arpm7zadqx5owD/dHwMy2be72ai
+U5d+Lz1pHjQxssQPME9WkNjBZwdXCwU=
+=RVaT
+-----END PGP SIGNATURE-----
+
+--he/EB48cMPiCLH+2--
