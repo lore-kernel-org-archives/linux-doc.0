@@ -1,83 +1,56 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD26F4315A;
-	Mon, 13 Jan 2025 02:38:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642AF433C8;
+	Mon, 13 Jan 2025 02:47:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736735882; cv=none; b=p4PYc/5SeGxLp2eCC7Q2Q1UM9U8XJX5Wbr16+x4Rm77egIMNFAw4jvjRLpHI25kKnWAVUxer94gb/dKF9Ddv1g+GuevTzSK8MrI4R+0XLiiTDgczSwan+jtVkZ0NBK9pjgzaa14bVYxTx+5k9QFz9GbZq+Xkyf66REE4H8uZ+bc=
+	t=1736736471; cv=none; b=Qc5gBDsfMRkB9FMbn8oxKRsyafKsZzurM/ZalyvSrqrfhVART+7FAD3KCOoeBA3/fCLu8q409RZ+K2krXQ+Dtb0GckePdpZPvKsi4/aSBos/SX69qYx4s6D4is3rzVT/A+PeB8rSe+l3p4gpgLrej49esk+iILnpY2eQ3Ax0huM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736735882; c=relaxed/simple;
-	bh=ute81Tr9CZiZHFaeyFfNUYf8KWwYKmQPe+yFnZHSCBo=;
+	s=arc-20240116; t=1736736471; c=relaxed/simple;
+	bh=gP6Hf8DV4w/UTePON+8BvVG7kYjOiT0KO8ZCUbBNisg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qDn0g0sumKpvjTmfdL6o/Hv28S60ec4Ow54QooD5WiqmYAyE/u+0q+xIt4JR7DiEfgtkDpLWGxSJ28geQtddDUMznnpZKUKE/B/EFbxWYXSZZobIfGi8nekJBWLGL0cmdAIil6YMjuStp0fzBSbTIBrGjtnkdL5w+YcFA3L7kmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ljKBPHt2; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=mtHFNouGVZlC+H0/B1rNYW//pv7oEZxVY7WarY3wL3dpdpqtT57HtMDfSoMX+MU1sNKT2zvbGUsZkLsNf8ojEnr2h+FYFwehg1VN+3CNwDqBsIIzmb1Rk+Xcqzvs5g6ykx7XV0R000WAPnJ3bO2U7B09vph2kEm/DUYxnVUSZTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FOKokPMs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ljKBPHt2"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ab2bb0822a4so794061066b.3;
-        Sun, 12 Jan 2025 18:38:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736735879; x=1737340679; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KFa4UFnZYVUF29EjZIMNFsD2rSpOiFnUOuvrl5CUGCg=;
-        b=ljKBPHt2+eRptiShjxqExCrclKM1zHUbc82aUYZQjlvFbm+6j/wWW0j8TJE3AMFnVP
-         4Rlu8UvGNAefiLuj+47em0oDkNLnwruVAl6qHpoSWQHdee4+x8DnsYHqVcI7Q+4/jPfh
-         oVsn6mRwtcgSRHGFy02N7NcRbOx+72XYv41T1EIB948Cu5PSKTTpYxkFgNLGm0QqC8ws
-         t512bqUDp0SOo9neTSzgsBhWCJX1kmCNog905+RsuQ5dgS5lrzkKU6CgCCj6pIz2+Zme
-         PSsNcv2FVO9zlzaQZwvcRRiloOEDsuG0WxNyduSS0HY3zcuvVNwXkPhsZgRl8nEYW/yB
-         STDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736735879; x=1737340679;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=KFa4UFnZYVUF29EjZIMNFsD2rSpOiFnUOuvrl5CUGCg=;
-        b=rmn1ajqssqnPIBj49j+6jDCGL/nMfyABeJu7b4ZeCvHLmUfz7lViNsQVRWqFhaXSoh
-         Cq99E9hKHbS1seIJEL9tmS2KyNgD+VOrMakQEPZ/2cSq5pb4Fj4nNLYuBOdfUzAiJZqn
-         6/f24rjoP6axp7BlPiID6TGaKKOJ/z4r9M3VuJP49dMkXo6vZMg+4ZcuWVFnUwcmDdbX
-         +J44UXqWIJW2r1t9dJhXlgMU3Fq5lf4dK0UVQTuXQglypLt4jO6AdBRhrMJV0XojETCE
-         d4TLrK1THt7mYGXjK8l8j9QC2XCA8HVPMg9EgYg91U1Xqsex94V0L3QvviL+s1eg6Zzp
-         zv7A==
-X-Forwarded-Encrypted: i=1; AJvYcCUe/mxVzEmea0UI8WQ8e7iYkD7R5iE6BUNeQJkLDT6bMwCrQVs/bk8pXGZVI+J9zAFVOXcdje73shA=@vger.kernel.org, AJvYcCXeB3n4D6QJnbfjd82cpVbNuBuHze6YYF9UPaqQ/ZNqSsy8CfOqSF8MdYgJAAQIQ8QSHZfZiuv1UbjX4gay@vger.kernel.org
-X-Gm-Message-State: AOJu0YwN2VwO+K8osJgr2T1Qno6PLSYjcWxKsPladvv2GxbkI5c61F5O
-	cGfzEwDHxxxy+HOzlkK1D/HcvUtJ6gnfjJmUmEyFNNja5K6RQcvd
-X-Gm-Gg: ASbGncsaNuC7tJo8/QAuoWPibKp60MvBvWd7CIDfxcjZsQ5zSscqOkQ6YYQ5rrECa/0
-	CWNAnvHmCsIjmdnn5jcz+YTYIWuryWBzDwwaVEAA2e2KzSTzslrsxnfRLvouEAi+CXLSLSmiqIJ
-	S/ZxV4wB7A7mRJtbNkoAYKnUn3niPER+KhOIg1h0x9qPyh+xSpWhtdocKzzTSINTzxMO+TrKyt5
-	vhMWzRJ9L229bm4LOTugv5W3Q8wNFTD8f4uRQnYX8TqGnvyRNbpeGX1
-X-Google-Smtp-Source: AGHT+IHEDkltBWyWbX2j4wixCxax7BMgnbEMmgEZ3qHErBAvGklHMF/EJlOvm24KMsZfkoihiOMM6A==
-X-Received: by 2002:a17:907:7255:b0:aa6:8600:24f3 with SMTP id a640c23a62f3a-ab2ab5f5353mr1491294366b.25.1736735878714;
-        Sun, 12 Jan 2025 18:37:58 -0800 (PST)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c9060db6sm441445866b.8.2025.01.12.18.37.56
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 12 Jan 2025 18:37:57 -0800 (PST)
-Date: Mon, 13 Jan 2025 02:37:56 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org,
-	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com,
-	david.laight.linux@gmail.com, mhocko@suse.com, vbabka@suse.cz,
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
-	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
-	hughd@google.com, lokeshgidra@google.com, minchan@google.com,
-	jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com,
-	pasha.tatashin@soleen.com, klarasmodin@gmail.com,
-	richard.weiyang@gmail.com, corbet@lwn.net,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH v9 11/17] mm: replace vm_lock and detached flag with a
- reference count
-Message-ID: <20250113023756.kgu7hdeow7ltsj7m@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20250111042604.3230628-1-surenb@google.com>
- <20250111042604.3230628-12-surenb@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FOKokPMs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5855C4CEDF;
+	Mon, 13 Jan 2025 02:47:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736736470;
+	bh=gP6Hf8DV4w/UTePON+8BvVG7kYjOiT0KO8ZCUbBNisg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FOKokPMsFfajbfEYx/DPjYFLRqlx6tsU9JAJwyO9Yl6QzrD5hN/rzZz0rR61g8F+p
+	 KNgYIBGaE9Cza208rccMBtJQo3udGHEdyJYl35QvZkUQfQIBnGDYxMTBjxQSBdNl6W
+	 rfvJbZkYu0OkLsuu05877EMrvG5LshP8SSGSkn/pXipItuycmvNk+AaXR6HCH+Bo8m
+	 nY+0jB3niQ+2CZZoz8UHNbwN+St82Zpzws8K8kQIloUL2RirNCeodtrow9nIeTn0Wq
+	 Z3ienwoVjtHr8LM4rdPu+pT3S7nV6JPjXLrrZcEdMLRIgiTR8CX82mo5IJU29NHsuu
+	 0XlGEOGFxd/+w==
+Date: Sun, 12 Jan 2025 18:47:50 -0800
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Alistair Popple <apopple@nvidia.com>
+Cc: akpm@linux-foundation.org, dan.j.williams@intel.com, linux-mm@kvack.org,
+	alison.schofield@intel.com, lina@asahilina.net,
+	zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
+	vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
+	bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca,
+	catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au,
+	npiggin@gmail.com, dave.hansen@linux.intel.com, ira.weiny@intel.com,
+	willy@infradead.org, tytso@mit.edu, linmiaohe@huawei.com,
+	david@redhat.com, peterx@redhat.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, nvdimm@lists.linux.dev,
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
+	jhubbard@nvidia.com, hch@lst.de, david@fromorbit.com,
+	chenhuacai@kernel.org, kernel@xen0n.name, loongarch@lists.linux.dev
+Subject: Re: [PATCH v6 05/26] fs/dax: Create a common implementation to break
+ DAX layouts
+Message-ID: <20250113024750.GV1306365@frogsfrogsfrogs>
+References: <cover.11189864684e31260d1408779fac9db80122047b.1736488799.git-series.apopple@nvidia.com>
+ <79936ac15c917f4004397027f648d4fc9c092424.1736488799.git-series.apopple@nvidia.com>
+ <20250110164438.GJ6156@frogsfrogsfrogs>
+ <lui7hffmc35dfzwxu3xyybf5pion74fbfxszfopsp6tgyt2ajq@bmpeieroavro>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,36 +59,282 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250111042604.3230628-12-surenb@google.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <lui7hffmc35dfzwxu3xyybf5pion74fbfxszfopsp6tgyt2ajq@bmpeieroavro>
 
-On Fri, Jan 10, 2025 at 08:25:58PM -0800, Suren Baghdasaryan wrote:
-> static inline void vma_end_read(struct vm_area_struct *vma) {}
->@@ -908,12 +948,8 @@ static inline void vma_init(struct vm_area_struct *vma, struct mm_struct *mm)
-> 	vma->vm_mm = mm;
-> 	vma->vm_ops = &vma_dummy_vm_ops;
-> 	INIT_LIST_HEAD(&vma->anon_vma_chain);
->-#ifdef CONFIG_PER_VMA_LOCK
->-	/* vma is not locked, can't use vma_mark_detached() */
->-	vma->detached = true;
->-#endif
-> 	vma_numab_state_init(vma);
->-	vma_lock_init(vma);
->+	vma_lock_init(vma, false);
-
-vma_init(vma, mm)
-  memset(vma, 0, sizeof(*vma))
-  ...
-  vma_lock_init(vma, false);
-
-It looks the vm_refcnt must be reset.
-
-BTW, I don't figure out why we want to skip the reset of vm_refcnt. Is this
-related to SLAB_TYPESAFE_BY_RCU?
-
-> }
+On Mon, Jan 13, 2025 at 11:47:41AM +1100, Alistair Popple wrote:
+> On Fri, Jan 10, 2025 at 08:44:38AM -0800, Darrick J. Wong wrote:
+> > On Fri, Jan 10, 2025 at 05:00:33PM +1100, Alistair Popple wrote:
+> > > Prior to freeing a block file systems supporting FS DAX must check
+> > > that the associated pages are both unmapped from user-space and not
+> > > undergoing DMA or other access from eg. get_user_pages(). This is
+> > > achieved by unmapping the file range and scanning the FS DAX
+> > > page-cache to see if any pages within the mapping have an elevated
+> > > refcount.
+> > > 
+> > > This is done using two functions - dax_layout_busy_page_range() which
+> > > returns a page to wait for the refcount to become idle on. Rather than
+> > > open-code this introduce a common implementation to both unmap and
+> > > wait for the page to become idle.
+> > > 
+> > > Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> > 
+> > So now that Dan Carpenter has complained, I guess I should look at
+> > this...
+> > 
+> > > ---
+> > > 
+> > > Changes for v5:
+> > > 
+> > >  - Don't wait for idle pages on non-DAX mappings
+> > > 
+> > > Changes for v4:
+> > > 
+> > >  - Fixed some build breakage due to missing symbol exports reported by
+> > >    John Hubbard (thanks!).
+> > > ---
+> > >  fs/dax.c            | 33 +++++++++++++++++++++++++++++++++
+> > >  fs/ext4/inode.c     | 10 +---------
+> > >  fs/fuse/dax.c       | 27 +++------------------------
+> > >  fs/xfs/xfs_inode.c  | 23 +++++------------------
+> > >  fs/xfs/xfs_inode.h  |  2 +-
+> > >  include/linux/dax.h | 21 +++++++++++++++++++++
+> > >  mm/madvise.c        |  8 ++++----
+> > >  7 files changed, 68 insertions(+), 56 deletions(-)
+> > > 
+> > > diff --git a/fs/dax.c b/fs/dax.c
+> > > index d010c10..9c3bd07 100644
+> > > --- a/fs/dax.c
+> > > +++ b/fs/dax.c
+> > > @@ -845,6 +845,39 @@ int dax_delete_mapping_entry(struct address_space *mapping, pgoff_t index)
+> > >  	return ret;
+> > >  }
+> > >  
+> > > +static int wait_page_idle(struct page *page,
+> > > +			void (cb)(struct inode *),
+> > > +			struct inode *inode)
+> > > +{
+> > > +	return ___wait_var_event(page, page_ref_count(page) == 1,
+> > > +				TASK_INTERRUPTIBLE, 0, 0, cb(inode));
+> > > +}
+> > > +
+> > > +/*
+> > > + * Unmaps the inode and waits for any DMA to complete prior to deleting the
+> > > + * DAX mapping entries for the range.
+> > > + */
+> > > +int dax_break_mapping(struct inode *inode, loff_t start, loff_t end,
+> > > +		void (cb)(struct inode *))
+> > > +{
+> > > +	struct page *page;
+> > > +	int error;
+> > > +
+> > > +	if (!dax_mapping(inode->i_mapping))
+> > > +		return 0;
+> > > +
+> > > +	do {
+> > > +		page = dax_layout_busy_page_range(inode->i_mapping, start, end);
+> > > +		if (!page)
+> > > +			break;
+> > > +
+> > > +		error = wait_page_idle(page, cb, inode);
+> > > +	} while (error == 0);
+> > 
+> > You didn't initialize error to 0, so it could be any value.  What if
+> > dax_layout_busy_page_range returns null the first time through the loop?
 > 
+> Yes. I went down the rabbit hole of figuring out why this didn't produce a
+> compiler warning and forgot to go back and fix it. Thanks.
+>  
+> > > +
+> > > +	return error;
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(dax_break_mapping);
+> > > +
+> > >  /*
+> > >   * Invalidate DAX entry if it is clean.
+> > >   */
+> > 
+> > <I'm no expert, skipping to xfs>
+> > 
+> > > diff --git a/fs/xfs/xfs_inode.c b/fs/xfs/xfs_inode.c
+> > > index 42ea203..295730a 100644
+> > > --- a/fs/xfs/xfs_inode.c
+> > > +++ b/fs/xfs/xfs_inode.c
+> > > @@ -2715,21 +2715,17 @@ xfs_mmaplock_two_inodes_and_break_dax_layout(
+> > >  	struct xfs_inode	*ip2)
+> > >  {
+> > >  	int			error;
+> > > -	bool			retry;
+> > >  	struct page		*page;
+> > >  
+> > >  	if (ip1->i_ino > ip2->i_ino)
+> > >  		swap(ip1, ip2);
+> > >  
+> > >  again:
+> > > -	retry = false;
+> > >  	/* Lock the first inode */
+> > >  	xfs_ilock(ip1, XFS_MMAPLOCK_EXCL);
+> > > -	error = xfs_break_dax_layouts(VFS_I(ip1), &retry);
+> > > -	if (error || retry) {
+> > > +	error = xfs_break_dax_layouts(VFS_I(ip1));
+> > > +	if (error) {
+> > >  		xfs_iunlock(ip1, XFS_MMAPLOCK_EXCL);
+> > > -		if (error == 0 && retry)
+> > > -			goto again;
+> > 
+> > Hmm, so the retry loop has moved into xfs_break_dax_layouts, which means
+> > that we no longer cycle the MMAPLOCK.  Why was the lock cycling
+> > unnecessary?
+> 
+> Because the lock cycling is already happening in the xfs_wait_dax_page()
+> callback which is called as part of the retry loop in dax_break_mapping().
 
--- 
-Wei Yang
-Help you, Help me
+Aha, good point.
+
+--D
+
+> > >  		return error;
+> > >  	}
+> > >  
+> > > @@ -2988,19 +2984,11 @@ xfs_wait_dax_page(
+> > >  
+> > >  int
+> > >  xfs_break_dax_layouts(
+> > > -	struct inode		*inode,
+> > > -	bool			*retry)
+> > > +	struct inode		*inode)
+> > >  {
+> > > -	struct page		*page;
+> > > -
+> > >  	xfs_assert_ilocked(XFS_I(inode), XFS_MMAPLOCK_EXCL);
+> > >  
+> > > -	page = dax_layout_busy_page(inode->i_mapping);
+> > > -	if (!page)
+> > > -		return 0;
+> > > -
+> > > -	*retry = true;
+> > > -	return dax_wait_page_idle(page, xfs_wait_dax_page, inode);
+> > > +	return dax_break_mapping_inode(inode, xfs_wait_dax_page);
+> > >  }
+> > >  
+> > >  int
+> > > @@ -3018,8 +3006,7 @@ xfs_break_layouts(
+> > >  		retry = false;
+> > >  		switch (reason) {
+> > >  		case BREAK_UNMAP:
+> > > -			error = xfs_break_dax_layouts(inode, &retry);
+> > > -			if (error || retry)
+> > > +			if (xfs_break_dax_layouts(inode))
+> > 
+> > dax_break_mapping can return -ERESTARTSYS, right?  So doesn't this need
+> > to be:
+> > 			error = xfs_break_dax_layouts(inode);
+> > 			if (error)
+> > 				break;
+> > 
+> > Hm?
+> 
+> Right. Thanks for the review, have fixed for the next respin.
+> 
+>  - Alistair
+> 
+> > --D
+> > 
+> > >  				break;
+> > >  			fallthrough;
+> > >  		case BREAK_WRITE:
+> > > diff --git a/fs/xfs/xfs_inode.h b/fs/xfs/xfs_inode.h
+> > > index 1648dc5..c4f03f6 100644
+> > > --- a/fs/xfs/xfs_inode.h
+> > > +++ b/fs/xfs/xfs_inode.h
+> > > @@ -593,7 +593,7 @@ xfs_itruncate_extents(
+> > >  	return xfs_itruncate_extents_flags(tpp, ip, whichfork, new_size, 0);
+> > >  }
+> > >  
+> > > -int	xfs_break_dax_layouts(struct inode *inode, bool *retry);
+> > > +int	xfs_break_dax_layouts(struct inode *inode);
+> > >  int	xfs_break_layouts(struct inode *inode, uint *iolock,
+> > >  		enum layout_break_reason reason);
+> > >  
+> > > diff --git a/include/linux/dax.h b/include/linux/dax.h
+> > > index 9b1ce98..f6583d3 100644
+> > > --- a/include/linux/dax.h
+> > > +++ b/include/linux/dax.h
+> > > @@ -228,6 +228,20 @@ static inline void dax_read_unlock(int id)
+> > >  {
+> > >  }
+> > >  #endif /* CONFIG_DAX */
+> > > +
+> > > +#if !IS_ENABLED(CONFIG_FS_DAX)
+> > > +static inline int __must_check dax_break_mapping(struct inode *inode,
+> > > +			    loff_t start, loff_t end, void (cb)(struct inode *))
+> > > +{
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static inline void dax_break_mapping_uninterruptible(struct inode *inode,
+> > > +						void (cb)(struct inode *))
+> > > +{
+> > > +}
+> > > +#endif
+> > > +
+> > >  bool dax_alive(struct dax_device *dax_dev);
+> > >  void *dax_get_private(struct dax_device *dax_dev);
+> > >  long dax_direct_access(struct dax_device *dax_dev, pgoff_t pgoff, long nr_pages,
+> > > @@ -251,6 +265,13 @@ vm_fault_t dax_finish_sync_fault(struct vm_fault *vmf,
+> > >  int dax_delete_mapping_entry(struct address_space *mapping, pgoff_t index);
+> > >  int dax_invalidate_mapping_entry_sync(struct address_space *mapping,
+> > >  				      pgoff_t index);
+> > > +int __must_check dax_break_mapping(struct inode *inode, loff_t start,
+> > > +				loff_t end, void (cb)(struct inode *));
+> > > +static inline int __must_check dax_break_mapping_inode(struct inode *inode,
+> > > +						void (cb)(struct inode *))
+> > > +{
+> > > +	return dax_break_mapping(inode, 0, LLONG_MAX, cb);
+> > > +}
+> > >  int dax_dedupe_file_range_compare(struct inode *src, loff_t srcoff,
+> > >  				  struct inode *dest, loff_t destoff,
+> > >  				  loff_t len, bool *is_same,
+> > > diff --git a/mm/madvise.c b/mm/madvise.c
+> > > index 49f3a75..1f4c99e 100644
+> > > --- a/mm/madvise.c
+> > > +++ b/mm/madvise.c
+> > > @@ -1063,7 +1063,7 @@ static int guard_install_pud_entry(pud_t *pud, unsigned long addr,
+> > >  	pud_t pudval = pudp_get(pud);
+> > >  
+> > >  	/* If huge return >0 so we abort the operation + zap. */
+> > > -	return pud_trans_huge(pudval) || pud_devmap(pudval);
+> > > +	return pud_trans_huge(pudval);
+> > >  }
+> > >  
+> > >  static int guard_install_pmd_entry(pmd_t *pmd, unsigned long addr,
+> > > @@ -1072,7 +1072,7 @@ static int guard_install_pmd_entry(pmd_t *pmd, unsigned long addr,
+> > >  	pmd_t pmdval = pmdp_get(pmd);
+> > >  
+> > >  	/* If huge return >0 so we abort the operation + zap. */
+> > > -	return pmd_trans_huge(pmdval) || pmd_devmap(pmdval);
+> > > +	return pmd_trans_huge(pmdval);
+> > >  }
+> > >  
+> > >  static int guard_install_pte_entry(pte_t *pte, unsigned long addr,
+> > > @@ -1183,7 +1183,7 @@ static int guard_remove_pud_entry(pud_t *pud, unsigned long addr,
+> > >  	pud_t pudval = pudp_get(pud);
+> > >  
+> > >  	/* If huge, cannot have guard pages present, so no-op - skip. */
+> > > -	if (pud_trans_huge(pudval) || pud_devmap(pudval))
+> > > +	if (pud_trans_huge(pudval))
+> > >  		walk->action = ACTION_CONTINUE;
+> > >  
+> > >  	return 0;
+> > > @@ -1195,7 +1195,7 @@ static int guard_remove_pmd_entry(pmd_t *pmd, unsigned long addr,
+> > >  	pmd_t pmdval = pmdp_get(pmd);
+> > >  
+> > >  	/* If huge, cannot have guard pages present, so no-op - skip. */
+> > > -	if (pmd_trans_huge(pmdval) || pmd_devmap(pmdval))
+> > > +	if (pmd_trans_huge(pmdval))
+> > >  		walk->action = ACTION_CONTINUE;
+> > >  
+> > >  	return 0;
+> > > -- 
+> > > git-series 0.9.1
+> > > 
+> 
