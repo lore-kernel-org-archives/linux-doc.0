@@ -1,177 +1,334 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2076.outbound.protection.outlook.com [40.107.244.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83DD51C3F39;
-	Mon, 13 Jan 2025 19:06:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736795207; cv=fail; b=BU48XATvTjW3/922VbzLDibJVUmWozGUxzg6i9m/FHs0EnMEdAwu5KSPJC0CvglDakzpImy1vwUA0uS5aOcAnW1IYy169GVYrkkAm0zb67dkhY+I+8d9+GB9IuRKR5tV443Rp4ztOvc+KZb/80No76w+DL0I1khyBnO6D48JJNU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736795207; c=relaxed/simple;
-	bh=So/a5h0YZWgW93A1bUPWN14mbdjOszk30y1kxlse2J8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=esDJaUfAFWxev9Fu+AS0r8FYQjTEgSf83yGKaG4FXQUOQuhC90SLiIs/vgFVgdwO5vaW4cJkuOhD+Kd+fY8pvRxT616XEgSuDb51jY8HU5i5fEyqIa7+fsIdcjmxdhHNS8Z34z04WDaCW539OL4GHn1M50/SXjggNzYgZy7Ius8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=QXi9NCc6; arc=fail smtp.client-ip=40.107.244.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C6D1B21BC
+	for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 19:09:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736795380; cv=none; b=XLlFFrTInEM0gg/TtWpSATW2ewLJ7tO9dXdh7YedVrYqn3BIPVUPuTpCuxSTYEh3fYHfhmk+z3Sp35koHU64mwWQxC1QHhwfHd+UGyAV3TqC2jqUn7j0Qj+APImX1zlbccXDvMoLrg9ha48egrZrBassP2JSu1X8qf+V+TAGLfc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736795380; c=relaxed/simple;
+	bh=YM8nQzXmVO3hIGagB5R+0toS6NDgB3PWAcGp3p3Vqbs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MOJp3e5nrmhB/WAp2IVVpyIVZWXRj4raubdMivUJC3b1zcx9HB7Ss3PY7tJdYAm8MizJb5ABYEBkNTM/Y2Z+gzcs2YF8tYmMoMKnCMhfiyk9VW+251HOhImgDClJDwvObXv/n/yDCox0rdtZIiD3cMJX4gqoVW8cQ0cyie+Hpqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SoOREpjJ; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="QXi9NCc6"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=J5kOjYoyp1RI2tPpcYI7sH5me7Mmc39cyJbke1Ie7LkcC/qSMRXW8V/aRbENGWyzP628rWTqDmBK05x3/RX9lGCFu4/pPuTLsJ+DVmIntpCyKDCQB7FJHkpPGB86TNtGNWzoYNNIz+37NTz2iZ/m6PMiu9hRleto0xJI05sW88URccbvSx6qM2V5S29lVLI/zi8IEPzitixyf544BXvXvuGwVAcGe1xg6cqRfKwclkiG5je4th6tZ+7IIw8qpvnsteXadWhR46nuQ6NW5PrOsz3d4fCXwimdCa2tbqbs7lhBCrB4s5UImFm1DJInWJT3P/08BJ99+05m2vX7Ghwg3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k+fwWfH7oCvr0hX6NpoD3FKue+QYWaXbtFQH/dHQ1ns=;
- b=iqTpCYtEo1RyncwZPGeeGuUe38l8ZUbBAFxCgLVMjMv5r+14WnG8bxfzOTyEUlkzGhtA/GO1vdpEQuchTJdxx3yIwtvZVW0dn3pgjfNOMu7yt1TsRNYZm3ciiAqbcqApraqle+3x+a2W07UpW588vE6+cF5wgG9baqY2K9f97f/X6Sbj5J1HJalTsY4pNETK55M/vizmVe0jHT6D/uwFYo7DzlstOzxt/BXyImV09UGLf0cURe9A47HUySvOFysQEQcX8AuxKhae5ce0fwPN1rf8RI5HhiMTm6pOZeuOJBBDx3dF9iqFmTdLazZJfTOC/rZ85n5+XYTxDNzJ0ue+Eg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k+fwWfH7oCvr0hX6NpoD3FKue+QYWaXbtFQH/dHQ1ns=;
- b=QXi9NCc6UthFEXcTIR4SaEkQamau0/WMgTErfTHO9FyY51ZMePy2ihq8UP8eWtmONkMQ47MhfBMcEnJcLphuTUzFDtI7sO0wArOZ5CmnkSph9wy45Zuuib12JVUD7HyPHhDuNB70TsSb1DJdJDpThf+0LB/J0lox4jxIK3IJ2CaDSTB7t2z5WWS0wY0Ozms0gY+82QnAMpP55jwS6F9Yxeh31op0RdX4y/xFSGnpOuUUcj/315U1BLG5NHSwthkAwmvs4uHZTiWKj7l5+Ob3X3NSyQHL2j6NYp4JLAoLo4CfrPa80hkDEyJ79++IXAPcQz0MECBr47AWARL537xN4A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by PH7PR12MB8428.namprd12.prod.outlook.com (2603:10b6:510:243::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.18; Mon, 13 Jan
- 2025 19:06:43 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%5]) with mapi id 15.20.8314.022; Mon, 13 Jan 2025
- 19:06:43 +0000
-Date: Mon, 13 Jan 2025 15:06:41 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: will@kernel.org, kevin.tian@intel.com, corbet@lwn.net,
-	oe-kbuild-all@lists.linux.dev, joro@8bytes.org,
-	suravee.suthikulpanit@amd.com, robin.murphy@arm.com,
-	dwmw2@infradead.org, baolu.lu@linux.intel.com, shuah@kernel.org,
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-	eric.auger@redhat.com, jean-philippe@linaro.org, mdf@kernel.org,
-	mshavit@google.com, shameerali.kolothum.thodi@huawei.com,
-	smostafa@google.com, ddutile@redhat.com, yi.l.liu@intel.com,
-	patches@lists.linux.dev
-Subject: Re: [PATCH v5 14/14] iommu/arm-smmu-v3: Report events that belong to
- devices attached to vIOMMU
-Message-ID: <20250113190641.GQ5556@nvidia.com>
-References: <03c01be90e53f743a91b6c1376c408404b891867.1736237481.git.nicolinc@nvidia.com>
- <202501091822.4ocbIobQ-lkp@intel.com>
- <Z4Vi9raM/lOot/SQ@Asurada-Nvidia>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z4Vi9raM/lOot/SQ@Asurada-Nvidia>
-X-ClientProxiedBy: BN9PR03CA0301.namprd03.prod.outlook.com
- (2603:10b6:408:112::6) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SoOREpjJ"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-467896541e1so32141cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 11:09:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1736795377; x=1737400177; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=awAcP1PapTldB001pJ/Irl/POVAt+oNoWSzuce2g7Bo=;
+        b=SoOREpjJM9CufqB540pR33z0NyfWDsBFWhytENrF/GIkuRlUtQtBGOE0HmtNBO0PEv
+         thp0o9jNfl0M+QrFUBhdnljUb9zgr4xbiF045YHjD60edTwTaJLnB9leFEp7qnJl5sdH
+         MceI3WC+IYxHpwBplaUcHbUIsqrjB8vr9W6XfFSO+ZTj0fKA44f8hW95hwqICurLWzbm
+         uf7mZCRFPBfqCWdNSgo7ieFR05s64g1ID4WUPB+a3furkHZI/KXbaEoGuHHJ/JPfHxn/
+         d9k7UhLdjyJHXMs5B5Iw0MjwXfflhbLz1dWpWo/gNjGBqW1R3RX5ckFBwzTokZiXjMuh
+         4HzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736795377; x=1737400177;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=awAcP1PapTldB001pJ/Irl/POVAt+oNoWSzuce2g7Bo=;
+        b=Yh5eVvKS8Ejt3GthXjBFAAO4uRr78OVu6fbTNv98aY/S/hhKCpnzbGjeRwRZCwJHyT
+         30FdznvD5yVF6cQHTFT+064w8I7fqsI0ZszdQUaM5DEZ6EW6nqAzUBTSGLNTEV7ALwA3
+         jlo4cHg5j7VGoV4gkPcUbhLMuz1+rbVE6z+a0vwKoZZlUsWmO5BzUqzjusJ1VjXC5RH3
+         X66G4pr79z5CLoFQuB70Ml0O1Br+ZksWrbgH/kDBdHufkznShMNsjhb7fdlMLzzjfVyA
+         mwwfiWM5owrOUzXIeK/JJLF7eG1D88OvVj8Yif/LojDBC68NHgPxAVsArwarjDN/6eJ6
+         Gx+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWsZmQHX/BVw9lOBSQk2OKFjjUH7vU0Ru/fWMez8J7LFMiVPbWSAh8k6REHduKiR6oG35wq9ylq8Mo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTrnN2niJSm3S3ywW/PgPwAMDj5b6KsgdzMyeQg8zmPOeRP0AM
+	ssf9vWI3ctUIa2fLQNUnckcEMFOJ9Y5Ml+qTzCnrTH0nw7SobZvw9A9Bvfn/xiUn4W6TFinc3MJ
+	sQBP/AvO2dlgIm/q7qYzcGhK75NSa8Mm2y3jd
+X-Gm-Gg: ASbGncsv9Dn2vaOEJF47iUB28M4abZoPh20gtYSt16axQZYprTh+ogFOb6leweEhvg2
+	J1GewaT9h5WdzsRuLJIZhPS5jE6gwV9z3GlVraQ==
+X-Google-Smtp-Source: AGHT+IHxSCwBZPKwoB9jmpHDH1aufJlnEZ9DADuU3/4fqu4oePhrEHgnJ2HBiqc2XzOGEAHQrgmaEuAHHJ8q9CNZDmA=
+X-Received: by 2002:ac8:5e4c:0:b0:465:c590:ed18 with SMTP id
+ d75a77b69052e-46de99be855mr11101cf.9.1736795376763; Mon, 13 Jan 2025 11:09:36
+ -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|PH7PR12MB8428:EE_
-X-MS-Office365-Filtering-Correlation-Id: 113abfac-cde4-4921-c7fe-08dd34056ac7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?J+G+sQzvnUO3h8R64JyONcEQc+7vNINQNJsFTwYk+kR69phaIak6Q8vSdSVH?=
- =?us-ascii?Q?2Kl2N1OYMC8uFlL3kMuBdmApA7Z4tYF6s29R5klaLhEd2XvHarDSC9GJ7Lwy?=
- =?us-ascii?Q?jpN+Y7K1YjIp6dWpMMWt9KRvvXa7Z1dIt7CGfrjSjX6G3mAXWCKIS4eBoQwt?=
- =?us-ascii?Q?F5hdJ6Y/HczKCnt+1k+6OHar0hyRyCHqT3JKRjeYdI3FdFxgy6twMIAS7hLd?=
- =?us-ascii?Q?cDSXDuw2XW8oA68zj5j4NYV6C8F5PRSnKEQ7NWG/ky88JOBkYhutMVFC+AAK?=
- =?us-ascii?Q?IoI0HhK9RpHEPw77T2hBbjJa20/vEa8j4WolVer/YW2l6Gf4fmWZfYxDeeOW?=
- =?us-ascii?Q?a2yOwIhmxrLzMh+mo7pJJSOn686pFp8wDYyh61EmE/0mEBWDFk5rmjJ0hRuA?=
- =?us-ascii?Q?jf6Tg0BW65kkIgEi2BhIAGKbdwGzS6rw9OND6e4MAhqy1KGnPLd2rSMIkNgt?=
- =?us-ascii?Q?53N9DmWvKorcnRI6dVCPEQypHgYmZFwMAEtmyV5pfsfZsT+RJea4VmfAiGDF?=
- =?us-ascii?Q?Ax0qAQkgVuvhObO+aeP52qVPRv7aClG8tJYiqT1gdvbUDOtjo2ZBXzdUKNbs?=
- =?us-ascii?Q?Hk74yS8hkQH/nRYYmlG6N+/fHOHtgYA9Cd8IzGDIwow5XoKZOtdg5gK4tA1y?=
- =?us-ascii?Q?T0VYhun7lxkZHQPkRtBHCdjLKYUI5iKAGtrktXMDBLRbFnAew6DlS9MU6gV1?=
- =?us-ascii?Q?3qBqzsjREa4Wk4lYWLs0xYnVo2PAcC1Hw7u+2DUBJzQIfh8pPyrOtoq51gKL?=
- =?us-ascii?Q?ke/BYKEhkw8gmcYXAuEOAhGwxgG9OSegQh8t5ZRWXJuXU0gzgHa18xw5e1Zx?=
- =?us-ascii?Q?d0wMS2EZvHEuS2JSW8tZT5Wcv1h1b69Yt+CopX3SzdkuboE9xN5Hx/Ou5dVz?=
- =?us-ascii?Q?C/A/joff3dBpWTJ2/eZ/hchV7t7GcdqBBtT65zdVaBSSAJlQaORxo0PpkZrs?=
- =?us-ascii?Q?jSc0PEJmtJ+0qwT22IgyRKCCGBk6kEEnu3GLjtJqyoKXVMLYR9MQKCM1z7fr?=
- =?us-ascii?Q?pw7rzHfJSwe/Pgjoe8zGzbaTiq/6RrxSnidUKXbwKQPm4s+aXPDnsDzOVRO0?=
- =?us-ascii?Q?RgIydQsYSbL5O/XiTC00cNbU0B+YGqGJ/X2UWFpi0KhPMoIGD+x0mo6NyA43?=
- =?us-ascii?Q?vyqu/6dGcKnvXPY6CTlpWPghno9Qx8Y7IxFGlADQu/uqjvG81Gjd2dNeDKJc?=
- =?us-ascii?Q?AHyaxRRU+9sggARwJfQNJYuQdmDpp9k3CZ7GjGT1rP+1SGg8Ntnvr/BiY8Th?=
- =?us-ascii?Q?nc4Mnb6iD90mRhQUscl2AFajsyNGxIHOJO8EGqOMGqWLajzDqctqo/BjfXQ8?=
- =?us-ascii?Q?6TCUVWVk9ydbMMFnHgLdTGDfZajINnrBrgawFuHiOIt/jGb33HI3cRG/HBVD?=
- =?us-ascii?Q?4lMDAyVrDqqca+n8FIVWPbQNu73r?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?OXoGxBKS3ADsqe0xo2TQOfgvZJ7hATu0qq7ljTV8ntKdna/tdxjry6aUnzKF?=
- =?us-ascii?Q?q8Ff0sA7iEcAABTiBFFym9RhqckPb6+zfgDjunfGutO2b8PFUJ3oqDrJTrU2?=
- =?us-ascii?Q?ChaDgPybsah2eIpOEB3pVaqNsDLecCeHBxpMWO+aKgjJbb7l4HPctoZ7F1pE?=
- =?us-ascii?Q?GdFbGFvoaA7z8AtMauA5AUdgUzOhP/tOoDjl9FG0A3TXnbd+I0r+PNqo9sJt?=
- =?us-ascii?Q?1gdnlM4MDB6Iwm0jP3ccDjAvJy6w1sbB+8SgiTW7hMy+WT5+TG0bVJTs5Srq?=
- =?us-ascii?Q?yEHH/JChHZ2tfUJ3W9Y9la3HRqj88hP94YRLSBtXNblvFPBCpt0B5RuwLlg+?=
- =?us-ascii?Q?PQ2yIBiTt7li3CBrX9IF+clB6DeUOznBp38X89rlTqTkPbVHPe/A4UksYUIX?=
- =?us-ascii?Q?7GiOQ6VXayBSzHnBIOlgqFIz1ulCbUktXjf38Fxs4wJYp+BZjEbn5AzoxPNl?=
- =?us-ascii?Q?XVRDcPVhrdeGX22JqMumnqWhtxN/2cbQOEBl7Qror1XCrOCFeFQJ+pclNrSX?=
- =?us-ascii?Q?sBZObWwmjfqlZct+/F+XCtJmvCmvGEpTTvjnvD4KFslMFsbmV83AQ2/DbDhL?=
- =?us-ascii?Q?S8Se2j5Lu7jJVCpqORKTBFAEPFGd3fqLYiy/1kSfY0HxlLk6UpDZv9gB/fvo?=
- =?us-ascii?Q?XMwAwc4797gNaqB/ZlA8ud0RW+EqW1K8/phn/ktlUpt6DfJ3Fb4H3pHxoTza?=
- =?us-ascii?Q?EuTG+jV0wbI7f4f7ikbJulWggSn0Qi4aCO8hX5sbB0WZoQ6v+FvDcaXCL9Gz?=
- =?us-ascii?Q?WVmZWXzq5eGB9lOMw3YFpnhgJ0LmI9z5pzJecjjZX8itsC3/1e4M3YYlIeDS?=
- =?us-ascii?Q?ZrMhWUssGSEm9ofP4mPOjBxEPgXOMHJv4fYw9CWlev1PiPJZLrxTMJN8k7EQ?=
- =?us-ascii?Q?Wo1deR55SLCwMq1y0k0oh3+tbKzqzJiwgC1Lptp/UY3GRSzUFlesIfI4HSuk?=
- =?us-ascii?Q?ZMsbpTCbMtiL2OGOhyZN7YR1fT2zFsDuY1tU0PIbic0fVjCsQDEYWOK2igh9?=
- =?us-ascii?Q?iWISmf2z/FHvhHpDz/zFK5Wdvs3X54ZoFgFkGMi9gz6fBux91Q08biWyFjiH?=
- =?us-ascii?Q?484/UxTraseUq575BMMhCvp2njuaMzdMEGJjdqyXaB0M0b1J9DNam1pph/xq?=
- =?us-ascii?Q?yh6UEdBbF4yvPhIZ2r2T+E77nJlHIZHicR0+H4mPt3b3Wi8hqXRscjyd23ID?=
- =?us-ascii?Q?Uo7iNGSvKO3AE34PdHqn7vCAdRRZweO67hgQK4KFGIcgS3yVq1aT7zowhdWI?=
- =?us-ascii?Q?dDgVRB5bQteNrbwqsy0vICE2wRhLFJB1o3pwi2oBe2oA5eqUhUHtSK6CsqA2?=
- =?us-ascii?Q?1Y6FuKfBFq2rIxA/EeqyP4P6eae2C/eLkBM7rgwcuJv9d38UBRr6D2RqusXT?=
- =?us-ascii?Q?fSvUpFiGsaPMdYEr6lwvt9UqRBtwPhjhyr1UCGFoqwALgB552D4wJSh/1Wld?=
- =?us-ascii?Q?syXfCPcnTz7FYOH0JiI2WY86RtbUQPpcmlqgel4juBJD5a4isetCJDRqgckp?=
- =?us-ascii?Q?B0ipSV/sdhbBEAVomvenAX/YANyFv3FgV/wtLb78sACmq4MvawV+pkpu1w6a?=
- =?us-ascii?Q?lcZCRIQIDZnz7shhXCUALIUfsay9qzbXZzpW/JKP?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 113abfac-cde4-4921-c7fe-08dd34056ac7
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2025 19:06:42.9272
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BW+GK5gC4E2derRh7zHwnl2HUH9fp/HgZDWxsEvGG0Oljgg4H+NiSRkL64BxmCUP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8428
+References: <20250111042604.3230628-1-surenb@google.com> <20250111042604.3230628-5-surenb@google.com>
+ <6e9329ba-8dad-423f-9741-e5447f85659f@lucifer.local> <CAJuCfpGa9YSVtT9hapQqd9r5WFTzyAALtaK6kD7CPBKk+cvgmQ@mail.gmail.com>
+ <640fee1d-e76b-4aca-8975-f6bd4f3279d9@lucifer.local>
+In-Reply-To: <640fee1d-e76b-4aca-8975-f6bd4f3279d9@lucifer.local>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Mon, 13 Jan 2025 11:09:25 -0800
+X-Gm-Features: AbW1kvb1k5p6OBd-FXsvft9mNCJV5mkViZk3XuQzBbtTuPaqGsMjh14nn6oWGkM
+Message-ID: <CAJuCfpFXwX+g0rCXAB_8s61VheOJZCBTSk1hyqrSWxqMPrE7MQ@mail.gmail.com>
+Subject: Re: [PATCH v9 04/17] mm: introduce vma_iter_store_attached() to use
+ with attached vmas
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org, 
+	liam.howlett@oracle.com, david.laight.linux@gmail.com, mhocko@suse.com, 
+	vbabka@suse.cz, hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
+	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
+	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
+	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
+	klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 13, 2025 at 11:01:10AM -0800, Nicolin Chen wrote:
+On Mon, Jan 13, 2025 at 8:48=E2=80=AFAM Lorenzo Stoakes
+<lorenzo.stoakes@oracle.com> wrote:
+>
+> On Mon, Jan 13, 2025 at 08:31:45AM -0800, Suren Baghdasaryan wrote:
+> > On Mon, Jan 13, 2025 at 3:58=E2=80=AFAM Lorenzo Stoakes
+> > <lorenzo.stoakes@oracle.com> wrote:
+> > >
+> > > On Fri, Jan 10, 2025 at 08:25:51PM -0800, Suren Baghdasaryan wrote:
+> > > > vma_iter_store() functions can be used both when adding a new vma a=
+nd
+> > > > when updating an existing one. However for existing ones we do not =
+need
+> > > > to mark them attached as they are already marked that way. Introduc=
+e
+> > > > vma_iter_store_attached() to be used with already attached vmas.
+> > >
+> > > OK I guess the intent of this is to reinstate the previously existing
+> > > asserts, only explicitly checking those places where we attach.
+> >
+> > No, the motivation is to prevern re-attaching an already attached vma
+> > or re-detaching an already detached vma for state consistency. I guess
+> > I should amend the description to make that clear.
+>
+> Sorry for noise, missed this reply.
+>
+> What I mean by this is, in a past iteration of this series I reviewed cod=
+e
+> where you did this but did _not_ differentiate between cases of new VMAs
+> vs. existing, which caused an assert in your series which I reported.
+>
+> So I"m saying - now you _are_ differentiating between the two cases.
+>
+> It's certainly worth belabouring the point of exactly what it is you are
+> trying to catch here, however! :) So yes please do add a little more to
+> commit msg that'd be great, thanks!
 
-> +/* This is basically iommu_vevent_arm_smmuv3 in u64 for conversion */
-> +struct arm_vsmmu_evt {
-> +	union {
-> +		u64 evt[EVTQ_ENT_DWORDS];
-> +		struct iommu_vevent_arm_smmuv3 uevt;
-> +	};
-> +};
+Sure. How about:
 
-This doesn't seem right, don't make unions like this
+With vma->detached being a separate flag, double-marking a vmas as
+attached or detached is not an issue because the flag will simply be
+overwritten with the same value. However once we fold this flag into
+the refcount later in this series, re-attaching or re-detaching a vma
+becomes an issue since these operations will be
+incrementing/decrementing a refcount. Fix the places where we
+currently re-attaching a vma during vma update and add assertions in
+vma_mark_attached()/vma_mark_detached() to catch invalid usage.
 
->  int arm_vmaster_report_event(struct arm_smmu_vmaster *vmaster, u64 *evt)
->  {
-> -	struct iommu_vevent_arm_smmuv3 vevt =
-> -		*(struct iommu_vevent_arm_smmuv3 *)evt;
-
-evt is clearly not a iommu_vevent_arm_smmuv3 since it has the wrong
-endianess? It should stay in its own type.
-
-struct struct iommu_vevent_arm_smmuv3 uevt;
-
-uet.evt[0] = cpu_to_le64((evt[0] & ~EVTQ_0_SID) | FIELD_PREP(EVTQ_0_SID, vmaster->vsid));
-for (i = 1; i != EVTQ_ENT_DWORDS; i++)
-    uet.evt[i] = cpu_to_le64(evt[i]);
-
-Jason
+>
+> >
+> > >
+> > > I'm a little concerned that by doing this, somebody might simply invo=
+ke
+> > > this function without realising the implications.
+> >
+> > Well, in that case somebody should get an assertion. If
+> > vma_iter_store() is called against already attached vma, we get this
+> > assertion:
+> >
+> > vma_iter_store()
+> >   vma_mark_attached()
+> >     vma_assert_detached()
+> >
+> > If vma_iter_store_attached() is called against a detached vma, we get t=
+his one:
+> >
+> > vma_iter_store_attached()
+> >   vma_assert_attached()
+> >
+> > Does that address your concern?
+> >
+> > >
+> > > Can we have something functional like
+> > >
+> > > vma_iter_store_new() and vma_iter_store_overwrite()
+> >
+> > Ok. A bit more churn but should not be too bad.
+> >
+> > >
+> > > ?
+> > >
+> > > I don't like us just leaving vma_iter_store() quietly making an assum=
+ption
+> > > that a caller doesn't necessarily realise.
+> > >
+> > > Also it's more greppable this way.
+> > >
+> > > I had a look through callers and it does seem you've snagged them all
+> > > correctly.
+> > >
+> > > >
+> > > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > > > Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+> > > > ---
+> > > >  include/linux/mm.h | 12 ++++++++++++
+> > > >  mm/vma.c           |  8 ++++----
+> > > >  mm/vma.h           | 11 +++++++++--
+> > > >  3 files changed, 25 insertions(+), 6 deletions(-)
+> > > >
+> > > > diff --git a/include/linux/mm.h b/include/linux/mm.h
+> > > > index 2b322871da87..2f805f1a0176 100644
+> > > > --- a/include/linux/mm.h
+> > > > +++ b/include/linux/mm.h
+> > > > @@ -821,6 +821,16 @@ static inline void vma_assert_locked(struct vm=
+_area_struct *vma)
+> > > >               vma_assert_write_locked(vma);
+> > > >  }
+> > > >
+> > > > +static inline void vma_assert_attached(struct vm_area_struct *vma)
+> > > > +{
+> > > > +     VM_BUG_ON_VMA(vma->detached, vma);
+> > > > +}
+> > > > +
+> > > > +static inline void vma_assert_detached(struct vm_area_struct *vma)
+> > > > +{
+> > > > +     VM_BUG_ON_VMA(!vma->detached, vma);
+> > > > +}
+> > > > +
+> > > >  static inline void vma_mark_attached(struct vm_area_struct *vma)
+> > > >  {
+> > > >       vma->detached =3D false;
+> > > > @@ -866,6 +876,8 @@ static inline void vma_end_read(struct vm_area_=
+struct *vma) {}
+> > > >  static inline void vma_start_write(struct vm_area_struct *vma) {}
+> > > >  static inline void vma_assert_write_locked(struct vm_area_struct *=
+vma)
+> > > >               { mmap_assert_write_locked(vma->vm_mm); }
+> > > > +static inline void vma_assert_attached(struct vm_area_struct *vma)=
+ {}
+> > > > +static inline void vma_assert_detached(struct vm_area_struct *vma)=
+ {}
+> > > >  static inline void vma_mark_attached(struct vm_area_struct *vma) {=
+}
+> > > >  static inline void vma_mark_detached(struct vm_area_struct *vma) {=
+}
+> > > >
+> > > > diff --git a/mm/vma.c b/mm/vma.c
+> > > > index d603494e69d7..b9cf552e120c 100644
+> > > > --- a/mm/vma.c
+> > > > +++ b/mm/vma.c
+> > > > @@ -660,14 +660,14 @@ static int commit_merge(struct vma_merge_stru=
+ct *vmg,
+> > > >       vma_set_range(vmg->vma, vmg->start, vmg->end, vmg->pgoff);
+> > > >
+> > > >       if (expanded)
+> > > > -             vma_iter_store(vmg->vmi, vmg->vma);
+> > > > +             vma_iter_store_attached(vmg->vmi, vmg->vma);
+> > > >
+> > > >       if (adj_start) {
+> > > >               adjust->vm_start +=3D adj_start;
+> > > >               adjust->vm_pgoff +=3D PHYS_PFN(adj_start);
+> > > >               if (adj_start < 0) {
+> > > >                       WARN_ON(expanded);
+> > > > -                     vma_iter_store(vmg->vmi, adjust);
+> > > > +                     vma_iter_store_attached(vmg->vmi, adjust);
+> > > >               }
+> > > >       }
+> > >
+> > > I kind of feel this whole function (that yes, I added :>) though deri=
+ved
+> > > from existing logic) needs rework, as it's necessarily rather confusi=
+ng.
+> > >
+> > > But hey, that's on me :)
+> > >
+> > > But this does look right... OK see this as a note-to-self...
+> > >
+> > > >
+> > > > @@ -2845,7 +2845,7 @@ int expand_upwards(struct vm_area_struct *vma=
+, unsigned long address)
+> > > >                               anon_vma_interval_tree_pre_update_vma=
+(vma);
+> > > >                               vma->vm_end =3D address;
+> > > >                               /* Overwrite old entry in mtree. */
+> > > > -                             vma_iter_store(&vmi, vma);
+> > > > +                             vma_iter_store_attached(&vmi, vma);
+> > > >                               anon_vma_interval_tree_post_update_vm=
+a(vma);
+> > > >
+> > > >                               perf_event_mmap(vma);
+> > > > @@ -2925,7 +2925,7 @@ int expand_downwards(struct vm_area_struct *v=
+ma, unsigned long address)
+> > > >                               vma->vm_start =3D address;
+> > > >                               vma->vm_pgoff -=3D grow;
+> > > >                               /* Overwrite old entry in mtree. */
+> > > > -                             vma_iter_store(&vmi, vma);
+> > > > +                             vma_iter_store_attached(&vmi, vma);
+> > > >                               anon_vma_interval_tree_post_update_vm=
+a(vma);
+> > > >
+> > > >                               perf_event_mmap(vma);
+> > > > diff --git a/mm/vma.h b/mm/vma.h
+> > > > index 2a2668de8d2c..63dd38d5230c 100644
+> > > > --- a/mm/vma.h
+> > > > +++ b/mm/vma.h
+> > > > @@ -365,9 +365,10 @@ static inline struct vm_area_struct *vma_iter_=
+load(struct vma_iterator *vmi)
+> > > >  }
+> > > >
+> > > >  /* Store a VMA with preallocated memory */
+> > > > -static inline void vma_iter_store(struct vma_iterator *vmi,
+> > > > -                               struct vm_area_struct *vma)
+> > > > +static inline void vma_iter_store_attached(struct vma_iterator *vm=
+i,
+> > > > +                                        struct vm_area_struct *vma=
+)
+> > > >  {
+> > > > +     vma_assert_attached(vma);
+> > > >
+> > > >  #if defined(CONFIG_DEBUG_VM_MAPLE_TREE)
+> > > >       if (MAS_WARN_ON(&vmi->mas, vmi->mas.status !=3D ma_start &&
+> > > > @@ -390,7 +391,13 @@ static inline void vma_iter_store(struct vma_i=
+terator *vmi,
+> > > >
+> > > >       __mas_set_range(&vmi->mas, vma->vm_start, vma->vm_end - 1);
+> > > >       mas_store_prealloc(&vmi->mas, vma);
+> > > > +}
+> > > > +
+> > > > +static inline void vma_iter_store(struct vma_iterator *vmi,
+> > > > +                               struct vm_area_struct *vma)
+> > > > +{
+> > > >       vma_mark_attached(vma);
+> > > > +     vma_iter_store_attached(vmi, vma);
+> > > >  }
+> > > >
+> > >
+> > > See comment at top, and we need some comments here to explain why we'=
+re
+> > > going to pains to do this.
+> >
+> > Ack. I'll amend the patch description to make that clear.
+> >
+> > >
+> > > What about mm/nommu.c? I guess these cases are always new VMAs.
+> >
+> > CONFIG_PER_VMA_LOCK depends on !CONFIG_NOMMU, so for nommu case all
+> > these attach/detach functions become NOPs.
+> >
+> > >
+> > > We probably definitely need to check this series in a nommu setup, ha=
+ve you
+> > > done this? As I can see this breaking things. Then again I suppose yo=
+u'd
+> > > have expected bots to moan by now...
+> > >
+> > > >  static inline unsigned long vma_iter_addr(struct vma_iterator *vmi=
+)
+> > > > --
+> > > > 2.47.1.613.gc27f4b7a9f-goog
+> > > >
