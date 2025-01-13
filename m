@@ -1,166 +1,165 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12olkn2018.outbound.protection.outlook.com [40.92.21.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2AF3232;
-	Mon, 13 Jan 2025 14:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736778905; cv=none; b=Um7BCnpd9MZxaGP0HpZqRBcpAa9qJDFU8q5T50kbh2bHwCtjol4A6F80ke+7lFcdWNz/jxysWpKUkrGQcyJZwTsctOeoVOZ7OXaPb7LneU43QuhbVdCSs0a88Fryc82MtOmyvJ6cNSFY6hMABdEmSwaJNYE4v+gqf5KhDoc+1ss=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736778905; c=relaxed/simple;
-	bh=fmm+g4G9C0YGrg445ZbEejWEGQIW05+JEg4ujpxlVcU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=HwbINMnzR5/w80UXwuzeA81dZTgxDHAmevRuCUQEvdb+znuNpt54aSe+zPJBnvCVokaqmQMJb/fFIB+y5VPtU4EpjWZVfUmRlfwazcIGR9T8iBpr/tz62eh7hYq0rjs3hSk7fAfCMEHlBpBn0iun9PQ22J/znMZUAlJTTojKL78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lkQX2vvY; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF45223A0F5;
+	Mon, 13 Jan 2025 14:45:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.21.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736779528; cv=fail; b=NxYwlhfdOnbYNbs/gLDNmRRT5OIMX59bV1UDPgDDI2m8jvTRdXOB0hF6Mlek+mTQR2U/FwOXHSV8zK7hTQgFL9fIzyNrxrOOe+7MHBEifW+W0y6RFMqytaCzWafF8OdhjP+8L69FX8EnYm5MiNhp+hZSuRpK/lr3E9XQWXtkWpc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736779528; c=relaxed/simple;
+	bh=jQOZUy8VQUALtAmtUrvAecdKqIDEOu2jxXeSHnl47cI=;
+	h=From:To:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=kdkuh5sUsJGJP9zzkD91bHkwDec7izu7wyyp5S1SNddbmYN0y9a8NoDbaIfHk6yLPIfDrh6kN+t4HM7r5o6KWufFni3dvW3QwIAl3RKfAeJieLQmw2Nb54EFc81kvap4Ks01hFumCHqEbksOWVHbX9Cm+9Md9k+aZXo7SQZEpZc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=gVi72eWo; arc=fail smtp.client-ip=40.92.21.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lkQX2vvY"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-38a25d4b9d4so2267342f8f.0;
-        Mon, 13 Jan 2025 06:35:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736778902; x=1737383702; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=JE/TcA/PePKDGSy3mSdMP0VuintwCB3gzx8giISURwk=;
-        b=lkQX2vvY2kvI9pqQiBWl62yBFzgcyA3NRspj2wj/wE4gh+VukClXpTFmfeD5CgcTJU
-         t0lbKVNtKKoKQpnTFYZLkwESyQsqS0XEnE+/Vorig6OwCY3GiLOCBX383b8KcKNbiL/a
-         ckWjd8L3/z3etxYhkwbHudHJYLr14Hl8VB/p3j8b45NTRHXQM79JkhiB0Py8h8BZldXj
-         Nyjbg5MTekSaKjUtcReWP2t1eQRiFYoxk74N2XPnFAKJEkGqhpqOgE2an/jn+lTiWI+s
-         VxLdBBGsZ6Tyw7GJ4ZljrP9qZNy5ESGmtjoWbMiFOv6geOk9CEndTnxy5HJZdlCcgR8g
-         hz4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736778902; x=1737383702;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JE/TcA/PePKDGSy3mSdMP0VuintwCB3gzx8giISURwk=;
-        b=TV4RdXPeWsSTv19i+c7qis3QPpECHS0/9ts5T42BVAzvJg0SMTW8zQLHkNwlmTmhCe
-         dxQe2BGmnbCDPb4ZSUA2drh5+t//SItA7e26PMUGW27TF1gOXgbCMCf6UhHk0HXciYlf
-         5z0CeQMt+PpKL2gIaohwkR9VGChpaQOGoqZCM0gBoaDQZ90FXE8gda5QXldA4sZYdipK
-         D9Xt9gdFDU/ZVAU/nWPTX6+ZEhlpQdyDsMNSWexJEI4opWG5TZWU0By4Y4kdDY4V03dh
-         B5KyC9hY9kv1jEbt+2m88HgTfshTPXk0ZLj5TGVKdKerzVS02I6OtF8YhW+2tOG+QirF
-         hFew==
-X-Forwarded-Encrypted: i=1; AJvYcCW/4Kx7XipJ5C0DiNQmgJhvfKAmikKJVYW4utBT3QTSAjQQtpVMt6MR86XveahOT2f4Nc1dzkRj6g8ftdOY@vger.kernel.org, AJvYcCWsN41MKa+bGFJahpcB8pejfrk2bvGoub9vnlv1iTUuk5w7188oVlikUEH2wmrwbO1+Rh3w0azh8ho=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxraoZoozHoz3sgwIWJFAXQhvNqFtFDsNNvFIQKTMNuSsk3T8L8
-	4BAm1fwHaONJs6W8O2NYGXbKds2bSmQ5PhVpfixJeBpzHpWxRta/
-X-Gm-Gg: ASbGncurCI+zCTsyQ8YALWNXa05UoVmLyj+Lm0qP+5PWXTkrwcexoNvi+8OKh7hztt0
-	CqL8hQEbDVxe4FgP0AMWnJ1Nsn5CiuIlVWuSFx5RBYjfMTc1dtXvGf4RkPrak+q5vPFUKpoh8q3
-	2dEsfhBCS2LeAWQasBIuw3Xnv5fVTEXGheNjIkfXjT/4nIuYAQoxT6FTHlFfmRjbLlt9/djMuGt
-	LnJ45KxGrgL/R17he4fOHfRhWvzLQlL45XaHdx+t9WGHBTF1I2TmCmzDeU0K5E/rYBBSDJbBITT
-	x+Yn5pkBoDCAjUbllBnE09LYBql7
-X-Google-Smtp-Source: AGHT+IHGtKdLOS/PXHkSrC4XqgiY1L2U481ttauNnxmEBTWZ9vBhAiB3NF0dBzcNHtX+VtqGrmB/vA==
-X-Received: by 2002:a5d:6c68:0:b0:38a:82a3:395f with SMTP id ffacd0b85a97d-38a872c93f9mr14362546f8f.9.1736778901390;
-        Mon, 13 Jan 2025 06:35:01 -0800 (PST)
-Received: from ?IPv6:2001:818:ea8e:7f00:2575:914:eedd:620e? ([2001:818:ea8e:7f00:2575:914:eedd:620e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e9d8fba4sm146425175e9.4.2025.01.13.06.35.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jan 2025 06:35:01 -0800 (PST)
-Message-ID: <e3fd7f56675908a60d8ce6bcb6ad4f05b828e132.camel@gmail.com>
-Subject: Re: [PATCH v2 1/2] iio: adc: ad4695: add offload-based oversampling
- support
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Trevor Gamblin <tgamblin@baylibre.com>, Michael Hennerich	
- <michael.hennerich@analog.com>, Nuno =?ISO-8859-1?Q?S=E1?=
- <nuno.sa@analog.com>,  David Lechner <dlechner@baylibre.com>, Lars-Peter
- Clausen <lars@metafoo.de>, Jonathan Cameron <jic23@kernel.org>,  Jonathan
- Corbet	 <corbet@lwn.net>
-Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Date: Mon, 13 Jan 2025 14:35:00 +0000
-In-Reply-To: <20250109-ad4695-oversampling-v2-1-a46ac487082c@baylibre.com>
-References: <20250109-ad4695-oversampling-v2-0-a46ac487082c@baylibre.com>
-	 <20250109-ad4695-oversampling-v2-1-a46ac487082c@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="gVi72eWo"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DHMsFXVQ+en8i9LvY0upPQI/HyoAMfV+7MRB3hT7A8aE4LUwaZrsUxVxDeUXjiyDhi1t2iIlcOdYhli8YlnNXLvv8o1m9NihBqFLOZkhbhg3JSiP20yiDBqean9EOQxAYO9wNnJM/pz4T5pF/4LaCGttITbUk22uafi04J922dpfMq2Cx1rYsTGUzZVkKBfAPfRqrfm4TB0kg+4a2Yb/Tpe/esHMjYhPg2++p7LJFIjizaEdW6aMvVhiblP7dpbKgTRJh52dDX5g8vvmMsyQX8GGhm1kPEKIYrnxQmxkB25X0lh+gcIe0UGYz+Ovr597//TXw2B/AtkvHB1zRs8O0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M8dSBDYV0E2fRj9Icdy/EzcLUcxfxUq/du0x+hYJ9B0=;
+ b=YkOV7b7qLiynOavlRl7S8MXyz0OvmR6Vv9E3vhlbuj2vDxMW51NajObVkp6khS5HEy003knmE7rgKvBN5YxW+z4grnP/XTyilqXWfOtX6Tvd1E8rA7ogpfNUXSVCRtIPvTeX8HVyMDMmB0IrsFbL/7ELLtOc+DEDNw1kCgWm39uaaWx6kqCAnQclqLq610hbk7CJlUMjmp69wkJFBx1l8qNKIxk/20WUVs/+uwQHvRpwU3KgNUHFxYoXAXpItQk+3OVjGtZHFuMgAV/64PY9/U5HYtG1se4OQI8dLbhZ6UfyY5oYZQK4M2zLUaUVDQ27b+rp7AdrnW797qvK9uZjkw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M8dSBDYV0E2fRj9Icdy/EzcLUcxfxUq/du0x+hYJ9B0=;
+ b=gVi72eWoBOQ9qeFCnekqJf9iLmXHAWLj8kqWRMyXHrAHfgq7cWGRvzF1Dw3EF+4HXSMhwuTm93jCXt8XEUa6noEwQi9xMM/5PSsX0f3gqtVO0PZKeHhMj5A9sZGm94kVzWaWKUcaQCPBcqYOMGWJe1i/7/zjd87NnzVXXARb9wJktpj1DVtC2b8ti+67aS6HlhZhjknzvTo66oMH6DHC18gEwIf7B/6qkr7iN6YrCRf3+J/TmkNpn4ASPV1WyCFibf9xlwFgjIlczxw/MzmSfNlYuCRQZko0WhAjMzVucc9WjKFmBAbeJ/9iyWTsLi1tdo2/b2+FkEWtzbFGjYUSmQ==
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
+ by SA2PR02MB7674.namprd02.prod.outlook.com (2603:10b6:806:149::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.18; Mon, 13 Jan
+ 2025 14:45:24 +0000
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::cedd:1e64:8f61:b9df]) by SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::cedd:1e64:8f61:b9df%4]) with mapi id 15.20.8335.017; Mon, 13 Jan 2025
+ 14:45:24 +0000
+From: Michael Kelley <mhklinux@outlook.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>, "haiyangz@microsoft.com"
+	<haiyangz@microsoft.com>, "wei.liu@kernel.org" <wei.liu@kernel.org>,
+	"decui@microsoft.com" <decui@microsoft.com>, "kys@microsoft.com"
+	<kys@microsoft.com>, "corbet@lwn.net" <corbet@lwn.net>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: RE: [PATCH v3 1/1] Documentation: hyperv: Add overview of guest VM
+ hibernation
+Thread-Topic: [PATCH v3 1/1] Documentation: hyperv: Add overview of guest VM
+ hibernation
+Thread-Index: AQHbZXwcgOPN7oh0w06R7x5j1UPLQLMUemeAgABNWLA=
+Date: Mon, 13 Jan 2025 14:45:24 +0000
+Message-ID:
+ <SN6PR02MB4157F5B615953FF2AE8A079DD41F2@SN6PR02MB4157.namprd02.prod.outlook.com>
+References: <20250113052903.1319529-1-mhklinux@outlook.com>
+ <Z4Tlb8okZHM0OJq6@archie.me>
+In-Reply-To: <Z4Tlb8okZHM0OJq6@archie.me>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|SA2PR02MB7674:EE_
+x-ms-office365-filtering-correlation-id: 03cf8ca5-fd03-4792-4409-08dd33e0e9f3
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|8062599003|15080799006|461199028|8060799006|19110799003|102099032|440099028|3412199025;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?h5H7JAI+Kg4tV9xkug1Q8G8Gfp18wqLLhKhQGXCy4ffgrHKs3OAd8XCajRU+?=
+ =?us-ascii?Q?7Qpy5ioCDnGjuDSOlbfZlMYhAEokklgeFSvSVSMN9bGxLWTrQ52p2O84154y?=
+ =?us-ascii?Q?5DQLyKQDkzjK5KZs9JQHf/GIMdK5L7rbmaoNNRGVARTnUQYKOcVnc1vaXxFw?=
+ =?us-ascii?Q?wgc4CJeHfmnC2e1LiPel5j9FLLR5UaHfDAs4J5bbVa9h6nm0kltLHJT9ybBm?=
+ =?us-ascii?Q?BIbHxPzUakIPsO0Eq9AZkyzLz5CnVBRNIYa1EITSxGW1/qOwpowqYOvmyFhy?=
+ =?us-ascii?Q?FOEumSvFznp0wXYIY/I/7TcUcHzBcGyCN1+4/0RgpzeCRseHuYsG8sgwTQQs?=
+ =?us-ascii?Q?TOTFsSGfyae0aoI/aQiXNpt93OPFgG6rOdZ4Q9iDkBJ7slOzF5M4usV9y4D8?=
+ =?us-ascii?Q?Z6qp/gWpqKAbqEn0zOv5W1DT/W/J4dtf2lc4N0fFQneA417/LcWpFKkDRooL?=
+ =?us-ascii?Q?JuVVx6DUCcNb3/DmCpMY0pJ+3e6iKkaZ0wkUSHimWJJqro+hJn7K7l8AGS37?=
+ =?us-ascii?Q?yw71/CfcUloI9x6iG+W6JLo44d3T+/05L3tHf+AFxSZ/3qztj1bC7zD1eZbO?=
+ =?us-ascii?Q?TFszW3sDoQ9m651mz7w2+sEG9gYJWx5LYwP7Uucta35nEBrol38Z3sPssVzk?=
+ =?us-ascii?Q?bTDkRd98q//BCtNWwwpeAJ6M/Zf8AC3zNKmdYOBPf/z4JWg98VqpcDIQy2Yg?=
+ =?us-ascii?Q?pa3qY35k9imA1Re61hJD60fqC5OEbuzcknjBRidjZwn5P6Y4ZheJ1szzAakl?=
+ =?us-ascii?Q?VMd4wVCvBWAmDM58raNagI0h7lAT39PKjpTuP0hzNf+P8SSpbtPBNZ9RyX34?=
+ =?us-ascii?Q?/7kF6Kht/pzNy6sgAwfJAKoX/Q03sxg+28UaWohGlJa1jHi0Yr3d6HzWUlxz?=
+ =?us-ascii?Q?M/ScuQVXIOUsfpZLjuUoeBzRb624fOhEWU6Y+jI5NCNsucfNeZue4X8s0pYo?=
+ =?us-ascii?Q?I8QwzvlNUR56nzoKERP5BRpT/F7KaKn44/QJ+nePuynHAxMbEHaWIak+Kthn?=
+ =?us-ascii?Q?mXtxJRxC6MJbiknN3RCGzmnIaGiqi2WK7pyaFY6RnoQ+gDc=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?moByDc1WHlWuxjCqFWXo9ovDV40NPy5lxWUuGEoH6Xv2bokpOBx2iPOqH3Yj?=
+ =?us-ascii?Q?fTKRUsYxWNQzrFCR1v+JqE7UJyKWnvvZfSDz5809u/Z72DZD/SpK2KTwf4UG?=
+ =?us-ascii?Q?gdi4K1qb3TySBKYzgkd0NhLvkKvYIWOxf+3otQo58sN5R9OuSKspQCOsEobX?=
+ =?us-ascii?Q?+VjW5IoUoYTCu/ZEeKhWgC4Rq/lfa+MgDm48TTALjXJbf9SRBMt1Ba7wL9b+?=
+ =?us-ascii?Q?+S13+fFx4Kj3h4G4DXQQHPaHjLoeM24Qsy3BvdWVOmBz1WL18A/j6Aqncam2?=
+ =?us-ascii?Q?LZpuioJ9oqn2PVXRaPSzeX9zgPkiOe4IMuQ1iKVkPMtIx7p8dQ70VXAdTr7l?=
+ =?us-ascii?Q?3BYUwABWXN8f4+tl/4IkzuhJQKxeyi8TG1Agpn4lDq/K9ueihu48kulZvxGD?=
+ =?us-ascii?Q?x1/2ILg00dfDSalc2jyhCWq6ND1tj6pJKqcCdUkRZM3yq8DZVJfdR0YJ9Q+B?=
+ =?us-ascii?Q?ETO+29Yk5YyobrUuiNZIhU8x0LewXX8yiqPZjUgFs58X9mTZWo1yfQmxjuk4?=
+ =?us-ascii?Q?J8cBmFA3QlH/KOIRHaPYTF5J8F6yEsXpoyB2pg2LCiit9gAqZiJFwsaTJBHG?=
+ =?us-ascii?Q?SStD9IHAuOeDHw52UIdy26Zo2y9Jl+tMXNEKMZTpwJFEe9qxHcv4Xr2dzdhX?=
+ =?us-ascii?Q?H0FQ8FUQ19/2j7a3kvaPjgEoMcl+umD/PiJwCisEKtSk4Z0wLrwi85ce2MBm?=
+ =?us-ascii?Q?QMBHG+jfY4KBpUY8LjkWzPKdaKTppM1CndytvnaT086cRHx6bkp2JUbc5H3Q?=
+ =?us-ascii?Q?20KwBjsXpAPFGVDs8JpuiKFCNep/uhPlL84e+p3vd7rnZnQ9I2l73Hto26Wv?=
+ =?us-ascii?Q?5NnYuJXAsXPhZHZW1OaWRx0g70WOHpBbbzczItoRFfoxmp1tlgiWcA9lBr8k?=
+ =?us-ascii?Q?B7KwJzF12XM2/UjZnd3ewsKoSrcnbk5kD7J5/Exz0Fxo6lGos085pHDpNbcx?=
+ =?us-ascii?Q?sHloQZ8V8f+lwPOQzQbLhNBKP6ZLcP2YdSh+FLu/MhlL5fyMLGiHdacgmdpy?=
+ =?us-ascii?Q?ZNB00LzCBJIE75VrqkE4pRoKThPd/vclIhp9+qRrTccER/PXYeqcMeM7RFdv?=
+ =?us-ascii?Q?WbnBLo+DqehKoM7XjwBHLdDJGIKapxCFJ91j3iPXkKEptT6mEeFjOD3MFYGT?=
+ =?us-ascii?Q?ocUVEeISTjLS+3wTZjRQ5laY9OtDSyeNzvC5DzyHrwnHijSP9L85xU0aAaII?=
+ =?us-ascii?Q?mkeAYJ7LuktAyuoj4r9pR+pjZCt4XdnBuUPpZBF58ZaBWEXHBe+I6pAbCBU?=
+ =?us-ascii?Q?=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03cf8ca5-fd03-4792-4409-08dd33e0e9f3
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jan 2025 14:45:24.6960
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR02MB7674
 
-On Thu, 2025-01-09 at 13:47 -0500, Trevor Gamblin wrote:
-> Add support for the ad4695's oversampling feature when SPI offload is
-> available. This allows the ad4695 to set oversampling ratios on a
-> per-channel basis, raising the effective-number-of-bits from 16
-> (OSR =3D=3D 1) to 17 (4), 18 (16), or 19 (64) for a given sample (i.e. on=
-e
-> full cycle through the auto-sequencer). The logic for reading and
-> writing sampling frequency for a given channel is also adjusted based on
-> the current oversampling ratio.
+From: Bagas Sanjaya <bagasdotme@gmail.com> Sent: Monday, January 13, 2025 2=
+:06 AM
 >=20
-> The non-offload case isn't supported as there isn't a good way to
-> trigger the CNV pin in this mode. Support could be added in the future
-> if a use-case arises.
+> On Sun, Jan 12, 2025 at 09:29:03PM -0800, mhkelley58@gmail.com wrote:
+> > From: Michael Kelley <mhklinux@outlook.com>
+> >
+> > Add documentation on how hibernation works in a guest VM on Hyper-V.
+> > Describe how VMBus devices and the VMBus itself are hibernated and
+> > resumed, along with various limitations.
+> >
+> > Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+> > ---
+> > Changes in v3:
+> > * Added missing word "with" in vPCI section [Bagas Sanjaya]
+> > * Reworked wording of SR-IOV NIC handling [Bagas Sanjaya]
+> >
+> > Changes in v2:
+> > * Added discussion of implications of moving a hibernated VM to another
+> >   Hyper-V host and resuming on the new host [Roman Kisel]
+> > * Added section describing how UIO devices prevent a VM from being
+> >   hibernated [Roman Kisel]
+> >
+> >  Documentation/virt/hyperv/hibernation.rst | 336 ++++++++++++++++++++++
 >=20
-> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-> ---
-
-LGTM, just one small thing inline... Either way:
-
-Reviewed-by: Nuno Sa <nuno.sa@analog.com>
-
-> =C2=A0drivers/iio/adc/ad4695.c | 333 ++++++++++++++++++++++++++++++++++++=
-++++++----
-> -
-> =C2=A01 file changed, 303 insertions(+), 30 deletions(-)
+> You forget to add the doc to toctree index:
 >=20
-> diff --git a/drivers/iio/adc/ad4695.c b/drivers/iio/adc/ad4695.c
-> index c8cd73d19e86..0caaeaa310ed 100644
-> --- a/drivers/iio/adc/ad4695.c
-> +++ b/drivers/iio/adc/ad4695.c
-> @@ -79,6 +79,7 @@
-> =C2=A0#define=C2=A0=C2=A0 AD4695_REG_CONFIG_IN_MODE			=C2=A0 BIT(6)
-> =C2=A0#define=C2=A0=C2=A0 AD4695_REG_CONFIG_IN_PAIR			=C2=A0 GENMASK(5, 4=
-)
-> =C2=A0#define=C2=A0=C2=A0 AD4695_REG_CONFIG_IN_AINHIGHZ_EN		=C2=A0 BIT(3)
-> +#define=C2=A0=C2=A0 AD4695_REG_CONFIG_IN_OSR_SET			=C2=A0 GENMASK(1, 0)
-> =C2=A0#define AD4695_REG_UPPER_IN(n)				(0x0040 | (2 * (n)))
-> =C2=A0#define AD4695_REG_LOWER_IN(n)				(0x0060 | (2 * (n)))
-> =C2=A0#define AD4695_REG_HYST_IN(n)				(0x0080 | (2 * (n)))
-> @@ -127,6 +128,7 @@ struct ad4695_channel_config {
-> =C2=A0	bool bipolar;
-> =C2=A0	enum ad4695_in_pair pin_pairing;
-> =C2=A0	unsigned int common_mode_mv;
-> +	unsigned int oversampling_ratio;
-> =C2=A0};
-> =C2=A0
+> Documentation/virt/hyperv/hibernation.rst: WARNING: document isn't includ=
+ed in any
+> toctree
 
-...
+Argh!  Indeed, you are right.  I'll resubmit .... :-(
 
-> +
-> +static unsigned int ad4695_get_calibbias(int val, int val2, int osr)
-> +{
-> +	int val_calc, scale;
-> +
-> +	switch (osr) {
-> +	case 4:
-> +		scale =3D 4;
-> +		break;
-> +	case 16:
-> +		scale =3D 2;
-> +		break;
-> +	case 64:
-> +		scale =3D 1;
-> +		break;
-> +	default:
-> +		scale =3D 8;
-> +		break;
-> +	}
-> +
-> +	val =3D clamp_t(int, val, S32_MIN / 8, S32_MAX / 8);
-> +
-
-Why not clamp()? AFAICS, we have the same type on all the arguments. I also
-think clamp*() macros got the same improvements as min/max() ones which mea=
-ns
-that using the ones with explicit casts are not so often needed anymore. My
-understanding is also that those macros are not that encouraged as it's eas=
-y to
-go wrong with the casts.
-
-- Nuno S=C3=A1
->=20
+Michael
