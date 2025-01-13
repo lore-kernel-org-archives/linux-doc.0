@@ -1,59 +1,62 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCBEB8249F
-	for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 08:37:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CBA823315B
+	for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 08:37:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736757459; cv=none; b=nRlr2/rRhfoSLRy9aNUJ3Aeg2AL4Ge9/VuqcEcuKQYlX+CSfl/FwoxN9xmLn5Qr7mGqhU+ctgw3k3pDeDqnmSJOJwuGcvyieIA5/J+XLOLu8hyJQ/8TM2uS3tS8LWpsKcRVKaCRNUWY2CWcWi+dcoGvqpP1r4Flsqs9z2rPXCH0=
+	t=1736757466; cv=none; b=BcTcG9B1lBYbYcUXf3E4GUQnV8flhpFQTrdxDectm2T5YZIcvYuE2d8eYAjb7xqU9liloPAcsZXQB4hKPNpsdOz0qoE4S8oLf38jR3d69J0MlUWeF+5GJ3cD6LKBHOBHOG4puQTXaKZOdnGjwTPnjsmv+PyB6pwS/xrM8cwJNPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736757459; c=relaxed/simple;
-	bh=G+K9MvSpAIpwDwMmunI0YSdJnqQJGTJZcC3ONEVxX60=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=fFCOZh4WEvoI8/6zMu1styVmNJvF6Zyzxz0IGLRxmDf7++lmUVQV7kWerCycXeIs7GbPwVSpvQdHeLyCmIzTGMcNFjccj63tVNbh32+jDE7+ohwD2cghZbyk1WD+uet8kdWJU6dlsDza4iPCil8li9YyBf1BgWWnVFYpbh1o1Qw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=cHOO9q23; arc=none smtp.client-ip=209.85.214.180
+	s=arc-20240116; t=1736757466; c=relaxed/simple;
+	bh=kN2FNI5tjS/SkVUOSzbQxNdDXKPB0v0FXY6myAvsiS8=;
+	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=YwYr1repiNWQwcKSE9NM3uA7YMfIAapL6Dzns9bb/WlSEeNHdQPb1p4eV7IdWf0hMXlQtGyxaT7KN2jBbSv5lGpU+n2n35MPqK14ANQO3dO4R1gm4LyRnVty7JiBYA60+B419iXXRD4OcPpNzodKCO7r3WLrMBaxHqEAHiWAWbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=B4DrA2Mp; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="cHOO9q23"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2165448243fso82248095ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 00:37:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="B4DrA2Mp"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-218c8aca5f1so85155545ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 00:37:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1736757456; x=1737362256; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=n+lHU8O3OzxopxeMRFW7AZqN84liiT6mDTuuIRoGMNs=;
-        b=cHOO9q23GP2O7KP6uZaMhyM/GU2r/yvcPeB3+CvTGbQFRR9H0zYS+AGKm///ggF7pV
-         trFSg7/URSm/Sb3gDsJQGprxO3BkFEbTeExnuuW4XDgnp6SEtM75xFo7rrTf0plvVLD0
-         HT0mSJ+BCtdPELci9mNId69V7jAhlvyZWitAHivBy4jo5E9D8sXVK1jpbUQxKcyitIFG
-         BELszUcV1Dl0lzPS9MLgZvYBkBIBpMqACkikICkbWAq05YI1SJUZm2PSEdRo9OWZWKPv
-         y95h9JmgAacTW2St0q/jh9rgKKsTsfwYalNyWQ5126lkf77LJ338t8Q8dcmjZruc61tl
-         MurQ==
+        d=bytedance.com; s=google; t=1736757463; x=1737362263; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SJXI8b6ff8wiNA8cdLu9hBvsj5PggOwQ7lAxRYtj+CM=;
+        b=B4DrA2MpqSxzPFtER4lXArFAC+THT3LdKOFp8a980KfDnwmZsP0i22WDe000CilKRG
+         CFyqEKgBX26Kx97fBhAjG0EtvVYZ30UsDRxFf+pPN37mipG0TnPy1i0952JtcXYIhZQQ
+         BR+l4LRIdE2RmfYJWsr+eeIxKQQHHHp43fi1unAfmQqXBe3X9nD6yakBHb2Oa9eWU3wH
+         nA9hVjsb1D0iiIHHr4/EOBkEJkzyrENcW3NJ0ivNMRW+yRUwWpCJqfWFt/pmhtKnYj18
+         z2NXv/FRxmLsJKnVplS398i00hH08pPEt3SomqbfIsP3LVIHF7e7my+ni9VBdd0yaUEs
+         28QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736757456; x=1737362256;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=n+lHU8O3OzxopxeMRFW7AZqN84liiT6mDTuuIRoGMNs=;
-        b=L0WhWphQl9o9ZcTIxsVqx+uKXLGnphx45pt/JskuaS1Baz+oLVvoh/Iiu2dmyfd6Cl
-         V2iA8h41vbfF/S3CNlhTXpKWSproCXhbCbyJAuj/bmM/8udIFaxsaGimKmVL264tHCjv
-         M974VxR3qOBwf5YVxPYkCLPCLO3vKSrKnT4Ywxd/fHiIcCX5SaMibkzSdQUfA4uBpvtV
-         qdrMO/dasJvgcdG9lswQTLjO0jcmxEW4mB5UBEUqp+S4JRIgfVf8uHP16pDgv8dZqh3t
-         JtmJ8rqtU+1H1E6gZ5Tuivqc/nqPfMMRXmVmeyiQjffQT1au/hynQ+Eq+X7m6P5n6MKm
-         Dg8A==
-X-Forwarded-Encrypted: i=1; AJvYcCUboSZ2PzQb4N3FxQCc/z7RGMWV62EwYAmizhiKrn4qFrN8Bm9U00Tf8OxEzv0anr3lC/8Oz0GbA78=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxakRY056kkdINj9IXnYEp7vU/Uhs4oPnFjdkwdCGvv+SitSJcQ
-	qMPNrDTW5WunRL8DJjN7S0WAiiPe92oYTEUrIw4/mQKVpzg1vSDrGWqrXyWLyQ4=
-X-Gm-Gg: ASbGncvV1EElWYvoWfpqQt7JNEL3lfGtOeOGviSR7txou0uXQGEvMVC1PsuESHtLs6H
-	eFSV38RD7vWgXMOgDbN8BIYc6wPvyE/VB9FwIgZ3FEQBqy0sVzvIwC82P1g2KE3qrLqPH3bWEC0
-	xNVa/8QPTbWrvS5vQzRahzc5/rlhy5zgySqw/OlzxxorNDMBeBeZdKaqYc2Ormf+7q53nR7s2G4
-	WCZqCrq68+SvsMYGcpHU1P7pAMzWq3OzUYRtvfBnmbxcbdqhkmOjSTKTZ3VLvw4WixeIJSUYxlF
-	0yVccm/M4ITiCN4=
-X-Google-Smtp-Source: AGHT+IE2vpLLAbTwFgumER+hiNZPVCtR/vb8/ZvSUV9VI3AIzL53lbAShlejX+qABV5VNq93sKjw+w==
-X-Received: by 2002:a05:6a21:33aa:b0:1e1:afa9:d397 with SMTP id adf61e73a8af0-1e88d18ea9dmr30431962637.15.1736757456055;
-        Mon, 13 Jan 2025 00:37:36 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736757463; x=1737362263;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SJXI8b6ff8wiNA8cdLu9hBvsj5PggOwQ7lAxRYtj+CM=;
+        b=ZQ37EHsAowKKnvmT7lC2oeAdOqcqL1VHQUoYnHhAMJrVGy0Wakz+SXZjB5yzZu1t4s
+         kRQE/e+zl7IcP7VWh7+F/FyoshpERyUs1ey4N6F11ubmjO+VTV28ZRrKxRiuXctLHSrY
+         KBh3HtcLGNI+qdbwDrPJQdbUOzIdfAWvMQ0duDUnJgGokR1rJtLfG+wnbYNqXsgRhKLn
+         q2JPMi75AWsLQ7ZvUBKWRsiz2M9iw77/90N/oq4jqGyKdy8y1YcPKy4gLBym2YQIMwAw
+         XKRjXDpd9/hYQAk5RdYBXoQCY02YAi7N6T8ieWnYravvLnO96LmId9A62ZXwVy5OYKlo
+         j1RQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVCqCVQ9nL2bqfBNL2n4m294IHYoExJ6G1SSsvfC4VZiskUEMBGMLt2jSB1ccWfeyf+01xdKg92fUg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlUqjHC0dX69jInvTLAzFzepG+IV6dIlKHZyL0PDsc1PHmZoQW
+	5A8N72QtDDJytfi20jYWGwW1OehJdbN9hAo4KH/GOAp0tR6bm9YUH7y4E+DZPn0=
+X-Gm-Gg: ASbGncvlbxM9cOfPwRAfSlhnwScrseDzu8BCFVLoKGxUYtxc6KO4CttCndSHV2ux5mr
+	ymf8X1EVxWn793lUhqZM6wbwpuX0YjOAPqUOhJk/NctLff4iz+HZ+VDNJC4qynw206qQikKvm9O
+	39oLgJvR/2nD3dOYCTglUKMiRCM65MQt2VKsHXGgMB6B46C3gPuTU3VDDuO2V20ukKmfM0al5cC
+	o7F9hRC4K7y5gfSKJozsPj44hcfuWb+5aMkpQweRQ1cLzTx8MU0tkec1vRbttJoepNko9i90E93
+	ZK/x//e0O+3+GOY=
+X-Google-Smtp-Source: AGHT+IFtz8wCzJ8bWXX/3s5qBZWyQyvLgQzl4lgPk6ejyOwy8z7pnyLJogLi0etOSTCHQkUeGmH/OA==
+X-Received: by 2002:a05:6a00:2e97:b0:729:49a:2da6 with SMTP id d2e1a72fcca58-72d21f1ac4emr31951733b3a.3.1736757463405;
+        Mon, 13 Jan 2025 00:37:43 -0800 (PST)
 Received: from L6YN4KR4K9.bytedance.net ([139.177.225.227])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-a317a07ceedsm6427433a12.6.2025.01.13.00.37.29
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-a317a07ceedsm6427433a12.6.2025.01.13.00.37.36
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 13 Jan 2025 00:37:35 -0800 (PST)
+        Mon, 13 Jan 2025 00:37:43 -0800 (PST)
 From: Yunhui Cui <cuiyunhui@bytedance.com>
 To: ajones@ventanamicro.com,
 	alexghiti@rivosinc.com,
@@ -75,10 +78,12 @@ To: ajones@ventanamicro.com,
 	paul.walmsley@sifive.com,
 	samuel.holland@sifive.com,
 	shuah@kernel.org
-Subject: [PATCH v3 1/3] RISC-V: Enable cbo.clean/flush in usermode
-Date: Mon, 13 Jan 2025 16:36:33 +0800
-Message-Id: <20250113083635.73826-1-cuiyunhui@bytedance.com>
+Subject: [PATCH v3 2/3] RISC-V: hwprobe: Expose Zicbom extension and its block size
+Date: Mon, 13 Jan 2025 16:36:34 +0800
+Message-Id: <20250113083635.73826-2-cuiyunhui@bytedance.com>
 X-Mailer: git-send-email 2.39.2 (Apple Git-143)
+In-Reply-To: <20250113083635.73826-1-cuiyunhui@bytedance.com>
+References: <20250113083635.73826-1-cuiyunhui@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,48 +92,98 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Enabling cbo.clean and cbo.flush in user mode makes it more
-convenient to manage the cache state and achieve better performance.
+Expose Zicbom through hwprobe and also provide a key to extract its
+respective block size.
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
 ---
- arch/riscv/kernel/cpufeature.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ Documentation/arch/riscv/hwprobe.rst  | 6 ++++++
+ arch/riscv/include/asm/hwprobe.h      | 2 +-
+ arch/riscv/include/uapi/asm/hwprobe.h | 2 ++
+ arch/riscv/kernel/sys_hwprobe.c       | 6 ++++++
+ 4 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index c0916ed318c2..60d180b98f52 100644
---- a/arch/riscv/kernel/cpufeature.c
-+++ b/arch/riscv/kernel/cpufeature.c
-@@ -30,6 +30,7 @@
- #define NUM_ALPHA_EXTS ('z' - 'a' + 1)
+diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
+index 955fbcd19ce9..7a47cbdbcf8e 100644
+--- a/Documentation/arch/riscv/hwprobe.rst
++++ b/Documentation/arch/riscv/hwprobe.rst
+@@ -94,6 +94,9 @@ The following keys are defined:
+   * :c:macro:`RISCV_HWPROBE_EXT_ZICBOZ`: The Zicboz extension is supported, as
+        ratified in commit 3dd606f ("Create cmobase-v1.0.pdf") of riscv-CMOs.
  
- static bool any_cpu_has_zicboz;
-+static bool any_cpu_has_zicbom;
- 
- unsigned long elf_hwcap __read_mostly;
- 
-@@ -87,6 +88,8 @@ static int riscv_ext_zicbom_validate(const struct riscv_isa_ext_data *data,
- 		pr_err("Zicbom disabled as cbom-block-size present, but is not a power-of-2\n");
- 		return -EINVAL;
- 	}
++  * :c:macro:`RISCV_HWPROBE_EXT_ZICBOM`: The Zicbom extension is supported, as
++       ratified in commit 3dd606f ("Create cmobase-v1.0.pdf") of riscv-CMOs.
 +
-+	any_cpu_has_zicbom = true;
- 	return 0;
- }
+   * :c:macro:`RISCV_HWPROBE_EXT_ZBC` The Zbc extension is supported, as defined
+        in version 1.0 of the Bit-Manipulation ISA extensions.
  
-@@ -944,6 +947,11 @@ void __init riscv_user_isa_enable(void)
- 		current->thread.envcfg |= ENVCFG_CBZE;
- 	else if (any_cpu_has_zicboz)
- 		pr_warn("Zicboz disabled as it is unavailable on some harts\n");
+@@ -273,6 +276,9 @@ The following keys are defined:
+ * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
+   represents the size of the Zicboz block in bytes.
+ 
++* :c:macro:`RISCV_HWPROBE_KEY_ZICBOM_BLOCK_SIZE`: An unsigned int which
++  represents the size of the Zicbom block in bytes.
 +
-+	if (riscv_has_extension_unlikely(RISCV_ISA_EXT_ZICBOM))
-+		current->thread.envcfg |= ENVCFG_CBCFE;
-+	else if (any_cpu_has_zicbom)
-+		pr_warn("Zicbom disabled as it is unavailable on some harts\n");
- }
+ * :c:macro:`RISCV_HWPROBE_KEY_HIGHEST_VIRT_ADDRESS`: An unsigned long which
+   represent the highest userspace virtual address usable.
  
- #ifdef CONFIG_RISCV_ALTERNATIVE
+diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
+index 1ce1df6d0ff3..89379f9a2e6e 100644
+--- a/arch/riscv/include/asm/hwprobe.h
++++ b/arch/riscv/include/asm/hwprobe.h
+@@ -8,7 +8,7 @@
+ 
+ #include <uapi/asm/hwprobe.h>
+ 
+-#define RISCV_HWPROBE_MAX_KEY 10
++#define RISCV_HWPROBE_MAX_KEY 11
+ 
+ static inline bool riscv_hwprobe_key_is_valid(__s64 key)
+ {
+diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
+index 3af142b99f77..892dd71a3793 100644
+--- a/arch/riscv/include/uapi/asm/hwprobe.h
++++ b/arch/riscv/include/uapi/asm/hwprobe.h
+@@ -73,6 +73,7 @@ struct riscv_hwprobe {
+ #define		RISCV_HWPROBE_EXT_ZCMOP		(1ULL << 47)
+ #define		RISCV_HWPROBE_EXT_ZAWRS		(1ULL << 48)
+ #define		RISCV_HWPROBE_EXT_SUPM		(1ULL << 49)
++#define		RISCV_HWPROBE_EXT_ZICBOM	(1ULL << 50)
+ #define RISCV_HWPROBE_KEY_CPUPERF_0	5
+ #define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
+ #define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
+@@ -90,6 +91,7 @@ struct riscv_hwprobe {
+ #define		RISCV_HWPROBE_MISALIGNED_SCALAR_FAST		3
+ #define		RISCV_HWPROBE_MISALIGNED_SCALAR_UNSUPPORTED	4
+ #define RISCV_HWPROBE_KEY_MISALIGNED_VECTOR_PERF	10
++#define RISCV_HWPROBE_KEY_ZICBOM_BLOCK_SIZE	11
+ #define		RISCV_HWPROBE_MISALIGNED_VECTOR_UNKNOWN		0
+ #define		RISCV_HWPROBE_MISALIGNED_VECTOR_SLOW		2
+ #define		RISCV_HWPROBE_MISALIGNED_VECTOR_FAST		3
+diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
+index cb93adfffc48..affcc3e58df9 100644
+--- a/arch/riscv/kernel/sys_hwprobe.c
++++ b/arch/riscv/kernel/sys_hwprobe.c
+@@ -107,6 +107,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
+ 		EXT_KEY(ZCB);
+ 		EXT_KEY(ZCMOP);
+ 		EXT_KEY(ZICBOZ);
++		EXT_KEY(ZICBOM);
+ 		EXT_KEY(ZICOND);
+ 		EXT_KEY(ZIHINTNTL);
+ 		EXT_KEY(ZIHINTPAUSE);
+@@ -278,6 +279,11 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
+ 		if (hwprobe_ext0_has(cpus, RISCV_HWPROBE_EXT_ZICBOZ))
+ 			pair->value = riscv_cboz_block_size;
+ 		break;
++	case RISCV_HWPROBE_KEY_ZICBOM_BLOCK_SIZE:
++		pair->value = 0;
++		if (hwprobe_ext0_has(cpus, RISCV_HWPROBE_EXT_ZICBOM))
++			pair->value = riscv_cbom_block_size;
++		break;
+ 	case RISCV_HWPROBE_KEY_HIGHEST_VIRT_ADDRESS:
+ 		pair->value = user_max_virt_addr();
+ 		break;
 -- 
 2.39.2
 
