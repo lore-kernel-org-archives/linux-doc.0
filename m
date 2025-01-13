@@ -1,49 +1,52 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7872A1BD9D8;
-	Mon, 13 Jan 2025 17:44:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074041494A7;
+	Mon, 13 Jan 2025 17:47:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736790296; cv=none; b=RdSV4wOfN47miVljil4lAdcouEbm62upqEXNKQjEo4RJZ0dyfgOe1HYhnUN2Smcz25BLFP+T6h5k6/OwOR+cIG7dDIuXUndJwtIqJxIF6ACQonVVJPUy7iGZvYQUIMLRkCC78b8hJFykgd5tOI8eQ951oyltL0kIP44NnBYepnc=
+	t=1736790431; cv=none; b=Q6L1msrSj2NK2NGcFGMvb0/zPika4vBKUanYJBryTO5bQDGZRgU4DdaiyLC55NYiF6SGpLqXP3+94BnL7OpXYzKK3PUYlHk0+lImp72nSOBXetSl+Tz2oh6mPEz+EWwKvomTocYDpJcAKzRRUjWYTWvjoWMCJx+zNsq/yLkEqeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736790296; c=relaxed/simple;
-	bh=sTcALPZkAgJHkTcNlD6d4HES+1K9o2Cas2mW7XshdaM=;
+	s=arc-20240116; t=1736790431; c=relaxed/simple;
+	bh=UEut3SNd53RgLH7EweUyY0BNRszVLzCR2TgXDZy+T+c=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Wmf2iWWAe+yUg/PQvW1F4gxHDy/piRgIjZuTZvcmUGhFLqdrVoB6219z8YUaG9Kw/zW9gUV+R/+zYZomAYMwHJ3olfyZCrv2LVaPPAqifnFceSs2rOq6Mm0LpWc/nAD7J4ya7NRNx80A6tdqxAIqvM0gQ3Ggqnwtjd988hzdt6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=o8gLVSoU; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=njY7zNmYDh3wH2lcuIAXF6qwuIbfGH+ClCzSPH9LjtJprwwsYolzGAu19fk+yAgd5AgV9NpEkDPOCeXk/27tKoTnSrpkYOL4ko/KkHSnAMwi+Se2w441GRI77KebXj6DqHtCwEmIY+JixJVqQ03An+0zh+gc8pZVYP5GobNw9Tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=fwo65gjC; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="o8gLVSoU"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A946740409
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="fwo65gjC"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 152A6404F5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1736790291; bh=63LtJrMjVi8KUsk9v2N02b5xJaKI2aPnMujeBiMubLo=;
+	t=1736790429; bh=m4FbUsYx+NEdoipGIuGZHGLLbLspNQt/AmLV+dDNrZY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=o8gLVSoUlqcHDCIQ4qtwpsRr8+gvgqqGs4qx3o7qOUBNcTJiRjigv8I2b+zs7VtwQ
-	 TmBVLiZ3C6/fn9Ki0Xb0Xb2yy4q9AqtRhTUUKihXHGpTBKWe2iGImYILvAXSI0hqyq
-	 ++usc8gGps8e5qRrODQ7LuXjYlNyghq9IenRD1GoXZWGB1ELXIqDJ+cH3MjHSqt8zt
-	 ykpV/RXEIlJwuJ1xKTdT/GOVlFD7ZHee5tYSj81uhnevHBewkNqbUCeayxkRylI20i
-	 5D8l18xE8XNKBuHgW/lfnrgcRsgn4GDYCfUAjZ0DMfsoavQdwhprfYUDgJLKHHz0PO
-	 QQ6BUSlMr31Rg==
+	b=fwo65gjCOQSXqf4l3O5YCcr0W8RmG/x8d38NyXH5Lh1zOGQSHcT7a61qJe7MM3VuR
+	 PLl42yCLIXTfRkkMT4SdQAly/aWC7FSdej3M80bm8PtyMGXajKF8fE/fX0CHh1gFMM
+	 qnUFg2UyS8HFuNAWY5oaEzaqgQCTrnNX/8ljTotxcb/usuLv9bs9uWnaI8t5XeIvgk
+	 QsrEZJFRY/eAgUemDQ4TMal4UBZwDWzApTTkbhddhXsXUFQDMK2jahNxzEMrNq3dFG
+	 zBfwaAStCJADnH0UdV700na2ir5oMnySYnfJqM3XoDSX81Ix7jnmuGMn3/5+Gd+aVc
+	 z2taqTe7W8u4A==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A946740409;
-	Mon, 13 Jan 2025 17:44:51 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 152A6404F5;
+	Mon, 13 Jan 2025 17:47:09 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, greg@wind.rmcc.com, Alex Shi
- <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Hu Haowen
- <2023002089@link.tyut.edu.cn>
-Subject: Re: [PATCH] Documentation: bug-hunting.rst: remove odd contact
- information
-In-Reply-To: <2025011005-resistant-uncork-9814@gregkh>
-References: <2025011005-resistant-uncork-9814@gregkh>
-Date: Mon, 13 Jan 2025 10:44:50 -0700
-Message-ID: <87a5bubobx.fsf@trenco.lwn.net>
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@lists.linux.dev, Miguel Ojeda
+ <ojeda@kernel.org>, Neal Gompa <neal@gompa.dev>, Sami Tolvanen
+ <samitolvanen@google.com>, Masahiro Yamada <masahiroy@kernel.org>, Luis
+ Chamberlain <mcgrof@kernel.org>, tech-board@groups.linuxfoundation.org,
+ Steven Rostedt <rostedt@goodmis.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>
+Subject: Re: [PATCH 0/3] Clarifications around Acked-by and "# Suffix" proposal
+In-Reply-To: <20250112152946.761150-1-ojeda@kernel.org>
+References: <20250112152946.761150-1-ojeda@kernel.org>
+Date: Mon, 13 Jan 2025 10:47:08 -0700
+Message-ID: <875xmibo83.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,25 +55,28 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
+Miguel Ojeda <ojeda@kernel.org> writes:
 
-> At the bottom of the bug-hunting.rst file there is a "signature" which
-> doesn't seem to make much sense.  It seems to predate git, and perhaps
-> was from an earlier bug report that got copied into the document, but
-> now makes no sense so remove it.
+> A patch series that aims to clarify what the purpose of the Acked-by tag is,
+> in order to help newcomers understand the kernel process better, as well as
+> to give extra flexibility on the usage of the Acked-by tag.
 >
-> Cc: <greg@wind.rmcc.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Alex Shi <alexs@kernel.org>
-> Cc: Yanteng Si <si.yanteng@linux.dev>
-> Cc: Hu Haowen <2023002089@link.tyut.edu.cn>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> ---
->  Documentation/admin-guide/bug-hunting.rst              |  9 ---------
->  .../translations/zh_CN/admin-guide/bug-hunting.rst     |  9 ---------
->  .../translations/zh_TW/admin-guide/bug-hunting.rst     | 10 ----------
->  3 files changed, 28 deletions(-)
+> It formalizes one of the proposals from [1]: "# Suffix" for Acked-by.
+>
+> I hope this helps!
+>
+> Link: https://lore.kernel.org/rust-for-linux/CANiq72m4fea15Z0fFZauz8N2madkBJ0G7Dc094OwoajnXmROOA@mail.gmail.com/ [1]
+>
+> Miguel Ojeda (3):
+>   docs: submitting-patches: clarify Acked-by and introduce "# Suffix"
+>   docs: submitting-patches: clarify difference between Acked-by and
+>     Reviewed-by
+>   docs: submitting-patches: clarify that signers may use their
+>     discretion on tags
+>
+>  Documentation/process/submitting-patches.rst | 22 ++++++++++++++++++--
+>  1 file changed, 20 insertions(+), 2 deletions(-)
 
-Odd indeed ... applied, thanks.
+I've applied the set, thanks.
 
 jon
