@@ -1,125 +1,203 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6AC1CDA19;
-	Tue, 14 Jan 2025 08:38:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316B51CA84;
+	Tue, 14 Jan 2025 09:09:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736843935; cv=none; b=rGW0xy4ucJRNbPK8F2Q6NLC1o0vXaBjGi+8zLPfInfiphyUSYkohtEoGf5ZEreLPlqH/nSQaYFUyzF76LWwwVxrM7kmilqh1OewoZL17X7vr2Ll7wkzFIoP+EPrQu5+k9h1wnRC5pSVi7JpQstPGOPY/VY04m0XDr69JmnsVm/Q=
+	t=1736845786; cv=none; b=jGLg2gmVwrUX5herovTbsJ3lq9vD1W0mjMHbLFP0J95TPWFakJYJCyoSAJqqrAUmYgiV+gfDghEZywByiBzXHhYMNf70YD/SpUs6W5/NNyiLExcQygy2veEEbbwpCBC+FnvlSlkFQTr1DcX3/9RdkTUbMWaINdPIVTaZ61n1RSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736843935; c=relaxed/simple;
-	bh=WCmlIJb/eJ3RtRwBL0vbXX0Y9UrynyAEdph0c+wowPY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fL0Xr8X8zyI0a/u3GvEX/o7PP+kalNtm0XPaSBemICoiVh//aP7oDh2W5WYv0HRABVFLgIsdrZt9cUkeFUdE15u2yBvZZnN19mVpkfITi/+G5LM7yni7nopqQ5zLT9Y4ta4RCDplBBsMtshG982cQ9fk3SVe/7t3FTayZFff5fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ssv9xXhO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736845786; c=relaxed/simple;
+	bh=aANuTdQLvK+G9yCD3Gtcx7nv3k5fB/W2tdycgXHZ3Uk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cHuLI052C8asSB1R7FUXyLU1J9JUuUs22tvfIv/aasvm+G0k4b+gTCdhNzYKNQbQoAfOYSVfmeQFtJcZ2DtsQWg3m6BvOL/QrI9YT8TvhFlXGEkVsvgNLsCk6L1o19qzjrxCGDhEafxdheS/NtuYmk8n82Xif7VMccll3cExDFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cDjpPC2/; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=j14hrea2; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=cDjpPC2/; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=j14hrea2; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ssv9xXhO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3272C4CEDD;
-	Tue, 14 Jan 2025 08:38:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736843934;
-	bh=WCmlIJb/eJ3RtRwBL0vbXX0Y9UrynyAEdph0c+wowPY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ssv9xXhOL7JbMMQrzlaq27YWcIfBrJoOCeudEXG9TZo+CTwB4dvd5GSjmpavw7e45
-	 mnFmWBsl8OxWd53GB8Ai3qRopj9qNOYzrIKnjN918usYV953p8Z71j8T9h8bRRgd80
-	 mbGV/Q9H0WnXVRuMYHxZFQGgigZ6wJf8UrCX5GqCfJBdnZINfpgPJQrTxLzhlJg07Y
-	 BIQWvXINHA2mvOIkrZyZDtdpZqKLm7qpvrTk+kx7XKDDXEu0pCnY7dzHvA1pZbR8yv
-	 o9iPi8YszEl9iejfRQW/qe5KSfvou9DSiPIxxOEteYKg009tI7JHlqlu+nZukZHN0U
-	 oaCRxAZ2exYjA==
-Date: Tue, 14 Jan 2025 10:38:47 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v5 00/17] Provide a new two step DMA mapping API
-Message-ID: <20250114083847.GE3146852@unreal>
-References: <cover.1734436840.git.leon@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cDjpPC2/";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="j14hrea2";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="cDjpPC2/";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="j14hrea2"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3456D1F38F;
+	Tue, 14 Jan 2025 09:09:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1736845783; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=QPSWmBIALfcab60vXy4rEVwFRgtvJbOBsASpBs0vcNs=;
+	b=cDjpPC2/smHH4iPwtl8MzYeObrsiHzavDSt3eGZxZzK/TyGimGdyWrf6f1uK6Qcg06UNOf
+	RnvamDYIpYsZeH3kbysvOGVggxxxPHSIrZZt8EaNDN6ihsbEJvJWQfVqwdgqcPUtjxrgsu
+	v8195SnbiZYixB1cqReRmp61KNYFhD8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1736845783;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=QPSWmBIALfcab60vXy4rEVwFRgtvJbOBsASpBs0vcNs=;
+	b=j14hrea209qVh7pD7p2/JifXtOyi5RZwN8kDzwd3ZhhiTA5dOWO5C8+p87/yMdanr1XoKJ
+	462KCIr0So94IlDg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1736845783; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=QPSWmBIALfcab60vXy4rEVwFRgtvJbOBsASpBs0vcNs=;
+	b=cDjpPC2/smHH4iPwtl8MzYeObrsiHzavDSt3eGZxZzK/TyGimGdyWrf6f1uK6Qcg06UNOf
+	RnvamDYIpYsZeH3kbysvOGVggxxxPHSIrZZt8EaNDN6ihsbEJvJWQfVqwdgqcPUtjxrgsu
+	v8195SnbiZYixB1cqReRmp61KNYFhD8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1736845783;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=QPSWmBIALfcab60vXy4rEVwFRgtvJbOBsASpBs0vcNs=;
+	b=j14hrea209qVh7pD7p2/JifXtOyi5RZwN8kDzwd3ZhhiTA5dOWO5C8+p87/yMdanr1XoKJ
+	462KCIr0So94IlDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DFB0A139CB;
+	Tue, 14 Jan 2025 09:09:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Uk0INdYphmeRcQAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Tue, 14 Jan 2025 09:09:42 +0000
+Message-ID: <762df2fe-d57a-40b3-b921-47f5b6d84ba2@suse.cz>
+Date: Tue, 14 Jan 2025 10:09:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1734436840.git.leon@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 00/17] reimplement per-vma lock as a refcount
+Content-Language: en-US
+To: Andrew Morton <akpm@linux-foundation.org>,
+ Suren Baghdasaryan <surenb@google.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, peterz@infradead.org,
+ willy@infradead.org, liam.howlett@oracle.com, david.laight.linux@gmail.com,
+ mhocko@suse.com, hannes@cmpxchg.org, mjguzik@gmail.com,
+ oliver.sang@intel.com, mgorman@techsingularity.net, david@redhat.com,
+ peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
+ brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com, hughd@google.com,
+ lokeshgidra@google.com, minchan@google.com, jannh@google.com,
+ shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com,
+ klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net,
+ linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ kernel-team@android.com
+References: <20250111042604.3230628-1-surenb@google.com>
+ <f5e26a57-ec77-4df8-8b4f-5a718a046894@lucifer.local>
+ <20250113174941.8c6d5defe18c8b1a7e477ace@linux-foundation.org>
+ <CAJuCfpE0Kdd8EnsjOJ0WW8QcDYbWji3S_LEu+=J9aTVioFMQ+w@mail.gmail.com>
+ <20250113200908.d821636a39e9ca6130a90e24@linux-foundation.org>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ EP+ylKVEKb0Q2A==
+In-Reply-To: <20250113200908.d821636a39e9ca6130a90e24@linux-foundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_RCPT(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	RCVD_TLS_ALL(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[oracle.com,infradead.org,gmail.com,suse.com,cmpxchg.org,intel.com,techsingularity.net,redhat.com,stgolabs.net,kernel.org,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
+	R_RATELIMIT(0.00)[to_ip_from(RLumbhs4xhzuuihrchnpuyb6qu)];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 
-On Tue, Dec 17, 2024 at 03:00:18PM +0200, Leon Romanovsky wrote:
-> Changelog:
-
-<...>
-
-> Christoph Hellwig (6):
->   PCI/P2PDMA: Refactor the p2pdma mapping helpers
->   dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
->   iommu: generalize the batched sync after map interface
->   iommu/dma: Factor out a iommu_dma_map_swiotlb helper
->   dma-mapping: add a dma_need_unmap helper
->   docs: core-api: document the IOVA-based API
+On 1/14/25 05:09, Andrew Morton wrote:
+> On Mon, 13 Jan 2025 18:53:11 -0800 Suren Baghdasaryan <surenb@google.com> wrote:
 > 
-> Leon Romanovsky (11):
->   iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
->   dma-mapping: Provide an interface to allow allocate IOVA
->   dma-mapping: Implement link/unlink ranges API
->   mm/hmm: let users to tag specific PFN with DMA mapped bit
->   mm/hmm: provide generic DMA managing logic
->   RDMA/umem: Store ODP access mask information in PFN
->   RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
->     linkage
->   RDMA/umem: Separate implicit ODP initialization from explicit ODP
->   vfio/mlx5: Explicitly use number of pages instead of allocated length
->   vfio/mlx5: Rewrite create mkey flow to allow better code reuse
->   vfio/mlx5: Enable the DMA link API
+>> On Mon, Jan 13, 2025 at 5:49 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+>> >
+>> >
+>> > Yes, we're at -rc7 and this series is rather in panic mode and it seems
+>> > unnecessarily risky so I'm inclined to set it aside for this cycle.
+>> >
+>> > If the series is considered super desirable and if people are confident
+>> > that we can address any remaining glitches during two months of -rc
+>> > then sure, we could push the envelope a bit.  But I don't believe this
+>> > is the case so I'm thinking let's give ourselves another cycle to get
+>> > this all sorted out?
+>> 
+>> I didn't think this series was in panic mode with one real issue that
+>> is not hard to address (memory ordering in
+>> __refcount_inc_not_zero_limited()) but I'm obviously biased and might
+>> be missing the big picture. In any case, if it makes people nervous I
+>> have no objections to your plan.
 > 
->  Documentation/core-api/dma-api.rst   |  70 +++++
->  drivers/infiniband/core/umem_odp.c   | 250 +++++----------
->  drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
->  drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
->  drivers/infiniband/hw/mlx5/umr.c     |  12 +-
->  drivers/iommu/dma-iommu.c            | 454 +++++++++++++++++++++++----
->  drivers/iommu/iommu.c                |  84 ++---
->  drivers/pci/p2pdma.c                 |  38 +--
->  drivers/vfio/pci/mlx5/cmd.c          | 376 +++++++++++-----------
->  drivers/vfio/pci/mlx5/cmd.h          |  35 ++-
->  drivers/vfio/pci/mlx5/main.c         |  87 +++--
->  include/linux/dma-map-ops.h          |  54 ----
->  include/linux/dma-mapping.h          |  86 +++++
->  include/linux/hmm-dma.h              |  33 ++
->  include/linux/hmm.h                  |  21 ++
->  include/linux/iommu.h                |   4 +
->  include/linux/pci-p2pdma.h           |  84 +++++
->  include/rdma/ib_umem_odp.h           |  25 +-
->  kernel/dma/direct.c                  |  44 +--
->  kernel/dma/mapping.c                 |  18 ++
->  mm/hmm.c                             | 264 ++++++++++++++--
->  21 files changed, 1423 insertions(+), 693 deletions(-)
->  create mode 100644 include/linux/hmm-dma.h
-
-Hi Robin,
-
-Can you please Ack the dma-iommu changes?
-
-Thanks
-
+> Well, I'm soliciting opinions here.  What do others think?
 > 
-> -- 
-> 2.47.0
-> 
-> 
+> And do you see much urgency with these changes?
+
+I don't see the urgency and at this point giving it more time seems wise.
+Seems like v10 won't be exactly trivial as we'll change from refcount_t to
+atomic_t? And I'd like to see PeterZ review the lockdep parts too.
