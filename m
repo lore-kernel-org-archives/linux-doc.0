@@ -1,75 +1,89 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C97561C2324;
-	Tue, 14 Jan 2025 16:24:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36FBF189B8F
+	for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 16:25:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736871897; cv=none; b=Ek6Hr1B95VJBYulu5U38Wdq/o+qj7oILpibloBrLFPjeRC6mEq0QsRmxeCGgn2qTICB7llnButwCVN4YhsmaLtvzNBj0VI6xZINx6XEPWVa7w6KmfsaDCl0Ia4DH02/pGyPTGVeIMXvCzMWhfjyuECUooms7GLL6GmV7qjbgttg=
+	t=1736871920; cv=none; b=OArIqdR95cf4BXK0hHyCLC1ahyQ01N8q0rMLgE0aIUixgWcV3Nn1h7RpQtb/bCTHc3RBuF0K2QGeE8YjdP8tThsw7cXkGP18D0vFIQQK5yPi6fba83opVQmeSI8BDESrKqcJY43cmYS3kKu4+FNuHzwGQ988qxYI2I5HgB2HQP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736871897; c=relaxed/simple;
-	bh=4C0G2XCT+MQY0IIkXI2xbO/jgLunjRLy7KJnpGEApQw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=WISmZhYoWtBsnAL2mY/Zi8dmE4JnTGuEK0wlV9QvXc3m56oRb8Y6j5Ocr58WOfRqGOryLcppe5St6N3ZgZa1NP3MvhgvMYHyM+UiQeokf+/KuEFodMYb22cYRGGq7iuJHvDTFWzs6hcyNvWbtl/be9y82xNi6xen88NiZ/4aQyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=kxRhajGR; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1736871920; c=relaxed/simple;
+	bh=ENaTye1Us0K+SKIh7ouZI5Mj+hrcxNdyS4GOYYvtQ4w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UEYHov2dfz4+GutkN4ddCh9/D/6gkJiosBkMuZDjrYXnFNWNwVaIb60bIITC9jgyq4Cb1QtAGfXoUy/uvmZwxCDwpVUpRU5jO9FB6860DACQky1YP+0xhw2kExBjLCRM8EU24eRf6me5ofE+uHGgsHQmWqEI4zK7w6M3cV+7ha4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ozp4ygv2; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="kxRhajGR"
-Received: from [10.137.184.60] (unknown [131.107.160.188])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 3E6BD20BEBE1;
-	Tue, 14 Jan 2025 08:24:55 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3E6BD20BEBE1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1736871895;
-	bh=+XptpPcdbzr3RxIdizNt2dhRuo/DfalHaLG+30JWpuI=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=kxRhajGRzD2nNxYfiZnc0CpG0xbo3avP/pQifztmisYFVJzkmX/NPL10jkSTw8GHp
-	 T9a+7ghkbvWohh0T+5npPbPYZBhZ7Y2Vpcm9KffFV5UGo6VUPMkyRs/TsSxLygnI9f
-	 RL8ztXYu7SfJ1EJWhyQ3fFgE52x3yLyUcpovIDcY=
-Message-ID: <639df81f-4411-4815-88ca-381e09065174@linux.microsoft.com>
-Date: Tue, 14 Jan 2025 08:24:55 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ozp4ygv2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736871919; x=1768407919;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ENaTye1Us0K+SKIh7ouZI5Mj+hrcxNdyS4GOYYvtQ4w=;
+  b=Ozp4ygv2TvMy89tuA0O2+GBQtY8JIQB0rmtkbNr1qoa1LVZg6bossBxI
+   dhzfMvvad8lJxnm31qVKV7hcC10tlmUCkSCduwi6ozAFcUBVEnE9P7mDs
+   Q69Lg1BQfMObUqX1vmUcd3x3g8ius0rnwvKUTWwhclJ3q23WGMFd83uDK
+   5NTOWi+r4ZrG2Mxromak6dAWZ61TGygNN1FVCz/bvNMI4RxD799A5bM9g
+   T2T/JOojHYDExgaQcVMLgXtogfvbp0lnX/nb2GxiHBxRlWMl3356/faua
+   awz1oTm8rpOFKu5gyIQvb6yzp3sQp6JLC+ZtFezqTyN5id7tnuRm+U6Z/
+   g==;
+X-CSE-ConnectionGUID: Ko5qk4UoQ5aqjV9J6UO0rQ==
+X-CSE-MsgGUID: qA9maunbTt2vO4Qrx74I+g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="40855025"
+X-IronPort-AV: E=Sophos;i="6.12,314,1728975600"; 
+   d="scan'208";a="40855025"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 08:25:19 -0800
+X-CSE-ConnectionGUID: 4c9SnNH9SKiglSE47yehjw==
+X-CSE-MsgGUID: rQiH1xeARFaoI2/ShRyN6w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,314,1728975600"; 
+   d="scan'208";a="105433913"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 14 Jan 2025 08:25:17 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tXjj7-000Okd-2u;
+	Tue, 14 Jan 2025 16:25:13 +0000
+Date: Wed, 15 Jan 2025 00:24:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Raviteja Narayanam <raviteja.narayanam@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>,
+	Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>,
+	linux-doc@vger.kernel.org
+Subject: [xilinx-xlnx:lkp_test 62/504] htmldocs: Warning: MAINTAINERS
+ references a file that doesn't exist:
+ Documentation/devicetree/bindings/iio/adc/ti,ina260.yaml
+Message-ID: <202501150010.ns6hQ1Mk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/1] Documentation: hyperv: Add overview of guest VM
- hibernation
-To: mhklinux@outlook.com, haiyangz@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, kys@microsoft.com, corbet@lwn.net,
- linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20250113145645.1320942-1-mhklinux@outlook.com>
-Content-Language: en-US
-From: Roman Kisel <romank@linux.microsoft.com>
-In-Reply-To: <20250113145645.1320942-1-mhklinux@outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://github.com/Xilinx/linux-xlnx lkp_test
+head:   283bb161d159afe488329f6d2d8dc2c08e91fa9c
+commit: 4622f09ec0ade3749e2465c6a31b2bc7b2c31fad [62/504] drivers: iio: Add support for TI INA260 power monitors
+reproduce: (https://download.01.org/0day-ci/archive/20250115/202501150010.ns6hQ1Mk-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501150010.ns6hQ1Mk-lkp@intel.com/
 
-On 1/13/2025 6:56 AM, mhkelley58@gmail.com wrote:
-> From: Michael Kelley <mhklinux@outlook.com>
+All warnings (new ones prefixed by >>):
 
-[...]
-
-An incredible read, thank you, Michael!
-
-Reviewed-by: Roman Kisel <romank@linux.microsoft.com>
-
-> diff --git a/Documentation/virt/hyperv/index.rst b/Documentation/virt/hyperv/index.rst
-> index 79bc4080329e..c84c40fd61c9 100644
-> --- a/Documentation/virt/hyperv/index.rst
-> +++ b/Documentation/virt/hyperv/index.rst
-> @@ -11,4 +11,5 @@ Hyper-V Enlightenments
->      vmbus
->      clocks
->      vpci
-> +   hibernation
->      coco
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/iio/adc/ti,ina260.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+   Using alabaster theme
 
 -- 
-Thank you,
-Roman
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
