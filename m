@@ -1,107 +1,114 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18BB2144DB;
-	Tue, 14 Jan 2025 22:47:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285C21D47BD;
+	Tue, 14 Jan 2025 22:52:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736894825; cv=none; b=IsbGaFhOnmpXbcDN0vYlB4a/gTzNzXaGGmnJ9+GKX657SJ7KagHOZh6X/tXe/jclfyFoIlqGWQOgaXeVeGuoOCC0Wj7275FTv7guAd8MlwPOgsHQu9u+K8uFZgghtRENX5/R612VfbGgN9seDb1JXKsN0VVACoIjSWYfrQfVCts=
+	t=1736895126; cv=none; b=r2zyITS3ohzD5aiqlh9OYNGmFKqQr4hig6X5UtnWKP5AkbdeOMVRZt5MRwz6aNdg+h6QmsrvVcYFBNJoDqq6Fw1n8D81ziag8IlPRWn/0jpqBts5s9YidSAPiEkU30A43U6R3ut4UAvMV3JQSDcoYBlPtd6qyhSImppjHY/g6RQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736894825; c=relaxed/simple;
-	bh=IXANTz1bJSDyjXEnN8PxknznKsE2jL8seUW9FVQiReU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gkLSS7bxaWKaDIl9PmRLXGZuVoABO/RFZTyenhGuIIdmL+TPxdOuYCuY3VPoSwAmGY6xGF0SQvlCWD2z3ysmlWLVZunmo6LMxiqV3E3ps3vXD3uiPpnHgkVejgWxQEGx2TSbAfATXpkj1Q+Q/2cQK7r8vHm5Rey9cpS7Z7UHgXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JODKSTyO; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736895126; c=relaxed/simple;
+	bh=oUqudbsJVvJK2eLFC4NL3NopizVp4ti7NTk9yZrtAy4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i+JnOTeVJzUDwrdOTK5NOO6eVd+FrURVt4Kjo2B7f3SZiiDvwnExHGBBEy0DmG3Bdgjd55sKC1Cq0Dgx8jjoudzqc5WbRUNSV6ihMtvSb9N/J1STlWaz6JEwBu4hkTGl2IZls23egzkU4Dwi18G5PFlN69yKdiOiS5nQtfDKH9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=h/KgglXK; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JODKSTyO"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2162699e0ccso10081385ad.0;
-        Tue, 14 Jan 2025 14:47:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736894823; x=1737499623; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Lozpaj0g3GYjPfEclpw5ZqeH+g5/kYsdh3R22/oSzT8=;
-        b=JODKSTyODZraHYlDzoQGB1r3Fyl89RqEcFWEXlQ820GDxGMNkxASbMiMPjLq9tAC1A
-         YWTzg1mEeap8aEDRVDx/Hec0jLLwPwDAJoAytV+ppVH9lozTx8utQR1MO/v4Hq4yAdWO
-         kPOWQEBnumvTUelznl71sDXuqFulG6rV34H/EmeIbw/1lVqnFFz11n1ZH6IuR9iujp7a
-         SQvGkeSJTVdHGG2cEWBxvkz8lv1xRYf3EzY9LIocDHGOxRXpyB15yrR5UBJ5iGVFVEBO
-         Elp9ve3/4Ah08m/gQK1ycbDGhn+unKXpvkvdeTkxkfnusLkheDbEVq3m0sgdtDEtAShB
-         /44g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736894823; x=1737499623;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Lozpaj0g3GYjPfEclpw5ZqeH+g5/kYsdh3R22/oSzT8=;
-        b=UzmvFDd1012Tmu2/UnzH+efV1XhGrLg59xmbA9xq5eYL6ScJvNMxf1ntZMTnzCx9tc
-         wx0raMJqBBAxUzGBrxe55rg746FLWMmvMdaQdh11AJhFmVDBBDWps5VNTZ+/79mDVxlw
-         euN+mdtVnfxcLrb8QKegh4UmWuKz1UUSQ2cphGc5nPZfZMxCieBrmrIXHRR2du36DxuJ
-         UkUyX6+lnWQjvUhxaqBRzWh1KC6sQIXMLE/oiyeUYo6Uu3wZlw6FXKNCcD2fuKI9xFXD
-         abKFAZh+IG31ODp+UIfBXuiUHre+LBwvHbgOvBE6TTZXttH0fNMGJVKdZYjWEqWShuOe
-         e0dQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUL0oGpustraxL6g+OnGaD8e5WGsxuMEXjsoIHgFANm2hejWPzaQmhQ+c7CcRnqo1SKR11hbRWAvRgHAMfD@vger.kernel.org, AJvYcCV5Ii1V6uw8BsyX1x/zC4G7QKSo3SUZPQyc+VAyNLS23Ic2oZNc0RoR16+7eCkvyywQbibCsOz37pJ3Hc15@vger.kernel.org, AJvYcCWIdfwsGKWLYm4a29km3yAS8Ien0tOZv/BuVilRy8l3Q14szrkfoAFgsA7c943jGT1+4l+Ok/elwYLDZQiesdo=@vger.kernel.org, AJvYcCXEvjQXm+El836REp0XrMvYm/1cgLXVstpHWZyBQNBDRntxgQ8jOzAP3iSHoYZjuuNEpXIwCYy6CVs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhGZFpniuA1twBO/jUJK+e0n3/zNG37VcdjnuFZXcXHzOeU6OL
-	MiS3/bF0HpXfPkQorobdsj6Mn+RsOc5TPBTcf4QL9i8Y3NnlIs8Ox53GIx5J6nlW76jYR0nUwmp
-	asMJcuPf5gRDNDVqjmbD2Y0ogxJc=
-X-Gm-Gg: ASbGnctU9eKk73wBXPSpCYAtHIi8R/ZyDjfUKrNN7Bft7g0McWeVc44pFk+jUJjI6ic
-	2ZR3UzBVLIjA8G+KxknZ66XV7K0ksNHlv+YY62g==
-X-Google-Smtp-Source: AGHT+IGevwfPXGCAQQVOp/Ab1cBDzyCJ8G1YfMVI8AtOp+xUdHCuOY6eWeuJWDZfjx7Z2eYbdSZVK9tX1UXrXPJHYgA=
-X-Received: by 2002:a17:902:e545:b0:215:435d:b41a with SMTP id
- d9443c01a7336-21a83f34893mr149435055ad.1.1736894823228; Tue, 14 Jan 2025
- 14:47:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="h/KgglXK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=xb5GiasEopiXQJY5FlPq9WPy1iZGuHLmFEUm3QLs3Mw=; b=h/KgglXKTldu8AR2YC6eZ6KfHn
+	jszJMl1enKghbHjWoVXSBxoUjhYd6uIly+P4B79GrAiyEr0HTAoJNsUHXBPrKF4sZ5NirMUCsmoYw
+	EGyV3I7KSG/8uuUKzG4AEvQXrPXTQUj6quYYA4oqMIw5KpDrXg6dPd9sivsqxErD/pnFXYeSDnRLi
+	qSv1avuu0TJpZavQEe913OeiiDehTmtT6q66SE8IkaNt+vjN6y1F29OAK5VVPB7jqEGq6PEYE8aQg
+	FGkVf/0qUrAz2HjPU+8PoAvy+5hZy7tNh1Q4PT9nPunyzMufkOfhvu64hWbg5jN2WCEqhtyRuNny6
+	jj6p62cg==;
+Received: from [50.53.2.24] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tXplQ-00000009zFD-01m5;
+	Tue, 14 Jan 2025 22:52:00 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-doc@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Kees Cook <kees@kernel.org>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <sergeh@kernel.org>,
+	linux-security-module@vger.kernel.org,
+	Kentaro Takeda <takedakn@nttdata.co.jp>,
+	Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+	John Johansen <john.johansen@canonical.com>,
+	John Johansen <john@apparmor.net>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH] Docs/security: update cmdline keyword usage
+Date: Tue, 14 Jan 2025 14:51:56 -0800
+Message-ID: <20250114225156.10458-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241112184455.855133-1-ojeda@kernel.org> <CANiq72=BvnriScFay8SpLNe9mNhjvGsBJ9W9UtdzU_6v_i+woA@mail.gmail.com>
- <CAABy=s12gOZadhYC+=6=TbbyN9j5L0B19ZLSGR_VFEdt1jhwEA@mail.gmail.com>
-In-Reply-To: <CAABy=s12gOZadhYC+=6=TbbyN9j5L0B19ZLSGR_VFEdt1jhwEA@mail.gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 14 Jan 2025 23:46:50 +0100
-X-Gm-Features: AbW1kvacpMeTqUYlQMLS6S4D2USApAhXAr5atLy2VwEVUQxisq97hcv1qVOPz0I
-Message-ID: <CANiq72kQKGG7j61bpsORnE0vzNo_dzwMZMLx=Z0xOnY0wefv6g@mail.gmail.com>
-Subject: Re: [PATCH v3] kbuild: rust: add PROCMACROLDFLAGS
-To: "Hong, Yifan" <elsk@google.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Dec 10, 2024 at 1:51=E2=80=AFAM Hong, Yifan <elsk@google.com> wrote=
-:
->
-> With https://github.com/rust-lang/compiler-team/issues/731 fixed and
-> this idea of appending flags, our --sysroot flag should be able to be
-> properly overridden. But the -L and -Wl,-rpath's remains, and could
-> potentially be disturbing.
+Use "lsm=name,..." instead "security=name,..." since the latter is
+deprecated.
 
-On second thought, #731 probably only applies to `rustc` native flags
-only, rather than those that are passed to the linker (e.g. if I pass
-a dummy flag, it is passed as-is, so I doubt they will start checking,
-and probably they shouldn't), so it may not help here after all.
+Fixes: 89a9684ea158 ("LSM: Ignore "security=" when "lsm=" is specified")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Kees Cook <kees@kernel.org>
+Cc: Paul Moore <paul@paul-moore.com>
+Cc: James Morris <jmorris@namei.org>
+Cc: "Serge E. Hallyn" <sergeh@kernel.org>
+Cc: linux-security-module@vger.kernel.org
+Cc: Kentaro Takeda <takedakn@nttdata.co.jp>
+Cc: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Cc: John Johansen <john.johansen@canonical.com>
+Cc: John Johansen <john@apparmor.net>
+Cc: Jonathan Corbet <corbet@lwn.net>
+---
+ Documentation/admin-guide/LSM/apparmor.rst |    4 ++--
+ Documentation/admin-guide/LSM/index.rst    |    2 +-
+ Documentation/admin-guide/LSM/tomoyo.rst   |    2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-> So if I understand what you mean correctly, with this:
->   KBUILD_PROCMACROLDFLAGS :=3D $(HOSTLDFLAGS) $(PROCMACROLDFLAGS)
-> Android might need a separate mechanism (another variable?) to filter
-> out our -L/-Wl,-rpath from HOSTLDFLAGS. (Dumb question: We can't take
-> -L/-Wl,-rpath away by prepending/appending more flags, right?)
-
-Yeah, we would need a variable to provide the filters, but it would be
-more complex and possibly less flexible. I think it may be best to
-keep things simple and use the v3 here, which already works for your
-use case.
-
-Cheers,
-Miguel
+--- linux-next-20250113.orig/Documentation/admin-guide/LSM/apparmor.rst
++++ linux-next-20250113/Documentation/admin-guide/LSM/apparmor.rst
+@@ -27,10 +27,10 @@ in the list.
+ Build the kernel
+ 
+ If AppArmor is not the default security module it can be enabled by passing
+-``security=apparmor`` on the kernel's command line.
++``lsm=apparmor`` on the kernel's command line.
+ 
+ If AppArmor is the default security module it can be disabled by passing
+-``apparmor=0, security=XXXX`` (where ``XXXX`` is valid security module), on the
++``apparmor=0, lsm=XXXX`` (where ``XXXX`` is valid security module), on the
+ kernel's command line.
+ 
+ For AppArmor to enforce any restrictions beyond standard Linux DAC permissions
+--- linux-next-20250113.orig/Documentation/admin-guide/LSM/index.rst
++++ linux-next-20250113/Documentation/admin-guide/LSM/index.rst
+@@ -7,7 +7,7 @@ various security checks to be hooked by
+ "module" is a bit of a misnomer since these extensions are not actually
+ loadable kernel modules. Instead, they are selectable at build-time via
+ CONFIG_DEFAULT_SECURITY and can be overridden at boot-time via the
+-``"security=..."`` kernel command line argument, in the case where multiple
++``"lsm=..."`` kernel command line argument, in the case where multiple
+ LSMs were built into a given kernel.
+ 
+ The primary users of the LSM interface are Mandatory Access Control
+--- linux-next-20250113.orig/Documentation/admin-guide/LSM/tomoyo.rst
++++ linux-next-20250113/Documentation/admin-guide/LSM/tomoyo.rst
+@@ -18,7 +18,7 @@ to know what TOMOYO is.
+ How to enable TOMOYO?
+ =====================
+ 
+-Build the kernel with ``CONFIG_SECURITY_TOMOYO=y`` and pass ``security=tomoyo`` on
++Build the kernel with ``CONFIG_SECURITY_TOMOYO=y`` and pass ``lsm=tomoyo`` on
+ kernel's command line.
+ 
+ Please see https://tomoyo.sourceforge.net/2.6/ for details.
