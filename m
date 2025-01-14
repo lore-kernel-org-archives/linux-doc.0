@@ -1,167 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B01B1C1AAA;
-	Tue, 14 Jan 2025 18:32:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0E81D5145;
+	Tue, 14 Jan 2025 18:40:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736879580; cv=none; b=YWfkfH2TbAdcz+t+hWWXVMXb6Ogl2KpVsFx3/jnfHy5v1QQV/qUtMs3xTXYbsT1zLP56gjRysRt0JJ0m+h4rSdB3amdtBniQNMtscYA03eLLcovQI/SNtrAAQFuQCO65Lx8RC7qrprygF0X/sjKuHPiJk8v8MBALm5DWH3dXmnI=
+	t=1736880015; cv=none; b=QUAeXHEkuwS9Hz67HK3js1PLJNbUYh3us/Of3lXOqPyxBoxWNkkG9+uCTZ2fzqZqrr9wh5nCPAnbE3hzCg/cyJxfIG2BKuuonGy2yEJLMsSc3q7zOYFGRm6dsAILCBf6c9OnNtzQKTjh0GsZflncOaAbL7sj29YXcprrkSjxLxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736879580; c=relaxed/simple;
-	bh=+VYfghA8rdZLLpmdod8238HnaaeOZHNazblnDuKrS5A=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Tfw1sgkd/zQudNdAJKBBjh/gRNQHZUrMi2Q0aG3BPwNkAjBqdOqXhz+GSIsNnctFaLo6dYDkMmsN8S06pd51yc7xo+ZJ0QPUtOXLLuzTk3EZ6lTlyXhubIgr2aCw+e83pYH21fWMppxe020fj3ENwDHF4yPDx51RGi5HijJnoEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dTSufW4e; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736880015; c=relaxed/simple;
+	bh=q0HGA7bIdyJoq59IQaKBS40fl5r/Pmq6Px/lXZJU1Bk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=MHsdYI+vXuv0m/W4nc7efdnn0n1XQq6gHbu5a5IyGBdZJ+30aNsNb1J+6rb7uXqpSmGlfLzEtxnR+54CCntAj2QR+O6eloEiOBMPA3BfQl1MG2SQKvF6PYeH4ofG3udLkajZ5m3sFYPOj3mkAg62DlkBRohPcrrnyXp5kU+e8SQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=a4EYFW05; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dTSufW4e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4505C4CEDD;
-	Tue, 14 Jan 2025 18:32:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736879579;
-	bh=+VYfghA8rdZLLpmdod8238HnaaeOZHNazblnDuKrS5A=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dTSufW4efKR+RIHqvwO/9tgIApbDDjdv44InVf79nTpH+fqsZoocULrcrwKMVnQQ5
-	 RdzKW96/aFBeiCxYXTefWPYIICbm+Eu6rG7ovKW+JdGiRI47459qzUvUXDQhCB2gRM
-	 701k5jFBY4zSmNTziWErYmRGTY/TYyEiiyWUSgUuEkxH3EbunKYRIF0Wa6wGYshwDr
-	 MxqJ7pDFS6HDOAkfgpagILog3wKencYyaQQmL7omgH5ezoWMJDVFSItmpitzazhtaO
-	 HG+IClazBl+1mEWiDJrI71zrYT1bk7xYW2/7xCY4wqsD1f1YdMI+fhWUJolUp8mxLi
-	 UKEpo9Ifnp0yw==
-Date: Tue, 14 Jan 2025 10:32:57 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Li Li <dualli@chromium.org>
-Cc: Carlos Llamas <cmllamas@google.com>, dualli@google.com, corbet@lwn.net,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- donald.hunter@gmail.com, gregkh@linuxfoundation.org, arve@android.com,
- tkjos@android.com, maco@android.com, joel@joelfernandes.org,
- brauner@kernel.org, surenb@google.com, arnd@arndb.de, masahiroy@kernel.org,
- bagasdotme@gmail.com, horms@kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, netdev@vger.kernel.org, hridya@google.com,
- smoreland@google.com, kernel-team@android.com
-Subject: Re: [PATCH v11 2/2] binder: report txn errors via generic netlink
-Message-ID: <20250114103257.73e9c0d1@kernel.org>
-In-Reply-To: <CANBPYPjQVqmzZ4J=rVQX87a9iuwmaetULwbK_5_3YWk2eGzkaA@mail.gmail.com>
-References: <20241218203740.4081865-1-dualli@chromium.org>
-	<20241218203740.4081865-3-dualli@chromium.org>
-	<Z32cpF4tkP5hUbgv@google.com>
-	<Z32fhN6yq673YwmO@google.com>
-	<CANBPYPi6O827JiJjEhL_QUztNXHSZA9iVSyzuXPNNgZdOzGk=Q@mail.gmail.com>
-	<Z4Aaz4F_oS-rJ4ij@google.com>
-	<Z4Aj6KqkQGHXAQLK@google.com>
-	<CANBPYPjvFuhi7Pwn_CLArn-iOp=bLjPHKN0sJv+5uoUrDTZHag@mail.gmail.com>
-	<20250109121300.2fc13a94@kernel.org>
-	<Z4BZjHjfanPi5h9W@google.com>
-	<20250109161825.62b31b18@kernel.org>
-	<CANBPYPjQVqmzZ4J=rVQX87a9iuwmaetULwbK_5_3YWk2eGzkaA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="a4EYFW05"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B5EDD404ED
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1736880012; bh=G6PHnRGs2tYVzR6+Zfz9BIbu8Fkin0nBpCuYqsdfvPQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=a4EYFW052VpX/YQnntTZlXNYAOIKvKY6NMqUswniA9/Hl2Xd/LRjhKtq/JQzvZtBi
+	 1Ii8FyVpP3lglEiajFzIPiiYNAmOkGKboNPFsMzexOmbQS4HzEYlQVyUfQ3lvK4DdZ
+	 DFeBUu0TbJqvKYu+DPAjatONo5sOowLRYr7M5eoF292dmEYRD5B98Z8Ky2Wg8YiX4D
+	 yNPqhppn+fH599/POPrAECUB2NuxcFMSd7PbSQYMfL+L9dMgVkv2CPrAvkvwZ1FUN0
+	 1niQERaM7gpCkt/PIxJ1fOHiekm+87L8qq/agLLaQWblg867RU394O7T+/57/8z258
+	 Zk4LLK3FAhy7A==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id B5EDD404ED;
+	Tue, 14 Jan 2025 18:40:12 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Phil Auld <pauld@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Documentation/sysctl: Add timer_migration to kernel.rst
+In-Reply-To: <20250114174308.GA149002@pauld.westford.csb>
+References: <20250114140301.141147-1-pauld@redhat.com>
+ <877c6x9vcy.fsf@trenco.lwn.net>
+ <20250114174308.GA149002@pauld.westford.csb>
+Date: Tue, 14 Jan 2025 11:40:10 -0700
+Message-ID: <871px58cj9.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Mon, 13 Jan 2025 22:01:00 -0800 Li Li wrote:
-> On Thu, Jan 9, 2025 at 4:18=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> w=
-rote:
-> > > Sorry, it was me that suggested NETLINK_URELEASE. BTW, I did try those
-> > > genl_family callbacks first but I couldn't get them to work right away
-> > > so I moved on. I'll have a closer look now to figure out what I did
-> > > wrong. Thanks for the suggestion Jakub! =20
-> >
-> > Hm, that's probably because there is no real multicast group here :(
-> > genl_sk_priv_get() and co. may work better in that case.
-> > your suggestion of NETLINK_URELEASE may work too, tho, I think it's
-> > the most error prone =20
->=20
-> sock_priv_destroy works with genl_sk_priv_get().
->=20
-> But, I have to manually modify the generated netlink header file to satis=
-fy CFI.
->=20
-> -void binder_nl_sock_priv_init(struct my_struct *priv);
-> -void binder_nl_sock_priv_destroy(struct my_struct *priv);
-> +void binder_nl_sock_priv_init(void *priv);
-> +void binder_nl_sock_priv_destroy(void *priv);
->=20
-> The reason is that these 2 callback functions are defined in
-> include/net/genetlink.h as below
-> void (*sock_priv_init)(void *priv);
-> void (*sock_priv_destroy)(void *priv);
->=20
-> Otherwise, kernel panic when CFI is enabled.
->=20
-> CFI failure at genl_sk_priv_get+0x60/0x138 (target:
-> binder_nl_sock_priv_init+0x0/0x34; expected type: 0x0ef81b7d)
->=20
-> Jakub, we probably need this patch. Please let me know if you have a
-> better idea. Thanks!
->=20
-> diff --git a/tools/net/ynl/ynl-gen-c.py b/tools/net/ynl/ynl-gen-c.py
-> index 8155ff6d2a38..84033938a75f 100755
-> --- a/tools/net/ynl/ynl-gen-c.py
-> +++ b/tools/net/ynl/ynl-gen-c.py
-> @@ -2352,8 +2352,8 @@ def print_kernel_family_struct_hdr(family, cw):
->      cw.p(f"extern struct genl_family {family.c_name}_nl_family;")
->      cw.nl()
->      if 'sock-priv' in family.kernel_family:
-> -        cw.p(f'void
-> {family.c_name}_nl_sock_priv_init({family.kernel_family["sock-priv"]}
-> *priv);')
-> -        cw.p(f'void
-> {family.c_name}_nl_sock_priv_destroy({family.kernel_family["sock-priv"]}
-> *priv);')
-> +        cw.p(f'void {family.c_name}_nl_sock_priv_init(void *priv);')
-> +        cw.p(f'void {family.c_name}_nl_sock_priv_destroy(void *priv);')
->          cw.nl()
->=20
+Phil Auld <pauld@redhat.com> writes:
 
-Maybe we can codegen a little wrapper call. Can you try this with CFI?
+> On Tue, Jan 14, 2025 at 10:08:13AM -0700 Jonathan Corbet wrote:
+>> Phil Auld <pauld@redhat.com> writes:
+>> 
+>> > There is no mention of timer_migration in the docs. Add
+>> > a short description.
+>> >
+>> > Signed-off-by: Phil Auld <pauld@redhat.com>
+>> > Cc: Jonathan Corbet <corbet@lwn.net>
+>> > Cc: linux-doc@vger.kernel.org
+>> > ---
+>> >  Documentation/admin-guide/sysctl/kernel.rst | 7 +++++++
+>> >  1 file changed, 7 insertions(+)
+>> >
+>> > diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+>> > index b2b36d0c3094..e03691e2cf4a 100644
+>> > --- a/Documentation/admin-guide/sysctl/kernel.rst
+>> > +++ b/Documentation/admin-guide/sysctl/kernel.rst
+>> > @@ -1544,6 +1544,13 @@ constant ``FUTEX_TID_MASK`` (0x3fffffff).
+>> >  If a value outside of this range is written to ``threads-max`` an
+>> >  ``EINVAL`` error occurs.
+>> >  
+>> > +timer_migration
+>> > +===============
+>> > +
+>> > +When set, attempt to migrate timers away from idle cpus to allow them to remain
+>> > +in low power states longer.
+>> > +
+>> > +Default is set.
+>> 
+>> When set to *what*?  It will always be set to *some* value, right?  So
+>> we should really say what the specific values mean.
+>>
+>
+>
+> Well, it's boolean so set means 1 and unset is 0. I was using the same
+> style as the one below it:
+>
+> "
+> traceoff_on_warning
+> ===================
+>
+> When set, disables tracing (see Documentation/trace/ftrace.rst) when a
+> ``WARN()`` is hit.
+>
+> "
 
----->8------------
+Just saying it's a boolean would help.  And our existing documentation
+should rarely be taken as an example of what *good* documentation would
+be... :)
 
-diff --git a/tools/net/ynl/pyynl/ynl_gen_c.py b/tools/net/ynl/pyynl/ynl_gen=
-_c.py
-index d3a7dfbcf929..9852ba6fd9c3 100755
---- a/tools/net/ynl/pyynl/ynl_gen_c.py
-+++ b/tools/net/ynl/pyynl/ynl_gen_c.py
-@@ -2411,6 +2411,15 @@ _C_KW =3D {
-     if not kernel_can_gen_family_struct(family):
-         return
-=20
-+    if 'sock-priv' in family.kernel_family:
-+        # Generate "trampolines" to make CFI happy
-+        cw.write_func("static void", f"__{family.c_name}_nl_sock_priv_init=
-",
-+                      [f"{family.c_name}_nl_sock_priv_init(priv);"], ["voi=
-d *priv"])
-+        cw.nl()
-+        cw.write_func("static void", f"__{family.c_name}_nl_sock_priv_dest=
-roy",
-+                      [f"{family.c_name}_nl_sock_priv_destroy(priv);"], ["=
-void *priv"])
-+        cw.nl()
-+
-     cw.block_start(f"struct genl_family {family.ident_name}_nl_family __ro=
-_after_init =3D")
-     cw.p('.name\t\t=3D ' + family.fam_key + ',')
-     cw.p('.version\t=3D ' + family.ver_key + ',')
-@@ -2428,9 +2437,8 @@ _C_KW =3D {
-         cw.p(f'.n_mcgrps\t=3D ARRAY_SIZE({family.c_name}_nl_mcgrps),')
-     if 'sock-priv' in family.kernel_family:
-         cw.p(f'.sock_priv_size\t=3D sizeof({family.kernel_family["sock-pri=
-v"]}),')
--        # Force cast here, actual helpers take pointer to the real type.
--        cw.p(f'.sock_priv_init\t=3D (void *){family.c_name}_nl_sock_priv_i=
-nit,')
--        cw.p(f'.sock_priv_destroy =3D (void *){family.c_name}_nl_sock_priv=
-_destroy,')
-+        cw.p(f'.sock_priv_init\t=3D __{family.c_name}_nl_sock_priv_init,')
-+        cw.p(f'.sock_priv_destroy =3D __{family.c_name}_nl_sock_priv_destr=
-oy,')
-     cw.block_end(';')
-=20
-=20
---=20
-2.47.1
+> But I can change it to "enabled (1)" or something if you prefer.
 
+"When set to a non-zero value" or some such would, I think, be a lot
+more clear and make a better example for the next person to come along.
+
+Get me an updated version and I can still queue it for 6.14.
+
+Thanks,
+
+jon
