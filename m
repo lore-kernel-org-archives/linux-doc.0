@@ -1,280 +1,161 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B170114A4F3;
-	Tue, 14 Jan 2025 14:30:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A45913C67E
+	for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 14:47:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736865060; cv=none; b=nio2Ks/MZmtZwmSQFBPOb+5j1Eu4w6MuSrqaIL0ULDKEIRnnmIdYJd+vAzrFGAKJlaPBC1d7/c+J79IrxQPpjtLtH/c6CftcS+B/vE7ShG28hIBngH7Lsla6CatRG5Dn2Ug5GqMkYfeBjY4N7ayb8kd1beuzODeO82W4zvuzX/U=
+	t=1736866075; cv=none; b=SKmU5SelYR2gm2bjvVeEFAbVZeuRd7uKtu7CtBbnAJ9dTTk0Afc0B1x3cdmWzxCCfbwmoy93OjvNzBEBXal+uV9X63si6IBhPjUhf/RlYRuqqc8QzF++G3RMzKKcnjmyNRiae+RV/TSQVEMytjMlXFTvOBHKqannss6uo1vJIp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736865060; c=relaxed/simple;
-	bh=kH19/8G+ARXVXxG3Zsmf98ZfHUHinE6g2lyahxlFMK0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=jeJcSVYQatxjIBkfSABNDeMoflWmcWl+gYWMl3nj7dxASNbFzsX2ONtbwJ/sOzOY6NohRA5/oxFvSPCGsOwWjpcDSeGcpJ7ueSTDpNSUj7EkTzGL70XaihUuOQHTkUHowPQrZTC7V0LX7GOGGjDmciAECS9astQ9AOPYjlYYGnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AUIg2GjV; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736866075; c=relaxed/simple;
+	bh=n0gFWavEdTvtzvVwm6qJrQDd/tgnPw11Y8Zbx+7YwaM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nLAoATvbUOlv5x/J8uj3Qz57funbH8eDVp00LzmRCUHRflgglEGzQL+49rkiIPwi3MMzmQ5TUsmE9nrjbc3dnSqAysFQyzhnwTZxllZhdd0NN0CuuRhnS2rO6EjV1yAvF88bEfVVkgxxZ0u9+Cr7mvO0h4TIn/RWrhMQ4iZeoII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FJrsdTlx; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AUIg2GjV"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2166f1e589cso117940745ad.3;
-        Tue, 14 Jan 2025 06:30:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736865058; x=1737469858; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HmzLiqs3xurRkTvn6Vaf/B5i5AaWeH3iqyiYXY3lnJc=;
-        b=AUIg2GjVFC/Y/FKM8nqnKxyvc2elMLG35MZz+2dC5Oi5E0BXpNcWPL2BkZ9/zy4EI9
-         MgDWe76sv1lxaDqS8N0zGdOTsupKByR302JZMDrVbt9PwNI0EhoM9Lpv6lE3eYI9o2/e
-         EF9mzgcNrNp8G7WLPDoQI0pKlAC4N91pUsrJPzokJ39P/vKvo57TIciM+VaD9FZFIk1q
-         qD2UIcu0YPAhkXHqfS78BU2cdkvJOv9oysZ5UBxYHfDFp8QPXjfgadvFd849Ir4uSS9P
-         Rvd3jQ3+/JdFMxTo2LUYrE7Vz2qLxUUdwNIjChoQNY1nF3CGCpq2C/H6kTq/D6lU72re
-         vcdA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FJrsdTlx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1736866072;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=W1UWAgLlJaquYVVEeAD7AobVV/dxlnCJ6eG/I3yuA44=;
+	b=FJrsdTlx0m09HglrQCvCjXY/2HJq8wVIskfR0aKimZxSZIezfCucF9IotSYlV2kpHuTCWg
+	T6hehJaKrH8mv4fPdslj9tLlfjYatM8L6aVvlvtWqg1aQf9JOFq5qYYH0XjMuVpKfu+pK4
+	G40/36Db1C1P6SgE0PSUFcdBU87KogU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-617-t-Nvgv15OcCKMT7gYHW5sg-1; Tue, 14 Jan 2025 09:47:51 -0500
+X-MC-Unique: t-Nvgv15OcCKMT7gYHW5sg-1
+X-Mimecast-MFC-AGG-ID: t-Nvgv15OcCKMT7gYHW5sg
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4361ac8b25fso30461645e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 06:47:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736865058; x=1737469858;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HmzLiqs3xurRkTvn6Vaf/B5i5AaWeH3iqyiYXY3lnJc=;
-        b=Q42vgi6TkuoAzjauZ5hI2hj4zDcSiulLZ2RUfzjf7JVH7l+SB1UyaalXVUWZFTTZRN
-         lWonq9WEeV0UtM+k9p/UqKh9QFM4ZxZt1ciaOVhPM7zKkIrYuxwoRbxm+hacaYdYASya
-         hmsI7/menl7wtpGyQmzZh/H1Jdd0hFLMEskz5nD630rcK28/Yecbl5WdhV7FClS9Ih3D
-         i+/vD/RE5jGSQd8CuLvF01ebb3eOfSKG3aYG5ajFAOaIb/tGc40aTrqqvhm/jmQi4NP+
-         AEw0QhVgjEggngha4QC1r0qOilntTDiDZLwltZVFtW8y5HNMJxx1W0CPvnbS9ul0/guE
-         DzWw==
-X-Forwarded-Encrypted: i=1; AJvYcCWaq+1kQLYYnBWzhSF4qLJ4BcZE5A2iICiE+Dq7UmwB2svQJGwsJA08e8NGdBwZVBwihf/ZvPa+V4o=@vger.kernel.org, AJvYcCWe8iaaFy6UzLAjYRBYkv5FbBZv0jjHh494Ln0DV2/ZvbY9P3/Rv3D68Le9H3MrXx2umpqBIbwC@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5q7Arigb9y/RRMRvBFIpHJOxxBKtoUc30FsF4HL4Gr70trtQS
-	L530Eke9xNt8LTH79DMrnZfAODreJ5UMc0x9nhX4ImRoorcuS9fR
-X-Gm-Gg: ASbGncu2kf0kRgeP5Zto986HUXhIGK24hIqrc+aYB/q3ODzheKjxO1HkzfEw77FXDYz
-	M2gLyIOZ/8K6j/rqQCowEjKlZ2W94gGB27mW8zzAjY/P2QFbjJXsCu9nkfRH1qkcWDSZpOZSZX4
-	N5Mh4v6QUesjlnneMk12n/KI9Ox8XGYKq35Bbt+KTttITAfSO+GeAIP9XqBP1UTg57P97XIt9Th
-	YAvM5mgXp9oRP9xhhvbdx/X9a0ECE82pWTkh8OL+08p/g==
-X-Google-Smtp-Source: AGHT+IGYSckeLtY6LvPnxNoHRuEEag34sM1JW1zzC+Q67vRnk5HpMTDgqip4uX0kaYvGw4IDrB1Afw==
-X-Received: by 2002:a05:6a00:170a:b0:725:d64c:f113 with SMTP id d2e1a72fcca58-72d21f18064mr38564183b3a.3.1736865057673;
-        Tue, 14 Jan 2025 06:30:57 -0800 (PST)
-Received: from ap.. ([182.213.254.91])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72d406a4dfesm7474582b3a.156.2025.01.14.06.30.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2025 06:30:57 -0800 (PST)
-From: Taehee Yoo <ap420073@gmail.com>
-To: davem@davemloft.net,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	edumazet@google.com,
-	netdev@vger.kernel.org,
-	almasrymina@google.com,
-	donald.hunter@gmail.com,
-	corbet@lwn.net,
-	michael.chan@broadcom.com,
-	andrew+netdev@lunn.ch,
-	hawk@kernel.org,
-	ilias.apalodimas@linaro.org,
-	ast@kernel.org,
-	daniel@iogearbox.net,
-	john.fastabend@gmail.com,
-	dw@davidwei.uk,
-	sdf@fomichev.me,
-	asml.silence@gmail.com,
-	brett.creeley@amd.com,
-	linux-doc@vger.kernel.org
-Cc: kory.maincent@bootlin.com,
-	maxime.chevallier@bootlin.com,
-	danieller@nvidia.com,
-	hengqi@linux.alibaba.com,
-	ecree.xilinx@gmail.com,
-	przemyslaw.kitszel@intel.com,
-	hkallweit1@gmail.com,
-	ahmed.zaki@intel.com,
-	rrameshbabu@nvidia.com,
-	idosch@nvidia.com,
-	jiri@resnulli.us,
-	bigeasy@linutronix.de,
-	lorenzo@kernel.org,
-	jdamato@fastly.com,
-	aleksander.lobakin@intel.com,
-	kaiyuanz@google.com,
-	willemb@google.com,
-	daniel.zahka@gmail.com,
-	ap420073@gmail.com
-Subject: [PATCH net-next v9 10/10] selftest: net-drv: hds: add test for HDS feature
-Date: Tue, 14 Jan 2025 14:28:52 +0000
-Message-Id: <20250114142852.3364986-11-ap420073@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250114142852.3364986-1-ap420073@gmail.com>
-References: <20250114142852.3364986-1-ap420073@gmail.com>
+        d=1e100.net; s=20230601; t=1736866070; x=1737470870;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=W1UWAgLlJaquYVVEeAD7AobVV/dxlnCJ6eG/I3yuA44=;
+        b=DoprPxtk7Hh+zUE7s7Utf4x34s9Y0FIkPix5U98vzK4ciFogR1nXnuw6k2uwZufXqg
+         HWC/TF8Vgix1hrjLKLdTcZhfqTXEJjtsf9W6MXw5n7ptR6Vtpr/JE7tWwhdGhFk3/NQk
+         IySNl+wjoz9b7PWyrPbcWFKWfZmGnntjZUXFW4soCsDegJG/EszCfr2EEvZNzVjd8R3/
+         l1GWEaCEZf8HeIJpCd6OQz/Ov0pidevCS9KOQ6XakGjn9J6ZZxjEhkRNsiTGcz9YpTgk
+         NCMOLPkYVzheXFdHC3DYpSoLmdo4WQNAgwo7AabmR+KGQM+zySIcZSRpVJFDvdtGERsA
+         jHdw==
+X-Forwarded-Encrypted: i=1; AJvYcCUOEyicYKAWhm78wvZwafFIPdeGqiVvl+5+SbT5C42o+DssjhLlAP7/Cj1FK+Jd7/2ecjDgltPQs6I=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7KbnqFGngvBfJseF5mrSZbN15SgGyiEsg3MQdBruPxGqD7Uc6
+	xZa7maKI4a40UX+7Gw17TZlmD22t6kndFjA704y9HTbpha+Ys2pvKAAawJ33JRiXDjlaXTjpkKM
+	W9dPlLwtYlKxbl0NwBxhQKnRsZRC9UYysd6xwsl6Ha995BUP5zHdkMz2/Zg==
+X-Gm-Gg: ASbGncsVC/BTY7kBfHR0N+nZsfkoUkXj5vByxSn+QNtcYTKzLImv+z7glglq4LeSxI7
+	CMUfzN24t1FxQUb2yOaC4ltm+bIbt5yBe4qFd2Pm+W9RKEEbNNLavf5ZkgxFzhbbQYq/rMgwbFN
+	5eoPoWBuIRwS4xQ8HuftkCDx6Sx1JrJSybZEcG6WLL8W/TtLAgsqhtj2KzcDfyqPLQ7EqbxERZA
+	km0MnrglXdWei3omWFHaimJWxJ/tFcJIWrbsx7OMr3gskYHhEnbqkm96iLctMuTA5bdcTazUd5i
+	jwVgqo+9uYccToaCTc4Z+4vR9QI0RWBbYqgkN06aqxRb0+WDTvEHWtboMIMBhFmyinl6/zMCaVS
+	AWiWels4/
+X-Received: by 2002:a05:600c:4fc2:b0:434:f3d8:62d0 with SMTP id 5b1f17b1804b1-436e26803f4mr219460605e9.3.1736866068919;
+        Tue, 14 Jan 2025 06:47:48 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEENnT/QV/z/XX4uFBevKHkPxg7NffS9Usi3CNGFfMDEfqLcKcxnlPQgZ2KD/ykp7GZk9Grug==
+X-Received: by 2002:a05:600c:4fc2:b0:434:f3d8:62d0 with SMTP id 5b1f17b1804b1-436e26803f4mr219459495e9.3.1736866067102;
+        Tue, 14 Jan 2025 06:47:47 -0800 (PST)
+Received: from ?IPV6:2003:cb:c738:3100:8133:26cf:7877:94aa? (p200300cbc7383100813326cf787794aa.dip0.t-ipconnect.de. [2003:cb:c738:3100:8133:26cf:7877:94aa])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e4c1967sm14681312f8f.86.2025.01.14.06.47.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jan 2025 06:47:45 -0800 (PST)
+Message-ID: <f696d28c-c3a8-4500-98da-4ddcaa0db41f@redhat.com>
+Date: Tue, 14 Jan 2025 15:47:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 08/26] fs/dax: Remove PAGE_MAPPING_DAX_SHARED mapping
+ flag
+To: Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org,
+ dan.j.williams@intel.com, linux-mm@kvack.org
+Cc: alison.schofield@intel.com, lina@asahilina.net, zhang.lyra@gmail.com,
+ gerald.schaefer@linux.ibm.com, vishal.l.verma@intel.com,
+ dave.jiang@intel.com, logang@deltatee.com, bhelgaas@google.com,
+ jack@suse.cz, jgg@ziepe.ca, catalin.marinas@arm.com, will@kernel.org,
+ mpe@ellerman.id.au, npiggin@gmail.com, dave.hansen@linux.intel.com,
+ ira.weiny@intel.com, willy@infradead.org, djwong@kernel.org, tytso@mit.edu,
+ linmiaohe@huawei.com, peterx@redhat.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linuxppc-dev@lists.ozlabs.org, nvdimm@lists.linux.dev,
+ linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, jhubbard@nvidia.com,
+ hch@lst.de, david@fromorbit.com, chenhuacai@kernel.org, kernel@xen0n.name,
+ loongarch@lists.linux.dev
+References: <cover.11189864684e31260d1408779fac9db80122047b.1736488799.git-series.apopple@nvidia.com>
+ <b8b39849e171c120442963d3fd81c49a8f005bf0.1736488799.git-series.apopple@nvidia.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
+ ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
+ AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl8Ox4kFCRKpKXgACgkQTd4Q
+ 9wD/g1oHcA//a6Tj7SBNjFNM1iNhWUo1lxAja0lpSodSnB2g4FCZ4R61SBR4l/psBL73xktp
+ rDHrx4aSpwkRP6Epu6mLvhlfjmkRG4OynJ5HG1gfv7RJJfnUdUM1z5kdS8JBrOhMJS2c/gPf
+ wv1TGRq2XdMPnfY2o0CxRqpcLkx4vBODvJGl2mQyJF/gPepdDfcT8/PY9BJ7FL6Hrq1gnAo4
+ 3Iv9qV0JiT2wmZciNyYQhmA1V6dyTRiQ4YAc31zOo2IM+xisPzeSHgw3ONY/XhYvfZ9r7W1l
+ pNQdc2G+o4Di9NPFHQQhDw3YTRR1opJaTlRDzxYxzU6ZnUUBghxt9cwUWTpfCktkMZiPSDGd
+ KgQBjnweV2jw9UOTxjb4LXqDjmSNkjDdQUOU69jGMUXgihvo4zhYcMX8F5gWdRtMR7DzW/YE
+ BgVcyxNkMIXoY1aYj6npHYiNQesQlqjU6azjbH70/SXKM5tNRplgW8TNprMDuntdvV9wNkFs
+ 9TyM02V5aWxFfI42+aivc4KEw69SE9KXwC7FSf5wXzuTot97N9Phj/Z3+jx443jo2NR34XgF
+ 89cct7wJMjOF7bBefo0fPPZQuIma0Zym71cP61OP/i11ahNye6HGKfxGCOcs5wW9kRQEk8P9
+ M/k2wt3mt/fCQnuP/mWutNPt95w9wSsUyATLmtNrwccz63XOwU0EVcufkQEQAOfX3n0g0fZz
+ Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
+ T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
+ 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
+ CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
+ NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
+ 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
+ 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
+ lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
+ AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
+ N7eop7uh+6bezi+rugUI+w6DABEBAAHCwXwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
+ AP+DWgUCXw7HsgUJEqkpoQAKCRBN3hD3AP+DWrrpD/4qS3dyVRxDcDHIlmguXjC1Q5tZTwNB
+ boaBTPHSy/Nksu0eY7x6HfQJ3xajVH32Ms6t1trDQmPx2iP5+7iDsb7OKAb5eOS8h+BEBDeq
+ 3ecsQDv0fFJOA9ag5O3LLNk+3x3q7e0uo06XMaY7UHS341ozXUUI7wC7iKfoUTv03iO9El5f
+ XpNMx/YrIMduZ2+nd9Di7o5+KIwlb2mAB9sTNHdMrXesX8eBL6T9b+MZJk+mZuPxKNVfEQMQ
+ a5SxUEADIPQTPNvBewdeI80yeOCrN+Zzwy/Mrx9EPeu59Y5vSJOx/z6OUImD/GhX7Xvkt3kq
+ Er5KTrJz3++B6SH9pum9PuoE/k+nntJkNMmQpR4MCBaV/J9gIOPGodDKnjdng+mXliF3Ptu6
+ 3oxc2RCyGzTlxyMwuc2U5Q7KtUNTdDe8T0uE+9b8BLMVQDDfJjqY0VVqSUwImzTDLX9S4g/8
+ kC4HRcclk8hpyhY2jKGluZO0awwTIMgVEzmTyBphDg/Gx7dZU1Xf8HFuE+UZ5UDHDTnwgv7E
+ th6RC9+WrhDNspZ9fJjKWRbveQgUFCpe1sa77LAw+XFrKmBHXp9ZVIe90RMe2tRL06BGiRZr
+ jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <b8b39849e171c120442963d3fd81c49a8f005bf0.1736488799.git-series.apopple@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-HDS/HDS-thresh features were updated/implemented. so add some tests for
-these features.
+On 10.01.25 07:00, Alistair Popple wrote:
+> PAGE_MAPPING_DAX_SHARED is the same as PAGE_MAPPING_ANON. This isn't
+> currently a problem because FS DAX pages are treated
+> specially. However a future change will make FS DAX pages more like
+> normal pages, so folio_test_anon() must not return true for a FS DAX
+> page.
 
-HDS tests are the same with `ethtool -G eth0 tcp-data-split <on | off |
-auto >` but `auto` depends on driver specification.
-So, it doesn't include `auto` case.
+Yes, very nice to see PAGE_MAPPING_DAX_SHARED go!
 
-HDS-thresh tests are same with `ethtool -G eth0 hds-thresh <0 - MAX>`
-It includes both 0 and MAX cases. It also includes exceed case, MAX + 1.
-
-Signed-off-by: Taehee Yoo <ap420073@gmail.com>
----
-
-v9:
- - No changes.
-
-v8:
- - Use ksft_raises.
-
-v7:
- - Patch added.
-
- tools/testing/selftests/drivers/net/Makefile |   1 +
- tools/testing/selftests/drivers/net/hds.py   | 120 +++++++++++++++++++
- 2 files changed, 121 insertions(+)
- create mode 100755 tools/testing/selftests/drivers/net/hds.py
-
-diff --git a/tools/testing/selftests/drivers/net/Makefile b/tools/testing/selftests/drivers/net/Makefile
-index 469179c18935..137470bdee0c 100644
---- a/tools/testing/selftests/drivers/net/Makefile
-+++ b/tools/testing/selftests/drivers/net/Makefile
-@@ -12,6 +12,7 @@ TEST_PROGS := \
- 	queues.py \
- 	stats.py \
- 	shaper.py \
-+	hds.py \
- # end of TEST_PROGS
- 
- include ../../lib.mk
-diff --git a/tools/testing/selftests/drivers/net/hds.py b/tools/testing/selftests/drivers/net/hds.py
-new file mode 100755
-index 000000000000..394971b25c0b
---- /dev/null
-+++ b/tools/testing/selftests/drivers/net/hds.py
-@@ -0,0 +1,120 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0
-+
-+import errno
-+from lib.py import ksft_run, ksft_exit, ksft_eq, ksft_raises, KsftSkipEx
-+from lib.py import EthtoolFamily, NlError
-+from lib.py import NetDrvEnv
-+
-+def get_hds(cfg, netnl) -> None:
-+    try:
-+        rings = netnl.rings_get({'header': {'dev-index': cfg.ifindex}})
-+    except NlError as e:
-+        raise KsftSkipEx('ring-get not supported by device')
-+    if 'tcp-data-split' not in rings:
-+        raise KsftSkipEx('tcp-data-split not supported by device')
-+
-+def get_hds_thresh(cfg, netnl) -> None:
-+    try:
-+        rings = netnl.rings_get({'header': {'dev-index': cfg.ifindex}})
-+    except NlError as e:
-+        raise KsftSkipEx('ring-get not supported by device')
-+    if 'hds-thresh' not in rings:
-+        raise KsftSkipEx('hds-thresh not supported by device')
-+
-+def set_hds_enable(cfg, netnl) -> None:
-+    try:
-+        netnl.rings_set({'header': {'dev-index': cfg.ifindex}, 'tcp-data-split': 'enabled'})
-+    except NlError as e:
-+        if e.error == errno.EINVAL:
-+            raise KsftSkipEx("disabling of HDS not supported by the device")
-+        elif e.error == errno.EOPNOTSUPP:
-+            raise KsftSkipEx("ring-set not supported by the device")
-+    try:
-+        rings = netnl.rings_get({'header': {'dev-index': cfg.ifindex}})
-+    except NlError as e:
-+        raise KsftSkipEx('ring-get not supported by device')
-+    if 'tcp-data-split' not in rings:
-+        raise KsftSkipEx('tcp-data-split not supported by device')
-+
-+    ksft_eq('enabled', rings['tcp-data-split'])
-+
-+def set_hds_disable(cfg, netnl) -> None:
-+    try:
-+        netnl.rings_set({'header': {'dev-index': cfg.ifindex}, 'tcp-data-split': 'disabled'})
-+    except NlError as e:
-+        if e.error == errno.EINVAL:
-+            raise KsftSkipEx("disabling of HDS not supported by the device")
-+        elif e.error == errno.EOPNOTSUPP:
-+            raise KsftSkipEx("ring-set not supported by the device")
-+    try:
-+        rings = netnl.rings_get({'header': {'dev-index': cfg.ifindex}})
-+    except NlError as e:
-+        raise KsftSkipEx('ring-get not supported by device')
-+    if 'tcp-data-split' not in rings:
-+        raise KsftSkipEx('tcp-data-split not supported by device')
-+
-+    ksft_eq('disabled', rings['tcp-data-split'])
-+
-+def set_hds_thresh_zero(cfg, netnl) -> None:
-+    try:
-+        netnl.rings_set({'header': {'dev-index': cfg.ifindex}, 'hds-thresh': 0})
-+    except NlError as e:
-+        if e.error == errno.EINVAL:
-+            raise KsftSkipEx("hds-thresh-set not supported by the device")
-+        elif e.error == errno.EOPNOTSUPP:
-+            raise KsftSkipEx("ring-set not supported by the device")
-+    try:
-+        rings = netnl.rings_get({'header': {'dev-index': cfg.ifindex}})
-+    except NlError as e:
-+        raise KsftSkipEx('ring-get not supported by device')
-+    if 'hds-thresh' not in rings:
-+        raise KsftSkipEx('hds-thresh not supported by device')
-+
-+    ksft_eq(0, rings['hds-thresh'])
-+
-+def set_hds_thresh_max(cfg, netnl) -> None:
-+    try:
-+        rings = netnl.rings_get({'header': {'dev-index': cfg.ifindex}})
-+    except NlError as e:
-+        raise KsftSkipEx('ring-get not supported by device')
-+    if 'hds-thresh' not in rings:
-+        raise KsftSkipEx('hds-thresh not supported by device')
-+    try:
-+        netnl.rings_set({'header': {'dev-index': cfg.ifindex}, 'hds-thresh': rings['hds-thresh-max']})
-+    except NlError as e:
-+        if e.error == errno.EINVAL:
-+            raise KsftSkipEx("hds-thresh-set not supported by the device")
-+        elif e.error == errno.EOPNOTSUPP:
-+            raise KsftSkipEx("ring-set not supported by the device")
-+    rings = netnl.rings_get({'header': {'dev-index': cfg.ifindex}})
-+    ksft_eq(rings['hds-thresh'], rings['hds-thresh-max'])
-+
-+def set_hds_thresh_gt(cfg, netnl) -> None:
-+    try:
-+        rings = netnl.rings_get({'header': {'dev-index': cfg.ifindex}})
-+    except NlError as e:
-+        raise KsftSkipEx('ring-get not supported by device')
-+    if 'hds-thresh' not in rings:
-+        raise KsftSkipEx('hds-thresh not supported by device')
-+    if 'hds-thresh-max' not in rings:
-+        raise KsftSkipEx('hds-thresh-max not defined by device')
-+    hds_gt = rings['hds-thresh-max'] + 1
-+    with ksft_raises(NlError) as e:
-+        netnl.rings_set({'header': {'dev-index': cfg.ifindex}, 'hds-thresh': hds_gt})
-+    ksft_eq(e.exception.nl_msg.error, -errno.EINVAL)
-+
-+def main() -> None:
-+    with NetDrvEnv(__file__, queue_count=3) as cfg:
-+        ksft_run([get_hds,
-+                  get_hds_thresh,
-+                  set_hds_disable,
-+                  set_hds_enable,
-+                  set_hds_thresh_zero,
-+                  set_hds_thresh_max,
-+                  set_hds_thresh_gt],
-+                 args=(cfg, EthtoolFamily()))
-+    ksft_exit()
-+
-+if __name__ == "__main__":
-+    main()
 -- 
-2.34.1
+Cheers,
+
+David / dhildenb
 
