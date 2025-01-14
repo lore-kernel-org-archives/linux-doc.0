@@ -1,295 +1,165 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2078.outbound.protection.outlook.com [40.107.212.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2119204590
-	for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 19:27:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736882861; cv=none; b=iGHNAY9o1G9iqtUraitb95SzhmmL9Wj7HHFa2P2VzsLIVhqOsOmOYBK7FjRbdqmCF/yZTXraGKZU3tXpOgPI42ww+7hGJoFU7TwpKtplnn4Kavsgd9QQygBTjOtW+PdtDfHKklcs96FoLF4H8hcjiBstxGtq0gWM+g0vUKrscu8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736882861; c=relaxed/simple;
-	bh=Uxw0taxwqk1Pq7X+X5K0+wSP4PXacCH+ZF9RVEkvz0M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dup6IBavBbKwe157+WugujRH+AQyz73bjdqKE99R6L0ofZUuz2V9u1ZqcdmgNLdKX/K4/PeXfn2uuV/BNkPKm5Clpi439EARG0qC4qO52M7Hu6iMuV1P/bxeNNJakw+ArYqRNkRPSBJi4HTCGuIbpr3E0W8SaW6E85BPeW2tT1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=wWgz3XtF; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34CD1205ACE;
+	Tue, 14 Jan 2025 19:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.78
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736882969; cv=fail; b=VYM3x5JcFE4pqo5vtfaUxDDq+SSjvOyNwVysGhDOQXPAZcmhzW6qs+geavDPyW80zLMH/pPZ35Pvd8+w8RglnkkdhWgwA5beyFmBfd/LCiNu0TA0PbOrlD4NaxLUgEBkgFJvjbpI0UqIdzb0UYtlHIXtCekqjQ2tbMNzk/ZL1m8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736882969; c=relaxed/simple;
+	bh=10xcIeplRjwxBtLaF1pkLKAohGy9/iQzaDfLHQzrvaQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Li90yZ8RHRVccAMahOgybDgLruk6hIALUyzbasbrVF/Vc0TLAosi4qXwT85iX1gmelZ3EnbsBi4pXNSoycBz5cWJb8JR5SzSmR6a5YsQc0Mahbqgw63YU7GmaUmp5Fj1uvZP58wDTSyoowbzGyHz33pNdpwaJXGOIyBJRA7sCJM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=if0GHIRM; arc=fail smtp.client-ip=40.107.212.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="wWgz3XtF"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2165448243fso127713445ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 11:27:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1736882857; x=1737487657; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ES4PfYVi7ZyhgRUm9GYH+FMCnEy4+AUcUAHWe5oV5jA=;
-        b=wWgz3XtFKEYGCy0b4YoNhIb1fCXl/Z7F2KkJZlBmh3dRCLA2PvI48C7oqgDaE+pEqg
-         FYyNAMsX0JfGGLTRLOehfKbYCTIGCjOIo7f6scTY6Yw8NsR1GCRa0DguFtaZFhWcghR2
-         x32iou7RzmiOp+lK3y6aveqa+rCM+X9+qwD8V4vbDYpNqAKbgvGDXo6MVVcgbeWMl/vf
-         XPBI2cp7SpulNsG2uN+olI53aRT7Dejq3hBkE2fkAJIcVUkyH0NkIFA2vhtVJeh7gvBO
-         nfHqYLSQV/iI4BwxjcZSNdGZwiBjQr/hzcITXsBTKsVF8RNU2JjifmvjoRYAzWmG5Hpd
-         54hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736882857; x=1737487657;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ES4PfYVi7ZyhgRUm9GYH+FMCnEy4+AUcUAHWe5oV5jA=;
-        b=QVHOmhSCxFVBE2l+E2FduLTVeVGiU68m3WpEhALvmpsqB/fwV1WdFYNjM5wkbqAZr2
-         jwkaiqh+Yzye4bVo1ZsmuKnKGBYChfZH5YLwjNN+fXpiPgsoR9LVbacyBKfS4pxe8kT5
-         9soBFFavaP3PUAlxz9qZlpIYEtW2F8j/QfJEkncIrBGGYaT2tFCoVxK4hzHS1OKlPlQ0
-         /+VIs6gYkru237xa5+pB20QXlra9pnq++1xpS6lkMw8YLJGhfJy2bOwm5nWOMgU55bPy
-         SuM7NN2xcAPdA4mFkhQdtxHP1u9iRWGzgJh3i8bN1LEoLUgqvLlKhAUmTII+LgDjrLAp
-         aqjA==
-X-Forwarded-Encrypted: i=1; AJvYcCXdWnyiKaq6qli4+JcKt9ZwMz34eQ1KT0hzIQ9wyk29lHacENYQJ+BL+uZHrCQVK05KPDHg1oHVj/0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOoZotFAAuuCkwqI871m0xrbzqdcER1UAjOkEl8DltE5IdcXMN
-	Uf3+Lu2nWk3tFCphlM/6pz2nlju+Fj01n4nQBTQ15eL3EI1I9w01NhC48SeRLcI=
-X-Gm-Gg: ASbGnctURdGR47rrVnSFAd6jrC0JWa9825vGnymDRmiRIuredym/WbjhHaThEQY3oVY
-	1f8Lg8QwPWhfoYMyqJwFW/r0rFSCZjl2WnMjfnpumU0mdzlc/bX8KyMfVcWMc85L/mZVgz7o8kh
-	ToEJdEKznIbzchlx1OhD+p47J9mxrzo0cLOgGdtHLQPxI8BDlWwrQfZYKTi2Jp59AXX9RVIqzvc
-	TlOirswK0Vs14EyBa0GyhGkkqEVeA1tkdJsjwt/JM6Odo2jH1fV
-X-Google-Smtp-Source: AGHT+IHNba0GEbibje0t5wLZKfmTow6LQxoYMbmUndt+PVUCx5IeqgXnaaRg1lp0Qu+9TDj1PY7X3A==
-X-Received: by 2002:a17:902:d4cd:b0:216:3c2b:a5e5 with SMTP id d9443c01a7336-21a83f71115mr361190955ad.27.1736882856927;
-        Tue, 14 Jan 2025 11:27:36 -0800 (PST)
-Received: from ghost ([2601:647:6700:64d0:c3be:2c11:1223:572a])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9f10e006sm70578375ad.1.2025.01.14.11.27.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2025 11:27:34 -0800 (PST)
-Date: Tue, 14 Jan 2025 11:27:30 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Christian Brauner <brauner@kernel.org>, Guo Ren <guoren@kernel.org>,
-	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
-	James Clark <james.clark@linaro.org>,
-	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
-	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
-	linux-csky@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 00/16] perf tools: Use generic syscall scripts for all
- archs
-Message-ID: <Z4a6oivg7f74N12Q@ghost>
-References: <20250108-perf_syscalltbl-v6-0-7543b5293098@rivosinc.com>
- <Z3_ybwWW3QZvJ4V6@x1>
- <Z4AoFA974kauIJ9T@ghost>
- <Z4A2Y269Ffo0ERkS@x1>
- <Z4BEygdXmofWBr0-@x1>
- <Z4BVK3D7sN-XYg2o@ghost>
- <Z4F1dXQLPGZ3JFI5@ghost>
- <Z4UpRqywqYPZSUM_@x1>
- <Z4alwvqYithaVLSL@x1>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="if0GHIRM"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ITVFBaNs49/UnZGDpEAAiWdasqg1+HmeuN9eVSoegUY18aV+gVBCoLnfR74vPvgCbN5FcKN2VRYRxxDtsDtiJwy9MAPVCW3dctZr976Wj+s2/Q/TxkJq9kckQ6mCmpPj2k0H0cs53qM6z3gFn6gXTaG11ncr4/IRydZGsVtj01DCG2voTKzKOzUPp7PVdtktTrpfG0ReFeSmWdvv21A/iU25l6mrk+iwNrqp+DzdzqLVli6YugYbE9tzhH+qxR+1Kkl+EYd8AD3uY+BAdId1ZKXTwAYXzJhJU3SX3vFFDXkQPcdBgJbA9aQ0HmCzbfAwweZITyjYbTkERVBtBrkg+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PSQH8luvZHWK3XmXpx54WI+KjCic9g3q3TJN0ZpiZHY=;
+ b=iLHvD4X9rlKvvw6RnaCmkrH/JcNindcWjTB2Yk/iOqWGdUB6I/CNd28kKmgOk67OIOBsgYiOoiRDhqSUyLshlVd7GhNBktSS2MTRM19KxIX+bbagK+PDxqq8wzLx1AvnuUIglViLEXUaM/Ml2BpA7wwCMGufh37YTjc+5Ukdhhr1sCOtQKAnLCoSbCl15Kjd5H54LZq8DOyeKipgF5gbklHcX/8S5Ntb+Go9yhQ6GWG0YRA5pR5Tg+aZtXhYrmw+mDICbkXXxiGPm1oC5eEOTplxyF36Cj+XfTIAEyFVuExMxttOHW4s/bNhOnSFMZjSx67hhlsuwVL/i1rHsRLhcw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PSQH8luvZHWK3XmXpx54WI+KjCic9g3q3TJN0ZpiZHY=;
+ b=if0GHIRMZ8/gPccYus5Rc4IK7N6ebjPf54KlKasu/ybVfSnifqQIE8iVKLfb8rP89NddHN8uflz7oA5tk3o39c349qableshUQvim1R/ziNKnWuUg/QpAq7hm9KpKidhrA3B/7SyLVHdKmN7YisbI9opzTCLc/0LRzn8wpP5hvXQYx8oXbizuAGxRqTjVnxPn9cKwpCvv+AQahX7J2Emgf4lwqsZD8I5WMMVfor7/21/YaIQVwiPRepZyTq4zb0iAggHVEBN9hRHTLnnNV1guuVln9p0haPt/dSJJ6egzeIizUFg0nmRjtn3pHXdA44KDntmCW2ACgdmQdcntJBefQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by PH0PR12MB5605.namprd12.prod.outlook.com (2603:10b6:510:129::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.12; Tue, 14 Jan
+ 2025 19:29:22 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%5]) with mapi id 15.20.8335.017; Tue, 14 Jan 2025
+ 19:29:22 +0000
+Date: Tue, 14 Jan 2025 15:29:20 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: kevin.tian@intel.com, corbet@lwn.net, will@kernel.org, joro@8bytes.org,
+	suravee.suthikulpanit@amd.com, robin.murphy@arm.com,
+	dwmw2@infradead.org, baolu.lu@linux.intel.com, shuah@kernel.org,
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	eric.auger@redhat.com, jean-philippe@linaro.org, mdf@kernel.org,
+	mshavit@google.com, shameerali.kolothum.thodi@huawei.com,
+	smostafa@google.com, ddutile@redhat.com, yi.l.liu@intel.com,
+	patches@lists.linux.dev
+Subject: Re: [PATCH v5 01/14] iommufd: Keep OBJ/IOCTL lists in an
+ alphabetical order
+Message-ID: <20250114192920.GA591693@nvidia.com>
+References: <cover.1736237481.git.nicolinc@nvidia.com>
+ <c5e6d6e0a0bb7abc92ad26937fde19c9426bee96.1736237481.git.nicolinc@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c5e6d6e0a0bb7abc92ad26937fde19c9426bee96.1736237481.git.nicolinc@nvidia.com>
+X-ClientProxiedBy: BL1P222CA0017.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:208:2c7::22) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z4alwvqYithaVLSL@x1>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|PH0PR12MB5605:EE_
+X-MS-Office365-Filtering-Correlation-Id: 52670a7d-2670-46d5-a21f-08dd34d1bf67
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?U79nyW+0aL0eBONrOKg9AXkjwh61pVl66F+cOKog/6yqcSIf3nZEmMzknKPy?=
+ =?us-ascii?Q?kyljYApe7d2/l/iPP9WqRoTSLBTD7x9kM6m4tlkCPBuUogZSoVaWd0ierSBT?=
+ =?us-ascii?Q?JM1QnBju2V2JM274ly8dj/Xuj5JDZQ8/bfs8PTbyVTwvJ/NMBdhYpNi/rraZ?=
+ =?us-ascii?Q?0zgCxGU5CkbDPyq765cDAxmRcGLGwZy0APWc79oY71y7ga+mCqQClUbXiSk/?=
+ =?us-ascii?Q?IuCUVhNLQCTOQyKwF6QZ42xjPoieZw++8e2ROiIIXBwpvwGMF3OZIDYIKauF?=
+ =?us-ascii?Q?q28aqdp0UMjQHaWTgGALZAPO/vztzRytXztU5Z6QlEK8rsnMNhosRwL2MunZ?=
+ =?us-ascii?Q?qvoMO68deKXTx+4OjEulcgJJPKGjptidSSL9+KESt7nXea5h4YlHt7WnvntP?=
+ =?us-ascii?Q?EFs7jb+zMrpF/SRjN/g8zz43BPPQ+iICYYM3PfJcKBUZiiSCO0XEMaeUrGsb?=
+ =?us-ascii?Q?lJnsUtHXBbo4PDM5ngq02sQWPev2bstn2PbbmraHCt+LnjJAAAJGQAmXzvhs?=
+ =?us-ascii?Q?PQDvqUXBZ7yTybMAdX8DGf+BmCQh76krCDYmEA8CE7rBRm0OlrrbI9J38Q0n?=
+ =?us-ascii?Q?5wsF2ty2qJa8P6QIFrhbOoGQ4YsaoK5WUggIuAh7g/qJFc7bYiJrmSG3mVjW?=
+ =?us-ascii?Q?ig/zZagjIVe115+wrM1w1ZXqFjW/h0Z/FfZLYuVUufPnLxI4BPnJydudBj5X?=
+ =?us-ascii?Q?lkmZa+TduhNTzckOj3pB1plIwSZ7vylzISl/NQ+o1ozlH6iduwp/8WVNRlZ2?=
+ =?us-ascii?Q?C16LUFQ+wb0kfxnD3gIP3yexU5L86Iin0M9eYaflf4oaFRaNax6ObwueF7X/?=
+ =?us-ascii?Q?ARujDYyY9gYJv6s5NLNX9GtymThxSx5/6WgkzEKcOQxIDVrWCm0aTdNXFLn5?=
+ =?us-ascii?Q?9q4RutEXO5HOFt0INLQKUhQ8yNVbAOeFeoInWw/5BFXCUKj8idGQoxiVlZ5Z?=
+ =?us-ascii?Q?iA3X5Jnxp6C8qyKZ24H2D/TlCi1Ppp/aCQpwKGFQ4+loE7uH9h4xg4mYaGUR?=
+ =?us-ascii?Q?6HwdHnuiV7CEyKMnpZNLVTzm3Q9p5lTQJloM9GjjLcE3m4RiJMi0pTZn68w7?=
+ =?us-ascii?Q?aofYNPG7Pu2d4m2YceKE5ZG2K9pceYu/OgGlWT/+xqFgeiKxfwcbPCaimd33?=
+ =?us-ascii?Q?vC4K8IP/bxpdGd2q3vuIOejVuZF40LrRn5R9LRNeylZ9Lb1V51ksF5N+hNLx?=
+ =?us-ascii?Q?fSSTNijyC2bmbFxfbL0BVzzT6NQ+hEpZotDHKl06aV3JCUdEHQ8AXDNy5iEo?=
+ =?us-ascii?Q?jM/Hjd2BHfn4QSeG1WH3XoFgBVVMpvD4MKjZpKLLmj1esuS11RUuSRTIM6Ij?=
+ =?us-ascii?Q?3c8x4VVpeewINsFzqL/SXGCfT0IgLguOAScgJM2O1UwIeQdSqYSRDWgfKrvQ?=
+ =?us-ascii?Q?DYvHNJaJJseOMUkP2faQ4w2B0qUl?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?D550avwTjnxEk2mWHPbDFjDvnQLOVXByV3m+C/ZXbyRc5b1W4fcQmpRR8lYg?=
+ =?us-ascii?Q?KgYBcvReavFMEmNdxRPokl7+970RC3uZzaDuFVSdA2YoEYb6YckOEcdUWIC8?=
+ =?us-ascii?Q?0VKpaZA7zvWhjxzJmv7ZsaX6i2nV9W1GureVHcyk5U6Tb1cyzxr7bvIF5cVK?=
+ =?us-ascii?Q?tp9av2NRUcNjMyuT0K16MrBrAUgzDx4sgu2CD0dWk/dRZg3RwfTWGYRgQyHH?=
+ =?us-ascii?Q?nmaEqTHqWVR8ETBjkbZ//bmzq04QIztkq1Sqv6m0TCBH29NQ+BYT9RpfSds1?=
+ =?us-ascii?Q?i5O/NhoWEjnGbHmzTRB0NtXKGu5MUfE3VTz0RqRXZgJCz7pUlQ/BGcGy07MZ?=
+ =?us-ascii?Q?aWFvFQBBKoJMaVH/av3niXTEOqak3Yp5oJ6I1LvpeYTmae3r9GtsqxvS8QM7?=
+ =?us-ascii?Q?OjrgXOWDZK1uRAm8TnE3I+n3Q8D5ul1v5nRFmeyZner7yvAmznfR/j+LhmiT?=
+ =?us-ascii?Q?9IuvH8LxvVJaY9IqZOCwjHqUKK0vji5/QteBeI1hStJzoKR/W7Omxqc+Itjc?=
+ =?us-ascii?Q?CTMwvDKZFITSDpEIBLBMR4LU0SGyrM6/xrbac6J7K3iyNRUH5lN2iEjbBIee?=
+ =?us-ascii?Q?W7CvsTK2WVM8KCf98cON2JUUxdVaDK6BsyLgaRDL1jqKenl1xmSwjNm89Y1Q?=
+ =?us-ascii?Q?k290pHBakFAbzAe097hMkoSFiH0klo9gO1A2FVKjgrn+8mPHIqrCSMlM2uUV?=
+ =?us-ascii?Q?qibXaCTwDeI6cnGP8NSEdQMqcVpHz2ycL3p6Cx3+ZgZ91aH6TptSuWb/bZbB?=
+ =?us-ascii?Q?8ZxqFH2pJGoUM0f+fZgrmTjIgdtANmd8XOXoT1qI7XV9XtqouIv5/4RC0Ysz?=
+ =?us-ascii?Q?98A2gUcvfFNfetaraC9XsMLPB49ZOLCB6LqfwAaCenTp4DDZKPFaWXPXlP2P?=
+ =?us-ascii?Q?T08GYaHrCHUJqJqCUu1trXlXlt7Xn2wcgRU8dDp/pkSK6jg+B3UEiPu1MEoX?=
+ =?us-ascii?Q?G1z1EvJDrg2Or5wWJOrPZ0SJ6n67Ob6LYIr5djp1gmamh+WsXO+2Kb7r1+zT?=
+ =?us-ascii?Q?GdDtecyGX9Uhn9j1n9JUE4QoQxh5lWpHaeYn+ocgvLN4NMHY9+VW9IZsgofJ?=
+ =?us-ascii?Q?FqxIB99b2nVD1plavzAyJSPiRT0yRAGiq6WiCv5fdb04tEA+AizXXCMs0LpJ?=
+ =?us-ascii?Q?YgVavdD1yfSMLMEnqQ1pgHhsSJ2rXdDPKWJVx9HsuCDjP52OkqENMFV7mu9/?=
+ =?us-ascii?Q?l6KHV2kHLBaLnbDjP/vepl7KS47BexY9t2pSUWT2ZNHYLj7FzIl21q77EYxv?=
+ =?us-ascii?Q?cgxb4C9Pnw57vHZQeRDLfsYfEk2IkJzZn/4VzG8//vkxYKh6kBA5aAUdq9Mh?=
+ =?us-ascii?Q?Ylxs4h/qUc0sNHp+4T+uomZ16JDWlaJ6Dfvfz4ulpXtOeMpJ6ZiNYvEFxF8v?=
+ =?us-ascii?Q?6iXlJa/NC0avStnVtUNt/AtcrnRewMSjZsxOi/1n8UR9/y9V0SacDm5qAgHU?=
+ =?us-ascii?Q?8NfJv6HO9+vekhqhKrFkVleIGY/Wax0uCwUZSK14DkKDFWHCklq/iQHYEoI3?=
+ =?us-ascii?Q?M4WOlS6dg0tT1pYpRE3aakatlUhUnY/rXU2nDw/BVDU9cSq3gPlHF7GdtWqj?=
+ =?us-ascii?Q?gFA+W9ftl24tjS+TCUfbHaKGbI3VfPYCsuoa9glL?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52670a7d-2670-46d5-a21f-08dd34d1bf67
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2025 19:29:22.2549
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sZpp61efs1TH+oxSzPLUUrO4py7xNGLKDmu5aW9Yx2F17WXJgwbcK6sZQK9k73/8
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5605
 
-On Tue, Jan 14, 2025 at 02:58:26PM -0300, Arnaldo Carvalho de Melo wrote:
-> On Mon, Jan 13, 2025 at 11:55:05AM -0300, Arnaldo Carvalho de Melo wrote:
-> > On Fri, Jan 10, 2025 at 11:31:01AM -0800, Charlie Jenkins wrote:
-> > > On Thu, Jan 09, 2025 at 03:00:59PM -0800, Charlie Jenkins wrote:
-> > > > Ooh okay I see, the quiet commands were being ignored as-is. We could
-> > > > add the lines to handle this to Makefile.syscalls, but I think the
-> > > > better solution is to move the lines from Makefile.build to
-> > > > Makefile.perf to be more generically available. Here is a patch for
-> > > > that. I also added the comment from the kernel Makefile describing what
-> > > > this does.
-> > 
-> > > > From 8dcec7f5d937ede3d33c687573dc2f1654ddc59e Mon Sep 17 00:00:00 2001
-> > > > From: Charlie Jenkins <charlie@rivosinc.com>
-> > > > Date: Thu, 9 Jan 2025 14:36:40 -0800
-> > > > Subject: [PATCH] perf tools: Expose quiet/verbose variables in Makefile.perf
-> > > > 
-> > > > The variables to make builds silent/verbose live inside
-> > > > tools/build/Makefile.build. Move those variables to the top-level
-> > > > Makefile.perf to be generally available.
-> > 
-> > <SNIP applied patch>
-> >  
-> > > Let me know how you want to handle this, I can send this out as a
-> > > separate patch if that's better.
-> > 
-> > I used the patch you provided above after hand editing the message
-> > before feeding it to 'git am', added these comments:
+On Tue, Jan 07, 2025 at 09:10:04AM -0800, Nicolin Chen wrote:
+> Reorder the existing OBJ/IOCTL lists.
 > 
-> Somehow this is causing some trouble:
+> Also run clang-format for the same coding style at line wrappings.
 > 
-> ⬢ [acme@toolbox perf-tools-next]$ make -C tools/perf build-test
-> make: Entering directory '/home/acme/git/perf-tools-next/tools/perf'
-> - tarpkg: ./tests/perf-targz-src-pkg .
-> /bin/sh: line 1: @make: command not found
-> make[4]: *** [Makefile:27: clean-asm_pure_loop] Error 127
-> make[3]: *** [Makefile.perf:764: tests-coresight-targets-clean] Error 2
-> make[2]: *** [Makefile:96: clean] Error 2
-> make[1]: *** [tests/make:330: make_static] Error 2
-> make: *** [Makefile:109: build-test] Error 2
-> make: Leaving directory '/home/acme/git/perf-tools-next/tools/perf'
-> ⬢ [acme@toolbox perf-tools-next]$
+> No functional change.
 > 
-> Can you please try fixing it as I'm busy now (I'll be on vacation from
-> tomorrow till early February)? This is what I extracted:
+> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
+> ---
+>  drivers/iommu/iommufd/main.c | 30 ++++++++++++++----------------
+>  1 file changed, 14 insertions(+), 16 deletions(-)
 
-There was an erroneous $(Q) in
-tools/perf/tests/shell/coresight/Makefile. Previously it would expand to
-the empty string so wouldn't cause any problems, but now it's in the
-middle of an expression so hence the error. I'll send an updated patch.
+Applied to for-next
 
-> 
-> commit c199fd785d18121ffd0ba5758e23a42ba2984e11
-> Author: Charlie Jenkins <charlie@rivosinc.com>
-> Date:   Mon Jan 13 11:50:55 2025 -0300
-> 
->     perf tools: Expose quiet/verbose variables in Makefile.perf
->     
->     The variables to make builds silent/verbose live inside
->     tools/build/Makefile.build. Move those variables to the top-level
->     Makefile.perf to be generally available.
->     
->     Committer testing:
->     
->     See the SYSCALL lines, now they are consistent with the other
->     operations in other lines:
->     
->       SYSTBL  /tmp/build/perf-tools-next/arch/x86/include/generated/asm/syscalls_32.h
->       SYSTBL  /tmp/build/perf-tools-next/arch/x86/include/generated/asm/syscalls_64.h
->       GEN     /tmp/build/perf-tools-next/common-cmds.h
->       GEN     /tmp/build/perf-tools-next/arch/arm64/include/generated/asm/sysreg-defs.h
->       PERF_VERSION = 6.13.rc2.g3d94bb6ed1d0
->       GEN     perf-archive
->       MKDIR   /tmp/build/perf-tools-next/jvmti/
->       MKDIR   /tmp/build/perf-tools-next/jvmti/
->       MKDIR   /tmp/build/perf-tools-next/jvmti/
->       MKDIR   /tmp/build/perf-tools-next/jvmti/
->       GEN     perf-iostat
->       CC      /tmp/build/perf-tools-next/jvmti/libjvmti.o
->       CC      /tmp/build/perf-tools-next/jvmti/jvmti_agent.o
->     
->     Reported-by: Arnaldo Carvalho de Melo <acme@redhat.com>
->     Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
->     Tested-by: Arnaldo Carvalho de Melo <acme@redhat.com>
->     Cc: Adrian Hunter <adrian.hunter@intel.com>
->     Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
->     Cc: Arnd Bergmann <arnd@arndb.de>
->     Cc: Christian Brauner <brauner@kernel.org>
->     Cc: Guo Ren <guoren@kernel.org>
->     Cc: Günther Noack <gnoack@google.com>
->     Cc: Ian Rogers <irogers@google.com>
->     Cc: Ingo Molnar <mingo@redhat.com>
->     Cc: James Clark <james.clark@linaro.org>
->     Cc: Jiri Olsa <jolsa@kernel.org>
->     Cc: John Garry <john.g.garry@oracle.com>
->     Cc: Jonathan Corbet <corbet@lwn.net>
->     Cc: Leo Yan <leo.yan@linux.dev>
->     Cc: Mark Rutland <mark.rutland@arm.com>
->     Cc: Mickaël Salaün <mic@digikod.net>
->     Cc: Mike Leach <mike.leach@linaro.org>
->     Cc: Namhyung Kim <namhyung@kernel.org>
->     Cc: Palmer Dabbelt <palmer@dabbelt.com>
->     Cc: Paul Walmsley <paul.walmsley@sifive.com>
->     Cc: Peter Zijlstra <peterz@infradead.org>
->     Cc: Will Deacon <will@kernel.org>
->     Link: http://lore.kernel.org/lkml/None
->     Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
-> 
-> diff --git a/tools/build/Makefile.build b/tools/build/Makefile.build
-> index 5fb3fb3d97e0fd11..e710ed67a1b49d9f 100644
-> --- a/tools/build/Makefile.build
-> +++ b/tools/build/Makefile.build
-> @@ -12,26 +12,6 @@
->  PHONY := __build
->  __build:
->  
-> -ifeq ($(V),1)
-> -  quiet =
-> -  Q =
-> -else
-> -  quiet=quiet_
-> -  Q=@
-> -endif
-> -
-> -# If the user is running make -s (silent mode), suppress echoing of commands
-> -# make-4.0 (and later) keep single letter options in the 1st word of MAKEFLAGS.
-> -ifeq ($(filter 3.%,$(MAKE_VERSION)),)
-> -short-opts := $(firstword -$(MAKEFLAGS))
-> -else
-> -short-opts := $(filter-out --%,$(MAKEFLAGS))
-> -endif
-> -
-> -ifneq ($(findstring s,$(short-opts)),)
-> -  quiet=silent_
-> -endif
-> -
->  build-dir := $(srctree)/tools/build
->  
->  # Define $(fixdep) for dep-cmd function
-> diff --git a/tools/perf/Makefile.perf b/tools/perf/Makefile.perf
-> index a449d00155364422..55d6ce9ea52fb2a5 100644
-> --- a/tools/perf/Makefile.perf
-> +++ b/tools/perf/Makefile.perf
-> @@ -161,12 +161,47 @@ export VPATH
->  SOURCE := $(shell ln -sf $(srctree)/tools/perf $(OUTPUT)/source)
->  endif
->  
-> +# Beautify output
-> +# ---------------------------------------------------------------------------
-> +#
-> +# Most of build commands in Kbuild start with "cmd_". You can optionally define
-> +# "quiet_cmd_*". If defined, the short log is printed. Otherwise, no log from
-> +# that command is printed by default.
-> +#
-> +# e.g.)
-> +#    quiet_cmd_depmod = DEPMOD  $(MODLIB)
-> +#          cmd_depmod = $(srctree)/scripts/depmod.sh $(DEPMOD) $(KERNELRELEASE)
-> +#
-> +# A simple variant is to prefix commands with $(Q) - that's useful
-> +# for commands that shall be hidden in non-verbose mode.
-> +#
-> +#    $(Q)$(MAKE) $(build)=scripts/basic
-> +#
-> +# To put more focus on warnings, be less verbose as default
-> +# Use 'make V=1' to see the full commands
-> +
->  ifeq ($(V),1)
-> +  quiet =
->    Q =
->  else
-> -  Q = @
-> +  quiet=quiet_
-> +  Q=@
->  endif
->  
-> +# If the user is running make -s (silent mode), suppress echoing of commands
-> +# make-4.0 (and later) keep single letter options in the 1st word of MAKEFLAGS.
-> +ifeq ($(filter 3.%,$(MAKE_VERSION)),)
-> +short-opts := $(firstword -$(MAKEFLAGS))
-> +else
-> +short-opts := $(filter-out --%,$(MAKEFLAGS))
-> +endif
-> +
-> +ifneq ($(findstring s,$(short-opts)),)
-> +  quiet=silent_
-> +endif
-> +
-> +export quiet Q
-> +
->  # Do not use make's built-in rules
->  # (this improves performance and avoids hard-to-debug behaviour);
->  MAKEFLAGS += -r
+Thanks,
+Jason
