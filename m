@@ -1,41 +1,41 @@
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33167232456;
-	Tue, 14 Jan 2025 17:35:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8625B1F9F41;
+	Tue, 14 Jan 2025 17:35:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736876108; cv=pass; b=o1EcPhPJ3/f+6zD2nBFd3fyrPR+tByeM1prai4yU5TAWbJt0lFXYSuUfP4spLScQgVXJ7Cry+/XGGBUnbKYw2dBD+faEHPQcjYU/6tQk8nGcldvuI6CJR+Js4OF2dchstWEcEddZez13hXxksWCb3xgrt3gYGVA+uEWqOPcdqAI=
+	t=1736876111; cv=pass; b=LZW8gDa0hKni5kwXhmA/NHC6Xjpd+l6lrnzKvuU86XlywOlWPamd+E+1WBO3AfqQw4iGJ9sNxwjVh7RioFSFKVYsGlE7FDPgfTajeqrCEdsmDQdjv00Q1223Y7muphtr9CG640PKB+Tka6bUDftyjUNrcmtX5HKe8gIFcryLnR8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736876108; c=relaxed/simple;
-	bh=1HAcPuBDpSLwG4zt1gIEj18I/4Inntxrv5UL7A4fAow=;
+	s=arc-20240116; t=1736876111; c=relaxed/simple;
+	bh=7Iaw0Q3yfjikZsdb4D4NSwZv5asi4vxfkqwsPAx3gnA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hqu1i/+U9/N/MKW9+Uq9+EsPDWtKYJfPl7C+BJbRy+Va96VI4XzZBV8b7eCpHfxSy70OqfDmfAAZeDGHai8QnptdGG8f4UWzjhzSQx/YZLbKObnV2LejLvwTQzdZeZmcPZH9ILIPVRbR4kk7mHJ45/zS3ybLfi1HJ1TAl03Vma0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=EELpLggv; arc=pass smtp.client-ip=136.143.188.112
+	 MIME-Version:Content-Type; b=XIazFtPVXSihNufCgJm8gXOzEuEjD4OBdQovxmDpTL4w4dyo6/64LMPhTdoDhzSINQaC97eMWsAJUKPAO0qnRjHg2PwU+AaJgut+0n6Xa6lhWK8mCLZHzPx9k5E8nsCQjL+3Z8rogGkKt5ETDznt2Cnl22/mu7+PIkbe2SFiy7Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=kCV31s9V; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="EELpLggv"
-ARC-Seal: i=1; a=rsa-sha256; t=1736876081; cv=none; 
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="kCV31s9V"
+ARC-Seal: i=1; a=rsa-sha256; t=1736876083; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=gRLiIm9gFhiGnSlRUahAk7xGqM/DJcdIyxqSamRZByMyhwlGeOFLOhnmzyKDZyF2PHpPJt8JoKi0v4U2ONCwl4W0IgOtvuI4UCrT1FVh+Xy5Ckhhzy5xrfDsG0vw6qPOzk1rqv7bDQcfi8MFPXQfxkkPXW8QUsmtHyRloncKxKw=
+	b=hgY+zvwmFW6eDUT0hSXTJgLovxQllzVoGrxAcZ+wT/htqJhZxrqMPH/ssEnKB4rmfCExIuQaRP6SFzhmRXZ8RMoTZ9H4bSZQ3sMVaHNv2koxp141IeMZdpzZskgTZ/925YuqTyqpC/CrzPLKU5Z0D9Dj1Kc6j82uFjMGEeAWQ0g=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1736876081; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=P7YSgOBT4ZEydHi6CBZLDANUBg1ODh9pUPQasV9rKe4=; 
-	b=bZKbb4d792BI4QfLbUBzHQYU3LnkqG1/Vu8YRnjvpbdU+8ZidsJ37i4gdSn41sWbCpViY18PbevvXJnoZ0OIWNYaoiDEnBfXkPuOwp/2R2PJRN1sSy6eBxcXHXLNtMxCqLa4+LesAu/882Nl8sSGGNvyKeXDWs9JZC82SCTHiv8=
+	t=1736876083; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=5B2acTEKnWj2iTXPsUJ8KYfflSwtBpaFyWuQX+dPJzY=; 
+	b=Cjmx043RYv1bH4iVXbnoPTcvUKdnEat6tbZcZXv7iHhW4NIJkPB7dZDUMOe3LeT9Jc3wipewPFMONR5gatoEy1udCUtZW8YzTca/R2bNn0dFCezgu8ITMIATpSBY4YT3kxGoqHSQ1SW9LaMfwhPlPYphYukDsrL68TaJlXBAqKU=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
 	dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1736876081;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1736876083;
 	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=P7YSgOBT4ZEydHi6CBZLDANUBg1ODh9pUPQasV9rKe4=;
-	b=EELpLggvJsj6gUSgahdGRa39ZwnSwo2uxZKSJbHw0M7afN85i+wFU40H8JWLAH9D
-	xENNeVFJGdXZ7OtNTkoB7DWktNG8bfZID6xooELfDtNRHQwyP4N4figkzZzhIhztRqQ
-	LZ+yJ3y03Lj30bGAqZa4H6oGQiQKYPvN12q4N8VA=
-Received: by mx.zohomail.com with SMTPS id 1736876079266189.17953702620946;
-	Tue, 14 Jan 2025 09:34:39 -0800 (PST)
+	bh=5B2acTEKnWj2iTXPsUJ8KYfflSwtBpaFyWuQX+dPJzY=;
+	b=kCV31s9VTjZbfZaEc/mcdYnf4nNd+nj3vdq8NNuPhaQIzKWYnMD/oiiYNSd1UDGG
+	TjDtsHsIJScmOsBIqGjm3bDdXpWAGs7RIVM/uNILJZNlNOBW1jFxCzoRkg18DWUcMFn
+	SWkXycVJ0A9OawCWhdQkCYOpgYfuWg8TyUaF2ea8=
+Received: by mx.zohomail.com with SMTPS id 1736876081679268.3184834354456;
+	Tue, 14 Jan 2025 09:34:41 -0800 (PST)
 From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
 To: David Airlie <airlied@gmail.com>,
 	Simona Vetter <simona@ffwll.ch>,
@@ -50,9 +50,9 @@ Cc: kernel@collabora.com,
 	dri-devel@lists.freedesktop.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v8 1/4] Documentation/gpu: Clarify format of driver-specific fidnfo keys
-Date: Tue, 14 Jan 2025 17:34:00 +0000
-Message-ID: <20250114173406.3060248-2-adrian.larumbe@collabora.com>
+Subject: [PATCH v8 2/4] drm/file: Add fdinfo helper for printing regions with prefix
+Date: Tue, 14 Jan 2025 17:34:01 +0000
+Message-ID: <20250114173406.3060248-3-adrian.larumbe@collabora.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250114173406.3060248-1-adrian.larumbe@collabora.com>
 References: <20250114173406.3060248-1-adrian.larumbe@collabora.com>
@@ -65,32 +65,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This change reflects de facto usage by amdgpu, as exemplified by commit
-d6530c33a978 ("drm/amdgpu: expose more memory stats in fdinfo").
+This is motivated by the desire of some drivers (eg. Panthor) to print the
+size of internal memory regions with a prefix that reflects the driver
+name, as suggested in the previous documentation commit.
+
+That means adding a new argument to print_size and making it available for
+DRM users.
 
 Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-Acked-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 ---
- Documentation/gpu/drm-usage-stats.rst | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_file.c | 27 +++++++++++++++++++--------
+ include/drm/drm_file.h     |  5 +++++
+ 2 files changed, 24 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-index 2717cb2a597e..2b5393ed7692 100644
---- a/Documentation/gpu/drm-usage-stats.rst
-+++ b/Documentation/gpu/drm-usage-stats.rst
-@@ -21,7 +21,10 @@ File format specification
+diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+index cb5f22f5bbb6..f584abcd13cb 100644
+--- a/drivers/gpu/drm/drm_file.c
++++ b/drivers/gpu/drm/drm_file.c
+@@ -830,8 +830,12 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e)
+ }
+ EXPORT_SYMBOL(drm_send_event);
  
- - File shall contain one key value pair per one line of text.
- - Colon character (`:`) must be used to delimit keys and values.
--- All keys shall be prefixed with `drm-`.
-+- All standardised keys shall be prefixed with `drm-`.
-+- Driver-specific keys shall be prefixed with `driver_name-`, where
-+  driver_name should ideally be the same as the `name` field in
-+  `struct drm_driver`, although this is not mandatory.
- - Whitespace between the delimiter and first non-whitespace character shall be
-   ignored when parsing.
- - Keys are not allowed to contain whitespace characters.
+-static void print_size(struct drm_printer *p, const char *stat,
+-		       const char *region, u64 sz)
++
++void drm_fdinfo_print_size(struct drm_printer *p,
++			   const char *prefix,
++			   const char *stat,
++			   const char *region,
++			   u64 sz)
+ {
+ 	const char *units[] = {"", " KiB", " MiB"};
+ 	unsigned u;
+@@ -842,8 +846,10 @@ static void print_size(struct drm_printer *p, const char *stat,
+ 		sz = div_u64(sz, SZ_1K);
+ 	}
+ 
+-	drm_printf(p, "drm-%s-%s:\t%llu%s\n", stat, region, sz, units[u]);
++	drm_printf(p, "%s-%s-%s:\t%llu%s\n",
++		   prefix, stat, region, sz, units[u]);
+ }
++EXPORT_SYMBOL(drm_fdinfo_print_size);
+ 
+ /**
+  * drm_print_memory_stats - A helper to print memory stats
+@@ -858,15 +864,20 @@ void drm_print_memory_stats(struct drm_printer *p,
+ 			    enum drm_gem_object_status supported_status,
+ 			    const char *region)
+ {
+-	print_size(p, "total", region, stats->private + stats->shared);
+-	print_size(p, "shared", region, stats->shared);
+-	print_size(p, "active", region, stats->active);
++	const char *prefix = "drm";
++
++	drm_fdinfo_print_size(p, prefix, "total", region,
++			      stats->private + stats->shared);
++	drm_fdinfo_print_size(p, prefix, "shared", region, stats->shared);
++	drm_fdinfo_print_size(p, prefix, "active", region, stats->active);
+ 
+ 	if (supported_status & DRM_GEM_OBJECT_RESIDENT)
+-		print_size(p, "resident", region, stats->resident);
++		drm_fdinfo_print_size(p, prefix, "resident", region,
++				      stats->resident);
+ 
+ 	if (supported_status & DRM_GEM_OBJECT_PURGEABLE)
+-		print_size(p, "purgeable", region, stats->purgeable);
++		drm_fdinfo_print_size(p, prefix, "purgeable", region,
++				      stats->purgeable);
+ }
+ EXPORT_SYMBOL(drm_print_memory_stats);
+ 
+diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+index f0ef32e9fa5e..001ae553e8c3 100644
+--- a/include/drm/drm_file.h
++++ b/include/drm/drm_file.h
+@@ -494,6 +494,11 @@ struct drm_memory_stats {
+ 
+ enum drm_gem_object_status;
+ 
++void drm_fdinfo_print_size(struct drm_printer *p,
++				  const char *prefix,
++				  const char *stat,
++				  const char *region,
++				  u64 sz);
+ void drm_print_memory_stats(struct drm_printer *p,
+ 			    const struct drm_memory_stats *stats,
+ 			    enum drm_gem_object_status supported_status,
 -- 
 2.47.1
 
