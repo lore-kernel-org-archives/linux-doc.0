@@ -1,98 +1,225 @@
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F47D20F075
-	for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 05:32:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D240424025D;
+	Tue, 14 Jan 2025 05:36:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736832769; cv=none; b=rZCOEh6zxQ8FNE1IKZ/ynwD67YZnCOiraSSGDye1e9z/SJjecD/+X4HG4b7rjoQ7QEPShiNlP9JkNk2Rrv2bbQ9QRS39JoqqUm69pvDRp0vwdkDc/gjRk9Ov+ve4HkBWf7oglLbmSi5sk61dwkeIvGbH7YrOSEP1kRZUbMbS1jk=
+	t=1736832974; cv=none; b=FJyxPyfLRawUKjFduFAp/F7Edq+D77If2OB+lNw7sx6tylwXCOWlniyQEqx6HS0q5sWjYNWEk7p79SI8bDiR46qx9eW4hzhYxfy3ZMGx1KlaXSmT8ZcqWX7L7K+1a+o7vyHOjcdCoi9qCcdSEgcBQcgFlw0ycWC8RKfhmwYRWsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736832769; c=relaxed/simple;
-	bh=QQTufbY/evwUHAS6v3e7UmNDN5npP/AEnyl1/ajoYEQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
-	 In-Reply-To:Content-Type; b=n6GKN9IM6qt/SQNvVjOzS2Nt6noF3VR2upYkzpjAq+TG5I2cBmptnWr/9ve/IAjcsq+19XjItQiDMyNN4SjAovfAmvgpsLf+FLc+o9R6AMAkQaHfv6v9LS5akVt4lDd9J7mebJsxgrCKpEuWSrj6LF12GBJ8ufX6Hx66Oqga4MA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=QeA5Mckb; arc=none smtp.client-ip=209.85.166.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
+	s=arc-20240116; t=1736832974; c=relaxed/simple;
+	bh=KF+hdYTmC0kaoWHPMMW6dtsTZWgnKqQ/QLSr+4P37p8=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=BXOnRNj3DFuTuvPhIPBxDCbP3EFTyOjPi+xsNROYJ/pVPOqCzuSu92CWoTMBWdOTWLFkzPji1yqe0qVNGSsJzRcUW9dQXdHRYB3YILP96Sk9rZ/ibQCKw2AabEkuiVbX+5fYeFcfDX1dWKQWV7c8tRoHO3KiQm7K8l1t+punyes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=nyGQ2yT1; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="QeA5Mckb"
-Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-844dfe4b136so135174039f.3
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 21:32:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sifive.com; s=google; t=1736832767; x=1737437567; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:cc:content-language:from
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=f1Bp10ZGkW5gD2RlZUXeDywURBlq4mu2M9HqJf63BKM=;
-        b=QeA5MckbDTFsXW1gi9zHLfesHwbG6O5OXuYQkgE0X69pnxF7QTUdTvwcpcT1VP07FC
-         Xkp0b/xzEFJukr30kc/wqtVee6Jxfr1uHmVqAnsbTIags3kCfarTn85Y4VndxyKULmde
-         bzkmbTbC2vqkKnC/hDrCxVh5ptDsAN5kVGbjJD+LL4SoetV73ni0PcBmV8G/0wc8SMnp
-         O9tVRbpat3gLhOTD9wjqMoBZBHTqNsGnFOAmfNcWgDOCN54oM1bNc8i0emVlNEumtaY2
-         skHZ5x0MI4vWk61RszaXDklUMVgM50CEeDE1DYG3mU6wF+eWfbKD6nBfTZuqsDJw29e5
-         ADuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736832767; x=1737437567;
-        h=content-transfer-encoding:in-reply-to:cc:content-language:from
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=f1Bp10ZGkW5gD2RlZUXeDywURBlq4mu2M9HqJf63BKM=;
-        b=KQR3QJGTHnBD5zj08LkiUU7gAlm+2ydRa+UXqNZzA1Fm4xoWmuYVHiHNIGua+SecAT
-         tz18DhFiOXsxummOGUNSMiTTh/HRGXDHeWjksxF3SU9BhmpBt43dZZhTgimGLmZfWS8T
-         8MlF67Ht7FlfRv5QjvfiXNsJornZqgMVUp/qUjNhhqEP5u1bk3ySlJikPLGe2ROkQ7CL
-         2vhnerUOlS+iKj7RlkvTv6SpXN+2dtiTbXIrVvVmhLk8s0/lemPArdFEeFvFWSOKofzw
-         6YXSRbA9lYnASUymqpbypnWu3EftF/YhkaesNrPRRz24Uqx23qsGKzR+/7Ymnw9gYtkW
-         Sa5g==
-X-Forwarded-Encrypted: i=1; AJvYcCVDs1bzNhxjba2jBmphnc9Sa7pjqnBcQVDHax8WMdlpi2T843hXW/d6x5B0va/3xXNA9TdHII6Gy9M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIvyPE4WFFriB/6C/qv3ZQjtn+aOv2GTrzxMJV04/nl9LhXeLR
-	URQ3i821MRJTiCg2s6GPpMgmM8zS3Ddsh/r8gzy5D9XxyozWY1GTMp6+nh7iGyI=
-X-Gm-Gg: ASbGncsZjXl5IVEi/RNTXhFEDt4CvCvGp5S7gRbduQ3Ea+gnc88M/aBZ4lM1tLHHhyO
-	ePfBG1J5/ioecXmqex3IHKBAk0zfbTMCKaPCuGOfSrkCk9xup3RDC/fPt92eMI2f2sQ82SGyKi3
-	riQVLBwsYpS1ElWSOv4QVovXpn/dLjOL0XOh6/u7WhKmAK0xYSllJkP655hYNC0VKnGhnyLtb3c
-	g1PgKQ2LscL6Z4xZavIOjYEsXwP1slDFNF+Cc653yms/Kdqhxsfyoyy6OP+qegu8y+pYyhBLdDE
-	16vx
-X-Google-Smtp-Source: AGHT+IH4xYP4M6DhMu3ld/by2JdHK1yfyfQFeSU+FypC6PibjVehEMl4FyLmPwAvmuuWc6iZj61OWA==
-X-Received: by 2002:a05:6e02:138d:b0:3a7:e103:3c43 with SMTP id e9e14a558f8ab-3ce3aa5af3bmr25675045ab.19.1736832767477;
-        Mon, 13 Jan 2025 21:32:47 -0800 (PST)
-Received: from [100.64.0.1] ([165.188.116.9])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3ce4adee7bfsm31862735ab.44.2025.01.13.21.32.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jan 2025 21:32:46 -0800 (PST)
-Message-ID: <fa984379-29b6-4093-9213-6a291ccc7e23@sifive.com>
-Date: Mon, 13 Jan 2025 23:32:45 -0600
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="nyGQ2yT1"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50DJLZn7002853;
+	Tue, 14 Jan 2025 05:35:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=fGXqRSIT8iEokM5NpyWSUn
+	u+CJKUU08IeXrkQyvtOR8=; b=nyGQ2yT1uki8fxdIwfkDSfYTvGhwsgIQNR8Y3K
+	A5gMrUzsV5+SWIBWuzLUaNonLLAAaom8bsvi0VR5maHmArF/dPZCgttkBr2q0qqO
+	/+Ctq7cbaxMwoImYRuJxu+y1Olwf2EUb7gUW0WbiuS9gRBt9fz4S2w0uJmrUUb1i
+	iyWmOQq9AmhUElH1QnNp8e4gWF/JOwHrYoo6hbx/Jc6wSGzmkgZdV42rQnesybES
+	8tQdth8EevNpwPVsWcW9I5unLSoCP/cDU6LkuH/v7xuifcR0js+bs+DTnZePWf6L
+	x49fxxkAYVlvEx5OLGZ9nhHUOtgcBrNp3MVXc2XABnw81quw==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4458ww943r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 Jan 2025 05:35:49 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50E5ZnsK019741
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 Jan 2025 05:35:49 GMT
+Received: from la-sh002-lnx.ap.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Mon, 13 Jan 2025 21:35:42 -0800
+From: "Jiao, Joey" <quic_jiangenj@quicinc.com>
+Subject: [PATCH 0/7] kcov: Introduce New Unique PC|EDGE|CMP Modes
+Date: Tue, 14 Jan 2025 13:34:30 +0800
+Message-ID: <20250114-kcov-v1-0-004294b931a2@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/3] RISC-V: selftests: Add TEST_ZICBOM into CBO tests
-To: Yunhui Cui <cuiyunhui@bytedance.com>
-References: <20250114021936.17234-1-cuiyunhui@bytedance.com>
- <20250114021936.17234-4-cuiyunhui@bytedance.com>
-From: Samuel Holland <samuel.holland@sifive.com>
-Content-Language: en-US
-Cc: ajones@ventanamicro.com, alexghiti@rivosinc.com, andybnac@gmail.com,
- aou@eecs.berkeley.edu, charlie@rivosinc.com, cleger@rivosinc.com,
- conor.dooley@microchip.com, conor@kernel.org, corbet@lwn.net,
- evan@rivosinc.com, jesse@rivosinc.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-riscv@lists.infradead.org, palmer@dabbelt.com,
- paul.walmsley@sifive.com, shuah@kernel.org
-In-Reply-To: <20250114021936.17234-4-cuiyunhui@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGf3hWcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDQ0MT3ezk/DJdS9Pk1JTU5FQTM1MTJaDSgqLUtMwKsDHRsbW1AKxXN/F
+ WAAAA
+X-Change-ID: 20250114-kcov-95cedece4654
+To: Dmitry Vyukov <dvyukov@google.com>,
+        Andrey Konovalov
+	<andreyknvl@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton
+	<akpm@linux-foundation.org>,
+        Dennis Zhou <dennis@kernel.org>, Tejun Heo
+	<tj@kernel.org>,
+        Christoph Lameter <cl@linux.com>,
+        Catalin Marinas
+	<catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>
+CC: <kasan-dev@googlegroups.com>, <linux-kernel@vger.kernel.org>,
+        <workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-mm@kvack.org>, <linux-arm-kernel@lists.infradead.org>,
+        <kernel@quicinc.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1736832941; l=4982;
+ i=quic_jiangenj@quicinc.com; s=20250114; h=from:subject:message-id;
+ bh=KF+hdYTmC0kaoWHPMMW6dtsTZWgnKqQ/QLSr+4P37p8=;
+ b=nAwxJxgoU1Q8LXtKwFqlrO6wF8qseE8RRM3mpTnNkDOJW0S2nAezeabZxQjA4mCxTlAmyGo8a
+ DfF4x/4tIOJActPFgWO0910pfQVzG+JdHbQjV5X7EQQJQL55VWc6VYf
+X-Developer-Key: i=quic_jiangenj@quicinc.com; a=ed25519;
+ pk=JPzmfEvx11SW1Q1qtMhFcAx46KP1Ui36jcetDgbev28=
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: W6wLUaQRtXns5-yBsMSVi63JGdBpU7pd
+X-Proofpoint-ORIG-GUID: W6wLUaQRtXns5-yBsMSVi63JGdBpU7pd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ spamscore=0 mlxlogscore=864 mlxscore=0 clxscore=1015 impostorscore=0
+ malwarescore=0 adultscore=0 bulkscore=0 phishscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501140044
 
-On 2025-01-13 8:19 PM, Yunhui Cui wrote:
-> Add test for Zicbom and its block size into CBO tests, when
-> Zicbom is present, test that cbo.clean/flush may be issued and works.
-> As the software can't verify the clean/flush functions, we just judged
-> that cbo.clean/flush isn't executed illegally.
-> 
-> Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
-> ---
->  tools/testing/selftests/riscv/hwprobe/cbo.c | 66 +++++++++++++++++----
->  1 file changed, 55 insertions(+), 11 deletions(-)
+Hi,
 
-Reviewed-by: Samuel Holland <samuel.holland@sifive.com>
+This patch series introduces new kcov unique modes: 
+`KCOV_TRACE_UNIQ_[PC|EDGE|CMP]`, which are used to collect unique PC, EDGE,
+CMP information.
+
+Background
+----------
+
+In the current kcov implementation, when `__sanitizer_cov_trace_pc` is hit,
+the instruction pointer (IP) is stored sequentially in an area. Userspace 
+programs then read this area to record covered PCs and calculate covered
+edges.  However, recent syzkaller runs show that many syscalls likely have
+`pos > t->kcov_size`, leading to kcov overflow. To address this issue, we 
+introduce new kcov unique modes.
+
+Solution Overview
+-----------------
+
+1. [P 1] Introduce `KCOV_TRACE_UNIQ_PC` Mode:
+   - Export `KCOV_TRACE_UNIQ_PC` to userspace.
+   - Add `kcov_map` struct to manage memory during the KCOV lifecycle.
+     - `kcov_entry` struct as a hashtable entry containing unique PCs.
+     - Use hashtable buckets to link `kcov_entry`.
+     - Preallocate memory using genpool during KCOV initialization.
+     - Move `area` inside `kcov_map` for easier management.
+   - Use `jhash` for hash key calculation to support `KCOV_TRACE_UNIQ_CMP` 
+     mode.
+
+2. [P 2-3] Introduce `KCOV_TRACE_UNIQ_EDGE` Mode:
+   - Save `prev_pc` to calculate edges with the current IP.
+   - Add unique edges to the hashmap.
+   - Use a lower 12-bit mask to make hash independent of module offsets.
+   - Distinguish areas for `KCOV_TRACE_UNIQ_PC` and `KCOV_TRACE_UNIQ_EDGE`
+     modes using `offset` during mmap.
+   - Support enabling `KCOV_TRACE_UNIQ_PC` and `KCOV_TRACE_UNIQ_EDGE`
+     together.
+
+3. [P 4] Introduce `KCOV_TRACE_UNIQ_CMP` Mode:
+   - Shares the area with `KCOV_TRACE_UNIQ_PC`, making these modes
+     exclusive.
+
+4. [P 5] Add Example Code Documentation:
+   - Provide examples for testing different modes:
+     - `KCOV_TRACE_PC`: `./kcov` or `./kcov 0`
+     - `KCOV_TRACE_CMP`: `./kcov 1`
+     - `KCOV_TRACE_UNIQ_PC`: `./kcov 2`
+     - `KCOV_TRACE_UNIQ_EDGE`: `./kcov 4`
+     - `KCOV_TRACE_UNIQ_PC|KCOV_TRACE_UNIQ_EDGE`: `./kcov 6`
+     - `KCOV_TRACE_UNIQ_CMP`: `./kcov 8`
+
+5. [P 6-7] Disable KCOV Instrumentation:
+   - Disable instrumentation like genpool to prevent recursive calls.
+
+Caveats
+-------
+
+The userspace program has been tested on Qemu x86_64 and two real Android
+phones with different ARM64 chips. More syzkaller-compatible tests have
+been conducted. However, due to limited knowledge of other platforms, 
+assistance from those with access to other systems is needed.
+
+Results and Analysis
+--------------------
+
+1. KMEMLEAK Test on Qemu x86_64:
+   - No memory leaks found during the `kcov` program run.
+
+2. KCSAN Test on Qemu x86_64:
+   - No KCSAN issues found during the `kcov` program run.
+
+3. Existing Syzkaller on Qemu x86_64 and Real ARM64 Device:
+   - Syzkaller can fuzz, show coverage, and find bugs. Adjusting `procs`
+     and `vm mem` settings can avoid OOM issues caused by genpool in the
+     patches, so `procs:4 + vm:2GB` or `procs:4 + vm:2GB` are used for
+     Qemu x86_64.
+   - `procs:8` is kept on Real ARM64 Device with 12GB/16GB mem.
+
+4. Modified Syzkaller to Support New KCOV Unique Modes:
+   - Syzkaller runs fine on both Qemu x86_64 and ARM64 real devices.
+     Limited `Cover overflows` and `Comps overflows` observed.
+
+5. Modified Syzkaller + Upstream Kernel Without Patch Series:
+   - Not tested. The modified syzkaller will fall back to `KCOV_TRACE_PC`
+     or `KCOV_TRACE_CMP` if `ioctl` fails for Unique mode.
+
+Possible Further Enhancements
+-----------------------------
+
+1. Test more cases and setups, including those in syzbot.
+2. Ensure `hash_for_each_possible_rcu` is protected for reentrance
+   and atomicity.
+3. Find a simpler and more efficient way to store unique coverage.
+
+Conclusion
+----------
+
+These patches add new kcov unique modes to mitigate the kcov overflow
+issue, compatible with both existing and new syzkaller versions.
+
+Thanks,
+Joey Jiao
+
+---
+Jiao, Joey (7):
+      kcov: introduce new kcov KCOV_TRACE_UNIQ_PC mode
+      kcov: introduce new kcov KCOV_TRACE_UNIQ_EDGE mode
+      kcov: allow using KCOV_TRACE_UNIQ_[PC|EDGE] modes together
+      kcov: introduce new kcov KCOV_TRACE_UNIQ_CMP mode
+      kcov: add the new KCOV uniq modes example code
+      kcov: disable instrumentation for genalloc and bitmap
+      arm64: disable kcov instrument in header files
+
+ Documentation/dev-tools/kcov.rst | 243 ++++++++++++++--------------
+ arch/arm64/include/asm/percpu.h  |   2 +-
+ arch/arm64/include/asm/preempt.h |   2 +-
+ include/linux/kcov.h             |  10 +-
+ include/uapi/linux/kcov.h        |   6 +
+ kernel/kcov.c                    | 333 +++++++++++++++++++++++++++++++++------
+ lib/Makefile                     |   2 +
+ 7 files changed, 423 insertions(+), 175 deletions(-)
+---
+base-commit: 9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe
+change-id: 20250114-kcov-95cedece4654
+
+Best regards,
+-- 
+<Jiao, Joey> <quic_jiangenj@quicinc.com>
 
