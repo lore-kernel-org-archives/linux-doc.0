@@ -1,243 +1,272 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802871CDA16
-	for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 08:18:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80EAF2343B6;
+	Tue, 14 Jan 2025 08:19:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736842736; cv=none; b=XBzk2CFZEjxpq0/BFsRrSjNcZJUt07ZkibNPiboZ3KenurY2QVQ7bUEL0aGKSswaROvpxrloBHJ+NhHfhHW6VxdX6prDhIFFEuLqjLH9XY54OY9zjHnUzxl28EXVN0Cr/ZwodYTsfPhxCCDeORDpEB2xf5hkEITeU6U7PLxaLIY=
+	t=1736842762; cv=none; b=GPy1Gp26vwEqtagYWFnKKMEk4mDDxeFxw7tBI7NFzEo0FGIvsz9iIXXsZ7XVAIgY96rL8Z7BZm9mNxC/Zl6H3KclAbkiAR02BslaOmgKAZuHw6k432Ghyy0Uor4mWzY5vhdWLtFAQ99108ltUS7VAqAPy8thYV7enArXamv4XTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736842736; c=relaxed/simple;
-	bh=9OES9u7ndNTg23exjKFmEKlMuJuMh2Yru16mozYIZAM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uK7Bg5bX8zz4UsbFOhMCG6s25nRM2RhA6KgSzok/vspV385V9K/HinBXJHO4S1cKtqgwvTTo17P2S5DNiagL86CIfJ/+aD64T8PV5Eodk7+QHVgTnLFru03KOiLXRnW45lM7qpA/0KET0vrzIZC6J3tOPQLQr9emywvbeqANwfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=jS0sTSf8; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	s=arc-20240116; t=1736842762; c=relaxed/simple;
+	bh=bikrOWAqC1i+P8t9ckTPqH7CKB6ZM6dowebuYFwUxfE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=YIyvdKMKDkl/+SqU1iTRhHgET79/0AriJt+ppc4alPjyJmFQARRcjxcwDXvI7PuwpErMyHbu6hFq9BvPNg19jFq2UJ0rRuKYE/VqGkONKhTe7g5ZD24+tSVVtKUM1WNmy5F0Gm8952Ft/bG3V0l0PoXk4SYqZZvcoRFplsi3pfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TJxNVr8I; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="jS0sTSf8"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ab322ecd75dso109805266b.0
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 00:18:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TJxNVr8I"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3863494591bso2755138f8f.1;
+        Tue, 14 Jan 2025 00:19:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1736842732; x=1737447532; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=919mq0lvhQt4eDMddsUOvRjvpMDPaCDvxvPkUhR1Wjk=;
-        b=jS0sTSf8bYH7YeTL/gdmwdvvGGN/ivXOcTBzpvE8Bd66OIu13Xm5SeCOhLNb5C2cvN
-         zjvdUyNunOE5SHCqC36al0rxKLHdrOuD3Ye3RRaC+6/yBQ7rrslskMrySOkCDpeb3wgG
-         QyeCcDd+lfqbhV1iQoU6gCLCyK9K5YfMfXSsg+JY3vTc7aX2c5idrks18r2gdpRrwyNe
-         W/GpAIlhXEdE4ZJbHwJ8gHhu+kU0gBSWM8o2Op6bURzgYO6GyaydAcvUMBM0t0c68FRL
-         Tta8lBJsAgoTMqlFvUW8CjCcQ82Q6/6o5+GcPsgXfwgdyDS4fXSbKwHCadJyoeISqJ5A
-         7EXQ==
+        d=gmail.com; s=20230601; t=1736842759; x=1737447559; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=bikrOWAqC1i+P8t9ckTPqH7CKB6ZM6dowebuYFwUxfE=;
+        b=TJxNVr8II54M3ZibbijjsDLQp8XdGsqX1DrfCEZNbWPZNsN7sBjno0iAZItnAaKICI
+         8QlF6KHJCCA6RupFPwkFsbwm8M/54PIZtN9P3Z/UtwQB07faIVCzEy19bdy7mH8TLumk
+         Ny12qwhW3FKxVCxJ+silFnLAdRtZQ0K8rPdvB7ZPIkQKecLtjLO+vW9FUk7FSYygCZ6M
+         kjdZqWgXQZtNaHvtpwUg2/gb6aHqCVVxH7s/L7k4VPGpIS9vJc9yTvIsJB4xaIepbB0K
+         v4TT3+TQBNX/fWttrwP1C4Fax2kQpf2GaXRNceoRihDluR27m0eH3TE7ypAD1lOm6Hzh
+         2HSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736842732; x=1737447532;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=919mq0lvhQt4eDMddsUOvRjvpMDPaCDvxvPkUhR1Wjk=;
-        b=lJXLwoj+thbp9KS6aZ1ZFy0kaDlCKfFxpxKBgS/S35mh2Opb9DvPYRHrbyoC1tLDQE
-         2w2FyCryNf2+eQcnfdy48hP+alKNTJM8Oo9t/xraUO9zLqmIHYSAul9WbrhgYUYtgVlR
-         AdaRvU2ltoNYzVofsb3Ctds0eHJg4jqrww3TaPkRooxcRB5tn3m/F5jyzPwzd+JVAGPc
-         nzcupax/bXjf8xtf5E9D93EKxMWMwXTm39r2AE+E32cif2Fwpz9ymTatZSa6yz/ANic0
-         0Uisw0BXBoakOkRfLgVfURS/gGRJjGSf5Ln1hkkGVGcp5rzNM4wucMGfuOZ4MWMhmN3W
-         B4cQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUbfkBETWi5fbGrfrCGO+x3Y5jp5rzJuap7gyf8SaIc3+9CxzIS+qGtKkqIh3o4OWC4jZ809SAB0GQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxClNZIEUfulitrF0CGJ029it2rTvrdo4NpSY8F1HlC6b8W7rr4
-	+SqX8wLXQ/OWmCtD9wMjcQlAf1cMdIegc/OYvIjk3s+bg6dCfUj8jJUFjN/7gP4=
-X-Gm-Gg: ASbGnctqDEHQgjiaoalMNHcE//EVDR5hXzBcf+Mr0fdBwVpE/WQDzJjdjh6qL7a/Zin
-	eitk8X4uHJVKHbjH7o3yr0UZPZagxQQMHP89yI2SDap/LsxknqPugLz2UWHBLW4nxt8urG7Ny7+
-	BXHSvS+OvECLVMdE511qn0CIdtRwuFTfTCT+nX9Dp1R0NXXOridYXTmk5/RZ0i31VNyzWFPtHQ7
-	FBugQXvXNO7dRqe/Qnf7UhUCgvj+0SMYE1pIA2ZT1FViifGqFCmEZH+PdtYq+hD9lw4dVvfGugZ
-	jua5nWfMmhR3FdnYJgmK2ib6z+hWSqI/Ql68bCw+hw==
-X-Google-Smtp-Source: AGHT+IFKx1euNh7eZXgY8ADD17X9tMwi3Ip5exxpfz1uFMj+6SCvgp55q/e2kn/pYQTg+l9juFf97w==
-X-Received: by 2002:a17:907:94d2:b0:aae:f029:c2ec with SMTP id a640c23a62f3a-ab2c3c8288amr1583403466b.12.1736842731745;
-        Tue, 14 Jan 2025 00:18:51 -0800 (PST)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c90e8888sm596883166b.80.2025.01.14.00.18.51
+        d=1e100.net; s=20230601; t=1736842759; x=1737447559;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bikrOWAqC1i+P8t9ckTPqH7CKB6ZM6dowebuYFwUxfE=;
+        b=SyMUuii9azY3uqvEZ8+zispLkgksyvrZJrvPO6/KZzjEw8ecjThes4V1tyW0F0yxDY
+         6fsLUAL2yTDwlcDfAl+Gsqyf4XC1E8P1sa2nhI07AiXylhtWBhsSoZj9cPH5EQ/xWg+p
+         kOfkT5Ag0bLZuVreyqREDtCKR11HrkIitcAmN5f8IYKnoaCOjannp61FpmZtmYPftrky
+         r7djCQL2HXZMO89KCEqTvLaNGVCRhch/3HNN1X2bPIVEGtUT42M/12RbVi0NQKp6SsA3
+         l7WDpMR4sloxksVgYVpdmRe+6eas45JeGnZRWeSwubv08cF2laiVCDXC69BMVSHWf/HR
+         siRw==
+X-Forwarded-Encrypted: i=1; AJvYcCUWKFc713KBg+4YA2ZpmRWq+2z4J2iGfbQQQyYHDAhyJddaSzHMjGgM6ptCdr7Pzd7KiXGCHgFdo6w8@vger.kernel.org, AJvYcCUz5sWE9KO91Vk3cULNJUOgI9trLy0xml+pmO5goFZnSQeQ2GGd+fCEv/BsROFtb9JJHL8ZhhlYlmsgMVMt@vger.kernel.org, AJvYcCWvjMEK260Hehut3EXa/s+6DSTsIbrrVY3UPjyGeko4OtdkFIfKRy5pIETSQOAkAfjH3wOWkT3zaAPi@vger.kernel.org, AJvYcCXqB82GGzXmkLNc3i/u8H1euatmDL+UGGH1Pts0ikgPsHl5K1/tBwCu46fpfm17SZuB+5UdZe/u2DIu@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/zCm6vU1x22oSN+CbyIsYDjvxQ91HI2wh3bAaClCkQzHnrEbD
+	15YRXF8dY2+3/ZOr+g3TIk435VIHnUJlV8ly0k9Jme5knWJwTPmK
+X-Gm-Gg: ASbGnctgujWaAqHMwNXKPUOhvcVWoGyUUFEapohPCg5b6g7d46V32Tp/s8VAKbuuq+8
+	mUZc64GvChaezQYU/eCwSoTuy8/2HbPBzwgCJ2haaN2uDFUJ/3ijgnbULTFAFMANFfXdQFSVlZf
+	C+DOiDo24BGTXEYTuUwOdtUnXlCgvfZarnXVz6K0ZtrKaz1jM7jjUd6+S+0+o+Sc9L2FcHaVi8J
+	0cJgMBhCjOR0t++PNFmBCzKfXHkp/ywLmL9kkTmhRTGNcm/V9SrJY0HIGFyDdnw1DPvUwPQyZlZ
+	LkWV2g09ARFCpm3c4olEt/35iA3k
+X-Google-Smtp-Source: AGHT+IFEwtFMaeziLByVam0N5p11X8uRTgjhFOXabwC7pRfCSi5HfU758A//id0fUQ5xhCpoySmqQQ==
+X-Received: by 2002:a5d:64cb:0:b0:385:ee40:2d88 with SMTP id ffacd0b85a97d-38a872d2a11mr21146494f8f.3.1736842758568;
+        Tue, 14 Jan 2025 00:19:18 -0800 (PST)
+Received: from ?IPv6:2001:818:ea8e:7f00:2575:914:eedd:620e? ([2001:818:ea8e:7f00:2575:914:eedd:620e])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e9df958dsm166267925e9.17.2025.01.14.00.19.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2025 00:18:51 -0800 (PST)
-Date: Tue, 14 Jan 2025 09:18:50 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Yunhui Cui <cuiyunhui@bytedance.com>
-Cc: alexghiti@rivosinc.com, andybnac@gmail.com, aou@eecs.berkeley.edu, 
-	charlie@rivosinc.com, cleger@rivosinc.com, conor.dooley@microchip.com, 
-	conor@kernel.org, corbet@lwn.net, evan@rivosinc.com, jesse@rivosinc.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, palmer@dabbelt.com, paul.walmsley@sifive.com, 
-	samuel.holland@sifive.com, shuah@kernel.org
-Subject: Re: [PATCH v4 3/3] RISC-V: selftests: Add TEST_ZICBOM into CBO tests
-Message-ID: <20250114-675adccdafd17f716f345b1e@orel>
-References: <20250114021936.17234-1-cuiyunhui@bytedance.com>
- <20250114021936.17234-4-cuiyunhui@bytedance.com>
+        Tue, 14 Jan 2025 00:19:18 -0800 (PST)
+Message-ID: <f2565ff63e13af297d0af3be60ccdf9dbe517d18.camel@gmail.com>
+Subject: Re: [PATCH v4 4/6] dt-bindings: iio: Add adis16550 bindings
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: "Budai, Robert" <Robert.Budai@analog.com>, Jonathan Cameron
+	 <jic23@kernel.org>
+Cc: "Sa, Nuno" <Nuno.Sa@analog.com>, "Gradinariu, Ramona"	
+ <Ramona.Gradinariu@analog.com>, "Miclaus, Antoniu"
+ <Antoniu.Miclaus@analog.com>,  Lars-Peter Clausen	 <lars@metafoo.de>,
+ "Hennerich, Michael" <Michael.Hennerich@analog.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley	
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Alex Lanzano	
+ <lanzano.alex@gmail.com>, "linux-iio@vger.kernel.org"	
+ <linux-iio@vger.kernel.org>, "devicetree@vger.kernel.org"	
+ <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"	
+ <linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"	
+ <linux-doc@vger.kernel.org>
+Date: Tue, 14 Jan 2025 08:19:17 +0000
+In-Reply-To: <d9bc40ab79a24045ae9ff627ff5d302a@analog.com>
+References: <20250110074254.38966-1-robert.budai@analog.com>
+			<20250110074254.38966-5-robert.budai@analog.com>
+		 <20250112154836.47feeea8@jic23-huawei>
+	 <7a6290b673d8d9492418365392b2554e310ef557.camel@gmail.com>
+	 <d9bc40ab79a24045ae9ff627ff5d302a@analog.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250114021936.17234-4-cuiyunhui@bytedance.com>
 
-On Tue, Jan 14, 2025 at 10:19:36AM +0800, Yunhui Cui wrote:
-> Add test for Zicbom and its block size into CBO tests, when
-> Zicbom is present, test that cbo.clean/flush may be issued and works.
-> As the software can't verify the clean/flush functions, we just judged
-> that cbo.clean/flush isn't executed illegally.
-> 
-> Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
-> ---
->  tools/testing/selftests/riscv/hwprobe/cbo.c | 66 +++++++++++++++++----
->  1 file changed, 55 insertions(+), 11 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/riscv/hwprobe/cbo.c b/tools/testing/selftests/riscv/hwprobe/cbo.c
-> index a40541bb7c7d..dec510291ab8 100644
-> --- a/tools/testing/selftests/riscv/hwprobe/cbo.c
-> +++ b/tools/testing/selftests/riscv/hwprobe/cbo.c
-> @@ -50,6 +50,14 @@ static void cbo_clean(char *base) { cbo_insn(base, 1); }
->  static void cbo_flush(char *base) { cbo_insn(base, 2); }
->  static void cbo_zero(char *base)  { cbo_insn(base, 4); }
->  
-> +static void test_no_cbo_inval(void *arg)
-> +{
-> +	ksft_print_msg("Testing cbo.inval instruction remain privileged\n");
-> +	illegal_insn = false;
-> +	cbo_inval(&mem[0]);
-> +	ksft_test_result(illegal_insn, "No cbo.inval\n");
-> +}
-> +
->  static void test_no_zicbom(void *arg)
->  {
->  	ksft_print_msg("Testing Zicbom instructions remain privileged\n");
-> @@ -61,10 +69,6 @@ static void test_no_zicbom(void *arg)
->  	illegal_insn = false;
->  	cbo_flush(&mem[0]);
->  	ksft_test_result(illegal_insn, "No cbo.flush\n");
-> -
-> -	illegal_insn = false;
-> -	cbo_inval(&mem[0]);
-> -	ksft_test_result(illegal_insn, "No cbo.inval\n");
->  }
->  
->  static void test_no_zicboz(void *arg)
-> @@ -81,6 +85,30 @@ static bool is_power_of_2(__u64 n)
->  	return n != 0 && (n & (n - 1)) == 0;
->  }
->  
-> +static void test_zicbom(void *arg)
-> +{
-> +	struct riscv_hwprobe pair = {
-> +		.key = RISCV_HWPROBE_KEY_ZICBOM_BLOCK_SIZE,
-> +	};
-> +	cpu_set_t *cpus = (cpu_set_t *)arg;
-> +	__u64 block_size;
-> +	long rc;
-> +
-> +	rc = riscv_hwprobe(&pair, 1, sizeof(cpu_set_t), (unsigned long *)cpus, 0);
-> +	block_size = pair.value;
-> +	ksft_test_result(rc == 0 && pair.key == RISCV_HWPROBE_KEY_ZICBOM_BLOCK_SIZE &&
-> +			 is_power_of_2(block_size), "Zicbom block size\n");
-> +	ksft_print_msg("Zicbom block size: %llu\n", block_size);
-> +
-> +	illegal_insn = false;
-> +	cbo_clean(&mem[block_size]);
-> +	ksft_test_result(!illegal_insn, "cbo.clean\n");
-> +
-> +	illegal_insn = false;
-> +	cbo_flush(&mem[block_size]);
-> +	ksft_test_result(!illegal_insn, "cbo.flush\n");
-> +}
-> +
->  static void test_zicboz(void *arg)
->  {
->  	struct riscv_hwprobe pair = {
-> @@ -129,7 +157,7 @@ static void test_zicboz(void *arg)
->  	ksft_test_result_pass("cbo.zero check\n");
->  }
->  
-> -static void check_no_zicboz_cpus(cpu_set_t *cpus)
-> +static void check_no_zicbo_cpus(cpu_set_t *cpus, __u64 cbo)
->  {
->  	struct riscv_hwprobe pair = {
->  		.key = RISCV_HWPROBE_KEY_IMA_EXT_0,
-> @@ -137,6 +165,7 @@ static void check_no_zicboz_cpus(cpu_set_t *cpus)
->  	cpu_set_t one_cpu;
->  	int i = 0, c = 0;
->  	long rc;
-> +	char *cbostr;
->  
->  	while (i++ < CPU_COUNT(cpus)) {
->  		while (!CPU_ISSET(c, cpus))
-> @@ -148,10 +177,13 @@ static void check_no_zicboz_cpus(cpu_set_t *cpus)
->  		rc = riscv_hwprobe(&pair, 1, sizeof(cpu_set_t), (unsigned long *)&one_cpu, 0);
->  		assert(rc == 0 && pair.key == RISCV_HWPROBE_KEY_IMA_EXT_0);
->  
-> -		if (pair.value & RISCV_HWPROBE_EXT_ZICBOZ)
-> -			ksft_exit_fail_msg("Zicboz is only present on a subset of harts.\n"
-> -					   "Use taskset to select a set of harts where Zicboz\n"
-> -					   "presence (present or not) is consistent for each hart\n");
-> +		cbostr = cbo == RISCV_HWPROBE_EXT_ZICBOZ ? "Zicboz" : "Zicbom";
-> +
-> +		if (pair.value & cbo)
-> +			ksft_exit_fail_msg("%s is only present on a subset of harts.\n"
-> +					   "Use taskset to select a set of harts where %s\n"
-> +					   "presence (present or not) is consistent for each hart\n",
-> +					   cbostr, cbostr);
->  		++c;
->  	}
->  }
-> @@ -159,7 +191,9 @@ static void check_no_zicboz_cpus(cpu_set_t *cpus)
->  enum {
->  	TEST_ZICBOZ,
->  	TEST_NO_ZICBOZ,
-> +	TEST_ZICBOM,
->  	TEST_NO_ZICBOM,
-> +	TEST_NO_ZICBOINVAL,
+On Mon, 2025-01-13 at 14:22 +0000, Budai, Robert wrote:
+>=20
+>=20
+> > -----Original Message-----
+> > From: Nuno S=C3=A1 <noname.nuno@gmail.com>
+> > Sent: Monday, January 13, 2025 11:30 AM
+> > To: Jonathan Cameron <jic23@kernel.org>; Budai, Robert
+> > <Robert.Budai@analog.com>
+> > Cc: Sa, Nuno <Nuno.Sa@analog.com>; Gradinariu, Ramona
+> > <Ramona.Gradinariu@analog.com>; Miclaus, Antoniu
+> > <Antoniu.Miclaus@analog.com>; Lars-Peter Clausen <lars@metafoo.de>;
+> > Hennerich, Michael <Michael.Hennerich@analog.com>; Rob Herring
+> > <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dool=
+ey
+> > <conor+dt@kernel.org>; Jonathan Corbet <corbet@lwn.net>; Alex Lanzano
+> > <lanzano.alex@gmail.com>; linux-iio@vger.kernel.org;
+> > devicetree@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
+> > doc@vger.kernel.org
+> > Subject: Re: [PATCH v4 4/6] dt-bindings: iio: Add adis16550 bindings
+> >=20
+> > [External]
+> >=20
+> > On Sun, 2025-01-12 at 15:48 +0000, Jonathan Cameron wrote:
+> > > On Fri, 10 Jan 2025 09:42:52 +0200
+> > > Robert Budai <robert.budai@analog.com> wrote:
+> > >=20
+> > > > Document the ADIS16550 device devicetree bindings.
+> > > >=20
+> > > > Co-developed-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> > > > Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> > > > Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+> > > > Signed-off-by: Robert Budai <robert.budai@analog.com>
+> > > > ---
+> > > >=20
+> > > > 4:
+> > > > - applied styling changes to the bindings file
+> > > > - restricted sync-mode to intervals 1-2
+> > > >=20
+> > > > =C2=A0.../bindings/iio/imu/adi,adis16550.yaml=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 96 +++++++++++++++++++
+> > > > =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0 9 ++
+> > > > =C2=A02 files changed, 105 insertions(+)
+> > > > =C2=A0create mode 100644
+> > > > Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
+> > > >=20
+> > > > diff --git
+> > a/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
+> > > > b/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..e7ccf3883e55
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
+> > > > @@ -0,0 +1,96 @@
+> > > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id:
+> > https://urldefense.com/v3/__http://devicetree.org/schemas/iio/imu/adi,a=
+dis
+> > 16550.yaml*__;Iw!!A3Ni8CS0y2Y!74KHajr7iKZQ7Ld5deb4LytVFckO_Og8tIG
+> > Ukf233OLregM6AqtN-v-IBRfAn-4Z1tC0bwbcEpNO7Glv8YjiXWI$
+> > > > +$schema: https://urldefense.com/v3/__http://devicetree.org/meta-
+> > schemas/core.yaml*__;Iw!!A3Ni8CS0y2Y!74KHajr7iKZQ7Ld5deb4LytVFckO_
+> > Og8tIGUkf233OLregM6AqtN-v-IBRfAn-4Z1tC0bwbcEpNO7GlvNAV5ERI$
+> > > > +
+> > > > +title: Analog Devices ADIS16550 and similar IMUs
+> > > > +
+> > > > +maintainers:
+> > > > +=C2=A0 - Nuno Sa <nuno.sa@analog.com>
+> > > > +=C2=A0 - Ramona Gradinariu <ramona.gradinariu@analog.com>
+> > > > +=C2=A0 - Antoniu Miclaus <antoniu.miclaus@analog.com>
+> > > > +
+> > > > +properties:
+> > > > +=C2=A0 compatible:
+> > > > +=C2=A0=C2=A0=C2=A0 enum:
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - adi,adis16550
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - adi,adis16550w
+> > > > +
+> > > > +=C2=A0 reg:
+> > > > +=C2=A0=C2=A0=C2=A0 maxItems: 1
+> > > > +
+> > > > +=C2=A0 spi-cpha: true
+> > > > +
+> > > > +=C2=A0 spi-cpol: true
+> > > > +
+> > > > +=C2=A0 spi-max-frequency:
+> > > > +=C2=A0=C2=A0=C2=A0 maximum: 15000000
+> > > > +
+> > > > +=C2=A0 vdd-supply: true
+> > > > +
+> > > > +=C2=A0 interrupts:
+> > > > +=C2=A0=C2=A0=C2=A0 maxItems: 1
+> > > > +
+> > > > +=C2=A0 reset-gpios:
+> > > > +=C2=A0=C2=A0=C2=A0 description:
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 RESET active low pin.
+> > > > +=C2=A0=C2=A0=C2=A0 maxItems: 1
+> > > > +
+> > > > +=C2=A0 clocks:
+> > > > +=C2=A0=C2=A0=C2=A0 maxItems: 1
+> > > > +=C2=A0=C2=A0=C2=A0 description: If not provided, then the internal=
+ clock is used.
+> > > > +
+> > > > +=C2=A0 adi,sync-mode:
+> > > > +=C2=A0=C2=A0=C2=A0 description:
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Configures the device SYNC pin. The=
+ following modes are supported
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0 - output_sync
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 1 - direct_sync
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2 - scaled_sync
+> > >=20
+> > > A little more on these would be good.=C2=A0 They are 'weird' options
+> > > that are not commonly seen so help the reader out.
+> > >=20
+> > > For scaled_sync don't we need information on the scale for it to be
+> > > useful?
+> > > If we had that then a value of 1 would mean direct sync and wouldn't =
+need
+> > > another control.
+> > >=20
+> > > I'm not fully understanding the usecases for this.
+> > >=20
+> > > If we have a say a pulse per second input, the control of the scale s=
+hould
+> > > be userspace anyway.=C2=A0 So maybe this maps to the input clock that=
+ we can
+> > elect
+> > > to
+> > > use and control the effective frequency of by using scaled sync?
+> >=20
+> > I guess you likely already saw it in the driver. The scale value is
+> > automatically set by the driver depending on the desired ODR (sampling
+> > frequency).
+> >=20
+> > >=20
+> > > I'm not sure what pulse sync is. Grepping the datasheet didn't give m=
+e
+> > > anything that seemed related.=C2=A0=C2=A0 The sync pin is input only =
+so I'm also
+> > > not sure on output sync.
+> >=20
+> > I think this is a copy paste from the adis16475 bindings. For this devi=
+ce,
+> > it
+> > seems we only have:
+> > =C2=A0* internal clock;
+> > =C2=A0* external:
+> > =C2=A0=C2=A0 * direct mode
+> > =C2=A0=C2=A0 * scaled mode
+> >=20
+> > But yeah, as you pointed out I think we do not need the binding. The
+> > presence
+> > of
+> > an optional input clock plus the frequency should be all we need in ord=
+er to
+> > set
+> > the desired configuration. It should also be possible to add the allowe=
+d
+> > ranges
+> > to the external input clock in the bindings...
+> >=20
+> >=20
+> > - Nuno S=C3=A1
+> >=20
+> Will drop this binding than and add a frequency one that is dependent on =
+clock
+> with specified ranges.
+>=20
 
-nit: TEST_NO_CBO_INVAL would be a better name.
+Note I would not add a new binding if there's no standard one. My previous
+comment can be misleading... I see there is a 'clock-frequency' property in=
+ the
+clock schema but descriptions says it's legacy and apparently for fixed-clo=
+cks.
+So maybe not suitable for this case?
 
->  };
->  
->  static struct test_info {
-> @@ -169,7 +203,9 @@ static struct test_info {
->  } tests[] = {
->  	[TEST_ZICBOZ]		= { .nr_tests = 3, test_zicboz },
->  	[TEST_NO_ZICBOZ]	= { .nr_tests = 1, test_no_zicboz },
-> -	[TEST_NO_ZICBOM]	= { .nr_tests = 3, test_no_zicbom },
-> +	[TEST_ZICBOM]		= { .nr_tests = 3, test_zicbom },
-> +	[TEST_NO_ZICBOM]	= { .nr_tests = 2, test_no_zicbom },
-> +	[TEST_NO_ZICBOINVAL]	= { .nr_tests = 1, test_no_cbo_inval },
->  };
->  
->  int main(int argc, char **argv)
-> @@ -189,6 +225,7 @@ int main(int argc, char **argv)
->  		assert(rc == 0);
->  		tests[TEST_NO_ZICBOZ].enabled = true;
->  		tests[TEST_NO_ZICBOM].enabled = true;
-> +		tests[TEST_NO_ZICBOINVAL].enabled = true;
->  	}
->  
->  	rc = sched_getaffinity(0, sizeof(cpu_set_t), &cpus);
-> @@ -206,7 +243,14 @@ int main(int argc, char **argv)
->  		tests[TEST_ZICBOZ].enabled = true;
->  		tests[TEST_NO_ZICBOZ].enabled = false;
->  	} else {
-> -		check_no_zicboz_cpus(&cpus);
-> +		check_no_zicbo_cpus(&cpus, RISCV_HWPROBE_EXT_ZICBOZ);
-> +	}
-> +
-> +	if (pair.value & RISCV_HWPROBE_EXT_ZICBOM) {
-> +		tests[TEST_ZICBOM].enabled = true;
-> +		tests[TEST_NO_ZICBOM].enabled = false;
-> +	} else {
-> +		check_no_zicbo_cpus(&cpus, RISCV_HWPROBE_EXT_ZICBOM);
->  	}
->  
->  	for (i = 0; i < ARRAY_SIZE(tests); ++i)
-> -- 
-> 2.39.2
->
-
-Besides the nit,
-
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+- Nuno S=C3=A1
