@@ -1,213 +1,214 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6B51B21AD;
-	Tue, 14 Jan 2025 18:51:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736880674; cv=fail; b=b/+RiTADViYzHTG0jYAm4pJTgNmn5Vl9If1WVGMNTMhhkBMzxMg93WZwmTAWhbCVRWxOVq7vcfR89VK46gDBHhJQtznvP+bYhXNxhfwNj9TOSHYEeHRk+vV/oIj322iL7kepvvJo5kFCuQ5HoWtiqviCw3E8I/J5hCO1u5IcxZI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736880674; c=relaxed/simple;
-	bh=qHJmo6VUjpqMFbgyBxGwXtfZ98tbI+btb0b5s+A3OKk=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=S0PkIoNCnEnH/FqKNl+GWDMfQNeWGc8KdVo7D6H8Rj1mTV/kdhyUqdTig47yaRHRtZxIbGpe0kjxS+Q0Mf6mtVB+nLpgu8xSrdRplVFYLHOJxTkzLOzc10F1mPq+GePSUEfN+nnLI5xzOfnncO1fIs6EYckzHqHdm31xl9s3BEQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l5AJO0m9; arc=fail smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205491F9ABE
+	for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 18:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736881107; cv=none; b=AgY1ki2Y5hchfuCrB94gnJraWf8hTD/KdWQAuqWAeBExBjBQMJIF/3CBJbv+mxBNFRxRSk0sh7OGihcQmiUYsnF98wSQ6uX6vZXaKl55GPxY5DzBrWZajLQjU3lTigTug2WRUxxQRKsTEykxUx9xUPIaA5XCQn353xicYlSSEgY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736881107; c=relaxed/simple;
+	bh=iKe/Ir7F11LNiqHDMJ30bCROVh05nyv6d7BmrLXKNNw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rGBJ8BJI/FzNrL3LgDtZmkJ7CTmUK/6Za/yp6rOVhmbk/03e3vgDna5BZG4cU21Dxi45PswBAbhQFHBX+658VlRWLO1EphVKgWd37NRD8jL3/Q2l+6iam0DVrWASucM6+QHbAYDScksgaPI6rZACMJqz6rquzeUOllmZ0v67ggk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Sv3uIoG+; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l5AJO0m9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736880672; x=1768416672;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=qHJmo6VUjpqMFbgyBxGwXtfZ98tbI+btb0b5s+A3OKk=;
-  b=l5AJO0m9cStL5y5va5rzGqcyaTv91aXmr1Hf3xUJOdbAWOlD5oeyVwvC
-   FmLBhfEjMz5zU1/8MtENpRvOzG4KSWOBqdnuXQKk+ia0YVkwmzfigv4L/
-   cPSlYGYajJL1gANTjrP8A9ypvdoHH+Rf6Vm0AT6nGfTqvLqM/OO3id23g
-   b5fhBvsVw9NnxD4wLUFlUevpZAEy0Ljyek0hahFIY6wyznXLwvjZcedmj
-   wRH+zY5DQvo04/QfXao0PdZTUCntlcr6LOze9r3Lr8+tgHZJTFpYGPVUY
-   /TKn4ahSy9CH2gTrvHcorivcixPjbNO1SZT91s7rP+iywHkUBs1z9QAak
-   A==;
-X-CSE-ConnectionGUID: i56DuK4iRRmI8lWMUAASbw==
-X-CSE-MsgGUID: 2oDh24+lRO6ROMQsGauuSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="47683206"
-X-IronPort-AV: E=Sophos;i="6.12,315,1728975600"; 
-   d="scan'208";a="47683206"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 10:51:12 -0800
-X-CSE-ConnectionGUID: 2v/CLY4gS+CM4vFB9ugdUQ==
-X-CSE-MsgGUID: 5Sq64L8KRsKKjrrz/cxLcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="104757565"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 14 Jan 2025 10:51:12 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Tue, 14 Jan 2025 10:51:11 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Tue, 14 Jan 2025 10:51:11 -0800
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.177)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Tue, 14 Jan 2025 10:51:10 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a+jmBgi58VOMSRPoLJNKrLXnc6NktCIfK9iRruxAdaWehKuhzYxB6B8VTyOyhJWA/tdStHCop/iSyFjOenz4BU+ag7Y0QfuZQkSdgjqVgYhJeaD73c+QB/vIt7gzbgaVzsY84SvLvuYnjRW+wUnglkqlaphFK3/r8+KIGtAYiET97lRpkOZ5HgXJ+WaHMv4rWwCBEln0gc4CtgKPZQI9+++kjgEWj1/C233eDN1zeOGByw/8y2PNc901CTqAQ5zDZ+2Uigxbq8abHi0m0MMg+0QHlbaY6o0Yu5T6LjcRJ3Gi542CnFYhhLT8aphBMZg3pI9unDnly4fBXFdfnR150Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eMryI1ibjV6DCpHmga+rjWzpYcwZmVNzXRWay0XOzPA=;
- b=wgV5YN7iro9zF8sgDXd3ZknPACdOhX1lhKcW6IK2JGkG7k6ki+6C5zR4X2rlbRSUmYr4QVDp0qjZGhbryasxZDDPZVgbjY0ChHHkX8zxj4f52iz7UxolMg2N20YNppTj0gZyCLZqcEo0S9t1U7CXtTCgLvGBnYkizmVVMmlZN0UbEY0VsnnapeP2pOW3umaPJ6anWQ4SMore1tdtpKaHun9xxLqw4VdILPwqRb8nsvu3rvfuhgl9YlcEcxT3ILe39wKs9G413lR/VArOOvLTWerB1fMwJbmsh0HQ6DUECA5/WL6gAb7dpsReTysdH6VSuUFCoUC+wWM7QVixWH2VGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
- by IA0PR11MB7956.namprd11.prod.outlook.com (2603:10b6:208:40b::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.18; Tue, 14 Jan
- 2025 18:50:54 +0000
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::6b05:74cf:a304:ecd8]) by PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::6b05:74cf:a304:ecd8%5]) with mapi id 15.20.8356.010; Tue, 14 Jan 2025
- 18:50:54 +0000
-Date: Tue, 14 Jan 2025 10:50:49 -0800
-From: Dan Williams <dan.j.williams@intel.com>
-To: Alistair Popple <apopple@nvidia.com>, <akpm@linux-foundation.org>,
-	<dan.j.williams@intel.com>, <linux-mm@kvack.org>
-CC: <alison.schofield@intel.com>, Alistair Popple <apopple@nvidia.com>,
-	<lina@asahilina.net>, <zhang.lyra@gmail.com>,
-	<gerald.schaefer@linux.ibm.com>, <vishal.l.verma@intel.com>,
-	<dave.jiang@intel.com>, <logang@deltatee.com>, <bhelgaas@google.com>,
-	<jack@suse.cz>, <jgg@ziepe.ca>, <catalin.marinas@arm.com>, <will@kernel.org>,
-	<mpe@ellerman.id.au>, <npiggin@gmail.com>, <dave.hansen@linux.intel.com>,
-	<ira.weiny@intel.com>, <willy@infradead.org>, <djwong@kernel.org>,
-	<tytso@mit.edu>, <linmiaohe@huawei.com>, <david@redhat.com>,
-	<peterx@redhat.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linuxppc-dev@lists.ozlabs.org>, <nvdimm@lists.linux.dev>,
-	<linux-cxl@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<linux-ext4@vger.kernel.org>, <linux-xfs@vger.kernel.org>,
-	<jhubbard@nvidia.com>, <hch@lst.de>, <david@fromorbit.com>,
-	<chenhuacai@kernel.org>, <kernel@xen0n.name>, <loongarch@lists.linux.dev>
-Subject: Re: [PATCH v6 23/26] mm: Remove pXX_devmap callers
-Message-ID: <6786b209929e2_20f32945c@dwillia2-xfh.jf.intel.com.notmuch>
-References: <cover.11189864684e31260d1408779fac9db80122047b.1736488799.git-series.apopple@nvidia.com>
- <78cb5dce28a7895cc606e76b8e072efe18e24de1.1736488799.git-series.apopple@nvidia.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <78cb5dce28a7895cc606e76b8e072efe18e24de1.1736488799.git-series.apopple@nvidia.com>
-X-ClientProxiedBy: MW3PR06CA0006.namprd06.prod.outlook.com
- (2603:10b6:303:2a::11) To PH8PR11MB8107.namprd11.prod.outlook.com
- (2603:10b6:510:256::6)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Sv3uIoG+"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-219f6ca9a81so147235ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 10:58:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1736881104; x=1737485904; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=t2CWdiE+Y588cATxDxllUErMB/2Ly3FWAF67BGEJO/4=;
+        b=Sv3uIoG+7ybTo6/20hlUgLSpZCTtlmaGT0HRF+CCEQ6gd6WATFrWywTTBPM/9I6CTg
+         /5rMAGJMR/9JIP8pYgo0KsULbGgvxqtI8gW9gVm3HSUDxExTLGoCLwxkAlwj/oI2DuIQ
+         2/OnjPOYCGMRrOuU0JLYMVdObEcdW+1WYIINM1IiKIpxELyRUfRKcYiG3FxJxF+Q/Fed
+         ChHbFFIqt1X87kbBknso6RhuMUHWSRP4VtKf/9iWlmN+s4J5MyqAtfXkQVb8zb+GT8xn
+         wtoTw3h+foApVHIq6BRBg9974sDe1rM0Qu/n71XDuVWJFI/RaDO7OXHqMGVG2gAtTxLZ
+         sz7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736881104; x=1737485904;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=t2CWdiE+Y588cATxDxllUErMB/2Ly3FWAF67BGEJO/4=;
+        b=E/dXrMTsipq7Yd5xi7kna+X4UPztYcQCcIxxYrXmcAedIUdTN80YA6VRFIv2Wc1Tpb
+         dyNkCT2pQ1njWFqRWQotS6hkqYc6CaFoFqPzY6zikc+9YvYTO/SOKlkwb2JW1XqGuPIo
+         CrAoe+rM74f7V7xAPRzEz1XdZnVR4RRMpDRAiEGT0ON5RpD+2hzzd373oH/NbznIuW2e
+         JA27eKpBJHqBv9HVBOAyNnsxTOSSIRLOq4wGnyYiXJXKlj75hhOfLM16TV3JXFPV4s1/
+         8UEw8S0wy4PfK3ObPNkK3RR9wE4L00p7hRoQsuv5N0TMYAvBuofTCXuJpqD1BEMRevzM
+         GfyA==
+X-Forwarded-Encrypted: i=1; AJvYcCUWh2CG74Pfz98gzY8Z0EKLjGXnp64t1+JCXJVTsDUxCo6FeRHmfCUN/MRPjzCbjbOkKxePQzYZCuc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjSbGKUufWIo6sCuu7mdBUmb7w/IqKSttKgdFscYou6vQESuEb
+	s8BRYa793W/UrjPm4CfkAnL3J0PKMKQmD38RtjUvTFklpP/aLMZC2TpfJq4GOA==
+X-Gm-Gg: ASbGncvCud8LqpdvCPZYpwg9JUW7fZ4LhscZEhIlpTX+/02HltHY6I141xohZcyt54w
+	Ls73B9/c08x26i0cVcsW00p/RYQnVzylAnUzrIaHvNeZJqqidok8wVqyngiHjN8Gncmu8xVvDOT
+	RF7YG87ANBjLmrqm36vmlveDCUCHkPM0oH5nEp9NTcF0MMocaP9qdCY+Su8EooEf4yhJR8LGdW6
+	fTKLecExKO2wGmKWs/YxINDKUy3tCubP9ZDevy8AhzKJPzF8VKu+yn0hfI52qrxu4Yoq2M0WscS
+	lO7PWTh53BP9m64JtuA9erzoa9A=
+X-Google-Smtp-Source: AGHT+IG/013Oj515jx+bAnxAgTCQ+vTnK59fPTZt8oVE2ZAEpSVnb9QRz1EEDwXZHaYE7mba9SJ2Ig==
+X-Received: by 2002:a17:903:492:b0:20b:5e34:1850 with SMTP id d9443c01a7336-21bf0e598d9mr26285ad.23.1736881104251;
+        Tue, 14 Jan 2025 10:58:24 -0800 (PST)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com. [35.185.214.157])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9f2339dasm69151185ad.177.2025.01.14.10.58.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jan 2025 10:58:23 -0800 (PST)
+Date: Tue, 14 Jan 2025 18:58:19 +0000
+From: Sami Tolvanen <samitolvanen@google.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Matthew Maurer <mmaurer@google.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Jonathan Corbet <corbet@lwn.net>, linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v13 5/5] rust: Use gendwarfksyms + extended modversions
+ for CONFIG_MODVERSIONS
+Message-ID: <20250114185819.GA2222429@google.com>
+References: <20250103-extended-modversions-v13-0-35d87c65ee04@google.com>
+ <20250103-extended-modversions-v13-5-35d87c65ee04@google.com>
+ <CAK7LNATGw-m_dcdjTBHsFwCZh7mTt8q8yNZQ7VFP=hMU8NvUvg@mail.gmail.com>
+ <CABCJKuf-w1puUsypU-cr5BH8uvCdPPQmhZZ1qVKDDg3Y-iQhSg@mail.gmail.com>
+ <CAK7LNASh4xMN8nN5vwR6R1OCNW9u4MJz=CSwW4_4hvFOhczmWA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|IA0PR11MB7956:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1ab07e93-5b81-458f-2c79-08dd34cc5f9a
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?YsPMrkNCAOPEkQoCz2IvWulBCFX+fPo65NVNhR0zdzkkyoN+/+o2pj1gcyGa?=
- =?us-ascii?Q?fs75xZp7iqW79SH6onHmyt2RY5ScnwJTStqORpAh5T+Kewc2XVVguPEkzw+x?=
- =?us-ascii?Q?XqTluBO5xB9ykH42MAdgoiWX8xzLvPmI+YZLZMwVpcwK00tANml1JFsBkmJt?=
- =?us-ascii?Q?Rr1KHyb/21TEE2PQiB/vURmhb2uBX38I+JnPvwMik0ZouRXV6V234nByPuQ2?=
- =?us-ascii?Q?vWU5FdVAqOpwiQybCTSZx9mTFXnBKWoFXQm98XoFCPbKhsv0ysdO+r8RUjBD?=
- =?us-ascii?Q?2e76b828JYp7SvA/vhoeyD3daNtDwTe9C+A3aqs+o61tnRp5FoahSRLDa+r1?=
- =?us-ascii?Q?ksiYASDs0N/UKetQW97sSEpL/jIQWnb2w7mxIUjIDTsqkLEVzwXTkXdNqv84?=
- =?us-ascii?Q?fev2jcz4cGF00JXuVL6ZS+9WHDnhIglsp+Fd2e0MbnY+HYMvnnbcyx6Ujf92?=
- =?us-ascii?Q?5jboI05WUOHB9FxhotGgFJmghIR4BbtJBUj25LpNAXNRiI8cXDpFbS6W7kbz?=
- =?us-ascii?Q?z2PWYUXgyZLu6b9M3QKwn84y8YdsFtceGla+HDSC7hW4x9G0zqZj9VdWJDv5?=
- =?us-ascii?Q?vZjfP9NXhThX/+vBqG7rFVO59264jWDIE7NEE347h9W+PuHL6rOV6cHcYgV4?=
- =?us-ascii?Q?M0AzlZWs5DO4UxoCjtrZTAI5YoIx9Tk3uDqWRLyHYZj+orW6pYP0WP9qt83o?=
- =?us-ascii?Q?X3rGDq7UvRcMp9wSRRDQtWW086r2O56DnEwLD/VYeUiVy+Hw5WBMLVURE8pQ?=
- =?us-ascii?Q?CLn1jfhQI4n2oGcY0oF4ARSanjkJmrCyDAYCKrpNRI9JqGqSe84gk/61hrCc?=
- =?us-ascii?Q?TyWIjOfNBMRCS9G/afo9JsgrLFJeLbhm9y+hDjh7xSldZRkn3qqx8TGWrtGn?=
- =?us-ascii?Q?rkuAeKXmicaNyxlWSlPahXP2mLgo47JHHlVFKIY3KyCwDy3dhXsV5jYTLBq1?=
- =?us-ascii?Q?8hwtZWTq49uBpikgepv6Y+mJAguG2/8QysmcLFqxuIb9EW2ShepgfobWbh6c?=
- =?us-ascii?Q?d7fXLUOpCaD6dTm0QwuUsuZXE3NFig0UdPQZVyHrfjWCl3sx541sWAVyFDM7?=
- =?us-ascii?Q?9Rgx2eOl7MSYnnDKSpuTJl8osexiMadiUO+kjwxG8DgitT1BEgGiqMkI1mS+?=
- =?us-ascii?Q?vmb+gNRpy1OYAtjGT2f0hudhV+b3ImFrKTx9cU78Pf7t8a/VwjJrLIXLiQzk?=
- =?us-ascii?Q?AKJ7tgwifkqEmUhBF8KkCBnJpfmmf7iJYSIxTbX+550ttUSB2yNeRPESM/3N?=
- =?us-ascii?Q?/+pOOODhbZjrdK+OdGiA+O6v11Z+G4jdUtq5XHgj2ReFUOuVrjeHakaJHWew?=
- =?us-ascii?Q?XPZJa8xSwgRAhl8wkxy4y4X6XnaTP4PHr3HQqE8ovzH3eXgmUXbEIeQzzhWb?=
- =?us-ascii?Q?TvfvHR/ErrTTmVdLSvYBWufnnrnc?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kDBa6yISTMxd/sU136Yzb6z23MJc4SGiRLRjYAxuulYVnX/N1Te9ozm68Z4k?=
- =?us-ascii?Q?nL6KgJY4YfMCRGV5Ir0/fB6HScC58r6E5zHTqgHctZb3fm52/zpndQT1cpI7?=
- =?us-ascii?Q?ohCy1/q5NPz9SBpt84bdQetLLRB05U3xHAdfHVbMs/xcYZrWscgIF6Xagcby?=
- =?us-ascii?Q?84b4ThwzAXry/iE6deVZIQ/PYQ59AOmI/fwyLCxxxWDKfSHhrQ4uXTfS+FAL?=
- =?us-ascii?Q?pUdn1jFaJukYIzH5TrmBnyDlLAUrWI3c5m7AdpKGhneokMLc+CiuG69o425y?=
- =?us-ascii?Q?p0roDTw+sK7Tq3vvnG8hQahATW0vAJPC8CNWLUEzpXVBbSn23jcm00T/aHKW?=
- =?us-ascii?Q?Lg0ZpdcZDpwmXLt1yxLisuQlu5bByPV2RudSWZNrH86tet5jpcaSyTvQqan7?=
- =?us-ascii?Q?/KwdcqsnM0aYEkLVFo0GqG0m/NkFahYgF6mq//nHTLTYtMJVW8bdDj88v5BD?=
- =?us-ascii?Q?1ZAnPlakJ9ytrf/x8+uZSXkIb3Kz+0PU66d2YD3bdeHkjjaGF620ClAfN0F8?=
- =?us-ascii?Q?zXGByp75R3m7jgDUZfKcgerIWTP65rFGty4YuOsIH3tClgHbQu76J4UZzhvd?=
- =?us-ascii?Q?Xxc0M3iZ0dgtkAJccqG4wLLnSG9eBbQ6+WWGE+nWcKyTzGKkQ7W0mUj+8IvY?=
- =?us-ascii?Q?v6HUXvCwDrF6DW+6DoNt06rTFKTHpUkIrpVutMEOFj3IdlXFQb6+MR+csB0D?=
- =?us-ascii?Q?9OqmRQXo6NXVcCXWoxuI+er8d3xKv5qhjjZOm39CHhYzo/ZUwWvxBsCyFhOk?=
- =?us-ascii?Q?uLqN5zFjYIsgjiQittWDc0fqsZrVokkGCf2zxRBUytpt6FeBHDvl8q6gq8bX?=
- =?us-ascii?Q?4Q0W87UC5EX+vfc3EtoimKZ2W4OVHb/ajF31oawmrW2pDb59dRhneX4Y0YgM?=
- =?us-ascii?Q?svLMcx9NhPlDeL7aORcDw1Se+dWb9LXM/a9ADyQOu9SbalfVI0r7xaNcegTG?=
- =?us-ascii?Q?eIQvG2iShoZb+E8rt+G2iVklb9RUlwGGTm1vFje6z+/btZ6IweEcDTbLoLFR?=
- =?us-ascii?Q?XNGeQTq7HaZAS9FeZZ/2bE9AIjXf7hTBdLbg1Tohi3zRbRrp/agIwNOWe5XC?=
- =?us-ascii?Q?+eQ5IQki3AxCr/any3IqeujxsHLTYez2s0+cJECq4dd796UrsgURcxUQjEdI?=
- =?us-ascii?Q?6xQv4ZANmzRe/KjsDOApgT0/hZbsrKDFB6tOEI0LgXom8vw11P08SXI3jZBQ?=
- =?us-ascii?Q?qMQLTHf74i5L8MKJaspVmAbpq9ElWDrMK7EqlBA5sSqEKvZmf7YY94LeJO8I?=
- =?us-ascii?Q?jVK4q+uRn0XLaKBRADG0ZNC4VGrUiNZD19206SGVlKm3gQp2kMADbq62Gpz2?=
- =?us-ascii?Q?t6Jd/JjDORInzfERTLJenWN8Jf7ukDGKJi5pc3k6di5SrnRDyCDq5BzEnyHg?=
- =?us-ascii?Q?t0BzxwBmx4fGW1/1Byu9oLQj7t8xcRvKoDwcyqKee5cml8oSquRejdNDwLH5?=
- =?us-ascii?Q?nPO/3gfy/hUSYd3iqT8gU6Aeot9zS4O9e2EwCx5v62r60lZXfUSRhJIAV3vt?=
- =?us-ascii?Q?ugPjIyL43mysRhSH7LmB19aoQbVUs9J3dZvDXbgkBedRi0mlgXPSR7QzzuW8?=
- =?us-ascii?Q?A+gAn6N2JMLI4sgPPhkBsJ9KYehen/4TSs2I/ZSQ/kP5cQpAOIiS3UK8GrIq?=
- =?us-ascii?Q?aA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1ab07e93-5b81-458f-2c79-08dd34cc5f9a
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2025 18:50:53.9954
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uC65HX62NSkSdWpU9FpRTEJVgGeQMgGJDhDTLTfnQWm9/fxXU9AwynTedVW076dIhw/uCilqSf65znv4GbucwREo9jC5knKtDkqsqCn9psY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7956
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNASh4xMN8nN5vwR6R1OCNW9u4MJz=CSwW4_4hvFOhczmWA@mail.gmail.com>
 
-Alistair Popple wrote:
-> The devmap PTE special bit was used to detect mappings of FS DAX
-> pages. This tracking was required to ensure the generic mm did not
-> manipulate the page reference counts as FS DAX implemented it's own
-> reference counting scheme.
+On Tue, Jan 14, 2025 at 10:22:15AM +0900, Masahiro Yamada wrote:
+> On Tue, Jan 14, 2025 at 5:04 AM Sami Tolvanen <samitolvanen@google.com> wrote:
+> >
+> > Hi Masahiro,
+> >
+> > On Fri, Jan 10, 2025 at 6:26 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > >
+> > > On Sat, Jan 4, 2025 at 2:37 AM Matthew Maurer <mmaurer@google.com> wrote:
+> > > >
+> > > > From: Sami Tolvanen <samitolvanen@google.com>
+> > > >
+> > > > Previously, two things stopped Rust from using MODVERSIONS:
+> > > > 1. Rust symbols are occasionally too long to be represented in the
+> > > >    original versions table
+> > > > 2. Rust types cannot be properly hashed by the existing genksyms
+> > > >    approach because:
+> > > >         * Looking up type definitions in Rust is more complex than C
+> > > >         * Type layout is potentially dependent on the compiler in Rust,
+> > > >           not just the source type declaration.
+> > > >
+> > > > CONFIG_EXTENDED_MODVERSIONS addresses the first point, and
+> > > > CONFIG_GENDWARFKSYMS the second. If Rust wants to use MODVERSIONS, allow
+> > > > it to do so by selecting both features.
+> > > >
+> > > > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> > > > Co-developed-by: Matthew Maurer <mmaurer@google.com>
+> > > > Signed-off-by: Matthew Maurer <mmaurer@google.com>
+> > > > ---
+> > > >  init/Kconfig  |  3 ++-
+> > > >  rust/Makefile | 34 ++++++++++++++++++++++++++++++++--
+> > > >  2 files changed, 34 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/init/Kconfig b/init/Kconfig
+> > > > index c1f9eb3d5f2e892e977ba1425599502dc830f552..b60acfd9431e0ac2bf401ecb6523b5104ad31150 100644
+> > > > --- a/init/Kconfig
+> > > > +++ b/init/Kconfig
+> > > > @@ -1959,7 +1959,8 @@ config RUST
+> > > >         bool "Rust support"
+> > > >         depends on HAVE_RUST
+> > > >         depends on RUST_IS_AVAILABLE
+> > > > -       depends on !MODVERSIONS
+> > > > +       select EXTENDED_MODVERSIONS if MODVERSIONS
+> > > > +       depends on !MODVERSIONS || GENDWARFKSYMS
+> > > >         depends on !GCC_PLUGIN_RANDSTRUCT
+> > > >         depends on !RANDSTRUCT
+> > > >         depends on !DEBUG_INFO_BTF || PAHOLE_HAS_LANG_EXCLUDE
+> > > > diff --git a/rust/Makefile b/rust/Makefile
+> > > > index a40a3936126d603836e0ec9b42a1285916b60e45..80f970ad81f7989afe5ff2b5f633f50feb7f6006 100644
+> > > > --- a/rust/Makefile
+> > > > +++ b/rust/Makefile
+> > > > @@ -329,10 +329,11 @@ $(obj)/bindings/bindings_helpers_generated.rs: private bindgen_target_extra = ;
+> > > >  $(obj)/bindings/bindings_helpers_generated.rs: $(src)/helpers/helpers.c FORCE
+> > > >         $(call if_changed_dep,bindgen)
+> > > >
+> > > > +rust_exports = $(NM) -p --defined-only $(1) | awk '$$2~/(T|R|D|B)/ && $$3!~/__cfi/ { printf $(2),$(3) }'
+> > > > +
+> > > >  quiet_cmd_exports = EXPORTS $@
+> > > >        cmd_exports = \
+> > > > -       $(NM) -p --defined-only $< \
+> > > > -               | awk '$$2~/(T|R|D|B)/ && $$3!~/__cfi/ {printf "EXPORT_SYMBOL_RUST_GPL(%s);\n",$$3}' > $@
+> > > > +       $(call rust_exports,$<,"EXPORT_SYMBOL_RUST_GPL(%s);\n",$$3) > $@
+> > >
+> > > I noticed a nit:
+> > >
+> > > Both of the two callsites of rust_exports pass
+> > > '$$3' to the last parameter instead of hardcoding it.
+> > >
+> > > Is it a flexibility for future extensions?
+> > >
+> > > I cannot think of any other use except for printing
+> > > the third column, i.e. symbol name.
+> >
+> > Good catch, the last parameter isn't necessary anymore. It was used in
+> > early versions of the series to also pass symbol addresses to
+> > gendwarfksyms, but that's not needed since we read the symbol table
+> > directly now.
 > 
-> Now that FS DAX pages have their references counted the same way as
-> normal pages this tracking is no longer needed and can be
-> removed.
-> 
-> Almost all existing uses of pmd_devmap() are paired with a check of
-> pmd_trans_huge(). As pmd_trans_huge() now returns true for FS DAX pages
-> dropping the check in these cases doesn't change anything.
-> 
-> However care needs to be taken because pmd_trans_huge() also checks that
-> a page is not an FS DAX page. This is dealt with either by checking
-> !vma_is_dax() or relying on the fact that the page pointer was obtained
-> from a page list. This is possible because zone device pages cannot
-> appear in any page list due to sharing page->lru with page->pgmap.
+> If you submit a diff, I will squash it to 5/5.
+> (You do not need to input commit description body)
 
-While the patch looks straightforward I think part of taking "care" in
-this case is to split it such that any of those careful conversions have
-their own bisect point in the history.
+Thanks, here's a diff that drops the last parameter.
 
-Perhaps this can move to follow-on series to not blow up the patch count
-of the base series? ...but first want to get your reaction to splitting
-for bisect purposes.
+Sami
+
+
+diff --git a/rust/Makefile b/rust/Makefile
+index 80f970ad81f7..ab300bfb46f6 100644
+--- a/rust/Makefile
++++ b/rust/Makefile
+@@ -329,11 +329,11 @@ $(obj)/bindings/bindings_helpers_generated.rs: private bindgen_target_extra = ;
+ $(obj)/bindings/bindings_helpers_generated.rs: $(src)/helpers/helpers.c FORCE
+ 	$(call if_changed_dep,bindgen)
+ 
+-rust_exports = $(NM) -p --defined-only $(1) | awk '$$2~/(T|R|D|B)/ && $$3!~/__cfi/ { printf $(2),$(3) }'
++rust_exports = $(NM) -p --defined-only $(1) | awk '$$2~/(T|R|D|B)/ && $$3!~/__cfi/ { printf $(2),$$3 }'
+ 
+ quiet_cmd_exports = EXPORTS $@
+       cmd_exports = \
+-	$(call rust_exports,$<,"EXPORT_SYMBOL_RUST_GPL(%s);\n",$$3) > $@
++	$(call rust_exports,$<,"EXPORT_SYMBOL_RUST_GPL(%s);\n") > $@
+ 
+ $(obj)/exports_core_generated.h: $(obj)/core.o FORCE
+ 	$(call if_changed,exports)
+@@ -404,7 +404,7 @@ endif
+ 
+ ifdef CONFIG_MODVERSIONS
+ cmd_gendwarfksyms = $(if $(skip_gendwarfksyms),, \
+-	$(call rust_exports,$@,"%s\n",$$3) | \
++	$(call rust_exports,$@,"%s\n") | \
+ 	scripts/gendwarfksyms/gendwarfksyms \
+ 		$(if $(KBUILD_GENDWARFKSYMS_STABLE), --stable) \
+ 		$(if $(KBUILD_SYMTYPES), --symtypes $(@:.o=.symtypes),) \
