@@ -1,204 +1,577 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mail-m19731103.qiye.163.com (mail-m19731103.qiye.163.com [220.197.31.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 088578488;
-	Tue, 14 Jan 2025 02:42:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736822580; cv=fail; b=j1WJ2mQNW6ud3owbXGkflE7NKy8KHnd2jKNKOPqil3vaOLiyLSHU/bwDtlRzHpT9DP+oLG8ZhYfeDR/psXC+8s1VCqbicRuSn8THNhOo7OLK/KwLPimQJCLAQAhEvSTeMEDAuzUmip/vI1ChbK0UspLs1IAXm8ENyLWe1lntAY8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736822580; c=relaxed/simple;
-	bh=28noauLCixfn72KxxDsQx0fKG2JZXvOkemx6YL0mlRA=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=DvkfPcmfwQq+G7r90ye3YqICL7F7JbgfxtVsSPmisAasrgTiksWasAzlzOWZx787NJOjQo2ayvmQTwPxSmYJ7z/NcYHTSysoBqvvYhgbHbGDw7NOY8KYIjvFW/IMm48GuyVgISfCxV9VYTsFYvYfnGl8kGdy+Du7QpUO6RgULco=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CWbT+8st; arc=fail smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C959230276
+	for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 02:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.103
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736822661; cv=none; b=dayLQcorYTYm6wiIU1vizC8TEBFFPHYnzZkm5wq/p/lgUWUoN0F4KQxb61w7hFVwTnBQiVucbLZXiSe+lEholO2rc5L96OqVPMVmqlcd0npsm7oa6CG7aI27o+xTT8RQ0vMRS0Iznv510xnh4kkrP9fKdKb4n9ZTkgHQ1QD2QF0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736822661; c=relaxed/simple;
+	bh=WLSvTz5SYhA6zMoiZcNdrlyLuhw3I96fSjlDdxsK5CU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kv8XlGE0cQDFtvPQWBC6cHoNRS2L8e/nO3axtJ1GHOqQP+U8vO1EUyi/0jiLavK6THYn1IAvjURvlsfkPr+7o4Tn8CF1Wl7ZvrjT3DqBEyMyL45XnajF83U9ZCR2qyR9QY94dvzMk9pKGQcsQzj6nNRn8Hy6gkFgxQpuc25NtsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=CzIa24RO; arc=none smtp.client-ip=220.197.31.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CWbT+8st"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736822579; x=1768358579;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=28noauLCixfn72KxxDsQx0fKG2JZXvOkemx6YL0mlRA=;
-  b=CWbT+8stBCLx2kBmAcyAYLnZYQMr//JnotEjZTZ7fmSvVt5FV0LeFfCF
-   nXDNCLYR4sb8WP6b0XT/r5yDWrim8oOpgVqDVGuIc9WxEO8r53RTb5N6s
-   Yd8cJbHY2lgULVXcNhH1f2dnOEmSt9CYt34yCsQrVlYJrjCplVRyELeTV
-   3VTfB2GINn/+7YDN6WXbA+QXmX0MTOoJqwDevcv2YBTVM2uYWEnutJXyt
-   9XjSZ0xVOpxPkKEWQ7Qg8l5mPxsbEBqM8AF53uThNgD+BlaAoPMnZPLrJ
-   1yEKpodTmw13WJUfYR/VTXLA1QcTxIKmv3e2Hhcyzrlu3U9pjt+P77bPG
-   w==;
-X-CSE-ConnectionGUID: +CGZ2J6cSPqNfBYyxc+iSQ==
-X-CSE-MsgGUID: 6zLJMAhITXGOtxaog3hpJQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="36995509"
-X-IronPort-AV: E=Sophos;i="6.12,313,1728975600"; 
-   d="scan'208";a="36995509"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2025 18:42:58 -0800
-X-CSE-ConnectionGUID: PQzJnjVNSe2K3Fjjd15ezQ==
-X-CSE-MsgGUID: 2/igtmoqS1ifObUXAkGXQg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,313,1728975600"; 
-   d="scan'208";a="104751695"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 13 Jan 2025 18:42:58 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Mon, 13 Jan 2025 18:42:57 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Mon, 13 Jan 2025 18:42:57 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Mon, 13 Jan 2025 18:42:57 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xOUA9jyQCs2vXzQJu+qQE+nPfpOFrrNk+9iXH0XuUur7ACYZFZJYFU476Qru6Lm3c4B0Eu7DTFCyPHlTnlti9ITKrVHDGbP8cNrlBNFHLeBy9zJEuIg56y8/DCvpfNmhaNwZBEJzLimkDnrM9omlsMLeeE6htmgWMelss1EHQyxNynQbk4+bYkslpINyVuro146eMvPAt2PL3/Kz6F8rdZ+1FgBbzNECBpHXUfGi/2CA/+04zsKJ5zAm/YaZuG5adHXpQx/yOMDUvG9ZMSUtlx39j0E9ndi5OE1XJ5hCuu3VaZuiQmV+63sq5aLsQIfGyATF0LzPlYKe53Z5oRSlIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LJmm6VNmE6RAeWxfWyDuUi7gBfTXFc4XZixsvSo803Y=;
- b=YH3RNPCEydZcx2TD1nVzQ3USS7tcEROgs0I0pw5X20KKHXCXN0ukHsxa0384uy1flztCKjLj6BCehkufwdqPkyoBrgOTXurfZ06zTdfwgGENvimWU5es2o11UPceH8d65BON7NlKoHoBg3Pa2WC5E0ksO2KIW4+3QrM9O2dftwbozXs0PrYw1VzLiO6pk6mNw5++2WrD6Foy99fEJd3elV0ncvX3WLxMUrXUzXCnb5bgajFoM0EpyuLaz50h1r5m/5CvN+o1H+s1LecmglkJMAFMPDJmaRCsob1yfKKolRamfD9XD3LVKbDhwiSOZGzVgt5dMM4bcnS+09vyRsiLnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
- by PH0PR11MB4789.namprd11.prod.outlook.com (2603:10b6:510:38::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.18; Tue, 14 Jan
- 2025 02:42:51 +0000
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::6b05:74cf:a304:ecd8]) by PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::6b05:74cf:a304:ecd8%5]) with mapi id 15.20.8335.011; Tue, 14 Jan 2025
- 02:42:51 +0000
-Date: Mon, 13 Jan 2025 18:42:46 -0800
-From: Dan Williams <dan.j.williams@intel.com>
-To: Alistair Popple <apopple@nvidia.com>, <akpm@linux-foundation.org>,
-	<dan.j.williams@intel.com>, <linux-mm@kvack.org>
-CC: <alison.schofield@intel.com>, Alistair Popple <apopple@nvidia.com>,
-	<lina@asahilina.net>, <zhang.lyra@gmail.com>,
-	<gerald.schaefer@linux.ibm.com>, <vishal.l.verma@intel.com>,
-	<dave.jiang@intel.com>, <logang@deltatee.com>, <bhelgaas@google.com>,
-	<jack@suse.cz>, <jgg@ziepe.ca>, <catalin.marinas@arm.com>, <will@kernel.org>,
-	<mpe@ellerman.id.au>, <npiggin@gmail.com>, <dave.hansen@linux.intel.com>,
-	<ira.weiny@intel.com>, <willy@infradead.org>, <djwong@kernel.org>,
-	<tytso@mit.edu>, <linmiaohe@huawei.com>, <david@redhat.com>,
-	<peterx@redhat.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linuxppc-dev@lists.ozlabs.org>, <nvdimm@lists.linux.dev>,
-	<linux-cxl@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-	<linux-ext4@vger.kernel.org>, <linux-xfs@vger.kernel.org>,
-	<jhubbard@nvidia.com>, <hch@lst.de>, <david@fromorbit.com>,
-	<chenhuacai@kernel.org>, <kernel@xen0n.name>, <loongarch@lists.linux.dev>
-Subject: Re: [PATCH v6 20/26] mm/mlock: Skip ZONE_DEVICE PMDs during mlock
-Message-ID: <6785cf266ea89_20fa29487@dwillia2-xfh.jf.intel.com.notmuch>
-References: <cover.11189864684e31260d1408779fac9db80122047b.1736488799.git-series.apopple@nvidia.com>
- <e08dfe5ec6a654e8cb48f9203d7406326368f5a6.1736488799.git-series.apopple@nvidia.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <e08dfe5ec6a654e8cb48f9203d7406326368f5a6.1736488799.git-series.apopple@nvidia.com>
-X-ClientProxiedBy: MW4PR04CA0257.namprd04.prod.outlook.com
- (2603:10b6:303:88::22) To PH8PR11MB8107.namprd11.prod.outlook.com
- (2603:10b6:510:256::6)
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="CzIa24RO"
+Received: from localhost.localdomain (unknown [123.53.37.74])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 89824482;
+	Tue, 14 Jan 2025 10:28:52 +0800 (GMT+08:00)
+From: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net
+Cc: zhaoyuehui@cqsoftware.com.cn,
+	zhaoshuo@cqsoftware.com.cn,
+	zhangwei@cqsoftware.com.cn,
+	maoyuxian@cqsoftware.com.cn,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] docs/zh_CN: Add security credentials Chinese translation
+Date: Tue, 14 Jan 2025 10:28:42 +0800
+Message-ID: <20250114022843.22489-1-zhaoshuo@cqsoftware.com.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|PH0PR11MB4789:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9a41af75-ca19-4c66-57b1-08dd34452378
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?NfZ7MWbcSsvWXNgPD+8TB/rWtHzR9LwriWU7cLfXDS3AK8a2U+nDVF3cqXFd?=
- =?us-ascii?Q?K6bvzDSyzDZ0ysyJvCS6YtHMs7wQJO0KCmAidHplAhkhgTFz1dewWmktH/eg?=
- =?us-ascii?Q?wH4ZbAlgfdCDFhj9JWwj7cwpzx/JGMwDRQE/8VhmnW/Cv5qY7tFMg5G7haU7?=
- =?us-ascii?Q?B1bVGTYrXvsxerrX9vaBiOM9Q9CXs9OE7mp/nqGAVKWhdB679TFUH3DY/xiF?=
- =?us-ascii?Q?cbx8n8jJJgvdhI9bb+9gxhJ3yrj/SV0z8fiVKNuZ1UByX8PMhbZCuMeC9aU5?=
- =?us-ascii?Q?z8TBhLjxZdCqwOTMJcDZso0arkMWV1z7RWAnJ4+J0b4R7RGgGvkPAQIZl8JA?=
- =?us-ascii?Q?/L+Y4FdhQ9bk4oZT03zN9HKsHQL/Xskhew/5MWjDWdqiYRcbuvQzZFZoU5ga?=
- =?us-ascii?Q?spaHk6FCCTuQS5XbtrEzMoeLWJKqWm5P4EMjL5Nrr0seZFx74VgrgXiLg3OO?=
- =?us-ascii?Q?3GFJnE9jS1qU6tJMlV1P3aLly2THvae5PX9oqtzlcqG1FDuFuivVAHU9wmS9?=
- =?us-ascii?Q?+nkjij+2GF6LTMCKbi4r8CCIigfNX4YbaE3UuFz8ASvh0kmwE57gLu21tV0Q?=
- =?us-ascii?Q?VnYJGEJkGHGJgVGjrtxsNPAXQdMIx2fwsUadP81ZBRn4y0sZQSOtfV4vSxer?=
- =?us-ascii?Q?oUvVWuJLUTexPcBfY9fgDzJhdkDXUpC3PSSwtKWa4oGHWfIhsJH09tQtF12M?=
- =?us-ascii?Q?+FGQFW5JQ1vWD1Z8BFZAwXMrtd8mrdyx4DMVYyVPxlmGcncWSD5JbxbDwfGq?=
- =?us-ascii?Q?DanDhbsHjDwhh4EKAn/df7kNMfJyQ3VSqPMeFT2B6Zos1gJA2+u1bDNRag4x?=
- =?us-ascii?Q?lQhHH5pcU+ahy+JNQyLEgNX40wxOr8SRZd20HjTaHb3tNCcXPLlGzRrKua2f?=
- =?us-ascii?Q?S4DQFrvDLg3Iw5gBsAXRuQLb8jBczZY0+ZW+15sGM0iM34aQcVQqCtlSw+XO?=
- =?us-ascii?Q?3vpOgy8UoZhAB20NXTEFGywSReGbe+LfPmMj5GZ4pT8bMFvo8sSBFLpP9pc5?=
- =?us-ascii?Q?HqDW2GWjhx++Nz49x4utjj+jR+fSIn0ezUUZ3Td1SZyRmInnx7AowVEt/t4+?=
- =?us-ascii?Q?ihlvr86xHvKAp3DGri/t2bVbEdHvhdEIOz+7mYpTCDKJP3j/Vs7KsIRKU6jV?=
- =?us-ascii?Q?LVrU1RDwz37liKbHilfEqV+8+PG8IC0TRALFQX9ahwRnwlHRIn6scBft0PRm?=
- =?us-ascii?Q?9GJr0XZub3JwaTAS9GoG/kzQFfK/huoyrQJgl2duTuhYDH1RBJCqxahbKBOg?=
- =?us-ascii?Q?G5vJW/1pE5rmIFVpuRHBKDkcDHaLUuj6q1JarxG3pTp5HSFSpFMnNIhMTU4E?=
- =?us-ascii?Q?Vv2Mt+oBBGqbhbDd4eIC0z1i9HMiJ3iErQhWnboLfQAXx1Zb324Mr0AMTQkk?=
- =?us-ascii?Q?Qz9KYuMjSXxQLtoCDJIZrui/Xd8d?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?M4UNtRw//LLQQpH0XvNr4dKY+UblTsVHRv+LsDbonoTYZE8y5nyLcV0Lx1DW?=
- =?us-ascii?Q?zMfQFsWxii2QSWW+jaRhwjV9C7Zutcinyej9yfDa57p64XgB/ClSQxGiWLXd?=
- =?us-ascii?Q?YVUwz2ZhKLrhxZhUNvul5LyDbJYvHvmoZRfR42SbaUqg0bXCh1sWJ1lsQIKZ?=
- =?us-ascii?Q?Tkr8jRKTGELn/iEDlYctTyFL8RbllwEG2p6WGpGKmzXsqw0Jrw8tu6cgtCKk?=
- =?us-ascii?Q?JmLCA0V1zRJmnlpXaKDrRn7LIUDz7nqejKMCrcUKsJ87HtqiaHRi5xibjuO6?=
- =?us-ascii?Q?vWDQx3XctOCzWGgdJIgDVgw4vQLvZ5VnbuOp3KezxyVnPCyISRVhArfRi161?=
- =?us-ascii?Q?iVA/msqeXc0y6osgZ/vYZWWhWMvnhn2gcqgFACTso9VDJoyDC99lQzhTmruR?=
- =?us-ascii?Q?wIMXQGfSt9rwdWt7skFgw2sj2Im2dhQBllV1qFsXn0spo+U1YB/namRQEr5Y?=
- =?us-ascii?Q?GRFxdaMVzNJymQqzuIjCCLr+uzV96gVJGcHFVo9dhY4oEuHUUDC+np2bEsmL?=
- =?us-ascii?Q?S71hKFd8W1hYhV46Tx1p9QfsM6Plz2ThzzUvEZkxdUsSJrpKxgyC2QUUoC+4?=
- =?us-ascii?Q?j7qJrt7ikszLmyyjxTaYbOHMTfLtJ9zT4+WQR/+JI/XlexKseAD5TAFAVaBp?=
- =?us-ascii?Q?0xi37BCdx0QsOsYb/Qa11rjJL1B4HtYm3lzxCjhWjEClQJEhpq9VIaDsiJky?=
- =?us-ascii?Q?GW51OzgmRMsEYYyPnpD7e7tmg6eipKlZD5fYiRdX1QP1gErD2bDlTsEh772w?=
- =?us-ascii?Q?f9rrTpWuGgwf6gfT55/PjMN3V9T35+zotTE8IpH+m3+lNEG327z+tEihXXYK?=
- =?us-ascii?Q?Zz/+uARgIxEIXp6VDkTaClqi3hypKbQgZdtsQETqe35CK2OAuFPdsvbxNi0L?=
- =?us-ascii?Q?90DXm15M+VtwAUwO5XY1wsD+mbP9V9eEGdkudpWOii4AXWBL/DkFCkhTj1lm?=
- =?us-ascii?Q?aqAO/2Fat+7j1VraEyZDVpF77twKh2QT3FltOFlCpJoCX1bRS3U/gEpaMsCi?=
- =?us-ascii?Q?e4znKKLUV90BcTiLtAnBPNcIxqw5CCx99g1KloOn7LXwWy6Qxs+GjWO/N0hJ?=
- =?us-ascii?Q?b32CHmIliJT75APAUYHaaO3mHtzi2S1YKXriFq7SzIRiaQEAgU2mnhoYK4Ap?=
- =?us-ascii?Q?saTDeKft4c5l//4LzZhSycFS3bEx5ngYcMXpuw6UK99H0VIRwwdXK5qguZY2?=
- =?us-ascii?Q?nCBc9TwogvEH8Nbvj9Mcj2KFgDgpPgDhsW1y4kSxC1DR1QKcMxioEz8gG8hN?=
- =?us-ascii?Q?AEVA9aSK2boCdSElxlEeNGRYBL6weVARW/a3CJ1Hz9MN4WzLVRwi+wOYQU6f?=
- =?us-ascii?Q?MW32JeCvOvgYog6Ld3SDz4FSYgp7JgeqeUbLYz3KBpephb/ylF+SPkCm4AwB?=
- =?us-ascii?Q?iPxwIMfoLay/hn621Q8f5KT6PR6sMrliRhnW0yG/5Qvlyi34750P7aRS7aYM?=
- =?us-ascii?Q?scM6b3gjFuHD8iMSwkDjK1h1iQcWyrrZoN8WUK0Qxs3Wqr4jspZPpcGF6Rf8?=
- =?us-ascii?Q?oHxoEkMrXT4ATqNG3ZZEvyrEn3/7Yk7gwOI/VlsiamCVE7E5LadwibyaePBJ?=
- =?us-ascii?Q?S38wNpg6Mn9eRV7EKP7bM+VBFBfZOKVj+4IzXM4SmhxmsvYWXkehmg2hY3Qa?=
- =?us-ascii?Q?Rw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a41af75-ca19-4c66-57b1-08dd34452378
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2025 02:42:51.0252
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1QYfBrhakpcNH6giBimHcyxEJAPDeyPg4E7zgO1K+OcCagzKGy4jdHMTV0PTy5UTm4a6DvP5QhZTcjnCEjX+3fAyboef6tNcLCD0R5+Xy98=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4789
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZHRkYVk9MGExNTktMThpIS1YVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKSUhVTkhVSExVTE9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0hVSktLVU
+	pCS0tZBg++
+X-HM-Tid: 0a9462a4730d09d0kunm89824482
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Mgg6CRw4AzISLUsSHwsaPjUT
+	TjIKFD1VSlVKTEhNQ0lKTEhISUxLVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSklIVU5IVUhMVUxPWVdZCAFZQUlLQ0hNNwY+
+DKIM-Signature:a=rsa-sha256;
+	b=CzIa24RO4eG1UhwNyz6bOCzLZohTg6NTZhodVQd1X7ceA1nKgL0tKslT0Y0gUlsb6n3RMzDACo8+9BVX0pQU1unGFUW52YenI8rSyKxTsejW1vhQ48XNcZyZGGwh5WRG93kxmsnbJ2tQFxv921ZssiIFkxFdKYinyBQ0VcO3n9w=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
+	bh=1D5JL7wxCATBFPVRLldeArbOD9JQ4d3dzMpvk9SDSgI=;
+	h=date:mime-version:subject:message-id:from;
 
-Alistair Popple wrote:
-> At present mlock skips ptes mapping ZONE_DEVICE pages. A future change
-> to remove pmd_devmap will allow pmd_trans_huge_lock() to return
-> ZONE_DEVICE folios so make sure we continue to skip those.
-> 
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> Acked-by: David Hildenbrand <david@redhat.com>
+Translate .../security/credentials.rst into Chinese.
 
-This looks like a fix in that mlock_pte_range() *does* call mlock_folio() 
-when pmd_trans_huge_lock() returns a non-NULL @ptl.
+Update the translation through commit cf92ec602ac5
+("Documentation: remove current_security() reference")
 
-So it is not in preparation for a future change it is making the pte and
-pmd cases behave the same to drop mlock requests.
+Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
+Reviewed-by: Alex Shi <alexs@kernel.org>
+Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+---
+ .../zh_CN/security/credentials.rst            | 479 ++++++++++++++++++
+ .../translations/zh_CN/security/index.rst     |   2 +-
+ 2 files changed, 480 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/security/credentials.rst
 
-The code change looks good, but do add a Fixes tag and reword the
-changelog a bit before adding:
+diff --git a/Documentation/translations/zh_CN/security/credentials.rst b/Documentation/translations/zh_CN/security/credentials.rst
+new file mode 100644
+index 000000000000..91c353dfb622
+--- /dev/null
++++ b/Documentation/translations/zh_CN/security/credentials.rst
+@@ -0,0 +1,479 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/security/credentials.rst
++
++:翻译:
++ 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
++
++=============
++Linux中的凭据
++=============
++
++作者: David Howells <dhowells@redhat.com>
++
++.. contents:: :local:
++
++概述
++====
++
++当一个对象对另一个对象进行操作时，Linux执行的安全检查包含几个部分：
++
++ 1. 对象
++
++     对象是可以直接由用户空间程序操作的系统中的实体。Linux具有多种可操作
++     的对象，包括：
++
++	- 任务
++	- 文件/索引节点
++	- 套接字
++	- 消息队列
++	- 共享内存段
++	- 信号量
++	- 密钥
++
++     所有这些对象的描述的一部分是一组凭据。集合中的内容取决于对象的类型。
++
++ 2. 对象所有权
++
++     大多数对象的凭据中会有一个子集用来表示该对象的所有权。
++     这用于资源核算和限制（如磁盘配额和任务资源限制）。
++
++     例如，在标准的UNIX文件系统中，这将由标记在索引节点上的UID定义。
++
++ 3. 对象上下文
++
++     此外在这些对象的凭据中，将有一个子集表示对象的“对象上下文”。
++     这可能与（2）中相同，也可能不同 —— 例如，在标准的UNIX文件中，
++     这是由标记在索引节点上的UID和GID定义的。
++
++     对象上下文是进行安全计算的一部分，当对象被操作时会用到。
++
++ 4. 主体
++
++     主体是正在对其他对象执行操作的对象。
++
++     系统中的大多数对象是不活动的：他们不会对系统中的其他对象起作用。
++     进程/任务是明显的例外：它们可以访问和操纵其他对象。
++
++     任务之外的其他对象在某些情况下也可以是主体。例如，打开的文件可以使用
++     名为 ``fcntl(F_SETOWN)`` 的任务给它的UID和EUID向一个任务发送SIGIO
++     信号。在这种情况下，文件结构也会有一个主体上下文。
++
++ 5. 主体上下文
++
++     主体对其凭据有一个额外的解释。其凭据的一个子集形成了“主体上下文”。主体
++     上下文在主体执行操作时作为安全计算的一部分使用。
++
++     例如，Linux任务在操作文件时会有FSUID、FSGID和附加组列表 —— 这些凭据
++     与通常构成任务的对象上下文的真实UID和GID是相互独立的。
++
++ 6. 操作
++
++     Linux提供许多操作，主体可以对对象执行这些操作。可用的操作集取决于主体
++     和对象的性质。
++
++
++     操作包括读取、写入、创建和删除文件，以及派生（forking）或发送
++     信号（signalling）和跟踪（tracing）任务等。
++
++ 7. 规则，访问控制列表和安全计算
++
++     当主体对对象进行操作时，会进行安全计算。这涉及到使用主体上下文、对象
++     上下文和操作，并搜索一个或多个规则集，以确定在给定这些上下文的情况下，
++     主体是否被授予或拒绝以所需方式对对象进行操作的权限。
++
++     主要有两个规则来源：
++
++     a. 自主访问控制（DAC）：
++
++	 有时，对象的描述中会包含一组规则。这就是所谓的“访问控制列表”或‘ACL’。
++	 一个Linux文件可以提供多个ACL。
++
++	 例如，传统的UNIX文件包括一个权限掩码，它是一个简化的ACL，具有三个固定的
++	 主体类别（“用户”、“组”和“其他”），每一个都可以被授予一定的特权（如“读取”、
++	 “写入”和“执行” —— 无论这些映射对于对象意味着什么）。然而，UNIX文件权限不
++	 允许任意指定主体，因此用途有限。
++
++	 Linux文件还可以支持POSIX ACL。这是一个规则列表，为任意主体授予各种权限。
++
++     b. 强制访问控制（MAC）：
++
++	 整个系统可能有一个或多个规则集，适用于所有主体和对象，不考虑它们的来源。
++	 SELinux和Smack就是这种情况的例子。
++
++	 在SELinux和Smack的情况下，每个对象在其凭据中都被赋予一个标签。当请求执
++	 行操作时，它们使用主体标签、对象标签和操作，寻找一个规则，该规则表示此操
++	 作是授予还是拒绝的。
++
++
++凭据类型
++========
++
++Linux内核支持以下类型的凭据：
++
++ 1. 传统的UNIX凭据。
++
++	- 真实用户ID
++	- 真实组ID
++
++     UID和GID由大多数（如果不是全部）Linux对象携带，即使有时它们需要被虚构出
++     来（例如FAT或CIFS文件，这些文件来源于Windows）。这些（通常）定义了该对象
++     的对象上下文，但任务在某些情况下略有不同。
++
++	- 有效用户ID，保存用户ID和FS用户ID
++	- 有效组ID，保存组ID和FS组ID
++	- 补充组
++
++     这些是仅由任务使用的额外凭据。通常，一个EUID/EGID/GROUPS 被用作主体上下文，
++     而真实UID/GID 被用作对象上下文。对于任务，这并不总是正确的。
++
++ 2. 能力
++
++	- 允许的能力集合
++	- 可继承的能力集合
++	- 有效的能力集合
++	- 能力边界集合
++
++     这些仅由任务携带，表示授予任务的超出普通任务权限的能力。这些可以通过传统
++     UNIX凭据的更改进行隐式操作，但也可以通过 ``capset()`` 系统调用直接操作。
++
++     允许的能力是指进程可以通过 ``capset()`` 将其添加到其有效或允许集合中的
++     那些能力。这个可继承的集合也可能受到这样的限制。
++
++     有效能力是任务本身实际可以使用的能力。
++
++     可继承能力是那些可以通过 ``execve()`` 传递的能力。
++
++     边界集限制了通过 ``execve()`` 继承的能力，特别是在以UID 0执行二进制文件时。
++
++ 3. 安全管理标记（securebits）
++
++     它们用于控制上述凭据在特定操作如execve()中的操作和继承方式。它们并不直接
++     用作对象或主体凭据使用。
++
++ 4. 密钥和密钥环
++
++     这些仅由任务携带。它们用于携带和缓存不适合放入其他标准UNIX凭据中的安全令牌。
++     它们用诸如使网络文件系统密钥在进程执行的文件访问时可用，而无需让普通程序了解
++     涉及的安全细节。
++
++     密钥环是一种特殊类型的密钥。它们携带一组其他密钥，并可以搜索来查找所需的密钥。
++     每个进程可以订阅多个密钥环：
++
++	每线程密钥
++	每进程密钥环
++	每会话密钥环
++
++     当进程访问一个密钥时，若尚不存在，则通常会将其缓存在一个密钥环中，以便将来的
++     访问时找到该密钥。
++
++     有关密钥的更多信息，请参见 ``Documentation/translations/zh_CN/security/keys/*`` 。
++
++ 5. LSM
++
++     Linux安全模块允许在任务执行操作时施加额外的控制。目前，Linux支持几种LSM选项。
++
++     一些工作通过标记系统中的对象，并应用一组规则（策略）说明某个标签的任务可以对
++     另一标签的对象执行哪些操作。
++
++ 6. AF_KEY
++
++     这是一种基于套接字网络协议栈中的凭据管理[RFC 2367]。本文档中没有讨论它,因为不
++     直接与任务和文件凭据进行交互，而是保留了系统级的凭据。
++
++
++当打开一个文件时，打开任务的主体上下文的一部分会记录在创建的文件结构中。
++这使得使用该文件结构的操作可以使用这些凭据，而不是发出操作的任务的主体上下文。
++一个例子是在网络文件系统上打开的文件，打开文件的凭据应该被呈现给服务器，而不管
++实际进行读取或写入操作的是谁。
++
++
++文件标记
++========
++
++存储在磁盘上或通过网络获取的文件可能具有注释，构成该文件的对象安全上下文。
++根据文件系统的类型，这些注释可能包括以下一项或多项：
++
++ * UNIX UID, GID, mode;
++ * Windows user ID;
++ * Access control list;
++ * LSM security label;
++ * UNIX exec privilege escalation bits (SUID/SGID);
++ * File capabilities exec privilege escalation bits.
++
++将这些与任务的主体安全上下文进行比较，并根据比较结果允许或禁止执行某些操作。
++在execve()的情况下，特权提升位起作用，并且可能允许由可执行文件的注释决定的
++进程获得额外的特权。
++
++
++任务凭据
++========
++
++在Linux中，一个任务的所有凭据都保存在一个引用计数结构体‘struct cred’中，
++通过(uid, gid)或(groups, keys, LSM security)进行访问。每个任务在其
++task_struct中通过一个名为‘cred’的指针指向其凭据。
++
++一旦一组凭据已经准备好并提交，除非以下几种情况，否则不能更改：
++
++ 1. 其引用计数可以更改；
++
++ 2. 它所指向的 group_info 结构体的引用计数可以更改；
++
++ 3. 它所指向的安全数据的引用计数可以更改；
++
++ 4. 它所指向的任何密钥环的引用计数可以更改；
++
++ 5. 它所指向的任何密钥环可以被撤销、过期或其安全属性可以更改；
++
++ 6. 它所指向的任何密钥环的内容可以更改（密钥环的整个目的就是作为一组共享凭据，
++    可由具有适当访问权限的任何人修改）。
++
++要更改cred结构体中的任何内容，必须遵循复制和替换的原则。首先进行复制，然后修
++改副本，最后使用RCU（读-复制-更新）将任务指针更改为指向新的副本。有一些封装可
++用于帮助执行这个过程（见下文）。
++
++一个任务只能修改自己的凭据；不再允许一个任务修改另一个任务的凭据。
++这意味着 ``capset()`` 系统调用不再允许使用除当前进程之外的任何PID。
++此外， ``keyctl_instantiate()`` 和 ``keyctl_negate()`` 函数也不再
++允许在请求进程中附加到特定于进程的密钥环，因为实例化进程可能需要创建它们。
++
++
++不可变凭据
++----------
++
++一旦一组凭据已经被公开（例如通过调用 ``commit_creds()`` ），必须将其视为
++不可变的,除了两个例外情况：
++
++ 1. 引用计数可以被修改。
++
++ 2. 虽然无法更改一组凭据的密钥环订阅，但订阅的密钥环的内容可以被更改。
++
++为了在编译时捕获意外的凭据修改，struct task_struct具有_const_指针指向其凭据集，
++struct file也是如此。此外，某些函数如 ``get_cred()`` 和 ``put_cred()`` 在
++const指针上操作，因此不需要进行类型转换，但需要临时放弃const限定，以便能够修改
++引用计数。
++
++
++访问任务凭据
++------------
++
++任务只能修改自己的凭据，允许当前进程可以读取或替换自己的凭据，无需任何形式锁定的
++情况下 —— 这极大简化了事情。它可以调用::
++
++	const struct cred *current_cred()
++
++获取指向其凭据结构的指针，并且之后不必释放它。
++
++有一些方便的封装用于检索任务凭据的特定方面（在每种情况下都只返回值）::
++
++	uid_t current_uid(void)		Current's real UID
++	gid_t current_gid(void)		Current's real GID
++	uid_t current_euid(void)	Current's effective UID
++	gid_t current_egid(void)	Current's effective GID
++	uid_t current_fsuid(void)	Current's file access UID
++	gid_t current_fsgid(void)	Current's file access GID
++	kernel_cap_t current_cap(void)	Current's effective capabilities
++	struct user_struct *current_user(void)  Current's user account
++
++还有一些方便的封装，用于检索任务凭据的特定关联对::
++
++	void current_uid_gid(uid_t *, gid_t *);
++	void current_euid_egid(uid_t *, gid_t *);
++	void current_fsuid_fsgid(uid_t *, gid_t *);
++
++在从当前任务的凭据中检索后，通过其参数返回这些值对。
++
++
++此外，还有一个函数用于获取当前进程的当前凭据集的引用::
++
++	const struct cred *get_current_cred(void);
++
++以及用于获取对一个实际上不存在于struct cred中的凭据的引用的函数::
++
++	struct user_struct *get_current_user(void);
++	struct group_info *get_current_groups(void);
++
++分别获得对当前进程的 user accounting structure 和补充组列表的引用。
++
++一旦获得引用，就必须使用 ``put_cred（）``, ``free_uid（）`` 或
++``put_group_info（）`` 来适当释放它。
++
++
++访问其他任务的凭据
++------------------
++
++虽然一个任务可以在不需要锁定的情况下访问自己的凭据，但想要访问另一个任务
++的凭据的任务并非如此。它必须使用RCU读锁和 ``rcu_dereference（）``。
++
++``rcu_dereference()`` 是由::
++
++	const struct cred *__task_cred(struct task_struct *task);
++
++这应该在RCU读锁中使用，如下例所示::
++
++	void foo(struct task_struct *t, struct foo_data *f)
++	{
++		const struct cred *tcred;
++		...
++		rcu_read_lock();
++		tcred = __task_cred(t);
++		f->uid = tcred->uid;
++		f->gid = tcred->gid;
++		f->groups = get_group_info(tcred->groups);
++		rcu_read_unlock();
++		...
++	}
++
++如果需要长时间持有另一个任务的凭据，并且可能在此过程中休眠，则调用方
++应该使用以下函数来获取对这些凭据的引用::
++
++	const struct cred *get_task_cred(struct task_struct *task);
++
++这个函数内部完成了所有的RCU操作。当使用完这些凭据时，调用方必须调用put_cred()
++函数释放它们。
++
++.. note::
++   ``__task_cred()`` 的结果不应直接传递给 ``get_cred()`` ，
++   因为这可能与 ``commit_cred()`` 发生竞争条件。
++
++还有一些方便的函数可以访问另一个任务凭据的特定部分，将RCU操作对调用方隐藏起来::
++
++	uid_t task_uid(task)		Task's real UID
++	uid_t task_euid(task)		Task's effective UID
++
++如果调用方在此时已经持有RCU读锁，则应使用::
++
++	__task_cred(task)->uid
++	__task_cred(task)->euid
++
++类似地，如果需要访问任务凭据的多个方面，应使用RCU读锁，调用 ``__task_cred()``
++函数，将结果存储在临时指针中，然后从临时指针中调用凭据的各个方面，最后释放锁。
++这样可以防止多次调用昂贵的RCU操作。
++
++如果需要访问另一个任务凭据的其他单个方面，可以使用::
++
++	task_cred_xxx(task, member)
++
++这里的‘member’是cred结构体的非指针成员。例如::
++
++	uid_t task_cred_xxx(task, suid);
++
++将从任务中检索‘struct cred::suid’，并执行适当的RCU操作。对于指针成员，
++不能使用这种形式，因为它们指向的内容可能在释放RCU读锁的瞬间消失。
++
++
++修改凭据
++--------
++
++如先前提到的，一个任务只能修改自己的凭据，不能修改其他任务的凭据。这意味
++着它不需要使用任何锁来修改自己的凭据。
++
++要修改当前进程的凭据，函数应首先调用::
++
++	struct cred *prepare_creds(void);
++
++这将锁定current->cred_replace_mutex，然后分配并构建当前进程凭据的副本。
++如果成功，函数返回时仍然保持互斥锁。如果不成功（内存不足），则返回NULL。
++
++互斥锁防止 ``ptrace()`` 在进行凭据构建和更改的安全检查时更改进程的ptrace
++状态，因为ptrace状态可能会改变结果，特别是在 ``execve()`` 的情况下。
++
++新的凭据集应适当地进行修改，并进行任何安全检查和挂钩。在此时，当前和建议的
++凭据集都可用，因为current_cred()将返回当前的凭据集。
++
++在替换组列表时，必须在将其添加到凭据之前对新列表进行排序，因为使用二分查找
++测试成员资格。实际上，这意味着在set_groups()或set_current_groups()之
++前应调用groups_sort()。groups_sort()不能在共享的 ``struct group_list``
++上调用，因为即使数组已经排序，它也可能作为排序过程的一部分对元素进行排列。
++
++当凭据集准备好时，应通过调用以下函数将其提交给当前进程::
++
++	int commit_creds(struct cred *new);
++
++这将修改凭据和进程的各个方面，给LSM提供机会做同样的修改，然后使用
++``rcu_assign_pointer()`` 将新的凭据实际提交给 ``current->cred`` ，
++释放 ``current->cred_replace_mutex`` 以允许 ``ptrace()`` 进行操
++作，并通知调度程序和其他组件有关更改的情况。
++
++该函数保证返回0，以便可以在诸如 ``sys_setresuid()`` 函数的末尾进行尾调用。
++
++请注意，该函数会消耗调用者对新凭据的引用。调用者在此之后不应调用
++``put_cred()`` 释放新凭据。
++
++此外，一旦新的凭据上调用了该函数，就不能进一步更改这些凭据。
++
++
++如果在调用 ``prepare_creds()`` 之后安全检查失败或发生其他错误，
++则应调用以下函数::
++
++	void abort_creds(struct cred *new);
++
++这将释放 ``prepare_creds()`` 获取的 ``current->cred_replace_mutex`` 的锁，
++并释放新的凭据。
++
++一个典型的凭据修改函数看起来像这样::
++
++	int alter_suid(uid_t suid)
++	{
++		struct cred *new;
++		int ret;
++
++		new = prepare_creds();
++		if (!new)
++			return -ENOMEM;
++
++		new->suid = suid;
++		ret = security_alter_suid(new);
++		if (ret < 0) {
++			abort_creds(new);
++			return ret;
++		}
++
++		return commit_creds(new);
++	}
++
++
++管理凭据
++--------
++
++有一些函数用来辅助凭据管理:
++
++ - ``void put_cred(const struct cred *cred);``
++
++	 这将释放对给定凭据集的引用。如果引用计数为零，凭据集将由
++	 RCU系统安排进行销毁。
++
++ - ``const struct cred *get_cred(const struct cred *cred);``
++
++	 这将获取对活动凭据集的引用。返回指向凭据集的指针。
++
++ - ``struct cred *get_new_cred(struct cred *cred);``
++
++	 这将获取对当前正在构建且可变的凭据集的引用。返回指向凭据集的指针。
++
++打开文件凭据
++============
++
++当打开新文件时，会获取对打开任务凭据的引用，并将其附加到文件结构体的
++``f_cred`` 字段中，替代原来的 ``f_uid`` 和 ``f_gid`` 。原来访问
++``file->f_uid`` 和 ``file->f_gid`` 的代码现在应访问 ``file->f_cred->fsuid``
++和 ``file->f_cred->fsgid`` 。
++
++安全访问 ``f_cred`` 的情况下可以不使用RCU或加锁，因为指向凭据的指针
++以及指向的凭据结构的内容在文件结构的整个生命周期中保持不变，除非是
++上述列出的例外情况（参阅任务凭据部分）。
++
++为了避免“混淆代理”权限提升攻击，在打开的文件后续操作时，访问控制检查
++应该使用这些凭据，而不是使用“当前”的凭据，因为该文件可能已经被传递给
++一个更具特权的进程。
++
++覆盖VFS对凭据的使用
++===================
++
++在某些情况下，需要覆盖VFS使用的凭据，可以通过使用不同的凭据集调用
++如 ``vfs_mkdir()`` 来实现。以下是一些进行此操作的位置:
++
++ * ``sys_faccessat()``.
++ * ``do_coredump()``.
++ * nfs4recover.c.
+diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
+index d8aacd1930d9..38e9ce7cf471 100644
+--- a/Documentation/translations/zh_CN/security/index.rst
++++ b/Documentation/translations/zh_CN/security/index.rst
+@@ -15,6 +15,7 @@
+ .. toctree::
+    :maxdepth: 1
+ 
++   credentials
+    lsm
+    sak
+    siphash
+@@ -22,7 +23,6 @@
+    landlock
+ 
+ TODOLIST:
+-* credentials
+ * snp-tdx-threat-model
+ * IMA-templates
+ * keys/index
+-- 
+2.47.1
 
-Reviewed-by: Dan Williams <dan.j.williams@intel.com>
