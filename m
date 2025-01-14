@@ -1,146 +1,247 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28A32309BE
-	for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 06:01:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736834474; cv=none; b=pJ4K+K6H3UU5dbbxGqsmOUwI1AJUe05Lt3lUNZiOLIoa3jKPdJEzTcuBDSEKDEFc9oVawxP06kZsu0ST/bfI3lFdzuojRCIYIM1eQY8Jf3NNtCRfMZTaqr+yYh3jwJsuR3+6sib3Dxm1GtgwR5rM+CN8y5OnQS4NejI3kV4BVtU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736834474; c=relaxed/simple;
-	bh=y26zlK6dNzwovEdSf+ZSnOhAFh0FQbkgFGnLA01McT0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MGbOPlmPKZKbmzr3Vwuv6G3Nrch836V8NYnmqGZg+Zt4F1a38ArCYJbMCUbbv+CC3KibJ9Mk0z8TWpfQn5f4sySZnY+HEssO859qww9Tr3tnx2SVVLQf/zVsH8KHIYrFSQK07sComV3//MtPIel2CyqTfm52rCzUgZiFp4vVsd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jhgVqgG8; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3380A24022E;
+	Tue, 14 Jan 2025 06:12:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736835174; cv=fail; b=pjWA1w28CszFWmZgqNoOZkTX3IlFbR2jGmso3wV3zHGW9CLvYyOUp/W7O0cmg+JdO7nWBJQXsCuVId63iJJi2/O+Xh3/+NFA/NN6aL175skBpwOF/NamHfkwxwhWf6CU5QvFjr7nGqeLt8J4IScIzSAAam7nVW/wCQ89ufKIJU0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736835174; c=relaxed/simple;
+	bh=KEmS1Z299WnqpeOIPpWE9WpBQm5aeOU7PZ93d/CzbY4=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=e2GH7FjXwogun4LUvNFA/GqAtmmm2LjwulY8cqw+UOVeg9ggOzOuxm0g4lq5kK6Jk+kMOGbSIXM2uGQcui/gDDsPodJj8zQTQUH+yKw/MGAL5EoS4pFSVQbEDEoVLoRAdbBlUSekeAff8spG3CbwEkzZlqIoXZzlm4i8ZD7tpLo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nlRiEkJG; arc=fail smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jhgVqgG8"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-53ff1f7caaeso4924978e87.0
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 22:01:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1736834471; x=1737439271; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E+MfpBzkqBtq1KQBkE1rEnF0uU157WsksIfsGtGfs8U=;
-        b=jhgVqgG8ZOBhCGDcI4fNXHU53dHXSU30AiY4IMHgwXb/15i88a+aaB3OuZK2yTaPGu
-         CNqU9YviNmbtnKHEF/4Ww/cDTETGayL/N3x+lch1N9yaNUVxKtCBJgoNJ0Tx94WnQjns
-         POhUdhSj+Z5+mU3lOLksny/iQCx7fO2p4xUlU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736834471; x=1737439271;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=E+MfpBzkqBtq1KQBkE1rEnF0uU157WsksIfsGtGfs8U=;
-        b=cQZ5S8M4QGM4YbaOVA/yvlenWKqNkQoA0Ol5v8MWYTXplELo7HhGn4ynDzxA56aow7
-         AKLsnH6wKasjvtItaz7Q3HFSOpp5yZrWf38VYXKLXTsy7glIiTrLHs//MSMZ4vI2YiHk
-         DgUTbElLBDdmHq/4TcFvTUvsWQ4Yf3A2SFHpVZ2Y/Kp6kU7RA9fYUBTf9BKHchMatccc
-         xzBy/rq8gdCszea9pbsm1G7vKMCWEjqvSWvdqowUqwLwPgiZnO041z68ADqo/91ZY+oQ
-         X+kWGDLyy7a+/tI+SEwMh7IFqEbuL0Fq8FSmm0DDBsYkGiMoI7Zr3H62ovCInPxQYc/c
-         49pQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUFwh57oT/rF6GUxSjp0mR/a1wEDLaPA3hQ0tQ8VBlRmpJP4pd6huGmuY9wYzVVlb99pDyVRgdc5Hg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzwvqv5hFR1YsA7tiP17i4sE+IEvkjLDwFZHbkmiU2Vs7TMJy/C
-	sjYYaSFZQF+ZTDjOuJyqsMHimOpR107upnUOq+Cp+DGZLfOSksd0UuYIHQ95VxLGvph/ekLYQze
-	PspcYxFit2xFDm1L0QEYzifGzvqG3mKyVG38V
-X-Gm-Gg: ASbGncvoMRXQh4eAK/E5pVRe2wIlXqPYAEg6qoxbI2EFnNEN0Ml6ibOnaonL73nh7kR
-	RZnNGDC14z6xIahbeJt+7kb5VO/6c8TDWeTbMgadugH8UoiByDhzzbQIY/et0PVxS5fd0dY+S
-X-Google-Smtp-Source: AGHT+IHr1JtErWlVHX79qMcQvFhXOJNWZJaYIxYaJjGhk3eQUSkF4wLTbtJA86OIldXc8lrBhWsRsctkDWylkh+sNtI=
-X-Received: by 2002:a05:6512:110e:b0:540:1f7d:8b9c with SMTP id
- 2adb3069b0e04-542845b5963mr7654743e87.45.1736834471079; Mon, 13 Jan 2025
- 22:01:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nlRiEkJG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736835172; x=1768371172;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=KEmS1Z299WnqpeOIPpWE9WpBQm5aeOU7PZ93d/CzbY4=;
+  b=nlRiEkJGgZi/gmiqN0NKS28MSCNT0CdOn+C9KFX0B+WiuNipzmUoc9tL
+   YebU91fqOEpPwD8FpdbfW6UP2EX/OpQHuhM63ARF+nLsAmBXc7emI3BUQ
+   5yi4Fwihxq8/UuAY5SWT3DvbFqQ+P3WmZkHW2vl5GZO/L3dvAAcutqJxy
+   iPBSHj0Xt8S35y1w1+hxP9fZPmlniaswqtnHs6cKTiPtD2MaRgoqXi3p2
+   tMya820lc/nEIwnGJS8NR0peRfmUmvsEcvGzthx0BpIcDXkoSjqUsOKtS
+   waPQsLgLZuP+hQoyWGKMJYV4tpe2XNwqH4QYiE3d678Fmpr3rq1u+aqft
+   g==;
+X-CSE-ConnectionGUID: 8eXvamEtQ9Oleq7jeJqdOg==
+X-CSE-MsgGUID: Kk1G+pOXSASCAeQVhk7J5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="40796906"
+X-IronPort-AV: E=Sophos;i="6.12,313,1728975600"; 
+   d="scan'208";a="40796906"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2025 22:12:50 -0800
+X-CSE-ConnectionGUID: O8SaAUFXTs2y/LLUMLcaiQ==
+X-CSE-MsgGUID: bdo4BKOQQVCWJjYvwrPZfA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="105589580"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 13 Jan 2025 22:12:49 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Mon, 13 Jan 2025 22:12:48 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Mon, 13 Jan 2025 22:12:48 -0800
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.171)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Mon, 13 Jan 2025 22:12:48 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FgT5bD1n1UqxcJ1crFhf5RZfepsuq+Z4jyzvG40Pg0wundq6iZ93H0g5AkF7LIKlt5U1o2eWEGMphyE3SXL1Zl6yQgvCC+HiWguZxM5bwU6aT4h74tAds34s6fi2G41sAfyrSii8mpOi91eP3RqCB4WUX0RQl0dzuUNArkn1omfIgev2HCCh0a5bpnzsqsJaMyshjHnymtrl3ut7UivW/SOfetER7TXAnGVjEvn/RAm+S2mhnELrCmO0+RtarkYn7AgWpgWCWTVPj9qaadFpcFAeskaDl3Be2zgJYtePVGWmRXIqRUhehSjZg6ZY0/OaJU15HFr4eXoNYgJrdWMIoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=idlcfja3DeNfVAR7I+buYIPJo1gL4lVASBdfhSZYaqc=;
+ b=aEOK8SdTx7pRoJsRpQznzSTSAt1xOK3Ua3Whi+y/XDMIIpMkrGeXqCTk4IL90Zj0Njwsu30ZFteJOnWi/RIcApP6vpqcVtw3b1muEJ9zsUzRF0xPoip/1Ybb7QQC+jsXBwoGObAkpw1RPK1Ckw1m06YG1+rnzzqqvGpbZO21uhmiKOVYbOxf+mEHYegu3PP8L4GxDAbmP+CnozNAdZhOWyE+5tjMiSgKN/SNvEna+fJOviwJiVkr7t7ijJjIT4u+zIPkbqTXzKn8eGQrAL3LlhNQbmwPvdNR8XoofD6+bgM0az1Uijymxa0+sap07ZZgofZJ+W1Ix0kQpAqivvQ4xg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
+ by DM6PR11MB4676.namprd11.prod.outlook.com (2603:10b6:5:2a7::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.18; Tue, 14 Jan
+ 2025 06:12:46 +0000
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::6b05:74cf:a304:ecd8]) by PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::6b05:74cf:a304:ecd8%5]) with mapi id 15.20.8335.011; Tue, 14 Jan 2025
+ 06:12:46 +0000
+Date: Mon, 13 Jan 2025 22:12:41 -0800
+From: Dan Williams <dan.j.williams@intel.com>
+To: Alistair Popple <apopple@nvidia.com>, <akpm@linux-foundation.org>,
+	<dan.j.williams@intel.com>, <linux-mm@kvack.org>
+CC: <alison.schofield@intel.com>, Alistair Popple <apopple@nvidia.com>,
+	<lina@asahilina.net>, <zhang.lyra@gmail.com>,
+	<gerald.schaefer@linux.ibm.com>, <vishal.l.verma@intel.com>,
+	<dave.jiang@intel.com>, <logang@deltatee.com>, <bhelgaas@google.com>,
+	<jack@suse.cz>, <jgg@ziepe.ca>, <catalin.marinas@arm.com>, <will@kernel.org>,
+	<mpe@ellerman.id.au>, <npiggin@gmail.com>, <dave.hansen@linux.intel.com>,
+	<ira.weiny@intel.com>, <willy@infradead.org>, <djwong@kernel.org>,
+	<tytso@mit.edu>, <linmiaohe@huawei.com>, <david@redhat.com>,
+	<peterx@redhat.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linuxppc-dev@lists.ozlabs.org>, <nvdimm@lists.linux.dev>,
+	<linux-cxl@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<linux-ext4@vger.kernel.org>, <linux-xfs@vger.kernel.org>,
+	<jhubbard@nvidia.com>, <hch@lst.de>, <david@fromorbit.com>,
+	<chenhuacai@kernel.org>, <kernel@xen0n.name>, <loongarch@lists.linux.dev>
+Subject: Re: [PATCH v6 22/26] device/dax: Properly refcount device dax pages
+ when mapping
+Message-ID: <67860059b200b_20fa294b5@dwillia2-xfh.jf.intel.com.notmuch>
+References: <cover.11189864684e31260d1408779fac9db80122047b.1736488799.git-series.apopple@nvidia.com>
+ <7d5416ad49341207e5f3c48d5b9c4b7af5fd9ac6.1736488799.git-series.apopple@nvidia.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <7d5416ad49341207e5f3c48d5b9c4b7af5fd9ac6.1736488799.git-series.apopple@nvidia.com>
+X-ClientProxiedBy: MW4PR04CA0293.namprd04.prod.outlook.com
+ (2603:10b6:303:89::28) To PH8PR11MB8107.namprd11.prod.outlook.com
+ (2603:10b6:510:256::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241218203740.4081865-1-dualli@chromium.org> <20241218203740.4081865-3-dualli@chromium.org>
- <Z32cpF4tkP5hUbgv@google.com> <Z32fhN6yq673YwmO@google.com>
- <CANBPYPi6O827JiJjEhL_QUztNXHSZA9iVSyzuXPNNgZdOzGk=Q@mail.gmail.com>
- <Z4Aaz4F_oS-rJ4ij@google.com> <Z4Aj6KqkQGHXAQLK@google.com>
- <CANBPYPjvFuhi7Pwn_CLArn-iOp=bLjPHKN0sJv+5uoUrDTZHag@mail.gmail.com>
- <20250109121300.2fc13a94@kernel.org> <Z4BZjHjfanPi5h9W@google.com> <20250109161825.62b31b18@kernel.org>
-In-Reply-To: <20250109161825.62b31b18@kernel.org>
-From: Li Li <dualli@chromium.org>
-Date: Mon, 13 Jan 2025 22:01:00 -0800
-X-Gm-Features: AbW1kvZGO2dnKh9EFLmOMykm0k2dAxwLsXw0Sg0rIQW27PvNSHzYNz4ekKKY8e0
-Message-ID: <CANBPYPjQVqmzZ4J=rVQX87a9iuwmaetULwbK_5_3YWk2eGzkaA@mail.gmail.com>
-Subject: Re: [PATCH v11 2/2] binder: report txn errors via generic netlink
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Carlos Llamas <cmllamas@google.com>, dualli@google.com, corbet@lwn.net, 
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com, 
-	donald.hunter@gmail.com, gregkh@linuxfoundation.org, arve@android.com, 
-	tkjos@android.com, maco@android.com, joel@joelfernandes.org, 
-	brauner@kernel.org, surenb@google.com, arnd@arndb.de, masahiroy@kernel.org, 
-	bagasdotme@gmail.com, horms@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org, hridya@google.com, 
-	smoreland@google.com, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|DM6PR11MB4676:EE_
+X-MS-Office365-Filtering-Correlation-Id: 397e2004-ec33-4c2d-de14-08dd346276c7
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|376014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Ubb35cZFd008eQgbGeHXSwfQx2l9LkE/CzVZ8CXu454g+Z5BkyHj/65VRDN2?=
+ =?us-ascii?Q?L3PtsoTtxjijOzIOazA3a6ssovV7mwdiVCWbh6/k1fnO+ucg91JZ/pPeyIv8?=
+ =?us-ascii?Q?w5sFRKcgXwCaha26KWhJOxS40xF49OWL908eROXkvwFVVauHaIZQDZYulfwo?=
+ =?us-ascii?Q?rhGX7EvS0i1x45wnhtGz8+tph4NWFqHvXpcaijoDnj/0UD6srRhGWi4O4h+g?=
+ =?us-ascii?Q?hDqEmvdvY+nrqCC3FvXrB/Fi06cguda9in57OJJOcoGPVWcvt98MzJTiietg?=
+ =?us-ascii?Q?sx7kyT9x7nyort90KMAaMgz5uBtSirbRRfI6XesDT0hPKXmxVaWWeORMw6Jt?=
+ =?us-ascii?Q?KaIZdXqJAG63MIZVoymryXK862YxkJ6SQCthJOmAVimHksT+qPkRLfZktXKS?=
+ =?us-ascii?Q?LXgIUpIE+Occ4UhrpvW1yVOzLJyS9KsjiWhUkxoKhx/aCsK/mhGWST8rDV36?=
+ =?us-ascii?Q?Eh5Uhu1CNOp7RIt7Jz61OAf9ENMhoByLzEECwqwqaCYSa+K7ckSQ07/jdzmB?=
+ =?us-ascii?Q?1tlQg/k7x2Fx3TNbFgxkk9q/LI7/6ag2u6V0bz4iIWdguAnsYy1kptTpuSLS?=
+ =?us-ascii?Q?cEiBgLmejkyhhpjJLtm5/Afn9M1NAJZpttIGC2W/A9S9v87511rlNjvkvIQs?=
+ =?us-ascii?Q?db60ov83/T/FLNDMPOcrL+iuzbEJHf7xmMyjjGcfGyrmDZT6HD2kory6Vs/3?=
+ =?us-ascii?Q?6P9mV+fX4Nh69/jMB9dX1J0JIPIWMP21DjjaBFBBxRTMDtC+6DarfzoSdlak?=
+ =?us-ascii?Q?dVDVuL5p5SebMFhnAAOt2UmOX/wleO/G+roi9Yy2HKXT7kaezfexGpebz13i?=
+ =?us-ascii?Q?UBe0ZHDZQ17vGiBmvu6vGhZgkh8Y6Y2CY2lYaYguS6p+c9PaJ0YFwMjbDWxz?=
+ =?us-ascii?Q?TWIc7GQqYydnXyzyJsp3yKzyBfcueSSN5/PEQfTAxCgorhPVCwIyoLi+TO20?=
+ =?us-ascii?Q?1Xn5cNPry+baM+CJTIktA5Ay2x0nY/I7HMyYcKvve4tuj4lE0YyU6t/fIZjt?=
+ =?us-ascii?Q?YrBihU5YUm1kEN7SEiu/BfeNv/+IvsIx/TMYPw+XB9E9jV9A3LsKDzfwOvGd?=
+ =?us-ascii?Q?Ms1PZV517DZTpBe8528iMoC9MNqa2cju+yTkJTkXmP+8r3rwugN9rsAkcLiK?=
+ =?us-ascii?Q?+nesaPhkZr+UWAKUm8zuFg+lySjsL1GLv8OIacHPagRAmpjyTn11vgepQ/rV?=
+ =?us-ascii?Q?V6Mabn7xf9Lirt13o3YofB/ep0M5YGetPJbMrWpO9y/nQ6ouXgB4x6IcQJrt?=
+ =?us-ascii?Q?ixm9AfQOyeygA5nZH+if3rdBuGF6L16FOhLCy8sa7uSjlYrsRAOMNg8hhmJN?=
+ =?us-ascii?Q?Zx914pckRTZ842j7JnLBcjTyidVo3gI/gVlmfv96nNQwr/XT2+8D4G10o25C?=
+ =?us-ascii?Q?LnoQ2EXp8hgB9P9Kl/J5G2/kSDO8?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PN15taGIPKxDFj7EX00hMk5j3tlidozrXVnPi8zaSbhD4w736AthXkiMcmcn?=
+ =?us-ascii?Q?upksF/7/R1kSCmTQ4B9+S7AOFdXR5wO2BiQ2KWhmfJpMEKvogXiAcZja956l?=
+ =?us-ascii?Q?LduF98oPasMfu4Zau8mEJIvosNTKTgp0DwWlyctgkdAd12JOse+IM8qs4t7J?=
+ =?us-ascii?Q?DsSiDR+K/NLY2Q+JKlivpdyrgFDMGOtpniy3+hw5gn/nXKqf+y4xaMDEwKkk?=
+ =?us-ascii?Q?Pzhg5sRmFOzdLxe2vh1k+kn8GvjDB5i7RwbGEwMoih69yDwN7hNfabyOhf7Q?=
+ =?us-ascii?Q?K/kHwgcspd9Alx7pchtZA3n6X1LMpSeiRYJrUY+O7HK2wcR9B+NMjQFD9UNj?=
+ =?us-ascii?Q?w20GG+qtkOfUnMvaSkam6N6/GwvLZclR057r5Z7xHCsPviemfU3Nzu98faZ3?=
+ =?us-ascii?Q?X7efoz3YvdS6ecsgZcXFA6Zjtgix8azldEoTOZ7JrADbbgtRXb+o8GC4/Y/o?=
+ =?us-ascii?Q?ApQs6gB0yhRwdpxD67pWyHs6to03pILPbv6bny1ARFr8qMX7bep0RKqpvp6w?=
+ =?us-ascii?Q?QE9rDo2arFZy879HdU8x4NhdK2HO8d10LvfjQBgsZYnKgdRJ7MZ51/os1pgk?=
+ =?us-ascii?Q?C096NUdaavbyBK4/TJWNnWT0Kn45Totu5IBm8P/NDe1T/6RSlJ/Sj/lIpaZH?=
+ =?us-ascii?Q?K7v3poo0mXGwbROEOGmVwWLxi4V7ZTchF+kPq34qtGkX6EqAHZExuS2lJ4di?=
+ =?us-ascii?Q?eMwEpWWydQmJlKN6dUx+mG4Svmz17hhDPOgWmNud/RuQyf8YlagkwGzC21fq?=
+ =?us-ascii?Q?+f0ZEo2BIasMjpwWGUe7wHWa4BwhO6J4S6t2enA7sZABJzSRjvblVJ1hYoUn?=
+ =?us-ascii?Q?7yYfQVmqqtBcp0p8U6pXdOrUgy2jubF4ntmYB0MH42LmCTWGk2XMXoAqcXq3?=
+ =?us-ascii?Q?Ufq2iKozxT8BNdPcSRIGMd1Kq+WtHSwdUR3hauDXxuo6hQHapt0uvYywtos1?=
+ =?us-ascii?Q?7ZXMBrvN7kh0H6wQ4S0/dGSxrhdU1f4X5rIZjL2Jk4cE3h14RozlKJf9uaTJ?=
+ =?us-ascii?Q?CiXtAPFd1YtHUAd7QFM0LKeYth/jItvvphC7sVZB3iI8S9RsyS9q3CFGr2Yr?=
+ =?us-ascii?Q?zIClGjBjb3ocFewoHcUdZ9YoMbwVtLNWxqVEW/8jssJrxscKM+b0CJ2xl/r1?=
+ =?us-ascii?Q?T+iTHnFi5mgCr1lWQ1OBjuUSi0iis1bpY+/3Sg6t4u0q2gCxyT6AJqDNb9ZG?=
+ =?us-ascii?Q?ea54+ZACTfQEiBSqUTImIy4zzXBe8ijXwjAWX5pVRL0uKCMkt6ieN/9MtFlO?=
+ =?us-ascii?Q?4guLwbu8LWY7m/rRIwm1DQnKgZmhKjU5r8QEjJKUoZNWsacC7eMnQolMBhqj?=
+ =?us-ascii?Q?myAwn/N3Pdeg8aZQ9ifL4K/RLwjFEvaLppqv4stDzPP7FTls+Sj14DYvJ5E9?=
+ =?us-ascii?Q?Cva+fEH9KY9M8t1BCQ0B4rHiMkMmfVzmS11tAsOhp21dgYYShhzj6GlgSyMK?=
+ =?us-ascii?Q?q8SgUANCIPL0aTW20jM7AhaMnD5VpFRoO/1kXFNVOnkGmo3z+9nnqd/UrEiY?=
+ =?us-ascii?Q?EJFLMTEbIpOMxCxGQJvAK4e8+gaZkV61OlKbNLrXvs+/rPHKz7COE8s3hAkH?=
+ =?us-ascii?Q?ztJbJL7A65LWL8lgLllFtPLCIwCROkBHFTtEZoR0oK3DOYoDX9mycOALGaR5?=
+ =?us-ascii?Q?OQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 397e2004-ec33-4c2d-de14-08dd346276c7
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2025 06:12:46.2175
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3BCs1YqIUcRnYVk9zwnblXXOdzusAg8xya7tbVu6H2k6HuEP5VbFPqYftN2iSPgiTG5UkMKi355MHPOOgbAay7x+699o7jt3mU1lsO2Sm4Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4676
+X-OriginatorOrg: intel.com
 
-On Thu, Jan 9, 2025 at 4:18=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wro=
-te:
->
-> On Thu, 9 Jan 2025 23:19:40 +0000 Carlos Llamas wrote:
-> > On Thu, Jan 09, 2025 at 12:13:00PM -0800, Jakub Kicinski wrote:
-> > > On Thu, 9 Jan 2025 11:48:24 -0800 Li Li wrote:
-> > > > Cleaning up in the NETLINK_URELEASE notifier is better since we
-> > > > register the process with the netlink socket. I'll change the code
-> > > > accordingly.
-> > >
-> > > Hm. Thought I already told you this. Maybe I'm mixing up submissions.
-> > >
-> > > Please the unbind callback or possibly the sock priv infra
-> > > (genl_sk_priv_get, sock_priv_destroy etc).
-> >
-> > Sorry, it was me that suggested NETLINK_URELEASE. BTW, I did try those
-> > genl_family callbacks first but I couldn't get them to work right away
-> > so I moved on. I'll have a closer look now to figure out what I did
-> > wrong. Thanks for the suggestion Jakub!
->
-> Hm, that's probably because there is no real multicast group here :(
-> genl_sk_priv_get() and co. may work better in that case.
-> your suggestion of NETLINK_URELEASE may work too, tho, I think it's
-> the most error prone
+Alistair Popple wrote:
+> Device DAX pages are currently not reference counted when mapped,
+> instead relying on the devmap PTE bit to ensure mapping code will not
+> get/put references. This requires special handling in various page
+> table walkers, particularly GUP, to manage references on the
+> underlying pgmap to ensure the pages remain valid.
+> 
+> However there is no reason these pages can't be refcounted properly at
+> map time. Doning so eliminates the need for the devmap PTE bit,
+> freeing up a precious PTE bit. It also simplifies GUP as it no longer
+> needs to manage the special pgmap references and can instead just
+> treat the pages normally as defined by vm_normal_page().
+> 
+> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> ---
+>  drivers/dax/device.c | 15 +++++++++------
+>  mm/memremap.c        | 13 ++++++-------
+>  2 files changed, 15 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/dax/device.c b/drivers/dax/device.c
+> index 6d74e62..fd22dbf 100644
+> --- a/drivers/dax/device.c
+> +++ b/drivers/dax/device.c
+> @@ -126,11 +126,12 @@ static vm_fault_t __dev_dax_pte_fault(struct dev_dax *dev_dax,
+>  		return VM_FAULT_SIGBUS;
+>  	}
+>  
+> -	pfn = phys_to_pfn_t(phys, PFN_DEV|PFN_MAP);
+> +	pfn = phys_to_pfn_t(phys, 0);
+>  
+>  	dax_set_mapping(vmf, pfn, fault_size);
+>  
+> -	return vmf_insert_mixed(vmf->vma, vmf->address, pfn);
+> +	return vmf_insert_page_mkwrite(vmf, pfn_t_to_page(pfn),
+> +					vmf->flags & FAULT_FLAG_WRITE);
+>  }
+>  
+>  static vm_fault_t __dev_dax_pmd_fault(struct dev_dax *dev_dax,
+> @@ -169,11 +170,12 @@ static vm_fault_t __dev_dax_pmd_fault(struct dev_dax *dev_dax,
+>  		return VM_FAULT_SIGBUS;
+>  	}
+>  
+> -	pfn = phys_to_pfn_t(phys, PFN_DEV|PFN_MAP);
+> +	pfn = phys_to_pfn_t(phys, 0);
+>  
+>  	dax_set_mapping(vmf, pfn, fault_size);
+>  
+> -	return vmf_insert_pfn_pmd(vmf, pfn, vmf->flags & FAULT_FLAG_WRITE);
+> +	return vmf_insert_folio_pmd(vmf, page_folio(pfn_t_to_page(pfn)),
+> +				vmf->flags & FAULT_FLAG_WRITE);
 
-sock_priv_destroy works with genl_sk_priv_get().
+This looks suspect without initializing the compound page metadata.
 
-But, I have to manually modify the generated netlink header file to satisfy=
- CFI.
+This might be getting compound pages by default with
+CONFIG_ARCH_WANT_OPTIMIZE_DAX_VMEMMAP. The device-dax unit tests are ok
+so far, but that is not super comforting until I can think about this a
+bit more... but not tonight.
 
--void binder_nl_sock_priv_init(struct my_struct *priv);
--void binder_nl_sock_priv_destroy(struct my_struct *priv);
-+void binder_nl_sock_priv_init(void *priv);
-+void binder_nl_sock_priv_destroy(void *priv);
-
-The reason is that these 2 callback functions are defined in
-include/net/genetlink.h as below
-void (*sock_priv_init)(void *priv);
-void (*sock_priv_destroy)(void *priv);
-
-Otherwise, kernel panic when CFI is enabled.
-
-CFI failure at genl_sk_priv_get+0x60/0x138 (target:
-binder_nl_sock_priv_init+0x0/0x34; expected type: 0x0ef81b7d)
-
-Jakub, we probably need this patch. Please let me know if you have a
-better idea. Thanks!
-
-diff --git a/tools/net/ynl/ynl-gen-c.py b/tools/net/ynl/ynl-gen-c.py
-index 8155ff6d2a38..84033938a75f 100755
---- a/tools/net/ynl/ynl-gen-c.py
-+++ b/tools/net/ynl/ynl-gen-c.py
-@@ -2352,8 +2352,8 @@ def print_kernel_family_struct_hdr(family, cw):
-     cw.p(f"extern struct genl_family {family.c_name}_nl_family;")
-     cw.nl()
-     if 'sock-priv' in family.kernel_family:
--        cw.p(f'void
-{family.c_name}_nl_sock_priv_init({family.kernel_family["sock-priv"]}
-*priv);')
--        cw.p(f'void
-{family.c_name}_nl_sock_priv_destroy({family.kernel_family["sock-priv"]}
-*priv);')
-+        cw.p(f'void {family.c_name}_nl_sock_priv_init(void *priv);')
-+        cw.p(f'void {family.c_name}_nl_sock_priv_destroy(void *priv);')
-         cw.nl()
+Might as well fix up device-dax refcounts in this series too, but I
+won't ask you to do that, will send you something to include.
