@@ -1,211 +1,205 @@
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F330236EDB
-	for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 12:17:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6327F236A78;
+	Tue, 14 Jan 2025 12:39:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736857036; cv=none; b=N/b49oQf5YFZt7MvQaZHJbCEb3tk3CPt3r1TzEAbJO0PDKDGUyVuOkCUA3ylmaZ/I+knLELppK4ogJXVrX/EF97KLtdzNVCF6wo+6/hPCf+9+5iHyUAXsjuKXmNrqlUskFzOEb7xom0ZgpPR9ag3RsspMWg8zk9IXI7AzYfvGYk=
+	t=1736858394; cv=none; b=pSTwXDc4YCe+J1MrmAkpYs1nG9UZCnkkWNyKdZC4pjMA00w21pDVq52nbqGdIYdVLpNAbs/dYQtgvaarPSq2RShRrYTxVGJQ61t5ohl6w3T2ZZp8VOtmKV6RM6vd0TO80Nn13i0lT3wum6J6Nzj93PIaIxfCMJddj3nd3W6x16w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736857036; c=relaxed/simple;
-	bh=UxkJV4aVvyiR9jpdgEwyPY4Vq5a9CDmiXa9H1wyI1gk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fsEfkXP0AyOZuEU78n9/g/wPxBPhEH7lPZNy0iNY/JPwxfmkg3xYgIaMGja5fBchxW+YylJZdMd8XdaMri4IguZTF7fqWxHtolGaDpGWBHya9qphQ2G2V3Ctfjw72QyQJ+6pVb90fYUU05FUoASXWbJhd9UlTyUCTEEFRfAMv8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=WhMTozHl; arc=none smtp.client-ip=209.85.160.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1736858394; c=relaxed/simple;
+	bh=kMpoK6d5fKzcrthLnTW7PEJqlmXron/SJJyOeh90a8Y=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KPEM3NyO9ZqQ8Ny/917e+pDPt9P18ufHgM2JHuCB44mPMt8xjq6fo+TJagnVcw2yWlQPA12aqxvX/bOC4rzEgpLcTM4EqiZ6HjvzX8146Q6xX17+yu4Hg99ZbnaPzWMK+KNSFHkdYCpfCpZe28nNqDMqpOd2J/R0zW9Rr2y5Wqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Cpwb9zYI; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="WhMTozHl"
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-2a383315d96so2740186fac.3
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 04:17:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1736857033; x=1737461833; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4INfH/TpDecneo+NlcBviw89emu+iz2WYGUG/aV6WRg=;
-        b=WhMTozHlgejvNvzEmaNCCx0nElEzP80i8+lnE+AF3HcyobzIG8w+CNYcnLRSkxB8oq
-         +oTrGtDxRA1RiAPbHspzF3jHpSHZ8vIGkQQVRYrN8vezAcYDu1673odj/lsg9o64O60d
-         tO0W03EVsVtlsjiBtjy/PXP8DiIANOHd3MNX1Ag1Ixe+Z44OHe6M1bW7RUwPsJWR27Ym
-         YkX7kyZ+h8qKYUrJfjip+f6c5C5KrzgH9tHM+zLo3HufLLNuVdBymUSvFM1cC8+OyTop
-         1IsDBZCJXYJIjx1gcSvCcmMcZKhtIP6KlvdImJazAg69eHhYmTrioN9V2N2N7b7gmw9X
-         vmRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736857033; x=1737461833;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4INfH/TpDecneo+NlcBviw89emu+iz2WYGUG/aV6WRg=;
-        b=jgLg5ytdPo8XgFQqKZGUbcNBarWlwOlbhkKAvT4tuRPNYorrqrYjgMiNuOp/nZvYDi
-         OqOYGfzRFJUqAMDcXP6KDyu0CIhKCmfTpBjqMCehQ4Pt/dIWXRCpJYDQclOpRujMCzEw
-         d61rEBVSVLq+OasIgh+iyQ4hVyFgr/ZdXGpJU36KtRB7Gi3rXuP8Qrv/QF56pkXJzMdk
-         1iJ9WxJBb2zYTwnDmEOj6CO+cEoPAs9N5QkVi6hPaGJIAWi93Zm4vtlkkJqUvFlhY0Oy
-         o+vtwDBwsQvk0ZPrWqZxz9PMWGNmNMI1DED+9+90cviFVAR32GxbltyKMAJCx26Y/mVf
-         eang==
-X-Forwarded-Encrypted: i=1; AJvYcCWP2r16tzfg5E7Sq8oCnZFzc5QXbxHmFi6bsyjHwXQOkeFxa0iUi47az9YBJ76o9pBfU9onDkTsG6M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhC38SOdqGsFNEvPhRjNd3U1/x7p7APajajILeFrGxkEOP6Vih
-	XYCPuSLfuxcM/AZvGh3LQpa/cYo7osrcrZuBQwax8P/ugUzEZCh7Byv4WjLFiqIsx+A0KHnhW2X
-	80QG/h8Vd9Zx7CjfLKx8zzFLgNbxS2QBmCn4jow==
-X-Gm-Gg: ASbGncsh7uGtgLxaGbQaTdPTC/P5zM8kiHum9HzkfJjX9C8dYKjmHoI56wrn+Ar6GXi
-	xnRkM/AYBYPzn39meB9m2HEg1/GrYbHLjMYfig8BN
-X-Google-Smtp-Source: AGHT+IEHZGO4c+aev0xCDPbWA8bFqbqbN4JnHG7sydhDT0QCnIP1LpjWakccU3G6ykFeEWt7fgi7ZuQ99Z3j1cufJsc=
-X-Received: by 2002:a05:6870:c8c:b0:29e:55c1:229a with SMTP id
- 586e51a60fabf-2aa06678512mr15178648fac.14.1736857033256; Tue, 14 Jan 2025
- 04:17:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Cpwb9zYI"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50E7Sbug024112;
+	Tue, 14 Jan 2025 12:39:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=mLKLiLaeqNSpkNvN0pu0c0rj
+	tZRgVlaoo0nPXj6GPfg=; b=Cpwb9zYI/NpofelQGF5lwf+J42qpVAuO8DtrfPpV
+	qRwAwWsTgbA95SVtBuuk9mcwQEZNykQPoK58/en0Tf1sdTEeGusgRV/V/MidkjDe
+	uWpB+jjlSat9afECCjhoBJlTwyTUna1kZTBICWszECfSy75PzpAYJvp9dOse6V7b
+	S+RQ7yLfkZy+QE0VUC9oMMBWKuYpGgqty8GJtyX8ebVIXwGH8rxRb2iYqdxzzDdw
+	xm9CVIOcEvxrjd366Fs/qbhGP1EkJYAAjs9SDwP3MVlgk+jCrfkULynJ7BuIqNTb
+	E40keL2leoADdDXIJqm+aS8YmePd88aA7PrKkYP5vuXuCQ==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 445kjq0n27-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 Jan 2025 12:39:37 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50ECdbwG001123
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 Jan 2025 12:39:37 GMT
+Received: from hu-jiangenj-sha.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 14 Jan 2025 04:39:31 -0800
+Date: Tue, 14 Jan 2025 18:09:27 +0530
+From: Joey Jiao <quic_jiangenj@quicinc.com>
+To: Dmitry Vyukov <dvyukov@google.com>
+CC: Marco Elver <elver@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Christoph Lameter
+	<cl@linux.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon
+	<will@kernel.org>, <kasan-dev@googlegroups.com>,
+        <linux-kernel@vger.kernel.org>, <workflows@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-mm@kvack.org>,
+        <linux-arm-kernel@lists.infradead.org>, <kernel@quicinc.com>
+Subject: Re: [PATCH 0/7] kcov: Introduce New Unique PC|EDGE|CMP Modes
+Message-ID: <Z4Za/3Vz7t5NSbE6@hu-jiangenj-sha.qualcomm.com>
+References: <20250114-kcov-v1-0-004294b931a2@quicinc.com>
+ <CANpmjNPUFnxvY-dnEAv09-qB5d0LY_vmyxhb3ZPJV-T9V9Q6fg@mail.gmail.com>
+ <CACT4Y+badwgw=ku--uJRWA94SA6bGXdtT+J9eO_VQxqWDxGheg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250114021936.17234-1-cuiyunhui@bytedance.com>
- <20250114021936.17234-3-cuiyunhui@bytedance.com> <7c181d03-b0d0-4b81-bbd0-06943a58a287@sifive.com>
-In-Reply-To: <7c181d03-b0d0-4b81-bbd0-06943a58a287@sifive.com>
-From: yunhui cui <cuiyunhui@bytedance.com>
-Date: Tue, 14 Jan 2025 20:17:02 +0800
-X-Gm-Features: AbW1kvZgoWRu28_ou5khJ-oDrc4uTs3sOn70Kk7VVMM2aZm0JHVssnRohhN4zrs
-Message-ID: <CAEEQ3wm7-O5U3jjbQ1+XgVvk+G7csMPAxzGoV=K5WczCOsbQ5g@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v4 2/3] RISC-V: hwprobe: Expose Zicbom
- extension and its block size
-To: Samuel Holland <samuel.holland@sifive.com>
-Cc: ajones@ventanamicro.com, alexghiti@rivosinc.com, andybnac@gmail.com, 
-	aou@eecs.berkeley.edu, charlie@rivosinc.com, cleger@rivosinc.com, 
-	conor.dooley@microchip.com, conor@kernel.org, corbet@lwn.net, 
-	evan@rivosinc.com, jesse@rivosinc.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, palmer@dabbelt.com, paul.walmsley@sifive.com, 
-	shuah@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CACT4Y+badwgw=ku--uJRWA94SA6bGXdtT+J9eO_VQxqWDxGheg@mail.gmail.com>
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 7224EfXEZdMQZV_igTObt1jrINb3Kk-J
+X-Proofpoint-ORIG-GUID: 7224EfXEZdMQZV_igTObt1jrINb3Kk-J
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
+ bulkscore=0 malwarescore=0 clxscore=1015 adultscore=0 mlxlogscore=999
+ lowpriorityscore=0 impostorscore=0 spamscore=0 priorityscore=1501
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501140105
 
-Hi Samuel=EF=BC=8C
-
-On Tue, Jan 14, 2025 at 1:28=E2=80=AFPM Samuel Holland
-<samuel.holland@sifive.com> wrote:
->
-> Hi Yunhui,
->
-> On 2025-01-13 8:19 PM, Yunhui Cui wrote:
-> > Expose Zicbom through hwprobe and also provide a key to extract its
-> > respective block size.
+On Tue, Jan 14, 2025 at 12:02:31PM +0100, Dmitry Vyukov wrote:
+> On Tue, 14 Jan 2025 at 11:43, Marco Elver <elver@google.com> wrote:
+> > On Tue, 14 Jan 2025 at 06:35, Jiao, Joey <quic_jiangenj@quicinc.com> wrote:
+> > >
+> > > Hi,
+> > >
+> > > This patch series introduces new kcov unique modes:
+> > > `KCOV_TRACE_UNIQ_[PC|EDGE|CMP]`, which are used to collect unique PC, EDGE,
+> > > CMP information.
+> > >
+> > > Background
+> > > ----------
+> > >
+> > > In the current kcov implementation, when `__sanitizer_cov_trace_pc` is hit,
+> > > the instruction pointer (IP) is stored sequentially in an area. Userspace
+> > > programs then read this area to record covered PCs and calculate covered
+> > > edges.  However, recent syzkaller runs show that many syscalls likely have
+> > > `pos > t->kcov_size`, leading to kcov overflow. To address this issue, we
+> > > introduce new kcov unique modes.
 > >
-> > Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
-> > ---
-> >  Documentation/arch/riscv/hwprobe.rst  | 6 ++++++
-> >  arch/riscv/include/asm/hwprobe.h      | 2 +-
-> >  arch/riscv/include/uapi/asm/hwprobe.h | 2 ++
-> >  arch/riscv/kernel/sys_hwprobe.c       | 6 ++++++
-> >  4 files changed, 15 insertions(+), 1 deletion(-)
+> > Overflow by how much? How much space is missing?
 > >
-> > diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/=
-riscv/hwprobe.rst
-> > index 955fbcd19ce9..0ea7754b2049 100644
-> > --- a/Documentation/arch/riscv/hwprobe.rst
-> > +++ b/Documentation/arch/riscv/hwprobe.rst
-> > @@ -242,6 +242,9 @@ The following keys are defined:
-> >    * :c:macro:`RISCV_HWPROBE_EXT_SUPM`: The Supm extension is supported=
- as
-> >         defined in version 1.0 of the RISC-V Pointer Masking extensions=
-.
+> > > Solution Overview
+> > > -----------------
+> > >
+> > > 1. [P 1] Introduce `KCOV_TRACE_UNIQ_PC` Mode:
+> > >    - Export `KCOV_TRACE_UNIQ_PC` to userspace.
+> > >    - Add `kcov_map` struct to manage memory during the KCOV lifecycle.
+> > >      - `kcov_entry` struct as a hashtable entry containing unique PCs.
+> > >      - Use hashtable buckets to link `kcov_entry`.
+> > >      - Preallocate memory using genpool during KCOV initialization.
+> > >      - Move `area` inside `kcov_map` for easier management.
+> > >    - Use `jhash` for hash key calculation to support `KCOV_TRACE_UNIQ_CMP`
+> > >      mode.
+> > >
+> > > 2. [P 2-3] Introduce `KCOV_TRACE_UNIQ_EDGE` Mode:
+> > >    - Save `prev_pc` to calculate edges with the current IP.
+> > >    - Add unique edges to the hashmap.
+> > >    - Use a lower 12-bit mask to make hash independent of module offsets.
+> > >    - Distinguish areas for `KCOV_TRACE_UNIQ_PC` and `KCOV_TRACE_UNIQ_EDGE`
+> > >      modes using `offset` during mmap.
+> > >    - Support enabling `KCOV_TRACE_UNIQ_PC` and `KCOV_TRACE_UNIQ_EDGE`
+> > >      together.
+> > >
+> > > 3. [P 4] Introduce `KCOV_TRACE_UNIQ_CMP` Mode:
+> > >    - Shares the area with `KCOV_TRACE_UNIQ_PC`, making these modes
+> > >      exclusive.
+> > >
+> > > 4. [P 5] Add Example Code Documentation:
+> > >    - Provide examples for testing different modes:
+> > >      - `KCOV_TRACE_PC`: `./kcov` or `./kcov 0`
+> > >      - `KCOV_TRACE_CMP`: `./kcov 1`
+> > >      - `KCOV_TRACE_UNIQ_PC`: `./kcov 2`
+> > >      - `KCOV_TRACE_UNIQ_EDGE`: `./kcov 4`
+> > >      - `KCOV_TRACE_UNIQ_PC|KCOV_TRACE_UNIQ_EDGE`: `./kcov 6`
+> > >      - `KCOV_TRACE_UNIQ_CMP`: `./kcov 8`
+> > >
+> > > 5. [P 6-7] Disable KCOV Instrumentation:
+> > >    - Disable instrumentation like genpool to prevent recursive calls.
+> > >
+> > > Caveats
+> > > -------
+> > >
+> > > The userspace program has been tested on Qemu x86_64 and two real Android
+> > > phones with different ARM64 chips. More syzkaller-compatible tests have
+> > > been conducted. However, due to limited knowledge of other platforms,
+> > > assistance from those with access to other systems is needed.
+> > >
+> > > Results and Analysis
+> > > --------------------
+> > >
+> > > 1. KMEMLEAK Test on Qemu x86_64:
+> > >    - No memory leaks found during the `kcov` program run.
+> > >
+> > > 2. KCSAN Test on Qemu x86_64:
+> > >    - No KCSAN issues found during the `kcov` program run.
+> > >
+> > > 3. Existing Syzkaller on Qemu x86_64 and Real ARM64 Device:
+> > >    - Syzkaller can fuzz, show coverage, and find bugs. Adjusting `procs`
+> > >      and `vm mem` settings can avoid OOM issues caused by genpool in the
+> > >      patches, so `procs:4 + vm:2GB` or `procs:4 + vm:2GB` are used for
+> > >      Qemu x86_64.
+> > >    - `procs:8` is kept on Real ARM64 Device with 12GB/16GB mem.
+> > >
+> > > 4. Modified Syzkaller to Support New KCOV Unique Modes:
+> > >    - Syzkaller runs fine on both Qemu x86_64 and ARM64 real devices.
+> > >      Limited `Cover overflows` and `Comps overflows` observed.
+> > >
+> > > 5. Modified Syzkaller + Upstream Kernel Without Patch Series:
+> > >    - Not tested. The modified syzkaller will fall back to `KCOV_TRACE_PC`
+> > >      or `KCOV_TRACE_CMP` if `ioctl` fails for Unique mode.
+> > >
+> > > Possible Further Enhancements
+> > > -----------------------------
+> > >
+> > > 1. Test more cases and setups, including those in syzbot.
+> > > 2. Ensure `hash_for_each_possible_rcu` is protected for reentrance
+> > >    and atomicity.
+> > > 3. Find a simpler and more efficient way to store unique coverage.
+> > >
+> > > Conclusion
+> > > ----------
+> > >
+> > > These patches add new kcov unique modes to mitigate the kcov overflow
+> > > issue, compatible with both existing and new syzkaller versions.
 > >
-> > +  * :c:macro:`RISCV_HWPROBE_EXT_ZICBOM`: The Zicbom extension is suppo=
-rted, as
-> > +       ratified in commit 3dd606f ("Create cmobase-v1.0.pdf") of riscv=
--CMOs.
-> > +
-> >  * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: Deprecated.  Returns similar=
- values to
-> >       :c:macro:`RISCV_HWPROBE_KEY_MISALIGNED_SCALAR_PERF`, but the key =
-was
-> >       mistakenly classified as a bitmask rather than a value.
-> > @@ -281,6 +284,9 @@ The following keys are defined:
-> >  * :c:macro:`RISCV_HWPROBE_KEY_MISALIGNED_VECTOR_PERF`: An enum value d=
-escribing the
-> >       performance of misaligned vector accesses on the selected set of =
-processors.
+> > Thanks for the analysis, it's clearer now.
 > >
-> > +* :c:macro:`RISCV_HWPROBE_KEY_ZICBOM_BLOCK_SIZE`: An unsigned int whic=
-h
-> > +  represents the size of the Zicbom block in bytes.
-> > +
-> >    * :c:macro:`RISCV_HWPROBE_MISALIGNED_VECTOR_UNKNOWN`: The performanc=
-e of misaligned
-> >      vector accesses is unknown.
->
-> The new key needs to go further down, below this list of possible values =
-for the
-> previous key.
-I guess you mean to put it after
-RISCV_HWPROBE_MISALIGNED_VECTOR_UNSUPPORTED, right?
-
->
-> Regards,
-> Samuel
->
-> >
-> > diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/=
-hwprobe.h
-> > index 1ce1df6d0ff3..89379f9a2e6e 100644
-> > --- a/arch/riscv/include/asm/hwprobe.h
-> > +++ b/arch/riscv/include/asm/hwprobe.h
-> > @@ -8,7 +8,7 @@
-> >
-> >  #include <uapi/asm/hwprobe.h>
-> >
-> > -#define RISCV_HWPROBE_MAX_KEY 10
-> > +#define RISCV_HWPROBE_MAX_KEY 11
-> >
-> >  static inline bool riscv_hwprobe_key_is_valid(__s64 key)
-> >  {
-> > diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include=
-/uapi/asm/hwprobe.h
-> > index 3af142b99f77..b15c0bd83ef2 100644
-> > --- a/arch/riscv/include/uapi/asm/hwprobe.h
-> > +++ b/arch/riscv/include/uapi/asm/hwprobe.h
-> > @@ -73,6 +73,7 @@ struct riscv_hwprobe {
-> >  #define              RISCV_HWPROBE_EXT_ZCMOP         (1ULL << 47)
-> >  #define              RISCV_HWPROBE_EXT_ZAWRS         (1ULL << 48)
-> >  #define              RISCV_HWPROBE_EXT_SUPM          (1ULL << 49)
-> > +#define              RISCV_HWPROBE_EXT_ZICBOM        (1ULL << 50)
-> >  #define RISCV_HWPROBE_KEY_CPUPERF_0  5
-> >  #define              RISCV_HWPROBE_MISALIGNED_UNKNOWN        (0 << 0)
-> >  #define              RISCV_HWPROBE_MISALIGNED_EMULATED       (1 << 0)
-> > @@ -94,6 +95,7 @@ struct riscv_hwprobe {
-> >  #define              RISCV_HWPROBE_MISALIGNED_VECTOR_SLOW            2
-> >  #define              RISCV_HWPROBE_MISALIGNED_VECTOR_FAST            3
-> >  #define              RISCV_HWPROBE_MISALIGNED_VECTOR_UNSUPPORTED     4
-> > +#define RISCV_HWPROBE_KEY_ZICBOM_BLOCK_SIZE  11
-> >  /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
-> >
-> >  /* Flags */
-> > diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hw=
-probe.c
-> > index cb93adfffc48..04150e62f998 100644
-> > --- a/arch/riscv/kernel/sys_hwprobe.c
-> > +++ b/arch/riscv/kernel/sys_hwprobe.c
-> > @@ -106,6 +106,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *=
-pair,
-> >               EXT_KEY(ZCA);
-> >               EXT_KEY(ZCB);
-> >               EXT_KEY(ZCMOP);
-> > +             EXT_KEY(ZICBOM);
-> >               EXT_KEY(ZICBOZ);
-> >               EXT_KEY(ZICOND);
-> >               EXT_KEY(ZIHINTNTL);
-> > @@ -278,6 +279,11 @@ static void hwprobe_one_pair(struct riscv_hwprobe =
-*pair,
-> >               if (hwprobe_ext0_has(cpus, RISCV_HWPROBE_EXT_ZICBOZ))
-> >                       pair->value =3D riscv_cboz_block_size;
-> >               break;
-> > +     case RISCV_HWPROBE_KEY_ZICBOM_BLOCK_SIZE:
-> > +             pair->value =3D 0;
-> > +             if (hwprobe_ext0_has(cpus, RISCV_HWPROBE_EXT_ZICBOM))
-> > +                     pair->value =3D riscv_cbom_block_size;
-> > +             break;
-> >       case RISCV_HWPROBE_KEY_HIGHEST_VIRT_ADDRESS:
-> >               pair->value =3D user_max_virt_addr();
-> >               break;
->
-
-Thanks,
-Yunhui
+> > However, the new design you introduce here adds lots of complexity.
+> > Answering the question of how much overflow is happening, might give
+> > better clues if this is the best design or not. Because if the
+> > overflow amount is relatively small, a better design (IMHO) might be
+> > simply implementing a compression scheme, e.g. a simple delta
+> > encoding.
+> 
+> Joey, do you have corresponding patches for syzkaller? I wonder how
+> the integration looks like, in particular when/how these maps are
+> cleared.
+Uploaded in https://github.com/google/syzkaller/pull/5673
