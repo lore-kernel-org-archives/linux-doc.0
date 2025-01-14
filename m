@@ -1,275 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5109415A863;
-	Tue, 14 Jan 2025 15:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA2614AD22
+	for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 15:55:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736868535; cv=none; b=ixwTOvEmiJgOHQRrsBwGaqhehpk73o9t81yavCJ7A9IfQsF8ADf4aUcuuyt8Qs+DUoHHxx1GZx1sEvswpoY55fE7hMcCSk6JX9fiPF6mqAfWkf1thkwCIpJBdnAXEFqtDJ6S6DamKlsA3Fb9Kc1FOGGe07WyFeIH7cF5uslKKew=
+	t=1736870103; cv=none; b=kWHA9n6Ogmeg9i4VScRYkhXVLxnIT6Az7oglEbjdPQlq3/msErQZB14hh6zX5m0lYti6rNtuzfVBv32kpkWhreyU5h5OTT/ElGefXH5sbHASHdH5D2PMCjND1JdgPSj/AgwJbhRE8IrdqUB/5TdPJTJdZpYm8lvU/qxrj+IJtXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736868535; c=relaxed/simple;
-	bh=oLOJQwjoOMagCDW7lcXuavWYJiJc/+lG4Bg7F22yM98=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Q29qK6rlSwLsCUuXsm6kexzN+Oei2e4+w1sUweS6+twMnVvITzEOUKGBnxRcNmFrvTeQZFSGLkQxdXy8GFrbcP8EWXQGnisu5chGAJ/ORna8x1kOeCy2A5n5jTjLLMiaMrm0JwdQZyUE7QX8izn/A1dr0W0+6aANB84dz3JIcCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NDJmNqG5; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1736870103; c=relaxed/simple;
+	bh=fblTB3hUb4UbQTwtdqf6FFOAlF1I2XILRkBy4ZMf0/c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=brrCnbQDbMCFS3v6UoGicnw/bDak+DxPTBUsR/UZQMICYxESh9g+ka1AMXnpRUb+evE2E9ax3vPyMeq3dEL1aQ1qxc6hNtTdywT+MJCbQE4JbGpvZRTn0ZYkszH9u02peR/q9FDH0FQW/wBo+MlHDcri0Y8W3yyAVTsdhqAvhlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vnt6DrO9; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NDJmNqG5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736868533; x=1768404533;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=oLOJQwjoOMagCDW7lcXuavWYJiJc/+lG4Bg7F22yM98=;
-  b=NDJmNqG51WRRPleok6vEtLFIL26ejMXWbzrwak+P8VtYNXr8xFRHGZYB
-   2BnEwj5Cz0/+KmK6lSH4md4wS3kHQXJancRfo3avxaQN/UiJAATgqrVpa
-   FYsgGZ8K5GDV9dFQX1T1B7XDr57hCH8zpz1od/8ZdbUMeWnMyikkTCJUr
-   sUygzV78ekDlSjMmMREFxxTRjAxRkIFMX+rmjXDw837hWLJF1qGtgq//i
-   09cIOtK1mYEOgJH8Di7atU9CUkPqrBcIXf1ia52hO+5RDIHYKLMDcCGvy
-   00wNBsRdio7Syo+9bpRdFeXL5mO8LrMv9jRc/gpeeT1HzBCeArlXu0vxY
-   w==;
-X-CSE-ConnectionGUID: x2h8HkzGRJeJO1w5LXwHMw==
-X-CSE-MsgGUID: cjx6i6lGQOOZ0/s2pTgF1Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11315"; a="37325406"
-X-IronPort-AV: E=Sophos;i="6.12,314,1728975600"; 
-   d="scan'208";a="37325406"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 07:28:52 -0800
-X-CSE-ConnectionGUID: Z+YZJTMiS+6T+C5l8UqrXQ==
-X-CSE-MsgGUID: Obu5MGoBTCukqgaVBTU7yw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="142117820"
-Received: from p12ill20yoongsia.png.intel.com ([10.88.227.38])
-  by orviesa001.jf.intel.com with ESMTP; 14 Jan 2025 07:28:40 -0800
-From: Song Yoong Siang <yoong.siang.song@intel.com>
-To: "David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Willem de Bruijn <willemb@google.com>,
-	Florian Bezdeka <florian.bezdeka@siemens.com>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bjorn Topel <bjorn@kernel.org>,
-	Magnus Karlsson <magnus.karlsson@intel.com>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Joe Damato <jdamato@fastly.com>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Mina Almasry <almasrymina@google.com>,
-	Daniel Jurgens <danielj@nvidia.com>,
-	Song Yoong Siang <yoong.siang.song@intel.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Mykola Lysenko <mykolal@fb.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	KP Singh <kpsingh@kernel.org>,
-	Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Cc: netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	bpf@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	intel-wired-lan@lists.osuosl.org,
-	xdp-hints@xdp-project.net
-Subject: [PATCH bpf-next v5 4/4] igc: Add launch time support to XDP ZC
-Date: Tue, 14 Jan 2025 23:27:18 +0800
-Message-Id: <20250114152718.120588-5-yoong.siang.song@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250114152718.120588-1-yoong.siang.song@intel.com>
-References: <20250114152718.120588-1-yoong.siang.song@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vnt6DrO9"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-467abce2ef9so258381cf.0
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 07:55:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1736870101; x=1737474901; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wF1XaPNeeHyy6I0ZTk5qOi0F8MmKtWhrdYbpkEjSIu0=;
+        b=vnt6DrO9lScuZC4RW62tSVY+JcMObcyFOgFAJSOvLyV4KduLnhyo9SQsyxVkWww3P6
+         22hVVIWpqwamgvYu3dBx9GoEG8yn2yOUD8i379sohL7QPDonjEBMNxfKG2gJPUPtAKzH
+         4X7qpPyAhotF3IAVszhYA6801QKUsB+LaavoaPFP6zNkIkPnrM0ZIXNor7Scydo+bZVm
+         4uF3OMROtDY46UPlP2Xb+U3664qFmW/lAB9SNDP5eG8fA8oMpeObW7kEJnoUNeiLuB15
+         J1tayNXx2Ankmgz+NCMrLsoP1FmbPguiv+tptrzp8rMehobLz1fKPrFlkGb/eTPc9oOU
+         CzxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736870101; x=1737474901;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wF1XaPNeeHyy6I0ZTk5qOi0F8MmKtWhrdYbpkEjSIu0=;
+        b=inCrXBrhW5BuJIO4yTGLlgWdJwmYNgzTIHvxo3HDfK0Ef2trM7vy1oSyCjMX6D/Yt+
+         HWLW4Uin9re7SZS3CtENgPqkimf9317tND0sUN7iLKxos/dFrmxS4KFnAStndNgnoV8M
+         GYL0gHsjjYeo3kmJ65sDQ2Q89MbSQeSBr/sT/gDuUUHuvl1EiTpiPoo6JVsXCI44Q2vc
+         ikaJoyaGhpSxzlbEgfcI4LNzaFSSFnIN6+uFk8iymeklb8fjp+lcQ6dAUCuEjIAWxdJQ
+         tBPxdUMfGUKZEAEJLMG/RqFN8s5FNpOM76b5rIxcZFs0PKrbgwv9C5RfSL+EOQMI+pLd
+         XulQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWg45vPMpRF4ncSwMG4qMXPMbI7W9JnNqG3PmV5eIM7xjOD0fhXhDBHOPBb2DrFNeVSU4J3q7bejEM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbvYoQp7ZI7RbhVbqKwAnmgbgOook3oq41XlzWwbQoYVKfX9sr
+	+KsAUHEVrJu6coje7cAlEfpynFiQCa0Cp8Bx2gEy7oIsJqN4KIDRNClExVweBffrrMqyxpJTOJw
+	lYla+93+KBZ2BDGdhLhFtlN50COFWBH7FdDZC
+X-Gm-Gg: ASbGnct5WC0CSamoKo+qlU5auKsz+KxwGw1+NxKtcCVo08GBF/M1PfwxLX5xsXhNAX2
+	5VPYGxZbGnsPN/SfTg5BB3ZPPAYaLyPGhhnkO3JmHGQ2GYKa/UOOLSh9DVdZwgPNJzvw=
+X-Google-Smtp-Source: AGHT+IFgdTpup1GYDGSEvF1leaxbVoZ8pyqiDLUE7jpajzRtPs6Eg9Iy9tZ5ym096+KKR5or2HrexB3d6Hejq7V2YLk=
+X-Received: by 2002:ac8:5d50:0:b0:466:7926:c69 with SMTP id
+ d75a77b69052e-46de97879d8mr3457441cf.20.1736870100414; Tue, 14 Jan 2025
+ 07:55:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250111042604.3230628-1-surenb@google.com> <f5e26a57-ec77-4df8-8b4f-5a718a046894@lucifer.local>
+ <20250113174941.8c6d5defe18c8b1a7e477ace@linux-foundation.org>
+ <CAJuCfpE0Kdd8EnsjOJ0WW8QcDYbWji3S_LEu+=J9aTVioFMQ+w@mail.gmail.com>
+ <20250113200908.d821636a39e9ca6130a90e24@linux-foundation.org> <ajefxu3ed4oz2uomvmc7u4fj4zj2x2lvzmec7okif6stjptc6l@i6wmo4wuwgh3>
+In-Reply-To: <ajefxu3ed4oz2uomvmc7u4fj4zj2x2lvzmec7okif6stjptc6l@i6wmo4wuwgh3>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 14 Jan 2025 07:54:48 -0800
+X-Gm-Features: AbW1kvaX8NijIyw9mxov9DIlqORZy3MdUBdxlhrheEa5wt5NbEsbklLgwutsy98
+Message-ID: <CAJuCfpHGJ9RR0tJyrLzLZEf9r=CQidoi9xJEAyHYs4Kx=1JxXw@mail.gmail.com>
+Subject: Re: [PATCH v9 00/17] reimplement per-vma lock as a refcount
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, peterz@infradead.org, 
+	willy@infradead.org, david.laight.linux@gmail.com, mhocko@suse.com, 
+	vbabka@suse.cz, hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
+	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
+	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
+	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
+	klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Enable Launch Time Control (LTC) support to XDP zero copy via XDP Tx
-metadata framework.
+On Tue, Jan 14, 2025 at 6:59=E2=80=AFAM 'Liam R. Howlett' via kernel-team
+<kernel-team@android.com> wrote:
+>
+> * Andrew Morton <akpm@linux-foundation.org> [250113 23:09]:
+> > On Mon, 13 Jan 2025 18:53:11 -0800 Suren Baghdasaryan <surenb@google.co=
+m> wrote:
+> >
+> > > On Mon, Jan 13, 2025 at 5:49=E2=80=AFPM Andrew Morton <akpm@linux-fou=
+ndation.org> wrote:
+> > > >
+> > > >
+> > > > Yes, we're at -rc7 and this series is rather in panic mode and it s=
+eems
+> > > > unnecessarily risky so I'm inclined to set it aside for this cycle.
+> > > >
+> > > > If the series is considered super desirable and if people are confi=
+dent
+> > > > that we can address any remaining glitches during two months of -rc
+> > > > then sure, we could push the envelope a bit.  But I don't believe t=
+his
+> > > > is the case so I'm thinking let's give ourselves another cycle to g=
+et
+> > > > this all sorted out?
+> > >
+> > > I didn't think this series was in panic mode with one real issue that
+> > > is not hard to address (memory ordering in
+> > > __refcount_inc_not_zero_limited()) but I'm obviously biased and might
+> > > be missing the big picture. In any case, if it makes people nervous I
+> > > have no objections to your plan.
+> >
+> > Well, I'm soliciting opinions here.  What do others think?
+> >
+> > And do you see much urgency with these changes?
+> >
+>
+> I think it's in good shape, but more time for this change is probably
+> the right approach.
+>
+> I don't think it's had enough testing time with the changes since v7.
+> The series has had significant changes, with the side effect of
+> invalidating some of the test time.
+>
+> I really like what it does, but if Suren doesn't need it upstream for
+> some reason then I'd say we leave it to soak longer.
+>
+> If he does need it upstream, we can deal with any fallout and fixes - it
+> will have minimum long term effects as it's not an LTS.
 
-This patch is tested with tools/testing/selftests/bpf/xdp_hw_metadata on
-Intel I225-LM Ethernet controller. Below are the test steps and result.
+Thanks for voicing your opinion, folks! There is no real urgency and
+no objections from me to wait until the next cycle.
+I'll be posting v10 shortly purely for reviews while this is fresh on
+people's mind, and with the understanding that it won't be picked up
+by Andrew.
+Thanks,
+Suren.
 
-Test Steps:
-1. At DUT, start xdp_hw_metadata selftest application:
-   $ sudo ./xdp_hw_metadata enp2s0 -l 1000000000 -L 1
-
-2. At Link Partner, send an UDP packet with VLAN priority 1 to port 9091 of
-   DUT.
-
-When launch time is set to 1s in the future, the delta between launch time
-and transmit hardware timestamp is equal to 0.016us, as shown in result
-below:
-  0x562ff5dc8880: rx_desc[4]->addr=84110 addr=84110 comp_addr=84110 EoP
-  rx_hash: 0xE343384 with RSS type:0x1
-  HW RX-time:   1734578015467548904 (sec:1734578015.4675) delta to User RX-time sec:0.0002 (183.103 usec)
-  XDP RX-time:   1734578015467651698 (sec:1734578015.4677) delta to User RX-time sec:0.0001 (80.309 usec)
-  No rx_vlan_tci or rx_vlan_proto, err=-95
-  0x562ff5dc8880: ping-pong with csum=561c (want c7dd) csum_start=34 csum_offset=6
-  HW RX-time:   1734578015467548904 (sec:1734578015.4675) delta to HW Launch-time sec:1.0000 (1000000.000 usec)
-  0x562ff5dc8880: complete tx idx=4 addr=4018
-  HW Launch-time:   1734578016467548904 (sec:1734578016.4675) delta to HW TX-complete-time sec:0.0000 (0.016 usec)
-  HW TX-complete-time:   1734578016467548920 (sec:1734578016.4675) delta to User TX-complete-time sec:0.0000 (32.546 usec)
-  XDP RX-time:   1734578015467651698 (sec:1734578015.4677) delta to User TX-complete-time sec:0.9999 (999929.768 usec)
-  HW RX-time:   1734578015467548904 (sec:1734578015.4675) delta to HW TX-complete-time sec:1.0000 (1000000.016 usec)
-  0x562ff5dc8880: complete rx idx=132 addr=84110
-
-Signed-off-by: Song Yoong Siang <yoong.siang.song@intel.com>
----
- drivers/net/ethernet/intel/igc/igc_main.c | 78 ++++++++++++++++-------
- 1 file changed, 56 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/net/ethernet/intel/igc/igc_main.c b/drivers/net/ethernet/intel/igc/igc_main.c
-index 56a35d58e7a6..3c7015cb5cb5 100644
---- a/drivers/net/ethernet/intel/igc/igc_main.c
-+++ b/drivers/net/ethernet/intel/igc/igc_main.c
-@@ -1566,6 +1566,26 @@ static bool igc_request_tx_tstamp(struct igc_adapter *adapter, struct sk_buff *s
- 	return false;
- }
- 
-+static void igc_insert_empty_packet(struct igc_ring *tx_ring)
-+{
-+	struct igc_tx_buffer *empty_info;
-+	struct sk_buff *empty;
-+	void *data;
-+
-+	empty_info = &tx_ring->tx_buffer_info[tx_ring->next_to_use];
-+	empty = alloc_skb(IGC_EMPTY_FRAME_SIZE, GFP_ATOMIC);
-+	if (!empty)
-+		return;
-+
-+	data = skb_put(empty, IGC_EMPTY_FRAME_SIZE);
-+	memset(data, 0, IGC_EMPTY_FRAME_SIZE);
-+
-+	igc_tx_ctxtdesc(tx_ring, 0, false, 0, 0, 0);
-+
-+	if (igc_init_tx_empty_descriptor(tx_ring, empty, empty_info) < 0)
-+		dev_kfree_skb_any(empty);
-+}
-+
- static netdev_tx_t igc_xmit_frame_ring(struct sk_buff *skb,
- 				       struct igc_ring *tx_ring)
- {
-@@ -1603,26 +1623,8 @@ static netdev_tx_t igc_xmit_frame_ring(struct sk_buff *skb,
- 	skb->tstamp = ktime_set(0, 0);
- 	launch_time = igc_tx_launchtime(tx_ring, txtime, &first_flag, &insert_empty);
- 
--	if (insert_empty) {
--		struct igc_tx_buffer *empty_info;
--		struct sk_buff *empty;
--		void *data;
--
--		empty_info = &tx_ring->tx_buffer_info[tx_ring->next_to_use];
--		empty = alloc_skb(IGC_EMPTY_FRAME_SIZE, GFP_ATOMIC);
--		if (!empty)
--			goto done;
--
--		data = skb_put(empty, IGC_EMPTY_FRAME_SIZE);
--		memset(data, 0, IGC_EMPTY_FRAME_SIZE);
--
--		igc_tx_ctxtdesc(tx_ring, 0, false, 0, 0, 0);
--
--		if (igc_init_tx_empty_descriptor(tx_ring,
--						 empty,
--						 empty_info) < 0)
--			dev_kfree_skb_any(empty);
--	}
-+	if (insert_empty)
-+		igc_insert_empty_packet(tx_ring);
- 
- done:
- 	/* record the location of the first descriptor for this packet */
-@@ -2949,9 +2951,33 @@ static u64 igc_xsk_fill_timestamp(void *_priv)
- 	return *(u64 *)_priv;
- }
- 
-+static void igc_xsk_request_launch_time(u64 launch_time, void *_priv)
-+{
-+	struct igc_metadata_request *meta_req = _priv;
-+	struct igc_ring *tx_ring = meta_req->tx_ring;
-+	__le32 launch_time_offset;
-+	bool insert_empty = false;
-+	bool first_flag = false;
-+
-+	if (!tx_ring->launchtime_enable)
-+		return;
-+
-+	launch_time_offset = igc_tx_launchtime(tx_ring,
-+					       ns_to_ktime(launch_time),
-+					       &first_flag, &insert_empty);
-+	if (insert_empty) {
-+		igc_insert_empty_packet(tx_ring);
-+		meta_req->tx_buffer =
-+			&tx_ring->tx_buffer_info[tx_ring->next_to_use];
-+	}
-+
-+	igc_tx_ctxtdesc(tx_ring, launch_time_offset, first_flag, 0, 0, 0);
-+}
-+
- const struct xsk_tx_metadata_ops igc_xsk_tx_metadata_ops = {
- 	.tmo_request_timestamp		= igc_xsk_request_timestamp,
- 	.tmo_fill_timestamp		= igc_xsk_fill_timestamp,
-+	.tmo_request_launch_time	= igc_xsk_request_launch_time,
- };
- 
- static void igc_xdp_xmit_zc(struct igc_ring *ring)
-@@ -2974,7 +3000,7 @@ static void igc_xdp_xmit_zc(struct igc_ring *ring)
- 	ntu = ring->next_to_use;
- 	budget = igc_desc_unused(ring);
- 
--	while (xsk_tx_peek_desc(pool, &xdp_desc) && budget--) {
-+	while (xsk_tx_peek_desc(pool, &xdp_desc) && budget >= 4) {
- 		struct igc_metadata_request meta_req;
- 		struct xsk_tx_metadata *meta = NULL;
- 		struct igc_tx_buffer *bi;
-@@ -2998,6 +3024,12 @@ static void igc_xdp_xmit_zc(struct igc_ring *ring)
- 		xsk_tx_metadata_request(meta, &igc_xsk_tx_metadata_ops,
- 					&meta_req);
- 
-+		/* xsk_tx_metadata_request() may have updated next_to_use */
-+		ntu = ring->next_to_use;
-+
-+		/* xsk_tx_metadata_request() may have updated Tx buffer info */
-+		bi = meta_req.tx_buffer;
-+
- 		tx_desc = IGC_TX_DESC(ring, ntu);
- 		tx_desc->read.cmd_type_len = cpu_to_le32(meta_req.cmd_type);
- 		tx_desc->read.olinfo_status = cpu_to_le32(olinfo_status);
-@@ -3015,9 +3047,11 @@ static void igc_xdp_xmit_zc(struct igc_ring *ring)
- 		ntu++;
- 		if (ntu == ring->count)
- 			ntu = 0;
-+
-+		ring->next_to_use = ntu;
-+		budget = igc_desc_unused(ring);
- 	}
- 
--	ring->next_to_use = ntu;
- 	if (tx_desc) {
- 		igc_flush_tx_descriptors(ring);
- 		xsk_tx_release(pool);
--- 
-2.34.1
-
+>
+> Thanks,
+> Liam
+>
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to kernel-team+unsubscribe@android.com.
+>
