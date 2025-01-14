@@ -1,62 +1,62 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18FD230996
-	for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 02:20:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CBB923099D
+	for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 02:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736821232; cv=none; b=rTWAxpWk/NgQJWR/2ATnFbS6jUi7oy7BiuplojVMbuK3la1oifAoxcA2DrzGyniBOBPSrNjAWKz+mi3IYbg+RzQRfvc6GiYSJZSdGxPodvdYmzgbNKST2DfVa6b6JkZD6635/4/HJ0d6jsg4TBTjjlAT1R365VOp/f7Pcqn9x1g=
+	t=1736821237; cv=none; b=PFFH8Y9KJ45RKDzKAKwVAxngtSouxoM2GNyPd4sUaATnAKLVGjtLQoYTYKSBQGbzyVd3+URq2iFdHPMpEQCX/fnoXFsILgzEq1GZcfhyZGpd2o2UF7PJ4iSGhX3HglNnSlxpMSMXHZntjK9DqKRHUbZnHcduY1Oms01+H+YiYhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736821232; c=relaxed/simple;
-	bh=RG69VaO0q4YKhIgGWtAci4+TZ0O6tJyGpCJxcS2uc9g=;
+	s=arc-20240116; t=1736821237; c=relaxed/simple;
+	bh=AVlJ+B8SHpG7AnPXkY0Y1XkZO+Nve3y56lMhy2AxybY=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ssuIhsjQmMGxhKXNOl7bcTETJ7L1rI/+vDi9LlvR3g0JbEHivIoBBR/UNEmFHGt+L99gi3DMeukbA/ohgcDEq1sejdxuRags6/ePZpMczasNgNYh1OVetY7fSBOZAk8FxadyRJHaCQNRZbTqLRDcpvUQWoec2kwUjSBySSyKe0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=PHz4bjiw; arc=none smtp.client-ip=209.85.214.178
+	 MIME-Version; b=jOzLQDK4VtXgBJjTjLuoDGv9wncU0dPZ5Ysqmk8PJGaEMbgK1HFJho3sFMCSYtwtVCYoNnMaQtt+9g4U5m2L+14h7t4Wm+RCerMMMl/TtQzUOKTBI/J0xeISZLy/uHJ7g+y3leeSPTCnZ/+A/OAR8Rp1XTVbxm9jgjxZoFidRWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=DaoCebGQ; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="PHz4bjiw"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2161eb95317so87091985ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 18:20:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="DaoCebGQ"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2167141dfa1so87330955ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 13 Jan 2025 18:20:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1736821227; x=1737426027; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1736821235; x=1737426035; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cBNMHaJ4/jliKhn3dX1fpdixipAbOn0nv46ZAdfBeMA=;
-        b=PHz4bjiw/VpA5DmTnFuH9pedoUxysgvOTOqbJ8a6TEyHYG4zjvTfFCaCmcOuZraCOB
-         3TtN3YJWQEAnkPYag3LaUvt3kcPwhyS9Lk0k0/Ya7zVbMrCgIwbEZQtO425g5E8rSRvb
-         C6Z7kP4JEnhngJweTVtX6zwFeNTN8wEcRl3RkEUxI9ZOIsoZJ8YDGGuxEGEwSFCOmcf2
-         qxrGxiJgQ+YJsDgwFS0R2cNEySTZgcouYKDi7QCjwB+VzkO4stTuh1mJVILy0Wy0bMq0
-         GqIBsU/UK2sUH4pUkvlJko426xJYVToA0gNQWcJsaaIfDFX7zV/IhKwLd/3S5jXifLJb
-         3iSg==
+        bh=AU+kJdFGquiw6jMN24/Ei4xUPExeegdDiALtzowhFsI=;
+        b=DaoCebGQ7ZEnQ71DmWKZhY055SwTHI/uJzyqswfHNZUcLShT21z26abbnwJUNdH4jR
+         fo/aCo67S5ltcbprttslNayINfnyS2fZw+pKFuA7U5qYDl6oS6JT5h0L426HbLubxkgM
+         WtYc7OXYLM84L7zg/MprgsOG7hYmDqklEs299h8DFG/MTM99G1bu9MSQm9o3eizVoG7j
+         TxKYmWS5TAkUFxQY68Co/P3GsRrEBg1o8qcGGOKRl7oNH6Kg7CUeYCc6ZASBN8cr119p
+         w4ZAoF7eHUcaB4xw4vVkvu31r+eZcD6Cn+4mwE4fpyodcwr2+WJSggfKPM6GviC81dOA
+         V+Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736821227; x=1737426027;
+        d=1e100.net; s=20230601; t=1736821235; x=1737426035;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cBNMHaJ4/jliKhn3dX1fpdixipAbOn0nv46ZAdfBeMA=;
-        b=aMvMrBs9KmAfAl2ZAD92/40KLi9D/wwymMBDC9Itf8t8TwWM6MgFioyzfuJ3S9kX80
-         mxycs6sw7UksFE4f53gnDis0vDO3KUYFXWuwR7u88zpCsHY6+eIECNrNBkFzt7bPtIqu
-         JKDG0XODpmXK3DipTq3ETqUoYLYr+AgrlurNOde0cYzerCYkIT7cL0xfbhllkwRHPLUZ
-         CdNSyU4x4WbiEYoHH0LkpjQNI+NGbwIAxGM1C9FMddKuYBOHBRV3h1QFg0WWhqpDdOPu
-         mYOJ8GhJDqx5HUArpHhIruD7RUjlQcSDqHef6nz2ZN7SaBhlgTkVYibTGhqw4jJC69fw
-         W/fw==
-X-Forwarded-Encrypted: i=1; AJvYcCUjbw+LqGay+AjEL2FFQTJeRr2zNN9u0iIfhm8pV2kKbJmsV6INk8poBNj2SFQtRF7D8mflzFFj/pE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlmvObWvy12Gnb+gAJkX2RLwH42rL2/gBIlGzVEbvaFiiXme2a
-	iZKWFi+JP+v/GRUPAnPBqA292SSNdReXk0JSLfAx67rOZJ6Rbq8tUVjQ+tpMGNs=
-X-Gm-Gg: ASbGncvHGX8s5mtd/9DgUGAw43+AvqO39CNyvJnE1C0bRKKwEtTk5A2dsars63XcbDw
-	hHbGasmMQ/IVUsMJ3kjw6lv1HM6zybwfUnAVRLfV3NKIU8tbpww9NCLkT1HGyikE9UTyAeqYWxS
-	mubqF8P9V5sxwifscd3d8pmGa/1yIeaWP7ynY8ywi5zSk1nSq9czIwgj4nM20pZ5enUEO2HoDIb
-	AXjxpe4+DwPSK5Gu8w8VwznfvKgGvfTqD3gEV7gENIxOpLEusTWHie/sLX5W2LUkmYFw+imKq0M
-	LT+Rav5IVzgTRWo=
-X-Google-Smtp-Source: AGHT+IE8gXNlz9uvRlAxGGGoxzeSxnCrgIxrMIHzdxRxrwL5DTCwEfXr5I7vV5OOSc2ZZIkB+wm2Yw==
-X-Received: by 2002:a17:903:124d:b0:20b:7210:5859 with SMTP id d9443c01a7336-21a83fe4982mr290497735ad.38.1736821227154;
-        Mon, 13 Jan 2025 18:20:27 -0800 (PST)
+        bh=AU+kJdFGquiw6jMN24/Ei4xUPExeegdDiALtzowhFsI=;
+        b=afUmXrKOnbn4r38I/YzbjIAGXN0LH9AyL8xQr6fO9EmB5j28hUl37uUPeAOeZ7ECvC
+         jDahMLSqvqNTNCh4CwWAGDmZI3v1x6WYaT3tYvmofoi2WZC1H+B7WAT9mn1H7a4Jl+l/
+         jsGnVjTRmIbeSSA2zxhYu+SowXOSTyYRxnxZCWmoMWfn4FNOjC8ZKXd6dclROdoly4FV
+         KbGjLAqx/zaye4yETTg6lUlOZ7sN+mil+Sd7nChlAlevjJXgu+iz2h7AMWOPo2ujOZn5
+         WxowDLpY/HqOy10XWKhB6S/zSQl8mlNpeUAi5lEjkZOo3lyC9dxrOOU7zmM8la8q0L+M
+         iPwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX6g/YCj229W+XLBKmUQYZQnLzXNAfpuVCgGOAA7x3ncvJ9JjibDSw7z3x2IQJWUwdV9fO2hAYDYRg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8x0isiUer0Jlj1lP9Bir379bamavjhUGf0alZvvqjB2dYyFID
+	eGKsbXmRyWEb9AjbrSo9hcblfB03RPF50B576nil1jXxJwsI9Lq/bYtMB6qydjs=
+X-Gm-Gg: ASbGnctWJkl4J8AIOtHjsS+mNLZRDl0rLaO0pbY6XWQIybJkVpWXocJLeqOOMpGvD6b
+	EEAfc+F8XAQ7PoRftaupBSs3811SWO6YA1Tjudxs/+Gp0z7OJnuePpOM8FWaeqV9dHL84sZWnUE
+	ftCROvSfqED0yETQIIfQdXxEaDC80D7h0V6H/7ZHJPmzFYcMnuqB72pm55UvSNUQ01M45QL8UnD
+	OSXv1VGWAlB+lFBbbpJi//igHG1t1tMpxJ/p+hn+Uv8qanxsv5m8SihMgmfZswLSU/aH4rExAES
+	TZFo4qvxKkPVMGw=
+X-Google-Smtp-Source: AGHT+IETuOAy38hbNYEg3JS95akJoO/X69j3f9vqhvGvre0TcMAbZshy9c/3Vf/4QESbup51MnYasA==
+X-Received: by 2002:a17:902:f691:b0:216:4fad:35d0 with SMTP id d9443c01a7336-21a8d6484c9mr258669205ad.9.1736821235444;
+        Mon, 13 Jan 2025 18:20:35 -0800 (PST)
 Received: from L6YN4KR4K9.bytedance.net ([139.177.225.227])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9f217b38sm58948065ad.145.2025.01.13.18.20.19
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9f217b38sm58948065ad.145.2025.01.13.18.20.27
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 13 Jan 2025 18:20:26 -0800 (PST)
+        Mon, 13 Jan 2025 18:20:35 -0800 (PST)
 From: Yunhui Cui <cuiyunhui@bytedance.com>
 To: ajones@ventanamicro.com,
 	alexghiti@rivosinc.com,
@@ -78,9 +78,9 @@ To: ajones@ventanamicro.com,
 	paul.walmsley@sifive.com,
 	samuel.holland@sifive.com,
 	shuah@kernel.org
-Subject: [PATCH v4 2/3] RISC-V: hwprobe: Expose Zicbom extension and its block size
-Date: Tue, 14 Jan 2025 10:19:35 +0800
-Message-Id: <20250114021936.17234-3-cuiyunhui@bytedance.com>
+Subject: [PATCH v4 3/3] RISC-V: selftests: Add TEST_ZICBOM into CBO tests
+Date: Tue, 14 Jan 2025 10:19:36 +0800
+Message-Id: <20250114021936.17234-4-cuiyunhui@bytedance.com>
 X-Mailer: git-send-email 2.39.2 (Apple Git-143)
 In-Reply-To: <20250114021936.17234-1-cuiyunhui@bytedance.com>
 References: <20250114021936.17234-1-cuiyunhui@bytedance.com>
@@ -92,98 +92,157 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Expose Zicbom through hwprobe and also provide a key to extract its
-respective block size.
+Add test for Zicbom and its block size into CBO tests, when
+Zicbom is present, test that cbo.clean/flush may be issued and works.
+As the software can't verify the clean/flush functions, we just judged
+that cbo.clean/flush isn't executed illegally.
 
 Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
 ---
- Documentation/arch/riscv/hwprobe.rst  | 6 ++++++
- arch/riscv/include/asm/hwprobe.h      | 2 +-
- arch/riscv/include/uapi/asm/hwprobe.h | 2 ++
- arch/riscv/kernel/sys_hwprobe.c       | 6 ++++++
- 4 files changed, 15 insertions(+), 1 deletion(-)
+ tools/testing/selftests/riscv/hwprobe/cbo.c | 66 +++++++++++++++++----
+ 1 file changed, 55 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-index 955fbcd19ce9..0ea7754b2049 100644
---- a/Documentation/arch/riscv/hwprobe.rst
-+++ b/Documentation/arch/riscv/hwprobe.rst
-@@ -242,6 +242,9 @@ The following keys are defined:
-   * :c:macro:`RISCV_HWPROBE_EXT_SUPM`: The Supm extension is supported as
-        defined in version 1.0 of the RISC-V Pointer Masking extensions.
+diff --git a/tools/testing/selftests/riscv/hwprobe/cbo.c b/tools/testing/selftests/riscv/hwprobe/cbo.c
+index a40541bb7c7d..dec510291ab8 100644
+--- a/tools/testing/selftests/riscv/hwprobe/cbo.c
++++ b/tools/testing/selftests/riscv/hwprobe/cbo.c
+@@ -50,6 +50,14 @@ static void cbo_clean(char *base) { cbo_insn(base, 1); }
+ static void cbo_flush(char *base) { cbo_insn(base, 2); }
+ static void cbo_zero(char *base)  { cbo_insn(base, 4); }
  
-+  * :c:macro:`RISCV_HWPROBE_EXT_ZICBOM`: The Zicbom extension is supported, as
-+       ratified in commit 3dd606f ("Create cmobase-v1.0.pdf") of riscv-CMOs.
++static void test_no_cbo_inval(void *arg)
++{
++	ksft_print_msg("Testing cbo.inval instruction remain privileged\n");
++	illegal_insn = false;
++	cbo_inval(&mem[0]);
++	ksft_test_result(illegal_insn, "No cbo.inval\n");
++}
 +
- * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: Deprecated.  Returns similar values to
-      :c:macro:`RISCV_HWPROBE_KEY_MISALIGNED_SCALAR_PERF`, but the key was
-      mistakenly classified as a bitmask rather than a value.
-@@ -281,6 +284,9 @@ The following keys are defined:
- * :c:macro:`RISCV_HWPROBE_KEY_MISALIGNED_VECTOR_PERF`: An enum value describing the
-      performance of misaligned vector accesses on the selected set of processors.
- 
-+* :c:macro:`RISCV_HWPROBE_KEY_ZICBOM_BLOCK_SIZE`: An unsigned int which
-+  represents the size of the Zicbom block in bytes.
-+
-   * :c:macro:`RISCV_HWPROBE_MISALIGNED_VECTOR_UNKNOWN`: The performance of misaligned
-     vector accesses is unknown.
- 
-diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
-index 1ce1df6d0ff3..89379f9a2e6e 100644
---- a/arch/riscv/include/asm/hwprobe.h
-+++ b/arch/riscv/include/asm/hwprobe.h
-@@ -8,7 +8,7 @@
- 
- #include <uapi/asm/hwprobe.h>
- 
--#define RISCV_HWPROBE_MAX_KEY 10
-+#define RISCV_HWPROBE_MAX_KEY 11
- 
- static inline bool riscv_hwprobe_key_is_valid(__s64 key)
+ static void test_no_zicbom(void *arg)
  {
-diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-index 3af142b99f77..b15c0bd83ef2 100644
---- a/arch/riscv/include/uapi/asm/hwprobe.h
-+++ b/arch/riscv/include/uapi/asm/hwprobe.h
-@@ -73,6 +73,7 @@ struct riscv_hwprobe {
- #define		RISCV_HWPROBE_EXT_ZCMOP		(1ULL << 47)
- #define		RISCV_HWPROBE_EXT_ZAWRS		(1ULL << 48)
- #define		RISCV_HWPROBE_EXT_SUPM		(1ULL << 49)
-+#define		RISCV_HWPROBE_EXT_ZICBOM	(1ULL << 50)
- #define RISCV_HWPROBE_KEY_CPUPERF_0	5
- #define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
- #define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
-@@ -94,6 +95,7 @@ struct riscv_hwprobe {
- #define		RISCV_HWPROBE_MISALIGNED_VECTOR_SLOW		2
- #define		RISCV_HWPROBE_MISALIGNED_VECTOR_FAST		3
- #define		RISCV_HWPROBE_MISALIGNED_VECTOR_UNSUPPORTED	4
-+#define RISCV_HWPROBE_KEY_ZICBOM_BLOCK_SIZE	11
- /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
+ 	ksft_print_msg("Testing Zicbom instructions remain privileged\n");
+@@ -61,10 +69,6 @@ static void test_no_zicbom(void *arg)
+ 	illegal_insn = false;
+ 	cbo_flush(&mem[0]);
+ 	ksft_test_result(illegal_insn, "No cbo.flush\n");
+-
+-	illegal_insn = false;
+-	cbo_inval(&mem[0]);
+-	ksft_test_result(illegal_insn, "No cbo.inval\n");
+ }
  
- /* Flags */
-diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
-index cb93adfffc48..04150e62f998 100644
---- a/arch/riscv/kernel/sys_hwprobe.c
-+++ b/arch/riscv/kernel/sys_hwprobe.c
-@@ -106,6 +106,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
- 		EXT_KEY(ZCA);
- 		EXT_KEY(ZCB);
- 		EXT_KEY(ZCMOP);
-+		EXT_KEY(ZICBOM);
- 		EXT_KEY(ZICBOZ);
- 		EXT_KEY(ZICOND);
- 		EXT_KEY(ZIHINTNTL);
-@@ -278,6 +279,11 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
- 		if (hwprobe_ext0_has(cpus, RISCV_HWPROBE_EXT_ZICBOZ))
- 			pair->value = riscv_cboz_block_size;
- 		break;
-+	case RISCV_HWPROBE_KEY_ZICBOM_BLOCK_SIZE:
-+		pair->value = 0;
-+		if (hwprobe_ext0_has(cpus, RISCV_HWPROBE_EXT_ZICBOM))
-+			pair->value = riscv_cbom_block_size;
-+		break;
- 	case RISCV_HWPROBE_KEY_HIGHEST_VIRT_ADDRESS:
- 		pair->value = user_max_virt_addr();
- 		break;
+ static void test_no_zicboz(void *arg)
+@@ -81,6 +85,30 @@ static bool is_power_of_2(__u64 n)
+ 	return n != 0 && (n & (n - 1)) == 0;
+ }
+ 
++static void test_zicbom(void *arg)
++{
++	struct riscv_hwprobe pair = {
++		.key = RISCV_HWPROBE_KEY_ZICBOM_BLOCK_SIZE,
++	};
++	cpu_set_t *cpus = (cpu_set_t *)arg;
++	__u64 block_size;
++	long rc;
++
++	rc = riscv_hwprobe(&pair, 1, sizeof(cpu_set_t), (unsigned long *)cpus, 0);
++	block_size = pair.value;
++	ksft_test_result(rc == 0 && pair.key == RISCV_HWPROBE_KEY_ZICBOM_BLOCK_SIZE &&
++			 is_power_of_2(block_size), "Zicbom block size\n");
++	ksft_print_msg("Zicbom block size: %llu\n", block_size);
++
++	illegal_insn = false;
++	cbo_clean(&mem[block_size]);
++	ksft_test_result(!illegal_insn, "cbo.clean\n");
++
++	illegal_insn = false;
++	cbo_flush(&mem[block_size]);
++	ksft_test_result(!illegal_insn, "cbo.flush\n");
++}
++
+ static void test_zicboz(void *arg)
+ {
+ 	struct riscv_hwprobe pair = {
+@@ -129,7 +157,7 @@ static void test_zicboz(void *arg)
+ 	ksft_test_result_pass("cbo.zero check\n");
+ }
+ 
+-static void check_no_zicboz_cpus(cpu_set_t *cpus)
++static void check_no_zicbo_cpus(cpu_set_t *cpus, __u64 cbo)
+ {
+ 	struct riscv_hwprobe pair = {
+ 		.key = RISCV_HWPROBE_KEY_IMA_EXT_0,
+@@ -137,6 +165,7 @@ static void check_no_zicboz_cpus(cpu_set_t *cpus)
+ 	cpu_set_t one_cpu;
+ 	int i = 0, c = 0;
+ 	long rc;
++	char *cbostr;
+ 
+ 	while (i++ < CPU_COUNT(cpus)) {
+ 		while (!CPU_ISSET(c, cpus))
+@@ -148,10 +177,13 @@ static void check_no_zicboz_cpus(cpu_set_t *cpus)
+ 		rc = riscv_hwprobe(&pair, 1, sizeof(cpu_set_t), (unsigned long *)&one_cpu, 0);
+ 		assert(rc == 0 && pair.key == RISCV_HWPROBE_KEY_IMA_EXT_0);
+ 
+-		if (pair.value & RISCV_HWPROBE_EXT_ZICBOZ)
+-			ksft_exit_fail_msg("Zicboz is only present on a subset of harts.\n"
+-					   "Use taskset to select a set of harts where Zicboz\n"
+-					   "presence (present or not) is consistent for each hart\n");
++		cbostr = cbo == RISCV_HWPROBE_EXT_ZICBOZ ? "Zicboz" : "Zicbom";
++
++		if (pair.value & cbo)
++			ksft_exit_fail_msg("%s is only present on a subset of harts.\n"
++					   "Use taskset to select a set of harts where %s\n"
++					   "presence (present or not) is consistent for each hart\n",
++					   cbostr, cbostr);
+ 		++c;
+ 	}
+ }
+@@ -159,7 +191,9 @@ static void check_no_zicboz_cpus(cpu_set_t *cpus)
+ enum {
+ 	TEST_ZICBOZ,
+ 	TEST_NO_ZICBOZ,
++	TEST_ZICBOM,
+ 	TEST_NO_ZICBOM,
++	TEST_NO_ZICBOINVAL,
+ };
+ 
+ static struct test_info {
+@@ -169,7 +203,9 @@ static struct test_info {
+ } tests[] = {
+ 	[TEST_ZICBOZ]		= { .nr_tests = 3, test_zicboz },
+ 	[TEST_NO_ZICBOZ]	= { .nr_tests = 1, test_no_zicboz },
+-	[TEST_NO_ZICBOM]	= { .nr_tests = 3, test_no_zicbom },
++	[TEST_ZICBOM]		= { .nr_tests = 3, test_zicbom },
++	[TEST_NO_ZICBOM]	= { .nr_tests = 2, test_no_zicbom },
++	[TEST_NO_ZICBOINVAL]	= { .nr_tests = 1, test_no_cbo_inval },
+ };
+ 
+ int main(int argc, char **argv)
+@@ -189,6 +225,7 @@ int main(int argc, char **argv)
+ 		assert(rc == 0);
+ 		tests[TEST_NO_ZICBOZ].enabled = true;
+ 		tests[TEST_NO_ZICBOM].enabled = true;
++		tests[TEST_NO_ZICBOINVAL].enabled = true;
+ 	}
+ 
+ 	rc = sched_getaffinity(0, sizeof(cpu_set_t), &cpus);
+@@ -206,7 +243,14 @@ int main(int argc, char **argv)
+ 		tests[TEST_ZICBOZ].enabled = true;
+ 		tests[TEST_NO_ZICBOZ].enabled = false;
+ 	} else {
+-		check_no_zicboz_cpus(&cpus);
++		check_no_zicbo_cpus(&cpus, RISCV_HWPROBE_EXT_ZICBOZ);
++	}
++
++	if (pair.value & RISCV_HWPROBE_EXT_ZICBOM) {
++		tests[TEST_ZICBOM].enabled = true;
++		tests[TEST_NO_ZICBOM].enabled = false;
++	} else {
++		check_no_zicbo_cpus(&cpus, RISCV_HWPROBE_EXT_ZICBOM);
+ 	}
+ 
+ 	for (i = 0; i < ARRAY_SIZE(tests); ++i)
 -- 
 2.39.2
 
