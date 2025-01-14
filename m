@@ -1,302 +1,107 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD570204590
-	for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 22:00:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18BB2144DB;
+	Tue, 14 Jan 2025 22:47:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736892041; cv=none; b=VA5Qiejk0dZJy/aecZEnNz0lBIiHItAnzjxqrN/mGNk9/EIwufm1OmkQGBwwpOiXKpaho+/5pXNNzkQDZd+igw9KIRPMb1d3Rc7HeJGts6HS7dVlMGHKh1lP9Gf6ZrZ2icZLIQXvrUPQ75BgCDSr6ffQiM7HdheUaKCm/SXaaXA=
+	t=1736894825; cv=none; b=IsbGaFhOnmpXbcDN0vYlB4a/gTzNzXaGGmnJ9+GKX657SJ7KagHOZh6X/tXe/jclfyFoIlqGWQOgaXeVeGuoOCC0Wj7275FTv7guAd8MlwPOgsHQu9u+K8uFZgghtRENX5/R612VfbGgN9seDb1JXKsN0VVACoIjSWYfrQfVCts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736892041; c=relaxed/simple;
-	bh=9ICZ0W3Bkxk6NScIrYrvoP5/k3RPtl89AAbJs5WhK/M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CjObiYa8AkjZRt8G49qwEIBN++E26H+Fz0VM1+FOGwJzn0SYRwSimDJaX0iNKmpP5gQnIBFRM/09/4uM/ORgVB+bNC+nx+kr88ypW2iqpU9dwEBO/NYsegJY7DyZaKq+LTSdY88VYb1NlIsliB0jWaqz6kSPhE+lPKWz6yKECgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=CfnWOFU8; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1736894825; c=relaxed/simple;
+	bh=IXANTz1bJSDyjXEnN8PxknznKsE2jL8seUW9FVQiReU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gkLSS7bxaWKaDIl9PmRLXGZuVoABO/RFZTyenhGuIIdmL+TPxdOuYCuY3VPoSwAmGY6xGF0SQvlCWD2z3ysmlWLVZunmo6LMxiqV3E3ps3vXD3uiPpnHgkVejgWxQEGx2TSbAfATXpkj1Q+Q/2cQK7r8vHm5Rey9cpS7Z7UHgXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JODKSTyO; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="CfnWOFU8"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2f4409fc8fdso352047a91.1
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 14:00:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JODKSTyO"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2162699e0ccso10081385ad.0;
+        Tue, 14 Jan 2025 14:47:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1736892038; x=1737496838; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LAi/vDeugCHa71Ma0EXTvLeZpuJSJHZJbQffJrAlCfU=;
-        b=CfnWOFU8YcufNRB29bZ04MvHjbHryKeuMsose1caY8Z7sJKY8ieR3Slnks+dLgmZm8
-         dFiPZiHzfJLqTWAst6zXJ9h5b5vJe809XU/bsUfEviki8ef5FYho17FfrlFXUu7csoQW
-         9yPYUvQTNCoOyZxdnAvwuc/kPqcLaF8p8uRUQuSUz0qEYyltCUwPAS/xqpiJEv6m3quW
-         Ai70RI+NsC+GGHZoPfWOHCca8dyzB+bO1rYO2LmmPsIgkfQQxiJz4YK2WyelHM191eSq
-         6hbJ0cL3RKSd2ewRyKziHqHjBKPq1SsfRM2NnaX7ISECobBOmYjn8kBOi+RY+FDGLFUo
-         WLXQ==
+        d=gmail.com; s=20230601; t=1736894823; x=1737499623; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Lozpaj0g3GYjPfEclpw5ZqeH+g5/kYsdh3R22/oSzT8=;
+        b=JODKSTyODZraHYlDzoQGB1r3Fyl89RqEcFWEXlQ820GDxGMNkxASbMiMPjLq9tAC1A
+         YWTzg1mEeap8aEDRVDx/Hec0jLLwPwDAJoAytV+ppVH9lozTx8utQR1MO/v4Hq4yAdWO
+         kPOWQEBnumvTUelznl71sDXuqFulG6rV34H/EmeIbw/1lVqnFFz11n1ZH6IuR9iujp7a
+         SQvGkeSJTVdHGG2cEWBxvkz8lv1xRYf3EzY9LIocDHGOxRXpyB15yrR5UBJ5iGVFVEBO
+         Elp9ve3/4Ah08m/gQK1ycbDGhn+unKXpvkvdeTkxkfnusLkheDbEVq3m0sgdtDEtAShB
+         /44g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736892038; x=1737496838;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LAi/vDeugCHa71Ma0EXTvLeZpuJSJHZJbQffJrAlCfU=;
-        b=t5NyJ10+GpHto+UP0S+Rwzl4Ju4ihvkoV0taGmjLI38VEkuJDtIxykns3UOqRs2nTU
-         zxnjTGyG9qoD4HwwVV8rPtA+S2Ae1qphIukJgRuksk2hHhu96ZbJaV9O1tY9yOUCal5a
-         bg13pD9GKPUiTtqBiiwx6GhFfFEtA1aBcRWmwrCrnujCWNMfEWM4fWn3MlupSDMRXfTI
-         O4WyfBpVOR7mlV9wQnZpKThUDCOfs1F/gainpUDEVjb8h+I1lfmTL7VsYsDoPOlEEfFH
-         smPmAMW+tVbHH/QejzHH2COPeEwXOJRBnfhdltqScJe6Eq/ciAnxeSyjiUgS1+lrf1T3
-         zULQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU4uORF3fBDaSYfoJ/lIOqwca+TiVM5fAd1nJ3EBqmW08oKa4F23msHdPFNB5/8msHmnYMjVpjClCA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyqMdVCsia/8XldHaoTqxT55mw0CdkCZOLdNN7+jZk4JgVPMwSN
-	QpKz/a/2/20N/cAO9Ef/MNJbRGtFcFBMWjoDIrxLKH3KXULiVNT/g0h8LOQfwWU=
-X-Gm-Gg: ASbGncu0Ozu/B36krWkKwUdI7jUspINjJmF9ktFT6PJeFKdPxvPepDTWnqyq/7eMeqG
-	/ydt1SJDwNV0gXh0TDsYivrXpDJM/st/PvqFgpEe7hEGcGfHk7a2fOaxkPVG4gVUMbo7iL0cIqj
-	tZHFqA59s2S6QrcaBahVNNCGp41ZpckU+6th7d0VNDCgczBi/hJYW9q2fn3EAufLdnV7jd+vcVk
-	6DEAnwrChonv+zXtygph3/XpeioneK1BCypb9JmXNsbIG8=
-X-Google-Smtp-Source: AGHT+IHUmOu5Z8yV9askuOExmMIbEPTgLHypbNQwlNxLYlNE9sF/DEJ2VQ1UKljmu+ix+BNJ1HS+qw==
-X-Received: by 2002:a17:90b:3a08:b0:2ee:edae:775 with SMTP id 98e67ed59e1d1-2f728dd351amr804769a91.3.1736892037932;
-        Tue, 14 Jan 2025 14:00:37 -0800 (PST)
-Received: from ghost ([50.145.13.30])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f72c20abc4sm27371a91.34.2025.01.14.14.00.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2025 14:00:36 -0800 (PST)
-Date: Tue, 14 Jan 2025 14:00:33 -0800
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Christian Brauner <brauner@kernel.org>, Guo Ren <guoren@kernel.org>,
-	John Garry <john.g.garry@oracle.com>, Will Deacon <will@kernel.org>,
-	James Clark <james.clark@linaro.org>,
-	Mike Leach <mike.leach@linaro.org>, Leo Yan <leo.yan@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
-	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
-	linux-csky@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 00/16] perf tools: Use generic syscall scripts for all
- archs
-Message-ID: <Z4bega1SChsGKqe6@ghost>
-References: <20250108-perf_syscalltbl-v6-0-7543b5293098@rivosinc.com>
- <Z3_ybwWW3QZvJ4V6@x1>
- <Z4AoFA974kauIJ9T@ghost>
- <Z4A2Y269Ffo0ERkS@x1>
- <Z4BEygdXmofWBr0-@x1>
- <Z4BVK3D7sN-XYg2o@ghost>
- <Z4F1dXQLPGZ3JFI5@ghost>
- <Z4UpRqywqYPZSUM_@x1>
- <Z4alwvqYithaVLSL@x1>
- <Z4a6oivg7f74N12Q@ghost>
+        d=1e100.net; s=20230601; t=1736894823; x=1737499623;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Lozpaj0g3GYjPfEclpw5ZqeH+g5/kYsdh3R22/oSzT8=;
+        b=UzmvFDd1012Tmu2/UnzH+efV1XhGrLg59xmbA9xq5eYL6ScJvNMxf1ntZMTnzCx9tc
+         wx0raMJqBBAxUzGBrxe55rg746FLWMmvMdaQdh11AJhFmVDBBDWps5VNTZ+/79mDVxlw
+         euN+mdtVnfxcLrb8QKegh4UmWuKz1UUSQ2cphGc5nPZfZMxCieBrmrIXHRR2du36DxuJ
+         UkUyX6+lnWQjvUhxaqBRzWh1KC6sQIXMLE/oiyeUYo6Uu3wZlw6FXKNCcD2fuKI9xFXD
+         abKFAZh+IG31ODp+UIfBXuiUHre+LBwvHbgOvBE6TTZXttH0fNMGJVKdZYjWEqWShuOe
+         e0dQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUL0oGpustraxL6g+OnGaD8e5WGsxuMEXjsoIHgFANm2hejWPzaQmhQ+c7CcRnqo1SKR11hbRWAvRgHAMfD@vger.kernel.org, AJvYcCV5Ii1V6uw8BsyX1x/zC4G7QKSo3SUZPQyc+VAyNLS23Ic2oZNc0RoR16+7eCkvyywQbibCsOz37pJ3Hc15@vger.kernel.org, AJvYcCWIdfwsGKWLYm4a29km3yAS8Ien0tOZv/BuVilRy8l3Q14szrkfoAFgsA7c943jGT1+4l+Ok/elwYLDZQiesdo=@vger.kernel.org, AJvYcCXEvjQXm+El836REp0XrMvYm/1cgLXVstpHWZyBQNBDRntxgQ8jOzAP3iSHoYZjuuNEpXIwCYy6CVs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhGZFpniuA1twBO/jUJK+e0n3/zNG37VcdjnuFZXcXHzOeU6OL
+	MiS3/bF0HpXfPkQorobdsj6Mn+RsOc5TPBTcf4QL9i8Y3NnlIs8Ox53GIx5J6nlW76jYR0nUwmp
+	asMJcuPf5gRDNDVqjmbD2Y0ogxJc=
+X-Gm-Gg: ASbGnctU9eKk73wBXPSpCYAtHIi8R/ZyDjfUKrNN7Bft7g0McWeVc44pFk+jUJjI6ic
+	2ZR3UzBVLIjA8G+KxknZ66XV7K0ksNHlv+YY62g==
+X-Google-Smtp-Source: AGHT+IGevwfPXGCAQQVOp/Ab1cBDzyCJ8G1YfMVI8AtOp+xUdHCuOY6eWeuJWDZfjx7Z2eYbdSZVK9tX1UXrXPJHYgA=
+X-Received: by 2002:a17:902:e545:b0:215:435d:b41a with SMTP id
+ d9443c01a7336-21a83f34893mr149435055ad.1.1736894823228; Tue, 14 Jan 2025
+ 14:47:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z4a6oivg7f74N12Q@ghost>
+References: <20241112184455.855133-1-ojeda@kernel.org> <CANiq72=BvnriScFay8SpLNe9mNhjvGsBJ9W9UtdzU_6v_i+woA@mail.gmail.com>
+ <CAABy=s12gOZadhYC+=6=TbbyN9j5L0B19ZLSGR_VFEdt1jhwEA@mail.gmail.com>
+In-Reply-To: <CAABy=s12gOZadhYC+=6=TbbyN9j5L0B19ZLSGR_VFEdt1jhwEA@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 14 Jan 2025 23:46:50 +0100
+X-Gm-Features: AbW1kvacpMeTqUYlQMLS6S4D2USApAhXAr5atLy2VwEVUQxisq97hcv1qVOPz0I
+Message-ID: <CANiq72kQKGG7j61bpsORnE0vzNo_dzwMZMLx=Z0xOnY0wefv6g@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: rust: add PROCMACROLDFLAGS
+To: "Hong, Yifan" <elsk@google.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	patches@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 14, 2025 at 11:27:30AM -0800, Charlie Jenkins wrote:
-> On Tue, Jan 14, 2025 at 02:58:26PM -0300, Arnaldo Carvalho de Melo wrote:
-> > On Mon, Jan 13, 2025 at 11:55:05AM -0300, Arnaldo Carvalho de Melo wrote:
-> > > On Fri, Jan 10, 2025 at 11:31:01AM -0800, Charlie Jenkins wrote:
-> > > > On Thu, Jan 09, 2025 at 03:00:59PM -0800, Charlie Jenkins wrote:
-> > > > > Ooh okay I see, the quiet commands were being ignored as-is. We could
-> > > > > add the lines to handle this to Makefile.syscalls, but I think the
-> > > > > better solution is to move the lines from Makefile.build to
-> > > > > Makefile.perf to be more generically available. Here is a patch for
-> > > > > that. I also added the comment from the kernel Makefile describing what
-> > > > > this does.
-> > > 
-> > > > > From 8dcec7f5d937ede3d33c687573dc2f1654ddc59e Mon Sep 17 00:00:00 2001
-> > > > > From: Charlie Jenkins <charlie@rivosinc.com>
-> > > > > Date: Thu, 9 Jan 2025 14:36:40 -0800
-> > > > > Subject: [PATCH] perf tools: Expose quiet/verbose variables in Makefile.perf
-> > > > > 
-> > > > > The variables to make builds silent/verbose live inside
-> > > > > tools/build/Makefile.build. Move those variables to the top-level
-> > > > > Makefile.perf to be generally available.
-> > > 
-> > > <SNIP applied patch>
-> > >  
-> > > > Let me know how you want to handle this, I can send this out as a
-> > > > separate patch if that's better.
-> > > 
-> > > I used the patch you provided above after hand editing the message
-> > > before feeding it to 'git am', added these comments:
-> > 
-> > Somehow this is causing some trouble:
-> > 
-> > ⬢ [acme@toolbox perf-tools-next]$ make -C tools/perf build-test
-> > make: Entering directory '/home/acme/git/perf-tools-next/tools/perf'
-> > - tarpkg: ./tests/perf-targz-src-pkg .
-> > /bin/sh: line 1: @make: command not found
-> > make[4]: *** [Makefile:27: clean-asm_pure_loop] Error 127
-> > make[3]: *** [Makefile.perf:764: tests-coresight-targets-clean] Error 2
-> > make[2]: *** [Makefile:96: clean] Error 2
-> > make[1]: *** [tests/make:330: make_static] Error 2
-> > make: *** [Makefile:109: build-test] Error 2
-> > make: Leaving directory '/home/acme/git/perf-tools-next/tools/perf'
-> > ⬢ [acme@toolbox perf-tools-next]$
-> > 
-> > Can you please try fixing it as I'm busy now (I'll be on vacation from
-> > tomorrow till early February)? This is what I extracted:
-> 
-> There was an erroneous $(Q) in
-> tools/perf/tests/shell/coresight/Makefile. Previously it would expand to
-> the empty string so wouldn't cause any problems, but now it's in the
-> middle of an expression so hence the error. I'll send an updated patch.
+On Tue, Dec 10, 2024 at 1:51=E2=80=AFAM Hong, Yifan <elsk@google.com> wrote=
+:
+>
+> With https://github.com/rust-lang/compiler-team/issues/731 fixed and
+> this idea of appending flags, our --sysroot flag should be able to be
+> properly overridden. But the -L and -Wl,-rpath's remains, and could
+> potentially be disturbing.
 
-Let me know if this works as expected! I sent it as [1].
+On second thought, #731 probably only applies to `rustc` native flags
+only, rather than those that are passed to the linker (e.g. if I pass
+a dummy flag, it is passed as-is, so I doubt they will start checking,
+and probably they shouldn't), so it may not help here after all.
 
-[1] https://lore.kernel.org/all/20250114-perf_make_test-v1-1-decc1c517b11@rivosinc.com/
+> So if I understand what you mean correctly, with this:
+>   KBUILD_PROCMACROLDFLAGS :=3D $(HOSTLDFLAGS) $(PROCMACROLDFLAGS)
+> Android might need a separate mechanism (another variable?) to filter
+> out our -L/-Wl,-rpath from HOSTLDFLAGS. (Dumb question: We can't take
+> -L/-Wl,-rpath away by prepending/appending more flags, right?)
 
-> 
-> > 
-> > commit c199fd785d18121ffd0ba5758e23a42ba2984e11
-> > Author: Charlie Jenkins <charlie@rivosinc.com>
-> > Date:   Mon Jan 13 11:50:55 2025 -0300
-> > 
-> >     perf tools: Expose quiet/verbose variables in Makefile.perf
-> >     
-> >     The variables to make builds silent/verbose live inside
-> >     tools/build/Makefile.build. Move those variables to the top-level
-> >     Makefile.perf to be generally available.
-> >     
-> >     Committer testing:
-> >     
-> >     See the SYSCALL lines, now they are consistent with the other
-> >     operations in other lines:
-> >     
-> >       SYSTBL  /tmp/build/perf-tools-next/arch/x86/include/generated/asm/syscalls_32.h
-> >       SYSTBL  /tmp/build/perf-tools-next/arch/x86/include/generated/asm/syscalls_64.h
-> >       GEN     /tmp/build/perf-tools-next/common-cmds.h
-> >       GEN     /tmp/build/perf-tools-next/arch/arm64/include/generated/asm/sysreg-defs.h
-> >       PERF_VERSION = 6.13.rc2.g3d94bb6ed1d0
-> >       GEN     perf-archive
-> >       MKDIR   /tmp/build/perf-tools-next/jvmti/
-> >       MKDIR   /tmp/build/perf-tools-next/jvmti/
-> >       MKDIR   /tmp/build/perf-tools-next/jvmti/
-> >       MKDIR   /tmp/build/perf-tools-next/jvmti/
-> >       GEN     perf-iostat
-> >       CC      /tmp/build/perf-tools-next/jvmti/libjvmti.o
-> >       CC      /tmp/build/perf-tools-next/jvmti/jvmti_agent.o
-> >     
-> >     Reported-by: Arnaldo Carvalho de Melo <acme@redhat.com>
-> >     Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> >     Tested-by: Arnaldo Carvalho de Melo <acme@redhat.com>
-> >     Cc: Adrian Hunter <adrian.hunter@intel.com>
-> >     Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-> >     Cc: Arnd Bergmann <arnd@arndb.de>
-> >     Cc: Christian Brauner <brauner@kernel.org>
-> >     Cc: Guo Ren <guoren@kernel.org>
-> >     Cc: Günther Noack <gnoack@google.com>
-> >     Cc: Ian Rogers <irogers@google.com>
-> >     Cc: Ingo Molnar <mingo@redhat.com>
-> >     Cc: James Clark <james.clark@linaro.org>
-> >     Cc: Jiri Olsa <jolsa@kernel.org>
-> >     Cc: John Garry <john.g.garry@oracle.com>
-> >     Cc: Jonathan Corbet <corbet@lwn.net>
-> >     Cc: Leo Yan <leo.yan@linux.dev>
-> >     Cc: Mark Rutland <mark.rutland@arm.com>
-> >     Cc: Mickaël Salaün <mic@digikod.net>
-> >     Cc: Mike Leach <mike.leach@linaro.org>
-> >     Cc: Namhyung Kim <namhyung@kernel.org>
-> >     Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> >     Cc: Paul Walmsley <paul.walmsley@sifive.com>
-> >     Cc: Peter Zijlstra <peterz@infradead.org>
-> >     Cc: Will Deacon <will@kernel.org>
-> >     Link: http://lore.kernel.org/lkml/None
-> >     Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
-> > 
-> > diff --git a/tools/build/Makefile.build b/tools/build/Makefile.build
-> > index 5fb3fb3d97e0fd11..e710ed67a1b49d9f 100644
-> > --- a/tools/build/Makefile.build
-> > +++ b/tools/build/Makefile.build
-> > @@ -12,26 +12,6 @@
-> >  PHONY := __build
-> >  __build:
-> >  
-> > -ifeq ($(V),1)
-> > -  quiet =
-> > -  Q =
-> > -else
-> > -  quiet=quiet_
-> > -  Q=@
-> > -endif
-> > -
-> > -# If the user is running make -s (silent mode), suppress echoing of commands
-> > -# make-4.0 (and later) keep single letter options in the 1st word of MAKEFLAGS.
-> > -ifeq ($(filter 3.%,$(MAKE_VERSION)),)
-> > -short-opts := $(firstword -$(MAKEFLAGS))
-> > -else
-> > -short-opts := $(filter-out --%,$(MAKEFLAGS))
-> > -endif
-> > -
-> > -ifneq ($(findstring s,$(short-opts)),)
-> > -  quiet=silent_
-> > -endif
-> > -
-> >  build-dir := $(srctree)/tools/build
-> >  
-> >  # Define $(fixdep) for dep-cmd function
-> > diff --git a/tools/perf/Makefile.perf b/tools/perf/Makefile.perf
-> > index a449d00155364422..55d6ce9ea52fb2a5 100644
-> > --- a/tools/perf/Makefile.perf
-> > +++ b/tools/perf/Makefile.perf
-> > @@ -161,12 +161,47 @@ export VPATH
-> >  SOURCE := $(shell ln -sf $(srctree)/tools/perf $(OUTPUT)/source)
-> >  endif
-> >  
-> > +# Beautify output
-> > +# ---------------------------------------------------------------------------
-> > +#
-> > +# Most of build commands in Kbuild start with "cmd_". You can optionally define
-> > +# "quiet_cmd_*". If defined, the short log is printed. Otherwise, no log from
-> > +# that command is printed by default.
-> > +#
-> > +# e.g.)
-> > +#    quiet_cmd_depmod = DEPMOD  $(MODLIB)
-> > +#          cmd_depmod = $(srctree)/scripts/depmod.sh $(DEPMOD) $(KERNELRELEASE)
-> > +#
-> > +# A simple variant is to prefix commands with $(Q) - that's useful
-> > +# for commands that shall be hidden in non-verbose mode.
-> > +#
-> > +#    $(Q)$(MAKE) $(build)=scripts/basic
-> > +#
-> > +# To put more focus on warnings, be less verbose as default
-> > +# Use 'make V=1' to see the full commands
-> > +
-> >  ifeq ($(V),1)
-> > +  quiet =
-> >    Q =
-> >  else
-> > -  Q = @
-> > +  quiet=quiet_
-> > +  Q=@
-> >  endif
-> >  
-> > +# If the user is running make -s (silent mode), suppress echoing of commands
-> > +# make-4.0 (and later) keep single letter options in the 1st word of MAKEFLAGS.
-> > +ifeq ($(filter 3.%,$(MAKE_VERSION)),)
-> > +short-opts := $(firstword -$(MAKEFLAGS))
-> > +else
-> > +short-opts := $(filter-out --%,$(MAKEFLAGS))
-> > +endif
-> > +
-> > +ifneq ($(findstring s,$(short-opts)),)
-> > +  quiet=silent_
-> > +endif
-> > +
-> > +export quiet Q
-> > +
-> >  # Do not use make's built-in rules
-> >  # (this improves performance and avoids hard-to-debug behaviour);
-> >  MAKEFLAGS += -r
+Yeah, we would need a variable to provide the filters, but it would be
+more complex and possibly less flexible. I think it may be best to
+keep things simple and use the v3 here, which already works for your
+use case.
+
+Cheers,
+Miguel
