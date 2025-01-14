@@ -1,76 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF7F625;
-	Tue, 14 Jan 2025 00:32:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E373594A;
+	Tue, 14 Jan 2025 00:33:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736814749; cv=none; b=CVvPFL2C5SlQcfhtxaFzEsr/y574bHTslkLqISxyEXxh4uRhzPdgbDUtntF2GYjp+8WHHk8qnawXaHVrZ2nCYyyaL6hON2KFGJ5MeWzHgqW22YL3fdHRWo+q9XTf0iFb3wWbTMsmLvzN4ainva/kBeKCCfOlIfHibs5CDXyz8TE=
+	t=1736814783; cv=none; b=mem9lmq+tWJVWHuovvH5wUxqUbi0ImUCAGnoI4++C88RujHZe2qm9GiAWhVcCXYQ6EsdSwfBufvGrIT1aqbTqVCKWRBHsOMZgsx3V1bVw+sF2ZIHyVaB/KpeUt54sXH0GV9sex4CiQ6Fa05bui3iCGlELRqnAWT/wJ9nrUrTdb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736814749; c=relaxed/simple;
-	bh=MuJPG1xWeEcJ/5zpWjCrB5ai+wzkKpDxFeCaGDasul0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CoEUA6PvuEfMwgCxRqqZWMCJ/2XHUhwnZ3W7mzRFOCg2tO8k3k7y6XwS1jO7Js9AEWsdgqym2hlD4B+cOm+K/+1pu5pPngSfoIbWsT3rsxYnGCtrAycu6SZjriIzXhj7pdOSHHfOTe3PH18rrh18kL5vnlw0qs7Mix3MyiweDr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QCEHKYVC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736814783; c=relaxed/simple;
+	bh=Dc4HoTEpMuIQqxN+yb0S9m9HX99LLQVjCKWKk5kwv+s=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=CgilEIb02e0Star39zvnAVhkRCS5g0+IszdG3ofC24E9L4D1iQQHFnraJ+g4yJpp9iqhn5Jp5ceQERoZZKJpc8uExZIv5rSe5Fl291gfosl1PxRf+2zgAyDtbX7F+YZAxvEWhC9hwsvoTtSoIaf+udx7LoverjS1oYMyYmqG3a4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ljBxiGVv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QCEHKYVC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FB96C4CED6;
-	Tue, 14 Jan 2025 00:32:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736814748;
-	bh=MuJPG1xWeEcJ/5zpWjCrB5ai+wzkKpDxFeCaGDasul0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QCEHKYVCkQ/8zdGzQbGL2hKlJGiaezYeDSIOWDXewa7qVbBM270JZtpMnkPmj87VX
-	 1SQULLGQsfCUVeBUrZYXU3bJzsjPV9lViVOi3AE9JQs8jvSkAwqJfU0RR7PU21jPZO
-	 umCgN78PxFFQxLUIgepucT5AWMNXLoeh/XhfDm8zyPhitKx+6giVNdRSQPyM52AFpb
-	 XQS7lcpu37cwilKzoy0l7zyxFN/UxpPnAt6i9xw4oBr+u6Egq8Wf25O2nM9GNa8GZ0
-	 DFZplcfi/PSVx8qWew2ya1LWDLzOE9UKAcfc5j1axZYnpc6aX2ezjSuZMVbIjBAzjA
-	 uOHi2ARCos9nQ==
-Date: Tue, 14 Jan 2025 09:32:26 +0900
-From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Akihiko Odaki <akihiko.odaki@daynix.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bjorn Helgaas <bhelgaas@google.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	Tushar Dave <tdave@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
-	Vidya Sagar <vidyas@nvidia.com>, Vikram Sethi <vsethi@nvidia.com>,
-	Shanker Donthineni <sdonthineni@nvidia.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Thomas Huth <thuth@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Xiongwei Song <xiongwei.song@windriver.com>
-Subject: Re: [PATCH] Documentation: Fix config_acs= example
-Message-ID: <20250114003226.GA1810889@rocinante>
-References: <20240915-acs-v1-1-b9ee536ee9bd@daynix.com>
- <20250113174035.GA408797@bhelgaas>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ljBxiGVv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4902DC4CED6;
+	Tue, 14 Jan 2025 00:33:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1736814782;
+	bh=Dc4HoTEpMuIQqxN+yb0S9m9HX99LLQVjCKWKk5kwv+s=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ljBxiGVv/Vn72sT9smo/jB0vLdthB/Y3AxhqWw8vFy3s0v5OM70ANCXF8EK9+cKEJ
+	 vMNAPTF7Lv/g4sdyYPEKkCXDG+r5SVZrXWdXN9cMDr7IqBA7XU+xYFnZLHOSMVaNtp
+	 TCeDnAiXIIVLH6xbi5oX2nSl4aPvTB7bNz1IV8Bs=
+Date: Mon, 13 Jan 2025 16:33:00 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Fabio Estevam
+ <festevam@denx.de>, "Rafael J. Wysocki" <rafael@kernel.org>, Zhang Rui
+ <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Jonathan Corbet
+ <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Matti Vaittinen
+ <mazziesaccount@gmail.com>, Benson Leung <bleung@chromium.org>, Tzung-Bi
+ Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-security-module@vger.kernel.org, chrome-platform@lists.linux.dev,
+ devicetree@vger.kernel.org, kernel@pengutronix.de, Matteo Croce
+ <mcroce@microsoft.com>
+Subject: Re: [PATCH v2 00/12] reboot: support runtime configuration of
+ emergency hw_protection action
+Message-Id: <20250113163300.4dce8816af9d448b6e263140@linux-foundation.org>
+In-Reply-To: <20250113-hw_protection-reboot-v2-0-161d3fc734f0@pengutronix.de>
+References: <20250113-hw_protection-reboot-v2-0-161d3fc734f0@pengutronix.de>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250113174035.GA408797@bhelgaas>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On Mon, 13 Jan 2025 17:25:25 +0100 Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
 
-[...]
-> Thanks for the patch.  Krzysztof added a bit to the commit log at:
+> We currently leave the decision of whether to shutdown or reboot to
+> protect hardware in an emergency situation to the individual drivers.
 > 
-> https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/commit/?id=57722057d762
+> This works out in some cases, where the driver detecting the critical
+> failure has inside knowledge: It binds to the system management controller
+> for example or is guided by hardware description that defines what to do.
 > 
-> but I think we should also include the flags template:
+> This is inadequate in the general case though as a driver reporting e.g.
+> an imminent power failure can't know whether a shutdown or a reboot would
+> be more appropriate for a given hardware platform.
 > 
->   config_acs =
->                 Format:
->                 <ACS flags>@<pci_dev>[; ...]
+> To address this, this series adds a hw_protection kernel parameter and
+> sysfs toggle that can be used to change the action from the shutdown
+> default to reboot. A new hw_protection_trigger API then makes use of
+> this default action.
 > 
-> so the commit log includes a hint about what "flag specification"
-> means.
+> My particular use case is unattended embedded systems that don't
+> have support for shutdown and that power on automatically when power is
+> supplied:
+> 
+>   - A brief power cycle gets detected by the driver
+>   - The kernel powers down the system and SoC goes into shutdown mode
+>   - Power is restored
+>   - The system remains oblivious to the restored power
+>   - System needs to be manually power cycled for a duration long enough
+>     to drain the capacitors
+> 
+> With this series, such systems can configure the kernel with
+> hw_protection=reboot to have the boot firmware worry about critical
+> conditions.
 
-I amended the commit log.  Should now include the above for reference.
+This seems useful.
 
-	Krzysztof
+>  Documentation/ABI/testing/sysfs-kernel-reboot      |   8 ++
+>  Documentation/admin-guide/kernel-parameters.txt    |   6 +
+>  .../devicetree/bindings/thermal/thermal-zones.yaml |   5 +-
+>  Documentation/driver-api/thermal/sysfs-api.rst     |  25 ++--
+>  drivers/platform/chrome/cros_ec_lpc.c              |   2 +-
+>  drivers/regulator/core.c                           |   4 +-
+>  drivers/regulator/irq_helpers.c                    |  16 +--
+>  drivers/thermal/thermal_core.c                     |  17 +--
+>  drivers/thermal/thermal_core.h                     |   1 +
+>  drivers/thermal/thermal_of.c                       |   7 +-
+>  include/linux/reboot.h                             |  36 ++++--
+>  include/uapi/linux/capability.h                    |   1 +
+>  kernel/reboot.c                                    | 140 ++++++++++++++++-----
+>  13 files changed, 195 insertions(+), 73 deletions(-)
+
+I'm not sure what the merge path is.  Maybe the drivers tree, maybe
+mm.git's mm-nonmm branches.
+
+We're at -rc7 so I'll save this away and shall revisit after -rc1 with
+a view to gathering acks (please) and adding the series to mm-nonmm, thanks.
