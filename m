@@ -1,124 +1,167 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7DE1FBE86
-	for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 18:29:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B01B1C1AAA;
+	Tue, 14 Jan 2025 18:32:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736879368; cv=none; b=NcWyPqCXVkszDqAl37BgHFzaaf2dQnhPVBzSzaXa8GIUooZRthsBejh0LFnV9b/yR/F48Qs9o9YmCJHTN1nNsm0O1cy46DhuwCBA8CxXcfXao+Y4XuHnJru5r/H2YdggfXAuf4tpULsMFAPp3yjk8W3MjUdPLNsryePjEgwloC8=
+	t=1736879580; cv=none; b=YWfkfH2TbAdcz+t+hWWXVMXb6Ogl2KpVsFx3/jnfHy5v1QQV/qUtMs3xTXYbsT1zLP56gjRysRt0JJ0m+h4rSdB3amdtBniQNMtscYA03eLLcovQI/SNtrAAQFuQCO65Lx8RC7qrprygF0X/sjKuHPiJk8v8MBALm5DWH3dXmnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736879368; c=relaxed/simple;
-	bh=tuMFrZ0XheriuHvBb6rI4HWUALQXLkUjBZxp1PsrpfY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iNcEe3QfNZYq4bq5uQ9cnMvsqfFgiI7y9EKy+juyWp5PwVxJM1jKyDzM9KX6xJyIf/OwU1pqPl3q9jJLU9JkSHFXkcn3bzvYsr2gviZmqx39LfCs2PMb976NhgzKM6eMpF/eUvdXnCy/sUmQyphCbiJ7fhEjfRMqTy7f7bWHoA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qPMBfzS9; arc=none smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1736879580; c=relaxed/simple;
+	bh=+VYfghA8rdZLLpmdod8238HnaaeOZHNazblnDuKrS5A=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Tfw1sgkd/zQudNdAJKBBjh/gRNQHZUrMi2Q0aG3BPwNkAjBqdOqXhz+GSIsNnctFaLo6dYDkMmsN8S06pd51yc7xo+ZJ0QPUtOXLLuzTk3EZ6lTlyXhubIgr2aCw+e83pYH21fWMppxe020fj3ENwDHF4yPDx51RGi5HijJnoEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dTSufW4e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qPMBfzS9"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4679b5c66d0so280041cf.1
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 10:29:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736879366; x=1737484166; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=fP2FYxg01zbB7JAkLy3PIFCTCmrP5vskUsFkaYq9Vcw=;
-        b=qPMBfzS9qPe7IrZqlg1wkIDt+gw4YdE+9i0eLexKHkWlgO+O/x9qRWzRgewPUkUFPC
-         E8Cz7wrn0ejW4GgrKqSnl9BQWaQbN6W1S5Zpxuc7U6/4P3ohTwvePBtuFnEQWI6Q7cFj
-         yMGn6m+6+afiYGHQbivVguxhwwc4JcenK2vbz81ZWeHZzy0SD32NBpNtJYyUTkdrQNOz
-         a0oQM3XZd+HbCER0U3hB5Rm5SIM6GSs+8TY/bJBRhqkTJ4YiV+85GMDuWnJpZovCIxSn
-         vLXH8j1v1Fyg6y8f+rJIFGXRru3z7DHNOdPOI8xgtA2GkulH1FU63KkrBX5e+jjm8PMf
-         35Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736879366; x=1737484166;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fP2FYxg01zbB7JAkLy3PIFCTCmrP5vskUsFkaYq9Vcw=;
-        b=OFQFFJq28r2ZKDUYAfxb2fjvpYIbdcwL9/93UF8LRcjS1g1Rl3rXRcwgmiA//0d+ks
-         50TDqIVLQbjADGm7TfaL5aJZzKQ07/q5wjZo6s4nE3MnN5hSvbd1r6yzaLxvCWmKdbPe
-         A9+Vh9nMaybLypGOA2cDuzUKT1vYKfTvHQuBU+mhFLco2V3A+feui5YD5q/in1L37n5R
-         DC+u48ov/1Fe35auCjxIOFDAwnZilhW/gBtzaru34BLyJHMveMUTqYi/8nw3xoo9hjFL
-         IfowYliaFofv7xj8sqrl0jS8xPLFhVtJ984ErH2ITbKANSdokXMP8/ysoh1eNyy7ucX0
-         jjyg==
-X-Forwarded-Encrypted: i=1; AJvYcCXkn89gmxcOvcfGalkWsVDltlfM4lsuAZlRJzdZzQGGJdysO1QiKw+gA3lm6/wUqV9VoeSpw3M5vL8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwaQLPJlFs10MwASL+soJKWR0em5J8AN/cmS4KosjGus4Q+XBxj
-	WDTIpFWB4QH/LC8QfQ6r3obsry+8v1/w6Me7lZ2ouVrMDfyoWoaeNtMNYki69tv3AvedFhAZPpu
-	bfgmu+CNmGLHYFFh/e7G+ItHyTojvO/wKXNyC
-X-Gm-Gg: ASbGncvvo1zpf/26asWvMjyqjRHM4BxoSHByA1fZSbBKRg5StXwYRGTQqMYqKRnPYyk
-	ZaZYsc1i30/xP86P0n3fI5lPW5hlZsn80jKIwI9cBSAw2NIs0ss1CZ4O6gLqTgURJhOo=
-X-Google-Smtp-Source: AGHT+IF6NbO+AjTf/FCy0lNcrVASXR+PtHw3Tx7ZbiEj0GAJM4vMrvUn6FzPIOJBqhMJvAfBjAbYHe/EJMBcfXkqzzs=
-X-Received: by 2002:a05:622a:1450:b0:46c:791f:bf46 with SMTP id
- d75a77b69052e-46dea92686bmr3258841cf.19.1736879365440; Tue, 14 Jan 2025
- 10:29:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dTSufW4e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4505C4CEDD;
+	Tue, 14 Jan 2025 18:32:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736879579;
+	bh=+VYfghA8rdZLLpmdod8238HnaaeOZHNazblnDuKrS5A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=dTSufW4efKR+RIHqvwO/9tgIApbDDjdv44InVf79nTpH+fqsZoocULrcrwKMVnQQ5
+	 RdzKW96/aFBeiCxYXTefWPYIICbm+Eu6rG7ovKW+JdGiRI47459qzUvUXDQhCB2gRM
+	 701k5jFBY4zSmNTziWErYmRGTY/TYyEiiyWUSgUuEkxH3EbunKYRIF0Wa6wGYshwDr
+	 MxqJ7pDFS6HDOAkfgpagILog3wKencYyaQQmL7omgH5ezoWMJDVFSItmpitzazhtaO
+	 HG+IClazBl+1mEWiDJrI71zrYT1bk7xYW2/7xCY4wqsD1f1YdMI+fhWUJolUp8mxLi
+	 UKEpo9Ifnp0yw==
+Date: Tue, 14 Jan 2025 10:32:57 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Li Li <dualli@chromium.org>
+Cc: Carlos Llamas <cmllamas@google.com>, dualli@google.com, corbet@lwn.net,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ donald.hunter@gmail.com, gregkh@linuxfoundation.org, arve@android.com,
+ tkjos@android.com, maco@android.com, joel@joelfernandes.org,
+ brauner@kernel.org, surenb@google.com, arnd@arndb.de, masahiroy@kernel.org,
+ bagasdotme@gmail.com, horms@kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, netdev@vger.kernel.org, hridya@google.com,
+ smoreland@google.com, kernel-team@android.com
+Subject: Re: [PATCH v11 2/2] binder: report txn errors via generic netlink
+Message-ID: <20250114103257.73e9c0d1@kernel.org>
+In-Reply-To: <CANBPYPjQVqmzZ4J=rVQX87a9iuwmaetULwbK_5_3YWk2eGzkaA@mail.gmail.com>
+References: <20241218203740.4081865-1-dualli@chromium.org>
+	<20241218203740.4081865-3-dualli@chromium.org>
+	<Z32cpF4tkP5hUbgv@google.com>
+	<Z32fhN6yq673YwmO@google.com>
+	<CANBPYPi6O827JiJjEhL_QUztNXHSZA9iVSyzuXPNNgZdOzGk=Q@mail.gmail.com>
+	<Z4Aaz4F_oS-rJ4ij@google.com>
+	<Z4Aj6KqkQGHXAQLK@google.com>
+	<CANBPYPjvFuhi7Pwn_CLArn-iOp=bLjPHKN0sJv+5uoUrDTZHag@mail.gmail.com>
+	<20250109121300.2fc13a94@kernel.org>
+	<Z4BZjHjfanPi5h9W@google.com>
+	<20250109161825.62b31b18@kernel.org>
+	<CANBPYPjQVqmzZ4J=rVQX87a9iuwmaetULwbK_5_3YWk2eGzkaA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250113-checkpatch-ignore-v1-0-63a7a740f568@google.com>
- <20250113-checkpatch-ignore-v1-1-63a7a740f568@google.com> <5abiddu5zgxdmotauxnohnk25zyzd3cbjlfgskejk5ta7arzk2@pjpofoy7pcce>
- <CA+i-1C1WF1cSvcNABGRbg34_aaOnSoVoDNBR357q8rrGk52OPQ@mail.gmail.com> <20250114-tapir-of-splendid-leadership-ad115e@lemur>
-In-Reply-To: <20250114-tapir-of-splendid-leadership-ad115e@lemur>
-From: Brendan Jackman <jackmanb@google.com>
-Date: Tue, 14 Jan 2025 19:29:14 +0100
-X-Gm-Features: AbW1kva5sW-rXTnemQTnnc5Xt-0oQc5VCVpNEfJYacYH51C_uSiSrZfr7NbQZS0
-Message-ID: <CA+i-1C2OrLDvp_xiomc_B96vZu8G8KRrg7KBHATz2y7KMO8UsA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] checkpatch: Add support for Checkpatch-ignore patch footer
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
-	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 14 Jan 2025 at 17:04, Konstantin Ryabitsev
-<konstantin@linuxfoundation.org> wrote:
->
-> On Tue, Jan 14, 2025 at 03:25:41PM +0100, Brendan Jackman wrote:
-> > <konstantin@linuxfoundation.org> wrote:
-> > > Do we really want this to become part of the permanent commit message? I'm
-> > > pretty sure this won't go over well with many.
+On Mon, 13 Jan 2025 22:01:00 -0800 Li Li wrote:
+> On Thu, Jan 9, 2025 at 4:18=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> w=
+rote:
+> > > Sorry, it was me that suggested NETLINK_URELEASE. BTW, I did try those
+> > > genl_family callbacks first but I couldn't get them to work right away
+> > > so I moved on. I'll have a closer look now to figure out what I did
+> > > wrong. Thanks for the suggestion Jakub! =20
 > >
-> > Why not?
->
-> Tweaks aimed at checkpatch are only useful during the code review stage, so
-> once that code is accepted upstream, they become wholly irrelevant. A
-> checkpatch trailer in the permanent commit record serves no purpose, not even
-> a historical one.
+> > Hm, that's probably because there is no real multicast group here :(
+> > genl_sk_priv_get() and co. may work better in that case.
+> > your suggestion of NETLINK_URELEASE may work too, tho, I think it's
+> > the most error prone =20
+>=20
+> sock_priv_destroy works with genl_sk_priv_get().
+>=20
+> But, I have to manually modify the generated netlink header file to satis=
+fy CFI.
+>=20
+> -void binder_nl_sock_priv_init(struct my_struct *priv);
+> -void binder_nl_sock_priv_destroy(struct my_struct *priv);
+> +void binder_nl_sock_priv_init(void *priv);
+> +void binder_nl_sock_priv_destroy(void *priv);
+>=20
+> The reason is that these 2 callback functions are defined in
+> include/net/genetlink.h as below
+> void (*sock_priv_init)(void *priv);
+> void (*sock_priv_destroy)(void *priv);
+>=20
+> Otherwise, kernel panic when CFI is enabled.
+>=20
+> CFI failure at genl_sk_priv_get+0x60/0x138 (target:
+> binder_nl_sock_priv_init+0x0/0x34; expected type: 0x0ef81b7d)
+>=20
+> Jakub, we probably need this patch. Please let me know if you have a
+> better idea. Thanks!
+>=20
+> diff --git a/tools/net/ynl/ynl-gen-c.py b/tools/net/ynl/ynl-gen-c.py
+> index 8155ff6d2a38..84033938a75f 100755
+> --- a/tools/net/ynl/ynl-gen-c.py
+> +++ b/tools/net/ynl/ynl-gen-c.py
+> @@ -2352,8 +2352,8 @@ def print_kernel_family_struct_hdr(family, cw):
+>      cw.p(f"extern struct genl_family {family.c_name}_nl_family;")
+>      cw.nl()
+>      if 'sock-priv' in family.kernel_family:
+> -        cw.p(f'void
+> {family.c_name}_nl_sock_priv_init({family.kernel_family["sock-priv"]}
+> *priv);')
+> -        cw.p(f'void
+> {family.c_name}_nl_sock_priv_destroy({family.kernel_family["sock-priv"]}
+> *priv);')
+> +        cw.p(f'void {family.c_name}_nl_sock_priv_init(void *priv);')
+> +        cw.p(f'void {family.c_name}_nl_sock_priv_destroy(void *priv);')
+>          cw.nl()
+>=20
 
-Yeah that's a good argument for them being unnecessary. It's not clear
-why them persisting beyond their useful lifetime would be a problem
-though. Any given reader of a commit message is already very likely to
-see tags they don't care about in that moment, is that something
-people really complain about?
+Maybe we can codegen a little wrapper call. Can you try this with CFI?
 
-> At best, utility trailers like that need to go into the basement of the patch,
-> not into the commit message.
+---->8------------
 
-If people do really object to them being in the commit message, I like
-this as a backup. It looks like the UX for git would be like:
+diff --git a/tools/net/ynl/pyynl/ynl_gen_c.py b/tools/net/ynl/pyynl/ynl_gen=
+_c.py
+index d3a7dfbcf929..9852ba6fd9c3 100755
+--- a/tools/net/ynl/pyynl/ynl_gen_c.py
++++ b/tools/net/ynl/pyynl/ynl_gen_c.py
+@@ -2411,6 +2411,15 @@ _C_KW =3D {
+     if not kernel_can_gen_family_struct(family):
+         return
+=20
++    if 'sock-priv' in family.kernel_family:
++        # Generate "trampolines" to make CFI happy
++        cw.write_func("static void", f"__{family.c_name}_nl_sock_priv_init=
+",
++                      [f"{family.c_name}_nl_sock_priv_init(priv);"], ["voi=
+d *priv"])
++        cw.nl()
++        cw.write_func("static void", f"__{family.c_name}_nl_sock_priv_dest=
+roy",
++                      [f"{family.c_name}_nl_sock_priv_destroy(priv);"], ["=
+void *priv"])
++        cw.nl()
++
+     cw.block_start(f"struct genl_family {family.ident_name}_nl_family __ro=
+_after_init =3D")
+     cw.p('.name\t\t=3D ' + family.fam_key + ',')
+     cw.p('.version\t=3D ' + family.ver_key + ',')
+@@ -2428,9 +2437,8 @@ _C_KW =3D {
+         cw.p(f'.n_mcgrps\t=3D ARRAY_SIZE({family.c_name}_nl_mcgrps),')
+     if 'sock-priv' in family.kernel_family:
+         cw.p(f'.sock_priv_size\t=3D sizeof({family.kernel_family["sock-pri=
+v"]}),')
+-        # Force cast here, actual helpers take pointer to the real type.
+-        cw.p(f'.sock_priv_init\t=3D (void *){family.c_name}_nl_sock_priv_i=
+nit,')
+-        cw.p(f'.sock_priv_destroy =3D (void *){family.c_name}_nl_sock_priv=
+_destroy,')
++        cw.p(f'.sock_priv_init\t=3D __{family.c_name}_nl_sock_priv_init,')
++        cw.p(f'.sock_priv_destroy =3D __{family.c_name}_nl_sock_priv_destr=
+oy,')
+     cw.block_end(';')
+=20
+=20
+--=20
+2.47.1
 
-  git notes --ref checkpatch-ignore append -m "EMAIL_SUBJECT"
-
-Then if you set --notes=checkpatch-ignore in your format-patch command
-it comes out like this after the "---":
-
-  Notes (checkpatch-ignore):
-      EMAIL_SUBJECT
-
-Downsides?
-
-1. More Perl. But, OK, we have an existence proof that writing Perl is possible.
-
-2. Doesn't seem this can be imported by 'git am'. But, I don't think
-that's necessary.
-
-3. That 'git notes' command is a bit unwieldy. But, whatever.
-
-4. With the default Git config, if you rebase your commits you lose the setting.
-
-Point 4 does matter IMO, but it can at least be worked around with:
-
-  git config set notes.rewriteRef "refs/notes/**"
