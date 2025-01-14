@@ -1,37 +1,66 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 321821FAC29;
-	Tue, 14 Jan 2025 19:13:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938511E495;
+	Tue, 14 Jan 2025 19:23:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736882028; cv=none; b=GDOmsppgFh48m0BrbEjlwcDHTGesjcuhF9OdFae6urP8y8F5zE+VUw0gcLR+plpQ/Jp/vWDlHp0t85EANLJL1PcytIIW1wmkaIYPgvS9XVVnzww/KwRE7xMHdGeh8JmqXgIz9ydQLA+TnIIRbVNorSlkcx86BHRECqfWm7Jxnmg=
+	t=1736882604; cv=none; b=R3o1PzU4JZv1EE+W40Ai+b0fZZh2uHNy9z+lfrofLGISpt0j/HVu+gCubwNOU49/qxK2BoSCSAkEs0ytXqcBdRVyYSkVEZrpn+tJSeFPSG30F9B/FKcxjRvGt/CaWJF2rrlzAqW3vEyYIP4bXVJcXPEHLlGpJ1vWzfEppXF/E5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736882028; c=relaxed/simple;
-	bh=EOm7BnpDBqcyqDhU+R0M8+xWmqgUwSH41INgkmUal9E=;
+	s=arc-20240116; t=1736882604; c=relaxed/simple;
+	bh=t0VQ1eoai5qNy82QOQOAGevXVDWMM9LWbTC/bS5u0MY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FZ8qPdRBVnY6i8BtLk6cv5OGYyvqUcnuD0HYwjWrwEoj3J4z2Bb0vwqF7e98DAMblz6bPStbKrw01yIuYtNyLYuqzprzJsOioT8d9A7Bc6nRPLmSZNwmFWVKrnjRGen+eTK/l1miCOeztCfI8Nx6lP9MqviP2tV8C9QiJGsAUno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=W7s6zI1P; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=dOgFGCNGeJ3AGuXXSeEOcvlhB0NMCPdaRbXF2gEgc1pQeNOMdG5XTXpHKJy5gJc4oyOdpk3rnfsQQOK5HSP23YH8nEJXqUWjG5an9YdV5WnpzFT9MPONu1X95oj1dV8MRvdMSsKtzz4fO+j1a4VQlu0gGIx1msp4ehmjh1CxWJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lltSmTpr; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="W7s6zI1P"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=jBEKp8tBlbCJx8+1AuV07Lp8LRbwQGkMdBxsN++O98k=; b=W7s6zI1PcmvKJr41P+IJuR/+ee
-	BPf/+v2fFJ62ExRKS33MewlDd/u6N7BSGmLL1S+TWnUXe5plyXvizQf3Fjf5uYZ072S4l+Ct8KuYf
-	dXPIL9AhbrLUJR+yk+BF7z1QT1O7+F5WdADB7vgM3clhGVCWwusrkqE1yZECkvlRuQbhLulKah3+f
-	gN1HQz0nfkP3LQI0shw4bJ06cm0xL/P3R7weUPU8fyOvD57nqlFeF2MTA5ooQnopxCvxhoYmoemkw
-	sGhoOtqcncrQ7NL25ks8I0VGxbWPRizBNScjnorrPCeQ+tcRvEqw3CfEOJXntsJrENk0umLhPTPfb
-	MF4h29Eg==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tXmM8-00000002Pat-1MtH;
-	Tue, 14 Jan 2025 19:13:40 +0000
-Message-ID: <4d746408-7f74-45f6-9bfb-c9144c100243@infradead.org>
-Date: Tue, 14 Jan 2025 11:13:34 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lltSmTpr"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2164b1f05caso105041095ad.3;
+        Tue, 14 Jan 2025 11:23:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736882602; x=1737487402; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=lcM2DfNt6fj4YEk1trckR0yxNSL9PGafmEXu+/w45go=;
+        b=lltSmTprxpASMV59ukUt/DtevxHod1uMZ9ObjZVLig/Q8fPWWlty3B0y4gd16vbm59
+         0rXBL67ELAWkTGre/Ovh6bqK6jLZj0O+3VHoGLNxMQXpgap5+PYqZpjFUX8r036ZYVah
+         VV6RpUf2Ixn11Bj1z6RGIlSlvdKR2s36gmh6ask40pUwyY77ZGjXm7OzSuQ24Mi6eXUA
+         1/nkITvWqB7VeEKHiB4YOaueuLV0V6SVsNf0ieVdWU2C9o+gpLenYksKWn2tfECNSVKV
+         QqeXAfbS2HbWqSSV1C97YD0Bw4bxM+Pc3BCdhWYz+oWMGC8LNTSfHsBgjuSeiezDZKZ+
+         6twA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736882602; x=1737487402;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lcM2DfNt6fj4YEk1trckR0yxNSL9PGafmEXu+/w45go=;
+        b=UFv+LCB6GdjjjPxdrGSj5GLav8J/YkS3EICNmdLM0ICcYVE6mT1zIqhifWgGpLbduB
+         IRH3UkxPp6C7MvJuI5izIvEEE6Nzy9A/e3nxXcpMkSSmvANE7QhqWLakewn1vVaj/QqX
+         Hpwq56SHX6lo+G18SonbWoulG/H7ptz3FXKkupxf6r2LdiEJYOffCb7qqQSK1Z1JH5EC
+         Bw3nADLiNu7cJR5lCzNAMiuab6xjQLDirI4qvsW6MFE0ncX3JpGa4XzqS4LsSoOgm4Hs
+         GDO4vd9aCggp5ON8ad4AjZIH+tXKrwLH3s4tHWutuXzGU9R377mIsJsD8ROXHHJs1ZIC
+         PUMw==
+X-Forwarded-Encrypted: i=1; AJvYcCUEBAw6TFnQuCwIgUhZR9jZvFqNcHLuNesENC+w1fhIAoDE6vM0ebo5ArPweIGcDnWkxdj/SxHhwLk9@vger.kernel.org, AJvYcCVjnflCwKlPOEI+uMWYjmv7APHf8OJ2B5vzlc/Z0by2tjJGSeb7KtgeTrFOAQziRb0V9qczWK1QVEYxv+A=@vger.kernel.org, AJvYcCW3Let2VcuOSa6YP0yOMCD3oTLBrGZCLqo50OnwvZxZxtMJEahuU3k/H+Xk33FkZPeP/mg+xrGs8XFW@vger.kernel.org, AJvYcCX5MYMK4ifV76Z4ygu3rq5cXn8sGcwXear/DAdSaVE/ubn+o5XkAmCig7Y/jC9UysdoNqJopATeq4e/Lvi0@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/uZ4pE7m5r7xCvwiKEGxWPPbD1+fwr6s2m4nYMitK7QpyMW2E
+	WswzfuQ6Qmq74uPHXrnFA2kpw5Cvk7RLkQvORytyI9P9VfyswePi
+X-Gm-Gg: ASbGncsDG9ts7GuDuJDQQHBh6y1Ix2RZG3YdlqxwGxBPlvmgaAkpzFwyajhzjfvABTC
+	GWG/p+bXks4kGo3txaWNzJFx2I6w9Y2j24K59ZYd+eDjdwfCJWDPR10rTyt3r/CaL30QaipLLjr
+	SgNVjtVB5IIIyP7CmULmzPqgPCF29Mc7dct2tD5s7ZdBpvuA5py3/IhzTM1jZioqSz2fIn3xgP0
+	djpjyHAryHgZLfscAS2V+RmQjRvbplAzVVKEguixt+X9fKarvZ/EYD7XzNHyEMGhvWyBgrf2hVt
+	SI5bePEoSFZrFQYgjY3ncygji5rRRA==
+X-Google-Smtp-Source: AGHT+IGmVTsqntCrUPy37LYagCValfswWYy49esFXnGkoEEirssEhvy87/YDJQso4ywVgxgXdjwx5g==
+X-Received: by 2002:a17:903:1112:b0:216:138a:5956 with SMTP id d9443c01a7336-21a83f59822mr413267375ad.19.1736882601976;
+        Tue, 14 Jan 2025 11:23:21 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-a31d5047e01sm8589088a12.54.2025.01.14.11.23.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jan 2025 11:23:21 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <dc5380a7-e257-441f-a264-7bcfe193de2c@roeck-us.net>
+Date: Tue, 14 Jan 2025 11:23:19 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,65 +68,112 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] docs/arch: remove deprecated function name
-To: Jiayuan Chen <mrpre@163.com>, linux-doc@vger.kernel.org
-Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, corbet@lwn.net,
- linux-kernel@vger.kernel.org
-References: <20250114094832.350073-1-mrpre@163.com>
+Subject: Re: [PATCH v2 2/2] hwmon: Add driver for TI INA232 Current and Power
+ Monitor
+To: Leo Yang <leo.yang.sy0@gmail.com>
+Cc: jdelvare@suse.com, robh@kernel.org, davem@davemloft.net,
+ krzk+dt@kernel.org, conor+dt@kernel.org, Leo-Yang@quantatw.com,
+ corbet@lwn.net, Delphine_CC_Chiu@wiwynn.com, linux-hwmon@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kernel test robot <lkp@intel.com>
+References: <20250110081546.61667-1-Leo-Yang@quantatw.com>
+ <20250110081546.61667-3-Leo-Yang@quantatw.com>
+ <190bb6f2-7bbe-4145-b45f-4ad6672884b8@roeck-us.net>
+ <CAAfUjZF7jOoZz5h6XkxqOyt=x8xnv+SUbMWJ1bVdxUzFRTO8cA@mail.gmail.com>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250114094832.350073-1-mrpre@163.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <CAAfUjZF7jOoZz5h6XkxqOyt=x8xnv+SUbMWJ1bVdxUzFRTO8cA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi--
-
-On 1/14/25 1:48 AM, Jiayuan Chen wrote:
-> The dumpstack.c file has undergone many modifications, and the
-> print_context_stack() function was removed or rewritten a long time ago,
-> so it's better to remove the incorrect guidance. Additionally, no new
-> functions will be added to the documentation, as it may be modified again
-> in the future. Using 'question mark' and 'dumpstack' is sufficient to
-> index this document.
+On 1/14/25 00:02, Leo Yang wrote:
+> Hi Guenter,
 > 
-> Signed-off-by: Jiayuan Chen <mrpre@163.com>
-> ---
->  Documentation/arch/x86/kernel-stacks.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On Sat, Jan 11, 2025 at 12:22 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>>
+>>> +
+>>> +     /* If INA233 skips current/power, shunt-resistor and current-lsb aren't needed. */
+>>> +     /* read rshunt value (uOhm) */
+>>> +     if (of_property_read_u32(client->dev.of_node, "shunt-resistor", &rshunt) < 0)
+>>> +             rshunt = INA233_RSHUNT_DEFAULT;
+>>> +
+>>> +     /* read current_lsb value (uA) */
+>>> +     if (of_property_read_u16(client->dev.of_node, "ti,current-lsb", &current_lsb) < 0)
+>>> +             current_lsb = INA233_CURRENT_LSB_DEFAULT;
+>>> +
+>> of_property_read_u16() returns -EOVERFLOW if the value provided was too large.
+>> This should be checked to avoid situations where the value provided in devicetree
+>> is too large.
+>>
+> Sorry I have a question, I can't get it to return -EOVERFLOW when I test it
+> I am using the following properties:
+> test16 = /bits/ 16 <0xfffd>;
+> of_property_read_u16 reads 0xfffd
 > 
-> diff --git a/Documentation/arch/x86/kernel-stacks.rst b/Documentation/arch/x86/kernel-stacks.rst
-> index 738671a4070b..2d355e78008e 100644
-> --- a/Documentation/arch/x86/kernel-stacks.rst
-> +++ b/Documentation/arch/x86/kernel-stacks.rst
-> @@ -113,7 +113,7 @@ Printing backtraces on x86
->  
->  The question about the '?' preceding function names in an x86 stacktrace
->  keeps popping up, here's an indepth explanation. It helps if the reader
-> -stares at print_context_stack() and the whole machinery in and around
+> test16o = /bits/ 16 <0xfffdd>;
+> of_property_read_u16 reads 0xffdd
+> 
+> test16o = <0xfffdd>;
+> of_property_read_u16 reads 0xf
+> 
+> test16array = /bits/ 16 <0xfffd 0xfffe>;
+> of_property_read_u16 reads 0xfffd
+> 
+> The same result for device_property_read_u16, it seems that a data
+> truncation occurs and none of them return -EOVERFLOW.
+> 
+> So maybe there is no need to check EOVERFLOW?
+> Or maybe we could use the minimum and maximum of the binding to
+> indicate the range.
+> 
 
-  stares at printk_stack_address() and its callers
-  and pay special attention to the 'reliable' parameter ('?' basically
-  means that the address is unreliable)
+of_property_read_u16() calls of_property_read_u16_array(). The API documentation
+of of_property_read_u16_array() lists -ENODATA and -EOVERFLOW as possible error
+return values, in addition to -EINVAL. Ignoring those errors is not a good idea,
+even if it is not immediately obvious how to reproduce them.
 
-Also see the comment from dumpstack.c:
-
-		/*
-		 * Scan the stack, printing any text addresses we find.  At the
-		 * same time, follow proper stack frames with the unwinder.
-		 *
-		 * Addresses found during the scan which are not reported by
-		 * the unwinder are considered to be additional clues which are
-		 * sometimes useful for debugging and are prefixed with '?'.
-		 * This also serves as a failsafe option in case the unwinder
-		 * goes off in the weeds.
-		 */
-
-> +stares at 'question mark' and the whole machinery in and around
->  arch/x86/kernel/dumpstack.c.
->  
->  Adapted from Ingo's mail, Message-ID: <20150521101614.GA10889@gmail.com>:
-
--- 
-~Randy
+Guenter
 
