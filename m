@@ -1,80 +1,63 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CADF02309A5;
-	Wed, 15 Jan 2025 07:59:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 253C922F830
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 08:08:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736927942; cv=none; b=DyIPoPstBT9n0PPmjw2R1tUOJz8VqGp9UAvfQCtZfSxHpwaz7lPWJArq914aM62PcBDQ3sUcIJcMm1j/FAdpxfbHzprAz3YA/n84j0KfiQzjaAGYflKlBEK86FwoVy7KfQrJBxo0r8wF9nA+WyWQcQlpvtARJK55zeAyMCodf5M=
+	t=1736928517; cv=none; b=LKnc7Aa4bgQORSm3j4iWI1HZO4JNltp94bHdIsfNvuURKaFLH+VpF1vW1ljVbhgaic+xn94DojzCqilWPYIxsmgK5cyNdC+ppaJypGUyZNdmCJ3VV6DwC+b31xoEpJEMUpYBoup2f3gHEZCBetKmM4XvzUju2iWYFB0fwXrzBws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736927942; c=relaxed/simple;
-	bh=kF0QIeLjQfEmGPTMcLJhebMr09NUb8kFL4rAQONktC4=;
+	s=arc-20240116; t=1736928517; c=relaxed/simple;
+	bh=FKuuD5eu0mDOAMgJm88pAIaDgVcu13hR66eVnBswqoQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p2Lqwv9GpSAAUyKms6SZZzaywnCZ7IAx6/61kU7smElJMSmYd7voNJ7LPfld7Z3ClBAUgqMbEFZ4YymdhTK8wmMk3XKe1BigjgJkW2onfwlNwfF98+9v4KcwKAhDj8L8nKPzUCrwzCtAwuH9e/rIbiqiPs3m7vChbb+gSiP8fLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=n4LHfpQ4; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Z+cX82dj; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=DAvsM0Bo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=g9aCpjkf; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 In-Reply-To:Content-Type; b=JrbHMuwFyaHyIt0mV0hkXmrTd+uNzY6orrU6x2YI4W+y1BjyRERg0DoHfcjqCsefLltkThC0d+xOJZFNqOR7tEDgCtVPAPXFtQml4F2ehgW2FWYXBtnmiVJzSvcKUMZdApLpiBHOY95kHmsWsVbck6ztHnDH9vugEv7+uocfMWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net; spf=none smtp.mailfrom=ursulin.net; dkim=pass (2048-bit key) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b=VVub65Q1; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ursulin.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="n4LHfpQ4";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Z+cX82dj";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="DAvsM0Bo";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="g9aCpjkf"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E2F7E2121C;
-	Wed, 15 Jan 2025 07:58:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1736927939; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=77hToCCQTjMUJefmJRXkwdMJTQotq0Qw6hZfeafiZSU=;
-	b=n4LHfpQ4lE3F+al+jqti8go6JMXxvcYd9QHBNspAhhhsYkMstPR90dX4o+2rkbYIeybAgs
-	GmTkANW4cT3Q3e6Cgk4GrTSir/3UZEud+WMNf7eQY0ZLz4VsvttcWPMQkxtqYUKmsoySy/
-	7eVUWJdmqFrtz4FOXXk80tMiW6Jgo6M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1736927939;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=77hToCCQTjMUJefmJRXkwdMJTQotq0Qw6hZfeafiZSU=;
-	b=Z+cX82djaUmmTfIMCup/6JL3+n/ZeGid4e3tsVeod9F163LoBiPoo7s7YfJ0W1egpTS3iZ
-	3iCqN6Xui+B19rAw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1736927938; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=77hToCCQTjMUJefmJRXkwdMJTQotq0Qw6hZfeafiZSU=;
-	b=DAvsM0BoGdtP0yphEJwJB5cfkNnv0a7xv2oDF3I/vVVuip9cv7fKhbnknDprHD13jKKmhr
-	GZl6HqzVFlq7Ckf+FUy7hCpGOU0DnLEWcYzqnLDtAX8BqFbP4AsblYUp9peTTgptISvKDm
-	UOedXd1z+Gx6jTZGqbKH2UwKwmYFN0Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1736927938;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=77hToCCQTjMUJefmJRXkwdMJTQotq0Qw6hZfeafiZSU=;
-	b=g9aCpjkf35JVJ/MoU6nP1TmgKTa7g+aVIwKRrS8cwgABcnmRTSi86ROMDX7Rx12NGQew3j
-	9wtUcII+XjGt/qCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9F5B6139CB;
-	Wed, 15 Jan 2025 07:58:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ZC2XJsJqh2dicQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Wed, 15 Jan 2025 07:58:58 +0000
-Message-ID: <edeb55ab-bbef-4542-ac41-b07bfaaf9b96@suse.cz>
-Date: Wed, 15 Jan 2025 08:58:58 +0100
+	dkim=pass (2048-bit key) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="VVub65Q1"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-436326dcb1cso45101835e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 00:08:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1736928513; x=1737533313; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5TKs6VTiYoGGpokppBC12jXWmchUx26icqsF8+IlZzI=;
+        b=VVub65Q1BE1bAHQqTEZb7sSikZdJ8bbR0qNH2HoAHh25e9W3FnppXnoz6HA9CAhj00
+         hXtuy152tcXD8CwKMXLCIEpbGGxa7t3ukmCPAWyyxVmkjomt+GfDVAV/V0YqktIdnwt7
+         Qly4cwWBQKXvgeWu5VHWWZpbVz/wKZk03EJRhfio8thTISHhMuCDN0yhzHkVjhnvbJIi
+         nuDR4OL49T0v+qWebtfG8t+oDUtP3GIWj6vVxUulA9xBjI3pRvbjeVuiNkw7yjJ6JBrh
+         WxAQ8u0S5kwkAm5LbaIrfpAaqNQQeCswGpPBPPtIGqxsEsjyFnB4bhGzzWiwKl6DhPPv
+         sBSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736928513; x=1737533313;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5TKs6VTiYoGGpokppBC12jXWmchUx26icqsF8+IlZzI=;
+        b=YxIB3Jjhv/BgIDWesKBkW+L+gdBQwWY4GmIfXMF52ub240x1nnS3+ja928cRMfp9oT
+         JnJbnMPWDBFWV2uv1QwCoqG9DETNvcoJm6y9ZeWwPjSH/T13PTojqVHfBklmKIRlzNsJ
+         dyBBCJjQExSPz9RsXDHqhE3aGj0COnB9SMgzS8LmL9QEt4C9AFWhAcQZxuaVI7hgo3Uk
+         z7FSyZ42XBw6+JRX+4/WD8TKXCQXa+4o8UsJhW8V9R/jGrkhXcOhHiRXhYpLQ+21Hde6
+         LqFzqMEHyZvk/qbmLpL7yOXW+KrEwL5IcB5TcyD9xvrVmSlO3PFPCnfRd+Mm3CSGzK0r
+         JUXg==
+X-Forwarded-Encrypted: i=1; AJvYcCXbgFQVKb8Elbm5b1ErXYbpfhbwR53XrkTVytOuGe+IYdU2X5yPIAVrzRaJtCjZYOWQp2LNiEcEdE8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxx1DJBrZpV4+Vki6sUOzR/wIHcXq5VyJSrdTKUj9xvuAbqqYBX
+	OOT8Ahyt61LYyHSh9q0wKyWjSfAqjvkV1k8pRuFjVFpIBR3p3rFbQXJ5LyS7ITw=
+X-Gm-Gg: ASbGncsHh0KtrWMifdYo1y8lDya+AY2TB84Cnd4ZBqPr4ywvuxDbdZ/VBCGaNcTNd5n
+	Tv2MwAjKiexlZdIIIQTTh7CXUllD5k6vMlcvOL041dVhoDm1NaK8H6Goa2E/VoM9UQm4kVWyLaM
+	K8Ooqi9Q01AubELWlIeR4cvRxG05TyH7gdhP5ZioswHTVfa1uax0PFBXLYYecb5lIGTx16YBL6S
+	W5oMxOjoY7rUMKCOiZ1ZpmImGYQTpTNXMa9xM9lHcttuhsnyjYtNCfGlWvCiy78Tgdpl4b+
+X-Google-Smtp-Source: AGHT+IGw5gYLx2t/yCDqQg7Q14Y8RhIh6+teFkP1OnWysoAZUxt7UwGTks5/Pp48T2Eg8MlJgQe0JA==
+X-Received: by 2002:a05:600c:3b86:b0:434:fe4b:be18 with SMTP id 5b1f17b1804b1-436e26bde73mr278911525e9.18.1736928513174;
+        Wed, 15 Jan 2025 00:08:33 -0800 (PST)
+Received: from [192.168.0.101] ([90.241.98.187])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-437c74c5bb5sm14382305e9.22.2025.01.15.00.08.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Jan 2025 00:08:32 -0800 (PST)
+Message-ID: <2c62137a-70d5-421e-ae8d-e3bb7c86d0b2@ursulin.net>
+Date: Wed, 15 Jan 2025 08:08:31 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,159 +65,118 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 16/17] mm: make vma cache SLAB_TYPESAFE_BY_RCU
-To: Suren Baghdasaryan <surenb@google.com>,
- Wei Yang <richard.weiyang@gmail.com>, willy@infradead.org
-Cc: akpm@linux-foundation.org, peterz@infradead.org, liam.howlett@oracle.com,
- lorenzo.stoakes@oracle.com, david.laight.linux@gmail.com, mhocko@suse.com,
- hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
- mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
- oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org,
- dhowells@redhat.com, hdanton@sina.com, hughd@google.com,
- lokeshgidra@google.com, minchan@google.com, jannh@google.com,
- shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com,
- klarasmodin@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
-References: <20250111042604.3230628-1-surenb@google.com>
- <20250111042604.3230628-17-surenb@google.com>
- <20250115022703.hqbqdqawvqgrfgxb@master>
- <CAJuCfpGShzXxqH8up75WQhdMzkr+Y6eE-h37nEEwVWHC6AN89w@mail.gmail.com>
-Content-Language: en-US
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
- KxRWDHX0R2tgpFDXHnzZcQywawu8eSq0LxzxFNYMvtB7sV1pxYwej2qx9B75qW2plBs+7+YB
- 87tMFA+u+L4Z5xAzIimfLD5EKC56kJ1CsXlM8S/LHcmdD9Ctkn3trYDNnat0eoAcfPIP2OZ+
- 9oe9IF/R28zmh0ifLXyJQQz5ofdj4bPf8ecEW0rhcqHfTD8k4yK0xxt3xW+6Exqp9n9bydiy
- tcSAw/TahjW6yrA+6JhSBv1v2tIm+itQc073zjSX8OFL51qQVzRFr7H2UQG33lw2QrvHRXqD
- Ot7ViKam7v0Ho9wEWiQOOZlHItOOXFphWb2yq3nzrKe45oWoSgkxKb97MVsQ+q2SYjJRBBH4
- 8qKhphADYxkIP6yut/eaj9ImvRUZZRi0DTc8xfnvHGTjKbJzC2xpFcY0DQbZzuwsIZ8OPJCc
- LM4S7mT25NE5kUTG/TKQCk922vRdGVMoLA7dIQrgXnRXtyT61sg8PG4wcfOnuWf8577aXP1x
- 6mzw3/jh3F+oSBHb/GcLC7mvWreJifUL2gEdssGfXhGWBo6zLS3qhgtwjay0Jl+kza1lo+Cv
- BB2T79D4WGdDuVa4eOrQ02TxqGN7G0Biz5ZLRSFzQSQwLn8fbwARAQABzSBWbGFzdGltaWwg
- QmFia2EgPHZiYWJrYUBzdXNlLmN6PsLBlAQTAQoAPgIbAwULCQgHAwUVCgkICwUWAgMBAAIe
- AQIXgBYhBKlA1DSZLC6OmRA9UCJPp+fMgqZkBQJkBREIBQkRadznAAoJECJPp+fMgqZkNxIQ
- ALZRqwdUGzqL2aeSavbum/VF/+td+nZfuH0xeWiO2w8mG0+nPd5j9ujYeHcUP1edE7uQrjOC
- Gs9sm8+W1xYnbClMJTsXiAV88D2btFUdU1mCXURAL9wWZ8Jsmz5ZH2V6AUszvNezsS/VIT87
- AmTtj31TLDGwdxaZTSYLwAOOOtyqafOEq+gJB30RxTRE3h3G1zpO7OM9K6ysLdAlwAGYWgJJ
- V4JqGsQ/lyEtxxFpUCjb5Pztp7cQxhlkil0oBYHkudiG8j1U3DG8iC6rnB4yJaLphKx57NuQ
- PIY0Bccg+r9gIQ4XeSK2PQhdXdy3UWBr913ZQ9AI2usid3s5vabo4iBvpJNFLgUmxFnr73SJ
- KsRh/2OBsg1XXF/wRQGBO9vRuJUAbnaIVcmGOUogdBVS9Sun/Sy4GNA++KtFZK95U7J417/J
- Hub2xV6Ehc7UGW6fIvIQmzJ3zaTEfuriU1P8ayfddrAgZb25JnOW7L1zdYL8rXiezOyYZ8Fm
- ZyXjzWdO0RpxcUEp6GsJr11Bc4F3aae9OZtwtLL/jxc7y6pUugB00PodgnQ6CMcfR/HjXlae
- h2VS3zl9+tQWHu6s1R58t5BuMS2FNA58wU/IazImc/ZQA+slDBfhRDGYlExjg19UXWe/gMcl
- De3P1kxYPgZdGE2eZpRLIbt+rYnqQKy8UxlszsBNBFsZNTUBCACfQfpSsWJZyi+SHoRdVyX5
- J6rI7okc4+b571a7RXD5UhS9dlVRVVAtrU9ANSLqPTQKGVxHrqD39XSw8hxK61pw8p90pg4G
- /N3iuWEvyt+t0SxDDkClnGsDyRhlUyEWYFEoBrrCizbmahOUwqkJbNMfzj5Y7n7OIJOxNRkB
- IBOjPdF26dMP69BwePQao1M8Acrrex9sAHYjQGyVmReRjVEtv9iG4DoTsnIR3amKVk6si4Ea
- X/mrapJqSCcBUVYUFH8M7bsm4CSxier5ofy8jTEa/CfvkqpKThTMCQPNZKY7hke5qEq1CBk2
- wxhX48ZrJEFf1v3NuV3OimgsF2odzieNABEBAAHCwXwEGAEKACYCGwwWIQSpQNQ0mSwujpkQ
- PVAiT6fnzIKmZAUCZAUSmwUJDK5EZgAKCRAiT6fnzIKmZOJGEACOKABgo9wJXsbWhGWYO7mD
- 8R8mUyJHqbvaz+yTLnvRwfe/VwafFfDMx5GYVYzMY9TWpA8psFTKTUIIQmx2scYsRBUwm5VI
- EurRWKqENcDRjyo+ol59j0FViYysjQQeobXBDDE31t5SBg++veI6tXfpco/UiKEsDswL1WAr
- tEAZaruo7254TyH+gydURl2wJuzo/aZ7Y7PpqaODbYv727Dvm5eX64HCyyAH0s6sOCyGF5/p
- eIhrOn24oBf67KtdAN3H9JoFNUVTYJc1VJU3R1JtVdgwEdr+NEciEfYl0O19VpLE/PZxP4wX
- PWnhf5WjdoNI1Xec+RcJ5p/pSel0jnvBX8L2cmniYnmI883NhtGZsEWj++wyKiS4NranDFlA
- HdDM3b4lUth1pTtABKQ1YuTvehj7EfoWD3bv9kuGZGPrAeFNiHPdOT7DaXKeHpW9homgtBxj
- 8aX/UkSvEGJKUEbFL9cVa5tzyialGkSiZJNkWgeHe+jEcfRT6pJZOJidSCdzvJpbdJmm+eED
- w9XOLH1IIWh7RURU7G1iOfEfmImFeC3cbbS73LQEFGe1urxvIH5K/7vX+FkNcr9ujwWuPE9b
- 1C2o4i/yZPLXIVy387EjA6GZMqvQUFuSTs/GeBcv0NjIQi8867H3uLjz+mQy63fAitsDwLmR
- EP+ylKVEKb0Q2A==
-In-Reply-To: <CAJuCfpGShzXxqH8up75WQhdMzkr+Y6eE-h37nEEwVWHC6AN89w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v8 2/4] drm/file: Add fdinfo helper for printing regions
+ with prefix
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: kernel@collabora.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250114173406.3060248-1-adrian.larumbe@collabora.com>
+ <20250114173406.3060248-3-adrian.larumbe@collabora.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <20250114173406.3060248-3-adrian.larumbe@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	FREEMAIL_TO(0.00)[google.com,gmail.com,infradead.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,infradead.org,oracle.com,gmail.com,suse.com,cmpxchg.org,intel.com,techsingularity.net,redhat.com,stgolabs.net,kernel.org,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLumbhs4xhzuuihrchnpuyb6qu)]
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
 
-On 1/15/25 04:15, Suren Baghdasaryan wrote:
-> On Tue, Jan 14, 2025 at 6:27 PM Wei Yang <richard.weiyang@gmail.com> wrote:
->>
->> On Fri, Jan 10, 2025 at 08:26:03PM -0800, Suren Baghdasaryan wrote:
->>
->> >diff --git a/kernel/fork.c b/kernel/fork.c
->> >index 9d9275783cf8..151b40627c14 100644
->> >--- a/kernel/fork.c
->> >+++ b/kernel/fork.c
->> >@@ -449,6 +449,42 @@ struct vm_area_struct *vm_area_alloc(struct mm_struct *mm)
->> >       return vma;
->> > }
->> >
->> >+static void vm_area_init_from(const struct vm_area_struct *src,
->> >+                            struct vm_area_struct *dest)
->> >+{
->> >+      dest->vm_mm = src->vm_mm;
->> >+      dest->vm_ops = src->vm_ops;
->> >+      dest->vm_start = src->vm_start;
->> >+      dest->vm_end = src->vm_end;
->> >+      dest->anon_vma = src->anon_vma;
->> >+      dest->vm_pgoff = src->vm_pgoff;
->> >+      dest->vm_file = src->vm_file;
->> >+      dest->vm_private_data = src->vm_private_data;
->> >+      vm_flags_init(dest, src->vm_flags);
->> >+      memcpy(&dest->vm_page_prot, &src->vm_page_prot,
->> >+             sizeof(dest->vm_page_prot));
->> >+      /*
->> >+       * src->shared.rb may be modified concurrently when called from
->> >+       * dup_mmap(), but the clone will reinitialize it.
->> >+       */
->> >+      data_race(memcpy(&dest->shared, &src->shared, sizeof(dest->shared)));
->> >+      memcpy(&dest->vm_userfaultfd_ctx, &src->vm_userfaultfd_ctx,
->> >+             sizeof(dest->vm_userfaultfd_ctx));
->> >+#ifdef CONFIG_ANON_VMA_NAME
->> >+      dest->anon_name = src->anon_name;
->> >+#endif
->> >+#ifdef CONFIG_SWAP
->> >+      memcpy(&dest->swap_readahead_info, &src->swap_readahead_info,
->> >+             sizeof(dest->swap_readahead_info));
->> >+#endif
->> >+#ifndef CONFIG_MMU
->> >+      dest->vm_region = src->vm_region;
->> >+#endif
->> >+#ifdef CONFIG_NUMA
->> >+      dest->vm_policy = src->vm_policy;
->> >+#endif
->> >+}
->>
->> Would this be difficult to maintain? We should make sure not miss or overwrite
->> anything.
+
+On 14/01/2025 17:34, Adrián Larumbe wrote:
+> This is motivated by the desire of some drivers (eg. Panthor) to print the
+> size of internal memory regions with a prefix that reflects the driver
+> name, as suggested in the previous documentation commit.
 > 
-> Yeah, it is less maintainable than a simple memcpy() but I did not
-> find a better alternative.
-
-Willy knows one but refuses to share it :(
-
-> I added a warning above the struct
-> vm_area_struct definition to update this function every time we change
-> that structure. Not sure if there is anything else I can do to help
-> with this.
+> That means adding a new argument to print_size and making it available for
+> DRM users.
 > 
->>
->> --
->> Wei Yang
->> Help you, Help me
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> Cc: Tvrtko Ursulin <tursulin@ursulin.net>
+> ---
+>   drivers/gpu/drm/drm_file.c | 27 +++++++++++++++++++--------
+>   include/drm/drm_file.h     |  5 +++++
+>   2 files changed, 24 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> index cb5f22f5bbb6..f584abcd13cb 100644
+> --- a/drivers/gpu/drm/drm_file.c
+> +++ b/drivers/gpu/drm/drm_file.c
+> @@ -830,8 +830,12 @@ void drm_send_event(struct drm_device *dev, struct drm_pending_event *e)
+>   }
+>   EXPORT_SYMBOL(drm_send_event);
+>   
+> -static void print_size(struct drm_printer *p, const char *stat,
+> -		       const char *region, u64 sz)
+> +
+> +void drm_fdinfo_print_size(struct drm_printer *p,
+> +			   const char *prefix,
+> +			   const char *stat,
+> +			   const char *region,
+> +			   u64 sz)
+>   {
+>   	const char *units[] = {"", " KiB", " MiB"};
+>   	unsigned u;
+> @@ -842,8 +846,10 @@ static void print_size(struct drm_printer *p, const char *stat,
+>   		sz = div_u64(sz, SZ_1K);
+>   	}
+>   
+> -	drm_printf(p, "drm-%s-%s:\t%llu%s\n", stat, region, sz, units[u]);
+> +	drm_printf(p, "%s-%s-%s:\t%llu%s\n",
+> +		   prefix, stat, region, sz, units[u]);
+>   }
+> +EXPORT_SYMBOL(drm_fdinfo_print_size);
+>   
+>   /**
+>    * drm_print_memory_stats - A helper to print memory stats
+> @@ -858,15 +864,20 @@ void drm_print_memory_stats(struct drm_printer *p,
+>   			    enum drm_gem_object_status supported_status,
+>   			    const char *region)
+>   {
+> -	print_size(p, "total", region, stats->private + stats->shared);
+> -	print_size(p, "shared", region, stats->shared);
+> -	print_size(p, "active", region, stats->active);
+> +	const char *prefix = "drm";
+> +
+> +	drm_fdinfo_print_size(p, prefix, "total", region,
+> +			      stats->private + stats->shared);
+> +	drm_fdinfo_print_size(p, prefix, "shared", region, stats->shared);
+> +	drm_fdinfo_print_size(p, prefix, "active", region, stats->active);
+>   
+>   	if (supported_status & DRM_GEM_OBJECT_RESIDENT)
+> -		print_size(p, "resident", region, stats->resident);
+> +		drm_fdinfo_print_size(p, prefix, "resident", region,
+> +				      stats->resident);
+>   
+>   	if (supported_status & DRM_GEM_OBJECT_PURGEABLE)
+> -		print_size(p, "purgeable", region, stats->purgeable);
+> +		drm_fdinfo_print_size(p, prefix, "purgeable", region,
+> +				      stats->purgeable);
+>   }
+>   EXPORT_SYMBOL(drm_print_memory_stats);
+>   
+> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> index f0ef32e9fa5e..001ae553e8c3 100644
+> --- a/include/drm/drm_file.h
+> +++ b/include/drm/drm_file.h
+> @@ -494,6 +494,11 @@ struct drm_memory_stats {
+>   
+>   enum drm_gem_object_status;
+>   
+> +void drm_fdinfo_print_size(struct drm_printer *p,
+> +				  const char *prefix,
+> +				  const char *stat,
+> +				  const char *region,
+> +				  u64 sz);
+>   void drm_print_memory_stats(struct drm_printer *p,
+>   			    const struct drm_memory_stats *stats,
+>   			    enum drm_gem_object_status supported_status,
 
+If I can get away with a sneaky:
+
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+
+Regards,
+
+Tvrtko
