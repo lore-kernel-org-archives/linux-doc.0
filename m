@@ -1,59 +1,62 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8ED22E3F0
-	for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 02:40:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA97216E08
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 02:41:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736908853; cv=none; b=akElo90Y8l9zNu4wh6suwnZOm06Cwp9G5u27AH0xGreJVheSaPVJnIBsMZwks8Fpa8DIQ2CM1ynmcxUagIbxVmfc+fP0Sv0zqENZ/viROjrdAbuu6Qei6sL4Fiuk4y8R0x2hEskAMCevyNNX/xNT+JAwltwzzsw1+7dIAXuhxg4=
+	t=1736908864; cv=none; b=GsEjBy/vjyP3O0giQGuh9pI5JxfsjZPb6/z3vThiB7RbdrXQYGbTWAEd2b2Mi4UifPcTeAgni6cy2RNhkP7H4FUDIq24F7jhWnsLyeFRUZaeq+MgUIYPWl8zCEXjtazpzsffh5iRCzbJ70mGFStqugRYioAGvx7T/PHArz1VSqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736908853; c=relaxed/simple;
-	bh=ov+Jovl5slUh9ZOeOd2AFWuWkumQhEGSazSuEBrqpfY=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=Q6OyqOsjFgNNS2lCpBGq3kpXQFpc3i7NzKPkPrBcmwQLcTGu50WCY94GU2O716aBXtsusRRLuMBo7oZmyJLf3VUO9OAwlOoQlmSiV86h4ukffcorx7dNmz/rpTcuB0be/U+oOG5vNStY29CPJ/HP/ZZJVFqJ2DkOmMIS5Av3OPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=JENB1jox; arc=none smtp.client-ip=209.85.214.170
+	s=arc-20240116; t=1736908864; c=relaxed/simple;
+	bh=G+K9MvSpAIpwDwMmunI0YSdJnqQJGTJZcC3ONEVxX60=;
+	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=AjMgDzCilf3jEURCofFYKPKFWhSTaOAB4DmIQgcYAmNWoU2JVL4E+JzbBojY61uPZGoBhKhDns3zSVl6AzEmbEgQHWoDHiXrEz8LnXlv8hU+19c5xX8p9dvdoHgkDSCSfJa2CJuQw2g35u2LEaB6kzd96lIA8sdfpBsaQ99ouS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=N9vqMPRe; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="JENB1jox"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-21636268e43so145817295ad.2
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 18:40:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="N9vqMPRe"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-219f8263ae0so102430935ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 18:41:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1736908851; x=1737513651; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KiILRyRfHo+NUtJXMbpq128gxB2UW/YGfDj3MyZiOVE=;
-        b=JENB1joxvhUEl/YjMQArb4q0EEyvFNIyKdm1go+k4Lxa/tsr7j7DuAwW+eU03y1+ks
-         N5HaDHHMSEDYTLV8jqzTv8kDSf6BZbpFfLP5VsdwFJf47Y4SNOLK/rGnYMZiFr4nOx9K
-         I64sXtwi4aVKm9AFm4rsA1kndxxYiYZYnvfe86ydGbjqyhJYTrGvXCTlfSI9eOIB1Gst
-         wjH0V8kziQgg4Ub1STgoBCnektyHcwPy5zMrFyUwFfip0cCpIIM/DJ28PGfgm764at2A
-         3+o05eSW+nPMRzu5eIxoiuA/6iET4KC79lzPm5YDXJWXalQfBgISqT//BjH8OEwatqV2
-         ZfXg==
+        d=bytedance.com; s=google; t=1736908862; x=1737513662; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=n+lHU8O3OzxopxeMRFW7AZqN84liiT6mDTuuIRoGMNs=;
+        b=N9vqMPRelNsEAHkyRKo7lK/eY6HPffqDkwqLLl9XD08GJblRfKsJKzA+709019O5Zg
+         fCTzTkG5qCJKrdSP1NZTC5783REeByOZADHoMnRAfy1MgewDNe6AUPmyvmb3O5+i0PAL
+         FSIdFfIGCxXploC4DPx7LPCtiX/lom8JiOdfJOIRYrsnWGlwUYssHiZmof8hCgf9PUcs
+         ga7PSF/fnvpO2Z6Ubz/UmZcZWbyN7mUc+t53sd4HWPhJaE5M3tI7uB97SXouLLrTY5l2
+         6rIE2Pt/NY+jDZpAW8U422tpJRhCo8sIQzbqeRhDrkBEJOu2i8G/Q+WFwVjci6oC1cfe
+         IQRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736908851; x=1737513651;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KiILRyRfHo+NUtJXMbpq128gxB2UW/YGfDj3MyZiOVE=;
-        b=O+Zt/WO/TrV5OjgfJqXtQV6Onl+p7buwbwkJyIdm5BeFGHPY2vJgNNtv8Z4Hb7yr6t
-         Z8BEstKEkaOvzm5EhMRh1W68BXuMYJXxOroho/EVGbl4Z5KiiFYG3/Hi/op4IjSBIoxj
-         5FAf4ZqHJ8rDdngA30M/kbVtUtCm7UR69ZTe0k2/1w2Ag7SPHFbb0qYEPXtPYjeCrH3S
-         mDaTcArMjKIRrRSg++AmUphsaPc8vxklhRaYXESvVneVZwzArk+epsxqQlbIDSbwEi0R
-         xxyqmHgCKOSjrxqp2DiLa1412oDpm9QDc4aM1chv6cKwoMWJw2HF30XZDr8Joyuw4fmo
-         Pf7w==
-X-Forwarded-Encrypted: i=1; AJvYcCVMAqUGklTqXBkZyPxNqs1gf5bmHjRXE2jyGVs4S6yuK3MpV+iEZUYroDTGKHd6v1N/C1QD6FrWdjc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4TWpotH5CpalATExswmAYELPhRZqV43tEsw83Qri2KQOgMAuz
-	JB4PNahT30z7v5W5aTgcPSrFhy8IjbDbUk46BgcNa14V9ykeZc0wgpCo7QtofXo=
-X-Gm-Gg: ASbGncsEEr3AQ2UkNts7Q3Gffv3nNRdPuJLcu61n0hMErZyLqkUEQSOqczZ20mjrpMU
-	X1eoHA/QCQAhE8pqrfwDLQK7sfl+HGzyX9HqePztFx+cQD58zay/8qCCuNRdrsieg/GUJP9pi+F
-	FAhS7oPcr4XxmW/ujRUzc1ZVT2EhVlGRWn9wWP3GkSJVHqX7NayOxsu01WOLNB8vWmQGIJgji4h
-	KlpAPk1M2/12M8Ji1Q9U+Xoieu4Ky+P4taAVGQfCyW9RdnAkXfBUrepEsTz5j3qTYBa0biSkYwP
-	agqMOl47xS66tKs=
-X-Google-Smtp-Source: AGHT+IFAimWtf2lTBvrnqOrM8muizhicRypBcekevc3BNNeuhbcAjrIt4O9niFCSSQRXVpLXyqpbPg==
-X-Received: by 2002:a05:6a00:6f4a:b0:72d:3861:895c with SMTP id d2e1a72fcca58-72d38618af0mr34186945b3a.8.1736908850691;
-        Tue, 14 Jan 2025 18:40:50 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736908862; x=1737513662;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=n+lHU8O3OzxopxeMRFW7AZqN84liiT6mDTuuIRoGMNs=;
+        b=pu1zUP54P4OUnkXbyLM6ueVMAwJimtwguVleX7I4Xt+/vgTTMH6tfMd2gsqi9rPGgJ
+         s48zZwrCYvwRTbsc9sV95R1pPXrY1PvM2QOIz2hEzhCFPN4BjMguxTkzlfPNfVr5zITF
+         Ue2p5dX3FiNzD8mpnCYHzkkvLgGshynG5HNRpIZDQwatu4KEB9LalstwLjqoBLjuRSui
+         I2D3+7jS5gf1Zqsm+O2KKuVJdW/3VvVrbgsNSdSMesP55dljXQft/fDnV/we/ra9/+/H
+         HCoFUBpXjCjeb/eBVU5YvjFx7CP8PzLAsJHb2CO8bHLAHTbzrw0M8OtZB9WvDGiSOXnS
+         ejCA==
+X-Forwarded-Encrypted: i=1; AJvYcCWCw9QtO7OttWdzXZTdaWio7J7nmNCkldwEQ/JnfbZg5l937ZWWSam3s5htyHRf8ZyJ0rY3mzr+p/U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwX8TvZvR63zXH7Ln9zR9fzAXGOz55dpKbUWX57ln5n+qGClnls
+	USO3aAsaD9Lu6xkT4wA+BoFF84+KleCn7ZyLV2OOYvl1rYb/7j45nMb2GLRWo/o=
+X-Gm-Gg: ASbGncu0ft9erwExfFxdCYXSasMWit3x6aT/RWVgLmT+Ww+2s8qZxT5kLZY3Wb4Ttfl
+	d1kR8n1xwLvLFLckABWRoJfUYbDoGfSTSTAOJQoFMg2J3M+tlMkVLTyUYyvAk6eA48YNkVoKlPz
+	Lrgv+l1qT8FrcIgRbdqnunrMkF92NjMqbA8lbYANd2mAKY0aaoOcdHaJw5V9ubgAslTkm58jegQ
+	T/uY2kU79xs7fJCaI3Dy/LBQ9gZXsYCwDGbpx3LnE6f2KydsB/2ZXWIpCAhk0YJ5pDemoH34Iec
+	UilouDgpSB9W65k=
+X-Google-Smtp-Source: AGHT+IHRs+ZLjJaMOCMFOSev5yey8o2EV/Ai+cdpqR0LkTXM3ZpNmIhiXmJyiWzASfW23X6Ls0/4fg==
+X-Received: by 2002:a05:6a00:4502:b0:724:f86e:e3d9 with SMTP id d2e1a72fcca58-72d21f64f72mr39087001b3a.14.1736908862297;
+        Tue, 14 Jan 2025 18:41:02 -0800 (PST)
 Received: from L6YN4KR4K9.bytedance.net ([139.177.225.227])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72d40680e67sm8321841b3a.139.2025.01.14.18.40.42
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72d40680e67sm8321841b3a.139.2025.01.14.18.40.51
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 14 Jan 2025 18:40:50 -0800 (PST)
+        Tue, 14 Jan 2025 18:41:01 -0800 (PST)
 From: Yunhui Cui <cuiyunhui@bytedance.com>
 To: ajones@ventanamicro.com,
 	alexghiti@rivosinc.com,
@@ -75,10 +78,12 @@ To: ajones@ventanamicro.com,
 	paul.walmsley@sifive.com,
 	samuel.holland@sifive.com,
 	shuah@kernel.org
-Subject: [PATCH v5 0/3] Enable Zicbom in usermode
-Date: Wed, 15 Jan 2025 10:40:21 +0800
-Message-Id: <20250115024024.84365-1-cuiyunhui@bytedance.com>
+Subject: [PATCH v5 1/3] RISC-V: Enable cbo.clean/flush in usermode
+Date: Wed, 15 Jan 2025 10:40:22 +0800
+Message-Id: <20250115024024.84365-2-cuiyunhui@bytedance.com>
 X-Mailer: git-send-email 2.39.2 (Apple Git-143)
+In-Reply-To: <20250115024024.84365-1-cuiyunhui@bytedance.com>
+References: <20250115024024.84365-1-cuiyunhui@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,34 +92,48 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-v1/v2:
-There is only the first patch: RISC-V: Enable cbo.clean/flush in usermode,
-which mainly removes the enabling of cbo.inval in user mode.
+Enabling cbo.clean and cbo.flush in user mode makes it more
+convenient to manage the cache state and achieve better performance.
 
-v3:
-Add the functionality of Expose Zicbom and selftests for Zicbom.
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
+---
+ arch/riscv/kernel/cpufeature.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-v4:
-Modify the order of macros, The test_no_cbo_inval function is added
-separately.
-
-v5:
-1. Modify the order of RISCV_HWPROBE_KEY_ZICBOM_BLOCK_SIZE in hwprobe.rst
-2. "TEST_NO_ZICBOINVAL" -> "TEST_NO_CBO_INVAL"
-
-Yunhui Cui (3):
-  RISC-V: Enable cbo.clean/flush in usermode
-  RISC-V: hwprobe: Expose Zicbom extension and its block size
-  RISC-V: selftests: Add TEST_ZICBOM into CBO tests
-
- Documentation/arch/riscv/hwprobe.rst        |  6 ++
- arch/riscv/include/asm/hwprobe.h            |  2 +-
- arch/riscv/include/uapi/asm/hwprobe.h       |  2 +
- arch/riscv/kernel/cpufeature.c              |  8 +++
- arch/riscv/kernel/sys_hwprobe.c             |  6 ++
- tools/testing/selftests/riscv/hwprobe/cbo.c | 66 +++++++++++++++++----
- 6 files changed, 78 insertions(+), 12 deletions(-)
-
+diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+index c0916ed318c2..60d180b98f52 100644
+--- a/arch/riscv/kernel/cpufeature.c
++++ b/arch/riscv/kernel/cpufeature.c
+@@ -30,6 +30,7 @@
+ #define NUM_ALPHA_EXTS ('z' - 'a' + 1)
+ 
+ static bool any_cpu_has_zicboz;
++static bool any_cpu_has_zicbom;
+ 
+ unsigned long elf_hwcap __read_mostly;
+ 
+@@ -87,6 +88,8 @@ static int riscv_ext_zicbom_validate(const struct riscv_isa_ext_data *data,
+ 		pr_err("Zicbom disabled as cbom-block-size present, but is not a power-of-2\n");
+ 		return -EINVAL;
+ 	}
++
++	any_cpu_has_zicbom = true;
+ 	return 0;
+ }
+ 
+@@ -944,6 +947,11 @@ void __init riscv_user_isa_enable(void)
+ 		current->thread.envcfg |= ENVCFG_CBZE;
+ 	else if (any_cpu_has_zicboz)
+ 		pr_warn("Zicboz disabled as it is unavailable on some harts\n");
++
++	if (riscv_has_extension_unlikely(RISCV_ISA_EXT_ZICBOM))
++		current->thread.envcfg |= ENVCFG_CBCFE;
++	else if (any_cpu_has_zicbom)
++		pr_warn("Zicbom disabled as it is unavailable on some harts\n");
+ }
+ 
+ #ifdef CONFIG_RISCV_ALTERNATIVE
 -- 
 2.39.2
 
