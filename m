@@ -1,67 +1,66 @@
 Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04CEF73446
-	for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 15:33:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1283F78F4C
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 15:33:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736955211; cv=none; b=Xq6Bf5mOuW57H2gJes8thzU2YoTmp7YC32t0QFDl/sK4vWrKxUT4XQAr6C0JyGtVFLlP1rdp8hAuemyX6LBKBWc01/A6NN2S/oWQ1N64l6L5+enfvp8IBvsd1AqqgOztHX9XVO0qJm0bIAyunUH2qFQX68MQCOpvMOEdpwaT/24=
+	t=1736955212; cv=none; b=LX9/TnbQ0ofC/2lYbPrDED2q4Vl/X3kLTEkgUU2LiRwcu6bnSqAZRyqMP0eEipHtTtoAd+m4+befeLDI7zlv1D67fIAK8+UZF3eTXgftIREAM8hs+7tvf8EIvdxuAHKclnximWDOZOt7m7VNNVUb6SslH5KJODwpe4K/hamOWKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736955211; c=relaxed/simple;
-	bh=KFP2R/TEoQs/HPOcYZBYMz6WTXXfGWe3Uff7RYjgJzs=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=HBAxoY7GdajLTY4flNTw+AtoJT5C0G6VLztSUC2y9SV2NNB0jWiVmyzLttIcThegNJGQELyNdx4/IznFI1x2vFs5Tr1qVovOTwS+tUDT1qHtzAkGOxOHlowlDv6ac5ILQVU9yPE8iDWBPWWVd9YSFW/RzRl9Vdui3Om/l8c4Y0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ez97Rrel; arc=none smtp.client-ip=209.85.221.73
+	s=arc-20240116; t=1736955212; c=relaxed/simple;
+	bh=dIIWMhXFshwK0c8HjNy74unEM10fKpL9De0DaDB8PYc=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=DgaIdMHHXjtuNaKnLNj8FG4zXcvRpceecBLM8/ZKVPnZ66NZMY2NwSdIatTOG4eqgpDoZYnFSxktdQZWtBXWdjHuxgJUf6x/v6hqBgjEUr1m4yffdIe0hR1/iQCciO44F8Pp++H82+TzqkHzudAuFJgLdPKMElSI4iAw7s7Fn68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=K6+ohymi; arc=none smtp.client-ip=209.85.221.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ez97Rrel"
-Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-385e2579507so2801457f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 07:33:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="K6+ohymi"
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-38a35a65575so4960885f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 07:33:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736955207; x=1737560007; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=BJBiaucnVrlyZGdfwKV5yu0lTpLHyTZbtjA6zJmjN0c=;
-        b=Ez97Rrelse2Ul/XDLV2ZQzf0Lw74W88uDp19JsfF8M0boYzcwPJL+AVN5PHIJmsAR7
-         x4joTwhq0BG1Bg4wLzE8M3MfKg0I1sc7FqwnvzFtZBpFHgwXQ4Q8Q2vCisnJhm9kOTHN
-         +HMLqt020em5/v2hYwHwCmq0M98rm5T5B5zBye1dGkLaKKFLIIGpG3y+yvww9PDUwjuT
-         piODhKa5IuoJBFa6v2vdCXVST70sfVNmzyx1IRBsf2AWC28yf9CoGyZWXSipqccKRdJ+
-         R7GCGDWFsqiZc8GykvvG9zKlaohM7W8rTsULEUHLc4z79j8kuJAPNFod7+DkOWbHmj+4
-         8zNA==
+        d=google.com; s=20230601; t=1736955209; x=1737560009; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hb5nIvWb71zdixZrhCvXh2iRHQbvKVO57HrQVmjQSXE=;
+        b=K6+ohymizA6SWvlPusW32Gnlo5VHljYj+F9MNhx2JU/vKBFW6Su+9hIVguUuADuxEO
+         XJvInhg6/8rV7neUk1jSN3VUsPr3/wKzQMoAGGDbVScI3pWRsk4JrQQfijb8LC3fhPeN
+         cGwdlXbRTP/zT0sB2MhcMlx//M1TlEoi3ZDpXHNi44SEe75vjUn/K8HS2xQ58UfhwceN
+         jDQSm7+Exby7VIArzFP79Q4qII7ge4EdIm4foNIQG/B1Gxi4cFbukraXXj2G9NXrJtfa
+         U+1lXcetputKaQsOp349ICHYZXlE61/SpgtmlWicDvUC8ADsdEFtbH7keVy7onpHn8XI
+         Kcjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736955207; x=1737560007;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BJBiaucnVrlyZGdfwKV5yu0lTpLHyTZbtjA6zJmjN0c=;
-        b=k1izpDtsM7qt+p9BPN1/rPVw6lFafN2paqVGq9Za21T+WAQ9aBe012WamVAoCU0K/t
-         vM4aGPckdQUtAA2etvyTJ8VfwJ2G97aqSmJDn9vyFbxaWGl7Riy1vdIGQeC+9/httxOm
-         69+wcIPm2nlnnpt+YQs7yuIxdVybAF5p7iMsVi4MbQntatpOI1LC1txnfsHBSafL2cFi
-         JNXk9bOBtOe/AAg/a/vQYX9Xj1/8GKXjMSX7oak6KCpMZ1pGODjJOMkT0qN0rv2lSiYO
-         K4nwMu/n2Dg5rtlMo8nSmKyA4rZq1CnirrLkU6Y7fKgox2Ljh2W4hlZ24LyLSkh7pFRE
-         BspQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUwlUuo2ta8dxgYNI+QTDDCICtdVOzRQzDp88l6/nhT9OFlDObW/Yoh0B5Nb9DymfxsGERkvN6RgLY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywc0tYHIKDuw+KE6pEXu9pPMmxiTE77UbCe6nJb2gP54GXED1Sr
-	U3bCTAqkf4NDm91/ENwSI8NbYQTHJP2jnxk1kcd6sdMMLNmJs+hbNSCffeupKqQorSuZv99eNR0
-	JLuvQyjp+eg==
-X-Google-Smtp-Source: AGHT+IGec8pT9Czh6kKpo0tNP/EdnFhwRJlZExf2SiribOd9imeMd9Roj5IO31SI4wSh03LP5taT4nEJ863pSA==
-X-Received: from wmgg9.prod.google.com ([2002:a05:600d:9:b0:434:feb1:add1])
+        d=1e100.net; s=20230601; t=1736955209; x=1737560009;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hb5nIvWb71zdixZrhCvXh2iRHQbvKVO57HrQVmjQSXE=;
+        b=Jru6NPYzaZu2vGi+rZY7APO0083FSf3BmxUl9EwtZVsIWgrDvcbMKpkgD/6gss5Pa8
+         qmkR6KWymP+iwT41xJCMty6uLUjJB8ngXvNdX+08nsh4ZDkM3dP0Dqsj4RJqXqOw87Zr
+         GQbffkT+zdFwTZD4z+BP5iWTghbsZXdOmgCKxvJ7SJRO2bD48iH+Tii9Id2jf2VydFFx
+         uBH+3HvGWlpHLMzbJTQaLbjdQVZT9PPcQJvWsV9OYbmrY2/NtcF2rNfUv085to2Ivsrk
+         CdDzkEjDQ0dDxwKmY+cLTrvOwJVlhuKvRIVyu/AtHSHwtkMqmqDlbgpnLEEfEd7rv4z0
+         fsVw==
+X-Forwarded-Encrypted: i=1; AJvYcCWgZSgyKS0WBvlPEYYBnkGarlk3QvyckTHGxX+4vPu1+J8RCEyAEhcsP6lW3sP4Wo/j8z3DBJ4FiLE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbtkG8XHWF339qivbVEzInjb/CghJBwWs7/JJBJtfGcuAOQNJ1
+	mqQPbQOq/YxWwhIfUfre+bAmcSWQl6Vgkhf/4DAbW2sNQ7+bUncydyOGQXUbfbiX+FXmpXkIBH0
+	qGDkDFdWtQQ==
+X-Google-Smtp-Source: AGHT+IEOG/8ZYybzXMLqp4IPj8wc7/hNOUswEq3NyYE3RGEusCYfw84ucZSBSOkJU0GLZHB1mGHoEx2594mIRw==
+X-Received: from wmpz18.prod.google.com ([2002:a05:600c:a12:b0:434:ff52:1c7])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:4023:b0:38b:e32a:10aa with SMTP id ffacd0b85a97d-38be32a12eemr6051086f8f.5.1736955207495;
- Wed, 15 Jan 2025 07:33:27 -0800 (PST)
-Date: Wed, 15 Jan 2025 15:33:20 +0000
+ 2002:a05:6000:1ac6:b0:38b:da34:5915 with SMTP id ffacd0b85a97d-38bda34591bmr12849093f8f.23.1736955209523;
+ Wed, 15 Jan 2025 07:33:29 -0800 (PST)
+Date: Wed, 15 Jan 2025 15:33:21 +0000
+In-Reply-To: <20250115-checkpatch-ignore-v2-0-8467750bf713@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAEDVh2cC/32NSw7CIBRFt9K8sRhoKf2M3IfpAPEVXtTSQEM0D
- XsXuwCH5yT33B0iBsIIY7VDwESR/FKgPlVgnF4sMroXhprXLReiYcaheax6M46RXXxAJvigBiF
- 7KfEGZbcGnOl9NK9TYUdx8+FzXCTxs/9qSTDOVKM73Uk+t6q/WO/tE8/Gv2DKOX8BpZb9V7MAA AA=
-X-Change-Id: 20250113-checkpatch-ignore-1096914844eb
+References: <20250115-checkpatch-ignore-v2-0-8467750bf713@google.com>
 X-Mailer: b4 0.15-dev
-Message-ID: <20250115-checkpatch-ignore-v2-0-8467750bf713@google.com>
-Subject: [PATCH v2 0/2] checkpatch: Add support for checkpatch-ignore note
+Message-ID: <20250115-checkpatch-ignore-v2-1-8467750bf713@google.com>
+Subject: [PATCH v2 1/2] checkpatch: Add support for checkpatch-ignore notes
 From: Brendan Jackman <jackmanb@google.com>
 To: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
 	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
@@ -75,37 +74,131 @@ automatic usage: tools like b4 [0] can run checkpatch on all of your
 patches and give you a quick overview. When iterating on a branch, it's
 tiresome to manually re-check that any errors are known false positives.
 
-This patch adds a feature to record in the patch "graveyard" (after the
-"---" that a patch might produce a certain checkpatch error, and that
-this is an expected false positive.
+This patch adds a mechanism to record alongside the patch that it might
+produce certain checkpatch errors, and that these are expected false
+positives. There are two aspects to this mechanism:
 
-Note, for Git users this will require some configuration changes to
-adopt (see documentation patch), and not all tools that wrap Checkpatch
-will automatically be able to take advantage. Changes are required for
-`b4 prep --check` to work [0], I'll send that separately if this patch
-is accepted.
+1. If a block like:
 
-[0] https://github.com/bjackman/b4/tree/checkpatch-ignore
+   Notes (checkpatch-ignore):
+     FOO,BAR
+     BAZ
+
+   Is found before the diff in the patch content, FOO, BAR and BAZ error
+   types are ignored while processing this file.
+
+   Its expected that users put this in the "graveyard" i.e. the region
+   between the --- and the beginning of the diff.
+
+2. --notes=checkpatch-ignore is added to the `git format-patch`
+   command that checkpatch.pl uses in --git mode, so that if the commit
+   being inspected has a note [1] under the checkpatch-ignore ref, it
+   will be formatted into a block like the one above.
+
+To avoid significant reworks to the Perl code, this is implemented by
+mutating a global variable while processing each patch. (The variable
+name refers to a patch as a "file" for consistency with other code).
+
+Because the main loop in process() begins to emit errors before it has
+necessarily processed the checkpatch-ignore block, this parsing is done
+separately in its own loop.
+
+[0] b4 - see "--check" arg
+    https://b4.docs.kernel.org/en/latest/contributor/prep.html
+
+[1] https://git-scm.com/docs/git-notes
 
 Signed-off-by: Brendan Jackman <jackmanb@google.com>
 ---
-Changes in v2:
-- Switched to the "graveyard" instead of the actual commit message.
-- Link to v1: https://lore.kernel.org/r/20250113-checkpatch-ignore-v1-0-63a7a740f568@google.com
 
----
-Brendan Jackman (2):
-      checkpatch: Add support for checkpatch-ignore notes
-      docs: checkpatch: Document checkpatch-ignore feature
+Notes (checkpatch-ignore):
+    EMAIL_SUBJECT
 
- Documentation/dev-tools/checkpatch.rst | 46 ++++++++++++++++++++++++++++++++++
- scripts/checkpatch.pl                  | 34 +++++++++++++++++++++++--
- 2 files changed, 78 insertions(+), 2 deletions(-)
----
-base-commit: 619f0b6fad524f08d493a98d55bac9ab8895e3a6
-change-id: 20250113-checkpatch-ignore-1096914844eb
+ scripts/checkpatch.pl | 34 ++++++++++++++++++++++++++++++++--
+ 1 file changed, 32 insertions(+), 2 deletions(-)
 
-Best regards,
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 9eed3683ad76caffbbb2418e5dbea7551d374406..ce6914a845ec3f936ad656fa123f58aa85ce4b2f 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -53,7 +53,10 @@ my %debug;
+ my %camelcase = ();
+ my %use_type = ();
+ my @use = ();
++# Error types to ignore during the whole invocation.
+ my %ignore_type = ();
++# Error types to be ignored in the present "file" (i.e. patch).
++my %file_ignore_type = ();
+ my @ignore = ();
+ my $help = 0;
+ my $configuration_file = ".checkpatch.conf";
+@@ -1306,7 +1309,7 @@ for my $filename (@ARGV) {
+ 	my $oldfile = $file;
+ 	$file = 1 if ($is_git_file);
+ 	if ($git) {
+-		open($FILE, '-|', "git format-patch -M --stdout -1 $filename") ||
++		open($FILE, '-|', "git format-patch --notes=checkpatch-ignore -M --stdout -1 $filename") ||
+ 			die "$P: $filename: git format-patch failed - $!\n";
+ 	} elsif ($file) {
+ 		open($FILE, '-|', "diff -u /dev/null $filename") ||
+@@ -2329,7 +2332,7 @@ sub show_type {
+ 
+ 	return defined $use_type{$type} if (scalar keys %use_type > 0);
+ 
+-	return !defined $ignore_type{$type};
++	return !defined $ignore_type{$type} && !defined $file_ignore_type{$type};
+ }
+ 
+ sub report {
+@@ -2624,6 +2627,29 @@ sub exclude_global_initialisers {
+ 		$realfile =~ m@/bpf/.*\.bpf\.c$@;
+ }
+ 
++# Parse the "Notes (checkpatch-ignore):" block in the region before the diff,
++# and set file_ignore_type accordingly.
++sub parse_checkpatch_ignore {
++	my $linesRef = shift;
++	my $in_checkpatch_ignore = 0;
++
++	foreach my $line (@$linesRef) {
++		# have we reached the actual diff?
++		if ($line =~ /^diff --git.*?(\s+)$/ || $line =~ /^\+\+\+\s+(\s+)/) {
++			last;
++		}
++
++		if ($in_checkpatch_ignore) {
++			if ($line =~ /^\s*$/) {
++				last;
++			}
++			hash_save_array_words(\%file_ignore_type, [$line]);
++		} elsif ($line =~ /^Notes \(checkpatch-ignore\):\s*/) {
++			$in_checkpatch_ignore = 1;
++		}
++	}
++}
++
+ sub process {
+ 	my $filename = shift;
+ 
+@@ -2701,6 +2727,8 @@ sub process {
+ 
+ 	my $checklicenseline = 1;
+ 
++	%file_ignore_type = ();
++
+ 	sanitise_line_reset();
+ 	my $line;
+ 	foreach my $rawline (@rawlines) {
+@@ -2780,6 +2808,8 @@ sub process {
+ 		}
+ 	}
+ 
++	parse_checkpatch_ignore(\@lines);
++
+ 	$prefix = '';
+ 
+ 	$realcnt = 0;
+
 -- 
-Brendan Jackman <jackmanb@google.com>
+2.48.0.rc2.279.g1de40edade-goog
 
