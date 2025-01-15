@@ -1,165 +1,394 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9AF52475D8;
-	Wed, 15 Jan 2025 12:17:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23ADB2475C7;
+	Wed, 15 Jan 2025 12:37:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736943454; cv=none; b=tMrY2pKqoQ7wL2cUgTv7exkuKZ1kQ9gI0zxM5sChLmZbaejTWz21ps7s3WFmPCQa6X5/ezKLsrde7Q+LVPIw/Rz9IiijzGuXF9CP1e+K2H4bKcSBzYbdxaR8zmqvVCVhBEgJV+dfg5dJXSbSh5zjnxuGxu3CkoVUwa3mYGLLfPU=
+	t=1736944682; cv=none; b=eQB6q9w8SQBTAPpA7Ks27hB3B9JtAzNtrGrbW0HUtvnvYbP3r64UfEUt8Brl/KP52qMHl9iStqDGEWlC13kfbONSvtiPD39Nms/sl2jEx3lgvqHme7YutCQ3JkddI3r/QALwYr13AnhYkQAw8pcxjYvd57I78x28Sdtuj34Runs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736943454; c=relaxed/simple;
-	bh=MZ8iXyV9krpfaeNca9I/Cg0nOW6S5tfum+WntY3vwQs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DnVJPEFv/IDfP7J2ax1WsQL+j3oQNIsE6m17d8i3mHox16mG8eJBo1YaI6MizK0LjBonTfWR285gUWT0oMS+fsmEW1D3UuNCVO80hzE9Zcb2wd+zPIinFYO+cw1mzyBicvXCnPAv9HnwqZhWyn2umqweqCtvtseJnIEcFRrkw+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mspNTOLJ; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736944682; c=relaxed/simple;
+	bh=cZNI0oaGyOZ/qWThx+5kVZWZErCBbxjB86ymcisBx0o=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BrZN4MVn0fYLij+fQ2xdLEmmWkLONccrEpMiJEoJhGacsFOrxniQCbuTxjqbJMPew5VGotSrSyRYSzEb0f6SozGWSmpRSX+dwZrtUcRaNxkj3xYPB9bQhDp9UtCSKPXndTpxij7/qM0UOAsjLOLjc+vaJbLAylMb7Bc38emIPS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=YNB4rmVj; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mspNTOLJ"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-aaee0b309adso1081119566b.3;
-        Wed, 15 Jan 2025 04:17:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736943451; x=1737548251; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tAAbyJp8sin7hseARu7agXZgnHyKzLkuNgXfKzGKy7Y=;
-        b=mspNTOLJPjP2zb+LEbKbZQL7YHveEE4TJO3nhjNsMIvXFIPQfDXlzPo4Kn18mcAPF9
-         2dh2gSxmVIkqLrHm66GWRGYoxmpszbTh0TN2Ji3JrtjrASvGnAs2mhXDo18lCAV2vvzi
-         Zdj7G1cHgpkqrhYrtFyCeSJliFtwZF0UdxNDsWh2b/1JmRnB+HVrCqB37DlZ4h5pb//H
-         70GSZJZ8ip+44Plcg72UlpgUq+hu5iZChvpZhqTeHATpW8bmvok1imJJC24cNBAeT9Bv
-         umkT7CEOlDzMMLEa7BZNk1omQOxvochIUSKul/LkWrXSG+A0ugNkQTr2ajqRWDTv8hj1
-         xE1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736943451; x=1737548251;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tAAbyJp8sin7hseARu7agXZgnHyKzLkuNgXfKzGKy7Y=;
-        b=r4nSZQpAok4GE+cX36pi5J9vFwNeJ1h9EvcJUd9Kf0e7t6qCLMoErbcgRqSdZgHo9r
-         SeBoE77NLYoFC0pIwDL9knly3AYbjOPe8RiFyjqGvTPZPu8hkJTf2yRVNs5FFRjhYeoM
-         iyHZNgnsK6X++C7DQ0EtMUFs6wM8syUWFFZbDPS8utig4XStqTk5mKrUruGhhhLfBuTm
-         AaYxo0m1uVmcRKXPViO6O9eLGxeR5znJNypd7w6m3fEH2b4w4sxY8INCOWO+QRuktMS0
-         b3X8U39ugCQk1BlhaXLbFMT6rNGNGjXoPkQbA3oEXKMqM8LaV4nQksIJOOfTiPwk8nCs
-         Lwyg==
-X-Forwarded-Encrypted: i=1; AJvYcCUsDuprH5Ido43lhj/Gca7n/IhRqAkEAA0Cm3OiEtY5CbV12T5E7n56WVy5PXifBP49M84g085JhjYSbqFn@vger.kernel.org, AJvYcCWnBl6EM23oDH2Y95GdSYXJdIXCEU/o3A8wgf9w6PFYPHbuuAS/kLvSbjQu2jC7heOFr/6oVaZN3Zk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YysT9Dks/ILdG2/kDLSYEQdCRxnRDB49xR3mskKmCQhbU4cIYgf
-	ht6lYNTr3dh3HvUHnVMcugariBBXIURAz7XuyA4lpXVi98f4r/ka
-X-Gm-Gg: ASbGncuJD06zoFNZln0SuMu6hPBxEco5B1YD+5gLqjJDUNkvnruWGgQ+rYK7P65KfFn
-	2N9s3GBRWWazQPy6uKFf2/oNXfJNFyy9aj621QhNDA8tW/jyxKKhM31RbBZpgSF8dZjSTndAo5K
-	E95vZVAwCoVjyCfrHqb6a53voM+vRs882/vXeuJIMp/PKr/qHR0mW5BgaOhFXT/bumzFfKKSooY
-	Ye59Kjvncaf7u5U/aYFaXVbHKjfRdAsD0ECrdFwujR+BzjnhYXT1mN+
-X-Google-Smtp-Source: AGHT+IHmipxBXZydOiU45pNOPDa+ShKwI5P50TKMQVL0t3FcwIFebbORmph6AQXQQkWUTqAXbyNHFQ==
-X-Received: by 2002:a17:907:3d9f:b0:aae:ef24:888d with SMTP id a640c23a62f3a-ab2abc92349mr2943739566b.55.1736943450470;
-        Wed, 15 Jan 2025 04:17:30 -0800 (PST)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c9561053sm744211966b.124.2025.01.15.04.17.29
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 15 Jan 2025 04:17:29 -0800 (PST)
-Date: Wed, 15 Jan 2025 12:17:29 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Wei Yang <richard.weiyang@gmail.com>, akpm@linux-foundation.org,
-	peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
-	lorenzo.stoakes@oracle.com, david.laight.linux@gmail.com,
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
-	mjguzik@gmail.com, oliver.sang@intel.com,
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
-	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
-	hughd@google.com, lokeshgidra@google.com, minchan@google.com,
-	jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com,
-	pasha.tatashin@soleen.com, klarasmodin@gmail.com, corbet@lwn.net,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH v9 16/17] mm: make vma cache SLAB_TYPESAFE_BY_RCU
-Message-ID: <20250115121729.al7sxmpqutmhaxod@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20250111042604.3230628-1-surenb@google.com>
- <20250111042604.3230628-17-surenb@google.com>
- <20250115022703.hqbqdqawvqgrfgxb@master>
- <CAJuCfpGShzXxqH8up75WQhdMzkr+Y6eE-h37nEEwVWHC6AN89w@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="YNB4rmVj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1736944678;
+	bh=cZNI0oaGyOZ/qWThx+5kVZWZErCBbxjB86ymcisBx0o=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=YNB4rmVj0yBmWtb285hJ6vb71TuXVZ3+8noVr6QdVKCMyHVv8LVobwB5IA7QrXRge
+	 kT1zhu7OGeogPV9WyWwVMrYJ/vtntuqat01VtrZNNvF6o0fKjFTYU2ir4BidEOtKtY
+	 pHuR4UY3nXgS4KTDVdHY4x5pE183IRlQmJmngTgZtUXPLC87wDu2wnc/Ko7Se5SAUR
+	 Qb6dipCNmc0wearbcjYB8u2BHg/l0P9XdDVEXx8fuMGPs2/KWEp5L3D9mRqnCPWQrX
+	 2PnDuDqRd2yDz6Dpu1REQr5JgDP9UIvsJbzk3yBnYdd8tYJpApRiOpPXLW3H3k3WvV
+	 69HFAQGP3IZjw==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 8790017E06BE;
+	Wed, 15 Jan 2025 13:37:57 +0100 (CET)
+Date: Wed, 15 Jan 2025 13:37:52 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Jonathan
+ Corbet <corbet@lwn.net>, kernel@collabora.com, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>, Mihail
+ Atanassov <mihail.atanassov@arm.com>, Steven Price <steven.price@arm.com>
+Subject: Re: [PATCH v8 3/4] drm/panthor: Expose size of driver internal BO's
+ over fdinfo
+Message-ID: <20250115133752.1672fd05@collabora.com>
+In-Reply-To: <20250114173406.3060248-4-adrian.larumbe@collabora.com>
+References: <20250114173406.3060248-1-adrian.larumbe@collabora.com>
+	<20250114173406.3060248-4-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJuCfpGShzXxqH8up75WQhdMzkr+Y6eE-h37nEEwVWHC6AN89w@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 14, 2025 at 07:15:05PM -0800, Suren Baghdasaryan wrote:
->On Tue, Jan 14, 2025 at 6:27 PM Wei Yang <richard.weiyang@gmail.com> wrote:
->>
->> On Fri, Jan 10, 2025 at 08:26:03PM -0800, Suren Baghdasaryan wrote:
->>
->> >diff --git a/kernel/fork.c b/kernel/fork.c
->> >index 9d9275783cf8..151b40627c14 100644
->> >--- a/kernel/fork.c
->> >+++ b/kernel/fork.c
->> >@@ -449,6 +449,42 @@ struct vm_area_struct *vm_area_alloc(struct mm_struct *mm)
->> >       return vma;
->> > }
->> >
->> >+static void vm_area_init_from(const struct vm_area_struct *src,
->> >+                            struct vm_area_struct *dest)
->> >+{
->> >+      dest->vm_mm = src->vm_mm;
->> >+      dest->vm_ops = src->vm_ops;
->> >+      dest->vm_start = src->vm_start;
->> >+      dest->vm_end = src->vm_end;
->> >+      dest->anon_vma = src->anon_vma;
->> >+      dest->vm_pgoff = src->vm_pgoff;
->> >+      dest->vm_file = src->vm_file;
->> >+      dest->vm_private_data = src->vm_private_data;
->> >+      vm_flags_init(dest, src->vm_flags);
->> >+      memcpy(&dest->vm_page_prot, &src->vm_page_prot,
->> >+             sizeof(dest->vm_page_prot));
->> >+      /*
->> >+       * src->shared.rb may be modified concurrently when called from
->> >+       * dup_mmap(), but the clone will reinitialize it.
->> >+       */
->> >+      data_race(memcpy(&dest->shared, &src->shared, sizeof(dest->shared)));
->> >+      memcpy(&dest->vm_userfaultfd_ctx, &src->vm_userfaultfd_ctx,
->> >+             sizeof(dest->vm_userfaultfd_ctx));
->> >+#ifdef CONFIG_ANON_VMA_NAME
->> >+      dest->anon_name = src->anon_name;
->> >+#endif
->> >+#ifdef CONFIG_SWAP
->> >+      memcpy(&dest->swap_readahead_info, &src->swap_readahead_info,
->> >+             sizeof(dest->swap_readahead_info));
->> >+#endif
->> >+#ifndef CONFIG_MMU
->> >+      dest->vm_region = src->vm_region;
->> >+#endif
->> >+#ifdef CONFIG_NUMA
->> >+      dest->vm_policy = src->vm_policy;
->> >+#endif
->> >+}
->>
->> Would this be difficult to maintain? We should make sure not miss or overwrite
->> anything.
->
->Yeah, it is less maintainable than a simple memcpy() but I did not
->find a better alternative. I added a warning above the struct
->vm_area_struct definition to update this function every time we change
->that structure. Not sure if there is anything else I can do to help
->with this.
->
+On Tue, 14 Jan 2025 17:34:02 +0000
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-For !PER_VMA_LOCK, maybe we can use memcpy() as usual.
+> This will display the sizes of kenrel BO's bound to an open file, which a=
+re
+> otherwise not exposed to UM through a handle.
+>=20
+> The sizes recorded are as follows:
+>  - Per group: suspend buffer, protm-suspend buffer, syncobjcs
+>  - Per queue: ringbuffer, profiling slots, firmware interface
+>  - For all heaps in all heap pools across all VM's bound to an open file,
+>  record size of all heap chuks, and for each pool the gpu_context BO too.
+>=20
+> This does not record the size of FW regions, as these aren't bound to a
+> specific open file and remain active through the whole life of the driver.
+>=20
+> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+> Reviewed-by: Mihail Atanassov <mihail.atanassov@arm.com>
+> Reviewed-by: Steven Price <steven.price@arm.com>
+> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_drv.c   | 14 +++++++
+>  drivers/gpu/drm/panthor/panthor_heap.c  | 26 +++++++++++++
+>  drivers/gpu/drm/panthor/panthor_heap.h  |  2 +
+>  drivers/gpu/drm/panthor/panthor_mmu.c   | 34 +++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_mmu.h   |  3 ++
+>  drivers/gpu/drm/panthor/panthor_sched.c | 51 ++++++++++++++++++++++++-
+>  drivers/gpu/drm/panthor/panthor_sched.h |  2 +
+>  7 files changed, 131 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/pant=
+hor/panthor_drv.c
+> index ac7e53f6e3f0..b75a9251f578 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1457,12 +1457,26 @@ static void panthor_gpu_show_fdinfo(struct pantho=
+r_device *ptdev,
+>  	drm_printf(p, "drm-curfreq-panthor:\t%lu Hz\n", ptdev->current_frequenc=
+y);
+>  }
+> =20
+> +static void panthor_show_internal_memory_stats(struct drm_printer *p, st=
+ruct drm_file *file)
+> +{
+> +	char *drv_name =3D file->minor->dev->driver->name;
+> +	struct panthor_file *pfile =3D file->driver_priv;
+> +	struct drm_memory_stats stats =3D {0};
+> +
+> +	panthor_group_kbo_sizes(pfile, &stats);
+> +	panthor_vm_heaps_sizes(pfile, &stats);
+> +
+> +	drm_fdinfo_print_size(p, drv_name, "resident", "memory", stats.resident=
+);
+> +	drm_fdinfo_print_size(p, drv_name, "active", "memory", stats.active);
+> +}
+> +
+>  static void panthor_show_fdinfo(struct drm_printer *p, struct drm_file *=
+file)
+>  {
+>  	struct drm_device *dev =3D file->minor->dev;
+>  	struct panthor_device *ptdev =3D container_of(dev, struct panthor_devic=
+e, base);
+> =20
+>  	panthor_gpu_show_fdinfo(ptdev, file->driver_priv, p);
+> +	panthor_show_internal_memory_stats(p, file);
+> =20
+>  	drm_show_memory_stats(p, file);
+>  }
+> diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/pan=
+thor/panthor_heap.c
+> index 3796a9eb22af..db0285ce5812 100644
+> --- a/drivers/gpu/drm/panthor/panthor_heap.c
+> +++ b/drivers/gpu/drm/panthor/panthor_heap.c
+> @@ -603,3 +603,29 @@ void panthor_heap_pool_destroy(struct panthor_heap_p=
+ool *pool)
+> =20
+>  	panthor_heap_pool_put(pool);
+>  }
+> +
+> +/**
+> + * panthor_heap_pool_size() - Calculate size of all chunks across all he=
+aps in a pool
+> + * @pool: Pool whose total chunk size to calculate.
+> + *
+> + * This function adds the size of all heap chunks across all heaps in the
+> + * argument pool. It also adds the size of the gpu contexts kernel bo.
+> + * It is meant to be used by fdinfo for displaying the size of internal
+> + * driver BO's that aren't exposed to userspace through a GEM handle.
+> + *
+> + */
+> +size_t panthor_heap_pool_size(struct panthor_heap_pool *pool)
+> +{
+> +	struct panthor_heap *heap;
+> +	unsigned long i;
+> +	size_t size =3D 0;
+> +
+> +	down_read(&pool->lock);
+> +	xa_for_each(&pool->xa, i, heap)
+> +		size +=3D heap->chunk_size * heap->chunk_count;
+> +	up_read(&pool->lock);
+> +
+> +	size +=3D pool->gpu_contexts->obj->size;
+> +
+> +	return size;
+> +}
+> diff --git a/drivers/gpu/drm/panthor/panthor_heap.h b/drivers/gpu/drm/pan=
+thor/panthor_heap.h
+> index 25a5f2bba445..e3358d4e8edb 100644
+> --- a/drivers/gpu/drm/panthor/panthor_heap.h
+> +++ b/drivers/gpu/drm/panthor/panthor_heap.h
+> @@ -27,6 +27,8 @@ struct panthor_heap_pool *
+>  panthor_heap_pool_get(struct panthor_heap_pool *pool);
+>  void panthor_heap_pool_put(struct panthor_heap_pool *pool);
+> =20
+> +size_t panthor_heap_pool_size(struct panthor_heap_pool *pool);
+> +
+>  int panthor_heap_grow(struct panthor_heap_pool *pool,
+>  		      u64 heap_gpu_va,
+>  		      u32 renderpasses_in_flight,
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/pant=
+hor/panthor_mmu.c
+> index c3f0b0225cf9..b43073010b7f 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -1941,6 +1941,40 @@ struct panthor_heap_pool *panthor_vm_get_heap_pool=
+(struct panthor_vm *vm, bool c
+>  	return pool;
+>  }
+> =20
+> +/**
+> + * panthor_vm_heaps_sizes() - Calculate size of all heap chunks across a=
+ll
+> + * heaps over all the heap pools in a VM
+> + * @pfile: File.
+> + * @stats: Memory stats to be updated.
+> + *
+> + * Calculate all heap chunk sizes in all heap pools bound to a VM. If th=
+e VM
+> + * is active, record the size as active as well.
+> + */
+> +void panthor_vm_heaps_sizes(struct panthor_file *pfile, struct drm_memor=
+y_stats *stats)
+> +{
+> +	struct panthor_vm *vm;
+> +	unsigned long i;
+> +
+> +	if (!pfile->vms)
+> +		return;
+> +
+> +	xa_for_each(&pfile->vms->xa, i, vm) {
+> +		size_t size;
+> +
+> +		mutex_lock(&vm->heaps.lock);
+> +		if (!vm->heaps.pool) {
+> +			mutex_unlock(&vm->heaps.lock);
+> +			continue;
+> +		}
+> +		size =3D panthor_heap_pool_size(vm->heaps.pool);
+> +		mutex_unlock(&vm->heaps.lock);
+> +
+> +		stats->resident +=3D size;
+> +		if (vm->as.id >=3D 0)
+> +			stats->active +=3D size;
+> +	}
+> +}
+> +
+>  static u64 mair_to_memattr(u64 mair, bool coherent)
+>  {
+>  	u64 memattr =3D 0;
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/pant=
+hor/panthor_mmu.h
+> index 8d21e83d8aba..fc274637114e 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.h
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.h
+> @@ -9,6 +9,7 @@
+> =20
+>  struct drm_exec;
+>  struct drm_sched_job;
+> +struct drm_memory_stats;
+>  struct panthor_gem_object;
+>  struct panthor_heap_pool;
+>  struct panthor_vm;
+> @@ -37,6 +38,8 @@ int panthor_vm_flush_all(struct panthor_vm *vm);
+>  struct panthor_heap_pool *
+>  panthor_vm_get_heap_pool(struct panthor_vm *vm, bool create);
+> =20
+> +void panthor_vm_heaps_sizes(struct panthor_file *pfile, struct drm_memor=
+y_stats *stats);
+> +
+>  struct panthor_vm *panthor_vm_get(struct panthor_vm *vm);
+>  void panthor_vm_put(struct panthor_vm *vm);
+>  struct panthor_vm *panthor_vm_create(struct panthor_device *ptdev, bool =
+for_mcu,
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/pa=
+nthor/panthor_sched.c
+> index ef4bec7ff9c7..75b788c580a7 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -618,7 +618,7 @@ struct panthor_group {
+>  	 */
+>  	struct panthor_kernel_bo *syncobjs;
+> =20
+> -	/** @fdinfo: Per-file total cycle and timestamp values reference. */
+> +	/** @fdinfo: Per-group total cycle and timestamp values and kernel BO s=
+izes. */
 
-For PER_VMA_LOCK, I just come up the same idea with you:-)
+Each subfield is documented, so let's just say "Per-file info exposed
+through /proc/<process>/fdinfo".
 
->>
->> --
->> Wei Yang
->> Help you, Help me
+>  	struct {
+>  		/** @data: Total sampled values for jobs in queues from this group. */
+>  		struct panthor_gpu_usage data;
+> @@ -628,6 +628,9 @@ struct panthor_group {
+>  		 * and job post-completion processing function
+>  		 */
+>  		struct mutex lock;
+> +
+> +		/** @kbo_sizes: Aggregate size of private kernel BO's held by the grou=
+p. */
 
--- 
-Wei Yang
-Help you, Help me
+@fdinfo.kbo_sizes otherwise the doc builder complains.
+
+> +		size_t kbo_sizes;
+>  	} fdinfo;
+> =20
+>  	/** @state: Group state. */
+> @@ -3365,6 +3368,29 @@ group_create_queue(struct panthor_group *group,
+>  	return ERR_PTR(ret);
+>  }
+> =20
+> +static void add_group_kbo_sizes(struct panthor_device *ptdev,
+> +				struct panthor_group *group)
+> +{
+> +	struct panthor_queue *queue;
+> +	int i;
+> +
+> +	if (drm_WARN_ON(&ptdev->base, IS_ERR_OR_NULL(group)))
+> +		return;
+> +	if (drm_WARN_ON(&ptdev->base, ptdev !=3D group->ptdev))
+> +		return;
+> +
+> +	group->fdinfo.kbo_sizes +=3D group->suspend_buf->obj->size;
+> +	group->fdinfo.kbo_sizes +=3D group->protm_suspend_buf->obj->size;
+> +	group->fdinfo.kbo_sizes +=3D group->syncobjs->obj->size;
+> +
+> +	for (i =3D 0; i < group->queue_count; i++) {
+> +		queue =3D	group->queues[i];
+> +		group->fdinfo.kbo_sizes +=3D queue->ringbuf->obj->size;
+> +		group->fdinfo.kbo_sizes +=3D queue->iface.mem->obj->size;
+> +		group->fdinfo.kbo_sizes +=3D queue->profiling.slots->obj->size;
+> +	}
+> +}
+> +
+>  #define MAX_GROUPS_PER_POOL		128
+> =20
+>  int panthor_group_create(struct panthor_file *pfile,
+> @@ -3489,6 +3515,7 @@ int panthor_group_create(struct panthor_file *pfile,
+>  	}
+>  	mutex_unlock(&sched->reset.lock);
+> =20
+> +	add_group_kbo_sizes(group->ptdev, group);
+>  	mutex_init(&group->fdinfo.lock);
+> =20
+>  	return gid;
+> @@ -3606,6 +3633,28 @@ void panthor_group_pool_destroy(struct panthor_fil=
+e *pfile)
+>  	pfile->groups =3D NULL;
+>  }
+> =20
+> +/**
+> + * panthor_group_kbo_sizes() - Retrieve aggregate size of all private ke=
+rnel BO's
+> + * belonging to all the groups owned by an open Panthor file
+> + * @pfile: File.
+> + * @stats: Memory statistics to be updated.
+> + *
+> + */
+> +void panthor_group_kbo_sizes(struct panthor_file *pfile, struct drm_memo=
+ry_stats *stats)
+
+The panthor_group prefix is a bit confusing since it's not applying to
+a group but to all groups attached to a pfile. How about
+panthor_fdinfo_gather_group_mem_info() to follow the
+panthor_fdinfo_gather_group_samples() naming?
+
+> +{
+> +	struct panthor_group_pool *gpool =3D pfile->groups;
+> +	struct panthor_group *group;
+> +	unsigned long i;
+> +
+> +	if (IS_ERR_OR_NULL(gpool))
+> +		return;
+
+I suspect we need to take a lock to protect against group removal,
+otherwise you might end up with a UAF.
+
+> +	xa_for_each(&gpool->xa, i, group) {
+> +		stats->resident +=3D group->fdinfo.kbo_sizes;
+> +		if (group->csg_id >=3D 0)
+> +			stats->active +=3D group->fdinfo.kbo_sizes;
+> +	}
+> +}
+> +
+>  static void job_release(struct kref *ref)
+>  {
+>  	struct panthor_job *job =3D container_of(ref, struct panthor_job, refco=
+unt);
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.h b/drivers/gpu/drm/pa=
+nthor/panthor_sched.h
+> index 5ae6b4bde7c5..bfe26b26a15b 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.h
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.h
+> @@ -9,6 +9,7 @@ struct dma_fence;
+>  struct drm_file;
+>  struct drm_gem_object;
+>  struct drm_sched_job;
+> +struct drm_memory_stats;
+>  struct drm_panthor_group_create;
+>  struct drm_panthor_queue_create;
+>  struct drm_panthor_group_get_state;
+> @@ -36,6 +37,7 @@ void panthor_job_update_resvs(struct drm_exec *exec, st=
+ruct drm_sched_job *job);
+> =20
+>  int panthor_group_pool_create(struct panthor_file *pfile);
+>  void panthor_group_pool_destroy(struct panthor_file *pfile);
+> +void panthor_group_kbo_sizes(struct panthor_file *pfile, struct drm_memo=
+ry_stats *stats);
+> =20
+>  int panthor_sched_init(struct panthor_device *ptdev);
+>  void panthor_sched_unplug(struct panthor_device *ptdev);
+
