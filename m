@@ -1,171 +1,269 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B6A1D5CC7
-	for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 21:46:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9244D599
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 22:16:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736977589; cv=none; b=OlGYMhuyOOTmdro3yziFgXYXcj4EncHFrG6wqESjrKdcVZV1W/XVyXWMPHZO5l51oJjexiuxUCw4t1ms5j2Em6ICXEUSspwS2Yu364YSBGXDKCLvgV9b+GZzPo9MsclBORsVNsNvtLx39ra6h3wkZj6BZ4aOrE+pp7qEmMB9Qms=
+	t=1736979378; cv=none; b=QheCtXlb7AsDEq0BjU8oUtczrsPsTumQjMAfxMONYlsx5lNsuB/X8CSh60Bls3Hm2oKI9w1Vl5mjThIBRgNiTDo7Y8HdOJKAY2UDVjoxZSUi+3vOHYJOmkjqZsvdxTzfeU+fv9RtHab5DELu0XFBGcAZbHk74RbYCTV+d3IxMCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736977589; c=relaxed/simple;
-	bh=ktxMmPsXmr5l/KzTZZveh4vVL4sy0NRaQjMB5XfObco=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qQgYmSePtvhGwk2plxgbVnPwO1cW1drQQUq44gG4Uus239hPkw/+7+3UJYfEUI9BvaKlsaREhcPqu4wCvVu4a1x2Gz7M6wHl35xkQ2cF7guU5W4Af5O9IktofDdfGIkjk8kYRAfn501gQcrQymN9nPQI45PemPl6gLVLI4YhqB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OxjelXQG; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1736979378; c=relaxed/simple;
+	bh=N67sDbbflcEdW19mQcwY9D4ZCVINMqZZ1+fiq62kp08=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eRkI6ijl6T+GeCqxJcFRho29xRSNY6ButwzUOaOhLsHTbdbd3umKzviwQWNu70Hz2tra6mCO4EIQJC+q4hI5IUUglu7KQeSE08trCciEJ/U3G6VeJrcxA5c3FEKPs/xBrYzxbVxKD2Z4lWoJMgVZU7yuEQxwutFHgPhFSrxODAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=VLdexnc6; arc=none smtp.client-ip=209.85.167.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OxjelXQG"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4678c9310afso17091cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 13:46:27 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="VLdexnc6"
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3eba347aa6fso250751b6e.3
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 14:16:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736977586; x=1737582386; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kG/IausjT1eOPJpJpSmaWqXdjNmS2nF45sOMWzC8YfA=;
-        b=OxjelXQGVuxa8V5Ew8Pnsrj6oUTFv8PcwBl8Euzb8VHdsB1BtGhj9eO9AalyxcKYaQ
-         G5cLLVmdYlzTuslaBPapkvaoB76butCqWHes3ghMYNypYIEP1QdnlEIh9KoyNImA+XI6
-         QSwUoJQyMXBfuNSfpW8U9qtAkOJZbXlNhUqiv0XWnIBj5Mi4i8VwpKi6As4AmmDS9aIC
-         K1iYkXVSXSGmkNvmnYR7Hd2RKD0kY8wupxJTXkbnCMOXy9mW3zBC+cqZA+TC5HE4MlNl
-         HdH62w973khKy52Hqfty0Nw79rocJkNaEbSxO0g2QLB27Z00OSiJFGrp/6nA7tIQv/Pm
-         lhZg==
+        d=broadcom.com; s=google; t=1736979375; x=1737584175; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=blhd75P5LVSb0RvwWEycm+5Nbmpdu3jhlbsT8ohSXM0=;
+        b=VLdexnc6NbvfEjPR0Kt1TjKE9YLSVOBCGOjmSC/YYK+gyiRrMt6aAVF8qzl7mipd6g
+         XrfMiC1L73jgzobFOO5pKn39LfMuriYNoIZWbuOClwSFhDNu4lPBQXxJY9Fd5MH/EpdF
+         Ucju/ZUiLjSaa9I9jM3MIRKjyZgJHDNw0f3o4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736977586; x=1737582386;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kG/IausjT1eOPJpJpSmaWqXdjNmS2nF45sOMWzC8YfA=;
-        b=dsNyDg8ySNsaygnuuUrELse1YkRqTQChizlfK/pnmaIZpisc2iOIrszc0YYdfrwv7f
-         /ohn4BeRyS7jxbVcqDc25NaKjWdE9Ne4c88ivMnSlunrI6ZGFaCrxvMj0MS3O0xCOQvw
-         Ys2fqbmJ0A0QXS46sauqvd/VsCyIbKSzZxmhdMYX9egqzL12Cjz5DU+IARN53q+r9v8+
-         QBzvt+KgMN68LaE6Jyay1Mc6FpIVw/5bEY3WXJhRiF1h/MZBe1L9QJtRaCEcUrznw00X
-         1jdoYh6kRir5AUicouaVaPFWDgUzlP+T2W4tLri+AcggxQBjIJTDSLDX0CzDh9977Zll
-         cDSw==
-X-Forwarded-Encrypted: i=1; AJvYcCW/CLdTF9+sdCHSXkzSrIfx8zwfJcwgS0TIZ/NBlRC7v+Jn/OkDyw5QPwsUGlX1VgH9/YZZkEBSqsU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyXBUd4wX/C0+4OP6qjpPonKIWXUYzFcSbSRRNyzRFg6Ax3j3K/
-	ZyQBYKhH5B9jOVdA3yoIP4NlAqIkTbPw4Tk0HEccQA7RXiGaMe/EkZ9pR9UqrmhI1jVH/kOIvfz
-	k7glMO2FByAn4sF4PRY/3EFduntMSnHDnu2QL
-X-Gm-Gg: ASbGncuxo3VTJVY/Kxaiu8a2miJtlvbcHPbv2mLU858f9D5i40rYMBbQyigiA3IOSrI
-	nXjBQEepyR4Vl2jedVCNUzs4OqFjGfZysq6dfdCrKmVaIRiCRtBQu8wFyIvP0YSrsZUg=
-X-Google-Smtp-Source: AGHT+IFE1Zown3D3qGPwAAJZHA33xl0d59VJvU2bb7jFRbeQNvKPpdPNS9ZSkNetglibCOVY9W52Aa5UIbolNqm9vkE=
-X-Received: by 2002:a05:622a:178b:b0:46d:f29d:4173 with SMTP id
- d75a77b69052e-46e04186a53mr989191cf.16.1736977585910; Wed, 15 Jan 2025
- 13:46:25 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736979375; x=1737584175;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=blhd75P5LVSb0RvwWEycm+5Nbmpdu3jhlbsT8ohSXM0=;
+        b=RgLNyLWzDJf26DXgFRpw9GapGi/C9AGaHzUe48hR/hEQugIiwbt3VPc5A2b+WyZaUY
+         7uOGRWCqCA/lVYin0xw3wfhgGDVLDiYomeXB2DDQTfxwnfmwy4mENy8WZQsLiHDiIhxj
+         S4RC2GlGr7UQd9wNqgUlUbFjUDBceIaYShQF9MqwMgBPJSAvDpQKZhyB+g2ynX/yK0jL
+         XAg17YyDFCPjSh0EqsPJSlkpU8S1v6xvpvpbeMiLFEn52q0EkQq5FwNT4IA+niMWN/Fh
+         qLFneIY9OGK9OI/UeJDMFwskK0tLfAEPx8tAEjIXU5IjWH/WvgGaSR0lioXF/pv1/do2
+         A2fQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWrBOznV2MP+b8J6N48o1+Zjq0FqyfwpWQWcZk7KCMJoGOiB2ulp8eXBXDCHZzdRnBcOfyKKRu54uo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzhr6zq6DU68jzlterSCXi9pST2RVbmKqqpOpzO2ss+fTd95De9
+	9deVx2d4A1UmTJMOKDQEXUKr+HRuCHAYkwo3sL8wGe+gsAdMFnn3G964dGXIKA==
+X-Gm-Gg: ASbGncuLIibi5uir3l347qfoGkbBNowMHxwIZH9JA6BDM75xhP+QeEzMu0FtPCG3nvg
+	Af9NJGS5+Q0h9H/5XiWY2Fcc1nIuKxZHfLzbPCnqARQMIa1GukYDZes1Ek3qEFeUWDHhMJxvwY1
+	ssviJ/B5FJg8Eqkm8Fg22A8+RXcmETTf0HtjVglh1YJxF6PeIcqhwPobKkE3jj/FnhyYKkbvw0C
+	a0A7lWifrEoRqLDMegSr+diTuIwZDu2VAJzm7a9PaU/zNHXSUyCNWesx0jpzO0dqCd5iO85M+Nt
+	2D9frOjlh3Y4afTkX5Jp
+X-Google-Smtp-Source: AGHT+IFcaetuHA6DIkj3kAXjduVbqxIMVKwUIZc/R3JyCmhsKrtvaI0q3aW4I7lonZ63FuS5dMLZKQ==
+X-Received: by 2002:a05:6808:1b0b:b0:3eb:5d3a:5b20 with SMTP id 5614622812f47-3ef2ebedb60mr22793347b6e.4.1736979375362;
+        Wed, 15 Jan 2025 14:16:15 -0800 (PST)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3f03769a8f8sm5355142b6e.26.2025.01.15.14.16.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Jan 2025 14:16:13 -0800 (PST)
+Message-ID: <ecf3d8db-8533-4b0d-ab49-3543a766fd99@broadcom.com>
+Date: Wed, 15 Jan 2025 14:16:11 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250111042604.3230628-1-surenb@google.com> <20250111042604.3230628-17-surenb@google.com>
- <20250115022703.hqbqdqawvqgrfgxb@master> <CAJuCfpGShzXxqH8up75WQhdMzkr+Y6eE-h37nEEwVWHC6AN89w@mail.gmail.com>
- <20250115121729.al7sxmpqutmhaxod@master>
-In-Reply-To: <20250115121729.al7sxmpqutmhaxod@master>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 15 Jan 2025 13:46:14 -0800
-X-Gm-Features: AbW1kva--QFLsx6XOwxGB9xKaHXReW5_CE0WTclZ5S6s_fvXChfK4C4r2avyMvI
-Message-ID: <CAJuCfpEwcT7t1B6O2+hTzQJbN5GJhvnx-dT8rQ5d3AQfxa5TNQ@mail.gmail.com>
-Subject: Re: [PATCH v9 16/17] mm: make vma cache SLAB_TYPESAFE_BY_RCU
-To: Wei Yang <richard.weiyang@gmail.com>
-Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org, 
-	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, 
-	david.laight.linux@gmail.com, mhocko@suse.com, vbabka@suse.cz, 
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	klarasmodin@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] swiotlb: Introduce DMA_ATTR_SKIP_DEVICE_SYNC
+To: Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org
+Cc: bcm-kernel-feedback-list@broadcom.com,
+ Justin Chen <justin.chen@broadcom.com>, Jonathan Corbet <corbet@lwn.net>,
+ Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Petr Tesarik <petr@tesarici.cz>, Michael Kelley <mhklinux@outlook.com>,
+ Lukas Bulwahn <lukas.bulwahn@redhat.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Eder Zulian <ezulian@redhat.com>,
+ Sean Anderson <sean.anderson@linux.dev>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
+ "open list:TRACING" <linux-trace-kernel@vger.kernel.org>
+References: <20250115194659.618438-1-florian.fainelli@broadcom.com>
+ <9582878b-1ce7-4fc4-9b45-b72bba722f49@arm.com>
+Content-Language: en-US
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
+ xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
+ M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
+ JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
+ PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
+ KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
+ AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
+ IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
+ ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
+ bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
+ Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
+ tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
+ TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
+ zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
+ WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
+ IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
+ U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
+ 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
+ pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
+ MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
+ IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
+ gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
+ obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
+ N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
+ CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
+ C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
+ wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
+ EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
+ fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
+ MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
+ 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
+ 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
+In-Reply-To: <9582878b-1ce7-4fc4-9b45-b72bba722f49@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 15, 2025 at 4:17=E2=80=AFAM Wei Yang <richard.weiyang@gmail.com=
-> wrote:
->
-> On Tue, Jan 14, 2025 at 07:15:05PM -0800, Suren Baghdasaryan wrote:
-> >On Tue, Jan 14, 2025 at 6:27=E2=80=AFPM Wei Yang <richard.weiyang@gmail.=
-com> wrote:
-> >>
-> >> On Fri, Jan 10, 2025 at 08:26:03PM -0800, Suren Baghdasaryan wrote:
-> >>
-> >> >diff --git a/kernel/fork.c b/kernel/fork.c
-> >> >index 9d9275783cf8..151b40627c14 100644
-> >> >--- a/kernel/fork.c
-> >> >+++ b/kernel/fork.c
-> >> >@@ -449,6 +449,42 @@ struct vm_area_struct *vm_area_alloc(struct mm_s=
-truct *mm)
-> >> >       return vma;
-> >> > }
-> >> >
-> >> >+static void vm_area_init_from(const struct vm_area_struct *src,
-> >> >+                            struct vm_area_struct *dest)
-> >> >+{
-> >> >+      dest->vm_mm =3D src->vm_mm;
-> >> >+      dest->vm_ops =3D src->vm_ops;
-> >> >+      dest->vm_start =3D src->vm_start;
-> >> >+      dest->vm_end =3D src->vm_end;
-> >> >+      dest->anon_vma =3D src->anon_vma;
-> >> >+      dest->vm_pgoff =3D src->vm_pgoff;
-> >> >+      dest->vm_file =3D src->vm_file;
-> >> >+      dest->vm_private_data =3D src->vm_private_data;
-> >> >+      vm_flags_init(dest, src->vm_flags);
-> >> >+      memcpy(&dest->vm_page_prot, &src->vm_page_prot,
-> >> >+             sizeof(dest->vm_page_prot));
-> >> >+      /*
-> >> >+       * src->shared.rb may be modified concurrently when called fro=
-m
-> >> >+       * dup_mmap(), but the clone will reinitialize it.
-> >> >+       */
-> >> >+      data_race(memcpy(&dest->shared, &src->shared, sizeof(dest->sha=
-red)));
-> >> >+      memcpy(&dest->vm_userfaultfd_ctx, &src->vm_userfaultfd_ctx,
-> >> >+             sizeof(dest->vm_userfaultfd_ctx));
-> >> >+#ifdef CONFIG_ANON_VMA_NAME
-> >> >+      dest->anon_name =3D src->anon_name;
-> >> >+#endif
-> >> >+#ifdef CONFIG_SWAP
-> >> >+      memcpy(&dest->swap_readahead_info, &src->swap_readahead_info,
-> >> >+             sizeof(dest->swap_readahead_info));
-> >> >+#endif
-> >> >+#ifndef CONFIG_MMU
-> >> >+      dest->vm_region =3D src->vm_region;
-> >> >+#endif
-> >> >+#ifdef CONFIG_NUMA
-> >> >+      dest->vm_policy =3D src->vm_policy;
-> >> >+#endif
-> >> >+}
-> >>
-> >> Would this be difficult to maintain? We should make sure not miss or o=
-verwrite
-> >> anything.
-> >
-> >Yeah, it is less maintainable than a simple memcpy() but I did not
-> >find a better alternative. I added a warning above the struct
-> >vm_area_struct definition to update this function every time we change
-> >that structure. Not sure if there is anything else I can do to help
-> >with this.
-> >
->
-> For !PER_VMA_LOCK, maybe we can use memcpy() as usual.
->
-> For PER_VMA_LOCK, I just come up the same idea with you:-)
+On 1/15/25 12:12, Robin Murphy wrote:
+> On 2025-01-15 7:46 pm, Florian Fainelli wrote:
+>> From: Justin Chen <justin.chen@broadcom.com>
+>>
+>> Network device driver's receive path typically do the following:
+>>
+>> - dma_map_single(.., DMA_FROM_DEVICE)
+>> - dma_sync_single_for_cpu() to allow the CPU to inspect packet
+>>    descriptors
+>> - dma_unmap_single(.., DMA_FROM_DEVICE) when releasing the buffer
+>>
+>> Each of those operations incurs a copy from the original buffer to the
+>> TLB buffer, even if the device is known to be writing full buffers.
+>>
+>> Add a DMA_ATTR_SKIP_DEVICE_SYNC flag which can be set by device drivers
+>> to skip the copy at dma_map_single() to speed up the RX path when the
+>> device is known to be doing full buffer writes.
+>>
+>> This has been seen to provide a 20% speedup for Wi-Fi RX throughput
+>> testing.
+>>
+>> Signed-off-by: Justin Chen <justin.chen@broadcom.com>
+>> [florian: commit message, add DMA-API attribute flag]
+>> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
+>> ---
+>>   Documentation/core-api/dma-attributes.rst | 9 +++++++++
+>>   Documentation/core-api/swiotlb.rst        | 4 +++-
+>>   include/linux/dma-mapping.h               | 6 ++++++
+>>   include/trace/events/dma.h                | 3 ++-
+>>   kernel/dma/swiotlb.c                      | 8 ++++++++
+>>   5 files changed, 28 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/core-api/dma-attributes.rst b/ 
+>> Documentation/core-api/dma-attributes.rst
+>> index 1887d92e8e92..ccd9c1891200 100644
+>> --- a/Documentation/core-api/dma-attributes.rst
+>> +++ b/Documentation/core-api/dma-attributes.rst
+>> @@ -130,3 +130,12 @@ accesses to DMA buffers in both privileged 
+>> "supervisor" and unprivileged
+>>   subsystem that the buffer is fully accessible at the elevated privilege
+>>   level (and ideally inaccessible or at least read-only at the
+>>   lesser-privileged levels).
+>> +
+>> +DMA_ATTR_SKIP_DEVICE_SYNC
+>> +-------------------------
+>> +
+>> +Device drivers can set DMA_ATTR_SKIP_DEVICE_SYNC in order to avoid 
+>> doing a copy
+>> +from the original buffer to the TLB buffer for dma_map_single() with a
+>> +DMA_FROM_DEVICE direction. This can be used to save an extra copy in 
+>> a device
+>> +driver's data path when using swiotlb bounce buffering.
+>> +
+>> diff --git a/Documentation/core-api/swiotlb.rst b/Documentation/core- 
+>> api/swiotlb.rst
+>> index 9e0fe027dd3b..3bc1f9ba67b2 100644
+>> --- a/Documentation/core-api/swiotlb.rst
+>> +++ b/Documentation/core-api/swiotlb.rst
+>> @@ -67,7 +67,9 @@ to the driver for programming into the device. If a 
+>> DMA operation specifies
+>>   multiple memory buffer segments, a separate bounce buffer must be 
+>> allocated for
+>>   each segment. swiotlb_tbl_map_single() always does a "sync" 
+>> operation (i.e., a
+>>   CPU copy) to initialize the bounce buffer to match the contents of 
+>> the original
+>> -buffer.
+>> +buffer, except if DMA_ATTR_SKIP_DEVICE_SYNC is specified and the 
+>> direction is
+>> +DMA_FROM_DEVICE. This is a performance optimization that may not be 
+>> suitable for
+>> +all platforms.
+>>   swiotlb_tbl_unmap_single() does the reverse. If the DMA operation 
+>> might have
+>>   updated the bounce buffer memory and DMA_ATTR_SKIP_CPU_SYNC is not 
+>> set, the
+>> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+>> index b79925b1c433..bfdaa65f8e9d 100644
+>> --- a/include/linux/dma-mapping.h
+>> +++ b/include/linux/dma-mapping.h
+>> @@ -58,6 +58,12 @@
+>>    */
+>>   #define DMA_ATTR_PRIVILEGED        (1UL << 9)
+>> +/*
+>> + * DMA_ATTR_SKIP_DEVICE_SYNC: used to indicate that the buffer does 
+>> not need to
+>> + * be synchronized to the device.
+>> + */
+>> +#define DMA_ATTR_SKIP_DEVICE_SYNC    (1UL << 10)
+>> +
+>>   /*
+>>    * A dma_addr_t can hold any valid DMA or bus address for the 
+>> platform.  It can
+>>    * be given to a device to use as a DMA source or target.  It is 
+>> specific to a
+>> diff --git a/include/trace/events/dma.h b/include/trace/events/dma.h
+>> index d8ddc27b6a7c..6eb8fd7e3515 100644
+>> --- a/include/trace/events/dma.h
+>> +++ b/include/trace/events/dma.h
+>> @@ -31,7 +31,8 @@ TRACE_DEFINE_ENUM(DMA_NONE);
+>>           { DMA_ATTR_FORCE_CONTIGUOUS, "FORCE_CONTIGUOUS" }, \
+>>           { DMA_ATTR_ALLOC_SINGLE_PAGES, "ALLOC_SINGLE_PAGES" }, \
+>>           { DMA_ATTR_NO_WARN, "NO_WARN" }, \
+>> -        { DMA_ATTR_PRIVILEGED, "PRIVILEGED" })
+>> +        { DMA_ATTR_PRIVILEGED, "PRIVILEGED" }, \
+>> +        { DMA_ATTR_SKIP_DEVICE_SYNC, "SKIP_DEVICE_SYNC" })
+>>   DECLARE_EVENT_CLASS(dma_map,
+>>       TP_PROTO(struct device *dev, phys_addr_t phys_addr, dma_addr_t 
+>> dma_addr,
+>> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+>> index abcf3fa63a56..8dab89bf5e33 100644
+>> --- a/kernel/dma/swiotlb.c
+>> +++ b/kernel/dma/swiotlb.c
+>> @@ -1435,8 +1435,16 @@ phys_addr_t swiotlb_tbl_map_single(struct 
+>> device *dev, phys_addr_t orig_addr,
+>>        * the original data, even if it's garbage, is necessary to match
+>>        * hardware behavior.  Use of swiotlb is supposed to be 
+>> transparent,
+>>        * i.e. swiotlb must not corrupt memory by clobbering unwritten 
+>> bytes.
+>> +     *
+>> +     * Setting DMA_ATTR_SKIP_DEVICE_SYNC will negate the behavior 
+>> described
+>> +     * before and avoid the copy from the original buffer to the TLB
+>> +     * buffer.
+>>        */
+>> +    if (dir == DMA_FROM_DEVICE && (attrs & DMA_ATTR_SKIP_DEVICE_SYNC))
+>> +        goto out;
+> 
+> Nope, we still need to initialise the SWIOTLB slot with *something*, or 
+> we're just reintroducing the same data leakage issue again. The whole 
+> deal with that was that the caller *did* expect the entire buffer to be 
+> written, but the device had an error, and thus the subsequent unmap 
+> bounced out whatever data was in SWIOTLB before.
 
-Missed this comment. Yeah, in one of the previous versions I had
-different !PER_VMA_LOCK and PER_VMA_LOCK versions of vma_copy() but
-David raised a question whether it is worth having two versions. From
-performance POV there is no reason for that and it unnecessarily
-complicates the code. So, I dropped that in favor of having one
-version.
+Do you know how common that assumption is within drivers? Could that 
+behavior been hidden behind a flag, sort of like what is being done here?
 
->
-> >>
-> >> --
-> >> Wei Yang
-> >> Help you, Help me
->
-> --
-> Wei Yang
-> Help you, Help me
+> 
+> A memset is hopefully at least a bit faster than a copy, so maybe there 
+> is still some life in this idea, but the semantic is not "skip sync", 
+> it's "I'm OK with this entire buffer getting scribbled even my device 
+> ends up never touching it".
+
+Sure, let me test with a memset(), any suggestion on a name that carries 
+better semantics, I do agree that "skip sync" is not quite descriptive 
+enough.
+-- 
+Florian
