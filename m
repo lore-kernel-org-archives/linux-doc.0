@@ -1,269 +1,356 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9244D599
-	for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 22:16:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736979378; cv=none; b=QheCtXlb7AsDEq0BjU8oUtczrsPsTumQjMAfxMONYlsx5lNsuB/X8CSh60Bls3Hm2oKI9w1Vl5mjThIBRgNiTDo7Y8HdOJKAY2UDVjoxZSUi+3vOHYJOmkjqZsvdxTzfeU+fv9RtHab5DELu0XFBGcAZbHk74RbYCTV+d3IxMCE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736979378; c=relaxed/simple;
-	bh=N67sDbbflcEdW19mQcwY9D4ZCVINMqZZ1+fiq62kp08=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eRkI6ijl6T+GeCqxJcFRho29xRSNY6ButwzUOaOhLsHTbdbd3umKzviwQWNu70Hz2tra6mCO4EIQJC+q4hI5IUUglu7KQeSE08trCciEJ/U3G6VeJrcxA5c3FEKPs/xBrYzxbVxKD2Z4lWoJMgVZU7yuEQxwutFHgPhFSrxODAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=VLdexnc6; arc=none smtp.client-ip=209.85.167.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0B81DC9AF;
+	Wed, 15 Jan 2025 22:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736980526; cv=fail; b=RlLd0Ii5lrcuDvvK7k4588dxOcKWvvC6ERLtGILneVeXEkYPLAJgSOv/YtFhjWBIyYzX1Ery2Q+hD+YZfSZCsiAnyFwf2bft5b35nPFo7RG7oL2aSN5O5CwSuZV6rr9hRQB/6hI6TuWf9gIiCw4MRNFw/k/yseQUnP+bdZE1Mzo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736980526; c=relaxed/simple;
+	bh=NthWdZy9CpTXmF94W/K+mPyVFGdAxJnfyipvyCkGhfE=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=NdxCAetHfAtJJnry5c03K+D1Jjb40AcE++TDWR8LeZz3XS8Fqtszq5bwhKiNF9+6lWhcaNDLLg/KPgJjQP7Oz+KojNgAsPWu1NmQIZgrmrTrKZxcZGFBPNxyutSqFeWbz0NzWQ70Ij3dMy6lQKJaMn+QtkB/fE9mWMBF13Fcikg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jRV7SshG; arc=fail smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="VLdexnc6"
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3eba347aa6fso250751b6e.3
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 14:16:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1736979375; x=1737584175; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=blhd75P5LVSb0RvwWEycm+5Nbmpdu3jhlbsT8ohSXM0=;
-        b=VLdexnc6NbvfEjPR0Kt1TjKE9YLSVOBCGOjmSC/YYK+gyiRrMt6aAVF8qzl7mipd6g
-         XrfMiC1L73jgzobFOO5pKn39LfMuriYNoIZWbuOClwSFhDNu4lPBQXxJY9Fd5MH/EpdF
-         Ucju/ZUiLjSaa9I9jM3MIRKjyZgJHDNw0f3o4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736979375; x=1737584175;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=blhd75P5LVSb0RvwWEycm+5Nbmpdu3jhlbsT8ohSXM0=;
-        b=RgLNyLWzDJf26DXgFRpw9GapGi/C9AGaHzUe48hR/hEQugIiwbt3VPc5A2b+WyZaUY
-         7uOGRWCqCA/lVYin0xw3wfhgGDVLDiYomeXB2DDQTfxwnfmwy4mENy8WZQsLiHDiIhxj
-         S4RC2GlGr7UQd9wNqgUlUbFjUDBceIaYShQF9MqwMgBPJSAvDpQKZhyB+g2ynX/yK0jL
-         XAg17YyDFCPjSh0EqsPJSlkpU8S1v6xvpvpbeMiLFEn52q0EkQq5FwNT4IA+niMWN/Fh
-         qLFneIY9OGK9OI/UeJDMFwskK0tLfAEPx8tAEjIXU5IjWH/WvgGaSR0lioXF/pv1/do2
-         A2fQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWrBOznV2MP+b8J6N48o1+Zjq0FqyfwpWQWcZk7KCMJoGOiB2ulp8eXBXDCHZzdRnBcOfyKKRu54uo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzhr6zq6DU68jzlterSCXi9pST2RVbmKqqpOpzO2ss+fTd95De9
-	9deVx2d4A1UmTJMOKDQEXUKr+HRuCHAYkwo3sL8wGe+gsAdMFnn3G964dGXIKA==
-X-Gm-Gg: ASbGncuLIibi5uir3l347qfoGkbBNowMHxwIZH9JA6BDM75xhP+QeEzMu0FtPCG3nvg
-	Af9NJGS5+Q0h9H/5XiWY2Fcc1nIuKxZHfLzbPCnqARQMIa1GukYDZes1Ek3qEFeUWDHhMJxvwY1
-	ssviJ/B5FJg8Eqkm8Fg22A8+RXcmETTf0HtjVglh1YJxF6PeIcqhwPobKkE3jj/FnhyYKkbvw0C
-	a0A7lWifrEoRqLDMegSr+diTuIwZDu2VAJzm7a9PaU/zNHXSUyCNWesx0jpzO0dqCd5iO85M+Nt
-	2D9frOjlh3Y4afTkX5Jp
-X-Google-Smtp-Source: AGHT+IFcaetuHA6DIkj3kAXjduVbqxIMVKwUIZc/R3JyCmhsKrtvaI0q3aW4I7lonZ63FuS5dMLZKQ==
-X-Received: by 2002:a05:6808:1b0b:b0:3eb:5d3a:5b20 with SMTP id 5614622812f47-3ef2ebedb60mr22793347b6e.4.1736979375362;
-        Wed, 15 Jan 2025 14:16:15 -0800 (PST)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3f03769a8f8sm5355142b6e.26.2025.01.15.14.16.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Jan 2025 14:16:13 -0800 (PST)
-Message-ID: <ecf3d8db-8533-4b0d-ab49-3543a766fd99@broadcom.com>
-Date: Wed, 15 Jan 2025 14:16:11 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jRV7SshG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736980524; x=1768516524;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=NthWdZy9CpTXmF94W/K+mPyVFGdAxJnfyipvyCkGhfE=;
+  b=jRV7SshGdUdengoao8cN4WFhFmBcXQP9hu2MF5kvNYVm+Tohfqzxg2YP
+   1bTRPfXnPgg8nEMCJzDeRnGJPAiUSodWexBbqSET5J81Wj9JsiztRHpj1
+   LBEYol4WNAhCjzJvBCzSfrzVYxFe3W08OSWrTiwyXmi3LN822XeHvwT8T
+   78+d22BJ41SEdNg2IcWr8o0UpnLXpMlq3JKv+PhfaHphuP4zEItBC6rNx
+   n96B+7D0GXFhwPGZQUuPOw+bV0/ZK+ec4SNRCAuWwh9G6v88V/ufeRCve
+   3xuczpisEeCmYpWUr2On0N0n0UV2aln6escecmKupHIN4puJ4ZZEsVbeL
+   A==;
+X-CSE-ConnectionGUID: hmBL7MTpSh6w8tCxeojSZg==
+X-CSE-MsgGUID: gseQzEoHT9uupN8kU7+8Ag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="37453507"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="37453507"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 14:35:24 -0800
+X-CSE-ConnectionGUID: rMfI8ETNSHKC7lSQHgL91g==
+X-CSE-MsgGUID: CZwaHeBSQsqcwwpiLwneyw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="142545327"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 15 Jan 2025 14:35:24 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Wed, 15 Jan 2025 14:35:23 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Wed, 15 Jan 2025 14:35:23 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.171)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Wed, 15 Jan 2025 14:35:23 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yrItmyyMEH7pjVzU2R44kos5iCz0Ttj/fyuy6Iceeem7CROwygdSOgH7fDtFwLWKWbY10UabPSHa3A82AjRZlWzOc3mA4Hv93lP8BKdhKArO7S7O4oq2XED1nFB+S4z33aUPJVqcaEPlHj/3MwW5d1v/opWou9rRBN4Gc+rAA9XhQGBvXavaC2IA1Ak04VBEcDbeUpwMX8Bqi3EmAMl4reHhav3WrgpK6lx580HDpMr6NJ6JKSJfu8JUjWYZxwmws2rck8a4FHYhSYStCCZM0/hxSwt63j54POYGQxeTqX87W8X4jbZjFeqJrvDewgTCxYtmidpfMEQUCS/EuoOuVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=So2Jp9Y3xa2IZw0u02k8sUYbeka4WMu/F62ZL+GM/gY=;
+ b=p18pHsnryIL9sVkRWk/Lrr3ozsmOfJDR8RL1EMltUnBneBGV7nvPVUiv745LodaTh1zaaGmZ1unRhZMoz7bm4aGWC241n3BR7JJGY7foKiMbCO7gQTVZuaMFEgngvUihoSge4V7U2w9v8hlxYy6imX9OGzkdC72MXxlMkeA7NNtJZMpH+XMGqw4RaVpZjyWeKCVrmbfRsN4PALRS8DvcXCwUthRfPhK4tCk41jPCB8e121710kPtaVVbL4wDDQFg/cXYFzBRtWr0QSc+hAcdQypOpnYu/lf80uoQxMQsd6vrTY3brwKlcYlJlZQoZFcLPtqcHIVei76LVWDdy8A1Cw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
+ by SN7PR11MB7042.namprd11.prod.outlook.com (2603:10b6:806:299::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.13; Wed, 15 Jan
+ 2025 22:34:40 +0000
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::6b05:74cf:a304:ecd8]) by PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::6b05:74cf:a304:ecd8%5]) with mapi id 15.20.8356.010; Wed, 15 Jan 2025
+ 22:34:40 +0000
+Date: Wed, 15 Jan 2025 14:34:36 -0800
+From: Dan Williams <dan.j.williams@intel.com>
+To: Ira Weiny <ira.weiny@intel.com>, Dan Williams <dan.j.williams@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Jonathan
+ Cameron" <Jonathan.Cameron@huawei.com>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+CC: Dan Williams <dan.j.williams@intel.com>, Davidlohr Bueso
+	<dave@stgolabs.net>, Alison Schofield <alison.schofield@intel.com>, "Vishal
+ Verma" <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+	<linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-hardening@vger.kernel.org>, Li Ming <ming.li@zohomail.com>
+Subject: Re: [PATCH v8 02/21] cxl/mem: Read dynamic capacity configuration
+ from the device
+Message-ID: <678837fcc0ed_20f3294fb@dwillia2-xfh.jf.intel.com.notmuch>
+References: <20241210-dcd-type2-upstream-v8-0-812852504400@intel.com>
+ <20241210-dcd-type2-upstream-v8-2-812852504400@intel.com>
+ <67871f05cd767_20f32947f@dwillia2-xfh.jf.intel.com.notmuch>
+ <67881b606ca4e_1aa45f2948b@iweiny-mobl.notmuch>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <67881b606ca4e_1aa45f2948b@iweiny-mobl.notmuch>
+X-ClientProxiedBy: MW4PR03CA0032.namprd03.prod.outlook.com
+ (2603:10b6:303:8e::7) To PH8PR11MB8107.namprd11.prod.outlook.com
+ (2603:10b6:510:256::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] swiotlb: Introduce DMA_ATTR_SKIP_DEVICE_SYNC
-To: Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org
-Cc: bcm-kernel-feedback-list@broadcom.com,
- Justin Chen <justin.chen@broadcom.com>, Jonathan Corbet <corbet@lwn.net>,
- Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Petr Tesarik <petr@tesarici.cz>, Michael Kelley <mhklinux@outlook.com>,
- Lukas Bulwahn <lukas.bulwahn@redhat.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Eder Zulian <ezulian@redhat.com>,
- Sean Anderson <sean.anderson@linux.dev>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
- "open list:TRACING" <linux-trace-kernel@vger.kernel.org>
-References: <20250115194659.618438-1-florian.fainelli@broadcom.com>
- <9582878b-1ce7-4fc4-9b45-b72bba722f49@arm.com>
-Content-Language: en-US
-From: Florian Fainelli <florian.fainelli@broadcom.com>
-Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
- xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
- M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
- JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
- PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
- KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
- AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
- IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
- ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
- bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
- Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
- tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
- TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
- zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
- WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
- IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
- U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
- 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
- pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
- MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
- IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
- gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
- obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
- N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
- CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
- C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
- wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
- EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
- fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
- MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
- 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
- 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <9582878b-1ce7-4fc4-9b45-b72bba722f49@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|SN7PR11MB7042:EE_
+X-MS-Office365-Filtering-Correlation-Id: bd871029-48a6-435b-5a30-08dd35b4cce6
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?lSZ6a9YfbF9VkCKRZdvnSl312aNxX5XzJt5y5BFyj7CbzV7T8JmwsjQnjuji?=
+ =?us-ascii?Q?DrTLP9zsoy+KmJIKGQLOpMfWN0NLX/i9taCBUU6aunf2P83hczvdK6ELawoZ?=
+ =?us-ascii?Q?yWAy5Eo+kpGcdLpMQ5xU/jZX6byHDyJiyb3j9+paPEYC9Zhd6XMY5qUPYUo3?=
+ =?us-ascii?Q?eLqplqVR0elaUFBHyQXzW7SDGdholiqXHLZDD7UqJzPOF0LiLBGSKUS+gium?=
+ =?us-ascii?Q?Ia0ySlT2EYDYvuyrHMNILO8tzzx8XqACux2fzZTajVuXepuzbvAAREfBl4PC?=
+ =?us-ascii?Q?Tk49YkJw9s/cwYVeT3MHbknZ7kXsh797tELmG9ggOGiP/bu9Bjw7CDcLYyGr?=
+ =?us-ascii?Q?b3H0ALBNPSIWRRtj7RrO/6/pDoGEDw8487Jby1MVQAK2XYu+g7Ndbg4xcb1g?=
+ =?us-ascii?Q?35cRAiaT0FgFajSVJ70Mw0gwptr99WcyGKSlmHiBE+G/jDZ0wyvQdv0WYfqf?=
+ =?us-ascii?Q?htkYa2kB+asaQ1B8zQtp6eHIejRc+VXQeCo/jSJGRoQpUvac2peuwnhIGbmw?=
+ =?us-ascii?Q?LpI4V+Hnr4qrI+KCgTedGnIkxptf9PVXKJbaL2oCt0wuxvVHMewTqU5vogoU?=
+ =?us-ascii?Q?R5M7PSBOzJLPOTPW+apoII0vPCrkomoQmCWE2QuTC2DrflwJdn6BbeFP0PQY?=
+ =?us-ascii?Q?2ZRak5RATJQkrK3L+9f8V/LteRqrhk8E9DXcDv1iwMTTfCJ8OuBu9zTxjWTI?=
+ =?us-ascii?Q?aHYHNj/uwo7KV4sVdMuOYb5z1VD+wJEEmlmnvXjTKjZQyQrrsc5ou8Irj1Gd?=
+ =?us-ascii?Q?RyvAf1ZCy3jdeYiN+8j50AwmsSdk5OFLRex92M0roRbqn74+05O2smZElaYJ?=
+ =?us-ascii?Q?hiMMDp7qCWGVNWEyQdxKjFB6LRjDJkg0G5fdWDtj8+I4uhezjg2cZXk94rH1?=
+ =?us-ascii?Q?KElHcS4xmwilQz43dak2Dn4wgFMGnsfQbkk6QOaxkBmnBLUNtrxNDyh/7n8W?=
+ =?us-ascii?Q?FLUC1c8WG6c+fARc/QlZiXasKrbleJpk+gTfk5Xh7ZAtkovUcY8fWtG2m23R?=
+ =?us-ascii?Q?HVsHwNh7ARIT4xQA341+8t9o2srjfmqF7Vv3mPP9kDX2n/hUYjsumpXVjzf0?=
+ =?us-ascii?Q?d8TmI3WK49yk476zzahUNyqvQpGlQNK1jzDIzXFIzb2zP8uo0QTI77nScG5o?=
+ =?us-ascii?Q?kSt/nmDwNY2XK8ui7VAbt7tN5CTH4EsUoyZblRRqioTi96c6AGBN5bscXtZ0?=
+ =?us-ascii?Q?41seZDVhZGDqxaPlETnmOJbXISthIPynCVbzCb7Y0t8d6mQX7ATsP5AzvU/C?=
+ =?us-ascii?Q?z3sJ/5detZa+2betGbGJKuikDObvrOii56E1bgzz//V7/6PwvoRUu2QV/u1c?=
+ =?us-ascii?Q?wLTTj/rzdso6NctcTM3vkXKzKOgNre4x7Pz3pivtOm2CDeSVjYxRgya28d/Y?=
+ =?us-ascii?Q?U/12M4iER9HxMg0jXXEJ8zM3kx17?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AOKs5nm82Iixf6SAFcSkuVfZhmTquAgszgEI59mmKpDyS3Homb4zrX9zNlwR?=
+ =?us-ascii?Q?JzJHxX5ptyLKunaovQN1jTv6SSpuWTjTvWhimvJNtU9MqB+2fWQ2cTec3h4g?=
+ =?us-ascii?Q?V4pw1l02N2GI/cwtpgFF6AuRwn6In9gtwNtWr/bFP6g+d645t3yqe/REr2Cr?=
+ =?us-ascii?Q?yVESYNWhgNyknx/r9ZUEaTHDkqUGH6quq0b++YO/5dGXOM9uZJ9BmdAytJqV?=
+ =?us-ascii?Q?/KJ517pI24IDvU69I8R+bZlQbH+LSDU2XClK1vn/5zdGbVR5SjQuTNfgOt5m?=
+ =?us-ascii?Q?4d1h7iEG/qtMFO9LKPwUtM5P4QNFQ54PwKyJnTxJhCStRT+qi/f4ECFqntoB?=
+ =?us-ascii?Q?yS5YHLVTWnjJnOace28CGc163XuRvZQAYsy9v2FZkrXNtAbRjZr3ZoxZF/h5?=
+ =?us-ascii?Q?pybaohJBEC0qVH+AfeuIAPFJuJGZA+G7/rNYtxy17OlOJ6l8ZpMGuGkG2Dcf?=
+ =?us-ascii?Q?vEUXD1an7wyLu2jajvaPVZOMTdsPztuP+jE9zmpNhANl6cxfDNZ0n0KiBxiN?=
+ =?us-ascii?Q?HNJgessuFBPe2k/CWDaDGJBEcSwi1XTF73DVif/iYrWBzE4bxaGrpdNAYLmT?=
+ =?us-ascii?Q?ep2UAuI8o8eGmSfmV/w1drzNhNiol/9FEzWTs1OmwbXm0g+nr2Xz0PCHaHv/?=
+ =?us-ascii?Q?TwgWtx+9IhmISpY2QfcO8tZWRu55yi1yPrsJGpfQ+kk3ZzFZ1yL9xUOFeMEQ?=
+ =?us-ascii?Q?m9BTrLWO+Teizbj5rqFMGh12mzAH3lmpGq1efhawGO3dPwYUc63QYBPSaVTD?=
+ =?us-ascii?Q?IeRMi0Q58cNH7d+RxplI42IGq+JlkT84ycbTtkCpKXDVKuXC/RY4cRyUv3Dd?=
+ =?us-ascii?Q?A+FpaLXL/PZ95ZS9rS2eJcBBEC1sVKBAF8KvMi10a/fSG0AwFuHuFUZ5Rc1i?=
+ =?us-ascii?Q?A9urfAKgE46i8Md5NxaYHcC97X/0X5ZNgqASlPXcXFhGrSHYyBd7GqYVCwvN?=
+ =?us-ascii?Q?+8v7qeTpDicYBvYp/UV9BioinIutXpC7Zi5IdSv+jXRfo93ZTdxj4kNixbxH?=
+ =?us-ascii?Q?BidnmvGfXgpbj8lxeenUInTa50Ll1yAyVZRB67yuVoxf+hIif5qFlLQDdXEJ?=
+ =?us-ascii?Q?1+Krfh85g+7yTTbnxrpNEPi0uiR7rCNR4nfNJlXVLD5Vi/VinJaSMkkeVZuG?=
+ =?us-ascii?Q?gPi+hwKi88OhKJQe0VWkR7CsUXDfB1f4PsEH4xHiXieraqUerNHucqXmH222?=
+ =?us-ascii?Q?c6Kus9aDj9rQ0hR7nfaZpgqpp2QBsV2uYC22ZMi6fqU4jjTce/fZaHR47kYi?=
+ =?us-ascii?Q?W7Phuuos9o9e9P5IzDBa76HtuQ+Ww4BVHi5CzyR2/UZE75nYe4ligsZ4KoRZ?=
+ =?us-ascii?Q?Y+X/Pz1tJODTNFIwmzoKd3reR7h4pKSql09Un9fRzsmYOWqmUVUR2/kwWnuw?=
+ =?us-ascii?Q?SHfbPBf4X6D88b6gviXQA0D+lcbHlI3J9fCx5UapR/eaSYT3nmnCoqXGn2Sc?=
+ =?us-ascii?Q?Z40YYx0SgRBydq76B5IvGcFI37Hks7J0ffhSe1rc6gmEonsHGZbcZf99Yvn/?=
+ =?us-ascii?Q?T5vq1QGaov5R9kFVQoTgWC6Tz+6xOch1yGi/2yJbb/b5195Qan13HoThEsWx?=
+ =?us-ascii?Q?wFnJd9iJzHZXg9AW2biLri3E5nNhR82egWVHRUp4PgaCQTR82Kd2VxU/Bnwf?=
+ =?us-ascii?Q?ng=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd871029-48a6-435b-5a30-08dd35b4cce6
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2025 22:34:40.6304
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wR2nOpr5p5Wo3zcnlC2bI5zb9oMD4VzooqjpgVBzYK4t0Pf110DwN9Sfr5f9owLQhdKSosYjRAEglbon0RiUKnsoWQwX4g4X8HrKgccgwqU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7042
+X-OriginatorOrg: intel.com
 
-On 1/15/25 12:12, Robin Murphy wrote:
-> On 2025-01-15 7:46 pm, Florian Fainelli wrote:
->> From: Justin Chen <justin.chen@broadcom.com>
->>
->> Network device driver's receive path typically do the following:
->>
->> - dma_map_single(.., DMA_FROM_DEVICE)
->> - dma_sync_single_for_cpu() to allow the CPU to inspect packet
->>    descriptors
->> - dma_unmap_single(.., DMA_FROM_DEVICE) when releasing the buffer
->>
->> Each of those operations incurs a copy from the original buffer to the
->> TLB buffer, even if the device is known to be writing full buffers.
->>
->> Add a DMA_ATTR_SKIP_DEVICE_SYNC flag which can be set by device drivers
->> to skip the copy at dma_map_single() to speed up the RX path when the
->> device is known to be doing full buffer writes.
->>
->> This has been seen to provide a 20% speedup for Wi-Fi RX throughput
->> testing.
->>
->> Signed-off-by: Justin Chen <justin.chen@broadcom.com>
->> [florian: commit message, add DMA-API attribute flag]
->> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
->> ---
->>   Documentation/core-api/dma-attributes.rst | 9 +++++++++
->>   Documentation/core-api/swiotlb.rst        | 4 +++-
->>   include/linux/dma-mapping.h               | 6 ++++++
->>   include/trace/events/dma.h                | 3 ++-
->>   kernel/dma/swiotlb.c                      | 8 ++++++++
->>   5 files changed, 28 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/core-api/dma-attributes.rst b/ 
->> Documentation/core-api/dma-attributes.rst
->> index 1887d92e8e92..ccd9c1891200 100644
->> --- a/Documentation/core-api/dma-attributes.rst
->> +++ b/Documentation/core-api/dma-attributes.rst
->> @@ -130,3 +130,12 @@ accesses to DMA buffers in both privileged 
->> "supervisor" and unprivileged
->>   subsystem that the buffer is fully accessible at the elevated privilege
->>   level (and ideally inaccessible or at least read-only at the
->>   lesser-privileged levels).
->> +
->> +DMA_ATTR_SKIP_DEVICE_SYNC
->> +-------------------------
->> +
->> +Device drivers can set DMA_ATTR_SKIP_DEVICE_SYNC in order to avoid 
->> doing a copy
->> +from the original buffer to the TLB buffer for dma_map_single() with a
->> +DMA_FROM_DEVICE direction. This can be used to save an extra copy in 
->> a device
->> +driver's data path when using swiotlb bounce buffering.
->> +
->> diff --git a/Documentation/core-api/swiotlb.rst b/Documentation/core- 
->> api/swiotlb.rst
->> index 9e0fe027dd3b..3bc1f9ba67b2 100644
->> --- a/Documentation/core-api/swiotlb.rst
->> +++ b/Documentation/core-api/swiotlb.rst
->> @@ -67,7 +67,9 @@ to the driver for programming into the device. If a 
->> DMA operation specifies
->>   multiple memory buffer segments, a separate bounce buffer must be 
->> allocated for
->>   each segment. swiotlb_tbl_map_single() always does a "sync" 
->> operation (i.e., a
->>   CPU copy) to initialize the bounce buffer to match the contents of 
->> the original
->> -buffer.
->> +buffer, except if DMA_ATTR_SKIP_DEVICE_SYNC is specified and the 
->> direction is
->> +DMA_FROM_DEVICE. This is a performance optimization that may not be 
->> suitable for
->> +all platforms.
->>   swiotlb_tbl_unmap_single() does the reverse. If the DMA operation 
->> might have
->>   updated the bounce buffer memory and DMA_ATTR_SKIP_CPU_SYNC is not 
->> set, the
->> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
->> index b79925b1c433..bfdaa65f8e9d 100644
->> --- a/include/linux/dma-mapping.h
->> +++ b/include/linux/dma-mapping.h
->> @@ -58,6 +58,12 @@
->>    */
->>   #define DMA_ATTR_PRIVILEGED        (1UL << 9)
->> +/*
->> + * DMA_ATTR_SKIP_DEVICE_SYNC: used to indicate that the buffer does 
->> not need to
->> + * be synchronized to the device.
->> + */
->> +#define DMA_ATTR_SKIP_DEVICE_SYNC    (1UL << 10)
->> +
->>   /*
->>    * A dma_addr_t can hold any valid DMA or bus address for the 
->> platform.  It can
->>    * be given to a device to use as a DMA source or target.  It is 
->> specific to a
->> diff --git a/include/trace/events/dma.h b/include/trace/events/dma.h
->> index d8ddc27b6a7c..6eb8fd7e3515 100644
->> --- a/include/trace/events/dma.h
->> +++ b/include/trace/events/dma.h
->> @@ -31,7 +31,8 @@ TRACE_DEFINE_ENUM(DMA_NONE);
->>           { DMA_ATTR_FORCE_CONTIGUOUS, "FORCE_CONTIGUOUS" }, \
->>           { DMA_ATTR_ALLOC_SINGLE_PAGES, "ALLOC_SINGLE_PAGES" }, \
->>           { DMA_ATTR_NO_WARN, "NO_WARN" }, \
->> -        { DMA_ATTR_PRIVILEGED, "PRIVILEGED" })
->> +        { DMA_ATTR_PRIVILEGED, "PRIVILEGED" }, \
->> +        { DMA_ATTR_SKIP_DEVICE_SYNC, "SKIP_DEVICE_SYNC" })
->>   DECLARE_EVENT_CLASS(dma_map,
->>       TP_PROTO(struct device *dev, phys_addr_t phys_addr, dma_addr_t 
->> dma_addr,
->> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
->> index abcf3fa63a56..8dab89bf5e33 100644
->> --- a/kernel/dma/swiotlb.c
->> +++ b/kernel/dma/swiotlb.c
->> @@ -1435,8 +1435,16 @@ phys_addr_t swiotlb_tbl_map_single(struct 
->> device *dev, phys_addr_t orig_addr,
->>        * the original data, even if it's garbage, is necessary to match
->>        * hardware behavior.  Use of swiotlb is supposed to be 
->> transparent,
->>        * i.e. swiotlb must not corrupt memory by clobbering unwritten 
->> bytes.
->> +     *
->> +     * Setting DMA_ATTR_SKIP_DEVICE_SYNC will negate the behavior 
->> described
->> +     * before and avoid the copy from the original buffer to the TLB
->> +     * buffer.
->>        */
->> +    if (dir == DMA_FROM_DEVICE && (attrs & DMA_ATTR_SKIP_DEVICE_SYNC))
->> +        goto out;
+Ira Weiny wrote:
+> Dan Williams wrote:
+> > Ira Weiny wrote:
 > 
-> Nope, we still need to initialise the SWIOTLB slot with *something*, or 
-> we're just reintroducing the same data leakage issue again. The whole 
-> deal with that was that the caller *did* expect the entire buffer to be 
-> written, but the device had an error, and thus the subsequent unmap 
-> bounced out whatever data was in SWIOTLB before.
+> [snip]
+> 
+> > > diff --git a/drivers/cxl/cxlmem.h b/drivers/cxl/cxlmem.h
+> > > index e8907c403edbd83c8a36b8d013c6bc3391207ee6..05a0718aea73b3b2a02c608bae198eac7c462523 100644
+> > > --- a/drivers/cxl/cxlmem.h
+> > > +++ b/drivers/cxl/cxlmem.h
+> > > @@ -403,6 +403,7 @@ enum cxl_devtype {
+> > >  	CXL_DEVTYPE_CLASSMEM,
+> > >  };
+> > >  
+> > > +#define CXL_MAX_DC_REGION 8
+> > 
+> > Please no, lets not sign up to have the "which cxl 'region' concept are
+> > you referring to?" debate in perpetuity. "DPA partition", "DPA
+> > resource", "DPA capacity" anything but "region".
+> > 
+> 
+> I'm inclined to agree with Alejandro on this one.  I've walked this
+> tightrope quite a bit with this series.  But there are other places where
+> we have chosen to change the verbiage from the spec and it has made it
+> difficult for new comers to correlate the spec with the code.
+> 
+> So I like Alejandro's idea of adding "HW" to the name to indicate that we
+> are talking about a spec or hardware defined thing.
 
-Do you know how common that assumption is within drivers? Could that 
-behavior been hidden behind a flag, sort of like what is being done here?
+See below, the only people that could potentially be bothered by the
+lack of spec terminology matching are the very same people that are
+sophisticated enough to have read the spec to know its a problem.
 
 > 
-> A memset is hopefully at least a bit faster than a copy, so maybe there 
-> is still some life in this idea, but the semantic is not "skip sync", 
-> it's "I'm OK with this entire buffer getting scribbled even my device 
-> ends up never touching it".
+> That said I am open to changing some names where it is clear it is a
+> software structure.  I'll audit the series for that.
+> 
+> > >  	u64 serial;
+> > >  	enum cxl_devtype type;
+> > >  	struct cxl_mailbox cxl_mbox;
+> > >  };
+> > >  
+> > > +#define CXL_DC_REGION_STRLEN 8
+> > > +struct cxl_dc_region_info {
+> > > +	u64 base;
+> > > +	u64 decode_len;
+> > > +	u64 len;
+> > 
+> > Duplicating partition information in multiple places, like
+> > mds->dc_region[X].base and cxlds->dc_res[X].start, feels like an
+> > RFC-quality decision for expediency that needs to reconciled on the way
+> > to upstream.
+> 
+> I think this was done to follow a pattern of the mds being passed around
+> rather than creating resources right when partitions are read.
+> 
+> Furthermore this stands to hold this information in CPU endianess rather
+> than holding an array of region info coming from the hardware.
 
-Sure, let me test with a memset(), any suggestion on a name that carries 
-better semantics, I do agree that "skip sync" is not quite descriptive 
-enough.
--- 
-Florian
+Yes, the ask is translate all of this into common information that lives
+at the cxl_dev_state level.
+
+> 
+> Let see how other changes fall out before I go hacking this though.
+> 
+> > 
+> > > +	u64 blk_size;
+> > > +	u32 dsmad_handle;
+> > > +	u8 flags;
+> > > +	u8 name[CXL_DC_REGION_STRLEN];
+> > 
+> > No, lets not entertain:
+> > 
+> >     printk("%s\n", mds->dc_region[index].name);
+> > 
+> > ...when:
+> > 
+> >     printk("dc%d\n", index);
+> > 
+> > ...will do.
+> 
+> Actually these buffers provide a buffer for the (struct
+> resource)dc_res[x].name pointers to point to.
+
+I missed that specific detail, but I still challenge whether this
+precision is needed especially since it makes the data structure
+messier. Given these names are for debug only and multi-partition DCD
+devices seem unlikely to ever exist, just use a static shared name for
+adding to ->dpa_res.
+
+> 
+> > 
+> > DCD introduces the concept of "decode size vs usable capacity" into the
+> > partition information, but I see no reason to conceptually tie that to
+> > only DCD.  Fabio's memory hole patches show that there is already a
+> > memory-hole concept in the CXL arena. DCD is just saying "be prepared for
+> > the concept of DPA partitions with memory holes at the end".
+> 
+> I'm not clear how this relates.  ram and pmem partitions can already have
+> holes at the end if not mapped.
+
+The distinction is "can this DPA capacity be allocated to a region" the
+new holes introduced by DCD are cases where the partition size is
+greater than the allocatable size. Contrast to ram and pmem the
+allocatable size is always identical to the partition size.
+
+> > > +
+> > >  	struct cxl_event_state event;
+> > >  	struct cxl_poison_state poison;
+> > >  	struct cxl_security_state security;
+> > > @@ -708,6 +732,32 @@ struct cxl_mbox_set_partition_info {
+> > >  
+> > >  #define  CXL_SET_PARTITION_IMMEDIATE_FLAG	BIT(0)
+> > >  
+> > > +/* See CXL 3.1 Table 8-163 get dynamic capacity config Input Payload */
+> > > +struct cxl_mbox_get_dc_config_in {
+> > > +	u8 region_count;
+> > > +	u8 start_region_index;
+> > > +} __packed;
+> > > +
+> > > +/* See CXL 3.1 Table 8-164 get dynamic capacity config Output Payload */
+> > > +struct cxl_mbox_get_dc_config_out {
+> > > +	u8 avail_region_count;
+> > > +	u8 regions_returned;
+> > > +	u8 rsvd[6];
+> > > +	/* See CXL 3.1 Table 8-165 */
+> > > +	struct cxl_dc_region_config {
+> > > +		__le64 region_base;
+> > > +		__le64 region_decode_length;
+> > > +		__le64 region_length;
+> > > +		__le64 region_block_size;
+> > > +		__le32 region_dsmad_handle;
+> > > +		u8 flags;
+> > > +		u8 rsvd[3];
+> > > +	} __packed region[] __counted_by(regions_returned);
+> > 
+> > Yes, the spec unfortunately uses "region" for this partition info
+> > payload. This would be a good place to say "CXL spec calls this 'region'
+> > but Linux calls it 'partition' not to be confused with the Linux 'struct
+> > cxl_region' or all the other usages of 'region' in the specification".
+> 
+> In this case I totally disagree.  This is a structure being filled in by
+> the hardware and is directly related to the spec.  I think I would rather
+> change 
+> 
+> s/cxl_dc_region_info/cxl_dc_partition_info/
+> 
+> And leave this.  Which draws a more distinct line between what is
+> specified in hardware vs a software construct.
+> 
+> > 
+> > Linux is not obligated to follow the questionable naming decisions of
+> > specifications.
+> 
+> We are not.  But as Alejandro says it can be confusing if we don't make
+> some association to the spec.
+> 
+> What do you think about the HW/SW line I propose above?
+
+Rename to cxl_dc_partition_info and drop the region_ prefixes, sure.
+
+Otherwise, for this init-time only concern I would much rather deal with
+the confusion of:
+
+"why does Linux call this partition when the spec calls it region?":
+which only trips up people that already know the difference because they read the
+spec. In that case the comment will answer their confusion.
+
+...versus:
+
+"why are there multiple region concepts in the CXL subsystem": which
+trips up everyone that greps through the CXL subsystem especially those
+that have no intention of ever reading the spec.
