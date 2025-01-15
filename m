@@ -1,239 +1,191 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2072.outbound.protection.outlook.com [40.107.244.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C9131E04BE;
-	Wed, 15 Jan 2025 06:38:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.72
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736923095; cv=fail; b=IaHXH6ceMDWSpvgMnb6CNIUG5FNDeNAXAg/wT8Iwc/0rOmanmSeUVrWfSmmytEElHcHM94yNidGfs4URZ7oy8Nhi+uGpg3wosZ0cfX6fx0fpjXvx8QQPXZ4g58Vlh4xAA0XBHDSTNai+jWDr6IAC49InCht0iFYBMvljRWBa0N4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736923095; c=relaxed/simple;
-	bh=xfwx8szzA79GeMwa8YiuAiiuZ1nqyifzyyhX+crJD38=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=tUzNKmIaZ5o2DUW0ts7+KoR8ua6okWDnuDLiKwrv399HW7kkurmd3LaAX2HaB0h2tr2tcHFdGyzoe7sg9YkdYlnBXDS+LvVG4DOctUAfIQ4PECHuzhZCmh16bPBG+0kRtOaL2qiWHjbOow7qIGWnysn0gY3gRfU54vG0o/tun0Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=lenOI+IW; arc=fail smtp.client-ip=40.107.244.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB2222F395
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 06:41:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736923306; cv=none; b=V/MuFq46hR2hq7g0xuyT5PT/NVn1FxjdU1qXDjAudcZNjvhfhqmaAs3Soee0V9mDY+qngxQCtPm9S/WaQmSUKlQ3ovmAh15RtLGyLYDAjXj99rhuyiqxvESZq6OoVLT1mBOX/gCNzz1xx3BwedqYunuyKjFF+iQBc+htWLCEPj4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736923306; c=relaxed/simple;
+	bh=P4wocBOngoW7Yx11mQitTtV/JmxkPIiCSjIwddxlmH0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PQug/Rttl9ZZ+JRPWDOpIITH2lG00J067pT/bjyUhjR5DjTN/gp4St4l+ymUOdid0GKOJ8YI72shHM6JLnfPJX/+0pYzJeD2slCQCE/eCSyDBQ2P66YI31rQIHbiqs5gewW8Z4omUSC5MibsrsHeGykhKRLdjjJQbBS16JOA3Vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YBy6sQct; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="lenOI+IW"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=App8UN1S3JouPiXuWxcy4mOcMHj+qn66FUEaLqqs5cUSY4Gc41FsU8GehsLkw0uVDl6lz3AruGZ61V5YGNdzgl6jQG2M+D3w9X6J8koc1wNKmNr76hq7qQJgRk085t+Cqx2Lx2drhdQFEoo+DIIdm+5kXrKFvTaNn/xECQXQjqt+G69errM3GeA7L61iRQJPSynVzPlK6l9ufuk8mRt8BkGrymBpsylTymurDvbT7W2MjmSIqdN9A/YD2FUB9BXm2mYNy4RRHymuZpAniCy9PSCwHL4QFVcLGZXFwFvXlXB9PGhCg6lODWedGP2/O4BnUgmQ7dwCbC3e2PpbMZ/w1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Fy0hdU9kmhJfOaHknI9Qw+omeb8Gz6hFekYnxTQBmmY=;
- b=CdGMbiiR7gCidenCwt6T3oTugdVDJfZmqpBi6y999nVLzf3pmVX0dEShWZW0cxxEm+NoMgAm/CRI2gpdyT8qOqQbn6qNo/DQbupM/zinT+a8eZD8js/lk2se5h2IGIRRPuBEuxPCPTVCGqpmac1Ln5VuvqRuOo0OySYilWX93A9w+ABydCH8ohEB9OdNRinHKd2r8WR7XLwfGmPvXso8NDw3VaNsloGwckKjtJgvvCJKOoqtdSFbebdyMg5Se9Myt6MhhzwqvIgE8rzuS2wNfVFRJEKtaf05aoXFWru7QeTumsGNAkrbD7oBIvhYOHueM0rBapqBPbYvJO4urzh6qQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Fy0hdU9kmhJfOaHknI9Qw+omeb8Gz6hFekYnxTQBmmY=;
- b=lenOI+IWTQQXlB89D9FW/Jacu9OtATjD+1CCarUhWKPk1MuyrCWGHoRRleQDw+lRstkUbaf5u3mi+Q3X4cSbaWCbbzh62/k19qPz3B+qgGGBmFnlY7PDUq2mxRxfe747TfoKRdXPQfTOur2eo/fMOcHzdMnURTU7HHp+KFwNrwjvBNoeZXAznCmPLCOHvqIuI7ynwqJBLTAOQ0/Egly3O1qMxkyYE4uHUxBG11H+E6TpRHPij7isMAjvnMyzTVV42mfDq/7u4LncoAGLPaAvy/J8AYjHyY4IG1HoCFyVt4b4l2Kam23ooBWgzv8OPdUGzh8nyO+6X6rwCUz3VC4TVw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
- DS7PR12MB5790.namprd12.prod.outlook.com (2603:10b6:8:75::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8335.18; Wed, 15 Jan 2025 06:38:10 +0000
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe%7]) with mapi id 15.20.8335.017; Wed, 15 Jan 2025
- 06:38:10 +0000
-Date: Wed, 15 Jan 2025 17:38:06 +1100
-From: Alistair Popple <apopple@nvidia.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: akpm@linux-foundation.org, dan.j.williams@intel.com, 
-	linux-mm@kvack.org, alison.schofield@intel.com, lina@asahilina.net, 
-	zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com, vishal.l.verma@intel.com, 
-	dave.jiang@intel.com, logang@deltatee.com, bhelgaas@google.com, jack@suse.cz, 
-	jgg@ziepe.ca, catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au, 
-	npiggin@gmail.com, dave.hansen@linux.intel.com, ira.weiny@intel.com, 
-	willy@infradead.org, djwong@kernel.org, tytso@mit.edu, linmiaohe@huawei.com, 
-	peterx@redhat.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de, david@fromorbit.com, 
-	chenhuacai@kernel.org, kernel@xen0n.name, loongarch@lists.linux.dev
-Subject: Re: [PATCH v6 15/26] huge_memory: Add vmf_insert_folio_pud()
-Message-ID: <ubf5hakohi4hhmoqdxk255rwarwv3vwt7j3l5aqtznorfcxx6r@37jhsud4gjtw>
-References: <cover.11189864684e31260d1408779fac9db80122047b.1736488799.git-series.apopple@nvidia.com>
- <60fcfaa3df47885b1df9b064ecb3d4e366fc07e7.1736488799.git-series.apopple@nvidia.com>
- <fb1b7d1d-33da-4de1-b863-61ea8421c7fa@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fb1b7d1d-33da-4de1-b863-61ea8421c7fa@redhat.com>
-X-ClientProxiedBy: SY5PR01CA0119.ausprd01.prod.outlook.com
- (2603:10c6:10:246::15) To DS0PR12MB7726.namprd12.prod.outlook.com
- (2603:10b6:8:130::6)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YBy6sQct"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-467896541e1so467451cf.0
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 22:41:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1736923304; x=1737528104; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0F8PYZ5W3WWK6gmkW1B/K5FiNhF6cjRAyco7aRN7IXc=;
+        b=YBy6sQct/Hfp3XfGNcRH+trXIjktRI3Nvf9Yl5hrm7DsEHjK7Q1XZ6oed66vZb7Sdc
+         LYA3Q7QR6DaPKEaLpPKrUQuZs8jbodHVCQZ0JMXIU8iXUESFjaP/5isPOyg8oNmkM8s0
+         ik+vJxllGYtpeScYvVEK3uUgWBlKJ+iFZbRoQFwSQf9aVhzeFK6NZrO38DJcJXa6RpH2
+         V5oqZoYEIGo32HYOUszfjpncKdzK+DRt+BSS5PqgpUqDcYfoDCeDvvYiGt5Q4bFd432l
+         3NUgwGRruGQYbmg2HNa40cuvFu4xEhUfLyPD5JwHFA2qay7ypGWlR/OkzGxPCL92AY89
+         7kZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736923304; x=1737528104;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0F8PYZ5W3WWK6gmkW1B/K5FiNhF6cjRAyco7aRN7IXc=;
+        b=pEaopibAHTkkrLxCWXnw2JDJCr0mdw7hgr3LxNxW39mDkTMUe6bgtv/y3EGZM7yACc
+         g6iKXSpBLdm/3S4YTp8uhvn9aRYf8NXuoAFrA7jJzp1EZ/mKYOaMNZe8adlPUeM+F4Kh
+         YqewQEpylxhtHpOdlIBD2Psl0a08OinE94aQiLVafsjOvYSzc3ybWbi54beSjKP8SKHi
+         RbGh/H1dgpB2pdLTzmKYrBggH4MM6D15TKwnCP46PmSdY2VDhEpiTGf3k4jK/w1j/Z0p
+         1StCcP830dzNSREnZKmwP43NT29tfhpFx+UxfbJGL139/3YvnUmibrERBwbvfhZtjTXB
+         ytDA==
+X-Forwarded-Encrypted: i=1; AJvYcCWUlZNT30USLzhEwhZDkW75Jd8sR8tlg5wj79iA7VI0Ec4H3P5Bw+PXPDWdi0MO6zybcUjbaCvF+KQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwR9WzcBwzoUQhx5rhr7cd7A5kqKJ5rqs1j53PqUxbMaEreNEFg
+	jLUfpTpAkxSBERryHLu1DITJjAnSIQQKr2JPUZ/Kb9gdnu/Vd83JpPb5gXBQd0EfuVnbW+O/32Q
+	/z2joRiWeoTxEYUxcrgOwFRhX9Y5TrEOq4f3N
+X-Gm-Gg: ASbGncu9Zos51FhUHqO33dsAbeqWGzx2vTUWnne3y6La5MMHSeCUx68X1E3ZkbJrQ7b
+	KQ9/7jnnpHFpdObZlcx+fuaGbZcGiFhlnyyI2Og==
+X-Google-Smtp-Source: AGHT+IHF1ya+ts9z9KXplqx0JXG2FHcs5cYarOSih5CGytMsdjddmPuCvdHWqMWDijvYtf46Ccwm+RiVWN2vmsDPRn0=
+X-Received: by 2002:ac8:5744:0:b0:467:7c30:3446 with SMTP id
+ d75a77b69052e-46df7019ed5mr1517601cf.25.1736923303787; Tue, 14 Jan 2025
+ 22:41:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|DS7PR12MB5790:EE_
-X-MS-Office365-Filtering-Correlation-Id: d0b46ec6-3147-4b7b-147c-08dd352f2d6e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?CWI99AWTjKNAN+yv/UKEJl6cnddjQJ8PZa0siiKvDK73GO7hWP/726bVJYIs?=
- =?us-ascii?Q?gOXmS97+IBHsScf8VXHkBJ2xoYxVHbJEmw2uixn2zkDqT54ZDDd9itVltAKt?=
- =?us-ascii?Q?IY+T6pmXjII5FkaZ1PWnd7eJH6v43jpsHL8dY+v9TEy1zCnLzdjazP3U9cAr?=
- =?us-ascii?Q?ZTfNQk9Ua+wk6WrJypFHqlP8r/lXjCX59GttZ66P+ckXqme/k2DPLFtW9XpJ?=
- =?us-ascii?Q?yowgMBfqy6QJcW0Nw8deizyAeDRpThhKBYxpVbRmXqYt0Mw5zlR9QQtwk9sj?=
- =?us-ascii?Q?fh0t5oZEQv1pw5jaBYOqaVqBtYdqN1ZRC2gfxy+vOBLZ3NFcJ5uMUQqPUBCd?=
- =?us-ascii?Q?FddohIVAYqoUbD1W5IGtRRgLhj23ae+nhV5kYRLrxfS/Jyf2vfiilhFjl7Tf?=
- =?us-ascii?Q?h4VDRPkXSDg2ObxgXs8GUuhhAhTRfunC6ZGVGF1IjSi0iTGGKlIWVpVJLaZg?=
- =?us-ascii?Q?QVT/OQr78gsKUywBGf00tMskBR7uE3acosU3khd8cp6N0o6WOEkGluirbOU5?=
- =?us-ascii?Q?vgY2z0tqJIyqTCvKOMMVTYGhfU6Q6ISOXSPLj/rlIvD955HkBFDAM+DWBeJE?=
- =?us-ascii?Q?yjwg1MalomR0iKMRoIgQCIl08MCS6NVnJRyfHEEZX7Z3keibUltj6lh1adV5?=
- =?us-ascii?Q?ch1ThHeZ4NcC+SyMvXlY1x7OcNkaXnnWqSz8KaXWfRswndWrU2jz3ho/i05o?=
- =?us-ascii?Q?xdu6dGttWmx/YQJa2D550sTeKfFVYR2s5YNwNCq7HJ7Uwv/0oV6Vn1oECeo0?=
- =?us-ascii?Q?lUpCyAG1Qi6S3h5Rjoqsg17KuQlQFFteYwkJATIbI668FkAvtBG20YxY0XE9?=
- =?us-ascii?Q?9b2dq2RhsNsF3V0/euW3HUQY7/DgtpNgtET5u0/fhbpU00D8kdnlgAG/mQmX?=
- =?us-ascii?Q?LCqz6TrgHLM7SU7tRgxR3i+jmV5ZUJgCZUifNNOd3JpTJxd3anpMdXBZt8MR?=
- =?us-ascii?Q?1K+HyNPNFXD7oJbMSDrFAliL0UdkWarfdMGuXCZZA59T6nn+/evigCSD9oBY?=
- =?us-ascii?Q?6tmI5bKgJdF2siytsPLlTeKTd2xv4fqN7jwWHeHXR6ONyarb39xbu/IarxUc?=
- =?us-ascii?Q?RxNB2l122l1gprVTXZbrv69OgPvmdErRtc4WdKhoVI+yptg6QSev+0EhWyAT?=
- =?us-ascii?Q?2qeFt6g0ASzQzKqZ2VysgHDkRR2fGJmcTGqotOXwCBiYwyPos509VwMQvAY0?=
- =?us-ascii?Q?tNR651jveB6sPeOxf7DfyfQqapaklyFEAYlac3cbJZqIiyRjWpPCIEE6QyS1?=
- =?us-ascii?Q?7mUq9ETsZZtvZeb6BUa46j7buVcoKpdONypThVQ06UQBDKd3csECgOEZdOwL?=
- =?us-ascii?Q?mBQKoavxohUgnwMK9lqDVONUwPibzxhJ47dR5kuKh4WpUC9z1INO9Yq67sly?=
- =?us-ascii?Q?PQgIftQU3G/r12jAOHe8eCUqfDmG?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7726.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?PSSMzF3LlVhhkNcHBYfRms5eqCCZ83R/Iv4t4ZlKPGncblUy4vTNx+O8diCT?=
- =?us-ascii?Q?GPVjHZ8DgGyhTRjfYHbW/pf5I7uNlj071Zjm3W3jcFKP/dy3dyhB/rPCz7AZ?=
- =?us-ascii?Q?Vq31nl/ST30qxQAscGrLGuu4KUSFtOZkj9ThqBmCcksS0fQeN1Edhp3emlVS?=
- =?us-ascii?Q?EguUiidQ9Dv/I/w4K2yFqrSmM9uF17NrcvXsdZVxaEwLYm2ju0dPXOBLx150?=
- =?us-ascii?Q?7bUYUUtli5YHmluJjMOYc8/i5Ns3zXvI5DQy3eeqU+k9wLwoy5AaxHTYhxHf?=
- =?us-ascii?Q?r0uNHmlXB3BYNFBWLuSMSb7Rmeogocima07AkWnLD80fRERg8qcLPhz2t5BP?=
- =?us-ascii?Q?nSuFml34O4hD8Iu0Ba6WLKJHLf4BZ9ZQasWECltylHqcMeJvmfYABuhHQSXD?=
- =?us-ascii?Q?M5Vkn5qtxJkliRO08LmmUulnfZhOMvRDYCD/1bdy2uqu4ltJPIXlJmVZOmDK?=
- =?us-ascii?Q?HOQkewJRT3LMODupu8VmmAWNX8TElC1oucrwL6Oieapun4ay4msLULHFswFE?=
- =?us-ascii?Q?B7Lunk+RNLX/bAmJpUBqVB5WWqWj4vpKdhyF1uFnAm2C7eTKk/BecMD5Uo3D?=
- =?us-ascii?Q?6nC3qfBOUYUOQZ6zq9XOJjQTVpa8dC5NoRJ+XLgSuVEzm7By678Q+X3/qMak?=
- =?us-ascii?Q?FIgq95x8IqAuI8JzA00bW7CUGjvI4q3fkR6Yc/YX4mYTnuEVRACY/OwFV0FE?=
- =?us-ascii?Q?qZCbtAI2oOGeYPYYubqB3HEJt7XJn3kuu8RMgmsU5U9hBTnmiW7yqt89pY6L?=
- =?us-ascii?Q?WTr5CEuN8hrmJgpyRYixgBqlbjQbxldvZWqlP6nEdD8nl44enX6G1njfirw8?=
- =?us-ascii?Q?8PkWVC78a/bULti9+0C6tAkpBrjD8WlbaaRrU2L1sA+s1PN870nV2pq5L+Pr?=
- =?us-ascii?Q?FWoWvc21T4TdifytOwBvWImg5A8XbYrmnril6kDUsTm4KyVQBMVxk8wcyRHb?=
- =?us-ascii?Q?TbOuEQl+hby8Qnt1Fmo/UlLdF1rFGz9pt8pxNbBuE9N761xpYSRrDoi1TKZD?=
- =?us-ascii?Q?Y8P9Maecf019urModJ+Nj1Ro+w4Iak9AduZO3dzO1CPgbqomaA9nKclghVrj?=
- =?us-ascii?Q?hpyx5GUTzz6GtZDFE6xDyk0+ZqcNEgze5EdaHIfp8s5pTgMYxTlpLwSUYUv2?=
- =?us-ascii?Q?ZpL9JzmsXRSkacCKmVl38NfMEeq/0VrAg4Zfqtgyu7yIXgCvuX3JvvYPFSP8?=
- =?us-ascii?Q?VL2j4hEAeVUCEc8qQXsaN6btieifAj2rd6Gk2q+WcG0dP6eg9MsAmJWlhgCK?=
- =?us-ascii?Q?Izmt1I7McvcDarGvGqayFDO/6I+zYNxjWZIgbIPD6+JhPQdpCMhC31rQbnhz?=
- =?us-ascii?Q?iTiIeIVn1BOzQ6EcF2HpfXBP4sCud7E6Ltpke0+R4bUUWUxXBTUgQAFwWydS?=
- =?us-ascii?Q?Jp/SUPTW4mPmRf00CYCD5/Zbn5MGpMGo3ExiD081nZve0hzDAHQnAYoRh2YT?=
- =?us-ascii?Q?ScIOpGPGnN9i8FSEsLI83h0v6x/xkCZkOUMASGXEr1FDday8s8npF/7YAnx2?=
- =?us-ascii?Q?2mOp5Y0UuvoviAu9xCHgN7Q4zE3/jim3wl3KMqLWD2oEcowEuehOcAEU/Re+?=
- =?us-ascii?Q?aoQf0KjVbsK+iqanE+tKgK1woRXZgTEDIs/hNUPj?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d0b46ec6-3147-4b7b-147c-08dd352f2d6e
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2025 06:38:10.1631
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0Vd/94gXzHOg8Mzdci3ULWYAXa5hLJz9+g/JLLMOzPoPQ95axF93n/ruyU3wQGXuI6B5ea1H1y51irJhvn36Sg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5790
+References: <20250111042604.3230628-1-surenb@google.com> <20250111042604.3230628-17-surenb@google.com>
+ <20250115022703.hqbqdqawvqgrfgxb@master> <CAJuCfpGShzXxqH8up75WQhdMzkr+Y6eE-h37nEEwVWHC6AN89w@mail.gmail.com>
+ <CAGudoHH9-h68S-YV4TObYMRDFe99xAO7Nu3tXF8h_Kds2-MWCw@mail.gmail.com>
+ <CAJuCfpEDfjyfPjck_3VO5vV4RX0K1UYvHe_R8pSv+6iXN=3wsg@mail.gmail.com> <CAGudoHE2aPNThzAK9UrZYAo8CrRTFfu_VuSeyq5r2EhB7x4w0A@mail.gmail.com>
+In-Reply-To: <CAGudoHE2aPNThzAK9UrZYAo8CrRTFfu_VuSeyq5r2EhB7x4w0A@mail.gmail.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Tue, 14 Jan 2025 22:41:32 -0800
+X-Gm-Features: AbW1kvbgIx9td2nvyWNgkuuIvXCIMN_nt2vk4NZ_73rlrqr5bl-2SLbmzJ7RnwE
+Message-ID: <CAJuCfpHO-t65K_gAioCBLSaK-nzkNQcA-95Hu6XsE00dotiSfw@mail.gmail.com>
+Subject: Re: [PATCH v9 16/17] mm: make vma cache SLAB_TYPESAFE_BY_RCU
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: Wei Yang <richard.weiyang@gmail.com>, akpm@linux-foundation.org, 
+	peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com, 
+	lorenzo.stoakes@oracle.com, david.laight.linux@gmail.com, mhocko@suse.com, 
+	vbabka@suse.cz, hannes@cmpxchg.org, oliver.sang@intel.com, 
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
+	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
+	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
+	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
+	klarasmodin@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 14, 2025 at 05:22:15PM +0100, David Hildenbrand wrote:
-> On 10.01.25 07:00, Alistair Popple wrote:
-> > Currently DAX folio/page reference counts are managed differently to
-> > normal pages. To allow these to be managed the same as normal pages
-> > introduce vmf_insert_folio_pud. This will map the entire PUD-sized folio
-> > and take references as it would for a normally mapped page.
-> > 
-> > This is distinct from the current mechanism, vmf_insert_pfn_pud, which
-> > simply inserts a special devmap PUD entry into the page table without
-> > holding a reference to the page for the mapping.
-> > 
-> > Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> 
-> [...]
-> 
-> > +/**
-> > + * vmf_insert_folio_pud - insert a pud size folio mapped by a pud entry
-> > + * @vmf: Structure describing the fault
-> > + * @folio: folio to insert
-> > + * @write: whether it's a write fault
-> > + *
-> > + * Return: vm_fault_t value.
-> > + */
-> > +vm_fault_t vmf_insert_folio_pud(struct vm_fault *vmf, struct folio *folio, bool write)
-> > +{
-> > +	struct vm_area_struct *vma = vmf->vma;
-> > +	unsigned long addr = vmf->address & PUD_MASK;
-> > +	pud_t *pud = vmf->pud;
-> > +	struct mm_struct *mm = vma->vm_mm;
-> > +	spinlock_t *ptl;
-> > +
-> > +	if (addr < vma->vm_start || addr >= vma->vm_end)
-> > +		return VM_FAULT_SIGBUS;
-> > +
-> > +	if (WARN_ON_ONCE(folio_order(folio) != PUD_ORDER))
-> > +		return VM_FAULT_SIGBUS;
-> > +
-> > +	ptl = pud_lock(mm, pud);
-> > +	if (pud_none(*vmf->pud)) {
-> > +		folio_get(folio);
-> > +		folio_add_file_rmap_pud(folio, &folio->page, vma);
-> > +		add_mm_counter(mm, mm_counter_file(folio), HPAGE_PUD_NR);
-> > +	}
-> > +	insert_pfn_pud(vma, addr, vmf->pud, pfn_to_pfn_t(folio_pfn(folio)), write);
-> 
-> This looks scary at first (inserting something when not taking a reference),
-> but insert_pfn_pud() seems to handle that. A comment here would have been
-> nice.
+On Tue, Jan 14, 2025 at 9:52=E2=80=AFPM Mateusz Guzik <mjguzik@gmail.com> w=
+rote:
+>
+> On Wed, Jan 15, 2025 at 6:47=E2=80=AFAM Suren Baghdasaryan <surenb@google=
+.com> wrote:
+> >
+> > On Tue, Jan 14, 2025 at 8:00=E2=80=AFPM Mateusz Guzik <mjguzik@gmail.co=
+m> wrote:
+> > >
+> > > On Wed, Jan 15, 2025 at 4:15=E2=80=AFAM Suren Baghdasaryan <surenb@go=
+ogle.com> wrote:
+> > > >
+> > > > On Tue, Jan 14, 2025 at 6:27=E2=80=AFPM Wei Yang <richard.weiyang@g=
+mail.com> wrote:
+> > > > >
+> > > > > On Fri, Jan 10, 2025 at 08:26:03PM -0800, Suren Baghdasaryan wrot=
+e:
+> > > > >
+> > > > > >diff --git a/kernel/fork.c b/kernel/fork.c
+> > > > > >index 9d9275783cf8..151b40627c14 100644
+> > > > > >--- a/kernel/fork.c
+> > > > > >+++ b/kernel/fork.c
+> > > > > >@@ -449,6 +449,42 @@ struct vm_area_struct *vm_area_alloc(struct=
+ mm_struct *mm)
+> > > > > >       return vma;
+> > > > > > }
+> > > > > >
+> > > > > >+static void vm_area_init_from(const struct vm_area_struct *src,
+> > > > > >+                            struct vm_area_struct *dest)
+> > > > > >+{
+> > > [snip]
+> > > > > Would this be difficult to maintain? We should make sure not miss=
+ or overwrite
+> > > > > anything.
+> > > >
+> > > > Yeah, it is less maintainable than a simple memcpy() but I did not
+> > > > find a better alternative. I added a warning above the struct
+> > > > vm_area_struct definition to update this function every time we cha=
+nge
+> > > > that structure. Not sure if there is anything else I can do to help
+> > > > with this.
+> > > >
+> > >
+> > > Bare minimum this could have a BUILD_BUG_ON in below the func for the
+> > > known-covered size. But it would have to be conditional on arch and
+> > > some macros, somewhat nasty.
+> > >
+> > > KASAN or KMSAN (I don't remember which) can be used to find missing
+> > > copies. To that end the target struct could be marked as fully
+> > > uninitialized before copy and have a full read performed from it
+> > > afterwards -- guaranteed to trip over any field which any field not
+> > > explicitly covered (including padding though). I don't know what magi=
+c
+> > > macros can be used to do in Linux, I am saying the support to get thi=
+s
+> > > result is there. I understand most people don't use this, but this
+> > > still should be enough to trip over buggy patches in -next.
+> >
+> > If my previous suggestion does not fly I'll start digging into KASAN
+> > to see how we can use it. Thanks for the tip.
+> >
+> > >
+> > > Finally, the struct could have macros delimiting copy/non-copy
+> > > sections (with macros expanding to field names), for illustrative
+> > > purposes:
+> > > diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> > > index 332cee285662..25063a3970c8 100644
+> > > --- a/include/linux/mm_types.h
+> > > +++ b/include/linux/mm_types.h
+> > > @@ -677,6 +677,7 @@ struct vma_numab_state {
+> > >   * getting a stable reference.
+> > >   */
+> > >  struct vm_area_struct {
+> > > +#define vma_start_copy0 vm_rcu
+> > >         /* The first cache line has the info for VMA tree walking. */
+> > >
+> > >         union {
+> > > @@ -731,6 +732,7 @@ struct vm_area_struct {
+> > >         /* Unstable RCU readers are allowed to read this. */
+> > >         struct vma_lock *vm_lock;
+> > >  #endif
+> > > +#define vma_end_copy1 vm_lock
+> > >
+> > >         /*
+> > >          * For areas with an address space and backing store,
+> > >
+> > > then you would do everything with a series of calls
+> >
+> > I'm not sure... My proposed approach with offsetof() I think is a bit
+> > cleaner than adding macros to denote copy sections. WDYT?
+> >
+>
+> another non-copy field may show up down the road and then the person
+> adding it is going to be a sad panda. wont happen if the "infra" is
+> there.
+>
+> but I concede this is not a big deal and i'm not going to bikeshed about =
+it.
 
-Indeed, I will add one.
- 
-> It's weird, though, that if there is already something else, that we only
-> WARN but don't actually return an error. So ...
+Yeah, I can't think of a perfect solution. I think we should pick a
+sane one and if requirements change we can change the implementation
+of vm_area_init_from() accordingly.
 
-Note we only WARN when there is already a mapping there and we're trying to
-upgrade it to writeable. This just mimics the logic which currently exists in
-insert_pfn() and insert_pfn_pmd().
-
-The comment in insert_pfn() sheds more light:
-
-                        /*
-                         * For read faults on private mappings the PFN passed
-                         * in may not match the PFN we have mapped if the
-                         * mapped PFN is a writeable COW page.  In the mkwrite
-                         * case we are creating a writable PTE for a shared
-                         * mapping and we expect the PFNs to match. If they
-                         * don't match, we are likely racing with block
-                         * allocation and mapping invalidation so just skip the
-                         * update.
-                         */
-
-> > +	spin_unlock(ptl);
-> > +
-> > +	return VM_FAULT_NOPAGE;
-> 
-> I assume always returning VM_FAULT_NOPAGE, even when something went wrong,
-> is the right thing to do?
-
-Yes, I think so. I guess in the WARN case we could return something like
-VM_FAULT_SIGBUS to kill the application, but the existing vmf_insert_*()
-functions don't currently do that so I think that would be a separate clean-up.
-
-> Apart from that LGTM.
-> 
-> 
-> -- 
-> Cheers,
-> 
-> David / dhildenb
-> 
+>
+> --
+> Mateusz Guzik <mjguzik gmail.com>
