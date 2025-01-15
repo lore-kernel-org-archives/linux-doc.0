@@ -1,197 +1,240 @@
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F6435944;
-	Wed, 15 Jan 2025 07:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CADF02309A5;
+	Wed, 15 Jan 2025 07:59:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736926965; cv=none; b=AfW+LunlDyeeorVKSkBfKu5M1B7yMobcOzoCDNeocEHEIv2xxdpimWlcNsObP0iuHwazEwwomld5NbEllgdtNUmxnughl+6l2rr/CEk72QjIaWCOVn8o7869FrWzh+JMllX7EjEbTHDOr6zDjrbFLJmyuIGQeFmuW8meXVHmbpk=
+	t=1736927942; cv=none; b=DyIPoPstBT9n0PPmjw2R1tUOJz8VqGp9UAvfQCtZfSxHpwaz7lPWJArq914aM62PcBDQ3sUcIJcMm1j/FAdpxfbHzprAz3YA/n84j0KfiQzjaAGYflKlBEK86FwoVy7KfQrJBxo0r8wF9nA+WyWQcQlpvtARJK55zeAyMCodf5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736926965; c=relaxed/simple;
-	bh=Q3PJp5HE0YO0r8URPsO6J7HCltKNBku/OqDt7CVgapo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Fe735tAXT50qiuY0Ts6Bhwyl8EQeQ9N0tEZUw19EHaA0P9SpIXxh8+GOhzlpDYHgmOsSaGkZS1O2i/9AoEJ0qnXKwtlqu0w4HUN9vk7YhSe1UPPK648qcVOHOMe5dr1Ef4TXndpbTQKFHCO8tktuRLyU6WgX/ALdFj3+pgWEusQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DnAG9QEs; arc=none smtp.client-ip=209.85.219.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736927942; c=relaxed/simple;
+	bh=kF0QIeLjQfEmGPTMcLJhebMr09NUb8kFL4rAQONktC4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p2Lqwv9GpSAAUyKms6SZZzaywnCZ7IAx6/61kU7smElJMSmYd7voNJ7LPfld7Z3ClBAUgqMbEFZ4YymdhTK8wmMk3XKe1BigjgJkW2onfwlNwfF98+9v4KcwKAhDj8L8nKPzUCrwzCtAwuH9e/rIbiqiPs3m7vChbb+gSiP8fLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=n4LHfpQ4; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Z+cX82dj; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=DAvsM0Bo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=g9aCpjkf; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DnAG9QEs"
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e39779a268bso970230276.1;
-        Tue, 14 Jan 2025 23:42:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736926963; x=1737531763; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6Sslg/zYwiRkuelfoGvfyVJqoc2ZTiVmVRtL13lnc3M=;
-        b=DnAG9QEsMx3VFNqDcuEJqGNsNwP3sAL6poqCxSqP3ADaRxmt2jp+l09t+iM6z+oNbs
-         CJ0Pa+XOM8W1I7R0ExqPJoAlDzu1HGW+9eUHIedmR3h8x7mszUpVp/9Uz1UASCExvEfI
-         bshlUX9AK+AVhv4i92JH+WgaDTNFda7+xhwNCHVruhVs45UnntStkwO9HtohJ6wF9KgG
-         rNCEsGoDIcmTrB+9gcltskVUnSGDA3XApAl1btQ5lb0b0DsSTwNwYhEy7a/7J2s0Vd8o
-         hRF697kJXqaGhdS1PfOdHeFZYqmHkmWXDH8BPvPQsCdwe8KPhh8s2FSaUEMIZrZDvmyk
-         zxZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736926963; x=1737531763;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6Sslg/zYwiRkuelfoGvfyVJqoc2ZTiVmVRtL13lnc3M=;
-        b=HbmsSfhm4sLxt6sHefgtAxPK2ukcJquS4AhohlkAKjraPcoFwEAO4nCIsfvtVNGqHM
-         6e+iheQqJ4dEDe7IrxB5AOf7bl0/AKwKvyNm7OxFafPcHGLsTxUcvFV9MMDSB1+ClVVb
-         s9/4L2cWSML6k43w9jUhM2sTAA3bhLp9gmB0Md2rZ036Lk3JHm0paj0weDNzPqZ2LmC7
-         nE4vsIfCApXyXSlwFhmkfF/ed9MEjC3DZwt5OaGWcNvsWPetA2n2S0ylzvkqXefL0l+l
-         RYy8zrt2X7OduFPWDfqpDMaOlFpomCu/LKtSQW4HcPsXl/IjtmJgqVma52IT0tehQCaQ
-         DZSg==
-X-Forwarded-Encrypted: i=1; AJvYcCUVAC48qckL0x2Ca9veqm/pvdgGvobbSQIjbg5H/OgLw76OeLRcrRRXtMaPoyafmQTrdYild4LWV1pM@vger.kernel.org, AJvYcCUvo+3MQ+buSM1Ba07G7T7/RrfPMnVPGgvSpt2tTI9tdftU1x2aasiBt4bXM24/Pkn5+m5RTm4xFmaQ@vger.kernel.org, AJvYcCVcK9OmLSx7R0TS3gYhQLZhtav6snrt3NuL9pCw+vjlZ0mu7WvUWZYzgtduMVVPLbFsGt7S6giNp0w2FnHi@vger.kernel.org, AJvYcCXsoyYV3j4/+ou53s3aspsoIIMpRKQihXVIbZ+k7t8UKCqo/iZUuo5ueg0FWw9j9srCBC16x41yHimP1X4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywh8NtP+GOQUTIYfP/dP8jdTJjMoQxiOSDm5zxbKkyu3+U8q7hm
-	FxeLtf679f2CO9JMgr8nC1N8xHgWQA6H4dzYBNqeJwby6u0x4lEyuy5uX6vVdd+5c6CnbpfxUU2
-	9dL+geSTyPl2nMIpCaxyLZOMuyYI=
-X-Gm-Gg: ASbGnctnLH96Kgz2zw/Bid05youf9lQkQVbHP1Z+zsKz8HzYKIDWFZd9vTHWTKdimp1
-	TLR0vGoF0VHqJWVoQjOBe06550wq05APiG+8Piy6QyQZH6pt00/G89dCwUC0ObCTRc4ADtHY=
-X-Google-Smtp-Source: AGHT+IH17XhqxAmd73MvcgPT4rEqzzyk65JKjfzd1/K9q35+ZMaWoV/BtCI1zmz6DXH06SQ6o7zDbFM4qU+9+YpcFVo=
-X-Received: by 2002:a05:6902:1003:b0:e49:ef7f:de1b with SMTP id
- 3f1490d57ef6-e578a1219b7mr1550169276.4.1736926963023; Tue, 14 Jan 2025
- 23:42:43 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="n4LHfpQ4";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Z+cX82dj";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="DAvsM0Bo";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="g9aCpjkf"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E2F7E2121C;
+	Wed, 15 Jan 2025 07:58:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1736927939; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=77hToCCQTjMUJefmJRXkwdMJTQotq0Qw6hZfeafiZSU=;
+	b=n4LHfpQ4lE3F+al+jqti8go6JMXxvcYd9QHBNspAhhhsYkMstPR90dX4o+2rkbYIeybAgs
+	GmTkANW4cT3Q3e6Cgk4GrTSir/3UZEud+WMNf7eQY0ZLz4VsvttcWPMQkxtqYUKmsoySy/
+	7eVUWJdmqFrtz4FOXXk80tMiW6Jgo6M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1736927939;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=77hToCCQTjMUJefmJRXkwdMJTQotq0Qw6hZfeafiZSU=;
+	b=Z+cX82djaUmmTfIMCup/6JL3+n/ZeGid4e3tsVeod9F163LoBiPoo7s7YfJ0W1egpTS3iZ
+	3iCqN6Xui+B19rAw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1736927938; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=77hToCCQTjMUJefmJRXkwdMJTQotq0Qw6hZfeafiZSU=;
+	b=DAvsM0BoGdtP0yphEJwJB5cfkNnv0a7xv2oDF3I/vVVuip9cv7fKhbnknDprHD13jKKmhr
+	GZl6HqzVFlq7Ckf+FUy7hCpGOU0DnLEWcYzqnLDtAX8BqFbP4AsblYUp9peTTgptISvKDm
+	UOedXd1z+Gx6jTZGqbKH2UwKwmYFN0Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1736927938;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=77hToCCQTjMUJefmJRXkwdMJTQotq0Qw6hZfeafiZSU=;
+	b=g9aCpjkf35JVJ/MoU6nP1TmgKTa7g+aVIwKRrS8cwgABcnmRTSi86ROMDX7Rx12NGQew3j
+	9wtUcII+XjGt/qCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9F5B6139CB;
+	Wed, 15 Jan 2025 07:58:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ZC2XJsJqh2dicQAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Wed, 15 Jan 2025 07:58:58 +0000
+Message-ID: <edeb55ab-bbef-4542-ac41-b07bfaaf9b96@suse.cz>
+Date: Wed, 15 Jan 2025 08:58:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250110082612.4107571-1-a0282524688@gmail.com>
- <20250110082612.4107571-2-a0282524688@gmail.com> <ba0e0e2b-01ba-4261-ace9-82485e1c253e@roeck-us.net>
-In-Reply-To: <ba0e0e2b-01ba-4261-ace9-82485e1c253e@roeck-us.net>
-From: Ming Yu <a0282524688@gmail.com>
-Date: Wed, 15 Jan 2025 15:42:32 +0800
-X-Gm-Features: AbW1kvZgpC9Ts8_B_gBYp0vBqc0FXESjdD6C-CuJSHI1j6axLypLJeVDLnPCjBw
-Message-ID: <CAOoeyxXMrBvB=GTQUhTMETx-BLATTCwFR0wxmHxtsNm_qbgMuQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] hwmon: (lm90): Add support for NCT7716, NCT7717
- and NCT7718
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: tmyu0@nuvoton.com, jdelvare@suse.com, corbet@lwn.net, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, linux-hwmon@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 16/17] mm: make vma cache SLAB_TYPESAFE_BY_RCU
+To: Suren Baghdasaryan <surenb@google.com>,
+ Wei Yang <richard.weiyang@gmail.com>, willy@infradead.org
+Cc: akpm@linux-foundation.org, peterz@infradead.org, liam.howlett@oracle.com,
+ lorenzo.stoakes@oracle.com, david.laight.linux@gmail.com, mhocko@suse.com,
+ hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
+ mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
+ oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org,
+ dhowells@redhat.com, hdanton@sina.com, hughd@google.com,
+ lokeshgidra@google.com, minchan@google.com, jannh@google.com,
+ shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com,
+ klarasmodin@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
+References: <20250111042604.3230628-1-surenb@google.com>
+ <20250111042604.3230628-17-surenb@google.com>
+ <20250115022703.hqbqdqawvqgrfgxb@master>
+ <CAJuCfpGShzXxqH8up75WQhdMzkr+Y6eE-h37nEEwVWHC6AN89w@mail.gmail.com>
+Content-Language: en-US
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ EP+ylKVEKb0Q2A==
+In-Reply-To: <CAJuCfpGShzXxqH8up75WQhdMzkr+Y6eE-h37nEEwVWHC6AN89w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[34];
+	FREEMAIL_TO(0.00)[google.com,gmail.com,infradead.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux-foundation.org,infradead.org,oracle.com,gmail.com,suse.com,cmpxchg.org,intel.com,techsingularity.net,redhat.com,stgolabs.net,kernel.org,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	R_RATELIMIT(0.00)[to_ip_from(RLumbhs4xhzuuihrchnpuyb6qu)]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 
-Dear Guenter,
+On 1/15/25 04:15, Suren Baghdasaryan wrote:
+> On Tue, Jan 14, 2025 at 6:27 PM Wei Yang <richard.weiyang@gmail.com> wrote:
+>>
+>> On Fri, Jan 10, 2025 at 08:26:03PM -0800, Suren Baghdasaryan wrote:
+>>
+>> >diff --git a/kernel/fork.c b/kernel/fork.c
+>> >index 9d9275783cf8..151b40627c14 100644
+>> >--- a/kernel/fork.c
+>> >+++ b/kernel/fork.c
+>> >@@ -449,6 +449,42 @@ struct vm_area_struct *vm_area_alloc(struct mm_struct *mm)
+>> >       return vma;
+>> > }
+>> >
+>> >+static void vm_area_init_from(const struct vm_area_struct *src,
+>> >+                            struct vm_area_struct *dest)
+>> >+{
+>> >+      dest->vm_mm = src->vm_mm;
+>> >+      dest->vm_ops = src->vm_ops;
+>> >+      dest->vm_start = src->vm_start;
+>> >+      dest->vm_end = src->vm_end;
+>> >+      dest->anon_vma = src->anon_vma;
+>> >+      dest->vm_pgoff = src->vm_pgoff;
+>> >+      dest->vm_file = src->vm_file;
+>> >+      dest->vm_private_data = src->vm_private_data;
+>> >+      vm_flags_init(dest, src->vm_flags);
+>> >+      memcpy(&dest->vm_page_prot, &src->vm_page_prot,
+>> >+             sizeof(dest->vm_page_prot));
+>> >+      /*
+>> >+       * src->shared.rb may be modified concurrently when called from
+>> >+       * dup_mmap(), but the clone will reinitialize it.
+>> >+       */
+>> >+      data_race(memcpy(&dest->shared, &src->shared, sizeof(dest->shared)));
+>> >+      memcpy(&dest->vm_userfaultfd_ctx, &src->vm_userfaultfd_ctx,
+>> >+             sizeof(dest->vm_userfaultfd_ctx));
+>> >+#ifdef CONFIG_ANON_VMA_NAME
+>> >+      dest->anon_name = src->anon_name;
+>> >+#endif
+>> >+#ifdef CONFIG_SWAP
+>> >+      memcpy(&dest->swap_readahead_info, &src->swap_readahead_info,
+>> >+             sizeof(dest->swap_readahead_info));
+>> >+#endif
+>> >+#ifndef CONFIG_MMU
+>> >+      dest->vm_region = src->vm_region;
+>> >+#endif
+>> >+#ifdef CONFIG_NUMA
+>> >+      dest->vm_policy = src->vm_policy;
+>> >+#endif
+>> >+}
+>>
+>> Would this be difficult to maintain? We should make sure not miss or overwrite
+>> anything.
+> 
+> Yeah, it is less maintainable than a simple memcpy() but I did not
+> find a better alternative.
 
-Thank you for your comments,
+Willy knows one but refuses to share it :(
 
-Guenter Roeck <linux@roeck-us.net> =E6=96=BC 2025=E5=B9=B41=E6=9C=8810=E6=
-=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=8811:56=E5=AF=AB=E9=81=93=EF=BC=
-=9A
->
-> On 1/10/25 00:26, Ming Yu wrote:
-> ...
-> > @@ -2288,7 +2329,19 @@ static const char *lm90_detect_nuvoton(struct i2=
-c_client *client, int chip_id,
-> >       if (config2 < 0)
-> >               return NULL;
-> >
-> > -     if (address =3D=3D 0x4c && !(config1 & 0x2a) && !(config2 & 0xf8)=
-) {
-> > +     if (address =3D=3D 0x48 && !(config1 & 0x30) && !(config2 & 0xfe)=
- &&
->
-> Why config1 & 0x30 (instead of 0x3e) ?
->
+> I added a warning above the struct
+> vm_area_struct definition to update this function every time we change
+> that structure. Not sure if there is anything else I can do to help
+> with this.
+> 
+>>
+>> --
+>> Wei Yang
+>> Help you, Help me
 
-Fix it in the next patch.
-
-> > +         convrate <=3D 0x08) {
-> > +             if (chip_id =3D=3D 0x90)
-> > +                     name =3D "nct7717";
-> > +             else if (chip_id =3D=3D 0x91)
-> > +                     name =3D "nct7716";
-> > +     } else if (address =3D=3D 0x49 && !(config1 & 0x30) && !(config2 =
-& 0xfe) &&
-> > +                convrate <=3D 0x08) {
-> > +             name =3D "nct7716";
->
-> Please also check the chip ID, and the other unused configuration registe=
-r bits.
->
-
-Fix it in the next patch.
-
-> > +     } else if (address =3D=3D 0x4c && !(config1 & 0x18) && !(config2 =
-& 0xf8) &&
-> > +                convrate <=3D 0x08) {
-> > +             name =3D "nct7718";
->
-> Please also check the chip ID (0x90 according to the datasheet). Why not =
-check bit 5
-> of config1 ?
->
-> If there is a reason for not checking the reserved configuration register=
- bits,
-> please add a comment to the code explaining the reason.
->
-
-Fix it in the next patch.
-
-> > +     } else if (address =3D=3D 0x4c && !(config1 & 0x2a) && !(config2 =
-& 0xf8)) {
-> >               if (chip_id =3D=3D 0x01 && convrate <=3D 0x09) {
-> >                       /* W83L771W/G */
-> >                       name =3D "w83l771";
-> > @@ -2297,6 +2350,7 @@ static const char *lm90_detect_nuvoton(struct i2c=
-_client *client, int chip_id,
-> >                       name =3D "w83l771";
-> >               }
-> >       }
-> > +
-> >       return name;
-> >   }
-> >
-> > @@ -2484,6 +2538,10 @@ static int lm90_detect(struct i2c_client *client=
-, struct i2c_board_info *info)
-> >               name =3D lm90_detect_maxim(client, common_address, chip_i=
-d,
-> >                                        config1, convrate);
-> >               break;
-> > +     case 0x50:      /* Nuvoton */
-> > +     case 0x5c:      /* Winbond/Nuvoton */
->
-> The new detection code should be implemented as separate function to avoi=
-d
-> weakening the detection mechanism. I would suggest to rename the current
-> lm90_detect_nuvoton() to lm90_detect_winbond() and introduce a new
-> lm90_detect_nuvoton(). Alternatively, add something like lm90_detect_nuvo=
-ton_50().
->
-> Given that all new chips have a chip ID register (called device ID), I wo=
-uld suggest
-> to arrange the new code around the chip IDs. Since all chips have another=
- chip ID
-> register at address 0xfd, it would make sense to check that register as w=
-ell.
-> That would only require a single check since it looks like the value is t=
-he same
-> for all chips. Something like
->
->         int chid =3D i2c_smbus_read_byte_data(client, 0xfd);
->         ...
->
->         if (chid < 0 || config2 < 0)
->                 return NULL;
->
->         if (chid !=3D 0x50 || convrate > 0x08)
->                 return NULL;
->
->         switch (chip_id) {
->         case 0x90:
->                 ...
->         case 0x91:
->                 ...
->         default:
->                 ...
->         }
->
-Okay, I will make these modifications in the next patch.
-
-
-Best regards,
-Ming
