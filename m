@@ -1,72 +1,71 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515882AE6A
-	for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 03:12:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 582F23594F
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 03:15:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736910754; cv=none; b=llzyd9z/6HT/uu6maywRDpB49qvcAPKkcewal84y8dhFgHLVCjtGt5MnqueLt4guxj4E+ad9W1CqPgQrBQVLV2+k9/+Qk3CD2iiNGU64CfcFRw+y3YRYja0yaKFIaTZq+FExFABJwQnfoFwXNDAWM/ORBEJScyKUafisIdEfB4w=
+	t=1736910919; cv=none; b=N7DOKz04Nrcpmfq0qXZMTjNHaAlGfpdS+DB7QKyXN8wKbKuN83NM53xNpu5CcAw427wggZHUH2G5m1pkqynt6cNyZhVaKZyHVPn07wyax7g/5f161vZLCrI4VKRRUF0l+HVln6IjAKCNXiNelJpTaMtrQd8DIYqk4Pldqy5w4EQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736910754; c=relaxed/simple;
-	bh=IVHEnBkEPaTio+Iy3q/pWlWL2onucL4O+0UzHe9ra9Q=;
+	s=arc-20240116; t=1736910919; c=relaxed/simple;
+	bh=IL4GW7uu4ddLpyXJg27GtASvmejpGKrHIO684eubz08=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NpRXcOqc5zVZoJKWps8Pu6G068X5aGlO8TgES5cXQ9GYyPdvRHoyEizW5XQuPBc8/4ylIceVn5Rgm/GvAVY6M4b2hBymTTPjfFPwnbSHbP2fOl+oFgRdpCaKLMBPWJBUvOnrdAFMd/VXhue3CtQTrCdQE6UGJXwkC7plKMtIrmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2DOf/KvH; arc=none smtp.client-ip=209.85.160.181
+	 To:Cc:Content-Type; b=bqg9E4Ih+GWKtYWBqLT8p8UxqRFBm6U0JyMeZs6Hy/Lkf1QXsl9FUzpaRCis6jmugUr6ezHapp7PtOus+VbiBTU0cD3fjScyxVjOwUtthVl9NZKOhaGCbUUqUtk6Gw5fgZOQCddzgDcw1g11x8p2/gcYoTbjhN93hA3Wms9R2Dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=f63x4Y/K; arc=none smtp.client-ip=209.85.160.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2DOf/KvH"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4679b5c66d0so394811cf.1
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 19:12:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="f63x4Y/K"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4679b5c66d0so395331cf.1
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 19:15:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736910752; x=1737515552; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1736910916; x=1737515716; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/WLrWAK3A+hX7MbqxT/znt3dud8cCYJ+whdShWH78bg=;
-        b=2DOf/KvHqJJkm72h9gUUgoogw0B/HsvLesKvoICF394k+MIGjPsLYRxY+MAOeb7avv
-         GTGZ8vJcFjBDF28uEphA77pFAdqfdbLh/ghueQCwQ9HgAkGQYpZhVzhUBG7GxMcfPvD5
-         1YJHcK7uRi1hD2ly3+H64IFJ9u8lNXRUw58Wlunq7WeferMsHSij2c8JyJXM1kTFGu4y
-         kJAWFU+KQ/jKnUUP6AlgzYhZXC2WfacZC1ZtIThCVvxXspySFDemHNi3OUGrPOPlA566
-         6AC3hc7RsaV5JQ4kW+WhYzvO5R5mkLysP7ehTou4sysxFjy/Gm6E81wPg3NELxgIjwAK
-         PFVg==
+        bh=vmAQV/kXBFPzrcuQeLJpFKBUoh3gZth+A/qAse1ch+g=;
+        b=f63x4Y/KLpEBGHWddmMVDoS0oiZIP6Owmx0uk+bNtecOUf0UaYYA7NSoAckVuBsle8
+         W+7KCDk50a76nJFSy7wmRjiD1GTGIjF47J5tCuB+21PeIWAM8nXEpUfpod1I7EPvq7QA
+         FVy6Cg1QP/hehCzUD7hnxidWzkc7muzYSpAgtRMxIhMz1R8w/AEfJkDae0b+SB1nGoKw
+         9uHm1Ty2sE3BeQt8Dcp7HvFcQAcjKRNU8NL9YXIfjbptJ80iqsXvDOXmvPTzQmBtV2vN
+         PULCPc0bQI2z0pzQvtXt/+jyAJz1xSjWhsEbB/AIZTLjaBvEfxQMxzBlIsEzE2P+Kra6
+         hLaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736910752; x=1737515552;
+        d=1e100.net; s=20230601; t=1736910916; x=1737515716;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/WLrWAK3A+hX7MbqxT/znt3dud8cCYJ+whdShWH78bg=;
-        b=Zfg5N24as2rNJJauXMH3CKOIpIVJMX42NjPgYRnF/e7GUekcJvaaDxVib5GI2xHRMa
-         Np5f2pN/US3HE0MnS722acKVpgNQd9ZM2WKezY9VBa2EQv/1n+9r8UbXewlF4jXJEK9B
-         x+ZnrqvPB8tQ44DuWfmBFjvVzNUDPFvXrIJxmZy5vV4BZB34EiW/rtWXoC76CMPY80jo
-         rscBUyN6TcQ54AS+Sr5uj4cnE+3IWK/R5OW/SQy77/ekWtiZpZWoKMJSqZQLANUltuFe
-         airjC4PguhrYS3RRsnJXhyLz5ayrSgV3+IPa/sQTLShYLbibHk3Tx+3RIPuK4hVRincT
-         GqfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUELVMVaAL+IvZftKi17mBI1G8jY9Zjij8ttA1ffKUcTxhPiCDMLEvmPkvqxJJaeZYetXT4xohr5Uc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzP4b0zpXq19LFWYcbBUfbMgZT/AqGqegj+l3oBRy7H9ytKpZ3x
-	bFRm5HqyqfIwDx83m+O2DnnJhj1fontxAZ6CftmcMJXG4aVKtLEvv/H+URRsyHoxt5OYj15VJvE
-	f+UwBb1Juu3uE6j7lpPRIruN0trDKx2okGpKY
-X-Gm-Gg: ASbGncvbsN8qo1tBnY3w6T7AMXq+J3OUNe0QyGt3qa5CoYXSPOdIvE4ijiAJNC07ddS
-	pwEvnRf9PlrlceqjIRIh6ZFRU1UZHoOkK33Yg/A==
-X-Google-Smtp-Source: AGHT+IH5FFGAiPnYc3QmEM1mJrbs85UnXl2WCXEjbVPLmdRANY94kWDirMcRZM7DOuXSdvRmLcFHqaEOOnw8BOLR+jY=
-X-Received: by 2002:a05:622a:388:b0:466:975f:b219 with SMTP id
- d75a77b69052e-46df567eff3mr2280101cf.8.1736910751881; Tue, 14 Jan 2025
- 19:12:31 -0800 (PST)
+        bh=vmAQV/kXBFPzrcuQeLJpFKBUoh3gZth+A/qAse1ch+g=;
+        b=ifZTReaz/lN54zHk8DheZ7MTIZtgzX/avp3h4JKBagWWGHvKNoGO0lUMBE2tyQkvHt
+         NbGWfs2cU0VTzNPyCTQjmN+mo/U0hN1tm6nu6bx5LBNyxbFGRrFobudHc0/PSeONWqJz
+         NMNSnB4LerVW9YmtrNwO+HNWp+3K7u+jogcnZErw+tyTw8AvT9IpWSwjEms5ohT8HKW8
+         y6cRmsEy1fm47c80VUzrz0w8QcWg9jaKNw/lrrdhtG5IAoA6sHsxZc+TSoJyT3I2g8J9
+         +9uxkQv6ZuG4cLEOWaKB+A8QpUM8CKeRzDWsBvAnSR7r7KbHexaMT1oNf14wPz5/CQvS
+         zMhw==
+X-Forwarded-Encrypted: i=1; AJvYcCWSHw+lRLRzBp9nOFXaJN920UzKOoDAR+plqT504uwIra1WXvkMCDE4PWp+1g9XW9oQwLl1C9RUtSQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOwf5QTdN41cTNwFYRIu1yomXO6nWe7CZGFrVuZnNhq0n5A1gA
+	Gp+KWCHDK0IB+KvgGyfuEw75Z2G3OLD0had5ZbkyZu0uJA5dHUqlePzPtPuZYdCA1kgzw23wESt
+	2KcTNATI0jnjj+emrtCIin5Ohqj5xvp0Cb2Mm
+X-Gm-Gg: ASbGncsMduBAKe2k0HQFebixsCdcdg8U1JKa2wgiXDMGYruJoeWqsHF9lYp7sTmZqSd
+	IyBemybr+YMslXW3VWSNGg4pZOVPIBODzvCxINQ==
+X-Google-Smtp-Source: AGHT+IFUq7khit4IshjKxsTfppPDsBGejlIWyYntQVqEZyXIv7dkxNwfI0t7k2XD2Vg8ilZfX/a29yDt5iEFtdtqdq8=
+X-Received: by 2002:ac8:5a0b:0:b0:466:8887:6751 with SMTP id
+ d75a77b69052e-46df7007443mr952211cf.23.1736910915924; Tue, 14 Jan 2025
+ 19:15:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250111042604.3230628-1-surenb@google.com> <20250111042604.3230628-12-surenb@google.com>
- <20250115025830.pebmoyerkruqtx5y@master>
-In-Reply-To: <20250115025830.pebmoyerkruqtx5y@master>
+References: <20250111042604.3230628-1-surenb@google.com> <20250111042604.3230628-17-surenb@google.com>
+ <20250115022703.hqbqdqawvqgrfgxb@master>
+In-Reply-To: <20250115022703.hqbqdqawvqgrfgxb@master>
 From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 14 Jan 2025 19:12:20 -0800
-X-Gm-Features: AbW1kvbSjZeuNjMrfWdaHrRtVrYiQKhiGbkf0X276wxeUwBBTQRL-k7w94xE9nQ
-Message-ID: <CAJuCfpEvbCJeQDnMqJK7F9dCLX+4_kx3THuRq5yuf5U9oYoEKQ@mail.gmail.com>
-Subject: Re: [PATCH v9 11/17] mm: replace vm_lock and detached flag with a
- reference count
+Date: Tue, 14 Jan 2025 19:15:05 -0800
+X-Gm-Features: AbW1kvblMdf3P0PmLn0hIrav26JNs6MH0HDLjLfWEr_ZsqUy-mVZmHxwdhWblp0
+Message-ID: <CAJuCfpGShzXxqH8up75WQhdMzkr+Y6eE-h37nEEwVWHC6AN89w@mail.gmail.com>
+Subject: Re: [PATCH v9 16/17] mm: make vma cache SLAB_TYPESAFE_BY_RCU
 To: Wei Yang <richard.weiyang@gmail.com>
 Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org, 
 	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, 
@@ -82,66 +81,67 @@ Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 14, 2025 at 6:58=E2=80=AFPM Wei Yang <richard.weiyang@gmail.com=
+On Tue, Jan 14, 2025 at 6:27=E2=80=AFPM Wei Yang <richard.weiyang@gmail.com=
 > wrote:
 >
-> On Fri, Jan 10, 2025 at 08:25:58PM -0800, Suren Baghdasaryan wrote:
-> >@@ -6354,7 +6422,6 @@ struct vm_area_struct *lock_vma_under_rcu(struct m=
-m_struct *mm,
-> >       struct vm_area_struct *vma;
+> On Fri, Jan 10, 2025 at 08:26:03PM -0800, Suren Baghdasaryan wrote:
+>
+> >diff --git a/kernel/fork.c b/kernel/fork.c
+> >index 9d9275783cf8..151b40627c14 100644
+> >--- a/kernel/fork.c
+> >+++ b/kernel/fork.c
+> >@@ -449,6 +449,42 @@ struct vm_area_struct *vm_area_alloc(struct mm_stru=
+ct *mm)
+> >       return vma;
+> > }
 > >
-> >       rcu_read_lock();
-> >-retry:
-> >       vma =3D mas_walk(&mas);
-> >       if (!vma)
-> >               goto inval;
-> >@@ -6362,13 +6429,6 @@ struct vm_area_struct *lock_vma_under_rcu(struct =
-mm_struct *mm,
-> >       if (!vma_start_read(vma))
-> >               goto inval;
-> >
-> >-      /* Check if the VMA got isolated after we found it */
-> >-      if (is_vma_detached(vma)) {
-> >-              vma_end_read(vma);
-> >-              count_vm_vma_lock_event(VMA_LOCK_MISS);
-> >-              /* The area was replaced with another one */
-> >-              goto retry;
-> >-      }
+> >+static void vm_area_init_from(const struct vm_area_struct *src,
+> >+                            struct vm_area_struct *dest)
+> >+{
+> >+      dest->vm_mm =3D src->vm_mm;
+> >+      dest->vm_ops =3D src->vm_ops;
+> >+      dest->vm_start =3D src->vm_start;
+> >+      dest->vm_end =3D src->vm_end;
+> >+      dest->anon_vma =3D src->anon_vma;
+> >+      dest->vm_pgoff =3D src->vm_pgoff;
+> >+      dest->vm_file =3D src->vm_file;
+> >+      dest->vm_private_data =3D src->vm_private_data;
+> >+      vm_flags_init(dest, src->vm_flags);
+> >+      memcpy(&dest->vm_page_prot, &src->vm_page_prot,
+> >+             sizeof(dest->vm_page_prot));
+> >+      /*
+> >+       * src->shared.rb may be modified concurrently when called from
+> >+       * dup_mmap(), but the clone will reinitialize it.
+> >+       */
+> >+      data_race(memcpy(&dest->shared, &src->shared, sizeof(dest->shared=
+)));
+> >+      memcpy(&dest->vm_userfaultfd_ctx, &src->vm_userfaultfd_ctx,
+> >+             sizeof(dest->vm_userfaultfd_ctx));
+> >+#ifdef CONFIG_ANON_VMA_NAME
+> >+      dest->anon_name =3D src->anon_name;
+> >+#endif
+> >+#ifdef CONFIG_SWAP
+> >+      memcpy(&dest->swap_readahead_info, &src->swap_readahead_info,
+> >+             sizeof(dest->swap_readahead_info));
+> >+#endif
+> >+#ifndef CONFIG_MMU
+> >+      dest->vm_region =3D src->vm_region;
+> >+#endif
+> >+#ifdef CONFIG_NUMA
+> >+      dest->vm_policy =3D src->vm_policy;
+> >+#endif
+> >+}
 >
-> We have a little behavior change here.
->
-> Originally, if we found an detached vma, we may retry. But now, we would =
-go to
-> the slow path directly.
+> Would this be difficult to maintain? We should make sure not miss or over=
+write
+> anything.
 
-Hmm. Good point. I think the easiest way to keep the same
-functionality is to make vma_start_read() return vm_area_struct* on
-success, NULL on locking failure and EAGAIN if vma was detached
-(vm_refcnt=3D=3D0). Then the same retry with VMA_LOCK_MISS can be done in
-the case of EAGAIN.
+Yeah, it is less maintainable than a simple memcpy() but I did not
+find a better alternative. I added a warning above the struct
+vm_area_struct definition to update this function every time we change
+that structure. Not sure if there is anything else I can do to help
+with this.
 
->
-> Maybe we can compare the event VMA_LOCK_MISS and VMA_LOCK_ABORT
-> to see the percentage of this case. If it shows this is a too rare
-> case to impact performance, we can ignore it.
->
-> Also the event VMA_LOCK_MISS recording is removed, but the definition is
-> there. We may record it in the vma_start_read() when oldcnt is 0.
->
-> BTW, the name of VMA_LOCK_SUCCESS confuse me a little. I thought it indic=
-ates
-> lock_vma_under_rcu() successfully get a valid vma. But seems not. Sounds =
-we
-> don't have an overall success/failure statistic in vmstat.
-
-Are you referring to the fact that we do not increment
-VMA_LOCK_SUCCESS if we successfully locked a vma but have to retry the
-page fault (in which we increment VMA_LOCK_RETRY instead)?
-
->
-> >       /*
-> >        * At this point, we have a stable reference to a VMA: The VMA is
-> >        * locked and we know it hasn't already been isolated.
 >
 > --
 > Wei Yang
