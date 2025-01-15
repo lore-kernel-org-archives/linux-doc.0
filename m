@@ -1,146 +1,90 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E38248BBD;
-	Wed, 15 Jan 2025 10:31:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F6D248BDE;
+	Wed, 15 Jan 2025 10:49:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736937106; cv=none; b=Xc9YE2ltUdUzGam0zw9SCB65LqxSYxl3fIHVOwVH6N/tXFSxumrHjGpjyNyxWI6cspM+1wCBdcaEPVZTxRD+aAuwGityGo/gM8BFWTBia6XcI+gZ4dhkglQgc/cQIal17bR/7G5ZzAMpWT0mJM7WIrd1qZJvIGd81c7DX8SasG0=
+	t=1736938153; cv=none; b=M06liy/HT0uMfeprXYkDpN1VwHl5lvMf8OHB38JgpzpMDzZtzJq07q/j46Ffyzox1G2TKHOqMJmS14FsPp0JAoSE6uY8bthWBhwjN/iVw9rasBlImjxTmy6xKuhTVdZsic8lNfYgwW9ztZmDMPvh1oNHOlXpojeEsBA8Hcn3qxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736937106; c=relaxed/simple;
-	bh=C4smU/ff3NTXmzkB5WHABlck1VJqaczPMgiNWVrzYBo=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=chTspndT3SWM72h33vo0zdKO+VXejiG1O7bXu7jtvGwsZUy4Cuf/cTwFsRiCl7cWC1ITW4TiQwdEHaPSaXsuU2lRqniiQ39ljm6dzD6BoAOfekew2cxGqUIJAdYUSzL0Du+bUW9iLjAT+tb+ythSOUrMx2CW2bP1rq1C7PIF0ws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=CMtKKeAO; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1736938153; c=relaxed/simple;
+	bh=H7GIsZcONSDML/rxO3VfOAn+5/Y5ZkO3cI5R9vIRuf4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g3XIZFZAp4eibY5eVUR2Q7yuKA9mS7KcKNvhXWfXtV8ONP8KZ5bdPvlPAeg7Z9jBSgnF9yNNlhy48rjeXnor8WWJ0zOsX2DEh8EsP93Pe9R0wZdf6B5UzCvZfyT6saT7M7v9Nw1bVXLqQH8JOXFPNusXzPH3Xx4TJ7prK9zjO0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AWt6Kgsk; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="CMtKKeAO"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50F2s7LR022366;
-	Wed, 15 Jan 2025 10:31:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	hy/ib9Ox2rxOh/TA6zLxb8jMfLmoos1Ox3ytwvoQgQU=; b=CMtKKeAO9D0CkmfX
-	wGxlMry52bCEX+A7onF29W9OgU9q69GljqR2186RlCk3HZILZoShcs4IWPnxxmN3
-	z2//x3kXXomJtdKLgVlgCoWZ/WnB/dL5c4jYm8sgVS59pBgl0wZ1i204bEVrIaq5
-	HpPe0LY/dYcPecdHfOabV8eii+CcudLVy3m4eABjm8ZfuLZP1O/xlZIZySpuxkX+
-	ZAMQiyVw7BZ3GEkRM2wxuarzIxDvmtAfCOGpWf+m9fExhU/7Tl8POZTUy83Rtz1N
-	b0LjkWuUj7AyEQHpPHlZHlbXSLdNDx3bD5GQhhNyTKCaG4U6T3nvABjzP6W37K4J
-	15r8Ag==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4464mts121-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 15 Jan 2025 10:31:33 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50FAVWKt020634
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 15 Jan 2025 10:31:32 GMT
-Received: from hu-mdalam-blr.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 15 Jan 2025 02:31:27 -0800
-From: Md Sadre Alam <quic_mdalam@quicinc.com>
-To: <vkoul@kernel.org>, <corbet@lwn.net>, <thara.gopinath@gmail.com>,
-        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
-        <martin.petersen@oracle.com>, <enghua.yu@intel.com>,
-        <u.kleine-koenig@baylibre.com>, <dmaengine@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-crypto@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
-CC: <quic_mdalam@quicinc.com>, <quic_utiwari@quicinc.com>,
-        <quic_srichara@quicinc.com>, <quic_varada@quicinc.com>
-Subject: [PATCH v6 12/12] crypto: qce - Add support for lock/unlock in aead
-Date: Wed, 15 Jan 2025 16:00:04 +0530
-Message-ID: <20250115103004.3350561-13-quic_mdalam@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250115103004.3350561-1-quic_mdalam@quicinc.com>
-References: <20250115103004.3350561-1-quic_mdalam@quicinc.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AWt6Kgsk"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=uRYuEqn4WUyIK+m6O0WpoRV3QlBFajdww4u8dDsuPOU=; b=AWt6KgskOSzuWRcoGFsfxiHJa2
+	9PPr2pKgZgUKtes0GTakiBDW08ioewNrCuXA3Kdq7JVqRm/5fQ+5RchiQ2DNzfXGe9ZV5aoi/qMVO
+	WetoBozxkVfoUR7a8W1PHNz7FJq/7WYQmZ5TqZycglqAj4KtvHv+1gsMGRurGn1K3OzwLIOhWDK/9
+	dyR+xgjiivBX8sYYTYjSJltp8l7DEbbLDullmr6gSjRWnALi1g5QVrH7eB8uIj1xFZF0kpQx470aS
+	ww/SWZSZTPKu8RK61jjv7tdeszoYvWWXeMnPNCYtEn8NBNnGuweON4MmQzbfhU2fmwARQU718cIHM
+	1s959kmA==;
+Received: from 77-249-17-89.cable.dynamic.v4.ziggo.nl ([77.249.17.89] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tY0x0-0000000AqZ5-1qxR;
+	Wed, 15 Jan 2025 10:48:42 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 76D8E300346; Wed, 15 Jan 2025 11:48:41 +0100 (CET)
+Date: Wed, 15 Jan 2025 11:48:41 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Mateusz Guzik <mjguzik@gmail.com>, akpm@linux-foundation.org,
+	willy@infradead.org, liam.howlett@oracle.com,
+	lorenzo.stoakes@oracle.com, david.laight.linux@gmail.com,
+	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
+	oliver.sang@intel.com, mgorman@techsingularity.net,
+	david@redhat.com, peterx@redhat.com, oleg@redhat.com,
+	dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org,
+	dhowells@redhat.com, hdanton@sina.com, hughd@google.com,
+	lokeshgidra@google.com, minchan@google.com, jannh@google.com,
+	shakeel.butt@linux.dev, souravpanda@google.com,
+	pasha.tatashin@soleen.com, klarasmodin@gmail.com,
+	richard.weiyang@gmail.com, corbet@lwn.net,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH v9 11/17] mm: replace vm_lock and detached flag with a
+ reference count
+Message-ID: <20250115104841.GX5388@noisy.programming.kicks-ass.net>
+References: <20250111042604.3230628-1-surenb@google.com>
+ <20250111042604.3230628-12-surenb@google.com>
+ <gdipfy63r4wxiqlnglsjzatpej6jjswimuzadm2l57o2e45u56@qfd763n4ysft>
+ <CAJuCfpGu4UVXiBaivTVOGNBVVz3rhZ+VY27gT3_R0cTij5fTGw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: iQZy2B3ZVOUUrTn2osWcfrmz5ZEwrRns
-X-Proofpoint-GUID: iQZy2B3ZVOUUrTn2osWcfrmz5ZEwrRns
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-15_04,2025-01-15_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 suspectscore=0
- spamscore=0 mlxscore=0 lowpriorityscore=0 malwarescore=0 adultscore=0
- clxscore=1015 priorityscore=1501 impostorscore=0 bulkscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501150079
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJuCfpGu4UVXiBaivTVOGNBVVz3rhZ+VY27gT3_R0cTij5fTGw@mail.gmail.com>
 
-Add support for lock/unlock on bam pipe in aead.
-If multiple EE's(Execution Environment) try to access
-the same crypto engine then before accessing the crypto
-engine EE's has to lock the bam pipe and then submit the
-request to crypto engine. Once request done then EE's has
-to unlock the bam pipe so that others EE's can access the
-crypto engine.
+On Sat, Jan 11, 2025 at 12:14:47PM -0800, Suren Baghdasaryan wrote:
 
-Signed-off-by: Md Sadre Alam <quic_mdalam@quicinc.com>
----
+> > Replacing down_read_trylock() with the new routine loses an acquire
+> > fence. That alone is not a problem, but see below.
+> 
+> Hmm. I think this acquire fence is actually necessary. We don't want
+> the later vm_lock_seq check to be reordered and happen before we take
+> the refcount. Otherwise this might happen:
+> 
+> reader             writer
+> if (vm_lock_seq == mm_lock_seq) // check got reordered
+>         return false;
+>                        vm_refcnt += VMA_LOCK_OFFSET
+>                        vm_lock_seq == mm_lock_seq
+>                        vm_refcnt -= VMA_LOCK_OFFSET
+> if (!__refcount_inc_not_zero_limited())
+>         return false;
+> 
+> Both reader's checks will pass and the reader would read-lock a vma
+> that was write-locked.
 
-Change in [v6]
-
-* No change
-
-Change in [v5]
-
-* No change
-
-Change in [v4]
-
-* No change
- 
-Change in [v3]
-
-* Move qce_bam_release_lock() after qca_dma_terminate_all()
-  api
-
-Change in [v2]
-
-* Added qce_bam_acquire_lock() and qce_bam_release_lock()
-  api for aead
-
-Change in [v1]
-
-* This patch was not included in [v1]
-
- drivers/crypto/qce/aead.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/crypto/qce/aead.c b/drivers/crypto/qce/aead.c
-index 97b56e92ea33..cbc2016a8ad0 100644
---- a/drivers/crypto/qce/aead.c
-+++ b/drivers/crypto/qce/aead.c
-@@ -63,6 +63,8 @@ static void qce_aead_done(void *data)
- 		sg_free_table(&rctx->dst_tbl);
- 	}
- 
-+	qce_bam_release_lock(qce);
-+
- 	error = qce_check_status(qce, &status);
- 	if (error < 0 && (error != -EBADMSG))
- 		dev_err(qce->dev, "aead operation error (%x)\n", status);
-@@ -433,6 +435,8 @@ qce_aead_async_req_handle(struct crypto_async_request *async_req)
- 	else
- 		rctx->assoclen = req->assoclen;
- 
-+	qce_bam_acquire_lock(qce);
-+
- 	diff_dst = (req->src != req->dst) ? true : false;
- 	dir_src = diff_dst ? DMA_TO_DEVICE : DMA_BIDIRECTIONAL;
- 	dir_dst = diff_dst ? DMA_FROM_DEVICE : DMA_BIDIRECTIONAL;
--- 
-2.34.1
-
+Hmm, you're right. That acquire does matter here.
