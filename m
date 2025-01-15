@@ -1,81 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B4C24818C;
-	Wed, 15 Jan 2025 09:42:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12C91DB14D
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 09:58:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736934127; cv=none; b=bcfPKWZ+zCEVjpvb6mBrPzytmKL+WSMcwGywds+RwZdBB2di+Vb0Y+k0WIl4aFMDf2CFEv8Xa/OR04IHynhB3uxsg2EgL02Td2vuCjUM7Ui2bsIL62scOdQ4XbfBNNuClgUZVsaBi0CIiwAiypXqKM8wTNBNefZsSIDjW4oh7a8=
+	t=1736935126; cv=none; b=ZPIyX5Bm7aeWTPDQmrZtEOlcs7TNMFV1eNnOp1ZZEBNIaEce6PcOyzTqTWOMGYIuYZSQ6S7r0RpAH3cGC0Ytdh+Y/SQYQqE6Ow0F3WF2IpziWSmuh9rmLsoe1RpNrGcs6CrrcRL1iouZET8XlRuaNTyl5u+21w0g+TaYHdjriVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736934127; c=relaxed/simple;
-	bh=EGFVLQ4EwxQEzhjrZiSeHNH08Pdhj7mMZ5+RRyrl9x0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k9aR5sEzpr+VuInl/9c3dNI24g6vocj+Y7T/gHuViXwXEPytMaQu/oIfoAKiVewfFO1vJDZJ2SUhlZgvhwPvLAThUedT4qDABkPBK+UeUy1CFINihpNjiLqwKyeoaaDI1b5XDAUsxSpGB2giCv9I07UuFJs+yHPgMYBM7KhYsWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XbuFVfaz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736935126; c=relaxed/simple;
+	bh=aVHaEksdKvL0ueN7/Ok3RmujUopG1UWe0ecxKE/WeOw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JVAQB8mrEGA/hZSPVTXpVpL+BRRTKPYrWb/Yii275utZF65kFfo1D451RnHVwntJgw2y68D++IEqkEB5p11cLB1yfxGR4VVBtIIQWzLOxI6+PsR+4k0BgMOj2HBaO/gmvsFQuTGcTkMcThr688SK9xGKeiznK5Ku7czh+OGwHhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PIrCvHw2; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XbuFVfaz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3E07C4CEE2;
-	Wed, 15 Jan 2025 09:42:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736934127;
-	bh=EGFVLQ4EwxQEzhjrZiSeHNH08Pdhj7mMZ5+RRyrl9x0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XbuFVfazFA5Omct37IdhINp758egl6fy1S3Jzo2Mniwo/l803AhPCgbRzsuQXrVBc
-	 PVXy1NIxBnQHIX8okjOz/w/SWhjfKHJ7RDfT4DBrCePh6t+QC4yssq7Y50BWd/nxX4
-	 LOkVSUvY1H+qfZ7D84ba4NFUrlbiIS7RnOyv8ew8svIyhpUxNi+x49zQYXgaVktMwD
-	 rKTRESNa4r/PgfRqu3jfRckdOeOammW4B2LO9aniF/84+DYXfZ/oR7w7ViEkjgLQ9k
-	 4E/L5DZAsseNg8wyajMdZJKPtm3CzExSlNJHpzYWbH0PKFl5QAQWBbM3lehR6BdH/O
-	 p3GA+1kUtq6/g==
-Date: Wed, 15 Jan 2025 10:42:04 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Leo Yang <leo.yang.sy0@gmail.com>
-Cc: jdelvare@suse.com, linux@roeck-us.net, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, Leo-Yang@quantatw.com, corbet@lwn.net, 
-	Delphine_CC_Chiu@wiwynn.com, linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: hwmon: ti,ina2xx: Add INA233 device
-Message-ID: <d5rqo6fryvx76sta3cvjm55i7khiezj7dlspyij3jwzefsrtqq@rf7fzrt4yyo6>
-References: <20250115015519.950795-1-leo.yang.sy0@gmail.com>
- <20250115015519.950795-2-leo.yang.sy0@gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PIrCvHw2"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-467896541e1so506891cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 01:58:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1736935123; x=1737539923; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=aVHaEksdKvL0ueN7/Ok3RmujUopG1UWe0ecxKE/WeOw=;
+        b=PIrCvHw2SFheOcsHe6HzX4djxjbGNMe0Va6vFeFtiNLf2oN5W8UUC9Z5yiqUEqPcVT
+         A5UzRkPkvPBNY+JVvSkfNaTDO49x7CZeq8jj909L8fdMrLbDS35KZDJNHl7RN05CzzrF
+         rmABeLrwJV7JZ6+aCvnyBEdFzbZNwkq8Bf2UbMiOWDQfeo5wiywdFcCgPPsv6QV6Usrc
+         31Gp/QG5lqHjKbi1slXOVAWnXZ30nVmaPHib2TDQBMOIWhofIQzu9mzhc1AZXRnO/Uiy
+         VvzmOa7cT2aLfqUbnMKuo2f3WufFRgR3OzRWS9ZDbtc9xTmp2zbhpu94ojLu57V7TiMe
+         IavQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736935123; x=1737539923;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aVHaEksdKvL0ueN7/Ok3RmujUopG1UWe0ecxKE/WeOw=;
+        b=aGbEPjFxUdlnRqydA3GZoz8e5Kn0E/lmjmo/j7ZdqJQQB0qLI/Ws/lHADJwjcGtz95
+         M26lYZv2kRvSd1K3PGR6PicuugGyCSXmz+uGkdt1+s4u/qFZHOZrl//M2/UZE0ltRgaO
+         pG7Uhvvuu9v0dpEkOzjzlQIWw5aVbxuRtdmdRIgi6RCJ8fZfNIYtE/VUG2iXC0czTKdb
+         20wGIZ2t+MdidcnFoPi7INToS065C2H/jSsYGrVohrQLRnnFlswFU0a4gCmI1oDpbujw
+         sCsX0KeJvVun1+hRk/Lgkw+cWyZR18VkxuLTrg0wdBrfd72/K2M6gllrGbEP7EjuyuC2
+         VjMw==
+X-Forwarded-Encrypted: i=1; AJvYcCXNnsj4kzkX5Y+EXj/unoLSJncbyvPK9vVRL79EezdfYMvhZmUTsulOYBWU36sPdycsRAPsgOSd+Qg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YySs6NUecQjzxtK5/vXxk5JdW6yXIDdMQ309tNXxZxS+lbQFvmF
+	RWFcTBSLGnLNUtCN0H+s9Nu8/sjIrHBmzi9GIqBZuD82YnV082PnURoJDHFa3AShsqO7UDQKMW4
+	Mb8jDDgISaQXS8J6pBp/nqvedblJ3QwjzxVOb
+X-Gm-Gg: ASbGnctPNPk3EShhH6t/NHBnHkpqlt5wAIN/vo4TMfBQADDpFfhC8jI0dJMFEHaBcIy
+	J1CDLbAYY6fX9WVrb6ETDfPSa8i3HEYETkeB4aAREiw1ZFcy8S5aYcp8b/5jZM1kool2f
+X-Google-Smtp-Source: AGHT+IFRoKy6acFIUBD4nTBimbzl9hWVwxcAFbsuvmfns+MvaeBTDArx+VzPR92E5EA/UXxgdsCCfJPdEvnnJIQ6YL4=
+X-Received: by 2002:a05:622a:14c6:b0:460:4620:232b with SMTP id
+ d75a77b69052e-46df57d576amr3000461cf.28.1736935123343; Wed, 15 Jan 2025
+ 01:58:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250115015519.950795-2-leo.yang.sy0@gmail.com>
+References: <20250113-checkpatch-ignore-v1-0-63a7a740f568@google.com>
+ <20250113-checkpatch-ignore-v1-1-63a7a740f568@google.com> <5abiddu5zgxdmotauxnohnk25zyzd3cbjlfgskejk5ta7arzk2@pjpofoy7pcce>
+ <CA+i-1C1WF1cSvcNABGRbg34_aaOnSoVoDNBR357q8rrGk52OPQ@mail.gmail.com>
+ <20250114-tapir-of-splendid-leadership-ad115e@lemur> <CA+i-1C2OrLDvp_xiomc_B96vZu8G8KRrg7KBHATz2y7KMO8UsA@mail.gmail.com>
+ <20250114-olivine-adder-of-weather-1eaabf@meerkat>
+In-Reply-To: <20250114-olivine-adder-of-weather-1eaabf@meerkat>
+From: Brendan Jackman <jackmanb@google.com>
+Date: Wed, 15 Jan 2025 10:58:31 +0100
+X-Gm-Features: AbW1kvbFwOW5TtRWkCgOr5ftlBK46ay4xW20ltqt9dy4PvdTrtKFHeQQ2U9zEK0
+Message-ID: <CA+i-1C2-xB7BT-A786GSKhnZo0ucbk1m4=kPOBJ5fBempRZL4w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] checkpatch: Add support for Checkpatch-ignore patch footer
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
+	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jan 15, 2025 at 09:55:20AM +0800, Leo Yang wrote:
-> @@ -75,12 +76,40 @@ properties:
->        the alert polarity to active-high.
->      $ref: /schemas/types.yaml#/definitions/flag
->  
-> +  ti,current-lsb-microamp:
-> +    description: |
-> +      This value depends on the maximum current that can be expected to be
-> +      measured by ina233 in your circuit, divide Maximum Expected Current
-> +      by 2^15 and express it in microamps.
+On Tue, 14 Jan 2025 at 20:26, Konstantin Ryabitsev
+<konstantin@linuxfoundation.org> wrote:
+>
+> On Tue, Jan 14, 2025 at 07:29:14PM +0100, Brendan Jackman wrote:
+> > is that something people really complain about?
+>
+> Yes, I expect Linus will reject commits that carry that trailer on the exact
+> grounds that I brought up.
 
-No, express here maximum expected current. Otherwise what is here?
-Define the physical property, not the value used by your driver.
+Oh OK, Linus is definitely people.
 
-> +
-> +      This value will be used to calculate the current/power coefficient for
-> +      the pmbus and to calibrate the IC.
-> +    minimum: 0x1
+In that case I'll go for the graveyard+git-notes approach. Thanks for the input!
 
-s/0x1/1/
-
-maximum?
-default?
-
-> +
->  required:
->    - compatible
->    - reg
-
-Best regards,
-Krzysztof
-
+BTW, I also thought of just forgetting the graveyard thing and just
+having checkpatch look directly at the Git notes when run in --git
+mode. I thought maybe everyone uses --git mode in practice, but I
+checked and b4 doesn't seem to. So it's worth making this work for raw
+patches too.
