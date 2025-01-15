@@ -1,191 +1,122 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB2222F395
-	for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 06:41:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F374522F392;
+	Wed, 15 Jan 2025 06:57:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736923306; cv=none; b=V/MuFq46hR2hq7g0xuyT5PT/NVn1FxjdU1qXDjAudcZNjvhfhqmaAs3Soee0V9mDY+qngxQCtPm9S/WaQmSUKlQ3ovmAh15RtLGyLYDAjXj99rhuyiqxvESZq6OoVLT1mBOX/gCNzz1xx3BwedqYunuyKjFF+iQBc+htWLCEPj4=
+	t=1736924278; cv=none; b=CN/k/c/DrpBjOfNKj9SIwgDJ8ZIJJ5ZcGvp+EMxgcplzOI6iVlyZdsoFEFcdFMvgpQk0f40nSGxz1evba6uhYC1IOn7MmVzQJpY2q28ZNW6S9lmino/MInOsRBe3fs9DQopUTXkLHer/H8iNesknygl/lMP332iAhVde5TmxMSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736923306; c=relaxed/simple;
-	bh=P4wocBOngoW7Yx11mQitTtV/JmxkPIiCSjIwddxlmH0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PQug/Rttl9ZZ+JRPWDOpIITH2lG00J067pT/bjyUhjR5DjTN/gp4St4l+ymUOdid0GKOJ8YI72shHM6JLnfPJX/+0pYzJeD2slCQCE/eCSyDBQ2P66YI31rQIHbiqs5gewW8Z4omUSC5MibsrsHeGykhKRLdjjJQbBS16JOA3Vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YBy6sQct; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1736924278; c=relaxed/simple;
+	bh=9ylhe8VN6RPEcVd12Whd6qqqDNqOc7amBumoDE9CDao=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=W0kbVrfwLLcxC+VqxpDxoDNCN/dfyRgesLCaPy0Wcn3meoFoABul3Y46uBCSII4u3C/8QSGYOxASFmeAfgvlXApCgKqHeeMepIMxeh3NYXJYFm3VnrxCV6EBrI4BRDp7Xb83gokBXzlIofzF/AZpv60JWdYBOlN5gK3jkL5GVN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=UzCmS5Up; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YBy6sQct"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-467896541e1so467451cf.0
-        for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 22:41:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736923304; x=1737528104; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0F8PYZ5W3WWK6gmkW1B/K5FiNhF6cjRAyco7aRN7IXc=;
-        b=YBy6sQct/Hfp3XfGNcRH+trXIjktRI3Nvf9Yl5hrm7DsEHjK7Q1XZ6oed66vZb7Sdc
-         LYA3Q7QR6DaPKEaLpPKrUQuZs8jbodHVCQZ0JMXIU8iXUESFjaP/5isPOyg8oNmkM8s0
-         ik+vJxllGYtpeScYvVEK3uUgWBlKJ+iFZbRoQFwSQf9aVhzeFK6NZrO38DJcJXa6RpH2
-         V5oqZoYEIGo32HYOUszfjpncKdzK+DRt+BSS5PqgpUqDcYfoDCeDvvYiGt5Q4bFd432l
-         3NUgwGRruGQYbmg2HNa40cuvFu4xEhUfLyPD5JwHFA2qay7ypGWlR/OkzGxPCL92AY89
-         7kZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736923304; x=1737528104;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0F8PYZ5W3WWK6gmkW1B/K5FiNhF6cjRAyco7aRN7IXc=;
-        b=pEaopibAHTkkrLxCWXnw2JDJCr0mdw7hgr3LxNxW39mDkTMUe6bgtv/y3EGZM7yACc
-         g6iKXSpBLdm/3S4YTp8uhvn9aRYf8NXuoAFrA7jJzp1EZ/mKYOaMNZe8adlPUeM+F4Kh
-         YqewQEpylxhtHpOdlIBD2Psl0a08OinE94aQiLVafsjOvYSzc3ybWbi54beSjKP8SKHi
-         RbGh/H1dgpB2pdLTzmKYrBggH4MM6D15TKwnCP46PmSdY2VDhEpiTGf3k4jK/w1j/Z0p
-         1StCcP830dzNSREnZKmwP43NT29tfhpFx+UxfbJGL139/3YvnUmibrERBwbvfhZtjTXB
-         ytDA==
-X-Forwarded-Encrypted: i=1; AJvYcCWUlZNT30USLzhEwhZDkW75Jd8sR8tlg5wj79iA7VI0Ec4H3P5Bw+PXPDWdi0MO6zybcUjbaCvF+KQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwR9WzcBwzoUQhx5rhr7cd7A5kqKJ5rqs1j53PqUxbMaEreNEFg
-	jLUfpTpAkxSBERryHLu1DITJjAnSIQQKr2JPUZ/Kb9gdnu/Vd83JpPb5gXBQd0EfuVnbW+O/32Q
-	/z2joRiWeoTxEYUxcrgOwFRhX9Y5TrEOq4f3N
-X-Gm-Gg: ASbGncu9Zos51FhUHqO33dsAbeqWGzx2vTUWnne3y6La5MMHSeCUx68X1E3ZkbJrQ7b
-	KQ9/7jnnpHFpdObZlcx+fuaGbZcGiFhlnyyI2Og==
-X-Google-Smtp-Source: AGHT+IHF1ya+ts9z9KXplqx0JXG2FHcs5cYarOSih5CGytMsdjddmPuCvdHWqMWDijvYtf46Ccwm+RiVWN2vmsDPRn0=
-X-Received: by 2002:ac8:5744:0:b0:467:7c30:3446 with SMTP id
- d75a77b69052e-46df7019ed5mr1517601cf.25.1736923303787; Tue, 14 Jan 2025
- 22:41:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="UzCmS5Up"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50F1YZ6Y007853;
+	Wed, 15 Jan 2025 06:57:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	8Yx8n/XQSKNINcFDuWn8kaPdgeJlpCZUR09RqodhtIs=; b=UzCmS5UpOenAGWHI
+	Hch87xXQuxEftkkZEoXyr42fHzL/+iq6/wI5+4H2X2WgejlUFlsDD2MxihoWWZa7
+	06/lLmADk7N16GjJjpVnFOtRZpeI0xm0+ybmzhlYtS3rhFE/Pn2MXMB3VrQTlivf
+	ld5kPWGuds056Y5nCntt0gAUrzdydxRmWeLDanpc+dsZIcnvUlCuKAGdJWe7U1Y+
+	FDcIeDKqPYvaqpk8tWnChXl7VN/aVCNjWNp6hi1nRlKyIbKNF7S5b8P8pmD3zzxT
+	2GZHnTSTo0sxgVTcxe8FBeLBNWeZJiEb3BiHyxWQ69DXitPFlYfksFQ+seTMPida
+	NJe5fA==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4463frrnvx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Jan 2025 06:57:40 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50F6vdIg018961
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Jan 2025 06:57:39 GMT
+Received: from [10.253.32.159] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 14 Jan
+ 2025 22:57:33 -0800
+Message-ID: <224f8e60-06de-4db3-9025-7ada999d676b@quicinc.com>
+Date: Wed, 15 Jan 2025 14:57:31 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250111042604.3230628-1-surenb@google.com> <20250111042604.3230628-17-surenb@google.com>
- <20250115022703.hqbqdqawvqgrfgxb@master> <CAJuCfpGShzXxqH8up75WQhdMzkr+Y6eE-h37nEEwVWHC6AN89w@mail.gmail.com>
- <CAGudoHH9-h68S-YV4TObYMRDFe99xAO7Nu3tXF8h_Kds2-MWCw@mail.gmail.com>
- <CAJuCfpEDfjyfPjck_3VO5vV4RX0K1UYvHe_R8pSv+6iXN=3wsg@mail.gmail.com> <CAGudoHE2aPNThzAK9UrZYAo8CrRTFfu_VuSeyq5r2EhB7x4w0A@mail.gmail.com>
-In-Reply-To: <CAGudoHE2aPNThzAK9UrZYAo8CrRTFfu_VuSeyq5r2EhB7x4w0A@mail.gmail.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 14 Jan 2025 22:41:32 -0800
-X-Gm-Features: AbW1kvbgIx9td2nvyWNgkuuIvXCIMN_nt2vk4NZ_73rlrqr5bl-2SLbmzJ7RnwE
-Message-ID: <CAJuCfpHO-t65K_gAioCBLSaK-nzkNQcA-95Hu6XsE00dotiSfw@mail.gmail.com>
-Subject: Re: [PATCH v9 16/17] mm: make vma cache SLAB_TYPESAFE_BY_RCU
-To: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Wei Yang <richard.weiyang@gmail.com>, akpm@linux-foundation.org, 
-	peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com, 
-	lorenzo.stoakes@oracle.com, david.laight.linux@gmail.com, mhocko@suse.com, 
-	vbabka@suse.cz, hannes@cmpxchg.org, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	klarasmodin@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 12/14] net: ethernet: qualcomm: Initialize PPE
+ L2 bridge settings
+To: Andrew Lunn <andrew@lunn.ch>
+CC: Luo Jie <quic_luoj@quicinc.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, "Rob
+ Herring" <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "Conor
+ Dooley" <conor+dt@kernel.org>,
+        Suruchi Agarwal <quic_suruchia@quicinc.com>,
+        Pavithra R <quic_pavir@quicinc.com>, Simon Horman <horms@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, Kees Cook <kees@kernel.org>,
+        "Gustavo A. R.
+ Silva" <gustavoars@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        <linux-arm-msm@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+        <quic_kkumarcs@quicinc.com>, <quic_linchen@quicinc.com>,
+        <srinivas.kandagatla@linaro.org>, <bartosz.golaszewski@linaro.org>,
+        <john@phrozen.org>
+References: <20250108-qcom_ipq_ppe-v2-0-7394dbda7199@quicinc.com>
+ <20250108-qcom_ipq_ppe-v2-12-7394dbda7199@quicinc.com>
+ <4dbf1550-32e9-4cce-bf0c-8b92dbd49b50@lunn.ch>
+ <c67f4510-e71b-4211-8fe2-35dabfc7b44e@quicinc.com>
+ <8bdde187-b329-480d-a745-16871276a331@lunn.ch>
+ <4599e35b-eb2b-4d12-82c7-f2a8a804e08f@quicinc.com>
+ <b7b13bba-e975-469c-ad59-6e48b5722fc7@lunn.ch>
+Content-Language: en-US
+From: Lei Wei <quic_leiwei@quicinc.com>
+In-Reply-To: <b7b13bba-e975-469c-ad59-6e48b5722fc7@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: x3DXd7vF2lTHN9YzXtgbNYOhtm42Ag0i
+X-Proofpoint-GUID: x3DXd7vF2lTHN9YzXtgbNYOhtm42Ag0i
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-15_02,2025-01-13_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 mlxlogscore=999 spamscore=0 suspectscore=0 priorityscore=1501
+ mlxscore=0 impostorscore=0 phishscore=0 adultscore=0 clxscore=1015
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501150050
 
-On Tue, Jan 14, 2025 at 9:52=E2=80=AFPM Mateusz Guzik <mjguzik@gmail.com> w=
-rote:
->
-> On Wed, Jan 15, 2025 at 6:47=E2=80=AFAM Suren Baghdasaryan <surenb@google=
-.com> wrote:
-> >
-> > On Tue, Jan 14, 2025 at 8:00=E2=80=AFPM Mateusz Guzik <mjguzik@gmail.co=
-m> wrote:
-> > >
-> > > On Wed, Jan 15, 2025 at 4:15=E2=80=AFAM Suren Baghdasaryan <surenb@go=
-ogle.com> wrote:
-> > > >
-> > > > On Tue, Jan 14, 2025 at 6:27=E2=80=AFPM Wei Yang <richard.weiyang@g=
-mail.com> wrote:
-> > > > >
-> > > > > On Fri, Jan 10, 2025 at 08:26:03PM -0800, Suren Baghdasaryan wrot=
-e:
-> > > > >
-> > > > > >diff --git a/kernel/fork.c b/kernel/fork.c
-> > > > > >index 9d9275783cf8..151b40627c14 100644
-> > > > > >--- a/kernel/fork.c
-> > > > > >+++ b/kernel/fork.c
-> > > > > >@@ -449,6 +449,42 @@ struct vm_area_struct *vm_area_alloc(struct=
- mm_struct *mm)
-> > > > > >       return vma;
-> > > > > > }
-> > > > > >
-> > > > > >+static void vm_area_init_from(const struct vm_area_struct *src,
-> > > > > >+                            struct vm_area_struct *dest)
-> > > > > >+{
-> > > [snip]
-> > > > > Would this be difficult to maintain? We should make sure not miss=
- or overwrite
-> > > > > anything.
-> > > >
-> > > > Yeah, it is less maintainable than a simple memcpy() but I did not
-> > > > find a better alternative. I added a warning above the struct
-> > > > vm_area_struct definition to update this function every time we cha=
-nge
-> > > > that structure. Not sure if there is anything else I can do to help
-> > > > with this.
-> > > >
-> > >
-> > > Bare minimum this could have a BUILD_BUG_ON in below the func for the
-> > > known-covered size. But it would have to be conditional on arch and
-> > > some macros, somewhat nasty.
-> > >
-> > > KASAN or KMSAN (I don't remember which) can be used to find missing
-> > > copies. To that end the target struct could be marked as fully
-> > > uninitialized before copy and have a full read performed from it
-> > > afterwards -- guaranteed to trip over any field which any field not
-> > > explicitly covered (including padding though). I don't know what magi=
-c
-> > > macros can be used to do in Linux, I am saying the support to get thi=
-s
-> > > result is there. I understand most people don't use this, but this
-> > > still should be enough to trip over buggy patches in -next.
-> >
-> > If my previous suggestion does not fly I'll start digging into KASAN
-> > to see how we can use it. Thanks for the tip.
-> >
-> > >
-> > > Finally, the struct could have macros delimiting copy/non-copy
-> > > sections (with macros expanding to field names), for illustrative
-> > > purposes:
-> > > diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-> > > index 332cee285662..25063a3970c8 100644
-> > > --- a/include/linux/mm_types.h
-> > > +++ b/include/linux/mm_types.h
-> > > @@ -677,6 +677,7 @@ struct vma_numab_state {
-> > >   * getting a stable reference.
-> > >   */
-> > >  struct vm_area_struct {
-> > > +#define vma_start_copy0 vm_rcu
-> > >         /* The first cache line has the info for VMA tree walking. */
-> > >
-> > >         union {
-> > > @@ -731,6 +732,7 @@ struct vm_area_struct {
-> > >         /* Unstable RCU readers are allowed to read this. */
-> > >         struct vma_lock *vm_lock;
-> > >  #endif
-> > > +#define vma_end_copy1 vm_lock
-> > >
-> > >         /*
-> > >          * For areas with an address space and backing store,
-> > >
-> > > then you would do everything with a series of calls
-> >
-> > I'm not sure... My proposed approach with offsetof() I think is a bit
-> > cleaner than adding macros to denote copy sections. WDYT?
-> >
->
-> another non-copy field may show up down the road and then the person
-> adding it is going to be a sad panda. wont happen if the "infra" is
-> there.
->
-> but I concede this is not a big deal and i'm not going to bikeshed about =
-it.
 
-Yeah, I can't think of a perfect solution. I think we should pick a
-sane one and if requirements change we can change the implementation
-of vm_area_init_from() accordingly.
 
+On 1/14/2025 9:02 PM, Andrew Lunn wrote:
+>> I would like to clarify that representing the bridge and its slave ports
+>> inside PPE (using a VSI - virtual switch instance) is a pre-requisite before
+>> learning can take place on a port. At this point, since switchdev
+>> is not enabled, VSI is not created for port/bridge and hence FDB learning
+>> does not take place. Later when we enable switchdev and represent the
+>> bridge/slave-ports in PPE, FDB learning will automatically occur on top of
+>> this initial configuration. I will add this note in the comments and commit
+>> message to make it clear.
+> 
+> So it seems like the comment is not the best. You don't actually
+> enable learning...
 >
-> --
-> Mateusz Guzik <mjguzik gmail.com>
+
+Yes, I will update the comment to make it more clear.
+
+> 	Andrew
+
