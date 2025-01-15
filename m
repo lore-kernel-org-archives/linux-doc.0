@@ -1,142 +1,420 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD8D1798F;
-	Wed, 15 Jan 2025 02:27:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736908030; cv=none; b=mN1pBs6gJFSQurw8rmmujwB4xOWIt5i77d09VWaMHPYuatdC40dVJRhbyocr3NbAUFWNcKBIFGaKUBokoEsr5ls/U6t5nCXeakrviEs0PeFMe0pxHyd7Vleaimb8NmRX6gThKxtL87Dhq0szLqVSYfXc95tt/gg0sFbtifbN0Ws=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736908030; c=relaxed/simple;
-	bh=ThDH9uQF935yvwjPIugcuKvu3+yuRQ2UUkPp1LdvuAk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SKp+8ZzJDz8pBpER8n9YNi1EiRFGefzjrlso+C2jAy9v48q5KPXv/CoCodbdaKbvzbB5GiAA6Cay6pd0YMzu9vyDOju0vNUNHWjuDjPGUdqb1qZ7kMKRmjezVNzi5h4oXYYUFEj29zA8Tj7yKR2ajfyHw7CIAw2lQW8lj8KGY/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AMncvuOy; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A46232441;
+	Wed, 15 Jan 2025 02:35:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736908560; cv=fail; b=cfzWBTtwj0LiEqNfGRkXanrMk7wZmvdeoRUrI7Ax08RtraqgwxNZKWxpCnAl/rebyzeOFBuA8S4vDuQEHJmm0jV+aecapsPe3Q4bvqXyVdWkl+prbDKuq9Fqy0DyUZJtXUzxukE3WS6qsiKmK+sHmEiKu2KIxL8zKXeBKBy1xEQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736908560; c=relaxed/simple;
+	bh=gsHK8yKrwOIssaqBnfbpJPjUtdT0S7qfHN6vDWJTz4U=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ONjbvR+DajICeFoPfVVKCP4v1C4PRe5V1DYp+6PaAUgBc5u0SkWutMGPFmWwjWzPMLWop3f4zPH1nGfGXdfb9d1oxA/gioHZnUX4eqTdtAU/cS67ywwwxr780gy5Z6nOCuz27izBGzxFQN39uqdJZE9qgyPYezo1eGY3Wkwk8ZE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LW/ZTaJ0; arc=fail smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AMncvuOy"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5d9837f201aso727819a12.0;
-        Tue, 14 Jan 2025 18:27:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736908027; x=1737512827; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Cft0FFnxbXaKCYduOTSHaxekyaoRv/tqmxl3MTYv73s=;
-        b=AMncvuOyQyYH7OvvQav9CVg2yrp6Qw9rnsf2pWRXwpOCFUjvoyQStoFJvaX0AaygUh
-         pPYn9VmL5vVv9fy/oyTsdznAbR5dZ/DSoZWFNbOsy4RoIaNe258gH06HhD/gID3qtlAP
-         hDPKv69IBNdWtmvvYXrYbUkrl9I/lPTjzaWOw3HR7cUePlLgcn35nXYItRT6TxMEIJ+X
-         ISk6k+9omSZTEsPSEBhVyklnwFyL+oSp54rilfMDsigKwpP6I9QiLxc/FP3sr7m8F8q/
-         dSJcit+5MXibx8QN67lgbWIjWRB6Z6HOAeIBjR3KHw10mBOjHATl5PsQoRKGhnW3HjNn
-         PpjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736908027; x=1737512827;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Cft0FFnxbXaKCYduOTSHaxekyaoRv/tqmxl3MTYv73s=;
-        b=QAkHhpsgPvYQN0F9R2GsdYzEc5W0r0s/7rRiBOKGqvu/yXPNOxH3k57YH8GwNi3iGu
-         riVm4NKj/NZ0OtcXtUmPUgWKOPX937MkQL9cvgoaklgYCA263ezActf1B1R/aHoTqVeN
-         Fh1IYBUdXlwFLbP1ejrnvCO2zEApIxopBKZHKDv6ZDBRCiLab3oRYnMoebrHkseWr0lJ
-         9KS6LyA+IWJLOKIPt1aAzN3IaqadYIdO8lFTeiq2jAyL0cJgR8bkQPrtbHvjrARb6vbN
-         rmEZ+7TBTlLupNlDubblt/k4dagwUsrrofyfDa4YhZVTRzp4TrOaQlD7ezz+wCnZNw/B
-         leqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUPwRCfYQYgOmZ6sMnWwG+EcTwP/shMx/Zr6+dsBrV8Q4scIrtN3/5n+bNQMiUgyYiToiMvjchz2TglROSU@vger.kernel.org, AJvYcCVPCwdke7JR18KeGxN8r9eJoaXKzonpD2susyKMPAb9BHdfBK/uLMGWnJwYsN+u5kxBu+zK8C53oqY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjMdSmk3E1qoaTw8xhZXk2yAMz/yfAxEBE2dlX51fheBWpm9Ob
-	dzt1x6MEbFOJ04uKHKGTXYa7HQqZNsoIKz+4XZf0nVyO+5vLjSAi
-X-Gm-Gg: ASbGncukbT4iVWqhRFsKtZ9KkV4DHmuwBoLMGek+HvuGaUsBFqao5VFS7JphysBCxhH
-	quKoZjDh29mlCte8HkJWpWRK6GaYUafhqrULCjywcWfJs2wXHbZOu1Y1Z9nWzuDo3WieGWlinOI
-	8pHXmYOdMrQOpBBRKTadX9QJ0yiVkh4sAfWqbDa6A07nN3ImXGFyv0IHUu1iU1GXMZ/le0+w4Qx
-	IkkjRllSkpZfr2WgDzMpWC4csbxln/3d4TgQ1TEdIJq3GbSNqmKM/dk
-X-Google-Smtp-Source: AGHT+IEXyK5JsIG/REt2LqHjIyVyNodxD/Vbd8MXSPX+u0YWKZ4KISrSFVqciHOWz/+J8reVSqyBoQ==
-X-Received: by 2002:a05:6402:27cf:b0:5d0:ece3:158a with SMTP id 4fb4d7f45d1cf-5da0bac2db9mr987630a12.3.1736908026651;
-        Tue, 14 Jan 2025 18:27:06 -0800 (PST)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5da0aec6e7asm421301a12.33.2025.01.14.18.27.03
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 14 Jan 2025 18:27:04 -0800 (PST)
-Date: Wed, 15 Jan 2025 02:27:03 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, peterz@infradead.org, willy@infradead.org,
-	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com,
-	david.laight.linux@gmail.com, mhocko@suse.com, vbabka@suse.cz,
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
-	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
-	hughd@google.com, lokeshgidra@google.com, minchan@google.com,
-	jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com,
-	pasha.tatashin@soleen.com, klarasmodin@gmail.com,
-	richard.weiyang@gmail.com, corbet@lwn.net,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH v9 16/17] mm: make vma cache SLAB_TYPESAFE_BY_RCU
-Message-ID: <20250115022703.hqbqdqawvqgrfgxb@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20250111042604.3230628-1-surenb@google.com>
- <20250111042604.3230628-17-surenb@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LW/ZTaJ0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736908558; x=1768444558;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=gsHK8yKrwOIssaqBnfbpJPjUtdT0S7qfHN6vDWJTz4U=;
+  b=LW/ZTaJ0pYXoMwEQGRZCqF4yw0doJcozBRu+eVINr3fnU7VdNeZLMxSD
+   B3S1zjF2X3w8YLuvPODHp1zp63kXlgSVQaBnoa+JA1Rxqrc9QgG9d3lgC
+   NkIM/NWkE5Vbny01v0tQAWMDp2y1pL0gbkyG0TAxY1opQ64dGUzy0N41/
+   utuhWEViLRQqRtcBakw5TusITOTwx36PYvsoAOKzUq+zwBkxNxfo6qFz7
+   xXEf0pc2MYtfUB97kVILyNNAb+M1VlMSgio74fk/hhueceJqtv19FaStK
+   3Hp6MxwPnhAGeUWDDH9RjddhLM4VIjNlG85oo/0Ve1B30NthGgBpDh1WM
+   Q==;
+X-CSE-ConnectionGUID: lZCBaxgKSyKGJa90/7ZMww==
+X-CSE-MsgGUID: PAPscuigQ3OIMZBc3D/CqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="48637632"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="48637632"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 18:35:57 -0800
+X-CSE-ConnectionGUID: pTI5oNhjTnSo/KA2gArzEw==
+X-CSE-MsgGUID: q0HqrQ19RxesQVCG321VHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="104863561"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+  by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 14 Jan 2025 18:35:58 -0800
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Tue, 14 Jan 2025 18:35:57 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Tue, 14 Jan 2025 18:35:57 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Tue, 14 Jan 2025 18:35:55 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jK375qYjl0B4r3FES2hvR61BO7M2eUhtijDj/kQalhV+0Cwda7DsdSpEuTPs8Z9p5iXt65PLL4ce7wwYgascH8qeS8/AixuWMlywczmdkUW6nkJFWwSmJzpSxXidYJ5fum2VDxM+48OKe0O3ExjYVUjCEhcHT2d0tEOq0+Y12o3X2UQdyL8l8LLuju/m7fr7brIwrFMwB0niWDwHbt1m5PKkbN4mhqW5VXvTtLBbvIId1puKwvTiAnHlsn8n9ZODjXRouVYU0qN4paIp6OfPcNm5rCm9EhFiDZwURVaL/jRekkn1RE4PKjR9Drc+Quvwgq+2OYqN8x/j5fzTKAGovA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z7H+2tWrxlb7CFpN4ApVSS6fwFsH+VyqukqgA9knnnA=;
+ b=BJ3qEtvql9G13RBE5+ZlsWrAILr+wt1rImEHgkVehhx3XsJTUbM3qUBnLaUEgjz7JCvNY/gSUVz/VGwYRyqwkvt2Sbpg9u5ANV7ImPaoAc1ngGoOnrjmA1Vp8dZ1gymerasVtkOAPPRfNp2p3/Br8Bt6+83+IGfW05LOkCVkJswsEZ8LEDboZpguZ9nYqCMcMiEtpaz3gBH555hY/8WCFwJxpzmVBK6rmkV1zlL47khLZTmAGXxPPQiiYH1VpE9oZtMiSy0IcriQXocFZQX3TWYm5cZ9hM0mb+iiKQ0yRMczi11aPQ8ISc8FsXjbrUuAcE8bslw6oCEQwv1hEvgndg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
+ by DS7PR11MB7691.namprd11.prod.outlook.com (2603:10b6:8:e4::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.12; Wed, 15 Jan
+ 2025 02:35:53 +0000
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::6b05:74cf:a304:ecd8]) by PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::6b05:74cf:a304:ecd8%5]) with mapi id 15.20.8356.010; Wed, 15 Jan 2025
+ 02:35:53 +0000
+Date: Tue, 14 Jan 2025 18:35:49 -0800
+From: Dan Williams <dan.j.williams@intel.com>
+To: Ira Weiny <ira.weiny@intel.com>, Dave Jiang <dave.jiang@intel.com>, Fan Ni
+	<fan.ni@samsung.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+	Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
+CC: Dan Williams <dan.j.williams@intel.com>, Davidlohr Bueso
+	<dave@stgolabs.net>, Alison Schofield <alison.schofield@intel.com>, "Vishal
+ Verma" <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+	<linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-hardening@vger.kernel.org>, Li Ming <ming.li@zohomail.com>
+Subject: Re: [PATCH v8 02/21] cxl/mem: Read dynamic capacity configuration
+ from the device
+Message-ID: <67871f05cd767_20f32947f@dwillia2-xfh.jf.intel.com.notmuch>
+References: <20241210-dcd-type2-upstream-v8-0-812852504400@intel.com>
+ <20241210-dcd-type2-upstream-v8-2-812852504400@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20241210-dcd-type2-upstream-v8-2-812852504400@intel.com>
+X-ClientProxiedBy: MW4PR04CA0349.namprd04.prod.outlook.com
+ (2603:10b6:303:8a::24) To PH8PR11MB8107.namprd11.prod.outlook.com
+ (2603:10b6:510:256::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250111042604.3230628-17-surenb@google.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|DS7PR11MB7691:EE_
+X-MS-Office365-Filtering-Correlation-Id: bcca76ab-1427-46b7-3517-08dd350d549f
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7416014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?R2XIsdeOdJfhiKI1NkZKN/LgrlWgCXj/GH3lfDxPIfMd3zKsQNU9O3zCiY/5?=
+ =?us-ascii?Q?ORwMTSDOoAlDEsN/peA6Imf7FTYiW2BcK6832Dh79EzDoJ9njI2dZP7E8Skw?=
+ =?us-ascii?Q?+oJ1koMGx+XepdhyActTKjXYk88nOV1SPMkUAoGEKxyRP3zMdR6GaD1+u+JF?=
+ =?us-ascii?Q?2MvCftcq5n5yImyx05oHA546Mjw3tWZ/3i1WWNWe0kqNtQdLc5Geupeq2c00?=
+ =?us-ascii?Q?8fHTf4Kug6eN2KPAhSjjH5Kg6oCebpsw61oHAKIBO3DwtiDk32uVDeyTuaud?=
+ =?us-ascii?Q?xatkE6EtaCWmiAIt4O+pDGF1DFK/Rl/5j79qF/AoPfQUk55CkJGG750s3nmW?=
+ =?us-ascii?Q?o8kXHVPM8JY5SyOII+cuUPR5HVQVR/P70TtEDRt4FIfk0Hv6Cis95VF4t6yg?=
+ =?us-ascii?Q?ESBGzokOhrlQEOfXOK9GMHFriK2kfiqKvcgmGOMz2Rg6i+MnYBvHTJ3rueLz?=
+ =?us-ascii?Q?F8PMndi6ytCI8/yojK/Bsp5q7MQ69oN6cMuIwtwAyjXzm/o7XZgdO4834LoC?=
+ =?us-ascii?Q?NsIT/TN1F8Vk/W583OuCnDd56XZq3R7THszwF7ikD5beWUyWIb8MjsZ4FaCR?=
+ =?us-ascii?Q?SV4FjX6GkndokZjSmIjKOT4PV0riz3yJ5WBKg0hLbXqh2UOlp/jpo46e8Wlc?=
+ =?us-ascii?Q?P5H559BQlrgnezx6FsTIGnF4buMS6CEeF/P9XrHKBuDBwydwpEtbWecroOtQ?=
+ =?us-ascii?Q?UTOFrqCpSXtRSiwgZA6iYh0BMUJy0NSTCUQKxLzL3N2Ukr6+GQzAkIULPkbn?=
+ =?us-ascii?Q?gW2iXDk9/R8gUa0znuhk3dyHlKVM29aujld5obfHdsWpWwagwc9nkRSNbA+c?=
+ =?us-ascii?Q?/qeVgZ5LaxH4iuPMtZbuS9peO+IvuxxAR6eEclLBJumW77+snAorfvwY/cei?=
+ =?us-ascii?Q?wG459lf3VMCLN6xtg8un9sLTtTUtSkoCVsZZex5C9H5pFDKn2tDEp0xoUGfj?=
+ =?us-ascii?Q?kEVI8joNIC48JBJTck7ipQ7ovDaX3t4G5vtNomG19MIo0LU1hj2MW+CPOgTK?=
+ =?us-ascii?Q?oBn2ryuojS8oYx2AoqGi8gIBoXTuD+2UTKUJwLhn2/7F1OcEwFFWmorPb114?=
+ =?us-ascii?Q?XYpNHiES61UvMZccFMxBJ8eSj/Bgg1YxROomOqK5aUyZr45RY6ip6M6caHkv?=
+ =?us-ascii?Q?h6ZpztCSlnqKMizAU5itIG+OGIi9wCU+cB1xdi87Df9vHtR6htYy7a9FmyiF?=
+ =?us-ascii?Q?rKF+EdFh7DuaoHG83Dy/WFnWsA+GN7wsDiiz4Ltktejld8xeztunsB4q93ON?=
+ =?us-ascii?Q?mbRjw7vdNQQ2gSaEhj3SIGG/kzWKJg1n6Rjvgp3xLYdrPwQgAb6z29kzxKKw?=
+ =?us-ascii?Q?GOWMTnVHfZX+qh+7M/MGcT7VydgqGGAL/ZMcgq7xuxzhhBi8fagBsC0RmVBQ?=
+ =?us-ascii?Q?FsklOx7LDfrnDiWQicWp0TUMoP7E?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?vL07E7SSOzw3cN3eqICXWnP/u7FKthcJBRZj99MYqghI/1CXwVxiT/V0rD/q?=
+ =?us-ascii?Q?k7Dz1ONO3OnddlPvgvL3/TLUiLYtQUFUykiuLcKL8gQdM5Okh99goA5wKDjk?=
+ =?us-ascii?Q?HZJZg0G+mH0DkSuYS0GvQS3yp9jygK0XFe3F7/jv/oTy5wBlKPxc+4Ukch8b?=
+ =?us-ascii?Q?G7P8vU1Q0JhX17ADMjvxJaA+1I7SBddl3kmInEfzM3VxVrVmlWcjf+xrp7IH?=
+ =?us-ascii?Q?iCgECYJcblTqpsEg1huZ3DmgdV3r9yvnUHY3eJ+HFSCokIVKfMKPDYhpaqpE?=
+ =?us-ascii?Q?/ZCW4/Ogep3Vbdl66Nw5hPnu+Fht9RbZcaMUfyFQTOD7GK9xIQ4wMCZ0E+Ch?=
+ =?us-ascii?Q?LRJgErjsFo8im80VCcJ8MQYAZd/Aq8BkdTFlsURubFw4/DaQrrK71XPGF0DX?=
+ =?us-ascii?Q?EoQJe3KSgxgk6T1TZaizLewJwQEG/wPASb2804ahobhf4E2IIvPodz1dG42i?=
+ =?us-ascii?Q?VrFpZ7UuK7mjsB+3yU6b4I1tMX5T8sdBnix3akcGrdqBc1vKaH1U+32Pz02b?=
+ =?us-ascii?Q?oV3dgF81yiuuWCOOko8HVen5nTDiQ0hPkuXXiSrzJPwgj7khm34DGQqE0cJ9?=
+ =?us-ascii?Q?zeFjV4bDoyGbrmU9UYqAHxudCJ10TjdgV0IZA9hiJzzOXOWlEALlE8Pcc+wZ?=
+ =?us-ascii?Q?7s8wgrDD8rUXsNaByGPxk+ipNEkH5Xa+QR33I9EP98Ib8wF9XMyvLjIIA9C1?=
+ =?us-ascii?Q?E1DdQfpYJizx0oZi2AarYKzhYr9vCvL0Y4APCR/aeHvRUMSt0cs/+jpZNEqa?=
+ =?us-ascii?Q?W1pP+kDZgZZHGQBAcivXaIS64V2CqQz4340MJqeUSzGNc1H/QWOQo1oPknBk?=
+ =?us-ascii?Q?wUyye3lG+EJLqsWhCVJJa6yEYWnNiMd3f7+4gjURQA7XP4y7Ep2/0nGocxSi?=
+ =?us-ascii?Q?L2JA27vgV+RGeiaXDXfxAejwRVUKl4t8JzBz3VXtfPSSXUTn5pAMQ1kgfzNL?=
+ =?us-ascii?Q?oL7Wzs0wiiuL9zuy2XCWF8pZa5Wj8zj93KDc1MxcjVkRPaRFrhHqzNlYZ60s?=
+ =?us-ascii?Q?licOH45NOSc+fB6cbo2rHpSM/0MDYIPEJAGvChkLGhwxovGklXgV2FTxlxit?=
+ =?us-ascii?Q?QcDElJrZUq15vbIekct7lHw7lB004ZFdlOSXiibHmrr0GpHncwog1NeJJQpI?=
+ =?us-ascii?Q?HV+ncrHfuu3GNPZdCuD/taNWyMuBL6w8XFmhLcJMkC2oJN/tSiPrnR4OB3+U?=
+ =?us-ascii?Q?V4kCxIbN1k835IN/rgbf8pIlLGdU8jB70gjcg71Qu3c5fG+7FekDEs+IIBCT?=
+ =?us-ascii?Q?aon7zQwyzztKiDTjHIsPEUFem65y51UuL7E6h9fCyY+QT51X+PBCK6pgTqeB?=
+ =?us-ascii?Q?49jo+/0scXPXGjfg/bfA4Qg4/CAQM3NqHhPCo94xgGyO4m82wEqMZBEF+G4I?=
+ =?us-ascii?Q?Oc91sNxZ2Gs5DUmYcURXyRIOAIb2X2gRNjpgWiqCJESHCyJrP/h+psIa8JIc?=
+ =?us-ascii?Q?6fOdkjn1a2xMYnRNG0rgtKRpKA3MqwyUHhYWgym9DOlZmkFrBB/INpKYw0hW?=
+ =?us-ascii?Q?1qYF0+cQHyWUaLxMtjTRBPU/mfyMCSqTSCOgXUaouewcAywEesHzJ7w0xTXP?=
+ =?us-ascii?Q?3XcP5comgs4m1wl7lPOojmltsiph9nY1y08zubdCnA8j9DiF7kHzky9mclmr?=
+ =?us-ascii?Q?WA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: bcca76ab-1427-46b7-3517-08dd350d549f
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2025 02:35:52.9258
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: skoTAmz106S9lBqIdDJd2HDQymaqq8oLaFlXEtAn7jRFo1XP/ix6pg1Jhj2s5l6WxfmQ7kdV2hctX1PVbhSn9cMNS3IBjWw19d8wsi8P33g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB7691
+X-OriginatorOrg: intel.com
 
-On Fri, Jan 10, 2025 at 08:26:03PM -0800, Suren Baghdasaryan wrote:
-
->diff --git a/kernel/fork.c b/kernel/fork.c
->index 9d9275783cf8..151b40627c14 100644
->--- a/kernel/fork.c
->+++ b/kernel/fork.c
->@@ -449,6 +449,42 @@ struct vm_area_struct *vm_area_alloc(struct mm_struct *mm)
-> 	return vma;
-> }
+Ira Weiny wrote:
+> Devices which optionally support Dynamic Capacity (DC) are configured
+> via mailbox commands.  CXL 3.1 requires the host to issue the Get DC
+> Configuration command in order to properly configure DCDs.  Without the
+> Get DC Configuration command DCD can't be supported.
 > 
->+static void vm_area_init_from(const struct vm_area_struct *src,
->+			      struct vm_area_struct *dest)
->+{
->+	dest->vm_mm = src->vm_mm;
->+	dest->vm_ops = src->vm_ops;
->+	dest->vm_start = src->vm_start;
->+	dest->vm_end = src->vm_end;
->+	dest->anon_vma = src->anon_vma;
->+	dest->vm_pgoff = src->vm_pgoff;
->+	dest->vm_file = src->vm_file;
->+	dest->vm_private_data = src->vm_private_data;
->+	vm_flags_init(dest, src->vm_flags);
->+	memcpy(&dest->vm_page_prot, &src->vm_page_prot,
->+	       sizeof(dest->vm_page_prot));
->+	/*
->+	 * src->shared.rb may be modified concurrently when called from
->+	 * dup_mmap(), but the clone will reinitialize it.
->+	 */
->+	data_race(memcpy(&dest->shared, &src->shared, sizeof(dest->shared)));
->+	memcpy(&dest->vm_userfaultfd_ctx, &src->vm_userfaultfd_ctx,
->+	       sizeof(dest->vm_userfaultfd_ctx));
->+#ifdef CONFIG_ANON_VMA_NAME
->+	dest->anon_name = src->anon_name;
->+#endif
->+#ifdef CONFIG_SWAP
->+	memcpy(&dest->swap_readahead_info, &src->swap_readahead_info,
->+	       sizeof(dest->swap_readahead_info));
->+#endif
->+#ifndef CONFIG_MMU
->+	dest->vm_region = src->vm_region;
->+#endif
->+#ifdef CONFIG_NUMA
->+	dest->vm_policy = src->vm_policy;
->+#endif
->+}
+> Implement the DC mailbox commands as specified in CXL 3.1 section
+> 8.2.9.9.9 (opcodes 48XXh) to read and store the DCD configuration
+> information.  Disable DCD if DCD is not supported.  Leverage the Get DC
+> Configuration command supported bit to indicate if DCD is supported.
+> 
+> Linux has no use for the trailing fields of the Get Dynamic Capacity
+> Configuration Output Payload (Total number of supported extents, number
+> of available extents, total number of supported tags, and number of
+> available tags).  Avoid defining those fields to use the more useful
+> dynamic C array.
+> 
+> Based on an original patch by Navneet Singh.
+> 
+> Cc: Li Ming <ming.li@zohomail.com>
+> Cc: Kees Cook <kees@kernel.org>
+> Cc: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Cc: linux-hardening@vger.kernel.org
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> 
+> ---
+> Changes:
+> [iweiny: fix EXPORT_SYMBOL_NS_GPL(cxl_dev_dynamic_capacity_identify)]
+> [iweiny: limit variable scope in cxl_dev_dynamic_capacity_identify]
+> ---
+>  drivers/cxl/core/mbox.c | 166 +++++++++++++++++++++++++++++++++++++++++++++++-
+>  drivers/cxl/cxlmem.h    |  64 ++++++++++++++++++-
+>  drivers/cxl/pci.c       |   4 ++
+>  3 files changed, 232 insertions(+), 2 deletions(-)
+> 
+[snipping the C code to do a data structure review first]
 
-Would this be difficult to maintain? We should make sure not miss or overwrite
-anything.
+> diff --git a/drivers/cxl/cxlmem.h b/drivers/cxl/cxlmem.h
+> index e8907c403edbd83c8a36b8d013c6bc3391207ee6..05a0718aea73b3b2a02c608bae198eac7c462523 100644
+> --- a/drivers/cxl/cxlmem.h
+> +++ b/drivers/cxl/cxlmem.h
+> @@ -403,6 +403,7 @@ enum cxl_devtype {
+>  	CXL_DEVTYPE_CLASSMEM,
+>  };
+>  
+> +#define CXL_MAX_DC_REGION 8
 
--- 
-Wei Yang
-Help you, Help me
+Please no, lets not sign up to have the "which cxl 'region' concept are
+you referring to?" debate in perpetuity. "DPA partition", "DPA
+resource", "DPA capacity" anything but "region".
+
+
+>  /**
+>   * struct cxl_dpa_perf - DPA performance property entry
+>   * @dpa_range: range for DPA address
+> @@ -434,6 +435,8 @@ struct cxl_dpa_perf {
+>   * @dpa_res: Overall DPA resource tree for the device
+>   * @pmem_res: Active Persistent memory capacity configuration
+>   * @ram_res: Active Volatile memory capacity configuration
+> + * @dc_res: Active Dynamic Capacity memory configuration for each possible
+> + *          region
+>   * @serial: PCIe Device Serial Number
+>   * @type: Generic Memory Class device or Vendor Specific Memory device
+>   * @cxl_mbox: CXL mailbox context
+> @@ -449,11 +452,23 @@ struct cxl_dev_state {
+>  	struct resource dpa_res;
+>  	struct resource pmem_res;
+>  	struct resource ram_res;
+> +	struct resource dc_res[CXL_MAX_DC_REGION];
+
+This is throwing off cargo-cult alarms. The named pmem_res and ram_res
+served us well up until the point where DPA partitions grew past 2 types
+at well defined locations. I like the array of resources idea, but that
+begs the question why not put all partition information into an array?
+
+This would also head off complications later on in this series where the
+DPA capacity reservation and allocation flows have "dc" sidecars bolted
+on rather than general semantics like "allocating from partition index N
+means that all partitions indices less than N need to be skipped and
+marked reserved".
+
+>  	u64 serial;
+>  	enum cxl_devtype type;
+>  	struct cxl_mailbox cxl_mbox;
+>  };
+>  
+> +#define CXL_DC_REGION_STRLEN 8
+> +struct cxl_dc_region_info {
+> +	u64 base;
+> +	u64 decode_len;
+> +	u64 len;
+
+Duplicating partition information in multiple places, like
+mds->dc_region[X].base and cxlds->dc_res[X].start, feels like an
+RFC-quality decision for expediency that needs to reconciled on the way
+to upstream.
+
+> +	u64 blk_size;
+> +	u32 dsmad_handle;
+> +	u8 flags;
+> +	u8 name[CXL_DC_REGION_STRLEN];
+
+No, lets not entertain:
+
+    printk("%s\n", mds->dc_region[index].name);
+
+...when:
+
+    printk("dc%d\n", index);
+
+...will do.
+
+> +};
+> +
+>  static inline struct cxl_dev_state *mbox_to_cxlds(struct cxl_mailbox *cxl_mbox)
+>  {
+>  	return dev_get_drvdata(cxl_mbox->host);
+> @@ -473,7 +488,9 @@ static inline struct cxl_dev_state *mbox_to_cxlds(struct cxl_mailbox *cxl_mbox)
+>   * @dcd_cmds: List of DCD commands implemented by memory device
+>   * @enabled_cmds: Hardware commands found enabled in CEL.
+>   * @exclusive_cmds: Commands that are kernel-internal only
+> - * @total_bytes: sum of all possible capacities
+> + * @total_bytes: length of all possible capacities
+> + * @static_bytes: length of possible static RAM and PMEM partitions
+> + * @dynamic_bytes: length of possible DC partitions (DC Regions)
+>   * @volatile_only_bytes: hard volatile capacity
+>   * @persistent_only_bytes: hard persistent capacity
+
+I have regrets that cxl_memdev_state permanently carries runtime storage
+for init time variables, lets not continue down that path with DCD
+enabling.
+
+>   * @partition_align_bytes: alignment size for partition-able capacity
+> @@ -483,6 +500,8 @@ static inline struct cxl_dev_state *mbox_to_cxlds(struct cxl_mailbox *cxl_mbox)
+>   * @next_persistent_bytes: persistent capacity change pending device reset
+>   * @ram_perf: performance data entry matched to RAM partition
+>   * @pmem_perf: performance data entry matched to PMEM partition
+> + * @nr_dc_region: number of DC regions implemented in the memory device
+> + * @dc_region: array containing info about the DC regions
+>   * @event: event log driver state
+>   * @poison: poison driver state info
+>   * @security: security driver state info
+> @@ -499,6 +518,8 @@ struct cxl_memdev_state {
+>  	DECLARE_BITMAP(enabled_cmds, CXL_MEM_COMMAND_ID_MAX);
+>  	DECLARE_BITMAP(exclusive_cmds, CXL_MEM_COMMAND_ID_MAX);
+>  	u64 total_bytes;
+> +	u64 static_bytes;
+> +	u64 dynamic_bytes;
+>  	u64 volatile_only_bytes;
+>  	u64 persistent_only_bytes;
+>  	u64 partition_align_bytes;
+> @@ -510,6 +531,9 @@ struct cxl_memdev_state {
+>  	struct cxl_dpa_perf ram_perf;
+>  	struct cxl_dpa_perf pmem_perf;
+>  
+> +	u8 nr_dc_region;
+> +	struct cxl_dc_region_info dc_region[CXL_MAX_DC_REGION];
+
+DPA capacity is a generic CXL.mem concern and partition information is
+contained cxl_dev_state. Lets find a way to not need partially redundant
+data structures across in cxl_memdev_state and cxl_dev_state.
+
+DCD introduces the concept of "decode size vs usable capacity" into the
+partition information, but I see no reason to conceptually tie that to
+only DCD.  Fabio's memory hole patches show that there is already a
+memory-hole concept in the CXL arena. DCD is just saying "be prepared for
+the concept of DPA partitions with memory holes at the end".
+
+> +
+>  	struct cxl_event_state event;
+>  	struct cxl_poison_state poison;
+>  	struct cxl_security_state security;
+> @@ -708,6 +732,32 @@ struct cxl_mbox_set_partition_info {
+>  
+>  #define  CXL_SET_PARTITION_IMMEDIATE_FLAG	BIT(0)
+>  
+> +/* See CXL 3.1 Table 8-163 get dynamic capacity config Input Payload */
+> +struct cxl_mbox_get_dc_config_in {
+> +	u8 region_count;
+> +	u8 start_region_index;
+> +} __packed;
+> +
+> +/* See CXL 3.1 Table 8-164 get dynamic capacity config Output Payload */
+> +struct cxl_mbox_get_dc_config_out {
+> +	u8 avail_region_count;
+> +	u8 regions_returned;
+> +	u8 rsvd[6];
+> +	/* See CXL 3.1 Table 8-165 */
+> +	struct cxl_dc_region_config {
+> +		__le64 region_base;
+> +		__le64 region_decode_length;
+> +		__le64 region_length;
+> +		__le64 region_block_size;
+> +		__le32 region_dsmad_handle;
+> +		u8 flags;
+> +		u8 rsvd[3];
+> +	} __packed region[] __counted_by(regions_returned);
+
+Yes, the spec unfortunately uses "region" for this partition info
+payload. This would be a good place to say "CXL spec calls this 'region'
+but Linux calls it 'partition' not to be confused with the Linux 'struct
+cxl_region' or all the other usages of 'region' in the specification".
+
+Linux is not obligated to follow the questionable naming decisions of
+specifications.
+
+> +	/* Trailing fields unused */
+> +} __packed;
+> +#define CXL_DYNAMIC_CAPACITY_SANITIZE_ON_RELEASE_FLAG BIT(0)
+> +#define CXL_DCD_BLOCK_LINE_SIZE 0x40
+> +
+>  /* Set Timestamp CXL 3.0 Spec 8.2.9.4.2 */
+>  struct cxl_mbox_set_timestamp_in {
+>  	__le64 timestamp;
+> @@ -831,6 +881,7 @@ enum {
+>  int cxl_internal_send_cmd(struct cxl_mailbox *cxl_mbox,
+>  			  struct cxl_mbox_cmd *cmd);
+>  int cxl_dev_state_identify(struct cxl_memdev_state *mds);
+> +int cxl_dev_dynamic_capacity_identify(struct cxl_memdev_state *mds);
+>  int cxl_await_media_ready(struct cxl_dev_state *cxlds);
+>  int cxl_enumerate_cmds(struct cxl_memdev_state *mds);
+>  int cxl_mem_create_range_info(struct cxl_memdev_state *mds);
+> @@ -844,6 +895,17 @@ void cxl_event_trace_record(const struct cxl_memdev *cxlmd,
+>  			    enum cxl_event_log_type type,
+>  			    enum cxl_event_type event_type,
+>  			    const uuid_t *uuid, union cxl_event *evt);
+> +
+> +static inline bool cxl_dcd_supported(struct cxl_memdev_state *mds)
+> +{
+> +	return test_bit(CXL_DCD_ENABLED_GET_CONFIG, mds->dcd_cmds);
+> +}
+> +
+> +static inline void cxl_disable_dcd(struct cxl_memdev_state *mds)
+> +{
+> +	clear_bit(CXL_DCD_ENABLED_GET_CONFIG, mds->dcd_cmds);
+> +}
+
+This hunk is out of place, and per the last patch, I think it can just be
+a flag that does not need a helper.
