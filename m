@@ -1,73 +1,106 @@
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2054.outbound.protection.outlook.com [40.107.22.54])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC068F77;
-	Wed, 15 Jan 2025 20:12:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A88C19922A;
+	Wed, 15 Jan 2025 20:33:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736971949; cv=fail; b=O0HGESEzniikDHXAaZCny7jKzsJKqglCZY5i992BSbhipbHvSpLNXRygA7ZOoQzZ3bMSgzcG8pbTUyuLQmiTHpBx9DWc9ze+piWQfK/wvxxwi2005zqvsXwnpefy3Ue3CZB38pJY+Lbn78mdPnaohKP+bo0s+5ss8YLvz0kY1s4=
+	t=1736973211; cv=fail; b=o0FL8VU+dbCqyeqDAdFC7BV4QIEf8iN+QPvICIWHFeaUIp/ElylUF+AA12rkaye0bvnCOjtW2RnKTI6yqUKSxYdD0Vqkko9PQs3xmsBJViYgILioDeUb/q1x+eSE2B8vB7Vdyr1gIqmOXx/ExmqlzZeQ/o0HXKTIcyqJy3sx9qU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736971949; c=relaxed/simple;
-	bh=awXyZjQ3pCqVuhS0HUImR9HKOjUDGrEKBR7MQ39cmSI=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Bx9tdgC3zvPafoLI4+ZaEzwd59yQ3/5AdxvKfNmzPGZ966XRC7etTecoQcag9jHI2412k6+zcUaaIm5bWiT/Ywvd/pqBCs9bjyOqyG8WhvHuawmeq5yoaY8GL7A+0vVig9Jhx9jNZEBByMkk6Y7Hu+tqTjo4dLg/gUuLME6yeps=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=gAoY3LL+; arc=fail smtp.client-ip=40.107.22.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1736973211; c=relaxed/simple;
+	bh=XWDaBfAFnDTKGOmlwhzeZ6VP/+98YohgKp9HhJtu8qw=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ftbjvoSINC9mzRR9tu6k4V64ZV479t4tlZqTG9nrUr0QdhvKOeVZHSRN6yvjk6CTZ7zJsSMGp+gNuWbpwc4vr4v6r4qduIMoxv3DfKs9ZwVRtaB5Dz3uD7lKSE6EAP9yVWFKil2WR+wcqX+NF9dozi6RXqB3a3anws5XmWaEplA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dUuWcBUw; arc=fail smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="gAoY3LL+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dUuWcBUw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736973208; x=1768509208;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=XWDaBfAFnDTKGOmlwhzeZ6VP/+98YohgKp9HhJtu8qw=;
+  b=dUuWcBUwfyC1CLCXmv0TAVGzfafjg2EpaBp7IJVP+BkVrnBoq1wFuQ1i
+   b/28QPbqYvmhXCtj53XOOfgUnwm2Nlhbf69g7NUdka1031LVH4rkgM5Dy
+   +rWkYiGlT3RgBFEZmcTaM7R5lnO57TEbA7srS97gUqpiCsugWt3mztdXm
+   4QcGZzqRigPE1UehhO7MdAPQniB1PogKAiz5H2Z8huZLUDRfsogpeolsU
+   3BO8pY5Io9Yiuj7nn8iHKYwj/CK6tLjM6PmmKPV1wf3Zoto67ck8nax9d
+   Zfs0MSLAJJM2CwE4pOYA9oKBxpkOQeaMyZcqPNQNuuhv4lj46x3EXJxAP
+   Q==;
+X-CSE-ConnectionGUID: 45eZHXUfTPSF/2P64E2vBw==
+X-CSE-MsgGUID: VrQpim8UTyCh97rJc0DiHA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11316"; a="41009130"
+X-IronPort-AV: E=Sophos;i="6.13,207,1732608000"; 
+   d="scan'208";a="41009130"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2025 12:33:28 -0800
+X-CSE-ConnectionGUID: k8iIyRIGRfebEU2AvusOuA==
+X-CSE-MsgGUID: SDd2RuXJQkiwiX6QEzrrVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,207,1732608000"; 
+   d="scan'208";a="105793668"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 15 Jan 2025 12:33:27 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Wed, 15 Jan 2025 12:33:26 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44 via Frontend Transport; Wed, 15 Jan 2025 12:33:26 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.177)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Wed, 15 Jan 2025 12:33:25 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fPV6uJutQQXsagYRLixaq8VXseN2rMYA01Fn00GAnqbp29O8ke8zTigimFL3xo1rxdhiRhz8K9iLHk8XI+hbwTyshzYOTsb2B6bZooRqFtdJNXOH6SQ0sgOPHd99c72onwXguaeVyYGGRJVjVR6BPwy3x+1S+mfKEmiJ0eNHTCifPkUgLKc5akN8Db6Paw2AIxxENI7mT+UjNIGIbAlUcvN4vUUBhRezuGLlQJOxJfhhhTw1H0md4vP2PZY1jNltXhKNVtkziiB9TF+69dF0q8bf4+c2rSCFr4QbNKKNMr/LXhMsz7p0I8HmOF0K4GmsHdavKM8TjnlUrm9IHhumxw==
+ b=YS5U872GITYr+1suBCjR4VhspIC1HwbT/fRFds6ztxPvcfFOWnr/tLO5ub+u/Z5aiRqjfu980zG9sPt5iN0uDcs2HucvvMzypS0Cp09Zc/sTYqvOO10eX+tTzSnU+FzSyLWk3xt8X0ptJVKrZiaTyeGTknom9+EDPAjx3MU+kBzDxpkJUvCszyczceVCpqc6GwFAvpWRpkBwF9k+Rgx1d5p6Hk3KjRbaYq1ioT6v7/uf2SLVIOF6ToWtf/UuAswWhQZF/winaM72kdeyrjS8xwzFTTv/dm5aNmyO3QSGkb5O1FFgn0dxrHiWOLivF46FnTe4GaKPhvptvGbm9A8WRA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5gmNDHlKOH2Mde389sjJS/2Lw9FRvlY0pojvvZo6RXU=;
- b=OG7CN6owwlJILdALVKXBsWoDlm4RCfm2A5UF7lmDF0SN5cH4/os2y60cxvhYKbg7Fwya5r6vZfq9C1WHlk7Ckgf2VRBWrbVpC5oxFbAfTdNc7YARyWGTIQHFKRFVbtucrhzyEOv08eWDxZvzM/hU/IeuU6yhkrA5DnH0Yes8Cawsma3uREvfhJ/vw0CX3whV1Mrt9o89XH6HzgMwHu7pfEXK/1M9VjI+SWX7fQ4On1G7kNnR4rKYLQIGwbB+WK3wyVTAMsxMntIdkztXaZlSPl/chGBwJBwKj18/WUvAagpLa0xJyOtjnrUlqVg6d8q7C8t6oCrpshOqHCXJC1LxFA==
+ bh=6dCyHgEPla4DiGcNF7BcZt7a26Uob74PR5vQ/qJGA2s=;
+ b=b61U8/+8FVc2S7g98C7AzB2h7GPXQkHRtXfntZlUmL0yHFRnn8NaCW6+jNGFH4dKeC5BbKQAF+CKQF2jHHp0l5lxq8sOdGtgd+pOT1tmzZjNE43BBJg1MQjgrD7E6yX7IhRWqkd0ceGRr6yVQvxSx8bIaiwFJaJGrK/G7FKvvJ8tPqaQNFqDGXXdfcMvkYcDQIDis7graWgqd0Q76lMyC0NacNNJCq+tiVTT+jN8jKK8cJGf7VvcRj3KlnfxxW52yk6Z1+qQmVpTWQA0ordXZkpE/UlAmN95EFEytBTr/jwF1I6A8N08jtmKDEAjxclyP1fAEV2s7Ib9ph3GOMleMg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5gmNDHlKOH2Mde389sjJS/2Lw9FRvlY0pojvvZo6RXU=;
- b=gAoY3LL+By8D+rCutSEc4b7MUTy2YA6vgXZ2G7852LpLee7OheE5CyPseS6Etpd2JibJwLQ6ECJqrWmA9IWw+iDzOFmvTzisCrUqDruZUBoFeX6bx0BIOUOHEFsIDBbbydA9xXDS68+dhfxp123zbjZuqt/o4xGgmunpFSgZQB8=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from DB9PR08MB6650.eurprd08.prod.outlook.com (2603:10a6:10:26d::23)
- by AS2PR08MB8574.eurprd08.prod.outlook.com (2603:10a6:20b:55d::5) with
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
+ by SN7PR11MB7067.namprd11.prod.outlook.com (2603:10b6:806:29a::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.13; Wed, 15 Jan
- 2025 20:12:23 +0000
-Received: from DB9PR08MB6650.eurprd08.prod.outlook.com
- ([fe80::f628:7b8a:8001:a01d]) by DB9PR08MB6650.eurprd08.prod.outlook.com
- ([fe80::f628:7b8a:8001:a01d%6]) with mapi id 15.20.8356.010; Wed, 15 Jan 2025
- 20:12:22 +0000
-Message-ID: <9582878b-1ce7-4fc4-9b45-b72bba722f49@arm.com>
-Date: Wed, 15 Jan 2025 20:12:19 +0000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] swiotlb: Introduce DMA_ATTR_SKIP_DEVICE_SYNC
-To: Florian Fainelli <florian.fainelli@broadcom.com>,
- linux-kernel@vger.kernel.org
-Cc: bcm-kernel-feedback-list@broadcom.com,
- Justin Chen <justin.chen@broadcom.com>, Jonathan Corbet <corbet@lwn.net>,
- Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Petr Tesarik <petr@tesarici.cz>, Michael Kelley <mhklinux@outlook.com>,
- Lukas Bulwahn <lukas.bulwahn@redhat.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Eder Zulian <ezulian@redhat.com>,
- Sean Anderson <sean.anderson@linux.dev>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- "open list:DMA MAPPING HELPERS" <iommu@lists.linux.dev>,
- "open list:TRACING" <linux-trace-kernel@vger.kernel.org>
-References: <20250115194659.618438-1-florian.fainelli@broadcom.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250115194659.618438-1-florian.fainelli@broadcom.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0617.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:314::18) To DB9PR08MB6650.eurprd08.prod.outlook.com
- (2603:10a6:10:26d::23)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8335.12; Wed, 15 Jan
+ 2025 20:32:40 +0000
+Received: from SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::cf7d:9363:38f4:8c57]) by SA1PR11MB6733.namprd11.prod.outlook.com
+ ([fe80::cf7d:9363:38f4:8c57%5]) with mapi id 15.20.8356.010; Wed, 15 Jan 2025
+ 20:32:40 +0000
+Date: Wed, 15 Jan 2025 14:32:32 -0600
+From: Ira Weiny <ira.weiny@intel.com>
+To: Dan Williams <dan.j.williams@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Fan Ni <fan.ni@samsung.com>, "Jonathan
+ Cameron" <Jonathan.Cameron@huawei.com>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+CC: Dan Williams <dan.j.williams@intel.com>, Davidlohr Bueso
+	<dave@stgolabs.net>, Alison Schofield <alison.schofield@intel.com>, "Vishal
+ Verma" <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+	<linux-cxl@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-hardening@vger.kernel.org>, Li Ming <ming.li@zohomail.com>
+Subject: Re: [PATCH v8 02/21] cxl/mem: Read dynamic capacity configuration
+ from the device
+Message-ID: <67881b606ca4e_1aa45f2948b@iweiny-mobl.notmuch>
+References: <20241210-dcd-type2-upstream-v8-0-812852504400@intel.com>
+ <20241210-dcd-type2-upstream-v8-2-812852504400@intel.com>
+ <67871f05cd767_20f32947f@dwillia2-xfh.jf.intel.com.notmuch>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <67871f05cd767_20f32947f@dwillia2-xfh.jf.intel.com.notmuch>
+X-ClientProxiedBy: MW4P223CA0024.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:303:80::29) To SA1PR11MB6733.namprd11.prod.outlook.com
+ (2603:10b6:806:25c::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,227 +108,392 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR08MB6650:EE_|AS2PR08MB8574:EE_
-X-MS-Office365-Filtering-Correlation-Id: 31621f18-35b5-4499-28d8-08dd35a0ebfe
-x-checkrecipientrouted: true
-NoDisclaimer: true
+X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|SN7PR11MB7067:EE_
+X-MS-Office365-Filtering-Correlation-Id: 946efa92-5cc5-4365-48cd-08dd35a3c1a2
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MURPT1Zkcy8reWpQakhtK3lPNmNaendVbmxnbUM2NHhPU1lEMlVsUVROUkg3?=
- =?utf-8?B?NlhQdzRYUzBpbGg4NTNnL3A1ako0SUtjYXJ5Qm9pdTVzVHFsYm9RcEh1Ui9X?=
- =?utf-8?B?RjdPdkxSUGtEZThubjhhZDJObXV6TytHemlTUGJpYmo1RmRqeitzWkUrVnR3?=
- =?utf-8?B?dEN2QnhocGErYjZTQVE3Q1pMd1RyWUdSRXU2M3RGUHloNU9NTFN3UW1iVXl4?=
- =?utf-8?B?eUFlN1RGazd2S0ZvajhTRFUweUN1dWNvNGd2TGgxYmtUd21NNnBjUFYvWDZw?=
- =?utf-8?B?bkc4Z21ObTZ1NmUxSWxVWWJVaE5IOHFkVVpodFAzN0JCYjgvSmh0cjd2U0p1?=
- =?utf-8?B?eU9KU09FNEVZeXhWVmZ3UFpmTVlEZks0ZHU1bVo4UGNyV1RoS0VmN1NDblZ0?=
- =?utf-8?B?RG03ZWhGdHgvRHZhb0taM3BZeWtJZDRheFdvMk5GQjVtc2R4YzYwQ0RtZ0hN?=
- =?utf-8?B?NDNOUS96MlZJT1Byb1JDUHdEVDJzWURNbWJqRE9JcFlYai9nNUR5TDZTV2hz?=
- =?utf-8?B?czBsdTVoWVVDSjdmdllxT2xPSFo4ZnFIYmxFZ0tUS0pvSFRRa2hyR1hQRW1T?=
- =?utf-8?B?OExJL1RSUWpmRFAxZEVQQUpCdWovdlNCMVhoemJZeEFJOWVqbDRlaHZPVnh0?=
- =?utf-8?B?TjRrMmlEbXdOWW9xTHpuZTA4UVVRUFcxSjFreTJSNUl0M2RtQk1PK2FPaUZp?=
- =?utf-8?B?Nk5wSkQ0ZTYzUUE1SHl5eElkNTA3UjJaS3lvOUk3a2IwbGZtQm5DYlFDanlU?=
- =?utf-8?B?MEh6dlZOZHpiRjhibkNIRElhL1hldlVnQXkyUGJyZ0lkNWRMd0hQQzVLcXdP?=
- =?utf-8?B?NlFOVmQ0VWFpRDlnTkpubE5YNUpTTm1WRFAxN2hVd3IwVTUxdzJXS2NlMWlI?=
- =?utf-8?B?L1pubGJwU0JzVXZrdGdUTkVQUHBNY0NCWVhDK3gvUzkvem1OS0FrQjlKcHE4?=
- =?utf-8?B?SThHbDBxNG1LeVlUMXI0UWZ5eXZmZTF6LzE5bnlTZXo2b3k2WUtaNFdlWXo3?=
- =?utf-8?B?Qnc1eW93Yjkyb053cytLVmFjTW9sRE1FMTJKY291a2ozOHdHU0o1eXZGSlFC?=
- =?utf-8?B?bDUzRXl5KzQ1TllFQllwR2xHeVQzbXIxQitpNVVNOFNxYTJmVWJDR05mTGg1?=
- =?utf-8?B?bU9KYi9aSHNSNlF1N3JVdWxmWU1YTThYUHY3cFB3NUVTUVlBVXVDcnVRUzJV?=
- =?utf-8?B?bmIwM3lWQ1J3YmVsRWtrZDFLZk14aTUycEQ1V3dvcXdPTm5BR1owWmtkWGpU?=
- =?utf-8?B?UExFaHRnbjNjUDRlenU2OHI5ck9hZXpIdWlUVHJFS2FKbDNFVzV1TndNNmNR?=
- =?utf-8?B?dENmczNpQkF2Nm1pUjFmYlk4cER5SXFPeHc0ZnphK1NQZUNyUkVhdkVrdmpl?=
- =?utf-8?B?WTlua0JsZWxTMUYvU0ZUanlaQjBRbWk0dXdiNml1VFlKSU5tRHZRUzRZY3dV?=
- =?utf-8?B?ZnhjdGhmSGVvZWpKQlkvY2pFY3pMb0h3aGM2eGdvRTZUa29EYlkwQTdYNk10?=
- =?utf-8?B?UjVxOGJCb3dPaGhpVWdnY1hKZmhlYjJxS1AxbWFEVnQ1OVNZakZVTkg2dDB1?=
- =?utf-8?B?b0lZYjB1UEs5ZnVjaEZHSTdDYUR5eG1jaTBMRWVUc3dLY2ZqOENidWEyMXpw?=
- =?utf-8?B?SlFiTERZT2FmVHo1UmU0Wnhwd2VQWVpuSFBTaHRPNlRnQ1BjSDZiUDlTVU9j?=
- =?utf-8?B?WGpKVjNWUGVyWTVJVGpLZGlFKzF4K0JobjNIVVN0cllCVktmMjk0ak40RFp0?=
- =?utf-8?B?RVBwQjVEdWVnT3FYYVpaQVkyazlkNCtyb05xcWh1dTVHbHpUU1gvQWdxY0Vh?=
- =?utf-8?B?elVOeFJiaHhFTXc2S0JrYnRZNXN1R3pZd1dZSGZ5RktCMGRzeHZGbjFqalRh?=
- =?utf-8?Q?z1Wb1Q137ueWz?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB6650.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(7053199007);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?HmbHmT8Jp1tU7gkbF5L/fzqdyLcj9tH1EpfQ5tqSRAGp4up/U7dIADStgne6?=
+ =?us-ascii?Q?D69mW7MEphN3u48IkcrbX8L+la0xDTK40xrCuclmcvswnFZfjC4POReSlcqv?=
+ =?us-ascii?Q?zKppFnmHy/WKsuXdzpTWK9bbjiKTeOLM/vYHoz+U58IvvhIWZXREFfxdUWOc?=
+ =?us-ascii?Q?hnJzuqV0YITozp4PVAvx9DSfRRm6h6il6nwtsiaYS+zHk/CF8oeZfAu8zPR3?=
+ =?us-ascii?Q?RACQdCNqeaaaRmzhyD2wbFHE4xfb8NwgfrlvRzIcsZqIowOG6npJjoKHa+Uj?=
+ =?us-ascii?Q?VoDTcEfkwu+++6htbmEA/O/SnUjwzVAnsewmTJ7kjQeV+k4mzCyTzzHIM0MJ?=
+ =?us-ascii?Q?uLM0rPMH+uVe7BLqmT3Na6RSVO7L4IGL/4KLzErs8jATfeIoS5wUVicEQ1QJ?=
+ =?us-ascii?Q?BL7R8G8kJmOmq8hflmcSrK/JEya32PcTh9R2Q9MTKPAXw3t4AwWO/C/rrVOm?=
+ =?us-ascii?Q?9vUqB46Ak7vWNPn/EX6Bu+61pcchBxH4YMIeonSPqyEY8hGFAvBa0NADdxd1?=
+ =?us-ascii?Q?2lkbiJhPBJEeHR+yIuZdo1nZFNKKLvI9Pl8cfHWqIdj1x3MrPWTEOJDtBSSI?=
+ =?us-ascii?Q?lltSZqh2z6AJ+InhYXJTe/Obv85ynyCgUdU9TB4iK2kWRD1p05sS02LEkeCS?=
+ =?us-ascii?Q?wle5oITXBLmhmnO12NSVAwMSmZgx/57fDyMWHI8LyhG4Sm0BRvRdn6EIE583?=
+ =?us-ascii?Q?1SiGJY9BUxNNKRW+VIyDL8oj+VNN0FhDzA1GRITBq/Pbyvn6W5d8879lqkZU?=
+ =?us-ascii?Q?jb0mQtfDhe77pE/H4onG3Mr9EWiXqG1vk+ITt6PJdoe+cSMBdUU+6L+CpbqI?=
+ =?us-ascii?Q?b/TlGbggs/U44CE32B8wsh0Vy3n1Vz8DAgLYmf5y+a0xmXEplixF5/Hojr7u?=
+ =?us-ascii?Q?4LcVdVLsKE/bVJbY5cF4s0bU7RPYtvSA07/Gg9ZCfj6BjXDfo7ZQBcFi5YLO?=
+ =?us-ascii?Q?u1jw1hb41cQgOmecxyfOoXeE7SyyBnSi7n+K0xwEpvdlF1IecaqnFlFT+eNJ?=
+ =?us-ascii?Q?BMJ1nfDE9ekhAH11y8CBaZUZ6s+QGoiFAiLAL9wwudsbOMonYeo7VSy4EQ4C?=
+ =?us-ascii?Q?46v377Dgb0vYpZU8yPLwspIp9n/Hpgy5YsowPgLjxSduajVf7BdDfMtyZ1yj?=
+ =?us-ascii?Q?yNrRXpW3Op/4QAkV93DNJ0QTcy+4OFpKBaiCrt215M7/Z3rokBJxPcD3blgP?=
+ =?us-ascii?Q?gBcTFJraKwX9EPOrl9YlvL3Z0SiSUgtd379boFiAgXtgafEThwdbVazOPir1?=
+ =?us-ascii?Q?ERACNmhk/2jOf53U6XLl4nbhlgcjUZrjbNIoL/MVShYBnZMXr5pU1ez0jPvo?=
+ =?us-ascii?Q?/B9pR5EMHhMmRPwjfZdp4BADdI5RvUYoxCnKqtRQrXllKpyDf4KK/vT1wntj?=
+ =?us-ascii?Q?kHMJU+HT6UgTu3nCg7ZsZnPEUIbJ?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6733.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?anp3RCs1cENxT2Y4Vzg3bzAwWUdzZ0Y1NFhYSzBUQmVlWG1tbzUrREcxSWJB?=
- =?utf-8?B?WTdDYjhQTU91Q2J4NTBVNW1BQTY5bnltWFdMMm12c1RkTnNhTmF0QmlMMXJK?=
- =?utf-8?B?ci8yRnRKa3BKTWRMaHBlenBrNVhlZmJmd3dvU1pOU0Q3dkJyMFJDZWdLNzhs?=
- =?utf-8?B?cU9Ea0dHQTMyVmFzY3FXT0NlTkxPblFodUhNOEE2VDlPV0RyUnlNMlgxd3Nn?=
- =?utf-8?B?ZW9vQzRBSmNnYW1yWEljSlN1Wit2dmFQSmlJcUtqYVZQMTg5Q0EzUmF3YlJT?=
- =?utf-8?B?bEQyeTZYUy9wN244NkQ0aWV4QWR6Q1lEMEdTRXhZcWdDaXcvc0ZUNTBZM1lJ?=
- =?utf-8?B?NFRJYkwzaGJxdWdlclBUQ2JpSlJzeW9vb2VLU21tVEY4SUtFakJQakhKSkxy?=
- =?utf-8?B?cCtERGRUUDdzbkcxNEhJUEhXUFVqWkRLNGpHRjliU2RhZTJQRUhSUUl6RDNF?=
- =?utf-8?B?QWhVT2V4M2xwTklyQ0hvSStKR0w5SG91UUw1R3NzN0ZIMWxObzQxUGlObGl3?=
- =?utf-8?B?KzVUVC84YzVYYjVhdTN1ZHIyT2pqQk5BVDVBbTFzcVpDUnA0RVdGaTUrcW5o?=
- =?utf-8?B?dldYMnRoZ0g3OW1tUDBqdktNdkFVOGRUVEZLcldTTEdrd0lYYjgvNlhLVlVV?=
- =?utf-8?B?T3hJRzFMaVhYb1hpRnVlR05STU5zVjkrSmZONmZCTlpRb1hZb0hLOXgwRXF0?=
- =?utf-8?B?bjQyUVZUbkFtNEc5S2pFbVUwZW5FUHdrN3NhRTRXbFczU0JGSFJKZjNpRCtX?=
- =?utf-8?B?NmlWSkcvOFh0RmtQOCtxQS9ucFd5U1lnZkVDaXVZMmErYXdaWUpGOUgrSSth?=
- =?utf-8?B?TEhydjg1UmdDUnpVT3NXY3pPZkZZTkJnOVhaamxaMC9lNE5NWEtHdE1MV2JC?=
- =?utf-8?B?VHdGMzhMNGIraUR2RlZLaW9oaHp2NHpQeTRlcVB2bU9iTmtIYy9ucTBId2c4?=
- =?utf-8?B?MmkySEp2djV2a0dwSUhCRzd2SHZrR00vSjZLWUhBRlc3UThUMXRlOTdEc2J1?=
- =?utf-8?B?b0NVS1I5bWFGMVZnbEF6c2N6cWxPWGd4MXJIc0dTZWZuU1hydWkxTEVld0Rs?=
- =?utf-8?B?b3c1NUxBVWxKcEYxOEUvb1dGeXdzSllxbngzTGZwTXQ5cmR2SjhuWjVkQ09r?=
- =?utf-8?B?a2hRSHFVUldESTdEQ1B5ZUhKSm9vRWtEZGQrdmpTdFVFcGhpUVRBcTY2d3px?=
- =?utf-8?B?ZSt3TUZSRk54bFozRzI2K3B3Q1dGSWpKSW80dDNsRFI2dFk1M0VBZ2FENE9r?=
- =?utf-8?B?RjdsczRQLy9ybVJHQVdzOVRTQk1MYnd3UjRQMEVHSG9vQktBNnkvOXNKZHZD?=
- =?utf-8?B?Y0VJeFZLK3ZRdjhnRXRpV1hIcktLWWNORFhzQ1hqMDZaUXVuZHNXRW1KT2JF?=
- =?utf-8?B?S0dzd3pqRHVkaVFabjFPalFwSFgzNmdIQU9RSVdydE9zL29MU0xJUHFYOEsw?=
- =?utf-8?B?eEZ0SllQRXNSdE9LQ3hqeUxjQ2VMM1h6NHpEanM1ZzFWWXBnWHgybjZYOFBZ?=
- =?utf-8?B?TFRHTTE4OEFqUDFyaWVSaEFkY0Y2OFFHZTdxTXRUY25yRmJVRmN2bnFkQ2M4?=
- =?utf-8?B?K1ZJSmk5UHBqbmdWcmxQMWJnZEdYcGdZcTNmUkFrQXdEdGR5L2RpdUVCNVAr?=
- =?utf-8?B?MEN4WFVjdVppM2NZSXlWMS9iY0h0Y0RTK0kxOTM4VGN5eEh1NFdtZjB3TXBB?=
- =?utf-8?B?cXhWYVR2UnpUTzBNMlhjVU5sSDNjVEpYUFdnU1VneVZGS1djUmQvRVFyWStI?=
- =?utf-8?B?TUNpbTJDTWtHZU12cmk4czNCbFJXT3ZkMHNLMlNCUGx0TzdFZUM1NmYwY1l2?=
- =?utf-8?B?MnBvalhvenhiVmsrWE8zNFVpazhDOWhReUlPOU1rSzlIZnE4Q1QvUlJwZEZU?=
- =?utf-8?B?aEozUndFdWFrby9ITXkvY3lqOTROV1VVYlV5SE93dU92dnhiZ0FBTWNhWmVW?=
- =?utf-8?B?RWtzVmlmZEFpSHd0UnhzRnQ3ZU5wbTBidGI3Q01MN3BlVkRkOEpBRG5rZmZW?=
- =?utf-8?B?dnpWZHpXYVZJNkl0NTNQaXNqNStuUFZTc1hacGJCOW53UFpqM2NTTDRxRUtk?=
- =?utf-8?B?R0JyNnlXeWpPeGlYQ0RVTU92ek54M0l2YjkrbDVWWFNnakVGRE4vQ0JHK1Bh?=
- =?utf-8?Q?OlqPAZx1/H2MmnD+9FBza2oWX?=
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 31621f18-35b5-4499-28d8-08dd35a0ebfe
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR08MB6650.eurprd08.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?k8SrtiDSa+0EYS7g/xmQnCX16YI15jfX7QzTdebWmijZaugQ8xJDZeSl50EO?=
+ =?us-ascii?Q?b1EU7TgkXWSeyctUgCIwRJ8q7QVmxM6ZXJQzNgsWykSrgylP5BzL7SMYnEm8?=
+ =?us-ascii?Q?Yxy1FydUe/Q5DTlAcjn17ak+ntUSuTIHumx5E3Gvxu5c/Qc5V/sCy0DiwdaD?=
+ =?us-ascii?Q?ePLt0cnsUkzDPcWtwE6WHdnCb6JB3zirDHqAK1mLuTSKdsLIGNQMSEwwo3Sx?=
+ =?us-ascii?Q?1cvTRAAoKPp66YYDY4otXcAOI//c8nZRgYjmHuCfJdHsQLAeCDmDeAQ9OZo7?=
+ =?us-ascii?Q?rP2xKfiMeaEbjBBUrGb8v76VCzk6ICqdm/eYK6TRn4yoKDwXdGWdSBqebR+x?=
+ =?us-ascii?Q?AVufqsZZICDXbNj82cAjFZ1H6ya/IJXrD/GIazXeft7yOR9p14eWZX0oUBYX?=
+ =?us-ascii?Q?ES9P5xHkkAkIqhIETCK50nydJVkNPsfl4/GVlx56V6MRv4066cmuCXVQvf9g?=
+ =?us-ascii?Q?8PSbVo3b2ABVJyhWBdEghs9wleQ1rKWeWPu87xy3E8Fvv/25WzL3GK0IWmk6?=
+ =?us-ascii?Q?rD/PpWYOt5Gh4Ui/y8qOzX7L4Up4F/whtqzPlcPRJ62Kca9R/SP57BluaNi/?=
+ =?us-ascii?Q?YiVENfw97QDbVakl20mBpkJ9GG01UzY65k0xViX4oXP2LVRLNoTFLpcsYwBF?=
+ =?us-ascii?Q?3dPUUgb60YNTrLyPA20P4NJDuAr/tfKMCw45f3XP5rXIXRa/aQ3emsbeDB6K?=
+ =?us-ascii?Q?PDNsqDsZgLzRqRsjdxH5FY6EehSN+AxTpA2Joplh2xxFv/t+cRti02I108o7?=
+ =?us-ascii?Q?zsS/zbOw1/3rJh801GVcvDhciQbuVqjCxtxXYuQpt2iq6cnEpZInVzUPWwwx?=
+ =?us-ascii?Q?MPqGJAAHm1fiVATUvGUwtyn9wrPKyBFwkZ2erMveF3Q69122nXJq+tCskkf9?=
+ =?us-ascii?Q?10/3jt7VRbjUofY3VkGcucGL3c9u2qhyAo9hnO1XSSXBVdkM09QE/7kvlkj4?=
+ =?us-ascii?Q?+RT3EdNQWbHGVznQgfP3F03STIVlXVsZWaMSJGaFw9hVpGR6z8v4hae5b8NP?=
+ =?us-ascii?Q?GdcY8cTU8Q+hcuCl1hkIn1hYNBuDTqHjh7IqaqW+sKL9+LRkkfgZ/YGkPSxG?=
+ =?us-ascii?Q?9hl0fjwUBctBUNq8JdgQ8ZoLYQXz/RCiYmXfVC/+7bNjV7Xv+lnZTnwD8tWI?=
+ =?us-ascii?Q?VfsqwowzXzQ2Dk+70V8PP3EK1yZOlncY37eSAcVG8pOLWHwtyUv4FCWea9DG?=
+ =?us-ascii?Q?b4p4DhmRUja7f9xRe8QV/j3CIBIZ8MoOxnOP3BykRCLoB1wgeuP/5lAtD3Pf?=
+ =?us-ascii?Q?zHCoCxxvv0NdpzGvCWE1/XBE3UBFkHSl/5nkgQ9TmDVOV9+LzVVXb6iZxJRb?=
+ =?us-ascii?Q?bXXhaIdydWODZNseL0IqE06330HOkBgXMejjGMqHF0GOK36FAX62aUpIeNaJ?=
+ =?us-ascii?Q?UBgQwlYavKfnScW/4+Bh3ny1b0NrtvJem+CTzWBm7NP73ahEkQAPNy4l+UPL?=
+ =?us-ascii?Q?6OUB/XMWZcgDb6zMp5zXs/mr6l8ogkcU0ZIXmxEMp8DhibE4XdT/zailD8MG?=
+ =?us-ascii?Q?GtZLh+2y+OElBy4mg7i202ltxSYWaoLlecxEuih/NEUqoBDsQBMhjby71iq2?=
+ =?us-ascii?Q?kitWV/d5LIdb+xxuzYEQr02H0V2U+OThRvLzDwY6?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 946efa92-5cc5-4365-48cd-08dd35a3c1a2
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2025 20:12:22.8079
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2025 20:32:40.3264
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Y1e3bc6Ip8LodG2H3BrNHDJ4qgkSW9+FXby85RqYymX9Jyk3WYUBgLbhkThOanKiGbKr2yM0khHPoZHR6OrBaw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB8574
+X-MS-Exchange-CrossTenant-UserPrincipalName: QM17XLKQMqYCEtRXofIev6R6mtxgHvxETKS71RYbKCZa8uoT6mdca7rW1+k5QkjvAxvQtR9yGB6Lc61Q11mM5A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7067
+X-OriginatorOrg: intel.com
 
-On 2025-01-15 7:46 pm, Florian Fainelli wrote:
-> From: Justin Chen <justin.chen@broadcom.com>
-> 
-> Network device driver's receive path typically do the following:
-> 
-> - dma_map_single(.., DMA_FROM_DEVICE)
-> - dma_sync_single_for_cpu() to allow the CPU to inspect packet
->    descriptors
-> - dma_unmap_single(.., DMA_FROM_DEVICE) when releasing the buffer
-> 
-> Each of those operations incurs a copy from the original buffer to the
-> TLB buffer, even if the device is known to be writing full buffers.
-> 
-> Add a DMA_ATTR_SKIP_DEVICE_SYNC flag which can be set by device drivers
-> to skip the copy at dma_map_single() to speed up the RX path when the
-> device is known to be doing full buffer writes.
-> 
-> This has been seen to provide a 20% speedup for Wi-Fi RX throughput
-> testing.
-> 
-> Signed-off-by: Justin Chen <justin.chen@broadcom.com>
-> [florian: commit message, add DMA-API attribute flag]
-> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
-> ---
->   Documentation/core-api/dma-attributes.rst | 9 +++++++++
->   Documentation/core-api/swiotlb.rst        | 4 +++-
->   include/linux/dma-mapping.h               | 6 ++++++
->   include/trace/events/dma.h                | 3 ++-
->   kernel/dma/swiotlb.c                      | 8 ++++++++
->   5 files changed, 28 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/core-api/dma-attributes.rst b/Documentation/core-api/dma-attributes.rst
-> index 1887d92e8e92..ccd9c1891200 100644
-> --- a/Documentation/core-api/dma-attributes.rst
-> +++ b/Documentation/core-api/dma-attributes.rst
-> @@ -130,3 +130,12 @@ accesses to DMA buffers in both privileged "supervisor" and unprivileged
->   subsystem that the buffer is fully accessible at the elevated privilege
->   level (and ideally inaccessible or at least read-only at the
->   lesser-privileged levels).
-> +
-> +DMA_ATTR_SKIP_DEVICE_SYNC
-> +-------------------------
-> +
-> +Device drivers can set DMA_ATTR_SKIP_DEVICE_SYNC in order to avoid doing a copy
-> +from the original buffer to the TLB buffer for dma_map_single() with a
-> +DMA_FROM_DEVICE direction. This can be used to save an extra copy in a device
-> +driver's data path when using swiotlb bounce buffering.
-> +
-> diff --git a/Documentation/core-api/swiotlb.rst b/Documentation/core-api/swiotlb.rst
-> index 9e0fe027dd3b..3bc1f9ba67b2 100644
-> --- a/Documentation/core-api/swiotlb.rst
-> +++ b/Documentation/core-api/swiotlb.rst
-> @@ -67,7 +67,9 @@ to the driver for programming into the device. If a DMA operation specifies
->   multiple memory buffer segments, a separate bounce buffer must be allocated for
->   each segment. swiotlb_tbl_map_single() always does a "sync" operation (i.e., a
->   CPU copy) to initialize the bounce buffer to match the contents of the original
-> -buffer.
-> +buffer, except if DMA_ATTR_SKIP_DEVICE_SYNC is specified and the direction is
-> +DMA_FROM_DEVICE. This is a performance optimization that may not be suitable for
-> +all platforms.
->   
->   swiotlb_tbl_unmap_single() does the reverse. If the DMA operation might have
->   updated the bounce buffer memory and DMA_ATTR_SKIP_CPU_SYNC is not set, the
-> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-> index b79925b1c433..bfdaa65f8e9d 100644
-> --- a/include/linux/dma-mapping.h
-> +++ b/include/linux/dma-mapping.h
-> @@ -58,6 +58,12 @@
->    */
->   #define DMA_ATTR_PRIVILEGED		(1UL << 9)
->   
-> +/*
-> + * DMA_ATTR_SKIP_DEVICE_SYNC: used to indicate that the buffer does not need to
-> + * be synchronized to the device.
-> + */
-> +#define DMA_ATTR_SKIP_DEVICE_SYNC	(1UL << 10)
-> +
->   /*
->    * A dma_addr_t can hold any valid DMA or bus address for the platform.  It can
->    * be given to a device to use as a DMA source or target.  It is specific to a
-> diff --git a/include/trace/events/dma.h b/include/trace/events/dma.h
-> index d8ddc27b6a7c..6eb8fd7e3515 100644
-> --- a/include/trace/events/dma.h
-> +++ b/include/trace/events/dma.h
-> @@ -31,7 +31,8 @@ TRACE_DEFINE_ENUM(DMA_NONE);
->   		{ DMA_ATTR_FORCE_CONTIGUOUS, "FORCE_CONTIGUOUS" }, \
->   		{ DMA_ATTR_ALLOC_SINGLE_PAGES, "ALLOC_SINGLE_PAGES" }, \
->   		{ DMA_ATTR_NO_WARN, "NO_WARN" }, \
-> -		{ DMA_ATTR_PRIVILEGED, "PRIVILEGED" })
-> +		{ DMA_ATTR_PRIVILEGED, "PRIVILEGED" }, \
-> +		{ DMA_ATTR_SKIP_DEVICE_SYNC, "SKIP_DEVICE_SYNC" })
->   
->   DECLARE_EVENT_CLASS(dma_map,
->   	TP_PROTO(struct device *dev, phys_addr_t phys_addr, dma_addr_t dma_addr,
-> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-> index abcf3fa63a56..8dab89bf5e33 100644
-> --- a/kernel/dma/swiotlb.c
-> +++ b/kernel/dma/swiotlb.c
-> @@ -1435,8 +1435,16 @@ phys_addr_t swiotlb_tbl_map_single(struct device *dev, phys_addr_t orig_addr,
->   	 * the original data, even if it's garbage, is necessary to match
->   	 * hardware behavior.  Use of swiotlb is supposed to be transparent,
->   	 * i.e. swiotlb must not corrupt memory by clobbering unwritten bytes.
-> +	 *
-> +	 * Setting DMA_ATTR_SKIP_DEVICE_SYNC will negate the behavior described
-> +	 * before and avoid the copy from the original buffer to the TLB
-> +	 * buffer.
->   	 */
-> +	if (dir == DMA_FROM_DEVICE && (attrs & DMA_ATTR_SKIP_DEVICE_SYNC))
-> +		goto out;
+Dan Williams wrote:
+> Ira Weiny wrote:
 
-Nope, we still need to initialise the SWIOTLB slot with *something*, or 
-we're just reintroducing the same data leakage issue again. The whole 
-deal with that was that the caller *did* expect the entire buffer to be 
-written, but the device had an error, and thus the subsequent unmap 
-bounced out whatever data was in SWIOTLB before.
+[snip]
 
-A memset is hopefully at least a bit faster than a copy, so maybe there 
-is still some life in this idea, but the semantic is not "skip sync", 
-it's "I'm OK with this entire buffer getting scribbled even my device 
-ends up never touching it".
+> > diff --git a/drivers/cxl/cxlmem.h b/drivers/cxl/cxlmem.h
+> > index e8907c403edbd83c8a36b8d013c6bc3391207ee6..05a0718aea73b3b2a02c608bae198eac7c462523 100644
+> > --- a/drivers/cxl/cxlmem.h
+> > +++ b/drivers/cxl/cxlmem.h
+> > @@ -403,6 +403,7 @@ enum cxl_devtype {
+> >  	CXL_DEVTYPE_CLASSMEM,
+> >  };
+> >  
+> > +#define CXL_MAX_DC_REGION 8
+> 
+> Please no, lets not sign up to have the "which cxl 'region' concept are
+> you referring to?" debate in perpetuity. "DPA partition", "DPA
+> resource", "DPA capacity" anything but "region".
+> 
 
-Thanks,
-Robin.
+I'm inclined to agree with Alejandro on this one.  I've walked this
+tightrope quite a bit with this series.  But there are other places where
+we have chosen to change the verbiage from the spec and it has made it
+difficult for new comers to correlate the spec with the code.
 
-> +
->   	swiotlb_bounce(dev, tlb_addr, mapping_size, DMA_TO_DEVICE, pool);
-> +out:
->   	return tlb_addr;
->   }
->   
+So I like Alejandro's idea of adding "HW" to the name to indicate that we
+are talking about a spec or hardware defined thing.
 
+That said I am open to changing some names where it is clear it is a
+software structure.  I'll audit the series for that.
+
+> >  /**
+> >   * struct cxl_dpa_perf - DPA performance property entry
+> >   * @dpa_range: range for DPA address
+> > @@ -434,6 +435,8 @@ struct cxl_dpa_perf {
+> >   * @dpa_res: Overall DPA resource tree for the device
+> >   * @pmem_res: Active Persistent memory capacity configuration
+> >   * @ram_res: Active Volatile memory capacity configuration
+> > + * @dc_res: Active Dynamic Capacity memory configuration for each possible
+> > + *          region
+> >   * @serial: PCIe Device Serial Number
+> >   * @type: Generic Memory Class device or Vendor Specific Memory device
+> >   * @cxl_mbox: CXL mailbox context
+> > @@ -449,11 +452,23 @@ struct cxl_dev_state {
+> >  	struct resource dpa_res;
+> >  	struct resource pmem_res;
+> >  	struct resource ram_res;
+> > +	struct resource dc_res[CXL_MAX_DC_REGION];
+> 
+> This is throwing off cargo-cult alarms. The named pmem_res and ram_res
+> served us well up until the point where DPA partitions grew past 2 types
+> at well defined locations. I like the array of resources idea, but that
+> begs the question why not put all partition information into an array?
+
+For me that keeps it clear what is pmem/ram/dc.
+
+> 
+> This would also head off complications later on in this series where the
+> DPA capacity reservation and allocation flows have "dc" sidecars bolted
+> on rather than general semantics like "allocating from partition index N
+> means that all partitions indices less than N need to be skipped and
+> marked reserved".
+
+I assume you are speaking of this patch:
+
+	cxl/hdm: Add dynamic capacity size support to endpoint decoders
+
+I took some care to make the skip calculations and tracking generic.  But
+I think you are correct more could be done.
+
+We would also need to adjust cxl_dpa_alloc().
+
+I thought there might be other places where the memdev_state would need to
+be adjusted.  But it looks like those are minor issues.
+
+Over all I did spend a lot of time making the skip generic and honestly it
+is probably worth making it all generic.  However, I think it will take
+careful review and testing to make sure we don't break things.
+
+> 
+> >  	u64 serial;
+> >  	enum cxl_devtype type;
+> >  	struct cxl_mailbox cxl_mbox;
+> >  };
+> >  
+> > +#define CXL_DC_REGION_STRLEN 8
+> > +struct cxl_dc_region_info {
+> > +	u64 base;
+> > +	u64 decode_len;
+> > +	u64 len;
+> 
+> Duplicating partition information in multiple places, like
+> mds->dc_region[X].base and cxlds->dc_res[X].start, feels like an
+> RFC-quality decision for expediency that needs to reconciled on the way
+> to upstream.
+
+I think this was done to follow a pattern of the mds being passed around
+rather than creating resources right when partitions are read.
+
+Furthermore this stands to hold this information in CPU endianess rather
+than holding an array of region info coming from the hardware.
+
+Let see how other changes fall out before I go hacking this though.
+
+> 
+> > +	u64 blk_size;
+> > +	u32 dsmad_handle;
+> > +	u8 flags;
+> > +	u8 name[CXL_DC_REGION_STRLEN];
+> 
+> No, lets not entertain:
+> 
+>     printk("%s\n", mds->dc_region[index].name);
+> 
+> ...when:
+> 
+>     printk("dc%d\n", index);
+> 
+> ...will do.
+
+Actually these buffers provide a buffer for the (struct
+resource)dc_res[x].name pointers to point to.
+
+It could be devm_malloc'ed memory but this actually worked ok.  ram/pmem
+just use static strings.
+
+I could add a comment to that effect.  Or I could define a static array
+thusly...  I think this would go against defining a resource map though.
+
+@@ -1460,6 +1459,10 @@ static int add_dpa_res(struct device *dev, struct resource *parent,
+        return 0;
+ }
+ 
++static const char * const dc_resource_name[] = {
++       "dc0", "dc1", "dc2", "dc3", "dc4", "dc5", "dc6", "dc7",
++};
++
+ int cxl_mem_create_range_info(struct cxl_memdev_state *mds)
+ {
+        struct cxl_dev_state *cxlds = &mds->cxlds;
+@@ -1486,7 +1489,8 @@ int cxl_mem_create_range_info(struct cxl_memdev_state *mds)
+                struct cxl_dc_region_info *dcr = &mds->dc_region[i];
+ 
+                rc = add_dpa_res(dev, &cxlds->dpa_res, &cxlds->dc_res[i],
+-                                dcr->base, dcr->decode_len, dcr->name);
++                                dcr->base, dcr->decode_len,
++                                dc_resource_name[i]);
+                if (rc)
+                        return rc;
+        }
+
+> 
+> > +};
+> > +
+> >  static inline struct cxl_dev_state *mbox_to_cxlds(struct cxl_mailbox *cxl_mbox)
+> >  {
+> >  	return dev_get_drvdata(cxl_mbox->host);
+> > @@ -473,7 +488,9 @@ static inline struct cxl_dev_state *mbox_to_cxlds(struct cxl_mailbox *cxl_mbox)
+> >   * @dcd_cmds: List of DCD commands implemented by memory device
+> >   * @enabled_cmds: Hardware commands found enabled in CEL.
+> >   * @exclusive_cmds: Commands that are kernel-internal only
+> > - * @total_bytes: sum of all possible capacities
+> > + * @total_bytes: length of all possible capacities
+> > + * @static_bytes: length of possible static RAM and PMEM partitions
+> > + * @dynamic_bytes: length of possible DC partitions (DC Regions)
+> >   * @volatile_only_bytes: hard volatile capacity
+> >   * @persistent_only_bytes: hard persistent capacity
+> 
+> I have regrets that cxl_memdev_state permanently carries runtime storage
+> for init time variables, lets not continue down that path with DCD
+> enabling.
+
+Yea I thought these were used more than they are.  I feel like over time
+they got used less and less.  Perhaps now they can be removed.
+
+> 
+> >   * @partition_align_bytes: alignment size for partition-able capacity
+> > @@ -483,6 +500,8 @@ static inline struct cxl_dev_state *mbox_to_cxlds(struct cxl_mailbox *cxl_mbox)
+> >   * @next_persistent_bytes: persistent capacity change pending device reset
+> >   * @ram_perf: performance data entry matched to RAM partition
+> >   * @pmem_perf: performance data entry matched to PMEM partition
+> > + * @nr_dc_region: number of DC regions implemented in the memory device
+> > + * @dc_region: array containing info about the DC regions
+> >   * @event: event log driver state
+> >   * @poison: poison driver state info
+> >   * @security: security driver state info
+> > @@ -499,6 +518,8 @@ struct cxl_memdev_state {
+> >  	DECLARE_BITMAP(enabled_cmds, CXL_MEM_COMMAND_ID_MAX);
+> >  	DECLARE_BITMAP(exclusive_cmds, CXL_MEM_COMMAND_ID_MAX);
+> >  	u64 total_bytes;
+> > +	u64 static_bytes;
+> > +	u64 dynamic_bytes;
+> >  	u64 volatile_only_bytes;
+> >  	u64 persistent_only_bytes;
+> >  	u64 partition_align_bytes;
+> > @@ -510,6 +531,9 @@ struct cxl_memdev_state {
+> >  	struct cxl_dpa_perf ram_perf;
+> >  	struct cxl_dpa_perf pmem_perf;
+> >  
+> > +	u8 nr_dc_region;
+> > +	struct cxl_dc_region_info dc_region[CXL_MAX_DC_REGION];
+> 
+> DPA capacity is a generic CXL.mem concern and partition information is
+> contained cxl_dev_state. Lets find a way to not need partially redundant
+> data structures across in cxl_memdev_state and cxl_dev_state.
+
+I'll think on it.
+
+> 
+> DCD introduces the concept of "decode size vs usable capacity" into the
+> partition information, but I see no reason to conceptually tie that to
+> only DCD.  Fabio's memory hole patches show that there is already a
+> memory-hole concept in the CXL arena. DCD is just saying "be prepared for
+> the concept of DPA partitions with memory holes at the end".
+
+I'm not clear how this relates.  ram and pmem partitions can already have
+holes at the end if not mapped.
+
+> 
+> > +
+> >  	struct cxl_event_state event;
+> >  	struct cxl_poison_state poison;
+> >  	struct cxl_security_state security;
+> > @@ -708,6 +732,32 @@ struct cxl_mbox_set_partition_info {
+> >  
+> >  #define  CXL_SET_PARTITION_IMMEDIATE_FLAG	BIT(0)
+> >  
+> > +/* See CXL 3.1 Table 8-163 get dynamic capacity config Input Payload */
+> > +struct cxl_mbox_get_dc_config_in {
+> > +	u8 region_count;
+> > +	u8 start_region_index;
+> > +} __packed;
+> > +
+> > +/* See CXL 3.1 Table 8-164 get dynamic capacity config Output Payload */
+> > +struct cxl_mbox_get_dc_config_out {
+> > +	u8 avail_region_count;
+> > +	u8 regions_returned;
+> > +	u8 rsvd[6];
+> > +	/* See CXL 3.1 Table 8-165 */
+> > +	struct cxl_dc_region_config {
+> > +		__le64 region_base;
+> > +		__le64 region_decode_length;
+> > +		__le64 region_length;
+> > +		__le64 region_block_size;
+> > +		__le32 region_dsmad_handle;
+> > +		u8 flags;
+> > +		u8 rsvd[3];
+> > +	} __packed region[] __counted_by(regions_returned);
+> 
+> Yes, the spec unfortunately uses "region" for this partition info
+> payload. This would be a good place to say "CXL spec calls this 'region'
+> but Linux calls it 'partition' not to be confused with the Linux 'struct
+> cxl_region' or all the other usages of 'region' in the specification".
+
+In this case I totally disagree.  This is a structure being filled in by
+the hardware and is directly related to the spec.  I think I would rather
+change 
+
+s/cxl_dc_region_info/cxl_dc_partition_info/
+
+And leave this.  Which draws a more distinct line between what is
+specified in hardware vs a software construct.
+
+> 
+> Linux is not obligated to follow the questionable naming decisions of
+> specifications.
+
+We are not.  But as Alejandro says it can be confusing if we don't make
+some association to the spec.
+
+What do you think about the HW/SW line I propose above?
+
+> 
+> > +	/* Trailing fields unused */
+> > +} __packed;
+> > +#define CXL_DYNAMIC_CAPACITY_SANITIZE_ON_RELEASE_FLAG BIT(0)
+> > +#define CXL_DCD_BLOCK_LINE_SIZE 0x40
+> > +
+> >  /* Set Timestamp CXL 3.0 Spec 8.2.9.4.2 */
+> >  struct cxl_mbox_set_timestamp_in {
+> >  	__le64 timestamp;
+> > @@ -831,6 +881,7 @@ enum {
+> >  int cxl_internal_send_cmd(struct cxl_mailbox *cxl_mbox,
+> >  			  struct cxl_mbox_cmd *cmd);
+> >  int cxl_dev_state_identify(struct cxl_memdev_state *mds);
+> > +int cxl_dev_dynamic_capacity_identify(struct cxl_memdev_state *mds);
+> >  int cxl_await_media_ready(struct cxl_dev_state *cxlds);
+> >  int cxl_enumerate_cmds(struct cxl_memdev_state *mds);
+> >  int cxl_mem_create_range_info(struct cxl_memdev_state *mds);
+> > @@ -844,6 +895,17 @@ void cxl_event_trace_record(const struct cxl_memdev *cxlmd,
+> >  			    enum cxl_event_log_type type,
+> >  			    enum cxl_event_type event_type,
+> >  			    const uuid_t *uuid, union cxl_event *evt);
+> > +
+> > +static inline bool cxl_dcd_supported(struct cxl_memdev_state *mds)
+> > +{
+> > +	return test_bit(CXL_DCD_ENABLED_GET_CONFIG, mds->dcd_cmds);
+> > +}
+> > +
+> > +static inline void cxl_disable_dcd(struct cxl_memdev_state *mds)
+> > +{
+> > +	clear_bit(CXL_DCD_ENABLED_GET_CONFIG, mds->dcd_cmds);
+> > +}
+> 
+> This hunk is out of place,
+
+Not sure why they are out of place.  This is the first patch they are used
+in so they were added here.  I could push them back a patch but you have
+mentioned before you don't like to see functions defined without a use.
+So I structured the series this way.
+
+> and per the last patch, I think it can just be
+> a flag that does not need a helper.
+
+Agreed.  This has already been changed.  But these functions remain
+defined here along with where they are used for proper context.
+
+Ira
