@@ -1,394 +1,195 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23ADB2475C7;
-	Wed, 15 Jan 2025 12:37:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413942459AB;
+	Wed, 15 Jan 2025 13:35:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736944682; cv=none; b=eQB6q9w8SQBTAPpA7Ks27hB3B9JtAzNtrGrbW0HUtvnvYbP3r64UfEUt8Brl/KP52qMHl9iStqDGEWlC13kfbONSvtiPD39Nms/sl2jEx3lgvqHme7YutCQ3JkddI3r/QALwYr13AnhYkQAw8pcxjYvd57I78x28Sdtuj34Runs=
+	t=1736948137; cv=none; b=JWGIYNmzWEFuLIfOwHjPPLa9+/1RsTMqrpFED6MqW5/Zki4kAPnyNL/DA0Qud3yi5FoqNf5p9n8JjXFj5WmLE5kxEpnRpVx/+v5bpyV4eqaih0w1Rv+oHSWBFftLI2Vid8Rjo1uxu7g8HZq6Vx/P4fcDplF1VIBqwrZLzqIpui4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736944682; c=relaxed/simple;
-	bh=cZNI0oaGyOZ/qWThx+5kVZWZErCBbxjB86ymcisBx0o=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BrZN4MVn0fYLij+fQ2xdLEmmWkLONccrEpMiJEoJhGacsFOrxniQCbuTxjqbJMPew5VGotSrSyRYSzEb0f6SozGWSmpRSX+dwZrtUcRaNxkj3xYPB9bQhDp9UtCSKPXndTpxij7/qM0UOAsjLOLjc+vaJbLAylMb7Bc38emIPS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=YNB4rmVj; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="YNB4rmVj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1736944678;
-	bh=cZNI0oaGyOZ/qWThx+5kVZWZErCBbxjB86ymcisBx0o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=YNB4rmVj0yBmWtb285hJ6vb71TuXVZ3+8noVr6QdVKCMyHVv8LVobwB5IA7QrXRge
-	 kT1zhu7OGeogPV9WyWwVMrYJ/vtntuqat01VtrZNNvF6o0fKjFTYU2ir4BidEOtKtY
-	 pHuR4UY3nXgS4KTDVdHY4x5pE183IRlQmJmngTgZtUXPLC87wDu2wnc/Ko7Se5SAUR
-	 Qb6dipCNmc0wearbcjYB8u2BHg/l0P9XdDVEXx8fuMGPs2/KWEp5L3D9mRqnCPWQrX
-	 2PnDuDqRd2yDz6Dpu1REQr5JgDP9UIvsJbzk3yBnYdd8tYJpApRiOpPXLW3H3k3WvV
-	 69HFAQGP3IZjw==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 8790017E06BE;
-	Wed, 15 Jan 2025 13:37:57 +0100 (CET)
-Date: Wed, 15 Jan 2025 13:37:52 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Jonathan
- Corbet <corbet@lwn.net>, kernel@collabora.com, Tvrtko Ursulin
- <tursulin@ursulin.net>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>, Mihail
- Atanassov <mihail.atanassov@arm.com>, Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v8 3/4] drm/panthor: Expose size of driver internal BO's
- over fdinfo
-Message-ID: <20250115133752.1672fd05@collabora.com>
-In-Reply-To: <20250114173406.3060248-4-adrian.larumbe@collabora.com>
-References: <20250114173406.3060248-1-adrian.larumbe@collabora.com>
-	<20250114173406.3060248-4-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1736948137; c=relaxed/simple;
+	bh=ulj1HOTDaNMpMqYVSJ4X3p1JpX3evQ0ThnqfDmvEpDs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=NjCJ66dNc0Pg+Bkoymg7Jx+t/SyXE5MzgYc/QE1mEtZCFP+zvapv73cCRVWDN6Jlfud1igNr40q9avtyNQplLLWcVRk+M1njb6b/95NBT4/lIb0STCfJbjYCaiqhdb2W5XsUo6Cr1PIxzkuOEbm9s6d2uO9q4v2lrGzwMgtlZMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-aa6a92f863cso1270215966b.1;
+        Wed, 15 Jan 2025 05:35:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736948133; x=1737552933;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SALK4sDCQYvTb0KKst1+p1P7McWo3sTt16aXL5fdW8Q=;
+        b=DnyVr8PaDnnEznS/OsmTmYhg8OFFd13A+37eUkycZNPR7z0gs1C+/ezF4d3GW01PiF
+         dUfEZwN3zvoZqFizOXISgnhqYCyFV4PuJn3OkYryHzUUElv+B0+ckOoTZh1IGjXTOkF3
+         1Xa8NIgvQK0iBC7OcSzEHND9lHQYjBVIPCdU9+1/H18T0ucT8EQ0rmrSPp4jBON735vW
+         mCmSEju46z1vZ9kSaXYV0LNSNa8vxqzAyLOeJbQfiw8Or6XhBnpqNCBD+4m6t+P1Xaf7
+         M3QJ6xKqkp2RbZ6k8212wmF39VDhOTbSUofpwHKyWJ44e/Sxv69ySwqPGlSyEDUEktsJ
+         afTg==
+X-Forwarded-Encrypted: i=1; AJvYcCUbk8D5xQzNZWJ3EJ3RamcIBptdtLA6U8V12CPS2ii3mVWsNox/qERgQL5buKCNlM6pRAJSw6VFKxw=@vger.kernel.org, AJvYcCVKiTZAqj3xFvYLo1h5QJV/yF3jKHxW2DtrSoS+xiJ3lLz9eTg32CJXSXxUKq7ktMQxZO0cxzwV9sGl8Ot2@vger.kernel.org, AJvYcCW7CyWoJFKkCrHwHoenr4HBGWqcLXfnkqsEKvCxDYKuRFTql4HNjzC+ERL0b2uRRRVImZ3k3n+P462B7hcUany4@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlneaqtWPf3ZWBX3ORlAAoXI5tCnuNSlcwXM8h9i3g9eU0/rJF
+	bHaGFs8h6eOflFPfE3u4GrDqLEZYeKfMS+Zwq7YyJe46UyecB8l7
+X-Gm-Gg: ASbGnctZ0+rrJKsrgScPc/f6txqvlwu5ZXETgUqcMxijdq6HacjxuCoC7l9hUItSjRu
+	n6ajLDEIy/CKbILT/GGwBh5aa4ypjMw3NZX3r+8pXYQXmNPh+9hzS8ryjQfTDKe0EDAhI7WcN6U
+	3ZuGfSWsHSSjZF+0iGln5rEOPOex1oSQcnsGG45kI90IqQLsmOv2AXa7Fj6JZeIPMckoho2qRms
+	dMcdxIdVSM+JSekxhGpQmI5YNE5e76h3ujejcHP9g4yF8U=
+X-Google-Smtp-Source: AGHT+IGt5sXVoPCFD/NMTDdlvFSvgoOs1cqdB0gLt7NTHLg9S9IfSV9GbbpY5XrTZcAEXxmAo2TzPA==
+X-Received: by 2002:a17:907:60d5:b0:aa6:a228:afaf with SMTP id a640c23a62f3a-ab2abcb139cmr2753855966b.52.1736948133280;
+        Wed, 15 Jan 2025 05:35:33 -0800 (PST)
+Received: from localhost ([2a03:2880:30ff:4::])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c90da0d9sm764196266b.67.2025.01.15.05.35.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jan 2025 05:35:32 -0800 (PST)
+From: Breno Leitao <leitao@debian.org>
+Subject: [PATCH net-next v2 0/5] netconsole: Add support for CPU population
+Date: Wed, 15 Jan 2025 05:35:17 -0800
+Message-Id: <20250115-netcon_cpu-v2-0-95971b44dc56@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJa5h2cC/03NQQqDMBBA0auEWZuSiYKpq96jSDFx1NlMJEnFI
+ t69YDddf3j/gEyJKUOnDki0ceYo0ClbKQjLIDNpHqFTYI1tEI3TQiVEeYX1rQPVd2zJuanxUCl
+ YE028X9gThIoW2gv0lYKFc4npc102vPoPxPof3FAbPaJr/dQGU1t8jOR5kFtMM/TneX4B/iPkf
+ K8AAAA=
+X-Change-ID: 20241108-netcon_cpu-ce3917e88f4b
+To: Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <shuah@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Breno Leitao <leitao@debian.org>, kernel-team@meta.com, max@kutsevol.com, 
+ thepacketgeek@gmail.com
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5085; i=leitao@debian.org;
+ h=from:subject:message-id; bh=ulj1HOTDaNMpMqYVSJ4X3p1JpX3evQ0ThnqfDmvEpDs=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBnh7mj4ovbpc3+8RLnALPtLdIZci51EBJyVBkvP
+ Vd0ycrX0f2JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCZ4e5owAKCRA1o5Of/Hh3
+ bTYaD/9Or/0PCBZ6RxYA9GN1yOIZRCzplMG4SkXR/D86PUqUwUdEH1SNqTB6gT7t0oXCQ+a7H0K
+ RF/zPWOHHMCqVANtHwW5C1b/0N6uDDmv/mgVYFdhHMa8QJyd9/5PHBbSYbBHr7faYGL4Y/WVTXe
+ pNn39H08YyewZzhAfIsh/ZLckDYCubnkUJiM4UyVeaqslrLMFkVVuwtGCLYawPoyMB9hXoezvMb
+ w0wo5IL9DI3x4cvBuNDBXSze72YeoE0Bb0anloCGi5P4GWgfD7ogidSM4JkfviS2dyzjvNuvq6w
+ DZoB6WpJLGClpXXJHoXejzS/2ilQogWJu5xFBC0JvEPWGtzmw26lqLIzgR8qBBgzRCLI8Y/3nRC
+ jJLChsrg+cQG58rLM+G398z0ZKfxheDwOwMEEqHs+APpLEFsObwqPjxe/CXe6Y6Dz1O7Jw+0pDL
+ qMDc/6Y2BxDEhz3AcbZpj5YNsr4OAL18d44m+p5G9vJtVdNiEo9bYiGRHxCTDkPeQLZppdKfjxG
+ va1nkYZfUNFPnqPD8IbVWCD8yrmZBXplBrZPSXmGGNd9DRU2vwhwDKl9vnfTMZcqRAvy2PVJ8YY
+ S69nc+seupuRIAfno5EPTwikmHVGQ91S0TFOLmVF0WQaN/sQRCrR80OrbasLqTnXLiC40Pqpd90
+ mLGyKbkTpT0EKkQ==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
 
-On Tue, 14 Jan 2025 17:34:02 +0000
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+The current implementation of netconsole sends all log messages in
+parallel, which can lead to an intermixed and interleaved output on the
+receiving side. This makes it challenging to demultiplex the messages
+and attribute them to their originating CPUs.
 
-> This will display the sizes of kenrel BO's bound to an open file, which a=
-re
-> otherwise not exposed to UM through a handle.
->=20
-> The sizes recorded are as follows:
->  - Per group: suspend buffer, protm-suspend buffer, syncobjcs
->  - Per queue: ringbuffer, profiling slots, firmware interface
->  - For all heaps in all heap pools across all VM's bound to an open file,
->  record size of all heap chuks, and for each pool the gpu_context BO too.
->=20
-> This does not record the size of FW regions, as these aren't bound to a
-> specific open file and remain active through the whole life of the driver.
->=20
-> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-> Reviewed-by: Mihail Atanassov <mihail.atanassov@arm.com>
-> Reviewed-by: Steven Price <steven.price@arm.com>
-> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_drv.c   | 14 +++++++
->  drivers/gpu/drm/panthor/panthor_heap.c  | 26 +++++++++++++
->  drivers/gpu/drm/panthor/panthor_heap.h  |  2 +
->  drivers/gpu/drm/panthor/panthor_mmu.c   | 34 +++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_mmu.h   |  3 ++
->  drivers/gpu/drm/panthor/panthor_sched.c | 51 ++++++++++++++++++++++++-
->  drivers/gpu/drm/panthor/panthor_sched.h |  2 +
->  7 files changed, 131 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/pant=
-hor/panthor_drv.c
-> index ac7e53f6e3f0..b75a9251f578 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -1457,12 +1457,26 @@ static void panthor_gpu_show_fdinfo(struct pantho=
-r_device *ptdev,
->  	drm_printf(p, "drm-curfreq-panthor:\t%lu Hz\n", ptdev->current_frequenc=
-y);
->  }
-> =20
-> +static void panthor_show_internal_memory_stats(struct drm_printer *p, st=
-ruct drm_file *file)
-> +{
-> +	char *drv_name =3D file->minor->dev->driver->name;
-> +	struct panthor_file *pfile =3D file->driver_priv;
-> +	struct drm_memory_stats stats =3D {0};
-> +
-> +	panthor_group_kbo_sizes(pfile, &stats);
-> +	panthor_vm_heaps_sizes(pfile, &stats);
-> +
-> +	drm_fdinfo_print_size(p, drv_name, "resident", "memory", stats.resident=
-);
-> +	drm_fdinfo_print_size(p, drv_name, "active", "memory", stats.active);
-> +}
-> +
->  static void panthor_show_fdinfo(struct drm_printer *p, struct drm_file *=
-file)
->  {
->  	struct drm_device *dev =3D file->minor->dev;
->  	struct panthor_device *ptdev =3D container_of(dev, struct panthor_devic=
-e, base);
-> =20
->  	panthor_gpu_show_fdinfo(ptdev, file->driver_priv, p);
-> +	panthor_show_internal_memory_stats(p, file);
-> =20
->  	drm_show_memory_stats(p, file);
->  }
-> diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/pan=
-thor/panthor_heap.c
-> index 3796a9eb22af..db0285ce5812 100644
-> --- a/drivers/gpu/drm/panthor/panthor_heap.c
-> +++ b/drivers/gpu/drm/panthor/panthor_heap.c
-> @@ -603,3 +603,29 @@ void panthor_heap_pool_destroy(struct panthor_heap_p=
-ool *pool)
-> =20
->  	panthor_heap_pool_put(pool);
->  }
-> +
-> +/**
-> + * panthor_heap_pool_size() - Calculate size of all chunks across all he=
-aps in a pool
-> + * @pool: Pool whose total chunk size to calculate.
-> + *
-> + * This function adds the size of all heap chunks across all heaps in the
-> + * argument pool. It also adds the size of the gpu contexts kernel bo.
-> + * It is meant to be used by fdinfo for displaying the size of internal
-> + * driver BO's that aren't exposed to userspace through a GEM handle.
-> + *
-> + */
-> +size_t panthor_heap_pool_size(struct panthor_heap_pool *pool)
-> +{
-> +	struct panthor_heap *heap;
-> +	unsigned long i;
-> +	size_t size =3D 0;
-> +
-> +	down_read(&pool->lock);
-> +	xa_for_each(&pool->xa, i, heap)
-> +		size +=3D heap->chunk_size * heap->chunk_count;
-> +	up_read(&pool->lock);
-> +
-> +	size +=3D pool->gpu_contexts->obj->size;
-> +
-> +	return size;
-> +}
-> diff --git a/drivers/gpu/drm/panthor/panthor_heap.h b/drivers/gpu/drm/pan=
-thor/panthor_heap.h
-> index 25a5f2bba445..e3358d4e8edb 100644
-> --- a/drivers/gpu/drm/panthor/panthor_heap.h
-> +++ b/drivers/gpu/drm/panthor/panthor_heap.h
-> @@ -27,6 +27,8 @@ struct panthor_heap_pool *
->  panthor_heap_pool_get(struct panthor_heap_pool *pool);
->  void panthor_heap_pool_put(struct panthor_heap_pool *pool);
-> =20
-> +size_t panthor_heap_pool_size(struct panthor_heap_pool *pool);
-> +
->  int panthor_heap_grow(struct panthor_heap_pool *pool,
->  		      u64 heap_gpu_va,
->  		      u32 renderpasses_in_flight,
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/pant=
-hor/panthor_mmu.c
-> index c3f0b0225cf9..b43073010b7f 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -1941,6 +1941,40 @@ struct panthor_heap_pool *panthor_vm_get_heap_pool=
-(struct panthor_vm *vm, bool c
->  	return pool;
->  }
-> =20
-> +/**
-> + * panthor_vm_heaps_sizes() - Calculate size of all heap chunks across a=
-ll
-> + * heaps over all the heap pools in a VM
-> + * @pfile: File.
-> + * @stats: Memory stats to be updated.
-> + *
-> + * Calculate all heap chunk sizes in all heap pools bound to a VM. If th=
-e VM
-> + * is active, record the size as active as well.
-> + */
-> +void panthor_vm_heaps_sizes(struct panthor_file *pfile, struct drm_memor=
-y_stats *stats)
-> +{
-> +	struct panthor_vm *vm;
-> +	unsigned long i;
-> +
-> +	if (!pfile->vms)
-> +		return;
-> +
-> +	xa_for_each(&pfile->vms->xa, i, vm) {
-> +		size_t size;
-> +
-> +		mutex_lock(&vm->heaps.lock);
-> +		if (!vm->heaps.pool) {
-> +			mutex_unlock(&vm->heaps.lock);
-> +			continue;
-> +		}
-> +		size =3D panthor_heap_pool_size(vm->heaps.pool);
-> +		mutex_unlock(&vm->heaps.lock);
-> +
-> +		stats->resident +=3D size;
-> +		if (vm->as.id >=3D 0)
-> +			stats->active +=3D size;
-> +	}
-> +}
-> +
->  static u64 mair_to_memattr(u64 mair, bool coherent)
->  {
->  	u64 memattr =3D 0;
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/pant=
-hor/panthor_mmu.h
-> index 8d21e83d8aba..fc274637114e 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.h
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.h
-> @@ -9,6 +9,7 @@
-> =20
->  struct drm_exec;
->  struct drm_sched_job;
-> +struct drm_memory_stats;
->  struct panthor_gem_object;
->  struct panthor_heap_pool;
->  struct panthor_vm;
-> @@ -37,6 +38,8 @@ int panthor_vm_flush_all(struct panthor_vm *vm);
->  struct panthor_heap_pool *
->  panthor_vm_get_heap_pool(struct panthor_vm *vm, bool create);
-> =20
-> +void panthor_vm_heaps_sizes(struct panthor_file *pfile, struct drm_memor=
-y_stats *stats);
-> +
->  struct panthor_vm *panthor_vm_get(struct panthor_vm *vm);
->  void panthor_vm_put(struct panthor_vm *vm);
->  struct panthor_vm *panthor_vm_create(struct panthor_device *ptdev, bool =
-for_mcu,
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/pa=
-nthor/panthor_sched.c
-> index ef4bec7ff9c7..75b788c580a7 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -618,7 +618,7 @@ struct panthor_group {
->  	 */
->  	struct panthor_kernel_bo *syncobjs;
-> =20
-> -	/** @fdinfo: Per-file total cycle and timestamp values reference. */
-> +	/** @fdinfo: Per-group total cycle and timestamp values and kernel BO s=
-izes. */
+As a result, users and developers often struggle to effectively analyze
+and debug the parallel log output received through netconsole.
 
-Each subfield is documented, so let's just say "Per-file info exposed
-through /proc/<process>/fdinfo".
+Example of a message got from produciton hosts:
 
->  	struct {
->  		/** @data: Total sampled values for jobs in queues from this group. */
->  		struct panthor_gpu_usage data;
-> @@ -628,6 +628,9 @@ struct panthor_group {
->  		 * and job post-completion processing function
->  		 */
->  		struct mutex lock;
-> +
-> +		/** @kbo_sizes: Aggregate size of private kernel BO's held by the grou=
-p. */
+	------------[ cut here ]------------
+	------------[ cut here ]------------
+	refcount_t: saturated; leaking memory.
+	WARNING: CPU: 2 PID: 1613668 at lib/refcount.c:22 refcount_warn_saturate+0x5e/0xe0
+	refcount_t: addition on 0; use-after-free.
+	WARNING: CPU: 26 PID: 4139916 at lib/refcount.c:25 refcount_warn_saturate+0x7d/0xe0
+	Modules linked in: bpf_preload(E) vhost_net(E) tun(E) vhost(E)
 
-@fdinfo.kbo_sizes otherwise the doc builder complains.
+This series of patches introduces a new feature to the netconsole
+subsystem that allows the automatic population of the CPU number in the
+userdata field for each log message. This enhancement provides several
+benefits:
 
-> +		size_t kbo_sizes;
->  	} fdinfo;
-> =20
->  	/** @state: Group state. */
-> @@ -3365,6 +3368,29 @@ group_create_queue(struct panthor_group *group,
->  	return ERR_PTR(ret);
->  }
-> =20
-> +static void add_group_kbo_sizes(struct panthor_device *ptdev,
-> +				struct panthor_group *group)
-> +{
-> +	struct panthor_queue *queue;
-> +	int i;
-> +
-> +	if (drm_WARN_ON(&ptdev->base, IS_ERR_OR_NULL(group)))
-> +		return;
-> +	if (drm_WARN_ON(&ptdev->base, ptdev !=3D group->ptdev))
-> +		return;
-> +
-> +	group->fdinfo.kbo_sizes +=3D group->suspend_buf->obj->size;
-> +	group->fdinfo.kbo_sizes +=3D group->protm_suspend_buf->obj->size;
-> +	group->fdinfo.kbo_sizes +=3D group->syncobjs->obj->size;
-> +
-> +	for (i =3D 0; i < group->queue_count; i++) {
-> +		queue =3D	group->queues[i];
-> +		group->fdinfo.kbo_sizes +=3D queue->ringbuf->obj->size;
-> +		group->fdinfo.kbo_sizes +=3D queue->iface.mem->obj->size;
-> +		group->fdinfo.kbo_sizes +=3D queue->profiling.slots->obj->size;
-> +	}
-> +}
-> +
->  #define MAX_GROUPS_PER_POOL		128
-> =20
->  int panthor_group_create(struct panthor_file *pfile,
-> @@ -3489,6 +3515,7 @@ int panthor_group_create(struct panthor_file *pfile,
->  	}
->  	mutex_unlock(&sched->reset.lock);
-> =20
-> +	add_group_kbo_sizes(group->ptdev, group);
->  	mutex_init(&group->fdinfo.lock);
-> =20
->  	return gid;
-> @@ -3606,6 +3633,28 @@ void panthor_group_pool_destroy(struct panthor_fil=
-e *pfile)
->  	pfile->groups =3D NULL;
->  }
-> =20
-> +/**
-> + * panthor_group_kbo_sizes() - Retrieve aggregate size of all private ke=
-rnel BO's
-> + * belonging to all the groups owned by an open Panthor file
-> + * @pfile: File.
-> + * @stats: Memory statistics to be updated.
-> + *
-> + */
-> +void panthor_group_kbo_sizes(struct panthor_file *pfile, struct drm_memo=
-ry_stats *stats)
+* Improved demultiplexing of parallel log output: When multiple CPUs are
+  sending messages concurrently, the added CPU number in the userdata
+  makes it easier to differentiate and attribute the messages to their
+  originating CPUs.
 
-The panthor_group prefix is a bit confusing since it's not applying to
-a group but to all groups attached to a pfile. How about
-panthor_fdinfo_gather_group_mem_info() to follow the
-panthor_fdinfo_gather_group_samples() naming?
+* Better visibility into message sources: The CPU number information
+  gives users and developers more insight into which specific CPU a
+  particular log message came from, which can be valuable for debugging
+  and analysis.
 
-> +{
-> +	struct panthor_group_pool *gpool =3D pfile->groups;
-> +	struct panthor_group *group;
-> +	unsigned long i;
-> +
-> +	if (IS_ERR_OR_NULL(gpool))
-> +		return;
+The changes in this series are as follows:
 
-I suspect we need to take a lock to protect against group removal,
-otherwise you might end up with a UAF.
+Patch 1: netconsole: Rename userdata to extradata
+=================================================
+Create the a concept of extradata, which encompasses the concept of
+userdata and the upcoming sysdatao
 
-> +	xa_for_each(&gpool->xa, i, group) {
-> +		stats->resident +=3D group->fdinfo.kbo_sizes;
-> +		if (group->csg_id >=3D 0)
-> +			stats->active +=3D group->fdinfo.kbo_sizes;
-> +	}
-> +}
-> +
->  static void job_release(struct kref *ref)
->  {
->  	struct panthor_job *job =3D container_of(ref, struct panthor_job, refco=
-unt);
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.h b/drivers/gpu/drm/pa=
-nthor/panthor_sched.h
-> index 5ae6b4bde7c5..bfe26b26a15b 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.h
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.h
-> @@ -9,6 +9,7 @@ struct dma_fence;
->  struct drm_file;
->  struct drm_gem_object;
->  struct drm_sched_job;
-> +struct drm_memory_stats;
->  struct drm_panthor_group_create;
->  struct drm_panthor_queue_create;
->  struct drm_panthor_group_get_state;
-> @@ -36,6 +37,7 @@ void panthor_job_update_resvs(struct drm_exec *exec, st=
-ruct drm_sched_job *job);
-> =20
->  int panthor_group_pool_create(struct panthor_file *pfile);
->  void panthor_group_pool_destroy(struct panthor_file *pfile);
-> +void panthor_group_kbo_sizes(struct panthor_file *pfile, struct drm_memo=
-ry_stats *stats);
-> =20
->  int panthor_sched_init(struct panthor_device *ptdev);
->  void panthor_sched_unplug(struct panthor_device *ptdev);
+Sysdata is a new concept being added, which is basically fields that are
+populated by the kernel. At this time only the CPU#, but, there is a
+desire to add current task name, kernel release version, etc.
+
+Patch 2: netconsole: Helper to count number of used entries
+===========================================================
+Create a simple helper to count number of entries in extradata. I am
+separating this in a function since it will need to count userdata and
+sysdata. For instance, when the user adds an extra userdata, we need to
+check if there is space, counting the previous data entries (from
+userdata and cpu data)
+
+Patch 3: netconsole: add support for sysdata and CPU population
+===============================================================
+This is the core patch. Basically add a new option to enable automatic
+CPU number population in the netconsole userdata Provides a new "cpu_nr"
+sysfs attribute to control this feature
+
+Patch 4: "netconsole: selftest: test CPU number auto-population"
+=============================================================
+Expands the existing netconsole selftest to verify the CPU number
+auto-population functionality Ensures the received netconsole messages
+contain the expected "cpu=<CPU>" entry in the message. Test different
+permutation with userdata
+
+Patch 5: "netconsole: docs: Add documentation for CPU number auto-population"
+=============================================================================
+Updates the netconsole documentation to explain the new CPU number
+auto-population feature Provides instructions on how to enable and use
+the feature
+
+I believe these changes will be a valuable addition to the netconsole
+subsystem, enhancing its usefulness for kernel developers and users.
+
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+Changes in v2:
+- Create the concept of extradata and sysdata. This will make the design
+  easier to understand, and the code easier to read.
+  * Basically extradata encompasses userdata and the new sysdata.
+    Userdata originates from user, and sysdata originates in kernel.
+- Improved the test to send from a very specific CPU, which can be
+  checked to be correct on the other side, as suggested by Jakub.
+- Fixed a bug where CPU # was populated at the wrong place
+- Link to v1: https://lore.kernel.org/r/20241113-netcon_cpu-v1-0-d187bf7c0321@debian.org
+
+---
+Breno Leitao (5):
+      netconsole: Rename userdata to extradata
+      netconsole: Helper to count number of used entries
+      netconsole: add support for sysdata and CPU population
+      netconsole: selftest: test for sysdata CPU
+      netconsole: docs: Add documentation for CPU number auto-population
+
+ Documentation/networking/netconsole.rst            |  45 +++++
+ drivers/net/netconsole.c                           | 223 ++++++++++++++++-----
+ tools/testing/selftests/drivers/net/Makefile       |   1 +
+ .../selftests/drivers/net/lib/sh/lib_netcons.sh    |  17 ++
+ .../selftests/drivers/net/netcons_sysdata.sh       | 166 +++++++++++++++
+ 5 files changed, 407 insertions(+), 45 deletions(-)
+---
+base-commit: 7b24f164cf005b9649138ef6de94aaac49c9f3d1
+change-id: 20241108-netcon_cpu-ce3917e88f4b
+
+Best regards,
+-- 
+Breno Leitao <leitao@debian.org>
 
