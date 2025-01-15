@@ -1,159 +1,150 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5AA22E409;
-	Wed, 15 Jan 2025 04:00:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659BD22E40E
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 05:07:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736913613; cv=none; b=HOYGct/rKzqRcK5KdC9fPFLlQoImYTnFIy2CJAXVnw0Fb84fSlvu1Hhm6xEId2RHJCUACRWccJHnFf8Eu4tev7NZSp4eUxlxZcmKAKJJPy1I9g/Wa55z0EFgGxEDLVfc25viUk9YeFniQ7vS5PfcNZldU+onqiZxtvpJ8Gca+Ug=
+	t=1736917663; cv=none; b=V8K9iu57wM1bnwqMw5FshFKCUOcBB+X3jh0m5HwPjYjr4Ta6Ja9UA1dQnHkxN3H7s/wKuNZlWJ2LiFfcK5UTzvAG1ujRFrY9ZQrFpKCa34JLS/FVZsCn2rXXd/WDroZa7EmvGoKruk3D2DqaeK5rvKHioI2ECNMv5mkMWmJuZ0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736913613; c=relaxed/simple;
-	bh=hWT6V5fLYHtBrGHgSWLd07VmHi+bh2gzhXa7FZ2Q2UM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C2Q6B6aZl3jLoWRwUrCPECjSHREXFsgffB2eBwhi5jQN4VM3kB7paIffzXQeiT2i+cMxyBEKZ8o+lnd1DSwxgaxpOvQxwVQllvZQpzhXc5cnfJ3UVDtRwNgQz620U5vS2fiDY5dMUkzqopFHM3+rEj3QcyVyLyJo3uiJLMPIkXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fAeyRhYC; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736917663; c=relaxed/simple;
+	bh=t4dXpTZmsRI2k2NZ4xiQUhN5dBPeJttIl5lhtigwHU8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ko0ykkN1hkZofWitJid9NxC4EsxQTNzzv5PTeX4hLAjtMTREFhQsNbE5e8OcVFnLnU1xsGZ1yaHg8kl7cvBIkzvqCw6MuUXDeDI+ImYwf/rahi5kowUmBaYGttOYM8dsUEEADQgqDnMqmI8gfg6adhjzqBfnSgjIFOciT/SM040=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=ojNFcQ6q; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fAeyRhYC"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5d414b8af7bso10971970a12.0;
-        Tue, 14 Jan 2025 20:00:10 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="ojNFcQ6q"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2163bd70069so114563125ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 14 Jan 2025 21:07:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736913609; x=1737518409; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Kv2u0uJzn/Ts463acJ9jwBqvhz9v41RCMEi3nxpdcxc=;
-        b=fAeyRhYCLPEUVeA7iOV1dYNA/Djz/o17oFzRzUk7AJ6onLtgDfJr9irUdMFral7x92
-         Nn5vXaxyy3HXLwFDVy9c6EAz6sWrD/VJcoRZL6NUtT23QC+F/SvV1s9P7AEAxStj4FMn
-         8gqNCG5KGCQdbGhcWjm4VIanhwtDzBAPuah4BU2qsj9AB25/ASrabQVys0fmzp/yE+2F
-         3Vy79LlxkN6z/kS63BRwteVSjlTlNDuPzRAFdQ5zSmwwDqP3JOmVXarewlzBicJ9ends
-         QGUWNioZaVYmOr6cAjHujxIivQwHImIBLk+Xhn2Pr+w/pKKvc2x6LtEsB+BxsYMM7VM9
-         nI4A==
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1736917660; x=1737522460; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tJj2ax30G5cYMMuz85Qw6SCJDIZ/bbwOrDlSPLFGRgM=;
+        b=ojNFcQ6qbQMsuh63BrZPD2cg5u7/AjaUXt9B7ekVeZhZM8dOXf3eAAuYd+TBljvKwK
+         JtNVSsZSxxxJMsHDenuRv66Q+3LiW/CEFkGmFZ15GfcB1tGh258PdjinToYMY6fN5CT9
+         yLK/AIBtJTJJwU1XATwHLqPmqX6dv8V9mBOPQ6Rx1Sfri9vVUE/+dgN+cKHNzxg2ivhk
+         m7ysgpWjGkfKAPQDfwx20th4mSNaYEPeGZwe/pPtPrlYgMFWu6FprvmzyPayoSWQys1k
+         2nGX8N5IF/6m1UIIXjlIlqdAOoj5xaQRHCPESiDfRHfQYqYL7WKNb6iJHI4t1rnWxhjb
+         XD/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736913609; x=1737518409;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Kv2u0uJzn/Ts463acJ9jwBqvhz9v41RCMEi3nxpdcxc=;
-        b=qq7G0XJ63otYw0KPgxH7g4JJgqUxdNnAgrRbU+sFkfOnIOGue5xiJI5hIah2mhi0DQ
-         Ecgma2kwd0Rr9WWPxCzLr95Xlhtu8mkG+4MeAzkqnWJ0moTD4e9F3G15UoJvx16KtiP8
-         vxTKpvr0PSpZ9x0OI13CrqeTp8VL6E9fimraNKLhoCGE/Y8RCuKkfnNxXb9Fg3uVCH9l
-         hrjLXNvnVlKRRAmWYBwA3tYDHQ9N0cWCfORijpg6rIioKqNEB02ZHbC9U+kOBHMKGrfh
-         o8/Nm02NRZANVB9bNSLeDoM3yixaZDoPkMKdNHwU7DYXbzvn8HX3GXVEmQRqepEN4Xnn
-         0G5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV5snCfjwqFRuWvTVFPGDCvr8pXsmCAolzB75aEUas6u3Yu12RMXtHdQGB6OTNTLsxl8ta+sT3FMYwzDU0Q@vger.kernel.org, AJvYcCVJEI1RksgCtyA+ZeaT3FNL+fD/w4ExOOLoJcNKZA5Xcym667ksGlcZeN99qa4cqsQcxNali/MTPN8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCsJbEkFTAGAc/OMuk39NtVs8ZDtaFKpd1AlDsNqGcP4utnHPW
-	UscvTLIel9IBcL6Kq6DgNMiXwOQkMKCple9MrnFOpfCQBT2jA6uNSYFxooDbw4e+YE7e03qsvWx
-	mIDgjBMYNHexbPBszqhaMm9RDRl0=
-X-Gm-Gg: ASbGncvvP5+aj2XTd4/zsWkHIF4pAdYW8Dxz72V+c6pvcYj2c20arDTy3W/BTtvStam
-	w6RRvI/7+MayR0DBMhShuBzX8vztYtvOLCq7h
-X-Google-Smtp-Source: AGHT+IEEg1XJyQx+U5nOwfPrBRvC6/6ng8zywQNu0QqYgTdeQe2oZZA1UImZ/MMw4Mn5IeGnj2yd2vaBzhM7BErqxKQ=
-X-Received: by 2002:a05:6402:2355:b0:5d9:a55:4307 with SMTP id
- 4fb4d7f45d1cf-5d972e4eeabmr25957199a12.22.1736913608740; Tue, 14 Jan 2025
- 20:00:08 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736917660; x=1737522460;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tJj2ax30G5cYMMuz85Qw6SCJDIZ/bbwOrDlSPLFGRgM=;
+        b=sKtLQVlPBXT5MducIL9wvXNFf4hnzl+wCxtM1fioh7dLtooEV7nGCctg/q3UL9lbt1
+         C7QI+0/fQJgWogScjk1sKYKT8ozIfpP3lvawZONQoj6Q74cbxGICBH2rLluQOiL1aOV5
+         HyrqBA8TesBNG9hOviq4lRoCu0Pel/Vi6aSzv3K4phlNGm6DTYYL3UEEZrifkPTLOGuU
+         vbTAjXBRvd5sS6mz28u2zvwqZGayoupV0m8E1mRAZY4dX4UezsNVV+kvyR6mln5loaBd
+         AqLFx06YLOYj7BLSCOXujM0RIcaTkK2X6xCFnNyyw8cyllM3jKCPD5wIVkHj5Ffwb9eW
+         nD0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUrTJmhne4v39nHROMVynsD+9cLKE1ERREEq+dAl04N0ZTzI4dHQIfEoH5txd9lqluw2zDqqgAtxHE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkOmJqoK/LavL6KeT8OZEXwpCwEZNexybkcNpcf8xCcNVn+OwS
+	bwCLN3U+fWWn5FE3sMHvCe1yXhUKsAjKsHZJLTQMjZrHhK5seflsnB0Wu+nc0HY=
+X-Gm-Gg: ASbGncvoU1OoAlWwCyHrt0+j9DqGR4wt6hv3/9oQiff9g4iw129pxCf500A6S4jIUqj
+	WY2feiV0gLB1BLUZQNOtQWgcTE1H2CCxPaGfHw4bG9osYp4dDRONWF8WREymEFDRjVUjRO7gmxm
+	YxF8+BB5Vhp5awW2k8KHEfFy8DOiDu9KqU/05OYfqLT6WVPyAKHLWtTWyxolMhwlw+JmoFs30iI
+	La/9fDOLDgqjrFi/h3Ql8qznW3nN24nTEkvWZ0OtnvosgwgqqY8v1ua7y+DP+Hyg3Q=
+X-Google-Smtp-Source: AGHT+IH85/A6RLxL+2rEhiloGI8TMEvrvGtTvROtv7Pjqakmsz8YgZ7ly7fq+kIggy8KHNzrf4rkjg==
+X-Received: by 2002:a17:902:ea0a:b0:216:3083:d03d with SMTP id d9443c01a7336-21a83ffc447mr470885135ad.44.1736917659024;
+        Tue, 14 Jan 2025 21:07:39 -0800 (PST)
+Received: from [157.82.203.37] ([157.82.203.37])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9f10e41csm73994625ad.11.2025.01.14.21.07.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jan 2025 21:07:38 -0800 (PST)
+Message-ID: <fcb301e8-c808-4e20-92dd-2e3b83998d18@daynix.com>
+Date: Wed, 15 Jan 2025 14:07:32 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250111042604.3230628-1-surenb@google.com> <20250111042604.3230628-17-surenb@google.com>
- <20250115022703.hqbqdqawvqgrfgxb@master> <CAJuCfpGShzXxqH8up75WQhdMzkr+Y6eE-h37nEEwVWHC6AN89w@mail.gmail.com>
-In-Reply-To: <CAJuCfpGShzXxqH8up75WQhdMzkr+Y6eE-h37nEEwVWHC6AN89w@mail.gmail.com>
-From: Mateusz Guzik <mjguzik@gmail.com>
-Date: Wed, 15 Jan 2025 04:59:56 +0100
-X-Gm-Features: AbW1kvadBBfWrXSDBSr3BCQnFpffG_Arl4O4sHftvcF6KJ0SGYlligKzAXYSYLM
-Message-ID: <CAGudoHH9-h68S-YV4TObYMRDFe99xAO7Nu3tXF8h_Kds2-MWCw@mail.gmail.com>
-Subject: Re: [PATCH v9 16/17] mm: make vma cache SLAB_TYPESAFE_BY_RCU
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Wei Yang <richard.weiyang@gmail.com>, akpm@linux-foundation.org, 
-	peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com, 
-	lorenzo.stoakes@oracle.com, david.laight.linux@gmail.com, mhocko@suse.com, 
-	vbabka@suse.cz, hannes@cmpxchg.org, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	klarasmodin@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] tun: Set num_buffers for virtio 1.0
+To: Jason Wang <jasowang@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, kvm@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Andrew Melnychenko <andrew@daynix.com>,
+ Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com,
+ devel@daynix.com
+References: <20250109-tun-v2-0-388d7d5a287a@daynix.com>
+ <20250109-tun-v2-3-388d7d5a287a@daynix.com>
+ <CACGkMEsm5DCb+n3NYeRjmq3rAANztZz5QmV8rbPNo+cH-=VzDQ@mail.gmail.com>
+ <20250110052246-mutt-send-email-mst@kernel.org>
+ <2e015ee6-8a3b-43fb-b119-e1921139c74b@daynix.com>
+ <CACGkMEuiyfH-QitiiKJ__-8NiTjoOfc8Nx5BwLM-GOfPpVEitA@mail.gmail.com>
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <CACGkMEuiyfH-QitiiKJ__-8NiTjoOfc8Nx5BwLM-GOfPpVEitA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 15, 2025 at 4:15=E2=80=AFAM Suren Baghdasaryan <surenb@google.c=
-om> wrote:
->
-> On Tue, Jan 14, 2025 at 6:27=E2=80=AFPM Wei Yang <richard.weiyang@gmail.c=
-om> wrote:
-> >
-> > On Fri, Jan 10, 2025 at 08:26:03PM -0800, Suren Baghdasaryan wrote:
-> >
-> > >diff --git a/kernel/fork.c b/kernel/fork.c
-> > >index 9d9275783cf8..151b40627c14 100644
-> > >--- a/kernel/fork.c
-> > >+++ b/kernel/fork.c
-> > >@@ -449,6 +449,42 @@ struct vm_area_struct *vm_area_alloc(struct mm_st=
-ruct *mm)
-> > >       return vma;
-> > > }
-> > >
-> > >+static void vm_area_init_from(const struct vm_area_struct *src,
-> > >+                            struct vm_area_struct *dest)
-> > >+{
-[snip]
-> > Would this be difficult to maintain? We should make sure not miss or ov=
-erwrite
-> > anything.
->
-> Yeah, it is less maintainable than a simple memcpy() but I did not
-> find a better alternative. I added a warning above the struct
-> vm_area_struct definition to update this function every time we change
-> that structure. Not sure if there is anything else I can do to help
-> with this.
->
+On 2025/01/13 12:04, Jason Wang wrote:
+> On Fri, Jan 10, 2025 at 7:12 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>>
+>> On 2025/01/10 19:23, Michael S. Tsirkin wrote:
+>>> On Fri, Jan 10, 2025 at 11:27:13AM +0800, Jason Wang wrote:
+>>>> On Thu, Jan 9, 2025 at 2:59 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>>>>>
+>>>>> The specification says the device MUST set num_buffers to 1 if
+>>>>> VIRTIO_NET_F_MRG_RXBUF has not been negotiated.
+>>>>
+>>>> Have we agreed on how to fix the spec or not?
+>>>>
+>>>> As I replied in the spec patch, if we just remove this "MUST", it
+>>>> looks like we are all fine?
+>>>>
+>>>> Thanks
+>>>
+>>> We should replace MUST with SHOULD but it is not all fine,
+>>> ignoring SHOULD is a quality of implementation issue.
+>>>
+> 
+> So is this something that the driver should notice?
+> 
+>>
+>> Should we really replace it? It would mean that a driver conformant with
+>> the current specification may not be compatible with a device conformant
+>> with the future specification.
+> 
+> I don't get this. We are talking about devices and we want to relax so
+> it should compatibile.
 
-Bare minimum this could have a BUILD_BUG_ON in below the func for the
-known-covered size. But it would have to be conditional on arch and
-some macros, somewhat nasty.
 
-KASAN or KMSAN (I don't remember which) can be used to find missing
-copies. To that end the target struct could be marked as fully
-uninitialized before copy and have a full read performed from it
-afterwards -- guaranteed to trip over any field which any field not
-explicitly covered (including padding though). I don't know what magic
-macros can be used to do in Linux, I am saying the support to get this
-result is there. I understand most people don't use this, but this
-still should be enough to trip over buggy patches in -next.
+The problem is:
+1) On the device side, the num_buffers can be left uninitialized due to bugs
+2) On the driver side, the specification allows assuming the num_buffers 
+is set to one.
 
-Finally, the struct could have macros delimiting copy/non-copy
-sections (with macros expanding to field names), for illustrative
-purposes:
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index 332cee285662..25063a3970c8 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -677,6 +677,7 @@ struct vma_numab_state {
-  * getting a stable reference.
-  */
- struct vm_area_struct {
-+#define vma_start_copy0 vm_rcu
-        /* The first cache line has the info for VMA tree walking. */
+Relaxing the device requirement will replace "due to bugs" with 
+"according to the specification" in 1). It still contradicts with 2) so 
+does not fix compatibility.
 
-        union {
-@@ -731,6 +732,7 @@ struct vm_area_struct {
-        /* Unstable RCU readers are allowed to read this. */
-        struct vma_lock *vm_lock;
- #endif
-+#define vma_end_copy1 vm_lock
+Instead, we should make the driver requirement stricter to change 2). 
+That is what "[PATCH v3] virtio-net: Ignore num_buffers when unused" does:
+https://lore.kernel.org/r/20250110-reserved-v3-1-2ade0a5d2090@daynix.com
 
-        /*
-         * For areas with an address space and backing store,
+> 
+>>
+>> We are going to fix all implementations known to buggy (QEMU and Linux)
+>> anyway so I think it's just fine to leave that part of specification as is.
+> 
+> I don't think we can fix it all.
 
-then you would do everything with a series of calls
+It essentially only requires storing 16 bits. There are details we need 
+to work out, but it should be possible to fix.
 
-however, the __randomize_layout annotation whacks that idea (maybe it
-can be retired?)
-
---=20
-Mateusz Guzik <mjguzik gmail.com>
+Regards,
+Akihiko Odaki
