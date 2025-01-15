@@ -1,141 +1,161 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA57242250;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28AB0242264;
 	Wed, 15 Jan 2025 13:35:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736948141; cv=none; b=FAraTJvpBbJ51E69zX/r+mtSdwCdRQo0yPN4TJWrteQy3sSNnsTkHMh9HyPRJVQ3gvLJ5T11AjsQXR405aTmWMZSH9HR1bWCgSpWMAN0fplNrf6MCgZjVTFGHoDe1+Opn5hojlTH0M5TafUd8phF+WyrlkdyygfVWG/J6JYRh+s=
+	t=1736948141; cv=none; b=nXQYiaWnXU3ke69VsbObn0cvhDn3cdTgpoK5TpPfRhMSBKJlZxEpdxU5uhwoJy5BBEzsznZvltjHkwgT1rbhZkgR4GqW0m2AOLJL8hMJIA8F358ZsGXAHE6KW9EaTVBDHfSdkkG6GolbeWGcavn8wf6TUXqNd9j6th/LJmKQyzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1736948141; c=relaxed/simple;
-	bh=+5zPit+6w4Q87PebYLLQqICHMl8W7vM3JOE4biu2VRY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rXKu8/NVgNX0iu0ErBrTqVBl/zq/9tb1HHXjyEF9IXztavphxN3rCiVXv5Z1LkaRhrDavSumOT3lgsUrdLPg4JNW6lhY1I9F3j8k1eW5SESnQZWyYXrZSaDmmTGPPfg+h+OtSGYMBUDm2oZYj2QXdWjvYOFN1YXZwyr08Fu349I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5da135d3162so912675a12.3;
-        Wed, 15 Jan 2025 05:35:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736948137; x=1737552937;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ec7/MpEi/atSJrAfxhBY2CBnYVqA9MsTtmzPCtszyDs=;
-        b=b7rrZJWBjygi8FLdDMuuw0xm3JgetqvX5P2rMHi5l4mBcImpOl/Xnp1+Le8vMYPChs
-         n9r3LLUbPfVJDyW2/z7ho3sj3/5ww19qtoF8i76gw1z4Hr/QWm6ZMz1RB9d/zxh4M2OL
-         xgANfsuCQMkYAFkR3KUlj8tRDjDYB84JjijSMx6U9XzvGBm/kWTYvfgJicZwXhc+jefy
-         awhZ+RT7Xkn31N4NY1vCQG4g4A/RDvwsGL7ig1w5tvhTGcRpW+NxOabk45PWFzLEt95e
-         drrMl7HtmWgnXIBfZ4yheFJC7izFMG7M37K/tqMTvbhBcXUZNKWR50WmSNBbFrRTpBMz
-         Cm3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUKntCjvsBYSvigdZuUjd5kg7s3k+3KLNBOo66i8jv/5EsKIRjhEen3uk5qF1NdCmE025oXGrj9Yeqi4HEBeJ6R@vger.kernel.org, AJvYcCUmDzX1FbSZeaDpf9fAHi0MRDcnSF7GxzJaUaK9ZtZLx5dSBH8CSts40x/bLh2iyhG4ZKriN5OzUKdp5jo1@vger.kernel.org, AJvYcCXrclpNq6eV/KUq/JBjeKdvR2GoVYL7do65o/Vzeg0HCQQvv9ZEDWBZymE8OcYQvkKZLRplYObwXXc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxia6Bi53oq4JxtNfurH22ZsrY82IBlAr+fADi8FvmkpyB5l56U
-	E8U2YXnZHAkcoc+plAKFvpFt52Yj0cFFj6Rnzcve2DcAv3+MPEXm
-X-Gm-Gg: ASbGncvPEAlQuKid4O6XxMGu2ndHig7R4s+LjvKCI5ckd/yGaKb217qUN2vLua9Mvp2
-	G2IDmtrSQCc6og+//FK4nyCuqc0LbnHI5yB3KJU0xUNKRhWJkMmIefNzWEhvDH5CccBcQd/I3Rf
-	ZyUcqZ5Zhmdh+YMGMjUMTDYeeoHO4oBOBYgpX4ZIBuPaUMWjZB5qTFDkmrMrsBdfODAoe3ZrTOg
-	+pLNvfo5stsaR63J+Ipx7Q0I9on9fW+5Dr+Df/L3wpkAeU=
-X-Google-Smtp-Source: AGHT+IH09HBaE5F9R+1j7gXj0uFhR8rhyxsE5IJFKPryqtPDjj7EmdMPOhto+lldRrb+zhknk2Yo9A==
-X-Received: by 2002:a17:906:d555:b0:aa6:7b34:c1a8 with SMTP id a640c23a62f3a-ab2ab70a5a8mr2744648966b.55.1736948137238;
-        Wed, 15 Jan 2025 05:35:37 -0800 (PST)
-Received: from localhost ([2a03:2880:30ff:3::])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c906200dsm756580566b.40.2025.01.15.05.35.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jan 2025 05:35:36 -0800 (PST)
-From: Breno Leitao <leitao@debian.org>
-Date: Wed, 15 Jan 2025 05:35:19 -0800
-Subject: [PATCH net-next v2 2/5] netconsole: Helper to count number of used
- entries
+	bh=CKb3gP3I6xyWDSCtbWc0xKBFHwP9Wt1604HljACdQUs=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=FqiwnpJomRfGKsXPV5m6E8Yx9sPrzTOH+Qzh8Y0FIaNg+CrzGgJ/sHkb7VxojVwSZ/I++zL652Kgky8/u0EydXAUGg7cfxEVST+WqPr9zylkh43FL693aJHAozt/WA1syAQDKyUihZr2QTnYeeK6AER+LO7q6lpisvJG/iJ//QE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=l0FzLp5D; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="l0FzLp5D"
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50FBCjpU023909;
+	Wed, 15 Jan 2025 08:35:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=DKIM; bh=CKb3g
+	P3I6xyWDSCtbWc0xKBFHwP9Wt1604HljACdQUs=; b=l0FzLp5DiuR4pbfJ4Hx5K
+	GTIbQXJi9gbhFDieowTIqLL8asBV3jOxZqDm3B/mZweM0z4s1CvPI3khRA1ZTLP8
+	ke09h0ObFjVumfv0yAjHAHsoaJHCSOUqeisHPw3uA8KLs2D385ywc1z83QrHgi8G
+	K2AREPEA2UbaLSUtrjLv7Bgj1g9KOVTtw34y1uu/vvq4Ij8LMK0Lw0xxSMD9j5Ez
+	TCPxUILL2yBZ4A26d8EWdP9Xo1FYtKxSp+nqcRvh9Z+RrU9mlty41Ky+SzLVJ/8t
+	Lz9OIl9XQ/hg+Oo5YMdhxGUQ6qbvv0jBfDkgl2iTAK2y0XUFoQFls7TCCfbrhPos
+	w==
+Received: from nwd2mta3.analog.com ([137.71.173.56])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 446bxq0jk7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Jan 2025 08:35:24 -0500 (EST)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 50FDZMfY046718
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 15 Jan 2025 08:35:22 -0500
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Wed, 15 Jan
+ 2025 08:35:22 -0500
+Received: from ASHBMBX9.ad.analog.com ([fe80::47f5:af96:747a:164e]) by
+ ASHBMBX9.ad.analog.com ([fe80::47f5:af96:747a:164e%20]) with mapi id
+ 15.02.0986.014; Wed, 15 Jan 2025 08:35:22 -0500
+From: "Budai, Robert" <Robert.Budai@analog.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: "Sa, Nuno" <Nuno.Sa@analog.com>,
+        "Gradinariu, Ramona"
+	<Ramona.Gradinariu@analog.com>,
+        "Miclaus, Antoniu"
+	<Antoniu.Miclaus@analog.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        "Hennerich, Michael" <Michael.Hennerich@analog.com>,
+        Jonathan Cameron
+	<jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski
+	<krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>,
+        Alex Lanzano <lanzano.alex@gmail.com>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: RE: [PATCH v4 4/6] dt-bindings: iio: Add adis16550 bindings
+Thread-Topic: [PATCH v4 4/6] dt-bindings: iio: Add adis16550 bindings
+Thread-Index: AQHbYzNREcgyV+0AFUmPycm4yeoemLMUu+AAgAL/8lA=
+Date: Wed, 15 Jan 2025 13:35:22 +0000
+Message-ID: <6ba74e1ea2a44c7f9a4ea74b2dce1118@analog.com>
+References: <20250110074254.38966-1-robert.budai@analog.com>
+ <20250110074254.38966-5-robert.budai@analog.com>
+ <y54kfnkbuugvsgfzufhk3mmwmmzbko47fg3jxw36sefzxaxcz6@znigvgdcljeq>
+In-Reply-To: <y54kfnkbuugvsgfzufhk3mmwmmzbko47fg3jxw36sefzxaxcz6@znigvgdcljeq>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-dg-ref: =?utf-8?B?UEcxbGRHRStQR0YwSUdGcFBTSXdJaUJ1YlQwaVltOWtlUzUwZUhRaUlIQTlJ?=
+ =?utf-8?B?bU02WEhWelpYSnpYSEppZFdSaGFWeGhjSEJrWVhSaFhISnZZVzFwYm1kY01E?=
+ =?utf-8?B?bGtPRFE1WWpZdE16SmtNeTAwWVRRd0xUZzFaV1V0Tm1JNE5HSmhNamxsTXpW?=
+ =?utf-8?B?aVhHMXpaM05jYlhObkxXTmpPVEJqTldKakxXUXpNelF0TVRGbFppMWlZakF5?=
+ =?utf-8?B?TFdSak1XSmhNVGd4TVROalpWeGhiV1V0ZEdWemRGeGpZemt3WXpWaVpTMWtN?=
+ =?utf-8?B?ek0wTFRFeFpXWXRZbUl3TWkxa1l6RmlZVEU0TVRFelkyVmliMlI1TG5SNGRD?=
+ =?utf-8?B?SWdjM285SWpJNU56UWlJSFE5SWpFek16Z3hOREUwTlRJd05qRTROVEl4TVNJ?=
+ =?utf-8?B?Z2FEMGlVWEJqUWtsU2VrWm1kamRLWm0xR0t6aFdVSGxEVUZaRFlXUmpQU0ln?=
+ =?utf-8?B?YVdROUlpSWdZbXc5SWpBaUlHSnZQU0l4SWlCamFUMGlZMEZCUVVGRlVraFZN?=
+ =?utf-8?B?VkpUVWxWR1RrTm5WVUZCUkdkRVFVRkVOemRQSzA5UlYyWmlRVlJOVVd4UlRp?=
+ =?utf-8?B?dHBlR2RXVFhoRFZrRXpOa3hIUWxWRVFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVoQlFVRkJSR0ZCVVVGQlUyZEpRVUZQTkVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVVZCUVZGQlFrRkJRVUZtY0hsalYyZEJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGS05FRkJRVUpvUVVkUlFXRlJRbVpCU0UxQldsRkNha0ZJVlVGalow?=
+ =?utf-8?B?SnNRVVk0UVdOQlFubEJSemhCWVdkQ2JFRkhUVUZrUVVKNlFVWTRRVnBuUW1o?=
+ =?utf-8?B?QlIzZEJZM2RDYkVGR09FRmFaMEoyUVVoTlFXRlJRakJCUjJ0QlpHZENiRUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJSVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZuUVVGQlFVRkJibWRCUVVGSFJVRmFRVUp3UVVZNFFXTjNRbXhC?=
+ =?utf-8?B?UjAxQlpGRkNlVUZIVlVGWWQwSjNRVWhKUVdKM1FuRkJSMVZCV1hkQ01FRklU?=
+ =?utf-8?B?VUZZZDBJd1FVZHJRVnBSUW5sQlJFVkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVZGQlFVRkJRVUZCUVVGRFFVRkJRVUZCUTJWQlFVRkJXVkZDYTBGSGEw?=
+ =?utf-8?B?RllkMEo2UVVkVlFWbDNRakZCU0VsQldsRkNaa0ZJUVVGalowSjJRVWR2UVZw?=
+ =?utf-8?B?UlFtcEJTRkZCWTNkQ1prRklVVUZoVVVKc1FVaEpRVTFuUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVSkJRVUZCUVVGQlFVRkJTVUZCUVVGQlFVODBRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRMEZCUVVGQlFVRkJRVUZKUVVGQlFVRkJRVUZCUVdkQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGNlowRkJRVUZOUVVGQlFrOUJRVUZCUVVGQlFVRkhSVUZhUVVKd1FV?=
+ =?utf-8?Q?Y4QWN3?=
+x-dg-rorf: true
+x-dg-refone: QmxBR01BZFFCeUFHVUFYd0J3QUhJQWJ3QnFBR1VBWXdCMEFITUFYd0JtQUdFQWJBQnpBR1VBWHdCbUFHOEFjd0JwQUhRQWFRQjJBR1VBQUFBOEFBQUFBQUFBQUdFQVpBQnBBRjhBY3dCbEFHTUFkUUJ5QUdVQVh3QndBSElBYndCcUFHVUFZd0IwQUhNQVh3QjBBR2tBWlFCeUFERUFBQUE4QUFBQUFBQUFBR0VBWkFCcEFGOEFjd0JsQUdNQWRRQnlBR1VBWHdCd0FISUFid0JxQUdVQVl3QjBBSE1BWHdCMEFHa0FaUUJ5QURJQUFBQT0iLz48L21ldGE+
+x-adiruleop-newscl: Rule Triggered
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250115-netcon_cpu-v2-2-95971b44dc56@debian.org>
-References: <20250115-netcon_cpu-v2-0-95971b44dc56@debian.org>
-In-Reply-To: <20250115-netcon_cpu-v2-0-95971b44dc56@debian.org>
-To: Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <shuah@kernel.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Breno Leitao <leitao@debian.org>, kernel-team@meta.com, max@kutsevol.com, 
- thepacketgeek@gmail.com
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1997; i=leitao@debian.org;
- h=from:subject:message-id; bh=+5zPit+6w4Q87PebYLLQqICHMl8W7vM3JOE4biu2VRY=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBnh7mjq51PJL8Ycf9UXn9bXWsFHJY2bHIhz8/j6
- yD2bPtiDH+JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCZ4e5owAKCRA1o5Of/Hh3
- bWkuD/sEih3WhwQkHz5ZBfOd+xWT6WuuCHltCtJPb69SIob1kvyXGrh3WRYEUruuP1BzvglbWws
- OPX+xu2mG3AS+LzWQ9O7thr7/MMUilEKfMCfMe/v2u69awx+wdNNDKpJVg8iigcH7vJuF6bskOC
- yjuLvNQk54JiWQ2IRNKAbfQPXRiNkR9abgzWvTW8P7V4G2KeZ/4uHYuJtihJSLBDScZbHvsdhKC
- uFc2hAkgczwPGSf7GqIve+4vL0Z1b8e44fXUDlRz42BHwO7ua7klFPE1yO+uU1Iy23/45JRRxPW
- FHe4cUDrgg3Mq7VDac3dxKjSnlIx3/Xi+4bkCu8djGIqcD1+w/tEePh6xV53pk8gqVR9fA1hOmG
- GIrN8BwOjCa9StFMUF+DlTX67zcCgOyTruvzPUFAct5N52BoQg5/db3AFQUo4A7WI164WblqedS
- 8AbWCSpFXJmXmlxkEbWzaS0Q1x35j686AUlJMF4y8GhzNWW9GU+QfcZtDvSPSv9ToOweJflJWJZ
- vWeCH+oCT6ygA3zEahgTmEyFproaXvqqeixhQLIuW/8ri71eG7wxxHsXI0gus6LI4qjKNs3dEAB
- m3HXfVw2skRe3nRH1QFZvLbC9rgbGaps/SUzre0M6PiWBS36v3Qxk7mykzLqVHLVkJUnGEqBh+f
- r4UA61CyiU8hsOA==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+X-Proofpoint-GUID: FouZGSm6xAwBM4kPB8fY67oudxkgXGZb
+X-Proofpoint-ORIG-GUID: FouZGSm6xAwBM4kPB8fY67oudxkgXGZb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-15_05,2025-01-15_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 suspectscore=0
+ phishscore=0 mlxlogscore=999 priorityscore=1501 impostorscore=0
+ lowpriorityscore=0 malwarescore=0 spamscore=0 bulkscore=0 adultscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501150103
 
-Add a helper function nr_extradata_entries() to count the number of used
-extradata entries in a netconsole target. This refactors the duplicate
-code for counting entries into a single function, which will be reused
-by upcoming CPU sysdata changes.
-
-The helper uses list_count_nodes() to count the number of children in
-the userdata group configfs hierarchy.
-
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- drivers/net/netconsole.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
-index 5ef069e8277efa87d6f00d08277dcfe97a858cf9..108ec4f836b62860832c601768546c0ecbdb1153 100644
---- a/drivers/net/netconsole.c
-+++ b/drivers/net/netconsole.c
-@@ -659,6 +659,16 @@ static ssize_t remote_ip_store(struct config_item *item, const char *buf,
- 	return ret;
- }
- 
-+/* Count number of entries we have in extradata.
-+ * This is important because the extradata_complete only supports
-+ * MAX_EXTRADATA_ITEMS entries. Before enabling any new {user,sys}data
-+ * feature, number of entries needs to checked for available space.
-+ */
-+static size_t count_extradata_entries(struct netconsole_target *nt)
-+{
-+	return list_count_nodes(&nt->userdata_group.cg_children);
-+}
-+
- static ssize_t remote_mac_store(struct config_item *item, const char *buf,
- 		size_t count)
- {
-@@ -808,15 +818,13 @@ static struct config_item *userdatum_make_item(struct config_group *group,
- 	struct netconsole_target *nt;
- 	struct userdatum *udm;
- 	struct userdata *ud;
--	size_t child_count;
- 
- 	if (strlen(name) > MAX_EXTRADATA_NAME_LEN)
- 		return ERR_PTR(-ENAMETOOLONG);
- 
- 	ud = to_userdata(&group->cg_item);
- 	nt = userdata_to_target(ud);
--	child_count = list_count_nodes(&nt->userdata_group.cg_children);
--	if (child_count >= MAX_EXTRADATA_ITEMS)
-+	if (count_extradata_entries(nt) >= MAX_EXTRADATA_ITEMS)
- 		return ERR_PTR(-ENOSPC);
- 
- 	udm = kzalloc(sizeof(*udm), GFP_KERNEL);
-
--- 
-2.43.5
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogS3J6eXN6dG9mIEtvemxv
+d3NraSA8a3J6a0BrZXJuZWwub3JnPg0KPiBTZW50OiBNb25kYXksIEphbnVhcnkgMTMsIDIwMjUg
+MTA6NDQgQU0NCj4gVG86IEJ1ZGFpLCBSb2JlcnQgPFJvYmVydC5CdWRhaUBhbmFsb2cuY29tPg0K
+PiBDYzogU2EsIE51bm8gPE51bm8uU2FAYW5hbG9nLmNvbT47IEdyYWRpbmFyaXUsIFJhbW9uYQ0K
+PiA8UmFtb25hLkdyYWRpbmFyaXVAYW5hbG9nLmNvbT47IE1pY2xhdXMsIEFudG9uaXUNCj4gPEFu
+dG9uaXUuTWljbGF1c0BhbmFsb2cuY29tPjsgTGFycy1QZXRlciBDbGF1c2VuIDxsYXJzQG1ldGFm
+b28uZGU+Ow0KPiBIZW5uZXJpY2gsIE1pY2hhZWwgPE1pY2hhZWwuSGVubmVyaWNoQGFuYWxvZy5j
+b20+OyBKb25hdGhhbiBDYW1lcm9uDQo+IDxqaWMyM0BrZXJuZWwub3JnPjsgUm9iIEhlcnJpbmcg
+PHJvYmhAa2VybmVsLm9yZz47IEtyenlzenRvZiBLb3psb3dza2kNCj4gPGtyemsrZHRAa2VybmVs
+Lm9yZz47IENvbm9yIERvb2xleSA8Y29ub3IrZHRAa2VybmVsLm9yZz47IEpvbmF0aGFuDQo+IENv
+cmJldCA8Y29yYmV0QGx3bi5uZXQ+OyBBbGV4IExhbnphbm8gPGxhbnphbm8uYWxleEBnbWFpbC5j
+b20+OyBsaW51eC0NCj4gaWlvQHZnZXIua2VybmVsLm9yZzsgZGV2aWNldHJlZUB2Z2VyLmtlcm5l
+bC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7DQo+IGxpbnV4LWRvY0B2Z2VyLmtl
+cm5lbC5vcmcNCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2NCA0LzZdIGR0LWJpbmRpbmdzOiBpaW86
+IEFkZCBhZGlzMTY1NTAgYmluZGluZ3MNCj4gDQo+IFtFeHRlcm5hbF0NCj4gDQo+IE9uIEZyaSwg
+SmFuIDEwLCAyMDI1IGF0IDA5OjQyOjUyQU0gKzAyMDAsIFJvYmVydCBCdWRhaSB3cm90ZToNCj4g
+PiArbWFpbnRhaW5lcnM6DQo+ID4gKyAgLSBOdW5vIFNhIDxudW5vLnNhQGFuYWxvZy5jb20+DQo+
+ID4gKyAgLSBSYW1vbmEgR3JhZGluYXJpdSA8cmFtb25hLmdyYWRpbmFyaXVAYW5hbG9nLmNvbT4N
+Cj4gPiArICAtIEFudG9uaXUgTWljbGF1cyA8YW50b25pdS5taWNsYXVzQGFuYWxvZy5jb20+DQo+
+ID4gKw0KPiA+ICtwcm9wZXJ0aWVzOg0KPiA+ICsgIGNvbXBhdGlibGU6DQo+ID4gKyAgICBlbnVt
+Og0KPiA+ICsgICAgICAtIGFkaSxhZGlzMTY1NTANCj4gPiArICAgICAgLSBhZGksYWRpczE2NTUw
+dw0KPiANCj4gV2hlcmUgaXMgdGhlIGFuc3dlciBmb3IgbXkgcXVlc3Rpb25zIGF0IHYxPyBObyBy
+ZXNwb25zZXMgb24gZW1haWwsDQo+IG5vdGhpbmcgaW1wcm92ZWQgaW4gdGhlIHBhdGNoc2V0LiBH
+byBiYWNrIHRvIG15IGNvbW1lbnRzIGFuZCByZXNwb25kIHRvDQo+IHRoZW0gb3IgaW1wbGVtZW50
+IHRoZW0uDQo+IA0KW1JvYmVydCBCdWRhaQ==
