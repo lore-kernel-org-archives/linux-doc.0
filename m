@@ -1,100 +1,81 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67EC620326;
-	Wed, 15 Jan 2025 15:39:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54DF20326
+	for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 15:40:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736955545; cv=none; b=WOhAfJfXPk33uiDhcMo2vT8LZufJlKlR/LWr6U4bR7M3yx+shaSe4YAzHDOYDaFso2rnTLzM5V1+PBmmh9JlWL/xTOgkl3VIa2PWmuWJi545gMauetiixmlzdsJPPYiw5R9ro1Lyqm7QUmIW2v5OidS8X7i+8+ltuh1Bw+yJa5Q=
+	t=1736955605; cv=none; b=Ej5yvAjUnmq0rPqeqqXW0gly6Cb7ddDmxi/WM4RxvHE5nBlszug6HcgcBFE1xQE9iMg7lIQeo33hdziEarjM8ccXxvmJPoWnKh/kFwHFQ5y4hIsPNQzSS8H+lQXTOW4gC8M8vVLP8WgiftshnvFx7zxKDYjbzjMdjxOOWY+ZJZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736955545; c=relaxed/simple;
-	bh=ArOHFNIp6QnNF2XUOo5yewU5OwVTQDKxmR+j7hKXMGs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i2IFGjpbDrTE7JbG9wxJJZ/F01MMO8vbGYDXShqc9C7khW3Jp+b/zt5eiqvfelGmYa2w/rgwb4+KoL4IgKciOmKS8GBhg8xkujwWsepNJIiAzxYdBW+oX89M5mUnSsbCPc3DLSoLR1z+6VJPVlieah4xP8vVwtgmpJ0rbZu6kZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=HQS+Wf1G; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1736955605; c=relaxed/simple;
+	bh=VK5C9Z4SSv5qoa6iG3PZcKtjJUSQhRy1hMBOhIy9H6w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TCQK0xUGsuYZh+Lb84aqaoDq+62GuJgw5YsLWXaCiNOs3lO5Q89vj0gh0Iok89eVw5gGhLwlcyGE5jzFR+pPJRn8GMcevQpJA4W7YCfmkG0FSFY9erSyVOSD7/Vq0Qtsa6d8lDNL/oHQfSFmnmDZf21Vu4kbLvotq1obfCe/wew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ngNzB1XN; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HQS+Wf1G"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=xVMTvoVNKSDdrKhnVusgF0d6r3IQosvfTC+sagB7Qu8=; b=HQS+Wf1Gh8BwKH0blgSTZ9GJQr
-	38slONoFTED48nvcQy0B8hdzR2LFcKwI9pdINIGz5+wZZ4hOI8o7ftQ13R7OPS+ydw6n/VrZaqbco
-	z5kf70dzXv99VuRRR2pTfaCfAfboiewOmY4t1FbUc3SdVIlXNazEn+JBcd7GNrmajUd9sM9iJu4Uo
-	fqRDuaVQ2yRB8gL8Wzx1l+ho7z/iJyJ4GOQ6rmV9ucxIvG8/43hvOpaDBvM58LJTzfNneReSpFuQG
-	uC5m16PQHP4s2zUQvd2U0OjwSJGBXfyJYpTrO7j/u3G2N0uu17F5DM7ak8M4ZuT0LYTty6gT26CZj
-	8cYJjJCw==;
-Received: from 77-249-17-89.cable.dynamic.v4.ziggo.nl ([77.249.17.89] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tY5Th-0000000AtFW-0uxM;
-	Wed, 15 Jan 2025 15:38:45 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 0D0653004DE; Wed, 15 Jan 2025 16:38:44 +0100 (CET)
-Date: Wed, 15 Jan 2025 16:38:44 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Mateusz Guzik <mjguzik@gmail.com>, akpm@linux-foundation.org,
-	willy@infradead.org, liam.howlett@oracle.com,
-	lorenzo.stoakes@oracle.com, david.laight.linux@gmail.com,
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
-	oliver.sang@intel.com, mgorman@techsingularity.net,
-	david@redhat.com, peterx@redhat.com, oleg@redhat.com,
-	dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org,
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com,
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com,
-	shakeel.butt@linux.dev, souravpanda@google.com,
-	pasha.tatashin@soleen.com, klarasmodin@gmail.com,
-	richard.weiyang@gmail.com, corbet@lwn.net,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH v9 11/17] mm: replace vm_lock and detached flag with a
- reference count
-Message-ID: <20250115153844.GF8385@noisy.programming.kicks-ass.net>
-References: <20250111042604.3230628-1-surenb@google.com>
- <20250111042604.3230628-12-surenb@google.com>
- <gdipfy63r4wxiqlnglsjzatpej6jjswimuzadm2l57o2e45u56@qfd763n4ysft>
- <CAJuCfpGu4UVXiBaivTVOGNBVVz3rhZ+VY27gT3_R0cTij5fTGw@mail.gmail.com>
- <20250115104841.GX5388@noisy.programming.kicks-ass.net>
- <20250115111334.GE8385@noisy.programming.kicks-ass.net>
- <CAJuCfpEF14gXsGs9WMiHDqz8irrrzQrxFmbdzS-qT4xihdhWjQ@mail.gmail.com>
- <20250115153507.GF8362@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ngNzB1XN"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4678c9310afso528591cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 07:40:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1736955602; x=1737560402; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VK5C9Z4SSv5qoa6iG3PZcKtjJUSQhRy1hMBOhIy9H6w=;
+        b=ngNzB1XN+P1sBnWMtawFBXermyJZd4EeVoL6yi4TEZ7eir8o8wolXugiV6K+OXF0mE
+         kkMUtDQbJRKw1pmB8G8zwLrnUvbdrzIBNoRIQhQwXyswpLbsKAMSbdMpmcEVWuVnKFl+
+         LrP/cIw1+rK0b4L6zCIeT2QL+2tJmUcRZv9VR8dWMCGbS0uRCilGkOPCD6b71MgdjL2j
+         ztDldA0a0NxQXTxJNBqdrffKp+tIvNsl6HOtvSNpeWr3yqhPoJyDmHMa85XORB0bWlCK
+         ArCttznhpGOospXOLeLPFBM/V1Yz2kgdSCtB69aa462g2qhdTpy+HyJGP2RQw4Kgr8S5
+         J1hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736955602; x=1737560402;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VK5C9Z4SSv5qoa6iG3PZcKtjJUSQhRy1hMBOhIy9H6w=;
+        b=JPM6qe9Cut3y+lNEF5K460KtGc6ya0cQdkukhnlJfUgcidkp6GlFOLIKzQFw7yFQ5s
+         uLMFlPJActsLG84mfZ1SxMqJECIa+EINFbze+nHhTYwz12yBhE6RPzah3C8ejPmZTpf4
+         m9HRIzRsAZl+xERCra4TszYXvRpTLandwR5gxt+4Y+2hJSvvj62nS2iH1Z6QGC0EB242
+         DD9yOpIzKg6ceFV9+O6DQJOjL7wHlqnYUWtpdyvsny/AZfFFZ1uTOmiPU8gCbwA+yHVv
+         CVsKKETEp576LlYxXZ5SRZl+u/5EqfzVQw3kSQbi8i9lBemk9Hd6t8CvA4eFWLbrDXpm
+         DmXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXtLLIUZcqm4N203dt2KQQOO5wiPK+wKx/lw3V1VCRX4GNI8uFYczKG+E+BxcJMJZBvwJAs57G3b8s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzX+gMRpgr30M8mSJAL06huS+KvFCGJ8oFrHP9mxlgUICVBA8wS
+	he1BafMbnLFhIIL/wZvTq1DIMXKJNL7SPAnBGl++6LPp54vxqseF34KkekkIOQ0TMTXznfr5wUZ
+	MqDgIY1mv6AL7ALFfMY5HMOi8SylgjFc91zHr
+X-Gm-Gg: ASbGncscw5+iQVAxXkRP/+4CjhJPnLStO02hKHiOO78C8zz3fZRrz+8XE9CdH5r3mTK
+	Ncx5qdgnZWScLzokGNs3aerQ85UlIVKK19tucNonjvsfHBwDzM74PsBZd737ZlWppdR0=
+X-Google-Smtp-Source: AGHT+IHiPAwD2GY4KS2k3Su/muNxjeVOtTA1UJd7oUEZt5zkK5ghp6uednoGYSoIMvfkkjAAno/dN4ugjLrtGd7W79I=
+X-Received: by 2002:a05:622a:38c:b0:466:923f:a749 with SMTP id
+ d75a77b69052e-46df6fdae6cmr3596681cf.15.1736955602414; Wed, 15 Jan 2025
+ 07:40:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250115153507.GF8362@noisy.programming.kicks-ass.net>
+References: <20250115-checkpatch-ignore-v2-0-8467750bf713@google.com> <20250115-checkpatch-ignore-v2-2-8467750bf713@google.com>
+In-Reply-To: <20250115-checkpatch-ignore-v2-2-8467750bf713@google.com>
+From: Brendan Jackman <jackmanb@google.com>
+Date: Wed, 15 Jan 2025 16:39:51 +0100
+X-Gm-Features: AbW1kvbaxEIAKxA3etaigoOP7oQrhtdIf2zXGyLexzOKf4xwMzIS4SpFYF6dT58
+Message-ID: <CA+i-1C38tYSjegs2jd5gXcuUk0ipEU3rPpS3KzA0eSF=RrGumQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] docs: checkpatch: Document checkpatch-ignore feature
+To: Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
+	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jan 15, 2025 at 04:35:07PM +0100, Peter Zijlstra wrote:
+On Wed, 15 Jan 2025 at 16:33, Brendan Jackman <jackmanb@google.com> wrote:
+> +1. Configure git to include the `checkpatch-ignore` notes ref in formatted
 
-> Consider:
-> 
->     CPU0				CPU1
-> 
->     rcu_read_lock();
->     vma = vma_lookup(mm, vaddr);
-> 
->     ... cpu goes sleep for a *long time* ...
-> 
->     					__vma_exit_locked();
-> 					vma_area_free()
-> 					..
-> 					vma = vma_area_alloc();
-> 					vma_mark_attached();
-> 
->     ... comes back once vma is re-used ...
-> 
->     vma_start_read()
->       vm_refcount_inc(); // success!!
-> 
-> At which point we need to validate vma is for mm and covers vaddr, which
-> is what patch 15 does, no?
+Argh, make htmldocs just finished (it takes an extremely long time for
+me...) and I realised I sent this without checking the docs output.
+Turns out backticks aren't the right syntax for .rst.
 
-Also, critically, we want these reads to happen *after* the refcount
-increment.
-
+Will wait for feedback on the actual thing before fixing this.
