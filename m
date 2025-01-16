@@ -1,177 +1,154 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE6D22ACFD
-	for <linux-doc@vger.kernel.org>; Thu, 16 Jan 2025 15:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9890B1F37DF;
+	Thu, 16 Jan 2025 15:12:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737040347; cv=none; b=hZD/+3EWOQuVQdarsme4cxfG5U+RUGvqRBjuX/50CAUvLgBO72D8vAV1AbRK72dBDEtcNJ34maS3lrLFXB69Pl53bUlD3oCE2wWSZsoQfPyQM4fEpN2tM2F0tEJrODv9LJr4WmX7wLdba9mfYooZJImPaVTNJL7ipvhkqVifUnk=
+	t=1737040380; cv=none; b=ei9Zx8+FxHI/GvPA8z/JCXdWT/eBRZ/7TqNCm27d7X2hFSxzMgrFoU+ZqCqZEASJa2q7rCQU5NoZ+9Chd9BinlciuCQnhDf3+Ry7nrJwHAX+mmfWXFtGSrj3QiGFOh6bik3KPojtgTFVojYfuH1OutzYwJoVuJ7QlSstWJAfWbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737040347; c=relaxed/simple;
-	bh=0PUB85XmaxY2RsEE8C1U2ytA/p4QHYotKPSAma4kaKE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WSJgFD7tI442w1shpwk1ejmnAfb1h7uFMCI53dGl8qPXenTWkygVwhDhBNk4RFO2LjJ/wS2zxd1Na0el1sNFJWfCqT5dFz8ukCMziqg5LxR2nYBDEnJmm3diGkvERnvs7vYWrQt7oIXPS/JHv/uT/umUmt1WzoKdSVqVqRfAUHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=x115vgkR; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1737040380; c=relaxed/simple;
+	bh=BgR+Q0rqHO3yn7oTJrTT+nZcexOYnQlFrn8MElwBYCo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=CxeX66V/fLE8nEkyxtoyuFMkVDR28dpnAESnZu1JJvUh5ewUrPNkC72rup/GAnXzTqLYGF3GtXyoMUWEGxraaEidJobpp3Kly4FWUxZ1PqDoJkefGBR1w7E6VaKE5d3QW/jL3WUQ+BFY+CrE6b/zK93U2qjVFUQyZyqaO3fqn0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=lHrEONPS; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="x115vgkR"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4679b5c66d0so225641cf.1
-        for <linux-doc@vger.kernel.org>; Thu, 16 Jan 2025 07:12:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1737040345; x=1737645145; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+n0nLBWn98kJwyuHw9dnciSZynzrVaqoianwsxEC3Eg=;
-        b=x115vgkRPz27jcYckGI8JIcKvM2DZ1l6U+sUlXW/2Oy7OB4JK3uP4H5DUSma+qFPHj
-         3ywam5kywphkFk/uhmL3r5QYVcBNQ83u3nY/jBK1OAprdrit1KkPDwbACDwdZAWEoEeX
-         fJFm4VG0DXCJZVzLVQ0c+JvDd/IQYVv6cR7ZvMNLiAfwC6NMFir09R8EY1JyjXn+SIPJ
-         DKRd3YnX0LL8adVXzip2yL8zIR32jzONKKjzT/VuX7kGHvPEsKwJ94cShrQYTi3lALkZ
-         JOFgCpRRuAXbeZmbhHxHpIgwwR1lUtUm8gdvL64pdw/lg7RBxgDzqDpZIUZmXixlo8qo
-         gEEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737040345; x=1737645145;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+n0nLBWn98kJwyuHw9dnciSZynzrVaqoianwsxEC3Eg=;
-        b=LRcikFsqT3yMiZfhZOy19ohnrnT2Q5zeVUAbSpez85PBV8Z6AfCgzWva/mWDy8SUWA
-         QWnZrCrjnqSYLe2AFT6f38048pCjs+ddWSs19Vs2UvOLEgOgtmvdzTMHAGawS6Roa1lz
-         88EM+pHcxuXH7CpI+LrO3wieiZNtnBfCPJVEr6rYgrV8N6jFbKcIFQldBOaw4FoJjJn2
-         +YNbXtHU/QXS7Dew3Dr8yEPqmuxTQRf7cg9BzgiEC5qpiKQm/rjuVR43D4pX+Nc/SggM
-         rhUYlsK2PMrJIgSxY94mtyfD4q2s/ged6CEzjvuuAV9kl2fBGQEG+XMTHyIZhO/gSLID
-         kCkA==
-X-Forwarded-Encrypted: i=1; AJvYcCVI+a3QDZjsnci7fUKWrgCZ0GVSMcxk2NY5oLAFRahZ+whhWswU1B1nDoSlzVWkSWrXcxh76z1vWLk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvYpmfTusEdyfmBsQs67F1iW+RQuz5VIhslKDsIPKP2fmLOXJR
-	O9tOmIg0VHZ2VlBbObinc5sFVoJ4uP/N9FlOW3RgSlmR+qOD1rR/2JJzc4zF9jpWxF0hR/k6iHh
-	4hFt1K9ZM/522jjq+mpFhRNtS//ahN0WfpiWI
-X-Gm-Gg: ASbGnctQwL6MWqlcrsDG4lt2q2zAEFiHwOMG1wdSWwiaS5NwKORNrp5pROYVitDl22Z
-	+pld6uHSe6ct3Pr3TNWEHNV1vpVaN3fy/OFwOQ1idjqRSYWoN1QeFSlXZMElJ9nYgkyc=
-X-Google-Smtp-Source: AGHT+IG+O/DVRwFu6EvuSaxS73MdcDHVMcicb46JgTFoFOl8iILCGYiVT+ctNM6O1o9CXO+Stlr+AjBd+/+DGsBuuGY=
-X-Received: by 2002:a05:622a:11cc:b0:46c:9f17:12f6 with SMTP id
- d75a77b69052e-46e054f0636mr3327701cf.27.1737040344411; Thu, 16 Jan 2025
- 07:12:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="lHrEONPS"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7522840403
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1737040372; bh=Xu3VpRKC0nGpvG7JARJUJcZK5zO7ngHw6Wu7UN8oHAE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=lHrEONPSjWgmlBNliBMVniHhNRQG7AQuv5eYRSxxModvh+Nu8QVjoSySnPSxWlaS7
+	 87nzEsqXtcksi2ej52rg5HT6biVP14P8Asj/SEf5u0q091A+EgNcVlFr7jd2iEfIsn
+	 DL9JAzEwJ3P3S2ebsCWvpgZLyMVB51WZlNl4+sBbq8vwLjIR0KvBax5NsdkgD/KNQZ
+	 3bADFvJUwjTgGs9Mm6bZxpA1LAZrh0KVg5JACO3M/qzzZF4g1G2+iCPSlUMDY8lVjE
+	 VJ1k8fsKv0/WJ4UtUjMJf5VYzuyDTnRlNwiq25AnHp5sMdGtnzNQk99cIPVBDiWwi8
+	 KH+um3gI4r2WQ==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7522840403;
+	Thu, 16 Jan 2025 15:12:52 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: "Zhijian Li (Fujitsu)" <lizhijian@fujitsu.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ "mkoutny@suse.com" <mkoutny@suse.com>, "cgroups@vger.kernel.org"
+ <cgroups@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, Waiman Long <llong@redhat.com>
+Subject: Re: [PATCH v2] Documentation/cgroup-v2: Update
+ memory.{stat,numa_stat} description to reflect possible units
+In-Reply-To: <4e96a241-a996-4289-9ac5-dc1ff65cbff8@fujitsu.com>
+References: <20250110123019.423725-1-lizhijian@fujitsu.com>
+ <20250113010530.432396-1-lizhijian@fujitsu.com>
+ <871px6bo3v.fsf@trenco.lwn.net>
+ <4e96a241-a996-4289-9ac5-dc1ff65cbff8@fujitsu.com>
+Date: Thu, 16 Jan 2025 08:12:51 -0700
+Message-ID: <87frli3i8c.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250111042604.3230628-1-surenb@google.com> <20250111042604.3230628-12-surenb@google.com>
- <gdipfy63r4wxiqlnglsjzatpej6jjswimuzadm2l57o2e45u56@qfd763n4ysft>
- <CAJuCfpGu4UVXiBaivTVOGNBVVz3rhZ+VY27gT3_R0cTij5fTGw@mail.gmail.com>
- <20250115104841.GX5388@noisy.programming.kicks-ass.net> <20250115111334.GE8385@noisy.programming.kicks-ass.net>
- <20250115160011.GG8385@noisy.programming.kicks-ass.net>
-In-Reply-To: <20250115160011.GG8385@noisy.programming.kicks-ass.net>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 16 Jan 2025 07:12:13 -0800
-X-Gm-Features: AbW1kvaoaeyJPp721yShu4wYM4LOzIoOGeL34SC30h8Ck__Aj0E6qb5Ke2kCGuM
-Message-ID: <CAJuCfpG1O73PN-poxrS045LicQzgPTedAjvQUzxmU54jxAX_Pw@mail.gmail.com>
-Subject: Re: [PATCH] refcount: Strengthen inc_not_zero()
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: will@kernel.org, boqun.feng@gmail.com, mark.rutland@arm.com, 
-	Mateusz Guzik <mjguzik@gmail.com>, akpm@linux-foundation.org, willy@infradead.org, 
-	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, 
-	david.laight.linux@gmail.com, mhocko@suse.com, vbabka@suse.cz, 
-	hannes@cmpxchg.org, oliver.sang@intel.com, mgorman@techsingularity.net, 
-	david@redhat.com, peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net, 
-	paulmck@kernel.org, brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com, 
-	hughd@google.com, lokeshgidra@google.com, minchan@google.com, 
-	jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com, 
-	pasha.tatashin@soleen.com, klarasmodin@gmail.com, richard.weiyang@gmail.com, 
-	corbet@lwn.net, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Wed, Jan 15, 2025 at 8:00=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
-g> wrote:
->
-> On Wed, Jan 15, 2025 at 12:13:34PM +0100, Peter Zijlstra wrote:
->
-> > Notably, it means refcount_t is entirely unsuitable for anything
-> > SLAB_TYPESAFE_BY_RCU, since they all will need secondary validation
-> > conditions after the refcount succeeds.
-> >
-> > And this is probably fine, but let me ponder this all a little more.
->
-> Even though SLAB_TYPESAFE_BY_RCU is relatively rare, I think we'd better
-> fix this, these things are hard enough as they are.
->
-> Will, others, wdyt?
+"Zhijian Li (Fujitsu)" <lizhijian@fujitsu.com> writes:
 
-I'll wait for the verdict on this patch before proceeding with my
-series. It obviously simplifies my job. Thanks Peter!
+> Hi Jonathan,
+>
+>
+> On 14/01/2025 01:49, Jonathan Corbet wrote:
+>> Li Zhijian <lizhijian@fujitsu.com> writes:
+>> 
+>>> The description of the memory.{stat,numa_stat} file has been updated to
+>>> clarify that the output values can be in bytes or pages.
+>>> This change ensures that users are aware that the unit of measurement for
+>>> memory values can vary and should be verified by consulting the memory.stat
+>>>
+>>> It's known that
+>>> workingset_*, pg* are counted in pages
+>>>
+>>> Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>a
+>>> ---
+>>> V2: updated the document as suggestion from Michal
+>>>      updated subject and commit log
+>>> ---
+>>>   Documentation/admin-guide/cgroup-v2.rst | 9 +++++----
+>>>   1 file changed, 5 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+>>> index 315ede811c9d..0a43be0c32d1 100644
+>>> --- a/Documentation/admin-guide/cgroup-v2.rst
+>>> +++ b/Documentation/admin-guide/cgroup-v2.rst
+>>> @@ -1427,7 +1427,7 @@ The following nested keys are defined.
+>>>   	types of memory, type-specific details, and other information
+>>>   	on the state and past events of the memory management system.
+>>>   
+>>> -	All memory amounts are in bytes.
+>>> +	All memory amounts are in bytes unless said otherwise.
+>>>   
+>>>   	The entries are ordered to be human readable, and new entries
+>>>   	can show up in the middle. Don't rely on items remaining in a
+>>> @@ -1673,11 +1673,12 @@ The following nested keys are defined.
+>>>   	application performance by combining this information with the
+>>>   	application's CPU allocation.
+>>>   
+>>> -	All memory amounts are in bytes.
+>>> -
+>>>   	The output format of memory.numa_stat is::
+>>>   
+>>> -	  type N0=<bytes in node 0> N1=<bytes in node 1> ...
+>>> +	  type N0=<value for node 0> N1=<value for node 1> ...
+>>> +
+>>> +        The 'value' can be in bytes or pages, depending on the specific
+>>> +        type of memory. To determine the unit, refer to the memory.stat.
+>> 
+>> This seems like useful information - but can we really not give better
+>> guidance to our readers on how to interpret this value?  What in "the
+>> memory.stat" will tell them which units are in use?
+>
+> Let me quote a piece of the numa.stat:
+>
+> In pages:
+>>          pgdemote_khugepaged                                                   
+>>                Number of pages demoted by khugepaged.
+>
+> In bytes:
+>>          file                                                                  
+>>                Amount of memory used to cache filesystem data,                 
+>>                including tmpfs and shared memory. 
+>
+> Prior to this reference to `memory.stat`, the previous `memory.numa_stat` also
+> relied on `memory.stat` to determine which entries were present.
+> Therefore, adding this current reference to `memory.stat` does not introduce
+> additional complexity.
+>
+> 1680         The 'value' can be in bytes or pages, depending on the specific
+> 1681         type of memory. To determine the unit, refer to the memory.stat.
+> 1682
+> 1683         The entries are ordered to be human readable, and new entries
+> 1684         can show up in the middle. Don't rely on items remaining in a
+> 1685         fixed position; use the keys to look up specific values!
+> 1686
+> 1687         The entries can refer to the memory.stat.   <<< the original reference
 
+...but neither does it help our reader.  Can we at least point to
+something that would help them to make sense of this value?
+
+>> (Even better, could we fix the code to always return the same units
+>> without breaking something somewhere?)
 >
-> ---
-> Subject: refcount: Strengthen inc_not_zero()
->
-> For speculative lookups where a successful inc_not_zero() pins the
-> object, but where we still need to double check if the object acquired
-> is indeed the one we set out to aquire, needs this validation to happen
-> *after* the increment.
->
-> Notably SLAB_TYPESAFE_BY_RCU is one such an example.
->
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> ---
->  include/linux/refcount.h | 15 ++++++++-------
->  1 file changed, 8 insertions(+), 7 deletions(-)
->
-> diff --git a/include/linux/refcount.h b/include/linux/refcount.h
-> index 35f039ecb272..340e7ffa445e 100644
-> --- a/include/linux/refcount.h
-> +++ b/include/linux/refcount.h
-> @@ -69,9 +69,10 @@
->   * its the lock acquire, for RCU/lockless data structures its the depend=
-ent
->   * load.
->   *
-> - * Do note that inc_not_zero() provides a control dependency which will =
-order
-> - * future stores against the inc, this ensures we'll never modify the ob=
-ject
-> - * if we did not in fact acquire a reference.
-> + * Do note that inc_not_zero() does provide acquire order, which will or=
-der
-> + * future load and stores against the inc, this ensures all subsequent a=
-ccesses
-> + * are from this object and not anything previously occupying this memor=
-y --
-> + * consider SLAB_TYPESAFE_BY_RCU.
->   *
->   * The decrements will provide release order, such that all the prior lo=
-ads and
->   * stores will be issued before, it also provides a control dependency, =
-which
-> @@ -144,7 +145,7 @@ bool __refcount_add_not_zero(int i, refcount_t *r, in=
-t *oldp)
->         do {
->                 if (!old)
->                         break;
-> -       } while (!atomic_try_cmpxchg_relaxed(&r->refs, &old, old + i));
-> +       } while (!atomic_try_cmpxchg_acquire(&r->refs, &old, old + i));
->
->         if (oldp)
->                 *oldp =3D old;
-> @@ -225,9 +226,9 @@ static inline __must_check bool __refcount_inc_not_ze=
-ro(refcount_t *r, int *oldp
->   * Similar to atomic_inc_not_zero(), but will saturate at REFCOUNT_SATUR=
-ATED
->   * and WARN.
->   *
-> - * Provides no memory ordering, it is assumed the caller has guaranteed =
-the
-> - * object memory to be stable (RCU, etc.). It does provide a control dep=
-endency
-> - * and thereby orders future stores. See the comment on top.
-> + * Provides acquire ordering, such that subsequent accesses are after th=
-e
-> + * increment. This is important for the cases where secondary validation=
- is
-> + * required, eg. SLAB_TYPESAFE_BY_RCU.
->   *
->   * Return: true if the increment was successful, false otherwise
->   */
+> Of course, I am not opposed to having all entries use the same unit.
+> At a glance, there are quite a few entries within `memory.stat` that are
+> actually measured in pages. Do we truly request to this significant modification?
+
+No, I am not asking you to do that - I was just thinking that it could
+be a good idea.  But there may be reasons for why things are the way
+they are, and I do not know if such a change would be accepted by the
+relevant maintainers or not.
+
+jon
