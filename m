@@ -1,126 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD391991C1;
-	Thu, 16 Jan 2025 21:00:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E1C73D76;
+	Thu, 16 Jan 2025 21:02:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737061239; cv=none; b=MsGjdWpShChGnAb6aCPGT6RJzbejxR90pe3kleVJ4pZwIv5gon+MU8CZd+/13AaFfEnQ5K+IOuOUGQYYF0bsufZtgJNd6+V2xKY6mC/zgmWtjUXuiW8N2D6zSuT66evOqdKNzxKWZptyG77VeSIEX65Il/nPfdoZAmMD2ULQy5I=
+	t=1737061349; cv=none; b=i8AW13wtuzx5drEG3Cfw1fFjKZwQOe2h5YQsN/9ON9U8Gi6i3qBcm4rObjVsACBnlWHHGugmGEjuNAuTfz63VRhEtPAP76HSiRynnQPSjON98jUiYnJ56cs3l1Lrp65L7+UNhX85IRl09udbOp4hpG1sK9QlFxRqWiIQ22D8uFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737061239; c=relaxed/simple;
-	bh=ei48WzDzQXjwdLn3xeNuV6Y9soa7jumN+VhYVf6oIbQ=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=scstilmMavMSoDRO3WtUaIh/93y6SgZX1cpqtw+OLNPuLjV5MAZvJQ5Crc8NBD5XhEoJUlJ7u+or1+XNG/sLANmIvf5I8LgMoN+6C/72ts02l4Lw8Gf4pF52pu7v9sELlF+4VQOprB2ZlGxCJWxd90phkX2W97xSaoA9jskpQdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=krLzUDGJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737061349; c=relaxed/simple;
+	bh=M5AXe7WdSqr1YmPNEHAF0GmhANfg1x1FfR+ZbTY+0+g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uLyuyVxkHcu4z/bRFp6XA5R2Fq+8NxhqYkzDvy4cz0PxD09HOhaDujBVHYcGfd16qhP1A/5y9phZ2wCBdpISIuNj9II5f1iIC7T414yduZgkQzelpay0hu91bF1f5PRMi7DfZ7hda4AJReDnV86uuwc5Qp8u2JDUzcYIMZmpvzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=tvqOETaC; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="krLzUDGJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C985C4CED6;
-	Thu, 16 Jan 2025 21:00:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737061238;
-	bh=ei48WzDzQXjwdLn3xeNuV6Y9soa7jumN+VhYVf6oIbQ=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=krLzUDGJpvLy/t9Kt5pMwTh4Uez1IeaoqrxvB8XYpPZgBiTnhXx4WRFQUowinmlzn
-	 mRd7JZZtv/4faOqBd3sx4rT9ZKwaCYL17MWmvA3cPeiZ4C/X3JDh5iIhEbfp2u6hEE
-	 tMcHiOKCOMg0c+f9JGDQQeZMo2Hy0tiwzByswP6RQJZ2BrF7RRLWOnhFVxFdXbWaR1
-	 4YHKEEvilbrEG2rQafVavGW3VRP7kyVKE4Mw287KtrZwmyrHbWfMS4c5J3qeE9EMZ5
-	 NEqrqzzZ/4AzOrS8iZWTVjTXJxC+6RLJ+os16QqA8uukEZGLCxL9bltC9YfSkGdtKl
-	 Gy0sHHYDs+8bg==
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailfauth.phl.internal (Postfix) with ESMTP id DAAFD1200083;
-	Thu, 16 Jan 2025 16:00:36 -0500 (EST)
-Received: from phl-imap-12 ([10.202.2.86])
-  by phl-compute-03.internal (MEProxy); Thu, 16 Jan 2025 16:00:36 -0500
-X-ME-Sender: <xms:dHOJZ_8hnrsy-ECJdAOQhqbieHNitsZTUyWxpffUhYWXpC0s_BRHQQ>
-    <xme:dHOJZ7uv6bWKUdrSLNYRkQNUnErbS8jLliX3TjOn9CZwxad3Qot1cG_Imf2F-tjUu
-    I2mXftxq5MS6uIf3J0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudeiuddgudegtdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
-    tdenucfhrhhomhepfdfnvghonhcutfhomhgrnhhovhhskhihfdcuoehlvghonheskhgvrh
-    hnvghlrdhorhhgqeenucggtffrrghtthgvrhhnpeejvefflefgledvgfevvdetleehhfdv
-    ffehgeffkeevleeiveefjeetieelueeuvdenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehlvghonhdomhgvshhmthhprghuthhhphgvrhhsohhn
-    rghlihhthidquddvfedtheefleekgedqvdejjeeljeejvdekqdhlvghonheppehkvghrnh
-    gvlhdrohhrgheslhgvohhnrdhnuhdpnhgspghrtghpthhtohepvdekpdhmohguvgepshhm
-    thhpohhuthdprhgtphhtthhopehjohhroheskegshihtvghsrdhorhhgpdhrtghpthhtoh
-    eprhhosghinhdrmhhurhhphhihsegrrhhmrdgtohhmpdhrtghpthhtoheplhhoghgrnhhg
-    seguvghlthgrthgvvgdrtghomhdprhgtphhtthhopegshhgvlhhgrggrshesghhoohhglh
-    gvrdgtohhmpdhrtghpthhtohepshgrghhisehgrhhimhgsvghrghdrmhgvpdhrtghpthht
-    ohepshhhrghmvggvrhgrlhhirdhkohhlohhthhhumhdrthhhohguiheshhhurgifvghird
-    gtohhmpdhrtghpthhtoheprhguuhhnlhgrphesihhnfhhrrgguvggrugdrohhrghdprhgt
-    phhtthhopehkvghvihhnrdhtihgrnhesihhnthgvlhdrtghomhdprhgtphhtthhopegrgi
-    gsohgvsehkvghrnhgvlhdrughk
-X-ME-Proxy: <xmx:dHOJZ9AsJorCdvsMQoxKmdUUyLaDrarWg_hDv0lIk4UGGYNSNWOc2A>
-    <xmx:dHOJZ7dgJxPeoxCqJDK6dxgG9pUYIr_52ACmcuhRIw1Qh9GaunCLwA>
-    <xmx:dHOJZ0NcoJ96f9Cm3V1tQ5aoiCzNw33kuCzYomD4dLo444b1fpQ0Xw>
-    <xmx:dHOJZ9kW1rLTlUibKKzm5XjNDGE7mt0S8k2egAdwWJej7fRDieXAPQ>
-    <xmx:dHOJZ-tBWC5CFeUXfiLbOKYQdG4K_dodDJWtuk1DQC1UPn6t-RWZL1C7>
-Feedback-ID: i927946fb:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id A17001C20067; Thu, 16 Jan 2025 16:00:36 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tvqOETaC"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Dd9xxzIaOtJal9dw9NyPkkoGl9lhLKiFJQR75pHe4EU=; b=tvqOETaC4o9wOERmS/KLEcYl4e
+	c/ZBX+FZMN16SmbILLXA2zis7bL/b4tr7EOnTp6/fMs97waexgUTICXOMr2KOfKN0wT9B5MEHyuE6
+	LfHUdBfaCsgkg2GsmRwa5o2DZiWS5pfob7BACUobd3hVqEaiy0VDhQryUlo01JMsaNBbeYQwRRKZk
+	LRdyzSvE4UncVW6EppPVWRmKPlTYZXkeWITtjNTLD2ldtoH1joZJr+H7D6GNWq5HI0uGo3eTNCmb+
+	3ckWDItG6I/nNMFG9Wfu48hVCxhv6X8ANdWb2s0H3ewfqPe/OxklaPelFoBdqFa/190vTSz0lsVmJ
+	rHu1Pi4Q==;
+Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1tYX0K-00000002Syo-2QeW;
+	Thu, 16 Jan 2025 21:02:16 +0000
+Date: Thu, 16 Jan 2025 21:02:16 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: rcu@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com,
+	rostedt@goodmis.org, Jonathan Corbet <corbet@lwn.net>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Boqun Feng <boqun.feng@gmail.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH rcu 2/7] docs: Improve discussion of this_cpu_ptr(), add
+ raw_cpu_ptr()
+Message-ID: <Z4lz2CC7SLgSp90y@casper.infradead.org>
+References: <a2c2793d-771a-436e-8c42-4cb38def0e2f@paulmck-laptop>
+ <20250116200239.3782374-2-paulmck@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 16 Jan 2025 23:00:14 +0200
-From: "Leon Romanovsky" <leon@kernel.org>
-To: "Jason Gunthorpe" <jgg@ziepe.ca>
-Cc: "Robin Murphy" <robin.murphy@arm.com>, "Jens Axboe" <axboe@kernel.dk>,
- "Joerg Roedel" <joro@8bytes.org>, "Will Deacon" <will@kernel.org>,
- "Christoph Hellwig" <hch@lst.de>, "Sagi Grimberg" <sagi@grimberg.me>,
- "Keith Busch" <kbusch@kernel.org>, "Bjorn Helgaas" <bhelgaas@google.com>,
- "Logan Gunthorpe" <logang@deltatee.com>,
- "Yishai Hadas" <yishaih@nvidia.com>,
- "Shameer Kolothum" <shameerali.kolothum.thodi@huawei.com>,
- "Kevin Tian" <kevin.tian@intel.com>,
- "Alex Williamson" <alex.williamson@redhat.com>,
- "Marek Szyprowski" <m.szyprowski@samsung.com>,
- =?UTF-8?Q?J=C3=A9r=C3=B4me_Glisse?= <jglisse@redhat.com>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Jonathan Corbet" <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
- kvm@vger.kernel.org, linux-mm@kvack.org,
- "Randy Dunlap" <rdunlap@infradead.org>
-Message-Id: <45eee716-83fd-4b15-ae11-2414aa119db3@app.fastmail.com>
-In-Reply-To: <20250116201853.GE674319@ziepe.ca>
-References: <cover.1734436840.git.leon@kernel.org>
- <fa43307222f263e65ae0a84c303150def15e2c77.1734436840.git.leon@kernel.org>
- <ad2312e0-10d5-467a-be5e-75e80805b311@arm.com>
- <20250115083340.GL3146852@unreal> <20250116201853.GE674319@ziepe.ca>
-Subject: Re: [PATCH v5 07/17] dma-mapping: Implement link/unlink ranges API
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250116200239.3782374-2-paulmck@kernel.org>
 
+On Thu, Jan 16, 2025 at 12:02:34PM -0800, Paul E. McKenney wrote:
+> +The special cases where it makes sense do obtain a per-CPU pointer in
 
+s/do/to/
 
-On Thu, Jan 16, 2025, at 22:18, Jason Gunthorpe wrote:
-> On Wed, Jan 15, 2025 at 10:33:40AM +0200, Leon Romanovsky wrote:
->> > > +	do {
->> > > +		phys_addr_t phys;
->> > > +		size_t len;
->> > > +
->> > > +		phys = iommu_iova_to_phys(domain, addr);
->> > > +		if (WARN_ON(!phys))
->> > > +			continue;
->> > 
->> > Infinite WARN_ON loop, nice.
->> 
->> No problem, will change it to WARN_ON_ONCE.
->
-> I think the other point is that the addr doesn't increase, so this
-> loop will lock up.
+> +preemptible code are addressed by raw_cpu_ptr(), but please note that such
 
-Yes, this is what I planned to do.
+s/please note that //
 
->
-> Possibly just do return? I suppose something is hopelessly corrupted
-> if we ever hit this..
->
-> Jason
+> +use cases need to handle cases where two different CPUs are accessing
+> +the same per cpu variable, which might well be that of a third CPU.
+> +These use cases are typically performance optimizations.  For example,
+> +SRCU implements a pair of counters as a pair of per-CPU variables,
+> +and rcu_read_lock_nmisafe() uses raw_cpu_ptr() to get a pointer to some
+> +CPU's counter, and uses atomic_inc_long() to handle migration between
+> +the raw_cpu_ptr() and the atomic_inc_long().
