@@ -1,74 +1,191 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D30461DC992;
-	Thu, 16 Jan 2025 09:42:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03BFC1DD88B
+	for <linux-doc@vger.kernel.org>; Thu, 16 Jan 2025 09:56:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737020544; cv=none; b=kLNxib2sA6EZjE6rr+F2jqPI7OsxHTOCplu+R+FuP8pkmXRHBh3tVwfvd7nNePWgUbP9/NmzJftQipQugsU3pCWQ7tt6UlncaCxbq+rfrNqdwnpy+AG+kf1GJAagg4o3zuSc3Prw8wGqPof7hdw+EcNsNVcpGzpcEUo/NYv6q6M=
+	t=1737021418; cv=none; b=ptboSIqORAvmjeeOZoAiMUxPlBiOy8KYYQb9IWOAKVGv3G/WH2Usl9X1TnBjh9MYKfcHDzUZPDfdreQw1HBEqenVOQqrqvlQ5atUNCMAwROTeftw6bR6YPbxYm5um4YFJnyuclwiUzrpsdsJ+c+GchTtxH4hN4PDXiGZLAEdskU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737020544; c=relaxed/simple;
-	bh=gnxOFJOM8CNYAjk4xA/dsYa1z5NyVGDLkQ1iJ28kAZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f0ZgtrzJDgoa8+wW0EROAkpjZAOT9qtjhE0tutKo8+HXoVW/2Wvbcc1g+6q+crAOaMajLaHGmpSM2dXgcDihhXAfLjiUEJvUKdYZZYZb8XLy4/t0LtaeZ1j4rO6KpvjJ//ZD01mpieUcS4ifW5YkA01L2ZUU19VGJQJaiDQITeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Ho1GwvoF; arc=none smtp.client-ip=220.197.31.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1737021418; c=relaxed/simple;
+	bh=bSTSw17VRWxk/xy9xUiK8S7/og3Vs5qKzAmU3LPaFJg=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=YfToM9O8N9XrBJZnpQ8QUGmLWYfJ1DXaIO6N+Q6sfFgvCZRavJFnq51KbdgrIRAO2XurH9v2VFyZcSpaOWwhiSp2QEDga4RBhnfNf1v+jKgDI/YjuFTRO460bxf7DM250AgmehD7y3ynUMlhJffONulnd/mCLiTu6GYFfDfu/jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=xHHmWMAJ; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Ho1GwvoF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
-	Content-Type; bh=cUqHVNrmDfYtjRqmvOtPuIvVp19cP0owYo/njoMzqhs=;
-	b=Ho1GwvoF6bHATqdUwZWI5PoLHdH6Za6Ag9MKgRByZyxd/gr72qseWHhcvawil7
-	uxi7DaM1es9CtPLxEViCZxLcUbKRDNfqtS18yPvQjAyjmgUo6ZcQ65bfncWXHwNz
-	a9oUAfEJXCeacScMN6eGnehsHI79tfOUY59VEqd8riXkE=
-Received: from osx (unknown [])
-	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wAH+INI1Ihnzb7sGA--.6422S2;
-	Thu, 16 Jan 2025 17:41:29 +0800 (CST)
-Date: Thu, 16 Jan 2025 17:41:28 +0800
-From: Jiayuan Chen <mrpre@163.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] docs/arch: remove deprecated function name
-Message-ID: <bhmgv3myrraschcaenvaq2sfpslcbedcsca2hirxau6gu56xbu@a54h2sj2xoz3>
-References: <20250114094832.350073-1-mrpre@163.com>
- <8734hl9v8a.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="xHHmWMAJ"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-436281c8a38so4004135e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 16 Jan 2025 01:56:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1737021414; x=1737626214; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uSHdPWcKmGVbVZP59aw95qXWV3lI61LHVfnVxsl+FKA=;
+        b=xHHmWMAJGVTWl/1NjISnu6Gx3ZoEERkBhguwvjscYlixUlfNj3HmKwNi9WcIiHhZ9B
+         ehcIMC61DYP0hihyrTeOHNInlgFtioNL+g3OIJxcPLkIQ5QYJceGW+bDThOwKZMFb+/y
+         nvygLbzxSpdO7KLBjFY3opzSZEUJahCz9KA3bGws8UMftpuz9BjAp0WgmNNzkizqXn/d
+         XJc+jUdlObyEKxmMjkyVCUaVINIwlW2PP1COrzCfGq/RXjfhd7H3nJBMgy5dsU/d6vce
+         n0CQyrNDLodODqYAciP3S0hY06m/IXoJS0ZjYWh9VcUyd0VFpY2tKxKXnanIA1Z0XCgB
+         yt1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737021414; x=1737626214;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=uSHdPWcKmGVbVZP59aw95qXWV3lI61LHVfnVxsl+FKA=;
+        b=dINkz5QkihU61ZkFubWJvXt7qZaEYD1ellel/GvbwRnHjPihtEGxlxrUWgUyeiSIox
+         Tko5oJLvV2qGsltCDlFXSheyfXanm0AbrhFQP/Ak+EQ6QlM9tKnW0UAT+mTl5ElkbemB
+         +PsPlgh6aIp9TovSsS8I53+WpvDbYjG7QxQ381Wm6Ka59iiDIeGyx1+kyt1XY3q+DV+L
+         sRYJWC1NtuNDWl+QvEa6Z600Ybysk+2ZyQfI7K5jw0MznMzrsyf2Kd4hSEtVf7FmJLCK
+         L+CmrLxiPUhjRHE8oU/Rqb3cUfMi+62xwwhbeW3hVqz1rd739f/DEiv7Vf3dqUWsCcHO
+         GK4w==
+X-Forwarded-Encrypted: i=1; AJvYcCVFj/CHZVM/9Wi4DYrDfVRs4zOLPLoi6aCL8a4dtchDiwms83RxAQVTnXoKitUuYt0ySPb3E+xVGBQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOpsbMGov7yGmI8aBKndYr1MdXZXZdCim4J9saRtqsnQCjgxdv
+	i/kqhV5Zq3IJfewGJt626I9dVPFyQ7R/8asSJDBbpwT1Xxv6MCt76bv15cupTfc=
+X-Gm-Gg: ASbGncsE2jtL9uBZ4gAC4auwdm+bLxafqTTN0KraUACtHPCjzR4bQGWsZulzBK7HYwu
+	y3ysAlGhLdyieHG0Vn2R9L3YZ9Zz0Fxq2AcySjQyMO1B30rjJ3sM3jOYF4omx9FIzJ2DRhfIVwi
+	PTED7FghUyj0fpVeDaHRkr3qOAJG3LjIln7kuStExfJhtyrUsa9diYIAImKAfn7qaxwm9hMMGVb
+	ibD3Kc8BLVxgKMANQVOIF8N4NwANHjdLpQE14z+p4AELkHhxxOQmLs/u761ddoqex4nk3d7BlcV
+	BhyjcDXuoBjMD+/UWT+ITpxOdaxj07wcNid2OKibTdw=
+X-Google-Smtp-Source: AGHT+IGDFKX1Ve2idO8rktH4XrAM8D4PejdzCkU13Mh4eAnD5iUv/2BgriTku9Ruht6b1WvCpXNR/w==
+X-Received: by 2002:a05:600c:3485:b0:436:fbe0:cebe with SMTP id 5b1f17b1804b1-436fbe0d10cmr156292295e9.30.1737021414316;
+        Thu, 16 Jan 2025 01:56:54 -0800 (PST)
+Received: from localhost (2a02-8440-9206-2584-91c4-ce73-527f-308a.rev.sfr.net. [2a02:8440:9206:2584:91c4:ce73:527f:308a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-437c74e5e69sm52765865e9.37.2025.01.16.01.56.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Jan 2025 01:56:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8734hl9v8a.fsf@trenco.lwn.net>
-X-CM-TRANSID:_____wAH+INI1Ihnzb7sGA--.6422S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrur13CFW8JFW8JF4DJw47Jwb_yoWfGwbEga
-	4DXF9Yyw1FkF1DCw13Jay8Za9rKw47Ary8Jw1DXrW3Zw1rAanxWrn8ArnrZFn3Jr1FyFWY
-	9wnakw1DtasIvjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUUhvKUUUUUU==
-X-CM-SenderInfo: xpus2vi6rwjhhfrp/1tbiWwzWp2eIyy1pIwABsk
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 16 Jan 2025 10:56:51 +0100
+Message-Id: <D73EP8AHW10K.9JIP74RQOHU4@baylibre.com>
+Cc: "Lars-Peter Clausen" <lars@metafoo.de>, "Michael Hennerich"
+ <Michael.Hennerich@analog.com>, =?utf-8?q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, "Jonathan Cameron" <jic23@kernel.org>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 2/6] iio: adc: ad4030: add driver for ad4030-24
+From: "Esteban Blanc" <eblanc@baylibre.com>
+To: "Marcelo Schmitt" <marcelo.schmitt1@gmail.com>
+X-Mailer: aerc 0.18.2
+References: <20241219-eblanc-ad4630_v1-v2-0-f36e55907bf5@baylibre.com>
+ <20241219-eblanc-ad4630_v1-v2-2-f36e55907bf5@baylibre.com>
+ <Z2eqOSN2Uk8SfTq1@debian-BULLSEYE-live-builder-AMD64>
+In-Reply-To: <Z2eqOSN2Uk8SfTq1@debian-BULLSEYE-live-builder-AMD64>
 
-On Tue, Jan 14, 2025 at 10:11:01AM +0800, Jonathan Corbet wrote:
-> Jiayuan Chen <mrpre@163.com> writes:
-> 
-> >  
-> >  The question about the '?' preceding function names in an x86 stacktrace
-> >  keeps popping up, here's an indepth explanation. It helps if the reader
-> > -stares at print_context_stack() and the whole machinery in and around
-> > +stares at 'question mark' and the whole machinery in and around
-> >  arch/x86/kernel/dumpstack.c.
-> 
-> Maybe - probably - I'm missing something, but I don't see how this is
-> going to help our readers?  If there *is* a function that will, by
-> virtue of being stared at, help bring enlightenment, why wouldn't we
-> name it?
-> 
-> Thanks,
-> 
-> jon
-You're right.
-As Randy mentioned, printk_stack_address() can probably be used as a
-drop-in replacement for the original function, and I found that it hasn't
-been touched since 3.12 anyway.
+On Sun Dec 22, 2024 at 6:57 AM CET, Marcelo Schmitt wrote:
+> Hello Esteban, some comments inline.
+>
+> On 12/19, Esteban Blanc wrote:
+> > This adds a new driver for the Analog Devices INC. AD4030-24 ADC.
+> >=20
+> > The driver implements basic support for the AD4030-24 1 channel
+> > differential ADC with hardware gain and offset control.
+> >=20
+> > Signed-off-by: Esteban Blanc <eblanc@baylibre.com>
+> > ---
+> [...]
+> > +
+> > +static int ad4030_spi_read(void *context, const void *reg, size_t reg_=
+size,
+> > +			   void *val, size_t val_size)
+> > +{
+> > +	int ret;
+> > +	struct ad4030_state *st =3D context;
+> > +	struct spi_transfer xfer =3D {
+> > +		.tx_buf =3D st->tx_data,
+> > +		.rx_buf =3D st->rx_data.raw,
+> > +		.len =3D reg_size + val_size,
+> > +		.speed_hz =3D AD4030_SPI_MAX_REG_XFER_SPEED,
+> Is speed_hz really needed? What happens if the controller can't clock at =
+80MHz?
+The goal was to reduce the speed when reading/writing to a register with
+a value like 10MHz. The issue I ran into is that with my setup (Zedboard
+with FPGA-based SPI controller) when I chose a speed lower than 80Mhz
+the value read are wrong. The whoami check in `ad4030_detect_chip_info`
+is failling. So for now, I left it at 80Mhz while I'm trying to figure
+out what's going on with the controller
+>
+> > +	};
+> > +
+> > +	if (xfer.len > ARRAY_SIZE(st->tx_data) ||
+> > +	    xfer.len > ARRAY_SIZE(st->rx_data.raw))
+> > +		return  -EINVAL;
+>
+> Would it make sense to bring register configuration mode commands into th=
+e
+> regmap calls?
+> I mean, to do the ad4030_enter_config_mode() transfer here and the
+> ad4030_exit_config_mode() at the end of this function.
+> From datasheet, it looks like both enter/exit config mode are required fo=
+r reg
+> access so why not doing them in the regmap callbacks?
+> With that, I think it won't be needed to call register config mode functi=
+ons
+> in ad4030_single_conversion() and in buffer enable/disable functions.
+> Might need implement regmap_config read and write callbacks to properly h=
+andle
+> regmap_bulk_read/write interface.
+Yes, good idea.
+>
+>
+> > +
+> > +	memset(st->tx_data, 0, ARRAY_SIZE(st->tx_data));
+> > +	memcpy(st->tx_data, reg, reg_size);
+> > +
+> > +	ret =3D spi_sync_transfer(st->spi, &xfer, 1);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	memcpy(val, &st->rx_data.raw[reg_size], val_size);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> [...]
+> > +
+> > +static int ad4030_get_chan_calibscale(struct iio_dev *indio_dev,
+> > +				      struct iio_chan_spec const *chan,
+> > +				      int *val,
+> > +				      int *val2)
+> > +{
+> > +	struct ad4030_state *st =3D iio_priv(indio_dev);
+> > +	u16 gain;
+> > +	int ret;
+> > +
+> > +	ret =3D regmap_bulk_read(st->regmap, AD4030_REG_GAIN_CHAN(chan->addre=
+ss),
+> > +			       st->rx_data.raw, AD4030_REG_GAIN_BYTES_NB);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	gain =3D get_unaligned_be16(st->rx_data.raw);
+> My impression is that it is a bit odd to handle endianness after/before
+> calling regmap_read/write(). Can you try set
+> .val_format_endian_default =3D REGMAP_ENDIAN_BIG, in ad4030_regmap_bus?
+> If that doesn't help, what about doing the get/set_unaligned stuff within
+> the bus read/write calls?
+I've addressed that in another email after Jonathan's comment.
+>
+> > +
+> > +	/* From datasheet: multiplied output =3D input =C3=97 gain word/0x800=
+0 */
+> > +	*val =3D gain / 0x8000;
+> Use a define to give a name to the gain constant?
+Sure.
 
+Best regards,
+
+--=20
+Esteban Blanc
+BayLibre
