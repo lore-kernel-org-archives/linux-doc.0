@@ -1,120 +1,141 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282AD2309BA
-	for <linux-doc@vger.kernel.org>; Thu, 16 Jan 2025 20:18:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B481222FDF5
+	for <linux-doc@vger.kernel.org>; Thu, 16 Jan 2025 20:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737058737; cv=none; b=fIqhUdM+BDLX+EV5ALO+kCloZOCvYiHp1TY/HH7lipgMaoXYAKaeIp4S1JgYFxxUDmxygL3uhgZscKPk/HAmP4KIjxt5LsdM7Hq2I2UqIr8OSVPO2fPAlPDWzHVlfTqgthrNxhVrNaW64Y3Opw0S5CXI4pTDTWQEflid6/ZBMy0=
+	t=1737058801; cv=none; b=YqWiDfEu64A4uAatD0L++pzdpgROlz7KbUiYkovThLMc5Klfa/3/sYtK/Fx0wTJH9/7taEcAN3drOikT4gTUpgjYSVMeSRKHmT0gzrBhwdXC1dCIpwrxYD1f9gX1miTmp8+2fn/Qg1JVMbth6IAJOewPNAQeoiEXwugeMg8U4Ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737058737; c=relaxed/simple;
-	bh=TW2t02hwCcCvA4dY7CqwLTCEluJxPrBR26gpeJGJ43c=;
+	s=arc-20240116; t=1737058801; c=relaxed/simple;
+	bh=nNoBF4UfWoe23a1lrQ7UdZ6UWanGe/SAkh9O53HaEmA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XISH1JGyYll/78krmKRHxFcJ8HXuX2d3BLmBkdDrbDeslyeUPO/LiXDtY8ogGwhSrOq9HqbFwWEqytctHY7mazT5y9sKtynmAsTBhWuGfK6MTo3q/BwOe3PNp6cZOIw+T+eWYq1e2+Xa3t+9TnRxeRsWG4dA75hI93VzRq9zYnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=Z1gNKkW1; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	 Content-Type:Content-Disposition:In-Reply-To; b=aTENVYCokfseq6D5QlJS+ZDUQ/yONcSkIE5ZDkYD9wYy89UaCEJYO7Leh+ex6U20hNxow1eRpttJGumrLR1TTfluk7YbTqWrlHWKKA+10ZFRM3A+ekxJJrWHmATApl8c6FARDitD2pBb3rWzp8zg0agR/faPogpb/LHlJaCg8uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Gj069CJa; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="Z1gNKkW1"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6d88cb85987so12660066d6.1
-        for <linux-doc@vger.kernel.org>; Thu, 16 Jan 2025 12:18:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1737058735; x=1737663535; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vjLKJevC2V7Xu5ADPJrgzXE+Cum0TiiT74cho1sXgi8=;
-        b=Z1gNKkW14lxu8cW6U2PHwwOrjlbCi3tIzLd/2avcQf9Fuzn889VVOr9ybxwoUPqCuv
-         UrlUDZ8tiO7rR5LLqvlFYQKbdmpXMfQ2XW0hBXvTBBMHgQAT0J45BMQfSK2jLIguAsar
-         s1iLvXU2HwWnQagI5cNOnCWs4jUS0zi2csu0fYL1DffC/iEu8/cENDOofNAxmypsSlu0
-         K/Uu2XHu9BlJih4R30VaZ0vHZWqixXYRbwp1mt4wg92EH/TDgMvLXFUSCKgvSJEQSDOP
-         bdSWOfiRkI69IZPm0fI1wPl4+xqHyU4z127BDzbHmrE+4WX19o3G+2Q6xszzjQ5/WiAR
-         4pLw==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Gj069CJa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1737058798;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hxyx17H16LTaCMPogGfVhxD8KdAjR1MUqsEp+1MdmBk=;
+	b=Gj069CJa4nUwP9pKLTx2K5xZxYQESBVIoikqa9aC/KEUu5iNOYUOCzLH/zic+lmPFyOIga
+	G9zjhhgA69K46lgaCiVTQoh4F4qJ0+/ow4VSS3XpEB5sBDmXlFB8f3YoEKIAyKnTUoTcOJ
+	7AkXARApq90qXGCo36r3AybiBSQqNPQ=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-582-lxc75MXeN-OgUaFzyXcKZw-1; Thu, 16 Jan 2025 15:19:56 -0500
+X-MC-Unique: lxc75MXeN-OgUaFzyXcKZw-1
+X-Mimecast-MFC-AGG-ID: lxc75MXeN-OgUaFzyXcKZw
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2164861e1feso23830635ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 16 Jan 2025 12:19:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737058735; x=1737663535;
+        d=1e100.net; s=20230601; t=1737058795; x=1737663595;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vjLKJevC2V7Xu5ADPJrgzXE+Cum0TiiT74cho1sXgi8=;
-        b=rw3jeGXtVs0t0aH9WMqND8rWAD4v4pwnP0VyTDdKEOooP3IH2TlU2Qo0NIa1ZuetNl
-         k282m+rBeH/pnF1CRrikKRNP+j6ZeLMXVEOmqyforLWttESjhqszByeyWyvt3x5svDNZ
-         /pTBiBWvrNEkSvPLxj/YnB5dbau/vk/DvEPGfW1eycIbVsEZ0BgjWFGS/r7fTy1PxPSv
-         3rbBALEwXMdn7xqM5w4suLy29NbsA2zVBXVCmrwZNiCIeSAIRizI77CClfre6rftyKRa
-         BC6eV3pCjsvZhpzXu4EpoNn3J7msUNkZKNcFhuiZv5IwbiQKBjZUlxfJ0NpvEgueikmq
-         6TCw==
-X-Forwarded-Encrypted: i=1; AJvYcCVDbW3yCdEPJB3g7ytlaLT5kF9iAvLJOsmSzZzVethqVxXRO02G0LX5x/gfKDLq5d5c+4fqyp5dXSU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLOGrzefUzhbyvARHLF3Ete+394jAmPaGmFPg4q0/GmQD3xi16
-	WcUlRswCyPEJ6pz2zn/Op3xjB5r1WQdzODC8AsriqBVaBo/MQtbFeVABxI4drbg=
-X-Gm-Gg: ASbGnctxMkQK+FLsNNUWRLuOvM4IVxaBnSUXrVy05CS9ZsBeIsSIk7WgomgNJNoWL9j
-	sObZwp8z43AOzc53XAAK7Vk0qkEEsms2Og1cIwP7/XghH2CGe9tippHQaBvHbTaLh0s/3IOpbOg
-	7MDae0Ph1Juzraqq36zUTpI9EXqapVWOIeOfY8MGpBkkF4rohDOMdNt+4fnB2yHKX6Qr2B99FUK
-	F0TuoXMvUXKfI8IwOEEuiWBCuH/jC86DnUuHuaufOiNefEKQQlJ7n78GgiaOMUkZF0jZ+kvFapS
-	rY3IR30kPyQ5w4/Jmhv2ncq2U1cA3A==
-X-Google-Smtp-Source: AGHT+IGiuhJCb6CE3xcrJekt3qGHV8KtpIud5ATr1ePaT30zfzK6ww+BnPBnVPMzNC6cTFY+JSWjmQ==
-X-Received: by 2002:a05:6214:20a2:b0:6e1:715f:cdf5 with SMTP id 6a1803df08f44-6e192ca312amr104688286d6.15.1737058735081;
-        Thu, 16 Jan 2025 12:18:55 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-68-128-5.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.128.5])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e1afce4695sm3441426d6.104.2025.01.16.12.18.54
+        bh=hxyx17H16LTaCMPogGfVhxD8KdAjR1MUqsEp+1MdmBk=;
+        b=Pe1Vpf/VRkSS8ii+F64urF0ga4CyJg4ePcwTUVqq3o1e7EZCNzjc5sMXHZ59CJwXH2
+         /qOaeuzVrQxt371htdKCo9WWqUONkVvr5aWfsnnkQ0Vc/EYUhULf4evMn8kGNGQbLOK2
+         VatTfIZPjM3a0FDBmMuID1tVx98ymKRZvzc+XDexjvLawZKu4EeoxRAyKiOENRPxzwjx
+         MY9Vw++hr2MNQ2vV2TrTGjTk7N0QPPRwltLD2cjmZwuNe8dWwGGk2uZ0Gkx0tgOi0qU9
+         acF8P8EYqBugyeRxku/v15276WtGB0TFl0ce2S7mORnuYFc0lsfoXEgmTHKC+klsUpjS
+         YzqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV2JmSkyVqPVnhcL06c76JgTXKRSEAKunRKEx9yFQOGzA1a4cAv3eKCDcsJmKGIo2QGPJ3BeS5W1tU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzB7GgZ1sxm6czM/U3b5/QmIDA9tbLM71A+QFPvQMaVs4Kg2JSo
+	ZYARWxaMGL4Mj37kcZuSkR34z3+VLVnbtjxmT8JI1IE9kxprDdmojX1XbtKiDRwsFE+gEz6uQvX
+	nnHstfAWDuPIn/E8H9HsLjn8AzfKiPyR6NlM6WAsF3rwq8AoPtAa5n9/kgw==
+X-Gm-Gg: ASbGncuNj3EgsQaN3vJIbKvmSGKkqz88CvYONl0dti2veMwPQySl82T3xDkgkkLwbMH
+	rvWsvZWhU0i55XLdhYJgptIjXmtptlIswxnZvbasgTfbPHzfCjuVYnByFuZZ4PFgp0iPFFv9nKw
+	eMYq/yGIAt4pxR1uur8FxTMbnJ3p6R2XFu8ch+gjtZUE4XfJigqnfT6DRDSH8zfuxXBWvUTXsNO
+	8fVmFZv3CVZudZlKN7orJGFvzNsdTIEl/HNbG671AOzCoMOnx90TjTEgsYxAqLLEw5IiSFcdeNN
+	cH0A+Hhh7PcDQCsuMw==
+X-Received: by 2002:a17:903:1105:b0:216:6f1a:1c81 with SMTP id d9443c01a7336-21c352c77eamr1589225ad.2.1737058795388;
+        Thu, 16 Jan 2025 12:19:55 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFCdUZtxdruuZ9dhKBDB1S+oAh8pcb12HPEW8IyTWaMSLHmWxJL1Esm0PAWT5jrhgt1RJfKYw==
+X-Received: by 2002:a17:903:1105:b0:216:6f1a:1c81 with SMTP id d9443c01a7336-21c352c77eamr1588855ad.2.1737058795018;
+        Thu, 16 Jan 2025 12:19:55 -0800 (PST)
+Received: from x1n (pool-99-254-114-190.cpe.net.cable.rogers.com. [99.254.114.190])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21c2d3ac3e2sm3791465ad.139.2025.01.16.12.19.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jan 2025 12:18:54 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1tYWKL-00000002y1X-3wBD;
-	Thu, 16 Jan 2025 16:18:53 -0400
-Date: Thu, 16 Jan 2025 16:18:53 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Robin Murphy <robin.murphy@arm.com>, Jens Axboe <axboe@kernel.dk>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v5 07/17] dma-mapping: Implement link/unlink ranges API
-Message-ID: <20250116201853.GE674319@ziepe.ca>
-References: <cover.1734436840.git.leon@kernel.org>
- <fa43307222f263e65ae0a84c303150def15e2c77.1734436840.git.leon@kernel.org>
- <ad2312e0-10d5-467a-be5e-75e80805b311@arm.com>
- <20250115083340.GL3146852@unreal>
+        Thu, 16 Jan 2025 12:19:54 -0800 (PST)
+Date: Thu, 16 Jan 2025 15:19:49 -0500
+From: Peter Xu <peterx@redhat.com>
+To: James Houghton <jthoughton@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Yan Zhao <yan.y.zhao@intel.com>,
+	Nikita Kalyazin <kalyazin@amazon.com>,
+	Anish Moorthy <amoorthy@google.com>,
+	Peter Gonda <pgonda@google.com>,
+	David Matlack <dmatlack@google.com>, Wei W <wei.w.wang@intel.com>,
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev
+Subject: Re: [PATCH v1 00/13] KVM: Introduce KVM Userfault
+Message-ID: <Z4lp5QzdOX0oYGOk@x1n>
+References: <20241204191349.1730936-1-jthoughton@google.com>
+ <Z2simHWeYbww90OZ@x1n>
+ <CADrL8HUkP2ti1yWwp=1LwTX2Koit5Pk6LFcOyTpN2b+B3MfKuw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250115083340.GL3146852@unreal>
+In-Reply-To: <CADrL8HUkP2ti1yWwp=1LwTX2Koit5Pk6LFcOyTpN2b+B3MfKuw@mail.gmail.com>
 
-On Wed, Jan 15, 2025 at 10:33:40AM +0200, Leon Romanovsky wrote:
-> > > +	do {
-> > > +		phys_addr_t phys;
-> > > +		size_t len;
-> > > +
-> > > +		phys = iommu_iova_to_phys(domain, addr);
-> > > +		if (WARN_ON(!phys))
-> > > +			continue;
-> > 
-> > Infinite WARN_ON loop, nice.
+James,
+
+Sorry for a late reply.
+
+I still do have one or two pure questions, but nothing directly relevant to
+your series.
+
+On Thu, Jan 02, 2025 at 12:53:11PM -0500, James Houghton wrote:
+> So I'm not pushing for KVM Userfault to replace userfaultfd; it's not
+> worth the extra/duplicated complexity. And at LPC, Paolo and Sean
+> indicated that this direction was indeed wrong. I have another way to
+> make this work in mind. :)
+
+Do you still want to share it, more or less? :)
+
 > 
-> No problem, will change it to WARN_ON_ONCE.
+> For the gmem case, userfaultfd cannot be used, so KVM Userfault isn't
+> replacing it. And as of right now anyway, KVM Userfault *does* provide
+> a complete post-copy system for gmem.
+> 
+> When gmem pages can be mapped into userspace, for post-copy to remain
+> functional, userspace-mapped gmem will need userfaultfd integration.
+> Keep in mind that even after this integration happens, userfaultfd
+> alone will *not* be a complete post-copy solution, as vCPU faults
+> won't be resolved via the userspace page tables.
 
-I think the other point is that the addr doesn't increase, so this
-loop will lock up.
+Do you know in context of CoCo, whether a private page can be accessed at
+all outside of KVM?
 
-Possibly just do return? I suppose something is hopelessly corrupted
-if we ever hit this..
+I think I'm pretty sure now a private page can never be mapped to
+userspace.  However, can another module like vhost-kernel access it during
+postcopy?  My impression of that is still a yes, but then how about
+vhost-user?
 
-Jason
+Here, the "vhost-kernel" part represents a question on whether private
+pages can be accessed at all outside KVM.  While "vhost-user" part
+represents a question on whether, if the previous vhost-kernel question
+answers as "yes it can", such access attempt can happen in another
+process/task (hence, not only does it lack KVM context, but also not
+sharing the same task context).
+
+Thanks,
+
+-- 
+Peter Xu
+
