@@ -1,69 +1,69 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B481222FDF5
-	for <linux-doc@vger.kernel.org>; Thu, 16 Jan 2025 20:19:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED21922F17B
+	for <linux-doc@vger.kernel.org>; Thu, 16 Jan 2025 20:32:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737058801; cv=none; b=YqWiDfEu64A4uAatD0L++pzdpgROlz7KbUiYkovThLMc5Klfa/3/sYtK/Fx0wTJH9/7taEcAN3drOikT4gTUpgjYSVMeSRKHmT0gzrBhwdXC1dCIpwrxYD1f9gX1miTmp8+2fn/Qg1JVMbth6IAJOewPNAQeoiEXwugeMg8U4Ck=
+	t=1737059537; cv=none; b=ImnVS/yXsKsFfffwkbkxHxzkh9eeNBVJTY16rIWuJIVu9PGD38epMrIq0MLs9igNBhISaNLIQLIg9wV1S3l29/Dh9evpWL7Lh3m4VxsOLV1dn/stckOqja8Ac5dob+RLqZ2mFpofFXtaJxCmR1xaq+SXA2/VChctMk83N1pa270=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737058801; c=relaxed/simple;
-	bh=nNoBF4UfWoe23a1lrQ7UdZ6UWanGe/SAkh9O53HaEmA=;
+	s=arc-20240116; t=1737059537; c=relaxed/simple;
+	bh=Gp2dMCkhOZWquwQcvnyVZRJDHqMIikWYXh/aHRG4fJI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aTENVYCokfseq6D5QlJS+ZDUQ/yONcSkIE5ZDkYD9wYy89UaCEJYO7Leh+ex6U20hNxow1eRpttJGumrLR1TTfluk7YbTqWrlHWKKA+10ZFRM3A+ekxJJrWHmATApl8c6FARDitD2pBb3rWzp8zg0agR/faPogpb/LHlJaCg8uk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Gj069CJa; arc=none smtp.client-ip=170.10.133.124
+	 Content-Type:Content-Disposition:In-Reply-To; b=cvULEbOw3n04hvK0vqkG2j0R5ty1ub2xBNgMxXAH168TLJ++bbflVgZs/DtSGN/hkIojbkGnGYQzioI/BDb4mPQQyVV78HBIwuvPPNZ/DjDlTD6LcFUU7cGiz77HQ5hdTQRZW/wRGe2msdZaqsx/d0Cpj99FBkwnThxrM3odJ/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FqCqi3TW; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Gj069CJa"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FqCqi3TW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1737058798;
+	s=mimecast20190719; t=1737059535;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hxyx17H16LTaCMPogGfVhxD8KdAjR1MUqsEp+1MdmBk=;
-	b=Gj069CJa4nUwP9pKLTx2K5xZxYQESBVIoikqa9aC/KEUu5iNOYUOCzLH/zic+lmPFyOIga
-	G9zjhhgA69K46lgaCiVTQoh4F4qJ0+/ow4VSS3XpEB5sBDmXlFB8f3YoEKIAyKnTUoTcOJ
-	7AkXARApq90qXGCo36r3AybiBSQqNPQ=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=cBjXp+Q0kBMQo93pn9/JG/mDdpOMWtXcKEJJB7g0DX0=;
+	b=FqCqi3TWOb2BbweNIeGvtX21i/va1/7tyuDXVuTXQy6wqsb7dk+cpt+jSU3hJNIXripBJf
+	CCNsU//XFkXZkAOLuAx/XRtC2A523VDAA5EVg12pWxTVxYjn7Rgh8SNnbmdhH+n8HVUR7H
+	x5rcK0h7NRu3KnjGimrI4igaIBsODWM=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-582-lxc75MXeN-OgUaFzyXcKZw-1; Thu, 16 Jan 2025 15:19:56 -0500
-X-MC-Unique: lxc75MXeN-OgUaFzyXcKZw-1
-X-Mimecast-MFC-AGG-ID: lxc75MXeN-OgUaFzyXcKZw
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2164861e1feso23830635ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 16 Jan 2025 12:19:56 -0800 (PST)
+ us-mta-536-YVDz6i9PM86X_E9OHlJP9g-1; Thu, 16 Jan 2025 15:32:13 -0500
+X-MC-Unique: YVDz6i9PM86X_E9OHlJP9g-1
+X-Mimecast-MFC-AGG-ID: YVDz6i9PM86X_E9OHlJP9g
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-216311faa51so23093735ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 16 Jan 2025 12:32:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737058795; x=1737663595;
+        d=1e100.net; s=20230601; t=1737059532; x=1737664332;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hxyx17H16LTaCMPogGfVhxD8KdAjR1MUqsEp+1MdmBk=;
-        b=Pe1Vpf/VRkSS8ii+F64urF0ga4CyJg4ePcwTUVqq3o1e7EZCNzjc5sMXHZ59CJwXH2
-         /qOaeuzVrQxt371htdKCo9WWqUONkVvr5aWfsnnkQ0Vc/EYUhULf4evMn8kGNGQbLOK2
-         VatTfIZPjM3a0FDBmMuID1tVx98ymKRZvzc+XDexjvLawZKu4EeoxRAyKiOENRPxzwjx
-         MY9Vw++hr2MNQ2vV2TrTGjTk7N0QPPRwltLD2cjmZwuNe8dWwGGk2uZ0Gkx0tgOi0qU9
-         acF8P8EYqBugyeRxku/v15276WtGB0TFl0ce2S7mORnuYFc0lsfoXEgmTHKC+klsUpjS
-         YzqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV2JmSkyVqPVnhcL06c76JgTXKRSEAKunRKEx9yFQOGzA1a4cAv3eKCDcsJmKGIo2QGPJ3BeS5W1tU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzB7GgZ1sxm6czM/U3b5/QmIDA9tbLM71A+QFPvQMaVs4Kg2JSo
-	ZYARWxaMGL4Mj37kcZuSkR34z3+VLVnbtjxmT8JI1IE9kxprDdmojX1XbtKiDRwsFE+gEz6uQvX
-	nnHstfAWDuPIn/E8H9HsLjn8AzfKiPyR6NlM6WAsF3rwq8AoPtAa5n9/kgw==
-X-Gm-Gg: ASbGncuNj3EgsQaN3vJIbKvmSGKkqz88CvYONl0dti2veMwPQySl82T3xDkgkkLwbMH
-	rvWsvZWhU0i55XLdhYJgptIjXmtptlIswxnZvbasgTfbPHzfCjuVYnByFuZZ4PFgp0iPFFv9nKw
-	eMYq/yGIAt4pxR1uur8FxTMbnJ3p6R2XFu8ch+gjtZUE4XfJigqnfT6DRDSH8zfuxXBWvUTXsNO
-	8fVmFZv3CVZudZlKN7orJGFvzNsdTIEl/HNbG671AOzCoMOnx90TjTEgsYxAqLLEw5IiSFcdeNN
-	cH0A+Hhh7PcDQCsuMw==
-X-Received: by 2002:a17:903:1105:b0:216:6f1a:1c81 with SMTP id d9443c01a7336-21c352c77eamr1589225ad.2.1737058795388;
-        Thu, 16 Jan 2025 12:19:55 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFCdUZtxdruuZ9dhKBDB1S+oAh8pcb12HPEW8IyTWaMSLHmWxJL1Esm0PAWT5jrhgt1RJfKYw==
-X-Received: by 2002:a17:903:1105:b0:216:6f1a:1c81 with SMTP id d9443c01a7336-21c352c77eamr1588855ad.2.1737058795018;
-        Thu, 16 Jan 2025 12:19:55 -0800 (PST)
+        bh=cBjXp+Q0kBMQo93pn9/JG/mDdpOMWtXcKEJJB7g0DX0=;
+        b=OcH0sLywucyRMxWPqL1d/6yQSrFUKBMhEKZKNhcz66t82hZj4iQ5fRYmUXxE3ZH7th
+         ZwLXHD3RtI23ckcN4llV5g8rEDZWDdlwatu3YL25/6ga79VjBM80bLayTV8+WPljlQzN
+         uSj6HPB+PHbJyPC/6sI7DrDMQMX5WKiGI0DesKT0uqTDCZqWGKliq3cwR1vfuwFrRFEn
+         AIm1kfDw4dGNxC5D/raak/h/674lmDFkVhVOHBKuB/Rxnadx4VKt7BDekNZgXJq8XNw3
+         AFBziOPeo+xySk4egw8NmcutRRtFj1dAoMmwi5BAiag/LNOMr8Zq0RVR9UyBb9yekpxv
+         hwEw==
+X-Forwarded-Encrypted: i=1; AJvYcCU14qAo1BMZLw5oldmmAcgtbitgyWlvXL01WoyLgKKC6fR7Jj3unIqDoz+jJuynrde20xeurgNNbQ4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzggsRMaHuWsaHIEKI/8dp8OM2Sf92hPv/2wqaG1LDTkpw3Mt+L
+	z8ZosgiDVJ/4r3+4b6bCoMoI1xZ7t+loPgHqZkgZVqWgcyrL9L8SLUt1HFvs16uMcU9C5oXRmIj
+	lSrFFyEOsYW6lzxb8wg10jnqJBS/hVs7N6uA1clDfPxLShsugp1WrM7Ko/PojoTDHyA==
+X-Gm-Gg: ASbGnct7gyusVxTmP0qjnkHYF4pxfWSjA1tNM4aWpUg2J4VFytc/vMYg292x90M4oqG
+	6bLVRsEk4ASyAw8/K8QzTL3PPS6QJl5cnl7yvtTQq6hr7DLlw27Vavp1s4lD6lrfTUlXwmNegBO
+	D2OkuCCvjQsuTIfeOwLglKHa1SDt+NgH7R7aFdux4tbgi42gNtl7uZl0g2m7JaItfs9SbOjpFqp
+	m4DlbHQU8+GEUdZdICE253FyXI2rddgw48sxfwgwwyX5kpyMm3XXWX367Y1CeVXED/Q4KfWlkhr
+	pgmLWcK80wd/YEDIWA==
+X-Received: by 2002:a17:903:238e:b0:216:311e:b1c4 with SMTP id d9443c01a7336-21bf029e049mr110709235ad.4.1737059532474;
+        Thu, 16 Jan 2025 12:32:12 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEKxzy3YKG0/4peNFIGTyI8M6fxHbUDzV/T0Dy6Fv99Nr5xuebiMcqfPD2o4c5t4sCUc/gI8A==
+X-Received: by 2002:a17:903:238e:b0:216:311e:b1c4 with SMTP id d9443c01a7336-21bf029e049mr110708925ad.4.1737059532113;
+        Thu, 16 Jan 2025 12:32:12 -0800 (PST)
 Received: from x1n (pool-99-254-114-190.cpe.net.cable.rogers.com. [99.254.114.190])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21c2d3ac3e2sm3791465ad.139.2025.01.16.12.19.52
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-a9bdd30e9adsm444712a12.62.2025.01.16.12.32.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jan 2025 12:19:54 -0800 (PST)
-Date: Thu, 16 Jan 2025 15:19:49 -0500
+        Thu, 16 Jan 2025 12:32:11 -0800 (PST)
+Date: Thu, 16 Jan 2025 15:32:06 -0500
 From: Peter Xu <peterx@redhat.com>
 To: James Houghton <jthoughton@google.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -79,10 +79,11 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	kvmarm@lists.linux.dev
 Subject: Re: [PATCH v1 00/13] KVM: Introduce KVM Userfault
-Message-ID: <Z4lp5QzdOX0oYGOk@x1n>
+Message-ID: <Z4lsxgFSdiqpNtdG@x1n>
 References: <20241204191349.1730936-1-jthoughton@google.com>
  <Z2simHWeYbww90OZ@x1n>
  <CADrL8HUkP2ti1yWwp=1LwTX2Koit5Pk6LFcOyTpN2b+B3MfKuw@mail.gmail.com>
+ <Z4lp5QzdOX0oYGOk@x1n>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -91,50 +92,65 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CADrL8HUkP2ti1yWwp=1LwTX2Koit5Pk6LFcOyTpN2b+B3MfKuw@mail.gmail.com>
+In-Reply-To: <Z4lp5QzdOX0oYGOk@x1n>
 
-James,
-
-Sorry for a late reply.
-
-I still do have one or two pure questions, but nothing directly relevant to
-your series.
-
-On Thu, Jan 02, 2025 at 12:53:11PM -0500, James Houghton wrote:
-> So I'm not pushing for KVM Userfault to replace userfaultfd; it's not
-> worth the extra/duplicated complexity. And at LPC, Paolo and Sean
-> indicated that this direction was indeed wrong. I have another way to
-> make this work in mind. :)
-
-Do you still want to share it, more or less? :)
-
+On Thu, Jan 16, 2025 at 03:19:49PM -0500, Peter Xu wrote:
+> James,
 > 
-> For the gmem case, userfaultfd cannot be used, so KVM Userfault isn't
-> replacing it. And as of right now anyway, KVM Userfault *does* provide
-> a complete post-copy system for gmem.
+> Sorry for a late reply.
 > 
-> When gmem pages can be mapped into userspace, for post-copy to remain
-> functional, userspace-mapped gmem will need userfaultfd integration.
-> Keep in mind that even after this integration happens, userfaultfd
-> alone will *not* be a complete post-copy solution, as vCPU faults
-> won't be resolved via the userspace page tables.
+> I still do have one or two pure questions, but nothing directly relevant to
+> your series.
+> 
+> On Thu, Jan 02, 2025 at 12:53:11PM -0500, James Houghton wrote:
+> > So I'm not pushing for KVM Userfault to replace userfaultfd; it's not
+> > worth the extra/duplicated complexity. And at LPC, Paolo and Sean
+> > indicated that this direction was indeed wrong. I have another way to
+> > make this work in mind. :)
+> 
+> Do you still want to share it, more or less? :)
+> 
+> > 
+> > For the gmem case, userfaultfd cannot be used, so KVM Userfault isn't
+> > replacing it. And as of right now anyway, KVM Userfault *does* provide
+> > a complete post-copy system for gmem.
+> > 
+> > When gmem pages can be mapped into userspace, for post-copy to remain
+> > functional, userspace-mapped gmem will need userfaultfd integration.
+> > Keep in mind that even after this integration happens, userfaultfd
+> > alone will *not* be a complete post-copy solution, as vCPU faults
+> > won't be resolved via the userspace page tables.
+> 
+> Do you know in context of CoCo, whether a private page can be accessed at
+> all outside of KVM?
+> 
+> I think I'm pretty sure now a private page can never be mapped to
+> userspace.  However, can another module like vhost-kernel access it during
+> postcopy?  My impression of that is still a yes, but then how about
+> vhost-user?
+> 
+> Here, the "vhost-kernel" part represents a question on whether private
+> pages can be accessed at all outside KVM.  While "vhost-user" part
+> represents a question on whether, if the previous vhost-kernel question
+> answers as "yes it can", such access attempt can happen in another
+> process/task (hence, not only does it lack KVM context, but also not
+> sharing the same task context).
 
-Do you know in context of CoCo, whether a private page can be accessed at
-all outside of KVM?
+Right after I sent it, I just recalled whenever a device needs to access
+the page, it needs to be converted to shared pages first..
 
-I think I'm pretty sure now a private page can never be mapped to
-userspace.  However, can another module like vhost-kernel access it during
-postcopy?  My impression of that is still a yes, but then how about
-vhost-user?
+So I suppose the questions were not valid at all!  It is not about the
+context but that the pages will be shared always whenever a device in
+whatever form will access it..
 
-Here, the "vhost-kernel" part represents a question on whether private
-pages can be accessed at all outside KVM.  While "vhost-user" part
-represents a question on whether, if the previous vhost-kernel question
-answers as "yes it can", such access attempt can happen in another
-process/task (hence, not only does it lack KVM context, but also not
-sharing the same task context).
+Fundamentally I'm thinking about whether userfaultfd must support (fd,
+offset) tuple.  Now I suppose it's not, because vCPUs accessing
+private/shared will all exit to userspace, while all non-vCPU / devices can
+access shared pages only.
 
-Thanks,
+In that case, looks like userfaultfd can support CoCo on device emulations
+by sticking with virtual-address traps like before, at least from that
+specific POV.
 
 -- 
 Peter Xu
