@@ -1,96 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71DB1482E8;
-	Thu, 16 Jan 2025 18:10:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 118D9159596;
+	Thu, 16 Jan 2025 18:17:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737051043; cv=none; b=btYRo6cDMwwKrY+Axv5K8q7qIzPeT0I6raRM2Q/odI4vgqC75sy7SqcOnuz7P+s1lEDXSbEnDZM23+PE8kjFmvBy6HAJhp1ovJ9z0X6CpmHaXflP/7fcepNJXvOLZZdc/GzS5+y0ZQNRmG55eBEb7znoSnm6xalHO5/ZCqvMAxM=
+	t=1737051426; cv=none; b=WK4yseNSQpRmaKk8NCXAmXi/XiAyuPTlLugDiCeSLZNwig7dCKKAEFf8uHzrstaIJYTykMmOkLsilwZBMLtIfvgYU+IeyX38u+jkRhOm1Qmv0xJ+2ahd5U2+gDupDXALITe0HjKI8HKYg1Oqj5LqKT7hQZwl2CMJzg3/SJ6pVos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737051043; c=relaxed/simple;
-	bh=3NPNVC/E+a5ogmqsDrO+ad+5/SAxzcsOqBJ6RdfKlRw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qWe+vucq8Q2Y6rqUuVAQKcQOQJOyU5nxHTbAlj1ono1asupWsoUW0TZRL9X0W1bjv0YeimxBb44QidcSWt38d4I7lFOz+L8arSNIzi8l7Bzpr1jSDnBQ/ekovkBoK2LtHYB9BqwQw+idG2KppITcPHfC0BMCjZ0d++oXcGtUjDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CHIdAXgu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737051426; c=relaxed/simple;
+	bh=qPbh2ajnUH3leIiWYRYjdwFf4GEI2DpQa0pPxXcpIwE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Y78gUukNFqBJ4aVH7lteMIbgR82ruDbuHqbvJ7KQLhC5s0ZtPTxV02vJPu1cyGkYSPvH3Ni1DaEApXkrbBMhXzUcHMxsXiEXBgQ2KoklRVjqAO/q56OC8g3pKlskyJqCcrUdgbfpZ66TErBgZV4qu9OykyccLs5Qi+onqTqod4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=qOQK+xV4; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CHIdAXgu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CBF1C4CED6;
-	Thu, 16 Jan 2025 18:10:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737051043;
-	bh=3NPNVC/E+a5ogmqsDrO+ad+5/SAxzcsOqBJ6RdfKlRw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CHIdAXguuoXK7Vj6gWR/Z4V/vKlBvj2HVoBMVtKiKn0WOGCaQPSHzmEGPebTFOdun
-	 AS2ImwmzDume/LULoK2oJBea/fnoPDeQeGxKWTu/z0oCHINZdOqc9PQAU97Vy4mrgN
-	 QV5s67/cvf+glaD8loqDD48KmpXi8AEERTjFh6P022HVu7wVWS2g7xuzFJDGBlgpiC
-	 2rwAwvm7ubem9vcPeyXupP+i1YZ8w8tPSLOoZJAzoCIVV6nDjf3dq+d6dNL2SBAtPr
-	 MLXaZibUVXYVtpO4/PNFFdaToV2vrQPJurJhmq+RYkqDnQnw81rqo8Tdc2IWue3D+x
-	 u9dk+K41ncx3A==
-Date: Thu, 16 Jan 2025 18:10:37 +0000
-From: Simon Horman <horms@kernel.org>
-To: Gur Stavi <gur.stavi@huawei.com>
-Cc: gongfan <gongfan1@huawei.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Cai Huoqing <cai.huoqing@linux.dev>, luosifu <luosifu@huawei.com>,
-	Xin Guo <guoxin09@huawei.com>,
-	Shen Chenyang <shenchenyang1@hisilicon.com>,
-	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
-	Shi Jing <shijing34@huawei.com>,
-	Meny Yossefi <meny.yossefi@huawei.com>,
-	Suman Ghosh <sumang@marvell.com>
-Subject: Re: [PATCH net-next v04 1/1] hinic3: module initialization and tx/rx
- logic
-Message-ID: <20250116181037.GE6206@kernel.org>
-References: <cover.1737013558.git.gur.stavi@huawei.com>
- <992e332acb3743df9898eebba05934c2775862b5.1737013558.git.gur.stavi@huawei.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="qOQK+xV4"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 08260404F0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1737051424; bh=2BRVNA8zLFK2nkJRN2qjzzDWBprO8fkqkgsSO9NH6M0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=qOQK+xV4cATIohmdY8sX8Ni9P+UJ+0RbzZfXqyFAWrmdTxjzKFY4Y2opkIHUrM9fM
+	 DEXFhVG0sc4l3FabeH9LmePNGAedifU65cmMrR6KD5cjvWagMN8Q+CHKp4AUHHkfTw
+	 2xg6zsNq1gvFpKGPrUIgj4frFzHuRq/53/fzeoj15fns3+MAD+0UldFcVXoUh1JLr2
+	 ChIr9rBmITmzF5GBjg9reGCzRjQO/qE82Ulc3K7vYja27jHPI8O0+BFnueYw9+rpQu
+	 Gbma0z2uEpdbEgeWJcfOeP/8bxlodXGZorJJydyrenrrAH/NQKRRTbpblJDjjPeSWz
+	 gfJ2u6jD4pLXw==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 08260404F0;
+	Thu, 16 Jan 2025 18:17:03 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: I Hsin Cheng <richard120310@gmail.com>
+Cc: akpm@linux-foundation.org, jserv@ccns.ncku.edu.tw,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, I Hsin Cheng
+ <richard120310@gmail.com>
+Subject: Re: [PATCH] docs/mm: Physical memory: Remove zone_t
+In-Reply-To: <20250115070355.41769-1-richard120310@gmail.com>
+References: <20250115070355.41769-1-richard120310@gmail.com>
+Date: Thu, 16 Jan 2025 11:17:03 -0700
+Message-ID: <87r052zkrk.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <992e332acb3743df9898eebba05934c2775862b5.1737013558.git.gur.stavi@huawei.com>
+Content-Type: text/plain
 
-On Thu, Jan 16, 2025 at 09:51:53AM +0200, Gur Stavi wrote:
-> From: gongfan <gongfan1@huawei.com>
-> 
-> This is [1/3] part of hinic3 Ethernet driver initial submission.
-> With this patch hinic3 is a valid kernel module but non-functional
-> driver.
-> 
-> The driver parts contained in this patch:
-> Module initialization.
-> PCI driver registration but with empty id_table.
-> Auxiliary driver registration.
-> Net device_ops registration but open/stop are empty stubs.
-> tx/rx logic.
-> 
-> All major data structures of the driver are fully introduced with the
-> code that uses them but without their initialization code that requires
-> management interface with the hw.
-> 
-> Submitted-by: Gur Stavi <gur.stavi@huawei.com>
-> Signed-off-by: Gur Stavi <gur.stavi@huawei.com>
-> Signed-off-by: Xin Guo <guoxin09@huawei.com>
-> Signed-off-by: gongfan <gongfan1@huawei.com>
+I Hsin Cheng <richard120310@gmail.com> writes:
 
-...
+> "zone_t" doesn't exist in current code base anymore, remove the
+> description of it.
+>
+> Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
+> ---
+>  Documentation/mm/physical_memory.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/mm/physical_memory.rst b/Documentation/mm/physical_memory.rst
+> index 531e73b00..71fd4a6ac 100644
+> --- a/Documentation/mm/physical_memory.rst
+> +++ b/Documentation/mm/physical_memory.rst
+> @@ -33,7 +33,7 @@ The entire physical address space is partitioned into one or more blocks
+>  called zones which represent ranges within memory. These ranges are usually
+>  determined by architectural constraints for accessing the physical memory.
+>  The memory range within a node that corresponds to a particular zone is
+> -described by a ``struct zone``, typedeffed to ``zone_t``. Each zone has
+> +described by a ``struct zone``. Each zone has
+>  one of the types described below.
 
-> diff --git a/Documentation/networking/device_drivers/ethernet/huawei/hinic3.rst b/Documentation/networking/device_drivers/ethernet/huawei/hinic3.rst
+Makes sense; applied, thanks.
 
-...
-
-> +Completion Event Queue (CEQ)
-> +--------------------------
-
-nit: the length of the "---" line doesn't match that of the line above it.
-
-...
+jon
