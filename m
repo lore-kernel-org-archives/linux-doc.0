@@ -1,193 +1,179 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8B8F1C695
-	for <linux-doc@vger.kernel.org>; Thu, 16 Jan 2025 01:07:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B28A45948;
+	Thu, 16 Jan 2025 01:16:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736989629; cv=none; b=qq1/vxKGLO2fLMR7nSeENBuf3gUMQbP2peOcmm4nHK7NCy2o9OHMYu3UmU250Yi18zmZjwuuYQ5bt/Z6zjt5+AIuQE5uyHoOaHpwgN6qHGTRrkNUUWPBpkuM0cSdLBbt3VLcOeJRYkRQEivw1vrbyyHkXBXVOw5zEHS0odbrZzY=
+	t=1736990210; cv=none; b=hGLKlgRF+JICsPCBhCaMAFSPr9WnPUzSb+gMPJazaDdWgmigJKFJHVOVilEYQJoHH6ozCBOqwM8Xc5mI5KoV/DX73IwiYFwcEEsfGYUzGt5DtgQCl6LgRUhgSfr4YfkCi7rvZtS/epTHbPVBBeQGZ6lTtJ05g0tYC0Jqe6G0aco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736989629; c=relaxed/simple;
-	bh=wlj81as0MSR+2QoKMzymAk7Z0bJsw6YvCNC5UATgJPE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nD3HNAD8weVq/uFFNwgquO2np9CCKGIkE7k/pC0gbtZ1CEU0kyxHmBPc6o51eBdFxPlgn+qKlK0v/sYcPXUK7ncOQ9ACd7fJfFg9Uc8pPOPKuEszpKk6zW5zo5zhCekkW3qQzKxa6NXTRqE3+XC7x4kOZZ45KdLyegyKJuea6TY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=c6CHozNQ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1736990210; c=relaxed/simple;
+	bh=ccQY1ziqOeTqcuw1nwRxGyLiLZ4lSa7MhaVJB0pWmok=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o8A0MxYgQx+yi0hKmCQifgy4KGZjn8jxk0lSoxW8rM2VXvD1OcPiSvgzx3q8Sjzg/wMuHcpweF36XGSW8IdOyA3RmhUf7n1xJN1GCoCEBAPe0vxZNYn4DTuIz8dbFQ6/YY4RwBsswOCqsoKiEkuOtgncNdbWmwXzuCzeh/sZSqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Oaa9viUd; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c6CHozNQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1736989626;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wlj81as0MSR+2QoKMzymAk7Z0bJsw6YvCNC5UATgJPE=;
-	b=c6CHozNQ3cABqv47p2DRAo+iKhjcEiTi3qiXXVXXKYen1EdrTmiUi1sAL7QwNRmSUAKZSh
-	Y2I8rq0ID7+E0VvwWzcITofTOIIqSHjRUrwhW6+DjmQrWPHu4yeo3knzOQHBLJQlEp2ERl
-	eXxxFObz3HjTkjrT+g+V4cm+9X9rHWs=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-133-GMN3KEtzP7qkKd5y24elJg-1; Wed, 15 Jan 2025 20:07:05 -0500
-X-MC-Unique: GMN3KEtzP7qkKd5y24elJg-1
-X-Mimecast-MFC-AGG-ID: GMN3KEtzP7qkKd5y24elJg
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-2ef9204f898so848037a91.2
-        for <linux-doc@vger.kernel.org>; Wed, 15 Jan 2025 17:07:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736989624; x=1737594424;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wlj81as0MSR+2QoKMzymAk7Z0bJsw6YvCNC5UATgJPE=;
-        b=rzfBHZ522cnIUNjEUTO5bsYsTUQTn9zNG2wR1nrTdVys+HhPqO2FQ5NadR9srH/mKS
-         gm8Yr80DzWz0a+gvsUdMHBgexEsqCTXVsqDbiPqIuYF8RxKTLoeE2RRKg/GQb+yRRZr9
-         BMg1YDLtuEI+Fs1x/b97FUOhAYbY/TzxrkyVVtI/am32+L44Zdh8+q2a9q8Ipjn9VHSq
-         vsHXgRvS+qAB5ALTgMnVu+7/xdQNfokYLdqbUcUjnlTzXPWQEVTCMDE3YdpeoMfXgsE5
-         Uo5/yiwX8CiTKEMLAP/AOPasguVE1AVm1WBsKUykPnNC/ix7TG3iI/HVvzXtfKlohbl1
-         YSHw==
-X-Forwarded-Encrypted: i=1; AJvYcCXqB+Km7UpCAkmGRZIIdZ7fEunSEBJRPI6pODm8kJjSCLRoqXHXILysLFYMnplMqHbR3ySOPTMTj6g=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywv5Y1JFn3fi8xcN7QTK9lpIIu9Ayj4spYPXWoJDMlRh7wSeqM5
-	d86aEXih2YW4Gmrv/hc4LtmzM+k7Gr5N04KDfTWGMe7OoEOqadZqzxPKqoO9KSuDdPQKDIubVan
-	GLdcXntHCTY3LLbilDEZhg7DHSF9SBCk+YYvOexZ/QsCBBBGTqUpoBPdyto9xKGP7u+P6uui5SV
-	cjW0OrLfq/QitpLqXrINO+tv8xXOX34DW1
-X-Gm-Gg: ASbGnctqSp0wh3eAn1Tt5IwdqL+ONo89Q4j6sG6W7uTAOX833gGmxROcAKKYd5tsUyN
-	3rbakyQCgJQSdB+iaFnxpI/bqKBQjFNQfHXkKi3M=
-X-Received: by 2002:a17:90b:51cb:b0:2ef:3192:d280 with SMTP id 98e67ed59e1d1-2f548f162acmr41742263a91.5.1736989624168;
-        Wed, 15 Jan 2025 17:07:04 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFXTlxUYfojfThpUlYe1bY0TrNIHeZ7wOATIqqDywvf5ON2WLv7gIgxHZLXiKaVB1ytp3colHV+0p05xw+gzAU=
-X-Received: by 2002:a17:90b:51cb:b0:2ef:3192:d280 with SMTP id
- 98e67ed59e1d1-2f548f162acmr41742236a91.5.1736989623732; Wed, 15 Jan 2025
- 17:07:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Oaa9viUd"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50FGn6R4028621;
+	Thu, 16 Jan 2025 01:16:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	cPr0S5mO7P+GKPipZ1nGtlwrnrd/h5OSZtw894A+hbo=; b=Oaa9viUd6NYDjasl
+	HdJm5eVhudHWTlHsXMq9J3rzYZ3pyntf47gIVLWTwAhTHXvxEgA1W8Gl+bw4I3R8
+	lz8v5qlEPA4LV869qEEkw2HSecb9LlnCiDET1FT0LnWGDTwiHE6VYyJcGqNfTJdN
+	1coLOev/VxaA3Rg+6LcSLD5BrFpv3j3CiPXwCGm4xCSsUt7i3K7kjzrOZaOpA4D6
+	hZ1oXujsKDDUjOFEOuF5xo3tne7Ta0SUhTcb9KAw/yjC62wFqnNWUIzXImKVsxIQ
+	r4ELsey/iiNyYC/EjRS49KRNrPGbSUu5Y0d0zn1tqxaRz+xfo80VBX5j9lUZSGN/
+	27zOkA==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 446fgm17yb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 16 Jan 2025 01:16:24 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50G1GNBM017104
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 16 Jan 2025 01:16:23 GMT
+Received: from hu-jiangenj-sha.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 15 Jan 2025 17:16:16 -0800
+Date: Thu, 16 Jan 2025 06:46:13 +0530
+From: Joey Jiao <quic_jiangenj@quicinc.com>
+To: Alexander Potapenko <glider@google.com>
+CC: Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+        "Andrey Konovalov" <andreyknvl@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        Dennis Zhou <dennis@kernel.org>, "Tejun Heo" <tj@kernel.org>,
+        Christoph Lameter <cl@linux.com>,
+        Catalin
+ Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, <kasan-dev@googlegroups.com>,
+        <linux-kernel@vger.kernel.org>, <workflows@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-mm@kvack.org>,
+        <linux-arm-kernel@lists.infradead.org>, <kernel@quicinc.com>
+Subject: Re: [PATCH 0/7] kcov: Introduce New Unique PC|EDGE|CMP Modes
+Message-ID: <Z4hd3bLA0178RxDi@hu-jiangenj-sha.qualcomm.com>
+References: <20250114-kcov-v1-0-004294b931a2@quicinc.com>
+ <CANpmjNPUFnxvY-dnEAv09-qB5d0LY_vmyxhb3ZPJV-T9V9Q6fg@mail.gmail.com>
+ <Z4ZfzoqhrJA0jeQI@hu-jiangenj-sha.qualcomm.com>
+ <CAG_fn=XFkNVkT3EmB99SdEBAwkGq3EUdM9xR4rzH_HatrJw8rQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250109-tun-v2-0-388d7d5a287a@daynix.com> <20250109-tun-v2-3-388d7d5a287a@daynix.com>
- <CACGkMEsm5DCb+n3NYeRjmq3rAANztZz5QmV8rbPNo+cH-=VzDQ@mail.gmail.com>
- <20250110052246-mutt-send-email-mst@kernel.org> <2e015ee6-8a3b-43fb-b119-e1921139c74b@daynix.com>
- <CACGkMEuiyfH-QitiiKJ__-8NiTjoOfc8Nx5BwLM-GOfPpVEitA@mail.gmail.com> <fcb301e8-c808-4e20-92dd-2e3b83998d18@daynix.com>
-In-Reply-To: <fcb301e8-c808-4e20-92dd-2e3b83998d18@daynix.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 16 Jan 2025 09:06:52 +0800
-X-Gm-Features: AbW1kvY854xB4UWOJdJLBydWl06vsh4taL7pE63yt9P1_IVO_L6kO5WvWI7S_B8
-Message-ID: <CACGkMEvBU3mLbW+-nOscriR-SeDvPSm1mtwwgznYFOocuao5MQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] tun: Set num_buffers for virtio 1.0
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, kvm@vger.kernel.org, 
-	virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
-	Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko <andrew@daynix.com>, 
-	Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com, devel@daynix.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAG_fn=XFkNVkT3EmB99SdEBAwkGq3EUdM9xR4rzH_HatrJw8rQ@mail.gmail.com>
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Z_olEk4WcSq3hsN4Oww5nUKM69KgZkLL
+X-Proofpoint-ORIG-GUID: Z_olEk4WcSq3hsN4Oww5nUKM69KgZkLL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-15_11,2025-01-15_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ malwarescore=0 impostorscore=0 mlxlogscore=536 bulkscore=0 suspectscore=0
+ clxscore=1015 spamscore=0 adultscore=0 priorityscore=1501 phishscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501160007
 
-On Wed, Jan 15, 2025 at 1:07=E2=80=AFPM Akihiko Odaki <akihiko.odaki@daynix=
-.com> wrote:
->
-> On 2025/01/13 12:04, Jason Wang wrote:
-> > On Fri, Jan 10, 2025 at 7:12=E2=80=AFPM Akihiko Odaki <akihiko.odaki@da=
-ynix.com> wrote:
-> >>
-> >> On 2025/01/10 19:23, Michael S. Tsirkin wrote:
-> >>> On Fri, Jan 10, 2025 at 11:27:13AM +0800, Jason Wang wrote:
-> >>>> On Thu, Jan 9, 2025 at 2:59=E2=80=AFPM Akihiko Odaki <akihiko.odaki@=
-daynix.com> wrote:
-> >>>>>
-> >>>>> The specification says the device MUST set num_buffers to 1 if
-> >>>>> VIRTIO_NET_F_MRG_RXBUF has not been negotiated.
-> >>>>
-> >>>> Have we agreed on how to fix the spec or not?
-> >>>>
-> >>>> As I replied in the spec patch, if we just remove this "MUST", it
-> >>>> looks like we are all fine?
-> >>>>
-> >>>> Thanks
-> >>>
-> >>> We should replace MUST with SHOULD but it is not all fine,
-> >>> ignoring SHOULD is a quality of implementation issue.
-> >>>
+On Wed, Jan 15, 2025 at 04:16:57PM +0100, Alexander Potapenko wrote:
+> On Tue, Jan 14, 2025 at 2:00 PM Joey Jiao <quic_jiangenj@quicinc.com> wrote:
 > >
-> > So is this something that the driver should notice?
-> >
-> >>
-> >> Should we really replace it? It would mean that a driver conformant wi=
-th
-> >> the current specification may not be compatible with a device conforma=
-nt
-> >> with the future specification.
-> >
-> > I don't get this. We are talking about devices and we want to relax so
-> > it should compatibile.
->
->
-> The problem is:
-> 1) On the device side, the num_buffers can be left uninitialized due to b=
-ugs
-> 2) On the driver side, the specification allows assuming the num_buffers
-> is set to one.
->
-> Relaxing the device requirement will replace "due to bugs" with
-> "according to the specification" in 1). It still contradicts with 2) so
-> does not fix compatibility.
+> > On Tue, Jan 14, 2025 at 11:43:08AM +0100, Marco Elver wrote:
+> > > On Tue, 14 Jan 2025 at 06:35, Jiao, Joey <quic_jiangenj@quicinc.com> wrote:
+> > > >
+> > > > Hi,
+> > > >
+> > > > This patch series introduces new kcov unique modes:
+> > > > `KCOV_TRACE_UNIQ_[PC|EDGE|CMP]`, which are used to collect unique PC, EDGE,
+> > > > CMP information.
+> > > >
+> > > > Background
+> > > > ----------
+> > > >
+> > > > In the current kcov implementation, when `__sanitizer_cov_trace_pc` is hit,
+> > > > the instruction pointer (IP) is stored sequentially in an area. Userspace
+> > > > programs then read this area to record covered PCs and calculate covered
+> > > > edges.  However, recent syzkaller runs show that many syscalls likely have
+> > > > `pos > t->kcov_size`, leading to kcov overflow. To address this issue, we
+> > > > introduce new kcov unique modes.
+> 
+> Hi Joey,
+> 
+> Sorry for not responding earlier, I thought I'd come with a working
+> proposal, but it is taking a while.
+> You are right that kcov is prone to overflows, and we might be missing
+> interesting coverage because of that.
+> 
+> Recently we've been discussing the applicability of
+> -fsanitize-coverage=trace-pc-guard to this problem, and it is almost
+> working already.
+Can you share the patch? I was tried trace-pc-guard but had the same unique 
+info problem.
+> The idea is as follows:
+> - -fsanitize-coverage=trace-pc-guard instruments basic blocks with
+> calls to `__sanitizer_cov_trace_pc_guard(u32 *guard)`, each taking a
+> unique 32-bit global in the __sancov_guards section;
+> - these globals are zero-initialized, but upon the first call to
+> __sanitizer_cov_trace_pc_guard() from each callsite, the corresponding
+> global will receive a unique consequent number;
+> - now we have a mapping of PCs into indices, which can we use to
+> deduplicate the coverage:
+> -- storing PCs by their index taken from *guard directly in the
+> user-supplied buffer (which size will not exceed several megabytes in
+> practice);
+> -- using a per-task bitmap (at most hundreds of kilobytes) to mark
+> visited basic blocks, and appending newly encountered PCs to the
+> user-supplied buffer like it's done now.
+Why at most hundreds of kilobytes? Still stored in sequence? Assume we have 2GB 
+kernel text, then bitmap will have 64MB for unique basic blocks?
+> 
+> I think this approach is more promising than using hashmaps in kcov:
+> - direct mapping should be way faster than a hashmap (and the overhead
+> of index allocation is amortized, because they are persistent between
+> program runs);
+> - there cannot be collisions;
+> - no additional complexity from pool allocations, RCU synchronization.
+> 
+> The above approach will naturally break edge coverage, as there will
+> be no notion of a program trace anymore.
+I think guard value is equavalent to the effect of edge? We can use the guard 
+value in syzkaller as edge info?
+> But it is still a question whether edges are helping the fuzzer, and
+> correctly deduplicating them may not be worth the effort.
+> 
+> If you don't object, I would like to finish prototyping coverage
+> guards for kcov before proceeding with this review.
+> 
+> Alex
+Thanks Alex, sure, please continue the guards patches.
+Also I think we can still store the covered PC inside 
+__santizer_cov_trace_pc_guard, right?
 
-Just to clarify I meant we can simply remove the following:
-
-"""
-The device MUST use only a single descriptor if VIRTIO_NET_F_MRG_RXBUF
-was not negotiated. Note: This means that num_buffers will always be 1
-if VIRTIO_NET_F_MRG_RXBUF is not negotiated.
-"""
-
-And
-
-"""
-If VIRTIO_NET_F_MRG_RXBUF has not been negotiated, the device MUST set
-num_buffers to 1.
-"""
-
-This seems easier as it reflects the fact where some devices don't set
-it. And it eases the transitional device as it doesn't need to have
-any special care.
-
-Then we don't need any driver normative so I don't see any conflict.
-
-Michael suggests we use "SHOULD", but if this is something that the
-driver needs to be aware of I don't know how "SHOULD" can help a lot
-or not.
-
->
-> Instead, we should make the driver requirement stricter to change 2).
-> That is what "[PATCH v3] virtio-net: Ignore num_buffers when unused" does=
-:
-> https://lore.kernel.org/r/20250110-reserved-v3-1-2ade0a5d2090@daynix.com
->
-> >
-> >>
-> >> We are going to fix all implementations known to buggy (QEMU and Linux=
-)
-> >> anyway so I think it's just fine to leave that part of specification a=
-s is.
-> >
-> > I don't think we can fix it all.
->
-> It essentially only requires storing 16 bits. There are details we need
-> to work out, but it should be possible to fix.
-
-I meant it's not realistic to fix all the hypervisors. Note that
-modern devices have been implemented for about a decade so we may have
-too many versions of various hypervisors. (E.g DPDK seems to stick
-with the same behaviour of the current kernel).
-
->
-> Regards,
-> Akihiko Odaki
->
-
-Thanks
-
++void notrace __sanitizer_cov_trace_pc_guard(unsigned long* guard) {
++	struct task_struct *t;
++	struct kcov *kcov;
++	unsigned long ip = canonicalize_ip(_RET_IP_);
++
++	if (!*guard)
++		return;
+> 
+> > > > 2. [P 2-3] Introduce `KCOV_TRACE_UNIQ_EDGE` Mode:
+> > > >    - Save `prev_pc` to calculate edges with the current IP.
+> > > >    - Add unique edges to the hashmap.
+> > > >    - Use a lower 12-bit mask to make hash independent of module offsets.
+> 
+> Note that on ARM64 this will be effectively using bits 11:2, so if I
+> am understanding correctly more than a million coverage callbacks will
+> be mapped into one of 1024 buckets.
