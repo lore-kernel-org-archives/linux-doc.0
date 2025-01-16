@@ -1,376 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1601DB14C;
-	Thu, 16 Jan 2025 12:26:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97DE31DE3D9;
+	Thu, 16 Jan 2025 12:54:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737030388; cv=none; b=XiKKxHSpCnFG/w1o0x2PP2IJGGQsn4VySu//DdM4LB2jelchKfCJqWhUMj9hh/YoLxK2wGbNWpY26R/YAGpTvKmiMKB0EZGbpJB477mZsuDkFQE8k0CgjF/ycO1h3BxI00T9FYh4wMcH4wKO9Ofeu2Ee9t7vjZWEzgkf3SeCPJw=
+	t=1737032044; cv=none; b=WsXcmrFK2Xj5LzYX70ecg7fE24vKPNWfb8pT9UeO67hyaqtC6eLnWs4DsMYOTN76BVXOUO/nXUVE2LiGFjqJs8z5LyHpfHids/UlgMpSWAGvx2E6BN5oCZxBPk5102KkxRHITBlBln+ZzXwXLvYIo7nfxBp0t2Dui/VWAfYhCug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737030388; c=relaxed/simple;
-	bh=X91orxokhmepb4LxZVJk6zfnJISlTwLAQL8tWTUFeNE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YX63y5qZojYQWfCHhfNcIuFGS4SuSHAzlYSEDnfR1m/LEZNGBaIdDjDhJtfAihr1dQZS0cuQfB+Phkf7Yud78P3nseq8jRh0/eM0JvAZvpy5Y81r5h6uyDoMd9XCdf9m4LRW5OT33KskiITEySybUYKNi4YoEMzG/A9RXBlRetg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DLPD4Ick; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737032044; c=relaxed/simple;
+	bh=/smTJtfyV4jnOqCiO5F5O17FS608/jSCKpjgFAeV7QM=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=N6eD+rwjuD281Y/tq/Izetz2j0VpWAiPkXCG7ZWFM7oQ0XCG1He2w1FIxzqtn/J4STcDpLGPp3JRsDSE4l8v96kAG92Q7Ccz5MlJurdAG5cCYXWJaw1yMmrqNhrlwyDfDkDn46CnlE4TPT2leVo+KRLWE4rZ5c49XU/JDJZRRw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YkTm3tgt; arc=none smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DLPD4Ick"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88C86C4CEDD;
-	Thu, 16 Jan 2025 12:26:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737030388;
-	bh=X91orxokhmepb4LxZVJk6zfnJISlTwLAQL8tWTUFeNE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DLPD4IckMAhoNpOTuvvDGrFE5LIZpYpg1YR1p50xlUPf8ayvIdfjaVppeIi6D/UTZ
-	 QvAYan4lXsCZ39qfdWZaLck5niLRjtGZ2BEeLdomXmdr4NkMdD8BzZVfyP0v9Q7c9M
-	 DByaFe/SdChPdnsMFToDRiHGr1nmrc5r0gucWAKBSeW7LEkKWPdO2/yrk7tJ/mPG0F
-	 AkdOlt8flgAieo3ucllxjemHkZQSMN58vAqnNqaZzUSlZePHMgcPzaLpkDbmh3xBYN
-	 6cDEQRF3HYwKlZkG1rGDp+mnwHu0mrc3kOtuE1tMTpSPPLSh+LXxuw8+Gv0gLxhcKy
-	 c8mNQsPbavPhg==
-Date: Thu, 16 Jan 2025 13:26:25 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
-	Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Paul Kocialkowski <contact@paulk.fr>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-doc@vger.kernel.org, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v5 08/10] drm/bridge: samsung-dsim: use supporting
- variable for out_bridge
-Message-ID: <20250116-brave-feathered-dormouse-8ea4cf@houat>
-References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
- <20241231-hotplug-drm-bridge-v5-8-173065a1ece1@bootlin.com>
- <7kpgrgqp2jx6ivkwdc5ax3dfah2qkajaedpcdadldselr4bdlq@jewss2bdl4or>
- <20250102130149.5784c09b@booty>
- <20250110115819.55bc887b@booty>
- <20250116113236.39ba876a@booty>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YkTm3tgt"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-467a8d2d7f1so7764171cf.1;
+        Thu, 16 Jan 2025 04:54:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737032041; x=1737636841; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KQMffHB5V9jp1w/KCByUeoZ7ulffBvZYTaCL6OedkWM=;
+        b=YkTm3tgt/CqcpAZy8iDtx/pb1BgLvdvWORKFQvJXC+G+HBDmqP1BLWZ8yM55EulMbZ
+         XOIgjHTZLjayyltUDBLwCXWQkakWUkXT4+dWqeWXuyEKYbjXEqeW5rYuezZWfaMlj+O9
+         J/nIX2vW9x0ZdlvbI+qqkumCZtHqq84ObS9henHvGDtW77hrHEz96mC214wVq97FJQQD
+         iEc11AsZmG3sitUMNQoGokwssnhRaabQmMvhLDHJ/vKyZRXDso8j7dpEN4+y68V7BUD6
+         SUnrm8153JslZ5gYwH9sgXE4DhtQIAGjrI3nb22WkVcxizcL57tCyKrLOWKnMcrunRrx
+         H7Mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737032041; x=1737636841;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=KQMffHB5V9jp1w/KCByUeoZ7ulffBvZYTaCL6OedkWM=;
+        b=cOX9KcIjJELthFhppyo3R6UglxLr0LuYxssDrZIRsxT24AEEfJF0wkWR2cDZ/ef69v
+         gxaGiLdhSku1B2TZ9FG9RBCQspmza85ZnkpKpmkULHocqjRlFiLm0n0MCgigjRrunCnP
+         rUmNJlo7tj16APWb08R2xBKgCi930KdeC1H/5IhhVKYFk91GROKgDIOgbOImzINtfX0L
+         lc91G+JFapKaddFUPvMqZMREAl60BaihreCh8+ddo8XQHpylM8Tm2g+TBetfvL9fL+Zu
+         EJKfArQqyoYiHgoFBFWnVtvTWQuRj2Pg/nZ8RBQ4blvv5HG0AU1VDArekc0k1w/lrraQ
+         us8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUZouIgwORy3VW6fFkyxHrvJvCJcOwj8xda3a68t3MEGJbAa6FdwhkXtRtIqA/RWcbtw3pFMqAj@vger.kernel.org, AJvYcCVXFVHnrqdp8psi8otYsSx89uGkdqOFjte9evNp+sCcXxDkDM3cvTSPfpsGQmL3rY2J7xR16Nw5sRUfiVIoT7ZT@vger.kernel.org, AJvYcCWN5W/WRBHnWJJkYQb/lj64w4jLKs9ZVDVM+YRPA3JhZAPJi/vbfL8aAyYiqT8Y7MMZput6S+Ezb0wAY4yL@vger.kernel.org, AJvYcCWOEHmjxEaTV9lrWvr0QywswI3je3PXjoATyeWmrP1tfaOmlYk8NZwcajzzlwF5ji3jttM/zSxZVQzY@vger.kernel.org, AJvYcCXxPfg1go9vizdvYEIEFZ40N8IG606ug46kSLFm2n9naGIHcy/4qIAudkjLebkh9cvmdWo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxh0WeEmNicoFXrMiQdsVhgErcoFWDpi9WhkTUz8u1hqlLhPwEu
+	vuk76nMMp6QW26ppNifRyIBvmuz111paRmw1zL2slk/3RMu3t8+1
+X-Gm-Gg: ASbGnctJhibUyjptfJp1/y5YyhZ13t9u6PjBdrgcplc0Bq7MZfISrDv2L8poGiMs0fC
+	dqRn576agwbBy07UFROMaURRf+8COa8N+8FN11Tfe8/bsElQlzLa41RHyLhk+QHXNedF86o0jML
+	Oayc6SkPLKXv9lWnZCe1KtWHVKRkR8NcVcuruUpt+Ch/e/Yc9Bqfj8bjlpgUN8lYQPYhAGf/DKd
+	AG1E69fWE2sMTWCtcQnPvxxiVZNqklnV0IjAaLRNWP8v/GGK0PzD4F3z6abXQHM6T7GOG+bW+bN
+	GvR+2QhL8hVfedNAqI0y/7udtFTh
+X-Google-Smtp-Source: AGHT+IGAPwHCulVk3YA3srEPPAkpgIxRZlbJrc49E6sk7X4J2EiUFlVkp6rRmzHsvgqlARBJ+pjj/Q==
+X-Received: by 2002:ac8:5705:0:b0:466:85eb:6123 with SMTP id d75a77b69052e-46c71003317mr520830751cf.22.1737032041353;
+        Thu, 16 Jan 2025 04:54:01 -0800 (PST)
+Received: from localhost (15.60.86.34.bc.googleusercontent.com. [34.86.60.15])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6dfade72b59sm75303556d6.87.2025.01.16.04.54.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jan 2025 04:54:00 -0800 (PST)
+Date: Thu, 16 Jan 2025 07:54:00 -0500
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>, 
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Jason Wang <jasowang@redhat.com>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+ Shuah Khan <shuah@kernel.org>, 
+ linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ netdev@vger.kernel.org, 
+ kvm@vger.kernel.org, 
+ virtualization@lists.linux-foundation.org, 
+ linux-kselftest@vger.kernel.org, 
+ Yuri Benditovich <yuri.benditovich@daynix.com>, 
+ Andrew Melnychenko <andrew@daynix.com>, 
+ Stephen Hemminger <stephen@networkplumber.org>, 
+ gur.stavi@huawei.com, 
+ devel@daynix.com
+Message-ID: <678901682ff09_3710bc2944f@willemb.c.googlers.com.notmuch>
+In-Reply-To: <20250116031331-mutt-send-email-mst@kernel.org>
+References: <20250116-tun-v3-0-c6b2871e97f7@daynix.com>
+ <20250116031331-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH net v3 0/9] tun: Unify vnet implementation
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="fa4eowenzfyqst36"
-Content-Disposition: inline
-In-Reply-To: <20250116113236.39ba876a@booty>
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
+Michael S. Tsirkin wrote:
+> On Thu, Jan 16, 2025 at 05:08:03PM +0900, Akihiko Odaki wrote:
+> > When I implemented virtio's hash-related features to tun/tap [1],
+> > I found tun/tap does not fill the entire region reserved for the virtio
+> > header, leaving some uninitialized hole in the middle of the buffer
+> > after read()/recvmesg().
+> > 
+> > This series fills the uninitialized hole. More concretely, the
+> > num_buffers field will be initialized with 1, and the other fields will
+> > be inialized with 0. Setting the num_buffers field to 1 is mandated by
+> > virtio 1.0 [2].
+> > 
+> > The change to virtio header is preceded by another change that refactors
+> > tun and tap to unify their virtio-related code.
+> > 
+> > [1]: https://lore.kernel.org/r/20241008-rss-v5-0-f3cf68df005d@daynix.com
+> > [2]: https://lore.kernel.org/r/20241227084256-mutt-send-email-mst@kernel.org/
+> > 
+> > Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> 
+> Will review. But this does not look like net material to me.
+> Not really a bugfix. More like net-next.
 
---fa4eowenzfyqst36
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 08/10] drm/bridge: samsung-dsim: use supporting
- variable for out_bridge
-MIME-Version: 1.0
++1. I said basically the same in v2.
 
-Hi Luca,
+Perhaps the field initialization is net material, though not
+critical until hashing is merged, so not stable.
 
-On Thu, Jan 16, 2025 at 11:32:36AM +0100, Luca Ceresoli wrote:
-> Hello Dmitry, Maxime, All,
->=20
-> On Fri, 10 Jan 2025 11:58:19 +0100
-> Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
->=20
-> > Hi Dmitry,
-> >=20
-> > On Thu, 2 Jan 2025 13:01:49 +0100
-> > Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
-> >=20
-> > > > > diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/=
-drm/bridge/samsung-dsim.c
-> > > > > index f8b4fb8357659018ec0db65374ee5d05330639ae..c4d1563fd32019efd=
-e523dfc0863be044c05a826 100644
-> > > > > --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> > > > > +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> > > > > @@ -1705,6 +1705,7 @@ static int samsung_dsim_host_attach(struct =
-mipi_dsi_host *host,
-> > > > >  	struct device *dev =3D dsi->dev;
-> > > > >  	struct device_node *np =3D dev->of_node;
-> > > > >  	struct device_node *remote;
-> > > > > +	struct drm_bridge *out_bridge;
-> > > > >  	struct drm_panel *panel;
-> > > > >  	int ret;
-> > > > > =20
-> > > > > @@ -1740,21 +1741,23 @@ static int samsung_dsim_host_attach(struc=
-t mipi_dsi_host *host,
-> > > > > =20
-> > > > >  	panel =3D of_drm_find_panel(remote);
-> > > > >  	if (!IS_ERR(panel)) {
-> > > > > -		dsi->out_bridge =3D devm_drm_panel_bridge_add(dev, panel);
-> > > > > +		out_bridge =3D devm_drm_panel_bridge_add(dev, panel);
-> > > > >  	} else {
-> > > > > -		dsi->out_bridge =3D of_drm_find_bridge(remote);
-> > > > > -		if (!dsi->out_bridge)
-> > > > > -			dsi->out_bridge =3D ERR_PTR(-EINVAL);
-> > > > > +		out_bridge =3D of_drm_find_bridge(remote);
-> > > > > +		if (!out_bridge)
-> > > > > +			out_bridge =3D ERR_PTR(-EINVAL);
-> > > > >  	}     =20
-> > > >=20
-> > > > While looking at this patch, I think we should migrate the driver to
-> > > > drm_of_find_panel_or_bridge().   =20
-> > >=20
-> > > Indeed, the code here is duplicating drm_of_find_panel_or_bridge(). I=
-'m
-> > > going to convert it. =20
->=20
-> I've been struggling to find a good way to handle the panel bridge
-> lifetime, and still haven't found a way that looks totally good.
-> Here's my analysis and some possible ways forward.
->=20
-> For "normal" bridges there is a device driver that probes, allocates a
-> struct drm_bridge and registers it via drm_bridge_add() and at that
-> point the bridge can be found by other drivers, such as the previous
-> bridge or the encoder. Those "other drivers" will obtain a pointer to
-> the struct drm_bridge and with refcounting they need to
-> drm_bridge_put() it.
->=20
-> So there are two clearly separate roles: the provider (bridge driver)
-> and the consumers (which gets/puts a pointer). So far so good.
+The deduplication does not belong in net.
 
-Yeah, we agree so far :)
-
-> And there are panels, which probe similarly as far as I can see.
-
-Indeed.
-
-> And then there is the panel bridge. My understanding (which I'd love to
-> get clarified in case it is not accurate) is that DRM bridges expect to
-> always interact with "the next bridge", which cannot work for the last
-> bridge of course, and so the panel bridge wraps the panel pretending it
-> is a bridge.
->=20
-> This software structure is clearly not accurately modeling the
-> hardware (panel is not bridge),
-
-We don't have a proper definition of what a bridge is, so as far as I'm
-concerned, everything is a bridge :)
-
-The name came from "external signal converters", but the API got reused
-to support so many hardware components it's not meaningful anymore.
-
-> but it has been serving us so far. However now I'm definitely hitting
-> some troubles due to how the panel bridge is created.
->=20
-> First: when the panel probes, no panel bridge is created. So other
-> bridges cannot find it as they would find other bridges, using
-> of_drm_find_bridge().
->=20
-> Second: to circumvent this, we have {drmm,devm_drm}_of_get_bridge()
-> which do (not counting error cases):
->=20
->  1. call drm_of_find_panel_or_bridge() which returns:
->     - a panel pointer, if found
->     - otherwise a bridge pointer, if one already exists
->  2. if a panel was found, it is assumed that no bridge exists yet (*)
->     so one is created:
->     2.1) call {drmm,devm_drm}_panel_bridge_add: a new panel bridge is
->          allocated and its pointer returned
->  3. the bridge obtained at 1 or 2 is returned
->=20
-> So, the pointer returned by {drmm,devm_drm}_of_get_bridge() can be a)
-> pre-existing or b) a panel bridge allocated automagically if there is a
-> panel. However the caller has no way to know whether a) or b) happened.
-> Yet a) and b) have different implications for the panel bridge lifetime
-> management and require that the returned pointer is disposed of in a
-> different way.
->=20
-> The fundamental design choice that is problematic with respect to
-> hotplugging is that the panel bridge (which is a struct drm_bridge
-> after all) is not created by the provider (the panel driver) but on the
-> fly by the first consumer that happens to need it. And the consumer is
-> not aware of this: it obtains a struct drm_bridge pointer and doesn't
-> know whether it was a) pre-existing or b) created on the fly.
-
-I'm not entirely sure why it matters? The only thing the consumer should
-care about is that the bridge pointer it got is valid between the calls
-to drmm_of_get_bridge() and drm_bridge_put(). As long as that statement
-is true, why should we care about what or how that bridge was created?
-
-> So far this approach has been working because devm and drmm ensure the
-> panel bridge would be dealloacted at some point. However the devm and drmm
-> release actions are associated to the consumer struct device (the panel
-> bridge consumer), so if the panel bridge is removed and the consumer is
-> not, deallocation won't happen.
-
-Oh, right, if one doesn't call drm_bridge_put(), that will result in a
-memory leak. The general topic we discuss and try to address here is
-memory safety, and a memory leak is considered safe. It's also going to
-get allocated only a couple of times anyway, so it's not a *huge*
-concern.
-
-And about how to actually fix it, there's two ways to go about it:
-
-  * Either we do a coccinelle script and try to put all those
-    drm_bridge_put() everywhere;
-
-  * Or we create a devm/drmm action and drop the reference
-    automatically.
-
-The latter is obviously less intrusive, we would need to deprecate
-devm_of_get_bridge() for it to be safe, and I'm not entirely sure it
-would be enough, but it might just work.
-
-> For hotplugging we cannot use drmm and devm and instead we use get/put,
-> to let the "next bridge" disappear with the previous one still present.
-> So the trivial idea is to add a drm_of_get_bridge(), similar to
-> {drmm,devm_drm}_of_get_bridge() except it uses plain
-> drm_panel_bridge_add() instead of devm/drmm variants. But then the
-> caller (which is the panel consumer) will have to dispose of the struct
-> drm_bridge pointer by calling:
->=20
->  - drm_bridge_put() in case a)
->  - drm_panel_bridge_remove in case b)
->=20
-> And that's the problem I need to solve.
-
-I'm not sure the problem is limited to panel_bridge. Your question is
-essentially: how do I make sure a driver-specific init is properly freed
-at drm_bridge_put time. This was done so far mostly at bridge remove
-time, but we obviously can't do that anymore.
-
-But we'd have the same issue if, say, we needed to remove a workqueue
-=66rom a driver.
-
-I think we need a destroy() hook for bridges, just like we have for
-connectors for example that would deal with calling
-drm_panel_bridge_remove() if necessary, or any other driver-specific
-sequence.
-
-> First and foremost, do you think my analysis is correct?
->
-> (*) superficially this looks like another fundamental issue to me, but
->     it is not my focus at the moment
->
-> Assuming it is, here are some possible ways to make the panel-bridge
-> work with hotplug.
->=20
->  1. have drm_of_get_bridge() return an indication on how to dispose of
->     the returned pointer
->  2. add an ad-hoc remover function alongside drm_of_get_bridge()
->  3. let all panel drivers automatically add a panel-bridge
->  4. stop pretending there is always a "next bridge" after each bridge
->=20
-> Idea 1:
->=20
-> The new (non drmm/devm) drm_of_get_bridge() would return a flag to
-> indicate whether case a) or b) happened. Or it could return a function
-> pointer to be called to dispose of the returned pointer, to be
-> stored and called by the consumer.
->=20
-> I find this quite ugly and I'd call this a workaround rather than a
-> solution, but I'm open to discussion.
->=20
-> Idea 2:
->=20
-> I'm proposing to add drm_of_get_bridge(), which as a non-drmm, non-devm
-> variant to be used with refcounting. So the idea is to add alongside it
-> a corresponding removal function [drm_of_put_bridge()?]:
->=20
->   drm_of_put_bridge(struct drm_bridge *bridge)
->   {
->       if (drm_bridge_is_panel(bridge))
->           drm_panel_bridge_remove(bridge);
->       drm_bridge_put(bridge);
->   }
->=20
-> So the consumer would always have to call this function, which is as
-> automagic as *drm_of_get_bridge().
->=20
-> My concern is what would happen in case:
->=20
->  * driver A calls drm_of_get_bridge() and a panel_bridge is created
->  * driver B calls drm_of_get_bridge() on the same panel, the existing
->    panel_bridge is returned
->=20
-> Both drivers would call drm_of_put_bridge -> drm_panel_bridge_remove,
-> so removing twice. However I don't think this is possible due to how the
-> *_drm_of_get_bridge() functions are currently implemented.
->=20
-> Even more, I don't think it is realistic that two different drivers call
-> *_drm_of_get_bridge() for the same panel. Is this assumption correct?
->=20
-> Idea 3:=20
->=20
-> The idea is that if the panel driver framework always creates a panel
-> bridge, it will never need to be created on the fly automagically by
-> its consumers, so the whole problem would disappear. It also would be
-> better modeling the hardware: still wrapping a panel with a drm_bridge
-> that does not exist in the hardware, but at least having it created by
-> the provider driver and not by the consumer driver which happens to
-> look for it.
->=20
-> This looks like a promising and simple idea, so I tried a quick
-> implementation:
->=20
->  void drm_panel_init(struct drm_panel *panel, struct device *dev,
->                     const struct drm_panel_funcs *funcs, int connector_ty=
-pe)
->  {
-> +       struct drm_bridge *bridge;
-> +
->         INIT_LIST_HEAD(&panel->list);
->         INIT_LIST_HEAD(&panel->followers);
->         mutex_init(&panel->follower_lock);
->         panel->dev =3D dev;
->         panel->funcs =3D funcs;
->         panel->connector_type =3D connector_type;
-> +
-> +       bridge =3D devm_drm_panel_bridge_add(panel->dev, panel);
-> +       WARN_ON(!bridge);
->  }
->
-> This is somewhat working but it requires more work because:
->=20
->  * as it is, it creates a circular dependency between drm_panel and the
->    panel bridge, and modular builds will fail:
->=20
->      depmod: ERROR: Cycle detected: drm -> drm_kms_helper -> drm
->=20
->  * The panel bridge implementation should be made private to the panel
->    driver only (possibly helping to solve the previous issue?)
->=20
->  * Many drivers currently call devm_drm_panel_bridge_add() directly,
->    they should probably call drm_of_get_bridge instead
->=20
->  * drm_of_find_panel_or_bridge() should disappear: other drivers would
->    just look for a bridge
->=20
-> Opinions about this idea?
->=20
-> Idea 4:
->=20
-> 'stop pretending there is always a "next bridge" after each bridge'
-> looks like a _very_ long term goal, but it would be interesting to
-> discuss whether this is a correct idea.
->=20
-> If you've been reading thus far, thanks for your patience! I'll be very
-> glad to hear more opinions on all the above.
-
-I don't think we need any of them. Adding a mechanism similar to
-drm_connector_free() seems to be what you're looking for.
-
-Maxime
-
---fa4eowenzfyqst36
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ4j67QAKCRAnX84Zoj2+
-dncPAX9PyL9enEymC65hLvWJ6PN6Fkh4qoH9PNOXrfAHz8tYcRCjurtI3P/xO7rt
-6fLmqDkBgP5YLyntqAXjiM0qmW9NvNdTHqmwm5PbmrTQZGhtR9rb1k296WMl6vjb
-0HfLXePDbQ==
-=EcGy
------END PGP SIGNATURE-----
-
---fa4eowenzfyqst36--
+IMHO it should all go to net-next.
