@@ -1,322 +1,177 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFEE822B5B5;
-	Thu, 16 Jan 2025 14:08:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE6D22ACFD
+	for <linux-doc@vger.kernel.org>; Thu, 16 Jan 2025 15:12:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737036499; cv=none; b=gI+Hr+o+qfqfeq79ZyoKg10j8h13y39ERK9ngh80uKpDKNF12J1o6qjOegHew7V/MQjnBCNAmj0efjdp4mqNswVBUAswhSeSVj3szUQm2CKLajEHhMWhwBAxzRNfxIiI4DuOVikLe6E8hPF2fhK1R6ttOLnNCtrK+3N1zyl1r8A=
+	t=1737040347; cv=none; b=hZD/+3EWOQuVQdarsme4cxfG5U+RUGvqRBjuX/50CAUvLgBO72D8vAV1AbRK72dBDEtcNJ34maS3lrLFXB69Pl53bUlD3oCE2wWSZsoQfPyQM4fEpN2tM2F0tEJrODv9LJr4WmX7wLdba9mfYooZJImPaVTNJL7ipvhkqVifUnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737036499; c=relaxed/simple;
-	bh=NSZxgEEnYo4Ufbsw5XRzzlXlXyPfYSIDsx2iFz4XNg4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QNHg6GfIqD5trod3Bg7Y4+lTQw+0l31DyHOFr9HvYMXS04tv7Ngy4K02CS73sN8BRKoogZPI7zI1L4Ch5WUf81U/gbYN/ksUSwJBIdU8zq6FFuDL2K4Ns51V+S4GsZSJAAtSwawshDeu/qysYYBXWFgm6iXt8KUTUUP2+t0B1mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=jGtj/hrb; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1737040347; c=relaxed/simple;
+	bh=0PUB85XmaxY2RsEE8C1U2ytA/p4QHYotKPSAma4kaKE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WSJgFD7tI442w1shpwk1ejmnAfb1h7uFMCI53dGl8qPXenTWkygVwhDhBNk4RFO2LjJ/wS2zxd1Na0el1sNFJWfCqT5dFz8ukCMziqg5LxR2nYBDEnJmm3diGkvERnvs7vYWrQt7oIXPS/JHv/uT/umUmt1WzoKdSVqVqRfAUHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=x115vgkR; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="jGtj/hrb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=lus7n
-	XwCrJp6Yqu6exBguj1FRhZPoHxYKR7jSlkD8X0=; b=jGtj/hrbsBWia+OHb5gUV
-	OV0W3Qi+kyhlwEucPdIe4jIGX5dZDmOO1321DcN8XssA05WnxnJ/SPBVeLGG5pZy
-	FxBjjcP2sB97oTib/yTRQOD06AnG7qt4PD1NRG/c3dATX6zk+fZNq8NjguLBBwaz
-	372twt6mIWi3AQtmJwOm6w=
-Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id _____wD3d5IwEolnR5IwGg--.20972S4;
-	Thu, 16 Jan 2025 22:06:08 +0800 (CST)
-From: Jiayuan Chen <mrpre@163.com>
-To: bpf@vger.kernel.org,
-	jakub@cloudflare.com,
-	john.fastabend@gmail.com
-Cc: netdev@vger.kernel.org,
-	martin.lau@linux.dev,
-	ast@kernel.org,
-	edumazet@google.com,
-	davem@davemloft.net,
-	dsahern@kernel.org,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	linux-kernel@vger.kernel.org,
-	song@kernel.org,
-	andrii@kernel.org,
-	mhal@rbox.co,
-	yonghong.song@linux.dev,
-	daniel@iogearbox.net,
-	xiyou.wangcong@gmail.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	eddyz87@gmail.com,
-	cong.wang@bytedance.com,
-	shuah@kernel.org,
-	mykolal@fb.com,
-	jolsa@kernel.org,
-	haoluo@google.com,
-	sdf@fomichev.me,
-	kpsingh@kernel.org,
-	linux-doc@vger.kernel.org,
-	Jiayuan Chen <mrpre@163.com>
-Subject: [PATCH bpf v7 2/5] bpf: fix wrong copied_seq calculation
-Date: Thu, 16 Jan 2025 22:05:28 +0800
-Message-ID: <20250116140531.108636-3-mrpre@163.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20250116140531.108636-1-mrpre@163.com>
-References: <20250116140531.108636-1-mrpre@163.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="x115vgkR"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4679b5c66d0so225641cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 16 Jan 2025 07:12:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1737040345; x=1737645145; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+n0nLBWn98kJwyuHw9dnciSZynzrVaqoianwsxEC3Eg=;
+        b=x115vgkRPz27jcYckGI8JIcKvM2DZ1l6U+sUlXW/2Oy7OB4JK3uP4H5DUSma+qFPHj
+         3ywam5kywphkFk/uhmL3r5QYVcBNQ83u3nY/jBK1OAprdrit1KkPDwbACDwdZAWEoEeX
+         fJFm4VG0DXCJZVzLVQ0c+JvDd/IQYVv6cR7ZvMNLiAfwC6NMFir09R8EY1JyjXn+SIPJ
+         DKRd3YnX0LL8adVXzip2yL8zIR32jzONKKjzT/VuX7kGHvPEsKwJ94cShrQYTi3lALkZ
+         JOFgCpRRuAXbeZmbhHxHpIgwwR1lUtUm8gdvL64pdw/lg7RBxgDzqDpZIUZmXixlo8qo
+         gEEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737040345; x=1737645145;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+n0nLBWn98kJwyuHw9dnciSZynzrVaqoianwsxEC3Eg=;
+        b=LRcikFsqT3yMiZfhZOy19ohnrnT2Q5zeVUAbSpez85PBV8Z6AfCgzWva/mWDy8SUWA
+         QWnZrCrjnqSYLe2AFT6f38048pCjs+ddWSs19Vs2UvOLEgOgtmvdzTMHAGawS6Roa1lz
+         88EM+pHcxuXH7CpI+LrO3wieiZNtnBfCPJVEr6rYgrV8N6jFbKcIFQldBOaw4FoJjJn2
+         +YNbXtHU/QXS7Dew3Dr8yEPqmuxTQRf7cg9BzgiEC5qpiKQm/rjuVR43D4pX+Nc/SggM
+         rhUYlsK2PMrJIgSxY94mtyfD4q2s/ged6CEzjvuuAV9kl2fBGQEG+XMTHyIZhO/gSLID
+         kCkA==
+X-Forwarded-Encrypted: i=1; AJvYcCVI+a3QDZjsnci7fUKWrgCZ0GVSMcxk2NY5oLAFRahZ+whhWswU1B1nDoSlzVWkSWrXcxh76z1vWLk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvYpmfTusEdyfmBsQs67F1iW+RQuz5VIhslKDsIPKP2fmLOXJR
+	O9tOmIg0VHZ2VlBbObinc5sFVoJ4uP/N9FlOW3RgSlmR+qOD1rR/2JJzc4zF9jpWxF0hR/k6iHh
+	4hFt1K9ZM/522jjq+mpFhRNtS//ahN0WfpiWI
+X-Gm-Gg: ASbGnctQwL6MWqlcrsDG4lt2q2zAEFiHwOMG1wdSWwiaS5NwKORNrp5pROYVitDl22Z
+	+pld6uHSe6ct3Pr3TNWEHNV1vpVaN3fy/OFwOQ1idjqRSYWoN1QeFSlXZMElJ9nYgkyc=
+X-Google-Smtp-Source: AGHT+IG+O/DVRwFu6EvuSaxS73MdcDHVMcicb46JgTFoFOl8iILCGYiVT+ctNM6O1o9CXO+Stlr+AjBd+/+DGsBuuGY=
+X-Received: by 2002:a05:622a:11cc:b0:46c:9f17:12f6 with SMTP id
+ d75a77b69052e-46e054f0636mr3327701cf.27.1737040344411; Thu, 16 Jan 2025
+ 07:12:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3d5IwEolnR5IwGg--.20972S4
-X-Coremail-Antispam: 1Uf129KBjvJXoWxKryrKFWrGFyUKw4rurWxZwb_yoWfGF18pF
-	1kA3yrCF17GFy7uwn3AF97Gr1agw4rKFW7Cr18u3y3Zrs7Kr1fXFyrKF1ayFW5Kr45Cr13
-	Jr4UGwsxCwnrAa7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pE-eOgUUUUU=
-X-CM-SenderInfo: xpus2vi6rwjhhfrp/1tbiDwPWp2eJEGskogAAsu
+References: <20250111042604.3230628-1-surenb@google.com> <20250111042604.3230628-12-surenb@google.com>
+ <gdipfy63r4wxiqlnglsjzatpej6jjswimuzadm2l57o2e45u56@qfd763n4ysft>
+ <CAJuCfpGu4UVXiBaivTVOGNBVVz3rhZ+VY27gT3_R0cTij5fTGw@mail.gmail.com>
+ <20250115104841.GX5388@noisy.programming.kicks-ass.net> <20250115111334.GE8385@noisy.programming.kicks-ass.net>
+ <20250115160011.GG8385@noisy.programming.kicks-ass.net>
+In-Reply-To: <20250115160011.GG8385@noisy.programming.kicks-ass.net>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Thu, 16 Jan 2025 07:12:13 -0800
+X-Gm-Features: AbW1kvaoaeyJPp721yShu4wYM4LOzIoOGeL34SC30h8Ck__Aj0E6qb5Ke2kCGuM
+Message-ID: <CAJuCfpG1O73PN-poxrS045LicQzgPTedAjvQUzxmU54jxAX_Pw@mail.gmail.com>
+Subject: Re: [PATCH] refcount: Strengthen inc_not_zero()
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: will@kernel.org, boqun.feng@gmail.com, mark.rutland@arm.com, 
+	Mateusz Guzik <mjguzik@gmail.com>, akpm@linux-foundation.org, willy@infradead.org, 
+	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com, 
+	david.laight.linux@gmail.com, mhocko@suse.com, vbabka@suse.cz, 
+	hannes@cmpxchg.org, oliver.sang@intel.com, mgorman@techsingularity.net, 
+	david@redhat.com, peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net, 
+	paulmck@kernel.org, brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com, 
+	hughd@google.com, lokeshgidra@google.com, minchan@google.com, 
+	jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com, 
+	pasha.tatashin@soleen.com, klarasmodin@gmail.com, richard.weiyang@gmail.com, 
+	corbet@lwn.net, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-'sk->copied_seq' was updated in the tcp_eat_skb() function when the
-action of a BPF program was SK_REDIRECT. For other actions, like SK_PASS,
-the update logic for 'sk->copied_seq' was moved to
-tcp_bpf_recvmsg_parser() to ensure the accuracy of the 'fionread' feature.
+On Wed, Jan 15, 2025 at 8:00=E2=80=AFAM Peter Zijlstra <peterz@infradead.or=
+g> wrote:
+>
+> On Wed, Jan 15, 2025 at 12:13:34PM +0100, Peter Zijlstra wrote:
+>
+> > Notably, it means refcount_t is entirely unsuitable for anything
+> > SLAB_TYPESAFE_BY_RCU, since they all will need secondary validation
+> > conditions after the refcount succeeds.
+> >
+> > And this is probably fine, but let me ponder this all a little more.
+>
+> Even though SLAB_TYPESAFE_BY_RCU is relatively rare, I think we'd better
+> fix this, these things are hard enough as they are.
+>
+> Will, others, wdyt?
 
-It works for a single stream_verdict scenario, as it also modified
-'sk_data_ready->sk_psock_verdict_data_ready->tcp_read_skb'
-to remove updating 'sk->copied_seq'.
+I'll wait for the verdict on this patch before proceeding with my
+series. It obviously simplifies my job. Thanks Peter!
 
-However, for programs where both stream_parser and stream_verdict are
-active(strparser purpose), tcp_read_sock() was used instead of
-tcp_read_skb() (sk_data_ready->strp_data_ready->tcp_read_sock)
-tcp_read_sock() now still update 'sk->copied_seq', leading to duplicated
-updates.
-
-In summary, for strparser + SK_PASS, copied_seq is redundantly calculated
-in both tcp_read_sock() and tcp_bpf_recvmsg_parser().
-
-The issue causes incorrect copied_seq calculations, which prevent
-correct data reads from the recv() interface in user-land.
-
-We do not want to add new proto_ops to implement a new version of
-tcp_read_sock, as this would introduce code complexity [1].
-
-We add new callback for strparser for customized read operation, also as
-a wrapper function it provides abstraction use psock.
-
-[1]: https://lore.kernel.org/bpf/20241218053408.437295-1-mrpre@163.com
-Fixes: e5c6de5fa025 ("bpf, sockmap: Incorrectly handling copied_seq")
-Suggested-by: Jakub Sitnicki <jakub@cloudflare.com>
-Signed-off-by: Jiayuan Chen <mrpre@163.com>
----
- include/linux/skmsg.h |  4 ++++
- include/net/tcp.h     |  3 +++
- net/core/skmsg.c      | 23 +++++++++++++++++++++
- net/ipv4/tcp.c        | 29 +++++++++++++++++++++-----
- net/ipv4/tcp_bpf.c    | 47 +++++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 101 insertions(+), 5 deletions(-)
-
-diff --git a/include/linux/skmsg.h b/include/linux/skmsg.h
-index 2cbe0c22a32f..c9343eeac8b3 100644
---- a/include/linux/skmsg.h
-+++ b/include/linux/skmsg.h
-@@ -91,6 +91,10 @@ struct sk_psock {
- 	struct sk_psock_progs		progs;
- #if IS_ENABLED(CONFIG_BPF_STREAM_PARSER)
- 	struct strparser		strp;
-+	int (*read_sock)(struct sock *sk, read_descriptor_t *desc,
-+			 sk_read_actor_t recv_actor);
-+	u32				copied_seq;
-+	u32				ingress_bytes;
- #endif
- 	struct sk_buff_head		ingress_skb;
- 	struct list_head		ingress_msg;
-diff --git a/include/net/tcp.h b/include/net/tcp.h
-index e9b37b76e894..88e55e62023c 100644
---- a/include/net/tcp.h
-+++ b/include/net/tcp.h
-@@ -729,6 +729,9 @@ void tcp_get_info(struct sock *, struct tcp_info *);
- /* Read 'sendfile()'-style from a TCP socket */
- int tcp_read_sock(struct sock *sk, read_descriptor_t *desc,
- 		  sk_read_actor_t recv_actor);
-+int tcp_read_sock_noack(struct sock *sk, read_descriptor_t *desc,
-+			sk_read_actor_t recv_actor, bool noack,
-+			u32 *copied_seq);
- int tcp_read_skb(struct sock *sk, skb_read_actor_t recv_actor);
- struct sk_buff *tcp_recv_skb(struct sock *sk, u32 seq, u32 *off);
- void tcp_read_done(struct sock *sk, size_t len);
-diff --git a/net/core/skmsg.c b/net/core/skmsg.c
-index 61f3f3d4e528..6695659d3447 100644
---- a/net/core/skmsg.c
-+++ b/net/core/skmsg.c
-@@ -549,6 +549,9 @@ static int sk_psock_skb_ingress_enqueue(struct sk_buff *skb,
- 			return num_sge;
- 	}
- 
-+#if IS_ENABLED(CONFIG_BPF_STREAM_PARSER)
-+	psock->ingress_bytes += len;
-+#endif
- 	copied = len;
- 	msg->sg.start = 0;
- 	msg->sg.size = copied;
-@@ -1092,6 +1095,25 @@ static int sk_psock_strp_read_done(struct strparser *strp, int err)
- 	return err;
- }
- 
-+static int sk_psock_strp_read_sock(struct strparser *strp,
-+				   read_descriptor_t *desc,
-+				   sk_read_actor_t recv_actor)
-+{
-+	struct sock *sk = strp->sk;
-+	struct socket *sock = sk->sk_socket;
-+	struct sk_psock *psock;
-+	int rv = 0;
-+
-+	rcu_read_lock();
-+	psock = sk_psock(sk);
-+	if (likely(psock && psock->read_sock))
-+		rv = psock->read_sock(sk, desc, recv_actor);
-+	else if (sock && sock->ops && sock->ops->read_sock)
-+		rv = sock->ops->read_sock(sk, desc, recv_actor);
-+	rcu_read_unlock();
-+	return rv;
-+}
-+
- static int sk_psock_strp_parse(struct strparser *strp, struct sk_buff *skb)
- {
- 	struct sk_psock *psock = container_of(strp, struct sk_psock, strp);
-@@ -1136,6 +1158,7 @@ int sk_psock_init_strp(struct sock *sk, struct sk_psock *psock)
- 
- 	static const struct strp_callbacks cb = {
- 		.rcv_msg	= sk_psock_strp_read,
-+		.read_sock	= sk_psock_strp_read_sock,
- 		.read_sock_done	= sk_psock_strp_read_done,
- 		.parse_msg	= sk_psock_strp_parse,
- 	};
-diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
-index 0d704bda6c41..285678d8ce07 100644
---- a/net/ipv4/tcp.c
-+++ b/net/ipv4/tcp.c
-@@ -1565,12 +1565,13 @@ EXPORT_SYMBOL(tcp_recv_skb);
-  *	  or for 'peeking' the socket using this routine
-  *	  (although both would be easy to implement).
-  */
--int tcp_read_sock(struct sock *sk, read_descriptor_t *desc,
--		  sk_read_actor_t recv_actor)
-+static int __tcp_read_sock(struct sock *sk, read_descriptor_t *desc,
-+			   sk_read_actor_t recv_actor, bool noack,
-+			   u32 *copied_seq)
- {
- 	struct sk_buff *skb;
- 	struct tcp_sock *tp = tcp_sk(sk);
--	u32 seq = tp->copied_seq;
-+	u32 seq = *copied_seq;
- 	u32 offset;
- 	int copied = 0;
- 
-@@ -1624,9 +1625,12 @@ int tcp_read_sock(struct sock *sk, read_descriptor_t *desc,
- 		tcp_eat_recv_skb(sk, skb);
- 		if (!desc->count)
- 			break;
--		WRITE_ONCE(tp->copied_seq, seq);
-+		WRITE_ONCE(*copied_seq, seq);
- 	}
--	WRITE_ONCE(tp->copied_seq, seq);
-+	WRITE_ONCE(*copied_seq, seq);
-+
-+	if (noack)
-+		goto out;
- 
- 	tcp_rcv_space_adjust(sk);
- 
-@@ -1635,10 +1639,25 @@ int tcp_read_sock(struct sock *sk, read_descriptor_t *desc,
- 		tcp_recv_skb(sk, seq, &offset);
- 		tcp_cleanup_rbuf(sk, copied);
- 	}
-+out:
- 	return copied;
- }
-+
-+int tcp_read_sock(struct sock *sk, read_descriptor_t *desc,
-+		  sk_read_actor_t recv_actor)
-+{
-+	return __tcp_read_sock(sk, desc, recv_actor, false,
-+			       &tcp_sk(sk)->copied_seq);
-+}
- EXPORT_SYMBOL(tcp_read_sock);
- 
-+int tcp_read_sock_noack(struct sock *sk, read_descriptor_t *desc,
-+			sk_read_actor_t recv_actor, bool noack,
-+			u32 *copied_seq)
-+{
-+	return __tcp_read_sock(sk, desc, recv_actor, noack, copied_seq);
-+}
-+
- int tcp_read_skb(struct sock *sk, skb_read_actor_t recv_actor)
- {
- 	struct sk_buff *skb;
-diff --git a/net/ipv4/tcp_bpf.c b/net/ipv4/tcp_bpf.c
-index 47f65b1b70ca..6dcde3506a9b 100644
---- a/net/ipv4/tcp_bpf.c
-+++ b/net/ipv4/tcp_bpf.c
-@@ -646,6 +646,47 @@ static int tcp_bpf_assert_proto_ops(struct proto *ops)
- 	       ops->sendmsg  == tcp_sendmsg ? 0 : -ENOTSUPP;
- }
- 
-+#if IS_ENABLED(CONFIG_BPF_STREAM_PARSER)
-+static int tcp_bpf_strp_read_sock(struct sock *sk, read_descriptor_t *desc,
-+				  sk_read_actor_t recv_actor)
-+{
-+	struct sk_psock *psock;
-+	struct tcp_sock *tp;
-+	int copied = 0;
-+
-+	tp = tcp_sk(sk);
-+	rcu_read_lock();
-+	psock = sk_psock(sk);
-+	if (WARN_ON(!psock)) {
-+		desc->error = -EINVAL;
-+		goto out;
-+	}
-+
-+	psock->ingress_bytes = 0;
-+	/* We could easily add copied_seq and noack into desc then call
-+	 * ops->read_sock without calling symbol directly. But unfortunately
-+	 * most descriptors used by other modules are not inited with zero.
-+	 * Also it not work by replacing ops->read_sock without introducing
-+	 * new ops as ops itself is located in rodata segment.
-+	 */
-+	copied = tcp_read_sock_noack(sk, desc, recv_actor, true,
-+				     &psock->copied_seq);
-+	if (copied < 0)
-+		goto out;
-+	/* recv_actor may redirect skb to another socket(SK_REDIRECT) or
-+	 * just put skb into ingress queue of current socket(SK_PASS).
-+	 * For SK_REDIRECT, we need 'ack' the frame immediately but for
-+	 * SK_PASS, the 'ack' was delay to tcp_bpf_recvmsg_parser()
-+	 */
-+	tp->copied_seq = psock->copied_seq - psock->ingress_bytes;
-+	tcp_rcv_space_adjust(sk);
-+	__tcp_cleanup_rbuf(sk, copied - psock->ingress_bytes);
-+out:
-+	rcu_read_unlock();
-+	return copied;
-+}
-+#endif /* CONFIG_BPF_STREAM_PARSER */
-+
- int tcp_bpf_update_proto(struct sock *sk, struct sk_psock *psock, bool restore)
- {
- 	int family = sk->sk_family == AF_INET6 ? TCP_BPF_IPV6 : TCP_BPF_IPV4;
-@@ -681,6 +722,12 @@ int tcp_bpf_update_proto(struct sock *sk, struct sk_psock *psock, bool restore)
- 
- 	/* Pairs with lockless read in sk_clone_lock() */
- 	sock_replace_proto(sk, &tcp_bpf_prots[family][config]);
-+#if IS_ENABLED(CONFIG_BPF_STREAM_PARSER)
-+	if (psock->progs.stream_parser && psock->progs.stream_verdict) {
-+		psock->copied_seq = tcp_sk(sk)->copied_seq;
-+		psock->read_sock = tcp_bpf_strp_read_sock;
-+	}
-+#endif
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(tcp_bpf_update_proto);
--- 
-2.43.5
-
+>
+> ---
+> Subject: refcount: Strengthen inc_not_zero()
+>
+> For speculative lookups where a successful inc_not_zero() pins the
+> object, but where we still need to double check if the object acquired
+> is indeed the one we set out to aquire, needs this validation to happen
+> *after* the increment.
+>
+> Notably SLAB_TYPESAFE_BY_RCU is one such an example.
+>
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> ---
+>  include/linux/refcount.h | 15 ++++++++-------
+>  1 file changed, 8 insertions(+), 7 deletions(-)
+>
+> diff --git a/include/linux/refcount.h b/include/linux/refcount.h
+> index 35f039ecb272..340e7ffa445e 100644
+> --- a/include/linux/refcount.h
+> +++ b/include/linux/refcount.h
+> @@ -69,9 +69,10 @@
+>   * its the lock acquire, for RCU/lockless data structures its the depend=
+ent
+>   * load.
+>   *
+> - * Do note that inc_not_zero() provides a control dependency which will =
+order
+> - * future stores against the inc, this ensures we'll never modify the ob=
+ject
+> - * if we did not in fact acquire a reference.
+> + * Do note that inc_not_zero() does provide acquire order, which will or=
+der
+> + * future load and stores against the inc, this ensures all subsequent a=
+ccesses
+> + * are from this object and not anything previously occupying this memor=
+y --
+> + * consider SLAB_TYPESAFE_BY_RCU.
+>   *
+>   * The decrements will provide release order, such that all the prior lo=
+ads and
+>   * stores will be issued before, it also provides a control dependency, =
+which
+> @@ -144,7 +145,7 @@ bool __refcount_add_not_zero(int i, refcount_t *r, in=
+t *oldp)
+>         do {
+>                 if (!old)
+>                         break;
+> -       } while (!atomic_try_cmpxchg_relaxed(&r->refs, &old, old + i));
+> +       } while (!atomic_try_cmpxchg_acquire(&r->refs, &old, old + i));
+>
+>         if (oldp)
+>                 *oldp =3D old;
+> @@ -225,9 +226,9 @@ static inline __must_check bool __refcount_inc_not_ze=
+ro(refcount_t *r, int *oldp
+>   * Similar to atomic_inc_not_zero(), but will saturate at REFCOUNT_SATUR=
+ATED
+>   * and WARN.
+>   *
+> - * Provides no memory ordering, it is assumed the caller has guaranteed =
+the
+> - * object memory to be stable (RCU, etc.). It does provide a control dep=
+endency
+> - * and thereby orders future stores. See the comment on top.
+> + * Provides acquire ordering, such that subsequent accesses are after th=
+e
+> + * increment. This is important for the cases where secondary validation=
+ is
+> + * required, eg. SLAB_TYPESAFE_BY_RCU.
+>   *
+>   * Return: true if the increment was successful, false otherwise
+>   */
