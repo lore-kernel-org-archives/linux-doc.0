@@ -1,48 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C88C1917F1;
-	Thu, 16 Jan 2025 17:19:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71DB1482E8;
+	Thu, 16 Jan 2025 18:10:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737047954; cv=none; b=DCUEeAB9Iu6tLPyV+hTueB7lOey2FzOBjhwUb9x6K6sSqybzlAFYfJmcUg8nlgKBtZMpkI4aJ4GYlJ1Ysa3pvUEAwFXxFanaMtBRiK0qPy3WhZYmPWfbkt4uZZ1M7Di984dmuXXK3y0whdrFj5+Ofp+mkyD6wjQMBf7w6nioQ6Q=
+	t=1737051043; cv=none; b=btYRo6cDMwwKrY+Axv5K8q7qIzPeT0I6raRM2Q/odI4vgqC75sy7SqcOnuz7P+s1lEDXSbEnDZM23+PE8kjFmvBy6HAJhp1ovJ9z0X6CpmHaXflP/7fcepNJXvOLZZdc/GzS5+y0ZQNRmG55eBEb7znoSnm6xalHO5/ZCqvMAxM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737047954; c=relaxed/simple;
-	bh=jGZuy2kbmivebjwJnFSPSo24/KdX3O1Dp9Y34gYRAok=;
+	s=arc-20240116; t=1737051043; c=relaxed/simple;
+	bh=3NPNVC/E+a5ogmqsDrO+ad+5/SAxzcsOqBJ6RdfKlRw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nFavbbdPKDcl+Xx0B+ibbebINND/FbSURI2be6jRZ/im11JgjvU3cotea4M/K7jAO67vrYtop9hkUPE01Y+x/iq13IteqEcMqc+QE6weKCVmLCzWDW1YqHwbOctzHVrrJLMEneUP1qYk3vQ3GwJ/FxNa3Y36AFict5AhlFrizyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SdH8k/iS; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=qWe+vucq8Q2Y6rqUuVAQKcQOQJOyU5nxHTbAlj1ono1asupWsoUW0TZRL9X0W1bjv0YeimxBb44QidcSWt38d4I7lFOz+L8arSNIzi8l7Bzpr1jSDnBQ/ekovkBoK2LtHYB9BqwQw+idG2KppITcPHfC0BMCjZ0d++oXcGtUjDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CHIdAXgu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SdH8k/iS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5515C4CEE2;
-	Thu, 16 Jan 2025 17:19:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CHIdAXgu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CBF1C4CED6;
+	Thu, 16 Jan 2025 18:10:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737047953;
-	bh=jGZuy2kbmivebjwJnFSPSo24/KdX3O1Dp9Y34gYRAok=;
+	s=k20201202; t=1737051043;
+	bh=3NPNVC/E+a5ogmqsDrO+ad+5/SAxzcsOqBJ6RdfKlRw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SdH8k/iSdBrBaTXYw6qCSFZ+ZU9Z5qJ2086VbubtG9GmokadQPUt3pEqqMGNZMoRm
-	 kLPKAD/GJaBiQSfIj/HRI+BwnbkML2GCAkFDCW9ZDSYRpglpchqpKQWwbHfjDDyz2E
-	 18ie5OBpAIPq+OkqPD2Hc+vr6cz08Ojhoat0RFs2OAxd8KNxsCIxaYZkFezuVF3T53
-	 Pxs1mKNnpP+btrO3JdOSPjAEpbQKmjo1/m47h92XuIRoohcJWs6IrhT+RurMtEIznW
-	 pR3e4oTgTZtVH0Gzb/6VXC9YqeaFaqzFvvMlGbsm82idcyF07kfz3pdef7GHVcXTcb
-	 L3TErUB+71THQ==
-Date: Thu, 16 Jan 2025 07:19:12 -1000
-From: Tejun Heo <tj@kernel.org>
-To: "Zhijian Li (Fujitsu)" <lizhijian@fujitsu.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	"mkoutny@suse.com" <mkoutny@suse.com>,
-	"cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Waiman Long <llong@redhat.com>
-Subject: Re: [PATCH v2] Documentation/cgroup-v2: Update
- memory.{stat,numa_stat} description to reflect possible units
-Message-ID: <Z4k_kLW_a_D50v1I@slm.duckdns.org>
-References: <20250110123019.423725-1-lizhijian@fujitsu.com>
- <20250113010530.432396-1-lizhijian@fujitsu.com>
- <871px6bo3v.fsf@trenco.lwn.net>
- <4e96a241-a996-4289-9ac5-dc1ff65cbff8@fujitsu.com>
+	b=CHIdAXguuoXK7Vj6gWR/Z4V/vKlBvj2HVoBMVtKiKn0WOGCaQPSHzmEGPebTFOdun
+	 AS2ImwmzDume/LULoK2oJBea/fnoPDeQeGxKWTu/z0oCHINZdOqc9PQAU97Vy4mrgN
+	 QV5s67/cvf+glaD8loqDD48KmpXi8AEERTjFh6P022HVu7wVWS2g7xuzFJDGBlgpiC
+	 2rwAwvm7ubem9vcPeyXupP+i1YZ8w8tPSLOoZJAzoCIVV6nDjf3dq+d6dNL2SBAtPr
+	 MLXaZibUVXYVtpO4/PNFFdaToV2vrQPJurJhmq+RYkqDnQnw81rqo8Tdc2IWue3D+x
+	 u9dk+K41ncx3A==
+Date: Thu, 16 Jan 2025 18:10:37 +0000
+From: Simon Horman <horms@kernel.org>
+To: Gur Stavi <gur.stavi@huawei.com>
+Cc: gongfan <gongfan1@huawei.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Cai Huoqing <cai.huoqing@linux.dev>, luosifu <luosifu@huawei.com>,
+	Xin Guo <guoxin09@huawei.com>,
+	Shen Chenyang <shenchenyang1@hisilicon.com>,
+	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+	Shi Jing <shijing34@huawei.com>,
+	Meny Yossefi <meny.yossefi@huawei.com>,
+	Suman Ghosh <sumang@marvell.com>
+Subject: Re: [PATCH net-next v04 1/1] hinic3: module initialization and tx/rx
+ logic
+Message-ID: <20250116181037.GE6206@kernel.org>
+References: <cover.1737013558.git.gur.stavi@huawei.com>
+ <992e332acb3743df9898eebba05934c2775862b5.1737013558.git.gur.stavi@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,27 +57,40 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4e96a241-a996-4289-9ac5-dc1ff65cbff8@fujitsu.com>
+In-Reply-To: <992e332acb3743df9898eebba05934c2775862b5.1737013558.git.gur.stavi@huawei.com>
 
-Hello,
-
-On Thu, Jan 16, 2025 at 05:50:54AM +0000, Zhijian Li (Fujitsu) wrote:
-...
-> Let me quote a piece of the numa.stat:
+On Thu, Jan 16, 2025 at 09:51:53AM +0200, Gur Stavi wrote:
+> From: gongfan <gongfan1@huawei.com>
 > 
-> In pages:
-> >          pgdemote_khugepaged                                                   
-> >                Number of pages demoted by khugepaged.
+> This is [1/3] part of hinic3 Ethernet driver initial submission.
+> With this patch hinic3 is a valid kernel module but non-functional
+> driver.
+> 
+> The driver parts contained in this patch:
+> Module initialization.
+> PCI driver registration but with empty id_table.
+> Auxiliary driver registration.
+> Net device_ops registration but open/stop are empty stubs.
+> tx/rx logic.
+> 
+> All major data structures of the driver are fully introduced with the
+> code that uses them but without their initialization code that requires
+> management interface with the hw.
+> 
+> Submitted-by: Gur Stavi <gur.stavi@huawei.com>
+> Signed-off-by: Gur Stavi <gur.stavi@huawei.com>
+> Signed-off-by: Xin Guo <guoxin09@huawei.com>
+> Signed-off-by: gongfan <gongfan1@huawei.com>
 
-If this is the only entry in pages, I'm not sure the proposed document
-update is the best one. The above can have an easy alternative description
-"the number of times khugepaged demoted a huge page" - ie. indicate that it
-is an event counter instead, which is a plausible and likely more intuitive
-definition anyway given that a "huge page" can plausibly be of different
-sizes. With the key name and matching description, I'm not sure it's
-violating the rule that all *sizes* are expressed in bytes.
+...
 
-Thanks.
+> diff --git a/Documentation/networking/device_drivers/ethernet/huawei/hinic3.rst b/Documentation/networking/device_drivers/ethernet/huawei/hinic3.rst
 
--- 
-tejun
+...
+
+> +Completion Event Queue (CEQ)
+> +--------------------------
+
+nit: the length of the "---" line doesn't match that of the line above it.
+
+...
