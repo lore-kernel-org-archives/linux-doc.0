@@ -1,89 +1,65 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71679197A7F;
-	Thu, 16 Jan 2025 09:10:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDC333DB;
+	Thu, 16 Jan 2025 09:31:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737018627; cv=none; b=Ua79hm740KYJzeGYl+NJwHr8mzeOgD0bg8m5WgE3dwt3deg+NLF2UwZarykTu9oOjgg+uZl2Aefh192ZGUWW4kLiLQ4VWLR0URT4ZpfmJTku4KZpDHT/XpF05LevInog768NP/ulwRd3eYjAka3AfErI3uM2tEUL0WN3o4IesUU=
+	t=1737019910; cv=none; b=YGOeXZvfqdirdkWi6U+N+H47vRupXr/GdgB+/+uhn9SGtBbRRFV6RGRNsFVlZSRQWaZAX0bzur6DXvctRUxrJx5wepY5TeQDcM/els6M0ECysb7baUoTYxY0rGVn2kKGAPI5nxn01DZ6taxK6xXi/shZYeCeRNsE2AQ4yEI9prI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737018627; c=relaxed/simple;
-	bh=TRX5xTgOn7rwL39gnsc2ehzn24I/LA7Kx+VUZmytV8M=;
+	s=arc-20240116; t=1737019910; c=relaxed/simple;
+	bh=7szx2gxdaewH7rPgIQ2jNbT1I3KzNgWe4RC961FzvD0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b0w28y9xm+qOUXi6BJqLHZn2sDUoUBGeJcstcSd1rLBHhTKAFfHkJakrS2p9bdPuafHfmB4iucv9ruCvR4fhn0CH+Oxbr4aBk2A1OgI3lcEkkqdklChdEoZ18rL14Lxvshd8TuuwEuV8ln9UPgCEHSfg9Nve9QzaRmCC9WDYILw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mJaCAjc4; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tc9L51Iy/arMfvA9NSY6J0fH4oRWbOoDlREeJiYEFsSh8Nn4aC/ZMNNxdeoMm+Ix+mAbjlCBVe+pYCeyLMXC08IvwFy9xMoHWAZPYIrt+pVVZQkvGkz+L0P6wCGbhbNRiajmEAQZc8O7PTaG855UkWpxBs4b9fio2opUq9MrPtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mJaCAjc4"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-aaeef97ff02so127408566b.1;
-        Thu, 16 Jan 2025 01:10:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737018624; x=1737623424; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A4JyQQHQJLVQEARFvbU2326/Dhgvadbwh58wVTtEmVI=;
-        b=mJaCAjc4x5hUZHV5INF/FDwkDn9G1vk9HW+RshNbR71UrRXBCbBFoWyosxG+ms4NoO
-         ApCa78OoZ0Dof8C4paeee//2Z7xvJC91vXgxOwYaUzoScstQg3Jop0WSycHSYsgoVFX7
-         /4GgwV3o/SUqfZfulthdTnpl/A9NXlCRk5uIwA+CC3lJsLhjUgqYpXj2WxqipsBUaaR4
-         /nqX/jqgGHPcOgN94RLhY8zkoPb7fiVW6d1PgbS5PUipH4zzJoCHrT68sH2igCFiG8hw
-         QdjSzvAdTP8aG1UtfDNT7pV+2lR5fazYgnyXIh1L/gzBgtezUIHYshRuZ2u8dAW3mERN
-         182A==
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-aab6fa3e20eso132369666b.2;
+        Thu, 16 Jan 2025 01:31:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737018624; x=1737623424;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=A4JyQQHQJLVQEARFvbU2326/Dhgvadbwh58wVTtEmVI=;
-        b=QbQA+BPtECvwyxU3woQTKaYM77o0RzCYuAozFLLuko7cLw46orMI+mu56+30KZf74Y
-         qMQg2f3PH52RiDJljBB8L0o14mPbX1LHYpiAKPgntktAoimy8VrlwTxrni7R5/gTU0J3
-         38loZJtTKEQxCMjPm8X6Y3+/mdyTvpPNzX/6mn1XRLSUj0X84l/NufOw/psEHs0SnT9U
-         4Yf/EwxjIxPBaxVBBZ9cvHqVQxSrd9r3UThrunvYYsYr3hDO8A5MmVdyk6NDc6ZGJ+YY
-         rYbozMp8ILT8h10FTmEspkPNis4RMgK+c0pb/JnohZ7tyKiaheQdFxU4gfRo7PTbMbqc
-         ZLgg==
-X-Forwarded-Encrypted: i=1; AJvYcCVsj5dwKYf2vvGmssG+Cnaybc+vulL7jQYrc7ZuRK1jKwjcjDaDDMdWN8sOHEqx+BfW402ObmAe5UXWger6@vger.kernel.org, AJvYcCXaYriYuyKWx+B2SpJagGUPx+uHxqhBREoEmm3RUikf9FDqJ0FaJplYMPuc+pA/yAxN/Wp5iQcpV7k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZ3inMGVjB/OlFfDpz+EBhYnDuf7D6i5njMIfQ22XmsCAqatHM
-	BObmCq2NR+8PHhcxgA7z/TVDhmruXqpW+s97lUOWqOapKCOS5vFD
-X-Gm-Gg: ASbGncs7GSuLTVojKivzWNONbTLVRsFmlDSAUqrbZD4TgS6ZnfTuAxdKF7qLxP+Qp2z
-	QQ4TaEdHqM9tZDNUZDsHFDiHBY8agdIqVUvmBbQwtaDuBR79mmu72iJp2Y0Kl5FiR5fYVqLBVju
-	RPVj9zKVm8FlDlZ72n6QmJQPGG4uBw25lBfV0L40njL313w16aVNKoAXOf/Vf8h46bSOKhwwPrY
-	CKUdOyUf2fsVHFpA+d8AdQXZ8sBJxEEk1Sm5OpmV5GxfXPqfvkCoMvD
-X-Google-Smtp-Source: AGHT+IEgaLbnrjVv6I1Y7EY9cH+2jSO0oSHlg4dYQEAvICQBnLuGdXy6+f6dgsSlEJGV/JBAFg2eBQ==
-X-Received: by 2002:a17:906:d553:b0:ab3:ed0:cda with SMTP id a640c23a62f3a-ab30ed00dc1mr1793003366b.9.1737018623416;
-        Thu, 16 Jan 2025 01:10:23 -0800 (PST)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c9564857sm889892766b.96.2025.01.16.01.10.22
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 16 Jan 2025 01:10:22 -0800 (PST)
-Date: Thu, 16 Jan 2025 09:10:21 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Wei Yang <richard.weiyang@gmail.com>, akpm@linux-foundation.org,
-	peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
-	lorenzo.stoakes@oracle.com, david.laight.linux@gmail.com,
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
-	mjguzik@gmail.com, oliver.sang@intel.com,
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
-	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
-	hughd@google.com, lokeshgidra@google.com, minchan@google.com,
-	jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com,
-	pasha.tatashin@soleen.com, klarasmodin@gmail.com, corbet@lwn.net,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH v9 11/17] mm: replace vm_lock and detached flag with a
- reference count
-Message-ID: <20250116091021.nm3nmmk2b2sd6hjj@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20250111042604.3230628-1-surenb@google.com>
- <20250111042604.3230628-12-surenb@google.com>
- <20250115025830.pebmoyerkruqtx5y@master>
- <CAJuCfpEvbCJeQDnMqJK7F9dCLX+4_kx3THuRq5yuf5U9oYoEKQ@mail.gmail.com>
- <20250115120532.mgvjhcrzvmmjasv7@master>
- <CAJuCfpEboXys9g2sW4Z7vNkkhW2pS0atJZNU6+JX-Fu7Ntvb6Q@mail.gmail.com>
- <20250116013747.akajp2kdwhmbgq5r@master>
- <CAJuCfpHHt7aF6VOCWyrYrT6ws2X9Kcbr+jT7+L+r+=gbyXQmBg@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1737019907; x=1737624707;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m2P5Op0PE0ntDX/4CbdjSlAdBOP2yikx9ameN+GlxVA=;
+        b=YfEMackOWuQgZ031BIAgnQW7MGEkZjs0e3bSGr8iKeIDqrsPeAiD48Rxlob+n3O7p4
+         Rqn4PITtMbtr3K+9Crv9CEP0ekmJKTpkTApMOyJ5346Z/IBN4XaNSIYjouZnIeVotp+Q
+         SGKV2Bsf0XNjSKhygjzEv2PK/ax5qToDVUUS4TrHnyyGyYmFZ0ihRvn5wyK+HM6rFsbr
+         sISdUvfyAbYguxE8PH//E9COISCPFMVVPTHSMElOg/lm4Cr7lM0YuOGxMvJWwDMGZbvH
+         3r10l47rX1Qmz0i9kKNfKmyQu7PyV61b9fVfuriGUgTp8684ElJiwUBFcJ/fwmHHdc45
+         TYew==
+X-Forwarded-Encrypted: i=1; AJvYcCUaotVkDxWBVy9LHv2MsD9F3G/vGoLtVYFbyQ/QDtAS0KI8ugmxj5GCSKoCd9HPZCRztMP+SNsKZxSmvjB+bH72@vger.kernel.org, AJvYcCVZkq4vAWzzC+vnRM5I6os1nYNQ0JFFge67Z8CsJ0GxY4LN7HEg1XTtJw/t5AwxCtknM9QLmCtm@vger.kernel.org, AJvYcCX+CMv7kqW9KGw6ire4HLIbuMD7jVR394i3gBdFKMv3unZov2ppPbz05cdUNfwfNNJJRrxTIFi19AdV8woA@vger.kernel.org, AJvYcCX5Za9K/si8nIamkhn3vmvI1KsCT6zEfNrm+dmPkpyeLGwn7MREl+gB1TyY1TTyME01VZANFnJLZvg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwE5T7e+sO7N9hnlqJZktF0eP2JBGL5+1kEM+7JbfKjsmuSenNj
+	TFudKZvgSZmeDZgUnCc27KSuAjHdE85YlWg52kyVfuLP3O8Qflsg
+X-Gm-Gg: ASbGnctLW1mh8iiWmgjhxfBJUOo/KWHFp0YRFSw1q2S/FPDl8VUF0gBpDqyUvdhp+vr
+	gIcTq02rimBtnOOQzgTtcqU3Zkk3HVZ2kUe2u/Xs+zlECTvATSRKePTDZiflDwIlWqSX9y9LWYl
+	hRpKSFFr2gHqh7OK/R94w7SrEKm8Rmrv55ieIOqayEwVWL4taEkMVnZGc8b51NqPFK49gxG/5pP
+	bBcEycvnopEfP3D7frZmI0T07THExkcsZ3oX5PjMt99PA0=
+X-Google-Smtp-Source: AGHT+IGZV6lgbdhuVrLEd33Yv8qOfJzFESHNVW9Z/XSMD0r82hvlj3BkZQGz1iGhAAodDKfqxHlc2g==
+X-Received: by 2002:a17:907:7d92:b0:aae:b259:ef5e with SMTP id a640c23a62f3a-ab2aad118b5mr2958827666b.0.1737019906742;
+        Thu, 16 Jan 2025 01:31:46 -0800 (PST)
+Received: from gmail.com ([2a03:2880:30ff:9::])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c9134403sm897933666b.90.2025.01.16.01.31.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jan 2025 01:31:46 -0800 (PST)
+Date: Thu, 16 Jan 2025 01:31:43 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kernel-team@meta.com,
+	max@kutsevol.com, thepacketgeek@gmail.com
+Subject: Re: [PATCH net-next v2 5/5] netconsole: docs: Add documentation for
+ CPU number auto-population
+Message-ID: <20250116-ethereal-vigilant-duck-0bcffe@leitao>
+References: <20250115-netcon_cpu-v2-0-95971b44dc56@debian.org>
+ <20250115-netcon_cpu-v2-5-95971b44dc56@debian.org>
+ <417a5115-891b-41b9-bd2c-a77e813b4ef0@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -92,53 +68,55 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJuCfpHHt7aF6VOCWyrYrT6ws2X9Kcbr+jT7+L+r+=gbyXQmBg@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <417a5115-891b-41b9-bd2c-a77e813b4ef0@infradead.org>
 
-On Wed, Jan 15, 2025 at 05:41:27PM -0800, Suren Baghdasaryan wrote:
-[...]
->> >> >the case of EAGAIN.
->> >> >
->> >>
->> >> Looks good to me.
->> >>
->> >> >>
->> >> >> Maybe we can compare the event VMA_LOCK_MISS and VMA_LOCK_ABORT
->> >> >> to see the percentage of this case. If it shows this is a too rare
->> >> >> case to impact performance, we can ignore it.
->> >> >>
->> >> >> Also the event VMA_LOCK_MISS recording is removed, but the definition is
->> >> >> there. We may record it in the vma_start_read() when oldcnt is 0.
->> >> >>
->> >> >> BTW, the name of VMA_LOCK_SUCCESS confuse me a little. I thought it indicates
->> >> >> lock_vma_under_rcu() successfully get a valid vma. But seems not. Sounds we
->> >> >> don't have an overall success/failure statistic in vmstat.
->> >> >
->> >> >Are you referring to the fact that we do not increment
->> >> >VMA_LOCK_SUCCESS if we successfully locked a vma but have to retry the
->> >>
->> >> Something like this. I thought we would increase VMA_LOCK_SUCCESS on success.
->> >>
->> >> >page fault (in which we increment VMA_LOCK_RETRY instead)?
->> >> >
->> >>
->> >> I don't follow this.
->> >
->> >Sorry, I meant to say "in which case we increment VMA_LOCK_RETRY
->> >instead". IOW, when we successfully lock the vma but have to retry the
->> >pagefault, we increment VMA_LOCK_RETRY without incrementing
->> >VMA_LOCK_SUCCESS.
->> >
->>
->> Yes, this makes me confused about what VMA_LOCK_SUCCESS represents.
->
->I'll need to look into the history of why we account it this way but
->this is out of scope for this patchset.
->
+Hello Randy,
 
-Agree.
+On Wed, Jan 15, 2025 at 02:56:06PM -0800, Randy Dunlap wrote:
+> On 1/15/25 5:35 AM, Breno Leitao wrote:
+> > Update the netconsole documentation to explain the new feature that
+> > allows automatic population of the CPU number.
+> > 
+> > The key changes include introducing a new section titled "CPU number
+> > auto population in userdata", explaining how to enable the CPU number
+> > auto-population feature by writing to the "populate_cpu_nr" file in the
+> > netconsole configfs hierarchy.
+> > 
+> > This documentation update ensures users are aware of the new CPU number
+> > auto-population functionality and how to leverage it for better
+> > demultiplexing and visibility of parallel netconsole output.
+> > 
+> > Signed-off-by: Breno Leitao <leitao@debian.org>
+> > ---
+> >  Documentation/networking/netconsole.rst | 45 +++++++++++++++++++++++++++++++++
+> >  1 file changed, 45 insertions(+)
+> > 
+> > diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
+> > index 94c4680fdf3e7e1a0020d11b44547acfd68072a5..bc9ccebdae7adadd7c57aef20a726536d7ab3173 100644
+> > --- a/Documentation/networking/netconsole.rst
+> > +++ b/Documentation/networking/netconsole.rst
+> > @@ -17,6 +17,8 @@ Release prepend support by Breno Leitao <leitao@debian.org>, Jul 7 2023
+> >  
+> >  Userdata append support by Matthew Wood <thepacketgeek@gmail.com>, Jan 22 2024
+> >  
+> > +Sysdata append support by Breno Leitao <leitao@debian.org>, Jan 15 2025
+> > +
+> >  Please send bug reports to Matt Mackall <mpm@selenic.com>
+> >  Satyam Sharma <satyam.sharma@gmail.com>, and Cong Wang <xiyou.wangcong@gmail.com>
+> >  
+> > @@ -238,6 +240,49 @@ Delete `userdata` entries with `rmdir`::
+> >  
+> >     It is recommended to not write user data values with newlines.
+> >  
+> > +CPU number auto population in userdata
+> > +--------------------------------------
+> > +
+> > +Inside the netconsole configfs hierarchy, there is a file called
+> > +`cpu_nr` under the `userdata` directory. This file is used to enable or disable
+> > +the automatic CPU number population feature. This feature automatically
+> > +populate the CPU number that is sending the message.
+> 
+>    populates
 
-
--- 
-Wei Yang
-Help you, Help me
+Thanks for the review, I will update.
+--breno
