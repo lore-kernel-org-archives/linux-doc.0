@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B19188A18;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473DB1A2630;
 	Fri, 17 Jan 2025 17:59:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737136795; cv=none; b=um3PeEYxOprNB8YoVD+y+U+6hopCdDm564PHtQjLg1EyTHcvUWGEvkxIzprHWKYih2atyZFsHEmrZ4ajxsKm1RNAOxqupjI4baT9d70ZdKQlOR5ISyPiuoXUOWFlxoAYse8ld3TlFtg38+ujKGAbyIfe152OGAygrFTcndrFdy4=
+	t=1737136795; cv=none; b=UmAwpLVN/lzi9qY/HtxoXx1cBRo6MvdnyeyPKZUfHYD0D9LeRdGeZQy+oz7PgIfLWWu3nXXPq4H8yEeHlLyxPuMiWyMK1PLNjRNQKbbg1dl74OzfiAPlayxnVwwJ1nqy7p6isMOXsfBdcmrLFm0B13KRP7WnnMOoLGJys9EvbsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1737136795; c=relaxed/simple;
-	bh=DpwGZSjL1fDJ0MaoW/bdtyNx3vjLki1I5aLnRAqCHUk=;
+	bh=RS/ElkUzCP7P0hES8gHUtJQMDcscyac74hLr/hRb6wI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Ev3Vd0i0zyyyP7gz5FUeu35nhbUUY0G2uXAnU8pyipBTcE+Nr+7m/skkLizUCRz0lguahtEIiwq3lxR296BFP0snYdBCqxKWztrctrO256TctbcqfgCBe2Vpye/gNRiARP3+nHvteOaATQzvN+2YL2Pm/Um5GuKBI0UPhwdl6rA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r6urYEaR; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=o7ytIX0qO+imXRUdZpc/HqL2fNPswE+NruVmxeMIT/7PoRQe4ikQM510MopW3fwUJ7Ngo0k7813ODISW5HzepUB3mkpSTMKX1XJvC2hl6isL40vwXmyEPAMjsaEocDI7ry5AFiTfgZ68x2rxycfgWvI/hbYX7eQmGl9SEEI5BOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IqB8S6nb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r6urYEaR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBDEBC4CEE4;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IqB8S6nb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFC38C4CEDD;
 	Fri, 17 Jan 2025 17:59:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737136795;
-	bh=DpwGZSjL1fDJ0MaoW/bdtyNx3vjLki1I5aLnRAqCHUk=;
+	s=k20201202; t=1737136794;
+	bh=RS/ElkUzCP7P0hES8gHUtJQMDcscyac74hLr/hRb6wI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=r6urYEaR4nDHxapeT6xlt4vzEuRlTwL+Q1lnfNEoU1H+qB7mmdQs79LroUYX2DVw4
-	 tdF2mw11KXFl62VieEzoTkLRy09LpdyjVs/ZuAzhjRdhgYhliy/lJmJ9w+2kwowukU
-	 SYOS7fYNlgGqEB/ZQuxrBTpFF4UkUNCLDf56YLRNHWug6yMduuG1vYLs6onQhsyjLI
-	 0l2mfudVNXpz/oknYrUfNsogOq0K/Kl02ITJNxjeDhhf4+zxGr96ZddVUAi0pNbiPi
-	 8oYOwgsTmdcsNjOgQ0IxUOczExKxjMqh55SneZTAmzPvT858n0Gu/20nmvU7BVPzZO
-	 urmTc9RJV22mw==
+	b=IqB8S6nbi6MZcszQ5NcOdniXvDlQsxOxlaZbnFK9KjeQ3ksqrfxyq1EK7wZqXlWl/
+	 1EC+97OihBdPM9ZJb4US4UT5h1MZ7MJsKGyYB1hjDNxAFq/zAEgA55SwXowqbyeS1I
+	 jhWqiYEqbs+dASZ1Oc0zVh5fr69d7bkuv+d0Tg9xpa1nITeyYJ5TAevt9UDDbPbvDv
+	 phJC7c7JdcSm2gzWcbWrWVkWc21m4mPzTB41EOX2+6Mm6l/Gxl2LXMcjZFrB7f8o+B
+	 pnTs5LYiqUX3nQpyJY8IYpnDU9FpbHZCdSm6Ao/o6yh0if3tKdRZJdsHW1t3JSAQSL
+	 9LH0WUU4cZjtg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tYqdM-00000006Ajb-1fTL;
+	id 1tYqdM-00000006Ajr-27kb;
 	Fri, 17 Jan 2025 18:59:52 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -36,12 +36,10 @@ To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	linux-kernel@vger.kernel.org,
-	linux-wireless@vger.kernel.org
-Subject: [PATCH RFC 02/10] ABI: sysfs-class-rfkill: fix kernelversion tags
-Date: Fri, 17 Jan 2025 18:59:31 +0100
-Message-ID: <07d4e82750f20b92a18b526a900ffd8c89180aed.1737135484.git.mchehab+huawei@kernel.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH RFC 06/10] ABI: sysfs-power: fix a what tag
+Date: Fri, 17 Jan 2025 18:59:35 +0100
+Message-ID: <e402648593ad90502b35a20f472dfba9a6c86721.1737135484.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <cover.1737135484.git.mchehab+huawei@kernel.org>
 References: <cover.1737135484.git.mchehab+huawei@kernel.org>
@@ -54,86 +52,29 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Some kernelversion tags are missing colons. Add them to comply with
-ABI description and produce right results when converted to html/pdf.
+There is one What tag that it is using semicolon instead of colon.
+
+Fix it to comply with ABI description and produce right results when
+converted to html/pdf.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/removed/sysfs-class-rfkill |  2 +-
- Documentation/ABI/stable/sysfs-class-rfkill  | 12 ++++++------
- 2 files changed, 7 insertions(+), 7 deletions(-)
+ Documentation/ABI/testing/sysfs-power | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/ABI/removed/sysfs-class-rfkill b/Documentation/ABI/removed/sysfs-class-rfkill
-index f25174eafd55..20cb688af173 100644
---- a/Documentation/ABI/removed/sysfs-class-rfkill
-+++ b/Documentation/ABI/removed/sysfs-class-rfkill
-@@ -4,7 +4,7 @@ For details to this subsystem look at Documentation/driver-api/rfkill.rst.
+diff --git a/Documentation/ABI/testing/sysfs-power b/Documentation/ABI/testing/sysfs-power
+index a3942b1036e2..2192478e83cf 100644
+--- a/Documentation/ABI/testing/sysfs-power
++++ b/Documentation/ABI/testing/sysfs-power
+@@ -131,7 +131,7 @@ Description:
+ 		CAUTION: Using it will cause your machine's real-time (CMOS)
+ 		clock to be set to a random invalid time after a resume.
  
- What:		/sys/class/rfkill/rfkill[0-9]+/claim
- Date:		09-Jul-2007
--KernelVersion	v2.6.22
-+KernelVersion:	v2.6.22
- Contact:	linux-wireless@vger.kernel.org
- Description:	This file was deprecated because there no longer was a way to
- 		claim just control over a single rfkill instance.
-diff --git a/Documentation/ABI/stable/sysfs-class-rfkill b/Documentation/ABI/stable/sysfs-class-rfkill
-index 037979f7dc4b..67b605e3dd16 100644
---- a/Documentation/ABI/stable/sysfs-class-rfkill
-+++ b/Documentation/ABI/stable/sysfs-class-rfkill
-@@ -16,7 +16,7 @@ Description: 	The rfkill class subsystem folder.
- 
- What:		/sys/class/rfkill/rfkill[0-9]+/name
- Date:		09-Jul-2007
--KernelVersion	v2.6.22
-+KernelVersion:	v2.6.22
- Contact:	linux-wireless@vger.kernel.org
- Description: 	Name assigned by driver to this key (interface or driver name).
- Values: 	arbitrary string.
-@@ -24,7 +24,7 @@ Values: 	arbitrary string.
- 
- What: 		/sys/class/rfkill/rfkill[0-9]+/type
- Date:		09-Jul-2007
--KernelVersion	v2.6.22
-+KernelVersion:	v2.6.22
- Contact:	linux-wireless@vger.kernel.org
- Description: 	Driver type string ("wlan", "bluetooth", etc).
- Values: 	See include/linux/rfkill.h.
-@@ -32,7 +32,7 @@ Values: 	See include/linux/rfkill.h.
- 
- What:		/sys/class/rfkill/rfkill[0-9]+/persistent
- Date:		09-Jul-2007
--KernelVersion	v2.6.22
-+KernelVersion:	v2.6.22
- Contact:	linux-wireless@vger.kernel.org
- Description: 	Whether the soft blocked state is initialised from non-volatile
- 		storage at startup.
-@@ -44,7 +44,7 @@ Values: 	A numeric value:
- 
- What:		/sys/class/rfkill/rfkill[0-9]+/state
- Date:		09-Jul-2007
--KernelVersion	v2.6.22
-+KernelVersion:	v2.6.22
- Contact:	linux-wireless@vger.kernel.org
- Description: 	Current state of the transmitter.
- 		This file was scheduled to be removed in 2014, but due to its
-@@ -67,7 +67,7 @@ Values: 	A numeric value.
- 
- What:		/sys/class/rfkill/rfkill[0-9]+/hard
- Date:		12-March-2010
--KernelVersion	v2.6.34
-+KernelVersion:	v2.6.34
- Contact:	linux-wireless@vger.kernel.org
- Description: 	Current hardblock state. This file is read only.
- Values: 	A numeric value.
-@@ -81,7 +81,7 @@ Values: 	A numeric value.
- 
- What:		/sys/class/rfkill/rfkill[0-9]+/soft
- Date:		12-March-2010
--KernelVersion	v2.6.34
-+KernelVersion:	v2.6.34
- Contact:	linux-wireless@vger.kernel.org
- Description:	Current softblock state. This file is read and write.
- Values: 	A numeric value.
+-What;		/sys/power/pm_trace_dev_match
++What:		/sys/power/pm_trace_dev_match
+ Date:		October 2010
+ Contact:	James Hogan <jhogan@kernel.org>
+ Description:
 -- 
 2.47.1
 
