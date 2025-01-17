@@ -1,230 +1,529 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F2941D8E12;
-	Fri, 17 Jan 2025 11:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7491F790F
+	for <linux-doc@vger.kernel.org>; Fri, 17 Jan 2025 11:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737113663; cv=none; b=T48bTB/BrpMPJY3BX05QDBcXgGkG9t9JqvV3JV59s9WB/8xysnVZLl7TF87nuU96++5gqRMZXzLmbJNDnwasL1+jXcrsccRVBZU3UG4DJth2Q1shjiqbp265Y7a84CfmT1knn1ycUbwgtysm2gLULW+Qkn0eDxafPNJBfAnV+j8=
+	t=1737115076; cv=none; b=hDPgf51+Yj819YwXos6Ug+EtBBxeUZsXeIkAfx9yf4BefUz5UVbr3YEX+jFQ3idjiFfZKBFoi3Fo6cBCem6MwPsNUUeokfuCDeZQIThq7Ars7AWeOZPjQPGiptbLZvHTRq45o0yUAdRqs93hRIBLFqLoOoDhY3JCUKGWe7Qp08A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737113663; c=relaxed/simple;
-	bh=LAUrUrC3uCCxizrAG4Vg1PHnwSUsUPhIm+o7hM2izr4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d2FqMhqWXJALlbOT5X0pGz9AxXhCpGfeMlZetEcLTAfLuvScpnwKvhno1kQQXppRQjdqq6+slIJ6OwSiw7kmmQVgdyweQ2AZeME1WtIOa/kfYgrmm3eHbQAWhayabqcWMDkRaQnXHuixoIlFHl3sXBDnbn2I9b4TKJ0E1DFgbYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4919C1476;
-	Fri, 17 Jan 2025 03:34:48 -0800 (PST)
-Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 82BEA3F73F;
-	Fri, 17 Jan 2025 03:34:16 -0800 (PST)
-Date: Fri, 17 Jan 2025 11:34:09 +0000
-From: Mark Rutland <mark.rutland@arm.com>
-To: Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>
-Cc: Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC v3 09/27] KVM: arm64: Factor SVE guest exit handling
- out into a function
-Message-ID: <Z4pAMaEYvdLpmbg2@J2N7QTR9R3>
-References: <20241220-kvm-arm64-sme-v3-0-05b018c1ffeb@kernel.org>
- <20241220-kvm-arm64-sme-v3-9-05b018c1ffeb@kernel.org>
+	s=arc-20240116; t=1737115076; c=relaxed/simple;
+	bh=YymlBsnFVXS2JR5yhS2bdd3WwTyuqlIWPB7GSZhWdwY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=H8V4FHSqaMk3nQicmC/36EoHTz//LXX+YE4PoiVkt2uTbUnpnMX9riSPyI8QomBSt/CHgzfH8wcKQFTCNqdXrJ/fwNBQpiK/dg185vx7iZ19y4zHJv/1uLEzoz02b5XXB69Io+AcMUo2/oSEJMYlua13SRWKSsaIxfcz3lTQgLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Sg3xfcVS; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Sg3xfcVS"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43621d27adeso12929085e9.2
+        for <linux-doc@vger.kernel.org>; Fri, 17 Jan 2025 03:57:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1737115073; x=1737719873; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gwL1kRDzXLX9ihTqfaCo5eJQXJDVGnB1/f+6pPJBK6c=;
+        b=Sg3xfcVSS+usJpfClNbS8hZ9CX4gQiCmOwKfH3/axeEdjC7WAyUflSSlERiMbk+Cqu
+         yvHBCKoiQEFC9OpSal6472dXWHQlC0tKDEmD+g5tVeuudqN29C2crd5UjAOjWLX+ss2S
+         zRrwCzh3Ay6SkkstZnFkkRvgwHYwo90pK6KtXW4BlgootMwSLHZyjQOIH19CIbviMslA
+         Lp+uGmwMDdQRZLSnpYov0BAF6VJD2as7RXYL649e4Dvy+8rtGVnqlclSjS1BTs/u3ULq
+         AEHYbte1XynmiT0A7mBqGC0SIUJ8wH0yfGSCeMLU7JC8n472Hqd1dLZPC8AbA9XpPgaa
+         FafA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737115073; x=1737719873;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gwL1kRDzXLX9ihTqfaCo5eJQXJDVGnB1/f+6pPJBK6c=;
+        b=tiK7U62T6+csDyaO7sYsTa16ecAcrgWsOFHMi0OHIrzUebSYFyXzd/pWJy6y39UWZf
+         EobCIVB3LKGCIQrH7Vg5vqMj1QZT02vnYkFhDr+rAsc/lze+/cXw9wJopvHdKXUT5rQq
+         NwcDAvDAI5eRwj803KScuApckVQL97rEk3nUxeWIrFADOZp0gkOtcY9l9lRfpRt26YmJ
+         vTlQz4IXG7po0y7t2riXIxVpwx7Az4ZKtKOUsy8QZVXxrcpyTkz1uNCzu2rbXal9hIz+
+         N7FR0SqS9QmoM5MXocBpNgcgvzMmslzQXOzOCQSQ9fc8S5cpWbKjGYbjp+L9ylYCDqpI
+         cRHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXR/gy81a1qUODZwLDroWfdu2EE6zJD3CwcfmLNsaoZgv591XzfcL6Fn5ia3WW3AlaEN+mXYpA1lDc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1DKuuSBjxzc4ZD7lUaLJIdhDrc7w1oSw1tXUtRemPLby7CPv1
+	j7PYvYJW4V4/5BiZeU7dgizRJYGFI68Q6K7yeKmpB/j9vg49dRLMNUJUffPW30I=
+X-Gm-Gg: ASbGncvPY1t5omdbCa7QTclDY0HtSn/mAfI4dhTv0cPkJpPGmvUUGXPoRa19Ea5Xr8X
+	Z1zx4V9OH272FdR69/ZmByrLpeGO3mXnA0dhT8q17NrPP6yqUsBgwJD2tZqg1Ms3/FrN6mTUYzD
+	dewhtb761gk8wgC1rCvdaBW5ReHHmpOuURmsoJzCg1+2yE5aQplS179ZNV2630u5Hg6Vg3DJ3nv
+	Y8/C1+0Kf/SJCbJ+1gJE1Ct+tHCbZzZqpK0y7pcyILM7NMEEz9b3jJfmu4NzZjDjQ==
+X-Google-Smtp-Source: AGHT+IHiuxeIRc4MgzZ8PBiJP2iALdJkJyZlTFcrABxOgUE2CpVlMsLdsJs0c2D3vNb+q6fwKeKaAg==
+X-Received: by 2002:a05:6000:b04:b0:388:caf4:e909 with SMTP id ffacd0b85a97d-38bf566f3camr2084516f8f.25.1737115072539;
+        Fri, 17 Jan 2025 03:57:52 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.165])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf321503fsm2384372f8f.12.2025.01.17.03.57.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 17 Jan 2025 03:57:51 -0800 (PST)
+Message-ID: <4c6419d8-c06b-495c-b987-d66c2e1ff848@tuxon.dev>
+Date: Fri, 17 Jan 2025 13:57:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241220-kvm-arm64-sme-v3-9-05b018c1ffeb@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v21 3/5] net: Add the possibility to support a
+ selected hwtstamp in netdevice
+To: Kory Maincent <kory.maincent@bootlin.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>,
+ Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
+ Jay Vosburgh <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com,
+ Simon Horman <horms@kernel.org>, Vladimir Oltean <vladimir.oltean@nxp.com>,
+ donald.hunter@gmail.com, danieller@nvidia.com, ecree.xilinx@gmail.com,
+ Andrew Lunn <andrew+netdev@lunn.ch>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+ Willem de Bruijn <willemb@google.com>,
+ Shannon Nelson <shannon.nelson@amd.com>,
+ Alexandra Winter <wintera@linux.ibm.com>
+References: <20241212-feature_ptp_netnext-v21-0-2c282a941518@bootlin.com>
+ <20241212-feature_ptp_netnext-v21-3-2c282a941518@bootlin.com>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Content-Language: en-US
+In-Reply-To: <20241212-feature_ptp_netnext-v21-3-2c282a941518@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Dec 20, 2024 at 04:46:34PM +0000, Mark Brown wrote:
-> The SVE portion of kvm_vcpu_put() is quite large, especially given the
-> comments required.  When we add similar handling for SME the function
-> will get even larger, in order to keep things managable factor the SVE
-> portion out of the main kvm_vcpu_put().
+Hi, Kory,
 
-While investigating some problems with SVE I spotted a latent bug in
-this area where I suspect the fix will conflict with / supersede this
-rework. Details below; IIUC the bug was introduced in commit:
+On 12.12.2024 19:06, Kory Maincent wrote:
+> Introduce the description of a hwtstamp provider, mainly defined with a
+> the hwtstamp source and the phydev pointer.
+> 
+> Add a hwtstamp provider description within the netdev structure to
+> allow saving the hwtstamp we want to use. This prepares for future
+> support of an ethtool netlink command to select the desired hwtstamp
+> provider. By default, the old API that does not support hwtstamp
+> selectability is used, meaning the hwtstamp provider pointer is unset.
+> 
+> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 
-  8c8010d69c132273 ("KVM: arm64: Save/restore SVE state for nVHE")
+I'm getting this error when doing suspend/resume on the Renesas RZ/G3S
+Smarc Module + RZ SMARC Carrier II board:
 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
+[   39.032969] =============================
+[   39.032983] WARNING: suspicious RCU usage
+[   39.033000] 6.13.0-rc7-next-20250116-arm64-renesas-00002-g35245dfdc62c
+#7 Not tainted
+[   39.033019] -----------------------------
+[   39.033033] drivers/net/phy/phy_device.c:2004 suspicious
+rcu_dereference_protected() usage!
+[   39.033054]
+[   39.033054] other info that might help us debug this:
+[   39.033054]
+[   39.033068]
+[   39.033068] rcu_scheduler_active = 2, debug_locks = 1
+[   39.033084] 5 locks held by python3/174:
+[   39.033100]  #0: ffff00000ba8f3f0 (sb_writers#4){.+.+}-{0:0}, at:
+vfs_write+0x1b4/0x378
+[   39.033217]  #1: ffff00000f828888 (&of->mutex#2){+.+.}-{4:4}, at:
+kernfs_fop_write_iter+0xe8/0x1a8
+[   39.033321]  #2: ffff00000ae3f4d8 (kn->active#47){.+.+}-{0:0}, at:
+kernfs_fop_write_iter+0xf0/0x1a8
+[   39.033418]  #3: ffff800081910958 (system_transition_mutex){+.+.}-{4:4},
+at: pm_suspend+0x120/0x274
+[   39.033508]  #4: ffff00000af8f8f8 (&dev->mutex){....}-{4:4}, at:
+device_suspend+0xf4/0x4dc
+[   39.033597]
+[   39.033597] stack backtrace:
+[   39.033613] CPU: 0 UID: 0 PID: 174 Comm: python3 Not tainted
+6.13.0-rc7-next-20250116-arm64-renesas-00002-g35245dfdc62c #7
+[   39.033623] Hardware name: Renesas SMARC EVK version 2 based on
+r9a08g045s33 (DT)
+[   39.033628] Call trace:
+[   39.033633]  show_stack+0x14/0x1c (C)
+[   39.033652]  dump_stack_lvl+0xb4/0xc4
+[   39.033664]  dump_stack+0x14/0x1c
+[   39.033671]  lockdep_rcu_suspicious+0x16c/0x22c
+[   39.033682]  phy_detach+0x160/0x190
+[   39.033694]  phy_disconnect+0x40/0x54
+[   39.033703]  ravb_close+0x6c/0x1cc
+[   39.033714]  ravb_suspend+0x48/0x120
+[   39.033721]  dpm_run_callback+0x4c/0x14c
+[   39.033731]  device_suspend+0x11c/0x4dc
+[   39.033740]  dpm_suspend+0xdc/0x214
+[   39.033748]  dpm_suspend_start+0x48/0x60
+[   39.033758]  suspend_devices_and_enter+0x124/0x574
+[   39.033769]  pm_suspend+0x1ac/0x274
+[   39.033778]  state_store+0x88/0x124
+[   39.033788]  kobj_attr_store+0x14/0x24
+[   39.033798]  sysfs_kf_write+0x48/0x6c
+[   39.033808]  kernfs_fop_write_iter+0x118/0x1a8
+[   39.033817]  vfs_write+0x27c/0x378
+[   39.033825]  ksys_write+0x64/0xf4
+[   39.033833]  __arm64_sys_write+0x18/0x20
+[   39.033841]  invoke_syscall+0x44/0x104
+[   39.033852]  el0_svc_common.constprop.0+0xb4/0xd4
+[   39.033862]  do_el0_svc+0x18/0x20
+[   39.033870]  el0_svc+0x3c/0xf0
+[   39.033880]  el0t_64_sync_handler+0xc0/0xc4
+[   39.033888]  el0t_64_sync+0x154/0x158
+[   39.041274] ravb 11c30000.ethernet eth0: Link is Down
+
+drivers/net/phy/phy_device.c:2004 is pointing to this commit.
+
+Haven't got the chance to investigate it, yet. It seems this commit is
+triggering it. Do you know if something needs to be changed now in the way
+the PHY is disconnected to avoid triggering this issue?
+
+Thank you,
+Claudiu
+
 > ---
->  arch/arm64/kvm/fpsimd.c | 67 +++++++++++++++++++++++++++----------------------
->  1 file changed, 37 insertions(+), 30 deletions(-)
 > 
-> diff --git a/arch/arm64/kvm/fpsimd.c b/arch/arm64/kvm/fpsimd.c
-> index 09b65abaf9db60cc57dbc554ad2108a80c2dc46b..3c2e0b96877ac5b4f3b9d8dfa38975f11b74b60d 100644
-> --- a/arch/arm64/kvm/fpsimd.c
-> +++ b/arch/arm64/kvm/fpsimd.c
-> @@ -151,6 +151,41 @@ void kvm_arch_vcpu_ctxsync_fp(struct kvm_vcpu *vcpu)
->  	}
->  }
+> Change in v8:
+> - New patch
+> 
+> Change in v10:
+> - Set hwtstamp in netdevice as a pointer for future use of rcu lock.
+> - Fix a nit in teh order of setting phydev pointer.
+> - Add a missing kdoc description.
+> 
+> Change in v13:
+> - Remove an include from netdevices.h.
+> 
+> Change in v16:
+> - Import the part of the patch 12 which belong to the hwtstamp provider
+>   selectability of net core.
+> 
+> Change in v18:
+> - Fix a doc NIT.
+> 
+> Change in v20:
+> - Rework the hwtstamp provider design. Use hwtstamp source alongside
+>   with phydev pointer instead.
+> ---
+>  drivers/net/phy/phy_device.c    | 10 ++++++++
+>  include/linux/net_tstamp.h      | 29 +++++++++++++++++++++++
+>  include/linux/netdevice.h       |  4 ++++
+>  include/uapi/linux/net_tstamp.h | 11 +++++++++
+>  net/core/dev_ioctl.c            | 41 ++++++++++++++++++++++++++++++--
+>  net/core/timestamping.c         | 52 +++++++++++++++++++++++++++++++++++++----
+>  6 files changed, 140 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+> index b26bb33cd1d4..1a908af4175b 100644
+> --- a/drivers/net/phy/phy_device.c
+> +++ b/drivers/net/phy/phy_device.c
+> @@ -32,6 +32,7 @@
+>  #include <linux/phy_link_topology.h>
+>  #include <linux/pse-pd/pse.h>
+>  #include <linux/property.h>
+> +#include <linux/ptp_clock_kernel.h>
+>  #include <linux/rtnetlink.h>
+>  #include <linux/sfp.h>
+>  #include <linux/skbuff.h>
+> @@ -1998,6 +1999,15 @@ void phy_detach(struct phy_device *phydev)
 >  
-> +static void kvm_vcpu_put_sve(struct kvm_vcpu *vcpu)
-> +{
-> +	u64 zcr;
+>  	phy_suspend(phydev);
+>  	if (dev) {
+> +		struct hwtstamp_provider *hwprov;
 > +
-> +	if (!vcpu_has_sve(vcpu))
-> +		return;
+> +		hwprov = rtnl_dereference(dev->hwprov);
+> +		/* Disable timestamp if it is the one selected */
+> +		if (hwprov && hwprov->phydev == phydev) {
+> +			rcu_assign_pointer(dev->hwprov, NULL);
+> +			kfree_rcu(hwprov, rcu_head);
+> +		}
 > +
-> +	zcr = read_sysreg_el1(SYS_ZCR);
-> +
-> +	/*
-> +	 * If the vCPU is in the hyp context then ZCR_EL1 is loaded
-> +	 * with its vEL2 counterpart.
-> +	 */
-> +	__vcpu_sys_reg(vcpu, vcpu_sve_zcr_elx(vcpu)) = zcr;
-> +
-> +	/*
-> +	 * Restore the VL that was saved when bound to the CPU, which
-> +	 * is the maximum VL for the guest. Because the layout of the
-> +	 * data when saving the sve state depends on the VL, we need
-> +	 * to use a consistent (i.e., the maximum) VL.  Note that this
-> +	 * means that at guest exit ZCR_EL1 is not necessarily the
-> +	 * same as on guest entry.
-> +	 *
-> +	 * ZCR_EL2 holds the guest hypervisor's VL when running a
-> +	 * nested guest, which could be smaller than the max for the
-> +	 * vCPU. Similar to above, we first need to switch to a VL
-> +	 * consistent with the layout of the vCPU's SVE state. KVM
-> +	 * support for NV implies VHE, so using the ZCR_EL1 alias is
-> +	 * safe.
-> +	 */
-> +	if (!has_vhe() || (vcpu_has_nv(vcpu) && !is_hyp_ctxt(vcpu)))
-> +		sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1,
-> +				       SYS_ZCR_EL1);
-> +}
-> +
->  /*
->   * Write back the vcpu FPSIMD regs if they are dirty, and invalidate the
->   * cpu FPSIMD regs so that they can't be spuriously reused if this vcpu
-> @@ -179,38 +214,10 @@ void kvm_arch_vcpu_put_fp(struct kvm_vcpu *vcpu)
->  	}
-
-A little before this context, kvm_arch_vcpu_put_fp() calls
-local_irq_save(), which indicates that IRQs can be taken before this
-point, which is deeply suspicious.
-
-If IRQs are enabled, then it's possible to take an IRQ and potentially
-run a softirq handler which uses kernel-mode NEON. That means
-kernel_neon_begin() will try to save the live FPSIMD/SVE/SME state via
-fpsimd_save_user_state(), using the live value of ZCR_ELx.LEN, which would not
-be correct per the comment.
-
-Looking at kvm_arch_vcpu_ioctl_run(), the relevant logic is:
-
-	vcpu_load(vcpu); // calls kvm_arch_vcpu_load_fp()
-
-	while (ret > 0) {
-		preempt_disable();
-		local_irq_disable();
-
-		kvm_arch_vcpu_ctxflush_fp();
-		ret = kvm_arm_vcpu_enter_exit(vcpu);
-		kvm_arch_vcpu_ctxsync_fp(vcpu);
-
-		local_irq_enable();
-		preempt_enable();
-	}
-
-	vcpu_put(vcpu); // calls kvm_arch_vcpu_put_fp()
-
-... and the problem can occur at any point after the vCPU has run where IRQs
-are enabled, i.e, between local_irq_enable() and either local_irq_disable() or
-vcpu_put()'s call to kvm_arch_vcpu_put_fp().
-
-Note that kernel_neon_begin() calls:
-
-	fpsimd_save_user_state();
-	...
-	fpsimd_flush_cpu_state();
-
-... and fpsimd_save_user_state() will see that the SVE VL is wrong:
-
-	if (WARN_ON(sve_get_vl() != vl)) {
-		force_signal_inject(SIGKILL, SI_KERNEL, 0, 0);
-		return;
-	}
-
-... pending a SIGKILL for the VMM thread without saving the vCPU's state
-before unbinding the live state via fpsimd_flush_cpu_state(), which'll
-set TIF_FOREIGN_FPSTATE.
-
-AFAICT it's possible to re-enter the vCPU after that happens, whereupon
-stale vCPU FPSIMD/SVE state will be restored. Upon return to userspace
-the SIGKILL will be delivered, killing the VMM.
-
-As above, it looks like that's been broken since the nVHE SVE
-save/restore was introduced in commit:
-
-  8c8010d69c132273 ("KVM: arm64: Save/restore SVE state for nVHE")
-
-The TL;DR summary is that it's not sufficient for kvm_arch_vcpu_put_fp()
-to fix up ZCR_ELx. Either:
-
-* That needs to be fixed up while IRQs are masked, e.g. by
-  saving/restoring the host and guest ZCR_EL1 and/or ZCR_ELx values in
-  kvm_arch_vcpu_ctxflush_fp() and kvm_arch_vcpu_ctxsync_fp()
-
-* The lazy save logic in fpsimd_save_user_state() needs to handle KVM
-  explicitly, saving the guest's ZCR_EL1 and restoring the host's
-  ZCR_ELx.
-
-I think we need to fix that before we extend this logic for SME.
-
-Mark.
-
+>  		phydev->attached_dev->phydev = NULL;
+>  		phydev->attached_dev = NULL;
+>  		phy_link_topo_del_phy(dev, phydev);
+> diff --git a/include/linux/net_tstamp.h b/include/linux/net_tstamp.h
+> index 662074b08c94..ff0758e88ea1 100644
+> --- a/include/linux/net_tstamp.h
+> +++ b/include/linux/net_tstamp.h
+> @@ -19,6 +19,33 @@ enum hwtstamp_source {
+>  	HWTSTAMP_SOURCE_PHYLIB,
+>  };
 >  
->  	if (guest_owns_fp_regs()) {
-> -		if (vcpu_has_sve(vcpu)) {
-> -			u64 zcr = read_sysreg_el1(SYS_ZCR);
-> -
-> -			/*
-> -			 * If the vCPU is in the hyp context then ZCR_EL1 is
-> -			 * loaded with its vEL2 counterpart.
-> -			 */
-> -			__vcpu_sys_reg(vcpu, vcpu_sve_zcr_elx(vcpu)) = zcr;
-> -
-> -			/*
-> -			 * Restore the VL that was saved when bound to the CPU,
-> -			 * which is the maximum VL for the guest. Because the
-> -			 * layout of the data when saving the sve state depends
-> -			 * on the VL, we need to use a consistent (i.e., the
-> -			 * maximum) VL.
-> -			 * Note that this means that at guest exit ZCR_EL1 is
-> -			 * not necessarily the same as on guest entry.
-> -			 *
-> -			 * ZCR_EL2 holds the guest hypervisor's VL when running
-> -			 * a nested guest, which could be smaller than the
-> -			 * max for the vCPU. Similar to above, we first need to
-> -			 * switch to a VL consistent with the layout of the
-> -			 * vCPU's SVE state. KVM support for NV implies VHE, so
-> -			 * using the ZCR_EL1 alias is safe.
-> -			 */
-> -			if (!has_vhe() || (vcpu_has_nv(vcpu) && !is_hyp_ctxt(vcpu)))
-> -				sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1,
-> -						       SYS_ZCR_EL1);
-> -		}
-> +		kvm_vcpu_put_sve(vcpu);
+> +/**
+> + * struct hwtstamp_provider_desc - hwtstamp provider description
+> + *
+> + * @index: index of the hwtstamp provider.
+> + * @qualifier: hwtstamp provider qualifier.
+> + */
+> +struct hwtstamp_provider_desc {
+> +	int index;
+> +	enum hwtstamp_provider_qualifier qualifier;
+> +};
+> +
+> +/**
+> + * struct hwtstamp_provider - hwtstamp provider object
+> + *
+> + * @rcu_head: RCU callback used to free the struct.
+> + * @source: source of the hwtstamp provider.
+> + * @phydev: pointer of the phydev source in case a PTP coming from phylib
+> + * @desc: hwtstamp provider description.
+> + */
+> +
+> +struct hwtstamp_provider {
+> +	struct rcu_head rcu_head;
+> +	enum hwtstamp_source source;
+> +	struct phy_device *phydev;
+> +	struct hwtstamp_provider_desc desc;
+> +};
+> +
+>  /**
+>   * struct kernel_hwtstamp_config - Kernel copy of struct hwtstamp_config
+>   *
+> @@ -31,6 +58,7 @@ enum hwtstamp_source {
+>   *	copied the ioctl request back to user space
+>   * @source: indication whether timestamps should come from the netdev or from
+>   *	an attached phylib PHY
+> + * @qualifier: qualifier of the hwtstamp provider
+>   *
+>   * Prefer using this structure for in-kernel processing of hardware
+>   * timestamping configuration, over the inextensible struct hwtstamp_config
+> @@ -43,6 +71,7 @@ struct kernel_hwtstamp_config {
+>  	struct ifreq *ifr;
+>  	bool copied_to_user;
+>  	enum hwtstamp_source source;
+> +	enum hwtstamp_provider_qualifier qualifier;
+>  };
 >  
->  		/*
-> -		 * Flush (save and invalidate) the fpsimd/sve state so that if
-> +		 * Flush (save and invalidate) the FP state so that if
->  		 * the host tries to use fpsimd/sve, it's not using stale data
->  		 * from the guest.
->  		 *
+>  static inline void hwtstamp_config_to_kernel(struct kernel_hwtstamp_config *kernel_cfg,
+> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+> index d917949bba03..2593019ad5b1 100644
+> --- a/include/linux/netdevice.h
+> +++ b/include/linux/netdevice.h
+> @@ -82,6 +82,7 @@ struct xdp_metadata_ops;
+>  struct xdp_md;
+>  struct ethtool_netdev_state;
+>  struct phy_link_topology;
+> +struct hwtstamp_provider;
+>  
+>  typedef u32 xdp_features_t;
+>  
+> @@ -2045,6 +2046,7 @@ enum netdev_reg_state {
+>   *
+>   *	@neighbours:	List heads pointing to this device's neighbours'
+>   *			dev_list, one per address-family.
+> + *	@hwprov: Tracks which PTP performs hardware packet time stamping.
+>   *
+>   *	FIXME: cleanup struct net_device such that network protocol info
+>   *	moves out.
+> @@ -2457,6 +2459,8 @@ struct net_device {
+>  
+>  	struct hlist_head neighbours[NEIGH_NR_TABLES];
+>  
+> +	struct hwtstamp_provider __rcu	*hwprov;
+> +
+>  	u8			priv[] ____cacheline_aligned
+>  				       __counted_by(priv_len);
+>  } ____cacheline_aligned;
+> diff --git a/include/uapi/linux/net_tstamp.h b/include/uapi/linux/net_tstamp.h
+> index 858339d1c1c4..55b0ab51096c 100644
+> --- a/include/uapi/linux/net_tstamp.h
+> +++ b/include/uapi/linux/net_tstamp.h
+> @@ -13,6 +13,17 @@
+>  #include <linux/types.h>
+>  #include <linux/socket.h>   /* for SO_TIMESTAMPING */
+>  
+> +/*
+> + * Possible type of hwtstamp provider. Mainly "precise" the default one
+> + * is for IEEE 1588 quality and "approx" is for NICs DMA point.
+> + */
+> +enum hwtstamp_provider_qualifier {
+> +	HWTSTAMP_PROVIDER_QUALIFIER_PRECISE,
+> +	HWTSTAMP_PROVIDER_QUALIFIER_APPROX,
+> +
+> +	HWTSTAMP_PROVIDER_QUALIFIER_CNT,
+> +};
+> +
+>  /* SO_TIMESTAMPING flags */
+>  enum {
+>  	SOF_TIMESTAMPING_TX_HARDWARE = (1<<0),
+> diff --git a/net/core/dev_ioctl.c b/net/core/dev_ioctl.c
+> index 1f09930fca26..087a57b7e4fa 100644
+> --- a/net/core/dev_ioctl.c
+> +++ b/net/core/dev_ioctl.c
+> @@ -6,6 +6,7 @@
+>  #include <linux/rtnetlink.h>
+>  #include <linux/net_tstamp.h>
+>  #include <linux/phylib_stubs.h>
+> +#include <linux/ptp_clock_kernel.h>
+>  #include <linux/wireless.h>
+>  #include <linux/if_bridge.h>
+>  #include <net/dsa_stubs.h>
+> @@ -269,6 +270,21 @@ static int dev_eth_ioctl(struct net_device *dev,
+>  int dev_get_hwtstamp_phylib(struct net_device *dev,
+>  			    struct kernel_hwtstamp_config *cfg)
+>  {
+> +	struct hwtstamp_provider *hwprov;
+> +
+> +	hwprov = rtnl_dereference(dev->hwprov);
+> +	if (hwprov) {
+> +		cfg->qualifier = hwprov->desc.qualifier;
+> +		if (hwprov->source == HWTSTAMP_SOURCE_PHYLIB &&
+> +		    hwprov->phydev)
+> +			return phy_hwtstamp_get(hwprov->phydev, cfg);
+> +
+> +		if (hwprov->source == HWTSTAMP_SOURCE_NETDEV)
+> +			return dev->netdev_ops->ndo_hwtstamp_get(dev, cfg);
+> +
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+>  	if (phy_is_default_hwtstamp(dev->phydev))
+>  		return phy_hwtstamp_get(dev->phydev, cfg);
+>  
+> @@ -324,11 +340,32 @@ int dev_set_hwtstamp_phylib(struct net_device *dev,
+>  			    struct netlink_ext_ack *extack)
+>  {
+>  	const struct net_device_ops *ops = dev->netdev_ops;
+> -	bool phy_ts = phy_is_default_hwtstamp(dev->phydev);
+>  	struct kernel_hwtstamp_config old_cfg = {};
+> +	struct hwtstamp_provider *hwprov;
+> +	struct phy_device *phydev;
+>  	bool changed = false;
+> +	bool phy_ts;
+>  	int err;
+>  
+> +	hwprov = rtnl_dereference(dev->hwprov);
+> +	if (hwprov) {
+> +		if (hwprov->source == HWTSTAMP_SOURCE_PHYLIB &&
+> +		    hwprov->phydev) {
+> +			phy_ts = true;
+> +			phydev = hwprov->phydev;
+> +		} else if (hwprov->source == HWTSTAMP_SOURCE_NETDEV) {
+> +			phy_ts = false;
+> +		} else {
+> +			return -EOPNOTSUPP;
+> +		}
+> +
+> +		cfg->qualifier = hwprov->desc.qualifier;
+> +	} else {
+> +		phy_ts = phy_is_default_hwtstamp(dev->phydev);
+> +		if (phy_ts)
+> +			phydev = dev->phydev;
+> +	}
+> +
+>  	cfg->source = phy_ts ? HWTSTAMP_SOURCE_PHYLIB : HWTSTAMP_SOURCE_NETDEV;
+>  
+>  	if (phy_ts && dev->see_all_hwtstamp_requests) {
+> @@ -350,7 +387,7 @@ int dev_set_hwtstamp_phylib(struct net_device *dev,
+>  		changed = kernel_hwtstamp_config_changed(&old_cfg, cfg);
+>  
+>  	if (phy_ts) {
+> -		err = phy_hwtstamp_set(dev->phydev, cfg, extack);
+> +		err = phy_hwtstamp_set(phydev, cfg, extack);
+>  		if (err) {
+>  			if (changed)
+>  				ops->ndo_hwtstamp_set(dev, &old_cfg, NULL);
+> diff --git a/net/core/timestamping.c b/net/core/timestamping.c
+> index 3717fb152ecc..a50a7ef49ae8 100644
+> --- a/net/core/timestamping.c
+> +++ b/net/core/timestamping.c
+> @@ -9,6 +9,7 @@
+>  #include <linux/ptp_classify.h>
+>  #include <linux/skbuff.h>
+>  #include <linux/export.h>
+> +#include <linux/ptp_clock_kernel.h>
+>  
+>  static unsigned int classify(const struct sk_buff *skb)
+>  {
+> @@ -21,19 +22,39 @@ static unsigned int classify(const struct sk_buff *skb)
+>  
+>  void skb_clone_tx_timestamp(struct sk_buff *skb)
+>  {
+> +	struct hwtstamp_provider *hwprov;
+>  	struct mii_timestamper *mii_ts;
+> +	struct phy_device *phydev;
+>  	struct sk_buff *clone;
+>  	unsigned int type;
+>  
+> -	if (!skb->sk || !skb->dev ||
+> -	    !phy_is_default_hwtstamp(skb->dev->phydev))
+> +	if (!skb->sk || !skb->dev)
+>  		return;
+>  
+> +	rcu_read_lock();
+> +	hwprov = rcu_dereference(skb->dev->hwprov);
+> +	if (hwprov) {
+> +		if (hwprov->source != HWTSTAMP_SOURCE_PHYLIB ||
+> +		    !hwprov->phydev) {
+> +			rcu_read_unlock();
+> +			return;
+> +		}
+> +
+> +		phydev = hwprov->phydev;
+> +	} else {
+> +		phydev = skb->dev->phydev;
+> +		if (!phy_is_default_hwtstamp(phydev)) {
+> +			rcu_read_unlock();
+> +			return;
+> +		}
+> +	}
+> +	rcu_read_unlock();
+> +
+>  	type = classify(skb);
+>  	if (type == PTP_CLASS_NONE)
+>  		return;
+>  
+> -	mii_ts = skb->dev->phydev->mii_ts;
+> +	mii_ts = phydev->mii_ts;
+>  	if (likely(mii_ts->txtstamp)) {
+>  		clone = skb_clone_sk(skb);
+>  		if (!clone)
+> @@ -45,12 +66,33 @@ EXPORT_SYMBOL_GPL(skb_clone_tx_timestamp);
+>  
+>  bool skb_defer_rx_timestamp(struct sk_buff *skb)
+>  {
+> +	struct hwtstamp_provider *hwprov;
+>  	struct mii_timestamper *mii_ts;
+> +	struct phy_device *phydev;
+>  	unsigned int type;
+>  
+> -	if (!skb->dev || !phy_is_default_hwtstamp(skb->dev->phydev))
+> +	if (!skb->dev)
+>  		return false;
+>  
+> +	rcu_read_lock();
+> +	hwprov = rcu_dereference(skb->dev->hwprov);
+> +	if (hwprov) {
+> +		if (hwprov->source != HWTSTAMP_SOURCE_PHYLIB ||
+> +		    !hwprov->phydev) {
+> +			rcu_read_unlock();
+> +			return false;
+> +		}
+> +
+> +		phydev = hwprov->phydev;
+> +	} else {
+> +		phydev = skb->dev->phydev;
+> +		if (!phy_is_default_hwtstamp(phydev)) {
+> +			rcu_read_unlock();
+> +			return false;
+> +		}
+> +	}
+> +	rcu_read_unlock();
+> +
+>  	if (skb_headroom(skb) < ETH_HLEN)
+>  		return false;
+>  
+> @@ -63,7 +105,7 @@ bool skb_defer_rx_timestamp(struct sk_buff *skb)
+>  	if (type == PTP_CLASS_NONE)
+>  		return false;
+>  
+> -	mii_ts = skb->dev->phydev->mii_ts;
+> +	mii_ts = phydev->mii_ts;
+>  	if (likely(mii_ts->rxtstamp))
+>  		return mii_ts->rxtstamp(mii_ts, skb, type);
+>  
 > 
-> -- 
-> 2.39.5
-> 
-> 
+
