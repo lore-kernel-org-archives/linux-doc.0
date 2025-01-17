@@ -1,64 +1,40 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014501F7577;
-	Fri, 17 Jan 2025 11:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F2941D8E12;
+	Fri, 17 Jan 2025 11:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737111767; cv=none; b=ZsWlqaKVHD4J4vhAXCnfEFVrFIsdTecZqiGBgS7oTapWrNSB1S9FrmQtADyBXtRYth7HaG1S/SscMYyk6wML1Q1bSz0bnGkzmlCwff5Z1ay/Lb6nmbXFn1P+BRLm4I/i5UD5s0ImiFZJQXRbQ+1ue3If8lsU+IGZc9ChXt9qWoU=
+	t=1737113663; cv=none; b=T48bTB/BrpMPJY3BX05QDBcXgGkG9t9JqvV3JV59s9WB/8xysnVZLl7TF87nuU96++5gqRMZXzLmbJNDnwasL1+jXcrsccRVBZU3UG4DJth2Q1shjiqbp265Y7a84CfmT1knn1ycUbwgtysm2gLULW+Qkn0eDxafPNJBfAnV+j8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737111767; c=relaxed/simple;
-	bh=c6+L2Rwk15a+td57DbDbPDyEYtK7MOGgveqVh/MJXnk=;
+	s=arc-20240116; t=1737113663; c=relaxed/simple;
+	bh=LAUrUrC3uCCxizrAG4Vg1PHnwSUsUPhIm+o7hM2izr4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MdrATZ/G2U+wa24GmvtfvTsqmYMzmPujTnHe+ccSvYVBeF2WfYsIPzm1ZRdCFFMqfAHu2iAk2TSJfV0wLbt0SUZV0gCtDbDL+mf4DXhv448cgR2efGajtaUesNX7c9UGuvFMWjM6/o0Uw9F5mltg/a1NBagkJ1FYK1RBk7VpL0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-aab6fa3e20eso370976366b.2;
-        Fri, 17 Jan 2025 03:02:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737111764; x=1737716564;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=51F+1maMrhx6mhtRzm797H0J9chmoIpuqA0W0BWbLr4=;
-        b=MFsqucvbJlmTdMfHqw1g0WNdkMAxIzRI0YB5Swn+g5e6cJx8qFyecqzQUmeSdddc4f
-         R04rZTq3OO+H5Sqw+Fvg1QeNR3AgjOgtzaErjQfkOTqsekWyFJHFozDp/vpZ7G71xSgP
-         jLU6AJwU5WbnfiyWcwgj5OcSbMkare5Lnbo9y5EJ1RD72Dyws9owfw0TU3fqB0+rWkxo
-         +vaN25S2LXh4NZFvu8gWwlPumHR+rk3Kob6rj4IcxzSG9rLlKGEOjuR0mMKxOCBUheV8
-         LVKa+O1DBBT8eeyBL8g5Uz64qyE8YucJPKefpdKd7IhkKV8IfmWXKlneiF0jtuq3UQLk
-         AAyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU6M3H89GnuDojE1Vye0065R0Virwa3ld1U96236M6UsYW2yf6AhYibO1OdoDz77Ji51SaRpoPnXgnqBmdLsZln@vger.kernel.org, AJvYcCUDPvsPkAbjO6kqwdLIgtVUm4SG5hzAua3pN3xYboHcRhvnnJkxsrd2fCStO6xMYCId+pIgrlrV@vger.kernel.org, AJvYcCUPSgYjZDtDBbxyiLSnwSKAjtQPKMINm0v2mlIU/3Ulk/tHV8yV3OCXNNfP/J+xDLS+gUYtusNZRerehAyY@vger.kernel.org, AJvYcCVh+VkaRLAUcgocpYhAkInpNmEexSfyjIVlaE0gdnqbjnxf0VflO5gXHm6GODAv6Wypxsmqb7gsIOo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwoDJbrqAa1lurueVOOOw4qL6LWDJuocndoLQHYE8t/mmzZEJvm
-	KB1/3bdtu5Vxdr2KiBSXu9PeksIxEYy/YQLYrViA4xS0dByOBmax
-X-Gm-Gg: ASbGncuR1q40+vc0HF3Q98xDrdLQO/0dKaUWMMVvwDqStr072YY+Dsulp34R2lKAsx/
-	3lmwulZ8E/RU4wlx8mj86tmjGrfVA7qMZtQJDUOQ2iSI7qwr89HqcJP76mdBYoze1ZmqYlyVPBS
-	LXZTfta6VItBw//m7NstROL9lYSjTyxcPJ4QxI5lcRycrsPPzgPsD5ZGXLzYlZT2bUkJWif/DLx
-	AnahMLoa+X/bAWmhJKz/hQHaIzvCcdoIwimYhAGy7dt
-X-Google-Smtp-Source: AGHT+IFXztlqwpxselOI2ZQ7Ho9PNO4LfSy55N0oANn3eeF3xkUbwMKcDOAOzemkTvuOwwwpwT0jiw==
-X-Received: by 2002:a17:906:2594:b0:aaf:f1a:d2ad with SMTP id a640c23a62f3a-ab38b4c6af1mr186073966b.50.1737111764022;
-        Fri, 17 Jan 2025 03:02:44 -0800 (PST)
-Received: from gmail.com ([2a03:2880:30ff::])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab384f1e57bsm152313966b.104.2025.01.17.03.02.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jan 2025 03:02:43 -0800 (PST)
-Date: Fri, 17 Jan 2025 03:02:40 -0800
-From: Breno Leitao <leitao@debian.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, kernel-team@meta.com,
-	max@kutsevol.com, thepacketgeek@gmail.com
-Subject: Re: [PATCH net-next v2 3/5] netconsole: add support for sysdata and
- CPU population
-Message-ID: <20250117-terrestrial-clam-of-satiation-cf312f@leitao>
-References: <20250115-netcon_cpu-v2-0-95971b44dc56@debian.org>
- <20250115-netcon_cpu-v2-3-95971b44dc56@debian.org>
- <20250116174405.20a0e20b@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=d2FqMhqWXJALlbOT5X0pGz9AxXhCpGfeMlZetEcLTAfLuvScpnwKvhno1kQQXppRQjdqq6+slIJ6OwSiw7kmmQVgdyweQ2AZeME1WtIOa/kfYgrmm3eHbQAWhayabqcWMDkRaQnXHuixoIlFHl3sXBDnbn2I9b4TKJ0E1DFgbYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4919C1476;
+	Fri, 17 Jan 2025 03:34:48 -0800 (PST)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 82BEA3F73F;
+	Fri, 17 Jan 2025 03:34:16 -0800 (PST)
+Date: Fri, 17 Jan 2025 11:34:09 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>
+Cc: Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC v3 09/27] KVM: arm64: Factor SVE guest exit handling
+ out into a function
+Message-ID: <Z4pAMaEYvdLpmbg2@J2N7QTR9R3>
+References: <20241220-kvm-arm64-sme-v3-0-05b018c1ffeb@kernel.org>
+ <20241220-kvm-arm64-sme-v3-9-05b018c1ffeb@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,127 +43,188 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250116174405.20a0e20b@kernel.org>
+In-Reply-To: <20241220-kvm-arm64-sme-v3-9-05b018c1ffeb@kernel.org>
 
-Hello Jakub,
+On Fri, Dec 20, 2024 at 04:46:34PM +0000, Mark Brown wrote:
+> The SVE portion of kvm_vcpu_put() is quite large, especially given the
+> comments required.  When we add similar handling for SME the function
+> will get even larger, in order to keep things managable factor the SVE
+> portion out of the main kvm_vcpu_put().
 
+While investigating some problems with SVE I spotted a latent bug in
+this area where I suspect the fix will conflict with / supersede this
+rework. Details below; IIUC the bug was introduced in commit:
 
-On Thu, Jan 16, 2025 at 05:44:05PM -0800, Jakub Kicinski wrote:
-> On Wed, 15 Jan 2025 05:35:20 -0800 Breno Leitao wrote:
-> > +	WARN_ON_ONCE(userdata_len + sysdata_len >
-> > +		     MAX_EXTRADATA_ENTRY_LEN * MAX_EXTRADATA_ITEMS);
-> > +
-> > +	/* nt->sysdata_length will be used later to decide if the message
-> > +	 * needs to be fragmented.
-> > +	 * userdata_len cannot be used for it, once next sysdata append should
-> > +	 * start from the same userdata_len location, and only overwrite old
-> > +	 * sysdata.
-> > +	 */
-> > +	nt->sysdata_length = sysdata_len;
+  8c8010d69c132273 ("KVM: arm64: Save/restore SVE state for nVHE")
+
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/kvm/fpsimd.c | 67 +++++++++++++++++++++++++++----------------------
+>  1 file changed, 37 insertions(+), 30 deletions(-)
 > 
-> Updating nt-> fields at runtime is something we haven't done before,
-> right?
+> diff --git a/arch/arm64/kvm/fpsimd.c b/arch/arm64/kvm/fpsimd.c
+> index 09b65abaf9db60cc57dbc554ad2108a80c2dc46b..3c2e0b96877ac5b4f3b9d8dfa38975f11b74b60d 100644
+> --- a/arch/arm64/kvm/fpsimd.c
+> +++ b/arch/arm64/kvm/fpsimd.c
+> @@ -151,6 +151,41 @@ void kvm_arch_vcpu_ctxsync_fp(struct kvm_vcpu *vcpu)
+>  	}
+>  }
+>  
+> +static void kvm_vcpu_put_sve(struct kvm_vcpu *vcpu)
+> +{
+> +	u64 zcr;
+> +
+> +	if (!vcpu_has_sve(vcpu))
+> +		return;
+> +
+> +	zcr = read_sysreg_el1(SYS_ZCR);
+> +
+> +	/*
+> +	 * If the vCPU is in the hyp context then ZCR_EL1 is loaded
+> +	 * with its vEL2 counterpart.
+> +	 */
+> +	__vcpu_sys_reg(vcpu, vcpu_sve_zcr_elx(vcpu)) = zcr;
+> +
+> +	/*
+> +	 * Restore the VL that was saved when bound to the CPU, which
+> +	 * is the maximum VL for the guest. Because the layout of the
+> +	 * data when saving the sve state depends on the VL, we need
+> +	 * to use a consistent (i.e., the maximum) VL.  Note that this
+> +	 * means that at guest exit ZCR_EL1 is not necessarily the
+> +	 * same as on guest entry.
+> +	 *
+> +	 * ZCR_EL2 holds the guest hypervisor's VL when running a
+> +	 * nested guest, which could be smaller than the max for the
+> +	 * vCPU. Similar to above, we first need to switch to a VL
+> +	 * consistent with the layout of the vCPU's SVE state. KVM
+> +	 * support for NV implies VHE, so using the ZCR_EL1 alias is
+> +	 * safe.
+> +	 */
+> +	if (!has_vhe() || (vcpu_has_nv(vcpu) && !is_hyp_ctxt(vcpu)))
+> +		sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1,
+> +				       SYS_ZCR_EL1);
+> +}
+> +
+>  /*
+>   * Write back the vcpu FPSIMD regs if they are dirty, and invalidate the
+>   * cpu FPSIMD regs so that they can't be spuriously reused if this vcpu
+> @@ -179,38 +214,10 @@ void kvm_arch_vcpu_put_fp(struct kvm_vcpu *vcpu)
+>  	}
 
-Correct. nt-> fields were only updated by configfs helpers.
+A little before this context, kvm_arch_vcpu_put_fp() calls
+local_irq_save(), which indicates that IRQs can be taken before this
+point, which is deeply suspicious.
 
-> What's the locking? We depend on target_list_lock ?
+If IRQs are enabled, then it's possible to take an IRQ and potentially
+run a softirq handler which uses kernel-mode NEON. That means
+kernel_neon_begin() will try to save the live FPSIMD/SVE/SME state via
+fpsimd_save_user_state(), using the live value of ZCR_ELx.LEN, which would not
+be correct per the comment.
 
-Correct. "Runtime updates" (aka nt->sysdata_length) always occur within
-the target_list_lock().
+Looking at kvm_arch_vcpu_ioctl_run(), the relevant logic is:
 
-At the same time, userdata updates (aka nt->userdata_length) happen
-inside dynamic_netconsole_mutex().
+	vcpu_load(vcpu); // calls kvm_arch_vcpu_load_fp()
 
-The weirdness here is that:
+	while (ret > 0) {
+		preempt_disable();
+		local_irq_disable();
 
-	1) Writers of nt->sysdata_length hold dynamic_netconsole_mutex()
+		kvm_arch_vcpu_ctxflush_fp();
+		ret = kvm_arm_vcpu_enter_exit(vcpu);
+		kvm_arch_vcpu_ctxsync_fp(vcpu);
 
-	2) Readers of nt->sysdata_length hold target_list_lock()
-
-	3) There is no dependency between target_list_lock() and
-	dynamic_netconsole_mutex()
-
-	4) Creating a dependency on target_list_lock() in configfs could lead to
-	potential DoS attacks by userspace holding target_list_lock() for
-	extended periods, starving netconsole.
-
-	5) A possible solution might involve using read-write or RCU locks.
-
-
-> Looks like previously all the data was on the stack, now we have a mix.
-
-Not sure I followed. The data ({userdata,extradata}_complete) was always
-inside nt field, which belongs to target_list.
-
-{userdata,extradata}_complete was always in the stack. It is allocated
-in the following way:
-
-
-	struct netconsole_target {
-		...
-		char extradata_complete[MAX_EXTRADATA_ENTRY_LEN * MAX_EXTRADATA_ITEMS];
+		local_irq_enable();
+		preempt_enable();
 	}
 
-	static struct netconsole_target *alloc_and_init(void) {
-		struct netconsole_target *nt;
-		nt = kzalloc(sizeof(*nt), GFP_KERNEL);
-		...
-		return nt
+	vcpu_put(vcpu); // calls kvm_arch_vcpu_put_fp()
+
+... and the problem can occur at any point after the vCPU has run where IRQs
+are enabled, i.e, between local_irq_enable() and either local_irq_disable() or
+vcpu_put()'s call to kvm_arch_vcpu_put_fp().
+
+Note that kernel_neon_begin() calls:
+
+	fpsimd_save_user_state();
+	...
+	fpsimd_flush_cpu_state();
+
+... and fpsimd_save_user_state() will see that the SVE VL is wrong:
+
+	if (WARN_ON(sve_get_vl() != vl)) {
+		force_signal_inject(SIGKILL, SI_KERNEL, 0, 0);
+		return;
 	}
 
-	static struct netconsole_target *alloc_param_target(char *target_config,
-							    int cmdline_count) {
-		nt = alloc_and_init();
-		....
-		return nt;
-	}
+... pending a SIGKILL for the VMM thread without saving the vCPU's state
+before unbinding the live state via fpsimd_flush_cpu_state(), which'll
+set TIF_FOREIGN_FPSTATE.
 
-	static int __init init_netconsole(void) {
-		nt = alloc_param_target(target_config, count);
-		...
-		list_add(&nt->list, &target_list);
-	}
+AFAICT it's possible to re-enter the vCPU after that happens, whereupon
+stale vCPU FPSIMD/SVE state will be restored. Upon return to userspace
+the SIGKILL will be delivered, killing the VMM.
 
-> Maybe we can pack all the bits of state into a struct for easier
-> passing around, but still put it on the stack?
+As above, it looks like that's been broken since the nVHE SVE
+save/restore was introduced in commit:
 
-It depends on what state you need here. We can certainly pass runtime
-(aka sysdata in this patchset) data in the stack, but doing the same for
-userdata would require extra computation in runtime. In other words, the
-userdata_complete and length are calculated at configfs update time
-today, and only read during runtime, and there is no connection between
-configfs and runtime (write_ext_msg()) except through the stack.
+  8c8010d69c132273 ("KVM: arm64: Save/restore SVE state for nVHE")
 
+The TL;DR summary is that it's not sufficient for kvm_arch_vcpu_put_fp()
+to fix up ZCR_ELx. Either:
 
-On the other side, if we want to have extradata_complete in the stack, I
-still think that userdata will need to be in the stack, and create a
-buffer in runtime's frame and copy userdata + sysdata at run time, doing
-an extra copy. 
+* That needs to be fixed up while IRQs are masked, e.g. by
+  saving/restoring the host and guest ZCR_EL1 and/or ZCR_ELx values in
+  kvm_arch_vcpu_ctxflush_fp() and kvm_arch_vcpu_ctxsync_fp()
 
-Trying to put this in code, this is what I thought:
+* The lazy save logic in fpsimd_save_user_state() needs to handle KVM
+  explicitly, saving the guest's ZCR_EL1 and restoring the host's
+  ZCR_ELx.
 
-	/* Copy to the stack (buf) the userdata string + sysdata */
-	static void append_runtime_sysdata(struct netconsole_target *nt, char *buf) {
-		if (!(nt->sysdata_fields & CPU_NR))
-			return;
+I think we need to fix that before we extend this logic for SME.
 
-		return scnprintf(buf,  MAX_EXTRADATA_ENTRY_LEN * MAX_EXTRADATA_ITEMS,
-				  "%s cpu=%u\n", nt->userdata_complete, raw_smp_processor_id());
-	}
+Mark.
 
-	/* Move complete string in the stack and send from there */
-	static void send_ext_msg_udp(struct netconsole_target *nt, const char *msg,
-				     int msg_len) {
-		...
-	#ifdef CONFIG_NETCONSOLE_DYNAMIC
-		struct char buf[MAX_EXTRADATA_ENTRY_LEN * MAX_EXTRADATA_ITEMS];
-		extradata_len = append_runtime_sysdata(nt, buf);
-	#endif
-
-		send_msg_{no}_fragmentation(nt, msg, buf, extradata_len, release_len)
-		...
-	}
-
-
-Thank for the review and the help with the design,
---breno
+>  
+>  	if (guest_owns_fp_regs()) {
+> -		if (vcpu_has_sve(vcpu)) {
+> -			u64 zcr = read_sysreg_el1(SYS_ZCR);
+> -
+> -			/*
+> -			 * If the vCPU is in the hyp context then ZCR_EL1 is
+> -			 * loaded with its vEL2 counterpart.
+> -			 */
+> -			__vcpu_sys_reg(vcpu, vcpu_sve_zcr_elx(vcpu)) = zcr;
+> -
+> -			/*
+> -			 * Restore the VL that was saved when bound to the CPU,
+> -			 * which is the maximum VL for the guest. Because the
+> -			 * layout of the data when saving the sve state depends
+> -			 * on the VL, we need to use a consistent (i.e., the
+> -			 * maximum) VL.
+> -			 * Note that this means that at guest exit ZCR_EL1 is
+> -			 * not necessarily the same as on guest entry.
+> -			 *
+> -			 * ZCR_EL2 holds the guest hypervisor's VL when running
+> -			 * a nested guest, which could be smaller than the
+> -			 * max for the vCPU. Similar to above, we first need to
+> -			 * switch to a VL consistent with the layout of the
+> -			 * vCPU's SVE state. KVM support for NV implies VHE, so
+> -			 * using the ZCR_EL1 alias is safe.
+> -			 */
+> -			if (!has_vhe() || (vcpu_has_nv(vcpu) && !is_hyp_ctxt(vcpu)))
+> -				sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1,
+> -						       SYS_ZCR_EL1);
+> -		}
+> +		kvm_vcpu_put_sve(vcpu);
+>  
+>  		/*
+> -		 * Flush (save and invalidate) the fpsimd/sve state so that if
+> +		 * Flush (save and invalidate) the FP state so that if
+>  		 * the host tries to use fpsimd/sve, it's not using stale data
+>  		 * from the guest.
+>  		 *
+> 
+> -- 
+> 2.39.5
+> 
+> 
