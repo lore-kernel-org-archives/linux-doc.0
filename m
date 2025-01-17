@@ -1,692 +1,216 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2084.outbound.protection.outlook.com [40.107.236.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2581A705C;
-	Fri, 17 Jan 2025 17:59:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737136795; cv=none; b=BQeqJiKmk/rVfvNKaW6MYY7OwiJ4IYUpFFkAeC93vHoH+8JMqRjLHosV96zIoYI6tCdMZsRt3IavcC3rQE0fIDHqyS1rlZCPg3cCpP4Qy/Ylkd0Lrs0siq5WGw7nQEnUscMRO2QdE6ejnDV+5YwOHqfTjyDo14OEhZFuXKB3FnI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737136795; c=relaxed/simple;
-	bh=LIPJhhxI9x5E9YFP9vKAabDVgdnVjYMv//IillkBlls=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BHT+/68ikBgfm2Wt3cjHLwHDXkckjErsPR1XLmpEpUQ9M79444hZBb91g7L3v52B02SLoisEz5Gnuyn+ZsgwMhAksOtQj/qjDx7QTMAAMe9KBNkxVhW/3sRothWWyClA5DpVaFBhlc4kkxBdBtP2Npgaq9p3WgQ2nwCgvpcre3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kuc1Uhx/; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87EE1A8401;
+	Fri, 17 Jan 2025 18:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.84
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737139293; cv=fail; b=XeYcdlQwp8bxXmLWyq3lRCO5yEa8ryrrNFjflYhJdgO7IoRASPhMoprsvb94nxMoXnN+eTT311EQqPS5tZxaSTaw0r3/DEjq3Hjmq9SVMM8vnJtjtTQOON09wRnvppme8sOU8DBkSV6vBJPSCIFYIZyM6fODGgikpLU7JrzU0o0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737139293; c=relaxed/simple;
+	bh=ueCI2p+LoXmgZlRTbEP1IN1uTMqHRkPcrB3g/U1s+No=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=RyiTkJoUxxg78ojaIkKYBkawE6YuaLyOE+aAvliOJIwMdIkY1cwP1ob9s1fYxHLGASY+2wPbVNpisrW5I5qEIGmHGpXExfPbhC9vlVZlL6fBItGHqB0z7GugRC3hQcMWYpIHocuhoN2Kal4/iYc7tfi3IBsAo6KxkUZ7FZ+n4jk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=AArNDjEM; arc=fail smtp.client-ip=40.107.236.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kuc1Uhx/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0739AC4CEE7;
-	Fri, 17 Jan 2025 17:59:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737136795;
-	bh=LIPJhhxI9x5E9YFP9vKAabDVgdnVjYMv//IillkBlls=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kuc1Uhx/2VM84ZWETTnkU+4HeE2wnfK3KEcBoqhL64CkUa2dLDlqK5Z1FCkxfLhs4
-	 csc8jOpEFV07ooB3rC1yig+4x40LwxVMRQDle8NAMgqNj1+7v6C26rykDabaAzhOIV
-	 aIO6icsE5fJPgBzOyYjUc16AsY0oTb9o5YUVqf/ADmodPD8S/kygTdwnV0KemLw4RL
-	 V+aP8ScrRTSlRxRVlhpEFAqa5OpAgRdN+3rKNCn3wSTLVGpqM+MBwAlYYZAdVPYWlt
-	 LrJm8lQ5b1rVTmQ5ojuWz7dcDUpeM2lChLgvFvmr3OMsQW6FPw1V0WKM222cNatKjE
-	 HtF8Q1BM58phw==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tYqdM-00000006Ajv-2Egp;
-	Fri, 17 Jan 2025 18:59:52 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH RFC 07/10] [RFC] scripts: add a get_abi.py tool to generate ReST output
-Date: Fri, 17 Jan 2025 18:59:36 +0100
-Message-ID: <bcec4ad57fb51f8e0c4e4f817e8098073a63229d.1737135484.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <cover.1737135484.git.mchehab+huawei@kernel.org>
-References: <cover.1737135484.git.mchehab+huawei@kernel.org>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="AArNDjEM"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Q/+lXxB7CxtRDEgEP/4FWoi9xIkAlrysuJxRjZFADN+8zGep83z8c+u718C5ccEBZekFeYWq78Mr7rs2NqXrijrgWFJHG8s6gbHgkxACbsrJ4ADjpU997F/gPG7xDW9q5ZTa984SIg3WE7XoZpO3qEMSZzpZzhpaA4sqMEtCU1mNlvROw0rP3yNiLU0uc8W6aKnpHMx0bcE5iOHXCyXnbcYm3nrC1ODdl/DpIr0JmF1cCEiOj1K5wkBnNwVV/kbRSSgR/84/wxaGroEDWX1qe0TDarsvbAXAcAR7bQn/2FNwDCPV2d6PyRnelAB+mbxJIT3+sRfA+gyCYw8aMhZU4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ptDKbcjABbgkZzTDx7uVQ+WCUN8Swo7WInQox8Cuq3s=;
+ b=ty2A9Lg69rNzb4pi22OBmXLfsBuu2QPO9l6tbDJFnxp3SWbqlXz2Gxfl+9t42ufCgoQty2qseyAIjtuwG6fr+8V7kBudech6HsFIisqpk9WvKKLWJe5u4LBXL8zH06aOn4nFVugwxWipc3HIKuice2v6zhAwwBFf7qU1ZGHnTSzpX4MImFQuGcDlObat1T893970kdkoYMQS4EBTJziwxdUugtqnkHrTktkpzbdb808ZbefxCK5MtUy9uhSNguItoyxrpKvKcCXkNdRFD++RV2oLqV0Y7onb/sgs289aFzaNanJvhJs76XK7BLyuqcrfw3milpdbdYolLcJpKM2wIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ptDKbcjABbgkZzTDx7uVQ+WCUN8Swo7WInQox8Cuq3s=;
+ b=AArNDjEMxMavVbgynn/hC88t52Lgsqd5INL3Hfm/uBtTdu4ExDhakk4oSHiOLfL8WG5ZohElI4/1W5tMND34NtLvd2mbX0L5q7nVnxHf4ZNMaVg6oKlhgbSITClXdJlf3kbDawCFaaBu/xiPTQ8N/lRQJIXIIRbP3laC+RZvcv0Bb2ywbYvW1qLQiYepXlyPXtsWR36P51uSEOOW8xf+GSsWMKyvkdQqKoLrASkZ7UnppV8bG3X17M8Mtm+Ev5+GXFCWmtMygHEZ4tePz4ciLtI/fzWUdT6WRtFUVm9fAHtTarnAwjxvgNw7s6X3fy+Kbwvmu7YaMr0CedYBjrphkA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH7PR12MB6657.namprd12.prod.outlook.com (2603:10b6:510:1fe::7)
+ by SJ2PR12MB8717.namprd12.prod.outlook.com (2603:10b6:a03:53d::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.17; Fri, 17 Jan
+ 2025 18:41:28 +0000
+Received: from PH7PR12MB6657.namprd12.prod.outlook.com
+ ([fe80::e1a7:eda7:8475:7e0a]) by PH7PR12MB6657.namprd12.prod.outlook.com
+ ([fe80::e1a7:eda7:8475:7e0a%6]) with mapi id 15.20.8356.010; Fri, 17 Jan 2025
+ 18:41:28 +0000
+Message-ID: <02c3adb0-ff46-45ea-a67f-8d4728302b3b@nvidia.com>
+Date: Fri, 17 Jan 2025 10:41:26 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] PCI: Fix Extend ACS configurability
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: corbet@lwn.net, bhelgaas@google.com, paulmck@kernel.org,
+ akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
+ xiongwei.song@windriver.com, vidyas@nvidia.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, vsethi@nvidia.com,
+ sdonthineni@nvidia.com
+References: <20250102184009.GD5556@nvidia.com>
+ <2676cf6e-d9eb-4a34-be5e-29824458f92f@nvidia.com>
+ <20250107001015.GM5556@nvidia.com>
+ <c9aeb7a0-5fef-49a5-9ebb-c0e7f3b0fd3e@nvidia.com>
+ <20250108151021.GS5556@nvidia.com>
+ <0ea48a2b-0b6d-49e2-b3f7-ab4deef90696@nvidia.com>
+ <20250113200749.GW5556@nvidia.com>
+ <6ea9260b-f9cd-4128-b424-11afe6579fdc@nvidia.com>
+ <20250116190118.GW5556@nvidia.com>
+ <4d5224c6-bc0b-4ca9-9f1a-71d701554b3d@nvidia.com>
+ <20250117132802.GB5556@nvidia.com>
+Content-Language: en-US
+From: Tushar Dave <tdave@nvidia.com>
+In-Reply-To: <20250117132802.GB5556@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0138.namprd03.prod.outlook.com
+ (2603:10b6:303:8c::23) To PH7PR12MB6657.namprd12.prod.outlook.com
+ (2603:10b6:510:1fe::7)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB6657:EE_|SJ2PR12MB8717:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8dbaadaf-e5aa-4c04-22c7-08dd37268dc3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?c1BzbW1kOXN5clpFQWYwMlNzZGdzZlBoUGZwL0tmMVdjU1ltY0Eya3BQaTVp?=
+ =?utf-8?B?Mjhlb2dlck1TWkxzK0o0ZlpKckdqc1NGTjZNa2wreWN4eHJ5YVNCVTRZT1Jz?=
+ =?utf-8?B?WWhHU25uYkxRZ2Y0S3BJZWxtZnEwWGYyYW9JekpWb2gwR1czRGtHQTdNNnpH?=
+ =?utf-8?B?SHJ2WnNTeUtqbXRvQ0Eya2M5UFlmSjd3K2tIOVM4T041TU1KQ3RaVGZCTjJv?=
+ =?utf-8?B?RERTeFZVSWtDckI5QWt3WDhSc1Evcm11Qk1OTFNSWXZVcG5IWENadHF5MlUr?=
+ =?utf-8?B?N1dMYjNSUTVlc3lVUTJkdnlBeW55bmxLclNTcjlyMWVaa2ZiWGwrMVVqNnJ1?=
+ =?utf-8?B?bWorWERiS1JzejZTMkloYUJ5NXllZGd5elNlbEhyWlI4Mzh4SXpTU2h0R1Zx?=
+ =?utf-8?B?UjYzK1FhWlE2VzhrZEVoeUNaQ1JuN3RpMHJ3ZWlWM1ltMFdCMkpNbWljWTFz?=
+ =?utf-8?B?aHc0UjcxYVVpNWkvazBpaFJFN2QxVWRDU0RZVXlOTEdmY2N3WWErdlNGM1Nk?=
+ =?utf-8?B?TmE0STBmN2ZFUzJyZjN5MDl4RDVCUkltNThSUVp2bHVwMGtDOVBwWXZGaVVz?=
+ =?utf-8?B?UUFUa25oQy9jRytDZ2VzTWJEc0IxbHNkRGdZbEJtWGRObS80a0EzeS9IWEM3?=
+ =?utf-8?B?c1czMGtEaEJjQXFSeERnQXgrVjRXUGt0cFVYM0kwM0xsZ1h0a2NnMmk2Vlk0?=
+ =?utf-8?B?NXpzN1h1L0hDT2Jndk43b2h3SVFJZWRidmtmUnBVQldseHhjNTdsdDJueFdw?=
+ =?utf-8?B?ZG9IVU55dVV1SGpZZjFDSm91aG1ML1k4NzI2aVRacjBacFR1czdnZVlhUGxv?=
+ =?utf-8?B?OXN5UnpYVWFjS0plUTJodEZIQklMdW82VzlUM2Rjb3BRZXZuRjdRTjZXRXIr?=
+ =?utf-8?B?WFZtaVl5YzNYK1JpdTNSa3l0QzB1T1BrUFZHRjNQTUorSFVkNENtcEpqck5C?=
+ =?utf-8?B?V1N0VUt4UjZIREJjZFh1NEJNa3J0WGxVRjR2K1JUWHlRV2dsOUhaQTdaOVNt?=
+ =?utf-8?B?Zk9CZ1hEQkhpYlV4U1NaNTFmR056SGNzT2M2OGxPbENhYWhvSy9iZUw1UmZB?=
+ =?utf-8?B?TUNBVE1rMTI1OGNHa3JJdFh2ZEVVRDRidGw1SS9UWXFBT2ZobFE4Q1Bwd1Qx?=
+ =?utf-8?B?U1d5VEFRZEhENXpKazBsMmlqUkw1VUhhN3l1eUk0bHFlYmpKTzRoNldyajBQ?=
+ =?utf-8?B?UHBsUTNMVlF5SVJwdXcrUVAxR1NCNjdhdG93SEVNZUE0dFd5VER5WDl0MUdr?=
+ =?utf-8?B?bWpvWmt6aVB4TVZMMTVHcHg1ZEFnVW5wMHpKYzhBTmZnTXc1aE9sekdWSldk?=
+ =?utf-8?B?Yis0NU13bzF1U1hrdmFxUTUyVEtBOFozeG1SRDJIamZmN2luNVpFb2VXenM2?=
+ =?utf-8?B?NW1YdzA3c21vaHdGMTNUMk81QjUyVXNCN3BUaVVjNGNMRktkMTJWdXdiUUh5?=
+ =?utf-8?B?dlpjTFJtbEZ6Q09FdHZnUlM0SFRIb3pGWjlONnRFNUhCbHlMbURxL3haNGd4?=
+ =?utf-8?B?Z1BLeS9zR1NQdjdyV242Y1NqVmpDRVQvbVYwenpNUzhobExTODluRnRHdE9o?=
+ =?utf-8?B?QklBdEZZdWg2SVNGcFhla3EvYTJOeUdMeDM3Y3pST1BRRi80RGFpZitWNklO?=
+ =?utf-8?B?eE1nbXFFcmNjbkM0U2pyTkVpUEJYQXRKTVdtQkk4ZHRhVDR4R2EycjhDT2ts?=
+ =?utf-8?B?cDVIaHVWRmZHWFFMZXNWRlJmQ0pnUDVGNE9lS2ZTR3VmRVRvaXl3aE55ZEFx?=
+ =?utf-8?B?cXlBMzNTWEdTSnNZT2x2eW00SWNuQU5iZVcxVUxpV2tReGwycXlJNW1nSTNy?=
+ =?utf-8?B?c1owSk5SUThIVEd4SW9oZW9QVld0T3VFVUo2NFUvb1RKczVzSHgwRElnTnl4?=
+ =?utf-8?Q?OZiAP+cbA8pvR?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB6657.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NFdTRXQ2RUVQQUJXb1VkUFNNSE5NZEJjdkpyR1BrY2NKbVorZzg1dEUzaFVQ?=
+ =?utf-8?B?ZWtWcE90ejhFdjk3aXQrblBHN25qaUhYL00wd0FxTWJnaGZUMlVDU0VHaTh0?=
+ =?utf-8?B?ejk4ZURVbDJ3Nzg2c1krTDhOYXRpUWVqb0s0RzIwV3ZrRnRxSGVNTmtGQXR3?=
+ =?utf-8?B?QnpNUHlweWhKZ3BQdytCdHNOUDkrSEJXQXVSVHZQc1BaMzJKUmxrUzRibXc4?=
+ =?utf-8?B?RThKemJUSHcvQXlPYlJIOFFsS3dUdVV4Y3NXT2VHcVFYb3VDNHhXekZJcDAy?=
+ =?utf-8?B?c2NCUDhRTm90dnZqYWxjRkIvaVk2VHJNSGVhNjhtWkU1OVdsMXBWSEt4MGRv?=
+ =?utf-8?B?RmNNdlRIWlJ6YVU5ZTRKTXFwS2MwdEFuNVliWTFzajFCUDQ2ZHRwTFMwU3VE?=
+ =?utf-8?B?VmtLMlBwMVFrVmxuWnpOWWVWVzgrUmFBdVQ0eVN4b1dEN3hYQW5uNFJldHFU?=
+ =?utf-8?B?Z0tlYktLMWkzbmdpYmFxRWw2SEVnYldjMXUrY2Z2UHlRNXNuYk1hdmI2VVEx?=
+ =?utf-8?B?WDBLR2YzLzR3V1R5SHUvQzk2eHN4UjNyc1E5YTNCVWdZazl2V1ZWUnVuSEVh?=
+ =?utf-8?B?eW11aHRtTEt4dkg0YnhBMnhWakFmOHJrSTRkcFo5VEU0TzZ4TCs5MHdsQUlP?=
+ =?utf-8?B?U21FaXNnQTB3bjVkcDhmdmd2WGpwMGZyQ1orZHVNOUU2dHRtckFJaGRzaGVL?=
+ =?utf-8?B?NkdoK3lTME8zL3RpSWgvRjE2aFBNMjVMWGlTR3hJdlJEZm94eFdVMkVEU29Z?=
+ =?utf-8?B?cTkwRHN2SEVOaXRWMk0vTlV2d3hhL0tYQVdON21Lb3lOeWR6VEFPVnQ2bVdX?=
+ =?utf-8?B?bjJ5RzQrTzFkeDdHd2prQ3ZONWpXb1JZVTBrN2lIUGhGVldpSkpCVWZMOWxa?=
+ =?utf-8?B?ajdGVHdCSGhBZGVxeVhEaEEza2ViRmtBZk9rUTM3WUhwVjFHK3R1ckxEK3dR?=
+ =?utf-8?B?a1ZLcytJYTl3UG5KZ1cyODFCNGdDTm5yS0ZNd05kK0pIYXY4Q2hYY0tTQjQ0?=
+ =?utf-8?B?OERqNDhmWngyL29ObjNGd2hHeThGUTNhRW9vMkNuSHo1TDVDVDAzdEdzVTYr?=
+ =?utf-8?B?bHF5ZGpzZFk1aG5FU3JTZTArQ1NZUm1nQVluZ3VueEFzOWtPSXpyV2QvSHQw?=
+ =?utf-8?B?aE4wclJkN1RPY1praWYwalJoMmVqQzB3SCtwRGR1d1NaTkZTYlg2czBaOEVV?=
+ =?utf-8?B?TUg2bngveG1Ob3BMVGhUc010L25wMGZhSGI0MUw2Z0NOTVhYS2RzdDdoSENG?=
+ =?utf-8?B?WnNBempGNjVjYkNVdWhMVDY2MDVaSTNlV2s5ck01OWRodHF5QjA2TEJYL3pX?=
+ =?utf-8?B?OHlkMm1IdWZKY2F2aWFldnhwVnlyVUJLaThFVFBJOGxoVnYvL2owb25Wb0tE?=
+ =?utf-8?B?SHRoaU9oOGtaSHVFaG5TS01pRktVS2RSaXJyZk10a1gyNXc1cXdlcmZLb293?=
+ =?utf-8?B?UmdHNXoxeURuTHNYZWY3VVlZOUpIeDlvMTBsNE02TGxmUTlZMTdxQWxlcDJD?=
+ =?utf-8?B?KzNSVnNvc0F3NnpycGkyZXhQSE5SNWUza2xqTFhMREhWemh5SjFRQ2gxQ2JL?=
+ =?utf-8?B?Y2huTXg3TjdrNVd3UW5qOHlxU2VONzVQd0U1RG1jL0czNU5QMmpTVyt2czhM?=
+ =?utf-8?B?dlFISERoUFg1Wkx2MzFLWWpnSW40UTRnOW4yWERuYkNUVzBWNENja0Fkd2tQ?=
+ =?utf-8?B?Y2FWM1JlMEFodlFMRUpFcFlvTWdqUlg1a1YydzFyMmtOUTZPY0ZON3pYNVRV?=
+ =?utf-8?B?Z1hIWXZPcnFHU2UrUWhrcVhJbVlPVzhTYm5XdTRzMkg0S0F6WEE5ZGN1eWIy?=
+ =?utf-8?B?VzAxZk10dVUxYXhXOE8vTVJ6d1BPRVlreHlSMm1hUEx1WFBvTXZySHlKQ2hK?=
+ =?utf-8?B?cTl0UjhoSTZlK3BhMEN5U1JjK0F0UEVNVW1wZStmTHlDenRpeTFKNGhEYnk4?=
+ =?utf-8?B?R2hyeExkeXRYOEx3WlQ2NlhXaUduYzBiRFFvOFJhUUVyYklwa3cyMHVock9j?=
+ =?utf-8?B?RXB4eWl3RW1leVlGaVl2S0VaTWxDc1g2MEY1TGZQMFB1S0V5UUtuSG93YVND?=
+ =?utf-8?B?TktWOVZZM3g0dmxLNTN5YS91a0w2ZDBHeE1GQlNTb3ZWSzhtMm1YZGUxNmN2?=
+ =?utf-8?Q?XspSk2LtFwRDoDzsy9hvSd9F9?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8dbaadaf-e5aa-4c04-22c7-08dd37268dc3
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB6657.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2025 18:41:28.4728
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lffzdIcb5hvgpySURO/wdHiEUjt+wCY8DUM4JyQT7zTNSBUiRD4BQJbdJ2laPq0Tcy24Ie0BXNI+axuEWyCedw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8717
 
-The get_abi.pl script is requiring some care, but it seems that
-the number of changes on it since when I originally wrote it
-was not too high. Granted, maintaining perl scripts without
-classes requires a higher efforted than on python. Also, it sounds
-easier to find python developer those days than perl ones.
 
-With that in mind, rewrite the core of get_abi.pl in Python,
-using classes, to help producing documentation. This will
-allow a better integration in the future with the Sphinx
-ABI extension.
 
-The algorithms used there are the same as the ones in Perl,
-with a couple of cleanups to remove redundant variables and
-to help with cross-reference generation. I also removed
-some code that were important in the past during txt to ReST
-migration, but aren't needed now anymore.
+On 1/17/25 05:28, Jason Gunthorpe wrote:
+> On Thu, Jan 16, 2025 at 05:21:29PM -0800, Tushar Dave wrote:
+> 
+>> -       /* If mask is 0 then we copy the bit from the firmware setting. */
+>> -       caps->ctrl = (caps->ctrl & ~mask) | (caps->fw_ctrl & mask);
+>> -       caps->ctrl |= flags;
+>> +       /* For mask bits that are 0 copy them from the firmware setting
+>> +        * and apply flags for all the mask bits that are 1.
+>> +        */
+>> +       caps->ctrl = (caps->fw_ctrl & ~mask) | (flags & mask);
+>>
+>>
+>> I ran some sanity tests and looks good. Can I send V2 now?
+> 
+> I think so, I'm just wondering if this is not quite it either - this
+> will always throw away any changes any of the other calls made to
+> ctrl prior to getting here.
 
-The end script is a little bit faster than the original one
-(tested on a machine with ssd disks). That's probably because
-we're now using only pre-compiled regular expressions, and it
-is using string replacement methods instead of regex where
-possible.
+Yes.
 
-The new version is a little bit more conservative when
-creating cross-references to avoid adding them into literal
-blocks. We may end making it working better once we change
-Sphinx integration, in the future.
+> 
+> So we skip the above if the kernel command line does not refer to the
+> device?
 
-The end result was compared with the one produced by the perl
-script and showed no regressions.
+That is correct as well.
 
-As a side effect, that makes integration with Sphinx easier.
+> 
+> Ie if the command line refers to the device then it always superceeds
+> everything, otherwise the other stuff keeps working the way it worked
+> before??
 
-This script follows flake8 style, verified with:
+Yup.
+If kernel commandline is present (either config_acs or disable_acs_redir) and 
+device match occurs in function '__pci_config_acs', we discard any changes done 
+to ctrl by kernel prior to this call. Else we do not touch ctrl and it works as 
+before.
 
-	$ flake8 ./scripts/get_abi.py --max-line-length 100
+And IMO, that is how it should be. This gives admin a control to configure ACS 
+using kernel parameter based on ACS value that FW has set (and not kernel).
 
-(most lines are below 80 columns limit, but some strings are
-longer)
+-Tushar
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- scripts/get_abi.py | 583 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 583 insertions(+)
- create mode 100755 scripts/get_abi.py
-
-diff --git a/scripts/get_abi.py b/scripts/get_abi.py
-new file mode 100755
-index 000000000000..64a0ec8b1d89
---- /dev/null
-+++ b/scripts/get_abi.py
-@@ -0,0 +1,583 @@
-+#!/usr/bin/env python3
-+# pylint: disable=R0902,R0903,R0911,R0912,R0914,R0915
-+# Copyright(c) 2025: Mauro Carvalho Chehab <mchehab@kernel.org>.
-+# SPDX-License-Identifier: GPL-2.0
-+
-+"""
-+Parse ABI documentation and produce results from it.
-+"""
-+
-+
-+import argparse
-+import os
-+import re
-+import sys
-+
-+from glob import glob
-+from random import randrange
-+
-+if __name__ == "__main__":
-+    import logging
-+else:
-+    from sphinx.util import logging
-+
-+ABI_DIR = "Documentation/ABI/"
-+
-+# Debug levels
-+DEBUG_WHAT_PARSING = 1
-+DEBUG_WHAT_OPEN = 2
-+DEBUG_DUMP_ABI_STRUCTS = 4
-+DEBUG_UNDEFINED = 8
-+
-+
-+class AbiParser:
-+    """Main class to parse ABI files"""
-+
-+    TAGS = r"(what|where|date|kernelversion|contact|description|users)"
-+    XREF = r"(?:^|\s|\()(\/(?:sys|config|proc|dev|kvd)\/[^,.:;\)\s]+)(?:[,.:;\)\s]|\Z)"
-+
-+    def __init__(self, directory, enable_lineno=False, show_warnings=True, debug=0):
-+        """Stores arguments for the class and initialize global vars"""
-+
-+        self.directory = directory
-+        self.enable_lineno = enable_lineno
-+        self.show_warnings = show_warnings
-+        self.debug = debug
-+
-+        self.log = logging.getLogger("get_abi")
-+        self.data = {}
-+        self.what_symbols = {}
-+        self.file_refs = {}
-+        self.what_refs = {}
-+
-+        # Regular expressions used on parser
-+        self.re_tag = re.compile(r"(\S+)(:\s*)(.*)", re.I)
-+        self.re_valid = re.compile(self.TAGS)
-+        self.re_start_spc = re.compile(r"(\s*)(\S.*)")
-+        self.re_whitespace = re.compile(r"^\s+")
-+
-+        # Regular used on print
-+        self.re_what = re.compile(r"(\/?(?:[\w\-]+\/?){1,2})")
-+        self.re_escape = re.compile(r"([\.\x01-\x08\x0e-\x1f\x21-\x2f\x3a-\x40\x7b-\xff])")
-+        self.re_unprintable = re.compile(r"([\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\xff]+)")
-+        self.re_title_mark = re.compile(r"\n[\-\*\=\^\~]+\n")
-+        self.re_doc = re.compile(r"Documentation/(?!devicetree)(\S+)\.rst")
-+        self.re_abi = re.compile(r"(Documentation/ABI/)([\w\/\-]+)")
-+        self.re_xref_node = re.compile(self.XREF)
-+
-+    def warn(self, fdata, msg, extra=None):
-+        """Displays a parse error if warning is enabled"""
-+
-+        if not self.show_warnings:
-+            return
-+
-+        msg = f"{fdata.fname}:{fdata.ln}: {msg}"
-+        if extra:
-+            msg += "\n\t\t" + extra
-+
-+        self.log.warning(msg)
-+
-+    def add_symbol(self, what, fname, ln=None, xref=None):
-+        """Create a reference table describing where each 'what' is located"""
-+
-+        if what not in self.what_symbols:
-+            self.what_symbols[what] = {"file": {}}
-+
-+        if fname not in self.what_symbols[what]["file"]:
-+            self.what_symbols[what]["file"][fname] = []
-+
-+        if ln:
-+            self.what_symbols[what]["file"][fname].append(ln)
-+
-+        if xref:
-+            self.what_symbols[what]["xref"] = xref
-+
-+    def _parse_line(self, fdata, line):
-+        """Parse a single line of an ABI file"""
-+
-+        new_what = False
-+        new_tag = False
-+        content = None
-+
-+        match = self.re_tag.match(line)
-+        if match:
-+            new = match.group(1).lower()
-+            sep = match.group(2)
-+            content = match.group(3)
-+
-+            match = self.re_valid.search(new)
-+            if match:
-+                new_tag = match.group(1)
-+            else:
-+                if fdata.tag == "description":
-+                    # New "tag" is actually part of description.
-+                    # Don't consider it a tag
-+                    new_tag = False
-+                elif fdata.tag != "":
-+                    self.warn(fdata, f"tag '{fdata.tag}' is invalid", line)
-+
-+        if new_tag:
-+            # "where" is Invalid, but was a common mistake. Warn if found
-+            if new_tag == "where":
-+                self.warn(fdata,
-+                          "tag 'Where' is invalid. Should be 'What:' instead")
-+                new_tag = "what"
-+
-+            if new_tag == "what":
-+                fdata.space = None
-+
-+                if content not in self.what_symbols:
-+                    self.add_symbol(what=content,
-+                                    fname=fdata.fname, ln=fdata.ln)
-+
-+                if fdata.tag == "what":
-+                    fdata.what.append(content.strip("\n"))
-+                else:
-+                    if fdata.key:
-+                        if "description" not in self.data.get(fdata.key, {}):
-+                            self.warn(fdata,
-+                                      f"{fdata.key} doesn't have a description")
-+
-+                        for w in fdata.what:
-+                            self.add_symbol(what=w, fname=fdata.fname,
-+                                            ln=fdata.what_ln, xref=fdata.key)
-+
-+                    fdata.label = content
-+                    new_what = True
-+
-+                    key = "abi_" + content.lower()
-+                    fdata.key = self.re_unprintable.sub("_", key).strip("_")
-+
-+                    # Avoid duplicated keys
-+                    while fdata.key in self.data:
-+                        char = randrange(0, 51) + ord("A")
-+                        if char > ord("Z"):
-+                            char += ord("a") - ord("Z") - 1
-+
-+                        fdata.key += chr(char)
-+
-+                    if fdata.key and fdata.key not in self.data:
-+                        self.data[fdata.key] = {
-+                            "what": [content],
-+                            "file": [fdata.file_ref],
-+                            "line_no": fdata.ln,
-+                        }
-+
-+                    fdata.what = self.data[fdata.key]["what"]
-+
-+                self.what_refs[content] = fdata.key
-+                fdata.tag = new_tag
-+                fdata.what_ln = fdata.ln
-+
-+                if fdata.nametag["what"]:
-+                    t = (content, fdata.key)
-+                    if t not in fdata.nametag["symbols"]:
-+                        fdata.nametag["symbols"].append(t)
-+
-+                return
-+
-+            if fdata.tag and new_tag:
-+                fdata.tag = new_tag
-+
-+                if new_what:
-+                    fdata.label = ""
-+
-+                    self.data[fdata.key]["type"] = fdata.ftype
-+
-+                    if "description" in self.data[fdata.key]:
-+                        self.data[fdata.key]["description"] += "\n\n"
-+
-+                    if fdata.file_ref not in self.data[fdata.key]["file"]:
-+                        self.data[fdata.key]["file"].append(fdata.file_ref)
-+
-+                    if self.debug == DEBUG_WHAT_PARSING:
-+                        self.log.debug("what: %s", fdata.what)
-+
-+                if not fdata.what:
-+                    self.warn(fdata, "'What:' should come first:", line)
-+                    return
-+
-+                if new_tag == "description":
-+                    fdata.space = None
-+
-+                    if content:
-+                        sep = sep.replace(":", " ")
-+
-+                        c = " " * len(new_tag) + sep + content
-+                        c = c.expandtabs()
-+
-+                        match = self.re_start_spc.match(c)
-+                        if match:
-+                            # Preserve initial spaces for the first line
-+                            fdata.space = match.group(1)
-+                            content = match.group(2) + "\n"
-+
-+                self.data[fdata.key][fdata.tag] = content
-+
-+            return
-+
-+        # Store any contents before tags at the database
-+        if not fdata.tag and "what" in fdata.nametag:
-+            fdata.nametag["description"] += line
-+            return
-+
-+        if fdata.tag == "description":
-+            content = line.expandtabs()
-+
-+            if self.re_whitespace.sub("", content) == "":
-+                self.data[fdata.key][fdata.tag] += "\n"
-+                return
-+
-+            if fdata.space is None:
-+                match = self.re_start_spc.match(content)
-+                if match:
-+                    # Preserve initial spaces for the first line
-+                    fdata.space = match.group(1)
-+
-+                    content = match.group(2) + "\n"
-+            else:
-+                if content.startswith(fdata.space):
-+                    content = content[len(fdata.space):]
-+
-+                else:
-+                    fdata.space = ""
-+
-+            if fdata.tag == "what":
-+                w = content.strip("\n")
-+                if w:
-+                    self.data[fdata.key][fdata.tag].append(w)
-+            else:
-+                self.data[fdata.key][fdata.tag] += content
-+            return
-+
-+        content = line.strip()
-+        if fdata.tag:
-+            if fdata.tag == "what":
-+                w = content.strip("\n")
-+                if w:
-+                    self.data[fdata.key][fdata.tag].append(w)
-+            else:
-+                self.data[fdata.key][fdata.tag] += "\n" + content.rstrip("\n")
-+            return
-+
-+        # Everything else is error
-+        if content:
-+            self.warn(fdata, "Unexpected content", line)
-+
-+    def parse_file(self, fname, path, basename):
-+        """Parse a single file"""
-+
-+        ref = f"abi_file_{path}_{basename}"
-+        ref = self.re_unprintable.sub("_", ref).strip("_")
-+
-+        # Store per-file state into a namespace variable. This will be used
-+        # by the per-line parser state machine and by the warning function.
-+        fdata = argparse.Namespace
-+
-+        fdata.fname = fname
-+        fdata.name = basename
-+        fdata.file_ref = (basename, ref)
-+        fdata.ln = 0
-+        fdata.what_ln = 0
-+        fdata.tag = ""
-+        fdata.label = ""
-+        fdata.what = []
-+        fdata.key = None
-+        fdata.xrefs = None
-+        fdata.space = None
-+        fdata.ftype = path.split("/")[0]
-+
-+        fdata.nametag = {}
-+        fdata.nametag["what"] = [f"File {path}/{basename}"]
-+        fdata.nametag["type"] = "File"
-+        fdata.nametag["file"] = [fdata.file_ref]
-+        fdata.nametag["line_no"] = 1
-+        fdata.nametag["description"] = ""
-+        fdata.nametag["symbols"] = []
-+
-+        self.data[ref] = fdata.nametag
-+        self.file_refs[fname] = ref
-+
-+        with open(fname, "r", encoding="utf8", errors="backslashreplace") as fp:
-+            for line in fp:
-+                fdata.ln += 1
-+
-+                self._parse_line(fdata, line)
-+
-+            if "description" in fdata.nametag:
-+                fdata.nametag["description"] = fdata.nametag["description"].lstrip("\n")
-+
-+            if fdata.key:
-+                if "description" not in self.data.get(fdata.key, {}):
-+                    self.warn(fdata, f"{fdata.key} doesn't have a description")
-+
-+                for w in fdata.what:
-+                    self.add_symbol(what=w, fname=fname, xref=fdata.key)
-+
-+    def parse_abi(self):
-+        """Parse documentation ABI"""
-+
-+        ignore_suffixes = ("rej", "org", "orig", "bak", "~")
-+        re_abi = re.compile(r".*" + ABI_DIR)
-+
-+        for fname in glob(os.path.join(self.directory, '**'), recursive=True):
-+            if os.path.isdir(fname):
-+                continue
-+
-+            basename = os.path.basename(fname)
-+
-+            if basename == "README":
-+                continue
-+            if basename.startswith(".") or basename.endswith(ignore_suffixes):
-+                continue
-+
-+            path = re_abi.sub("", os.path.dirname(fname))
-+
-+            self.parse_file(fname, path, basename)
-+
-+    def print_desc_txt(self, desc):
-+        """Print description as found inside ABI files"""
-+
-+        desc = desc.strip(" \t\n")
-+
-+        print(desc + "\n")
-+
-+    def print_desc_rst(self, desc):
-+        """Enrich ReST output by creating cross-references"""
-+
-+        # Remove title markups from the description
-+        # Having titles inside ABI files will only work if extra
-+        # care would be taken in order to strictly follow the same
-+        # level order for each markup.
-+        desc = self.re_title_mark.sub("\n\n", "\n" + desc)
-+        desc = desc.rstrip(" \t\n").lstrip("\n")
-+
-+        new_desc = ""
-+        for d in desc.split("\n"):
-+            if d == "":
-+                new_desc += "\n"
-+                continue
-+
-+            # Use cross-references for doc files where needed
-+            d = self.re_doc.sub(r":doc:`/\1`", d)
-+
-+            # Use cross-references for ABI generated docs where needed
-+            matches = self.re_abi.findall(d)
-+            for m in matches:
-+                abi = m[0] + m[1]
-+
-+                xref = self.file_refs.get(abi)
-+                if not xref:
-+                    self.log.warning("Didn't find ABI reference for %s", abi)
-+                    continue
-+
-+                new = self.re_escape.sub(r"\\\1", m[1])
-+
-+                d = d.replace(abi, f":ref:`{new} <{xref}>`")
-+
-+            # Seek for cross reference symbols like /sys/...
-+            # Need to be careful to avoid doing it on a code block
-+            if d[0] not in [' ', '\t']:
-+                matches = self.re_xref_node.findall(d)
-+                for m in matches:
-+
-+                    # Finding ABI here is more complex due to wildcards
-+                    xref = self.what_refs.get(m)
-+                    if not xref:
-+                        continue
-+
-+                    new = self.re_escape.sub(r"\\\1", m)
-+
-+                    d = d.replace(m, f":ref:`{new} <{xref}>`")
-+
-+            new_desc += d + "\n"
-+
-+        print(new_desc + "\n")
-+
-+    def print_data(self, enable_lineno, output_in_txt, show_file=False):
-+        """Print ABI at stdout"""
-+
-+        part = None
-+        for key, v in sorted(self.data.items(),
-+                             key=lambda x: (x[1].get("type", ""), x[0])):
-+
-+            wtype = v.get("type", "Var")
-+            file_ref = v.get("file")
-+            names = v.get("what", [""])
-+
-+            if not show_file and wtype == "File":
-+                continue
-+
-+            if enable_lineno:
-+                ln = v.get("line_no", 1)
-+                print(f".. LINENO {file_ref[0][0]}#{ln}\n")
-+
-+            if wtype != "File":
-+                cur_part = names[0]
-+                if cur_part.find("/") >= 0:
-+                    match = self.re_what.match(cur_part)
-+                    if match:
-+                        symbol = match.group(1).rstrip("/")
-+                        cur_part = "symbols under " + symbol
-+
-+                if cur_part and cur_part != part:
-+                    part = cur_part
-+                    print(f"{part}\n{"-" * len(part)}\n")
-+
-+                print(f".. _{key}:\n")
-+
-+                max_len = 0
-+                for i in range(0, len(names)):           # pylint: disable=C0200
-+                    names[i] = "**" + self.re_escape.sub(r"\\\1", names[i]) + "**"
-+
-+                    max_len = max(max_len, len(names[i]))
-+
-+                print("+-" + "-" * max_len + "-+")
-+                for name in names:
-+                    print(f"| {name}" + " " * (max_len - len(name)) + " |")
-+                    print("+-" + "-" * max_len + "-+")
-+                print()
-+
-+            for ref in file_ref:
-+                if wtype == "File":
-+                    print(f".. _{ref[1]}:\n")
-+                else:
-+                    print(f"Defined on file :ref:`{ref[0]} <{ref[1]}>`\n")
-+
-+            if wtype == "File":
-+                print(f"{names[0]}\n{"-" * len(names[0])}\n")
-+
-+            desc = v.get("description")
-+            if not desc and wtype != "File":
-+                print(f"DESCRIPTION MISSING for {names[0]}\n")
-+
-+            if desc:
-+                if output_in_txt:
-+                    self.print_desc_txt(desc)
-+                else:
-+                    self.print_desc_rst(desc)
-+
-+            symbols = v.get("symbols")
-+            if symbols:
-+                print("Has the following ABI:\n")
-+
-+                for w, label in symbols:
-+
-+                    # Escape special chars from content
-+                    content = self.re_escape.sub(r"\\\1", w)
-+
-+                    print(f"- :ref:`{content} <{label}>`\n")
-+
-+            users = v.get("users")
-+            if users and users.strip(" \t\n"):
-+                print(f"Users:\n\t{users.strip("\n").replace('\n', '\n\t')}\n")
-+
-+    def check_issues(self):
-+
-+        """Warn about duplicated ABI entries"""
-+
-+        for what, v in self.what_symbols.items():
-+            files = v.get("file")
-+            if not files:
-+                # Should never happen if the parser works properly
-+                self.log.warning("%s doesn't have a file associated", what)
-+                continue
-+
-+            if len(files) == 1:
-+                continue
-+
-+            f = []
-+            for fname, lines in sorted(files.items()):
-+                if not lines:
-+                    f.append(f"{fname}")
-+                elif len(lines) == 1:
-+                    f.append(f"{fname}:{lines[0]}")
-+                else:
-+                    f.append(f"{fname} lines {", ".join(lines)}")
-+
-+            self.log.warning("%s is defined %d times: %s",
-+                             what, len(f), "; ".join(f))
-+
-+
-+class AbiRest:
-+    """Initialize an argparse subparser for rest output"""
-+
-+    def __init__(self, subparsers):
-+        """Initialize argparse subparsers"""
-+
-+        parser = subparsers.add_parser("rest",
-+                                       formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-+                                       description="produce output in rest format")
-+
-+        parser.add_argument("--enable-lineno",  action="store_true",
-+                            help="enable lineno")
-+        parser.add_argument("--txt", action="store_true",
-+                            help="output text in Text mode instead of ReST")
-+        parser.add_argument("--no-file", action="store_true",
-+                            help="Don't output files")
-+        parser.add_argument("--show-hints", help="show-hints")
-+
-+        parser.set_defaults(func=self.run)
-+
-+    def run(self, args):
-+        """Run subparser"""
-+
-+        args.parser.parse_abi()
-+        args.parser.check_issues()
-+        args.parser.print_data(args.enable_lineno, args.txt, not args.no_file)
-+
-+
-+class AbiValidate:
-+    """Initialize an argparse subparser for ABI validation"""
-+
-+    def __init__(self, subparsers):
-+        """Initialize argparse subparsers"""
-+
-+        parser = subparsers.add_parser("validate",
-+                                       formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-+                                       description="list events")
-+
-+        parser.set_defaults(func=self.run)
-+
-+    def run(self, args):
-+        """Run subparser"""
-+
-+        args.parser.parse_abi()
-+        args.parser.check_issues()
-+
-+
-+def main():
-+    """Main program"""
-+
-+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-+
-+    parser.add_argument("-d", "--debug", type=int, default=0,
-+                        help="debug level")
-+    parser.add_argument("-D", "--dir", default=ABI_DIR,
-+                        help="directory with ABIs to be parsed")
-+
-+    subparsers = parser.add_subparsers()
-+
-+    AbiRest(subparsers)
-+    AbiValidate(subparsers)
-+
-+    args = parser.parse_args()
-+
-+    if args.debug:
-+        level = logging.DEBUG
-+    else:
-+        level = logging.INFO
-+
-+    logging.basicConfig(level=level, format="[%(levelname)s] %(message)s")
-+
-+    if "func" in args:
-+        args.parser = AbiParser(args.dir, debug=args.debug)
-+
-+        args.func(args)
-+    else:
-+        sys.exit(f"Please specify a valid command for {sys.argv[0]}")
-+
-+
-+# Call main method
-+if __name__ == "__main__":
-+    main()
--- 
-2.47.1
-
+>
+> Jason
