@@ -1,79 +1,58 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B949119882F;
-	Fri, 17 Jan 2025 15:38:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C97314F9D6;
+	Fri, 17 Jan 2025 15:41:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737128331; cv=none; b=insmezeTuYq0CB80MbBnByLWGvd7mGvkjR37luVZoUCBKe9d4XnmmPzkRgxfVYvxidsAkigXME+OWDzoGCBhpQKObDh2Gbsucuntoa+uDwzLopueN5sI5WsQfEi575JwQU9niOJO5bc9GSV5x4tkfr1woNPyLSTiFCAVLpT3j80=
+	t=1737128506; cv=none; b=kUlBhwPAdXWs483nC7lkeZJmkPD8rCSVHngsdApELqrsdhUHcwqBPfR+S07ppdrhtxS3ol6/Z1k42NRiFfTrNm/r4URmZpjoJDn1AQrkCB4k/BFdEbaWXoFnFgrVe6uwfblO+Yfc1DB7o7DqMKgxi5y9Hqd9Ky3OXCjPEUoX+AU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737128331; c=relaxed/simple;
-	bh=ugEAgt8ZQioKSGFPYcVTNcp/RvCYuNIjuDQtInOEUkg=;
+	s=arc-20240116; t=1737128506; c=relaxed/simple;
+	bh=FMnEk5Wb+aQc5KN4VfScvTuPGnJ2n6y7XApOquJhgno=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cpWHxJxMF1MLVeMh2ATHr7JAFTINKb5zYBTlFKL0/ve92Aw2vzdPLzsPjD2A65ml90+tIVsk3n0d51KfV2KJJDvB8Ht4j1C0RcvqGf4Mve2Zn9yo73Hi6d0R5FzZmSH2Xh6ml2s2KFyqhy2QYe7jxwQ+q89akb/CgMaiZsVC6fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=eSqlPpGI; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wq489+2Kc2CntsjCbxJcqIlSRSsraseHP9hif6LWXv6gYKE08/pYK1+YMpK3+knVrF8y9sxorw6bTDaZCwWkHA6ZIXaP9/ouvcY5LWU7KqiRzCrthnPfhUUyx6JThiKrEL5pAIkAJfemIMvvvcofHTVhYI8B74sKIVn5sUD+KyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NFrrR7Tg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="eSqlPpGI"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50HBbQHJ010213;
-	Fri, 17 Jan 2025 15:38:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=ZqZi/+qOvKvRD2F60tKo/w7+dG7N/b
-	aAsUvvd45l5A8=; b=eSqlPpGIJqjO5fJ1t1GTfmocUQxEezYDOXDGpvcuNtjd5w
-	uu2KcokVtWV7wJYWHOvEOOwck+96WRpFSy7ERJet2vhGjWLhfgbXLlcRliVytjvL
-	ZhU7jAVuwpNXKcGzjVBa8+DQe7ZiNNs7NTjZ0i8bVL4NhdBiEncPYVeUCKjNiXKY
-	Sxqqkow4ijinUXfqXnVDIFNeS4ra+dLwNYx/uE70htWCzjr8VdT4/kpjRsVYzeCB
-	phepN08IFmb9hXTyf2ZiK8PDhvMlimmmL3kuBC+a+iBD5o/TI2VXG/Lv73FK+nLX
-	6JKVL6ZycI3zn/nKCIC39USZ2bHeJ7z+e4r4wJZQ==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 447c8jbrb3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Jan 2025 15:38:37 +0000 (GMT)
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 50HFWCBd029891;
-	Fri, 17 Jan 2025 15:38:37 GMT
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 447c8jbrax-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Jan 2025 15:38:37 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50HEoe54007519;
-	Fri, 17 Jan 2025 15:38:36 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4443ynkgmt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Jan 2025 15:38:36 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50HFcWqx32899790
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 17 Jan 2025 15:38:32 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 168502004B;
-	Fri, 17 Jan 2025 15:38:32 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1178B20040;
-	Fri, 17 Jan 2025 15:38:27 +0000 (GMT)
-Received: from li-c6426e4c-27cf-11b2-a85c-95d65bc0de0e.ibm.com (unknown [9.124.211.105])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Fri, 17 Jan 2025 15:38:26 +0000 (GMT)
-Date: Fri, 17 Jan 2025 21:08:21 +0530
-From: Gautam Menghani <gautam@linux.ibm.com>
-To: Vaibhav Jain <vaibhav@linux.ibm.com>
-Cc: linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
-        kvm-ppc@vger.kernel.org, Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Vaidyanathan Srinivasan <svaidy@linux.vnet.ibm.com>,
-        sbhat@linux.ibm.com, kconsul@linux.ibm.com, amachhiw@linux.ibm.com,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/6] powerpc: Document APIv2 KVM hcall spec for
- Hostwide counters
-Message-ID: <6iwl3xbqdo52measqi3i3lofnyqrb7xxu32ilzkqrhoe4u5cb4@mvba3u6xejgo>
-References: <20250115143948.369379-1-vaibhav@linux.ibm.com>
- <20250115143948.369379-2-vaibhav@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NFrrR7Tg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87D6AC4CEE0;
+	Fri, 17 Jan 2025 15:41:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737128505;
+	bh=FMnEk5Wb+aQc5KN4VfScvTuPGnJ2n6y7XApOquJhgno=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NFrrR7Tg1rMUFS1hWIZpjkLdInNmQzZSav5qtnreAH2cIeJCJ2KudEi7kqTndWV3n
+	 koZCL7z5zPO7vzlMfn4pL9D9y76u2r8g+Q1GUVV1nFrIwPS/wfulcec6eIpWAzXfQR
+	 26gBxbjejRIEzCHdJgObLdRPJofXqZRbWRMaFV1MjSRQrwBcu20sFeKmZ+wcE1fKNY
+	 UkB5Tkwe6goPbVt1KIvhpJD/pafMZdq9SzLb3Eddxoducb6iVWAqCUx7HdbxzbvP4C
+	 fKt9lGQn+VBocWQxoEOaKbt4ynuZNbQEypL6dA1naTHcPkbr2S21y26K+YBE/9NKA0
+	 TQuKVfx/OEOvQ==
+Date: Fri, 17 Jan 2025 15:41:36 +0000
+From: Will Deacon <will@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Suren Baghdasaryan <surenb@google.com>, boqun.feng@gmail.com,
+	mark.rutland@arm.com, Mateusz Guzik <mjguzik@gmail.com>,
+	akpm@linux-foundation.org, willy@infradead.org,
+	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com,
+	david.laight.linux@gmail.com, mhocko@suse.com, vbabka@suse.cz,
+	hannes@cmpxchg.org, oliver.sang@intel.com,
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
+	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
+	hughd@google.com, lokeshgidra@google.com, minchan@google.com,
+	jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com,
+	pasha.tatashin@soleen.com, klarasmodin@gmail.com,
+	richard.weiyang@gmail.com, corbet@lwn.net,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH] refcount: Strengthen inc_not_zero()
+Message-ID: <20250117154135.GA17569@willie-the-truck>
+References: <20250111042604.3230628-1-surenb@google.com>
+ <20250111042604.3230628-12-surenb@google.com>
+ <gdipfy63r4wxiqlnglsjzatpej6jjswimuzadm2l57o2e45u56@qfd763n4ysft>
+ <CAJuCfpGu4UVXiBaivTVOGNBVVz3rhZ+VY27gT3_R0cTij5fTGw@mail.gmail.com>
+ <20250115104841.GX5388@noisy.programming.kicks-ass.net>
+ <20250115111334.GE8385@noisy.programming.kicks-ass.net>
+ <20250115160011.GG8385@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,109 +61,69 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250115143948.369379-2-vaibhav@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: EbjF8vYTi_uy3d6gqXQ_6e74lThexosK
-X-Proofpoint-ORIG-GUID: 5hd36WOsQFjx6bw_vid3prNnBydZ0dcw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-17_06,2025-01-16_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
- priorityscore=1501 malwarescore=0 lowpriorityscore=0 adultscore=0
- phishscore=0 impostorscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501170122
+In-Reply-To: <20250115160011.GG8385@noisy.programming.kicks-ass.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Wed, Jan 15, 2025 at 08:09:42PM +0530, Vaibhav Jain wrote:
-> Update kvm-nested APIv2 documentation to include five new
-> Guest-State-Elements to fetch the hostwide counters. These counters are
-> per L1-Lpar and indicate the amount of Heap/Page-table memory allocated,
-> available and Page-table memory reclaimed for all L2-Guests active
-> instances
+On Wed, Jan 15, 2025 at 05:00:11PM +0100, Peter Zijlstra wrote:
+> On Wed, Jan 15, 2025 at 12:13:34PM +0100, Peter Zijlstra wrote:
 > 
-> Cc: linux-doc@vger.kernel.org
-> Cc: linuxppc-dev@lists.ozlabs.org
-> Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
-> Cc: Nicholas Piggin <npiggin@gmail.com>
-> Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
+> > Notably, it means refcount_t is entirely unsuitable for anything
+> > SLAB_TYPESAFE_BY_RCU, since they all will need secondary validation
+> > conditions after the refcount succeeds.
+> > 
+> > And this is probably fine, but let me ponder this all a little more.
 > 
+> Even though SLAB_TYPESAFE_BY_RCU is relatively rare, I think we'd better
+> fix this, these things are hard enough as they are.
+> 
+> Will, others, wdyt?
+
+We should also update the Documentation (atomic_t.txt and
+refcount-vs-atomic.rst) if we strengthen this.
+
 > ---
-> Changelog
+> Subject: refcount: Strengthen inc_not_zero()
 > 
-> v1->v2:
-> * Reworded section on GSID [Gautam]
+> For speculative lookups where a successful inc_not_zero() pins the
+> object, but where we still need to double check if the object acquired
+> is indeed the one we set out to aquire, needs this validation to happen
+> *after* the increment.
+> 
+> Notably SLAB_TYPESAFE_BY_RCU is one such an example.
+> 
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 > ---
->  Documentation/arch/powerpc/kvm-nested.rst | 40 +++++++++++++++++------
->  1 file changed, 30 insertions(+), 10 deletions(-)
+>  include/linux/refcount.h | 15 ++++++++-------
+>  1 file changed, 8 insertions(+), 7 deletions(-)
 > 
-> diff --git a/Documentation/arch/powerpc/kvm-nested.rst b/Documentation/arch/powerpc/kvm-nested.rst
-> index 5defd13cc6c1..8e468a4db0dc 100644
-> --- a/Documentation/arch/powerpc/kvm-nested.rst
-> +++ b/Documentation/arch/powerpc/kvm-nested.rst
-> @@ -208,13 +208,9 @@ associated values for each ID in the GSB::
->        flags:
->           Bit 0: getGuestWideState: Request state of the Guest instead
->             of an individual VCPU.
-> -         Bit 1: takeOwnershipOfVcpuState Indicate the L1 is taking
-> -           over ownership of the VCPU state and that the L0 can free
-> -           the storage holding the state. The VCPU state will need to
-> -           be returned to the Hypervisor via H_GUEST_SET_STATE prior
-> -           to H_GUEST_RUN_VCPU being called for this VCPU. The data
-> -           returned in the dataBuffer is in a Hypervisor internal
-> -           format.
-> +         Bit 1: getHostWideState: Request stats of the Host. This causes
-> +           the guestId and vcpuId parameters to be ignored and attempting
-> +           to get the VCPU/Guest state will cause an error.
->           Bits 2-63: Reserved
->        guestId: ID obtained from H_GUEST_CREATE
->        vcpuId: ID of the vCPU pass to H_GUEST_CREATE_VCPU
-> @@ -406,9 +402,10 @@ the partition like the timebase offset and partition scoped page
->  table information.
->  
->  +--------+-------+----+--------+----------------------------------+
-> -|   ID   | Size  | RW | Thread | Details                          |
-> -|        | Bytes |    | Guest  |                                  |
-> -|        |       |    | Scope  |                                  |
-> +|   ID   | Size  | RW |(H)ost  | Details                          |
-> +|        | Bytes |    |(G)uest |                                  |
-> +|        |       |    |(T)hread|                                  |
-> +|        |       |    |Scope   |                                  |
->  +========+=======+====+========+==================================+
->  | 0x0000 |       | RW |   TG   | NOP element                      |
->  +--------+-------+----+--------+----------------------------------+
-> @@ -434,6 +431,29 @@ table information.
->  |        |       |    |        |- 0x8 Table size.                 |
->  +--------+-------+----+--------+----------------------------------+
->  | 0x0007-|       |    |        | Reserved                         |
-> +| 0x07FF |       |    |        |                                  |
-> ++--------+-------+----+--------+----------------------------------+
-> +| 0x0800 | 0x08  | R  |   H    | Current usage in bytes of the    |
-> +|        |       |    |        | L0's Guest Management Space      |
-> +|        |       |    |        | for an L1-Lpar.                  |
-> ++--------+-------+----+--------+----------------------------------+
-> +| 0x0801 | 0x08  | R  |   H    | Max bytes available in the       |
-> +|        |       |    |        | L0's Guest Management Space for  |
-> +|        |       |    |        | an L1-Lpar                       |
-> ++--------+-------+----+--------+----------------------------------+
-> +| 0x0802 | 0x08  | R  |   H    | Current usage in bytes of the    |
-> +|        |       |    |        | L0's Guest Page Table Management |
-> +|        |       |    |        | Space for an L1-Lpar             |
-> ++--------+-------+----+--------+----------------------------------+
-> +| 0x0803 | 0x08  | R  |   H    | Max bytes available in the L0's  |
-> +|        |       |    |        | Guest Page Table Management      |
-> +|        |       |    |        | Space for an L1-Lpar             |
-> ++--------+-------+----+--------+----------------------------------+
-> +| 0x0804 | 0x08  | R  |   H    | Amount of reclaimed L0 Guest's   |
-> +|        |       |    |        | Page Table Management Space due  |
-> +|        |       |    |        | to overcommit for an L1-Lpar     |
+> diff --git a/include/linux/refcount.h b/include/linux/refcount.h
+> index 35f039ecb272..340e7ffa445e 100644
+> --- a/include/linux/refcount.h
+> +++ b/include/linux/refcount.h
+> @@ -69,9 +69,10 @@
+>   * its the lock acquire, for RCU/lockless data structures its the dependent
+>   * load.
+>   *
+> - * Do note that inc_not_zero() provides a control dependency which will order
+> - * future stores against the inc, this ensures we'll never modify the object
+> - * if we did not in fact acquire a reference.
+> + * Do note that inc_not_zero() does provide acquire order, which will order
+> + * future load and stores against the inc, this ensures all subsequent accesses
+> + * are from this object and not anything previously occupying this memory --
+> + * consider SLAB_TYPESAFE_BY_RCU.
+>   *
+>   * The decrements will provide release order, such that all the prior loads and
+>   * stores will be issued before, it also provides a control dependency, which
+> @@ -144,7 +145,7 @@ bool __refcount_add_not_zero(int i, refcount_t *r, int *oldp)
+>  	do {
+>  		if (!old)
+>  			break;
+> -	} while (!atomic_try_cmpxchg_relaxed(&r->refs, &old, old + i));
+> +	} while (!atomic_try_cmpxchg_acquire(&r->refs, &old, old + i));
 
-Nit s/Amount of reclaimed/Space in bytes reclaimed in
+Hmm, do the later memory accesses need to be ordered against the store
+part of the increment or just the read? If it's the former, then I don't
+think that _acquire is sufficient -- accesses can still get in-between
+the read and write parts of the RmW.
 
-> ++--------+-------+----+--------+----------------------------------+
-> +| 0x0805-|       |    |        | Reserved                         |
->  | 0x0BFF |       |    |        |                                  |
->  +--------+-------+----+--------+----------------------------------+
->  | 0x0C00 | 0x10  | RW |   T    |Run vCPU Input Buffer:            |
-> -- 
-> 2.47.1
-> 
+Will
