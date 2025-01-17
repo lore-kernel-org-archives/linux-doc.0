@@ -1,99 +1,176 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2051.outbound.protection.outlook.com [40.107.223.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF67B1FECDC;
-	Fri, 17 Jan 2025 13:11:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737119483; cv=none; b=gzoKkKRFQeO8ICnDHQg7nlhu/r6fFtzZ9N3wOEVk1K3Zz0n4xbo1dRGUiIy/TMQTB1DU4RUHHceZb3Fb8aPO9ZIdJmHIgp7eO7xrYdsXgsN+yj91lq/lwW5YRuhJL6etinlkL1Ecd9fjQfcHwGlbF0vJoRcCBPxwFsrUGQsCHaI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737119483; c=relaxed/simple;
-	bh=ZuNMh81+sSlOWJhG4/4JlLncs7iIh9W/GlKKzu+rlcc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HW3jMDoJd8gh3+cDLuA5CTheReJTSon3NP0vmeAmi9QgvbusU5O52OiVLR0joQ8MKNFFY5TjQW4XGPnjCu628uMm4C7EIMRaRmkhg33t0yX6fvBGn8mlTysTnfC9qn6J/CaAya6cSZscQnoEAJQNS4W1oEUzzc2QDCLt5J2pF3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FNJI/Q3U; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2551FFC5C;
+	Fri, 17 Jan 2025 13:28:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737120487; cv=fail; b=R6bGfzMIRhyFxF4BkHkhjAdqBLE4/xihceMUc5jTEKRGdrcmCoH+gAN5AQ5i9k/EW85tVKY7oNzCQFq4LvL1Zccal8+c7T6r1DvpRYkWllnkhMrnT/1yo5e4DZ/qCy8MbaKV8ki5ObF7EGaEZPKPouLnb/+k18Xex2qmRRDPVlY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737120487; c=relaxed/simple;
+	bh=yDO6n0Tm4DpBqRM/FmxFFvOFKdSRlmtZwgi/SZ3Emkc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=sAmEeQlIMfcpWcBXLrVPKV0pAe3XuRBNACZhBTvxz4Uo0u/VrDxyGLEry8+gF6IRvWSGBbnT7gQbPGNWZNMUZLVBAKuCEnWtCJ+EbFiqWcL1NMmTBXHHHWf2WTGQgdzcJFgd2Un3tw2qoXWmkN692/RVmN3zWYdIGkCPkkoYxUk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=lkrrLF5k; arc=fail smtp.client-ip=40.107.223.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FNJI/Q3U"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2164b1f05caso39204345ad.3;
-        Fri, 17 Jan 2025 05:11:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737119481; x=1737724281; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BVkzKJ0S4ugzVNuCjynUT9GGnBKA3hlfvGBO4cSDi7g=;
-        b=FNJI/Q3U09NeK5KR63Ms63RR8Yk1mxK17hPxkmXHFNBEZGrXXVzWIiBNscK5aTSrMw
-         evccst0kmPLU7Qr9rJikRg6tGh7PdxPw04gdAYt74vgTbnI74MqQjEOgdk9NCs8pDFZd
-         P8atDKG/NxAhhsdnu+zJ1yLf4uMH/xlP7lTkDF6IRo3ggdmMu1SPq4kdnp/kI6daD2Fw
-         spt+0nlVfcbnIz6vZVigzKwQuLnze5Z3U5d7wL547+XZqH0q+6Q+dcuIOTcUemmDRf5w
-         cBJX3CkgUWkLcbFDXuOxvGsSvxVS1eW40uL0kYEldeaDE1koZISidKDnV32cFMaDLrL0
-         bhhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737119481; x=1737724281;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BVkzKJ0S4ugzVNuCjynUT9GGnBKA3hlfvGBO4cSDi7g=;
-        b=s9eumZzByMcSepfsWMn50jmInMThQjMKsoBtADG1ECpdmcP7KJRaiV2E8/k8rc+Q8b
-         PGiPtuurbog/WYv2cY+Rdd84QbH364oIm4UOOuVxZJB/DDa7kEgSbcuXdGm1AlOuTEGn
-         ++zy62b1RVi49LW2KbFGF4V5sIgU+kKP7HfN9tga7pXc72NNfA5EI5KdlymlN5/yGhVX
-         AmLx6nR9TkNifvTDfP6LM5bTjSN45IYTky8yyk+7LK19GHuBsD/BmPafS0o/HYE1H05z
-         6hc/tiSl6wRtABETLgtYVbarMeGHlOJTlNa+wxyfVuqsUc1ohYglbmszb+QNAx9w+9wI
-         UbmA==
-X-Forwarded-Encrypted: i=1; AJvYcCVo9Gwr1PsMiYPkLhRPHlY/LRsHfO2OtHMf0lumkhXyhQ7vFGgd6QTuerNlOnD9j+VUBqI9PQPhW+7ElzpR@vger.kernel.org, AJvYcCXRvcGOPiMHVtL+OW9Fe5uSbFHARJA4te5/PeaTsiabWTZ9Tn7HuVlzXbrauHuryL4IZJUoewKrZ8w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLYfpzJZyROLr3GqcEf+pLuJWCO0mhHum2AXW+iKTpKnSZQ91i
-	CsrnPIcg3wgrDUClWv7l4AhX/p/jV+Yq0ofRXoYTkDx7h0GMwXmj
-X-Gm-Gg: ASbGnct3olI/ltK+0vfFpEPlOrsCzdjjc9CnTS1DdzTx+LpCjdLyHJdMaDuT63Mr7eD
-	TonXrwvAKdasax9pyUExh4P4MzR4DExFFNw4R44sXOXhwIVHqB//9OvVT1eVvaT49FkySOoyGzA
-	MnKYawGgaFjqAm1he1LrElQKLN/JwlYeEknap7Zno6/iKLKf988ma7nj7yPicjani/ZyhDZTfBb
-	2MJb1KQKZ15wIjFqiTMfWWfObQdOeAPyLOHMG5zydDYtAMiggfsfdcGQgfcdK78iqC8UfZYLWhK
-X-Google-Smtp-Source: AGHT+IGN2HOtIcSzUPeGvuPtdbn/Wz7PPJjCsZSn1WXDE2uCfupFKvcXKAmISW0bAMZKyzAABvLayw==
-X-Received: by 2002:a17:902:d583:b0:215:4d90:4caf with SMTP id d9443c01a7336-21c353e700fmr46587525ad.14.1737119481125;
-        Fri, 17 Jan 2025 05:11:21 -0800 (PST)
-Received: from vaxr-BM6660-BM6360.. ([2001:288:7001:2703:5341:ba8d:225b:c32b])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21c2cea097fsm15672105ad.8.2025.01.17.05.11.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jan 2025 05:11:20 -0800 (PST)
-From: I Hsin Cheng <richard120310@gmail.com>
-To: corbet@lwn.net
-Cc: akpm@linux-foundation.org,
-	jserv@ccns.ncku.edu.tw,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	I Hsin Cheng <richard120310@gmail.com>
-Subject: [PATCH] docs/mm: Page tables: Fix typos
-Date: Fri, 17 Jan 2025 21:11:13 +0800
-Message-ID: <20250117131113.14167-1-richard120310@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="lkrrLF5k"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dl5d1vqD1L2j9wHZxMwiF7uz0cHe/8L/PJwoLI8y3boHg6bhwcIWte6Q1cAJJAJeacL6/Tgi0uUE6XTpzhT0D7aLkPB2e2++4dbph9x8dHmCWmxZysec9F0K3upMUQvRNPYVtc9fnwRuWeWPywWdH7hZYDkxBZCdLVmMsFJvNpinyMyqei/Cx/8ylG1CPXcsvPQOcNYc9E5eaPPOgMfmntyLzyxLL5vbPbehkMic3E88fjIVL6Z7G/FVeEi2B0WZfNJYuPE1baR7cOr6/iPF7t2dpFx9E8VK7fDWC2iWdtmiCTNBjQslEqT6ssQzKpkY+yKAgf2v0DZZKIu85J2aUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1cy2nkjRU9MKLTjqXLgvFHuDIfkYQ8E9FEce0szHWt4=;
+ b=o1Y3bdy69TE3eiMWH9SQ6/P1TEwWKWLJ5NOgQHyApxg22jxEcp9RmL9NjMXP1YBMPxOiATZ5Vd8VW4SyctlyVKLs7deEBHWpRWh5RONPntuAaalD1qqZR1HSPRefVnAqX6xe+jAGThU3My018064fahlYVG7djcbfQ/+rhngjE7TqAfu6K4j5+TjEvfwomFaYync8ejpdp+1YNeyN9FwRartszTj5Oa1IpemZs5pHCEg+CkRMhNMk1O/Ol74EhbcSlq1D+vKw+R7Tsa2AeRLut1v4XGEeSp+iO+j78+PuBxmV6zMT8HJ1Tlvxm0+UjWQSXdPpD2E1T+n4UfxDwbq/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1cy2nkjRU9MKLTjqXLgvFHuDIfkYQ8E9FEce0szHWt4=;
+ b=lkrrLF5kBRu9rR93NIhpzld4+qrb0h+Qfqy3vOwyS+n6+HhctWrFI2I2KR9dBfTcHBn42ZVG3sTLsJ4d2xb4IJGZag/JkYnvZqORFOYVAmZvEd5b+dirnuy9ztMjlysIPEF3Zt7q1rhZRJ2CwuC72iC3aCphft2snDTjd0cHwHuSMSrtSGGwqIAeFin3ze43FsiYq2VVwpwPuTfPz+xPdMqziwHB6/nZycRo0436EVl39h6A8xfYMAIZ8V1GjEIsF1KkxiH9TSq7rCGTIf1f9Mepnb1vVWDY+7suqfMVGsOeQPtk7x20FJjMCuR8r3c88HX3+N/8RqwPOBhAYLHeJw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by MN2PR12MB4111.namprd12.prod.outlook.com (2603:10b6:208:1de::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.16; Fri, 17 Jan
+ 2025 13:28:03 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%5]) with mapi id 15.20.8356.010; Fri, 17 Jan 2025
+ 13:28:03 +0000
+Date: Fri, 17 Jan 2025 09:28:02 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Tushar Dave <tdave@nvidia.com>
+Cc: corbet@lwn.net, bhelgaas@google.com, paulmck@kernel.org,
+	akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org,
+	xiongwei.song@windriver.com, vidyas@nvidia.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org, vsethi@nvidia.com,
+	sdonthineni@nvidia.com
+Subject: Re: [PATCH 1/1] PCI: Fix Extend ACS configurability
+Message-ID: <20250117132802.GB5556@nvidia.com>
+References: <20250102184009.GD5556@nvidia.com>
+ <2676cf6e-d9eb-4a34-be5e-29824458f92f@nvidia.com>
+ <20250107001015.GM5556@nvidia.com>
+ <c9aeb7a0-5fef-49a5-9ebb-c0e7f3b0fd3e@nvidia.com>
+ <20250108151021.GS5556@nvidia.com>
+ <0ea48a2b-0b6d-49e2-b3f7-ab4deef90696@nvidia.com>
+ <20250113200749.GW5556@nvidia.com>
+ <6ea9260b-f9cd-4128-b424-11afe6579fdc@nvidia.com>
+ <20250116190118.GW5556@nvidia.com>
+ <4d5224c6-bc0b-4ca9-9f1a-71d701554b3d@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4d5224c6-bc0b-4ca9-9f1a-71d701554b3d@nvidia.com>
+X-ClientProxiedBy: MN0PR02CA0017.namprd02.prod.outlook.com
+ (2603:10b6:208:530::35) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|MN2PR12MB4111:EE_
+X-MS-Office365-Filtering-Correlation-Id: dff643d8-03ae-4551-ecd0-08dd36fac513
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?DD6Tkaoy03wEJqKh3+a27sFrJp7gtmdbjnBHx1sb2FMBZp7hqNHKFyUO1wHc?=
+ =?us-ascii?Q?4H+TdzFBUBdGbds1PCcY4uS4rN8Sh24nonAK809h+QilCMiJANs/zSQyEkZZ?=
+ =?us-ascii?Q?Wp8BoS2mk40JUnhyxTKQkrqCggiyCKzwPN9CE3XfQw1GeqOYwD8FY/qd3Q8q?=
+ =?us-ascii?Q?AZqimYkMoPVixT7zrGOA/K3Bwn4sN1nm0oJ/pFFzODZSdL9BfF0M3nYR6fxQ?=
+ =?us-ascii?Q?+NkKqhCudYKaec0cka66HSa7XdR1vg9MW5XE0mNIplr96/4zxRRKDHLgFf34?=
+ =?us-ascii?Q?FFu/8+UT3K5d8QUv9cUG1fTtsgJjJZkmpbqvxGIGAOvWEIQzIl9XjYFZObEK?=
+ =?us-ascii?Q?psWevXcSzCJqx5s/OH/PFZ7HpCrpwJUqYlAIDhPHKQTbeByXqyB1Wqmq2YLI?=
+ =?us-ascii?Q?M0feqlI0ujDVJVgy95fYURxQE1LodOUeTYHWfNhgGC12c5N5gpakFmk2o0qG?=
+ =?us-ascii?Q?pwn7rDAlZ40lETAf1FtxIp6RpDME1Nx5MtZaeOynKrTlEVtw86yNPvhBuD1a?=
+ =?us-ascii?Q?msALd+W0GLkKJ/JOomFAs6sTpbDpLLm/xIevdRTiGwUWw2uBiHnCjvJ1BoMI?=
+ =?us-ascii?Q?GqJD6de/KWkevvvT/XJfppuAFnndgyf4aapcmKoIkAQCuo3m0leL7VqpTNQH?=
+ =?us-ascii?Q?SORrXSGpftYURZMgkV03vOHHu2WFsSi0IQ0cPVpc/C23XEkTioG3F5FqEm/Z?=
+ =?us-ascii?Q?COBtIWFnhspR2H+gPe3DjJB7enn7cazCUC+9AqP0om5xzS2yScTRNrZJRN0b?=
+ =?us-ascii?Q?CD/ql0eK2x0Q6wx68a5ZS4ZSy2iZ4wlcQeFvZf+CyGuZu1eX7BJ8hBnFNanS?=
+ =?us-ascii?Q?fQE7KoslyW5uC6+ZqArb/vbM9RQUDL6F6sENnUk9tUnDT26mQyGUAlfW8pqD?=
+ =?us-ascii?Q?cEf+XiAM271UP4swx245IaoMnLiEt9XIfzIfYrHTa9RUsXNOi4zrbJP02ie/?=
+ =?us-ascii?Q?hhNcRroU7AKx06jyCA1VpEFzu/Ik9Au6kjwAuhFFT7IkOv6fTrcZAO4RWKSI?=
+ =?us-ascii?Q?YPlgP9lG7ILQwluGvg6ad6eg09E5nX72qFIKcXNWI95UirWtAnN7s+mBl1d5?=
+ =?us-ascii?Q?xJBU58qVkV08HgQ9Mp51se0Qn1ate2jVit/Fz6X22r2VcILBztkUeAregzTD?=
+ =?us-ascii?Q?uR+KJpEAn+4auMMK9OvKKUQ1I+/xAjrQcNP8tq2xVrC8ER15ev7/OPEkkHIB?=
+ =?us-ascii?Q?MSdUlA7z8dJJNuk3og0ZFkf92FKsLVtl5mA7AwKL2ZxdLXz0XmCBpPbbzWmn?=
+ =?us-ascii?Q?5cXr5MtEsby42FBO7JMS75Mt/MKuimDqdW0ji8yMV37HBzcAblRB2Rf+Sehk?=
+ =?us-ascii?Q?AQnxQhE5ztS6lrogQ9m993oXAThTUafOSjHrCFvDV1stVElLRKdnSIQ/BtAP?=
+ =?us-ascii?Q?hkoT5xMe+HwOaH2KIjAyNGv5Y4eD?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?EBR5E1QdEuBEnYCelbDFFB736ppKF/BF9R5DWoYlmpey99L0Ly3d3R1+KmAw?=
+ =?us-ascii?Q?4EHzE3g+JLWgvcZ+HlaUAMsTGCN2yAoO5bvLZ4CiNkLdlL4F+iaFMfquhZDJ?=
+ =?us-ascii?Q?hOtAzSHwuX7aO2EjkRDJUjUYFZTdnZLrqxPpCtg8DGF6FWdzT957hVxhtkRw?=
+ =?us-ascii?Q?/xEi77d5slQkqYWzRYzHVtYQI+B4tU0gpRVueimTnofKf7g45wK+1r0BhI/G?=
+ =?us-ascii?Q?EyitxhczBZ3DB63KYcIwitk8DS7czko22LCuQzlJINW7dcJDP7WGjuIQpzg7?=
+ =?us-ascii?Q?kF1bNw6VcjFmICjbjJvACOV8uWNDhK8o2X55eAYgkdsW150J9KbxMXGZaa6c?=
+ =?us-ascii?Q?D36KNR1jl6k6WNuwfzy0EfTLLyn6DSHBo0BXFQvTsrOmDcetW3gv4MYf/ul+?=
+ =?us-ascii?Q?oLDERQOiT8Dp6ZAVKC9azSs7/5n+WwqB66lvwJYT1z3jXdYUi6o4J+NhHTe5?=
+ =?us-ascii?Q?1doCCh0naFHgi1TePYcqttXNiqDkDmKEgoCBOiU4j1fDZeux2mHGy76IW0vU?=
+ =?us-ascii?Q?KtCXRGPEectpk4O7rlV1avp3oB9EvRkpjKoeLByzmM4/MwdbDf/2Uzabn9Ew?=
+ =?us-ascii?Q?j+5XSIrotaQ4e84ZNCkLuto0dNv7dln3YIYJfAl2bo9I+UjzGR2ekOPukHdl?=
+ =?us-ascii?Q?MEFYr4QN4gSMJtedEVDgXU8x3U27lyQYc86T28daU3M2CIZEE+lt1xLMRi6V?=
+ =?us-ascii?Q?cvM4Hyca1udcpotK0l13VO1tSG+xcH76WeB2mWMDWixI7lTLSmqTGSc5vIZQ?=
+ =?us-ascii?Q?jraaNPXo6fQgrSEZVanUMKvO1hKMs6xLKYxj54WNS+QSbbVpaNoK8zI83553?=
+ =?us-ascii?Q?aw2O6v4eZPDdXeZxZqPRtRhn+CyW2pOuH8TSvwRB492DLCddPX2TrsW+tLF8?=
+ =?us-ascii?Q?E12LCvvLYVbIpHqTvQ0MOeKNmkwrpyN9HxAkcFQ7bQCmI27UolXNIJuHdrck?=
+ =?us-ascii?Q?AKXdm9EG3VVi8d2dTG2NucAjXMIJ/pVc9NBd2WXO48oEjtESX96QMSnaLkmz?=
+ =?us-ascii?Q?C0TW98nDCIz7PBWmaId25zVXwThbNaHiiyGkIuV5bsUx1aLy762FjsrQzBLg?=
+ =?us-ascii?Q?74ItfWkRw9pLBmIW6ehnZydONoLrow+F6iqaSbad38TCmRWYsqAGUHiLmodZ?=
+ =?us-ascii?Q?PmP9prUFb1ZltYgRXl+GF8awib6dNfMMHizpv+qwearOKoVmbLEh/UUwVsHr?=
+ =?us-ascii?Q?cBlg2vS9AyfKVP864qBNGJvuljktpiEMQTahoJbUHCBoU/Ypfyg2uDCuSC/A?=
+ =?us-ascii?Q?YQwE952qhVQBCoglRiio0FEKTgIngmUTeAzD5769UX57SjaT8ih1lX4PAoQt?=
+ =?us-ascii?Q?DFcafwDLDwk4G2FuQSIvqzW2dR1YsqJoLz3Gn4YG7DbreDEpn5XATJehMukx?=
+ =?us-ascii?Q?vjAbyNPNiRnql6OwhQRaSzzfsJHjghFBydEqmYQ8L06anH6/nP8O1xnc6gXD?=
+ =?us-ascii?Q?cTajxOevY5J1E4FOsASXM7sbVkolNzfCOcV6axxvdxUJR3HfSYvMJmz8OOd4?=
+ =?us-ascii?Q?0gSTYlnIoXzUMn4GC+VRVP9BQtK6vPPNBKr+ijmbCSzMJVh7Q4CRoTYJxJyc?=
+ =?us-ascii?Q?syssu3txTwZX3rqV1xTGfcaSLTBkrpkwetOf8HBp?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dff643d8-03ae-4551-ecd0-08dd36fac513
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2025 13:28:03.4531
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6LQo1hPSmDyECUk0Ze/MKMpjPyyq2qKToxqmzIrkO98EQO3NI+Y63yg458CP+2Qo
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4111
 
-The member "pgd" in "struct mm_struct" is of type "struct pgd_t *"
-rather than "struct pgt_t *", fix the typo.
+On Thu, Jan 16, 2025 at 05:21:29PM -0800, Tushar Dave wrote:
 
-Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
----
- Documentation/mm/page_tables.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> -       /* If mask is 0 then we copy the bit from the firmware setting. */
+> -       caps->ctrl = (caps->ctrl & ~mask) | (caps->fw_ctrl & mask);
+> -       caps->ctrl |= flags;
+> +       /* For mask bits that are 0 copy them from the firmware setting
+> +        * and apply flags for all the mask bits that are 1.
+> +        */
+> +       caps->ctrl = (caps->fw_ctrl & ~mask) | (flags & mask);
+> 
+> 
+> I ran some sanity tests and looks good. Can I send V2 now?
 
-diff --git a/Documentation/mm/page_tables.rst b/Documentation/mm/page_tables.rst
-index be47b192a..e876c86f6 100644
---- a/Documentation/mm/page_tables.rst
-+++ b/Documentation/mm/page_tables.rst
-@@ -119,7 +119,7 @@ meaning beginning from the bottom:
-   memory context and thus its own *pgd*, found in `struct mm_struct` which
-   in turn is referenced to in each `struct task_struct`. So tasks have memory
-   context in the form of a `struct mm_struct` and this in turn has a
--  `struct pgt_t *pgd` pointer to the corresponding page global directory.
-+  `struct pgd_t *pgd` pointer to the corresponding page global directory.
- 
- To repeat: each level in the page table hierarchy is a *array of pointers*, so
- the **pgd** contains `PTRS_PER_PGD` pointers to the next level below, **p4d**
--- 
-2.43.0
+I think so, I'm just wondering if this is not quite it either - this
+will always throw away any changes any of the other calls made to
+ctrl prior to getting here.
 
+So we skip the above if the kernel command line does not refer to the
+device?
+
+Ie if the command line refers to the device then it always superceeds
+everything, otherwise the other stuff keeps working the way it worked
+before??
+
+Jason
