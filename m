@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE801A3AB1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827AC1A3BD8;
 	Fri, 17 Jan 2025 17:59:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737136795; cv=none; b=JP9zlgp7gDzoHRm36I6g4+/0HcMlbVKnwFUepruD0fFnlzvQH8xhUhT23GKRay9XUbAuA/DGj4T7cjGItRnoPO8eTTRUH+nHtsIUW1GNdX1mN6eO66s65H/P1uAaGaAh41T+rKKoKk2uvmngivbXyO9qx2T2R3gGRMlzFoeS4YM=
+	t=1737136795; cv=none; b=bozaXCmXdqJ22rswYoPFend1CZIV9d04dnZJ0LiYK4D58LSdI34/j3W1vy61aNelh2VAXMrLNVPc3tQv4PgVr8suL2ufM9CenjEPEH8c2L7lWttfL4G9F31jvgoOHXWKM94TuD7FrF3NMEnKC4EJWRZUb/ybhAA/1v3R/LPo0+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1737136795; c=relaxed/simple;
-	bh=eIZnybLSi/SLtggShPreZtgXkXe68+zdK87zK1E6aBk=;
+	bh=g6tnp2e5+rZEad/bKZCAx+K3zN94fParUnq2cjwVZ4A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gGF4yq/YKUnkDaGT45A2X0xhU7mjUITuGEDK32bJ2dJXkdd98feydpc9FeHmfRqVDRXZ7FN1v3A+qsgC8qhDFWa1IJAW+f1HYRyWyT06a3gBjwbFd36ymRKROZ1f4AhTfsnaXPSlI2nxw02PhV1zdCYsBLWBRBecMytZjpMcUxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LQ0CPjeR; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=ulziZsQQhCLDgzcVczYNoam3WvHlGUy6ClBLM5b1yzpOVkheveDgyDipNIAOyrb3zI1gx+KIImtPpFBTOtHZKIErDv8ZJVJqNjRxPe+7GeczFsIvSleMTDfNGbt0NSaaiRrEcXyg+iedUAIIYGIC5kBnrLGxYxCNC2Bs9gNWfLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FI/nLGox; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LQ0CPjeR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3653C4CEE5;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FI/nLGox"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDEF6C4CEE6;
 	Fri, 17 Jan 2025 17:59:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1737136795;
-	bh=eIZnybLSi/SLtggShPreZtgXkXe68+zdK87zK1E6aBk=;
+	bh=g6tnp2e5+rZEad/bKZCAx+K3zN94fParUnq2cjwVZ4A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LQ0CPjeRomhFFivBHEMXxVMtQP6ArQOenqkH5GJGLVKNAkyrc5VWIyMJ4PFiHjKbY
-	 /cU0sdHLypqD0i+Gm/PeKDFE6R4Ocpc9ZK4VTGruCGmCgFbLyHM2PgOBGY8TDyZBjZ
-	 B4429v/xUGcKDIBwHmLHEHaopdkYhMQ7QMa6jWCV9MdLMzvoxqsBmoxhIUb5HGiZyK
-	 2kQvCVZvRKucD9CorqAuOqx3CbbbMHjELlwigycTLby17ZdBdjNrduZI0qJUJf5nQP
-	 vIjxV7i1+H9Nkfsrn06XjmH1iGGXS+0gVRMya9bNTDj15BDW4So+9q228ziSreuL2Y
-	 x1ZVds80tZYSw==
+	b=FI/nLGoxunHFbHVUh5O6ekNm2iIQdBgU4ntpXS3Rhz0+Hyzy0FcLaIzozbfiCkDyl
+	 fYj/8+jw8QvrzEqwY8XRdroj65137z6wAb8X3hvizACG6LT9U1BTaH/49JS2E0WqE2
+	 r3gixoWlltifSJ/SE5Wm0aLVwVJvpp3Jo92YYXMgmD8ZVdHXxqSavjJALHrx3HYMJX
+	 OcvKuL4gNtSQcwmrAIdsy9z9pfJnSHhVoBB6GVTI6N0thyNZh14RGPwD5YLZbY2KPg
+	 K0C+CC3k2eCRyS4YvOGKxvSBkGu94MlF2d/tWmLcfHQCsGm1fJB+uUGsRBFNPs9YkL
+	 5/siorKVx6HeA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tYqdM-00000006Ajn-210m;
+	id 1tYqdM-00000006Ajj-1tyA;
 	Fri, 17 Jan 2025 18:59:52 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -36,13 +36,10 @@ To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	Chao Yu <mchehab+huawei@kernel.org>,
-	Jaegeuk Kim <mchehab+huawei@kernel.org>,
-	linux-f2fs-devel@lists.sourceforge.net,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH RFC 05/10] ABI: sysfs-fs-f2fs: fix date tags
-Date: Fri, 17 Jan 2025 18:59:34 +0100
-Message-ID: <c8bfa2da4e705aa036f773947a99f2cc8d37ca1b.1737135484.git.mchehab+huawei@kernel.org>
+Subject: [PATCH RFC 04/10] ABI: sysfs-driver-dma-idxd: fix date tags
+Date: Fri, 17 Jan 2025 18:59:33 +0100
+Message-ID: <8ee3184748b8d595e7ad16cdfe0e77b2b62774a6.1737135484.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <cover.1737135484.git.mchehab+huawei@kernel.org>
 References: <cover.1737135484.git.mchehab+huawei@kernel.org>
@@ -60,31 +57,30 @@ ABI description and produce right results when converted to html/pdf.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/testing/sysfs-fs-f2fs | 4 ++--
+ Documentation/ABI/stable/sysfs-driver-dma-idxd | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-fs-f2fs b/Documentation/ABI/testing/sysfs-fs-f2fs
-index 3e1630c70d8a..e44bb614964b 100644
---- a/Documentation/ABI/testing/sysfs-fs-f2fs
-+++ b/Documentation/ABI/testing/sysfs-fs-f2fs
-@@ -347,7 +347,7 @@ Description:	Used to control configure extension list:
- 		- [c] means add/del cold file extension
+diff --git a/Documentation/ABI/stable/sysfs-driver-dma-idxd b/Documentation/ABI/stable/sysfs-driver-dma-idxd
+index f2ec42949a54..4a355e6747ae 100644
+--- a/Documentation/ABI/stable/sysfs-driver-dma-idxd
++++ b/Documentation/ABI/stable/sysfs-driver-dma-idxd
+@@ -246,14 +246,14 @@ Description:	Controls whether PRS disable is turned on for the workqueue.
+ 		capability.
  
- What:		/sys/fs/f2fs/<disk>/unusable
--Date		April 2019
-+Date:		April 2019
- Contact:	"Daniel Rosenberg" <drosen@google.com>
- Description:	If checkpoint=disable, it displays the number of blocks that
- 		are unusable.
-@@ -355,7 +355,7 @@ Description:	If checkpoint=disable, it displays the number of blocks that
- 		would be unusable if checkpoint=disable were to be set.
+ What:		/sys/bus/dsa/devices/wq<m>.<n>/occupancy
+-Date		May 25, 2021
++Date:		May 25, 2021
+ KernelVersion:	5.14.0
+ Contact:	dmaengine@vger.kernel.org
+ Description:	Show the current number of entries in this WQ if WQ Occupancy
+ 		Support bit WQ capabilities is 1.
  
- What:		/sys/fs/f2fs/<disk>/encoding
--Date		July 2019
-+Date:		July 2019
- Contact:	"Daniel Rosenberg" <drosen@google.com>
- Description:	Displays name and version of the encoding set for the filesystem.
- 		If no encoding is set, displays (none)
+ What:		/sys/bus/dsa/devices/wq<m>.<n>/enqcmds_retries
+-Date		Oct 29, 2021
++Date:		Oct 29, 2021
+ KernelVersion:	5.17.0
+ Contact:	dmaengine@vger.kernel.org
+ Description:	Indicate the number of retires for an enqcmds submission on a sharedwq.
 -- 
 2.47.1
 
