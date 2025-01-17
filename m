@@ -1,132 +1,105 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F4191FF1AD;
-	Fri, 17 Jan 2025 10:09:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69521F7093;
+	Fri, 17 Jan 2025 10:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737108564; cv=none; b=R14VjO8WqLxTMRVKRJKMRanRKby4tBBA0WdjslRpL51mK1qP6h4R41zTMUCiEFiWZc+JJcZK+7loPbAsnfLOh+/fO/cNpiTooTpV5Ze7OOYwBnsylfnpGifQ9uDsDvoD3nIz7USzgaAc04Rjh2biL+AIiC5cMSsbrlTtCWnQuUM=
+	t=1737109035; cv=none; b=L3aj+0PjsVBSktFbEFAW9CHjPK+NaVNjV/GpTm/run57TpvGGfor4J1x+PYPCWWHtuAlJfaXpwS8myXFXzlo6LdR/OO5amJ179GVE7UNBQNE80mBVsBN7Ua89ZGrLQATnC2hAEMaPfsL77hXcZitrZZRTBhq7F5DrUi8Bvzz934=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737108564; c=relaxed/simple;
-	bh=W/meGVkJvpY/rtGEN5q9E1x2stNtg8C4/qbdLVh4RpU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=fXrQ5zfUEoU1cTm7lY93MjQX+nBWtA9a2cBnFKKyYBcRafE1SMYMK2MHWSmDA3bWXq6UKxWCD4BN5QmzxHxqsVN0ucxJm6ml9xkjTKgHp/FfdOc/ZpeVv7A6PVI7IHLsQASUEgTi/Wu9axIroxrQh6LDnnj1Lav0P2gCAnjzb0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aJPJZGn9; arc=none smtp.client-ip=209.85.214.182
+	s=arc-20240116; t=1737109035; c=relaxed/simple;
+	bh=JFEi2wLeGZOf8BHQEKqWbZM9NCkw6C1VmawHgv9xFhs=;
+	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=C37Vdt+8sbWS0AvcEuxmWt3K74MTnDok7DPV/Op2DPL7x6DtQSCPpfSQYqS31HeVNGiLi8j/vI9fZtXaa0eyK3Q2myPO40qdmmI9waLOnb8E5E1y7vwTTmP4JMVueTwq9BQyLT0WFfyWBu80XwTKLHVn+/+QYItatWi8GR3iBlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TgJ5PPAP; arc=none smtp.client-ip=209.85.160.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aJPJZGn9"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2166f1e589cso46990135ad.3;
-        Fri, 17 Jan 2025 02:09:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TgJ5PPAP"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-46c8474d8f6so16665701cf.3;
+        Fri, 17 Jan 2025 02:17:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737108562; x=1737713362; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1737109032; x=1737713832; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=txpxeHBAdFWIxVvsrZY+vd9V4pz1ZC+hkmKyDcVg/ac=;
-        b=aJPJZGn9lYU8HWz6QZJK0FSFPi7Vge7cX2+xKmyRD9XcJJDxu1nunWVDiZfDqudcck
-         yAdTjYLwzq7sh+vKMVNrjEvdRAR4xIwxycTgNNykeOv2Qs/kmZO1A89TJ5cvfCXxVo+q
-         SgNaS/gHzPWyyGX4rOMD4tDHt+hbpQhDRtmtYGO6RzQdMI8zDgeRj2DZVPZNLn3+nJTl
-         Md21Oyrb2VIKz8yuMaqHudoqSOPJHbtHoMlPuR+ZsdwypMfkSqSv4IgsCGuwhihadIBB
-         mbDX5H1LsfoPGVLvfMr2I3cwfBMeOvQBsV/ekbCB8poCKCmGZyxt7HnR7FZH1dnxtbi4
-         5fRw==
+        bh=ScPbdVpBxzYO8pUJQAAuO4Xb4212ZYcCAfsm5wTEeKs=;
+        b=TgJ5PPAPvhZqFacs/2/4jwp+ztznExBtuPrRGjUCCpbok3CA4sxC/I3t7NVQh6KGJO
+         Zpr/wJIPquwtnB8MZuN+sTrt7IzR7XMSbOrJxpBzL4nMw5H6i756Vv1uXp56uB/MqwtZ
+         HDxo0HtBnmx94P4ohOTTy3igZBn5UHQhs1ZiP+/auhSv8qz/8UWAN4+YsViytmNE/z8l
+         VZ6DLDwF7QrlnFd41nw71KbPLKoOtiafmvzFYKcrO/1RC0foe2+eIJRgZ/o5laPealRU
+         hbgaeiY7akHyB0gb9MF/4ZnZSbhV7rnLQ/M1ukPhHiZ1+0eSnubrL1nGUCtWI/ZJVLWL
+         /3Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737108562; x=1737713362;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1737109032; x=1737713832;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=txpxeHBAdFWIxVvsrZY+vd9V4pz1ZC+hkmKyDcVg/ac=;
-        b=bLHmdYuMoc2+cthne/wYi0DCcicqiQAp3Ni1PYoQbGJkBRsL68cCoi9ZvV9lwt6Khf
-         v5pbBs7HnIgYYPW0K824pFtSrBYlZBasMMW+lzmYLfY3d3rhdhyv64PLanZZbHRAxVky
-         Lfd4pZgT+ZDD0MmcGaHqfCIfiA8l7YfAS9TQGnawYKs4sE2mN6APP6nYyR7K+FNuolMF
-         d3gJfwlKJCeN/N++R85l5699YlYrlCyYEYDB5aefEKsUN/Qno1luvuEigSv38cqx/SUp
-         LjCJ/edY2FbLAtFs4bGSt9690zm63i7KOFa19lU4u3h4/G5ocuRLOFKonJsDLyKckExE
-         Txsw==
-X-Forwarded-Encrypted: i=1; AJvYcCUqVuHhTTaoOpCPv/zrk0HpqEHe3l8luinLz0qPYO73bttgtzDYcsfpxii7CDztpoTQBHdL/YO4at2I@vger.kernel.org, AJvYcCVsCeeOxDm6/Ixhdfu7NQmObCoMCRNm61B8Jha7zyIGctv4SFbxrAl+DZYLjq5VwCniS3f0MVXueGQijIyf@vger.kernel.org, AJvYcCWR12r+YMqVvSYjQiZlmTmWTEFZWOTwDkXFF1M6Mqlb61KqItzp6KmoUKSVOr0hGHgEGzPenQ+5PeWw@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxj9ADbAxQsPWeFVZ8yWVHsPRfdKVbLB12qt13lvDvstIj4PDRc
-	cmWKRIO7TZN1/zEj8Dfl2E6GLftSJ2g/7M5OF5MrF09MsFs2S6zm
-X-Gm-Gg: ASbGncsq4gGX5kUPeaTi2JTZbgpcJfT8LzIKnNKD2J2zsf+0g5Sq0yfZCKG5zVJ7pWv
-	xS+F28u4gSGMml/IJwGc9KCab3QSY+jTP+Tazt6VHe/enXsSWTh1054WWjQaEuOIsvWFQsxk0Mp
-	7Ga2cJkGdeuVsYn+7hyOl1GqMj4rU6jd67wK0GzC3it+jZmsG9VUWktXjQvyP38/p2sG9wyoL8m
-	QJKWOUpfx8hyGPTFalflgmMGyRZ93HYIwPafswsebA+jy8yDllgOgDvkOO2ICcMS+UATj7U1JZX
-	b+qwUMp8wB7asmHmIBhY7M1h
-X-Google-Smtp-Source: AGHT+IFBfJZqvUn9Ne012mH1HpVv9nGKtmaZr+J1FGuDFINVjH1w0pMMzDjKEnJqmQjoQB0dqMI6CA==
-X-Received: by 2002:a17:903:2344:b0:216:32c4:f807 with SMTP id d9443c01a7336-21c3564e7b4mr27869955ad.45.1737108561890;
-        Fri, 17 Jan 2025 02:09:21 -0800 (PST)
-Received: from hcdev-d520mt2.. (60-250-196-139.hinet-ip.hinet.net. [60.250.196.139])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21c2ceb9af5sm12756925ad.82.2025.01.17.02.09.19
+        bh=ScPbdVpBxzYO8pUJQAAuO4Xb4212ZYcCAfsm5wTEeKs=;
+        b=G6KDaz8G3o25jZn7grmgDE/GnL02sa3p/NJF8DT8UUe9uzUYDUy6ZLuPB4lj0X37ql
+         V7uFayODdN5tpR+wFcdUsS/5fZJkqbZRDiTo7YgxqNXHPqJ1e4TskLWrQJbakGoF3Lf2
+         XCYA9hCSY2M0chYbXltSV53EFGl6wUJYIrGaktb7kIZcqZR6eUvUgezb7EvtVXdxCoaF
+         dQA1Y6S/Ta1zM/hyxEfZKdjr3C9sH5qHhoxw0NEwyMASvccHZwAYULxJMyQzTbyRxc2t
+         sTSeIMB3igXHpcWeSDhWvF0t0U0FvIrWqGqvJVYEBFpyKJbRqIDmziatkIj2g2krVLn5
+         WMSA==
+X-Forwarded-Encrypted: i=1; AJvYcCU/4JnU+LEKi92c0LfYkF8Q428Nw6UiRhJOoo4uWic9qQWf4Bsinzl5UsMQIHpaT6a/+3jF2IMqTDK8W+pi@vger.kernel.org, AJvYcCUT++/QT6d+dkD1X+fjT9Kjuuxqi+LWvr+UOIF/ksd/p+tyal6Ui+fjAvYyaI7kG09uLkIeaUNWCg3AlaGVmPmE@vger.kernel.org, AJvYcCWHrN97/LKqQJaATiw8qsUdWGB89OMZPeiMxSwvq5Y1avPIKp2JcROGyCirdmBFk/o5IQQr813a7+Co@vger.kernel.org, AJvYcCWLVp8FL8J274hEw+D0/De88K2wFS4aLp4cIIFPioEL3DRRpivygoNypFobOiHSaclP4wM=@vger.kernel.org, AJvYcCX/tX/JfywZUXLfIjoKMST7jSEnSwDANG+VUgjdtU9K9rARN4TG7NUYlVxTo/F1kHURSwR1zM2h@vger.kernel.org
+X-Gm-Message-State: AOJu0YwywVLvpN4kBhejkxJStd3XbboNO0Jig30qF5qWD99vigREWu5W
+	/aOzvflTFRTeVz8lcpP7msMAJeToKIfv9P+Iy0PrMfMs1iipsOL2
+X-Gm-Gg: ASbGnctgsOKPv1RIfWSecJRTPYxdHs264kRcCe9jjzrujoGfZmVl8vQl1q94sF+wOry
+	Ru1WBzRs9gpqL1cyJyjCoZwUFNDCbktIcFPtiploF+eHD68TPsFsOnH/KAPYy5Zt/TwvjYV6GbV
+	woJLJduwHVZygGuGNd8kaK1Q/RAqv0tG9DZGu4N0Rj04TR6sBgY3TAjmIAKjhrY3zaKMvE9DLuD
+	/e1B2LDKNudauAl29BOI2xdfDlHNpY0uV176NxPYJf+DaYfzvB092HX1a3Ty2Vnz0oOmvH2hlMo
+	WE8Jzw6XzsbrbImszIJ/ljUuBOCZ
+X-Google-Smtp-Source: AGHT+IHi7GfJK6r/tRrun8aHPOSCgfPVe7JmZONv6mDjqRyn86C/st2dbOpHBXdzCk3DyzPzJ6Egfg==
+X-Received: by 2002:a05:622a:201:b0:467:5ea8:83df with SMTP id d75a77b69052e-46e12a9a0a9mr29192481cf.30.1737109032691;
+        Fri, 17 Jan 2025 02:17:12 -0800 (PST)
+Received: from localhost (15.60.86.34.bc.googleusercontent.com. [34.86.60.15])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-46e102ec299sm9805661cf.6.2025.01.17.02.17.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jan 2025 02:09:21 -0800 (PST)
-From: Ming Yu <a0282524688@gmail.com>
-To: tmyu0@nuvoton.com,
-	jdelvare@suse.com,
-	linux@roeck-us.net,
-	corbet@lwn.net,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org
-Cc: linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Ming Yu <a0282524688@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2 2/2] dt-bindings: hwmon: lm90: Add support for NCT7716, NCT7717 and NCT7718
-Date: Fri, 17 Jan 2025 18:07:44 +0800
-Message-Id: <20250117100744.1571385-3-a0282524688@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250117100744.1571385-1-a0282524688@gmail.com>
-References: <20250117100744.1571385-1-a0282524688@gmail.com>
+        Fri, 17 Jan 2025 02:17:12 -0800 (PST)
+Date: Fri, 17 Jan 2025 05:17:11 -0500
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Jason Wang <jasowang@redhat.com>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+ Shuah Khan <shuah@kernel.org>, 
+ linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ netdev@vger.kernel.org, 
+ kvm@vger.kernel.org, 
+ virtualization@lists.linux-foundation.org, 
+ linux-kselftest@vger.kernel.org, 
+ Yuri Benditovich <yuri.benditovich@daynix.com>, 
+ Andrew Melnychenko <andrew@daynix.com>, 
+ Stephen Hemminger <stephen@networkplumber.org>, 
+ gur.stavi@huawei.com, 
+ devel@daynix.com, 
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+Message-ID: <678a2e27c25eb_3e985b29494@willemb.c.googlers.com.notmuch>
+In-Reply-To: <20250116-tun-v3-3-c6b2871e97f7@daynix.com>
+References: <20250116-tun-v3-0-c6b2871e97f7@daynix.com>
+ <20250116-tun-v3-3-c6b2871e97f7@daynix.com>
+Subject: Re: [PATCH net v3 3/9] tun: Keep hdr_len in tun_get_user()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Add support for the Nuvoton NCT7716/7717/7718 thermal sensors.
+Akihiko Odaki wrote:
+> hdr_len is repeatedly used so keep it in a local variable.
+> 
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 
-NCT7716 and NCT7717 do not support to add temperature offset.
-The maximum offset supported by NCT7718 is 127875 millicelsius
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Signed-off-by: Ming Yu <a0282524688@gmail.com>
----
- Documentation/devicetree/bindings/hwmon/national,lm90.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/hwmon/national,lm90.yaml b/Documentation/devicetree/bindings/hwmon/national,lm90.yaml
-index 6e59c8fdef30..4feb76919404 100644
---- a/Documentation/devicetree/bindings/hwmon/national,lm90.yaml
-+++ b/Documentation/devicetree/bindings/hwmon/national,lm90.yaml
-@@ -32,6 +32,9 @@ properties:
-       - national,lm89
-       - national,lm90
-       - national,lm99
-+      - nuvoton,nct7716
-+      - nuvoton,nct7717
-+      - nuvoton,nct7718
-       - nxp,sa56004
-       - onnn,nct1008
-       - ti,tmp451
-@@ -120,6 +123,8 @@ allOf:
-               - dallas,max6659
-               - dallas,max6695
-               - dallas,max6696
-+              - nuvoton,nct7716
-+              - nuvoton,nct7717
-     then:
-       patternProperties:
-         "^channel@([0-2])$":
-@@ -155,6 +160,7 @@ allOf:
-               - national,lm89
-               - national,lm90
-               - national,lm99
-+              - nuvoton,nct7718
-               - nxp,sa56004
-               - winbond,w83l771
-     then:
--- 
-2.34.1
-
+Reviewed-by: Willem de Bruijn <willemb@google.com>
