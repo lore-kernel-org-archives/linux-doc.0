@@ -1,208 +1,139 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955B620B20;
-	Fri, 17 Jan 2025 17:40:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B19188A18;
+	Fri, 17 Jan 2025 17:59:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737135647; cv=none; b=WkJhi6DGVWGV5hK/gLAFp8dZrg12k/baXXLwCNbULkRZZHTloAmCVkAQgY9jE/8Y1S/AneJnrnLZQLRCQwnNhE0Fxd5BsNMXhfwmUnfWHmfJUvjeuNvhM8ZXu82pijQseT1bLu2eDUkzGTw3mdN7r1opTQ3zR5KUg21c0/w3T8k=
+	t=1737136795; cv=none; b=um3PeEYxOprNB8YoVD+y+U+6hopCdDm564PHtQjLg1EyTHcvUWGEvkxIzprHWKYih2atyZFsHEmrZ4ajxsKm1RNAOxqupjI4baT9d70ZdKQlOR5ISyPiuoXUOWFlxoAYse8ld3TlFtg38+ujKGAbyIfe152OGAygrFTcndrFdy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737135647; c=relaxed/simple;
-	bh=jFuGDsElHAm0qEIO6nUF5QEJFbi0ENxEj18hPsjBiSQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=AQXUKEAE2+xCB0KDz2kLRsyjhGhyadgVcalyCrDmok4Yxe2ngchSuvt0aiYDFTDCRsinBJJUGlskcGNYIbKDTURKpQb0+IuHN/G6d5wflJThaDhJtFVriaBbrQRB+Mqz23IAC8/buTIL/MF/LRtH/IA2QVcaXclf6wlrYVPR8gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rjsPlveI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737136795; c=relaxed/simple;
+	bh=DpwGZSjL1fDJ0MaoW/bdtyNx3vjLki1I5aLnRAqCHUk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Ev3Vd0i0zyyyP7gz5FUeu35nhbUUY0G2uXAnU8pyipBTcE+Nr+7m/skkLizUCRz0lguahtEIiwq3lxR296BFP0snYdBCqxKWztrctrO256TctbcqfgCBe2Vpye/gNRiARP3+nHvteOaATQzvN+2YL2Pm/Um5GuKBI0UPhwdl6rA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r6urYEaR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rjsPlveI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E047C4CEDD;
-	Fri, 17 Jan 2025 17:40:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r6urYEaR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBDEBC4CEE4;
+	Fri, 17 Jan 2025 17:59:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737135647;
-	bh=jFuGDsElHAm0qEIO6nUF5QEJFbi0ENxEj18hPsjBiSQ=;
-	h=From:Date:Subject:To:Cc:From;
-	b=rjsPlveIpkor21bZPfXy8Tj1XjvOte0yF5+pK2RkTCNSkEnZgshM8FM+GJEIp4uUZ
-	 6NJo92Uk74wCjLni0twuNwszDxkuiRMn7w7eCm3QwJzosoRaAuVmCPxhRkPKqmpsEW
-	 sNqHqP7ln4qI5MvjS5OwponU6N/k7EdI5XubebZybAETjgGyn5EL29989h74GwbbS5
-	 nRcVyofArwFwQxyIHMlxSC39VCQnU3J1Jcnqp0KPi5s+1+jJ0tzEcNB8tsiqnyH8UV
-	 UJrftKn9BBrhNgZ8dAaDfUWiRr+Uu377arpyM0EZHhSdBgy+q75yer7ik97KFVJQPN
-	 rxmaGfBGtBCTQ==
-From: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
-Date: Fri, 17 Jan 2025 18:40:31 +0100
-Subject: [PATCH net-next] mptcp: sysctl: add
- syn_retrans_before_tcp_fallback
+	s=k20201202; t=1737136795;
+	bh=DpwGZSjL1fDJ0MaoW/bdtyNx3vjLki1I5aLnRAqCHUk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=r6urYEaR4nDHxapeT6xlt4vzEuRlTwL+Q1lnfNEoU1H+qB7mmdQs79LroUYX2DVw4
+	 tdF2mw11KXFl62VieEzoTkLRy09LpdyjVs/ZuAzhjRdhgYhliy/lJmJ9w+2kwowukU
+	 SYOS7fYNlgGqEB/ZQuxrBTpFF4UkUNCLDf56YLRNHWug6yMduuG1vYLs6onQhsyjLI
+	 0l2mfudVNXpz/oknYrUfNsogOq0K/Kl02ITJNxjeDhhf4+zxGr96ZddVUAi0pNbiPi
+	 8oYOwgsTmdcsNjOgQ0IxUOczExKxjMqh55SneZTAmzPvT858n0Gu/20nmvU7BVPzZO
+	 urmTc9RJV22mw==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1tYqdM-00000006Ajb-1fTL;
+	Fri, 17 Jan 2025 18:59:52 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	linux-kernel@vger.kernel.org,
+	linux-wireless@vger.kernel.org
+Subject: [PATCH RFC 02/10] ABI: sysfs-class-rfkill: fix kernelversion tags
+Date: Fri, 17 Jan 2025 18:59:31 +0100
+Message-ID: <07d4e82750f20b92a18b526a900ffd8c89180aed.1737135484.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <cover.1737135484.git.mchehab+huawei@kernel.org>
+References: <cover.1737135484.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250117-net-next-mptcp-syn_retrans_before_tcp_fallback-v1-1-ab4b187099b0@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAA6WimcC/zWNQQrCMBBFr1Jm7UATWixeRSQkcaLBOg0zoVRK7
- 24QXPzF+4v3dlCSTAqXbgehNWteuIE5dRCfnh+E+d4YbG/H3pgzMtW2reK71FhQP+yEqnhWFyg
- tQq7dLvl5Dj6+cEyDCSFOw2QJmrQIpbz9glf4u+B2HF/a6LjuigAAAA==
-X-Change-ID: 20250117-net-next-mptcp-syn_retrans_before_tcp_fallback-5f41bbc8482e
-To: mptcp@lists.linux.dev, Mat Martineau <martineau@kernel.org>, 
- Geliang Tang <geliang@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5317; i=matttbe@kernel.org;
- h=from:subject:message-id; bh=jFuGDsElHAm0qEIO6nUF5QEJFbi0ENxEj18hPsjBiSQ=;
- b=owEBbQKS/ZANAwAIAfa3gk9CaaBzAcsmYgBnipYcdIvV7UlaIjx/I/1bUxaO31uZKd87UDQkW
- IkDLkWoeXCJAjMEAAEIAB0WIQToy4X3aHcFem4n93r2t4JPQmmgcwUCZ4qWHAAKCRD2t4JPQmmg
- c64/D/9Y04eRrG73ab0V6M0LksxmXeBlo3DMHBWvOs+ar29VF1BTOwgxPvnmTGg4xcd3ZrnyFyJ
- f02ArLHyE8OYOuZwqnsB79bKHB3dmcxfcO4FbTAP7GcZVYn8V9sxrxcTSekIMzeMILZFDVwup6v
- cfEGA5DQJ85VmkOC23d9gkDvEXQbwEH87LisWQ+mF3Zp1lEmYDShC+y/bAnZtnIcFcXbzBri8IH
- 3/OhmIsCsc+B6LXaafwcEpuBCu5809z3c3ckkrExrD5PREoQOR7O42WjXKS1JOzgQOSBvgTSC0M
- AerjjV3MhRKmHWmFHKUgqGEOwlfHB1d84RhrAepJy0HRei3xTCZ8ZAti1nzcpU0fBQsUR9mCkHj
- LJzCWx+wJ+hcU6D9X4UGdvnqAxCnafp/z47Hix+wYtNWiOTNTVT1KeMGSBghkaKQnPDi177mu/L
- 1KRJo8BflSg1I5dK77DXjqNIDATN5rf3NNPbr6qTb9+Hgql9p+FBg1sgKquZ5K1tz8ECxGc67u9
- EDW1lCVrE+A/0bwSsLYF1j2mMVV1F0/fckTAcxW+Nol5PomljHTXzvpl+T7DVqr+xp0PfISGV6j
- e9cnJ/7S4Le+xlAGiVqJERSpGxFr2qmuXYDIuPh4UtDmt621VDDrTNMzI/qhX+QWSHdcV8vpTJ5
- J19V+cFN/s7Hi8g==
-X-Developer-Key: i=matttbe@kernel.org; a=openpgp;
- fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The number of SYN + MPC retransmissions before falling back to TCP was
-fixed to 2. This is certainly a good default value, but having a fixed
-number can be a problem in some environments.
+Some kernelversion tags are missing colons. Add them to comply with
+ABI description and produce right results when converted to html/pdf.
 
-The current behaviour means that if all packets are dropped, there will
-be:
-
-- The initial SYN + MPC
-
-- 2 retransmissions with MPC
-
-- The next ones will be without MPTCP.
-
-So typically ~3 seconds before falling back to TCP. In some networks
-where some temporally blackholes are unfortunately frequent, or when a
-client tries to initiate connections while the network is not ready yet,
-this can cause new connections not to have MPTCP connections.
-
-In such environments, it is now possible to increase the number of SYN
-retransmissions with MPTCP options to make sure MPTCP is used.
-
-Interesting values are:
-
-- 0: the first retransmission will be done without MPTCP options: quite
-     aggressive, but also a higher risk of detecting false-positive
-     MPTCP blackholes.
-
-- >= 128: all SYN retransmissions will keep the MPTCP options: back to
-          the < 6.12 behaviour.
-
-The default behaviour is not changed here.
-
-Reviewed-by: Mat Martineau <martineau@kernel.org>
-Signed-off-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/networking/mptcp-sysctl.rst | 16 ++++++++++++++++
- net/mptcp/ctrl.c                          | 21 +++++++++++++++++----
- 2 files changed, 33 insertions(+), 4 deletions(-)
+ Documentation/ABI/removed/sysfs-class-rfkill |  2 +-
+ Documentation/ABI/stable/sysfs-class-rfkill  | 12 ++++++------
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/networking/mptcp-sysctl.rst b/Documentation/networking/mptcp-sysctl.rst
-index 95598c21fc8e8782533bbc6a36de63bb465c297c..dc45c02113537b98dff76a6ed431c0449b5217f8 100644
---- a/Documentation/networking/mptcp-sysctl.rst
-+++ b/Documentation/networking/mptcp-sysctl.rst
-@@ -108,3 +108,19 @@ stale_loss_cnt - INTEGER
- 	This is a per-namespace sysctl.
+diff --git a/Documentation/ABI/removed/sysfs-class-rfkill b/Documentation/ABI/removed/sysfs-class-rfkill
+index f25174eafd55..20cb688af173 100644
+--- a/Documentation/ABI/removed/sysfs-class-rfkill
++++ b/Documentation/ABI/removed/sysfs-class-rfkill
+@@ -4,7 +4,7 @@ For details to this subsystem look at Documentation/driver-api/rfkill.rst.
  
- 	Default: 4
-+
-+syn_retrans_before_tcp_fallback - INTEGER
-+	The number of SYN + MP_CAPABLE retransmissions before falling back to
-+	TCP, i.e. dropping the MPTCP options. In other words, if all the packets
-+	are dropped on the way, there will be:
-+
-+	* The initial SYN with MPTCP support
-+	* This number of SYN retransmitted with MPTCP support
-+	* The next SYN retransmissions will be without MPTCP support
-+
-+	0 means the first retransmission will be done without MPTCP options.
-+	>= 128 means that all SYN retransmissions will keep the MPTCP options. A
-+	lower number might increase false-positive MPTCP blackholes detections.
-+	This is a per-namespace sysctl.
-+
-+	Default: 2
-diff --git a/net/mptcp/ctrl.c b/net/mptcp/ctrl.c
-index b0dd008e2114bce65ee3906bbdc19a5a4316cefa..3999e0ba2c35b50c36ce32277e0b8bfb24197946 100644
---- a/net/mptcp/ctrl.c
-+++ b/net/mptcp/ctrl.c
-@@ -32,6 +32,7 @@ struct mptcp_pernet {
- 	unsigned int close_timeout;
- 	unsigned int stale_loss_cnt;
- 	atomic_t active_disable_times;
-+	u8 syn_retrans_before_tcp_fallback;
- 	unsigned long active_disable_stamp;
- 	u8 mptcp_enabled;
- 	u8 checksum_enabled;
-@@ -92,6 +93,7 @@ static void mptcp_pernet_set_defaults(struct mptcp_pernet *pernet)
- 	pernet->mptcp_enabled = 1;
- 	pernet->add_addr_timeout = TCP_RTO_MAX;
- 	pernet->blackhole_timeout = 3600;
-+	pernet->syn_retrans_before_tcp_fallback = 2;
- 	atomic_set(&pernet->active_disable_times, 0);
- 	pernet->close_timeout = TCP_TIMEWAIT_LEN;
- 	pernet->checksum_enabled = 0;
-@@ -245,6 +247,12 @@ static struct ctl_table mptcp_sysctl_table[] = {
- 		.proc_handler = proc_blackhole_detect_timeout,
- 		.extra1 = SYSCTL_ZERO,
- 	},
-+	{
-+		.procname = "syn_retrans_before_tcp_fallback",
-+		.maxlen = sizeof(u8),
-+		.mode = 0644,
-+		.proc_handler = proc_dou8vec_minmax,
-+	},
- };
+ What:		/sys/class/rfkill/rfkill[0-9]+/claim
+ Date:		09-Jul-2007
+-KernelVersion	v2.6.22
++KernelVersion:	v2.6.22
+ Contact:	linux-wireless@vger.kernel.org
+ Description:	This file was deprecated because there no longer was a way to
+ 		claim just control over a single rfkill instance.
+diff --git a/Documentation/ABI/stable/sysfs-class-rfkill b/Documentation/ABI/stable/sysfs-class-rfkill
+index 037979f7dc4b..67b605e3dd16 100644
+--- a/Documentation/ABI/stable/sysfs-class-rfkill
++++ b/Documentation/ABI/stable/sysfs-class-rfkill
+@@ -16,7 +16,7 @@ Description: 	The rfkill class subsystem folder.
  
- static int mptcp_pernet_new_table(struct net *net, struct mptcp_pernet *pernet)
-@@ -269,6 +277,7 @@ static int mptcp_pernet_new_table(struct net *net, struct mptcp_pernet *pernet)
- 	/* table[7] is for available_schedulers which is read-only info */
- 	table[8].data = &pernet->close_timeout;
- 	table[9].data = &pernet->blackhole_timeout;
-+	table[10].data = &pernet->syn_retrans_before_tcp_fallback;
+ What:		/sys/class/rfkill/rfkill[0-9]+/name
+ Date:		09-Jul-2007
+-KernelVersion	v2.6.22
++KernelVersion:	v2.6.22
+ Contact:	linux-wireless@vger.kernel.org
+ Description: 	Name assigned by driver to this key (interface or driver name).
+ Values: 	arbitrary string.
+@@ -24,7 +24,7 @@ Values: 	arbitrary string.
  
- 	hdr = register_net_sysctl_sz(net, MPTCP_SYSCTL_PATH, table,
- 				     ARRAY_SIZE(mptcp_sysctl_table));
-@@ -392,17 +401,21 @@ void mptcp_active_enable(struct sock *sk)
- void mptcp_active_detect_blackhole(struct sock *ssk, bool expired)
- {
- 	struct mptcp_subflow_context *subflow;
--	u32 timeouts;
+ What: 		/sys/class/rfkill/rfkill[0-9]+/type
+ Date:		09-Jul-2007
+-KernelVersion	v2.6.22
++KernelVersion:	v2.6.22
+ Contact:	linux-wireless@vger.kernel.org
+ Description: 	Driver type string ("wlan", "bluetooth", etc).
+ Values: 	See include/linux/rfkill.h.
+@@ -32,7 +32,7 @@ Values: 	See include/linux/rfkill.h.
  
- 	if (!sk_is_mptcp(ssk))
- 		return;
+ What:		/sys/class/rfkill/rfkill[0-9]+/persistent
+ Date:		09-Jul-2007
+-KernelVersion	v2.6.22
++KernelVersion:	v2.6.22
+ Contact:	linux-wireless@vger.kernel.org
+ Description: 	Whether the soft blocked state is initialised from non-volatile
+ 		storage at startup.
+@@ -44,7 +44,7 @@ Values: 	A numeric value:
  
--	timeouts = inet_csk(ssk)->icsk_retransmits;
- 	subflow = mptcp_subflow_ctx(ssk);
+ What:		/sys/class/rfkill/rfkill[0-9]+/state
+ Date:		09-Jul-2007
+-KernelVersion	v2.6.22
++KernelVersion:	v2.6.22
+ Contact:	linux-wireless@vger.kernel.org
+ Description: 	Current state of the transmitter.
+ 		This file was scheduled to be removed in 2014, but due to its
+@@ -67,7 +67,7 @@ Values: 	A numeric value.
  
- 	if (subflow->request_mptcp && ssk->sk_state == TCP_SYN_SENT) {
--		if (timeouts == 2 || (timeouts < 2 && expired)) {
--			MPTCP_INC_STATS(sock_net(ssk), MPTCP_MIB_MPCAPABLEACTIVEDROP);
-+		struct net *net = sock_net(ssk);
-+		u8 timeouts, to_max;
-+
-+		timeouts = inet_csk(ssk)->icsk_retransmits;
-+		to_max = mptcp_get_pernet(net)->syn_retrans_before_tcp_fallback;
-+
-+		if (timeouts == to_max || (timeouts < to_max && expired)) {
-+			MPTCP_INC_STATS(net, MPTCP_MIB_MPCAPABLEACTIVEDROP);
- 			subflow->mpc_drop = 1;
- 			mptcp_subflow_early_fallback(mptcp_sk(subflow->conn), subflow);
- 		} else {
-
----
-base-commit: 7d2eba0f83a59d360ed1e77ed2778101a6e3c4a1
-change-id: 20250117-net-next-mptcp-syn_retrans_before_tcp_fallback-5f41bbc8482e
-
-Best regards,
+ What:		/sys/class/rfkill/rfkill[0-9]+/hard
+ Date:		12-March-2010
+-KernelVersion	v2.6.34
++KernelVersion:	v2.6.34
+ Contact:	linux-wireless@vger.kernel.org
+ Description: 	Current hardblock state. This file is read only.
+ Values: 	A numeric value.
+@@ -81,7 +81,7 @@ Values: 	A numeric value.
+ 
+ What:		/sys/class/rfkill/rfkill[0-9]+/soft
+ Date:		12-March-2010
+-KernelVersion	v2.6.34
++KernelVersion:	v2.6.34
+ Contact:	linux-wireless@vger.kernel.org
+ Description:	Current softblock state. This file is read and write.
+ Values: 	A numeric value.
 -- 
-Matthieu Baerts (NGI0) <matttbe@kernel.org>
+2.47.1
 
