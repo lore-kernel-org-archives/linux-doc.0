@@ -1,100 +1,273 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2AFA82890;
-	Fri, 17 Jan 2025 08:30:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E407083E;
+	Fri, 17 Jan 2025 09:16:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737102657; cv=none; b=I2DfeSNCkvMbaYICZXmuOeKchK1P+p1iwuY6sFSh2K0uenCiQUtIxcYX19YHUdkCHVzxzA56gBf6FYp9e299wg4UHZJG948K6t0gHioBvIs7f9jCF3O67Csf2oaCutqVubhOafWgNDtIcyt9T46pY/HbkMtx3au6NatFe1PrHeM=
+	t=1737105372; cv=none; b=Kwn4nODTBkkPX34NAmzGStAI3i1tshFjMlJoEDz5RBY7LpoZ4aX3AIe1rZWlAr5g8zovmHexywsEYoyv7dKvjjlirQ+QqY/dVgEWQ0Q4Bb41O22f0we3yuF4VJyL0QOtsiyB1xOiQAr5dTVhPn9RaBTGO9HRH7TVxO+tWM/5naA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737102657; c=relaxed/simple;
-	bh=2UtljXZTNljFm0IjmFEyVoIjU7dljBpQ5XDHRVlupyg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kIyKAFWPaCzt3CjJ9bVKFVz4fquGAXDQ4Jy4PrFSi1IE0gaGB1G+Yhg6P456/xJef5iOXU4DjHXpgyhas9YoatYtOCOAvV8ufxkCIDkZ8zBNy7ITg2vxSEb/E2wq7067lUlo6ABlNztXkHlZ+U+8U3KPtxQXRnncoRDKHbDnQrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q5Hz2aT8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737105372; c=relaxed/simple;
+	bh=KNi0T2jTKBJeJCB3+aMk/ZCvS0hODas9BOgOIjyUabk=;
+	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=BeLK2deu/heLhAMBIWSeii3DNy/SIGbq0bijQkqoSt81a4ctbYpQlbCWspXS+WDeq8mj6lezqb8xwvqP8KM11FYtBOPM/OaJ2IahgLwFOpZeUxd7v3DXVLo1+1ZrOQ2uCJ37KgvvS4IgWeP3RpVbhnRnWcNVg8aIoKWGUK8D1DE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e5yc+jvQ; arc=none smtp.client-ip=209.85.219.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q5Hz2aT8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4D69C4CEDD;
-	Fri, 17 Jan 2025 08:30:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737102656;
-	bh=2UtljXZTNljFm0IjmFEyVoIjU7dljBpQ5XDHRVlupyg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q5Hz2aT8+iVMXytCA7YlB3wighnXP4RVRo35Ap9zoRsbQ84C4EoAslSG8/KBvznba
-	 LVmlOaN6d66wXJ6Dr2xgSub15vyzXGMMaWPr0Ncj73HOAOqkyrWPKwuM7a0bITl5W6
-	 gyCg8O1JK6+1cjszgYrHR2MooddtG5htNXmJpi4xePWg06oO4GxymQOV56mOcvzvbq
-	 WDaghAMl+4LQiQbtG/htARK0MG6Sg1TQSfXl1RBgP1CpDGQWWS+t0jFDm3sgfHaaId
-	 qsmLc+vuoqoUwH/L2Mr5QXTx8zqRkxKfCjqrEEWE4rn0qYGBd0oU3asgyjllgMpDY7
-	 51WlK3s4U5gnA==
-Date: Fri, 17 Jan 2025 09:30:53 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Leo Yang <leo.yang.sy0@gmail.com>
-Cc: jdelvare@suse.com, linux@roeck-us.net, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, Leo-Yang@quantatw.com, corbet@lwn.net, 
-	Delphine_CC_Chiu@wiwynn.com, linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] dt-bindings: hwmon: ti,ina2xx: Add INA233 device
-Message-ID: <20250117-kind-poodle-of-economy-c0e7c8@krzk-bin>
-References: <20250116085939.1235598-1-leo.yang.sy0@gmail.com>
- <20250116085939.1235598-2-leo.yang.sy0@gmail.com>
- <20250116-athletic-prehistoric-worm-36ffcb@krzk-bin>
- <CAAfUjZGSgdQYwC24S__EO13-q1HQWVkUP7oDgJm-=AeeXgr1DQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e5yc+jvQ"
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6d8e773ad77so16306566d6.2;
+        Fri, 17 Jan 2025 01:16:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737105369; x=1737710169; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pZTgtHN14KI8oTpVLZZm33nZqE+1xPlPrn8gCitpgCg=;
+        b=e5yc+jvQ8NwP1ATfAr7ui+9RR/t0dDPwRfs7diZX20vNnLXDqJLgxSdd19t//zgtab
+         0tUmABNyURcxX6NVcGS6cYIAJeLUoWpMdyiYAzNCmi32LDqon0tEuWlOAyU0234QsVRt
+         hg1zNcJVXFJTWXEkVLchhrB+AxU+z9RKP8ye7p1JqL0zRUKeEXHQc0UduQ1gt/SL2NJb
+         M5DDp/SDvUiQGiE3vMoyHczIIGa4bSy4aVTo7a4b+b/kCvBmz1ViZXWzmHu5QNXCqBoz
+         CFfOTzxbtIGcQ4ySKNe77TLKr7gUkEIdwn2mVq7Q3/pbpkaUQz5rZfucgDA5vLSKZ9k8
+         1+KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737105369; x=1737710169;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pZTgtHN14KI8oTpVLZZm33nZqE+1xPlPrn8gCitpgCg=;
+        b=H8ZjdLwdnjX90HvEuWAf2BsGkAagy1zjWXUGKxYWxDIIREKtuI52nJ82Bkj37lRjpB
+         HvLrq3iHw+sWba/amGBJFviQAp+KSEpMQYRQKNjsRsMq/TLXBC8RaoTl1ZczsZTtuPml
+         5DAbs13GOGC9hmhP5wX0ZWkjia43HwwfEukulj9WMugC6RRH/ouctNAxUWplqwnT/jXJ
+         dKlzNN8wGx739lPLhOKLNRvLjc7ifRpmzrbtNZpgQrN6fHWgV2wGCLdqnP5fdgu9XObx
+         ienTSYxVuEHKKj/sVCasXI+Q8Z+m5pZ13sEPkHxNhYBqaNNoLiUzCdyLXLITpHyTfERv
+         jRzg==
+X-Forwarded-Encrypted: i=1; AJvYcCUIIZKPX9qHbjAh3VMIwsTtq31uC5YGK2b+TIOYz4c5kHc2O5Sc8iByQj43iMWkh9NGybPQxtaGlgDdxh0L@vger.kernel.org, AJvYcCV3Fh28JvUvvdQqTc4bDFv74Mi1EYWHWDd8R9dd0ZFgtvHFoEP0S3ffmohQYLTIC2rZTk1bmnY7@vger.kernel.org, AJvYcCVVJq8Tz+d9MXOhesRnb4Hc3A0f1AkVaFLRWgEGgC+4TxkEB/22R7vgapAxlgFIkZi/eJKmmEFvuTjz@vger.kernel.org, AJvYcCWKHLZCrz8rK8H4J4/cik+0p69N4/X7USxERgYn1VktrBmuC6f8ydvaSBxFmYKNAT4BpfQ=@vger.kernel.org, AJvYcCX8uc6dUYRwnYUquaymeZdPUvnNMPlRozEH8oTaTFbTaJJEDTUwxmXE+oyBuBu3M4jOxMW2Ke3k5zy5oDToFPek@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4YuwQpk/0i142zSW/JssrJlsBxQa13Ii3+2Z6rsYhDC9mDUy+
+	DnqB/0e3Ni3262XLXZpakXT1kQ/c8smyS8uAZpbWiWkG3ehmFLxs
+X-Gm-Gg: ASbGncspTEwRFGLR/sOamMPO6Goni6NeULffbKx1e4PpPQk8gTLedpcV9kyb/xMZVKQ
+	OwkLjCsPM1txSyePnhJy0cbAgwodcvJwdvLv6U4gIPQMjbFULIQRmfJKg1hhou0vj4n1b6mXbIf
+	5GKp0F498PCPREMHCYuODfQ34JDFFc7RA/926HHVhL8XSxDXuSdddLhbJhr752pShfRFFkp2lFF
+	TmRdgrJQH07Ewf1wSGn+5ZQm4b0AyyoTt5LJ/xzWkRoSWNjFYzbG6i3X0T/B/qnMOTN7uIpZ19o
+	RscfMIojxcCIGMI0/dTCmyRTLYr6
+X-Google-Smtp-Source: AGHT+IHN8TErnIji3r8Qq5buiozYuzN7Fv/FHh3X7BOlSf/UuB6xpajfD/Tj2rE5wqRrGsGj45mPCA==
+X-Received: by 2002:a05:6214:4b0f:b0:6d4:36ff:4356 with SMTP id 6a1803df08f44-6e1b217dc6emr37454886d6.19.1737105368950;
+        Fri, 17 Jan 2025 01:16:08 -0800 (PST)
+Received: from localhost (15.60.86.34.bc.googleusercontent.com. [34.86.60.15])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e1afc0ff47sm9627386d6.29.2025.01.17.01.16.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jan 2025 01:16:08 -0800 (PST)
+Date: Fri, 17 Jan 2025 04:16:07 -0500
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Jason Wang <jasowang@redhat.com>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+ Shuah Khan <shuah@kernel.org>, 
+ linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ netdev@vger.kernel.org, 
+ kvm@vger.kernel.org, 
+ virtualization@lists.linux-foundation.org, 
+ linux-kselftest@vger.kernel.org, 
+ Yuri Benditovich <yuri.benditovich@daynix.com>, 
+ Andrew Melnychenko <andrew@daynix.com>, 
+ Stephen Hemminger <stephen@networkplumber.org>, 
+ gur.stavi@huawei.com, 
+ devel@daynix.com, 
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+Message-ID: <678a1fd7d7c85_3e503c29449@willemb.c.googlers.com.notmuch>
+In-Reply-To: <20250116-tun-v3-4-c6b2871e97f7@daynix.com>
+References: <20250116-tun-v3-0-c6b2871e97f7@daynix.com>
+ <20250116-tun-v3-4-c6b2871e97f7@daynix.com>
+Subject: Re: [PATCH net v3 4/9] tun: Decouple vnet from tun_struct
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAAfUjZGSgdQYwC24S__EO13-q1HQWVkUP7oDgJm-=AeeXgr1DQ@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 16, 2025 at 09:52:08PM +0800, Leo Yang wrote:
-> Hi Krzysztof,
->=20
-> On Thu, Jan 16, 2025 at 6:47=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.=
-org> wrote:
-> >
-> > > +      This value will be used to calculate the Current_LSB and curre=
-nt/power
-> > > +      coefficient for the pmbus and to calibrate the IC.
-> > > +    minimum: 32768
-> > > +    maximum: 4294967295
-> >
-> > Uh, are these real values measurable by the device? The last one looks
-> > like UINT_MAX.
->=20
-> According to the spec I don't see a definition of the upper limit of the
-> current measurement, it all depends on how low the shunt resistance can
-> be, so I'll use the upper limit of the u32 as the maximum for now, even
-> though it's unlikely that this number will be present in the actual circu=
-it.
->=20
-> >
-> > > +    default: 32768000
-> >
-> > Default is 32 A? For what applications is this sensor used?
-> >
->=20
-> According to spec 8.2.2.1 Programming the Calibration Register example,
-> a Current_LSB with a maximum expected current of 15A is approximately
-> 457.7uA.
-> The example shows that a Current_LSB of 500 or 1000uA/bit can be used.
-> So I choose 1000uA as the default value here, this value corresponds to
-> the expected maximum current which is 32A (with some loss of accuracy to
->  have a larger measurement range), and yes maybe the user doesn't
-> need such a large current, so the accuracy-sensitive use of the scene
-> can be adjusted according to the actual measurement range of the
-> expected maximum current, I'm trying to retain some flexibility for the
-> user.
->
+Akihiko Odaki wrote:
+> Decouple vnet-related functions from tun_struct so that we can reuse
+> them for tap in the future.
+> 
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> ---
+>  drivers/net/tun.c | 53 +++++++++++++++++++++++++++--------------------------
+>  1 file changed, 27 insertions(+), 26 deletions(-)
+> 
+> diff --git a/drivers/net/tun.c b/drivers/net/tun.c
+> index ec56ac865848..add09dfdada5 100644
+> --- a/drivers/net/tun.c
+> +++ b/drivers/net/tun.c
+> @@ -298,16 +298,16 @@ static bool tun_napi_frags_enabled(const struct tun_file *tfile)
+>  	return tfile->napi_frags_enabled;
+>  }
+>  
+> -static inline bool tun_legacy_is_little_endian(struct tun_struct *tun)
+> +static inline bool tun_legacy_is_little_endian(unsigned int flags)
+>  {
+>  	return !(IS_ENABLED(CONFIG_TUN_VNET_CROSS_LE) &&
+> -		 (tun->flags & TUN_VNET_BE)) &&
+> +		 (flags & TUN_VNET_BE)) &&
+>  		virtio_legacy_is_little_endian();
+>  }
+>  
+> -static long tun_get_vnet_be(struct tun_struct *tun, int __user *argp)
+> +static long tun_get_vnet_be(unsigned int flags, int __user *argp)
+>  {
+> -	int be = !!(tun->flags & TUN_VNET_BE);
+> +	int be = !!(flags & TUN_VNET_BE);
+>  
+>  	if (!IS_ENABLED(CONFIG_TUN_VNET_CROSS_LE))
+>  		return -EINVAL;
+> @@ -318,7 +318,7 @@ static long tun_get_vnet_be(struct tun_struct *tun, int __user *argp)
+>  	return 0;
+>  }
+>  
+> -static long tun_set_vnet_be(struct tun_struct *tun, int __user *argp)
+> +static long tun_set_vnet_be(unsigned int *flags, int __user *argp)
+>  {
+>  	int be;
+>  
+> @@ -329,27 +329,26 @@ static long tun_set_vnet_be(struct tun_struct *tun, int __user *argp)
+>  		return -EFAULT;
+>  
+>  	if (be)
+> -		tun->flags |= TUN_VNET_BE;
+> +		*flags |= TUN_VNET_BE;
+>  	else
+> -		tun->flags &= ~TUN_VNET_BE;
+> +		*flags &= ~TUN_VNET_BE;
+>  
+>  	return 0;
+>  }
+>  
+> -static inline bool tun_is_little_endian(struct tun_struct *tun)
+> +static inline bool tun_is_little_endian(unsigned int flags)
+>  {
+> -	return tun->flags & TUN_VNET_LE ||
+> -		tun_legacy_is_little_endian(tun);
+> +	return flags & TUN_VNET_LE || tun_legacy_is_little_endian(flags);
+>  }
+>  
+> -static inline u16 tun16_to_cpu(struct tun_struct *tun, __virtio16 val)
+> +static inline u16 tun16_to_cpu(unsigned int flags, __virtio16 val)
+>  {
+> -	return __virtio16_to_cpu(tun_is_little_endian(tun), val);
+> +	return __virtio16_to_cpu(tun_is_little_endian(flags), val);
+>  }
+>  
+> -static inline __virtio16 cpu_to_tun16(struct tun_struct *tun, u16 val)
+> +static inline __virtio16 cpu_to_tun16(unsigned int flags, u16 val)
+>  {
+> -	return __cpu_to_virtio16(tun_is_little_endian(tun), val);
+> +	return __cpu_to_virtio16(tun_is_little_endian(flags), val);
+>  }
+>  
+>  static inline u32 tun_hashfn(u32 rxhash)
+> @@ -1764,6 +1763,7 @@ static ssize_t tun_get_user(struct tun_struct *tun, struct tun_file *tfile,
+>  
+>  	if (tun->flags & IFF_VNET_HDR) {
+>  		int vnet_hdr_sz = READ_ONCE(tun->vnet_hdr_sz);
+> +		int flags = tun->flags;
 
-Datasheet indeed does not describe actual limits, expect 5 mA on the
-pin, but that depends on shunt resistor, so fine with me:
+Here and elsewhere: instead of passing around and repeatedly parsing
+flags, have a variable is_little_endian (or is_le)?
+>  
+>  		if (iov_iter_count(from) < vnet_hdr_sz)
+>  			return -EINVAL;
+> @@ -1772,12 +1772,12 @@ static ssize_t tun_get_user(struct tun_struct *tun, struct tun_file *tfile,
+>  			return -EFAULT;
+>  
+>  		if ((gso.flags & VIRTIO_NET_HDR_F_NEEDS_CSUM) &&
+> -		    tun16_to_cpu(tun, gso.csum_start) + tun16_to_cpu(tun, gso.csum_offset) + 2 > tun16_to_cpu(tun, gso.hdr_len))
+> -			gso.hdr_len = cpu_to_tun16(tun, tun16_to_cpu(tun, gso.csum_start) + tun16_to_cpu(tun, gso.csum_offset) + 2);
+> +		    tun16_to_cpu(flags, gso.csum_start) + tun16_to_cpu(flags, gso.csum_offset) + 2 > tun16_to_cpu(flags, gso.hdr_len))
+> +			gso.hdr_len = cpu_to_tun16(flags, tun16_to_cpu(flags, gso.csum_start) + tun16_to_cpu(flags, gso.csum_offset) + 2);
+>  
+> -		if (tun16_to_cpu(tun, gso.hdr_len) > iov_iter_count(from))
+> +		if (tun16_to_cpu(flags, gso.hdr_len) > iov_iter_count(from))
+>  			return -EINVAL;
+> -		hdr_len = tun16_to_cpu(tun, gso.hdr_len);
+> +		hdr_len = tun16_to_cpu(flags, gso.hdr_len);
+>  		iov_iter_advance(from, vnet_hdr_sz - sizeof(gso));
+>  	}
+>  
+> @@ -1854,7 +1854,7 @@ static ssize_t tun_get_user(struct tun_struct *tun, struct tun_file *tfile,
+>  		}
+>  	}
+>  
+> -	if (virtio_net_hdr_to_skb(skb, &gso, tun_is_little_endian(tun))) {
+> +	if (virtio_net_hdr_to_skb(skb, &gso, tun_is_little_endian(tun->flags))) {
+>  		atomic_long_inc(&tun->rx_frame_errors);
+>  		err = -EINVAL;
+>  		goto free_skb;
+> @@ -2108,23 +2108,24 @@ static ssize_t tun_put_user(struct tun_struct *tun,
+>  
+>  	if (vnet_hdr_sz) {
+>  		struct virtio_net_hdr gso;
+> +		int flags = tun->flags;
+>  
+>  		if (iov_iter_count(iter) < vnet_hdr_sz)
+>  			return -EINVAL;
+>  
+>  		if (virtio_net_hdr_from_skb(skb, &gso,
+> -					    tun_is_little_endian(tun), true,
+> +					    tun_is_little_endian(flags), true,
+>  					    vlan_hlen)) {
+>  			struct skb_shared_info *sinfo = skb_shinfo(skb);
+>  
+>  			if (net_ratelimit()) {
+>  				netdev_err(tun->dev, "unexpected GSO type: 0x%x, gso_size %d, hdr_len %d\n",
+> -					   sinfo->gso_type, tun16_to_cpu(tun, gso.gso_size),
+> -					   tun16_to_cpu(tun, gso.hdr_len));
+> +					   sinfo->gso_type, tun16_to_cpu(flags, gso.gso_size),
+> +					   tun16_to_cpu(flags, gso.hdr_len));
+>  				print_hex_dump(KERN_ERR, "tun: ",
+>  					       DUMP_PREFIX_NONE,
+>  					       16, 1, skb->head,
+> -					       min((int)tun16_to_cpu(tun, gso.hdr_len), 64), true);
+> +					       min((int)tun16_to_cpu(flags, gso.hdr_len), 64), true);
+>  			}
+>  			WARN_ON_ONCE(1);
+>  			return -EINVAL;
+> @@ -2493,7 +2494,7 @@ static int tun_xdp_one(struct tun_struct *tun,
+>  	skb_reserve(skb, xdp->data - xdp->data_hard_start);
+>  	skb_put(skb, xdp->data_end - xdp->data);
+>  
+> -	if (virtio_net_hdr_to_skb(skb, gso, tun_is_little_endian(tun))) {
+> +	if (virtio_net_hdr_to_skb(skb, gso, tun_is_little_endian(tun->flags))) {
+>  		atomic_long_inc(&tun->rx_frame_errors);
+>  		kfree_skb(skb);
+>  		ret = -EINVAL;
+> @@ -3322,11 +3323,11 @@ static long __tun_chr_ioctl(struct file *file, unsigned int cmd,
+>  		break;
+>  
+>  	case TUNGETVNETBE:
+> -		ret = tun_get_vnet_be(tun, argp);
+> +		ret = tun_get_vnet_be(tun->flags, argp);
+>  		break;
+>  
+>  	case TUNSETVNETBE:
+> -		ret = tun_set_vnet_be(tun, argp);
+> +		ret = tun_set_vnet_be(&tun->flags, argp);
+>  		break;
+>  
+>  	case TUNATTACHFILTER:
+> 
+> -- 
+> 2.47.1
+> 
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
 
