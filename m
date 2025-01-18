@@ -1,315 +1,263 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from smtp.smtpout.orange.fr (smtp-66.smtpout.orange.fr [80.12.242.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91BCA1A725C;
-	Sat, 18 Jan 2025 20:50:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6412126C13;
+	Sat, 18 Jan 2025 21:11:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737233437; cv=none; b=fmo5RtaeegYWZBpOOa2Z2cwfusM65m2S9G7run1pVU5SIC+YJkUIspq8CY4YZ1LTnumRRcuZt2lt97P7zvPfFCDFNeNe/wFBaIrBTkfFaBhQrXMkYYcK6mNaJ57LI684TJH9ka1RWuZxlkTj6MY5P4gp7BaWbr67OyrIcWVZDlU=
+	t=1737234707; cv=none; b=gKz49Qn1G3hLILkeSR1AhLiEz+2kG9tBqYPT/cc4FKUuBJpwTiJ7ecBi9tyz9TPeXKK/+RUeSaOHbOZLUMfZP1BSRrmEzulFTm8Ztc6zI0ELIMOXeHVl5yp3NbyCExcj/F2YuZz6TxsCJ431XZRrfjLwX4tLVSZOp4X/C4LKslc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737233437; c=relaxed/simple;
-	bh=Ny2eazBvBz+HD7V6Ej+FJ/fXnIZxW8SVRu5LidsR1lI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CRDFbVsFEeOaSeg1DG0ZSV6UBRpuTcOXmws4ve/9gxCZLCY39QIydmOZIDZQfRpQIvpCs4M1wRGcI2k6IyQ+abSMc+7rRSrbN9zdyKhK4TaOKE21++zK/xZV+tu2+r2YYHOV7sNzN965775RFXmqHJGZgpCM3R7EWHxX+FeWAow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O7YZPhgu; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1737234707; c=relaxed/simple;
+	bh=Kw/ivMQ+jFMNqe8BnRFbuarJ2BBJyE4wK0VUSKgGCB0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B6H1Dsi3m3ntzfa2Jf+RpCGdrgoVOlYIEP+MmmWOH2CsMtOnZAchFiVuMGlIslBPz9Wq+VH1Kq5Pq9HaviHBE2Tjd3/DpxHd6TtHe1DfgEhtktZAvzQS3sThP73rAU20fNmJZcy33VSmk97iklF/vqK8KqsvRY6Oczh8exjUftU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=uOFfkpFk; arc=none smtp.client-ip=80.12.242.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O7YZPhgu"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-219f8263ae0so59593725ad.0;
-        Sat, 18 Jan 2025 12:50:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737233435; x=1737838235; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ploq2WKRqVnusvM3GXcyWAVIZOA0Hrn71AsZtOmPJGI=;
-        b=O7YZPhgu2tPUmQpzDpFXo850msmjEPvDqqYsm4oKmqyGY9/bmT5OarIH0YteK+K9o+
-         DOL/tX1Qt8frrkJPEPRX/XiVRlVj40pLMHZRaPFYzVOiMyP5ILPuxppEUU9f0SPj5j/t
-         /CP1LUmTerJ1wTl0MZ6h4fq9BGYmIIFzk0AUWEc3YKHS+hlt89OIdgkiBqMMSTu7CVnh
-         y+/POfCPMuJEr1QCeVznvQF1eFi9iQ0RfU4p3PC/IXOj15pmsmVNsb3pY4OR4bnLcV05
-         nzYkUixwBmuhgOa0nLx+qcVIiZm+tOgSMpF0+16jSISJr5TfJnYe0nHENtwHFmGb2deR
-         6p6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737233435; x=1737838235;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ploq2WKRqVnusvM3GXcyWAVIZOA0Hrn71AsZtOmPJGI=;
-        b=I1hXwD77otEPRWTnxxA3aeXuLQCwFhMQUfKznmxgMKwOjHY9MQTUxRh9lCBi+MywO5
-         0+hpDgUbxvf9YnkGZtoQ6RdKrJBukKtEEbNCaVcXXwNezE/uoM9hU6UdFxmTC0waikJc
-         lBJOEo4G3Q/h6yFGg2HDZIjUkfBtQHRd208t/a8YettnI2xPjCaTNA5mF1KHHPgTmevt
-         tsNlSUxzDMuTRkouwk+Qeag59IzP9l6Gqu4fLeC7eWHtV5w8yVtFaAdMxyWyo9lI4J4T
-         gUyVZYUXsXAls20cbAwFmw+1b7fjK7Kkcqh5uAj7waSf0LbSr6ryA8eNH282I3DZCF64
-         ZpAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVAh0CUswBwh6AZf3nTLa0fPKlQT2FQVuvTPcRri1EGmacDzT39Vr0xci5RO16RD2TTnO1yTgbDeE8=@vger.kernel.org, AJvYcCVTa5mh+RXpOohgBmlnX8ckURRgXpxgSs45fhbaRvLyZuPyHWd7a452Js+TxIK3IqvUlPCuvtVwPbpnjVnC@vger.kernel.org, AJvYcCVhqx42mYANcqL2tbJjoB9I5YfplQ5hNg0j+n96MFUxQ/RVcjmWCgchvjH7Z8Zj2tObkbXuMqTzJJ0l@vger.kernel.org
-X-Gm-Message-State: AOJu0YznIdlsLMboP3b0wPjZ+GR1MxbRSFk+ErxcpOqfri+9MBAInJ03
-	biblOoMtVqyvhV3ItAO3q/9MuheL+H5DtoMy8IOaHIEc5YQ0bbrg
-X-Gm-Gg: ASbGncu9AYbpynkNqZuo4Vfl06s0Nzr4bUqjxZh/k2PlNH0aITFTUbpVbSaVihgA6uE
-	gSep2bSuKPfSCZPpTVS2VeIwYqYIR8VqkrmDGauBqEEAnumyWDI9316ANZtP/HKysiM8unWYaN+
-	jMfW3oqUSkIc4n+h+V0pdNEJrYRSic0VzIfRQ0b37BfpVyXWjoyZK+8tT2X9YNNn6501ocxE1RX
-	rRoSnjfmfCFy+O4Y3dI/Pmkf0am6qLAUbl/CNgZXWGdUkdgJ2G+7ja4s5wwLXKOb31Rld2xlYtp
-	xg==
-X-Google-Smtp-Source: AGHT+IFNpfUkFGhNrm0RwUIgH2sanQ7blYK5jdIGT9ysMpfnL146ECKSdQIvgwx3/fv0pIQvWD/uXA==
-X-Received: by 2002:a05:6a00:3493:b0:725:9cc4:2354 with SMTP id d2e1a72fcca58-72daf950b6fmr11007153b3a.10.1737233434596;
-        Sat, 18 Jan 2025 12:50:34 -0800 (PST)
-Received: from localhost ([2804:30c:b30:a800:c057:a90:a425:2f39])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72dab7f2a44sm4165911b3a.36.2025.01.18.12.50.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jan 2025 12:50:33 -0800 (PST)
-Date: Sat, 18 Jan 2025 17:51:10 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: David Lechner <dlechner@baylibre.com>,
-	Marcelo Schmitt <marcelo.schmitt@analog.com>,
-	linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, lars@metafoo.de, corbet@lwn.net
-Subject: Re: [PATCH v2 1/1] Documentation: iio: Add ADC documentation
-Message-ID: <Z4wUPtDfnmQ53L0k@debian-BULLSEYE-live-builder-AMD64>
-References: <efa1dba23c38b207716883d6226ce9e9df5a51b8.1736862045.git.marcelo.schmitt@analog.com>
- <3bd58574-36c6-4102-ad7d-1aeff0e46a95@baylibre.com>
- <20250118155153.2574dbe5@jic23-huawei>
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="uOFfkpFk"
+Received: from fedora.home ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id ZG5KtqKB8C4UXZG5Ot28t8; Sat, 18 Jan 2025 22:10:34 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1737234634;
+	bh=AXmfmYFLgFLyYWM2a/Vc8EsNfX0u6O7RsuTm2Dc3z1k=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=uOFfkpFkxwNPtsJGkcqoB2K4XzoTM1t3j0oh6MM3Fibqkav3TI5rEHoEFJCv/x6vS
+	 RDTL00Cn8MDpokr1QGyIm8Js6tPKvrXhy2s9Lx5VznHEibWDvpAkyc2I6myxkth0tt
+	 EHWU4QY9fXV+5c9jhWyNy04fVsONk5yDy/XeKfOnpjGXhFkcxfDIrmZ25IZ9xMxmLQ
+	 loDdvQtvmgV6Rs36+AdYRTJQd1DeRKUWNKYQ9Gp3OPx+4dAfOvo2CcaS8ArENc6/td
+	 QAvKDbKZpbnSD2TtLuK7pKOCgW+IO2SIPeLygblto/wZSbXHE+3vAzSmd9Uxv0s832
+	 zqKmfowMx+6HA==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 18 Jan 2025 22:10:34 +0100
+X-ME-IP: 90.11.132.44
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Bin Liu <b-liu@ti.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-doc@vger.kernel.org,
+	linux-mips@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH] usb: musb: Constify struct musb_fifo_cfg
+Date: Sat, 18 Jan 2025 22:10:17 +0100
+Message-ID: <26e6f3e25dc8e785d0034dd7e59918e455563e60.1737234596.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250118155153.2574dbe5@jic23-huawei>
 
-Hi Jonathan,
+'struct musb_fifo_cfg' are not modified in these drivers.
 
-Thanks for having another look at this.
-I'll do the changes suggested.
+Constifying these structures moves some data to a read-only section, so
+increase overall security.
 
-Thanks,
-Marcelo
+On a x86_64, with allmodconfig, as an example:
+Before:
+======
+   text	   data	    bss	    dec	    hex	filename
+  64381	   5537	    202	  70120	  111e8	drivers/usb/musb/musb_core.o
 
-On 01/18, Jonathan Cameron wrote:
-> On Wed, 15 Jan 2025 11:23:24 -0600
-> David Lechner <dlechner@baylibre.com> wrote:
-> 
-...
-> > > +1.1 Single-ended channels
-> > > +-------------------------
-> > > +
-> > > +Single-ended channels digitize the analog input voltage relative to ground and
-> > > +can be either unipolar or bipolar.
-> > > +
-> > > +1.1.1 Single-ended Unipolar Channels
-> > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > +
-> > > +::
-> > > +
-> > > +  ---------- VREF -------------
-> > > +      ´ `           ´ `                  _____________
-> > > +    /     \       /     \               /             |
-> > > +   /       \     /       \         --- <  IN    ADC   |
-> > > +            \   /         \   /         \             |
-> > > +             `-´           `-´           \       VREF |
-> > > +  -------- GND (0V) -----------           +-----------+
-> > > +                                                  ^
-> > > +                                                  |
-> > > +                                             External VREF
-> > > +
-> > > +The input voltage to a **single-ended unipolar** channel is allowed to swing
-> > > +from GND to VREF (where VREF is a voltage reference with electrical potential
-> > > +higher than system ground). The maximum input voltage is also called VFS
-> > > +(full-scale input voltage), with VFS being determined by VREF. The voltage
-> 
-> Just to align with acronym perhaps
-> Voltage input Full-Scale 
-> 
-Okay, will do.
+After:
+=====
+   text	   data	    bss	    dec	    hex	filename
+  64957	   4929	    202	  70088	  111c8	drivers/usb/musb/musb_core.o
 
-> > > +reference may be provided from an external supply or derived from the chip power
-> > > +source.
-> > > +
-> > > +A single-ended unipolar channel could be described in device tree like the
-> > > +following example::  
-> > 
-> > We should probably mention somewhere that channel@ nodes are only needed for
-> > chips that don't have uniform inputs.
-> 
-> They are allowed in all cases. For SoCs ADCs it's not unusual to have them even
-> if nothing exciting going on because they want to hide channels that aren't
-> wired to anything.  For stand along ADCs that is less common because people
-> don't buy a device with lots of channels intending to only use a few.
-> 
-> But sure, mention they may not be provided.
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+Compile tested-only.
+---
+ .../driver-api/usb/writing_musb_glue_layer.rst     |  2 +-
+ drivers/usb/musb/jz4740.c                          |  4 ++--
+ drivers/usb/musb/mediatek.c                        |  2 +-
+ drivers/usb/musb/mpfs.c                            |  2 +-
+ drivers/usb/musb/musb_core.c                       | 14 +++++++-------
+ drivers/usb/musb/sunxi.c                           |  4 ++--
+ include/linux/usb/musb.h                           |  2 +-
+ 7 files changed, 15 insertions(+), 15 deletions(-)
 
-Sure, will mention that. 
+diff --git a/Documentation/driver-api/usb/writing_musb_glue_layer.rst b/Documentation/driver-api/usb/writing_musb_glue_layer.rst
+index e755c8551bba..0bb96ecdf527 100644
+--- a/Documentation/driver-api/usb/writing_musb_glue_layer.rst
++++ b/Documentation/driver-api/usb/writing_musb_glue_layer.rst
+@@ -613,7 +613,7 @@ endpoints configuration from the hardware, so we use line 12 instruction
+ to bypass reading the configuration from silicon, and rely on a
+ hard-coded table that describes the endpoints configuration instead::
+ 
+-    static struct musb_fifo_cfg jz4740_musb_fifo_cfg[] = {
++    static const struct musb_fifo_cfg jz4740_musb_fifo_cfg[] = {
+ 	{ .hw_ep_num = 1, .style = FIFO_TX, .maxpacket = 512, },
+ 	{ .hw_ep_num = 1, .style = FIFO_RX, .maxpacket = 512, },
+ 	{ .hw_ep_num = 2, .style = FIFO_TX, .maxpacket = 64, },
+diff --git a/drivers/usb/musb/jz4740.c b/drivers/usb/musb/jz4740.c
+index acdeb1117cd3..df56c972986f 100644
+--- a/drivers/usb/musb/jz4740.c
++++ b/drivers/usb/musb/jz4740.c
+@@ -59,7 +59,7 @@ static irqreturn_t jz4740_musb_interrupt(int irq, void *__hci)
+ 	return IRQ_NONE;
+ }
+ 
+-static struct musb_fifo_cfg jz4740_musb_fifo_cfg[] = {
++static const struct musb_fifo_cfg jz4740_musb_fifo_cfg[] = {
+ 	{ .hw_ep_num = 1, .style = FIFO_TX, .maxpacket = 512, },
+ 	{ .hw_ep_num = 1, .style = FIFO_RX, .maxpacket = 512, },
+ 	{ .hw_ep_num = 2, .style = FIFO_TX, .maxpacket = 64, },
+@@ -205,7 +205,7 @@ static const struct musb_hdrc_platform_data jz4740_musb_pdata = {
+ 	.platform_ops	= &jz4740_musb_ops,
+ };
+ 
+-static struct musb_fifo_cfg jz4770_musb_fifo_cfg[] = {
++static const struct musb_fifo_cfg jz4770_musb_fifo_cfg[] = {
+ 	{ .hw_ep_num = 1, .style = FIFO_TX, .maxpacket = 512, },
+ 	{ .hw_ep_num = 1, .style = FIFO_RX, .maxpacket = 512, },
+ 	{ .hw_ep_num = 2, .style = FIFO_TX, .maxpacket = 512, },
+diff --git a/drivers/usb/musb/mediatek.c b/drivers/usb/musb/mediatek.c
+index aa988d74b58d..c6cbe718b1da 100644
+--- a/drivers/usb/musb/mediatek.c
++++ b/drivers/usb/musb/mediatek.c
+@@ -365,7 +365,7 @@ static const struct musb_platform_ops mtk_musb_ops = {
+ #define MTK_MUSB_MAX_EP_NUM	8
+ #define MTK_MUSB_RAM_BITS	11
+ 
+-static struct musb_fifo_cfg mtk_musb_mode_cfg[] = {
++static const struct musb_fifo_cfg mtk_musb_mode_cfg[] = {
+ 	{ .hw_ep_num = 1, .style = FIFO_TX, .maxpacket = 512, },
+ 	{ .hw_ep_num = 1, .style = FIFO_RX, .maxpacket = 512, },
+ 	{ .hw_ep_num = 2, .style = FIFO_TX, .maxpacket = 512, },
+diff --git a/drivers/usb/musb/mpfs.c b/drivers/usb/musb/mpfs.c
+index 7edc8429b274..71e4271cba75 100644
+--- a/drivers/usb/musb/mpfs.c
++++ b/drivers/usb/musb/mpfs.c
+@@ -29,7 +29,7 @@ struct mpfs_glue {
+ 	struct clk *clk;
+ };
+ 
+-static struct musb_fifo_cfg mpfs_musb_mode_cfg[] = {
++static const struct musb_fifo_cfg mpfs_musb_mode_cfg[] = {
+ 	{ .hw_ep_num = 1, .style = FIFO_TX, .maxpacket = 512, },
+ 	{ .hw_ep_num = 1, .style = FIFO_RX, .maxpacket = 512, },
+ 	{ .hw_ep_num = 2, .style = FIFO_TX, .maxpacket = 512, },
+diff --git a/drivers/usb/musb/musb_core.c b/drivers/usb/musb/musb_core.c
+index 03b1154a6014..3f11bddfa18b 100644
+--- a/drivers/usb/musb/musb_core.c
++++ b/drivers/usb/musb/musb_core.c
+@@ -1270,7 +1270,7 @@ MODULE_PARM_DESC(fifo_mode, "initial endpoint configuration");
+  */
+ 
+ /* mode 0 - fits in 2KB */
+-static struct musb_fifo_cfg mode_0_cfg[] = {
++static const struct musb_fifo_cfg mode_0_cfg[] = {
+ { .hw_ep_num = 1, .style = FIFO_TX,   .maxpacket = 512, },
+ { .hw_ep_num = 1, .style = FIFO_RX,   .maxpacket = 512, },
+ { .hw_ep_num = 2, .style = FIFO_RXTX, .maxpacket = 512, },
+@@ -1279,7 +1279,7 @@ static struct musb_fifo_cfg mode_0_cfg[] = {
+ };
+ 
+ /* mode 1 - fits in 4KB */
+-static struct musb_fifo_cfg mode_1_cfg[] = {
++static const struct musb_fifo_cfg mode_1_cfg[] = {
+ { .hw_ep_num = 1, .style = FIFO_TX,   .maxpacket = 512, .mode = BUF_DOUBLE, },
+ { .hw_ep_num = 1, .style = FIFO_RX,   .maxpacket = 512, .mode = BUF_DOUBLE, },
+ { .hw_ep_num = 2, .style = FIFO_RXTX, .maxpacket = 512, .mode = BUF_DOUBLE, },
+@@ -1288,7 +1288,7 @@ static struct musb_fifo_cfg mode_1_cfg[] = {
+ };
+ 
+ /* mode 2 - fits in 4KB */
+-static struct musb_fifo_cfg mode_2_cfg[] = {
++static const struct musb_fifo_cfg mode_2_cfg[] = {
+ { .hw_ep_num = 1, .style = FIFO_TX,   .maxpacket = 512, },
+ { .hw_ep_num = 1, .style = FIFO_RX,   .maxpacket = 512, },
+ { .hw_ep_num = 2, .style = FIFO_TX,   .maxpacket = 512, },
+@@ -1298,7 +1298,7 @@ static struct musb_fifo_cfg mode_2_cfg[] = {
+ };
+ 
+ /* mode 3 - fits in 4KB */
+-static struct musb_fifo_cfg mode_3_cfg[] = {
++static const struct musb_fifo_cfg mode_3_cfg[] = {
+ { .hw_ep_num = 1, .style = FIFO_TX,   .maxpacket = 512, .mode = BUF_DOUBLE, },
+ { .hw_ep_num = 1, .style = FIFO_RX,   .maxpacket = 512, .mode = BUF_DOUBLE, },
+ { .hw_ep_num = 2, .style = FIFO_TX,   .maxpacket = 512, },
+@@ -1308,7 +1308,7 @@ static struct musb_fifo_cfg mode_3_cfg[] = {
+ };
+ 
+ /* mode 4 - fits in 16KB */
+-static struct musb_fifo_cfg mode_4_cfg[] = {
++static const struct musb_fifo_cfg mode_4_cfg[] = {
+ { .hw_ep_num =  1, .style = FIFO_TX,   .maxpacket = 512, },
+ { .hw_ep_num =  1, .style = FIFO_RX,   .maxpacket = 512, },
+ { .hw_ep_num =  2, .style = FIFO_TX,   .maxpacket = 512, },
+@@ -1339,7 +1339,7 @@ static struct musb_fifo_cfg mode_4_cfg[] = {
+ };
+ 
+ /* mode 5 - fits in 8KB */
+-static struct musb_fifo_cfg mode_5_cfg[] = {
++static const struct musb_fifo_cfg mode_5_cfg[] = {
+ { .hw_ep_num =  1, .style = FIFO_TX,   .maxpacket = 512, },
+ { .hw_ep_num =  1, .style = FIFO_RX,   .maxpacket = 512, },
+ { .hw_ep_num =  2, .style = FIFO_TX,   .maxpacket = 512, },
+@@ -1446,7 +1446,7 @@ fifo_setup(struct musb *musb, struct musb_hw_ep  *hw_ep,
+ 	return offset + (maxpacket << ((c_size & MUSB_FIFOSZ_DPB) ? 1 : 0));
+ }
+ 
+-static struct musb_fifo_cfg ep0_cfg = {
++static const struct musb_fifo_cfg ep0_cfg = {
+ 	.style = FIFO_RXTX, .maxpacket = 64,
+ };
+ 
+diff --git a/drivers/usb/musb/sunxi.c b/drivers/usb/musb/sunxi.c
+index eac1cde86be3..a6bd3e968cc7 100644
+--- a/drivers/usb/musb/sunxi.c
++++ b/drivers/usb/musb/sunxi.c
+@@ -629,7 +629,7 @@ static const struct musb_platform_ops sunxi_musb_ops = {
+ #define SUNXI_MUSB_RAM_BITS	11
+ 
+ /* Allwinner OTG supports up to 5 endpoints */
+-static struct musb_fifo_cfg sunxi_musb_mode_cfg_5eps[] = {
++static const struct musb_fifo_cfg sunxi_musb_mode_cfg_5eps[] = {
+ 	MUSB_EP_FIFO_SINGLE(1, FIFO_TX, 512),
+ 	MUSB_EP_FIFO_SINGLE(1, FIFO_RX, 512),
+ 	MUSB_EP_FIFO_SINGLE(2, FIFO_TX, 512),
+@@ -643,7 +643,7 @@ static struct musb_fifo_cfg sunxi_musb_mode_cfg_5eps[] = {
+ };
+ 
+ /* H3/V3s OTG supports only 4 endpoints */
+-static struct musb_fifo_cfg sunxi_musb_mode_cfg_4eps[] = {
++static const struct musb_fifo_cfg sunxi_musb_mode_cfg_4eps[] = {
+ 	MUSB_EP_FIFO_SINGLE(1, FIFO_TX, 512),
+ 	MUSB_EP_FIFO_SINGLE(1, FIFO_RX, 512),
+ 	MUSB_EP_FIFO_SINGLE(2, FIFO_TX, 512),
+diff --git a/include/linux/usb/musb.h b/include/linux/usb/musb.h
+index 3963e55e88a3..fbdef950f06c 100644
+--- a/include/linux/usb/musb.h
++++ b/include/linux/usb/musb.h
+@@ -61,7 +61,7 @@ struct musb_hdrc_eps_bits {
+ };
+ 
+ struct musb_hdrc_config {
+-	struct musb_fifo_cfg	*fifo_cfg;	/* board fifo configuration */
++	const struct musb_fifo_cfg	*fifo_cfg;	/* board fifo configuration */
+ 	unsigned		fifo_cfg_size;	/* size of the fifo configuration */
+ 
+ 	/* MUSB configuration-specific details */
+-- 
+2.48.1
 
-> 
-> > 
-> > > +
-> > > +    adc@0 {
-> > > +        ...
-> > > +        #address-cells = <1>;
-> > > +        #size-cells = <0>;
-> > > +
-> > > +        channel@0 {
-> > > +            reg = <0>;  
-> > 
-> > If a chip has mixed differential and single-ended, single-channel could also
-> > be needed here in the case where reg is an arbitrary number and doesn't match
-> > the input pin number.
-> 
-> Indeed - that is a weird corner that would be good to highlight.
-
-Ack, will add a word about that too.
-
-> 
-> > 
-> > > +        };
-> > > +    };
-> > > +
-> > > +See ``Documentation/devicetree/bindings/iio/adc/adc.yaml`` for the complete
-> > > +documentation of ADC specific device tree properties.
-> > > +
-> > > +
-...
-> > > +1.2.2 Differential Unipolar Channels
-> > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > +
-> > > +For **differential unipolar** channels, the analog voltage at the positive input
-> > > +must also be higher than the voltage at the negative input. Thus, the actual
-> > > +input range allowed to a differential unipolar channel is IN- to +VREF. Because
-> > > +IN+ is allowed to swing with the measured analog signal and the input setup must
-> > > +guarantee IN+ will not go below IN- (nor IN- will raise above IN+), most
-> > > +differential unipolar channel setups have IN- fixed to a known voltage that does
-> > > +not fall within the voltage range expected for the measured signal. This leads
-> > > +to a setup that is equivalent to a pseudo-differential channel. Thus,
-> > > +differential unipolar channels are actually pseudo-differential unipolar
-> > > +channels.  
-> > 
-> > I don't think this is equevent to pseudo-differential unipolar. That one has
-> > a common mode voltage supply on the negative input. This one has a full range
-> > signal on the negative input. This is the diagram I was expecting here.
-> > 
-> > ::
-> > 
-> >   -------- VREF -------
-> >     ´ `       ´ `               +-------------------+
-> >   /     \   /     \   /        /                    |
-> >          `-´       `-´    --- <  IN+                |
-> >   ------ GND (0V) -----        |                    |
-> >                                |            ADC     |
-> >   -------- VREF -------        |                    |
-> >         ´ `       ´ `     --- <  IN-                |
-> >   \   /     \   /     \        \       VREF         |
-> >    `-´       `-´                +-------------------+
-> >   ------ GND (0V) -----                  ^        
-> >                                          |       
-> >                                   External VREF
-> 
-> If it's unipolar, output must be positive which isn't true here.
-> Do we actually see differential unipolar except for the pseudo case with
-> common mode voltage?   Seems like a weird device.
-
-I don't think we have differential unipolar with IN- allowed to float (i.e. not
-set to a constant voltage). Haven't seen any of those. Can't think of how we
-would support such thing either. See my reply to David for more thoughts on this.
-
-> 
-> > 
-> > > +
-> > > +1.3 Pseudo-differential Channels
-> > > +--------------------------------
-> > > +
-> > > +There is a third ADC input type which is called pseudo-differential or
-> > > +single-ended to differential configuration. A pseudo-differential channel is
-> > > +similar to a differential channel in that it also measures IN+ relative to IN-.
-> > > +However, unlike differential channels, the negative input is limited to a narrow
-> > > +(taken as constant) voltage range while only IN+ is allowed to swing. A
-> > > +pseudo-differential channel can be made out from a differential pair of inputs
-> > > +by restricting the negative input to a known voltage while allowing only the
-> > > +positive input to swing. Aside from that, some parts have a COM pin that allows
-> > > +single-ended inputs to be referenced to a common-mode voltage, making them
-> > > +pseudo-differential channels. Often, the common mode input voltage
-> > > +can be nicely described in the device tree as a voltage regulator (e.g.
-> > > +``com-supply``) since it is basically a constant voltage source.
-> > > +
-> > > +1.3.1 Pseudo-differential Unipolar Channels
-> > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > +
-> > > +::
-> > > +
-> > > +  -------- +VREF ------          +-------------------+
-> > > +    ´ `       ´ `               /                    |
-> > > +  /     \   /     \   /    --- <  IN+                |
-> > > +         `-´       `-´          |                    |
-> > > +  --------- IN- -------         |            ADC     |  
-> > 
-> > The bottom rail should be GND (or -VREF), not IN-. Making it GND in the diagram
-> > would be consistent with the other unipolar diagrams and reflect most typical
-> > cases. I think the counterexample you gave of AD4170-4 is the unusual case
-> > rather than the typical case.
-> > 
-> > FWIW, when I was first learning this stuff, I didn't really understand bipolar
-> > vs. unipolar until I saw diagrams that showed 0V as the bottom rail for unipolar
-> > and negative VREF as the bottom rail for bipolar. Even if it isn't strictly
-> > true in all cases, seeing the pattern was more helpful. Hard to say if most
-> > other people think like me though. :-)
-> 
-> Maybe IN- (typically GND) is appropriate?
-Sounds good to me.
-Can also add a typical case (with IN- at GND) example if desired.
-
-> > 
-...
-> > > +
-> > > +1.3.2 Pseudo-differential Bipolar Channels
-> > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > +
-> > > +::
-> > > +
-> > > +  -------- +VREF ------          +-------------------+
-> > > +    ´ `       ´ `               /                    |
-> > > +  /     \   /     \   /    --- <  IN+                |
-> > > +         `-´       `-´          |                    |
-> > > +  -------- -VREF ------         |            ADC     |
-> > > +                                |                    |
-> > > +  Common-mode voltage -->  --- <  IN-                |
-> > > +                                \       +VREF  -VREF |
-> > > +                                 +-------------------+
-> > > +                                          ^       ^
-> > > +                                          |       +---- External -VREF
-> > > +                                   External +VREF
-> > > +
-> > > +A **pseudo-differential bipolar** input is not limited by the level at IN- but
-> > > +it will be limited to -VREF or to GND on the lower end of the input range  
-> > 
-> > 
-> > If it was limited to GND, then it would be uniploar. It is only bipolar if
-> > -VREF is less than 0V.
-> 
-> I'm not sure on that.  See comment on your example above. That is
-> what I think a Pseudo-differential bipolar channel is (and it matches the
-> first thing google gave me).
-> 
-> Key here is that common mode voltage on IN- is between -VREF and +VREF so
-> we can swing past it and get both positive an negative.
-
-Yes, exactly.
-
-> 
-> > 
-...
-> > > --- a/Documentation/iio/index.rst
-> > > +++ b/Documentation/iio/index.rst
-> > > @@ -7,6 +7,7 @@ Industrial I/O
-> > >  .. toctree::
-> > >     :maxdepth: 1
-> > >  
-> > > +   iio_adc
-> > >     iio_configfs
-> > >     iio_devbuf
-> > >     iio_dmabuf_api
-> > > 
-> > > base-commit: 9b75dd1b7d6b98699a104c6b1eec0c8817e5fd4b  
-> > 
-> 
