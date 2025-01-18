@@ -1,59 +1,59 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD62118FC7B
-	for <linux-doc@vger.kernel.org>; Sat, 18 Jan 2025 14:57:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D7117B421
+	for <linux-doc@vger.kernel.org>; Sat, 18 Jan 2025 15:03:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737212224; cv=none; b=LnfuS1imKRLM8PF/DM2eYw+oUJUNVN2M1HOQcUzKCABdRi3BmY70JTG/I7inIwva9PJBTMUNhp6vk2HTH7P0I78B46I5by9BRpFjp1VAq1j5fOknH+FyIpuEBsDEF9DGJkerrg3ROISmcidNTwOBinM4YK31nv87hnsg/2lJ5A8=
+	t=1737212619; cv=none; b=mjZ4EcIfNyUyeQn4gWmfbK2ZOHnlCZ8G1rT4tMrH2ri5hxsFoRwqOTmbLfHI3alhX+YMcHrinLV0/zMMiaEOIUQiD0Z/LCCLLGY2VNpycxxIrice3DI12eQaqnhThGz54xVy3RF9uMqPlNVurA1hWiErgRHHnVtFk4bbpPw9tTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737212224; c=relaxed/simple;
-	bh=0NHPeW6qzDJKyKyv2LwHCzsD698hpuM+Soh5q7bWTbs=;
+	s=arc-20240116; t=1737212619; c=relaxed/simple;
+	bh=NablIjmRy2nMx39DICWLlVTQ1be/IJAFT6T9D7/baDk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=bjsJ1LyZbThNZYeYyvy1xW2vk1CR8L2R+Ung7+bsjFmb6+/O4XTDfPTUWbQlFPMhl0TSCrkagnX/fYGHkgUq1YkjGyDlMCvO4WoAIpLFhh93qYodW/Dfy98U8mS+r81pwX6t8dA0X6Kya3xql1qycpe69KXU3CJxBkEHpD0lh9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com; spf=pass smtp.mailfrom=cloudflare.com; dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.b=c2+0cs6L; arc=none smtp.client-ip=209.85.208.46
+	 MIME-Version:Content-Type; b=eQwaJa2HOi7CHKsDdYMkRR3XMg0P7RQqnreRi3FPEdsNK6FMRn+AqswFlT87DEdojUEtIoXfnsdcIHNy1CiBNpNvytjgubNsHMHq3gNiYMtR3vEULmcJlWZ6go3iUAdR8M8McqPjUP1VjByTqUpjTCv2L9/bGA7hacboDGTszPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com; spf=pass smtp.mailfrom=cloudflare.com; dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.b=DuSS+wiE; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloudflare.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.b="c2+0cs6L"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5d982de9547so6029047a12.2
-        for <linux-doc@vger.kernel.org>; Sat, 18 Jan 2025 06:57:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.b="DuSS+wiE"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-aaf0f1adef8so610878866b.3
+        for <linux-doc@vger.kernel.org>; Sat, 18 Jan 2025 07:03:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudflare.com; s=google09082023; t=1737212220; x=1737817020; darn=vger.kernel.org;
+        d=cloudflare.com; s=google09082023; t=1737212616; x=1737817416; darn=vger.kernel.org;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EocVmcdr+s+eiVI2gdxLwDypgeYEKTEqnZdPS6MtY40=;
-        b=c2+0cs6L8hAmDImKIpm6CJUfE9wjeLBIBE48ER01GByH146T44N7zQbjL0CaUYiHOs
-         F9SLD+hydfEw9wJsm0nobw5hk5kibrb2JcTafsICKy8IGFt3bafjIVYZUxS3XCaD5TQo
-         kOh2gI939tn8A3ble18F4/iYVoXqq5X1ez84lTO7nfi7l6ZzZi3riA8qcsCiVZ1sp+Bo
-         /XoEvfThEJt7/44wGpcXtO4FS4Da9K+YTkKWcRBjLubvhrod7AXAz85vi6fovhsku5/b
-         td0Tgc+yeqTitxUP+c+J+hYFm5Mc5xbaxiMrXdDUmlBpzm/fFPnYJMSTasVDbzSdhgmL
-         xZ/A==
+        bh=BsU0V10dN1yqoMT6qC2L8DSBzvmEhUqKxrypw2scHJ4=;
+        b=DuSS+wiElEwB1O4ZL0hpejwnJ5OJfYMvapKTUjF5pkEWbcyKGsWaRZpjqHczNQ7WZj
+         aAJD/d1D/rAw34tmjbnXzeZEqHkHWXRhQirJFQ7TeE4/Y2Le8PBM9E6HxerF6XETU8ko
+         zT2UgIor+hHlG7m4FcnRTzEf0XUOeQ3IUnwMN7HhGNkmFGJnLn/lEbT7Oz8dqV/C9gJO
+         +QwUU8UnKzrYIPkwXLLP4RkODM5dKuf/TmhGG1aeC4VPG2da+Igxp+rMUzBEPdMbsHnx
+         UGs2mjI5gkSo5I8sv4001QqzMGHPeVFHvf6fPz/k3lr+ywtljGZq4fapmBSLLvtra1yc
+         x0ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737212220; x=1737817020;
+        d=1e100.net; s=20230601; t=1737212616; x=1737817416;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EocVmcdr+s+eiVI2gdxLwDypgeYEKTEqnZdPS6MtY40=;
-        b=r9gvQRVKiWERcKf/dCA7PeHM+sPPQQgQ5od+lr+8y9qZBMAgvpaAQzuCnm5MnY/fat
-         Qw7sxbgnpo0HcC/JNvkTdFrPSflP/E4uzjXHDvuC4b9680VlatMuvSmu7DG8e4duBSNZ
-         rF0vvv0WlwkBEopNiAPdaQQVaUNwKtHsgNUXHYMwJRFFYsPAn/UGJzhbeuMKc6nKdQuU
-         aJsJaya6k9PYQHFEYBOaHCOrtwUDOKgtoaylzLtaAhgpOxhtK/47N+wZ/zrPRo5LFedE
-         ACj4oKme3qkU1RjqJ6SEg4TgxqgzKP1pe0ONYEzC2J5B65dNxUyrUROv0MKtUe5jA1Lu
-         dbFg==
-X-Forwarded-Encrypted: i=1; AJvYcCXIg6ji4Nv3ku2mI9E37+Kkzfg50bzL4gbqXJEEvN0kIC+V+rvHEDcbrCBvJmxg6fNqNlgP7loEtyI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8v9AWsrB2fwdQYr/UWWDDDl2s9W6z8RuhWrNo0itqCeFbvOeo
-	tlymW42ar2cb2JU/b/Bpgy8hMX3J8qrIRqo+REUIat6hlQSmbCRAuvBp+5kbvEg=
-X-Gm-Gg: ASbGncsx9WH+8PUEPEfNi6rpC66OtFZTbnL9eKcHserrBfhEOh5QvpaS9NlHMFJU9Fh
-	fE9vCk4xcLSVDpYscFSsUG643keaviki8tbmMMUg7QdCryR46iaMJra3M+we3fnT1ShXc188MmB
-	uL3LbaElflrG9W8joKCeAWaBR165ST0WOQiGUf1161Kx0khKjmbVVmE3U0yKCPnGGz6aGbWM/+M
-	g7MoiAGbEfqCxTV1HrI57YwtXrrMD8r7Yxo7F3lBcyvILeSmsChZR4reg9pbg==
-X-Google-Smtp-Source: AGHT+IESevYlMBNi2PmR28hKWZ371XolKifqyy2lHOUQAsdFLp4R497eQossqBOZ8uhDdvfVNH8xPw==
-X-Received: by 2002:a17:907:3f97:b0:aa6:82e8:e89b with SMTP id a640c23a62f3a-ab38b166589mr543353366b.28.1737212220098;
-        Sat, 18 Jan 2025 06:57:00 -0800 (PST)
+        bh=BsU0V10dN1yqoMT6qC2L8DSBzvmEhUqKxrypw2scHJ4=;
+        b=r++KUgtoajPMJKFogy6BGDS2y8m+x6OyAO6fk7VMLvZ3wRWyj62i4VbZnytoODecYP
+         2zolRHWfL1dII2TI16OlhXUfYZUWHEpB51GZj7tKfkSbp+d+QNaVpdmWoflheY7rzu9O
+         MVWhguPgSv+n5ar0XMbhvvrp1DvNg/tO3MOruxFW7PLn4ra9XkBVO4jvtfN1SZrbG4Qr
+         mj4zR5+K8Dl1hvNGkI4WsBtWUaJTjpTWC72AHfaHMq4Ani67S1Yji9711Fn5d7sg4bW8
+         gm8xT8GIKs+1aBjwHkemXEMeZ7b6bWxNLdjuK34tjQPs3zAAGpQsqLE9AQG7/KRJLvG4
+         cfcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW0Plb9HM9gZWO+8ey5AyLKbsPd+mXy3W+JU4FkVXqNp1eg8VTPblImSBuxkcB1zbgAejGXLEGFflY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKJA7CGatWNjsqDsnJ7zAYPTo99b4lGlefkrHRKgEJ9G5KNiuN
+	/Mum33U8l6b0CPrY3G5/53Lsx2PcK7kMg/M2ngd4UZ6NhCV6V4ifkypeUl45Q7U=
+X-Gm-Gg: ASbGnctFCb0ymmGQvZRk3vLfyccJ8snaUSBEmXHqA0s7Kg/wqyHHZDdkCKnRTNMxsfq
+	iFEDiM6cJPNkS4msT962Qaj0jyTdkJcheKg7T7RaAVlmAeusfbExwr9C/BWVpnuQSByXTUUNUFI
+	Hh3u8/xpufxYXUKtuVJrmrg+yy/CHwpdJg+fzK1H+RairWq3DKgL7qlB9rpnBpIf+9BUv0nqaV9
+	G3QCahDL5yB5pI14a6fwnpSjKNK4SfsdXfLJtG5UDE4dFkZ/BZ1u00QI0Wk1w==
+X-Google-Smtp-Source: AGHT+IFly84G+OXXo/u1XMLfKGjBq9YlBfFskeFDqv4t2HPmXeMR34kxPqt/OhU/z8Yer8BWZqR6Fg==
+X-Received: by 2002:a17:907:805:b0:aa6:7c8e:8085 with SMTP id a640c23a62f3a-ab38b1100f2mr638880466b.15.1737212615807;
+        Sat, 18 Jan 2025 07:03:35 -0800 (PST)
 Received: from cloudflare.com ([2a09:bac1:5ba0:d60::38a:14])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab384f2244csm350261966b.92.2025.01.18.06.56.59
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab384c613d9sm348102566b.31.2025.01.18.07.03.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jan 2025 06:56:59 -0800 (PST)
+        Sat, 18 Jan 2025 07:03:34 -0800 (PST)
 From: Jakub Sitnicki <jakub@cloudflare.com>
 To: Jiayuan Chen <mrpre@163.com>
 Cc: bpf@vger.kernel.org,  john.fastabend@gmail.com,  netdev@vger.kernel.org,
@@ -65,13 +65,13 @@ Cc: bpf@vger.kernel.org,  john.fastabend@gmail.com,  netdev@vger.kernel.org,
   corbet@lwn.net,  eddyz87@gmail.com,  cong.wang@bytedance.com,
   shuah@kernel.org,  mykolal@fb.com,  jolsa@kernel.org,  haoluo@google.com,
   sdf@fomichev.me,  kpsingh@kernel.org,  linux-doc@vger.kernel.org
-Subject: Re: [PATCH bpf v7 1/5] strparser: add read_sock callback
-In-Reply-To: <20250116140531.108636-2-mrpre@163.com> (Jiayuan Chen's message
-	of "Thu, 16 Jan 2025 22:05:27 +0800")
+Subject: Re: [PATCH bpf v7 3/5] bpf: disable non stream socket for strparser
+In-Reply-To: <20250116140531.108636-4-mrpre@163.com> (Jiayuan Chen's message
+	of "Thu, 16 Jan 2025 22:05:29 +0800")
 References: <20250116140531.108636-1-mrpre@163.com>
-	<20250116140531.108636-2-mrpre@163.com>
-Date: Sat, 18 Jan 2025 15:56:57 +0100
-Message-ID: <87ed10dvba.fsf@cloudflare.com>
+	<20250116140531.108636-4-mrpre@163.com>
+Date: Sat, 18 Jan 2025 16:03:33 +0100
+Message-ID: <87a5bodv0a.fsf@cloudflare.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,50 +81,61 @@ MIME-Version: 1.0
 Content-Type: text/plain
 
 On Thu, Jan 16, 2025 at 10:05 PM +08, Jiayuan Chen wrote:
-> Added a new read_sock handler, allowing users to customize read operations
-> instead of relying on the native socket's read_sock.
+> Currently, only TCP supports strparser, but sockmap doesn't intercept
+> non-TCP to attach strparser. For example, with UDP, although the
+> read/write handlers are replaced, strparser is not executed due to the
+> lack of read_sock operation.
+>
+> Furthermore, in udp_bpf_recvmsg(), it checks whether psock has data, and
+> if not, it falls back to the native UDP read interface, making
+> UDP + strparser appear to read correctly. According to it's commit
+> history, the behavior is unexpected.
+>
+> Moreover, since UDP lacks the concept of streams, we intercept it
+> directly. Later, we will try to support Unix streams and add more
+> check.
 >
 > Signed-off-by: Jiayuan Chen <mrpre@163.com>
 > ---
->  Documentation/networking/strparser.rst | 11 ++++++++++-
->  include/net/strparser.h                |  2 ++
->  net/strparser/strparser.c              | 11 +++++++++--
->  3 files changed, 21 insertions(+), 3 deletions(-)
+
+Needs a Fixes: tag.
+
+>  net/core/sock_map.c | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
 >
-> diff --git a/Documentation/networking/strparser.rst b/Documentation/networking/strparser.rst
-> index 6cab1f74ae05..e41c18eee2f4 100644
-> --- a/Documentation/networking/strparser.rst
-> +++ b/Documentation/networking/strparser.rst
-> @@ -112,7 +112,7 @@ Functions
->  Callbacks
->  =========
+> diff --git a/net/core/sock_map.c b/net/core/sock_map.c
+> index f1b9b3958792..c6ee2d1d9cf2 100644
+> --- a/net/core/sock_map.c
+> +++ b/net/core/sock_map.c
+> @@ -214,6 +214,14 @@ static struct sk_psock *sock_map_psock_get_checked(struct sock *sk)
+>  	return psock;
+>  }
 >  
-> -There are six callbacks:
-> +There are seven callbacks:
->  
->      ::
->  
-> @@ -182,6 +182,15 @@ There are six callbacks:
->      the length of the message. skb->len - offset may be greater
->      then full_len since strparser does not trim the skb.
->  
-> +    ::
-> +
-> +	int (*read_sock)(struct strparser *strp, read_descriptor_t *desc,
-> +                     sk_read_actor_t recv_actor);
-> +
-> +    read_sock is called when the user specify it, allowing for customized
-> +    read operations. If the callback is not set (NULL in strp_init) native
-> +    read_sock operation of the socket is used.
+> +static bool sock_map_sk_strp_allowed(const struct sock *sk)
+> +{
+> +	/* todo: support unix stream socket */
+> +	if (sk_is_tcp(sk))
+> +		return true;
+> +	return false;
+> +}
 > +
 
-Could be one sentence:
+We don't need this yet, so please don't add it. Especially since this is
+fix. It should be kept down to a minimum. Do the sk_is_tcp() check
+directly from sock_map_link().
 
-        The read_sock callback is used by strparser instead of
-        sock->ops->read_sock, if provided.
-
->      ::
+>  static int sock_map_link(struct bpf_map *map, struct sock *sk)
+>  {
+>  	struct sk_psock_progs *progs = sock_map_progs(map);
+> @@ -303,7 +311,10 @@ static int sock_map_link(struct bpf_map *map, struct sock *sk)
 >  
->  	int (*read_sock_done)(struct strparser *strp, int err);
-
-[...]
+>  	write_lock_bh(&sk->sk_callback_lock);
+>  	if (stream_parser && stream_verdict && !psock->saved_data_ready) {
+> -		ret = sk_psock_init_strp(sk, psock);
+> +		if (sock_map_sk_strp_allowed(sk))
+> +			ret = sk_psock_init_strp(sk, psock);
+> +		else
+> +			ret = -EOPNOTSUPP;
+>  		if (ret) {
+>  			write_unlock_bh(&sk->sk_callback_lock);
+>  			sk_psock_put(sk, psock);
