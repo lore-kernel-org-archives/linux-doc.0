@@ -1,176 +1,90 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2281213AA5D;
-	Mon, 20 Jan 2025 17:30:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EFCE1DFE14;
+	Mon, 20 Jan 2025 17:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737394255; cv=none; b=m3zlEzzHUMMIf1pjdyQ8pPwjzHIPiQie1mmh7O1Lc7sAD0Knfcc82yJ0ylVmayGRaInlxXzCpj27sDr7PLDbuUXFFjIQBubvu2X5bRpbkCqeYWt7fQ4V8azWJh32SQ3JOiElyRhfDPm0dizxWzCeT2MS4iOJNGA3ntYgDSxQJ6Q=
+	t=1737395144; cv=none; b=fWNE3xaEsCe8lKQNaXCUkSQu5nW80OpTwezd4J6iFUQUl2/JkxttyH6S2nsSJ+GeqqDXcX4iFDULIykBTqHCbgFjf6ilsfvrc8gg5Q9BEm9edQGKFHQjxvH78akIif20brdz98sIdXcLq28bvnL5AcGQBObQn5YeLLtSmQm9v2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737394255; c=relaxed/simple;
-	bh=co4rh7mcehuLyfpxVs2kCx5deaYX52yDp0kZrDc/z8M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HJV9cA1BHEerbKeqZF272KuyAsbR0NvfhfFGDD+Z/KL55Dg0idWg2huL+cXt7VoB/OPDgEf3KFBRLZvSB72w0jaPa8m0YrdfevyztDa92cjQeSncdg3FPPqC/q/uvlJNWnVr3QsOkoyMsEPKqpf365KNzuLt/nC4K/KVK2M8ZOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-aaef00ab172so731937366b.3;
-        Mon, 20 Jan 2025 09:30:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737394251; x=1737999051;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vjKwZAMnGwVfQ1uehkUpRVLkmdlR6xAZAUrURRogCUo=;
-        b=UA+tJNjEI011ydMho2eKpEGke/lnr9t3W4TkJU3JA88y+I8q4Qmp/2+8VfS+de5fZp
-         7qMFxon3YJ326lkjkBN0B++jXnwoi1VCKFgrr39w8NLavSxwW5GcNbMirINhVJQCzM6V
-         dUxCJ15KzJcSFbCwvla+TurQxfr055lzMX99QVdiGa7RKp16sJ6Ei1faz6lfDvb3VflU
-         /Wlg/NmHNfusMInhjAFbGJIIqqPjFQriTSxYNWNSPCezTAJa+H8R9sxg56oObko596w3
-         mFiSY2NVvyLU3UaPXVBLQJiYCE9idDIrg67ymp2rYeDsLO85S1kd3dofkaQ8tlK6n9l4
-         rnTg==
-X-Forwarded-Encrypted: i=1; AJvYcCV76LXJiQo9e94fk3FYMR54nkMiHghvzPGX0f2m5AdnTorBsiua2Rs+q7BxNQQ3hbIgLRuasfgo@vger.kernel.org, AJvYcCWHjn9VoDZEkYI5SC4x1HnQbl20dAT2wO5kOsf1cMD4I7SX7DTQOM822X10N6geaab8IiFIEmrIvIKgfzb/@vger.kernel.org, AJvYcCWXZ3CGBESslPQcLXu7DHZsVXrJMzJzv47Rs0YH/ekufSj8CqSHwPy09ob2fMehDGKBAjjtDTiAu9U=@vger.kernel.org, AJvYcCXdq+aVjP53tYybWRdbdWb5HW+7C9RM+zc/8QZkmNZ8twsPpxiAYyERkGLrytsFqmaAPPjfKjQNhC3YNYmmL9+d@vger.kernel.org
-X-Gm-Message-State: AOJu0YygsUuKzmLiyeuDntvjhtQ7cMUo7SK/kTF9S/jFaJp1tn9WmQ5m
-	fRrllNzFRD0kY8oDhbfQ8ZqN1H0uBW8AfM0TNWPbSrQiKUU9diQZ
-X-Gm-Gg: ASbGnctc+7zxUyYsuxCAEZJsLHBLbzNXiblKrZHlQx5/sY7aR7tHWG2R4otVWXrzVvP
-	NkwzoWhzhmEyu+k9dwP3waHI9R9K1xPzCJ2HhmS++vKj1h6mLzLF2EDAmkNzckysdhJTshJMwm0
-	Kii7nLgsjoukA/T/M+apfmkbtfNS/EenlGssH2QtymZjsywOaz1UnRudWsEK3Azp3XBT/5n6qDP
-	UYa0ZjHBCdWJglp4YCU9yTu44/CfGFx8lHD8uQhBrJQW5T89Q4cv8YHvJV3
-X-Google-Smtp-Source: AGHT+IHHBMwM1y47uiYGiCZ5wJnCsj0WmgnVWFyMm4lJpp3CtPhJHPHE4Y68jLBM9H+zTGUpmqtIfQ==
-X-Received: by 2002:a05:6402:50d4:b0:5d0:cfad:f71 with SMTP id 4fb4d7f45d1cf-5db7db2bea3mr32816210a12.32.1737394251064;
-        Mon, 20 Jan 2025 09:30:51 -0800 (PST)
-Received: from gmail.com ([2a03:2880:30ff:9::])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab384fcd73dsm646619066b.178.2025.01.20.09.30.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2025 09:30:50 -0800 (PST)
-Date: Mon, 20 Jan 2025 09:30:48 -0800
-From: Breno Leitao <leitao@debian.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, kernel-team@meta.com,
-	max@kutsevol.com, thepacketgeek@gmail.com
-Subject: Re: [PATCH net-next v2 3/5] netconsole: add support for sysdata and
- CPU population
-Message-ID: <20250120-rational-bullfrog-of-tornado-2cd6f4@leitao>
-References: <20250115-netcon_cpu-v2-0-95971b44dc56@debian.org>
- <20250115-netcon_cpu-v2-3-95971b44dc56@debian.org>
- <20250116174405.20a0e20b@kernel.org>
- <20250117-terrestrial-clam-of-satiation-cf312f@leitao>
- <20250117183520.11d93f4d@kernel.org>
+	s=arc-20240116; t=1737395144; c=relaxed/simple;
+	bh=eFE8eKbO4pWZaL11j78KVv6utQAl0cUhH525xL6hI5o=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=YoWsUOwYXZSUoW321LP3wInegDIXWnBH72R8BK3R5ej0DTReC0jChPuglvJrtEdIZeOgsFG03O4N1FJ+d0OjelSPurnNAtsgo3z+Gm9LpMTCayOJtAXJhD8DGPCeyoBLNQWswuMdsYNZzpUwikc2gMqtuwQZ+VTwAdX2IMwFW8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=pvkeEPHr; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="pvkeEPHr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1737395133;
+	bh=eFE8eKbO4pWZaL11j78KVv6utQAl0cUhH525xL6hI5o=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=pvkeEPHrKRw+yfyKuOPjl3X46G0uP5F+Wg36ErvPQhBHP6vUXdrpZjXrw9NcMcmtK
+	 pnRHrNi0dbUlvHnhfakwdOPhXl6r71BLvGs7jYe6Hw9dYkW0nQJ9PWdiIw+7eNvEY/
+	 7mh2ctMUYT94pg0iN2/DrP7wCoVBtiNxN1T3a8IY=
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Date: Mon, 20 Jan 2025 18:44:24 +0100
+Subject: [PATCH v2 5/6] lockdown: Make the relationship to MODULE_SIG a
+ dependency
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250117183520.11d93f4d@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250120-module-hashes-v2-5-ba1184e27b7f@weissschuh.net>
+References: <20250120-module-hashes-v2-0-ba1184e27b7f@weissschuh.net>
+In-Reply-To: <20250120-module-hashes-v2-0-ba1184e27b7f@weissschuh.net>
+To: Masahiro Yamada <masahiroy@kernel.org>, 
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+ Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>, 
+ Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+ Daniel Gomez <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>, 
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: =?utf-8?q?Fabian_Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>, 
+ Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>, 
+ kpcyrd <kpcyrd@archlinux.org>, linux-kbuild@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-modules@vger.kernel.org, linux-security-module@vger.kernel.org, 
+ linux-doc@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1737395132; l=874;
+ i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
+ bh=eFE8eKbO4pWZaL11j78KVv6utQAl0cUhH525xL6hI5o=;
+ b=8dA83wKAd3Hc6tOftrWqF/p7g+4ibEoT3lyBhHTbTQ7dsE2V7oG4U+strj5pxZV+ykpvxhAI6
+ AgAp3mLUgFkCx2AaxTMMLuYhpt+4Znru3wpqIF3NmQX8OMDaR7EOI78
+X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
+ pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On Fri, Jan 17, 2025 at 06:35:20PM -0800, Jakub Kicinski wrote:
-> On Fri, 17 Jan 2025 03:02:40 -0800 Breno Leitao wrote:
-> > > Looks like previously all the data was on the stack, now we have a mix.  
-> > 
-> > Not sure I followed. The data ({userdata,extradata}_complete) was always
-> > inside nt field, which belongs to target_list.
-> 
-> I mean the buffer we use for formatting. Today it's this:
-> 
-> 	static char buf[MAX_PRINT_CHUNK]; /* protected by target_list_lock */
-> 	int header_len, msgbody_len;
-> 	const char *msgbody;
-> 
-> right? I missed that "static" actually so it's not on the stack, 
-> it's in the .bss section.
+The new hash-based module integrity checking will also be able to
+satisfy the requirements of lockdown.
+Such an alternative is not representable with "select", so use
+"depends on" instead.
 
-Since you raised this topic, I don't think buf needs to be static
-for a functional perspective, since `buf` is completely overwritten
-every time send_msg functions are called.
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
+ security/lockdown/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> > > Maybe we can pack all the bits of state into a struct for easier
-> > > passing around, but still put it on the stack?  
-> > 
-> > It depends on what state you need here. We can certainly pass runtime
-> > (aka sysdata in this patchset) data in the stack, but doing the same for
-> > userdata would require extra computation in runtime. In other words, the
-> > userdata_complete and length are calculated at configfs update time
-> > today, and only read during runtime, and there is no connection between
-> > configfs and runtime (write_ext_msg()) except through the stack.
-> > 
-> > 
-> > On the other side, if we want to have extradata_complete in the stack, I
-> > still think that userdata will need to be in the stack, and create a
-> > buffer in runtime's frame and copy userdata + sysdata at run time, doing
-> > an extra copy. 
-> > 
-> > Trying to put this in code, this is what I thought:
-> > 
-> > 	/* Copy to the stack (buf) the userdata string + sysdata */
-> > 	static void append_runtime_sysdata(struct netconsole_target *nt, char *buf) {
-> > 		if (!(nt->sysdata_fields & CPU_NR))
-> > 			return;
-> > 
-> > 		return scnprintf(buf,  MAX_EXTRADATA_ENTRY_LEN * MAX_EXTRADATA_ITEMS,
-> > 				  "%s cpu=%u\n", nt->userdata_complete, raw_smp_processor_id());
-> > 	}
-> > 
-> > 	/* Move complete string in the stack and send from there */
-> > 	static void send_ext_msg_udp(struct netconsole_target *nt, const char *msg,
-> > 				     int msg_len) {
-> > 		...
-> > 	#ifdef CONFIG_NETCONSOLE_DYNAMIC
-> > 		struct char buf[MAX_EXTRADATA_ENTRY_LEN * MAX_EXTRADATA_ITEMS];
-> > 		extradata_len = append_runtime_sysdata(nt, buf);
-> > 	#endif
-> > 
-> > 		send_msg_{no}_fragmentation(nt, msg, buf, extradata_len, release_len)
-> > 		...
-> > 	}
-> 
-> My thinking was to handle it like the release.
-> Print it at the send_msg_no_fragmentation() stage directly 
-> into the static buffer. Does that get hairy coding-wise?
+diff --git a/security/lockdown/Kconfig b/security/lockdown/Kconfig
+index e84ddf48401010bcc0829a32db58e6f12bfdedcb..155959205b8eac2c85897a8c4c8b7ec471156706 100644
+--- a/security/lockdown/Kconfig
++++ b/security/lockdown/Kconfig
+@@ -1,7 +1,7 @@
+ config SECURITY_LOCKDOWN_LSM
+ 	bool "Basic module for enforcing kernel lockdown"
+ 	depends on SECURITY
+-	select MODULE_SIG if MODULES
++	depends on !MODULES || MODULE_SIG
+ 	help
+ 	  Build support for an LSM that enforces a coarse kernel lockdown
+ 	  behaviour.
 
-I suppose the advantage of doing this approach is to reduce a
-memcpy/strcpy, right?
+-- 
+2.48.1
 
-If this is what your motivation, I think we cannot remove it from the
-fragmented case. Let me share my thought process:
-
-1) sysdata needs to be appended to both send_msg_fragmented() and
-send_msg_no_fragmentation(). The fragmented case is the problem.
-
-2) It is trivially done in send_msg_fragmented() case.
-
-3) For the send_msg_no_fragmentation() case, there is no trivial way to
-get it done without using a secondary buffer and then memcpy to `buf`.
-
-Let's suppose sysdata has "cpu=42", and original `buf` has only 5 available
-chars, thus it needs to have 2 msgs to accommodate the full message.
-
-Then the it needs to track that `cpu=4` will be sent in a msg and create
-another message with the missing `2`.
-
-The only way to do it properly is having a extra buffer where we
-have `cpu=42` and copy 5 bytes from there, and then copy the last one in
-the next iteration. I am not sure we can do it in one shot.
-
-On top of that, I am planning to increase other features in sysdata
-(such as current task name, modules and even consolidate the release as
-sysdata), which has two implications:
-
-1) Average messages size will become bigger. Thus, memcpy will be needed
-one way or another.
-
-2) Unless we can come up with a smart solution, this solution will be
-harder to reason about.
-
-If you want to invest more time in this direction, I am more than happy
-to create a PoC, so we can discuss more concretely. 
-
-Thanks,
---breno
