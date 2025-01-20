@@ -1,132 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769B91DFE0B;
-	Mon, 20 Jan 2025 19:06:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1E61EE026;
+	Mon, 20 Jan 2025 19:43:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737400015; cv=none; b=dg4Ohr0PTt6fKu1ya8F/lq6WvWY01dRhsrHKn8XQq0584Y524QS7qEbVBVCC9q36XJOR0aBXHoAyIXaVtxDK82hZJDcDyHbm7KFUWWtCA4lPqYfbPcDW/v6To5FrZ08jJUKq6ybnQPyEI3bOocPWImxcd+0cNiLeEYI3U/m0frg=
+	t=1737402239; cv=none; b=CVdoCuCwDu6qVX328/m0pOEWQCPVDYQrystTTPtTFmjaQg8fLEPqX7hVSESlxxzlDZro7ZNPwyHsVNcVPOusSZPl8APdyB2s99ZDMf1A0q+W3rFL8b1v/wkCMsm1xyBEYp4QmpezEnY56j26bu2eiAmEKCld6fbtNeXDw3VPtIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737400015; c=relaxed/simple;
-	bh=jkZm3DGDoAj/io0coHmiJe0JSoPgByrZ9bxYiNRiS4Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NDL0dr07IZFCsZBnSFwmatkKKXdc6h7JQwMb2j20toTtGm28nsGMsowSE64VZNpp8lsfPmgqcxKQaR13e+zCB2HvCdZtRCuwe/vdH3C362B7LHKWTeCRpKjC2LviB+5tjZ7GGWfcp6nNzdqANB7p/2mj12jZfInPUe1FYBw+KuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LYNRCuAN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737402239; c=relaxed/simple;
+	bh=KIwQ96tcbKsNvtTiJ7Sp5Kac727a4bUVsOQMTqS4RJg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UQN4G7KOr+a/jKa2ADdkxMbovmJZhV1ld43V7IohPjhXTlIdqaRjEbDjil99U/nZiN6ymSCC/cj0iObcv6dZmsQO5f3BsDzcYRS6rQcQ5eXt98+jggcakyspO30RdUjY0WMvbjpVcBYCEGBJd9t1lJQQ54uL3DXdy4PBB+1I5/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KkIDy/mE; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LYNRCuAN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44299C4CEDD;
-	Mon, 20 Jan 2025 19:06:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737400014;
-	bh=jkZm3DGDoAj/io0coHmiJe0JSoPgByrZ9bxYiNRiS4Q=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=LYNRCuANadi/OR50ZOBYOdiqI8HIPqhdI2GWgANdn4fqimH0IfF4b4WOCHUplFLfE
-	 YqVtay8zckFjUHQOmW0CVlj0hLuwCtXLVzsf10lYk4Ldw0Uq56JeMqVCVJz3xZwWz+
-	 D0nEjRb4ziYCqmrS6DCBP79SlYUjV+PRggJQ1+kVOiI9H3iLeEBjObtPKMsQ135c4r
-	 3Q2S557oAqp8COvR6EkqvS0JqSdtexQ2DTGDrbQvdbNTBFef9UScQL4KCPYtRlp3eP
-	 2H6KXGdHr3may++nsIEjkoqaW5sh6ig375u/8REgdKa+X0bWftr4sjc21Y/IwnsPWW
-	 5woly9KJ7kdGg==
-Date: Mon, 20 Jan 2025 11:06:53 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, kernel-team@meta.com, max@kutsevol.com,
- thepacketgeek@gmail.com
-Subject: Re: [PATCH net-next v2 3/5] netconsole: add support for sysdata and
- CPU population
-Message-ID: <20250120110653.693fd5ec@kernel.org>
-In-Reply-To: <20250120-rational-bullfrog-of-tornado-2cd6f4@leitao>
-References: <20250115-netcon_cpu-v2-0-95971b44dc56@debian.org>
-	<20250115-netcon_cpu-v2-3-95971b44dc56@debian.org>
-	<20250116174405.20a0e20b@kernel.org>
-	<20250117-terrestrial-clam-of-satiation-cf312f@leitao>
-	<20250117183520.11d93f4d@kernel.org>
-	<20250120-rational-bullfrog-of-tornado-2cd6f4@leitao>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KkIDy/mE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737402238; x=1768938238;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KIwQ96tcbKsNvtTiJ7Sp5Kac727a4bUVsOQMTqS4RJg=;
+  b=KkIDy/mEqlsA/s5AP5l3MwAqc80Ixp04bTbTyVPkcV15J5kstDJivrED
+   PelqBEczZDZEwto0ff32PTFQiWbqpfhaCVnzVzY+sa4ROvuenH+ru4LZG
+   Nj+XQaudKmUT80ZWajJ9ueR90xvuGNrwkII/BH2xTrNSIR4Ta2WVc+IoW
+   q9ba1v9iy0oUowG+x4IieUjcUsv0c6sr/bWoUrRFQ7BMCNy16YPl4FBGP
+   zVn2pqueJMbc6p1R+tmK+D3O9BAuCYbOd1lJiGTaE2wIWF4PMKExch1a+
+   ZB5bbYGnLTVy3os+h3oQKggbzhMlrXtyh/991cmYEpFRDGJo1zIWgLU2X
+   w==;
+X-CSE-ConnectionGUID: vjZMDkdERvik93RGy3ITTA==
+X-CSE-MsgGUID: jvVdotd5Qa6JL1tfMW2yag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11321"; a="37681904"
+X-IronPort-AV: E=Sophos;i="6.13,220,1732608000"; 
+   d="scan'208";a="37681904"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2025 11:43:57 -0800
+X-CSE-ConnectionGUID: zmRDdNRTRJ6GTy6M+h+jzQ==
+X-CSE-MsgGUID: kPy9akuURPWUJQvFuXE8rQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,220,1732608000"; 
+   d="scan'208";a="106419830"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 20 Jan 2025 11:43:53 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tZxgd-000Wvf-2W;
+	Mon, 20 Jan 2025 19:43:51 +0000
+Date: Tue, 21 Jan 2025 03:43:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v12 4/5] firmware: imx: add driver for NXP EdgeLock
+ Enclave
+Message-ID: <202501210346.wYxcOI66-lkp@intel.com>
+References: <20250120-imx-se-if-v12-4-c5ec9754570c@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250120-imx-se-if-v12-4-c5ec9754570c@nxp.com>
 
-On Mon, 20 Jan 2025 09:30:48 -0800 Breno Leitao wrote:
-> > > Not sure I followed. The data ({userdata,extradata}_complete) was always
-> > > inside nt field, which belongs to target_list.  
-> > 
-> > I mean the buffer we use for formatting. Today it's this:
-> > 
-> > 	static char buf[MAX_PRINT_CHUNK]; /* protected by target_list_lock */
-> > 	int header_len, msgbody_len;
-> > 	const char *msgbody;
-> > 
-> > right? I missed that "static" actually so it's not on the stack, 
-> > it's in the .bss section.  
-> 
-> Since you raised this topic, I don't think buf needs to be static
-> for a functional perspective, since `buf` is completely overwritten
-> every time send_msg functions are called.
+Hi Pankaj,
 
-It may be because it's relatively big and stack space used to be 
-very limited.
+kernel test robot noticed the following build warnings:
 
-> > My thinking was to handle it like the release.
-> > Print it at the send_msg_no_fragmentation() stage directly 
-> > into the static buffer. Does that get hairy coding-wise?  
-> 
-> I suppose the advantage of doing this approach is to reduce a
-> memcpy/strcpy, right?
+[auto build test WARNING on ffd294d346d185b70e28b1a28abe367bbfe53c04]
 
-Not really, my main motivation is to try to find a common way
-of how various pieces of the output are protected and handled.
+url:    https://github.com/intel-lab-lkp/linux/commits/Pankaj-Gupta/Documentation-firmware-add-imx-se-to-other_interfaces/20250120-193050
+base:   ffd294d346d185b70e28b1a28abe367bbfe53c04
+patch link:    https://lore.kernel.org/r/20250120-imx-se-if-v12-4-c5ec9754570c%40nxp.com
+patch subject: [PATCH v12 4/5] firmware: imx: add driver for NXP EdgeLock Enclave
+config: arm64-randconfig-002-20250121 (https://download.01.org/0day-ci/archive/20250121/202501210346.wYxcOI66-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250121/202501210346.wYxcOI66-lkp@intel.com/reproduce)
 
-> If this is what your motivation, I think we cannot remove it from the
-> fragmented case. Let me share my thought process:
-> 
-> 1) sysdata needs to be appended to both send_msg_fragmented() and
-> send_msg_no_fragmentation(). The fragmented case is the problem.
-> 
-> 2) It is trivially done in send_msg_fragmented() case.
-> 
-> 3) For the send_msg_no_fragmentation() case, there is no trivial way to
-> get it done without using a secondary buffer and then memcpy to `buf`.
-> 
-> Let's suppose sysdata has "cpu=42", and original `buf` has only 5 available
-> chars, thus it needs to have 2 msgs to accommodate the full message.
-> 
-> Then the it needs to track that `cpu=4` will be sent in a msg and create
-> another message with the missing `2`.
-> 
-> The only way to do it properly is having a extra buffer where we
-> have `cpu=42` and copy 5 bytes from there, and then copy the last one in
-> the next iteration. I am not sure we can do it in one shot.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501210346.wYxcOI66-lkp@intel.com/
 
-FWIW to simplify reasoning about the length I thought we could take the
-worst case, assume we'll need len(cpu=) + log10(nr_cpu_ids) of space.
+All warnings (new ones prefixed by >>):
 
-> On top of that, I am planning to increase other features in sysdata
-> (such as current task name, modules and even consolidate the release as
-> sysdata), which has two implications:
-> 
-> 1) Average messages size will become bigger. Thus, memcpy will be needed
-> one way or another.
-> 
-> 2) Unless we can come up with a smart solution, this solution will be
-> harder to reason about.
-> 
-> If you want to invest more time in this direction, I am more than happy
-> to create a PoC, so we can discuss more concretely. 
+>> drivers/firmware/imx/se_ctrl.c:505:12: warning: 'se_resume' defined but not used [-Wunused-function]
+     505 | static int se_resume(struct device *dev)
+         |            ^~~~~~~~~
+>> drivers/firmware/imx/se_ctrl.c:491:12: warning: 'se_suspend' defined but not used [-Wunused-function]
+     491 | static int se_suspend(struct device *dev)
+         |            ^~~~~~~~~~
+   drivers/firmware/imx/se_ctrl.c:228:12: warning: 'se_load_firmware' defined but not used [-Wunused-function]
+     228 | static int se_load_firmware(struct se_if_priv *priv)
+         |            ^~~~~~~~~~~~~~~~
 
-I don't feel super strongly about this. But hacking around is always
-good to get a sense of how hairy the implementation ends up being.
 
-To rephrase my concern is that we have some data as static on the
-stack, some dynamically appended at the send_*() stage, now we're
-adding a third way of handling things. Perhaps the simplest way to
-make me happy would be to move the bufs which are currently static 
-into nt.
+vim +/se_resume +505 drivers/firmware/imx/se_ctrl.c
+
+   490	
+ > 491	static int se_suspend(struct device *dev)
+   492	{
+   493		struct se_if_priv *priv = dev_get_drvdata(dev);
+   494		struct se_fw_load_info *load_fw;
+   495		int ret = 0;
+   496	
+   497		load_fw = get_load_fw_instance(priv);
+   498	
+   499		if (load_fw->imem_mgmt)
+   500			ret = se_save_imem_state(priv, &load_fw->imem);
+   501	
+   502		return ret;
+   503	}
+   504	
+ > 505	static int se_resume(struct device *dev)
+   506	{
+   507		struct se_if_priv *priv = dev_get_drvdata(dev);
+   508		struct se_fw_load_info *load_fw;
+   509	
+   510		load_fw = get_load_fw_instance(priv);
+   511	
+   512		if (load_fw->imem_mgmt)
+   513			se_restore_imem_state(priv, &load_fw->imem);
+   514	
+   515		return 0;
+   516	}
+   517	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
