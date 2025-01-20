@@ -1,65 +1,64 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A563819D8B2
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2025 09:01:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E59C1DF991
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2025 09:01:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737363698; cv=none; b=awb/YIa56F41KewTeo7oDPTXLOUDeWzECz2i2XVcKzF8fqdmrhiwMna0p/SpGFNpWkHKNwwS5X+Ecf3bHsBUudQtEb3V9+0TRzEXJ33z0+l8UCnIO9l0dM/X4e6r+eZx4rLWuBkTjOv9NIuP/kr0qcR/tloSpj6wU1XapKrvBV8=
+	t=1737363704; cv=none; b=aOqsPxs+c8ZamPnPgIOfyAeNoiqxbAPi1LkAiid8oMPu/4hz+AAcM0RPqyEA/WFakJNjZvoOLamT5w0BnoAUQHeEdJnp0675IwQnb0PWnd0WPzIaVL5oef7/GqHlJgVsJnUCHGmdwN1psce90xEK4msFvkyjw1dADLOA7bLqAkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737363698; c=relaxed/simple;
-	bh=tzwzEP03g8s7l3aneAZ0Ydoz3zLfOnTznPFsRRqr3Co=;
+	s=arc-20240116; t=1737363704; c=relaxed/simple;
+	bh=HCC1TB2JnsejBIhQXiuHZ87jAkzuIxmozdRWSI4CgLM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To; b=FE74jsk2tebWULLcLd2zstxNuCuepBetfRjS3AQldElztA+KxCoRIJoVrz35SkQ1QRMv+K05rkC0XNCrHPSmhlGr2M8imJk8lVS3KNRXHmAWzNOuG8GwNCHS2lABvGROSw6nxI5Ffd/pLuNbIAU+73xluL5Jel+OTIgFl+EMOsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=FGFBhXFR; arc=none smtp.client-ip=209.85.214.170
+	 In-Reply-To:To; b=Dv8f2glU+bIU6AMB+zJekqafncVCVfOhimhhySPONefIt4XTofpDD0ce5De09XPiZtAclISRPbz1c+3mYq0uH/XfJi+iT6rekTF9GyArHeKfZnH5qNzcCTmPgh7FXVhlv9q6E/HttO+nnowbqguuYXEZ6CZmAdqS38gn2+xwJEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=1YqH7BNd; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="FGFBhXFR"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-21675fd60feso90719815ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2025 01:01:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="1YqH7BNd"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2166f1e589cso103452695ad.3
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2025 01:01:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1737363696; x=1737968496; darn=vger.kernel.org;
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1737363702; x=1737968502; darn=vger.kernel.org;
         h=to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rB97Bbr4B1xEv81orQhW1O95FjEA2Fdmfcgrx6OvObY=;
-        b=FGFBhXFRD8twr3rnmLYJLg6sWURHzyDyWb1+IENvA+E6AkEiQtjUAHDL4PNMzuWVC0
-         s6imSML9+IVAW/EtwMDImJlLhlAJviOCnO68cI92WYBqLASQU1CKvzqxNDLEyQf401S+
-         Cx8vA+1k0HuLi9SNg+HdNeQIiiWOs9+zq1xUetaJMhnqVvsBbNAAggzWTIVS6XAvmyzp
-         fV2FegcytoKvUIaexoKBc5I4bG1/89lRdI6rGYIlaK7+ZYNE7HN2Un8Ppr90CXVLk2z1
-         bSnzTTmWbtk0UPz50RcsOIwIQEXkHK//ykBY1EZTz5REZ2s9xEd69UggJcQbIGfNfpXz
-         OK0w==
+        bh=87auSTBirOR9mtDtSjr+Anr6dOurfYcbwGKWr12CzKY=;
+        b=1YqH7BNdoGUdCnSOoOvGBxGfCJtE0qiYMq7HeDw+IeIAkGseIQc2uHXL5rFBPuAUc+
+         3pFR/tOFg2NPEvoLkDfaZ5fuqTVqHyTHmw/8mjV0rOQUEgMh1yrOA6toPYvC3qoXdLLo
+         lURp90f6W5L/wF+a8SJ1MALD7iTWBWcoXsWSJl+grYsB/201wkMLXEtG3PtatEOxKmle
+         3reu/tVnEvyq7sFjpASk2cJieI6uarTc66ZMOn4cmyLNHOIyCeoNBu9cUuD+Hqcq+iWN
+         Sc1BrFMS3QFA4hvwJpXy1e+d2WlqVanHdDPGvIzP9O6gAIEjT+PooNvTrZk2ndozkAAZ
+         4OKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737363696; x=1737968496;
+        d=1e100.net; s=20230601; t=1737363702; x=1737968502;
         h=to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rB97Bbr4B1xEv81orQhW1O95FjEA2Fdmfcgrx6OvObY=;
-        b=aHWb1PUl89fQCL28MVFSMoMBkb92Iq1900HRPfE7IzSRNOnx4FXdJNDa5iK6U6sQ8H
-         4h73wbBw+nJGoUsNv9G4olNpJP+jWao0Vve67TtbFL4u+8iPWuw1zhBDK8szss0R5ees
-         2Zt6ld3a/dw+N8mzehTNM2famDPU5QoS9jtLsQxiz+fKe8WypZHFmKrfBqnJ5j/B2oR5
-         fNUJD+jRqjqglxN813FYEvwgI/uQlnympYBScZYqw3oCz6vBVhs/ubkyt9Q3qFhmyni7
-         1MYoVuC7afVZw5e3CH0AE7P3A2xdTHa2rUOLZKyJWAggaAdMvDADL0rNR7VDTkBVCGWW
-         ZdQg==
-X-Forwarded-Encrypted: i=1; AJvYcCXnS6t+JyhxLkHFA7KGRTIiXBSSspnlFPR9RNGLHsxM2awbRwsHqtuSc+MvsOFeaMmwOovSXPkEFPE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzB0qMSV8ET14jqgUjRLyl83OYPrZEhVhIEJLRdRbgAcYDqhJKQ
-	Hu27AU/NpHpGI7HSvjnwsIGjBH8erV4ygYtx67G7MR8nbblDM86YN12OXStjb44=
-X-Gm-Gg: ASbGncti2vGtbIEfrOhCuHXbqGBnooZ+njx+cWiEjsc+MXJvjcB2UllzHOX3olO9YBR
-	1lHxOpioTJuAGniGG17Kgv+abIJuLYM+gtAjddHYF+hjlPAkZXUzG85F2vlM/DDkoUsxgdgSeKl
-	YzgfiEsZq/uMOVE//UGwH11imRKHWxBHl30fintIUfH05hDWgi6WSXCWjPsnLJBauJGWuuESYOf
-	3e+33wM+KBHHQte9MjtOoJnBrJRqHpv6/veRCrfMVzJmsKmn4TB2Esj9lyGabowqUyr3i9j
-X-Google-Smtp-Source: AGHT+IG+qd2PcvmwKJh5HwzId2IyxwMl0s+fSQcG6B72BSMW0ku0ylKyrlMqZ+pwpjyyUJ0B3fOsrQ==
-X-Received: by 2002:a05:6a21:8192:b0:1eb:3414:5d18 with SMTP id adf61e73a8af0-1eb34146070mr8643406637.22.1737363694522;
-        Mon, 20 Jan 2025 01:01:34 -0800 (PST)
+        bh=87auSTBirOR9mtDtSjr+Anr6dOurfYcbwGKWr12CzKY=;
+        b=AWktvORQzyxPBFOO7270ohJ2YFSoi+gPYtIT5INt0eM/2+zhz9aXr3Knq5Z5HekYTQ
+         9QCwYuhCe6GF3QA8jkWK7gsUxxmBG5pQZ2ZSW5vR8qMo6dWcsHV6cVqcka3iRFBHDfyb
+         /pIzr7B+Ly9ruH6ru6vPGvf6Efw8beKF3+MK2iUcfA1Kx5pWMT3yrtzc2zhmB10x6y+x
+         AcVzWpv0sS0Rq8WWhiyD+zJ81FC1V/z6NKIpb/X/UYMyElMrX497nkGFIxu2NHvERrd2
+         AIcEgmP4wCBD1BqGPbpR0qkSHJNj9EZSksqLi6+PLDKv1KQG1FWT/flidCd/9DIybdn2
+         QmyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVjMmrByN/Flfd9wPKWD1T6EEYV0za0qB8kUCnHU/LvFIMLhubZabWoBSbFb7jTqXMDs1YO3YTS/Do=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUSeDnqrq/pbgQ0Z8NNU4E3bkOrkMthmG2YwmlYSibE9vdB853
+	pGi3lvGQ0991PncDzddXWSjjviQw0yvJj/Pxb60vcghZZt/g4Pyqj5AerKHIeYk=
+X-Gm-Gg: ASbGnctrBJrGSrUre+tgZZx8za7oO4sL4IB++IelkddphQUO/sgEQxNq7wKhgPSXv0I
+	r6aQ25UlGIJVxYgQuRgE+OtJ+WMxE61nX4CIwaU7pafIG5h9kcAB1R1+zcp7c1v6vAZBLIPcl+X
+	4U/4g2VdA3rGMJsH8bnGzubgp6Ide/eqQ+oWZ+sYc+0XokCfkK0c+whYkVlUc1d/qR8/COwK9NJ
+	qbgDqzihjGedVXgQPpaAk2D76YPuct4F+ZbjS9ZURovvrE8ofM0ba7FpSqincJTB/fhXyxT
+X-Google-Smtp-Source: AGHT+IGLR93WqsCZ053+MjqXMxSgfHfX9VZsicHSXVEe1/bIQZebS5wSQUjIqaTjuz4uKaG0GOmcHA==
+X-Received: by 2002:a17:902:e948:b0:215:6f9b:e447 with SMTP id d9443c01a7336-21c35621db7mr180247815ad.30.1737363701892;
+        Mon, 20 Jan 2025 01:01:41 -0800 (PST)
 Received: from localhost ([157.82.203.37])
-        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-aab358fc6d8sm3149440a12.51.2025.01.20.01.01.29
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-21c2d40278dsm55514515ad.223.2025.01.20.01.01.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Jan 2025 01:01:34 -0800 (PST)
+        Mon, 20 Jan 2025 01:01:41 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
-Date: Mon, 20 Jan 2025 18:00:16 +0900
-Subject: [PATCH net-next v4 7/9] tap: Avoid double-tracking iov_iter length
- changes
+Date: Mon, 20 Jan 2025 18:00:17 +0900
+Subject: [PATCH net-next v4 8/9] tap: Keep hdr_len in tap_get_user()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,7 +67,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250120-tun-v4-7-ee81dda03d7f@daynix.com>
+Message-Id: <20250120-tun-v4-8-ee81dda03d7f@daynix.com>
 References: <20250120-tun-v4-0-ee81dda03d7f@daynix.com>
 In-Reply-To: <20250120-tun-v4-0-ee81dda03d7f@daynix.com>
 To: Jonathan Corbet <corbet@lwn.net>, 
@@ -86,53 +85,62 @@ To: Jonathan Corbet <corbet@lwn.net>,
  devel@daynix.com, Akihiko Odaki <akihiko.odaki@daynix.com>
 X-Mailer: b4 0.14.2
 
-tap_get_user() used to track the length of iov_iter with another
-variable. We can use iov_iter_count() to determine the current length
-to avoid such chores.
+hdr_len is repeatedly used so keep it in a local variable.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- drivers/net/tap.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/net/tap.c | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/net/tap.c b/drivers/net/tap.c
-index 5aa41d5f7765a6dcf185bccd3cba2299bad89398..061c2f27dfc83f5e6d0bea4da0e845cc429b1fd8 100644
+index 061c2f27dfc83f5e6d0bea4da0e845cc429b1fd8..7ee2e9ee2a89fd539b087496b92d2f6198266f44 100644
 --- a/drivers/net/tap.c
 +++ b/drivers/net/tap.c
-@@ -641,7 +641,7 @@ static ssize_t tap_get_user(struct tap_queue *q, void *msg_control,
- 	struct sk_buff *skb;
- 	struct tap_dev *tap;
- 	unsigned long total_len = iov_iter_count(from);
--	unsigned long len = total_len;
-+	unsigned long len;
+@@ -645,6 +645,7 @@ static ssize_t tap_get_user(struct tap_queue *q, void *msg_control,
  	int err;
  	struct virtio_net_hdr vnet_hdr = { 0 };
  	int vnet_hdr_len = 0;
-@@ -655,9 +655,8 @@ static ssize_t tap_get_user(struct tap_queue *q, void *msg_control,
- 		vnet_hdr_len = READ_ONCE(q->vnet_hdr_sz);
- 
++	int hdr_len = 0;
+ 	int copylen = 0;
+ 	int depth;
+ 	bool zerocopy = false;
+@@ -672,6 +673,7 @@ static ssize_t tap_get_user(struct tap_queue *q, void *msg_control,
  		err = -EINVAL;
--		if (len < vnet_hdr_len)
-+		if (iov_iter_count(from) < vnet_hdr_len)
+ 		if (tap16_to_cpu(q, vnet_hdr.hdr_len) > iov_iter_count(from))
  			goto err;
--		len -= vnet_hdr_len;
- 
- 		err = -EFAULT;
- 		if (!copy_from_iter_full(&vnet_hdr, sizeof(vnet_hdr), from))
-@@ -671,10 +670,12 @@ static ssize_t tap_get_user(struct tap_queue *q, void *msg_control,
- 				 tap16_to_cpu(q, vnet_hdr.csum_start) +
- 				 tap16_to_cpu(q, vnet_hdr.csum_offset) + 2);
- 		err = -EINVAL;
--		if (tap16_to_cpu(q, vnet_hdr.hdr_len) > len)
-+		if (tap16_to_cpu(q, vnet_hdr.hdr_len) > iov_iter_count(from))
- 			goto err;
++		hdr_len = tap16_to_cpu(q, vnet_hdr.hdr_len);
  	}
  
-+	len = iov_iter_count(from);
-+
- 	err = -EINVAL;
- 	if (unlikely(len < ETH_HLEN))
- 		goto err;
+ 	len = iov_iter_count(from);
+@@ -683,11 +685,8 @@ static ssize_t tap_get_user(struct tap_queue *q, void *msg_control,
+ 	if (msg_control && sock_flag(&q->sk, SOCK_ZEROCOPY)) {
+ 		struct iov_iter i;
+ 
+-		copylen = vnet_hdr.hdr_len ?
+-			tap16_to_cpu(q, vnet_hdr.hdr_len) : GOODCOPY_LEN;
+-		if (copylen > good_linear)
+-			copylen = good_linear;
+-		else if (copylen < ETH_HLEN)
++		copylen = min(hdr_len ? hdr_len : GOODCOPY_LEN, good_linear);
++		if (copylen < ETH_HLEN)
+ 			copylen = ETH_HLEN;
+ 		linear = copylen;
+ 		i = *from;
+@@ -698,11 +697,9 @@ static ssize_t tap_get_user(struct tap_queue *q, void *msg_control,
+ 
+ 	if (!zerocopy) {
+ 		copylen = len;
+-		linear = tap16_to_cpu(q, vnet_hdr.hdr_len);
+-		if (linear > good_linear)
+-			linear = good_linear;
+-		else if (linear < ETH_HLEN)
+-			linear = ETH_HLEN;
++		linear = min(hdr_len, good_linear);
++		if (copylen < ETH_HLEN)
++			copylen = ETH_HLEN;
+ 	}
+ 
+ 	skb = tap_alloc_skb(&q->sk, TAP_RESERVE, copylen,
 
 -- 
 2.47.1
