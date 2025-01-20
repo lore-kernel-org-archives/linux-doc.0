@@ -1,63 +1,64 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715F5192589
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2025 09:00:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8851922E8
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2025 09:00:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737363640; cv=none; b=YPWhNFpNls5M5Tp+IpTHMpco3xUDrR3VtdisXRrKoVhFIuPNZ+rD/83zRVmx4A7aSWcwfSiH4LG1zp2WG/+lySdIjSnYDYWPU8dbHzLhf0l8LDstYNObkFcjKhnh9aPqcYC5WM6ACkgMAbVjv7pfG17MeRZZOoSQ+LauZOInRU0=
+	t=1737363648; cv=none; b=llr87OykZT4LcbRg94nuahM2a89c7S7l2WgUu9q/oar4nvfEQpYqrMVvPWP5AJECIu96K5H8M2HDaqCv4wlR54bvZXi6A6hIDywkZb1ez4+F1RSUkAFCKbCbq4nJnhJeIvZGuoeqmeu0XUZ/VQFJ9omK7ctRnVnjZDs+T4siUyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737363640; c=relaxed/simple;
-	bh=qcajYeuzQqig2Pw2OjJksSWvVLoxEiTtaDCHiGYHL/Y=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=dbiW0iQBY9OPOjFyhn/k8tZvhUc3QWuK/hQr6OxlXqZeJzV0Wbek2b1egPDU8+FxB9OIs0VNCJE1wD1+6diS7a5ZuZVcT6FRPPFQmI7Hbghgu9N0yPvBcEKPx7E2O+ZcqXWwrkS18zqGaU97gfIZobUoAcXtbS5qDQuh51QtrFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=jO+qGSC7; arc=none smtp.client-ip=209.85.216.53
+	s=arc-20240116; t=1737363648; c=relaxed/simple;
+	bh=LM9iW/m0YgbRl7+h6nWSsqFiOmAXB2xxJK4cNTPhNBE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=XBjdZWxgi36CrXxwtwLP8ciCQs4D6f2ZyhCsvVZzNZj2q0frFbAIi37+jCigC5HPxh+9WPhkxiFV1VcOfrRDeB0osBhioj64aAW+Vwo+qzayH1/qnaMY8UJFChMkoSwkVUcSLd5VlATuly08TZuFs8Kv5HTVCPHj5zXYZ3PT4Ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=gHz0AYG8; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="jO+qGSC7"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2ee76befe58so7293018a91.2
-        for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2025 01:00:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="gHz0AYG8"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-216395e151bso54777565ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2025 01:00:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1737363637; x=1737968437; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=M73wUmCTBGNSLAfxRhHe8Rnzzifp0+HNyWyW7z7nYBg=;
-        b=jO+qGSC7YWWbp38q5aTRWnoE8tafva1nVW3kCSAxnGTNgoR9bXi4NW5Ld9J80XOMhl
-         aLjahDPnPiGFCwwUzUgY3G75GAMqy5fy/GUo5IEHAqJQk4hAA4ljTFZoLuqSTF2D1tYf
-         DXcynP+xqyli6+wG7ji3pTO84t0RCdErZphIuBncGEDH0dn3PYaj0n9xk/bMU2+Wu/BC
-         KTMAH867L7+lgrc7dxSjXAyAiBIYj6of/UkmH0RYEsSVSb2v832u3p1qRWipRLUZ7xxm
-         LvAEqqSujc3n0frz2sDQiXKkkwOUpn8Sf7bZt6j/2M+PUq9v1Bf9OJiGDVGMRqe+7/jX
-         ybIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737363637; x=1737968437;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1737363646; x=1737968446; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=M73wUmCTBGNSLAfxRhHe8Rnzzifp0+HNyWyW7z7nYBg=;
-        b=VRGZBpMBSTNe+4d5BuZCHu+lKhsAVHBQa7vgVfHuEsTjWuwRF0KeNU8gM9Hy75Lfug
-         giygGj0imxzQB2pURmXBqWKtXR4Ko7FhFlxaqh+cqv/fjm2DzyAywaI7THwWHIYnE0UP
-         WPhNz4Yoqvz16hoDUWGDCzEiVOay1WK1R0Vm8guNApx3vUDgdm7M26ujGOaV+ECTHFiF
-         rfZnic2G7Od7UIvf6XUUEhq8n2uCOgOupYp+UyS9hMs6ZkmMAdnhV3eHT+FDgcgqihoS
-         VXJXNS6C3ywFYL5//69SH9vUODeHIY37lvShVtyPdACzv1aOUUc+NKusVGlAN6XzjM61
-         D2cQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWnsYH7BDnuxeR1Gs07XdnXZ8Qy76kOQG5+x5pIxwVhr3An8znM+pa8/PEXA5j2TIQ3nvc7zOSs3aY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzD3/r9ryPKCuAACP7srkOUOKwS2esEBWFYl57g1JBQaBINHDAI
-	uB4SrUnHB+dhMm8F1z4u7nGy/edSVGe3JBXPz+nJ+JEsNkTbV/1M5RqwHDvrwmk=
-X-Gm-Gg: ASbGncv+m2hyiW2FJYDzW7+vCbzRMiHavmZUUEZtlIR3OqKxrr1vmvybp3TUmeWUBmY
-	NzVLPQikiUSMvWIi7KsqwwnmF71kK2rGUY87djW2Stu+b26sGqJ3hthRF7Whv/ZsPovZk1ClgbN
-	jw5T6ZSAVMqCMysDOwODKorvk8ClqrLdahd9lOyFb3Tl8jSJg2vwGo+igWHn/ikRugbBX4RyW3/
-	/s0A7W5fONCQ9p9z1nSgSMqHuGF5suIfeI6VggkeCzavmCrsQTSrEjRKWb5RcoNyCs5oT2U
-X-Google-Smtp-Source: AGHT+IE1pLyS0CRQUGICRpfL+cuS6Zd8b3NmmH3IRRXgasWGxiLbxjOpEsY6IBDF/xH/j3M5fZzgCw==
-X-Received: by 2002:a05:6a00:802:b0:72a:a7a4:b4cd with SMTP id d2e1a72fcca58-72dafbb61bemr17694966b3a.21.1737363637519;
-        Mon, 20 Jan 2025 01:00:37 -0800 (PST)
+        bh=kRUixS5CfbfDqt7hn3posZxB5lUwV0PPemsSCTV1gNk=;
+        b=gHz0AYG8LWeBNVryG4/GIqNJd33MZxjFXqx8R6VBIpKM8RR6cnm/MBpDPJJqXE3uSg
+         mO0MaT+RalV0skJ9XPhDM73FJQR3M0En87H+nojWMLTkc2OB0xeKnCXEtpCznIkkuFyA
+         +G6mCLqJ7byNU9GPJo+b+2Bb0j2s2Q88NSouQZ2JM74vRln9+w7r9/TWqbcO44AYD6JA
+         oxCcIq5I/jEic7PlWVjtbQhqWAWQc9A/7Eoo6a3e5IyIvQYp3y/Y3hkNs/2Jy6tyHAu8
+         butLSezhjU0wSbRXhv81uzPhlE8on/JcxiW6GdOQ4IJ/jManHSMMinC0vMaGqUbkWSU6
+         /QaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737363646; x=1737968446;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kRUixS5CfbfDqt7hn3posZxB5lUwV0PPemsSCTV1gNk=;
+        b=pd9HAsLqZtaRmDvcv/Esxw+mgbhrJIpxbbnJlJxUqrgssGFuR/eKcgBnlvRvoI9kW8
+         50PdvN67mZuiO37Fz59426Tts+ibrTA7Cfbhkmb0NJTFfPc5spuWB6Ki1iSEvX6zNKIY
+         Ub2emNtFfIm0l4tnE9UPk82nELEloE7CPkxaDp8D72Yi7e3aIRVqsc0BsErXtm2vnaDy
+         KHniaurBsfUHTKk+egku1vzHc6WV2ReRYGUqH/2D3YFOxibxMKpzxynF2maXoGcI8L04
+         VTAMY5L9MVT/KArS0c8uGIFFPMNF/cI4ssSHmR74UOzSvkkwCOOUnCzFTUZsR315X6kB
+         85oA==
+X-Forwarded-Encrypted: i=1; AJvYcCVrENN7rl8gj8/eYdfMWAMWthh17W5w4/IbqHU9yOKEndZJnZVLm+RSpY01AaH/gb6i81l1g6Y9GoY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJOAM5OiafVrQNP1cFKSxdprm+SJSP5D+nM3uoL4KDNgGkh1wy
+	nNiAs5hcSbvpXSwMcumc7jVYsXEc5BaeV+uqiCKfSq/RKhPsqY9NLT2O4+/P2PE=
+X-Gm-Gg: ASbGncv/tUAeJI7TP6KzbFlhRnA9CVw/TfsWY/A93xPDmdpNYreEWeWSTEo0TvrBGeJ
+	PskSJTQv03QIev8HdwaIWt/o7TA8DlzzMhMgEF0f3Oi3uSd+Ck1hcGX3iHfGpK2N44k15mfhtIL
+	rFZpLKCd7v5VGh9a6GFkhFinosC+NGazDMLpCveiaXeaBqn8+liUcfaFTrZ7Nf4Rtb6z48o3ngk
+	HU9hSSAxO6RYKuD6joC6y5odM/iSmSpog3VCJr9OvKWw1QivBXpRV8BNYONTAfDY9oEEE92
+X-Google-Smtp-Source: AGHT+IEks6SKihbl6+Qi45ONgGmxvxvz6jOzu1ulUFye+X8vv37vBy4sWvWutLsO9/Ck2HEV+RAlLQ==
+X-Received: by 2002:a17:903:234a:b0:215:9eac:1857 with SMTP id d9443c01a7336-21bf029ddf1mr288703675ad.5.1737363645786;
+        Mon, 20 Jan 2025 01:00:45 -0800 (PST)
 Received: from localhost ([157.82.203.37])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-72daba44453sm6487254b3a.127.2025.01.20.01.00.32
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-21c2d3a913csm56890235ad.117.2025.01.20.01.00.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Jan 2025 01:00:37 -0800 (PST)
+        Mon, 20 Jan 2025 01:00:45 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH net-next v4 0/9] tun: Unify vnet implementation
-Date: Mon, 20 Jan 2025 18:00:09 +0900
-Message-Id: <20250120-tun-v4-0-ee81dda03d7f@daynix.com>
+Date: Mon, 20 Jan 2025 18:00:10 +0900
+Subject: [PATCH net-next v4 1/9] tun: Refactor CONFIG_TUN_VNET_CROSS_LE
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -66,11 +67,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAJkQjmcC/2WQyw6CMBBFf4V0bU1ftMWV/2FcFDpIFxYthWAM/
- +6kbDQub+6ck9x5kwlSgImcqjdJsIQpjBGDOlSkG1y8AQ0eMxFMKC4ko3mOVGvgzKmmZZ0hePl
- I0Ie1WC4kQqYR1kyu2AxhymN6Ff3CS4+mmnFmi2nhlFFtvLGqlUoadfbuFcN67MZ7ESziG2p2S
- CAkrfXG105Y4/4g+QVxvUMSoU63eM+hMb35gbZ9RYLnjC/I+5Trtn0AjlRLryABAAA=
-X-Change-ID: 20241230-tun-66e10a49b0c7
+Message-Id: <20250120-tun-v4-1-ee81dda03d7f@daynix.com>
+References: <20250120-tun-v4-0-ee81dda03d7f@daynix.com>
+In-Reply-To: <20250120-tun-v4-0-ee81dda03d7f@daynix.com>
 To: Jonathan Corbet <corbet@lwn.net>, 
  Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
  Jason Wang <jasowang@redhat.com>, "David S. Miller" <davem@davemloft.net>, 
@@ -87,66 +86,76 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Willem de Bruijn <willemb@google.com>
 X-Mailer: b4 0.14.2
 
-When I implemented virtio's hash-related features to tun/tap [1],
-I found tun/tap does not fill the entire region reserved for the virtio
-header, leaving some uninitialized hole in the middle of the buffer
-after read()/recvmesg().
-
-This series fills the uninitialized hole. More concretely, the
-num_buffers field will be initialized with 1, and the other fields will
-be inialized with 0. Setting the num_buffers field to 1 is mandated by
-virtio 1.0 [2].
-
-The change to virtio header is preceded by another change that refactors
-tun and tap to unify their virtio-related code.
-
-[1]: https://lore.kernel.org/r/20241008-rss-v5-0-f3cf68df005d@daynix.com
-[2]: https://lore.kernel.org/r/20241227084256-mutt-send-email-mst@kernel.org/
+Check IS_ENABLED(CONFIG_TUN_VNET_CROSS_LE) to save some lines and make
+future changes easier.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+Reviewed-by: Willem de Bruijn <willemb@google.com>
 ---
-Changes in v4:
-- s/sz/vnet_hdr_len_sz/ for patch "tun: Decouple vnet handling"
-  (Willem de Bruijn)
-- Reverted to add CONFIG_TUN_VNET.
-- Link to v3: https://lore.kernel.org/r/20250116-tun-v3-0-c6b2871e97f7@daynix.com
+ drivers/net/tun.c | 26 ++++++++------------------
+ 1 file changed, 8 insertions(+), 18 deletions(-)
 
-Changes in v3:
-- Dropped changes to fill the vnet header.
-- Splitted patch "tun: Unify vnet implementation".
-- Reverted spurious changes in patch "tun: Unify vnet implementation".
-- Merged tun_vnet.c into TAP.
-- Link to v2: https://lore.kernel.org/r/20250109-tun-v2-0-388d7d5a287a@daynix.com
+diff --git a/drivers/net/tun.c b/drivers/net/tun.c
+index e816aaba8e5f2ed06f8832f79553b6c976e75bb8..452fc5104260fe7ff5fdd5cedc5d2647cbe35c79 100644
+--- a/drivers/net/tun.c
++++ b/drivers/net/tun.c
+@@ -298,10 +298,10 @@ static bool tun_napi_frags_enabled(const struct tun_file *tfile)
+ 	return tfile->napi_frags_enabled;
+ }
+ 
+-#ifdef CONFIG_TUN_VNET_CROSS_LE
+ static inline bool tun_legacy_is_little_endian(struct tun_struct *tun)
+ {
+-	return tun->flags & TUN_VNET_BE ? false :
++	return !(IS_ENABLED(CONFIG_TUN_VNET_CROSS_LE) &&
++		 (tun->flags & TUN_VNET_BE)) &&
+ 		virtio_legacy_is_little_endian();
+ }
+ 
+@@ -309,6 +309,9 @@ static long tun_get_vnet_be(struct tun_struct *tun, int __user *argp)
+ {
+ 	int be = !!(tun->flags & TUN_VNET_BE);
+ 
++	if (!IS_ENABLED(CONFIG_TUN_VNET_CROSS_LE))
++		return -EINVAL;
++
+ 	if (put_user(be, argp))
+ 		return -EFAULT;
+ 
+@@ -319,6 +322,9 @@ static long tun_set_vnet_be(struct tun_struct *tun, int __user *argp)
+ {
+ 	int be;
+ 
++	if (!IS_ENABLED(CONFIG_TUN_VNET_CROSS_LE))
++		return -EINVAL;
++
+ 	if (get_user(be, argp))
+ 		return -EFAULT;
+ 
+@@ -329,22 +335,6 @@ static long tun_set_vnet_be(struct tun_struct *tun, int __user *argp)
+ 
+ 	return 0;
+ }
+-#else
+-static inline bool tun_legacy_is_little_endian(struct tun_struct *tun)
+-{
+-	return virtio_legacy_is_little_endian();
+-}
+-
+-static long tun_get_vnet_be(struct tun_struct *tun, int __user *argp)
+-{
+-	return -EINVAL;
+-}
+-
+-static long tun_set_vnet_be(struct tun_struct *tun, int __user *argp)
+-{
+-	return -EINVAL;
+-}
+-#endif /* CONFIG_TUN_VNET_CROSS_LE */
+ 
+ static inline bool tun_is_little_endian(struct tun_struct *tun)
+ {
 
-Changes in v2:
-- Fixed num_buffers endian.
-- Link to v1: https://lore.kernel.org/r/20250108-tun-v1-0-67d784b34374@daynix.com
-
----
-Akihiko Odaki (9):
-      tun: Refactor CONFIG_TUN_VNET_CROSS_LE
-      tun: Avoid double-tracking iov_iter length changes
-      tun: Keep hdr_len in tun_get_user()
-      tun: Decouple vnet from tun_struct
-      tun: Decouple vnet handling
-      tun: Extract the vnet handling code
-      tap: Avoid double-tracking iov_iter length changes
-      tap: Keep hdr_len in tap_get_user()
-      tap: Use tun's vnet-related code
-
- MAINTAINERS            |   2 +-
- drivers/net/Kconfig    |   5 ++
- drivers/net/Makefile   |   1 +
- drivers/net/tap.c      | 172 ++++++------------------------------------
- drivers/net/tun.c      | 200 +++++++------------------------------------------
- drivers/net/tun_vnet.c | 184 +++++++++++++++++++++++++++++++++++++++++++++
- drivers/net/tun_vnet.h |  25 +++++++
- 7 files changed, 267 insertions(+), 322 deletions(-)
----
-base-commit: a32e14f8aef69b42826cf0998b068a43d486a9e9
-change-id: 20241230-tun-66e10a49b0c7
-
-Best regards,
 -- 
-Akihiko Odaki <akihiko.odaki@daynix.com>
+2.47.1
 
