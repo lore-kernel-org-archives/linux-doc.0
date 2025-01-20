@@ -1,108 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mail-m15590.qiye.163.com (mail-m15590.qiye.163.com [101.71.155.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 767B818E76F;
-	Mon, 20 Jan 2025 07:25:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 883D835968
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2025 07:26:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737357915; cv=none; b=r5kFVHcquIvPE41bGQAHtmzyp7aKAjpgp4XKU/UZW0ad0YtZdZymzMBZLkfK4edXZjph4IAzfFnrJrZ77Qz4hsX9jGoYI4vdmRbnx+pRjiGPix6gxwcEOtKSDFqhyTmL9OTslICoCMXPtAj843gT19f23eSZoT2SyCMyokQnpl4=
+	t=1737357992; cv=none; b=rtdsiXNGpUGvvsny1kICKQcth1N5oupkQoOalO0dStjIODSJoAIhzkoXCjHljT6sqMTxe899qGXwap3m1zJFgJnUc6oArJw4U1gw54ZREgyJsGo12cVyET6KnoodNjns0SwAzKcFmCoQxH6rnxEB2RuW9vJorekchx8MvnUNCQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737357915; c=relaxed/simple;
-	bh=k4ykqooUPTL/roXw/fFpliH2XGWlf7OfDPK35rRh9HA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nIePsndoVQMTt/rKue3No0ShgbX5sEofY2RfKzNIynwokt1USkMSkDvvbuSG1CpZmbSEesbc7FGvisZ6Zk4qXSAIV9sJgUWdNbncVayuENLudw+OgEH1JYooiFBjT8igsvrVbKPn4DfxM1iqejO1LyzH7lF8Siv77FAXO0fWpjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yy4zCkjS; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1737357992; c=relaxed/simple;
+	bh=qziJo4QS+ISV2b2lNicMHsAdawU2OiJ0TXqWdtlWAvw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cgyzeSNcrjbxP0hDzss9myAfaA3hHVxz8L+gtq3fXiSYEhRShYmQyX6+fGKDd5WrLNQTOnd/vB37Q2T+gyE0Mj7nJcr8C2fearlQKeTDLvDvAwzrOstBC5cYECO7/60quTs96p57d7p4TI+SzFU2OdCNvFW1A3hGHsyGJjafnlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=F3rVdnUk; arc=none smtp.client-ip=101.71.155.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yy4zCkjS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737357913; x=1768893913;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=k4ykqooUPTL/roXw/fFpliH2XGWlf7OfDPK35rRh9HA=;
-  b=Yy4zCkjScxKE/31Z8LuC1hzfDmi3Ba3qksEZBqe3zzAOTkQJPZny9SIG
-   Xv24gcEtk5tQ4YKn98a11s/pOonob70UcPV1Qfq1IGEsFMJJHQUh7xkvL
-   zPcpnXghJ6ccDihKLiTO2jsXjDvgeofT9l4xhxqAoROr75/LKvjEGf8M1
-   JlwQnP7Yj556oVLnGgKuTnzrvDyBcXXbPx4zXg7SmHXFwFWMuxjj65zQT
-   Ela2XeHkh5o9FLHPpNTc5phEw9SVK9wPMQEKCLf9qKcedOFXWICGArhyJ
-   SmMqCbUcpfEbNXhOooPJYFrMLtCMFXRtAEoOzh8nhNijZUpqAF5Mdya6M
-   w==;
-X-CSE-ConnectionGUID: ULi5aLoRQOC6Qix1bbBL3A==
-X-CSE-MsgGUID: CkL7rpwuT8aK7RbN+EKUpg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="37601860"
-X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; 
-   d="scan'208";a="37601860"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 23:25:12 -0800
-X-CSE-ConnectionGUID: vyQrnkD1RKuZNocxarZucg==
-X-CSE-MsgGUID: 4NfaGBcnSKmXfEo/7NNF7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; 
-   d="scan'208";a="106224522"
-Received: from unknown (HELO [10.107.2.109]) ([10.107.2.109])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 23:25:02 -0800
-Message-ID: <20fa0b55-405c-4b7c-8c10-1f8d71c956b9@linux.intel.com>
-Date: Mon, 20 Jan 2025 15:24:46 +0800
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="F3rVdnUk"
+Received: from fedora.localdomain (unknown [123.53.38.48])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 92a3cc5f;
+	Mon, 20 Jan 2025 14:50:55 +0800 (GMT+08:00)
+From: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net
+Cc: zhaoyuehui@cqsoftware.com.cn,
+	zhaoshuo@cqsoftware.com.cn,
+	zhangwei@cqsoftware.com.cn,
+	maoyuxian@cqsoftware.com.cn,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 0/7] Add all Chinese translations in the tpm directory
+Date: Mon, 20 Jan 2025 14:50:45 +0800
+Message-ID: <cover.1737354981.git.zhaoshuo@cqsoftware.com.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf-next v6 4/4] igc: Add launch time support to XDP ZC
-To: "Abdul Rahim, Faizal" <faizal.abdul.rahim@linux.intel.com>,
- Song Yoong Siang <yoong.siang.song@intel.com>,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Willem de Bruijn <willemb@google.com>,
- Florian Bezdeka <florian.bezdeka@siemens.com>,
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Bjorn Topel <bjorn@kernel.org>, Magnus Karlsson <magnus.karlsson@intel.com>,
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Jonathan Lemon <jonathan.lemon@gmail.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>, Joe Damato <jdamato@fastly.com>,
- Stanislav Fomichev <sdf@fomichev.me>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Mina Almasry <almasrymina@google.com>,
- Daniel Jurgens <danielj@nvidia.com>, Andrii Nakryiko <andrii@kernel.org>,
- Eduard Zingerman <eddyz87@gmail.com>, Mykola Lysenko <mykolal@fb.com>,
- Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>,
- Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
- Shuah Khan <shuah@kernel.org>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Jose Abreu <joabreu@synopsys.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, intel-wired-lan@lists.osuosl.org,
- xdp-hints@xdp-project.net
-References: <20250116155350.555374-1-yoong.siang.song@intel.com>
- <20250116155350.555374-5-yoong.siang.song@intel.com>
- <84770113-2546-4035-8bd4-bf9cedcfb00f@linux.intel.com>
-Content-Language: en-US
-From: Choong Yong Liang <yong.liang.choong@linux.intel.com>
-In-Reply-To: <84770113-2546-4035-8bd4-bf9cedcfb00f@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCSU1CVktPTR1NQkxOGUpLSVYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKSUhVTkhVSENVT0NZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0hVSktLVU
+	pCS0tZBg++
+X-HM-Tid: 0a94827a87da09d0kunm92a3cc5f
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NDo6Pzo6KjISHjcSOjgqHz4y
+	LBQwFDJVSlVKTEhMSE5OQ05NQktNVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSklIVU5IVUhDVU9DWVdZCAFZQUpNTUw3Bg++
+DKIM-Signature:a=rsa-sha256;
+	b=F3rVdnUki2bhCoq3SsgLKmL74pBfQB0C1NUY2IFIHAfVy/TpZ4BDdEk5taib22+zQGqEll4abQPhPqH1r+FwCUDA/jwLZ75kYUwU8CMQ0mtNf3EU6v2ejV+WTke2OhpbHRnXT6Eqfsz7KijUMYtsG5raj7DYZHrhgA5ewGRFNp8=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
+	bh=mgXiC37Yjj035FVsxx3um8IWE7Py5YGG/AxghMq+Vaw=;
+	h=date:mime-version:subject:message-id:from;
 
+v2:
 
+modify .../translations/zh_CN/security/index.rst.
 
-On 20/1/2025 2:25 pm, Abdul Rahim, Faizal wrote:
-> 
-> To be cautious, could we perform a stress test by sending a higher number 
-> of packets with launch time? For example, we could send 200 packets, each 
-> configured with a launch time, and verify that the driver continues to 
-> function correctly afterward.
-> 
-I agree on this point. Could you perform the same stress test on the STMMAC 
-driver as well?
+v1:
+
+Add all Chinese translations in the tpm directory.
+
+Shuo Zhao (7):
+  docs/zh_CN: Add tpm index Chinese translation
+  docs/zh_CN: Add tpm tpm_event_log Chinese translation
+  docs/zh_CN: Add tpm tpm-security Chinese translation
+  docs/zh_CN: Add tpm tpm_tis Chinese translation
+  docs/zh_CN: Add tpm tpm_vtpm_proxy Chinese translation
+  docs/zh_CN: Add tpm xen-tpmfront Chinese translation
+  docs/zh_CN: Add tpm tpm_ftpm_tee Chinese translation
+
+ .../translations/zh_CN/security/index.rst     |   2 +-
+ .../translations/zh_CN/security/tpm/index.rst |  20 +++
+ .../zh_CN/security/tpm/tpm-security.rst       | 151 ++++++++++++++++++
+ .../zh_CN/security/tpm/tpm_event_log.rst      |  49 ++++++
+ .../zh_CN/security/tpm/tpm_ftpm_tee.rst       |  31 ++++
+ .../zh_CN/security/tpm/tpm_tis.rst            |  43 +++++
+ .../zh_CN/security/tpm/tpm_vtpm_proxy.rst     |  51 ++++++
+ .../zh_CN/security/tpm/xen-tpmfront.rst       | 114 +++++++++++++
+ 8 files changed, 460 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/security/tpm/index.rst
+ create mode 100644 Documentation/translations/zh_CN/security/tpm/tpm-security.rst
+ create mode 100644 Documentation/translations/zh_CN/security/tpm/tpm_event_log.rst
+ create mode 100644 Documentation/translations/zh_CN/security/tpm/tpm_ftpm_tee.rst
+ create mode 100644 Documentation/translations/zh_CN/security/tpm/tpm_tis.rst
+ create mode 100644 Documentation/translations/zh_CN/security/tpm/tpm_vtpm_proxy.rst
+ create mode 100644 Documentation/translations/zh_CN/security/tpm/xen-tpmfront.rst
+
+-- 
+2.47.1
+
