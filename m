@@ -1,144 +1,250 @@
-Received: from mail-m15586.qiye.163.com (mail-m15586.qiye.163.com [101.71.155.86])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C7A1487D5
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2025 04:58:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C325383;
+	Mon, 20 Jan 2025 06:26:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737349130; cv=none; b=YWtp2MVYBGitq5Gu766MpQoSirGq0dVmS7BN+i5ZEWKQDrKLyyaRzJeM7PjMicxyruzY/KG7zmMUdOYUfg2/jn7l3esOVw9+I9npl4+rKpfeKSkLcY53S9L7u1JzuNRRBBGBTLpG2u524xknQcBA3wkpQd35PJcAH70uLZBo4M8=
+	t=1737354385; cv=none; b=Qu92wBZ1/Rqs0LDozU/ywQQEucVW3q8AsyON+MXifLpjNzapg9Caqfhb9mELJzkWAftb6pJap0TNQxeD9Rq6s/hGg3p+4LUplobMqUcIXAdStvlpolEBmvdbeCMO8MgZqWqSTnfAyRXoeb2gPrWt8I+U8ZVBZhZIccfZ5qx84xQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737349130; c=relaxed/simple;
-	bh=5JBxiffdqr/l5pxRvdMhwamGW/jQzD1ve4oQGnYrs8w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mybdLrr40jRKr+T9avSP5+G3xR+soQBmCYjjMFOw8ZC4/Af3+vjMnEIl7xIqODNHrF0w9X7ozZDPLXbzborl2D8naf6xXit3xXqpdeEWt3rqE35n1qh1iMEb+xPB0dhxiYoYrz0+rPF2OVVHcdpCRGZRlUiT8JXuF/to3N1vN/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=N/+1W/hQ; arc=none smtp.client-ip=101.71.155.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
+	s=arc-20240116; t=1737354385; c=relaxed/simple;
+	bh=tnsWXzYfmvn62Lbs810i3rTWmbN0EXhNDxrDhCk8CD8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G7B0wRIT3T0OYAw6HeF0oFydEgCtFWhx2/GnUPlvEzG8h1SEL0FIoD6c/4HVRjXJaqwXmRPln0SKBy2kjYpIERQcxDOv9uNfC7++w9WonNej9itGDo70PVF4c9+szl8JPHQASNW9e0fIqvPgA9TKoAn5z4fIJGwYhRwy/afEBNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gsI8qbEj; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="N/+1W/hQ"
-Received: from fedora.localdomain (unknown [123.53.38.48])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 924e2b86;
-	Mon, 20 Jan 2025 11:43:03 +0800 (GMT+08:00)
-From: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
-To: alexs@kernel.org,
-	si.yanteng@linux.dev,
-	corbet@lwn.net
-Cc: zhaoyuehui@cqsoftware.com.cn,
-	zhaoshuo@cqsoftware.com.cn,
-	zhangwei@cqsoftware.com.cn,
-	maoyuxian@cqsoftware.com.cn,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 5/7] docs/zh_CN: Add tpm tpm_vtpm_proxy Chinese translation
-Date: Mon, 20 Jan 2025 11:42:50 +0800
-Message-ID: <1b9c166f0144020b7c6a781c93b8d1fcd8d049be.1737344074.git.zhaoshuo@cqsoftware.com.cn>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <cover.1737344074.git.zhaoshuo@cqsoftware.com.cn>
-References: <cover.1737344074.git.zhaoshuo@cqsoftware.com.cn>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gsI8qbEj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737354384; x=1768890384;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=tnsWXzYfmvn62Lbs810i3rTWmbN0EXhNDxrDhCk8CD8=;
+  b=gsI8qbEjoLH2YfFIFL5USV/VmJlo6fYr1VpQ6dWImJJyzOnnxknHu57t
+   xbtijikuJ6lN+R0mSlBYF6Jn/qCBvxUCMtC/3u4A3/5BWlsnHN1ysa5UT
+   ICHMMEXh0hkhxJtQQ2wwlFadd/mrJj+vh985wPccLawqx356IXy8zzkfv
+   6/S8XrQY3RVVgWv7R8V/UaXcrBI1Gyj0zJuo6Vl+LV95u5Qq3DK9rvNNK
+   yQKJNFHX2XNHCRV0CpapQF/EGgFJC5n13wdMNc11WiQ2gXlJBH6IyTzL8
+   Ttpg84BoVUa/WUXX7VkrU+cqb0v9sTbimDgdBS2DLv8aDdF/jTkMM2kR6
+   Q==;
+X-CSE-ConnectionGUID: 32tkYXHESoCIyNNDKXjxTQ==
+X-CSE-MsgGUID: y9NCaxrOQiKk4j+wIU0ehQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11320"; a="37622989"
+X-IronPort-AV: E=Sophos;i="6.13,218,1732608000"; 
+   d="scan'208";a="37622989"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 22:26:15 -0800
+X-CSE-ConnectionGUID: 2o19Sr1rR0+02sq9LFLQ2g==
+X-CSE-MsgGUID: X0kZiFOHTdmNQOkx3eVPsg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="106227294"
+Received: from mohdfai2-mobl.gar.corp.intel.com (HELO [10.247.64.131]) ([10.247.64.131])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2025 22:26:01 -0800
+Message-ID: <84770113-2546-4035-8bd4-bf9cedcfb00f@linux.intel.com>
+Date: Mon, 20 Jan 2025 14:25:45 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaQ00YVk5IGE1OSExKSxpDS1YVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKSUhVTkhVSENVT0NZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0hVSktLVU
-	pCS0tZBg++
-X-HM-Tid: 0a9481ce884009d0kunm924e2b86
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6M0k6Cio4HzIQGjAMEQgLS0kT
-	AgwaCzRVSlVKTEhMSE9PTkNPTU9KVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
-	WRILWUFZSklIVU5IVUhDVU9DWVdZCAFZQUhIQk83Bg++
-DKIM-Signature:a=rsa-sha256;
-	b=N/+1W/hQWmR2e3KOiw5PA6d5MLXV/sBCtxhTWKtMMQorv9N3EyU/mCfxbt0Nb8NLF1ZN9Cytue0lPcTKe6J8y9eNkYswUjYAfN1TWi9Bwv6RtR6YF88iB4eN6kWzuQKHy9hmOx2HSG1W94CQmDj1Wodf3qS/Cjm9waGEgCk5D78=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
-	bh=ROUA3HZ0gKwY68GfkCq71zZWOz8m2Ok9wBXRd+C32jg=;
-	h=date:mime-version:subject:message-id:from;
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH bpf-next v6 4/4] igc: Add launch time support to XDP ZC
+To: Song Yoong Siang <yoong.siang.song@intel.com>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Willem de Bruijn <willemb@google.com>,
+ Florian Bezdeka <florian.bezdeka@siemens.com>,
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Bjorn Topel <bjorn@kernel.org>, Magnus Karlsson <magnus.karlsson@intel.com>,
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+ Jonathan Lemon <jonathan.lemon@gmail.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>, Joe Damato <jdamato@fastly.com>,
+ Stanislav Fomichev <sdf@fomichev.me>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Mina Almasry <almasrymina@google.com>,
+ Daniel Jurgens <danielj@nvidia.com>, Andrii Nakryiko <andrii@kernel.org>,
+ Eduard Zingerman <eddyz87@gmail.com>, Mykola Lysenko <mykolal@fb.com>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>,
+ Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+ Shuah Khan <shuah@kernel.org>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Jose Abreu <joabreu@synopsys.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, intel-wired-lan@lists.osuosl.org,
+ xdp-hints@xdp-project.net
+References: <20250116155350.555374-1-yoong.siang.song@intel.com>
+ <20250116155350.555374-5-yoong.siang.song@intel.com>
+Content-Language: en-US
+From: "Abdul Rahim, Faizal" <faizal.abdul.rahim@linux.intel.com>
+In-Reply-To: <20250116155350.555374-5-yoong.siang.song@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Translate .../security/tpm/tpm_vtpm_proxy.rst into Chinese.
 
-Update the translation through commit 799a545bb938
-("tpm: move documentation under Documentation/security")
+Hi Siang.
 
-Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
----
- .../translations/zh_CN/security/tpm/index.rst |  2 +-
- .../zh_CN/security/tpm/tpm_vtpm_proxy.rst     | 51 +++++++++++++++++++
- 2 files changed, 52 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/security/tpm/tpm_vtpm_proxy.rst
+On 16/1/2025 11:53 pm, Song Yoong Siang wrote:
+> Enable Launch Time Control (LTC) support to XDP zero copy via XDP Tx
+> metadata framework.
+> 
+> This patch is tested with tools/testing/selftests/bpf/xdp_hw_metadata on
+> Intel I225-LM Ethernet controller. Below are the test steps and result.
+> 
+> Test Steps:
+> 1. At DUT, start xdp_hw_metadata selftest application:
+>     $ sudo ./xdp_hw_metadata enp2s0 -l 1000000000 -L 1
+> 
+> 2. At Link Partner, send an UDP packet with VLAN priority 1 to port 9091 of
+>     DUT.
+> 
+> When launch time is set to 1s in the future, the delta between launch time
+> and transmit hardware timestamp is equal to 0.016us, as shown in result
+> below:
+>    0x562ff5dc8880: rx_desc[4]->addr=84110 addr=84110 comp_addr=84110 EoP
+>    rx_hash: 0xE343384 with RSS type:0x1
+>    HW RX-time:   1734578015467548904 (sec:1734578015.4675) delta to User RX-time sec:0.0002 (183.103 usec)
+>    XDP RX-time:   1734578015467651698 (sec:1734578015.4677) delta to User RX-time sec:0.0001 (80.309 usec)
+>    No rx_vlan_tci or rx_vlan_proto, err=-95
+>    0x562ff5dc8880: ping-pong with csum=561c (want c7dd) csum_start=34 csum_offset=6
+>    HW RX-time:   1734578015467548904 (sec:1734578015.4675) delta to HW Launch-time sec:1.0000 (1000000.000 usec)
+>    0x562ff5dc8880: complete tx idx=4 addr=4018
+>    HW Launch-time:   1734578016467548904 (sec:1734578016.4675) delta to HW TX-complete-time sec:0.0000 (0.016 usec)
+>    HW TX-complete-time:   1734578016467548920 (sec:1734578016.4675) delta to User TX-complete-time sec:0.0000 (32.546 usec)
+>    XDP RX-time:   1734578015467651698 (sec:1734578015.4677) delta to User TX-complete-time sec:0.9999 (999929.768 usec)
+>    HW RX-time:   1734578015467548904 (sec:1734578015.4675) delta to HW TX-complete-time sec:1.0000 (1000000.016 usec)
+>    0x562ff5dc8880: complete rx idx=132 addr=84110
 
-diff --git a/Documentation/translations/zh_CN/security/tpm/index.rst b/Documentation/translations/zh_CN/security/tpm/index.rst
-index dd5ab7f295e1..3dd3eaeb8a61 100644
---- a/Documentation/translations/zh_CN/security/tpm/index.rst
-+++ b/Documentation/translations/zh_CN/security/tpm/index.rst
-@@ -16,8 +16,8 @@
-    tpm_event_log
-    tpm-security
-    tpm_tis
-+   tpm_vtpm_proxy
- 
- TODOLIST:
--*   tpm_vtpm_proxy
- *   xen-tpmfront
- *   tpm_ftpm_tee
-diff --git a/Documentation/translations/zh_CN/security/tpm/tpm_vtpm_proxy.rst b/Documentation/translations/zh_CN/security/tpm/tpm_vtpm_proxy.rst
-new file mode 100644
-index 000000000000..9f3f3d07d1cd
---- /dev/null
-+++ b/Documentation/translations/zh_CN/security/tpm/tpm_vtpm_proxy.rst
-@@ -0,0 +1,51 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/security/tpm/tpm_vtpm_proxy.rst
-+
-+:翻译:
-+ 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
-+
-+==========================
-+Linux容器的虚拟TPM代理驱动
-+==========================
-+
-+| 作者：
-+| Stefan Berger <stefanb@linux.vnet.ibm.com>
-+
-+本文档描述了用于Linux容器的虚拟可信平台模块（vTPM）代理设备驱动。
-+
-+介绍
-+====
-+
-+这项工作的目标是为每个Linux容器提供TPM功能。这使得程序能够像与物理系统
-+上的TPM交互一样，与容器中的TPM进行交互。每个容器都会获得一个唯一的、模
-+拟的软件TPM。
-+
-+设计
-+====
-+
-+为了使每个容器都能使用模拟的软件TPM，容器管理堆栈需要创建一对设备，其中
-+包括一个客户端TPM字符设备 ``/dev/tpmX`` （X=0,1,2...）和一个‘服务器端’
-+文件描述符。前者通过创建具有适当主次设备号的字符设备被移入容器，而文件
-+描述符则传递给TPM模拟器。容器内的软件可以使用字符设备发送TPM命令，模拟器
-+将通过文件描述符接收这些命令，并用它来发送响应。
-+
-+为了支持这一点，虚拟TPM代理驱动程序提供了一个设备 ``/dev/vtpmx`` ，该设备
-+用于通过ioctl创建设备对。ioctl需要输入标志来配置设备，这些标志例如指示TPM
-+模拟器是否支持TPM1.2或TPM2功能。ioctl的结果是返回‘服务器端’的文件描述符以
-+及创建的字符设备的主次设备号。此外，还会返回TPM字符设备的编号。例如，如果
-+创建了 ``/dev/tpm10`` ，则返回的编号（ ``dev_num`` ）10。
-+
-+一旦设备创建完成，驱动程序将立即尝试与TPM进行通信。来自驱动程序的所有命令
-+都可以从ioctl返回的文件描述符中读取。这些命令应该立即得到响应。
-+
-+UAPI
-+====
-+
-+该API在以下内核代码中：
-+
-+include/uapi/linux/vtpm_proxy.h
-+drivers/char/tpm/tpm_vtpm_proxy.c
-+
-+函数：vtpmx_ioc_new_dev
--- 
-2.47.1
+To be cautious, could we perform a stress test by sending a higher number 
+of packets with launch time? For example, we could send 200 packets, each 
+configured with a launch time, and verify that the driver continues to 
+function correctly afterward.
+
+> Signed-off-by: Song Yoong Siang <yoong.siang.song@intel.com>
+> ---
+>   drivers/net/ethernet/intel/igc/igc_main.c | 78 ++++++++++++++++-------
+>   1 file changed, 56 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/intel/igc/igc_main.c b/drivers/net/ethernet/intel/igc/igc_main.c
+> index 27872bdea9bd..6857f5f5b4b2 100644
+> --- a/drivers/net/ethernet/intel/igc/igc_main.c
+> +++ b/drivers/net/ethernet/intel/igc/igc_main.c
+> @@ -1566,6 +1566,26 @@ static bool igc_request_tx_tstamp(struct igc_adapter *adapter, struct sk_buff *s
+>   	return false;
+>   }
+>   
+> +static void igc_insert_empty_packet(struct igc_ring *tx_ring)
+> +{
+> +	struct igc_tx_buffer *empty_info;
+> +	struct sk_buff *empty;
+> +	void *data;
+> +
+> +	empty_info = &tx_ring->tx_buffer_info[tx_ring->next_to_use];
+> +	empty = alloc_skb(IGC_EMPTY_FRAME_SIZE, GFP_ATOMIC);
+> +	if (!empty)
+> +		return;
+> +
+> +	data = skb_put(empty, IGC_EMPTY_FRAME_SIZE);
+> +	memset(data, 0, IGC_EMPTY_FRAME_SIZE);
+> +
+> +	igc_tx_ctxtdesc(tx_ring, 0, false, 0, 0, 0);
+> +
+> +	if (igc_init_tx_empty_descriptor(tx_ring, empty, empty_info) < 0)
+> +		dev_kfree_skb_any(empty);
+> +}
+> +
+
+The function igc_insert_empty_packet() appears to wrap existing code to 
+enhance reusability, with no new changes related to enabling launch-time 
+XDP ZC functionality. If so, could we split this into a separate commit? 
+This would make it clearer for the reader to distinguish between the 
+refactoring changes and the new changes related to enabling launch-time XDP 
+ZC support.
+
+>   static netdev_tx_t igc_xmit_frame_ring(struct sk_buff *skb,
+>   				       struct igc_ring *tx_ring)
+>   {
+> @@ -1603,26 +1623,8 @@ static netdev_tx_t igc_xmit_frame_ring(struct sk_buff *skb,
+>   	skb->tstamp = ktime_set(0, 0);
+>   	launch_time = igc_tx_launchtime(tx_ring, txtime, &first_flag, &insert_empty);
+>   
+> -	if (insert_empty) {
+> -		struct igc_tx_buffer *empty_info;
+> -		struct sk_buff *empty;
+> -		void *data;
+> -
+> -		empty_info = &tx_ring->tx_buffer_info[tx_ring->next_to_use];
+> -		empty = alloc_skb(IGC_EMPTY_FRAME_SIZE, GFP_ATOMIC);
+> -		if (!empty)
+> -			goto done;
+> -
+> -		data = skb_put(empty, IGC_EMPTY_FRAME_SIZE);
+> -		memset(data, 0, IGC_EMPTY_FRAME_SIZE);
+> -
+> -		igc_tx_ctxtdesc(tx_ring, 0, false, 0, 0, 0);
+> -
+> -		if (igc_init_tx_empty_descriptor(tx_ring,
+> -						 empty,
+> -						 empty_info) < 0)
+> -			dev_kfree_skb_any(empty);
+> -	}
+> +	if (insert_empty)
+> +		igc_insert_empty_packet(tx_ring);
+>   
+>   done:
+>   	/* record the location of the first descriptor for this packet */
+> @@ -2955,9 +2957,33 @@ static u64 igc_xsk_fill_timestamp(void *_priv)
+>   	return *(u64 *)_priv;
+>   }
+>   
+> +static void igc_xsk_request_launch_time(u64 launch_time, void *_priv)
+> +{
+> +	struct igc_metadata_request *meta_req = _priv;
+> +	struct igc_ring *tx_ring = meta_req->tx_ring;
+> +	__le32 launch_time_offset;
+> +	bool insert_empty = false;
+> +	bool first_flag = false;
+> +
+> +	if (!tx_ring->launchtime_enable)
+> +		return;
+> +
+> +	launch_time_offset = igc_tx_launchtime(tx_ring,
+> +					       ns_to_ktime(launch_time),
+> +					       &first_flag, &insert_empty);
+> +	if (insert_empty) {
+> +		igc_insert_empty_packet(tx_ring);
+> +		meta_req->tx_buffer =
+> +			&tx_ring->tx_buffer_info[tx_ring->next_to_use];
+> +	}
+> +
+> +	igc_tx_ctxtdesc(tx_ring, launch_time_offset, first_flag, 0, 0, 0);
+> +}
+> +
+>   const struct xsk_tx_metadata_ops igc_xsk_tx_metadata_ops = {
+>   	.tmo_request_timestamp		= igc_xsk_request_timestamp,
+>   	.tmo_fill_timestamp		= igc_xsk_fill_timestamp,
+> +	.tmo_request_launch_time	= igc_xsk_request_launch_time,
+>   };
+>   
+>   static void igc_xdp_xmit_zc(struct igc_ring *ring)
+> @@ -2980,7 +3006,7 @@ static void igc_xdp_xmit_zc(struct igc_ring *ring)
+>   	ntu = ring->next_to_use;
+>   	budget = igc_desc_unused(ring);
+>   
+> -	while (xsk_tx_peek_desc(pool, &xdp_desc) && budget--) {
+> +	while (xsk_tx_peek_desc(pool, &xdp_desc) && budget >= 4) {
+
+Could we add some explanation on what & why the value "4" is used ?
 
