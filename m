@@ -1,106 +1,155 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A85733981;
-	Mon, 20 Jan 2025 11:08:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2ADD1DF244
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2025 11:20:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737371326; cv=none; b=U/xXLsy1kqCdl3kWdPyxnPsGAlBWeAfO0OWbFonk6ey0TumF2KMcL7XRn6Z9oMJb8juJ1yulcs5EyGtdjyTIScDQGYWkZbHcqCmMdUeuoQ6rnyODCnZJq6BjacEGTKqITEY0PljhIVZeuWpcprJta1p/JRUBnoXDeQghd2lP/m4=
+	t=1737372027; cv=none; b=c6dFXrOLYiha2u077VwkvhZ6kjm4AdYH52oRu7Zzq0aKMhAqx+ht/jaqy4Zl5x+PrNFW/+H/YfzZlS3MFb8xA8EtoCefz7LDharC/e8YWOWW9p23IJ5/2yEfyrmJolG7vhDEXcmzw07B3gNkw8FrmteWqGwyEHXVSegAcebVXfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737371326; c=relaxed/simple;
-	bh=ULAlyrVB0EFv5QHnlkeU1h1uFDt8QM0/aVvEPlRZ7/g=;
-	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=j1Oo3XRbMzwJNVEtpam13WPvZcOjmJXdjyScKN6BNeXNoiQOsTM9uqMeGLH78Rg0WXCwYgEKBOsXUit8+3YlvXrqbjKhWuD+lXkkBKHPrVZ6ND01U6dcCdDIAfjl0Xg8y79RKAZhoVzeRYJrf6C3nvsMc0+OK8JsrxmMnHTqSjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kL/Ohk4v; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1737372027; c=relaxed/simple;
+	bh=HukkzVgJWy6wIfrwhhW16Kaa45VNmNtSiyTH/3KseCM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Sd+omkp76vgROaNrqNAcDOz8cS1UmFyAAdt3EwxDBatBsHuTr7hRdPnfj54BeZhTeMUQR2ZGdJHdeZCvqvtd4N3asxQG3CnL5qO5y1iuMKvA3GbIjGDh0upbxrQvCFaK+GyCEh/lvBOJxfZgUtfiqJciKZi+OrNMkQ0M6zzRQBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XummadlH; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kL/Ohk4v"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7b6e5ee6ac7so364008085a.0;
-        Mon, 20 Jan 2025 03:08:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XummadlH"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-53f22fd6887so4400503e87.2
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2025 03:20:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737371323; x=1737976123; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:to:from:date:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1737372024; x=1737976824; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aG6TkAlGOMMNyymPZxnF0C646p7JeQya5BAnNmWiF0g=;
-        b=kL/Ohk4vAEYEihC/tDXxNRZsAKAZOtzMC2aQwOsobf9dHKmxT6EmxloC5gKRepeut/
-         2oIGXjkVkiNECqfeK9ZoLavJfDQoD+QOJ2az0PffkCuDjuMmNk2usphnEx0TmSqiP/kC
-         ZlAlQEbV59okWi5wo53Rf6E2XBKx2Ju8mQplJwnKTl92M6/pmSf1qvLXbONwlQ8DhZLO
-         q5QBaWd+L/XmqiNoGKb+Z9alcl8sg8xnRM7J9nI9QSXnK4FcfUA7Ky8l+A08cm2MDha8
-         JY9LHjmKbgw5PDvOLYYcnu3tdpvrClE22CAG5gIPsxmnIidcp7NpPakPQWHlXWCEmwtM
-         QaEg==
+        bh=508sHaRatzNmV2AC5YDUok9kXq8AxMjNJqX2AsrhRz0=;
+        b=XummadlHa0e8irAytWugKv9AtJjYftloGGts94HPaK2057kE7o/kpCX8Tu9kxv569Y
+         O1y9hga8FgZf14NSUBtQzI/MJVJJZlvoM6bCp8KfMBlrSIsqknsTAkFe15TeVpSCMSUG
+         WWLzhGco5yqv1IlYMTc1A4epT90MkQ7ga2WY//0IMM7pATJvK1Yl6gWGCJdnDn1sd4p2
+         72HznhIOE82O9k801gncYGX9GbyT7hgs9w8bEjMgs7SAGarB7WcouQiN8YOfNdPhyzsn
+         GuxZ4qXrINRKu/bbKad7E4O1cr3Fd3aTb7OHuMJ79Rk3Q1g3IJ9M5WCgGXegouQhuBCp
+         UxeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737371323; x=1737976123;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:to:from:date:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1737372024; x=1737976824;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aG6TkAlGOMMNyymPZxnF0C646p7JeQya5BAnNmWiF0g=;
-        b=fXSdI7MJ5fZCuZ4vokXXenJLAeegn+f18lb+Q+vmCHom38W0shek3fisDQNBos3ZOM
-         sT02Rcaadwjh5cC912qzauw3f4OZIAdQJlo/mgXAwhm6p/HjgfjTvz1JrxMJ+nmHirQi
-         j2ZvV5LfC+g23rKk+Lcy8dfuHT01Hbxni6VlmLUrpL3fKo5ZxgcZWp9pXFoqbMZzx0Nr
-         aQn6w7z+at6i6MVReuLAnx7dfSL4Zg24ZK7LVCNdJW7efY9nhK/W9PDkdd4cWs5kkvqg
-         a+tJpl6qJrzHbmYZwM28nCozDIv1Wyl+rwax0V6dfVgGeqlkmk7VjiNYgcWnVSQhFnmw
-         0MqA==
-X-Forwarded-Encrypted: i=1; AJvYcCUAMVAbYiE3PIzk8zBQZbvZm0GF4iURUY0HCfXcw0kvI7LnkmwOwZcluix9+dpRomxYF/eh0pU7ROhjfKmC@vger.kernel.org, AJvYcCV0AUsvG/6GZPxcqKhrgUZHe8aGPFNMDtv4d/+jmVxk0n6l5BlrOKy+bQOm12lsGuXYr3xgs+VMMZfAd0xqAJYz@vger.kernel.org, AJvYcCVjNZmX4MkmrUtZ7ilofQaUwyGvbhhy4h6Q7HlPnAzUsu689GsaH9fAQIaqm9rp+GCAXeZEngpn@vger.kernel.org, AJvYcCVs4ShzUmUsF4Al4gkEPAGsdDnw9WSiHkPK94shoat6YVkcdsKBGI8kaf8wHWpFaExTHD0=@vger.kernel.org, AJvYcCXDokO4inTmLwt764UT2Wfv1hWakFBra4X0fqM2jJwBMGRY+OLbfpHip0aBDeEc2MxXhtI/QIvXs8DK@vger.kernel.org
-X-Gm-Message-State: AOJu0YwrxNWsWWDwYKJjRHNN5hFwmqy0PyfRGlYaQ09emq27FqRhw0KM
-	fzRl1Wke7AqN72sSkGGgn6n7CqCPVH815h5E/mDzN6fqKZ1ViFbY
-X-Gm-Gg: ASbGnctcm4yldjEUp4EIMaw7PnCspK/U4+RMXk6dBkN25FSnSnd5SGOE57JSkpdj+jU
-	VIP6hmPg5qVJhRGiiSQ4EIrr0k8MisGPc8SnyVf/3RjizKu2zytLE/lXVRmVJ5yTu9vb4LUgMIv
-	GozxFc+2wCe2qaHLwj6rq2GyyLK51gL62H26D1ks63u5TA+PFbgHlI5ykT4s0R6LkGL8CJlZUos
-	aMd7q9xuFIFrfDXgcu8M08/D6aDPOaET9kFtdwvZz6LgLO9rfJf1EhIYXkbKAPwuX+FVYL55drP
-	0E0q++6T/tLuVXwF6m1X5ORabOhv8NhEPameHT7h3w==
-X-Google-Smtp-Source: AGHT+IHjrEflT7QkveiACsrNZZlggSGNB2s6/3h0lASWTfvZOXb0je20GxWRUnjZ5D+Xc5ekfo7iMg==
-X-Received: by 2002:a05:620a:24c8:b0:7b1:56f0:e09f with SMTP id af79cd13be357-7be632898c9mr2729938885a.54.1737371323433;
-        Mon, 20 Jan 2025 03:08:43 -0800 (PST)
-Received: from localhost (15.60.86.34.bc.googleusercontent.com. [34.86.60.15])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7be6147591bsm433649385a.4.2025.01.20.03.08.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2025 03:08:42 -0800 (PST)
-Date: Mon, 20 Jan 2025 06:08:42 -0500
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
- Jason Wang <jasowang@redhat.com>, 
- "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
- Shuah Khan <shuah@kernel.org>, 
- linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- netdev@vger.kernel.org, 
- kvm@vger.kernel.org, 
- virtualization@lists.linux-foundation.org, 
- linux-kselftest@vger.kernel.org, 
- Yuri Benditovich <yuri.benditovich@daynix.com>, 
- Andrew Melnychenko <andrew@daynix.com>, 
- Stephen Hemminger <stephen@networkplumber.org>, 
- gur.stavi@huawei.com, 
- devel@daynix.com, 
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Message-ID: <678e2eba905a0_19c7372943e@willemb.c.googlers.com.notmuch>
-In-Reply-To: <20250120-tun-v4-4-ee81dda03d7f@daynix.com>
-References: <20250120-tun-v4-0-ee81dda03d7f@daynix.com>
- <20250120-tun-v4-4-ee81dda03d7f@daynix.com>
-Subject: Re: [PATCH net-next v4 4/9] tun: Decouple vnet from tun_struct
+        bh=508sHaRatzNmV2AC5YDUok9kXq8AxMjNJqX2AsrhRz0=;
+        b=XuW5nd/hkvIm6R29c7TPfxeG2cSjw3Dwe2F6ywRtWyx4WstkJQfxDYW9Ay3w37R9Ff
+         2+Kj9WGHqS3uxNLFHJjvrYDRzpNxVXP74YFkEBa/6rwpFXjmij3crM3TbdcMdTxvopKD
+         g56OIjWjlBxY5WaqdRmnmX68R8ewbRopQhSib75Z0NSfpi/yTR6jiotMHyJDUL7rjlRB
+         3roDcmaT+6yvherIitQ00pungNPdvB/Jy1Uzv/tUNAGnSM8z9/eijm+xUPC8gejIX7Hk
+         4sN1/yfJh73rm7gojfChGpXkevc3qrGppfbH/wOzFxsarTyftB3SwGbHy3ovaAhDK++D
+         Ynow==
+X-Forwarded-Encrypted: i=1; AJvYcCUVtcYwt4PaVeYnuK37PqZFUfxS9WbmaZwGQ745OSSNkUarj/6zDvW6fGR9mQa5/ix5/7dktnhWDvw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzzBW5oKMu1Q1wGLfahxgtI33AAZehbpEU81+vVdCV6tGQWCSud
+	flq2tWmcQ1HfNFEqZmGk7iQYbxKiMvyrmINeSDjvyHuCuEquYsew3AdD/SiZfgp0K3+6KfGovGd
+	XVPvVfMw4Hvme0aKsQQNjzqHPmYQlQGzTBlQ0
+X-Gm-Gg: ASbGncvp3sgx8yzKWDM9OyBEmGV1NF6vDu3CszM5qyK6+1Ph0slknp1J5du8KDLf2O6
+	xp2ALfkc0MuXYi41FgkaF36C+mWOekkiTpU+VKjbdTzSdBOrnn3M=
+X-Google-Smtp-Source: AGHT+IG5bUWJMn934aJFLLbqBw2AOkIQsKQjJQf+FW5w2joFGVMUSmQehttNlWkcrmhhT9aHd4c5YEvXBK36xXQTVQg=
+X-Received: by 2002:a05:6512:33cf:b0:542:2a0b:cdd4 with SMTP id
+ 2adb3069b0e04-5439c287e81mr4094208e87.47.1737372023561; Mon, 20 Jan 2025
+ 03:20:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+References: <20250116-tun-v3-0-c6b2871e97f7@daynix.com> <20250116-tun-v3-9-c6b2871e97f7@daynix.com>
+ <678a21a9388ae_3e503c294f4@willemb.c.googlers.com.notmuch>
+ <51f0c6ba-21bc-4fef-a906-5d83ab29b7ff@daynix.com> <CACGkMEuPXDWHErCCdEUB7+Q0NxsAjpSH9uTvOxzuBvNeyw7_Hg@mail.gmail.com>
+In-Reply-To: <CACGkMEuPXDWHErCCdEUB7+Q0NxsAjpSH9uTvOxzuBvNeyw7_Hg@mail.gmail.com>
+From: Willem de Bruijn <willemb@google.com>
+Date: Mon, 20 Jan 2025 12:19:46 +0100
+X-Gm-Features: AbW1kvafrr-kRH1qQ-nNk15dryD6rNi5eAueO9Om8WJCSgPSnlELq-Vuki0tXiI
+Message-ID: <CA+FuTSec1z7-8nNNc1ZXkzekDrFHPnvYKFf8PNZg89VuwhoWSw@mail.gmail.com>
+Subject: Re: [PATCH net v3 9/9] tap: Use tun's vnet-related code
+To: Jason Wang <jasowang@redhat.com>
+Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, kvm@vger.kernel.org, 
+	virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
+	Yuri Benditovich <yuri.benditovich@daynix.com>, Andrew Melnychenko <andrew@daynix.com>, 
+	Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com, devel@daynix.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Akihiko Odaki wrote:
-> Decouple vnet-related functions from tun_struct so that we can reuse
-> them for tap in the future.
-> 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+On Mon, Jan 20, 2025 at 1:37=E2=80=AFAM Jason Wang <jasowang@redhat.com> wr=
+ote:
+>
+> On Fri, Jan 17, 2025 at 6:35=E2=80=AFPM Akihiko Odaki <akihiko.odaki@dayn=
+ix.com> wrote:
+> >
+> > On 2025/01/17 18:23, Willem de Bruijn wrote:
+> > > Akihiko Odaki wrote:
+> > >> tun and tap implements the same vnet-related features so reuse the c=
+ode.
+> > >>
+> > >> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> > >> ---
+> > >>   drivers/net/Kconfig    |   1 +
+> > >>   drivers/net/Makefile   |   6 +-
+> > >>   drivers/net/tap.c      | 152 +++++--------------------------------=
+------------
+> > >>   drivers/net/tun_vnet.c |   5 ++
+> > >>   4 files changed, 24 insertions(+), 140 deletions(-)
+> > >>
+> > >> diff --git a/drivers/net/Kconfig b/drivers/net/Kconfig
+> > >> index 1fd5acdc73c6..c420418473fc 100644
+> > >> --- a/drivers/net/Kconfig
+> > >> +++ b/drivers/net/Kconfig
+> > >> @@ -395,6 +395,7 @@ config TUN
+> > >>      tristate "Universal TUN/TAP device driver support"
+> > >>      depends on INET
+> > >>      select CRC32
+> > >> +    select TAP
+> > >>      help
+> > >>        TUN/TAP provides packet reception and transmission for user s=
+pace
+> > >>        programs.  It can be viewed as a simple Point-to-Point or Eth=
+ernet
+> > >> diff --git a/drivers/net/Makefile b/drivers/net/Makefile
+> > >> index bb8eb3053772..2275309a97ee 100644
+> > >> --- a/drivers/net/Makefile
+> > >> +++ b/drivers/net/Makefile
+> > >> @@ -29,9 +29,9 @@ obj-y +=3D mdio/
+> > >>   obj-y +=3D pcs/
+> > >>   obj-$(CONFIG_RIONET) +=3D rionet.o
+> > >>   obj-$(CONFIG_NET_TEAM) +=3D team/
+> > >> -obj-$(CONFIG_TUN) +=3D tun-drv.o
+> > >> -tun-drv-y :=3D tun.o tun_vnet.o
+> > >> -obj-$(CONFIG_TAP) +=3D tap.o
+> > >> +obj-$(CONFIG_TUN) +=3D tun.o
+> > >
+> > > Is reversing the previous changes to tun.ko intentional?
+> > >
+> > > Perhaps the previous approach with a new CONFIG_TUN_VNET is preferabl=
+e
+> > > over this. In particular over making TUN select TAP, a new dependency=
+.
+> >
+> > Jason, you also commented about CONFIG_TUN_VNET for the previous
+> > version. Do you prefer the old approach, or the new one? (Or if you hav=
+e
+> > another idea, please tell me.)
+>
+> Ideally, if we can make TUN select TAP that would be better. But there
+> are some subtle differences in the multi queue implementation. We will
+> end up with some useless code for TUN unless we can unify the multi
+> queue logic. It might not be worth it to change the TUN's multi queue
+> logic so having a new file seems to be better.
 
-Reviewed-by: Willem de Bruijn <willemb@google.com>
++1 on deduplicating further. But this series is complex enough. Let's not
+expand that.
+
+The latest approach with a separate .o file may have some performance
+cost by converting likely inlined code into real function calls.
+Another option is to move it all into tun_vnet.h. That also resolves
+the Makefile issues.
