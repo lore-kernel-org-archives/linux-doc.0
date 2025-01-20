@@ -1,478 +1,186 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2067.outbound.protection.outlook.com [40.107.243.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD7D1F03D0;
-	Mon, 20 Jan 2025 17:45:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737395149; cv=none; b=JsTxl9z4HK3yz39TNFYyQKTmhAvYoULAEdohPr0WJX9gOJKSoB27ToLlk0IqHJZ7bjDHfR4GCkIufKJvhJD7FHfFkpXIblx/6XB9rjB7R5fzSfPK1osbUUfkog2mul0FiFZ2jtY9eKfLouwZ1DiVSEeUxiR6MSBUbR6r9aXqC1A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737395149; c=relaxed/simple;
-	bh=MdKjsanauiC7LwdkZFfsgUbSTeQZc+J9ZaaglNxxsks=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tu6b7zp8RViZIY6WE8isYjG3NpUft6UiRgEn9XoicJPhVMP+1JDVHHicNjm+SOpN0fQV7krrqB2P84ReqY3uHowwFLq5nuXyscR7s1ss3CnTETWcuhKef+4zpHEhyS95g6UpEsznQ0iEjNc4qNjM4Pcv/42qKzvqYU47O7PPu1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=Di/M6gV2; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D1D47DA82;
+	Mon, 20 Jan 2025 18:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737397139; cv=fail; b=VBEzI81ZE6rZuKyAS8AcFjX5cKBLZ8B4CnETgLxq1tpNRYuFjmlYJoDOK4wjCZ0ASvsiadvnGq4HpnFSk69Mpf2Jd1zYy37SB775EX4JPREi7q9+5ehQWMZX5a7iX2AHHBSJbA3+lQuEPHgIB8/SaxQDn40U2LH935MCETk9dDM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737397139; c=relaxed/simple;
+	bh=zTz6F8CFeJ8Ibd22b16qetje7wvbdQlkc/SFn2QFUTI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Hkyzvw/U6qPYKaZgTwbqIKPpCquJoqO1kFGvq6EprjFJceRL4nw69yxVg9if49jWFXEHQZACcQJtZ2cWCusPU91T/ICqyzCo3ZL9L9hHN9FcLSOTNBF+xt0psMkfeA12z5K/emG9KjCHTQmaj03KYnEJq9zGEyZlcfNx9U4qUJ0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=b1tyBjyh; arc=fail smtp.client-ip=40.107.243.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="Di/M6gV2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1737395133;
-	bh=MdKjsanauiC7LwdkZFfsgUbSTeQZc+J9ZaaglNxxsks=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Di/M6gV2PZR/Y+ULPHNpx2nP0AYRmpRur97hFwzhHG9qZT82EnocNOEeA3rqp3lz0
-	 h2+5CUwBdmHujmMocjg40PdHqjw5a1g3xHKKAaNvJi5l5iniwzPm4ALjx8K8HosPA8
-	 5uUlyHHmdUAigVH4CGaYEfN3OXur5Xhu8uUM9F6U=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Mon, 20 Jan 2025 18:44:25 +0100
-Subject: [PATCH v2 6/6] module: Introduce hash-based integrity checking
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="b1tyBjyh"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gK0cjPIb03fJ7gM/eYy1aDKSVzWJI1PQ0fGAQOl3Sp4NUDroJ2sSJoBNEwxX4PO+0sSecKwIEb4Tn38wYNQAAuSMzChEpLmjKw+OJRLRGy/xxHYrf80ZpyyLoDjwzmmRYN7GuySOwtgvX1Lm7snP3qJ+6ZjETUny+zjBu5eSdJHs/m77anes4c4o/eHeN4HLkCq8b0Af3UJ0pULYkwQbBGh5XloerB2TWrbAJ9GUBkplp3x9akSgXe1JkHN+C4Ci9X0DCl7sHWsyvxu0a4u6JRNZKjX7CmWbN49G5qRHMkYnjzL6Fcm90PMUFIUeV9A45utGpWvuIa89cPSLT8+sLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CLQwrNXXeysxdkOBjP+37j8bw3d4jICwNqDgiW7iaOI=;
+ b=aPkcTgkpk2dyqMrbq9tmmfIFXzegOGBPwWmT+HH5nCqlUBTF7YrlWbXC9Y2G2vBkV7odfCP1byhVlcd2cLqd5a0v/oIyhMHMiJ5kMXWxVELCHt64xblzqKTlgLzCw8yboFJYXbnWhyVbQOMbeg9ptL7Jhm+1xWdUDcWsCJw4q95iS6t0iVN/QzTuIL3DUOCjdDWjD/4J7W99wpAYjkkAFvlfabr4CEULbL9RNp00bPeI6uDCi01Y9ATeg55BTAd7dYTu3hBgCtwgLkFN0T6vXx31GXkUCSdnMjqhP5M8X5jybRkZwgYig/S1aMezjqByi6AwiIId7aGk0FzAfnDSMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CLQwrNXXeysxdkOBjP+37j8bw3d4jICwNqDgiW7iaOI=;
+ b=b1tyBjyhwZGVGP1I1KD4YBaAQrUsqMQTFbRQCExpWke8ouhGpG98f1nbfT7JSf+be9VK96dzNp/Q9Rn56/ORtcRQzGzEsX3JGjyz60zpf8SsC9qDUXmAUpgS0JiFWrYwE4ZrkqvE6TQa5se+L3D615yW89FYRnUg4xGCCDOAfmR8PYG0ndIi7ZY/r61eJJ8t0yOridj2AGHtav+ZUaUd8d0KZTDN7rZdfh9lrqDqZBKFDxcAFHDJwuf93qrgjxVpUXhjEon31YhP5VtoimXcovbfgSL0WXvTHl6QmC6XS/8UpFU5jPhtvC+fUB406fSqO79KGSL5NhWeI/WZwY6cgA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by MN0PR12MB6003.namprd12.prod.outlook.com (2603:10b6:208:37f::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.20; Mon, 20 Jan
+ 2025 18:18:55 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%5]) with mapi id 15.20.8356.010; Mon, 20 Jan 2025
+ 18:18:55 +0000
+Date: Mon, 20 Jan 2025 14:18:54 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: kevin.tian@intel.com, corbet@lwn.net, will@kernel.org, joro@8bytes.org,
+	suravee.suthikulpanit@amd.com, robin.murphy@arm.com,
+	dwmw2@infradead.org, baolu.lu@linux.intel.com, shuah@kernel.org,
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	eric.auger@redhat.com, jean-philippe@linaro.org, mdf@kernel.org,
+	mshavit@google.com, shameerali.kolothum.thodi@huawei.com,
+	smostafa@google.com, ddutile@redhat.com, yi.l.liu@intel.com,
+	patches@lists.linux.dev
+Subject: Re: [PATCH v5 08/14] iommufd/viommu: Add iommufd_viommu_report_event
+ helper
+Message-ID: <20250120181854.GQ5556@nvidia.com>
+References: <20250110174132.GH396083@nvidia.com>
+ <Z4FpMs4qx3NdwrnZ@Asurada-Nvidia>
+ <20250110195114.GJ5556@nvidia.com>
+ <Z4Smpeb4k4UF3Qso@Asurada-Nvidia>
+ <20250113192144.GT5556@nvidia.com>
+ <Z4Vt6DAMDfEv6tb5@Asurada-Nvidia>
+ <20250113195433.GV5556@nvidia.com>
+ <Z4V7NbxGyYoQN0yV@Asurada-Nvidia>
+ <20250114134158.GC5556@nvidia.com>
+ <Z4rVg1Xg5TCiFlSb@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z4rVg1Xg5TCiFlSb@nvidia.com>
+X-ClientProxiedBy: BL0PR05CA0013.namprd05.prod.outlook.com
+ (2603:10b6:208:91::23) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250120-module-hashes-v2-6-ba1184e27b7f@weissschuh.net>
-References: <20250120-module-hashes-v2-0-ba1184e27b7f@weissschuh.net>
-In-Reply-To: <20250120-module-hashes-v2-0-ba1184e27b7f@weissschuh.net>
-To: Masahiro Yamada <masahiroy@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
- Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>, 
- Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
- Daniel Gomez <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>, 
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: =?utf-8?q?Fabian_Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>, 
- Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>, 
- kpcyrd <kpcyrd@archlinux.org>, linux-kbuild@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-modules@vger.kernel.org, linux-security-module@vger.kernel.org, 
- linux-doc@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1737395132; l=14935;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=MdKjsanauiC7LwdkZFfsgUbSTeQZc+J9ZaaglNxxsks=;
- b=5IcmE9REX+FAANRF1h1BOnurKOwOaYMYqcpINOm6mCBcRkcTSJcMrGzt0fX37CpcqtYiEvLc0
- 1QQkiSWcpjND1eqQ23aAdahsCJmu7W0HC8zogLdLsmo3NKJQWBIePjD
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|MN0PR12MB6003:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8b2812af-6dee-4d8b-04d2-08dd397ee662
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?nyC0QfVPL8nlkwpFcu7VrVroohzBBYuYG4570hcO+CLkv87d54eIVIztDjo1?=
+ =?us-ascii?Q?XFmjEW2S6TOrg6DIHJbpEwg+faFkXCz4V+ujOVclKfSGQCKEFORnI3zoya51?=
+ =?us-ascii?Q?Dg7WLH3ROf+MdfeUnOdoRmAP1WO2q0Rk5B1uZJVrB0hgzPn9VvNI3nIHd68x?=
+ =?us-ascii?Q?m3ukjQaeTLEH2DQ7nVyhbFqu6h2F/oCnYxGsr6hnkog9M9z3ngSqMVVfZ6p5?=
+ =?us-ascii?Q?po6wg4teNOadtsZnyRJxfnh1uQvqzsIDdTGPTevEXGNjPCAu0zqbObHxElir?=
+ =?us-ascii?Q?QNWEbtDZc/LgG0kKefIuZM0Or0XfWpB6CeoVQP0Vtirl37yK7egCE+BEz8BF?=
+ =?us-ascii?Q?GbPOzVHlcU7BOvx50FJmBpeIuL7MxbV2LlusSII4T/gtyaqUBewYgyeYA/zg?=
+ =?us-ascii?Q?l4E4CEj6i4PNJG2W02kqPE6VFnShVHyWwDJBkgIcpG3q2sAkZjJJyPjwsBFv?=
+ =?us-ascii?Q?eJm9xvn3w8yAaU8Uha0EkL/spSfekxIxHke1IUWJqnKJukwGZtE5GD7RmV9h?=
+ =?us-ascii?Q?JN1eyGwY/qo7gEF/NIC8lQ9iNmhupjF0MioOUMxUE3F6Umst1pBB5Y++491O?=
+ =?us-ascii?Q?htve2Oe25EXWlFOBW8UnddbnxEudVPjzynvVlsBk9vr2IMzM8Qbxb5LLChdI?=
+ =?us-ascii?Q?9NgFKpy2nIqzwBYWJraFlmK4jKn5dHLtOOrTKmcAk7UyrVDM3huroMHt0so9?=
+ =?us-ascii?Q?wqzvlY8Xhphj6vY/9PWl2xAoBt3wBj/9sbcPNWwrxEPixucUq+cAiXq7F8AN?=
+ =?us-ascii?Q?Jv+3cTOmVAlyG4PPk838w5RTWNmVn1eLu80cxHUyVfr1TfWLa2m+R5vSxC3J?=
+ =?us-ascii?Q?n4h7dJzRTqDdVAmYaP5E0ZqMBKqNzDnjPi78XcUIR70kYgEJVE/jfkzxm/lq?=
+ =?us-ascii?Q?GBXBrAiGc1zXlPSBzb3C+imw4STACXX7d2YVaoxbzhVEb01fo4n5Csr29fl6?=
+ =?us-ascii?Q?sUmd4w0up4uv+VmH9hqfJGmUjciELaRXu33fiH7RpynWgyegpDE4iueFdqnb?=
+ =?us-ascii?Q?pr+xdIlsCaUvxjSiXr6vk76/f+zE4+xQUXDYfsEBDlmMOeL2epKL5+QwEzP8?=
+ =?us-ascii?Q?51hEoo4jRfWvmUddsc6+z9vy0nUUIbtX9rgROAH9D8UJpSyEJDu8HqvQLREd?=
+ =?us-ascii?Q?SaMrffgeZVJpwpXo08g73ipRYsCNJrQvsYC5ict1zunPEbmHz55rgLknwezW?=
+ =?us-ascii?Q?aqGwdOB4iWpkZXcjfIgblk7ZDyByTPkEGw4TQAvci9bIrydwSC2VYEMG8+zX?=
+ =?us-ascii?Q?8TJUdO6sxczi5dsCvUNVB2BeVEa1pyLFgg9LNPSTUOsrGsp0iHb1OnRuLX9C?=
+ =?us-ascii?Q?pdvryRsuPb6rj6FyPfcm46rWRfqXzlhL20pRSDyk+lRf77ZXJ8boYHEDBK0n?=
+ =?us-ascii?Q?mPYO3+9xn0FnjuEI3deUp/YPDqiJ?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?pL9RoUl593V+3+d9T2YiV22GXy3fBLgFsnZEby8RnV9wIREG5yojI5A0Kl35?=
+ =?us-ascii?Q?fmUSYxVazGGCurxLU9YbUExPmlM96A4EufSHpo2JL+CTouK4m3USbKm2yBQK?=
+ =?us-ascii?Q?nihmXVXEdhdKIDWvafst3AjMaMOeKBEXW22s+ozJFP96OY2OMRsBhhWIuICn?=
+ =?us-ascii?Q?MxroDWmWD44Su6lFnTRQ++rCLqmbIUHZFzzypYW3NqNlMcJc3rM+ANBe4HEn?=
+ =?us-ascii?Q?q8n1kQXrTAn2pwHFQ+A+BolT9qwc+RS2pU7R0TBtspPpMadGx9MQXT7o9YBc?=
+ =?us-ascii?Q?ZUQSY+IJ83OHV4ZqTwf4gRH1U19idNUV4WmA9o4oXs5oUMoZo++Znbxaq6ML?=
+ =?us-ascii?Q?K1praNSGIPsmOkp1LLIzYqMNzWo1c0vGQYpf6ngomv5CjXxUwlFi2m286Foi?=
+ =?us-ascii?Q?qnHgAMBd/9rlIgFrbaF0uoc66gcLlCV/2unkK2uX9aPA5Ofb/WOENMyO3P1g?=
+ =?us-ascii?Q?FBIkKaN9qYECQf2fIPbTmY3EDifEnayQmV3e2cNzNRDGjwPEmVeDX/CSvzvG?=
+ =?us-ascii?Q?I09KYDWyZJ+mFWWQYwofe86Dc4oH9K6hK2ufywfXoJKAHzw9b/jiSDwmGdmK?=
+ =?us-ascii?Q?4hUlzz+RDvm69HF2ERituitlDWMDxxDU9VBQzPmxD4oaC1FMB76t4Xb+YrDV?=
+ =?us-ascii?Q?aK4oyIwB5MlTdPwJ8+YPUEDOFl+98qgXX1QrkH3Igh2UKYuYCbqGcliqaYeL?=
+ =?us-ascii?Q?9UA0wqL8/3Km3x/64+AUmc08gBDMRSDFURIYskSnYMOaRjCoxhWfHedhafHF?=
+ =?us-ascii?Q?lETvaoaYBoY4NGQX8SJD+qWtFTNfj0QwlyHNTMKHOKBFOXf/qbPOf+5FU59T?=
+ =?us-ascii?Q?mDYOJPbvyIdmnQN/ArLE/UOC5GuIDMpgokDJCrwQuISKB+FV/IjLU01Uk+PX?=
+ =?us-ascii?Q?SiuQH5PAmwFt1m5NBdYhZdANk91yLy8cLAkK2H9E9UR0632PYaVeMunOh0/1?=
+ =?us-ascii?Q?eyJJ0wY8tIqUNmAd8LHiavcMUkAqMnYhedFe84n7hlj8E5Ws2gAI/668FCzh?=
+ =?us-ascii?Q?H/y3T9Qgrovhd2pnn0zYv2SMP1BkXHszVwHtomY1wMzlJwu/RjbR6d5h/Ans?=
+ =?us-ascii?Q?nV8QMxp0yI/xKMjeSTdKL8EM73TTDJNw+ukszboa15c9B0k0cDSrGPxza8la?=
+ =?us-ascii?Q?6PTe792OkFicLrimjA9wsAX+YHDarPDQ1uS8EO+UVUWHKUZ17OYIhxZAxMpL?=
+ =?us-ascii?Q?nqjTAQF+VgSU1wrZUfTZ+UVazo+uXMOA8giY9Hq1byG0Clo16kdbs4IN7Sxe?=
+ =?us-ascii?Q?cXMBPfUuxwDrGWo3NsoClOu/skTU5/bALM76vadpXi3TTjaeTANGQU84ycWT?=
+ =?us-ascii?Q?AxR92jFcOGMFbw0M0fvGAbih/3uFF3dkwjwX+5cKqRmuiE8CBjCTgOdKhvB+?=
+ =?us-ascii?Q?Qf3WSYnXS+1LiMLnuFGjtXnNjE0eHiskHJXJeEo3m0F9BE7jkYJrKZ1bxnbx?=
+ =?us-ascii?Q?Lk9ngOM4TKOC0ddmNMe2H7YIob7Epz5aJjlh4v1fLcbHxkVBdzvgL2EGa8Yu?=
+ =?us-ascii?Q?JrpjD3Gv4rJh6VCV6zKAtLv1fC/f+RxLUCp67hpVM4HWleSxVYje9h65x7JS?=
+ =?us-ascii?Q?h0M2feZRsFd2M9PJhyVoA+uIUsw5FuTOxNUDJUWg?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8b2812af-6dee-4d8b-04d2-08dd397ee662
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2025 18:18:55.1681
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7ar8gjdFEGVh6/HuUQtvRXaDdwxuwHucdwLZ9I40AB0V93w5eHndQ4YQj1NI20oR
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6003
 
-The current signature-based module integrity checking has some drawbacks
-in combination with reproducible builds:
-Either the module signing key is generated at build time, which makes
-the build unreproducible, or a static key is used, which precludes
-rebuilds by third parties and makes the whole build and packaging
-process much more complicated.
-Introduce a new mechanism to ensure only well-known modules are loaded
-by embedding a list of hashes of all modules built as part of the full
-kernel build into vmlinux.
+On Fri, Jan 17, 2025 at 02:11:15PM -0800, Nicolin Chen wrote:
+> +/**
+> + * struct iommufd_vevent_header - Virtual Event Header for a vEVENTQ Status
+> + * @state: One of enum iommu_veventq_state
 
-Non-builtin modules can be validated as before through signatures.
+I'd probably just make this a flag with overflow as the only current flag?
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- .gitignore                                   |  1 +
- Documentation/kbuild/reproducible-builds.rst |  5 ++-
- Makefile                                     |  8 ++++-
- include/asm-generic/vmlinux.lds.h            | 11 ++++++
- include/linux/module_hashes.h                | 17 +++++++++
- kernel/module/Kconfig                        | 17 ++++++++-
- kernel/module/Makefile                       |  1 +
- kernel/module/hashes.c                       | 52 ++++++++++++++++++++++++++++
- kernel/module/internal.h                     |  1 +
- kernel/module/main.c                         |  6 ++++
- scripts/Makefile.modfinal                    |  6 ++++
- scripts/Makefile.vmlinux                     |  5 +++
- scripts/link-vmlinux.sh                      | 25 ++++++++++++-
- scripts/module-hashes.sh                     | 26 ++++++++++++++
- security/lockdown/Kconfig                    |  2 +-
- 15 files changed, 178 insertions(+), 5 deletions(-)
+> + * @counter: A counter reflecting the state of the vEVENTQ
 
-diff --git a/.gitignore b/.gitignore
-index 6839cf84acda0d2d3c236a2e42b0cb0fe1b14965..7c40151c3f5d0c15ac04cead5f21c291a98d779f 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -28,6 +28,7 @@
- *.gz
- *.i
- *.ko
-+*.ko.hash
- *.lex.c
- *.ll
- *.lst
-diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
-index f2dcc39044e66ddd165646e0b51ccb0209aca7dd..6a742ad745113a9267223b33810dbc7218c47d4c 100644
---- a/Documentation/kbuild/reproducible-builds.rst
-+++ b/Documentation/kbuild/reproducible-builds.rst
-@@ -79,7 +79,10 @@ generate a different temporary key for each build, resulting in the
- modules being unreproducible.  However, including a signing key with
- your source would presumably defeat the purpose of signing modules.
- 
--One approach to this is to divide up the build process so that the
-+Instead ``CONFIG_MODULE_HASHES`` can be used to embed a static list
-+of valid modules to load.
-+
-+Another approach to this is to divide up the build process so that the
- unreproducible parts can be treated as sources:
- 
- 1. Generate a persistent signing key.  Add the certificate for the key
-diff --git a/Makefile b/Makefile
-index b9464c88ac7230518a756bff5e6c5c8871cc5058..fc862ffd2df843c0b68bebc8f554b88850ba1541 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1535,8 +1535,10 @@ endif
- # is an exception.
- ifdef CONFIG_DEBUG_INFO_BTF_MODULES
- KBUILD_BUILTIN := 1
-+ifndef CONFIG_MODULE_HASHES
- modules: vmlinux
- endif
-+endif
- 
- modules: modules_prepare
- 
-@@ -1916,7 +1918,11 @@ modules.order: $(build-dir)
- # KBUILD_MODPOST_NOFINAL can be set to skip the final link of modules.
- # This is solely useful to speed up test compiles.
- modules: modpost
--ifneq ($(KBUILD_MODPOST_NOFINAL),1)
-+ifdef CONFIG_MODULE_HASHES
-+ifeq ($(MODULE_HASHES_MODPOST_FINAL), 1)
-+	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modfinal
-+endif
-+else ifneq ($(KBUILD_MODPOST_NOFINAL),1)
- 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modfinal
- endif
- 
-diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-index 54504013c74915c2ed923fb3afde024a69cdae6b..aebea528aac3d7209bcee12c25f750ab0f7576a5 100644
---- a/include/asm-generic/vmlinux.lds.h
-+++ b/include/asm-generic/vmlinux.lds.h
-@@ -486,6 +486,8 @@ defined(CONFIG_AUTOFDO_CLANG) || defined(CONFIG_PROPELLER_CLANG)
- 									\
- 	PRINTK_INDEX							\
- 									\
-+	MODULE_HASHES							\
-+									\
- 	/* Kernel symbol table: Normal symbols */			\
- 	__ksymtab         : AT(ADDR(__ksymtab) - LOAD_OFFSET) {		\
- 		__start___ksymtab = .;					\
-@@ -895,6 +897,15 @@ defined(CONFIG_AUTOFDO_CLANG) || defined(CONFIG_PROPELLER_CLANG)
- #define PRINTK_INDEX
- #endif
- 
-+#ifdef CONFIG_MODULE_HASHES
-+#define MODULE_HASHES							\
-+	.module_hashes : AT(ADDR(.module_hashes) - LOAD_OFFSET) {	\
-+	BOUNDED_SECTION_BY(.module_hashes, _module_hashes)		\
-+	}
-+#else
-+#define MODULE_HASHES
-+#endif
-+
- /*
-  * Discard .note.GNU-stack, which is emitted as PROGBITS by the compiler.
-  * Otherwise, the type of .notes section would become PROGBITS instead of NOTES.
-diff --git a/include/linux/module_hashes.h b/include/linux/module_hashes.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..5f2f0546e3875e6bc73bdd53aebaada7371b7f79
---- /dev/null
-+++ b/include/linux/module_hashes.h
-@@ -0,0 +1,17 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+
-+#ifndef _LINUX_MODULE_HASHES_H
-+#define _LINUX_MODULE_HASHES_H
-+
-+#include <linux/compiler_attributes.h>
-+#include <linux/types.h>
-+#include <crypto/sha2.h>
-+
-+#define __module_hashes_section __section(".module_hashes")
-+#define MODULE_HASHES_HASH_SIZE SHA256_DIGEST_SIZE
-+
-+extern const u8 module_hashes[][MODULE_HASHES_HASH_SIZE];
-+
-+extern const typeof(module_hashes[0]) __start_module_hashes, __stop_module_hashes;
-+
-+#endif /* _LINUX_MODULE_HASHES_H */
-diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
-index a80de8d22efdd0f13b3eb579a8ff1e69029d0694..cdd30b9a08d8cdf3ec0595b5e414265b869d343e 100644
---- a/kernel/module/Kconfig
-+++ b/kernel/module/Kconfig
-@@ -212,7 +212,7 @@ config MODULE_SIG
- 
- config MODULE_SIG_POLICY
- 	def_bool y
--	depends on MODULE_SIG
-+	depends on MODULE_SIG || MODULE_HASHES
- 
- config MODULE_SIG_FORCE
- 	bool "Require modules to be validly signed"
-@@ -348,6 +348,21 @@ config MODULE_DECOMPRESS
- 
- 	  If unsure, say N.
- 
-+config MODULE_HASHES
-+	bool "Module hash validation"
-+	depends on $(success,cksum --algorithm sha256 --raw /dev/null)
-+	select CRYPTO_LIB_SHA256
-+	help
-+	  Validate modules by their hashes.
-+	  Only modules built together with the main kernel image can be
-+	  validated that way.
-+
-+	  This is a reproducible-build compatible alternative to a build-time
-+	  generated module keyring, as enabled by
-+	  CONFIG_MODULE_SIG_KEY=certs/signing_key.pem.
-+
-+	  Also see the warning in MODULE_SIG about stripping modules.
-+
- config MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
- 	bool "Allow loading of modules with missing namespace imports"
- 	help
-diff --git a/kernel/module/Makefile b/kernel/module/Makefile
-index 50ffcc413b54504db946af4dce3b41dc4aece1a5..6fe0c14ca5a05b49c1161fcfa8aaa130f89b70e1 100644
---- a/kernel/module/Makefile
-+++ b/kernel/module/Makefile
-@@ -23,3 +23,4 @@ obj-$(CONFIG_KGDB_KDB) += kdb.o
- obj-$(CONFIG_MODVERSIONS) += version.o
- obj-$(CONFIG_MODULE_UNLOAD_TAINT_TRACKING) += tracking.o
- obj-$(CONFIG_MODULE_STATS) += stats.o
-+obj-$(CONFIG_MODULE_HASHES) += hashes.o
-diff --git a/kernel/module/hashes.c b/kernel/module/hashes.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..1aa49767a39b4e0c495b17d3f2edcb5a6ceb839e
---- /dev/null
-+++ b/kernel/module/hashes.c
-@@ -0,0 +1,52 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+
-+#define pr_fmt(fmt) "module/hash: " fmt
-+
-+#include <linux/int_log.h>
-+#include <linux/module_hashes.h>
-+#include <linux/module.h>
-+#include <crypto/sha2.h>
-+#include "internal.h"
-+
-+static inline size_t module_hashes_count(void)
-+{
-+	return (__stop_module_hashes - __start_module_hashes) / MODULE_HASHES_HASH_SIZE;
-+}
-+
-+static __init __maybe_unused int module_hashes_init(void)
-+{
-+	size_t num_hashes = module_hashes_count();
-+	int num_width = (intlog10(num_hashes) >> 24) + 1;
-+	size_t i;
-+
-+	pr_debug("Known hashes (%zu):\n", num_hashes);
-+
-+	for (i = 0; i < num_hashes; i++)
-+		pr_debug("%*zu %*phN\n", num_width, i,
-+			 (int)sizeof(module_hashes[i]), module_hashes[i]);
-+
-+	return 0;
-+}
-+
-+#if IS_ENABLED(CONFIG_MODULE_DEBUG)
-+early_initcall(module_hashes_init);
-+#endif
-+
-+int module_hash_check(struct load_info *info, int flags)
-+{
-+	u8 digest[MODULE_HASHES_HASH_SIZE];
-+	size_t i;
-+
-+	sha256((const u8 *)info->hdr, info->len, digest);
-+
-+	for (i = 0; i < module_hashes_count(); i++) {
-+		if (memcmp(module_hashes[i], digest, MODULE_HASHES_HASH_SIZE) == 0) {
-+			pr_debug("allow %*phN\n", (int)sizeof(digest), digest);
-+			info->sig_ok = true;
-+			return 0;
-+		}
-+	}
-+
-+	pr_debug("block %*phN\n", (int)sizeof(digest), digest);
-+	return -ENOKEY;
-+}
-diff --git a/kernel/module/internal.h b/kernel/module/internal.h
-index c30abeefa60b884c4a69b1eb4f1123a4bbee4b47..9c927c212f862fff7000f1cfac3c7e391a2390ac 100644
---- a/kernel/module/internal.h
-+++ b/kernel/module/internal.h
-@@ -334,6 +334,7 @@ int module_enforce_rwx_sections(Elf_Ehdr *hdr, Elf_Shdr *sechdrs,
- 				char *secstrings, struct module *mod);
- 
- int module_sig_check(struct load_info *info, int flags);
-+int module_hash_check(struct load_info *info, int flags);
- 
- #ifdef CONFIG_DEBUG_KMEMLEAK
- void kmemleak_load_module(const struct module *mod, const struct load_info *info);
-diff --git a/kernel/module/main.c b/kernel/module/main.c
-index effe1db02973d4f60ff6cbc0d3b5241a3576fa3e..094ace81d795711b56d12a2abc75ea35449c8300 100644
---- a/kernel/module/main.c
-+++ b/kernel/module/main.c
-@@ -3218,6 +3218,12 @@ static int module_integrity_check(struct load_info *info, int flags)
- {
- 	int err = 0;
- 
-+	if (IS_ENABLED(CONFIG_MODULE_HASHES)) {
-+		err = module_hash_check(info, flags);
-+		if (!err)
-+			return 0;
-+	}
-+
- 	if (IS_ENABLED(CONFIG_MODULE_SIG))
- 		err = module_sig_check(info, flags);
- 
-diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-index 5d01b553ec9a4565c8e5a6edd05665c409003bc1..080b4fc3a9ba5036b45f04a7e79f2fc02364f93a 100644
---- a/scripts/Makefile.modfinal
-+++ b/scripts/Makefile.modfinal
-@@ -43,6 +43,9 @@ quiet_cmd_btf_ko = BTF [M] $@
- 		$(RESOLVE_BTFIDS) -b $(objtree)/vmlinux $@;		\
- 	fi;
- 
-+quiet_cmd_cksum_ko =
-+      cmd_cksum_ko = cksum --algorithm sha256 --raw $@ > $@.hash
-+
- # Same as newer-prereqs, but allows to exclude specified extra dependencies
- newer_prereqs_except = $(filter-out $(PHONY) $(1),$?)
- 
-@@ -57,6 +60,9 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
- ifdef CONFIG_DEBUG_INFO_BTF_MODULES
- 	+$(if $(newer-prereqs),$(call cmd,btf_ko))
- endif
-+ifdef CONFIG_MODULE_HASHES
-+	$(call cmd,cksum_ko)
-+endif
- 
- targets += $(modules:%.o=%.ko) $(modules:%.o=%.mod.o) .module-common.o
- 
-diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
-index 873caaa553134e09d034e0c4e0ac7f07c9e3f31b..4b6ba03cdd5e4faad30a0b533407955c542c7a20 100644
---- a/scripts/Makefile.vmlinux
-+++ b/scripts/Makefile.vmlinux
-@@ -79,6 +79,11 @@ ifdef CONFIG_DEBUG_INFO_BTF
- vmlinux: $(RESOLVE_BTFIDS)
- endif
- 
-+ifdef CONFIG_MODULE_HASHES
-+vmlinux: $(srctree)/scripts/module-hashes.sh
-+vmlinux: modules.order
-+endif
-+
- # module.builtin.ranges
- # ---------------------------------------------------------------------------
- ifdef CONFIG_BUILTIN_MODULE_RANGES
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index 803c8d6f35a7f29fb68b29afa8546f4dde0bd4cb..db072e4e5d6581453a009a9e837042ba28a138ce 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -104,7 +104,7 @@ vmlinux_link()
- 	${ld} ${ldflags} -o ${output}					\
- 		${wl}--whole-archive ${objs} ${wl}--no-whole-archive	\
- 		${wl}--start-group ${libs} ${wl}--end-group		\
--		${kallsymso} ${btf_vmlinux_bin_o} ${arch_vmlinux_o} ${ldlibs}
-+		${kallsymso} ${btf_vmlinux_bin_o} ${module_hashes_o} ${arch_vmlinux_o} ${ldlibs}
- }
- 
- # generate .BTF typeinfo from DWARF debuginfo
-@@ -215,6 +215,7 @@ fi
- 
- btf_vmlinux_bin_o=
- kallsymso=
-+module_hashes_o=
- strip_debug=
- 
- if is_enabled CONFIG_KALLSYMS; then
-@@ -222,6 +223,17 @@ if is_enabled CONFIG_KALLSYMS; then
- 	kallsyms .tmp_vmlinux0.syms .tmp_vmlinux0.kallsyms
- fi
- 
-+if is_enabled CONFIG_MODULE_HASHES; then
-+	# At this point the hashes are still wrong.
-+	# This step reserves the exact amount of space for the objcopy step
-+	# after BTF generation.
-+	${srctree}/scripts/module-hashes.sh prealloc > .tmp_module_hashes.c
-+	module_hashes_o=.tmp_module_hashes.o
-+	info CC ${module_hashes_o}
-+	${CC} ${NOSTDINC_FLAGS} ${LINUXINCLUDE} ${KBUILD_CPPFLAGS} ${KBUILD_CFLAGS} \
-+		${KBUILD_CFLAGS_KERNEL} -c -o "${module_hashes_o}" ".tmp_module_hashes.c"
-+fi
-+
- if is_enabled CONFIG_KALLSYMS || is_enabled CONFIG_DEBUG_INFO_BTF; then
- 
- 	# The kallsyms linking does not need debug symbols, but the BTF does.
-@@ -302,6 +314,17 @@ if is_enabled CONFIG_BUILDTIME_TABLE_SORT; then
- 	fi
- fi
- 
-+if is_enabled CONFIG_MODULE_HASHES; then
-+	info MAKE modules
-+	${MAKE} -f Makefile MODULE_HASHES_MODPOST_FINAL=1 modules
-+	${srctree}/scripts/module-hashes.sh > .tmp_module_hashes.c
-+	info CC ${module_hashes_o}
-+	${CC} ${NOSTDINC_FLAGS} ${LINUXINCLUDE} ${KBUILD_CPPFLAGS} ${KBUILD_CFLAGS} \
-+		${KBUILD_CFLAGS_KERNEL} -c -o "${module_hashes_o}" ".tmp_module_hashes.c"
-+	${OBJCOPY} --dump-section .module_hashes=.tmp_module_hashes.bin ${module_hashes_o}
-+	${OBJCOPY} --update-section .module_hashes=.tmp_module_hashes.bin vmlinux
-+fi
-+
- # step a (see comment above)
- if is_enabled CONFIG_KALLSYMS; then
- 	if ! cmp -s System.map "${kallsyms_sysmap}"; then
-diff --git a/scripts/module-hashes.sh b/scripts/module-hashes.sh
-new file mode 100755
-index 0000000000000000000000000000000000000000..120ce924105c51cdd7a704cbec7e5fa356f9ce1a
---- /dev/null
-+++ b/scripts/module-hashes.sh
-@@ -0,0 +1,26 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+set -e
-+set -u
-+set -o pipefail
-+
-+prealloc="${1:-}"
-+
-+echo "#include <linux/module_hashes.h>"
-+echo
-+echo "const u8 module_hashes[][MODULE_HASHES_HASH_SIZE] __module_hashes_section = {"
-+
-+for mod in $(< modules.order); do
-+	mod="${mod/%.o/.ko}"
-+	if [ "$prealloc" = "prealloc" ]; then
-+		modhash=""
-+	else
-+		modhash="$(cat "$mod".hash | hexdump -v -e '"0x" 1/1 "%02x, "')"
-+	fi
-+	echo -e "\t/* $mod */"
-+	echo -e "\t{ $modhash},"
-+	echo
-+done
-+
-+echo "};"
-diff --git a/security/lockdown/Kconfig b/security/lockdown/Kconfig
-index 155959205b8eac2c85897a8c4c8b7ec471156706..60b240e3ef1f9609e3f3241befc0bbc7e4a3db74 100644
---- a/security/lockdown/Kconfig
-+++ b/security/lockdown/Kconfig
-@@ -1,7 +1,7 @@
- config SECURITY_LOCKDOWN_LSM
- 	bool "Basic module for enforcing kernel lockdown"
- 	depends on SECURITY
--	depends on !MODULES || MODULE_SIG
-+	depends on !MODULES || MODULE_SIG || MODULE_HASHES
- 	help
- 	  Build support for an LSM that enforces a coarse kernel lockdown
- 	  behaviour.
+> + * ----------------------------------------------------------------------------
+> + * | @state                       | @counter                                  |
+> + * ----------------------------------------------------------------------------
+> + * | IOMMU_VEVENTQ_STATE_OK       | number of readable vEVENTs in the vEVENTQ |
+> + * | IOMMU_VEVENTQ_STATE_OVERFLOW | number of missed vEVENTs since overflow   |
+> + * ----------------------------------------------------------------------------
 
--- 
-2.48.1
+When I said counter I literally ment a counter of the number of events
+that were sent into the queue. So if events are dropped there is a
+trivial gap in the count. Very easy to implement
 
+IOMMU_VEVENTQ_STATE_OVERFLOW with a 0 length event is seen if events
+have been lost and no subsequent events are present. It exists to
+ensure timely delivery of the overflow event to userspace. counter
+will be the sequence number of the next successful event.
+
+If events are lost in the middle of the queue then flags will remain 0
+but counter will become non-montonic. A counter delta > 1 indicates
+that many events have been lost.
+
+Jason
