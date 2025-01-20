@@ -1,206 +1,220 @@
-Received: from mail-m49202.qiye.163.com (mail-m49202.qiye.163.com [45.254.49.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE4EC2E0
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2025 03:58:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8374015534D
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2025 04:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737345505; cv=none; b=R90HbYykpRdgLzTb1x6cyeiAebjJCBjJUevciAp43KIexQWezc5DtEYJi3lqS/CABbf+Ze87E4KI2pLPWSUmXuq3kPsnqzGw/+VrxQ1QTM773iw/u8LK6ogDRn2daQBs7f9sR1Hzq5iukrvLOvQMOFPImC487neon5NaLYvpQYY=
+	t=1737349088; cv=none; b=jwjlY8DOa6h0GqHPkUSK4jYDMbAJ+ask6oU8qHa+EaL5RlfSJPQEppTlT21SELUfmlOIWhtzsdv8QSdT/cKmDu8RtSV3tbVvZyTWbh1Jjx4T1jUlaE05FJFZ2zkqG8mI2cXSGpp8cFBMvSKAp04iqy+atV8qNPqyNIUwyCzj6m8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737345505; c=relaxed/simple;
-	bh=aboAVwrd/czU3y1EUUInGzPRF/rbUyAUgzzfZf9hiQg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=r1ZIG37UInewg05e7R8PEqDt9sDU37x3qbgoq8gUkq4bGJnsJ+eTG1raOMeTfHBjQ3PDaZSGlXGWWyiSFEuMSmU7iSkEuPul9ElZxrAl9H4U2M2Z8m++KgncBOns2U6fsvjWUujKC96ENY3cG3pBcvh/c7eqKoqGrgeEIEP/JKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=Fd/vE3hv; arc=none smtp.client-ip=45.254.49.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
+	s=arc-20240116; t=1737349088; c=relaxed/simple;
+	bh=JBhx4FBRzKbzrz2Al5pNMHO5F3JgbgRL5B/gVFGVg/0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q3oTJlykwVy0GiOJZAlbM8A6YPM5Dv8s5lvp7R3T/YqWAH/LxiXxufpe2dKkS9DficW1VxM7oLxA9rLZqxBUnI0Gkb4PdS/Nb44xdViMzgEu5O6raQhhFseeUmuAQxAnZ+3lJL5zhz09b0Vk7+nsanR9zo0wFdk8xTWWtB6rfHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=1whu3BnK; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="Fd/vE3hv"
-Received: from fedora.localdomain (unknown [123.53.38.48])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 924e2b92;
-	Mon, 20 Jan 2025 11:43:04 +0800 (GMT+08:00)
-From: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
-To: alexs@kernel.org,
-	si.yanteng@linux.dev,
-	corbet@lwn.net
-Cc: zhaoyuehui@cqsoftware.com.cn,
-	zhaoshuo@cqsoftware.com.cn,
-	zhangwei@cqsoftware.com.cn,
-	maoyuxian@cqsoftware.com.cn,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 6/7] docs/zh_CN: Add tpm xen-tpmfront Chinese translation
-Date: Mon, 20 Jan 2025 11:42:51 +0800
-Message-ID: <11d7bfe0efa0294ab82595dbcb50496bcbafd8d7.1737344074.git.zhaoshuo@cqsoftware.com.cn>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <cover.1737344074.git.zhaoshuo@cqsoftware.com.cn>
-References: <cover.1737344074.git.zhaoshuo@cqsoftware.com.cn>
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="1whu3BnK"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2165cb60719so68077465ad.0
+        for <linux-doc@vger.kernel.org>; Sun, 19 Jan 2025 20:58:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1737349085; x=1737953885; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=q4oIihNr6GZKGbnqtazZfNL+Wdu+eK7TRKf6H4jFUt4=;
+        b=1whu3BnKNwtvtqezELWKQt0hPy+FN+eYxFnvphEYfi8qsgYC7W5bmfPPeQAFhfje9v
+         CbaxUnTt6ZJUMsN9QS2shX24wJG64A76ZVHipVlxgXyEAgvl2W/LCo8UaIbMIpcWZ0X5
+         Ht6uaEyQYqQOsJy/RhVomU6JHqfZ9tvSSRWxgAfHN7lvUluRmH0VrqL7ULtJ/cg3AKhm
+         jweriYhaI57MWQQL1HLbdLdrvzjT1mJJE3knFLDLbBqku7AWN5eVh22I363rpyLfcFWm
+         yJcgtQoFIZXlMUwvua1s94+1pI0FzQy1IXT0XLOlcY4cXT0mISggZP6IZFZ1k01USb2L
+         TWVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737349085; x=1737953885;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=q4oIihNr6GZKGbnqtazZfNL+Wdu+eK7TRKf6H4jFUt4=;
+        b=A3a/DGkXnv+mnBYul/dOliPm0lR824axmfCs8FHcTB+Lju7snZfjEkLc4lgBQWgv/p
+         E2lUsGNVq+ipC1kwhvSUd5sUwUS8QMcgvllrE+X5D87xhsPKKyRSzRd5gVIPKJ38JpQO
+         vrdQhGhNAdQsFsrDc/RBFjVr4uEw1yqs/TRXQGly6uHDtju/RDnkFsxxEwGbkYOEXXXI
+         pIsQb3qcRq7XAOBROo/SrMqkxv2ExW0QjDPrS+unCXo0rr/xCqlz8FB3Y4NjbWDK/aAa
+         fU2nyOi7D8poWp9EFEMQ9h/9hHDojnWqxz5A1R0LjNLDfPDwfOAmUnTu5OzmsvB8vEo2
+         VfLA==
+X-Forwarded-Encrypted: i=1; AJvYcCVdw/y+ve7vQ+iUPu8iB2UnAfTzVHYYByOYGedec7lAo7iPSC+vf4lYz0aNBK6N8/veyNb2FmkLlAI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJhyJBs0CIFf3d/ZIvGb65b/4i0UYoXDivoVQ848Ourkpo8E78
+	H2QMK6XP6sfagbGDcCekVF2gVzcSI6OfZbAVsBVNaP8E/EIpsr3pGN7Zfvil6QM=
+X-Gm-Gg: ASbGncutzOQKR8N5+khMxWzJ1WgubA/4r+AZ9t/pAOtqwrYcTf6ZszjoCmjsVveynkK
+	u5+Sq+VfmFG5TPQESEIpSFQQ2dg8EpEs2ry2liQLRFj9m33ctiJz5wgCsx6rP20L+0kS5rwmzOQ
+	0k1o2YZnt43slPKB+NDilW4aR1h8ag+m+XB0RWTTRRvZXr5f7DqAMXZh71mjTl6u28duD7FX/AZ
+	MwFH8q0F13h86EJWsBn/wp/KfVf06gJSBrUfpgAWKRsjuL1V6DJtIYWGMhx/5poyQjd3xlFxfhc
+	Y7AS
+X-Google-Smtp-Source: AGHT+IE8MzXrgaBKBfP61PbTUvr8PgxgGWYeOWK4EEWyIPyWkez8gj6KrIAnQzmUFU9EFnwQTPVCzw==
+X-Received: by 2002:a05:6a20:914e:b0:1e1:70ab:b369 with SMTP id adf61e73a8af0-1eb214983dfmr16605568637.13.1737349085531;
+        Sun, 19 Jan 2025 20:58:05 -0800 (PST)
+Received: from [157.82.203.37] ([157.82.203.37])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72dab817529sm6251103b3a.67.2025.01.19.20.58.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 19 Jan 2025 20:58:05 -0800 (PST)
+Message-ID: <8052733d-3e79-4fd5-9bea-9d3724820bb8@daynix.com>
+Date: Mon, 20 Jan 2025 13:57:59 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] tun: Set num_buffers for virtio 1.0
+To: Jason Wang <jasowang@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, kvm@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Andrew Melnychenko <andrew@daynix.com>,
+ Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com,
+ devel@daynix.com
+References: <20250109-tun-v2-0-388d7d5a287a@daynix.com>
+ <20250109-tun-v2-3-388d7d5a287a@daynix.com>
+ <CACGkMEsm5DCb+n3NYeRjmq3rAANztZz5QmV8rbPNo+cH-=VzDQ@mail.gmail.com>
+ <20250110052246-mutt-send-email-mst@kernel.org>
+ <2e015ee6-8a3b-43fb-b119-e1921139c74b@daynix.com>
+ <CACGkMEuiyfH-QitiiKJ__-8NiTjoOfc8Nx5BwLM-GOfPpVEitA@mail.gmail.com>
+ <fcb301e8-c808-4e20-92dd-2e3b83998d18@daynix.com>
+ <CACGkMEvBU3mLbW+-nOscriR-SeDvPSm1mtwwgznYFOocuao5MQ@mail.gmail.com>
+ <cc79bef1-c24e-448d-bc20-f8302e341b2c@daynix.com>
+ <CACGkMEsJUb3ZLm3rLuaayDAS4kf-vbY03wL4M9j1K+Z=a4BDig@mail.gmail.com>
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <CACGkMEsJUb3ZLm3rLuaayDAS4kf-vbY03wL4M9j1K+Z=a4BDig@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZSExLVk5CHklOSUIYTE1KTFYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKSUhVTkhVSENVT0NZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0hVSktLVU
-	pCS0tZBg++
-X-HM-Tid: 0a9481ce8c3209d0kunm924e2b92
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MFE6Eyo*OjIITzA3EQ8NS0oN
-	MhBPCklVSlVKTEhMSE9PTkNOTkxCVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
-	WRILWUFZSklIVU5IVUhDVU9DWVdZCAFZQU5MQ0M3Bg++
-DKIM-Signature:a=rsa-sha256;
-	b=Fd/vE3hv6R+aUPKBzduJD08QbOWza60h4m+2zqgIJu4w2qCkG/O01NT0EqhqBSVOD/9/Qfp/UIfA8hdgVBJK5t9Ih6raO/2DmsgQka7UeO0r6cl5Idc10peYTXBtGqhczuhhpuliDKha5W2EdoRLkYJnrrG0/l0RNeGTKT9rQEM=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
-	bh=s7IdLINMnqoZcwKUnSntgONJEpjbvLM0+5ly4FjIgvo=;
-	h=date:mime-version:subject:message-id:from;
 
-Translate .../security/tpm/xen-tpmfront.rst into Chinese.
+On 2025/01/20 9:40, Jason Wang wrote:
+> On Thu, Jan 16, 2025 at 1:30 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>>
+>> On 2025/01/16 10:06, Jason Wang wrote:
+>>> On Wed, Jan 15, 2025 at 1:07 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>>>>
+>>>> On 2025/01/13 12:04, Jason Wang wrote:
+>>>>> On Fri, Jan 10, 2025 at 7:12 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>>>>>>
+>>>>>> On 2025/01/10 19:23, Michael S. Tsirkin wrote:
+>>>>>>> On Fri, Jan 10, 2025 at 11:27:13AM +0800, Jason Wang wrote:
+>>>>>>>> On Thu, Jan 9, 2025 at 2:59 PM Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>>>>>>>>>
+>>>>>>>>> The specification says the device MUST set num_buffers to 1 if
+>>>>>>>>> VIRTIO_NET_F_MRG_RXBUF has not been negotiated.
+>>>>>>>>
+>>>>>>>> Have we agreed on how to fix the spec or not?
+>>>>>>>>
+>>>>>>>> As I replied in the spec patch, if we just remove this "MUST", it
+>>>>>>>> looks like we are all fine?
+>>>>>>>>
+>>>>>>>> Thanks
+>>>>>>>
+>>>>>>> We should replace MUST with SHOULD but it is not all fine,
+>>>>>>> ignoring SHOULD is a quality of implementation issue.
+>>>>>>>
+>>>>>
+>>>>> So is this something that the driver should notice?
+>>>>>
+>>>>>>
+>>>>>> Should we really replace it? It would mean that a driver conformant with
+>>>>>> the current specification may not be compatible with a device conformant
+>>>>>> with the future specification.
+>>>>>
+>>>>> I don't get this. We are talking about devices and we want to relax so
+>>>>> it should compatibile.
+>>>>
+>>>>
+>>>> The problem is:
+>>>> 1) On the device side, the num_buffers can be left uninitialized due to bugs
+>>>> 2) On the driver side, the specification allows assuming the num_buffers
+>>>> is set to one.
+>>>>
+>>>> Relaxing the device requirement will replace "due to bugs" with
+>>>> "according to the specification" in 1). It still contradicts with 2) so
+>>>> does not fix compatibility.
+>>>
+>>> Just to clarify I meant we can simply remove the following:
+>>>
+>>> """
+>>> The device MUST use only a single descriptor if VIRTIO_NET_F_MRG_RXBUF
+>>> was not negotiated. Note: This means that num_buffers will always be 1
+>>> if VIRTIO_NET_F_MRG_RXBUF is not negotiated.
+>>> """
+>>>
+>>> And
+>>>
+>>> """
+>>> If VIRTIO_NET_F_MRG_RXBUF has not been negotiated, the device MUST set
+>>> num_buffers to 1.
+>>> """
+>>>
+>>> This seems easier as it reflects the fact where some devices don't set
+>>> it. And it eases the transitional device as it doesn't need to have
+>>> any special care.
+>>
+>> That can potentially break existing drivers that are compliant with the
+>> current and assumes the num_buffers is set to 1.
+> 
+> Those drivers are already 'broken'. Aren't they?
 
-Update the translation through commit 9e255e2b9afe
-("Documentation: drop optional BOMs")
+The drivers are not broken, but vhost_net is. The driver works fine as 
+long as it's used with a device compliant with the specification. If we 
+relax the device requirement in the future specification, the drivers 
+may not work with devices compliant with the revised specification.
 
-Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
----
- .../translations/zh_CN/security/tpm/index.rst |   2 +-
- .../zh_CN/security/tpm/xen-tpmfront.rst       | 114 ++++++++++++++++++
- 2 files changed, 115 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/security/tpm/xen-tpmfront.rst
+Regards,
+Akihiko Odaki
 
-diff --git a/Documentation/translations/zh_CN/security/tpm/index.rst b/Documentation/translations/zh_CN/security/tpm/index.rst
-index 3dd3eaeb8a61..cace08aafd16 100644
---- a/Documentation/translations/zh_CN/security/tpm/index.rst
-+++ b/Documentation/translations/zh_CN/security/tpm/index.rst
-@@ -17,7 +17,7 @@
-    tpm-security
-    tpm_tis
-    tpm_vtpm_proxy
-+   xen-tpmfront
- 
- TODOLIST:
--*   xen-tpmfront
- *   tpm_ftpm_tee
-diff --git a/Documentation/translations/zh_CN/security/tpm/xen-tpmfront.rst b/Documentation/translations/zh_CN/security/tpm/xen-tpmfront.rst
-new file mode 100644
-index 000000000000..434e7e957f6b
---- /dev/null
-+++ b/Documentation/translations/zh_CN/security/tpm/xen-tpmfront.rst
-@@ -0,0 +1,114 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/security/tpm/xen-tpmfront.rst
-+
-+:翻译:
-+ 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
-+
-+================
-+Xen的虚拟TPM接口
-+================
-+
-+作者：Matthew Fioravante (JHUAPL), Daniel De Graaf (NSA)
-+
-+本文档描述了用于Xen的虚拟可信平台模块（vTPM）子系统。假定读者熟悉
-+Xen和Linux的构建和安装，并对TPM和vTPM概念有基本的理解。
-+
-+介绍
-+----
-+
-+这项工作的目标是为虚拟客户操作系统（在Xen中称为DomU）提供TPM功能。这使得
-+程序能够像与物理系统上的TPM交互一样，与虚拟系统中的TPM进行交互。每个客户
-+操作系统都会获得一个唯一的、模拟的软件TPM。然而，vTPM的所有秘密（如密钥、
-+NVRAM 等）由vTPM管理域进行管理，该域将这些秘密封存到物理TPM中。如果创建这
-+些域（管理域、vTPM域和客户域）的过程是可信的，vTPM子系统就能将根植于硬件
-+TPM的信任链扩展到Xen中的虚拟机。vTPM的每个主要组件都作为一个独立的域实现，
-+从而通过虚拟机监控程序（hypervisor）提供安全隔离。
-+
-+这个mini-os vTPM 子系统是建立在IBM和Intel公司之前的vTPM工作基础上的。
-+
-+
-+设计概述
-+--------
-+
-+vTPM的架构描述如下::
-+
-+  +------------------+
-+  |    Linux DomU    | ...
-+  |       |  ^       |
-+  |       v  |       |
-+  |   xen-tpmfront   |
-+  +------------------+
-+          |  ^
-+          v  |
-+  +------------------+
-+  | mini-os/tpmback  |
-+  |       |  ^       |
-+  |       v  |       |
-+  |  vtpm-stubdom    | ...
-+  |       |  ^       |
-+  |       v  |       |
-+  | mini-os/tpmfront |
-+  +------------------+
-+          |  ^
-+          v  |
-+  +------------------+
-+  | mini-os/tpmback  |
-+  |       |  ^       |
-+  |       v  |       |
-+  | vtpmmgr-stubdom  |
-+  |       |  ^       |
-+  |       v  |       |
-+  | mini-os/tpm_tis  |
-+  +------------------+
-+          |  ^
-+          v  |
-+  +------------------+
-+  |   Hardware TPM   |
-+  +------------------+
-+
-+* Linux DomU:
-+               希望使用vTPM的基于Linux的客户机。可能有多个这样的实例。
-+
-+* xen-tpmfront.ko:
-+                    Linux内核虚拟TPM前端驱动程序。该驱动程序为基于Linux的DomU提供
-+                    vTPM访问。
-+
-+* mini-os/tpmback:
-+                    Mini-os TPM后端驱动程序。Linux前端驱动程序通过该后端驱动程序连
-+                    接，以便在Linux DomU和其vTPM之间进行通信。该驱动程序还被
-+                    vtpmmgr-stubdom用于与vtpm-stubdom通信。
-+
-+* vtpm-stubdom:
-+                 一个实现vTPM的mini-os存根域。每个正在运行的vtpm-stubdom实例与系统
-+                 上的逻辑vTPM之间有一一对应的关系。vTPM平台配置寄存器（PCRs）通常都
-+                 初始化为零。
-+
-+* mini-os/tpmfront:
-+                     Mini-os TPM前端驱动程序。vTPM mini-os域vtpm-stubdom使用该驱动程序
-+                     与vtpmmgr-stubdom通信。此驱动程序还用于与vTPM域通信的mini-os域，例
-+                     如 pv-grub。
-+
-+* vtpmmgr-stubdom:
-+                    一个实现vTPM管理器的mini-os域。系统中只有一个vTPM管理器，并且在整个
-+                    机器生命周期内应一直运行。此域调节对系统中物理TPM的访问，并确保每个
-+                    vTPM的持久状态。
-+
-+* mini-os/tpm_tis:
-+                    Mini-osTPM1.2版本TPM 接口规范（TIS）驱动程序。该驱动程序由vtpmmgr-stubdom
-+                    用于直接与硬件TPM通信。通信通过将硬件内存页映射到vtpmmgr-stubdom来实现。
-+
-+* 硬件TPM:
-+            固定在主板上的物理 TPM。
-+
-+与Xen的集成
-+-----------
-+
-+vTPM驱动程序的支持已在Xen4.3中通过libxl工具堆栈添加。有关设置vTPM和vTPM
-+管理器存根域的详细信息，请参见Xen文档（docs/misc/vtpm.txt）。一旦存根域
-+运行，与磁盘或网络设备相同，vTPM设备将在域的配置文件中进行设置
-+
-+为了使用诸如IMA（内核度量架构）等需要在initrd之前加载TPM的功能，必须将
-+xen-tpmfront驱动程序编译到内核中。如果不使用这些功能，驱动程序可以作为
-+模块编译，并像往常一样加载。
--- 
-2.47.1
+> 
+> Thanks
+> 
+>>
+>> Regards,
+>> Akihiko Odaki
+>>
+>>>
+>>> Then we don't need any driver normative so I don't see any conflict.
+>>>
+>>> Michael suggests we use "SHOULD", but if this is something that the
+>>> driver needs to be aware of I don't know how "SHOULD" can help a lot
+>>> or not.
+>>>
+>>>>
+>>>> Instead, we should make the driver requirement stricter to change 2).
+>>>> That is what "[PATCH v3] virtio-net: Ignore num_buffers when unused" does:
+>>>> https://lore.kernel.org/r/20250110-reserved-v3-1-2ade0a5d2090@daynix.com
+>>>>
+>>>>>
+>>>>>>
+>>>>>> We are going to fix all implementations known to buggy (QEMU and Linux)
+>>>>>> anyway so I think it's just fine to leave that part of specification as is.
+>>>>>
+>>>>> I don't think we can fix it all.
+>>>>
+>>>> It essentially only requires storing 16 bits. There are details we need
+>>>> to work out, but it should be possible to fix.
+>>>
+>>> I meant it's not realistic to fix all the hypervisors. Note that
+>>> modern devices have been implemented for about a decade so we may have
+>>> too many versions of various hypervisors. (E.g DPDK seems to stick
+>>> with the same behaviour of the current kernel).
+>>   > >>
+>>>> Regards,
+>>>> Akihiko Odaki
+>>>>
+>>>
+>>> Thanks
+>>>
+>>
+> 
 
