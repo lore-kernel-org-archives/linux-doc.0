@@ -1,228 +1,176 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E0417C68;
-	Mon, 20 Jan 2025 15:41:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2281213AA5D;
+	Mon, 20 Jan 2025 17:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737387679; cv=none; b=T0I4WTU3hycOsVK4Q2eQwk0Eb2seCoxsXyzw7DqLrr1EucS4yU/CiQhi1w9wwItSXpAAAyjV7M51uqf11XSRS5KNediMuGRbvyoY/McWFm3IOE0/2qTU57VDw4cqcONlfQyGhHwCa1rGOPjwEhQy4JdnTsrRthclelaDu887BFA=
+	t=1737394255; cv=none; b=m3zlEzzHUMMIf1pjdyQ8pPwjzHIPiQie1mmh7O1Lc7sAD0Knfcc82yJ0ylVmayGRaInlxXzCpj27sDr7PLDbuUXFFjIQBubvu2X5bRpbkCqeYWt7fQ4V8azWJh32SQ3JOiElyRhfDPm0dizxWzCeT2MS4iOJNGA3ntYgDSxQJ6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737387679; c=relaxed/simple;
-	bh=INU875kkZQ5U6gKagMmALFGgC9l0am3wT6m0U8ZlrJw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=snaBMDCQamk8XOP3nCnn253tpLyixWyiUFC8BTsf6RQmCYsDak4q2WBLdvLa9ylW9IlnNuGXv6ot9EnqIJovSiPexuZYuHc/HV8nYW+hxgZMMhpM5uVTPqfnM4+XFtRcKZwhyjoghtiNMXPp3FeloKmbPh2IA1sVwst1wTXvy1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gm5tqJYA; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1737394255; c=relaxed/simple;
+	bh=co4rh7mcehuLyfpxVs2kCx5deaYX52yDp0kZrDc/z8M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HJV9cA1BHEerbKeqZF272KuyAsbR0NvfhfFGDD+Z/KL55Dg0idWg2huL+cXt7VoB/OPDgEf3KFBRLZvSB72w0jaPa8m0YrdfevyztDa92cjQeSncdg3FPPqC/q/uvlJNWnVr3QsOkoyMsEPKqpf365KNzuLt/nC4K/KVK2M8ZOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gm5tqJYA"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-540218726d5so4374055e87.2;
-        Mon, 20 Jan 2025 07:41:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737387676; x=1737992476; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6phSGDaq3hv1mlLFFxnobjnfwoHhRp2zpkD5NzRqtp0=;
-        b=gm5tqJYAvjmKQH/Qf66jbhUATcJEYxGYuw6RBgiDHdYTPYUH/cxlauB70OhBBIfua1
-         BejfDXvt1KitvGX9N13VEIbcp6qoZabNNlDuqhCQrrYu8xgWaH3i9OtxhwfdT8FA5baN
-         FYKtljcVX1LKoU5MRng8NnE8QJPTzJVnmkzlf608QvxS8Zhol/31TAQQkFZ/3mUER+zo
-         t5AL2kkygM5F8iMwAwoI17vB9f+DAnqLpt90bO7KY6tDZP7XP6+FIKqUm6UeoJyvRHCL
-         eZTwYlP5I1BD59bFBGf5hkJ+bkU7CQX+D8DydZ+TmEAF7buFTqpnlbWPV/DQofOPmxxS
-         ce5g==
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-aaef00ab172so731937366b.3;
+        Mon, 20 Jan 2025 09:30:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737387676; x=1737992476;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6phSGDaq3hv1mlLFFxnobjnfwoHhRp2zpkD5NzRqtp0=;
-        b=JKA926GYsqZnFb72FTwZWFj4yU1Nxnk8aVdjwRzR3yBYUVmSImAJg+mju4GMk6okW9
-         Dj1dpc1mEW2IlOUZ5p7j9vXJDoaenIwbOx5sDsuFo5Er6ixEwZLsOL/2X4j2GYQafywa
-         f52A/GcWMik3CrJVZe7JSKfjMZSVutw9MZkeLraUHd/DQtIJZKDK15GZ3hQic27l61I2
-         LhSBpW+4VVaDGWbW5Cb24o4YGDe0py6ppiSoZTN7tJrjUqxoUcXLiqiqCPgl9IxETqKw
-         z80kzgEkoF8c9Qol3LX9c7/1Jm5Nb9XA9enA9N3GgFgyfdp5uKA/q35zWG22/xtVxgqr
-         N0kg==
-X-Forwarded-Encrypted: i=1; AJvYcCV+5R1aAwGn8uoPJoqBIP3O41hYdVUA5frCSIpe2KZIcmQKTISzluP3a4gFWWXIf+T1dLlrNIowK2g=@vger.kernel.org, AJvYcCV6gcP1VXXTd/ufwyqxtAS7CSPSutHj5K3FWtHMbJ1PtAoQXCCIiky28XJRqQfAMUkW+K+h9B1kaeqrxray@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw25j7Jb/XEbCxCrbskGKaDEoUlR1A4RLu01UKyoeiWGILZLplS
-	W5Q1IWcfAznkZEyebv2wFpnR74ae5DGNj9VBoRag6lyDcF7r+IEgYAGaRxCTKrwe9rDY88BcPLy
-	kzMP4qokQKJ3yVHXbB6PUgXaQMj8=
-X-Gm-Gg: ASbGncuwef7VC/1Xp/ZuuZJSsfbvDy0WLmhZNjKlzq+lCmu0hqzSKzDjslc/Uc6qXa+
-	avhsxuhN3HB82n7P7D0OJorExWD+aHz4OlWCk5DSRW3gCfMcNUo8=
-X-Google-Smtp-Source: AGHT+IE31mT7c1JrfGuGiu8GGV1KRrNf+wAVdI3hJf9q82OOTyGEz62tZ6WSyWp4kUEU2Mqw5nsIuMeiRJmCBJJLwUM=
-X-Received: by 2002:ac2:5e9d:0:b0:540:1abe:d6d2 with SMTP id
- 2adb3069b0e04-5439c2824b4mr3975322e87.35.1737387675420; Mon, 20 Jan 2025
- 07:41:15 -0800 (PST)
+        d=1e100.net; s=20230601; t=1737394251; x=1737999051;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vjKwZAMnGwVfQ1uehkUpRVLkmdlR6xAZAUrURRogCUo=;
+        b=UA+tJNjEI011ydMho2eKpEGke/lnr9t3W4TkJU3JA88y+I8q4Qmp/2+8VfS+de5fZp
+         7qMFxon3YJ326lkjkBN0B++jXnwoi1VCKFgrr39w8NLavSxwW5GcNbMirINhVJQCzM6V
+         dUxCJ15KzJcSFbCwvla+TurQxfr055lzMX99QVdiGa7RKp16sJ6Ei1faz6lfDvb3VflU
+         /Wlg/NmHNfusMInhjAFbGJIIqqPjFQriTSxYNWNSPCezTAJa+H8R9sxg56oObko596w3
+         mFiSY2NVvyLU3UaPXVBLQJiYCE9idDIrg67ymp2rYeDsLO85S1kd3dofkaQ8tlK6n9l4
+         rnTg==
+X-Forwarded-Encrypted: i=1; AJvYcCV76LXJiQo9e94fk3FYMR54nkMiHghvzPGX0f2m5AdnTorBsiua2Rs+q7BxNQQ3hbIgLRuasfgo@vger.kernel.org, AJvYcCWHjn9VoDZEkYI5SC4x1HnQbl20dAT2wO5kOsf1cMD4I7SX7DTQOM822X10N6geaab8IiFIEmrIvIKgfzb/@vger.kernel.org, AJvYcCWXZ3CGBESslPQcLXu7DHZsVXrJMzJzv47Rs0YH/ekufSj8CqSHwPy09ob2fMehDGKBAjjtDTiAu9U=@vger.kernel.org, AJvYcCXdq+aVjP53tYybWRdbdWb5HW+7C9RM+zc/8QZkmNZ8twsPpxiAYyERkGLrytsFqmaAPPjfKjQNhC3YNYmmL9+d@vger.kernel.org
+X-Gm-Message-State: AOJu0YygsUuKzmLiyeuDntvjhtQ7cMUo7SK/kTF9S/jFaJp1tn9WmQ5m
+	fRrllNzFRD0kY8oDhbfQ8ZqN1H0uBW8AfM0TNWPbSrQiKUU9diQZ
+X-Gm-Gg: ASbGnctc+7zxUyYsuxCAEZJsLHBLbzNXiblKrZHlQx5/sY7aR7tHWG2R4otVWXrzVvP
+	NkwzoWhzhmEyu+k9dwP3waHI9R9K1xPzCJ2HhmS++vKj1h6mLzLF2EDAmkNzckysdhJTshJMwm0
+	Kii7nLgsjoukA/T/M+apfmkbtfNS/EenlGssH2QtymZjsywOaz1UnRudWsEK3Azp3XBT/5n6qDP
+	UYa0ZjHBCdWJglp4YCU9yTu44/CfGFx8lHD8uQhBrJQW5T89Q4cv8YHvJV3
+X-Google-Smtp-Source: AGHT+IHHBMwM1y47uiYGiCZ5wJnCsj0WmgnVWFyMm4lJpp3CtPhJHPHE4Y68jLBM9H+zTGUpmqtIfQ==
+X-Received: by 2002:a05:6402:50d4:b0:5d0:cfad:f71 with SMTP id 4fb4d7f45d1cf-5db7db2bea3mr32816210a12.32.1737394251064;
+        Mon, 20 Jan 2025 09:30:51 -0800 (PST)
+Received: from gmail.com ([2a03:2880:30ff:9::])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab384fcd73dsm646619066b.178.2025.01.20.09.30.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jan 2025 09:30:50 -0800 (PST)
+Date: Mon, 20 Jan 2025 09:30:48 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kernel-team@meta.com,
+	max@kutsevol.com, thepacketgeek@gmail.com
+Subject: Re: [PATCH net-next v2 3/5] netconsole: add support for sysdata and
+ CPU population
+Message-ID: <20250120-rational-bullfrog-of-tornado-2cd6f4@leitao>
+References: <20250115-netcon_cpu-v2-0-95971b44dc56@debian.org>
+ <20250115-netcon_cpu-v2-3-95971b44dc56@debian.org>
+ <20250116174405.20a0e20b@kernel.org>
+ <20250117-terrestrial-clam-of-satiation-cf312f@leitao>
+ <20250117183520.11d93f4d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CGME20250120083041epcas2p30d61ee801c1db5a7ebdf26fdc642883f@epcas2p3.samsung.com>
- <20250120082908.4162780-1-hyesoo.yu@samsung.com>
-In-Reply-To: <20250120082908.4162780-1-hyesoo.yu@samsung.com>
-From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Date: Tue, 21 Jan 2025 00:41:01 +0900
-X-Gm-Features: AbW1kvZGlcjQq3dFQfHorYaRRanRk-TtNWJMLmLSLqZaZdCdxFWs1a5oa8uXvtk
-Message-ID: <CAB=+i9R-9LQWJFGSJJ5dUqwkoFQK8VDxEwi-4Sb73pTP+xw+wQ@mail.gmail.com>
-Subject: Re: [PATCH] mm: slub: Panic if the object corruption is checked.
-To: Hyesoo Yu <hyesoo.yu@samsung.com>
-Cc: janghyuck.kim@samsung.com, Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, 
-	David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, Roman Gushchin <roman.gushchin@linux.dev>, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250117183520.11d93f4d@kernel.org>
 
-On Mon, Jan 20, 2025 at 5:30=E2=80=AFPM Hyesoo Yu <hyesoo.yu@samsung.com> w=
-rote:
->
-> If a slab object is corrupted or an error occurs in its internal
-> value, continuing after restoration may cause other side effects.
-> At this point, it is difficult to debug because the problem occurred
-> in the past. A flag has been added that can cause a panic when there
-> is a problem with the object.
+On Fri, Jan 17, 2025 at 06:35:20PM -0800, Jakub Kicinski wrote:
+> On Fri, 17 Jan 2025 03:02:40 -0800 Breno Leitao wrote:
+> > > Looks like previously all the data was on the stack, now we have a mix.  
+> > 
+> > Not sure I followed. The data ({userdata,extradata}_complete) was always
+> > inside nt field, which belongs to target_list.
+> 
+> I mean the buffer we use for formatting. Today it's this:
+> 
+> 	static char buf[MAX_PRINT_CHUNK]; /* protected by target_list_lock */
+> 	int header_len, msgbody_len;
+> 	const char *msgbody;
+> 
+> right? I missed that "static" actually so it's not on the stack, 
+> it's in the .bss section.
 
-Hi Hyesoo,
+Since you raised this topic, I don't think buf needs to be static
+for a functional perspective, since `buf` is completely overwritten
+every time send_msg functions are called.
 
-I'm concerned about this because it goes against the effort to avoid
-introducing new BUG() calls [1].
+> > > Maybe we can pack all the bits of state into a struct for easier
+> > > passing around, but still put it on the stack?  
+> > 
+> > It depends on what state you need here. We can certainly pass runtime
+> > (aka sysdata in this patchset) data in the stack, but doing the same for
+> > userdata would require extra computation in runtime. In other words, the
+> > userdata_complete and length are calculated at configfs update time
+> > today, and only read during runtime, and there is no connection between
+> > configfs and runtime (write_ext_msg()) except through the stack.
+> > 
+> > 
+> > On the other side, if we want to have extradata_complete in the stack, I
+> > still think that userdata will need to be in the stack, and create a
+> > buffer in runtime's frame and copy userdata + sysdata at run time, doing
+> > an extra copy. 
+> > 
+> > Trying to put this in code, this is what I thought:
+> > 
+> > 	/* Copy to the stack (buf) the userdata string + sysdata */
+> > 	static void append_runtime_sysdata(struct netconsole_target *nt, char *buf) {
+> > 		if (!(nt->sysdata_fields & CPU_NR))
+> > 			return;
+> > 
+> > 		return scnprintf(buf,  MAX_EXTRADATA_ENTRY_LEN * MAX_EXTRADATA_ITEMS,
+> > 				  "%s cpu=%u\n", nt->userdata_complete, raw_smp_processor_id());
+> > 	}
+> > 
+> > 	/* Move complete string in the stack and send from there */
+> > 	static void send_ext_msg_udp(struct netconsole_target *nt, const char *msg,
+> > 				     int msg_len) {
+> > 		...
+> > 	#ifdef CONFIG_NETCONSOLE_DYNAMIC
+> > 		struct char buf[MAX_EXTRADATA_ENTRY_LEN * MAX_EXTRADATA_ITEMS];
+> > 		extradata_len = append_runtime_sysdata(nt, buf);
+> > 	#endif
+> > 
+> > 		send_msg_{no}_fragmentation(nt, msg, buf, extradata_len, release_len)
+> > 		...
+> > 	}
+> 
+> My thinking was to handle it like the release.
+> Print it at the send_msg_no_fragmentation() stage directly 
+> into the static buffer. Does that get hairy coding-wise?
 
-And I think it would be more appropriate to use existing panic_on_warn
-functionality [2] which causes
-a panic on WARN(), rather than introducing a SLUB-specific knob to do
-the same thing.
+I suppose the advantage of doing this approach is to reduce a
+memcpy/strcpy, right?
 
-However SLUB does not call WARN() and uses pr_err() instead when
-reporting an error.
-Vlastimil and I talked about changing it to use WARN() a while ago
-[3], but neither of us
-have done that yet.
+If this is what your motivation, I think we cannot remove it from the
+fragmented case. Let me share my thought process:
 
-Probably you may want to look at it, as it also aligns with your purpose?
-FYI, if you would like to work on it, please make sure that it WARN()
-is suppressed during kunit test.
+1) sysdata needs to be appended to both send_msg_fragmented() and
+send_msg_no_fragmentation(). The fragmented case is the problem.
 
-[1] https://docs.kernel.org/process/deprecated.html#bug-and-bug-on
-[2] https://www.kernel.org/doc/html/v6.9/admin-guide/sysctl/kernel.html#pan=
-ic-on-warn
-[3] https://lore.kernel.org/linux-mm/d4219cd9-32d3-4697-93b9-6a44bf77d50c@s=
-use.cz
+2) It is trivially done in send_msg_fragmented() case.
 
-Best,
-Hyeonggon
+3) For the send_msg_no_fragmentation() case, there is no trivial way to
+get it done without using a secondary buffer and then memcpy to `buf`.
 
-> Signed-off-by: Hyesoo Yu <hyesoo.yu@samsung.com>
-> Change-Id: I4e7e5e0ec3421a7f6c84d591db052f79d3775493
-> ---
->  Documentation/mm/slub.rst |  2 ++
->  include/linux/slab.h      |  4 ++++
->  mm/slub.c                 | 14 ++++++++++++++
->  3 files changed, 20 insertions(+)
->
-> diff --git a/Documentation/mm/slub.rst b/Documentation/mm/slub.rst
-> index 84ca1dc94e5e..ce58525db93d 100644
-> --- a/Documentation/mm/slub.rst
-> +++ b/Documentation/mm/slub.rst
-> @@ -53,6 +53,7 @@ Possible debug options are::
->         U               User tracking (free and alloc)
->         T               Trace (please only use on single slabs)
->         A               Enable failslab filter mark for the cache
-> +       C               Panic if object corruption is checked.
->         O               Switch debugging off for caches that would have
->                         caused higher minimum slab orders
->         -               Switch all debugging off (useful if the kernel is
-> @@ -113,6 +114,7 @@ options from the ``slab_debug`` parameter translate t=
-o the following files::
->         U       store_user
->         T       trace
->         A       failslab
-> +       C       corruption_panic
->
->  failslab file is writable, so writing 1 or 0 will enable or disable
->  the option at runtime. Write returns -EINVAL if cache is an alias.
-> diff --git a/include/linux/slab.h b/include/linux/slab.h
-> index 10a971c2bde3..4391c30564d6 100644
-> --- a/include/linux/slab.h
-> +++ b/include/linux/slab.h
-> @@ -31,6 +31,7 @@ enum _slab_flag_bits {
->         _SLAB_CACHE_DMA32,
->         _SLAB_STORE_USER,
->         _SLAB_PANIC,
-> +       _SLAB_CORRUPTION_PANIC,
->         _SLAB_TYPESAFE_BY_RCU,
->         _SLAB_TRACE,
->  #ifdef CONFIG_DEBUG_OBJECTS
-> @@ -97,6 +98,9 @@ enum _slab_flag_bits {
->  #define SLAB_STORE_USER                __SLAB_FLAG_BIT(_SLAB_STORE_USER)
->  /* Panic if kmem_cache_create() fails */
->  #define SLAB_PANIC             __SLAB_FLAG_BIT(_SLAB_PANIC)
-> +/* Panic if object corruption is checked */
-> +#define SLAB_CORRUPTION_PANIC  __SLAB_FLAG_BIT(_SLAB_CORRUPTION_PANIC)
-> +
->  /**
->   * define SLAB_TYPESAFE_BY_RCU - **WARNING** READ THIS!
->   *
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 48cefc969480..36a8dabf1349 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -1306,6 +1306,8 @@ slab_pad_check(struct kmem_cache *s, struct slab *s=
-lab)
->                         fault, end - 1, fault - start);
->         print_section(KERN_ERR, "Padding ", pad, remainder);
->
-> +       BUG_ON(s->flags & SLAB_CORRUPTION_PANIC);
-> +
->         restore_bytes(s, "slab padding", POISON_INUSE, fault, end);
->  }
->
-> @@ -1389,6 +1391,8 @@ static int check_object(struct kmem_cache *s, struc=
-t slab *slab,
->         if (!ret && !slab_in_kunit_test()) {
->                 print_trailer(s, slab, object);
->                 add_taint(TAINT_BAD_PAGE, LOCKDEP_NOW_UNRELIABLE);
-> +
-> +               BUG_ON(s->flags & SLAB_CORRUPTION_PANIC);
->         }
->
->         return ret;
-> @@ -1689,6 +1693,9 @@ parse_slub_debug_flags(char *str, slab_flags_t *fla=
-gs, char **slabs, bool init)
->                 case 'a':
->                         *flags |=3D SLAB_FAILSLAB;
->                         break;
-> +               case 'c':
-> +                       *flags |=3D SLAB_CORRUPTION_PANIC;
-> +                       break;
->                 case 'o':
->                         /*
->                          * Avoid enabling debugging on caches if its mini=
-mum
-> @@ -6874,6 +6881,12 @@ static ssize_t store_user_show(struct kmem_cache *=
-s, char *buf)
->
->  SLAB_ATTR_RO(store_user);
->
-> +static ssize_t corruption_panic_show(struct kmem_cache *s, char *buf)
-> +{
-> +       return sysfs_emit(buf, "%d\n", !!(s->flags & SLAB_CORRUPTION_PANI=
-C));
-> +}
-> +SLAB_ATTR_RO(corruption_panic);
-> +
->  static ssize_t validate_show(struct kmem_cache *s, char *buf)
->  {
->         return 0;
-> @@ -7092,6 +7105,7 @@ static struct attribute *slab_attrs[] =3D {
->         &red_zone_attr.attr,
->         &poison_attr.attr,
->         &store_user_attr.attr,
-> +       &corruption_panic_attr.attr,
->         &validate_attr.attr,
->  #endif
->  #ifdef CONFIG_ZONE_DMA
-> --
-> 2.48.0
->
+Let's suppose sysdata has "cpu=42", and original `buf` has only 5 available
+chars, thus it needs to have 2 msgs to accommodate the full message.
+
+Then the it needs to track that `cpu=4` will be sent in a msg and create
+another message with the missing `2`.
+
+The only way to do it properly is having a extra buffer where we
+have `cpu=42` and copy 5 bytes from there, and then copy the last one in
+the next iteration. I am not sure we can do it in one shot.
+
+On top of that, I am planning to increase other features in sysdata
+(such as current task name, modules and even consolidate the release as
+sysdata), which has two implications:
+
+1) Average messages size will become bigger. Thus, memcpy will be needed
+one way or another.
+
+2) Unless we can come up with a smart solution, this solution will be
+harder to reason about.
+
+If you want to invest more time in this direction, I am more than happy
+to create a PoC, so we can discuss more concretely. 
+
+Thanks,
+--breno
