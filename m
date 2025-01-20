@@ -1,121 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4135C1B982E;
-	Mon, 20 Jan 2025 15:01:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFAD71E8824;
+	Mon, 20 Jan 2025 15:36:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737385307; cv=none; b=oEZtHL7ipt3IivutduQur0BsEUhifLxY12iDvCNZDb4i9uUt4jLoAd32PlripvzdAGXlGrFobWcp+dodGk+W6FnnokT80Ty5jOgTxTxQtjsLxRflPyMGm5bg2DDwP6rggHglbE1Q+T65G0Sxy9nQjtdgDByoaJ1Qmae6hOF3uVk=
+	t=1737387394; cv=none; b=BczQuCachKiiz2penqobZYVpGnSoxhMlvB0mEWf2MehxwBnjTWKoKhGtGrD0r73+z1YkpKWgcJrhG+j+r9EyViq7EahSNx8BqWGWpWlSQLeybg1gJCEq7wILMBUP0LgLJlwI4B/LBQSmZNnhrZWBsOivxif6MHwIy8oMNhauGMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737385307; c=relaxed/simple;
-	bh=t9cJzzM752GAraX+bd6RMMK5H5I0NUGxSd1HtsC0j9o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KDBWbVdJ1rzCnkwylefmWopNZO7q/w88iNVB6Or20eLlV2sjy7LMYxe4/Myrnje/qbxLZzyt2wYUD3palUelkjbuslrlflL0d8gKyeOWRbt0CIdtQru7QS3O5O3W8vYOp8ejn45aa1ce76mquBdh7ObTtC+zowKNr50uCyGG0V0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gMjpF11i; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737387394; c=relaxed/simple;
+	bh=F5GHTKd6SHjUjsMXKYNPkIR5zTWlS1V1HytM02CFY0M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NvB03UuF5NNXKCd8lkopE7K4fW75rGsdEPUIjjOPjqBVt4SpqoiagULVmFoYwGJ7ncdECHsdLYIXunOTY6KO2kL2obwkEFiD/HdmyoTjbl42QVwTdypfpGqHvSbWXhSlvYwPcGzv4V62pygDpdBt1HCZfHPFuOTandi80CUVSHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Q9mZvCE6; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gMjpF11i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5B81C4CEE1;
-	Mon, 20 Jan 2025 15:01:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737385306;
-	bh=t9cJzzM752GAraX+bd6RMMK5H5I0NUGxSd1HtsC0j9o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gMjpF11i/xZToGsyanYZs/X4nF2TcRC8xBtQPFaJJGx/IKfwLLWMJQiIkIhUh5Hwk
-	 V56zuiuYsNDKSCQtWwDOppyM3u9mYgWojhlCXLrgqwklTMAlHC8ent/pxquZf6ahQZ
-	 TSuhCOgtagkuahppizse3RV6jY/ZzXaBfkrCOgRPCUx6FgVBwyR3jXZn7dscI2I3u8
-	 5ljmjiEkRH8V7PpP5l2Q/dIHIcy23T2BJK7vQN45OkIMNgE/IaK3x9383gVpN2cYuE
-	 LmSwucPTEmIRjB0JGkpNZHW04hJaPJ8ewObFLa7vFB14egXUcXc08RylfPKp7DQFPG
-	 RAXI4E+0OrVEQ==
-Message-ID: <000e44f1-839e-4f43-9bb1-ae53d6826ff7@kernel.org>
-Date: Mon, 20 Jan 2025 16:01:40 +0100
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Q9mZvCE6"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=//go+pLaCR8IMBhqazIFlxoNFbU+MztBKStJ5RScj4U=; b=Q9mZvCE64gKpU3BjPLuegQ4Gdd
+	a7aoxil88qj19bU32p9Se5y/HYtVcDbpZfz3/OLPySCcoGIFvWt/cO73iZFVbHkJnBW13DQlOao8B
+	sZZZUf9Tka9eHvnnPGKp7U7GSRwZjuCUz01+9QsMfowcFfsgJAZkviaiTETR20uZljRHi6Wks9Jev
+	qeOMB6no6jZNxFvpwCnd/1V49zZ460G8ih0sSZ98HiAGXxkk+gTqIO6OQ5rb8RJgDoxScZDtIpRuJ
+	v2CVzWniU84NZzqBjCtID++0EDyT9Te+ekVjd8Fn9EhytyNa+n27QYebPjcK4jeOGS2FYvCU3DHQS
+	sCaeU95Q==;
+Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1tZtou-0000000Bhdd-3fGT;
+	Mon, 20 Jan 2025 15:36:09 +0000
+Date: Mon, 20 Jan 2025 15:36:08 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Hyesoo Yu <hyesoo.yu@samsung.com>
+Cc: janghyuck.kim@samsung.com, Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Christoph Lameter <cl@linux.com>,
+	Pekka Enberg <penberg@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mm: slub: Panic if the object corruption is checked.
+Message-ID: <Z45taJAEqdcyIXX-@casper.infradead.org>
+References: <CGME20250120083041epcas2p30d61ee801c1db5a7ebdf26fdc642883f@epcas2p3.samsung.com>
+ <20250120082908.4162780-1-hyesoo.yu@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [EXT] Re: [PATCH v12 2/5] dt-bindings: arm: fsl: add imx-se-fw
- binding doc
-To: Pankaj Gupta <pankaj.gupta@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>
-Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "imx@lists.linux.dev" <imx@lists.linux.dev>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, Conor Dooley <conor@kernel.org>
-References: <20250120-imx-se-if-v12-0-c5ec9754570c@nxp.com>
- <20250120-imx-se-if-v12-2-c5ec9754570c@nxp.com>
- <6110fd00-c050-4bcf-8971-674bc8c0bfc7@kernel.org>
- <AM9PR04MB86049239156AC82F0AA4BCCA95E72@AM9PR04MB8604.eurprd04.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <AM9PR04MB86049239156AC82F0AA4BCCA95E72@AM9PR04MB8604.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250120082908.4162780-1-hyesoo.yu@samsung.com>
 
-On 20/01/2025 14:07, Pankaj Gupta wrote:
->> Driver configures multiple misc-device on the MU, for multiple
->> user-space applications, to be able to communicate over single MU.
->>
->> It exists on some i.MX processors. e.g. i.MX8ULP, i.MX93 etc.
->>
->> Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
->> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
->> Reviewed-by: Conor Dooley <conor@kernel.org>
+On Mon, Jan 20, 2025 at 05:28:21PM +0900, Hyesoo Yu wrote:
+> If a slab object is corrupted or an error occurs in its internal
+> value, continuing after restoration may cause other side effects.
+> At this point, it is difficult to debug because the problem occurred
+> in the past. A flag has been added that can cause a panic when there
+> is a problem with the object.
 > 
->> Where Conor's review tag was actually given?
-> On v6.
+> Signed-off-by: Hyesoo Yu <hyesoo.yu@samsung.com>
+> Change-Id: I4e7e5e0ec3421a7f6c84d591db052f79d3775493
 
-I already looked there. No trace for tag. Please point to the message.
+Linux does not use Change IDs.  Please omit these from future patches.
 
-Best regards,
-Krzysztof
+Panicing is a very unfriendly approach.  I think a better approach would
+be to freeze the slab where corruption is detected.  That is, no future
+objects are allocated from that slab, and attempts to free objects from
+that slab become no-ops.  I don't think that should be hard to implement.
