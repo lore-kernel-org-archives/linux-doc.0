@@ -1,119 +1,177 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E088F1B043C
-	for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2025 10:13:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF890197A67
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2025 10:25:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737367993; cv=none; b=Wf+vVmCpiepm8nELD100kEU55FCq4p7poHtQGSj4E4HykWLe2QGfDwkj3sHT+JPU9VBuHNYtg5Eg2XghbHe9OdnP/POiAHKXx5PeeJ/At0gTRDNOv5WpDvtthJHQ8X9cy5i8dPStQ4CIytE0dfDXJpVaDrAV6FKbZ3FlJD24YOo=
+	t=1737368744; cv=none; b=XbEGBPZQyMmz1zhmFym8yLYKAcfGmhEsVSDUet13L2vrK1If+EvuyfM/s3xbNdMNIhBpbhM7eHZaW44YpR6tNhGoueUNHsVhk3s9+l6oU1ScuHQrDpuQpeS6ne4ofItwziebPqV8Wc6gYqX5OTUoTXAnMnDxYvU9PpOTwacy7aE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737367993; c=relaxed/simple;
-	bh=POeSpLXqMDnf4ncHbT7WX49tYfW9PFR0KWRj+oU7i6Y=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=sxYTVQOFFRnxBSC5XFpKiN7LTykRXxoUK4k2ywkvUnjfT2Ld/WKvnAb6Q6qqN4tMkj6f9ZlaonwaaVLIdrqPYvKBgUo4h7GnDJLCAQGB8UXcIeRK9UOf0swT9stZZVb9PVbNqs+Xkv8XM1k8SDKirOmBBso3crzBNHZl/LaSlco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com; spf=pass smtp.mailfrom=cloudflare.com; dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.b=IXoOHnHv; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloudflare.com
+	s=arc-20240116; t=1737368744; c=relaxed/simple;
+	bh=LD8OuVw8n3F+UjqdO0zdMsAuE9OqG7caHsIEKdL9ptU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bGHBJTS0G2xq0tcTtaxwK6esVGsEMBN1byydTqddjPBw/IpBD+StPAcI7TTqpY++1zTB2KLeeV0gp7F2MJeLlWjNQzPys7H1RYl7tasPkutAiBrtoHMeOay/oTSiH7o1ZkNVT3ATkJqHCq1/RabchryCGlDsklw8MlVu6hzUdbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=YpvcVHqe; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.b="IXoOHnHv"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-aaeecbb7309so820140166b.0
-        for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2025 02:13:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="YpvcVHqe"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4362f61757fso43940245e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2025 02:25:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudflare.com; s=google09082023; t=1737367990; x=1737972790; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=s+AmXtS555KTGh368N6qrcyGQOSWOD2uM0ZEZKy8e4w=;
-        b=IXoOHnHvuITax+uU8uyj3FCD1+zVkSGMte6VFd9kwcZQy+03YCcP2InjSq6RKd7Npg
-         hWAVjMa++UZ8MMeNiBC62klRpLf4PHfqAa0avOsNoCVzSpWCPGcoLRxCRvA6el2rDep9
-         x9vCfhkZPsyq7JthqO52fkSSpIxG0inGYhr/sWPY4FOVFDpw5lJYm4YRyGF0c34hUp4m
-         9Xn0ItD47XGtKu3RXXjPehu7QNwrBPeFtyxgJ8QAxzcAktboq3sq+6ogjlfc83dcKLgz
-         8P2RZSVAYNyv/FSqCv0Xvk8+p49BPgx1z23/d1vpn4sPWmD/eV9dANZep41BMNKyiLUE
-         oJrA==
+        d=suse.com; s=google; t=1737368741; x=1737973541; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/plAlONRzFatYjUDsmYEo6CR3UeB2Jc5rLAfXDiJdtk=;
+        b=YpvcVHqegktJxV4UHAHBIF5jDE0UA2mPIOI6a63q5OgN5gXz8ilwzncOp3w/+0Ziup
+         KYbBoojJXW9i5R3ATcUtmDDxwq0MN7rgROtmBBb2bWNgK7R9fN+dUjHity0pg07Lf7pe
+         LkEmYqW6iMZr4URw50Udj53PMaW60NaQ27+wJlE418k6uInmiz9AA6P1vIB81u70Cg01
+         RV8pNmngzTfXyABf4NtOjnNWSVJHDUZTyl74f2omyxNRF1f/ZHsQAE2w/y2/oIJPQ9yP
+         IeT6khiuzZNYlQGP+gSDm1dWOIcsQro57Sqqhq9JH94JPo3ON3V93gIDe9x22i41b/TA
+         Y1BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737367990; x=1737972790;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s+AmXtS555KTGh368N6qrcyGQOSWOD2uM0ZEZKy8e4w=;
-        b=c3KHj57cdDFAzzhswRYbgTKY0vPHcSgAKjRC3CyBjdtz3sVqnPlw/GdWkyG/aGPoA1
-         vuo3Z4NbDquaHVMJU+8UAhA4LrZI9VycIos4qD4RqoY8neCxQjpioq61tsTMOlX5JGAA
-         TsCSk/QHZvQHkS4X9+E4othTSLNB7b5FTBjpQ2C5ta/tnWC4i72rSTxmwa9lrXAJzF8Z
-         sCANLYMHFOEAM7Bhqjzqeak70URdFCs4+p5gONL+B3mJ0T4OGUNjN/sUq0uxwyKNjFoa
-         pxWvsmL9B7yaP4TszubeSFDvhgawLaNLmUThWVw9Ku7fn2f7MVCFMSPHqWs+ZdRxoeh3
-         kujw==
-X-Forwarded-Encrypted: i=1; AJvYcCV1v6lX6TmUU7IpK/5f5qMGWVSOD5iJiE7OY4V2sNn7G7IbVwGWL9vKG/I/Xl0cKv6txOE8KCylU1U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTn9dMgSDSm6zKQi7204lM9JflhnXYJrObOmwsrwm0usC7nPS2
-	6kHMytwxwRJYidtySD4ty+JGq9G6GnrzydqwF/nWbZae9qU0Aait7CbGeE0ddbM=
-X-Gm-Gg: ASbGnct/HrLiLte/JvwkuniJ/qBh8J1fT2Axt7ahCy8f6DtzBNlAucXUbVlUDZlqpwG
-	IzMFuvcCnwsUJwXL7/NQYbCOsNKeZiYQJxDrJQ9KvnYp4nI6XObWYeUeD3v1qWZNjniPuJU4c7P
-	UgrLkIl0ZLy/8K6EqLOGbUxEz9xCDCBB19hBq22SR7PIGoASeG31GqPP8x34+vhgEASTod6cKQa
-	9yEaT/Jh3/SSha726U6xK5hvj+EG7iiJzvpj4Gbk8bxYx1ikOmNUbKY2txS3MI=
-X-Google-Smtp-Source: AGHT+IG3sxDHUYpin9r1buo9Oh2Jpo9gAgFq3g/a7WzAvcrq0JBMicje/huYwTSgfgvyeKZ4VF6qOw==
-X-Received: by 2002:a17:907:7faa:b0:a9e:b150:a99d with SMTP id a640c23a62f3a-ab38b1b45aamr1198652366b.5.1737367990090;
-        Mon, 20 Jan 2025 02:13:10 -0800 (PST)
-Received: from cloudflare.com ([2a09:bac5:506f:2387::38a:15])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab384f224casm589585666b.87.2025.01.20.02.13.09
+        d=1e100.net; s=20230601; t=1737368741; x=1737973541;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/plAlONRzFatYjUDsmYEo6CR3UeB2Jc5rLAfXDiJdtk=;
+        b=ts3SDfVUNX2/rbaLg9d1c8ikGcX6MVGejUSz3WJLnCBQtZfWrKxX8lZufM7jAhaoz5
+         d0MBk57mPwJ7piboZR81/WKGdnFDZ6NutjW/lmY0JuP6TMoELvqe2bWDrYM/8BF4gYQi
+         jDNxve6leS9Zv7Knx5/DGOjmvHhSzqUcE707OMOcP82jBgjKkE0F/Rj2DDI4yLSv74V1
+         r8xMSlHrskdqtqT52h/h5TrSU2kJ7WEeCcNZbKhGwtoiPYSufdzr9mulcvpZLR+vhhLj
+         s3uWbW6dAYwOLrLLvD46/NoI61hih9caXs25cDdSn7U4iDE+ppf5wG+O5DApCfq4BJKh
+         RkwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWf209QhdcHgveskndHB3WlO19lwZAxrl9DKPt1qZoKWm0nX+tSYlCa57sEfxV2FWWwKNpJP35PNgM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YySck11HSpHRltlX4B7tptTMZiDSwL0z5isIi2/38rsmHIxIzg9
+	CaQSn0PWC2Amj8GTjwZ64eNKuSL6uqwxll3KlKdxMyfK7SVRBeeaWzn8uPD2O1I=
+X-Gm-Gg: ASbGncsJ9ieLUW+sIfbbUWwx+Z/jmpC9bv+AdvIdBAAErQ8SzK9oboick5n9WVqO1V/
+	/sjiaAHTFq+RRVNuCWygVoLQUx4zDrMYnZiZhJNwKhRzAh2gRTaKcn91DYM3sRq1YzYYCwaRiXM
+	5ZqL6VIXHIucXPZ79AX3F/ep32HjS+52Sd8uu1yS2ftd43haxdyE4Cf0UfRPsyGZDRQp6kZw2ip
+	O23Dh2uCDNl799ajkWHZxU8uyoxz+0YfYYbcZKLafBr29wId35KYi0zv30WvsyIIohc3kY=
+X-Google-Smtp-Source: AGHT+IGuenfcVRf8Q07QNfEdMYeTuOKNmKjxeSjYso288tHkR+4lZp1kulMIxxTWOTGhuEhOwe35wQ==
+X-Received: by 2002:a05:6000:b10:b0:382:5141:f631 with SMTP id ffacd0b85a97d-38bf56740b4mr8607242f8f.29.1737368741058;
+        Mon, 20 Jan 2025 02:25:41 -0800 (PST)
+Received: from pathway.suse.cz ([176.114.240.50])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf3221be1sm10086350f8f.31.2025.01.20.02.25.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2025 02:13:09 -0800 (PST)
-From: Jakub Sitnicki <jakub@cloudflare.com>
-To: Jiayuan Chen <mrpre@163.com>
-Cc: bpf@vger.kernel.org,  john.fastabend@gmail.com,  netdev@vger.kernel.org,
-  martin.lau@linux.dev,  ast@kernel.org,  edumazet@google.com,
-  davem@davemloft.net,  dsahern@kernel.org,  kuba@kernel.org,
-  pabeni@redhat.com,  linux-kernel@vger.kernel.org,  song@kernel.org,
-  andrii@kernel.org,  mhal@rbox.co,  yonghong.song@linux.dev,
-  daniel@iogearbox.net,  xiyou.wangcong@gmail.com,  horms@kernel.org,
-  corbet@lwn.net,  eddyz87@gmail.com,  cong.wang@bytedance.com,
-  shuah@kernel.org,  mykolal@fb.com,  jolsa@kernel.org,  haoluo@google.com,
-  sdf@fomichev.me,  kpsingh@kernel.org,  linux-doc@vger.kernel.org
-Subject: Re: [PATCH bpf v7 2/5] bpf: fix wrong copied_seq calculation
-In-Reply-To: <j5piuelz2xt65bn42bxufmk4nmigvzjotbygwd5tin7t6cvrsj@gpon5o7px7tu>
-	(Jiayuan Chen's message of "Mon, 20 Jan 2025 11:35:37 +0800")
-References: <20250116140531.108636-1-mrpre@163.com>
-	<20250116140531.108636-3-mrpre@163.com>
-	<87ikqcdvm9.fsf@cloudflare.com>
-	<4uacr7khoalvlshkybaq4lqu55muax5adsrnqkulc6hgeuzaeg@eakft72epszp>
-	<j5piuelz2xt65bn42bxufmk4nmigvzjotbygwd5tin7t6cvrsj@gpon5o7px7tu>
-Date: Mon, 20 Jan 2025 11:13:08 +0100
-Message-ID: <87a5bliyiz.fsf@cloudflare.com>
+        Mon, 20 Jan 2025 02:25:40 -0800 (PST)
+Date: Mon, 20 Jan 2025 11:25:38 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: David Laight <david.laight.linux@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Ogness <john.ogness@linutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] hexdump: Allow skipping identical lines
+Message-ID: <Z44kojleQta1bfoe@pathway.suse.cz>
+References: <20250110-perso-hexdump-v2-0-7f9a6a799170@bootlin.com>
+ <20250110-perso-hexdump-v2-2-7f9a6a799170@bootlin.com>
+ <Z4UInSRCSXzNN5Ug@smile.fi.intel.com>
+ <Z4qE7tsTOvggdUET@pathway.suse.cz>
+ <20250117192522.0b2e7c65@pumpkin>
+ <87wmepvnns.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87wmepvnns.fsf@bootlin.com>
 
-On Mon, Jan 20, 2025 at 11:35 AM +08, Jiayuan Chen wrote:
-> On Sat, Jan 18, 2025 at 11:29:04PM +0800, Jiayuan Chen wrote:
->> On Sat, Jan 18, 2025 at 03:50:22PM +0100, Jakub Sitnicki wrote:
->> > On Thu, Jan 16, 2025 at 10:05 PM +08, Jiayuan Chen wrote:
->> > > 'sk->copied_seq' was updated in the tcp_eat_skb() function when the
->> > > action of a BPF program was SK_REDIRECT. For other actions, like SK_PASS,
->> > > +}
->> > > +#endif /* CONFIG_BPF_STREAM_PARSER */
->> > > +
->> > >  int tcp_bpf_update_proto(struct sock *sk, struct sk_psock *psock, bool restore)
->> > >  {
->> > >  	int family = sk->sk_family == AF_INET6 ? TCP_BPF_IPV6 : TCP_BPF_IPV4;
->> > > @@ -681,6 +722,12 @@ int tcp_bpf_update_proto(struct sock *sk, struct sk_psock *psock, bool restore)
->> > >  
->> > >  	/* Pairs with lockless read in sk_clone_lock() */
->> > >  	sock_replace_proto(sk, &tcp_bpf_prots[family][config]);
->> > > +#if IS_ENABLED(CONFIG_BPF_STREAM_PARSER)
->> > > +	if (psock->progs.stream_parser && psock->progs.stream_verdict) {
->> > > +		psock->copied_seq = tcp_sk(sk)->copied_seq;
->> > > +		psock->read_sock = tcp_bpf_strp_read_sock;
->> > 
->> > Just directly set psock->strp.cb.read_sock to tcp_bpf_strp_read_sock.
->> > Then we don't need this intermediate psock->read_sock callback, which
->> > doesn't do anything useful.
->> >
->> Ok, I will do this.
->> (BTW, I intended to avoid bringing "struct strparser" into tcp_bpf.c so I
->> added a wrapper function instead in skmsg.c without calling it directly) 
->> 
-> I find that tcp_bpf_update_proto is called before sk_psock_init_strp. Any
-> assignment of psock->cb.strp will be overwritten in sk_psock_init_strp.
+On Mon 2025-01-20 10:29:27, Miquel Raynal wrote:
+> Hello David & Petr,
+> 
+> On 17/01/2025 at 19:25:22 GMT, David Laight <david.laight.linux@gmail.com> wrote:
+> 
+> > On Fri, 17 Jan 2025 17:27:26 +0100
+> > Petr Mladek <pmladek@suse.com> wrote:
+> >
+> > ...
+> >> IMHO, it is perfectly fine to add support for skipping identical lines
+> >> only to print_hex_dump(). And I would go even further and replace
+> >> 
+> >> void print_hex_dump(const char *level, const char *prefix_str, int prefix_type,
+> >> 		    int rowsize, int groupsize,
+> >> 		    const void *buf, size_t len, bool ascii)
+> >> 
+> >> with
+> >> 
+> >> void print_hex_dump(const char *level, const char *prefix_str,
+> >> 		    enum hex_dump_type,
+> >> 		    int rowsize, int groupsize,
+> >> 		    const void *buf, size_t len)
+> >> 
+> >> and combine all the flags into the one enum:
+> >> 
+> >> enum hex_dump_type {
+> >> 	DUMP_HEX_ONLY = 0,
+> >> 	DUMP_HEX_AND_ASCII = BIT(1),
+> >> 	DUMP_PREFIX_ADDRESS = BIT(2),
+> >> 	DUMP_PREFIX_OFFSET = BIT(3),
+> >> 	DUMP_SKIP_IDENTICAL_LINES = BIT(4),
+> >> };
+> 
+> Would a single enum (in the prototype of the function) work? I like the
+> idea but we need some kind of OR combination to be supported, typically:
+>
+> DUMP_HEX_AND_ASCII | DUMP_PREFIX_OFFSET | DUMP_SKIP_IDENTICAL_LINES
+> 
+> Maybe something like:
+> 
+> void print_hex(const char *level, const char *prefix_str,
+> 	       int rowsize, int groupsize,
+> 	       const void *buf, size_t len,
+>                unsigned int dump_flags) // flags instead of enum?
 
-Or just don't set ->read_sock in strp_init.
-It's being reset only because you made it so in patch 1 :-)
+Yes, the parameter would need to be an unsigned int or unsigned long
+type so that we could use the logical OR operation.
+
+We could also define the bits without the enum type because the enum
+type won't be used anywhere.
+
+I just thought that you wanted to have it "enum". AFAIK, workqueues
+code uses enum because it allows to use the names of the bits in
+crash/gdb. The enum will cause that the names of the values will
+appear in the debug info...
+
+> enum hex_dump_flags {
+>         // I'm not sure what to do with the default value?
+
+I would define
+
+	DUMP_HEX_ONLY = 0,
+or
+	DUMP_HEX_DATA = 0,
+
+It would be used only when the caller wants only the plain hex data.
+
+> 	DUMP_ASCII = BIT(0), // renamed?
+
+You are right that DUMP_ASCII might be enough. The names of the flags
+would mean what the caller wants on top of the plain hex data.
+
+> 	DUMP_PREFIX_ADDRESS = BIT(1),
+> 	DUMP_PREFIX_OFFSET = BIT(2),
+> 	DUMP_SKIP_IDENTICAL_LINES = BIT(3),
+> };
+
+
+> >> How does that sound, please?
+> >
+> > Rename it as (say) print_hex() and add wrappers for the existing callers?
+> 
+> That would avoid the treewide changes, so yes I can try that, definitely.
+
+I am fine with it. But a treewide clean up (2 parameters -> one flags)
+would be better from my POV.
+
+Best Regards,
+Petr
