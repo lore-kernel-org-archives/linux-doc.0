@@ -1,111 +1,100 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ABA433987;
-	Mon, 20 Jan 2025 03:38:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+Received: from mail-m3269.qiye.163.com (mail-m3269.qiye.163.com [220.197.32.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A81177E1
+	for <linux-doc@vger.kernel.org>; Mon, 20 Jan 2025 03:43:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737344303; cv=none; b=BIqrFyjDvn7HUbrshBT+5oRsy3W3ucTUQLZ25vQoxSAmhAPTibwM/a7G0BFxq+aIgWqN21arA3cmwCVbIeCPsDxyDOjjKyivvUT/9p/OsyaLFtuiQk1CauB3eJ0odMhiY38TIZ3gKtUy6xUTasPbEM7fT4DsZfo6o5iASOuSfsE=
+	t=1737344590; cv=none; b=jcO8R1MNxy0u6opNtk0abF8AdCU7o/h2B+pRtlmX/xZPazV1I1T3PZr/2iH6mBLTp+mQSqYnarR08GShbfZ3Q8l5sKe59PXc0fhU+L4bwPkpZ9rI0d5KU88raOWkKDIn8WdESNmiArjDAhat9O/xEBNwCUc48ImfLD33rfUT5Ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737344303; c=relaxed/simple;
-	bh=LU3SgtTXrFcDipPP9KKHugTnsVbFq0AW902C3yqlZ6A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AhQ/6oyjPJge0maTMMkSbQmM1/VX7Uwt9ITycZIGunmFed+rU8rKmhgInu8H0GpCG98AZqYwvwJgnL/rWcWm9KMVvoy9t+Xx4OhWMz1FI7PleEtzb30FqRONNPjCmKshqAcH8lm5N8eBgpFpDXUqK84LRbeRcQJj2dEKseGVOPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=cnR7vqHm; arc=none smtp.client-ip=220.197.31.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1737344590; c=relaxed/simple;
+	bh=hTIVRY98gtNNt8H68t1v87dzCQrwiqV6q9/iuv1CHos=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=liRzndPj2RPySQD2xTuQHR0S5Um50lVGBeJfr0tnAs4OieY55eYFPTJjCbA4Mpr9adSzVpojVRww7WtTteVeBaQWTkeg+HlmNRaZqSyYJIwesfxuW4n8NiWiq0nLxBncKngIj2QoXGEKwp5ScUesruOXJXpF7g/AhlHMB3aYuY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=Qn1Trwlu; arc=none smtp.client-ip=220.197.32.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="cnR7vqHm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
-	Content-Type; bh=L2wRnYLIkqx8ogtBAXlZzGo+E3J3c6ZZw0OgOUPaVLQ=;
-	b=cnR7vqHmsn5q7ONnigpWnzA1zo/C1k5UKj94wdewi1H6iIgFMBHCpja9pGqj4m
-	+6QzleGnBwfprKjNC8Sxj2xIJVsSwlfQ8lx396j9a6pnKjyJ7eHlikryeE6fvrg6
-	mHFI6lU9xycF1j1GDJK/oUyTwgLW/hhokqhOMYrJMmZ4Q=
-Received: from osx (unknown [])
-	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wDHtt6JxI1nNuxVHQ--.33849S2;
-	Mon, 20 Jan 2025 11:35:38 +0800 (CST)
-Date: Mon, 20 Jan 2025 11:35:37 +0800
-From: Jiayuan Chen <mrpre@163.com>
-To: Jakub Sitnicki <jakub@cloudflare.com>
-Cc: bpf@vger.kernel.org, john.fastabend@gmail.com, netdev@vger.kernel.org, 
-	martin.lau@linux.dev, ast@kernel.org, edumazet@google.com, davem@davemloft.net, 
-	dsahern@kernel.org, kuba@kernel.org, pabeni@redhat.com, linux-kernel@vger.kernel.org, 
-	song@kernel.org, andrii@kernel.org, mhal@rbox.co, yonghong.song@linux.dev, 
-	daniel@iogearbox.net, xiyou.wangcong@gmail.com, horms@kernel.org, corbet@lwn.net, 
-	eddyz87@gmail.com, cong.wang@bytedance.com, shuah@kernel.org, mykolal@fb.com, 
-	jolsa@kernel.org, haoluo@google.com, sdf@fomichev.me, kpsingh@kernel.org, 
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="Qn1Trwlu"
+Received: from fedora.localdomain (unknown [123.53.38.48])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 924e2b30;
+	Mon, 20 Jan 2025 11:42:57 +0800 (GMT+08:00)
+From: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net
+Cc: zhaoyuehui@cqsoftware.com.cn,
+	zhaoshuo@cqsoftware.com.cn,
+	zhangwei@cqsoftware.com.cn,
+	maoyuxian@cqsoftware.com.cn,
 	linux-doc@vger.kernel.org
-Subject: Re: [PATCH bpf v7 2/5] bpf: fix wrong copied_seq calculation
-Message-ID: <j5piuelz2xt65bn42bxufmk4nmigvzjotbygwd5tin7t6cvrsj@gpon5o7px7tu>
-References: <20250116140531.108636-1-mrpre@163.com>
- <20250116140531.108636-3-mrpre@163.com>
- <87ikqcdvm9.fsf@cloudflare.com>
- <4uacr7khoalvlshkybaq4lqu55muax5adsrnqkulc6hgeuzaeg@eakft72epszp>
+Subject: [PATCH 1/7] docs/zh_CN: Add tpm index Chinese translation
+Date: Mon, 20 Jan 2025 11:42:46 +0800
+Message-ID: <bf33696a6c41a2e3cd23a7cb5d6efdae16f71571.1737344074.git.zhaoshuo@cqsoftware.com.cn>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <cover.1737344074.git.zhaoshuo@cqsoftware.com.cn>
+References: <cover.1737344074.git.zhaoshuo@cqsoftware.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4uacr7khoalvlshkybaq4lqu55muax5adsrnqkulc6hgeuzaeg@eakft72epszp>
-X-CM-TRANSID:_____wDHtt6JxI1nNuxVHQ--.33849S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ur1UWw1rJr4xWw45WF4Uurg_yoW8uFykpF
-	yDA3yaka4DJFW7W3Z0qr97Kr13G395Kayjkryrta4fursF9r1rGFyY9rWjyr15Kr4DCr13
-	JrWjgFZxAwnrAaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UnNVgUUUUU=
-X-CM-SenderInfo: xpus2vi6rwjhhfrp/xtbBDxnap2eNu27+wAAAsq
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaGExPVh8eTU8YH09JQh1CGFYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKSUhVTkhVSENVT0NZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0hVSktLVU
+	pCS0tZBg++
+X-HM-Tid: 0a9481ce70b909d0kunm924e2b30
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NDo6Ghw*SzIPHjAXAQ0VIyM2
+	KSFPCxxVSlVKTEhMSE9PTkxDTkJOVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSklIVU5IVUhDVU9DWVdZCAFZQUpKSEw3Bg++
+DKIM-Signature:a=rsa-sha256;
+	b=Qn1TrwluYyx3hOPOy83IumKZAy9uqVTKJK9mC9TmXPzm5rN7bdhjLH8GvjlBIQSsLB+4Y911eHU45xFE+iVBOG29KIPFBimAtLI6aULgt54MWFFEIFQ5okm5Q/jeaDU/LVDiDI+DVx4ZOEFmN52zooeXVhSiCCWX/NDv+QHwpHY=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
+	bh=bidWdRmnqgPanquxhbJoguWUg5VZkIPcrUBxnI5848Y=;
+	h=date:mime-version:subject:message-id:from;
 
-On Sat, Jan 18, 2025 at 11:29:04PM +0800, Jiayuan Chen wrote:
-> On Sat, Jan 18, 2025 at 03:50:22PM +0100, Jakub Sitnicki wrote:
-> > On Thu, Jan 16, 2025 at 10:05 PM +08, Jiayuan Chen wrote:
-> > > 'sk->copied_seq' was updated in the tcp_eat_skb() function when the
-> > > action of a BPF program was SK_REDIRECT. For other actions, like SK_PASS,
-> > > +}
-> > > +#endif /* CONFIG_BPF_STREAM_PARSER */
-> > > +
-> > >  int tcp_bpf_update_proto(struct sock *sk, struct sk_psock *psock, bool restore)
-> > >  {
-> > >  	int family = sk->sk_family == AF_INET6 ? TCP_BPF_IPV6 : TCP_BPF_IPV4;
-> > > @@ -681,6 +722,12 @@ int tcp_bpf_update_proto(struct sock *sk, struct sk_psock *psock, bool restore)
-> > >  
-> > >  	/* Pairs with lockless read in sk_clone_lock() */
-> > >  	sock_replace_proto(sk, &tcp_bpf_prots[family][config]);
-> > > +#if IS_ENABLED(CONFIG_BPF_STREAM_PARSER)
-> > > +	if (psock->progs.stream_parser && psock->progs.stream_verdict) {
-> > > +		psock->copied_seq = tcp_sk(sk)->copied_seq;
-> > > +		psock->read_sock = tcp_bpf_strp_read_sock;
-> > 
-> > Just directly set psock->strp.cb.read_sock to tcp_bpf_strp_read_sock.
-> > Then we don't need this intermediate psock->read_sock callback, which
-> > doesn't do anything useful.
-> >
-> Ok, I will do this.
-> (BTW, I intended to avoid bringing "struct strparser" into tcp_bpf.c so I
-> added a wrapper function instead in skmsg.c without calling it directly) 
-> 
-I find that tcp_bpf_update_proto is called before sk_psock_init_strp. Any
-assignment of psock->cb.strp will be overwritten in sk_psock_init_strp.
+Translate .../security/tpm/index.rst into Chinese
 
-May read_sock still needed. But we can avoid adding wrapper function by
-assigning psock->read_sock to cb.read_sock directly like this:
+Update the translation through commit 1d479e3cd652
+("Documentation: tpm: Add TPM security docs toctree entry")
 
---- a/net/core/skmsg.c
-+++ b/net/core/skmsg.c
-@@ -1137,10 +1137,11 @@ int sk_psock_init_strp(struct sock *sk, struct sk_psock *psock)
- {
-        int ret;
-
--       static const struct strp_callbacks cb = {
-+       struct strp_callbacks cb = {
-                .rcv_msg        = sk_psock_strp_read,
-                .read_sock_done = sk_psock_strp_read_done,
-                .parse_msg      = sk_psock_strp_parse,
-+               .read_sock      = psock->read_sock,
-        };
-
-        ret = strp_init(&psock->strp, sk, &cb);
-
+Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
 ---
-Thanks
+ .../translations/zh_CN/security/tpm/index.rst | 22 +++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/security/tpm/index.rst
+
+diff --git a/Documentation/translations/zh_CN/security/tpm/index.rst b/Documentation/translations/zh_CN/security/tpm/index.rst
+new file mode 100644
+index 000000000000..edcc850606ce
+--- /dev/null
++++ b/Documentation/translations/zh_CN/security/tpm/index.rst
+@@ -0,0 +1,22 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../../disclaimer-zh_CN.rst
++
++:Original: Documentation/security/tpm/index.rst
++
++:翻译:
++ 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
++
++================
++可信平台模块文档
++================
++
++.. toctree::
++   :maxdepth: 1
++
++TODOLIST:
++*   tpm_event_log
++*   tpm-security
++*   tpm_tis
++*   tpm_vtpm_proxy
++*   xen-tpmfront
++*   tpm_ftpm_tee
+-- 
+2.47.1
 
