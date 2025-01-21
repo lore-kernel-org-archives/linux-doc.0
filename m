@@ -1,681 +1,369 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0232119F131;
-	Tue, 21 Jan 2025 05:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+Received: from mail-m3280.qiye.163.com (mail-m3280.qiye.163.com [220.197.32.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0798E18FC67
+	for <linux-doc@vger.kernel.org>; Tue, 21 Jan 2025 05:12:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737436208; cv=none; b=Nh/zPueJA30NKWAYlqNPXNwE6VPydyfeSUTy+a07xh0dV9T7e7P0aDTH8/DBGFmkUZ2YD86VHPaqGZRECa0kEReac0utrhkcK+dw2MGhoQ0mNxEDH8/ZP+ZoiSc7OSUWrTPLTr15gtVYyfhR9rPqYZnHZXTYv4YvllMGjpZhb40=
+	t=1737436375; cv=none; b=gFdPsvebglO0fqEoWn5XdiPbq+B3iPI/13CxiOKICkC56wU6HvGAIHOHKcCh99vjzamyD6coXGtfeuxRI795mk4A1luW+1Rw+UmsIRsCh5acMPLz9D1Y+RgYwHby8+vxdkOfBoW+aH2JxsUFlAwx2pi8SA3O+GdyHkdcEAUF4Yw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737436208; c=relaxed/simple;
-	bh=pjVKRaBjxkBBVcSeHbgZyeNf7qBAskW0Z/yRgCPJg3c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BjXUsJmhDTszWNSQubTMPUSwPfYkCkYexbDFXurYO0kHKCLvDqfJ4SR/A6Y6mdNmGQNBpdiVcXoAEW+ZqukCdi8bViCpjXLUn3DHBgN2CIRj0gpfU5Dwp+NGTsE9rxzZSmqrIr+PvJHYIIS/ZdpDpssJUS3w4PL1IOD/S0+cS3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ThOu9jU1; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1737436375; c=relaxed/simple;
+	bh=O+QoXhHtZ6BNcRv+V638bFiCPi8AXYnkXL5CENcpR44=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uBRCLztnkzsuU3sbTa2hZuOzjcVL2q8IrhP/oa9ZJ99S4wg8MLha+D8ea1fJYJIEcX+PHoDd2/noBByYF/VHchKAf6Gs2xjMWK2dzn0ZDs4PRHhEPh/mKZbYZK+GuKP3BZFl3XB87xinhOFFB6apIeu3j4v1/RCWheMjTr+sm5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=G6hcD234; arc=none smtp.client-ip=220.197.32.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ThOu9jU1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-ID:MIME-Version; bh=4UfR+
-	rqFWAIiDfImGIrTxypz0j9S0ypMlXklXhXGwWU=; b=ThOu9jU1O0qyr2HZ4zYis
-	uJiWXaL3FZ2QArHYQ7kPMozq8ufu2Dbdndw9kZf5gCe/QEdKW8yUFFYOHOvJS/NC
-	nESKF+m0oy9dL6EPR5WdMS+sIg8fMBcL9Kv1ntnnsLMWuhQbQmY7mySkAAZkMGS2
-	bAPyzjmnUKz2uzxv31p3U0=
-Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wBHwYeaK49nTErMHA--.41409S7;
-	Tue, 21 Jan 2025 13:08:46 +0800 (CST)
-From: Jiayuan Chen <mrpre@163.com>
-To: bpf@vger.kernel.org,
-	jakub@cloudflare.com,
-	john.fastabend@gmail.com
-Cc: netdev@vger.kernel.org,
-	martin.lau@linux.dev,
-	ast@kernel.org,
-	edumazet@google.com,
-	davem@davemloft.net,
-	dsahern@kernel.org,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	linux-kernel@vger.kernel.org,
-	song@kernel.org,
-	andrii@kernel.org,
-	mhal@rbox.co,
-	yonghong.song@linux.dev,
-	daniel@iogearbox.net,
-	xiyou.wangcong@gmail.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	eddyz87@gmail.com,
-	cong.wang@bytedance.com,
-	shuah@kernel.org,
-	mykolal@fb.com,
-	jolsa@kernel.org,
-	haoluo@google.com,
-	sdf@fomichev.me,
-	kpsingh@kernel.org,
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="G6hcD234"
+Received: from localhost.localdomain (unknown [123.53.38.48])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 9435e78e;
+	Tue, 21 Jan 2025 13:12:41 +0800 (GMT+08:00)
+From: zhangwei <zhangwei@cqsoftware.com.cn>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net
+Cc: zhaoshuo@cqsoftware.com.cn,
+	zhaoyuehui@cqsoftware.com.cn,
+	maoyuxian@cqsoftware.com.cn,
 	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Jiayuan Chen <mrpre@163.com>
-Subject: [PATCH bpf v8 5/5] selftests/bpf: add strparser test for bpf
-Date: Tue, 21 Jan 2025 13:07:07 +0800
-Message-ID: <20250121050707.55523-6-mrpre@163.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20250121050707.55523-1-mrpre@163.com>
-References: <20250121050707.55523-1-mrpre@163.com>
+	zhangwei <zhangwei@cqsoftware.com.cn>
+Subject: [PATCH v2] docs/zh_CN: Add self-protection index Chinese translation
+Date: Tue, 21 Jan 2025 13:12:32 +0800
+Message-ID: <20250121051234.79066-1-zhangwei@cqsoftware.com.cn>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wBHwYeaK49nTErMHA--.41409S7
-X-Coremail-Antispam: 1Uf129KBjvAXoW3Zw1xCw15Zry3Xw18Cw1fXrb_yoW8CF48Co
-	Zxuan5X3yxGwnxXrykW34DCw4fWF4xXr4DXr47J3yUuF1jyF42vayUGws3Ww1Skr4Sgryf
-	JFWjva4rWr45Ar4fn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvj4Rc18vDUUUU
-X-CM-SenderInfo: xpus2vi6rwjhhfrp/1tbiDwPbp2ePKc4ougAAst
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaQ0hDVh4ZQxlNH0xOSE8dQ1YVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKSUhVTkhVSENVT0NZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0hVSktLVU
+	pCS0tZBg++
+X-HM-Tid: 0a948746f2ac03abkunm9435e78e
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NyI6AQw5CzIQMDQNPA0XPBUo
+	ARcKFD1VSlVKTEhMT0hNSE1JT05LVTMWGhIXVQETGhUcDB4SOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSklIVU5IVUhDVU9DWVdZCAFZQUpPSE9KNwY+
+DKIM-Signature:a=rsa-sha256;
+	b=G6hcD234VO9YPdumUY9w1gVyVo5vzyn1ek7ySBWNriS42kIKmvce6RjLZyFqt40ZzUrEiOD5WNFDe8AlCV9cEcXlqGQuUHEtNkMixaMyhe16H+zaBaRVUafV/2vFO/v83/DrrhL6HrqDSBimBqTdw3YpWsWaIurf+8bRtEHB6Jo=; s=default; c=relaxed/relaxed; d=cqsoftware.com.cn; v=1;
+	bh=h5jhQT64HvVm5+2Q3Q8EvKzm9ObRj8yu6i6I18ZCUao=;
+	h=date:mime-version:subject:message-id:from;
 
-Add test cases for bpf + strparser and separated them from
-sockmap_basic, as strparser has more encapsulation and parsing
-capabilities compared to sockmap.
+Translate .../security/self-protection.rst into Chinese.
 
-Signed-off-by: Jiayuan Chen <mrpre@163.com>
+Update the translation through commit b080e52110ea
+("docs: update self-protection __ro_after_init status")
+
+Signed-off-by: zhangwei <zhangwei@cqsoftware.com.cn>
 ---
- .../selftests/bpf/prog_tests/sockmap_basic.c  |  53 --
- .../selftests/bpf/prog_tests/sockmap_strp.c   | 452 ++++++++++++++++++
- .../selftests/bpf/progs/test_sockmap_strp.c   |  53 ++
- 3 files changed, 505 insertions(+), 53 deletions(-)
- create mode 100644 tools/testing/selftests/bpf/prog_tests/sockmap_strp.c
- create mode 100644 tools/testing/selftests/bpf/progs/test_sockmap_strp.c
 
-diff --git a/tools/testing/selftests/bpf/prog_tests/sockmap_basic.c b/tools/testing/selftests/bpf/prog_tests/sockmap_basic.c
-index 0c51b7288978..f8953455db29 100644
---- a/tools/testing/selftests/bpf/prog_tests/sockmap_basic.c
-+++ b/tools/testing/selftests/bpf/prog_tests/sockmap_basic.c
-@@ -531,57 +531,6 @@ static void test_sockmap_skb_verdict_shutdown(void)
- 	test_sockmap_pass_prog__destroy(skel);
- }
- 
--static void test_sockmap_stream_pass(void)
--{
--	int zero = 0, sent, recvd;
--	int verdict, parser;
--	int err, map;
--	int c = -1, p = -1;
--	struct test_sockmap_pass_prog *pass = NULL;
--	char snd[256] = "0123456789";
--	char rcv[256] = "0";
--
--	pass = test_sockmap_pass_prog__open_and_load();
--	verdict = bpf_program__fd(pass->progs.prog_skb_verdict);
--	parser = bpf_program__fd(pass->progs.prog_skb_parser);
--	map = bpf_map__fd(pass->maps.sock_map_rx);
--
--	err = bpf_prog_attach(parser, map, BPF_SK_SKB_STREAM_PARSER, 0);
--	if (!ASSERT_OK(err, "bpf_prog_attach stream parser"))
--		goto out;
--
--	err = bpf_prog_attach(verdict, map, BPF_SK_SKB_STREAM_VERDICT, 0);
--	if (!ASSERT_OK(err, "bpf_prog_attach stream verdict"))
--		goto out;
--
--	err = create_pair(AF_INET, SOCK_STREAM, &c, &p);
--	if (err)
--		goto out;
--
--	/* sk_data_ready of 'p' will be replaced by strparser handler */
--	err = bpf_map_update_elem(map, &zero, &p, BPF_NOEXIST);
--	if (!ASSERT_OK(err, "bpf_map_update_elem(p)"))
--		goto out_close;
--
--	/*
--	 * as 'prog_skb_parser' return the original skb len and
--	 * 'prog_skb_verdict' return SK_PASS, the kernel will just
--	 * pass it through to original socket 'p'
--	 */
--	sent = xsend(c, snd, sizeof(snd), 0);
--	ASSERT_EQ(sent, sizeof(snd), "xsend(c)");
--
--	recvd = recv_timeout(p, rcv, sizeof(rcv), SOCK_NONBLOCK,
--			     IO_TIMEOUT_SEC);
--	ASSERT_EQ(recvd, sizeof(rcv), "recv_timeout(p)");
--
--out_close:
--	close(c);
--	close(p);
--
--out:
--	test_sockmap_pass_prog__destroy(pass);
--}
- 
- static void test_sockmap_skb_verdict_fionread(bool pass_prog)
- {
-@@ -1101,8 +1050,6 @@ void test_sockmap_basic(void)
- 		test_sockmap_progs_query(BPF_SK_SKB_VERDICT);
- 	if (test__start_subtest("sockmap skb_verdict shutdown"))
- 		test_sockmap_skb_verdict_shutdown();
--	if (test__start_subtest("sockmap stream parser and verdict pass"))
--		test_sockmap_stream_pass();
- 	if (test__start_subtest("sockmap skb_verdict fionread"))
- 		test_sockmap_skb_verdict_fionread(true);
- 	if (test__start_subtest("sockmap skb_verdict fionread on drop"))
-diff --git a/tools/testing/selftests/bpf/prog_tests/sockmap_strp.c b/tools/testing/selftests/bpf/prog_tests/sockmap_strp.c
+v2: fix remove the unnecessary blank lines 
+
+ .../translations/zh_CN/security/index.rst     |   2 +-
+ .../zh_CN/security/self-protection.rst        | 271 ++++++++++++++++++
+ 2 files changed, 272 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/security/self-protection.rst
+
+diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
+index 0aacecabf0c0..9a6345dd90b8 100644
+--- a/Documentation/translations/zh_CN/security/index.rst
++++ b/Documentation/translations/zh_CN/security/index.rst
+@@ -18,6 +18,7 @@
+    credentials
+    lsm
+    sak
++   self-protection
+    siphash
+    tpm/index
+    digsig
+@@ -29,6 +30,5 @@ TODOLIST:
+ * keys/index
+ * lsm-development
+ * SCTP
+-* self-protection
+ * secrets/index
+ * ipe
+diff --git a/Documentation/translations/zh_CN/security/self-protection.rst b/Documentation/translations/zh_CN/security/self-protection.rst
 new file mode 100644
-index 000000000000..01ed1fca1d9c
+index 000000000000..3c8a68b1e1be
 --- /dev/null
-+++ b/tools/testing/selftests/bpf/prog_tests/sockmap_strp.c
-@@ -0,0 +1,452 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <error.h>
-+#include <netinet/tcp.h>
-+#include <test_progs.h>
-+#include "sockmap_helpers.h"
-+#include "test_skmsg_load_helpers.skel.h"
-+#include "test_sockmap_strp.skel.h"
-+#define STRP_PKT_HEAD_LEN 4
-+#define STRP_PKT_BODY_LEN 6
-+#define STRP_PKT_FULL_LEN (STRP_PKT_HEAD_LEN + STRP_PKT_BODY_LEN)
-+static const char packet[STRP_PKT_FULL_LEN] = "head+body\0";
-+static const int test_packet_num = 100;
-+
-+/* current implementation of tcp_bpf_recvmsg_parser() invoke
-+ * data_ready with sk held if skb exist in sk_receive_queue.
-+ * Then for data_ready implementation of strparser, it will
-+ * delay the read operation if sk was held and EAGAIN is returned.
-+ */
-+static int sockmap_strp_consume_pre_data(int p)
-+{
-+	int recvd;
-+	bool retried = false;
-+	char rcv[10];
-+
-+retry:
-+	errno = 0;
-+	recvd = recv_timeout(p, rcv, sizeof(rcv), 0, 1);
-+	if (recvd < 0 && errno == EAGAIN && retried == false) {
-+		/* On the first call, EAGAIN will certainly be returned.
-+		 * Waiting 1 second is pretty enough wait workqueue finish.
-+		 */
-+		sleep(1);
-+		retried = true;
-+		goto retry;
-+	}
-+
-+	if (!ASSERT_EQ(recvd, STRP_PKT_FULL_LEN, "recv_timeout(pre-data)") ||
-+	    !ASSERT_OK(memcmp(packet, rcv, STRP_PKT_FULL_LEN),
-+				"memcmp pre-data"))
-+		return -1;
-+	return 0;
-+}
-+
-+static struct test_sockmap_strp *sockmap_strp_init(int *out_map, bool pass,
-+						   bool need_parser)
-+{
-+	struct test_sockmap_strp *strp = NULL;
-+	int verdict, parser;
-+	int err;
-+
-+	strp = test_sockmap_strp__open_and_load();
-+	*out_map = bpf_map__fd(strp->maps.sock_map);
-+
-+	if (need_parser)
-+		parser = bpf_program__fd(strp->progs.prog_skb_parser_partial);
-+	else
-+		parser = bpf_program__fd(strp->progs.prog_skb_parser);
-+
-+	if (pass)
-+		verdict = bpf_program__fd(strp->progs.prog_skb_verdict_pass);
-+	else
-+		verdict = bpf_program__fd(strp->progs.prog_skb_verdict);
-+
-+	err = bpf_prog_attach(parser, *out_map, BPF_SK_SKB_STREAM_PARSER, 0);
-+	if (!ASSERT_OK(err, "bpf_prog_attach stream parser"))
-+		goto err;
-+
-+	err = bpf_prog_attach(verdict, *out_map, BPF_SK_SKB_STREAM_VERDICT, 0);
-+	if (!ASSERT_OK(err, "bpf_prog_attach stream verdict"))
-+		goto err;
-+
-+	return strp;
-+err:
-+	test_sockmap_strp__destroy(strp);
-+	return NULL;
-+}
-+
-+/* Dispatch packets to different socket by packet size:
-+ *
-+ *                      ------  ------
-+ *                     | pkt4 || pkt1 |... > remote socket
-+ *  ------ ------     / ------  ------
-+ * | pkt8 | pkt7 |...
-+ *  ------ ------     \ ------  ------
-+ *                     | pkt3 || pkt2 |... > local socket
-+ *                      ------  ------
-+ */
-+static void test_sockmap_strp_dispatch_pkt(int family, int sotype)
-+{
-+	int i, j, zero = 0, one = 1, recvd;
-+	int err, map;
-+	int c0 = -1, p0 = -1, c1 = -1, p1 = -1;
-+	struct test_sockmap_strp *strp = NULL;
-+	int test_cnt = 6;
-+	char rcv[10];
-+	struct {
-+		char	data[7];
-+		int	data_len;
-+		int	send_cnt;
-+		int	*receiver;
-+	} send_dir[2] = {
-+		/* data expected to deliver to local */
-+		{"llllll", 6, 0, &p0},
-+		/* data expected to deliver to remote */
-+		{"rrrrr",  5, 0, &c1}
-+	};
-+
-+	strp = sockmap_strp_init(&map, false, false);
-+	if (!ASSERT_TRUE(strp, "sockmap_strp_init"))
-+		return;
-+
-+	err = create_socket_pairs(family, sotype, &c0, &c1, &p0, &p1);
-+	if (!ASSERT_OK(err, "create_socket_pairs()"))
-+		goto out;
-+
-+	err = bpf_map_update_elem(map, &zero, &p0, BPF_NOEXIST);
-+	if (!ASSERT_OK(err, "bpf_map_update_elem(p0)"))
-+		goto out_close;
-+
-+	err = bpf_map_update_elem(map, &one, &p1, BPF_NOEXIST);
-+	if (!ASSERT_OK(err, "bpf_map_update_elem(p1)"))
-+		goto out_close;
-+
-+	err = setsockopt(c1, IPPROTO_TCP, TCP_NODELAY, &zero, sizeof(zero));
-+	if (!ASSERT_OK(err, "setsockopt(TCP_NODELAY)"))
-+		goto out_close;
-+
-+	/* deliver data with data size greater than 5 to local */
-+	strp->data->verdict_max_size = 5;
-+
-+	for (i = 0; i < test_cnt; i++) {
-+		int d = i % 2;
-+
-+		xsend(c0, send_dir[d].data, send_dir[d].data_len, 0);
-+		send_dir[d].send_cnt++;
-+	}
-+
-+	for (i = 0; i < 2; i++) {
-+		for (j = 0; j < send_dir[i].send_cnt; j++) {
-+			int expected = send_dir[i].data_len;
-+
-+			recvd = recv_timeout(*send_dir[i].receiver, rcv,
-+					     expected, MSG_DONTWAIT,
-+					     IO_TIMEOUT_SEC);
-+			if (!ASSERT_EQ(recvd, expected, "recv_timeout()"))
-+				goto out_close;
-+			if (!ASSERT_OK(memcmp(send_dir[i].data, rcv, recvd),
-+				       "memcmp(rcv)"))
-+				goto out_close;
-+		}
-+	}
-+out_close:
-+	close(c0);
-+	close(c1);
-+	close(p0);
-+	close(p1);
-+out:
-+	test_sockmap_strp__destroy(strp);
-+}
-+
-+/* We have multiple packets in one skb
-+ * ------------ ------------ ------------
-+ * |  packet1  |   packet2  |  ...
-+ * ------------ ------------ ------------
-+ */
-+static void test_sockmap_strp_multiple_pkt(int family, int sotype)
-+{
-+	int i, zero = 0;
-+	int sent, recvd, total;
-+	int err, map;
-+	int c = -1, p = -1;
-+	struct test_sockmap_strp *strp = NULL;
-+	char *snd = NULL, *rcv = NULL;
-+
-+	strp = sockmap_strp_init(&map, true, true);
-+	if (!ASSERT_TRUE(strp, "sockmap_strp_init"))
-+		return;
-+
-+	err = create_pair(family, sotype, &c, &p);
-+	if (err)
-+		goto out;
-+
-+	err = bpf_map_update_elem(map, &zero, &p, BPF_NOEXIST);
-+	if (!ASSERT_OK(err, "bpf_map_update_elem(zero, p)"))
-+		goto out_close;
-+
-+	/* construct multiple packets in one buffer */
-+	total = test_packet_num * STRP_PKT_FULL_LEN;
-+	snd = malloc(total);
-+	rcv = malloc(total + 1);
-+	if (!ASSERT_TRUE(snd, "malloc(snd)") ||
-+	    !ASSERT_TRUE(rcv, "malloc(rcv)"))
-+		goto out_close;
-+
-+	for (i = 0; i < test_packet_num; i++) {
-+		memcpy(snd + i * STRP_PKT_FULL_LEN,
-+		       packet, STRP_PKT_FULL_LEN);
-+	}
-+
-+	sent = xsend(c, snd, total, 0);
-+	if (!ASSERT_EQ(sent, total, "xsend(c)"))
-+		goto out_close;
-+
-+	/* try to recv one more byte to avoid truncation check */
-+	recvd = recv_timeout(p, rcv, total + 1, MSG_DONTWAIT, IO_TIMEOUT_SEC);
-+	if (!ASSERT_EQ(recvd, total, "recv(rcv)"))
-+		goto out_close;
-+
-+	/* we sent TCP segment with multiple encapsulation
-+	 * then check whether packets are handled correctly
-+	 */
-+	if (!ASSERT_OK(memcmp(snd, rcv, total), "memcmp(snd, rcv)"))
-+		goto out_close;
-+
-+out_close:
-+	close(c);
-+	close(p);
-+	if (snd)
-+		free(snd);
-+	if (rcv)
-+		free(rcv);
-+out:
-+	test_sockmap_strp__destroy(strp);
-+}
-+
-+/* Test strparser with partial read */
-+static void test_sockmap_strp_partial_read(int family, int sotype)
-+{
-+	int zero = 0, recvd, off;
-+	int err, map;
-+	int c = -1, p = -1;
-+	struct test_sockmap_strp *strp = NULL;
-+	char rcv[STRP_PKT_FULL_LEN + 1] = "0";
-+
-+	strp = sockmap_strp_init(&map, true, true);
-+	if (!ASSERT_TRUE(strp, "sockmap_strp_init"))
-+		return;
-+
-+	err = create_pair(family, sotype, &c, &p);
-+	if (err)
-+		goto out;
-+
-+	/* sk_data_ready of 'p' will be replaced by strparser handler */
-+	err = bpf_map_update_elem(map, &zero, &p, BPF_NOEXIST);
-+	if (!ASSERT_OK(err, "bpf_map_update_elem(zero, p)"))
-+		goto out_close;
-+
-+	/* 1.1 send partial head, 1 byte header left*/
-+	off = STRP_PKT_HEAD_LEN - 1;
-+	xsend(c, packet, off, 0);
-+	recvd = recv_timeout(p, rcv, sizeof(rcv), MSG_DONTWAIT, 1);
-+	if (!ASSERT_EQ(-1, recvd, "insufficient head, should no data recvd"))
-+		goto out_close;
-+
-+	/* 1.2 send remaining head and body */
-+	xsend(c, packet + off, STRP_PKT_FULL_LEN - off, 0);
-+	recvd = recv_timeout(p, rcv, sizeof(rcv), MSG_DONTWAIT, IO_TIMEOUT_SEC);
-+	if (!ASSERT_EQ(recvd, STRP_PKT_FULL_LEN, "should full data recvd"))
-+		goto out_close;
-+
-+	/* 2.1 send partial head, 1 byte header left */
-+	off = STRP_PKT_HEAD_LEN - 1;
-+	xsend(c, packet, off, 0);
-+
-+	/* 2.2 send remaining head and partial body, 1 byte body left */
-+	xsend(c, packet + off, STRP_PKT_FULL_LEN - off - 1, 0);
-+	off = STRP_PKT_FULL_LEN - 1;
-+	recvd = recv_timeout(p, rcv, sizeof(rcv), MSG_DONTWAIT, 1);
-+	if (!ASSERT_EQ(-1, recvd, "insufficient body, should no data read"))
-+		goto out_close;
-+
-+	/* 2.3 send remaining body */
-+	xsend(c, packet + off, STRP_PKT_FULL_LEN - off, 0);
-+	recvd = recv_timeout(p, rcv, sizeof(rcv), MSG_DONTWAIT, IO_TIMEOUT_SEC);
-+	if (!ASSERT_EQ(recvd, STRP_PKT_FULL_LEN, "should full data recvd"))
-+		goto out_close;
-+
-+out_close:
-+	close(c);
-+	close(p);
-+
-+out:
-+	test_sockmap_strp__destroy(strp);
-+}
-+
-+/* Test simple socket read/write with strparser + FIONREAD */
-+static void test_sockmap_strp_pass(int family, int sotype, bool fionread)
-+{
-+	int zero = 0, pkt_size = STRP_PKT_FULL_LEN, sent, recvd, avail;
-+	int err, map;
-+	int c = -1, p = -1;
-+	int test_cnt = 10, i;
-+	struct test_sockmap_strp *strp = NULL;
-+	char rcv[STRP_PKT_FULL_LEN + 1] = "0";
-+
-+	strp = sockmap_strp_init(&map, true, true);
-+	if (!ASSERT_TRUE(strp, "sockmap_strp_init"))
-+		return;
-+
-+	err = create_pair(family, sotype, &c, &p);
-+	if (err)
-+		goto out;
-+
-+	/* inject some data before bpf process, it should be read
-+	 * correctly because we check sk_receive_queue in
-+	 * tcp_bpf_recvmsg_parser()
-+	 */
-+	sent = xsend(c, packet, pkt_size, 0);
-+	if (!ASSERT_EQ(sent, pkt_size, "xsend(pre-data)"))
-+		goto out_close;
-+
-+	/* sk_data_ready of 'p' will be replaced by strparser handler */
-+	err = bpf_map_update_elem(map, &zero, &p, BPF_NOEXIST);
-+	if (!ASSERT_OK(err, "bpf_map_update_elem(p)"))
-+		goto out_close;
-+
-+	/* consume previous data we injected */
-+	if (sockmap_strp_consume_pre_data(p))
-+		goto out_close;
-+
-+	/* Previously, we encountered issues such as deadlocks and
-+	 * sequence errors that resulted in the inability to read
-+	 * continuously. Therefore, we perform multiple iterations
-+	 * of testing here.
-+	 */
-+	for (i = 0; i < test_cnt; i++) {
-+		sent = xsend(c, packet, pkt_size, 0);
-+		if (!ASSERT_EQ(sent, pkt_size, "xsend(c)"))
-+			goto out_close;
-+
-+		recvd = recv_timeout(p, rcv, sizeof(rcv), MSG_DONTWAIT,
-+				     IO_TIMEOUT_SEC);
-+		if (!ASSERT_EQ(recvd, pkt_size, "recv_timeout(p)") ||
-+		    !ASSERT_OK(memcmp(packet, rcv, pkt_size),
-+				  "memcmp"))
-+			goto out_close;
-+	}
-+
-+	if (fionread) {
-+		sent = xsend(c, packet, pkt_size, 0);
-+		if (!ASSERT_EQ(sent, pkt_size, "second xsend(c)"))
-+			goto out_close;
-+
-+		err = ioctl(p, FIONREAD, &avail);
-+		if (!ASSERT_OK(err, "ioctl(FIONREAD) error") ||
-+		    !ASSERT_EQ(avail, pkt_size, "ioctl(FIONREAD)"))
-+			goto out_close;
-+
-+		recvd = recv_timeout(p, rcv, sizeof(rcv), MSG_DONTWAIT,
-+				     IO_TIMEOUT_SEC);
-+		if (!ASSERT_EQ(recvd, pkt_size, "second recv_timeout(p)") ||
-+		    !ASSERT_OK(memcmp(packet, rcv, pkt_size),
-+			      "second memcmp"))
-+			goto out_close;
-+	}
-+
-+out_close:
-+	close(c);
-+	close(p);
-+
-+out:
-+	test_sockmap_strp__destroy(strp);
-+}
-+
-+/* Test strparser with verdict mode */
-+static void test_sockmap_strp_verdict(int family, int sotype)
-+{
-+	int zero = 0, one = 1, sent, recvd, off;
-+	int err, map;
-+	int c0 = -1, p0 = -1, c1 = -1, p1 = -1;
-+	struct test_sockmap_strp *strp = NULL;
-+	char rcv[STRP_PKT_FULL_LEN + 1] = "0";
-+
-+	strp = sockmap_strp_init(&map, false, true);
-+	if (!ASSERT_TRUE(strp, "sockmap_strp_init"))
-+		return;
-+
-+	/* We simulate a reverse proxy server.
-+	 * When p0 receives data from c0, we forward it to c1.
-+	 * From c1's perspective, it will consider this data
-+	 * as being sent by p1.
-+	 */
-+	err = create_socket_pairs(family, sotype, &c0, &c1, &p0, &p1);
-+	if (!ASSERT_OK(err, "create_socket_pairs()"))
-+		goto out;
-+
-+	err = bpf_map_update_elem(map, &zero, &p0, BPF_NOEXIST);
-+	if (!ASSERT_OK(err, "bpf_map_update_elem(p0)"))
-+		goto out_close;
-+
-+	err = bpf_map_update_elem(map, &one, &p1, BPF_NOEXIST);
-+	if (!ASSERT_OK(err, "bpf_map_update_elem(c1)"))
-+		goto out_close;
-+
-+	sent = xsend(c0, packet, STRP_PKT_FULL_LEN, 0);
-+	if (!ASSERT_EQ(sent, STRP_PKT_FULL_LEN, "xsend(c0)"))
-+		goto out_close;
-+
-+	recvd = recv_timeout(c1, rcv, sizeof(rcv), MSG_DONTWAIT,
-+			     IO_TIMEOUT_SEC);
-+	if (!ASSERT_EQ(recvd, STRP_PKT_FULL_LEN, "recv_timeout(p1)") ||
-+	    !ASSERT_OK(memcmp(packet, rcv, STRP_PKT_FULL_LEN),
-+			  "received data does not match the sent data"))
-+		goto out_close;
-+
-+	/* send again to ensure the stream is functioning correctly. */
-+	sent = xsend(c0, packet, STRP_PKT_FULL_LEN, 0);
-+	if (!ASSERT_EQ(sent, STRP_PKT_FULL_LEN, "second xsend(c0)"))
-+		goto out_close;
-+
-+	/* partial read */
-+	off = STRP_PKT_FULL_LEN / 2;
-+	recvd = recv_timeout(c1, rcv, off, MSG_DONTWAIT,
-+			     IO_TIMEOUT_SEC);
-+	recvd += recv_timeout(c1, rcv + off, sizeof(rcv) - off, MSG_DONTWAIT,
-+			      IO_TIMEOUT_SEC);
-+
-+	if (!ASSERT_EQ(recvd, STRP_PKT_FULL_LEN, "partial recv_timeout(c1)") ||
-+	    !ASSERT_OK(memcmp(packet, rcv, STRP_PKT_FULL_LEN),
-+			  "partial received data does not match the sent data"))
-+		goto out_close;
-+
-+out_close:
-+	close(c0);
-+	close(c1);
-+	close(p0);
-+	close(p1);
-+out:
-+	test_sockmap_strp__destroy(strp);
-+}
-+
-+void test_sockmap_strp(void)
-+{
-+	if (test__start_subtest("sockmap strp tcp pass"))
-+		test_sockmap_strp_pass(AF_INET, SOCK_STREAM, false);
-+	if (test__start_subtest("sockmap strp tcp v6 pass"))
-+		test_sockmap_strp_pass(AF_INET6, SOCK_STREAM, false);
-+	if (test__start_subtest("sockmap strp tcp pass fionread"))
-+		test_sockmap_strp_pass(AF_INET, SOCK_STREAM, true);
-+	if (test__start_subtest("sockmap strp tcp v6 pass fionread"))
-+		test_sockmap_strp_pass(AF_INET6, SOCK_STREAM, true);
-+	if (test__start_subtest("sockmap strp tcp verdict"))
-+		test_sockmap_strp_verdict(AF_INET, SOCK_STREAM);
-+	if (test__start_subtest("sockmap strp tcp v6 verdict"))
-+		test_sockmap_strp_verdict(AF_INET6, SOCK_STREAM);
-+	if (test__start_subtest("sockmap strp tcp partial read"))
-+		test_sockmap_strp_partial_read(AF_INET, SOCK_STREAM);
-+	if (test__start_subtest("sockmap strp tcp multiple packets"))
-+		test_sockmap_strp_multiple_pkt(AF_INET, SOCK_STREAM);
-+	if (test__start_subtest("sockmap strp tcp dispatch"))
-+		test_sockmap_strp_dispatch_pkt(AF_INET, SOCK_STREAM);
-+}
-diff --git a/tools/testing/selftests/bpf/progs/test_sockmap_strp.c b/tools/testing/selftests/bpf/progs/test_sockmap_strp.c
-new file mode 100644
-index 000000000000..dde3d5bec515
---- /dev/null
-+++ b/tools/testing/selftests/bpf/progs/test_sockmap_strp.c
-@@ -0,0 +1,53 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/bpf.h>
-+#include <bpf/bpf_helpers.h>
-+#include <bpf/bpf_endian.h>
-+int verdict_max_size = 10000;
-+struct {
-+	__uint(type, BPF_MAP_TYPE_SOCKMAP);
-+	__uint(max_entries, 20);
-+	__type(key, int);
-+	__type(value, int);
-+} sock_map SEC(".maps");
-+
-+SEC("sk_skb/stream_verdict")
-+int prog_skb_verdict(struct __sk_buff *skb)
-+{
-+	__u32 one = 1;
-+
-+	if (skb->len > verdict_max_size)
-+		return SK_PASS;
-+
-+	return bpf_sk_redirect_map(skb, &sock_map, one, 0);
-+}
-+
-+SEC("sk_skb/stream_verdict")
-+int prog_skb_verdict_pass(struct __sk_buff *skb)
-+{
-+	return SK_PASS;
-+}
-+
-+SEC("sk_skb/stream_parser")
-+int prog_skb_parser(struct __sk_buff *skb)
-+{
-+	return skb->len;
-+}
-+
-+SEC("sk_skb/stream_parser")
-+int prog_skb_parser_partial(struct __sk_buff *skb)
-+{
-+	/* agreement with the test program on a 4-byte size header
-+	 * and 6-byte body.
-+	 */
-+	if (skb->len < 4) {
-+		/* need more header to determine full length */
-+		return 0;
-+	}
-+	/* return full length decoded from header.
-+	 * the return value may be larger than skb->len which
-+	 * means framework must wait body coming.
-+	 */
-+	return 10;
-+}
-+
-+char _license[] SEC("license") = "GPL";
++++ b/Documentation/translations/zh_CN/security/self-protection.rst
+@@ -0,0 +1,271 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++:Original: Documentation/security/self-protection.rst
++
++:翻译:
++
++ 张巍 zhangwei <zhangwei@cqsoftware.com.cn>
++
++============
++内核自我保护
++============
++
++内核自我保护是指在Linux内核中设计与实现的各种系统与结构
++以防止内核本身的安全漏洞问题。它涵盖了广泛问题，包括去除
++整个类的漏洞，阻止安全漏洞利用方法，以及主动检测攻击尝
++试。并非所有的话题都在本文中涉及，但它应该为了解内核自我
++保护提供一个合理的起点，并解答常见的问题。（当然，欢迎提
++交补丁！）
++
++在最坏的情况下，我们假设一个非特权的本地攻击者对内核内存
++有任意读写访问权限。虽然在许多情况下，漏洞被利用时并不会
++提供此级别的访问权限，但如果我们能防御最坏情况，也能应对
++权限较低的攻击。一个更高的标准，且需要牢记的是保护内核免
++受具有特权的本地攻击者的攻击，因为root用户可以有更多权限。
++（尤其是当他们能够加载任意内核模块时）
++
++成功的自我保护的目标是：有效、默认开启、不需要开发者主动
++选择、没有性能影响、不妨碍内核调试、并且没有测试。虽然很
++难满足所有的这些目标，但明确提到这些目标非常重要，因为这
++些方面需要被探索、解决或接受。
++
++==========
++攻击面缩减
++==========
++
++防止安全漏洞最基本的防御方式是减少可以被用来重定向执行的
++内核区域。这包括限制用户公开使用的API、使内核API更难被错
++误使用、最小化可写内核内存区域等。
++
++严格的内核内存权限
++-------------------
++
++当所有内核内存都是可写的，攻击者可以轻松地重定向执行流。
++为了减少这种攻击目标的可用性，内核需要更严格的权限集来
++保护其内存。
++
++可执行代码和只读数据必须不可写
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++任何具有可执行内存的区域必须不可写，显然这也包括内核文本
++本身。我们还必须考虑其他地方：内核模块、JIT内存等，（在
++某些情况下，为了支持像指令替代、断点、kprobes等功能，这些
++区域会暂时被设置为可写。如果这些功能必须存在于内核中，它
++们的实现方式是：在更新期间将内存临时设置可写，然后再恢复
++为原始权限。）
++
++为了支持这一点，CONFIG_STRICT_KERNEL_RWX 和
++CONFIG_STRICT_MODULE_RWX 的设计旨在确保代码不可写，数据不
++可执行，以及只读数据既不可写也不可执行。
++
++大多数架构默认支持这些选项，且用户无法选择。对于一些像arm
++这种希望能够选择这些选项的架构，可以在架构Kconfig中选择
++ARCH_OPTIONAL_KERNEL_RWX以启用Kconfig提示。
++CONFIG_ARCH_OPTIONAL_KERNEL_RWX_DEFAULT决定在启用
++ARCH_OPTIONAL_KERNEL_RWX时的默认设置。
++
++函数指针和敏感变量必须不可写
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++内核内存中有大量的函数指针，这些指针被内核查找并用于继续执行
++（例如，描述符/向量表、文件/网络等操作结构等）。这些变量的数
++量必须减少到最低限度
++
++许多像这样的变量可以通过设置为"const"来实现只读，从而使它们
++存放在内核的.rodata段而非.data段，从而获得内核严格内存权限的
++保护。
++
++对于在_init是仅初始化一次的变量，可以使用_ro_after_init属性
++进行标记。
++
++剩下的变量通常是那些更新频率较低的（例如GDT）。这些变量需要另
++一个机制（类似于上述提到的对内核代码所做的临时例外），以便在
++其余生命周期内保持只读状态。（例如，在进行更新时，只有执行
++更新的CPU线程会被授予对内存的不可中断写入访问权限。）
++
++将内核内存与用户空间内存分隔开
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++内核绝对不可以执行用户空间内存，同时，内核也不得在没有明确预
++期的情况下访问用户内存空间。这些规则可以通过一些硬件限制来支
++持（如x86的SMEP/SMAP，ARM的PXN/PAN）或通过仿真（如ARM的内存
++域）来强制执行。通过这种方式阻止用户空间内存的访问，攻击者就
++无法将执行和数据解析转移到易于控制的用户空间内存，从而迫使攻
++击完全在内核中进行。
++
++减少对系统调用的访问
++--------------------
++
++对于64位系统，一种消除许多系统调用最简单的方法是构建时不启用
++CONFIG_CONPAT。然而，这种情况通常不可行。
++
++“seccomp”系统为用户空间提供了一种可选功能，提供了一种减少可供
++运行中进程使用内核入口点数量的方法。这限制了可以访问内核代码
++的范围，可能降低了某个特定漏洞被攻击者利用的可能性。
++
++一个改进的方向是创建有效的方法，仅允许受信任的进程访问例如兼
++容模式、用户命名空间、BPF创建和性能分析等功能。这将把内核入口
++点范围限制在通常可以被非特权用户空间进程访问的较常见集合中
++
++限制对内核模块的访问
++--------------------
++
++内核绝不应允许非特权用户加载特定的内核模块，因为这可能为攻击者
++提供一个意外扩展的可用攻击面的方法。（通过已预定义子系统按需加
++载模块，如MODULE_ALIAS_*，被认为是“预期的”，但即便如此，也应对
++这些情况给予更多的关注。）例如，通过非特权的套接字API加载文件
++系统模块是没有意义的：只有root用户或物理本地用户应该触发文件系
++统模块的加载。（在某些情况下，这甚至可能存在争议。）
++
++为了防止特权用户的攻击，系统可能需要完全禁止模块加载（例如，通
++过单体内核构建或modules_disabled sysctl），或者使用签名模块（例
++如，CONFIG_MODULE_SIG_FORCE或通过LoadPin保护的dm-crypt），以防
++止root用户通过模块加载器加载任意内核代码。
++
++内存完整性
++----------
++
++内核中有许多内存结构在攻击过程中被定期泛滥用以获取执行控制，迄今
++为止，最常见的是堆栈缓冲区溢出，在这种攻击中，堆栈上存储的返回地
++址被覆盖。除此之外，还有许多其他类型的攻击，防护措施也应运而生。
++
++堆栈缓冲区溢出
++--------------
++
++经典的堆栈缓冲区溢出攻击是指超出栈上分配的变量预期大小，从而将一
++个受控值写入栈帧的返回地址。最常见的防御措施是堆栈保护
++（CONFIG_STACKPROTECTOR），它在函数返回前会验证栈上的“stack canary”。
++其他防御措施还包括影子堆栈等。
++
++堆栈深度溢出
++------------
++
++一个不太容易被理解的攻击方式是利用bug触发内核通过深度函数调用或
++大的堆栈分配来消耗堆栈内存。通过这种攻击，攻击者可以将数据写入内
++核预分配堆栈空间之外的敏感结构。为了更好的防护这种攻击，必须进行
++两项重要的更改：将敏感的线程信息结构转移到其他地方，并在堆栈底部
++添加一个故障内存洞，以捕获这些溢出
++
++栈内存完整性
++------------
++
++用于跟踪堆空闲列表的结构可以在分配和释放时进行完整性检查，以确保它
++们不会被用来操作其它内存区域。
++
++计算器完整性
++------------
++
++内核中的许多地方使用原子计数器来跟踪对象引用或执行类似的生命周期管
++理。当这些计数器可能发生溢出时（无论是上溢还是下溢），这通常会暴露
++出使用后释放（use-after-free）漏洞。通过捕捉原子计数器溢出，这类漏
++洞就可以消失。
++
++大小计算溢出检测
++----------------
++
++与计算器溢出类似，整数溢出（通常是大小计算）需要在运行时进行检测，
++以防止这类在传统上会导致能够写入内核缓冲区末尾之外的漏洞。
++
++概率性防御
++----------
++
++尽管许多防御措施可以被认定是确定的（例如，只读内存不能写入），但
++有些确保措施仅提供统计防御，即攻击者必须收集足够的关于运行系统的
++信息才能突破防御。尽管这些防御并不完美，但它们确实提供了有意义的
++保护。
++
++栈保护、迷惑技术和其他秘密
++--------------------------
++
++值得注意的是，像之前讨论的栈保护这样的技术，从技术上来说是统计性防
++御，因为它们依赖于一个秘密值，而这样的值可能会通过信息泄露漏洞而被
++发现。
++
++对于想JIT（及时翻译器）这样的情况，其中可执行内容可能部分由用户空间
++控制，也需要类似的秘密之来迷惑。
++
++至关重要的是，所使用的秘密值必须是独立的（例如，每个栈使用不同的栈
++保护值），并且具有高熵（例如，随机数生成器（RNG）是否正常工作？），
++以最大限度地提高其成功率。
++
++内核地址空间布局随机化（KASLR）
++-------------------------------
++
++由于内核内存的位置几乎总是攻击成功的关键因素，因此使内核内存位置变
++得非确定性会增加攻击的难度。（请注意，这反过来提高了信息泄露的价
++值，因为泄露的信息可以用来发现目标内存位置。）
++
++文本和模块基址
++--------------
++
++通过在启动时重新设定内核的物理基地址和虚拟基地址
++（CONFIG_RANDOMIZE_BASE）,那些需要利用内核代码的攻击将会受阻。此外
++通过偏移模块加载基地址，意味着即使系统每次启动时按相同顺序加载同一
++组模块，这些模块也不会与内核文本的其余部分公用一个基地址。
++
++堆栈基地址
++----------
++
++如果进程之间内核堆栈的基地址不相同，甚至在不同系统调用之间也不相同，
++那么栈上或超出栈的目标位置就会变得更加难以确定。
++
++动态内存基址
++------------
++
++很多内核的动态内存（例如kmalloc，vmalloc等）由于早期启动初始化的顺
++序，最终布局是相对确定的。如果这些区域的基地址在启动之间不相同，攻
++击者就无法轻易定位它们，必须依赖于针对该区域的信息泄露才能成功。
++
++结构布局
++--------
++
++通过在每次构建时对敏感结构的布局进行随机化处理，攻击这必须将攻击调
++节到已知的内核版本，或者泄露足够的内核内存来确定结构布局，然后才能
++对其进行操作。
++
++防止信息泄露
++------------
++
++由于敏感结构的位置是攻击的主要目标，因此防止内核内存地址和内核内存
++内容泄露非常重要（因为它们可能包含内核地址或者其他敏感数据，例如
++栈保护值）。
++
++内核地址
++--------
++
++将内核地址打印到用户空间会泄露有关内核内存布局的敏感信息。在使用任
++何打印符号打印原始地址时，目前%px,%p[ad]（和在某些情况下的%p[sSb]）
++时。使用这些格式符写入的文件需要限制为只有特权进程可读。
++
++在4.14及以前的内核版本中，使用%p格式符打印的是原始地址。从4.15-rcl
++版本开始，使用%p格式符打印的地址会在打印前进行哈希处理。
++
++[*]如果启用KALLSYMS并且符号查找失败，则打印原始地址；如果没有启用
++KALLSYSM，则会直接打印原始地址。
++
++唯一标识符
++----------
++
++内核内存地址绝不可能用作向用户空间公开的标识符。相反，应该使用原子
++计数器，IDR（ID映射表）或类似的唯一标识符。
++
++内存初始化
++----------
++
++复制到用户空间的内存必须始终被完全初始化，如果没有显式地使用memset()
++函数进行初始化，那就需要修改编译器，确保清除结构中的空洞。
++
++内存清除
++--------
++
++在释放内存时，最好对内存内容进行清除处理，以防止攻击者重用内存中以前
++的内容。例如，在系统调用返回时清除堆栈（CONFIG_GCC_PLUGIN_STACKLEAK）,
++在释放堆内容是清除其内容。这有助于防止许多未初始化变量攻击、堆栈内容
++泄露、堆内容泄露以及使用后释放攻击（user-after-free）。
++
++目标追踪
++--------
++
++为了帮助消除导致内核地址被写入用户空间的各种错误，需要跟踪写入的目标。
++如果缓冲区的目标是用户空间（例如，基于seq_file的/proc文件），则应该自
++动审查敏感值。
 -- 
-2.43.5
+2.47.1
 
