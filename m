@@ -1,159 +1,99 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854891F8907;
-	Tue, 21 Jan 2025 21:42:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16FC918AE2;
+	Tue, 21 Jan 2025 22:53:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737495763; cv=none; b=fmTW46vOTiOB4O8fGAikePPl4FcoEbfqJHfYHC5MfYFLAsNSr3CnLVhjpOTrQfVGQUlHSYFOsXsSLmOsCtDaAnP+sXYD/XxnCwvjzqVAmtXM3eogTET2RUf7vbEga6Jb8+UVN9zCYUmIduJDt9DJ7uDflVLJIx3wBiA9nJhfNPs=
+	t=1737499987; cv=none; b=qkMqP59YkdE6TYL9KWfjgjxPVG1nv0TOdU+DQrUc+UCi2xjQIH+IVGs26oT/9OsZm5fB0DUlGCEENVlaGjWUSMBiwhnZe6aUceFv5/HSITBwvutj5w9o53nfrquPZ/ZRVtWs/+mbctBXkfBdoWI+hleQ93SDNJw8mzujQBLQ3Zs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737495763; c=relaxed/simple;
-	bh=n4RD4dubYEheuUHrbVhCJJ//W+/igb2v1YzPOqVxCQ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OC+4T2LTYZZZ4vnTSnkmAc52YP2K8gQj4+Jo6mozQLC7OHrggvJ+7q8OyB81nzvKy7SWwICEme1YWa1O0Hw6KAAbHB0LQmTqjMyN8AaWtx/rhjQBLI9nDGX0X7PagZ6SscznACwUOPZM+otgbnE3FKDG/g4/S/YzOSrjVMa3vkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=UAaiESDb; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1737499987; c=relaxed/simple;
+	bh=hHTSotaKXn6mqlfsuZRFL7mUlXbYedRwitXa3n7zsZ4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LaHgQBqqriONNriuNI2mgHIX9rMrnw37Wb75rG7tVUUL/KyQXiufsWRKlgM+HL1PlkV1vqpLKgXptgMkXQwatdNHm9un+BjtLYtqeVDERqePVfj9VEY9f/vCcWYyVwBsvmgnqrMwHzuo3wr96pA0BcI8PQ/3qJe2dRjvsrLfvik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kv2sfTRc; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="UAaiESDb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1737495749;
-	bh=n4RD4dubYEheuUHrbVhCJJ//W+/igb2v1YzPOqVxCQ8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UAaiESDbbzPdmNmoLHqaSS32neGSY4I4ypNS43cOa1opJYbIFzp5lwCRIdBJAVUg1
-	 SJ/flduuaUI2McTECmdux8LoW+AFAtJ4YYQarZbEhhxciSfztwrJAY4gnYGR1DKCnm
-	 yvGK4nzYCbAgq6qyPhkj/UqjJ4HCwmc0d+ihxV5k=
-Date: Tue, 21 Jan 2025 22:42:28 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Roberto Sassu <roberto.sassu@huaweicloud.com>
-Cc: zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, 
-	eric.snowberg@oracle.com, corbet@lwn.net, mcgrof@kernel.org, petr.pavlu@suse.com, 
-	samitolvanen@google.com, da.gomez@samsung.com, akpm@linux-foundation.org, 
-	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com, shuah@kernel.org, 
-	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, linux-integrity@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-modules@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, wufan@linux.microsoft.com, pbrobinson@gmail.com, 
-	zbyszek@in.waw.pl, hch@lst.de, mjg59@srcf.ucam.org, pmatilai@redhat.com, 
-	jannh@google.com, dhowells@redhat.com, jikos@kernel.org, mkoutny@suse.com, 
-	ppavlu@suse.com, petr.vorel@gmail.com, mzerqung@0pointer.de, kgold@linux.ibm.com, 
-	Roberto Sassu <roberto.sassu@huawei.com>
-Subject: Re: [PATCH v6 01/15] lib: Add TLV parser
-Message-ID: <74b5c88d-7ab6-49f2-9b96-ac96cb4daf6e@t-8ch.de>
-References: <20241119104922.2772571-1-roberto.sassu@huaweicloud.com>
- <20241119104922.2772571-2-roberto.sassu@huaweicloud.com>
- <c316b1be-d18f-4bb0-8434-bcc9236619df@t-8ch.de>
- <b14358075fa56f7250d5c9000ab8ee181003ff13.camel@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kv2sfTRc"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43675b1155bso71600105e9.2;
+        Tue, 21 Jan 2025 14:53:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737499984; x=1738104784; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DNk8vcXhWS2lnex0vmdV4Bh3p7QN4YitPegQzBHEFfU=;
+        b=Kv2sfTRcVzmSP7IcbEay9lTRJey50NellXa/0nGej/6k50M36jR8UpvyTb+ZMAvul7
+         nS2jcaLadtwQPCNTf/Mwn4eGv9pGGlqouHmctbNpUGSv17nAWcg2nxPPn+gXqGTiTNHn
+         YKsMB6cejGw9DkAYT/c5chxv8J3+nMvlbHE9quMFRHvT/VZ1SaDMdQUR/wNR7qzTkCrp
+         m9rNx4F+5tKWwWCu8bTjv/rjUK+pYvZhshLRT2ui0/8J6wSgjaCPA6eOoR5LtjABbwrs
+         y6djq7VRksfFDVRA+W0FOh4tWQRMTL1gixSPuQ0MUMWGwpjyUdk5IOzljWw5wTGtv+Zs
+         ojPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737499984; x=1738104784;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DNk8vcXhWS2lnex0vmdV4Bh3p7QN4YitPegQzBHEFfU=;
+        b=A72rsrz46nbikPXNE8sy4R7rcngwroDXpBoRyL+m5oBlzbny9ZyE0Y3gphtAOFvw5V
+         W3XpO0Rh6TTXrwM7ABPKgG9T75gMCXCdg91Llc0wXgWNq6XGfKjwm4ZXO+L+iIL89Uzz
+         Opll9LKVaqvfXZ6/SR+Lt7VP5SepYJAlXh3IY5inwjokTG+PEKtR/BaVd3DZYDUa8RJC
+         upCQcT7j8Uyq99AhSdS8+jDoPGQHt6ONtlYy4hWWhM5KCUEeG8PE5EGN+ue+S16B8LJj
+         NR3SE31B+kWA0dI5O+lEumxtrOR/njUx5FHDgexUkpNuFnyTFaX0mZNLm9Yk4TP8Zb3V
+         4VPg==
+X-Gm-Message-State: AOJu0YzqZJW90gmsW4paM+pPCkmpsqA0+T8bOOOZh90PpQMOCvxxTBBm
+	JAgY9HqxzhLPAemnVbCw19GSR+RmIKCtDUPaSxsIUTEiGzkpIk/Wyympi1wV
+X-Gm-Gg: ASbGnctMs/Ya8xXX9ks1e/oK+IEo5w869LiyqPqOmNUkZ9amuiFtDZ3uEuTlM5iBepZ
+	noHXG6N4untViXcIeRWMqSMVfV2LDxzH2XKeDwfz+BNrYElQ6Ig7oEroDzgylCXturxFuW9XQr9
+	ISM2wTX+ssmu14XTDnjSG6Vf8gtNCCmR3wEkUsFWKdQgzm82f8Mtbn6WuNVCIpIRMhBnPI9dufQ
+	FD7jh/nWRB58Jc1BM56X1ZowJkatRO5a8M96EFV0XfW7+uj2Kg5+Pczkw==
+X-Google-Smtp-Source: AGHT+IEY8DIQbwiFo4VQR5e9CRt9d31hc3DZZQvW9UATT72hbNjiJrtE+hrWHse4G+i6fxNqg+roaw==
+X-Received: by 2002:a05:600c:4743:b0:434:a802:43d with SMTP id 5b1f17b1804b1-438914315afmr158633335e9.27.1737499983733;
+        Tue, 21 Jan 2025 14:53:03 -0800 (PST)
+Received: from ffc.. ([5.224.37.232])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438b31df412sm874425e9.36.2025.01.21.14.53.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jan 2025 14:53:02 -0800 (PST)
+From: Reyders Morales <reyders1@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	valla.francesco@gmail.com,
+	corbet@lwn.net,
+	Reyders Morales <reyders1@gmail.com>
+Subject: [PATCH] Documentation/networking: Fix basic node example document ISO 15765-2
+Date: Tue, 21 Jan 2025 23:52:41 +0100
+Message-ID: <20250121225241.128810-1-reyders1@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b14358075fa56f7250d5c9000ab8ee181003ff13.camel@huaweicloud.com>
 
-On 2025-01-21 15:55:28+0100, Roberto Sassu wrote:
-> On Tue, 2025-01-21 at 14:29 +0100, Thomas Weißschuh wrote:
-> > On 2024-11-19 11:49:08+0100, Roberto Sassu wrote:
+In the current struct sockaddr_can tp is member of can_addr.
+tp is not member of struct sockaddr_can.
 
-[..]
+Signed-off-by: Reyders Morales <reyders1@gmail.com>
+---
+ Documentation/networking/iso15765-2.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> > > +typedef int (*callback)(void *callback_data, __u16 field,
-> > > +			const __u8 *field_data, __u32 field_len);
-> > 
-> > No need for __underscore types in kernel-only signatures.
-> 
-> It is just for convenience. I'm reusing the same file for the userspace
-> counterpart digest-cache-tools. In that case, the parser is used for
-> example to show the content of the digest list.
+diff --git a/Documentation/networking/iso15765-2.rst b/Documentation/networking/iso15765-2.rst
+index 0e9d96074178..37ebb2c417cb 100644
+--- a/Documentation/networking/iso15765-2.rst
++++ b/Documentation/networking/iso15765-2.rst
+@@ -369,8 +369,8 @@ to their default.
+ 
+   addr.can_family = AF_CAN;
+   addr.can_ifindex = if_nametoindex("can0");
+-  addr.tp.tx_id = 0x18DA42F1 | CAN_EFF_FLAG;
+-  addr.tp.rx_id = 0x18DAF142 | CAN_EFF_FLAG;
++  addr.can_addr.tp.tx_id = 0x18DA42F1 | CAN_EFF_FLAG;
++  addr.can_addr.tp.rx_id = 0x18DAF142 | CAN_EFF_FLAG;
+ 
+   ret = bind(s, (struct sockaddr *)&addr, sizeof(addr));
+   if (ret < 0)
+-- 
+2.43.0
 
-This reuse leads to quite some ugly constructs.
-Given that the single function will be really simple after removing the
-unnecessary parts, maybe two clean copies are easier.
-One copy is needed for Frama-C anyways.
-
-> > > +
-> > > +int tlv_parse(callback callback, void *callback_data, const __u8 *data,
-> > > +	      size_t data_len, const char **fields, __u32 num_fields);
-> > > +
-> > > +#endif /* _LINUX_TLV_PARSER_H */
-> > > diff --git a/include/uapi/linux/tlv_parser.h b/include/uapi/linux/tlv_parser.h
-> > > new file mode 100644
-> > > index 000000000000..171d0cfd2c4c
-> > > --- /dev/null
-> > > +++ b/include/uapi/linux/tlv_parser.h
-> > > @@ -0,0 +1,41 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> > > +/*
-> > > + * Copyright (C) 2023-2024 Huawei Technologies Duesseldorf GmbH
-> > > + *
-> > > + * Author: Roberto Sassu <roberto.sassu@huawei.com>
-> > > + *
-> > > + * Implement the user space interface for the TLV parser.
-> > > + */
-> > 
-> > Can you explain in the commit message where this will be exposed to
-> > userspace as binary?
-> 
-> I see that my explanation is not ideal.
-> 
-> This is the format for data exchange between user space and kernel
-> space, but it is still the kernel that reads and parses the TLV-
-> formatted file for extracting the digests and adding them to the digest
-> cache.
-
-I figured that out :-)
-It should be clear from the commit itself, though.
-
-> > > +
-> > > +#ifndef _UAPI_LINUX_TLV_PARSER_H
-> > > +#define _UAPI_LINUX_TLV_PARSER_H
-> > > +
-> > > +#include <linux/types.h>
-> > > +
-> > > +/*
-> > > + * TLV format:
-> > > + *
-> > > + * +--------------+--+---------+--------+---------+
-> > > + * | field1 (u16) | len1 (u32) | value1 (u8 len1) |
-> > > + * +--------------+------------+------------------+
-> > > + * |     ...      |    ...     |        ...       |
-> > > + * +--------------+------------+------------------+
-> > > + * | fieldN (u16) | lenN (u32) | valueN (u8 lenN) |
-> > > + * +--------------+------------+------------------+
-> > > + */
-> > > +
-> > > +/**
-> > > + * struct tlv_entry - Entry of TLV format
-> > > + * @field: Field identifier
-> > > + * @length: Data length
-> > > + * @data: Data
-> > > + *
-> > > + * This structure represents an entry of the TLV format.
-> > > + */
-> > > +struct tlv_entry {
-> > > +	__u16 field;
-> > > +	__u32 length;
-
-Looking at this again, the "length" field is unaligned by default.
-
-Also FYI there is already a TLV implementation in
-include/uapi/linux/tipc_config.
-
-> > > +} __attribute__((packed));
-
-[..]
-
-> > Some kunit tests would be great.
-> 
-> I implemented kselftests also injecting errors (patch 13). If it is not
-> enough, I implement kunit tests too.
-
-These selftests are for the digest_cache.
-If the TLV library is meant to be used alone, some dedicated tests would
-be nice. kunit has the advantage that it can directly call kernel
-functions with arbitrary parameters and does not require any userspace
-setup.
