@@ -1,505 +1,178 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC7831F4286;
-	Tue, 21 Jan 2025 14:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FBB11F3D50;
+	Tue, 21 Jan 2025 15:06:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737471370; cv=none; b=i/OTkuHuBjy3+frmUHfgIBwR4bUNp/40OgR2obk90oPOIJRWSi6pNlxCBxc37eUk4+wOnX2byABJ+jUu8OJYjs23PRPUvo9+7UfNwjEt+fIHYqX19H+th+1ZITYmnoNUDHyFOJYBE2mK4WBJA5YD5Yrkr24GNjDCv1+5x6lwir0=
+	t=1737471970; cv=none; b=MPZf+MlzXK8mSoN8RUmGuUSNF6P7wRn6uBL8d8qw00T/m6ZqI5E6l1S5vt5/VVH5FO08ClEeKlXxuiBMQw8z1EF0PF++tfL27Te9FsebJjU5O0vDkRt8NcDrHcDSk8o9RGx3VptnjhhSPov6IAf7P7T8Q/yUJiOXszrD6YpENM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737471370; c=relaxed/simple;
-	bh=0fJTPl9rakxRzo7loXTr3AZX210I/kFIENL/ut0zO+M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NdcaZmboiG34x4jFaLQr5E0xTxZxGtiavM2aUWGh8SmIgur7VbYPenWrauz2BGdLY/14hbQujQelU13AV68lM1J2wEou7YX1PFPSrvV/q2aUviQeUQ21AVXakQ3g1pLOX62hLZKhdhu8Ai+/maW37sHSk89EtHvHg8mY57O6PNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2B5F2106F;
-	Tue, 21 Jan 2025 06:56:35 -0800 (PST)
-Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ABAF13F66E;
-	Tue, 21 Jan 2025 06:56:04 -0800 (PST)
-Message-ID: <9e3fb9f6-2f95-4f84-8fa3-1789cb753e2e@arm.com>
-Date: Tue, 21 Jan 2025 14:56:03 +0000
+	s=arc-20240116; t=1737471970; c=relaxed/simple;
+	bh=S3o4xpq8tYTaMjstzCaN30PnGEnKrBktJhCmmKimQcw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wg0xEIb0kqUFWoVQN79MukL8gT9/PNNBwUN48RJt4ELz8HVu+yTEhOAnl+zzr8aHvmvXC3TOgNssJ2XMEKqqpZ4QJwVfW62gik4evVVkYFqLBGe4An2RbK1Wk5PQBawm7aswuU8O9d/RDGvhFzA85VOcy70XueNajCwhcqQ1hkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jIEhO50T; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jIEhO50T"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737471969; x=1769007969;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=S3o4xpq8tYTaMjstzCaN30PnGEnKrBktJhCmmKimQcw=;
+  b=jIEhO50TWXIamqTHy9zo0Qb59pOuPzMQZgeMHKNTOxCH8f41emsIbyUq
+   9QPG/qMrzSET1ymc5mg8NOsZubZnav4QDRQG+tCyHeX6w1YW3sxliSepL
+   8VGGpj3gU0l/2JTspizM+/ycxZ54z9RzU7SXBm4g3pDjc2mZcoeg7YuYy
+   g9za+bKDE5np/RmmzC9rdxWX9XMk0eLOr3MCSisjsvocFisvYJ5WyTxPe
+   sZvRNNV6oTZr5+WOA90gv9xxEOU6WtIizGUWsysY2VNvE1aLaGwDFc4Kk
+   vztCzJKg3bEKFy6yrIycek6h6w0XXv9cuPTCRWf2yhv4jY/qOthF/CmUh
+   w==;
+X-CSE-ConnectionGUID: WzIfvOzxQPKHJQ2G+TNkYA==
+X-CSE-MsgGUID: 2Dy2jhMVSjuhO60d9hfOMA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="38052840"
+X-IronPort-AV: E=Sophos;i="6.13,222,1732608000"; 
+   d="scan'208";a="38052840"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2025 07:05:51 -0800
+X-CSE-ConnectionGUID: 5NiWJB7UTkymc2FPHxSDkw==
+X-CSE-MsgGUID: P+6iTQlFReOnqbu/LWYeVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,222,1732608000"; 
+   d="scan'208";a="106948955"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 21 Jan 2025 07:05:46 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1taFp2-000YC7-1C;
+	Tue, 21 Jan 2025 15:05:44 +0000
+Date: Tue, 21 Jan 2025 23:05:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yunhui Cui <cuiyunhui@bytedance.com>, ajones@ventanamicro.com,
+	alexghiti@rivosinc.com, andybnac@gmail.com, aou@eecs.berkeley.edu,
+	charlie@rivosinc.com, cleger@rivosinc.com,
+	conor.dooley@microchip.com, conor@kernel.org, corbet@lwn.net,
+	evan@rivosinc.com, jesse@rivosinc.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-riscv@lists.infradead.org, palmer@dabbelt.com,
+	paul.walmsley@sifive.com, samuel.holland@sifive.com,
+	shuah@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v5 2/3] RISC-V: hwprobe: Expose Zicbom extension and its
+ block size
+Message-ID: <202501212220.5GHTtuF7-lkp@intel.com>
+References: <20250115024024.84365-3-cuiyunhui@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 5/8] coresight: tmc: Add support for reading crash
- data
-To: Linu Cherian <lcherian@marvell.com>, mike.leach@linaro.org,
- james.clark@arm.com
-Cc: linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
- devicetree@vger.kernel.org, sgoutham@marvell.com, gcherian@marvell.com,
- Anil Kumar Reddy <areddy3@marvell.com>, Tanmay Jagdale <tanmay@marvell.com>
-References: <20241216053014.3427909-1-lcherian@marvell.com>
- <20241216053014.3427909-6-lcherian@marvell.com>
-Content-Language: en-US
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <20241216053014.3427909-6-lcherian@marvell.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250115024024.84365-3-cuiyunhui@bytedance.com>
 
-Hi Linu
+Hi Yunhui,
 
-On 16/12/2024 05:30, Linu Cherian wrote:
-> * Add support for reading crashdata using special device files.
->    The special device files /dev/crash_tmc_xxx would be available
->    for read file operation only when the crash data is valid.
-> 
-> * User can read the crash data as below
-> 
->    For example, for reading crash data from tmc_etf sink
-> 
->    #dd if=/dev/crash_tmc_etfXX of=~/cstrace.bin
-> 
-> Signed-off-by: Anil Kumar Reddy <areddy3@marvell.com>
-> Signed-off-by: Tanmay Jagdale <tanmay@marvell.com>
-> Signed-off-by: Linu Cherian <lcherian@marvell.com>
-> ---
-> Changelog from v12:
-> * Fixed wrong buffer pointer passed to coresight_insert_barrier_packet
-> * tmc_read_prepare_crashdata need to be called only once and
->    hence removed from read path and added to tmc_probe.
->    As as side effect, tmc_read_unprepare_crashdata is removed as well.
-> * tmc_read_prepare_crashdata renamed to tmc_prepare_crashdata and
->    avoided taking locks as its called from probe function alone.
-> * Introduced read status flag, "reading" specific to reserved buffer to keep the
->    reserved buffer reading independent of the regular buffer and updated
->    during tmc_crashdata_open/release functions
-> * is_tmc_crashdata_valid is made static as its used only within
->    coresight-tmc-core.c
-> * tmc_get_resvbuf_trace definition moved up before the first invocation
->    from tmc_prepare_crashdata
-> * Replaced constant with TMC_STS_FULL
-> 
->   .../hwtracing/coresight/coresight-tmc-core.c  | 213 +++++++++++++++++-
->   .../hwtracing/coresight/coresight-tmc-etr.c   |  22 +-
->   drivers/hwtracing/coresight/coresight-tmc.h   |  14 +-
->   3 files changed, 246 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/hwtracing/coresight/coresight-tmc-core.c b/drivers/hwtracing/coresight/coresight-tmc-core.c
-> index 1e3938ec12cb..6ef68b56de22 100644
-> --- a/drivers/hwtracing/coresight/coresight-tmc-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-tmc-core.c
-> @@ -105,6 +105,124 @@ u32 tmc_get_memwidth_mask(struct tmc_drvdata *drvdata)
->   	return mask;
->   }
->   
-> +static bool is_tmc_crashdata_valid(struct tmc_drvdata *drvdata)
-> +{
-> +	struct tmc_crash_metadata *mdata;
-> +
-> +	if (!tmc_has_reserved_buffer(drvdata) ||
-> +	    !tmc_has_crash_mdata_buffer(drvdata))
-> +		return false;
-> +
-> +	mdata = drvdata->crash_mdata.vaddr;
-> +
-> +	/* Check version match */
-> +	if (mdata->version != CS_CRASHDATA_VERSION)
-> +		return false;
-> +
-> +	/* Check for valid metadata */
-> +	if (!mdata->valid) {
-> +		dev_dbg(&drvdata->csdev->dev,
-> +			"Data invalid in tmc crash metadata\n");
-> +		return false;
-> +	}
-> +
-> +	/*
-> +	 * Buffer address given by metadata for retrieval of trace data
-> +	 * from previous boot is expected to be same as the reserved
-> +	 * trace buffer memory region provided through DTS
-> +	 */
-> +	if (drvdata->resrv_buf.paddr != mdata->trace_paddr) {
-> +		dev_dbg(&drvdata->csdev->dev,
-> +			"Trace buffer address of previous boot invalid\n");
-> +		return false;
-> +	}
-> +
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on shuah-kselftest/next]
+[also build test WARNING on shuah-kselftest/fixes linus/master v6.13 next-20250121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yunhui-Cui/RISC-V-Enable-cbo-clean-flush-in-usermode/20250115-104456
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/20250115024024.84365-3-cuiyunhui%40bytedance.com
+patch subject: [PATCH v5 2/3] RISC-V: hwprobe: Expose Zicbom extension and its block size
+config: riscv-randconfig-r133-20250121 (https://download.01.org/0day-ci/archive/20250121/202501212220.5GHTtuF7-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project c23f2417dc5f6dc371afb07af5627ec2a9d373a0)
+reproduce: (https://download.01.org/0day-ci/archive/20250121/202501212220.5GHTtuF7-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501212220.5GHTtuF7-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> arch/riscv/kernel/sys_hwprobe.c:284:30: warning: implicit conversion from 'unsigned long long' to 'unsigned long' changes value from 1125899906842624 to 0 [-Wconstant-conversion]
+     284 |                 if (hwprobe_ext0_has(cpus, RISCV_HWPROBE_EXT_ZICBOM))
+         |                     ~~~~~~~~~~~~~~~~       ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/uapi/asm/hwprobe.h:76:41: note: expanded from macro 'RISCV_HWPROBE_EXT_ZICBOM'
+      76 | #define         RISCV_HWPROBE_EXT_ZICBOM        (1ULL << 50)
+         |                                                  ~~~~~^~~~~
+   1 warning generated.
 
 
-> +	/* Check data integrity of metadata */
-> +	if (mdata->crc32_mdata != find_crash_metadata_crc(mdata)) {
-> +		dev_dbg(&drvdata->csdev->dev,
-> +			"CRC mismatch in tmc crash metadata\n");
-> +		return false;
-> +	}
-> +	/* Check data integrity of tracedata */
-> +	if (mdata->crc32_tdata != find_crash_tracedata_crc(drvdata, mdata)) {
-> +		dev_dbg(&drvdata->csdev->dev,
-> +			"CRC mismatch in tmc crash tracedata\n");
-> +		return false;
-> +	}
+vim +284 arch/riscv/kernel/sys_hwprobe.c
 
-The last two dev_dbg() could be made dev_info/dev_err() as it is a 
-serious problem, that must be reported to the user.
+   244	
+   245	static void hwprobe_one_pair(struct riscv_hwprobe *pair,
+   246				     const struct cpumask *cpus)
+   247	{
+   248		switch (pair->key) {
+   249		case RISCV_HWPROBE_KEY_MVENDORID:
+   250		case RISCV_HWPROBE_KEY_MARCHID:
+   251		case RISCV_HWPROBE_KEY_MIMPID:
+   252			hwprobe_arch_id(pair, cpus);
+   253			break;
+   254		/*
+   255		 * The kernel already assumes that the base single-letter ISA
+   256		 * extensions are supported on all harts, and only supports the
+   257		 * IMA base, so just cheat a bit here and tell that to
+   258		 * userspace.
+   259		 */
+   260		case RISCV_HWPROBE_KEY_BASE_BEHAVIOR:
+   261			pair->value = RISCV_HWPROBE_BASE_BEHAVIOR_IMA;
+   262			break;
+   263	
+   264		case RISCV_HWPROBE_KEY_IMA_EXT_0:
+   265			hwprobe_isa_ext0(pair, cpus);
+   266			break;
+   267	
+   268		case RISCV_HWPROBE_KEY_CPUPERF_0:
+   269		case RISCV_HWPROBE_KEY_MISALIGNED_SCALAR_PERF:
+   270			pair->value = hwprobe_misaligned(cpus);
+   271			break;
+   272	
+   273		case RISCV_HWPROBE_KEY_MISALIGNED_VECTOR_PERF:
+   274			pair->value = hwprobe_vec_misaligned(cpus);
+   275			break;
+   276	
+   277		case RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE:
+   278			pair->value = 0;
+   279			if (hwprobe_ext0_has(cpus, RISCV_HWPROBE_EXT_ZICBOZ))
+   280				pair->value = riscv_cboz_block_size;
+   281			break;
+   282		case RISCV_HWPROBE_KEY_ZICBOM_BLOCK_SIZE:
+   283			pair->value = 0;
+ > 284			if (hwprobe_ext0_has(cpus, RISCV_HWPROBE_EXT_ZICBOM))
+   285				pair->value = riscv_cbom_block_size;
+   286			break;
+   287		case RISCV_HWPROBE_KEY_HIGHEST_VIRT_ADDRESS:
+   288			pair->value = user_max_virt_addr();
+   289			break;
+   290	
+   291		case RISCV_HWPROBE_KEY_TIME_CSR_FREQ:
+   292			pair->value = riscv_timebase;
+   293			break;
+   294	
+   295		/*
+   296		 * For forward compatibility, unknown keys don't fail the whole
+   297		 * call, but get their element key set to -1 and value set to 0
+   298		 * indicating they're unrecognized.
+   299		 */
+   300		default:
+   301			pair->key = -1;
+   302			pair->value = 0;
+   303			break;
+   304		}
+   305	}
+   306	
 
-> +
-> +	return true;
-> +}
-> +
-> +static inline ssize_t tmc_get_resvbuf_trace(struct tmc_drvdata *drvdata,
-> +					  loff_t pos, size_t len, char **bufpp)
-> +{
-> +	s64 offset;
-> +	ssize_t actual = len;
-> +	struct tmc_resrv_buf *rbuf = &drvdata->resrv_buf;
-> +
-> +	if (pos + actual > rbuf->len)
-> +		actual = rbuf->len - pos;
-> +	if (actual <= 0)
-> +		return 0;
-> +
-> +	/* Compute the offset from which we read the data */
-> +	offset = rbuf->offset + pos;
-> +	if (offset >= rbuf->size)
-> +		offset -= rbuf->size;
-> +
-> +	/* Adjust the length to limit this transaction to end of buffer */
-> +	actual = (actual < (rbuf->size - offset)) ?
-> +		actual : rbuf->size - offset;
-> +
-> +	*bufpp = (char *)rbuf->vaddr + offset;
-> +
-> +	return actual;
-> +}
-> +
-> +static int tmc_prepare_crashdata(struct tmc_drvdata *drvdata)
-> +{
-> +	char *bufp;
-> +	int ret = 0;
-
-minor nit: This variable can be omitted.
-
-> +	ssize_t len;
-> +	u32 status, size;
-> +	u64 rrp, rwp, dba;
-> +	struct tmc_resrv_buf *rbuf;
-> +	struct tmc_crash_metadata *mdata;
-> +
-> +	mdata = drvdata->crash_mdata.vaddr;
-> +	rbuf = &drvdata->resrv_buf;
-> +
-> +	rrp = mdata->tmc_rrp;
-> +	rwp = mdata->tmc_rwp;
-> +	dba = mdata->tmc_dba;
-> +	status = mdata->tmc_sts;
-> +	size = mdata->tmc_ram_size << 2;
-> +
-> +	/* Sync the buffer pointers */
-> +	rbuf->offset = rrp - dba;
-> +	if (status & TMC_STS_FULL)
-> +		rbuf->len = size;
-> +	else
-> +		rbuf->len = rwp - rrp;
-> +
-> +	/* Additional sanity checks for validating metadata */
-> +	if ((rbuf->offset > size) ||
-> +	    (rbuf->len > size)) {
-> +		dev_dbg(&drvdata->csdev->dev,
-> +			"Offset and length invalid in tmc crash metadata\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (status & TMC_STS_FULL) {
-> +		len = tmc_get_resvbuf_trace(drvdata, 0x0,
-> +					    CORESIGHT_BARRIER_PKT_SIZE, &bufp);
-> +		if (len >= CORESIGHT_BARRIER_PKT_SIZE)
-> +			coresight_insert_barrier_packet(bufp);
-> +	}
-> +
-> +	return ret;
-
-Instead,
-
-	return 0;
-
-to keep it clear.
-
-> +}
-> +
->   static int tmc_read_prepare(struct tmc_drvdata *drvdata)
->   {
->   	int ret = 0;
-> @@ -223,6 +341,77 @@ static const struct file_operations tmc_fops = {
->   	.release	= tmc_release,
->   };
->   
-> +static int tmc_crashdata_open(struct inode *inode, struct file *file)
-> +{
-> +	unsigned long flags;
-> +	struct tmc_resrv_buf *rbuf;
-> +	struct tmc_drvdata *drvdata = container_of(file->private_data,
-> +						   struct tmc_drvdata,
-> +						   crashdev);
-> +
-> +	rbuf = &drvdata->resrv_buf;
-> +
-> +	spin_lock_irqsave(&drvdata->spinlock, flags);
-
-We should additionally verify that the "metadata->valid" is still set, 
-because, a resrv_mode operation could clear it ? Or at the least set the
-size in the rbuf to 0 when we use the RESRV mode, so we don't expose any 
-data that was written in the RESRV mode.
-
-> +	rbuf->reading = true;
-> +	spin_unlock_irqrestore(&drvdata->spinlock, flags);
-> +
-> +	nonseekable_open(inode, file);
-> +
-> +	dev_dbg(&drvdata->csdev->dev, "%s: successfully opened\n", __func__);
-> +	return 0;
-> +}
-> +
-> +static ssize_t tmc_crashdata_read(struct file *file, char __user *data,
-> +				  size_t len, loff_t *ppos)
-> +{
-> +	char *bufp;
-> +	ssize_t actual;
-> +	struct tmc_drvdata *drvdata = container_of(file->private_data,
-> +						   struct tmc_drvdata,
-> +						   crashdev);
-> +
-> +	actual = tmc_get_resvbuf_trace(drvdata, *ppos, len, &bufp);
-> +	if (actual <= 0)
-> +		return 0;
-> +
-> +	if (copy_to_user(data, bufp, actual)) {
-> +		dev_dbg(&drvdata->csdev->dev,
-> +			"%s: copy_to_user failed\n", __func__);
-> +		return -EFAULT;
-> +	}
-> +
-> +	*ppos += actual;
-> +	dev_dbg(&drvdata->csdev->dev, "%zu bytes copied\n", actual);
-> +
-> +	return actual;
-> +
-> +}
-> +
-> +static int tmc_crashdata_release(struct inode *inode, struct file *file)
-> +{
-> +	int ret = 0;
-> +	unsigned long flags;
-> +	struct tmc_resrv_buf *rbuf;
-> +	struct tmc_drvdata *drvdata = container_of(file->private_data,
-> +						   struct tmc_drvdata,
-> +						   crashdev);
-> +
-> +	rbuf = &drvdata->resrv_buf;
-> +	spin_lock_irqsave(&drvdata->spinlock, flags);
-> +	rbuf->reading = false;
-> +	spin_unlock_irqrestore(&drvdata->spinlock, flags);
-> +
-> +	dev_dbg(&drvdata->csdev->dev, "%s: released\n", __func__);
-> +	return ret;
-> +}
-> +
-> +static const struct file_operations tmc_crashdata_fops = {
-> +	.owner		= THIS_MODULE,
-> +	.open		= tmc_crashdata_open,
-> +	.read		= tmc_crashdata_read,
-> +	.release	= tmc_crashdata_release,
-> +};
-> +
->   static enum tmc_mem_intf_width tmc_get_memwidth(u32 devid)
->   {
->   	enum tmc_mem_intf_width memwidth;
-> @@ -532,6 +721,20 @@ static u32 tmc_etr_get_max_burst_size(struct device *dev)
->   	return burst_size;
->   }
->   
-> +static void register_crash_dev_interface(struct tmc_drvdata *drvdata,
-> +					 const char *name)
-> +{
-> +	drvdata->crashdev.name =
-> +		devm_kasprintf(&drvdata->csdev->dev, GFP_KERNEL, "%s_%s", "crash", name);
-> +	drvdata->crashdev.minor = MISC_DYNAMIC_MINOR;
-> +	drvdata->crashdev.fops = &tmc_crashdata_fops;
-> +	if (misc_register(&drvdata->crashdev)) {
-> +		dev_dbg(&drvdata->csdev->dev,
-> +			"Failed to setup user interface for crashdata\n");
-> +		drvdata->crashdev.fops = NULL;
-> +	}
-> +}
-> +
->   static int __tmc_probe(struct device *dev, struct resource *res)
->   {
->   	int ret = 0;
-> @@ -632,9 +835,15 @@ static int __tmc_probe(struct device *dev, struct resource *res)
->   	drvdata->miscdev.minor = MISC_DYNAMIC_MINOR;
->   	drvdata->miscdev.fops = &tmc_fops;
->   	ret = misc_register(&drvdata->miscdev);
-> -	if (ret)
-> +	if (ret) {
->   		coresight_unregister(drvdata->csdev);
-> +		goto out;
-> +	}
-> +
->   out:
-> +	if (is_tmc_crashdata_valid(drvdata) &&
-> +	    !tmc_prepare_crashdata(drvdata))
-> +		register_crash_dev_interface(drvdata, desc.name);
->   	return ret;
->   }
->   
-> @@ -687,6 +896,8 @@ static void __tmc_remove(struct device *dev)
->   	 * handler to this device is closed.
->   	 */
->   	misc_deregister(&drvdata->miscdev);
-> +	if (drvdata->crashdev.fops)
-> +		misc_deregister(&drvdata->crashdev);
->   	coresight_unregister(drvdata->csdev);
->   }
->   
-> diff --git a/drivers/hwtracing/coresight/coresight-tmc-etr.c b/drivers/hwtracing/coresight/coresight-tmc-etr.c
-> index fb944a68a11c..0ca01d5c9581 100644
-> --- a/drivers/hwtracing/coresight/coresight-tmc-etr.c
-> +++ b/drivers/hwtracing/coresight/coresight-tmc-etr.c
-> @@ -2012,6 +2012,26 @@ static ssize_t buf_mode_preferred_show(struct device *dev,
->   	return sysfs_emit(buf, "%s\n", buf_modes_str[drvdata->etr_mode]);
->   }
->   
-> +static int buf_mode_set_resrv(struct tmc_drvdata *drvdata)
-> +{
-> +	int err = 0;
-
-minor nit:
-
-	int err = -EBUSY;
-
-> +	unsigned long flags;
-> +	struct tmc_resrv_buf *rbuf;
-> +
-> +	rbuf = &drvdata->resrv_buf;
-> +
-> +	/* Ensure there are no active crashdata read sessions */
-> +	spin_lock_irqsave(&drvdata->spinlock, flags);
-> +	if (!rbuf->reading) {
-> +		tmc_crashdata_set_invalid(drvdata);
-
-See my comment above.  We don't seem to be checking this "after" we 
-created the crash device file. But it is right to do so. May be 
-additionally set the rbuf->len = 0 too ?
-
-Another question, what happens if :
-
-1) First boot - Crash data was captured, watchdog timer booted us into 
-second kernel.
-2) In the Second Kernel, no crash, but normal/kexec reboot to a 3rd kernel
-3) 3rd Kernel booted with Trace Data still in tact.
-
-I don't know if there is a reliable way to clear out the trace capture. 
-I guess it doesn't matter if the 3rd kernel sees a "kernel trace" from 
-1st kernel.
-
-Do we need any additional information in the metadata header to indicate
-which kernel/time the crash was captured.
-Should we advertise the presence of a "crash" trace with a bit more of 
-importance at probe ? May be yes and then ignore a persisting trace from 
-crash and leave it to the user to figure out.
-
-
-> +		drvdata->etr_mode = ETR_MODE_RESRV;
-		err = 0;
-	}
-
-> -
-> -	} else
-> -		err = -1;
-
-Remove ^^
-
-> +	spin_unlock_irqrestore(&drvdata->spinlock, flags);
-> +	return err;
-> +}
-> +
->   static ssize_t buf_mode_preferred_store(struct device *dev,
->   					  struct device_attribute *attr,
->   					  const char *buf, size_t size)
-> @@ -2027,7 +2047,7 @@ static ssize_t buf_mode_preferred_store(struct device *dev,
->   	else if (sysfs_streq(buf, buf_modes_str[ETR_MODE_CATU]) && buf_hw.has_catu)
->   		drvdata->etr_mode = ETR_MODE_CATU;
->   	else if (sysfs_streq(buf, buf_modes_str[ETR_MODE_RESRV]) && buf_hw.has_resrv)
-> -		drvdata->etr_mode = ETR_MODE_RESRV;
-> +		return buf_mode_set_resrv(drvdata) ? -EBUSY : size;
-
-		return buf_mode_set_resrv(drvdata) ? : size;
-
-Suzuki
-
->   	else if (sysfs_streq(buf, buf_modes_str[ETR_MODE_AUTO]))
->   		drvdata->etr_mode = ETR_MODE_AUTO;
->   	else
-> diff --git a/drivers/hwtracing/coresight/coresight-tmc.h b/drivers/hwtracing/coresight/coresight-tmc.h
-> index d76e83fc840b..e3707b69abff 100644
-> --- a/drivers/hwtracing/coresight/coresight-tmc.h
-> +++ b/drivers/hwtracing/coresight/coresight-tmc.h
-> @@ -195,11 +195,17 @@ struct etr_buf {
->    * @paddr	: Start address of reserved memory region.
->    * @vaddr	: Corresponding CPU virtual address.
->    * @size	: Size of reserved memory region.
-> + * @offset	: Offset of the trace data in the buffer for consumption.
-> + * @reading	: Flag to indicate if reading is active
-> + * @len	: Available trace data @buf (may round up to the beginning).
->    */
->   struct tmc_resrv_buf {
->   	phys_addr_t     paddr;
->   	void		*vaddr;
->   	size_t		size;
-> +	unsigned long	offset;
-> +	bool		reading;
-> +	s64		len;
->   };
->   
->   /**
-> @@ -208,6 +214,8 @@ struct tmc_resrv_buf {
->    * @base:	memory mapped base address for this component.
->    * @csdev:	component vitals needed by the framework.
->    * @miscdev:	specifics to handle "/dev/xyz.tmc" entry.
-> + * @crashdev:	specifics to handle "/dev/crash_tmc_xyz" entry for reading
-> + *		crash tracedata.
->    * @spinlock:	only one at a time pls.
->    * @pid:	Process ID of the process that owns the session that is using
->    *		this component. For example this would be the pid of the Perf
-> @@ -227,7 +235,7 @@ struct tmc_resrv_buf {
->    * @idr_mutex:	Access serialisation for idr.
->    * @sysfs_buf:	SYSFS buffer for ETR.
->    * @perf_buf:	PERF buffer for ETR.
-> - * @resrv_buf:	Used by ETR as hardware trace buffer and for trace data
-> + * @resrv_buf:  Used by ETR as hardware trace buffer and for trace data
->    *		retention (after crash) only when ETR_MODE_RESRV buffer
->    *		mode is enabled. Used by ETF for trace data retention
->    *		(after crash) by default.
-> @@ -239,6 +247,7 @@ struct tmc_drvdata {
->   	void __iomem		*base;
->   	struct coresight_device	*csdev;
->   	struct miscdevice	miscdev;
-> +	struct miscdevice	crashdev;
->   	spinlock_t		spinlock;
->   	pid_t			pid;
->   	bool			reading;
-> @@ -309,6 +318,8 @@ void tmc_flush_and_stop(struct tmc_drvdata *drvdata);
->   void tmc_enable_hw(struct tmc_drvdata *drvdata);
->   void tmc_disable_hw(struct tmc_drvdata *drvdata);
->   u32 tmc_get_memwidth_mask(struct tmc_drvdata *drvdata);
-> +int tmc_read_prepare_crashdata(struct tmc_drvdata *drvdata);
-> +int tmc_read_unprepare_crashdata(struct tmc_drvdata *drvdata);
->   
->   /* ETB/ETF functions */
->   int tmc_read_prepare_etb(struct tmc_drvdata *drvdata);
-> @@ -371,6 +382,7 @@ void tmc_sg_table_sync_data_range(struct tmc_sg_table *table,
->   				  u64 offset, u64 size);
->   ssize_t tmc_sg_table_get_data(struct tmc_sg_table *sg_table,
->   			      u64 offset, size_t len, char **bufpp);
-> +
->   static inline unsigned long
->   tmc_sg_table_buf_size(struct tmc_sg_table *sg_table)
->   {
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
