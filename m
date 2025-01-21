@@ -1,147 +1,174 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4631DF96A;
-	Tue, 21 Jan 2025 12:47:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C209B1F239F;
+	Tue, 21 Jan 2025 12:58:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737463642; cv=none; b=skuAwBwJwdnkVFPec+xXqgGgRTy4i40/OrMS6e5VLEgGtTVkQH+Mny8VClFfhC4tRbUA8LvbBMy67Lb3CWvMO+25JBW49eI+tK1m9lecx5WKity6qcmsViS86k33OXn9rgEbaSl9AqFZJ5s8ZxvMv6R/J4rpFD5r5kXys5CSG+Q=
+	t=1737464332; cv=none; b=K1qb0p+SXPfPiEqY5UPy0/Jo07J1tjLsAssAq1Ppp2yiwTbfCD9ge3jfAcDXEyAgUhe3j2qiRULpFxoFOHRdWqYLmoEKI9qC4OKXYayXSOz1kQ7Bq/PorHbewDQDwEBmHj4uiqv7pU6Y4Mn/y3xFqwLx+bEFMow9oHf6SMk9InY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737463642; c=relaxed/simple;
-	bh=hsQ0irnUWCbqyyftsVatPsmhSvts6eSOOc9hF5wEils=;
+	s=arc-20240116; t=1737464332; c=relaxed/simple;
+	bh=ygOJGitSi5o6JNHaPJYhlAOWzAAIdcZfAKVQyARTh1g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X9OD05tRiOc8AuYvJOlC6MzmpFzmspLnWfXOKU41Pjd5IoTUnikQuvdDbl7C4bRC9HlcujYbgzlMFpGpD38Hyw4seD1RMygElEHDNKtUtXCpkrJMBU9iRE8K1lQUw6l/Wgzs+AjAN60S/byWWi4j/71NyU2gmBrUTOkR0QsrqKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P7c/ZdAu; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=YuGXGtRiEx+NPgITbs1qxHkxs2xvoLDkrGrLYT9xxfQfR1MaWK6zAL76SnRA3OtJShgvGZrrcll0Xa2QtAaAUswf77GAlf1aRRFzx9SDiX1X+bCtCfU1NnJ/+TML+BUk/SdZvnKmfj2JRa+QvaE3comGWCseMW/zhhClXfIKE18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=XmUywweF; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P7c/ZdAu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737463640; x=1768999640;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hsQ0irnUWCbqyyftsVatPsmhSvts6eSOOc9hF5wEils=;
-  b=P7c/ZdAuk/Oe7LiKbXUZu2omj/aB3TV7ZsCdfnBJfO5saKO7BnSW0N/Y
-   OiR5t5qlXNPxgxr65LPamslibad3wmmj58nCb1grxIR7Me9uqn/xQ0A72
-   eWaRFHa70ZlgAjzBBOUlVs/dldcJAE9w/BFhPY4HrNIsvNZ3EK+9NbdDh
-   Xgm018V4pkzUmxsjH7Xz5JTs0cYjq5WUlkCiQ7erhXZX9BbnUWEFVQARj
-   yegmPkEZJbizlqBSURILfbY4YgiZvtsrKODMW5iXUvgoKmqFzRNvJw1kx
-   7xyNpitxR2j9pJMtjFiXJRSsuhTWd23DPTTLmarjgj2qkRb17Os/a0XqM
-   w==;
-X-CSE-ConnectionGUID: opKhM5wtQuq4sXroux2mqA==
-X-CSE-MsgGUID: 1wINhPKTRmes4G8OB52Dxw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="49268578"
-X-IronPort-AV: E=Sophos;i="6.13,222,1732608000"; 
-   d="scan'208";a="49268578"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2025 04:47:20 -0800
-X-CSE-ConnectionGUID: caDfTlUvQqmepWN4IGQoSg==
-X-CSE-MsgGUID: z+wT1ghtRfGhPn4lqjHXsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="130077721"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Jan 2025 04:47:15 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1taDez-000Y2X-1H;
-	Tue, 21 Jan 2025 12:47:13 +0000
-Date: Tue, 21 Jan 2025 20:46:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hyesoo Yu <hyesoo.yu@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev, janghyuck.kim@samsung.com,
-	Hyesoo Yu <hyesoo.yu@samsung.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christoph Lameter <cl@linux-foundation.org>,
-	Pekka Enberg <penberg@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm: slub: Panic if the object corruption is checked.
-Message-ID: <202501212026.lUnLNhv6-lkp@intel.com>
-References: <20250120082908.4162780-1-hyesoo.yu@samsung.com>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="XmUywweF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1737464327;
+	bh=ygOJGitSi5o6JNHaPJYhlAOWzAAIdcZfAKVQyARTh1g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XmUywweFHYs1UGnzVOY1cKVNWkr9vq1fGZzYkRNpZRED9/NMaFkfr+xySz9jxOECo
+	 /OfBipTbP/eC/0d9N/HF4h4Dj/42vVcjidr9Kb090A9ULai8N/Y9ixOXztL7NyVRAg
+	 r0a/5WMfYnbHHv8r67yl03No+LZnFZtkS7cnUf1g=
+Date: Tue, 21 Jan 2025 13:58:47 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>, 
+	Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>, 
+	kpcyrd <kpcyrd@archlinux.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	zohar@linux.ibm.com
+Subject: Re: [PATCH v2 0/6] module: Introduce hash-based integrity checking
+Message-ID: <ea767c0b-77fd-4e8a-ab14-4d231e9b779f@t-8ch.de>
+References: <20250120-module-hashes-v2-0-ba1184e27b7f@weissschuh.net>
+ <69b38f6a6fb53e7b8f8250e1d37641c6abbb6d07.camel@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250120082908.4162780-1-hyesoo.yu@samsung.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <69b38f6a6fb53e7b8f8250e1d37641c6abbb6d07.camel@huaweicloud.com>
 
-Hi Hyesoo,
+Hi Roberto,
 
-kernel test robot noticed the following build warnings:
+On 2025-01-21 11:26:29+0100, Roberto Sassu wrote:
+> On Mon, 2025-01-20 at 18:44 +0100, Thomas Weißschuh wrote:
+> > The current signature-based module integrity checking has some drawbacks
+> > in combination with reproducible builds:
+> > Either the module signing key is generated at build time, which makes
+> > the build unreproducible, or a static key is used, which precludes
+> > rebuilds by third parties and makes the whole build and packaging
+> > process much more complicated.
+> > Introduce a new mechanism to ensure only well-known modules are loaded
+> > by embedding a list of hashes of all modules built as part of the full
+> > kernel build into vmlinux.
+> > 
+> > Interest has been proclaimed by NixOS, Arch Linux, Proxmox, SUSE and the
+> > general reproducible builds community.
+> > 
+> > To properly test the reproducibility in combination with CONFIG_INFO_BTF
+> > another patch is needed:
+> > "[PATCH bpf-next] kbuild, bpf: Enable reproducible BTF generation" [0]
+> > (If you happen to test that one, please give some feedback)
+> > 
+> > Questions for current patch:
+> > * Naming
+> > * Can the number of built-in modules be retrieved while building
+> >   kernel/module/hashes.o? This would remove the need for the
+> >   preallocation step in link-vmlinux.sh.
+> > 
+> > Further improvements:
+> > * Use a LSM/IMA/Keyring to store and validate hashes
+> 
+> + linux-integrity, Mimi
+> 
+> Hi Thomas
+> 
+> I developed something related to it, it is called Integrity Digest
+> Cache [1].
 
-[auto build test WARNING on akpm-mm/mm-everything]
+Thanks for the pointer.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hyesoo-Yu/mm-slub-Panic-if-the-object-corruption-is-checked/20250120-163233
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250120082908.4162780-1-hyesoo.yu%40samsung.com
-patch subject: [PATCH] mm: slub: Panic if the object corruption is checked.
-config: mips-randconfig-r111-20250121 (https://download.01.org/0day-ci/archive/20250121/202501212026.lUnLNhv6-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250121/202501212026.lUnLNhv6-lkp@intel.com/reproduce)
+> It has the ability to store in the kernel memory a cache of digests
+> extracted from a file (or if desired in the future, from a reserved
+> area in the kernel image).
+> 
+> It exposes an API to query a digest (get/lookup/put) from a digest
+> cache and to verify whether or not the integrity of the file digests
+> were extracted from was verified by IMA or another LSM
+> (verif_set/verif_get). 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501212026.lUnLNhv6-lkp@intel.com/
+I see how this could be used together with the module hashes.
+For now I think both features should be developed independently.
+Integrating them will require some extra code and coordination.
 
-sparse warnings: (new ones prefixed by >>)
->> mm/slub.c:1308:9: sparse: sparse: cast from restricted slab_flags_t
-   mm/slub.c:1394:17: sparse: sparse: cast from restricted slab_flags_t
-   mm/slub.c:4440:47: sparse: sparse: context imbalance in '__slab_free' - unexpected unlock
+While the current linear, unsorted list of hashes used by my code may be
+slightly inefficient, it shouldn't matter in practize as the hash
+validation is only a bunch of memcmp()s over a contiguous chunk of
+memory, which is very cheap.
 
-vim +1308 mm/slub.c
+When both features are well established we can look at integrating them.
+At least a build-time userspace generator of a digest cache would be
+necessary.
+And due to the current implementation details it would be necessary to
+estimate the size of a static digest cache more or less exactly by its
+number of elements alone.
 
-  1273	
-  1274	/* Check the pad bytes at the end of a slab page */
-  1275	static pad_check_attributes void
-  1276	slab_pad_check(struct kmem_cache *s, struct slab *slab)
-  1277	{
-  1278		u8 *start;
-  1279		u8 *fault;
-  1280		u8 *end;
-  1281		u8 *pad;
-  1282		int length;
-  1283		int remainder;
-  1284	
-  1285		if (!(s->flags & SLAB_POISON))
-  1286			return;
-  1287	
-  1288		start = slab_address(slab);
-  1289		length = slab_size(slab);
-  1290		end = start + length;
-  1291		remainder = length % s->size;
-  1292		if (!remainder)
-  1293			return;
-  1294	
-  1295		pad = end - remainder;
-  1296		metadata_access_enable();
-  1297		fault = memchr_inv(kasan_reset_tag(pad), POISON_INUSE, remainder);
-  1298		metadata_access_disable();
-  1299		if (!fault)
-  1300			return;
-  1301		while (end > fault && end[-1] == POISON_INUSE)
-  1302			end--;
-  1303	
-  1304		slab_err(s, slab, "Padding overwritten. 0x%p-0x%p @offset=%tu",
-  1305				fault, end - 1, fault - start);
-  1306		print_section(KERN_ERR, "Padding ", pad, remainder);
-  1307	
-> 1308		BUG_ON(s->flags & SLAB_CORRUPTION_PANIC);
-  1309	
-  1310		restore_bytes(s, "slab padding", POISON_INUSE, fault, end);
-  1311	}
-  1312	
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thomas
+
+> [1]: https://lore.kernel.org/linux-integrity/20241119104922.2772571-1-roberto.sassu@huaweicloud.com/
+> 
+> > * Use MODULE_SIG_HASH for configuration
+> > * UAPI for discovery?
+> > 
+> > [0] https://lore.kernel.org/lkml/20241211-pahole-reproducible-v1-1-22feae19bad9@weissschuh.net/
+> > 
+> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> > ---
+> > Changes in v2:
+> > - Drop RFC state
+> > - Mention interested parties in cover letter
+> > - Expand Kconfig description
+> > - Add compatibility with CONFIG_MODULE_SIG
+> > - Parallelize module-hashes.sh
+> > - Update Documentation/kbuild/reproducible-builds.rst
+> > - Link to v1: https://lore.kernel.org/r/20241225-module-hashes-v1-0-d710ce7a3fd1@weissschuh.net
+> > 
+> > ---
+> > Thomas Weißschuh (6):
+> >       kbuild: add stamp file for vmlinux BTF data
+> >       module: Make module loading policy usable without MODULE_SIG
+> >       module: Move integrity checks into dedicated function
+> >       module: Move lockdown check into generic module loader
+> >       lockdown: Make the relationship to MODULE_SIG a dependency
+> >       module: Introduce hash-based integrity checking
+> > 
+> >  .gitignore                                   |  1 +
+> >  Documentation/kbuild/reproducible-builds.rst |  5 ++-
+> >  Makefile                                     |  8 ++++-
+> >  include/asm-generic/vmlinux.lds.h            | 11 ++++++
+> >  include/linux/module.h                       |  8 ++---
+> >  include/linux/module_hashes.h                | 17 +++++++++
+> >  kernel/module/Kconfig                        | 21 ++++++++++-
+> >  kernel/module/Makefile                       |  1 +
+> >  kernel/module/hashes.c                       | 52 +++++++++++++++++++++++++++
+> >  kernel/module/internal.h                     |  8 +----
+> >  kernel/module/main.c                         | 54 +++++++++++++++++++++++++---
+> >  kernel/module/signing.c                      | 24 +------------
+> >  scripts/Makefile.modfinal                    | 10 ++++--
+> >  scripts/Makefile.vmlinux                     |  5 +++
+> >  scripts/link-vmlinux.sh                      | 31 +++++++++++++++-
+> >  scripts/module-hashes.sh                     | 26 ++++++++++++++
+> >  security/lockdown/Kconfig                    |  2 +-
+> >  17 files changed, 238 insertions(+), 46 deletions(-)
+> > ---
+> > base-commit: 2cd5917560a84d69dd6128b640d7a68406ff019b
+> > change-id: 20241225-module-hashes-7a50a7cc2a30
+> > 
+> > Best regards,
+> 
