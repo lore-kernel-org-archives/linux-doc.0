@@ -1,89 +1,70 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F8C215098A
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jan 2025 11:57:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4631DF96A;
+	Tue, 21 Jan 2025 12:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737460675; cv=none; b=R0L5i2cct245os7KsUIDliakn5WfBNDFBKbgrbVRjRqUJEblL7vALGy2mfdy2fHN9ou74L4wMiYxfK7jMEZzWLu88KOijQ0Y9kF0C7xkDJgpOjzgge8yvkMOdrbamCMD4MUilydnAsGdskfTIrzYChbximidQ0vJB6hT///j4eI=
+	t=1737463642; cv=none; b=skuAwBwJwdnkVFPec+xXqgGgRTy4i40/OrMS6e5VLEgGtTVkQH+Mny8VClFfhC4tRbUA8LvbBMy67Lb3CWvMO+25JBW49eI+tK1m9lecx5WKity6qcmsViS86k33OXn9rgEbaSl9AqFZJ5s8ZxvMv6R/J4rpFD5r5kXys5CSG+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737460675; c=relaxed/simple;
-	bh=wjaw046mx0CwfInjFIsERp61sxaxf8lF/27Y8kugYFU=;
+	s=arc-20240116; t=1737463642; c=relaxed/simple;
+	bh=hsQ0irnUWCbqyyftsVatPsmhSvts6eSOOc9hF5wEils=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=II6WamnycvcYTYi6EUWiNcJHuzDhT38DT58ROqY3sEs5T/6VK+OcoEoaumY2baOWQ12o1uipPXZpUnSol+wHhM0Hy579c4oxI4Ei3zJGCClcINJ3jKbTGBEsmiea9MT6iOBph/hV0og3OV0h3Mdm0i11OdqC+1w+H9CXe52XEus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cHYCXRm7; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=X9OD05tRiOc8AuYvJOlC6MzmpFzmspLnWfXOKU41Pjd5IoTUnikQuvdDbl7C4bRC9HlcujYbgzlMFpGpD38Hyw4seD1RMygElEHDNKtUtXCpkrJMBU9iRE8K1lQUw6l/Wgzs+AjAN60S/byWWi4j/71NyU2gmBrUTOkR0QsrqKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P7c/ZdAu; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cHYCXRm7"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-3003c0c43c0so59124811fa.1
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jan 2025 03:57:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737460672; x=1738065472; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1SAFX7H1LuRl0ShcXdmRg9sr7Em0tM/5O3qe+btbqhM=;
-        b=cHYCXRm7hfJtzfq8v++eOKjKULXz5JzXsPL2rk7wYW2lexdQkFGh6Lmh2/E/k4ut+l
-         kFCsvIPuZ5u9enmbIH1yiOdJVYWMVO+G3GKFcwuAvzCjybQw2epIsZXelWRwV+hrEE0z
-         h/sh+fsGVtGyc54RBzgsep9SKUqYmAJVT1NO1LZfq8fJhKJteoSbZtwoIVBcALjufomb
-         cO5mM7Xk0qdgjMYd+yVPqhjm2FcDBvd+8tDap0+O/gzkymPiZ/f8higmhQcfJNlCrcK1
-         plB8bvoy+qJrQc8DVfBVoKe2o1CAFxkXUdmezoZ9gnQxfBJzI9bzw9ksi2BM6GHQsSjj
-         beXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737460672; x=1738065472;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1SAFX7H1LuRl0ShcXdmRg9sr7Em0tM/5O3qe+btbqhM=;
-        b=plJlWDWiPR21jYgOqw73vMIx80StaKxXesR2khZY2aT4CSnG7Gw8vHIOcfZzxj8/6w
-         WOOqdONoMvzRqRZScWBUdWDu+LQtI4+siFQekR/qBPzqyRPgL1tVRxEDdgLr8uiGi8ym
-         kDTwnXcO7t7m4SdYmFPUM7hoDgj5UfSknz24CgZfA505E04y64FzIMSn2btx94quIZy7
-         pdJFVC6uZAEu2ZBfByovOSEC07/64diFp6pzXvF1TZukZJIxRbvsxT1iCCO+B0mgQ+dj
-         U8KLn06GrApE/1+XorG/xYbQU5uNIYat9zUOBxSdQ1aDkeWJ3HQtudbuwbF3JLvy9MYR
-         NsJA==
-X-Forwarded-Encrypted: i=1; AJvYcCXc2YQN9JmvfT+iQ0UzR2as7zkJLkIpWTWqLsY9SWtbVrvZgJgJVD2/jrViJk9YUDq5ZSdef1Aq8fo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8LNwYbFexqcg2myqUWAvTxJ+NnWFlygMXY0tAOUfzBurz1s3W
-	Nh7U3uS3M+CivYyp2IqW7zflq7nIn5rI/TYBkmqex0zrZVUc3nVB74EEktIeZ1w=
-X-Gm-Gg: ASbGncs9NT+N/gjY7Ff3mzyw0fF+cNWZD8/dZqzqEDZyTfN36xWqoaWRCxJPfi69F1S
-	abm3Nw48MBD0C5jieCQz+1591P4MVzx6fmOjxzKERMnT5WSyUdHu31LkS2+hbBFDpUkmY4NWa74
-	UGdkeH78IbreRQcIFjK/N/8FRGyCwTBDC6qMH7LtvZ8wdWiqAG+8oziTWNZwBfXJ70T3duLyL8k
-	bIAhdEfgyOghEuqc7GUvZO/oLNxKlZX/Hd+jtcem+t5YYPWwyMgsR0dzK+NvVf792j2OjVboI1p
-	LaT06cAv5JqUwQXE6LA/Fhy+u1EWxpbAp13ErN56yClJi7DYzg==
-X-Google-Smtp-Source: AGHT+IF8KkuX72ssiXat7VhOyndxwdOiTOiJJAWuGArrnCGES9N/kA5O4JMJCNQl9GYhF/0BHHp78g==
-X-Received: by 2002:a05:651c:1551:b0:302:3021:9b29 with SMTP id 38308e7fff4ca-3072ca5da83mr69186151fa.4.1737460671594;
-        Tue, 21 Jan 2025 03:57:51 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3072a330886sm21235751fa.8.2025.01.21.03.57.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jan 2025 03:57:50 -0800 (PST)
-Date: Tue, 21 Jan 2025 13:57:47 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Paul Kocialkowski <contact@paulk.fr>, Maxime Ripard <mripard@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	=?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v5 08/10] drm/bridge: samsung-dsim: use supporting
- variable for out_bridge
-Message-ID: <lwqv5nukfchusbi2vep2cx3vu6oxj4r5jd7oe3wo4nxtpxadh2@wjyt2c2r46kn>
-References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
- <20241231-hotplug-drm-bridge-v5-8-173065a1ece1@bootlin.com>
- <7kpgrgqp2jx6ivkwdc5ax3dfah2qkajaedpcdadldselr4bdlq@jewss2bdl4or>
- <20250102130149.5784c09b@booty>
- <20250110115819.55bc887b@booty>
- <20250116113236.39ba876a@booty>
- <emuj2innmp6zmzd7pyakqzjqpdzhly6qfhakya3ydwmd63pl26@5jwxaidpikjw>
- <20250121122718.48502262@booty>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P7c/ZdAu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737463640; x=1768999640;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hsQ0irnUWCbqyyftsVatPsmhSvts6eSOOc9hF5wEils=;
+  b=P7c/ZdAuk/Oe7LiKbXUZu2omj/aB3TV7ZsCdfnBJfO5saKO7BnSW0N/Y
+   OiR5t5qlXNPxgxr65LPamslibad3wmmj58nCb1grxIR7Me9uqn/xQ0A72
+   eWaRFHa70ZlgAjzBBOUlVs/dldcJAE9w/BFhPY4HrNIsvNZ3EK+9NbdDh
+   Xgm018V4pkzUmxsjH7Xz5JTs0cYjq5WUlkCiQ7erhXZX9BbnUWEFVQARj
+   yegmPkEZJbizlqBSURILfbY4YgiZvtsrKODMW5iXUvgoKmqFzRNvJw1kx
+   7xyNpitxR2j9pJMtjFiXJRSsuhTWd23DPTTLmarjgj2qkRb17Os/a0XqM
+   w==;
+X-CSE-ConnectionGUID: opKhM5wtQuq4sXroux2mqA==
+X-CSE-MsgGUID: 1wINhPKTRmes4G8OB52Dxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="49268578"
+X-IronPort-AV: E=Sophos;i="6.13,222,1732608000"; 
+   d="scan'208";a="49268578"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2025 04:47:20 -0800
+X-CSE-ConnectionGUID: caDfTlUvQqmepWN4IGQoSg==
+X-CSE-MsgGUID: z+wT1ghtRfGhPn4lqjHXsA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="130077721"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 21 Jan 2025 04:47:15 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1taDez-000Y2X-1H;
+	Tue, 21 Jan 2025 12:47:13 +0000
+Date: Tue, 21 Jan 2025 20:46:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hyesoo Yu <hyesoo.yu@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev, janghyuck.kim@samsung.com,
+	Hyesoo Yu <hyesoo.yu@samsung.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Christoph Lameter <cl@linux-foundation.org>,
+	Pekka Enberg <penberg@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mm: slub: Panic if the object corruption is checked.
+Message-ID: <202501212026.lUnLNhv6-lkp@intel.com>
+References: <20250120082908.4162780-1-hyesoo.yu@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -92,160 +73,75 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250121122718.48502262@booty>
+In-Reply-To: <20250120082908.4162780-1-hyesoo.yu@samsung.com>
 
-On Tue, Jan 21, 2025 at 12:27:18PM +0100, Luca Ceresoli wrote:
-> Hi Dmitry,
-> 
-> On Thu, 16 Jan 2025 12:56:25 +0200
-> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> 
-> [...]
-> 
-> > > Idea 3: 
-> > > 
-> > > The idea is that if the panel driver framework always creates a panel
-> > > bridge, it will never need to be created on the fly automagically by
-> > > its consumers, so the whole problem would disappear. It also would be
-> > > better modeling the hardware: still wrapping a panel with a drm_bridge
-> > > that does not exist in the hardware, but at least having it created by
-> > > the provider driver and not by the consumer driver which happens to
-> > > look for it.  
-> > 
-> > I think this is the best option up to now.
-> 
-> Thanks for sharing your opinion. However a few points are not clear to
-> me, see below.
-> 
-> > > This looks like a promising and simple idea, so I tried a quick
-> > > implementation:
-> > > 
-> > >  void drm_panel_init(struct drm_panel *panel, struct device *dev,
-> > >                     const struct drm_panel_funcs *funcs, int connector_type)
-> > >  {
-> > > +       struct drm_bridge *bridge;
-> > > +
-> > >         INIT_LIST_HEAD(&panel->list);
-> > >         INIT_LIST_HEAD(&panel->followers);
-> > >         mutex_init(&panel->follower_lock);
-> > >         panel->dev = dev;
-> > >         panel->funcs = funcs;
-> > >         panel->connector_type = connector_type;
-> > > +
-> > > +       bridge = devm_drm_panel_bridge_add(panel->dev, panel);
-> > > +       WARN_ON(!bridge);
-> > >  }
-> > > 
-> > > This is somewhat working but it requires more work because:
-> > > 
-> > >  * as it is, it creates a circular dependency between drm_panel and the
-> > >    panel bridge, and modular builds will fail:
-> > > 
-> > >      depmod: ERROR: Cycle detected: drm -> drm_kms_helper -> drm
-> > > 
-> > >  * The panel bridge implementation should be made private to the panel
-> > >    driver only (possibly helping to solve the previous issue?)  
-> > 
-> > Or merge drm_panel.c into bridge/panel.c.
-> 
-> Not sure here you mean exactly what you wrote, or the other way around.
-> It looks more correct to me that the panel core (drm_panel.c) starts
-> exposing a bridge now, and not that the panel bridge which is just one
-> of many bridge drivers starts handling all the panel-related stuff.
+Hi Hyesoo,
 
-No, I actually meant what I wrote: merge drm_panel.c into
-bridge/panel.c. Indeed we have some drivers that use panel directly.
-However drm_bridge is a more generic interface. So, yes, I propose to
-have a bridge driver which incorporates panel support.
+kernel test robot noticed the following build warnings:
 
-> 
-> > The panel bridge already
-> > exports non-standard API, so it should be fine to extend / change that
-> > API. Likewise we might move drm_panel.c to drm_kms_helper.o, also
-> > resolving the loop.
-> 
-> Again I'm not following I'm afraid. It would seem more logical to me to
-> move things from the helper into drm.o as they become more necessary
-> for common cases, rather than moving things out to a helper module and
-> then force all panel drivers to depend on the helper module.
+[auto build test WARNING on akpm-mm/mm-everything]
 
-There are a lot of DRM drivers which do not use panels (nor bridges).
-Merging that code into drm.ko means that everybody ends up having that
-piece of code in memory. Moving drm_panel.o out of drm.ko and
-bridge/panel.o out of drm_kms_helper.ko would make the kernel slightly
-smaller for those desktop-only users.
+url:    https://github.com/intel-lab-lkp/linux/commits/Hyesoo-Yu/mm-slub-Panic-if-the-object-corruption-is-checked/20250120-163233
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250120082908.4162780-1-hyesoo.yu%40samsung.com
+patch subject: [PATCH] mm: slub: Panic if the object corruption is checked.
+config: mips-randconfig-r111-20250121 (https://download.01.org/0day-ci/archive/20250121/202501212026.lUnLNhv6-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250121/202501212026.lUnLNhv6-lkp@intel.com/reproduce)
 
-> 
-> Apologies, I'm perhaps not following your reasoning here. :(
-> 
-> > There will be a need for a Kconfig update in both
-> > cases.
-> > 
-> > >  * Many drivers currently call devm_drm_panel_bridge_add() directly,
-> > >    they should probably call drm_of_get_bridge instead  
-> > 
-> > I'd say, make it a stub that calls drm_of_get_bridge() with a possible
-> > deprecation warning.
-> 
-> I get the idea, but it would need to be implemented differently because
-> drm_of_get_bridge() calls devm_drm_panel_bridge_add(). They would loop
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501212026.lUnLNhv6-lkp@intel.com/
 
-If the drm_bridge is added during drm_panel_add(), then there is no need
-to call devm_drm_panel_bridge_add() from drm_of_get_bridge().
+sparse warnings: (new ones prefixed by >>)
+>> mm/slub.c:1308:9: sparse: sparse: cast from restricted slab_flags_t
+   mm/slub.c:1394:17: sparse: sparse: cast from restricted slab_flags_t
+   mm/slub.c:4440:47: sparse: sparse: context imbalance in '__slab_free' - unexpected unlock
 
-> into each other. I think we might simply add a check at the beginning
-> of drm_panel_bridge_add_typed(), as in (pseudocode):
-> 
-> drm_panel_bridge_add_typed(struct drm_panel *panel, ...)
-> {
->     if (panel_has_a_panel_bridge(panel))
->         return panel->panel_bridge.bridge;
-> 
->     // existing code
-> }
-> 
-> But that reopens the same issue: drm_panel_bridge_add_typed() would not
-> always call drm_bridge_add(), so the caller doesn't know how to dispose
-> of the returned pointer.
-> 
-> I think idea 3 can only work if the code understands that the panel
-> bridge is created by the panel and they _never_ have to create it
-> themselves. So handling the transition for all drivers would be quite
-> painful.
+vim +1308 mm/slub.c
 
-That's why I suggested just stubbing existing functions just to lookup
-and return a bridge: drivers can transition one-by-one. The bridge will
-be already there, created by the panel support code.
-
-> 
-> > >  * drm_of_find_panel_or_bridge() should disappear: other drivers would
-> > >    just look for a bridge  
-> > 
-> > Please keep it for now.
-> > 
-> > Some of the drivers think that it returns literally panel-or-bridge (but
-> > not both). However if panel bridge is already created, it will return
-> > both. So those drivers need to be updated.
-> 
-> I really believe it never returns both. The *bridge is set only when
-> ret != 0 here [0], which can happen only if a panel was not found.
-> Despite the slightly intricate logic of that function, I don't see how
-> it could return both in its current implementation.
-
-Indeed. You are right, I skipped the if(ret) condition. More boilerplate
-code in the drivers :-(
-
-> 
-> [0]
-> https://elixir.bootlin.com/linux/v6.13-rc3/source/drivers/gpu/drm/drm_of.c#L273
-> 
-> Luca
-> 
-> -- 
-> Luca Ceresoli, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+  1273	
+  1274	/* Check the pad bytes at the end of a slab page */
+  1275	static pad_check_attributes void
+  1276	slab_pad_check(struct kmem_cache *s, struct slab *slab)
+  1277	{
+  1278		u8 *start;
+  1279		u8 *fault;
+  1280		u8 *end;
+  1281		u8 *pad;
+  1282		int length;
+  1283		int remainder;
+  1284	
+  1285		if (!(s->flags & SLAB_POISON))
+  1286			return;
+  1287	
+  1288		start = slab_address(slab);
+  1289		length = slab_size(slab);
+  1290		end = start + length;
+  1291		remainder = length % s->size;
+  1292		if (!remainder)
+  1293			return;
+  1294	
+  1295		pad = end - remainder;
+  1296		metadata_access_enable();
+  1297		fault = memchr_inv(kasan_reset_tag(pad), POISON_INUSE, remainder);
+  1298		metadata_access_disable();
+  1299		if (!fault)
+  1300			return;
+  1301		while (end > fault && end[-1] == POISON_INUSE)
+  1302			end--;
+  1303	
+  1304		slab_err(s, slab, "Padding overwritten. 0x%p-0x%p @offset=%tu",
+  1305				fault, end - 1, fault - start);
+  1306		print_section(KERN_ERR, "Padding ", pad, remainder);
+  1307	
+> 1308		BUG_ON(s->flags & SLAB_CORRUPTION_PANIC);
+  1309	
+  1310		restore_bytes(s, "slab padding", POISON_INUSE, fault, end);
+  1311	}
+  1312	
 
 -- 
-With best wishes
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
