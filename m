@@ -1,113 +1,129 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37AE81F4269
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jan 2025 15:29:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250151537D4;
+	Tue, 21 Jan 2025 18:19:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737473374; cv=none; b=TFfp6qDpAmTsweWfy4kH/y2szqSuRkO8L6YnZ+mXBesf/OYNpVc/Pw8vZweCX4GCQlYR9Q3O14J+yfQ+UmNMEuNIqw14qRiF6RYlEAZ9MMhVlvSch+WXI/XJy4KY0tmEuY6GvBFuaiJV7mo+f9YkOP+vboXuQLI1QxOS5j6pzMA=
+	t=1737483578; cv=none; b=qAkfkZbfCn07hJhCTomg8l5a6kWKr0zKZ630yUXmOvgciKsoGUkm5oTwfudjQgTsJATIMPwlH4ROzvP0N3r0Ntko7JjHeErI+RDz6EFdyhYD03ANWq/iGHUO3vj+9qq6bi5IJzk/6Y6HDrC+bCZGzaOIWpCfPGbP/iljtE58kA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737473374; c=relaxed/simple;
-	bh=0tvcxw/M0+bumfP5SQ8bUYR24B3JRc1s/ClOo9jLdZ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l9xGjWOn/TEIIBD3L4wkZyDU+8qxiRH2RF0PEWbfCajM/KhfuZzotQiPWYNKxk6slk4WDX4f0EL55N18dv6QI7VLXBtJfNPKD1o8N96Shkvzl0rTJRByLenKNNuB5270jPyO23aanTlCQu3aRqaCsiwdnIU0fdpfRX1Q9sAwR5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=OdwapAez; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	s=arc-20240116; t=1737483578; c=relaxed/simple;
+	bh=hbX0TN5e2VfSEiwP4/iE/2PCyqBKqvrqOSu8MEf2VNE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=LkK9ScSjkT4cb/JYKxkRw84xo1tyeRLKAnWm74U8kY5LKE95WOQW8WoBV6peqM9L06kFTPdfiv4tJ+ZYKgzoWi/jlUfAsU0W/Cb8KKblOzk86Qs2UBoy4Mn3Q51nu5orDArBJa4QfFEHefE+s5V/HfS6sQQDS4ejMCqTquj15Uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kNpEFCaZ; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="OdwapAez"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43625c4a50dso40582155e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 21 Jan 2025 07:29:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1737473371; x=1738078171; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=A+SyMEFDuiz5jdFoFAlcZaoDQi4XryVJWeWGSbZvojI=;
-        b=OdwapAezYSEYlIyhGpAygosVU00OR+3P3F1srEREqb/EsDYdku835UJEmsFEtH/cHp
-         jertvLA57xEUyZjbOeefC7cm4rNC2oTnp55TtjG22FzE5DabXSUiIIffHudOe1fiG7Y4
-         rZibiKxTxmx55GlY2dCX/de9vLcfnAGA3ck9w92qKz4sDyrKSA2HYFF0xHpoY22U/l/4
-         7cy7LNq0RpWRlnRsdj9bDY9m3wNwetkVIyRJ+4t7jADGoJaenpiLHlyJzEk+FBm8gf8V
-         TGqM/Crm/vNTdLbm7b4gx/awYOZh92TYaTQq/heLy+O9bxwxyC3OTONcfXBvhVefnvAn
-         MkwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737473371; x=1738078171;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A+SyMEFDuiz5jdFoFAlcZaoDQi4XryVJWeWGSbZvojI=;
-        b=Ld8tykK5+v6OnQQr7gEbOgRdWDGyIkhVOb5x8WebaSXARkUbPF545z4e9XFnSo4V9R
-         19LkMcUkRhKKHUDZZLnQaeLI1Fl72D69XiX47S8XMEpVsBKuPYMivTcrAZ07i5jmVWqx
-         D0jbDffcJbmj05xzglct6Fn9ScDgh/+VqcPU65P6SLwJA0ufoOEcjurae4E380Ks464Q
-         33TXzxDQfKxpTm0lMCpLZsRN0U2c17U9FKC3PB/FpynLsXJQIujunrFkPLOdSmsXI4uD
-         x2FAKxwTGtvRXJqEbd0FuIHqP+BI26g9d51/2qpQmb2WbhaoS2Fqx5QdJD/sj7UAjRN/
-         zfkg==
-X-Forwarded-Encrypted: i=1; AJvYcCVj+L9ZwR2rHuSW4zFa+LXwguwoZV3pPiyGRGHkkv0oKRm+VS6i2s7AJVU9Nfa9FEPTyiTWcIENoQo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6xjx4Fvf8jYcKaYKalapfeagvi8oDIRSqW6pCUcSWcelhu0xW
-	0QE6eFOwggNG2SCZ9lQPCBNUzltxHGlz/2EaAkZFo6BabZEJ5n5/1eEHisSpS+c=
-X-Gm-Gg: ASbGncviZ5RYxgezcIXnqeacwWZ6Qrz0txDb+xJdiK9kp5X4pgXoG78k4qg6YuZh0LK
-	sOyaeMz4mocLpd2w8ls6e6rgKiKbzU0xMpAVg89Hvv4sx47LpRKISIZJAcS94KCJ0vZbPPZnMIE
-	TGJgTPAbjPapkRTfkvCmZUOsfx5JkOpTuzKNvDXtgIfFk7c+iYMP5H8C8WUO8GkEyrFDjQozShX
-	MTS4Z9kQucd5rSY+rnhmjtj9TpkWBvYPNcKQu2FoKus16etJO1wJEGKTPLIfaUEva5lHfrfgp/P
-	gPrLbumCRppDMxfvBoT7wZQK68kr808y0hXwEYzTXkpWd/3OKFN4a5o=
-X-Google-Smtp-Source: AGHT+IGl2rjI0Z/X1fO7b4lQu7Bz/+RhZRQdSmN7QWCPax7hXw3N4uwdbUK9AcP8ky1wqh1l9HCJJA==
-X-Received: by 2002:a05:600c:4e08:b0:434:a4a6:51f8 with SMTP id 5b1f17b1804b1-438912d4a3bmr183994855e9.0.1737473371456;
-        Tue, 21 Jan 2025 07:29:31 -0800 (PST)
-Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz. [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-437c7499821sm242856925e9.2.2025.01.21.07.29.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jan 2025 07:29:31 -0800 (PST)
-Date: Tue, 21 Jan 2025 16:29:30 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Yunhui Cui <cuiyunhui@bytedance.com>
-Cc: alexghiti@rivosinc.com, andybnac@gmail.com, aou@eecs.berkeley.edu, 
-	charlie@rivosinc.com, cleger@rivosinc.com, conor.dooley@microchip.com, 
-	conor@kernel.org, corbet@lwn.net, evan@rivosinc.com, jesse@rivosinc.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, palmer@dabbelt.com, paul.walmsley@sifive.com, 
-	samuel.holland@sifive.com, shuah@kernel.org
-Subject: Re: [PATCH v5 2/3] RISC-V: hwprobe: Expose Zicbom extension and its
- block size
-Message-ID: <20250121-4990d96a861a4ddd304abc33@orel>
-References: <20250115024024.84365-1-cuiyunhui@bytedance.com>
- <20250115024024.84365-3-cuiyunhui@bytedance.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kNpEFCaZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737483576; x=1769019576;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=hbX0TN5e2VfSEiwP4/iE/2PCyqBKqvrqOSu8MEf2VNE=;
+  b=kNpEFCaZuue/XzZjztn/n9Qn/E76LxYC+ms9XmrnqIVn05xA97Tw78z0
+   tYqGTFOD56uUlryWH+ZODuCd3u6JUh4ZepoeYlxN5R9nqwKnLJQT1ll2u
+   A6myD9ALSY4riaBPBGgM7W+OJzCURABVcLbRD/CdKSuXZx2ewKzMOVah8
+   Dn7ssAV3TmFDCPvBVSmfETKiqdsyHw61ssDAisT3OjfNyzyAnKl9hFlYc
+   UvoWJLqXN6vLRcGK8nFCfV2XHG1dWKSDNtsuAkjqktPhMlA+D+OPODuxU
+   Ju78kVhkdAoNUIEHqQcGxtBYFTcED4xE8MK5UoR92a0aFQ0p9RsaKScb9
+   Q==;
+X-CSE-ConnectionGUID: 4zDlTs8+R26bd5v1grTgOw==
+X-CSE-MsgGUID: FEYsD5Q1QWiknQgOAJ7C5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11322"; a="55460528"
+X-IronPort-AV: E=Sophos;i="6.13,222,1732608000"; 
+   d="scan'208";a="55460528"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2025 10:19:34 -0800
+X-CSE-ConnectionGUID: iTCRc0dtQ+q6udP7LzqT3w==
+X-CSE-MsgGUID: f6EeGeZcTDO5daK0L3JMDQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,222,1732608000"; 
+   d="scan'208";a="137711774"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.196])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2025 10:19:34 -0800
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Binbin Zhou <zhoubinbin@loongson.cn>,
+	Yanteng Si <si.yanteng@linux.dev>
+Subject: [PATCH] Documentation: Drop cpu0_hotplug mentions
+Date: Tue, 21 Jan 2025 10:18:56 -0800
+Message-ID: <20250121181856.743616-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.48.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250115024024.84365-3-cuiyunhui@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 15, 2025 at 10:40:23AM +0800, Yunhui Cui wrote:
-> Expose Zicbom through hwprobe and also provide a key to extract its
-> respective block size.
-> 
-> Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
-> ---
->  Documentation/arch/riscv/hwprobe.rst  | 6 ++++++
->  arch/riscv/include/asm/hwprobe.h      | 2 +-
->  arch/riscv/include/uapi/asm/hwprobe.h | 2 ++
->  arch/riscv/kernel/sys_hwprobe.c       | 6 ++++++
->  4 files changed, 15 insertions(+), 1 deletion(-)
->
+This is gone since commit e59e74dc48a3 ("x86/topology: Remove CPU0
+hotplug option"). zh_CN translation is also updated here, but needs
+to be checked.
 
-As the bot points out, we need to add the following to this patch.
+Cc: Binbin Zhou <zhoubinbin@loongson.cn>
+Cc: Yanteng Si <si.yanteng@linux.dev>
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+---
+ Documentation/core-api/cpu_hotplug.rst            |  5 -----
+ .../translations/zh_CN/core-api/cpu_hotplug.rst   | 15 ++-------------
+ 2 files changed, 2 insertions(+), 18 deletions(-)
 
-Thanks,
-drew
-
-diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
-index cb93adfffc48..6b5b24b399c3 100644
---- a/arch/riscv/kernel/sys_hwprobe.c
-+++ b/arch/riscv/kernel/sys_hwprobe.c
-@@ -160,7 +160,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
-        pair->value &= ~missing;
- }
-
--static bool hwprobe_ext0_has(const struct cpumask *cpus, unsigned long ext)
-+static bool hwprobe_ext0_has(const struct cpumask *cpus, u64 ext)
- {
-        struct riscv_hwprobe pair;
+diff --git a/Documentation/core-api/cpu_hotplug.rst b/Documentation/core-api/cpu_hotplug.rst
+index e1b0eeabbb5e5..2c92023573985 100644
+--- a/Documentation/core-api/cpu_hotplug.rst
++++ b/Documentation/core-api/cpu_hotplug.rst
+@@ -45,11 +45,6 @@ Command Line Switches
+ 
+   This option is limited to the X86 and S390 architecture.
+ 
+-``cpu0_hotplug``
+-  Allow to shutdown CPU0.
+-
+-  This option is limited to the X86 architecture.
+-
+ CPU maps
+ ========
+ 
+diff --git a/Documentation/translations/zh_CN/core-api/cpu_hotplug.rst b/Documentation/translations/zh_CN/core-api/cpu_hotplug.rst
+index bc0d7ea6d834c..7b0566ec5d195 100644
+--- a/Documentation/translations/zh_CN/core-api/cpu_hotplug.rst
++++ b/Documentation/translations/zh_CN/core-api/cpu_hotplug.rst
+@@ -54,11 +54,6 @@ CPU热拔插支持的一个更新颖的用途是它在SMP的暂停恢复支持
+ 
+   这个选项只限于X86和S390架构。
+ 
+-``cpu0_hotplug``
+-  允许关闭CPU0。
+-
+-  这个选项只限于X86架构。
+-
+ CPU位图
+ =======
+ 
+@@ -120,14 +115,8 @@ PowerPC和X86。配置是通过sysfs接口完成的::
+  $ echo 1 > /sys/devices/system/cpu/cpu4/online
+  smpboot: Booting Node 0 Processor 4 APIC 0x1
+ 
+-CPU又可以使用了。这应该对所有的CPU都有效。CPU0通常比较特殊，被排除在CPU热拔插之外。
+-在X86上，内核选项 *CONFIG_BOOTPARAM_HOTPLUG_CPU0* 必须被启用，以便能够关闭CPU0。
+-或者，可以使用内核命令选项 *cpu0_hotplug* 。CPU0的一些已知的依赖性:
+-
+-* 从休眠/暂停中恢复。如果CPU0处于离线状态，休眠/暂停将失败。
+-* PIC中断。如果检测到PIC中断，CPU0就不能被移除。
+-
+-如果你发现CPU0上有任何依赖性，请告知Fenghua Yu <fenghua.yu@intel.com>。
++CPU又可以使用了。这应该适用于所有 CPU，但 CPU0 通常是特殊的，并且被排除在 CPU
++热插拔之外。
+ 
+ CPU的热拔插协作
+ ===============
+-- 
+2.48.0
 
