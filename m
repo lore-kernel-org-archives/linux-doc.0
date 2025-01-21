@@ -1,92 +1,68 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA671CCEDB
-	for <linux-doc@vger.kernel.org>; Tue, 21 Jan 2025 09:30:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93BE1BCA0E;
+	Tue, 21 Jan 2025 09:34:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737451804; cv=none; b=WssIvE3Th8uiPMntxXnT72IPnEpNEV75edQsWLlNa55Dlld1VlcrBnxT3XSnLofvPMYGAUwOlp8uhCDmYrdhTK87Pzhf29i8PYVCpwDNOvhbjS4Bn9hQwPWPxfPPUikVBjIiO87qB/PMokOda7BPForc/UnUIASIxswrgz2JOJw=
+	t=1737452091; cv=none; b=XmulzRO+GE2V+O4cuCxP9B0+RBP5DAN5Y3M3RTZAxJOhAQYEGY3qOCCAUV5ME7VY6nlTYYWx+Sx4DvUZ+Cmx1ayFuOe63hgGL8RhaKxDHeAPWtQuZdaOtQaU6F7erlTj06ljp5nrV8GloiNGDMxp5pdST9X05JzmHsfdHoorPhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737451804; c=relaxed/simple;
-	bh=YK3A0x56wCxL4D4B2EDAD8jf9kgkUswidL7QC3zAi8w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F0xjzAwQ3iQ6EPHs+xY6Q1exfpLGVqclAllLiPo852/QZRkVp8QuIkUas0fM1gm2HFbrBfzKSqfvEnO0h9OPAgc4SGp+a3DAsMzxW4ddy+ohjQt2CYtgUsBw+KM00Tv+APsJO498HiXk2BStQP8lhoIuNf+U+9Zn57pDN/PyRDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1taAZu-0004Ec-FK; Tue, 21 Jan 2025 10:29:46 +0100
-Message-ID: <c3a1cc54-0928-419a-ac3d-7a3772918e3d@pengutronix.de>
-Date: Tue, 21 Jan 2025 10:29:45 +0100
+	s=arc-20240116; t=1737452091; c=relaxed/simple;
+	bh=R97qkQ4CJAxdQj0eC/dbAFLCcXtY/of9Qvyl2eGoNn4=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OZXxkxUL9bdR3slrBnYWHO/+002cozHlE4YkAbNv3Pi6IlMFTVWmC1cvig+C/ZM3QN4zNIRg351BCczroTS/acK3wYZMmvujNz7j3krYVGC7bcezu9pqLZaB4xoPTAyy8kYOTGFA2uO953K0Smb0Air4H5VHPnwFsNwkFx7hkDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Ychnw4xr9z6M4Jq;
+	Tue, 21 Jan 2025 17:32:52 +0800 (CST)
+Received: from frapeml500005.china.huawei.com (unknown [7.182.85.13])
+	by mail.maildlp.com (Postfix) with ESMTPS id 82EF1140390;
+	Tue, 21 Jan 2025 17:34:46 +0800 (CST)
+Received: from china (10.200.201.82) by frapeml500005.china.huawei.com
+ (7.182.85.13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 21 Jan
+ 2025 10:34:34 +0100
+From: Gur Stavi <gur.stavi@huawei.com>
+To: <horms@kernel.org>
+CC: <andrew+netdev@lunn.ch>, <cai.huoqing@linux.dev>, <corbet@lwn.net>,
+	<davem@davemloft.net>, <edumazet@google.com>, <gongfan1@huawei.com>,
+	<guoxin09@huawei.com>, <gur.stavi@huawei.com>, <helgaas@kernel.org>,
+	<kuba@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <luosifu@huawei.com>,
+	<meny.yossefi@huawei.com>, <netdev@vger.kernel.org>, <pabeni@redhat.com>,
+	<shenchenyang1@hisilicon.com>, <shijing34@huawei.com>, <sumang@marvell.com>,
+	<wulike1@huawei.com>, <zhoushuai28@huawei.com>
+Subject: Re: [PATCH net-next v04 1/1] hinic3: module initialization and tx/rx logic
+Date: Tue, 21 Jan 2025 11:47:06 +0200
+Message-ID: <20250121094706.3950522-1-gur.stavi@huawei.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20250116181037.GE6206@kernel.org>
+References: <20250116181037.GE6206@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/12] docs: thermal: sync hardware protection doc with
- code
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Fabio Estevam
- <festevam@denx.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Matti Vaittinen <mazziesaccount@gmail.com>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-security-module@vger.kernel.org, chrome-platform@lists.linux.dev,
- devicetree@vger.kernel.org, kernel@pengutronix.de
-References: <20250113-hw_protection-reboot-v2-0-161d3fc734f0@pengutronix.de>
- <20250113-hw_protection-reboot-v2-3-161d3fc734f0@pengutronix.de>
- <Z433CXhyYHqYEn4N@google.com>
-Content-Language: en-US
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-In-Reply-To: <Z433CXhyYHqYEn4N@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ frapeml500005.china.huawei.com (7.182.85.13)
 
-On 20.01.25 08:11, Tzung-Bi Shih wrote:
-> On Mon, Jan 13, 2025 at 05:25:28PM +0100, Ahmad Fatoum wrote:
->> Originally, the thermal framework's only hardware protection action was
->> to trigger a shutdown. This has been changed a little over a year ago to
->> also support rebooting as alternative hardware protection action.
->>
->> Update the documentation to reflect this.
->>
->> Fixes: 62e79e38b257 ("thermal/thermal_of: Allow rebooting after critical temp")
->> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
-> 
-> With a possible typo,
-> Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
 
-Thanks.
+> > diff --git a/Documentation/networking/device_drivers/ethernet/huawei/hinic3.rst b/Documentation/networking/device_drivers/ethernet/huawei/hinic3.rst
+>
+> ...
+>
+> > +Completion Event Queue (CEQ)
+> > +--------------------------
+>
+> nit: the length of the "---" line doesn't match that of the line above it.
 
-> 
->> +At first, the kernel will attempt an orderly power-off or reboot, but
->> +accepts a delay after which it proceeds to do a forced power-off or
->> +reboot, respectively. If this fails, ``emergency restart()`` is invoked
->                                                    ^
-> s/ /_/?
+Ack
 
-Typo was there before and didn't notice when reworking the paragraph.
-Will fix for v3.
+>
+> ...
 
-Cheers,
-Ahmad
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
