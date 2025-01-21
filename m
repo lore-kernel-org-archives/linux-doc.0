@@ -1,68 +1,81 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93BE1BCA0E;
-	Tue, 21 Jan 2025 09:34:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3FB81C173C
+	for <linux-doc@vger.kernel.org>; Tue, 21 Jan 2025 09:35:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737452091; cv=none; b=XmulzRO+GE2V+O4cuCxP9B0+RBP5DAN5Y3M3RTZAxJOhAQYEGY3qOCCAUV5ME7VY6nlTYYWx+Sx4DvUZ+Cmx1ayFuOe63hgGL8RhaKxDHeAPWtQuZdaOtQaU6F7erlTj06ljp5nrV8GloiNGDMxp5pdST9X05JzmHsfdHoorPhU=
+	t=1737452136; cv=none; b=bnrKxtwo69e8M7FohsFJ2xtPZQNDCXCgmHzrc4+MXuM35OHlLgR3CpWoyPAjKQcuMmtWRTCTV+DJlkU+MoY6PToHd8PPlustsgOYA2PVP078+x8Cwwg0gxquolRRMciD7i/YSaiiU25pTeIbgpRdCi8kjIGrg8SuD8GhlPVLJQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737452091; c=relaxed/simple;
-	bh=R97qkQ4CJAxdQj0eC/dbAFLCcXtY/of9Qvyl2eGoNn4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OZXxkxUL9bdR3slrBnYWHO/+002cozHlE4YkAbNv3Pi6IlMFTVWmC1cvig+C/ZM3QN4zNIRg351BCczroTS/acK3wYZMmvujNz7j3krYVGC7bcezu9pqLZaB4xoPTAyy8kYOTGFA2uO953K0Smb0Air4H5VHPnwFsNwkFx7hkDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Ychnw4xr9z6M4Jq;
-	Tue, 21 Jan 2025 17:32:52 +0800 (CST)
-Received: from frapeml500005.china.huawei.com (unknown [7.182.85.13])
-	by mail.maildlp.com (Postfix) with ESMTPS id 82EF1140390;
-	Tue, 21 Jan 2025 17:34:46 +0800 (CST)
-Received: from china (10.200.201.82) by frapeml500005.china.huawei.com
- (7.182.85.13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 21 Jan
- 2025 10:34:34 +0100
-From: Gur Stavi <gur.stavi@huawei.com>
-To: <horms@kernel.org>
-CC: <andrew+netdev@lunn.ch>, <cai.huoqing@linux.dev>, <corbet@lwn.net>,
-	<davem@davemloft.net>, <edumazet@google.com>, <gongfan1@huawei.com>,
-	<guoxin09@huawei.com>, <gur.stavi@huawei.com>, <helgaas@kernel.org>,
-	<kuba@kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <luosifu@huawei.com>,
-	<meny.yossefi@huawei.com>, <netdev@vger.kernel.org>, <pabeni@redhat.com>,
-	<shenchenyang1@hisilicon.com>, <shijing34@huawei.com>, <sumang@marvell.com>,
-	<wulike1@huawei.com>, <zhoushuai28@huawei.com>
-Subject: Re: [PATCH net-next v04 1/1] hinic3: module initialization and tx/rx logic
-Date: Tue, 21 Jan 2025 11:47:06 +0200
-Message-ID: <20250121094706.3950522-1-gur.stavi@huawei.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250116181037.GE6206@kernel.org>
-References: <20250116181037.GE6206@kernel.org>
+	s=arc-20240116; t=1737452136; c=relaxed/simple;
+	bh=UOt96m3Ai0Um04yoDoVTR8MiDB83yaiSBVo5rTHIuVE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mtqknNztMQTkP7AZIrWZGPg0JDxCVm0xRqwDYlUcK6g2IqXysPGxLJbwkxGhJCeZbALTvrIEhbr4GLugwFS8sQr1CHhQJfwpMTxm728ptmes/Qwgov7WPhs2NZnsOngHCr9o9NWFbty7UYCoVcB2K1ikI/S+quqHwz7+Hb1nEng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1taAfG-0005Xs-1G; Tue, 21 Jan 2025 10:35:18 +0100
+Message-ID: <825acb12-ac34-49fe-b2d1-d42e08e0cebc@pengutronix.de>
+Date: Tue, 21 Jan 2025 10:35:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- frapeml500005.china.huawei.com (7.182.85.13)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 07/12] reboot: add support for configuring emergency
+ hardware protection action
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Fabio Estevam
+ <festevam@denx.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-security-module@vger.kernel.org, chrome-platform@lists.linux.dev,
+ devicetree@vger.kernel.org, kernel@pengutronix.de,
+ Matteo Croce <mcroce@microsoft.com>
+References: <20250113-hw_protection-reboot-v2-0-161d3fc734f0@pengutronix.de>
+ <20250113-hw_protection-reboot-v2-7-161d3fc734f0@pengutronix.de>
+ <Z433SVbr-h3JCycF@google.com>
+Content-Language: en-US
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+In-Reply-To: <Z433SVbr-h3JCycF@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+
+Hi,
+
+On 20.01.25 08:12, Tzung-Bi Shih wrote:
+>> +What:		/sys/kernel/reboot/hw_protection
+>> +Date:		Feb 2025
+>> +KernelVersion:	6.14
+> 
+> The info might need to be adjusted if the series would be for 6.15. 
+
+I was being optimistic, but ye, now v6.15 would be earliest.
+I will wait a bit to see if there's more feedback and then send v3
+with the suggested changes and tags.
+
+Thank you for taking the time,
+Ahmad
 
 
-> > diff --git a/Documentation/networking/device_drivers/ethernet/huawei/hinic3.rst b/Documentation/networking/device_drivers/ethernet/huawei/hinic3.rst
->
-> ...
->
-> > +Completion Event Queue (CEQ)
-> > +--------------------------
->
-> nit: the length of the "---" line doesn't match that of the line above it.
-
-Ack
-
->
-> ...
-
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
