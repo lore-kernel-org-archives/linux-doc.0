@@ -1,128 +1,144 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF0D77111;
-	Wed, 22 Jan 2025 14:47:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36CDC2144DC
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jan 2025 15:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737557227; cv=none; b=AhuHC+3pqjBRS0GtLj4lvCZnwM0HXAjHvcfJcDpKICET9K4ul7frOHZtsC4DqmfIxYjo7ZqPp5xexj46X+VZzeQgEYIJm/UJTiUipHB4y3ufJJpOmN5tByZK5QAFMP7n3NI4+cqnaTB4mRAlMgfXHyaFLhvqQ1w6MaUUVwKFvCY=
+	t=1737560216; cv=none; b=ksHnkekiOghdku6gMLs/qCIgFjbeZYuvHMrgKdclK+715Zbdm1ibC2x2N+7nCP2+CTQ4tpQnSdTpHQbs4EnFURru6NyMen1f1rgXS2ryl+PyN0uDbf7418SKdk5nazmv9wiFxyhJ0J4SL6HZE+za6dpLWx+4HYVyCJYBjW3TEAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737557227; c=relaxed/simple;
-	bh=mWH1l8xN+kPhWeuesiiwO1oNDL8Ob46Y8DUXP0xLRT4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jGDtmlSroO8qGPpPgpHuSZJgBauJk3eSCVc3BxgxMqNX5+ofaw9dYA1oQaWUQpUg49YMhjmQFR6YQiOEvtkF/4mtulc3XC5ey418w8HAVJQiyq7Tchgn7qowmZ1GDpzIgnAK/7uM60v7ON5IugtdAA388p/MbiD8ZoDlO1yQYxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T/edoKe0; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1737560216; c=relaxed/simple;
+	bh=N8p0TD5QOTHYruWkg6jskvTBbKx7Yf/2rt53l8kao8Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E+YctTvpvlTQbRPG43SgbxOjNGX56MbCjsc2LKCgjLzr6RzmJ9gDWqMflOPuiXYoB5sb3f9E3S8T5pRasJah7KptGi4UHo/BhsHgbqTTB4PU7WYcikyy0xCyoybZ8kdeOidBjtv2BufVB0DIEAHVZvTALLH740mQFOvc1CITFIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZDngaqZI; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T/edoKe0"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2efd81c7ca4so9503602a91.2;
-        Wed, 22 Jan 2025 06:47:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737557225; x=1738162025; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DTwmwXE6hvLZlylHXv7J9Xg/8DidTCd/7TCvUczShtk=;
-        b=T/edoKe0+pHs18s9+4lPPbY6xWWIT0GTls0wBAkDNMJEFrPO4Wk7RUtFh0WGz7gc5w
-         3n4BxAMz6YVB+xgjoLnVVKPqnnilf0Ma3E+31nq1KbhbHPuOGKfrbn0vzEEWSNPsRbs1
-         Nnd0gSCoAqcTbGfm8csLv+hWwzUE1/MU4iHbASLtOZMEqIF1S1GP7C0qmLShGnI0erUO
-         b0Q6rWU0YXZq+BU8NPZ1lrG5Zyn09jrqV1ntCc7GdRc7YGGv3hEIgBOQx16CCT4nkSeB
-         NP/JYCdiN3C7A1wZ4XO9oT/NkizWjADY8IzRwo31VtvBHmBE4Ye3xeOXI/tTygUroDuO
-         gH+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737557225; x=1738162025;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DTwmwXE6hvLZlylHXv7J9Xg/8DidTCd/7TCvUczShtk=;
-        b=XrruubLZxfuF/HkzZGOe5i7awU8kZQT80snpl1+pL6g7ciL1r53nqezknFXq871J4s
-         9r7hwIFcvCbaoWuFFHc/wT/5R22rhi0kFEjlQcyoNdiMeT5aOlPcqTPWtT++mBblenob
-         MIhoRI/zaznO4pBdwAkUNOWm89VuNmcBnb6Za0H8Fimgvc/oteJnMiXs8qBDcUcV9rn6
-         EhBJlkkbmSwFTWMQoRlgWyxifh77iqbHaJpL6GQoYSCG02l17zQq5j/VKkl099Bur/2T
-         /quh7K6AqED6VOXrYrWx6OW4x30MLyH5LP3Q/9Stvpg+azHLx8AHWtNa+jb5dfWbOHVm
-         zivg==
-X-Forwarded-Encrypted: i=1; AJvYcCW8erMH0GugfnXR+R9M2JWn4N9ww5h+pe74nj797RyHAW0fJk7/nrG5Z0x39d3z7NAnLO9ElM5IvwY=@vger.kernel.org, AJvYcCXAuC6BoSeEITjpTHZgSTJ2A1tbhJ1nKXpzxvasUwz63UtwLenTye6MmMK/lI/F5qbclPpxoqflG9JxAQ==@vger.kernel.org, AJvYcCXz5d0q1UhxlqM4v94uzkJLSsl7lWtmuB75x50SrVGB1oWTYjk5v8Ea2beK9PqZWX5519gPI9J7+Xhu5ZCp@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTGudll7sdIdiiJv70jSBPD43ynua+7zCfMN9NCGzxFJyssPSD
-	sk+hmS7GfUTZ4xRbRiuDRINWGA3Cy0dMko5v4E5BkN8BoEJmqVL5rQj0Dg==
-X-Gm-Gg: ASbGncuGAVaMFEj2frDX9g+UwBsE9jO3TyQvpjqAPrBnnA/COR5G2xacXaBLtAKXNIA
-	piuT+vgHVONb8DPbAgzCwKFyGEnpcLjGsIA/D7SPPLL8ltD21igBkR/Jj/WnidWhFyQRnR6oTgh
-	DLkoqTkEpnBECcKfmPXDBdEYkhnV3HVF/3nSVWQhz4ZwFBlRuw48yOfIWHJCh8PNXQgiICgJDgc
-	MD1yXhuWKzcmt+a7ZiVUHwq5HuNMj5ssLK4qq/zuP+aYbUHq/XeQT6xbQNg/oKpLh8acGQct6/x
-	tqxAindtOfgdPKbLwPYQr4HrV2Cqs1o5SGihopef
-X-Google-Smtp-Source: AGHT+IEFJfb8JdR0uxTB95f0hEiIqD55HlidaYwR/BiGXD5dnSl2tjMZjFye0YN2S0xhVu9KHzdayQ==
-X-Received: by 2002:a17:90b:258c:b0:2ee:dd9b:e3e8 with SMTP id 98e67ed59e1d1-2f782c73b69mr31734721a91.8.1737557224891;
-        Wed, 22 Jan 2025 06:47:04 -0800 (PST)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f7e6aabc4bsm1774219a91.21.2025.01.22.06.47.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jan 2025 06:47:04 -0800 (PST)
-Message-ID: <1518fd0f-4b8e-406a-bd60-878c0c522bde@gmail.com>
-Date: Wed, 22 Jan 2025 23:46:46 +0900
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZDngaqZI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1737560214;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f8o7BcBFaAoDGx++JxsrnkYwkUHP1K1/2VxPdWlLaLw=;
+	b=ZDngaqZIH9fUf5jAlXj1CFlAsv7mlbpImrn3M5Z8MRQLsr4hAb7hZ+01w/LhNVZXF8zMJU
+	wEsRT5Ax3uDpdQKdA5ATDjQtwTV5y/kWTECZLrBZ23ykhugOCvFMc1rvdNE+EI8HOpwB9Y
+	VVaDORq+Nx+lhJIgPasMcvkhBDINhws=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-610-uN1Ft24uNiK_FZilbzhcqw-1; Wed,
+ 22 Jan 2025 10:36:48 -0500
+X-MC-Unique: uN1Ft24uNiK_FZilbzhcqw-1
+X-Mimecast-MFC-AGG-ID: uN1Ft24uNiK_FZilbzhcqw
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6E7F6195395C;
+	Wed, 22 Jan 2025 15:36:45 +0000 (UTC)
+Received: from localhost (unknown [10.2.16.37])
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id F145219560AA;
+	Wed, 22 Jan 2025 15:36:43 +0000 (UTC)
+Date: Wed, 22 Jan 2025 10:36:42 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Media <linux-media@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Block Devices <linux-block@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Power Management <linux-pm@vger.kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH 2/3] Documentation: ublk: Drop Stefan Hajnoczi's message
+ footnote
+Message-ID: <20250122153642.GA178738@fedora>
+References: <20250122143456.68867-1-bagasdotme@gmail.com>
+ <20250122143456.68867-3-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: linux-next: build warning after merge of the origin tree
-To: Bagas Sanjaya <bagasdotme@gmail.com>, sfr@canb.auug.org.au
-Cc: bhelgaas@google.com, linux-kernel@vger.kernel.org,
- linux-next@vger.kernel.org, mchehab+samsung@kernel.org,
- linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <20250122170335.148a23b0@canb.auug.org.au>
- <07507296-a37b-4543-97cb-0560ef7fb7b8@gmail.com> <Z5D1FzkmODr7YC8I@archie.me>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <Z5D1FzkmODr7YC8I@archie.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="G5Xn2h19SQtLrBjV"
+Content-Disposition: inline
+In-Reply-To: <20250122143456.68867-3-bagasdotme@gmail.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 
-Bagas Sanjaya wrote:
-> On Wed, Jan 22, 2025 at 07:00:43PM +0900, Akira Yokosawa wrote:
->> [+CC: linux-doc]
->>
->> Stephen Rothwell wrote:
->>> Hi all,
->>>
->>> Today's linux-next build (htmldocs) produced this warning:
->>>
->>> Documentation/power/video.rst:213: WARNING: Footnote [#] is not referenced. [ref.footnote]
->>>
->>> This warning has presumably been there for a long time.
->>>
->>> I don't know what causes it - maybe it needs a space before the opening
->>> bracket?
->>
->> Stephen, fhve you upgraded your Sphinx recently?
->>
->> In "Bugs Fixed" section of Sphinx 8.1.0 changelog [1], there is an item which
->> reads:
->>
->>     - #12730: The UnreferencedFootnotesDetector transform has been improved
->>       to more consistently detect unreferenced footnotes. Note, the priority
->>       of the transform has been changed from 200 to 622, so that it now runs
->>       after the docutils Footnotes resolution transform. Patch by Chris Sewell.
->>
->> So the above warning is real and prior versions of Sphinx just can't flag it.
->>
->> To silence it, you need to get rid of the unreferenced footnote, I guess.
-> 
-> Hi Akira,
-> 
-> I think the culprit [#f3] footnote (that triggers the warning) refers to
-> Toshiba Satellite P10-554 notebook, where s3_bios and s3_resume work only on
-> uniprocessor kernel. The proper fix will be probably adding a space before
-> the footnote.
-> 
 
-Ahh, you mean the referencing side of the footnote in that table.
+--G5Xn2h19SQtLrBjV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes, you are right. I was lazy and didn't look closely at that jumbo change.
-Point taken!
+On Wed, Jan 22, 2025 at 09:34:55PM +0700, Bagas Sanjaya wrote:
+> Sphinx reports unreferenced footnote warning pointing to ubd-control
+> message by Stefan Hajnoczi [1]:
+>=20
+> Documentation/block/ublk.rst:336: WARNING: Footnote [#] is not referenced=
+=2E [ref.footnote]
+>=20
+> Drop the footnote to squash above warning.
+>=20
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Fixes: 7a3d2225f1ae ("Documentation: document ublk")
 
-Thank you.
+The commit that introduced the unreferenced footnote was:
 
-        Akira
+Fixes: 4093cb5a0634 ("ublk_drv: add mechanism for supporting unprivileged u=
+blk device")
+
+Other than that:
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+> Link: https://lore.kernel.org/linux-block/YoOr6jBfgVm8GvWg@stefanha-x1.lo=
+caldomain/ [1]
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Documentation/block/ublk.rst | 2 --
+>  1 file changed, 2 deletions(-)
+>=20
+> diff --git a/Documentation/block/ublk.rst b/Documentation/block/ublk.rst
+> index 51665a3e6a50cd..1e0e7358e14a96 100644
+> --- a/Documentation/block/ublk.rst
+> +++ b/Documentation/block/ublk.rst
+> @@ -333,6 +333,4 @@ References
+> =20
+>  .. [#userspace_readme] https://github.com/ming1/ubdsrv/blob/master/README
+> =20
+> -.. [#stefan] https://lore.kernel.org/linux-block/YoOr6jBfgVm8GvWg@stefan=
+ha-x1.localdomain/
+> -
+>  .. [#xiaoguang] https://lore.kernel.org/linux-block/YoOr6jBfgVm8GvWg@ste=
+fanha-x1.localdomain/
+> --=20
+> An old man doll... just what I always wanted! - Clara
+>=20
+
+--G5Xn2h19SQtLrBjV
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmeREIoACgkQnKSrs4Gr
+c8jWNQf/d04gunXlgUuBBbP2JPmmUQ5tjr8BCc6SUve2iTkZZ40s+OMLA1pQTeVt
+TrNpE5B0MndLQEtx9SJ2WQ7D/jZ18GJgoAklyQ9OYB8d47ViuxERgjytDGcx4dFe
+ju/neQmr1HtxyE4hK1IMrNB5llOP7w3aBRdTgNBGnrhNM8kaexp5Cfp+UAxLN25L
+c82oQ/NxCkJ/M8xCQ94LRQrWh5bJs+9XMANZr80YY8BRQTVuylN4A4f06bvPRznM
+rz0aKGUEZiFaLAQKXDiRbqWutf+glkM3zGjh9VBLYw3pFZkiS910OYD5DTKeM700
+DN24tDG8WwVF66EAz+4bWmJJ+GFSxg==
+=2fOo
+-----END PGP SIGNATURE-----
+
+--G5Xn2h19SQtLrBjV--
 
