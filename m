@@ -1,218 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB28213E6E;
-	Wed, 22 Jan 2025 13:59:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737554350; cv=fail; b=dNsnkSjq+RmVL8gQ9TQUpTevXYAcZ3u6p3gsXK4SwdOkuDYSli2U2Y7KwvFQADYFgHbkRzDdz7NmbNXtwmVVBrV+XBT/IBaMrJvk+vaVjf4VWR8sIPgrGllscgkLMdrZgp3oZHFEfb2/S1r8a+qr+szF2dVf7fQzLE2OwLv9JN4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737554350; c=relaxed/simple;
-	bh=KZ7dFn3WVzzDkuDEiCK0WjoDN9f2Q4KpVW7tFvnmSo0=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=jgBwbZ/BySrGz5uqIMEiGHqm5yEnlQCABH/65AjX0fy8FRz31wChpkPM/3+Que5CeNPnbVS/qnh5lxEv3GVNSBHL4jqGgxA/AZFzhN532CiIaYuh6UeD/SZK9qvRw40UEhZ62z/6Xku2neg6tKD8uUQJaiNVLo1zBcFTqs+Vcn4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FdoFfceK; arc=fail smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770AB1F94A;
+	Wed, 22 Jan 2025 14:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737556503; cv=none; b=KNOwy3aayS6kVgrBiEphadRMwV+6zqWS4t7X2sEFjArH7xYm+jRagVnANdZqUsmgeLVLemDq5FoSfbJiqNzUH+MibuyMuFRsWuvhh60HpxPLB7TRGjnGLLe1YK/XWGmEMrW7docQw/xrLz6tdpnaTGU5bJMXqr/bI3gsXLlD8+4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737556503; c=relaxed/simple;
+	bh=m8lx9id+N8G1oRBTTUZ2U5IdfXbQFt9T4fAAHi4VtRk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HYGtNDk6FALR0sWQ6wQwjZ+J+kz3NoIQuvXXdGhBiKieH0QWJKZNR7urIb7Z6c/qIm+EEhliUjGV+IMgduqhW4Ot4STSK3dbTko8d/EsWUDrLqK/mKJuMvFhQVeLX6rhwQFFET/nDPxKpEswIAFT6zEoSNpx8w+0owILfsx5IiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UdNi/no0; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FdoFfceK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737554349; x=1769090349;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=KZ7dFn3WVzzDkuDEiCK0WjoDN9f2Q4KpVW7tFvnmSo0=;
-  b=FdoFfceKHJtRwPCqwVSHViP5dj8ij5WDvhAvW9srT/nnYiz/zhZypxDc
-   EWMBqMwLl2FpviCtoM/jk5DPH329ck6vSNUz2FryqRVWPwkPt0cE0bDag
-   gi3nGIrER20vbbznPU4Ebnaxw80HzEXzAHc2Zjy321a5PIL2yghlxYIxb
-   Av2AZWB8wgfky4vjGvLGEbN/1Vm1M9hanX+C/d0y1Ym+90Y/bJGWSgD8C
-   vvuljsiXwgVwjneg0wBdXSM3rtlWWnNOpInvRCwn+NVQtAF8sdrwkUBiw
-   nK3rS0obTDytQqfpOcJEByq/tlATpmL4Ty1dkgoaArqPMh3ij09bjCV/T
-   w==;
-X-CSE-ConnectionGUID: vTn6Ta4LQzKq/RD/VXgqtQ==
-X-CSE-MsgGUID: z+D1Flz+RX+D21Qc4J0dvg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11323"; a="37895197"
-X-IronPort-AV: E=Sophos;i="6.13,225,1732608000"; 
-   d="scan'208";a="37895197"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2025 05:58:58 -0800
-X-CSE-ConnectionGUID: qaKRNCqgQ4uVCd+hV9cRww==
-X-CSE-MsgGUID: mDWOYB7/TFCIGMhoTkx1Hw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,225,1732608000"; 
-   d="scan'208";a="107673721"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 22 Jan 2025 05:58:56 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Wed, 22 Jan 2025 05:58:55 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Wed, 22 Jan 2025 05:58:55 -0800
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.47) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Wed, 22 Jan 2025 05:58:55 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nE9SjpFVSFWigE901UhSWIZNBq8VJJ28B471N+xh3giUUAqFrx55FpKvy089w5rxs9xSthDzMl3FUd4g0zlYbOW/PbTA6v7aB1UMf3FLscfWkUm3FttFdhqATOfBRw5K4c6yurIVWi/maRyzsSKi8UDzq81AWvKn2nqRnLAga3KjqHms7gVW0/ujSdXekWRymNu5ZfCcUpfX2/4ZTsIfqCem68i7X0wFJy/FPTyHh2HJX/TUnuSSlF7VdAPDe+EjBBm3yyKdHciQf11CqMsZxXGpy4P8MMfNyIor6z1qfG7HuaBsl8piIVqjKSLta4keCXLe76IcrWmlUaJiB1K+8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/Sh+RDudt5nXolCUbJZb1RvoaiMyBD/IjqX80OTnh54=;
- b=yBwM5qVlvqnzjir77Kpwv7fOHw+Xrj4PKhaT0+gi8zC01JmBN2fQ+SaYbDo1caAieZ4R4iDBTTBMmjJJ+pFsY6Aj+TtiNSfPsel+uD1+IXWkyjzfPmIR0N1/sKLBHmwabTL0SJ3KNDXZJs0ctCp1bkNYwKos9zIOmqMEOq9y/5bU0UWhFYx4F2JnZmIRww7YmXzt1rud+fYVBGJwycsjMH/yKHhRW3rDFgOxwC+skosp6PjTSC7JVLGluUSlyo79WaRnD7KSCuOE5gUqllcvG+Qu884bGUONA5teI9Xmp4xAKP7ZXGR1Z9LVcvp8PASDadtX/zqdqH5wcljm63GvmA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from MN6PR11MB8102.namprd11.prod.outlook.com (2603:10b6:208:46d::9)
- by SA1PR11MB8524.namprd11.prod.outlook.com (2603:10b6:806:3a9::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.21; Wed, 22 Jan
- 2025 13:58:39 +0000
-Received: from MN6PR11MB8102.namprd11.prod.outlook.com
- ([fe80::15b2:ee05:2ae7:cfd6]) by MN6PR11MB8102.namprd11.prod.outlook.com
- ([fe80::15b2:ee05:2ae7:cfd6%6]) with mapi id 15.20.8356.020; Wed, 22 Jan 2025
- 13:58:39 +0000
-Message-ID: <566b3d82-5e66-4e97-9808-a0e8e212fe67@intel.com>
-Date: Wed, 22 Jan 2025 14:58:31 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v04 1/1] hinic3: module initialization and tx/rx
- logic
-To: Gur Stavi <gur.stavi@huawei.com>
-CC: <andrew+netdev@lunn.ch>, <cai.huoqing@linux.dev>, <corbet@lwn.net>,
-	<davem@davemloft.net>, <edumazet@google.com>, <gongfan1@huawei.com>,
-	<guoxin09@huawei.com>, <helgaas@kernel.org>, <horms@kernel.org>,
-	<kuba@kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <luosifu@huawei.com>,
-	<meny.yossefi@huawei.com>, <netdev@vger.kernel.org>, <pabeni@redhat.com>,
-	<shenchenyang1@hisilicon.com>, <shijing34@huawei.com>, <sumang@marvell.com>,
-	<wulike1@huawei.com>, <zhoushuai28@huawei.com>
-References: <3bc8a815-96c3-46cd-ae87-b46b61648bca@intel.com>
- <20250122070752.3966233-1-gur.stavi@huawei.com>
-From: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Content-Language: en-US
-In-Reply-To: <20250122070752.3966233-1-gur.stavi@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: ZR2P278CA0013.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:50::17) To MN6PR11MB8102.namprd11.prod.outlook.com
- (2603:10b6:208:46d::9)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UdNi/no0"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2ef70c7efa5so9840979a91.2;
+        Wed, 22 Jan 2025 06:35:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737556502; x=1738161302; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=64B+pidoaRT7qHak7HsFnThjWHObSeU9GZTl0tBl8Mo=;
+        b=UdNi/no0sa8d4URsG0yFHI5gRvxgE+I+CkQeTgn46Qj3fNQuue6AmXEyx3WSH43Jh+
+         nCtdTNH3cXvkmOivFfKFbNnjvD0FxR25WZkh0rfQgp4UkWl9ScRz0M2igv6emv3IhI+K
+         jTqRNhx2iaeRVRfvltnC8ETuctzEqPmbgXxyP05R/7iA5d106yFELAWhsRM64xizA0aK
+         td75l+7fPmLP4Wu/lUAtW6M+SfRfRZbAInFpDA7ytGMj4cGOay4zIx2QWrUcdHCXLQ1E
+         0qeE+g9sVoUJMVf8D9udXW/hBSZBRWBB1w7rZqjgcJT3tFo7tiuIK75pKC24CwnQflqt
+         Zq+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737556502; x=1738161302;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=64B+pidoaRT7qHak7HsFnThjWHObSeU9GZTl0tBl8Mo=;
+        b=Q3bRZ2OvByUntgjThXv8FytKjKxon4sg/xfRABmCvualelArnJqsz/0qN1rwY0rV9a
+         NbhFyFFvWsyAvhf1H/zowlzEoN3fqZavsBbVNZQb/7jbwtFGXICsGqIl5u81UD7INTRG
+         b+sUYhA1vMrFdiUpX0WmjcB75Os6qphqTYmQ9JoftaWzP/ulgMsKSjXheA7d3yU3ktBh
+         Tk/edWAXCgjjjUoETKCvyZ5+7Sc+pta/ChpXe0jhf2qBZY4kma1bEA9K40xfNJOErNqO
+         ND1c9/Sh/lb+Q8uCdIHp84dkTGddt9rzpZxOErByQXrF68KFC58mWD41M+lq3oAp0vvJ
+         ucXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUAS+8Zduchp7ehYTRLee09PDNlYPbvbCyJzQ4BEx9eYQWoCFFjX14h5fC1HgLQO2enw8+KLY3InMHN@vger.kernel.org, AJvYcCUUbfFK+nVVYxAKNMOCebTkK2waFAsoy5MWvYJLLvfrvC9L5vYGl3/8pzKEzLIokhDfo3Kmso6ZYf/G3A==@vger.kernel.org, AJvYcCVM5jVh23mm5XeZmYF0i6VTlHrBhfUgnpnLLfHkw7ldMoRqYGrGbLS6tFsD8U70Y06aPrZH1N9cgJdbDxEq@vger.kernel.org, AJvYcCWHeRSNszuGeuWHxbOc3F+kG32P0ckdfdJMI+Y4rn/9z9TUuCOKZbEo6gbe7rwgmbAyvzMqK7UYDAc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzptx/xITHw8eHwaAVQfutOrULQKJw1I+VzaLx43QFznhNyYOsn
+	+oQvWvb81f9jbn+81hW1CluNeqLDhM/46AjmyGY5TYsLiw4OO1vZ
+X-Gm-Gg: ASbGncvMHdwNQjbgucwUBDsOzM1IC6dUqZ5gwMzl8nlcUumsnCGOZq7LLwFXU9aCNKi
+	QLFXxlOC6rV0X54k3t0Qyc7Wb5w1yiW+2QUltlVbepEejLQ5+n77x4K4Gomcxitl0AbpVUu922P
+	NpMx7W2Lq1CBnny/sTPjWx1cAxCdtmN7TslK3OaNIEBiBe2mIHEFPXEgS9BGE7AsYsr/JkwCBk8
+	M/1pBFXOHgRcGaAI3QziYT/CAayYMHIcBTtufxmpm7dF1l5mWzHyUwU23KSs92z96AEog==
+X-Google-Smtp-Source: AGHT+IHye6tnI6e9pHe4b35uSdIBEZ3t5Qm38grITS0mOAk2fG2/svwd3ROxg41Sd4Zw25vu2TOk4Q==
+X-Received: by 2002:a17:90b:4ed0:b0:2f4:434d:c7f0 with SMTP id 98e67ed59e1d1-2f782c71cb4mr36319616a91.12.1737556501607;
+        Wed, 22 Jan 2025 06:35:01 -0800 (PST)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f7e6ad9109sm1868233a91.46.2025.01.22.06.35.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jan 2025 06:35:01 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 9C8984209F8C; Wed, 22 Jan 2025 21:34:58 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Media <linux-media@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Block Devices <linux-block@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Power Management <linux-pm@vger.kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Ming Lei <ming.lei@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <len.brown@intel.com>,
+	Pavel Machek <pavel@ucw.cz>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH 0/3] Tree-wide nreferenced footnotes fixes
+Date: Wed, 22 Jan 2025 21:34:53 +0700
+Message-ID: <20250122143456.68867-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN6PR11MB8102:EE_|SA1PR11MB8524:EE_
-X-MS-Office365-Filtering-Correlation-Id: e4797fcb-b6df-460f-cf4c-08dd3aecdf81
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZnBFdVRkRVg0SHFYbWtmQ1c5NTVJQyt5Uit1Mm9QeDh4QitOVWcySjZXc2dU?=
- =?utf-8?B?THVwRlVsWHovQkJWN01JKzFBbDlkSUlmVG9ESXRYMzhQY1JoZkh0d3Y3bFQ1?=
- =?utf-8?B?d2NTcFE2a3haREc2cXc2cFM0MzVtQUJWOTZYeXdKU2JnNDFCNGZLblBuUEEw?=
- =?utf-8?B?S0pjQ0JxdWN3bTRQM0NtaG13V2dVdExkbm05QXFiejQzaXcyWlRaTGg3Y3k4?=
- =?utf-8?B?aVphcGdETnBlK29oUDJJS3BVcklzWUgyRTdxV21vWUN3aDZNbWNCejk1YTVm?=
- =?utf-8?B?OW9UaUZiM3paSzB0YUt3Wjk1amR1b1hqZityRXRKd2IyMUh4MC9EaEJ0bkM3?=
- =?utf-8?B?dWVtKzZuSldicUViUlNxcVE4OER5NkZOaE9nZWdkaGRsMmNrQTBUMjFwTGY3?=
- =?utf-8?B?TjJISW9KZW9CV1V1bTlxR0oxS29sQlFEQVJjNEtRTGZ3NnJIRTB1aHJ5V01x?=
- =?utf-8?B?STIvbkRZeGFJWVBmOC9XT3E0Vm1abkYybVlhdDhpN1p4LytXRmEzcDJESFZn?=
- =?utf-8?B?aU5YM2oyV2p6RkRGUmUrZGdsa2JFYmJuRFUxamRDU29rclY5d0tLTUNOYzky?=
- =?utf-8?B?elRhbWZMWFd1QkxCZUlTZml4TWZFakUyQ01TZzkvRy9QMEZpSnA3ZEcrKzE3?=
- =?utf-8?B?ZXRxTTd4U3ZVOE4vN2tOTmJkbDc4OFZQWFNSWEN5TWl6aEl2dTVlVEt1TExa?=
- =?utf-8?B?NDMwMlJnNkwxV3IwYzFpRllhVG1pcEtEMXZLbnZqWFROSjZpZzgzYWFENlQ5?=
- =?utf-8?B?N1JoMnY4M3hqVzJOKzhZckdNdXpYbGR3V1MrTDdvcXYwTUEvWGFsQURYalJi?=
- =?utf-8?B?UkxuRTF4S05tYnhXS2FqeEc1QXh3Nm1uNmVHa015RGJLWmNuVWxEMk96bDhL?=
- =?utf-8?B?M2FobktiTGF1cWJNS09jLzRjYWxPQ2RiMzNpS2xuNm9JVHFaYUpYeU8xODhB?=
- =?utf-8?B?d1poTWhrWDg0dzFPTy9veC9UdHJ6ZitPZE5Xak1FaUpMMlJYWUlWTnVlWXl3?=
- =?utf-8?B?ZUcvdThoTVdqVFVZeWw2dEZra2pYWTdIYVMzODJGQjJrYUJzbW1lNGcrRXRk?=
- =?utf-8?B?R3JPNTIyLys0YTBIUTV5dFc2UDNWbG1laGNHVWtZaU1pdnZqZDJTK29pUjd2?=
- =?utf-8?B?MjdUUHc2NjhSblVRbjJRNWt5TGU2djVQM2dXcEFiSmU2YzM3VzJWalRBVUE3?=
- =?utf-8?B?dVR1M3FJbE0vSEdTRTZqN3JwcUVzUmZGUTFDQ2FPNkNZUU1FM2t1WnUrUUJV?=
- =?utf-8?B?b013aml1VFZhdDJtamtEUzlrVjB5QXRsKzh2QlJCTHhhc241SHhHVEU2Vlli?=
- =?utf-8?B?Z01vUFo4Nm1GOXlsdGt5TlVUQVAvZjJ0ZXcwUXJWUUdjSmVBbEJtNmQ3MDVC?=
- =?utf-8?B?Y2hINTJmTmhFWFlKQk9CR0RjVlRqMXhsS0NDNkE5akVPbkRPVEIyYTJTK09p?=
- =?utf-8?B?Y0lqNXBxQUEvQmpqR1BnWVdhQzMrUlRQVitXL0M1TVNVSW9ENytIdzNvVE9p?=
- =?utf-8?B?VnpIUzFGWHRJTVpWakdwOG5PSEhZMnNYeGNZcWl2eFBhY0F3a1BFVkVwQ2ha?=
- =?utf-8?B?dUdydHhoTlY1bVZjaUJLWldzVU9FSFlqSVZnT3N0RUJkL0hhMEtLU1MxcENq?=
- =?utf-8?B?RkhsbWY3UkVNUFdjYVppaFV0d1A5YkpFSkdlS1R1S0xNc2FFbm5DVStPcVpj?=
- =?utf-8?B?c0pjK3YzcjZTMXlOSHNTWjhscHhSbDB4YlFkek83NXNkN3grWjRGZFRCMGU2?=
- =?utf-8?B?SzBZeHZsK2FjTU9zaUs2U3gyYzVCQlNOVkdwSkIybEdxOFZ0NHNIQ2xFQXNq?=
- =?utf-8?B?WjFOTXlGTDJENUxrd3ErQVN2VGUyTDBDOURqSi9ZKzFFQ0o3cWtSR211cng1?=
- =?utf-8?Q?sCiKY20Qm/JL/?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN6PR11MB8102.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TnJLaFlETm9kbjh1aXd5SHF4MXhaSEpkMTA0ZTRBV2l6NGxDenlaekJ1NnZa?=
- =?utf-8?B?dzRhU1hIR0t1RVZvWEVmTk9yblB5cVZuVk5BWG9lUHZWVFpNUzRDb2FGZFky?=
- =?utf-8?B?UjZwNE5FZXNBc0xScm1wUkxwVHhmKzdMYTlZU0NiM2pYZWNoLy9nbEdjYlJC?=
- =?utf-8?B?eU1RdXg5S3Q1WC81K0QxOVdtcWZNYkdLSDRwdnJFWTZsVXZiWXhxamREaXhR?=
- =?utf-8?B?MGRONXpTVTdPWFEwTjdXcElOZHZsMlBlR2NtVTk5OG9Vb2ZyOEFUU2ZWazRJ?=
- =?utf-8?B?UEQ4eEdIS2xIY1kvQURRNEw2dS9CZHZKRkZCMi8vVG5ZbFF6ZWZ2RUNHdDdB?=
- =?utf-8?B?N201Y3JVZ05OUFBtbzREQnpuREZybmNoZHM4OXUzZDN3aEU0T09mZkludVNa?=
- =?utf-8?B?WGEvazByajhqU2hHNDZjc2d5UHVVWG9XRkt6NkU1VUxMTTgzVE80SVcxOTEz?=
- =?utf-8?B?ZHI4UXJkcm95L0I3RHkxWXlGQThiT2hyT0xkWHErdGFlS3lwRnN5TXBJOEFm?=
- =?utf-8?B?bGFRWW5SRUs2NGMrcEJIL083SVV6ZmdQSk1BRXk4VWxuOHE4bUI4RUUyTE5M?=
- =?utf-8?B?MTZPVFJnYzVybG5UaDZUWUlpb1FnSk10ZHcrQ3RmWkFRVFRGS3NJRk5Qc3Vi?=
- =?utf-8?B?cU5XaWhsa2ZGanFVbDlDK3ljOU5JekRqMHN6UGxNNWlxTFp4VFZBWU9Ubkxv?=
- =?utf-8?B?MGYxdUs2VkNSQzJ1ek0rKzBkQW9kU1JPbGRNYm5ROUw1L3ZabW5oRWxzN0pH?=
- =?utf-8?B?QkZpSFNuajhsbk5naTFIQ2pnaHJiTVBMYXF1dGFwVitXSEFGamM4UUx6MW9N?=
- =?utf-8?B?bUpNQjJOS0dMOStVOXVtV2p3RFk4VW5Hb0J0dWZxL29TczZIQ0ZLWWVqazhM?=
- =?utf-8?B?VjMvb3FWSHZHY3AwL3hER1dHVXBxcWMyUmFITFltL2pKNGZGZnlrZ1FWa3Rl?=
- =?utf-8?B?ZWdZaHJsK2hhMG9WWnYzci9Zd2p0NGNRVm9rRkVieEk0Mmxib3ZiYkY1Y0VP?=
- =?utf-8?B?MEpsalFveDBGZll3a2pZTzdWRE4zeXFMOG91c2dwVnl4TTNFb08xZmNkcUxu?=
- =?utf-8?B?VzBUMjBTWlYzSFJIZW9yMTVCQlNUM1RnMHE5TUZ2ZUs2YktnYkErdjRVR0pH?=
- =?utf-8?B?T1NhV3JPcFBwUVN3RlVZNDFrQ1k0Tm9scExndEdkYmVZeSt6L2dLa0FKenkw?=
- =?utf-8?B?a3F3MWRPcEw0SHVNc1pHT01Oc29KSjFCdkhjVjV5NXYxUlNySFRpdWlCbHRB?=
- =?utf-8?B?V1hKcHMvMkx5enpYcElHK2V3UWU2UkUwcU80WDY3WHN2OXEwUWw3Lzk2dlVa?=
- =?utf-8?B?bDJ0OHlXa3FCVjFGcWdHUEE4UkFkZzJpMTdRd0poWXNzN0pKR3VEblZnZVZa?=
- =?utf-8?B?U0tqSHFsVmcxZEtKMHJFV0cvY3dEN1RQQTh4eUdZc1RJTmxITC9TL0NrYWQv?=
- =?utf-8?B?L2JnNzMwbzUrVnJ4VVdOTHFZai9nUzAvSURVMURLQ1hXR0pvbnczM0NBM1hS?=
- =?utf-8?B?djNJY3o4eWxEcGxxK0NEN3kyQXkxbU9nbEE4c1NiT0M0RGxtTTAwUEREK0I0?=
- =?utf-8?B?UDZjckYyV1paOW01NWRGdWJKVGZiRWVTcjBCUHJHM1Vjd2EyVFNzTCs3cDRl?=
- =?utf-8?B?T2lMcUN4NjhLRU1EK0hZejBSbk5Wd3pZcHQ3eW93bDhvUiszSldZbEZjdGpz?=
- =?utf-8?B?QWZUOTYvNFUzOHlWY1c1NmU0NFdaV3lCQXRsVlpDQXpSRVA1T3orSXgzcmVt?=
- =?utf-8?B?L25FTEZWaVgrNmdqSHVLUlkvTmRpZi9pSHlreFJ5MGRBMjFCckRmeS9VWjRZ?=
- =?utf-8?B?LzdVOU1ETmRuYmZIeTZMdWl6SUVjWXgwYkNOY1BoL0UyUHg5WUhWRjFyaGg0?=
- =?utf-8?B?T0U4N3NrY1VmUUVaVUhrdmJFbUJ2YUlWSHlITmR6OVdrMzk0UmdtR1Q2RGZL?=
- =?utf-8?B?SVpJQWNvQW5GOUJJaFNKQWRBcTV5Sy9PYXRWbGtWTFBpMVFKVEh2dTFNbUtX?=
- =?utf-8?B?KzlGdWNUZG9BYng3ZUFVVklOQVJUeU9uSTF2Q3JSQkxNT2JPOUlHc1pQYmlE?=
- =?utf-8?B?VFVNSjBYR1pjWHNFaGJFOUdsc1VpalRSQ0dYN2JLYnpWS0toZWhiUXRVNnNt?=
- =?utf-8?B?ekdtM0ZPcEQ0dFZLQ0NPd28xZTRpYUZNR2JvcmNYK3BMMkFXMHdTV0Z1cGht?=
- =?utf-8?B?aXc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4797fcb-b6df-460f-cf4c-08dd3aecdf81
-X-MS-Exchange-CrossTenant-AuthSource: MN6PR11MB8102.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2025 13:58:39.4992
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jJF3DAYES+kcq4UUGmTG0gKnYGz0ARc1NfVBa6eG7icrGfUkOPRhtPZpavPAK1asp05x7a7Sw9utoeKrerZutwdvu1yuUUa49o6bl56GkjU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8524
-X-OriginatorOrg: intel.com
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1185; i=bagasdotme@gmail.com; h=from:subject; bh=m8lx9id+N8G1oRBTTUZ2U5IdfXbQFt9T4fAAHi4VtRk=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDOkTGfUtAn73HKm8PG+FUOHGHwffNBXcflImPOVi/cEPK mz2Aa8+dZSyMIhxMciKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAi1nMY/sdI27HO3/xlhdaD d/3xny5t+73myCeWqPYX9nkGaTMeftBmZFggON10bRC/O9tibpErhW8kzqRc4mgKyX3Rcq5Mct6 dw+wA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-On 1/22/25 08:07, Gur Stavi wrote:
->>> Auxiliary driver registration.
->>> Net device_ops registration but open/stop are empty stubs.
->>> tx/rx logic.
->>
->> Take care for spelling: Tx/Rx; HW (just below).
-> 
-> Please elaborate. Spelling of what?
+Sphinx 8.1 introduces improved unrefenced footnotes detector. The changelog
+[1] reads:
 
-In all code comments and commit messages the acronyms and abbreviations
-have their proper spelling, like "Tx", "Rx", "HW', "SW", "ID".
+    - #12730: The UnreferencedFootnotesDetector transform has been improved
+      to more consistently detect unreferenced footnotes. Note, the priority
+      of the transform has been changed from 200 to 622, so that it now runs
+      after the docutils Footnotes resolution transform. Patch by Chris Sewell.
 
-of course lowercase names are still allowed for variables/fields
+As a result, a few new warnings are smoked out in the whole tree, that
+are previously unnoticed in earlier Sphinx versions. Let's squash these
+warnings.
 
-> 
->>
->>>
->>> All major data structures of the driver are fully introduced with the
->>> code that uses them but without their initialization code that requires
->>> management interface with the hw.
+[1]: https://lore.kernel.org/linux-next/07507296-a37b-4543-97cb-0560ef7fb7b8@gmail.com/
+
+Bagas Sanjaya (3):
+  media: ipu3.rst: Prune unreferenced footnotes
+  Documentation: ublk: Drop Stefan Hajnoczi's message footnote
+  docs: power: Fix footnote reference for Toshiba Satellite P10-554
+
+ Documentation/admin-guide/media/ipu3.rst | 7 ++-----
+ Documentation/block/ublk.rst             | 2 --
+ Documentation/power/video.rst            | 2 +-
+ 3 files changed, 3 insertions(+), 8 deletions(-)
+
+
+base-commit: ffd294d346d185b70e28b1a28abe367bbfe53c04
+-- 
+An old man doll... just what I always wanted! - Clara
 
