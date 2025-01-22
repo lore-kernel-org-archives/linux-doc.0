@@ -1,332 +1,174 @@
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2072.outbound.protection.outlook.com [40.107.94.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790A51C4A06
-	for <linux-doc@vger.kernel.org>; Wed, 22 Jan 2025 08:03:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737532998; cv=none; b=R2bMAhhGoEJCATQZlZc/rgb0/sxA0v0CHxzDyt4qILwElzyrBFCSv0FczZeYaBFwmi4/2jZEzr3qr+odU+deHaLE03fxoETgS0iWzxYsEUU0ev4rrPxOnK7AOb+RqAJTvbndeTDTpSF09P2QsXVGa0re0A+a5MPyDmdM+BmvSZc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737532998; c=relaxed/simple;
-	bh=2CeEBWGtdLRdO14GqTnmwbSZbgrrvFFUu4D/6oQ3rt8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UY1dK+CYrOkjSr1gQlUOj4HBJOI1pFdf6gIsd9LbyASMatFEiWNaDqTNDqFUdZqrh9/XsyUFx1vxXnYqolZ+IxJ4OltvjYCnY7wtXgpbKB4rbj4Pl8g4oISnIfv8apQztgZxyY1QZQRrAmv5BLkOqSyjcl61tQCOcw/zmzELdrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ecTZGYWO; arc=none smtp.client-ip=91.218.175.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EADC519E7D3;
+	Wed, 22 Jan 2025 08:05:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.72
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737533149; cv=fail; b=pOt2kJiFs28FL9Cqlu1xicexLgL7b0kI/5Zj1A2IiCIxCRoV4XkDepjYIxqUk3wjFM/Y7yWlJ/jEqZggxTuhOCJhgvVv5S7SV/wXJBp/ks1DQuwPw+viwl3JcxLaYiYorNg1QSMqv4/onlobFdD7o3So3McqRALHAPhagw1YvBc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737533149; c=relaxed/simple;
+	bh=PEdC2LhEg60lro0U11/Z7tD/CGRY0GtVO4O657tZbGQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XKpO0WpDYahKlg9kR4mJldV2RD2LTLiF8gHTXJgi5XOSmaxdiQMT+DDvHcUmywf5sw0FrbfFzKmukpYYUJC3zDJzQ4z4n1nl3d/qL62RxkUeGCcSmElT7DLZA7dYpWPV0p37b9KRxrKcR8oEUqLa/Ccf6o0EOTbE1n02FJB0n9M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=YaXdqCqM; arc=fail smtp.client-ip=40.107.94.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ecTZGYWO"
-Message-ID: <8ee8fade-2ccb-4957-b98e-16ac1bb0d11f@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1737532987;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mGiXydUoYbjGAIu+w/63+Ik5LcezJRJYtQ4uaFV2TVU=;
-	b=ecTZGYWOYb1e1yDEMTACZrieOQfHWHdB72PqED5sM5qch6ZUCMuLFoIlb1JcHWN4RS/3ZE
-	neWqIwVsw2cpYfbL4+tvTgJTPTbCPolyAuJ7gZqfp4OdBmCvxEp0zAdH96815+OXq0lw3W
-	YKEgywcw5KDGumrDDcgM9KNsU07smd0=
-Date: Wed, 22 Jan 2025 16:02:59 +0800
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="YaXdqCqM"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ktll2yiSOX+xmv58QK602U/Reevso32AyekkCKjf/7tXZDixCSXyx6yXLSlUZVrEGX9syFCR48UhJQa22vFGB0AnvV5P+i4yzcBdmRSWdlK9r7AbYmComAp8baJuVKG8luykBx0ixgbKG2p9wVgrK+d32YTgZB+t05uqk+FsAvEfrFnKnJQ0g8ElHW4rsHwEyv0g3QBHTO6org/0tX2uUAU3Lbq+L77t4u9Yc8NOBtmudaY8a7t5i88OV4XZIrjoxxIdaNpx+jTKe+p8bkAteBViqgDZlV6IV6Gy5QoaVp0WmaLPwYkGas5owZl1MfPQVvRwPbv9JzPuCKSMJgCRww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ubF/gbwnxhF0YG2iCjGvMkPSPY2jfUoMjouIJewvoGU=;
+ b=rf6pGt2S0LdMts5HchY7FOrvCv8GQjVv0hHS7y6Fb3Fgs4WY2Hkf/cqvQC8nckCY+aOj5lyr8LIyJKJeZOxyHd0sGs/N9AKaXmP6Ec81uTK34m67pGaYVL1qfDrzr7xxaajxAlfEn87ryeA4NZHzYSLauLL+t7AhgA8qxUJopXGJX20kydnqczpDAjkoc2a1Yd9mFtTeapOSlFB7OJupGOJx4rxwbrhVTDQVyrJgiXIAaJRqlznwPnqg5K83Nd4NZYjmFxlv17Wb3rJ1yRIa5AZNHYEnZmE6kOUh3CMpBF+SVqU+Eq26tv8jgOILGww/ADSBgn8xqPO+uzV2uD6wSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ubF/gbwnxhF0YG2iCjGvMkPSPY2jfUoMjouIJewvoGU=;
+ b=YaXdqCqMpWROJHqDSWKMLMmj3U/cLzXim8bSDQ8x1i1ndFZkHDXGgMwHTZ+Xi97V4fzohi5pcjGbt001bJvPpAx6/1ZboqUkyTZQDggbvOL89QLZM9OtEuDP0m/yhZyLz70/etk/D/9tiasjIUmwkgSv+2rG3vDFmjqfOEosxXFE+ZQhyTqVVsOKaaJIHN7bylNQ25Ax6WpMxbkckrSprhxmWiBB3pdooppr6if3lESu/0ipeek03Pjcq1JpChhdLwV3ri72CGkoO976fbdH+OljhEgPTgQtGNz2PJZdoH7l2cPTL29q52HbYD6i4HH/TIXSRIdUqvsQpnfm2f9YYw==
+Received: from DM5PR07CA0090.namprd07.prod.outlook.com (2603:10b6:4:ae::19) by
+ DS0PR12MB8788.namprd12.prod.outlook.com (2603:10b6:8:14f::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8356.21; Wed, 22 Jan 2025 08:05:44 +0000
+Received: from DS3PEPF000099D7.namprd04.prod.outlook.com
+ (2603:10b6:4:ae:cafe::ce) by DM5PR07CA0090.outlook.office365.com
+ (2603:10b6:4:ae::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8356.22 via Frontend Transport; Wed,
+ 22 Jan 2025 08:05:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ DS3PEPF000099D7.mail.protection.outlook.com (10.167.17.8) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8377.8 via Frontend Transport; Wed, 22 Jan 2025 08:05:44 +0000
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 22 Jan
+ 2025 00:05:25 -0800
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail205.nvidia.com
+ (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 22 Jan
+ 2025 00:05:25 -0800
+Received: from nvidia.com (10.127.8.14) by mail.nvidia.com (10.129.68.10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4 via Frontend
+ Transport; Wed, 22 Jan 2025 00:05:19 -0800
+Date: Wed, 22 Jan 2025 00:05:17 -0800
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: <kevin.tian@intel.com>, <corbet@lwn.net>, <will@kernel.org>,
+	<joro@8bytes.org>, <suravee.suthikulpanit@amd.com>, <robin.murphy@arm.com>,
+	<dwmw2@infradead.org>, <baolu.lu@linux.intel.com>, <shuah@kernel.org>,
+	<linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <eric.auger@redhat.com>,
+	<jean-philippe@linaro.org>, <mdf@kernel.org>, <mshavit@google.com>,
+	<shameerali.kolothum.thodi@huawei.com>, <smostafa@google.com>,
+	<ddutile@redhat.com>, <yi.l.liu@intel.com>, <patches@lists.linux.dev>
+Subject: Re: [PATCH v5 08/14] iommufd/viommu: Add iommufd_viommu_report_event
+ helper
+Message-ID: <Z5Cmvfp4JW9vmMTP@nvidia.com>
+References: <20250114134158.GC5556@nvidia.com>
+ <Z4rVg1Xg5TCiFlSb@nvidia.com>
+ <20250120181854.GQ5556@nvidia.com>
+ <Z463eXfgNArCOfPn@nvidia.com>
+ <20250121183611.GY5556@nvidia.com>
+ <Z4/7pGx6F1mpAUuV@nvidia.com>
+ <20250121200924.GZ5556@nvidia.com>
+ <Z5ALWFVTOSC/8+ji@nvidia.com>
+ <20250121211404.GB5556@nvidia.com>
+ <Z5AUNVHzJPATVqAY@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3] docs/zh_CN: Add snp-tdx-threat-model index Chinese
- translation
-To: Yuxian Mao <maoyuxian@cqsoftware.com.cn>, alexs@kernel.org, corbet@lwn.net
-Cc: zhaoyuehui@cqsoftware.com.cn, zhaoshuo@cqsoftware.com.cn,
- zhangwei@cqsoftware.com.cn, linux-doc@vger.kernel.org
-References: <20250121095402.305218-1-maoyuxian@cqsoftware.com.cn>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <20250121095402.305218-1-maoyuxian@cqsoftware.com.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <Z5AUNVHzJPATVqAY@nvidia.com>
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS3PEPF000099D7:EE_|DS0PR12MB8788:EE_
+X-MS-Office365-Filtering-Correlation-Id: dfb1e901-92ce-4dbe-7971-08dd3abb9267
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|82310400026|7416014|1800799024|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?8/6HX69zayoBH37fHzvDODjPfIcaAXKBUX9CWt4/woF5XQH4hYSF1ROmKONl?=
+ =?us-ascii?Q?cViBPIX03teYOwnmZmRQmM4S01Ky65858Pn+1z28V85023IiyWyc1D0Zkmx6?=
+ =?us-ascii?Q?uMbylKKDHl7/PgS/3v2lMzf2ugYc8N9aKXrJSjz7t8qGuCa9C4qsBPQfWMew?=
+ =?us-ascii?Q?kRGrfscCYBZiwqAwQAoaB3yqNFf2Ne2+vTFkRhevMNkviVHnlImRBP0g8VsE?=
+ =?us-ascii?Q?ca79vnXB+51CBixlndjmbzCUSMsGV2vv/DCplygRE12E9iys39v9p1NP3OW4?=
+ =?us-ascii?Q?q3Z5FVF1r/unwdIAW08zNk/XoZUiiks0eXaLyjh3gZqap7NaWCVs+gVtRQym?=
+ =?us-ascii?Q?OExKneVKB7pdiwZBguaY63BguHvcdQ1qAVs0kyjBaajGfFaeeTOKPBYByT3e?=
+ =?us-ascii?Q?egVzaUgWl3epd6E1GFJTrFN0yJhYS0znrkBhV8CALWioF0IXBs+WYfqFFQSM?=
+ =?us-ascii?Q?LHSriooLC8Es+mWqSfP3Pgp2ISDNtaY2k5a8/WXvTyW27J1usSoKew5wiwlf?=
+ =?us-ascii?Q?AuXjqYk3R4cryKNjhfVb/FlVGTY5+fw9cwNBU1aoMR3vrfQ658ctNee31kSr?=
+ =?us-ascii?Q?8/vRJ6wVgU7kCKTB1CmKKq9RleVhwi/lYfwo7sfQviEK7om7DGI7XnBQxOpj?=
+ =?us-ascii?Q?U0+mbXA1PTRTLRsl84pZ6YO6EAQnSmysc+3AVavg0uLc4X8BbnSs2cSCpUkW?=
+ =?us-ascii?Q?4wIYdkTX8Hh+9w+tT7vEd082m2x6MJsQOZd5r5NULDX5KAL1aLo3B7hHxAqA?=
+ =?us-ascii?Q?I8ZpqgIrpDNFEW5stXYHdbfOo/Q/VsfsYL9PS13tdCKxfXAYrFT7LkIKX7xG?=
+ =?us-ascii?Q?9bVCJwEHcqVd6ahxJhoA0mr6ATLpVE6C5Yj23iXF0r3gUddjDoPB0B11HJYK?=
+ =?us-ascii?Q?bLHSnk1hsy9UcgluTxSSDZ9a7q9HLjAagfCPtQDfROlXHTIF9kmMh2N6HCIx?=
+ =?us-ascii?Q?qIKGCr2jRId0EG+rUsqoyI9haWsAnWC+wcTZUQVCjnPh39UeQPSpU9Exbzxc?=
+ =?us-ascii?Q?DRcYPe5xjRSsKwAgYDZZYEtTxVhOjG4YxrZNtT68C+eqTePYATqVDX+MsLc3?=
+ =?us-ascii?Q?5WLwcV0SXvzo4hmfuIRaYuel4K9s/vYz471z9z3j1PsX4IPesEKGSQglOr0m?=
+ =?us-ascii?Q?cttY/pOLlfQZTdAmoHMNC2oZcGRYUFngKtSzCB8Ytn5TZxAQIDNwUKaVZR5e?=
+ =?us-ascii?Q?MYEkDlHHaLNp2dDE9+YfPFN6KpBibYUvsqDt3YIsuPcX//A+MTdeSekN863O?=
+ =?us-ascii?Q?xtLyeXpgs2rANWB/q2cLBUdOWH5eIxk/XzIY+7j3lgwqgdcUd/yRFjtZsm5m?=
+ =?us-ascii?Q?elJEqiMhyYBIGeJiEpk4tt/57GGWRDRkcqCtLs8aXqV6WffAYKWfPq4ReNrk?=
+ =?us-ascii?Q?YJVfkzZVK7DYBxdAFmVtCKHtklZosdgTWCieuVhyizYL/FDGE2zsrqzs3WVg?=
+ =?us-ascii?Q?pR3cZGvDFg4Xn1aMinNoj2E8xZnvGdrvIYZI6F90s7L7VIIAJqO276+bcKc/?=
+ =?us-ascii?Q?Yv6TXu8IMEDvKzs=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(7416014)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2025 08:05:44.4466
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dfb1e901-92ce-4dbe-7971-08dd3abb9267
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS3PEPF000099D7.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8788
 
+On Tue, Jan 21, 2025 at 01:40:13PM -0800, Nicolin Chen wrote:
+> On Tue, Jan 21, 2025 at 05:14:04PM -0400, Jason Gunthorpe wrote:
+> > Since we don't hold the spinlock the whole time there is a race where
+> > we could pull the overflow off and then another entry could be pushed
+> > while we do the copy_to_user.
+> 
+> I see. I'll be careful around that. I can imagine that one tricky
+> thing can be to restore the overflow node back to the list when a
+> copy_to_user fails..
 
+Hmm, it gets trickier because the overflow node is a preallocated
+single node per vEVENTQ. We must not only check list_empty for its
+restore, but also protect the overflow->header.sequence from races
+between atomic_inc and copy_to_user. However, we can't use a mutex
+because copy_to_user might DOS...
 
+A simple solution could be to just duplicate overflow nodes, each
+of which contains a different sequence, like a regular vEVENT node.
+This certainly changes the uAPI for read(). Though the duplication
+of overflow nodes doesn't sound optimal, it's acceptable since the
+duplicated nodes would have been regular vEVENT nodes if there was
+no overflow (i.e. no extra overhead)?
 
-在 2025/1/21 17:54, Yuxian Mao 写道:
-> Translate .../security/snp-tdx-threat-model.rst into Chinese.
->
-> Update the translation through commit "cdae7e8a69c3"
-> ("docs/MAINTAINERS: Update my email address")
->
-> Signed-off-by: Yuxian Mao <maoyuxian@cqsoftware.com.cn>
-> ---
->
-> v3:
->
-> Message header fixes
->
-> v2:
->
-> fix remove the unnecessary blank lines
->
->   .../translations/zh_CN/security/index.rst     |   2 +-
->   .../zh_CN/security/snp-tdx-threat-model.rst   | 209 ++++++++++++++++++
->   2 files changed, 210 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/translations/zh_CN/security/snp-tdx-threat-model.rst
->
-> diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
-> index 9a6345dd90b8..78d9d4b36dca 100644
-> --- a/Documentation/translations/zh_CN/security/index.rst
-> +++ b/Documentation/translations/zh_CN/security/index.rst
-> @@ -16,6 +16,7 @@
->      :maxdepth: 1
->   
->      credentials
-> +   snp-tdx-threat-model
->      lsm
->      sak
->      self-protection
-> @@ -25,7 +26,6 @@
->      landlock
->   
->   TODOLIST:
-> -* snp-tdx-threat-model
->   * IMA-templates
->   * keys/index
->   * lsm-development
-> diff --git a/Documentation/translations/zh_CN/security/snp-tdx-threat-model.rst b/Documentation/translations/zh_CN/security/snp-tdx-threat-model.rst
-> new file mode 100644
-> index 000000000000..17ab5e4277c4
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/security/snp-tdx-threat-model.rst
-> @@ -0,0 +1,209 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/security/snp-tdx-threat-model.rst
-> +
-> +:翻译:
-> +
-> + 毛玉贤 Yuxian Mao <maoyuxian@cqsoftware.com.cn>
-> +
-> +==========================
-> +Linux中x86虚拟化的机密计算
-> +==========================
-> +
-> +.. contents:: :local:
-> +
-> +By: Elena Reshetova <elena.reshetova@intel.com> and Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-作者：Elena Reshetova <elena.reshetova@intel.com> 和 Carlos Bilbao 
-<carlos.bilbao.osdev@gmail.com>
-> +
-> +动机
-> +====
-> +
-> +在x86虚拟环境中从事机密计算工作的内核开发人员，是基于一组与传统Linux内核
-> +威胁模型有所不同的假设条件下开展工作的。传统意义上，Linux威胁模型承认攻
-> +击者可以存在于用户空间，以及一小部分能够通过各种网络接口或有限的硬件特定
-> +暴露接口（如USB、Thunderbolt）与内核交互的外部攻击者。本文档的目的是解释
-> +在机密计算领域中出现的额外攻击向量，并讨论为 Linux 内核提出的保护机制。
-> +
-> +概述与术语
-> +==========
-> +
-> +机密计算（Confidential Computing，简称CoCo）是一个广泛的术语，涵盖了多种
-> +旨在保护数据在使用过程中（与静态数据或传输数据相比）的机密性和完整性的安
-> +全技术。从本质上讲，机密计算（CoCo）解决方案提供了一个受信任执行环境（TEE），
-> +在该环境中可以进行安全的数据处理，因此，它们通常根据预期在TEE中运行的软件
-> +来进一步划分为不同的子类型。本文档专注于一类针对虚拟化环境的机密计算技术
-> +（Confidential Computing, CoCo），这些技术允许在可信执行环境
-> +（Trusted Execution Environment, TEE）中运行虚拟机（VM）。从现在起，本文档
-> +将把这一类机密计算（CoCo）技术称为“虚拟化环境（VE）中的机密计算（CoCo）”。
-> +
-> +在虚拟化环境中，机密计算（CoCo）指的是一组硬件和/或软件技术，这些技术能够
-> +为在CoCo虚拟机（VM）内运行的软件提供更强的安全保障。具体来说，机密计算允许
-> +其用户确认所有软件组件的可信度，从而将其包含在精简的受信任计算基（TCB）中，
-> +这是基于机密计算具备验证这些受信组件状态的能力。
-> +
-> +虽然不同技术之间的具体实现细节有所不同，但所有现有机制都旨在为虚拟机的客户
-> +内存和执行状态（vCPU寄存器）提供更高的机密性和完整性，更严格地控制客户中断
-> +注入，并提供一些额外机制来控制客户与宿主机之间的页映射。有关x86特定解决方案
-> +的更多细节，可以参考
-> +:doc:`Intel Trust Domain Extensions (TDX) </arch/x86/tdx>` 和
-> +`AMD Memory Encryption <https://www.amd.com/system/files/techdocs/sev-snp-strengthening-vm-isolation-with-integrity-protection-and-more.pdf>`_.
-> +
-> +基本的机密计算（CoCo）客户布局包括宿主机、客户机、用于客户机与宿主机之间通信
-> +的接口、能够支持CoCo虚拟机（VM）的平台，以及一个在客户VM和底层平台之间充当安
-> +全管理员的可信中介。宿主机侧的虚拟机监视器（VMM）通常由传统VMM功能的一个子集
-> +组成，并仍然负责客户机生命周期的管理，即创建或销毁CoCo虚拟机、管理其对系统资
-> +源的访问等。然而，由于它通常不在CoCo VM的可信计算基（TCB）内，其访问权限受到
-> +限制，以确保实现安全目标。
-> +
-> +在下图中，"<--->" 线表示机密计算（CoCo）安全管理员与其余组件之间的双向通信通
-> +道或接口，这些组件包括客户机、宿主机和硬件（数据流）::
-> +
-> +    +-------------------+      +-----------------------+
-> +    | CoCo guest VM     |<---->|                       |
-> +    +-------------------+      |                       |
-> +      | Interfaces |           | CoCo security manager |
-> +    +-------------------+      |                       |
-> +    | Host VMM          |<---->|                       |
-> +    +-------------------+      |                       |
-> +                               |                       |
-> +    +--------------------+     |                       |
-> +    | CoCo platform      |<--->|                       |
-> +    +--------------------+     +-----------------------+
-> +
-> +机密计算（CoCo）安全管理器的具体细节在在不同技术之间存在显著差异。例如，在某
-> +些情况下，它可能通过硬件（HW）实现，而在其他情况下，它可能是纯软件（SW）实现。
-> +
-> +现有的Linux内核威胁模型
-> +=======================
-> +
-> +当前Linux内核威胁模型的总体组件包括::
-> +
-> +     +-----------------------+      +-------------------+
-> +     |                       |<---->| Userspace         |
-> +     |                       |      +-------------------+
-> +     |   External attack     |         | Interfaces |
-> +     |       vectors         |      +-------------------+
-> +     |                       |<---->| Linux Kernel      |
-> +     |                       |      +-------------------+
-> +     +-----------------------+      +-------------------+
-> +                                    | Bootloader/BIOS   |
-> +                                    +-------------------+
-> +                                    +-------------------+
-> +                                    | HW platform       |
-> +                                    +-------------------+
-> +
-> +在启动过程中，引导加载程序（bootloader）和内核之间也存在通信，但本图并未明确
-> +表示这一点。“接口”框表示允许内核与用户空间之间通信的各种接口。 这包括系统调用、
-> +内核 API、设备驱动程序等。
-> +
-> +现有的 Linux 内核威胁模型通常假设其在一个受信任的硬件平台上执行，并且所有固件
-> +和启动加载程序都包含在该平台的受信任计算基（TCB）中。主要攻击者驻留在用户空间
-> +中，来自用户空间的所有数据通常被认为是不可信的，除非用户空间具有足够的特权来
-> +执行受信任的操作。此外，通常还会考虑外部攻击者，包括那些能够访问启用的外部网络
-> +（例如以太网、无线网络、蓝牙）、暴露的硬件接口（例如 USB、Thunderbolt），以及
-> +能够离线修改磁盘内容的攻击者。
-> +
-> +关于外部攻击途径，值得注意的是，在大多数情况下，外部攻击者会首先尝试利用用户空
-> +间的漏洞，但攻击者也可能直接针对内核，特别是在主机具有物理访问权限的情况下。直
-> +接攻击内核的例子包括漏洞 CVE-2019-19524、CVE-2022-0435 和 CVE-2020-24490。
-> +
-> +机密计算威胁模型及其安全目标
-> +============================
-> +
-> +机密计算在上述攻击者列表中增加了一种新的攻击者类型：可能存在行为不当的宿主机
-> +（这可能包括传统虚拟机监视器VMM的部分组件或全部），由于其较大的软件攻击面，
-> +通常被置于CoCo VM TCB之外。需要注意的是，这并不意味着宿主机或VMM是故意恶意的，
-> +而是强调拥有一个较小的CoCo VM TCB具有安全价值。这种新型的攻击者可以被视为一种
-> +更强大的外部攻击者，因为它位于同一物理机器上（与远程网络攻击者不同），并且对
-> +客户内核与大部分硬件的通信具有控制权::
-客户机内核
-> +
-> +                                 +------------------------+
-> +                                 |    CoCo guest VM       |
-> +   +-----------------------+     |  +-------------------+ |
-> +   |                       |<--->|  | Userspace         | |
-> +   |                       |     |  +-------------------+ |
-> +   |   External attack     |     |     | Interfaces |     |
-> +   |       vectors         |     |  +-------------------+ |
-> +   |                       |<--->|  | Linux Kernel      | |
-> +   |                       |     |  +-------------------+ |
-> +   +-----------------------+     |  +-------------------+ |
-> +                                 |  | Bootloader/BIOS   | |
-> +   +-----------------------+     |  +-------------------+ |
-> +   |                       |<--->+------------------------+
-> +   |                       |          | Interfaces |
-> +   |                       |     +------------------------+
-> +   |     CoCo security     |<--->| Host/Host-side VMM |
-> +   |      manager          |     +------------------------+
-> +   |                       |     +------------------------+
-> +   |                       |<--->|   CoCo platform        |
-> +   +-----------------------+     +------------------------+
-> +
-> +传统上，宿主机对客户数据拥有无限访问权限，并可以利用这种访问权限来攻击客户虚
-> +拟机。然而，机密计算（CoCo）系统通过添加诸如客户数据保密性和完整性保护等安全
-> +特性来缓解此类攻击。该威胁模型假设这些安全特性是可用且完好的。
-> +
-> +Linux内核机密计算虚拟机（CoCo VM）的安全目标可以总结如下：
-
-**Linux内核机密计算虚拟机（CoCo VM）的安全目标** 可以总结如下：
-
-> +
-> +1. 保护CoCo客户私有内存和寄存器的机密性和完整性。
-> +
-> +2. 防止主机特权升级到CoCo访客Linux内核。虽然主机（及主机端虚拟机管理程序）确
-> +   实需要一定的特权来创建、销毁或暂停访客，但防止特权升级的部分目标是确保这些
-> +   操作不会为攻击者提供获取访客内核访问权限的途径。
-> +
-> +上述安全目标导致了两个主要的Linux内核机密计算虚拟机（CoCo VM）资产：
-
-上述安全目标导致了两个主要的 **Linux内核机密计算虚拟机（CoCo VM）资产** ：
-
-> +
-> +1. 客户内核执行上下文。
-> +2. 客户内核私有内存。
-%s/客户/虚拟机
-
-> +
-> +宿主机对CoCo访客资源具有完全控制权，并可以随时拒绝访问这些资源。资源的示例包
-> +括CPU时间、访客可以消耗的内存、网络带宽等。因此，主机对CoCo访客的拒绝服务（DoS）
-
-括CPU时间、访客可以消耗的内存、网络带宽等。因此，宿主机对CoCo访客的拒绝服务（DoS）
-
-> +攻击超出了此威胁模型的范围。
-> +
-> +Linux CoCo虚拟机攻击面是指从CoCo访客Linux内核暴露到不受信任的主机的任何接口，
-There ase three different translation of  guest:
-
-虚拟机、客户、访客
-
-let's use 虚拟机？
-> +这些接口未被CoCo技术的软硬件保护所覆盖。这包括所有可能的侧信道攻击以及瞬态执
-> +行侧信道攻击。显式（非旁道）接口的示例包括访问端口I/O、内存映射I/O（MMIO）和
-> +直接内存访问（DMA）接口、访问PCI配置空间、特定于虚拟机管理程序（VMM）的超调用
-> +（指向主机端VMM）、访问共享内存页、主机允许注入到访客内核的中断，以及特定于
-> +CoCo技术的超调用（如果存在）。此外，CoCo系统中的主机通常控制创建CoCo访客的过
-> +程：它有方法将固件和引导程序镜像、内核镜像以及内核命令行加载到访客中。所有这
-> +些数据在通过证明机制确认其完整性和真实性之前，都应视为不可信的。
-> +
-> +下表显示了针对CoCo客户Linux内核的威胁矩阵，但并未讨论潜在的缓解策略。该矩阵涉
-> +及的是CoCo特定版本的客户、宿主机和平台。
-> +
-> +.. list-table:: CoCo Linux客户机内核威胁矩阵
-> +   :widths: auto
-> +   :align: center
-> +   :header-rows: 1
-> +
-> +   * - 威胁名称
-> +     - 威胁描述
-> +
-> +   * - 客户机恶意配置
-> +     - 一个行为不当的主机修改了以下其中一个客户机的配置：
-> +
-> +       1. 客户机固件或引导加载程序
-> +
-> +       2. 客户机内核或模块二进制文件
-> +
-> +       3. 客户机命令行参数
-> +
-> +       这使得宿主机能够破坏在CoCo客户虚拟机内部运行代码的完整性，从而违反了机密计算
-> +       （CoCo）的安全目标。
-> +
-> +   * - CoCo客户机数据攻击
-> +     - 一个行为不当的宿主机对CoCo客户虚拟机与宿主机管理的物理或虚拟设备之间传输的数
-> +       据拥有完全控制权。这使得宿主机可以对这类数据的保密性、完整性和新鲜性进行任何攻击。
-> +
-> +   * - 格式错误的运行时输入
-> +     - 一个行为不当的宿主机通过客户机内核代码使用的任意通信接口注入格式错误的输入。
-> +       如果代码没有正确处理这些输入，这可能导致从宿主机到客户机内核的特权提升。这包
-> +       括传统的侧信道攻击和/或瞬态执行攻击路径。
-> +
-> +   * - 恶意运行时输入
-> +     - 一个行为不当的主机通过客户机内核代码使用的任意通信接口注入特定的输入值。与之前
-> +       的攻击向量（格式错误的运行时输入）不同，这个输入并非格式错误，而是其值被精心设
-> +       计以影响客户机内核的安全性。这类输入的例子包括向客户机提供恶意的时间或向客户机
-> +       的随机数生成器提供熵值。此外，如果它导致客户机内核执行特定操作（例如处理主机注
-> +       入的中断），此类事件的时序本身也可能成为一种攻击路径。这种攻击是对提供的主机输
-> +       入具有抵抗性的一种方式。
-
-Thanks,
-Yanteng
+Thanks
+Nicolin
