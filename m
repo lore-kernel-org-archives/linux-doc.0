@@ -1,132 +1,114 @@
-Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF0B2163B3;
-	Wed, 22 Jan 2025 17:26:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4691B808
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jan 2025 18:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737566776; cv=none; b=V218HmTnYOXtlwwAFWr4rtqS1qt6cqPRg+8jbAyU2KG6RYE6PRoDfZFJiuxZ4VjkJF6Z6YGKHuWU8CSKbtAimWLtC6gb2mMJntYRYprYzcvjL5H+OH/odvNC3O3sVl4yOQ79bAkLE+RnnR8i6V/k6HEAg4mnIy/3i+t+NIOrQtg=
+	t=1737568905; cv=none; b=nUEo+FEL59D9DoeR3MqQ1XV2+jL8U1meXBM/na6LbXZHSOh0wvAs7DX4syG3AE4cgUMMVi2wZcQ/KZRjCWPwgDeEet23nC8eypMHLgpURDtJNf8/NaE7jJfpUFItPYRE49RXHPgKRQ2c0rS5tmiwE+RB5ChHOuj5Rtpp1taDqD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737566776; c=relaxed/simple;
-	bh=+G54zyLYx4ceeWfGoCy64lc7WrHPNoQcsdY8qK53ikE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=bJPum4dLrV7b8gLl6MB7zbUH6Hp07WA+Xv+c1xwlFi2hXT115nw7VKqUvLss+DHcnqimnXUXU78fSGjnn1tdi87quvAgPTcOfERBNsLHMZYsSWFSpbVTObXLCq30xzQPLyQDP5DZBGx0UPqgOGvAo5vDWjkjAiALx1bIMptcCX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.29])
-	by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4YdVc466Yzz9v7JQ;
-	Thu, 23 Jan 2025 00:57:08 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.47])
-	by mail.maildlp.com (Postfix) with ESMTP id ED4E3140521;
-	Thu, 23 Jan 2025 01:26:05 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.204.63.22])
-	by APP1 (Coremail) with SMTP id LxC2BwDnbEvkKZFnsGscAQ--.5068S8;
-	Wed, 22 Jan 2025 18:26:05 +0100 (CET)
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: corbet@lwn.net,
-	viro@zeniv.linux.org.uk,
-	brauner@kernel.org,
-	jack@suse.cz,
-	zohar@linux.ibm.com,
-	dmitry.kasatkin@gmail.com,
-	eric.snowberg@oracle.com,
-	paul@paul-moore.com,
-	jmorris@namei.org,
-	serge@hallyn.com
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v3 6/6] ima: Reset IMA_NONACTION_RULE_FLAGS after post_setattr
-Date: Wed, 22 Jan 2025 18:24:32 +0100
-Message-Id: <20250122172432.3074180-7-roberto.sassu@huaweicloud.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250122172432.3074180-1-roberto.sassu@huaweicloud.com>
-References: <20250122172432.3074180-1-roberto.sassu@huaweicloud.com>
+	s=arc-20240116; t=1737568905; c=relaxed/simple;
+	bh=Phe81qI9iMw4UUpCRxadIHSys5+yaSYjlXS3n6RqgCM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pMNciWM2eohAHd1P3xc5pnOsCw8WmNOpJKXwmUpnGLT6xGbe09Ql01/Z34KWIRfq2EddpnD4FI2/Uyrb9O6bKLSfGX0giDN9L2TUrhGJ6OvMe86Xd+fBkrxkkpHFYAIsbJedMqXWlA1EutPmHnMpekRTVgXJGPBf+9z2xiSiBVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=BRD2LGJv; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="BRD2LGJv"
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7be49f6b331so665487685a.1
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jan 2025 10:01:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1737568903; x=1738173703; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jmIlbgV3Hecq7oeRjm0yUIVGWs0+HJXd/BMQI5C4vVo=;
+        b=BRD2LGJvb8GNLidBB9qpa/oEzmjfXI5hFe8DGWy/vsCYiaYdk4rIIcez9QVNjqdAA8
+         pTMhB5PHMf+FAK+G3TfH8p3av+swjvaXxla9IY1v/K3IGcRYFjxJsino3+4m3CWwY3gp
+         W97zu3WR4F84By3PhOhIP+7RctEROGv933UIYbuzummcyp2stW7gkkCrUpVdTPNJCA4m
+         ZLFViJ6Nl9SPslnPGM9SJaUrEjNAR/Ad4DuD7vE4k6t3UaWBlBMF7631USVKBumYvvYo
+         3ZUtoi+1FJLu2sv0Hy8ijjMps3eBNP7HPjR+ceYTZMGQOw55c6ELq9F2SYT2qlp+Duaf
+         8Cag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737568903; x=1738173703;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jmIlbgV3Hecq7oeRjm0yUIVGWs0+HJXd/BMQI5C4vVo=;
+        b=HUCE2z7Pahsi4Pdxwr1iWP7eK85iyfQdXiB/eQr/2shMk+BAcHCTW7JxCofucWWdwt
+         FmPK/dDNI24CdZbbIYBtdAUItzhCvMJVWdGivBnTsqodlZ/4Q0WLZC5QQyRIwQ1ZFNv9
+         PAAE+klSsorOpJKT6PkhoIEnV55z3lwSkCgbxJy302XnwbSV37jnoK8XNOJRRXRj0mlL
+         z4dG/NKMYpEdSlrkVk4FFJrdzAKOmk5nI+3EljKuDT5J8kIFlxaOYSizM2nog1MEcZ4X
+         EwYJJ2RLHB5l1vrpTMBcrJqyEWh7VfIxuYXIyF7ZzJWgARvupZNf/v5qz9n6F0/Yylsg
+         9W4A==
+X-Forwarded-Encrypted: i=1; AJvYcCWaWLuXK9kBxby2N9PQrO5FZtZp7cP8qZ9YJtDbE+ZkjAD9vR2NkoQR7xFSDLtQ57DAwPHl7rtsryU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwjHq2XJW+eDUu88iurcxUEP8KovoUBe1H3lOZokK6/Z3tuPEjx
+	2J3Hw60ee2b4jDzHWe2Qn2LCEqnZK37VDBptPMuolFSARyIG6fXxWO4XXuTa2PE=
+X-Gm-Gg: ASbGnctzt2EiWN07LHOVlT1I8YdRSiBgvGytpcqYPiVdvcHJAYdSrKWBzbxLoxzqn+g
+	6/rLnVczuIgK76RMOU9PWgYaDOhBXXdTZeiIbcGHyJXtmZuqztXNtBe1jTYbi94alltzns5+gGD
+	B9ImxtoUcRcL4YaxlDUZ4hT9deXNqv2ia4ApLgpHOy01tid7/gThA2XMX2vP4HNRRb8Jkr3VM1/
+	ZxsWOuhqIxhCbBp3D6Co2kiFzPc4nhIJPZYUoqU0uyThKPQz3DJ6SRPoN6PH5cQHfU/SlJDAZ6V
+	bu9pe/ddpECPCKdRgxiUpz544zN7GRdK7Y03D6oSBGgIM58VJZUC
+X-Google-Smtp-Source: AGHT+IHqa1xKG/AqmiY+AVDYMkRXO1guViKVB1zN+6qWK7JdtV6orWLAGz3awoN7Gr91E+h+yvFO0w==
+X-Received: by 2002:a05:620a:410a:b0:7b6:d870:ca2d with SMTP id af79cd13be357-7be6321be51mr4107036285a.13.1737568902893;
+        Wed, 22 Jan 2025 10:01:42 -0800 (PST)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-56-208.washdc.fios.verizon.net. [173.79.56.208])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7be6148054fsm685446285a.45.2025.01.22.10.01.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jan 2025 10:01:42 -0800 (PST)
+Date: Wed, 22 Jan 2025 13:01:39 -0500
+From: Gregory Price <gourry@gourry.net>
+To: Bharata B Rao <bharata@amd.com>
+Cc: abhishekd@meta.com, akpm@linux-foundation.org, david@redhat.com,
+	donettom@linux.ibm.com, feng.tang@intel.com, hannes@cmpxchg.org,
+	kbusch@meta.com, kernel-team@meta.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	nehagholkar@meta.com, nphamcs@gmail.com,
+	ying.huang@linux.alibaba.com
+Subject: Re: [PATCH v3 2/6] memory: move conditionally defined enums use
+ inside ifdef tags
+Message-ID: <Z5Eyg58jl8YqkU_j@gourry-fedora-PF4VCD3F>
+References: <20250107000346.1338481-3-gourry@gourry.net>
+ <20250121043355.177611-1-bharata@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:LxC2BwDnbEvkKZFnsGscAQ--.5068S8
-X-Coremail-Antispam: 1UD129KBjvJXoWxAr1UCFWUuFWxWry7urW3Jrb_yoW5Jw48pa
-	9a9FyUGr10qFW0krn3J3W3Ca4rK39F9FWUXa15Aw1vyFnxZr1jqFyDtr17CF98Wr1SkFy2
-	qF9IvryYya1qyaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUPlb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAV
-	Cq3wA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0
-	rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267
-	AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E
-	14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrV
-	C2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE
-	7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262
-	kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
-	6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GF
-	v_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvE
-	c7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aV
-	AFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZF
-	pf9x07jIPfQUUUUU=
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAQBGeQmNQFOgAAsR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250121043355.177611-1-bharata@amd.com>
 
-From: Roberto Sassu <roberto.sassu@huawei.com>
+On Tue, Jan 21, 2025 at 10:03:55AM +0530, Bharata B Rao wrote:
+> I don't think moving count_vm_numa_event() to within
+> CONFIG_NUMA_BALANCING is necessary as it is defined separately as NOP
+> for !CONFIG_NUMA_BALANCING.
+> 
 
-Commit 11c60f23ed13 ("integrity: Remove unused macro
-IMA_ACTION_RULE_FLAGS") removed the IMA_ACTION_RULE_FLAGS mask, due to it
-not being used after commit 0d73a55208e9 ("ima: re-introduce own integrity
-cache lock").
+NUMA_HINT_FAULTS and NUMA_HINT_FAULTS_LOCAL are only defined if
+CONFIG_NUMA_BALANCING
 
-However, it seems that the latter commit mistakenly used the wrong mask
-when moving the code from ima_inode_post_setattr() to
-process_measurement(). There is no mention in the commit message about this
-change and it looks quite important, since changing from IMA_ACTIONS_FLAGS
-(later renamed to IMA_NONACTION_FLAGS) to IMA_ACTION_RULE_FLAGS was done by
-commit 42a4c603198f0 ("ima: fix ima_inode_post_setattr").
+include/linux/vm_event_item.h
 
-Restore the original change of resetting only the policy-specific flags and
-not the new file status, but with new mask 0xfb000000 since the
-policy-specific flags changed meanwhile. Also rename IMA_ACTION_RULE_FLAGS
-to IMA_NONACTION_RULE_FLAGS, to be consistent with IMA_NONACTION_FLAGS.
+#ifdef CONFIG_NUMA_BALANCING
+                NUMA_PTE_UPDATES,
+                NUMA_HUGE_PTE_UPDATES,
+                NUMA_HINT_FAULTS,
+                NUMA_HINT_FAULTS_LOCAL,
+                NUMA_PAGE_MIGRATE,
+#endif
 
-Cc: stable@vger.kernel.org # v4.16.x
-Fixes: 11c60f23ed13 ("integrity: Remove unused macro IMA_ACTION_RULE_FLAGS")
-Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
-Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
----
- security/integrity/ima/ima.h      | 1 +
- security/integrity/ima/ima_main.c | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+> In fact numa_migrate_check() should be within CONFIG_NUMA_BALANCING as
+> it should ideally be  called only if NUMA balancing is enabled. The same
+> could be said for the callers of numa_migrate_check() which are
+> do_numa_page() and do_huge_pmd_numa_page().
+> 
 
-diff --git a/security/integrity/ima/ima.h b/security/integrity/ima/ima.h
-index e1a3d1239bee..615900d4150d 100644
---- a/security/integrity/ima/ima.h
-+++ b/security/integrity/ima/ima.h
-@@ -141,6 +141,7 @@ struct ima_kexec_hdr {
- 
- /* IMA iint policy rule cache flags */
- #define IMA_NONACTION_FLAGS	0xff000000
-+#define IMA_NONACTION_RULE_FLAGS	0xfb000000
- #define IMA_DIGSIG_REQUIRED	0x01000000
- #define IMA_PERMIT_DIRECTIO	0x02000000
- #define IMA_NEW_FILE		0x04000000
-diff --git a/security/integrity/ima/ima_main.c b/security/integrity/ima/ima_main.c
-index 46adfd524dd8..7173dca20c23 100644
---- a/security/integrity/ima/ima_main.c
-+++ b/security/integrity/ima/ima_main.c
-@@ -275,7 +275,7 @@ static int process_measurement(struct file *file, const struct cred *cred,
- 		/* reset appraisal flags if ima_inode_post_setattr was called */
- 		iint->flags &= ~(IMA_APPRAISE | IMA_APPRAISED |
- 				 IMA_APPRAISE_SUBMASK | IMA_APPRAISED_SUBMASK |
--				 IMA_NONACTION_FLAGS);
-+				 IMA_NONACTION_RULE_FLAGS);
- 
- 	/*
- 	 * Re-evaulate the file if either the xattr has changed or the
--- 
-2.34.1
+Really what i'm reading is that these functions are in the wrong file,
+since ifdef spaghetti in *.c files is not encouraged.  These functions
+should be moved somewhere else and given stubs if the build option is
+off.
 
+> Regards,
+> Bharata.
