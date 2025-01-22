@@ -1,125 +1,153 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E25B136A;
-	Wed, 22 Jan 2025 10:00:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3BB21F7914;
+	Wed, 22 Jan 2025 10:11:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737540048; cv=none; b=n89cN2aTVriu1n4iZjXBnTeoTZ+9o5c9Z/KVY0HMjPFt38NTkQg3fmu77BmOvLfBSP3gEjWQS322Xt+8SJz98AgeAe6ZTKLZ6Slu3LrawybzvsK4ZunuwaL2C4SeU3kopGnHnAPm1SHgzEm6SoEcpHZiYC0sT1hEQScJadIBGos=
+	t=1737540695; cv=none; b=rgx/c62FI6Eld7wL41pz6+CEzxUSiU7MyBs+vrqqh6HP7ruX99o9BzZ/0yNar8lgexOUVuPD50/8GIaBi9foxVYMhlQIenSJT+OtUy3EdtTFCzCfavw+bgfetM0pS0dC6UV2XpBKS9ZtxiGTpQHDhRxJ/CchTowM2gp4MvVTW2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737540048; c=relaxed/simple;
-	bh=U5bOtD6/Hmi9/hnQmZIT9q5nzHRnzwPLC3Bep17Rw1U=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=i0MrYioQjAHPhh55HGSXWB6xnSxRdEDEHEWKuURwrgtB5TzA2YISWQWwb1X2TiYQ7r900ZpyINkm633c9IAgILJKbeziXBtBdg/ufQf5qNTnR8xtCx2ylsV94YhfgqJN7bz85PRc5eQqjx0uUZmV7q9g5U4RNxgbftwWJK+kQLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y0R63Dnm; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1737540695; c=relaxed/simple;
+	bh=nKWu84r5RQKGBqm5xElMSa7RfxVJ2SqHd74Gi/uAVuc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Kp1FtTeBwC5OQziVYKOwkfCBvnHhSTlivX8/QFiL1+7DpFVMFx1K68p3/o7R0rie1B0q4YpkrQAlPo9EdK827n1uKZ2kOhJmBb+9puU0c9rxKbr/nemr+MeTFEJAnysQOR0w8/HOKiBWK3RSHtn0L05pNbCmL9BadE8Pu3Yv9yU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=TTbd3Pd0; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y0R63Dnm"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-21680814d42so108953405ad.2;
-        Wed, 22 Jan 2025 02:00:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737540046; x=1738144846; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pCwzBxa9p/T9m0rjHeFePnA1ZOccLCzpcgdH473vZ14=;
-        b=Y0R63Dnm11urm129emyFhf9PWQkF50T+PId6VdG/FV+WvziVRFLhY39biQLHkb3sFJ
-         UE/XPPu/iv7CEfPtn/7ZZMj7898dwcyGQTrBhj6lsiHKJCqY6IvFnEOjOQ2JiszaYhFQ
-         8yMS+L0u1IwJUH9ijLB5aUEUTT6FbNaLjEbJfXQ3f6+tu34a1gPTSQFXYgxjYkgUkHlk
-         f0Me8bFoLgOGGoEdSKJklr1bXOxpatngdPjOOFjrCcaqGeiAx+2useEhX2x2MIHNzhTo
-         QpS0eQ9DpPnQPmgNlY9nwWkr9DNYpgFIOeMbGCN01bhDyTCi6VGGwA6NTBYtPv2Vb030
-         PH6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737540046; x=1738144846;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pCwzBxa9p/T9m0rjHeFePnA1ZOccLCzpcgdH473vZ14=;
-        b=ZMhnYv+OnFpTyd/3ov77S5CADOVIBPK7ubFeFZUvz6Z0JUAB1DFbJNy0lx3WVxR68t
-         X9pdl+rNy/YO+v6q6umSQZ9L2ru50Z312Bd5nNwoT9QugxR7a4UhNX1iDG/jPlfr95td
-         q1k8MyKC3gbMk1QBEAaADNa3iYRBp+OSsz2MEjiQ5U1eJ9aTXoUFzBnRNPV0THHhkkr0
-         sb2RLOcK1iEW+naY4NE1lN0P5eQS13T62xyzgbzy3YKCNZxnQURMBlwPS1QmwO0YBfbx
-         C+PAMt4TuPjxifGI2BweTLWa99rvJDN8HUiHQvf5JfFK6C3uPKNvrrlk8MjLGXSBCeRK
-         7WzA==
-X-Forwarded-Encrypted: i=1; AJvYcCUO/JA6FGEgCQTNvl7KkFbxBCgLZScCbx+ZX1W4T4i4NwGGWMCUdaFnOUECDeiTYv6kwYDZjBUOiHs=@vger.kernel.org, AJvYcCVDRWBf1Rg2s5MOmMciFUlabTFKUWoIhP1YW/oo0YF/bDK1X0Qd5YRSfynjsHrzKs2yELMyGJAjUjolzQ==@vger.kernel.org, AJvYcCWmWjMgDdCt1U//qYx80ozubmgXykqKxunMRfS11xTT/qKwiFCYdLt5cHNrm6dF4h+VaUcIi6RihiTWaUsy@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVfrYf45Q3j4UToj7/ZocoopuQIcg8nMKYhAM2WOW7oh+ep7qw
-	4ThRAZ8lJYjEt2C6FQPPZLFoXcdIBbOvy055zuIXiQw00jTy1q7V
-X-Gm-Gg: ASbGncsqzLpV7+dCJLqO8Bdi4dFe5N/bV0q8AVckNak0XVevKY9lPjBP+Q0eG/dFfis
-	4+R8u9I2qLHHb6GU/Qd5Jo4g3TODHfoDEiLVU4ytxBafFSPZjDheBZ8DPAreREPhHY5v3k3DaGO
-	CNqcmcn13+v3x3iImRhaLB/ynOcWQq2V8L31YLorm2D5KOs7ahMv81gYbrkllBsU252t3A4NdMb
-	uTtjMl4G5ZE7+buWf2/95t/TZlgvJ/AeA+VnMN9HOtLhwvfZmWeASlLL/iyVMe79evmHzDbpZMQ
-	/qMyGCqM/GBPVM7/ElNLitEKa+G0wA2QhEx3THWk
-X-Google-Smtp-Source: AGHT+IHLp9KzgklSuVccvX9+X/FnXYYpoW6Vvt8L0Jv8f//MgqxfPc7xT7yjW09MaqfRUmZaq7SqZw==
-X-Received: by 2002:a17:903:1c4:b0:216:31c2:3db8 with SMTP id d9443c01a7336-21c355c3358mr316032895ad.37.1737540046022;
-        Wed, 22 Jan 2025 02:00:46 -0800 (PST)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21c2d3a87e4sm92957915ad.111.2025.01.22.02.00.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jan 2025 02:00:45 -0800 (PST)
-Message-ID: <07507296-a37b-4543-97cb-0560ef7fb7b8@gmail.com>
-Date: Wed, 22 Jan 2025 19:00:43 +0900
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="TTbd3Pd0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-ID:MIME-Version:
+	Content-Type; bh=QWWYmC4TDSJZjNRxBuhFocor1RdCIg5ChEjlLlaKCnE=;
+	b=TTbd3Pd0dveYS7fHJATPaag2gs30E4nPLyWYVMolF8pHbrYMPef9j+M9Qj2Nrv
+	XTvDgj5Qg9wDCvaP0c3/V1L9QfxleGnfRMMxzF0L6W6Y+tP23cN1XMuXHayj0Gx9
+	lZJd78gN0AczG1xChg2EwdZ4pg2nbtCJKh5PWE+QLkk3Q=
+Received: from localhost.localdomain (unknown [47.252.33.72])
+	by gzsmtp3 (Coremail) with SMTP id PigvCgAHUcjUw5Bn_UIhKA--.64788S2;
+	Wed, 22 Jan 2025 18:09:36 +0800 (CST)
+From: Jiayuan Chen <mrpre@163.com>
+To: bpf@vger.kernel.org,
+	jakub@cloudflare.com,
+	john.fastabend@gmail.com
+Cc: netdev@vger.kernel.org,
+	martin.lau@linux.dev,
+	ast@kernel.org,
+	edumazet@google.com,
+	davem@davemloft.net,
+	dsahern@kernel.org,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	linux-kernel@vger.kernel.org,
+	song@kernel.org,
+	andrii@kernel.org,
+	mhal@rbox.co,
+	yonghong.song@linux.dev,
+	daniel@iogearbox.net,
+	xiyou.wangcong@gmail.com,
+	horms@kernel.org,
+	corbet@lwn.net,
+	eddyz87@gmail.com,
+	cong.wang@bytedance.com,
+	shuah@kernel.org,
+	mykolal@fb.com,
+	jolsa@kernel.org,
+	haoluo@google.com,
+	sdf@fomichev.me,
+	kpsingh@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Jiayuan Chen <mrpre@163.com>
+Subject: [PATCH bpf v9 0/5] bpf: fix wrong copied_seq calculation and add tests
+Date: Wed, 22 Jan 2025 18:09:12 +0800
+Message-ID: <20250122100917.49845-1-mrpre@163.com>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: sfr@canb.auug.org.au
-Cc: bhelgaas@google.com, linux-kernel@vger.kernel.org,
- linux-next@vger.kernel.org, mchehab+samsung@kernel.org,
- Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org
-References: <20250122170335.148a23b0@canb.auug.org.au>
-Subject: Re: linux-next: build warning after merge of the origin tree
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20250122170335.148a23b0@canb.auug.org.au>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PigvCgAHUcjUw5Bn_UIhKA--.64788S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxWFyrGFyfXw4kuryDAFyxKrg_yoW5ZrWfpa
+	ykC34rGr47tFyxZws7A3yIqF4Fgw4rGay5KF1Fq3yfZF4jkryjvrs29F1aqr98GrWY9F1U
+	Cr13Wr4Y934UAFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0z_pnQ7UUUUU=
+X-CM-SenderInfo: xpus2vi6rwjhhfrp/xtbBDwjcp2eQr31LCwACsb
 
-[+CC: linux-doc]
+A previous commit described in this topic
+http://lore.kernel.org/bpf/20230523025618.113937-9-john.fastabend@gmail.com
+directly updated 'sk->copied_seq' in the tcp_eat_skb() function when the
+action of a BPF program was SK_REDIRECT. For other actions, like SK_PASS,
+the update logic for 'sk->copied_seq' was moved to
+tcp_bpf_recvmsg_parser() to ensure the accuracy of the 'fionread' feature.
 
-Stephen Rothwell wrote:
-> Hi all,
-> 
-> Today's linux-next build (htmldocs) produced this warning:
-> 
-> Documentation/power/video.rst:213: WARNING: Footnote [#] is not referenced. [ref.footnote]
-> 
-> This warning has presumably been there for a long time.
-> 
-> I don't know what causes it - maybe it needs a space before the opening
-> bracket?
+That commit works for a single stream_verdict scenario, as it also
+modified 'sk_data_ready->sk_psock_verdict_data_ready->tcp_read_skb'
+to remove updating 'sk->copied_seq'.
 
-Stephen, fhve you upgraded your Sphinx recently?
+However, for programs where both stream_parser and stream_verdict are
+active (strparser purpose), tcp_read_sock() was used instead of
+tcp_read_skb() (sk_data_ready->strp_data_ready->tcp_read_sock).
+tcp_read_sock() now still updates 'sk->copied_seq', leading to duplicated
+updates.
 
-In "Bugs Fixed" section of Sphinx 8.1.0 changelog [1], there is an item which
-reads:
+In summary, for strparser + SK_PASS, copied_seq is redundantly calculated
+in both tcp_read_sock() and tcp_bpf_recvmsg_parser().
 
-    - #12730: The UnreferencedFootnotesDetector transform has been improved
-      to more consistently detect unreferenced footnotes. Note, the priority
-      of the transform has been changed from 200 to 622, so that it now runs
-      after the docutils Footnotes resolution transform. Patch by Chris Sewell.
+The issue causes incorrect copied_seq calculations, which prevent
+correct data reads from the recv() interface in user-land.
 
-So the above warning is real and prior versions of Sphinx just can't flag it.
+Also we added test cases for bpf + strparser and separated them from
+sockmap_basic, as strparser has more encapsulation and parsing
+capabilities compared to sockmap.
 
-To silence it, you need to get rid of the unreferenced footnote, I guess.
+---
+V8 -> v9
+https://lore.kernel.org/bpf/20250121050707.55523-1-mrpre@163.com/
+Fixed some issues suggested by Jakub Sitnicki.
 
-[1]: https://www.sphinx-doc.org/en/master/changes/8.1.html#id3
+V7 -> V8
+https://lore.kernel.org/bpf/20250116140531.108636-1-mrpre@163.com/
+Avoid using add read_sock to psock. (Jakub Sitnicki)
+Avoid using warpper function to check whether strparser is supported.
 
-        HTH, Akira
+V3 -> V7:
+https://lore.kernel.org/bpf/20250109094402.50838-1-mrpre@163.com/
+https://lore.kernel.org/bpf/20241218053408.437295-1-mrpre@163.com/
+Avoid introducing new proto_ops. (Jakub Sitnicki).
+Add more edge test cases for strparser + bpf.
+Fix patchwork fail of test cases code.
+Fix psock fetch without rcu lock.
+Move code of modifying to tcp_bpf.c.
 
-> 
-> Introduced by commit
-> 
->   151f4e2bdc7a ("docs: power: convert docs to ReST and rename to *.rst")
-> 
-> from v5.3-rc1
-> 
-> I am just going over left over warnings in he documentation.
-> 
-> -- 
-> Cheers,
-> Stephen Rothwell
+V1 -> V3:
+https://lore.kernel.org/bpf/20241209152740.281125-1-mrpre@163.com/
+Fix patchwork fail by adding Fixes tag.
+Save skb data offset for ENOMEM. (John Fastabend)
+---
+
+Jiayuan Chen (5):
+  strparser: add read_sock callback
+  bpf: fix wrong copied_seq calculation
+  bpf: disable non stream socket for strparser
+  selftests/bpf: fix invalid flag of recv()
+  selftests/bpf: add strparser test for bpf
+
+ Documentation/networking/strparser.rst        |   9 +-
+ include/linux/skmsg.h                         |   2 +
+ include/net/strparser.h                       |   2 +
+ include/net/tcp.h                             |   8 +
+ net/core/skmsg.c                              |   7 +
+ net/core/sock_map.c                           |   5 +-
+ net/ipv4/tcp.c                                |  29 +-
+ net/ipv4/tcp_bpf.c                            |  36 ++
+ net/strparser/strparser.c                     |  11 +-
+ .../selftests/bpf/prog_tests/sockmap_basic.c  |  59 +--
+ .../selftests/bpf/prog_tests/sockmap_strp.c   | 454 ++++++++++++++++++
+ .../selftests/bpf/progs/test_sockmap_strp.c   |  53 ++
+ 12 files changed, 610 insertions(+), 65 deletions(-)
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/sockmap_strp.c
+ create mode 100644 tools/testing/selftests/bpf/progs/test_sockmap_strp.c
+
+-- 
+2.43.5
 
