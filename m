@@ -1,99 +1,81 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 613E51714A5;
-	Tue, 21 Jan 2025 23:02:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93C110E0;
+	Wed, 22 Jan 2025 00:06:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737500576; cv=none; b=IZJKJpNoEifCk4k5ZwdNun2rQh+Es+q6FXxIFcXvzLmurfIj4HJrmtB3XJ14w1GZ4pTmhoWya5oS92br4jHNzAdM1wng2j/dOim6sjISWnsdaUYgl8YcYUJSoDDvu8p/xnSpDunlL/PAHnK7vy7ewGCqXrqYxuc4tzhovZlFwn0=
+	t=1737504378; cv=none; b=rPRxTUrDF/kkPZiuJpZGoTyWkkUNrZPt+NAG2C974jE+syONt8eDNcY6cpdJVNanLMf1VVcBTIp5mQLmdxGlNgi5nM5z4i6nWdxzTxd3i6xVvIpv1nV9eyYaFgPtwKxgUYrTAt2wmJehev1midNU93DRMG1mrF5kl8q84bBEbEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737500576; c=relaxed/simple;
-	bh=PgTUH920cC8klyBaCgrgN5q466N5W9tCE3XqanvX0gc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=f2RjIun8JIhm/laS3JeWv8RP/h8LCeR/ETswlFWo4ryybN+K9D3f619Y+F+uZD7zlR5BELX0J5ruTdykdMajLlJ1BlXkGS6uupze8Nz77aPdoYe3V525qO4b5tQXL7HwOa3LAivG+sVUkmlyiCcCTLOCJJ7n6iMlkct7YtdBPDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jhLVUjUl; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1737504378; c=relaxed/simple;
+	bh=J30i1nK3az3nz8Y1V+nILJnrC19J38WNyUx3WeP7BHg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=pIbNGeqbFUXPDvsvEglyzEYqwmyr3vfQPm8flrOAvlUbuy8JmxQ3xiqaj6R42VW5Gl/E14mz/F6zk21BteUXKL1ZigQyPREc6Z1hyB2Ke3ar5V4KKca3MWtnqdb9UpfxA/QM3KJFnsSk+dXa+qY3pddEn5TnVjF8i/uvgpDNqZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=SjnMa6pU; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jhLVUjUl"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-53df80eeeedso6188635e87.2;
-        Tue, 21 Jan 2025 15:02:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737500572; x=1738105372; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EScqyMfcBEyJw2bmjopcHaU3aA/+XNALdSngfg2OHNM=;
-        b=jhLVUjUlc5EpBrZ6/HI0Ln3VDNrwwCZj9eZyYLfdjhUBa5p6Iaampac46NLcUSKYb3
-         YAs8sjPZGX/QtQQr2E5Mc//2jZRXzvvgyQM9ao5U1WdVr/ZjAoXWvrjrb1gl2CRi4WLW
-         hTRAC9stMiHb0M/oYHTP+qjv1CbPfL+1GuNgMW3LzjrZRy0GGKGW9fUcuJs+OcK74gaI
-         9gxHmEw3X6UIqy1ZnoZ55+HUXvS7gefcXBTYZnnRMUgZWtFGnKtqTQdHlGqRftz4RXfN
-         E4bYdiRIA2xzRGXUnuhtSvgh7qP63d/leLWhHJdbWZzucwGiVd0/g9Pp/DCey2S8o6QO
-         0JSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737500572; x=1738105372;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EScqyMfcBEyJw2bmjopcHaU3aA/+XNALdSngfg2OHNM=;
-        b=Yp2UDJRy2M02WuBrPVtcv5VHB1UhQ+neTlGbtEC37CZGJ1kOCwzKeSjfGobDMWxyyW
-         4VjwhDzSC6vNxHe/gPTTneGP3zGEj0VSJIojesGFXHE34tSyP+bNP0WHo0+riYjlpiE0
-         t3LMx8Yvz5GAipFKCJ61Y39qdOifTYJWxOjTOYTYaVOOf9ZatENiuKJSwSgBXi4wnmzK
-         wpGRMbav0KZ1e19SxAtUWPm02YvOFQoncngyXsNWLcZ39uhDbN5NMQbrNSHmZjjNWg2z
-         GtxsopLHLbwSkBFeyDk4XphJ4g3dgZVqg8QGlm+oNVHSqFLdKj+aamRkcem1V2sV69uD
-         n1fQ==
-X-Gm-Message-State: AOJu0YzlbmnHc4fENtdJXiYHG7P6zH2pLvwdXCqk5xbLHFhFvFJeB8jc
-	ntkA819+9UI7ox1sY4aCC8wazjfpT+5HZiAUWIooenfNmE4wOq/cBel5jz0u
-X-Gm-Gg: ASbGncv7qJTP/wdIoRBROSx6wlr5OtJhizBFl/RSB/vXH4/hXlOI1LdJ5uVV3zlnf+b
-	DnQrkk6woCAGXK1/jKIN7tznpYnv7H8U4Rr5LwvEzcJh5c6OH5H/0oUX2mmZQXym5WvmP8gBU4v
-	ctCW7ng/PVOj/Vi5/DlcYYYkOP0DnaFpHiao2F6XLlf11p/keoJRUZ16ovL2YFl80RH2793Pa+z
-	3+5+P0Unj2C1DI8VQCYzyFTGbY5SRQeJU3qNkVB/IsjXzA+rcTMekr+fnr7qY7nUc55IAofFGpC
-	C4CH80JAyMh0RRA8GA==
-X-Google-Smtp-Source: AGHT+IG7oS0qq7mxC4bGit8QmNokAC0qYxFjTcBPxIQe1MB5rsVrSPXjTii3fnpcDN5Cz/ZG0GEpCA==
-X-Received: by 2002:a05:6512:3984:b0:543:9a5c:1906 with SMTP id 2adb3069b0e04-5439c241162mr6213216e87.17.1737500571729;
-        Tue, 21 Jan 2025 15:02:51 -0800 (PST)
-Received: from localhost.localdomain ([37.208.4.15])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5439af06824sm2045831e87.2.2025.01.21.15.02.50
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 21 Jan 2025 15:02:51 -0800 (PST)
-From: carlodelos90 <carlodelos90@gmail.com>
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	carlodelos90 <carlodelos90@gmail.com>
-Subject: [PATCH] docs: Fix backticks in README instructions
-Date: Wed, 22 Jan 2025 00:02:13 +0100
-Message-Id: <20250121230213.10701-1-carlodelos90@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="SjnMa6pU"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9D566404F3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1737504369; bh=dhfCv6b2j4Hp/HQeG+7jTdoNdOuz5vbk1tusQgfzVBg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=SjnMa6pU1o0a8HdwvOefP+STs5H/2jNN5ngMXLRx/qh8oyYvlpNelhTx5ykbxj2wZ
+	 B+3B8OX2SC2RWpVYrJF6j82np9QrGpIOuFGsyVAT9nUaueuwUpCHMHXsb0477iAH2Q
+	 41eeL/1i0aE41o2Fnt6qG7lzPAfUiTt0pg1x474LSEeJCYiUopTSZJLZ3APUDxBznK
+	 hHBCaznpZ6MFKC/U9E9UKFW7oQW6Ker0+IZBO/h/q2EVUuUIxUHuMH7xKStrTu5LP7
+	 0r0eUX5VVSMl16uaZxmRr0C4pYpTlCvJwImCGxKXYyRzavkyGm7zjS6Zlg8w+1c4Ee
+	 +xKxduep28UWw==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 9D566404F3;
+	Wed, 22 Jan 2025 00:06:09 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Reyders Morales <reyders1@gmail.com>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, valla.francesco@gmail.com, Reyders Morales
+ <reyders1@gmail.com>, netdev@vger.kernel.org
+Subject: Re: [PATCH] Documentation/networking: Fix basic node example
+ document ISO 15765-2
+In-Reply-To: <20250121225241.128810-1-reyders1@gmail.com>
+References: <20250121225241.128810-1-reyders1@gmail.com>
+Date: Tue, 21 Jan 2025 17:06:08 -0700
+Message-ID: <87h65remq7.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-The commands 'make pdfdocs' and make 'htmldocs' were formatted with backticks. which caused confusion in some contexts, like GitHub. However, using tripple backticks is not universally compatible.
+[CC += netdev - they may want a resend after the merge window though]
 
-This patch replaces backticks with normal quotes to ensure clarity and compatibility across all rendering contexts.
+Reyders Morales <reyders1@gmail.com> writes:
 
-Signed-off-by: Carlo K <carlodelos90@gmail.com>
----
- README | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/README b/README
-index fd903645e6de..c1d280c622e9 100644
---- a/README
-+++ b/README
-@@ -5,8 +5,8 @@ There are several guides for kernel developers and users. These guides can
- be rendered in a number of formats, like HTML and PDF. Please read
- Documentation/admin-guide/README.rst first.
- 
--In order to build the documentation, use ``make htmldocs`` or
--``make pdfdocs``.  The formatted documentation can also be read online at:
-+In order to build the documentation, use "make htmldocs" or
-+"make pdfdocs".  The formatted documentation can also be read online at:
- 
-     https://www.kernel.org/doc/html/latest/
- 
--- 
-2.39.5 (Apple Git-154)
-
+> In the current struct sockaddr_can tp is member of can_addr.
+> tp is not member of struct sockaddr_can.
+>
+> Signed-off-by: Reyders Morales <reyders1@gmail.com>
+> ---
+>  Documentation/networking/iso15765-2.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/networking/iso15765-2.rst b/Documentation/networking/iso15765-2.rst
+> index 0e9d96074178..37ebb2c417cb 100644
+> --- a/Documentation/networking/iso15765-2.rst
+> +++ b/Documentation/networking/iso15765-2.rst
+> @@ -369,8 +369,8 @@ to their default.
+>  
+>    addr.can_family = AF_CAN;
+>    addr.can_ifindex = if_nametoindex("can0");
+> -  addr.tp.tx_id = 0x18DA42F1 | CAN_EFF_FLAG;
+> -  addr.tp.rx_id = 0x18DAF142 | CAN_EFF_FLAG;
+> +  addr.can_addr.tp.tx_id = 0x18DA42F1 | CAN_EFF_FLAG;
+> +  addr.can_addr.tp.rx_id = 0x18DAF142 | CAN_EFF_FLAG;
+>  
+>    ret = bind(s, (struct sockaddr *)&addr, sizeof(addr));
+>    if (ret < 0)
+> -- 
+> 2.43.0
