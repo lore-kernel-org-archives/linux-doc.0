@@ -1,139 +1,141 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890882135B9;
-	Wed, 22 Jan 2025 16:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8289215197
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jan 2025 16:48:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737562364; cv=none; b=bBama1VLNK1H8T4Tj4zT+bVm3VhRAvHgAG8cWrP0hYqm2RmF4LHzezlpQ0WgNv+3FcvVsFl8SEe26+JN7nOF6SbMBwrNYTIHQlr5oswnb3+I9ZVdT0JhTIcWGpuo7nTodDely+UW3AXSG6uP191xelry3NaCSdzYdwbbjV0i+Pw=
+	t=1737564534; cv=none; b=o2x0YixYObFRlOg8RKbcjdR420gjWGewgOXYMNQFM8qPpoNofAd4rPJTb1kpszxst591sQmQDQ+T/I4jzuabLAbV8CGhHFBM7RDJBtDu29Q7fIXwRmiF7JWvP1qVcuJKGnUBXh51aBfANwhr9pNake4wc9Ws26+wXp4YkbXVerM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737562364; c=relaxed/simple;
-	bh=uudeRDGykGnSjdD6vSzaXNVMOFO45K/FhIVyBV1fHwc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Z9CEu0EiUHRBB2fZ2nKswmdbqixZHWXg4SGbBlIc9lY+EFYB/6W92KDxRwmEV5EBDjEH70ReXfJXGGUBD6laph5LC7JlwAjAMBXLNzaGfCk4W2UE8n7p1jITm5ZNECvwJ2sDVuLFtOIuk9+qZVKiJvp0Na7qgdmlbT7jWTGF2Ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=p7C251Sf; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1737564534; c=relaxed/simple;
+	bh=TlOv+G6qQnDQLzfsWcCJye0ydO7cFjpIuTBx+gohDYc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sMVuK89Q/wp9rHe4w4UI0D9wY/ZaZ9uIfTXs+6oMAGPHu25emYNH1gReYPJ3f+PvqbXxHxIDAJudL8zbUuR5z8gzZ+3SLdMXm6SujG5H055Z64gchZuig+cpHGhB4+SrONGv3YT9s6MT3v3MHLtMKLuSPa75lzFHAk1MS6MW0sM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=QGwyKG5U; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="p7C251Sf"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6B3261C000F;
-	Wed, 22 Jan 2025 16:12:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1737562355;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dUhoqRqNTi+JvpW8VrhCgfqzUUgEFjEK0Fi5GnnU8aA=;
-	b=p7C251SfaqCthIu1s+0NxFFMsaC8tuHLjxiN4XAXymcLB0kq+zWpgSG/vBalxh8Qfp3IDj
-	RRQGmgOBzoCq2CygM0rSYnLlJBV/Y1Mv2o8/YY++cFK3Q4frqiFL7P9MoRgRMXvqKw9QXU
-	561sReYr+vuqli0Z1oJRv+3B/UkXvHBX0GDXhBD86U5zOCH8evhUpGfrBn13+IrUsBUZ9g
-	zr731BMgz8DylX74uXzMNJP4ypCrGL6Ianof2iK1Srq9gDTa0VrCvSOUh/tcnSSVV7JO96
-	B9Q8Aj/IdsYGAr8E6i8hFE35PlPdHSmoH26ucRK1vD1pHRwR1HFWvvQfeGgmgg==
-Date: Wed, 22 Jan 2025 17:12:30 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Simona Vetter
- <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan Teki
- <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
- <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, Paul
- Kocialkowski <contact@paulk.fr>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?UTF-8?Q?Herv?=
- =?UTF-8?Q?=C3=A9?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, Paul
- Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v5 04/10] drm/bridge: add documentation of refcounted
- bridges
-Message-ID: <20250122171230.30cf9b97@booty>
-In-Reply-To: <20250108-astonishing-oarfish-of-energy-c0abbe@houat>
-References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
-	<20241231-hotplug-drm-bridge-v5-4-173065a1ece1@bootlin.com>
-	<20250106-vigorous-talented-viper-fa49d9@houat>
-	<CAA8EJprhe4+9HwjW-=4K_LUD5pw51ij_dk0SZABbKH+ExnjdzQ@mail.gmail.com>
-	<20250108162429.53316041@booty>
-	<20250108-astonishing-oarfish-of-energy-c0abbe@houat>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="QGwyKG5U"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-46e28597955so32103391cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 22 Jan 2025 08:48:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1737564531; x=1738169331; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kr9/sx5x4FEyt+2JT+grv3uEjQGhYsk9xF3BwrslJ1o=;
+        b=QGwyKG5UNuHANPwkZmdr3G9N2yOWxUbUEudFhotz8k0Fc17MOUwA6yEWPYS/onoH+P
+         DQCditNTayKnnq8WZ7mF72CQ5eKDORI2Y2Y63mxZzP7V7bBAXA2hRvg86acVo71foMN2
+         41uQV7pSZDnNZMSDY//tfOjcKIGlrJ8AaHQEXfx+hFakoTI8JoQQGGVQQ2jTU1fQfr3f
+         qFrIAOwxSBPX0npY18YukHgQl0qTUiKkLBUFS5+VRWrzPBUsKGHoDuMSTSAUbxhrTPBR
+         U+bYss4lMFtHANBJpxgs/A6HZt+2mP/4qe3waUNES92O5uM+hf6slXIDtL6xzKFSt/+J
+         PfLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737564531; x=1738169331;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kr9/sx5x4FEyt+2JT+grv3uEjQGhYsk9xF3BwrslJ1o=;
+        b=MGSXmmdafTFfPPdaUjTv/Uu9kkFmuu1km3vofQdR3olpev6nkztU6fSHz8AyszucU5
+         Bo70iBZUDFsdcwrbXr6EFarvblvQIH2J+xJQpXm0NBCYjwCGT7Y7gXrqJLHNgqXDZXAe
+         /Xtk0KKeX8wCqm0FrG8KEL7zk/HqX+WZ2PYlRVRP73KUCze15fHarGa7MXuB8sajY8ZG
+         muMNJDqsJ8bdraUgbmMw7bAaFJETWOKf+s3I714R6d0LaRFG877KJ3t6U+EIlxFlP9wD
+         +o8ii65CdVSO1vtknRLnOHUimdfB0pp183OzXB71KPRHuREMJaFT1mfIG7+6ppbKUdFc
+         ZdcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXHAkAMre3bUNGYbv2g1wk/uMSHHfN9wFqE5Eb1dkHPXoH9ewn/KeEgVnlw32Jv5kz7dFosszDNF/8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YznHBDJ23qM1EXMiw3ZUuEAqqvQjxzFHipG5fczndRvyKjC660t
+	jqYQpShF/YkMUAmUxD6rgwyFVXCtRb2y0PeZmEb/D+4GO+vAfg5c6LyboShjvQA=
+X-Gm-Gg: ASbGncsrrnyUEK/eJxRgaXqrdjV406CVX4bZJh4HzHnnAFf9p3dbhawPblWn6vD6L1q
+	nJH6fq8B6KcCIU3o/EQQuU7n3M7daZNyj5loyc7WjHXkmvh32f0iH+GMdZkYRxK2DRVl24FBoVn
+	mtsP0q1jPhY16TJ/2+EVfCdApS0BnMKenv/3+yksKHhfvlXM8fXmqQ+GbvCS7ZCGHikAILhA7Z8
+	dNgPqv27ZV2Oip4jKVWCtpuXeuaRJLT3Y+/AXv2nQmFMPE3MqqTh5l12giXwV9LABZbl6Uh7WJL
+	9Rj/wGRwZNDpZbpXscP3aLw1ufXhCRu5jyLLQ8rlaIo1tjfEWl63
+X-Google-Smtp-Source: AGHT+IGqKeucTA+irku665A+Oijwy7MIpYQ7FIXbCblzZZxXg4bmfGemIEdCXsqh+89fkA+t8kqbpg==
+X-Received: by 2002:ac8:7d16:0:b0:467:51e6:d861 with SMTP id d75a77b69052e-46e12a9b078mr326867791cf.31.1737564531542;
+        Wed, 22 Jan 2025 08:48:51 -0800 (PST)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-56-208.washdc.fios.verizon.net. [173.79.56.208])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e1afbf3783sm62614876d6.7.2025.01.22.08.48.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jan 2025 08:48:50 -0800 (PST)
+Date: Wed, 22 Jan 2025 11:48:49 -0500
+From: Gregory Price <gourry@gourry.net>
+To: "Huang, Ying" <ying.huang@linux.alibaba.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel-team@meta.com,
+	nehagholkar@meta.com, abhishekd@meta.com, david@redhat.com,
+	nphamcs@gmail.com, akpm@linux-foundation.org, hannes@cmpxchg.org,
+	kbusch@meta.com, feng.tang@intel.com, donettom@linux.ibm.com
+Subject: Re: [RFC v3 PATCH 0/5] Promotion of Unmapped Page Cache Folios.
+Message-ID: <Z5EhcQERseKShtGY@gourry-fedora-PF4VCD3F>
+References: <20250107000346.1338481-1-gourry@gourry.net>
+ <87v7u7gkuk.fsf@DESKTOP-5N7EMDA>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87v7u7gkuk.fsf@DESKTOP-5N7EMDA>
 
-Hi Maxime,
-
-On Wed, 8 Jan 2025 17:02:04 +0100
-Maxime Ripard <mripard@kernel.org> wrote:
-
-[...]
-
-> > > > And we'll also need some flag in drm_bridge to indicate that the device
-> > > > is gone, similar to what drm_dev_enter()/drm_dev_exit() provides,
-> > > > because now your bridge driver sticks around for much longer than your
-> > > > device so the expectation that your device managed resources (clocks,
-> > > > registers, etc.) are always going to be around.    
-> > 
-> > Yes, makes sense too. That should be a drm_bridge_enter/exit(), and
-> > drm_bridge.c will need to be sprinkled with them I guess.  
+On Wed, Jan 22, 2025 at 07:16:03PM +0800, Huang, Ying wrote:
+> Hi, Gregory,
+> > Test process:
+> >    In each test, we do a linear read of a 128GB file into a buffer
+> >    in a loop.
 > 
-> The users would be the drivers, most likely. There's not much we can do
-> at the framework level, unfortunately.
+> IMHO, the linear reading isn't a very good test case for promotion.  You
+> cannot test the hot-page selection algorithm.  I think that it's better
+> to use something like normal accessing pattern.  IIRC, it is available
+> in fio test suite.
+>
 
-Back to the idea of a "gone" flag, or perhaps an "unplugged" flag to
-be consistent with the struct drm_device naming, and
-drm_bridge_enter()/drm_bridge_exit(), I did a few experiments and have
-a question.
+Oh yes, I don't plan to drop RFC until I can get a real workload and
+probably fio running under this.  This patch set is varying priority for
+me at the moment so the versions will take some time.  My goal is to
+have something a bit more solid by LSF/MM, but not before.
 
-In case:
+> >    1) file allocated in DRAM with mechanisms off
+> >    2) file allocated in DRAM with balancing on but promotion off
+> >    3) file allocated in DRAM with balancing and promotion on
+> >       (promotion check is negative because all pages are top tier)
+> >    4) file allocated in CXL with mechanisms off
+> >    5) file allocated in CXL with mechanisms on
+> >
+> > |     1     |    2     |     3       |    4     |      5         |
+> > | DRAM Base | Promo On | TopTier Chk | CXL Base | Post-Promotion |
+> > |  7.5804   |  7.7586  |   7.9726    |   9.75   |    7.8941      |
+> 
+> For 3, we can check whether the folio is in top-tier as the first step.
+> Will that introduce measurable overhead?
+>
 
-  a) there is a notification callback to inform about bridges
-     being removed, and
-  b) all entities owning a struct drm_bridge pointer stop using
-     that pointer when notified
+That is basically what 2 vs 3 is doing.
 
+Test 2 shows overhead of TPP on + pagecache promo off
+Test 3 shows overhead of TPP+Promo on, but all the memory is on top tier
 
-With the above, there should be no need for
-drm_bridge_enter()/drm_bridge_exit(). Nobody will be using a pointer to
-a bridge that is being removed.
+This shows the check as to whether the folio is in the top tier is
+actually somewhat expensive (~5% compared to baseline, ~2.7% compared to
+TPP-on Promo-off).
 
-Now, about a), patch 1 in this series implements such a mechanism to
-inform all bridges when a bridge is being removed. Note that the
-"unplugged" flag would be set immediately after the notifier callback
-is currently called: "unplugged == true" will never happen before the
-callback, and after the callback there will be no pointer at all.
+The goal of this linear, simple test is to isolate test behavior from
+the overhead - that makes it easy to test each individual variable (TPP,
+promo, top tier, etc) and see relative overheads.
 
-Patch 1 however is only notifying bridges, so other entities (e.g.
-encoders) cannot be notified with this implementation. However a
-different notification mechanism can be implemented. E.g. until v3 this
-series was using a generic struct notifier_block for this goal [0], so
-any part of the kernel can be notified.
+This basically gives us a reasonable floor/ceiling of expected overhead.
+If we see something wildly different than this during something like FIO
+or a real workload, then we'll know we missed something.
 
-About b), the notification appears simpler to implement in the various
-drivers as it needs to be added in one place per driver. Also adding
-drm_bridge_enter()/exit() can be trickier to get right for non-trivial
-functions.
+> >
+> > This could be further limited by limiting the promotion rate via the
+> > existing knob, or by implementing a new knob detached from the existing
+> > promotion rate.  There are merits to both approach.
+> 
+> Have you tested with the existing knob?  Whether does it help?
+>
 
-Do you see any drawback in using a notification mechanism instead of
-drm_bridge_enter()/exit() + unplugged flag?
+Not yet, this fell off my priority list before I could do additional
+testing.  I will add that to my backlog.
 
-[0] https://lore.kernel.org/all/20240510-hotplug-drm-bridge-v2-2-ec32f2c66d56@bootlin.com/
-
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+~Gregory
