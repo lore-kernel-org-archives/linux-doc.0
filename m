@@ -1,33 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B37118AE2;
-	Wed, 22 Jan 2025 11:23:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05FE2101AD;
+	Wed, 22 Jan 2025 11:28:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737545015; cv=none; b=d21VgWwOeo5OliLpQMwhkDBZiRS+R/kFLX4bxN52cvtflnZWL3FuFZEB7jBKs6J/ups99ci4wq85aBmy39nstQ3mTyF0AhnlOJ1gg4Z7zAiHfFgZPhdS7gBea3nFVtFEXlEUKr4QfSuZtipHnT/UzsdBQ1d4EI/7msjHVvx1dHI=
+	t=1737545301; cv=none; b=LsknsFS3yDmFAn/yUSQPvbtV967VZNhX4lweFnu5vdJ5THtZnkdfR6dFVM9gZYFl4TBBOOS7g8s+nSwqkbbcYLHtotAguBvmeCX6P0w5r5XlQoebHfaPnRFULBiSLbWx5V++s25SmaGEzb3Gv2B89wBZ32YShIWmk9Fs5a3rE+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737545015; c=relaxed/simple;
-	bh=DFW0ySEcK5zFjneu/zUnRvTXguR+9mng1b4DYDONaVo=;
+	s=arc-20240116; t=1737545301; c=relaxed/simple;
+	bh=qgdsDOji/Ki6OjklleBu3dfhkX2SIINNrfcy28ZqIgw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=imD5UCEGIbHBz3xIxYrIEUE4ehKTymZHoq344Fe34ZGXbdGvOHrsyGGBjbHFzUpGuFMV2k65omChzEeZ8trR8LHoQl2oaKgxkRD06PdLregmdxN14tPQbFFD5vUAKIjBCOJ1jXUmkNO90bJMn5bPX9i9JG15EWoSiRHM4c7DbdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=djO+2sMk; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=kNo1Q+84xtMmAPPfjC9jLRR0j0qS7LQ161CyY3HfL7IOmRGRvwxTtf4uQTN7MGlnBEG//UxkIMB1zG/dmo/AeUJMwnbKEIMFc3tGG9F7LX6yKLXDZ+2AfWTP/rFnUOd9KH8E9Uc368SdnYoYMOVT5U4ujjYMlgj0YN0Fl8MiMvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RNgXJjqk; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="djO+2sMk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE875C4CED6;
-	Wed, 22 Jan 2025 11:23:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737545014;
-	bh=DFW0ySEcK5zFjneu/zUnRvTXguR+9mng1b4DYDONaVo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=djO+2sMkz8+eS4i6SG8RSsbqT1Qg+JaOY92qmyJP/PdDFXYo504FdqDUuoRdF8is4
-	 ky8k1v3l/qh4FBOuUhImZf6s/P9rj11MhHhOV536mmEFOIdrXwrLm8X2C6AwXmKWvD
-	 BXwMz3XWx+jDlFf//y7VsK/DQ1ojlmsW5EIS4whXpi6jeHWnK6gxXaU61Z9v6cTKIF
-	 uuS6hcRx4POoefQ9WMzEcvf2xkSjjhVJzHTGTucVBRBRFVIuaS90VizRXsEi71VrQv
-	 dgDnRms3xRakDu4pdjnEPoR69QlBAWND+Z0x07uSOXHDb7QbfzCbluYE6KXHW72row
-	 lU/xaOFNngFaA==
-Message-ID: <63fb9cc6-b57c-45bc-8da2-7bcb871d9887@kernel.org>
-Date: Wed, 22 Jan 2025 12:23:27 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RNgXJjqk"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5426fcb3c69so5418485e87.3;
+        Wed, 22 Jan 2025 03:28:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737545296; x=1738150096; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=D8uucZoYmTyAW8wW7Yobh9x7Be1LOOBbsYawBwsq5P0=;
+        b=RNgXJjqkHjeho5Q/MTAVogr/IwgBioiJOlW54IoGcPC92cgbN5AewYPFsvhfcK4bNh
+         lfQO15j6HKcpuLTvwBcURpLCzIqj3RFqF4s5HlPYhwze/CvPlZzsFaDt6BBGx8ST+Ipj
+         ppN4DJQs3OwW78mp5Wp5ndGZEVB8vmyWxMbiZuDESOFp02lrHtk0qDlnIGayma1R+WUu
+         wsXPDtffl8BK+xs3+4mp0A1MG9AsTp0K4lGYnztyfuw8b8g5lkro1MB8x4Z2/IqZTtay
+         pS4FTcOTjV5RIZgHaBkWGUIQKON6LDfZh08w79sM1zWoTXvuDOu47HQw4RtC+1fmPG7v
+         zr6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737545296; x=1738150096;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=D8uucZoYmTyAW8wW7Yobh9x7Be1LOOBbsYawBwsq5P0=;
+        b=PFphqzrJH2DT8sOSqtFbMfoSsqe1OUtOWP8a9rAfw9M0BBt8DLZqcE8OoozlyF+2qj
+         va0cvmvojN7AwLV7XpL3APyIZ5qVWOUoVLvIUqqwcSl5a4lfW0MSNyBIF+8Ghk8KxY1i
+         Uq0kXmwGdRHuVvCNJ3gBx/KM2S9ZJfWdeOd5HmK6mY10hQqNn5hQtF0PaaHS/0FdCXyA
+         qWbhhviSU6Y7aDPqWg/ZQgHuuhXsgD0ZpOhHFxM59NYZ5JD2ADNHgnKKE8daNur31S2Y
+         2aqIol3vKgFneXmUDpFwVJeZYQ8mc714WYgv1sRxjayUdRjTtopcyTGu+1c6LVcJjjUa
+         Tl+w==
+X-Forwarded-Encrypted: i=1; AJvYcCUEeAhXZyOsjZgG6qtHXA9uifspx4Id8LeqH0y6COpQMsSK4f7ydHZkx5Js4GVYpuB/XaVvrBQBYhge@vger.kernel.org, AJvYcCVPVbocS1nmY7XL9BqkJErUZy1R8aFw3gdPyj+zcZxMHyuo4gUbHK7c66V+BfVlCuByn/eAnJIU2Ns=@vger.kernel.org, AJvYcCXLVkoVItZMG1PuoaZCsjU75u4vd8OAvgmZeTAPYG7aJ9dx4LPsWXY5nsv5CBZoalD0YfeDL4ertg0O@vger.kernel.org, AJvYcCXXs5hOhyNZo/ifI1N8XmCKiFZi+/zLbZMtlKQTXatzoZz9IalF7oyOXdGkJ4EibxrIa6OQp+tCcdgS/cLR+ZDdZB2qirDT@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOgm22umiESwNCjSnGAxI4kmKCh+jP26ZYSbq+kDQN1Aqh/qov
+	72JzDQqywRDoPUpvna5wVOJBOQsjuBVmbMBQnOrOKPCjscr0sfUJ
+X-Gm-Gg: ASbGncsA6uXb3Nii2fIp42z5jyeDH2TeKIRnqHmJ+GhJ/5Z5MEirbHz5tAeNb8x+05d
+	Y+UFWl3sM4oU7tS/pB0peDuFDRukiz+sKwWQ9RnaHT0Hyeg1OTzlCdFOprAZ3B6IXmoAf4mVVry
+	axF0OLBHd92kj5xuT0w2K2XHJ0RVaIcO+42X6tXrd7wjqbTEin+M23uwdzQLPvULVo5TvibYimV
+	kOOhZ98L/oOjVJx0UvE+tpEe4O4jKwiCHAvkD2NNU1FuD5yTDkjPxTE9uzYNigR3zQcen4h/d0Z
+	lcUwYu0=
+X-Google-Smtp-Source: AGHT+IFY2ZBn6rdMHyRFnFAwDqHZp13c5/EODEKdU4E4T1JbLWhr6Ok/wScVhHBxOQ5gw+OI+RSfxw==
+X-Received: by 2002:a05:6512:159b:b0:540:1fd9:b634 with SMTP id 2adb3069b0e04-5439c28255cmr8070137e87.34.1737545295590;
+        Wed, 22 Jan 2025 03:28:15 -0800 (PST)
+Received: from [172.16.183.207] ([213.255.186.46])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5439af78d62sm2171995e87.241.2025.01.22.03.28.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jan 2025 03:28:13 -0800 (PST)
+Message-ID: <7b6d3226-4422-415a-9146-16c421463ac5@gmail.com>
+Date: Wed, 22 Jan 2025 13:28:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,138 +66,84 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [EXT] Re: [PATCH v12 4/5] firmware: imx: add driver for NXP
- EdgeLock Enclave
-To: Pankaj Gupta <pankaj.gupta@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>
-Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "imx@lists.linux.dev" <imx@lists.linux.dev>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-References: <20250120-imx-se-if-v12-0-c5ec9754570c@nxp.com>
- <20250120-imx-se-if-v12-4-c5ec9754570c@nxp.com>
- <2fb2db33-9d45-442a-bfb9-55173751f20f@kernel.org>
- <AM9PR04MB860468CF15C1CC4B8EB257A695E12@AM9PR04MB8604.eurprd04.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <AM9PR04MB860468CF15C1CC4B8EB257A695E12@AM9PR04MB8604.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v2 02/12] reboot: reboot, not shutdown, on
+ hw_protection_reboot timeout
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Fabio Estevam
+ <festevam@denx.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+ Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
+ chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
+ kernel@pengutronix.de
+References: <20250113-hw_protection-reboot-v2-0-161d3fc734f0@pengutronix.de>
+ <20250113-hw_protection-reboot-v2-2-161d3fc734f0@pengutronix.de>
+Content-Language: en-US, en-AU, en-GB, en-BW
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+In-Reply-To: <20250113-hw_protection-reboot-v2-2-161d3fc734f0@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 22/01/2025 12:13, Pankaj Gupta wrote:
+On 13/01/2025 18:25, Ahmad Fatoum wrote:
+> hw_protection_shutdown() will kick off an orderly shutdown and if that
+> takes longer than a configurable amount of time, an emergency shutdown
+> will occur.
 > 
+> Recently, hw_protection_reboot() was added for those systems that don't
+> implement a proper shutdown and are better served by rebooting and
+> having the boot firmware worry about doing something about the critical
+> condition.
 > 
-> -----Original Message----- From: Krzysztof Kozlowski
-> <krzk@kernel.org>> Sent: Monday, January 20, 2025 5:54 PM To: Pankaj
-> Gupta <pankaj.gupta@nxp.com>>; Jonathan Corbet <corbet@lwn.net>>; 
-> Rob Herring <robh@kernel.org>>; Krzysztof Kozlowski
-> <krzk+dt@kernel.org>>; Conor Dooley <conor+dt@kernel.org>>; Shawn
-> Guo <shawnguo@kernel.org>>; Sascha Hauer <s.hauer@pengutronix.de>>;
-> Pengutronix Kernel Team <kernel@pengutronix.de>>; Fabio Estevam
-> <festevam@gmail.com>> Cc: linux-doc@vger.kernel.org; linux-
-> kernel@vger.kernel.org; devicetree@vger.kernel.org;
-> imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org Subject:
-> [EXT] Re: [PATCH v12 4/5] firmware: imx: add driver for NXP EdgeLock
-> Enclave
+> On timeout of the orderly reboot of hw_protection_reboot(), the system
+> would go into shutdown, instead of reboot. This is not a good idea, as
+> going into shutdown was explicitly not asked for.
 > 
-> Caution: This is an external email. Please take care when clicking
-> links or opening attachments. When in doubt, report the message
-> using the 'Report this email' button
-
-
-You got comment on this, more than once.
-
-Rest of the email is poorly formatted, so I am just skimming through it.
-Fix your email program to send readable content if you want some answers
-for stuff I missed. I expect all my comments fully addressed, not just
-some of them.
-
-
->>> + +static int se_if_probe(struct platform_device *pdev) { +
->>> const struct se_if_node_info_list *info_list; +     const struct
->>> se_if_node_info *info; +     struct device *dev = &pdev->>dev; 
->>> +     struct se_fw_load_info *load_fw; +     struct se_if_priv
->>> *priv; +     u32 idx; +     int ret; +q +     idx =
->>> GET_IDX_FROM_DEV_NODE_NAME(dev->>of_node);
+> Fix this by always doing an emergency reboot if hw_protection_reboot()
+> is called and the orderly reboot takes too long.
 > 
->> NAK. Node can be called firmware and your entire driver collapes.
-> The macro is updated to verify the correct-ness of node-name.
-
-NAK, do you understand the term? I provided the reasons for NAK.
-
+> Fixes: 79fa723ba84c ("reboot: Introduce thermal_zone_device_critical_reboot()")
+> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+> ---
+>   kernel/reboot.c | 70 ++++++++++++++++++++++++++++++++++++++++-----------------
+>   1 file changed, 49 insertions(+), 21 deletions(-)
 > 
-> +               (!memcmp(dev_of_node->full_name, NODE_NAME, 
-> strlen(NODE_NAME)) ?\ ((strlen(dev_of_node->full_name) >
-> strlen(NODE_NAME)) ?\ GET_ASCII_TO_U8((strlen(dev_of_node-
-> >full_name) - strlen(NODE_NAME)),\ dev_of_node-
-> >full_name[strlen(NODE_NAME) + 1], \ -
-> dev_of_node->full_name[strlen(NODE_NAME) + 2]) : 0) 
-> +                               dev_of_node-
-> >full_name[strlen(NODE_NAME) + 2]) : 0) : -EINVAL)
-> 
->>> +     info_list = device_get_match_data(dev); +     if (idx >>=
->>> info_list->>num_mu) { +             dev_err(dev, 
->>> +                     "Incorrect node name :%s\n", 
->>> +                     dev->>of_node->>full_name);
-> 
->> Nope. "firmware" or "secure" are correct node names.
-> New check is added to validate the correctness of the node name for
-> this driver. Replaced the message of " Incorrect node name..", with
-> the help message.
+> diff --git a/kernel/reboot.c b/kernel/reboot.c
+> index 847ac5d17a659981c6765699eac323f5e87f48c1..222b63dfd31020d0e2bc1b1402dbfa82adc71990 100644
+> --- a/kernel/reboot.c
+> +++ b/kernel/reboot.c
+> @@ -932,48 +932,76 @@ void orderly_reboot(void)
+>   }
+>   EXPORT_SYMBOL_GPL(orderly_reboot);
+>   
+> +static const char *hw_protection_action_str(enum hw_protection_action action)
+> +{
+> +	switch (action) {
+> +	case HWPROT_ACT_SHUTDOWN:
+> +		return "shutdown";
+> +	case HWPROT_ACT_REBOOT:
+> +		return "reboot";
+> +	default:
+> +		return "undefined";
+> +	}
+> +}
+> +
+> +static enum hw_protection_action hw_failure_emergency_action;
 
-You did not resolve the NAK.
-1. You cannot reject correct names.
-2. You cannot add undocumented ABI. You could try to document it, but it
-will not solve the first problem.
+nit: Do we have a (theoretical) possibility that two emergency restarts 
+get scheduled with different actions? Should the action be allocated 
+(maybe not) for each caller, or should there be a check if an operation 
+with conflicting action is already scheduled?
+
+If this was already considered and thought it is not an issue:
+
+Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
 
 
-Best regards,
-Krzysztof
+Yours,
+	-- Matti
