@@ -1,93 +1,132 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C8B215186;
-	Wed, 22 Jan 2025 17:26:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF0B2163B3;
+	Wed, 22 Jan 2025 17:26:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737566773; cv=none; b=WDi2cw7iAYwOFvQ2VUmyYSeKyHTtFD+H/FFGXsyrjCk9ISKNQ6BL29cKfhVLmyPQTEF5Td3wXDlOW+gf962qEXaEXc6S3TsQugWgyCSfOZORrOR8ikkFuU2v/QpQOsKKHVnQfHMdjXa4+0FCLaCtbxElClgXd9RpdKKFYvDphO0=
+	t=1737566776; cv=none; b=V218HmTnYOXtlwwAFWr4rtqS1qt6cqPRg+8jbAyU2KG6RYE6PRoDfZFJiuxZ4VjkJF6Z6YGKHuWU8CSKbtAimWLtC6gb2mMJntYRYprYzcvjL5H+OH/odvNC3O3sVl4yOQ79bAkLE+RnnR8i6V/k6HEAg4mnIy/3i+t+NIOrQtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737566773; c=relaxed/simple;
-	bh=4+IGskPBvauLeJEYWorDMqDLbQHHtg+oFp+ZTNuOKmc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=BLopxdAG1l9s5ZLNxaaJgIj7h4sZrl+u9Ypb/1XgYY4/UQjV3PNSN/3u+rrIOrETid0O/lJx73VR0gy0TfI50IpGzA6bdGjMd2Qfpp5XySy/Wm4MtObc9F2CAgvwZX3sE4s7VrbQV+n9TmOdJB1udMeOZP0IR7n0VswuEXC4A1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=RMKSIZEB; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="RMKSIZEB"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 76D55404F5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1737566770; bh=VPKub2rkuUOTEdgOVnC0xVagEs1PHG/VOXHKsywdzTw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=RMKSIZEB3hYxEQTZUcVba0FBAFrH2n3kBY7Q29pnG8x00e2IhYVIte0aKD4J9hgFi
-	 BYSNMCllD5YEXK6DOtrQX+ijfQheMJn6q2PmhbHq+mF+8PFqZATL7879VM5vXqbv6d
-	 nR/vUy22YOWG2zscAl3EYtWubNQU7akB8uh+KQL7FXn9qwYK8IVLhs4GCLae0xeD6o
-	 CRmMoNbUniE+ZgQfwxYaAnocykYRJx9sRBLK8L8susWWKH8/gpX+GIfl0fkA4wJm6k
-	 ysx+t8zAVdSWYRPRYlsu5AgQllPCtCdTgqQ8SRxNwiXxlWXH/jDGOJYYUSWGKhnvgH
-	 vY3APNmPvbfnQ==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 76D55404F5;
-	Wed, 22 Jan 2025 17:26:10 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Media
- <linux-media@vger.kernel.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Block Devices
- <linux-block@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux Power Management
- <linux-pm@vger.kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Bingbu Cao
- <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Ming Lei <ming.lei@redhat.com>, Jens
- Axboe <axboe@kernel.dk>, "Rafael J. Wysocki" <rafael@kernel.org>, Len
- Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>, Bagas Sanjaya
- <bagasdotme@gmail.com>
-Subject: Re: [PATCH 0/3] Tree-wide nreferenced footnotes fixes
-In-Reply-To: <20250122143456.68867-1-bagasdotme@gmail.com>
-References: <20250122143456.68867-1-bagasdotme@gmail.com>
-Date: Wed, 22 Jan 2025 10:26:09 -0700
-Message-ID: <87msfidaku.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1737566776; c=relaxed/simple;
+	bh=+G54zyLYx4ceeWfGoCy64lc7WrHPNoQcsdY8qK53ikE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=bJPum4dLrV7b8gLl6MB7zbUH6Hp07WA+Xv+c1xwlFi2hXT115nw7VKqUvLss+DHcnqimnXUXU78fSGjnn1tdi87quvAgPTcOfERBNsLHMZYsSWFSpbVTObXLCq30xzQPLyQDP5DZBGx0UPqgOGvAo5vDWjkjAiALx1bIMptcCX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.29])
+	by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4YdVc466Yzz9v7JQ;
+	Thu, 23 Jan 2025 00:57:08 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.47])
+	by mail.maildlp.com (Postfix) with ESMTP id ED4E3140521;
+	Thu, 23 Jan 2025 01:26:05 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.204.63.22])
+	by APP1 (Coremail) with SMTP id LxC2BwDnbEvkKZFnsGscAQ--.5068S8;
+	Wed, 22 Jan 2025 18:26:05 +0100 (CET)
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: corbet@lwn.net,
+	viro@zeniv.linux.org.uk,
+	brauner@kernel.org,
+	jack@suse.cz,
+	zohar@linux.ibm.com,
+	dmitry.kasatkin@gmail.com,
+	eric.snowberg@oracle.com,
+	paul@paul-moore.com,
+	jmorris@namei.org,
+	serge@hallyn.com
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v3 6/6] ima: Reset IMA_NONACTION_RULE_FLAGS after post_setattr
+Date: Wed, 22 Jan 2025 18:24:32 +0100
+Message-Id: <20250122172432.3074180-7-roberto.sassu@huaweicloud.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250122172432.3074180-1-roberto.sassu@huaweicloud.com>
+References: <20250122172432.3074180-1-roberto.sassu@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:LxC2BwDnbEvkKZFnsGscAQ--.5068S8
+X-Coremail-Antispam: 1UD129KBjvJXoWxAr1UCFWUuFWxWry7urW3Jrb_yoW5Jw48pa
+	9a9FyUGr10qFW0krn3J3W3Ca4rK39F9FWUXa15Aw1vyFnxZr1jqFyDtr17CF98Wr1SkFy2
+	qF9IvryYya1qyaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPlb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAV
+	Cq3wA2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0
+	rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267
+	AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E
+	14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrV
+	C2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE
+	7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262
+	kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
+	6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GF
+	v_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvE
+	c7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aV
+	AFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZF
+	pf9x07jIPfQUUUUU=
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAQBGeQmNQFOgAAsR
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+From: Roberto Sassu <roberto.sassu@huawei.com>
 
-> Sphinx 8.1 introduces improved unrefenced footnotes detector. The changelog
-> [1] reads:
->
->     - #12730: The UnreferencedFootnotesDetector transform has been improved
->       to more consistently detect unreferenced footnotes. Note, the priority
->       of the transform has been changed from 200 to 622, so that it now runs
->       after the docutils Footnotes resolution transform. Patch by Chris Sewell.
+Commit 11c60f23ed13 ("integrity: Remove unused macro
+IMA_ACTION_RULE_FLAGS") removed the IMA_ACTION_RULE_FLAGS mask, due to it
+not being used after commit 0d73a55208e9 ("ima: re-introduce own integrity
+cache lock").
 
-Something they don't advertise so much, but should: this release also
-cuts the docs-build time almost in half for me.  Very nice.
+However, it seems that the latter commit mistakenly used the wrong mask
+when moving the code from ima_inode_post_setattr() to
+process_measurement(). There is no mention in the commit message about this
+change and it looks quite important, since changing from IMA_ACTIONS_FLAGS
+(later renamed to IMA_NONACTION_FLAGS) to IMA_ACTION_RULE_FLAGS was done by
+commit 42a4c603198f0 ("ima: fix ima_inode_post_setattr").
 
-> As a result, a few new warnings are smoked out in the whole tree, that
-> are previously unnoticed in earlier Sphinx versions. Let's squash these
-> warnings.
->
-> [1]: https://lore.kernel.org/linux-next/07507296-a37b-4543-97cb-0560ef7fb7b8@gmail.com/
->
-> Bagas Sanjaya (3):
->   media: ipu3.rst: Prune unreferenced footnotes
->   Documentation: ublk: Drop Stefan Hajnoczi's message footnote
->   docs: power: Fix footnote reference for Toshiba Satellite P10-554
->
->  Documentation/admin-guide/media/ipu3.rst | 7 ++-----
->  Documentation/block/ublk.rst             | 2 --
->  Documentation/power/video.rst            | 2 +-
->  3 files changed, 3 insertions(+), 8 deletions(-)
+Restore the original change of resetting only the policy-specific flags and
+not the new file status, but with new mask 0xfb000000 since the
+policy-specific flags changed meanwhile. Also rename IMA_ACTION_RULE_FLAGS
+to IMA_NONACTION_RULE_FLAGS, to be consistent with IMA_NONACTION_FLAGS.
 
-I'll apply these and ship them on up before the end of the merge window,
-thanks.
+Cc: stable@vger.kernel.org # v4.16.x
+Fixes: 11c60f23ed13 ("integrity: Remove unused macro IMA_ACTION_RULE_FLAGS")
+Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
+Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+---
+ security/integrity/ima/ima.h      | 1 +
+ security/integrity/ima/ima_main.c | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-jon
+diff --git a/security/integrity/ima/ima.h b/security/integrity/ima/ima.h
+index e1a3d1239bee..615900d4150d 100644
+--- a/security/integrity/ima/ima.h
++++ b/security/integrity/ima/ima.h
+@@ -141,6 +141,7 @@ struct ima_kexec_hdr {
+ 
+ /* IMA iint policy rule cache flags */
+ #define IMA_NONACTION_FLAGS	0xff000000
++#define IMA_NONACTION_RULE_FLAGS	0xfb000000
+ #define IMA_DIGSIG_REQUIRED	0x01000000
+ #define IMA_PERMIT_DIRECTIO	0x02000000
+ #define IMA_NEW_FILE		0x04000000
+diff --git a/security/integrity/ima/ima_main.c b/security/integrity/ima/ima_main.c
+index 46adfd524dd8..7173dca20c23 100644
+--- a/security/integrity/ima/ima_main.c
++++ b/security/integrity/ima/ima_main.c
+@@ -275,7 +275,7 @@ static int process_measurement(struct file *file, const struct cred *cred,
+ 		/* reset appraisal flags if ima_inode_post_setattr was called */
+ 		iint->flags &= ~(IMA_APPRAISE | IMA_APPRAISED |
+ 				 IMA_APPRAISE_SUBMASK | IMA_APPRAISED_SUBMASK |
+-				 IMA_NONACTION_FLAGS);
++				 IMA_NONACTION_RULE_FLAGS);
+ 
+ 	/*
+ 	 * Re-evaulate the file if either the xattr has changed or the
+-- 
+2.34.1
+
