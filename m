@@ -1,158 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E44D211A18;
-	Wed, 22 Jan 2025 12:57:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF3F4E1CA;
+	Wed, 22 Jan 2025 13:39:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737550679; cv=none; b=QeVULz4I8QBjim6Af6XB6JDRm/AJBNMYOmraL/s8EzyLyJTVFnqAquhV7hUUqWltU1YayNZWVm77MDJWwMxOvxd0HUfVjBJo9lgKgKDgbZbANhrFfzhZx71nb/+cFU1SKnvxH3k8PO+ImEN7zdBwlduRnBSNC2nN0L2jKhV0KP0=
+	t=1737553181; cv=none; b=UlHCyyz4TgL3X/sdA/+YcHcmWtSz8BE7EljBZdQU78AjHK4SRAZczkq5xzzenJU1DQoCi+e2IpvQ4UAwqCFRNNy28xUXhEq3SiwJkVdEp8l2he+kL3JtPXbBB5TEPTVUG/5B1Af8RcKwONZV4wgSeymYW7vBrWletGo7MfvGMVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737550679; c=relaxed/simple;
-	bh=iH9Nwh81chy+CHhQ5bMOenLErLnoG0ScuKC6ksTWUv4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=urL5A6AhYfeSpvkChsaUCABoDnFsZSk8zn9u3ZcE9jYjuEalR+m5g/E/XAZGtg4eHXPFLz0hRNjQZZtrqrB4/MWl7GluHQZzhHqlUgoCdCuDGBK923Mix2Pee2vkN53PljGFu6EJeCR6Dv9yIRIjM6Zprc+ZgMmiMIuzYohkQV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PsJyP1tk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737553181; c=relaxed/simple;
+	bh=GsMzRdgSI8Wql7ws8lMf4mQcv1YOdQMDFg66eLs2oMY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VeWz2MlCyHkptr4pIZStDKIX61jO6xi04nQFlXbJoflAx8z+iVkztvSouknTYJePTerWDshpHfLENsKLQePPq3tIWbLlz0KUMfq6/S/JMxaq84nzVtaTw5YzTU/CMLy0CYaOvXUHgS4om/s/KJruNQFmhE/058rrgfAwD4BzPNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AtoK4H8O; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PsJyP1tk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92799C4CED6;
-	Wed, 22 Jan 2025 12:57:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737550678;
-	bh=iH9Nwh81chy+CHhQ5bMOenLErLnoG0ScuKC6ksTWUv4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=PsJyP1tk8tlX7Ryb/c6qPchSnyERc3fgaYHkKXkfgeBUJYewerBbJrKwEQAgRPXV0
-	 GoTVzZgkbYlQDsIRpU/z951Itnf0dtf4qMkpITu1cyxarz3nXQcMYQoaEEXtHwmErj
-	 aVm8wXOTVreknm7hAihxXaj1EBrXvhYVFJHsZVyqJ+oQZVmMbO3TXZlGDXb9STFRh+
-	 xZqYy4tqs0OoEBOOc5YJlGYsxZO7iihnrLyiy8iQrzBuLeVgj3RZN7KFQwi1FTdQ8W
-	 lzfnukoTC8uOIopGfOjP97wDmdBufw5VDCEjtQ5bR/R9B2WcxESKkw5QMvS15N9Axh
-	 wGfkeJ4s+olcg==
-Message-ID: <d79c4d59-2186-4846-a202-aeff6d14d0c1@kernel.org>
-Date: Wed, 22 Jan 2025 13:57:52 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AtoK4H8O"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-216395e151bso12556435ad.0;
+        Wed, 22 Jan 2025 05:39:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737553180; x=1738157980; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=u8bhHRbPOJuYHoUrzETf+VpTu832aUcAcQIcYgRyMno=;
+        b=AtoK4H8Oh9M8Aius83K8ruKtDMxvgm0jn97eyAoDTbDI/D75Qq5zitj6sLSh7ioEsZ
+         USLsH2uFL0TPx1ZKJ2BOs6BqzdyfXRKIUAZE83haKGohF4pveGjvgRQe5ES/8ZsN16zt
+         8wx2edAhWf2bg8c+OOV0lA57GteVGp3Bma56tzZ6N67iBA478BN4RbMbQ/V80stjsIXn
+         PkeZ/MxROX+1fO0FXzuY2Zp+IUCzgLPF15WVHyT+DnQ+DNDCYIbfsbAXg7iXCzNshbWK
+         au/c7WcJWfAD9ngGKuioeUX7dys4VaUapogyF/j/i4JLJaYiX+jKevKZlJoVG7UeGM14
+         pQ2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737553180; x=1738157980;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u8bhHRbPOJuYHoUrzETf+VpTu832aUcAcQIcYgRyMno=;
+        b=c8W5clnXrDyDOiDgg/SZWYBdOCiRMgckpYaAu5WivGHwpQuwXZtMmKLO8G0jrrS92E
+         +wUhpyovzDNM6p/r85VBscgTiuKmDNn0G6nWGVeBv2kMYKe7FksHTjC+EQB+jra5bvG3
+         XD2ee2b+udeM5ybxdIsA+KZYuC4243Mf59iX4JoYY0nCnQ4TMUioOBm0zdsRcTksv+zr
+         o4LmMpJYWMazpykTdfOSIsPOtLI8nL938iMZL+2erh/b1FScMaZmnjsOlXyFBYA3xcZM
+         e/Q6fwxNcOYPPzPVhA54CYHehEyq8+U7T/gsh890Lp/IWf1MZQCmb+lpM26lheOONaMH
+         ncXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVeH66UdcAPfT/OJo2OcL4ma7hYu7mdBbM5UzlXAgXGvA6cEa3FpUNlresqiITCvz5SNfekdGlYNW8=@vger.kernel.org, AJvYcCW17W13WKKaCRgka1gpdwXQuLWawH9zmvPwNeRDT5H1GvdIBbocPtc1LSxtaLllnDVI/cdWY4a/Tqv+6g==@vger.kernel.org, AJvYcCXW+vOq/lDIWO6gsqV7Q4DiR34kNT6GFH+aH582Hg77LctUiZCXK4s2xbmBfYFIkVhKkwtxq1FMBvpZsddS@vger.kernel.org
+X-Gm-Message-State: AOJu0YweswDow/zSkptwW8g/y97oYYs8Fi9lu3D+SESoiT9FRoE3nXh4
+	nByTwuzsYPJF3Aq1uNFvIJraXgSQby7dxRhBwerAJayiMwOCynFJ
+X-Gm-Gg: ASbGnct7Pj0lXAeBEhG+xpjV7Nq6YLhNQ08AlgINUjS2jOfN0yKsH04vELozGziQaY+
+	GV+IsAeaGZZ+rcNT2+e1pz4QL5dGZVQ89xq4Y2m1EvWK87i7HewlxMCuqCpgS6JZ8skD1eaW24o
+	8z4GDDggGp0F+nEVQFGF9e6fM/48N5eD+q9qABXVUo38BBCizcyRFPkz070KX09oi8wQoXF/B4F
+	JFpv2EjSGcM3UleWKzbpQyhVo1AI8RYWsX4ToIXak7pk9K6g/1kRl586Dt2Sf6vqSp0bw==
+X-Google-Smtp-Source: AGHT+IHdfg7I/vsglcpMokTvQOEdp7rnue+y1Qs2bR1p91bzPbo75ToI9OpU+6x8lMZfFHlVqBEbLQ==
+X-Received: by 2002:a17:903:2409:b0:215:6c5f:d142 with SMTP id d9443c01a7336-21c36e608b0mr308853545ad.20.1737553179601;
+        Wed, 22 Jan 2025 05:39:39 -0800 (PST)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21c2ceb7476sm96627465ad.56.2025.01.22.05.39.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jan 2025 05:39:38 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id D223F4209F8C; Wed, 22 Jan 2025 20:39:35 +0700 (WIB)
+Date: Wed, 22 Jan 2025 20:39:35 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Akira Yokosawa <akiyks@gmail.com>, sfr@canb.auug.org.au
+Cc: bhelgaas@google.com, linux-kernel@vger.kernel.org,
+	linux-next@vger.kernel.org, mchehab+samsung@kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: linux-next: build warning after merge of the origin tree
+Message-ID: <Z5D1FzkmODr7YC8I@archie.me>
+References: <20250122170335.148a23b0@canb.auug.org.au>
+ <07507296-a37b-4543-97cb-0560ef7fb7b8@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [EXT] Re: [PATCH v12 4/5] firmware: imx: add driver for NXP
- EdgeLock Enclave
-To: Pankaj Gupta <pankaj.gupta@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>
-Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "imx@lists.linux.dev" <imx@lists.linux.dev>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-References: <20250120-imx-se-if-v12-0-c5ec9754570c@nxp.com>
- <20250120-imx-se-if-v12-4-c5ec9754570c@nxp.com>
- <2fb2db33-9d45-442a-bfb9-55173751f20f@kernel.org>
- <AM9PR04MB860468CF15C1CC4B8EB257A695E12@AM9PR04MB8604.eurprd04.prod.outlook.com>
- <63fb9cc6-b57c-45bc-8da2-7bcb871d9887@kernel.org>
- <AM9PR04MB86045B01999B7B2E91434D4E95E12@AM9PR04MB8604.eurprd04.prod.outlook.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <AM9PR04MB86045B01999B7B2E91434D4E95E12@AM9PR04MB8604.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 22/01/2025 13:55, Pankaj Gupta wrote:
->>
->>> NAK. Node can be called firmware and your entire driver collapes.
->> The macro is updated to verify the correct-ness of node-name.
-> 
->> NAK, do you understand the term? I provided the reasons for NAK.
-> Your suggestion is to enable the driver for all allowed node names.
-> 1. firmware
-> 2. secure
-> 3. secure-enclave
-> 
-> Understood, will allow these names for the driver.
-
-No, you just cannot have such checks.
-
-> 
->>
->> +               (!memcmp(dev_of_node->full_name, NODE_NAME,
->> strlen(NODE_NAME)) ?\ ((strlen(dev_of_node->full_name) >
->> strlen(NODE_NAME)) ?\ GET_ASCII_TO_U8((strlen(dev_of_node-
->>> full_name) - strlen(NODE_NAME)),\ dev_of_node-
->>> full_name[strlen(NODE_NAME) + 1], \ -
->> dev_of_node->full_name[strlen(NODE_NAME) + 2]) : 0)
->> +                               dev_of_node-
->>> full_name[strlen(NODE_NAME) + 2]) : 0) : -EINVAL)
->>
->>>>> +     info_list = device_get_match_data(dev); +     if (idx >>=
->>>>> info_list->>num_mu) { +             dev_err(dev,
->>>>> +                     "Incorrect node name :%s\n",
->>>>> +                     dev->>of_node->>full_name);
->>>
->>>> Nope. "firmware" or "secure" are correct node names.
->>> New check is added to validate the correctness of the node name for
->>> this driver. Replaced the message of " Incorrect node name..", with
->>> the help message.
-> 
->> You did not resolve the NAK.
->> 1. You cannot reject correct names.
-> Ok, Understood.
->> 2. You cannot add undocumented ABI. You could try to document it, but it will 
->> not solve the first problem.
-> Ok. Will not add the ABI document.
-
-Hm? I said you cannot add ABI without documentation and you say you will
-not add the ABI?
-
-Well, I NAK-ed this patch and consider all future versions having
-anything close to this NAKed as well.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="dHiJOwaPe7fD7PNq"
+Content-Disposition: inline
+In-Reply-To: <07507296-a37b-4543-97cb-0560ef7fb7b8@gmail.com>
 
 
+--dHiJOwaPe7fD7PNq
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
-Krzysztof
+On Wed, Jan 22, 2025 at 07:00:43PM +0900, Akira Yokosawa wrote:
+> [+CC: linux-doc]
+>=20
+> Stephen Rothwell wrote:
+> > Hi all,
+> >=20
+> > Today's linux-next build (htmldocs) produced this warning:
+> >=20
+> > Documentation/power/video.rst:213: WARNING: Footnote [#] is not referen=
+ced. [ref.footnote]
+> >=20
+> > This warning has presumably been there for a long time.
+> >=20
+> > I don't know what causes it - maybe it needs a space before the opening
+> > bracket?
+>=20
+> Stephen, fhve you upgraded your Sphinx recently?
+>=20
+> In "Bugs Fixed" section of Sphinx 8.1.0 changelog [1], there is an item w=
+hich
+> reads:
+>=20
+>     - #12730: The UnreferencedFootnotesDetector transform has been improv=
+ed
+>       to more consistently detect unreferenced footnotes. Note, the prior=
+ity
+>       of the transform has been changed from 200 to 622, so that it now r=
+uns
+>       after the docutils Footnotes resolution transform. Patch by Chris S=
+ewell.
+>=20
+> So the above warning is real and prior versions of Sphinx just can't flag=
+ it.
+>=20
+> To silence it, you need to get rid of the unreferenced footnote, I guess.
+
+Hi Akira,
+
+I think the culprit [#f3] footnote (that triggers the warning) refers to
+Toshiba Satellite P10-554 notebook, where s3_bios and s3_resume work only on
+uniprocessor kernel. The proper fix will be probably adding a space before
+the footnote.
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--dHiJOwaPe7fD7PNq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ5D1EgAKCRD2uYlJVVFO
+o65NAQDvtbk8Y9o1ZRE6DGzN0A6DBR25TnnzdyjA9G2+65aUDAD+MKQlYywbYMLk
+Vo73c4PgcxtT4GrwFoFzkiP7eE6FIQI=
+=STQB
+-----END PGP SIGNATURE-----
+
+--dHiJOwaPe7fD7PNq--
