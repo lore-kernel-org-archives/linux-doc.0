@@ -1,26 +1,26 @@
-Received: from mail-m19731117.qiye.163.com (mail-m19731117.qiye.163.com [220.197.31.117])
+Received: from mail-m1973183.qiye.163.com (mail-m1973183.qiye.163.com [220.197.31.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D2A14D6EB
-	for <linux-doc@vger.kernel.org>; Wed, 22 Jan 2025 02:38:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.117
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE5C18E1F
+	for <linux-doc@vger.kernel.org>; Wed, 22 Jan 2025 02:41:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737513504; cv=none; b=Wzen7e2/gkgdndjRNi/nH0mfrK7V8A1WVGylBXvehlOaJ/AQcyf3UGbR8QjoWgGGHJxwVMUp+AO+F/yPuVuVo06YNgvLU5PbFNEkF0q6wBvfzRzgIVjZFA5izfaZr3rjwKOG1JdqzDFfMDkS+XgXUlRc4IPfj/ThENVKm+/PU7o=
+	t=1737513676; cv=none; b=c/vS5cU0S4vcwhWvAarhqgZJ9RwQoCGV2xhuje4D/7nCQssZQdaa3fjesMIwPm1X5HohQVXrsTgvus2vebHXEDEQN1eivGJRzkMO6o/wXRmisp3vPJgwo/6+gBQIBlEn73SIvyFPI9x9oesOlZchXlaeWy6jI2Xei6DpnZf1gqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737513504; c=relaxed/simple;
-	bh=Qg8SzqXDgijGnOfTqE22367LNcDHRs8tPtbY0sbam8Y=;
+	s=arc-20240116; t=1737513676; c=relaxed/simple;
+	bh=BBPWybhDk9YQlBRzFrLEG8wmKZPW6w+72EKTW7sV7nQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E0KIq9+xuJDkNLb5Bf0Glnu996JrdDJY5TQEIj7MM2OBj5MQpm845QN2ldcK8EgZIiP+++cPqsVUSbyoaE5wcs1rOD/8cGT7of8B53VGMX2HvNIdlbfjucpTyliB4kXmhH7SurjMNxKopWnHfsK+szhxMsl+OUyaRwPYOfLLF/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=XCwgJZjZ; arc=none smtp.client-ip=220.197.31.117
+	 In-Reply-To:Content-Type; b=PIRb3XrpiDuva8+s9S8MFLt9b2yNdiWfSgOp+tffzdIx/OzBNmkxZg6tiYGF22OjIS6UggpD2vNeQa3D2f8+JTszI/0GB5ZGIZZ8snrCU+DPVpsatDJjtzm/Gh11I20I8w9nAh/jV8jiE/9HF+ub25UyhvNV0Skx4WhxIBN1jmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=OeWpTRuA; arc=none smtp.client-ip=220.197.31.83
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="XCwgJZjZ"
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="OeWpTRuA"
 Received: from [192.168.6.2] (unknown [123.53.38.48])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 95b1cd48;
-	Wed, 22 Jan 2025 10:38:12 +0800 (GMT+08:00)
-Message-ID: <0031ef49-ab3c-4c04-90b4-3c961fcb39ce@cqsoftware.com.cn>
-Date: Wed, 22 Jan 2025 10:38:12 +0800
+	by smtp.qiye.163.com (Hmail) with ESMTP id 95b05daf;
+	Wed, 22 Jan 2025 10:35:55 +0800 (GMT+08:00)
+Message-ID: <6b47ce81-b339-47de-b482-c544df4061d2@cqsoftware.com.cn>
+Date: Wed, 22 Jan 2025 10:35:56 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -28,188 +28,157 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/7] docs/zh_CN: Add tpm xen-tpmfront Chinese
+Subject: Re: [PATCH v2 3/7] docs/zh_CN: Add tpm tpm-security Chinese
  translation
 To: Alex Shi <seakeel@gmail.com>
 Cc: alexs@kernel.org, si.yanteng@linux.dev, corbet@lwn.net,
  zhaoyuehui@cqsoftware.com.cn, zhangwei@cqsoftware.com.cn,
  maoyuxian@cqsoftware.com.cn, linux-doc@vger.kernel.org
 References: <cover.1737354981.git.zhaoshuo@cqsoftware.com.cn>
- <e98c3702e7eaba7296bed5a8ab40cdff3183f607.1737354981.git.zhaoshuo@cqsoftware.com.cn>
- <CAJy-Am=JKWyysq=6KEKaqBSQexQwXi5jvS6YViqkhZMueVWf9g@mail.gmail.com>
+ <3fd79c75add3f55a7dcd4cc2957b73795753a2ef.1737354981.git.zhaoshuo@cqsoftware.com.cn>
+ <CAJy-Amm8xX215Mwi41nR87MRfP7phohCgxnG2_FGCK4c+8N4VQ@mail.gmail.com>
 From: zhaoshuo <zhaoshuo@cqsoftware.com.cn>
-In-Reply-To: <CAJy-Am=JKWyysq=6KEKaqBSQexQwXi5jvS6YViqkhZMueVWf9g@mail.gmail.com>
+In-Reply-To: <CAJy-Amm8xX215Mwi41nR87MRfP7phohCgxnG2_FGCK4c+8N4VQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCQx4ZVkkeTEIYGh9JSBgfGFYVFAkWGhdVEwETFh
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaSh9KVkNOTUpIHkIZSB9CS1YVFAkWGhdVEwETFh
 	oSFyQUDg9ZV1kYEgtZQVlKSUhVTkhVSENVT0NZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0hVSktLVU
 	pCS0tZBg++
-X-HM-Tid: 0a948bdfdf3109d0kunm95b1cd48
+X-HM-Tid: 0a948bddca6509d0kunm95b05daf
 X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Mhg6KRw*PjIKDikDSR8jPDEZ
-	ERYKCk5VSlVKTEhMTkpIT0JISUhJVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
-	WRILWUFZSklIVU5IVUhDVU9DWVdZCAFZQU1OSEo3Bg++
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PBg6Fyo4DzISDikhMi80Ny06
+	PTIwFD1VSlVKTEhMTkpISE5MSkJJVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSklIVU5IVUhDVU9DWVdZCAFZQUpJSEtLNwY+
 DKIM-Signature:a=rsa-sha256;
-	b=XCwgJZjZetXoZNQ12auTaFIRcPpC73RheEt3nvx7PQ6eOJ4/aK2X7o9pjyJnhZ8Lb3mCzI6+8xnpd4uakolpwuGrHbVgm9Ii7K0+rYoIM1GvCpbXWeQwxTKBOlvVbtJJxIdo+rY0ttJ1vM2dRnJKwwK9LdyffVsminlnIc6KbwI=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
-	bh=XMFfAplRa2Fe3Q3YlXqhLRN3vewLm95vzu4GxVCExaQ=;
+	b=OeWpTRuAwQ6hhBQsWv/cC1ExbO8/d5ok0OOPNps0lQnRNblWujKBtgPbFg6RrE6oE8Cemef5VX0UJMrfhGjqg89i2l0RssgkmtoB00iCZYDKXAIgr3wrXShktzG0PHf8XGGBuMg01fZApd8z2nxUmOheYVLLRuYK+2p04apn124=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
+	bh=vOEwKO3wiYwNAe852jK6To66sYo8OuredHdgPjN8VYA=;
 	h=date:mime-version:subject:message-id:from;
 
 
-在 2025/1/22 10:06, Alex Shi 写道:
-> Shuo Zhao <zhaoshuo@cqsoftware.com.cn> 于2025年1月20日周一 15:26写道：
->> Translate .../security/tpm/xen-tpmfront.rst into Chinese.
+在 2025/1/22 9:58, Alex Shi 写道:
+> Shuo Zhao <zhaoshuo@cqsoftware.com.cn> 于2025年1月20日周一 21:40写道：
+>> Translate .../security/tpm/tpm-security.rst into Chinese
 >>
->> Update the translation through commit 9e255e2b9afe
->> ("Documentation: drop optional BOMs")
+>> Update the translation through commit 3d2daf9d592e
+>> ("Documentation: add tpm-security.rst")
 >>
 >> Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
 >> ---
 >>   .../translations/zh_CN/security/tpm/index.rst |   2 +-
->>   .../zh_CN/security/tpm/xen-tpmfront.rst       | 114 ++++++++++++++++++
->>   2 files changed, 115 insertions(+), 1 deletion(-)
->>   create mode 100644 Documentation/translations/zh_CN/security/tpm/xen-tpmfront.rst
+>>   .../zh_CN/security/tpm/tpm-security.rst       | 151 ++++++++++++++++++
+>>   2 files changed, 152 insertions(+), 1 deletion(-)
+>>   create mode 100644 Documentation/translations/zh_CN/security/tpm/tpm-security.rst
 >>
 >> diff --git a/Documentation/translations/zh_CN/security/tpm/index.rst b/Documentation/translations/zh_CN/security/tpm/index.rst
->> index dd80816f8af8..bf95200ca586 100644
+>> index f324bd4dd093..46cdf7c1a1c1 100644
 >> --- a/Documentation/translations/zh_CN/security/tpm/index.rst
 >> +++ b/Documentation/translations/zh_CN/security/tpm/index.rst
->> @@ -16,7 +16,7 @@
->>      tpm-security
->>      tpm_tis
->>      tpm_vtpm_proxy
->> +   xen-tpmfront
+>> @@ -13,9 +13,9 @@
+>>   .. toctree::
+>>
+>>      tpm_event_log
+>> +   tpm-security
 >>
 >>   TODOLIST:
->> -*   xen-tpmfront
->>   *   tpm_ftpm_tee
->> diff --git a/Documentation/translations/zh_CN/security/tpm/xen-tpmfront.rst b/Documentation/translations/zh_CN/security/tpm/xen-tpmfront.rst
+>> -*   tpm-security
+>>   *   tpm_tis
+>>   *   tpm_vtpm_proxy
+>>   *   xen-tpmfront
+>> diff --git a/Documentation/translations/zh_CN/security/tpm/tpm-security.rst b/Documentation/translations/zh_CN/security/tpm/tpm-security.rst
 >> new file mode 100644
->> index 000000000000..434e7e957f6b
+>> index 000000000000..a05947d8168c
 >> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/security/tpm/xen-tpmfront.rst
->> @@ -0,0 +1,114 @@
+>> +++ b/Documentation/translations/zh_CN/security/tpm/tpm-security.rst
+>> @@ -0,0 +1,151 @@
 >> +.. SPDX-License-Identifier: GPL-2.0
 >> +.. include:: ../../disclaimer-zh_CN.rst
 >> +
->> +:Original: Documentation/security/tpm/xen-tpmfront.rst
+>> +:Original: Documentation/security/tpm/tpm-security.rst
 >> +
 >> +:翻译:
 >> + 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
 >> +
->> +================
->> +Xen的虚拟TPM接口
->> +================
+>> +TPM安全
+>> +=======
 >> +
->> +作者：Matthew Fioravante (JHUAPL), Daniel De Graaf (NSA)
->> +
->> +本文档描述了用于Xen的虚拟可信平台模块（vTPM）子系统。假定读者熟悉
->> +Xen和Linux的构建和安装，并对TPM和vTPM概念有基本的理解。
+>> +本文档的目的是描述我们如何使内核使用TPM在面对外部窥探和数据包篡改
+>> +攻击（文献中称为被动和主动中间人攻击）时保持合理的稳健性。当前的
+>> +安全文档适用于TPM2.0。
 >> +
 >> +介绍
 >> +----
 >> +
->> +这项工作的目标是为虚拟客户操作系统（在Xen中称为DomU）提供TPM功能。这使得
->> +程序能够像与物理系统上的TPM交互一样，与虚拟系统中的TPM进行交互。每个客户
->> +操作系统都会获得一个唯一的、模拟的软件TPM。然而，vTPM的所有秘密（如密钥、
->> +NVRAM 等）由vTPM管理域进行管理，该域将这些秘密封存到物理TPM中。如果创建这
->> +些域（管理域、vTPM域和客户域）的过程是可信的，vTPM子系统就能将根植于硬件
->> +TPM的信任链扩展到Xen中的虚拟机。vTPM的每个主要组件都作为一个独立的域实现，
->> +从而通过虚拟机监控程序（hypervisor）提供安全隔离。
+>> +TPM通常是一个通过某种低带宽总线连接到PC的独立芯片。虽然有一些
+>> +例外，例如Intel PTT，它是运行在靠近CPU的软件环境中的软件TPM，
+>> +受到不同类型的攻击，但目前大多数硬化的安全环境要求使用独立硬件
+> “强化的” 安全环境？
+>
+> more and more AI translation works good for us now, give a better
+> version than them,
+> otherwise, this translation doc has no much sense.
+>
+> Thanks
+> Alex
+
+Ok,I will do it this way.
+
+>
+>> +TPM，这是本文讨论的使用场景。
 >> +
->> +这个mini-os vTPM 子系统是建立在IBM和Intel公司之前的vTPM工作基础上的。
+>> +总线上的窥探和篡改攻击
+>> +----------------------
 >> +
+>> +当前的技术状态允许使用 `TPM Genie`_ 硬件中间人，这是一种简单的外部设备，可以在
+>> +任何系统或笔记本电脑上几秒钟内安装。最近成功演示了针对 `Windows Bitlocker TPM`_
+>> +系统的攻击。最近同样的攻击针对 `基于TPM的Linux磁盘加密`_ 方案也遭到了同样的攻击。
+>> +下一阶段的研究似乎是入侵总线上现有的设备以充当中间人，因此攻击者需要物理访问几
+>> +秒钟的要求可能不再存在。然而，本文档的目标是尽可能在这种环境下保护TPM的机密性和
+>> +完整性，并尝试确保即使我们不能防止攻击，至少可以检测到它。
 >> +
->> +设计概述
+>> +不幸的是，大多数TPM功能，包括硬件重置功能，都能被能够访问总线的攻击
+>> +者控制，因此下面我们将讨论一些可能出现的干扰情况。
+>> +
+>> +测量（PCR）完整性
+>> +-----------------
+>> +
+>> +由于攻击者可以向TPM发送自己的命令，他们可以发送任意的PCR扩展，从而破
+>> +坏测量系统，这将是一种烦人的拒绝服务攻击。然而，针对密封到信任测量中
+>> +的实体，有两类更严重的攻击。
+>> +
+>> +1. 攻击者可以拦截来自系统的所有PCR扩展，并完全替换为自己的值，产生
+>> +   一个未篡改状态的重现，这会使PCR测量证明状态是可信的，并释放密钥。
+>> +
+>> +2. 攻击者可能会在某个时刻重置TPM，清除PCR，然后发送自己的测量，从而
+>> +   有效地覆盖TPM已经完成的启动时间测量。
+>> +
+>> +第一种攻击可以通过始终对PCR扩展和读取命令进行HMAC保护来防止，这意味着
+>> +如果没有在响应中产生可检测的HMAC失败，则测量值无法被替换。然而第二种
+>> +攻击只能通过依赖某种机制来检测，这种机制会在TPM重置后发生变化。
+>> +
+>> +秘密保护
 >> +--------
 >> +
->> +vTPM的架构描述如下::
+>> +某些进出TPM的信息,如密钥密封、私钥导入和随机数生成容易被拦截，而仅仅
+>> +使用HMAC保护无法防止这种情况。因此，对于这些类型的命令，我们必须使用
+>> +请求和响应加密来防止秘密信息的泄露。
 >> +
->> +  +------------------+
->> +  |    Linux DomU    | ...
->> +  |       |  ^       |
->> +  |       v  |       |
->> +  |   xen-tpmfront   |
->> +  +------------------+
->> +          |  ^
->> +          v  |
->> +  +------------------+
->> +  | mini-os/tpmback  |
->> +  |       |  ^       |
->> +  |       v  |       |
->> +  |  vtpm-stubdom    | ...
->> +  |       |  ^       |
->> +  |       v  |       |
->> +  | mini-os/tpmfront |
->> +  +------------------+
->> +          |  ^
->> +          v  |
->> +  +------------------+
->> +  | mini-os/tpmback  |
->> +  |       |  ^       |
->> +  |       v  |       |
->> +  | vtpmmgr-stubdom  |
->> +  |       |  ^       |
->> +  |       v  |       |
->> +  | mini-os/tpm_tis  |
->> +  +------------------+
->> +          |  ^
->> +          v  |
->> +  +------------------+
->> +  |   Hardware TPM   |
->> +  +------------------+
+>> +与TPM建立初始信任
+>> +-----------------
 >> +
->> +* Linux DomU:
->> +               希望使用vTPM的基于Linux的客户机。可能有多个这样的实例。
+>> +为了从一开始就提供安全性，必须建立一个初始的共享或非对称秘密，并且该
+>> +秘钥必须对攻击者不可知。最明显的途径是使用背书和存储种子，这些可以用
+>> +来派生非对称密钥。然而，使用这些密钥很困难，因为将它们传递给内核的唯
+>> +一方法是通过命令行，这需要在启动系统中进行广泛的支持，而且无法保证任
+>> +何一个层次不会有任何形式的授权。
 >> +
->> +* xen-tpmfront.ko:
->> +                    Linux内核虚拟TPM前端驱动程序。该驱动程序为基于Linux的DomU提供
->> +                    vTPM访问。
-> Alignment issue.
-Ok.
->
->> +
->> +* mini-os/tpmback:
->> +                    Mini-os TPM后端驱动程序。Linux前端驱动程序通过该后端驱动程序连
->> +                    接，以便在Linux DomU和其vTPM之间进行通信。该驱动程序还被
->> +                    vtpmmgr-stubdom用于与vtpm-stubdom通信。
->> +
->> +* vtpm-stubdom:
->> +                 一个实现vTPM的mini-os存根域。每个正在运行的vtpm-stubdom实例与系统
->> +                 上的逻辑vTPM之间有一一对应的关系。vTPM平台配置寄存器（PCRs）通常都
->> +                 初始化为零。
->> +
->> +* mini-os/tpmfront:
->> +                     Mini-os TPM前端驱动程序。vTPM mini-os域vtpm-stubdom使用该驱动程序
->> +                     与vtpmmgr-stubdom通信。此驱动程序还用于与vTPM域通信的mini-os域，例
->> +                     如 pv-grub。
->> +
->> +* vtpmmgr-stubdom:
->> +                    一个实现vTPM管理器的mini-os域。系统中只有一个vTPM管理器，并且在整个
->> +                    机器生命周期内应一直运行。此域调节对系统中物理TPM的访问，并确保每个
->> +                    vTPM的持久状态。
->> +
->> +* mini-os/tpm_tis:
->> +                    Mini-osTPM1.2版本TPM 接口规范（TIS）驱动程序。该驱动程序由vtpmmgr-stubdom
->> +                    用于直接与硬件TPM通信。通信通过将硬件内存页映射到vtpmmgr-stubdom来实现。
->> +
->> +* 硬件TPM:
->> +            固定在主板上的物理 TPM。
->> +
->> +与Xen的集成
->> +-----------
->> +
->> +vTPM驱动程序的支持已在Xen4.3中通过libxl工具堆栈添加。有关设置vTPM和vTPM
->> +管理器存根域的详细信息，请参见Xen文档（docs/misc/vtpm.txt）。一旦存根域
->> +运行，与磁盘或网络设备相同，vTPM设备将在域的配置文件中进行设置
->> +
->> +为了使用诸如IMA（内核度量架构）等需要在initrd之前加载TPM的功能，必须将
-> IMA, Integrity Measurement Architecture.
->
-> For others,
-> Reviewed-by: Alex Shi <alexs@kernel.org>
+>> +Linux内核选择的机制是从空种子使用标准的存储种子参数派生出主椭圆曲线
+>> +密钥。空种子有两个优势：首先该层次物理上无法具有授权，因此我们始终可
+>> +以使用它；其次空种子在TPM重置时会发生变化，这意味着如果我们在当天开始
+>> +时基于空种子建立信任，则所有派生的密钥加盐的会话都将在TPM重置且种子发
+> “加盐的会话” ？？ is there sth better??
 
-Ok.
+This is indeed inappropriate. I'll make some modifications.
 
 
 
@@ -218,8 +187,84 @@ Thanks,
 ZhaoShuo
 
 >
->> +xen-tpmfront驱动程序编译到内核中。如果不使用这些功能，驱动程序可以作为
->> +模块编译，并像往常一样加载。
+>> +生变化时失败。
+>> +
+>> +显然，在没有任何其他共享秘密的情况下使用空种子，我们必须创建并读取初始
+>> +公钥，这当然可能会被总线中间人拦截并替换。然而，TPM有一个密钥认证机制
+>> +（使用EK背书证书，创建认证身份密钥，并用该密钥认证空种子主密钥），但由
+>> +于它过于复杂，无法在内核中运行，因此我们保留空主密钥名称的副本，通过
+>> +sysfs导出，以便用户空间在启动时进行完整的认证。这里的明确保证是，如果空
+>> +主密钥认证成功，那么从当天开始的所有TPM交易都是安全的；如果认证失败，则
+>> +说明系统上有中间人（并且任何在启动期间使用的秘密可能已被泄露）。
+>> +
+>> +信任堆叠
+>> +--------
+>> +
+>> +在当前的空主密钥场景中，TPM必须在交给下一个使用者之前完全清除。然而，
+>> +内核将派生出的空种子密钥的名称传递给用户空间，用户空间可以通过认证来
+>> +验证该名称。因此，这种名称传递链也可以用于各个启动组件之间（通过未指
+>> +定的机制）。例如grub可以使用空种子方案来实现安全性，并将名称交给内核。
+>> +内核可以派生出密钥和名称，并确定如果它们与交接的版本不同，则表示发生
+>> +了篡改。因此可以通过名称传递将任意启动组件（从UEFI到grub到内核）串联
+>> +起来，只要每个后续组件知道如何收集该名称,并根据其派生的密钥进行验证。
+>> +
+>> +会话属性
+>> +--------
+>> +
+>> +所有内核使用的TPM命令都允许会话。HMAC会话可用于检查请求和响应的完整性，
+>> +而解密和加密标志可用于保护参数和响应。HMAC和加密密钥通常是从共享授权秘
+>> +钥推导出来的，但对于许多内核操作来说，这些密钥是已知的（通常为空）。因
+>> +此内核使用空主密钥作为盐密钥来创建每个HMAC会话，这样就为会话密钥的派生
+>> +提供了加密输入。因此内核仅需创建一次空主密钥（作为一个易失的TPM句柄），
+>> +并将其保存在tpm_chip中，用于每次在内核中使用TPM时。由于内核资源管理器缺
+>> +乏去间隙化，当前每次操作都需要创建和销毁会话，但未来可能会将单个会话重用
+>> +用于内核中的HMAC、加密和解密会话。
+>> +
+>> +保护类型
+>> +--------
+>> +
+>> +对于每个内核操作，我们使用空主密钥加盐的HMAC来保护完整性。此外我们使用参数
+>> +加密来保护密钥密封，并使用参数解密来保护密钥解封和随机数生成。
+>> +
+>> +空主密钥认证在用户空间的实现
+>> +============================
+>> +
+>> +每个TPM都会附带几个X.509证书，通常用于主背书密钥。本文档假设存在椭圆曲线
+>> +版本的证书，位于01C00002，但也同样适用于RSA证书(位于01C00001)。
+>> +
+>> +认证的第一步是使用 `TCG EK Credential Profile`_ 模板进行主密钥的创建，该
+>> +模板允许将生成的主密钥与证书中的主密钥进行比较（公钥必须匹配）。需要注意
+>> +的是，生成EK主密钥需要EK层级密码，但EC主密钥的预生成版本应位于81010002，
+>> +并且可以无需密钥授权对其执行TPM2_ReadPublic()操作。接下来，证书本身必须
+>> +经过验证，以确保其可以追溯到制造商根证书（该根证书应公开在制造商网站上）。
+>> +完成此步骤后将在TPM内部生成一个认证密钥（AK），并使用TPM2_MakeCredential、
+>> +AK的名称和EK公钥加密一个秘密。然后TPM执行TPM2_ActivateCredential，只有在
+>> +TPM、EK和AK之间的绑定关系成立时，才能恢复秘密。现在，生成的AK可以用于对由
+>> +内核导出的空主密钥进行认证。由于TPM2_MakeCredential/ActivateCredential操作
+>> +相对复杂，下面将描述一种涉及外部生成私钥的简化过程。
+>> +
+>> +这个过程是通常基于隐私CA认证过程的简化缩写。假设此时认证由TPM所有者进行，
+>> +所有者只能访问所有者层次。所有者创建一个外部公/私钥对（假设是椭圆曲线），
+>> +并使用内部包装过程将私钥进行封装以便导入，该私钥被其父级由EC派生的存储主密
+>> +钥保护。TPM2_Import()操作使用一个以EK主密钥为盐值的参数解密HMAC会话（这也不
+>> +需要EK密钥授权），意味着内部封装密钥是加密参数，因此除非TPM拥有认证的EK，否
+>> +则无法执行导入操作。如果该命令成功执行并且HMAC在返回时通过验证，我们就知道
+>> +我们有一个只为认证TPM加载的私钥副本。现在该密钥已加载到TPM中，并且存储主密
+>> +钥已被清除（以释放空间用于生成空密钥）。
+>> +
+>> +现在根据 `TCG TPM v2.0 Provisioning Guidance`_ 中的存储配置生成空EC主密钥；
+>> +该密钥的名称（即公钥区域的哈希值）被计算出来并与内核在/sys/class/tpm/tpm0/null_name
+>> +中提供的空种子名称进行比较。如果名称不匹配，TPM就被认为是受损的。如果名称匹配，
+>> +用户执行TPM2_Certify()，使用空主密钥作为对象句柄，使用加载的私钥作为签名句柄，
+>> +并提供随机的合格数据。返回的certifyInfo的签名将与加载的私钥的公钥部分进行验证，
+>> +并检查合格数据以防止重放。如果所有测试都通过，用户就可以确信TPM的完整性和隐私
+>> +性在整个内核启动过程中得到了保护。
+>> +
+>> +.. _TPM Genie: https://www.nccgroup.trust/globalassets/about-us/us/documents/tpm-genie.pdf
+>> +.. _Windows Bitlocker TPM: https://dolosgroup.io/blog/2021/7/9/from-stolen-laptop-to-inside-the-company-network
+>> +.. _基于TPM的Linux磁盘加密: https://www.secura.com/blog/tpm-sniffing-attacks-against-non-bitlocker-targets
+>> +.. _TCG EK Credential Profile: https://trustedcomputinggroup.org/resource/tcg-ek-credential-profile-for-tpm-family-2-0/
+>> +.. _TCG TPM v2.0 Provisioning Guidance: https://trustedcomputinggroup.org/resource/tcg-tpm-v2-0-provisioning-guidance/
 >> --
 >> 2.47.1
 >>
