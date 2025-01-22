@@ -1,149 +1,224 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05FE2101AD;
-	Wed, 22 Jan 2025 11:28:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36F3B1BDA99;
+	Wed, 22 Jan 2025 11:51:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737545301; cv=none; b=LsknsFS3yDmFAn/yUSQPvbtV967VZNhX4lweFnu5vdJ5THtZnkdfR6dFVM9gZYFl4TBBOOS7g8s+nSwqkbbcYLHtotAguBvmeCX6P0w5r5XlQoebHfaPnRFULBiSLbWx5V++s25SmaGEzb3Gv2B89wBZ32YShIWmk9Fs5a3rE+0=
+	t=1737546664; cv=none; b=gAqce4/kQmMF/qXUeWr3GwKuBOU0IPXzUK15fL/HTV9+47f3RhJcGqd18ZlSlyt5AOCPjUnvtR5kixf7Kz/tzQwnpRdTzU01VbqCPGr+XX1SHXIq3hkT55k6MrD8ZLVJPBLmFWp33YHW8LShWMMByTKP8t/NLJPZT950mGtxYxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737545301; c=relaxed/simple;
-	bh=qgdsDOji/Ki6OjklleBu3dfhkX2SIINNrfcy28ZqIgw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kNo1Q+84xtMmAPPfjC9jLRR0j0qS7LQ161CyY3HfL7IOmRGRvwxTtf4uQTN7MGlnBEG//UxkIMB1zG/dmo/AeUJMwnbKEIMFc3tGG9F7LX6yKLXDZ+2AfWTP/rFnUOd9KH8E9Uc368SdnYoYMOVT5U4ujjYMlgj0YN0Fl8MiMvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RNgXJjqk; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1737546664; c=relaxed/simple;
+	bh=63j/7wGwXuaZ+NknazkPZcLSbOn14PDE1Z9XGe727YY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UXezq8AIs5TuhcICzTybXhj73kFXOp5ZAfNYD0utQZZYnSPXEsNeuzVjX/6GJ0gX3klvZCG4EsrCVBWLVANhMF4pWfzBmIg4eXjo5NG6YbdPJpgLopZA/XuchxPPXIB+3Je1anRRiE34nAoV/8ihWH4KpVi6oMteH228yVr0VyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bm1/RMxc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RNgXJjqk"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5426fcb3c69so5418485e87.3;
-        Wed, 22 Jan 2025 03:28:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737545296; x=1738150096; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=D8uucZoYmTyAW8wW7Yobh9x7Be1LOOBbsYawBwsq5P0=;
-        b=RNgXJjqkHjeho5Q/MTAVogr/IwgBioiJOlW54IoGcPC92cgbN5AewYPFsvhfcK4bNh
-         lfQO15j6HKcpuLTvwBcURpLCzIqj3RFqF4s5HlPYhwze/CvPlZzsFaDt6BBGx8ST+Ipj
-         ppN4DJQs3OwW78mp5Wp5ndGZEVB8vmyWxMbiZuDESOFp02lrHtk0qDlnIGayma1R+WUu
-         wsXPDtffl8BK+xs3+4mp0A1MG9AsTp0K4lGYnztyfuw8b8g5lkro1MB8x4Z2/IqZTtay
-         pS4FTcOTjV5RIZgHaBkWGUIQKON6LDfZh08w79sM1zWoTXvuDOu47HQw4RtC+1fmPG7v
-         zr6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737545296; x=1738150096;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=D8uucZoYmTyAW8wW7Yobh9x7Be1LOOBbsYawBwsq5P0=;
-        b=PFphqzrJH2DT8sOSqtFbMfoSsqe1OUtOWP8a9rAfw9M0BBt8DLZqcE8OoozlyF+2qj
-         va0cvmvojN7AwLV7XpL3APyIZ5qVWOUoVLvIUqqwcSl5a4lfW0MSNyBIF+8Ghk8KxY1i
-         Uq0kXmwGdRHuVvCNJ3gBx/KM2S9ZJfWdeOd5HmK6mY10hQqNn5hQtF0PaaHS/0FdCXyA
-         qWbhhviSU6Y7aDPqWg/ZQgHuuhXsgD0ZpOhHFxM59NYZ5JD2ADNHgnKKE8daNur31S2Y
-         2aqIol3vKgFneXmUDpFwVJeZYQ8mc714WYgv1sRxjayUdRjTtopcyTGu+1c6LVcJjjUa
-         Tl+w==
-X-Forwarded-Encrypted: i=1; AJvYcCUEeAhXZyOsjZgG6qtHXA9uifspx4Id8LeqH0y6COpQMsSK4f7ydHZkx5Js4GVYpuB/XaVvrBQBYhge@vger.kernel.org, AJvYcCVPVbocS1nmY7XL9BqkJErUZy1R8aFw3gdPyj+zcZxMHyuo4gUbHK7c66V+BfVlCuByn/eAnJIU2Ns=@vger.kernel.org, AJvYcCXLVkoVItZMG1PuoaZCsjU75u4vd8OAvgmZeTAPYG7aJ9dx4LPsWXY5nsv5CBZoalD0YfeDL4ertg0O@vger.kernel.org, AJvYcCXXs5hOhyNZo/ifI1N8XmCKiFZi+/zLbZMtlKQTXatzoZz9IalF7oyOXdGkJ4EibxrIa6OQp+tCcdgS/cLR+ZDdZB2qirDT@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOgm22umiESwNCjSnGAxI4kmKCh+jP26ZYSbq+kDQN1Aqh/qov
-	72JzDQqywRDoPUpvna5wVOJBOQsjuBVmbMBQnOrOKPCjscr0sfUJ
-X-Gm-Gg: ASbGncsA6uXb3Nii2fIp42z5jyeDH2TeKIRnqHmJ+GhJ/5Z5MEirbHz5tAeNb8x+05d
-	Y+UFWl3sM4oU7tS/pB0peDuFDRukiz+sKwWQ9RnaHT0Hyeg1OTzlCdFOprAZ3B6IXmoAf4mVVry
-	axF0OLBHd92kj5xuT0w2K2XHJ0RVaIcO+42X6tXrd7wjqbTEin+M23uwdzQLPvULVo5TvibYimV
-	kOOhZ98L/oOjVJx0UvE+tpEe4O4jKwiCHAvkD2NNU1FuD5yTDkjPxTE9uzYNigR3zQcen4h/d0Z
-	lcUwYu0=
-X-Google-Smtp-Source: AGHT+IFY2ZBn6rdMHyRFnFAwDqHZp13c5/EODEKdU4E4T1JbLWhr6Ok/wScVhHBxOQ5gw+OI+RSfxw==
-X-Received: by 2002:a05:6512:159b:b0:540:1fd9:b634 with SMTP id 2adb3069b0e04-5439c28255cmr8070137e87.34.1737545295590;
-        Wed, 22 Jan 2025 03:28:15 -0800 (PST)
-Received: from [172.16.183.207] ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5439af78d62sm2171995e87.241.2025.01.22.03.28.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jan 2025 03:28:13 -0800 (PST)
-Message-ID: <7b6d3226-4422-415a-9146-16c421463ac5@gmail.com>
-Date: Wed, 22 Jan 2025 13:28:12 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bm1/RMxc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E212C4CED6;
+	Wed, 22 Jan 2025 11:51:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737546663;
+	bh=63j/7wGwXuaZ+NknazkPZcLSbOn14PDE1Z9XGe727YY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Bm1/RMxck4trtFrCjtNR5Hr3WVRwSzcTg8mHPDDsGFzqILgDQCTHYZPFCP7yEIW5T
+	 2Ifx9T6vuaoMd9legXGRzIRj7H0qdadj21n1znxFORY07HA1E1c8qt79AKjdjNN/aU
+	 5/gNpls7dNGiDQsBkdCgJwBBj/s6JcIMdilgZ+fobGSlYdAMQEOpFt3Fkg3oOXt7rW
+	 UuDU+Ltd4Bpi61+iEm1Sj7e5R/tPsOnmAyYIJP0udAQSHPbn40tDten9tSmjOVkMuE
+	 Do4Lh4anKNxBzar9MAqXULoRLOlFUkcdJQpusEeTZVsjcT2hPSCJFFBkG01NPHI1bk
+	 /Up+rN3Q+Ei4Q==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1taZG9-00ENwN-A9;
+	Wed, 22 Jan 2025 11:51:01 +0000
+Date: Wed, 22 Jan 2025 11:51:00 +0000
+Message-ID: <86o6zzukwr.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Dave Martin <Dave.Martin@arm.com>,
+	Fuad Tabba <tabba@google.com>,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC v3 09/27] KVM: arm64: Factor SVE guest exit handling out into a function
+In-Reply-To: <Z4pAMaEYvdLpmbg2@J2N7QTR9R3>
+References: <20241220-kvm-arm64-sme-v3-0-05b018c1ffeb@kernel.org>
+	<20241220-kvm-arm64-sme-v3-9-05b018c1ffeb@kernel.org>
+	<Z4pAMaEYvdLpmbg2@J2N7QTR9R3>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.4
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/12] reboot: reboot, not shutdown, on
- hw_protection_reboot timeout
-To: Ahmad Fatoum <a.fatoum@pengutronix.de>,
- Andrew Morton <akpm@linux-foundation.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Fabio Estevam
- <festevam@denx.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, Serge Hallyn <serge@hallyn.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
- chrome-platform@lists.linux.dev, devicetree@vger.kernel.org,
- kernel@pengutronix.de
-References: <20250113-hw_protection-reboot-v2-0-161d3fc734f0@pengutronix.de>
- <20250113-hw_protection-reboot-v2-2-161d3fc734f0@pengutronix.de>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20250113-hw_protection-reboot-v2-2-161d3fc734f0@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: mark.rutland@arm.com, broonie@kernel.org, oliver.upton@linux.dev, joey.gouly@arm.com, catalin.marinas@arm.com, suzuki.poulose@arm.com, will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org, Dave.Martin@arm.com, tabba@google.com, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On 13/01/2025 18:25, Ahmad Fatoum wrote:
-> hw_protection_shutdown() will kick off an orderly shutdown and if that
-> takes longer than a configurable amount of time, an emergency shutdown
-> will occur.
+On Fri, 17 Jan 2025 11:34:09 +0000,
+Mark Rutland <mark.rutland@arm.com> wrote:
 > 
-> Recently, hw_protection_reboot() was added for those systems that don't
-> implement a proper shutdown and are better served by rebooting and
-> having the boot firmware worry about doing something about the critical
-> condition.
+> On Fri, Dec 20, 2024 at 04:46:34PM +0000, Mark Brown wrote:
+> > The SVE portion of kvm_vcpu_put() is quite large, especially given the
+> > comments required.  When we add similar handling for SME the function
+> > will get even larger, in order to keep things managable factor the SVE
+> > portion out of the main kvm_vcpu_put().
 > 
-> On timeout of the orderly reboot of hw_protection_reboot(), the system
-> would go into shutdown, instead of reboot. This is not a good idea, as
-> going into shutdown was explicitly not asked for.
+> While investigating some problems with SVE I spotted a latent bug in
+> this area where I suspect the fix will conflict with / supersede this
+> rework. Details below; IIUC the bug was introduced in commit:
 > 
-> Fix this by always doing an emergency reboot if hw_protection_reboot()
-> is called and the orderly reboot takes too long.
+>   8c8010d69c132273 ("KVM: arm64: Save/restore SVE state for nVHE")
 > 
-> Fixes: 79fa723ba84c ("reboot: Introduce thermal_zone_device_critical_reboot()")
-> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
-> ---
->   kernel/reboot.c | 70 ++++++++++++++++++++++++++++++++++++++++-----------------
->   1 file changed, 49 insertions(+), 21 deletions(-)
+> > Signed-off-by: Mark Brown <broonie@kernel.org>
+> > ---
+> >  arch/arm64/kvm/fpsimd.c | 67 +++++++++++++++++++++++++++----------------------
+> >  1 file changed, 37 insertions(+), 30 deletions(-)
+> > 
+> > diff --git a/arch/arm64/kvm/fpsimd.c b/arch/arm64/kvm/fpsimd.c
+> > index 09b65abaf9db60cc57dbc554ad2108a80c2dc46b..3c2e0b96877ac5b4f3b9d8dfa38975f11b74b60d 100644
+> > --- a/arch/arm64/kvm/fpsimd.c
+> > +++ b/arch/arm64/kvm/fpsimd.c
+> > @@ -151,6 +151,41 @@ void kvm_arch_vcpu_ctxsync_fp(struct kvm_vcpu *vcpu)
+> >  	}
+> >  }
+> >  
+> > +static void kvm_vcpu_put_sve(struct kvm_vcpu *vcpu)
+> > +{
+> > +	u64 zcr;
+> > +
+> > +	if (!vcpu_has_sve(vcpu))
+> > +		return;
+> > +
+> > +	zcr = read_sysreg_el1(SYS_ZCR);
+> > +
+> > +	/*
+> > +	 * If the vCPU is in the hyp context then ZCR_EL1 is loaded
+> > +	 * with its vEL2 counterpart.
+> > +	 */
+> > +	__vcpu_sys_reg(vcpu, vcpu_sve_zcr_elx(vcpu)) = zcr;
+> > +
+> > +	/*
+> > +	 * Restore the VL that was saved when bound to the CPU, which
+> > +	 * is the maximum VL for the guest. Because the layout of the
+> > +	 * data when saving the sve state depends on the VL, we need
+> > +	 * to use a consistent (i.e., the maximum) VL.  Note that this
+> > +	 * means that at guest exit ZCR_EL1 is not necessarily the
+> > +	 * same as on guest entry.
+> > +	 *
+> > +	 * ZCR_EL2 holds the guest hypervisor's VL when running a
+> > +	 * nested guest, which could be smaller than the max for the
+> > +	 * vCPU. Similar to above, we first need to switch to a VL
+> > +	 * consistent with the layout of the vCPU's SVE state. KVM
+> > +	 * support for NV implies VHE, so using the ZCR_EL1 alias is
+> > +	 * safe.
+> > +	 */
+> > +	if (!has_vhe() || (vcpu_has_nv(vcpu) && !is_hyp_ctxt(vcpu)))
+> > +		sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1,
+> > +				       SYS_ZCR_EL1);
+> > +}
+> > +
+> >  /*
+> >   * Write back the vcpu FPSIMD regs if they are dirty, and invalidate the
+> >   * cpu FPSIMD regs so that they can't be spuriously reused if this vcpu
+> > @@ -179,38 +214,10 @@ void kvm_arch_vcpu_put_fp(struct kvm_vcpu *vcpu)
+> >  	}
 > 
-> diff --git a/kernel/reboot.c b/kernel/reboot.c
-> index 847ac5d17a659981c6765699eac323f5e87f48c1..222b63dfd31020d0e2bc1b1402dbfa82adc71990 100644
-> --- a/kernel/reboot.c
-> +++ b/kernel/reboot.c
-> @@ -932,48 +932,76 @@ void orderly_reboot(void)
->   }
->   EXPORT_SYMBOL_GPL(orderly_reboot);
->   
-> +static const char *hw_protection_action_str(enum hw_protection_action action)
-> +{
-> +	switch (action) {
-> +	case HWPROT_ACT_SHUTDOWN:
-> +		return "shutdown";
-> +	case HWPROT_ACT_REBOOT:
-> +		return "reboot";
-> +	default:
-> +		return "undefined";
-> +	}
-> +}
-> +
-> +static enum hw_protection_action hw_failure_emergency_action;
+> A little before this context, kvm_arch_vcpu_put_fp() calls
+> local_irq_save(), which indicates that IRQs can be taken before this
+> point, which is deeply suspicious.
+> 
+> If IRQs are enabled, then it's possible to take an IRQ and potentially
+> run a softirq handler which uses kernel-mode NEON. That means
+> kernel_neon_begin() will try to save the live FPSIMD/SVE/SME state via
+> fpsimd_save_user_state(), using the live value of ZCR_ELx.LEN, which would not
+> be correct per the comment.
+> 
+> Looking at kvm_arch_vcpu_ioctl_run(), the relevant logic is:
+> 
+> 	vcpu_load(vcpu); // calls kvm_arch_vcpu_load_fp()
+> 
+> 	while (ret > 0) {
+> 		preempt_disable();
+> 		local_irq_disable();
+> 
+> 		kvm_arch_vcpu_ctxflush_fp();
+> 		ret = kvm_arm_vcpu_enter_exit(vcpu);
+> 		kvm_arch_vcpu_ctxsync_fp(vcpu);
+> 
+> 		local_irq_enable();
+> 		preempt_enable();
+> 	}
+> 
+> 	vcpu_put(vcpu); // calls kvm_arch_vcpu_put_fp()
+> 
+> ... and the problem can occur at any point after the vCPU has run where IRQs
+> are enabled, i.e, between local_irq_enable() and either local_irq_disable() or
+> vcpu_put()'s call to kvm_arch_vcpu_put_fp().
+> 
+> Note that kernel_neon_begin() calls:
+> 
+> 	fpsimd_save_user_state();
+> 	...
+> 	fpsimd_flush_cpu_state();
+> 
+> ... and fpsimd_save_user_state() will see that the SVE VL is wrong:
+> 
+> 	if (WARN_ON(sve_get_vl() != vl)) {
+> 		force_signal_inject(SIGKILL, SI_KERNEL, 0, 0);
+> 		return;
+> 	}
+> 
+> ... pending a SIGKILL for the VMM thread without saving the vCPU's state
+> before unbinding the live state via fpsimd_flush_cpu_state(), which'll
+> set TIF_FOREIGN_FPSTATE.
+> 
+> AFAICT it's possible to re-enter the vCPU after that happens, whereupon
+> stale vCPU FPSIMD/SVE state will be restored. Upon return to userspace
+> the SIGKILL will be delivered, killing the VMM.
+> 
+> As above, it looks like that's been broken since the nVHE SVE
+> save/restore was introduced in commit:
+> 
+>   8c8010d69c132273 ("KVM: arm64: Save/restore SVE state for nVHE")
+> 
+> The TL;DR summary is that it's not sufficient for kvm_arch_vcpu_put_fp()
+> to fix up ZCR_ELx. Either:
+> 
+> * That needs to be fixed up while IRQs are masked, e.g. by
+>   saving/restoring the host and guest ZCR_EL1 and/or ZCR_ELx values in
+>   kvm_arch_vcpu_ctxflush_fp() and kvm_arch_vcpu_ctxsync_fp()
+> 
+> * The lazy save logic in fpsimd_save_user_state() needs to handle KVM
+>   explicitly, saving the guest's ZCR_EL1 and restoring the host's
+>   ZCR_ELx.
+> 
+> I think we need to fix that before we extend this logic for SME.
 
-nit: Do we have a (theoretical) possibility that two emergency restarts 
-get scheduled with different actions? Should the action be allocated 
-(maybe not) for each caller, or should there be a check if an operation 
-with conflicting action is already scheduled?
+So save/restore ZCR_ELx eagerly? If that's what it takes, let's do
+that now.
 
-If this was already considered and thought it is not an issue:
+Thanks,
 
-Reviewed-by: Matti Vaittinen <mazziesaccount@gmail.com>
+	M.
 
-
-Yours,
-	-- Matti
+-- 
+Without deviation from the norm, progress is not possible.
