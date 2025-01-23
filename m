@@ -1,118 +1,229 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D393F9C5;
-	Thu, 23 Jan 2025 17:16:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C7C1D555
+	for <linux-doc@vger.kernel.org>; Thu, 23 Jan 2025 17:24:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.65.225
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737652562; cv=none; b=K1LNlokiyP64YyieI6aoZN+j4vVaS8edcjhe3JjjRglV1YXpf9RSFirlnOM/YWA353MWgG8P+Dq0U54PGwHNWT0rsSl3F75Yzomao9WZesnaE9ZbI9+REOlxhEQdXSOgJoD6AOXRpXZ5o/kloVLXlbyniBzdzpE96HYvVCVz2PM=
+	t=1737653074; cv=none; b=QHnf4vEN8+cWBaUwowYg8/7VDvjm3eYfUSIJM0DqzF7Gw8mev1v7PhrxjwbE3/Z2yE9Aoz5CoaMTewuLIv33CXJLRh/Ia4SGTD4nXrY3WmzbksLf3Q/5WM2/e036VzsFZ26XnmJbg3OWV9CYv0e9sCrEmwn4c3AVWn/k3uluSYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737652562; c=relaxed/simple;
-	bh=yNQRZnWuKsXXK1AYGUA2AefX8bsBey6q6K/HMCflImc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=INpN9/aSTmVbcR9VMDN7j/s9ao50Fyu96wvczvSdOaqrd6RrPOCMGh9WYsvbwB7cWktIgQ3Qq3mn56tAz5mMkYlAV0WfHz/XdLMEQUKgsGsksEQJrc8Ar2anuOoab7kmMKEctpji4gCq62I+sLcyikqCWaF4kfFjkq7+v5t8h6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=S2QfbZTq; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1737653074; c=relaxed/simple;
+	bh=EC8kDeSwT8BCE6L3361eSA2oMrWX/LhNkzLG0ssN7bw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=BzLCfdGIPtz3K72ji1CTPZJWn3ev5z9QFWw/8MKTV2u0gBddVu8MSdm9SbkAxLlWemBam00E/a2k4g3U9wdhlpvzoH7s0n5ykMJP+0hdeHXsyYKud5xSJW+vbZ4SZRi9B18yDLFj87sjC7yua3qX7NFMEiKTuDXO4B95XNV4hP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=florian.bezdeka@siemens.com header.b=avfOWyEP; arc=none smtp.client-ip=185.136.65.225
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="S2QfbZTq"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=GLYJkHDOUuZ3o2Lb+FJZRPmgsp7LPG76z9WRN2s2jfU=; b=S2QfbZTqd32vxBdhMIvQhWSST5
-	Mbdma79dxlCWjPgbyru8ws0z7gY4LNJfEtjtqN/6aUh3S/UXbMqR0Cs8XA/4bsPzT9E7MrgVr5cEM
-	z8zjB1geYmmwmfIt8MjjuMyqqSc8KQLyrx7XKmVC8lwQjF39rFAwQ7YuWSXM2ueVD8g5iiF5gPecl
-	PTKVOhZq5vGIlB/9srEoaAe4A3T5FHSHv13h0S6zaY7Sj3W507f47zycBRT/lC9WP7Sdz8VGyCaVa
-	C8dE1K4721fDyzIY/zKXQMpwT/VdmVZPaNROxGTUGTYKzm79wQWTk1rA2t2539cVTOho09fZ4rGSV
-	XjKegf7g==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tb0o2-00000009XYe-16oH;
-	Thu, 23 Jan 2025 17:15:50 +0000
-Message-ID: <07902f4e-e823-42bc-84fe-829a3e53dbc8@infradead.org>
-Date: Thu, 23 Jan 2025 09:15:43 -0800
+	dkim=pass (2048-bit key) header.d=siemens.com header.i=florian.bezdeka@siemens.com header.b="avfOWyEP"
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20250123172423946be25c58a601abbe
+        for <linux-doc@vger.kernel.org>;
+        Thu, 23 Jan 2025 18:24:24 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=florian.bezdeka@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=oxINAJ0LeLqJ3M0qS3mB6DNG37C/XjqZ02n4XQg2+vE=;
+ b=avfOWyEPThY0qZHFWBl2B3Waotz+8loLJ+mZUtGGItUwfJOUtG7FrfOs0qOKpl8WBbOxTJ
+ hmxCiPBT8gqw2waOxbkfTxYZZHTxmmdmq4PuV6EuhYS6vXo67MhLp5hspGJKBF2pL9FC0+Qo
+ MynnVI+uRPOsDiP0334hKKXlZ+L4Bf/rJn8iadkanOpnW1TPw4Y69HZ940bExo8i6vtnn/2C
+ O0P4fqcEZTdD+oO2Fpdf1JfU18oZI2bdZ4VkBWvUV9rdG4Kw9NJ32KkkBu5OAE07aaDI1nwa
+ Rry4DyQN0YMb5WgK/aYrOP/K5Kg61gheKSrhrhKKNf5XcktSigozEdDg==;
+Message-ID: <ea087229cc6f7953875fc69f1b73df1ae1ee9b72.camel@siemens.com>
+Subject: Re: [PATCH bpf-next v6 4/4] igc: Add launch time support to XDP ZC
+From: Florian Bezdeka <florian.bezdeka@siemens.com>
+To: "Song, Yoong Siang" <yoong.siang.song@intel.com>, "Bouska, Zdenek"
+ <zdenek.bouska@siemens.com>, "David S . Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Willem de
+ Bruijn <willemb@google.com>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Bjorn Topel <bjorn@kernel.org>,
+ "Karlsson, Magnus" <magnus.karlsson@intel.com>, "Fijalkowski, Maciej"
+ <maciej.fijalkowski@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, "Damato, Joe"
+ <jdamato@fastly.com>, Stanislav Fomichev <sdf@fomichev.me>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Mina Almasry <almasrymina@google.com>, Daniel
+ Jurgens <danielj@nvidia.com>, Andrii Nakryiko <andrii@kernel.org>, Eduard
+ Zingerman <eddyz87@gmail.com>, Mykola Lysenko <mykolal@fb.com>, Martin
+ KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, Yonghong Song
+ <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, Hao Luo
+ <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, Shuah Khan
+ <shuah@kernel.org>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose
+ Abreu <joabreu@synopsys.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>, "Kitszel, Przemyslaw"
+ <przemyslaw.kitszel@intel.com>
+Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
+ "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>, 
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "intel-wired-lan@lists.osuosl.org"
+ <intel-wired-lan@lists.osuosl.org>, "xdp-hints@xdp-project.net"
+ <xdp-hints@xdp-project.net>
+Date: Thu, 23 Jan 2025 18:24:22 +0100
+In-Reply-To: <PH0PR11MB583095A2F12DA10D57781D18D8E02@PH0PR11MB5830.namprd11.prod.outlook.com>
+References: <20250116155350.555374-1-yoong.siang.song@intel.com>
+	 <20250116155350.555374-5-yoong.siang.song@intel.com>
+	 <AS1PR10MB5675499EE0ED3A579151D3D3EBE02@AS1PR10MB5675.EURPRD10.PROD.OUTLOOK.COM>
+	 <PH0PR11MB583095A2F12DA10D57781D18D8E02@PH0PR11MB5830.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] documentation: networking: fix spelling mistakes
-To: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>, socketcan@hartkopp.net,
- mkl@pengutronix.de, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net
-Cc: shuah@kernel.org, linux-can@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@vger.kernel.org
-References: <20250123082521.59997-1-khaledelnaggarlinux@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250123082521.59997-1-khaledelnaggarlinux@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-68982:519-21489:flowmailer
+
+Hi all,
+
+On Thu, 2025-01-23 at 16:41 +0000, Song, Yoong Siang wrote:
+> On Thursday, January 23, 2025 11:40 PM, Bouska, Zdenek <zdenek.bouska@sie=
+mens.com> wrote:
+> >=20
+> > Hi Siang,
+> >=20
+> > I tested this patch series on 6.13 with Intel I226-LM (rev 04).
+> >=20
+> > I also applied patch "selftests/bpf: Actuate tx_metadata_len in xdp_hw_=
+metadata" [1]
+> > and "selftests/bpf: Enable Tx hwtstamp in xdp_hw_metadata" [2] so that =
+TX timestamps
+> > work.
+> >=20
+> > HW RX-timestamp was small (0.5956 instead of 1737373125.5956):
+> >=20
+> > HW RX-time:   595572448 (sec:0.5956) delta to User RX-time sec:17373731=
+24.9873 (1737373124987318.750 usec)
+> > XDP RX-time:   1737373125582798388 (sec:1737373125.5828) delta to User =
+RX-time sec:0.0001 (92.733 usec)
+> >=20
+> > Igc's raw HW RX-timestamp in front of frame data was overwritten by BPF=
+ program on
+> > line 90 in tools/testing/selftests/bpf: meta->hint_valid =3D 0;
+> >=20
+> > "HW timestamp has been copied into local variable" comment is outdated =
+on
+> > line 2813 in drivers/net/ethernet/intel/igc/igc_main.c after
+> > commit 069b142f5819 igc: Add support for PTP .getcyclesx64() [3].
+> >=20
+> > Workaround is to add unused data to xdp_meta struct:
+> >=20
+> > --- a/tools/testing/selftests/bpf/xdp_metadata.h
+> > +++ b/tools/testing/selftests/bpf/xdp_metadata.h
+> > @@ -49,4 +49,5 @@ struct xdp_meta {
+> >                __s32 rx_vlan_tag_err;
+> >        };
+> >        enum xdp_meta_field hint_valid;
+> > +       __u8 avoid_IGC_TS_HDR_LEN[16];
+> > };
+> >=20
+>=20
+> Hi Zdenek Bouska,=20
+>=20
+> Thanks for your help on testing this patch set.
+> You are right, there is some issue with the Rx hw timestamp,
+> I will submit the bug fix patch when the solution is finalized,
+> but the fix will not be part of this launch time patch set.
+> Until then, you can continue to use your WA.
+
+I think there is no simple fix for that. That needs some discussion
+around the "expectations" to the headroom / meta data area in front of
+the actual packet data.
+
+To be able to write generic BPF programs - generic in terms of "works
+with all drivers" - the headroom is expected to be available for use
+inside the BPF program.
+
+I think that is true for most drivers / devices, but at least igc is
+different in this regard. Devices deliver the RX timestamp in front of
+the actual data while other devices deliver the meta information as
+part of the RX descriptor.
+
+For igc we get:
+
++----------+-----------------+-----+------+
+| headroom | custom metadata |RX TS| data |
++----------+-----------------+-----+------+
+           ^                       ^
+           |                       |
+ xdp_buff->data_meta        xdp_buff->data
 
 
+The only information the application gets is a pointer to the start of
+the data section. For calculating / finding the beginning of the meta
+data area the application has to go backward.
 
-On 1/23/25 12:25 AM, Khaled Elnaggar wrote:
-> Fix a couple of typos/spelling mistakes in the documentation.
-> 
-> Signed-off-by: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
+That is exactly how it is currently implemented in the selftest.
 
+Problem: By writing into the calculated meta data area the BPF program
+might already destroy meta information delivered by the driver. At
+least for igc this is a problem.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+I hope that was clear...
 
-Thanks.
+Best regards,
+Florian
 
-> ---
-> Hello, I hope the patch is self-explanatory. Please let me know if you
-> have any comments.
-> 
-> Aside: CCing Shuah and linux-kernel-mentees as I am working on the mentorship
-> application tasks.
-> 
-> Thanks
-> Khaled
-> ---
->  Documentation/networking/can.rst  | 4 ++--
->  Documentation/networking/napi.rst | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/networking/can.rst b/Documentation/networking/can.rst
-> index 62519d38c58b..b018ce346392 100644
-> --- a/Documentation/networking/can.rst
-> +++ b/Documentation/networking/can.rst
-> @@ -699,10 +699,10 @@ RAW socket option CAN_RAW_JOIN_FILTERS
-> 
->  The CAN_RAW socket can set multiple CAN identifier specific filters that
->  lead to multiple filters in the af_can.c filter processing. These filters
-> -are indenpendent from each other which leads to logical OR'ed filters when
-> +are independent from each other which leads to logical OR'ed filters when
->  applied (see :ref:`socketcan-rawfilter`).
-> 
-> -This socket option joines the given CAN filters in the way that only CAN
-> +This socket option joins the given CAN filters in the way that only CAN
->  frames are passed to user space that matched *all* given CAN filters. The
->  semantic for the applied filters is therefore changed to a logical AND.
-> 
-> diff --git a/Documentation/networking/napi.rst b/Documentation/networking/napi.rst
-> index 6083210ab2a4..f970a2be271a 100644
-> --- a/Documentation/networking/napi.rst
-> +++ b/Documentation/networking/napi.rst
-> @@ -362,7 +362,7 @@ It is expected that ``irq-suspend-timeout`` will be set to a value much larger
->  than ``gro_flush_timeout`` as ``irq-suspend-timeout`` should suspend IRQs for
->  the duration of one userland processing cycle.
-> 
-> -While it is not stricly necessary to use ``napi_defer_hard_irqs`` and
-> +While it is not strictly necessary to use ``napi_defer_hard_irqs`` and
->  ``gro_flush_timeout`` to use IRQ suspension, their use is strongly
->  recommended.
-> 
-> --
-> 2.45.2
-> 
-> 
+>=20
+> > But Launch time still does not work:
+> >=20
+> > HW Launch-time:   1737374407515922696 (sec:1737374407.5159) delta to HW=
+ TX-complete-time sec:-0.9999 (-999923.649 usec)
+> >=20
+> > Command "sudo ethtool -X enp1s0 start 1 equal 1" was in v4 [4] but is n=
+ot in v6.
+> > Was that intentional? After executing it Launch time feature works:
+>=20
+> This ethtool command is to use RSS method to route the incoming packet
+> to the queue which has launch time enabled. However, not every device sup=
+port
+> RSS. So I move to use a more generic method, which is vlan priority metho=
+d,
+> to route the incoming packet. Therefore, you need to send an
+> UDP packet with VLAN priority 1 to port 9091 of DUT.
+>=20
+> Below is example of my python script to generate the vlan UDP packet.
+> You can have a quick try on it.
+>=20
+> from scapy.all import *
+> from scapy.all import Ether, Dot1Q, IP, UDP
+> packet =3D Ether(src=3D"44:ab:bc:bb:21:44", dst=3D"22:ab:bc:bb:12:34") / =
+Dot1Q(vlan=3D100, prio=3D1) / IP(src=3D"169.254.1.2", dst=3D"169.254.1.1") =
+/ UDP(dport=3D9091)
+> sendp(packet, iface=3D"enp1s0")
+>=20
+> Thanks & Regards
+> Siang
+>=20
+> >=20
+> > HW Launch-time:   1737374618088557111 (sec:1737374618.0886) delta to HW=
+ TX-complete-time sec:0.0000 (0.012 usec)
+> >=20
+> > Thank you for XDP launch time support!
+> >=20
+> > [1] https://lore.kernel.org/linux-kernel/20241205044258.3155799-1-
+> > yoong.siang.song@intel.com/
+> > [2] https://lore.kernel.org/linux-kernel/20241205051936.3156307-1-
+> > yoong.siang.song@intel.com/
+> > [3]
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
+it/?id=3D069
+> > b142f58196bd9f47b35e493255741e2c663c7
+> > [4] https://lore.kernel.org/linux-kernel/20250106135724.9749-1-
+> > yoong.siang.song@intel.com/
+> >=20
+> > Best regards,
+> > Zdenek Bouska
+> >=20
+> > --
+> > Siemens, s.r.o
+> > Foundational Technologies
+> >=20
 
--- 
-~Randy
