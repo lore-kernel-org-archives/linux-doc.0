@@ -1,24 +1,24 @@
-Received: from mail-m49244.qiye.163.com (mail-m49244.qiye.163.com [45.254.49.244])
+Received: from mail-m21472.qiye.163.com (mail-m21472.qiye.163.com [117.135.214.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F45B629
-	for <linux-doc@vger.kernel.org>; Thu, 23 Jan 2025 05:18:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.244
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE7343AA8
+	for <linux-doc@vger.kernel.org>; Thu, 23 Jan 2025 05:18:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.214.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737609517; cv=none; b=EofiL8Q5YCYGvZ7IyronBf0jpa0CsH8ggHdpYwyKdC46acrdk9lYCKsv70t24N+E1CTqv+5rNLI2Uw5kLkSWlhUnZs6YcfeTT7yTPmX5Y1/bM6Zri8GNy6la6TeokmF95OGZmZ7RqB+VO9twCtc4Qg1+gtSk96F44hoqRoJ41s0=
+	t=1737609519; cv=none; b=dz9qak93NHeU8b/364UV30ABZrQKKTqdTnE8Xyl7Nu5+Hjtl3pY6FTw2+wzs0K40BGn8xPmEbh2tGO45K5mFW6RQVh6I5sVt68dPHq3rxZ6uFGZFE4ZMTx24E2iIL1ErUwl1qDEvouyV7Lb9Izj/KLFTza9t7OkZzqTbtwu9uaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737609517; c=relaxed/simple;
-	bh=XOoeaILymiliBpFVP9FPVfhOfWhT01XBCsHbNcLogqg=;
+	s=arc-20240116; t=1737609519; c=relaxed/simple;
+	bh=b33tb3U9/MjEvc5K5GPE/uMAWSPqSTFcLKUR1VtBEJM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MLanhKd8gcntcivj/xElOxV1GiAgHFr/+ULfUan8ZbggnQ272NhMNbi6/6vq7W1GJpKPX0z1xX640WPe7K+OtSy5k9KDtsWoIzwresslpFZJ0BzjlPipRonmKEXcGuyt0s3/WvuNC+YeXtUxM1ndfsIojOd43gPHF7xNYbvCePM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=UA8ap9t2; arc=none smtp.client-ip=45.254.49.244
+	 MIME-Version:Content-Type; b=W2eBBTqv6GR/kt9iPIlggSxhVbfDfuftSuuJXaSpx76wCdtuMNfVe0A5/1tTfQg5ZwMzcvIqo+8QMcX2/DK6irl+itipkaQX2a05faS8iWFLS2zZnPQm/Tv2T6c8UBCUEpzogY1N01mWsCLzdDcveFC9643jbyZ3Yfs+etYxZdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=TQWyzHvl; arc=none smtp.client-ip=117.135.214.72
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="UA8ap9t2"
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="TQWyzHvl"
 Received: from fedora.localdomain (unknown [123.53.38.48])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 979244d4;
-	Thu, 23 Jan 2025 13:18:24 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 979244ea;
+	Thu, 23 Jan 2025 13:18:28 +0800 (GMT+08:00)
 From: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
 To: alexs@kernel.org,
 	si.yanteng@linux.dev,
@@ -28,9 +28,9 @@ Cc: zhaoyuehui@cqsoftware.com.cn,
 	zhangwei@cqsoftware.com.cn,
 	maoyuxian@cqsoftware.com.cn,
 	linux-doc@vger.kernel.org
-Subject: [PATCH v3 2/7] docs/zh_CN: Add tpm tpm_event_log Chinese translation
-Date: Thu, 23 Jan 2025 13:17:40 +0800
-Message-ID: <32c35c0504f262668996080b44dfe059a5266256.1737603330.git.zhaoshuo@cqsoftware.com.cn>
+Subject: [PATCH v3 4/7] docs/zh_CN: Add tpm tpm_tis Chinese translation
+Date: Thu, 23 Jan 2025 13:17:42 +0800
+Message-ID: <ac55092bc3f1b3ec51f3e2dd596616ade1a32076.1737603330.git.zhaoshuo@cqsoftware.com.cn>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <cover.1737603330.git.zhaoshuo@cqsoftware.com.cn>
 References: <cover.1737603330.git.zhaoshuo@cqsoftware.com.cn>
@@ -43,102 +43,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZTkgfVkpIQ0xKThkdSh1LSFYVFAkWGhdVEwETFh
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCHUlPVk9MHk5DHh1PQ0NCT1YVFAkWGhdVEwETFh
 	oSFyQUDg9ZV1kYEgtZQVlKSUhVTkhVSENVT0NZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0hVSktLVU
 	pCS0tZBg++
-X-HM-Tid: 0a949198e85c09d0kunm979244d4
+X-HM-Tid: 0a949198f70d09d0kunm979244ea
 X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PCI6KRw6FjIPEi0DMBg#SzUJ
-	Hw0wCzFVSlVKTEhMTUtCTktNS0pDVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
-	WRILWUFZSklIVU5IVUhDVU9DWVdZCAFZQUhOS0o3Bg++
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6ORQ6ORw6DTISGi0iMBg0Sysd
+	TxgaCQpVSlVKTEhMTUtCTktCTkJNVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSklIVU5IVUhDVU9DWVdZCAFZQUhKQ0s3Bg++
 DKIM-Signature:a=rsa-sha256;
-	b=UA8ap9t2fX2K8I7UMhgoFkgQ3GfoDa9R/F4vy0EwT0m3iTLcJu1P3Jmo/ugCzwqRLorSqIMh19NPgOE1atexgsV3VNB7HZUyoWjA3fDWjZM35mYmOLg5/T9prrQf1cH1OkrSKEgxqzZcxRn/UZ1j0GO5QOKeYIt6s17DRtsQEds=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
-	bh=5JbbnzHqdyGXHUGI7UvhZu5By6FBzuwsLV082sOWLNg=;
+	b=TQWyzHvlG1ZjG/49rQ7RqpGJv0no7CT4c7TNe4NeN4yIDYJVT7k4WtrlGuYWzuymo65s90KRifU/V6vcbYthlZ9oylijTgXhbh6dPBryzqTUs6LBwvRYwKR1qRoMnL0d9B4leLXaW5o8RYnKRYiGlc9BJRTE+XicXu0l64O40h0=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
+	bh=wdh27J0hVrJELFpMFwGEe2mkFGXuVBx5wNTMgr8yPow=;
 	h=date:mime-version:subject:message-id:from;
 
-Translate .../security/tpm/tpm_event_log.rst into Chinese.
+Translate .../security/tpm/tpm_tis.rst into Chinese.
 
-Update the translation through commit 2ef5a7f1482c
-("tpm: Document UEFI event log quirks")
+Update the translation through commit 8a55256a8462
+("Documentation: tpm_tis")
 
 Reviewed-by: Alex Shi <alexs@kernel.org>
 Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
 ---
  .../translations/zh_CN/security/tpm/index.rst |  2 +-
- .../zh_CN/security/tpm/tpm_event_log.rst      | 49 +++++++++++++++++++
- 2 files changed, 50 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/security/tpm/tpm_event_log.rst
+ .../zh_CN/security/tpm/tpm_tis.rst            | 43 +++++++++++++++++++
+ 2 files changed, 44 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/security/tpm/tpm_tis.rst
 
 diff --git a/Documentation/translations/zh_CN/security/tpm/index.rst b/Documentation/translations/zh_CN/security/tpm/index.rst
-index a55d0a7bbc0f..f324bd4dd093 100644
+index 46cdf7c1a1c1..4ee8881a41a4 100644
 --- a/Documentation/translations/zh_CN/security/tpm/index.rst
 +++ b/Documentation/translations/zh_CN/security/tpm/index.rst
-@@ -12,9 +12,9 @@
+@@ -14,9 +14,9 @@
  
- .. toctree::
- 
-+   tpm_event_log
+    tpm_event_log
+    tpm-security
++   tpm_tis
  
  TODOLIST:
--*   tpm_event_log
- *   tpm-security
- *   tpm_tis
+-*   tpm_tis
  *   tpm_vtpm_proxy
-diff --git a/Documentation/translations/zh_CN/security/tpm/tpm_event_log.rst b/Documentation/translations/zh_CN/security/tpm/tpm_event_log.rst
+ *   xen-tpmfront
+ *   tpm_ftpm_tee
+diff --git a/Documentation/translations/zh_CN/security/tpm/tpm_tis.rst b/Documentation/translations/zh_CN/security/tpm/tpm_tis.rst
 new file mode 100644
-index 000000000000..9c173291ac3e
+index 000000000000..0fb009f93e10
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/security/tpm/tpm_event_log.rst
-@@ -0,0 +1,49 @@
++++ b/Documentation/translations/zh_CN/security/tpm/tpm_tis.rst
+@@ -0,0 +1,43 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +.. include:: ../../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/security/tpm/tpm_event_log.rst
++:Original: Documentation/security/tpm/tpm_tis.rst
 +
 +:翻译:
 + 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
 +
-+===========
-+TPM事件日志
-+===========
++TPM FIFO接口驱动
++================
 +
-+本文档简要介绍了什么是TPM日志，以及它是如何从预启动固件移交到操作系统的。
++TCG PTP规范定义了两种接口类型：FIFO和CRB。前者基于顺序的读写操作，
++后者基于包含完整命令或响应的缓冲区。
 +
-+介绍
-+====
++FIFO（先进先出）接口被tpm_tis_core依赖的驱动程序使用。最初，Linux只
++有一个名为tpm_tis的驱动，覆盖了内存映射（即 MMIO）接口，但后来它被
++扩展以支持TCG标准所支持的其他物理接口。
 +
-+预启动固件维护一个事件日志，每当它将某些内容哈希到任何一个PCR寄存器时，该
-+日志会添加新条目。这些事件按类型分类，并包含哈希后的PCR寄存器值。通常，预
-+启动固件会哈希那些即将移交执行权或与启动过程相关的组件。
++由于历史原因，最初的MMIO驱动被称为tpm_tis，而FIFO驱动的框架被命名为
++tpm_tis_core。在tpm_tis中的“tis”后缀来自TPM接口规范，这是针对TPM1.x
++芯片的硬件接口规范。
 +
-+其主要应用是远程认证，而它之所以有用的原因在[1]中第一部分很好地阐述了：
++通信基于一个由TPM芯片通过硬件总线或内存映射共享的20KiB 缓冲区，具体
++取决于物理接线。该缓冲区进一步分为五个相等大小的4KiB缓冲区，为CPU和
++TPM之间的通信提供等效的寄存器集。这些通信端点在TCG术语中称为localities。
 +
-+认证用于向挑战者提供有关平台状态的信息。然而，PCR的内容难以解读；因此，当
-+PCR内容附有测量日志时，认证通常会更有用。尽管测量日志本身并不可信，但它们
-+包含比PCR内容更为丰富的信息集。PCR内容用于对测量日志进行验证。
++当内核想要向TPM芯片发送命令时，它首先通过在TPM_ACCESS寄存器中设置
++requestUse位来保留locality0。当访问被授予时，该位由芯片清除。一旦完成
++通信，内核会写入TPM_ACCESS.activeLocality位。这告诉芯片该本地性已被
++释放。
 +
-+UEFI事件日志
-+============
++待处理的本地性由芯片按优先级降序逐个服务，一次一个：
 +
-+UEFI提供的事件日志有一些比较奇怪的特性。
++- Locality0优先级最低。
++- Locality5优先级最高。
 +
-+在调用ExitBootServices()之前，Linux EFI引导加载程序会将事件日志复制到由
-+引导加载程序自定义的配置表中。不幸的是，通过ExitBootServices()生成的事件
-+并不会出现在这个表里。
-+
-+固件提供了一个所谓的最终事件配置表排序来解决这个问题。事件会在第一次调用
-+EFI_TCG2_PROTOCOL.GetEventLog()后被镜像到这个表中。
-+
-+这引出了另一个问题：无法保证它不会在 Linux EFI stub 开始运行之前被调用。
-+因此，在 stub 运行时，它需要计算并将最终事件表的大小保存到自定义配置表中，
-+以便TPM驱动程序可以在稍后连接来自自定义配置表和最终事件表的两个事件日志时
-+跳过这些事件。
++关于localities的更多信息和含义，请参阅TCG PC客户端平台TPM 配置文件规范的第3.2节。
 +
 +参考文献
 +========
 +
-+- [1] https://trustedcomputinggroup.org/resource/pc-client-specific-platform-firmware-profile-specification/
-+- [2] The final concatenation is done in drivers/char/tpm/eventlog/efi.c
++TCG PC客户端平台TPM配置文件（PTP）规范
++https://trustedcomputinggroup.org/resource/pc-client-platform-tpm-profile-ptp-specification/
 -- 
 2.47.1
 
