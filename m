@@ -1,163 +1,117 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C45849C;
-	Thu, 23 Jan 2025 00:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 628DCF9D9;
+	Thu, 23 Jan 2025 01:49:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737592076; cv=none; b=nRpeym7Fx8AksEO2Nda1l5KcLCeLebwnBbBdjIP9ckkHTagDbwKpdx1dOJiohzm14xJt3QxB3mvlerQtDASDtO7wIPOwL9nJddp9RvHzK6skIY9SSMEZDMsBj+ISalX/O9y6VZTeFRZIT+vCsl38bVX2LBNwIxZ94r2saafYP04=
+	t=1737596944; cv=none; b=l5rFSP4hgFpdRVpGDqET2wDRvO//Jq0GN74aQ7XRMIJ+LuPGeSS7dXzj9zT/MpWDuJ6U4BmHAy54ViOXV1WJfftm9PbHXydoAKSSS99RMIjkzzmb3GPOa9dOfJpOLquvg8IgQHBfWnu1EUuqcOU2HQqlw8YUwuKVjjKxqK9thRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737592076; c=relaxed/simple;
-	bh=P1QlfT/atXuQxuOLuOydbEL5pw5YjBouTf3uNSWNkZY=;
+	s=arc-20240116; t=1737596944; c=relaxed/simple;
+	bh=9d9ld6yeeUXb9NrVyTJu04pfRZfe9RwDQVLS5mJ0NLs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UyZ9B/7nrUUcM/MaChNXPrShCgClYZbv+ES9FdRRHiNXLl4rQx0QMoQwx1HrFE5rCr3R3V3fmhnxBhF5j7BrZtTVQb3LBKjo980r+NKmhFtpeZ2xDoToRzJbz9PzFy/qGqrnZ5O+D4b2WOUIbdar5IcDzadZQxej4Ne5PnnYYlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I2PiRX50; arc=none smtp.client-ip=209.85.214.181
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZjyQ+bnkfsooWfaLSbOzDxACkSHdhoo6/w4tZR3qTEkPwPc0iYI8qRyQfbhZGRlIkBNYvNwzYdkIm1CxgGfezg6hA9pRkLXb6liCz2mQBJxB9qHytQfHAfKTk3QaDmCl8MLnfojC8fciAZLWDKPGbSTzYb7Krx6r/JSQ4zfNqBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SrbPmryw; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I2PiRX50"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-216395e151bso4902765ad.0;
-        Wed, 22 Jan 2025 16:27:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SrbPmryw"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-aaf57c2e0beso84567566b.3;
+        Wed, 22 Jan 2025 17:49:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737592074; x=1738196874; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9WHi/JYFD3EzJEZRlZs0PVoRsk43gGGHLDgIMkHR904=;
-        b=I2PiRX50QJckqOAC2Q6inXuR0vKc8ki9lDej9WvbdWhhEseUaDbLNNiaKAWJJ4jOWh
-         tmYbQYHG1LwkBVKcEAGGqiXBpJYxQNburty51qSQnrJIV8VdJ2Ma8HTUOdXKJiRdV5MY
-         2dR7dUU1bPomSYObRoieua7SV5JyI+tCG6bZb9/JTBy7gLm2/LW5O6oT65ZVjcUUGfTS
-         QauC+w/udcbWucilMLQBA2Aa+YOtMlOfBtH1iQ1r59BOmRKzD66l5Z1r2KaaTO0LDaHB
-         iIqpCifCFG/H7CWjLL9myhUEm7bhIQNsF5S5SxnZTbIxY7xyNxhPC6bRkLspPv6R99Xk
-         ucvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737592074; x=1738196874;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1737596940; x=1738201740; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9WHi/JYFD3EzJEZRlZs0PVoRsk43gGGHLDgIMkHR904=;
-        b=uOyDxHGDV3GyArITrJ9Egh+er8mSUvn0EBkIEdcoeUo36nkF0LnMdTrI45+P6VW49C
-         bZL9t4ozFSk9U6+yw1rtW5yEhvjAAJ9Bhu1UBhQLhrU2r8ECWyl0qOA47oazgZtBru25
-         ngYJ9RlpnPaG0Ipw3CLbUBJaLJ4VEwQq7pCbK+oCnLMrXuwaf3683Vtu+W1oGl3zIMCy
-         eFSs+JDexwyGXHxB32fglEeDprkJUub8sP6qMRqZh8vdZ/eNGaFeT24DTusr3nd7rMuV
-         PFR1boW26BmJSYPFfZ5pFMicAMysaUzuu55JKGUB3Q074BLK6OB0/p35lyyYnCJWnSbw
-         fA4g==
-X-Forwarded-Encrypted: i=1; AJvYcCU3efQuovk6TelfZjWMqpTq6SbLdkpxPKgn2odeB1FhTKpWlj4APYyYlX3mV5dUvbfkW8Fgz5fr/E0=@vger.kernel.org, AJvYcCVfPXhBuw47X5Bbx1nw5vbUaOSg3zEnYwChmxCpubZWqx8K52Cf4yoDsVmUZAbhXF+GnNHmFGJbYHO//KS6@vger.kernel.org, AJvYcCVtVMsF/1dLBlJlBHgJ5hCYYyHd8/61QOnTH6JiVxy5waly/MvAw7A5E7riv4176tR23wbfG5uUuGYKxQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHNRGo3eGJAmhx6BbqE82M+GhHQHz3N+/ofNkQp0TFpZFZaZfe
-	4yWSdmLRcPi+0k9FggO1dbvLGguMY+Bx1/AXM+qtmOnH7umVW07j9wu35w==
-X-Gm-Gg: ASbGncsWFVrq8k8oW8wptgQ/Nch6kCTS4umA/TWVrfaZiBRazSAPQezeJ/Aeo2IaiGc
-	cu3gmMAC2dLR9m4ogi1byUe7Fy23nqpQG3P7v+I8JmCGMXZ/uhXVCjO0Mc/GmcLuCTD52W8B6jd
-	eZ2+LzZIYjlsqy0gcBZSn+ab0oSqtOTCtXjarGLh94fv6+reBHUHLN0w6JzzSB8kzVt2Gev2JGZ
-	QvZufJXC3gyoCg+7ipIBR0a2mVzAPplEqme4PFWjXAYJwd+rjApUrSRheot2iVWzTYaDQ==
-X-Google-Smtp-Source: AGHT+IF9W/lfbYguerC3Ji+62X4tWnWJEbro41Fc64DOb8G/a68R6PYdI7AnmVVrQ0CB0eRsFrYNsg==
-X-Received: by 2002:a17:902:ea10:b0:215:b18d:ca with SMTP id d9443c01a7336-21d993b9408mr19100075ad.18.1737592073733;
-        Wed, 22 Jan 2025 16:27:53 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21c2ceb9ad4sm101577935ad.78.2025.01.22.16.27.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jan 2025 16:27:52 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 989EC4208FBF; Thu, 23 Jan 2025 07:27:49 +0700 (WIB)
-Date: Thu, 23 Jan 2025 07:27:49 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Akira Yokosawa <akiyks@gmail.com>, sfr@canb.auug.org.au
-Cc: bhelgaas@google.com, linux-kernel@vger.kernel.org,
-	linux-next@vger.kernel.org, mchehab+samsung@kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: linux-next: build warning after merge of the origin tree
-Message-ID: <Z5GNBaSDofq-pI_T@archie.me>
-References: <20250122170335.148a23b0@canb.auug.org.au>
- <07507296-a37b-4543-97cb-0560ef7fb7b8@gmail.com>
- <Z5D1FzkmODr7YC8I@archie.me>
- <1518fd0f-4b8e-406a-bd60-878c0c522bde@gmail.com>
+        bh=WZjlpEqIiGVC+KGh7hOcitxgnEF4CGV3+u0I0ZhaNhM=;
+        b=SrbPmrywk8c1rrg3YkCivCMgq3zNtDNRMwZc+kumHsGoPfDpV3ItAbIgvWmSsMX2tO
+         lLXLciGy1b+xjppZEDCl7q+Xs6DC5L5GIlGy0x3Hl0C4YKxc+JwHmzVhs5IRtekt2OEt
+         Yl/f+2ykGGJ3atxUXivXqkjxN3PR08a/ExsAY6ka7r9zTyvMfF3Zp6VBy7DppM6J+51e
+         sA3/V71CIWNyVwWeSiwKxn7dxVMAgzYb6DPau7OH7Nvm7A5PhTZtGDJtmkoFLHk7f+Gx
+         uTGh6PnokzbKll6uNpg+1ODZp2LzEPQHBay5clE699Jc+C3oBvk8rqB5dyCg+GsPnlOf
+         Q51w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737596940; x=1738201740;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :reply-to:message-id:subject:cc:to:from:date:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WZjlpEqIiGVC+KGh7hOcitxgnEF4CGV3+u0I0ZhaNhM=;
+        b=BPzQsarQSynwJhXoewd5+2alFSm0sROejs9EpH83NtLsORLxIW4O+i3Dw2qmmroY21
+         bqmTxkqGFHNH0geSk0JZSnRHupxrXw4NLldFS/eMfpJQhrRtgKUpYfUUzUm6y72vQSLp
+         y3gYpHNr8q/Fc++oViJT2mCfgOgi9JzlrpE//0OOvW8diLxrKUSp8hqKF4ImqKLJ6tb4
+         70/0K9NEe6k+18xCK/1jQ4mcjRvkmYDOozGGyul2S9k+tDbShQPGa+6bSWCfnSo8sGz0
+         ns2Cj4v+Jy92eDLSU1LnW0KSYoxl8OCixq+lQPhMYg3AR8lpotYw7v6GEbPDNMHeQhgx
+         FyTg==
+X-Forwarded-Encrypted: i=1; AJvYcCVD+Cd3i4leieY8Zm57CaKDCsNBOsmOJ+HQsHkgmbkhj7MH8Ski9Ah0r5cH4suoUMgalFsC@vger.kernel.org, AJvYcCWml2IPEXM+GCW3/HHGnfBMfZusHSz84h9Kvlv6WyA3UgRT/WM7AqoDDkabjcgVk7fw0VzDKdT7jiA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy4GfZaO7ZUdFiTY500o2c52JTN3zu/A68VIhoswim/BQzzyFzJ
+	508FsZvUtnyktUSjAZBgNuuSvXZzP3cqEr3DraqAgr//zdvvA2JW
+X-Gm-Gg: ASbGncv/EGGHE6DrZ48JfJ11nZLF77iUe1T/AF45/JxKW2LXQz9/jGDShOClAGT4R/2
+	s0QS8sFuAkRskVHhBa08JNeGPUsADtAEFYlk2D6iwW8Dxia/YoR2ZQPXRwDCt6meUKODK2wsOCm
+	W7Sct38iQJ1QIoptLbckHaRwD/3ms/gWIBZOtfA0xtWTzDqoJNq3P8iUcJcMzaDPMI1ijTjAymZ
+	xawUrOR8RJmSaw+NLatliPYHt2CNNOn27YwP1ycz66Rtd19OeJG69gTZ2lQ8DWgG6mF3v1TqDH1
+	9zu+
+X-Google-Smtp-Source: AGHT+IF14IWsMMIZUyPDFosq7HEcfQ9ujGKXpTLpkaQJZ+5sr/y/pGUCzKd/QV+mg2GWBZgLDgQ2Ow==
+X-Received: by 2002:a17:906:c143:b0:aa6:7737:199c with SMTP id a640c23a62f3a-ab38b26f3cfmr2120204166b.15.1737596940234;
+        Wed, 22 Jan 2025 17:49:00 -0800 (PST)
+Received: from localhost ([185.92.221.13])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab384cea13fsm981030066b.71.2025.01.22.17.48.57
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 22 Jan 2025 17:48:58 -0800 (PST)
+Date: Thu, 23 Jan 2025 01:48:57 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: Wei Yang <richard.weiyang@gmail.com>
+Cc: paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+	rcu@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] doc/RCU/listRCU: fix an example code snippets
+Message-ID: <20250123014857.fgkmlkpao6q4yax2@master>
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+References: <20250101082306.10404-1-richard.weiyang@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xxgufiOCQJoM4b+G"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1518fd0f-4b8e-406a-bd60-878c0c522bde@gmail.com>
+In-Reply-To: <20250101082306.10404-1-richard.weiyang@gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 
+Ping
 
---xxgufiOCQJoM4b+G
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Jan 01, 2025 at 08:23:06AM +0000, Wei Yang wrote:
+>The example code for "Eliminating Stale Data" looks not correct:
+>
+>  * rcu_read_unlock() should put after kstrdup()
+>  * spin_unlock() should be called before return
+>
+>Signed-off-by: Wei Yang <richard.weiyang@gmail.com>
+>
+>---
+>Hope my understanding is correct.
+>---
+> Documentation/RCU/listRCU.rst | 3 ++-
+> 1 file changed, 2 insertions(+), 1 deletion(-)
+>
+>diff --git a/Documentation/RCU/listRCU.rst b/Documentation/RCU/listRCU.rst
+>index ed5c9d8c9afe..8df50fcd69fd 100644
+>--- a/Documentation/RCU/listRCU.rst
+>+++ b/Documentation/RCU/listRCU.rst
+>@@ -348,9 +348,10 @@ to accomplish this would be to add a ``deleted`` flag and a ``lock`` spinlock to
+> 					rcu_read_unlock();
+> 					return AUDIT_BUILD_CONTEXT;
+> 				}
+>-				rcu_read_unlock();
+> 				if (state == AUDIT_STATE_RECORD)
+> 					*key = kstrdup(e->rule.filterkey, GFP_ATOMIC);
+>+				spin_unlock(&e->lock);
+>+				rcu_read_unlock();
+> 				return state;
+> 			}
+> 		}
+>-- 
+>2.34.1
 
-On Wed, Jan 22, 2025 at 11:46:46PM +0900, Akira Yokosawa wrote:
-> Bagas Sanjaya wrote:
-> > On Wed, Jan 22, 2025 at 07:00:43PM +0900, Akira Yokosawa wrote:
-> >> [+CC: linux-doc]
-> >>
-> >> Stephen Rothwell wrote:
-> >>> Hi all,
-> >>>
-> >>> Today's linux-next build (htmldocs) produced this warning:
-> >>>
-> >>> Documentation/power/video.rst:213: WARNING: Footnote [#] is not refer=
-enced. [ref.footnote]
-> >>>
-> >>> This warning has presumably been there for a long time.
-> >>>
-> >>> I don't know what causes it - maybe it needs a space before the openi=
-ng
-> >>> bracket?
-> >>
-> >> Stephen, fhve you upgraded your Sphinx recently?
-> >>
-> >> In "Bugs Fixed" section of Sphinx 8.1.0 changelog [1], there is an ite=
-m which
-> >> reads:
-> >>
-> >>     - #12730: The UnreferencedFootnotesDetector transform has been imp=
-roved
-> >>       to more consistently detect unreferenced footnotes. Note, the pr=
-iority
-> >>       of the transform has been changed from 200 to 622, so that it no=
-w runs
-> >>       after the docutils Footnotes resolution transform. Patch by Chri=
-s Sewell.
-> >>
-> >> So the above warning is real and prior versions of Sphinx just can't f=
-lag it.
-> >>
-> >> To silence it, you need to get rid of the unreferenced footnote, I gue=
-ss.
-> >=20
-> > Hi Akira,
-> >=20
-> > I think the culprit [#f3] footnote (that triggers the warning) refers to
-> > Toshiba Satellite P10-554 notebook, where s3_bios and s3_resume work on=
-ly on
-> > uniprocessor kernel. The proper fix will be probably adding a space bef=
-ore
-> > the footnote.
-> >=20
->=20
-> Ahh, you mean the referencing side of the footnote in that table.
->=20
-> Yes, you are right. I was lazy and didn't look closely at that jumbo chan=
-ge.
-> Point taken!
->=20
-> Thank you.
-
-OK, thanks!
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---xxgufiOCQJoM4b+G
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ5GNAQAKCRD2uYlJVVFO
-o8qeAP4sdw4v2QFokDK11uwKe5pmFG/hURcPlnE14TWhPswioQD/Qj9AH6hQWNdR
-vtmLL/dzJIz6m+lw02NWhDunPhnY/Qk=
-=0wN9
------END PGP SIGNATURE-----
-
---xxgufiOCQJoM4b+G--
+-- 
+Wei Yang
+Help you, Help me
