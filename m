@@ -1,113 +1,178 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0456A1D5CDE;
-	Thu, 23 Jan 2025 22:54:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737672894; cv=pass; b=jLAoDX7iWAJPZ9nDje0rhiE2ch5owhyii5b020kOGCmqQkUQtIOZrDMsZXKIHyeDSnNy01yjI0eua0QvSrT6tlLCnlgNH0n37iF0rkYYJfr9gHuOC01mES8V+1WYTS6HZzYtiWIv7cKdE1rfnoqCMrjp4TVvg8W1wPjjCQSi9c8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737672894; c=relaxed/simple;
-	bh=+ytlbxanqKXQoq654hT86yilOdoDjjJKwJIt1kbMwPI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OsXsRfcWZ5HipA/+aRHxEYkFokyzWwS/PRj/KFlOCYn0Nl725cyGPzB6q8lCyndVabyqpjLp37gjydaFqjecNBlIhnTl/anN/46ni/qPzppMhjkSJ0CQE6NI6asebF0Z9aUlsh/97WyoaQl/6tHZ8PYpjnhCgMA0LFxueQjdf1w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=OnUKJ5gO; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A5541B3948;
+	Thu, 23 Jan 2025 23:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737675205; cv=none; b=D2hxcwzWy4Tf3GrtVDuXZYzlTRxhvsG4hgyjc2wp2yn4Tt+9UpZ1KRIIX6gf1vSOzNXMW4Wur5kpXVZXnyXHMM/PBsOGxi4uGbMGa823u5gGAmZS+Gld5fo2KO2ta6rCAPe+ruMtuST3icTV8h56ONtt9gVpds7lYF+BL694Y7I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737675205; c=relaxed/simple;
+	bh=TcUiBJ6TpMLt4hj6hQEyLcAXWycbFWGk+HLZLeuexdI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=m/SMHFiXbdzDmd1RUNUt6c4v0FwmN8Ky+kTPJOK9r5RHsYb0ABAk/HZlsLgcR1SFKVKiEp2wraeDx1n32B22J//fUN4zk28cLQ5u6yDnIjMbwDov/qbiCaD5nfJDfs1UDNW68vXc+4DiYBBQ/1fhEqhYhc8XrRN/3BKWhuxKxvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kCV3uGoF; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="OnUKJ5gO"
-ARC-Seal: i=1; a=rsa-sha256; t=1737672866; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=EgxBKy6VlMxQpqkbL/NBkwhaa210n/xjKDIFHCqyIAJYmnaKajJPai9bfwEntxQE67NW3oVWqfjozTvFB3qkJmxPciK156XzJFyO7oUvb8eBCBpFhXjXf912d0ke1pl3XOlbRDtsRg7oCb16sndNepj1xCV7MUY0rK9CmnLqsS4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1737672866; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=0WA6J/EhS4KkqUnGdo0KmY73cb+vgz8J3JE8d3pK9ns=; 
-	b=hZzPYEMRYTe9HBPQN9+bMdLi9mxjT7VXmnrhvJ3OGRL0FlVUb0hZ9wYmmOckgxAt5T/qtA1MhmtEyzfdh2tzZRc8vLb19sjwECMz7JdMdssYL/oazO38Ro1SPOqTSEmDES0zh4QW0BkmrkdfYBAQ2gqX+4P0rqlzu3Ar7vv1RZI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
-	dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1737672866;
-	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=0WA6J/EhS4KkqUnGdo0KmY73cb+vgz8J3JE8d3pK9ns=;
-	b=OnUKJ5gO41GZOsaD0yPVzClsk6KH1jDftfbUwtFX1AdjyNXMPa0Dmzu8LBEsptWd
-	BImKk3VevVhx+m4iVstP4jqOOVodgY79Kp0yn8oTeeC3ItQK7kO98l/TmNOtgXyJm4k
-	CwNKs9I/P3Y3Rl0kFV82lD5R4vg38yn6r6r2biIU=
-Received: by mx.zohomail.com with SMTPS id 1737672844149522.6050164964226;
-	Thu, 23 Jan 2025 14:54:04 -0800 (PST)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Boris Brezillon <boris.brezillon@collabora.com>,
-	Steven Price <steven.price@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>
-Cc: kernel@collabora.com,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
-	Mihail Atanassov <mihail.atanassov@arm.com>
-Subject: [PATCH v9 4/5] Documentation/gpu: Add fdinfo meanings of panthor-*-memory tags
-Date: Thu, 23 Jan 2025 22:53:01 +0000
-Message-ID: <20250123225325.3271764-5-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250123225325.3271764-1-adrian.larumbe@collabora.com>
-References: <20250123225325.3271764-1-adrian.larumbe@collabora.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kCV3uGoF"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5d414b8af7bso3423139a12.0;
+        Thu, 23 Jan 2025 15:33:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737675201; x=1738280001; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mVSW8bIsfsFFqMRBCFdAmfhhGQMoicsNVoCASFEdJPs=;
+        b=kCV3uGoFloq3z3q28gxKN8tpQFhs7WjD4qgxOLLiC8KCCX07JLU0ckqq5p5O3wzJks
+         HM+mtaWGfVKx3EkJNC1LUJqnNqmi8UV8VoUwXai3OlCacdM/mIhBRWiSCu9iPTxFO5el
+         No1G/BqvqpchnJNedej2PlOdsxYzCq2ghdmZznvMlteHymyQMYuZ6A9FMGZthXFhBiMS
+         MD5efm1WfqT+aq1zz8x9Zny8fr4ALoEtBQyZkamdcQgW06YFE60+CDJyUVcnxOdY3FWj
+         nkcGQmQZKrIYCktuvWJXGdYwv55bhPt7XvKpBYmz4lNQqtUeXZo5coivYA7fvcQD8SRF
+         BO6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737675201; x=1738280001;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mVSW8bIsfsFFqMRBCFdAmfhhGQMoicsNVoCASFEdJPs=;
+        b=U2ip+MJUky0nxe8tQdVoZ7EaqRAefeKJJRHDQXWt7lgswFhjLy2Z0qBCgwGwwkDCiY
+         xsOFrzu51FNbBsFFWDZiLma8DRHVhNuPIu0T4YFMgbNlRJooRR3kdYowou0tO6XG/jWl
+         fB7LEB4+SZ5w1RQwFDiGqPwkVVCKON6SJi1/zuauzfCKXoi2XUlOpaBUMmhLZj0eMdm4
+         uZwfU27pne1PvZpkd6Ss5ckf3SnUiSrwbcc+tcMdb2eZ6eUJMS9mLhFehBGBDzuwzfdq
+         OwS6DyqW/mWLnUAfuLnv+gnT+AVpFZCdrME8CerOSdHMNUnujMdw9eNXUesZH9h6mNqw
+         Hcow==
+X-Forwarded-Encrypted: i=1; AJvYcCVtAqfFn97bPM8cUjQLPQvvAjL7xC2nIz42Zs2snR74i5CCizsRWNJTiFcaKbWPk5h2FgUezRhn+fOVTZBW@vger.kernel.org, AJvYcCWWQp8+DdgGn+5Cuf/it99gJZmxEp/S4lVCUr7uTFNAEd6G1ksFToKjHjLhcofZg5IMvEHaL0Yw13x2@vger.kernel.org, AJvYcCX29CcOr0gfsr74XUMPFVQdU9ipMFDEb4Z20v4LUEEDCaGxMyMylNtMfbh4q6nCPWsY5mRshE/Wu/I=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0M+1KKeJAilSjM2qMQNet1UCywZhmThBY/r3l9YzWVCAPkjjL
+	GYvkaKFd1EEu+3txhAnSIoPfvWMAE3SpvK4TJqy/vBlsnBGs7FumqX1RoQS7aYZsSbfVJmS23Gg
+	q6O6bqRffCaQO76wZyn7p5byRFcWa0Q==
+X-Gm-Gg: ASbGncsN2SYcDkuk6FbJjS7l5aEl9TXVWb8Nt2oSD8vTuIFdzOydLgACTW0f/Kzl4jV
+	TtnaU3FF11p8z2I662INKamH/LGdPi6gcW3waL90UhvUbO4EyG9/O4Drd08LYgvOU
+X-Google-Smtp-Source: AGHT+IGwhFVpWMpwMksW42TWygeOZTzT3pPrS1F8pR0CaKQ60veMoLlOkRNjfVZ/UZAoGDfQe9fvqSp1sN89+teSbtU=
+X-Received: by 2002:a05:6402:4306:b0:5d0:e570:508d with SMTP id
+ 4fb4d7f45d1cf-5db7d2fe766mr29121404a12.17.1737675201205; Thu, 23 Jan 2025
+ 15:33:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250123-kfence_doc_update-v1-1-9aa8e94b3d0b@gentwo.org>
+In-Reply-To: <20250123-kfence_doc_update-v1-1-9aa8e94b3d0b@gentwo.org>
+From: Yang Shi <shy828301@gmail.com>
+Date: Thu, 23 Jan 2025 15:33:09 -0800
+X-Gm-Features: AWEUYZkt0opVyUinbKW3yvK6FhHW59qmxiF3ZCbbeXr6_WOiSo_nj24cn27XASg
+Message-ID: <CAHbLzkpTF-n85vHeFVEWQArpV=hP9Vo_tYm_LgUQEWLJp=ac8Q@mail.gmail.com>
+Subject: Re: [PATCH] KFENCE: Clarify that sample allocations are not following
+ NUMA or memory policies
+To: cl@gentwo.org
+Cc: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Huang Shijie <shijie@os.amperecomputing.com>, 
+	kasan-dev@googlegroups.com, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Christoph Lameter <cl@linux.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-A previous commit enabled display of driver-internal kernel BO sizes
-through the device file's fdinfo interface.
+On Thu, Jan 23, 2025 at 2:44=E2=80=AFPM Christoph Lameter via B4 Relay
+<devnull+cl.gentwo.org@kernel.org> wrote:
+>
+> From: Christoph Lameter <cl@linux.com>
+>
+> KFENCE manages its own pools and redirects regular memory allocations
+> to those pools in a sporadic way. The usual memory allocator features
+> like NUMA, memory policies and pfmemalloc are not supported.
+> This means that one gets surprising object placement with KFENCE that
+> may impact performance on some NUMA systems.
+>
+> Update the description and make KFENCE depend on VM debugging
+> having been enabled.
+>
+> Signed-off-by: Christoph Lameter <cl@linux.com>
+> ---
+>  Documentation/dev-tools/kfence.rst |  4 +++-
+>  lib/Kconfig.kfence                 | 10 ++++++----
+>  2 files changed, 9 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/kfence.rst b/Documentation/dev-tools=
+/kfence.rst
+> index 541899353865..27150780d6f5 100644
+> --- a/Documentation/dev-tools/kfence.rst
+> +++ b/Documentation/dev-tools/kfence.rst
+> @@ -8,7 +8,9 @@ Kernel Electric-Fence (KFENCE) is a low-overhead sampling=
+-based memory safety
+>  error detector. KFENCE detects heap out-of-bounds access, use-after-free=
+, and
+>  invalid-free errors.
+>
+> -KFENCE is designed to be enabled in production kernels, and has near zer=
+o
+> +KFENCE is designed to be low overhead but does not implememnt the typica=
+l
 
-Expand the description of the relevant driver-specific key:value pairs
-with the definitions of the new panthor-*-memory ones.
+s/implememnt/implement
 
-Reviewed-by: Mihail Atanassov <mihail.atanassov@arm.com>
-Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
----
- Documentation/gpu/panthor.rst | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+> +memory allocation features for its samples like memory policies, NUMA an=
+d
+> +management of emergency memory pools. It has near zero
+>  performance overhead. Compared to KASAN, KFENCE trades performance for
+>  precision. The main motivation behind KFENCE's design, is that with enou=
+gh
+>  total uptime KFENCE will detect bugs in code paths not typically exercis=
+ed by
+> diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
+> index 6fbbebec683a..48d2a6a1be08 100644
+> --- a/lib/Kconfig.kfence
+> +++ b/lib/Kconfig.kfence
+> @@ -5,14 +5,14 @@ config HAVE_ARCH_KFENCE
+>
+>  menuconfig KFENCE
+>         bool "KFENCE: low-overhead sampling-based memory safety error det=
+ector"
+> -       depends on HAVE_ARCH_KFENCE
+> +       depends on HAVE_ARCH_KFENCE && DEBUG_VM
 
-diff --git a/Documentation/gpu/panthor.rst b/Documentation/gpu/panthor.rst
-index 3f8979fa2b86..7a841741278f 100644
---- a/Documentation/gpu/panthor.rst
-+++ b/Documentation/gpu/panthor.rst
-@@ -26,6 +26,8 @@ the currently possible format options:
-      drm-cycles-panthor:     94439687187
-      drm-maxfreq-panthor:    1000000000 Hz
-      drm-curfreq-panthor:    1000000000 Hz
-+     panthor-resident-memory:        10396 KiB
-+     panthor-active-memory:  10396 KiB
-      drm-total-memory:       16480 KiB
-      drm-shared-memory:      0
-      drm-active-memory:      16200 KiB
-@@ -44,3 +46,11 @@ driver by writing into the appropriate sysfs node::
- 
- Where `N` is a bit mask where cycle and timestamp sampling are respectively
- enabled by the first and second bits.
-+
-+Possible `panthor-*-memory` keys are: `active` and `resident`.
-+These values convey the sizes of the internal driver-owned shmem BO's that
-+aren't exposed to user-space through a DRM handle, like queue ring buffers,
-+sync object arrays and heap chunks. Because they are all allocated and pinned
-+at creation time, only `panthor-resident-memory` is necessary to tell us their
-+size. `panthor-active-memory` shows the size of kernel BO's associated with
-+VM's and groups currently being scheduled for execution by the GPU.
--- 
-2.47.1
+Not sure whether it should depend on DEBUG_VM or not, but the update
+about not honoring NUMA policy makes sense to me.
 
+Reviewed-by: Yang Shi <yang@os.amperecomputing.com>
+
+>         select STACKTRACE
+>         select IRQ_WORK
+>         help
+>           KFENCE is a low-overhead sampling-based detector of heap out-of=
+-bounds
+>           access, use-after-free, and invalid-free errors. KFENCE is desi=
+gned
+> -         to have negligible cost to permit enabling it in production
+> -         environments.
+> +         to have negligible cost. KFENCE does not support NUMA features
+> +         and other memory allocator features for it sample allocations.
+>
+>           See <file:Documentation/dev-tools/kfence.rst> for more details.
+>
+> @@ -21,7 +21,9 @@ menuconfig KFENCE
+>           detect, albeit at very different performance profiles. If you c=
+an
+>           afford to use KASAN, continue using KASAN, for example in test
+>           environments. If your kernel targets production use, and cannot
+> -         enable KASAN due to its cost, consider using KFENCE.
+> +         enable KASAN due to its cost and you are not using NUMA and hav=
+e
+> +         no use of the memory reserve logic of the memory allocators,
+> +         consider using KFENCE.
+>
+>  if KFENCE
+>
+>
+> ---
+> base-commit: d0d106a2bd21499901299160744e5fe9f4c83ddb
+> change-id: 20250123-kfence_doc_update-93b4576c25bb
+>
+> Best regards,
+> --
+> Christoph Lameter <cl@gentwo.org>
+>
+>
