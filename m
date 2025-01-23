@@ -1,68 +1,71 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2044.outbound.protection.outlook.com [40.107.223.44])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2086.outbound.protection.outlook.com [40.107.236.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD0935965;
-	Thu, 23 Jan 2025 03:07:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517BE83CC7;
+	Thu, 23 Jan 2025 03:37:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.86
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737601661; cv=fail; b=f1TYG+Z+jNBdHMV+2TQsnUWXMMWQ7D/PCbIjuyltdpV0/Z9cYi4D1qXWm9N7MIextQJ3wpf5fpAKAYwUk+Sa4ZmoPQ7GZQeoAAA7kC7JRItgeiimeWrc0D/b6t1ITLhN9kjw+BdmsYYd7s+WnMWlIZuf9ZUHMw850m/rhcAowjY=
+	t=1737603468; cv=fail; b=j6mTCoCWPm8BcYDSOTm1jqI/2SefKoqwRuAW6uy+TR5164WrWRxu7FYQhv/dBPeyDE2kBHpF5cHegZtWwWWIl4AcX3nuw3nJxzIe7xZlfDNjhq/1J969bISgJgiO27jb5yDZzkJApKkSqMCPB1nH8X863p6H8s8GhKUdGVx7O0U=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737601661; c=relaxed/simple;
-	bh=rscl//QftjFKSx2+WFGS2X9DfvfLPuBZd8nXjxUyQpg=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=EqWZpg4Y/KKnxwL37nXDr2qJWZ4C1Kq9Wxyi2wvs9EfPXU7CCiW71naUlx6TT6tHivZVtGq8bs6+Y5zoDLi7N/bvtR6iWVwMXkNpdVDrD+8lLFvZ0xfn0kWs8f0k8E6JpwWCpHshulnglrlZ92nbW3WV5qu7GmiR+LM3ToECVSM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=dGPCi7YX; arc=fail smtp.client-ip=40.107.223.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1737603468; c=relaxed/simple;
+	bh=6r7abeHOFiIatiPuqwPpWEIJ0Rl6EPfbls9wDx8mTww=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=tq9gO0H7ccv7PbW0M6hrxhPdSx448NmzG71UI0ZU4qOKDvmebovMxZm6bB1eY/UFoxsmdLk3HJBcsA6dc1+8JTeFPktgwu5ArAL9YQTb3IpDJRv8jyfohR67JdDFQI75y8aQNIaDngRukf17zBu1lDAmsQdrQduo8yWpkzsgB+c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=UnvJlXVJ; arc=fail smtp.client-ip=40.107.236.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="dGPCi7YX"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="UnvJlXVJ"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kZ1brKfcMlumYpv7rCFhDurI9gF0P4PrVYwkD8Ecm0bSm7F5IpyfW8RSkFbsex6ck/TDZ4mDNH/+DxgvNd14VlK+iROkHnMxRw4p6bKIK+tLZrB/J/5asTITHlusm11+e0uEVvseMWuV2M9pNtWsi3QsuoeBcGyusGduIuo4+MM+Rcg7RxcdI3SiCCES8B15jXTolfUeNIWrMIZdsas1YcZFDRMU7pQuHUJ4PubRNkjQ5TwvlSFDowYylTa1h7lW+5dkcyb1Su7LjV0Hy93XX3Tqoa3GGoKSkujlwkgIX0+ZcmGYBJDEUXJv339SfTfT+3IPC3mFe370gINqOmX/PQ==
+ b=e9exQpJBKy2lulF9bBSuJFx7k7coa+o5MDgFPaeejbcURFg77bnuu3lwI0rEVXe0OwjIrDwPOQgz9EfmmfKoFnh7UVvh1KaP91GmX2zdDFTJCgmxk+6IOc0mYZFb0iHvNnU2cM6oxIkB94Eln3xUoeVpqr8xJcPThcbabR3+4R8PU9fJ9hvSWqd5hb/dGgufNu8C6eKHNBPHbGTjFqcKwmouS4ITkOg7eRNvvMBc/SJz6cIvds5QKp9czak/X3Q+tNgCfCNTi/3HDz1ZTvCOX5YwC3zl/SCzkQhk++HTkq90EdHgUvfOsyqYMF4O3TiL2bO5ieyfZA+nZD3sRiDF+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wTda9uRokMsLqOT33DiJGX0IYXhjEye7Y4sd19g1eUU=;
- b=cZFy4jYSYgEW0ooWSYviuQS1f4a4lLHoHJYP1busgv8dwoqHHB+WGass0Lxy+i4WUgWQpS5r4DH2fSGAJcPct9kO3wxCVUz4EdnV8Rhn95Xthzbutp50OsVQCq/vG7N7fVfC73frQdueoC4sDkTaAX/yDZiKZViLsYc1k7r/PpTPxz1CnDiRFzqvD58EMH7xcJd6obFjaOrFZmAiDUdq65T92Dvi+0ju40QBWvc+FQuQtKxbv/g/GgsyOU/FmfQJG0C445B6QYKi3L/PcB0hzyay0l+CFbEEre32L00d5tgRZGSdBw4k/9hMiFaeX7440smAiAZW0OLL/tHPvTgzQw==
+ bh=jLVrN74L/148qaYer+txTiJRLeMbTWiy4PdCbwcbggM=;
+ b=u2WdvClX7qNscH9DKiWOWSPvhg0VAl2BVzc9rHL3KRVPXzid15YJ0L+a1BD/z+n+6G8PARnJ1N2nAc2RSeT4Ae0fBU7mzjjzwxwTJYXgVP4QXzrOEwnnMRzdS6B1x49Abbby2VrFWKlMTR+DFU4jga33CdOoHmYfJZvGk5gazCt2rmyJFKtPcbAO+Hsl72QsoxAKwjTgaZxI9g3KqRsM5hzE/Tge1Vhs+VngOukk2CALUDwiIxpIBUl3HPWMeZsNI+oWiC/nDfAXauKIeIPxsVimxwBpU27jgQn82SUDtwXbROXfLrJ7BjEJdroNrBQ7jtL16BxZRvysy8UZt3CUCQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wTda9uRokMsLqOT33DiJGX0IYXhjEye7Y4sd19g1eUU=;
- b=dGPCi7YXzpmr8582GUp35XsdzW5bZh02a8dTpECo6PLhfHTbXMW7q86Nqz2PT0i1LTV9wEviqaRzy4ccToGqEs1y9hhPc7X8ZsyMOWZ1DIS6nQib0IHORyCOPVi2YA88udu7oQJlzaWTaVZa6Tan5s0iOUsMT0Ya9gqsBDnDpL0=
+ bh=jLVrN74L/148qaYer+txTiJRLeMbTWiy4PdCbwcbggM=;
+ b=UnvJlXVJEON9kXwc86ERMv+aDy93NebHhEkPYjWekiyhMQGJZ9keekTxhO248XWawZf2DDGDNEuRFqLv7liYpmvPp1l7B5fUaobL9VT2G7TLOVtnS2PTfuXR5XyL4fDClGYj7akxhhhc0Nhjmh27NPcS9gqyQztxO8aOcFzCgdEjqhq2Rq/fztL1bupj32aV09DqQGANJR6Q3X8cM4PrTHgiHSdV4aBjXWKdBmwC+fbd6oRwAFQQ8JmpGLwGA7ma7mT+eaJoeabdw6LcqmaEUFPCBlq+yPic0Wq8JiTjan1DH136Umx+gpDPRlrffIOMyeLepN8At4R0s8Qzyz544w==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from IA1PR12MB6434.namprd12.prod.outlook.com (2603:10b6:208:3ae::10)
- by DS7PR12MB6167.namprd12.prod.outlook.com (2603:10b6:8:98::20) with
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH7PR12MB6657.namprd12.prod.outlook.com (2603:10b6:510:1fe::7)
+ by BL3PR12MB6425.namprd12.prod.outlook.com (2603:10b6:208:3b4::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.21; Thu, 23 Jan
- 2025 03:07:37 +0000
-Received: from IA1PR12MB6434.namprd12.prod.outlook.com
- ([fe80::dbf7:e40c:4ae9:8134]) by IA1PR12MB6434.namprd12.prod.outlook.com
- ([fe80::dbf7:e40c:4ae9:8134%7]) with mapi id 15.20.8377.009; Thu, 23 Jan 2025
- 03:07:37 +0000
-Message-ID: <8ccedc5a-168d-406d-b363-6fce62f0100a@amd.com>
-Date: Thu, 23 Jan 2025 08:37:29 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/6] memory: move conditionally defined enums use
- inside ifdef tags
-To: Gregory Price <gourry@gourry.net>
-Cc: abhishekd@meta.com, akpm@linux-foundation.org, david@redhat.com,
- donettom@linux.ibm.com, feng.tang@intel.com, hannes@cmpxchg.org,
- kbusch@meta.com, kernel-team@meta.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, nehagholkar@meta.com,
- nphamcs@gmail.com, ying.huang@linux.alibaba.com
-References: <20250107000346.1338481-3-gourry@gourry.net>
- <20250121043355.177611-1-bharata@amd.com>
- <Z5Eyg58jl8YqkU_j@gourry-fedora-PF4VCD3F>
-Content-Language: en-US
-From: Bharata B Rao <bharata@amd.com>
-In-Reply-To: <Z5Eyg58jl8YqkU_j@gourry-fedora-PF4VCD3F>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0123.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:96::13) To IA1PR12MB6434.namprd12.prod.outlook.com
- (2603:10b6:208:3ae::10)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.18; Thu, 23 Jan
+ 2025 03:37:42 +0000
+Received: from PH7PR12MB6657.namprd12.prod.outlook.com
+ ([fe80::e1a7:eda7:8475:7e0a]) by PH7PR12MB6657.namprd12.prod.outlook.com
+ ([fe80::e1a7:eda7:8475:7e0a%4]) with mapi id 15.20.8377.009; Thu, 23 Jan 2025
+ 03:37:42 +0000
+From: Tushar Dave <tdave@nvidia.com>
+To: jgg@nvidia.com,
+	corbet@lwn.net,
+	bhelgaas@google.com,
+	paulmck@kernel.org,
+	akpm@linux-foundation.org,
+	thuth@redhat.com,
+	rostedt@goodmis.org,
+	xiongwei.song@windriver.com,
+	vidyas@nvidia.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org
+Cc: vsethi@nvidia.com,
+	sdonthineni@nvidia.com,
+	Tushar Dave <tdave@nvidia.com>
+Subject: [PATCH v2] PCI: Fix Extend ACS configurability
+Date: Wed, 22 Jan 2025 19:37:16 -0800
+Message-Id: <20250123033716.112115-1-tdave@nvidia.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MW4PR03CA0331.namprd03.prod.outlook.com
+ (2603:10b6:303:dc::6) To PH7PR12MB6657.namprd12.prod.outlook.com
+ (2603:10b6:510:1fe::7)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,148 +73,212 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA1PR12MB6434:EE_|DS7PR12MB6167:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6d7f3488-2a7f-4a35-a46e-08dd3b5b16d6
+X-MS-TrafficTypeDiagnostic: PH7PR12MB6657:EE_|BL3PR12MB6425:EE_
+X-MS-Office365-Filtering-Correlation-Id: 05d6ca8d-d818-4af4-003c-08dd3b5f4b30
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|921020;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?bjd5Z3dXRkRSZzZpZ1dlR3hCUTdTNjFvdDdYOUpsZ0U0VjU0d2xGYS92R1hT?=
- =?utf-8?B?MTNuRVBqcjV0bkdWTllsZU9pZ0pKTit5RzFyVHdVdms3bkUyMVRaMStvbnJG?=
- =?utf-8?B?dVN3ZmJMUDQ5dDcyMXhEUHMyYWtOSUdSOCs1T0szRlkyeldGOEVvemtNQkUy?=
- =?utf-8?B?MWpZR3Q5T1IyczdFelJocmRpL1ovNWIvT2J0d3ZGK0Y0SmVRMElLam9nbVlJ?=
- =?utf-8?B?RHJoV1FGbFgzZThvaHJjOXQ5aUNpaW14VE1OSk1hSWpSdUNXZmI1dis5RGpK?=
- =?utf-8?B?VEhYc2ozQzJaY0pXS0FpL29rTjFJREdxdWRKYlFKUkEva3ZMM0NkZFhLSHRF?=
- =?utf-8?B?Vy9aZ0dKb2pZQTkrZU9IVFpWSG9ObXhNT3gra1lKNTVDS2NOMlZqanFxRmJv?=
- =?utf-8?B?eS80OFpGUlRWMmhzY2tlMG5NNWJLQmFrVFlvdzdtQlU3VHBObytsVk5BR0Z3?=
- =?utf-8?B?ZmRyN0MzU1ZJUW1TK2JPTzBSTVVmaDhkYkNqbFhnRk9ZRzFpMTVKOUZIS1pK?=
- =?utf-8?B?SXdYVlZ0K3J6c1N2WGNaNVFuVExqRDdDTUE5NS9zTllIYlNYeWlBUXZlRExX?=
- =?utf-8?B?dkErVWZyeWxkT3I5RWVHTloxSXcvZVBKeU5pQWhHbzFON2lZUlRUMmU2cDNs?=
- =?utf-8?B?SW1QUExkYklIbVd1dFBrc2crSHlKaEtSallmZkdCVkErcGsvdC8rOUR2TC9W?=
- =?utf-8?B?TXl1M1p6ekxiQktYcU93U0EyMHV0YnFNTTJTOVpDYW5nanBJajJ2b2xncVNl?=
- =?utf-8?B?OHdnbVVVaVk4VjRtOXRkdkdUSTZuejBoRWdSL1pLMUpZNm1aRlRhRkZ2WGg2?=
- =?utf-8?B?UHlmY29lN2Mrb2VNUGFGWjNjTkY0amNXODJ2NXY2Tkp0MDJwWTdtOEJDbjBH?=
- =?utf-8?B?ZXRKcXhJTXdyS2l4dUNpa1ZmM1VqVkp6Nk0weFNJc2Z6VnJ2WGZNNXVyZmpX?=
- =?utf-8?B?SFFNVXBDNnVvRUVXWjlBOEs3K0FUbmN2MEZ4Z0VnWXA5TGc5b0dIcU9iZERr?=
- =?utf-8?B?bkU3UHM4TmszZkE2em9KZFRTTjZNTWtONUQ2d0Q0WFdiMk1LbU9ka0VUOXZv?=
- =?utf-8?B?UzhhR2lTaFhja1VvMFpLbFliZEJHSlpmYWdFQmxxVHF5dldxamxtb0Q1RERw?=
- =?utf-8?B?ZUNSK2V6U0NHRnVMZU1WUytmZEsyOU9XQ1dtbVlDNzFDczV3Rm13OFVZeVZD?=
- =?utf-8?B?UlY0L0lOdjBrRE4vMXhoTy9RY0lmK0RWRkE4MlhPNitrOVYyWmVPQ3R0ZmxN?=
- =?utf-8?B?eXpoZzFYamhPVmJZc0E4dExTUnE3V3l3OXVjWHkwaFRpNjF5ejVrMjMrWmZD?=
- =?utf-8?B?U2lMd1IxalloNUxocW40MUpsWWh4VlNPWWxKUWN6T0lKZUJrSnNjWW5odXJL?=
- =?utf-8?B?YjNKMmpYaStRdnd2QndEOEJ4Uk9OR3RraDJLbjRjbitLRG0wRFBJNDR2L2cr?=
- =?utf-8?B?ZE9yVUJuZnkzdDJERVk5RmJZVWNZM3lJZkt3OXRuajMxN1QrdVlMeGVvWm91?=
- =?utf-8?B?R1JHNzl3SDhKWmVJTGt5cFF0WHJsWEErUDRTSmlTQWgvcFFJbVFNdXB4TVNz?=
- =?utf-8?B?bVBxa1p1SENudnJ1MDdoaGxiRXE3enJ5UkJVOHpzeGhPSGRha1RoQ2I2REJy?=
- =?utf-8?B?d0pFRmw4NDNMelloWW56dE96cnBRZHdrQ1RHWm8rTlhNMUpCS085elo2OCtt?=
- =?utf-8?B?eEZ2ZVp3VE9nNXA2NXFTOEJRZWFPMXJ1VmVVSjJyMWw1TjIxNms4Q3M3Mkl1?=
- =?utf-8?B?SlVaQlpickJzbFZFeGE4VmJsV2NGS2dMd0lVdFVPZGpEVisvZW5wZnNCK2hX?=
- =?utf-8?B?cHJhOStPUDY3Z1gyVzNNYXFjZ044TUxhbDlGNEphZ1AxRHpFVDRXa3liSVND?=
- =?utf-8?Q?dNidukezaZbjW?=
+	=?us-ascii?Q?3Z6BLiX5gJpa2OwvmaCzgqCU8Ii9pe0AgFZtmeXyQiDmq6z1ELQyxyDEMYiY?=
+ =?us-ascii?Q?Cr/idQaMy9HienS+rKtBI/IJMmzbp4AW/GcvBFnCSqVlyL4b66EY0bxHcZPo?=
+ =?us-ascii?Q?bFkkhTAmydhFkt3N9dMVTSH2TXaxJE3BASk1xhocKazdVgiBrjTb34IeVP6O?=
+ =?us-ascii?Q?vsVbEWhBxnhAu6s7V4Rkhgbba7e5t36zwvieUpzx4/cLu1dpJsnJEdhlAvUo?=
+ =?us-ascii?Q?f3JHyWeXCFH+dbgfJ34qmggwxz6RH8B5Z0PHiLdo2XJGsMSJAh6kQtLsrr/h?=
+ =?us-ascii?Q?EiAcuHT6W5m9z5J6lG0G0NHWKBawtX3VQg69IIZCjjtYQNAKmMYQJnyy44AE?=
+ =?us-ascii?Q?dcuqpFxsFrRpSh5fnLPwp69iy+vp5qnTlE9dhXPuY/Qr9KAYtdcive9g+lMV?=
+ =?us-ascii?Q?t/HgpliFITepWP20HIxMcnuocjZYl+c01fpFOUoT7XWohKiKS1r/wE3tR59S?=
+ =?us-ascii?Q?VrpvewtOkBwvikHg9YWTYCCW6z8ZYDvPWh0HvDPDIRpT8Y2Fr4WA5abglrdi?=
+ =?us-ascii?Q?xXN4V1htwijPVGTnKCRN74tKDPUt7ImQE6QpmeLyoejesGlqgIN7lQaUj435?=
+ =?us-ascii?Q?AKhHxVsvj/qtPjwsNVcaE7UioT9MdVWtlEGlVrDPuUaVZkiWXwnaP7krR4H4?=
+ =?us-ascii?Q?uxgPrkcwxIEk4RfrU9ne6cgEc04il4aL146YB2pjP7aDUPjZhIticwqb/zDN?=
+ =?us-ascii?Q?v1WX77zwS7cyDc9SmEXJ1xCqeTixVrRzcqeN5TdMdwEMn6yU/plYY/VBN0yZ?=
+ =?us-ascii?Q?X94QjQwH2atARYj+3abGX0YU+mGSGp8A5hXhWQfOeOPO7XlNtcS34wJq4iWr?=
+ =?us-ascii?Q?1WjoTJIGmNq6wqEd0QlMuEgxj/WJhN0uEEwcUF78edCZ7dtbTwm5Hogxfz11?=
+ =?us-ascii?Q?hGVjb40YUFO7ufdJOFtnBYimLUCBOs4lTjru7hnaGZbsQdL/rcaN7fLicA00?=
+ =?us-ascii?Q?LH2wADilAFfaNQaxqzFlWvfCmZsob6kgR5fypKHIv52bLi1MXZyPAUfvXDC7?=
+ =?us-ascii?Q?3SeT6anI2ntvORR80wRDIVt6Mr6xoqqDvWv38XZOYD9xsY3tefa6LX101r0l?=
+ =?us-ascii?Q?6S/V1pp7v70IrHixbB7+Cc/8ZgcFmeOJFleCiiHtWkpeQQvqSyCRuwqYx3ZJ?=
+ =?us-ascii?Q?B8OSHZE8JEXKJ5MHmF9gipL/VEy4agGTcUSR1r47j01jeGh4XDXSRCdukG1E?=
+ =?us-ascii?Q?MUROnwdYo+6RZfFUYX6IsY9n8DlOQEki3Qm3sAU9RQhBpJ4+k0+iRl+UH0Lg?=
+ =?us-ascii?Q?XqyYVL9a7fv3Uu4eQ+ML/5gRupVcOFgSlfMdOP83tOMLx5G8QKROnXb3Z2kn?=
+ =?us-ascii?Q?BpM72/z9YQOfDoBskzWaxtEtMj0LoqgdL3RWG7SEVrcLnAGWO4XDhioatSNW?=
+ =?us-ascii?Q?/hsbYvZOk9xZ7L2tijdE204lhc4XN0mxwHLiGpzR0OfGLdNjiivv4QPn8Tug?=
+ =?us-ascii?Q?K4SPMr7WQ8A=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6434.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB6657.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?STh3cmFxaG5CaTMwVDU2Ujl4Z3hYRCt2dTVFOTM3Z2loNitmNnlzT0kzT0J5?=
- =?utf-8?B?amlOZ1VUTExQc2Z6b3RMVWhBSlZvUUNZb1FCSXpNMWxSWjJpRmZ0bGxMTHZC?=
- =?utf-8?B?YjBzWVNXUFlFM0llVlpmKzlCbVJQb21QOVVIMW1kZmk5MHhRODc4ZFhKdUdC?=
- =?utf-8?B?d0ZuNFRFQlN5ZzhXNkdxdnVidktvdU96bWJnLzN2ZXlRZG1KY2toRTBXMXBt?=
- =?utf-8?B?WVRUMDBhZWZEczBxeko0U0w0OGJabTkvc0ZaU1czTDZDa1l4WEgyTTdqdjQ2?=
- =?utf-8?B?bXFQdzlzT2xSSHNrTDEyempWdEtOYmduOHF1bkMrWStPaW5TWWpxMFBWTStP?=
- =?utf-8?B?L0xPREYrdmdYaEMzN3VIcUNBdlgydGNCVExHekZuc0NjQk9ySDNNVEdNRWpP?=
- =?utf-8?B?UmhGajR5b1RiNlBJb1JXWE1QQlZiU285Z0tKN0ZtY3JYdEU4R0srTkdieUJN?=
- =?utf-8?B?TWVnL3o5dWJEMGZtaFFvYXNlYTZNKzNxNGo0MUh2R2xaUnEzUVVjSzFCcVZD?=
- =?utf-8?B?N0dHQWcvcUJUeVUrYlBhWXlPRWxKUnhEK1FNQk9ReHIwdmNOL0EvN3NGTlYw?=
- =?utf-8?B?Mk9wSFR3a25MeldHWnVzNncyMllVbXlPWjdLWkZCZXV1WUowVkNuSGhlb29W?=
- =?utf-8?B?d0owVnFUN2dnYU82T3NPeHhQVlBiamRHWEJCZ2hnYlB1QWx4Q0tmUGVZMjFC?=
- =?utf-8?B?UjByMXpUeFg0cVZuRmhzVWxrQ1ZCQmZhV2QvVy9PZ3BVU3BRcmRaK0s4QThs?=
- =?utf-8?B?dnRpcC8vYUpOL3RZZG42U0J6WWs1bXQ4dHRkbHp0NEhTWVJuaHdCVUwzRVJV?=
- =?utf-8?B?RUtjbzA1WVdvUTFlRkFsVEk2MEdGampkUzF2UHVIWTRYQ0VZOGxaNWYvdit2?=
- =?utf-8?B?andxazNFZUJNQUhJbzV6MlA0SUhrYllLLzA0MkhSdllMTDBPR3Nwb2tHNms3?=
- =?utf-8?B?ZTVPSCtEMmljbEd4QzR6c2VkZTEzekNvV3NjNjBrc09CSzdBT0tVVjdBTXRv?=
- =?utf-8?B?eUNHMTJ4UnN2TWNodWtLUSswdWJ0QTFYTHVQOUZDQWhYUUJiK0Nzai9KazJI?=
- =?utf-8?B?ckdLdVkweENzSmYxYWVsTU83M0VPRnkrelE0cmdlaFhtVmlzSWZNSnBkK2gx?=
- =?utf-8?B?N0NvSGNtb3NjMEYvNjZpRkZGTVk4NEwwcUUzT3dCVGI2UU5RdzhkSXIwcmZ0?=
- =?utf-8?B?MUk5MitBdW56SWlBS0NnOUhpMnQ5WFNDSkN1Wm1PcW1CaWx5QUFsMkZuenIx?=
- =?utf-8?B?SmJtQ2x2dnlCNFZHRkE2N1FJMnFEOGZkYjJ0ZklNNWo3YTZ2MGJjSC9aU2E4?=
- =?utf-8?B?aXRJRVpnNjh1bERtSVAyQ0FYWFBsSHBTMFQyRTR0YlJVV3o0RW1UMDVNc0pL?=
- =?utf-8?B?YWxtc2R1ZGprZE5PL2FxR0ZwbHZvNml0MHVySklJZGwwM25LUmtjMktmUXl3?=
- =?utf-8?B?b3Jqd0NzVm1FYXpWbGs2Mm1yUXV3a0pHdkpnZUNKSTVCbHRScDVCUUZaM3JG?=
- =?utf-8?B?N29WUzVXd2lnVE9IUVdvMEhtaVU0S0JadGVKbWdOd1VLNjhWVFE2eTZFQkFI?=
- =?utf-8?B?dk5qbVBMZll5S3F5M3NtZXgyU1FDb051dVM1WWpZbEM2VWc5emRIVS9uT25O?=
- =?utf-8?B?NEdPNnBES2ZYdzQzVGY4K0ZwMERLM1BkVUxXMER4OUd1QjV5cEJybzdKbk5L?=
- =?utf-8?B?SlZWTCtNVXZVRFB6ZTEyZkxDdkViZUpxVitrMVZZVFovTXQ0TS8rOThDSDRa?=
- =?utf-8?B?Q1RUV0tzTktlZVB3VUwwcEZGMWNuMTdoMDVxMlUwM2Viak1OU3ZUZFVSUVFK?=
- =?utf-8?B?cUozZFBqdThxaWxzbnUyRDFrTjRrdFlUdWFJaHk2dkkrL3Y2KzNkSC81OG1C?=
- =?utf-8?B?NDJqTjkrQjdiVVZ5NDFxQVora29xNk1Od2ZHbjJNQm5nMWhESWFCeTdwWS9U?=
- =?utf-8?B?djNHQk5MNFpRUEZSUkJ3aWJPNHRURjlrWTR3VnpNdmVFdTFhNGxud3hCUExw?=
- =?utf-8?B?bEl1TVAydVprN3VjaklqalNsSm5jakFIMWtqaXo1SENVVFVhUUJaZzlxWDY0?=
- =?utf-8?B?MmpsWi8yQmEyRG5DTXhKMitIN294YWRWWWRRTnIzSU13aEZSNnVKNlJOMUEx?=
- =?utf-8?Q?LUJUdONTHAE7dHEnfsKwjj3Dn?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6d7f3488-2a7f-4a35-a46e-08dd3b5b16d6
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6434.namprd12.prod.outlook.com
+	=?us-ascii?Q?Gvdm1GtKrP4dXH3kVFFZPrd8wGdrFzvRUU8M5fsWw/t7F3Kso481hGBquvTc?=
+ =?us-ascii?Q?/hEtJBGysQys7gEo1NVQ2ZJmXvi2vLq3gjNs1qOJxFDM/s03ysTCLD2cL2Ab?=
+ =?us-ascii?Q?nnq+DeOdUBl2NBBSkFFb9/fn+t4WSpOXfu6tifzykdPSEgdXbQdSpTvpqC+9?=
+ =?us-ascii?Q?EIeFu6TSmSFT2XXV33LA3Btk+52B1mUo5yjdS/X8PUqmB3RnkHQabgkhNe3h?=
+ =?us-ascii?Q?V6HNuOEK/9v+rWviGWp7Lhe5NbkWOdhkVuAkDOGqV0uGiO/ujWsRiAv+mz7p?=
+ =?us-ascii?Q?5UUIl3YSB0pkJLwglj1edF2zZ0GN0naUUpHhFgeNmpSvX8ISmCEKX69cQUR1?=
+ =?us-ascii?Q?mCAUhGlpNlq8z0aBeaw+neMP55GbTreNgCeeUPOjy+vCsQ1AqtEKv60giVXv?=
+ =?us-ascii?Q?RfSczruytXkx/XsTqJKmxP3E3xFLbk12iNNh4DDlneRjb58+TLNF4kLIfMxS?=
+ =?us-ascii?Q?gD3nGy36xmp1nizIWY3Broh17jMqNOvKhYFTlvmsu5ESvFdTEtVpwMJQeBt8?=
+ =?us-ascii?Q?VNrIuXML01UvGJLfSQnLvFsM1HwVvIzBwbwsBdx28fcgPnRIqInzGADDOOOF?=
+ =?us-ascii?Q?12zm/eRc0ClSh0JoeCixIDGwf7ngCRD4M6af55+NIFjY39dzdlGG5sARQISE?=
+ =?us-ascii?Q?EzdvSSbdeeoId8Z2tJAS8dtt2wCKO75xPuveyqKO5kZsHsxTYFttuFA0pW+4?=
+ =?us-ascii?Q?IY3f3KttHWwPBejSh9pQ1ULodAitfqjMsQ2qSQr+1umw92JuN2nqqxcgu0t/?=
+ =?us-ascii?Q?/FlyLgUA31jQ3jfsSGWVzuoOdpT1DsZqsyaXnXs//p+g7hWjHhJaMcdszhdf?=
+ =?us-ascii?Q?DwRgvg6sUKessZHwByFqLDYKsbR2nA45f3atdeEHn4AsOLJRp2Z7PmVxE2DO?=
+ =?us-ascii?Q?SQV6yZMSQYzqq9GKZwHAKftrWB31ffGLjpjxJp1g10T7OXMBcldPqdm3kEcj?=
+ =?us-ascii?Q?al5ANQRHyOhEcuVcBKLh2C4q/mRppqFidyO9YJjxXsDRCTO7oxTjdcDUoc7l?=
+ =?us-ascii?Q?TUcZyxvzs2ubakb+RZgM9jmBzyor0Lt1x92UkVCVltv4AZHXSdUbIPjrSdU5?=
+ =?us-ascii?Q?RLSGCxIZZIxCjIo+c9LiwSvLpMTUGx8rQjBldTQbnn8Paf6VQWrVYSuqKTek?=
+ =?us-ascii?Q?QemD73JkKvwcuXxlKYQ+xVfOLFmrXBbpjPmdWnVdeG1qqA9g2YRnsSfKc9kJ?=
+ =?us-ascii?Q?F/nIitCLLjprZBEZDe2m+CcrkKLdH8Ti8e6kjynquOJBNKLH3TE/H81//HW/?=
+ =?us-ascii?Q?m/QvcK7eVRp6uSgKhQqbh9Usoz5ALSi84ggCL5yyT9rqh9g9HUs9jMsYiSzy?=
+ =?us-ascii?Q?VCIrVljocCYFeMnl26zvuvVhZKQ/qM//Z+Kg53oiP0OAndUyhJbxPp41qfAh?=
+ =?us-ascii?Q?UKymvsZjgl0odQmSVa6s1Uf//n1pis4Brtgw/Olqpgn0uq4byseyZ+oI7KTO?=
+ =?us-ascii?Q?Q5PXmBf57hbdqFgNWMV9leOGk434rVjfGdP2ardNXyMLDT1/Svh2QCd+VQRJ?=
+ =?us-ascii?Q?tVS3dElP89VTr7Yttp5GzfPUUw6ttqRs/v9+TK+2e3t+4PLFutQKRdb/AgiW?=
+ =?us-ascii?Q?EBxYcl6mGhstQ9Gml6ybPAhdEe1ZCmpccWlvH1VT?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05d6ca8d-d818-4af4-003c-08dd3b5f4b30
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB6657.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2025 03:07:37.0740
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2025 03:37:42.7216
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: F3ycwD16vQ4rtfKjclG5Oj4aM8FCtix9vUBF1LH8RLkP1dy67IO51MwuzwrSxlKeWxVGhR9axYaTf6rhq6FJfA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6167
+X-MS-Exchange-CrossTenant-UserPrincipalName: WiDkd8X66KTJypxW5O85zyC2LRAIQkeJ+CrETZ5T9bTKBSVOPIc8klwjlLURId0QdJqGFsh2gtO0CSemL0MhAA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6425
 
-On 22-Jan-25 11:31 PM, Gregory Price wrote:
-> On Tue, Jan 21, 2025 at 10:03:55AM +0530, Bharata B Rao wrote:
->> I don't think moving count_vm_numa_event() to within
->> CONFIG_NUMA_BALANCING is necessary as it is defined separately as NOP
->> for !CONFIG_NUMA_BALANCING.
->>
-> 
-> NUMA_HINT_FAULTS and NUMA_HINT_FAULTS_LOCAL are only defined if
-> CONFIG_NUMA_BALANCING
-> 
-> include/linux/vm_event_item.h
-> 
-> #ifdef CONFIG_NUMA_BALANCING
->                  NUMA_PTE_UPDATES,
->                  NUMA_HUGE_PTE_UPDATES,
->                  NUMA_HINT_FAULTS,
->                  NUMA_HINT_FAULTS_LOCAL,
->                  NUMA_PAGE_MIGRATE,
-> #endif
+Commit 47c8846a49ba ("PCI: Extend ACS configurability") introduced
+bugs that fail to configure ACS ctrl to the value specified by the
+kernel parameter. Essentially there are two bugs.
 
-What I meant is
+First, when ACS is configured for multiple PCI devices using
+'config_acs' kernel parameter, it results into error "PCI: Can't parse
+ACS command line parameter". This is due to the bug in code that doesn't
+preserve the ACS mask instead overwrites the mask with value 0.
 
-include/linux/vmstat.h has a definition for count_vm_numa_event() for
-!CONFIG_NUMA_BALANCING case like below:
+For example, using 'config_acs' to configure ACS ctrl for multiple BDFs
+fails:
 
-#ifdef CONFIG_NUMA_BALANCING
-#define count_vm_numa_event(x)     count_vm_event(x)
-#define count_vm_numa_events(x, y) count_vm_events(x, y)
-#else
-#define count_vm_numa_event(x) do {} while (0)
-#define count_vm_numa_events(x, y) do { (void)(y); } while (0)
-#endif /* CONFIG_NUMA_BALANCING */
+	Kernel command line: pci=config_acs=1111011@0020:02:00.0;101xxxx@0039:00:00.0 "dyndbg=file drivers/pci/pci.c +p"
+	PCI: Can't parse ACS command line parameter
+	pci 0020:02:00.0: ACS mask  = 0x007f
+	pci 0020:02:00.0: ACS flags = 0x007b
+	pci 0020:02:00.0: Configured ACS to 0x007b
 
-and hence moving count_vm_numa_events(NUMA_HINT_FAULTS) to within 
-CONFIG_NUMA_BALANCING section in numa_migrate_check() isn't necessary. 
-The current code already compiles fine when CONFIG_NUMA_BALANCING is 
-turned off.
+After this fix:
 
-> 
->> In fact numa_migrate_check() should be within CONFIG_NUMA_BALANCING as
->> it should ideally be  called only if NUMA balancing is enabled. The same
->> could be said for the callers of numa_migrate_check() which are
->> do_numa_page() and do_huge_pmd_numa_page().
->>
-> 
-> Really what i'm reading is that these functions are in the wrong file,
-> since ifdef spaghetti in *.c files is not encouraged.  These functions
-> should be moved somewhere else and given stubs if the build option is
-> off.
+	Kernel command line: pci=config_acs=1111011@0020:02:00.0;101xxxx@0039:00:00.0 "dyndbg=file drivers/pci/pci.c +p"
+	pci 0020:02:00.0: ACS mask  = 0x007f
+	pci 0020:02:00.0: ACS flags = 0x007b
+	pci 0020:02:00.0: ACS control = 0x005f
+	pci 0020:02:00.0: ACS fw_ctrl = 0x0053
+	pci 0020:02:00.0: Configured ACS to 0x007b
+	pci 0039:00:00.0: ACS mask  = 0x0070
+	pci 0039:00:00.0: ACS flags = 0x0050
+	pci 0039:00:00.0: ACS control = 0x001d
+	pci 0039:00:00.0: ACS fw_ctrl = 0x0000
+	pci 0039:00:00.0: Configured ACS to 0x0050
 
-Yes !CONFIG_NUMA_BALANCING stubs for numa_migrate_check(), 
-do_numa_page() and do_huge_pmd_numa_page() would be good.
+Second bug is in the bit manipulation logic where we copy the bit from
+the firmware settings when mask bit 0.
 
-Regards,
-Bharata.
+For example, 'disable_acs_redir' fails to clear all three ACS P2P redir
+bits due to the wrong bit fiddling:
+
+	Kernel command line: pci=disable_acs_redir=0020:02:00.0;0030:02:00.0;0039:00:00.0 "dyndbg=file drivers/pci/pci.c +p"
+	pci 0020:02:00.0: ACS mask  = 0x002c
+	pci 0020:02:00.0: ACS flags = 0xffd3
+	pci 0020:02:00.0: Configured ACS to 0xfffb
+	pci 0030:02:00.0: ACS mask  = 0x002c
+	pci 0030:02:00.0: ACS flags = 0xffd3
+	pci 0030:02:00.0: Configured ACS to 0xffdf
+	pci 0039:00:00.0: ACS mask  = 0x002c
+	pci 0039:00:00.0: ACS flags = 0xffd3
+	pci 0039:00:00.0: Configured ACS to 0xffd3
+
+After this fix:
+
+	Kernel command line: pci=disable_acs_redir=0020:02:00.0;0030:02:00.0;0039:00:00.0 "dyndbg=file drivers/pci/pci.c +p"
+	pci 0020:02:00.0: ACS mask  = 0x002c
+	pci 0020:02:00.0: ACS flags = 0xffd3
+	pci 0020:02:00.0: ACS control = 0x007f
+	pci 0020:02:00.0: ACS fw_ctrl = 0x007b
+	pci 0020:02:00.0: Configured ACS to 0x0053
+	pci 0030:02:00.0: ACS mask  = 0x002c
+	pci 0030:02:00.0: ACS flags = 0xffd3
+	pci 0030:02:00.0: ACS control = 0x005f
+	pci 0030:02:00.0: ACS fw_ctrl = 0x005f
+	pci 0030:02:00.0: Configured ACS to 0x0053
+	pci 0039:00:00.0: ACS mask  = 0x002c
+	pci 0039:00:00.0: ACS flags = 0xffd3
+	pci 0039:00:00.0: ACS control = 0x001d
+	pci 0039:00:00.0: ACS fw_ctrl = 0x0000
+	pci 0039:00:00.0: Configured ACS to 0x0000
+
+Fixes: 47c8846a49ba ("PCI: Extend ACS configurability")
+Signed-off-by: Tushar Dave <tdave@nvidia.com>
+---
+
+changes in v2:
+ - Addressed review comments by Jason and Bjorn.
+ - Removed Documentation changes (already taken care by other patch).
+ - Amended commit description.
+
+ drivers/pci/pci.c | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index 0b29ec6e8e5e..19fbdd8643bc 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -955,8 +955,10 @@ struct pci_acs {
+ };
+ 
+ static void __pci_config_acs(struct pci_dev *dev, struct pci_acs *caps,
+-			     const char *p, u16 mask, u16 flags)
++			     const char *p, const u16 acs_mask, const u16 acs_flags)
+ {
++	u16 flags = acs_flags;
++	u16 mask = acs_mask;
+ 	char *delimit;
+ 	int ret = 0;
+ 
+@@ -964,7 +966,7 @@ static void __pci_config_acs(struct pci_dev *dev, struct pci_acs *caps,
+ 		return;
+ 
+ 	while (*p) {
+-		if (!mask) {
++		if (!acs_mask) {
+ 			/* Check for ACS flags */
+ 			delimit = strstr(p, "@");
+ 			if (delimit) {
+@@ -972,6 +974,8 @@ static void __pci_config_acs(struct pci_dev *dev, struct pci_acs *caps,
+ 				u32 shift = 0;
+ 
+ 				end = delimit - p - 1;
++				mask = 0;
++				flags = 0;
+ 
+ 				while (end > -1) {
+ 					if (*(p + end) == '0') {
+@@ -1028,10 +1032,13 @@ static void __pci_config_acs(struct pci_dev *dev, struct pci_acs *caps,
+ 
+ 	pci_dbg(dev, "ACS mask  = %#06x\n", mask);
+ 	pci_dbg(dev, "ACS flags = %#06x\n", flags);
++	pci_dbg(dev, "ACS control = %#06x\n", caps->ctrl);
++	pci_dbg(dev, "ACS fw_ctrl = %#06x\n", caps->fw_ctrl);
+ 
+-	/* If mask is 0 then we copy the bit from the firmware setting. */
+-	caps->ctrl = (caps->ctrl & ~mask) | (caps->fw_ctrl & mask);
+-	caps->ctrl |= flags;
++	/* For mask bits that are 0 copy them from the firmware setting
++	 * and apply flags for all the mask bits that are 1.
++	 */
++	caps->ctrl = (caps->fw_ctrl & ~mask) | (flags & mask);
+ 
+ 	pci_info(dev, "Configured ACS to %#06x\n", caps->ctrl);
+ }
+-- 
+2.34.1
+
