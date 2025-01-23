@@ -1,373 +1,217 @@
-Received: from mail-m49205.qiye.163.com (mail-m49205.qiye.163.com [45.254.49.205])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2044.outbound.protection.outlook.com [40.107.223.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7904D35953
-	for <linux-doc@vger.kernel.org>; Thu, 23 Jan 2025 02:56:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.205
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737601009; cv=none; b=nua4hIhYRLkGeKncEJf5k862Ze1fHJqnrE8GE8SmRVEl+i3fh0/UL4/sXKioHlFm+A9Pp+goP8J43E6KbJiti9iEqFfOXIDmVoTNbZxcmk8SvlIwoMHBcRUWCZ2vIbnUtVQc/BVIwGF3yuY6FeYZR20jQh9DMVxwKVXo5f5fJLg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737601009; c=relaxed/simple;
-	bh=7mxamLovMHWcaruI1TISV8MSj/Uo9hJ1Smrd3vozyeE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pbd+W5PBpQRfPJ74oLP/x45sRvLk6bVZcokUGHRZjbdfrRT3SnPqn/aD8IyumU7eY2hZ4LvZkzf0+C0U2Bdwv1JfGUn3ZVumVaNC6pjPSZmS+fH4U0OJOV1KhXCBd20ysotHvy33IEaQsuSH3ozdB7QjuHSEieLAPwtd4j4WF8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=RamA+zKB; arc=none smtp.client-ip=45.254.49.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD0935965;
+	Thu, 23 Jan 2025 03:07:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737601661; cv=fail; b=f1TYG+Z+jNBdHMV+2TQsnUWXMMWQ7D/PCbIjuyltdpV0/Z9cYi4D1qXWm9N7MIextQJ3wpf5fpAKAYwUk+Sa4ZmoPQ7GZQeoAAA7kC7JRItgeiimeWrc0D/b6t1ITLhN9kjw+BdmsYYd7s+WnMWlIZuf9ZUHMw850m/rhcAowjY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737601661; c=relaxed/simple;
+	bh=rscl//QftjFKSx2+WFGS2X9DfvfLPuBZd8nXjxUyQpg=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=EqWZpg4Y/KKnxwL37nXDr2qJWZ4C1Kq9Wxyi2wvs9EfPXU7CCiW71naUlx6TT6tHivZVtGq8bs6+Y5zoDLi7N/bvtR6iWVwMXkNpdVDrD+8lLFvZ0xfn0kWs8f0k8E6JpwWCpHshulnglrlZ92nbW3WV5qu7GmiR+LM3ToECVSM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=dGPCi7YX; arc=fail smtp.client-ip=40.107.223.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="RamA+zKB"
-Received: from [192.168.5.131] (unknown [123.53.38.48])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 975aaa83;
-	Thu, 23 Jan 2025 10:51:26 +0800 (GMT+08:00)
-Message-ID: <16622619-fb80-40e5-96b2-68d999b4bd97@cqsoftware.com.cn>
-Date: Thu, 23 Jan 2025 10:51:25 +0800
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="dGPCi7YX"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kZ1brKfcMlumYpv7rCFhDurI9gF0P4PrVYwkD8Ecm0bSm7F5IpyfW8RSkFbsex6ck/TDZ4mDNH/+DxgvNd14VlK+iROkHnMxRw4p6bKIK+tLZrB/J/5asTITHlusm11+e0uEVvseMWuV2M9pNtWsi3QsuoeBcGyusGduIuo4+MM+Rcg7RxcdI3SiCCES8B15jXTolfUeNIWrMIZdsas1YcZFDRMU7pQuHUJ4PubRNkjQ5TwvlSFDowYylTa1h7lW+5dkcyb1Su7LjV0Hy93XX3Tqoa3GGoKSkujlwkgIX0+ZcmGYBJDEUXJv339SfTfT+3IPC3mFe370gINqOmX/PQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wTda9uRokMsLqOT33DiJGX0IYXhjEye7Y4sd19g1eUU=;
+ b=cZFy4jYSYgEW0ooWSYviuQS1f4a4lLHoHJYP1busgv8dwoqHHB+WGass0Lxy+i4WUgWQpS5r4DH2fSGAJcPct9kO3wxCVUz4EdnV8Rhn95Xthzbutp50OsVQCq/vG7N7fVfC73frQdueoC4sDkTaAX/yDZiKZViLsYc1k7r/PpTPxz1CnDiRFzqvD58EMH7xcJd6obFjaOrFZmAiDUdq65T92Dvi+0ju40QBWvc+FQuQtKxbv/g/GgsyOU/FmfQJG0C445B6QYKi3L/PcB0hzyay0l+CFbEEre32L00d5tgRZGSdBw4k/9hMiFaeX7440smAiAZW0OLL/tHPvTgzQw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wTda9uRokMsLqOT33DiJGX0IYXhjEye7Y4sd19g1eUU=;
+ b=dGPCi7YXzpmr8582GUp35XsdzW5bZh02a8dTpECo6PLhfHTbXMW7q86Nqz2PT0i1LTV9wEviqaRzy4ccToGqEs1y9hhPc7X8ZsyMOWZ1DIS6nQib0IHORyCOPVi2YA88udu7oQJlzaWTaVZa6Tan5s0iOUsMT0Ya9gqsBDnDpL0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from IA1PR12MB6434.namprd12.prod.outlook.com (2603:10b6:208:3ae::10)
+ by DS7PR12MB6167.namprd12.prod.outlook.com (2603:10b6:8:98::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.21; Thu, 23 Jan
+ 2025 03:07:37 +0000
+Received: from IA1PR12MB6434.namprd12.prod.outlook.com
+ ([fe80::dbf7:e40c:4ae9:8134]) by IA1PR12MB6434.namprd12.prod.outlook.com
+ ([fe80::dbf7:e40c:4ae9:8134%7]) with mapi id 15.20.8377.009; Thu, 23 Jan 2025
+ 03:07:37 +0000
+Message-ID: <8ccedc5a-168d-406d-b363-6fce62f0100a@amd.com>
+Date: Thu, 23 Jan 2025 08:37:29 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/6] memory: move conditionally defined enums use
+ inside ifdef tags
+To: Gregory Price <gourry@gourry.net>
+Cc: abhishekd@meta.com, akpm@linux-foundation.org, david@redhat.com,
+ donettom@linux.ibm.com, feng.tang@intel.com, hannes@cmpxchg.org,
+ kbusch@meta.com, kernel-team@meta.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, nehagholkar@meta.com,
+ nphamcs@gmail.com, ying.huang@linux.alibaba.com
+References: <20250107000346.1338481-3-gourry@gourry.net>
+ <20250121043355.177611-1-bharata@amd.com>
+ <Z5Eyg58jl8YqkU_j@gourry-fedora-PF4VCD3F>
+Content-Language: en-US
+From: Bharata B Rao <bharata@amd.com>
+In-Reply-To: <Z5Eyg58jl8YqkU_j@gourry-fedora-PF4VCD3F>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0123.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:96::13) To IA1PR12MB6434.namprd12.prod.outlook.com
+ (2603:10b6:208:3ae::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs/zh_CN: Add self-protection index Chinese
- translation
-To: zhangwei <zhangwei@cqsoftware.com.cn>, alexs@kernel.org,
- si.yanteng@linux.dev, corbet@lwn.net
-Cc: zhaoshuo@cqsoftware.com.cn, zhaoyuehui@cqsoftware.com.cn,
- linux-doc@vger.kernel.org
-References: <20250121051234.79066-1-zhangwei@cqsoftware.com.cn>
-From: Yuxian Mao <maoyuxian@cqsoftware.com.cn>
-In-Reply-To: <20250121051234.79066-1-zhangwei@cqsoftware.com.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaSx0fVkJPHx9IGkNCQ0gaGVYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKSUhVTkhVSENVT0NZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0hVSktLVU
-	pCS0tZBg++
-X-HM-Tid: 0a94911258bb09d8kunm975aaa83
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MlE6Tyo6KjIPOC0RAkNCQlEX
-	N0sKCw5VSlVKTEhMTUtLTUNMTk9JVTMWGhIXVRYaFAIOAxIaFTsYCggUHQ8MGgkeVRgUFlUYFUVZ
-	V1kSC1lBWUpJSFVOSFVIQ1VPQ1lXWQgBWUFKTktMTzcG
-DKIM-Signature:a=rsa-sha256;
-	b=RamA+zKBVgGKWMc5M0dDPxpgPoudZWm/h73DPt9AP8+s32/XAIJYKYtRAJ/A4K2yKzMicLiKOJ7M2BZI6COS/njqmJE52aXggEsSxkFTvgnDNNb8/+pS2h7Hc0f4OhzdRtC38h6clh3RYwcMmeMKrTLKW1rfqZXvOyL16GDPBRQ=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
-	bh=wi/l9kdaSbHnOP9h1ouXpQFXOxFnWmvxoKFLRhpH9RY=;
-	h=date:mime-version:subject:message-id:from;
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR12MB6434:EE_|DS7PR12MB6167:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6d7f3488-2a7f-4a35-a46e-08dd3b5b16d6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?bjd5Z3dXRkRSZzZpZ1dlR3hCUTdTNjFvdDdYOUpsZ0U0VjU0d2xGYS92R1hT?=
+ =?utf-8?B?MTNuRVBqcjV0bkdWTllsZU9pZ0pKTit5RzFyVHdVdms3bkUyMVRaMStvbnJG?=
+ =?utf-8?B?dVN3ZmJMUDQ5dDcyMXhEUHMyYWtOSUdSOCs1T0szRlkyeldGOEVvemtNQkUy?=
+ =?utf-8?B?MWpZR3Q5T1IyczdFelJocmRpL1ovNWIvT2J0d3ZGK0Y0SmVRMElLam9nbVlJ?=
+ =?utf-8?B?RHJoV1FGbFgzZThvaHJjOXQ5aUNpaW14VE1OSk1hSWpSdUNXZmI1dis5RGpK?=
+ =?utf-8?B?VEhYc2ozQzJaY0pXS0FpL29rTjFJREdxdWRKYlFKUkEva3ZMM0NkZFhLSHRF?=
+ =?utf-8?B?Vy9aZ0dKb2pZQTkrZU9IVFpWSG9ObXhNT3gra1lKNTVDS2NOMlZqanFxRmJv?=
+ =?utf-8?B?eS80OFpGUlRWMmhzY2tlMG5NNWJLQmFrVFlvdzdtQlU3VHBObytsVk5BR0Z3?=
+ =?utf-8?B?ZmRyN0MzU1ZJUW1TK2JPTzBSTVVmaDhkYkNqbFhnRk9ZRzFpMTVKOUZIS1pK?=
+ =?utf-8?B?SXdYVlZ0K3J6c1N2WGNaNVFuVExqRDdDTUE5NS9zTllIYlNYeWlBUXZlRExX?=
+ =?utf-8?B?dkErVWZyeWxkT3I5RWVHTloxSXcvZVBKeU5pQWhHbzFON2lZUlRUMmU2cDNs?=
+ =?utf-8?B?SW1QUExkYklIbVd1dFBrc2crSHlKaEtSallmZkdCVkErcGsvdC8rOUR2TC9W?=
+ =?utf-8?B?TXl1M1p6ekxiQktYcU93U0EyMHV0YnFNTTJTOVpDYW5nanBJajJ2b2xncVNl?=
+ =?utf-8?B?OHdnbVVVaVk4VjRtOXRkdkdUSTZuejBoRWdSL1pLMUpZNm1aRlRhRkZ2WGg2?=
+ =?utf-8?B?UHlmY29lN2Mrb2VNUGFGWjNjTkY0amNXODJ2NXY2Tkp0MDJwWTdtOEJDbjBH?=
+ =?utf-8?B?ZXRKcXhJTXdyS2l4dUNpa1ZmM1VqVkp6Nk0weFNJc2Z6VnJ2WGZNNXVyZmpX?=
+ =?utf-8?B?SFFNVXBDNnVvRUVXWjlBOEs3K0FUbmN2MEZ4Z0VnWXA5TGc5b0dIcU9iZERr?=
+ =?utf-8?B?bkU3UHM4TmszZkE2em9KZFRTTjZNTWtONUQ2d0Q0WFdiMk1LbU9ka0VUOXZv?=
+ =?utf-8?B?UzhhR2lTaFhja1VvMFpLbFliZEJHSlpmYWdFQmxxVHF5dldxamxtb0Q1RERw?=
+ =?utf-8?B?ZUNSK2V6U0NHRnVMZU1WUytmZEsyOU9XQ1dtbVlDNzFDczV3Rm13OFVZeVZD?=
+ =?utf-8?B?UlY0L0lOdjBrRE4vMXhoTy9RY0lmK0RWRkE4MlhPNitrOVYyWmVPQ3R0ZmxN?=
+ =?utf-8?B?eXpoZzFYamhPVmJZc0E4dExTUnE3V3l3OXVjWHkwaFRpNjF5ejVrMjMrWmZD?=
+ =?utf-8?B?U2lMd1IxalloNUxocW40MUpsWWh4VlNPWWxKUWN6T0lKZUJrSnNjWW5odXJL?=
+ =?utf-8?B?YjNKMmpYaStRdnd2QndEOEJ4Uk9OR3RraDJLbjRjbitLRG0wRFBJNDR2L2cr?=
+ =?utf-8?B?ZE9yVUJuZnkzdDJERVk5RmJZVWNZM3lJZkt3OXRuajMxN1QrdVlMeGVvWm91?=
+ =?utf-8?B?R1JHNzl3SDhKWmVJTGt5cFF0WHJsWEErUDRTSmlTQWgvcFFJbVFNdXB4TVNz?=
+ =?utf-8?B?bVBxa1p1SENudnJ1MDdoaGxiRXE3enJ5UkJVOHpzeGhPSGRha1RoQ2I2REJy?=
+ =?utf-8?B?d0pFRmw4NDNMelloWW56dE96cnBRZHdrQ1RHWm8rTlhNMUpCS085elo2OCtt?=
+ =?utf-8?B?eEZ2ZVp3VE9nNXA2NXFTOEJRZWFPMXJ1VmVVSjJyMWw1TjIxNms4Q3M3Mkl1?=
+ =?utf-8?B?SlVaQlpickJzbFZFeGE4VmJsV2NGS2dMd0lVdFVPZGpEVisvZW5wZnNCK2hX?=
+ =?utf-8?B?cHJhOStPUDY3Z1gyVzNNYXFjZ044TUxhbDlGNEphZ1AxRHpFVDRXa3liSVND?=
+ =?utf-8?Q?dNidukezaZbjW?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6434.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?STh3cmFxaG5CaTMwVDU2Ujl4Z3hYRCt2dTVFOTM3Z2loNitmNnlzT0kzT0J5?=
+ =?utf-8?B?amlOZ1VUTExQc2Z6b3RMVWhBSlZvUUNZb1FCSXpNMWxSWjJpRmZ0bGxMTHZC?=
+ =?utf-8?B?YjBzWVNXUFlFM0llVlpmKzlCbVJQb21QOVVIMW1kZmk5MHhRODc4ZFhKdUdC?=
+ =?utf-8?B?d0ZuNFRFQlN5ZzhXNkdxdnVidktvdU96bWJnLzN2ZXlRZG1KY2toRTBXMXBt?=
+ =?utf-8?B?WVRUMDBhZWZEczBxeko0U0w0OGJabTkvc0ZaU1czTDZDa1l4WEgyTTdqdjQ2?=
+ =?utf-8?B?bXFQdzlzT2xSSHNrTDEyempWdEtOYmduOHF1bkMrWStPaW5TWWpxMFBWTStP?=
+ =?utf-8?B?L0xPREYrdmdYaEMzN3VIcUNBdlgydGNCVExHekZuc0NjQk9ySDNNVEdNRWpP?=
+ =?utf-8?B?UmhGajR5b1RiNlBJb1JXWE1QQlZiU285Z0tKN0ZtY3JYdEU4R0srTkdieUJN?=
+ =?utf-8?B?TWVnL3o5dWJEMGZtaFFvYXNlYTZNKzNxNGo0MUh2R2xaUnEzUVVjSzFCcVZD?=
+ =?utf-8?B?N0dHQWcvcUJUeVUrYlBhWXlPRWxKUnhEK1FNQk9ReHIwdmNOL0EvN3NGTlYw?=
+ =?utf-8?B?Mk9wSFR3a25MeldHWnVzNncyMllVbXlPWjdLWkZCZXV1WUowVkNuSGhlb29W?=
+ =?utf-8?B?d0owVnFUN2dnYU82T3NPeHhQVlBiamRHWEJCZ2hnYlB1QWx4Q0tmUGVZMjFC?=
+ =?utf-8?B?UjByMXpUeFg0cVZuRmhzVWxrQ1ZCQmZhV2QvVy9PZ3BVU3BRcmRaK0s4QThs?=
+ =?utf-8?B?dnRpcC8vYUpOL3RZZG42U0J6WWs1bXQ4dHRkbHp0NEhTWVJuaHdCVUwzRVJV?=
+ =?utf-8?B?RUtjbzA1WVdvUTFlRkFsVEk2MEdGampkUzF2UHVIWTRYQ0VZOGxaNWYvdit2?=
+ =?utf-8?B?andxazNFZUJNQUhJbzV6MlA0SUhrYllLLzA0MkhSdllMTDBPR3Nwb2tHNms3?=
+ =?utf-8?B?ZTVPSCtEMmljbEd4QzR6c2VkZTEzekNvV3NjNjBrc09CSzdBT0tVVjdBTXRv?=
+ =?utf-8?B?eUNHMTJ4UnN2TWNodWtLUSswdWJ0QTFYTHVQOUZDQWhYUUJiK0Nzai9KazJI?=
+ =?utf-8?B?ckdLdVkweENzSmYxYWVsTU83M0VPRnkrelE0cmdlaFhtVmlzSWZNSnBkK2gx?=
+ =?utf-8?B?N0NvSGNtb3NjMEYvNjZpRkZGTVk4NEwwcUUzT3dCVGI2UU5RdzhkSXIwcmZ0?=
+ =?utf-8?B?MUk5MitBdW56SWlBS0NnOUhpMnQ5WFNDSkN1Wm1PcW1CaWx5QUFsMkZuenIx?=
+ =?utf-8?B?SmJtQ2x2dnlCNFZHRkE2N1FJMnFEOGZkYjJ0ZklNNWo3YTZ2MGJjSC9aU2E4?=
+ =?utf-8?B?aXRJRVpnNjh1bERtSVAyQ0FYWFBsSHBTMFQyRTR0YlJVV3o0RW1UMDVNc0pL?=
+ =?utf-8?B?YWxtc2R1ZGprZE5PL2FxR0ZwbHZvNml0MHVySklJZGwwM25LUmtjMktmUXl3?=
+ =?utf-8?B?b3Jqd0NzVm1FYXpWbGs2Mm1yUXV3a0pHdkpnZUNKSTVCbHRScDVCUUZaM3JG?=
+ =?utf-8?B?N29WUzVXd2lnVE9IUVdvMEhtaVU0S0JadGVKbWdOd1VLNjhWVFE2eTZFQkFI?=
+ =?utf-8?B?dk5qbVBMZll5S3F5M3NtZXgyU1FDb051dVM1WWpZbEM2VWc5emRIVS9uT25O?=
+ =?utf-8?B?NEdPNnBES2ZYdzQzVGY4K0ZwMERLM1BkVUxXMER4OUd1QjV5cEJybzdKbk5L?=
+ =?utf-8?B?SlZWTCtNVXZVRFB6ZTEyZkxDdkViZUpxVitrMVZZVFovTXQ0TS8rOThDSDRa?=
+ =?utf-8?B?Q1RUV0tzTktlZVB3VUwwcEZGMWNuMTdoMDVxMlUwM2Viak1OU3ZUZFVSUVFK?=
+ =?utf-8?B?cUozZFBqdThxaWxzbnUyRDFrTjRrdFlUdWFJaHk2dkkrL3Y2KzNkSC81OG1C?=
+ =?utf-8?B?NDJqTjkrQjdiVVZ5NDFxQVora29xNk1Od2ZHbjJNQm5nMWhESWFCeTdwWS9U?=
+ =?utf-8?B?djNHQk5MNFpRUEZSUkJ3aWJPNHRURjlrWTR3VnpNdmVFdTFhNGxud3hCUExw?=
+ =?utf-8?B?bEl1TVAydVprN3VjaklqalNsSm5jakFIMWtqaXo1SENVVFVhUUJaZzlxWDY0?=
+ =?utf-8?B?MmpsWi8yQmEyRG5DTXhKMitIN294YWRWWWRRTnIzSU13aEZSNnVKNlJOMUEx?=
+ =?utf-8?Q?LUJUdONTHAE7dHEnfsKwjj3Dn?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d7f3488-2a7f-4a35-a46e-08dd3b5b16d6
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6434.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2025 03:07:37.0740
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: F3ycwD16vQ4rtfKjclG5Oj4aM8FCtix9vUBF1LH8RLkP1dy67IO51MwuzwrSxlKeWxVGhR9axYaTf6rhq6FJfA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6167
 
+On 22-Jan-25 11:31 PM, Gregory Price wrote:
+> On Tue, Jan 21, 2025 at 10:03:55AM +0530, Bharata B Rao wrote:
+>> I don't think moving count_vm_numa_event() to within
+>> CONFIG_NUMA_BALANCING is necessary as it is defined separately as NOP
+>> for !CONFIG_NUMA_BALANCING.
+>>
+> 
+> NUMA_HINT_FAULTS and NUMA_HINT_FAULTS_LOCAL are only defined if
+> CONFIG_NUMA_BALANCING
+> 
+> include/linux/vm_event_item.h
+> 
+> #ifdef CONFIG_NUMA_BALANCING
+>                  NUMA_PTE_UPDATES,
+>                  NUMA_HUGE_PTE_UPDATES,
+>                  NUMA_HINT_FAULTS,
+>                  NUMA_HINT_FAULTS_LOCAL,
+>                  NUMA_PAGE_MIGRATE,
+> #endif
 
-在 2025/1/21 13:12, zhangwei 写道:
-> Translate .../security/self-protection.rst into Chinese.
->
-> Update the translation through commit b080e52110ea
-> ("docs: update self-protection __ro_after_init status")
->
-> Signed-off-by: zhangwei <zhangwei@cqsoftware.com.cn>
+What I meant is
 
-Reviewed-by: Yuxian Mao <maoyuxian@cqsoftware.com.cn>
+include/linux/vmstat.h has a definition for count_vm_numa_event() for
+!CONFIG_NUMA_BALANCING case like below:
 
-Thanks,
-Yuxian
-> ---
->
-> v2: fix remove the unnecessary blank lines
->
->   .../translations/zh_CN/security/index.rst     |   2 +-
->   .../zh_CN/security/self-protection.rst        | 271 ++++++++++++++++++
->   2 files changed, 272 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/translations/zh_CN/security/self-protection.rst
->
-> diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
-> index 0aacecabf0c0..9a6345dd90b8 100644
-> --- a/Documentation/translations/zh_CN/security/index.rst
-> +++ b/Documentation/translations/zh_CN/security/index.rst
-> @@ -18,6 +18,7 @@
->      credentials
->      lsm
->      sak
-> +   self-protection
->      siphash
->      tpm/index
->      digsig
-> @@ -29,6 +30,5 @@ TODOLIST:
->   * keys/index
->   * lsm-development
->   * SCTP
-> -* self-protection
->   * secrets/index
->   * ipe
-> diff --git a/Documentation/translations/zh_CN/security/self-protection.rst b/Documentation/translations/zh_CN/security/self-protection.rst
-> new file mode 100644
-> index 000000000000..3c8a68b1e1be
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/security/self-protection.rst
-> @@ -0,0 +1,271 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../disclaimer-zh_CN.rst
-> +:Original: Documentation/security/self-protection.rst
-> +
-> +:翻译:
-> +
-> + 张巍 zhangwei <zhangwei@cqsoftware.com.cn>
-> +
-> +============
-> +内核自我保护
-> +============
-> +
-> +内核自我保护是指在Linux内核中设计与实现的各种系统与结构
-> +以防止内核本身的安全漏洞问题。它涵盖了广泛问题，包括去除
-> +整个类的漏洞，阻止安全漏洞利用方法，以及主动检测攻击尝
-> +试。并非所有的话题都在本文中涉及，但它应该为了解内核自我
-> +保护提供一个合理的起点，并解答常见的问题。（当然，欢迎提
-> +交补丁！）
-> +
-> +在最坏的情况下，我们假设一个非特权的本地攻击者对内核内存
-> +有任意读写访问权限。虽然在许多情况下，漏洞被利用时并不会
-> +提供此级别的访问权限，但如果我们能防御最坏情况，也能应对
-> +权限较低的攻击。一个更高的标准，且需要牢记的是保护内核免
-> +受具有特权的本地攻击者的攻击，因为root用户可以有更多权限。
-> +（尤其是当他们能够加载任意内核模块时）
-> +
-> +成功的自我保护的目标是：有效、默认开启、不需要开发者主动
-> +选择、没有性能影响、不妨碍内核调试、并且没有测试。虽然很
-> +难满足所有的这些目标，但明确提到这些目标非常重要，因为这
-> +些方面需要被探索、解决或接受。
-> +
-> +==========
-> +攻击面缩减
-> +==========
-> +
-> +防止安全漏洞最基本的防御方式是减少可以被用来重定向执行的
-> +内核区域。这包括限制用户公开使用的API、使内核API更难被错
-> +误使用、最小化可写内核内存区域等。
-> +
-> +严格的内核内存权限
-> +-------------------
-> +
-> +当所有内核内存都是可写的，攻击者可以轻松地重定向执行流。
-> +为了减少这种攻击目标的可用性，内核需要更严格的权限集来
-> +保护其内存。
-> +
-> +可执行代码和只读数据必须不可写
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +任何具有可执行内存的区域必须不可写，显然这也包括内核文本
-> +本身。我们还必须考虑其他地方：内核模块、JIT内存等，（在
-> +某些情况下，为了支持像指令替代、断点、kprobes等功能，这些
-> +区域会暂时被设置为可写。如果这些功能必须存在于内核中，它
-> +们的实现方式是：在更新期间将内存临时设置可写，然后再恢复
-> +为原始权限。）
-> +
-> +为了支持这一点，CONFIG_STRICT_KERNEL_RWX 和
-> +CONFIG_STRICT_MODULE_RWX 的设计旨在确保代码不可写，数据不
-> +可执行，以及只读数据既不可写也不可执行。
-> +
-> +大多数架构默认支持这些选项，且用户无法选择。对于一些像arm
-> +这种希望能够选择这些选项的架构，可以在架构Kconfig中选择
-> +ARCH_OPTIONAL_KERNEL_RWX以启用Kconfig提示。
-> +CONFIG_ARCH_OPTIONAL_KERNEL_RWX_DEFAULT决定在启用
-> +ARCH_OPTIONAL_KERNEL_RWX时的默认设置。
-> +
-> +函数指针和敏感变量必须不可写
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +内核内存中有大量的函数指针，这些指针被内核查找并用于继续执行
-> +（例如，描述符/向量表、文件/网络等操作结构等）。这些变量的数
-> +量必须减少到最低限度
-> +
-> +许多像这样的变量可以通过设置为"const"来实现只读，从而使它们
-> +存放在内核的.rodata段而非.data段，从而获得内核严格内存权限的
-> +保护。
-> +
-> +对于在_init是仅初始化一次的变量，可以使用_ro_after_init属性
-> +进行标记。
-> +
-> +剩下的变量通常是那些更新频率较低的（例如GDT）。这些变量需要另
-> +一个机制（类似于上述提到的对内核代码所做的临时例外），以便在
-> +其余生命周期内保持只读状态。（例如，在进行更新时，只有执行
-> +更新的CPU线程会被授予对内存的不可中断写入访问权限。）
-> +
-> +将内核内存与用户空间内存分隔开
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +内核绝对不可以执行用户空间内存，同时，内核也不得在没有明确预
-> +期的情况下访问用户内存空间。这些规则可以通过一些硬件限制来支
-> +持（如x86的SMEP/SMAP，ARM的PXN/PAN）或通过仿真（如ARM的内存
-> +域）来强制执行。通过这种方式阻止用户空间内存的访问，攻击者就
-> +无法将执行和数据解析转移到易于控制的用户空间内存，从而迫使攻
-> +击完全在内核中进行。
-> +
-> +减少对系统调用的访问
-> +--------------------
-> +
-> +对于64位系统，一种消除许多系统调用最简单的方法是构建时不启用
-> +CONFIG_CONPAT。然而，这种情况通常不可行。
-> +
-> +“seccomp”系统为用户空间提供了一种可选功能，提供了一种减少可供
-> +运行中进程使用内核入口点数量的方法。这限制了可以访问内核代码
-> +的范围，可能降低了某个特定漏洞被攻击者利用的可能性。
-> +
-> +一个改进的方向是创建有效的方法，仅允许受信任的进程访问例如兼
-> +容模式、用户命名空间、BPF创建和性能分析等功能。这将把内核入口
-> +点范围限制在通常可以被非特权用户空间进程访问的较常见集合中
-> +
-> +限制对内核模块的访问
-> +--------------------
-> +
-> +内核绝不应允许非特权用户加载特定的内核模块，因为这可能为攻击者
-> +提供一个意外扩展的可用攻击面的方法。（通过已预定义子系统按需加
-> +载模块，如MODULE_ALIAS_*，被认为是“预期的”，但即便如此，也应对
-> +这些情况给予更多的关注。）例如，通过非特权的套接字API加载文件
-> +系统模块是没有意义的：只有root用户或物理本地用户应该触发文件系
-> +统模块的加载。（在某些情况下，这甚至可能存在争议。）
-> +
-> +为了防止特权用户的攻击，系统可能需要完全禁止模块加载（例如，通
-> +过单体内核构建或modules_disabled sysctl），或者使用签名模块（例
-> +如，CONFIG_MODULE_SIG_FORCE或通过LoadPin保护的dm-crypt），以防
-> +止root用户通过模块加载器加载任意内核代码。
-> +
-> +内存完整性
-> +----------
-> +
-> +内核中有许多内存结构在攻击过程中被定期泛滥用以获取执行控制，迄今
-> +为止，最常见的是堆栈缓冲区溢出，在这种攻击中，堆栈上存储的返回地
-> +址被覆盖。除此之外，还有许多其他类型的攻击，防护措施也应运而生。
-> +
-> +堆栈缓冲区溢出
-> +--------------
-> +
-> +经典的堆栈缓冲区溢出攻击是指超出栈上分配的变量预期大小，从而将一
-> +个受控值写入栈帧的返回地址。最常见的防御措施是堆栈保护
-> +（CONFIG_STACKPROTECTOR），它在函数返回前会验证栈上的“stack canary”。
-> +其他防御措施还包括影子堆栈等。
-> +
-> +堆栈深度溢出
-> +------------
-> +
-> +一个不太容易被理解的攻击方式是利用bug触发内核通过深度函数调用或
-> +大的堆栈分配来消耗堆栈内存。通过这种攻击，攻击者可以将数据写入内
-> +核预分配堆栈空间之外的敏感结构。为了更好的防护这种攻击，必须进行
-> +两项重要的更改：将敏感的线程信息结构转移到其他地方，并在堆栈底部
-> +添加一个故障内存洞，以捕获这些溢出
-> +
-> +栈内存完整性
-> +------------
-> +
-> +用于跟踪堆空闲列表的结构可以在分配和释放时进行完整性检查，以确保它
-> +们不会被用来操作其它内存区域。
-> +
-> +计算器完整性
-> +------------
-> +
-> +内核中的许多地方使用原子计数器来跟踪对象引用或执行类似的生命周期管
-> +理。当这些计数器可能发生溢出时（无论是上溢还是下溢），这通常会暴露
-> +出使用后释放（use-after-free）漏洞。通过捕捉原子计数器溢出，这类漏
-> +洞就可以消失。
-> +
-> +大小计算溢出检测
-> +----------------
-> +
-> +与计算器溢出类似，整数溢出（通常是大小计算）需要在运行时进行检测，
-> +以防止这类在传统上会导致能够写入内核缓冲区末尾之外的漏洞。
-> +
-> +概率性防御
-> +----------
-> +
-> +尽管许多防御措施可以被认定是确定的（例如，只读内存不能写入），但
-> +有些确保措施仅提供统计防御，即攻击者必须收集足够的关于运行系统的
-> +信息才能突破防御。尽管这些防御并不完美，但它们确实提供了有意义的
-> +保护。
-> +
-> +栈保护、迷惑技术和其他秘密
-> +--------------------------
-> +
-> +值得注意的是，像之前讨论的栈保护这样的技术，从技术上来说是统计性防
-> +御，因为它们依赖于一个秘密值，而这样的值可能会通过信息泄露漏洞而被
-> +发现。
-> +
-> +对于想JIT（及时翻译器）这样的情况，其中可执行内容可能部分由用户空间
-> +控制，也需要类似的秘密之来迷惑。
-> +
-> +至关重要的是，所使用的秘密值必须是独立的（例如，每个栈使用不同的栈
-> +保护值），并且具有高熵（例如，随机数生成器（RNG）是否正常工作？），
-> +以最大限度地提高其成功率。
-> +
-> +内核地址空间布局随机化（KASLR）
-> +-------------------------------
-> +
-> +由于内核内存的位置几乎总是攻击成功的关键因素，因此使内核内存位置变
-> +得非确定性会增加攻击的难度。（请注意，这反过来提高了信息泄露的价
-> +值，因为泄露的信息可以用来发现目标内存位置。）
-> +
-> +文本和模块基址
-> +--------------
-> +
-> +通过在启动时重新设定内核的物理基地址和虚拟基地址
-> +（CONFIG_RANDOMIZE_BASE）,那些需要利用内核代码的攻击将会受阻。此外
-> +通过偏移模块加载基地址，意味着即使系统每次启动时按相同顺序加载同一
-> +组模块，这些模块也不会与内核文本的其余部分公用一个基地址。
-> +
-> +堆栈基地址
-> +----------
-> +
-> +如果进程之间内核堆栈的基地址不相同，甚至在不同系统调用之间也不相同，
-> +那么栈上或超出栈的目标位置就会变得更加难以确定。
-> +
-> +动态内存基址
-> +------------
-> +
-> +很多内核的动态内存（例如kmalloc，vmalloc等）由于早期启动初始化的顺
-> +序，最终布局是相对确定的。如果这些区域的基地址在启动之间不相同，攻
-> +击者就无法轻易定位它们，必须依赖于针对该区域的信息泄露才能成功。
-> +
-> +结构布局
-> +--------
-> +
-> +通过在每次构建时对敏感结构的布局进行随机化处理，攻击这必须将攻击调
-> +节到已知的内核版本，或者泄露足够的内核内存来确定结构布局，然后才能
-> +对其进行操作。
-> +
-> +防止信息泄露
-> +------------
-> +
-> +由于敏感结构的位置是攻击的主要目标，因此防止内核内存地址和内核内存
-> +内容泄露非常重要（因为它们可能包含内核地址或者其他敏感数据，例如
-> +栈保护值）。
-> +
-> +内核地址
-> +--------
-> +
-> +将内核地址打印到用户空间会泄露有关内核内存布局的敏感信息。在使用任
-> +何打印符号打印原始地址时，目前%px,%p[ad]（和在某些情况下的%p[sSb]）
-> +时。使用这些格式符写入的文件需要限制为只有特权进程可读。
-> +
-> +在4.14及以前的内核版本中，使用%p格式符打印的是原始地址。从4.15-rcl
-> +版本开始，使用%p格式符打印的地址会在打印前进行哈希处理。
-> +
-> +[*]如果启用KALLSYMS并且符号查找失败，则打印原始地址；如果没有启用
-> +KALLSYSM，则会直接打印原始地址。
-> +
-> +唯一标识符
-> +----------
-> +
-> +内核内存地址绝不可能用作向用户空间公开的标识符。相反，应该使用原子
-> +计数器，IDR（ID映射表）或类似的唯一标识符。
-> +
-> +内存初始化
-> +----------
-> +
-> +复制到用户空间的内存必须始终被完全初始化，如果没有显式地使用memset()
-> +函数进行初始化，那就需要修改编译器，确保清除结构中的空洞。
-> +
-> +内存清除
-> +--------
-> +
-> +在释放内存时，最好对内存内容进行清除处理，以防止攻击者重用内存中以前
-> +的内容。例如，在系统调用返回时清除堆栈（CONFIG_GCC_PLUGIN_STACKLEAK）,
-> +在释放堆内容是清除其内容。这有助于防止许多未初始化变量攻击、堆栈内容
-> +泄露、堆内容泄露以及使用后释放攻击（user-after-free）。
-> +
-> +目标追踪
-> +--------
-> +
-> +为了帮助消除导致内核地址被写入用户空间的各种错误，需要跟踪写入的目标。
-> +如果缓冲区的目标是用户空间（例如，基于seq_file的/proc文件），则应该自
-> +动审查敏感值。
+#ifdef CONFIG_NUMA_BALANCING
+#define count_vm_numa_event(x)     count_vm_event(x)
+#define count_vm_numa_events(x, y) count_vm_events(x, y)
+#else
+#define count_vm_numa_event(x) do {} while (0)
+#define count_vm_numa_events(x, y) do { (void)(y); } while (0)
+#endif /* CONFIG_NUMA_BALANCING */
+
+and hence moving count_vm_numa_events(NUMA_HINT_FAULTS) to within 
+CONFIG_NUMA_BALANCING section in numa_migrate_check() isn't necessary. 
+The current code already compiles fine when CONFIG_NUMA_BALANCING is 
+turned off.
+
+> 
+>> In fact numa_migrate_check() should be within CONFIG_NUMA_BALANCING as
+>> it should ideally be  called only if NUMA balancing is enabled. The same
+>> could be said for the callers of numa_migrate_check() which are
+>> do_numa_page() and do_huge_pmd_numa_page().
+>>
+> 
+> Really what i'm reading is that these functions are in the wrong file,
+> since ifdef spaghetti in *.c files is not encouraged.  These functions
+> should be moved somewhere else and given stubs if the build option is
+> off.
+
+Yes !CONFIG_NUMA_BALANCING stubs for numa_migrate_check(), 
+do_numa_page() and do_huge_pmd_numa_page() would be good.
+
+Regards,
+Bharata.
