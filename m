@@ -1,144 +1,189 @@
-Received: from mail-m1973179.qiye.163.com (mail-m1973179.qiye.163.com [220.197.31.79])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2043.outbound.protection.outlook.com [40.107.244.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3646A136E3B
-	for <linux-doc@vger.kernel.org>; Thu, 23 Jan 2025 05:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.79
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737611642; cv=none; b=sA1teUfL7nMI7jOtiLijzEvJyYiu7A5eJst9QQpReXP9YxNgJPJAdtJTcdMrdQ3kE41oUIcUtQ2AWFXnTfuGjRRiNy6a5esgOKl9zKy702OUetf11jsIdnRLB465Rv4hCgb4EJcMsSloHla0fKegQC9xjBxnApoogOC3gXlFlXc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737611642; c=relaxed/simple;
-	bh=9Q7FF9CnJ8EmVeQ2B2wyefgqt9hngsjWg4bIHjB9bwA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZE3ILfxBLLStGDlqymRJESCwMVb7BDNdLKdAiCjGaexTN+oUIyO46GliufFgFI4rvbHMdVJ8U5002gQZdOaItysFLhG1Aipz0xKw8GTGC5fGuzgZPUGGR7WzSwps+nXpaPCWFkcHMpq+6JM1vDD3lxs7TuDx5nIMB4xw1CvelCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=hNMqLwvJ; arc=none smtp.client-ip=220.197.31.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94BD20B208;
+	Thu, 23 Jan 2025 07:03:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1737615800; cv=fail; b=QCTEQOsTOnnY/IAhvOvS+JZ8JaIVXaTGgiNLIe1MbhWb2DFjyfTF0rd9ZUJ9VZ9pu8qBQ0zFleYg78CkoXV6KTlgAQhJFCSQiw0UJ/u8kIz/KjksLHvSOV00Of4ClYDxxHgw5xxRNYc+o0XIO077szGxGPPn84uXb0mOAye1iG8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1737615800; c=relaxed/simple;
+	bh=ByRJjAdldrDy7l+2uk0iEbjWhzGArjK9yAdxfikqPRM=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JQqGw808Z5R1LfPTUuwLyLrd1xd+iuHMETzDchblAMBTSz12Aj1jVd7ynYqaFEGB0C6hPzN19uRFL4aolo9dLsipyMwO6w/yEe+d9jG4WbKxUGUHy2VOtIxQ/C1ta2BbM4ARFv+cknjLPlIMBLB4NUvwnWq7goy0pv+fNjMLn1A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=qCnuGAX9; arc=fail smtp.client-ip=40.107.244.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="hNMqLwvJ"
-Received: from fedora.localdomain (unknown [123.53.38.48])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 979244f6;
-	Thu, 23 Jan 2025 13:18:30 +0800 (GMT+08:00)
-From: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
-To: alexs@kernel.org,
-	si.yanteng@linux.dev,
-	corbet@lwn.net
-Cc: zhaoyuehui@cqsoftware.com.cn,
-	zhaoshuo@cqsoftware.com.cn,
-	zhangwei@cqsoftware.com.cn,
-	maoyuxian@cqsoftware.com.cn,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v3 5/7] docs/zh_CN: Add tpm tpm_vtpm_proxy Chinese translation
-Date: Thu, 23 Jan 2025 13:17:43 +0800
-Message-ID: <f9798eaec76b27cc02fa47970bf623879377d422.1737603330.git.zhaoshuo@cqsoftware.com.cn>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <cover.1737603330.git.zhaoshuo@cqsoftware.com.cn>
-References: <cover.1737603330.git.zhaoshuo@cqsoftware.com.cn>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="qCnuGAX9"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hI8f2fIetf+WUXjJj22guRSw8Iiq8JLL8AJ2e38lHiUPqVQIOUd4esfyNrfgOEokjcIlj3dT46r7y1pg8mpPiAAuq+/31Ogv7x6oLwPssd0PL2RMeY+Cq78PHBRZvJggToNLxFFlLjFMYaE6aOymBpKNAJySNHVayPzixQyK3M6REZZVNn59QC/5Yr2FaosymD1e7BuFt4kePdmJOZQGaFhdDO8DdetrXxTWkKAdre/NB4z57G7gN+XFUzxJkwjXoY4y5S1B7GUYNjny45nBHnE3zpIuNbjZQ/385mGDfPxl/XpaFOt3vC3bZO6ybFc/+hgUjHXKvmF4fm2zH4T9cg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7PUDWflv1IsiwIz6s7j0WbLrVTgZNrVXZBwlWJYex78=;
+ b=IYykq2JFYu7PH0fGW9ihJW/lPUH4p+LEqt53Us9x3BzUXDH1kMDL+bWXmoMqhHlo1bT6XE+XzEZFcWUXMhuz6BeW8bZSJwSwsiju14V7Jb36uQd0CW4FPT+DXQWNzxuiJghdQNm3LryuXM/tHO8kkd+eXonjMkEZSPHUYi8cE6h0CPnbK/C+xM65eXnjyc/VgXkDlozq3+2HoTKwAmEeALu1r+hCSw67rd6F9wET0pEdflo7/XGWiYLHJ07qT+xjDR76o1MY9Wy+QNGekYHoENC0pD9RQ+mgj8P03fJ1BpIkxN8PBtiPZraqHWAn1LBRzVYrX31W6e/sZiBINqL1MQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7PUDWflv1IsiwIz6s7j0WbLrVTgZNrVXZBwlWJYex78=;
+ b=qCnuGAX9X5Y1pMbmZ+sztVYMZ75hafD6kQ/dJVnyL41lf8IZBChZAV9zAH5VGcKUwdbu3NqFeji0p3lyeZQt0SdRsxi1vJddtELM9GILpVmLwNjeRQn5Huli/fvLzzWpH/Yo/2tpz58JCUAFZN0dpabJuThQCHyLmsnpeUGahizkHFAMPOObpKwiM+JZAEiLRBk9b/vchMVW/caGHNRKneDAY9+JVqjTcPrki2GmENPewtp6r6n0odzeSlBOMMeSiUbapOiJeWMQlGtuv8xgYxxhFwNLCnXscY1oy+Niu6Ivhq6wxgTiP1puxi7NuKsKXLSaeIHr8OCNawnZ2zOfDA==
+Received: from MW4PR02CA0022.namprd02.prod.outlook.com (2603:10b6:303:16d::15)
+ by PH7PR12MB6393.namprd12.prod.outlook.com (2603:10b6:510:1ff::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.16; Thu, 23 Jan
+ 2025 07:03:14 +0000
+Received: from MWH0EPF000989E7.namprd02.prod.outlook.com
+ (2603:10b6:303:16d:cafe::eb) by MW4PR02CA0022.outlook.office365.com
+ (2603:10b6:303:16d::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8377.14 via Frontend Transport; Thu,
+ 23 Jan 2025 07:03:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ MWH0EPF000989E7.mail.protection.outlook.com (10.167.241.134) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8377.8 via Frontend Transport; Thu, 23 Jan 2025 07:03:14 +0000
+Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 22 Jan
+ 2025 23:03:05 -0800
+Received: from drhqmail202.nvidia.com (10.126.190.181) by
+ drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Wed, 22 Jan 2025 23:03:05 -0800
+Received: from nvidia.com (10.127.8.9) by mail.nvidia.com (10.126.190.181)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4 via Frontend
+ Transport; Wed, 22 Jan 2025 23:03:01 -0800
+Date: Wed, 22 Jan 2025 23:02:59 -0800
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: <kevin.tian@intel.com>, <corbet@lwn.net>, <will@kernel.org>,
+	<joro@8bytes.org>, <suravee.suthikulpanit@amd.com>, <robin.murphy@arm.com>,
+	<dwmw2@infradead.org>, <baolu.lu@linux.intel.com>, <shuah@kernel.org>,
+	<linux-kernel@vger.kernel.org>, <iommu@lists.linux.dev>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <eric.auger@redhat.com>,
+	<jean-philippe@linaro.org>, <mdf@kernel.org>, <mshavit@google.com>,
+	<shameerali.kolothum.thodi@huawei.com>, <smostafa@google.com>,
+	<ddutile@redhat.com>, <yi.l.liu@intel.com>, <patches@lists.linux.dev>
+Subject: Re: [PATCH v5 08/14] iommufd/viommu: Add iommufd_viommu_report_event
+ helper
+Message-ID: <Z5Hpo+Q6gcwc0+r6@nvidia.com>
+References: <20250120181854.GQ5556@nvidia.com>
+ <Z463eXfgNArCOfPn@nvidia.com>
+ <20250121183611.GY5556@nvidia.com>
+ <Z4/7pGx6F1mpAUuV@nvidia.com>
+ <20250121200924.GZ5556@nvidia.com>
+ <Z5ALWFVTOSC/8+ji@nvidia.com>
+ <20250121211404.GB5556@nvidia.com>
+ <Z5AUNVHzJPATVqAY@nvidia.com>
+ <Z5Cmvfp4JW9vmMTP@nvidia.com>
+ <Z5Eywl1o9pdYyuQO@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCT09DVh1OGh1DHxgZSkNNSlYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKSUhVTkhVSENVT0NZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0hVSktLVU
-	pCS0tZBg++
-X-HM-Tid: 0a949198fe5b09d0kunm979244f6
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pkk6EDo6FjIQHi0pMBhKSxgc
-	I0owFA9VSlVKTEhMTUtCTkpKT01MVTMWGhIXVQETGhQIEw4UOxgKCBQdDwwaCR5VGBQWVRgVRVlX
-	WRILWUFZSklIVU5IVUhDVU9DWVdZCAFZQUhPS0g3Bg++
-DKIM-Signature:a=rsa-sha256;
-	b=hNMqLwvJcaCk7T6ltO2ycTlThXg3No9JzcS3gOHYf4dJiJHUUqvrqxi+t5LTKz3nmdsrv+NgPF0Chz1uNj4loL6s6cSX5MTpwjZDIV1mi2Fdx+tkgoTPGTdIIG9IWBJThymJLqZE5r8GBaO7Fcv8hGOvVbf5f+O7/WfOeJPBN1E=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
-	bh=bBR9gV1n0H6Bv+46rqxXTjFURNjwYRky+PIaNzKKsd4=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <Z5Eywl1o9pdYyuQO@nvidia.com>
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000989E7:EE_|PH7PR12MB6393:EE_
+X-MS-Office365-Filtering-Correlation-Id: 65ae463e-10ac-4ff9-b4fd-08dd3b7c0161
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|376014|7416014|1800799024|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?g6n46JD4XoLiSogMFA2PIlth23m2HEgxWU/Dkrw2sRCRVer6O1/nSSjHn0On?=
+ =?us-ascii?Q?oZAmNcKVCLUg1zZ/nKPwyN0MHmEooJiZvnnO0bOHhN3Gj5bCT1w1z0Yq7MtH?=
+ =?us-ascii?Q?Jy8QcHn6fPIDyDZgFBrBIy8HHx16fPsZRryTakILATTog9lu+50FrA66SjI8?=
+ =?us-ascii?Q?eAzYtQDoABlCimmQ6bN2c+EijEFL8B+MQQPg6WQ/qf2bEqE6xC82oC2PU0iK?=
+ =?us-ascii?Q?5CXwq04FQZX/y/fMbWE0vDQsxmxc3WqNXZCtI4fhu+XWu1z9kElUnwBi/gem?=
+ =?us-ascii?Q?+gtLxyok4J7LtG1aTfQC0kXNLVy43m6+DwQ3xIy59rHIC56oDL0rhZQexGUs?=
+ =?us-ascii?Q?TiYRN3lDGbUObNDU1DPbmmyc/5BSOGwcLbuxxx15vxsPYwXFPybQq9CBp59k?=
+ =?us-ascii?Q?kyFtAPJ9JwltT0yUpSEFq4s+2TzcHmJDoJYbZeJDhioUS1UJpcIydMY8sYNl?=
+ =?us-ascii?Q?Gz71bBwNbSp8704TF5+wazs6BgwtBQDgLS7TiOMjMXyV/KrS7O+mWWwagrPc?=
+ =?us-ascii?Q?USqlbK+VrW556Raj9rFwBv0PwE14ofqI/QML8JZYwafjCAUmIiOer2oUke9a?=
+ =?us-ascii?Q?deWkN+pdjxJ2G47eqwHJgmb5eD64AC3p3qLep0JUV89ACm5XaZ0eXMSyxbTl?=
+ =?us-ascii?Q?f38sj5d/8Zm3VUwHMK6Nd2xwxJ2wBkAizg0pM5FtJhuDUKE+hA93ZE1Ig9o3?=
+ =?us-ascii?Q?igonZT8HR0Ch+ECBvDLNvz0IL+HO3Jbwhpw8QXkojXvEpTdOiXWa4j9SSKmf?=
+ =?us-ascii?Q?PMExCAzhx6zmAqRDEx1aOTSRqyAmIvoinV3z4DWJjyr5c8nGuLOuVrhC94ym?=
+ =?us-ascii?Q?STZAlUV/SjxsNItEqNtS772JvpTIrJ2WlHM0DTGpajqoZNQ0RvWn1OJKChJr?=
+ =?us-ascii?Q?Eg35E6TSZTAOuYePhx4O+BtGk9PYrmKJ7dlgWQzR3jVwztMpJ4KLXZu/B+py?=
+ =?us-ascii?Q?OkQYTv8fIi/5/9hAAy68qS5l4776NzxwaZR0J6wmEeNpQm1YnEGXw4JPm86W?=
+ =?us-ascii?Q?FwHj9I8QsqCLRW6BS15LAocpfQxh9skOnuM9l6fO4cGqKL2qVww7r8mG3ZTu?=
+ =?us-ascii?Q?9u3q/vq3f4dlGBxIMKubWxTUJBTBoGxFYQJGal8cM4L5gMNtL/VS8ENN8cZM?=
+ =?us-ascii?Q?vkIOudTj8J+NmMJoEbPBsZ4+Zi6bfQVoM87yJtJWtJ+t4Bp8196mJEOATcbC?=
+ =?us-ascii?Q?XuPfXFw1IBUSieMSJ2Jbl6QXEdJ8cq8b6UPParMakuHV+ypjqmKoLZLewwgf?=
+ =?us-ascii?Q?N79zpldIpyEx7ysm8mHebYGIMW+roRU+X2gj8Qvs1N8rcIL1LXEQlcWkptV3?=
+ =?us-ascii?Q?zbQEYy9PZF9fxt9KOYyFaEQvQJYCHoiDpJ27nRcCFF71+4ozk0+XapDnnhFi?=
+ =?us-ascii?Q?FBa6rp+90+G4+Q3OC2IORTO/Fc3HYZ8t6ueAVSk93wWV8pgzdWZAbKJZKSde?=
+ =?us-ascii?Q?lFOf/RtskL6/8vU7D5ynJHKFHfqdJN/rfhti6ddWFGN2xgWauYCxygFdihtH?=
+ =?us-ascii?Q?xTCMqE15z+p41nI=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(376014)(7416014)(1800799024)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2025 07:03:14.0861
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 65ae463e-10ac-4ff9-b4fd-08dd3b7c0161
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MWH0EPF000989E7.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6393
 
-Translate .../security/tpm/tpm_vtpm_proxy.rst into Chinese.
+On Wed, Jan 22, 2025 at 10:02:49AM -0800, Nicolin Chen wrote:
+> On Wed, Jan 22, 2025 at 12:05:27AM -0800, Nicolin Chen wrote:
+> > On Tue, Jan 21, 2025 at 01:40:13PM -0800, Nicolin Chen wrote:
+> > > On Tue, Jan 21, 2025 at 05:14:04PM -0400, Jason Gunthorpe wrote:
+> > > > Since we don't hold the spinlock the whole time there is a race where
+> > > > we could pull the overflow off and then another entry could be pushed
+> > > > while we do the copy_to_user.
+> > > 
+> > > I see. I'll be careful around that. I can imagine that one tricky
+> > > thing can be to restore the overflow node back to the list when a
+> > > copy_to_user fails..
+> > 
+> > Hmm, it gets trickier because the overflow node is a preallocated
+> > single node per vEVENTQ. We must not only check list_empty for its
+> > restore, but also protect the overflow->header.sequence from races
+> > between atomic_inc and copy_to_user. However, we can't use a mutex
+> > because copy_to_user might DOS...
+> > 
+> > A simple solution could be to just duplicate overflow nodes, each
+> > of which contains a different sequence, like a regular vEVENT node.
+> > This certainly changes the uAPI for read(). Though the duplication
+> > of overflow nodes doesn't sound optimal, it's acceptable since the
+> > duplicated nodes would have been regular vEVENT nodes if there was
+> > no overflow (i.e. no extra overhead)?
+> 
+> Ah, didn't think clearly last night.. We can't simply add overflow
+> nodes either for rate/memory limit reason that you concerned about
+> in the other email. On the other hand, though certainly not being
+> ideal, indulging the race at the sequence index might not be that
+> harmful, compared to the extreme of the other case..
+> 
+> I'll give another thought today if there's some other way out.
 
-Update the translation through commit 799a545bb938
-("tpm: move documentation under Documentation/security")
+I made a change to duplicate the overflow node in the fetch() that
+is protected by the spinlock, which is used for copy_to_user. Then
+the other routine for vEVENT reporting, protected by the spinlock,
+can race-freely update the preallocated overflow node.
 
-Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
----
- .../translations/zh_CN/security/tpm/index.rst |  2 +-
- .../zh_CN/security/tpm/tpm_vtpm_proxy.rst     | 51 +++++++++++++++++++
- 2 files changed, 52 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/security/tpm/tpm_vtpm_proxy.rst
-
-diff --git a/Documentation/translations/zh_CN/security/tpm/index.rst b/Documentation/translations/zh_CN/security/tpm/index.rst
-index 4ee8881a41a4..dd80816f8af8 100644
---- a/Documentation/translations/zh_CN/security/tpm/index.rst
-+++ b/Documentation/translations/zh_CN/security/tpm/index.rst
-@@ -15,8 +15,8 @@
-    tpm_event_log
-    tpm-security
-    tpm_tis
-+   tpm_vtpm_proxy
- 
- TODOLIST:
--*   tpm_vtpm_proxy
- *   xen-tpmfront
- *   tpm_ftpm_tee
-diff --git a/Documentation/translations/zh_CN/security/tpm/tpm_vtpm_proxy.rst b/Documentation/translations/zh_CN/security/tpm/tpm_vtpm_proxy.rst
-new file mode 100644
-index 000000000000..bc92cfb684c3
---- /dev/null
-+++ b/Documentation/translations/zh_CN/security/tpm/tpm_vtpm_proxy.rst
-@@ -0,0 +1,51 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/security/tpm/tpm_vtpm_proxy.rst
-+
-+:翻译:
-+ 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
-+
-+==========================
-+Linux容器的虚拟TPM代理驱动
-+==========================
-+
-+| 作者：
-+| Stefan Berger <stefanb@linux.vnet.ibm.com>
-+
-+本文档描述了用于Linux容器的虚拟可信平台模块（vTPM）代理设备驱动。
-+
-+介绍
-+====
-+
-+这项工作的目标是为每个Linux容器提供TPM功能。这使得程序能够像与物理系统
-+上的TPM交互一样，与容器中的TPM进行交互。每个容器都会获得一个唯一的、模
-+拟的软件TPM。
-+
-+设计
-+====
-+
-+为了使每个容器都能使用模拟的软件TPM，容器管理栈需要创建一对设备，其中
-+包括一个客户端TPM字符设备 ``/dev/tpmX`` （X=0,1,2...）和一个‘服务器端’
-+文件描述符。当文件描述符传被递给TPM模拟器时，前者通过创建具有适当主次
-+设备号的字符设备被移入容器，然后，容器内的软件可以使用字符设备发送TPM
-+命令，模拟器将通过文件描述符接收这些命令，并用它来发送响应。
-+
-+为了支持这一点，虚拟TPM代理驱动程序提供了一个设备 ``/dev/vtpmx`` ，该设备
-+用于通过ioctl创建设备对。ioctl将其作为配置设备的输入标志，例如这些标志指示
-+TPM模拟器是否支持TPM1.2或TPM2功能。ioctl的结果是返回‘服务器端’的文件描述符
-+以及创建的字符设备的主次设备号。此外，还会返回TPM字符设备的编号。例如，如果
-+创建了 ``/dev/tpm10`` ，则返回编号（ ``dev_num`` ）10。
-+
-+一旦设备被创建，驱动程序将立即尝试与TPM进行通信。来自驱动程序的所有命令
-+都可以从ioctl返回的文件描述符中读取。这些命令应该立即得到响应。
-+
-+UAPI
-+====
-+
-+该API在以下内核代码中：
-+
-+include/uapi/linux/vtpm_proxy.h
-+drivers/char/tpm/tpm_vtpm_proxy.c
-+
-+函数：vtpmx_ioc_new_dev
--- 
-2.47.1
-
+Nicolin
