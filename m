@@ -1,143 +1,163 @@
-Received: from mail.archlinux.org (mail.archlinux.org [95.216.189.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67011185B62;
-	Wed, 22 Jan 2025 23:34:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.216.189.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C45849C;
+	Thu, 23 Jan 2025 00:27:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737588871; cv=none; b=HUherR4o2PZ8MnAqgjNildmhNu3w9HN/jKAJ1PL28FVzwTJ9aWs/cN31nen71s5iVu0IxL/ZW3lt0M2UD7vQ9MXCfi4iRFOprRNcihFMQ6xmKbbu6BTiUsoEYdukZ7AraonkgTVoJbJemFyJrSfP3Z9jgdeD8q5aEf67KNi/1vw=
+	t=1737592076; cv=none; b=nRpeym7Fx8AksEO2Nda1l5KcLCeLebwnBbBdjIP9ckkHTagDbwKpdx1dOJiohzm14xJt3QxB3mvlerQtDASDtO7wIPOwL9nJddp9RvHzK6skIY9SSMEZDMsBj+ISalX/O9y6VZTeFRZIT+vCsl38bVX2LBNwIxZ94r2saafYP04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737588871; c=relaxed/simple;
-	bh=y9Q8HEE6q0vmvrQ9y+XwfgTOy+3p3frBcuPef11CoPo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l9rXmgwajrbo+sB0K1Fx9YOWEzqMn+JRLZqPCcg2qY4P2/TqU95g9osIW4XnhPuZLL7u9dzgHiUSCK0KX9+JoCheZTtC4oxFvIwzHn79dIrA4rZz2TahhTa9LmSKjEq6p4VA0yvUDZgVVM+nyXmqBAOHEsXDE99ZD6k6aSmG9W4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org; spf=pass smtp.mailfrom=archlinux.org; dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=VFnQzv5P; dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=Euh2GBG3; arc=none smtp.client-ip=95.216.189.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=archlinux.org
+	s=arc-20240116; t=1737592076; c=relaxed/simple;
+	bh=P1QlfT/atXuQxuOLuOydbEL5pw5YjBouTf3uNSWNkZY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UyZ9B/7nrUUcM/MaChNXPrShCgClYZbv+ES9FdRRHiNXLl4rQx0QMoQwx1HrFE5rCr3R3V3fmhnxBhF5j7BrZtTVQb3LBKjo980r+NKmhFtpeZ2xDoToRzJbz9PzFy/qGqrnZ5O+D4b2WOUIbdar5IcDzadZQxej4Ne5PnnYYlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I2PiRX50; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="VFnQzv5P";
-	dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="Euh2GBG3"
-Message-ID: <8e5b171d-78fa-4cba-8217-1a661d23785b@archlinux.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-rsa; t=1737588523;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nN8ZPByiAs2yKdwLh5W4fO3m7Re8B0wU6vIlJ5ZWJ6U=;
-	b=VFnQzv5PEHo+boR7sYtwv3SvjQNrMce7nfWtbHdM4vxonnsLc+EQPaJObToIm2zIe0H5dc
-	Dd3vYJdPEOtGoAYr/pKWs/Bxv7kkhyy/hSuMuUppZ2kkD5A7NAzO7HrFaSUozPhdnz3koF
-	LS6rsq25cvrJHrm+rk8VJ3K1wCUqs8Y8WzHS3z/yQtavQGj3xROYyJLITrBOeGWY2LHr+6
-	CrD4DtsD50Id6KahUobwnvGqKzIRAwHpMHYS4nQM71yHb0sryuyZwG1W7vweZEnRN8UFGc
-	XBEPPo41c8T1lnnwVy6eNyZD7UWjTNdG5bE9FyWlazPr/e43Vvg/X4asGsoso/fIBRloM+
-	aRYZquTWAvLlR4ACSkhH+N3GHc8k2AhwRdFBKL16gjI51oBjo+0NdVYhSelNaT6Z2romhT
-	ZnJvbOGhpMWNoc36jwbZWGh8SZlM39gpdGrFsCJKhVbd+WDFwZXqSZIkB8+43ixtksv8Ix
-	8oDaELwyHiUVnCFUqBqntV2UmcLUgxozoFPcTFJJ7UPo+0gRCwmgHSJkM5bSAj5UNXw+Ac
-	KO5UW7A9oX/ktq9A5JrOmwHDwB8alHpAh3Y1OlBCmvjsrO7QKRRNEwQ9IjGzLSnlOWKgPY
-	ZYjcY3fIOMQkbiFByM49TmxK6ltNK+EkNjJnMmyYMQ0BtLRzf71dQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-ed25519; t=1737588523;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nN8ZPByiAs2yKdwLh5W4fO3m7Re8B0wU6vIlJ5ZWJ6U=;
-	b=Euh2GBG39NEZKnmrDmzHEp7zEz7La8UboW2/Llrndh0TjmRCgzYt9pSb0oQW9Pb2RFA9cv
-	AXC5ElgjGj/UKHAw==
-Authentication-Results: mail.archlinux.org;
-	auth=pass smtp.auth=kpcyrd smtp.mailfrom=kpcyrd@archlinux.org
-Date: Thu, 23 Jan 2025 00:28:40 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I2PiRX50"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-216395e151bso4902765ad.0;
+        Wed, 22 Jan 2025 16:27:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737592074; x=1738196874; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9WHi/JYFD3EzJEZRlZs0PVoRsk43gGGHLDgIMkHR904=;
+        b=I2PiRX50QJckqOAC2Q6inXuR0vKc8ki9lDej9WvbdWhhEseUaDbLNNiaKAWJJ4jOWh
+         tmYbQYHG1LwkBVKcEAGGqiXBpJYxQNburty51qSQnrJIV8VdJ2Ma8HTUOdXKJiRdV5MY
+         2dR7dUU1bPomSYObRoieua7SV5JyI+tCG6bZb9/JTBy7gLm2/LW5O6oT65ZVjcUUGfTS
+         QauC+w/udcbWucilMLQBA2Aa+YOtMlOfBtH1iQ1r59BOmRKzD66l5Z1r2KaaTO0LDaHB
+         iIqpCifCFG/H7CWjLL9myhUEm7bhIQNsF5S5SxnZTbIxY7xyNxhPC6bRkLspPv6R99Xk
+         ucvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737592074; x=1738196874;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9WHi/JYFD3EzJEZRlZs0PVoRsk43gGGHLDgIMkHR904=;
+        b=uOyDxHGDV3GyArITrJ9Egh+er8mSUvn0EBkIEdcoeUo36nkF0LnMdTrI45+P6VW49C
+         bZL9t4ozFSk9U6+yw1rtW5yEhvjAAJ9Bhu1UBhQLhrU2r8ECWyl0qOA47oazgZtBru25
+         ngYJ9RlpnPaG0Ipw3CLbUBJaLJ4VEwQq7pCbK+oCnLMrXuwaf3683Vtu+W1oGl3zIMCy
+         eFSs+JDexwyGXHxB32fglEeDprkJUub8sP6qMRqZh8vdZ/eNGaFeT24DTusr3nd7rMuV
+         PFR1boW26BmJSYPFfZ5pFMicAMysaUzuu55JKGUB3Q074BLK6OB0/p35lyyYnCJWnSbw
+         fA4g==
+X-Forwarded-Encrypted: i=1; AJvYcCU3efQuovk6TelfZjWMqpTq6SbLdkpxPKgn2odeB1FhTKpWlj4APYyYlX3mV5dUvbfkW8Fgz5fr/E0=@vger.kernel.org, AJvYcCVfPXhBuw47X5Bbx1nw5vbUaOSg3zEnYwChmxCpubZWqx8K52Cf4yoDsVmUZAbhXF+GnNHmFGJbYHO//KS6@vger.kernel.org, AJvYcCVtVMsF/1dLBlJlBHgJ5hCYYyHd8/61QOnTH6JiVxy5waly/MvAw7A5E7riv4176tR23wbfG5uUuGYKxQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHNRGo3eGJAmhx6BbqE82M+GhHQHz3N+/ofNkQp0TFpZFZaZfe
+	4yWSdmLRcPi+0k9FggO1dbvLGguMY+Bx1/AXM+qtmOnH7umVW07j9wu35w==
+X-Gm-Gg: ASbGncsWFVrq8k8oW8wptgQ/Nch6kCTS4umA/TWVrfaZiBRazSAPQezeJ/Aeo2IaiGc
+	cu3gmMAC2dLR9m4ogi1byUe7Fy23nqpQG3P7v+I8JmCGMXZ/uhXVCjO0Mc/GmcLuCTD52W8B6jd
+	eZ2+LzZIYjlsqy0gcBZSn+ab0oSqtOTCtXjarGLh94fv6+reBHUHLN0w6JzzSB8kzVt2Gev2JGZ
+	QvZufJXC3gyoCg+7ipIBR0a2mVzAPplEqme4PFWjXAYJwd+rjApUrSRheot2iVWzTYaDQ==
+X-Google-Smtp-Source: AGHT+IF9W/lfbYguerC3Ji+62X4tWnWJEbro41Fc64DOb8G/a68R6PYdI7AnmVVrQ0CB0eRsFrYNsg==
+X-Received: by 2002:a17:902:ea10:b0:215:b18d:ca with SMTP id d9443c01a7336-21d993b9408mr19100075ad.18.1737592073733;
+        Wed, 22 Jan 2025 16:27:53 -0800 (PST)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21c2ceb9ad4sm101577935ad.78.2025.01.22.16.27.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Jan 2025 16:27:52 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 989EC4208FBF; Thu, 23 Jan 2025 07:27:49 +0700 (WIB)
+Date: Thu, 23 Jan 2025 07:27:49 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Akira Yokosawa <akiyks@gmail.com>, sfr@canb.auug.org.au
+Cc: bhelgaas@google.com, linux-kernel@vger.kernel.org,
+	linux-next@vger.kernel.org, mchehab+samsung@kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: linux-next: build warning after merge of the origin tree
+Message-ID: <Z5GNBaSDofq-pI_T@archie.me>
+References: <20250122170335.148a23b0@canb.auug.org.au>
+ <07507296-a37b-4543-97cb-0560ef7fb7b8@gmail.com>
+ <Z5D1FzkmODr7YC8I@archie.me>
+ <1518fd0f-4b8e-406a-bd60-878c0c522bde@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 6/6] module: Introduce hash-based integrity checking
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
- Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
- Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>,
- Daniel Gomez <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>,
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: =?UTF-8?Q?Fabian_Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>,
- Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250120-module-hashes-v2-0-ba1184e27b7f@weissschuh.net>
- <20250120-module-hashes-v2-6-ba1184e27b7f@weissschuh.net>
-Content-Language: en-US
-From: kpcyrd <kpcyrd@archlinux.org>
-In-Reply-To: <20250120-module-hashes-v2-6-ba1184e27b7f@weissschuh.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xxgufiOCQJoM4b+G"
+Content-Disposition: inline
+In-Reply-To: <1518fd0f-4b8e-406a-bd60-878c0c522bde@gmail.com>
 
-Hi!
 
-Thanks for reaching out, also your work on this is much appreciated and 
-followed with great interest. <3
+--xxgufiOCQJoM4b+G
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 1/20/25 6:44 PM, Thomas Weißschuh wrote:
-> diff --git a/kernel/module/main.c b/kernel/module/main.c
-> index effe1db02973d4f60ff6cbc0d3b5241a3576fa3e..094ace81d795711b56d12a2abc75ea35449c8300 100644
-> --- a/kernel/module/main.c
-> +++ b/kernel/module/main.c
-> @@ -3218,6 +3218,12 @@ static int module_integrity_check(struct load_info *info, int flags)
->   {
->   	int err = 0;
->   
-> +	if (IS_ENABLED(CONFIG_MODULE_HASHES)) {
-> +		err = module_hash_check(info, flags);
-> +		if (!err)
-> +			return 0;
-> +	}
-> +
->   	if (IS_ENABLED(CONFIG_MODULE_SIG))
->   		err = module_sig_check(info, flags);
->   
+On Wed, Jan 22, 2025 at 11:46:46PM +0900, Akira Yokosawa wrote:
+> Bagas Sanjaya wrote:
+> > On Wed, Jan 22, 2025 at 07:00:43PM +0900, Akira Yokosawa wrote:
+> >> [+CC: linux-doc]
+> >>
+> >> Stephen Rothwell wrote:
+> >>> Hi all,
+> >>>
+> >>> Today's linux-next build (htmldocs) produced this warning:
+> >>>
+> >>> Documentation/power/video.rst:213: WARNING: Footnote [#] is not refer=
+enced. [ref.footnote]
+> >>>
+> >>> This warning has presumably been there for a long time.
+> >>>
+> >>> I don't know what causes it - maybe it needs a space before the openi=
+ng
+> >>> bracket?
+> >>
+> >> Stephen, fhve you upgraded your Sphinx recently?
+> >>
+> >> In "Bugs Fixed" section of Sphinx 8.1.0 changelog [1], there is an ite=
+m which
+> >> reads:
+> >>
+> >>     - #12730: The UnreferencedFootnotesDetector transform has been imp=
+roved
+> >>       to more consistently detect unreferenced footnotes. Note, the pr=
+iority
+> >>       of the transform has been changed from 200 to 622, so that it no=
+w runs
+> >>       after the docutils Footnotes resolution transform. Patch by Chri=
+s Sewell.
+> >>
+> >> So the above warning is real and prior versions of Sphinx just can't f=
+lag it.
+> >>
+> >> To silence it, you need to get rid of the unreferenced footnote, I gue=
+ss.
+> >=20
+> > Hi Akira,
+> >=20
+> > I think the culprit [#f3] footnote (that triggers the warning) refers to
+> > Toshiba Satellite P10-554 notebook, where s3_bios and s3_resume work on=
+ly on
+> > uniprocessor kernel. The proper fix will be probably adding a space bef=
+ore
+> > the footnote.
+> >=20
+>=20
+> Ahh, you mean the referencing side of the footnote in that table.
+>=20
+> Yes, you are right. I was lazy and didn't look closely at that jumbo chan=
+ge.
+> Point taken!
+>=20
+> Thank you.
 
- From how I'm reading this (please let me know if I'm wrong):
+OK, thanks!
 
-## !CONFIG_MODULE_HASHES && !CONFIG_MODULE_SIG
+--=20
+An old man doll... just what I always wanted! - Clara
 
-No special checks, CAP_SYS_MODULE only.
+--xxgufiOCQJoM4b+G
+Content-Type: application/pgp-signature; name="signature.asc"
 
-## !CONFIG_MODULE_HASHES && CONFIG_MODULE_SIG
+-----BEGIN PGP SIGNATURE-----
 
-No change from how things work today:
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ5GNAQAKCRD2uYlJVVFO
+o8qeAP4sdw4v2QFokDK11uwKe5pmFG/hURcPlnE14TWhPswioQD/Qj9AH6hQWNdR
+vtmLL/dzJIz6m+lw02NWhDunPhnY/Qk=
+=0wN9
+-----END PGP SIGNATURE-----
 
-- if the module signature verifies the module is permitted
-- else, if sig_enforce=1, the module is rejected
-- else, if lockdown mode is enabled, the module is rejected
-- else, the module is permitted
-
-## CONFIG_MODULE_HASHES && CONFIG_MODULE_SIG
-
-This configuration is the one relevant for Arch Linux:
-
-- if the module is in the set of allowed module_hashes it is permitted
-- else, if the module signature verifies, the module is permitted
-- else, if sig_enforce=1, the module is rejected
-- else, if lockdown mode is enabled, the module is rejected
-- else, the module is permitted
-
-## CONFIG_MODULE_HASHES && !CONFIG_MODULE_SIG
-
-This one is new:
-
-- if the module is in the set of allowed module_hashes it is permitted
-- else, if lockdown mode is enabled, the module is rejected
-- else, the module is permitted
-
----
-
-This all seems reasonable to me, maybe the check for 
-is_module_sig_enforced() could be moved from kernel/module/signing.c to 
-kernel/module/main.c, otherwise `sig_enforce=1` would not have any 
-effect for a `CONFIG_MODULE_HASHES && !CONFIG_MODULE_SIG` kernel.
-
-cheers,
-kpcyrd
+--xxgufiOCQJoM4b+G--
