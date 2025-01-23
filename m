@@ -1,100 +1,211 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74A1613D520;
-	Thu, 23 Jan 2025 21:47:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56EF21B0F2F;
+	Thu, 23 Jan 2025 22:25:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737668875; cv=none; b=KzlO8N690ES1gf5d/VnabjVdfHCAsg69dneSvIlT5lk7K5TMWSFikgOh2e+U/obyw9Hrhe6x4t+mqjZJGYRBDTLomKVYgh7njC3EUQFPZID3/8gg2bJq6Aw9Ptb/04JbmjsK0oh8fqIV4zqo7f7HjO+KoTWRzBiOqBbU1U/J4ws=
+	t=1737671113; cv=none; b=DGhE8nKQ6TU+D2HiC6K1KUEaOrVOIytX60nYmpwqu92FOzaceAdd2GVqjwlJl6EwbM5QBp8hTJeKz0IrJbLZxlEf6HBlzbom9EVaVJH8aMyesE+lUWMTH/um0Eqq391ogUrUmE/ooKDs+pw66XSvg19ZmiAJu8EsLDvGg9M3sYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737668875; c=relaxed/simple;
-	bh=kzmLEOAZ0rTU1ollLjWGBjU7Ohqr4Khh71V8j3pSV68=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CHJwFue/61tqTfTpL2rs/gsf6/sGWRcPQBD2ijEJXqoZiG7aOQfaCcc53+DeSJdyeVLvkv5GovKhe7aFUD6VhzDJ/DxM5b6NWo7J1cbC2GkwV3+UZTZia7vqddanUkFj9yn4SunOqdjkW0L4PRef0eyKztlF8cPkhbSoUWe4oFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 849D51063;
-	Thu, 23 Jan 2025 13:48:20 -0800 (PST)
-Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 489A93F66E;
-	Thu, 23 Jan 2025 13:47:47 -0800 (PST)
-Date: Thu, 23 Jan 2025 22:47:07 +0100
-From: Beata Michalska <beata.michalska@arm.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org, ionela.voinescu@arm.com,
-	sudeep.holla@arm.com, will@kernel.org, catalin.marinas@arm.com,
-	rafael@kernel.org, sumitg@nvidia.com, yang@os.amperecomputing.com,
-	vanshikonda@os.amperecomputing.com, lihuisong@huawei.com,
-	zhanjie9@hisilicon.com, Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>, Phil Auld <pauld@redhat.com>,
-	x86@kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 2/5] cpufreq: Introduce an optional cpuinfo_avg_freq
- sysfs entry
-Message-ID: <Z5K42yXtcDSZGuUF@arm.com>
-References: <20250121084435.2839280-1-beata.michalska@arm.com>
- <20250121084435.2839280-3-beata.michalska@arm.com>
- <20250121105355.sdrgmjv2w2256qfn@vireshk-i7>
- <Z4-6bsDzfe9CLcVf@arm.com>
- <20250122060902.5pgfr5g24jpjrxw3@vireshk-i7>
+	s=arc-20240116; t=1737671113; c=relaxed/simple;
+	bh=2jb7XVwyxsYRUqUbjVpdYJ8DEJERMyMgxxHC3BUJAgI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=atZoAV2WJrvyKZoH7SnTK7s6JGVBcdFrtSbjAPObDlmdXnIkTJs2IRpQExbrVUONVgU98iOOhjN1hWsiK54zfFseIejRtx0mQhb27xnqEtZ3uWQ10A0t8kI646/6A/TuL5gnqESJcS5xYCI3N1dX46EOEpWUV97jnDlC2e60gFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JAxbiRPT; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JAxbiRPT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737671111; x=1769207111;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=2jb7XVwyxsYRUqUbjVpdYJ8DEJERMyMgxxHC3BUJAgI=;
+  b=JAxbiRPT3772D9G0l5Imfbofq0IKfSvD+lXnTpJreMjKSCfqWpAOBHCh
+   b8sq4eTMC5HFrnWBy6CI1YZsCc2K0rBo+GECkE8eneW35HpFpnLsIXpb5
+   juq6y4eZAj//CfCpQKtuYCWXJhC8b2O5BNC10wQDMgudsDC7PL8PBKLd5
+   RyOukX7TsOb/csEUOfP9l7DboSvnXCUZPx4Ivn9gl2AX//YRR86cGw0mP
+   KkkpL9+YRHfvsHYC0q+fgKR3YPoznriC+BlTdfgNUb48FNZFZ6RFQc/pP
+   MCfNkmtRKBZqn9HXIyGEfGmgSPxcGDrdx+TtoEXwUJ0GOTvVYFSX3eARr
+   w==;
+X-CSE-ConnectionGUID: Ts/Oziz2SbKMCl5NEl5JXg==
+X-CSE-MsgGUID: eZT7cursR/qDooBfaGGgbw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11324"; a="38227048"
+X-IronPort-AV: E=Sophos;i="6.13,229,1732608000"; 
+   d="scan'208";a="38227048"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 14:25:11 -0800
+X-CSE-ConnectionGUID: AY6H+YdiQ5i6gkVhSE0x/g==
+X-CSE-MsgGUID: MUuxFnpBSYSX25N0YEIOfA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="138464018"
+Received: from ssimmeri-mobl2.amr.corp.intel.com (HELO [10.124.223.78]) ([10.124.223.78])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2025 14:25:10 -0800
+Message-ID: <98e3eda7-4d8c-46af-b8ae-9bdcdce33608@linux.intel.com>
+Date: Thu, 23 Jan 2025 14:24:52 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250122060902.5pgfr5g24jpjrxw3@vireshk-i7>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] PCI: Fix Extend ACS configurability
+To: Tushar Dave <tdave@nvidia.com>, jgg@nvidia.com, corbet@lwn.net,
+ bhelgaas@google.com, paulmck@kernel.org, akpm@linux-foundation.org,
+ thuth@redhat.com, rostedt@goodmis.org, xiongwei.song@windriver.com,
+ vidyas@nvidia.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org
+Cc: vsethi@nvidia.com, sdonthineni@nvidia.com
+References: <20250123033716.112115-1-tdave@nvidia.com>
+Content-Language: en-US
+From: Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>
+In-Reply-To: <20250123033716.112115-1-tdave@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 22, 2025 at 11:39:02AM +0530, Viresh Kumar wrote:
-> On 21-01-25, 16:17, Beata Michalska wrote:
-> > On Tue, Jan 21, 2025 at 04:23:55PM +0530, Viresh Kumar wrote:
-> > > On 21-01-25, 08:44, Beata Michalska wrote:
-> > > > diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-> > > > index 6f45684483c4..b2a8efa83c98 100644
-> > > > --- a/drivers/cpufreq/cpufreq.c
-> > > > +++ b/drivers/cpufreq/cpufreq.c
-> > > > @@ -733,12 +733,20 @@ __weak int arch_freq_get_on_cpu(int cpu)
-> > > >  	return -EOPNOTSUPP;
-> > > >  }
-> > > >  
-> > > >  static ssize_t show_scaling_cur_freq(struct cpufreq_policy *policy, char *buf)
-> > > >  {
-> > > >  	ssize_t ret;
-> > > >  	int freq;
-> > > >  
-> > > > -	freq = arch_freq_get_on_cpu(policy->cpu);
-> > > > +	freq = IS_ENABLED(CONFIG_CPUFREQ_ARCH_CUR_FREQ)
-> > > > +		? arch_freq_get_on_cpu(policy->cpu)
-> > > > +		: 0;
-> > > > +
-> > > >  	if (freq > 0)
-> > > >  		ret = sysfs_emit(buf, "%u\n", freq);
-> > > >  	else if (cpufreq_driver->setpolicy && cpufreq_driver->get)
-> > > 
-> > > Maybe this should be a separate commit ? And also I am not very happy
-> > Initially it was supposed to be one, but then the rest of the series justifies
-> > the changes so it made sense to send those in one go.
-> > > with the new kconfig option. I don't want others to use it as we want
-> > > to get rid of this for X86 too eventually. Making it a kconfig option
-> > > allows anyone to enable it and then depend on it without us knowing..
-> > > 
-> > > Rather just write it as "if (x86)", with a comment on what we plan to
-> > > do with it in few release cycles.
-> > Right, those changes are based on discussion in [1].
-> 
-> Ahh I see.. What about making it depend on X86 for now, as we really
-> don't want new users to use it ?
-Do you mean the new config option? If so, it is in Kconfig.x86 already.
-Unless you have smth else in mind ?
+Hi,
 
----
-BR
-Beata
-> 
-> -- 
-> viresh
+On 1/22/25 7:37 PM, Tushar Dave wrote:
+> Commit 47c8846a49ba ("PCI: Extend ACS configurability") introduced
+> bugs that fail to configure ACS ctrl to the value specified by the
+> kernel parameter. Essentially there are two bugs.
+>
+> First, when ACS is configured for multiple PCI devices using
+> 'config_acs' kernel parameter, it results into error "PCI: Can't parse
+> ACS command line parameter". This is due to the bug in code that doesn't
+> preserve the ACS mask instead overwrites the mask with value 0.
+>
+> For example, using 'config_acs' to configure ACS ctrl for multiple BDFs
+> fails:
+>
+> 	Kernel command line: pci=config_acs=1111011@0020:02:00.0;101xxxx@0039:00:00.0 "dyndbg=file drivers/pci/pci.c +p"
+> 	PCI: Can't parse ACS command line parameter
+> 	pci 0020:02:00.0: ACS mask  = 0x007f
+> 	pci 0020:02:00.0: ACS flags = 0x007b
+> 	pci 0020:02:00.0: Configured ACS to 0x007b
+>
+> After this fix:
+>
+> 	Kernel command line: pci=config_acs=1111011@0020:02:00.0;101xxxx@0039:00:00.0 "dyndbg=file drivers/pci/pci.c +p"
+> 	pci 0020:02:00.0: ACS mask  = 0x007f
+> 	pci 0020:02:00.0: ACS flags = 0x007b
+> 	pci 0020:02:00.0: ACS control = 0x005f
+> 	pci 0020:02:00.0: ACS fw_ctrl = 0x0053
+> 	pci 0020:02:00.0: Configured ACS to 0x007b
+> 	pci 0039:00:00.0: ACS mask  = 0x0070
+> 	pci 0039:00:00.0: ACS flags = 0x0050
+> 	pci 0039:00:00.0: ACS control = 0x001d
+> 	pci 0039:00:00.0: ACS fw_ctrl = 0x0000
+> 	pci 0039:00:00.0: Configured ACS to 0x0050
+>
+> Second bug is in the bit manipulation logic where we copy the bit from
+> the firmware settings when mask bit 0.
+>
+> For example, 'disable_acs_redir' fails to clear all three ACS P2P redir
+> bits due to the wrong bit fiddling:
+>
+> 	Kernel command line: pci=disable_acs_redir=0020:02:00.0;0030:02:00.0;0039:00:00.0 "dyndbg=file drivers/pci/pci.c +p"
+> 	pci 0020:02:00.0: ACS mask  = 0x002c
+> 	pci 0020:02:00.0: ACS flags = 0xffd3
+> 	pci 0020:02:00.0: Configured ACS to 0xfffb
+> 	pci 0030:02:00.0: ACS mask  = 0x002c
+> 	pci 0030:02:00.0: ACS flags = 0xffd3
+> 	pci 0030:02:00.0: Configured ACS to 0xffdf
+> 	pci 0039:00:00.0: ACS mask  = 0x002c
+> 	pci 0039:00:00.0: ACS flags = 0xffd3
+> 	pci 0039:00:00.0: Configured ACS to 0xffd3
+>
+> After this fix:
+>
+> 	Kernel command line: pci=disable_acs_redir=0020:02:00.0;0030:02:00.0;0039:00:00.0 "dyndbg=file drivers/pci/pci.c +p"
+> 	pci 0020:02:00.0: ACS mask  = 0x002c
+> 	pci 0020:02:00.0: ACS flags = 0xffd3
+> 	pci 0020:02:00.0: ACS control = 0x007f
+> 	pci 0020:02:00.0: ACS fw_ctrl = 0x007b
+> 	pci 0020:02:00.0: Configured ACS to 0x0053
+> 	pci 0030:02:00.0: ACS mask  = 0x002c
+> 	pci 0030:02:00.0: ACS flags = 0xffd3
+> 	pci 0030:02:00.0: ACS control = 0x005f
+> 	pci 0030:02:00.0: ACS fw_ctrl = 0x005f
+> 	pci 0030:02:00.0: Configured ACS to 0x0053
+> 	pci 0039:00:00.0: ACS mask  = 0x002c
+> 	pci 0039:00:00.0: ACS flags = 0xffd3
+> 	pci 0039:00:00.0: ACS control = 0x001d
+> 	pci 0039:00:00.0: ACS fw_ctrl = 0x0000
+> 	pci 0039:00:00.0: Configured ACS to 0x0000
+>
+> Fixes: 47c8846a49ba ("PCI: Extend ACS configurability")
+> Signed-off-by: Tushar Dave <tdave@nvidia.com>
+> ---
+
+LGTM
+
+Reviewed-by: Kuppuswamy Sathyanarayanan 
+<sathyanarayanan.kuppuswamy@linux.intel.com>
+> changes in v2:
+>   - Addressed review comments by Jason and Bjorn.
+>   - Removed Documentation changes (already taken care by other patch).
+>   - Amended commit description.
+>
+>   drivers/pci/pci.c | 17 ++++++++++++-----
+>   1 file changed, 12 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index 0b29ec6e8e5e..19fbdd8643bc 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -955,8 +955,10 @@ struct pci_acs {
+>   };
+>   
+>   static void __pci_config_acs(struct pci_dev *dev, struct pci_acs *caps,
+> -			     const char *p, u16 mask, u16 flags)
+> +			     const char *p, const u16 acs_mask, const u16 acs_flags)
+>   {
+> +	u16 flags = acs_flags;
+> +	u16 mask = acs_mask;
+>   	char *delimit;
+>   	int ret = 0;
+>   
+> @@ -964,7 +966,7 @@ static void __pci_config_acs(struct pci_dev *dev, struct pci_acs *caps,
+>   		return;
+>   
+>   	while (*p) {
+> -		if (!mask) {
+> +		if (!acs_mask) {
+>   			/* Check for ACS flags */
+>   			delimit = strstr(p, "@");
+>   			if (delimit) {
+> @@ -972,6 +974,8 @@ static void __pci_config_acs(struct pci_dev *dev, struct pci_acs *caps,
+>   				u32 shift = 0;
+>   
+>   				end = delimit - p - 1;
+> +				mask = 0;
+> +				flags = 0;
+>   
+>   				while (end > -1) {
+>   					if (*(p + end) == '0') {
+> @@ -1028,10 +1032,13 @@ static void __pci_config_acs(struct pci_dev *dev, struct pci_acs *caps,
+>   
+>   	pci_dbg(dev, "ACS mask  = %#06x\n", mask);
+>   	pci_dbg(dev, "ACS flags = %#06x\n", flags);
+> +	pci_dbg(dev, "ACS control = %#06x\n", caps->ctrl);
+> +	pci_dbg(dev, "ACS fw_ctrl = %#06x\n", caps->fw_ctrl);
+>   
+> -	/* If mask is 0 then we copy the bit from the firmware setting. */
+> -	caps->ctrl = (caps->ctrl & ~mask) | (caps->fw_ctrl & mask);
+> -	caps->ctrl |= flags;
+> +	/* For mask bits that are 0 copy them from the firmware setting
+> +	 * and apply flags for all the mask bits that are 1.
+> +	 */
+> +	caps->ctrl = (caps->fw_ctrl & ~mask) | (flags & mask);
+>   
+>   	pci_info(dev, "Configured ACS to %#06x\n", caps->ctrl);
+>   }
+
+-- 
+Sathyanarayanan Kuppuswamy
+Linux Kernel Developer
+
