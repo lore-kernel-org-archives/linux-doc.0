@@ -1,221 +1,131 @@
-Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7F61CF5EA;
-	Fri, 24 Jan 2025 15:24:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1868F15530F;
+	Fri, 24 Jan 2025 15:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737732256; cv=none; b=H5R4RHKazJkkHHhZ5qJPe1PTPKbSSb+bJXrq5/Vf+tfczpui32zg+Q0DzWUGS0ExIrgV03dnm/3NXqx3QDu4la/tqSlVR+IObSmDN611Xzlc2r5Ix6NJMbK8pAf21dJXdzb+uGBsIFOyWkHBjKpgtQosz25HKXqpF7u+mUWZpTc=
+	t=1737732515; cv=none; b=Szv/uu42A0Nwh7qdCocxqT2MMBeligsy7qyDwUexz3iafa+EU/3KDEZ1gZJgXjSquBNKu1dYt03+uP1oqIVTevLUSZbVujm73JMKZCZRyjSSxTdth8Q3sIjl2ux8Ozxt51DCFQ+xqndPv7tedm5EFflqjBEIKiv4/eMEufIuQsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737732256; c=relaxed/simple;
-	bh=S0OatCWVt8LkqqQNLFpvo4ZTB4T+SPNT/jCZ7ia+L0I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=BwILmnzBg3jseaJ5QGzv4NoqLmYoTXRhuGhBtHgv7j7/vzVVNVJz/BLfu4oCEaePdtRp3quiFPjfXOiGCJnC+1xZtCHAGEpzL3lxKpi2BIs0oUvysV2qtscZ4YtsphenHjKcbzWlzydA7QIjf2kNwekWY+gj+zHixl2kSGo5Ycs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=AaSh7Pu1; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="AaSh7Pu1"
-Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
-	by mx0b-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50OEmQRO005868;
-	Fri, 24 Jan 2025 10:23:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=5yDwb
-	gRu2XNFRPIpD137WRd1gMV7xF0Bx98tmaIUTPE=; b=AaSh7Pu1/LFwKggPohtyC
-	pUND19MZLsgdGiAjp/GlL3RgscKQQNY1we2dMAdLQMW0XFp9a3BRq4tGN6UY0zy/
-	lwgTYfSZbuyjP91UdggKfZW1ReRY9JOTWc0jbCpdzY/z9tvyJ/TB5ZKoYqpXBmzy
-	lvDVpWBwMW/jnw9BsXru9m2KjT2X/qKorn5QDKzXZdmJJt1p4BB6UvSzz8Ulizp2
-	hnApIcQ82jl0tEpRJ7K2PGSYQhUI/YidjxE65mzcMJQtMkfewEAZtCmklOV6CYp6
-	ErmULr0/JMrX3N7cgLU2TEuk7+f0VOB4A2PmE5HAv5Q4VAZ86P+qJ2D2bucx/4Y9
-	g==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 44ccxx05bs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 24 Jan 2025 10:23:56 -0500 (EST)
-Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 50OFNtUi035453
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 24 Jan 2025 10:23:55 -0500
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Fri, 24 Jan
- 2025 10:23:55 -0500
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
- Transport; Fri, 24 Jan 2025 10:23:55 -0500
-Received: from CENCARNA-L02.ad.analog.com (CENCARNA-L02.ad.analog.com [10.117.116.131])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 50OFNS7T031971;
-	Fri, 24 Jan 2025 10:23:45 -0500
-From: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
-Date: Fri, 24 Jan 2025 23:23:06 +0800
-Subject: [PATCH 2/2] hwmon: (pmbus/ltc2978) add support for ltm4673
+	s=arc-20240116; t=1737732515; c=relaxed/simple;
+	bh=Kdt1Amu9IODypCEthw9qXZvk1K8Bgka3jNdPNAQgiAs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kn2z7MxI1s8zajN6r6Z65EjVt9SaWaUsVSeyIND1o8MJ1qdDyyeDR4XeEvkzO7rT9eVQjoDjH890PnEsBpoPXUOd9keAy24czEYMlZrBe05V9sBCLZus6PhdihUgdpBW/5gG4V63QIWaqOBePc5LKuahObAiUa6mVEu2ctRP9QI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5d88c355e0dso4327990a12.0;
+        Fri, 24 Jan 2025 07:28:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737732512; x=1738337312;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5X1YXwR0EWpUwO1zmmq6GeCx+3YJvupssE2rYXIizgU=;
+        b=TmH8gbdwhEzbssu7GBhOqxxggvKwPcM16cJpP2CN6gjvuKYhGpfk7IosHaJqmy7owt
+         go3IFCIwR5MdRPqmLevzGJr9fJizwowFk3bMALBYzH+mSFgfr2uWQsmO2lW2Cybd50y0
+         s/GV1cq4ff4waWu6C8zXjekWCTPlnWaCAdMjlXkpNeM3fRXi8n/ZpA6T/1y7CfMLC0k2
+         zZxLOJ7Us4GaVt5ooyzLEmfqAjA9wWLybQMPBYwKNTmM9Izp9LPHHUh/qJi5zCPUioUf
+         ZV984g59kMuXRkCdmrsF8bV4yjqfHTafgyB5kH+S3HVSuE0P0fu7DXXVDsenHxP2TwjG
+         MqJw==
+X-Forwarded-Encrypted: i=1; AJvYcCUhZh3ibN+BApDKHGqxml9Tre55MG6iM8CTxrp32fQdo1ZYr1JEK6eVOGgMvsh5LQwO+AUWIVHlyiuKhrOI@vger.kernel.org, AJvYcCUheb1qN++uEeog5zpy2BPzBFZ1AdB37XH/00WIjq5glG5XhE6cM0cY6WW/LC95LQrpTQ7EtuKh3Uo=@vger.kernel.org, AJvYcCUxjSm9nDKed8O0C7muKGpAsrBtxp+ZcUNF6vomkxqHtutxXTlR9Kwxg0ij2M98LzeXav1VwT17hFHYy3MwL4v8@vger.kernel.org, AJvYcCWB52hzwI5pPIxvN338lTMS9DEr7k/ankLD2DJOQMmjGeXGhW+PReYsuHjucwkuJVmNKkVm+AN2@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBn6Hj5nLPNKUwN07Jyy4h+pQHPmSmoGbDwKLy5AniTj7sCEC2
+	BGZ8ak8L8PupGTzkwZ3H5kWqToTB4/5jcTnv7w83lkhbud0NpWas
+X-Gm-Gg: ASbGncvZslBnEodUNooxHsPFeq+FK6T3tHiLfUPqkkp8QWIzBimptd89J1i0K0K3AnX
+	0huKTcQ1NesyJWZkfRluMIJa0gFFhE3d5qFzTKPvRtOtKZradbRe+OJlRvzS5VvC2QM59AgN6l8
+	qAvgjxnWm5WqVH4yEkzGRu1LTu96ao1gpZF7QvNvcqWWkqs++kZbZKNudwWsjZGtDUm4NpvW/2X
+	jkE1ykugVnkIjvPYXnODNf+UJwM9DGXToIg/XcgdlOFwYC0fbez+ItOTxNfMFrtD2QmkSfU
+X-Google-Smtp-Source: AGHT+IFe/WTVivGHlCaX4JbjiwomSZTCHZ+uWJH+TyMRkJT50oE+w6fQBy36WSHwlKpbBFQ0Vxc7yg==
+X-Received: by 2002:a17:906:4fc7:b0:aa6:6c08:dc79 with SMTP id a640c23a62f3a-ab38b42d8f9mr3045664966b.35.1737732512178;
+        Fri, 24 Jan 2025 07:28:32 -0800 (PST)
+Received: from gmail.com ([2a03:2880:30ff:70::])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dc186d8ac6sm1261487a12.77.2025.01.24.07.28.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jan 2025 07:28:30 -0800 (PST)
+Date: Fri, 24 Jan 2025 07:28:28 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kernel-team@meta.com,
+	max@kutsevol.com, thepacketgeek@gmail.com
+Subject: Re: [PATCH net-next v2 3/5] netconsole: add support for sysdata and
+ CPU population
+Message-ID: <20250124-red-crab-of-mastery-23bc19@leitao>
+References: <20250115-netcon_cpu-v2-0-95971b44dc56@debian.org>
+ <20250115-netcon_cpu-v2-3-95971b44dc56@debian.org>
+ <20250116174405.20a0e20b@kernel.org>
+ <20250117-terrestrial-clam-of-satiation-cf312f@leitao>
+ <20250117183520.11d93f4d@kernel.org>
+ <20250120-rational-bullfrog-of-tornado-2cd6f4@leitao>
+ <20250120110653.693fd5ec@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-ID: <20250124-ltm4673-v1-2-a2c6aa37c903@analog.com>
-References: <20250124-ltm4673-v1-0-a2c6aa37c903@analog.com>
-In-Reply-To: <20250124-ltm4673-v1-0-a2c6aa37c903@analog.com>
-To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
-        Rob
- Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor
- Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-        Jonathan Corbet
-	<corbet@lwn.net>,
-        Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
-CC: <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>,
-        Cedric Encarnacion
-	<cedricjustine.encarnacion@analog.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1737732208; l=4551;
- i=cedricjustine.encarnacion@analog.com; s=20250124;
- h=from:subject:message-id; bh=S0OatCWVt8LkqqQNLFpvo4ZTB4T+SPNT/jCZ7ia+L0I=;
- b=pcuL0LWLrDFxoYKjGQb6ACLyzmiwj7kY7Ut9tzf3o+isLeZd91vgXpZcfYfbzSMUx0cpk5Z7A
- SEhIpdM3OPrDbzoqIXLdf0uzkecFLcYXwiBXtVc8+Mg+1LJFwTJbdmN
-X-Developer-Key: i=cedricjustine.encarnacion@analog.com; a=ed25519;
- pk=ZsngY3B4sfltPVR5j8+IO2Sr8Db8Ck+fVCs+Qta+Wlc=
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-GUID: fyPn65xsowY8tzNS9fKCaEYTKzJSuslB
-X-Proofpoint-ORIG-GUID: fyPn65xsowY8tzNS9fKCaEYTKzJSuslB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-24_06,2025-01-23_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- lowpriorityscore=0 priorityscore=1501 spamscore=0 adultscore=0
- clxscore=1011 mlxlogscore=999 bulkscore=0 impostorscore=0 malwarescore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501240108
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250120110653.693fd5ec@kernel.org>
 
-Add support for LTM4673. The LTM4673 is a quad output, dual 12A and dual
-5A, switching mode DC/DC step-down μModule regulator integrated with
-4-channel power system manager.
+Hello Jakub,
 
-This adds only the chip id, the checks for the manufacturer special id,
-and the relevant attributes for the device's pmbus_driver_info.
-The device does not support clear peaks.
+On Mon, Jan 20, 2025 at 11:06:53AM -0800, Jakub Kicinski wrote:
+> >
+> > The only way to do it properly is having a extra buffer where we
+> > have `cpu=42` and copy 5 bytes from there, and then copy the last one in
+> > the next iteration. I am not sure we can do it in one shot.
+> 
+> FWIW to simplify reasoning about the length I thought we could take the
+> worst case, assume we'll need len(cpu=) + log10(nr_cpu_ids) of space.
 
-Signed-off-by: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
----
- Documentation/hwmon/ltc2978.rst |  8 ++++++++
- drivers/hwmon/pmbus/Kconfig     |  4 ++--
- drivers/hwmon/pmbus/ltc2978.c   | 25 +++++++++++++++++++++++--
- 3 files changed, 33 insertions(+), 4 deletions(-)
+We can do that, but, we are going to come back to this discussion again
+as soon we expand sysdata. For instance, I have plans to expand it to
+have task_struct->comm, release, etc.
 
-diff --git a/Documentation/hwmon/ltc2978.rst b/Documentation/hwmon/ltc2978.rst
-index 651ca4904c6649748f366b023fbb337ec25b22b0..feae53eb9fbf5cff8f7a484c163acad011315d8d 100644
---- a/Documentation/hwmon/ltc2978.rst
-+++ b/Documentation/hwmon/ltc2978.rst
-@@ -151,6 +151,14 @@ Supported chips:
- 
-     Datasheet: https://www.analog.com/en/products/ltm4644
- 
-+   * Linear Technology LTM4673
-+
-+    Prefix: 'ltm4673'
-+
-+    Addresses scanned: -
-+
-+    Datasheet: https://www.analog.com/en/products/ltm4673
-+
-    * Linear Technology LTM4675
- 
-     Prefix: 'ltm4675'
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index 419469f40ba0283c72b71071566efec575263e98..675b0d4703d87c9d5654489d0d770661ff0dba11 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -234,8 +234,8 @@ config SENSORS_LTC2978_REGULATOR
- 	help
- 	  If you say yes here you get regulator support for Linear Technology
- 	  LTC3880, LTC3883, LTC3884, LTC3886, LTC3887, LTC3889, LTC7841,
--	  LTC7880, LTM4644, LTM4675, LTM4676, LTM4677, LTM4678, LTM4680,
--	  LTM4686, and LTM4700.
-+	  LTC7880, LTM4644, LTM4673, LTM4675, LTM4676, LTM4677, LTM4678,
-+	  LTM4680, LTM4686, and LTM4700.
- 
- config SENSORS_LTC3815
- 	tristate "Linear Technologies LTC3815"
-diff --git a/drivers/hwmon/pmbus/ltc2978.c b/drivers/hwmon/pmbus/ltc2978.c
-index 4c306943383ab368ad5f9700c1e09bc873822e44..658cb1173291006d83033a6363ac52d24635abaf 100644
---- a/drivers/hwmon/pmbus/ltc2978.c
-+++ b/drivers/hwmon/pmbus/ltc2978.c
-@@ -26,8 +26,8 @@ enum chips {
- 	ltc3880, ltc3882, ltc3883, ltc3884, ltc3886, ltc3887, ltc3889, ltc7132,
- 	ltc7841, ltc7880,
- 	/* Modules */
--	ltm2987, ltm4664, ltm4675, ltm4676, ltm4677, ltm4678, ltm4680, ltm4686,
--	ltm4700,
-+	ltm2987, ltm4664, ltm4673, ltm4675, ltm4676, ltm4677, ltm4678, ltm4680,
-+	ltm4686, ltm4700,
- };
- 
- /* Common for all chips */
-@@ -86,6 +86,8 @@ enum chips {
- #define LTM2987_ID_A			0x8010	/* A/B for two die IDs */
- #define LTM2987_ID_B			0x8020
- #define LTM4664_ID			0x4120
-+#define LTM4673_ID_REV1			0x0230
-+#define LTM4673_ID			0x4480
- #define LTM4675_ID			0x47a0
- #define LTM4676_ID_REV1			0x4400
- #define LTM4676_ID_REV2			0x4480
-@@ -554,6 +556,7 @@ static const struct i2c_device_id ltc2978_id[] = {
- 	{"ltc7880", ltc7880},
- 	{"ltm2987", ltm2987},
- 	{"ltm4664", ltm4664},
-+	{"ltm4673", ltm4673},
- 	{"ltm4675", ltm4675},
- 	{"ltm4676", ltm4676},
- 	{"ltm4677", ltm4677},
-@@ -665,6 +668,8 @@ static int ltc2978_get_id(struct i2c_client *client)
- 		return ltm2987;
- 	else if (chip_id == LTM4664_ID)
- 		return ltm4664;
-+	else if (chip_id == LTM4673_ID || chip_id == LTM4673_ID_REV1)
-+		return ltm4673;
- 	else if (chip_id == LTM4675_ID)
- 		return ltm4675;
- 	else if (chip_id == LTM4676_ID_REV1 || chip_id == LTM4676_ID_REV2 ||
-@@ -869,6 +874,21 @@ static int ltc2978_probe(struct i2c_client *client)
- 		  | PMBUS_HAVE_IOUT
- 		  | PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP;
- 		break;
-+	case ltm4673:
-+		data->features |= FEAT_NEEDS_POLLING;
-+		info->read_word_data = ltc2975_read_word_data;
-+		info->pages = LTC2974_NUM_PAGES;
-+		info->func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT
-+		  | PMBUS_HAVE_TEMP2;
-+		for (i = 0; i < info->pages; i++) {
-+			info->func[i] |= PMBUS_HAVE_IIN
-+			  | PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
-+			  | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT
-+			  | PMBUS_HAVE_PIN
-+			  | PMBUS_HAVE_POUT
-+			  | PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP;
-+		}
-+		break;
- 	default:
- 		return -ENODEV;
- 	}
-@@ -926,6 +946,7 @@ static const struct of_device_id ltc2978_of_match[] = {
- 	{ .compatible = "lltc,ltc7880" },
- 	{ .compatible = "lltc,ltm2987" },
- 	{ .compatible = "lltc,ltm4664" },
-+	{ .compatible = "lltc,ltm4673" },
- 	{ .compatible = "lltc,ltm4675" },
- 	{ .compatible = "lltc,ltm4676" },
- 	{ .compatible = "lltc,ltm4677" },
+For that, we need to know the length of the struct ahead of time
 
--- 
-2.39.5
+> > 1) Average messages size will become bigger. Thus, memcpy will be needed
+> > one way or another.
+> > 
+> > 2) Unless we can come up with a smart solution, this solution will be
+> > harder to reason about.
+> > 
+> > If you want to invest more time in this direction, I am more than happy
+> > to create a PoC, so we can discuss more concretely. 
+> 
+> I don't feel super strongly about this. But hacking around is always
+> good to get a sense of how hairy the implementation ends up being.
+> 
+> 
+> To rephrase my concern is that we have some data as static on the
+> stack, some dynamically appended at the send_*() stage, now we're
+> adding a third way of handling things. Perhaps the simplest way to
+> make me happy would be to move the bufs which are currently static 
+> into nt.
 
+I've hacked it, and I think I addressed most of these concerns. This is
+how the new RFC is:
+
+1) moved the buffer to netconsole_target. no more static buffer.
+2) created a function called prepare_extradata(), which will handle
+   sysdata and userdata.
+	2.1) to be fair, userdata is already in the temporary buffer
+	  (extradata_complete) since it doesn't change frequently, only
+	  when configfs helpers are called. We can parse configfs nodes
+	  to generate it in runtime, but, this will be unnecessary.
+
+3) prepare_extradata() is called once at the send path.
+
+I've just sent an RFC (v3) with the full changes, let's see if it
+improves your concerns.
+
+https://lore.kernel.org/all/20250124-netcon_cpu-v3-0-12a0d286ba1d@debian.org/
+
+Again, thanks for reviewing this change,
+--breno
