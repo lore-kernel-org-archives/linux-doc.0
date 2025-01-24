@@ -1,159 +1,244 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84861DB137
-	for <linux-doc@vger.kernel.org>; Fri, 24 Jan 2025 09:14:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C9F1DB13B
+	for <linux-doc@vger.kernel.org>; Fri, 24 Jan 2025 09:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737710098; cv=none; b=su2GNAaMxBM3oVQEPDhh/1qx41Y7xsAZTtbH0hS6J5vOCpza/6xY6WAC/gxhyb0Vv4XBfoS+e95nrsfTkFi1IGgyBaT4q90F3lLz0dzbiEkP43yXLLVVEkoVnj51TnWp+hd4HiIucP5gjEg7CEp4bxFNJmqPvVZdGYd+OVQV3Bw=
+	t=1737710415; cv=none; b=sB6C0tWmg67eH0brCpKt+gBsANJwSxP9PFm2SMRvBr+oUe41u4EnGgB5ZcESUpqmtCTf6Emdjqsis86fRaDAYOdYAQHHCxLPW6YojmmCiBPWtbkavpqYPh6gDMB9LBmANzvGvdRhPhBKDrAe1G0jcsb41X4cp67ZzuID8xvg7bY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737710098; c=relaxed/simple;
-	bh=SCapxKOH3M9W1UEBW2kGxofAJW9pigfg6jfOIWOmkQE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tOEnHXFwuEHmkJQLXgYbpV1xVTdP5z8XK0aAR15n4I05NgtrLl8j2i9AZ8bGN9J7kBf+Uw42wqDnxkiBRDGSbfm8jMBhCXUJB8b8E7872CWtDAyiU7uyraPLsuoBvYqoYWw7XX7Ri6jaq3g8Uerc631V+Gzju1teC7leL5sgYg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gLFU2C+Q; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1737710415; c=relaxed/simple;
+	bh=7a9DGhREDBlD+32VHxG5stNi4j/xiPcbQriiBEeRQ9k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qZ13TR2XoPM0F7nAvZ9cGlRjP6WTnJgSRhDXVzzBbmpkNAhj6XabdNZb3PGpZNuhnavmKo3eaHwxv6lX+XJvpG2D568fxFOI1VwaWAukL4v80jVRp/Te8eNBuUn8Ba5/Ku5godCxqdEWVG8uKywKa212rIMApwP+q2a6HdTH8kY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TjLqweEA; arc=none smtp.client-ip=91.218.175.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gLFU2C+Q"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2ee397a82f6so3529159a91.2
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jan 2025 01:14:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1737710096; x=1738314896; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BfJugkHmmfDQH4XzuB71/6BlU/7LvV7l26SCjxzi4Ds=;
-        b=gLFU2C+Q2OuBuYFyvD1hmrabxs7dG/vTLAo5HBMvQrfFYBbrl8pBY0BV6R7mCABav9
-         Ub8kO5tf/3kKIvlH997Ii5hUcEgHQeGoN0sXsJgjUb1GnZG0fOfwsIm31hCB/4WlnV+X
-         xQN4BvEtI5yEW+Tt5U2ZwHNQ6VdvO+8PyymdxmWS+psoJUA5lMShywVSkgABGbkRt1jP
-         NJXZx9jZ6ekiLnZTWB+IQkdJ9P5sZCiOAhH6dBAfMK4btRRAjxeZNKtoI/nQYZqNkT14
-         2QA77ZZVnK/Qw3D1nILSEloeDMfcHYit3OP68hGrW9m0IgidxqvtABzXQAFSeB/uqZlp
-         B6Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737710096; x=1738314896;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BfJugkHmmfDQH4XzuB71/6BlU/7LvV7l26SCjxzi4Ds=;
-        b=asj2fWAGEWbJf7Dbqr9BsqXWeUIiNnmkcnQNm0ZcMrDg2wXn+V4nRSvpZShzvOehkB
-         wy9zuyUfhlbbGNcvHcolUvi8nQLGcn3mhoUhWfknX46Gs/QIQOK7n1pwiEJgDVA1sdDM
-         94/NaswRVssNATvfgU3XLAFwCP7tvCl27RmJB7or6gPe5r76RNxPyqq+Y8N18Z5FL3EW
-         rCJpCOWv/7oy/sEAfdPc/NA1ECxxjUri2jVSg2VDMP4ddrGMOz0afC0YgPYO7/0iP7Em
-         N+ZsQkZgfK0yQLP+t6biJAhm5hxE5Kv4U1zr5riA17m14dqHJ9XjNkzxNoq80DBYp6FG
-         002g==
-X-Forwarded-Encrypted: i=1; AJvYcCXPlt1SMIe3tSl0NnOAZqcOVhWlTXybJmbEI2jujqWLsWvYY7KylH4KK/15yNKe5CdBpwWkW55cjPY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxixWb2zQpwE40zHrF1AA9AvODMimTGlPntx0JhBKMVDdwDyudk
-	+aSYBx/vifWFqa49rW5ID2EtjMqIwunl5tek2+gY+f0GUZm/gNuZbiMHUVz5rooi+/SIHCUFSC4
-	wGotoufejTzy5zJyg4/b6dwQH9r/MX09TrKul
-X-Gm-Gg: ASbGncsqpUGJ1P9Ug/HqiJJVbNjqO4PYfbDmabAmrsoOYuRrh26cmJdefyAVD8zotuJ
-	JTZ6jWXs+LtWxzzR57e6ZEb9nkCbKOJyywnBk5eFHOUZf7GdSI1fcND4wULrFKMqutb3QjG6wN7
-	kXoByFPHBgwa8/WsP5sA==
-X-Google-Smtp-Source: AGHT+IHTyt6PMeD7vbebqfa1ab8YdiyQms2JFvQt+C7tiaW3rHpm2h9ZjZYTKDfVoPs8lIF5yaSf+8xJJv5Z5gWO9bA=
-X-Received: by 2002:a17:90a:c883:b0:2ee:f46f:4d5f with SMTP id
- 98e67ed59e1d1-2f782c669admr39138288a91.6.1737710095835; Fri, 24 Jan 2025
- 01:14:55 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TjLqweEA"
+Message-ID: <56c3d3b5-8c0e-4bd4-8779-577935a1aba1@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1737710401;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6fWrYZ07oHX6SnBqAXKMpHfubQv7Xojy+73YHQerxCA=;
+	b=TjLqweEA4x7aXoPoDbhi3AO4psEU+HqtjZbYSBe1tr4DAea2N7FVKbxOS/bs0Xl8bgCIs3
+	fgF/Nu54x2D5QJ0E/QXgC3KyUbDX/CPP8+EDwEOxYViyLLjduysZkEvmV1zgcyA/zgqIaU
+	WwoZzyjsUf/wG0965fSYE4z1O/t4yqw=
+Date: Fri, 24 Jan 2025 17:19:48 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250123-kfence_doc_update-v2-1-e80efaccc0d4@gentwo.org>
-In-Reply-To: <20250123-kfence_doc_update-v2-1-e80efaccc0d4@gentwo.org>
-From: Marco Elver <elver@google.com>
-Date: Fri, 24 Jan 2025 10:14:19 +0100
-X-Gm-Features: AWEUYZkWVGLKJhEO4MuQJscF4LBBjUtoFnkHM6vXTs2MTpAdzInzcHd7Q89BN1Q
-Message-ID: <CANpmjNO9L6gv9rK-WntLgAPde5Se8WjQqNLHZNGQFXZXRG2S7w@mail.gmail.com>
-Subject: Re: [PATCH v2] KFENCE: Clarify that sample allocations are not
- following NUMA or memory policies
-To: cl@gentwo.org
-Cc: Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
-	Huang Shijie <shijie@os.amperecomputing.com>, kasan-dev@googlegroups.com, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Christoph Lameter <cl@linux.com>, Yang Shi <shy828301@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v3 3/7] docs/zh_CN: Add tpm tpm-security Chinese
+ translation
+To: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>, alexs@kernel.org, corbet@lwn.net
+Cc: zhaoyuehui@cqsoftware.com.cn, zhangwei@cqsoftware.com.cn,
+ maoyuxian@cqsoftware.com.cn, linux-doc@vger.kernel.org
+References: <cover.1737603330.git.zhaoshuo@cqsoftware.com.cn>
+ <a7d98aaf8bc1393fb38095a0d2a3bc3e43c1c543.1737603330.git.zhaoshuo@cqsoftware.com.cn>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <a7d98aaf8bc1393fb38095a0d2a3bc3e43c1c543.1737603330.git.zhaoshuo@cqsoftware.com.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, 24 Jan 2025 at 03:06, Christoph Lameter via B4 Relay
-<devnull+cl.gentwo.org@kernel.org> wrote:
->
-> From: Christoph Lameter <cl@linux.com>
->
-> KFENCE manages its own pools and redirects regular memory allocations
-> to those pools in a sporadic way. The usual memory allocator features
-> like NUMA, memory policies and pfmemalloc are not supported.
-> This means that one gets surprising object placement with KFENCE that
-> may impact performance on some NUMA systems.
->
-> Update the description and make KFENCE depend on VM debugging
-> having been enabled.
 
-The commit message still incorrectly says "depend on VM debugging".
 
-> Signed-off-by: Christoph Lameter <cl@linux.com>
+
+在 2025/1/23 13:17, Shuo Zhao 写道:
+> Translate .../security/tpm/tpm-security.rst into Chinese
+>
+> Update the translation through commit 3d2daf9d592e
+> ("Documentation: add tpm-security.rst")
+>
+> Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
+
+Thanks,
+Yanteng
 > ---
-> Reviewed-by: Yang Shi <shy828301@gmail.com>
-
-If it's after '---', it will be ignored.
-
-> ---
-> Changes in v2:
-> - Remove dependency on CONFIG_DEBUG_VM.
-> - Spelling fixes.
-> - Link to v1: https://lore.kernel.org/r/20250123-kfence_doc_update-v1-1-9aa8e94b3d0b@gentwo.org
-> ---
->  Documentation/dev-tools/kfence.rst | 4 +++-
->  lib/Kconfig.kfence                 | 8 +++++---
->  2 files changed, 8 insertions(+), 4 deletions(-)
+>   .../translations/zh_CN/security/tpm/index.rst |   2 +-
+>   .../zh_CN/security/tpm/tpm-security.rst       | 151 ++++++++++++++++++
+>   2 files changed, 152 insertions(+), 1 deletion(-)
+>   create mode 100644 Documentation/translations/zh_CN/security/tpm/tpm-security.rst
 >
-> diff --git a/Documentation/dev-tools/kfence.rst b/Documentation/dev-tools/kfence.rst
-> index 541899353865..03062d0941dc 100644
-> --- a/Documentation/dev-tools/kfence.rst
-> +++ b/Documentation/dev-tools/kfence.rst
-> @@ -8,7 +8,9 @@ Kernel Electric-Fence (KFENCE) is a low-overhead sampling-based memory safety
->  error detector. KFENCE detects heap out-of-bounds access, use-after-free, and
->  invalid-free errors.
->
-> -KFENCE is designed to be enabled in production kernels, and has near zero
-> +KFENCE is designed to be low overhead but does not implement the typical
-> +memory allocation features for its samples like memory policies, NUMA and
-> +management of emergency memory pools. It has near zero
->  performance overhead. Compared to KASAN, KFENCE trades performance for
->  precision. The main motivation behind KFENCE's design, is that with enough
->  total uptime KFENCE will detect bugs in code paths not typically exercised by
-> diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
-> index 6fbbebec683a..1f9f79df2d0a 100644
-> --- a/lib/Kconfig.kfence
-> +++ b/lib/Kconfig.kfence
-> @@ -11,8 +11,8 @@ menuconfig KFENCE
->         help
->           KFENCE is a low-overhead sampling-based detector of heap out-of-bounds
->           access, use-after-free, and invalid-free errors. KFENCE is designed
-> -         to have negligible cost to permit enabling it in production
-> -         environments.
-> +         to have negligible cost. KFENCE does not support NUMA features
-> +         and other memory allocator features for it sample allocations.
+> diff --git a/Documentation/translations/zh_CN/security/tpm/index.rst b/Documentation/translations/zh_CN/security/tpm/index.rst
+> index f324bd4dd093..46cdf7c1a1c1 100644
+> --- a/Documentation/translations/zh_CN/security/tpm/index.rst
+> +++ b/Documentation/translations/zh_CN/security/tpm/index.rst
+> @@ -13,9 +13,9 @@
+>   .. toctree::
+>   
+>      tpm_event_log
+> +   tpm-security
+>   
+>   TODOLIST:
+> -*   tpm-security
+>   *   tpm_tis
+>   *   tpm_vtpm_proxy
+>   *   xen-tpmfront
+> diff --git a/Documentation/translations/zh_CN/security/tpm/tpm-security.rst b/Documentation/translations/zh_CN/security/tpm/tpm-security.rst
+> new file mode 100644
+> index 000000000000..26818d28c98f
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/security/tpm/tpm-security.rst
+> @@ -0,0 +1,151 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: ../../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/security/tpm/tpm-security.rst
+> +
+> +:翻译:
+> + 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+> +
+> +TPM安全
+> +=======
+> +
+> +本文档的目的是描述我们如何使内核使用TPM在面对外部窥探和数据包篡改
+> +攻击（文献中称为被动和主动中间人攻击）时保持合理的稳健性。当前的
+> +安全文档适用于TPM2.0。
+> +
+> +介绍
+> +----
+> +
+> +TPM通常是一个通过某种低带宽总线连接到PC的独立芯片。虽然有一些
+> +例外，例如Intel PTT，它是运行在靠近CPU的软件环境中的软件TPM，
+> +容易受到不同类型的攻击，但目前大多数强化的安全环境要求使用独立
+> +硬件TPM，这是本文讨论的使用场景。
+> +
+> +总线上的窥探和篡改攻击
+> +----------------------
+> +
+> +当前的技术状态允许使用 `TPM Genie`_ 硬件中间人，这是一种简单的外部设备，可以在
+> +任何系统或笔记本电脑上几秒钟内安装。最近成功演示了针对 `Windows Bitlocker TPM`_
+> +系统的攻击。最近同样的攻击针对 `基于TPM的Linux磁盘加密`_ 方案也遭到了同样的攻击。
+> +下一阶段的研究似乎是入侵总线上现有的设备以充当中间人，因此攻击者需要物理访问几
+> +秒钟的要求可能不再存在。然而，本文档的目标是尽可能在这种环境下保护TPM的机密性和
+> +完整性，并尝试确保即使我们不能防止攻击，至少可以检测到它。
+> +
+> +不幸的是，大多数TPM功能，包括硬件重置功能，都能被能够访问总线的攻击
+> +者控制，因此下面我们将讨论一些可能出现的干扰情况。
+> +
+> +测量（PCR）完整性
+> +-----------------
+> +
+> +由于攻击者可以向TPM发送自己的命令，他们可以发送任意的PCR扩展，从而破
+> +坏测量系统，这将是一种烦人的拒绝服务攻击。然而，针对密封到信任测量中
+> +的实体，有两类更严重的攻击。
+> +
+> +1. 攻击者可以拦截来自系统的所有PCR扩展，并完全替换为自己的值，产生
+> +   一个未篡改状态的重现，这会使PCR测量证明状态是可信的，并释放密钥。
+> +
+> +2. 攻击者可能会在某个时刻重置TPM，清除PCR，然后发送自己的测量，从而
+> +   有效地覆盖TPM已经完成的启动时间测量。
+> +
+> +第一种攻击可以通过始终对PCR扩展和读取命令进行HMAC保护来防止，这意味着
+> +如果没有在响应中产生可检测的HMAC失败，则测量值无法被替换。然而第二种
+> +攻击只能通过依赖某种机制来检测，这种机制会在TPM重置后发生变化。
+> +
+> +秘密保护
+> +--------
+> +
+> +某些进出TPM的信息,如密钥密封、私钥导入和随机数生成容易被拦截，而仅仅
+> +使用HMAC保护无法防止这种情况。因此，对于这些类型的命令，我们必须使用
+> +请求和响应加密来防止秘密信息的泄露。
+> +
+> +与TPM建立初始信任
+> +-----------------
+> +
+> +为了从一开始就提供安全性，必须建立一个初始的共享或非对称秘密，并且该
+> +秘钥必须对攻击者不可知。最明显的途径是使用背书和存储种子，这些可以用
+> +来派生非对称密钥。然而，使用这些密钥很困难，因为将它们传递给内核的唯
+> +一方法是通过命令行，这需要在启动系统中进行广泛的支持，而且无法保证任
+> +何一个层次不会有任何形式的授权。
+> +
+> +Linux内核选择的机制是从空种子使用标准的存储种子参数派生出主椭圆曲线
+> +密钥。空种子有两个优势：首先该层次物理上无法具有授权，因此我们始终可
+> +以使用它；其次空种子在TPM重置时会发生变化，这意味着如果我们在当天开始
+> +时基于空种子建立信任，如果TPM重置且种子变化，则所有派生的密钥进行加盐
+> +处理的会话都将失败。
+> +
+> +显然，在没有任何其他共享秘密的情况下使用空种子，我们必须创建并读取初始
+> +公钥，这当然可能会被总线中间人拦截并替换。然而，TPM有一个密钥认证机制
+> +（使用EK背书证书，创建认证身份密钥，并用该密钥认证空种子主密钥），但由
+> +于它过于复杂，无法在内核中运行，因此我们保留空主密钥名称的副本，通过
+> +sysfs导出，以便用户空间在启动时进行完整的认证。这里的明确保证是，如果空
+> +主密钥认证成功，那么从当天开始的所有TPM交易都是安全的；如果认证失败，则
+> +说明系统上有中间人（并且任何在启动期间使用的秘密可能已被泄露）。
+> +
+> +信任堆叠
+> +--------
+> +
+> +在当前的空主密钥场景中，TPM必须在交给下一个使用者之前完全清除。然而，
+> +内核将派生出的空种子密钥的名称传递给用户空间，用户空间可以通过认证来
+> +验证该名称。因此，这种名称传递链也可以用于各个启动组件之间（通过未指
+> +定的机制）。例如grub可以使用空种子方案来实现安全性，并将名称交给内核。
+> +内核可以派生出密钥和名称，并确定如果它们与交接的版本不同，则表示发生
+> +了篡改。因此可以通过名称传递将任意启动组件（从UEFI到grub到内核）串联
+> +起来，只要每个后续组件知道如何收集该名称,并根据其派生的密钥进行验证。
+> +
+> +会话属性
+> +--------
+> +
+> +所有内核使用的TPM命令都允许会话。HMAC会话可用于检查请求和响应的完整性，
+> +而解密和加密标志可用于保护参数和响应。HMAC和加密密钥通常是从共享授权秘
+> +钥推导出来的，但对于许多内核操作来说，这些密钥是已知的（通常为空）。因
+> +此内核使用空主密钥作为盐密钥来创建每个HMAC会话，这样就为会话密钥的派生
+> +提供了加密输入。因此内核仅需创建一次空主密钥（作为一个易失的TPM句柄），
+> +并将其保存在tpm_chip中，用于每次在内核中使用TPM时。由于内核资源管理器缺
+> +乏去间隙化，当前每次操作都需要创建和销毁会话，但未来可能会将单个会话重用
+> +用于内核中的HMAC、加密和解密会话。
+> +
+> +保护类型
+> +--------
+> +
+> +对于每个内核操作，我们使用空主密钥加盐的HMAC来保护完整性。此外我们使用参数
+> +加密来保护密钥密封，并使用参数解密来保护密钥解封和随机数生成。
+> +
+> +空主密钥认证在用户空间的实现
+> +============================
+> +
+> +每个TPM都会附带几个X.509证书，通常用于主背书密钥。本文档假设存在椭圆曲线
+> +版本的证书，位于01C00002，但也同样适用于RSA证书(位于01C00001)。
+> +
+> +认证的第一步是使用 `TCG EK Credential Profile`_ 模板进行主密钥的创建，该
+> +模板允许将生成的主密钥与证书中的主密钥进行比较（公钥必须匹配）。需要注意
+> +的是，生成EK主密钥需要EK层级密码，但EC主密钥的预生成版本应位于81010002，
+> +并且可以无需密钥授权对其执行TPM2_ReadPublic()操作。接下来，证书本身必须
+> +经过验证，以确保其可以追溯到制造商根证书（该根证书应公开在制造商网站上）。
+> +完成此步骤后将在TPM内部生成一个认证密钥（AK），并使用TPM2_MakeCredential、
+> +AK的名称和EK公钥加密一个秘密。然后TPM执行TPM2_ActivateCredential，只有在
+> +TPM、EK和AK之间的绑定关系成立时，才能恢复秘密。现在，生成的AK可以用于对由
+> +内核导出的空主密钥进行认证。由于TPM2_MakeCredential/ActivateCredential操作
+> +相对复杂，下面将描述一种涉及外部生成私钥的简化过程。
+> +
+> +这个过程是通常基于隐私CA认证过程的简化缩写。假设此时认证由TPM所有者进行，
+> +所有者只能访问所有者层次。所有者创建一个外部公/私钥对（假设是椭圆曲线），
+> +并使用内部包装过程将私钥进行封装以便导入，该私钥被其父级由EC派生的存储主密
+> +钥保护。TPM2_Import()操作使用一个以EK主密钥为盐值的参数解密HMAC会话（这也不
+> +需要EK密钥授权），意味着内部封装密钥是加密参数，因此除非TPM拥有认证的EK，否
+> +则无法执行导入操作。如果该命令成功执行并且HMAC在返回时通过验证，我们就知道
+> +我们有一个只为认证TPM加载的私钥副本。现在该密钥已加载到TPM中，并且存储主密
+> +钥已被清除（以释放空间用于生成空密钥）。
+> +
+> +现在根据 `TCG TPM v2.0 Provisioning Guidance`_ 中的存储配置生成空EC主密钥；
+> +该密钥的名称（即公钥区域的哈希值）被计算出来并与内核在/sys/class/tpm/tpm0/null_name
+> +中提供的空种子名称进行比较。如果名称不匹配，TPM就被认为是受损的。如果名称匹配，
+> +用户执行TPM2_Certify()，使用空主密钥作为对象句柄，使用加载的私钥作为签名句柄，
+> +并提供随机的合格数据。返回的certifyInfo的签名将与加载的私钥的公钥部分进行验证，
+> +并检查合格数据以防止重放。如果所有测试都通过，用户就可以确信TPM的完整性和隐私
+> +性在整个内核启动过程中得到了保护。
+> +
+> +.. _TPM Genie: https://www.nccgroup.trust/globalassets/about-us/us/documents/tpm-genie.pdf
+> +.. _Windows Bitlocker TPM: https://dolosgroup.io/blog/2021/7/9/from-stolen-laptop-to-inside-the-company-network
+> +.. _基于TPM的Linux磁盘加密: https://www.secura.com/blog/tpm-sniffing-attacks-against-non-bitlocker-targets
+> +.. _TCG EK Credential Profile: https://trustedcomputinggroup.org/resource/tcg-ek-credential-profile-for-tpm-family-2-0/
+> +.. _TCG TPM v2.0 Provisioning Guidance: https://trustedcomputinggroup.org/resource/tcg-tpm-v2-0-provisioning-guidance/
 
-This still doesn't parse: "for its sample allocations" ?
-
->           See <file:Documentation/dev-tools/kfence.rst> for more details.
->
-> @@ -21,7 +21,9 @@ menuconfig KFENCE
->           detect, albeit at very different performance profiles. If you can
->           afford to use KASAN, continue using KASAN, for example in test
->           environments. If your kernel targets production use, and cannot
-> -         enable KASAN due to its cost, consider using KFENCE.
-> +         enable KASAN due to its cost and you are not using NUMA and have
-> +         no use of the memory reserve logic of the memory allocators,
-> +         consider using KFENCE.
-
-This doesn't read well. As I said in the other mail, this is repeating
-what you say above, but is mostly irrelevant in this context. The main
-point of this paragraph is that KFENCE is no substitute for KASAN, but
-can be a reasonable alternative if KASAN can't be used at all (in the
-beginning, we had some folks thinking KFENCE is like KASAN, but faster
-- but that's very wrong).
-
-If you don't like the last sentence because of the "production"
-reference, I'd suggest to just remove the whole sentence starting with
-"If your kernel targets production use, ...".
