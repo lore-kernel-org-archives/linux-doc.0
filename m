@@ -1,69 +1,84 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F042DF58;
-	Fri, 24 Jan 2025 16:15:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18FE9DF58;
+	Fri, 24 Jan 2025 16:18:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737735325; cv=none; b=Q5M4pmAj+SpwykbaoaYAAwudItlEi64DLwhp4Vp8XzDM6Z5uTOF3t2v+ygrMoayzfwc0RHV9GmoLHqTnpDR/1u2AsDolD/Pa2G/jiSWIV19DlBsZte76D6ZixF7L2A2pAXPufvc1oEqf+53QgZl7WEiB/B7kutcqZZuwOJan70E=
+	t=1737735534; cv=none; b=Ys0kA/rlKuyUcI0Ha41Fv8W0YHY9rMe/mCcDR+ekkuXEO1xlxxnkMThGfwI5fnX+JEVcKafIqZLurVbbeilnIQBAOREgVuVk06pm4/tCxqBDxZ1hY5WfM1scmKk6K76zIBxZkRMpJvd8aSpAk/Mk7yj24f6alT+sV3fzD80VJe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737735325; c=relaxed/simple;
-	bh=XKk921iT1ycJCAi72HAP/IDhPFC6FiidIqzy3Ma0iPA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oejpoJdpi6MC0lOsxOZH+q4/s/yYTgvbWClABw6xDwXTT9Cv7VdtP/urkfTX9VuHX1GxbpRsr1ZbDh/ZAeYLmMxMdt77g4Os56yIUbXqIvV6Me1nIpJ5JMMXtx4RCRfVHtM0CrSxA7Nvz3EB99IIlcvL/7DWqi9WIa0oybbnFuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=rzos2lAh; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="rzos2lAh"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=NYdZwc1mEFGgygecAgeJfpAi9eNP9tSUM87S4YHIDEY=; b=rzos2lAh10ygFsSNG+qEqBIW4m
-	00uHthUmvsEl+mn2xYdeM6q50MFvUSEzcCfTfRXJZaI5FGcOI2c3pMPoyz67VpsGdDys0NDayJnVz
-	Qn7e9gmBQqltYyMBFt8lA8VVPQ1PXLz+DRk55qGexUgjW7mtwzeS1gOfIQxCr46T+Pvg=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1tbMKs-007eBG-EG; Fri, 24 Jan 2025 17:15:10 +0100
-Date: Fri, 24 Jan 2025 17:15:10 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Breno Leitao <leitao@debian.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, rdunlap@infradead.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH RFC net-next v3 8/8] netconsole: docs: Add documentation
- for CPU number auto-population
-Message-ID: <57392381-497c-49d8-9ad7-4b50c4939448@lunn.ch>
-References: <20250124-netcon_cpu-v3-0-12a0d286ba1d@debian.org>
- <20250124-netcon_cpu-v3-8-12a0d286ba1d@debian.org>
+	s=arc-20240116; t=1737735534; c=relaxed/simple;
+	bh=YlDv5z6sXTSSo3haBSMsexqgJ2UkKypFea/LOdIEHEk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ILLBwoLUfyYnySFDankWWedIjYAAutzJ2mXrPM5xCDRYRqMgy7oRthOF/JZLHIUDa65lvpGT4QCU42vBb3WKn1Ecm3hnnvTUO4qscvZllMYddYlStcqJslIqVAl/rhr/TJMjjQ+9BBxq2xWVcwKO0KZA4wYnV2YJJzapm4lQ13M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DFC38497;
+	Fri, 24 Jan 2025 08:19:18 -0800 (PST)
+Received: from [10.1.29.18] (e122027.cambridge.arm.com [10.1.29.18])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C5EDF3F5A1;
+	Fri, 24 Jan 2025 08:18:47 -0800 (PST)
+Message-ID: <2500738a-5251-4f30-b36a-44dbfcaf0a84@arm.com>
+Date: Fri, 24 Jan 2025 16:18:45 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250124-netcon_cpu-v3-8-12a0d286ba1d@debian.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 5/5] drm/panthor: Fix race condition when gathering
+ fdinfo group samples
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>
+Cc: kernel@collabora.com, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250123225325.3271764-1-adrian.larumbe@collabora.com>
+ <20250123225325.3271764-6-adrian.larumbe@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250123225325.3271764-6-adrian.larumbe@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-> +CPU number auto population in userdata
-> +--------------------------------------
-> +
-> +Inside the netconsole configfs hierarchy, there is a file called
-> +`cpu_nr` under the `userdata` directory. This file is used to enable or disable
-> +the automatic CPU number population feature. This feature automatically
-> +populates the CPU number that is sending the message.
+On 23/01/2025 22:53, Adrián Larumbe wrote:
+> Commit e16635d88fa0 ("drm/panthor: add DRM fdinfo support") failed to
+> protect access to groups with an xarray lock, which could lead to
+> use-after-free errors.
+> 
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> Fixes: e16635d88fa0 ("drm/panthor: add DRM fdinfo support")
 
-Biking shedding a bit, but to me `cpu_nr` is the number of a
-CPU. However, you want this to be an enable/disable feature. Would
-`cpu_nr_enable`, or `cpu_nr_auto_populate` be clearer?
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-	Andrew
+> ---
+>  drivers/gpu/drm/panthor/panthor_sched.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index e6c08a694e41..1d283b4bab86 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -2865,6 +2865,7 @@ void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile)
+>  	if (IS_ERR_OR_NULL(gpool))
+>  		return;
+>  
+> +	xa_lock(&gpool->xa);
+>  	xa_for_each(&gpool->xa, i, group) {
+>  		mutex_lock(&group->fdinfo.lock);
+>  		pfile->stats.cycles += group->fdinfo.data.cycles;
+> @@ -2873,6 +2874,7 @@ void panthor_fdinfo_gather_group_samples(struct panthor_file *pfile)
+>  		group->fdinfo.data.time = 0;
+>  		mutex_unlock(&group->fdinfo.lock);
+>  	}
+> +	xa_unlock(&gpool->xa);
+>  }
+>  
+>  static void group_sync_upd_work(struct work_struct *work)
+
