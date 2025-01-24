@@ -1,138 +1,142 @@
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2390660890;
-	Fri, 24 Jan 2025 01:47:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8005A1CDFAC;
+	Fri, 24 Jan 2025 02:06:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737683239; cv=none; b=TIzg1vJ8C9/oFfv58BIV+T7BwXEXCP9tDRsIfInmKPdjxAZ6RvqJyGYGht/qkTZOA72/5Ycg4fyCFSENygwDUvvUwzwYEAdSJHEXdFz1oX9QO+lGy9izoNXj58an9K27E7IkJd9LvRjH6hJyc/4TCRitZsSErPAG3kg24+2vKPI=
+	t=1737684377; cv=none; b=L3bi/GgyOd1FcnsFJZJHo+3Fe/GgC06OylsWWs/5WedaL1WIIMRziXyiy+ROEPN8h8qGxfdIdj2JJuxLbiXkrFwschp61LHxI3UXoOqhWw2ie9vh6e0aTMA6v27FA5mxYuCxKW3Kd2p/uYUbGO2JyiVjR7RfGj8HW+IUawfNzGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737683239; c=relaxed/simple;
-	bh=nHcBB0vP7NYkv2m7shS4TwSVQOvBZ5aWg1HWnuN5Eag=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=ZaWl1kpIJsF09RgcRa+0W+gSiWW5lqq34MtL2SSPOwQimBC2meEZv6JdhX0PJhyvd2XAEQA4lns8K0UWr46YIpwKjGHzZQoaxfyW4FUuFfz+y3JNav25Gdzynw3E/jZ67+gldzyAtlRF7B5KfjB5Pyo2f69LuL7+w0mU9EEtjIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.214])
-	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4YfLKd14Sbz20pGC;
-	Fri, 24 Jan 2025 09:47:33 +0800 (CST)
-Received: from kwepemd100013.china.huawei.com (unknown [7.221.188.163])
-	by mail.maildlp.com (Postfix) with ESMTPS id 6CE611A016C;
-	Fri, 24 Jan 2025 09:47:07 +0800 (CST)
-Received: from [10.67.109.79] (10.67.109.79) by kwepemd100013.china.huawei.com
- (7.221.188.163) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Fri, 24 Jan
- 2025 09:47:06 +0800
-Message-ID: <853d2669-e05b-435e-9ac1-86311ead56e5@huawei.com>
-Date: Fri, 24 Jan 2025 09:47:05 +0800
+	s=arc-20240116; t=1737684377; c=relaxed/simple;
+	bh=D+rOFtCf6F2uKlmSvp+Sw3ho1m5PhV8oXTOSEetXOnc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=BBx6PVbz4Ky6djyW/lfxYiKtR4FFy01j9aX746XM15p/j0k9yv8QxFdNEgSwg3sy9Y649MwsenHUnbJJaJ64x7nrE+ung5x+9JpjsuGItKtKdaV8nLe8/5M7P4K2JTF6zL/sUis7gsfHRYVcl826T+j4vm6mMIAlgkucaWNL6vE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TJTVxsVK; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TJTVxsVK"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E3BA0C4CEE2;
+	Fri, 24 Jan 2025 02:06:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737684374;
+	bh=D+rOFtCf6F2uKlmSvp+Sw3ho1m5PhV8oXTOSEetXOnc=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=TJTVxsVKxOX0OVKD9IErL5BOl6enF2Jk2Diy8ZG+55snEV5WSNAo4FcEUvJ/muHjF
+	 5YEyOe68E7B3eMHSOUD6jobn5EPOCF4LKMgE+A746ivnJ9WcEOBCMIwi4DeE5xjFTf
+	 hJRwhcw2/BKIxGUhCrCcZl2mLtYBuZiNnq5o0MolhWEY6z2XyaYsNtnlQWgBFZ9Hj9
+	 cFOKtmJBOiVNk5PSlZsLtkNYrc0wkDZ17QJ9pGvERedAO5OXvENzxgpyz4T4OPAa2k
+	 xsj7moKfXKRvEM4H3qvagT/eCmHycP57RS5GeavUUMU7QoFzNXjIMClejtmBvtKcc8
+	 v4pN2WrR4D6PA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF96CC0218B;
+	Fri, 24 Jan 2025 02:06:14 +0000 (UTC)
+From: Christoph Lameter via B4 Relay <devnull+cl.gentwo.org@kernel.org>
+Date: Thu, 23 Jan 2025 18:06:03 -0800
+Subject: [PATCH v2] KFENCE: Clarify that sample allocations are not
+ following NUMA or memory policies
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] cgroup/rstat: Fix forceidle time in cpu.stat
-To: Abel Wu <wuyun.abel@bytedance.com>, Tejun Heo <tj@kernel.org>, Johannes
- Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
-	<mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>, Ingo Molnar
-	<mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Juri Lelli
-	<juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt
-	<rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman
-	<mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, Thomas Gleixner
-	<tglx@linutronix.de>, Yury Norov <yury.norov@gmail.com>, Andrew Morton
-	<akpm@linux-foundation.org>, Bitao Hu <yaoma@linux.alibaba.com>
-CC: "open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>, "open
- list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
-	<linux-kernel@vger.kernel.org>
-References: <20250123174713.25570-1-wuyun.abel@bytedance.com>
- <20250123174713.25570-2-wuyun.abel@bytedance.com>
-Content-Language: en-US
-From: chenridong <chenridong@huawei.com>
-In-Reply-To: <20250123174713.25570-2-wuyun.abel@bytedance.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemd100013.china.huawei.com (7.221.188.163)
+Message-Id: <20250123-kfence_doc_update-v2-1-e80efaccc0d4@gentwo.org>
+X-B4-Tracking: v=1; b=H4sIAIr1kmcC/32NWw7CIBQFt9LcbzEFilq/3IdpGh63LTGBBhA1D
+ XsXuwA/Z5IzZ4OIwWKEa7NBwGyj9a4COzSgF+lmJNZUBtYy0VLGyWNCp3E0Xo/P1ciEpOeqE+e
+ TZkIpqLs14GTfe/M+VF5sTD589otMf/ZfLVNCSS/lBftOcdOq24wuvfzRhxmGUsoXICi/3LMAA
+ AA=
+To: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
+ Dmitry Vyukov <dvyukov@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Huang Shijie <shijie@os.amperecomputing.com>
+Cc: kasan-dev@googlegroups.com, workflows@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Christoph Lameter <cl@linux.com>, Yang Shi <shy828301@gmail.com>
+X-Mailer: b4 0.15-dev-37811
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1737684374; l=3059;
+ i=cl@gentwo.org; s=20240811; h=from:subject:message-id;
+ bh=jDYv6E/8e4wLrb6Ka2L1+EFb9x3w209Y8Bg1u/WHFNA=;
+ b=yMoEJnAtIT+qS06EPP9LFWpWtyNaFT6VEzwG4PNqco5oq+djKibhEN80aJush6LDzKaxqmtgS
+ Cc0dfy9T3AUAejAwBCeW4rg9fU1G9GwNyEBDxbAY4KggbtWllOlnnOZ
+X-Developer-Key: i=cl@gentwo.org; a=ed25519;
+ pk=I7gqGwDi9drzCReFIuf2k9de1FI1BGibsshXI0DIvq8=
+X-Endpoint-Received: by B4 Relay for cl@gentwo.org/20240811 with
+ auth_id=194
+X-Original-From: Christoph Lameter <cl@gentwo.org>
+Reply-To: cl@gentwo.org
 
+From: Christoph Lameter <cl@linux.com>
 
+KFENCE manages its own pools and redirects regular memory allocations
+to those pools in a sporadic way. The usual memory allocator features
+like NUMA, memory policies and pfmemalloc are not supported.
+This means that one gets surprising object placement with KFENCE that
+may impact performance on some NUMA systems.
 
-On 2025/1/24 1:47, Abel Wu wrote:
-> The commit b824766504e4 ("cgroup/rstat: add force idle show helper")
-> retrieves forceidle_time outside cgroup_rstat_lock for non-root cgroups
-> which can be potentially inconsistent with other stats.
-> 
-> Rather than reverting that commit, fix it in a way that retains the
-> effort of cleaning up the ifdef-messes.
-> 
-> Fixes: b824766504e4 ("cgroup/rstat: add force idle show helper")
-> Signed-off-by: Abel Wu <wuyun.abel@bytedance.com>
-> ---
->  kernel/cgroup/rstat.c | 29 +++++++++++++----------------
->  1 file changed, 13 insertions(+), 16 deletions(-)
-> 
-> diff --git a/kernel/cgroup/rstat.c b/kernel/cgroup/rstat.c
-> index 5877974ece92..c2784c317cdd 100644
-> --- a/kernel/cgroup/rstat.c
-> +++ b/kernel/cgroup/rstat.c
-> @@ -613,36 +613,33 @@ static void cgroup_force_idle_show(struct seq_file *seq, struct cgroup_base_stat
->  void cgroup_base_stat_cputime_show(struct seq_file *seq)
->  {
->  	struct cgroup *cgrp = seq_css(seq)->cgroup;
-> -	u64 usage, utime, stime, ntime;
-> +	struct cgroup_base_stat bstat;
->  
->  	if (cgroup_parent(cgrp)) {
->  		cgroup_rstat_flush_hold(cgrp);
-> -		usage = cgrp->bstat.cputime.sum_exec_runtime;
-> +		bstat = cgrp->bstat;
+Update the description and make KFENCE depend on VM debugging
+having been enabled.
 
-Thank you for finding that.
-In my version 2, I used to assign cgrp->bstat to bstat.
-This is Tj's comment:
-https://lore.kernel.org/linux-kernel/ZoQ2ti7nnz9EJSc3@slm.duckdns.org/
+Signed-off-by: Christoph Lameter <cl@linux.com>
+---
+Reviewed-by: Yang Shi <shy828301@gmail.com>
+---
+Changes in v2:
+- Remove dependency on CONFIG_DEBUG_VM.
+- Spelling fixes.
+- Link to v1: https://lore.kernel.org/r/20250123-kfence_doc_update-v1-1-9aa8e94b3d0b@gentwo.org
+---
+ Documentation/dev-tools/kfence.rst | 4 +++-
+ lib/Kconfig.kfence                 | 8 +++++---
+ 2 files changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/dev-tools/kfence.rst b/Documentation/dev-tools/kfence.rst
+index 541899353865..03062d0941dc 100644
+--- a/Documentation/dev-tools/kfence.rst
++++ b/Documentation/dev-tools/kfence.rst
+@@ -8,7 +8,9 @@ Kernel Electric-Fence (KFENCE) is a low-overhead sampling-based memory safety
+ error detector. KFENCE detects heap out-of-bounds access, use-after-free, and
+ invalid-free errors.
+ 
+-KFENCE is designed to be enabled in production kernels, and has near zero
++KFENCE is designed to be low overhead but does not implement the typical
++memory allocation features for its samples like memory policies, NUMA and
++management of emergency memory pools. It has near zero
+ performance overhead. Compared to KASAN, KFENCE trades performance for
+ precision. The main motivation behind KFENCE's design, is that with enough
+ total uptime KFENCE will detect bugs in code paths not typically exercised by
+diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
+index 6fbbebec683a..1f9f79df2d0a 100644
+--- a/lib/Kconfig.kfence
++++ b/lib/Kconfig.kfence
+@@ -11,8 +11,8 @@ menuconfig KFENCE
+ 	help
+ 	  KFENCE is a low-overhead sampling-based detector of heap out-of-bounds
+ 	  access, use-after-free, and invalid-free errors. KFENCE is designed
+-	  to have negligible cost to permit enabling it in production
+-	  environments.
++	  to have negligible cost. KFENCE does not support NUMA features
++	  and other memory allocator features for it sample allocations.
+ 
+ 	  See <file:Documentation/dev-tools/kfence.rst> for more details.
+ 
+@@ -21,7 +21,9 @@ menuconfig KFENCE
+ 	  detect, albeit at very different performance profiles. If you can
+ 	  afford to use KASAN, continue using KASAN, for example in test
+ 	  environments. If your kernel targets production use, and cannot
+-	  enable KASAN due to its cost, consider using KFENCE.
++	  enable KASAN due to its cost and you are not using NUMA and have
++	  no use of the memory reserve logic of the memory allocators,
++	  consider using KFENCE.
+ 
+ if KFENCE
+ 
+
+---
+base-commit: d0d106a2bd21499901299160744e5fe9f4c83ddb
+change-id: 20250123-kfence_doc_update-93b4576c25bb
 
 Best regards,
-Ridong
+-- 
+Christoph Lameter <cl@gentwo.org>
 
->  		cputime_adjust(&cgrp->bstat.cputime, &cgrp->prev_cputime,
-> -			       &utime, &stime);
-> -		ntime = cgrp->bstat.ntime;
-> +			       &bstat.cputime.utime, &bstat.cputime.stime);
->  		cgroup_rstat_flush_release(cgrp);
->  	} else {
-> -		/* cgrp->bstat of root is not actually used, reuse it */
-> -		root_cgroup_cputime(&cgrp->bstat);
-> -		usage = cgrp->bstat.cputime.sum_exec_runtime;
-> -		utime = cgrp->bstat.cputime.utime;
-> -		stime = cgrp->bstat.cputime.stime;
-> -		ntime = cgrp->bstat.ntime;
-> +		root_cgroup_cputime(&bstat);
->  	}
->  
-> -	do_div(usage, NSEC_PER_USEC);
-> -	do_div(utime, NSEC_PER_USEC);
-> -	do_div(stime, NSEC_PER_USEC);
-> -	do_div(ntime, NSEC_PER_USEC);
-> +	do_div(bstat.cputime.sum_exec_runtime, NSEC_PER_USEC);
-> +	do_div(bstat.cputime.utime, NSEC_PER_USEC);
-> +	do_div(bstat.cputime.stime, NSEC_PER_USEC);
-> +	do_div(bstat.ntime, NSEC_PER_USEC);
->  
->  	seq_printf(seq, "usage_usec %llu\n"
->  			"user_usec %llu\n"
->  			"system_usec %llu\n"
->  			"nice_usec %llu\n",
-> -			usage, utime, stime, ntime);
-> +			bstat.cputime.sum_exec_runtime,
-> +			bstat.cputime.utime,
-> +			bstat.cputime.stime,
-> +			bstat.ntime);
->  
-> -	cgroup_force_idle_show(seq, &cgrp->bstat);
-> +	cgroup_force_idle_show(seq, &bstat);
->  }
->  
->  /* Add bpf kfuncs for cgroup_rstat_updated() and cgroup_rstat_flush() */
+
