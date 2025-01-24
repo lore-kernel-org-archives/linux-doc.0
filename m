@@ -1,196 +1,226 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9B621B8E1;
-	Fri, 24 Jan 2025 12:27:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEC13111AD;
+	Fri, 24 Jan 2025 15:17:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737721665; cv=none; b=f/C1YMWBrsafBqVXxNM3PPx1x9chcY25t2Inj5FnPdH038nJ8aMiziL1oRnQKHuFjyJlTi8LagKSYIbAnOyDD1aeycQICrFHZGpFn5MuIgUXMTR3TeN/Qi4MNeDN2DY+K1dUiZ4ekFyReQJdLm3u9e1RAvukt55BSNNvfMdWxBc=
+	t=1737731825; cv=none; b=TJNpchOBOY5OUSFKHO/M3ZhANVdDpnEfcV5QXeHSJzOeTNjBwVnWAxpWZZWcG4gLelGQxEj9rSg+10gCf+WVGcrLuZdu35AyQbzokRs3CI2m5PqDAzKZC16iHWe0wMUq94pbczrb88HMBd166CfNCYCkkgdpRRoy0Kxllnht8ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737721665; c=relaxed/simple;
-	bh=9oBt5eh8mlxIfH1UK0nPtYWTn/a4BrjpdPj9YsykCGU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JDidayQQ1/8FCI7pBMAXg2D+M01bROA3gJxMkPLbhnZsFRSLmOeRnFr146Gs7B19T2Mtp4v+hb7AeAZFRa9Q7f0wrI8EjnNlAuZHZeQ6WyQnM5xuAJkmGP1ehKRsj3i7lJ+5gGiZ22THZnsTV2nUAL9OyxNDLbRQcjcGoyoflWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PDAnucqU; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDAnucqU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737721663; x=1769257663;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9oBt5eh8mlxIfH1UK0nPtYWTn/a4BrjpdPj9YsykCGU=;
-  b=PDAnucqUMltE6oXGK240JcxcMzI1rIlJ9YTKwZMMqkYLl5HqYCESOf0r
-   /m/eF/MwmGcz+L1xOC2LaixJNK/2bPvJnVRGUzIE16xEPgF2Ed+JOhsjy
-   3al0mWcT6lhuj4xWt9EZbuQsiJ16eodUIrrBRdc03svoMHUD2raQK/aGl
-   eKf2xA8RVcQ7cOj6TO8her1zuYf5lwEqdfA1feSMgt8SmQ7OFfb+D+F8O
-   n3mvGBQE5+SCCLtvapqFSYqXVCOEih6JehRD8vNJpQnd0Xhc/0wl0ArFi
-   Dt+uEkOwvSDolZIlLRYR7jsBPhfzJU507+u8/7AIjRRHoWrR7oXN0UXFL
-   g==;
-X-CSE-ConnectionGUID: /R1hThV6RMKvt1K7vlZ70A==
-X-CSE-MsgGUID: oC//J+NQQKGkRYjwzoGFIg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11325"; a="37458577"
-X-IronPort-AV: E=Sophos;i="6.13,231,1732608000"; 
-   d="scan'208";a="37458577"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 04:27:42 -0800
-X-CSE-ConnectionGUID: TcKqrqbOStiT63Vx3rUJ8g==
-X-CSE-MsgGUID: 5YTnTvwzTZiG18df72xk5Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="112390003"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Jan 2025 04:27:38 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tbImd-000cfL-38;
-	Fri, 24 Jan 2025 12:27:35 +0000
-Date: Fri, 24 Jan 2025 20:26:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Jiao, Joey" <quic_jiangenj@quicinc.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-	Christoph Lameter <cl@linux-foundation.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kernel@quicinc.com
-Subject: Re: [PATCH 4/7] kcov: introduce new kcov KCOV_TRACE_UNIQ_CMP mode
-Message-ID: <202501242043.KmrFufhL-lkp@intel.com>
-References: <20250114-kcov-v1-4-004294b931a2@quicinc.com>
+	s=arc-20240116; t=1737731825; c=relaxed/simple;
+	bh=I4tDXjbNoT4LxIzUcPbb+zTkPoor0NL5j0tVYugIgao=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XhWc8pEHYBgxxOaIeYT2XgS/J3QxwDQfkDv5oip+qJsWl6pFib+C1xDEJr5pC+n96znPHps0cOonCwkgUViE9793vumMxeCLAHY7o2W6GxWHnNkOsgfOVhVK1+OjF/c0HFVfIVE4V14PUHQXJyj0YGHZ1FYRwtqD4MCNAGhSsEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-aa67ac42819so357016766b.0;
+        Fri, 24 Jan 2025 07:17:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737731822; x=1738336622;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aiDVaLfQdBUsgPZv4KWE0dcxSIzXd3jvj05N3hqQrkw=;
+        b=taEHgX1P0CoAgpTqZWpzagoEUlqJbp605THVAVz80SO6KYgdbddjZ78Ep2pMg4xu5L
+         z0IZBHJ822s877VNL7hB6eaJ9BQlvBV/shkBHER7usBIz+GfLVFQLIUtV/snG1hXgCa/
+         HnkTfwjFKcSHtRCHUq/uqumVKhLz4VbyvhNbu0h9tkhEZK4mHnkubDBzPwWLUwCijGgd
+         dsRCIlu1FkfUIjIxgJzE8ZPvOvIwHvIK2usGM04RsP+wY098aHEHRxwg+tS7yCr0MbbP
+         0B9InHighNXNUogK/GmT2/s8vz/ps6Z2kHs+iUWAI+gMqfYE9C9FhcUlR6jVSIEEqOTF
+         sS/g==
+X-Forwarded-Encrypted: i=1; AJvYcCUR1nVJ5ooKJGPx1FNrMwH6OWSQsTpWCyqZO3P2EsQA58KVrc4RC35X2h3GWndr2YHL5VwuK0NruKiimRwG@vger.kernel.org, AJvYcCUf/Cqsv2PNsTpqsMGv37x6r5dVJcz8vTOsirzEkIubjrv+waIxXgucvOdWeQF+6DxlsOoaUmWWmAc=@vger.kernel.org, AJvYcCX6N79uKhkab4nxh6CWvM+fnOgVXfn9x7hVmlEeCVQ8IxYYE3BsBLmuTwFaiypm+h/03fnynq3owkZMvInJtkC4@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmYGHVbIKz4gKWeM1jWzOqyo3Y6km6rF7EfSbiCHjJzRAh11Y5
+	4H9fmxP1bA47den5rLLoHpUukraDIlQcwmzk2GSsEkOhsY+F5gNyRVg6sg==
+X-Gm-Gg: ASbGncsHvJXrwkiR5LeseCd41DvyLui3aJlX19s5J4xSzrWvXSpW45Lg/AEPLbBLLYD
+	GRZiFksVSGI496Z0Qy1/VLTH9AeyTpoGrH3hmkbawJkMOHtN3GufneKTNHXQmb11rxcZwk83Ji2
+	9H0Ftfwkd56+c/Is0KqIQJ7H8HrNxk5FOEqYc5U9TKxnkRWy5mHfqGDaOFRb1TkcHMgdy37YIUg
+	NLwVxr363LxGjBBm22caDiCiKLwuYDcTH0d0XkiDhreoxKZByUdCou6qELyr5zlYH9ZAuy+cMMM
+	x+xLEA==
+X-Google-Smtp-Source: AGHT+IGaEysIzJ+FvecPICu7FWwm893o/oSK2o0KS2BjDOuOMqFALXfkbNcBUpXteS2VGXltB4OPHg==
+X-Received: by 2002:a17:907:706:b0:aa6:5201:7ae3 with SMTP id a640c23a62f3a-ab38b3b23e1mr3234662966b.40.1737731821293;
+        Fri, 24 Jan 2025 07:17:01 -0800 (PST)
+Received: from localhost ([2a03:2880:30ff:6::])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab676114e14sm140324566b.163.2025.01.24.07.17.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jan 2025 07:17:00 -0800 (PST)
+From: Breno Leitao <leitao@debian.org>
+Subject: [PATCH RFC net-next v3 0/8] netconsole: Add support for CPU
+ population
+Date: Fri, 24 Jan 2025 07:16:39 -0800
+Message-Id: <20250124-netcon_cpu-v3-0-12a0d286ba1d@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250114-kcov-v1-4-004294b931a2@quicinc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANeuk2cC/1XNQQqDMBCF4auEWZuSiUmNrgqFHqDbUorGUbNJJ
+ FqxiHcvtRTqdnj/NwsMFB0NULAFIk1ucMFDwdKEge1K3xJ3NRQMpJAKURjuabTBP2z/5JbSHDM
+ yplEVJAz6SI2bN+wG18v5c/M0ck/zCPeEQeeGMcTX9mzCbfZ1Mf13J+SC12iyqsmsSCWeaqpc6
+ Q8htpszyV+rBaLetZILnus8w0qp2urjrl3X9Q1epiWD8gAAAA==
+X-Change-ID: 20241108-netcon_cpu-ce3917e88f4b
+To: Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <shuah@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ rdunlap@infradead.org, Breno Leitao <leitao@debian.org>, 
+ kernel-team@meta.com
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6455; i=leitao@debian.org;
+ h=from:subject:message-id; bh=I4tDXjbNoT4LxIzUcPbb+zTkPoor0NL5j0tVYugIgao=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBnk67qwqJLef6THzZ4hZkIi/d99dIiCtTfZ51Yr
+ BcvTtoqHw2JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCZ5Ou6gAKCRA1o5Of/Hh3
+ bTjgD/9N5BNHsxHvM/WU6q9j91jY0D+1I9Q94y10mVlZ9QxOfbG40Zp5QIDEb7pbJyCzEmVAtu2
+ 38JFj8iSntrEitSGZ/ReFIu/9r1+qd4ZxzipJ6MBCgFAjquqwKmXidNxnxM/p2DnB7BRyuvP8/4
+ Cy+6t8ISGNUHgHRPrg5zEmhQNVX52lSF/BEvFHkTb8TtpYrEVduS1A5owRFPqI7kVgF30LmSlqS
+ APlwmEoSr2i6ZPHgkEM0oB0wr1et/LTKU+pMXXxjbThq/0Nk/KXnxyExfKu/ecOWULhLqJVaueU
+ ggrsfXYrIOHNg4GyhzjmmnrNGFGG1pO/vGGdC9M9PwagVFo75nNEoWGs0/qXrXa9DglEeH+Zvjc
+ OcGwMRAgS4NiKfoGDs6I641rOzuMoXSs4K9UsoMbVS1m5UqYLkcewYHvl7PI70krLmJ52j4gFkx
+ A1jHzmxuf7xwhNgeSpVi4S3Jxr/+w1umlobpm9/ljZmtbzWqdpZuNOoPgXKRbXUxTxp09lNV+a8
+ 09nOP1fs4PLdR8tQh8b5/AEiOTZyX77q+07BhsN2XK3vJsXeZtikjxXGeXoQIlbgijT8SpqRFmU
+ UVHHKltVWA5rrRj1LfAcT2WjijqaH/NirvSJEqnSyGssZRRCMRJ5kEzZNedkWe0WXq61IFIfd8M
+ KXWNy1FaBu7XoAg==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
 
-Hi Joey,
+The current implementation of netconsole sends all log messages in
+parallel, which can lead to an intermixed and interleaved output on the
+receiving side. This makes it challenging to demultiplex the messages
+and attribute them to their originating CPUs.
 
-kernel test robot noticed the following build errors:
+As a result, users and developers often struggle to effectively analyze
+and debug the parallel log output received through netconsole.
 
-[auto build test ERROR on 9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe]
+Example of a message got from produciton hosts:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiao-Joey/kcov-introduce-new-kcov-KCOV_TRACE_UNIQ_PC-mode/20250114-133713
-base:   9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe
-patch link:    https://lore.kernel.org/r/20250114-kcov-v1-4-004294b931a2%40quicinc.com
-patch subject: [PATCH 4/7] kcov: introduce new kcov KCOV_TRACE_UNIQ_CMP mode
-config: x86_64-randconfig-001-20250124 (https://download.01.org/0day-ci/archive/20250124/202501242043.KmrFufhL-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501242043.KmrFufhL-lkp@intel.com/reproduce)
+	------------[ cut here ]------------
+	------------[ cut here ]------------
+	refcount_t: saturated; leaking memory.
+	WARNING: CPU: 2 PID: 1613668 at lib/refcount.c:22 refcount_warn_saturate+0x5e/0xe0
+	refcount_t: addition on 0; use-after-free.
+	WARNING: CPU: 26 PID: 4139916 at lib/refcount.c:25 refcount_warn_saturate+0x7d/0xe0
+	Modules linked in: bpf_preload(E) vhost_net(E) tun(E) vhost(E)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501242043.KmrFufhL-lkp@intel.com/
+This series of patches introduces a new feature to the netconsole
+subsystem that allows the automatic population of the CPU number in the
+userdata field for each log message. This enhancement provides several
+benefits:
 
-All errors (new ones prefixed by >>):
+* Improved demultiplexing of parallel log output: When multiple CPUs are
+  sending messages concurrently, the added CPU number in the userdata
+  makes it easier to differentiate and attribute the messages to their
+  originating CPUs.
 
->> kernel/kcov.c:309:41: error: no member named 'type' in 'struct kcov_entry'
-     309 |                         if (entry->ent == ent->ent && entry->type == ent->type &&
-         |                                                       ~~~~~  ^
-   kernel/kcov.c:309:54: error: no member named 'type' in 'struct kcov_entry'
-     309 |                         if (entry->ent == ent->ent && entry->type == ent->type &&
-         |                                                                      ~~~  ^
->> kernel/kcov.c:310:15: error: no member named 'arg1' in 'struct kcov_entry'
-     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-         |                             ~~~~~  ^
-   kernel/kcov.c:310:28: error: no member named 'arg1' in 'struct kcov_entry'
-     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-         |                                            ~~~  ^
->> kernel/kcov.c:310:43: error: no member named 'arg2' in 'struct kcov_entry'
-     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-         |                                                         ~~~~~  ^
-   kernel/kcov.c:310:56: error: no member named 'arg2' in 'struct kcov_entry'
-     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-         |                                                                        ~~~  ^
-   kernel/kcov.c:343:29: error: no member named 'type' in 'struct kcov_entry'
-     343 |                         area[start_index] = ent->type;
-         |                                             ~~~  ^
-   kernel/kcov.c:344:33: error: no member named 'arg1' in 'struct kcov_entry'
-     344 |                         area[start_index + 1] = ent->arg1;
-         |                                                 ~~~  ^
-   kernel/kcov.c:345:33: error: no member named 'arg2' in 'struct kcov_entry'
-     345 |                         area[start_index + 2] = ent->arg2;
-         |                                                 ~~~  ^
-   9 errors generated.
+* Better visibility into message sources: The CPU number information
+  gives users and developers more insight into which specific CPU a
+  particular log message came from, which can be valuable for debugging
+  and analysis.
 
+The changes in this series are as follows Patches::
 
-vim +309 kernel/kcov.c
+Patch "consolidate send buffers into netconsole_target struct"
+=================================================
 
-   290	
-   291	static notrace inline void kcov_map_add(struct kcov_map *map, struct kcov_entry *ent,
-   292						struct task_struct *t, unsigned int mode)
-   293	{
-   294		struct kcov *kcov;
-   295		struct kcov_entry *entry;
-   296		unsigned int key = hash_key(ent);
-   297		unsigned long pos, start_index, end_pos, max_pos, *area;
-   298	
-   299		kcov = t->kcov;
-   300	
-   301		if ((mode == KCOV_MODE_TRACE_UNIQ_PC ||
-   302		     mode == KCOV_MODE_TRACE_UNIQ_EDGE))
-   303			hash_for_each_possible_rcu(map->buckets, entry, node, key) {
-   304				if (entry->ent == ent->ent)
-   305					return;
-   306			}
-   307		else
-   308			hash_for_each_possible_rcu(map->buckets, entry, node, key) {
- > 309				if (entry->ent == ent->ent && entry->type == ent->type &&
- > 310				    entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-   311					return;
-   312				}
-   313			}
-   314	
-   315		entry = (struct kcov_entry *)gen_pool_alloc(map->pool, 1 << MIN_POOL_ALLOC_ORDER);
-   316		if (unlikely(!entry))
-   317			return;
-   318	
-   319		barrier();
-   320		memcpy(entry, ent, sizeof(*entry));
-   321		hash_add_rcu(map->buckets, &entry->node, key);
-   322	
-   323		if (mode == KCOV_MODE_TRACE_UNIQ_PC || mode == KCOV_MODE_TRACE_UNIQ_CMP)
-   324			area = t->kcov_area;
-   325		else
-   326			area = kcov->map_edge->area;
-   327	
-   328		pos = READ_ONCE(area[0]) + 1;
-   329		if (mode == KCOV_MODE_TRACE_UNIQ_PC || mode == KCOV_MODE_TRACE_UNIQ_EDGE) {
-   330			if (likely(pos < t->kcov_size)) {
-   331				WRITE_ONCE(area[0], pos);
-   332				barrier();
-   333				area[pos] = ent->ent;
-   334			}
-   335		} else {
-   336			start_index = 1 + (pos - 1) * KCOV_WORDS_PER_CMP;
-   337			max_pos = t->kcov_size * sizeof(unsigned long);
-   338			end_pos = (start_index + KCOV_WORDS_PER_CMP) * sizeof(u64);
-   339			if (likely(end_pos <= max_pos)) {
-   340				/* See comment in __sanitizer_cov_trace_pc(). */
-   341				WRITE_ONCE(area[0], pos);
-   342				barrier();
-   343				area[start_index] = ent->type;
-   344				area[start_index + 1] = ent->arg1;
-   345				area[start_index + 2] = ent->arg2;
-   346				area[start_index + 3] = ent->ent;
-   347			}
-   348		}
-   349	}
-   350	
+Move the static buffers to netconsole target, from static declaration
+in send_msg_no_fragmentation() and send_msg_fragmented().
 
+Patch "netconsole: Rename userdata to extradata"
+=================================================
+Create the a concept of extradata, which encompasses the concept of
+userdata and the upcoming sysdatao
+
+Sysdata is a new concept being added, which is basically fields that are
+populated by the kernel. At this time only the CPU#, but, there is a
+desire to add current task name, kernel release version, etc.
+
+Patch "netconsole: Helper to count number of used entries"
+===========================================================
+Create a simple helper to count number of entries in extradata. I am
+separating this in a function since it will need to count userdata and
+sysdata. For instance, when the user adds an extra userdata, we need to
+check if there is space, counting the previous data entries (from
+userdata and cpu data)
+
+Patch "Introduce configfs helpers for sysdata features"
+======================================================
+Create the concept of sysdata feature in the netconsole target, and
+create the configfs helpers to enable the bit in nt->sysdata
+
+Patch "Include sysdata in extradata entry count"
+================================================
+Add the concept of sysdata when counting for available space in the
+buffer. This will protect users from creating new userdata/sysdata if
+there is no more space
+
+Patch "netconsole: add support for sysdata and CPU population"
+===============================================================
+This is the core patch. Basically add a new option to enable automatic
+CPU number population in the netconsole userdata Provides a new "cpu_nr"
+sysfs attribute to control this feature
+
+Patch "netconsole: selftest: test CPU number auto-population"
+=============================================================
+Expands the existing netconsole selftest to verify the CPU number
+auto-population functionality Ensures the received netconsole messages
+contain the expected "cpu=<CPU>" entry in the message. Test different
+permutation with userdata
+
+Patch "netconsole: docs: Add documentation for CPU number auto-population"
+=============================================================================
+Updates the netconsole documentation to explain the new CPU number
+auto-population feature Provides instructions on how to enable and use
+the feature
+
+I believe these changes will be a valuable addition to the netconsole
+subsystem, enhancing its usefulness for kernel developers and users.
+
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+Changes in v3:
+- Moved the buffer into netconsole_target, avoiding static functions in
+  the send path (Jakub).
+- Fix a documentation error (Randy Dunlap)
+- Created a function that handle all the extradata, consolidating it in
+  a single place (Jakub)
+- Split the patch even more, trying to simplify the review.
+- Link to v2: https://lore.kernel.org/r/20250115-netcon_cpu-v2-0-95971b44dc56@debian.org
+
+Changes in v2:
+- Create the concept of extradata and sysdata. This will make the design
+  easier to understand, and the code easier to read.
+  * Basically extradata encompasses userdata and the new sysdata.
+    Userdata originates from user, and sysdata originates in kernel.
+- Improved the test to send from a very specific CPU, which can be
+  checked to be correct on the other side, as suggested by Jakub.
+- Fixed a bug where CPU # was populated at the wrong place
+- Link to v1: https://lore.kernel.org/r/20241113-netcon_cpu-v1-0-d187bf7c0321@debian.org
+
+---
+Breno Leitao (8):
+      netconsole: consolidate send buffers into netconsole_target struct
+      netconsole: Rename userdata to extradata
+      netconsole: Helper to count number of used entries
+      netconsole: Introduce configfs helpers for sysdata features
+      netconsole: Include sysdata in extradata entry count
+      netconsole: add support for sysdata and CPU population
+      netconsole: selftest: test for sysdata CPU
+      netconsole: docs: Add documentation for CPU number auto-population
+
+ Documentation/networking/netconsole.rst            |  45 ++++
+ drivers/net/netconsole.c                           | 260 ++++++++++++++++-----
+ tools/testing/selftests/drivers/net/Makefile       |   1 +
+ .../selftests/drivers/net/lib/sh/lib_netcons.sh    |  17 ++
+ .../selftests/drivers/net/netcons_sysdata.sh       | 167 +++++++++++++
+ 5 files changed, 426 insertions(+), 64 deletions(-)
+---
+base-commit: fa10c9f5aa705deb43fd65623508074bee942764
+change-id: 20241108-netcon_cpu-ce3917e88f4b
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Breno Leitao <leitao@debian.org>
+
