@@ -1,144 +1,182 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DC9A1D5CF5
-	for <linux-doc@vger.kernel.org>; Fri, 24 Jan 2025 12:09:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534752B9BC;
+	Fri, 24 Jan 2025 12:25:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737720544; cv=none; b=u6YHlucR9xPKat64gEGn9QpcuqyoXY5kf/XoEErTzHrko+2nip3VShEzS8doCe/nla+q6IG0cYnChg5mH3LV4giNERFJQt/OOTt3KyfRHohX2MybgMw/yEEjwJ1ZRYIHVcuF3akwdbELz5OX57lZ8jkIqN9M+i4gtxuy3WOaspY=
+	t=1737721534; cv=none; b=pf6DNoQHfuE1/q2Ot2OdGHV5UX4acnVb3hwHMoOWBavt4otk/rmdgI11aZLQJFkNDj0C+39qwICaoI7mBwr6QZ9j+L7DOh8lsAqXcKVpIPuyH+iI0zZpk/ElshaoAApzsNLM+d/D1e8hU2GHlQP3GlIbV6gUdl1RLBVrVFsS55A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737720544; c=relaxed/simple;
-	bh=sathMMYpkd9IE0uKf0R4f3atWBV9w8lHu5rElf14cQY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fKbkoIN47QV8gXd6HRlYJ64A/0pDRBntKx5tZPG9DRngMh7MMPt0qW/e2GN19tZ8RCzcUuXY8EGjTRtF/IeGGkKDgzyBM2S+rmMYzpoyV4k90R4bPaswu5YGzFGI/Mvk57I/Xe82NuLLPUny67R/LZuuO6ZrpFJxg6sncHtKD5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z4KQcaWr; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1737721534; c=relaxed/simple;
+	bh=tnlk09m2NBR4uXtk0Dqcj4sR941L4PenpRJcVzCfWKc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u9hlWo1Iw8yxBDIWSOVZsclioh0k+oVwO3pWw59HpjyeyCuGNXg0+9dNiLVVJgMNWDTT2jl1MRqGwD2mHyfgCHMZ8XsCFP4nhmBDhe8o3SMM46OOhhbyS6Olu/nbIT+s4c1Jbpuot4VrpQbvxk4T8zOpk3kgLhV/BwBhsSKtx3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eIdSo+Gm; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z4KQcaWr"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3862b40a6e0so1500061f8f.0
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jan 2025 04:09:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eIdSo+Gm"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21628b3fe7dso34659835ad.3;
+        Fri, 24 Jan 2025 04:25:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737720540; x=1738325340; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=g8iXRUajdsrMRbaddd2Fj3z0NrBTrdrHV4nnZ8KPUYE=;
-        b=Z4KQcaWr3zyVzgar7eKGP2u+EgOyOrQHqSugBCDREsEpaBCpUhRamhs0Dxqk5AsywG
-         +KbrOSEzY85dD4GadDQbRTzmbV3OCJsQKNvIp5ZtDijRjVT9ro6n+7R8VAtiZuzZo8vv
-         5iv9HcyTB/J03PcDWnEaV78w7YG11J5hIpiKdjaXpG4WBN5Uel+aF7n+13JcqnDoLfIQ
-         RsrcI2dCbH48+kFZoomIeDEB8PjCUYyV2NYwfcIpHn5E74CVBgv/ohf0FYOhfGOM0Qdy
-         TStSV79a80h0A5tQv+hUxSlLxFROeuDUxZZgYDwZBdzFVv5Yn7dt7wK361m6jR5qgMzm
-         DdKA==
+        d=gmail.com; s=20230601; t=1737721532; x=1738326332; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=55WCFRWqtOQgvKOXjNcufQxZKA0z5u3iLymUeHT3mPE=;
+        b=eIdSo+GmlKYmVIvZgfy1W5Bu4R4fVycscYAkWhle9IzMGvGSZYci8L08z0FzK8TOtQ
+         f3PnIpwgftZf1NMMydfrMlWC65IxDTBVY5PNsPP7Fke8bp0Rh3AWPORL/Qe616nAkJNL
+         iH+lvZJ5IwqHwY7qbr9Xv8YdcLu2U4hXwrFhTYDekF908hLXIBAl51IyM4DLhJpXlhWF
+         jAnmEZo4mRcYl1gbubSTuF+jlmRMFGTvL6nCljXmsjmIK/4J7d4u4oiHBG3uvQBL2N28
+         QS+TsDKm5J1wL+xGVn4nWt5agDDaKU31mOTh3uqFU5t4ZyR6ThJqMUc7MFepoxdJcVLU
+         l0EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737720540; x=1738325340;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=g8iXRUajdsrMRbaddd2Fj3z0NrBTrdrHV4nnZ8KPUYE=;
-        b=jRGx9McidxTQMZkHuNAJVKBlzO0jCfcUJGwVaGDD0wkrl40+QDsR8MJztAM3lIodGY
-         1/kV9nFIXdwV8JEeM7526QDKwkkU2FmtTHMv2PNXkJfiElVPkZ71OmY/nkHrAHoW2lKu
-         HCsFmaLDRncWMrzZwHMq2diE/wMPgDbSrRRdYq86U37kyLlaOS/AWdSPODq+FtoRAtO0
-         rhM0LYSxxgP33QjqpjRt6n0KMDVW6eCalaHWAzI6NWrlDXUk6g/TpzL/7QVVymczrReP
-         D7TotRsTyTI7kipKgcniJ/8i19Hp9vTlnEfV/XEpw8bED69Y2hAPE0WxLYpqEZIo1iDG
-         G1bA==
-X-Forwarded-Encrypted: i=1; AJvYcCU3FBv6RnTqWt73mr0UP/uk2ml7omCmMLikfywI5+MHIyGkQwSCyKnxqwcg9lb4FqPtUofcGjfvZXA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoWuRP/fVKy3Jv7eIh8uaA/IQDxntcQV+g35MHbCT1Ben4p8Xq
-	mqxfb8dxG/p0UU+J/WjJ1SmMRQCf6H8npdbGlCQCj82oodFASWlyUoVqia+ShBI=
-X-Gm-Gg: ASbGncvj2ckbGVCzGI6NNhqGVG1Us4v5TaOcRDhWsFPffjoWOdaASBIyNtOl1WIO9+4
-	1bm/zfIYWbqCo7yPOgdiyRSblmZKjhVfrSBaCAyCT9FKB+plMk1TjH3mo+5VtPWpnoGVidPZNVc
-	+uj2uiBI+NnKyxfcXNzd+80TP/x4C3L+lBLjw2PsDCA8gC8L4wpt06gEMNScyQR1QnPjzGpGdz3
-	yIDF2e5+TiD+FsizMPldj5mZnbBDKRfhjfWCZLwyMmyZ+3VvxWwigm2UFeNe49gkbd6DT7D8ENC
-	fLxnMLPFbwWnu0s=
-X-Google-Smtp-Source: AGHT+IHOVyv4rF1Ie9u8PD45exHzGa60S5mXYDhT21RSV9wThybLuUYDNdK3QGFTrCOWKSuQcJXjJw==
-X-Received: by 2002:adf:ee0a:0:b0:386:380d:2cac with SMTP id ffacd0b85a97d-38bf566c309mr21561411f8f.26.1737720540517;
-        Fri, 24 Jan 2025 04:09:00 -0800 (PST)
-Received: from [192.168.68.163] ([145.224.65.129])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c2a17d6b2sm2566833f8f.34.2025.01.24.04.08.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jan 2025 04:09:00 -0800 (PST)
-Message-ID: <da7dcddb-d407-41b2-8343-a0ec21914606@linaro.org>
-Date: Fri, 24 Jan 2025 12:08:58 +0000
+        d=1e100.net; s=20230601; t=1737721532; x=1738326332;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=55WCFRWqtOQgvKOXjNcufQxZKA0z5u3iLymUeHT3mPE=;
+        b=J019k4+Aak5+4ViZ/pUOaKnb2O9YNNeAeEVpsikUg4U26O6qYCo8H40ykd1XHwt6DV
+         NKgbZ7mnnAMzpiJgt17g3qyhJ84U+jTHqc6Ib97tbw08k5ZQgZkXqzGiyQhTwDzghhFs
+         S9zxvQQTCgWAxKPsWgUVVFQYTWRt3uVsy+s+pfxyWPF1iGSwf27XfIr+h1BWPODdvR4m
+         ZiHDnOVsBOdgENcTO68irIP4k30xKAr59Eh0dhZLfIJ2xoWTjAUyN/y613RcOU04d5yJ
+         r4JkAfojglc7rH24tQNTpR+Lrtg69TwnQkJurKRBGhZ09n1Jswx+paemsTGeRIgaS6co
+         Oszw==
+X-Forwarded-Encrypted: i=1; AJvYcCUa3bDfOo5OE84BffooMvvmI4gfAeQT2Xl54pnHkkTzuI8ozIe3XS9oP8x/By+/4KAwJqGATlFv@vger.kernel.org, AJvYcCVDI57/yZ45jg2ECzZNj8Igzy68J5H+QomVgegrkQV1F8hZtSV5uf8Iwp/OQl4Ya1+4olQ+@vger.kernel.org, AJvYcCWRseFSBBgVbj8DtMgXI+v7L7Ymnnkk/8illAxgsdky/j90UMoOwu6jNirdyeOnr3fk4LNy23fQg5cQ@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzgp5qTuH8siRQKmfzM/OZdF74SRPaTPvXymvsNXeIguxsG47QE
+	HeHCPwlzzMkAUmGXGL0fbJJfQbkdIK7OpRbDJwgQvxWe6P35QoOM
+X-Gm-Gg: ASbGncteyYClCrT6SvdPRdyjlidiEiFMausExb8Spjm7Gv75H2UmjGXwajyzOJ7F5vP
+	O64BnCLrjJbBNgmI0x2s3TnHG2K96r3FVo2XhJEWrxGyKjSjrIV8fqEbFBqjINaE1h7RWDUXhLP
+	5XH1/hTRubkgL+UN8Nbr/1GRsX5DsOkq7RQtqcslAoj0GnqtD0KBy0yPWRrjAqilMIHoGMJ8vRO
+	VHGAeeJG+2++AvmBouWxFigJZAGyOuexjmzB/0IgqaN2H59F5lhgNOgNyIRPSoF/5uwYZcv9tWT
+	8Vx7
+X-Google-Smtp-Source: AGHT+IETJBFXpUqamvBLU8grXxKZQ+AY2R3EQGkw24VF2qKGHMZ9H+XRVksfh9jlL0WFu+e288uaAA==
+X-Received: by 2002:a17:902:cecd:b0:216:6f1a:1c77 with SMTP id d9443c01a7336-21c355e8942mr497666785ad.43.1737721532424;
+        Fri, 24 Jan 2025 04:25:32 -0800 (PST)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21da424f17esm14909795ad.255.2025.01.24.04.25.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jan 2025 04:25:31 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id C948B4208FB6; Fri, 24 Jan 2025 19:25:27 +0700 (WIB)
+Date: Fri, 24 Jan 2025 19:25:27 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Vaibhav Jain <vaibhav@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
+	kvm@vger.kernel.org, kvm-ppc@vger.kernel.org
+Cc: Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Vaidyanathan Srinivasan <svaidy@linux.vnet.ibm.com>,
+	sbhat@linux.ibm.com, gautam@linux.ibm.com, kconsul@linux.ibm.com,
+	amachhiw@linux.ibm.com, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 1/6] powerpc: Document APIv2 KVM hcall spec for
+ Hostwide counters
+Message-ID: <Z5OGt7AnKZaH-Zu-@archie.me>
+References: <20250123120749.90505-1-vaibhav@linux.ibm.com>
+ <20250123120749.90505-2-vaibhav@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 0/8] Coresight for Kernel panic and watchdog reset
-To: Linu Cherian <lcherian@marvell.com>, suzuki.poulose@arm.com,
- mike.leach@linaro.org
-Cc: linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
- devicetree@vger.kernel.org, sgoutham@marvell.com, gcherian@marvell.com
-References: <20241216053014.3427909-1-lcherian@marvell.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20241216053014.3427909-1-lcherian@marvell.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="XzZLEL+AGxInZNaN"
+Content-Disposition: inline
+In-Reply-To: <20250123120749.90505-2-vaibhav@linux.ibm.com>
 
 
+--XzZLEL+AGxInZNaN
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 16/12/2024 5:30 am, Linu Cherian wrote:
-> This patch series is rebased on coresight-next-v6.12.rc4
-> 
-> * Patches 1 & 2 adds support for allocation of trace buffer pages from
->    reserved RAM
-> * Patches 3 & 4 adds support for saving metadata at the time of kernel panic
-> * Patch 5 adds support for reading trace data captured at the time of panic
-> * Patches 6 & 7 adds support for disabling coresight blocks at the time of panic
-> * Patch 8: Gives the full description about this feature as part of documentation
-> 
-> v12 is posted here,
-> https://lore.kernel.org/linux-arm-kernel/20241129084714.3057080-1-lcherian@marvell.com/
-> 
-> Changelog from v12:
-> * Fixed wrong buffer pointer passed to coresigh_insert_barrier_packet
-> * tmc_read_prepare/unprepare_crashdata need to be called only once and
->    hence removed from read path and added to tmc_probe
-> * tmc_read_prepare_crashdata renamed to tmc_prepare_crashdata and
->    avoid taking locks  as its moved to probe function.
-> * Introduced read status flag, "reading" specific to reserved buffer to keep the
->    reserved buffer reading independent of the regular buffer.
-> * open/release ops for reserved buffer has to take care only about the
->    set/unset the "reading" status flag as the reserved buffer is prepared
->    during the probe time itself.
-> * Few other trivial changes
-> 
+On Thu, Jan 23, 2025 at 05:37:43PM +0530, Vaibhav Jain wrote:
+> diff --git a/Documentation/arch/powerpc/kvm-nested.rst b/Documentation/ar=
+ch/powerpc/kvm-nested.rst
+> index 5defd13cc6c1..574592505604 100644
+> --- a/Documentation/arch/powerpc/kvm-nested.rst
+> +++ b/Documentation/arch/powerpc/kvm-nested.rst
+> @@ -208,13 +208,9 @@ associated values for each ID in the GSB::
+>        flags:
+>           Bit 0: getGuestWideState: Request state of the Guest instead
+>             of an individual VCPU.
+> -         Bit 1: takeOwnershipOfVcpuState Indicate the L1 is taking
+> -           over ownership of the VCPU state and that the L0 can free
+> -           the storage holding the state. The VCPU state will need to
+> -           be returned to the Hypervisor via H_GUEST_SET_STATE prior
+> -           to H_GUEST_RUN_VCPU being called for this VCPU. The data
+> -           returned in the dataBuffer is in a Hypervisor internal
+> -           format.
+> +         Bit 1: getHostWideState: Request stats of the Host. This causes
+> +           the guestId and vcpuId parameters to be ignored and attempting
+> +           to get the VCPU/Guest state will cause an error.
+>           Bits 2-63: Reserved
+>        guestId: ID obtained from H_GUEST_CREATE
+>        vcpuId: ID of the vCPU pass to H_GUEST_CREATE_VCPU
+> @@ -406,9 +402,10 @@ the partition like the timebase offset and partition=
+ scoped page
+>  table information.
+> =20
+>  +--------+-------+----+--------+----------------------------------+
+> -|   ID   | Size  | RW | Thread | Details                          |
+> -|        | Bytes |    | Guest  |                                  |
+> -|        |       |    | Scope  |                                  |
+> +|   ID   | Size  | RW |(H)ost  | Details                          |
+> +|        | Bytes |    |(G)uest |                                  |
+> +|        |       |    |(T)hread|                                  |
+> +|        |       |    |Scope   |                                  |
+>  +=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D+=3D=3D=3D=
+=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
+>  | 0x0000 |       | RW |   TG   | NOP element                      |
+>  +--------+-------+----+--------+----------------------------------+
+> @@ -434,6 +431,29 @@ table information.
+>  |        |       |    |        |- 0x8 Table size.                 |
+>  +--------+-------+----+--------+----------------------------------+
+>  | 0x0007-|       |    |        | Reserved                         |
+> +| 0x07FF |       |    |        |                                  |
+> ++--------+-------+----+--------+----------------------------------+
+> +| 0x0800 | 0x08  | R  |   H    | Current usage in bytes of the    |
+> +|        |       |    |        | L0's Guest Management Space      |
+> +|        |       |    |        | for an L1-Lpar.                  |
+> ++--------+-------+----+--------+----------------------------------+
+> +| 0x0801 | 0x08  | R  |   H    | Max bytes available in the       |
+> +|        |       |    |        | L0's Guest Management Space for  |
+> +|        |       |    |        | an L1-Lpar                       |
+> ++--------+-------+----+--------+----------------------------------+
+> +| 0x0802 | 0x08  | R  |   H    | Current usage in bytes of the    |
+> +|        |       |    |        | L0's Guest Page Table Management |
+> +|        |       |    |        | Space for an L1-Lpar             |
+> ++--------+-------+----+--------+----------------------------------+
+> +| 0x0803 | 0x08  | R  |   H    | Max bytes available in the L0's  |
+> +|        |       |    |        | Guest Page Table Management      |
+> +|        |       |    |        | Space for an L1-Lpar             |
+> ++--------+-------+----+--------+----------------------------------+
+> +| 0x0804 | 0x08  | R  |   H    | Cumulative Reclaimed bytes from  |
+> +|        |       |    |        | L0 Guest's Page Table Management |
+> +|        |       |    |        | Space due to overcommit          |
+> ++--------+-------+----+--------+----------------------------------+
+> +| 0x0805-|       |    |        | Reserved                         |
+>  | 0x0BFF |       |    |        |                                  |
+>  +--------+-------+----+--------+----------------------------------+
+>  | 0x0C00 | 0x10  | RW |   T    |Run vCPU Input Buffer:            |
 
-Hi Linu,
+The doc LGTM, thanks!
 
-I tested that decoding a crash dump of ETM1 (trace ID 17) from panic 
-kernel works:
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-   $ ./ptm2human -i cstrace.bin
+--=20
+An old man doll... just what I always wanted! - Clara
 
-   ...
-   There is no valid data in the stream of ID 16
-   Decode trace stream of ID 17
-   Syncing the trace stream...
-   Decoding the trace stream...
-   instruction addr at 0x140c9afc, ARM state, secure state,
-   ...
+--XzZLEL+AGxInZNaN
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I noticed that once in the panic kernel Coresight becomes unusable, and 
-the Perf Coresight tests fail, with no obvious way to reset it other 
-than a cold boot:
+-----BEGIN PGP SIGNATURE-----
 
-  $ perf record -e cs_etm//u -- true
-  $ perf report -D | grep AUX
-  ...
-  AUX data lost 27 times out of 27!
-  ...
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ5OGsAAKCRD2uYlJVVFO
+o7OeAP9tEH+A4dQ48bRCel39A2tQlrbj3I/kc+cVpBTmLv0LTQD7Bo8tR95ewgW0
+PGPhuxL/z3ZBbGPd1ZWZmy3IGQYkrAE=
+=CFqD
+-----END PGP SIGNATURE-----
 
-I didn't debug it yet. I thought it might be something to do with the 
-RESRV buffer mode, but it doesn't look like that should be the case from 
-the code. Perhaps its the claim tags and coresight_is_claimed_any() 
-lingering, so it's not really an issue that's introduced by this change?
-
-Thanks
-James
-
+--XzZLEL+AGxInZNaN--
