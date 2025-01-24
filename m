@@ -1,143 +1,430 @@
-Received: from out-176.mta0.migadu.com (out-176.mta0.migadu.com [91.218.175.176])
+Received: from mail-m49220.qiye.163.com (mail-m49220.qiye.163.com [45.254.49.220])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869F833998
-	for <linux-doc@vger.kernel.org>; Fri, 24 Jan 2025 07:02:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D6F33998
+	for <linux-doc@vger.kernel.org>; Fri, 24 Jan 2025 07:14:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737702123; cv=none; b=n7u3vOdEKcO3tRNgL1JjEYKaMj2FtprPfEYHEdbaJbwsSAKA5P5FuzMkvCSkGwYJYN6AJmxOTZJrj+1C0btUn+KRJ6Jvj2EuHEa87hdmiEZspKeNgRxFeE89mZwXLqnNZ+w1rKQ/YejOsJbpcMkdq7qmylmWxhdsOWKQcn8KBxA=
+	t=1737702882; cv=none; b=ORUO/Tztr49nWeFMAfmwBi0M8XMsN+XQSw1CltvrOt/7E2F/if9cWlPlPh2R7Yg/v3Ted1n/7rE+pElXSosVNBwoSVwBGbfc1Ysj6W99mNgO+3cazjhLuieV5PULyAFjKrjUmC/XN6jJmHZ+8LG1Qguwv7P4NGzBkqRy8nxKfEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737702123; c=relaxed/simple;
-	bh=aOHuDhuqFMkRFBjyntmgZWaPgUmTqqp/t6dyXcf4jUg=;
+	s=arc-20240116; t=1737702882; c=relaxed/simple;
+	bh=3JP1epimPR4a8fm7qm0tlrQs4YhQety86gBl5JM5O7Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZmZosDm3wU70iK0pWzdJyeHM4fPNA2FFxo/Yvp/me0eF6jf7MHCLz6ScWQ3qQPJWLiDTE0L2lP4xLM0qtSaFrlsYz4nWBLqvbFQI5bBKWbU9vp8FTA5ambTNDOF4GZVbd0cFMm2/z1P4Yt81DZTwlTI23J6+VM5h2VB/YVE2neU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=AddvkwAM; arc=none smtp.client-ip=91.218.175.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 In-Reply-To:Content-Type; b=tGVgG3qgBpOsbwKzAF+E9sY42AxeYSN2hOL5bA6zgwOB8t6Rrgpijsa2SArvPuBNyLUj8atEqJcQ4G0bdPIovsq8Dl1I/PyRTv9W7iMIlWCKF+sbhHM6sfMReEwoi1blk/g1bTg1grcsZezt7UGDGobybMalG6gqaAsHHwoZhBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=hWD/rLQv; arc=none smtp.client-ip=45.254.49.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="AddvkwAM"
-Message-ID: <02ff0851-1db6-4b42-8a48-334830144ca7@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1737702113;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LPytlc7Z0ansdNTuieIqNU+kk2Wl11gOBnnGaoq75Zw=;
-	b=AddvkwAManjVyEA9bc12nt7NoYtxptkERQ/QyMvMUTZIllN+pJPHe/Y6NKMnPSEWed8geV
-	TVvSj2afcrslt+ZDeNYhj7huc8gCR8lh3D+0zo3PDa+0XRhBIitSAygVjiCXG6ccILx8nD
-	B9+Pq+qDEAE1RUUN6PENsxgekciqCYU=
-Date: Fri, 24 Jan 2025 15:01:48 +0800
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="hWD/rLQv"
+Received: from [192.168.5.131] (unknown [123.53.38.48])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 994c4e9a;
+	Fri, 24 Jan 2025 15:09:25 +0800 (GMT+08:00)
+Message-ID: <af0afd08-c927-4d17-a9fb-34b68ed4bec2@cqsoftware.com.cn>
+Date: Fri, 24 Jan 2025 15:09:26 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 2/7] docs/zh_CN: Add tpm tpm_event_log Chinese
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] docs/zh_CN: Add snp-tdx-threat-model index Chinese
  translation
-To: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>, alexs@kernel.org, corbet@lwn.net
-Cc: zhaoyuehui@cqsoftware.com.cn, zhangwei@cqsoftware.com.cn,
- maoyuxian@cqsoftware.com.cn, linux-doc@vger.kernel.org
-References: <cover.1737603330.git.zhaoshuo@cqsoftware.com.cn>
- <32c35c0504f262668996080b44dfe059a5266256.1737603330.git.zhaoshuo@cqsoftware.com.cn>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <32c35c0504f262668996080b44dfe059a5266256.1737603330.git.zhaoshuo@cqsoftware.com.cn>
+To: Yanteng Si <si.yanteng@linux.dev>, alexs@kernel.org, corbet@lwn.net
+Cc: zhaoyuehui@cqsoftware.com.cn, zhaoshuo@cqsoftware.com.cn,
+ zhangwei@cqsoftware.com.cn, linux-doc@vger.kernel.org
+References: <20250121095402.305218-1-maoyuxian@cqsoftware.com.cn>
+ <8ee8fade-2ccb-4957-b98e-16ac1bb0d11f@linux.dev>
+From: Yuxian Mao <maoyuxian@cqsoftware.com.cn>
+In-Reply-To: <8ee8fade-2ccb-4957-b98e-16ac1bb0d11f@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCQk5CVkJDTB5LSEJJSx5PTVYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKSUhVTkhVSENVT0NZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0hVSktLVU
+	pCS0tZBg++
+X-HM-Tid: 0a949724e87009d8kunm994c4e9a
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OhA6Phw4GDIQCiEKLk49Hx48
+	ET8aCjBVSlVKTEhMTEtJTk1MS01DVTMWGhIXVRYaFAIOAxIaFTsYCggUHQ8MGgkeVRgUFlUYFUVZ
+	V1kSC1lBWUpJSFVOSFVIQ1VPQ1lXWQgBWUFKTE5DQjcG
+DKIM-Signature:a=rsa-sha256;
+	b=hWD/rLQvkQEI6OAsCdIQa6UcHgK8GyR6H62rzv2dHOqYMDF3DO60MLWcEOMFwxxR+jvjDFryGaNUJr1B8Mjuu70sZIx5aV3iwNhb6ekC2CpN9bhfrI1X7QaaQQRXtLIWSE1AM+Ge9Y5ax5wlu/S1QfmT8zr/VG26DAK1ichUu4w=; c=relaxed/relaxed; s=default; d=cqsoftware.com.cn; v=1;
+	bh=Dt7kK39i7coLgTbcsoPdkNZj0wB0l7/4TSOb5FUJBRE=;
+	h=date:mime-version:subject:message-id:from;
 
 
-
-
-在 2025/1/23 13:17, Shuo Zhao 写道:
-> Translate .../security/tpm/tpm_event_log.rst into Chinese.
+在 2025/1/22 16:02, Yanteng Si 写道:
 >
-> Update the translation through commit 2ef5a7f1482c
-> ("tpm: Document UEFI event log quirks")
 >
-> Reviewed-by: Alex Shi <alexs@kernel.org>
-> Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
-Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
+>
+> 在 2025/1/21 17:54, Yuxian Mao 写道:
+>> Translate .../security/snp-tdx-threat-model.rst into Chinese.
+>>
+>> Update the translation through commit "cdae7e8a69c3"
+>> ("docs/MAINTAINERS: Update my email address")
+>>
+>> Signed-off-by: Yuxian Mao <maoyuxian@cqsoftware.com.cn>
+>> ---
+>>
+>> v3:
+>>
+>> Message header fixes
+>>
+>> v2:
+>>
+>> fix remove the unnecessary blank lines
+>>
+>>   .../translations/zh_CN/security/index.rst     |   2 +-
+>>   .../zh_CN/security/snp-tdx-threat-model.rst   | 209 ++++++++++++++++++
+>>   2 files changed, 210 insertions(+), 1 deletion(-)
+>>   create mode 100644 
+>> Documentation/translations/zh_CN/security/snp-tdx-threat-model.rst
+>>
+>> diff --git a/Documentation/translations/zh_CN/security/index.rst 
+>> b/Documentation/translations/zh_CN/security/index.rst
+>> index 9a6345dd90b8..78d9d4b36dca 100644
+>> --- a/Documentation/translations/zh_CN/security/index.rst
+>> +++ b/Documentation/translations/zh_CN/security/index.rst
+>> @@ -16,6 +16,7 @@
+>>      :maxdepth: 1
+>>        credentials
+>> +   snp-tdx-threat-model
+>>      lsm
+>>      sak
+>>      self-protection
+>> @@ -25,7 +26,6 @@
+>>      landlock
+>>     TODOLIST:
+>> -* snp-tdx-threat-model
+>>   * IMA-templates
+>>   * keys/index
+>>   * lsm-development
+>> diff --git 
+>> a/Documentation/translations/zh_CN/security/snp-tdx-threat-model.rst 
+>> b/Documentation/translations/zh_CN/security/snp-tdx-threat-model.rst
+>> new file mode 100644
+>> index 000000000000..17ab5e4277c4
+>> --- /dev/null
+>> +++ b/Documentation/translations/zh_CN/security/snp-tdx-threat-model.rst
+>> @@ -0,0 +1,209 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +.. include:: ../disclaimer-zh_CN.rst
+>> +
+>> +:Original: Documentation/security/snp-tdx-threat-model.rst
+>> +
+>> +:翻译:
+>> +
+>> + 毛玉贤 Yuxian Mao <maoyuxian@cqsoftware.com.cn>
+>> +
+>> +==========================
+>> +Linux中x86虚拟化的机密计算
+>> +==========================
+>> +
+>> +.. contents:: :local:
+>> +
+>> +By: Elena Reshetova <elena.reshetova@intel.com> and Carlos Bilbao 
+>> <carlos.bilbao.osdev@gmail.com>
+> 作者：Elena Reshetova <elena.reshetova@intel.com> 和 Carlos Bilbao 
+> <carlos.bilbao.osdev@gmail.com>
+>> +
+>> +动机
+>> +====
+>> +
+>> +在x86虚拟环境中从事机密计算工作的内核开发人员，是基于一组与传统Linux内核 
+>>
+>> +威胁模型有所不同的假设条件下开展工作的。传统意义上，Linux威胁模型承认攻
+>> +击者可以存在于用户空间，以及一小部分能够通过各种网络接口或有限的硬件特定 
+>>
+>> +暴露接口（如USB、Thunderbolt）与内核交互的外部攻击者。本文档的目的是解释 
+>>
+>> +在机密计算领域中出现的额外攻击向量，并讨论为 Linux 内核提出的保护机制。
+>> +
+>> +概述与术语
+>> +==========
+>> +
+>> +机密计算（Confidential Computing，简称CoCo）是一个广泛的术语，涵盖了多种 
+>>
+>> +旨在保护数据在使用过程中（与静态数据或传输数据相比）的机密性和完整性的安 
+>>
+>> +全技术。从本质上讲，机密计算（CoCo）解决方案提供了一个受信任执行环境（TEE）， 
+>>
+>> +在该环境中可以进行安全的数据处理，因此，它们通常根据预期在TEE中运行的软件 
+>>
+>> +来进一步划分为不同的子类型。本文档专注于一类针对虚拟化环境的机密计算技术 
+>>
+>> +（Confidential Computing, CoCo），这些技术允许在可信执行环境
+>> +（Trusted Execution Environment, 
+>> TEE）中运行虚拟机（VM）。从现在起，本文档
+>> +将把这一类机密计算（CoCo）技术称为“虚拟化环境（VE）中的机密计算（CoCo）”。 
+>>
+>> +
+>> +在虚拟化环境中，机密计算（CoCo）指的是一组硬件和/或软件技术，这些技术能够 
+>>
+>> +为在CoCo虚拟机（VM）内运行的软件提供更强的安全保障。具体来说，机密计算允许 
+>>
+>> +其用户确认所有软件组件的可信度，从而将其包含在精简的受信任计算基（TCB）中， 
+>>
+>> +这是基于机密计算具备验证这些受信组件状态的能力。
+>> +
+>> +虽然不同技术之间的具体实现细节有所不同，但所有现有机制都旨在为虚拟机的客户 
+>>
+>> +内存和执行状态（vCPU寄存器）提供更高的机密性和完整性，更严格地控制客户中断 
+>>
+>> +注入，并提供一些额外机制来控制客户与宿主机之间的页映射。有关x86特定解决方案 
+>>
+>> +的更多细节，可以参考
+>> +:doc:`Intel Trust Domain Extensions (TDX) </arch/x86/tdx>` 和
+>> +`AMD Memory Encryption 
+>> <https://www.amd.com/system/files/techdocs/sev-snp-strengthening-vm-isolation-with-integrity-protection-and-more.pdf>`_.
+>> +
+>> +基本的机密计算（CoCo）客户布局包括宿主机、客户机、用于客户机与宿主机之间通信 
+>>
+>> +的接口、能够支持CoCo虚拟机（VM）的平台，以及一个在客户VM和底层平台之间充当安 
+>>
+>> +全管理员的可信中介。宿主机侧的虚拟机监视器（VMM）通常由传统VMM功能的一个子集 
+>>
+>> +组成，并仍然负责客户机生命周期的管理，即创建或销毁CoCo虚拟机、管理其对系统资 
+>>
+>> +源的访问等。然而，由于它通常不在CoCo 
+>> VM的可信计算基（TCB）内，其访问权限受到
+>> +限制，以确保实现安全目标。
+>> +
+>> +在下图中，"<--->" 
+>> 线表示机密计算（CoCo）安全管理员与其余组件之间的双向通信通
+>> +道或接口，这些组件包括客户机、宿主机和硬件（数据流）::
+>> +
+>> +    +-------------------+      +-----------------------+
+>> +    | CoCo guest VM     |<---->|                       |
+>> +    +-------------------+      |                       |
+>> +      | Interfaces |           | CoCo security manager |
+>> +    +-------------------+      |                       |
+>> +    | Host VMM          |<---->|                       |
+>> +    +-------------------+      |                       |
+>> +                               |                       |
+>> +    +--------------------+     |                       |
+>> +    | CoCo platform      |<--->|                       |
+>> +    +--------------------+     +-----------------------+
+>> +
+>> +机密计算（CoCo）安全管理器的具体细节在在不同技术之间存在显著差异。例如，在某 
+>>
+>> +些情况下，它可能通过硬件（HW）实现，而在其他情况下，它可能是纯软件（SW）实现。 
+>>
+>> +
+>> +现有的Linux内核威胁模型
+>> +=======================
+>> +
+>> +当前Linux内核威胁模型的总体组件包括::
+>> +
+>> +     +-----------------------+      +-------------------+
+>> +     |                       |<---->| Userspace         |
+>> +     |                       |      +-------------------+
+>> +     |   External attack     |         | Interfaces |
+>> +     |       vectors         |      +-------------------+
+>> +     |                       |<---->| Linux Kernel      |
+>> +     |                       |      +-------------------+
+>> +     +-----------------------+      +-------------------+
+>> +                                    | Bootloader/BIOS   |
+>> +                                    +-------------------+
+>> +                                    +-------------------+
+>> +                                    | HW platform       |
+>> +                                    +-------------------+
+>> +
+>> +在启动过程中，引导加载程序（bootloader）和内核之间也存在通信，但本图并未明确 
+>>
+>> +表示这一点。“接口”框表示允许内核与用户空间之间通信的各种接口。 
+>> 这包括系统调用、
+>> +内核 API、设备驱动程序等。
+>> +
+>> +现有的 Linux 
+>> 内核威胁模型通常假设其在一个受信任的硬件平台上执行，并且所有固件
+>> +和启动加载程序都包含在该平台的受信任计算基（TCB）中。主要攻击者驻留在用户空间 
+>>
+>> +中，来自用户空间的所有数据通常被认为是不可信的，除非用户空间具有足够的特权来 
+>>
+>> +执行受信任的操作。此外，通常还会考虑外部攻击者，包括那些能够访问启用的外部网络 
+>>
+>> +（例如以太网、无线网络、蓝牙）、暴露的硬件接口（例如 
+>> USB、Thunderbolt），以及
+>> +能够离线修改磁盘内容的攻击者。
+>> +
+>> +关于外部攻击途径，值得注意的是，在大多数情况下，外部攻击者会首先尝试利用用户空 
+>>
+>> +间的漏洞，但攻击者也可能直接针对内核，特别是在主机具有物理访问权限的情况下。直 
+>>
+>> +接攻击内核的例子包括漏洞 CVE-2019-19524、CVE-2022-0435 和 
+>> CVE-2020-24490。
+>> +
+>> +机密计算威胁模型及其安全目标
+>> +============================
+>> +
+>> +机密计算在上述攻击者列表中增加了一种新的攻击者类型：可能存在行为不当的宿主机 
+>>
+>> +（这可能包括传统虚拟机监视器VMM的部分组件或全部），由于其较大的软件攻击面， 
+>>
+>> +通常被置于CoCo VM 
+>> TCB之外。需要注意的是，这并不意味着宿主机或VMM是故意恶意的，
+>> +而是强调拥有一个较小的CoCo VM 
+>> TCB具有安全价值。这种新型的攻击者可以被视为一种
+>> +更强大的外部攻击者，因为它位于同一物理机器上（与远程网络攻击者不同），并且对 
+>>
+>> +客户内核与大部分硬件的通信具有控制权::
+> 客户机内核
+>> +
+>> +                                 +------------------------+
+>> +                                 |    CoCo guest VM       |
+>> +   +-----------------------+     |  +-------------------+ |
+>> +   |                       |<--->|  | Userspace         | |
+>> +   |                       |     |  +-------------------+ |
+>> +   |   External attack     |     |     | Interfaces |     |
+>> +   |       vectors         |     |  +-------------------+ |
+>> +   |                       |<--->|  | Linux Kernel      | |
+>> +   |                       |     |  +-------------------+ |
+>> +   +-----------------------+     |  +-------------------+ |
+>> +                                 |  | Bootloader/BIOS   | |
+>> +   +-----------------------+     |  +-------------------+ |
+>> +   | |<--->+------------------------+
+>> +   |                       |          | Interfaces |
+>> +   |                       |     +------------------------+
+>> +   |     CoCo security     |<--->| Host/Host-side VMM |
+>> +   |      manager          |     +------------------------+
+>> +   |                       |     +------------------------+
+>> +   |                       |<--->|   CoCo platform |
+>> +   +-----------------------+     +------------------------+
+>> +
+>> +传统上，宿主机对客户数据拥有无限访问权限，并可以利用这种访问权限来攻击客户虚 
+>>
+>> +拟机。然而，机密计算（CoCo）系统通过添加诸如客户数据保密性和完整性保护等安全 
+>>
+>> +特性来缓解此类攻击。该威胁模型假设这些安全特性是可用且完好的。
+>> +
+>> +Linux内核机密计算虚拟机（CoCo VM）的安全目标可以总结如下：
+>
+> **Linux内核机密计算虚拟机（CoCo VM）的安全目标** 可以总结如下：
+>
+>> +
+>> +1. 保护CoCo客户私有内存和寄存器的机密性和完整性。
+>> +
+>> +2. 
+>> 防止主机特权升级到CoCo访客Linux内核。虽然主机（及主机端虚拟机管理程序）确 
+>>
+>> +   
+>> 实需要一定的特权来创建、销毁或暂停访客，但防止特权升级的部分目标是确保这些 
+>>
+>> +   操作不会为攻击者提供获取访客内核访问权限的途径。
+>> +
+>> +上述安全目标导致了两个主要的Linux内核机密计算虚拟机（CoCo VM）资产：
+>
+> 上述安全目标导致了两个主要的 **Linux内核机密计算虚拟机（CoCo VM）资产** ： 
+>
+>
+>> +
+>> +1. 客户内核执行上下文。
+>> +2. 客户内核私有内存。
+> %s/客户/虚拟机
+>
+>> +
+>> +宿主机对CoCo访客资源具有完全控制权，并可以随时拒绝访问这些资源。资源的示例包 
+>>
+>> +括CPU时间、访客可以消耗的内存、网络带宽等。因此，主机对CoCo访客的拒绝服务（DoS） 
+>>
+>
+> 括CPU时间、访客可以消耗的内存、网络带宽等。因此，宿主机对CoCo访客的拒绝服务（DoS） 
+>
+>
+>> +攻击超出了此威胁模型的范围。
+>> +
+>> +Linux 
+>> CoCo虚拟机攻击面是指从CoCo访客Linux内核暴露到不受信任的主机的任何接口，
+> There ase three different translation of  guest:
+>
+> 虚拟机、客户、访客
+>
+> let's use 虚拟机？
+>> +这些接口未被CoCo技术的软硬件保护所覆盖。这包括所有可能的侧信道攻击以及瞬态执 
+>>
+>> +行侧信道攻击。显式（非旁道）接口的示例包括访问端口I/O、内存映射I/O（MMIO）和 
+>>
+>> +直接内存访问（DMA）接口、访问PCI配置空间、特定于虚拟机管理程序（VMM）的超调用 
+>>
+>> +（指向主机端VMM）、访问共享内存页、主机允许注入到访客内核的中断，以及特定于 
+>>
+>> +CoCo技术的超调用（如果存在）。此外，CoCo系统中的主机通常控制创建CoCo访客的过 
+>>
+>> +程：它有方法将固件和引导程序镜像、内核镜像以及内核命令行加载到访客中。所有这 
+>>
+>> +些数据在通过证明机制确认其完整性和真实性之前，都应视为不可信的。
+>> +
+>> +下表显示了针对CoCo客户Linux内核的威胁矩阵，但并未讨论潜在的缓解策略。该矩阵涉 
+>>
+>> +及的是CoCo特定版本的客户、宿主机和平台。
+>> +
+>> +.. list-table:: CoCo Linux客户机内核威胁矩阵
+>> +   :widths: auto
+>> +   :align: center
+>> +   :header-rows: 1
+>> +
+>> +   * - 威胁名称
+>> +     - 威胁描述
+>> +
+>> +   * - 客户机恶意配置
+>> +     - 一个行为不当的主机修改了以下其中一个客户机的配置：
+>> +
+>> +       1. 客户机固件或引导加载程序
+>> +
+>> +       2. 客户机内核或模块二进制文件
+>> +
+>> +       3. 客户机命令行参数
+>> +
+>> +       
+>> 这使得宿主机能够破坏在CoCo客户虚拟机内部运行代码的完整性，从而违反了机密计算 
+>>
+>> +       （CoCo）的安全目标。
+>> +
+>> +   * - CoCo客户机数据攻击
+>> +     - 
+>> 一个行为不当的宿主机对CoCo客户虚拟机与宿主机管理的物理或虚拟设备之间传输的数 
+>>
+>> +       
+>> 据拥有完全控制权。这使得宿主机可以对这类数据的保密性、完整性和新鲜性进行任何攻击。 
+>>
+>> +
+>> +   * - 格式错误的运行时输入
+>> +     - 
+>> 一个行为不当的宿主机通过客户机内核代码使用的任意通信接口注入格式错误的输入。 
+>>
+>> +       
+>> 如果代码没有正确处理这些输入，这可能导致从宿主机到客户机内核的特权提升。这包 
+>>
+>> +       括传统的侧信道攻击和/或瞬态执行攻击路径。
+>> +
+>> +   * - 恶意运行时输入
+>> +     - 
+>> 一个行为不当的主机通过客户机内核代码使用的任意通信接口注入特定的输入值。与之前 
+>>
+>> +       
+>> 的攻击向量（格式错误的运行时输入）不同，这个输入并非格式错误，而是其值被精心设 
+>>
+>> +       
+>> 计以影响客户机内核的安全性。这类输入的例子包括向客户机提供恶意的时间或向客户机 
+>>
+>> +       
+>> 的随机数生成器提供熵值。此外，如果它导致客户机内核执行特定操作（例如处理主机注 
+>>
+>> +       
+>> 入的中断），此类事件的时序本身也可能成为一种攻击路径。这种攻击是对提供的主机输 
+>>
+>> +       入具有抵抗性的一种方式。
+>
+> Thanks,
+> Yanteng
+
+
+OK,I'll fix it and resubmit.
+
 
 Thanks,
-Yanteng
-> ---
->   .../translations/zh_CN/security/tpm/index.rst |  2 +-
->   .../zh_CN/security/tpm/tpm_event_log.rst      | 49 +++++++++++++++++++
->   2 files changed, 50 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/translations/zh_CN/security/tpm/tpm_event_log.rst
->
-> diff --git a/Documentation/translations/zh_CN/security/tpm/index.rst b/Documentation/translations/zh_CN/security/tpm/index.rst
-> index a55d0a7bbc0f..f324bd4dd093 100644
-> --- a/Documentation/translations/zh_CN/security/tpm/index.rst
-> +++ b/Documentation/translations/zh_CN/security/tpm/index.rst
-> @@ -12,9 +12,9 @@
->   
->   .. toctree::
->   
-> +   tpm_event_log
->   
->   TODOLIST:
-> -*   tpm_event_log
->   *   tpm-security
->   *   tpm_tis
->   *   tpm_vtpm_proxy
-> diff --git a/Documentation/translations/zh_CN/security/tpm/tpm_event_log.rst b/Documentation/translations/zh_CN/security/tpm/tpm_event_log.rst
-> new file mode 100644
-> index 000000000000..9c173291ac3e
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/security/tpm/tpm_event_log.rst
-> @@ -0,0 +1,49 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/security/tpm/tpm_event_log.rst
-> +
-> +:翻译:
-> + 赵硕 Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
-> +
-> +===========
-> +TPM事件日志
-> +===========
-> +
-> +本文档简要介绍了什么是TPM日志，以及它是如何从预启动固件移交到操作系统的。
-> +
-> +介绍
-> +====
-> +
-> +预启动固件维护一个事件日志，每当它将某些内容哈希到任何一个PCR寄存器时，该
-> +日志会添加新条目。这些事件按类型分类，并包含哈希后的PCR寄存器值。通常，预
-> +启动固件会哈希那些即将移交执行权或与启动过程相关的组件。
-> +
-> +其主要应用是远程认证，而它之所以有用的原因在[1]中第一部分很好地阐述了：
-> +
-> +认证用于向挑战者提供有关平台状态的信息。然而，PCR的内容难以解读；因此，当
-> +PCR内容附有测量日志时，认证通常会更有用。尽管测量日志本身并不可信，但它们
-> +包含比PCR内容更为丰富的信息集。PCR内容用于对测量日志进行验证。
-> +
-> +UEFI事件日志
-> +============
-> +
-> +UEFI提供的事件日志有一些比较奇怪的特性。
-> +
-> +在调用ExitBootServices()之前，Linux EFI引导加载程序会将事件日志复制到由
-> +引导加载程序自定义的配置表中。不幸的是，通过ExitBootServices()生成的事件
-> +并不会出现在这个表里。
-> +
-> +固件提供了一个所谓的最终事件配置表排序来解决这个问题。事件会在第一次调用
-> +EFI_TCG2_PROTOCOL.GetEventLog()后被镜像到这个表中。
-> +
-> +这引出了另一个问题：无法保证它不会在 Linux EFI stub 开始运行之前被调用。
-> +因此，在 stub 运行时，它需要计算并将最终事件表的大小保存到自定义配置表中，
-> +以便TPM驱动程序可以在稍后连接来自自定义配置表和最终事件表的两个事件日志时
-> +跳过这些事件。
-> +
-> +参考文献
-> +========
-> +
-> +- [1] https://trustedcomputinggroup.org/resource/pc-client-specific-platform-firmware-profile-specification/
-> +- [2] The final concatenation is done in drivers/char/tpm/eventlog/efi.c
+Yuxian
 
+>
+>
