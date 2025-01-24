@@ -1,182 +1,196 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534752B9BC;
-	Fri, 24 Jan 2025 12:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9B621B8E1;
+	Fri, 24 Jan 2025 12:27:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737721534; cv=none; b=pf6DNoQHfuE1/q2Ot2OdGHV5UX4acnVb3hwHMoOWBavt4otk/rmdgI11aZLQJFkNDj0C+39qwICaoI7mBwr6QZ9j+L7DOh8lsAqXcKVpIPuyH+iI0zZpk/ElshaoAApzsNLM+d/D1e8hU2GHlQP3GlIbV6gUdl1RLBVrVFsS55A=
+	t=1737721665; cv=none; b=f/C1YMWBrsafBqVXxNM3PPx1x9chcY25t2Inj5FnPdH038nJ8aMiziL1oRnQKHuFjyJlTi8LagKSYIbAnOyDD1aeycQICrFHZGpFn5MuIgUXMTR3TeN/Qi4MNeDN2DY+K1dUiZ4ekFyReQJdLm3u9e1RAvukt55BSNNvfMdWxBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737721534; c=relaxed/simple;
-	bh=tnlk09m2NBR4uXtk0Dqcj4sR941L4PenpRJcVzCfWKc=;
+	s=arc-20240116; t=1737721665; c=relaxed/simple;
+	bh=9oBt5eh8mlxIfH1UK0nPtYWTn/a4BrjpdPj9YsykCGU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u9hlWo1Iw8yxBDIWSOVZsclioh0k+oVwO3pWw59HpjyeyCuGNXg0+9dNiLVVJgMNWDTT2jl1MRqGwD2mHyfgCHMZ8XsCFP4nhmBDhe8o3SMM46OOhhbyS6Olu/nbIT+s4c1Jbpuot4VrpQbvxk4T8zOpk3kgLhV/BwBhsSKtx3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eIdSo+Gm; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=JDidayQQ1/8FCI7pBMAXg2D+M01bROA3gJxMkPLbhnZsFRSLmOeRnFr146Gs7B19T2Mtp4v+hb7AeAZFRa9Q7f0wrI8EjnNlAuZHZeQ6WyQnM5xuAJkmGP1ehKRsj3i7lJ+5gGiZ22THZnsTV2nUAL9OyxNDLbRQcjcGoyoflWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PDAnucqU; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eIdSo+Gm"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21628b3fe7dso34659835ad.3;
-        Fri, 24 Jan 2025 04:25:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737721532; x=1738326332; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=55WCFRWqtOQgvKOXjNcufQxZKA0z5u3iLymUeHT3mPE=;
-        b=eIdSo+GmlKYmVIvZgfy1W5Bu4R4fVycscYAkWhle9IzMGvGSZYci8L08z0FzK8TOtQ
-         f3PnIpwgftZf1NMMydfrMlWC65IxDTBVY5PNsPP7Fke8bp0Rh3AWPORL/Qe616nAkJNL
-         iH+lvZJ5IwqHwY7qbr9Xv8YdcLu2U4hXwrFhTYDekF908hLXIBAl51IyM4DLhJpXlhWF
-         jAnmEZo4mRcYl1gbubSTuF+jlmRMFGTvL6nCljXmsjmIK/4J7d4u4oiHBG3uvQBL2N28
-         QS+TsDKm5J1wL+xGVn4nWt5agDDaKU31mOTh3uqFU5t4ZyR6ThJqMUc7MFepoxdJcVLU
-         l0EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737721532; x=1738326332;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=55WCFRWqtOQgvKOXjNcufQxZKA0z5u3iLymUeHT3mPE=;
-        b=J019k4+Aak5+4ViZ/pUOaKnb2O9YNNeAeEVpsikUg4U26O6qYCo8H40ykd1XHwt6DV
-         NKgbZ7mnnAMzpiJgt17g3qyhJ84U+jTHqc6Ib97tbw08k5ZQgZkXqzGiyQhTwDzghhFs
-         S9zxvQQTCgWAxKPsWgUVVFQYTWRt3uVsy+s+pfxyWPF1iGSwf27XfIr+h1BWPODdvR4m
-         ZiHDnOVsBOdgENcTO68irIP4k30xKAr59Eh0dhZLfIJ2xoWTjAUyN/y613RcOU04d5yJ
-         r4JkAfojglc7rH24tQNTpR+Lrtg69TwnQkJurKRBGhZ09n1Jswx+paemsTGeRIgaS6co
-         Oszw==
-X-Forwarded-Encrypted: i=1; AJvYcCUa3bDfOo5OE84BffooMvvmI4gfAeQT2Xl54pnHkkTzuI8ozIe3XS9oP8x/By+/4KAwJqGATlFv@vger.kernel.org, AJvYcCVDI57/yZ45jg2ECzZNj8Igzy68J5H+QomVgegrkQV1F8hZtSV5uf8Iwp/OQl4Ya1+4olQ+@vger.kernel.org, AJvYcCWRseFSBBgVbj8DtMgXI+v7L7Ymnnkk/8illAxgsdky/j90UMoOwu6jNirdyeOnr3fk4LNy23fQg5cQ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzgp5qTuH8siRQKmfzM/OZdF74SRPaTPvXymvsNXeIguxsG47QE
-	HeHCPwlzzMkAUmGXGL0fbJJfQbkdIK7OpRbDJwgQvxWe6P35QoOM
-X-Gm-Gg: ASbGncteyYClCrT6SvdPRdyjlidiEiFMausExb8Spjm7Gv75H2UmjGXwajyzOJ7F5vP
-	O64BnCLrjJbBNgmI0x2s3TnHG2K96r3FVo2XhJEWrxGyKjSjrIV8fqEbFBqjINaE1h7RWDUXhLP
-	5XH1/hTRubkgL+UN8Nbr/1GRsX5DsOkq7RQtqcslAoj0GnqtD0KBy0yPWRrjAqilMIHoGMJ8vRO
-	VHGAeeJG+2++AvmBouWxFigJZAGyOuexjmzB/0IgqaN2H59F5lhgNOgNyIRPSoF/5uwYZcv9tWT
-	8Vx7
-X-Google-Smtp-Source: AGHT+IETJBFXpUqamvBLU8grXxKZQ+AY2R3EQGkw24VF2qKGHMZ9H+XRVksfh9jlL0WFu+e288uaAA==
-X-Received: by 2002:a17:902:cecd:b0:216:6f1a:1c77 with SMTP id d9443c01a7336-21c355e8942mr497666785ad.43.1737721532424;
-        Fri, 24 Jan 2025 04:25:32 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21da424f17esm14909795ad.255.2025.01.24.04.25.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jan 2025 04:25:31 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id C948B4208FB6; Fri, 24 Jan 2025 19:25:27 +0700 (WIB)
-Date: Fri, 24 Jan 2025 19:25:27 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Vaibhav Jain <vaibhav@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
-	kvm@vger.kernel.org, kvm-ppc@vger.kernel.org
-Cc: Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Vaidyanathan Srinivasan <svaidy@linux.vnet.ibm.com>,
-	sbhat@linux.ibm.com, gautam@linux.ibm.com, kconsul@linux.ibm.com,
-	amachhiw@linux.ibm.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 1/6] powerpc: Document APIv2 KVM hcall spec for
- Hostwide counters
-Message-ID: <Z5OGt7AnKZaH-Zu-@archie.me>
-References: <20250123120749.90505-1-vaibhav@linux.ibm.com>
- <20250123120749.90505-2-vaibhav@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDAnucqU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737721663; x=1769257663;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9oBt5eh8mlxIfH1UK0nPtYWTn/a4BrjpdPj9YsykCGU=;
+  b=PDAnucqUMltE6oXGK240JcxcMzI1rIlJ9YTKwZMMqkYLl5HqYCESOf0r
+   /m/eF/MwmGcz+L1xOC2LaixJNK/2bPvJnVRGUzIE16xEPgF2Ed+JOhsjy
+   3al0mWcT6lhuj4xWt9EZbuQsiJ16eodUIrrBRdc03svoMHUD2raQK/aGl
+   eKf2xA8RVcQ7cOj6TO8her1zuYf5lwEqdfA1feSMgt8SmQ7OFfb+D+F8O
+   n3mvGBQE5+SCCLtvapqFSYqXVCOEih6JehRD8vNJpQnd0Xhc/0wl0ArFi
+   Dt+uEkOwvSDolZIlLRYR7jsBPhfzJU507+u8/7AIjRRHoWrR7oXN0UXFL
+   g==;
+X-CSE-ConnectionGUID: /R1hThV6RMKvt1K7vlZ70A==
+X-CSE-MsgGUID: oC//J+NQQKGkRYjwzoGFIg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11325"; a="37458577"
+X-IronPort-AV: E=Sophos;i="6.13,231,1732608000"; 
+   d="scan'208";a="37458577"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 04:27:42 -0800
+X-CSE-ConnectionGUID: TcKqrqbOStiT63Vx3rUJ8g==
+X-CSE-MsgGUID: 5YTnTvwzTZiG18df72xk5Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="112390003"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 24 Jan 2025 04:27:38 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tbImd-000cfL-38;
+	Fri, 24 Jan 2025 12:27:35 +0000
+Date: Fri, 24 Jan 2025 20:26:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Jiao, Joey" <quic_jiangenj@quicinc.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+	Christoph Lameter <cl@linux-foundation.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kernel@quicinc.com
+Subject: Re: [PATCH 4/7] kcov: introduce new kcov KCOV_TRACE_UNIQ_CMP mode
+Message-ID: <202501242043.KmrFufhL-lkp@intel.com>
+References: <20250114-kcov-v1-4-004294b931a2@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="XzZLEL+AGxInZNaN"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250123120749.90505-2-vaibhav@linux.ibm.com>
+In-Reply-To: <20250114-kcov-v1-4-004294b931a2@quicinc.com>
+
+Hi Joey,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiao-Joey/kcov-introduce-new-kcov-KCOV_TRACE_UNIQ_PC-mode/20250114-133713
+base:   9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe
+patch link:    https://lore.kernel.org/r/20250114-kcov-v1-4-004294b931a2%40quicinc.com
+patch subject: [PATCH 4/7] kcov: introduce new kcov KCOV_TRACE_UNIQ_CMP mode
+config: x86_64-randconfig-001-20250124 (https://download.01.org/0day-ci/archive/20250124/202501242043.KmrFufhL-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250124/202501242043.KmrFufhL-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501242043.KmrFufhL-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> kernel/kcov.c:309:41: error: no member named 'type' in 'struct kcov_entry'
+     309 |                         if (entry->ent == ent->ent && entry->type == ent->type &&
+         |                                                       ~~~~~  ^
+   kernel/kcov.c:309:54: error: no member named 'type' in 'struct kcov_entry'
+     309 |                         if (entry->ent == ent->ent && entry->type == ent->type &&
+         |                                                                      ~~~  ^
+>> kernel/kcov.c:310:15: error: no member named 'arg1' in 'struct kcov_entry'
+     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
+         |                             ~~~~~  ^
+   kernel/kcov.c:310:28: error: no member named 'arg1' in 'struct kcov_entry'
+     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
+         |                                            ~~~  ^
+>> kernel/kcov.c:310:43: error: no member named 'arg2' in 'struct kcov_entry'
+     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
+         |                                                         ~~~~~  ^
+   kernel/kcov.c:310:56: error: no member named 'arg2' in 'struct kcov_entry'
+     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
+         |                                                                        ~~~  ^
+   kernel/kcov.c:343:29: error: no member named 'type' in 'struct kcov_entry'
+     343 |                         area[start_index] = ent->type;
+         |                                             ~~~  ^
+   kernel/kcov.c:344:33: error: no member named 'arg1' in 'struct kcov_entry'
+     344 |                         area[start_index + 1] = ent->arg1;
+         |                                                 ~~~  ^
+   kernel/kcov.c:345:33: error: no member named 'arg2' in 'struct kcov_entry'
+     345 |                         area[start_index + 2] = ent->arg2;
+         |                                                 ~~~  ^
+   9 errors generated.
 
 
---XzZLEL+AGxInZNaN
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+vim +309 kernel/kcov.c
 
-On Thu, Jan 23, 2025 at 05:37:43PM +0530, Vaibhav Jain wrote:
-> diff --git a/Documentation/arch/powerpc/kvm-nested.rst b/Documentation/ar=
-ch/powerpc/kvm-nested.rst
-> index 5defd13cc6c1..574592505604 100644
-> --- a/Documentation/arch/powerpc/kvm-nested.rst
-> +++ b/Documentation/arch/powerpc/kvm-nested.rst
-> @@ -208,13 +208,9 @@ associated values for each ID in the GSB::
->        flags:
->           Bit 0: getGuestWideState: Request state of the Guest instead
->             of an individual VCPU.
-> -         Bit 1: takeOwnershipOfVcpuState Indicate the L1 is taking
-> -           over ownership of the VCPU state and that the L0 can free
-> -           the storage holding the state. The VCPU state will need to
-> -           be returned to the Hypervisor via H_GUEST_SET_STATE prior
-> -           to H_GUEST_RUN_VCPU being called for this VCPU. The data
-> -           returned in the dataBuffer is in a Hypervisor internal
-> -           format.
-> +         Bit 1: getHostWideState: Request stats of the Host. This causes
-> +           the guestId and vcpuId parameters to be ignored and attempting
-> +           to get the VCPU/Guest state will cause an error.
->           Bits 2-63: Reserved
->        guestId: ID obtained from H_GUEST_CREATE
->        vcpuId: ID of the vCPU pass to H_GUEST_CREATE_VCPU
-> @@ -406,9 +402,10 @@ the partition like the timebase offset and partition=
- scoped page
->  table information.
-> =20
->  +--------+-------+----+--------+----------------------------------+
-> -|   ID   | Size  | RW | Thread | Details                          |
-> -|        | Bytes |    | Guest  |                                  |
-> -|        |       |    | Scope  |                                  |
-> +|   ID   | Size  | RW |(H)ost  | Details                          |
-> +|        | Bytes |    |(G)uest |                                  |
-> +|        |       |    |(T)hread|                                  |
-> +|        |       |    |Scope   |                                  |
->  +=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D+=3D=3D=3D=
-=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
->  | 0x0000 |       | RW |   TG   | NOP element                      |
->  +--------+-------+----+--------+----------------------------------+
-> @@ -434,6 +431,29 @@ table information.
->  |        |       |    |        |- 0x8 Table size.                 |
->  +--------+-------+----+--------+----------------------------------+
->  | 0x0007-|       |    |        | Reserved                         |
-> +| 0x07FF |       |    |        |                                  |
-> ++--------+-------+----+--------+----------------------------------+
-> +| 0x0800 | 0x08  | R  |   H    | Current usage in bytes of the    |
-> +|        |       |    |        | L0's Guest Management Space      |
-> +|        |       |    |        | for an L1-Lpar.                  |
-> ++--------+-------+----+--------+----------------------------------+
-> +| 0x0801 | 0x08  | R  |   H    | Max bytes available in the       |
-> +|        |       |    |        | L0's Guest Management Space for  |
-> +|        |       |    |        | an L1-Lpar                       |
-> ++--------+-------+----+--------+----------------------------------+
-> +| 0x0802 | 0x08  | R  |   H    | Current usage in bytes of the    |
-> +|        |       |    |        | L0's Guest Page Table Management |
-> +|        |       |    |        | Space for an L1-Lpar             |
-> ++--------+-------+----+--------+----------------------------------+
-> +| 0x0803 | 0x08  | R  |   H    | Max bytes available in the L0's  |
-> +|        |       |    |        | Guest Page Table Management      |
-> +|        |       |    |        | Space for an L1-Lpar             |
-> ++--------+-------+----+--------+----------------------------------+
-> +| 0x0804 | 0x08  | R  |   H    | Cumulative Reclaimed bytes from  |
-> +|        |       |    |        | L0 Guest's Page Table Management |
-> +|        |       |    |        | Space due to overcommit          |
-> ++--------+-------+----+--------+----------------------------------+
-> +| 0x0805-|       |    |        | Reserved                         |
->  | 0x0BFF |       |    |        |                                  |
->  +--------+-------+----+--------+----------------------------------+
->  | 0x0C00 | 0x10  | RW |   T    |Run vCPU Input Buffer:            |
+   290	
+   291	static notrace inline void kcov_map_add(struct kcov_map *map, struct kcov_entry *ent,
+   292						struct task_struct *t, unsigned int mode)
+   293	{
+   294		struct kcov *kcov;
+   295		struct kcov_entry *entry;
+   296		unsigned int key = hash_key(ent);
+   297		unsigned long pos, start_index, end_pos, max_pos, *area;
+   298	
+   299		kcov = t->kcov;
+   300	
+   301		if ((mode == KCOV_MODE_TRACE_UNIQ_PC ||
+   302		     mode == KCOV_MODE_TRACE_UNIQ_EDGE))
+   303			hash_for_each_possible_rcu(map->buckets, entry, node, key) {
+   304				if (entry->ent == ent->ent)
+   305					return;
+   306			}
+   307		else
+   308			hash_for_each_possible_rcu(map->buckets, entry, node, key) {
+ > 309				if (entry->ent == ent->ent && entry->type == ent->type &&
+ > 310				    entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
+   311					return;
+   312				}
+   313			}
+   314	
+   315		entry = (struct kcov_entry *)gen_pool_alloc(map->pool, 1 << MIN_POOL_ALLOC_ORDER);
+   316		if (unlikely(!entry))
+   317			return;
+   318	
+   319		barrier();
+   320		memcpy(entry, ent, sizeof(*entry));
+   321		hash_add_rcu(map->buckets, &entry->node, key);
+   322	
+   323		if (mode == KCOV_MODE_TRACE_UNIQ_PC || mode == KCOV_MODE_TRACE_UNIQ_CMP)
+   324			area = t->kcov_area;
+   325		else
+   326			area = kcov->map_edge->area;
+   327	
+   328		pos = READ_ONCE(area[0]) + 1;
+   329		if (mode == KCOV_MODE_TRACE_UNIQ_PC || mode == KCOV_MODE_TRACE_UNIQ_EDGE) {
+   330			if (likely(pos < t->kcov_size)) {
+   331				WRITE_ONCE(area[0], pos);
+   332				barrier();
+   333				area[pos] = ent->ent;
+   334			}
+   335		} else {
+   336			start_index = 1 + (pos - 1) * KCOV_WORDS_PER_CMP;
+   337			max_pos = t->kcov_size * sizeof(unsigned long);
+   338			end_pos = (start_index + KCOV_WORDS_PER_CMP) * sizeof(u64);
+   339			if (likely(end_pos <= max_pos)) {
+   340				/* See comment in __sanitizer_cov_trace_pc(). */
+   341				WRITE_ONCE(area[0], pos);
+   342				barrier();
+   343				area[start_index] = ent->type;
+   344				area[start_index + 1] = ent->arg1;
+   345				area[start_index + 2] = ent->arg2;
+   346				area[start_index + 3] = ent->ent;
+   347			}
+   348		}
+   349	}
+   350	
 
-The doc LGTM, thanks!
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---XzZLEL+AGxInZNaN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ5OGsAAKCRD2uYlJVVFO
-o7OeAP9tEH+A4dQ48bRCel39A2tQlrbj3I/kc+cVpBTmLv0LTQD7Bo8tR95ewgW0
-PGPhuxL/z3ZBbGPd1ZWZmy3IGQYkrAE=
-=CFqD
------END PGP SIGNATURE-----
-
---XzZLEL+AGxInZNaN--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
