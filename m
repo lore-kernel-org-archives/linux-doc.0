@@ -1,135 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5DC0770E2;
-	Fri, 24 Jan 2025 16:33:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06AEA3224;
+	Fri, 24 Jan 2025 17:34:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737736418; cv=none; b=ukSjlBi0/7wGk+VhWtERVRv4F1NdixywbCVeBSKdHTMwdqLrFYfA5dNabc8eEBnRen66hdhspo8mJPWZ9VQSoDpJgheKFcXlMWEbNm10UNRRMpsqJk7BtA7aq1TkcRxCrH5ztdGF8qBg0ikwd7dOvAzbkkhRhk46iqqlqfxKwqg=
+	t=1737740048; cv=none; b=ZBdGtFKJj5Ga8+K5idt0Bg0ElhEECLaXYFyT1u8oeFzu42mVh45/DY1lBin/dPEMCaRSdI5bwsc3ss7mqVLTQV1FZRZpNJR0/lCeedcfPGOfDMdZVYin/2E1jeeCnA6pndRd+f0iW5lPMzSabhRhmdq3n+uNOK9giP/gRgnt5TY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737736418; c=relaxed/simple;
-	bh=YNgbPfAlhce9LhRpIKdOJ9rI3Ylx5Xrd/4UQleJyQ9M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P7Rqff9DyNxnaJMKoS7J6hn9eWOR81iYB+lzEvj8Zgyjvf2yuZj8+WgVODP6oxdevMMsPOOX1OdRwwV7pbBpwqybL5BZ5jYlCumJSs+2am9Fhs9bhJ/Hfn00Ch95p/Iq54r0sl43mXfKsjCHkzF6PuHP7z/dJ9RL4yxs/y89Esw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Np1zaFee; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1737740048; c=relaxed/simple;
+	bh=Wfb3nCJHrFZ/ER3+NaAKiTIh4tK6aoLhRwbmFqRcZq4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=fomik6qGZAx+SJoZmHata78Uo9CDbmxTvPb1nnxF4qH4mIfInuzdOvxXwAUnggCc4FO81Yf/8cwtHY1lk5CjfcNqyQ3t5Jphrcq8PHyYxJ4rsyU6/EnsK5HwizDs9Ff8gczZlMZ4mMgiXTmr8fYJzxb7TKYbVaTJtHxx8BPTRjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LVDoYpKz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Np1zaFee"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3342C4CED2;
-	Fri, 24 Jan 2025 16:33:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LVDoYpKz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A54CDC4CED2;
+	Fri, 24 Jan 2025 17:34:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737736418;
-	bh=YNgbPfAlhce9LhRpIKdOJ9rI3Ylx5Xrd/4UQleJyQ9M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Np1zaFeerLedDkUngOj+FpJ0MZhVDJFvpqAt72CNX7Xkvqr18v/RHWWmSEfHz9oXZ
-	 dBQ/YsNIPWtkTJ8Sipc5SK/ZGm/XPig94QChgxf6LU964fGCU/tsq2sLsU6Ekm9KTw
-	 nW6cHEC0DR6V6B8kwWPQFQYrCWfV3+8hfB7lflZ5VS9VITpMxiMyerAa1sUrnog/Fb
-	 cTM7/JDOQU4cC/FLKy9RSUYTwyRXitAlyrunF63zHTY/jU0Bjqa7B/9qFttgHUd715
-	 j3+YLySG8eWeXf93pZCwnC81STAUl6IsX7Fl5U7lksDIU56qkg4JfXDi81jzBxGSlo
-	 JP18HLpfSIvGA==
-Date: Fri, 24 Jan 2025 16:33:32 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Radu Sabau <radu.sabau@analog.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v4 1/3] dt-bindings: hwmon: (pmbus/adp1050): Add adp1051,
- adp1055 and ltp8800
-Message-ID: <20250124-dominion-hummus-7bb90d5fd7cd@spud>
-References: <20250124151746.1130-1-cedricjustine.encarnacion@analog.com>
- <20250124151746.1130-2-cedricjustine.encarnacion@analog.com>
+	s=k20201202; t=1737740047;
+	bh=Wfb3nCJHrFZ/ER3+NaAKiTIh4tK6aoLhRwbmFqRcZq4=;
+	h=From:Date:Subject:To:Cc:From;
+	b=LVDoYpKzXIJX9ChjvY3/s4fCfrmROugPfMq71vG8hIdFhyBgKuqH0zexCVZzWrDth
+	 c+1nh6MrS40V6dh1kInB6kwMnlgvKr7y7SeHTEoqp8L0ZbrzeJFdxLgwIrm26X3qCh
+	 QtAGmGSg+XYr57rODjCCTgKoaGURk3N0cnT4HAWZpE/MKKHCzsaBp9J/fcpiqB5PYX
+	 /7Nq0a2VtiHezyZw0Vi76DOQo4PeZPqFuJ5SbvYBsDP/4ko45/gvegx0wZXy/CFrWS
+	 xZUpSbRXNAEu6YIgEfn0f1M4IG/qYtWN/7Y1XB5ju49mFCV1zISY5hnBUJdcI9J6AB
+	 jr1WZx+vwjhNg==
+From: Mark Brown <broonie@kernel.org>
+Date: Fri, 24 Jan 2025 17:33:22 +0000
+Subject: [PATCH] arm64/gcs: Fix documentation for HWCAP
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="wZqn+XQqP0G7hyBv"
-Content-Disposition: inline
-In-Reply-To: <20250124151746.1130-2-cedricjustine.encarnacion@analog.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250124-arm64-gcs-hwcap-doc-v1-1-fa9368b01ca6@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAOHOk2cC/x3MQQqAIBBA0avErBtQ0YKuEi1Ep5pFGg5UIN09a
+ fkW/1cQKkwCU1eh0MXCOTXovoOw+7QRcmwGo4xT2lj05RgsbkFwv4M/MeaAbhyiW61WZvTQyrP
+ Qys9/nZf3/QChb8zqZQAAAA==
+X-Change-ID: 20250124-arm64-gcs-hwcap-doc-576d5f41027a
+To: Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Thiago Jung Bauermann <thiago.bauermann@linaro.org>, 
+ Yury Khrustalev <yury.khrustalev@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, David Spickett <David.Spickett@arm.com>, 
+ Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.15-dev-1b0d6
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1133; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=Wfb3nCJHrFZ/ER3+NaAKiTIh4tK6aoLhRwbmFqRcZq4=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBnk88M8xVJBNItAkMMTYAz53ygbsLKSqUxNKWD5HxM
+ wskB0qSJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZ5PPDAAKCRAk1otyXVSH0Ic5B/
+ 9JtV6z5AGvOTKCCbgK/5m7AhexBmNehPccFzXR4jInlgXQ4UcR052/3PXNHGSOgye6MYfwAWWLQe0h
+ O3I6rkdWLHv9crGWKeN3wOfT8/DnbCoT7e8Dr8TIfpr0F2ooPDS3yBOZpNYR/HCjOlmZLlIoQXO1VZ
+ IggAi1O3wKVSRFa9MRGoRiE+zD3CEW+Wbi/piOiYqCdT6YLwR1sfAq3eOGj/l/VnTOu10Cc4QLfYmC
+ xXheoRbeovwv1gIFwyMqn6A1PV942WgmH/D6gdQc91f+eOvQkDJuBGP69Q/VN9Bsl4L2PGykWcy9qz
+ MnDSJ9umh6TDdrhwbKHHU+uluossqb
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
+In one of the renumberings of the GCS hwcap a stray reference to HWCAP2 was
+left, fix it.
 
---wZqn+XQqP0G7hyBv
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reported-by: David Spickett <David.Spickett@arm.com>
+Fixes: 7058bf87cd59 ("arm64/gcs: Document the ABI for Guarded Control Stacks")
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ Documentation/arch/arm64/gcs.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Fri, Jan 24, 2025 at 11:17:44PM +0800, Cedric Encarnacion wrote:
-> Add support for adp1051, adp1055, and ltp8800.
->     ADP1051: 6 PWM for I/O Voltage, I/O Current, Temperature
->     ADP1055: 6 PWM for I/O Voltage, I/O Current, Power, Temperature
->     LTP8800-1A/-2/-4A: 150A/135A/200A DC/DC =B5Module Regulator
->=20
-> Co-developed-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-> Signed-off-by: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
+diff --git a/Documentation/arch/arm64/gcs.rst b/Documentation/arch/arm64/gcs.rst
+index 1f65a3193e7765dce9bfd6ad88b9fbd6a225ed86..226c0b008456f28c57c2221f45eed7e99610be46 100644
+--- a/Documentation/arch/arm64/gcs.rst
++++ b/Documentation/arch/arm64/gcs.rst
+@@ -37,7 +37,7 @@ intended to be exhaustive.
+   shadow stacks rather than GCS.
+ 
+ * Support for GCS is reported to userspace via HWCAP_GCS in the aux vector
+-  AT_HWCAP2 entry.
++  AT_HWCAP entry.
+ 
+ * GCS is enabled per thread.  While there is support for disabling GCS
+   at runtime this should be done with great care.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+---
+base-commit: ffd294d346d185b70e28b1a28abe367bbfe53c04
+change-id: 20250124-arm64-gcs-hwcap-doc-576d5f41027a
 
-> ---
->  .../bindings/hwmon/pmbus/adi,adp1050.yaml         | 15 +++++++++++++--
->  1 file changed, 13 insertions(+), 2 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/adi,adp1050.ya=
-ml b/Documentation/devicetree/bindings/hwmon/pmbus/adi,adp1050.yaml
-> index 10c2204bc3df..af7530093942 100644
-> --- a/Documentation/devicetree/bindings/hwmon/pmbus/adi,adp1050.yaml
-> +++ b/Documentation/devicetree/bindings/hwmon/pmbus/adi,adp1050.yaml
-> @@ -10,16 +10,27 @@ maintainers:
->    - Radu Sabau <radu.sabau@analog.com>
-> =20
->  description: |
-> -   The ADP1050 is used to monitor system voltages, currents and temperat=
-ures.
-> +   The ADP1050 and similar devices are used to monitor system voltages,
-> +   currents, power, and temperatures.
-> +
->     Through the PMBus interface, the ADP1050 targets isolated power suppl=
-ies
->     and has four individual monitors for input/output voltage, input curr=
-ent
->     and temperature.
->     Datasheet:
->       https://www.analog.com/en/products/adp1050.html
-> +     https://www.analog.com/en/products/adp1051.html
-> +     https://www.analog.com/en/products/adp1055.html
-> +     https://www.analog.com/en/products/ltp8800-1a.html
-> +     https://www.analog.com/en/products/ltp8800-2.html
-> +     https://www.analog.com/en/products/ltp8800-4a.html
-> =20
->  properties:
->    compatible:
-> -    const: adi,adp1050
-> +    enum:
-> +      - adi,adp1050
-> +      - adi,adp1051
-> +      - adi,adp1055
-> +      - adi,ltp8800
-> =20
->    reg:
->      maxItems: 1
-> --=20
-> 2.39.5
->=20
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
 
---wZqn+XQqP0G7hyBv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ5PA3AAKCRB4tDGHoIJi
-0iOUAP90fO7JGnB0lfu6s8hAxWWlLlS2gAaktpvbUdJBJCVpWAD/XelKtqp/RHr4
-hzhr+ws+8sgi7cwDO9UaDbSls8odPgQ=
-=fari
------END PGP SIGNATURE-----
-
---wZqn+XQqP0G7hyBv--
