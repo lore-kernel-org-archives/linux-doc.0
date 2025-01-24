@@ -1,109 +1,145 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC9661DB12E
-	for <linux-doc@vger.kernel.org>; Fri, 24 Jan 2025 10:00:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A9061B87C3;
+	Fri, 24 Jan 2025 10:02:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737712846; cv=none; b=qjrPxcXeAoIn6H3OPHQomIOs/5PrTSIp0cx6Sy2NRZTEjCmikbh+vuNBmr6Dm6wve5wiDAqCOYoH80R4aesO3xt/8iU97iRiEpAGNgrkSs0zFHwdC7lgor9H6yQ+++6zMeFGnetDAAnPBWxua30QaggNTmAB1dI0/K5nciaTn7Q=
+	t=1737712934; cv=none; b=uQUrpWvKtbFPD1JTSVH8ovAtZAd0FG14B86ZMMDWFuN3LjS5O1ZsKgy2LYcy44o9TJo5dgPH32/31LXuo8BVNt7YF1gUExRC00/8ea/G8Oah8dUmHcbnJUNO9Yw0ctWTX7YOfK4bPs7Toae3ErsEVDzLx+QyFwA4df2j6i/T1DU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737712846; c=relaxed/simple;
-	bh=sFprJVFwJ2E7g7E3sEaLKEWRDzMN6Z2rx69KzoKoQTw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bRQXskt/sA5M6IhMv1QcAB7/GiA+coBFjHwQs7rz2MvLn7skUtKEi+AjPtDe8oVdy+OC4eRw78wTxtx+2yXxBx5OO7NSoDCUTRVrS5gue3n/fdLNimRSTHNrcz5STkU8Vul9+0yTdGkMSsXvuWjG5j9UdVfP/aJRAY5ZkvIrltQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Gasn0qMA; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1737712934; c=relaxed/simple;
+	bh=PG23KZ1AsMgT8M/17mcYN8E0tAr2zJOi9ro3SOQzCO0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fxU/1qbgKUYVqt5tnkAYAhQdRP2JBpluOJLF6zVn9rUcxyG3IgSpiX2/vBJfoQFk4CoyEcQ+gOM4Dd9+ViZK+3/saj4n9AB/HXSW1BdnyfKhFdFhRpzdm7GcW7brOEiKR/HAMB3bSjERL/NLqSaWIS5UHFd/cE6rAMJ85POWQxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TKeyW3Bu; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Gasn0qMA"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-218c8ac69faso4103345ad.3
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jan 2025 02:00:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TKeyW3Bu"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-216728b1836so31000885ad.0;
+        Fri, 24 Jan 2025 02:02:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1737712844; x=1738317644; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BmTxH03KXDQTDv/Uw7GBBM8E4pylSL3aSkfPVMzEuWQ=;
-        b=Gasn0qMAqg7q9uMweLS6GNtSQWNHJSGBATclZoe5eiW7YafUqZHthM8V7O9VUXzkvl
-         d6UZ49bq9cCT5MDx2qJHevfRNKLHTJIfRqPfol2QyfmXwTCZNdGfLpPhVUQNqOkJImjx
-         aNXX+JR1iEzXOVcbRjrURLu5AY6S05qQbSt4E9jzZ2itJSeuE7W/sTRIIsJJ3yxeNQmk
-         WYno/ey6UtlZbOJ03UMcaTvjKtDByEoUDuSs8IqALvvNOj7xNYcTQx0M1viaIPc8trGg
-         WWMXeUrm8avKKTMN84ieCnDATmWQb3zZsPyHSaZbYkWMeBTWyyLlKvliCe3BJk2c1Ox/
-         aczQ==
+        d=gmail.com; s=20230601; t=1737712932; x=1738317732; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kV9nRSQ8mieKAHPZA8dj6zBQSRCNZwPWiGP+2xORqJM=;
+        b=TKeyW3BuaPtJedRv+usdgSiBA+rYALKtvqu0e3ZF8Cv8LygXx7yfJfXtF+rVfZoYaU
+         BrhBUqmcT/4imvBDSKKTVJIPA0njpQXZfdkKNBsEn7hQJgLaEzwW2oNqJ8oSw8uA/ep7
+         t5pbjErLJBZeaDYg1WgnyDZ89z/CS6PcvDdu9GZkKwcCmiTV0Z6bBX6brbkXZHxC72Sy
+         URdYCEruhPpOlNuL/pTKgr1Ic63USxuV5XRAMPC6edIukbmfZk4oT+HB1JUD3F5bhs5z
+         Ewltz1jP4v614VkSkeL6n2H8rCuIdBlkUknfhvirN+3mvBxLPRB05/LeUvSR5+lBquTD
+         ZCqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737712844; x=1738317644;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BmTxH03KXDQTDv/Uw7GBBM8E4pylSL3aSkfPVMzEuWQ=;
-        b=d1JEAZwhLLFtRQe51GrHTpqoqgBPma/pKDPxT+W6Wn2j1zQ1tC0PUk7kG4/bCcD7Fb
-         QgckvaNYfoJp91VPfYyJsgH+zeseh+rCmdv6MCH4xdEMTw1XlO/NGgtGRCAKLbDWHqfq
-         NPC/AORR2A9D6cjjSaeONenufXCt2Qe3nysX77OAIpu8ZqM6N/hbT+UyVQb71OugHSZB
-         G7F0Ng0+UnxqFH+9O9U6tguyDeQX75H7ameqA9pcwPJ5iH4WvvIYgFZ1UuIIpf1nSeGK
-         jH0ZpCE0EGXZwFq7WoByvl6xTVKRBEUV5Rhmutdl+qpOu5XARJXMO6AKwg0NuV+Te85P
-         GgUg==
-X-Forwarded-Encrypted: i=1; AJvYcCW1x1wj3xpPSRPGbgAOewOD4VmzIZGHY4KCgx3eFotEm5uz9D6Apt30Ng7XMuTbDQzkGRsKMsa4zYg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwykcJ18uaFH4h8XLv56A7IUXUAsULiCFV6Qx7yuHdJ4husPkzj
-	tAFMPQsdhcUFG7AbDaUBcJO3RllciFh3246gwHuDyNj5hK9HLI1nRuMx4T52997F+Wmrbn7IsrE
-	s
-X-Gm-Gg: ASbGncuiIGqHfCglsUtwQzV8czGxVuIJ6p3xFLbsDI9Zdj4hsmkdp/0tEaScWchoVzV
-	GSFsE9dMTDNVXN1ujQtdS1PqsC+c7dj91OFNTpXchTlR3/Yq/8d97CBXl0i1ypNeQUsxYpRPfs0
-	hsJrlrfAV82xw8GRGzPR0si8x9MiL9Pd5MSbpayV8oDupgZBk6LV7bcoo6xmqU18U5qex/Sm0MM
-	ugNxGPyZHPILXnQhCYtkgYt5DEdhsyTzXcsFf1U0ySSLv+h22UQoyXt/bNk0xVjpvuf+2HMt/9Z
-	43mouf0ul+YU2JDz7qTEgew5/VNRMQ==
-X-Google-Smtp-Source: AGHT+IElO9gB3UAtHo+GuhS7uM8VXUkiIauC0sqTubx0f3SOShH1kUjljV5ZgDcKKMWCosxHHkPDQQ==
-X-Received: by 2002:a05:6a00:21c7:b0:71e:4bda:71ec with SMTP id d2e1a72fcca58-72dafb9b2c7mr14455055b3a.4.1737712843813;
-        Fri, 24 Jan 2025 02:00:43 -0800 (PST)
-Received: from [10.254.144.106] ([139.177.225.251])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72f8a77c969sm1428288b3a.150.2025.01.24.02.00.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jan 2025 02:00:43 -0800 (PST)
-Message-ID: <764096dd-4d2c-4934-9c07-500a476bb140@bytedance.com>
-Date: Fri, 24 Jan 2025 18:00:34 +0800
+        d=1e100.net; s=20230601; t=1737712932; x=1738317732;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kV9nRSQ8mieKAHPZA8dj6zBQSRCNZwPWiGP+2xORqJM=;
+        b=UgG5w8L62Ogb6GmDaSXIUMlGJq4QYPaKoQom/3s38CJd4pLenMGOaD898Tut6DKdqh
+         uPD8Dok0BdzSZ1Pn7FyOdyeqV+S2PXw1b3NF+duNxrDmcmWLTtIqj/uzyKMIe90dB/R4
+         uOTLyD1yXRvUrRM5iGEB2XV5MtzO+FOWBpIxOYaoXWS3/95GIsNGvFyWuwYQjsn5lsxb
+         /zNI0foYb9i9v7Q3xlSV5fdAULPpeyhhKU1yVHCyYypaBNWspefiFyVGA84NZEnZ0e1D
+         NOov7jrULNvvktLhjLAzQlk4FdGWPQMAvlw9rka6e4ZfbttoLCBJr/SHmMIDldkr2MSW
+         1upw==
+X-Forwarded-Encrypted: i=1; AJvYcCUzwlM880hw8pBsLldS5jx25inEv1iigxr4gqid0ie7c3N5h9xExrJvvsK0ox/OOsdBDS0TFj7Pkwc=@vger.kernel.org, AJvYcCV9QoTv7lRlWP5C7YCwAg/Sa4ASCvJuT5e7w2ebS77RuEkGATsQDfWlW+6ifwymLfQ+ohKLcyetVlEVAsCg7+Mtkl9uSw4=@vger.kernel.org, AJvYcCVgNKD/OocfBbjXh+b8/qPQiqaWlTTmiZTkf2pIQikv1nrpYoLvziVQT+56+/dQDL7KH6Z9akTBRBcN@vger.kernel.org, AJvYcCWedpV/1M4RqWjRC3jfJID98xpXl6S1FoOdRQ6oiTmc4s8hEwTKM8BVyGkdoOjwU2VfVDq6PRNt@vger.kernel.org, AJvYcCXzd4q5l/+iw4IKBJajS59cKkB2Vd8cAi58plbp7PaNxbhgyx7fNayzLHa/4xOwlzqngTSAHv44N5htok3J@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2OliOfMhra/zepv8Dlib8AGBDBO/oxA1tFo40t6sDMUiO6gol
+	os8zGstZvd45QlGxHXgoUit9hVinwiNmDPV0nQ7ZodlYz5x4bcED
+X-Gm-Gg: ASbGncu9sf4PbUnREUpqJwHHFIllvT6dD9yovAgfRg9cjcRIRQyAzjJ6EC6UUNMjarP
+	tI4LdG9bcABO7uNmbRgg7LYYdyYFJLIpD0YX8HUMVykTLIz/trmQ3OHE/kWkdL8wt+Y7gVl1UEv
+	mYKjZAVYfPSY+K/gdIciFObFA3qFLQeSHywLylKfxp0ASqLtGfBzPPuqpYqxrYOLFDFiuO4IEEV
+	0sxtUF9udllLm2tHOQGHBSZVyIBICS4WFDuUB0lxVinUYzE7qGB5lIaRMPaj4onP0aMxhUQzAeS
+	mf/g
+X-Google-Smtp-Source: AGHT+IFpze+Oipqpvmu3woguMJEQZi5aiMU334eCqZkGSKbDvO1CQlvlX3d34GhPBDzAyRbhLOtiaw==
+X-Received: by 2002:a17:902:cf01:b0:215:94e0:17 with SMTP id d9443c01a7336-21c35530228mr460939765ad.23.1737712932200;
+        Fri, 24 Jan 2025 02:02:12 -0800 (PST)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21da3d9e6ffsm12750515ad.35.2025.01.24.02.02.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jan 2025 02:02:11 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id B8E514208FB7; Fri, 24 Jan 2025 17:02:02 +0700 (WIB)
+Date: Fri, 24 Jan 2025 17:02:02 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>, socketcan@hartkopp.net,
+	mkl@pengutronix.de, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+	corbet@lwn.net
+Cc: shuah@kernel.org, linux-can@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@vger.kernel.org
+Subject: Re: [PATCH] documentation: networking: fix spelling mistakes
+Message-ID: <Z5NlGsZlsoqSBzX9@archie.me>
+References: <20250123082521.59997-1-khaledelnaggarlinux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] cgroup/rstat: Cleanup cpu.stat once for all
-Content-Language: en-US
-To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
-Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
- Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, Bitao Hu
- <yaoma@linux.alibaba.com>, Thomas Gleixner <tglx@linutronix.de>,
- Yury Norov <yury.norov@gmail.com>, Chen Ridong <chenridong@huawei.com>,
- "open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20250123174713.25570-1-wuyun.abel@bytedance.com>
- <20250123174713.25570-3-wuyun.abel@bytedance.com>
- <2fenjyawa46abfrpcebluaoi6dd4z5v2y7pp7jyuu2oblmfmhk@reaaehe6pkzn>
-From: Abel Wu <wuyun.abel@bytedance.com>
-In-Reply-To: <2fenjyawa46abfrpcebluaoi6dd4z5v2y7pp7jyuu2oblmfmhk@reaaehe6pkzn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="RD0+TQNC+QTzLiQX"
+Content-Disposition: inline
+In-Reply-To: <20250123082521.59997-1-khaledelnaggarlinux@gmail.com>
 
 
+--RD0+TQNC+QTzLiQX
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 1/24/25 5:22 PM, Michal Koutný Wrote:
-> On Fri, Jan 24, 2025 at 01:47:02AM +0800, Abel Wu <wuyun.abel@bytedance.com> wrote:
->> -static void cgroup_force_idle_show(struct seq_file *seq, struct cgroup_base_stat *bstat)
->> +static void __append_bstat(struct seq_file *seq, struct cgroup_base_stat *bstat,
->> +			   struct bstat_entry *entry)
-> 
-> Not sure if starting with double underscore is needed when the helper is
-> `static`. Also something like s/append/show/ -> cgroup_bstat_entry_show.
+On Thu, Jan 23, 2025 at 10:25:20AM +0200, Khaled Elnaggar wrote:
+> diff --git a/Documentation/networking/can.rst b/Documentation/networking/=
+can.rst
+> index 62519d38c58b..b018ce346392 100644
+> --- a/Documentation/networking/can.rst
+> +++ b/Documentation/networking/can.rst
+> @@ -699,10 +699,10 @@ RAW socket option CAN_RAW_JOIN_FILTERS
+>=20
+>  The CAN_RAW socket can set multiple CAN identifier specific filters that
+>  lead to multiple filters in the af_can.c filter processing. These filters
+> -are indenpendent from each other which leads to logical OR'ed filters wh=
+en
+> +are independent from each other which leads to logical OR'ed filters when
+>  applied (see :ref:`socketcan-rawfilter`).
+>=20
+> -This socket option joines the given CAN filters in the way that only CAN
+> +This socket option joins the given CAN filters in the way that only CAN
+>  frames are passed to user space that matched *all* given CAN filters. The
+>  semantic for the applied filters is therefore changed to a logical AND.
+>=20
+> diff --git a/Documentation/networking/napi.rst b/Documentation/networking=
+/napi.rst
+> index 6083210ab2a4..f970a2be271a 100644
+> --- a/Documentation/networking/napi.rst
+> +++ b/Documentation/networking/napi.rst
+> @@ -362,7 +362,7 @@ It is expected that ``irq-suspend-timeout`` will be s=
+et to a value much larger
+>  than ``gro_flush_timeout`` as ``irq-suspend-timeout`` should suspend IRQ=
+s for
+>  the duration of one userland processing cycle.
+>=20
+> -While it is not stricly necessary to use ``napi_defer_hard_irqs`` and
+> +While it is not strictly necessary to use ``napi_defer_hard_irqs`` and
+>  ``gro_flush_timeout`` to use IRQ suspension, their use is strongly
+>  recommended.
+>=20
 
-Yeah, "cgroup_bstat_entry_show" looks better! Will fix.
+Looks OK, thanks!
 
-Thanks,
-	Abel
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--RD0+TQNC+QTzLiQX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ5NlEgAKCRD2uYlJVVFO
+ozOLAQCl8xjCksO/2hOyEX/nGCgfpFYnbhfVD89Xy4RfQ3zL2wD/bEYRoZX0basl
+rcYvHQtEYowEqXnopSLl7qJ7DEDkCw0=
+=t2bA
+-----END PGP SIGNATURE-----
+
+--RD0+TQNC+QTzLiQX--
