@@ -1,62 +1,62 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7332A20767F
-	for <linux-doc@vger.kernel.org>; Sat, 25 Jan 2025 05:26:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3F120767F
+	for <linux-doc@vger.kernel.org>; Sat, 25 Jan 2025 05:26:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737782762; cv=none; b=tGRvpKQzO01/Gf2hcp+dS000D+S3/HFNPPU8e9kw0Oy6vEjvbFfzK4uie77z0b+yOG1/aY1Ikp6MJu06+mUmAJfrCFCMq7VWupPUHljH2whThmwTsdoewbndJ1/6HrHrb6ZZ49YivXPodLkMi5tWnNjVP2tJ345xcU1NdGYwhik=
+	t=1737782777; cv=none; b=LkwqUPt+/799Bm3ybaXBg95Hwwm5tlnmNDuFDWTkiLA6F7KqBhyjL7izv6hYc+H0L8X+4iaR+pds86Oo/odbUEm44ku/MGMcKk7R7/K1427fGznPR6nxFBmRSht5PPQUToUoKQJUhrCdtsDTWdwDV+YIu/YNxdcV4C8EYz4cN/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737782762; c=relaxed/simple;
-	bh=LKw6HaeW05jbHUxXDx+rmwHbEdYlclYGnPRLLJQzy60=;
+	s=arc-20240116; t=1737782777; c=relaxed/simple;
+	bh=aEtkYsQ/WkKEeXt9CBXl6mkcKsScO2YS9z/v9JWQHrQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=kJWkSHFU36D9GvsM0HZZq1UssFwmHDmLdTrYIngzvbrMEJsi5tfRxIVmzqoF8IEOWT1d/VLqQ7cKQo0hoGg4HkBioyJhrTf1X2KWULvtOS0GSgu6r/F+rJlVjn1/tONCPsxTrpiFDkk3Vb9RQr602Dj/cfvOVluF3VYzMwqeEZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=UiCe0ZHM; arc=none smtp.client-ip=209.85.216.41
+	 MIME-Version; b=hxvVQRIxmIixfltwxn30NHe7T8n8zMfBmjVBRFt5/E6RfwaJAvC8nnMeaNBz34jYcjDdTxbg+Hf5/8WwrEUm0xOJjY9yeC3HX00RgX3Ln8kNxKPLuhLwmrwQ7Apckjp3r/9iEyOnF1+pKUBUt+sVhVY9DKRcvN4cu1XITd4D8L0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=K/CzBH4q; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="UiCe0ZHM"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2f45526dea0so631169a91.1
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jan 2025 21:26:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="K/CzBH4q"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2ee9b1a2116so610553a91.3
+        for <linux-doc@vger.kernel.org>; Fri, 24 Jan 2025 21:26:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1737782761; x=1738387561; darn=vger.kernel.org;
+        d=bytedance.com; s=google; t=1737782776; x=1738387576; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WiWK8iJRg8z+aUiF8sWc5hRLfRD7QwQ2HIsrRNActc8=;
-        b=UiCe0ZHM79m0DJUIW7mXuZI1NCNFTQeCcmr7a2pF1sHywNWdAm6FAGSqxX63nM5sVk
-         soCWx6nTw18SG0IPgk9zJH0Pf4MCPQZdL1jLVER/Nvoq6AVcBAE7967YC++cNptzSUlP
-         ea2UmkJHyJVXgOuOigyCjubv+kbUsYpxCPzGuFqomXMCFRfvpNtnDaD2HYF/VCIvEXxj
-         PFRXeitqvbuVwOD8oI0ghWHAKs8U7tpqxPBixp4bzORz3q4MQx+qDUQZpQw7JJ4pfm3S
-         UtZed/g0sYObWYwO/jmvR7u4hXzmEgWC/KbwNfhtDHqTli1BKSlaPs8gxQz8P2KHhXkg
-         e4MQ==
+        bh=7eCb6/WBehJQZpcvJZGWQL2Hz1Q/N9ND9H1TrdzwNMc=;
+        b=K/CzBH4qikblVfz7GtZ7dABPqQ/J9YjiYHlxChSK4le8+xVT68DOrlBmQcT/W6JGDO
+         kUdUh4G/f+FaUT01aKcP0V8HRToL/8ROSzSR8vn83qKyiP/hzcmOiGXUMKMgWWu19yJn
+         GfJMJLO/o9ap4DZ65Z/clAq+9CGyCALblpRe8064CQV2f5UapOzSCr5VuYQBv1ileHSu
+         hUpce9oKUt7+NKxOFKZgoh1ni3z7kuNvNuSzd9P7MJC41rpLSFw2z/nSJitFq/nF3FGs
+         6d/vIk1bnYwPK6sOvpGKcvdqNUFWxwgd0rwXYAzGHFodYdU8kg7SYiIZ4g8Pv1GRV1JT
+         WPFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737782761; x=1738387561;
+        d=1e100.net; s=20230601; t=1737782776; x=1738387576;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WiWK8iJRg8z+aUiF8sWc5hRLfRD7QwQ2HIsrRNActc8=;
-        b=HMTyDH+g+AainYKWnvaJYGv7nXygJ7W5C6kMOxiCA9naKa2LeiO4zA935Y5NPGRDjz
-         uQbZlXK4bA6Pnqa1aV2QuIHykOMOOljU4WvaX7NFHbiWpnLIIZ2KaQtHGsgcZAivJM7/
-         IiJ+XyqKYMK92DB3EniUMk6xjPn6XvffcxOPhRPlI8yXLtlw/DtfYYj5gmnj67fBOwh9
-         fRqZ/PJUZLpkn7jWdmhC+oceQzHmMf1IVpV7jnyi6xnVD8bmkZaiBWuh9sh7dFPIqnoK
-         4VnRup0MBQHJaLTpiTfI7klUlnCwi/D2U0vHzO48hTx3uoYWY7uv8rj4EIJQw7nLQeJf
-         shww==
-X-Forwarded-Encrypted: i=1; AJvYcCXaNebMwzPodCzge2VypH6DEt6GfHBmpXOQ+uqb/S9knpP6Ke232AUIIrKn6froiDruE15YeZmDO9Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwWURMnHZZz+57P/wnO/XEoh6NbmpBw1m6sPLkIPl0gCZywxG3
-	EvsQzv0hlIG1d64fOkmo3abtVuJAfEG7fMX8iUr1x7SZEAfipSxmrfsTogse2tY=
-X-Gm-Gg: ASbGncsjPBMmgvuO88DlU2sxSD2Gp7n+licmwDMuWyok3qLqfYolnOaidwhALiz10Yl
-	y0JUyM6hmQXC+cqcd9pcXpujEIlbgRcKe0raZM9cjnnVqyA798n5/QHWairvUHEIhRX3eNd8ehp
-	xqck1jJDQs1uXUqMj9DKDhoLq8r6ISkYhNJ38zKAYzhM/fdYABgkjCqLTwbK4a7FoCxTFLt2ZIH
-	tXAeEyubyF/N6CoiniIiu2UmTzvhE40SXbbCISTwFb1s6c21XAuLPUJLwJJS9xHL8IPbmQuMDGW
-	SgnEJwgeKZOYMmX63n8me8nEGu7LXokg2Pne/8Fe7H4=
-X-Google-Smtp-Source: AGHT+IH+E7+zyXLvCWAiXzV6o5l6ebSPI18pr2IFPQuGjkRm7m10xzWPBeH3vqaVimkyMkQaYvC5FA==
-X-Received: by 2002:a17:902:e750:b0:215:2bfb:3cd7 with SMTP id d9443c01a7336-21c3562959bmr192927435ad.10.1737782760661;
-        Fri, 24 Jan 2025 21:26:00 -0800 (PST)
+        bh=7eCb6/WBehJQZpcvJZGWQL2Hz1Q/N9ND9H1TrdzwNMc=;
+        b=bXCpaaf9EuxH4kkqdgo11x9+FDYSTxWW5kcpqWnfNhJq6dvhLMQYztA7SDijdUmIhB
+         DLI2tNKs+PVw0mF+6n9rin2YyJEYBGoQQCGjhH1XOMHuCAdcky0xR/YR2kw/a2+cN404
+         vXKefqdd2Up+8xqWo+/h36EYHKHgHInvmcz6gr+kyY4siYMmJ9X+28dsZm57V7TLxBe/
+         iu1c4/Zb+PwtGd7fUgMxcITUhQQHdWgAFxDcG+1rFDuAJhN0trD5IEV0Re+PxDRH6ks3
+         kmc+y1WSAZvfFPByPMXnkpxohs5/7AsAZLp1I5qxQLNI9CWL/LtYLE4pnQYRj5C3AFTp
+         kmBw==
+X-Forwarded-Encrypted: i=1; AJvYcCVByvAnGedSkrXtDw5Yv0QXap01b1XaO9s/2cm3daT0pAfofkiNsj6AL/tIpMnikKN+6609QCZKiR8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9wYZX+fwPdILnU6r0ZFypuh/A+VDYuJwCvbIgckIZwpjZHqyT
+	KoG8wPgU2ERi0BFoFAXrOOjoS574MW+oBRxenENFeg/7eqaKN7cjB/uprGX9CAc=
+X-Gm-Gg: ASbGncsTjFOy8kokDiAWvAeoeqBh52IzVpwgpvw/6U/vCiH9XMy9UoNTFA8JxoPcPS9
+	X8kXZe1VlSiGC4cvUWld1dR0TQgSJXGtA4kFW2xK70ubIkcGtwjX758imcfAzwWW1J4dNEvFXBW
+	0/HIvjElrqMtUiHY3JuQQVXs57CveAxLtSXavTtzTsoXzkzENx/Rcs9nNPOOiyTt1Unjsn1xYq+
+	aZzNntczqj9gEYSjTboAdNR1BKFcA3vRtmVEMKbKTdGQ0FoVpIYO0WT6NS8mHkYBXdJkXTJp9QR
+	2ppyoi1s/wpDKgnJZMCe9nk9oHk2ulJv/m2DcGpu3YQ=
+X-Google-Smtp-Source: AGHT+IEF1uRgd/zoHtjikgksLY/feiCQXspGODJ2tSSlRF8u1Tj21NlAQAQEv3+mjbNYZi+a+IWdcA==
+X-Received: by 2002:a05:6a21:900d:b0:1cf:4dae:224e with SMTP id adf61e73a8af0-1eb21470211mr18598282637.1.1737782775632;
+        Fri, 24 Jan 2025 21:26:15 -0800 (PST)
 Received: from C02DV8HUMD6R.bytedance.net ([139.177.225.251])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ac496bbdc9esm2563856a12.63.2025.01.24.21.25.53
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ac496bbdc9esm2563856a12.63.2025.01.24.21.26.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jan 2025 21:26:00 -0800 (PST)
+        Fri, 24 Jan 2025 21:26:15 -0800 (PST)
 From: Abel Wu <wuyun.abel@bytedance.com>
 To: Tejun Heo <tj@kernel.org>,
 	Johannes Weiner <hannes@cmpxchg.org>,
@@ -71,18 +71,18 @@ To: Tejun Heo <tj@kernel.org>,
 	Ben Segall <bsegall@google.com>,
 	Mel Gorman <mgorman@suse.de>,
 	Valentin Schneider <vschneid@redhat.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	Bitao Hu <yaoma@linux.alibaba.com>,
-	Abel Wu <wuyun.abel@bytedance.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
+	Bitao Hu <yaoma@linux.alibaba.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	Abel Wu <wuyun.abel@bytedance.com>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Chen Ridong <chenridong@huawei.com>
 Cc: cgroups@vger.kernel.org (open list:CONTROL GROUP (CGROUP)),
 	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
 	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2 1/3] cgroup/rstat: Fix forceidle time in cpu.stat
-Date: Sat, 25 Jan 2025 13:25:10 +0800
-Message-Id: <20250125052521.19487-2-wuyun.abel@bytedance.com>
+Subject: [PATCH v2 2/3] cgroup/rstat: Cleanup cpu.stat once for all
+Date: Sat, 25 Jan 2025 13:25:11 +0800
+Message-Id: <20250125052521.19487-3-wuyun.abel@bytedance.com>
 X-Mailer: git-send-email 2.37.3
 In-Reply-To: <20250125052521.19487-1-wuyun.abel@bytedance.com>
 References: <20250125052521.19487-1-wuyun.abel@bytedance.com>
@@ -94,70 +94,86 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The commit b824766504e4 ("cgroup/rstat: add force idle show helper")
-retrieves forceidle_time outside cgroup_rstat_lock for non-root cgroups
-which can be potentially inconsistent with other stats.
+There were efforts like b824766504e4 ("cgroup/rstat: add force idle show helper")
+to escape from #ifdef hells, and there could be new stats coming out in
+the future, let's clean it up once for all.
 
-Rather than reverting that commit, fix it in a way that retains the
-effort of cleaning up the ifdef-messes.
-
-Fixes: b824766504e4 ("cgroup/rstat: add force idle show helper")
 Signed-off-by: Abel Wu <wuyun.abel@bytedance.com>
 ---
- kernel/cgroup/rstat.c | 29 +++++++++++++----------------
- 1 file changed, 13 insertions(+), 16 deletions(-)
+ kernel/cgroup/rstat.c | 47 ++++++++++++++++++++++++-------------------
+ 1 file changed, 26 insertions(+), 21 deletions(-)
 
 diff --git a/kernel/cgroup/rstat.c b/kernel/cgroup/rstat.c
-index 5877974ece92..c2784c317cdd 100644
+index c2784c317cdd..dc6acab00d69 100644
 --- a/kernel/cgroup/rstat.c
 +++ b/kernel/cgroup/rstat.c
-@@ -613,36 +613,33 @@ static void cgroup_force_idle_show(struct seq_file *seq, struct cgroup_base_stat
+@@ -599,21 +599,39 @@ static void root_cgroup_cputime(struct cgroup_base_stat *bstat)
+ 	}
+ }
+ 
++static struct bstat_entry {
++	const char	*name;
++	const int	offset;
++} bstats[] = {
++#define BSTAT_ENTRY(name, field)	\
++	{ name, offsetof(struct cgroup_base_stat, field) }
++	BSTAT_ENTRY("usage_usec",	cputime.sum_exec_runtime),
++	BSTAT_ENTRY("user_usec",	cputime.utime),
++	BSTAT_ENTRY("system_usec",	cputime.stime),
++	BSTAT_ENTRY("nice_usec",	ntime),
++#ifdef CONFIG_SCHED_CORE
++	BSTAT_ENTRY("core_sched.force_idle_usec", forceidle_sum),
++#endif
++	{ NULL } /* must be at end */
++#undef BSTAT_ENTRY
++};
+ 
+-static void cgroup_force_idle_show(struct seq_file *seq, struct cgroup_base_stat *bstat)
++static void cgroup_bstat_entry_show(struct seq_file *seq,
++				    struct cgroup_base_stat *bstat,
++				    struct bstat_entry *entry)
+ {
+-#ifdef CONFIG_SCHED_CORE
+-	u64 forceidle_time = bstat->forceidle_sum;
++	u64 *val;
+ 
+-	do_div(forceidle_time, NSEC_PER_USEC);
+-	seq_printf(seq, "core_sched.force_idle_usec %llu\n", forceidle_time);
+-#endif
++	val = (void *)bstat + entry->offset;
++	do_div(*val, NSEC_PER_USEC);
++	seq_printf(seq, "%s %llu\n", entry->name, *val);
+ }
+ 
  void cgroup_base_stat_cputime_show(struct seq_file *seq)
  {
  	struct cgroup *cgrp = seq_css(seq)->cgroup;
--	u64 usage, utime, stime, ntime;
-+	struct cgroup_base_stat bstat;
+ 	struct cgroup_base_stat bstat;
++	struct bstat_entry *e;
  
  	if (cgroup_parent(cgrp)) {
  		cgroup_rstat_flush_hold(cgrp);
--		usage = cgrp->bstat.cputime.sum_exec_runtime;
-+		bstat = cgrp->bstat;
- 		cputime_adjust(&cgrp->bstat.cputime, &cgrp->prev_cputime,
--			       &utime, &stime);
--		ntime = cgrp->bstat.ntime;
-+			       &bstat.cputime.utime, &bstat.cputime.stime);
- 		cgroup_rstat_flush_release(cgrp);
- 	} else {
--		/* cgrp->bstat of root is not actually used, reuse it */
--		root_cgroup_cputime(&cgrp->bstat);
--		usage = cgrp->bstat.cputime.sum_exec_runtime;
--		utime = cgrp->bstat.cputime.utime;
--		stime = cgrp->bstat.cputime.stime;
--		ntime = cgrp->bstat.ntime;
-+		root_cgroup_cputime(&bstat);
+@@ -625,21 +643,8 @@ void cgroup_base_stat_cputime_show(struct seq_file *seq)
+ 		root_cgroup_cputime(&bstat);
  	}
  
--	do_div(usage, NSEC_PER_USEC);
--	do_div(utime, NSEC_PER_USEC);
--	do_div(stime, NSEC_PER_USEC);
--	do_div(ntime, NSEC_PER_USEC);
-+	do_div(bstat.cputime.sum_exec_runtime, NSEC_PER_USEC);
-+	do_div(bstat.cputime.utime, NSEC_PER_USEC);
-+	do_div(bstat.cputime.stime, NSEC_PER_USEC);
-+	do_div(bstat.ntime, NSEC_PER_USEC);
- 
- 	seq_printf(seq, "usage_usec %llu\n"
- 			"user_usec %llu\n"
- 			"system_usec %llu\n"
- 			"nice_usec %llu\n",
--			usage, utime, stime, ntime);
-+			bstat.cputime.sum_exec_runtime,
-+			bstat.cputime.utime,
-+			bstat.cputime.stime,
-+			bstat.ntime);
- 
--	cgroup_force_idle_show(seq, &cgrp->bstat);
-+	cgroup_force_idle_show(seq, &bstat);
+-	do_div(bstat.cputime.sum_exec_runtime, NSEC_PER_USEC);
+-	do_div(bstat.cputime.utime, NSEC_PER_USEC);
+-	do_div(bstat.cputime.stime, NSEC_PER_USEC);
+-	do_div(bstat.ntime, NSEC_PER_USEC);
+-
+-	seq_printf(seq, "usage_usec %llu\n"
+-			"user_usec %llu\n"
+-			"system_usec %llu\n"
+-			"nice_usec %llu\n",
+-			bstat.cputime.sum_exec_runtime,
+-			bstat.cputime.utime,
+-			bstat.cputime.stime,
+-			bstat.ntime);
+-
+-	cgroup_force_idle_show(seq, &bstat);
++	for (e = bstats; e->name; e++)
++		cgroup_bstat_entry_show(seq, &bstat, e);
  }
  
  /* Add bpf kfuncs for cgroup_rstat_updated() and cgroup_rstat_flush() */
