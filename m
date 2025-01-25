@@ -1,122 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78EC207E18;
-	Sat, 25 Jan 2025 12:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED858BEE;
+	Sat, 25 Jan 2025 13:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737809043; cv=none; b=O9B0fo1e1f+uDRu1dAfxVqzPlzWw3zIowTsB6pDGEkJguoI3VT6C2/6/cqSEwFlmlM6bUoaQr7su2RreoLW5mVYnP1OG5PfgLJZGhxwVAjswcqkh9O+lMnAEe1t9V00yLV2mjb7Dcezu191o3/CCkDZrUniHco8aZu8DwJguanY=
+	t=1737812568; cv=none; b=OuWwYP7uqvUQCDA+kDLxXQtIRnMmdDT9r85hRS18gCSyrSJRbEqLbpg1G4Ouc/bQq1eTkKSAdDudkzN+PEg4MGAX0IRtI7ZpqtRwK2BwXyfhzpEWXy9jahRyFOzFv5ODKCWphcoPy3hnOl+WJj7JRYSCgaHmMWBTD0Jm9xbv3o0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737809043; c=relaxed/simple;
-	bh=NlaAKhY+IZwJhCTyPYWy+HGapQ1kdZ3i1g6TA8GP9Qc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mhqwsyZKRBbSG3oN3HMZiHUk6Hhd7mnzfoa9uH+vEtiM/5Yr0WkCc/hRi0RdqgcYqIY+PtASV1WulK7MiISTwkN3DEfj7IMbgeN7jhKhtudLsMEkIx0ruXMguzK8KcGurbdYLoYiCkP01uHfK0ESG06wrv+X1h6cJYfedpJCDFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PxK0sMKU; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PxK0sMKU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737809042; x=1769345042;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NlaAKhY+IZwJhCTyPYWy+HGapQ1kdZ3i1g6TA8GP9Qc=;
-  b=PxK0sMKUkHnBZSgN0X58EW67Cr0Msygtba7zGeO4SBuOderSJP6dcCCF
-   QMGIJb2qzaMK8eVPUU0yk2tkb64zcWciIINmt1UWsY6ISOPCjE2/O6CGp
-   6h1dM/toBTqoWMGmaNWnu9kB7RShnU5MIx7p0Oyk0os4fDCD1KAEnc5xA
-   86T8DZ+fHPurTL+YKPXigmMTvH+fLHfkRot/qqgHvTfPevwxFsE+9Zgtk
-   qdVX7nXkv7dSj9bVXHjwychtlEHa31zw9Lll5YNvqm7HCptWPwOoaQTrn
-   EuZY0JhP23vXPmU+WTqGPjtnGa8cNzcbImWVTTdra1HFu9LZ9Pv2odUTi
-   g==;
-X-CSE-ConnectionGUID: K74TjVHtT7ezNlG1E0aBMg==
-X-CSE-MsgGUID: 16e0MM14RoWe+ZqzvxW8LQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11326"; a="37590023"
-X-IronPort-AV: E=Sophos;i="6.13,234,1732608000"; 
-   d="scan'208";a="37590023"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2025 04:44:01 -0800
-X-CSE-ConnectionGUID: aZKkiA7rSxWOWJZF61T1sw==
-X-CSE-MsgGUID: Qskw6ZrORVSq3BsHg4s8JQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="131311353"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Jan 2025 04:43:57 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tbfVz-000doF-1O;
-	Sat, 25 Jan 2025 12:43:55 +0000
-Date: Sat, 25 Jan 2025 20:43:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Radu Sabau <radu.sabau@analog.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
-	Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v4 2/3] hwmon: (pmbus/adp1050): Add support for adp1051,
- adp1055 and ltp8800
-Message-ID: <202501252028.3VEwAFiG-lkp@intel.com>
-References: <20250124151746.1130-3-cedricjustine.encarnacion@analog.com>
+	s=arc-20240116; t=1737812568; c=relaxed/simple;
+	bh=rSEwbmK3X/jDCBGNCcyrKdX3DDHNUqN/Dk9YRLY3PW4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=emINFR3sRadUtpGI7rMtCXx4B2UyDmhx2qFsAcSV2bNWnS9O34HW6mMdZrwCdNpKhmuxMO8VxhcDSWyesuFFySm8AA0WKNgp45y/jtwJEWdaCukQIj7850H4Oy1tJ7/gzpHzVDOH51w3B2SylFpHj5WAdThvxGMvF8MxPgrhcwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-844dfe4b136so74905539f.3;
+        Sat, 25 Jan 2025 05:42:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737812565; x=1738417365;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uI/6nIBJPxcpt5UDUveTWNMTNVFXAtKS2EFOnvbHqPE=;
+        b=UYjiZr6IK/lNsbq89rBbUuJ3uuAlbpgKSblTqg5E8DygkqT7/WHro4ahrQIa17qWHS
+         Q1X6xbszSLXiTiFqt96JYhb0tZjW2NF4RLuRrkvKrtWaQcSGcd8WkFpnPv3q5iI3YU0i
+         KrHCXpgEM5CcaJBVg7WwjZpBTaAgoGjIEC/vfbxfbKxLLK74lhAIUJRPjt2YsQNz+FgM
+         yixznlE+ItjJw8U1SEwtvwkds+PshE6LyOmUpBpc62MlL/rWAL5eZRRHvtdn9Tphf1im
+         DvEDaqFj58wdPQpNiXu+PyDclRLl0eHe/Id+Zs9f+/6o/5FEMOY6tupRUdIvIIFQJbGz
+         7VcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWCWkkg9wY491h8/cTuqsOa/sU0weoy+YuXWtbFHe8wx2h9I0HqH8+xhzzOZrAGk8bmLoSZvceYmghUpL5G@vger.kernel.org, AJvYcCWyTOpgn2+qR5m2dNl5BJLvjaF3/+0Ph/zcdbMcB0n8xHCj4ah8Ft0F6hHjE33u5QvephYChWX2+0iyJl8TyyHHoteQVg==@vger.kernel.org, AJvYcCXipP3iHa7nWJDvmm+Rsv0fERFTKcv8qPpGn5LQHyziWXLmKcb2tvO3KDplNzvFtCe7IpokWFFBK9w=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/M7t8H7mADfz37qSvwLd2Mo7aD4pbvzyKEZNvI6uq8yEFBtjt
+	bkOM6QLrya14Jn1yM6gnAFKgXlY2fWaEyiwi3YA0FksHsuYFyFq9NxBSx4WjZOs=
+X-Gm-Gg: ASbGncu/82LJIQAaumFdawIa3dGYculNYqPhZpfdZBgOC0IhffQul4C4q0NataPwUnq
+	8XJjomCFLuF5Kre/BvMzgqziUdxMD8/MZ7pmhNOcJ4qpSoQG12QlmxtKRp4qvWFCkksNGkhJulk
+	S1/BDdai/mtLqhE8k9KDE9+e0uRdUpKLdYdqdWCk80m4UCldkDYqKbypWci3eSV0Bme4RJu/6EM
+	Fyfyk1B/SN0RfiLZtTf50yKKaH+e7alg0SUbW87GYfeT4P76esw/EKRKuuQAved8FBtlGKbRSRd
+	7xAijUjqjLkWvR3NkBWrWq4ozcCuJWqbeOCSR1nYBt9fU1jixw==
+X-Google-Smtp-Source: AGHT+IFrOy2kb6MozAzoyITJb0+JOAxrMupYGhx+slRk7HRyjF28g+3p8e4FJi0xag0u9PNILiyNjQ==
+X-Received: by 2002:a05:6602:26c5:b0:844:e06e:53c6 with SMTP id ca18e2360f4ac-851b64f7425mr2793963439f.11.1737812565148;
+        Sat, 25 Jan 2025 05:42:45 -0800 (PST)
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com. [209.85.166.182])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4ec1da4d013sm1388566173.74.2025.01.25.05.42.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 25 Jan 2025 05:42:44 -0800 (PST)
+Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-3cf880d90bdso10868275ab.3;
+        Sat, 25 Jan 2025 05:42:44 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUR+DVHKV3fBbUlAAC9KpmMt622nFMzm6tkXSkVcwEOTFkojfG08Z76KRb4+ewqazvS4Qecb6tULWTSWXrT@vger.kernel.org, AJvYcCVRDIH0tIifhEW5i18PFSssZlG50t+iJOwbVEeZMECKr7M8ex3o7julyMXQULuf/QIkiZvC54K7njU=@vger.kernel.org, AJvYcCX/k4o8aiNNxpXnZuWuYyUGUbhhZ+6rL1vyINbB8+W/XYQ9hhgrLEcrRKXmMemkCQ0mP1VaYDJgE7OegWC+L+OcPYL/5g==@vger.kernel.org
+X-Received: by 2002:a05:6e02:20c8:b0:3ce:9149:a8b1 with SMTP id
+ e9e14a558f8ab-3cf743e94f7mr258102435ab.9.1737812564542; Sat, 25 Jan 2025
+ 05:42:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250124151746.1130-3-cedricjustine.encarnacion@analog.com>
+References: <20250118202632.8352-1-josh@joshuagrisham.com> <e67bf708-be8a-4331-b250-d2f31e38536b@t-8ch.de>
+ <CAMF+Keb5UzEUeim=33JR=Vv8qK7xqGn_jjNdtZMQTFtrpKrgSA@mail.gmail.com> <d242d780-9084-45c6-8df4-a78b48b80059@t-8ch.de>
+In-Reply-To: <d242d780-9084-45c6-8df4-a78b48b80059@t-8ch.de>
+From: Joshua Grisham <josh@joshuagrisham.com>
+Date: Sat, 25 Jan 2025 14:42:32 +0100
+X-Gmail-Original-Message-ID: <CAMF+KeaGziFZasLT6KCqd_fYBTNeSPPMDMoXAFgdVLxE1tugMQ@mail.gmail.com>
+X-Gm-Features: AWEUYZlN-4j8Ncz7QrSw5z4PM54uHNs857LlrSPzllb4QPB6A2N5Mh6-VINwKmU
+Message-ID: <CAMF+KeaGziFZasLT6KCqd_fYBTNeSPPMDMoXAFgdVLxE1tugMQ@mail.gmail.com>
+Subject: Re: [PATCH v8] platform/x86: samsung-galaxybook: Add
+ samsung-galaxybook driver
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: W_Armin@gmx.de, kuurtb@gmail.com, ilpo.jarvinen@linux.intel.com, 
+	hdegoede@redhat.com, platform-driver-x86@vger.kernel.org, corbet@lwn.net, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Cedric,
+Den l=C3=B6r 25 jan. 2025 kl 13:26 skrev Thomas Wei=C3=9Fschuh <linux@weiss=
+schuh.net>:
+>
+>
+> You could designate a special error code to mean:
+> "This feature is not supported, but that's fine and continue probing".
+>
+> For example EOPNOTSUPP:
+>
+> ret =3D init_foo();
+> if (ret =3D=3D 0)
+>         priv->have_foo;
+> elif (ret !=3D EOPNOTSUPP)
+>         return ret;
+>
+> ret =3D init_bar();
+> ...
+>
+> [snip]
 
-kernel test robot noticed the following build warnings:
+Hi Thomas! This is an good suggestion and might make it seem more
+"native," which I like. One thing I am worried about, though, do you
+think it is possible that any of the other functions called by these
+various inits (registering various devices etc) could or might be
+updated in the future to legitimately return EOPNOTSUPP, in which case
+when I just pass their return code along there would be some
+unexpected behavior? (that the driver does not unload but in fact
+continues)
 
-[auto build test WARNING on a76539b293677c5c163b9285b0cd8dd420d33989]
+Or are you saying to return a positive EOPNOTSUPP instead of a
+negative -EOPNOTSUPP to help ensure that this problem would be less
+likely?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cedric-Encarnacion/dt-bindings-hwmon-pmbus-adp1050-Add-adp1051-adp1055-and-ltp8800/20250124-233047
-base:   a76539b293677c5c163b9285b0cd8dd420d33989
-patch link:    https://lore.kernel.org/r/20250124151746.1130-3-cedricjustine.encarnacion%40analog.com
-patch subject: [PATCH v4 2/3] hwmon: (pmbus/adp1050): Add support for adp1051, adp1055 and ltp8800
-config: arm-randconfig-r133-20250125 (https://download.01.org/0day-ci/archive/20250125/202501252028.3VEwAFiG-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20250125/202501252028.3VEwAFiG-lkp@intel.com/reproduce)
+Thanks again!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501252028.3VEwAFiG-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/hwmon/pmbus/adp1050.c:74:14: sparse: sparse: incorrect type in assignment (different modifiers) @@     expected struct pmbus_driver_info *info @@     got void const * @@
-   drivers/hwmon/pmbus/adp1050.c:74:14: sparse:     expected struct pmbus_driver_info *info
-   drivers/hwmon/pmbus/adp1050.c:74:14: sparse:     got void const *
-
-vim +74 drivers/hwmon/pmbus/adp1050.c
-
-    69	
-    70	static int adp1050_probe(struct i2c_client *client)
-    71	{
-    72		struct pmbus_driver_info *info;
-    73	
-  > 74		info = i2c_get_match_data(client);
-    75		if (!info)
-    76			return -ENODEV;
-    77	
-    78		return pmbus_do_probe(client, info);
-    79	}
-    80	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Joshua
