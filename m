@@ -1,215 +1,114 @@
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112962C182;
-	Sat, 25 Jan 2025 15:06:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AFA117BD6;
+	Sat, 25 Jan 2025 15:37:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737817570; cv=none; b=DsBQCRObSAQfJOERRDZJKHF5eN8XUsnPl9Mb5Ewm5oBeKNLNqSiTmpJ2ShH/axsDqsIy13A5MEr0WmcvRZCnFv91Pbr2Y7gCx1bVWdzSz2BSzEG2RO4NEj51k5fmnWmLT4nhUIPIgE2cbOLPBFvUCL3PSjlu3fJAgf9K/X2anGo=
+	t=1737819465; cv=none; b=HXGd8YV6wOnvYYILivIbKHqSgiVpGyQ71NGLcJx7dnnBRVYdWulirTsZvgxIKg+WK0BtqbzWw3mkPWFucuXvXmIM3oJATP0yClZ6wLRXuUeGaUGB63rxsBRpPa3XCY920u7TQDozkUGZh3Mkf8WQV+U/hLFltwb3AzxwZrZNGZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737817570; c=relaxed/simple;
-	bh=tvSKsD8sEeZCkG+X+SJtr99/UFgR21E7ga+5Ouv5D9k=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=aS2Wii/vol9Oylq1247ivHL9xDrqhQlM/pM0BqcGx1SW8qQYzca420AyCWOCclW55gRptgyQ9VhW+YQrh+3qFsdVDNfjRGBLNSFx9bYC2xPgb7VVtnmfBDOFpb7R7FSIlQHA3TmgsV+zUC2Uvtc9BzHi9KI9ssKuSZCxe1hqMFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lh0kC38Z; arc=none smtp.client-ip=209.85.217.47
+	s=arc-20240116; t=1737819465; c=relaxed/simple;
+	bh=E5k8aiBIEW8gUCxjZppZ//FcmUX4d7KWIpGCX6DBQZQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ccxsGfAmVdzOxe1lasYlreW1tzEuIyDUjUQrq3La4qqAy0kjIzn44JSiiFnoe88EgEME/mlQi0vyJmR5zcAqn4q2vQETyESHfXIllQkgEZCzqo0Or6hUlRWmOyPWrnPTBW8EW2Yb7ubjSrcjGFPd/U5juWBHUeVzTxqsn6CRC+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VkRzMDpn; arc=none smtp.client-ip=209.85.167.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lh0kC38Z"
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-4afe1009960so871007137.0;
-        Sat, 25 Jan 2025 07:06:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VkRzMDpn"
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3ebb2d8dac4so1979902b6e.0;
+        Sat, 25 Jan 2025 07:37:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737817568; x=1738422368; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v/kSqHNdH7P4UHdpG66YvsFnSYhhiZiiR7KZ3EeD/P8=;
-        b=Lh0kC38ZtWWhPkpw3eoMTFnipIQaV4S9YQszISCFmrOSJDJZEipubpVH9M8ZYeLJc2
-         0DhTxlIKxwhryhO0V/W5qMfflKMxrz/LwtCKUIkwOrp5P8z9P6ewfDF1MrRtDF1CZJIF
-         Db6KGmGHy5CeRgUNZbB3ELFNSFcAdnC7topo9Jz3GJ9C47RpL16GBsPUUHzi1+53NUD2
-         0Bb73Fi7MRoWPDvb2oSh6wSRS8zY+vhY8xWnhgVvUJLI3BJDQR2eqt7b/qzQeFTvPjQ5
-         YctPa5rjMSe4Pcj5jP5ySN7ipD0lnq8gkVd5CjMCcS3aiNjnmdIczC5Y9mmGGYozDcOL
-         gk1A==
+        d=gmail.com; s=20230601; t=1737819461; x=1738424261; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8Ujybwc11JlQ0Nlvbt5954Kvys6UfrAI8hcenTMOtPA=;
+        b=VkRzMDpnVFIROdpJIt6JPPGpFW5yQnyGqgJHwU46V40RKzKgo/saA3njoO+F509hBF
+         PKBeB6YdviHnPw/Ze0IERI38xE48VQqD199obcAEB6uFnAhXdL1fBzof0lHUPw5XAz6x
+         KC2YsIDbpQ1Ibbeq3+YPhKcl8SG3AjRWl87aK27WCRZclJsSJisMX3h9WWqMSihcLQi2
+         pAbbLlASJRhNhMLdVm4HtVDC8tRih3pie48FHyjYeub8pMc+mswCuVXLTIbtU2Kbh/m3
+         Bu69DXJb1kfhriGeH2NX6zCtE8m28LNwsrZ6OjRaPsOc+jFxWsTezB/mm/4d0MZyFjsK
+         lXxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737817568; x=1738422368;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=v/kSqHNdH7P4UHdpG66YvsFnSYhhiZiiR7KZ3EeD/P8=;
-        b=Qdz4ZciY5fYcMJ2IyUuqoUnaxvO0ZHr7lNYevthmlgsd1ekHGLKqYMrkCwsVjd0ahE
-         HxtfAz1lU7SMmnVc86SzXjngifGzEAa+h/JKtG/Xi8NF9+rOEU2/27EVdIALP0hU4a+4
-         IfwKLrFncEMgYsSP2uB8yts0r9OqoraauSJteokIKpmnepR8gAXsfxTknYIq+NmM7Eki
-         qrEa/m4g3HD8QvZA5dPU5o76vHRCM+lJozQBivwFIzu88kFhgbAzkcrRl+l5sjSjUVfG
-         DW5STuKpGgsyZphg/9VPttT4YK+RadH64A7RYTWnk0eTZM5ZkC3hP86mDrGZ7uOlgVFZ
-         3A+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVFc5gqYIRw0Pw5VE0ZX2g+IB8eNFoRjHokHXgpEtgmR1n4rHMtKSu6KLUoixJdy3sbrqmGY7oP7vc=@vger.kernel.org, AJvYcCXaskchW+Bi/A/f7xU0z03KEBks3Asi+wvoz96o3KOlt6PR3VKY42n9OIi6oAJSNkCBpVH06lJu7ArRRqEIPMpDuEjtGw==@vger.kernel.org, AJvYcCXchJ5tlv+RCE238d/Sc4XsmvAn+dx4IuTvS2uSWlp4W0LDLBw4b97HOpTSGfzuqIbWuV+rbnq+TMRImsRd@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcI6oAzU2V7FatiGvPV9gKe0wBl+7TlnRy+ziqnItnqfMn58DI
-	p/Nm5Qs7x97lWOBkSI5pLh98uzQGkwW6YfRsIjWnOUhLp/SdY5U8
-X-Gm-Gg: ASbGncvGOX0My+/hiBNVpP6c2Evfu5sjk/VmaILtkgmUump0pRGYp99kLph7l7ISPLm
-	E8G5/lVnPhMMY4dAlLHpvBy9cL43GK1CKZCtboqqcYiuhBnao7sPXvqePDOVl73VQHLCkD9L/lb
-	BQtaAI7ktc6KI5W00VYsTf0RKDTuR/tc6f3tr1ryO6lf0LeGNusf+cJG/U+ozc/aVJqtHCm208+
-	tjTNQW7joSZ+VajiX//CFWahOJ8afxrTU1nKzs/uZFiXn2wog031cwCrevxYz2KQc5NVnv9
-X-Google-Smtp-Source: AGHT+IFk/GRPkQa6clfhSvtBKMR1sBD5LN5ZsWGuTBod2LcG6jHT+dqojz8rDGXxjQGksKJwV43HEg==
-X-Received: by 2002:a05:6122:d91:b0:50a:318:b3c2 with SMTP id 71dfb90a1353d-51d592b3380mr32385656e0c.2.1737817567805;
-        Sat, 25 Jan 2025 07:06:07 -0800 (PST)
-Received: from localhost ([2800:bf0:82:1159:c837:3446:190b:188d])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-51e4eab083asm798327e0c.25.2025.01.25.07.06.05
+        d=1e100.net; s=20230601; t=1737819461; x=1738424261;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8Ujybwc11JlQ0Nlvbt5954Kvys6UfrAI8hcenTMOtPA=;
+        b=FZ5Ma5YqUwOm84KTbLJpo6v+eK/P/7cWhcP+90xd1ly5+oDOZ62hwifDMFjvQYw1/d
+         wy4zXzmG4tNeekI6w+CKbQvwH1m6ty2xs12cUgUkm/KalsfWaeOSVSF3o6ZHIFZbLysk
+         QGFsUazVtwPcdVCIQhF3lAFl3B2BB+XhoGnxdqy+MMKEDTdJQPAIfoq1W7cDLvVXpiBg
+         VzxzJaMHStsM4sQoCL5FomSReTUaq+OrUSa6K3/TKxLwfqs+GW4M9BjTdf2xBQLcCW5K
+         zWQLc0IlGC9QaXR2w8mxDnlTmfunO0ur0o517p0J9MDKacrPqLfoN3P1QQ09CKNRE25/
+         KuUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWlkzVGsKAwGaAn6Z+a2ni+ZRx9Fp/kOuHwg3m+ca9IzQTebkU2Sp+Iz3YdHn6ul5vpwQFNagcuLGdh8DLY@vger.kernel.org, AJvYcCXKKlzds0okovRwiRFKS7aWvxKZ0OgUMML+d6rigcxxlHTgSvDxXMws99PKU22McmZnRwuvtIgquP8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRDZcLJM3w0v3ZtK7Wg1UEZvLQgnvMkIQRs992OikQj0c1Tejz
+	rAEuW+Onw7/iOe+sdAEw849RF1YN8J4+Vql+wHFU+OAooYIDHUi4JW9qjA==
+X-Gm-Gg: ASbGncttZ91/RHsom9JJriGR500XN4gasg8gSE+sG8g0kxZGctNTFcfVf1w1Orj1dDa
+	POrO4cwro8r7+IPkXLAfaADvuybLIkehHwkKGdzk9RS77P55VhxLMJQIjeoa14W/TGWLiI5WHeJ
+	xrSTroo2ArEq+OI2pLvHS5N37/CpUmNzEnr2mOBLmJnB6pi1tRfyDR3ueGCBYr+bv4DtyyZEvYV
+	ATDXUEfE5BWuAq5NO9pM/6VYqhlUt4TfSsVDu1nLfupxGhDFEYvLP0x3pKHKcZSu6NDQjVC1f8p
+	iIz6SrOwgX5efhRmQiJarc9e3KryZlyU+BagAOD05k33aNfpSFCTM6Fzob+HpQtadSLw
+X-Google-Smtp-Source: AGHT+IEswwBLIk21B3C3okrczJfAdRWuSqYHB3Pw4rfti49qKgyKkWDO6oMXUxIxkIaKqwtCICnngg==
+X-Received: by 2002:a05:6808:4d0d:b0:3ea:3db5:ffe6 with SMTP id 5614622812f47-3f19fd31de1mr17026866b6e.31.1737819461391;
+        Sat, 25 Jan 2025 07:37:41 -0800 (PST)
+Received: from ?IPV6:2603:8080:7400:36da:dff5:4180:2562:4c1e? ([2603:8080:7400:36da:dff5:4180:2562:4c1e])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5fa8b9a1f5bsm933887eaf.30.2025.01.25.07.37.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 25 Jan 2025 07:06:06 -0800 (PST)
+        Sat, 25 Jan 2025 07:37:40 -0800 (PST)
+Message-ID: <c5ecf4a3-dbd4-4ba9-ae63-66ba396cecef@gmail.com>
+Date: Sat, 25 Jan 2025 09:37:39 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mailmap, docs: Update email to carlos.bilbao@kernel.org
+To: Jonathan Corbet <corbet@lwn.net>, carlos.bilbao@kernel.org
+Cc: avadhut.naik@amd.com, akpm@linux-foundation.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250111161110.862131-1-carlos.bilbao@kernel.org>
+ <87ikqiboqp.fsf@trenco.lwn.net>
+ <6c8457ca-c43c-4d93-8493-bf4e5b22f3df@gmail.com>
+ <87jzaqvfyt.fsf@trenco.lwn.net>
+ <de9bf5aa-ef1b-4a12-8cf7-9fe0d050e4dc@gmail.com>
+ <875xm9tg4z.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+In-Reply-To: <875xm9tg4z.fsf@trenco.lwn.net>
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 25 Jan 2025 10:06:04 -0500
-Message-Id: <D7B8WVUD7F4B.1BL2WE2BNRCX6@gmail.com>
-Cc: <W_Armin@gmx.de>, <ilpo.jarvinen@linux.intel.com>,
- <hdegoede@redhat.com>, <platform-driver-x86@vger.kernel.org>,
- <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v8] platform/x86: samsung-galaxybook: Add
- samsung-galaxybook driver
-From: "Kurt Borja" <kuurtb@gmail.com>
-To: "Joshua Grisham" <josh@joshuagrisham.com>,
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: aerc 0.19.0-0-gadd9e15e475d
-References: <20250118202632.8352-1-josh@joshuagrisham.com>
- <e67bf708-be8a-4331-b250-d2f31e38536b@t-8ch.de>
- <CAMF+Keb5UzEUeim=33JR=Vv8qK7xqGn_jjNdtZMQTFtrpKrgSA@mail.gmail.com>
-In-Reply-To: <CAMF+Keb5UzEUeim=33JR=Vv8qK7xqGn_jjNdtZMQTFtrpKrgSA@mail.gmail.com>
+Content-Transfer-Encoding: 7bit
 
-On Sat Jan 25, 2025 at 6:45 AM -05, Joshua Grisham wrote:
-> Hi Thomas, thank you for the review and taking the time to go through it =
-again!
->
-> Den fre 24 jan. 2025 kl 00:42 skrev Thomas Wei=C3=9Fschuh <linux@weisssch=
-uh.net>:
->>
->> Hi Joshua,
->>
->> looks good to me.
->> I have some nitpicks inline, but even for the current state:
->>
->> Reviewed-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
->>
->> > +static ssize_t charge_control_end_threshold_show(struct device *dev, =
-struct device_attribute *attr,
->> > +                                              char *buf)
->> > +{
->> > +     struct samsung_galaxybook *galaxybook =3D
->> > +             container_of(attr, struct samsung_galaxybook, charge_con=
-trol_end_threshold_attr);
->> > +     u8 value;
->> > +     int err;
->> > +
->> > +     err =3D charge_control_end_threshold_acpi_get(galaxybook, &value=
-);
->> > +     if (err)
->> > +             return err;
->> > +
->> > +     /*
->> > +      * device stores "no end threshold" as 0 instead of 100;
->> > +      * if device has 0, report 100
->> > +      */
->> > +     if (value =3D=3D 0)
->> > +             value =3D 100;
->> > +
->> > +     return sysfs_emit(buf, "%u\n", value);
->> > +}
->>
->> For the next revision you should be able to use the power supply
->> extension framework.
->>
->
-> I looked around a bit in the mailing lists and saw some of the
-> proposed patches now which add power_supply_sysfs_add_extension() and
-> similar functions, but do not see them yet in for-next of the pdx86
-> repository. Do you think it makes more sense to wait on
-> samsung-galaxybook and then add these changes from the start, or go
-> ahead with samsung-galaxybook and then update it after with using the
-> new framework?
->
->> > +
->> > +#define gb_pfmode(profile) galaxybook->profile_performance_modes[prof=
-ile]
->>
->> The usage sites of this macro don't look like regular C syntax.
->> This is iffy and can confuse some code parsers.
->> Any chance it could be reworked to look more regular?
->>
->
-> Good point, and to be honest the only reason for this was to give me a
-> way to keep all of the lines below 100 characters :) Now I have just
-> made it a local pointer within galaxybook_platform_profile_probe in
-> order to achieve the same effect, so hopefully it looks and feels more
-> "standard" now, but please take a look when I eventually send this
-> later as v9 !
->
->> > +static const struct platform_profile_ops galaxybook_platform_profile_=
-ops =3D {
->> > +     .probe =3D galaxybook_platform_profile_probe,
->> > +     .profile_get =3D galaxybook_platform_profile_get,
->> > +     .profile_set =3D galaxybook_platform_profile_set,
->> > +};
->> > +
->> > +static int galaxybook_platform_profile_init(struct samsung_galaxybook=
- *galaxybook)
->> > +{
->> > +     struct device *platform_profile_dev;
->> > +     u8 performance_mode;
->> > +     int err;
->> > +
->> > +     /* check that performance mode appears to be supported on this d=
-evice */
->> > +     err =3D performance_mode_acpi_get(galaxybook, &performance_mode)=
-;
->> > +     if (err) {
->> > +             dev_dbg(&galaxybook->platform->dev,
->> > +                     "failed to get initial performance mode, error %=
-d\n", err);
->> > +             return 0;
->> > +     }
->> > +
->> > +     galaxybook->has_performance_mode =3D true;
->>
->> This should be set *after* devm_platform_profile_register() succeeded, n=
-o?
->> I would prefer it slightly if the flags where set by galaxybook_probe()
->> instead of the _init() functions.
->>
->
-> Here it gets a bit tricky. Originally, I had much of the logic from
-> galaxybook_platform_profile_probe in this
-> galaxybook_platform_profile_init function, as I really wanted to
-> evaluate if all of the ACPI methods were working and it was possible
-> to map at least one Samsung "performance mode" to a profile, but
-> feedback from Kurt (which I agree with) is that it is within the probe
-> that should really be handling this kind of logic.
->
-> At that point I decided that it was ONLY success of
-> performance_mode_acpi_get that I am now using to determine
-> has_performance_mode, so I set it immediately after more from a
-> "self-documenting" perspective.
->
-> Now the code works so that if galaxybook_platform_profile_probe fails,
-> then that failure will bubble up to galaxybook_probe which will then
-> cause the entire driver to unload ... so it will not matter anyway if
-> or where the value was set, the module will no longer even be loaded
-> :)
+Hello,
 
-Now I understand the original problem better. I didn't consider this
-possibility when designing the callback.
+On 1/20/25 13:54, Jonathan Corbet wrote:
+> Carlos Bilbao <carlos.bilbao.osdev@gmail.com> writes:
+>
+>> By records I meant mappings of older to newer emails, which in my head
+>> is .mailmap purpose with version control. Do you think some of the
+>> mappings as I've added them are redundant and/or problematic?
+> My point is that this line, which is in .mailmap now (and which your
+> patch preserves):
+>
+>> Carlos Bilbao <carlos.bilbao.osdev@gmail.com> <carlos.bilbao@amd.com>
+> ...says to map the @amd.com address to the gmail address.  But this new
+> line:
+>
+>> Carlos Bilbao <carlos.bilbao@kernel.org> <carlos.bilbao@amd.com>
+> says to map @amd.com to @kernel.org instead.  At best, this is
+> nonsensical; at worst, you may not get the full remapping of @amd.com
+> that you seem to want.  So ... why leave that line in place?
 
-While this is a fine solution I believe Thomas' EOPNOTSUPP solution is
-the way to go. I think positive err value would be the safest but you
-should wait for the advice of someone with more experience.
 
-Aside from that I really like how the whole platform profile sections
-works now. Good design choices :)
+That makes sense, thanks forclarifying. Sending out a patch correcting this
+and updating myemail in MAINTAINERS now. Enjoy the weekend!
+>
+> Thanks,
+>
+> jon
 
-~ Kurt
-
-> <snip>
+Regards,
+Carlos
