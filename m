@@ -1,230 +1,122 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08210207E0F;
-	Sat, 25 Jan 2025 12:26:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78EC207E18;
+	Sat, 25 Jan 2025 12:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737807991; cv=none; b=IQnrfbqWHMdXbPRWzjSS76woREhO9cAPXCJv5c4U7DtqSHxpUuit/IPLjCkry4+Au+1pbyPrBH2s4ZyEItJTlzUo0OovMG4tC8PYd2WtXzIAEWgOT8L7yjwT2w3nDU3ZF6uobcgsfrTAaxm6K/Etf5BK390lrHy+FyYTumgU5Do=
+	t=1737809043; cv=none; b=O9B0fo1e1f+uDRu1dAfxVqzPlzWw3zIowTsB6pDGEkJguoI3VT6C2/6/cqSEwFlmlM6bUoaQr7su2RreoLW5mVYnP1OG5PfgLJZGhxwVAjswcqkh9O+lMnAEe1t9V00yLV2mjb7Dcezu191o3/CCkDZrUniHco8aZu8DwJguanY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737807991; c=relaxed/simple;
-	bh=5WsKxLsrhYzHlb2Zxo+QF4yxwYwUsN6JWhMif8mtfTU=;
+	s=arc-20240116; t=1737809043; c=relaxed/simple;
+	bh=NlaAKhY+IZwJhCTyPYWy+HGapQ1kdZ3i1g6TA8GP9Qc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MHoYdHIIs9uAj+6dqoPxrKvYDG0BDaDqa61K6U7shrHKzk3hFN5/md13bE0ce3wp9IAUWXzwP4CpmhkclbkttCkBuY3ziSEqM4NaZjFlYj26D84OrhXbw+0ZJzdolLzAk8dN4yI4ZHeIfzhsfJddL/XewUcqey/eCHl5Ao/2H4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=ccILfgOb; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=mhqwsyZKRBbSG3oN3HMZiHUk6Hhd7mnzfoa9uH+vEtiM/5Yr0WkCc/hRi0RdqgcYqIY+PtASV1WulK7MiISTwkN3DEfj7IMbgeN7jhKhtudLsMEkIx0ruXMguzK8KcGurbdYLoYiCkP01uHfK0ESG06wrv+X1h6cJYfedpJCDFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PxK0sMKU; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="ccILfgOb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1737807986;
-	bh=5WsKxLsrhYzHlb2Zxo+QF4yxwYwUsN6JWhMif8mtfTU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ccILfgObyXrUG1/jrruqgK10r4Yl3czyX6JinM3ZOtdSpURdZ/0rXcZ08NuXcdw2w
-	 WuDOULfyzY4oPfMB5FCR27VnvSWNu1uS4ttkgOgF4fTml5zwlhrNY6LlYmoLOOh5ku
-	 /Z0IskNQTwXFTZLeUvRrzSfHZknCmPAbPBH8vAI4=
-Date: Sat, 25 Jan 2025 13:26:26 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Joshua Grisham <josh@joshuagrisham.com>
-Cc: W_Armin@gmx.de, kuurtb@gmail.com, ilpo.jarvinen@linux.intel.com, 
-	hdegoede@redhat.com, platform-driver-x86@vger.kernel.org, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8] platform/x86: samsung-galaxybook: Add
- samsung-galaxybook driver
-Message-ID: <d242d780-9084-45c6-8df4-a78b48b80059@t-8ch.de>
-References: <20250118202632.8352-1-josh@joshuagrisham.com>
- <e67bf708-be8a-4331-b250-d2f31e38536b@t-8ch.de>
- <CAMF+Keb5UzEUeim=33JR=Vv8qK7xqGn_jjNdtZMQTFtrpKrgSA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PxK0sMKU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737809042; x=1769345042;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NlaAKhY+IZwJhCTyPYWy+HGapQ1kdZ3i1g6TA8GP9Qc=;
+  b=PxK0sMKUkHnBZSgN0X58EW67Cr0Msygtba7zGeO4SBuOderSJP6dcCCF
+   QMGIJb2qzaMK8eVPUU0yk2tkb64zcWciIINmt1UWsY6ISOPCjE2/O6CGp
+   6h1dM/toBTqoWMGmaNWnu9kB7RShnU5MIx7p0Oyk0os4fDCD1KAEnc5xA
+   86T8DZ+fHPurTL+YKPXigmMTvH+fLHfkRot/qqgHvTfPevwxFsE+9Zgtk
+   qdVX7nXkv7dSj9bVXHjwychtlEHa31zw9Lll5YNvqm7HCptWPwOoaQTrn
+   EuZY0JhP23vXPmU+WTqGPjtnGa8cNzcbImWVTTdra1HFu9LZ9Pv2odUTi
+   g==;
+X-CSE-ConnectionGUID: K74TjVHtT7ezNlG1E0aBMg==
+X-CSE-MsgGUID: 16e0MM14RoWe+ZqzvxW8LQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11326"; a="37590023"
+X-IronPort-AV: E=Sophos;i="6.13,234,1732608000"; 
+   d="scan'208";a="37590023"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2025 04:44:01 -0800
+X-CSE-ConnectionGUID: aZKkiA7rSxWOWJZF61T1sw==
+X-CSE-MsgGUID: Qskw6ZrORVSq3BsHg4s8JQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="131311353"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 25 Jan 2025 04:43:57 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tbfVz-000doF-1O;
+	Sat, 25 Jan 2025 12:43:55 +0000
+Date: Sat, 25 Jan 2025 20:43:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Radu Sabau <radu.sabau@analog.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
+	Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v4 2/3] hwmon: (pmbus/adp1050): Add support for adp1051,
+ adp1055 and ltp8800
+Message-ID: <202501252028.3VEwAFiG-lkp@intel.com>
+References: <20250124151746.1130-3-cedricjustine.encarnacion@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMF+Keb5UzEUeim=33JR=Vv8qK7xqGn_jjNdtZMQTFtrpKrgSA@mail.gmail.com>
+In-Reply-To: <20250124151746.1130-3-cedricjustine.encarnacion@analog.com>
 
-On 2025-01-25 12:45:02+0100, Joshua Grisham wrote:
-> Hi Thomas, thank you for the review and taking the time to go through it again!
-> 
-> Den fre 24 jan. 2025 kl 00:42 skrev Thomas Weißschuh <linux@weissschuh.net>:
-> >
-> > Hi Joshua,
-> >
-> > looks good to me.
-> > I have some nitpicks inline, but even for the current state:
-> >
-> > Reviewed-by: Thomas Weißschuh <linux@weissschuh.net>
-> >
-> > > +static ssize_t charge_control_end_threshold_show(struct device *dev, struct device_attribute *attr,
-> > > +                                              char *buf)
-> > > +{
-> > > +     struct samsung_galaxybook *galaxybook =
-> > > +             container_of(attr, struct samsung_galaxybook, charge_control_end_threshold_attr);
-> > > +     u8 value;
-> > > +     int err;
-> > > +
-> > > +     err = charge_control_end_threshold_acpi_get(galaxybook, &value);
-> > > +     if (err)
-> > > +             return err;
-> > > +
-> > > +     /*
-> > > +      * device stores "no end threshold" as 0 instead of 100;
-> > > +      * if device has 0, report 100
-> > > +      */
-> > > +     if (value == 0)
-> > > +             value = 100;
-> > > +
-> > > +     return sysfs_emit(buf, "%u\n", value);
-> > > +}
-> >
-> > For the next revision you should be able to use the power supply
-> > extension framework.
-> >
-> 
-> I looked around a bit in the mailing lists and saw some of the
-> proposed patches now which add power_supply_sysfs_add_extension() and
-> similar functions, but do not see them yet in for-next of the pdx86
-> repository. Do you think it makes more sense to wait on
-> samsung-galaxybook and then add these changes from the start, or go
-> ahead with samsung-galaxybook and then update it after with using the
-> new framework?
+Hi Cedric,
 
-The API is power_supply_register_extension().
-Indeed this is not yet part of the pdx86/for-next branch, as that is
-still based upon v6.13-rc1 while power_supply_register_extension() will
-only be available with v6.14-rc1 (to be released next Sunday).
-However we are currently in the middle of the merge window for v6.14.
-So your driver won't make it into v6.14 in any case and by the time it
-can be applied to pdx86/for-next that branch will be based on v6.14-rc1.
+kernel test robot noticed the following build warnings:
 
-So either wait a week or merge in power-supply/for-next manually.
+[auto build test WARNING on a76539b293677c5c163b9285b0cd8dd420d33989]
 
-Or you decide that I am annoying to push you to adopt my own feature and
-just go without it :-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Cedric-Encarnacion/dt-bindings-hwmon-pmbus-adp1050-Add-adp1051-adp1055-and-ltp8800/20250124-233047
+base:   a76539b293677c5c163b9285b0cd8dd420d33989
+patch link:    https://lore.kernel.org/r/20250124151746.1130-3-cedricjustine.encarnacion%40analog.com
+patch subject: [PATCH v4 2/3] hwmon: (pmbus/adp1050): Add support for adp1051, adp1055 and ltp8800
+config: arm-randconfig-r133-20250125 (https://download.01.org/0day-ci/archive/20250125/202501252028.3VEwAFiG-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20250125/202501252028.3VEwAFiG-lkp@intel.com/reproduce)
 
-> > > +
-> > > +#define gb_pfmode(profile) galaxybook->profile_performance_modes[profile]
-> >
-> > The usage sites of this macro don't look like regular C syntax.
-> > This is iffy and can confuse some code parsers.
-> > Any chance it could be reworked to look more regular?
-> >
-> 
-> Good point, and to be honest the only reason for this was to give me a
-> way to keep all of the lines below 100 characters :) Now I have just
-> made it a local pointer within galaxybook_platform_profile_probe in
-> order to achieve the same effect, so hopefully it looks and feels more
-> "standard" now, but please take a look when I eventually send this
-> later as v9 !
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501252028.3VEwAFiG-lkp@intel.com/
 
-Sounds good.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hwmon/pmbus/adp1050.c:74:14: sparse: sparse: incorrect type in assignment (different modifiers) @@     expected struct pmbus_driver_info *info @@     got void const * @@
+   drivers/hwmon/pmbus/adp1050.c:74:14: sparse:     expected struct pmbus_driver_info *info
+   drivers/hwmon/pmbus/adp1050.c:74:14: sparse:     got void const *
 
-> > > +static const struct platform_profile_ops galaxybook_platform_profile_ops = {
-> > > +     .probe = galaxybook_platform_profile_probe,
-> > > +     .profile_get = galaxybook_platform_profile_get,
-> > > +     .profile_set = galaxybook_platform_profile_set,
-> > > +};
-> > > +
-> > > +static int galaxybook_platform_profile_init(struct samsung_galaxybook *galaxybook)
-> > > +{
-> > > +     struct device *platform_profile_dev;
-> > > +     u8 performance_mode;
-> > > +     int err;
-> > > +
-> > > +     /* check that performance mode appears to be supported on this device */
-> > > +     err = performance_mode_acpi_get(galaxybook, &performance_mode);
-> > > +     if (err) {
-> > > +             dev_dbg(&galaxybook->platform->dev,
-> > > +                     "failed to get initial performance mode, error %d\n", err);
-> > > +             return 0;
-> > > +     }
-> > > +
-> > > +     galaxybook->has_performance_mode = true;
-> >
-> > This should be set *after* devm_platform_profile_register() succeeded, no?
-> > I would prefer it slightly if the flags where set by galaxybook_probe()
-> > instead of the _init() functions.
-> >
-> 
-> Here it gets a bit tricky. Originally, I had much of the logic from
-> galaxybook_platform_profile_probe in this
-> galaxybook_platform_profile_init function, as I really wanted to
-> evaluate if all of the ACPI methods were working and it was possible
-> to map at least one Samsung "performance mode" to a profile, but
-> feedback from Kurt (which I agree with) is that it is within the probe
-> that should really be handling this kind of logic.
-> 
-> At that point I decided that it was ONLY success of
-> performance_mode_acpi_get that I am now using to determine
-> has_performance_mode, so I set it immediately after more from a
-> "self-documenting" perspective.
-> 
-> Now the code works so that if galaxybook_platform_profile_probe fails,
-> then that failure will bubble up to galaxybook_probe which will then
-> cause the entire driver to unload ... so it will not matter anyway if
-> or where the value was set, the module will no longer even be loaded
-> :)
-> 
-> Regarding setting all of these "feature flags" in galaxybook_probe, I
-> think this will be even more tricky now that I have refactored to
-> actually fail the galaxybook_probe for "valid failures" (e.g. I have
-> detected that the device does seem to support kbd_backlight, for
-> example (the ACPI method to get the brightness gave an expected
-> result) but there was some kind of failure when registering the LED
-> class... which, yes, in this case I would guess we DO want that it
-> should fail and the driver should be unloaded, because something that
-> definitely SHOULD work has failed ---- that is the thinking, now,
-> anyway)
-> 
-> These flags are mostly being used to control behavior after the driver
-> has probed and the user is interacting with various things from the
-> userspace (e.g. pressing hotkeys) -- we don't want the driver to try
-> and use features that we detected during the probe are not supported
-> on the particular device the driver is running on.
-> 
-> So essentially I want that the various init() functions called from
-> galaxybook_probe will return 0 (success) even if the feature is not
-> supported, but internally within that respective init() function I may
-> have disabled the feature (has_kbd_backlight=false for example).
-> Because of this then I think it would be a bit tricky to try and
-> implement setting the flags back in galaxybook_probe (e.g. need to
-> create some kind of custom return facility that indicates if there was
-> a "real error" vs if the feature is not supported but the probe should
-> continue?). To me it sounds a bit more complicated and potentially
-> "hacky" but if you have a good suggestion on how this could be done in
-> a better way then I would most definitely welcome it!
-> 
-> The only thing that comes immediately to mind is that I could pass a
-> pointer to the flags in the init method (e.g. "err =
-> galaxybook_kbd_backlight_init(galaxybook,
-> &galaxybook->has_kdb_backlight);" within galaxybook_probe) but it
-> feels more confusing and kind of same-same result compared to what
-> there is now (that the logic for setting the value would still be
-> within the init functions anyway....)
-> 
-> Past ALL of that I do not have any strong opinions on if setting
-> has_performance_mode should come before or after
-> devm_platform_profile_register and am fine to change it if it should
-> be changed. As I mentioned before, I did it this way as it felt more
-> "self-documenting" and also keeping in mind that if
-> devm_platform_profile_register returns nonzero then the whole driver
-> will be unloaded anyway so it would not matter :)
+vim +74 drivers/hwmon/pmbus/adp1050.c
 
-You could designate a special error code to mean:
-"This feature is not supported, but that's fine and continue probing".
+    69	
+    70	static int adp1050_probe(struct i2c_client *client)
+    71	{
+    72		struct pmbus_driver_info *info;
+    73	
+  > 74		info = i2c_get_match_data(client);
+    75		if (!info)
+    76			return -ENODEV;
+    77	
+    78		return pmbus_do_probe(client, info);
+    79	}
+    80	
 
-For example EOPNOTSUPP:
-
-ret = init_foo();
-if (ret == 0)
-	priv->have_foo;
-elif (ret != EOPNOTSUPP)
-	return ret;
-
-ret = init_bar();
-...
-
-[snip]
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
