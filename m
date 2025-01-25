@@ -1,185 +1,126 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28AD2FC0A;
-	Sat, 25 Jan 2025 21:16:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D10136326;
+	Sat, 25 Jan 2025 22:44:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737839793; cv=none; b=h/S2nyQOaJGg9GV+ltHIBrs3GJYUmLDxogK11XAdFEFz5zha1C21LAnCi/Na7Cq/JePhyDJnlSkYjP9h1NXLd4gWsaQ2WBTHtuYt7cf704w9lnVBBhIm/bruZHmWBD/8x5vpmNcb9bUTW49yZAqgJcrGqCgu6Ta2L0woREWYBIQ=
+	t=1737845102; cv=none; b=SEdP4me6R+ih2Hin/iZgooYNe8Lg9NJr/LD6EYE9UOr2DqqciIF6v8Q8SPoz4XG63GuSicG5nNPDwtPtU/HmsAzwKXYBjWhI+whofkFhkNv7UQWChdOT3+CK91t0K+iK+yEAkJSJ1ECtxvT3/dws0QUm8TzYaazIfAmGxf9x5b0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737839793; c=relaxed/simple;
-	bh=SDFlf87Z4JWEowvZf5Iq5Pm0A9BrVo26wj1wJxRWjqk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OnOcaxKTpRC/TPLFLXdxBsxITRVLdJ8lvB4u4Kn6Dva7dssN52O8gecoHbN8WTOkoAjpyX0k+3ezaJPqyShKQaB3MiXIIHLw/vorHpSfESUA9/LxL9FJiDK69KczParYC0rccs+iTmREcf1P50J3GhjiMTMfe47W1Nk1hO/QbBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PRUuz4gM; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1737845102; c=relaxed/simple;
+	bh=DeQLUVmZC2Rc3T0+MevSflhr0WmfIZJsddHgeFzZfDg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r+njPxo/CNoqf+SM2MvTgjha8knkvS/sR7MyReycop0c8oW8Efn5SAGJUv9ZATShjLIJqyEndhHrI6Lstg9ifJrSeAPHFgk2VV3XuRZEJJRAI6PzZqJ4x1+xnaihADWF4Ph6m9jgvZc5dUJE9Ygustgagqpr9RDuj5M3Ck9S9EA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GHCqjFya; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PRUuz4gM"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43618283d48so22640415e9.1;
-        Sat, 25 Jan 2025 13:16:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737839790; x=1738444590; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0ze29MjfXx3RmpsDYVSXrKwETuiQHNIWKeyGusIsqrg=;
-        b=PRUuz4gMG1E2wJlLvKZ0D34ufZpipp3fpt1iE9xFqym7kdGAW9hAazKprlCh39bEJT
-         Pe9ZmFxw2ZlpDgLo/hkWoz6iMa5B7OPnwCfzcSjJUSx1Pb1/wWuGnEl63nogZDtri3Mj
-         KtMdNcjxy0q1cm1o/K05NyC/9iSpO2+4xc7b7YEP/6IaZv8Myv45QeHzoH1WwzWe6XOW
-         MPioCCv4ZK+C7sM1Y0KQXlyfx0dRJoffvjCr+iwyIVCn3Qp6wd4/TJeS3AZs8WDJ21zU
-         +gIP+jD4XncnVEFBPwjNBhovTeDItlLr/I1kXFSmMXJa3mH9WoSjD8YUijHL5xruGD4Z
-         L4jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737839790; x=1738444590;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0ze29MjfXx3RmpsDYVSXrKwETuiQHNIWKeyGusIsqrg=;
-        b=ukYINQkSjZWHRK8txa0YJo8eKHQ0iR+enpT6bddv/51j05cjZIMPlpWsrn/wL3yu7c
-         Vio7p67+DEVuecMztFqvSUesyJ3T1+N2Duf+JzvePNBUN/a0V8XGnzCnmggj7RGPM9lP
-         1thZogXvfBZYTVC0GCef73Kt3AkRx/zir0lDU8HvoERNROOPOrUhhbypDXsRiAr1ICrH
-         RyL2qSyzGRMnS0fb9HFZYYa9isLnppk2ZUmsiH1FIJ2ws91k3Mf9VsAc1aRDhfDYBWIS
-         s0jCpP4mvmc/xBij5Ks73mRi64XBHmvFs4RrSV7mKMf/52bL78LLKOY6t977NfhcDVAW
-         7cXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUvG6FTo4zXkR8KjdZFCVCLV/8tcug6kT4V/CU7UiuJ3iDxSoeqkk5JlkdO82vjPNo9IAKfbzOkgqxA@vger.kernel.org, AJvYcCVB3KBTCtbd/zFgBswSr9qoKV9VcIbrSF0maihp98QiQAF4j+wkdN8Eljj79K026j4wS8lpsOLJofE/iL0FJQ==@vger.kernel.org, AJvYcCW8IBF27XvwQVo48uMtxa/V/OSDx5wg1/fmZbvkqIiyzYlGXbbsr2rsIzDF5n5FE3oL4KeRFllZpNlhZKNzg75OwFUKS6DJ@vger.kernel.org, AJvYcCX8RAyfNO9dSZ/aKUP2NKqdEhMmZHnzwa8RvehldZ14oGy9H+aQiNxBDTkrgUrka6E4xUpCI/h5LWd6v7wf@vger.kernel.org, AJvYcCXPlx58JRf5zjZN5cBg3sdxezomCOfTZrf6iFE/YitwmfR5MJsCzlEMN7zJfcGUUDpKyCLkAPZwh84S@vger.kernel.org, AJvYcCXy4wC8Vsw7mUG2YCLHQzMeDbWICtPSQ4Hwkq4ppHZ7q03S3OfI3SKBuPvKDV2HZSXzZ3t5gUw55YdpGTHy@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoiQ2aF6EgXXZHOwlx4Typ8km4MGvQ0gLbuoI+vuvRe8KCGiax
-	d9viHbZHjDlfTXcSPV3Lw5tSIX9O6Xb2lzSWHvuxvMLUAMkldU2b
-X-Gm-Gg: ASbGncuW70CpBWP8jyXYTaI35NCX6PG7puFtbyQ8DgjTjDpKgIp5bLk+ERNdsCZlCEX
-	xHFBy15mGj3h5KHQ6QiTE5ZsdHvRjLftFgDQiu/f6Hs0NOAUqEu6sv/9kjo7bwY/UZxp6H/FkmM
-	6+BC7S0U4f5hYiDPQFdvHILBrEOEZnmAUYY+wwbm/q2E2jy+3C7YM/KfBSt10kTEqoKH2e/VLzh
-	DX7mPONH/xdCLUYYJLQ8SJXXp0AkGdCY4E/NJzqQgGhuUXlAQvBC/8mMyLxfaSWGX2UM73DeiqQ
-	5OIxCp6nap8ybt28kobjuStLLNlHgxwNdq1cB/VuQX/Kvmc=
-X-Google-Smtp-Source: AGHT+IELfmGSKKYpbr06m9ndT0x2MR7VyHmuIe6ybmA2w3pnO4RNREAKAULK2CdBNm2M6H6RrDIv/w==
-X-Received: by 2002:a05:600c:138a:b0:435:194:3cdf with SMTP id 5b1f17b1804b1-438914292demr321258325e9.19.1737839790030;
-        Sat, 25 Jan 2025 13:16:30 -0800 (PST)
-Received: from ?IPV6:2a02:a58:920d:7400:ab8f:6de:fa7e:730a? ([2a02:a58:920d:7400:ab8f:6de:fa7e:730a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c2a1c3c8csm6626617f8f.90.2025.01.25.13.16.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 25 Jan 2025 13:16:29 -0800 (PST)
-Message-ID: <91eadb0b-d898-43ca-9c10-48363e1c3e7a@gmail.com>
-Date: Sat, 25 Jan 2025 23:16:27 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GHCqjFya"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737845100; x=1769381100;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DeQLUVmZC2Rc3T0+MevSflhr0WmfIZJsddHgeFzZfDg=;
+  b=GHCqjFyaTxUwOX7t3w5D0J6Vk+ML6dIdauUOdeGRUE6jZT6pt2ACOMHU
+   pvNgFPrgjqufdhU/KO0Voa5OwPVejyzGpnrH36toQtWX06rfoXMihjVaU
+   tAa3Sx6afj2LPaf0yixdY00FiK4pvCE48VWPOcbM1I3JNiieCUO2Q5Uay
+   y37BV5uvpi/7swDq6rfwV7vjXL2fh+txyxOnc9Fn4/kJN/+RY6+eHesqa
+   7Q2aj8ybM69zrdRGr/qCN3ER97h3GtrDnH3etfL5/oa27Nll3j1+q9zFb
+   qZYH+VcBQRv4jzHPNDjfng/lQ0LX+EaDF1TOh80j8yJSCI68hVmNFtPi5
+   w==;
+X-CSE-ConnectionGUID: uRUScuo9SyukJrfZbOBPUg==
+X-CSE-MsgGUID: 49yjf3LySBiSEB9gV7U4iw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11326"; a="42010911"
+X-IronPort-AV: E=Sophos;i="6.13,235,1732608000"; 
+   d="scan'208";a="42010911"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jan 2025 14:44:59 -0800
+X-CSE-ConnectionGUID: fLHmbytyS/ySgrxbDisPsw==
+X-CSE-MsgGUID: 15lFYMFmS4ydpvrZwrdT+A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="131380871"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 25 Jan 2025 14:44:56 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tbotZ-000eJT-2s;
+	Sat, 25 Jan 2025 22:44:53 +0000
+Date: Sun, 26 Jan 2025 06:44:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
+Subject: Re: [PATCH 2/2] hwmon: (pmbus/lt3074): add support for lt3074
+Message-ID: <202501260605.Ad7sJxQM-lkp@intel.com>
+References: <20250124-upstream-lt3074-v1-2-7603f346433e@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/6] module: Introduce hash-based integrity checking
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
- Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
- Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
- Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>,
- Daniel Gomez <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>,
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: =?UTF-8?Q?Fabian_Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>,
- Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>,
- kpcyrd <kpcyrd@archlinux.org>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-modules@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20250120-module-hashes-v2-0-ba1184e27b7f@weissschuh.net>
-Content-Language: en-US
-From: =?UTF-8?Q?C=C3=A2ju_Mihai-Drosi?= <mcaju95@gmail.com>
-In-Reply-To: <20250120-module-hashes-v2-0-ba1184e27b7f@weissschuh.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250124-upstream-lt3074-v1-2-7603f346433e@analog.com>
 
-On 1/20/25 19:44, Thomas Weißschuh wrote:
-> The current signature-based module integrity checking has some drawbacks
-> in combination with reproducible builds:
-> Either the module signing key is generated at build time, which makes
-> the build unreproducible, or a static key is used, which precludes
-> rebuilds by third parties and makes the whole build and packaging
-> process much more complicated.
-> Introduce a new mechanism to ensure only well-known modules are loaded
-> by embedding a list of hashes of all modules built as part of the full
-> kernel build into vmlinux.
-> 
-> Interest has been proclaimed by NixOS, Arch Linux, Proxmox, SUSE and the
-> general reproducible builds community.
-> 
-> To properly test the reproducibility in combination with CONFIG_INFO_BTF
-> another patch is needed:
-> "[PATCH bpf-next] kbuild, bpf: Enable reproducible BTF generation" [0]
-> (If you happen to test that one, please give some feedback)
-> 
-> Questions for current patch:
-> * Naming
-> * Can the number of built-in modules be retrieved while building
->    kernel/module/hashes.o? This would remove the need for the
->    preallocation step in link-vmlinux.sh.
-> 
-> Further improvements:
-> * Use a LSM/IMA/Keyring to store and validate hashes
-> * Use MODULE_SIG_HASH for configuration
-> * UAPI for discovery?
-> 
-> [0] https://lore.kernel.org/lkml/20241211-pahole-reproducible-v1-1-22feae19bad9@weissschuh.net/
+Hi Cedric,
 
-Hello,
+kernel test robot noticed the following build warnings:
 
-Thank you for your work on helping to enable kernel lockdown coupled 
-with reproducible builds.
+[auto build test WARNING on a76539b293677c5c163b9285b0cd8dd420d33989]
 
-This may be out scope for this patch series, however I think it is worth 
-considering: How does one include hashes of modules that have not been 
-built as part of the kernel into the array? For example a DKMS module or 
-NVIDIA driver?
+url:    https://github.com/intel-lab-lkp/linux/commits/Cedric-Encarnacion/dt-bindings-trivial-devices-add-lt3074/20250124-234209
+base:   a76539b293677c5c163b9285b0cd8dd420d33989
+patch link:    https://lore.kernel.org/r/20250124-upstream-lt3074-v1-2-7603f346433e%40analog.com
+patch subject: [PATCH 2/2] hwmon: (pmbus/lt3074): add support for lt3074
+config: hexagon-randconfig-r073-20250126 (https://download.01.org/0day-ci/archive/20250126/202501260605.Ad7sJxQM-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 19306351a2c45e266fa11b41eb1362b20b6ca56d)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250126/202501260605.Ad7sJxQM-lkp@intel.com/reproduce)
 
-A solution that may be worth considering would be to include a list of 
-modules hashes into the kernel command-line. It may be even worth 
-considering keeping a dynamic array of hashes that can be locked at a 
-given point in time?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501260605.Ad7sJxQM-lkp@intel.com/
 
-All the best,
-Mihai
+All warnings (new ones prefixed by >>):
 
-> 
-> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> ---
-> Changes in v2:
-> - Drop RFC state
-> - Mention interested parties in cover letter
-> - Expand Kconfig description
-> - Add compatibility with CONFIG_MODULE_SIG
-> - Parallelize module-hashes.sh
-> - Update Documentation/kbuild/reproducible-builds.rst
-> - Link to v1: https://lore.kernel.org/r/20241225-module-hashes-v1-0-d710ce7a3fd1@weissschuh.net
-> 
-> ---
-> Thomas Weißschuh (6):
->        kbuild: add stamp file for vmlinux BTF data
->        module: Make module loading policy usable without MODULE_SIG
->        module: Move integrity checks into dedicated function
->        module: Move lockdown check into generic module loader
->        lockdown: Make the relationship to MODULE_SIG a dependency
->        module: Introduce hash-based integrity checking
-> 
->   .gitignore                                   |  1 +
->   Documentation/kbuild/reproducible-builds.rst |  5 ++-
->   Makefile                                     |  8 ++++-
->   include/asm-generic/vmlinux.lds.h            | 11 ++++++
->   include/linux/module.h                       |  8 ++---
->   include/linux/module_hashes.h                | 17 +++++++++
->   kernel/module/Kconfig                        | 21 ++++++++++-
->   kernel/module/Makefile                       |  1 +
->   kernel/module/hashes.c                       | 52 +++++++++++++++++++++++++++
->   kernel/module/internal.h                     |  8 +----
->   kernel/module/main.c                         | 54 +++++++++++++++++++++++++---
->   kernel/module/signing.c                      | 24 +------------
->   scripts/Makefile.modfinal                    | 10 ++++--
->   scripts/Makefile.vmlinux                     |  5 +++
->   scripts/link-vmlinux.sh                      | 31 +++++++++++++++-
->   scripts/module-hashes.sh                     | 26 ++++++++++++++
->   security/lockdown/Kconfig                    |  2 +-
->   17 files changed, 238 insertions(+), 46 deletions(-)
-> ---
-> base-commit: 2cd5917560a84d69dd6128b640d7a68406ff019b
-> change-id: 20241225-module-hashes-7a50a7cc2a30
-> 
-> Best regards,
+   In file included from drivers/hwmon/pmbus/lt3074.c:8:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/hwmon/pmbus/lt3074.c:103:34: warning: unused variable 'lt3074_of_match' [-Wunused-const-variable]
+     103 | static const struct of_device_id lt3074_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~
+   2 warnings generated.
 
+
+vim +/lt3074_of_match +103 drivers/hwmon/pmbus/lt3074.c
+
+   102	
+ > 103	static const struct of_device_id lt3074_of_match[] = {
+   104		{ .compatible = "adi,lt3074" },
+   105		{}
+   106	};
+   107	MODULE_DEVICE_TABLE(of, lt3074_of_match);
+   108	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
