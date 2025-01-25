@@ -1,97 +1,126 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660FE41C6A;
-	Sat, 25 Jan 2025 03:14:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1ACE4AEE2;
+	Sat, 25 Jan 2025 04:44:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737774863; cv=none; b=oZk7BVnXeg8Qt9hZCfQGhlC0Qmq1VfvYvwOsvsQenvt9rVNFzfi+1t3K746HkG4buSrkVNpJeStRZGBWPmA1vUF8zMmsnQ2Ujmcyno2BtRVrNUX7QYmrC9rNt0tbD/LFBtRxG+Xs/O88JbRVNuEuAn2sP1ZTtskW63wivtV/feM=
+	t=1737780260; cv=none; b=IXebyZmLe5xSZRia9ir0+WojtsHNyjLMi4JNTKVaTP6idEr5qfcKRoZes41DnJE65BhVvqyOXfpbHRLofTzJs1UW8QIEgAKX1BLSydcHUr9Tn0LXqlbcRM195w3fLV+XMPCy0VFUk5AwOprKnszfopMO2W6+mY26Eys1kSr7joU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737774863; c=relaxed/simple;
-	bh=hXv4kAp4YbqFGX21eGRaMVPOd3yJyfAsnlnOx/Q1xwE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O0jx7UfV/ptk+RMokPe9EDmRLZH2uZzO5vZhtme+KWQCzMiaxDNSu57hckHhm7/F/I2xi9P9Yyl2XH1RCXASP9rwZvC36/x54cLTffN5R0KVrqflSURCacKYtFSDyUhNi+LlEBc1FYS5ukCi4Scne43JCR4QakiOiwx5dw3MNGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BSDs6y9v; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1737780260; c=relaxed/simple;
+	bh=GeK+ivtm9xNDqBOzHa6NJe8s56YeRpslIZPxkq3MgSI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m8zljueorGtOqfhj3mV+uPrK5bXWJ+/eyPb7CKudd8YT4Ed/9OR6AKlduXmYkIJp5EZgyU9dfhaikJzrksDBzb/jd6izprlE9bHOfxLjHs1FMSrQu6nEKjpT5sCCQXhsUQiXlwGsfTz9NQoVguKaxKQNEs4M8GC8pv2GnlO0HGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nq4xBhkX; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BSDs6y9v"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=LKGqliAQYfe3AJnaCi04iReaMdS/Hf0gmqHVuNgKRts=; b=BSDs6y9v4I5bElN06szPO6e4AQ
-	+V8dfXBZNRoJKzzHiP/XNBVUYCE546jZV9BfNxQOht4XhOo5dUvS4nXiHynotOubYBQgz0oIPeupA
-	V1KhCJMILZZdX4kFLHbSqWFdSTjwjrL0RzNwCk+3DgkBdH7qIYnNj+wbcD8VxiLBNrHDguW8YAqmB
-	N+rKf4CuMI13E06lIq1/bL7JVK32/sARSxKcjVZXyF3PyGBoTMNVBGFOI6G7FFiUM4lMPGTJ+URXQ
-	eW0xUlTVNZaW+e6N1MMpBtQiyljQGbv5tzp8eRj9uQTHU1x6fKjwmQ1MKsDK+EPWRKfBvMfmBKUf8
-	n/tNQLmg==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tbWcP-00000002qPI-0MmA;
-	Sat, 25 Jan 2025 03:13:57 +0000
-Message-ID: <879e64a0-f097-4bde-ae31-25a1adc30d5f@infradead.org>
-Date: Fri, 24 Jan 2025 19:13:45 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nq4xBhkX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737780259; x=1769316259;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GeK+ivtm9xNDqBOzHa6NJe8s56YeRpslIZPxkq3MgSI=;
+  b=Nq4xBhkX18MNWtTqnOCSVb1p0ploAf3CzYfY2IPNW3ovQim5Jj1kUXIF
+   yDrONRC8k9iiiwwYxRtxYrn/N1fz6SMfFQO1be2368nJBPdREMctciOqK
+   yMyGkdCvyhVDjM31Tm2JVuOS5WwOmFPrDjt0ZMzQF86jUavB4wI76AIJQ
+   mUMjfguS2HUJtlfn28+rIWTAOkZmaKc30BnjSJbr8U1zL3GLVbb4pSGUI
+   T8QdVvK0kjiUz6k7fbAJ2Ro9sYDLjW43fB7XNjjz88DsQQAbW3dwIL4V0
+   O5LPLGBwcCFZjWjzg4f9bZMJplIPuqAhliVQkgeRbyl+Y7095fAt8WmDc
+   A==;
+X-CSE-ConnectionGUID: RtTMRDLLTK20usP7kBYj5g==
+X-CSE-MsgGUID: 4/5qHRI1R4ywpHMk8IJXRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11325"; a="42082556"
+X-IronPort-AV: E=Sophos;i="6.13,233,1732608000"; 
+   d="scan'208";a="42082556"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2025 20:44:19 -0800
+X-CSE-ConnectionGUID: 8Xh/AhveRQ+v/LGju9F9HQ==
+X-CSE-MsgGUID: mxQRwmRITJSKxgS1h5tsZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,233,1732608000"; 
+   d="scan'208";a="108483131"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 24 Jan 2025 20:44:14 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tbY1j-000dTz-2j;
+	Sat, 25 Jan 2025 04:44:11 +0000
+Date: Sat, 25 Jan 2025 12:44:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Radu Sabau <radu.sabau@analog.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
+	Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v4 2/3] hwmon: (pmbus/adp1050): Add support for adp1051,
+ adp1055 and ltp8800
+Message-ID: <202501251226.f8RpjAfp-lkp@intel.com>
+References: <20250124151746.1130-3-cedricjustine.encarnacion@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/20] mm: Add msharefs filesystem
-To: Anthony Yznaga <anthony.yznaga@oracle.com>, akpm@linux-foundation.org,
- willy@infradead.org, markhemm@googlemail.com, viro@zeniv.linux.org.uk,
- david@redhat.com, khalid@kernel.org
-Cc: jthoughton@google.com, corbet@lwn.net, dave.hansen@intel.com,
- kirill@shutemov.name, luto@kernel.org, brauner@kernel.org, arnd@arndb.de,
- ebiederm@xmission.com, catalin.marinas@arm.com, mingo@redhat.com,
- peterz@infradead.org, liam.howlett@oracle.com, lorenzo.stoakes@oracle.com,
- vbabka@suse.cz, jannh@google.com, hannes@cmpxchg.org, mhocko@kernel.org,
- roman.gushchin@linux.dev, shakeel.butt@linux.dev, muchun.song@linux.dev,
- tglx@linutronix.de, cgroups@vger.kernel.org, x86@kernel.org,
- linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, mhiramat@kernel.org,
- rostedt@goodmis.org, vasily.averin@linux.dev, xhao@linux.alibaba.com,
- pcc@google.com, neilb@suse.de, maz@kernel.org
-References: <20250124235454.84587-1-anthony.yznaga@oracle.com>
- <20250124235454.84587-2-anthony.yznaga@oracle.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250124235454.84587-2-anthony.yznaga@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250124151746.1130-3-cedricjustine.encarnacion@analog.com>
 
-Just nits:
+Hi Cedric,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on a76539b293677c5c163b9285b0cd8dd420d33989]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Cedric-Encarnacion/dt-bindings-hwmon-pmbus-adp1050-Add-adp1051-adp1055-and-ltp8800/20250124-233047
+base:   a76539b293677c5c163b9285b0cd8dd420d33989
+patch link:    https://lore.kernel.org/r/20250124151746.1130-3-cedricjustine.encarnacion%40analog.com
+patch subject: [PATCH v4 2/3] hwmon: (pmbus/adp1050): Add support for adp1051, adp1055 and ltp8800
+config: arm-randconfig-003-20250125 (https://download.01.org/0day-ci/archive/20250125/202501251226.f8RpjAfp-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250125/202501251226.f8RpjAfp-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501251226.f8RpjAfp-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/hwmon/pmbus/adp1050.c:74:7: error: assigning to 'struct pmbus_driver_info *' from 'const void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+      74 |         info = i2c_get_match_data(client);
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-On 1/24/25 3:54 PM, Anthony Yznaga wrote:
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index 1b501db06417..ba3dbe31f86a 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -1358,6 +1358,15 @@ config PT_RECLAIM
->  
->  	  Note: now only empty user PTE page table pages will be reclaimed.
->  
-> +config MSHARE
-> +	bool "Mshare"
-> +	depends on MMU
-> +	help
-> +	  Enable msharefs: A ram-based filesystem that allows multiple
+vim +74 drivers/hwmon/pmbus/adp1050.c
 
-	                     RAM-based
-
-> +	  processes to share page table entries for shared pages. A file
-> +	  created on msharefs represents a shared region where all processes
-> +	  mapping that region will map objects within it with shared PTEs.
-> +	  Ioctls are used to configure and map objects into the shared region
-
-End the sentence above with a period.
-
->  
->  source "mm/damon/Kconfig"
+    69	
+    70	static int adp1050_probe(struct i2c_client *client)
+    71	{
+    72		struct pmbus_driver_info *info;
+    73	
+  > 74		info = i2c_get_match_data(client);
+    75		if (!info)
+    76			return -ENODEV;
+    77	
+    78		return pmbus_do_probe(client, info);
+    79	}
+    80	
 
 -- 
-~Randy
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
