@@ -1,114 +1,120 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AFA117BD6;
-	Sat, 25 Jan 2025 15:37:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F274F3232;
+	Sat, 25 Jan 2025 15:47:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737819465; cv=none; b=HXGd8YV6wOnvYYILivIbKHqSgiVpGyQ71NGLcJx7dnnBRVYdWulirTsZvgxIKg+WK0BtqbzWw3mkPWFucuXvXmIM3oJATP0yClZ6wLRXuUeGaUGB63rxsBRpPa3XCY920u7TQDozkUGZh3Mkf8WQV+U/hLFltwb3AzxwZrZNGZQ=
+	t=1737820049; cv=none; b=kn1FijJlrMls79+M2EXXipCe+qelrFKmtBW4zzd2oMTDqLSIXiWejSPGPkSH1ODgcOjUvxfN9Ojrf32aTP9KuiGj4Nw20J9HIcEOtvNhP/UEB1P2gFrD1C7LxjZJdSeCl0SUMyaeRYB4cIzi6ijikYrkmg5KCRviTzMSw1csjIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737819465; c=relaxed/simple;
-	bh=E5k8aiBIEW8gUCxjZppZ//FcmUX4d7KWIpGCX6DBQZQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ccxsGfAmVdzOxe1lasYlreW1tzEuIyDUjUQrq3La4qqAy0kjIzn44JSiiFnoe88EgEME/mlQi0vyJmR5zcAqn4q2vQETyESHfXIllQkgEZCzqo0Or6hUlRWmOyPWrnPTBW8EW2Yb7ubjSrcjGFPd/U5juWBHUeVzTxqsn6CRC+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VkRzMDpn; arc=none smtp.client-ip=209.85.167.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1737820049; c=relaxed/simple;
+	bh=kW9SDQo9GcJ7STGkG9GR1G7RiUkv0vnUNwTU4R6IFbI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QmhB6gMTw/sQyyd3DCknbKumdLJPdsgSZabpriz3o+tZnggg6pWBxTv+tjPKLY3PJhsTGYf6L7lu3D8twRuyS8zdGgffI+dHj3+EzqDew8MZ22GFcrE+f0Lt73Rj37G1mCa2N1Y/RkY6tky/NdL1QXwjpRty5a5mLZJxM6r7+2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mP8O7iPi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VkRzMDpn"
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3ebb2d8dac4so1979902b6e.0;
-        Sat, 25 Jan 2025 07:37:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737819461; x=1738424261; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8Ujybwc11JlQ0Nlvbt5954Kvys6UfrAI8hcenTMOtPA=;
-        b=VkRzMDpnVFIROdpJIt6JPPGpFW5yQnyGqgJHwU46V40RKzKgo/saA3njoO+F509hBF
-         PKBeB6YdviHnPw/Ze0IERI38xE48VQqD199obcAEB6uFnAhXdL1fBzof0lHUPw5XAz6x
-         KC2YsIDbpQ1Ibbeq3+YPhKcl8SG3AjRWl87aK27WCRZclJsSJisMX3h9WWqMSihcLQi2
-         pAbbLlASJRhNhMLdVm4HtVDC8tRih3pie48FHyjYeub8pMc+mswCuVXLTIbtU2Kbh/m3
-         Bu69DXJb1kfhriGeH2NX6zCtE8m28LNwsrZ6OjRaPsOc+jFxWsTezB/mm/4d0MZyFjsK
-         lXxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737819461; x=1738424261;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8Ujybwc11JlQ0Nlvbt5954Kvys6UfrAI8hcenTMOtPA=;
-        b=FZ5Ma5YqUwOm84KTbLJpo6v+eK/P/7cWhcP+90xd1ly5+oDOZ62hwifDMFjvQYw1/d
-         wy4zXzmG4tNeekI6w+CKbQvwH1m6ty2xs12cUgUkm/KalsfWaeOSVSF3o6ZHIFZbLysk
-         QGFsUazVtwPcdVCIQhF3lAFl3B2BB+XhoGnxdqy+MMKEDTdJQPAIfoq1W7cDLvVXpiBg
-         VzxzJaMHStsM4sQoCL5FomSReTUaq+OrUSa6K3/TKxLwfqs+GW4M9BjTdf2xBQLcCW5K
-         zWQLc0IlGC9QaXR2w8mxDnlTmfunO0ur0o517p0J9MDKacrPqLfoN3P1QQ09CKNRE25/
-         KuUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWlkzVGsKAwGaAn6Z+a2ni+ZRx9Fp/kOuHwg3m+ca9IzQTebkU2Sp+Iz3YdHn6ul5vpwQFNagcuLGdh8DLY@vger.kernel.org, AJvYcCXKKlzds0okovRwiRFKS7aWvxKZ0OgUMML+d6rigcxxlHTgSvDxXMws99PKU22McmZnRwuvtIgquP8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRDZcLJM3w0v3ZtK7Wg1UEZvLQgnvMkIQRs992OikQj0c1Tejz
-	rAEuW+Onw7/iOe+sdAEw849RF1YN8J4+Vql+wHFU+OAooYIDHUi4JW9qjA==
-X-Gm-Gg: ASbGncttZ91/RHsom9JJriGR500XN4gasg8gSE+sG8g0kxZGctNTFcfVf1w1Orj1dDa
-	POrO4cwro8r7+IPkXLAfaADvuybLIkehHwkKGdzk9RS77P55VhxLMJQIjeoa14W/TGWLiI5WHeJ
-	xrSTroo2ArEq+OI2pLvHS5N37/CpUmNzEnr2mOBLmJnB6pi1tRfyDR3ueGCBYr+bv4DtyyZEvYV
-	ATDXUEfE5BWuAq5NO9pM/6VYqhlUt4TfSsVDu1nLfupxGhDFEYvLP0x3pKHKcZSu6NDQjVC1f8p
-	iIz6SrOwgX5efhRmQiJarc9e3KryZlyU+BagAOD05k33aNfpSFCTM6Fzob+HpQtadSLw
-X-Google-Smtp-Source: AGHT+IEswwBLIk21B3C3okrczJfAdRWuSqYHB3Pw4rfti49qKgyKkWDO6oMXUxIxkIaKqwtCICnngg==
-X-Received: by 2002:a05:6808:4d0d:b0:3ea:3db5:ffe6 with SMTP id 5614622812f47-3f19fd31de1mr17026866b6e.31.1737819461391;
-        Sat, 25 Jan 2025 07:37:41 -0800 (PST)
-Received: from ?IPV6:2603:8080:7400:36da:dff5:4180:2562:4c1e? ([2603:8080:7400:36da:dff5:4180:2562:4c1e])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5fa8b9a1f5bsm933887eaf.30.2025.01.25.07.37.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 25 Jan 2025 07:37:40 -0800 (PST)
-Message-ID: <c5ecf4a3-dbd4-4ba9-ae63-66ba396cecef@gmail.com>
-Date: Sat, 25 Jan 2025 09:37:39 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mP8O7iPi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B147DC4CED6;
+	Sat, 25 Jan 2025 15:47:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737820048;
+	bh=kW9SDQo9GcJ7STGkG9GR1G7RiUkv0vnUNwTU4R6IFbI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=mP8O7iPi2BXX/hmN86Lvik8+54jGq7z7q0F4lmAVqVqyOT/rO78VdztEWZCvEx7e/
+	 2hl4dHSPdoYOHL8tieZXFoyqyTK9RSExtTWtQwODAlaFy7WBlGa6GwSTcUvIGSGW6l
+	 WozLlq/ABb7z0zWgbOV+hs9CA9To7yombJ+dL6nyB2a29r8nwgp5ZRosXc0f6RMw5S
+	 AlgsE1jk0NKQg4oL00B6nW2bKdCrtPRPNCLTJ/cupDfh0r0gWLPNgyQHZdS/+NRW4m
+	 k+3N3DD7M9EigxC5LiHp+B9+oEZhrZDTVGtV3O1xagrp+jQhixKtCLlmc709xtE2Cl
+	 y5VyVe/PJUwQA==
+From: carlos.bilbao@kernel.org
+To: corbet@lwn.net
+Cc: avadhut.naik@amd.com,
+	akpm@linux-foundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Carlos Bilbao <carlos.bilbao@kernel.org>
+Subject: [PATCH] .mailmap: Update incorrect entry and my email in MAINTAINERS
+Date: Sat, 25 Jan 2025 09:47:21 -0600
+Message-ID: <20250125154721.1035737-1-carlos.bilbao@kernel.org>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mailmap, docs: Update email to carlos.bilbao@kernel.org
-To: Jonathan Corbet <corbet@lwn.net>, carlos.bilbao@kernel.org
-Cc: avadhut.naik@amd.com, akpm@linux-foundation.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250111161110.862131-1-carlos.bilbao@kernel.org>
- <87ikqiboqp.fsf@trenco.lwn.net>
- <6c8457ca-c43c-4d93-8493-bf4e5b22f3df@gmail.com>
- <87jzaqvfyt.fsf@trenco.lwn.net>
- <de9bf5aa-ef1b-4a12-8cf7-9fe0d050e4dc@gmail.com>
- <875xm9tg4z.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-In-Reply-To: <875xm9tg4z.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hello,
+From: Carlos Bilbao <carlos.bilbao@kernel.org>
 
-On 1/20/25 13:54, Jonathan Corbet wrote:
-> Carlos Bilbao <carlos.bilbao.osdev@gmail.com> writes:
->
->> By records I meant mappings of older to newer emails, which in my head
->> is .mailmap purpose with version control. Do you think some of the
->> mappings as I've added them are redundant and/or problematic?
-> My point is that this line, which is in .mailmap now (and which your
-> patch preserves):
->
->> Carlos Bilbao <carlos.bilbao.osdev@gmail.com> <carlos.bilbao@amd.com>
-> ...says to map the @amd.com address to the gmail address.  But this new
-> line:
->
->> Carlos Bilbao <carlos.bilbao@kernel.org> <carlos.bilbao@amd.com>
-> says to map @amd.com to @kernel.org instead.  At best, this is
-> nonsensical; at worst, you may not get the full remapping of @amd.com
-> that you seem to want.  So ... why leave that line in place?
+Update .mailmap to fix a mapping and my email address in MAINTAINERS.
 
+Signed-off-by: Carlos Bilbao <carlos.bilbao@kernel.org>
+---
+ .mailmap    |  1 -
+ MAINTAINERS | 10 +++++-----
+ 2 files changed, 5 insertions(+), 6 deletions(-)
 
-That makes sense, thanks forclarifying. Sending out a patch correcting this
-and updating myemail in MAINTAINERS now. Enjoy the weekend!
->
-> Thanks,
->
-> jon
+diff --git a/.mailmap b/.mailmap
+index 83837191affb..0768824e9d19 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -139,7 +139,6 @@ Bryan Tan <bryan-bt.tan@broadcom.com> <bryantan@vmware.com>
+ Cai Huoqing <cai.huoqing@linux.dev> <caihuoqing@baidu.com>
+ Can Guo <quic_cang@quicinc.com> <cang@codeaurora.org>
+ Carl Huang <quic_cjhuang@quicinc.com> <cjhuang@codeaurora.org>
+-Carlos Bilbao <carlos.bilbao.osdev@gmail.com> <carlos.bilbao@amd.com>
+ Carlos Bilbao <carlos.bilbao@kernel.org> <carlos.bilbao.osdev@gmail.com>
+ Carlos Bilbao <carlos.bilbao@kernel.org> <carlos.bilbao@amd.com>
+ Carlos Bilbao <carlos.bilbao@kernel.org> <bilbao@vt.edu>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4006434e0155..f7e70513ebff 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1077,7 +1077,7 @@ F:	drivers/video/fbdev/geode/
+ 
+ AMD HSMP DRIVER
+ M:	Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>
+-R:	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
++R:	Carlos Bilbao <carlos.bilbao@kernel.org>
+ L:	platform-driver-x86@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/arch/x86/amd_hsmp.rst
+@@ -5793,7 +5793,7 @@ F:	drivers/usb/atm/cxacru.c
+ 
+ CONFIDENTIAL COMPUTING THREAT MODEL FOR X86 VIRTUALIZATION (SNP/TDX)
+ M:	Elena Reshetova <elena.reshetova@intel.com>
+-M:	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
++M:	Carlos Bilbao <carlos.bilbao@kernel.org>
+ S:	Maintained
+ F:	Documentation/security/snp-tdx-threat-model.rst
+ 
+@@ -11228,7 +11228,7 @@ S:	Orphan
+ F:	drivers/video/fbdev/imsttfb.c
+ 
+ INDEX OF FURTHER KERNEL DOCUMENTATION
+-M:	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
++M:	Carlos Bilbao <carlos.bilbao@kernel.org>
+ S:	Maintained
+ F:	Documentation/process/kernel-docs.rst
+ 
+@@ -22018,7 +22018,7 @@ Q:	http://patchwork.linuxtv.org/project/linux-media/list/
+ F:	drivers/media/dvb-frontends/sp2*
+ 
+ SPANISH DOCUMENTATION
+-M:	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
++M:	Carlos Bilbao <carlos.bilbao@kernel.org>
+ R:	Avadhut Naik <avadhut.naik@amd.com>
+ S:	Maintained
+ F:	Documentation/translations/sp_SP/
+@@ -22030,7 +22030,7 @@ L:	sparclinux@vger.kernel.org
+ S:	Maintained
+ Q:	http://patchwork.ozlabs.org/project/sparclinux/list/
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/davem/sparc.git
+-T:	git git://git.kernel.org/pub/scm/linux/kernel/git/davem/sparc-next.git
++:	git git://git.kernel.org/pub/scm/linux/kernel/git/davem/sparc-next.git
+ F:	arch/sparc/
+ F:	drivers/sbus/
+ 
+-- 
+2.43.5
 
-Regards,
-Carlos
