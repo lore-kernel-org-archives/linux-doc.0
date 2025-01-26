@@ -1,59 +1,59 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4002513B59B
-	for <linux-doc@vger.kernel.org>; Sun, 26 Jan 2025 14:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D724964F
+	for <linux-doc@vger.kernel.org>; Sun, 26 Jan 2025 14:12:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737900709; cv=none; b=h0cD+hTfMh0T4nOSGp3syEERc82uduAFs22L1ZGsaI05zPOmWsoMix9yT+WRRN5N7ZAyvtHQcqLf8jzJJUFONU9ekt4Udr2TtUoz62k5jAFi7ARzSp0GQol6qvodaz0ws1ZiXjrLwl3Om7g8GzBrQn7FeJ76eBZWbTXf533u10E=
+	t=1737900736; cv=none; b=rN9CiioYVrXoXvaIvfE25CLPrIGV3via2/oG2UMwCviqxLFlY7PYZsl3B2xrkY90CZQGSqGz/D5SGQBVMcUMmvkHn/lTn6UfsVkDgd/R1GcgmbPur5KuBtj5PWsorxOmKEwgzO2FaMH+Ln5ta15NEhJGgNuWbzLwXKKjm8NcEdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737900709; c=relaxed/simple;
-	bh=12HzqKG7XNFsVb1EKgZbZZW8oeDZ1Bj4ACbSBWVyPFQ=;
+	s=arc-20240116; t=1737900736; c=relaxed/simple;
+	bh=da9YorvvFk4UIYAefIerEYb4xCuivSVbVedCiCnFYfA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=a6JG1+JPdFzsnwEbt6u87W77O6Dt7wLDkaOh+xzaPEBMc/qtP6Et9P8eXKCXiTKvgItIHI+bijKmvmo2DMY+9kMWsGEJXett7hgyj+0XhHfeWTk2mYKFu+CzrbwenjJSoxwoX+V4j/yCo68lwrN9I84IIJUEsb7KRitqFAFGFzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com; spf=pass smtp.mailfrom=cloudflare.com; dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.b=YnG1MiVt; arc=none smtp.client-ip=209.85.218.42
+	 MIME-Version:Content-Type; b=i7J9epO0wpNgg0Z5dRAUiSYVmoNdHkkbKeEFppFzOrevhwWsS6rKPlmnAaUAyiw9fFsEbU0DzH/vBiIxRMGPWAaUkZq/RWbjVsWp5EbUeGUcvArz5JVkTBNs6Fc2LPYT5QOsFJ6gzYqTmTaVhjaGwdkOr+jkCatHZoNGnKwKfMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com; spf=pass smtp.mailfrom=cloudflare.com; dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.b=H2WWdMxT; arc=none smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloudflare.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.b="YnG1MiVt"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-aa679ad4265so924396866b.0
-        for <linux-doc@vger.kernel.org>; Sun, 26 Jan 2025 06:11:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.b="H2WWdMxT"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5d414b8af7bso8030273a12.0
+        for <linux-doc@vger.kernel.org>; Sun, 26 Jan 2025 06:12:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudflare.com; s=google09082023; t=1737900704; x=1738505504; darn=vger.kernel.org;
+        d=cloudflare.com; s=google09082023; t=1737900732; x=1738505532; darn=vger.kernel.org;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=12HzqKG7XNFsVb1EKgZbZZW8oeDZ1Bj4ACbSBWVyPFQ=;
-        b=YnG1MiVtxyeJ9r3CsHAYBUzy6KfIIQIxoxtPSVTXES1p+HdITODLJiD5QC+y5BSJ7d
-         KajWhHTVVXt3IWoyhJ8lAxgZwcwvXxHWtiZjyk9hAfsgDsHCWnf2AJyUzVsiVVm8ZaTA
-         uZGcoHiSLNZla1Hr1K0aaAwlQqCvVRYdzApWQPV6rruZmtA1LwXS/EYurf2Lad+YKPVw
-         9Gvp5+vd1rT53HD98Ki9zy2uOttRweItmMIgYfU52AcABSQw1PGdFS5S/CGKP4VpOwxd
-         xbD0L4A3d1yJZFead6dE2ueuMWMf2kS/dnJYZ+yytcM4ThQjrwoW3cUel0n/oEayl9k+
-         YIlg==
+        bh=da9YorvvFk4UIYAefIerEYb4xCuivSVbVedCiCnFYfA=;
+        b=H2WWdMxTEBWu8YzCIX7u2/9XZXqzo1mKYjwVtSD3h4/dByN4Z6N2UrMXOqxljunCje
+         Pqh52tYfxCAWMjPAeGKyyGiJNWpmEwGStY9IMMTuJnR7NuVVQboZTdD+xrquWP7rs2yf
+         U0j0tEdnklmUatLiNIx/OGwo1mgYooIBdN3LeeJEDJ5pD600aUBuwLsa/WRkSB9CKRdd
+         No8jyYnX/TWy747D808Bo8tsxezlEsWuJ7d/6mYbg8+pQy39bsesQR6+cEVOensfdC9L
+         GbVB/w1wrt+4nvBs1BkRlEtDmbfc1f2HUZaBvvbewkFR4ZQYYbsyhibrrHZN4nO4a+kX
+         JMkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737900704; x=1738505504;
+        d=1e100.net; s=20230601; t=1737900732; x=1738505532;
         h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=12HzqKG7XNFsVb1EKgZbZZW8oeDZ1Bj4ACbSBWVyPFQ=;
-        b=CXOukQUYPR2LJArXpuXgR+adMio3LGLhS4cxYeC7i7Oe8fEJdKA+fiSNWIcvpEVVch
-         uW5bSF7e9nOv62GYSXHUlaIKHsvkrhRPkp9tD88Nq0yYf4UvJ5TMgyoyP7IsH6rObe28
-         pKp3+0VFrMpHGN8XmabiQx2gLDBHssbsNVazPVflu7vblO+F+DQ3Z6l90xCvRhgmnvC3
-         WHReiIsCJGOFd+4EgOwrif0TsrpGqtj9uDERR/7+C2z9VU4MuoGX4FeP6iMlzoaNL3Ph
-         tfLAzxGvCwQrc3u/G0JW1P+jSI/3BRuTqdAnD4bLUmbTQoTFjU8Uq5zs3xCat0F7bUKj
-         v/2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVl+eNdN+apz691rK+w+z+PQXLfOQLbc/J4292id2ykghe9LJhJa/XDE8Os5ahVt02yFUfUDy1m8zw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEtS7XyycHnYpbrrGOgh8dpthGVVcZsuc8/wLkiXru8HO/Fkhj
-	Fhhgq/RqwWA63w+CY7FFP3QkJmrjvjtebz0orKWz0bFeTfgQBVOAKZS7tsqJTK8=
-X-Gm-Gg: ASbGncuGobwkKB9DwF7/EQBX2fS34UXHqkxHjcIXAN7kiB92wfQSUPsG2pWFB7q83ay
-	zbs7UIVSI/0Z2AwToDpVkj3aRCNHbbd41XS0wM33qROxc2eS0U0gyEYa8+VtaXCj7yq7FU/63CX
-	P7bIs2Su0BFgOa5VhVsQRdg3I7AWysykb/6N3bdk7wFPl5ePbZNIkMVdkGEMav9RlWlNUgmrRpc
-	hoGRe4sRmHcTQw1tQJ5B5rBTdZ+fNg6bRxCQ82D/7o+CyfKtH8F0rwC2aoupZmodC6uMGZ4NQ==
-X-Google-Smtp-Source: AGHT+IEKSJdD2dRwqzzBvy9ISrqzwSE8h91lW/SaOjyNpZpNcIf5gT5KiPiOM2vkBbUPwNzHl+oUMQ==
-X-Received: by 2002:a17:907:3206:b0:ab3:a4f6:7551 with SMTP id a640c23a62f3a-ab674600f00mr739626466b.13.1737900704480;
-        Sun, 26 Jan 2025 06:11:44 -0800 (PST)
+        bh=da9YorvvFk4UIYAefIerEYb4xCuivSVbVedCiCnFYfA=;
+        b=eQ2s9TOpugMKUFieVi8t3lCQRjUn1rgtdMfD7hCCZDLvHGsg/zNgz8fc5juTRhMVkf
+         /sca/h7umfWptDbxf6y9G/nqmaHlRC9zR825ov96HjLdP365Miwto+wnU/UHsJAFF7Gf
+         c+Yt6i7sa9h1VnEODdZmINwyaaEh5lnBivQBel3wb5nGSozT1+SDrXASPvW3Sru93rA2
+         xZ0vF/VinVg5/0BqQUPD2vgWRwheEn2MZDjShVfekewkkXRW1Li3G9ge5v74ZvEIxAxp
+         Uz/RRvpMWUz1eQA3J0fpAnwtZ9gcsXWhCK9Wam6fnAMajaUKON/ogqyLd1zL+XGgG+mv
+         zLrg==
+X-Forwarded-Encrypted: i=1; AJvYcCVOVqyCH4XXdb3jNCgu7rFsZQlfz5+DwU+j1CRpY+Ae7/TbGSmzM/Li9246RlnDqORrnuu/ZOoP3zk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcUSIFYZHAvDQSFo6qmPuujToi371puo9/WZEYIdXEAJKGyzY5
+	dvqkVHw5CG5QAn/KMsfHWsdcrf2xM6/vLxIY1vzz7IlHCpnWfy6tzyPZm1RX/ck=
+X-Gm-Gg: ASbGncvCxecii49OurXTI15YpdGwSI9Lx0d4RfiEmcocQqKxdJSR1uZqaeMDO4ZwweX
+	Lm36RwX6d9MudcTyCmQYksTqKmQyh+gFdN97Hai2QTTfe2XMOyq2n6+VRMrBTaGsg7rypdC2U22
+	zbMLpWnMZ2Gp0uVztob+WMhn/QjiflrbfYnQKR7XX41GleYEm89KfQN1FIMmS+ofIhLmlD6XNVv
+	92B+TogN1RqIcwn6YTNSfOzsfC5c3ULAnmfYy6BgzW11DRc3VnCrrSD8tUcZ0aBJKVFEzd+kA==
+X-Google-Smtp-Source: AGHT+IGBKFasEkaDtZZ5CWcrV1Bxnz3k+ijYYsGxkH5Dhoqoj3FM7YBEen0VjurFTCvcD+kWOyT5Vw==
+X-Received: by 2002:a05:6402:3509:b0:5d0:cfdd:2ac1 with SMTP id 4fb4d7f45d1cf-5db7d2d9958mr37213488a12.6.1737900732189;
+        Sun, 26 Jan 2025 06:12:12 -0800 (PST)
 Received: from cloudflare.com ([2a09:bac5:506b:2432::39b:69])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab675e64dc9sm420223466b.45.2025.01.26.06.11.43
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dc1863a1fasm3986231a12.37.2025.01.26.06.12.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jan 2025 06:11:43 -0800 (PST)
+        Sun, 26 Jan 2025 06:12:10 -0800 (PST)
 From: Jakub Sitnicki <jakub@cloudflare.com>
 To: Jiayuan Chen <mrpre@163.com>
 Cc: bpf@vger.kernel.org,  john.fastabend@gmail.com,  netdev@vger.kernel.org,
@@ -66,13 +66,13 @@ Cc: bpf@vger.kernel.org,  john.fastabend@gmail.com,  netdev@vger.kernel.org,
   shuah@kernel.org,  mykolal@fb.com,  jolsa@kernel.org,  haoluo@google.com,
   sdf@fomichev.me,  kpsingh@kernel.org,  linux-doc@vger.kernel.org,
   linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH bpf v9 3/5] bpf: disable non stream socket for strparser
-In-Reply-To: <20250122100917.49845-4-mrpre@163.com> (Jiayuan Chen's message of
-	"Wed, 22 Jan 2025 18:09:15 +0800")
+Subject: Re: [PATCH bpf v9 4/5] selftests/bpf: fix invalid flag of recv()
+In-Reply-To: <20250122100917.49845-5-mrpre@163.com> (Jiayuan Chen's message of
+	"Wed, 22 Jan 2025 18:09:16 +0800")
 References: <20250122100917.49845-1-mrpre@163.com>
-	<20250122100917.49845-4-mrpre@163.com>
-Date: Sun, 26 Jan 2025 15:11:42 +0100
-Message-ID: <87jzahd5r5.fsf@cloudflare.com>
+	<20250122100917.49845-5-mrpre@163.com>
+Date: Sun, 26 Jan 2025 15:12:08 +0100
+Message-ID: <87frl5d5qf.fsf@cloudflare.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,19 +82,9 @@ MIME-Version: 1.0
 Content-Type: text/plain
 
 On Wed, Jan 22, 2025 at 06:09 PM +08, Jiayuan Chen wrote:
-> Currently, only TCP supports strparser, but sockmap doesn't intercept
-> non-TCP connections to attach strparser. For example, with UDP, although
-> the read/write handlers are replaced, strparser is not executed due to
-> the lack of a read_sock operation.
+> SOCK_NONBLOCK flag is only effective during socket creation, not during
+> recv. Use MSG_DONTWAIT instead.
 >
-> Furthermore, in udp_bpf_recvmsg(), it checks whether the psock has data,
-> and if not, it falls back to the native UDP read interface, making
-> UDP + strparser appear to read correctly. According to its commit history,
-> this behavior is unexpected.
->
-> Moreover, since UDP lacks the concept of streams, we intercept it directly.
->
-> Fixes: 1fa1fe8ff161 ("bpf, sockmap: Test shutdown() correctly exits epoll and recv()=0")
 > Signed-off-by: Jiayuan Chen <mrpre@163.com>
 > ---
 
