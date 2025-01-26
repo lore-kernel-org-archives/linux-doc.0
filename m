@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55C11662F1;
-	Sun, 26 Jan 2025 14:53:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45D6F1F8691;
+	Sun, 26 Jan 2025 14:54:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737903197; cv=none; b=bF9x2mWgohFiMH6sGQaeJJEiDl4tDgLkGSoFZIEEDG+lRty09fxCPVMRcwpylVX6icPMICtT3/g83DOwKj4zFMbKMFaSE/PkG4oP+4yF6icVDMTm6MNsoqwJtUIz5bNAabf7ZmhRyQYKGBXGZmfhyyqw6Wj/4Sbkv5qdi3JmL+E=
+	t=1737903294; cv=none; b=nQVgdXhhMT2xOEaZPKAKaCHhPdj1eL9fjzAj4ayiuPXmR76c23VfCu3CcSAPbv7o7EkTQHheLrZ/fLnP01Tpjvc9KGJPBufW+YRElb/IQHnFGpuRnzz2Dtrukn/ypfUyZhE+m6DMvWwr6YVa5DWibvtYlvGsIJAQxsM4W5ycIfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737903197; c=relaxed/simple;
-	bh=+ECe4fzrYv0SET9Ee7tX8FTwbNt/UaWzPa4F/8JTmus=;
+	s=arc-20240116; t=1737903294; c=relaxed/simple;
+	bh=SqaPKAGyZq+oHzd/IeV5Qs2VWWR+K4kUrRJFKFMAetk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=R683C8DXBHcLc9ppVAM5kbTnFeOLKcWW9lgpqkLogczc/jFj4DhxCPvd3A7XvADC3b/XhwTNAOIeTKyGU0wcz47eSwtlEELXZyHwVc9JY6bF1QST5RIPxY2gfCq/cu4AbTl1sAJJ/aA3epyi8IlP5ipBtJNIJ0SvYTbFJcmVfbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pIkZQ86D; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=pQ9R0wZshRvJS1YGUwywkKsdlibueG21ZZ+hMuxqfHx/HHCL7EajSbTL1TYn5SSA8kZp+P7yEUyOVHd4LemPRp2HMTyYPLWGkbsgsrVOQbeZTgArI9BAR1OZyxdlxnYbjJbKjt1CkAH/2J4OFVFRsDD82DFO1nCHtMZOFUZEsjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LR4ZnEOT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pIkZQ86D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BECB6C4CEE8;
-	Sun, 26 Jan 2025 14:53:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LR4ZnEOT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88D71C4CED3;
+	Sun, 26 Jan 2025 14:54:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737903196;
-	bh=+ECe4fzrYv0SET9Ee7tX8FTwbNt/UaWzPa4F/8JTmus=;
+	s=k20201202; t=1737903294;
+	bh=SqaPKAGyZq+oHzd/IeV5Qs2VWWR+K4kUrRJFKFMAetk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pIkZQ86DKb+qTe3HhTE/vYh7r3DYDlqOAPkR8qemYaJGE+PhFZBOJvWsjzJ0OIEHn
-	 Cm09jL3jLLoGhS+yKPpzx3hUT6QkoVc0RL1vvcic+gdZFTwbnYnwPjmqwpHOUE2Vav
-	 hPNSmtJefnlBNhomGf1BP0Mn3v/XWE0HoIVTj6v4li26yHukKueDzlUmLeBMP4VPmw
-	 yPyxG49ztK86a3GPncIR4fHWKACLuj6knu1aCHRaqp9/7hZV0n3FNZTwHhRND89JfN
-	 Y9ZTkdQYG1hp2o0Mau1M9hyXs+WsDHXZgCuS2vi+FMdPZC1Y/8bKozUBMvRpv/01b9
-	 sS8NBgxSinOgA==
+	b=LR4ZnEOTU/M+VGn11YdfnvYmqkoFOCJR4Sft8H0o4AcMPljntWHw9B7oW568tu7vt
+	 DMq9V6Qdfz/DB5HAyHEMJXsjqxG/+1ySyJYTRXkx7SyzLyrp8yNNKqzBSOW1hswZ1h
+	 xs4OZtlz8azYy14OEjJhDWZR0/gS48dY+n631CoyM+xk6/Cirvl4sq4uCKkjy7wrI6
+	 667AFYcG9rr7/M+0hTqVuzFrmnEXsMiByxUnbTHtHOH0xBneLPyUs5f6G3LRnrE0O4
+	 zloycnXJodLMy0aIPWN6q4FTWGtV9MpnPkiK3WkPNcJssMcTxmmZhocTFyar8Gr2KE
+	 WGjUbaVX+h+fw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -42,12 +42,12 @@ Cc: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
 	corbet@lwn.net,
 	dri-devel@lists.freedesktop.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.13 02/34] drm: Add panel backlight quirks
-Date: Sun, 26 Jan 2025 09:52:38 -0500
-Message-Id: <20250126145310.926311-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 02/31] drm: Add panel backlight quirks
+Date: Sun, 26 Jan 2025 09:54:18 -0500
+Message-Id: <20250126145448.930220-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250126145310.926311-1-sashal@kernel.org>
-References: <20250126145310.926311-1-sashal@kernel.org>
+In-Reply-To: <20250126145448.930220-1-sashal@kernel.org>
+References: <20250126145448.930220-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,7 +57,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.13
+X-stable-base: Linux 6.12.11
 Content-Transfer-Encoding: 8bit
 
 From: Thomas Weißschuh <linux@weissschuh.net>
@@ -90,10 +90,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  create mode 100644 drivers/gpu/drm/drm_panel_backlight_quirks.c
 
 diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
-index 8cf2f041af470..b4ee25af1702b 100644
+index c3e58856f75b3..96c03b9a644e4 100644
 --- a/Documentation/gpu/drm-kms-helpers.rst
 +++ b/Documentation/gpu/drm-kms-helpers.rst
-@@ -221,6 +221,9 @@ Panel Helper Reference
+@@ -230,6 +230,9 @@ Panel Helper Reference
  .. kernel-doc:: drivers/gpu/drm/drm_panel_orientation_quirks.c
     :export:
  
@@ -104,10 +104,10 @@ index 8cf2f041af470..b4ee25af1702b 100644
  ===================================
  
 diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 772fc7625639d..b55be8889e2ca 100644
+index 610e159d362ad..7408ea8caacc3 100644
 --- a/drivers/gpu/drm/Kconfig
 +++ b/drivers/gpu/drm/Kconfig
-@@ -530,6 +530,10 @@ config DRM_HYPERV
+@@ -486,6 +486,10 @@ config DRM_HYPERV
  config DRM_EXPORT_FOR_TESTS
  	bool
  
@@ -119,10 +119,10 @@ index 772fc7625639d..b55be8889e2ca 100644
  	bool
  	default n
 diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 463afad1b5ca6..06b73068d2483 100644
+index 784229d4504dc..84746054c721a 100644
 --- a/drivers/gpu/drm/Makefile
 +++ b/drivers/gpu/drm/Makefile
-@@ -95,6 +95,7 @@ drm-$(CONFIG_DRM_PANIC_SCREEN_QR_CODE) += drm_panic_qr.o
+@@ -93,6 +93,7 @@ drm-$(CONFIG_DRM_PANIC_SCREEN_QR_CODE) += drm_panic_qr.o
  obj-$(CONFIG_DRM)	+= drm.o
  
  obj-$(CONFIG_DRM_PANEL_ORIENTATION_QUIRKS) += drm_panel_orientation_quirks.o
