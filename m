@@ -1,93 +1,144 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C00A1FDA86;
-	Mon, 27 Jan 2025 10:52:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB3EA1FCFD6;
+	Mon, 27 Jan 2025 14:09:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737975158; cv=none; b=hMi4tis9JNP2tvt5ho+1RBWH06eLUapM0Rk46bk8F5EGs4zMoyGeKpjbrPSUIvtaJ+g4peHVu6+3sv99HSD6uUPXHEeWvk1uHp2kHb/jJ25iO9feIZRgy4d4dqZIzLHwgx+VF7W9RqfJB93aq3M3MzoszyTvpwb+eAvNAkUI5jI=
+	t=1737986966; cv=none; b=iq36P8NFpRm5Vme24WgSnRGk/juIUMfZItEl0yR99e/L3qC4qCfVN9GuybGDT1egD4PUZuvxEun+14mDcLvjAFGWmKT5kj7ikmgl2TYVCRqs7x86sSNogazGIC4J50MLPbImlYcQmoG7vh0Pk8ZjkRxS0BOqqyrJg133X9ArUrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737975158; c=relaxed/simple;
-	bh=ADvqvVJx5NrxaNgOcJ/ES1arTuX9/tUYcouTIU2fsJI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X9BjTBGdDB1yWD5Gp9M9ZPPC2l9QcJKj5gAkgySaCjRwUd66q1R1IYfUV9HU+pka9duJbaS/wN7cVe4KnXADQoDHmgl7g4cPpkOPkEAIYvXQ/uj+oRksAkvPk8ze3IlCgiR7XfUNDTfkrt62nW6TwIrpEOjpcbbRHM2uPBzZoG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cmHFQDoV; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1737986966; c=relaxed/simple;
+	bh=Rz6meftNFWIKeSBHX9X0i9FyWdEWeAzsHOwEmNXnLVo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FskN18sV9NhWZN5VcgjW00oXTay3FjHmLwEn4Omns4kwnlRQRXCvJxY++WrYMcyp/rYxqtruYCeDcXETenhUjUMBydcZ8/6BhJ2YTR+/NuGRd9cjydDzYL6HkajJGhItiTdp/EScGU9NdGL3RcdRdB+ztBTzxWtkPVjUlQHkrfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PsYVb50t; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cmHFQDoV"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4364a37a1d7so43998775e9.3;
-        Mon, 27 Jan 2025 02:52:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737975155; x=1738579955; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ADvqvVJx5NrxaNgOcJ/ES1arTuX9/tUYcouTIU2fsJI=;
-        b=cmHFQDoVMvTQw0TWni2h1rM3DpF4dvT2BNOVEygC3M76RXX3/I9W+z0WhkWHQwd9iG
-         XMHtsOan0mDlQE0pa9cpJZJqSghZh137KlYCdMeoD8wzTFIL6TQIECgnsLe3HhGAnHcL
-         nL2ztsMadUL0t+aAtqAL+HQeOP0/hZTmUbFH2Cyb4lox30KBOj0ZPXot7rzkdIoHgLxQ
-         8HvmekXzZRq8341zpWA4yM2wDUAzvkeFSCzUtaZRkYI3PEDB5VcQpcEhWuLkj9ULFCK1
-         x9z+OmVfFOzFtzOH0DMGcxUnsl6uWg4psQy1e74KQyVTU8Md5xKHt3X+5EJr3aegdMCH
-         98Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737975155; x=1738579955;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ADvqvVJx5NrxaNgOcJ/ES1arTuX9/tUYcouTIU2fsJI=;
-        b=CWWAqKstrb1EdOd2dXs0ptrPZefOsgNjqSK0oEq6cJPTn8zygX53jeCoR38xL69PPI
-         l3V5VgsmAXnu4Mo0fTrlGY+crzdxDaTVbwtyxdPVa1461Z4K62omcK3ONYls6nokAP+2
-         1KAHFhN93CiX48NYVbDC1KkNoBqKATnv9O9yuRG/oeeeJZD/xtLvolTf124L2m2Rw4fA
-         6d+wjPNkJ24PsM0cCL1jI+4ceG4KTBJYMD8G5uAraXg9oVC9KhqWXrLTel/nREUWbcCE
-         dHEZj8+fR1Fzwv51/u9mGz2fSl12teITdrSwzEgu5M/sPrdkdhB8WH2CyB+8vRXfofhG
-         oqsA==
-X-Forwarded-Encrypted: i=1; AJvYcCU3h/j6QB7QqnFSw7n0wDLMcX2RPJYXcEOhNVDT41wxn3DEDYhqRRSNNM0/TiiZndvZ0hoF3R1cPrwbd/CN@vger.kernel.org, AJvYcCVXVcpJkDbiygw4+3zD6l5v5rb2w6IgkOU9alETL58piRF9oahhwogs/qm/2zIgt4+A3OxJp1xNnFc=@vger.kernel.org, AJvYcCXAsEpMPkrUhealL1es3beAay6yUR7p1cQ5atVyv+8HfKSasrUkPpTx84JuHyKbhLCoyFsFU1uq@vger.kernel.org, AJvYcCXHuRz3AKPnN9LCLW66iR23fCczZp4LpXrxFw56+HsqQu5JoNlqh3X1JH/xYKkxxaB4TFDCEitCoLfv@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsZpbbVyfK7O2ipr/m+21HcQ3epyqERxs06udUfax+HrwJn3p8
-	O46JzOS7EJFT5JNc5ydUmHBVGX2sY4MM7BZwHf0PbssokG/RKp5l
-X-Gm-Gg: ASbGncvlHyfcvjy33TqYe5ztuF/qQBrd3SRUcmh24/MgHl0+SUOc61q2WYy3PpZXo9J
-	L5cz+MpI4AuDT7REH39cT7gvQcU24a43X4hT9RGwzHA0pn0fNr7GVJ2Lskuvev87Dt5AN2xtNQo
-	+CcAmqSDIO9XfmDHUNxNzP5o+cEWQtjYz9LAq3ELiixLJmZf4kd/y6pDs+N1Kp53wrn7+qmpnIo
-	7wp7mflRNTDsaVXQnP0kcD/MRhZNuNKeNcfxTydSB0HXpjxB56lbduGcg6Z/tnN6ICQPg6T04M+
-	8dI33wqdXx1A2u3C1wqr1A==
-X-Google-Smtp-Source: AGHT+IEgpzbSjsuqjQId01p+RPqeHrhSFk6HkwDvd4tGyN8bqiyDwlOekgzKmPN0g+igJw9RgC9ajQ==
-X-Received: by 2002:a05:600c:9a3:b0:434:fa73:a907 with SMTP id 5b1f17b1804b1-4389191b819mr374688965e9.13.1737975154471;
-        Mon, 27 Jan 2025 02:52:34 -0800 (PST)
-Received: from [192.168.1.14] ([197.63.236.210])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c2a17d6f8sm10524823f8f.28.2025.01.27.02.52.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jan 2025 02:52:34 -0800 (PST)
-Message-ID: <5cddb702-1cfa-4961-a7a5-dd0c759379dd@gmail.com>
-Date: Mon, 27 Jan 2025 12:52:31 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PsYVb50t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2894EC4CED2;
+	Mon, 27 Jan 2025 14:09:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1737986966;
+	bh=Rz6meftNFWIKeSBHX9X0i9FyWdEWeAzsHOwEmNXnLVo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PsYVb50tmoIzHQ8LPsNtS6QOOFCTm7a45GJ+NKRDdX9fNeEdF2ssy+DhgJVjZ5Na5
+	 dHcLhlj78j5Uxup6pN+BaZW7kDnoL3bjE4Dm8IYFh+EFlo8ytKigkZsxxEkqWetoc2
+	 ImJSh2tqlyO2CDXVfwfHk76IFlf8oSj7Tr0zqVpQ0QmDaz6rzskGEglR+u1qfzuZXO
+	 bgRpsOZyB5GHnqjSV7F/g3Hit7qNCm6x4p9bnP20pT2qAg9y82dPWuGxOjlePGGk9n
+	 +FQi3j3kTTaZ+h+Ix9z4/diG4SaucBACHB2YO8xh3fMNpn49SQ3nlT+e6W6PX7Ze9a
+	 IiOcuPshSze5w==
+Date: Mon, 27 Jan 2025 14:09:16 +0000
+From: Will Deacon <will@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Suren Baghdasaryan <surenb@google.com>, boqun.feng@gmail.com,
+	mark.rutland@arm.com, Mateusz Guzik <mjguzik@gmail.com>,
+	akpm@linux-foundation.org, willy@infradead.org,
+	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com,
+	david.laight.linux@gmail.com, mhocko@suse.com, vbabka@suse.cz,
+	hannes@cmpxchg.org, oliver.sang@intel.com,
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
+	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
+	hughd@google.com, lokeshgidra@google.com, minchan@google.com,
+	jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com,
+	pasha.tatashin@soleen.com, klarasmodin@gmail.com,
+	richard.weiyang@gmail.com, corbet@lwn.net,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH] refcount: Strengthen inc_not_zero()
+Message-ID: <20250127140915.GA25672@willie-the-truck>
+References: <20250111042604.3230628-1-surenb@google.com>
+ <20250111042604.3230628-12-surenb@google.com>
+ <gdipfy63r4wxiqlnglsjzatpej6jjswimuzadm2l57o2e45u56@qfd763n4ysft>
+ <CAJuCfpGu4UVXiBaivTVOGNBVVz3rhZ+VY27gT3_R0cTij5fTGw@mail.gmail.com>
+ <20250115104841.GX5388@noisy.programming.kicks-ass.net>
+ <20250115111334.GE8385@noisy.programming.kicks-ass.net>
+ <20250115160011.GG8385@noisy.programming.kicks-ass.net>
+ <20250117154135.GA17569@willie-the-truck>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] documentation: networking: fix spelling mistakes
-To: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Cc: shuah@kernel.org, linux-can@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- socketcan@hartkopp.net, mkl@pengutronix.de, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- corbet@lwn.net
-References: <20250123082521.59997-1-khaledelnaggarlinux@gmail.com>
- <69da3515-13c8-4626-a2b8-cce7c625da43@intel.com>
- <5248fbae-982e-4efa-9481-5e2ded2b4443@gmail.com>
- <009d8ff8-7b77-4b3c-b92a-525b1d6bd858@intel.com>
-Content-Language: en-US
-From: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
-In-Reply-To: <009d8ff8-7b77-4b3c-b92a-525b1d6bd858@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250117154135.GA17569@willie-the-truck>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On 1/27/25 10:16 AM, Przemek Kitszel wrote:
+On Fri, Jan 17, 2025 at 03:41:36PM +0000, Will Deacon wrote:
+> On Wed, Jan 15, 2025 at 05:00:11PM +0100, Peter Zijlstra wrote:
+> > On Wed, Jan 15, 2025 at 12:13:34PM +0100, Peter Zijlstra wrote:
+> > 
+> > > Notably, it means refcount_t is entirely unsuitable for anything
+> > > SLAB_TYPESAFE_BY_RCU, since they all will need secondary validation
+> > > conditions after the refcount succeeds.
+> > > 
+> > > And this is probably fine, but let me ponder this all a little more.
+> > 
+> > Even though SLAB_TYPESAFE_BY_RCU is relatively rare, I think we'd better
+> > fix this, these things are hard enough as they are.
+> > 
+> > Will, others, wdyt?
+> 
+> We should also update the Documentation (atomic_t.txt and
+> refcount-vs-atomic.rst) if we strengthen this.
+> 
+> > ---
+> > Subject: refcount: Strengthen inc_not_zero()
+> > 
+> > For speculative lookups where a successful inc_not_zero() pins the
+> > object, but where we still need to double check if the object acquired
+> > is indeed the one we set out to aquire, needs this validation to happen
+> > *after* the increment.
+> > 
+> > Notably SLAB_TYPESAFE_BY_RCU is one such an example.
+> > 
+> > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> > ---
+> >  include/linux/refcount.h | 15 ++++++++-------
+> >  1 file changed, 8 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/include/linux/refcount.h b/include/linux/refcount.h
+> > index 35f039ecb272..340e7ffa445e 100644
+> > --- a/include/linux/refcount.h
+> > +++ b/include/linux/refcount.h
+> > @@ -69,9 +69,10 @@
+> >   * its the lock acquire, for RCU/lockless data structures its the dependent
+> >   * load.
+> >   *
+> > - * Do note that inc_not_zero() provides a control dependency which will order
+> > - * future stores against the inc, this ensures we'll never modify the object
+> > - * if we did not in fact acquire a reference.
+> > + * Do note that inc_not_zero() does provide acquire order, which will order
+> > + * future load and stores against the inc, this ensures all subsequent accesses
+> > + * are from this object and not anything previously occupying this memory --
+> > + * consider SLAB_TYPESAFE_BY_RCU.
+> >   *
+> >   * The decrements will provide release order, such that all the prior loads and
+> >   * stores will be issued before, it also provides a control dependency, which
+> > @@ -144,7 +145,7 @@ bool __refcount_add_not_zero(int i, refcount_t *r, int *oldp)
+> >  	do {
+> >  		if (!old)
+> >  			break;
+> > -	} while (!atomic_try_cmpxchg_relaxed(&r->refs, &old, old + i));
+> > +	} while (!atomic_try_cmpxchg_acquire(&r->refs, &old, old + i));
+> 
+> Hmm, do the later memory accesses need to be ordered against the store
+> part of the increment or just the read? If it's the former, then I don't
+> think that _acquire is sufficient -- accesses can still get in-between
+> the read and write parts of the RmW.
 
-> this patch is fine for -net, as this is fixing the bugs in the text,
-> those are rather special, as there is no risk of regression :)
-> I'm not sure if Fixes tag is necessary for spelling fixes though.
+I dug some more into this at the end of last week. For the
+SLAB_TYPESAFE_BY_RCU where we're racing inc_not_zero() with
+dec_and_test(), then I think using _acquire() above is correct as the
+later references can only move up into the critical section in the case
+that we successfully obtained a reference.
 
-Makes sense. Thanks.
-Khaled
+However, if we're going to make the barriers implicit in the refcount
+operations here then I think we also need to do something on the producer
+side for when the object is re-initialised after being destroyed and
+allocated again. I think that would necessitate release ordering for
+refcount_set() so that whatever allows the consumer to validate the
+object (e.g. sequence number) is published *before* the refcount.
+
+Will
