@@ -1,144 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB3EA1FCFD6;
-	Mon, 27 Jan 2025 14:09:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B766FC5
+	for <linux-doc@vger.kernel.org>; Mon, 27 Jan 2025 14:10:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737986966; cv=none; b=iq36P8NFpRm5Vme24WgSnRGk/juIUMfZItEl0yR99e/L3qC4qCfVN9GuybGDT1egD4PUZuvxEun+14mDcLvjAFGWmKT5kj7ikmgl2TYVCRqs7x86sSNogazGIC4J50MLPbImlYcQmoG7vh0Pk8ZjkRxS0BOqqyrJg133X9ArUrA=
+	t=1737987008; cv=none; b=dLsmIEB9c20q7IS+8bU0iekEmAhOo+ZhrlcUm390a9MSqDwbLeDtEcsomzClQgttYk+qcLgdwEM+ollTjOiGZAR2MSkQYrt2iAxNpQK5Lvz5KSkyDUJo/PxnIWa+6b+bze2Du5ESHAr+8W9WxV8tTUPc3Mqctd4eg9GZF+G+VK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737986966; c=relaxed/simple;
-	bh=Rz6meftNFWIKeSBHX9X0i9FyWdEWeAzsHOwEmNXnLVo=;
+	s=arc-20240116; t=1737987008; c=relaxed/simple;
+	bh=KQRLfBaEDBa5jCtSAySQLmQF0Lj/tkM7lUCVd453Zkc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FskN18sV9NhWZN5VcgjW00oXTay3FjHmLwEn4Omns4kwnlRQRXCvJxY++WrYMcyp/rYxqtruYCeDcXETenhUjUMBydcZ8/6BhJ2YTR+/NuGRd9cjydDzYL6HkajJGhItiTdp/EScGU9NdGL3RcdRdB+ztBTzxWtkPVjUlQHkrfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PsYVb50t; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=tW/Jjwb4j4lzCTeDpc0UBsqShWERhfZ6flOo7GwH/J06Zj+/sojucDCOBpEEeA8mN5G6gLllpH9I4CMxd4CJ+caYkv+U9Av29JU6kJ6KTMeTYQnwE+XjIG3IbZ63JnLudaspeC694LiWAZv11eGZtPsnW0bHYgIXiET4Lis+ERY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=D3oKUK2r; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PsYVb50t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2894EC4CED2;
-	Mon, 27 Jan 2025 14:09:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1737986966;
-	bh=Rz6meftNFWIKeSBHX9X0i9FyWdEWeAzsHOwEmNXnLVo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PsYVb50tmoIzHQ8LPsNtS6QOOFCTm7a45GJ+NKRDdX9fNeEdF2ssy+DhgJVjZ5Na5
-	 dHcLhlj78j5Uxup6pN+BaZW7kDnoL3bjE4Dm8IYFh+EFlo8ytKigkZsxxEkqWetoc2
-	 ImJSh2tqlyO2CDXVfwfHk76IFlf8oSj7Tr0zqVpQ0QmDaz6rzskGEglR+u1qfzuZXO
-	 bgRpsOZyB5GHnqjSV7F/g3Hit7qNCm6x4p9bnP20pT2qAg9y82dPWuGxOjlePGGk9n
-	 +FQi3j3kTTaZ+h+Ix9z4/diG4SaucBACHB2YO8xh3fMNpn49SQ3nlT+e6W6PX7Ze9a
-	 IiOcuPshSze5w==
-Date: Mon, 27 Jan 2025 14:09:16 +0000
-From: Will Deacon <will@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Suren Baghdasaryan <surenb@google.com>, boqun.feng@gmail.com,
-	mark.rutland@arm.com, Mateusz Guzik <mjguzik@gmail.com>,
-	akpm@linux-foundation.org, willy@infradead.org,
-	liam.howlett@oracle.com, lorenzo.stoakes@oracle.com,
-	david.laight.linux@gmail.com, mhocko@suse.com, vbabka@suse.cz,
-	hannes@cmpxchg.org, oliver.sang@intel.com,
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
-	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
-	hughd@google.com, lokeshgidra@google.com, minchan@google.com,
-	jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com,
-	pasha.tatashin@soleen.com, klarasmodin@gmail.com,
-	richard.weiyang@gmail.com, corbet@lwn.net,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH] refcount: Strengthen inc_not_zero()
-Message-ID: <20250127140915.GA25672@willie-the-truck>
-References: <20250111042604.3230628-1-surenb@google.com>
- <20250111042604.3230628-12-surenb@google.com>
- <gdipfy63r4wxiqlnglsjzatpej6jjswimuzadm2l57o2e45u56@qfd763n4ysft>
- <CAJuCfpGu4UVXiBaivTVOGNBVVz3rhZ+VY27gT3_R0cTij5fTGw@mail.gmail.com>
- <20250115104841.GX5388@noisy.programming.kicks-ass.net>
- <20250115111334.GE8385@noisy.programming.kicks-ass.net>
- <20250115160011.GG8385@noisy.programming.kicks-ass.net>
- <20250117154135.GA17569@willie-the-truck>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="D3oKUK2r"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4364a37a1d7so46306365e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jan 2025 06:10:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1737987004; x=1738591804; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tkD75Ts4CPh70YSx84KfjbKbYHVKyh5q/6VF+3rSAf8=;
+        b=D3oKUK2rDm1K/OgyB2BKQvrSkEvIlVD8wof3zqAlJHVmyG92J/sDzPI3fCuEMpoXsU
+         PPEUULTBGSkM3GK3yLp0tdOj2d/K1MdNJOka7GOdrKlD5xTdNgEyHDDt8bbLNU2BADfH
+         GH+yrgoOX29CwCeEL1kYz9rmrvWv1AmjZ7NL57/If2L2qfapgEz0e9nOTZY2gUlc1tsP
+         yqjFz3qFqXpr0PCmwWS+B9meWlhHOkSOmaZrUc7Gus96JfPTU2F3Re4thBKADbv104+0
+         TNCiG0l7puEz6tWNur0n0M97bQxhJ3DwoEVI6RQSSqB9sci/yh5kDMvOUx406dYax4Bf
+         /Uxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737987004; x=1738591804;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tkD75Ts4CPh70YSx84KfjbKbYHVKyh5q/6VF+3rSAf8=;
+        b=qKOQgEyifoYE+XR90JeB0W+DEdhDfVl7bO1xgmepT1BUe8MQ/AMBr3rHtKjOaXyROf
+         z8rXk2xLIf/BNa9mSQYuDvz/OZz+TBfV1pTP24N1XekJQiBtZe+iT/f8sRpKckkqlWTb
+         1ob88HNiRQF5+DkhGRZZmS4pulbis+W18Sbuxne9t7nA5LU6xPeytrjdQIgyriXyeeJo
+         9o/JAamWzNLmUSYsmxVSBihTQNYqeNEyUNURl9gj7GeZIgQa0oHrrNFwePOEwZXIC3Ew
+         ydytA3lOfDCVDx4YrMK8NY8rUDTWgKn3ribgOLWSSoJIuWS3gQkDYoT0g3pMuDlTG7yP
+         qTNg==
+X-Forwarded-Encrypted: i=1; AJvYcCXHpjzO6foeIN7YsBAwfc09BfM/UnJkRLDzf6doGevZmzZpu11uBNWgLDbPn0za6d7zF8BxP00rt2Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8CK2DAXWEYYwGAv+5PRyNMFthP0BDiK8ya/X+aYEkf74FN1H+
+	2GaaNSguPuxnJit8e4P5JfOwdLHjwKTR9UvAj23PLn4oBwjamwhNDh+Z3jwCJQ7cYVHaXnF9kMv
+	l
+X-Gm-Gg: ASbGnct69AgZV+ThLAVMi4DfduAW137YBQQYBcOJO/uR3rl4b4QkT/ExrhIsN6Dnk9D
+	H598N6Mpatzovrr2vVVLu8jbJoCqxfn6wlh/LGTJcsLt+5me1wZBr9Yo6FZ/VzHDCk8H8eUdGfq
+	HP9V2eaxQQJEI8GwLkiI3D0IqLVJPcB/JzpH3onERG0KeTmZgeMxYxXivHKeKuKV6R0/6Ueqczo
+	jtkGKkjLZebwJzF2q/zDBGUNKq8LpXIKGfzwm+e6AW5U0ylqm5BmJ5mEc/evv4MPtxKAvQPoCCF
+	/bx2CBk=
+X-Google-Smtp-Source: AGHT+IGECP4URarMDrxhpRYgKkpXhOXF8KDgFDwNQc1Cm1K+dMcdFOzgVRq5fGtHk3WsEYeGYOMf5A==
+X-Received: by 2002:a05:600c:524c:b0:432:7c08:d0ff with SMTP id 5b1f17b1804b1-4389143768fmr367657635e9.23.1737987004313;
+        Mon, 27 Jan 2025 06:10:04 -0800 (PST)
+Received: from blackdock.suse.cz ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c2a1c3fedsm10949249f8f.85.2025.01.27.06.10.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jan 2025 06:10:03 -0800 (PST)
+Date: Mon, 27 Jan 2025 15:10:02 +0100
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Abel Wu <wuyun.abel@bytedance.com>
+Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Yury Norov <yury.norov@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Bitao Hu <yaoma@linux.alibaba.com>, Chen Ridong <chenridong@huawei.com>, 
+	"open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 3/3] cgroup/rstat: Add run_delay accounting for cgroups
+Message-ID: <3wqaz6jb74i2cdtvkv4isvhapiiqukyicuol76s66xwixlaz3c@qr6bva3wbxkx>
+References: <20250125052521.19487-1-wuyun.abel@bytedance.com>
+ <20250125052521.19487-4-wuyun.abel@bytedance.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="pp2a2dbhnvcuqeeg"
 Content-Disposition: inline
-In-Reply-To: <20250117154135.GA17569@willie-the-truck>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20250125052521.19487-4-wuyun.abel@bytedance.com>
 
-On Fri, Jan 17, 2025 at 03:41:36PM +0000, Will Deacon wrote:
-> On Wed, Jan 15, 2025 at 05:00:11PM +0100, Peter Zijlstra wrote:
-> > On Wed, Jan 15, 2025 at 12:13:34PM +0100, Peter Zijlstra wrote:
-> > 
-> > > Notably, it means refcount_t is entirely unsuitable for anything
-> > > SLAB_TYPESAFE_BY_RCU, since they all will need secondary validation
-> > > conditions after the refcount succeeds.
-> > > 
-> > > And this is probably fine, but let me ponder this all a little more.
-> > 
-> > Even though SLAB_TYPESAFE_BY_RCU is relatively rare, I think we'd better
-> > fix this, these things are hard enough as they are.
-> > 
-> > Will, others, wdyt?
-> 
-> We should also update the Documentation (atomic_t.txt and
-> refcount-vs-atomic.rst) if we strengthen this.
-> 
-> > ---
-> > Subject: refcount: Strengthen inc_not_zero()
-> > 
-> > For speculative lookups where a successful inc_not_zero() pins the
-> > object, but where we still need to double check if the object acquired
-> > is indeed the one we set out to aquire, needs this validation to happen
-> > *after* the increment.
-> > 
-> > Notably SLAB_TYPESAFE_BY_RCU is one such an example.
-> > 
-> > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> > ---
-> >  include/linux/refcount.h | 15 ++++++++-------
-> >  1 file changed, 8 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/include/linux/refcount.h b/include/linux/refcount.h
-> > index 35f039ecb272..340e7ffa445e 100644
-> > --- a/include/linux/refcount.h
-> > +++ b/include/linux/refcount.h
-> > @@ -69,9 +69,10 @@
-> >   * its the lock acquire, for RCU/lockless data structures its the dependent
-> >   * load.
-> >   *
-> > - * Do note that inc_not_zero() provides a control dependency which will order
-> > - * future stores against the inc, this ensures we'll never modify the object
-> > - * if we did not in fact acquire a reference.
-> > + * Do note that inc_not_zero() does provide acquire order, which will order
-> > + * future load and stores against the inc, this ensures all subsequent accesses
-> > + * are from this object and not anything previously occupying this memory --
-> > + * consider SLAB_TYPESAFE_BY_RCU.
-> >   *
-> >   * The decrements will provide release order, such that all the prior loads and
-> >   * stores will be issued before, it also provides a control dependency, which
-> > @@ -144,7 +145,7 @@ bool __refcount_add_not_zero(int i, refcount_t *r, int *oldp)
-> >  	do {
-> >  		if (!old)
-> >  			break;
-> > -	} while (!atomic_try_cmpxchg_relaxed(&r->refs, &old, old + i));
-> > +	} while (!atomic_try_cmpxchg_acquire(&r->refs, &old, old + i));
-> 
-> Hmm, do the later memory accesses need to be ordered against the store
-> part of the increment or just the read? If it's the former, then I don't
-> think that _acquire is sufficient -- accesses can still get in-between
-> the read and write parts of the RmW.
 
-I dug some more into this at the end of last week. For the
-SLAB_TYPESAFE_BY_RCU where we're racing inc_not_zero() with
-dec_and_test(), then I think using _acquire() above is correct as the
-later references can only move up into the critical section in the case
-that we successfully obtained a reference.
+--pp2a2dbhnvcuqeeg
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 3/3] cgroup/rstat: Add run_delay accounting for cgroups
+MIME-Version: 1.0
 
-However, if we're going to make the barriers implicit in the refcount
-operations here then I think we also need to do something on the producer
-side for when the object is re-initialised after being destroyed and
-allocated again. I think that would necessitate release ordering for
-refcount_set() so that whatever allows the consumer to validate the
-object (e.g. sequence number) is published *before* the refcount.
+Hello.
 
-Will
+On Sat, Jan 25, 2025 at 01:25:12PM +0800, Abel Wu <wuyun.abel@bytedance.com=
+> wrote:
+> The per-task and per-cpu accounting have already been tracked by
+> t->sched_info.run_delay and rq->rq_sched_info.run_delay respectively.
+> Extends this to also include cgroups.
+>=20
+> The PSI indicator, "some" of cpu.pressure, loses the insight into how
+> severely that cgroup is stalled. Say 100 tasks or just 1 task that gets
+> stalled at a certain point will show no difference in "some" pressure.
+> IOW "some" is a flat value that not weighted by the severity (e.g. # of
+> tasks).
+
+IIUC below are three examples of when "some" tasks are waiting for CPU:
+
+a)
+  t1 |----|
+  t2 |xx--|
+
+b)
+  t1 |----|
+  t2 |x---|
+  t3 |-x--|
+
+c)
+  t1 |----|
+  t2 |xx--|
+  t3 |xx--|
+
+(- means runnable on CPU, x means runnable waiting on RQ)
+
+Which pair from a), b), c) is indistinguishable via PSI? (Or can you
+please add your illustrative example?)
+And how do per-cgroup run_delay distinguishe those?
+
+
+Thanks,
+Michal
+
+--pp2a2dbhnvcuqeeg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCZ5eTtwAKCRAt3Wney77B
+SbcsAQCPV6LsTHPe6Ijw1sdNdZ2nksChYzapP7009NoaOGncxAD/SVqdXU2faOw1
+BwrbEVQvfgmZAhRNkdzD9zYBlryolAA=
+=sqDX
+-----END PGP SIGNATURE-----
+
+--pp2a2dbhnvcuqeeg--
