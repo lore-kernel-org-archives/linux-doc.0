@@ -1,125 +1,93 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A321FDE15;
-	Mon, 27 Jan 2025 10:48:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C00A1FDA86;
+	Mon, 27 Jan 2025 10:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737974917; cv=none; b=O3E1BjWNrZU74Dz8WeqUZx+sG2Y6tJvGnSUHq58WJu5F2csOluiL4xgE0XpH1laHThArsYsXR/WrbHQVvAe0S24bIG+zqkh+50ET6d4BoUhe3j3O4t6EM/QLrodGDS1ZKQnEVxtwzUOpIwiYAbR0hbdM2t03xlIBkVIxXxPf8Nc=
+	t=1737975158; cv=none; b=hMi4tis9JNP2tvt5ho+1RBWH06eLUapM0Rk46bk8F5EGs4zMoyGeKpjbrPSUIvtaJ+g4peHVu6+3sv99HSD6uUPXHEeWvk1uHp2kHb/jJ25iO9feIZRgy4d4dqZIzLHwgx+VF7W9RqfJB93aq3M3MzoszyTvpwb+eAvNAkUI5jI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737974917; c=relaxed/simple;
-	bh=gu+OcbLGVvf1dfHH/7ye3s4n2z3k77nc2myZiXE9DtA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ha2X98L9J22NkgjhuhgrTKb4zVSl25wGtDGPgoMNfs7yz2dTHQmKwftZY33egEaCikccI/Ts8ecltS08dcBTqW/pXMs8UepkbwXfHlNk+9dtU0NSZtC6S0I2WX1wwmwyBRx331o9ImAeAEbgg5VBTSi+Ky9gDyDk7ih5zTgd2pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ODwDe+ZC; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1737975158; c=relaxed/simple;
+	bh=ADvqvVJx5NrxaNgOcJ/ES1arTuX9/tUYcouTIU2fsJI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X9BjTBGdDB1yWD5Gp9M9ZPPC2l9QcJKj5gAkgySaCjRwUd66q1R1IYfUV9HU+pka9duJbaS/wN7cVe4KnXADQoDHmgl7g4cPpkOPkEAIYvXQ/uj+oRksAkvPk8ze3IlCgiR7XfUNDTfkrt62nW6TwIrpEOjpcbbRHM2uPBzZoG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cmHFQDoV; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ODwDe+ZC"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C430C2000A;
-	Mon, 27 Jan 2025 10:48:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1737974907;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=16Z4jSz8wfLo+04tmP/UOzeDIejcTqVQyH3UF14AFGo=;
-	b=ODwDe+ZCtqIB1E51+TpbvEuaH8BndqDBT1ItNBYeAMUq++lzJKw7iA97a7ZFIw9Z+hNnmj
-	zX2eciYO70HPV8FxI8nUAkwBIOPWnzgs/zvD2P8paW+g0mHKg53qvl5r6jcZPikKvhLise
-	k0+p75ebhi+oQkeXEryvFG6sZ+bjiEsH2987J7cW6fQ/cp7gOSSOWV5xHoMb7OvJL4s3/h
-	dojbVMGl9mMjUK/FrYE952CB8oNMa9sHv1dlM/NwK46zf2ktU4ElnvClshZ5yHQmInxxa7
-	/MeaORBBKoHXL8wztSI5D36aVASN2DxzMnMsPkG8+6Pi9KR2pF4RohKyFr9CyA==
-Date: Mon, 27 Jan 2025 11:48:23 +0100
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, rdunlap@infradead.org,
-	arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>,
-	pekka.paalanen@haloniitty.fi, Simona Vetter <simona@ffwll.ch>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
-	thomas.petazzoni@bootlin.com, seanpaul@google.com,
-	marcheu@google.com, nicolejadeyee@google.com,
-	linux-doc@vger.kernel.org,
-	Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH v16 5/7] drm/vkms: Create KUnit tests for YUV conversions
-Message-ID: <Z5dkd3npNtzPWCrP@louis-chauvet-laptop>
-Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
-	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, rdunlap@infradead.org,
-	arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>,
-	pekka.paalanen@haloniitty.fi, Simona Vetter <simona@ffwll.ch>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
-	thomas.petazzoni@bootlin.com, seanpaul@google.com,
-	marcheu@google.com, nicolejadeyee@google.com,
-	linux-doc@vger.kernel.org,
-	Pekka Paalanen <pekka.paalanen@collabora.com>
-References: <20250121-yuv-v16-0-a61f95a99432@bootlin.com>
- <20250121-yuv-v16-5-a61f95a99432@bootlin.com>
- <qwym5wty72f6o4dfz2iduamkpuom6jt5txskknovqxzagruusx@zuytk7awe2uw>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cmHFQDoV"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4364a37a1d7so43998775e9.3;
+        Mon, 27 Jan 2025 02:52:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737975155; x=1738579955; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ADvqvVJx5NrxaNgOcJ/ES1arTuX9/tUYcouTIU2fsJI=;
+        b=cmHFQDoVMvTQw0TWni2h1rM3DpF4dvT2BNOVEygC3M76RXX3/I9W+z0WhkWHQwd9iG
+         XMHtsOan0mDlQE0pa9cpJZJqSghZh137KlYCdMeoD8wzTFIL6TQIECgnsLe3HhGAnHcL
+         nL2ztsMadUL0t+aAtqAL+HQeOP0/hZTmUbFH2Cyb4lox30KBOj0ZPXot7rzkdIoHgLxQ
+         8HvmekXzZRq8341zpWA4yM2wDUAzvkeFSCzUtaZRkYI3PEDB5VcQpcEhWuLkj9ULFCK1
+         x9z+OmVfFOzFtzOH0DMGcxUnsl6uWg4psQy1e74KQyVTU8Md5xKHt3X+5EJr3aegdMCH
+         98Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1737975155; x=1738579955;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ADvqvVJx5NrxaNgOcJ/ES1arTuX9/tUYcouTIU2fsJI=;
+        b=CWWAqKstrb1EdOd2dXs0ptrPZefOsgNjqSK0oEq6cJPTn8zygX53jeCoR38xL69PPI
+         l3V5VgsmAXnu4Mo0fTrlGY+crzdxDaTVbwtyxdPVa1461Z4K62omcK3ONYls6nokAP+2
+         1KAHFhN93CiX48NYVbDC1KkNoBqKATnv9O9yuRG/oeeeJZD/xtLvolTf124L2m2Rw4fA
+         6d+wjPNkJ24PsM0cCL1jI+4ceG4KTBJYMD8G5uAraXg9oVC9KhqWXrLTel/nREUWbcCE
+         dHEZj8+fR1Fzwv51/u9mGz2fSl12teITdrSwzEgu5M/sPrdkdhB8WH2CyB+8vRXfofhG
+         oqsA==
+X-Forwarded-Encrypted: i=1; AJvYcCU3h/j6QB7QqnFSw7n0wDLMcX2RPJYXcEOhNVDT41wxn3DEDYhqRRSNNM0/TiiZndvZ0hoF3R1cPrwbd/CN@vger.kernel.org, AJvYcCVXVcpJkDbiygw4+3zD6l5v5rb2w6IgkOU9alETL58piRF9oahhwogs/qm/2zIgt4+A3OxJp1xNnFc=@vger.kernel.org, AJvYcCXAsEpMPkrUhealL1es3beAay6yUR7p1cQ5atVyv+8HfKSasrUkPpTx84JuHyKbhLCoyFsFU1uq@vger.kernel.org, AJvYcCXHuRz3AKPnN9LCLW66iR23fCczZp4LpXrxFw56+HsqQu5JoNlqh3X1JH/xYKkxxaB4TFDCEitCoLfv@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsZpbbVyfK7O2ipr/m+21HcQ3epyqERxs06udUfax+HrwJn3p8
+	O46JzOS7EJFT5JNc5ydUmHBVGX2sY4MM7BZwHf0PbssokG/RKp5l
+X-Gm-Gg: ASbGncvlHyfcvjy33TqYe5ztuF/qQBrd3SRUcmh24/MgHl0+SUOc61q2WYy3PpZXo9J
+	L5cz+MpI4AuDT7REH39cT7gvQcU24a43X4hT9RGwzHA0pn0fNr7GVJ2Lskuvev87Dt5AN2xtNQo
+	+CcAmqSDIO9XfmDHUNxNzP5o+cEWQtjYz9LAq3ELiixLJmZf4kd/y6pDs+N1Kp53wrn7+qmpnIo
+	7wp7mflRNTDsaVXQnP0kcD/MRhZNuNKeNcfxTydSB0HXpjxB56lbduGcg6Z/tnN6ICQPg6T04M+
+	8dI33wqdXx1A2u3C1wqr1A==
+X-Google-Smtp-Source: AGHT+IEgpzbSjsuqjQId01p+RPqeHrhSFk6HkwDvd4tGyN8bqiyDwlOekgzKmPN0g+igJw9RgC9ajQ==
+X-Received: by 2002:a05:600c:9a3:b0:434:fa73:a907 with SMTP id 5b1f17b1804b1-4389191b819mr374688965e9.13.1737975154471;
+        Mon, 27 Jan 2025 02:52:34 -0800 (PST)
+Received: from [192.168.1.14] ([197.63.236.210])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c2a17d6f8sm10524823f8f.28.2025.01.27.02.52.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Jan 2025 02:52:34 -0800 (PST)
+Message-ID: <5cddb702-1cfa-4961-a7a5-dd0c759379dd@gmail.com>
+Date: Mon, 27 Jan 2025 12:52:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <qwym5wty72f6o4dfz2iduamkpuom6jt5txskknovqxzagruusx@zuytk7awe2uw>
-X-GND-Sasl: louis.chauvet@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] documentation: networking: fix spelling mistakes
+To: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Cc: shuah@kernel.org, linux-can@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ socketcan@hartkopp.net, mkl@pengutronix.de, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ corbet@lwn.net
+References: <20250123082521.59997-1-khaledelnaggarlinux@gmail.com>
+ <69da3515-13c8-4626-a2b8-cce7c625da43@intel.com>
+ <5248fbae-982e-4efa-9481-5e2ded2b4443@gmail.com>
+ <009d8ff8-7b77-4b3c-b92a-525b1d6bd858@intel.com>
+Content-Language: en-US
+From: Khaled Elnaggar <khaledelnaggarlinux@gmail.com>
+In-Reply-To: <009d8ff8-7b77-4b3c-b92a-525b1d6bd858@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 26/01/25 - 18:06, Maxime Ripard wrote:
-> On Tue, Jan 21, 2025 at 11:48:06AM +0100, Louis Chauvet wrote:
-> > +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
-> > +	/*
-> > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
-> > +	 *                     K=colour.WEIGHTS_YCBCR["ITU-R BT.601"],
-> > +	 *                     in_bits = 16,
-> > +	 *                     in_legal = False,
-> > +	 *                     in_int = True,
-> > +	 *                     out_bits = 8,
-> > +	 *                     out_legal = False,
-> > +	 *                     out_int = True)
-> > +	 *
-> > +	 * Test cases for conversion between YUV BT601 full range and RGB
-> > +	 * using the ITU-R BT.601 weights.
-> > +	 */
-> 
-> What are the input and output formats?
-> 
-> Ditto for all the other tests.
+On 1/27/25 10:16 AM, Przemek Kitszel wrote:
 
-There is no really "input" and "output" format, they are reference values 
-for conversion, you should be able to use it in both direction. They are 
-generated by RGB_to_YCbCr (RGB input, YUV output) just because it was 
-easier to create the colors from RGB values.
+> this patch is fine for -net, as this is fixing the bugs in the text,
+> those are rather special, as there is no risk of regression :)
+> I'm not sure if Fixes tag is necessary for spelling fixes though.
 
-If you think we should specify what is was used as input and output to 
-generate those values, I can modify the comment to:
-
-	Tests cases for color conversion generated by converting RGB 
-	values to YUV BT601 full range using the ITU-R BT.601 weights.
-
-Beside that modification, did you notice anything else on the series that 
-require more work before adding your Ack-by/Reviewed-by on the other 
-patches?
-
-Thanks,
-Louis Chauvet
- 
-> Maxime
-
-
+Makes sense. Thanks.
+Khaled
