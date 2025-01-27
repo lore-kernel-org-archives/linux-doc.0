@@ -1,64 +1,75 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CCB179BF;
-	Mon, 27 Jan 2025 09:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A321FDE15;
+	Mon, 27 Jan 2025 10:48:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737971568; cv=none; b=L2LMMahDCqllFuaz+0h5Fry8Kz2W42POCUtLEb8boO/8nx6mvmH5Jx8qfFzwWK6D/7VgUbaDLssdGuzW/6kR3PQcHkiVaSR2TvxzMykJJCxhJKZ8AunIvGAAlb38BHYOczlQX+myiiCZxLM+B3x4QVRyyxRHhEPQ01T0Gp9bIRc=
+	t=1737974917; cv=none; b=O3E1BjWNrZU74Dz8WeqUZx+sG2Y6tJvGnSUHq58WJu5F2csOluiL4xgE0XpH1laHThArsYsXR/WrbHQVvAe0S24bIG+zqkh+50ET6d4BoUhe3j3O4t6EM/QLrodGDS1ZKQnEVxtwzUOpIwiYAbR0hbdM2t03xlIBkVIxXxPf8Nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737971568; c=relaxed/simple;
-	bh=sEf2lqaqotPf1mI9av3Y9XvH4rokBRV4qQ2BB2ZGMps=;
+	s=arc-20240116; t=1737974917; c=relaxed/simple;
+	bh=gu+OcbLGVvf1dfHH/7ye3s4n2z3k77nc2myZiXE9DtA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hPvHgBhUzvPnqgrXDTQ3ldDEciQLCoUo2FkqF6MVxKpwZBLVpQKVVlz1uhOGTBDTOOiQ96IRB0erabhhzSqABUczOYU/hX8eqWHwrsnD1IX8W3MVu5bFH84zmRJJLxL37cd+ySYobQgRtIl2aEeURoTSq9y/qiRYcSS62+rbsVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-aaf6b1a5f2bso1076531966b.1;
-        Mon, 27 Jan 2025 01:52:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737971564; x=1738576364;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=40YkW2LXcjSJharDQzWCHs9h4KhBTXSlHsAO4Ud+8ho=;
-        b=H6d0Mh3EM2fmeUIrSaAZgPD06tX6/SKvsaAo05sQUSGoAoElQaoulkEFF/4WbFPtXD
-         GqF4tNAn4BkEkFO5Ly41F9KZQeSNBeJW408qsJGuFt5Vp+41/qNfmROnufErtcwDOvKz
-         wUqfUTeZ19Nn+ZiV7YCLwu1HuKFPsUFWg2DkzvL+hw1rP5KpKUbYbobqTbXyCKTOy7Rf
-         Psy3kwLz5teVrtVvwv2A352XQPlEXbyBob3zXyoVKnFYgabuuGVLFbHqPNrKtWbMvSaC
-         wloLQlf7ErXgFRJTjj/VpYHcG8ytI4GmD7Utde2VRLCCCY+hw8mrAGekY/a5ev0Zeb3r
-         /adw==
-X-Forwarded-Encrypted: i=1; AJvYcCW1MmbSFZ/6jRvzyzBftsdIYQ/C/+qO2By24KNoIqg88fVAA5w1bdvEUNXwl2gbMr1NVKaLkNiV@vger.kernel.org, AJvYcCW3NImfsrBPcepz3FjjPjQyPBX1toyoFrPTAIqm9t2MKiMU19lt3FFnNsAdNlPuNFYLX+rDalEKutE=@vger.kernel.org, AJvYcCXoI/vnXUSwPQQasrcJIBifNM4Obp3u+YiL4xJQ1DOwIywzxTM77AhApTgqvBzNCrdphntQds+Oe1540LzxxHm/@vger.kernel.org, AJvYcCXql/JTLvYDQJcOx1H8KRQq+mCD89cuHrEu6CVVokyaZ55VsK3mCws8P4hoOwjFkkdQ0myfwSSHtqyLk8Wr@vger.kernel.org
-X-Gm-Message-State: AOJu0YwbxMrg1kxQQRu4e7riws4KMb+z9jdhAgN1Mjgkhkeng/FJ35xE
-	r6x7MJRiNUVt3v4tNA2VKXrrZjuaBnA1NZVWpR5Q01wG4jH0zwAs
-X-Gm-Gg: ASbGncvUThnqA1+u0JkEcEyIuUtBkoTUJaIBX2Wr/eZyRFr9eybJzSHd7Ugq9Ny7BA6
-	gTW0BXUlinUgl4SjIMogmvgSakNfW/qzBu2w/xZeCoiIVbC2DAwDpl07/JFaBnVG8sWRGkVgE1z
-	BvyCIB8dFuPY1VZC0fO1kpAuhxIJ1Y6IOVXvdJ4NSMdUnoVj/ZPh/LHipyG6ghpRIALHhMhzMhS
-	mNyt4/DF28LaBOhqdJeeWzy2wnQT6/FM6m6Rlyk/7lQJTYjcW7kYifiUIEbNNSI8wXyu2Cs
-X-Google-Smtp-Source: AGHT+IEBIGrKmRyzhMhTGlg7/KJLGnU3xVhUnix8IGJESgpT0glzSYucvwydW/0uowaVliDoqimPjQ==
-X-Received: by 2002:a17:907:948e:b0:aae:f029:c2ec with SMTP id a640c23a62f3a-ab6629683fbmr1519661566b.12.1737971564026;
-        Mon, 27 Jan 2025 01:52:44 -0800 (PST)
-Received: from gmail.com ([2a03:2880:30ff:72::])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab676116aecsm560668466b.170.2025.01.27.01.52.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jan 2025 01:52:43 -0800 (PST)
-Date: Mon, 27 Jan 2025 01:52:35 -0800
-From: Breno Leitao <leitao@debian.org>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, rdunlap@infradead.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH RFC net-next v3 0/8] netconsole: Add support for CPU
- population
-Message-ID: <20250127-rampant-beryl-mamba-bdbcd5@leitao>
-References: <20250124-netcon_cpu-v3-0-12a0d286ba1d@debian.org>
- <d441f627-1686-40fa-80cb-e84c590b8b02@lunn.ch>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ha2X98L9J22NkgjhuhgrTKb4zVSl25wGtDGPgoMNfs7yz2dTHQmKwftZY33egEaCikccI/Ts8ecltS08dcBTqW/pXMs8UepkbwXfHlNk+9dtU0NSZtC6S0I2WX1wwmwyBRx331o9ImAeAEbgg5VBTSi+Ky9gDyDk7ih5zTgd2pk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ODwDe+ZC; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ODwDe+ZC"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C430C2000A;
+	Mon, 27 Jan 2025 10:48:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1737974907;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=16Z4jSz8wfLo+04tmP/UOzeDIejcTqVQyH3UF14AFGo=;
+	b=ODwDe+ZCtqIB1E51+TpbvEuaH8BndqDBT1ItNBYeAMUq++lzJKw7iA97a7ZFIw9Z+hNnmj
+	zX2eciYO70HPV8FxI8nUAkwBIOPWnzgs/zvD2P8paW+g0mHKg53qvl5r6jcZPikKvhLise
+	k0+p75ebhi+oQkeXEryvFG6sZ+bjiEsH2987J7cW6fQ/cp7gOSSOWV5xHoMb7OvJL4s3/h
+	dojbVMGl9mMjUK/FrYE952CB8oNMa9sHv1dlM/NwK46zf2ktU4ElnvClshZ5yHQmInxxa7
+	/MeaORBBKoHXL8wztSI5D36aVASN2DxzMnMsPkG8+6Pi9KR2pF4RohKyFr9CyA==
+Date: Mon, 27 Jan 2025 11:48:23 +0100
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, rdunlap@infradead.org,
+	arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>,
+	pekka.paalanen@haloniitty.fi, Simona Vetter <simona@ffwll.ch>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+	thomas.petazzoni@bootlin.com, seanpaul@google.com,
+	marcheu@google.com, nicolejadeyee@google.com,
+	linux-doc@vger.kernel.org,
+	Pekka Paalanen <pekka.paalanen@collabora.com>
+Subject: Re: [PATCH v16 5/7] drm/vkms: Create KUnit tests for YUV conversions
+Message-ID: <Z5dkd3npNtzPWCrP@louis-chauvet-laptop>
+Mail-Followup-To: Maxime Ripard <mripard@kernel.org>,
+	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	=?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, rdunlap@infradead.org,
+	arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>,
+	pekka.paalanen@haloniitty.fi, Simona Vetter <simona@ffwll.ch>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+	thomas.petazzoni@bootlin.com, seanpaul@google.com,
+	marcheu@google.com, nicolejadeyee@google.com,
+	linux-doc@vger.kernel.org,
+	Pekka Paalanen <pekka.paalanen@collabora.com>
+References: <20250121-yuv-v16-0-a61f95a99432@bootlin.com>
+ <20250121-yuv-v16-5-a61f95a99432@bootlin.com>
+ <qwym5wty72f6o4dfz2iduamkpuom6jt5txskknovqxzagruusx@zuytk7awe2uw>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,76 +78,48 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d441f627-1686-40fa-80cb-e84c590b8b02@lunn.ch>
+In-Reply-To: <qwym5wty72f6o4dfz2iduamkpuom6jt5txskknovqxzagruusx@zuytk7awe2uw>
+X-GND-Sasl: louis.chauvet@bootlin.com
 
-Hello Andrew,
-
-On Fri, Jan 24, 2025 at 05:02:26PM +0100, Andrew Lunn wrote:
-> On Fri, Jan 24, 2025 at 07:16:39AM -0800, Breno Leitao wrote:
-> > The current implementation of netconsole sends all log messages in
-> > parallel, which can lead to an intermixed and interleaved output on the
-> > receiving side. This makes it challenging to demultiplex the messages
-> > and attribute them to their originating CPUs.
-> > 
-> > As a result, users and developers often struggle to effectively analyze
-> > and debug the parallel log output received through netconsole.
+On 26/01/25 - 18:06, Maxime Ripard wrote:
+> On Tue, Jan 21, 2025 at 11:48:06AM +0100, Louis Chauvet wrote:
+> > +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
+> > +	/*
+> > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
+> > +	 *                     K=colour.WEIGHTS_YCBCR["ITU-R BT.601"],
+> > +	 *                     in_bits = 16,
+> > +	 *                     in_legal = False,
+> > +	 *                     in_int = True,
+> > +	 *                     out_bits = 8,
+> > +	 *                     out_legal = False,
+> > +	 *                     out_int = True)
+> > +	 *
+> > +	 * Test cases for conversion between YUV BT601 full range and RGB
+> > +	 * using the ITU-R BT.601 weights.
+> > +	 */
 > 
-> I know very little about consoles and netconsle, so this is probably a
-> silly question:
+> What are the input and output formats?
 > 
-> Why is this a netconsole problem, and not a generic console problem?
+> Ditto for all the other tests.
 
-This issue isn't inherent to netconsole. To provide more context and
-clarity, let me take a step back and revisit the history of this
-discussion, where the idea of adding enriched format originated.
+There is no really "input" and "output" format, they are reference values 
+for conversion, you should be able to use it in both direction. They are 
+generated by RGB_to_YCbCr (RGB input, YUV output) just because it was 
+easier to create the colors from RGB values.
 
-Initially, Calvin proposed adding similar messages, such as the kernel
-release version information to messages via printk, but this approach
-was deemed inappropriate. The discussions could be found the following
-link:
+If you think we should specify what is was used as input and output to 
+generate those values, I can modify the comment to:
 
-https://lore.kernel.org/all/51047c0f6e86abcb9ee13f60653b6946f8fcfc99.1463172791.git.calvinowens@fb.com/
+	Tests cases for color conversion generated by converting RGB 
+	values to YUV BT601 full range using the ITU-R BT.601 weights.
 
-Later, we shifted to implementing such enriched messages in netconsole,
-which proved to be a less intrusive solution. I implemented the release
-append in netconsole, effectively addressing Calvin's original concern.
+Beside that modification, did you notice anything else on the series that 
+require more work before adding your Ack-by/Reviewed-by on the other 
+patches?
 
-https://lore.kernel.org/all/20230714111330.3069605-1-leitao@debian.org/
+Thanks,
+Louis Chauvet
+ 
+> Maxime
 
-The release append proved to be very useful, the concept evolved
-further during discussions at Linux Plumbers Conference, where we
-developed the userdata feature, where any userspace data/text can append
-any message that flies together with the message.
 
-https://www.youtube.com/watch?v=ILTqn1EYIXQ
-
-This functionality has become *extremely* valuable for hyperscale
-environments, leading to current efforts to expand its capabilities
-- specifically by adding CPU information and, in future updates, the
-current task name.
-
-For instance, at meta, we append service name that is running when
-"something happen" (warning, crash, etc) in the kernel. That helps to
-narrow down and categorize issues very easily.
-
-> Can other console types also send in parallel? Do they have the same
-> issue of intermixing?
-
-Interpreting logs is straightforward when dealing with a single machine.
-
-However, the complexity increases exponentially when managing a large
-number of servers and processing logs to gather metrics on systems,
-kernels, and more.
-
-For instance, let's come back to appending the kernel version. When
-working with a single kernel/host, identifying the kernel version for
-a host is simple. If a warning message appears, you can easily attribute
-it to that specific kernel version. 
-
-In contrast, with millions of servers running multiple kernel versions
-and releases, the challenge lies in accurately mapping warnings to their
-corresponding kernel versions and releases, that is why having the
-kernel release together with the message make the mapping easy.
-
-Thanks for your time reading it and the discussion,
---breno
