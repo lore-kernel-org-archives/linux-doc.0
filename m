@@ -1,145 +1,371 @@
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47A81DE89B;
-	Tue, 28 Jan 2025 19:18:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738091888; cv=none; b=M35/sGxqIbDnvYo14WxQOqrIFysoJkcaYKJwvFn3iITD7AgaopwuDledJZMMC+h9qFe2OHMB5UKXM8l2+QWhcXnLmE7Afb/SJ/gVgnemHI3RTqvibjKTwiCTjNbXvmwYlE/8fI4c7v2bzyEHUkV+xDWZNOldzXhjOkhQF3hNPhA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738091888; c=relaxed/simple;
-	bh=8OhhLl4Vx3PLMhVYqtpPgEulJwvqh3pI+Ncbg2aNwmE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=frgtwJOKLIIxWAIYts8pDOGygE6TupmycUJOfbcDjZEdvqrRoRSqIvYUUNhF/7sS5Pv4mDwOaogOfUvPilpZFXXxVF1B8kw7+ljl2vjxkQ/uzHXxIDpSiiUAa6SQazPSStQWFpbrvirksU0T0wnNyV5OiteN30CBwH2xkn32tC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-851c4f1fb18so153011439f.2;
-        Tue, 28 Jan 2025 11:18:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738091886; x=1738696686;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8OhhLl4Vx3PLMhVYqtpPgEulJwvqh3pI+Ncbg2aNwmE=;
-        b=AmosMw8eJvaNMtxV4VF6wxLtNAHfJNWlwjw/FogMvxkX5eLH8l0v4d/WFK3Zqb4aAW
-         U7exySJ5l3gX5Fe9X+EjYPr4w2zq9YnGh2WCkBBZ55Cgda7m2v34yn6eeCSIKkwyEZrs
-         u5FtKNwcu1f9feWEL9PIAfekTS08MV8Ss3IbCm70HAL8vmCOeTSqTZG8P6liR3MPbsvH
-         Po+eYYQTcR2askwKeKnSGVgn3AtMPRx/85Dd2Ofy2LVxrFnT5V+B1rf7Pdl10p21UwmZ
-         fDRCJ030vwOqijYR2nK/rwZqQKAqzlYexBSYn0EtMuPg2R2oWbrBt7RFRGmWQMNJNe+W
-         9oow==
-X-Forwarded-Encrypted: i=1; AJvYcCV3dD46Jt/zBU/h+LOUoFzFuSIBevuinFUzGfoJiso2NFlh2/c5xisArmK9qCOQlgb2Cb98BFAzfSw=@vger.kernel.org, AJvYcCV9de2egIUJet0hLjuL2fX/RQAr52+7RcjWJXBX7prEFfnw89Njs0WbyQCcE0PICyuGisIgCjBtuydXGYpc@vger.kernel.org, AJvYcCXFwbNJ5dsy9olsB/ag+KFv5OmunHTi/0DKweENQuWBsXNqCsrwI5/WRmVr0YvHn2We9wXGTjaDXNHNgspo3h4XSA7OaA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMY0PxdK2pUKIQc89AYgUveraTRueXME/bDD2ql2IUmNGUCEjT
-	jELn29KLefGsK1z9v1wdWc71/8xJvkSDKa+aUYnmfBITAEg26Ezk5FjyMXNUttY=
-X-Gm-Gg: ASbGncu4Gf//sp2r/dmFXjqHXSlYStCG29i7/Rh4joVu+mtabEQOp0Az/93rXNoOO2y
-	0EMGdcroVL67Be9/j+LtXOo5Oo40Li4Equ26Gd+NTGk2b+NlCMCBFERWSEbaTIL6DqTGx7U91VU
-	cn5rAwLFLUWu0G3DxtLGcZFXLwig3mK1m1IafNeBcIGicECitC1OqPRxB9zsPbrK/kKpU1WpUXi
-	QozYfRbR/JHaro4wToL0FGH+DaPoX0rWiofDUI+6tuXp6pWjFqh8+cbiVR26nmrdEPLSgM6lxzt
-	pO6X9MJqR22EfXZj+XMUP2Wp6h/LkA/O0BL3PFmwphZIPIsEydnPAsJ8lKxG
-X-Google-Smtp-Source: AGHT+IEesSbRpE31Mu71qJlrFXgJPYG8LKRa/INW1GZ+U38Sd0Qj86hvPUnrl5HjD4pbkBHw2CKtQg==
-X-Received: by 2002:a05:6602:1696:b0:84a:4f3a:fa2a with SMTP id ca18e2360f4ac-85411100c65mr51608339f.1.1738091885722;
-        Tue, 28 Jan 2025 11:18:05 -0800 (PST)
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com. [209.85.166.170])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4ec1da31b81sm3307134173.52.2025.01.28.11.18.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jan 2025 11:18:04 -0800 (PST)
-Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3cfdf301fa4so9684515ab.0;
-        Tue, 28 Jan 2025 11:18:04 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVYBzVy9M6o4RjrCf9L3AMYQY7axZjvtLIwd22QNKylm2xOggU56BqsEsjPKkKm6rOjirYd9TEgGU4=@vger.kernel.org, AJvYcCWnhPM89DhMiAPqgnSqI5yzqPABnMXHpKLAdpLywRNJdSPZtHmToYfsN6IqlBo5RnU29/d1ptoyc4/NEMpn8qNqobG3hg==@vger.kernel.org, AJvYcCXH+isVImOcjLtjPb0bZo3DbxOM0skejphjGKuYHI4ue+/NUE4fhn1sXcdrqywcjP70h9GjDTcMEFilReHR@vger.kernel.org
-X-Received: by 2002:a05:6e02:98:b0:3ce:7fc3:9f76 with SMTP id
- e9e14a558f8ab-3cffe3e527cmr3513855ab.6.1738091884575; Tue, 28 Jan 2025
- 11:18:04 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB4322619;
+	Tue, 28 Jan 2025 19:41:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738093316; cv=fail; b=KwApF4Fuwcpk8ETFAHezEJ/vtQ/ShOEO4vPDyYKuaxr/EnudrzGLiVyGtRBmjBNKBFb+ilBScDj9FU4y/S4ek98S4ai7OFz0q8qgeKALuiVHeNkKKVk5r5GVmnQ2yP07AubEnRuw++Tb7JA6h28IQ7HhHRmJhtEx1ODapWvsMg0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738093316; c=relaxed/simple;
+	bh=kxtubTkZ6BIPxzEaAxn/4s14OrpUmYimrUcMzd/BeDo=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=dvuDlyX695wQTkfO3C1PibkwfYlcjmpL9Z0XCHQAj0wCr6VTmStgaChAcIziQC2gfPMpGxVwpo+kUtpagLpfnVPtGYNVFfQ2j/4d67/gsiW+xavUyg/T6ytYYZJJX55fHN6TiSyhVuS5oPKcoITIo+QuEaEV8pk2ar4za/bQai0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Ml+nYzqD; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=usRGI80z; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Ml+nYzqD";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="usRGI80z"
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50SJXn1E024357;
+	Tue, 28 Jan 2025 19:40:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2023-11-20; bh=1aHogasrhbWR8152lS4Q2j+0aX4pO7++oVrFdBPsnRY=; b=
+	Ml+nYzqDzmwQBtLYYwq6bcy4xMuaBkXAfZOh/i3dCQ6kigCkNwd26XZLwaBKaw8v
+	BoomjZvH+TxJIbKsO9Fp8qmV7tpvgXBlydKX5ywfPQwmjCIv48l5BbFB1p+sWnkF
+	XQ07TDsyHdM/Je+DC/iM1nmLpL8du/XwJ/cjqwgFslBhhioN1+Vsg/jvOwlpImlb
+	HXtSB/I0Tt0epO7bjQdlfAx0FL2+KaHn4ZTsbheZ/IC+xKQ++OeVPXV7rDf8gUqL
+	+ji72/Z4TIgGg84c5xf9KRXpBlTg/UU9ltV7MVkLjfhwTzb9IxvhcVilvVy1FyC8
+	pCrELNE94uD5YD3XooCgKA==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 44f5ay8180-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 28 Jan 2025 19:40:50 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 50SJP4su004271;
+	Tue, 28 Jan 2025 19:40:49 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2043.outbound.protection.outlook.com [104.47.58.43])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 44cpd8vnrv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 28 Jan 2025 19:40:49 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=c/m/6djX6ObjrvyNC5qpV1p8zEE56a/O244UScnROkcOIJ09tvkUXnInnsR36wHIE3MVZQ8EmCWcNbJG8caqxncLx2rHq4tpFxsenfEHpKFGDtwnF+YXeE4LQdVdcBIRmp9UOoIC1tmoVJF/L8tgjuUaALqqRvanVAperztugXgP/Bss1XyYD/0P+G2jNbr6oov4JFkprAbD147UAdhBdUh6g4y/aBe+HSKjpXhSeFcWmcaaxaZvbyDuhaPElP/CIA6VjLR/5NP9SoxUU7KYYMjI05NbWYlDknsbXRO4NwXucqswhgknX9bphhrXOrdI78QKFkqPQ0wARV6fHYcZ/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1aHogasrhbWR8152lS4Q2j+0aX4pO7++oVrFdBPsnRY=;
+ b=KrqRPnk2QsIxv/ClspBecQziDoNqOvrWBVRmBxLgI1AtTtmvDXtOznzViuiQrTdm+BUvMHbmlx5iF9m2GP7wBCARlc4saFcfkGyG0+1XzJDtgKgBSFJhDJfWYY19H5Kih+oEaYukvMmGmbkeqimgP28nxzHrL1bb8Xd+qxTGQqXZ/mPXAo1yR6Z/6/Y/bHvcITRNCCn3WXREei/p8D2yD5iq6nbwDFB8r0A1DtYSUxjE448EzAySmOHsSZtv4csLFN8rw2k836Yfd16GcbIWos1ZMNRqVABgM7wBBBCeFmHhoNjIIG7VLdpYxORttRfsaHEuQzk4vsPmJsPkWxwROQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1aHogasrhbWR8152lS4Q2j+0aX4pO7++oVrFdBPsnRY=;
+ b=usRGI80zXwStxmPsda4dyd+8Mnv0Igbjh2y8R3awSFghXGYCvzw6oQM+bHDhbQSciTWsr9SraRLLohrqksLdQF8SovfScqgO7NYQFMJBFWp9QsIaGQAirNRZhSbbvRlrLlWq0AF++n2HlVfMwXqWSONMMI6N+KNjszaCGfwrLPY=
+Received: from MW6PR10MB7660.namprd10.prod.outlook.com (2603:10b6:303:24b::12)
+ by PH0PR10MB7099.namprd10.prod.outlook.com (2603:10b6:510:26d::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.22; Tue, 28 Jan
+ 2025 19:40:46 +0000
+Received: from MW6PR10MB7660.namprd10.prod.outlook.com
+ ([fe80::41fa:92d3:28b9:2a15]) by MW6PR10MB7660.namprd10.prod.outlook.com
+ ([fe80::41fa:92d3:28b9:2a15%5]) with mapi id 15.20.8377.021; Tue, 28 Jan 2025
+ 19:40:46 +0000
+Message-ID: <a6f26afa-e4df-4519-8287-39ec3eab181d@oracle.com>
+Date: Tue, 28 Jan 2025 11:40:34 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/20] Add support for shared PTEs across processes
+To: David Hildenbrand <david@redhat.com>, akpm@linux-foundation.org,
+        willy@infradead.org, markhemm@googlemail.com, viro@zeniv.linux.org.uk,
+        khalid@kernel.org
+Cc: jthoughton@google.com, corbet@lwn.net, dave.hansen@intel.com,
+        kirill@shutemov.name, luto@kernel.org, brauner@kernel.org,
+        arnd@arndb.de, ebiederm@xmission.com, catalin.marinas@arm.com,
+        mingo@redhat.com, peterz@infradead.org, liam.howlett@oracle.com,
+        lorenzo.stoakes@oracle.com, vbabka@suse.cz, jannh@google.com,
+        hannes@cmpxchg.org, mhocko@kernel.org, roman.gushchin@linux.dev,
+        shakeel.butt@linux.dev, muchun.song@linux.dev, tglx@linutronix.de,
+        cgroups@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, mhiramat@kernel.org, rostedt@goodmis.org,
+        vasily.averin@linux.dev, xhao@linux.alibaba.com, pcc@google.com,
+        neilb@suse.de, maz@kernel.org
+References: <20250124235454.84587-1-anthony.yznaga@oracle.com>
+ <404b500a-4a28-4a8a-a0f5-3c96c397be0b@redhat.com>
+Content-Language: en-US
+From: Anthony Yznaga <anthony.yznaga@oracle.com>
+In-Reply-To: <404b500a-4a28-4a8a-a0f5-3c96c397be0b@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BN9PR03CA0568.namprd03.prod.outlook.com
+ (2603:10b6:408:138::33) To MW6PR10MB7660.namprd10.prod.outlook.com
+ (2603:10b6:303:24b::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250118202632.8352-1-josh@joshuagrisham.com> <e67bf708-be8a-4331-b250-d2f31e38536b@t-8ch.de>
- <CAMF+Keb5UzEUeim=33JR=Vv8qK7xqGn_jjNdtZMQTFtrpKrgSA@mail.gmail.com> <D7B8WVUD7F4B.1BL2WE2BNRCX6@gmail.com>
-In-Reply-To: <D7B8WVUD7F4B.1BL2WE2BNRCX6@gmail.com>
-From: Joshua Grisham <josh@joshuagrisham.com>
-Date: Tue, 28 Jan 2025 20:17:53 +0100
-X-Gmail-Original-Message-ID: <CAMF+Kebx4sU+0p+pFaH1Lz4q1xApM8iS9UAYP=sZnE2GDa32ww@mail.gmail.com>
-X-Gm-Features: AWEUYZngrz9lEFuBRh-H1wNKkp4N_HGkDO6g5cGrCKBjGN6lb_FqH1mnMy4Wv1A
-Message-ID: <CAMF+Kebx4sU+0p+pFaH1Lz4q1xApM8iS9UAYP=sZnE2GDa32ww@mail.gmail.com>
-Subject: Re: [PATCH v8] platform/x86: samsung-galaxybook: Add
- samsung-galaxybook driver
-To: Kurt Borja <kuurtb@gmail.com>
-Cc: Joshua Grisham <josh@joshuagrisham.com>, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	W_Armin@gmx.de, ilpo.jarvinen@linux.intel.com, hdegoede@redhat.com, 
-	platform-driver-x86@vger.kernel.org, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW6PR10MB7660:EE_|PH0PR10MB7099:EE_
+X-MS-Office365-Filtering-Correlation-Id: e494ffd0-cbbb-4098-cd8f-08dd3fd3a8c3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Z3o1elExeW95MEhPbGhOaFN6bjZCR05qRk5WWTBGbFhQdnhxWTczbm5PTkdk?=
+ =?utf-8?B?VlVHRFRMUnpxN3FLRU56dDN4S3ExU0xlbWJzV2xNRUtrNkdyUnlPbGZWaDI4?=
+ =?utf-8?B?blJFQVVYOUFPcHlJV1pSV0NRWTNQUlVPWnl3K3dBeCtpMDBzZ2JlVWV2TFow?=
+ =?utf-8?B?OEU4SzdIR1U4end4cElPclpvOUdEbWZaNDJNNUw0VTUwM2RLbEVKRlErMUlt?=
+ =?utf-8?B?MHI4RlFJbTdZVHNBZTZtTVJjaTdEWmVvQkRHVm5RRjVDQnFROXV5c1d1YXcy?=
+ =?utf-8?B?cnNLT0I0TEo0WkxXKzdMQ1JQMFdpMDVnQTh5OEFyWlM0RS8zSEl0SzFkTVpw?=
+ =?utf-8?B?elRucmhLN0U1ZW82bE95aGNybHNzaW5IUDdoTzlVMGRMNlgyS0g3VDdsRmlk?=
+ =?utf-8?B?Z0hzTHlYYWZOaTFkdnlvRFpucENFY0IxWDFrQXpUUm5PdmkyREZRdzBydUNk?=
+ =?utf-8?B?ekNaTC9qdmlVcEF1ZVZpUE1ISUFiYkNuM25sTERLTTBsNXVFWjdMT3dsUCtH?=
+ =?utf-8?B?QmlMK0p0b2hyL2tzM2VsUWdYK2NrQ0E3ZDcvOW96Sng5VXBDZWREcXpEODFP?=
+ =?utf-8?B?b3poZStzR3V4cytpODZ6Yzl5blZHelBwTzVpMW1YVTdXUTd3V2djTXVTTy9a?=
+ =?utf-8?B?QTJLa0dBYmc5YjYrTkVBeFNyNHBHaThhOUZGN1B0S0pmR21JUjhVWktkYWpy?=
+ =?utf-8?B?YnB3UFJ5MS9ZOUZ2N3dncHVpTXh3dnNja0o5eEg2Z0pzL25LQ3hncnVqc0N1?=
+ =?utf-8?B?VDk0V3pVR25jWko1dkRyQ3hzSHVLM2x6aDVhcGpuZ0ZNWTlycDVockFVTVE5?=
+ =?utf-8?B?b3Z2U0M2eldncURrNXEwSEM2cXVMbGVlOFJoQmo5TmQ4NjBlbWhTT1VOOXFU?=
+ =?utf-8?B?N2M3NVhNbnJRblc4QnFDc01Za0kzQ0VvOCtraTlzVGtHdVU3OGw0dHJZZVIy?=
+ =?utf-8?B?WHhWbFZReWJsb1RSUUxzc1RjOXg0b1pJcUhOYmtjSVRybk1KUEtTY0lKRnpM?=
+ =?utf-8?B?M3YyQldoU3hLQ1ovQ3FPZm9hZXNNajFhZmIyRWJNb0V1dnhSak91NG9uRUVh?=
+ =?utf-8?B?bUFKNXdFN25Tc3FlSGQ4d2t1N09ENTcxM2FMMXk0VUlScE1QS2VkTkhyNW8w?=
+ =?utf-8?B?MEhJRTY0c2E1UkEyTkxQOGJZT2RzL04xY0dkNEs1WkNabUpnczVyMTZtTlJR?=
+ =?utf-8?B?UmFZQXIrUHFvNENqMGVuYlpRSDNjZ0RVbFBRV28ybmI3MzZHT21aNE1BOWVM?=
+ =?utf-8?B?T1V6Tlp0eHV6UFp6a3M4M1JXeVdYV3FYRHdqaGM2UVl5VHVwWTZ1MUVwYzNP?=
+ =?utf-8?B?MUVuVlZoS3BGKzdjUEVzNGNSd2xxZllLSng1cUZ6MFVIb2trOVhXTUF2c3JU?=
+ =?utf-8?B?SVIydTJSQTJnMUtWWTljc2JMeWhpNUZGS3BoSC9KZDRGRWNXT0Q4Z1k1UXp3?=
+ =?utf-8?B?MEtKV0RiV2JzTHJEV1VxbmtZYW1NYVYxZ1ZITHY5Tjh5U0hxeFZWbFFSZUxT?=
+ =?utf-8?B?VmFwRnFhamNHOW95dWRMRHVKSDBKU01aUVFNcXFxZllvazJSSG1CZEdoekVS?=
+ =?utf-8?B?dkdLQ05oeDRLWmM5MWJMV2w4TFFMa1VZN2JGNVBVcVFGclNFTlNyMHFoSmt6?=
+ =?utf-8?B?TzhiajVMSFRWTnlxUG5lYWRNaXByNGl1YURIWnhzQnRtdGZuZkFYdlBHMUZw?=
+ =?utf-8?B?TElBOTB5TTI5aHB1Mk5sOEkyV0I2ME51UEFrM1RnQVMyMGFPRHdTWFJ6cS9o?=
+ =?utf-8?B?Z2x2U2h1TGFSMWZXWXFDQUV2aEdKT3gzd094YXZhV0NvaWNnTWZWTTJMMGVa?=
+ =?utf-8?B?WE1lK1pWSDl6bFJYVDBOZEwrTThOTHY0K2I4WmFPb2Q1eXF3T0Y5S2ZITnRu?=
+ =?utf-8?Q?24QaYxQMaO57n?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW6PR10MB7660.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZmlnVm16WnljMXJ5RjA5UmFKYUVrRnBXZXZtMm5SK3BvUjNxYXowT201cUZX?=
+ =?utf-8?B?bzNtNkZ5cHpiYVVFYzBkSGx0OWNYb3c3bnNLRStZU2tsT0RrdVR4Y25jKzhz?=
+ =?utf-8?B?UFcwOUo2NTEyemYwYU9wZ0lqc2Z1dTVYVmNvaUdta2FtSlZnNU1GTTNtNTZX?=
+ =?utf-8?B?NkpPWFdhQTErU0RLUGVBQVptOERWcFlHaUVWQVo2UUhSOVpZSHFCb3ZCcTJN?=
+ =?utf-8?B?bUtoTzRaMVo5ZG4yWTUzemFqVkM4eVFJNjAvL2czTnFac0xFQXhBQmprUWRW?=
+ =?utf-8?B?Wk9kRkJmMWphZTNmdGVjMWNXYTJ2aHh6MDJ4YW1RUU1SSTVETWFia1F3RmdT?=
+ =?utf-8?B?RVBubW1OWWJrcFNIYThoNWtuY1RqZ2YwMm56NVhlMDNHYTU0eUJaZStvUU9l?=
+ =?utf-8?B?dFU4N3M5bExJVUZxR05BNHJuZEo4Y3RWOE9aSnA1R09DY1pMUE12NFBkSVBu?=
+ =?utf-8?B?WU4xMFFueWMzYXRwRXp3SUJzbE5lczE3Z3QxSjB0UDZNeU5rMllXbWY4c3NP?=
+ =?utf-8?B?UmNBdGcyWFFEUTdCOUN3bmFVUGFkd242RjVWVmwwaisyNXhtMng1bUFaK2Zl?=
+ =?utf-8?B?Z3F4Y29LaExVSndDa2pOL2lOdzFCNzMxTHRWTXB0QlI3UE5Lbk9vWFdEbEg5?=
+ =?utf-8?B?T3ZSQXFBcjVwbm1KS09oK2NUWWQ5NUVsRVNSZ2gyNHNsd3NsUnkyQm1wSTg4?=
+ =?utf-8?B?YkJsNE8yeFZ6VVBtZkJtSlppQW1oUDRBNVQ4cHlZN2dkV2tydXZWRHkyc0RI?=
+ =?utf-8?B?RzFDMWVWaHBRRWJiS1F1VlhjQlozbGJIUWoybmJZT0pVQjk2aHY1TWdNWkp6?=
+ =?utf-8?B?ZnVKak9sR3R6V1lNR01YaVdRdHovRUw0RTlRMEJ1OHM3NlZmNnVQbDBEMHNi?=
+ =?utf-8?B?TktVL2EyK2VwSjNFUHMzb0Uvd2NOSU04bVA1QVAxM3oxZVBNTU5LaWJsWWwv?=
+ =?utf-8?B?UGV4QzVQc1pXTzVJOUJHZDFEdGRFa1phTElVL2VHVzcwOEZrd01IbGFWamRH?=
+ =?utf-8?B?eGVCa01zZEhRNE5tRTZNTk9SUUhxZ1VqVVZseFhVdStjbCt6b1RGak1QWVBF?=
+ =?utf-8?B?VEJ1K3BSdko1bUpxMDZac2U4Mm1IVTJ1QnQrRUFpTTllNnYzRVdTa05EVnpF?=
+ =?utf-8?B?eWpySjJBalkwK3pqYTV3T29PZ1IxR3VuQTRKb3hZNVZ5dkdnZldkTDZoUzY5?=
+ =?utf-8?B?WE8rSVdkaFJsT1c2cGRjWEF1emJxK1FzYm1nWUJ4SytRY0V5RVcvS1hnaitS?=
+ =?utf-8?B?UTYrZVJBdGxEa0pVclRrZEpxR0VOa0lMSVBzeW13U25lakx0cElsY01WbkdO?=
+ =?utf-8?B?aTZlekg1VUJoMUxUenY1NEQzOWpQSVBhd1lRWTBSb0dnK0hCRjFXSGRxWXR2?=
+ =?utf-8?B?dU0ySDE3ckNMZGo2L1QzVE5HdzJWOVdnOE5kcWRSMVF4LzJQU0NMSHFuOHl1?=
+ =?utf-8?B?aEVuaTVnVS9mODUwSUQ5cEZBNG5xTzRvV29BS1Z4QzdHWm1DU0dzaGYwSFlH?=
+ =?utf-8?B?dEFkYmlqMHNmeG5EM3dFSmVqVTgvWVcyc3o2QXJOMzlIbThvZ2Y4eVdWcmJi?=
+ =?utf-8?B?cG9lRFloWUxuYlRWMmU0VW03SjYzWjhRTzNydlBEQ3gwdVQ1UnFPN2tPenBW?=
+ =?utf-8?B?R3JENVNiaGVwNE9FNmhYTVpQQnJGTVFpd1R6cTlkSWJNZU14Q05Wc0tGRDZM?=
+ =?utf-8?B?SjBWWTlEM2lkNjVsQ3VRSkFtUUtGZUVabWlWTmgxdVFOcGxLaGtTZ0cwYmJI?=
+ =?utf-8?B?K1RUQ2czblgyUlFYdUlkTnNOMVd6NGh6dmttTmljcjNFVkFJM1doTW9obFlJ?=
+ =?utf-8?B?SFdjUUNZNkJlOHFtR0FzeVR5OS9kUGRDK0JqRDRneHgyRjdrTFdwZzZrY1hs?=
+ =?utf-8?B?VHRFbnhXOVN2bDIzWEJHdS92djZndHlpSkJmTFk2WEk0VkFDQW14bGpFSDNz?=
+ =?utf-8?B?cCtiR0pHRTJBV0FlVHBScnltYStXbzM1N0d4S0RqQXJaaUZXZG1WcURGcWo0?=
+ =?utf-8?B?N0tjZ0ZtWmYwaEFBcTkwVk9XUWZTOVNyUllGQURJT2xYU3RzZ3V4STlScW1a?=
+ =?utf-8?B?cmVVK0pOVkZvMDljNFc5SnZnNjREV2hmY0IzMkZSTkhqS1M3dVFjSXhHYm00?=
+ =?utf-8?B?dm5nNmFrUGdpNmpPUk5BOXJYREdBdFRwL3dyUy9hNXdxRlRRNkliaXA4Z0Rr?=
+ =?utf-8?B?aXc9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	6/4zRJ3sGgx8QDvBNDXDXvW2R3EeV3o/F/+83wosq5h7MqgdoPi0vx0ftRVMkZENll1ohDZ1+aILTRzkak7/HHj1LXvt8KcRD8lrvVkF1gLCKXsAdD0e/FzpAH8U20C5+5uGTZW5qHiEyS+ZmIOzbH7xRMqUcQ3Mcv/6CZg8EGGJ89qQ19AllXyKDx+gW6L5zjSpyB42YUhSWNqtPjk1dYL+LLBItkh6gLqGHktvZhyBCRjGh5aIB5MNlxpEN1oJrVZ9+SuW5KhpH+19tU5Zticoueth40Zi31kXQxkJUD8vGonCo0I3yCm4fO+bNW1cwCKoNnks6fmXG0hOrx2PxO6fqRcy1eW92M+ukBvXWmRbKJu1RJRaeW1kHXJPqCgzsAqwIt7wY8GUfjAbVdyV5CW/JY2AU/z42X/37cNYqCYvvRif0+kmWnmONOFmoX/j2jUtB3ebAHtq67OgBZbiC3bVfZ4OgK2Ff/WEd8flbG2LaOSOFJ+kEu6FXpXAM6lkYYDbY7tMIaUYVOMKvYjDFhOmpc6EiYzdrzNvBwxHH0wkXEbdrHqYU+zVdI5fAPhilRT/3akaHSCTOSzNyYIlaXZ5erazMHFTm2SxXDE+NZE=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e494ffd0-cbbb-4098-cd8f-08dd3fd3a8c3
+X-MS-Exchange-CrossTenant-AuthSource: MW6PR10MB7660.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2025 19:40:46.0482
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pxwJO40du7SZuDsfJMeZjDvXKCOFHJUz3+3Slfsw/jQHH3ryO99R5jTAORyj6zvxfoM9hurg6yaqdn39wGKsQX13iS7Fesn0ae3odXvoTuM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB7099
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-28_04,2025-01-27_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxscore=0 adultscore=0
+ malwarescore=0 spamscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2411120000
+ definitions=main-2501280144
+X-Proofpoint-ORIG-GUID: ylYNJFbI1VtUb_NBF3jxGuPrZABX-Uz6
+X-Proofpoint-GUID: ylYNJFbI1VtUb_NBF3jxGuPrZABX-Uz6
 
-Thank you Kurt!
 
-Den l=C3=B6r 25 jan. 2025 kl 16:06 skrev Kurt Borja <kuurtb@gmail.com>:
+On 1/28/25 1:36 AM, David Hildenbrand wrote:
+>> API
+>> ===
+>>
+>> mshare does not introduce a new API. It instead uses existing APIs
+>> to implement page table sharing. The steps to use this feature are:
+>>
+>> 1. Mount msharefs on /sys/fs/mshare -
+>>          mount -t msharefs msharefs /sys/fs/mshare
+>>
+>> 2. mshare regions have alignment and size requirements. Start
+>>     address for the region must be aligned to an address boundary and
+>>     be a multiple of fixed size. This alignment and size requirement
+>>     can be obtained by reading the file /sys/fs/mshare/mshare_info
+>>     which returns a number in text format. mshare regions must be
+>>     aligned to this boundary and be a multiple of this size.
+>>
+>> 3. For the process creating an mshare region:
+>>          a. Create a file on /sys/fs/mshare, for example -
+>>                  fd = open("/sys/fs/mshare/shareme",
+>>                                  O_RDWR|O_CREAT|O_EXCL, 0600);
+>>
+>>          b. Establish the starting address and size of the region
+>>                  struct mshare_info minfo;
+>>
+>>                  minfo.start = TB(2);
+>>                  minfo.size = BUFFER_SIZE;
+>>                  ioctl(fd, MSHAREFS_SET_SIZE, &minfo)
 >
-> Now I understand the original problem better. I didn't consider this
-> possibility when designing the callback.
+> We could set the size using ftruncate, just like for any other file. 
+> It would have to be the first thing after creating the file, and 
+> before we allow any other modifications.
+
+I'll look into this.
+
+
 >
-> While this is a fine solution I believe Thomas' EOPNOTSUPP solution is
-> the way to go. I think positive err value would be the safest but you
-> should wait for the advice of someone with more experience.
+> Idealy, we'd be able to get rid of the "start", use something 
+> resaonable (e.g., TB(2)) internally, and allow processes to mmap() it 
+> at different (suitably-aligned) addresses.
 >
-> Aside from that I really like how the whole platform profile sections
-> works now. Good design choices :)
+> I recall we discussed that in the past. Did you stumble over real 
+> blockers such that we really must mmap() the file at the same address 
+> in all processes? I recall some things around TLB flushing, but not 
+> sure. So we might have to stick to an mmap address for now.
+
+It's not hard to implement this. It does have the affect that rmap walks 
+will find the internal VA rather than the actual VA for a given process. 
+For TLB flushing this isn't a problem for the current implementation 
+because all TLBs are flushed entirely. I don't know if there might be 
+other complications. It does mean that an offset rather than address 
+should be used when creating a mapping as you point out below.
+
+
 >
-> ~ Kurt
+> When using fallocate/stat to set/query the file size, we could end up 
+> with:
 >
-> > <snip>
+> /*
+>  * Set the address where this file can be mapped into processes. Other
+>  * addresses are not supported for now, and mmap will fail. Changing the
+>  * mmap address after mappings were already created is not supported.
+>  */
+> MSHAREFS_SET_MMAP_ADDRESS
+> MSHAREFS_GET_MMAP_ADDRESS
 
-Regarding using this positive error code internally within the module,
-I thought about maybe adding a comment to galaxybook_probe() before
-all of the inits which describe this a bit -- do you all think this
-will be helpful or is it clear enough / does not matter and can be
-skipped?
+I'll look into this, too.
 
-I also realized that maybe it is worth to describe that a specific
-sequence is needed for doing these "enable feature" + init calls to
-the ACPI methods otherwise some devices were reported as starting to
-reject the payloads if the sequence was not followed.
 
-Based on these two then I have drafted a comment sort of like this to
-put in galaxybook_probe() before the init() calls:
+>
+>
+>>
+>>          c. Map some memory in the region
+>>                  struct mshare_create mcreate;
+>>
+>>                  mcreate.addr = TB(2);
+>
+> Can we use the offset into the virtual file instead? We should be able 
+> to perform that translation internally fairly easily I assume.
 
-/*
-* Features must be enabled and initialized in the following order to
-* avoid failures seen on certain devices:
-* - GB_SASB_POWER_MANAGEMENT (including performance mode)
-* - GB_SASB_KBD_BACKLIGHT
-* - GB_SASB_BLOCK_RECORDING (as part of fw_attrs init)
-*
-* The init function for features which are not supported on all devices
-* will return EOPNOTSUPP (positive to differentiate it from upstream
-* error codes) if the feature is not working and should be ignored.
-*/
+Yes, an offset would be preferable. Especially if mapping the same file 
+at different VAs is implemented.
 
-Does adding something like this seem like it would help make
-everything more clear (especially thinking when new refactoring comes
-by other maintainers in X months/years/decades, it would probably help
-them to know these subtleties, right?)?
 
-If this comment (you all are welcome to suggest wording tweaks as
-well, of course!) plus the few other small tweaks make sense then I
-can prep this to send as a new version. But I am holding a bit in
-hopes that the 6.14 stuff gets merged to pdx86 for-next so that I can
-go ahead with implementing Thomas's new power supply extension
-interface at the same time.
+>
+>>                  mcreate.size = BUFFER_SIZE;
+>>                  mcreate.offset = 0;
+>>                  mcreate.prot = PROT_READ | PROT_WRITE;
+>>                  mcreate.flags = MAP_ANONYMOUS | MAP_SHARED | MAP_FIXED;
+>>                  mcreate.fd = -1;
+>>
+>>                  ioctl(fd, MSHAREFS_CREATE_MAPPING, &mcreate)
+>
+> Would examples with multiple mappings work already in this version?
+>
+> Did you experiment with other mappings (e.g., ordinary shared file 
+> mappings), and what are the blockers to make that fly?
 
-Because there are multiple variations to these devices, and there were
-some small issues that users with other devices found, I was
-thinking/hoping once all looks good for all reviewers, including
-implementing the power supply extension, that this could be merged in
-to for-next and then I can ask a few people with other supported
-devices to test this revamped (and in some ways completely refactored)
-driver directly from the branch so that we can try to catch any other
-issues that I did not see on my device before it is proposed as a
-candidate for mainline -- does that sound reasonable?
+Yes, multiple mappings works. And it's straightforward to make shared 
+file mappings work. I have a patch where I basically just copied code 
+from ksys_mmap_pgoff() into msharefs_create_mapping(). Needs some 
+refactoring and finessing to make it a real patch.
 
-Thanks again!
 
-Best regards,
-Joshua
+>
+>>
+>>          d. Map the mshare region into the process
+>>                  mmap((void *)TB(2), BUF_SIZE, PROT_READ | PROT_WRITE,
+>>                          MAP_SHARED, fd, 0);
+>>
+>>          e. Write and read to mshared region normally.
+>>
+>> 4. For processes attaching an mshare region:
+>>          a. Open the file on msharefs, for example -
+>>                  fd = open("/sys/fs/mshare/shareme", O_RDWR);
+>>
+>>          b. Get information about mshare'd region from the file:
+>>                  struct mshare_info minfo;
+>>
+>>                  ioctl(fd, MSHAREFS_GET_SIZE, &minfo);
+>>
+>>          c. Map the mshare'd region into the process
+>>                  mmap(minfo.start, minfo.size,
+>>                          PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+>>
+>> 5. To delete the mshare region -
+>>                  unlink("/sys/fs/mshare/shareme");
+>>
+>
+> I recall discussions around cgroup accounting, OOM handling etc. I 
+> thought the conclusion was that we need an "mshare process" where the 
+> memory is accounted to, and once that process is killed (e.g., OOM), 
+> it must tear down all mappings/pages etc.
+>
+> How does your design currently look like in that regard? E.g., how can 
+> OOM handling make progress, how is cgroup accounting handled?
+
+
+There was some discussion on this at last year's LSF/MM, but it seemed 
+more like ideas rather than a conclusion on an approach. In any case, 
+tearing down everything if an owning process is killed does not work for 
+our internal use cases, and I think that was mentioned somewhere in 
+discussions. Plus it seems to me that yanking the mappings away from the 
+unsuspecting non-owner processes could be quite catastrophic. Shouldn't 
+an mshare virtual file be treated like any other in-memory file? Or do 
+such files get zapped somehow by OOM? Not saying we shouldn't do 
+anything for OOM, but I'm not sure what the answer is.
+
+
+Cgroups are tricky. At the mm alignment meeting last year a use case was 
+brought up where it would be desirable to have all pagetable pages 
+charged to one memcg rather than have them charged on a first touch 
+basis. It was proposed that perhaps an mshare file could associated with 
+a cgroup at the time it is created. I have figured out a way to do this 
+but I'm not versed enough in cgroups to know if the approach is viable. 
+The last three patches provided this functionality as well as 
+functionality that ensures a newly faulted in page is charged to the 
+current process. If everything, pagetable and faulted pages, should be 
+charged to the same cgroup then more work is definitely required. 
+Hopefully this provides enough context to move towards a complete solution.
+
+
+Anthony
+
