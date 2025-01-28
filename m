@@ -1,138 +1,81 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C93B1552E3
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jan 2025 10:38:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B6219EEC0;
+	Tue, 28 Jan 2025 11:27:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738060718; cv=none; b=sZTrpJwVbgCvEX9zELKz028NlXGcLfZ48idwTWmVpmcarmcnogy5IPhiAoZxHzQRaS23wnCAUvdzMBQVWPBgNm35EpMeeMARyKlF1Gq2nmcb0873j+ySOV9m17Fub+VcXyCyYkdV9Pyyq2BzGDj5IVPk7/itd53Vn9upv/uXBkk=
+	t=1738063649; cv=none; b=rNtDm9j7vfngFMYGbScQvWfKpZPThQ8lTymG22A48obb/wS9mKC/sX6GSUNL1ypYqsjxr46zABO7+oDWMQWJR6NE3cUNI3VF9W8WIEgLCCfBwV/RljFAN7lV8psVI8Mjm5Qu5WpOr4jLV9601Dh2bT/1HONA1nGOJKTz64h/TPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738060718; c=relaxed/simple;
-	bh=UaqHNKznmF/BsrDddonvlhQdwh5eSzF5YHWOsHe/fdQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QxpvIQMbuFxIaUTMTLIO/AwdjckyDJUaBBiCVYW9jn7iShh6YYJP8oUP4cfH8YtbRy9Gdfr+ClDXnKA1mXDLC1lDkNBmmgZbE4d4w5xizU55njIVzDo1mgci7prR+AsKGzPTmdZuB/KASEEENFgEfG4QSSA8hOGbVam60IlYthI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X6UhOF4p; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738063649; c=relaxed/simple;
+	bh=YHpocDv2mcARG4XfcT+wsAGbMutkeQKxjw1/zAWHynY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I2+2fBJ8mh8YUhr42nyfHbxybJ0TSmuLFYx4SOmlpDA1w2oXNR49mDPyGZ7FwIzFNYmEu+8hNUx+1BEh1k1Y7l03SNEbD5CQbQKSgfByV3o63qN39YfJBXSIH9l+RIlUwRKuLifDfge/FuaPCUfwihIOhQ/sxvEp2aaJybpVH3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PNCB9jEk; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X6UhOF4p"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2f43d17b0e3so9573827a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jan 2025 02:38:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738060716; x=1738665516; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wgIdRXRvgoKowGKJz95jpFQqQyWl5c0v99Nr5KWcNsI=;
-        b=X6UhOF4pHgVa8Wyljg9KDmTBscepccofhZ0g1ptlMKlhIUGlQJ5BfChtX57rC2qGQk
-         SsUOrcf/ALWiobW6WuDp50zwSOb2/rpYt1j0U4NeXgbQ/txQU+W3BaPw9VAOrn/CaAUf
-         H3XlnUY+5rpwduu0fzdI5AfcBLqvbGgUu9m5IhOx68rkEIAnRNrECkeJf+otzcaNCFQ9
-         KTUTv7/wzW4nl/niDjlyEo+yDDUTBt3jZhw5RCzNhe7RdOGohCHvqbxP7DJn9wpHuPNY
-         REdUUodHbHKOmef7TTleJ2AXHgz9rqrU8MyJu0c8F5obm9tsuKG6hB+++ltg1DjIalkL
-         +Cxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738060716; x=1738665516;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wgIdRXRvgoKowGKJz95jpFQqQyWl5c0v99Nr5KWcNsI=;
-        b=oAftNz6r8JhGSPzKzjSwEXU4rAjBPOS88fUscY8kffqkWZZyqyuhG3QEIJGOw67dBU
-         7NaLTiBkm/e7DBx+5mlu6ySxf+ZuPJYpMehFnKknHLzW2VNHHU4H79dHBPICkh/d6JWm
-         D9asftmYIL0vzeWeF3Dn1tJ4fDge2YEn4vPDmDLPztX0kFtV6wCfbL/7X7oFcOZMP0HX
-         Nf2/F7HyaLGetC9y2zN1QDiQcXX88ba5SO09YwnTR+D58n4sPXrZEIwp1FeEQlO/6vdn
-         kmCcr7JjN1ohEZyUZaXcdXWahdfTey5tsny3V05jgn9PbnXgfZdwQO+qCM+gxdhT/ZRB
-         bCtA==
-X-Forwarded-Encrypted: i=1; AJvYcCUgx6veFO9oaSMIdb9n1nHbAhCalXjtxmLrgnH3p0jK6NEIOFNTTruox1WDID34Jii8DM0n29LqWgY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhZM3bgkZfu07GnKHNZC+fsnG5zmEjqG7LQN0v/7tAdQwCFGnj
-	nBh7MPZZm7Yj80Wci8K9gxdu1Unj1lomAOr0vw66zYfRfYXh6/o9
-X-Gm-Gg: ASbGncvSFtCfEWrwQmdGLY28GWl+ZQw7z3Vr4Q5fwKxSKrzT8YydDCsfm8hCuhKq97L
-	ggu1yZAZz7Jxm1LTqmdS+xXsRUwlMOkhR4tNzHjjx8mn5/alsnN1NJUEy1BVSMH5Vzt9fwQ7HYU
-	V7kyuNEtlldu4JokcRpE2NvBrjtC5HSH+4pf6U21zqaGmir73ue0+AAo481aV0Xy4JqT+Wc8rkJ
-	iCQx6ul3zgqYLmeiDV7St5zbLVqPupp++GwnvYB/H2MLbjqQ+F61EIJL77pt7JvD4eGkRBRBLM7
-	/boxFM4MDk/ube25SgcbHtuZeDQXvbs6SPQbxRiYFBa9oPlxN7Qjm85JowMI8lGY
-X-Google-Smtp-Source: AGHT+IFVaTqW2gqik5sDcGNQZzptdY6bfZCxi4cLef2Xfh51g17+OPtplrkWGIHeefb414x2vSWWdg==
-X-Received: by 2002:a05:6a00:2184:b0:725:ef4b:de33 with SMTP id d2e1a72fcca58-72daf88b1b9mr67032883b3a.0.1738060716488;
-        Tue, 28 Jan 2025 02:38:36 -0800 (PST)
-Received: from ubuntu-2204.. (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72f8a763468sm8973518b3a.106.2025.01.28.02.38.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jan 2025 02:38:36 -0800 (PST)
-From: Akira Yokosawa <akiyks@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Tsugikazu Shibata <shibata@linuxfoundation.org>
-Subject: [PATCH 2/2] docs: submit-checklist: Expand on build tests against different word sizes
-Date: Tue, 28 Jan 2025 19:28:05 +0900
-Message-Id: <20250128102805.112691-2-akiyks@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250128102805.112691-1-akiyks@gmail.com>
-References: <20250128102805.112691-1-akiyks@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PNCB9jEk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738063648; x=1769599648;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YHpocDv2mcARG4XfcT+wsAGbMutkeQKxjw1/zAWHynY=;
+  b=PNCB9jEk5Svx/PypwJvsgOol39YTAfJZYe98GXJZCFSu76tCCki5cK8w
+   ibdIfAu3g/7kVnGSzNvbFN6fNQwEdcbqTRhPAeluIKSozFhW7bUZW2E5b
+   NxEdWLldR9tXyCH4UvMuL9FzIaOt+joct20YBTtDXwuzZmhruWV6CRvrJ
+   +JGY0EL9nQbGcJrg1JlQEGhJ0UBfAwoldcuIchayrSez0ZjJ8aOSFFhCC
+   ygQIFngLs55xv99rnT7Z8fQVxsyVVdooJIWhORiKwCtrmeeD8+siXTacf
+   tpfB46u993g94Ri8tiLI8zVNyjJw17k1o844U6+NdYBaNnvJO3wLEPdTl
+   w==;
+X-CSE-ConnectionGUID: LZQX6eStQ8mTBK0moOhi0Q==
+X-CSE-MsgGUID: l9mvDLgsReKXqMqBtjhvRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11328"; a="63904543"
+X-IronPort-AV: E=Sophos;i="6.13,241,1732608000"; 
+   d="scan'208";a="63904543"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2025 03:27:27 -0800
+X-CSE-ConnectionGUID: rvqwxV4OR/aK0E7NZE3YTg==
+X-CSE-MsgGUID: CnvWH1/zR+qHAH4IhiySTg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,241,1732608000"; 
+   d="scan'208";a="113756615"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa004.jf.intel.com with ESMTP; 28 Jan 2025 03:27:24 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+	id D216D1AC; Tue, 28 Jan 2025 13:27:22 +0200 (EET)
+Date: Tue, 28 Jan 2025 13:27:22 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Michael Jamet <michael.jamet@intel.com>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [RFC v2 29/38] docs: thunderbolt: Allow creating
+ cross-references for ABI
+Message-ID: <20250128112722.GS3713119@black.fi.intel.com>
+References: <cover.1738020236.git.mchehab+huawei@kernel.org>
+ <3895db4d11575b2d3e98b066a35498aeadf749dd.1738020236.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <3895db4d11575b2d3e98b066a35498aeadf749dd.1738020236.git.mchehab+huawei@kernel.org>
 
-Existing sentence on cross-compilation that mentions ppc64 does not
-make much sense in today's perspective.
+On Tue, Jan 28, 2025 at 01:06:18AM +0100, Mauro Carvalho Chehab wrote:
+> Now that Documentation/ABI is processed by automarkup, let it
+> generate cross-references for the corresponding ABI file.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Expand it for the benefits of testing against architectures of
-different word sizes and endianness.
+Looks good to me,
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
----
- Documentation/process/submit-checklist.rst             |  9 ++++++---
- .../translations/ja_JP/process/submit-checklist.rst    | 10 ++++++----
- 2 files changed, 12 insertions(+), 7 deletions(-)
-
-diff --git a/Documentation/process/submit-checklist.rst b/Documentation/process/submit-checklist.rst
-index e531dd504b6c..88b6358258d7 100644
---- a/Documentation/process/submit-checklist.rst
-+++ b/Documentation/process/submit-checklist.rst
-@@ -91,9 +91,12 @@ Build your code
-      fix any issues.
- 
- 2) Builds on multiple CPU architectures by using local cross-compile tools
--   or some other build farm. Note that ppc64 is a good architecture for
--   cross-compilation checking because it tends to use ``unsigned long`` for
--   64-bit quantities.
-+   or some other build farm.
-+   Note that testing against architectures of different word sizes
-+   (32- and 64-bit) and different endianness (big- and little-) is effective
-+   in catching various portability issues due to false assumptions on
-+   representable quantity range, data alignment, or endianness, among
-+   others.
- 
- 3) Newly-added code has been compiled with ``gcc -W`` (use
-    ``make KCFLAGS=-W``).  This will generate lots of noise, but is good
-diff --git a/Documentation/translations/ja_JP/process/submit-checklist.rst b/Documentation/translations/ja_JP/process/submit-checklist.rst
-index b9da826d30ae..41af64d5a73d 100644
---- a/Documentation/translations/ja_JP/process/submit-checklist.rst
-+++ b/Documentation/translations/ja_JP/process/submit-checklist.rst
-@@ -112,10 +112,12 @@ Kconfig 変更のレビュー
-       が無いこと。
-       ``make htmldocs`` または ``make pdfdocs`` でビルドし、問題があれば修正。
- 
--2) ローカルのクロス・コンパイル・ツール、その他のビルド環境を使って、
--   複数の CPU アーキテクチャ向けのビルドができるか。
--   ``unsigned long`` を 64 ビットの数量に対して使ってしまうことが多いという
--   点で ppc64 は、クロス・コンパイルの検査対象として好適である。
-+2) ローカルのクロス・コンパイル・ツール、その他のビルド環境を使って、複数の
-+   CPU アーキテクチャ向けのビルドをしたか。
-+   特に、ワードサイズ (32 ビットと 64 ビット) やエンディアン (ビッグとリトル)
-+   の異なるアーキテクチャを対象とするテストは、表現可能数値範囲・データ整列・
-+   エンディアンなどについての誤った仮定に起因する様々な移植上の問題を捕える
-+   のに効果的。
- 
- 3) 新規に追加されたコードについて (``make KCFLAGS=-W`` を使って)
-    ``gcc -W`` でコンパイルしたか。
--- 
-2.34.1
-
+Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
