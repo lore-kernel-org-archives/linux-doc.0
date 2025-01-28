@@ -1,130 +1,167 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93EB58634F;
-	Tue, 28 Jan 2025 14:17:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9794F9F8;
+	Tue, 28 Jan 2025 14:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738073872; cv=none; b=XZE8hM8qbK+dMGWbOXVxXJ2RvmxMJjWMyr0oqXmZouelC5FkCGT9gf3QOme1DSeTMaLJlZnu5NMWKiiNK3PHS9mZ8DtL+LxROztgauIPilO0RNQg+XlROHi3RX1gLxv3GrXWFldvzhR96cnqUhXgNkPg8KDJYkypWsgiquXHaV4=
+	t=1738075767; cv=none; b=kUAZtSDDZiGTatmk5gh40w3SDgWmJjzPabA+ruJd/pP/+tjxNaVhIHHWJ3NgfmTgIduaGX5IurfoGXpyGxUGOQl1ynQdGFs2vS7snRrueAtzpr2F9si5PtRQop7tlHn2ua4GDy4cvCPqU+MmrRPGrFQR1lnzaF5b06WejTTolls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738073872; c=relaxed/simple;
-	bh=4PX9PQdb1nzJ4wP8fVMGULkAoVaXx+t09oFn5rMlBZc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=WAXAFyPUcF6uxhBXlhGoVFMJE+2sRM/UYSp7sVw2Yn6k/FPdHFrrnSU5f/Bhc6lnXWYxvUzxoahUvsm1zoWsEoL9sWExGJzwdsY6mufbKjy9+w50ezjeja+TOJLLElkjEUBAXOdmPqm/keG+CuzGz5PU75js90/YZQff52TaZ7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=By0veISM; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1738075767; c=relaxed/simple;
+	bh=+Ejniyab9jdWy8aG5N2vU/QcshCR48kbmtf/5OBPbRw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YA+/ZBPUYesBYaMOTRfHYxtoasQfGTKZDImjo1E7aMGaVktzIhqEbVXnkHK1KZP78rOiFIScwwFH9hE4n0LRegIdU0H6gE13DelExzx40Sc8TI1diW/0WHi/C75Dgs/52nywBhLY+t9mrItZ7CS05NGD4lKoLq9skm3mLPoW+eU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FrB/nTrH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="By0veISM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738073871; x=1769609871;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=4PX9PQdb1nzJ4wP8fVMGULkAoVaXx+t09oFn5rMlBZc=;
-  b=By0veISM7X8JA09e5USvUOT9RwmU9+ATpMhRuQ8wvqoGz1jyUa1iLJAS
-   v//z1ZS6cibMTTeYDatNuu4wvnw2i8I+ZbD3Z7r1swNSWq98AC3JXLisG
-   2E00xG0DM7lQzQWUx5ZVzB0RJaxfFRhYjmx6BYrvxLMZLS8i1mBOEZ2nR
-   mVj0a8oCH22KT9HTwdqXYZbUyqJV1v2oObYjBpIhGcaObZ80Qai7t38oT
-   VnMTBbq9bFxksezfvXK1Y4vRS95Lrnu4Ozt6wQmhrEsyuwvO1DST1VN52
-   VR8ixc8NTU7HtIigc/0Vy59yodppBVO4YdAp4njMqzi8ml01DCBMRv7sB
-   g==;
-X-CSE-ConnectionGUID: sERG9aKVSr2KRDoUhQogPA==
-X-CSE-MsgGUID: 1m6r2MkFQhudhSFcWMGtSQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11329"; a="42222401"
-X-IronPort-AV: E=Sophos;i="6.13,241,1732608000"; 
-   d="scan'208";a="42222401"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2025 06:17:50 -0800
-X-CSE-ConnectionGUID: zM0o9NmNQR2bEA2N2h+MJg==
-X-CSE-MsgGUID: UphuregQRW6oLaLRoIlCuA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="145954406"
-Received: from inlubt0246.iind.intel.com ([10.191.24.87])
-  by orviesa001.jf.intel.com with ESMTP; 28 Jan 2025 06:17:45 -0800
-From: subramanian.mohan@intel.com
-To: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: akpm@linux-foundation.org,
-	greg@kroah.com,
-	corbet@lwn.net,
-	christopher.s.hall@intel.com,
-	subramanian.mohan@intel.com,
-	tglx@linutronix.de,
-	andriy.shevchenko@linux.intel.com,
-	eddie.dong@intel.com,
-	pandith.n@intel.com,
-	thejesh.reddy.t.r@intel.com,
-	david.zage@intel.com,
-	srinivasan.chinnadurai@intel.com,
-	rdunlap@infradead.org,
-	bagasdotme@gmail.com,
-	giometti@enneenne.com
-Subject: [PATCH v2 1/1] pps: retrieve generator specific data from framework
-Date: Tue, 28 Jan 2025 19:47:43 +0530
-Message-Id: <20250128141743.52031-1-subramanian.mohan@intel.com>
-X-Mailer: git-send-email 2.35.3
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FrB/nTrH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63871C4CED3;
+	Tue, 28 Jan 2025 14:49:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738075767;
+	bh=+Ejniyab9jdWy8aG5N2vU/QcshCR48kbmtf/5OBPbRw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FrB/nTrHi+K4b9TUWdn26CTKLM20TG/2lA7NvP5IbBxo/eht1Ruo30tfHwD0x405e
+	 g/oY8WfQbGRLbqcoOEbIhvsaEVRBeYi9Cim0aDnDPqpoxBHs7EN7F6xSdXBptNQ+Mb
+	 6MG7jUgZpomKN62UxwaqCTu/Lk/zUQuJCG8LYOP6hyYvh0lWNLjgO+IDraU1/viaE5
+	 H/S36AZMFoQI3tzLkwY7RwaV5JU1+XWwZtjPLB5UKWxIeMvSNVhms7szLIwuWz3ARm
+	 Mo+6H63smH1nv0GRJpZKeIMCkSUkhgE3JS/SAomWic2HFSuGtpi9jPiTFm0sUonfRL
+	 4SdPi7ZDtv5oQ==
+Date: Tue, 28 Jan 2025 15:49:23 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
+	Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Paul Kocialkowski <contact@paulk.fr>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-doc@vger.kernel.org, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v5 04/10] drm/bridge: add documentation of refcounted
+ bridges
+Message-ID: <jiwexbvzcrq7hywl5t25cojrgjnyv5q2wnb2kvgriucal6764w@hhrefcftcjza>
+References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
+ <20241231-hotplug-drm-bridge-v5-4-173065a1ece1@bootlin.com>
+ <20250106-vigorous-talented-viper-fa49d9@houat>
+ <CAA8EJprhe4+9HwjW-=4K_LUD5pw51ij_dk0SZABbKH+ExnjdzQ@mail.gmail.com>
+ <20250108162429.53316041@booty>
+ <20250108-astonishing-oarfish-of-energy-c0abbe@houat>
+ <20250122171230.30cf9b97@booty>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="shqls32c37qtoxms"
+Content-Disposition: inline
+In-Reply-To: <20250122171230.30cf9b97@booty>
 
-From: Subramanian Mohan <subramanian.mohan@intel.com>
 
-While adapting pps generator driver(tio generator as an example)to the new
-generator framework, As part of driver registration the pps_gen_device
-pointer is returned from framework. Due to which there is difficulty in
-getting generator driver data back in enable function. we won’t be able
-to use container_of macro as it results in static assert. we might end up
-in using static pointer. To avoid the same and get back the generator
-driver data back we are proposing generic approach to add drv_prv_data
-pointer inside the struct pps_gen_source_info.
+--shqls32c37qtoxms
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 04/10] drm/bridge: add documentation of refcounted
+ bridges
+MIME-Version: 1.0
 
-Example TIO structure wrapped with pps_gen_device and usage.
+Hi,
 
-struct pps_tio {
-	/* Framework Related * /
-	struct pps_gen_source_info pps_tio_source_info
-	struct pps_gen_device *pps_gen;
+On Wed, Jan 22, 2025 at 05:12:30PM +0100, Luca Ceresoli wrote:
+> On Wed, 8 Jan 2025 17:02:04 +0100
+> Maxime Ripard <mripard@kernel.org> wrote:
+>=20
+> [...]
+>=20
+> > > > > And we'll also need some flag in drm_bridge to indicate that the =
+device
+> > > > > is gone, similar to what drm_dev_enter()/drm_dev_exit() provides,
+> > > > > because now your bridge driver sticks around for much longer than=
+ your
+> > > > > device so the expectation that your device managed resources (clo=
+cks,
+> > > > > registers, etc.) are always going to be around.   =20
+> > >=20
+> > > Yes, makes sense too. That should be a drm_bridge_enter/exit(), and
+> > > drm_bridge.c will need to be sprinkled with them I guess. =20
+> >=20
+> > The users would be the drivers, most likely. There's not much we can do
+> > at the framework level, unfortunately.
+>=20
+> Back to the idea of a "gone" flag, or perhaps an "unplugged" flag to
+> be consistent with the struct drm_device naming, and
+> drm_bridge_enter()/drm_bridge_exit(), I did a few experiments and have
+> a question.
+>=20
+> In case:
+>=20
+>   a) there is a notification callback to inform about bridges
+>      being removed, and
+>   b) all entities owning a struct drm_bridge pointer stop using
+>      that pointer when notified
+>=20
+>=20
+> With the above, there should be no need for
+> drm_bridge_enter()/drm_bridge_exit(). Nobody will be using a pointer to
+> a bridge that is being removed.
+>=20
+> Now, about a), patch 1 in this series implements such a mechanism to
+> inform all bridges when a bridge is being removed. Note that the
+> "unplugged" flag would be set immediately after the notifier callback
+> is currently called: "unplugged =3D=3D true" will never happen before the
+> callback, and after the callback there will be no pointer at all.
+>=20
+> Patch 1 however is only notifying bridges, so other entities (e.g.
+> encoders) cannot be notified with this implementation. However a
+> different notification mechanism can be implemented. E.g. until v3 this
+> series was using a generic struct notifier_block for this goal [0], so
+> any part of the kernel can be notified.
+>=20
+> About b), the notification appears simpler to implement in the various
+> drivers as it needs to be added in one place per driver. Also adding
+> drm_bridge_enter()/exit() can be trickier to get right for non-trivial
+> functions.
+>=20
+> Do you see any drawback in using a notification mechanism instead of
+> drm_bridge_enter()/exit() + unplugged flag?
 
-	/* TIO Specific Data */
-};
+Yeah, because we're not considering the same thing :)
 
-static int pps_tio_enable(struct pps_gen_device *pps_gen, bool enable) {
+The issue you're talking about is that you want to be notified that the
+next bridge has been removed and you shouldn't use the drm_bridge
+pointer anymore.
 
-    /* Getting TIO data back */
-    /* Note: drv_prv_data will be initialized in our init routine */
-    struct pps_tio *tio = pps_gen->info.drv_prv_data;
+A notification mechanism sounds like a good solution there.
 
-    /* Access tio members here to set some of the parameters */
+The other issue we have is that now, we will have the drm_bridge pointer
+still allocated and valid after its device has been removed.
 
-    return 0;
-}
+In which case, you need to be able to tell the bridge driver whose
+device got removed that the devm resources aren't there anymore, and it
+shouldn't try to access them.
 
-V1 -> V2:
-    * Updated reviewers.
+That's what drm_bridge_enter()/exit is here for.
 
-Signed-off-by: Subramanian Mohan <subramanian.mohan@intel.com>
----
- include/linux/pps_gen_kernel.h | 1 +
- 1 file changed, 1 insertion(+)
+Maxime
 
-diff --git a/include/linux/pps_gen_kernel.h b/include/linux/pps_gen_kernel.h
-index 022ea0ac4440..8484bb2828ef 100644
---- a/include/linux/pps_gen_kernel.h
-+++ b/include/linux/pps_gen_kernel.h
-@@ -35,6 +35,7 @@ struct pps_gen_source_info {
- 	int (*get_time)(struct pps_gen_device *pps_gen,
- 					struct timespec64 *time);
- 	int (*enable)(struct pps_gen_device *pps_gen, bool enable);
-+	void *drv_prv_data;
- 
- /* private: internal use only */
- 	struct module *owner;
--- 
-2.35.3
+--shqls32c37qtoxms
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ5jucwAKCRAnX84Zoj2+
+dr3/AX9yyXr/DcwkCCWNCkD8BOPxtQlcN0Dqx5XTUvqvGVPG/04wKXx7kg4cSput
+ssff96ABf0XkC8RsvcERjbdZTGaOxLS1MVQ/4U6WwYMKeIiXM4Wmxg+K+WLH3qEd
+cr8ksUj8LA==
+=f7xe
+-----END PGP SIGNATURE-----
+
+--shqls32c37qtoxms--
