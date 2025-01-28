@@ -1,255 +1,480 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA3D199EB2
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jan 2025 09:37:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC12B19CC06
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jan 2025 10:38:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738057030; cv=none; b=jYgbYtEBcAOc020jprDgZmmB4981et2lADxosc/9RKKxefoaVIMyouJYZCgu/57GA+3A6fndxEfQro0KCP+RheOoJ4hnznvnRkr6VD2caJvvCS/x2Y+aJ0jW/xMBeFjgIuDc32RbOyqtm9GdxMyyO/OlQ3KnrKv7bDjjHjkOFbQ=
+	t=1738060703; cv=none; b=Sco74wqcxVUtvbx/emSMQ2II8xwWqXosZJvSFkkfe1zfe78FILYcbsHpXMeBl4z7Mhkyw2Fm/SmO68ujAaY8aVlxilM0ZB6+Ovny7VUOXB8mbfW8jULSPcHbUS63H11W1ptGo+q9Mr4vvwimf46e1AAVkLoaChRMK2d/ENHPA3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738057030; c=relaxed/simple;
-	bh=uy/ODYMoI/6Ndd4T/4RpDF1O+qMkosDwU+nvXDqFSm4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Gf3rNZ0pnS6kYAoxdVbFaCxW1VH8YkRCVtUC8MKpsmCiXpE62u0DAKvuHc5BTjbvjTYgTSkocpYW/SeDah/LAV0fJGwlsfB7K9n6UzVCzvOAHhnKe14otJ7iyeX5Bn83/g7O09672yCgQYw5CNGMUUnWPW9JvZjAPUgv5Ks27is=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=X21roE+R; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1738060703; c=relaxed/simple;
+	bh=su33/zKHFg4vBZIgydm6o87yX4GaNWF3oeCccC8Fz+c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=qcowZwqxDazgA7mFxVvVjfdNFeEYoXF91KktyNzLa3c+dySIPODzF4bpH98oxZ7uDwjs8Xe6HY0cBMzZzS67dk6DJNz2ikIjvs6sjzvojvpurY0+TwyBxqF88KqGO5vt7xTUTemYE/Vc4amu3IX5kmOLR49FmWAeQ33HRJEJHRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dmtk36OP; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="X21roE+R"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738057027;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=kAwdFO2bf4WpnGkRmuAl6Musz+Y82R50ExvkyEscsL4=;
-	b=X21roE+RVjgeRn0Po0w0CG9T0TwBQEvVpR8Wra1ESpM1mjZvGPzkxLqHP7BfcSqva6vZQA
-	pV83GnEGw4x/41rzKkG+E9OCETm1ebOmCt34TaCLdX/GJdO6fUH/4Wl4WlOo6xdp6OAKDQ
-	td3yyoutzimKQT2YE8BtSKNqwRCHzKE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-346-e8ZQCgkNOMa4kWPmwF-DTw-1; Tue, 28 Jan 2025 04:37:03 -0500
-X-MC-Unique: e8ZQCgkNOMa4kWPmwF-DTw-1
-X-Mimecast-MFC-AGG-ID: e8ZQCgkNOMa4kWPmwF-DTw
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-38bf4913669so2634422f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jan 2025 01:37:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dmtk36OP"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-215770613dbso67728245ad.2
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jan 2025 02:38:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738060701; x=1738665501; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hqWXHL4Qi2+TFi6EG+XEQ6fPHB2qjAn1S9I6jR03bjU=;
+        b=dmtk36OPPbSPDMZ3HlWDTLvyYrYp0FO+TW/6S7HSsyJopnMZxDbWPzZ6KfK3PTwOJK
+         m+JakCIaFlkJTIPd5zUoYyGxwJZgN6kEnmq083TAIP3SHAPqjlzF7Qsuiz1BMZOhcT3r
+         F472c6Mcp4ea9gKZ/P2ozmykzdLW/Qlyt7owjXsKkjXWXZjzhonGnrZHrz9bDFW9rCTK
+         l4s4uZLRFEurnH2GummJYO3AT7aO//t/51n6FhrYrL1qFwRzSnKKM5jcWGyCJxq62peQ
+         At7HPxhlM3DEQE1Q8j1XVMji2eHb5HOYiaC9USXgghB3WN9r6Cm8gb9E5AYVXR/iHbxY
+         aVBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738057022; x=1738661822;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=kAwdFO2bf4WpnGkRmuAl6Musz+Y82R50ExvkyEscsL4=;
-        b=LscvOHfaRaNqHQ6sLTUL6o7D0P9p/8n/6FkBRq33cK8Uf5/oqROO0cWLT8t4U3yB0Y
-         UaJbPPH+22Lx0fiKWlZX80NIlMLBctPEq12eF7TyLsyTqCf7lJwgZzM7Y6EXQvcIcSX/
-         TBqxsBHhHkEye6N1oGlolJAGEHiCLe/rSchlJl3l+YIoqZba+Q+zMjqPmEAwerk/6gHy
-         Ign4QYGUCkh/cz3MQTw7+ApZ9LvDBTd5/BOZKK19gPNYPGyz/a49xiEwJRWKNo4Ke+V8
-         LCElm8WkCSjrOSe6RKFVhOlTP4BXksdPgiYPKFYS+1expEs02svA80K447GSuI2KrJ35
-         lG2w==
-X-Forwarded-Encrypted: i=1; AJvYcCXfWk3GcEFmOhjWja/ixUIi8MQpuZmwIpFir2hHtsfUYPP4GNJ3u/NwoR9fZzzsoj5x5ez+z4H31YQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5jhk65Eyi0gfkhQ4hehF8vrp/LNjGYEHd12Az//l+q0eRzJTj
-	vKfpcA0DC54QVNxj8NWVQZZjbLMidSC6vUIqZR+Kf2xrIwWuqVpuL5C4eBIc4Br1N/GCSg9Ur+W
-	nRwx/jzhv+tx3HIq6t1bOG5L3njXNDt2LMNZR5u5kKPvRCAphPtv9v0zz/Q==
-X-Gm-Gg: ASbGnct/azwa9dcjKxSz8ory8HiBjwiy7dE6gewQKxW2yob+OM+yHsDJCKIEUebTOwX
-	K6b/lw7t1+cvkpjlWfKEw8g850mjqApEaHiqk/1Fcyt8owgTfMiSmJ+W8cTcjae5nTVyuo8cBLR
-	Lq+TEy9yhq/U/VMsbdIhFM42+kIkRT2hzFY0vbutPkciyx9CE9zqCmrSf7CDSk0pkKTo8NkrGAN
-	4DrASGmlPyBHgPF2wEkAP5hcg9vIxhOX19KCtZrzen2KtEmmAESjQOLp9eQf7t+UHXOvp/MAt3q
-	Fe+kdYd8xA/gxB40LADA4bc35O1FN5TVg4Fpu38E+m3bidAYQRB7PNhc4lyici07OH+CWya03kL
-	8c2Tyz9FaJNSC0kq2pqpO/cGTdYDP8kyt
-X-Received: by 2002:a5d:4243:0:b0:386:2a3b:8aa with SMTP id ffacd0b85a97d-38bf57b3f56mr27286025f8f.37.1738057022512;
-        Tue, 28 Jan 2025 01:37:02 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHRbY/8dA2OVgaLcPdTrF4WjHj0tODpFOjXegLLTi7SabhIcsFMtsDARIuViWuL9zRaarVyuw==
-X-Received: by 2002:a5d:4243:0:b0:386:2a3b:8aa with SMTP id ffacd0b85a97d-38bf57b3f56mr27286001f8f.37.1738057022128;
-        Tue, 28 Jan 2025 01:37:02 -0800 (PST)
-Received: from ?IPV6:2003:cb:c73f:ce00:1be7:6d7f:3cc3:563d? (p200300cbc73fce001be76d7f3cc3563d.dip0.t-ipconnect.de. [2003:cb:c73f:ce00:1be7:6d7f:3cc3:563d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c2a1c4161sm13337357f8f.88.2025.01.28.01.36.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Jan 2025 01:37:01 -0800 (PST)
-Message-ID: <404b500a-4a28-4a8a-a0f5-3c96c397be0b@redhat.com>
-Date: Tue, 28 Jan 2025 10:36:58 +0100
+        d=1e100.net; s=20230601; t=1738060701; x=1738665501;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hqWXHL4Qi2+TFi6EG+XEQ6fPHB2qjAn1S9I6jR03bjU=;
+        b=K89VqA8NhsJGQdTBUwkrMixu1zU7lniOjIdOvlgXY54nb8IGIp4j/SspfHpyYRRjUk
+         gcvcLSSh+aY5gcT95MKhNExYJU9A1BcaQ3QQjU+hwehuVe1VFu2YmdJas2omGrtgAGIZ
+         CpWu5Tk2zK9jPr40HFsaYsfRH4RogwHJZ5vcSA2rdJ676TiyKMQ+yhv20jM9Jk8On5vv
+         yQEWzRT6lHuLN0joZWMAjkxEnmwaa1JAl78jdhoWWRBUtESEid5zsLFkQLashF+c8eN8
+         WAQ7segbmSuqyVG83ljxjYTxrnEDNscJMst862kIfuVLnCmcA8J6xXQvjuPdN5rnlz/h
+         v3wA==
+X-Forwarded-Encrypted: i=1; AJvYcCWOymIPBqLSrwaV79OQJeLTDT445Ayzk/tOLprymhKbpeswm+IsUH7kTzbgoKpDXiYThdc3icrahTY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDFcmGLRMi9cKB0frtW6JMpzDjP8BzhLLiLnyRrl2GlHS1B1WZ
+	5qDAKo9t8FTaU8CmqaGI3soBdk6+aejKLCJvSjaA6zzy3Y01KrGhWVpfbA==
+X-Gm-Gg: ASbGncs5tyDFD88oUNkqSlIz1LRMvB+VHnOQUhSKAHGGONjfXfSA2D+pXTYLSI6EiQ+
+	kTCvopmpQznnFmqNe7Hags7T9xvjPpqWhkgL94ZIGtKpJYX8jOGwQrAlIVU91wpsncARplYXO3y
+	MT9y1fuY2mqF22El8AJ85fyeXc2hlcaFU///g+pbGxpXxUttPa395RDF4rN/SVUI2zrbkXFfRvI
+	LeCnXp7vkY5+deEv7SVd9JvnI4Xyq6ORGanPFf9AYjXhC2D9DF2DeRPCEyXC2jSflEjDzln+F/x
+	9lHfYL+Ekq5yCGYbzahRMuAF0S2mIOb4dQi5bbfeulP9v1Gx8EDG776i6Jzs/6ip
+X-Google-Smtp-Source: AGHT+IE8BLraAHUjDSwlmXejodRK21qwNatTiZ32U5J4l76oxQsFkQ5CgV//4KtWx5xKEj4vO9OUig==
+X-Received: by 2002:a05:6a20:6a28:b0:1e6:8f30:df53 with SMTP id adf61e73a8af0-1eb214a0655mr62017550637.16.1738060700721;
+        Tue, 28 Jan 2025 02:38:20 -0800 (PST)
+Received: from ubuntu-2204.. (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72f8a763468sm8973518b3a.106.2025.01.28.02.38.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jan 2025 02:38:20 -0800 (PST)
+From: Akira Yokosawa <akiyks@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	linux-doc@vger.kernel.org,
+	Akira Yokosawa <akiyks@gmail.com>,
+	Tsugikazu Shibata <shibata@linuxfoundation.org>
+Subject: [PATCH 1/2] docs/ja_JP: Convert SubmitChecklist into reST with belated updates
+Date: Tue, 28 Jan 2025 19:28:04 +0900
+Message-Id: <20250128102805.112691-1-akiyks@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/20] Add support for shared PTEs across processes
-To: Anthony Yznaga <anthony.yznaga@oracle.com>, akpm@linux-foundation.org,
- willy@infradead.org, markhemm@googlemail.com, viro@zeniv.linux.org.uk,
- khalid@kernel.org
-Cc: jthoughton@google.com, corbet@lwn.net, dave.hansen@intel.com,
- kirill@shutemov.name, luto@kernel.org, brauner@kernel.org, arnd@arndb.de,
- ebiederm@xmission.com, catalin.marinas@arm.com, mingo@redhat.com,
- peterz@infradead.org, liam.howlett@oracle.com, lorenzo.stoakes@oracle.com,
- vbabka@suse.cz, jannh@google.com, hannes@cmpxchg.org, mhocko@kernel.org,
- roman.gushchin@linux.dev, shakeel.butt@linux.dev, muchun.song@linux.dev,
- tglx@linutronix.de, cgroups@vger.kernel.org, x86@kernel.org,
- linux-doc@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, mhiramat@kernel.org,
- rostedt@goodmis.org, vasily.averin@linux.dev, xhao@linux.alibaba.com,
- pcc@google.com, neilb@suse.de, maz@kernel.org
-References: <20250124235454.84587-1-anthony.yznaga@oracle.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <20250124235454.84587-1-anthony.yznaga@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-> API
-> ===
-> 
-> mshare does not introduce a new API. It instead uses existing APIs
-> to implement page table sharing. The steps to use this feature are:
-> 
-> 1. Mount msharefs on /sys/fs/mshare -
->          mount -t msharefs msharefs /sys/fs/mshare
-> 
-> 2. mshare regions have alignment and size requirements. Start
->     address for the region must be aligned to an address boundary and
->     be a multiple of fixed size. This alignment and size requirement
->     can be obtained by reading the file /sys/fs/mshare/mshare_info
->     which returns a number in text format. mshare regions must be
->     aligned to this boundary and be a multiple of this size.
-> 
-> 3. For the process creating an mshare region:
->          a. Create a file on /sys/fs/mshare, for example -
->                  fd = open("/sys/fs/mshare/shareme",
->                                  O_RDWR|O_CREAT|O_EXCL, 0600);
-> 
->          b. Establish the starting address and size of the region
->                  struct mshare_info minfo;
-> 
->                  minfo.start = TB(2);
->                  minfo.size = BUFFER_SIZE;
->                  ioctl(fd, MSHAREFS_SET_SIZE, &minfo)
+This is actually a brand-new translation against
+commit 47c67ec1e8ef ("docs: submit-checklist: use subheadings"),
+rather than an update of existing SubmitChecklist.
 
-We could set the size using ftruncate, just like for any other file. It 
-would have to be the first thing after creating the file, and before we 
-allow any other modifications.
+As we now have two reST contents under the ja_JP translation,
+to avoid duplicated boiler plates, split out the disclaimer part
+into a new section and put reference to it at the beginning of each
+doc.
 
-Idealy, we'd be able to get rid of the "start", use something resaonable 
-(e.g., TB(2)) internally, and allow processes to mmap() it at different 
-(suitably-aligned) addresses.
+As there is no prospect of ja_JP to have a lot of translated docs,
+keep those .rst files in the toctree of ja_JP/index.rst.
 
-I recall we discussed that in the past. Did you stumble over real 
-blockers such that we really must mmap() the file at the same address in 
-all processes? I recall some things around TLB flushing, but not sure. 
-So we might have to stick to an mmap address for now.
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
+---
+ .../translations/ja_JP/SubmitChecklist        | 105 -----------
+ .../translations/ja_JP/disclaimer-ja_JP.rst   |  22 +++
+ Documentation/translations/ja_JP/index.rst    |   2 +
+ .../translations/ja_JP/process/howto.rst      |  37 ++--
+ .../ja_JP/process/submit-checklist.rst        | 165 ++++++++++++++++++
+ 5 files changed, 199 insertions(+), 132 deletions(-)
+ delete mode 100644 Documentation/translations/ja_JP/SubmitChecklist
+ create mode 100644 Documentation/translations/ja_JP/disclaimer-ja_JP.rst
+ create mode 100644 Documentation/translations/ja_JP/process/submit-checklist.rst
 
-When using fallocate/stat to set/query the file size, we could end up with:
+diff --git a/Documentation/translations/ja_JP/SubmitChecklist b/Documentation/translations/ja_JP/SubmitChecklist
+deleted file mode 100644
+index 1759c6b452d6..000000000000
+--- a/Documentation/translations/ja_JP/SubmitChecklist
++++ /dev/null
+@@ -1,105 +0,0 @@
+-NOTE:
+-This is a version of Documentation/process/submit-checklist.rst into Japanese.
+-This document is maintained by Takenori Nagano <t-nagano@ah.jp.nec.com>
+-and the JF Project team <http://www.linux.or.jp/JF/>.
+-If you find any difference between this document and the original file
+-or a problem with the translation,
+-please contact the maintainer of this file or JF project.
+-
+-Please also note that the purpose of this file is to be easier to read
+-for non English (read: Japanese) speakers and is not intended as a
+-fork. So if you have any comments or updates of this file, please try
+-to update the original English file first.
+-
+-Last Updated: 2008/07/14
+-==================================
+-これは、
+-linux-2.6.26/Documentation/process/submit-checklist.rst の和訳です。
+-
+-翻訳団体： JF プロジェクト < http://www.linux.or.jp/JF/ >
+-翻訳日： 2008/07/14
+-翻訳者： Takenori Nagano <t-nagano at ah dot jp dot nec dot com>
+-校正者： Masanori Kobayashi さん <zap03216 at nifty dot ne dot jp>
+-==================================
+-
+-
+-Linux カーネルパッチ投稿者向けチェックリスト
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-
+-本書では、パッチをより素早く取り込んでもらいたい開発者が実践すべき基本的な事柄
+-をいくつか紹介します。ここにある全ての事柄は、Documentation/process/submitting-patches.rst
+-などのLinuxカーネルパッチ投稿に際しての心得を補足するものです。
+-
+- 1: 妥当なCONFIGオプションや変更されたCONFIGオプション、つまり =y, =m, =n
+-    全てで正しくビルドできることを確認してください。その際、gcc及びリンカが
+-    warningやerrorを出していないことも確認してください。
+-
+- 2: allnoconfig, allmodconfig オプションを用いて正しくビルドできることを
+-    確認してください。
+-
+- 3: 手許のクロスコンパイルツールやOSDLのPLMのようなものを用いて、複数の
+-    アーキテクチャにおいても正しくビルドできることを確認してください。
+-
+- 4: 64bit長の'unsigned long'を使用しているppc64は、クロスコンパイルでの
+-    チェックに適当なアーキテクチャです。
+-
+- 5: カーネルコーディングスタイルに準拠しているかどうか確認してください(!)
+-
+- 6: CONFIGオプションの追加・変更をした場合には、CONFIGメニューが壊れていない
+-    ことを確認してください。
+-
+- 7: 新しくKconfigのオプションを追加する際には、必ずそのhelpも記述してください。
+-
+- 8: 適切なKconfigの依存関係を考えながら慎重にチェックしてください。
+-    ただし、この作業はマシンを使ったテストできちんと行うのがとても困難です。
+-    うまくやるには、自分の頭で考えることです。
+-
+- 9: sparseを利用してちゃんとしたコードチェックをしてください。
+-
+-10: 'make checkstack' を利用し、問題が発見されたら修正してください。
+-    'make checkstack' は明示的に問題を示しませんが、どれか
+-    １つの関数が512バイトより大きいスタックを使っていれば、修正すべき候補と
+-    なります。
+-
+-11: グローバルなkernel API を説明する kernel-doc をソースの中に含めてください。
+-    ( staticな関数においては必須ではありませんが、含めてもらっても結構です )
+-    そして、'make htmldocs' もしくは 'make mandocs' を利用して追記した
+-    ドキュメントのチェックを行い、問題が見つかった場合には修正を行ってください。
+-
+-12: CONFIG_PREEMPT, CONFIG_DEBUG_PREEMPT, CONFIG_DEBUG_SLAB,
+-    CONFIG_DEBUG_PAGEALLOC, CONFIG_DEBUG_MUTEXES, CONFIG_DEBUG_SPINLOCK,
+-    CONFIG_DEBUG_ATOMIC_SLEEP これら全てを同時に有効にして動作確認を
+-    行ってください。
+-
+-13: CONFIG_SMP, CONFIG_PREEMPT を有効にした場合と無効にした場合の両方で
+-    ビルドした上、動作確認を行ってください。
+-
+-14: lockdepの機能を全て有効にした上で、全てのコードパスを評価してください。
+-
+-15: /proc に新しいエントリを追加した場合には、Documentation/ 配下に
+-    必ずドキュメントを追加してください。
+-
+-16: 新しいブートパラメータを追加した場合には、
+-    必ずDocumentation/admin-guide/kernel-parameters.rst に説明を追加してください。
+-
+-17: 新しくmoduleにパラメータを追加した場合には、MODULE_PARM_DESC()を
+-    利用して必ずその説明を記述してください。
+-
+-18: 新しいuserspaceインタフェースを作成した場合には、Documentation/ABI/ に
+-    Documentation/ABI/README を参考にして必ずドキュメントを追加してください。
+-
+-19: 少なくともslabアロケーションとpageアロケーションに失敗した場合の
+-    挙動について、fault-injectionを利用して確認してください。
+-    Documentation/fault-injection/ を参照してください。
+-
+-    追加したコードがかなりの量であったならば、サブシステム特有の
+-    fault-injectionを追加したほうが良いかもしれません。
+-
+-20: 新たに追加したコードは、`gcc -W'でコンパイルしてください。
+-    このオプションは大量の不要なメッセージを出力しますが、
+-    "warning: comparison between signed and unsigned" のようなメッセージは、
+-    バグを見つけるのに役に立ちます。
+-
+-21: 投稿したパッチが -mm パッチセットにマージされた後、全ての既存のパッチや
+-    VM, VFS およびその他のサブシステムに関する様々な変更と、現時点でも共存
+-    できることを確認するテストを行ってください。
+diff --git a/Documentation/translations/ja_JP/disclaimer-ja_JP.rst b/Documentation/translations/ja_JP/disclaimer-ja_JP.rst
+new file mode 100644
+index 000000000000..9fd06b76598c
+--- /dev/null
++++ b/Documentation/translations/ja_JP/disclaimer-ja_JP.rst
+@@ -0,0 +1,22 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. _translations_ja_JP_disclaimer:
++
++=====================
++免責条項 (DISCLAIMER)
++=====================
++
++Documentation/translations/ja_JP/ 以下のファイルは、対応する
++Documentation/　以下のファイル (原文) の日本語訳です。
++翻訳と原文との違いや翻訳上の問題を見つけたら、
++MAINTAINERS に記載の維持管理者に知らせてください。
++翻訳が原文の更新に追いついていない場合は、それを日本語版に反映するパッチの
++投稿も歓迎です。
++
++なお、この翻訳の目的は非英語 (ここでは日本語) 話者への便宜提供であり、
++フォークを意図したものではない事を念頭においてください。したがって、
++このファイルの内容に対するコメントや更新すべきことがあれば、先に原文の
++更新を検討してください。
++
++日本語訳については、残念ながら、ごく一部の文書しか維持管理されていません。
++翻訳に関心があり、時間的経済的な余裕をお持ちの方は、ぜひ手を貸してください。
+diff --git a/Documentation/translations/ja_JP/index.rst b/Documentation/translations/ja_JP/index.rst
+index 0b476b429e3b..4159b417bfdd 100644
+--- a/Documentation/translations/ja_JP/index.rst
++++ b/Documentation/translations/ja_JP/index.rst
+@@ -11,7 +11,9 @@
+ .. toctree::
+    :maxdepth: 1
+ 
++   disclaimer-ja_JP
+    process/howto
++   process/submit-checklist
+ 
+ .. raw:: latex
+ 
+diff --git a/Documentation/translations/ja_JP/process/howto.rst b/Documentation/translations/ja_JP/process/howto.rst
+index d9ba40588e46..6350a6699f5c 100644
+--- a/Documentation/translations/ja_JP/process/howto.rst
++++ b/Documentation/translations/ja_JP/process/howto.rst
+@@ -1,35 +1,18 @@
+-.. raw:: latex
++.. SPDX-License-Identifier: GPL-2.0
+ 
+-	\kerneldocCJKoff
+-
+-NOTE:
+-This is a version of Documentation/process/howto.rst translated into Japanese.
+-This document is maintained by Tsugikazu Shibata <tshibata@ab.jp.nec.com>
+-If you find any difference between this document and the original file or
+-a problem with the translation, please contact the maintainer of this file.
+-
+-Please also note that the purpose of this file is to be easier to
+-read for non English (read: Japanese) speakers and is not intended as
+-a fork. So if you have any comments or updates for this file, please
+-try to update the original English file first.
+-
+-----------------------------------
+-
+-.. raw:: latex
+-
+-	\kerneldocCJKon
+-
+-この文書は、
+-Documentation/process/howto.rst
+-の和訳です。
+-
+-翻訳者： Tsugikazu Shibata <tshibata@ab.jp.nec.com>
+-
+-----------------------------------
++.. Originally contributed by Tsugikazu Shibata
+ 
+ Linux カーネル開発のやり方
+ ==========================
+ 
++.. note::
++   この文書は、
++   Documentation/process/howto.rst
++   の翻訳です。
++   免責条項については、
++   :ref:`translations_ja_JP_disclaimer` および
++   :ref:`translations_disclaimer` を参照してください。
++
+ これは上のトピック( Linux カーネル開発のやり方)の重要な事柄を網羅した
+ ドキュメントです。ここには Linux カーネル開発者になるための方法とLinux
+ カーネル開発コミュニティと共に活動するやり方を学ぶ方法が含まれています。
+diff --git a/Documentation/translations/ja_JP/process/submit-checklist.rst b/Documentation/translations/ja_JP/process/submit-checklist.rst
+new file mode 100644
+index 000000000000..b9da826d30ae
+--- /dev/null
++++ b/Documentation/translations/ja_JP/process/submit-checklist.rst
+@@ -0,0 +1,165 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. Translated by Akira Yokosawa <akiyks@gmail.com>
++
++.. In the past, translation of this document of a different origin was
++   at Documentation/translations/ja_JP/SubmitChecklist, which can be found
++   in the pre-v6.14 tree if you are interested.
++   Please note that this translation is independent of the previous one.
++
++======================================
++Linux カーネルパッチ投稿チェックリスト
++======================================
++
++.. note::
++   この文書は、
++   Documentation/process/submit-checklist.rst
++   の翻訳です。
++   免責条項については、
++   :ref:`translations_ja_JP_disclaimer` および
++   :ref:`translations_disclaimer` を参照してください。
++
++以下は、カーネルパッチの投稿時に、そのスムーズな受け入れのために心がける
++べき基本的な事項です。
++
++これは、 Documentation/process/submitting-patches.rst およびその他の
++Linux カーネルパッチ投稿に関する文書を踏まえ、それを補足するものです。
++
++.. note::
++   【訳註】チェックリストらしくするため、問い掛けの語尾を多用します。
++   また、原義を損なわない範囲で、主語の省略、主語に係る修飾子の述語に係る
++   修飾子への変更、能動態への言い換えなどを行い、より簡潔で把握しやすい
++   箇条書きを目指します。
++
++
++コードのレビュー
++================
++
++1) 利用している機能について、その機能が定義・宣言されているファイルを
++   ``#include`` したか。
++   他のヘッダーファイル経由での取り込みに依存しないこと。
++
++2) Documentation/process/coding-style.rst に詳述されている一般的なスタイル
++   についてチェックしたか。
++
++3) すべてのメモリバリアー (例, ``barrier()``, ``rmb()``, ``wmb()``) に、
++   その作用と目的、及び必要理由についてソースコード内にコメントしたか。
++
++Kconfig 変更のレビュー
++======================
++
++1) 新規の、もしくは変更された ``CONFIG`` オプションについて、そのコンフィグ
++   メニューに悪影響がないか。また、
++   Documentation/kbuild/kconfig-language.rst の
++   "Menu attibutes: default value" に記載の例外条件を満たす場合を除き、
++   そのデフォルトを無効としたか。
++
++2) 新規の ``Kconfig`` オプションにヘルプテキストを付けたか。
++
++3) 妥当な ``Kconfig`` の組み合わせについて注意深くレビューしたか。これを
++   テストでやり切るのは困難で、知力が決め手となる。
++
++ドキュメンテーションの作成
++==========================
++
++1) グローバルカーネル API を :ref:`kernel-doc <kernel_doc>` の形式で
++   ドキュメント化したか (静的関数には求められないが、付けてもよい)。
++
++2) 新規 ``/proc`` エントリーを、すべて ``Documentation/`` 以下に記載したか。
++
++3) 新規カーネル・ブート・パラメータを、すべて
++   ``Documentation/admin-guide/kernel-parameters.rst`` に記載したか。
++
++4) 新規モジュール・パラメータを、すべて ``MODULE_PARM_DESC()`` によって記述
++   したか。
++
++5) 新規ユーザースペース・インターフェースを、すべて ``Documentaion/ABI/``
++   以下に記載したか。詳しくは、 ``Documentation/ABI/README`` を参照のこと。
++   ユーザースペース・インターフェースを変更するパッチは
++   linux-api@vger.kernel.org にも CC すべし。
++
++6) なんらかの ioctl を追加するパッチは、
++   ``Documentation/userspace-api/ioctl/ioctl-number.rst``
++   も更新したか。
++
++ツールによるコードのチェック
++============================
++
++1) スタイル・チェッカー (``scripts/checkpatch.pl``) によって、犯しがちな
++   パッチ・スタイルの違反を確認したか。
++   指摘される違反を残す場合は、それが正当化できるか。
++
++2) sparse で入念なチェックをしたか。
++
++3) ``make checkstack`` で指摘された問題は修正済みか。
++   ``checkstack`` は問題点を明示的には指摘しないが、 スタック消費が
++   512 バイトを越える関数は見直しの候補。
++
++コードのビルド
++==============
++
++1) 以下の条件でクリーンにビルドできるか。
++
++   a) 適用可能な、および ``=y``, ``=m``, ``=n`` を変更した ``CONFIG``
++      オプションのビルド。
++      ``gcc`` およびリンカーからの警告・エラーがないこと。
++
++   b) ``allnoconfig`` と ``allmodconfig`` がパス
++
++   c) ``O=builddir`` を指定してのビルド
++
++   d) Documentation/ 以下の変更後、ドキュメントのビルドで新たな警告・エラー
++      が無いこと。
++      ``make htmldocs`` または ``make pdfdocs`` でビルドし、問題があれば修正。
++
++2) ローカルのクロス・コンパイル・ツール、その他のビルド環境を使って、
++   複数の CPU アーキテクチャ向けのビルドができるか。
++   ``unsigned long`` を 64 ビットの数量に対して使ってしまうことが多いという
++   点で ppc64 は、クロス・コンパイルの検査対象として好適である。
++
++3) 新規に追加されたコードについて (``make KCFLAGS=-W`` を使って)
++   ``gcc -W`` でコンパイルしたか。
++   これは多くのノイズを伴うが、
++   ``warning: comparison between signed and unsigned``
++   の類いのバグをあぶり出すのに効果的。
++
++4) 変更したソースコードが、下記の ``Kconfig`` シンボルに関連するカーネル API
++   や機能に依存 (もしくは利用) する場合、それらの ``Kconfig`` シンボルが無効
++   および ``=m`` の場合 (それが可能な場合) を組み合わせた複数のビルドを
++   (一度に全部ではなく、いろいろなランダムの組み合わせで) テストしたか。
++
++   ``CONFIG_SMP``, ``CONFIG_SYSFS``, ``CONFIG_PROC_FS``, ``CONFIG_INPUT``,
++   ``CONFIG_PCI``, ``CONFIG_BLOCK``, ``CONFIG_PM``, ``CONFIG_MAGIC_SYSRQ``,
++   ``CONFIG_NET``, ``CONFIG_INET=n`` (ただし、後者は ``CONFIG_NET=y``
++   との組み合わせ)。
++
++コードのテスト
++==============
++
++1) ``CONFIG_PREEMPT``, ``CONFIG_DEBUG_PREEMPT``,
++   ``CONFIG_SLUB_DEBUG``, ``CONFIG_DEBUG_PAGEALLOC``, ``CONFIG_DEBUG_MUTEXES``,
++   ``CONFIG_DEBUG_SPINLOCK``, ``CONFIG_DEBUG_ATOMIC_SLEEP``,
++   ``CONFIG_PROVE_RCU`` および ``CONFIG_DEBUG_OBJECTS_RCU_HEAD`` をすべて
++   同時に有効にしてテストしたか。
++
++2) ``CONFIG_SMP`` と ``CONFIG_PREEMPT`` が有効と無効の場合について、ビルドと
++   ランタイムのテスト済みか。
++
++3) lockdep のすべての機能を有効にしての実行で、すべてのコード経路を確認
++   したか。
++
++4) 最低限、 slab と ページ・アロケーションの誤り注入によるチェックをしたか。
++   詳しくは、 Documentation/fault-injection/index.rst を参照。
++   新規のコードが多い場合は、サブシステム用の誤り注入を追加するのが望ましい
++   可能性あり。
++
++5) 最新の linux-next タグに対してテストし、他でキューイングされているパッチや、
++   VM、VFS、その他のサブシステム内のすべての変更に対しても、依然として動作
++   することを確認したか。
++
++.. note::
++   【訳註】採用した訳語
++
++   - build farm: ビルド環境
++   - brainpower: 知力
++   - fault injection: 誤り注入
 
-/*
-  * Set the address where this file can be mapped into processes. Other
-  * addresses are not supported for now, and mmap will fail. Changing the
-  * mmap address after mappings were already created is not supported.
-  */
-MSHAREFS_SET_MMAP_ADDRESS
-MSHAREFS_GET_MMAP_ADDRESS
-
-
-> 
->          c. Map some memory in the region
->                  struct mshare_create mcreate;
-> 
->                  mcreate.addr = TB(2);
-
-Can we use the offset into the virtual file instead? We should be able 
-to perform that translation internally fairly easily I assume.
-
->                  mcreate.size = BUFFER_SIZE;
->                  mcreate.offset = 0;
->                  mcreate.prot = PROT_READ | PROT_WRITE;
->                  mcreate.flags = MAP_ANONYMOUS | MAP_SHARED | MAP_FIXED;
->                  mcreate.fd = -1;
-> 
->                  ioctl(fd, MSHAREFS_CREATE_MAPPING, &mcreate)
-
-Would examples with multiple mappings work already in this version?
-
-Did you experiment with other mappings (e.g., ordinary shared file 
-mappings), and what are the blockers to make that fly?
-
-> 
->          d. Map the mshare region into the process
->                  mmap((void *)TB(2), BUF_SIZE, PROT_READ | PROT_WRITE,
->                          MAP_SHARED, fd, 0);
-> 
->          e. Write and read to mshared region normally.
-> 
-> 4. For processes attaching an mshare region:
->          a. Open the file on msharefs, for example -
->                  fd = open("/sys/fs/mshare/shareme", O_RDWR);
-> 
->          b. Get information about mshare'd region from the file:
->                  struct mshare_info minfo;
-> 
->                  ioctl(fd, MSHAREFS_GET_SIZE, &minfo);
-> 
->          c. Map the mshare'd region into the process
->                  mmap(minfo.start, minfo.size,
->                          PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-> 
-> 5. To delete the mshare region -
->                  unlink("/sys/fs/mshare/shareme");
-> 
-
-I recall discussions around cgroup accounting, OOM handling etc. I 
-thought the conclusion was that we need an "mshare process" where the 
-memory is accounted to, and once that process is killed (e.g., OOM), it 
-must tear down all mappings/pages etc.
-
-How does your design currently look like in that regard? E.g., how can 
-OOM handling make progress, how is cgroup accounting handled?
-
+base-commit: 66dbcd53241503dc72fe4b876312d59f5c98ec2f
 -- 
-Cheers,
-
-David / dhildenb
+2.34.1
 
