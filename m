@@ -1,45 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8723F3D561;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7005B2EAE4;
 	Tue, 28 Jan 2025 00:06:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738022797; cv=none; b=P2QZ9l8cMOpMaoHwsvZ5NgNrbcee1Owwz94KGP22zfWZKZxtgeXSh+7+uV+H84HeAZQe+F8Wknx25Plsh5QTO8SDBDjGYrXp+c+EntpB4I03qrzwW26PfYUM/xbDbn+Hg1U5pmHzCp6aR9fwDh0UMSXrX7lcanBR37p9D0KpCBQ=
+	t=1738022797; cv=none; b=ADdvoWSiP5hoEZKqZJ7FdjwBlEWGMtWHKvY1R0dtCdH0N9CUz+8GQ536lBBiLwStvSVPiFdVSjugCnvy++HkSqAKCbHdFeAzjQjjYd+ADzsq2aAwNWbrj9Og+bMB7fyy3Yrxh60CKkkN5KBLma2jYAeCfSm8hS1tLlHMHZ2x1CY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1738022797; c=relaxed/simple;
-	bh=ZlYS8/RGksFoYa5QMgx8JgmK5kqKi2Lgph+Ezj5n8ss=;
+	bh=mcoeXqisQ9cCp+d9XJhL6+xR7Bjlo3DbBhHTGHu6E1M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XSKS3J1vLdzVDuQvqI4aWdUZFGhXilLPwjeOMjD96aTHB52h+BnsIigvSCbBodaXUi7hBjrBazsaXz7WqYaD6ukeIfyoy7jbAjxp+1D/AB9Z4YTJrSP8u+MhSWJsiRFyw28OEfH2J9TJtJ/607m0GLCmUiN1MKU96+qGGH7gGBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nI90iYlc; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=mb/fBHiIn11oNChQoP4ONXrzQiIIdYy9kgXojCXa/+fkHGXpdCqfv+KaonmTv4ajvYZ7mZbtFEVrSKj/XdqJpifzCjmJi9DTYlCMDfEJxEv+lDFfyU9mmBlc7ZAogryI6LjZAmFe70LoaVzEWgM1cyf0KHNSSaHFs92t/MFeqbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i/GkfumJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nI90iYlc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DE32C4AF18;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i/GkfumJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34C85C2BC87;
 	Tue, 28 Jan 2025 00:06:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1738022796;
-	bh=ZlYS8/RGksFoYa5QMgx8JgmK5kqKi2Lgph+Ezj5n8ss=;
+	bh=mcoeXqisQ9cCp+d9XJhL6+xR7Bjlo3DbBhHTGHu6E1M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nI90iYlcLydzPEo7oi3Q9W9EddFrzp4G1Ae9CdRiAD/6vapq3z450BmV6vSkDdDYs
-	 kuYR2iwFak2woWBn1o5MnP2tTdJ4j1ssVNr59xHACzj0h50PWrAz+SkFazSAEMx8i5
-	 67c0FnqNifnCrqMsx8URUspZIeD0kuLY2n9EK21IUmXxqyEnmJQ+PbxMdluaWbZgcM
-	 oNW8pfk0+g0C6sSsxRu1kmNbEFP4lKK1aZTGnz5TJ0ndm5au/fINspJtSQVWOfXaR/
-	 8EqXVHntvzmPMJYqrzsjxLtkD6kCYwKdpYx0Y1VnPVM/CzPBHsprTsCVhlMA4bdV8d
-	 YjSEzBwIgoaoQ==
+	b=i/GkfumJbBhJUTjl4JTzh/iy8mfn9/It3WkKIu3zIlKWvHu0EAtF6V0KNiHIp6yH+
+	 Nl7g3XMYh8T3nAZDYNTH4IsWgzt3chE87YqXd9u+uF18FfHV35y8NvD8p6a4RbE+sy
+	 3P+PnnEql66gkIKL5eGyr2s8R9MZenErrYRqiDBFrVt/BTZQiZPQlq4f7gUAQGt9Su
+	 6QQlsVsVL+nWBVxAkWsloMmi14Efc7VQYDoPiq7r9NTXDpiMLlS+9mIG48m1OcT5tc
+	 ERR8Y/O25a9SGMYM29Wzs5i9jD1k9509j8EMqpHiyXffA3pUqaF/8xbgsh/68tUDkc
+	 FZas3WZRc/ePw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tcZ7i-0000000DRMk-2FW0;
+	id 1tcZ7i-0000000DRMW-1ubB;
 	Tue, 28 Jan 2025 01:06:34 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [RFC v2 36/38] docs: ABI: drop two duplicate symbols
-Date: Tue, 28 Jan 2025 01:06:25 +0100
-Message-ID: <673e9543783349b0fcf625018e38e4e93fe98f52.1738020236.git.mchehab+huawei@kernel.org>
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <mchehab+huawei@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: [RFC v2 33/38] docs: networking: Allow creating cross-references statistics ABI
+Date: Tue, 28 Jan 2025 01:06:22 +0100
+Message-ID: <cf7ac7aea937893d05874e2381e59274bf2e3fbf.1738020236.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <cover.1738020236.git.mchehab+huawei@kernel.org>
 References: <cover.1738020236.git.mchehab+huawei@kernel.org>
@@ -52,52 +58,27 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-As warned by get_abi.py, there are two symbols that are
-defined twice:
-
-WARNING: /sys/devices/system/cpu/cpuX/topology/physical_package_id is defined 2 times: \
-	/new_devel/v4l/docs/Documentation/ABI/stable/sysfs-devices-system-cpu:27; \
-	/new_devel/v4l/docs/Documentation/ABI/testing/sysfs-devices-system-cpu:70
-WARNING: /sys/devices/system/cpu/cpuX/topology/ppin is defined 2 times: \
-	/new_devel/v4l/docs/Documentation/ABI/stable/sysfs-devices-system-cpu:89; \
-	/new_devel/v4l/docs/Documentation/ABI/testing/sysfs-devices-system-cpu:70
-
-As the documentation at testing/sysfs-devices-system-cpu, drop
-the duplicated one from stable.
+Now that Documentation/ABI is processed by automarkup, let it
+generate cross-references for the corresponding ABI file.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/ABI/stable/sysfs-devices-system-cpu | 10 ----------
- 1 file changed, 10 deletions(-)
+ Documentation/networking/statistics.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/ABI/stable/sysfs-devices-system-cpu b/Documentation/ABI/stable/sysfs-devices-system-cpu
-index 902392d7eddf..cf78bd99f6c8 100644
---- a/Documentation/ABI/stable/sysfs-devices-system-cpu
-+++ b/Documentation/ABI/stable/sysfs-devices-system-cpu
-@@ -24,12 +24,6 @@ Description:	Default value for the Data Stream Control Register (DSCR) on
- 		If set by a process it will be inherited by child processes.
- Values:		64 bit unsigned integer (bit field)
+diff --git a/Documentation/networking/statistics.rst b/Documentation/networking/statistics.rst
+index 75e017dfa825..518284e287b0 100644
+--- a/Documentation/networking/statistics.rst
++++ b/Documentation/networking/statistics.rst
+@@ -143,7 +143,7 @@ reading multiple stats as it internally performs a full dump of
+ and reports only the stat corresponding to the accessed file.
  
--What:           /sys/devices/system/cpu/cpuX/topology/physical_package_id
--Description:    physical package id of cpuX. Typically corresponds to a physical
--                socket number, but the actual value is architecture and platform
--                dependent.
--Values:         integer
--
- What:           /sys/devices/system/cpu/cpuX/topology/die_id
- Description:    the CPU die ID of cpuX. Typically it is the hardware platform's
-                 identifier (rather than the kernel's). The actual value is
-@@ -86,10 +80,6 @@ What:           /sys/devices/system/cpu/cpuX/topology/die_cpus
- Description:    internal kernel map of CPUs within the same die.
- Values:         hexadecimal bitmask.
+ Sysfs files are documented in
+-`Documentation/ABI/testing/sysfs-class-net-statistics`.
++Documentation/ABI/testing/sysfs-class-net-statistics.
  
--What:           /sys/devices/system/cpu/cpuX/topology/ppin
--Description:    per-socket protected processor inventory number
--Values:         hexadecimal.
--
- What:           /sys/devices/system/cpu/cpuX/topology/die_cpus_list
- Description:    human-readable list of CPUs within the same die.
-                 The format is like 0-3, 8-11, 14,17.
+ 
+ netlink
 -- 
 2.48.1
 
