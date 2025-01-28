@@ -1,141 +1,130 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B98719DF61
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jan 2025 14:11:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93EB58634F;
+	Tue, 28 Jan 2025 14:17:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738073515; cv=none; b=K3gGavoOXKbB+CnOK3U3/UmXT5fhUqiLabqvVcqjcgekT9Huo0/FHr7Ep/a07ASZqTU4Uo5vMMhymzJ35LMNafhoF4uwueQOIY8HtKig64tdJJkRtxGwZ+LnznQrMUKzOg4bydkWdEJ/SMaQvZ/7L2eb8cPliEpRTuN3zcgttfw=
+	t=1738073872; cv=none; b=XZE8hM8qbK+dMGWbOXVxXJ2RvmxMJjWMyr0oqXmZouelC5FkCGT9gf3QOme1DSeTMaLJlZnu5NMWKiiNK3PHS9mZ8DtL+LxROztgauIPilO0RNQg+XlROHi3RX1gLxv3GrXWFldvzhR96cnqUhXgNkPg8KDJYkypWsgiquXHaV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738073515; c=relaxed/simple;
-	bh=4QAS8Yya/YglxdPrX7EdoErmPK5DoXGXlvU07eCU7to=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sutw72bwnIHOHwJWlW8/eDhMcO48j+OWwCVS/L/D7Fe7m6jE4nqZmJd5E1/daUlEuzLmQm49r8m9UtVR0XDqT/qO8WRk0Zl4aR+iVhhkzpoVc/lPe1jp2Pf/9hka7H3dYJFG6YplCICv4bIGBdtaGUbBG3bi0U97b3eihYcMSMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ztx1M+8o; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1738073872; c=relaxed/simple;
+	bh=4PX9PQdb1nzJ4wP8fVMGULkAoVaXx+t09oFn5rMlBZc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=WAXAFyPUcF6uxhBXlhGoVFMJE+2sRM/UYSp7sVw2Yn6k/FPdHFrrnSU5f/Bhc6lnXWYxvUzxoahUvsm1zoWsEoL9sWExGJzwdsY6mufbKjy9+w50ezjeja+TOJLLElkjEUBAXOdmPqm/keG+CuzGz5PU75js90/YZQff52TaZ7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=By0veISM; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ztx1M+8o"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738073512;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ggFKz2J7jLR0vcLpN1vbxhgEE+/3A/H4er4tPstc3/w=;
-	b=Ztx1M+8oSe5UkzQ2PpFpe+TBVvcyrRrSPPqFTsjCQXpzHicZJZv3L+Gkhr22OeeWdXLuCE
-	eZ8NlS7/kSStSvZ890Y2ZF1E5I8INDOOusXozSJFE2RTRc0uToTAaCKeQIZQPHWMA6cdBf
-	41HpVfKkp7no8k3H9sCpt+U7fz3eFOc=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-383-YyY4FFj4NC-wKg6XiZJ4cg-1; Tue,
- 28 Jan 2025 09:11:50 -0500
-X-MC-Unique: YyY4FFj4NC-wKg6XiZJ4cg-1
-X-Mimecast-MFC-AGG-ID: YyY4FFj4NC-wKg6XiZJ4cg
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 496491801F21;
-	Tue, 28 Jan 2025 14:11:49 +0000 (UTC)
-Received: from dba-icx.bos.redhat.com (prarit2023-dbaguest.khw.eng.bos2.dc.redhat.com [10.26.1.94])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7F7081800268;
-	Tue, 28 Jan 2025 14:11:47 +0000 (UTC)
-From: David Arcari <darcari@redhat.com>
-To: linux-pm@vger.kernel.org
-Cc: David Arcari <darcari@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jacob Pan <jacob.jun.pan@linux.intel.com>,
-	Len Brown <lenb@kernel.org>,
-	Prarit Bhargava <prarit@redhat.com>,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="By0veISM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738073871; x=1769609871;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=4PX9PQdb1nzJ4wP8fVMGULkAoVaXx+t09oFn5rMlBZc=;
+  b=By0veISM7X8JA09e5USvUOT9RwmU9+ATpMhRuQ8wvqoGz1jyUa1iLJAS
+   v//z1ZS6cibMTTeYDatNuu4wvnw2i8I+ZbD3Z7r1swNSWq98AC3JXLisG
+   2E00xG0DM7lQzQWUx5ZVzB0RJaxfFRhYjmx6BYrvxLMZLS8i1mBOEZ2nR
+   mVj0a8oCH22KT9HTwdqXYZbUyqJV1v2oObYjBpIhGcaObZ80Qai7t38oT
+   VnMTBbq9bFxksezfvXK1Y4vRS95Lrnu4Ozt6wQmhrEsyuwvO1DST1VN52
+   VR8ixc8NTU7HtIigc/0Vy59yodppBVO4YdAp4njMqzi8ml01DCBMRv7sB
+   g==;
+X-CSE-ConnectionGUID: sERG9aKVSr2KRDoUhQogPA==
+X-CSE-MsgGUID: 1m6r2MkFQhudhSFcWMGtSQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11329"; a="42222401"
+X-IronPort-AV: E=Sophos;i="6.13,241,1732608000"; 
+   d="scan'208";a="42222401"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2025 06:17:50 -0800
+X-CSE-ConnectionGUID: zM0o9NmNQR2bEA2N2h+MJg==
+X-CSE-MsgGUID: UphuregQRW6oLaLRoIlCuA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="145954406"
+Received: from inlubt0246.iind.intel.com ([10.191.24.87])
+  by orviesa001.jf.intel.com with ESMTP; 28 Jan 2025 06:17:45 -0800
+From: subramanian.mohan@intel.com
+To: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] intel_idle: introduce 'use_acpi_cst' module parameter
-Date: Tue, 28 Jan 2025 09:11:39 -0500
-Message-ID: <20250128141139.2033088-1-darcari@redhat.com>
+Cc: akpm@linux-foundation.org,
+	greg@kroah.com,
+	corbet@lwn.net,
+	christopher.s.hall@intel.com,
+	subramanian.mohan@intel.com,
+	tglx@linutronix.de,
+	andriy.shevchenko@linux.intel.com,
+	eddie.dong@intel.com,
+	pandith.n@intel.com,
+	thejesh.reddy.t.r@intel.com,
+	david.zage@intel.com,
+	srinivasan.chinnadurai@intel.com,
+	rdunlap@infradead.org,
+	bagasdotme@gmail.com,
+	giometti@enneenne.com
+Subject: [PATCH v2 1/1] pps: retrieve generator specific data from framework
+Date: Tue, 28 Jan 2025 19:47:43 +0530
+Message-Id: <20250128141743.52031-1-subramanian.mohan@intel.com>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-Since commit 18734958e9bf ("intel_idle: Use ACPI _CST for processor models
-without C-state tables")the intel_idle driver has had the ability to use
-the ACPI _CST to populate C-states when the processor model is not
-recognized. However, even when the processor model is recognized there are
-cases where it is useful to make the driver ignore the per cpu idle states
-in lieu of ACPI C-states (such as specific application performance). Add
-the 'use_acpi_cst' module parameter to provide this functionality (not to
-be confused with the 'use_acpi' module parameter which has a different
-function).
+From: Subramanian Mohan <subramanian.mohan@intel.com>
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc: Len Brown <lenb@kernel.org>
-Cc: David Arcari <darcari@redhat.com>
-Cc: Prarit Bhargava <prarit@redhat.com>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: David Arcari <darcari@redhat.com>
+While adapting pps generator driver(tio generator as an example)to the new
+generator framework, As part of driver registration the pps_gen_device
+pointer is returned from framework. Due to which there is difficulty in
+getting generator driver data back in enable function. we won’t be able
+to use container_of macro as it results in static assert. we might end up
+in using static pointer. To avoid the same and get back the generator
+driver data back we are proposing generic approach to add drv_prv_data
+pointer inside the struct pps_gen_source_info.
+
+Example TIO structure wrapped with pps_gen_device and usage.
+
+struct pps_tio {
+	/* Framework Related * /
+	struct pps_gen_source_info pps_tio_source_info
+	struct pps_gen_device *pps_gen;
+
+	/* TIO Specific Data */
+};
+
+static int pps_tio_enable(struct pps_gen_device *pps_gen, bool enable) {
+
+    /* Getting TIO data back */
+    /* Note: drv_prv_data will be initialized in our init routine */
+    struct pps_tio *tio = pps_gen->info.drv_prv_data;
+
+    /* Access tio members here to set some of the parameters */
+
+    return 0;
+}
+
+V1 -> V2:
+    * Updated reviewers.
+
+Signed-off-by: Subramanian Mohan <subramanian.mohan@intel.com>
 ---
- Documentation/admin-guide/pm/intel_idle.rst |  5 +++++
- drivers/idle/intel_idle.c                   | 11 +++++++++++
- 2 files changed, 16 insertions(+)
+ include/linux/pps_gen_kernel.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/admin-guide/pm/intel_idle.rst b/Documentation/admin-guide/pm/intel_idle.rst
-index 39bd6ecce7de..a87238bcf33d 100644
---- a/Documentation/admin-guide/pm/intel_idle.rst
-+++ b/Documentation/admin-guide/pm/intel_idle.rst
-@@ -198,6 +198,11 @@ driver ignore the system's ACPI tables entirely or use them for all of the
- recognized processor models, respectively (they both are unset by default and
- ``use_acpi`` has no effect if ``no_acpi`` is set).
+diff --git a/include/linux/pps_gen_kernel.h b/include/linux/pps_gen_kernel.h
+index 022ea0ac4440..8484bb2828ef 100644
+--- a/include/linux/pps_gen_kernel.h
++++ b/include/linux/pps_gen_kernel.h
+@@ -35,6 +35,7 @@ struct pps_gen_source_info {
+ 	int (*get_time)(struct pps_gen_device *pps_gen,
+ 					struct timespec64 *time);
+ 	int (*enable)(struct pps_gen_device *pps_gen, bool enable);
++	void *drv_prv_data;
  
-+The ``use_acpi_cst`` module parameter (recognized by ``intel_idle`` if the
-+kernel has been configured with ACPI support) can be set to make the driver
-+ignore the per cpu idle states in lieu of ACPI idle states. ``use_acpi_cst``
-+has no effect if ``no_acpi`` is set).
-+
- The value of the ``states_off`` module parameter (0 by default) represents a
- list of idle states to be disabled by default in the form of a bitmask.
- 
-diff --git a/drivers/idle/intel_idle.c b/drivers/idle/intel_idle.c
-index 118fe1d37c22..b8a536b930e7 100644
---- a/drivers/idle/intel_idle.c
-+++ b/drivers/idle/intel_idle.c
-@@ -1695,6 +1695,10 @@ static bool force_use_acpi __read_mostly; /* No effect if no_acpi is set. */
- module_param_named(use_acpi, force_use_acpi, bool, 0444);
- MODULE_PARM_DESC(use_acpi, "Use ACPI _CST for building the idle states list");
- 
-+static bool use_acpi_cst __read_mostly; /* No effect if no_acpi is set. */
-+module_param_named(use_acpi_cst, use_acpi_cst, bool, 0444);
-+MODULE_PARM_DESC(use_acpi_cst, "Ignore cpu specific idle states in lieu of ACPI idle states");
-+
- static struct acpi_processor_power acpi_state_table __initdata;
- 
- /**
-@@ -1836,6 +1840,7 @@ static bool __init intel_idle_off_by_default(unsigned int flags, u32 mwait_hint)
- }
- #else /* !CONFIG_ACPI_PROCESSOR_CSTATE */
- #define force_use_acpi	(false)
-+#define use_acpi_cst	(false)
- 
- static inline bool intel_idle_acpi_cst_extract(void) { return false; }
- static inline void intel_idle_init_cstates_acpi(struct cpuidle_driver *drv) { }
-@@ -2328,6 +2333,12 @@ static int __init intel_idle_init(void)
- 	pr_debug("MWAIT substates: 0x%x\n", mwait_substates);
- 
- 	icpu = (const struct idle_cpu *)id->driver_data;
-+	if (use_acpi_cst && !no_acpi) {
-+		if (icpu) {
-+			pr_debug("ignoring cpu idle states\n");
-+			icpu = NULL;
-+		}
-+	}
- 	if (icpu) {
- 		if (icpu->state_table)
- 			cpuidle_state_table = icpu->state_table;
+ /* private: internal use only */
+ 	struct module *owner;
 -- 
-2.47.0
+2.35.3
 
