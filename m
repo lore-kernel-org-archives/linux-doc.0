@@ -1,49 +1,55 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B9C11ACEBF;
-	Tue, 28 Jan 2025 22:37:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F052B18F2D8;
+	Tue, 28 Jan 2025 22:42:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738103848; cv=none; b=iJiFJqxlVVZzVstmIPlukIy68zZVq67fsFLVHHwi7reTnB4t9AY5cP7uBTytfP1ojtck1GFtfB8gzBnAZTrI5Qokt0o04LEOKYL6i1CZ50XkWlkjMoKjbgIZWFbBND5Z2mUTVrch8zdrMe9h0aCm+WRnuLQGyGg5+t8J0ikW5vc=
+	t=1738104123; cv=none; b=ZSF1tzNNEft+ZEMz5E4zgPPXk+febAiAn33i/Eh/A6X2yRIlMKHMYXePkYGjBA29YrW1R0lzdzk27xkElQ1TfsRtEt5A+Csf4YkVhqrQuLgDt0bgaRRhNqmMnL/t6zPWAoS/PF7kQE0QMZlFM67269x0X7WL/qUqMWlBuZ/lMyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738103848; c=relaxed/simple;
-	bh=psvuwervxUGF26YovkiF7DqGMiTummHv7BL2ZigzBow=;
+	s=arc-20240116; t=1738104123; c=relaxed/simple;
+	bh=AOq0SJfJiBWND1wZ8FCd25+xqo3YTjsEqxOPO7EP2Os=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=kNvZbQF3tykk9NjWccJPCVdkecYiRu4lDZHm1WAnT4A0pyHng+NoVSa/yIqiNmHEQVezM0oAdAnjGpqW3mV0h277Y4IcgMxjjBtRdyYMmCbYUGUJv4tb+Ird+xY1z83BocR1HPZYoIQPVO2ZaVda3hnIdwIkkscOcSc/md+2sH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=mgD23mAv; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=FstZ4C6DuUxK9n5M/3sg7jpX/GB3dpw1cVdd0Rje5e+IrzQ204QiRqwwmVyx07DktIGradd5Ie/WbNADPj5RPL0y8Zpyb+ibRpIexleAFtYiDUFvEW3KX+VkOpd/umHn281FNaZhLY+iyFPjMBcDcp1VSYcbo8UhwRuSgJsix8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=NUNSUUGt; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="mgD23mAv"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 70D62403FA
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="NUNSUUGt"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 06ECA403FA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1738103846; bh=uAJYpd/74HFafWXw1GzsBK0N7oIiJrlSt9JHY2Ialhc=;
+	t=1738104121; bh=+meNH1juZBBtvrp/xo2cF0Sh2lEGZRx9Dv3JEMGVfwQ=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=mgD23mAvBlOok5CRSjxqsHodOpegluI8Bw2ar/2iAEjAwEv1dPrrihMbbkPTTTrG2
-	 z2L0otUPVgZeEJ4zxlYtqmkSOtxF4cLbmjkD+EoAeYpOCgo6lUiLw5YNkVK+ollxQM
-	 oRDVJYEnVi88DvyCQkAn6BV8O5DUSoymoAssE6P9/rVq+DPruK0vK3adMcTwOkSSOl
-	 0ypvbCSBjeIpfr516L3alPMmamsIkEUtPW6uYtNxkwhu4GCAW3/LZvCDpQCnAPMM4G
-	 22pubSGlz7+7k7+7qIPMjGKcQRCdB/Bi5g0QRJ67BhRTcJFBwHarBCpqgXwr2SBx7k
-	 +8FGDVzFnIVsQ==
+	b=NUNSUUGtYAw8IZ7v+u9urKWTHqRqgIaFDi/LwOklT1yZ+dVdXczOD9aTVo9dL8GaQ
+	 OAf5s35W/sLcrCXBP9L1rzztGXQrZf82Io4oQsEPVhxr2Gmfam9dfHpeHYHM4gAzS8
+	 Z5wJvtiQGdryhtYMX/RqM8UUTkxsZ7qqsI/DxEU04UzFD7wrLVaAgpDF9YgOAVZODR
+	 ghFfoDDu31L5plmrTy4y8+t+6MkL5TJscft0G5BNRz45gjvAU7I+oGLILjgoaHhU9M
+	 9iNee1I8iwhHjJ3JhYnCMWXNAtQ6QziZH5AMs5lTvSyDYyN1vQVIIWC4TLGwjRIBKs
+	 EZQClEOOCB0lQ==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 70D62403FA;
-	Tue, 28 Jan 2025 22:37:26 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 06ECA403FA;
+	Tue, 28 Jan 2025 22:42:00 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
 To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
  List <linux-doc@vger.kernel.org>, Greg Kroah-Hartman
  <gregkh@linuxfoundation.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [RFC v2 18/38] docs: sphinx/kernel_abi: use AbiParser directly
-In-Reply-To: <fb800900352d90a0e501e5d6732e1bea277478f2.1738020236.git.mchehab+huawei@kernel.org>
+ <mchehab+huawei@kernel.org>, linux-kernel@vger.kernel.org,
+ bpf@vger.kernel.org, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, linux-hardening@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ workflows@vger.kernel.org
+Subject: Re: [RFC v2 00/38] Improve ABI documentation generation
+In-Reply-To: <cover.1738020236.git.mchehab+huawei@kernel.org>
 References: <cover.1738020236.git.mchehab+huawei@kernel.org>
- <fb800900352d90a0e501e5d6732e1bea277478f2.1738020236.git.mchehab+huawei@kernel.org>
-Date: Tue, 28 Jan 2025 15:37:25 -0700
-Message-ID: <87lduu7efu.fsf@trenco.lwn.net>
+Date: Tue, 28 Jan 2025 15:42:00 -0700
+Message-ID: <87h65i7e87.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,39 +60,53 @@ Content-Type: text/plain
 
 Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> Instead of running get_abi.py script, import AbiParser class and
-> handle messages directly there using an interactor. This shold save some
-> memory, as there's no need to exec python inside the Sphinx python
-> extension.
+> Hi Jon/Greg,
 >
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/sphinx/kernel_abi.py | 26 +++++++++++++++-----------
->  scripts/get_abi.py                 |  2 +-
->  2 files changed, 16 insertions(+), 12 deletions(-)
+> That's the second version of my RFC patches meant to modenize the ABI
+> parser that I wrote in Perl.
+
+I have a couple of minor comments on the individual patches, but overall
+I do like this direction.
+
+It would be nice, though, if the code were a bit more extensively
+commented.  Parts of it get into the "twistly maze of regexes" mode that
+can be awfully hard to follow.
+
+> On this series we have:
 >
-> diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
-> index fc7500fad119..93d537d8cb6c 100644
-> --- a/Documentation/sphinx/kernel_abi.py
-> +++ b/Documentation/sphinx/kernel_abi.py
-> @@ -42,6 +42,11 @@ from docutils.parsers.rst import directives, Directive
->  from sphinx.util.docutils import switch_source_input
->  from sphinx.util import logging
->  
-> +srctree = os.path.abspath(os.environ["srctree"])
-> +sys.path.insert(0, os.path.join(srctree, "scripts"))
-> +
-> +from get_abi import AbiParser
+> patches 1 to 11: several bug fixes addressing issues at ABI symbols;
 
-I have to admit that I don't like this bit of messing around with the
-path.  And importing things out of scripts/ seems ... inelegant.
+1-3 aren't needed - it seems you already upstreamed #2?
 
-I take it you still want to be able to run get_abi.py standalone even
-after it's directly integrated into Sphinx?  In this case, it might be
-nicer to have the common library functionality in its own module that
-can be imported into both sphinx and the standalone command.  That still
-leaves open the question of where that module lives
-(Documentation/sphinx perhaps?) and how the Python path gets set up
-correctly...
+For the rest, is there any reason to not apply them right away?  They
+just seem like worthwhile fixes.
+
+> patch 12: a fix for scripts/documentation-file-ref-check
+> patches 13-15: create new script with rest and search logic and 
+>   minimally integrate with kernel_abi Sphinx extension(phase 1);
+> patches 16-19: implement phase 2: class integration (phase 2);
+> patch 20: fix a bug at kernel_abi: the way it splits lines is buggy;
+> patches  21-24: rewrite kernel_abi logic to make it simpler and more
+>   robust;
+> patches 25-27: add cross-reference support at automarkup;
+> patches 28-36: several ABI cleanups to cope with the improvements;
+> patch 37: implement undefined command;
+> patch 38: get rid of the old Perl script.
+>
+> To make it easier to review/apply, I may end breaking the next version
+> on a couple of different patchsets. Still it would be nice to have more
+> people testing it and providing some feedback.
+
+I've looked over everything, though with limited depth.  My testing
+hasn't turned up any problems.  I've only tested with current Sphinx,
+have you tried this with the more ancient versions we support?
+
+[It's probably time to raise our minimum version again, especially now
+that current Sphinx has better performance.]
+
+I don't see a whole lot of reasons not to apply this set shortly after
+the merge window; anybody disagree?
+
+Thanks,
 
 jon
