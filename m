@@ -1,91 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2DA13FD72;
-	Tue, 28 Jan 2025 16:12:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBFE46BF
+	for <linux-doc@vger.kernel.org>; Tue, 28 Jan 2025 16:45:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738080759; cv=none; b=At8j4asR99dihdUSE8+rOpqJBRU/RtgzFRQ7s18oIfgjL1PGU2tT/aOHIiTLN+vUNXmTtR0ELhIZggJjm+fTEh98JRPmA7WbR0n/4xhOgOqJuFC7uSdXLwLx4xBCWIvOvvQfkHUngvaRp0Z0gS9Onrk9sikovknLKSI2II3m7zY=
+	t=1738082760; cv=none; b=BA5xbczhBW5b75j0B31Bh6HEcjjRDG+PWW80/xOsJjO7aiuaFONyPB8zmkSTDfC/x68cf497NN6t00RtGWt/Ae4DCM+ZQgGuknGF7QVt687CbIHcXT1fbGu6/ITgkxrRWRIUQawjN/QiW/4vmndR6fmO0a3Jbg0njho6w3IEXSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738080759; c=relaxed/simple;
-	bh=QWZ2A/7lG2ISbMmNG34nmuDjqzbZkZ7VV3VfzIHM7Zs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XjnLEBiiVTjDQo1uAa1Xs86/SexXrdXVjEaFS1gGl2DY22J323foQFN/PK0qHIH2LosxFV1Vj0BYUzw1qLGnyzpT29do1bdMO/b2+5DJ+GcMbams3bpiWvQ0/101mQnkoio1Gzj0iO/t9eBX8Tl6BQas9GP+ZjbaJXvOiz3J7UA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HTZ6IGfe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738082760; c=relaxed/simple;
+	bh=72kmVKXf2GdpdMlpX2f79tWr8mGYcX4pjkYD2ZxbQAQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=E5a8eiLcGPTPih8Kz2ca/sGPAh+Rg02tHiTtPt2pD4uwX6fxtwDvWctVRZf54lm3ccFQHw6lrBMgN0hsFleCfTjD7VpAEviyFkLxNDW9x30xt4payqzkyrilWlmEVmIsvNJOPI4RUUbjur6yOyNXMAbB0zR7u5UVVChIVdh5tFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NlX9sXst; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HTZ6IGfe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CC49C4CED3;
-	Tue, 28 Jan 2025 16:12:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738080759;
-	bh=QWZ2A/7lG2ISbMmNG34nmuDjqzbZkZ7VV3VfzIHM7Zs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HTZ6IGfeQON5LKNDY2XXFHnUXrfy+hgt0esoeftKhRHAkc2UY4+HqZMIZMKH0LU5/
-	 eyQDb+ZLV8196OIq/u9R2Kf+da7DmD4E5eVRnAjAuvAcgAPh9kpo8FygYMMOMvetZW
-	 sf5jS/LZE5i3THfuSedweO2MeZqe51MbsI65mbKTm7NQJCtEbYbRPbSFS8igFAFg7B
-	 t7FQGLbVRQuNdbRrhDeSkeqgcjJ0NTL4BrVXSFtFUzyacwAqjtoQzqLx1tunZcKtkt
-	 vTBN/VTMyBYzP31+l7rrfK1695I5r//xCv/qcF8Ovspl3v5hplqYpq53V63VUjh+4u
-	 qamK4avc/NO0Q==
-Date: Tue, 28 Jan 2025 16:12:34 +0000
-From: Simon Horman <horms@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	rdunlap@infradead.org, kernel-team@meta.com
-Subject: Re: [PATCH RFC net-next v3 4/8] netconsole: Introduce configfs
- helpers for sysdata features
-Message-ID: <20250128161234.GC277827@kernel.org>
-References: <20250124-netcon_cpu-v3-0-12a0d286ba1d@debian.org>
- <20250124-netcon_cpu-v3-4-12a0d286ba1d@debian.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NlX9sXst"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=eIcIoLmBArADoKADRn54IBjGvph5e3q0v0KXusXLJ3c=; b=NlX9sXstcGbbt+2szwC8nRcPIY
+	yfLXVRKGA8eN+Iud//onZc0jD8z3vEI5K0PiOtd8tRRXDbE4BQDrW3fT2IaV4fSZbBy0YC7++I+fe
+	jARSSDS3Kn4Un6YDEGkvMvHmcfa9DYt4GjM9KXxBGETeVgmtxhQHHnT4FNmPKoSNN5NhLD/AtFeT9
+	LxWo18V7l5vSuQdCUrWvL/ZO9HsovoBvTzH2muxxuSv8JrmRgOXrY7SuR0BsFWV6dMbYhlTWSdDMZ
+	g5kkxde0a2P0x/SKumKo9KAh4NWY1N5GWfPukH3cILXbKdRdcsc6JdTCUPQaho0elTcIYrfJRz94C
+	4Ma87xfQ==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tcoio-0000000ExwI-22iO;
+	Tue, 28 Jan 2025 16:45:54 +0000
+Message-ID: <53e400b4-1552-4470-9c18-b681a44fe952@infradead.org>
+Date: Tue, 28 Jan 2025 08:45:50 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250124-netcon_cpu-v3-4-12a0d286ba1d@debian.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] docs: submit-checklist: Expand on build tests against
+ different word sizes
+To: Akira Yokosawa <akiyks@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, Tsugikazu Shibata <shibata@linuxfoundation.org>
+References: <20250128102805.112691-1-akiyks@gmail.com>
+ <20250128102805.112691-2-akiyks@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250128102805.112691-2-akiyks@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jan 24, 2025 at 07:16:43AM -0800, Breno Leitao wrote:
-> This patch introduces a bitfield to store sysdata features in the
-> netconsole_target struct. It also adds configfs helpers to enable
-> or disable the CPU_NR feature, which populates the CPU number in
-> sysdata.
+Hi,
+
+On 1/28/25 2:28 AM, Akira Yokosawa wrote:
+> Existing sentence on cross-compilation that mentions ppc64 does not
+> make much sense in today's perspective.
 > 
-> The patch provides the necessary infrastructure to set or unset the
-> CPU_NR feature, but does not modify the message itself.
+> Expand it for the benefits of testing against architectures of
+> different word sizes and endianness.
 > 
-> Signed-off-by: Breno Leitao <leitao@debian.org>
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
 > ---
->  drivers/net/netconsole.c | 81 ++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 81 insertions(+)
+>  Documentation/process/submit-checklist.rst             |  9 ++++++---
+>  .../translations/ja_JP/process/submit-checklist.rst    | 10 ++++++----
+>  2 files changed, 12 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
 
-...
-
-> @@ -792,7 +817,62 @@ static ssize_t userdatum_value_store(struct config_item *item, const char *buf,
->  	return ret;
->  }
->  
-> +/* disable_sysdata_feature - Disable sysdata feature and clean sysdata
-> + * @nt: target that is diabling the feature
-
-nit: disabling
-
-> + * @feature: feature being disabled
-> + */
-> +static void disable_sysdata_feature(struct netconsole_target *nt,
-> +				    enum sysdata_feature feature)
-> +{
-> +	nt->sysdata_fields &= ~feature;
-> +	nt->extradata_complete[nt->userdata_length] = 0;
-> +}
-
-...
+-- 
+~Randy
