@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9435B1B0F30;
-	Tue, 28 Jan 2025 15:09:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 430551D5ADA;
+	Tue, 28 Jan 2025 15:52:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738076996; cv=none; b=kmOwBB1RiIhyR8A9pd4Eh7WqmMmsbu61FYz8byQMp7V2DgV3AjC/l91UgL8o1yvWS1QzqPc0aY+G4m6DAt3GYIv6T/Pvqq3YR3eV+fjw8w5OjwWg0S05TEfiCrtKGNoBmHnnTSY27GTSzC8QtylOcyWdpYXzKqNZvW0OFFLGnMU=
+	t=1738079543; cv=none; b=DUwKgamvYcIYmXbUFYpjlSKUPjZ/RKDqk7UyorjInp6yxT9nK3F8KVBZZhOETCHJu16h4wwNwA1o4zdi2nOjs+HgoweosUtOb3euL/f3knBzMrXCqU+f9YnO8/X6AEP8UhcocWymBnL/35FpUBY42Dk3jTWkI5IdNUtX7Zult5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738076996; c=relaxed/simple;
-	bh=m/hGrb5P/jwpP88zCO7c28ZGI+3kUgDLNJ9gvTHbiq8=;
+	s=arc-20240116; t=1738079543; c=relaxed/simple;
+	bh=+ZMv34W7IZyQt09/UhRkguTm7FtkDfuQFyxRcOrXnIs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kE/Q6rqCiagwVvtLXTboClrPVkoGruNrh+vfK3UoWpHogLBEA4s9bgB/j6jrIdtvgG/3aM8e8mH4JU+Ex/E3WxtwDRuZ7gjSpBz2nk36we5hXgXozL8aYoEeh9+QTclo3vnaXswS0rjXMnIPMA6jcPg4++sk0fMOWzQYVrYOwd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rXE4q1e5; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=hGez8tB5E9AQo2Pn9JLDrWBKaQBSDtgOABuzxcQTDhqK92j9Nm1T6ie7JcRkdY83Y0sAcjIAg3M+11X8pI+WPWo31UvhAna1qYLSB4QFn9NkOO8sGQrpu3e+jKOSQACy+P3OEZwZGlPXAO29hBxMuf0+13TcUars/gujz22bOx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CcXlOXIp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rXE4q1e5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64C16C4CED3;
-	Tue, 28 Jan 2025 15:09:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CcXlOXIp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9432C4CED3;
+	Tue, 28 Jan 2025 15:52:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738076996;
-	bh=m/hGrb5P/jwpP88zCO7c28ZGI+3kUgDLNJ9gvTHbiq8=;
+	s=k20201202; t=1738079542;
+	bh=+ZMv34W7IZyQt09/UhRkguTm7FtkDfuQFyxRcOrXnIs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rXE4q1e5cx+RVxjPMk+YDCab+FalqCXwMjjE7QOIyrevXbk7woWXoBecZy6dI/4gA
-	 YsDGW2pCVLzoHi0wPbaTrSliAwATHeBlVyQn9pajiKatYKdwbcl45VpHTiM41gtoOU
-	 xDQXh4KlZUe3iIsBtMPwiKOmQNRhA9VUlX3aVjrNOK4fanT1Y3frPCAYeY2Koo3ljm
-	 z5XDrFs0QyczHlgXoh96zaPrSOpbn6CUjABKn6B+iqNiAKwhPEeCM0oEi663S8q8pQ
-	 3sImh2nBjSa2kslUqceF2mEWI6E0noiuOp613GI9TGFPWQGUFAgwZQR2egp+tSaPPv
-	 RL7/wSF0IpZ9w==
-Date: Tue, 28 Jan 2025 16:09:53 +0100
+	b=CcXlOXIpnLyZgqiMzwDrTGNDlVDm8ZYX7jzG7v5j1ufPatgfA9k8x9Wjot9syEzhD
+	 Xie+j5rt44l47oz43QfQVEJNKSrpFvdsyXm0PIuo/zrHrtt9sQ9wb9taQHxMGUuw0c
+	 gDNoW+kviirYNueRaKU6CeohbbrX6XF7etGDkOaOFBrcbYhgkCxZKHIWi8B6xQcY0i
+	 +vNG9eIXEnzfSnMFvPEwhDFH6XGAleP5J5+ULWuP2wjUv889U5aM+Pb1cgFLE1uQEg
+	 xTE9UjtlFlLNIy5BmkJMWF1CK8ycgHUppzHmCgxs/vX37bI9+jygg9J6XvFwdNANpL
+	 ziPRKYdG69UJQ==
+Date: Tue, 28 Jan 2025 16:52:18 +0100
 From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, 
 	Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
 	Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
 	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
@@ -45,15 +45,16 @@ Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
 	linux-doc@vger.kernel.org, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Subject: Re: [PATCH v5 08/10] drm/bridge: samsung-dsim: use supporting
  variable for out_bridge
-Message-ID: <ksxomce6vddld7vikzyjd55babho63vj6ej5vrsiwfp2tid6yu@xfpagqpata4v>
+Message-ID: <zave5l4djfl6i2qyxcpfn2dn3pip2sjaqefrkct47qzdd653jf@z4zhcpptbt4x>
 References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
  <20241231-hotplug-drm-bridge-v5-8-173065a1ece1@bootlin.com>
  <7kpgrgqp2jx6ivkwdc5ax3dfah2qkajaedpcdadldselr4bdlq@jewss2bdl4or>
  <20250102130149.5784c09b@booty>
  <20250110115819.55bc887b@booty>
  <20250116113236.39ba876a@booty>
- <20250116-brave-feathered-dormouse-8ea4cf@houat>
- <20250121122729.41c8f2b1@booty>
+ <emuj2innmp6zmzd7pyakqzjqpdzhly6qfhakya3ydwmd63pl26@5jwxaidpikjw>
+ <20250121122718.48502262@booty>
+ <lwqv5nukfchusbi2vep2cx3vu6oxj4r5jd7oe3wo4nxtpxadh2@wjyt2c2r46kn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,12 +62,12 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="4ihuvzkcldme4rsb"
+	protocol="application/pgp-signature"; boundary="xgzb5xxdgehkfjxi"
 Content-Disposition: inline
-In-Reply-To: <20250121122729.41c8f2b1@booty>
+In-Reply-To: <lwqv5nukfchusbi2vep2cx3vu6oxj4r5jd7oe3wo4nxtpxadh2@wjyt2c2r46kn>
 
 
---4ihuvzkcldme4rsb
+--xgzb5xxdgehkfjxi
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -74,213 +75,97 @@ Subject: Re: [PATCH v5 08/10] drm/bridge: samsung-dsim: use supporting
  variable for out_bridge
 MIME-Version: 1.0
 
-On Tue, Jan 21, 2025 at 12:27:29PM +0100, Luca Ceresoli wrote:
-> Hi Maxime,
->=20
-> On Thu, 16 Jan 2025 13:26:25 +0100
-> Maxime Ripard <mripard@kernel.org> wrote:
->=20
-> [...]
->=20
-> > > And then there is the panel bridge. My understanding (which I'd love =
-to
-> > > get clarified in case it is not accurate) is that DRM bridges expect =
-to
-> > > always interact with "the next bridge", which cannot work for the last
-> > > bridge of course, and so the panel bridge wraps the panel pretending =
-it
-> > > is a bridge.
-> > >=20
-> > > This software structure is clearly not accurately modeling the
-> > > hardware (panel is not bridge), =20
+On Tue, Jan 21, 2025 at 01:57:47PM +0200, Dmitry Baryshkov wrote:
+> On Tue, Jan 21, 2025 at 12:27:18PM +0100, Luca Ceresoli wrote:
+> > Hi Dmitry,
 > >=20
-> > We don't have a proper definition of what a bridge is, so as far as I'm
-> > concerned, everything is a bridge :)
+> > On Thu, 16 Jan 2025 12:56:25 +0200
+> > Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
 > >=20
-> > The name came from "external signal converters", but the API got reused
-> > to support so many hardware components it's not meaningful anymore.
->=20
-> So if I'm getting your point here, drm_bridge is actually the base
-> class for DRM devices in OOP jargon, or a "DRM subunit" in V4L2 jargon.
-> OK, that's fine for me (except maybe for a "we should rename" thought).
-
-To be clear, I'm not sure it's worth renaming drm_bridge to something
-else, and I certainly don't consider it is a prerequisite to this
-series.
-
-> > > So far this approach has been working because devm and drmm ensure the
-> > > panel bridge would be dealloacted at some point. However the devm and=
- drmm
-> > > release actions are associated to the consumer struct device (the pan=
+> > [...]
+> >=20
+> > > > Idea 3:=20
+> > > >=20
+> > > > The idea is that if the panel driver framework always creates a pan=
 el
-> > > bridge consumer), so if the panel bridge is removed and the consumer =
-is
-> > > not, deallocation won't happen. =20
-> >=20
-> > Oh, right, if one doesn't call drm_bridge_put(), that will result in a
-> > memory leak. The general topic we discuss and try to address here is
-> > memory safety, and a memory leak is considered safe. It's also going to
-> > get allocated only a couple of times anyway, so it's not a *huge*
-> > concern.
-> >=20
-> > And about how to actually fix it, there's two ways to go about it:
-> >=20
-> >   * Either we do a coccinelle script and try to put all those
-> >     drm_bridge_put() everywhere;
-> >=20
-> >   * Or we create a devm/drmm action and drop the reference
-> >     automatically.
-> >=20
-> > The latter is obviously less intrusive, we would need to deprecate
-> > devm_of_get_bridge() for it to be safe, and I'm not entirely sure it
-> > would be enough, but it might just work.
-> >=20
-> > > For hotplugging we cannot use drmm and devm and instead we use get/pu=
-t,
-> > > to let the "next bridge" disappear with the previous one still presen=
-t.
-> > > So the trivial idea is to add a drm_of_get_bridge(), similar to
-> > > {drmm,devm_drm}_of_get_bridge() except it uses plain
-> > > drm_panel_bridge_add() instead of devm/drmm variants. But then the
-> > > caller (which is the panel consumer) will have to dispose of the stru=
-ct
-> > > drm_bridge pointer by calling:
+> > > > bridge, it will never need to be created on the fly automagically by
+> > > > its consumers, so the whole problem would disappear. It also would =
+be
+> > > > better modeling the hardware: still wrapping a panel with a drm_bri=
+dge
+> > > > that does not exist in the hardware, but at least having it created=
+ by
+> > > > the provider driver and not by the consumer driver which happens to
+> > > > look for it. =20
 > > >=20
-> > >  - drm_bridge_put() in case a)
-> > >  - drm_panel_bridge_remove in case b)
+> > > I think this is the best option up to now.
+> >=20
+> > Thanks for sharing your opinion. However a few points are not clear to
+> > me, see below.
+> >=20
+> > > > This looks like a promising and simple idea, so I tried a quick
+> > > > implementation:
+> > > >=20
+> > > >  void drm_panel_init(struct drm_panel *panel, struct device *dev,
+> > > >                     const struct drm_panel_funcs *funcs, int connec=
+tor_type)
+> > > >  {
+> > > > +       struct drm_bridge *bridge;
+> > > > +
+> > > >         INIT_LIST_HEAD(&panel->list);
+> > > >         INIT_LIST_HEAD(&panel->followers);
+> > > >         mutex_init(&panel->follower_lock);
+> > > >         panel->dev =3D dev;
+> > > >         panel->funcs =3D funcs;
+> > > >         panel->connector_type =3D connector_type;
+> > > > +
+> > > > +       bridge =3D devm_drm_panel_bridge_add(panel->dev, panel);
+> > > > +       WARN_ON(!bridge);
+> > > >  }
+> > > >=20
+> > > > This is somewhat working but it requires more work because:
+> > > >=20
+> > > >  * as it is, it creates a circular dependency between drm_panel and=
+ the
+> > > >    panel bridge, and modular builds will fail:
+> > > >=20
+> > > >      depmod: ERROR: Cycle detected: drm -> drm_kms_helper -> drm
+> > > >=20
+> > > >  * The panel bridge implementation should be made private to the pa=
+nel
+> > > >    driver only (possibly helping to solve the previous issue?) =20
 > > >=20
-> > > And that's the problem I need to solve. =20
+> > > Or merge drm_panel.c into bridge/panel.c.
 > >=20
-> > I'm not sure the problem is limited to panel_bridge. Your question is
-> > essentially: how do I make sure a driver-specific init is properly freed
-> > at drm_bridge_put time. This was done so far mostly at bridge remove
-> > time, but we obviously can't do that anymore.
-> >=20
-> > But we'd have the same issue if, say, we needed to remove a workqueue
-> > from a driver.
-> >=20
-> > I think we need a destroy() hook for bridges, just like we have for
-> > connectors for example that would deal with calling
-> > drm_panel_bridge_remove() if necessary, or any other driver-specific
-> > sequence.
+> > Not sure here you mean exactly what you wrote, or the other way around.
+> > It looks more correct to me that the panel core (drm_panel.c) starts
+> > exposing a bridge now, and not that the panel bridge which is just one
+> > of many bridge drivers starts handling all the panel-related stuff.
 >=20
-> The .destroy hook looked appealing at first, however as I tried to
-> apply the idea to bridges I'm not sure it matches. Here's why.
->=20
-> The normal (and sane) flow for a bridge is:
->=20
->  A) probe
->     1. allocate private struct embedding struct drm_bridge
->        (I have an _alloc() variant ready for v5 to improve this as you pr=
-oposed)
->     2. get resources, initialize struct fields
->     3. drm_bridge_add(): publish bridge into global bridge_list
->=20
-> Now the bridge can be found and pointers taken and used.
+> No, I actually meant what I wrote: merge drm_panel.c into
+> bridge/panel.c. Indeed we have some drivers that use panel directly.
+> However drm_bridge is a more generic interface. So, yes, I propose to
+> have a bridge driver which incorporates panel support.
 
-We agree so far.
+It's a legitimate subject to discuss, but I'm not sure it's worth
+focusing on this at this point though.
 
-> And on hardware removal, in reverse order:
-> =20
->  B) remove (hardware is hot-unplugged)
->     3. unpublish bridge
->     2. release resources, cleanup
->     1. kfree private struct
-
-I think the sequence would rather be something like:
-
-B') remove
-  3. unpublish bridge
-  2. release device resources
-  1. release reference
-
-C') last put
-  2. release KMS resources
-  1. kfree private struct
-
-> Some drivers do real stuff in B2, so it is important that B3 happens
-> before B2, isn't it? We don't want other drivers to find and use a
-> bridge that is being dismantled, or afterwards.
-
-Yeah, B3/B'3 should definitely happen first.
-
-> B3 should normally happen by removing the bridge from the global
-> bridge_list, or other bridges might find it. However setting the "gone"
-> bool and teaching of_drm_find_bridge() & Co to skip bridges with
-> gone=3D=3Dtrue would allow to postpone the actual removal, if needed.
->=20
-> With that said, with hotplugging there will be two distinct events:
->=20
->  * hardware removal
->  * last ref is put
->=20
-> The second event could happen way later than the first one. During the
-> time frame between the two events we need the bridge to be unpublished
-> and the bridge resources to be already released, as the hardware is
-> gone. We cannot do this at the last put, it's too late.
->=20
-> So I think the only sane sequence is:
->=20
->  * on hardware removal:
->      B3) unpublish bridge (drm_bridge_remove() or just set gone flag)
->      B2) free resources, deinit whatever needed
->  * when last ref is put
->      B1) kfree (likely via devm)
-
-No, devm will have destroyed it in B'2. We need to destroy it in the
-cleanup hook of kref_put
-
-> So, back to the .destroy hook, it would fit at B2, and not at the last
-> put.
-
-destroy would be called at C'2 time
-
-> However in that place it seems unnecessary. The actions "on hardware
-> removal" (B3, B2) are done by the driver remove function, so they are
-> already driver specific without any additional hook. I'm however fine
-> to add the hook on hardware removal in case there's a good reason I
-> missed.
->=20
-> Do you think my reasoning is correct so far?
->=20
-> If you don't, can you clarify at which events (hardware removal VS last
-> put) the various actions (drm_bridge_remove, set gone flag, calling
-> .destroy, free resources and deinint, kfree) should be done?
-
-I believe I did already, the gone flag should be set before B'2
+We should probably split it out into smaller chunks. Figuring out the
+drivers lifetime, and reference counting API is hard enough as it is,
+throwing panels into the mix at this point just adds more complexity.
 
 Maxime
->=20
->=20
-> (Side note: I've been pondering on why the .destroy hook works for
-> connectors and would not for bridges. I think it's due to the global
-> bridge_list, or because of the different lifetime management based on
-> drmm for connectors, or both.)
->=20
->=20
-> It may look as if my discussion is about bridges in general and not
-> about the panel bridge. However before delving into how to dispose of
-> a panel bridge we need to sort out how to dispose of a bridge in the
-> first place.
->=20
-> Luca
->=20
-> --=20
-> Luca Ceresoli, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->=20
 
---4ihuvzkcldme4rsb
+--xgzb5xxdgehkfjxi
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ5jzQAAKCRAnX84Zoj2+
-dqUrAYC5K9daG/FhWd1a7sSx5NhNeZAaLWV1AriGlYA2tteBKM5tl8+XhAQvDDtL
-cpcquiUBfR7G3P+27MuE+OLeYBfXXxeYzrjb1uZhBN0Pzktmv/YSS5nxchGXfvR2
-EWWTba0/Dw==
-=ccM7
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ5j9LQAKCRAnX84Zoj2+
+dr+9AYD3ejhJkBU6GuhBCf1V416YoKd8WTFeAyOCAx6vOMYG5g/AB64hT0jgLj8f
+VsKw5esBf21gmTYvT0Skk2DDP0XMtC0YYHdZpitvjdK9Vveu29dHs7Yrsw0wOXDG
+ZtjM4Zx0sg==
+=0eQL
 -----END PGP SIGNATURE-----
 
---4ihuvzkcldme4rsb--
+--xgzb5xxdgehkfjxi--
