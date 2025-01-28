@@ -1,93 +1,134 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796551E50E;
-	Tue, 28 Jan 2025 21:17:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 194BE19755B;
+	Tue, 28 Jan 2025 22:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738099044; cv=none; b=rlK+PgDa7B4oPWWtgc2RonQkYfhETy3/UDObxLL/Bxd2vqo2x8Jmt5WQLh0UjqYpV5/YgoSVvhDp8I3QPRXoDOnqcQJzkvGH4/GXABURf3aER59SWAaZkp8RpGylTCFcYsfw9X4fzagTuC/9y92QUadUH0oPh0lPHRvRldH4wZU=
+	t=1738101926; cv=none; b=iqxdoDNLj921ayxGwNRBKPOLaNP2P/DCbtkLfzHcHIGckx9UPTi8akw3BHaFZ9N7On02kPnjajtsEzAmZB9Lz+kL8s48/1q2ngiTg4g4hs29bMws+WDwrYLYEvYo53AySPOYspZxMEILk44T1XC0TtVpMBfQxV9PFBdCfcKN11k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738099044; c=relaxed/simple;
-	bh=I3OCB7E5f3b5De8XkNNPCLkp0lXOgj2B4g18+47DLd0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g50A6F99Bpbvrmj4ekmyZM7gxpWkbAUPcRTZPJddCheRjgT5K4i6SRSQQdjmfRCmLYjeQe5K4/AobMuiI6tZAGo8e27a68UzCY/EVwylEwXR5QzOakcRJH9voPWsmC/bESeqSGdb2x2jtAFCJAmFglyfZxB7PjE3Np7RbP4pi1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=FqZkNZ0l; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1738101926; c=relaxed/simple;
+	bh=I2jac1lNKSNUcUjnSbK02AorX+Oc3BNAzWXusEwD5JQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=bjzAwOe/xaYC/GNXRGoH0SifSau7/lJ1rOrc1NzF5SdR2KscZ0BsQUS/IAV6kFDpEpnEqI8gbUw2Jx7o7ag6BW2Z+OEKIjmbMezQ5WzaKK/wQLvpvE9uZzQDMQWityJSaBlHEX79Z6VRgbWfU/noauKPaWfS57f98wm+M2PFQTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=lklFLdxN; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="FqZkNZ0l"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1738099032;
-	bh=I3OCB7E5f3b5De8XkNNPCLkp0lXOgj2B4g18+47DLd0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FqZkNZ0lJPMqnzqYdpDKphpfeAqfKSbsbtDIf3rD9KuIzuexL3EU9vqR5HkfKawAq
-	 5Gsg0bFZpkpCYMyaQIPgZchI3l9mNok6bG9gLVTiUNcggk//W/DsdSKEMsUCMfGkJI
-	 OzDsAbeRy7diL3D/+0HzfgRNnphgeviJ72BmiJpc=
-Date: Tue, 28 Jan 2025 22:17:11 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Joshua Grisham <josh@joshuagrisham.com>
-Cc: Kurt Borja <kuurtb@gmail.com>, W_Armin@gmx.de, 
-	ilpo.jarvinen@linux.intel.com, hdegoede@redhat.com, platform-driver-x86@vger.kernel.org, 
-	corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8] platform/x86: samsung-galaxybook: Add
- samsung-galaxybook driver
-Message-ID: <628d5725-2d20-4298-862d-ad0e47782d15@t-8ch.de>
-References: <20250118202632.8352-1-josh@joshuagrisham.com>
- <e67bf708-be8a-4331-b250-d2f31e38536b@t-8ch.de>
- <CAMF+Keb5UzEUeim=33JR=Vv8qK7xqGn_jjNdtZMQTFtrpKrgSA@mail.gmail.com>
- <D7B8WVUD7F4B.1BL2WE2BNRCX6@gmail.com>
- <CAMF+Kebx4sU+0p+pFaH1Lz4q1xApM8iS9UAYP=sZnE2GDa32ww@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="lklFLdxN"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3309B403FA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1738101924; bh=x/+mioitK2qdu9XjiBTUtYN+JgPRREqnf4K6OOH3Vus=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=lklFLdxNCHQhj7y0MWJ8pWxtSiQ2jfT5PK6eU8xvBFztzD6WHaa1fOWpLuRWZJrK+
+	 JR60ICL5qhsbXc0ycOVOcaw8ehbOBATnkDER/oaTq34gadepNDEmbnSY9ObbblkIeW
+	 lJWGIsO08Ruc6QN6N66C6rMeNZVgXsZm2fpRIASEcCnxAkanwYcFEzzltHFxAicYma
+	 p7sGy1PEEjQQ1smc8YUvegAW+PrpZn3bHKKbTOOnBOAvQg//QXejZ2KF/5c0qmCwko
+	 V1kTzQyUResw78knXulCYfKC59nBdxLIuX6VBFO7KOE6aPhnhE+JvcZ5/dyUXH34F2
+	 56ZRj7JLJa/7g==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 3309B403FA;
+	Tue, 28 Jan 2025 22:05:24 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: carlos.bilbao@kernel.org
+Cc: avadhut.naik@amd.com, akpm@linux-foundation.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Carlos Bilbao
+ <carlos.bilbao@kernel.org>
+Subject: Re: [PATCH] .mailmap: Update incorrect entry and my email in
+ MAINTAINERS
+In-Reply-To: <20250125154721.1035737-1-carlos.bilbao@kernel.org>
+References: <20250125154721.1035737-1-carlos.bilbao@kernel.org>
+Date: Tue, 28 Jan 2025 15:05:23 -0700
+Message-ID: <87tt9i7fx8.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMF+Kebx4sU+0p+pFaH1Lz4q1xApM8iS9UAYP=sZnE2GDa32ww@mail.gmail.com>
+Content-Type: text/plain
 
-Hi Joshua,
+carlos.bilbao@kernel.org writes:
 
-sorry for the late reply.
+> From: Carlos Bilbao <carlos.bilbao@kernel.org>
+>
+> Update .mailmap to fix a mapping and my email address in MAINTAINERS.
+>
+> Signed-off-by: Carlos Bilbao <carlos.bilbao@kernel.org>
+> ---
+>  .mailmap    |  1 -
+>  MAINTAINERS | 10 +++++-----
+>  2 files changed, 5 insertions(+), 6 deletions(-)
+>
+> diff --git a/.mailmap b/.mailmap
+> index 83837191affb..0768824e9d19 100644
+> --- a/.mailmap
+> +++ b/.mailmap
+> @@ -139,7 +139,6 @@ Bryan Tan <bryan-bt.tan@broadcom.com> <bryantan@vmware.com>
+>  Cai Huoqing <cai.huoqing@linux.dev> <caihuoqing@baidu.com>
+>  Can Guo <quic_cang@quicinc.com> <cang@codeaurora.org>
+>  Carl Huang <quic_cjhuang@quicinc.com> <cjhuang@codeaurora.org>
+> -Carlos Bilbao <carlos.bilbao.osdev@gmail.com> <carlos.bilbao@amd.com>
+>  Carlos Bilbao <carlos.bilbao@kernel.org> <carlos.bilbao.osdev@gmail.com>
+>  Carlos Bilbao <carlos.bilbao@kernel.org> <carlos.bilbao@amd.com>
+>  Carlos Bilbao <carlos.bilbao@kernel.org> <bilbao@vt.edu>
 
-On 2025-01-28 20:17:53+0100, Joshua Grisham wrote:
-> Thank you Kurt!
-> 
-> Den lör 25 jan. 2025 kl 16:06 skrev Kurt Borja <kuurtb@gmail.com>:
-> >
-> > Now I understand the original problem better. I didn't consider this
-> > possibility when designing the callback.
-> >
-> > While this is a fine solution I believe Thomas' EOPNOTSUPP solution is
-> > the way to go. I think positive err value would be the safest but you
-> > should wait for the advice of someone with more experience.
-> >
-> > Aside from that I really like how the whole platform profile sections
-> > works now. Good design choices :)
-> >
-> > ~ Kurt
-> >
-> > > <snip>
-> 
-> Regarding using this positive error code internally within the module,
-> I thought about maybe adding a comment to galaxybook_probe() before
-> all of the inits which describe this a bit -- do you all think this
-> will be helpful or is it clear enough / does not matter and can be
-> skipped?
+So I am getting confused ... why not just send me a correct patch for
+this file rather than expecting me to apply the incorrect one followed
+by the fix?
 
-To me that sounds reasonable.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 4006434e0155..f7e70513ebff 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1077,7 +1077,7 @@ F:	drivers/video/fbdev/geode/
+>  
+>  AMD HSMP DRIVER
+>  M:	Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>
+> -R:	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+> +R:	Carlos Bilbao <carlos.bilbao@kernel.org>
+>  L:	platform-driver-x86@vger.kernel.org
+>  S:	Maintained
+>  F:	Documentation/arch/x86/amd_hsmp.rst
+> @@ -5793,7 +5793,7 @@ F:	drivers/usb/atm/cxacru.c
+>  
+>  CONFIDENTIAL COMPUTING THREAT MODEL FOR X86 VIRTUALIZATION (SNP/TDX)
+>  M:	Elena Reshetova <elena.reshetova@intel.com>
+> -M:	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+> +M:	Carlos Bilbao <carlos.bilbao@kernel.org>
+>  S:	Maintained
+>  F:	Documentation/security/snp-tdx-threat-model.rst
+>  
+> @@ -11228,7 +11228,7 @@ S:	Orphan
+>  F:	drivers/video/fbdev/imsttfb.c
+>  
+>  INDEX OF FURTHER KERNEL DOCUMENTATION
+> -M:	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+> +M:	Carlos Bilbao <carlos.bilbao@kernel.org>
+>  S:	Maintained
+>  F:	Documentation/process/kernel-docs.rst
+>  
+> @@ -22018,7 +22018,7 @@ Q:	http://patchwork.linuxtv.org/project/linux-media/list/
+>  F:	drivers/media/dvb-frontends/sp2*
+>  
+>  SPANISH DOCUMENTATION
+> -M:	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+> +M:	Carlos Bilbao <carlos.bilbao@kernel.org>
+>  R:	Avadhut Naik <avadhut.naik@amd.com>
+>  S:	Maintained
+>  F:	Documentation/translations/sp_SP/
+> @@ -22030,7 +22030,7 @@ L:	sparclinux@vger.kernel.org
+>  S:	Maintained
+>  Q:	http://patchwork.ozlabs.org/project/sparclinux/list/
+>  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/davem/sparc.git
+> -T:	git git://git.kernel.org/pub/scm/linux/kernel/git/davem/sparc-next.git
+> +:	git git://git.kernel.org/pub/scm/linux/kernel/git/davem/sparc-next.git
+>  F:	arch/sparc/
+>  F:	drivers/sbus/
 
-<snip>
+As Willy pointed out, this last hunk looks like a mistake.
 
-> If this comment (you all are welcome to suggest wording tweaks as
-> well, of course!) plus the few other small tweaks make sense then I
-> can prep this to send as a new version. But I am holding a bit in
-> hopes that the 6.14 stuff gets merged to pdx86 for-next so that I can
-> go ahead with implementing Thomas's new power supply extension
-> interface at the same time.
-
-Nice :-)
-
-<snip>
+jon
