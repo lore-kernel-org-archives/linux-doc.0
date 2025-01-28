@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E53F2A1BA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA962E62B;
 	Tue, 28 Jan 2025 00:06:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738022797; cv=none; b=naUcvmnrTq+RrHzVV7vJ7iV/tzUCp6qGpv1tslsBjiZeRr3DZtmuqEcoIGCAF+gOnPMkinWP7xty2kucIeXKtsqV9Xdu4zYgCMX0BLSJ68hIwAvKUufZpf76qk8Ahw5EOAtQINPKmeS9D3qm+c8DuI04dfcikJtfew06QJTUxkE=
+	t=1738022797; cv=none; b=uZXgMN4P3zsFvk8PmuDi0Yu76XvVkJsvFCjiuwUuTWqgV50r5Tw/aOwS/JoNmXvQV6MoEeONdJsPHGtxgJfq2FYp7qlC766J+wu6bB5VPXJSXccZAXf16WzIRbV/vtmV+q/F0SwjN7tVFvTJfYHpulOCK5r2uGcZmggsRsbMxfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1738022797; c=relaxed/simple;
-	bh=EIzss4+nVhmBM716ght5tv9bi2u8EXv+0cXIqsZnexs=;
+	bh=aJ8SN/KmweREPu+e3BrG68E3yExC74uiWb70lROkL7Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MlGrucWUphuXAzHFicMDqczmAokQk4CmFSnjf0H+/e2HJlrCBmJPNMns5JnGIlqwHG5g/XYWy+0w505mc64Ag3QflrhhY3xmOTjT0pve8/rYp1O1ncW7WTUdr9r4q9wdTx9CMnhqeoHTeqObt4e7ye91bfPd047PSEFFH4feDIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=djWGZdEG; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=e23IdOE+7O6L3I/ihk6ZqdIsOcrpWNNVEzlxOueBaXfhMiFsbS+6kMBGKM37ECNgmGd4ZgVSk9qv8YTuTYo+sQNoMC5Eoan6qeLZ3yN+5IR0nm19np1X0Iize4w2r6bpvWkJ0/QZpGc47LJYMKB31F7e9kwq0kP6AnQEzvqXqnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E6QdLOBG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="djWGZdEG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2145DC19421;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E6QdLOBG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36367C2BCAF;
 	Tue, 28 Jan 2025 00:06:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1738022796;
-	bh=EIzss4+nVhmBM716ght5tv9bi2u8EXv+0cXIqsZnexs=;
+	bh=aJ8SN/KmweREPu+e3BrG68E3yExC74uiWb70lROkL7Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=djWGZdEGjm9gYcPBqwD1BId5hx3PKr9WOW/SdWmMGopvT/s9r4KPIaWYZ42P3QmPe
-	 yiWYVC/WOebllm9+pH10GNUWQYEWSBHukz+fhipIlxuy8wfy5wjUHj55pYqSLMJiHR
-	 38it1cy4s4Twd3lnlSiEODudYqo7BoRiU71oWMoRxmI+6tgdo45Khz+JyIDItTTozp
-	 uu4NiDvv7EvlCluUpP5zkNUJgfjjsSrkg7Yz79PggptS2k01fSUiI1J29NqvfguhSc
-	 zF0t8io4PvGctFMmRLaAEBXsNowUEk+0hA2ijqQNBgVn4escrv7N0DQATNRq6m1Mf0
-	 UREfJZjywdwOA==
+	b=E6QdLOBGGkLHrxzXL7xRWh8sA571ucTDZ13JHOz81/gCmvSBA/K+cG6iGGzB+P32e
+	 ezTwKuU7l+Hu1Ob8YZKIaPTZy2ltOtHdEQKosTNlh+Hc9uuKJ0v2gJCkPP57sK41Bo
+	 jleDMqW6uyNIR59ZzzhA13UzeMTRyBMig+GYofvNJ6ge+CEPqTVbSvGOpAE6TB/MMG
+	 Xkd/1P9pn9yf4qMrHQf60K7pfgDjfaJxIpCeIt51B1LUAsxA1SnkOaxWpobqY4MGmy
+	 rzLogHiF2rpRKV/+zPYCYUFj/Vj3ERsDfJ5EZQ0EzAEcOjVcqyZgChcbF3Dt62HJ/D
+	 5GHdv4pY5UfFA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tcZ7i-0000000DRMJ-1ZDu;
+	id 1tcZ7i-0000000DRMR-1nNr;
 	Tue, 28 Jan 2025 01:06:34 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -36,13 +36,14 @@ To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <mchehab+huawei@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
+	Jonathan Cameron <mchehab+huawei@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Thorsten Scherer <t.scherer@eckelmann.de>,
+	linux-iio@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC v2 30/38] docs: arm: asymmetric-32bit: Allow creating cross-references for ABI
-Date: Tue, 28 Jan 2025 01:06:19 +0100
-Message-ID: <88b0601a8d6e6f23fc3ad2a68b552b66df190945.1738020236.git.mchehab+huawei@kernel.org>
+Subject: [RFC v2 32/38] docs: iio: Allow creating cross-references ABI
+Date: Tue, 28 Jan 2025 01:06:21 +0100
+Message-ID: <71e13fab5e63de2f16d6953cc6ebf3b51f1f9f6e.1738020236.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <cover.1738020236.git.mchehab+huawei@kernel.org>
 References: <cover.1738020236.git.mchehab+huawei@kernel.org>
@@ -60,22 +61,34 @@ generate cross-references for the corresponding ABI file.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/arch/arm64/asymmetric-32bit.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/driver-api/iio/core.rst | 2 +-
+ Documentation/iio/iio_devbuf.rst      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/arch/arm64/asymmetric-32bit.rst b/Documentation/arch/arm64/asymmetric-32bit.rst
-index 64a0b505da7d..f15061b1e020 100644
---- a/Documentation/arch/arm64/asymmetric-32bit.rst
-+++ b/Documentation/arch/arm64/asymmetric-32bit.rst
-@@ -55,7 +55,7 @@ sysfs
+diff --git a/Documentation/driver-api/iio/core.rst b/Documentation/driver-api/iio/core.rst
+index dfe438dc91a7..42b580fb2989 100644
+--- a/Documentation/driver-api/iio/core.rst
++++ b/Documentation/driver-api/iio/core.rst
+@@ -60,7 +60,7 @@ directory.  Common attributes are:
+ * :file:`sampling_frequency_available`, available discrete set of sampling
+   frequency values for device.
+ * Available standard attributes for IIO devices are described in the
+-  :file:`Documentation/ABI/testing/sysfs-bus-iio` file in the Linux kernel
++  :file:Documentation/ABI/testing/sysfs-bus-iio file in the Linux kernel
+   sources.
  
- The subset of CPUs capable of running 32-bit tasks is described in
- ``/sys/devices/system/cpu/aarch32_el0`` and is documented further in
--``Documentation/ABI/testing/sysfs-devices-system-cpu``.
-+Documentation/ABI/testing/sysfs-devices-system-cpu.
+ IIO device channels
+diff --git a/Documentation/iio/iio_devbuf.rst b/Documentation/iio/iio_devbuf.rst
+index 9919e4792d0e..dca1f0200b0d 100644
+--- a/Documentation/iio/iio_devbuf.rst
++++ b/Documentation/iio/iio_devbuf.rst
+@@ -148,5 +148,5 @@ applied), however there are corner cases in which the buffered data may be found
+ in a processed form. Please note that these corner cases are not addressed by
+ this documentation.
  
- **Note:** CPUs are advertised by this file as they are detected and so
- late-onlining of 32-bit-capable CPUs can result in the file contents
+-Please see ``Documentation/ABI/testing/sysfs-bus-iio`` for a complete
++Please see Documentation/ABI/testing/sysfs-bus-iio for a complete
+ description of the attributes.
 -- 
 2.48.1
 
