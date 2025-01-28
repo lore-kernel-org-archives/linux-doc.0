@@ -1,78 +1,90 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBFE46BF
-	for <linux-doc@vger.kernel.org>; Tue, 28 Jan 2025 16:45:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97881DE8A5;
+	Tue, 28 Jan 2025 18:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738082760; cv=none; b=BA5xbczhBW5b75j0B31Bh6HEcjjRDG+PWW80/xOsJjO7aiuaFONyPB8zmkSTDfC/x68cf497NN6t00RtGWt/Ae4DCM+ZQgGuknGF7QVt687CbIHcXT1fbGu6/ITgkxrRWRIUQawjN/QiW/4vmndR6fmO0a3Jbg0njho6w3IEXSA=
+	t=1738088866; cv=none; b=aZxkyvxGsnZ9Ok3aF/4NCl0J5fOXsYhRqNl58dkrMyaOpT3lCix3HYrBQxZnozYTkm55ZZO8mPWEYKyiQa7YqEgf/D1rwU42YAAgqtVsA5PcX28h3mOwKg+QrLIFhO+HzZFn+I7yeSzZ8AIQh0tEgXpNEC6c2j7dpHSMu+Cd1i0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738082760; c=relaxed/simple;
-	bh=72kmVKXf2GdpdMlpX2f79tWr8mGYcX4pjkYD2ZxbQAQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E5a8eiLcGPTPih8Kz2ca/sGPAh+Rg02tHiTtPt2pD4uwX6fxtwDvWctVRZf54lm3ccFQHw6lrBMgN0hsFleCfTjD7VpAEviyFkLxNDW9x30xt4payqzkyrilWlmEVmIsvNJOPI4RUUbjur6yOyNXMAbB0zR7u5UVVChIVdh5tFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NlX9sXst; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1738088866; c=relaxed/simple;
+	bh=aTvEQyxqt46VVhHvUbNk648teDKI1caqE/xkT8uVixQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NtUbcyH7lf+UpUbiBkBpl8YvFOuo2tmnoxHNof+8gMwgwZc5Ks/2jxrV0RPxYv5JlqIdaWEp3TKfOGOkLYnJtAoA7j4aEz90ddV4X6nhfbY//Lcdxc1A0u6OuwetuyfZotlguokN8/kAPm25QziXg8exPI8EvYNDWiiEv4FeMSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N/pjIBH0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NlX9sXst"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=eIcIoLmBArADoKADRn54IBjGvph5e3q0v0KXusXLJ3c=; b=NlX9sXstcGbbt+2szwC8nRcPIY
-	yfLXVRKGA8eN+Iud//onZc0jD8z3vEI5K0PiOtd8tRRXDbE4BQDrW3fT2IaV4fSZbBy0YC7++I+fe
-	jARSSDS3Kn4Un6YDEGkvMvHmcfa9DYt4GjM9KXxBGETeVgmtxhQHHnT4FNmPKoSNN5NhLD/AtFeT9
-	LxWo18V7l5vSuQdCUrWvL/ZO9HsovoBvTzH2muxxuSv8JrmRgOXrY7SuR0BsFWV6dMbYhlTWSdDMZ
-	g5kkxde0a2P0x/SKumKo9KAh4NWY1N5GWfPukH3cILXbKdRdcsc6JdTCUPQaho0elTcIYrfJRz94C
-	4Ma87xfQ==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tcoio-0000000ExwI-22iO;
-	Tue, 28 Jan 2025 16:45:54 +0000
-Message-ID: <53e400b4-1552-4470-9c18-b681a44fe952@infradead.org>
-Date: Tue, 28 Jan 2025 08:45:50 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N/pjIBH0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63661C4CED3;
+	Tue, 28 Jan 2025 18:27:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738088866;
+	bh=aTvEQyxqt46VVhHvUbNk648teDKI1caqE/xkT8uVixQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=N/pjIBH05RidBs0tDBf5hjB56k3Ufua8jnr2cQno2/YbC5uTGTt6BQ6tPoU9KHjwZ
+	 545kCyHLlFTWB1vFMDrGpeWzlWZ8f7tASFd9jAlj+vMgqmpWPpylSh7sElJFgII83D
+	 h8nPMJCdMW+5CqdIygNY/9JdbsNehudXSIu5BjZUDzV4zTovgKE1/jMkWl8l3K8lWd
+	 JrDPPYgdcjYCTRH/D8PLIojdOk8nwcqqIrkFY7U51ZF4YXdcxlJKNUdfXCLBaSWflt
+	 kwSg3TbRnOXtXdqkGpuwYzXNCCvtUgMyti5xqqMIQZrw8H9yvB8Is6rUP19pnV+pHZ
+	 /5hYylbIvrpzg==
+Date: Tue, 28 Jan 2025 18:27:39 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, Thorsten Scherer
+ <t.scherer@eckelmann.de>, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [RFC v2 32/38] docs: iio: Allow creating cross-references ABI
+Message-ID: <20250128182739.704c7823@jic23-huawei>
+In-Reply-To: <71e13fab5e63de2f16d6953cc6ebf3b51f1f9f6e.1738020236.git.mchehab+huawei@kernel.org>
+References: <cover.1738020236.git.mchehab+huawei@kernel.org>
+	<71e13fab5e63de2f16d6953cc6ebf3b51f1f9f6e.1738020236.git.mchehab+huawei@kernel.org>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] docs: submit-checklist: Expand on build tests against
- different word sizes
-To: Akira Yokosawa <akiyks@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, Tsugikazu Shibata <shibata@linuxfoundation.org>
-References: <20250128102805.112691-1-akiyks@gmail.com>
- <20250128102805.112691-2-akiyks@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250128102805.112691-2-akiyks@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi,
+On Tue, 28 Jan 2025 01:06:21 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-On 1/28/25 2:28 AM, Akira Yokosawa wrote:
-> Existing sentence on cross-compilation that mentions ppc64 does not
-> make much sense in today's perspective.
+> Now that Documentation/ABI is processed by automarkup, let it
+> generate cross-references for the corresponding ABI file.
 > 
-> Expand it for the benefits of testing against architectures of
-> different word sizes and endianness.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Cc: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 > ---
->  Documentation/process/submit-checklist.rst             |  9 ++++++---
->  .../translations/ja_JP/process/submit-checklist.rst    | 10 ++++++----
->  2 files changed, 12 insertions(+), 7 deletions(-)
+>  Documentation/driver-api/iio/core.rst | 2 +-
+>  Documentation/iio/iio_devbuf.rst      | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
+> diff --git a/Documentation/driver-api/iio/core.rst b/Documentation/driver-api/iio/core.rst
+> index dfe438dc91a7..42b580fb2989 100644
+> --- a/Documentation/driver-api/iio/core.rst
+> +++ b/Documentation/driver-api/iio/core.rst
+> @@ -60,7 +60,7 @@ directory.  Common attributes are:
+>  * :file:`sampling_frequency_available`, available discrete set of sampling
+>    frequency values for device.
+>  * Available standard attributes for IIO devices are described in the
+> -  :file:`Documentation/ABI/testing/sysfs-bus-iio` file in the Linux kernel
+> +  :file:Documentation/ABI/testing/sysfs-bus-iio file in the Linux kernel
+>    sources.
+>  
+>  IIO device channels
+> diff --git a/Documentation/iio/iio_devbuf.rst b/Documentation/iio/iio_devbuf.rst
+> index 9919e4792d0e..dca1f0200b0d 100644
+> --- a/Documentation/iio/iio_devbuf.rst
+> +++ b/Documentation/iio/iio_devbuf.rst
+> @@ -148,5 +148,5 @@ applied), however there are corner cases in which the buffered data may be found
+>  in a processed form. Please note that these corner cases are not addressed by
+>  this documentation.
+>  
+> -Please see ``Documentation/ABI/testing/sysfs-bus-iio`` for a complete
+> +Please see Documentation/ABI/testing/sysfs-bus-iio for a complete
+>  description of the attributes.
 
--- 
-~Randy
