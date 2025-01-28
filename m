@@ -1,179 +1,230 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB6D1DED6C;
-	Tue, 28 Jan 2025 08:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 024DF1DF250;
+	Tue, 28 Jan 2025 08:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738052497; cv=none; b=ReqkqfOzqeQJaOKAQ1NfiUMVk0cT2YYnfClrEzUpbeZjHC8ax6NhD3mFUFuK1wl29E0pZb3579qOPFxwcfewjJlzPnrM9AJPQIt3ILIwlupEwjUbQqkIfioymHDAt1XWJIbrFwybsEX9jdkSfOjEeM85El8oFQ48NcuTIC0Weo8=
+	t=1738053799; cv=none; b=hdHR4aRBVj8jb4jUa0o+A5WczOLbvA9SWKSv9G5dEzLhKts8Uhk+snAv4GNPeaHPL0znWz1ZUVVPAO5eqcHrxcsit4cbIQkxE2oaVryhY4UxXdRJlwS3QwEKueLXM0m3iu2122ELVhMlZPaBCYWwRnxuOqvtjvTgeD0yBpKZqnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738052497; c=relaxed/simple;
-	bh=RSQ/gaKSYUHj2DbU1SSchGtbIQBxw/a/cur2nGw8Xnw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bCDwKPC1XOgypFfU6cs1gUOygwktNJ0rq1RFCVhivFCM/flTlXw+LBnsXriZm3arLCAat2LlhJ6V7QPfsjHqwSiU4YRNfn9TKZLeFjS8TddGRq16B0dH7DwnZeFxcQLJ3L+tl5LuGyL0r6vEwRA1c9+ihuHhsIJsQ3jZi1Pn0Dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K41mpj1+; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738053799; c=relaxed/simple;
+	bh=mv2rPtHELzUJ6LiSr+Q2GP0bcTy+8h8kORsCbqZC3Po=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Awvk8/ZyDzcnAta6BNZ2lBlEt+Vgl0XuVF/DU08Sw4gkwZ7qrfS/30Eyca72OLegc8DF6Mq90LinIP8PUsLCdarKbuyCXJ2Nvmjf6+Y/9OSiJT/PF4fVGqzHZkS4WLsLeFuW0WDLo8PLLDoW168NZ4iqzcjKDhM1DBmUGIO+Jic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=RiUqmmwz; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K41mpj1+"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-215770613dbso66425985ad.2;
-        Tue, 28 Jan 2025 00:21:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738052494; x=1738657294; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3fMuy/pYgza/riIVTVPhUzUfkiZ2bVUecFPV047zGXs=;
-        b=K41mpj1+iTzESlT9FCvGVL0qfMhmxuJRlk/3jNCvCDOo/11ufx1iCYqho2JVVOm9lQ
-         biT3+jPhMUIGUcMPE2vuxsyy3HAvsyQdP2xnUIaLlIbLv7DBoyarOysssEddztVCAfzw
-         elV+GRRiHpuyqvV/pEzx1vs+Igs9NO05r1uUwtEmWJOWBDJZ/o5crb8yhkkpRvUyXc66
-         XFP9AWUfToKT5Pd4bDf9UUP9ECEHDiAZDptCY4cFUJpacruykcoKbKT2gej3l/jpua4z
-         SjA//0pGMMKB6uSJAsmvmrzp/gbOdgA9yTieZZT4DWQPljT25wfDLtzSsAVwxYorHEYM
-         VRaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738052494; x=1738657294;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3fMuy/pYgza/riIVTVPhUzUfkiZ2bVUecFPV047zGXs=;
-        b=wQXTqC0o0HHFmVAY4gI7p0w7HvBBb33EPBlZPNuGELW1zX9YAy7CAC9DT20ioIXETs
-         G6EAau5+ang8QwRNB3ESS3kpPnCw1vWQ9pp8xDNVbtT8+ZtVNK7WdeRD7grVDzCYJgzM
-         JL5dOD+MpGpiqDOBL3Kb7rdSRFjWovnUL0bU2VJPADVhLF0Uzaj93/2wTd6/rezlT6Ng
-         T3F5c3juYenRviRQlfzln67gxv8RRqI8QgLnQEKgUQWhBpAnhQmHkH/9yjE4dSVMg/MX
-         o/eWJJgVUswBr6I3F6aDD8+b2QiG38ISyUdfL16ZLbx37uzkMYedjDp2PhmwRftNMcaI
-         WqMA==
-X-Forwarded-Encrypted: i=1; AJvYcCULfzkRxbPbHKMyJvvCFZ4DDXPYgP9hGjHnaJ/St/9FtvmE1MOlJlTH+teoq6+IvIehtxVMpGJZHpcCTKCHhSIW@vger.kernel.org, AJvYcCUa37zRoBFpDFlpEcDcKgRyOVQeEiwangkMVAS8Hlllfua3VScSPf9gPcXgWi5CXBU6jxB5aPfpbrqF2vF/@vger.kernel.org, AJvYcCUh8Z7In8x3bPXLNjNyNovXDgiU7eQfMeterH9zm4UVcdPQ0qBsgfPX3wa4q+iM2eFKwglT4Xeu5jE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNy+6EX/gkuk9beMJ1NFlvR+KAOOzdD5q8D+RXhSIUa7J+Iryl
-	Gzt2R5zwJ0GJnS/FmsRznT2XGya03cx0SrYqwnzmol3lIblXcjnK
-X-Gm-Gg: ASbGncsx9DL2VpgVQawGfUWjY1n9D5CZfl0sDwjm0GX4skvbdO0ck8icraaW/BXzPq5
-	wHYJTptIZPkvMSclXYkykx6DTVw2I1WZoBnSSy+r6M18o2XtRmmxtaISxosLdhrugQ/kJv+rgci
-	J5CxLb+TN3jDDH+WzzZmWqtYCeppHTn8eTSfLZho0+zDiz0rP5Qzvn4SkIyVh4ys2hKsS5nJqC8
-	6v8z9LpFShNDKEDkwT6sCKKo5Z3j7wxd4OBt3mbRiSDasA1n/+zVCAcolZG2ONEA+4hmrKHKFO3
-	cuHautHY/3zBFmw=
-X-Google-Smtp-Source: AGHT+IGA23Ky/6K1hLSlTaGOzyYMHc1wGHqIfEJ8xAUCi8at04bQFz8GD3I/8Kj7sYnVrWvjXsXjWg==
-X-Received: by 2002:a17:902:e80a:b0:216:6769:9ed7 with SMTP id d9443c01a7336-21c355c7dc2mr753720045ad.40.1738052494133;
-        Tue, 28 Jan 2025 00:21:34 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21da3d9e173sm76602675ad.32.2025.01.28.00.21.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jan 2025 00:21:33 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 88B8C420A74B; Tue, 28 Jan 2025 15:21:25 +0700 (WIB)
-Date: Tue, 28 Jan 2025 15:21:25 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Nicolin Chen <nicolinc@nvidia.com>, jgg@nvidia.com,
-	kevin.tian@intel.com, corbet@lwn.net, will@kernel.org
-Cc: joro@8bytes.org, suravee.suthikulpanit@amd.com, robin.murphy@arm.com,
-	dwmw2@infradead.org, baolu.lu@linux.intel.com, shuah@kernel.org,
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-	eric.auger@redhat.com, jean-philippe@linaro.org, mdf@kernel.org,
-	mshavit@google.com, shameerali.kolothum.thodi@huawei.com,
-	smostafa@google.com, ddutile@redhat.com, yi.l.liu@intel.com,
-	patches@lists.linux.dev
-Subject: Re: [PATCH v6 11/14] Documentation: userspace-api: iommufd: Update
- FAULT and VEVENTQ
-Message-ID: <Z5iThcDwBmBHZBJd@archie.me>
-References: <cover.1737754129.git.nicolinc@nvidia.com>
- <300d03449b9420d756c1589e1c24bb8b4d508293.1737754129.git.nicolinc@nvidia.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="RiUqmmwz"
+Received: from [10.156.205.88] (unknown [167.220.238.88])
+	by linux.microsoft.com (Postfix) with ESMTPSA id BA02E210C30E;
+	Tue, 28 Jan 2025 00:43:11 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com BA02E210C30E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1738053797;
+	bh=RjY6XWu9bYvJieoB9WujKXm/zDnVJNV14+gQrDpL06I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=RiUqmmwzqe/kgLTv7kFrDs5XWnA/PurwEA0aVFQLQqXATZhGufIWwOLDcxHPtsmJc
+	 YVRCsc5cIxraEG2e/ItJAzUygR3FHQMGDMtzdgVRG46kr00QqmJN5roMAVcRa1fiWk
+	 sfiRy0bfB9S/DN/S6yg4us3CxlkISUkDQT755Tao=
+Message-ID: <4006e0b5-b641-4dfb-8c1f-b8b7d8ab63ca@linux.microsoft.com>
+Date: Tue, 28 Jan 2025 14:13:09 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="m1sZIbxqV2u1bbA+"
-Content-Disposition: inline
-In-Reply-To: <300d03449b9420d756c1589e1c24bb8b4d508293.1737754129.git.nicolinc@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 2/5] cpufreq: Introduce an optional cpuinfo_avg_freq
+ sysfs entry
+To: Beata Michalska <beata.michalska@arm.com>, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
+ ionela.voinescu@arm.com, sudeep.holla@arm.com, will@kernel.org,
+ catalin.marinas@arm.com, rafael@kernel.org, viresh.kumar@linaro.org
+Cc: sumitg@nvidia.com, yang@os.amperecomputing.com,
+ vanshikonda@os.amperecomputing.com, lihuisong@huawei.com,
+ zhanjie9@hisilicon.com, Jonathan Corbet <corbet@lwn.net>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "H . Peter Anvin" <hpa@zytor.com>, Phil Auld <pauld@redhat.com>,
+ x86@kernel.org, linux-doc@vger.kernel.org
+References: <20250121084435.2839280-1-beata.michalska@arm.com>
+ <20250121084435.2839280-3-beata.michalska@arm.com>
+Content-Language: en-US
+From: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
+In-Reply-To: <20250121084435.2839280-3-beata.michalska@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
---m1sZIbxqV2u1bbA+
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Jan 24, 2025 at 04:30:40PM -0800, Nicolin Chen wrote:
-> diff --git a/Documentation/userspace-api/iommufd.rst b/Documentation/user=
-space-api/iommufd.rst
-> index 70289d6815d2..b0df15865dec 100644
-> --- a/Documentation/userspace-api/iommufd.rst
-> +++ b/Documentation/userspace-api/iommufd.rst
-> @@ -63,6 +63,13 @@ Following IOMMUFD objects are exposed to userspace:
->    space usually has mappings from guest-level I/O virtual addresses to g=
-uest-
->    level physical addresses.
-> =20
-> +- IOMMUFD_FAULT, representing a software queue for an HWPT reporting IO =
-page
-> +  faults using the IOMMU HW's PRI (Page Request Interface). This queue o=
-bject
-> +  provides user space an FD to poll the page fault events and also to re=
-spond
-> +  to those events. A FAULT object must be created first to get a fault_i=
-d that
-> +  could be then used to allocate a fault-enabled HWPT via the IOMMU_HWPT=
-_ALLOC
-> +  command by setting the IOMMU_HWPT_FAULT_ID_VALID bit in its flags fiel=
-d.
+On 21-01-2025 14:14, Beata Michalska wrote:
+> Currently the CPUFreq core exposes two sysfs attributes that can be used
+> to query current frequency of a given CPU(s): namely cpuinfo_cur_freq
+> and scaling_cur_freq. Both provide slightly different view on the
+> subject and they do come with their own drawbacks.
+>
+> cpuinfo_cur_freq provides higher precision though at a cost of being
+> rather expensive. Moreover, the information retrieved via this attribute
+> is somewhat short lived as frequency can change at any point of time
+> making it difficult to reason from.
+>
+> scaling_cur_freq, on the other hand, tends to be less accurate but then
+> the actual level of precision (and source of information) varies between
+> architectures making it a bit ambiguous.
+>
+> The new attribute, cpuinfo_avg_freq, is intended to provide more stable,
+> distinct interface, exposing an average frequency of a given CPU(s), as
+> reported by the hardware, over a time frame spanning no more than a few
+> milliseconds. As it requires appropriate hardware support, this
+> interface is optional.
+>
+> Note that under the hood, the new attribute relies on the information
+> provided by arch_freq_get_on_cpu, which, up to this point, has been
+> feeding data for scaling_cur_freq attribute, being the source of
+> ambiguity when it comes to interpretation. This has been amended by
+> restoring the intended behavior for scaling_cur_freq, with a new
+> dedicated config option to maintain status quo for those, who may need
+> it.
+>
+> CC: Jonathan Corbet <corbet@lwn.net>
+> CC: Thomas Gleixner <tglx@linutronix.de>
+> CC: Ingo Molnar <mingo@redhat.com>
+> CC: Borislav Petkov <bp@alien8.de>
+> CC: Dave Hansen <dave.hansen@linux.intel.com>
+> CC: H. Peter Anvin <hpa@zytor.com>
+> CC: Phil Auld <pauld@redhat.com>
+> CC: x86@kernel.org
+> CC: linux-doc@vger.kernel.org
+>
+> Signed-off-by: Beata Michalska <beata.michalska@arm.com>
+> ---
+>   Documentation/admin-guide/pm/cpufreq.rst | 16 ++++++++++++-
+>   drivers/cpufreq/Kconfig.x86              | 12 ++++++++++
+>   drivers/cpufreq/cpufreq.c                | 30 +++++++++++++++++++++++-
+>   3 files changed, 56 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/pm/cpufreq.rst b/Documentation/admin-guide/pm/cpufreq.rst
+> index a21369eba034..e9969174026c 100644
+> --- a/Documentation/admin-guide/pm/cpufreq.rst
+> +++ b/Documentation/admin-guide/pm/cpufreq.rst
+> @@ -248,6 +248,19 @@ are the following:
+>   	If that frequency cannot be determined, this attribute should not
+>   	be present.
+>   
+> +``cpuinfo_avg_freq``
+> +        An average frequency (in KHz) of all CPUs belonging to a given policy,
+> +        derived from a hardware provided feedback and reported on a time frame
+> +        spanning at most few milliseconds.
 > +
->  - IOMMUFD_OBJ_VIOMMU, representing a slice of the physical IOMMU instanc=
-e,
->    passed to or shared with a VM. It may be some HW-accelerated virtualiz=
-ation
->    features and some SW resources used by the VM. For examples:
-> @@ -109,6 +116,14 @@ Following IOMMUFD objects are exposed to userspace:
->    vIOMMU, which is a separate ioctl call from attaching the same device =
-to an
->    HWPT_PAGING that the vIOMMU holds.
-> =20
-> +- IOMMUFD_OBJ_VEVENTQ, representing a software queue for a vIOMMU to rep=
-ort its
-> +  events such as translation faults occurred to a nested stage-1 (exclud=
-ing I/O
-> +  page faults that should go through IOMMUFD_OBJ_FAULT) and HW-specific =
-events.
-> +  This queue object provides user space an FD to poll/read the vIOMMU ev=
-ents. A
-> +  vIOMMU object must be created first to get its viommu_id, which could =
-be then
-> +  used to allocate a vEVENTQ. Each vIOMMU can support multiple types of =
-vEVENTS,
-> +  but is confined to one vEVENTQ per vEVENTQ type.
+> +        This is expected to be based on the frequency the hardware actually runs
+> +        at and, as such, might require specialised hardware support (such as AMU
+> +        extension on ARM). If one cannot be determined, this attribute should
+> +        not be present.
 > +
->  All user-visible objects are destroyed via the IOMMU_DESTROY uAPI.
-> =20
->  The diagrams below show relationships between user-visible objects and k=
-ernel
-> @@ -251,8 +266,10 @@ User visible objects are backed by following datastr=
-uctures:
->  - iommufd_device for IOMMUFD_OBJ_DEVICE.
->  - iommufd_hwpt_paging for IOMMUFD_OBJ_HWPT_PAGING.
->  - iommufd_hwpt_nested for IOMMUFD_OBJ_HWPT_NESTED.
-> +- iommufd_fault for IOMMUFD_OBJ_FAULT.
->  - iommufd_viommu for IOMMUFD_OBJ_VIOMMU.
->  - iommufd_vdevice for IOMMUFD_OBJ_VDEVICE.
-> +- iommufd_veventq for IOMMUFD_OBJ_VEVENTQ.
-> =20
->  Several terminologies when looking at these datastructures:
-> =20
+> +        Note, that failed attempt to retrieve current frequency for a given
+> +        CPU(s) will result in an appropriate error.
+> +
+>   ``cpuinfo_max_freq``
+>   	Maximum possible operating frequency the CPUs belonging to this policy
+>   	can run at (in kHz).
+> @@ -293,7 +306,8 @@ are the following:
+>   	Some architectures (e.g. ``x86``) may attempt to provide information
+>   	more precisely reflecting the current CPU frequency through this
+>   	attribute, but that still may not be the exact current CPU frequency as
+> -	seen by the hardware at the moment.
+> +	seen by the hardware at the moment. This behavior though, is only
+> +	available via c:macro:``CPUFREQ_ARCH_CUR_FREQ`` option.
+>   
+>   ``scaling_driver``
+>   	The scaling driver currently in use.
+> diff --git a/drivers/cpufreq/Kconfig.x86 b/drivers/cpufreq/Kconfig.x86
+> index 97c2d4f15d76..212e1b9afe21 100644
+> --- a/drivers/cpufreq/Kconfig.x86
+> +++ b/drivers/cpufreq/Kconfig.x86
+> @@ -340,3 +340,15 @@ config X86_SPEEDSTEP_RELAXED_CAP_CHECK
+>   	  option lets the probing code bypass some of those checks if the
+>   	  parameter "relaxed_check=1" is passed to the module.
+>   
+> +config CPUFREQ_ARCH_CUR_FREQ
+> +	default y
+> +	bool "Current frequency derived from HW provided feedback"
+> +	help
+> +	  This determines whether the scaling_cur_freq sysfs attribute returns
+> +	  the last requested frequency or a more precise value based on hardware
+> +	  provided feedback (as architected counters).
+> +	  Given that a more precise frequency can now be provided via the
+> +	  cpuinfo_avg_cur_freq attribute, by enabling this option,
+> +	  scaling_cur_freq maintains the provision of a counter based frequency,
+> +	  for compatibility reasons.
+> +
+> diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
+> index 6f45684483c4..b2a8efa83c98 100644
+> --- a/drivers/cpufreq/cpufreq.c
+> +++ b/drivers/cpufreq/cpufreq.c
+> @@ -733,12 +733,20 @@ __weak int arch_freq_get_on_cpu(int cpu)
+>   	return -EOPNOTSUPP;
+>   }
+>   
+> +static inline bool cpufreq_avg_freq_supported(struct cpufreq_policy *policy)
+> +{
+> +	return arch_freq_get_on_cpu(policy->cpu) != -EOPNOTSUPP;
+> +}
+> +
+>   static ssize_t show_scaling_cur_freq(struct cpufreq_policy *policy, char *buf)
+>   {
+>   	ssize_t ret;
+>   	int freq;
+>   
+> -	freq = arch_freq_get_on_cpu(policy->cpu);
+> +	freq = IS_ENABLED(CONFIG_CPUFREQ_ARCH_CUR_FREQ)
+> +		? arch_freq_get_on_cpu(policy->cpu)
+> +		: 0;
+> +
+>   	if (freq > 0)
+>   		ret = sysfs_emit(buf, "%u\n", freq);
+>   	else if (cpufreq_driver->setpolicy && cpufreq_driver->get)
+> @@ -783,6 +791,19 @@ static ssize_t show_cpuinfo_cur_freq(struct cpufreq_policy *policy,
+>   	return sysfs_emit(buf, "<unknown>\n");
+>   }
+>   
+> +/*
+> + * show_cpuinfo_avg_freq - average CPU frequency as detected by hardware
+> + */
+> +static ssize_t show_cpuinfo_avg_freq(struct cpufreq_policy *policy,
+> +				     char *buf)
+> +{
+> +	int avg_freq = arch_freq_get_on_cpu(policy->cpu);
+> +
+> +	if (avg_freq > 0)
+> +		return sysfs_emit(buf, "%u\n", avg_freq);
+> +	return avg_freq != 0 ? avg_freq : -EINVAL;
+> +}
+> +
+>   /*
+>    * show_scaling_governor - show the current policy for the specified CPU
+>    */
+> @@ -945,6 +966,7 @@ static ssize_t show_bios_limit(struct cpufreq_policy *policy, char *buf)
+>   }
+>   
+>   cpufreq_freq_attr_ro_perm(cpuinfo_cur_freq, 0400);
+> +cpufreq_freq_attr_ro(cpuinfo_avg_freq);
+>   cpufreq_freq_attr_ro(cpuinfo_min_freq);
+>   cpufreq_freq_attr_ro(cpuinfo_max_freq);
+>   cpufreq_freq_attr_ro(cpuinfo_transition_latency);
+> @@ -1072,6 +1094,12 @@ static int cpufreq_add_dev_interface(struct cpufreq_policy *policy)
+>   			return ret;
+>   	}
+>   
+> +	if (cpufreq_avg_freq_supported(policy)) {
+> +		ret = sysfs_create_file(&policy->kobj, &cpuinfo_avg_freq.attr);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>   	ret = sysfs_create_file(&policy->kobj, &scaling_cur_freq.attr);
+>   	if (ret)
+>   		return ret;
 
-Looks good, thanks!
+Looks good to me.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Reviewed-by: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
 
---=20
-An old man doll... just what I always wanted! - Clara
-
---m1sZIbxqV2u1bbA+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ5iTgAAKCRD2uYlJVVFO
-ozC2AQDPP1Rr/NEdpC96sqjf+s6u1DgXFgQ1dghVRl94136J4AD/UQWE5HkY2pgd
-+/5yHWzPSekTkat+mn1D4NZcmc/8IQI=
-=M8Cm
------END PGP SIGNATURE-----
-
---m1sZIbxqV2u1bbA+--
