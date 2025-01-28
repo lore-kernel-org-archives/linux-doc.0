@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F89EAF1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F402BEAF6;
 	Tue, 28 Jan 2025 00:06:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738022797; cv=none; b=poNMj2xnf9uVqok9GGfXts6eOVerkasCSFJGdv9AUi9qyreOBtMsDf7QhEIhHKGAIHAn/Gq2Dy6c6qx61mCMyYhoFVkgIp0i/xzwaYVG4wAS6Ctg3Tb2AlFLxYlMzgnAOcTeuqfPb+WAr+52DgkAiMCfztGt+i7ZG0KkVUk/COA=
+	t=1738022797; cv=none; b=du6LSgEVOVeTBnLNW0zrBKmKbUJCMqFMw1UVM3ASJKzpeu51RqoZCCee3xcOMEfr1h1OITWdQvPZmQOjlB6wxe25HtZTLmOPnJOywdxaiuNdfMtO3i/Cj5bTzdzqLNT27PlWHVEjqSGb1b87xG1jKfKD07Ho04IpR5Lx29lFyv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1738022797; c=relaxed/simple;
-	bh=VcPpgtY3VQCVYahI46jBKsD0IQlmSoQRt+Yw3exCthU=;
+	bh=Kz1uLR2W8G1KJ3PcmTy6dzY11GbizJ0wg4lGv6G2Aa0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TcxG0UkFHAx5fFHx3tUEl9B5xRXfmF8rRjZJ0Q4IdQb1xLtA7V1guLOzyGj9lWNEZ+VcdqKeuHu4SDTIOS3wJ0e1MiWidcYkOukHPSeZgfoXdjebNwCpbLSv2trOSM7sLqAHqT90pyjNwyCEDM4cXtKoDgVg0ZddlQHUdgfCgWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pzEmEmmD; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=X9EGA8+5BaPLgSXcc2LuVAsVaIZom+vi9vht9WY8/cUMb6zvN0dQFj8Oq32POcy6Y/7CWA+lc1ACraeoc2yIbasBFA1eO6OgZ5NBMxnPQmF1eWMc0GvQxb0KQp9F8EiHHmKcf5Id3Z7D803wmkfUq+zjyrN6j1Ij8pkZgQXOwJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q37w48HH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pzEmEmmD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABE66C4CEE9;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q37w48HH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB192C4CEF3;
 	Tue, 28 Jan 2025 00:06:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1738022795;
-	bh=VcPpgtY3VQCVYahI46jBKsD0IQlmSoQRt+Yw3exCthU=;
+	bh=Kz1uLR2W8G1KJ3PcmTy6dzY11GbizJ0wg4lGv6G2Aa0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pzEmEmmDia/8h9o9vspt9axQUlQqbUbHcWZiA1nEKYZ6OFf67FyzD4eYPZ7fEUWR4
-	 W/BtG+ds63lWVpcqjD8JHtKjQGfHVwDw0ARcGCyBg4zIpbfM6F+/3TRbN5WsS27jHi
-	 2OOKb3Qoiypa5MsNd55nzei5d9d3VKRvKOFef0HHfDhAEEgyl5FKH02CpricPoNYLF
-	 qBK+Bc0WEGj7Cl8nXHpqnWlCDGXIQ4TXWEduOQzb4k1mkthwM6rc3DrZIPgbVEL3PU
-	 9FcNsM23N3TWSBA7NrjWnD9c1rMb2rRm8oDefzcsTO6YQACFimeHzaeuDyNNU1lVgn
-	 AZpIPY7ofcpxA==
+	b=Q37w48HH8J8UhYsLOIflAod5F6g8oZbCRRoGS3TMca6/9L+Fc3u9+T/P5xL4DGhRY
+	 JJqImBsK4hxEeha3G3MmEIt4To/DdfN4wS6Pu/NXqsBbtzrdpRARp+Eu1Sx2TwBSF2
+	 8jpzAc9IB2MiPG2TKTnb3GDl1YGQy68wUB850/OILqwNNZx1jnSm4vpI33DoYcYHKo
+	 8S4Ncj4b9dPn0kRL6+zlEjG9luu1nROyx4Mvh46mWJiQVT05lpokoJ5Qbzk83dO0LP
+	 gg0wmIze/oXY6UPvqAZycy925XR9pNhA1gERnW+7oWQABkx0iBtEaMjDuJN0XzIcRU
+	 gMG8GUb9ucNZA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tcZ7h-0000000DRKR-2TDa;
+	id 1tcZ7h-0000000DRLL-45hO;
 	Tue, 28 Jan 2025 01:06:33 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -36,14 +36,10 @@ To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	"Rafael J. Wysocki" <mchehab+huawei@kernel.org>,
-	Len Brown <len.brown@intel.com>,
-	Pavel Machek <pavel@ucw.cz>,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Subject: [RFC v2 01/38] docs: power: video.rst: fix a footnote reference
-Date: Tue, 28 Jan 2025 01:05:50 +0100
-Message-ID: <fd7d13339882999a2c53f0e85024c23ee955e0c6.1738020236.git.mchehab+huawei@kernel.org>
+	linux-kernel@vger.kernel.org
+Subject: [RFC v2 15/38] docs: use get_abi.py for ABI generation
+Date: Tue, 28 Jan 2025 01:06:04 +0100
+Message-ID: <54e28a202be41992fa74ffac8c4ee12bb9e9adf5.1738020236.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <cover.1738020236.git.mchehab+huawei@kernel.org>
 References: <cover.1738020236.git.mchehab+huawei@kernel.org>
@@ -56,27 +52,95 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Footnotes require an space (or a "\ ") before them, as otherwise
-Sphinx/Docutils won't understand it.
+Use the new script instead of the old one when generating ABI docs.
+
+For now, execute it via exec. Future changes will better integrate it
+by using the class defined there directly.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/power/video.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/admin-guide/abi-obsolete.rst |  1 -
+ Documentation/admin-guide/abi-removed.rst  |  1 -
+ Documentation/admin-guide/abi-stable.rst   |  1 -
+ Documentation/admin-guide/abi-testing.rst  |  1 -
+ Documentation/sphinx/kernel_abi.py         | 10 +++-------
+ 5 files changed, 3 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/power/video.rst b/Documentation/power/video.rst
-index 337a2ba9f32f..8ab2458d1304 100644
---- a/Documentation/power/video.rst
-+++ b/Documentation/power/video.rst
-@@ -190,7 +190,7 @@ Toshiba Portege 3020CT		s3_mode (3)
- Toshiba Satellite 4030CDT	s3_mode (3) (S1 also works OK)
- Toshiba Satellite 4080XCDT      s3_mode (3) (S1 also works OK)
- Toshiba Satellite 4090XCDT      ??? [#f1]_
--Toshiba Satellite P10-554       s3_bios,s3_mode (4)[#f3]_
-+Toshiba Satellite P10-554       s3_bios,s3_mode (4) [#f3]_
- Toshiba M30                     (2) xor X with nvidia driver using internal AGP
- Uniwill 244IIO			??? [#f1]_
- =============================== ===============================================
+diff --git a/Documentation/admin-guide/abi-obsolete.rst b/Documentation/admin-guide/abi-obsolete.rst
+index b655615917f1..6d4d9ab7b8c3 100644
+--- a/Documentation/admin-guide/abi-obsolete.rst
++++ b/Documentation/admin-guide/abi-obsolete.rst
+@@ -10,4 +10,3 @@ The description of the interface will document the reason why it is
+ obsolete and when it can be expected to be removed.
+ 
+ .. kernel-abi:: ABI/obsolete
+-   :rst:
+diff --git a/Documentation/admin-guide/abi-removed.rst b/Documentation/admin-guide/abi-removed.rst
+index ba941c1af178..9fc78af6f077 100644
+--- a/Documentation/admin-guide/abi-removed.rst
++++ b/Documentation/admin-guide/abi-removed.rst
+@@ -4,4 +4,3 @@ ABI removed symbols
+ ===================
+ 
+ .. kernel-abi:: ABI/removed
+-   :rst:
+diff --git a/Documentation/admin-guide/abi-stable.rst b/Documentation/admin-guide/abi-stable.rst
+index 5d738f345333..c47c2a295865 100644
+--- a/Documentation/admin-guide/abi-stable.rst
++++ b/Documentation/admin-guide/abi-stable.rst
+@@ -13,4 +13,3 @@ Most interfaces (like syscalls) are expected to never change and always
+ be available.
+ 
+ .. kernel-abi:: ABI/stable
+-   :rst:
+diff --git a/Documentation/admin-guide/abi-testing.rst b/Documentation/admin-guide/abi-testing.rst
+index a867e6578bf7..40b31985e587 100644
+--- a/Documentation/admin-guide/abi-testing.rst
++++ b/Documentation/admin-guide/abi-testing.rst
+@@ -19,4 +19,3 @@ name to the description of these interfaces, so that the kernel
+ developers can easily notify them if any changes occur.
+ 
+ .. kernel-abi:: ABI/testing
+-   :rst:
+diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+index a1887b50a900..fc7500fad119 100644
+--- a/Documentation/sphinx/kernel_abi.py
++++ b/Documentation/sphinx/kernel_abi.py
+@@ -14,7 +14,7 @@ u"""
+     :license:    GPL Version 2, June 1991 see Linux/COPYING for details.
+ 
+     The ``kernel-abi`` (:py:class:`KernelCmd`) directive calls the
+-    scripts/get_abi.pl script to parse the Kernel ABI files.
++    scripts/get_abi.py script to parse the Kernel ABI files.
+ 
+     Overview of directive's argument and options.
+ 
+@@ -66,7 +66,6 @@ class KernelCmd(Directive):
+ 
+     option_spec = {
+         "debug"     : directives.flag,
+-        "rst"       : directives.unchanged
+     }
+ 
+     def run(self):
+@@ -77,15 +76,12 @@ class KernelCmd(Directive):
+         srctree = os.path.abspath(os.environ["srctree"])
+ 
+         args = [
+-            os.path.join(srctree, 'scripts/get_abi.pl'),
++            os.path.join(srctree, 'scripts/get_abi.py'),
++            '-D', os.path.join(srctree, 'Documentation', self.arguments[0]),
+             'rest',
+             '--enable-lineno',
+-            '--dir', os.path.join(srctree, 'Documentation', self.arguments[0]),
+         ]
+ 
+-        if 'rst' in self.options:
+-            args.append('--rst-source')
+-
+         lines = subprocess.check_output(args, cwd=os.path.dirname(doc.current_source)).decode('utf-8')
+         nodeList = self.nestedParse(lines, self.arguments[0])
+         return nodeList
 -- 
 2.48.1
 
