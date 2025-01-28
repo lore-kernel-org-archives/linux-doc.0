@@ -1,83 +1,81 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 239D74430;
-	Tue, 28 Jan 2025 07:11:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB6D1DED6C;
+	Tue, 28 Jan 2025 08:21:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738048280; cv=none; b=WdzrOddrnKr3mCNTxVwoVc8sP+wa+ka6sRpbUXNIKMv+XYeO6wJkRgLzrIO+KOUCMMiQVbylFU8wgk7exl138e41Czvgidg7ToCXLbI5M+bLAh0AFClUTfSgSbiahCETl8Mi8pC4sQwgbQ4JJKpiE866WDrnzlyQA7TXDtcXFSo=
+	t=1738052497; cv=none; b=ReqkqfOzqeQJaOKAQ1NfiUMVk0cT2YYnfClrEzUpbeZjHC8ax6NhD3mFUFuK1wl29E0pZb3579qOPFxwcfewjJlzPnrM9AJPQIt3ILIwlupEwjUbQqkIfioymHDAt1XWJIbrFwybsEX9jdkSfOjEeM85El8oFQ48NcuTIC0Weo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738048280; c=relaxed/simple;
-	bh=qb59MYWuc/ZGTCFVDZKupCVYcsTZ0gfflndQPHympkU=;
+	s=arc-20240116; t=1738052497; c=relaxed/simple;
+	bh=RSQ/gaKSYUHj2DbU1SSchGtbIQBxw/a/cur2nGw8Xnw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B+ioL6gYA1yOaKiRoe+sQmMMymswJEDvserjmbZU0RH8Ue/mRcUoZfxP8bX+doaKeCX/7b7n/GVwDN5ZV2BFr6OlDuFC3Nin+yRSwYp2HzRDg3tOMrgj9aZXmqucoT/vTLTCoozFiQO5zokqbFSZzriqYlF+Xx34BtMPwzvSLWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QZ8xdxRg; arc=none smtp.client-ip=209.85.214.181
+	 Content-Type:Content-Disposition:In-Reply-To; b=bCDwKPC1XOgypFfU6cs1gUOygwktNJ0rq1RFCVhivFCM/flTlXw+LBnsXriZm3arLCAat2LlhJ6V7QPfsjHqwSiU4YRNfn9TKZLeFjS8TddGRq16B0dH7DwnZeFxcQLJ3L+tl5LuGyL0r6vEwRA1c9+ihuHhsIJsQ3jZi1Pn0Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K41mpj1+; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QZ8xdxRg"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2162c0f6a39so112610875ad.0;
-        Mon, 27 Jan 2025 23:11:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K41mpj1+"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-215770613dbso66425985ad.2;
+        Tue, 28 Jan 2025 00:21:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738048278; x=1738653078; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1738052494; x=1738657294; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TOee54Vjfy8Zgf+CeinxDwBoPyWlYWwKO8jqEGetSk8=;
-        b=QZ8xdxRgHM7ePzcFEBTE7Be5LanC/KCS3OyYBEXgk2cBAgP9cyrMwInb+j10Y/hXV+
-         HhsP7JoZxxrNiG6MStylph6HtBemXejz9f083dHY61OfnHY4kadwnJ+UmVYVB9QtmoQb
-         V61W4YKZrKXgDsTtDqv39wc40wXSKU7OtKzWP9mNn7tCBNXdav0hPZtjxnaVmcBZllxf
-         J1l6wg1mhY70traQrdJ+MYjosjolerr5WIe5V1RH8Zikj5RYfv+6GMIlHyIceOczl/jO
-         IhNn/abkWOz6aC9OzlpMcsrLnyJH6KNpTiqPpMO4ufTeV7O4rjdp6QYCue0SE990VYNT
-         /Adw==
+        bh=3fMuy/pYgza/riIVTVPhUzUfkiZ2bVUecFPV047zGXs=;
+        b=K41mpj1+iTzESlT9FCvGVL0qfMhmxuJRlk/3jNCvCDOo/11ufx1iCYqho2JVVOm9lQ
+         biT3+jPhMUIGUcMPE2vuxsyy3HAvsyQdP2xnUIaLlIbLv7DBoyarOysssEddztVCAfzw
+         elV+GRRiHpuyqvV/pEzx1vs+Igs9NO05r1uUwtEmWJOWBDJZ/o5crb8yhkkpRvUyXc66
+         XFP9AWUfToKT5Pd4bDf9UUP9ECEHDiAZDptCY4cFUJpacruykcoKbKT2gej3l/jpua4z
+         SjA//0pGMMKB6uSJAsmvmrzp/gbOdgA9yTieZZT4DWQPljT25wfDLtzSsAVwxYorHEYM
+         VRaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738048278; x=1738653078;
+        d=1e100.net; s=20230601; t=1738052494; x=1738657294;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TOee54Vjfy8Zgf+CeinxDwBoPyWlYWwKO8jqEGetSk8=;
-        b=Tws8NEUyAz9i3yRCERzLiEhBvn7tzPe7mmwL9grs/V/qwYN706J+jahttCvuSQrF4O
-         Srw/qUru6cQsIwyzBv2VGurEybhGJ8Ck3zmsONVY3FJ++UFrEVBFVnkwoeQAa2lRZHhC
-         ify3O1Bkoacgaj58+FYzqeOJbtAZb6DfJkYx4KR2Q29fjWeI/MOCe69M8CkAim8vRvSv
-         9K4jJ46kiCd4edYOReu6Nwgv6iG9yPFtsMn+NLZDlfVDtjRVK5t9Q4zp+Y3Gge9kYN5W
-         0gOe0ZCSw2gj48CHst2t9YsMhqX+s+xct34E3nR2s7eCzEV+U6N9TOVt1eqAjdx7Ymiv
-         O90w==
-X-Forwarded-Encrypted: i=1; AJvYcCUTR64Py5IvMz580YT44JsEpXmpn4Elo5BUKqnWiTQ0ZBBzB2fYgPV7WCNOfMR8OZICLLaagFPeM9S1wA==@vger.kernel.org, AJvYcCWP7MNLqGh8lweQGu69sxx0DdKdhq+KW0+X9kqOt3VV5RhBFw4ja2kaxqNegm9bmq1A1ZjtVfJL@vger.kernel.org, AJvYcCWzwS6RFLS0BlzlIipomMHTBRXI0KKR/QzcOcvf8NwdKBlMG7IWTcv5fEbMUA7eq4izl4FZAqel9wx3vBre@vger.kernel.org, AJvYcCXRxpAsd4vmGU0eddEnv3VU4IQmwi5VgzAmTAXr2Z9MmMgFUPLcNOuCjd1qRHr8s5L/YosCzpgXc6B6@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWnBWTCUSpEJA0N1LcsrxCkVk4KDUqH1ml+EUcwlZCNy4Mf6wp
-	mBlv+Qe8ja2z0ssBGMQx7hG73DIprN48wtAK1u0LTICif7cUaz5a
-X-Gm-Gg: ASbGncshd1/MEIz7d0n0lTkmBlzvOtNmRdJu8u4tcWP+Ys+dN8FiVpDD1BgbivuYulA
-	/KgqjDJUHbnr9tZ0V5zv/XsaS8Q05skQjGQ3LLWElQl4e2BUNraWdkj7KOp1cs/eUfPBuJukLqa
-	mxeKTgzpLj7Ap/pxG0WuBZqn5ZBCmevFjqAjIDmcMgofhlxpcJq1GnC1UCkEwt5GmWUUWV1xc5A
-	Mjr4fp7M4+a5djxj5dJJM4QkVtbN+QG+EiRWOUdnFOwvgNN+67pj/CCR5HcCyNLW7K8p04M7qDu
-	dyNBR1pDGSMUh9w=
-X-Google-Smtp-Source: AGHT+IGte3XzP0hcbMME183b4Iq4zR/+73//Bdw3Gahd7QTH6jLtMBx6u5GrLhR7l+kdchY4YAXEKg==
-X-Received: by 2002:a05:6a21:7885:b0:1e1:ad90:dda6 with SMTP id adf61e73a8af0-1ed6e6db70bmr3622280637.20.1738048278128;
-        Mon, 27 Jan 2025 23:11:18 -0800 (PST)
+        bh=3fMuy/pYgza/riIVTVPhUzUfkiZ2bVUecFPV047zGXs=;
+        b=wQXTqC0o0HHFmVAY4gI7p0w7HvBBb33EPBlZPNuGELW1zX9YAy7CAC9DT20ioIXETs
+         G6EAau5+ang8QwRNB3ESS3kpPnCw1vWQ9pp8xDNVbtT8+ZtVNK7WdeRD7grVDzCYJgzM
+         JL5dOD+MpGpiqDOBL3Kb7rdSRFjWovnUL0bU2VJPADVhLF0Uzaj93/2wTd6/rezlT6Ng
+         T3F5c3juYenRviRQlfzln67gxv8RRqI8QgLnQEKgUQWhBpAnhQmHkH/9yjE4dSVMg/MX
+         o/eWJJgVUswBr6I3F6aDD8+b2QiG38ISyUdfL16ZLbx37uzkMYedjDp2PhmwRftNMcaI
+         WqMA==
+X-Forwarded-Encrypted: i=1; AJvYcCULfzkRxbPbHKMyJvvCFZ4DDXPYgP9hGjHnaJ/St/9FtvmE1MOlJlTH+teoq6+IvIehtxVMpGJZHpcCTKCHhSIW@vger.kernel.org, AJvYcCUa37zRoBFpDFlpEcDcKgRyOVQeEiwangkMVAS8Hlllfua3VScSPf9gPcXgWi5CXBU6jxB5aPfpbrqF2vF/@vger.kernel.org, AJvYcCUh8Z7In8x3bPXLNjNyNovXDgiU7eQfMeterH9zm4UVcdPQ0qBsgfPX3wa4q+iM2eFKwglT4Xeu5jE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNy+6EX/gkuk9beMJ1NFlvR+KAOOzdD5q8D+RXhSIUa7J+Iryl
+	Gzt2R5zwJ0GJnS/FmsRznT2XGya03cx0SrYqwnzmol3lIblXcjnK
+X-Gm-Gg: ASbGncsx9DL2VpgVQawGfUWjY1n9D5CZfl0sDwjm0GX4skvbdO0ck8icraaW/BXzPq5
+	wHYJTptIZPkvMSclXYkykx6DTVw2I1WZoBnSSy+r6M18o2XtRmmxtaISxosLdhrugQ/kJv+rgci
+	J5CxLb+TN3jDDH+WzzZmWqtYCeppHTn8eTSfLZho0+zDiz0rP5Qzvn4SkIyVh4ys2hKsS5nJqC8
+	6v8z9LpFShNDKEDkwT6sCKKo5Z3j7wxd4OBt3mbRiSDasA1n/+zVCAcolZG2ONEA+4hmrKHKFO3
+	cuHautHY/3zBFmw=
+X-Google-Smtp-Source: AGHT+IGA23Ky/6K1hLSlTaGOzyYMHc1wGHqIfEJ8xAUCi8at04bQFz8GD3I/8Kj7sYnVrWvjXsXjWg==
+X-Received: by 2002:a17:902:e80a:b0:216:6769:9ed7 with SMTP id d9443c01a7336-21c355c7dc2mr753720045ad.40.1738052494133;
+        Tue, 28 Jan 2025 00:21:34 -0800 (PST)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72f8a760e35sm8457899b3a.89.2025.01.27.23.11.16
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21da3d9e173sm76602675ad.32.2025.01.28.00.21.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jan 2025 23:11:17 -0800 (PST)
+        Tue, 28 Jan 2025 00:21:33 -0800 (PST)
 Received: by archie.me (Postfix, from userid 1000)
-	id CC20B420A74B; Tue, 28 Jan 2025 14:11:14 +0700 (WIB)
-Date: Tue, 28 Jan 2025 14:11:14 +0700
+	id 88B8C420A74B; Tue, 28 Jan 2025 15:21:25 +0700 (WIB)
+Date: Tue, 28 Jan 2025 15:21:25 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Anthony Yznaga <anthony.yznaga@oracle.com>, akpm@linux-foundation.org,
-	willy@infradead.org, markhemm@googlemail.com,
-	viro@zeniv.linux.org.uk, david@redhat.com, khalid@kernel.org
-Cc: jthoughton@google.com, corbet@lwn.net, dave.hansen@intel.com,
-	kirill@shutemov.name, luto@kernel.org, brauner@kernel.org,
-	arnd@arndb.de, ebiederm@xmission.com, catalin.marinas@arm.com,
-	mingo@redhat.com, peterz@infradead.org, liam.howlett@oracle.com,
-	lorenzo.stoakes@oracle.com, vbabka@suse.cz, jannh@google.com,
-	hannes@cmpxchg.org, mhocko@kernel.org, roman.gushchin@linux.dev,
-	shakeel.butt@linux.dev, muchun.song@linux.dev, tglx@linutronix.de,
-	cgroups@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, mhiramat@kernel.org, rostedt@goodmis.org,
-	vasily.averin@linux.dev, xhao@linux.alibaba.com, pcc@google.com,
-	neilb@suse.de, maz@kernel.org
-Subject: Re: [PATCH 00/20] Add support for shared PTEs across processes
-Message-ID: <Z5iDEpaEPynnW4s5@archie.me>
-References: <20250124235454.84587-1-anthony.yznaga@oracle.com>
+To: Nicolin Chen <nicolinc@nvidia.com>, jgg@nvidia.com,
+	kevin.tian@intel.com, corbet@lwn.net, will@kernel.org
+Cc: joro@8bytes.org, suravee.suthikulpanit@amd.com, robin.murphy@arm.com,
+	dwmw2@infradead.org, baolu.lu@linux.intel.com, shuah@kernel.org,
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	eric.auger@redhat.com, jean-philippe@linaro.org, mdf@kernel.org,
+	mshavit@google.com, shameerali.kolothum.thodi@huawei.com,
+	smostafa@google.com, ddutile@redhat.com, yi.l.liu@intel.com,
+	patches@lists.linux.dev
+Subject: Re: [PATCH v6 11/14] Documentation: userspace-api: iommufd: Update
+ FAULT and VEVENTQ
+Message-ID: <Z5iThcDwBmBHZBJd@archie.me>
+References: <cover.1737754129.git.nicolinc@nvidia.com>
+ <300d03449b9420d756c1589e1c24bb8b4d508293.1737754129.git.nicolinc@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -85,37 +83,97 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vdmPF3+wO5kdxqKn"
+	protocol="application/pgp-signature"; boundary="m1sZIbxqV2u1bbA+"
 Content-Disposition: inline
-In-Reply-To: <20250124235454.84587-1-anthony.yznaga@oracle.com>
+In-Reply-To: <300d03449b9420d756c1589e1c24bb8b4d508293.1737754129.git.nicolinc@nvidia.com>
 
 
---vdmPF3+wO5kdxqKn
+--m1sZIbxqV2u1bbA+
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 24, 2025 at 03:54:34PM -0800, Anthony Yznaga wrote:
-> v1:
->   - Based on mm-unstable mm-hotfixes-stable-2025-01-16-21-11
+On Fri, Jan 24, 2025 at 04:30:40PM -0800, Nicolin Chen wrote:
+> diff --git a/Documentation/userspace-api/iommufd.rst b/Documentation/user=
+space-api/iommufd.rst
+> index 70289d6815d2..b0df15865dec 100644
+> --- a/Documentation/userspace-api/iommufd.rst
+> +++ b/Documentation/userspace-api/iommufd.rst
+> @@ -63,6 +63,13 @@ Following IOMMUFD objects are exposed to userspace:
+>    space usually has mappings from guest-level I/O virtual addresses to g=
+uest-
+>    level physical addresses.
+> =20
+> +- IOMMUFD_FAULT, representing a software queue for an HWPT reporting IO =
+page
+> +  faults using the IOMMU HW's PRI (Page Request Interface). This queue o=
+bject
+> +  provides user space an FD to poll the page fault events and also to re=
+spond
+> +  to those events. A FAULT object must be created first to get a fault_i=
+d that
+> +  could be then used to allocate a fault-enabled HWPT via the IOMMU_HWPT=
+_ALLOC
+> +  command by setting the IOMMU_HWPT_FAULT_ID_VALID bit in its flags fiel=
+d.
+> +
+>  - IOMMUFD_OBJ_VIOMMU, representing a slice of the physical IOMMU instanc=
+e,
+>    passed to or shared with a VM. It may be some HW-accelerated virtualiz=
+ation
+>    features and some SW resources used by the VM. For examples:
+> @@ -109,6 +116,14 @@ Following IOMMUFD objects are exposed to userspace:
+>    vIOMMU, which is a separate ioctl call from attaching the same device =
+to an
+>    HWPT_PAGING that the vIOMMU holds.
+> =20
+> +- IOMMUFD_OBJ_VEVENTQ, representing a software queue for a vIOMMU to rep=
+ort its
+> +  events such as translation faults occurred to a nested stage-1 (exclud=
+ing I/O
+> +  page faults that should go through IOMMUFD_OBJ_FAULT) and HW-specific =
+events.
+> +  This queue object provides user space an FD to poll/read the vIOMMU ev=
+ents. A
+> +  vIOMMU object must be created first to get its viommu_id, which could =
+be then
+> +  used to allocate a vEVENTQ. Each vIOMMU can support multiple types of =
+vEVENTS,
+> +  but is confined to one vEVENTQ per vEVENTQ type.
+> +
+>  All user-visible objects are destroyed via the IOMMU_DESTROY uAPI.
+> =20
+>  The diagrams below show relationships between user-visible objects and k=
+ernel
+> @@ -251,8 +266,10 @@ User visible objects are backed by following datastr=
+uctures:
+>  - iommufd_device for IOMMUFD_OBJ_DEVICE.
+>  - iommufd_hwpt_paging for IOMMUFD_OBJ_HWPT_PAGING.
+>  - iommufd_hwpt_nested for IOMMUFD_OBJ_HWPT_NESTED.
+> +- iommufd_fault for IOMMUFD_OBJ_FAULT.
+>  - iommufd_viommu for IOMMUFD_OBJ_VIOMMU.
+>  - iommufd_vdevice for IOMMUFD_OBJ_VDEVICE.
+> +- iommufd_veventq for IOMMUFD_OBJ_VEVENTQ.
+> =20
+>  Several terminologies when looking at these datastructures:
+> =20
 
-Seems like I can't cleanly apply this series on the aforementioned tag.
-Can you give me the exact base commit?
+Looks good, thanks!
 
-Confused...
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---vdmPF3+wO5kdxqKn
+--m1sZIbxqV2u1bbA+
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ5iDDAAKCRD2uYlJVVFO
-o+/KAPsGv924ZYZ6/UMFVH433PGVmgZOkVswFu3KjB9IDSSvFQD+IsVII6smVoXN
-3z9RVSqI01TZwsI9dsMsU/9ccHsK1gE=
-=y22C
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ5iTgAAKCRD2uYlJVVFO
+ozC2AQDPP1Rr/NEdpC96sqjf+s6u1DgXFgQ1dghVRl94136J4AD/UQWE5HkY2pgd
++/5yHWzPSekTkat+mn1D4NZcmc/8IQI=
+=M8Cm
 -----END PGP SIGNATURE-----
 
---vdmPF3+wO5kdxqKn--
+--m1sZIbxqV2u1bbA+--
