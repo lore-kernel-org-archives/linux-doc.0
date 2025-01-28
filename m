@@ -1,45 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3EF4EAD7;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F89EAF1;
 	Tue, 28 Jan 2025 00:06:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738022797; cv=none; b=eh2Hyi2qN4in66Co5qprtYWTmTY0GFlObM4htVSgmoFf6TVNFOpLNp1Dwe31ZNh6yZZd0+dDMhfYPGG2klWEUkCV1DAUir+vF8gwa/vS/tLbjN/WOOM7RkKUZGR54Y1XFEnYRcr5tfEcjWlPtGMRG+AbFulxvJ9XkQIcfz4Wj7I=
+	t=1738022797; cv=none; b=poNMj2xnf9uVqok9GGfXts6eOVerkasCSFJGdv9AUi9qyreOBtMsDf7QhEIhHKGAIHAn/Gq2Dy6c6qx61mCMyYhoFVkgIp0i/xzwaYVG4wAS6Ctg3Tb2AlFLxYlMzgnAOcTeuqfPb+WAr+52DgkAiMCfztGt+i7ZG0KkVUk/COA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1738022797; c=relaxed/simple;
-	bh=/+kwnUbLgQbBGzPsJj4pevKvmAZb3+SqJUlcwCOPCc4=;
+	bh=VcPpgtY3VQCVYahI46jBKsD0IQlmSoQRt+Yw3exCthU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aauV69pXH9yG7FsNL8HPogkrqEEdJUkssidPU3nyFsEHLsrwc3cSCcEgiQDgNIZySs07U2hQyivziOR7lDYdkphfePa+0UkbGRj+Teju5g5/uGNyJf31EdWtybg/saZ0hP9+zTRHKEuYSohh/HA2cv8F2NDjvfVTFBCI+5BGn7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kBWIL7l3; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=TcxG0UkFHAx5fFHx3tUEl9B5xRXfmF8rRjZJ0Q4IdQb1xLtA7V1guLOzyGj9lWNEZ+VcdqKeuHu4SDTIOS3wJ0e1MiWidcYkOukHPSeZgfoXdjebNwCpbLSv2trOSM7sLqAHqT90pyjNwyCEDM4cXtKoDgVg0ZddlQHUdgfCgWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pzEmEmmD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kBWIL7l3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D33CAC4AF0F;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pzEmEmmD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABE66C4CEE9;
 	Tue, 28 Jan 2025 00:06:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1738022795;
-	bh=/+kwnUbLgQbBGzPsJj4pevKvmAZb3+SqJUlcwCOPCc4=;
+	bh=VcPpgtY3VQCVYahI46jBKsD0IQlmSoQRt+Yw3exCthU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kBWIL7l34bzSzECMQI8jSVIeZCPGyH4KShAClPTYT0qAuQhk+O6j4BoM9yn/KpbO4
-	 +ylfsWD/WhczQGo1unne4PHTgO0ExMUSoidouhQi2U9NRA8XYpjMqGgL0AhtkGlwjD
-	 GTnEE5I5rj2SasVu6f2f6iZyl58HDfm2Jarins/zXYthD161+LqWCjc0wpJnPVz9q/
-	 ory4YhAc6F6WDuJhEG+23mituJoYp3TjC3F1Ow4hVH9TvkyMOPzmjAzcErEZ3vDWrc
-	 2e1ng3L7B07Cu9f1PCOKpEI8l+s187x8WDnSvgloCLGxJf0TPNLiarew/uysjW2zsi
-	 tBAimKndFh+Ew==
+	b=pzEmEmmDia/8h9o9vspt9axQUlQqbUbHcWZiA1nEKYZ6OFf67FyzD4eYPZ7fEUWR4
+	 W/BtG+ds63lWVpcqjD8JHtKjQGfHVwDw0ARcGCyBg4zIpbfM6F+/3TRbN5WsS27jHi
+	 2OOKb3Qoiypa5MsNd55nzei5d9d3VKRvKOFef0HHfDhAEEgyl5FKH02CpricPoNYLF
+	 qBK+Bc0WEGj7Cl8nXHpqnWlCDGXIQ4TXWEduOQzb4k1mkthwM6rc3DrZIPgbVEL3PU
+	 9FcNsM23N3TWSBA7NrjWnD9c1rMb2rRm8oDefzcsTO6YQACFimeHzaeuDyNNU1lVgn
+	 AZpIPY7ofcpxA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tcZ7i-0000000DRLX-0Eh7;
-	Tue, 28 Jan 2025 01:06:34 +0100
+	id 1tcZ7h-0000000DRKR-2TDa;
+	Tue, 28 Jan 2025 01:06:33 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [RFC v2 18/38] docs: sphinx/kernel_abi: use AbiParser directly
-Date: Tue, 28 Jan 2025 01:06:07 +0100
-Message-ID: <fb800900352d90a0e501e5d6732e1bea277478f2.1738020236.git.mchehab+huawei@kernel.org>
+	"Rafael J. Wysocki" <mchehab+huawei@kernel.org>,
+	Len Brown <len.brown@intel.com>,
+	Pavel Machek <pavel@ucw.cz>,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Subject: [RFC v2 01/38] docs: power: video.rst: fix a footnote reference
+Date: Tue, 28 Jan 2025 01:05:50 +0100
+Message-ID: <fd7d13339882999a2c53f0e85024c23ee955e0c6.1738020236.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <cover.1738020236.git.mchehab+huawei@kernel.org>
 References: <cover.1738020236.git.mchehab+huawei@kernel.org>
@@ -52,83 +56,27 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Instead of running get_abi.py script, import AbiParser class and
-handle messages directly there using an interactor. This shold save some
-memory, as there's no need to exec python inside the Sphinx python
-extension.
+Footnotes require an space (or a "\ ") before them, as otherwise
+Sphinx/Docutils won't understand it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/kernel_abi.py | 26 +++++++++++++++-----------
- scripts/get_abi.py                 |  2 +-
- 2 files changed, 16 insertions(+), 12 deletions(-)
+ Documentation/power/video.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
-index fc7500fad119..93d537d8cb6c 100644
---- a/Documentation/sphinx/kernel_abi.py
-+++ b/Documentation/sphinx/kernel_abi.py
-@@ -42,6 +42,11 @@ from docutils.parsers.rst import directives, Directive
- from sphinx.util.docutils import switch_source_input
- from sphinx.util import logging
- 
-+srctree = os.path.abspath(os.environ["srctree"])
-+sys.path.insert(0, os.path.join(srctree, "scripts"))
-+
-+from get_abi import AbiParser
-+
- __version__ = "1.0"
- 
- 
-@@ -65,7 +70,7 @@ class KernelCmd(Directive):
-     logger = logging.getLogger('kernel_abi')
- 
-     option_spec = {
--        "debug"     : directives.flag,
-+        "debug": directives.flag,
-     }
- 
-     def run(self):
-@@ -73,18 +78,17 @@ class KernelCmd(Directive):
-         if not doc.settings.file_insertion_enabled:
-             raise self.warning("docutils: file insertion disabled")
- 
--        srctree = os.path.abspath(os.environ["srctree"])
-+        path = os.path.join(srctree, "Documentation", self.arguments[0])
-+        parser = AbiParser(path, logger=self.logger)
-+        parser.parse_abi()
-+        parser.check_issues()
- 
--        args = [
--            os.path.join(srctree, 'scripts/get_abi.py'),
--            '-D', os.path.join(srctree, 'Documentation', self.arguments[0]),
--            'rest',
--            '--enable-lineno',
--        ]
-+        msg = ""
-+        for m in parser.doc(enable_lineno=True, show_file=True):
-+            msg += m
- 
--        lines = subprocess.check_output(args, cwd=os.path.dirname(doc.current_source)).decode('utf-8')
--        nodeList = self.nestedParse(lines, self.arguments[0])
--        return nodeList
-+        node = self.nested_parse(msg, self.arguments[0])
-+        return node
- 
-     def nested_parse(self, lines, fname):
-         env = self.state.document.settings.env
-diff --git a/scripts/get_abi.py b/scripts/get_abi.py
-index 2aec1f9dc5aa..3a8dcff85dc2 100755
---- a/scripts/get_abi.py
-+++ b/scripts/get_abi.py
-@@ -441,7 +441,7 @@ class AbiParser:
- 
-         return new_desc + "\n\n"
- 
--    def doc(self, enable_lineno, output_in_txt, show_file=False):
-+    def doc(self, enable_lineno=False, output_in_txt=False, show_file=False):
-         """Print ABI at stdout"""
- 
-         part = None
+diff --git a/Documentation/power/video.rst b/Documentation/power/video.rst
+index 337a2ba9f32f..8ab2458d1304 100644
+--- a/Documentation/power/video.rst
++++ b/Documentation/power/video.rst
+@@ -190,7 +190,7 @@ Toshiba Portege 3020CT		s3_mode (3)
+ Toshiba Satellite 4030CDT	s3_mode (3) (S1 also works OK)
+ Toshiba Satellite 4080XCDT      s3_mode (3) (S1 also works OK)
+ Toshiba Satellite 4090XCDT      ??? [#f1]_
+-Toshiba Satellite P10-554       s3_bios,s3_mode (4)[#f3]_
++Toshiba Satellite P10-554       s3_bios,s3_mode (4) [#f3]_
+ Toshiba M30                     (2) xor X with nvidia driver using internal AGP
+ Uniwill 244IIO			??? [#f1]_
+ =============================== ===============================================
 -- 
 2.48.1
 
