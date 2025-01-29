@@ -1,264 +1,332 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2047.outbound.protection.outlook.com [40.107.237.47])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07243186615;
-	Wed, 29 Jan 2025 11:30:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738150202; cv=fail; b=HSMZUwg1ebNR4DQgiZh6RKs1LIPxlXsVXQUvz/IkIigKqxrwNjfuTVDtp0DMGy684PUTE+xD8H1woywerLNOTdc+IKxVqRgcd9hrchNhxNgQdexZeTeo9SKO2JqVnqPkdgonxOdiMdRkqyerAq09qxfAAEIYFT9nG3xRkKun+BM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738150202; c=relaxed/simple;
-	bh=JMXmosfAIP7GhBWe87kM6DKPbriVwsOJ1Sch4UhEeoI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=l4tTNI/EGRelgBQ6n9PCsbAezPT6S3pfmMRyuqvxAo2GkHfFExm30qR8d1fPjxMwFIhpUS2n0KDr8KqOz+xJpRQT9VgRJ+692ZRP7VUuZcHam5qeHn+t0YyhfAkVijtZFpFkFTkWq0teWD7i4GKxoWQTFdMvRHsfLRX4nLBL/Fg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=QfuO5f/V; arc=fail smtp.client-ip=40.107.237.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC6DA1B85E4;
+	Wed, 29 Jan 2025 11:51:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738151516; cv=none; b=nc63BVOhPx1yiF65cuVA27zTWxcMVZGwK4mi9dLq1DAfvclr9AqhCbC/kPTZn8UJ3XbGyk0pok75L1GF2Cgy7OOu8NuBKy2Myv7U9I/j4ev+vtU/oX3GHRzhz/cHkAt4QzZUaIa/xdgkl/KBaBcZk3bw5kI/xJ8UgXhZ4wdqKU0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738151516; c=relaxed/simple;
+	bh=tviHXJ7qC8A04vMJzHLCaV7OQY8jzxoKgZz/IYMls9c=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=djR6NBsJbxO0B53wOmvEG/EQM6kiPdeQ6fSgWTzvvNO3AQGjeSHb/9tQj1Kzu7XpiKSM6XaCTSeBXJuDyDB/PQ4ww3RQJRvqtjnMZ+huzv+KBdGYgIgAt/U/OMUNCX4ynQJias/vsjrpBAwHCau+WIsQzNyyzG+UFkyx+1YoUDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=hP3ltSKA; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="QfuO5f/V"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=J7KAOhM2dN9XtMtg6KaunmDgfjEi3eXN4V1ygHwTZRhTub7LaQYTPavuYn01svvabby3BgsT8FSTBM4P07p2W1CAKj8nNEHfemZJzqnsliSrPTW4bwKtPPmSt937heMiyfhXUd33CfkkDGdeMOBcK86219rGBoCw6FUkBMSmieABs/7huRcn4UtA7OEa+uyJsTVEUc0qoRJF9/Z1vdD8qGEaQnx5iJQTbLnvyutazcguPYjKsj53KXC7tY0fgcErBexoHFxgtm0PonhbUPxj9n0YT0AwsBcTPRgC5AHL1tnTLUVithueu8B0IWqsXfLZnv8HT2InMnghxy7JEG2ewg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d+fuA6zWajZ9RrmhgJDg/yMWDsD69ynTq8wlKHUEbLk=;
- b=ad5dfRO7sLKtdZOc6CfkPFMknMA5vzcZxjDBpMeuO4cdT4DgZyC//HLvMVNmiSbVnGHQ7DT2fp5cZF9ZzOXfSerbGpvgrZINnxzEer6mZ1T4Sx9oB3dL4mbUmANB0FeopzvttWpcTTL9zUcwL2ODu2sblEO1XSjQCB4C++8ju7Sm1FasgAHEZIqFNZ5LkkzhjGi44TEvo0PehTp1RGCYIGp98TFjwEzT+ZUUo/kDHSRxZC6RoGOlMVwfjXh0DvWb25Q6MfTD3W+NwY/8cC1PSkehyyiFkkkE3oiN4GGVuhqJvJN1IKfWEFfgg0sdOYZmuIMwR8cqmhLdCmoOWEjqKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=arm.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d+fuA6zWajZ9RrmhgJDg/yMWDsD69ynTq8wlKHUEbLk=;
- b=QfuO5f/V6xgJ42johXPsVTWPEGlkshmwcCon0T24sZHMeFGKR9mPnC4UB77VJfKw4fPJcQ/HjaQXbZO/8zxKBq8wPGlAx6LGkKciz92K4YNFAx9JfB3QL4iONaMaE3NpWnVDk2uedc31z9QcfUKe+QNn7/O+WZbH4kNEDauHHkgrcvRDIx0RfKfADdNAosVuMgA3Ero9JqPAoo6vp32eenzBmHBsmAdA1m8V61dfRWD8DATw/LSi33tZt0GiX+cLLwNIoXu6tpCGyyUSk0nZhlcZFjZH7IEZwz8zH5VR7cPsKbhQDonMbwd4oktLfofxmAAjAt4laz4e1uFLO65qhA==
-Received: from CH2PR14CA0049.namprd14.prod.outlook.com (2603:10b6:610:56::29)
- by DM6PR12MB4482.namprd12.prod.outlook.com (2603:10b6:5:2a8::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.17; Wed, 29 Jan
- 2025 11:29:56 +0000
-Received: from CH2PEPF0000009B.namprd02.prod.outlook.com
- (2603:10b6:610:56:cafe::85) by CH2PR14CA0049.outlook.office365.com
- (2603:10b6:610:56::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.18 via Frontend Transport; Wed,
- 29 Jan 2025 11:29:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CH2PEPF0000009B.mail.protection.outlook.com (10.167.244.23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8398.14 via Frontend Transport; Wed, 29 Jan 2025 11:29:56 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 29 Jan
- 2025 03:29:42 -0800
-Received: from [10.41.21.79] (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 29 Jan
- 2025 03:29:36 -0800
-Message-ID: <75454544-f23e-4de9-bc12-64d134fc5027@nvidia.com>
-Date: Wed, 29 Jan 2025 16:59:33 +0530
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="hP3ltSKA"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7F4294427C;
+	Wed, 29 Jan 2025 11:51:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1738151511;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F/dtdtAqW4QEmrAdXfRHJqeqI55Av04tfH1TTwtge4Q=;
+	b=hP3ltSKAWYzIflmKjO+mNQ5s1A/kE5qfNlSiukluqHAzQ7UVRBEmfUxQnyP3DCP0HflJAg
+	JM+VWTLdar6gVgvAsQJpm8pzckCrcaZmUW9h6+pLAyMMd6tyV5og2W8M2dsPyX7bjsg9RZ
+	8GrHlCQqMvc1qpUvpTVlnz3pyabn/cvu/sBTADGjWs2dBxcLExzPcoSC4rMQOqFs/6SIno
+	Mds/5iucfRjmcXfZYjvVRN7N16EICapKeQ0nQuqyGq0Lqybta3SeDWTQrKfgBarrykGCW0
+	zBmwvXxpOQbTCcWCiZnDrbsY3zkHWp+hjBhlf3cVvEK9BftnZujKh+1vvV0YAg==
+Date: Wed, 29 Jan 2025 12:51:46 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Simona Vetter
+ <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, Jagan Teki
+ <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
+ <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, Paul
+ Kocialkowski <contact@paulk.fr>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?UTF-8?Q?Herv?=
+ =?UTF-8?Q?=C3=A9?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, Paul
+ Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v5 08/10] drm/bridge: samsung-dsim: use supporting
+ variable for out_bridge
+Message-ID: <20250129125146.22981c9f@booty>
+In-Reply-To: <ksxomce6vddld7vikzyjd55babho63vj6ej5vrsiwfp2tid6yu@xfpagqpata4v>
+References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
+	<20241231-hotplug-drm-bridge-v5-8-173065a1ece1@bootlin.com>
+	<7kpgrgqp2jx6ivkwdc5ax3dfah2qkajaedpcdadldselr4bdlq@jewss2bdl4or>
+	<20250102130149.5784c09b@booty>
+	<20250110115819.55bc887b@booty>
+	<20250116113236.39ba876a@booty>
+	<20250116-brave-feathered-dormouse-8ea4cf@houat>
+	<20250121122729.41c8f2b1@booty>
+	<ksxomce6vddld7vikzyjd55babho63vj6ej5vrsiwfp2tid6yu@xfpagqpata4v>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 2/5] cpufreq: Introduce an optional cpuinfo_avg_freq
- sysfs entry
-To: Beata Michalska <beata.michalska@arm.com>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-pm@vger.kernel.org>,
-	<ionela.voinescu@arm.com>, <sudeep.holla@arm.com>, <will@kernel.org>,
-	<catalin.marinas@arm.com>, <rafael@kernel.org>, <viresh.kumar@linaro.org>
-CC: <yang@os.amperecomputing.com>, <vanshikonda@os.amperecomputing.com>,
-	<lihuisong@huawei.com>, <zhanjie9@hisilicon.com>, Jonathan Corbet
-	<corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
-	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, "H . Peter Anvin" <hpa@zytor.com>, Phil Auld
-	<pauld@redhat.com>, <x86@kernel.org>, <linux-doc@vger.kernel.org>,
-	linux-tegra <linux-tegra@vger.kernel.org>
-References: <20250121084435.2839280-1-beata.michalska@arm.com>
- <20250121084435.2839280-3-beata.michalska@arm.com>
-Content-Language: en-US
-From: Sumit Gupta <sumitg@nvidia.com>
-In-Reply-To: <20250121084435.2839280-3-beata.michalska@arm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF0000009B:EE_|DM6PR12MB4482:EE_
-X-MS-Office365-Filtering-Correlation-Id: 49d0f82f-6121-4604-23cb-08dd405841fd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014|7416014|7053199007|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?TUhRd0xkNWxZMTFXaTd5RlY1Z1VvM2FadTFoamN3T3E1WVdIYzk3cVZreWlv?=
- =?utf-8?B?b2daYlFrNnRkVzNKZVpsaG01WnJmWkdGYTNpT2xPNlB3YUl2WTd3eGJHT2tx?=
- =?utf-8?B?RU94QzFGKzVVb09iVk1KZTRkVzU2RmpPSHozWmVJVU0xdnZGVmd0dXVPdm5J?=
- =?utf-8?B?cEd4aVFYbHRCSlEvZTN3K0cwU1M2VkJHZUlKSDQwWk5sWEhwOFdaaWcvTHRi?=
- =?utf-8?B?Y0ZjSGhFSXJBcE9CMTY1YnU1OXdUSjZ3RzIxNkdSTWkzcTFNOFBndi9xaUM5?=
- =?utf-8?B?UUx5QW81aDIwbnBWeWFwYmg5Rmx2dHFPUU9nc1hoWW12L2J3TmNmek1uYk9h?=
- =?utf-8?B?TDJFYkxIbTZ1bTJPUFpDSzBBdFZSTXJUaDU0QnZhakdpZjlmOG1ZU1Z4bXcz?=
- =?utf-8?B?VWliUGZTSEwvbEkxaHVhekRWV1NPbzJubDk2Y2I5bVR6Z2Z0RHI0NktlZHZR?=
- =?utf-8?B?QmE3d1BaSzRZblFtNTJCVGxNVU03T292M0ZUdHljUmp3bDh5ZUh1T1RkT0w0?=
- =?utf-8?B?ZXd3c1Z3ckNDTWR6SFAzOUZCNGQ3amNMYTR6OHZHT1gyeW9IMVp2UFBYOWdh?=
- =?utf-8?B?ZEhNUkQyZFV6WkJJYkdkc1JpUTFVSFRzWFQ0RHo0MFhBZmRFbUZlNGIwNjB2?=
- =?utf-8?B?ZUpnQjlSR3lDaXhsUysxVUZXNi9Dczlod1RybGkyRERwNFBsRVd4aVhhbXpV?=
- =?utf-8?B?L20yT0NiMXpvbVN2SnVSWXV2MHlVY3pQZFF5a1RnOWNWV2hlZDFKRmQ4NGlv?=
- =?utf-8?B?UmR5N0tJNUU3S2ZUZGJUZTlRWWFOb0dLTldpaE1mVHlBUVhUS1h5SUJPY29E?=
- =?utf-8?B?TkhIOVg1TGpQUWxjWm1xYTBjY3FTZnFBV2FSM1IwWEIvamRmbFMyTlhJd1F6?=
- =?utf-8?B?UktobmNDaXFBaXVBcU5MV2NzdXR5eXl5aXhkOGFNQTNHbzFDY2VzWUpMaUxQ?=
- =?utf-8?B?YzVpcnMvYTR6OUk2RHU5QnNIZWQ5azFnajUxcElzbG85V3IrZE1ONzU3cjYw?=
- =?utf-8?B?Z1huejczenY0M3VHVHplMzFHWmE4M2xwUTVNa1djM212QlFMRWFncmc4bEln?=
- =?utf-8?B?UElkaHUxTDhvc2Y1MVV4bURnVTlvTEVsS1dMclRxaElxQUtNOStGYVQ5ZkIv?=
- =?utf-8?B?c29weUUxUSt1OGRxT3Ewc0J3RWNBQzA4SS9NNytReitpdzNGR0UvWGxoNlBT?=
- =?utf-8?B?eEVYNEQxTk12MTF5MGR3bWlKWXhmTmRGR09nWVptZ3NDQVFwNkhkQUU2TktB?=
- =?utf-8?B?ZWtiQW1aU1Ftb0ZiOWpjRnB5MXlYUlplZ2xjdG1qTnc2NGZGK2tLQW9adWli?=
- =?utf-8?B?UmxQV2xacDhUTUFERytzSmt2ZWdodGxjQkU5N1RQR3BXS050ZFFUUlU4ak5N?=
- =?utf-8?B?SWEvbkNES3krZHB0KzUxeFh5OFlLYVVrejk0V29xNzRYNWlqRVp5Ym1FTkht?=
- =?utf-8?B?dFA0TDRCNEdwdDN0NUxoSHdJeW5aRnVnaU56TDV0bVZNaHVKeFplKy9ZUVpS?=
- =?utf-8?B?QVFOajdZa3NFclJxNGluWkNMRmR1RWdnZ1Q4d2t6VDNpczhaREg4d3ZkRlNK?=
- =?utf-8?B?UVF5UDlRMnFGMmw1QmtoczFNbHVsU2M5L2czWDcyRmNCRzJocHdEdHE2UmtL?=
- =?utf-8?B?VXFYL1pqdHJsZS9STy9NN0xJYnBCVEp0REQwOG5PaWxoODQwdzJ5S1RkcVZ0?=
- =?utf-8?B?bkRPNXFXSW1CVkZCUWYvRURxc0NtRm1FWTRIRjhVdVh2TWU4and5Zld6NG9k?=
- =?utf-8?B?elFYMyt0bXk4a1VwZkpGaVFUbTd3UldRc2cyMXVncFoxR3VaRGMzMHNXNGI3?=
- =?utf-8?B?dFBuNEJEM0RwK2NIaUo3eWgrOU5CZXVXbEJoZU83SXF3UzNOa1RXejdTaUc1?=
- =?utf-8?B?ek9WWkZvalNNUXNtbEl4NFRFOWM5VGZKbGFBYXNhTFJzSVR5ZnE0RThYUC9y?=
- =?utf-8?B?eEE2NThxRnBrVmg5VENQVElSaUh4ZzAwVnl3MVhTQ0pnU2RWdU82TGQybjV0?=
- =?utf-8?B?VWxBc3FlSVhKM1VYU2ErbEtCeGVqVE95UHFRRE9IVkxrY1FSRGtOalB1ZnQ5?=
- =?utf-8?Q?eMpzkn?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014)(7416014)(7053199007)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2025 11:29:56.3324
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 49d0f82f-6121-4604-23cb-08dd405841fd
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH2PEPF0000009B.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4482
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvledvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemiegtgedvmeehjedvsgemvdekgeehmegtsgguugenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemiegtgedvmeehjedvsgemvdekgeehmegtsgguugdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedtpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepughmihhtrhihrdgsrghrhihshhhkohhvsehlihhnrghrohdrohhrghdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhp
+ dhrtghpthhtohepihhnkhhirdgurggvsehsrghmshhunhhgrdgtohhmpdhrtghpthhtohepjhgrghgrnhesrghmrghruhhlrghsohhluhhtihhonhhsrdgtohhmpdhrtghpthhtohepmhdrshiihihprhhofihskhhisehsrghmshhunhhgrdgtohhmpdhrtghpthhtoheptggrthgrlhhinhdrmhgrrhhinhgrshesrghrmhdrtghomhdprhgtphhtthhopeifihhllheskhgvrhhnvghlrdhorhhg
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
+Hello Maxime,
 
+thanks for the continued feedback.
 
-On 21/01/25 14:14, Beata Michalska wrote:
-> 
-> 
-> Currently the CPUFreq core exposes two sysfs attributes that can be used
-> to query current frequency of a given CPU(s): namely cpuinfo_cur_freq
-> and scaling_cur_freq. Both provide slightly different view on the
-> subject and they do come with their own drawbacks.
-> 
-> cpuinfo_cur_freq provides higher precision though at a cost of being
-> rather expensive. Moreover, the information retrieved via this attribute
-> is somewhat short lived as frequency can change at any point of time
-> making it difficult to reason from.
-> 
-> scaling_cur_freq, on the other hand, tends to be less accurate but then
-> the actual level of precision (and source of information) varies between
-> architectures making it a bit ambiguous.
-> 
-> The new attribute, cpuinfo_avg_freq, is intended to provide more stable,
-> distinct interface, exposing an average frequency of a given CPU(s), as
-> reported by the hardware, over a time frame spanning no more than a few
-> milliseconds. As it requires appropriate hardware support, this
-> interface is optional.
-> 
-> Note that under the hood, the new attribute relies on the information
-> provided by arch_freq_get_on_cpu, which, up to this point, has been
-> feeding data for scaling_cur_freq attribute, being the source of
-> ambiguity when it comes to interpretation. This has been amended by
-> restoring the intended behavior for scaling_cur_freq, with a new
-> dedicated config option to maintain status quo for those, who may need
-> it.
-> 
-> CC: Jonathan Corbet <corbet@lwn.net>
-> CC: Thomas Gleixner <tglx@linutronix.de>
-> CC: Ingo Molnar <mingo@redhat.com>
-> CC: Borislav Petkov <bp@alien8.de>
-> CC: Dave Hansen <dave.hansen@linux.intel.com>
-> CC: H. Peter Anvin <hpa@zytor.com>
-> CC: Phil Auld <pauld@redhat.com>
-> CC: x86@kernel.org
-> CC: linux-doc@vger.kernel.org
-> 
-> Signed-off-by: Beata Michalska <beata.michalska@arm.com>
-> ---
->   Documentation/admin-guide/pm/cpufreq.rst | 16 ++++++++++++-
->   drivers/cpufreq/Kconfig.x86              | 12 ++++++++++
->   drivers/cpufreq/cpufreq.c                | 30 +++++++++++++++++++++++-
->   3 files changed, 56 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/pm/cpufreq.rst b/Documentation/admin-guide/pm/cpufreq.rst
-> index a21369eba034..e9969174026c 100644
-> --- a/Documentation/admin-guide/pm/cpufreq.rst
-> +++ b/Documentation/admin-guide/pm/cpufreq.rst
-> @@ -248,6 +248,19 @@ are the following:
->          If that frequency cannot be determined, this attribute should not
->          be present.
-> 
-> +``cpuinfo_avg_freq``
-> +        An average frequency (in KHz) of all CPUs belonging to a given policy,
-> +        derived from a hardware provided feedback and reported on a time frame
-> +        spanning at most few milliseconds.
-> +
-> +        This is expected to be based on the frequency the hardware actually runs
-> +        at and, as such, might require specialised hardware support (such as AMU
-> +        extension on ARM). If one cannot be determined, this attribute should
-> +        not be present.
-> +
-> +        Note, that failed attempt to retrieve current frequency for a given
-> +        CPU(s) will result in an appropriate error.
-> +
+On Tue, 28 Jan 2025 16:09:53 +0100
+Maxime Ripard <mripard@kernel.org> wrote:
 
-Minor nit:
-Should we also add: Idle CPU's on ARM will return EAGAIN (Resource 
-temporarily unavailable) error?
+> To be clear, I'm not sure it's worth renaming drm_bridge to something
+> else, and I certainly don't consider it is a prerequisite to this
+> series.
 
->   ``cpuinfo_max_freq``
->          Maximum possible operating frequency the CPUs belonging to this policy
->          can run at (in kHz).
-> @@ -293,7 +306,8 @@ are the following:
->          Some architectures (e.g. ``x86``) may attempt to provide information
->          more precisely reflecting the current CPU frequency through this
->          attribute, but that still may not be the exact current CPU frequency as
-> -       seen by the hardware at the moment.
-> +       seen by the hardware at the moment. This behavior though, is only
-> +       available via c:macro:``CPUFREQ_ARCH_CUR_FREQ`` option.
+Sure, I agree.
+
+> > > > For hotplugging we cannot use drmm and devm and instead we use get/put,
+> > > > to let the "next bridge" disappear with the previous one still present.
+> > > > So the trivial idea is to add a drm_of_get_bridge(), similar to
+> > > > {drmm,devm_drm}_of_get_bridge() except it uses plain
+> > > > drm_panel_bridge_add() instead of devm/drmm variants. But then the
+> > > > caller (which is the panel consumer) will have to dispose of the struct
+> > > > drm_bridge pointer by calling:
+> > > > 
+> > > >  - drm_bridge_put() in case a)
+> > > >  - drm_panel_bridge_remove in case b)
+> > > > 
+> > > > And that's the problem I need to solve.    
+> > > 
+> > > I'm not sure the problem is limited to panel_bridge. Your question is
+> > > essentially: how do I make sure a driver-specific init is properly freed
+> > > at drm_bridge_put time. This was done so far mostly at bridge remove
+> > > time, but we obviously can't do that anymore.
+> > > 
+> > > But we'd have the same issue if, say, we needed to remove a workqueue
+> > > from a driver.
+> > > 
+> > > I think we need a destroy() hook for bridges, just like we have for
+> > > connectors for example that would deal with calling
+> > > drm_panel_bridge_remove() if necessary, or any other driver-specific
+> > > sequence.  
+> > 
+> > The .destroy hook looked appealing at first, however as I tried to
+> > apply the idea to bridges I'm not sure it matches. Here's why.
+> > 
+> > The normal (and sane) flow for a bridge is:
+> > 
+> >  A) probe
+> >     1. allocate private struct embedding struct drm_bridge
+> >        (I have an _alloc() variant ready for v5 to improve this as you proposed)
+> >     2. get resources, initialize struct fields
+> >     3. drm_bridge_add(): publish bridge into global bridge_list
+> > 
+> > Now the bridge can be found and pointers taken and used.  
 > 
->   ``scaling_driver``
->          The scaling driver currently in use.
-> diff --git a/drivers/cpufreq/Kconfig.x86 b/drivers/cpufreq/Kconfig.x86
-> index 97c2d4f15d76..212e1b9afe21 100644
-> --- a/drivers/cpufreq/Kconfig.x86
-> +++ b/drivers/cpufreq/Kconfig.x86
-> @@ -340,3 +340,15 @@ config X86_SPEEDSTEP_RELAXED_CAP_CHECK
->            option lets the probing code bypass some of those checks if the
->            parameter "relaxed_check=1" is passed to the module.
+> We agree so far.
+
+Good :-)
+
+> > And on hardware removal, in reverse order:
+> >  
+> >  B) remove (hardware is hot-unplugged)
+> >     3. unpublish bridge
+> >     2. release resources, cleanup
+> >     1. kfree private struct  
 > 
-> +config CPUFREQ_ARCH_CUR_FREQ
-> +       default y
-> +       bool "Current frequency derived from HW provided feedback"
-> +       help
-> +         This determines whether the scaling_cur_freq sysfs attribute returns
-> +         the last requested frequency or a more precise value based on hardware
-> +         provided feedback (as architected counters).
-> +         Given that a more precise frequency can now be provided via the
-> +         cpuinfo_avg_cur_freq attribute, by enabling this option,
+> I think the sequence would rather be something like:
+> 
+> B') remove
+>   3. unpublish bridge
+>   2. release device resources
+>   1. release reference
+> 
+> C') last put
+>   2. release KMS resources
+>   1. kfree private struct
 
-s/cpuinfo_avg_cur_freq/cpuinfo_cur_freq/?
+Just to ensure we are on the same page: patch 3 is already implementing
+this model except for C'2.
 
-Overall looks good to me.
+Well, in reality it even implements a .destroy callback at C'2, even
+though it was not meant for the usage you have in mind and it's
+scheduled for removal in v6 -- even though as I said I'm OK in
+re-adding it if it is useful.
 
-Reviewed-by: Sumit Gupta <sumitg@nvidia.com>
+Mainly I'm not sure I understand for which ultimate goal you propose to
+postpone releasing KMS resources to C'.
 
+Is it (1) because we _want_ to postpone releasing KMS resources? In this
+case I don't know the use case, so if you have a practical example it
+would probably help a lot.
+
+Moreover, for the panel bridge specifically, it would mean postponing
+the destruction of the struct panel_bridge, which however has a pointer
+to the panel. But the panel is probably hot-unplugged at the same time
+as the previous removable bridge(s), we'd have a time window between B'
+and C' where there is a pointer to a freed struct panel. We'd need to
+ensure that pointer is cleared at B'2, even though it is a "KMS
+resource" and not a "device resource".
+
+Or is it (2) because there are cases where we don't know how else we
+could release the KMS resources? AFAIK all bridge drivers are able to
+release everything in their remove function (B'2) with the exception of
+the panel bridge, so this sounds like a workaround for just one user
+that apparently we all agree should be improved on its own anyway.
+
+Note I'm not strongly against (2), if it simplifies the path towards
+dynamic bridge lifetime by postponing the panel bridge rework. I just
+need to understand the plan.
+
+Another question is what is a device resource and what is a KMS
+resource. What's the boolean expression to classify a
+resource in one or the other family? For example, in your example
+quoted above ("But we'd have the same issue if, say, we needed to
+remove a workqueue from a driver"), is the workqueue a KMS resource?
+
+I need to understand your idea if I want to implement it.
+
+> > Some drivers do real stuff in B2, so it is important that B3 happens
+> > before B2, isn't it? We don't want other drivers to find and use a
+> > bridge that is being dismantled, or afterwards.  
+> 
+> Yeah, B3/B'3 should definitely happen first.
+> 
+> > B3 should normally happen by removing the bridge from the global
+> > bridge_list, or other bridges might find it. However setting the "gone"
+> > bool and teaching of_drm_find_bridge() & Co to skip bridges with
+> > gone==true would allow to postpone the actual removal, if needed.
+> > 
+> > With that said, with hotplugging there will be two distinct events:
+> > 
+> >  * hardware removal
+> >  * last ref is put
+> > 
+> > The second event could happen way later than the first one. During the
+> > time frame between the two events we need the bridge to be unpublished
+> > and the bridge resources to be already released, as the hardware is
+> > gone. We cannot do this at the last put, it's too late.
+> > 
+> > So I think the only sane sequence is:
+> > 
+> >  * on hardware removal:
+> >      B3) unpublish bridge (drm_bridge_remove() or just set gone flag)
+> >      B2) free resources, deinit whatever needed
+> >  * when last ref is put
+> >      B1) kfree (likely via devm)  
+> 
+> No, devm will have destroyed it in B'2. We need to destroy it in the
+> cleanup hook of kref_put
+
+devm will have destroyed what? Sorry I'm not following.
+
+If you mean "it" == "the private struct", then no, this is not the
+case. drm_bridge_init in patch 3 does not kfree the private struct but
+instead registers a devm action to call drm_bridge_put. Then, at the
+last put, drm_bridge_free() will actually kfree the private struct.
+
+In this v5, kree()ing the private struct at the last put is done via
+a callback. In my work towards v6 the principle is the same but I have
+reworked it all, implementing a devm_drm_bridge_alloc() macro as you
+suggested (BTW that was a great improvement, thanks) and removing the
+.destroy callback as it was not needed.
+
+In case it helps, here's a preview of my v6, with some added comments to
+support this discussion:
+
+/* Internal function (for refcounted bridges) */
+void __drm_bridge_free(struct kref *kref)
+{
+        struct drm_bridge *bridge = container_of(kref, struct drm_bridge, refcount);
+        void *container = ((void*)bridge) - bridge->container_offset;
+
+        DRM_DEBUG("bridge=%p, container=%p FREE\n", bridge, container);
+
+        kfree(container);
+}
+EXPORT_SYMBOL(__drm_bridge_free);
+
+static inline void drm_bridge_put(struct drm_bridge *bridge)
+{
+        if (!drm_bridge_is_refcounted(bridge))
+                return;
+
+        DRM_DEBUG("bridge=%p PUT\n", bridge);
+
+        kref_put(&bridge->refcount, __drm_bridge_free);
+}
+
+static void drm_bridge_put_void(void *data)
+{
+        struct drm_bridge *bridge = (struct drm_bridge *)data;
+
+        drm_bridge_put(bridge);
+}
+
+// fold this into __devm_drm_bridge_alloc() or keep for consistency
+// with drm_encoder.c?
+static int __devm_drm_bridge_init(struct device *dev, struct drm_bridge *bridge,
+                                  size_t offset, const struct drm_bridge_funcs *funcs)
+{
+        int err;
+
+        bridge->container_offset = offset;
+        kref_init(&bridge->refcount);
+        bridge->is_refcounted = 1;
+
+        err = devm_add_action_or_reset(dev, drm_bridge_put_void, bridge); // <== devm just puts one ref, does not kfree
+        if (err)
+                return err;
+
+        bridge->funcs = funcs;
+
+        return 0;
+}
+
+void *__devm_drm_bridge_alloc(struct device *dev, size_t size, size_t offset,
+                              const struct drm_bridge_funcs *funcs)
+{
+        void *container;
+        struct drm_bridge *bridge;
+        int ret;
+
+        if (!funcs) {
+                dev_warn(dev, "Missing funcs pointer\n");
+                return ERR_PTR(-EINVAL);
+        }
+
+        container = kzalloc(size, GFP_KERNEL);     // <== NOT allocating with devm
+        if (!container)
+                return ERR_PTR(-ENOMEM);
+
+        bridge = container + offset;
+
+        ret = __devm_drm_bridge_init(dev, bridge, offset, funcs);
+        if (ret)
+                return ERR_PTR(ret);
+
+        DRM_DEBUG("bridge=%p, container=%p, funcs=%ps ALLOC\n", bridge, container, funcs);
+
+        return container;
+}
+EXPORT_SYMBOL(__devm_drm_bridge_alloc);
+
+#define devm_drm_bridge_alloc(dev, type, member, funcs) \
+        ((type *)__devm_drm_bridge_alloc(dev, sizeof(type), \
+                                         offsetof(type, member), funcs))
+
+Luca
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
