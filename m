@@ -1,245 +1,203 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E208479;
-	Wed, 29 Jan 2025 13:06:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B45F2CA9;
+	Wed, 29 Jan 2025 13:11:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738155982; cv=none; b=L8jRCmDnmtVVlX/vYsTUCVWx/CcTce/3VJV8v4ZFyAaPwb3CR001ZZcmfIXiWMr25NXElcl3OdCg54RHjYWH5n+jJ7VehpqGStp3Dh2uRxtRLA3Mzhk5bgMYMZX/omtLlMz1VNy7aHDooG9/kN17g1yxNN02Cuxp7vT/wiL59RM=
+	t=1738156305; cv=none; b=CKXWA/bf8tt+03h9xtQH8RVKL8eadfkfL+lvV4QVTBP5X5tYRf4htYnEzGpUONXqIz65LPpKDyfzj9zhlMW1fHWpyK+sjji4V2U4keA139bI+ptZ113zbTEBYlZTwXiphQbQi45fq7YP5IJJVnReM4/EZp1C9Dihz1IhzCM6NcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738155982; c=relaxed/simple;
-	bh=lIa06qsMr7CkT0IQFQ4ZA/bM+jcloYEj278f3O9/VR0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IxVqiyc5OK7/bnYeLbME7jNDpAmwJCYIkuLlVMN6XZBEcBkc8aEuRBCczdKp96dycEwde6hpdl5tQezb/0Rvhgqf9S9ahT2MbiBQXd1pstN2igZAGlMYCTsbqSWWwrOB8NmmdCOmk9lz7DYsYfnVehjUd/pSgx3xiwHUsNULA9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lxB30Iwl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=A8l/stjn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ityW5a7L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=P4p+Lmzy; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1738156305; c=relaxed/simple;
+	bh=Q292xYi/mquTsiW8aGfnrwi5Os34uuSK9zEv62Jicmo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kN3i2bgjyg6wx9NfDo6pHwDzlBZnPvBtGMSKhMqD8m+9uo+2t8gNgJ2NlvfzIMOY8SYbEO5i2xJcUpNZjAczT5y5JttJ3+tdwg9d3Z4VMtQ9ypFXmDTMFnmTU9SCBqtrmqqlGthI4QP6l0HApa2gmPhJter3rzJFQH1U3GfKQyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=I3AFh5mb; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lxB30Iwl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="A8l/stjn";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ityW5a7L";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="P4p+Lmzy"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 98EAA1F365;
-	Wed, 29 Jan 2025 13:06:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1738155978; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="I3AFh5mb"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D41DA442EF;
+	Wed, 29 Jan 2025 13:11:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1738156300;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=KgMt9h7J0H43iUVXYnhfa+j8boQTbM4QOt22lRjM4fY=;
-	b=lxB30IwliiI6nGY1jFqDkVcWijUkn2K7SdrcklSiEjJHV6sv3cFrrnVJjMgxqjuECqt1XK
-	hXvlbG9A9l/MG5NBHpJ5ljhQ5K90w5X4iUzXIeXyHe9uk1bWqYEszVquywMMMRDUir+5V0
-	xtCQvVg6QM4h4qC/H6ZBjIIcnGoaPkU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1738155978;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=KgMt9h7J0H43iUVXYnhfa+j8boQTbM4QOt22lRjM4fY=;
-	b=A8l/stjnboEKh1mSFgmtZlcb6QBtndkHAzGMSNZ97IDK15iJNhKOrCS5cCjQ1Gwruagvbi
-	0/yOIF8LNkhln5Cg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1738155977; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=KgMt9h7J0H43iUVXYnhfa+j8boQTbM4QOt22lRjM4fY=;
-	b=ityW5a7LbXysn0Ph2jgnUD1exsXAjRkvrv0NKRyBnuqdAT8+Jl0Mx7T/LTq1LFFL32t8jP
-	0FcfFLmZIO5aCBJMBrXwdqa9kjkSt6AU1WZn4lyLEmjVbtTbA82eJDS4L/lgw/cEVM7PQc
-	o4tv62aZV7a6AVS97ppUYFcS/bMEvhg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1738155977;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=KgMt9h7J0H43iUVXYnhfa+j8boQTbM4QOt22lRjM4fY=;
-	b=P4p+LmzyxWnVs5iUHiztKwzhaPDNQtOIUJRcEdMHYE0BvvfTH8KoxPK/B+yBNHp6ziifAR
-	s0oAa+W+hloVPSAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2AD9C137D2;
-	Wed, 29 Jan 2025 13:06:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id pfgfCcgnmmfTWAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 29 Jan 2025 13:06:16 +0000
-Message-ID: <a389f799-442e-45f3-8609-2eb2f0b7a825@suse.de>
-Date: Wed, 29 Jan 2025 14:06:15 +0100
+	 in-reply-to:in-reply-to:references:references;
+	bh=8HgcJtHNXDb9K1nOfZ+HqLoD2HMmB8+mqhC5v0ZMXaQ=;
+	b=I3AFh5mb8yfxGmI5bk4VkzrfR2gQyg/9py/0qIH1dJa6j9ML63Mzmx5bBis2fnbnmbQSZ7
+	IPT58oYLy2sIPYa9oZbo7xRkycofNvvb3RxbhBx78q9/oLXE/54esdrSBE2s04t5YPVhqh
+	Gl9MMKJecggbVb6psYKy50II4LgtRgMnm84tH/kETqvFaSDfwstf2Dpe2mD3JYSsNbgCwz
+	ZKObaxEiVhtxQaAQDbGzFsry7HssZeSSMbUZIcF6CxsWFTQl+g3CEMlgahkRMBh4gu8Xif
+	aGTHWgIR8b4WasSubsjFBDtJ86yI7hEnFZk+jM85Z2ovSry/BWbV9IseVCd2vQ==
+Date: Wed, 29 Jan 2025 14:11:35 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Catalin Marinas
+ <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Shawn Guo
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ Daniel Thompson <danielt@kernel.org>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, Paul
+ Kocialkowski <contact@paulk.fr>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?UTF-8?Q?Herv?=
+ =?UTF-8?Q?=C3=A9?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, Paul
+ Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v5 04/10] drm/bridge: add documentation of refcounted
+ bridges
+Message-ID: <20250129141135.28b01ff9@booty>
+In-Reply-To: <yipjwosmkqsadvhulzh76ydqbfvv5npdafl3yzdjmikfa2yq4y@j7nj4audwxl7>
+References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
+	<20241231-hotplug-drm-bridge-v5-4-173065a1ece1@bootlin.com>
+	<20250106-vigorous-talented-viper-fa49d9@houat>
+	<CAA8EJprhe4+9HwjW-=4K_LUD5pw51ij_dk0SZABbKH+ExnjdzQ@mail.gmail.com>
+	<20250108162429.53316041@booty>
+	<20250108-astonishing-oarfish-of-energy-c0abbe@houat>
+	<20250122171230.30cf9b97@booty>
+	<jiwexbvzcrq7hywl5t25cojrgjnyv5q2wnb2kvgriucal6764w@hhrefcftcjza>
+	<20250129125153.35d0487a@booty>
+	<yipjwosmkqsadvhulzh76ydqbfvv5npdafl3yzdjmikfa2yq4y@j7nj4audwxl7>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 14/14] Documentation: Update the todo
-To: Anusha Srivatsa <asrivats@redhat.com>, Joel Stanley <joel@jms.id.au>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Andrew Jeffery
- <andrew@codeconstruct.com.au>, Stefan Agner <stefan@agner.ch>,
- Alison Wang <alison.wang@nxp.com>, Xinliang Liu <xinliang.liu@linaro.org>,
- Tian Tao <tiantao6@hisilicon.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu
- <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Alain Volmat
- <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- imx@lists.linux.dev, linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
- <20250128-cocci-memory-api-v1-14-0d1609a29587@redhat.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250128-cocci-memory-api-v1-14-0d1609a29587@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[redhat.com,jms.id.au,linux.intel.com,kernel.org,gmail.com,ffwll.ch,codeconstruct.com.au,agner.ch,nxp.com,linaro.org,hisilicon.com,google.com,pengutronix.de,collabora.com,baylibre.com,googlemail.com,denx.de,rock-chips.com,sntech.de,linux.alibaba.com,foss.st.com,nvidia.com,synopsys.com,raspberrypi.com,igalia.com,lwn.net];
-	TAGGED_RCPT(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[60];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeftdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsgefsgekmeejrghfgeemkeekgeefmegvhedufhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsgefsgekmeejrghfgeemkeekgeefmegvhedufhdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedtpdhrtghpthhtohepughmihhtrhihrdgsrghrhihshhhkohhvsehlihhnrghrohdrohhrghdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhp
+ dhrtghpthhtohepihhnkhhirdgurggvsehsrghmshhunhhgrdgtohhmpdhrtghpthhtohepjhgrghgrnhesrghmrghruhhlrghsohhluhhtihhonhhsrdgtohhmpdhrtghpthhtohepmhdrshiihihprhhofihskhhisehsrghmshhunhhgrdgtohhmpdhrtghpthhtoheptggrthgrlhhinhdrmhgrrhhinhgrshesrghrmhdrtghomhdprhgtphhtthhopeifihhllheskhgvrhhnvghlrdhorhhg
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-Hi
+On Wed, 29 Jan 2025 14:22:30 +0200
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
 
+> On Wed, Jan 29, 2025 at 12:51:53PM +0100, Luca Ceresoli wrote:
+> > Hi Maxime,
+> > 
+> > On Tue, 28 Jan 2025 15:49:23 +0100
+> > Maxime Ripard <mripard@kernel.org> wrote:
+> >   
+> > > Hi,
+> > > 
+> > > On Wed, Jan 22, 2025 at 05:12:30PM +0100, Luca Ceresoli wrote:  
+> > > > On Wed, 8 Jan 2025 17:02:04 +0100
+> > > > Maxime Ripard <mripard@kernel.org> wrote:
+> > > > 
+> > > > [...]
+> > > >     
+> > > > > > > > And we'll also need some flag in drm_bridge to indicate that the device
+> > > > > > > > is gone, similar to what drm_dev_enter()/drm_dev_exit() provides,
+> > > > > > > > because now your bridge driver sticks around for much longer than your
+> > > > > > > > device so the expectation that your device managed resources (clocks,
+> > > > > > > > registers, etc.) are always going to be around.        
+> > > > > > 
+> > > > > > Yes, makes sense too. That should be a drm_bridge_enter/exit(), and
+> > > > > > drm_bridge.c will need to be sprinkled with them I guess.      
+> > > > > 
+> > > > > The users would be the drivers, most likely. There's not much we can do
+> > > > > at the framework level, unfortunately.    
+> > > > 
+> > > > Back to the idea of a "gone" flag, or perhaps an "unplugged" flag to
+> > > > be consistent with the struct drm_device naming, and
+> > > > drm_bridge_enter()/drm_bridge_exit(), I did a few experiments and have
+> > > > a question.
+> > > > 
+> > > > In case:
+> > > > 
+> > > >   a) there is a notification callback to inform about bridges
+> > > >      being removed, and
+> > > >   b) all entities owning a struct drm_bridge pointer stop using
+> > > >      that pointer when notified
+> > > > 
+> > > > 
+> > > > With the above, there should be no need for
+> > > > drm_bridge_enter()/drm_bridge_exit(). Nobody will be using a pointer to
+> > > > a bridge that is being removed.
+> > > > 
+> > > > Now, about a), patch 1 in this series implements such a mechanism to
+> > > > inform all bridges when a bridge is being removed. Note that the
+> > > > "unplugged" flag would be set immediately after the notifier callback
+> > > > is currently called: "unplugged == true" will never happen before the
+> > > > callback, and after the callback there will be no pointer at all.
+> > > > 
+> > > > Patch 1 however is only notifying bridges, so other entities (e.g.
+> > > > encoders) cannot be notified with this implementation. However a
+> > > > different notification mechanism can be implemented. E.g. until v3 this
+> > > > series was using a generic struct notifier_block for this goal [0], so
+> > > > any part of the kernel can be notified.
+> > > > 
+> > > > About b), the notification appears simpler to implement in the various
+> > > > drivers as it needs to be added in one place per driver. Also adding
+> > > > drm_bridge_enter()/exit() can be trickier to get right for non-trivial
+> > > > functions.
+> > > > 
+> > > > Do you see any drawback in using a notification mechanism instead of
+> > > > drm_bridge_enter()/exit() + unplugged flag?    
+> > > 
+> > > Yeah, because we're not considering the same thing :)
+> > > 
+> > > The issue you're talking about is that you want to be notified that the
+> > > next bridge has been removed and you shouldn't use the drm_bridge
+> > > pointer anymore.
+> > > 
+> > > A notification mechanism sounds like a good solution there.
+> > > 
+> > > The other issue we have is that now, we will have the drm_bridge pointer
+> > > still allocated and valid after its device has been removed.
+> > > 
+> > > In which case, you need to be able to tell the bridge driver whose
+> > > device got removed that the devm resources aren't there anymore, and it
+> > > shouldn't try to access them.
+> > > 
+> > > That's what drm_bridge_enter()/exit is here for.  
+> > 
+> > Let me rephrase to check I got what you mean.
+> > 
+> > A) On bridge removal, use a notifier to notify all consumers of that
+> > bridge that they have to stop using the pointer to the bridge about to
+> > be removed.
+> > 
+> > B) Internally in the bridge driver (provider) use
+> > drm_bridge_enter()/exit() to forbid access to resources when the
+> > hardware is unplugged.
+> > 
+> > And also: bridge consumers won't need to use drm_bridge_enter()/exit()
+> > as they will clear their pointer before setting the unplugged flag.
+> > 
+> > Is my understanding of your idea correct?
+> > 
+> > If it is, I tend to agree, and I like it.
+> > 
+> > I like it, except for one point  I'm afraid. Why do we need enter/exit
+> > inside the driver (provider) code? At driver release, the driver
+> > instance won't exist anymore. Sure the private struct embedding a
+> > struct drm_bridge will be still allocated for some time, but the struct
+> > device will not exist, and the device driver instance as well.  
+> 
+> You have to sync several possible kinds of events: bridge calls from DRM
+> core, from HDMI audio, CEC, DP AUX _and_ completely async device
+> 'remove' / unbind callbacks.
 
-Am 28.01.25 um 23:29 schrieb Anusha Srivatsa:
-> Remove the TODO now that this series addresses
-> the changes needed.
+Ah, yes, that make sense. Looks like the big picture w.r.t. notifiers
+and enter/exit is clear -- until implementation time at least ;)
 
-While your series is fine, this TODO item is unrelated. It's about 
-various ancient fbdev drivers that do not reserve their memory regions 
-correctly. So please drop patch 14 form the series.
-
-Best regards
-Thomas
-
->
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-> ---
->   Documentation/gpu/todo.rst | 15 ---------------
->   1 file changed, 15 deletions(-)
->
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 256d0d1cb2164bd94f9b610a751b907834d96a21..b5aa5f776cfe0916b98bddf791c65abe974834cf 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -441,21 +441,6 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
->   
->   Level: Intermediate
->   
-> -Request memory regions in all drivers
-> --------------------------------------
-> -
-> -Go through all drivers and add code to request the memory regions that the
-> -driver uses. This requires adding calls to request_mem_region(),
-> -pci_request_region() or similar functions. Use helpers for managed cleanup
-> -where possible.
-> -
-> -Drivers are pretty bad at doing this and there used to be conflicts among
-> -DRM and fbdev drivers. Still, it's the correct thing to do.
-> -
-> -Contact: Thomas Zimmermann <tzimmermann@suse.de>
-> -
-> -Level: Starter
-> -
->   Remove driver dependencies on FB_DEVICE
->   ---------------------------------------
->   
->
+Thanks,
+Luca
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
