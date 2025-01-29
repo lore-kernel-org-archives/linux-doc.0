@@ -1,189 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BE821DF74C;
-	Wed, 29 Jan 2025 16:10:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7F71DE3CF;
+	Wed, 29 Jan 2025 16:10:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738167000; cv=none; b=L8AkgjwvbrCivGw58sC4yRGtbnT0FtMDsHvITx//GjpjCSS9T8PbH+RZuDFYOAJSx18b+YfQunD+b/iJGnyC8O76kcCTINwqcBSFeCfDUw1bq5v04OhVq3/J2HhImc+QO2xvvX0h1NHhZoIvEuBRuA2k8FFNIQ1oCaOYHvQkeuU=
+	t=1738167004; cv=none; b=Zey1J+wi5WeX63wkSMxFJVVt3syjelMcCyHx61hSrwpNMa9y2DeTLFps3bwCexryxK5+A63Dfo4xmw8oy1DByZkcApdU9MuiF1HrAox7v8lgxp8jWDhcwvJcD+9QsmRTcMlWHIohtUJ/ptl/WpkE91+3V2F/r3fBil6i1O6pboQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738167000; c=relaxed/simple;
-	bh=XNbr+IccoK+0jjezkRlZo49SoJU9y1tjRGSuQ5BcT58=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tguA6zFl60woCmKPNbRUwjkC4CdNDkRAHw5RDG+mNEeXYzX12IPZ6RMQKfZ4iVlg7fbqTSyGKVo+kKFvxppxfdc/5zjbWvHoAuFZWInjXRVCzY6VQe9fmECcn5dQvO9dZhNCn5IRsyC29hPxCMr3hAs2larkCYro7jvwyImS2OA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O38Wu9sW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738167004; c=relaxed/simple;
+	bh=GRUP9Czg5ZC0JLPGF3rpH7PTSJ9YHTmouAsRiWAo75w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZUB6U7xA+3anmHL/JbpNYhMuHlBFIGiu796c+1IOQh5H3BBfKTX6hTkQXdwn+Ng0PUMRfAsZi9VXAj76QiwgYA8ylwTqx+FQMRe8zD6N3EBgXGKIG743sZtnioYz7oOIW1cjkBHCHTaWV69Pn9Zr9YIAX2I+kAdeoi0sC+RhEJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lfiFcInF; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O38Wu9sW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75AA6C4CEE1;
-	Wed, 29 Jan 2025 16:09:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738166999;
-	bh=XNbr+IccoK+0jjezkRlZo49SoJU9y1tjRGSuQ5BcT58=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=O38Wu9sWgOem2OCQrpLhWjALZEquajhJhEE33mhMhF7IbPpPMKdcGyVt5HVN76JLD
-	 6og7IerKvpKVTFw8+Rw3SMgNWgf9HiURCHuqwsSsDgY/UrOp9X7v0f3NCqmZfc1USD
-	 iVcCFSXKta37Ta9VDAWP4DTEBrOwP2UNAN50XbUFhfWXkVmyeuwM8ZmdJHQ+mRn0+m
-	 637Kokt/XnwNfO0gDJ39N+0xNUXyzlNeS2Q1Mw0fjb/HDenFkUgC7ajWZZ+1GnLc5F
-	 YnN72yZ6gUZkF0GBpgefUbYNNA3z4gED/ToEd3UzYa6NE07nYXUMgXLXIQOHX745Y6
-	 5J8abAxEt55FA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tdAdZ-00000004PEe-2DV3;
-	Wed, 29 Jan 2025 17:09:57 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	"Jonathan Corbet" <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Nathan Chancellor <mchehab+huawei@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev,
-	workflows@vger.kernel.org
-Subject: [RFC 6/6] doc: changes: update Python minimal version
-Date: Wed, 29 Jan 2025 17:09:37 +0100
-Message-ID: <c66adbfef8142daea502f350a2583d51de8d08df.1738166451.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <cover.1738166451.git.mchehab+huawei@kernel.org>
-References: <cover.1738166451.git.mchehab+huawei@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lfiFcInF"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21636268e43so10093295ad.2;
+        Wed, 29 Jan 2025 08:10:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738167002; x=1738771802; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ymDSOEQ6GAWCTuGktRgzk09hgWGDW46vwLaYswetRgo=;
+        b=lfiFcInFMWcIWCS3RgzarE3jMsMXDzfK3cNwUaMpPFDzqbYD2HqL6jBta/VP+4guTT
+         //AGrIEJKnVAhD6+u1gDCR93+KFoB0HZ5LBqja4CzVy5bKMUta2FMm7akfyDIhpe3iUU
+         ZZZaNCi0Zk0LZTCqxik2xo7SttEBtQU/qYqRa7kqZEf60iVazMxwr5PTEfk21Ef318ck
+         OxhwPHyzsSclXFQ4iYJAzWlNA5MPE00GcDcJArLI7xKlFM2PzY/A1s+znUMXOwQpmVWo
+         paoxwB8pr7NV8hU6lgo7DAU2gdQVZ8i7n4EMAprIDcouCASducYd9EthvNLTPd9Tu7PY
+         yNyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738167002; x=1738771802;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ymDSOEQ6GAWCTuGktRgzk09hgWGDW46vwLaYswetRgo=;
+        b=wrJgqAbZ7GXfstEkZEH4VbjIZInvxY/asHEZWUFVytqUrD9FzoEjjZCkUmxjdKoWAh
+         p3ZCFKydN6zaJynr5B8cMMADnSlokYv9JJB4zIxa2rS2g6iTFclVD+c0w54nLcPPRhii
+         Ga1whxYmxHOKB2fwFRhx95yy4F2wrr142YW5fTCHV4En+lXbL9FuOUKYiXLbOIaMFs5X
+         olr/icmIi6Jy2Rid26B9D55gxI8IrKBXmPUoAwpXGhcuE0d7K6lOxhi55IcPG0l3j6La
+         IV6QiWpETEzdyjsYxwc5iJ+ltmcs27ylveIzqDODRXcQGLkskUa7Az9E85iaOuMupljD
+         yzgA==
+X-Forwarded-Encrypted: i=1; AJvYcCWCSWkM9TcgS7s3Fzn0qdoR3AZWT+SizjNJqnHHwCIsAQ7NyGyBOdLQWybbfuYs7yBnczMqXv0fQ/IX@vger.kernel.org, AJvYcCWJKMwoAnhCJAZj/NoS0ZX3f9JgVA1dtStGMXX0YGFKz2x72aJphXXbwGfP854YoSnXjkr3qIohcFNM@vger.kernel.org, AJvYcCWXl2LfyXuP5h0nZYcsSqu8H1cfch+A05bkEscx/U8igQ6KUR6sySvowWxN99LQAnWEuq/PojcOp3nlRFA=@vger.kernel.org, AJvYcCXbny7prp0o33oblv9x8iN3x9m8W5692EU+f6hK5IN6R+K+ZoIHPea1/KjmR5A5TurhgtiFsFMfRITGK2GM@vger.kernel.org, AJvYcCXqjAOMylq9vi1QmeX6B33KFvNHVJxfeyLnUxqu2oUlntFEvkNiVYYBOKbQCs0m/Xjby2rQuN4LZ7Ll@vger.kernel.org
+X-Gm-Message-State: AOJu0YwrzIU97Oe9NbE4XhXzhL1bqljKdBQ6LlxnR0UBQl4bpFVcCO+Z
+	0f7/jwSgeunvqjA1Hd5vNRmLxAqNgEFARzxg++lGa7rFBhqrS1Kr
+X-Gm-Gg: ASbGncswvF3AYS6MaXMVVLzuL1CJI7Maz4LwSLEAcot5g1vAyfoGr1nX7lotvWlG6fk
+	YtaAEt/cI2xbbg9uUxgavAFJ3i1rwoIyzQ6D7La0JWjsqIy0CNXbTRIqaulAPv6xIJbOO/KS49q
+	w8rLn34P5J05wiKZsF5aboTuaDu5n4DM19fiSybgY3T9DPIdvdiBFGNrHGOqtW4z0MFpZmqULKl
+	IJ+qpMMO/QCfSJo4BtfyjYc5pIPxPBqrL3f490g2vOwiBDNaT0xJO2NDzlPCm1qvBko5qm09tyx
+	ZHv2Wzk5QYrD0PJJg0KnRoWnnLlI
+X-Google-Smtp-Source: AGHT+IEMzBy5A9c7aWN66LJLLpZu/t5jLTsQYXT/hCtX+4kKdRCfg3Q4oeCXElu7sq8bEWhcdZuznQ==
+X-Received: by 2002:a05:6a21:9985:b0:1e0:ca95:3cb2 with SMTP id adf61e73a8af0-1ed7a5c462bmr5580176637.8.1738167001747;
+        Wed, 29 Jan 2025 08:10:01 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-ac48ea371dasm10435446a12.12.2025.01.29.08.10.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jan 2025 08:10:01 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Wed, 29 Jan 2025 08:10:00 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
+Cc: Jean Delvare <jdelvare@suse.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-i2c@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: hwmon: ltc2978: add support for ltm4673
+Message-ID: <45df9520-1727-4ac7-8e7f-8d15ed153684@roeck-us.net>
+References: <20250124-ltm4673-v1-0-a2c6aa37c903@analog.com>
+ <20250124-ltm4673-v1-1-a2c6aa37c903@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+In-Reply-To: <20250124-ltm4673-v1-1-a2c6aa37c903@analog.com>
 
-The current minimal version doesn't match what we have currently
-at the Kernel:
+On Fri, Jan 24, 2025 at 11:23:05PM +0800, Cedric Encarnacion wrote:
+> Add LTM4673 to supported devices of LTC2978. Unlike other LTM46xx
+> devices, LTM4673 is a μModule regulator that outputs four channels.
+> 
+> Signed-off-by: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-	$ vermin -v  $(git ls-files *.py)
-	...
-	Minimum required versions: 3.10
-	Incompatible versions:     2
+Applied to hwmon-next.
 
-Those are the Python scripts requiring versions higher than current minimal (3.5):
+Note that the branch will only be pushed to linux-next after the commit
+window closed.
 
-        !2, 3.10     tools/net/sunrpc/xdrgen/generators/__init__.py
-        !2, 3.10     tools/net/sunrpc/xdrgen/generators/program.py
-        !2, 3.10     tools/net/sunrpc/xdrgen/subcmds/source.py
-        !2, 3.10     tools/net/sunrpc/xdrgen/xdr_ast.py
-        !2, 3.10     tools/power/cpupower/bindings/python/test_raw_pylibcpupower.py
-        !2, 3.9      tools/testing/selftests/net/rds/test.py
-        !2, 3.9      tools/net/ynl/ethtool.py
-        !2, 3.9      tools/net/ynl/cli.py
-        !2, 3.9      scripts/checktransupdate.py
-        !2, 3.8      tools/testing/selftests/tc-testing/plugin-lib/nsPlugin.py
-        !2, 3.8      tools/testing/selftests/hid/tests/base.py
-        !2, 3.7      tools/testing/selftests/turbostat/smi_aperf_mperf.py
-        !2, 3.7      tools/testing/selftests/turbostat/defcolumns.py
-        !2, 3.7      tools/testing/selftests/turbostat/added_perf_counters.py
-        !2, 3.7      tools/testing/selftests/hid/tests/conftest.py
-        !2, 3.7      tools/testing/kunit/qemu_config.py
-        !2, 3.7      tools/testing/kunit/kunit_tool_test.py
-        !2, 3.7      tools/testing/kunit/kunit.py
-        !2, 3.7      tools/testing/kunit/kunit_parser.py
-        !2, 3.7      tools/testing/kunit/kunit_kernel.py
-        !2, 3.7      tools/testing/kunit/kunit_json.py
-        !2, 3.7      tools/testing/kunit/kunit_config.py
-        !2, 3.7      tools/perf/scripts/python/gecko.py
-        !2, 3.7      scripts/rust_is_available_test.py
-        !2, 3.7      scripts/bpf_doc.py
-        !2, 3.6      tools/writeback/wb_monitor.py
-        !2, 3.6      tools/workqueue/wq_monitor.py
-        !2, 3.6      tools/workqueue/wq_dump.py
-        !2, 3.6      tools/usb/p9_fwd.py
-        !2, 3.6      tools/tracing/rtla/sample/timerlat_load.py
-        !2, 3.6      tools/testing/selftests/net/openvswitch/ovs-dpctl.py
-        !2, 3.6      tools/testing/selftests/net/nl_netdev.py
-        !2, 3.6      tools/testing/selftests/net/lib/py/ynl.py
-        !2, 3.6      tools/testing/selftests/net/lib/py/utils.py
-        !2, 3.6      tools/testing/selftests/net/lib/py/nsim.py
-        !2, 3.6      tools/testing/selftests/net/lib/py/netns.py
-        !2, 3.6      tools/testing/selftests/net/lib/py/ksft.py
-        !2, 3.6      tools/testing/selftests/kselftest/ksft.py
-        !2, 3.6      tools/testing/selftests/hid/tests/test_tablet.py
-        !2, 3.6      tools/testing/selftests/hid/tests/test_sony.py
-        !2, 3.6      tools/testing/selftests/hid/tests/test_multitouch.py
-        !2, 3.6      tools/testing/selftests/hid/tests/test_mouse.py
-        !2, 3.6      tools/testing/selftests/hid/tests/base_gamepad.py
-        !2, 3.6      tools/testing/selftests/hid/tests/base_device.py
-        !2, 3.6      tools/testing/selftests/drivers/net/stats.py
-        !2, 3.6      tools/testing/selftests/drivers/net/shaper.py
-        !2, 3.6      tools/testing/selftests/drivers/net/queues.py
-        !2, 3.6      tools/testing/selftests/drivers/net/ping.py
-        !2, 3.6      tools/testing/selftests/drivers/net/lib/py/remote_ssh.py
-        !2, 3.6      tools/testing/selftests/drivers/net/lib/py/load.py
-        !2, 3.6      tools/testing/selftests/drivers/net/lib/py/__init__.py
-        !2, 3.6      tools/testing/selftests/drivers/net/lib/py/env.py
-        !2, 3.6      tools/testing/selftests/drivers/net/hw/rss_ctx.py
-        !2, 3.6      tools/testing/selftests/drivers/net/hw/pp_alloc_fail.py
-        !2, 3.6      tools/testing/selftests/drivers/net/hw/nic_performance.py
-        !2, 3.6      tools/testing/selftests/drivers/net/hw/nic_link_layer.py
-        !2, 3.6      tools/testing/selftests/drivers/net/hw/lib/py/linkconfig.py
-        !2, 3.6      tools/testing/selftests/drivers/net/hw/lib/py/__init__.py
-        !2, 3.6      tools/testing/selftests/drivers/net/hw/devmem.py
-        !2, 3.6      tools/testing/selftests/drivers/net/hw/devlink_port_split.py
-        !2, 3.6      tools/testing/selftests/drivers/net/hw/csum.py
-        !2, 3.6      tools/testing/selftests/devices/probe/test_discoverable_devices.py
-        !2, 3.6      tools/testing/selftests/bpf/test_bpftool_synctypes.py
-        !2, 3.6      tools/testing/selftests/bpf/generate_udp_fragments.py
-        !2, 3.6      tools/testing/kunit/run_checks.py
-        !2, 3.6      tools/testing/kunit/kunit_printer.py
-        !2, 3.6      tools/sched_ext/scx_show_state.py
-        !2, 3.6      tools/perf/tests/shell/lib/perf_metric_validation.py
-        !2, 3.6      tools/perf/tests/shell/lib/perf_json_output_lint.py
-        !2, 3.6      tools/perf/scripts/python/parallel-perf.py
-        !2, 3.6      tools/perf/scripts/python/flamegraph.py
-        !2, 3.6      tools/perf/scripts/python/arm-cs-trace-disasm.py
-        !2, 3.6      tools/perf/pmu-events/models.py
-        !2, 3.6      tools/perf/pmu-events/metric_test.py
-        !2, 3.6      tools/perf/pmu-events/metric.py
-        !2, 3.6      tools/perf/pmu-events/jevents.py
-        !2, 3.6      tools/net/ynl/ynl-gen-rst.py
-        !2, 3.6      tools/net/ynl/ynl-gen-c.py
-        !2, 3.6      tools/net/ynl/lib/ynl.py
-        !2, 3.6      tools/net/ynl/lib/nlspec.py
-        !2, 3.6      tools/crypto/tcrypt/tcrypt_speed_compare.py
-        !2, 3.6      tools/cgroup/iocost_monitor.py
-        !2, 3.6      tools/cgroup/iocost_coef_gen.py
-        !2, 3.6      scripts/make_fit.py
-        !2, 3.6      scripts/macro_checker.py
-        !2, 3.6      scripts/get_abi.py
-        !2, 3.6      scripts/generate_rust_analyzer.py
-        !2, 3.6      scripts/gdb/linux/timerlist.py
-        !2, 3.6      scripts/gdb/linux/pgtable.py
-        !2, 3.6      scripts/clang-tools/run-clang-tools.py
-        !2, 3.6      Documentation/sphinx/automarkup.py
-
-Even if we exclude tools/net/sunrpc/xdrgen/, the minimal version is
-Python 3.9.
-
-Update process/changes to reflect the current minimal version required to
-run Python scripts outside tools.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/process/changes.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 012d2b715c2a..e12aa044e09a 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -63,7 +63,7 @@ cpio                   any              cpio --version
- GNU tar                1.28             tar --version
- gtags (optional)       6.6.5            gtags --version
- mkimage (optional)     2017.01          mkimage --version
--Python (optional)      3.5.x            python3 --version
-+Python (optional)      3.9.x            python3 --version
- GNU AWK (optional)     5.1.0            gawk --version
- ====================== ===============  ========================================
- 
--- 
-2.48.1
-
+Thanks,
+Guenter
