@@ -1,93 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E57B71E1A25;
-	Wed, 29 Jan 2025 17:39:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4704418F2DD;
+	Wed, 29 Jan 2025 18:03:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738172366; cv=none; b=mGU+E05eW4zHt5FKFH6tQX1mZWm5RiSHje2xULf90TrhP38hWDSGgP0Nyz4IjCs2HNw5d10D12eFC4AnCBlyK69auz7ZI4BNHbM0c9B+4SC3/B3G8nj8eCjXUIYsFuEHDeDN4DhVoooqBGx/9btRvPTXif2/kzOEp/g+RTdJv8Q=
+	t=1738173790; cv=none; b=QaiDOPW24WJTnGrMgxVzrb4WFNlExc98ddknoZLCbSSX6xzu23A6nnuuMiU8NeBM29yyxyqbXVUbbdLZ1gJMLcrPz+RfHcckRSektMNr4aVdiBqroM3sy1m/HIyWZRcjnt3hFynYJHz2nfQwTznqqSgUIvGc5xPl0t33pasCle8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738172366; c=relaxed/simple;
-	bh=xZH+L/OgMoZtO9e2qihzVrLM4quolAqHcEMQwUbsVnU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WzomQwW3YCPK2a/1CRbZ6xieXfV7m/uxhvxQFd2fPNCJrm2ksPASp3Ah1fksNwPlyFPEx+a8RRhB9AR3ZSwSLBQvfCe4KTJEHYA3HY5vK7GJOZQBBhqsRZB9nXu+ydSBkxgsIpSVZpwUSTscU3y60ziOaGJSeIYVk/N6xnfzvVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uvo0ePWA; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uvo0ePWA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41EBBC4CEE6;
-	Wed, 29 Jan 2025 17:39:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738172365;
-	bh=xZH+L/OgMoZtO9e2qihzVrLM4quolAqHcEMQwUbsVnU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Uvo0ePWAQRshuE4ODsVOlZMf/Eb4UquZ1bWuG+xxJF1ZGwdWBTQ+TJCcIz/GMgrwc
-	 ozm4YgmjvX6Ua0GQ51NG+ImWZSa5wvQ46jzjmdzYc0U8dRs0wX1VD85DTukP3jQZnR
-	 M/hNySr916mbTk9mnbudMT1ptbHsWwxDovBJrN998Qej8ZBxi+zzylo9773TjtDp5x
-	 r/J+/IaRwCookNe0EQ1NJPX3D1f/G+nq7l/dAjFS50c1P6ryxH9hfUob//ExNXVCx9
-	 qtAw/pm0+/s17k999dvCioQjVX2EVO05JWIUxoqz/GecjWgDYhY3eCKQu6ameT1Wsw
-	 h350Wrww893jA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tdC26-00000004SdI-3IUu;
-	Wed, 29 Jan 2025 18:39:22 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Liang, Kan" <kan.liang@linux.intel.com>,
-	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Arnaldo Carvalho de Melo <mchehab+huawei@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Jiri Olsa <mchehab+huawei@kernel.org>,
+	s=arc-20240116; t=1738173790; c=relaxed/simple;
+	bh=Qe/SoOU9qTRy3XGlqsp4aCT1VN6ykWQ0c1bYiG7F840=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fBsZ0JkWHLEct5MBUaw2mqrkqB96MAO2/KDfCCR/PKqnHzaZLRy0g8ZdEOEsfLrUL5XMxfHnhEnlrden8i5N6wSFLeoOAqXwFuFdJVXdcNLvSJ/xAnTRfUaIa8d1CvcAd1sclfv1LNFGjuqwdqEmwdm/yLfzKo5HaTDzZHe4IiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88272C4CED1;
+	Wed, 29 Jan 2025 18:03:07 +0000 (UTC)
+Date: Wed, 29 Jan 2025 18:03:05 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: Rob Herring <robh@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, Will Deacon <will@kernel.org>,
+	Ryan Roberts <ryan.roberts@arm.com>,
 	Mark Rutland <mark.rutland@arm.com>,
-	Namhyung Kim <mchehab+huawei@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Veronika Molnarova <vmolnaro@redhat.com>,
-	linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org
-Subject: [PATCH 2/6] tools: perf: exported-sql-viewer: drop support for Python 2
-Date: Wed, 29 Jan 2025 18:39:04 +0100
-Message-ID: <49d26071821a841531618296e7287a2a55ed2bb5.1738171937.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <cover.1738171937.git.mchehab+huawei@kernel.org>
-References: <cover.1738171937.git.mchehab+huawei@kernel.org>
+	Oliver Upton <oliver.upton@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Eric Auger <eric.auger@redhat.com>, kvmarm@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/7] arm64/boot: Enable EL2 requirements for FEAT_PMUv3p9
+Message-ID: <Z5ptWRqZVI8grz6e@arm.com>
+References: <20241220072240.1003352-1-anshuman.khandual@arm.com>
+ <20250102160402.GB3990035-robh@kernel.org>
+ <Z30adHnQ7ZFaU9UR@arm.com>
+ <CAL_JsqLLnh1o4L1=PpNt5brBwZZCgp7mOygByOYakchrzc29Ow@mail.gmail.com>
+ <86wmf5wo8u.wl-maz@kernel.org>
+ <CAL_JsqKKiEOj=a1k6U-bB0F6-ht7QokDnh3bspHupp-QG=haSg@mail.gmail.com>
+ <Z4kmlhnlpKjS_MII@arm.com>
+ <CAL_JsqK1k7fG=yDZSbTbV63yRP5U9=GpuAiv=NWZJWdppUtRwA@mail.gmail.com>
+ <7f5c68c7-8036-4d18-950f-80e55ac8ea11@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+In-Reply-To: <7f5c68c7-8036-4d18-950f-80e55ac8ea11@arm.com>
 
-As stated at process/changes.rsy doc, the current minimal Python
-version is 3.x, so drop support for EOL python 2.x.
+On Tue, Jan 28, 2025 at 02:41:17PM +0530, Anshuman Khandual wrote:
+> On 1/18/25 03:37, Rob Herring wrote:
+> > On Thu, Jan 16, 2025 at 9:32 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
+> >>
+> >> On Wed, Jan 08, 2025 at 07:47:16AM -0600, Rob Herring wrote:
+> >>> On Wed, Jan 8, 2025 at 5:15 AM Marc Zyngier <maz@kernel.org> wrote:
+> >>>> On Tue, 07 Jan 2025 22:13:47 +0000,
+> >>>> Rob Herring <robh@kernel.org> wrote:
+> >>>>> On Tue, Jan 7, 2025 at 6:13 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
+> >>>>>> But does KVM actually expose the feature to EL1 in ID_AA64DFR1_EL1 and
+> >>>>>> than traps it at EL2?
+> >>>>>
+> >>>>> As Marc pointed out KVM only advertises PMUv3.8. Regardless, guest
+> >>>>> accesses to these registers are trapped with or without this series.
+> >>>>
+> >>>> And most probably generates a nice splat in the kernel log, as nobody
+> >>>> updated KVM to handle *correctly* PMICNTR_EL0 traps, let alone deal
+> >>>> with the FGT2 registers.
+> >>>
+> >>> Isn't that this series[1]? Should that have come first, I guess I know
+> >>> that *now*.
+> >> [...]
+> >>> [1] https://lore.kernel.org/all/20241210055311.780688-1-anshuman.khandual@arm.com/
+> >>
+> >> It's not any clearer to me. Does this series depend on the 46-patch one?
+> >> Or, if we had the other, is this no longer needed? Or none of these,
+> >> they are independent.
+> > 
+> > They are independent. I think ideally we'd want everything landing at
+> > the same time, but we're past ideal at this point. Without this
+> > series, if someone uses PMU on v8.9 and firmware enabled FGT2, then
+> > the kernel will crash. Without the above series, KVM will have
+> > warnings in the kernel log, but otherwise function.
+> 
+> Right, they are independent. Just that Rob had observed this PMU v3.8 boot
+> requirement while reviewing the HW breakpoint series earlier. I should just
+> respin this series after the upcoming v6.14-rc1 release is out ?
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- tools/perf/tests/shell/lib/attr.py | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+They may apply cleanly but please do rebase and repost at -rc1. Thanks.
 
-diff --git a/tools/perf/tests/shell/lib/attr.py b/tools/perf/tests/shell/lib/attr.py
-index 3db9a7d78715..3ca405f45d10 100644
---- a/tools/perf/tests/shell/lib/attr.py
-+++ b/tools/perf/tests/shell/lib/attr.py
-@@ -12,11 +12,7 @@ import logging
- import re
- import shutil
- import subprocess
--
--try:
--    import configparser
--except ImportError:
--    import ConfigParser as configparser
-+import configparser
- 
- def data_equal(a, b):
-     # Allow multiple values in assignment separated by '|'
 -- 
-2.48.1
-
+Catalin
