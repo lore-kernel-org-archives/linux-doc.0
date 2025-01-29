@@ -1,213 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434A11B0406;
-	Wed, 29 Jan 2025 10:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531DD1A9B53;
+	Wed, 29 Jan 2025 11:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738145074; cv=none; b=e85JgTsWWfIDUgzRyOg6NrZcnW4hhGQ+p1D3d+H2+pAQgXiLHtJcGm2VwkCipue8W3HbGk5gztYEfxqKIUSSp0IXAuOU0nPWlZFCcNnagWfhntDVcxxt/5Gnu56Rp4apDBy5b5Ycb/mZCHSzCZgYIweQA14WsniXN8xq7+GtMFc=
+	t=1738148688; cv=none; b=pxBh13++jHqNBIZHoVLnf4xhquN43CWpqiz53oiyO9N3YVPweuQ9q8inPxp3BrYk2wDet3NOt8DL34GhwyHCfhJ6VlBSjd/OcDW2/6AKGAIv1LrXz8IOhYbayPNds/xJcdKOZnpDjk1+66ZBqiZnoJOMKu0YDpB5grtO5eC3lOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738145074; c=relaxed/simple;
-	bh=ZYUiiW5SPe5G2PPcVS1l+VW3FANuiTOd1+wDLQeYHIw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i8m9826KRZ6u9GLMLjr8dGbAVELKAnkPnC1iqa1UQx49zZj3mEZSdihTrraB8nCPZ4CBjS9TsnPHwehaiSPU7k6un/PX7nASKtkJkHufBy+w9PqHtWkcVYuIZElqDiwze38jtFlnMAWn3brFnAwBvXvZN7PNdPxeqHFDqt1fSmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KmIpbXkK; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1738148688; c=relaxed/simple;
+	bh=gjAGpJ2ZfCab6OmbpKP5c0cFnuutyKRkASwagZ+wqqU=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=glNZT7RedF8ohl1w9oGybHaeIPiWtfKjS45D4smW/MmePDS/uToAQLgfSQ0pd825+3dhXbQc4lB9AYNCjA2bMjh8aSWnAF5GpfhroNB1iF91QmGhagyTSuSnFoJ1GQtCYwJIsJNjCtGh19HGIPCZ+519R2Rm2g3KuvLp6i6cH5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OzOMmw/1; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KmIpbXkK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738145072; x=1769681072;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZYUiiW5SPe5G2PPcVS1l+VW3FANuiTOd1+wDLQeYHIw=;
-  b=KmIpbXkKeiPnuQ6rTxpvIGqlNtetLHHqT6brNfIxA8zI1E5hhQf1Hbdo
-   oGhIBk8BBrzTo6PTjSL18O2sROuKuqXx2juDzc85gGGasOGZ9J1Az9gpG
-   ah9sRdp3L2GUkOwhA9MnebVxuxPa/LWNW0nZ5SSBAuWvGAkZE+ae0FhUf
-   BRnSto8EnVk3vRqBNiQtWJIXqqnXun7fO3KZyv3QYpx+IfmBLWKUUVsov
-   R8y9nZFfPbFauHdDh6zPkWBljJt61OCOcTeJ/PqxhXiqKuPwsihJGZUKW
-   8rspcBhRlu9G7dNBHHMmOSF/buQH3wSaRF6MwqvbVBuIgUsH3i8oasBJ8
-   g==;
-X-CSE-ConnectionGUID: JgcJmVTvSnq/xw8hthPQ/A==
-X-CSE-MsgGUID: ew12Q+uqSTeQwhJYplBTkg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11329"; a="38819678"
-X-IronPort-AV: E=Sophos;i="6.13,243,1732608000"; 
-   d="scan'208";a="38819678"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2025 02:04:31 -0800
-X-CSE-ConnectionGUID: SWIDke8ZSFmDY2kXL6S9eA==
-X-CSE-MsgGUID: cpJMU9WxQ+O6GwAAgkmIuw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,243,1732608000"; 
-   d="scan'208";a="108812082"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2025 02:04:28 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1td4vo-00000006LEj-3eoh;
-	Wed, 29 Jan 2025 12:04:24 +0200
-Date: Wed, 29 Jan 2025 12:04:24 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: "Mohan, Subramanian" <subramanian.mohan@intel.com>
-Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"greg@kroah.com" <greg@kroah.com>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"Hall, Christopher S" <christopher.s.hall@intel.com>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"Dong, Eddie" <eddie.dong@intel.com>,
-	"N, Pandith" <pandith.n@intel.com>,
-	"T R, Thejesh Reddy" <thejesh.reddy.t.r@intel.com>,
-	"Zage, David" <david.zage@intel.com>,
-	"Chinnadurai, Srinivasan" <srinivasan.chinnadurai@intel.com>,
-	"rdunlap@infradead.org" <rdunlap@infradead.org>,
-	"bagasdotme@gmail.com" <bagasdotme@gmail.com>,
-	"giometti@enneenne.com" <giometti@enneenne.com>
-Subject: Re: [PATCH v2 1/1] pps: retrieve generator specific data from
- framework
-Message-ID: <Z5n9KHbLhtg6F_Dt@smile.fi.intel.com>
-References: <20250128141743.52031-1-subramanian.mohan@intel.com>
- <Z5nQeAFx3UlI9hxE@smile.fi.intel.com>
- <PH7PR11MB5862283EF5540BBF7BF0C853F7EE2@PH7PR11MB5862.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OzOMmw/1"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2167141dfa1so10068025ad.1;
+        Wed, 29 Jan 2025 03:04:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738148686; x=1738753486; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fJ5kmVXf2DYTWGaBQCItHDAjMn8EJDfpv/qdoCloEls=;
+        b=OzOMmw/1BWAeKaukE6lj/fn6ta0+cE5eqaLXE+6U9aXy3O6PhR05EyDFbtwVCaXglL
+         7Bik7pVRsUn0YKgURNBdSMS+HB4cWsb62fTjv0hOcosovVTJGmkBayEOPJUXiFZkPbis
+         1Qhg4pj2A93ytR/tvcemZRrWshAtC/0XVuAA8zKJg+bM6ir350rNJzC3zlSZUmNiu5z5
+         EfiQZ/NLkTncehUvBRQEV2NEGM84oDq8WFNZ8sGV9IFC7opd5kjNX5f5VWtlJRWhYeLc
+         KUdp04k4O6RfBRJyUKQ1FYJJt01WeV+/r3IQgwftDR0sP0yORAm7YyyYwhApE6ek0fTt
+         SS5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738148686; x=1738753486;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fJ5kmVXf2DYTWGaBQCItHDAjMn8EJDfpv/qdoCloEls=;
+        b=slOpL+yli83MFTZrqIboWhAfgxm0DIrQHXkMOCinH0RTb1qmjcsFJpvHv73E6TeKBr
+         XOW2hSN9wH2z+G3s1dd/2pQED6BKS3K0qs/Xz3mfqOTt9QwavkOWaiB4PEbYjDrjwIl4
+         lXP/e2lAcssSDp+OuXPG8t06cif4rbw4Xeol7mxiqc8H5GkIkX1ke0i+JoEL7afkIY58
+         B+L0jIC1aSBgAwc2+1T6CJC/rpAPcURID7tK8rdkPOw/Q/g5xubo1YVut2RW05FgInos
+         wvnpZUFtdoKNSsRKBgdIZKayC8/8Vul6HOIU2VhPW2IjL5vq3dpbuW74yN78ez9HRbhq
+         8xlA==
+X-Forwarded-Encrypted: i=1; AJvYcCUQ9NpIT5bg7prXiBbzA52jwYFEzfOHXFLzCF6bfLDe14pMUXwVpY3TKCTjlPKETIC9T5vxXd+TlzJODdSS@vger.kernel.org, AJvYcCWZO5pYJpV9ad1OWadSr55mU6ZHoUfCTiV6aAhUA4fBDBi/oFd1VgqglXjGvfG1jzktUvEBOvL3RPA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxGV8O6ytPWa60syyIes2WhpxY1F+51jbmSKEJWXThK6IY9t8A7
+	Y7Ra7rZ8Uu2efWUKROxyBSxtVmYmpJkifk2uKxHhnI4t4pOZz5+SehKpnA==
+X-Gm-Gg: ASbGnct+7/DhOrAoVGQvoS1hYB/bXFqrBRNtbKe2/pTrts7OdhMt8IRiBPH/LvWTVlV
+	iZDByllC8hxRilLBflF1uCcYB3YJSazJG8yTfseB9ymOeYUKtzq/fZhV2HRhx/T0iAL3cSSGjBj
+	cCcQiasg1nVzSS7vu1WIZqY57UQ6mEvPh/BSyMkYs9DNmPoP9CEcVqN9rJdLeWj67GpT22BN8Cy
+	4xd8hders6wtJSJBux3XpMODXxiXHtgaxXMN064907iypIbJPmj6mghYLAPwCkaLcg+zqAsrs5n
+	RC7Mt4A4TggvaaklzxSV8gcc7q8Ywl4e1FrsOrXJcOCpgDAkJCciKP0dNEg4bQ==
+X-Google-Smtp-Source: AGHT+IHU5XLv+7KBAhdQBHeqsXNSoiHmndBjBw7eRSFF+6uerQ57WbXOzpg+vBfjYQh9rwO8q/aq4g==
+X-Received: by 2002:a17:902:ef4f:b0:216:59f1:c7d9 with SMTP id d9443c01a7336-21dd77dbd8bmr51597285ad.19.1738148686365;
+        Wed, 29 Jan 2025 03:04:46 -0800 (PST)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21da414cc20sm97484275ad.165.2025.01.29.03.04.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jan 2025 03:04:46 -0800 (PST)
+Message-ID: <2d4d3fd1-5fe2-4d18-9085-73f9ff930c2d@gmail.com>
+Date: Wed, 29 Jan 2025 20:04:42 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PH7PR11MB5862283EF5540BBF7BF0C853F7EE2@PH7PR11MB5862.namprd11.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+To: mchehab+huawei@kernel.org
+Cc: corbet@lwn.net, gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <72a53ca85e554b0c1fb90488d55aa62ec1d7defe.1738020236.git.mchehab+huawei@kernel.org>
+Subject: Re: [RFC v2 17/38] scripts/get_abi.py: use an interactor for ReST
+ output
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <72a53ca85e554b0c1fb90488d55aa62ec1d7defe.1738020236.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 29, 2025 at 09:30:10AM +0000, Mohan, Subramanian wrote:
-> > -----Original Message-----
-> > From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Sent: Wednesday, January 29, 2025 12:24 PM
-> > On Tue, Jan 28, 2025 at 07:47:43PM +0530, subramanian.mohan@intel.com
-> > wrote:
+Hi,
 
-...
+Mauro Carvalho Chehab wrote:
 
-> > > While adapting pps generator driver(tio generator as an example)to the
-> > > new generator framework, As part of driver registration the
-> > > pps_gen_device pointer is returned from framework. Due to which there
-> > > is difficulty in getting generator driver data back in enable
-> > > function. we won't be able to use container_of macro as it results in
-> > > static assert. we might end up
-> > 
-> > container_of()
-> > 
-> > Can you be more specific, what exactly happens?
-> Let me provide some more info:
-
-...
-
-> Once the framework registration is done in probe function through
-> pps_gen_register_source we get back pps_gen pointer and stored in our struct
-> pps_tio.
-
-This is irrelevant.
-
-> As part of enable function:
-> We are trying to get back pps_tio (parent structure) with the help of pps_gen
-> as this is pointer container_of does not work here.
-> Hence proposed add a new  generic  private pointer inside the
-> pps_gen_source_info structure which is exposed to driver.
+> Instead of printing all results line per line, use an interactor
+> to return each variable as a separate message.
 > 
-> static int pps_tio_enable(struct pps_gen_device *pps_gen, bool enable)
-> {
->     /* Trying to get back pps_tio struct is not possible as pps_gen is a  pointer in structure */
->      container_of(pps_gen, struct pps_tio, pps_gen);
+> This won't change much when using it via command line, but it
+> will help Sphinx integration by providing an interactor that
+> could be used there to handle ABI symbol by symbol.
 > 
-> }
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  scripts/get_abi.py | 52 ++++++++++++++++++++++++++--------------------
+>  1 file changed, 29 insertions(+), 23 deletions(-)
 > 
-> Compilation Error:
-> In file included from ./include/linux/bitfield.h:10,
->                  from drivers/pps/generators/pps_gen_tio.c:8:
-> drivers/pps/generators/pps_gen_tio.c: In function 'pps_tio_gen_enable':
-> ./include/linux/build_bug.h:78:41: error: static assertion failed: "pointer type mismatch in container_of()"
->    78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
->       |                                         ^~~~~~~~~~~~~~
-> ./include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
->    77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
->       |                                  ^~~~~~~~~~~~~~~
-> ./include/linux/container_of.h:20:2: note: in expansion of macro 'static_assert'
->    20 |  static_assert(__same_type(*(ptr), ((type *)0)->member) || \
->       |  ^~~~~~~~~~~~~
-> drivers/pps/generators/pps_gen_tio.c:172:24: note: in expansion of macro 'container_of'
->   172 |  struct pps_tio *tio = container_of(pps_gen,struct pps_tio, pps_gen);
+> diff --git a/scripts/get_abi.py b/scripts/get_abi.py
+> index 73613fb29c1c..2aec1f9dc5aa 100755
+> --- a/scripts/get_abi.py
+> +++ b/scripts/get_abi.py
+[...]
+> @@ -470,9 +472,9 @@ class AbiParser:
+>  
+>                  if cur_part and cur_part != part:
+>                      part = cur_part
+> -                    print(f"{part}\n{"-" * len(part)}\n")
+> +                    msg += f"{part}\n{"-" * len(part)}\n\n"
+>  
+> -                print(f".. _{key}:\n")
+> +                msg += f".. _{key}:\n\n"
+>  
+>                  max_len = 0
+>                  for i in range(0, len(names)):           # pylint: disable=C0200
+[...]
 
-Of course, you shouldn't use pointers, only embedded in members can be used
-for container_of(). It seems like basic misunderstanding of how container_of()
-works.
+Testing under Ubuntu 22.04, where distro python3 is 3.10.12 and
+distro Sphinx is 4.3.2, I get this exception by running "make htmldocs":
 
-> > > in using static pointer. To avoid the same and get back the generator
-> > > driver data back we are proposing generic approach to add drv_prv_data
-> > > pointer inside the struct pps_gen_source_info.
-> > 
-> > > Example TIO structure wrapped with pps_gen_device and usage.
-> > >
-> > > struct pps_tio {
-> > > 	/* Framework Related * /
-> > > 	struct pps_gen_source_info pps_tio_source_info
-> > > 	struct pps_gen_device *pps_gen;
-> > 
-> > > };
-> > 
-> > > static int pps_tio_enable(struct pps_gen_device *pps_gen, bool enable)
-> > > {
-> > >
-> > >     /* Getting TIO data back */
-> > >     /* Note: drv_prv_data will be initialized in our init routine */
-> > >     struct pps_tio *tio = pps_gen->info.drv_prv_data;
-> > 
-> > So, what's wrong with the container_of() against pps_gen->info?
-> > We have tons of code in the kernel that does it.
-> 
-> We are trying to get our TIO/struct pps_tio structure back using pps_gen pointer..
-> 
-> > >     /* Access tio members here to set some of the parameters */
-> > >
-> > >     return 0;
-> > > }
-> > 
-> > Okay, looking into the implementation I see what's the issue (but it doesn't
-> > mean that commit message is good here, you still need to explain better why
-> > you can't get the correct address).
-> 
-> Ok, Something like this:
-> 
-> "Adding new generic private pointer to the struct pps_gen_source_info which
-> can help in saving the parent driver data. In the existing adaption using
-> container_of with a pointer to fetch the parent driver data/address is not
+Exception occurred:
+  File ".../linux/Documentation/sphinx/kernel_abi.py", line 48, in <module>
+    from get_abi import AbiParser
+  File ".../linux/scripts/get_abi.py", line 525
+    msg += f"{part}\n{"-" * len(part)}\n\n"
+                       ^
+SyntaxError: f-string: expecting '}'
 
-Pay attention for other comments which I gave against commit message text.
+, which is introduced in the above hunk, I guess.
 
-> possible"
-> 
-> "Example as shown above can be given as reference"
-> 
-> > The problem is that info is got fully copied. Perhaps we should rely on the fact
-> > that it always be provided? I dunno any data structure that defines callbacks
-> > and other "info" material should be considered as temporary storage (on
-> > stack), it makes not much sense.
-> 
-> We are trying to get our TIO/struct pps_tio structure back using pps_gen
-> pointer..
+You can install Sphinx 8.1.3 on top of python3 3.10.12 using venv.
+I get the same exception there.
 
-And..? What I proposed to replace copy of info structure in the struct
-pps_gen_device by a pointer and make it const. In such a case the users
-must provide either this from a global constant variable or a heap
-(if for some most unlike reason they do it dynamically). That will solve
-your issue and also makes memory foot print better. I.o.w. we have time
-to modify this in easy way while the framework has not be spread over
-the kernel.
+Your change works fine against Ubuntu 24.04, whose distro python3 is 3.12.3.
 
--- 
-With Best Regards,
-Andy Shevchenko
+I have not tested against python3 3.11.x.
 
+It would be better to keep compatible with >= python 3.10.x if at all
+possible.
+
+        Thanks, Akira
 
