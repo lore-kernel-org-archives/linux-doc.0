@@ -1,370 +1,251 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2063.outbound.protection.outlook.com [40.107.96.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C452E1E3793;
-	Wed, 29 Jan 2025 20:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738183242; cv=none; b=GF2/NPlJhY6IdMYPW5qjvxUACfS0WEpvByXy7JYG/T5YGNu5Ilnf8hbSmcbRPHZM7eKbocBlDWyiUHqxirCt/b7e6K9M0/JLsptqkO6AnmYGrHTyN3P4GhW/SV7QDqv4DeJ8mdqE/mFo6LPUv+mP/HIUALdj2unNLUa1SaB2LS8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738183242; c=relaxed/simple;
-	bh=+iGuA4m5n7VaG2pbvt1ixM40vi20HtiXYCsYX92UMrI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=US61jG3Lxd+KR55SCHAUU8tab1jFq8EB+XgPYMPLiDB5SCWIakK27Xd8zzElFbCn3iWkBbiT7/mWgfrxrsS9NSE1hfpBLrvl+og+sawUYnnrgfoeXxKnl0VPSKrp++v+japM2JLNcPE6zbwE5toEnrJ4fvFvEzf0S3kQ/P7uZLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kVXogvjD; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62FDF1E0DCC;
+	Wed, 29 Jan 2025 21:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738186986; cv=fail; b=O+3MREBiE8UTgczaRJu4R15AZ2a/MIM40UHjZ58zybB6oUF84qzWcRWcXL7coTGvjMuwVIedgelKEn4gjYic4XERIzExkBc8ZhujEhaO3J1RyyoEsYXoHcu3f0vCB7x9bFZA57OkUPgaRl/qhN0oQ0HA87BK4JPRUFhPZofkBA8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738186986; c=relaxed/simple;
+	bh=BrTq4A2D7TYuZtHjSYVKtmMe1WUJJUHv3DN7/VkZHRM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=IR7pw1wz7dKcMbJ7utmN2kWPr7tWEjWWmJGrxffvco2gyuxzfBnAbPdZHrawaZCDJRl2x0MI6rE2iSPkLEB0vRkIv8FIcgzg8BXMXFdbJvkWMXZYeTxVL/8T7Yyq2QHyfL0MAQvfnlM4B5wBWHN4scmBT7TQaWPajNOTeG5N3eA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=JRUuLpvJ; arc=fail smtp.client-ip=40.107.96.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kVXogvjD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFC02C4CEE2;
-	Wed, 29 Jan 2025 20:40:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738183240;
-	bh=+iGuA4m5n7VaG2pbvt1ixM40vi20HtiXYCsYX92UMrI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kVXogvjDfJl3zZPRq+ZjuAaYmt5NUj0aJTXVyHZqGlfsxXEzd311ko6pdtMHilX9b
-	 J8hW6CL99xN+NTHLkDlJAY0Zi7gvOApfyg79ztM78J45yW3vh5sF72maBM5PD2u3u+
-	 sz2jVq3ganTkkd24gCUcQRMqwnyoVcX2gZuqeYTRorTLeMqhOoeKA81SXwCe055mP1
-	 LwDHUUz/B2UquvWtiDsJCqrnMKWHC9E11j9asDVAkUXsxHuftzxQJE224NlnDVkR3j
-	 6gIjnfMjmscbsd9h8MK4dJcV3FnC/xDK+GSyJ0GaetbY+3hrjWYhZ3ow/mkrh6v7Eu
-	 LtbejmuoRx2Ow==
-From: wufan@kernel.org
-To: corbet@lwn.net,
-	jmorris@namei.org,
-	paul@paul-moore.com,
-	serge@hallyn.com,
-	akpm@linux-foundation.org
-Cc: linux-doc@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Fan Wu <wufan@kernel.org>
-Subject: [RFC PATCH v2 2/2] ipe: add 'anonymous_memory' property for policy decisions
-Date: Wed, 29 Jan 2025 20:39:32 +0000
-Message-Id: <20250129203932.22165-3-wufan@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250129203932.22165-1-wufan@kernel.org>
-References: <20250129203932.22165-1-wufan@kernel.org>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="JRUuLpvJ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=l/Y3ozbiHXo06gnlgQYCRD5KoWnyCjilBIq762rJnj/qlO40G5AU1oyAdpkpZzyOrDytFk4Xqz/8mhTI1IJeGBZpgc1eRh8+/Z5tSi/gvztE0VM75s12US7wD0lyIiH2sQVDxFx6jX0J7C/7KEPgwKo/6Db/XgHX8woFAoz+YZO7t4iypjV3GjLHt/PUD0BxjwEUC5eZqITOlB9VDdTtZRkeoXL1Q5AtEZqaIBh9aO9whtuPz1Nif+jdM6EIqAPknZn+BygALNinRYPz4eT4ZaShfvJ1ZJt5gFSyt9kJP6Z8MWUS8H9dUxnVgWeO1okn8hT5J/f1ml5C3rFVZMLYBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Y+xm6bZ4u2WVBXmjdGFsWMI8eKqdH839TUVOVN7HUSc=;
+ b=cG5m9e6E98n2u+3jXAQE4iGajDTnYRVXouIHRmO0qBq5lgCX8BwcZcJNAGDs5LO7b/XfeCebWeK1RX/qp1/hh32EOE5n7YHiBFCmHRIjchtMObBAV3oqb3+o5AeBT95+/zN6Ge6fxydHL6gp4Ww78rD3kmw7/eJizQHBUqi9zMlPU4BnrdfRmpUsKSrYb7HltxOdcesK1AjeUmLR1az2j1r0VvRsN1fHXXEKdhRpALkByPNLj5Alk369MJeIfPCMsEWA+rvQxlxAT8lkyVAv0V8fKtN/4NjXXIxGpC8fWuxn89yrZN1T9YMTv2hlOUpozHAD/a3EBUh2rIC7vhijIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Y+xm6bZ4u2WVBXmjdGFsWMI8eKqdH839TUVOVN7HUSc=;
+ b=JRUuLpvJDBbNQd+IpiCs/0NwO8pdUvRNBalOO7XgR2Gq1/112IVZE2YfFAk/n16Xwq1ucAPJxC3YUqfTheYOfDTEwX+rkTThwrSLJLwl4XJnvdbWEXhEtjXbcRDLo8+KRxy7iuJQTb4k3k3Ix0+edeVALMf+ncGknvRjsNouQ8qkhq30/aAdxM95ov2pwZRQwyoNrxK1jIWWtAX5WY6WPRyH3jHdOF9ST5lQ1/0LU9UfOjuuJawquZyC7aaoqIMuAccCrZ6UBJcGyu8mUB4uQYfJobCQDEJqocwVWX8PVtdsImoRylwUP0USRJQHfjJ3zeh13/3ulU6ZGjiEd7g0SQ==
+Received: from IA1P220CA0024.NAMP220.PROD.OUTLOOK.COM (2603:10b6:208:464::12)
+ by PH7PR12MB8055.namprd12.prod.outlook.com (2603:10b6:510:268::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8377.23; Wed, 29 Jan
+ 2025 21:42:59 +0000
+Received: from BL02EPF00029929.namprd02.prod.outlook.com
+ (2603:10b6:208:464:cafe::76) by IA1P220CA0024.outlook.office365.com
+ (2603:10b6:208:464::12) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.17 via Frontend Transport; Wed,
+ 29 Jan 2025 21:42:59 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ BL02EPF00029929.mail.protection.outlook.com (10.167.249.54) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8398.14 via Frontend Transport; Wed, 29 Jan 2025 21:42:58 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 29 Jan
+ 2025 13:42:44 -0800
+Received: from [10.110.48.28] (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 29 Jan
+ 2025 13:42:43 -0800
+Message-ID: <24e88fec-65b5-47ad-8833-67257f86fde5@nvidia.com>
+Date: Wed, 29 Jan 2025 13:42:41 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 01/12] mm/gup: reject FOLL_SPLIT_PMD with hugetlb VMAs
+To: David Hildenbrand <david@redhat.com>, <linux-kernel@vger.kernel.org>
+CC: <linux-doc@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+	<linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>, Andrew Morton
+	<akpm@linux-foundation.org>, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?=
+	<jglisse@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Alex Shi
+	<alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Karol Herbst
+	<kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, Danilo Krummrich
+	<dakr@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
+	<simona@ffwll.ch>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, "Lorenzo
+ Stoakes" <lorenzo.stoakes@oracle.com>, Vlastimil Babka <vbabka@suse.cz>,
+	"Jann Horn" <jannh@google.com>, Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Peter Xu <peterx@redhat.com>, Alistair Popple <apopple@nvidia.com>, Jason
+ Gunthorpe <jgg@nvidia.com>, <stable@vger.kernel.org>
+References: <20250129115411.2077152-1-david@redhat.com>
+ <20250129115411.2077152-2-david@redhat.com>
+Content-Language: en-US
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <20250129115411.2077152-2-david@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF00029929:EE_|PH7PR12MB8055:EE_
+X-MS-Office365-Filtering-Correlation-Id: 96a907b1-641c-4b57-74d7-08dd40ade62f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|36860700013|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?SURZSXBVanNRMlNZNlJ5T2FvbGF5OWl5bTJXa0pMTzNsSXZMMDBlcEllbng0?=
+ =?utf-8?B?Z1VWTzFseVNjUVhyNXU1ck9PdFBYdkI2dEJLQTIrbkEwRmM4UVgyRS9aTkpG?=
+ =?utf-8?B?TFVzOWFxbG5aN2dWeVNxcU9RL29jVVFtZWc5VGxCSDJSTTN3WTU1TFlmOFBa?=
+ =?utf-8?B?ajdqVzU2RktBU1NyY3NCUHJBQjdQNmdURmw1SXN5ZlNZUlNuN0xXTWZoMDl5?=
+ =?utf-8?B?WTl3bVR0Rlg4OEc0L2U5SHA2OC83L0gwY2lzbDgwemhsRzhhelR1VGsyK2Ey?=
+ =?utf-8?B?OWF1dmFyUFRnWFNzSFFCbU1MWmQrdTFXUVA3eHBicVpaZ28zeGt0WDBBS01M?=
+ =?utf-8?B?T2dYNVBSWmpETm9IUDdJMnRpbmFIT2kyZ2dPRytBVkZiMXNqcVVaaCttMDho?=
+ =?utf-8?B?M2ZUM2FvVW0xR2ZtTVZnNVh2NG8zR2JjM1VRZkhRUnoxc1BDMy8yL1VhZllJ?=
+ =?utf-8?B?RXF0YUxVWjFNaGhzMVNVMUFhT3NlWU9SOWFIWnNEaXpXWjNIWFNNa0ZHbEpL?=
+ =?utf-8?B?cjBsOXNwOW9BbkMxZnFybkNDQmhLTEZEOWtIVWtNclJMSkFObnVpaDNRY2l6?=
+ =?utf-8?B?UzVObmdCRlZ0eThKNGZyaDN2UVhCdzhPR1ozVFBDekZsTXMveXgxb1hpMHFO?=
+ =?utf-8?B?cHE5bmtKK0NwQUdFOGNER2x2RjFtazB0dnRrZWhIZWZzUkdPODBkemJSM3Zj?=
+ =?utf-8?B?THBsNWJBeTYwVzc3eHRodHprbEI4WEFZQzRTUWdwMzZmamRlbDdoVFZrTEhy?=
+ =?utf-8?B?V3dHV2M5ZTNrUHViNFdZZTBia1RDSG93bUVVcElTalhwVllDVGkzWXNtZHZG?=
+ =?utf-8?B?TlBGM09hbHM0eVAwcm81VXVsMW0yd0t5Y0lNNkpOclRZREQ4aHVxbnZUQlpE?=
+ =?utf-8?B?d0dYcFY5ZHpmVWtnOGwwYjR2ZVlZL2R5ZEhWVGRJTTVqUFNxVjNKaXQ2Z2pL?=
+ =?utf-8?B?Tzc5Wk1EeTAxaGpRNm5vb0Q4MXF0Y0JheFk1QVdCbzluTUxjU3RXNWVxYkxZ?=
+ =?utf-8?B?M0hucEw0bERNMUU3MU1iRlVLTDhVaFlOdWc4em9SajloRVZSdkw5Q0NPb25K?=
+ =?utf-8?B?ek5kcldLNnhEVDV5U1RCeWxRUGxYMjd2d0lYRFZ1aXprc2dUNE10R0ZLbmFh?=
+ =?utf-8?B?dGg4S3dFb2hXd0pHZ1NWTFduampIRDdneXV2YlIxQlRPdmlsZGFkZkZKc1Ax?=
+ =?utf-8?B?UTRVTzBlNlovbWNiM3o0V1RlK0VYS1ord2FmYUh5c1dCb3lDSGU5dDArNFhz?=
+ =?utf-8?B?djBreUxlNTlXVWpnU1cwQ0UzOGQwUzk4clR6Ry9wUnRqRit3UHhCU2FuZHlm?=
+ =?utf-8?B?UkExdVptVEpsUVk1WWc1SlF6VVhjTTNiNWh2YnN2UE14WWRYQjU0ZVcxdm5C?=
+ =?utf-8?B?b2g5c3VXcU15QkhwQVJPVEhuUU0vTWlkUzNXaHQ5UXlsMkZzUkY3S1c5L2p3?=
+ =?utf-8?B?Tmt4LzdqRFYwenVrOWxVNFNtWGlvZEFVbHk1dXdRa3h4ZUd4Y2UrRjFhTkNJ?=
+ =?utf-8?B?VVV1bGJ0dnZjRnJxZkt3TGJ2VFI5bzVZNXMzV2hZQjhXN3loNXNOeERFcStp?=
+ =?utf-8?B?NHRlOE0yRFU5TnRLL0RoTHBPTWt3SkdxWCtVRDc5NTh4L0pzSnV1S3Y0OS92?=
+ =?utf-8?B?b3RUOWF1SkpxcjRiMHg3QTE5elZwWE9pQlRFT2RLK28weW5CTnlIejkxaFk2?=
+ =?utf-8?B?SGVzTW9CY3J4S0gvYlU0a1BLSG1ENHVnNjZDaXhrKzd4YkgvNEJnb1FXNFR1?=
+ =?utf-8?B?SDBCcmZLMktpUXZnaDB5TkljejBBTmhyMlhCN3JWZy9scTlUUlBUQlRiWmhR?=
+ =?utf-8?B?UUdqR2VwRTlCNzRQeGZjcm1yZ1l6Wm1JdW9Wci9wYzJaRm1qWnRPTmE2VXdT?=
+ =?utf-8?B?cUhoTHdSdHVoUlA4alNvb29EYzFHY2tBdmYvOXNkRCtLNWlqdVBrRTNEaW93?=
+ =?utf-8?B?ZXRIWlUrRkwwbnlhSDA3MG9EYkR1SjFZZlZoVGtRU0cvdzJ2UlhCZU9uUHVX?=
+ =?utf-8?Q?l/sAhJxrTdvB+PJU/25XUiCUw6AQog=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2025 21:42:58.9836
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96a907b1-641c-4b57-74d7-08dd40ade62f
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF00029929.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8055
 
-From: Fan Wu <wufan@kernel.org>
+On 1/29/25 3:53 AM, David Hildenbrand wrote:
+> We only have two FOLL_SPLIT_PMD users. While uprobe refuses hugetlb
+> early, make_device_exclusive_range() can end up getting called on
+> hugetlb VMAs.
+> 
+> Right now, this means that with a PMD-sized hugetlb page, we can end
+> up calling split_huge_pmd(), because pmd_trans_huge() also succeeds
+> with hugetlb PMDs.
+> 
+> For example, using a modified hmm-test selftest one can trigger:
+> 
+> [  207.017134][T14945] ------------[ cut here ]------------
+> [  207.018614][T14945] kernel BUG at mm/page_table_check.c:87!
+> [  207.019716][T14945] Oops: invalid opcode: 0000 [#1] PREEMPT SMP KASAN NOPTI
+> [  207.021072][T14945] CPU: 3 UID: 0 PID: ...
+> [  207.023036][T14945] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-2.fc40 04/01/2014
+> [  207.024834][T14945] RIP: 0010:page_table_check_clear.part.0+0x488/0x510
+> [  207.026128][T14945] Code: ...
+> [  207.029965][T14945] RSP: 0018:ffffc9000cb8f348 EFLAGS: 00010293
+> [  207.031139][T14945] RAX: 0000000000000000 RBX: 00000000ffffffff RCX: ffffffff8249a0cd
+> [  207.032649][T14945] RDX: ffff88811e883c80 RSI: ffffffff8249a357 RDI: ffff88811e883c80
+> [  207.034183][T14945] RBP: ffff888105c0a050 R08: 0000000000000005 R09: 0000000000000000
+> [  207.035688][T14945] R10: 00000000ffffffff R11: 0000000000000003 R12: 0000000000000001
+> [  207.037203][T14945] R13: 0000000000000200 R14: 0000000000000001 R15: dffffc0000000000
+> [  207.038711][T14945] FS:  00007f2783275740(0000) GS:ffff8881f4980000(0000) knlGS:0000000000000000
+> [  207.040407][T14945] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [  207.041660][T14945] CR2: 00007f2782c00000 CR3: 0000000132356000 CR4: 0000000000750ef0
+> [  207.043196][T14945] PKRU: 55555554
+> [  207.043880][T14945] Call Trace:
+> [  207.044506][T14945]  <TASK>
+> [  207.045086][T14945]  ? __die+0x51/0x92
+> [  207.045864][T14945]  ? die+0x29/0x50
+> [  207.046596][T14945]  ? do_trap+0x250/0x320
+> [  207.047430][T14945]  ? do_error_trap+0xe7/0x220
+> [  207.048346][T14945]  ? page_table_check_clear.part.0+0x488/0x510
+> [  207.049535][T14945]  ? handle_invalid_op+0x34/0x40
+> [  207.050494][T14945]  ? page_table_check_clear.part.0+0x488/0x510
+> [  207.051681][T14945]  ? exc_invalid_op+0x2e/0x50
+> [  207.052589][T14945]  ? asm_exc_invalid_op+0x1a/0x20
+> [  207.053596][T14945]  ? page_table_check_clear.part.0+0x1fd/0x510
+> [  207.054790][T14945]  ? page_table_check_clear.part.0+0x487/0x510
+> [  207.055993][T14945]  ? page_table_check_clear.part.0+0x488/0x510
+> [  207.057195][T14945]  ? page_table_check_clear.part.0+0x487/0x510
+> [  207.058384][T14945]  __page_table_check_pmd_clear+0x34b/0x5a0
+> [  207.059524][T14945]  ? __pfx___page_table_check_pmd_clear+0x10/0x10
+> [  207.060775][T14945]  ? __pfx___mutex_unlock_slowpath+0x10/0x10
+> [  207.061940][T14945]  ? __pfx___lock_acquire+0x10/0x10
+> [  207.062967][T14945]  pmdp_huge_clear_flush+0x279/0x360
+> [  207.064024][T14945]  split_huge_pmd_locked+0x82b/0x3750
+> ...
+> 
+> Before commit 9cb28da54643 ("mm/gup: handle hugetlb in the generic
+> follow_page_mask code"), we would have ignored the flag; instead, let's
 
-Currently, all existing IPE properties evaluate to FALSE for
-operations triggered by anonymous memory regions or memfd. As a result,
-IPE falls back to the policy's default action for such operations.
+...and so after that commit (which doesn't touch FOLL_SPLIT_PMD, we no
+longer ignore the flag? At a first look at that commit, I don't quite
+understand the connection, can you clarify just a bit for me?
 
-In policies where the default action is DENY, this behavior blocks
-all anonymous memory related operations, rendering binaries that rely on
-anonymous memory, e.g. JIT engine, unusable.
+> simply refuse the combination completely in check_vma_flags(): the
+> caller is likely not prepared to handle any hugetlb folios.
 
-This commit introduces a new IPE property, 'anonymous_memory',
-which evaluates to TRUE when an operation is triggered by an
-anonymous memory region or memfd. This allows administrators to
-explicitly allow or deny operations involving anonymous memory.
+Yes.
 
-Signed-off-by: Fan Wu <wufan@kernel.org>
----
- Documentation/admin-guide/LSM/ipe.rst | 12 ++++++++++
- Documentation/security/ipe.rst        |  9 +++----
- security/ipe/Kconfig                  | 10 ++++++++
- security/ipe/audit.c                  |  2 ++
- security/ipe/eval.c                   | 34 +++++++++++++++++++++++----
- security/ipe/eval.h                   | 13 ++++++----
- security/ipe/hooks.c                  | 12 ++++++++++
- security/ipe/hooks.h                  |  4 ++++
- security/ipe/ipe.c                    |  7 ++++--
- security/ipe/policy.h                 |  2 ++
- security/ipe/policy_parser.c          |  4 ++++
- 11 files changed, 95 insertions(+), 14 deletions(-)
+> 
+> We'll teach make_device_exclusive_range() separately to ignore any hugetlb
+> folios as a future-proof safety net.
+> 
+> Fixes: 9cb28da54643 ("mm/gup: handle hugetlb in the generic follow_page_mask code")
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>   mm/gup.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/mm/gup.c b/mm/gup.c
+> index 3883b307780e..61e751baf862 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -1283,6 +1283,9 @@ static int check_vma_flags(struct vm_area_struct *vma, unsigned long gup_flags)
+>   	if ((gup_flags & FOLL_LONGTERM) && vma_is_fsdax(vma))
+>   		return -EOPNOTSUPP;
+>   
+> +	if ((gup_flags & FOLL_SPLIT_PMD) && is_vm_hugetlb_page(vma))
+> +		return -EOPNOTSUPP;
+> +
 
-diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admin-guide/LSM/ipe.rst
-index f93a467db628..9de2e72f29d5 100644
---- a/Documentation/admin-guide/LSM/ipe.rst
-+++ b/Documentation/admin-guide/LSM/ipe.rst
-@@ -669,6 +669,18 @@ fsverity_signature
- 
-       fsverity_signature=(TRUE|FALSE)
- 
-+anonymous_memory
-+~~~~~~~~~~~~~~~~
-+
-+   This property can be used to allow or deny operations triggered by
-+   anonymous memory. It evaluates to TRUE when a memory region
-+   in the evaluation context is not backed by a physical file or it
-+   is from a memory file descriptor. It is controlled by
-+   the ``IPE_PROP_ANONYMOUS_MEMORY`` config option.
-+   The format of this property is::
-+
-+      anonymous_memory=(TRUE|FALSE)
-+
- Policy Examples
- ---------------
- 
-diff --git a/Documentation/security/ipe.rst b/Documentation/security/ipe.rst
-index 4a7d953abcdc..1606484241cb 100644
---- a/Documentation/security/ipe.rst
-+++ b/Documentation/security/ipe.rst
-@@ -385,15 +385,16 @@ Anonymous Memory
- Anonymous memory isn't treated any differently from any other access in IPE.
- When anonymous memory is mapped with ``+X``, it still comes into the ``file_mmap``
- or ``file_mprotect`` hook, but with a ``NULL`` file object. This is submitted to
--the evaluation, like any other file. However, all current trust properties will
--evaluate to false, as they are all file-based and the operation is not
--associated with a file.
-+the evaluation, like any other file. However, except the ``anonymous_memory`` property,
-+all current trust properties will evaluate to false, as they are all file-based and
-+the operation is not associated with a file.
- 
- .. WARNING::
- 
-   This also occurs with the ``kernel_load_data`` hook, when the kernel is
-   loading data from a userspace buffer that is not backed by a file. In this
--  scenario all current trust properties will also evaluate to false.
-+  scenario, all current trust properties except ``anonymous_memory`` will also evaluate
-+  to false.
- 
- Securityfs Interface
- ~~~~~~~~~~~~~~~~~~~~
-diff --git a/security/ipe/Kconfig b/security/ipe/Kconfig
-index 3c75bf267da4..77520714e9ab 100644
---- a/security/ipe/Kconfig
-+++ b/security/ipe/Kconfig
-@@ -94,6 +94,16 @@ config IPE_PROP_FS_VERITY_BUILTIN_SIG
- 
- 	  if unsure, answer Y.
- 
-+config IPE_PROP_ANONYMOUS_MEMORY
-+	bool "Enable support for anonymous memory"
-+	default y
-+	help
-+	  This option enables the 'anonymous_memory' property within IPE
-+	  policies. The property evaluates to TRUE when a memory region
-+	  in the evaluation context is not backed by a physical file
-+	  or it is from a memory file descriptor.
-+
-+	  if unsure, answer Y.
- endmenu
- 
- config SECURITY_IPE_KUNIT_TEST
-diff --git a/security/ipe/audit.c b/security/ipe/audit.c
-index f05f0caa4850..ab5217655910 100644
---- a/security/ipe/audit.c
-+++ b/security/ipe/audit.c
-@@ -59,6 +59,8 @@ static const char *const audit_prop_names[__IPE_PROP_MAX] = {
- 	"fsverity_digest=",
- 	"fsverity_signature=FALSE",
- 	"fsverity_signature=TRUE",
-+	"anonymous_memory=FALSE",
-+	"anonymous_memory=TRUE",
- };
- 
- /**
-diff --git a/security/ipe/eval.c b/security/ipe/eval.c
-index 21439c5be336..38c7214c9889 100644
---- a/security/ipe/eval.c
-+++ b/security/ipe/eval.c
-@@ -52,8 +52,8 @@ static void build_ipe_bdev_ctx(struct ipe_eval_ctx *ctx, const struct inode *con
- }
- #endif /* CONFIG_IPE_PROP_DM_VERITY */
- 
--#ifdef CONFIG_IPE_PROP_FS_VERITY
--#ifdef CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG
-+#if defined(CONFIG_IPE_PROP_FS_VERITY) || defined(CONFIG_IPE_PROP_ANONYMOUS_MEMORY)
-+#if defined(CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG) || defined(CONFIG_IPE_PROP_ANONYMOUS_MEMORY)
- static void build_ipe_inode_blob_ctx(struct ipe_eval_ctx *ctx,
- 				     const struct inode *const ino)
- {
-@@ -64,7 +64,7 @@ static inline void build_ipe_inode_blob_ctx(struct ipe_eval_ctx *ctx,
- 					    const struct inode *const ino)
- {
- }
--#endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
-+#endif
- 
- /**
-  * build_ipe_inode_ctx() - Build inode fields of an evaluation context.
-@@ -80,7 +80,7 @@ static void build_ipe_inode_ctx(struct ipe_eval_ctx *ctx, const struct inode *co
- static void build_ipe_inode_ctx(struct ipe_eval_ctx *ctx, const struct inode *const ino)
- {
- }
--#endif /* CONFIG_IPE_PROP_FS_VERITY */
-+#endif
- 
- /**
-  * ipe_build_eval_ctx() - Build an ipe evaluation context.
-@@ -265,6 +265,28 @@ static bool evaluate_fsv_sig_true(const struct ipe_eval_ctx *const ctx)
- }
- #endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
- 
-+#ifdef CONFIG_IPE_PROP_ANONYMOUS_MEMORY
-+static bool evaluate_anonymous_memory_false(const struct ipe_eval_ctx *const ctx)
-+{
-+	return ctx->file && !ctx->ipe_inode->memfd;
-+}
-+
-+static bool evaluate_anonymous_memory_true(const struct ipe_eval_ctx *const ctx)
-+{
-+	return !evaluate_anonymous_memory_false(ctx);
-+}
-+#else
-+static bool evaluate_anonymous_memory_false(const struct ipe_eval_ctx *const ctx)
-+{
-+	return false;
-+}
-+
-+static bool evaluate_anonymous_memory_true(const struct ipe_eval_ctx *const ctx)
-+{
-+	return false;
-+}
-+#endif /* CONFIG_IPE_PROP_ANONYMOUS_MEMORY */
-+
- /**
-  * evaluate_property() - Analyze @ctx against a rule property.
-  * @ctx: Supplies a pointer to the context to be evaluated.
-@@ -297,6 +319,10 @@ static bool evaluate_property(const struct ipe_eval_ctx *const ctx,
- 		return evaluate_fsv_sig_false(ctx);
- 	case IPE_PROP_FSV_SIG_TRUE:
- 		return evaluate_fsv_sig_true(ctx);
-+	case IPE_PROP_ANON_MEM_FALSE:
-+		return evaluate_anonymous_memory_false(ctx);
-+	case IPE_PROP_ANON_MEM_TRUE:
-+		return evaluate_anonymous_memory_true(ctx);
- 	default:
- 		return false;
- 	}
-diff --git a/security/ipe/eval.h b/security/ipe/eval.h
-index fef65a36468c..83b57d12a778 100644
---- a/security/ipe/eval.h
-+++ b/security/ipe/eval.h
-@@ -31,11 +31,16 @@ struct ipe_bdev {
- };
- #endif /* CONFIG_IPE_PROP_DM_VERITY */
- 
--#ifdef CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG
-+#if defined(CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG) || defined(CONFIG_IPE_PROP_ANONYMOUS_MEMORY)
- struct ipe_inode {
-+#ifdef CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG
- 	bool fs_verity_signed;
--};
- #endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
-+#ifdef CONFIG_IPE_PROP_ANONYMOUS_MEMORY
-+	bool memfd;
-+#endif /* CONFIG_IPE_PROP_ANONYMOUS_MEMORY */
-+};
-+#endif
- 
- struct ipe_eval_ctx {
- 	enum ipe_op_type op;
-@@ -49,9 +54,9 @@ struct ipe_eval_ctx {
- #ifdef CONFIG_IPE_PROP_FS_VERITY
- 	const struct inode *ino;
- #endif /* CONFIG_IPE_PROP_FS_VERITY */
--#ifdef CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG
-+#if defined(CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG) || defined(CONFIG_IPE_PROP_ANONYMOUS_MEMORY)
- 	const struct ipe_inode *ipe_inode;
--#endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
-+#endif
- };
- 
- enum ipe_match {
-diff --git a/security/ipe/hooks.c b/security/ipe/hooks.c
-index d0323b81cd8f..ce68f08ce343 100644
---- a/security/ipe/hooks.c
-+++ b/security/ipe/hooks.c
-@@ -312,3 +312,15 @@ int ipe_inode_setintegrity(const struct inode *inode,
- 	return -EINVAL;
- }
- #endif /* CONFIG_CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
-+
-+#ifdef CONFIG_IPE_PROP_ANONYMOUS_MEMORY
-+/**
-+ * ipe_memfd_created() - Mark the current file as a memfd.
-+ * @file: Supplies a pointer to the file structure being created.
-+ */
-+void ipe_memfd_created(struct file *file)
-+{
-+	ipe_inode(file->f_inode)->memfd = true;
-+}
-+#endif /* CONFIG_IPE_PROP_ANONYMOUS_MEMORY */
-+
-diff --git a/security/ipe/hooks.h b/security/ipe/hooks.h
-index 38d4a387d039..fa90db65ca88 100644
---- a/security/ipe/hooks.h
-+++ b/security/ipe/hooks.h
-@@ -49,4 +49,8 @@ int ipe_inode_setintegrity(const struct inode *inode, enum lsm_integrity_type ty
- 			   const void *value, size_t size);
- #endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
- 
-+#ifdef CONFIG_IPE_PROP_ANONYMOUS_MEMORY
-+void ipe_memfd_created(struct file *file);
-+#endif /* CONFIG_IPE_PROP_ANONYMOUS_MEMORY */
-+
- #endif /* _IPE_HOOKS_H */
-diff --git a/security/ipe/ipe.c b/security/ipe/ipe.c
-index 4317134cb0da..330925b6a48e 100644
---- a/security/ipe/ipe.c
-+++ b/security/ipe/ipe.c
-@@ -16,9 +16,9 @@ static struct lsm_blob_sizes ipe_blobs __ro_after_init = {
- #ifdef CONFIG_IPE_PROP_DM_VERITY
- 	.lbs_bdev = sizeof(struct ipe_bdev),
- #endif /* CONFIG_IPE_PROP_DM_VERITY */
--#ifdef CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG
-+#if defined(CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG) || defined(CONFIG_IPE_PROP_ANONYMOUS_MEMORY)
- 	.lbs_inode = sizeof(struct ipe_inode),
--#endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
-+#endif
- };
- 
- static const struct lsm_id ipe_lsmid = {
-@@ -59,6 +59,9 @@ static struct security_hook_list ipe_hooks[] __ro_after_init = {
- #ifdef CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG
- 	LSM_HOOK_INIT(inode_setintegrity, ipe_inode_setintegrity),
- #endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
-+#ifdef CONFIG_IPE_PROP_ANONYMOUS_MEMORY
-+	LSM_HOOK_INIT(memfd_created, ipe_memfd_created),
-+#endif /* CONFIG_IPE_PROP_ANONYMOUS_MEMORY */
- };
- 
- /**
-diff --git a/security/ipe/policy.h b/security/ipe/policy.h
-index 5bfbdbddeef8..0becc2d2bd33 100644
---- a/security/ipe/policy.h
-+++ b/security/ipe/policy.h
-@@ -39,6 +39,8 @@ enum ipe_prop_type {
- 	IPE_PROP_FSV_DIGEST,
- 	IPE_PROP_FSV_SIG_FALSE,
- 	IPE_PROP_FSV_SIG_TRUE,
-+	IPE_PROP_ANON_MEM_FALSE,
-+	IPE_PROP_ANON_MEM_TRUE,
- 	__IPE_PROP_MAX
- };
- 
-diff --git a/security/ipe/policy_parser.c b/security/ipe/policy_parser.c
-index 7f27e39931d6..5c83095e7c37 100644
---- a/security/ipe/policy_parser.c
-+++ b/security/ipe/policy_parser.c
-@@ -281,6 +281,8 @@ static const match_table_t property_tokens = {
- 	{IPE_PROP_FSV_DIGEST,		"fsverity_digest=%s"},
- 	{IPE_PROP_FSV_SIG_FALSE,	"fsverity_signature=FALSE"},
- 	{IPE_PROP_FSV_SIG_TRUE,		"fsverity_signature=TRUE"},
-+	{IPE_PROP_ANON_MEM_FALSE,	"anonymous_memory=FALSE"},
-+	{IPE_PROP_ANON_MEM_TRUE,	"anonymous_memory=TRUE"},
- 	{IPE_PROP_INVALID,		NULL}
- };
- 
-@@ -331,6 +333,8 @@ static int parse_property(char *t, struct ipe_rule *r)
- 	case IPE_PROP_DMV_SIG_TRUE:
- 	case IPE_PROP_FSV_SIG_FALSE:
- 	case IPE_PROP_FSV_SIG_TRUE:
-+	case IPE_PROP_ANON_MEM_FALSE:
-+	case IPE_PROP_ANON_MEM_TRUE:
- 		p->type = token;
- 		break;
- 	default:
+This seems correct by inspection, as one cannot split a hugetlbfs page, so:
+
+Reviewed-by: John Hubbard <jhubbard@nvidia.com>
+
+
+thanks,
 -- 
-2.47.1
+John Hubbard
+
+>   	if (vma_is_secretmem(vma))
+>   		return -EFAULT;
+>   
+
 
