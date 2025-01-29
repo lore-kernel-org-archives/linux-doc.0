@@ -1,153 +1,110 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E601DD0C7;
-	Wed, 29 Jan 2025 15:41:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2101DDC3A;
+	Wed, 29 Jan 2025 15:42:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738165309; cv=none; b=lRXLvlQbGgvBGM1lraKvGflPLPwJzxD/g4W4GAAkSJsfUiBXt6jIiOr3nsK7pSfZVJvK25ZT4Y6FNwqW5ONO3mCUfp1wfZT+BqgUmP7YLfaEs9vLSbZC/a2QXmbpLtxaNrlJVv2wjbvsPgl4odc9grjjOgknDwl/PC7VPtkegck=
+	t=1738165325; cv=none; b=t8BjAEIdA8K95Se/NUwzpFLs+9h2aMZ7jqTQvN21+vgBeqSToWhMKixv+2g3JiYGsGE8Dc91uUvrs7RFwgM0w5M9lKeSHO5RQ056fqAfDlsJExiobbIrzmg4gtTn7q2nZuaCMLcwjBfaDl7H6Pm7x3ihwmHcyxT392NFar5SejA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738165309; c=relaxed/simple;
-	bh=x9FQ10F4P9ene0avOkX6SJRwE4duJpiylNTvH2FHki0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ObI2o/Hg2h3GJ0IafNhRgb4yamXlx/9kSt20zQRQi8cUeqfq7N5+05SCsKMyED5in2UZ8uYi+7j45znQA6J1SPMuabmyKrDOU5FKBkAKv9gxa7bDSnOgAnTprj2tOctL+9i8NUjyIiTCMzGCS0Hic25SqPnXCileEOfS7EOXSPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Doq+/rNz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738165325; c=relaxed/simple;
+	bh=GplWvWETMezm9d36v4eAfoqt/au1TivnkJ+SWeO2lSg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nULorQv0YZ4GmJqK4IZzAGWTY1rBkCK+jAwubyKpSI91jLOlKnEOTEnd9dbZ+rvdq73BINCO5avupZfV9gmdPcrnqMn/A9wGAS9Ve9x04q6aYFHex8s4VBAz/s3flI9FM0lSJXGtt+Ui3dPN1VHeINx2+HOiWe3lwSKfaA9b/Dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aU7xY1/z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Doq+/rNz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B0D5C4CED1;
-	Wed, 29 Jan 2025 15:41:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aU7xY1/z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60928C4CED1;
+	Wed, 29 Jan 2025 15:42:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738165308;
-	bh=x9FQ10F4P9ene0avOkX6SJRwE4duJpiylNTvH2FHki0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Doq+/rNzHg+crI9ZcWtKePHsQc6DCfqlblaynmX5rkNKoSR8aoRtfLCo8hlplQT8S
-	 SszLnZ7/buZh6jfPwyw7MFwtzbCqliYr1x8R26ffuKILIzG4Dcrlo2vauyEx+ZCa7Q
-	 fGMA+W95aCCNzgyEj0Sl5Hjc6GbfuxBPEg/1VR+9jrU8RajCzwLijwt9d05XfTVIdU
-	 pXcYBPgl+if4aDVy8x6uvii+g9qXvXmGsdU6tc8eW1deajAWLklzKK93vVc7zEKfTM
-	 LfkYLXOkbdJxFMvmKe1KH7TkEg/csOuMkrEGGxXdWVtbhKJsIm3GZwQaznV1b1oyxx
-	 udzvX+QKPoOSw==
-Date: Wed, 29 Jan 2025 16:41:45 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Joel Stanley <joel@jms.id.au>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Andrew Jeffery <andrew@codeconstruct.com.au>, Stefan Agner <stefan@agner.ch>, 
-	Alison Wang <alison.wang@nxp.com>, Xinliang Liu <xinliang.liu@linaro.org>, 
-	Tian Tao <tiantao6@hisilicon.com>, Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>, 
-	John Stultz <jstultz@google.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Alain Volmat <alain.volmat@foss.st.com>, 
-	Raphael Gallais-Pou <rgallaispou@gmail.com>, Yannick Fertre <yannick.fertre@foss.st.com>, 
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Philippe Cornu <philippe.cornu@foss.st.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Alexey Brodkin <abrodkin@synopsys.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jonathan Corbet <corbet@lwn.net>, linux-aspeed@lists.ozlabs.org, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-amlogic@lists.infradead.org, imx@lists.linux.dev, linux-rockchip@lists.infradead.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 07/14] drm/rockchip: move to
- devm_platform_ioremap_resource() usage
-Message-ID: <fkck6okku766yn4bpfbiykpvvsj5k7tgebko7pvybon3rctn7w@gkl5z2o3bcf2>
-References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
- <20250128-cocci-memory-api-v1-7-0d1609a29587@redhat.com>
+	s=k20201202; t=1738165324;
+	bh=GplWvWETMezm9d36v4eAfoqt/au1TivnkJ+SWeO2lSg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=aU7xY1/zYzJuaW6w9rNm1ubl5Xt+CWFtHsWN2RKDfRYDVbS6hoIF9qvqRPP/jdC+o
+	 n9sc28S2gI6BwQGNNkViJtfEuGMgf8yXViqR0bVptbi1JGdt4uZpDL3rC+zLYdD2R2
+	 LvRr+oYrBTHfe0N1TI7nLfb3oLUOcNMk6jlIoAg5MOCpNzo+MotUd8JaUv3wKoon4l
+	 tuVdgnNv0djOjt6DKfIc7gmEm0g5OKUWFx4Yfktshh9bhs5uK1rRKp5QLYBX+v7URg
+	 lc1VdYMtw06mrr+76GOR28iAJW7U2ehBlI2qXh9oSISs4oV4/EZifWpzvEERxf1Lkt
+	 yXZsdTh95S+vg==
+Date: Wed, 29 Jan 2025 16:41:57 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ bpf@vger.kernel.org, coresight@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+ linux-f2fs-devel@lists.sourceforge.net, linux-hardening@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+ workflows@vger.kernel.org
+Subject: Re: [RFC v2 00/38] Improve ABI documentation generation
+Message-ID: <20250129164157.3c7c072d@foz.lan>
+In-Reply-To: <87h65i7e87.fsf@trenco.lwn.net>
+References: <cover.1738020236.git.mchehab+huawei@kernel.org>
+	<87h65i7e87.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="n2rj4zmziwj6lmg7"
-Content-Disposition: inline
-In-Reply-To: <20250128-cocci-memory-api-v1-7-0d1609a29587@redhat.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+Em Tue, 28 Jan 2025 15:42:00 -0700
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
---n2rj4zmziwj6lmg7
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 07/14] drm/rockchip: move to
- devm_platform_ioremap_resource() usage
-MIME-Version: 1.0
+> [It's probably time to raise our minimum version again, especially now
+> that current Sphinx has better performance.]
 
-On Tue, Jan 28, 2025 at 05:29:31PM -0500, Anusha Srivatsa wrote:
-> Replace platform_get_resource + devm_ioremap_resource
-> with just devm_platform_ioremap_resource()
->=20
-> Used Coccinelle to do this change. SmPl patch:
-> @rule_1@
-> identifier res;
-> expression ioremap_res;
-> identifier pdev;
-> @@
-> -struct resource *res;
-> ...
-> -res =3D platform_get_resource(pdev,...);
-> -ioremap_res =3D devm_ioremap_resource(...);
-> +ioremap_res =3D devm_platform_ioremap_resource(pdev,0);
->=20
-> Cc: Sandy Huang <hjc@rock-chips.com>
-> Cc: Heiko St=FCbner <heiko@sntech.de>
-> Cc: Andy Yan <andy.yan@rock-chips.com>
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
-> ---
->  drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/dr=
-m/rockchip/rockchip_drm_vop.c
-> index 57747f1cff26e444ef3569983d6a7f7922f03ff7..4c639f7c868907fc35ce22f2e=
-f7e281ad85c2d9e 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-> @@ -2187,7 +2187,6 @@ static int vop_bind(struct device *dev, struct devi=
-ce *master, void *data)
->  	const struct vop_data *vop_data;
->  	struct drm_device *drm_dev =3D data;
->  	struct vop *vop;
-> -	struct resource *res;
->  	int ret, irq;
-> =20
->  	vop_data =3D of_device_get_match_data(dev);
-> @@ -2207,8 +2206,7 @@ static int vop_bind(struct device *dev, struct devi=
-ce *master, void *data)
-> =20
->  	vop_win_init(vop);
-> =20
-> -	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	vop->regs =3D devm_ioremap_resource(dev, res);
-> +	vop->regs =3D devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(vop->regs))
->  		return PTR_ERR(vop->regs);
->  	vop->len =3D resource_size(res);
+Last change was about one year ago, so it sounds fair to also
+change Sphinx minimal version with about one year gap. What we have
+currently is:
 
-This one will result in a compile failure too, you removed res but it's
-still used on the last line.
+	2.4.4: minimal version
+	3.4.3: suggested minimal version.
 
-Maxime
+Looking at the relevant release dates, we have:
 
---n2rj4zmziwj6lmg7
-Content-Type: application/pgp-signature; name="signature.asc"
+	Release 2.4.0 (released Feb 09, 2020)
+	Release 2.4.4 (released Mar 05, 2020)
+	Release 3.4.0 (released Dec 20, 2020)
+	Release 3.4.3 (released Jan 08, 2021)
 
------BEGIN PGP SIGNATURE-----
+So, the ~one year gap is what it takes to raise the bar from 2.4.4 to
+3.4.3.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ5pMOAAKCRAnX84Zoj2+
-dm9sAX95MxW28qLtlCcTTmdQkMrfL23sMFhwLQtAuxzLU6cNJTr4Laq62TyMz0tE
-fkKBU/cBgOoSJ8YDN8x0kWdfzBz+S1fj4kdxPGLwpdkIMLxH7u1CgpGzqotO9jni
-7iTsYM6fhw==
-=I0Jf
------END PGP SIGNATURE-----
+In terms of Python, we're currently at 3.5:
 
---n2rj4zmziwj6lmg7--
+	Python	Release date 
+	3.5	2015-09-13
+	3.6	2016-12-23
+	3.7 	2018-06-27
+	3.8 	2019-10-14
+	3.9 	2020-10-05
+	3.10	2021-10-04
+
+	(according with https://en.wikipedia.org/w/index.php?title=History_of_Python) 
+
+Python 3.6 is the first one with f-string support, with is something
+that most Python programmers use those days. So, IMO, that would
+be the absolute minimal version we should pick.
+
+Yet, IMHO, we should aim to be backard-compatible with the tools 
+available up to a certain date (Jan, 2021) - e. g. we'll aim to
+support at least a 4 years old toolset for documentation build.
+
+So, I'm proposing to change the minimal requirements to:
+	- Sphinx 3.4.3;
+	- Python 3.9
+
+By setting Sphinx minimal version to 3.4.3, we can get rid of all
+Sphinx backward-compatible code.
+
+I have already patches with such changes for it on the top of this RFC. 
+Will send it shortly as RFC, aiming to send the final version after -rc1.
+
+Thanks,
+Mauro
