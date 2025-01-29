@@ -1,121 +1,222 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC121DDA17;
-	Wed, 29 Jan 2025 15:30:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D9214830F;
+	Wed, 29 Jan 2025 15:30:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738164602; cv=none; b=q4ajrMGb+yqPU226DN/WXgQHnAdz9IQhiuWm7IoEX9AmwD298cDAxjCepW2a7Rcn0qlpDvIazDSQ2YfbneDPITdWwB2PN8IEXbNGYSuXL7zca7JfC1GMhbcAeHnwJjNlpnLZ7jfPl3vaxMLwt0UGk0vqI02yUPD8Ysfd3cfM4D8=
+	t=1738164629; cv=none; b=lOQUsCjoQ05k35wEfUp8JKSZCDZgfFGhYmoqM+4zM57alOJdR6k0EtjQ+JozBtS6Np6KbForixU4W3e2QCjAga/KYF9R/zP73ba5xUuasQNxPxrV6Iuj38+Eujwht3BKn+LjGPuEU2BKzsAKiY355h61IBjJWC4Zy+f61wtPKCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738164602; c=relaxed/simple;
-	bh=rSSIXzLCaiADVUkkOTt5OUgOQZho3MH1Ysx1NFVUke8=;
+	s=arc-20240116; t=1738164629; c=relaxed/simple;
+	bh=su917WJUDlLVVvJbeCquP6XrtRrkcWv8Akxqql7MZwE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TsCUl+Zq/IsvU94FPflIUAS3s7gXGi7r4POwphzToCHEas1k4ga6jR8mL9efOjh3oJhRNHK2W487NrwccGFNyOXaWWyWuXNSSXmqiOiuEKmjxOP6M8UKFPwfFPIpeoC732ORsVdil2UOZwYJOWFCCMZ70u6p1lWi7EKqQ2iH0go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XzT2K/g8; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=qf6GgJ/tiNsYHiiTN8n/F9mAysOxeZ31e0Jb3cWUpUtYmi9MiPid1LmchUV38zGSW+Vt1Zfv1gXC4l4UdQHi5cQtX3Y4HSartxLWJebPNWAmWcVqSBcBUmLzJTk7r1fmiu4qumfHgj0S9ptoannIxhZBP54WpvSp8OniqaxBq+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OuIf5Sk2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XzT2K/g8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3DA3C4CED1;
-	Wed, 29 Jan 2025 15:30:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OuIf5Sk2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B6B5C4CED1;
+	Wed, 29 Jan 2025 15:30:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738164601;
-	bh=rSSIXzLCaiADVUkkOTt5OUgOQZho3MH1Ysx1NFVUke8=;
+	s=k20201202; t=1738164628;
+	bh=su917WJUDlLVVvJbeCquP6XrtRrkcWv8Akxqql7MZwE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XzT2K/g8mcDm3hCeWI4Q2UbKvBUf5BvMAS0H+n39mStjDIozbzjBeClkUBoUCUjg1
-	 JE0OfeQDO9hyJ0r35YtcpxarhuNj2tGwZB1XErhIVBr9pME7nA8QicTf0Bao3XVpdQ
-	 oK11pcV2bDb8QFZwoSGZVwWwo8vhAj57gHcGk+VE6LC432XAqe+xY+MeM5dH15y3AO
-	 dv/bKGj04dpsoOrGhEjE6GmzGIUGJ/fyWj5EnN8HbobSsIcsn9fkFrk5rpjdtRULfu
-	 WjTu/K6OPIxmKgCwEGDnkMJ7Vhq87xBRqr1K11VkljKXlqp2LjGRiZ4tMLz4k0Tkeg
-	 ADEWJX5TSyl1w==
-Date: Wed, 29 Jan 2025 16:29:58 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Joel Stanley <joel@jms.id.au>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Andrew Jeffery <andrew@codeconstruct.com.au>, Stefan Agner <stefan@agner.ch>, 
-	Alison Wang <alison.wang@nxp.com>, Xinliang Liu <xinliang.liu@linaro.org>, 
-	Tian Tao <tiantao6@hisilicon.com>, Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>, 
-	John Stultz <jstultz@google.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Alain Volmat <alain.volmat@foss.st.com>, 
-	Raphael Gallais-Pou <rgallaispou@gmail.com>, Yannick Fertre <yannick.fertre@foss.st.com>, 
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Philippe Cornu <philippe.cornu@foss.st.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Alexey Brodkin <abrodkin@synopsys.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jonathan Corbet <corbet@lwn.net>, linux-aspeed@lists.ozlabs.org, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-amlogic@lists.infradead.org, imx@lists.linux.dev, linux-rockchip@lists.infradead.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 12/14] drm/tiny: move to devm_platform_ioremap_resource()
- usage
-Message-ID: <ghya5qojfjbjtqei2l5ild6jop3n2hj4rojvil254caho64myf@qiqbt2pg5r5g>
-References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com>
- <20250128-cocci-memory-api-v1-12-0d1609a29587@redhat.com>
+	b=OuIf5Sk2wPLPHidQ70Wc7i2FuIaFfDQnsj1KOYyYmjz6MRrRmKbvnVt4kNBHS18c/
+	 t2qEornCCuaheq68E+6PfZfLzyA+brIDkqE4sqk9kThUOuz2ZMADqmH/iLjov+GT1J
+	 Us4unzTVcX0I6Z1Zv32CBSr/rGbUVMY1xMbra10Ww8SolUgnEp3ewL6qUv4OxHGL+X
+	 VgWGHXZrZ6kyMg+mGlRlaOcO1hng43ahZ5G2wCqS8Trmpxe6OBgEtFqJ27d7iQpBXs
+	 Xo6HzAAHQzqG3KCFk/3PDQg5X0bkelr3VqsVFj0XWOe/eq+hyF/EN/B+gk3vH+rIo8
+	 gk4XMy8rnkQ4w==
+Date: Wed, 29 Jan 2025 09:30:27 -0600
+From: Rob Herring <robh@kernel.org>
+To: Robert Budai <robert.budai@analog.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, nuno.sa@analog.com,
+	ramona.gradinariu@analog.com, antoniu.miclaus@analog.com,
+	jic23@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	corbet@lwn.net, lanzano.alex@gmail.com, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 4/6] dt-bindings: iio: Add adis16550 bindings
+Message-ID: <20250129153027.GA2121051-robh@kernel.org>
+References: <20250129082053.19077-1-robert.budai@analog.com>
+ <20250129082053.19077-5-robert.budai@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="gczjr6ysiil4ewb7"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250128-cocci-memory-api-v1-12-0d1609a29587@redhat.com>
+In-Reply-To: <20250129082053.19077-5-robert.budai@analog.com>
+
+On Wed, Jan 29, 2025 at 10:20:44AM +0200, Robert Budai wrote:
+> Document the ADIS16550 device devicetree bindings.
+> 
+> Co-developed-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+> Signed-off-by: Robert Budai <robert.budai@analog.com>
+> ---
+> 
+> v5:
+> - removed sync-mode binding
+> - added binding for external clock frequency
+> - removed adis16550w
+> 
+>  .../bindings/iio/imu/adi,adis16550.yaml       | 80 +++++++++++++++++++
+>  MAINTAINERS                                   |  9 +++
+>  2 files changed, 89 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml b/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
+> new file mode 100644
+> index 000000000000..4e9406168782
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
+> @@ -0,0 +1,80 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/imu/adi,adis16550.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+
+blank line
+
+> +title: Analog Devices ADIS16550 and similar IMUs
+
+blank line
+
+> +maintainers:
+> +  - Nuno Sa <nuno.sa@analog.com>
+> +  - Ramona Gradinariu <ramona.gradinariu@analog.com>
+> +  - Antoniu Miclaus <antoniu.miclaus@analog.com>
+
+blank line
+
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - adi,adis16550
+> +      - adi,adis16550w
+
+blank line
+
+> +  reg:
+> +    maxItems: 1
+
+blank line
+
+> +  spi-cpha: true
+> +  spi-cpol: true
+
+blank line
+
+> +  spi-max-frequency:
+> +    maximum: 15000000
+
+blank line
+
+> +  vdd-supply: true
+
+blank line
+
+> +  interrupts:
+> +    maxItems: 1
+
+blank line
+
+And so on. IOW, follow the style you see in *every* other schema doc.
 
 
---gczjr6ysiil4ewb7
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 12/14] drm/tiny: move to devm_platform_ioremap_resource()
- usage
-MIME-Version: 1.0
+> +  reset-gpios:
+> +    description:
+> +      Must be the device tree identifier of the RESET pin. If specified,
+> +      it will be asserted during driver probe. As the line is active low,
+> +      it should be marked GPIO_ACTIVE_LOW.
+> +    maxItems: 1
+> +  clocks:
+> +    description: If not provided, then the internal clock is used.
+> +    maxItems: 1
+> +  clock-frequency:
+> +    description: Clock frequency in Hz when an external clock is used.
+> +    oneOf:
+> +      - type: integer
 
-On Tue, Jan 28, 2025 at 05:29:36PM -0500, Anusha Srivatsa wrote:
-> Replace platform_get_resource + devm_ioremap_resource
-> with just devm_platform_ioremap_resource()
->=20
-> Used Coccinelle to do this change. SmPl patch:
-> @rule_1@
-> identifier res;
-> expression ioremap_res;
-> identifier pdev;
-> @@
-> -struct resource *res;
-> ...
-> -res =3D platform_get_resource(pdev,...);
-> -ioremap_res =3D devm_ioremap_resource(...);
-> +ioremap_res =3D devm_platform_ioremap_resource(pdev,0);
->=20
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+Drop 'type'
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> +        minimum: 1
+> +        maximum: 128
+> +      - type: integer
 
-Maxime
+Drop 'type'
 
---gczjr6ysiil4ewb7
-Content-Type: application/pgp-signature; name="signature.asc"
+> +        minimum: 3000
+> +        maximum: 4500
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - spi-cpha
+> +  - spi-cpol
+> +  - spi-max-frequency
+> +  - vdd-supply
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        clocks:
+> +          maxItems: 1
 
------BEGIN PGP SIGNATURE-----
+clocks doesn't have to be present for this to be true. Hence the 
+failure. But this can all be expressed as:
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ5pJdQAKCRAnX84Zoj2+
-dmbVAX4qY+feoCB5MZiIvdr/daFlFmBP+Qrzjy3YpdN0hZGySyuYlXpb18XqNc/9
-WRQXKC8BgPMXqn+rOB5wrBDoOe4CNLunweJzpdB+DVoUvzJhD2lAGQkzkbZC9LMa
-8QvQY+8R6A==
-=5YsP
------END PGP SIGNATURE-----
+dependentRequired:
+  clock: [clock-frequency]
 
---gczjr6ysiil4ewb7--
+> +    then:
+> +      required:
+> +        - clock-frequency
+> +
+> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +additionalProperties: false
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    spi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        imu@0 {
+> +            compatible = "adi,adis16550";
+> +            reg = <0>;
+> +            spi-max-frequency = <15000000>;
+> +            spi-cpol;
+> +            spi-cpha;
+> +            vdd-supply = <&vdd>;
+> +            interrupts = <4 IRQ_TYPE_EDGE_FALLING>;
+> +            interrupt-parent = <&gpio>;
+> +        };
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index aeb5f3cc58a1..5c59a183cd3f 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1479,6 +1479,15 @@ W:	https://ez.analog.com/linux-software-drivers
+>  F:	Documentation/devicetree/bindings/iio/imu/adi,adis16475.yaml
+>  F:	drivers/iio/imu/adis16475.c
+>  
+> +ANALOG DEVICES INC ADIS16550 DRIVER
+> +M:	Nuno Sa <nuno.sa@analog.com>
+> +M:	Ramona Gradinariu <ramona.gradinariu@analog.com>
+> +M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
+> +L:	linux-iio@vger.kernel.org
+> +S:	Supported
+> +W:	https://ez.analog.com/linux-software-drivers
+> +F:	Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
+> +
+>  ANALOG DEVICES INC ADM1177 DRIVER
+>  M:	Michael Hennerich <Michael.Hennerich@analog.com>
+>  L:	linux-hwmon@vger.kernel.org
+> -- 
+> 2.43.0
+> 
