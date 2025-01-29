@@ -1,147 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA67D6A33F;
-	Wed, 29 Jan 2025 06:53:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1422911713;
+	Wed, 29 Jan 2025 08:21:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738133635; cv=none; b=eKucUaStDgxJpC9+61gqlFegjjNDe006CUVW1ynfsR0BUkpf2aMzg/aWWhgECVp0f1SB3AwkOee5vHGfAyHBYkNCFN7OsOzwhV6n5cIN+c0HrnDi5egSjPzqijyXarZvWmoD1tJXwGgCIA0jIa+g5LtriyvEli1rtZvox4JrwDU=
+	t=1738138892; cv=none; b=N1VwezlkYOX1oo8m+AYJuToAHCD+ZhLvcYHTn9JYfwOqttHpDXMgKQsJ0kednlbJ1vw2JZR0QpzsjhCsMt7YtyqabrBmjtnjqOD5RmXEX1poD35SCXL1veXKQEZGoh77OkvHUtLiXspcAxixVsKZHqxInJTSLoObI0CK6bKrZWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738133635; c=relaxed/simple;
-	bh=z1DgGFCqWVLuMOzc1iynCnj1wkM3ZKu4vfOtK0qtQ48=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eCkDtnsQnk3q1om6vALJb6Bzm2ofeSutvq97bveVFDa66/lHbij/BpE7zwK4zp1TBFC5bkDoVAcjwhikE425m3vMqYxa0mu+tVFVE15r1WDDW4Mi5J8vJ3ZvhKL3MDKwRLH7wcBx4YzixFizg+47db5ib6WSBt3QxXNFI0NSAuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ECmu6hXH; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1738138892; c=relaxed/simple;
+	bh=Ken+uZ/t5YexFja91w7Oo46S4hnD1GZlSEbhLAEKeAA=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RaKnp0IwCtBc7qmOj06IvITSvvlif/RASXSN086D9wQjunrYz0/iRa1Po1orK7bxdTc77Ellozr6fx3Q+OFlJ5ocpWGM9Pq8penoFm/iYXJRp+mocqi5Ke/11pO62QpDI8OLx7JAsbpuU1mbRUFIjpPQJvoN19JdDX2DveVxO5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=pjBYYnsz; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ECmu6hXH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738133634; x=1769669634;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=z1DgGFCqWVLuMOzc1iynCnj1wkM3ZKu4vfOtK0qtQ48=;
-  b=ECmu6hXHCSwuTQRSJn4mYGvXPEjNh2bsNjDoXG2R0x32keewQyUhog7S
-   tDf/dmUmLibmR4gyWmnoJf6h+XY1LMXg5XLePdmyJaFu2HUnexCdwcgpu
-   ir1DErGOAMMmQH+fPXTEVKo9UopjdfECs5+FqZLZcUE0f7pQbHYw+e0ZO
-   XJeNALvQhwcPdfEdVSlAL3UbHUBgMKiWLUWriAx/WDgKHHzw/sRl0NV+n
-   Afzt9aKG3yKrNvJ93TydhXmq/4Jeq4vgDrx8pFRAvOWkrvjWG7dyiAc8i
-   sS21bZONnVlxJUrI9rYSSmJqueaZ8TqDm9iQwVqCFykfgI4sDEnPjKAII
-   w==;
-X-CSE-ConnectionGUID: a/ClnTK7SpiGgzUz0ze+Dg==
-X-CSE-MsgGUID: T2urQU61SsqBrmpC8uuUQQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11329"; a="37879870"
-X-IronPort-AV: E=Sophos;i="6.13,242,1732608000"; 
-   d="scan'208";a="37879870"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2025 22:53:52 -0800
-X-CSE-ConnectionGUID: 8Vvbu4h4RqqAtovqRVVVjg==
-X-CSE-MsgGUID: mRqjmyJDRNiEvRT8A2jjAA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="132229212"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2025 22:53:48 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1td1xJ-00000006Ic2-1a2p;
-	Wed, 29 Jan 2025 08:53:45 +0200
-Date: Wed, 29 Jan 2025 08:53:44 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: subramanian.mohan@intel.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org, greg@kroah.com, corbet@lwn.net,
-	christopher.s.hall@intel.com, tglx@linutronix.de,
-	eddie.dong@intel.com, pandith.n@intel.com,
-	thejesh.reddy.t.r@intel.com, david.zage@intel.com,
-	srinivasan.chinnadurai@intel.com, rdunlap@infradead.org,
-	bagasdotme@gmail.com, giometti@enneenne.com
-Subject: Re: [PATCH v2 1/1] pps: retrieve generator specific data from
- framework
-Message-ID: <Z5nQeAFx3UlI9hxE@smile.fi.intel.com>
-References: <20250128141743.52031-1-subramanian.mohan@intel.com>
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="pjBYYnsz"
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50T5nLgU004116;
+	Wed, 29 Jan 2025 03:21:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=
+	content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=AA2cuBi7WabAVEbPnfPRDcjkiFZ
+	yO2weZBGTATd6qNo=; b=pjBYYnsz74M9kH9nhUKKJJQdJ9oFiHkhghTv5Fpyvuj
+	Y6gsiK2mJss0fiFGoJmpma+gviUTwgvEzxA4XPbDmDArDRcDEWXltKJn7DfeymPn
+	UBMeJ5XMV30rVjl3HPLaC74NuBqFELKuTOu3uw1DZ9tgYWurItVTCY9CLSTGxM2g
+	3ltvd817STVxTnL8UDggJI6qzuMcv62QfZ7r3meRY7BcziHSJUCebgsKv68ofcpb
+	LYgF6uNH43Z7KZGeWa+vdO6xZTvbpzjLwTHUK5qXetvF8EthY8E1RYBsJAPziTbv
+	l1tkick4tAiMHn4bz/1/s13T0A5kXD0KWidtVTDRo/w==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 44feh7ge8g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 29 Jan 2025 03:21:12 -0500 (EST)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 50T8LBhK028231
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 29 Jan 2025 03:21:11 -0500
+Received: from ASHBCASHYB5.ad.analog.com (10.64.17.133) by
+ ASHBMBX8.ad.analog.com (10.64.17.5) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Wed, 29 Jan 2025 03:21:11 -0500
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
+ ASHBCASHYB5.ad.analog.com (10.64.17.133) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Wed, 29 Jan 2025 03:21:10 -0500
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Wed, 29 Jan 2025 03:21:10 -0500
+Received: from robi-Precision-5540.ad.analog.com ([10.48.65.150])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 50T8KtHG025874;
+	Wed, 29 Jan 2025 03:20:58 -0500
+From: Robert Budai <robert.budai@analog.com>
+To: <lars@metafoo.de>, <Michael.Hennerich@analog.com>, <nuno.sa@analog.com>,
+        <ramona.gradinariu@analog.com>, <antoniu.miclaus@analog.com>,
+        <jic23@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <corbet@lwn.net>, <lanzano.alex@gmail.com>,
+        <robert.budai@analog.com>, <linux-iio@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: [PATCH v5 0/6] Add support for ADIS16550 and ADIS16550W 
+Date: Wed, 29 Jan 2025 10:20:40 +0200
+Message-ID: <20250129082053.19077-1-robert.budai@analog.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250128141743.52031-1-subramanian.mohan@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: EIjPALIGHBoeSMIQiaDhgW29mmf9fTfv
+X-Proofpoint-ORIG-GUID: EIjPALIGHBoeSMIQiaDhgW29mmf9fTfv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-28_04,2025-01-27_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
+ mlxlogscore=999 malwarescore=0 clxscore=1015 phishscore=0 adultscore=0
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 suspectscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501290067
 
-On Tue, Jan 28, 2025 at 07:47:43PM +0530, subramanian.mohan@intel.com wrote:
-> From: Subramanian Mohan <subramanian.mohan@intel.com>
-> 
-> While adapting pps generator driver(tio generator as an example)to the new
-> generator framework, As part of driver registration the pps_gen_device
-> pointer is returned from framework. Due to which there is difficulty in
-> getting generator driver data back in enable function. we won’t be able
-> to use container_of macro as it results in static assert. we might end up
+Add support for ADIS16550 and ADIS16550W 
 
-container_of()
+Robert Budai (6):
+  iio: imu: adis: Add custom ops struct
+  iio: imu: adis: Add reset to custom ops
+  iio: imu: adis: Add DIAG_STAT register size
+  dt-bindings: iio: Add adis16550 bindings
+  iio: imu: adis16550: add adis16550 support
+  docs: iio: add documentation for adis16550 driver
 
-Can you be more specific, what exactly happens?
-
-> in using static pointer. To avoid the same and get back the generator
-> driver data back we are proposing generic approach to add drv_prv_data
-> pointer inside the struct pps_gen_source_info.
-
-> Example TIO structure wrapped with pps_gen_device and usage.
-> 
-> struct pps_tio {
-> 	/* Framework Related * /
-> 	struct pps_gen_source_info pps_tio_source_info
-> 	struct pps_gen_device *pps_gen;
-
-> };
-
-> static int pps_tio_enable(struct pps_gen_device *pps_gen, bool enable) {
-> 
->     /* Getting TIO data back */
->     /* Note: drv_prv_data will be initialized in our init routine */
->     struct pps_tio *tio = pps_gen->info.drv_prv_data;
-
-So, what's wrong with the container_of() against pps_gen->info?
-We have tons of code in the kernel that does it.
-
->     /* Access tio members here to set some of the parameters */
-> 
->     return 0;
-> }
-
-Okay, looking into the implementation I see what's the issue (but it doesn't
-mean that commit message is good here, you still need to explain better why
-you can't get the correct address).
-
-The problem is that info is got fully copied. Perhaps we should rely on
-the fact that it always be provided? I dunno any data structure that defines
-callbacks and other "info" material should be considered as temporary storage
-(on stack), it makes not much sense.
-
-...
-
-> V1 -> V2:
->     * Updated reviewers.
-
-Please, use...
-
-> Signed-off-by: Subramanian Mohan <subramanian.mohan@intel.com>
-> ---
-
-...this place for the comments and changelogs.
-
-...
-
-> +	void *drv_prv_data;
-
-If really needed we should probably use a better name, like "private".
+ .../bindings/iio/imu/adi,adis16550.yaml       |   80 ++
+ Documentation/iio/adis16550.rst               |  378 ++++++
+ Documentation/iio/index.rst                   |    1 +
+ MAINTAINERS                                   |    9 +
+ drivers/iio/imu/Kconfig                       |   13 +
+ drivers/iio/imu/Makefile                      |    1 +
+ drivers/iio/imu/adis.c                        |   31 +-
+ drivers/iio/imu/adis16550.c                   | 1182 +++++++++++++++++
+ include/linux/iio/imu/adis.h                  |   34 +-
+ 9 files changed, 1716 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
+ create mode 100644 Documentation/iio/adis16550.rst
+ create mode 100644 drivers/iio/imu/adis16550.c
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0
 
