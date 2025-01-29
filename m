@@ -1,44 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA811DEFD6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFBD21DEFEA;
 	Wed, 29 Jan 2025 16:09:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738167000; cv=none; b=DEH9GVp2sQGNjoVaOPYpqpyqorcEXfx9LN2sEPEei9IwxiWiVNE8EIRiHqqmEy6U1mDdu3haMSqq7bAmM1sP8m5Tw36Xslab6du+m/VgQW0uBnl/KlHVwnmMWrOARewl4yfsEAiyHAs1TVR9/Xpn6G6TZiFCRaDFB2UYsqx5jwE=
+	t=1738167000; cv=none; b=fH6l47qs8qhfeOLTK5QGcpZRjwb4uKDWUWMx2trtinLvx8zlqIOm2WVaT/xOYt3v00HtumI+LsnOWptogxFa4R8+PUyK/DPenRFZwojlzA7xQ92r4dWOGX2G6/+XtQ0x/efKC8sAy1oCjzfEkq0E8QROu4Ai4ue3eoYt++szMEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1738167000; c=relaxed/simple;
-	bh=GrjMjuoBldG0YBxJhhKh6xKhPGHktjhoxv5+WyCxFXo=;
+	bh=5OUVA+DifT9fiAR1a4XwZcggsOOvHcxKgnNy11VXdK4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qUPYHwJDTItBqgmV90vDbQ17XuOl032F2S2pGxPlu0iI3bpzDqfgqV58ssNA/WZVOSFJhQGLH4SMukxvtvAmWbwf6JBPy7HKmYBfZNReO8TU6umdYDSdIaYj2qAQDvW2TlFF4I4EADncoYjpc/iMRq3irg8kbE/7FKzY5H+xwhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mjA+ZtGu; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=iKervcdhoMx4Ob5l8E1FGNvsCcABgxk0+6acREZyHwEQ7VqSGm+DdRkzBgHaucmJH5XISb2nOTXpv/bJ5EQyBCts0MRlihXIl83FgQ/RS09ZFMcy7StN/tlG9EUzxI45EwqENjxYtTucqseN3c/wyQlnMsZdAvNsmd+Y7WVT1fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t/BH31fY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mjA+ZtGu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F304C4CED3;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t/BH31fY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A013C4CEE5;
 	Wed, 29 Jan 2025 16:09:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1738166999;
-	bh=GrjMjuoBldG0YBxJhhKh6xKhPGHktjhoxv5+WyCxFXo=;
+	bh=5OUVA+DifT9fiAR1a4XwZcggsOOvHcxKgnNy11VXdK4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mjA+ZtGuPSLlwIHm4vTZ+NmhNhpJczu8vHLjr81KsC6KbUTkU2MufBJSbj7UnTNra
-	 vnh2EPuqWhrNW0EK/RR2vd0Wr/QulxBN7slt5FQ7PvnfZ1dXluSpW2cf1thwRp6eg6
-	 JrjX9no43DYnznHQXiOAQ6tkegAYQ608a3oj1OwWc6GoqbIuhFLZADtaXP52EeS2WT
-	 D5IEwIGMZa7TYT53PsfKt8sjr9I2OdPSLVhHZfMN+pnsHmBaLK8wyIQ40KEm41r6q1
-	 aYUmHCzYRn5awHfXt5PcyDXXF98YaB/ROSKr9ZUCf7dAex0sdOpzWAf4lf10Lo9bvV
-	 22ARUVsehJrrg==
+	b=t/BH31fY6T3i68shjEYcsDRGT6Q9RY0aMsPVsDG83pYDdQ57/spyDPw7F26YLrLHk
+	 NeJeaMlou4ZJPc0d/EMio/iDvqnM5mkwU7MJVWK14vRM8rOyF7LKS0aK1APQnlNLbu
+	 Dg1NZlB081L/mz9kjXYaPZvf94Kx3boS0r5dIh8xaEhxtNA92hd7E5qM1h8R85oE3M
+	 9q3ABVFQQ+939NxrAVoN5EegaOkvIm60jaW44fAe6Hp8E9hGd3w957hXQGfUCY12z8
+	 LO0MDoh7Jw5Z2GWxm8yCM68bISxcKvHrulHHqFUbkffFuZKkeupm+3qWXhvgtyfc0O
+	 S5RePaysWQPyQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1tdAdZ-00000004PES-1sJO;
+	id 1tdAdZ-00000004PEK-1eS9;
 	Wed, 29 Jan 2025 17:09:57 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	"Jonathan Corbet" <corbet@lwn.net>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [RFC 3/6] docs: automarkup: drop legacy support
-Date: Wed, 29 Jan 2025 17:09:34 +0100
-Message-ID: <748e0f011eb9be114737851094ad3a3406412244.1738166451.git.mchehab+huawei@kernel.org>
+	linux-kernel@vger.kernel.org,
+	Akira Yokosawa <akiyks@gmail.com>
+Subject: [RFC 1/6] scripts/get_abi.py: make it backward-compatible with Python 3.6
+Date: Wed, 29 Jan 2025 17:09:32 +0100
+Message-ID: <6d74360f8cdabeb0bf628a6e870d10e134f396f0.1738166451.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <cover.1738166451.git.mchehab+huawei@kernel.org>
 References: <cover.1738166451.git.mchehab+huawei@kernel.org>
@@ -51,92 +52,86 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Python 2 is already EOL for quite some time. Drop support for
-it.
+Despite being introduced on Python 3.6, the original implementation
+was too limited: it doesn't accept anything but the argument.
 
-Also, the minimal Sphinx version is now 3.4.3. So, we can drop
-support for Sphinx < 3.
+Even on python 3.10.12, support was still limited, as more complex
+operations cause SyntaxError:
 
+	Exception occurred:
+	  File ".../linux/Documentation/sphinx/kernel_abi.py", line 48, in <module>
+	    from get_abi import AbiParser
+	  File ".../linux/scripts/get_abi.py", line 525
+	    msg += f"{part}\n{"-" * len(part)}\n\n"
+                       ^
+	SyntaxError: f-string: expecting '}'
+
+Replace f-strings by normal string concatenation when it doesn't
+work on Python 3.6.
+
+Reported-by: Akira Yokosawa <akiyks@gmail.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/automarkup.py | 32 +++++++-----------------------
- 1 file changed, 7 insertions(+), 25 deletions(-)
+ scripts/get_abi.py | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
-index 03bb7020f5cb..ecf54d22e9dc 100644
---- a/Documentation/sphinx/automarkup.py
-+++ b/Documentation/sphinx/automarkup.py
-@@ -13,14 +13,6 @@ from itertools import chain
+diff --git a/scripts/get_abi.py b/scripts/get_abi.py
+index 543bed397c8c..e6e94f721fff 100755
+--- a/scripts/get_abi.py
++++ b/scripts/get_abi.py
+@@ -522,7 +522,7 @@ class AbiParser:
  
- from kernel_abi import get_kernel_abi
+                 if cur_part and cur_part != part:
+                     part = cur_part
+-                    msg += f"{part}\n{"-" * len(part)}\n\n"
++                    msg += part + "\n"+ "-" * len(part) +"\n\n"
  
--#
--# Python 2 lacks re.ASCII...
--#
--try:
--    ascii_p3 = re.ASCII
--except AttributeError:
--    ascii_p3 = 0
--
- #
- # Regex nastiness.  Of course.
- # Try to identify "function()" that's not already marked up some
-@@ -28,22 +20,22 @@ except AttributeError:
- # :c:func: block (i.e. ":c:func:`mmap()`s" flakes out), so the last
- # bit tries to restrict matches to things that won't create trouble.
- #
--RE_function = re.compile(r'\b(([a-zA-Z_]\w+)\(\))', flags=ascii_p3)
-+RE_function = re.compile(r'\b(([a-zA-Z_]\w+)\(\))', flags=re.ASCII)
+                 msg += f".. _{key}:\n\n"
  
- #
- # Sphinx 2 uses the same :c:type role for struct, union, enum and typedef
- #
- RE_generic_type = re.compile(r'\b(struct|union|enum|typedef)\s+([a-zA-Z_]\w+)',
--                             flags=ascii_p3)
-+                             flags=re.ASCII)
+@@ -546,7 +546,7 @@ class AbiParser:
+                     msg += f"Defined on file :ref:`{base} <{ref[1]}>`\n\n"
  
- #
- # Sphinx 3 uses a different C role for each one of struct, union, enum and
- # typedef
- #
--RE_struct = re.compile(r'\b(struct)\s+([a-zA-Z_]\w+)', flags=ascii_p3)
--RE_union = re.compile(r'\b(union)\s+([a-zA-Z_]\w+)', flags=ascii_p3)
--RE_enum = re.compile(r'\b(enum)\s+([a-zA-Z_]\w+)', flags=ascii_p3)
--RE_typedef = re.compile(r'\b(typedef)\s+([a-zA-Z_]\w+)', flags=ascii_p3)
-+RE_struct = re.compile(r'\b(struct)\s+([a-zA-Z_]\w+)', flags=re.ASCII)
-+RE_union = re.compile(r'\b(union)\s+([a-zA-Z_]\w+)', flags=re.ASCII)
-+RE_enum = re.compile(r'\b(enum)\s+([a-zA-Z_]\w+)', flags=re.ASCII)
-+RE_typedef = re.compile(r'\b(typedef)\s+([a-zA-Z_]\w+)', flags=re.ASCII)
+             if wtype == "File":
+-                msg += f"{names[0]}\n{"-" * len(names[0])}\n\n"
++                msg += names[0] +"\n" + "-" * len(names[0]) +"\n\n"
  
- #
- # Detects a reference to a documentation page of the form Documentation/... with
-@@ -87,13 +79,8 @@ def markup_refs(docname, app, node):
-     #
-     # Associate each regex with the function that will markup its matches
-     #
--    markup_func_sphinx2 = {RE_doc: markup_doc_ref,
--                           RE_abi_file: markup_abi_file_ref,
--                           RE_abi_symbol: markup_abi_ref,
--                           RE_function: markup_c_ref,
--                           RE_generic_type: markup_c_ref}
+             desc = v.get("description")
+             if not desc and wtype != "File":
+@@ -570,7 +570,8 @@ class AbiParser:
  
--    markup_func_sphinx3 = {RE_doc: markup_doc_ref,
-+    markup_func = {RE_doc: markup_doc_ref,
-                            RE_abi_file: markup_abi_file_ref,
-                            RE_abi_symbol: markup_abi_ref,
-                            RE_function: markup_func_ref_sphinx3,
-@@ -103,11 +90,6 @@ def markup_refs(docname, app, node):
-                            RE_typedef: markup_c_ref,
-                            RE_git: markup_git}
+             users = v.get("users")
+             if users and users.strip(" \t\n"):
+-                msg += f"Users:\n\t{users.strip("\n").replace('\n', '\n\t')}\n\n"
++                users = users.strip("\n").replace('\n', '\n\t')
++                msg += f"Users:\n\t{users}\n\n"
  
--    if sphinx.version_info[0] >= 3:
--        markup_func = markup_func_sphinx3
--    else:
--        markup_func = markup_func_sphinx2
--
-     match_iterators = [regex.finditer(t) for regex in markup_func]
-     #
-     # Sort all references by the starting position in text
+             ln = v.get("line_no", 1)
+ 
+@@ -596,7 +597,9 @@ class AbiParser:
+                 elif len(lines) == 1:
+                     f.append(f"{fname}:{lines[0]}")
+                 else:
+-                    f.append(f"{fname} lines {", ".join(str(x) for x in lines)}")
++                    m = fname + "lines "
++                    m += ", ".join(str(x) for x in lines)
++                    f.append(m)
+ 
+             self.log.warning("%s is defined %d times: %s", what, len(f), "; ".join(f))
+ 
+@@ -644,10 +647,11 @@ class AbiParser:
+                     if users:
+                         print(f"Users:\t\t\t{users}")
+ 
+-                    print(f"Defined on file{'s'[:len(files) ^ 1]}:\t{", ".join(files)}")
++                    print("Defined on file(s):\t" + ", ".join(files))
+ 
+                     if desc:
+-                        print(f"\n{desc.strip("\n")}\n")
++                        desc = desc.strip("\n")
++                        print(f"\n{desc}\n")
+ 
+         if not found_keys:
+             print(f"Regular expression /{expr}/ not found.")
 -- 
 2.48.1
 
