@@ -1,182 +1,126 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946FF17BBF;
-	Wed, 29 Jan 2025 02:00:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5F0EAF6
+	for <linux-doc@vger.kernel.org>; Wed, 29 Jan 2025 04:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738116060; cv=none; b=p9XfU/gfKPXsJtAn+8ISbB62ODrMdrZiuJNj5QO2nXXLLGzJx71cv4flv/V/M8zYGKA8L3vhazygiimuE/znl3G5+gCkPgqQzsc4WjpkB8OR0zIgwzm6eda/19m/SIRXSwkLFOOqz1bTAUDq38JjgvbSIEszIyRDjNpPdgM2ZO0=
+	t=1738126087; cv=none; b=GM9cH1V0Y2cRmPCz/WkBV371ElsOdBT4J1iCKMPw77Q6xPfIMT0kAZesAJ4FnBbz5vlPquyKqyP+pcfwKSSONdqwuOfcxr7KD5U5ylGNtRuAgzCK+yqMsKd4fKGfx+xfvW5nxQEkOr6LctCtKjJN0fsi19BKbGvHtceHF7W+o1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738116060; c=relaxed/simple;
-	bh=RaqBulTZOLeegNE8RE5X8LkjAfK6V+c1XKWQ745Mg0c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q+kvcgvdA0/93+w2Avi4wgPoI1S84h77sicvAHa+gZK0c0fZyUiiAkrBx+OyCWO860QC4fN4G++VDRBV0jhohXBFyUDMTvUzsDwHSeZzY9gcYscEodMddS7Xwi+4CHYL0fK/vaWJ2ym2GrTN151IslS7z4NBazqGIV5jXqc3ZYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=Ycylsr08; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1738126087; c=relaxed/simple;
+	bh=peWcLBmGw9O9vXyRSnEUD3ALTkxdirdqXdZSwpQylRs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=St3yoLai2TnaWCVhAq1T/77EO2nSxtnn+uuxu/lpdeIGc9dpicD9ilbJOcPEbvJULznQVUovX3vMzCNJ/J3ZG8aquz3qtkI0GT/zulG6PegxyUyCQd4r+XxjlzfjtMbzUWMtt6Lmvx4mH9pqNw0mquanjbWseaLZ4NohzYt3K+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Lt3k7LRY; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="Ycylsr08"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=2FG6+j1guCeOhnzvG6QMzHA1GAyZ494fEzLUuhtnjX0=; b=Ycylsr08kdMRTqH5
-	37c8Bl2cK3LKEItDOViQ7XESsbPOATeTHMc+Rvp0m3FgWgDp9I+ZlpvDPCTuAaVzEQ7vkoJTArGwQ
-	omzPCYESpwqtgtZYnv2idw2egbJH6eT6RpfNMns0l3KhfKHaBUjoQKenlrreSl6fnhKvIOBRYY0mF
-	VLV7ZKLty1mqveLSLJjOpcLdlRy+mHBwAK1M/n5Wb/WJ5p7GH8hyt41y7+ak+aQ5SPbGLX5nTQRsN
-	nMgTPz1e9yDtlZd7wxxqb7A+lJ1cvOM6tekT8Frr3woTZzLZU1u7VDsKwej5J4nfkgpOPCgGg2jyo
-	NC4/0hhuxFkXenRcUg==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1tcxNp-00CZe9-0r;
-	Wed, 29 Jan 2025 02:00:49 +0000
-From: linux@treblig.org
-To: gregkh@linuxfoundation.org,
-	jirislaby@kernel.org,
-	linus.walleij@linaro.org,
-	brgl@bgdev.pl
-Cc: corbet@lwn.net,
-	linux-serial@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] serial: mctrl_gpio: Remove unused mctrl_gpio_free
-Date: Wed, 29 Jan 2025 02:00:48 +0000
-Message-ID: <20250129020048.245529-1-linux@treblig.org>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Lt3k7LRY"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-21634417587so13320885ad.3
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jan 2025 20:48:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1738126084; x=1738730884; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9nBAJs/K3XCTXctROPnqYBKk6nvC0nwt2edw8ojQ7lg=;
+        b=Lt3k7LRYozcgFjHizxN+y2ak7j/v6IEqkGVpTv8tthoZnMfYGpuCdQm9k7seLwRa2P
+         IS/pJei54lkDhV3T7E+L+57UjWO54Hv31MPBRNKwGGExtyMSqCKrvG5khjNaf9VKiEXH
+         MjGnYEFAudGKRMPp+nwf6KeJj1nJgxvwewelUGdOMuGF2opy4JiotMf9joMo7sx71scm
+         tPZ0fZ/ujLe5fQLCz02MmQ+nf9XDRFpLfm8jWzyZTCy5s73/t4ZqZzT3B3NOowaN9C8W
+         hxH9m8iQJVLYwlMFPQnpazTR0XW1HcXNKeA3pZOHiVHGAf2/T8MzlUfM2TRqqnw1mRhZ
+         Kgqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738126084; x=1738730884;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9nBAJs/K3XCTXctROPnqYBKk6nvC0nwt2edw8ojQ7lg=;
+        b=m7pyWYPuPBIUVSXm1l+3jBu0lB0PygwzFsgDnEq7OlnPUUT1MifAuoAZx/7m4Ofm2s
+         n1raRh9YJp7JYFMW99cVW6MmZhckJ1A4Yb7rlCqEnTeZm3lylDaMORh/QDQymNcoXIOY
+         HtKOs0PNe2IUZU/EnwQl26HHYvMNPvhzIiiwqAgYVoL5iCe3Anao6SU2biLMGTkIuKcQ
+         u7rmg7UmwWb2d/jgv5VmuKGnLfDcA8LBtd9fUAu78/FaaWxFtApgG3geWdJIC/mr0DDQ
+         fsgY7Gz+JbesAJ697N2iURlv85JOzWzrCQ5YKdZbTnwbRIL91vTWj1pulqTyDTypZpwu
+         qgvw==
+X-Forwarded-Encrypted: i=1; AJvYcCVSbJTyp7dKzt6PgOAKPZ+HV9NWJEB8QLOg6W3QtvBKPdQx5oj+vBgcOZasYo5yUgfr0gk8tu8SuhI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJ+LzhPRtKMoOe+pATNbjulwTUzwIv6S9xc2GdD7G3ZP7GpwCc
+	/LWFlP0eT7WHe0LaIXfsnQuqVneTD8dYKWmA0ICdtrN8b4m4O3oTcXPA/sfrQO0=
+X-Gm-Gg: ASbGncuWGRmSS1GZyUw0XzAi4yQI7Ufm2ifuw9eZDytZ04Rz3mXgWNDhtsFWFNJFVf7
+	su9yFlj3IdfJCtArbvjscWeI8f9jq6SwaLVJYCc83SgETWciH1zllz0ZLIrOKA52i7w7CmvkCMi
+	Em8ORS43YBa1LrxRy6MdA6g9SrkxERcUFIMWMwosNg5KpWsyPMleilAp1e9Kn7zkjsmK2bJRAJ2
+	5KwemEW6rDEcSxX0tEcBk65/dNF7I3RvQ+BMEGj4H6OADrWM9fA3SAlM5YuxmzCKUPqpYPst2vb
+	4NkcQcYY1AFd3f5x6doWq3T+6CL++FqC3rDvvyi390vmffG0fps=
+X-Google-Smtp-Source: AGHT+IH2SL9fkJmk2X8K7lTgSkBExNzIhKUEntMRXEEyWswgtjrpKfSvnvK7wAH+UMWjl6oI+Hf7kw==
+X-Received: by 2002:a17:902:db09:b0:215:6533:f4ee with SMTP id d9443c01a7336-21dd7deeab0mr9770055ad.13.1738126084231;
+        Tue, 28 Jan 2025 20:48:04 -0800 (PST)
+Received: from [10.254.209.208] ([139.177.225.253])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21da424f39fsm89622785ad.249.2025.01.28.20.47.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Jan 2025 20:48:03 -0800 (PST)
+Message-ID: <784be226-d4a8-43bf-9096-dbb7ca8f0cff@bytedance.com>
+Date: Wed, 29 Jan 2025 12:47:54 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: Re: [PATCH v2 2/3] cgroup/rstat: Cleanup cpu.stat once for all
+Content-Language: en-US
+To: Tejun Heo <tj@kernel.org>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Bitao Hu
+ <yaoma@linux.alibaba.com>, Yury Norov <yury.norov@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Chen Ridong <chenridong@huawei.com>,
+ "open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20250125052521.19487-1-wuyun.abel@bytedance.com>
+ <20250125052521.19487-3-wuyun.abel@bytedance.com>
+ <Z5fpw2uVYGP9kf18@slm.duckdns.org>
+From: Abel Wu <wuyun.abel@bytedance.com>
+In-Reply-To: <Z5fpw2uVYGP9kf18@slm.duckdns.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+Hi Tejun,
 
-mctrl_gpio_free() was added in 2014 by
-commit 84130aace839 ("tty/serial: Add GPIOLIB helpers for controlling
-modem lines")
+On 1/28/25 4:17 AM, Tejun Heo Wrote:
+> On Sat, Jan 25, 2025 at 01:25:11PM +0800, Abel Wu wrote:
+>> There were efforts like b824766504e4 ("cgroup/rstat: add force idle show helper")
+>> to escape from #ifdef hells, and there could be new stats coming out in
+>> the future, let's clean it up once for all.
+>>
+>> Signed-off-by: Abel Wu <wuyun.abel@bytedance.com>
+>> ---
+>>   kernel/cgroup/rstat.c | 47 ++++++++++++++++++++++++-------------------
+>>   1 file changed, 26 insertions(+), 21 deletions(-)
+> 
+> Is this materially better? The existing code has ifdef in one place which
+> the new code can't avoid. 
 
-It does have a comment saying:
-  '- * Normally, this function will not be called, as the GPIOs will
-   - * be disposed of by the resource management code.'
+Indeed, # of ifdefs will stay unchanged, but they will be folded
+into one place inside the bstats[] array quite the same as the
+definition of the struct cgroup_base_stat, which IMHO won't hurt
+readability.
 
-indeed, it doesn't seem to have been used since it was added.
+> The new code is more complex and has more lines.
+> Does the balance get better with additions of new entries?
 
-Remove it.
+The line diff is 5, and 4 of them are for readability. If adding
+one more field into cpu.stat, 1 or 3 lines will be added w/o or
+w/ ifdef respectively, comparing to 8 or 10 lines without this
+cleanup. So the balance will be better if cpu.stat extends. And
+it would also be better cleanup duplicated code for each field.
 
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
----
- Documentation/driver-api/serial/driver.rst |  2 +-
- drivers/tty/serial/serial_mctrl_gpio.c     | 28 +---------------------
- drivers/tty/serial/serial_mctrl_gpio.h     | 16 ++-----------
- 3 files changed, 4 insertions(+), 42 deletions(-)
-
-diff --git a/Documentation/driver-api/serial/driver.rst b/Documentation/driver-api/serial/driver.rst
-index 84b43061c11b..df353211fc6b 100644
---- a/Documentation/driver-api/serial/driver.rst
-+++ b/Documentation/driver-api/serial/driver.rst
-@@ -101,6 +101,6 @@ Modem control lines via GPIO
- Some helpers are provided in order to set/get modem control lines via GPIO.
- 
- .. kernel-doc:: drivers/tty/serial/serial_mctrl_gpio.c
--   :identifiers: mctrl_gpio_init mctrl_gpio_free mctrl_gpio_to_gpiod
-+   :identifiers: mctrl_gpio_init mctrl_gpio_to_gpiod
-            mctrl_gpio_set mctrl_gpio_get mctrl_gpio_enable_ms
-            mctrl_gpio_disable_ms
-diff --git a/drivers/tty/serial/serial_mctrl_gpio.c b/drivers/tty/serial/serial_mctrl_gpio.c
-index 8855688a5b6c..85c172ad1de9 100644
---- a/drivers/tty/serial/serial_mctrl_gpio.c
-+++ b/drivers/tty/serial/serial_mctrl_gpio.c
-@@ -217,7 +217,7 @@ static irqreturn_t mctrl_gpio_irq_handle(int irq, void *context)
-  *
-  * This will get the {cts,rts,...}-gpios from device tree if they are present
-  * and request them, set direction etc, and return an allocated structure.
-- * `devm_*` functions are used, so there's no need to call mctrl_gpio_free().
-+ * `devm_*` functions are used, so there's no need to explicitly free.
-  * As this sets up the irq handling, make sure to not handle changes to the
-  * gpio input lines in your driver, too.
-  */
-@@ -267,32 +267,6 @@ struct mctrl_gpios *mctrl_gpio_init(struct uart_port *port, unsigned int idx)
- }
- EXPORT_SYMBOL_GPL(mctrl_gpio_init);
- 
--/**
-- * mctrl_gpio_free - explicitly free uart gpios
-- * @dev: uart port's device
-- * @gpios: gpios structure to be freed
-- *
-- * This will free the requested gpios in mctrl_gpio_init(). As `devm_*`
-- * functions are used, there's generally no need to call this function.
-- */
--void mctrl_gpio_free(struct device *dev, struct mctrl_gpios *gpios)
--{
--	enum mctrl_gpio_idx i;
--
--	if (gpios == NULL)
--		return;
--
--	for (i = 0; i < UART_GPIO_MAX; i++) {
--		if (gpios->irq[i])
--			devm_free_irq(gpios->port->dev, gpios->irq[i], gpios);
--
--		if (gpios->gpio[i])
--			devm_gpiod_put(dev, gpios->gpio[i]);
--	}
--	devm_kfree(dev, gpios);
--}
--EXPORT_SYMBOL_GPL(mctrl_gpio_free);
--
- /**
-  * mctrl_gpio_enable_ms - enable irqs and handling of changes to the ms lines
-  * @gpios: gpios to enable
-diff --git a/drivers/tty/serial/serial_mctrl_gpio.h b/drivers/tty/serial/serial_mctrl_gpio.h
-index fc76910fb105..ec4170084766 100644
---- a/drivers/tty/serial/serial_mctrl_gpio.h
-+++ b/drivers/tty/serial/serial_mctrl_gpio.h
-@@ -59,7 +59,7 @@ struct gpio_desc *mctrl_gpio_to_gpiod(struct mctrl_gpios *gpios,
- /*
-  * Request and set direction of modem control line GPIOs and set up irq
-  * handling.
-- * devm_* functions are used, so there's no need to call mctrl_gpio_free().
-+ * devm_* functions are used, so there's no need to explicitly free.
-  * Returns a pointer to the allocated mctrl structure if ok, -ENOMEM on
-  * allocation error.
-  */
-@@ -67,20 +67,13 @@ struct mctrl_gpios *mctrl_gpio_init(struct uart_port *port, unsigned int idx);
- 
- /*
-  * Request and set direction of modem control line GPIOs.
-- * devm_* functions are used, so there's no need to call mctrl_gpio_free().
-+ * devm_* functions are used, so there's no need to explicitly free.
-  * Returns a pointer to the allocated mctrl structure if ok, -ENOMEM on
-  * allocation error.
-  */
- struct mctrl_gpios *mctrl_gpio_init_noauto(struct device *dev,
- 					   unsigned int idx);
- 
--/*
-- * Free the mctrl_gpios structure.
-- * Normally, this function will not be called, as the GPIOs will
-- * be disposed of by the resource management code.
-- */
--void mctrl_gpio_free(struct device *dev, struct mctrl_gpios *gpios);
--
- /*
-  * Enable gpio interrupts to report status line changes.
-  */
-@@ -139,11 +132,6 @@ struct mctrl_gpios *mctrl_gpio_init_noauto(struct device *dev, unsigned int idx)
- 	return NULL;
- }
- 
--static inline
--void mctrl_gpio_free(struct device *dev, struct mctrl_gpios *gpios)
--{
--}
--
- static inline void mctrl_gpio_enable_ms(struct mctrl_gpios *gpios)
- {
- }
--- 
-2.48.1
+Thanks,
+	Abel
 
