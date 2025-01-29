@@ -1,203 +1,181 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B45F2CA9;
-	Wed, 29 Jan 2025 13:11:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EDA9224EA
+	for <linux-doc@vger.kernel.org>; Wed, 29 Jan 2025 13:18:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738156305; cv=none; b=CKXWA/bf8tt+03h9xtQH8RVKL8eadfkfL+lvV4QVTBP5X5tYRf4htYnEzGpUONXqIz65LPpKDyfzj9zhlMW1fHWpyK+sjji4V2U4keA139bI+ptZ113zbTEBYlZTwXiphQbQi45fq7YP5IJJVnReM4/EZp1C9Dihz1IhzCM6NcA=
+	t=1738156697; cv=none; b=BCAKYW527BZtsY7C4F5MKaZsQ1PvZHBW1t3UL6L12Z/RCISMb7mF1PSV+t58QA7WNC56VxdElDteHb0fE5cf65R+eKQ1Rtgr9EEXKDBtn72JijiaIXFuce2hQHWA6ECaGFnYLkNZ8dXkbs5y1AcYctJfij4WeIrRd7fGR1B+UBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738156305; c=relaxed/simple;
-	bh=Q292xYi/mquTsiW8aGfnrwi5Os34uuSK9zEv62Jicmo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kN3i2bgjyg6wx9NfDo6pHwDzlBZnPvBtGMSKhMqD8m+9uo+2t8gNgJ2NlvfzIMOY8SYbEO5i2xJcUpNZjAczT5y5JttJ3+tdwg9d3Z4VMtQ9ypFXmDTMFnmTU9SCBqtrmqqlGthI4QP6l0HApa2gmPhJter3rzJFQH1U3GfKQyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=I3AFh5mb; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1738156697; c=relaxed/simple;
+	bh=3XqX4J11YN9y8rkaksX0x+FoIXwM8FEnpGRK0+mZvaU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZMgrHsxZmz9tBjikkPuX6xuIkibttHxMtsKeXiWY/Jml0FBnX46rTVOgeE4EkslfZMboZlAqAurRDvgIBV3IvgKNfhJT1gFs2w2bcjEFo5vDtclkIn1xjeazeGhSYA8JC/AsR8x7GughnUstmzelLvZftekS1dLis5IJEVEcGz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=AWxO1NoZ; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="I3AFh5mb"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D41DA442EF;
-	Wed, 29 Jan 2025 13:11:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1738156300;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8HgcJtHNXDb9K1nOfZ+HqLoD2HMmB8+mqhC5v0ZMXaQ=;
-	b=I3AFh5mb8yfxGmI5bk4VkzrfR2gQyg/9py/0qIH1dJa6j9ML63Mzmx5bBis2fnbnmbQSZ7
-	IPT58oYLy2sIPYa9oZbo7xRkycofNvvb3RxbhBx78q9/oLXE/54esdrSBE2s04t5YPVhqh
-	Gl9MMKJecggbVb6psYKy50II4LgtRgMnm84tH/kETqvFaSDfwstf2Dpe2mD3JYSsNbgCwz
-	ZKObaxEiVhtxQaAQDbGzFsry7HssZeSSMbUZIcF6CxsWFTQl+g3CEMlgahkRMBh4gu8Xif
-	aGTHWgIR8b4WasSubsjFBDtJ86yI7hEnFZk+jM85Z2ovSry/BWbV9IseVCd2vQ==
-Date: Wed, 29 Jan 2025 14:11:35 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Catalin Marinas
- <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Shawn Guo
- <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Daniel Thompson <danielt@kernel.org>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, Paul
- Kocialkowski <contact@paulk.fr>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, =?UTF-8?Q?Herv?=
- =?UTF-8?Q?=C3=A9?= Codina <herve.codina@bootlin.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, Paul
- Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v5 04/10] drm/bridge: add documentation of refcounted
- bridges
-Message-ID: <20250129141135.28b01ff9@booty>
-In-Reply-To: <yipjwosmkqsadvhulzh76ydqbfvv5npdafl3yzdjmikfa2yq4y@j7nj4audwxl7>
-References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
-	<20241231-hotplug-drm-bridge-v5-4-173065a1ece1@bootlin.com>
-	<20250106-vigorous-talented-viper-fa49d9@houat>
-	<CAA8EJprhe4+9HwjW-=4K_LUD5pw51ij_dk0SZABbKH+ExnjdzQ@mail.gmail.com>
-	<20250108162429.53316041@booty>
-	<20250108-astonishing-oarfish-of-energy-c0abbe@houat>
-	<20250122171230.30cf9b97@booty>
-	<jiwexbvzcrq7hywl5t25cojrgjnyv5q2wnb2kvgriucal6764w@hhrefcftcjza>
-	<20250129125153.35d0487a@booty>
-	<yipjwosmkqsadvhulzh76ydqbfvv5npdafl3yzdjmikfa2yq4y@j7nj4audwxl7>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="AWxO1NoZ"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3022484d4e4so72440941fa.1
+        for <linux-doc@vger.kernel.org>; Wed, 29 Jan 2025 05:18:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1738156692; x=1738761492; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f+CHJ8n+1weOhv4NN8WEDPgNRoao7eEb7VxTBwhD7To=;
+        b=AWxO1NoZS0jzqahiSG5Odj3t/VHTDq2bVZN0ThSedY65WiPk6pbW8HOTfTDKq9KkJb
+         vgPtpkif6RpEdG2W9NQS9IA1YaBcp2G5gsbi7As/+ttSv+dRubUdFzkiEN7ziVsR61rs
+         iTws0Etu1IPQozkud4XSWsqNbuq5gG5hrx080fIiCUdGmTyB+hG0PFVJ3q2tQmWaimNc
+         Y72jNT8bZNjQwvn2zbC1cQCz4VFZ7ijHm0zKnE+sFc4ktPPpZT48t+LYW4VUQBmvvCF9
+         lo0AfqO2HiyHB5NpGVTNzsAKSXSaO7EJMlZL169dXNgTUGakQjOynlvvbRKlBMsIZWYE
+         r9JA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738156692; x=1738761492;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=f+CHJ8n+1weOhv4NN8WEDPgNRoao7eEb7VxTBwhD7To=;
+        b=Z9GOQsgm2z9/3SlbluXP+svmrzvTxYHBiL4/Kyqm3x1r6rZXYiJp9dALoJsefDDAYy
+         G/9DpGC3BOBjx8aeFVjZ5ppK8PHSQCw94aKIgHtl2s4qKCFWW5a68ecfkzxim3sqRUCw
+         fqPdIoj1t4XSFAVTaUhNehxEu1a1xVSs25DW7D9T6g9GlCpTN+mSJIZZtXBCR7iDdOq6
+         wg94DylnVFaNUrKwP6vkSy4XGO5xLhO3DXotzz+vzKq1T0ReDI5Fow7detpE0HbwfGdm
+         pELMJo7lAaypRSSAl5gj6Gf59QmXD5Att9leooItNNF7rxH7XSV2Q9lWwh6TPTPvTQ+v
+         WdPA==
+X-Forwarded-Encrypted: i=1; AJvYcCXrkG9JP8MZoH+zwn0aGzqEl9aLzCfnD07h7AAKBG7+4ypfrv2FXS6ZrVuv3rx1kKCIYie3AoctCMQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoCfkVFvTD7RBauDDN4oLXoduvxM/BM+I132Os9J0ALoSbny52
+	FiV20fDLo47XA4OOaNkNkNC6KMhpVL98Ws8RqrkPmSwOa/dtZdOlMgdzhtCMIDJPdmMtbAaMXy+
+	sL1D/S1C6JN1WLCYXGI8DQrTTHGrw7sBTK8WbvA==
+X-Gm-Gg: ASbGnctr4dUb2x0CYl4gmxlwV8cb4XUNUtYLLREY2kFADcqRXaCiwsbvHf6ko3zOaw/
+	3xvLZ+sGXtHQgVUXj0iIjGQa9K/zTxRfggv20v2f7/dlbxmA2K9AoZu0JnCnSCEnIfbj7aL7ici
+	5m1IpbeQk+6PKy4CcaxOMMrqwIt4oL
+X-Google-Smtp-Source: AGHT+IGFRC+m+r/a8Okn6oewxCN7IKGCsP32ORqURIUMiUOfm5o7kOj6AXMqnFWDbj2MV05dJpu5VXuc2FEJhvoxCWI=
+X-Received: by 2002:a2e:be9c:0:b0:307:2bc6:5eb4 with SMTP id
+ 38308e7fff4ca-307968bfa7bmr8911111fa.3.1738156692452; Wed, 29 Jan 2025
+ 05:18:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeftdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsgefsgekmeejrghfgeemkeekgeefmegvhedufhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsgefsgekmeejrghfgeemkeekgeefmegvhedufhdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfedtpdhrtghpthhtohepughmihhtrhihrdgsrghrhihshhhkohhvsehlihhnrghrohdrohhrghdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhp
- dhrtghpthhtohepihhnkhhirdgurggvsehsrghmshhunhhgrdgtohhmpdhrtghpthhtohepjhgrghgrnhesrghmrghruhhlrghsohhluhhtihhonhhsrdgtohhmpdhrtghpthhtohepmhdrshiihihprhhofihskhhisehsrghmshhunhhgrdgtohhmpdhrtghpthhtoheptggrthgrlhhinhdrmhgrrhhinhgrshesrghrmhdrtghomhdprhgtphhtthhopeifihhllheskhgvrhhnvghlrdhorhhg
-X-GND-Sasl: luca.ceresoli@bootlin.com
+References: <20250128-cocci-memory-api-v1-0-0d1609a29587@redhat.com> <20250128-cocci-memory-api-v1-13-0d1609a29587@redhat.com>
+In-Reply-To: <20250128-cocci-memory-api-v1-13-0d1609a29587@redhat.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Wed, 29 Jan 2025 13:17:54 +0000
+X-Gm-Features: AWEUYZktkNT_EsHcnViFnfugP1naRJeQlMuaRyszOFwlglEWr7DXeU7KaxFISbw
+Message-ID: <CAPY8ntBvJpSFhOwqBPmiN59Z0EpienEm-=M-euHdQU8XLGgXUA@mail.gmail.com>
+Subject: Re: [PATCH 13/14] drm/vc4: move to devm_platform_ioremap_resource() usage
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Joel Stanley <joel@jms.id.au>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>, Stefan Agner <stefan@agner.ch>, 
+	Alison Wang <alison.wang@nxp.com>, Xinliang Liu <xinliang.liu@linaro.org>, 
+	Tian Tao <tiantao6@hisilicon.com>, Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>, 
+	John Stultz <jstultz@google.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Marek Vasut <marex@denx.de>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+	Andy Yan <andy.yan@rock-chips.com>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+	Yannick Fertre <yannick.fertre@foss.st.com>, 
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
+	Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Alexey Brodkin <abrodkin@synopsys.com>, =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+	imx@lists.linux.dev, linux-rockchip@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 29 Jan 2025 14:22:30 +0200
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
+Hi Anusha
 
-> On Wed, Jan 29, 2025 at 12:51:53PM +0100, Luca Ceresoli wrote:
-> > Hi Maxime,
-> > 
-> > On Tue, 28 Jan 2025 15:49:23 +0100
-> > Maxime Ripard <mripard@kernel.org> wrote:
-> >   
-> > > Hi,
-> > > 
-> > > On Wed, Jan 22, 2025 at 05:12:30PM +0100, Luca Ceresoli wrote:  
-> > > > On Wed, 8 Jan 2025 17:02:04 +0100
-> > > > Maxime Ripard <mripard@kernel.org> wrote:
-> > > > 
-> > > > [...]
-> > > >     
-> > > > > > > > And we'll also need some flag in drm_bridge to indicate that the device
-> > > > > > > > is gone, similar to what drm_dev_enter()/drm_dev_exit() provides,
-> > > > > > > > because now your bridge driver sticks around for much longer than your
-> > > > > > > > device so the expectation that your device managed resources (clocks,
-> > > > > > > > registers, etc.) are always going to be around.        
-> > > > > > 
-> > > > > > Yes, makes sense too. That should be a drm_bridge_enter/exit(), and
-> > > > > > drm_bridge.c will need to be sprinkled with them I guess.      
-> > > > > 
-> > > > > The users would be the drivers, most likely. There's not much we can do
-> > > > > at the framework level, unfortunately.    
-> > > > 
-> > > > Back to the idea of a "gone" flag, or perhaps an "unplugged" flag to
-> > > > be consistent with the struct drm_device naming, and
-> > > > drm_bridge_enter()/drm_bridge_exit(), I did a few experiments and have
-> > > > a question.
-> > > > 
-> > > > In case:
-> > > > 
-> > > >   a) there is a notification callback to inform about bridges
-> > > >      being removed, and
-> > > >   b) all entities owning a struct drm_bridge pointer stop using
-> > > >      that pointer when notified
-> > > > 
-> > > > 
-> > > > With the above, there should be no need for
-> > > > drm_bridge_enter()/drm_bridge_exit(). Nobody will be using a pointer to
-> > > > a bridge that is being removed.
-> > > > 
-> > > > Now, about a), patch 1 in this series implements such a mechanism to
-> > > > inform all bridges when a bridge is being removed. Note that the
-> > > > "unplugged" flag would be set immediately after the notifier callback
-> > > > is currently called: "unplugged == true" will never happen before the
-> > > > callback, and after the callback there will be no pointer at all.
-> > > > 
-> > > > Patch 1 however is only notifying bridges, so other entities (e.g.
-> > > > encoders) cannot be notified with this implementation. However a
-> > > > different notification mechanism can be implemented. E.g. until v3 this
-> > > > series was using a generic struct notifier_block for this goal [0], so
-> > > > any part of the kernel can be notified.
-> > > > 
-> > > > About b), the notification appears simpler to implement in the various
-> > > > drivers as it needs to be added in one place per driver. Also adding
-> > > > drm_bridge_enter()/exit() can be trickier to get right for non-trivial
-> > > > functions.
-> > > > 
-> > > > Do you see any drawback in using a notification mechanism instead of
-> > > > drm_bridge_enter()/exit() + unplugged flag?    
-> > > 
-> > > Yeah, because we're not considering the same thing :)
-> > > 
-> > > The issue you're talking about is that you want to be notified that the
-> > > next bridge has been removed and you shouldn't use the drm_bridge
-> > > pointer anymore.
-> > > 
-> > > A notification mechanism sounds like a good solution there.
-> > > 
-> > > The other issue we have is that now, we will have the drm_bridge pointer
-> > > still allocated and valid after its device has been removed.
-> > > 
-> > > In which case, you need to be able to tell the bridge driver whose
-> > > device got removed that the devm resources aren't there anymore, and it
-> > > shouldn't try to access them.
-> > > 
-> > > That's what drm_bridge_enter()/exit is here for.  
-> > 
-> > Let me rephrase to check I got what you mean.
-> > 
-> > A) On bridge removal, use a notifier to notify all consumers of that
-> > bridge that they have to stop using the pointer to the bridge about to
-> > be removed.
-> > 
-> > B) Internally in the bridge driver (provider) use
-> > drm_bridge_enter()/exit() to forbid access to resources when the
-> > hardware is unplugged.
-> > 
-> > And also: bridge consumers won't need to use drm_bridge_enter()/exit()
-> > as they will clear their pointer before setting the unplugged flag.
-> > 
-> > Is my understanding of your idea correct?
-> > 
-> > If it is, I tend to agree, and I like it.
-> > 
-> > I like it, except for one point  I'm afraid. Why do we need enter/exit
-> > inside the driver (provider) code? At driver release, the driver
-> > instance won't exist anymore. Sure the private struct embedding a
-> > struct drm_bridge will be still allocated for some time, but the struct
-> > device will not exist, and the device driver instance as well.  
-> 
-> You have to sync several possible kinds of events: bridge calls from DRM
-> core, from HDMI audio, CEC, DP AUX _and_ completely async device
-> 'remove' / unbind callbacks.
+On Tue, 28 Jan 2025 at 22:33, Anusha Srivatsa <asrivats@redhat.com> wrote:
+>
+> Replace platform_get_resource_byname + devm_ioremap_resource
+> with just devm_platform_ioremap_resource()
+>
+> Used Coccinelle to do this change. SmPl patch:
+> //rule s/(devm_)platform_get_resource_byname +
+> //(devm_)ioremap/devm_platform_ioremap_resource.
+> @rule_3@
+> identifier res;
+> expression ioremap;
+> identifier pdev;
+> constant mem;
+> expression name;
+> @@
+> -struct resource *res;
+> ...
+> -res =3D platform_get_resource_byname(pdev,mem,name);
+> <...
+> -if (!res) {
+> -...
+> -}
+> ...>
+> -ioremap =3D devm_ioremap(...);
+> +ioremap =3D devm_platform_ioremap_resource_byname(pdev,name);
+>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Cc: "Ma=C3=ADra Canal" <mcanal@igalia.com>
+> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+> ---
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 9 ++-------
+>  1 file changed, 2 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdm=
+i.c
+> index 47d9ada98430634cfd8c1e21c2a4d00d501bab7e..e22733f8159aa4b247a915e24=
+a236f620bae932c 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -2951,15 +2951,10 @@ static int vc5_hdmi_init_resources(struct drm_dev=
+ice *drm,
+>  {
+>         struct platform_device *pdev =3D vc4_hdmi->pdev;
+>         struct device *dev =3D &pdev->dev;
+> -       struct resource *res;
+>         int ret;
+>
+> -       res =3D platform_get_resource_byname(pdev, IORESOURCE_MEM, "hdmi"=
+);
+> -       if (!res)
+> -               return -ENODEV;
+> -
+> -       vc4_hdmi->hdmicore_regs =3D devm_ioremap(dev, res->start,
+> -                                              resource_size(res));
+> +       vc4_hdmi->hdmicore_regs =3D devm_platform_ioremap_resource_byname=
+(pdev,
+> +                                                                       "=
+hdmi");
 
-Ah, yes, that make sense. Looks like the big picture w.r.t. notifiers
-and enter/exit is clear -- until implementation time at least ;)
+Whilst I totally agree with this change, why was only one of the 8
+instances of this pattern within this function updated? Is that a
+limitation in your script?
+https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/vc4/vc4_hdmi.=
+c#L2957-L3020
 
-Thanks,
-Luca
+  Dave
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+>         if (!vc4_hdmi->hdmicore_regs)
+>                 return -ENOMEM;
+>
+>
+> --
+> 2.47.0
+>
