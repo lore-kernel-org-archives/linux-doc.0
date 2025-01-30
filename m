@@ -1,109 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9279C1E573F;
-	Thu, 30 Jan 2025 14:10:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6951E1BB6BC;
+	Thu, 30 Jan 2025 14:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738246212; cv=none; b=R0fYEl2fUQ7QM6jtoNZiy6klnI5FvE28TDl0kHxzqJz3lP6KUbEdVF2yxGsNFVUisPcX0SOeCD0SiS5yS6BvAKiQq/wP4zsgLdB+lkBeAWYQSXw7lCG5eKyxNXfc0RHOzWtm/w4xPthMoCV8DTvf6PvsXBNQ5XOOJ1rlNs2tgng=
+	t=1738247816; cv=none; b=dspOR5N9gv9ROE2y7s4DLT8tmbh4xSh5p6XBGrnMHutFoTODGggfbic3xa3EIHkbfWRBF/J6sxnxyZZfoNMToQEeXH+8TsKG+8lyzVqg3HnyGT8+O9SVgbyDC2t/x+V4sCQvjhKcewILdH9arLjYCiG5RxyWv5Q/5hOwpfSMkww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738246212; c=relaxed/simple;
-	bh=kXMtPvKQuZHL9xcm4hq3kkVSDGMX5Os3i3OJFM8PSIo=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=uGfJyE28+Az1QJTRVbgpmt53kKGeCbPNZpS5m/oB7OtNb112ul0oiSzADb3eCC8Hkvd9vjKKHkXhCoBAUBK49B5SXhswHwiZ8f7FD2g7AokR44FNxgqglmdkBgr/4UyJlfIDGI82SEcNdbh0h8STIoUZNS/u5MtoAijLglB80MA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FC/e0Ajn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738247816; c=relaxed/simple;
+	bh=w4zTxfa4CCDrQAqGDdWlBpCt/2B8kWrn1L7k7sZwIxw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Sr8QbhO9sA14/AMJsFleFefqK7aLmFnPbnhPJxJTdT70fv1WTS7R0Jgy2w3Gk35WYxUJfxfAyc8BfYr+PToiVnIhNsS9tZ1ANgoCkh+z6CqxBiT2r4/782/lShni0C1SApDjCmksFVzzOC2yJ2Wm5NXWAIswkYReQ3a0kPjbJq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=sKEKC6A5; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FC/e0Ajn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C027C4CED2;
-	Thu, 30 Jan 2025 14:10:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738246212;
-	bh=kXMtPvKQuZHL9xcm4hq3kkVSDGMX5Os3i3OJFM8PSIo=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=FC/e0Ajnb6yigUYE+68RWjMmE2hdLowFH7ZjlxuOc49+h3pHnNVQIv92HciGk/veu
-	 l1jqLQaZr2jUbt8dQGfDtinIahleHwrW28sIiDWSodyN11u5+4iFEsHoLTP3r4pbWk
-	 Db3LcSsWuclPXhWwqvS+dlaEHsD8NPXMYUYitlRZJtnFFFh7Er53eerdaLXx9jRc3R
-	 HNgtRa+x/qFi+HCxmQHcJn/jH1KwsWku+nTy3G41+eSbMYj5ydbcK51rCieBsL7Uzs
-	 EphNuo4965I9C7qr/gTH7RETVZsRASw04DpP6gu2lNstqCuy5XmXqCkncugX4n91pY
-	 j0A3fEdKN4KZA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7136E380AA66;
-	Thu, 30 Jan 2025 14:10:39 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="sKEKC6A5"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2A488411A9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1738247474; bh=o6c9Xty8LBnNCjw4IIteZjg2Dft0pgS1FqTeBELLb/s=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=sKEKC6A5mJNrWh2OnYdq4XrzlSBVffqzWdJUguTsQbBj9drsXtFOgeef3xmLeJ4lg
+	 /PjJl21/gpJUMJcSlyoXz4wFPT5XDnIcqabEboDohTJeSD0N/MfB7WMqkGWTIS7Rcy
+	 OdwEOZI8s7lHDnUmCsPWv2hkfgANWG5YaoqVMpVDiqq/zBgs1t86wEURsyuYWeOxwq
+	 DCzAjUgxGr+l3ZThZ45iElLUMPxwPJmLa6d/E+S7QRpN+O0OoPytaxBrAxtTyGVA4I
+	 GhkQXOyCZymZcfdaKhZnERHVIT5HC1AE/yqk7CauHk3/AfrlNZnuMxWIRveSQykYgD
+	 xUI2FJhDNiPiA==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 2A488411A9;
+	Thu, 30 Jan 2025 14:31:14 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Donald Hunter <donald.hunter@gmail.com>, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, Bill Wendling <morbo@google.com>, Justin
+ Stitt <justinstitt@google.com>, Nick
+ Desaulniers <ndesaulniers@google.com>, bpf@vger.kernel.org,
+ llvm@lists.linux.dev, workflows@vger.kernel.org
+Subject: Re: [RFC 0/6] Raise the bar with regards to Python and Sphinx
+ requirements
+In-Reply-To: <m2zfj87ij9.fsf@gmail.com>
+References: <cover.1738166451.git.mchehab+huawei@kernel.org>
+ <m2zfj87ij9.fsf@gmail.com>
+Date: Thu, 30 Jan 2025 07:31:13 -0700
+Message-ID: <87jzac2x1q.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v11 00/14] riscv: Add support for xtheadvector
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: 
- <173824623824.971083.4395426797923401446.git-patchwork-notify@kernel.org>
-Date: Thu, 30 Jan 2025 14:10:38 +0000
-References: <20241113-xtheadvector-v11-0-236c22791ef9@rivosinc.com>
-In-Reply-To: <20241113-xtheadvector-v11-0-236c22791ef9@rivosinc.com>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: linux-riscv@lists.infradead.org, conor@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, paul.walmsley@sifive.com, palmer@dabbelt.com,
- aou@eecs.berkeley.edu, jszhang@kernel.org, wens@csie.org,
- jernej.skrabec@gmail.com, samuel@sholland.org, samuel.holland@sifive.com,
- corbet@lwn.net, shuah@kernel.org, guoren@kernel.org, evan@rivosinc.com,
- jrtc27@jrtc27.com, ajones@ventanamicro.com, cyy@cyyself.name,
- andybnac@gmail.com, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, conor.dooley@microchip.com, heiko@sntech.de
+Content-Type: text/plain
 
-Hello:
+Donald Hunter <donald.hunter@gmail.com> writes:
 
-This series was applied to riscv/linux.git (for-next)
-by Palmer Dabbelt <palmer@rivosinc.com>:
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+>
+>> This series comes after https://lore.kernel.org/linux-doc/87a5b96296.fsf@trenco.lwn.net/T/#t
+>> It  increases the minimal requirements for Sphinx and Python.
+>>
+>> Sphinx release dates:
+>>
+>> 	Release 2.4.0 (released Feb 09, 2020)
+>> 	Release 2.4.4 (released Mar 05, 2020) (current minimal requirement)
+>> 	Release 3.4.0 (released Dec 20, 2020)
+>> 	Release 3.4.3 (released Jan 08, 2021)
+>>
+>> 	(https://www.sphinx-doc.org/en/master/changes/index.html)
+>
+> It's worth mentioning here that my fix for the C performance regression
+> landed in Sphinx 7.4.0. All versions from 3.0.0 to 7.3.x are much slower
+> for building the kernel docs. See #12162 here:
+>
+> https://www.sphinx-doc.org/en/master/changes/7.4.html#id7
 
-On Wed, 13 Nov 2024 18:21:06 -0800 you wrote:
-> xtheadvector is a custom extension that is based upon riscv vector
-> version 0.7.1 [1]. All of the vector routines have been modified to
-> support this alternative vector version based upon whether xtheadvector
-> was determined to be supported at boot.
-> 
-> vlenb is not supported on the existing xtheadvector hardware, so a
-> devicetree property thead,vlenb is added to provide the vlenb to Linux.
-> 
-> [...]
+Indeed, we have noticed the speedup - much appreciated, thank you!
 
-Here is the summary with links:
-  - [v11,01/14] dt-bindings: riscv: Add xtheadvector ISA extension description
-    https://git.kernel.org/riscv/c/e576b7cb8183
-  - [v11,02/14] dt-bindings: cpus: add a thead vlen register length property
-    https://git.kernel.org/riscv/c/bf6279b38a4b
-  - [v11,03/14] riscv: dts: allwinner: Add xtheadvector to the D1/D1s devicetree
-    https://git.kernel.org/riscv/c/ce1daeeba600
-  - [v11,04/14] riscv: Add thead and xtheadvector as a vendor extension
-    https://git.kernel.org/riscv/c/cddd63869f92
-  - [v11,05/14] riscv: vector: Use vlenb from DT for thead
-    https://git.kernel.org/riscv/c/377be47f90e4
-  - [v11,06/14] RISC-V: define the elements of the VCSR vector CSR
-    https://git.kernel.org/riscv/c/66f197785d51
-  - [v11,07/14] riscv: csr: Add CSR encodings for CSR_VXRM/CSR_VXSAT
-    https://git.kernel.org/riscv/c/b9a931442451
-  - [v11,08/14] riscv: Add xtheadvector instruction definitions
-    https://git.kernel.org/riscv/c/01e3313e34d0
-  - [v11,09/14] riscv: vector: Support xtheadvector save/restore
-    https://git.kernel.org/riscv/c/d863910eabaf
-  - [v11,10/14] riscv: hwprobe: Add thead vendor extension probing
-    https://git.kernel.org/riscv/c/a5ea53da65c5
-  - [v11,11/14] riscv: hwprobe: Document thead vendor extensions and xtheadvector extension
-    https://git.kernel.org/riscv/c/7fa00fd6ff53
-  - [v11,12/14] selftests: riscv: Fix vector tests
-    https://git.kernel.org/riscv/c/57d7713af93e
-  - [v11,13/14] selftests: riscv: Support xtheadvector in vector tests
-    https://git.kernel.org/riscv/c/c384c5d4a2ae
-  - [v11,14/14] riscv: Add ghostwrite vulnerability
-    https://git.kernel.org/riscv/c/4bf97069239b
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+jon
