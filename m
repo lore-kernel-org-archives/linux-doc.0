@@ -1,115 +1,199 @@
-Received: from lichtman.org (lichtman.org [149.28.33.109])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703FE1B21B8;
-	Thu, 30 Jan 2025 08:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.33.109
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854DD18DF60
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 09:02:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738227587; cv=none; b=cuFS4waqSk8vZ+nB1vAY8zeg23ICU9G8sSbpdKnf+ad99YwYWvG31fPx0HRmck/H5TWXfTD5pSYCALWgt61MLmwp19/bCxqt0+qyfrafG/W3z48/TIsYH4yFqcrQkYooS9+gwCv9Fxccece2Hq4oD5jS/0pCTnEH20RjlrTvzSk=
+	t=1738227726; cv=none; b=goht1ERxbK4Rbgkvojlv6iCHeyINGnlc1El7ZApZbDyKsAJYg6m//MAwg+yC3k0nwSTV0Wp4ZaXMIcS4U1+BlMSEuLSYCmFhzyI3M4fQeJuPDzLRCl6eyYFnfN4xqhZ1aCLFEbdFExsaZHA8+d7KxXWUze1ptvfga/ODQ0JPkIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738227587; c=relaxed/simple;
-	bh=fe89As24UTHXOJ8+TpUHOCJwA7sS3Uoo/FIqxuY3Xow=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KENYEI82vIyjr5adHj+onephmmGUowcy48DoVR/tzxuhwyLg51Rp4bBeWr74q5jL6QFTvY40vP0/Gu8xdmPBhOMuUcHxZhYlKKJzB7XsYH1PfZVJza75I/ELp7L0SzbkCfeqtvsRqsMouLpQe4Uca51wF7GhGBQQuIPgF5Z9rzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lichtman.org; spf=pass smtp.mailfrom=lichtman.org; dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b=O69xAuRS; arc=none smtp.client-ip=149.28.33.109
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lichtman.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lichtman.org
+	s=arc-20240116; t=1738227726; c=relaxed/simple;
+	bh=JCrr9WvAcqp0HgpS3AHlQCSNuFvmM9nE07vdSSk1RZo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GWWJixWEPsP7CsVsMGeMoj+Jp4hT9y/mFEETGH24mxx8OymZzKGbVyDlUQqtUTchwq75R9Ka74oyg4Ni9Y8EYAXqxQ2zdwQ2MMUHOVV1UG+fhXfh4IpLRzntwI+TThZcX9KCIdd+7XHUYbYopvktu8shwF7WrCGQAJV4snyTGZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VdB2e9n+; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b="O69xAuRS"
-Received: from nirslaptop (unknown [85.130.135.138])
-	by lichtman.org (Postfix) with ESMTPSA id B6AEB1771BE;
-	Thu, 30 Jan 2025 08:59:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lichtman.org; s=mail;
-	t=1738227577; bh=fe89As24UTHXOJ8+TpUHOCJwA7sS3Uoo/FIqxuY3Xow=;
-	h=From:To:Cc:Subject:Date:From;
-	b=O69xAuRSZpQv81p6I9iBF1a5CP9eH198sDbadWyrZUaEcFsmRerzFKcrsCyjoBr+v
-	 Q0MeMy6nS4nuVH4o8O4hrQuZsqxeds/hLz9KChsGcBEQZuQQE/CPRPMpO37Ur3y521
-	 YDjDB3hNJCzrf82gs93w41kobfmWHxBgtR8FUDuT/Rut3D/mAhQzeCf7nlAFoYkoW9
-	 JfZMkz87ZdfPakTv5E4wgjLMbLsG5W4CNzltT/AvKkuHMWlyv6F+MQqVpnf5EAbBim
-	 fKKuKjT7PhjJZ/aHbEdJOBePs/R2PZunEyGdd5WzvNY3hIyqik9uDmePxGzkuMCnXa
-	 dqnQqZLZAQAXg==
-From: "Nir Lichtman" <nir@lichtman.org>
-To: <corbet@lwn.net>,
-	<paulmck@kernel.org>,
-	<akpm@linux-foundation.org>,
-	<rostedt@goodmis.org>,
-	<Neeraj.Upadhyay@amd.com>,
-	<mcanal@igalia.com>,
-	<thuth@redhat.com>,
-	<ardb@kernel.org>,
-	<gregkh@linuxfoundation.org>,
-	<bp@alien8.de>,
-	<linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Cc: <rob@landley.net>
-Subject: [PATCH] docs: clarify rdinit precedence and correct ramdisk to initramfs
-Date: Thu, 30 Jan 2025 10:59:33 +0200
-Message-ID: <000201db72f5$49b11e60$dd135b20$@lichtman.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VdB2e9n+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1738227723;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=P7BnR7oKxWFLrbq+LpQx7284rU6/PZ9N/+D+Z7eg9Us=;
+	b=VdB2e9n+/Zsyv7i6P91rGwMQU3Ybd6ZrIl9/IDaWAzi0LkEmM3N/PjI6OIkRUyRz9ydU2t
+	Hhc/53T2LbgpVK7DKNEtKp8l6delPuuB5JJt5zh6RDVeJkcko2mqxFX3BGEXgXCQxf3QRE
+	/PIDwEBLJzWPDLdOEH3FuOcDeDKiQWM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-5-v7z7PXcBOLOo4vMXWh89PQ-1; Thu, 30 Jan 2025 04:02:01 -0500
+X-MC-Unique: v7z7PXcBOLOo4vMXWh89PQ-1
+X-Mimecast-MFC-AGG-ID: v7z7PXcBOLOo4vMXWh89PQ
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-438e180821aso2329245e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 01:02:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738227720; x=1738832520;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=P7BnR7oKxWFLrbq+LpQx7284rU6/PZ9N/+D+Z7eg9Us=;
+        b=KxYwPBaydyoKhur9gURf73rahAFksEXQrwqAM4Pn5CIsMJQqzn/9QtKCO6O3GcmwxJ
+         NfpD4D4MItqGJ0FvyE1tRMrB41NCNHKD6eVMdk2hWThGEdgVf//1bVjvszBE2+Dz4+Ki
+         +7zRP1bKLZMs9thj2dnrI1SJVYzTcjacA7KE3t6aS2cFp3Qe87eGL2nQun4BfLTIRUSL
+         vWQi2Uqchr+effLnYqEtg1q2mhHINVtc1UBj2XvGE0GzBG2wXyXVRYsvT1ux/2os5fbD
+         YjWhrMMrwrQ9Uj+6l1ErxjQOtrkyxyWl/1QKeHIes1mkPZXUW+Fvwakem52ETmDihn92
+         JfcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWA3jlMuh88utJvF9uNuaS7uidJiTA9D1ClceScRndCXW7cuEt8MOBjHCT/QKArWxgoX4p2Tlgif5c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbxrPRRXugvsqVPj/xWS39DOtn3N9g2Nm3W2iwPA/xheuF7vlh
+	FtDP+jGRQIpU6KLAH325+3wuQCoLAR/XwSglpdrtn8ddwtdt4Zc3Tx6k+58HYsBOKcm1cJptnX/
+	RHAEbEvIFv6addnWVkfL4YUm//CgdjSIJ77aKt9sh6615xxMgt+EgdyaHnw==
+X-Gm-Gg: ASbGncv8VPBRKxpdoDbrvaL+cw8dozThcOjWj1TF7mieAlQchERJulZdUe2jU7tGAwE
+	vIcxngzhGlZAl35q1ob3K7XISFC9gGOasrEIKgKf4vZBqJ2wo9UuMhXPbxfK3+xl/lu69g+C4hl
+	g+YB8Meh/nsBdf0MvkjXWMnhEQi6GDWAnnpbrH8BwOddySnB+6qPEY5KnqRZNaBxyYm7rfa129D
+	9KsDim3wMmOP7DK3KGZGW5IrXk0zpOyQCSEiIfkuFq0e24LF6v/mDorrIAj9u4NZAPvxM9kN/Qu
+	lb0pmrZKNOexcZjg1otrYtRYTUw6glGnNEEAAzwi/n/X
+X-Received: by 2002:a5d:674e:0:b0:386:4a0c:fe17 with SMTP id ffacd0b85a97d-38c51b5e4efmr4617343f8f.27.1738227720418;
+        Thu, 30 Jan 2025 01:02:00 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFk2uwTm4ytpRhBOmy2rIFSiLhi0lro88yTTUiOicna290ro8PmQqH5omjQhhHzbTGLrwMXXg==
+X-Received: by 2002:a5d:674e:0:b0:386:4a0c:fe17 with SMTP id ffacd0b85a97d-38c51b5e4efmr4617305f8f.27.1738227720024;
+        Thu, 30 Jan 2025 01:02:00 -0800 (PST)
+Received: from ?IPV6:2a01:599:904:96e0:a245:aa9f:6c57:eb41? ([2a01:599:904:96e0:a245:aa9f:6c57:eb41])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c019b1dsm1359184f8f.0.2025.01.30.01.01.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Jan 2025 01:01:58 -0800 (PST)
+Message-ID: <180e9c2f-51fe-44ba-ac68-5aa7b7918ab0@redhat.com>
+Date: Thu, 30 Jan 2025 10:01:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="us-ascii"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 04/12] mm/rmap: implement make_device_exclusive() using
+ folio_walk instead of rmap walk
+To: Alistair Popple <apopple@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ nouveau@lists.freedesktop.org, Andrew Morton <akpm@linux-foundation.org>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, Peter Xu <peterx@redhat.com>,
+ Jason Gunthorpe <jgg@nvidia.com>
+References: <20250129115411.2077152-1-david@redhat.com>
+ <20250129115411.2077152-5-david@redhat.com>
+ <7tzcpx23vufmp5cxutnzhjgdj7kwqrw5drwochpv5ern7zknhj@h2s6y2qjbr3f>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
+ ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
+ AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl8Ox4kFCRKpKXgACgkQTd4Q
+ 9wD/g1oHcA//a6Tj7SBNjFNM1iNhWUo1lxAja0lpSodSnB2g4FCZ4R61SBR4l/psBL73xktp
+ rDHrx4aSpwkRP6Epu6mLvhlfjmkRG4OynJ5HG1gfv7RJJfnUdUM1z5kdS8JBrOhMJS2c/gPf
+ wv1TGRq2XdMPnfY2o0CxRqpcLkx4vBODvJGl2mQyJF/gPepdDfcT8/PY9BJ7FL6Hrq1gnAo4
+ 3Iv9qV0JiT2wmZciNyYQhmA1V6dyTRiQ4YAc31zOo2IM+xisPzeSHgw3ONY/XhYvfZ9r7W1l
+ pNQdc2G+o4Di9NPFHQQhDw3YTRR1opJaTlRDzxYxzU6ZnUUBghxt9cwUWTpfCktkMZiPSDGd
+ KgQBjnweV2jw9UOTxjb4LXqDjmSNkjDdQUOU69jGMUXgihvo4zhYcMX8F5gWdRtMR7DzW/YE
+ BgVcyxNkMIXoY1aYj6npHYiNQesQlqjU6azjbH70/SXKM5tNRplgW8TNprMDuntdvV9wNkFs
+ 9TyM02V5aWxFfI42+aivc4KEw69SE9KXwC7FSf5wXzuTot97N9Phj/Z3+jx443jo2NR34XgF
+ 89cct7wJMjOF7bBefo0fPPZQuIma0Zym71cP61OP/i11ahNye6HGKfxGCOcs5wW9kRQEk8P9
+ M/k2wt3mt/fCQnuP/mWutNPt95w9wSsUyATLmtNrwccz63XOwU0EVcufkQEQAOfX3n0g0fZz
+ Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
+ T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
+ 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
+ CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
+ NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
+ 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
+ 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
+ lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
+ AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
+ N7eop7uh+6bezi+rugUI+w6DABEBAAHCwXwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
+ AP+DWgUCXw7HsgUJEqkpoQAKCRBN3hD3AP+DWrrpD/4qS3dyVRxDcDHIlmguXjC1Q5tZTwNB
+ boaBTPHSy/Nksu0eY7x6HfQJ3xajVH32Ms6t1trDQmPx2iP5+7iDsb7OKAb5eOS8h+BEBDeq
+ 3ecsQDv0fFJOA9ag5O3LLNk+3x3q7e0uo06XMaY7UHS341ozXUUI7wC7iKfoUTv03iO9El5f
+ XpNMx/YrIMduZ2+nd9Di7o5+KIwlb2mAB9sTNHdMrXesX8eBL6T9b+MZJk+mZuPxKNVfEQMQ
+ a5SxUEADIPQTPNvBewdeI80yeOCrN+Zzwy/Mrx9EPeu59Y5vSJOx/z6OUImD/GhX7Xvkt3kq
+ Er5KTrJz3++B6SH9pum9PuoE/k+nntJkNMmQpR4MCBaV/J9gIOPGodDKnjdng+mXliF3Ptu6
+ 3oxc2RCyGzTlxyMwuc2U5Q7KtUNTdDe8T0uE+9b8BLMVQDDfJjqY0VVqSUwImzTDLX9S4g/8
+ kC4HRcclk8hpyhY2jKGluZO0awwTIMgVEzmTyBphDg/Gx7dZU1Xf8HFuE+UZ5UDHDTnwgv7E
+ th6RC9+WrhDNspZ9fJjKWRbveQgUFCpe1sa77LAw+XFrKmBHXp9ZVIe90RMe2tRL06BGiRZr
+ jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <7tzcpx23vufmp5cxutnzhjgdj7kwqrw5drwochpv5ern7zknhj@h2s6y2qjbr3f>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: Adty8/StsQsnRXVtRbWdiiQII3bvxw==
-Content-Language: en-us
 
-Problem: Current documentation regarding the init and rdinit params is
-confusing,
-The description of rdinit claims that it is related to ramdisks, even though
-in practice
-It only controls the init executable of the initramfs
-(the deprecated ramdisk mechanism is initialized only after attempting to
-load rdinit
-or its default "/init")
-Rob Landley's document from 2005 "Ramfs, rootfs and initramfs"
-clarifies the distinction between initramfs and ramdisk.
-Another confusing point is that the init param is ignored, in case rdinit or
-"/init"
-exist and are executable in the initramfs; the source code gives priority to
-rdinit.
+On 30.01.25 07:11, Alistair Popple wrote:
+> On Wed, Jan 29, 2025 at 12:54:02PM +0100, David Hildenbrand wrote:
+>> We require a writable PTE and only support anonymous folio: we can only
+>> have exactly one PTE pointing at that page, which we can just lookup
+>> using a folio walk, avoiding the rmap walk and the anon VMA lock.
+>>
+>> So let's stop doing an rmap walk and perform a folio walk instead, so we
+>> can easily just modify a single PTE and avoid relying on rmap/mapcounts.
+>>
+>> We now effectively work on a single PTE instead of multiple PTEs of
+>> a large folio, allowing for conversion of individual PTEs from
+>> non-exclusive to device-exclusive -- note that the other way always
+>> worked on single PTEs.
+>>
+>> We can drop the MMU_NOTIFY_EXCLUSIVE MMU notifier call and document why
+>> that is not required: GUP will already take care of the
+>> MMU_NOTIFY_EXCLUSIVE call if required (there is already a device-exclusive
+>> entry) when not finding a present PTE and having to trigger a fault and
+>> ending up in remove_device_exclusive_entry().
+> 
+> I will have to look at this a bit more closely tomorrow but this doesn't seem
+> right to me. We may be transitioning from a present PTE (ie. a writable
+> anonymous mapping) to a non-present PTE (ie. a device-exclusive entry) and
+> therefore any secondary processors (eg. other GPUs, iommus, etc.) will need to
+> update their copies of the PTE. So I think the notifier call is needed.
 
-Solution: Add more clarification to the kernel params documentation, and fix
-From ramdisk to initramfs in the rdinit doc.
+Then it is all very confusing:
 
-Signed-off-by: Nir Lichtman <nir@lichtman.org>
----
- Documentation/admin-guide/kernel-parameters.txt | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+"MMU_NOTIFY_EXCLUSIVE: to signal a device driver that the device will no 
+longer have exclusive access to the page."
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt
-b/Documentation/admin-guide/kernel-parameters.txt
-index fb8752b42ec8..246cb73f71a8 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2182,6 +2182,8 @@
- 			Format: <full_path>
- 			Run specified binary instead of /sbin/init as init
- 			process.
-+			Note that rdinit= or /init if rdinit= is not set
-will take
-+			precedence in case they are found in the initramfs.
- 
- 	initcall_debug	[KNL] Trace initcalls as they are executed.  Useful
- 			for working out where the kernel is dying during
-@@ -5933,8 +5935,8 @@
- 
- 	rdinit=		[KNL]
- 			Format: <full_path>
--			Run specified binary instead of /init from the
-ramdisk,
--			used for early userspace startup. See initrd.
-+			Run specified binary instead of /init from the
-initramfs,
-+			used for early userspace startup.
- 
- 	rdrand=		[X86,EARLY]
- 			force - Override the decision by the kernel to hide
-the
+That's simply not true in the scenario you describe, because nobody had 
+exclusive access.
+
+But what you are saying is, that we need to inform others (e.g., KVM) 
+that we are converting it to a device-exclusive entry, such that they 
+stop accessing it.
+
+That makes sense to me (and the cleanup patch in the cleanup series 
+would have to go as well to prevent the livelock).
+
+So we would have to update the documentation of MMU_NOTIFY_EXCLUSIVE 
+that it is also trigger on conversion from non-exclusive to exclusive.
+
+Does that make sense?
+
+Thanks!
+
 -- 
-2.39.5
+Cheers,
 
+David / dhildenb
 
