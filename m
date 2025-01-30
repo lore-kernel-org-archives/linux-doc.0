@@ -1,218 +1,238 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2041.outbound.protection.outlook.com [40.107.244.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8146E522F;
-	Thu, 30 Jan 2025 22:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738276284; cv=fail; b=OAIfyFbYwnL7D9kCkFhvfmyASeK0k6CKe/EYh0OfwJG+zBIWBDIZEUmwu2un3D9bIy+fsQ+TI35Q6Y6ksCwQ9yWYaik1e8afyl1JMRt8WMHMMEj82qrDCA0zG/N2zjvc0ZXwAZou8Yaju1KmVI/J99DceHoF5TvOd9CPz5MM7Xc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738276284; c=relaxed/simple;
-	bh=jTMxbp6kGGy2SK+oacwi/WrOawgoyC/+wNOKIvxLMg0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=PMyYEWMC5xBP70IL+AbNgi0mIpmnKuiuHJF44zy5DmAIiY/moQax8YyBe8jKBeCEM3Dy/twx1e2bwjpVPt5i+Ug1eX0e8b/iAfLO5KgEqNFm56Xvu6jIpFpupriEGpThVCylZra52LnL77dvvYlTVxXoAKwi56n+lARaHIzSrns=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=DnqsQeL7; arc=fail smtp.client-ip=40.107.244.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549561F1300;
+	Thu, 30 Jan 2025 22:59:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738277954; cv=none; b=jaqDdOjDERVjc8Rq2Mg43EwWJM/g1bqqHCGOTNWf9OEm4NyONxSbh4Z4llFSJKTtTwO6yZExqMwqNm2SkOW8ZAstOqb4bh/iHAB/pkpCJ0o6wS1j+Zpma0GVa6aSL3BAzSRo/MJaCCc2U6eYGDYKAO0X1Yhav8yAqnxy1RaMwPs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738277954; c=relaxed/simple;
+	bh=jlGPx+Vuc42F4f5ClkPPNCa6niD0NXNghbQUyEZgP+w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g7NPacH4HUqDfg36e/6vJgbCWVdnapnEjktpsToT2cQrkg5kJvbD4gqtKgQmQd5fsZfwD/lrliLPIkL3hDaC/n3oLsLAMpC6jHexcKkKBPo6N1DM7J5E0/UD8cPikKD0J5b+L9ry6MdBTRN7ODP0T4685X1wriApAeaklf6j4uM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FHFS2WjH; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="DnqsQeL7"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dCjSE2i7gR5riv0HmCrbzLqzbPqnSpozbVFBo/4WdRIPwFhzXl1VZLwkrs70J1+vAGNUqNsPlHm4yw0Z09z26lLj7f3rxA/UkWYgav/ONWjxO48ASnnM3iJJAMxuYiml9DjkKj8BZHp8DlHmvpx0FqJl5Rj1bZpnycTdL4YOd0OXdOlNc8GbElV/kKjUHrG9K8mOePMXrtDGlOtHtX/zmzoJpknpNJlTfmBHP+eK/2Gx9Qnb90lIWon34NwOf1jikfn7GbFpDjcJAGsOS5TJ2p4zP42ihLF4eH/yDibkLLLxMzIOiW6KSD++HZ6D9t3Vu9cu9pWM07iGraYYCfFErQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=snpmJoaUb/RWXJeAKWzApqndmleAw+jj5SK06cbZ47E=;
- b=Ko5+SyBusG4b52b/yzoTUs25mNzvf+oCz9se19crR8JNMDV+JwsiDGnLvc67Lpu5B6TFcC3/wSxh31WnRChqzo8oSXqLiNRbPLA01NIOSDBgHpRgdLkHFCvYeGnACDzOrhM+3F68Z1E/tx5Vy0Cw9JCXIvxMjRoCUbZE9dJ6ibRCwfAGIH278bXfKlE0DVEtev+b5GSvLdb9qltQpAZS2xt+wpl73XLeriuzO87RIltnUFpYc+dMFhLVUdV9irHpiyKY5A3CK7TDZhmzPUKBRwhPm8GAnroayj7WxXaxT4xN5DX3sFk0IA+vkMRaKYi5FI1wnxLG0nYnEq+QSXH6Gw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=snpmJoaUb/RWXJeAKWzApqndmleAw+jj5SK06cbZ47E=;
- b=DnqsQeL7iZweU9x8InhVj1JfCCHovirV73aNdDdyf8PqGEPWuI2ows1tff+DKvSi912DKa5aFnY1pO6f0kvH3Sj3OZKNf9ELQ+S+BcjPSkKfFj8QYPbeMHJG0ohIDfI06MQ5ujIuaT5uNMCkLsZ2BRcTPjhvN78qWupi8fCbUweLpBFq/bIrl5RInu2+weuB1XFxdb3PtKnXhqZyHK9YK9imxlzYnE/rvQo538CuojYigD/VTd/aFaoebm2hWpMTzu5964/W8OpIZ38eTXpXyIM5sCNG6xJbJVHWjBDzCJJ5buSJCOFxhDtDh3CXnP7/3BFbU2NmznwTqfQ8k4QIqQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
- BL1PR12MB5970.namprd12.prod.outlook.com (2603:10b6:208:399::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.17; Thu, 30 Jan
- 2025 22:31:19 +0000
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe%7]) with mapi id 15.20.8398.017; Thu, 30 Jan 2025
- 22:31:19 +0000
-Date: Fri, 31 Jan 2025 09:31:13 +1100
-From: Alistair Popple <apopple@nvidia.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-mm@kvack.org, nouveau@lists.freedesktop.org, 
-	Andrew Morton <akpm@linux-foundation.org>, =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
-	Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Peter Xu <peterx@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v1 04/12] mm/rmap: implement make_device_exclusive()
- using folio_walk instead of rmap walk
-Message-ID: <fp54u2cgvyyp73lpp7bbc5zn7fmyoc7pjn3sokqmlvpq5y7toq@mj6dshe3hg7o>
-References: <20250129115411.2077152-1-david@redhat.com>
- <20250129115411.2077152-5-david@redhat.com>
- <7tzcpx23vufmp5cxutnzhjgdj7kwqrw5drwochpv5ern7zknhj@h2s6y2qjbr3f>
- <180e9c2f-51fe-44ba-ac68-5aa7b7918ab0@redhat.com>
- <c5befaa4-bd00-4784-ae66-ddbf16dfe1d9@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c5befaa4-bd00-4784-ae66-ddbf16dfe1d9@redhat.com>
-X-ClientProxiedBy: SY6PR01CA0162.ausprd01.prod.outlook.com
- (2603:10c6:10:1ba::20) To DS0PR12MB7726.namprd12.prod.outlook.com
- (2603:10b6:8:130::6)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FHFS2WjH"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2ee709715d9so1895373a91.3;
+        Thu, 30 Jan 2025 14:59:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738277951; x=1738882751; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gGwxI5UuKBfMTrMct5qfq/USLHQLhnSYLl8x3SVYSYc=;
+        b=FHFS2WjHTOkRBS3G9Jvu7EVNqdW9eLiCEWk+JqftHJvU/PCGamC91HumoPTdj6or0U
+         Xx66mDO1oii/t5x+3ZZoriPpLxEafVba3Zd7UGO7Zio7YLMe2IPAGk+4nV1RpO18KqCI
+         70qLJ7u8RBekOmwm8ZeiN7MP0dFVfvmYkHVlFWSuebuVlniiu8jomO3d086uF1ScpN60
+         zN47zXdFjZ2XcHfTlYMTe/Xz1L2LmZOAqK2lctfnA9PwEwxEexNQlkWq9TaO3SK0g6TA
+         PP2UOjCARu97VGr50gOPEiOM8Du9pkjqPHgJEaU3N91FaplkZmePBdIjAMHsle8c+96M
+         HYOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738277951; x=1738882751;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gGwxI5UuKBfMTrMct5qfq/USLHQLhnSYLl8x3SVYSYc=;
+        b=RHLss3tsT+YzxFdO0g/hgeKTcg/m3VtK8DIp354n5DS8ZcVgcZWoxUNj1K3URzoSCe
+         acMuDAM7DeRuZsR5P5+S5JB3vU6hf7yHNWFEQa/AUpsL2prbM6+D3+wtEBXt94PRKUTP
+         ykvyMY/N8iaDFYQr3MBftTLrbDUETijRkWfGNCyn0QXbkqiMyPHeTcgW7oymh1Sz/lgQ
+         JjkQjN+dVipXR10VETSVKFhoYCFHG+ZS4fEm2ck83BP38yIrcqY0x5p+LL++fgFsaK4N
+         RioRE7DDFnsL9NdWJLIKfXCX0Qx2l2Bw1J49ZTkoHZ18r98bJvmu5rGXCsfah1D62aO+
+         9imA==
+X-Forwarded-Encrypted: i=1; AJvYcCUr//LUE1zjmS0Y/LXQ9Vv1NwjxRMXVDyxHRC8wUNZCGHpjD4olxUAtHBFzCF1tjgzqNs8=@vger.kernel.org, AJvYcCV2OyrbGvBGfDczfGYFd928phAuMeaLnDcrtwqzdUF85XeSbq6CYsjzN8ecN/oWv+nZGdpNnXLpjliUcotLNglj@vger.kernel.org, AJvYcCWZloVfi/jsyECZ1eWeSwDFTz4c+WijXoicUkwHs9HgXLXmD6EC3FJd6AWRg9xdsKrMs9Ea4adhJNeS@vger.kernel.org, AJvYcCXgSguY9ZJ1rsEV4WeKVsP8Ktdy/L7GibVllB5NMvLnrdO9zCCGN4eQc0N/kYLwaYY8bhzN06/JstDb7Idq@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLBQpgnIBPCOzFALM7Y4Gcm2EuE6et6om8Xtn9bWuz38U8HNJx
+	CSineSDnE42FR8p03P+w2Px3/IFmZmZ7KMGzqCHiRBM6+eoXy8U=
+X-Gm-Gg: ASbGncuLvPsbBWkKlX/LyJBNSIPKLG2JZJvyuxFIj2DMOYXEfmvYQntbmsA6JmJkHGV
+	v46AgjmzXdSVn+KyzTTt5zc2EM+zLNp5ajGwzxyp5IcggevS6rI6dlBk1YheXXJXhpb+Km9PWKP
+	iJOPLbDPH3WsZYjFoR6uYsLZvTuCQQvW5WhT8IC/3Mlk8lQP+eVsDEyxIgcx7vFzpa5eWA7EbDd
+	leukqYDE0j/lic/lAF6UEGbWG4ZRvuex0avjQ9QRvyB3eYaG3NTS/fI/6jGCK/6PDT824r4FDLz
+	6Kbb/vySk5SZCD8=
+X-Google-Smtp-Source: AGHT+IF40W/xjpetzz3O9nqgU8Q7OQmYP686oXKV+QTGph5aLVCIwEKwn9kMrNIRQxcVURPqLHdJaw==
+X-Received: by 2002:a17:90b:5408:b0:2ee:5bc9:75c7 with SMTP id 98e67ed59e1d1-2f83abbea88mr12329378a91.5.1738277951291;
+        Thu, 30 Jan 2025 14:59:11 -0800 (PST)
+Received: from localhost ([2601:646:9e00:f56e:123b:cea3:439a:b3e3])
+        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-2f83bc98ae9sm4936182a91.10.2025.01.30.14.59.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jan 2025 14:59:10 -0800 (PST)
+Date: Thu, 30 Jan 2025 14:59:10 -0800
+From: Stanislav Fomichev <stfomichev@gmail.com>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	David Ahern <dsahern@kernel.org>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Stefano Garzarella <sgarzare@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+	Shuah Khan <shuah@kernel.org>, sdf@fomichev.me,
+	asml.silence@gmail.com, dw@davidwei.uk,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Victor Nogueira <victor@mojatatu.com>,
+	Pedro Tammela <pctammela@mojatatu.com>
+Subject: Re: [PATCH RFC net-next v2 1/6] net: add devmem TCP TX documentation
+Message-ID: <Z5wEPlsRoU6Kx9S-@mini-arch>
+References: <20250130211539.428952-1-almasrymina@google.com>
+ <20250130211539.428952-2-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|BL1PR12MB5970:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0ae236ac-7582-4dba-0ad5-08dd417dd0c0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?/Qv/84iMgbMUMMVbC84MmBjJj2tIwQKS8dvhXJ5Q0tUEgK0z8qOMbF9jIwFG?=
- =?us-ascii?Q?scOm5AtCwevNAgYwHt1ZQQeP1sdjV4dPOVHYWCl54jyfCe0DXvC3aRcisRCj?=
- =?us-ascii?Q?IgchbjdW1q1teh7m3pQx0fswrxXz4gHQdrsUitfWV5oZqR6Se9PVyDqSRL/D?=
- =?us-ascii?Q?x26EiuhLbVVyYofJYZxMJw3hC/GLWJG5Lc9CckefGv+ZIzm3RNjBnyNZ5qfT?=
- =?us-ascii?Q?NF23qYNraTK2kkThYI6ltjdiy8iikMlm5OgFz/O49UMnzO6yJufyM8IoFSWy?=
- =?us-ascii?Q?QKXQWMGCvYziCRrfuKauP15MjKs5/6PGSIiJ0ctgg63ilBnl2VcmVgP0XyFL?=
- =?us-ascii?Q?4Iv1nl/blcdS+FVyIpcOArRZW7vhQRCGSyTFLV/28t18+vgLXpoSVvRr0bnC?=
- =?us-ascii?Q?idnct7ugGsd+dvE43SkIF5do5fcoPtpZlCHJv/B0WUOMCl9pREhQC3ssp1OR?=
- =?us-ascii?Q?zW0nNU2dwkaaJ4mJ5lg6tDp03PuSChR/WYMRLrGi8UvFtaCQqYoKBiFoQ8FN?=
- =?us-ascii?Q?ngz3PemypnRKTAEQBUZOYLUHP5R246WHodYRLGLn2m5p0047I7dDyb1ed4os?=
- =?us-ascii?Q?3ept7XWEXgh4psgG8zc0Iur7mSyQJNA9YAmL5i4NN+vvKbOt+bc4GFa8GAcC?=
- =?us-ascii?Q?llH+p/zO8SdDU9+bQydVLZF706x/K7wZuELnMyvabzYg4iuL1tFwjrujTUp9?=
- =?us-ascii?Q?oDhLTEnPlcflSZO5PywbIRdN6ouY3vaRndIq+3HcPSmqXbmfzJ1BsChll8F0?=
- =?us-ascii?Q?2Cy03yzaSx+zTYY6sYLRUG/BadExdFO7PywNDyWO4WZwd9khoctW3mFLYVBt?=
- =?us-ascii?Q?s2WsKmm7KVUUj1GcvayqZIyrJq1A6eTEduYL9Tla+JJBeJb/2AsAUdYl7NYn?=
- =?us-ascii?Q?SRxlryBthtT9fqiSAKu8E/fQAPEeu04t+MnSe9Jh7vh3C/7D6Oi5bFnWnWM7?=
- =?us-ascii?Q?j8HGtTHslbEE2SHl2gok9pd5/GgCsjdpUh9VNfdj7tfAdGtuqjqdUB9gaVe0?=
- =?us-ascii?Q?il8JqBTt3w5QZrEvjhrj7ds3eurzxIXrm46ULLsfGayVDqgQoBXggvw9pztv?=
- =?us-ascii?Q?yTIUlS/umMYq2v1nMcURiv6ltX+2i1wYRjF5/shij5eOkgV5iB7AyrgxM6kU?=
- =?us-ascii?Q?xLSHcUsj2ORebvoH9H4d++gtmTqcMs308soRiTM+ruMXiuM2vmyC8vC2VS+/?=
- =?us-ascii?Q?Pxj857g/OLra+6HHUJrA5lSWCr4+LtRdgozEjSr8msdPfZ1eZbJJM/dEg3GM?=
- =?us-ascii?Q?fZidxIEPsr5or4t2Gg90EfDlvP+KmUdeqfng180pKbhD0OFVYG6HnOtU8bxg?=
- =?us-ascii?Q?EZwWzhI6AAS6lb8SZyeASHmLC44kMrNm7aCrmlVzbWrBkRwS8x56BlwC4AVO?=
- =?us-ascii?Q?0Sw1uR9lAfVGh5+gy9WCYanPwySo?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7726.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?zVXb+TivkkJrO7HaWRTPlOjgIi9qMx0PRtFwWVc8/9UChcFUaLKdS3bc20QN?=
- =?us-ascii?Q?Xxo8RdRmjXLjVvN1kjwx4nFr6AYczxRRKJXr0X47gu3bF5n2XwUhX1BAXwQm?=
- =?us-ascii?Q?tsXV/PJ7hQlmkH8naWA0q6/+DteXD/rNgvWggPIxFff/kf1HAk8aW7CdyWAj?=
- =?us-ascii?Q?ikd4dDOixJpro53cF0egGio9JxWdyhQHJOY9gFMswAWEg6RurNqtxeE8BaCP?=
- =?us-ascii?Q?AQuU1oO+wlwM2YG8tDP0vJP9rEt+7xvqEElVXmHn3DOz60OWL5pAE1GzddDA?=
- =?us-ascii?Q?ynY94ciPU+6OE4Loy6aCi1uQbVJUDXjco7e9T2WAWcOsCFjnpdm5vYeldzfZ?=
- =?us-ascii?Q?4V2rBqOd5YoojIPzBaye9weBoRQlkz16WcGArUL5w6PyUzwmngA+tRpzppNZ?=
- =?us-ascii?Q?ZqhyThT50q2JpXdBXLX2/PPpJxPzqZ+DVNAG0vPAXMSGi4Of4zFHBq2dF4d0?=
- =?us-ascii?Q?Y7mCCvTPhvnsCIhJFga/5gNVbqAA9zgGgFaBbzzdOw7uUQSPPLucz6mvlL8Z?=
- =?us-ascii?Q?0GbzbaLym8di8womvNTPCRyNWe0WW8pkp7gf3/R35UB030ZEpZ5t+TMgH7ub?=
- =?us-ascii?Q?yU1BC2LaKYI+HS/2DeTkSxS0s1a19UvG/D5WbxomI/D1lguxH2dFiX3TPHU0?=
- =?us-ascii?Q?LdJuo2mefjz1gzpsyUt7GUY9D2L4fFH/CWUrYBpalQWRWdvE5uzwfp3trPQn?=
- =?us-ascii?Q?tbA0aG78j0bAqfvYkz225mDsSLobWLmK2gjlKceVYZkKMgevqddE9buSqNyk?=
- =?us-ascii?Q?lPLiuxpKDCQQ0+1LsQ5vZNSwPP+7PdMwcdg1hjdC/bKea6jcnXmX8I+sUPzy?=
- =?us-ascii?Q?cpTdzrmvAQLGY29doAAiuqGyTVFNdsDF5RhOumoDr91HBaC9hpPwaXmH42N+?=
- =?us-ascii?Q?X4xdZaR9lk+fsYoVmJApOsqHHGcBqM0JAaAoDyvSEYGgDqnQ9yKBtN3ktp5T?=
- =?us-ascii?Q?APsaVLuXJu7gyIshlG+mRI15k+rMAWwpDWJPQP8VRYTc5S8eiGXZm8AmUZ2K?=
- =?us-ascii?Q?qZEiL6389G2aP3bBG+zJ3jC2D0/FcpPKbfH4cXWqX1NfsAYvAMeodcxxYs1C?=
- =?us-ascii?Q?qbZGtQ+MpdFvLoy7yxJEiZSnVjC5ppVuOcTGXI0n2AE4Qd6mfvT6WxiERQW0?=
- =?us-ascii?Q?/8NTHu06zCwQGqQTvTxGaIxufufi6Uf9F+VgYPXiQJ9FLJh9r+rPWur9umlo?=
- =?us-ascii?Q?9eWlkeV953tAbYWWKPJZF2JVU78waHIEsW9fw6qXulakxZlSPgcnqqcpxBIu?=
- =?us-ascii?Q?wOUJLS5yoio5EUsF0hH5ytnWO6eDGtM7ZC6xjsTC/PS2U+SaSNptuzrp9tW0?=
- =?us-ascii?Q?lfGbGnUiZrh93CHhgO8Yjll1H18nakCZS2g0az4apxZck+mHnm6dUKQUgmKx?=
- =?us-ascii?Q?HCfpoEBJ8QGk/Ss48V7Ari/R5zCTF2FnMZea5sq1qbB2+ofUKXE40lpikrIe?=
- =?us-ascii?Q?vwhHOCoHOrC4DKIJk+bIkurXQs72U634UO6m/5LfNjDF2F6OQrzdLU0md9tI?=
- =?us-ascii?Q?eA9Ci1VXHU9RqThip/om9KqBSt5VKiZ/oNOL8e+04gZUUZWeACaf4pw5JPJp?=
- =?us-ascii?Q?F/YqAGAULoyhCkvIGLl144fHeKiXyclRvlh+vctI?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ae236ac-7582-4dba-0ad5-08dd417dd0c0
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2025 22:31:18.9413
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Iw0KxIMA4eoqXYqPo5ypoRdWOTb6DgD0auwMsGJohKkvRQUSaJvHe3tqScNMDPCTVUyFxDxr79sCQHS/67fEEg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5970
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250130211539.428952-2-almasrymina@google.com>
 
-On Thu, Jan 30, 2025 at 10:24:37AM +0100, David Hildenbrand wrote:
-> On 30.01.25 10:01, David Hildenbrand wrote:
-> > On 30.01.25 07:11, Alistair Popple wrote:
-> > > On Wed, Jan 29, 2025 at 12:54:02PM +0100, David Hildenbrand wrote:
-> > > > We require a writable PTE and only support anonymous folio: we can only
-> > > > have exactly one PTE pointing at that page, which we can just lookup
-> > > > using a folio walk, avoiding the rmap walk and the anon VMA lock.
-> > > > 
-> > > > So let's stop doing an rmap walk and perform a folio walk instead, so we
-> > > > can easily just modify a single PTE and avoid relying on rmap/mapcounts.
-> > > > 
-> > > > We now effectively work on a single PTE instead of multiple PTEs of
-> > > > a large folio, allowing for conversion of individual PTEs from
-> > > > non-exclusive to device-exclusive -- note that the other way always
-> > > > worked on single PTEs.
-> > > > 
-> > > > We can drop the MMU_NOTIFY_EXCLUSIVE MMU notifier call and document why
-> > > > that is not required: GUP will already take care of the
-> > > > MMU_NOTIFY_EXCLUSIVE call if required (there is already a device-exclusive
-> > > > entry) when not finding a present PTE and having to trigger a fault and
-> > > > ending up in remove_device_exclusive_entry().
-> > > 
-> > > I will have to look at this a bit more closely tomorrow but this doesn't seem
-> > > right to me. We may be transitioning from a present PTE (ie. a writable
-> > > anonymous mapping) to a non-present PTE (ie. a device-exclusive entry) and
-> > > therefore any secondary processors (eg. other GPUs, iommus, etc.) will need to
-> > > update their copies of the PTE. So I think the notifier call is needed.
-> > 
-> > Then it is all very confusing:
+On 01/30, Mina Almasry wrote:
+> Add documentation outlining the usage and details of the devmem TCP TX
+> API.
+> 
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> 
+> ---
+> 
+> v2:
+> - Update documentation for iov_base is the dmabuf offset (Stan)
+> ---
+>  Documentation/networking/devmem.rst | 144 +++++++++++++++++++++++++++-
+>  1 file changed, 140 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/networking/devmem.rst b/Documentation/networking/devmem.rst
+> index d95363645331..8166fe09da13 100644
+> --- a/Documentation/networking/devmem.rst
+> +++ b/Documentation/networking/devmem.rst
+> @@ -62,15 +62,15 @@ More Info
+>      https://lore.kernel.org/netdev/20240831004313.3713467-1-almasrymina@google.com/
+>  
+>  
+> -Interface
+> -=========
+> +RX Interface
+> +============
+>  
+>  
+>  Example
+>  -------
+>  
+> -tools/testing/selftests/net/ncdevmem.c:do_server shows an example of setting up
+> -the RX path of this API.
+> +./tools/testing/selftests/drivers/net/hw/ncdevmem:do_server shows an example of
+> +setting up the RX path of this API.
+>  
+>  
+>  NIC Setup
+> @@ -235,6 +235,142 @@ can be less than the tokens provided by the user in case of:
+>  (a) an internal kernel leak bug.
+>  (b) the user passed more than 1024 frags.
+>  
+> +TX Interface
+> +============
+> +
+> +
+> +Example
+> +-------
+> +
+> +./tools/testing/selftests/drivers/net/hw/ncdevmem:do_client shows an example of
+> +setting up the TX path of this API.
+> +
+> +
+> +NIC Setup
+> +---------
+> +
+> +The user must bind a TX dmabuf to a given NIC using the netlink API::
+> +
+> +        struct netdev_bind_tx_req *req = NULL;
+> +        struct netdev_bind_tx_rsp *rsp = NULL;
+> +        struct ynl_error yerr;
+> +
+> +        *ys = ynl_sock_create(&ynl_netdev_family, &yerr);
+> +
+> +        req = netdev_bind_tx_req_alloc();
+> +        netdev_bind_tx_req_set_ifindex(req, ifindex);
+> +        netdev_bind_tx_req_set_fd(req, dmabuf_fd);
+> +
+> +        rsp = netdev_bind_tx(*ys, req);
+> +
+> +        tx_dmabuf_id = rsp->id;
+> +
+> +
+> +The netlink API returns a dmabuf_id: a unique ID that refers to this dmabuf
+> +that has been bound.
+> +
+> +The user can unbind the dmabuf from the netdevice by closing the netlink socket
+> +that established the binding. We do this so that the binding is automatically
+> +unbound even if the userspace process crashes.
+> +
+> +Note that any reasonably well-behaved dmabuf from any exporter should work with
+> +devmem TCP, even if the dmabuf is not actually backed by devmem. An example of
+> +this is udmabuf, which wraps user memory (non-devmem) in a dmabuf.
+> +
+> +Socket Setup
+> +------------
+> +
+> +The user application must use MSG_ZEROCOPY flag when sending devmem TCP. Devmem
+> +cannot be copied by the kernel, so the semantics of the devmem TX are similar
+> +to the semantics of MSG_ZEROCOPY.
+> +
+> +	ret = setsockopt(socket_fd, SOL_SOCKET, SO_ZEROCOPY, &opt, sizeof(opt));
+> +
+> +Sending data
+> +--------------
+> +
+> +Devmem data is sent using the SCM_DEVMEM_DMABUF cmsg.
+> +
+> +The user should create a msghdr where,
+> +
+> +iov_base is set to the offset into the dmabuf to start sending from.
+> +iov_len is set to the number of bytes to be sent from the dmabuf.
+> +
+> +The user passes the dma-buf id to send from via the dmabuf_tx_cmsg.dmabuf_id.
+> +
+> +The example below sends 1024 bytes from offset 100 into the dmabuf, and 2048
+> +from offset 2000 into the dmabuf. The dmabuf to send from is tx_dmabuf_id::
+> +
+> +       char ctrl_data[CMSG_SPACE(sizeof(struct dmabuf_tx_cmsg))];
+> +       struct dmabuf_tx_cmsg ddmabuf;
+> +       struct msghdr msg = {};
+> +       struct cmsghdr *cmsg;
+> +       struct iovec iov[2];
+> +
+> +       iov[0].iov_base = (void*)100;
+> +       iov[0].iov_len = 1024;
+> +       iov[1].iov_base = (void*)2000;
+> +       iov[1].iov_len = 2048;
+> +
+> +       msg.msg_iov = iov;
+> +       msg.msg_iovlen = 2;
+> +
+> +       msg.msg_control = ctrl_data;
+> +       msg.msg_controllen = sizeof(ctrl_data);
+> +
+> +       cmsg = CMSG_FIRSTHDR(&msg);
+> +       cmsg->cmsg_level = SOL_SOCKET;
+> +       cmsg->cmsg_type = SCM_DEVMEM_DMABUF;
+> +       cmsg->cmsg_len = CMSG_LEN(sizeof(struct dmabuf_tx_cmsg));
+> +
+> +       ddmabuf.dmabuf_id = tx_dmabuf_id;
+> +
+> +       *((struct dmabuf_tx_cmsg *)CMSG_DATA(cmsg)) = ddmabuf;
 
-Can't argue with that in hindsight :-)
+[..]
 
-> > "MMU_NOTIFY_EXCLUSIVE: to signal a device driver that the device will no
-> > longer have exclusive access to the page."
-> 
-> So the second sentence actually describes the other condition. Likely we
-> should make that clearer:
->
-> --- a/include/linux/mmu_notifier.h
-> +++ b/include/linux/mmu_notifier.h
-> @@ -43,10 +43,11 @@ struct mmu_interval_notifier;
->   * a device driver to possibly ignore the invalidation if the
->   * owner field matches the driver's device private pgmap owner.
->   *
-> - * @MMU_NOTIFY_EXCLUSIVE: to signal a device driver that the device will no
-> - * longer have exclusive access to the page. When sent during creation of an
-> - * exclusive range the owner will be initialised to the value provided by the
-> - * caller of make_device_exclusive(), otherwise the owner will be NULL.
-> + * @MMU_NOTIFY_EXCLUSIVE: (1) to signal a device driver that the device will no
-> + * longer have exclusive access to the page; and (2) to signal that a page will
-> + * be made exclusive to a device. During (1), the owner will be NULL, during
-> + * (2), the owner will be initialised to the value provided by the caller of
-> + * make_device_exclusive().
+> +       sendmsg(socket_fd, &msg, MSG_ZEROCOPY);
 
-Yes, I think that makes things clearer. Logically these are really two different
-events though - I guess I didn't want to add another one at the time but I
-wonder if we should just make them separate events rather than overloading them?
-
->   */
->  enum mmu_notifier_event {
->         MMU_NOTIFY_UNMAP = 0,
-> 
-> 
-> -- 
-> Cheers,
-> 
-> David / dhildenb
-> 
+Not super important, but any reason not to use MSG_SOCK_DEVMEM as a
+flag? We already use it for recvmsg, seems logical to mirror the same
+flag on the transmit side?
