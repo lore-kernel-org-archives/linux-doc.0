@@ -1,72 +1,72 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E181AF0D8
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 09:12:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BDD418F2DD
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 09:24:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738228352; cv=none; b=CuPQ7ELRJgq3KHIRLq40A/F3KBy9M5g2eZd4osif7edd/u8YpwF/ZTGnGerrHxO1fbXNm5L2O030JmFZ2ZLg80E1nPvTYabKkkeQGCCtk8iDKjn55v4LZ6oUXGb1eNliRGeYiVadXI74L8vEwHwIbTRSUVzNochdyXmiHwo4POU=
+	t=1738229085; cv=none; b=bl11zKBpv84BDM5hO2cf6aDwDxhGd9uVMxDTScjCSZqULRARJrXbMGR8LU2CzoHMqM+EPFQN/9RzNMWEacpvPbTWzXa9RcopgNqpvMH83uOQpVkwDWXh3CJWvcZ2gjqsNQwQ+bAesEWBrwlpz1Kp6mijwjnO9ddJHMWvFPYnv5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738228352; c=relaxed/simple;
-	bh=6+qVg/uSfTC7RUA8H+VMWag8AD1OOAPGLxWVLf0V8yc=;
+	s=arc-20240116; t=1738229085; c=relaxed/simple;
+	bh=oloF2T5TDO6m9NKDVzl0e3LX7kA2V+eNJsL7RD/jhBY=;
 	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=erJ+TTq0B+GwqRLlm6WovtxAejHLAPfvKD1KAbwiaUuwegB4Be4TD3cMOtKlnUvuvXLbZHnSzwbMcG80dIhpROMc/g27iB66q9q5q57t1BlK06eRmY0kXPPuz7NVfvGZcq9xCRpiWjTW3W4Yq0IYaxeFSHmaVc6kJIdDiFxdH0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FpzVNkSQ; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=TT1ViMlm+etfjM5WWDOYFH0eWxSGNGmGHxl3hRAiKpFNIJxn0CvIIXlcrlL3BKx2oPGyttq9uttu3N6JPme0N3vhG2FCXz5xumlopG6GddUEIOQUSZAQ4KCz66/xI0/qdA3iWr0ArQQEdMWJb3Lb/xV5kAf/WIftvzu4vAVBNoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PfU9G+Yu; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FpzVNkSQ"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PfU9G+Yu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738228350;
+	s=mimecast20190719; t=1738229083;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=rLOz0obAD+oiqNRoo0TPuKVd7dXq0sfd2ABPZioYnD4=;
-	b=FpzVNkSQAcOMEU2StUIEIaQMEReN2PJhBzXEmub5AiHXUpkdbwoa9woMlKcP+oQfkfQYSI
-	7+JAgpFg1jCt6Dl2QBmrSAP/QiWkOcS35OpdS3tlmJcpKXlIVG47XzZg0BZ1PXvxRcohuN
-	S7QVH4KfpFhnHKUJBFc6AHYkR3on5Lg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=AgWsEgCc4GvIDD2B+IjlgI9qdTH1nhae1Uz1TWiWBYA=;
+	b=PfU9G+YuQK695JgzplyXHP3FJfPkKxcNcUTX2Wr2mv1C9Ux+YKl/x2a71HaB7k589kaNkY
+	F6VY2oRPS1E6JjdFoGHzetemKzbgNH0ho6GM30metCIULcSLTAPKuz59IyFVxEXf6lzul6
+	OhGcbx6eSfvQwFm2U1zlN3LGlnSlFoo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-553--wncqbj2PYSv831HvNHGUA-1; Thu, 30 Jan 2025 04:12:28 -0500
-X-MC-Unique: -wncqbj2PYSv831HvNHGUA-1
-X-Mimecast-MFC-AGG-ID: -wncqbj2PYSv831HvNHGUA
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4361ac8b25fso2429965e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 01:12:28 -0800 (PST)
+ us-mta-358-xqeLV2sjOiGDoqLLA4EY5Q-1; Thu, 30 Jan 2025 04:24:41 -0500
+X-MC-Unique: xqeLV2sjOiGDoqLLA4EY5Q-1
+X-Mimecast-MFC-AGG-ID: xqeLV2sjOiGDoqLLA4EY5Q
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3862e986d17so218350f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 01:24:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738228347; x=1738833147;
+        d=1e100.net; s=20230601; t=1738229080; x=1738833880;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:references:cc:to:from:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=rLOz0obAD+oiqNRoo0TPuKVd7dXq0sfd2ABPZioYnD4=;
-        b=hnUa4hKcwOZ2nwEb6DOPYeh/AkQR6Mx2latX6eg0aTyjtyk3sBNbIYLEl9V2ZnTqYF
-         0vaRNcXSlbZG+9QmfA5AaxV/NxiByv3kf/hjCBNm1+ZloDFLz8dh+wjyMiSA0xpaEX3z
-         03AWjFS+XYlpS7fPaC0OUPo0Ujk/Eb2jMCd43LaC2LeGwjwl7+G8wh78aM/5U+LFkbyc
-         f6sGZ+KgWmo3IYUyJ3ClfwwSkfNx5e2isXeFeOB7w6b3nsF43M2Hk/mtzrmiYEP2U7Hi
-         yQDwGVP7cnx02NdcLs0J9s5UJbmWbjxD1cGjq4a5MzKDqK60AQyKQWhIE0Ofofy4Elu1
-         HZ8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV5xJ6LcYXfP236M2ZVPsPylQgK/H2qRIg0mHw/95yfeUQzAvYC0yKjeiRwSHRbV8oD1dri6Co4k6E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwGhCn5sO+BLNY13EZAC8WaCfpC5jU/hY+txQaPjPLp22Kqqw9
-	ut1n0p/9ujLHjB1T2rK+R3QJ8fBHbTZaHplIDq2LFqVv0ThmHQ6tWsDVfpIgYBqfmK27/xxQ/x9
-	hv+nBPdzcsucK9oypknggNY0GGoCyywTK0dJIeIAYJhpfmW137rTD+rqIBg==
-X-Gm-Gg: ASbGncuw4B5BSdvKfCXuafWGFA7ZSR/0+RxFxV5XOP5GP/SuHrPubJeooPkfsyXwkmt
-	9odWvuaEriIItYmchE9imOr/ALdg6xYdHZIY5JKVmuHqWaJklf5gDdvygdO156oaJSVKAOWberb
-	yyhMWS7buTixVTccGeb6YMA+ISF9yrJ2FRSAy5Lssc3G+BhbgqXpSwd+JSTVbhYwiNa89HIxL7D
-	iPJA/CsZ5QmqXsC1lRlvvClWqoo/EEmdvGoAnhXRA5qGCrgIWvGSEedJf5FCF/i8xUVOW2Af8BD
-	Jzof/+eOxJ7lET1/fIBxkbyu7D2lobm9C+GQh9Bb0BEk
-X-Received: by 2002:a05:600c:3585:b0:435:192:63ca with SMTP id 5b1f17b1804b1-438dc3fc57cmr47679845e9.21.1738228347399;
-        Thu, 30 Jan 2025 01:12:27 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGwVJCk7i8Wi+y4cB3+BrJijTjRz9/U6vW5B3DRIl8pEv+r5QnVS78KcctKOfglkPsCjp7UdA==
-X-Received: by 2002:a05:600c:3585:b0:435:192:63ca with SMTP id 5b1f17b1804b1-438dc3fc57cmr47679455e9.21.1738228346964;
-        Thu, 30 Jan 2025 01:12:26 -0800 (PST)
+        bh=AgWsEgCc4GvIDD2B+IjlgI9qdTH1nhae1Uz1TWiWBYA=;
+        b=n7ASDKy2qnm6aF/Y++T8z0X9arMpxzkwCUZvFbuubek1wJy/pofH32pt3la612vCqL
+         mROZzNqyXv8KQhZsUpFbQvBiVS9rMVr5IhXgrs0xpKNPqFi5RxzSNgefZK+8gaJNNVFp
+         Q3zmVEae4Q6V/fBG5jya95STJ9t2cj9ZOITlBlPlBfwYfMyAy48Go+2TMc/GRHTzAXD7
+         mcoTnBjcKgsbLCx6NHqMr5DiYOJrYBwpUa1KpP3Cdwlc5Ix5mWfTfUkRvO6Oq7L/ZqaH
+         5Be6/Uct2Vh+oYUnKlICFN5xhm7vwpi5XxTD0KBwzE0MJNhoVDl1k+h8SYCWNpb5CfxV
+         QDIA==
+X-Forwarded-Encrypted: i=1; AJvYcCXVoJVqq5Yj6KbgZbG20LHlAGGZTQ0Hbu+CzbsPBuSjucNs8herNjjcGv+mgXLZiCvCdKJiiytPWDU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfRwZxL2ghN8W8jeh1VZ6cUleLv+B2/re1yMhH3c5Tm2C+OxTG
+	g7j7fxqD2XG4aP7Uh4fCsj30vB3nf6CjCUOZ8xqhqL28SZZ6MQ88BV8fbu8V6jk4h52U92Y8yxg
+	v3xrmmuy2/nbjL2YDKAgRdHLTt73MNCQMFza0GGfzzxO0r/+I95302KIK4Q==
+X-Gm-Gg: ASbGncu+116stYPKkyczbsAHBHwcj9K5COmdibMJSiPwALU09eD6XPgJNcoc2EnMg8z
+	j/cpXepukf/Q04XeuNI1znLDYM+zhbV3o/epkBuF1WpvbU++W68/ipJc1mKfikux8fss/jhksht
+	EYus10yEwNrrvaLoAhxeM/TeOvf+c38dme9CTMdj44CZlnOZ944ibnmXbS2e1nDHgvLJhFjSj57
+	Znmy59cpoBgTH/CSZMBg9K042CclKCQVS9GXTV77zILdYiTZ+baQHnkQ7FpFqzGY3pvIhAigpqE
+	PFr58EEfr5H60szWNbDcaaFDO+UxMBNX0IrmQp6Ow6vL
+X-Received: by 2002:a5d:47c5:0:b0:385:f092:e00 with SMTP id ffacd0b85a97d-38c520975b7mr5464491f8f.50.1738229080237;
+        Thu, 30 Jan 2025 01:24:40 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGPsT0tp7MlPmJ5d1a4j+wbYUvfNepMnGtnz6DBjlfLio8haZQowpOaHS464RFpM5lmeYL4CQ==
+X-Received: by 2002:a5d:47c5:0:b0:385:f092:e00 with SMTP id ffacd0b85a97d-38c520975b7mr5464464f8f.50.1738229079878;
+        Thu, 30 Jan 2025 01:24:39 -0800 (PST)
 Received: from ?IPV6:2a01:599:904:96e0:a245:aa9f:6c57:eb41? ([2a01:599:904:96e0:a245:aa9f:6c57:eb41])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c0ec35asm1397002f8f.15.2025.01.30.01.12.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c1b5492sm1389915f8f.73.2025.01.30.01.24.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jan 2025 01:12:26 -0800 (PST)
-Message-ID: <547f6335-ceb4-4160-ba72-5214bf5c82f3@redhat.com>
-Date: Thu, 30 Jan 2025 10:12:24 +0100
+        Thu, 30 Jan 2025 01:24:38 -0800 (PST)
+Message-ID: <c5befaa4-bd00-4784-ae66-ddbf16dfe1d9@redhat.com>
+Date: Thu, 30 Jan 2025 10:24:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -176,75 +176,28 @@ On 30.01.25 10:01, David Hildenbrand wrote:
 > 
 > "MMU_NOTIFY_EXCLUSIVE: to signal a device driver that the device will no
 > longer have exclusive access to the page."
-> 
-> That's simply not true in the scenario you describe, because nobody had
-> exclusive access.
-> 
-> But what you are saying is, that we need to inform others (e.g., KVM)
-> that we are converting it to a device-exclusive entry, such that they
-> stop accessing it.
-> 
-> That makes sense to me (and the cleanup patch in the cleanup series
-> would have to go as well to prevent the livelock).
-> 
-> So we would have to update the documentation of MMU_NOTIFY_EXCLUSIVE
-> that it is also trigger on conversion from non-exclusive to exclusive.
-> 
-> Does that make sense?
 
-Something like that on top:
+So the second sentence actually describes the other condition. Likely we
+should make that clearer:
 
-diff --git a/mm/rmap.c b/mm/rmap.c
-index 49ffac6d27f8..fd6dfe67ce7b 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -2405,6 +2405,7 @@ void try_to_migrate(struct folio *folio, enum ttu_flags flags)
-  struct page *make_device_exclusive(struct mm_struct *mm, unsigned long addr,
-                 void *owner, struct folio **foliop)
-  {
-+       struct mmu_notifier_range range;
-         struct folio *folio, *fw_folio;
-         struct vm_area_struct *vma;
-         struct folio_walk fw;
-@@ -2413,6 +2414,7 @@ struct page *make_device_exclusive(struct mm_struct *mm, unsigned long addr,
-         pte_t swp_pte;
-  
-         mmap_assert_locked(mm);
-+       addr = PAGE_ALIGN_DOWN(addr);
-  
-         /*
-          * Fault in the page writable and try to lock it; note that if the
-@@ -2440,6 +2442,14 @@ struct page *make_device_exclusive(struct mm_struct *mm, unsigned long addr,
-                 return ERR_PTR(-EBUSY);
-         }
-  
-+       /*
-+        * Inform secondary MMUs that we are going to convert this PTE to
-+        * device-exclusive, such that they unmap it now.
-+        */
-+       mmu_notifier_range_init_owner(&range, MMU_NOTIFY_EXCLUSIVE, 0,
-+                                     mm, addr, addr + PAGE_SIZE, owner);
-+       mmu_notifier_invalidate_range_start(&range);
-+
-         /*
-          * Let's do a second walk and make sure we still find the same page
-          * mapped writable. If we don't find what we expect, we will trigger
-@@ -2452,6 +2462,7 @@ struct page *make_device_exclusive(struct mm_struct *mm, unsigned long addr,
-             fw.level != FW_LEVEL_PTE || !pte_write(fw.pte)) {
-                 if (fw_folio)
-                         folio_walk_end(&fw, vma);
-+               mmu_notifier_invalidate_range_end(&range);
-                 folio_unlock(folio);
-                 folio_put(folio);
-                 return ERR_PTR(-EBUSY);
-@@ -2485,6 +2496,7 @@ struct page *make_device_exclusive(struct mm_struct *mm, unsigned long addr,
-         folio_remove_rmap_pte(folio, page, vma);
-  
-         folio_walk_end(&fw, vma);
-+       mmu_notifier_invalidate_range_end(&range);
-         *foliop = folio;
-         return page;
-  }
+--- a/include/linux/mmu_notifier.h
++++ b/include/linux/mmu_notifier.h
+@@ -43,10 +43,11 @@ struct mmu_interval_notifier;
+   * a device driver to possibly ignore the invalidation if the
+   * owner field matches the driver's device private pgmap owner.
+   *
+- * @MMU_NOTIFY_EXCLUSIVE: to signal a device driver that the device will no
+- * longer have exclusive access to the page. When sent during creation of an
+- * exclusive range the owner will be initialised to the value provided by the
+- * caller of make_device_exclusive(), otherwise the owner will be NULL.
++ * @MMU_NOTIFY_EXCLUSIVE: (1) to signal a device driver that the device will no
++ * longer have exclusive access to the page; and (2) to signal that a page will
++ * be made exclusive to a device. During (1), the owner will be NULL, during
++ * (2), the owner will be initialised to the value provided by the caller of
++ * make_device_exclusive().
+   */
+  enum mmu_notifier_event {
+         MMU_NOTIFY_UNMAP = 0,
 
 
 -- 
