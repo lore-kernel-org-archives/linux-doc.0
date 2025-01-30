@@ -1,213 +1,277 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2072.outbound.protection.outlook.com [40.107.223.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3AFD1F3D3A
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 21:15:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738271755; cv=none; b=Sw9oQ9ZFCUTinuDVsiMwSsL2FXswaP1dQhZr1ARiNyF4WmowlO7e8+8YrtqZx6mKGc91U3N0j3zCe8j4tQZwHtjSJqckhq3FmEBz8qq3BrRE0isYHEnQm5nR1wVvpPkSJimpTUg3s29bkHns5j4q9E0oVJAFL1b1vEVN3yE/fnA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738271755; c=relaxed/simple;
-	bh=x4IKxvmNWD/4EDjE6znR+TcbhAdsP8iIvWcJKwYoK60=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=h6ofL9cIMjXzLJTnuvtMV5xI+MuXm8Eejx7L+cCq9Er/AtjW6waKIOLgYd306M7bNXePVe3FezAZeuxYgwIZvxNfHOoVct6QZ2Kj8X/UtFv0P+oJwlvHeeQdr+phTC5VAxhZhUy8h48MYjiKk6yDudUqBKBv2EpMNWJm2FmP0c0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KZ7Bmtlu; arc=none smtp.client-ip=209.85.216.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C18B1946C8;
+	Thu, 30 Jan 2025 21:20:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.72
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738272056; cv=fail; b=lxtByBoQ4vXHrjdWY6b/GQdKQ20s9vVpLv1FlYgq/CnhA5NIcJomOOK/sUQ7Z2aEpo7YdeyB5oDSLOHqAqwTBrbKa/jKkWNYEqnn4XhEPWb84mfE4emKEVCh/MJTwt0jkpe/qePP48GzezcGj3V29oW7xA8wck509VwGhuhNBkA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738272056; c=relaxed/simple;
+	bh=p3hbJsJ8kmlWtdKhQyH6abQuL9m47+KnPzDnpGuZiQw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BfZ/opVzXcWfasRHaGfeVa9wtwURMTmkrcLURKly2tW7vWySC++qW13SczQPw8+9eA+P51Wv2DOEs6KOyMCHEj6UVhgPhJ0u1ZlpDAipdn1iBlPb1H2uD9NSI8zF4qRcFxo01NVgAKMHk/W00a+F4vQOqnIMKBkG60WRNRwF/cQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=efRy5PzK; arc=fail smtp.client-ip=40.107.223.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KZ7Bmtlu"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2ee5668e09bso2482378a91.3
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 13:15:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1738271752; x=1738876552; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=d1EKwdWQ1Gk6X/oh63eg9ipo10zb+OP7eOCU+VWvx8c=;
-        b=KZ7BmtluVhcCJn9IUHVV8r7ob/n3rn/w2JpW+8/u2fdB+TESc9Z79iTaZnmj3LIv75
-         z7GUr5MJm+7U0/ob/r2Gvl9JEfezcVefaU8SMziL7NoY2OnhNmWAJMvZFJRCTPqkgIhW
-         nBmGSnbt4aPzxLVR6qHD4jrIJv23UIdC+B5X3A8JE9ZZLqXXbPqmSDIrf0jNo0/enqXv
-         1g5AESwi4GMDWvk/t1nFEXYmtVMBjvJHf64QkRVN0ObL9Sk/uo6nysCvxUSCkVPb2+uo
-         S6nP+KztP6XpIkBZSCqJRZXKmTrI96FyMa8E2MQDHzL6t95m68zl7iqw8FKd72JESeLJ
-         P6UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738271752; x=1738876552;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d1EKwdWQ1Gk6X/oh63eg9ipo10zb+OP7eOCU+VWvx8c=;
-        b=twC9lZOn1rc6OAK8iKDogpwrqxIx149F47xLh79pyx1byBEIzAbuHUSdXYLrVjU7TV
-         LTkZtxNVo4r281n+yLbjaccONHY+Fc7l7fISOZVd8s/Z8XSo1tSQ+8UCFMo7wkjxD6lE
-         HJswfMrlbd+3XXcv7elBzBhGaKGI7U04BqQf5e0mtpmnTHQB9JOj8h/wQJeSWtzkz3u+
-         oJcs89cX3MZorxGBr3dZigo0G42Jrc9XZvXqX8gzYSShYoQ9m+hT/EwRXGL1G0di30nn
-         09Clk1MY50i7dpJ3sQtsqGWomAgDkX27eYHtCjVgtEge3chydbtuUQSAfbjCV5gsrruD
-         RuHw==
-X-Forwarded-Encrypted: i=1; AJvYcCVJSxwckMltRYybDH/lgrpCViQDHxDJYeuzJKYeQb3vZyQM/WLGN2a79xcJ1Jug8y+bJbjqFIr+WfI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyj7zEA8uBzCDum+bkj6wF4S5w/q9Fqa4Sml/o6RUR06oKiFQeG
-	Wl/0lYHNtSX9p6T5STB1H5ECHIKGdxcKRd9nQ7zxMT4x4cOwUclH1TbTEedsZYDg2+ggQUdhgWE
-	LYp0l+XSu1Y6BnDxZ1HSFKA==
-X-Google-Smtp-Source: AGHT+IEu842jzz9/l2yJnwVinJKP7fFjPrUiJo2kyVUr6Y5tdahD7orUVlBr0+J+ihAQ9NwxSAcZpEbIb/SaC3F/GA==
-X-Received: from pjbsw11.prod.google.com ([2002:a17:90b:2c8b:b0:2ef:a732:f48d])
- (user=almasrymina job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:4ec8:b0:2ee:f677:aa14 with SMTP id 98e67ed59e1d1-2f83abea7c9mr13096491a91.13.1738271752211;
- Thu, 30 Jan 2025 13:15:52 -0800 (PST)
-Date: Thu, 30 Jan 2025 21:15:39 +0000
-In-Reply-To: <20250130211539.428952-1-almasrymina@google.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="efRy5PzK"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZdVFagX/RWR8LVlrHb9KMRl9siqlO783iVZDgJDQ6NsEMXcnSueeggMmqyJh+4czDAxbyTZ/Lr3mX6QX2Pm1I7sV4DxRSDD/KmOuuuhhfAd8iQfk2+KVEVA+KutLfegS5kEWbPWRxFT67qgsOwhoUww4Ox2JQVf6gdPYxJxdLXFybpY7u54Q8oNgpnkRTE6WB6B9uDwer5z7ZOdoq7xjqWJocnIygLRhWtbQurcLRf4utIQd7xtxPRiIXzuKMZ+Aq6cyZ4+TL78NcDyeS4n/gI3dDEZmOhrgsFlJ/sZOnWbU7AOQYfgvIUjf1qLyVi6rLw+oAY98SoMUxwwb14TKtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JmlX9QNZNXljLN+pvZ7WxSTt6xs1jgAoCKJ6bWr79Ao=;
+ b=dBu/kW7NwWJ7/U+0Mp2wE+DAfdzT1Iheio+ndNTgzeLMHEqD8P6BHbbOhATLcFhiVowezFABb2+EHAe5OEP+IUrDxcwkLeNy7EKkSHqOmEGZQ4UnDuNLIZWzT7gbwJik6j84hTZduicm1x9m36r0XX3dXDuiqhE5EdLWOcRzSH1+Das8zoImCnpAaqOxnnHbCzblWkHkl4rG12nXempK+O7eqPjHAXpeCNuJVbLCZcwPn55JfYOmqupHSg9lxH3x/4oik9aMRc4tdNtsJDxXCWDwzOWZ/y7pCbAqfRj7xIhnyoEJQWHTZgYUj4EeB3TyPwu3aIPR7EME2mjIrwnCVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JmlX9QNZNXljLN+pvZ7WxSTt6xs1jgAoCKJ6bWr79Ao=;
+ b=efRy5PzK97k/1LIaY2Vl+WQrnOffH5evERBYkyhsgshbpNsSDUXbu+UYuNHhTCxtbYw/SN62jTveaVcYhqb31Lv96KdGfiBs7nF9REAaHe3NK9uyjWHGK2m6odo/uCgNMzrkHTX73D5Kdb5T+KdeZZ4F1+7VUMXWLcRWiF+J/Hw=
+Received: from PH7P223CA0002.NAMP223.PROD.OUTLOOK.COM (2603:10b6:510:338::28)
+ by IA0PR12MB7724.namprd12.prod.outlook.com (2603:10b6:208:430::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.17; Thu, 30 Jan
+ 2025 21:20:46 +0000
+Received: from SN1PEPF000397B2.namprd05.prod.outlook.com
+ (2603:10b6:510:338:cafe::98) by PH7P223CA0002.outlook.office365.com
+ (2603:10b6:510:338::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.18 via Frontend Transport; Thu,
+ 30 Jan 2025 21:20:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SN1PEPF000397B2.mail.protection.outlook.com (10.167.248.56) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8398.14 via Frontend Transport; Thu, 30 Jan 2025 21:20:45 +0000
+Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 30 Jan
+ 2025 15:20:43 -0600
+From: Babu Moger <babu.moger@amd.com>
+To: <reinette.chatre@intel.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
+	<bp@alien8.de>, <dave.hansen@linux.intel.com>
+CC: <babu.moger@amd.com>, <fenghua.yu@intel.com>, <x86@kernel.org>,
+	<hpa@zytor.com>, <akpm@linux-foundation.org>, <paulmck@kernel.org>,
+	<thuth@redhat.com>, <rostedt@goodmis.org>, <xiongwei.song@windriver.com>,
+	<pawan.kumar.gupta@linux.intel.com>, <jpoimboe@kernel.org>,
+	<daniel.sneddon@linux.intel.com>, <thomas.lendacky@amd.com>,
+	<perry.yuan@amd.com>, <sandipan.das@amd.com>, <kai.huang@intel.com>,
+	<seanjc@google.com>, <xin3.li@intel.com>, <ebiggers@google.com>,
+	<andrew.cooper3@citrix.com>, <mario.limonciello@amd.com>,
+	<tan.shaopeng@fujitsu.com>, <james.morse@arm.com>, <tony.luck@intel.com>,
+	<peternewman@google.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <eranian@google.com>, <corbet@lwn.net>
+Subject: [PATCH v3 0/7] Support L3 Smart Data Cache Injection Allocation Enforcement (SDCIAE)
+Date: Thu, 30 Jan 2025 15:20:30 -0600
+Message-ID: <cover.1738272037.git.babu.moger@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250130211539.428952-1-almasrymina@google.com>
-X-Mailer: git-send-email 2.48.1.362.g079036d154-goog
-Message-ID: <20250130211539.428952-7-almasrymina@google.com>
-Subject: [PATCH RFC net-next v2 6/6] net: devmem: make dmabuf unbinding
- scheduled work
-From: Mina Almasry <almasrymina@google.com>
-To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org
-Cc: Mina Almasry <almasrymina@google.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, David Ahern <dsahern@kernel.org>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	"=?UTF-8?q?Eugenio=20P=C3=A9rez?=" <eperezma@redhat.com>, Shuah Khan <shuah@kernel.org>, sdf@fomichev.me, 
-	asml.silence@gmail.com, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>, 
-	Victor Nogueira <victor@mojatatu.com>, Pedro Tammela <pctammela@mojatatu.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF000397B2:EE_|IA0PR12MB7724:EE_
+X-MS-Office365-Filtering-Correlation-Id: 769fc6a3-1f35-4c4f-2392-08dd4173f5b5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|36860700013|7416014|376014|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?LaeJU3gcX5G8ueMMc81isHXXVplO6MceFqTUXsN+D1J7wEw6ihgNstkr/3Ua?=
+ =?us-ascii?Q?XTLdt05OagMby6k/x0GlhDOvSioUCSwtRFV1VqPjaQWvqdeS3W2nMVjcXWar?=
+ =?us-ascii?Q?nlHIAvPgHYRp7JnrTzHNjwEIhURGnO6b7b+7+zFOU4iW8UTL9mm6+bkOtHrO?=
+ =?us-ascii?Q?o/+UXWgNDYQfxX2HnkAECUaPmFPeYCVokcVW4CaysVw+pNsJVxslbhul5ABJ?=
+ =?us-ascii?Q?iF44286gwcG3zvODj3cQK5fxMDYLNxNap4ZdOZwq5gGUHbygDik3WiJSToly?=
+ =?us-ascii?Q?Zlb+8LtI1p1Mkdm/Yz0feeaGUeee8kitr7pcCSmuvK8tmk3G3ZDS73z4vwja?=
+ =?us-ascii?Q?c2pXFa7WLLxKDAtl5ZaLHW/P8pns4BVEuzNci06vznlGpmovOA+kMllPW9Sh?=
+ =?us-ascii?Q?KLTrj/lJFnyL8t13DOGnoZXI+FZsJal01Uq/0qI/k/m3TXneSR4BGNRFHKy7?=
+ =?us-ascii?Q?jo0W1FlLDiBievQ+T69G/UokBfbZCIDIB7TureYazs4nswsgwiyPmP3qCuFO?=
+ =?us-ascii?Q?aKzU85ZyQxxKwzRMPyN0GyGuQQ4h4uwYO4dxIyg0nJMFLeOIdT5FEjDW7Vti?=
+ =?us-ascii?Q?Llp9ZopK/SwN+qO94xU6vrnENScWHIlYiqqsqNuv89BqREVwgBmHOzC53i53?=
+ =?us-ascii?Q?7MdZSKINp7cQPJFPKb+x0UHfRWS79YPna8txMC9T2Ef3n2xBjpJeHLcW2WQT?=
+ =?us-ascii?Q?13IcU2mOSEoJ3PdETUGXNlEqoMYy5HH3WXQG/DWybw4ACY/MD0X9NwYKDodY?=
+ =?us-ascii?Q?aNEHReyNF/P/fg48xX4ryBO5tqOskQnZyoz7QnxnaLJAHoddjh4gyW6QpRoN?=
+ =?us-ascii?Q?iBA0W8x6tOVz1o97mWCDAcQL4EGAk0m40eWVMXjn5H0jLWMxpg2K7zAVbnNN?=
+ =?us-ascii?Q?71EKVPF+tTaOS3FdsTCTorAPRqkbBcGBZePOWnsJITcafiae4G8yAeSRJMia?=
+ =?us-ascii?Q?wWEsWcN2VHV7IYjASPwTdx3I7DuUh9bxxTNJ4zO/jVv7+cnYYzhuULBm6KPS?=
+ =?us-ascii?Q?IBr5mqEHoseNT0N09/87FjbVWnAMwx8lDCn70Y8W1WfN5NjtSkqANy22znDl?=
+ =?us-ascii?Q?QO+/YI3VhvsYy4D/hxMXeT+K6jsg6o5gCfJ2AYJsN4HaDJwIBLUTGLj0jGya?=
+ =?us-ascii?Q?hHJYpiBoLL+weZJODQEX+1Kwd51+458zzG/N2Ez0UctltYCX9Y7TY8EJ5Uyp?=
+ =?us-ascii?Q?k3w3hVFxd19GxeLwchRmXRiLdtzoa9zeQRxyBEthpzqxDx8+t+aeS79gCmvd?=
+ =?us-ascii?Q?f+VNcR6lat1adouPYJiyqWhF3b7zchhP6kG5jAphzqJaQuIfYKaq+w40EcOc?=
+ =?us-ascii?Q?Isiad3J8oEnWfIAVhvo9J8xSpINRypVlGdpKSt25Hc4Cd8SJt3+V5UIocdoR?=
+ =?us-ascii?Q?GM9xTfxzP6LaADCxqWafPTzlDohoBKTwWyEYtGz0v37pDkzAN1ixa1RyYidP?=
+ =?us-ascii?Q?GdvRGuwoHqTZvl+4NJuZJBK/Urru/Qce?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700013)(7416014)(376014)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2025 21:20:45.4874
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 769fc6a3-1f35-4c4f-2392-08dd4173f5b5
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF000397B2.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7724
 
-The TX path may release the dmabuf in a context where we cannot wait.
-This happens when the user unbinds a TX dmabuf while there are still
-references to its netmems in the TX path. In that case, the netmems will
-be put_netmem'd from a context where we can't unmap the dmabuf,
-resulting in a BUG like seen by Stan:
 
-[    1.548495] BUG: sleeping function called from invalid context at drivers/dma-buf/dma-buf.c:1255
-[    1.548741] in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 149, name: ncdevmem
-[    1.548926] preempt_count: 201, expected: 0
-[    1.549026] RCU nest depth: 0, expected: 0
-[    1.549197]
-[    1.549237] =============================
-[    1.549331] [ BUG: Invalid wait context ]
-[    1.549425] 6.13.0-rc3-00770-gbc9ef9606dc9-dirty #15 Tainted: G        W
-[    1.549609] -----------------------------
-[    1.549704] ncdevmem/149 is trying to lock:
-[    1.549801] ffff8880066701c0 (reservation_ww_class_mutex){+.+.}-{4:4}, at: dma_buf_unmap_attachment_unlocked+0x4b/0x90
-[    1.550051] other info that might help us debug this:
-[    1.550167] context-{5:5}
-[    1.550229] 3 locks held by ncdevmem/149:
-[    1.550322]  #0: ffff888005730208 (&sb->s_type->i_mutex_key#11){+.+.}-{4:4}, at: sock_close+0x40/0xf0
-[    1.550530]  #1: ffff88800b148f98 (sk_lock-AF_INET6){+.+.}-{0:0}, at: tcp_close+0x19/0x80
-[    1.550731]  #2: ffff88800b148f18 (slock-AF_INET6){+.-.}-{3:3}, at: __tcp_close+0x185/0x4b0
-[    1.550921] stack backtrace:
-[    1.550990] CPU: 0 UID: 0 PID: 149 Comm: ncdevmem Tainted: G        W          6.13.0-rc3-00770-gbc9ef9606dc9-dirty #15
-[    1.551233] Tainted: [W]=WARN
-[    1.551304] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS Arch Linux 1.16.3-1-1 04/01/2014
-[    1.551518] Call Trace:
-[    1.551584]  <TASK>
-[    1.551636]  dump_stack_lvl+0x86/0xc0
-[    1.551723]  __lock_acquire+0xb0f/0xc30
-[    1.551814]  ? dma_buf_unmap_attachment_unlocked+0x4b/0x90
-[    1.551941]  lock_acquire+0xf1/0x2a0
-[    1.552026]  ? dma_buf_unmap_attachment_unlocked+0x4b/0x90
-[    1.552152]  ? dma_buf_unmap_attachment_unlocked+0x4b/0x90
-[    1.552281]  ? dma_buf_unmap_attachment_unlocked+0x4b/0x90
-[    1.552408]  __ww_mutex_lock+0x121/0x1060
-[    1.552503]  ? dma_buf_unmap_attachment_unlocked+0x4b/0x90
-[    1.552648]  ww_mutex_lock+0x3d/0xa0
-[    1.552733]  dma_buf_unmap_attachment_unlocked+0x4b/0x90
-[    1.552857]  __net_devmem_dmabuf_binding_free+0x56/0xb0
-[    1.552979]  skb_release_data+0x120/0x1f0
-[    1.553074]  __kfree_skb+0x29/0xa0
-[    1.553156]  tcp_write_queue_purge+0x41/0x310
-[    1.553259]  tcp_v4_destroy_sock+0x127/0x320
-[    1.553363]  ? __tcp_close+0x169/0x4b0
-[    1.553452]  inet_csk_destroy_sock+0x53/0x130
-[    1.553560]  __tcp_close+0x421/0x4b0
-[    1.553646]  tcp_close+0x24/0x80
-[    1.553724]  inet_release+0x5d/0x90
-[    1.553806]  sock_close+0x4a/0xf0
-[    1.553886]  __fput+0x9c/0x2b0
-[    1.553960]  task_work_run+0x89/0xc0
-[    1.554046]  do_exit+0x27f/0x980
-[    1.554125]  do_group_exit+0xa4/0xb0
-[    1.554211]  __x64_sys_exit_group+0x17/0x20
-[    1.554309]  x64_sys_call+0x21a0/0x21a0
-[    1.554400]  do_syscall_64+0xec/0x1d0
-[    1.554487]  ? exc_page_fault+0x8a/0xf0
-[    1.554585]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-[    1.554703] RIP: 0033:0x7f2f8a27abcd
+This series adds the support for L3 Smart Data Cache Injection Allocation
+Enforcement (SDCIAE) to resctrl infrastructure. It is refered as io_alloc
+in resctrl subsystem.
 
-Resolve this by making __net_devmem_dmabuf_binding_free schedule_work'd.
+Upcoming AMD hardware implements Smart Data Cache Injection (SDCI).
+Smart Data Cache Injection (SDCI) is a mechanism that enables direct
+insertion of data from I/O devices into the L3 cache. By directly caching
+data from I/O devices rather than first storing the I/O data in DRAM, SDCI
+reduces demands on DRAM bandwidth and reduces latency to the processor
+consuming the I/O data.
 
-Suggested-by: Stanislav Fomichev <sdf@fomichev.me>
-Signed-off-by: Mina Almasry <almasrymina@google.com>
+The SDCIAE (SDCI Allocation Enforcement) PQE feature allows system software
+to control the portion of the L3 cache used for SDCI devices.
+
+When enabled, SDCIAE forces all SDCI lines to be placed into the L3 cache
+partitions identified by the highest-supported L3_MASK_n register, where n
+is the maximum supported CLOSID.
+
+The feature details are documented in the APM listed below [1].
+[1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+Publication # 24593 Revision 3.41 section 19.4.7 L3 Smart Data Cache
+Injection Allocation Enforcement (SDCIAE)
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+
+The feature requires linux support of TPH (TLP Processing Hints).
+The support is available in linux kernel after the commit
+48d0fd2b903e3 ("PCI/TPH: Add TPH documentation")
+
+The patches are based on top of commit
+258b24fa741684 (tip/master) Merge branch into tip/master: 'x86/mm'
+
+# Linux Implementation
+
+Feature adds following interface files when the resctrl "io_alloc" feature is
+supported:
+
+/sys/fs/resctrl/info/L3/io_alloc: Reports the feature status. Feature can be
+				  enabled/disabled by writing to the interface.
+
+/sys/fs/resctrl/info/L3/io_alloc_cbm: Capacity Bit Masks (CBMs) available to SDCI
+				      supported IO devices. CBM can be configured
+				      by writing to the interface in the following
+				      format::
+# Examples
+
+a. Check if io_alloc feature is available
+	#mount -t resctrl resctrl /sys/fs/resctrl/
+
+	# cat /sys/fs/resctrl/info/L3/io_alloc
+	0
+
+b. Enable the io_alloc feature. 
+
+	# echo 1 > /sys/fs/resctrl/info/L3/io_alloc 
+
+c. Check the CBM values for the io_alloc feature.
+
+	# cat /sys/fs/resctrl/info/L3/io_alloc_cbm 
+	L3:0=ffff;1=ffff
+
+d. Change the CBM value for the domain 1:
+	# echo L3:1=FF > /sys/fs/resctrl/info/L3/io_alloc_cbm
+
+	# cat /sys/fs/resctrl/info/L3/io_alloc_cbm 
+	L3:0=ffff;1=00ff
+
+d. Disable io_alloc feature and exit.
+
+	# echo 0 > /sys/fs/resctrl/info/L3/io_alloc 
+	#umount /sys/fs/resctrl/
 
 ---
- net/core/devmem.c |  4 +++-
- net/core/devmem.h | 10 ++++++----
- 2 files changed, 9 insertions(+), 5 deletions(-)
+v3: Rewrote commit log for the last 3 patches. Changed the text to bit
+    more generic than the AMD specific feature. Added AMD feature
+    specifics in the end.
 
-diff --git a/net/core/devmem.c b/net/core/devmem.c
-index 796338b1599e..58fcae0c0c69 100644
---- a/net/core/devmem.c
-+++ b/net/core/devmem.c
-@@ -46,8 +46,10 @@ static dma_addr_t net_devmem_get_dma_addr(const struct net_iov *niov)
- 	       ((dma_addr_t)net_iov_idx(niov) << PAGE_SHIFT);
- }
+    Renamed the rdt_get_sdciae_alloc_cfg() to rdt_set_io_alloc_capable().
+    Renamed the _resctrl_io_alloc_enable() to _resctrl_sdciae_enable()
+    as it is arch specific.
+
+    Changed the return to void in _resctrl_sdciae_enable() instead of int.
  
--void __net_devmem_dmabuf_binding_free(struct net_devmem_dmabuf_binding *binding)
-+void __net_devmem_dmabuf_binding_free(struct work_struct *wq)
- {
-+	struct net_devmem_dmabuf_binding *binding = container_of(wq, typeof(*binding), unbind_w);
-+
- 	size_t size, avail;
- 
- 	gen_pool_for_each_chunk(binding->chunk_pool,
-diff --git a/net/core/devmem.h b/net/core/devmem.h
-index 874e891e70e0..63d16dbaca2d 100644
---- a/net/core/devmem.h
-+++ b/net/core/devmem.h
-@@ -52,6 +52,8 @@ struct net_devmem_dmabuf_binding {
- 	 * net_iovs in the TX path.
- 	 */
- 	struct net_iov **tx_vec;
-+
-+	struct work_struct unbind_w;
- };
- 
- #if defined(CONFIG_NET_DEVMEM)
-@@ -74,7 +76,7 @@ struct dmabuf_genpool_chunk_owner {
- 	struct net_devmem_dmabuf_binding *binding;
- };
- 
--void __net_devmem_dmabuf_binding_free(struct net_devmem_dmabuf_binding *binding);
-+void __net_devmem_dmabuf_binding_free(struct work_struct *wq);
- struct net_devmem_dmabuf_binding *
- net_devmem_bind_dmabuf(struct net_device *dev,
- 		       enum dma_data_direction direction,
-@@ -129,7 +131,8 @@ net_devmem_dmabuf_binding_put(struct net_devmem_dmabuf_binding *binding)
- 	if (!refcount_dec_and_test(&binding->ref))
- 		return;
- 
--	__net_devmem_dmabuf_binding_free(binding);
-+	INIT_WORK(&binding->unbind_w, __net_devmem_dmabuf_binding_free);
-+	schedule_work(&binding->unbind_w);
- }
- 
- void net_devmem_get_net_iov(struct net_iov *niov);
-@@ -161,8 +164,7 @@ static inline void net_devmem_put_net_iov(struct net_iov *niov)
- {
- }
- 
--static inline void
--__net_devmem_dmabuf_binding_free(struct net_devmem_dmabuf_binding *binding)
-+static inline void __net_devmem_dmabuf_binding_free(struct work_struct *wq)
- {
- }
- 
+    The number of CLOSIDs is determined based on the minimum supported
+    across all resources (in closid_init). It needs to match the max
+    supported on the resource. Added the check to verify if MAX CLOSID
+    availability on the system.
+
+    Added CDP check to make sure io_alloc is configured in CDP_CODE.
+    Highest CLOSID corresponds to CDP_CODE. 
+
+    Added resctrl_io_alloc_closid_free() to free the io_alloc CLOSID.
+
+    Added errors in few cases when CLOSID allocation fails.
+    Fixes splat reported when info/L3/bit_usage is accesed when io_alloc is enabled.
+    https://lore.kernel.org/lkml/SJ1PR11MB60837B532254E7B23BC27E84FC052@SJ1PR11MB6083.namprd11.prod.outlook.com/
+
+v2: Added dependancy on X86_FEATURE_CAT_L3
+    Removed the "" in CPU feature definition.
+
+    Changed sdciae_capable to io_alloc_capable to make it as generic feature.
+    Moved io_alloc_capable field in struct resctrl_cache.
+
+    Changed the name of few arch functions similar to ABMC series.
+    resctrl_arch_get_io_alloc_enabled()
+    resctrl_arch_io_alloc_enable()
+
+    Renamed the feature to "io_alloc".
+    Added generic texts for the feature in commit log and resctrl.rst doc.
+    Added resctrl_io_alloc_init_cat() to initialize io_alloc to default values
+    when enabled.
+    Fixed io_alloc interface to show only on L3 resource.
+    Added the locks while processing io_alloc CBMs.
+
+Previous versions:
+v2: https://lore.kernel.org/lkml/cover.1734556832.git.babu.moger@amd.com/
+v1: https://lore.kernel.org/lkml/cover.1723824984.git.babu.moger@amd.com/
+
+
+Babu Moger (7):
+  x86/cpufeatures: Add support for L3 Smart Data Cache Injection
+    Allocation Enforcement
+  x86/resctrl: Add SDCIAE feature in the command line options
+  x86/resctrl: Detect io_alloc feature
+  x86/resctrl: Implement "io_alloc" enable/disable handlers
+  x86/resctrl: Add interface to enable/disable io_alloc feature
+  x86/resctrl: Introduce interface to display io_alloc CBMs
+  x86/resctrl: Introduce interface to modify io_alloc Capacity Bit Masks
+
+ .../admin-guide/kernel-parameters.txt         |   2 +-
+ Documentation/arch/x86/resctrl.rst            |  46 +++
+ arch/x86/include/asm/cpufeatures.h            |   1 +
+ arch/x86/include/asm/msr-index.h              |   1 +
+ arch/x86/kernel/cpu/cpuid-deps.c              |   1 +
+ arch/x86/kernel/cpu/resctrl/core.c            |  13 +
+ arch/x86/kernel/cpu/resctrl/ctrlmondata.c     |   4 +-
+ arch/x86/kernel/cpu/resctrl/internal.h        |  12 +
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c        | 346 ++++++++++++++++++
+ arch/x86/kernel/cpu/scattered.c               |   1 +
+ include/linux/resctrl.h                       |  12 +
+ 11 files changed, 436 insertions(+), 3 deletions(-)
+
 -- 
-2.48.1.362.g079036d154-goog
+2.34.1
 
