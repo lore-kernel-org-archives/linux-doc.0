@@ -1,72 +1,72 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633BC1B4C35
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 09:28:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D06119DFAB
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 09:37:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738229289; cv=none; b=OyY8wMDSpRIJcH0saNvTQg8lF9k5TPx+z6J/1CSaJO6yOlL5lHEJITE+lxzly5rE2Uoyy3B5YwEtQHu66U4uMAr2B9JTNadj2F6CuNVDkINUsombAHCcUBcEKCxgUgBvCtzRNNMB4Wfk1yBJBHcfF8uiZ1zoJcMl5PX2w3yL70k=
+	t=1738229835; cv=none; b=rwHefPG0/W39lG5HN2kKkyJZWL9p7pnMJTLx0JucnYkxs1E3TTDRDKMbGf3FVm/IVZtAMpdK5aLNS5TgNOY9yLmea1pElFBWZoS5WzcDQXdh+fpwNptCI5Of/ePYTY8jgE2WGd1lkPZa8VmH/CbT478aub7q/R2yynfLZkJ2aMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738229289; c=relaxed/simple;
-	bh=B1owPnV04u47VK/53oPxspH8yMFlCE/sNbHLLUa/wjE=;
+	s=arc-20240116; t=1738229835; c=relaxed/simple;
+	bh=hqwUUAKD/2X+f3M7KGlEHqtIr1PtTeNni8FnMEfLJDs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J9CPVOxkxfsJJHPBIAobnUut8v4Y7DfSlWmJSGzovFhY3pFq2BPvu3IVz1IfiuWlFX7gya3R2svL8SahfJAHHlIVUjIG2fyw0PueMD4uGwcotMr2woXVd5+CPRNwBIzMFEtSfmF/Pv9iounNziXT5iFw5vp7MvcuLCxr6dPjUr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=f2UF8e64; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=ZhbU1wIyWlCAjH8BLnGY/f3HTfV/25SWqg7PKdvkbrkpgYVV01jjYPc8j349FZNBqfF1+HqxeNr+0UQbZFTsMxm7JMixf0/iL6AubwdBeX/irgBEGNU32BpYAWbVOOsqdV1RQxoPn7SGUGy5tDcWq3kQIhiBU73TpJrE5XpF8JY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Bg7NcNTG; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f2UF8e64"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Bg7NcNTG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738229286;
+	s=mimecast20190719; t=1738229832;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=8a2uS8Wdref7tlZzoBWWMkEGl9+CP1s01bTe+snzNOI=;
-	b=f2UF8e647DvRqz9PG6MNubc9gGF2U5ORIooh+QrwHTxvhxyXizZKbl2i/YoY6hsCmT+Zyf
-	UqYLhok80d03SiqcFwPP5WtQmIneWn/EBGrBjet2DUtoDxnK3G8Duj2aX004e0Dr+BXhVc
-	oXjPQgF2BqrDs/WLZOe2X0/QxhJOk5k=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=3kdU/L5xd79PteTNjpUCBI4Yw4DItXoQloKWRI6FyAk=;
+	b=Bg7NcNTGH+g5JuyWYEd2SmWFzddJXu6y7NdW4ScmwseZnQpZq2xN8VZFP76LSO1hO4y6xr
+	Mnaqc/pxfY5OJ0JeJpJvwibiqiZtTPh/g7ET1rhRfRyZWN17XpXroZRNKGFBPLX/24zid2
+	cCniLAyV1BzFtng0RNGL3HWqEXvHtQw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-501-7jpQt7NbPRqcoTRTGUeqOw-1; Thu, 30 Jan 2025 04:28:04 -0500
-X-MC-Unique: 7jpQt7NbPRqcoTRTGUeqOw-1
-X-Mimecast-MFC-AGG-ID: 7jpQt7NbPRqcoTRTGUeqOw
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4361ac8b25fso2510415e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 01:28:04 -0800 (PST)
+ us-mta-481-5n0oap70Nuu9gpS9-8cWKQ-1; Thu, 30 Jan 2025 04:37:11 -0500
+X-MC-Unique: 5n0oap70Nuu9gpS9-8cWKQ-1
+X-Mimecast-MFC-AGG-ID: 5n0oap70Nuu9gpS9-8cWKQ
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-385e49efd59so217512f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 01:37:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738229283; x=1738834083;
+        d=1e100.net; s=20230601; t=1738229829; x=1738834629;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=8a2uS8Wdref7tlZzoBWWMkEGl9+CP1s01bTe+snzNOI=;
-        b=xKICwLUAMbugEdiU6ctbJUV/D+SukOSphvB8Wf5tsLfEcDp9FmVQJYkgtLf9Rh5QLj
-         6fkF2DnYDEYZA7QaW8iWX7t5E3RmjGMpOTls0J0m9pZbwH0ahEb9KApI90VJA4FmIbD7
-         7inPNfyE68kqVYtjcKBrBIumYGGUFV7ct0UJTPl8K4lG6uJn/MQGwmale7/W9TBwchYi
-         PXw/qROfTE+FKD84s0Kshof4yAX+EfLmDxUWzVRo7+RtvUB4z1l7etII9PL6C8j94lIl
-         SfYpJP6rYXb20xVSyTy6Mj7XfSMKq0PQxKDGwVt59o7vlxvx+lNCgn95PfIgdbW+SEuT
-         +D/g==
-X-Forwarded-Encrypted: i=1; AJvYcCXaTxMeVLPulqc1Q0sLaRepvDCl21k61vVhqxPU+FDc+h2eo8nH3xaVs1MrJVt+8JX+avlvnJiaY0Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyx5Wog3ajyc/hZh9zU45NjMeIWVDQLdebLwEFhvcV0UuIDUvHd
-	mOdQWaTZAbdVc6LBSfsweYqA7ZumTU7R39RxnbgIfBJd/8u0hKaqF9d7q9Vtt/x2dwMg+mDdvMN
-	Qiq0DIkCMwNvm68TJsT0AXUm3y563OlLJ9l9pDKilfOQbjcfLkZS97mg15Q==
-X-Gm-Gg: ASbGncsh29hVqBZ6PxHIqaBUg7Mi/qp347TADITEohhgqaFI9/jL8Dy2Zp7VbKHccpQ
-	qSYNUUvoLNoTqCxt7BjK47YYb6j8trR7iThn9kQPZzETJeUjwykUPqsHxQIOFZsyJlkAz2JrKrp
-	e0jTnmaMGdKZqRFiQDm4BS0RjSTDdmfL1cZ41MlePZ8w1Q3nLN3SHssgk4fPh+EGBKETLv9/CUR
-	QwQi9nUJps4+T1ae27jzkqBiFA+44FJ39DqmhD+Jp8CrzcUGB+BeD7uUNlpG7lcLT7U6WTColNH
-	EDBOzBSE5ws+qL5sA6J/hQz/4W+xBPVJlpnZrksL8B6U
-X-Received: by 2002:a05:600c:1e21:b0:434:fec5:4ef5 with SMTP id 5b1f17b1804b1-438dc3c3287mr61472855e9.14.1738229283568;
-        Thu, 30 Jan 2025 01:28:03 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEVv9sk0PSOraNHCtifr1n2WcH7tWWGxI7ZU8RxZfSrxnyJnI+Uc52lsNZOLN2ReMg84oUVgA==
-X-Received: by 2002:a05:600c:1e21:b0:434:fec5:4ef5 with SMTP id 5b1f17b1804b1-438dc3c3287mr61472565e9.14.1738229283230;
-        Thu, 30 Jan 2025 01:28:03 -0800 (PST)
+        bh=3kdU/L5xd79PteTNjpUCBI4Yw4DItXoQloKWRI6FyAk=;
+        b=Xl/fqrAEzR1kHKlEcVmB5XOG4UP+rG+4cQyymdUBN8vqgH+QpX0rbCApwYBhTVFPO2
+         4C6aZe3aDArGP+Rpfn7sA/MWVV8phPu9D6j9FQqkc2Jg7nobPsaAfArqP+AqT0xBIm5F
+         hega8uaJ37w81Bx0EBr1nZL341tkfAZBwxIGqvtgjx/DY+Qp7djohitXbj6bUc9bzGFc
+         /OYCa2UTpj5CDRYz346E4QfW7p3Na9pPuqgBhEB6Q3Hktq38IyyoZVhHgXsffUWqc9+G
+         BpXmkn7s7YZIExXMHoTc1nbCgnk7Xcv3ndVBL2RbprR2viJYF4XOvG54cglISRJbacTK
+         9UpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXv0y3R8FU3ONcHkmmnRY3vsA4KciObx6Jt7Lf/nXGOIPEsRsBc0kgUOfLAESmkE8G3oRyi2IWsmRg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8du/t6fHZ/FlOYThmHiThaQb3P+80W9guo5g+t647gEpghCu1
+	wo3P/XGSvOybfC5sfDCBSkrd2Vg9/HUMTNhf34ue9XzQf0VROyUA/F8WQzYhSN5ggWxS88tCtcT
+	EAXl0ggkhvQbBrSR/D+dlm2z5JyjwQ4c/7k5495Luda7rffifLBdPaXdY3g==
+X-Gm-Gg: ASbGncu86MbmEPK5mAyBFsZIJW5BCCOpiUr5rWs9PXGdsuU71cb9eld2cZ/vLZyksjx
+	ueqO8rk2hZm7rA320RSo+kZdmucJe7f943sSvHRl7eiZGJIm9oAgfs03bdzO5iu4iMS4CP4OCpt
+	kKC8Z62jIGYcvqlwwq17NtXkokuZayxwwxKE/0UilawP4DHEZLS827IApCYhvA/6haascPoKWBg
+	Jor7KP2aDUqRqM+B5kPfck+1gglHhnqDoneJSUCtYmQz+SmcjBvxT16odzFfB8fooADYZethcxG
+	Ifj6fSBojW50zwny/BOYxqUFBD4Ho6dODfA3kGAsW2HI
+X-Received: by 2002:a5d:5f56:0:b0:38a:36a5:ff81 with SMTP id ffacd0b85a97d-38c520a3440mr5985883f8f.40.1738229828907;
+        Thu, 30 Jan 2025 01:37:08 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFmAd454SvhnDSPUC2cvJylI8DQVDwOTDDF/Jmld01WGs8833hpVqeeOcnbrG6JwbX27Vu7ug==
+X-Received: by 2002:a5d:5f56:0:b0:38a:36a5:ff81 with SMTP id ffacd0b85a97d-38c520a3440mr5985852f8f.40.1738229828554;
+        Thu, 30 Jan 2025 01:37:08 -0800 (PST)
 Received: from ?IPV6:2a01:599:904:96e0:a245:aa9f:6c57:eb41? ([2a01:599:904:96e0:a245:aa9f:6c57:eb41])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438e23d42d4sm17055365e9.6.2025.01.30.01.28.01
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c121951sm1419530f8f.45.2025.01.30.01.37.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jan 2025 01:28:02 -0800 (PST)
-Message-ID: <eab05949-efc8-4c04-ace1-b4435ec894e6@redhat.com>
-Date: Thu, 30 Jan 2025 10:28:00 +0100
+        Thu, 30 Jan 2025 01:37:08 -0800 (PST)
+Message-ID: <cfc4f8ac-80c4-472f-85fc-36ffcd212441@redhat.com>
+Date: Thu, 30 Jan 2025 10:37:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -74,8 +74,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/4] mm/mmu_notifier: drop owner from
- MMU_NOTIFY_EXCLUSIVE
+Subject: Re: [PATCH v1 4/4] mm/memory: document restore_exclusive_pte()
 To: Alistair Popple <apopple@nvidia.com>
 Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
@@ -91,8 +90,8 @@ Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
  Pasha Tatashin <pasha.tatashin@soleen.com>, Peter Xu <peterx@redhat.com>,
  Jason Gunthorpe <jgg@nvidia.com>
 References: <20250129115803.2084769-1-david@redhat.com>
- <20250129115803.2084769-3-david@redhat.com>
- <h4dnoixvp2kjeao6mzcpze4zx6t34ebpltqadkjl5zxcjhddkf@lbzo2yhzu5sz>
+ <20250129115803.2084769-5-david@redhat.com>
+ <7vejbjs7btkof4iguvn3nqvozxqpnzbymxbumd7pant4zi4ac4@3ozuzfzsm5tp>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -140,63 +139,89 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <h4dnoixvp2kjeao6mzcpze4zx6t34ebpltqadkjl5zxcjhddkf@lbzo2yhzu5sz>
+In-Reply-To: <7vejbjs7btkof4iguvn3nqvozxqpnzbymxbumd7pant4zi4ac4@3ozuzfzsm5tp>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 30.01.25 06:34, Alistair Popple wrote:
-> On Wed, Jan 29, 2025 at 12:58:00PM +0100, David Hildenbrand wrote:
->> We no longer get a MMU_NOTIFY_EXCLUSIVE on conversion with the owner set
->> that one has to filter out: if there already *is* a device-exclusive
->> entry (e.g., other device, we don't have that information), GUP will
->> convert it back to an ordinary PTE and notify via
->> remove_device_exclusive_entry().
+On 30.01.25 01:27, Alistair Popple wrote:
+> On Wed, Jan 29, 2025 at 12:58:02PM +0100, David Hildenbrand wrote:
+>> Let's document how this function is to be used, and why the requirement
+>> for the folio lock might maybe be dropped in the future.
 > 
-> What tree is this against? I tried applying to v6.13 and Linus current master
-> but neither applied cleanly.
+> Sorry, only just catching up on your other thread. The folio lock was to ensure
+> the GPU got a chance to make forward progress by mapping the page. Without it
+> the CPU could immediately invalidate the entry before the GPU had a chance to
+> retry the fault.
+ > > Obviously performance wise having such thrashing is terrible, so should
+> really be avoided by userspace, but the lock at least allowed such programs
+> to complete.
 
-See the cover letter. This is on top of the fixes series, which is based 
-on mm-unstable from yesterday.
+Thanks for the clarification. So it's relevant that the MMU notifier in 
+remove_device_exclusive_entry() is sent after taking the folio lock.
 
->   
+However, as soon as we drop the folio lock, 
+remove_device_exclusive_entry() will become active, lock the folio and 
+trigger the MMU notifier.
+
+So the time it is actually mapped into the device is rather
+
+> 
 >> Signed-off-by: David Hildenbrand <david@redhat.com>
 >> ---
->>   drivers/gpu/drm/nouveau/nouveau_svm.c | 6 +-----
->>   include/linux/mmu_notifier.h          | 4 +---
->>   include/linux/rmap.h                  | 2 +-
->>   lib/test_hmm.c                        | 2 +-
->>   mm/rmap.c                             | 3 +--
->>   5 files changed, 5 insertions(+), 12 deletions(-)
+>>   mm/memory.c | 25 +++++++++++++++++++++++++
+>>   1 file changed, 25 insertions(+)
 >>
->> diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
->> index 39e3740980bb..4758fee182b4 100644
->> --- a/drivers/gpu/drm/nouveau/nouveau_svm.c
->> +++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
->> @@ -510,10 +510,6 @@ static bool nouveau_svm_range_invalidate(struct mmu_interval_notifier *mni,
->>   	struct svm_notifier *sn =
->>   		container_of(mni, struct svm_notifier, notifier);
+>> diff --git a/mm/memory.c b/mm/memory.c
+>> index 46956994aaff..caaae8df11a9 100644
+>> --- a/mm/memory.c
+>> +++ b/mm/memory.c
+>> @@ -718,6 +718,31 @@ struct folio *vm_normal_folio_pmd(struct vm_area_struct *vma,
+>>   }
+>>   #endif
 >>   
->> -	if (range->event == MMU_NOTIFY_EXCLUSIVE &&
->> -	    range->owner == sn->svmm->vmm->cli->drm->dev)
->> -		return true;
+>> +/**
+>> + * restore_exclusive_pte - Restore a device-exclusive entry
+>> + * @vma: VMA covering @address
+>> + * @folio: the mapped folio
+>> + * @page: the mapped folio page
+>> + * @address: the virtual address
+>> + * @ptep: PTE pointer into the locked page table mapping the folio page
+>> + * @orig_pte: PTE value at @ptep
+>> + *
+>> + * Restore a device-exclusive non-swap entry to an ordinary present PTE.
+>> + *
+>> + * The folio and the page table must be locked, and MMU notifiers must have
+>> + * been called to invalidate any (exclusive) device mappings. In case of
+>> + * fork(), MMU_NOTIFY_PROTECTION_PAGE is triggered, and in case of a page
+>> + * fault MMU_NOTIFY_EXCLUSIVE is triggered.
+>> + *
+>> + * Locking the folio makes sure that anybody who just converted the PTE to
+>> + * a device-private entry can map it into the device, before unlocking it; so
+>> + * the folio lock prevents concurrent conversion to device-exclusive.
 > 
-> I think this will cause a live-lock because make_device_exclusive_range()
-> will call the notifier which without the filtering will increment the sequence
-> count and cause endless retries of the loop in nouveau_atomic_range_fault().
-> The notifier needs to be able to figure out if it was called in response to
-> something this thread did (ie. make_device_exclusive_range) and can therefore
-> ignore the invalidation, or from some other thread.
+> I don't quite follow this - a concurrent conversion would already fail
+> because the GUP in make_device_exclusive_range() would most likely cause
+> an unexpected reference during the migration. And if a migration entry
+> has already been installed for the device private PTE conversion then
+> make_device_exclusive_range() will skip it as a non-present entry anyway.
 
-Yes, as discussed in the other patch, this must stay to inform secondary 
-MMUs about the conversion *to* device exclusive.
+Sorry, I meant "device-exclusive", so migration is not a concern.
 
 > 
-> Looking at hmm_test I see that doesn't use the sequence counter to ensure
-> the PTE remains valid whilst it is mapped. I think that is probably wrong, so
-> apologies if that lead you astray.
+> However s/device-private/device-exclusive/ makes sense - the intent was to allow
+> the device to map it before a call to restore_exclusive_pte() (ie. a CPU fault)
+> could convert it back to a normal PTE.
+> 
+>> + * TODO: the folio lock does not protect against all cases of concurrent
+>> + * page table modifications (e.g., MADV_DONTNEED, mprotect), so device drivers
+>> + * must already use MMU notifiers to sync against any concurrent changes
+> 
+> Right. It's expected drivers are using MMU notifiers to keep page tables in
+> sync, same as for hmm_range_fault().
 
-Yes, the hmm_test does not completely follow the same model the nouveau 
-implementation does; so it might not be completely correct.
+Let me try to rephrase it given that the folio lock is purely to 
+guarantee forward-progress, not for correctness; that's what MMU 
+notifiers must be used for.
 
 -- 
 Cheers,
