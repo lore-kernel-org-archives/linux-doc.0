@@ -1,129 +1,260 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39EF21BCA1B;
-	Thu, 30 Jan 2025 23:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AE41BCA19
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 23:23:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738278616; cv=none; b=gkxW8EnKA06M8YRFv0P2BF2tDQ3/V9liSKmqFxcGab/y6WAw0SFDwMXuQkvggkvZgZNZB+3QFVAJKUMnxPkPB/ntMIyvjVRThIAD0oVZvSPxly6jA5MzOd9rgUQHTBqxgrYtuJ8QHnGXjrBhCqerETEBcSmX9Wct0zxzk6qlDck=
+	t=1738279390; cv=none; b=EfLqyYlD/kM8DikRfcw03kFkcdJgzxf5zhWTWWbHbwpjsbhNXv74K4pq1h7qOUV7MhJ2fvEfJTCrqOvj29UcmGGB2/bfV9qEaPlEC/uH3sV7hcotRj+NSBsVNdwo/2/2raUUMO3aIcWnSgLqahYTA5MJ/uJCWKRxeT+EOR5n8ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738278616; c=relaxed/simple;
-	bh=YAdNwrQg3KfujGA4xTvnJ7thNZJr6kjNDjOP7T28GTA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hJdb9LF7SVmopxN5EdCGIwbIwdrzzv/LnC1WuDo9XakQVlawU8BlWvhpggEA4P0SNm0OH7EBYJb5NuyUrtCHHDtLY/F1rosA7LTdZZhO2v849N6ilpOvvMf55QiJCB1vR0jjnQsHe+z6G/iaQI6mvNF4plQrlxbHaod7wEoitdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G0H1/MAI; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738279390; c=relaxed/simple;
+	bh=l3pLSAMR5hyZwynYjVj0f5+5gQyw1x0yVwTtSl3x4CE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JA0H1D0aRt4Z4e4M1qoG9pZTn7nSKRrHpH9mOKLbA35yirDRYh61B70XQ/MYgqZY6U5OdAY8G79A3S/I3AP+zWryZp0bpgoQ4t0Y3qh3HDQYS7HkwbJTYOFJwbDJfYIdgFVe6fkmayM277ZkkxV5DLkJEY1bN/yY/703WuEiST4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wqZ7cJrW; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G0H1/MAI"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-436281c8a38so9917535e9.3;
-        Thu, 30 Jan 2025 15:10:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wqZ7cJrW"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2163affd184so20395ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 15:23:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738278612; x=1738883412; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UYSfrspZpcalFQy7DGPov9HLaRO54OMeKc3JEmAB2IM=;
-        b=G0H1/MAIUy2jmNAJN5e9r03LhDLVqqRWK4isuspF9xq2MfgkUYxqZlKYgdwEPqhNNH
-         NgotRQPCZcPA5qiajMuWhzfeiMMi9AICpI+SDskdAwKiA3L57WB6jUHVsPHkjyJKmyKx
-         1fkLAlS92g//OpGYALsrNAt3XyXMjMbFNX83+9ya/RlQw0+9aIuk4Hf239sNK4QnNng+
-         lxe09lcTraD1n6QgZTDN5UaspDOX0mXCe6ustQtdiuQRhVDiLcIM4xyS0j34pc+gsELl
-         YQUCKepuqt3wm7kDwQ3mXXI+dyYA0KRgz2r0crnscvHvGn9JsFe7rMLxW81UgN3Owgxg
-         jKlw==
+        d=google.com; s=20230601; t=1738279387; x=1738884187; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K4RB+Jf+i5RqaVVfCNjehyqZK5R36kdLSdheWh6HH74=;
+        b=wqZ7cJrWeeOaR/VEl/1Y/Nfo68v04blrTWX5DFC87V5G2HXBFts5OIKehwft8wK7T3
+         hnu3mx8DIs3jqleiUN+/8WaQzonYRPjtXf8BL3tkTR0MjfwiyPpnpUFU0Z0eZecCwqFR
+         NoEgIi23r03IN2s9ul6WVuOKrVYQjC88+d2n0paldltglATbxXIuoH3zZSsmqOmOCT+l
+         RP79bAla9RUMjl/c6ykyPVwOnT743KJ+wGurWWK5P8rSDXz1TvKxDSADUHK+fLbu59Nt
+         FU8SPbes1kEhEPKh1dFW6haQfQdjeTJD8Uj/cRxNzgxYdCXR2sfWeQh1SKKk3l5BGPoT
+         tCYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738278612; x=1738883412;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UYSfrspZpcalFQy7DGPov9HLaRO54OMeKc3JEmAB2IM=;
-        b=vgvJ9I0aiEa/vcuHRX9oyb46ivwsEERSYwL6nxjmCfhlipPHSBSfi+V0w7nh4lkZ1d
-         TkcFcTjF9hzxtg6CvUuXStQg6mqPkpBxB/KsXSrjCoAW0bDsuybJb/XJFacjT/zzyG1f
-         xgVNuaYnFdcgsQFi4NF/I3iRmZTsqlPOFAf0ma+U/P59kkmxgAr6H7prdEPLBZfwAsKI
-         cD305a5nM3iaasyFk1NZ7JvXelQkRD/NHca8qCrjrlL7eVlgSCsNYLMB6v+OQwlP2UGA
-         Nl2TrMC3o49dkNUuaf0YpDBy/gc1Axu4Hyd9DkbkmW0bTthXczOzMQZG+vzVLle2QWYP
-         z6DQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV+XPthFhEFPII37diJ8lc04lUdaaMrOXqe09fgZQHq8ShgNjK72GL66h1idZUnwXL4vtceycO5cIU=@vger.kernel.org, AJvYcCXKiAe+jfPxtF7S8fYUaE+ItNHaZWXI2CHz/R4R3pBJIgfYX1NRCGgaCBiphkx3zH1rispbP+96z49aRSxo@vger.kernel.org
-X-Gm-Message-State: AOJu0YwThygq3EB7ObIZnITyCF1dujYCzTZJbxbUL3MBZuA+eWSQjSAY
-	PB37/VUFMVeSQbQpy94PcBjovQS7F8pyInzH1iRMME+kXX2WvuQ4vaqsTtIrF1o=
-X-Gm-Gg: ASbGncstqz4oPqaSGUBRW5xAn294yR+sMZ7Z4r9CUAbyjEd1hsdhTFioktS1419pSYH
-	V49F3hZGh/4kerhMjFC5/8oKZ1ifqKWKHJI+9lCuLeXhSqX5qM5WEozlPLuZ2gR07HXljHUC/ua
-	GX07/EcR64KRzwyyHywM0452cpeYxmS4FnBfefZQjotRd/q83PISKDYVoTiLSw0cc4cUgA40nPz
-	qLkxoM2Q71rI2b5gTjmXQv8ThyxsY3WU7idRA7JqSRca1MAClLLvcMRQbIBuCZAoVhtU+Zvn7LO
-	VmQ6e9v1d+RHBB1eiNyVT5mrvvM1
-X-Google-Smtp-Source: AGHT+IGHatIBqExc2QjMBxlMrxHJ7JJTUTvxVUuF1NV9bbMeXjnFByTNOWJSOdIRyooq55YwHK2bRg==
-X-Received: by 2002:a05:600c:3d9b:b0:434:effb:9f8a with SMTP id 5b1f17b1804b1-438dc3c3554mr87706875e9.15.1738278612188;
-        Thu, 30 Jan 2025 15:10:12 -0800 (PST)
-Received: from ?IPV6:2001:871:22a:8634::1ad1? ([2001:871:22a:8634::1ad1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438dcc263f0sm72338575e9.9.2025.01.30.15.10.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jan 2025 15:10:11 -0800 (PST)
-Message-ID: <0414bdb1-2258-4164-af60-c40118d0d7f4@gmail.com>
-Date: Fri, 31 Jan 2025 00:10:10 +0100
+        d=1e100.net; s=20230601; t=1738279387; x=1738884187;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=K4RB+Jf+i5RqaVVfCNjehyqZK5R36kdLSdheWh6HH74=;
+        b=b9yHgmEkVvKArb62lvjn5jghSBVLGF9YzRR6Sd4jxc5PLAUBAhSdujLogW9IoltSue
+         nLc+MYX8vNiY/j8IhGVuAgHQxtAoxXgAmy2QLiz9OrddodGj67t3WzdipjvR8pWqRJjn
+         fA1mJsFJ0/GJlHWkepV1eGdXSnu/FwnWw50gAcel/yFX+P5iFSY0jz1/v5Bp+OzjLrtP
+         PLYG3DsC/LhQEv1kA/I8G2O/wemxe6T0fiZLK+RXVnyV8VYDWHStSS2rXRCSGIXo/7wz
+         bt6nrsEXRHQ59H+dKN3XeIQ0FJJ8sScRzJ2snbVODby/9rvD8luxKn8gXWfBXEvnvGeX
+         HIyA==
+X-Forwarded-Encrypted: i=1; AJvYcCXeG5d3l58VZrMnazG8DmmV7+wn96Ge9N+Y92WzU/SmWORahCKUDgdJ2sxdI4vFhdka5DCWQjKjKqs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVcYQXoH8rRw7NITFDw7l+N8Sl5yHCzugUmTMwH4CN2DiAHc54
+	d1+26dXs2cVl85uG6L5luwt3Y7FJA5dFBcIJ3mwtQkz6NrWbgRMwToC0eBHRDGhcGRqUwCvj/Jd
+	VUEvhCr3l0zj+zzTLVhgoMOXjunhrfPLU6znX
+X-Gm-Gg: ASbGncu1b7prBTDmwoKqmjHaePmdwG7dYWzlRITqpLNOGJRgeF0deAxYYJm/bHmB9uQ
+	iZKEB207y77J7l3iCpSGaRBR5L7frS/WjFUZKFNzv9zPLk2Ca/YXAhJ6WUpm7ovKC8YkfRQboKr
+	4jVVBKevMAhBuZLrxu9GyggxMn58o=
+X-Google-Smtp-Source: AGHT+IE/QPS22mFf0S15DpgJBmM4XVfL576eNpFPYru7l4fiKqYBqjQMzyyVnrRxZd0Rnz4Q8ehW/Qpmn9SwV7Q1bns=
+X-Received: by 2002:a17:902:8343:b0:215:79b5:aa7e with SMTP id
+ d9443c01a7336-21edf0435c0mr348145ad.13.1738279386767; Thu, 30 Jan 2025
+ 15:23:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] arm: rust: Enable Rust support for ARMv7
-To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Jonathan Corbet <corbet@lwn.net>,
- Russell King <linux@armlinux.org.uk>, Rudraksha Gupta <guptarud@gmail.com>,
- Ard Biesheuvel <ardb@kernel.org>, Geert Stappers <stappers@stappers.nl>,
- Andrew Lunn <andrew@lunn.ch>, Jamie Cunliffe <Jamie.Cunliffe@arm.com>,
- Sven Van Asbroeck <thesven73@gmail.com>
-Cc: rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20250123-rfl-arm32-v3-1-8f13623d42c5@gmail.com>
-Content-Language: en-US, de-DE
-From: Christian Schrefl <chrisi.schrefl@gmail.com>
-In-Reply-To: <20250123-rfl-arm32-v3-1-8f13623d42c5@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250130211539.428952-1-almasrymina@google.com>
+ <20250130211539.428952-2-almasrymina@google.com> <Z5wEPlsRoU6Kx9S-@mini-arch>
+In-Reply-To: <Z5wEPlsRoU6Kx9S-@mini-arch>
+From: Mina Almasry <almasrymina@google.com>
+Date: Thu, 30 Jan 2025 15:22:53 -0800
+X-Gm-Features: AWEUYZkqj5XooHiN2tyUua1n1f68bkkfjeEH2K8q451D_O0CCPBOyX4tiBp941s
+Message-ID: <CAHS8izMKdcpQkWjmP9OmQFox2CFvZyJVnKG9k9YAdmLYPn6bPw@mail.gmail.com>
+Subject: Re: [PATCH RFC net-next v2 1/6] net: add devmem TCP TX documentation
+To: Stanislav Fomichev <stfomichev@gmail.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, David Ahern <dsahern@kernel.org>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	Shuah Khan <shuah@kernel.org>, sdf@fomichev.me, asml.silence@gmail.com, dw@davidwei.uk, 
+	Jamal Hadi Salim <jhs@mojatatu.com>, Victor Nogueira <victor@mojatatu.com>, 
+	Pedro Tammela <pctammela@mojatatu.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 23.01.25 11:40 PM, Christian Schrefl wrote:
-> This commit allows building ARMv7 kernels with Rust support.
-> 
-> The rust core library expects some __eabi_... functions
-> that are not implemented in the kernel.
-> Those functions are some float operations and __aeabi_uldivmod.
-> For now those are implemented with define_panicking_intrinsics!.
-> 
-> This is based on the code by Sven Van Asbroeck from the original
-> rust branch and inspired by the AArch version by Jamie Cunliffe.
-> 
-> I have tested the rust samples and a custom simple MMIO module
-> on hardware (De1SoC FPGA + Arm A9 CPU).
-> 
-> Tested-by: Rudraksha Gupta <guptarud@gmail.com>
-> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-> Acked-by: Miguel Ojeda <ojeda@kernel.org>
-> Tested-by: Miguel Ojeda <ojeda@kernel.org>
-> Acked-by: Ard Biesheuvel <ardb@kernel.org>
-> Signed-off-by: Christian Schrefl <chrisi.schrefl@gmail.com>
-> ---
-> I've updated my Rust ARMv7 patches. 
-> Not much has changed since v2 but I want to send it out again
-> before sending it to Russell's ARM patch tracker, since I should
-> hopefully have more time to work on this again.
-> 
-> I'm not sure how exactly the patch tracker works, I assume I
-> should just sent it to the tracker once all review comments are 
-> addressed and it has sat in the mailing list for some time? 
-> 
-> I've kept the Tags from v2 since nothing signifficant has changed,
-> I hope thats fine with everyone.
-> ---
+On Thu, Jan 30, 2025 at 2:59=E2=80=AFPM Stanislav Fomichev <stfomichev@gmai=
+l.com> wrote:
+>
+> On 01/30, Mina Almasry wrote:
+> > Add documentation outlining the usage and details of the devmem TCP TX
+> > API.
+> >
+> > Signed-off-by: Mina Almasry <almasrymina@google.com>
+> >
+> > ---
+> >
+> > v2:
+> > - Update documentation for iov_base is the dmabuf offset (Stan)
+> > ---
+> >  Documentation/networking/devmem.rst | 144 +++++++++++++++++++++++++++-
+> >  1 file changed, 140 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/Documentation/networking/devmem.rst b/Documentation/networ=
+king/devmem.rst
+> > index d95363645331..8166fe09da13 100644
+> > --- a/Documentation/networking/devmem.rst
+> > +++ b/Documentation/networking/devmem.rst
+> > @@ -62,15 +62,15 @@ More Info
+> >      https://lore.kernel.org/netdev/20240831004313.3713467-1-almasrymin=
+a@google.com/
+> >
+> >
+> > -Interface
+> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +RX Interface
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> >
+> >  Example
+> >  -------
+> >
+> > -tools/testing/selftests/net/ncdevmem.c:do_server shows an example of s=
+etting up
+> > -the RX path of this API.
+> > +./tools/testing/selftests/drivers/net/hw/ncdevmem:do_server shows an e=
+xample of
+> > +setting up the RX path of this API.
+> >
+> >
+> >  NIC Setup
+> > @@ -235,6 +235,142 @@ can be less than the tokens provided by the user =
+in case of:
+> >  (a) an internal kernel leak bug.
+> >  (b) the user passed more than 1024 frags.
+> >
+> > +TX Interface
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +
+> > +Example
+> > +-------
+> > +
+> > +./tools/testing/selftests/drivers/net/hw/ncdevmem:do_client shows an e=
+xample of
+> > +setting up the TX path of this API.
+> > +
+> > +
+> > +NIC Setup
+> > +---------
+> > +
+> > +The user must bind a TX dmabuf to a given NIC using the netlink API::
+> > +
+> > +        struct netdev_bind_tx_req *req =3D NULL;
+> > +        struct netdev_bind_tx_rsp *rsp =3D NULL;
+> > +        struct ynl_error yerr;
+> > +
+> > +        *ys =3D ynl_sock_create(&ynl_netdev_family, &yerr);
+> > +
+> > +        req =3D netdev_bind_tx_req_alloc();
+> > +        netdev_bind_tx_req_set_ifindex(req, ifindex);
+> > +        netdev_bind_tx_req_set_fd(req, dmabuf_fd);
+> > +
+> > +        rsp =3D netdev_bind_tx(*ys, req);
+> > +
+> > +        tx_dmabuf_id =3D rsp->id;
+> > +
+> > +
+> > +The netlink API returns a dmabuf_id: a unique ID that refers to this d=
+mabuf
+> > +that has been bound.
+> > +
+> > +The user can unbind the dmabuf from the netdevice by closing the netli=
+nk socket
+> > +that established the binding. We do this so that the binding is automa=
+tically
+> > +unbound even if the userspace process crashes.
+> > +
+> > +Note that any reasonably well-behaved dmabuf from any exporter should =
+work with
+> > +devmem TCP, even if the dmabuf is not actually backed by devmem. An ex=
+ample of
+> > +this is udmabuf, which wraps user memory (non-devmem) in a dmabuf.
+> > +
+> > +Socket Setup
+> > +------------
+> > +
+> > +The user application must use MSG_ZEROCOPY flag when sending devmem TC=
+P. Devmem
+> > +cannot be copied by the kernel, so the semantics of the devmem TX are =
+similar
+> > +to the semantics of MSG_ZEROCOPY.
+> > +
+> > +     ret =3D setsockopt(socket_fd, SOL_SOCKET, SO_ZEROCOPY, &opt, size=
+of(opt));
+> > +
+> > +Sending data
+> > +--------------
+> > +
+> > +Devmem data is sent using the SCM_DEVMEM_DMABUF cmsg.
+> > +
+> > +The user should create a msghdr where,
+> > +
+> > +iov_base is set to the offset into the dmabuf to start sending from.
+> > +iov_len is set to the number of bytes to be sent from the dmabuf.
+> > +
+> > +The user passes the dma-buf id to send from via the dmabuf_tx_cmsg.dma=
+buf_id.
+> > +
+> > +The example below sends 1024 bytes from offset 100 into the dmabuf, an=
+d 2048
+> > +from offset 2000 into the dmabuf. The dmabuf to send from is tx_dmabuf=
+_id::
+> > +
+> > +       char ctrl_data[CMSG_SPACE(sizeof(struct dmabuf_tx_cmsg))];
+> > +       struct dmabuf_tx_cmsg ddmabuf;
+> > +       struct msghdr msg =3D {};
+> > +       struct cmsghdr *cmsg;
+> > +       struct iovec iov[2];
+> > +
+> > +       iov[0].iov_base =3D (void*)100;
+> > +       iov[0].iov_len =3D 1024;
+> > +       iov[1].iov_base =3D (void*)2000;
+> > +       iov[1].iov_len =3D 2048;
+> > +
+> > +       msg.msg_iov =3D iov;
+> > +       msg.msg_iovlen =3D 2;
+> > +
+> > +       msg.msg_control =3D ctrl_data;
+> > +       msg.msg_controllen =3D sizeof(ctrl_data);
+> > +
+> > +       cmsg =3D CMSG_FIRSTHDR(&msg);
+> > +       cmsg->cmsg_level =3D SOL_SOCKET;
+> > +       cmsg->cmsg_type =3D SCM_DEVMEM_DMABUF;
+> > +       cmsg->cmsg_len =3D CMSG_LEN(sizeof(struct dmabuf_tx_cmsg));
+> > +
+> > +       ddmabuf.dmabuf_id =3D tx_dmabuf_id;
+> > +
+> > +       *((struct dmabuf_tx_cmsg *)CMSG_DATA(cmsg)) =3D ddmabuf;
+>
+> [..]
+>
+> > +       sendmsg(socket_fd, &msg, MSG_ZEROCOPY);
+>
+> Not super important, but any reason not to use MSG_SOCK_DEVMEM as a
+> flag? We already use it for recvmsg, seems logical to mirror the same
+> flag on the transmit side?
 
-I have now submitted this as:
-https://www.armlinux.org.uk/developer/patches/viewpatch.php?id=9441/1
+Only to remove redundancy, and the possible confusion that could
+arise, and the extra checks needed to catch invalid input.
 
-I hope I've done that correctly.
+With this, the user tells the kernel to send from the dmabuf by
+supplying the SCM_DEVMEM_DMABUF cmsg. If we add another signal like
+MSG_SOCK_DEVMEM, there is room for the user to supply the cmg but not
+the flag (confusion), and the kernel needs to have the code and
+overhead to check that both the flag and the cmsg are provided.
 
-Cheers
-Christian
+--=20
+Thanks,
+Mina
