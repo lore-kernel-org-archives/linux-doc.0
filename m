@@ -1,174 +1,265 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9182013FEE
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 02:02:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF648BEC
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 03:04:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738202565; cv=none; b=NnkT9Lh9F0iR79hZ/8Nv5tss17WtFbP9/hbgCZUDd6Eh6jn7LYTtq8aTSdpXqIVVLnig0di36nJDD2Y2yYYB/iUOkxPZ/4BHm/NrV9yT/NvE81bg32NzFdIMRhEKPkoG98HDlcAeXqZJPWValgdsMGtE2kqD8L1UbSinaOqqqlk=
+	t=1738206250; cv=none; b=TkhmJpmm+83EiPo/FV6KwbawCTMvi6zNLIQTMyoJTJWHjaqtSjtzE47rQ0QzpHbWQkFpFUIebbNIhjGqCay7Z9Uu+zQzGyOaBRglvM+P8HqFdVebi9S7cSp/LIYA1yAU/5TIcdJ1kJZsRqDjO7ELnzpDxs9UgYvJlnFG6XDktJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738202565; c=relaxed/simple;
-	bh=n/OeGdeZMVIJFEVcwDCl7iqV15bGqS8grI/CpofheSg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=crEdX4UdGLbQgRDGfet012x4/XCawBqdgzbU7mqwuS9Fq/LpOZjlDdI/XRClZ8DZCZiaD+POKmkShA/N0IrFVVFD40IFIttrT9FQNK+i0L1je5Vy8svjcYURa+W8V+C/TGgsfH4d8RrSZt3lJxl6UPSdlZm63r3LBosQrsPvlMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eNm7qmWW; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1738206250; c=relaxed/simple;
+	bh=o4MMnfN2kEai750r9hv1rBiwsJtTLRusxo21xogimtk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iXNDzOTvMP0JrpeWG9yw1k1+RzUTFnAq+wULTOTgU37MotVPp/23K8XDAE6mIX8alVU0TKBrqvNiUhdsObIxkH7+siWS81YDU7RG6vRpLWRHQt1xnV6pas6tgBb/nyXr8MhANNCLGZJNfQOdPqTWWwVu6lRLr3dD+m2PdxHjke8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=frXMm3lK; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eNm7qmWW"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-21625b4f978so63085ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 29 Jan 2025 18:02:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="frXMm3lK"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2ef6c56032eso354249a91.2
+        for <linux-doc@vger.kernel.org>; Wed, 29 Jan 2025 19:04:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1738202563; x=1738807363; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zjUEKGcrUN8SEEUn3045QyzgbV2Muq4d8woD1luLXEo=;
-        b=eNm7qmWWTXmn2+VkKG3q0+oPZyixQ21wqQYBZqY8GDrGDlleD7XFm/8TN+Oqqx80M3
-         S/f2X5hbWwderjxXwXbgLU2FxNjEGOCKK6R5+ZYAKf6QSofDYVKgbnJx9uxNMUkR3K73
-         cYmqc0caKkQz7IEsQjspeOAoiGvc9yyjCu3qfNFpk5VxjpOSeLqacwEQfTT0IJI4Yo+x
-         mIcAQHk34O4iPu1XMdrTtUxSao2j4SrRcSUQUUHmoHQlaCRb+huHW8Y4rjzqWEvttiT1
-         rCU8YUuoC77sA+RF8BeNqZb7LBxC6eWuVrgJX3g9XVtVOFwZDJfZpbJ4HEH3x6g1MMkX
-         LXmA==
+        d=gmail.com; s=20230601; t=1738206248; x=1738811048; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wU1x9WfrlNR/LubK1PKzlCaWveFQtiZfDBDMQD2obIY=;
+        b=frXMm3lKOjy+ghGChJaQReXXVpTT53HnAMC/EoNG0jA+lqGxenRf2Ed+lSf0LRZ9+q
+         EhJ6OsLQLcgdf9SGPDg5NrdUrSO62zSPS+aARCLbcvr9ORuX9AioT29XvmYoOmsFoYui
+         ukq51eNbNMV0pqV4WrwxQJGAV1gxogO/Y9DBLZVren9FNSVJ50x/Vq2VS4Vsf8Hkpdoa
+         UvLYH8CbSWQOcCcdMKcOqv7zKqVlN3zQ0vDxE+qCZBEIb5gwBEZ6h7ei7+Kpp0uvXOHW
+         lvBlp0Gou9bFTHMjFMYhgWpQN4jTykXOoAO22iwul1SLiYf5Ip3B2ArphlsrNfd0GV8g
+         ANnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738202563; x=1738807363;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zjUEKGcrUN8SEEUn3045QyzgbV2Muq4d8woD1luLXEo=;
-        b=Wk22ipg2QOCzP/q5WdkOsgEE5yoUYQksTN7r72lUaCSuAj1AqCjimTCsEY6vB4yPde
-         vJ+R+E6pNl9sqHe/tsqDRqJgN7bDGB8Mm8ujpbN5GJsLotk7dZrBNq39vbIqElqgPDGy
-         IXmwkZBCW3KUXtraKgtmoyWiovzQRlgL91rKVIL9rvGh6MN0VMphsiSuT2Uz6A1arMbY
-         yKuNw0/NaZvFG3cf6orVBBqx9QGZyo4W5y60Pd1CuKOSu0xfQoZZEJXSK0Zmhv7HyNxB
-         F9Ua+PW/kbWn2l32zm75M7wMsCFfS04mP9gEIpMIAVLB0X0MEK0VgURHHUlk8MXUIvYI
-         Q2Bg==
-X-Forwarded-Encrypted: i=1; AJvYcCXLyFmJv51Q1wXS4MC4p7DmBhiyMyMpP0gL6fXvUd//04pj+FXU1mzJSVUOjaOZDTSegOqXxrx6yEw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx40p5zxV1qTm1k2bqEhWuRyTfSAV/Zekb9wZgDnnnkJRl1am2D
-	phukDLgZgoGpkN/NanQPg6rnBVB5i4IAK1xIVVVGHUyuM2leSO6IABjtnyvvaV5dn50R2vNMcyk
-	mo84Qwt4LeJ2v4UpTcXzg+1TZ7cTTTOAsTy8N
-X-Gm-Gg: ASbGncut1xpvw8Q30EnCo1CIdB89DRH6zAq1hDZIUEmDMywLLSd2kGLxsnO9ZndhQMR
-	NdHa23RtatDj1Bx5qlSc+cdrcOQorov0wfujnmyCOYncwR+zp+poJ0RrY754SCDvgmtuKSHdOhe
-	WwQnCpUtdJafp3IrfexYadOf6WWQ==
-X-Google-Smtp-Source: AGHT+IFE4A3aWM8yz21uOrZOg4SChpOzryWR+ItPTzgeX3qzwaFRLrgsLB6RJr5+4uESj8JF/qvVZaYyrmavlvqmppA=
-X-Received: by 2002:a17:902:fc4b:b0:215:9ab0:402 with SMTP id
- d9443c01a7336-21de24504dfmr1287495ad.18.1738202562597; Wed, 29 Jan 2025
- 18:02:42 -0800 (PST)
+        d=1e100.net; s=20230601; t=1738206248; x=1738811048;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wU1x9WfrlNR/LubK1PKzlCaWveFQtiZfDBDMQD2obIY=;
+        b=H/F8vQsEuOvWGnW+gxb4FYVgQzPdA3m/JTwBiP0ZJGq943G1defHlukk3WKd/Vzwdi
+         YJEsPf/P3ZVIeGUMZ3P8TPZHBHgTVMrwowqj2t/qo21xN74y7ZIEhJtQwZkCKiPI31oZ
+         SMgrEtpTpXmzFIR4zx5U3C8MZiATHGjr81PyDNDo0j+W9WC23kTXV039doWPGyF3ymMk
+         4A48pknyy8OVWu5OwTWBA6uy5eTQ8xBJFQuCUnOoEDdF1VC9hoJHH0IjbmvN5Jk9OJmE
+         JrtsMgOmYf7npUorkDdoxA67cRdNX+2rXqoJkasl/6EIrlf1t+Q6PZPjhgIvH3xAq8bL
+         Ve/g==
+X-Forwarded-Encrypted: i=1; AJvYcCUpwqPORJnqKkBuJC5Mg+GfHzZV6muIS+cIIhtS63bCSXTAi5kmNTl0cAGM23I5TpZ6rWVrEmzEC7g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzH/RCSs7WU5TiyQbOYIgSXx1HfFZvyz/4C2SZQ1vrk7QsujeEt
+	e5cYXbZjVfdgV4JWYzADNXEJNuY0OHcIuQJ1DJLyJsvCcI1Li6BK
+X-Gm-Gg: ASbGnctqlOTbU+oiQB3WaRKu15SJcPc9jVWsLFM+95EeXwGWmPbdkihCxFXVx38eUxw
+	KYoqe1y7zuaa8xx1HiMR6MzyoFow1FOtuTF41gPC0U86G+JRlmlHTFFGxEJ/3PVee731toEN7OE
+	DObLp7R1U7ucX2hOZb3l4wccLE9i5wboU29733SyY3ALcfTezJUfNWuTc21YaYKKyo35+LCYatw
+	pMLT/+ZyIwvvyOcSEqxb9SFOQAH4sdxMGyqUR8ZWwpljWeAVhhTGskYZgKtUln+0Ln/vG+bvMMZ
+	BxwhTyqi41nQliXhjutbSU9LS43bQ4fbJKrzx5hDOJ+F5ageawHkvcVsGfzT3Q==
+X-Google-Smtp-Source: AGHT+IFbZ6ECwPdEjKRLrd707dE9Ob7617VPBbgDVvzOnmtrP6ttHf3iOfwItOJFJNeVI9I0lEyzmg==
+X-Received: by 2002:a17:90b:2c85:b0:2ee:3cc1:793a with SMTP id 98e67ed59e1d1-2f83ac89f6dmr8125409a91.29.1738206248232;
+        Wed, 29 Jan 2025 19:04:08 -0800 (PST)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f83bd0cf6dsm2870636a91.29.2025.01.29.19.04.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jan 2025 19:04:07 -0800 (PST)
+Message-ID: <de5014ae-a311-4842-8a26-8f1a27016e52@gmail.com>
+Date: Thu, 30 Jan 2025 12:04:04 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAJj2-QFdP6DKVQJ4Tw6rdV+XtgDihe=UOnvm4cm-q61K0hq6CQ@mail.gmail.com>
- <20241211195329.60224-1-sj@kernel.org>
-In-Reply-To: <20241211195329.60224-1-sj@kernel.org>
-From: Yuanchu Xie <yuanchu@google.com>
-Date: Wed, 29 Jan 2025 18:02:26 -0800
-X-Gm-Features: AWEUYZmCJuhnrHdMr4LNNVLS2bbqy0msDks-3N4T6wXtjurzCtTNwSUNxZIoRCo
-Message-ID: <CAJj2-QEaLTasfQgb=VFfnbOmkcXU3kw2VbsNummNEq0V3b9jdw@mail.gmail.com>
-Subject: Re: [PATCH v4 0/9] mm: workingset reporting
-To: SeongJae Park <sj@kernel.org>
-Cc: David Hildenbrand <david@redhat.com>, "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>, 
-	Khalid Aziz <khalid.aziz@oracle.com>, Henry Huang <henry.hj@antgroup.com>, 
-	Yu Zhao <yuzhao@google.com>, Dan Williams <dan.j.williams@intel.com>, 
-	Gregory Price <gregory.price@memverge.com>, Huang Ying <ying.huang@intel.com>, 
-	Lance Yang <ioworker0@gmail.com>, Randy Dunlap <rdunlap@infradead.org>, 
-	Muhammad Usama Anjum <usama.anjum@collabora.com>, Tejun Heo <tj@kernel.org>, 
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
-	Mike Rapoport <rppt@kernel.org>, Shuah Khan <shuah@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Daniel Watson <ozzloy@each.do>, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	virtualization@lists.linux.dev, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] docs/ja_JP: Convert SubmitChecklist into reST with
+ belated updates
+To: Tsugikazu Shibata <shibata@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+References: <20250128102805.112691-1-akiyks@gmail.com>
+ <CAO+cJp3JUJfumofwy3i5oE9Bp3DvsL6ULt5_EEvQmaSBt3Fekw@mail.gmail.com>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <CAO+cJp3JUJfumofwy3i5oE9Bp3DvsL6ULt5_EEvQmaSBt3Fekw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Dec 11, 2024 at 11:53=E2=80=AFAM SeongJae Park <sj@kernel.org> wrot=
-e:
->
-> On Fri, 6 Dec 2024 11:57:55 -0800 Yuanchu Xie <yuanchu@google.com> wrote:
->
-> > Thanks for the response Johannes. Some replies inline.
-> >
-> > On Tue, Nov 26, 2024 at 11:26\u202fPM Johannes Weiner <hannes@cmpxchg.o=
-rg> wrote:
-> > >
-> > > On Tue, Nov 26, 2024 at 06:57:19PM -0800, Yuanchu Xie wrote:
-> > > > This patch series provides workingset reporting of user pages in
-> > > > lruvecs, of which coldness can be tracked by accessed bits and fd
-> > > > references. However, the concept of workingset applies generically =
-to
-> > > > all types of memory, which could be kernel slab caches, discardable
-> > > > userspace caches (databases), or CXL.mem. Therefore, data sources m=
-ight
-> > > > come from slab shrinkers, device drivers, or the userspace.
-> > > > Another interesting idea might be hugepage workingset, so that we c=
-an
-> > > > measure the proportion of hugepages backing cold memory. However, w=
-ith
-> > > > architectures like arm, there may be too many hugepage sizes leadin=
-g to
-> > > > a combinatorial explosion when exporting stats to the userspace.
-> > > > Nonetheless, the kernel should provide a set of workingset interfac=
-es
-> > > > that is generic enough to accommodate the various use cases, and ex=
-tensible
-> > > > to potential future use cases.
-> > >
-> > > Doesn't DAMON already provide this information?
-> > >
-> > > CCing SJ.
-> > Thanks for the CC. DAMON was really good at visualizing the memory
-> > access frequencies last time I tried it out!
->
-> Thank you for this kind acknowledgement, Yuanchu!
->
-> > For server use cases,
-> > DAMON would benefit from integrations with cgroups.  The key then would=
- be a
-> > standard interface for exporting a cgroup's working set to the user.
->
-> I show two ways to make DAMON supports cgroups for now.  First way is mak=
-ing
-> another DAMON operations set implementation for cgroups.  I shared a roug=
-h idea
-> for this before, probably on kernel summit.  But I haven't had a chance t=
-o
-> prioritize this so far.  Please let me know if you need more details.  Th=
-e
-> second way is extending DAMOS filter to provide more detailed statistics =
-per
-> DAMON-region, and adding another DAMOS action that does nothing but only
-> accounting the detailed statistics.  Using the new DAMOS action, users wi=
-ll be
-> able to know how much of specific DAMON-found regions are filtered out by=
- the
-> given filter.  Because we have DAMOS filter type for cgroups, we can know=
- how
-> much of workingset (or, warm memory) belongs to specific groups.  This ca=
-n be
-> applied to not only cgroups, but for any DAMOS filter types that exist (e=
-.g.,
-> anonymous page, young page).
->
-> I believe the second way is simpler to implement while providing informat=
-ion
-> that sufficient for most possible use cases.  I was anyway planning to do=
- this.
-For a container orchestrator like kubernetes, the node agents need to
-be able to gather the working set stats at a per-job level. Some jobs
-can create sub-hierarchies as well, so it's important that we have
-hierarchical stats.
+Hi, Shibata-san,
 
-Do you think it's a good idea to integrate DAMON to provide some
-aggregate stats in a memory controller file? With the DAMOS cgroup
-filter, there can be some kind of interface that a DAMOS action or the
-damo tool could call into. I feel that would be a straightforward and
-integrated way to support cgroups.
+Glad to hearing from you!
+That said, your reply was in the html format and the linux-doc list
+didn't accept it.  You are supposed to send in plain text.
 
-Yuanchu
+Here are my responses to your comments, with manual conversion of your
+message into plain text and indentation tweaks.
+
+Tsugikazu Shibata wrote:
+> Hello, Here are my comments:
+> 
+> On Tue, Jan 28, 2025 at 7:38 PM Akira Yokosawa <akiyks@gmail.com <mailto:akiyks@gmail.com>> wrote:
+>> 
+>> This is actually a brand-new translation against
+>> commit 47c67ec1e8ef ("docs: submit-checklist: use subheadings"),
+>> rather than an update of existing SubmitChecklist.
+>> 
+>> As we now have two reST contents under the ja_JP translation,
+>> to avoid duplicated boiler plates, split out the disclaimer part
+>> into a new section and put reference to it at the beginning of each
+>> doc.
+>> 
+>> As there is no prospect of ja_JP to have a lot of translated docs,
+>> keep those .rst files in the toctree of ja_JP/index.rst.
+>> 
+>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+>> Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
+>> ---
+>> .../translations/ja_JP/SubmitChecklist        | 105 -----------
+>> .../translations/ja_JP/disclaimer-ja_JP.rst   |  22 +++
+>> Documentation/translations/ja_JP/index.rst    |   2 +
+>> .../translations/ja_JP/process/howto.rst      |  37 ++--
+>> .../ja_JP/process/submit-checklist.rst        | 165 ++++++++++++++++++
+>> 
+>> 
+> ...
+> 
+>> diff --git a/Documentation/translations/ja_JP/process/submit-checklist.rst b/Documentation/translations/ja_JP/process/submit-checklist.rst
+>> new file mode 100644
+>> index 000000000000..b9da826d30ae
+>> --- /dev/null
+>> +++ b/Documentation/translations/ja_JP/process/submit-checklist.rst
+>> @@ -0,0 +1,165 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +.. Translated by Akira Yokosawa <akiyks@gmail.com <mailto:akiyks@gmail.com>>
+>> +
+>> +.. In the past, translation of this document of a different origin was
+>> +   at Documentation/translations/ja_JP/SubmitChecklist, which can be found
+>> +   in the pre-v6.14 tree if you are interested.
+>> +   Please note that this translation is independent of the previous one.
+>> +
+>> +======================================
+>> +Linux カーネルパッチ投稿チェックリスト
+>> +======================================
+>> +
+>> +.. note::
+>> +   この文書は、
+>> +   Documentation/process/submit-checklist.rst
+>> +   の翻訳です。
+>> +   免責条項については、
+>> +   :ref:`translations_ja_JP_disclaimer` および
+>> +   :ref:`translations_disclaimer` を参照してください。
+>> +
+>> +以下は、カーネルパッチの投稿時に、そのスムーズな受け入れのために心がける
+>> +べき基本的な事項です。
+>> +
+>> +これは、 Documentation/process/submitting-patches.rst およびその他の
+>> +Linux カーネルパッチ投稿に関する文書を踏まえ、それを補足するものです。
+>> +
+>> +.. note::
+>> +   【訳註】チェックリストらしくするため、問い掛けの語尾を多用します。
+>> +   また、原義を損なわない範囲で、主語の省略、主語に係る修飾子の述語に係る
+>> +   修飾子への変更、能動態への言い換えなどを行い、より簡潔で把握しやすい
+>> +   箇条書きを目指します。
+>> 
+> 
+> I feel uncomfortable with these notes.
+> Original text of sumitting-patches is the list of TODOs. 
+
+Of course you mean submit-checklist.rst ...
+
+> That is basically saying "Do something" type of lists.
+
+Do you read the list that way?
+
+I don't think so.  It's a mixture of suggestions made in various grammatical
+structures.
+
+For example, here is an item in original submit-checklist.rst:
+
+  3) All memory barriers {e.g., ``barrier()``, ``rmb()``, ``wmb()``} need a
+     comment in the source code that explains the logic of what they are doing
+     and why.
+
+I don't think this is in the form of TODO.  Rather, it implies what you
+should do, in a sentence whose subject is "All memory barriers".
+So I don't think it is worth preserving wording in the original.
+List of "What you are supposed to have done before submission"
+is much straight forward, isn't it?
+
+Documentation/translation/index.rst has this paragraph in its "Disclaimer":
+
+  Translations try to be as accurate as possible but it is not possible to map
+  one language directly to all other languages. Each language has its own
+  grammar and culture, so the translation of an English statement may need to be
+  adapted to fit a different language.  For this reason, when viewing
+  translations, you may find slight differences that carry the same message but
+  in a different form.
+
+Of course, I might be too aggressive in ignoring original wording.
+
+> However, your translation is being "Did you do something" type.
+> That is not a straightforward translation and may not tell what the
+> original version says.
+
+Can you please tell me where my translation is *not* telling what the
+original does?
+
+> This document will live long years and straightforwardness is one of
+> the keys to maintain.
+
+If you have trouble with my way of translation, please submit a patch
+to "fix" it.  I'd be glad to review your changes with my ja_JP
+documentation reviewer hat on.
+
+> I will add some examples below;
+> 
+>> +
+>> +
+>> +コードのレビュー
+>> +================
+>> +
+>> +1) 利用している機能について、その機能が定義・宣言されているファイルを
+>> +   ``#include`` したか。
+>> +   他のヘッダーファイル経由での取り込みに依存しないこと。
+>> 
+> 
+> The recommended changes would be
+> 1) 利用している機能について、その機能が定義・宣言されているファイルを ``#include`` すること。 
+> 他のヘッダーファイル経由での取り込みに依存しないこと。
+>  
+> 
+>> +
+>> +2) Documentation/process/coding-style.rst に詳述されている一般的なスタイル
+>> +   についてチェックしたか。
+> 
+> 
+> 2) Documentation/process/coding-style.rst に詳述されている一般的なスタイル
+> についてチェックすること。
+> All others are the same.
+>  
+> 
+...
+>> +
+>> +.. note::
+>> +   【訳註】採用した訳語
+>> +
+>> +   - build farm: ビルド環境
+>> +   - brainpower: 知力
+>> +   - fault injection: 誤り注入
+> 
+> 
+> I believe the word "誤り注入" is not oftenly used in the Japanese kernel developers.
+> Insted、 "フォールトインジェクション” could be used. It is enough.
+
+Yes, I'm fully aware of that.  Otherwise, I would not have added that
+note on my choices of translation words.  Do I need to say
+"【訳註】一般的でない訳語の選択" or "[translation note] Choices of-
+uncommon translation terms" ?
+
+I am a strong hater of transliteration which just bloats translated
+text and makes it harder to read.  Why?  It takes longer to recognize.
+Sometimes, my brain performs reverse transliteration of a *long*
+KATAKANA term when I see.
+To me, keeping English terms as are in the translation would be a much
+better approach.
+
+Jon, I'll post patch 2/2 in this set as an English-only change so that
+you can apply it sooner rather than later.
+
+        Thanks, Akira
+
