@@ -1,180 +1,266 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2045.outbound.protection.outlook.com [40.107.95.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4632770C;
-	Thu, 30 Jan 2025 04:11:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738210303; cv=none; b=Sw4w9zaKRZjlmNGAIcvEJVCjDjxJMi9yGT+6rUGRY5OLG/QcBenJ89dJ0EjIw5DUC35uRSNduUnKBLH4RQFf1hmsAx352patq53+EvvcVU+gwAY4Bbx/98n0ZKBAHwGBm8szTvxcrG/XXY9vLHHAuoaI7SQqBc6PR1E6gv6LXEk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738210303; c=relaxed/simple;
-	bh=UC8IeBBKFfPBafCFr4kyUFlVe382D2VnfBipiZRaeRk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qWC1bJy9QN8MO4h2j6so3CiBFfaabUjSYxEYK3Pvk4Y/L/stGCnw2Z8dPsN7dZ6z+Rqa5VY/W9wqwNXxZpEBgEjsX840VGq5xKwX3md9Zca6rByW28oQmev6Sxfdta4dCR2fbeaCJ2rE2+s3GNkDp4MYJnkWR8pABXaJZGWptXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FvFPOePl; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861404431;
+	Thu, 30 Jan 2025 05:34:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738215284; cv=fail; b=Xod3vV5k02gW/+iW5+d6/UOUxuAogDGtW/cbmpmG4fLyyS19ZMT9HMOKinzBkVba38bquwd5Hz/33GiENPPWDXNXv0dr12SsSWHAQySEPlXaMXIivyrVJN/KiT/yJIbX5TvIv/C2vkcjCqtRSZTC/EF7z2cL7DDx8EjEftuty5k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738215284; c=relaxed/simple;
+	bh=vzkQVm1+5LgFyj4uW0WCu8qDzK+/geS5A0fEAxluAhg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=mEtAHDXYdRvRIeinMWR1znYGjwt5q8ejQKxe0KEoFffwnVmH+5483s2RfkoaPwU/A3WC3/FVSKFoKc7mRd8NWcVVR6OLhsLgdlAeb8UqCbQyVN4IGtpLWVUD1y27hy1q2yECsCqn/PKW6uSrtzSYUxgnedwfwu3Z92Sw0n2HnAQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Dg6ngUpm; arc=fail smtp.client-ip=40.107.95.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FvFPOePl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 142C8C4CED2;
-	Thu, 30 Jan 2025 04:11:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738210301;
-	bh=UC8IeBBKFfPBafCFr4kyUFlVe382D2VnfBipiZRaeRk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FvFPOePlZwb+q7p6VAdWvFNtAW3tP1nHg6WW2zcJaU4NBd7tkRrFawMA/8C7BVKNG
-	 avNXIc291RJYKtb21lcaVNzFUTmGc5vV1aU3QRNrNmu8Q1jLa4VXBHSzRiYuAPZv1l
-	 gzi3AAm1a55/2ZTre2qX6zQBFJKDzfm5yJc9JKoT6RZNMwmr4U2C1a4zYCTEJ6R7b4
-	 ZR3IOq9yYN4nJGJGt4UWdBiWuXACHW9fk0T1xLslstiVWWKaN3EMcatUlLBePbEL74
-	 udgZylVrsFyKyefsc0ConnfYje20wF64jkfAOJtPMg6sLxytwIat3xeR8ynGMZJpGt
-	 lnapa7ShDYaDw==
-From: SeongJae Park <sj@kernel.org>
-To: Yuanchu Xie <yuanchu@google.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	"Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
-	Khalid Aziz <khalid.aziz@oracle.com>,
-	Henry Huang <henry.hj@antgroup.com>,
-	Yu Zhao <yuzhao@google.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Gregory Price <gregory.price@memverge.com>,
-	Huang Ying <ying.huang@intel.com>,
-	Lance Yang <ioworker0@gmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	Tejun Heo <tj@kernel.org>,
-	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Daniel Watson <ozzloy@each.do>,
-	cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 0/9] mm: workingset reporting
-Date: Wed, 29 Jan 2025 20:11:39 -0800
-Message-Id: <20250130041139.49594-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <CAJj2-QEaLTasfQgb=VFfnbOmkcXU3kw2VbsNummNEq0V3b9jdw@mail.gmail.com>
-References: 
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Dg6ngUpm"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XximfT1qh/JzV65LcKSBhXFrr40DByBXw6SJ2Pdf5C2t3p1BmOM/btrDHp9cSD0r/BRCdmmZfrkPfsgAlK3a+wz9aZVo/Thz8M4lTIObqAEcUtVqwQPvT7BEeHVwmYGKwqXwq2ipm7Fu2yzehNnUoAwoiVv040QRIT3EmHB/PS1sKGsfYJyKtUeeDAVhFolShLUozDA/e9cDkKuqRyZ5xQ1EPOzWfwN26CgExmVxi2rVaJB0IdPWiZcU9UiVqj/+Wjat5vsfyu6dxjPQSOnwFUDK74kQAZlgNjyO4JK3avALT145gS/Rh29pHgHA2+gWHvcLiHeftflTLWIKCf2pBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5xwbbTRnw01EQia5O9RC+bIjzAa+VrXUMzKToWKJxBM=;
+ b=pgis1xqBt8xx34l5HKQ3WjUfgD1S5HfA8xECOarX7twUiE4j0tYgtxb6t/TG7LU1wwbWDNbsxCfiBkWIxmlZj8/ZaccMV2CIBHGZLyPuDmfPFpCENBQhBCzPpMulTB9skOoLWxFJj4HPvErbWca74t80jtuNOAI5qo4xV9rreYIdW886KkcIgEn2QKpiQOYHd1AC1JfKbbQw6wKIPPqoKW1XDxfnou/EIGWtB8jX8IlViq4ccfrKCxMBN9ibVajFwpYSxGyoKdp9yI6nW0dZTLaahjOWqHxVcDifKVMINVEZ/Hvn0vB9fmTDaVrX2fIZv5by52PhyPnLm6vlBy3wng==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5xwbbTRnw01EQia5O9RC+bIjzAa+VrXUMzKToWKJxBM=;
+ b=Dg6ngUpmavcwxKastpgAPVV9BdVFU67RjgB1P+d0vunJNpvfnfjxu9g8ZGT05y/PNIjT5ZP3eS1XOj0mAzYHzG0f3WHDT4Izf49qz0vT4Ke+LHtxn9w70ioFfSIjiLLi/+3SMNTpUaDzE3Hv3/H/bhZwCK8iI2gNyXtgB3xU5i/QeBDWEDAHV7Z6rTnw8fft41DJllQ+q8ILnHznuuBL0UssWxJPCDh1/F9saT3dg0xW9DIv2kcGvUAs8lzjBib3gqZZnZzxd3/5iaUSyXraC6pkz6YWYfd2sSboMaaqw3VKQO8NKpg4aS5VZWXA76rbPpsr4x5wdSkcgT+1iZdEIw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
+ MW6PR12MB7071.namprd12.prod.outlook.com (2603:10b6:303:238::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8398.18; Thu, 30 Jan 2025 05:34:37 +0000
+Received: from DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
+ ([fe80::953f:2f80:90c5:67fe%7]) with mapi id 15.20.8398.017; Thu, 30 Jan 2025
+ 05:34:37 +0000
+Date: Thu, 30 Jan 2025 16:34:32 +1100
+From: Alistair Popple <apopple@nvidia.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-mm@kvack.org, nouveau@lists.freedesktop.org, 
+	Andrew Morton <akpm@linux-foundation.org>, =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
+	Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>, 
+	Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Peter Xu <peterx@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v1 2/4] mm/mmu_notifier: drop owner from
+ MMU_NOTIFY_EXCLUSIVE
+Message-ID: <h4dnoixvp2kjeao6mzcpze4zx6t34ebpltqadkjl5zxcjhddkf@lbzo2yhzu5sz>
+References: <20250129115803.2084769-1-david@redhat.com>
+ <20250129115803.2084769-3-david@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250129115803.2084769-3-david@redhat.com>
+X-ClientProxiedBy: SY5P282CA0182.AUSP282.PROD.OUTLOOK.COM
+ (2603:10c6:10:249::13) To DS0PR12MB7726.namprd12.prod.outlook.com
+ (2603:10b6:8:130::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|MW6PR12MB7071:EE_
+X-MS-Office365-Filtering-Correlation-Id: 15d50167-ef75-4c2b-58d0-08dd40efc8ea
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?NZo0dI6r/l2D63NRQFDlejTFTj8r1kndlMF2ebgZUdqZWWAazw8K0/iUyWpi?=
+ =?us-ascii?Q?X978sLHxDr3wH12yM2RLwvXcuAjDSTGBU7re4tYk6erzXGXY7VMS/52ngGyR?=
+ =?us-ascii?Q?jDrBNx/OB4MCI20cQyQrrJfMurJ/cCNmAoPcrvxhprdwzCWV8kyIsD0UQHil?=
+ =?us-ascii?Q?Hf94pRGUdiYKjvOjtlPZGhnyY/Oyx9ULOYJywBshoVoSqJ1ua7owv7zdQXID?=
+ =?us-ascii?Q?eyDlIhp/VTQz53wNG7j6BBB+HoxIUCYWE73lhUdh2LLLzocnhTLsN1ai21Xn?=
+ =?us-ascii?Q?cxnk9r5NbOo2pRl4CA4XU4Zg0rD/1xOjwZpPCxGqBXe2NqS36oZrjXrMNOeY?=
+ =?us-ascii?Q?JswQ8VRT3NZKTFjmsXxKXsm7VnGaCJhRQaDgRb5825B8RCAs28xzw12I4DSv?=
+ =?us-ascii?Q?SylVItsjDQFzjH7bRDGVwHfgBXN4HGeaz9i2gURg2gdLU/dHfDFCTt2QhJjC?=
+ =?us-ascii?Q?XbcFwyFLIkkTWTpqNiogHqG1g7DMZZj7pwG7rXWct+x3Zw8pUeRNA1/kl7ku?=
+ =?us-ascii?Q?xyDlFli1tkn0XaVljXP+QnSousy+LSF+hpKaq3Wn4XRJqs+uuj1qspd4TvmP?=
+ =?us-ascii?Q?y/4dsIWBbj9XqGxYAoZ4wpW2HmFPg2XfWuSA0eGgYwfrQx4oZWxfodH6dSnf?=
+ =?us-ascii?Q?+E0Y7QfXFlmyavEKlfegBFR4YdvivN5vnwXvmEYZ0pdeUPssSSWGkVhTonM8?=
+ =?us-ascii?Q?1HHcVgfEg6molJpNBHbTW0JfsK/G3DHeZ0mqyb56wEHU+mnuOyxMFFeXBKx3?=
+ =?us-ascii?Q?bISw1yeIo/d0bQRZceul2Ku0OR8HA9RHe9OrwtVyEWxMIHJwKupN1wRUth/B?=
+ =?us-ascii?Q?M02+D+B89OqKxapDdBy7jp5EkdfXDPD60ut9uwtsal88wPyRswn4LNbkcW5u?=
+ =?us-ascii?Q?gSZqlfubEHMu++sovaKXnMQtIVpWnYv99WOKCtjwkTF/qmqVG+gW60JK+vPL?=
+ =?us-ascii?Q?uvSVD1ken2BrAMYnmQhpphk8cW1tbrKZdREktk7CkKuCe3weapzG0n6mPdd8?=
+ =?us-ascii?Q?CLLYaUhMfuXTb1fks6a0LCizgdP9iupHr6/25l3+bZ+TedAWPDUzGcQc+/4B?=
+ =?us-ascii?Q?P8hpUaZEQYw0ty+jqf2l8UKlyfFRu7MSFQXktSM9eSjK1l1dL9GvYlxtXPZ6?=
+ =?us-ascii?Q?rwl/uttMCINuF5U1sHCHgwDvpjQbgr1RD6Qal72npPB5fmJ9Fsn+9SvEeisz?=
+ =?us-ascii?Q?aUBg7LVfw0X2/RMn5KPnHFgqeiMXL6TmnysdEYTEEhhoGSaiImeSzO0ThEHJ?=
+ =?us-ascii?Q?cngSvtAXrwvhIvs9ghMnyOOb9/wEEZ/ewZSwXQ/bqyNUtSofpvbcTeXoJX5T?=
+ =?us-ascii?Q?KFxyUXjLSro/se17pyUIDOIN16gUcspL3F0DUJwBLjZSGFqKv2UAVxyymWNz?=
+ =?us-ascii?Q?AwGjnXPaDv/UbfiV3HUYYMdeLV5K?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7726.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Dwg0nPU6gThfqtK1FD5MeX56s+iE4fgnJoR+F+VQCefq3p+QCApfycw4jVOe?=
+ =?us-ascii?Q?EcZsFGvCMbKjdPypxDEV2BNxZyRR1jSj7/SZbICOXt7FgFFGEsicUMhSEhhc?=
+ =?us-ascii?Q?ggy3jq5UQ0RYWiMZEIVIT6iAk+zrbtDK013lKvYFU45sh90wqZhqfkUOqWZT?=
+ =?us-ascii?Q?xityvWbixGfC04xBOwG9qgJge13XrJvVv5rU0beWp3R9EnuFgGkObLUOYWWW?=
+ =?us-ascii?Q?Gk+NqGRg0oo88QrimuoZaE+2t5m1mOc3148eGsqnCIEhVdY6+rR17mkT0Mcv?=
+ =?us-ascii?Q?oYZvWLdIHhQzchLrFocg5A2VXEofK8e1GO4ZZbDNkiTtYMhDDoS7Gz7pfQd7?=
+ =?us-ascii?Q?Yq6R8xOGFPtl6yVHZqPCBx2U8k2MteMOz/novS25nU6ujowxJ1WbzJeS+grl?=
+ =?us-ascii?Q?0ejCnvVtAXufFUV3hMac5wLYKKwuN8RNpfKxP6squ4fib7TIpIF+SeDg7344?=
+ =?us-ascii?Q?SazUCsn6AgTnYH0/nuprxXA7xMMTBHHvMCOGy9F5551tB9cKZh9amKDHHdhz?=
+ =?us-ascii?Q?dOMfp+FXPIvXBM+XpdTTKZ5OvkUFNkeAKult9qXbmFZYMmeqlZSlhKwtldu2?=
+ =?us-ascii?Q?v2gmznF8zHBppfkuxFZ/zI1WFNo56c0t4Qbg+0vWM0ypGQ/3Qk+e/cdmymeC?=
+ =?us-ascii?Q?ER283ErLzw84I0iQxtXEXglXS6p5Phir9tfZajuiy0e2DxBjOvpD9NjKfhcN?=
+ =?us-ascii?Q?X2WkC5c+wXhPk87sZGVfvmwR/1n2AtGRySgyU++D28CAhbBB7kGpHpAcFexZ?=
+ =?us-ascii?Q?fic3IkMLFKKKZED1p48Qmv5fZKda5c5ReYvQaC1ekKWw4qy2F7kulTpIqIcQ?=
+ =?us-ascii?Q?xybqlWh1rrJFPwrkxgE2i/iOg6IrSN6iScfh90QWbV41LMVbwMFG8JcUDwwb?=
+ =?us-ascii?Q?B9ves7ISfFzIFdBxIppWQFPF10PrH2isTfjRyIaFg67k3THn30yZvS93cjMN?=
+ =?us-ascii?Q?N32Kg3Gfk6jGXesgnaRR12ifRnSzaKbFRdufO3xuBaqwoZZUsVgr/Hy/Jkyo?=
+ =?us-ascii?Q?WaLvv73MlNDXV7VIT7P4YU4a4+I98Bj80f+S6bkknpmxqqBYFCAwQit8Eim2?=
+ =?us-ascii?Q?VnL7u/VSJlpip8yQ3fAQxi/JnAHGAH8bwUggav38haIOby+lqAjsG027qwFx?=
+ =?us-ascii?Q?BPdsdmO21x2bAhAsG/gCmUEBZzyzTZibhzPdPRaLjWYrGVcBBY63RKeJpGRY?=
+ =?us-ascii?Q?CWoXsjhYPmatqs6e7d1IT+weMZ3sazKXfa6Dsk9/oYHwcRmkoYDxdrJ2nWmM?=
+ =?us-ascii?Q?hIhcUBjP5CNmQkudZFxa9sY5ZzkyB16PyuqxkMpjI/3Z4XiM2aQSpLllpj/V?=
+ =?us-ascii?Q?3rCBaxAKScSvSkNw3Ul+hStGGR/0AjsVNrq52eXcXgmppdoMm5K/GdP8UZrm?=
+ =?us-ascii?Q?PgQJvjhs37IRqmhC84YpoqPzkYOWzDEBD4qCMwlTHpGu8WFuDypvugKec1M7?=
+ =?us-ascii?Q?M8mW+q5+7HuTdSpZdey6nm+vAZViFyho7FmduwJSgxMPgcwz3A5CaBk6nBpr?=
+ =?us-ascii?Q?gkSvwMTiDna9Je3p13NJRqGk0wCrnHUEgHIkyjLXAVJ8FBQxIEhn772zYIru?=
+ =?us-ascii?Q?feHOwGm/psJ2XXz+kfAhLeQRIXJNpc3MgQwBH6Ch?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 15d50167-ef75-4c2b-58d0-08dd40efc8ea
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2025 05:34:37.1850
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: S2Umme52R3RcFsYALty1TlmXGJmClKrA1mAyPzc9LgUQeQmCgJfLqo7NnhkyugL5U8/Xbk3pLOxKGk7rCRDRtg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB7071
 
-Hi Yuanchu,
+On Wed, Jan 29, 2025 at 12:58:00PM +0100, David Hildenbrand wrote:
+> We no longer get a MMU_NOTIFY_EXCLUSIVE on conversion with the owner set
+> that one has to filter out: if there already *is* a device-exclusive
+> entry (e.g., other device, we don't have that information), GUP will
+> convert it back to an ordinary PTE and notify via
+> remove_device_exclusive_entry().
 
-On Wed, 29 Jan 2025 18:02:26 -0800 Yuanchu Xie <yuanchu@google.com> wrote:
-
-> On Wed, Dec 11, 2024 at 11:53 AM SeongJae Park <sj@kernel.org> wrote:
-> >
-> > On Fri, 6 Dec 2024 11:57:55 -0800 Yuanchu Xie <yuanchu@google.com> wrote:
-> >
-> > > Thanks for the response Johannes. Some replies inline.
-> > >
-> > > On Tue, Nov 26, 2024 at 11:26\u202fPM Johannes Weiner <hannes@cmpxchg.org> wrote:
-> > > >
-> > > > On Tue, Nov 26, 2024 at 06:57:19PM -0800, Yuanchu Xie wrote:
-> > > > > This patch series provides workingset reporting of user pages in
-> > > > > lruvecs, of which coldness can be tracked by accessed bits and fd
-> > > > > references. However, the concept of workingset applies generically to
-> > > > > all types of memory, which could be kernel slab caches, discardable
-> > > > > userspace caches (databases), or CXL.mem. Therefore, data sources might
-> > > > > come from slab shrinkers, device drivers, or the userspace.
-> > > > > Another interesting idea might be hugepage workingset, so that we can
-> > > > > measure the proportion of hugepages backing cold memory. However, with
-> > > > > architectures like arm, there may be too many hugepage sizes leading to
-> > > > > a combinatorial explosion when exporting stats to the userspace.
-> > > > > Nonetheless, the kernel should provide a set of workingset interfaces
-> > > > > that is generic enough to accommodate the various use cases, and extensible
-> > > > > to potential future use cases.
-> > > >
-> > > > Doesn't DAMON already provide this information?
-> > > >
-> > > > CCing SJ.
-> > > Thanks for the CC. DAMON was really good at visualizing the memory
-> > > access frequencies last time I tried it out!
-> >
-> > Thank you for this kind acknowledgement, Yuanchu!
-> >
-> > > For server use cases,
-> > > DAMON would benefit from integrations with cgroups.  The key then would be a
-> > > standard interface for exporting a cgroup's working set to the user.
-> >
-> > I show two ways to make DAMON supports cgroups for now.  First way is making
-> > another DAMON operations set implementation for cgroups.  I shared a rough idea
-> > for this before, probably on kernel summit.  But I haven't had a chance to
-> > prioritize this so far.  Please let me know if you need more details.  The
-> > second way is extending DAMOS filter to provide more detailed statistics per
-> > DAMON-region, and adding another DAMOS action that does nothing but only
-> > accounting the detailed statistics.  Using the new DAMOS action, users will be
-> > able to know how much of specific DAMON-found regions are filtered out by the
-> > given filter.  Because we have DAMOS filter type for cgroups, we can know how
-> > much of workingset (or, warm memory) belongs to specific groups.  This can be
-> > applied to not only cgroups, but for any DAMOS filter types that exist (e.g.,
-> > anonymous page, young page).
-> >
-> > I believe the second way is simpler to implement while providing information
-> > that sufficient for most possible use cases.  I was anyway planning to do this.
-
-I implemented the feature for the second approach I mentioned above.  The
-initial version of the feature has recently merged[1] into the mainline as a
-part of 6.14-rc1 MM pull request.  DAMON user-space tool (damo) is also updated
-for baisc support of it.  I forgot updating that on this thread, sorry.
-
-> For a container orchestrator like kubernetes, the node agents need to
-> be able to gather the working set stats at a per-job level. Some jobs
-> can create sub-hierarchies as well, so it's important that we have
-> hierarchical stats.
-
-This makes sense to me.  And yes, I believe DAMOS filters for memcg could also
-be used for this use case, since we can install and use multiple DAMOS filters
-in combinations.
-
-The documentation of the feature is not that good and there are many rooms to
-improve.  You might not be able to get what you want in a perfect way with the
-current implementation.  But we will continue improving it, and I believe we
-can make it faster if efforts are gathered.  Of course, I could be wrong, and
-whether to use it or not is up to each person :)
-
-Anyway, please feel free to ask me questions or any help about the feature if
-you want.
-
+What tree is this against? I tried applying to v6.13 and Linus current master
+but neither applied cleanly.
+ 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_svm.c | 6 +-----
+>  include/linux/mmu_notifier.h          | 4 +---
+>  include/linux/rmap.h                  | 2 +-
+>  lib/test_hmm.c                        | 2 +-
+>  mm/rmap.c                             | 3 +--
+>  5 files changed, 5 insertions(+), 12 deletions(-)
 > 
-> Do you think it's a good idea to integrate DAMON to provide some
-> aggregate stats in a memory controller file? With the DAMOS cgroup
-> filter, there can be some kind of interface that a DAMOS action or the
-> damo tool could call into. I feel that would be a straightforward and
-> integrated way to support cgroups.
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+> index 39e3740980bb..4758fee182b4 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_svm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+> @@ -510,10 +510,6 @@ static bool nouveau_svm_range_invalidate(struct mmu_interval_notifier *mni,
+>  	struct svm_notifier *sn =
+>  		container_of(mni, struct svm_notifier, notifier);
+>  
+> -	if (range->event == MMU_NOTIFY_EXCLUSIVE &&
+> -	    range->owner == sn->svmm->vmm->cli->drm->dev)
+> -		return true;
 
-DAMON basically exposes its internal information via DAMON sysfs, and DAMON
-user-space tool (damo) uses it.  In this case, per-memcg working set could also
-be retrieved in the way (directly from DAMON sysfs or indirectly from damo).
+I think this will cause a live-lock because make_device_exclusive_range()
+will call the notifier which without the filtering will increment the sequence
+count and cause endless retries of the loop in nouveau_atomic_range_fault().
+The notifier needs to be able to figure out if it was called in response to
+something this thread did (ie. make_device_exclusive_range) and can therefore
+ignore the invalidation, or from some other thread.
 
-But, yes, I think we could make new and optimized ABIs for exposing the
-information to user-space in more efficient way depending on the use case, if
-needed.  DAMON modules such as DAMON_RECLAIM and DAMON_LRU_SORT provides their
-own ABIs that simplified and optimized for their usages.
+Looking at hmm_test I see that doesn't use the sequence counter to ensure
+the PTE remains valid whilst it is mapped. I think that is probably wrong, so
+apologies if that lead you astray.
 
-[1] https://git.kernel.org/torvalds/c/626ffabe67c2
-
-
-Thanks,
-SJ
-
-[...]
+>  	/*
+>  	 * serializes the update to mni->invalidate_seq done by caller and
+>  	 * prevents invalidation of the PTE from progressing while HW is being
+> @@ -609,7 +605,7 @@ static int nouveau_atomic_range_fault(struct nouveau_svmm *svmm,
+>  
+>  		notifier_seq = mmu_interval_read_begin(&notifier->notifier);
+>  		mmap_read_lock(mm);
+> -		page = make_device_exclusive(mm, start, drm->dev, &folio);
+> +		page = make_device_exclusive(mm, start, &folio);
+>  		mmap_read_unlock(mm);
+>  		if (IS_ERR(page)) {
+>  			ret = -EINVAL;
+> diff --git a/include/linux/mmu_notifier.h b/include/linux/mmu_notifier.h
+> index d4e714661826..bac2385099dd 100644
+> --- a/include/linux/mmu_notifier.h
+> +++ b/include/linux/mmu_notifier.h
+> @@ -44,9 +44,7 @@ struct mmu_interval_notifier;
+>   * owner field matches the driver's device private pgmap owner.
+>   *
+>   * @MMU_NOTIFY_EXCLUSIVE: to signal a device driver that the device will no
+> - * longer have exclusive access to the page. When sent during creation of an
+> - * exclusive range the owner will be initialised to the value provided by the
+> - * caller of make_device_exclusive(), otherwise the owner will be NULL.
+> + * longer have exclusive access to the page.
+>   */
+>  enum mmu_notifier_event {
+>  	MMU_NOTIFY_UNMAP = 0,
+> diff --git a/include/linux/rmap.h b/include/linux/rmap.h
+> index 86425d42c1a9..3b216b91d2e5 100644
+> --- a/include/linux/rmap.h
+> +++ b/include/linux/rmap.h
+> @@ -664,7 +664,7 @@ void try_to_migrate(struct folio *folio, enum ttu_flags flags);
+>  void try_to_unmap(struct folio *, enum ttu_flags flags);
+>  
+>  struct page *make_device_exclusive(struct mm_struct *mm, unsigned long addr,
+> -		void *owner, struct folio **foliop);
+> +		struct folio **foliop);
+>  
+>  /* Avoid racy checks */
+>  #define PVMW_SYNC		(1 << 0)
+> diff --git a/lib/test_hmm.c b/lib/test_hmm.c
+> index 1c0a58279db9..8520c1d1b21b 100644
+> --- a/lib/test_hmm.c
+> +++ b/lib/test_hmm.c
+> @@ -786,7 +786,7 @@ static int dmirror_exclusive(struct dmirror *dmirror,
+>  		struct folio *folio;
+>  		struct page *page;
+>  
+> -		page = make_device_exclusive(mm, addr, &folio, NULL);
+> +		page = make_device_exclusive(mm, addr, &folio);
+>  		if (IS_ERR(page)) {
+>  			ret = PTR_ERR(page);
+>  			break;
+> diff --git a/mm/rmap.c b/mm/rmap.c
+> index 4acc9f6d743a..d99dbf59adc6 100644
+> --- a/mm/rmap.c
+> +++ b/mm/rmap.c
+> @@ -2397,7 +2397,6 @@ void try_to_migrate(struct folio *folio, enum ttu_flags flags)
+>   * make_device_exclusive() - Mark an address for exclusive use by a device
+>   * @mm: mm_struct of associated target process
+>   * @addr: the virtual address to mark for exclusive device access
+> - * @owner: passed to MMU_NOTIFY_EXCLUSIVE range notifier to allow filtering
+>   * @foliop: folio pointer will be stored here on success.
+>   *
+>   * This function looks up the page mapped at the given address, grabs a
+> @@ -2421,7 +2420,7 @@ void try_to_migrate(struct folio *folio, enum ttu_flags flags)
+>   * Returns: pointer to mapped page on success, otherwise a negative error.
+>   */
+>  struct page *make_device_exclusive(struct mm_struct *mm, unsigned long addr,
+> -		void *owner, struct folio **foliop)
+> +		struct folio **foliop)
+>  {
+>  	struct folio *folio, *fw_folio;
+>  	struct vm_area_struct *vma;
+> -- 
+> 2.48.1
+> 
