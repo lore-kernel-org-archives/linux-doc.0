@@ -1,73 +1,73 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4601E1C22
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 15:57:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E5F41BC065
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 15:59:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738252622; cv=none; b=QafnOe87KL9DnFVlWo/bzjPKEnh4M9hqIsUU4YWpmMH/2yqrwQvhobJuduHBO01aN4kSQwN2dEQExTNxahnZTm4d/EgraszagjQQmrtX7bEnNlpoEUcHRwRzXv6wtnJJmhfXl+kKQOOTw4WK64MiCjNP4zG1dxQeUbhK+skW8e4=
+	t=1738252765; cv=none; b=E45Kc4Q+LnbTT38nTUkjn3eIY44BuqDK7exgU/DXQH+P8lOCOKKeaANqcBwANisnzCqiXM0IjXlqILwV9QTJouowYiZG6GuOix7F8qRRxrLNxEsEtJ/gHxCnGDWuUwAf2crEjPwrnOVsPvkV4bjU9CjVPaXzXKOmy6tnvs7Iiio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738252622; c=relaxed/simple;
-	bh=9JDIcctY3oDVP/oeNeNQzAEx2leaB81gXrw3Dn1eZ5o=;
+	s=arc-20240116; t=1738252765; c=relaxed/simple;
+	bh=f2B99J7Yvz/7QhcJPIgqw2TAC22sA4fNZSH2XGXRO68=;
 	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=IlKZW3PFtGQTs6Fz891L5JkPF2czDSs4Xogml+7+qm6upBK0+ZtsZHtOA0uypxeuUgltMG5xDerx7GqLAHtC8N46qJ9+oMxmc0lbKTOoz5Pl/CfNuOhsAUK2W1YQBsI2OYD+hn1ANVdeTDR9j73z815hiXXEegXY/UsAizno9ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jOSLZdc6; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=VU6Wry2vnb+XBRQRpvGHJpjAzyB0JOiV3cA8kMtvPjRJWW/5g0FDJ2K+jOjU+j3cZeW1O9Vh0A/20ZrpvVfdf7xOW2QVLgqmMhygqbHtYdVgt2o1Bbn0AkCcgqwf5Xr3hz+phobbv/jOmaBTnuugGSWQxbRRT3GEU+6bwdh4bzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UsjFUYsw; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jOSLZdc6"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UsjFUYsw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738252619;
+	s=mimecast20190719; t=1738252762;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=qM4w+1es2FaHKiaH8UoDw9Cy8vwIlmWEd0tDR6y0hSI=;
-	b=jOSLZdc6Ko+RRFvSNXoQ9Gg+mlLY07fVf/qGGF9ZLCisrJ04aszVAi+dlqw2HNsYQam8G+
-	y+YQEP5wIqhvS1MGmHQIq7tIDTM5rOcJrQiDmpL9/NdZ0GZmiuE4MOa9eDOkp1tYP1Y/gF
-	+BL4GHRnKnrVI6N1Em3jb2xJjS8rIn8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=DsnUIxFI2s6Rz4ZTdh0EYdszbaLS5S9D8bAJj6V8Zjk=;
+	b=UsjFUYswjkobtbfOvL9siROtktJ50PtclpXGcsi9Ftmn5TDy6chfDvglewoyQJNa6e7QHd
+	URwKWHPMtcxQ7fmtXnQ2jKYr4pcKot+W1LktwX2KuUOiAG3QaceAnEIhIwe5Ov0VergYqz
+	zfXngd3XLIx35AOCOCGxyM8179h2wK0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-529-G9w3wSOJONaqreQ_G5dsEA-1; Thu, 30 Jan 2025 10:56:58 -0500
-X-MC-Unique: G9w3wSOJONaqreQ_G5dsEA-1
-X-Mimecast-MFC-AGG-ID: G9w3wSOJONaqreQ_G5dsEA
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4362b9c15d8so4629705e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 07:56:58 -0800 (PST)
+ us-mta-296-T-Oo1mWXN4urwFEYdPQ6hg-1; Thu, 30 Jan 2025 10:59:21 -0500
+X-MC-Unique: T-Oo1mWXN4urwFEYdPQ6hg-1
+X-Mimecast-MFC-AGG-ID: T-Oo1mWXN4urwFEYdPQ6hg
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4361ac8b25fso4914975e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 07:59:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738252617; x=1738857417;
+        d=1e100.net; s=20230601; t=1738252760; x=1738857560;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qM4w+1es2FaHKiaH8UoDw9Cy8vwIlmWEd0tDR6y0hSI=;
-        b=MiTHvqCZci5uHuL6i333z7gDQaSzXrU8TG7JdE/gKvb/tPOJQmjKSZm7Lutky9+Yys
-         S7dJzth87Fpl3bPvb1Gf0MAIVWV54T6xSeAFdstRdkQO2MsQPSrfqmes4hYWgkbjVKtX
-         kMXgldbBD9qTJWZaoXW8yXBrS+q9/U90rsg+yWftory0vOvOswJiJzfAk8WoXqvVSqRo
-         PTp5U5kHu+L0RfjAaRXABDmzXcThkJ5WrtbU19mWycW1CxWO1+k/CFv6uChAWZITd6Qm
-         LygKkb130bBahic5zjhPGILEIpz3Ag37T/MA6hbXtMYzhfJ4yc1U29GoJJWOgCM06iiU
-         He+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUm6MKeYwsuyQblz/wOVxovg7L4V8CWjxSkZPff1p2zFYZat9ePcOUC2vfNbRMFWjY8ZitXdTMotXQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDHBWUYW0UGIiL/AkTF/T0/e4d2Kg/PYAX0q5jxzIRH+o2oqLN
-	nr7x+HKE9Ada7WB/souvVdzHn67ZjkNz4vBPqMhmT2atV+Q1U54sMUYFuxeCBVUXeAIzSohtoOa
-	PxnvV3Y3wXcR2r5NTaT513C6VOnQwBe+SnqqAmg1ywTJ5MSFycpKynBNgng==
-X-Gm-Gg: ASbGncsdYH1kDDuq9C2PqM3gXRHGDexkqwqAqIc+aMj6PftvLZbCubUYSQtNW0yBO09
-	/MK6pwvlVLEcSPCKCG1gnov3eUTaLRaqsht5QgDJa7C4nEwhxTB9WpQwYah2IH0X2xUAdwFaxey
-	R0s5CYobkndR3oXLlMRPPzAaUZ8SW/RwEIZg1acMNPKSdferCVtspG3OsmQryu6i79Tq8UHUQpL
-	DXUbwanywNSc0sS3evHcZb65G5eKlztRfiqOa5zwZ1vRAOIgjpygYzxrNsbciy9ClhEy0ndhmjz
-	KvYDkGWP8LYepeodRu2dLWUvfnqfvmCFeb0xQlFL5rg1lVI42SS2eOYvTKMhwG+d8DYtjF16hQL
-	JrbylypryzWWzW2Omv+Te+z6h5SVeasrU
-X-Received: by 2002:a05:600c:154f:b0:434:a367:2bd9 with SMTP id 5b1f17b1804b1-438dc3ca79fmr78295515e9.14.1738252616887;
-        Thu, 30 Jan 2025 07:56:56 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFLqpKxoaB1vnd8r+/yn1qDNliwYunVoFg0sF0T9rGcNmbMw4yKk/QmEFTvnqEpMXpqQwFnhg==
-X-Received: by 2002:a05:600c:154f:b0:434:a367:2bd9 with SMTP id 5b1f17b1804b1-438dc3ca79fmr78295145e9.14.1738252616483;
-        Thu, 30 Jan 2025 07:56:56 -0800 (PST)
+        bh=DsnUIxFI2s6Rz4ZTdh0EYdszbaLS5S9D8bAJj6V8Zjk=;
+        b=bNpuDfvl+8UvQFPR8ELBYy9NufNO7Q2HvLBqX+xgSFXiOLfl01lbuE2KtRVJQN0P7+
+         x0kHGNWsdzaATaB+VYDW2aGSi5orxoCGI8fXE4clQJ06dOFKKf9vtfEGIpT9tsjASxST
+         cg+l6ZSr0k3DTDFquXjRKHv29Lu2i03QMmv4iUyN1no6C5sQWOyOnCSGACUV1AFQv9QG
+         jHxMwTDTNCQzSr45/lmTaea/giXYocXyjyt6dYnm7zdsfeSRLDcjOYqtx6Rz0HbMdPjs
+         AHdXpnh1vk/W1wwgQHNCpwj5AMCUesJoRs2Fo3FeRqhTSRA1DUw6KW6uIilb4VWpQDjV
+         OQNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWSpV1hfm3dwQQyyncXMuiZWmlJYo+zkslvhdcL1B3Asx4luoA8cUXMjzd9ffo6a3k9i/kWbQZLNQY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOXor3dohJ4DgcJlDBkuITnRiA5RN364beBunoeCtbcSc2fSYU
+	9K327SPc9OFg+tnMUDyjnLNG3ZgK2Bps1mSq4Xia64JPbyTSFBkvbPpKdpsiSYK2e908VD8r/7t
+	LvTgSoZNnXy3V1C+/T1WJh1OaFnfDVs8Gg3uOArIsekuB9AiLYusXolriog==
+X-Gm-Gg: ASbGncvNsWeVMYxLC2/N05i40XwvyDPy8w0tSbTFtXg/vjIj58XhgAYr2yZrF8GH4q8
+	10TIODfH68Npc2tp3UVFd96YEtdhdpZfza5/ecdic8IdzY0QX4Av2sP5tA+t9W5wEOUwZWGUSsC
+	omDOTWEbS/yvHRgv76AtlP6uHdQJAYXtmjT8P2tszkbQB7cPrIWb4DFpHfOqo7u4pUD+YGtiEm7
+	Tqph513TSg6MHBj+hfjhpiS58vigKiITjYTLc0zigo17HXGEo3aMtXFLTpISmI64lSPQ6+K+okl
+	40425N7PDXjV0IHh+2GvJBsfp8xUYUeWPd17lFIz8IZz1C1cjWmBgsnlE4JH1d/8hMYkBGq5R0C
+	F/Y/vELoJODAvtPa1nVkac0k4T0ZUJWE3
+X-Received: by 2002:a05:600c:4e52:b0:434:9dfe:20e6 with SMTP id 5b1f17b1804b1-438dc3fc2b0mr67980905e9.23.1738252760154;
+        Thu, 30 Jan 2025 07:59:20 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG3rx1FCxTfK9dT4GZUYFii4gIoyAgygN9uLXGcwSeyv5w8U63P6tIrS8/LxKqXr0qRCsRl9g==
+X-Received: by 2002:a05:600c:4e52:b0:434:9dfe:20e6 with SMTP id 5b1f17b1804b1-438dc3fc2b0mr67980555e9.23.1738252759687;
+        Thu, 30 Jan 2025 07:59:19 -0800 (PST)
 Received: from ?IPV6:2003:cb:c713:3b00:16ce:8f1c:dd50:90fb? (p200300cbc7133b0016ce8f1cdd5090fb.dip0.t-ipconnect.de. [2003:cb:c713:3b00:16ce:8f1c:dd50:90fb])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438dcc6dfb5sm64700345e9.31.2025.01.30.07.56.53
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438e245f41esm27323025e9.36.2025.01.30.07.59.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jan 2025 07:56:55 -0800 (PST)
-Message-ID: <84bc05e7-f47a-4941-a151-a3b2ab18ad62@redhat.com>
-Date: Thu, 30 Jan 2025 16:56:52 +0100
+        Thu, 30 Jan 2025 07:59:18 -0800 (PST)
+Message-ID: <9f59b475-232f-41d4-bd6f-7f84111062ac@redhat.com>
+Date: Thu, 30 Jan 2025 16:59:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,24 +75,27 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 03/12] mm/rmap: convert make_device_exclusive_range()
- to make_device_exclusive()
-To: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- nouveau@lists.freedesktop.org, Andrew Morton <akpm@linux-foundation.org>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+Subject: Re: [PATCH v1 04/12] mm/rmap: implement make_device_exclusive() using
+ folio_walk instead of rmap walk
+To: Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, nouveau@lists.freedesktop.org,
+ Andrew Morton <akpm@linux-foundation.org>, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?=
+ <jglisse@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
  Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
  Pasha Tatashin <pasha.tatashin@soleen.com>, Peter Xu <peterx@redhat.com>,
- Alistair Popple <apopple@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>
+ Jason Gunthorpe <jgg@nvidia.com>
 References: <20250129115411.2077152-1-david@redhat.com>
- <20250129115411.2077152-4-david@redhat.com>
- <Z5uCw9nzN81B4N8Z@phenom.ffwll.local>
+ <20250129115411.2077152-5-david@redhat.com>
+ <7tzcpx23vufmp5cxutnzhjgdj7kwqrw5drwochpv5ern7zknhj@h2s6y2qjbr3f>
+ <Z5tI-cOSyzdLjoe_@phenom.ffwll.local>
+ <54a55ff7-38c8-42c2-886f-d6d1985072a9@redhat.com>
+ <Z5t34-0K9FJKVQe6@phenom.ffwll.local>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -140,48 +143,65 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <Z5uCw9nzN81B4N8Z@phenom.ffwll.local>
+In-Reply-To: <Z5t34-0K9FJKVQe6@phenom.ffwll.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 30.01.25 14:46, Simona Vetter wrote:
-> On Wed, Jan 29, 2025 at 12:54:01PM +0100, David Hildenbrand wrote:
->> The single "real" user in the tree of make_device_exclusive_range() always
->> requests making only a single address exclusive. The current implementation
->> is hard to fix for properly supporting anonymous THP / large folios and
->> for avoiding messing with rmap walks in weird ways.
+>>>>> Note that the PTE is
+>>>>> always writable, and we can always create a writable-device-exclusive
+>>>>> entry.
+>>>>>
+>>>>> With this change, device-exclusive is fully compatible with THPs /
+>>>>> large folios. We still require PMD-sized THPs to get PTE-mapped, and
+>>>>> supporting PMD-mapped THP (without the PTE-remapping) is a different
+>>>>> endeavour that might not be worth it at this point.
+>>>
+>>> I'm not sure we actually want hugepages for device exclusive, since it has
+>>> an impact on what's allowed and what not. If we only ever do 4k entries
+>>> then userspace can assume that as long atomics are separated by a 4k page
+>>> there's no issue when both the gpu and cpu hammer on them. If we try to
+>>> keep thp entries then suddenly a workload that worked before will result
+>>> in endless ping-pong between gpu and cpu because the separate atomic
+>>> counters (or whatever) now all sit in the same 2m page.
 >>
->> So let's always process a single address/page and return folio + page to
->> minimize page -> folio lookups. This is a preparation for further
->> changes.
+>> Agreed. And the conversion + mapping into the device gets trickier.
 >>
->> Reject any non-anonymous or hugetlb folios early, directly after GUP.
+>>>
+>>> So going with thp might result in userspace having to spread out atomics
+>>> even more, which is just wasting memory and not saving any tlb entries
+>>> since often you don't need that many.
+>>>
+>>> tldr; I think not supporting thp entries for device exclusive is a
+>>> feature, not a bug.
 >>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> So, you agree with my "different endeavour that might not be worth it"
+>> statement?
 > 
-> Yeah this makes sense. Even for pmd entries I think we want to make this
-> very explicit with an explicit hugetlb opt-in I think.
+> Yes.
 > 
-> Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
+> Well I think we should go further and clearly document that we
+> intentionally return split pages. Because it's part of the uapi contract
+> with users of all this.
 
-Thanks, I'll fold in the following:
+Yes, see my reply to patch #3/
 
-diff --git a/mm/rmap.c b/mm/rmap.c
-index 676df4fba5b0..94256925682d 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -2525,6 +2525,10 @@ static bool folio_make_device_exclusive(struct folio *folio,
-   * programming is complete it should drop the page lock and reference after
-   * which point CPU access to the page will revoke the exclusive access.
-   *
-+ * Note: This function always operates on individual PTEs mapping individual
-+ * pages. PMD-sized THPs are first remapped to be mapped by PTEs before the
-+ * conversion happens on a single PTE corresponding to @addr.
-+ *
-   * Returns: pointer to mapped page on success, otherwise a negative error.
-   */
-  struct page *make_device_exclusive(struct mm_struct *mm, unsigned long addr,
+> 
+> And if someone needs pmd entries for performance or whatever, we need two
+> things:
+> 
+> a) userspace must mmap that memory as hugepage memory, to clearly signal
+> the promise that atomics are split up on hugepage sizes and not just page
+> size
+> 
+> b) we need to extend make_device_exclusive and drivers to handle the
+> hugetlb folio case
+> 
+> I think thp is simply not going to work here, it's impossible (without
+> potentially causing fault storms) to figure out what userspace might want.
 
+Right, I added a link to this discussion in the patch.
+
+Thanks!
 
 -- 
 Cheers,
