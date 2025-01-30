@@ -1,241 +1,212 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310B81EF09C
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 20:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B44191F92
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 21:15:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738268399; cv=none; b=FccT85saT5zzEq+8DZnuE3yaU4+2XLwoNn9+M7QalkxPo9wB4TNL+EJjmjnSqgttb09glRLJbr37y2qMyWTWL9oFdoq44h9mESLOKJI35BNSpDrM/dGvQL+e9mlyQuO/HZcNoveuxifCL7cRamYd8rJ+uky9MO60c/ba8s/oIqY=
+	t=1738271746; cv=none; b=X0eoo4aPvVWvNNywbJW698ruUvxrzIqxkbrV2zByoEbPfWeY6CqEpVeqeb9vYiTBQZEBXhWOZtVIpumgOYgZ9VT1bdfKFjcQqZ4zvSvA4KiHSOkuvmTfLmiFXkZDvQXRRYNRENUvlYx+4LCLSJSpC15uvaeai0vgSFGsq56fDQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738268399; c=relaxed/simple;
-	bh=dh+YK0XtVTC60LSRwsJYkEJFptTxFWBu/84xF34W6iE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VYdKDx6Cq22yC1w6LY232bSXOsjQDWKRoq86AtQJ+f4YYVFRn6zhN2eInh/rs+jYQjkNq6ATO317OxrJpfUW+eYEWw/bbNkCwx2PTsh3RZVil9pFD4qaKgyA6qYhUtwSPK1Qm7FHkPrZ4+ktPnJye4CxqDSwj3RuRyhjmHJprIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=yVJ5D56e; arc=none smtp.client-ip=209.85.222.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
+	s=arc-20240116; t=1738271746; c=relaxed/simple;
+	bh=AwWVGnUjXx8Wyr2wSxIpvnGC23tQdD0TlruChO0nSDk=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=rT88SSe/UhyBwP3CDvhAlNv9VGdV3jaXRVEVqsa47hmorNQSOj4LqkGCirAQgQPp4bGm9F7OCPVDF8+j+UYHt4OOinUTIJrsxAUhsUmQAS70yu1cZ54p6xyfHiTOTVjW+/FfrhA81mxbEKyGfy1Coiq8bZfNOApGLF5uoItpAMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HCYThilV; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="yVJ5D56e"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7be49f6b331so119889285a.1
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 12:19:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HCYThilV"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2ee8ced572eso2518827a91.0
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 13:15:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1738268395; x=1738873195; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z51AAJ9zLJofEtdedIFqQZN9K/yyiAQiMmQX40ASiiE=;
-        b=yVJ5D56eDuNCIIeDfx4E2S4KJwxgzAdy0xaw2Z35gsWTTs2Zl2qIFBg+I7lb6yCLzc
-         EaGUftEbsx2hc3Pw/sKiAMmire6vab/IwNBKxn6dgPpEc6qBxMhksM86Fd4xBksjrC5A
-         qpajS+G1fpnE5Y2eBGraK8CFa/a6qm5K/5xVNQ0C7+pi7LGm2m1+DCu/YjOnTSkeL1Y5
-         ITzb5t7H0OC5bz9njHuVTg0k6LCchfO8pA/ENJf1QIpozYKCAG7WS6RcHLIg8S+jjMOd
-         a9mrVjKyeTs2aH66FkksyZ6u6ACwCUB5BoBU3wFrmcO4EM88ABmuRlnwtnEtSwG0YTm9
-         AHvg==
+        d=google.com; s=20230601; t=1738271743; x=1738876543; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=w3LtRCOsgVaxwk2lW35j8j9VT58hbvzzlSooRGwM3eU=;
+        b=HCYThilV/jL/AxeaW4ZEqM9qqhOhAPe+lUXOzdb+8ESn7OLsIc3/9+mKPQ0EY9cth1
+         +cl0+JjgtlaAEuG0i18sILH8ayfOAWuITFAmNxiegRInVyoGe6gt+5jH+flR1P6/t9pn
+         Bhs9+ddO2BPbiXOFtzbk87mRcSlLo+THMQ5meKH1+tX0g4aeSUrn/cyoDhxzpBhwR9pX
+         dmNsc5DwSMXF6JCvjLHWt4yjMIzN0t5LWK5NjhBx7dd6Ley/9kZltInJYqW9AhuU1ijI
+         cZpfJpPvrFsF0mOcuohCCymaV64u7Gb2U55yzz1qTH6Rny99L4Hl0GPkcx6JrVd7fgkP
+         c0UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738268395; x=1738873195;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z51AAJ9zLJofEtdedIFqQZN9K/yyiAQiMmQX40ASiiE=;
-        b=bH043UHHPymgpA+rtQ6dUvKzsGJRE8fASkc1mBzuTCqrGSICiPOMuc/8JL8WiX0wdT
-         +ERb9QPdQrfDDDeSfNbf2D3RaUh5WTtpcq/ylZWOoE8SZSB00QwKbJI+FF9IO5nT/3PJ
-         EPgEFuniUZyqKElc2TcWHIhxELha4HMNVkh/cgQo0LuwyrrGwAmiHLCFq8/qY48f+ykm
-         NOmvtpuct95NqeHZVEg11JppV8KxLbJTHTMbNWUxWwNLQ/GzfOxJ2WIH3ypo9T/nVmuf
-         amTmExlOrv2uiCTw52mKP7soY9DYl10VJF7lHzSJbXX5Gr5OdsdiDZ/HRFgc9kTQEJ2m
-         fm0g==
-X-Forwarded-Encrypted: i=1; AJvYcCV+JQSmvSdheQKgtjjyxbVDsvOoRQUqKnfxxDEktRTzUisXVmCrgqiUd2MTjbGTKNt5xytuosKPG8Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGyFgkQAZ7XvP2xivadpcx9yF8E4YoIASjmPMgq1DN81CN0atu
-	7f8WaV/ESPMRJfXlUEuKI9CQOJFZ+MEFjitm4QmY3j2XIKLeeevxe3EyzeOTFPA=
-X-Gm-Gg: ASbGncvOOQZv1u5O7xm8UhM4HzMeU7XBSgZxyTd50SfkfTyjyIwz1H2kE7ez+uc3RSM
-	vEbtrSfAJ6XJpZqhNJSb0M48+vELZEsUqffR7dox/7QDId/9s1pSzi8Whh4bK9UriMbIPvQ69HH
-	v9jYwLmBSvE660DZypuLobbT/n1Bnm3BLx4Q+sRP1aIJxZHijgS4rwvXlLXwdUAEZReGa4Q5eAW
-	na+BG5IwrtYZCZeN3gAgu35yrE4c2t3G9zzHHQjzL/rQsI/GpHhJzLE21+ypN81E/5zLK5DBXTL
-	uoihhXxWUm9tdw==
-X-Google-Smtp-Source: AGHT+IHG1JSOh0nlUVEK+WfyizNl08mq/IVx9s0pot0IjDtoSwn6IimZwwRkGUrT/Jjf7Q98QZJwgA==
-X-Received: by 2002:a05:620a:4051:b0:7bc:db11:495b with SMTP id af79cd13be357-7bffcd9d350mr1321689885a.50.1738268394707;
-        Thu, 30 Jan 2025 12:19:54 -0800 (PST)
-Received: from localhost ([2603:7000:c01:2716:cbb0:8ad0:a429:60f5])
-        by smtp.gmail.com with UTF8SMTPSA id d75a77b69052e-46fdf173efbsm10153071cf.61.2025.01.30.12.19.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jan 2025 12:19:54 -0800 (PST)
-Date: Thu, 30 Jan 2025 15:19:45 -0500
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Waiman Long <llong@redhat.com>
-Cc: Yosry Ahmed <yosry.ahmed@linux.dev>, Tejun Heo <tj@kernel.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>, Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	Peter Hunt <pehunt@redhat.com>
-Subject: Re: [RFC PATCH] mm, memcg: introduce memory.high.throttle
-Message-ID: <20250130201945.GA13575@cmpxchg.org>
-References: <20250129191204.368199-1-longman@redhat.com>
- <Z5qLQ1o6cXbcvc0o@google.com>
- <366fd30f-033d-48d6-92b4-ac67c44d0d9b@redhat.com>
- <20250130163904.GB1283@cmpxchg.org>
- <baf1f9bf-4226-47f5-b795-c8862fd0554f@redhat.com>
+        d=1e100.net; s=20230601; t=1738271743; x=1738876543;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=w3LtRCOsgVaxwk2lW35j8j9VT58hbvzzlSooRGwM3eU=;
+        b=O/liAyHBiA4GjML6K0l+Yz/nmI/hRGEfn+n6FdNUm1uDD/YiCHMnxaLaeXltpf97dd
+         7N8cTMApfBMXc5/nz6JAB8IYtYoNxFnhzWlOvR5NQ9eVulhGee27oCErLxWu+RbtNPT9
+         iBPI8S2UoWyHh+mw9k8thVYGH353CK3S7frcjFMeugWErdriwqDET+JOTZempDklYqJ2
+         3my6yTePim5B/hGl07RvpANZpYuyiQg4BmbLYb26/L7wQxYAy1B/xVK2i2BSPR39NHiM
+         FSK3xy0yTMG/9B40JkJNU00UvFIukFcpcSLITafE0eMG80+74A4BpbS37SvDcCdkMKsu
+         E57A==
+X-Forwarded-Encrypted: i=1; AJvYcCUG83CWXLJLrZkbq3M7fyUvwfaB7Tv+DnjzRYM8TC2AcRr8RMQMtWk6xYvCOeHnCnKes/m5FJ5W6BM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXLF9HKB4NAZY4u9ijUBXvZKh7I9/1bB98tGDCDaRuzLyIvgrD
+	+RRiJA3C8rMPIZF8efkEEsa5YJXJC8eRNPmuuP95E3tOl/nJg+rjNvP09erATnB2gLfJ65rvykJ
+	iBoSWpZl985fkrwdDmbFLzA==
+X-Google-Smtp-Source: AGHT+IFAUh3HgDFWfU9BpZZUgm7IQWEJxQLoEO7cPRsnwHf1sSQTIU5zqMQeWoi0D5sqPeyPGJf1oVuUeqG24fSw6A==
+X-Received: from pjbpx16.prod.google.com ([2002:a17:90b:2710:b0:2ea:3a1b:f493])
+ (user=almasrymina job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:5387:b0:2ee:5111:a54b with SMTP id 98e67ed59e1d1-2f83ac8ad6emr11624480a91.31.1738271742907;
+ Thu, 30 Jan 2025 13:15:42 -0800 (PST)
+Date: Thu, 30 Jan 2025 21:15:33 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <baf1f9bf-4226-47f5-b795-c8862fd0554f@redhat.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.48.1.362.g079036d154-goog
+Message-ID: <20250130211539.428952-1-almasrymina@google.com>
+Subject: [PATCH RFC net-next v2 0/6] Device memory TCP TX
+From: Mina Almasry <almasrymina@google.com>
+To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org
+Cc: Mina Almasry <almasrymina@google.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, David Ahern <dsahern@kernel.org>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	"=?UTF-8?q?Eugenio=20P=C3=A9rez?=" <eperezma@redhat.com>, Shuah Khan <shuah@kernel.org>, sdf@fomichev.me, 
+	asml.silence@gmail.com, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>, 
+	Victor Nogueira <victor@mojatatu.com>, Pedro Tammela <pctammela@mojatatu.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jan 30, 2025 at 12:07:31PM -0500, Waiman Long wrote:
-> On 1/30/25 11:39 AM, Johannes Weiner wrote:
-> > On Thu, Jan 30, 2025 at 09:52:29AM -0500, Waiman Long wrote:
-> >> On 1/29/25 3:10 PM, Yosry Ahmed wrote:
-> >>> On Wed, Jan 29, 2025 at 02:12:04PM -0500, Waiman Long wrote:
-> >>>> Since commit 0e4b01df8659 ("mm, memcg: throttle allocators when failing
-> >>>> reclaim over memory.high"), the amount of allocator throttling had
-> >>>> increased substantially. As a result, it could be difficult for a
-> >>>> misbehaving application that consumes increasing amount of memory from
-> >>>> being OOM-killed if memory.high is set. Instead, the application may
-> >>>> just be crawling along holding close to the allowed memory.high memory
-> >>>> for the current memory cgroup for a very long time especially those
-> >>>> that do a lot of memcg charging and uncharging operations.
-> >>>>
-> >>>> This behavior makes the upstream Kubernetes community hesitate to
-> >>>> use memory.high. Instead, they use only memory.max for memory control
-> >>>> similar to what is being done for cgroup v1 [1].
-> >>>>
-> >>>> To allow better control of the amount of throttling and hence the
-> >>>> speed that a misbehving task can be OOM killed, a new single-value
-> >>>> memory.high.throttle control file is now added. The allowable range
-> >>>> is 0-32.  By default, it has a value of 0 which means maximum throttling
-> >>>> like before. Any non-zero positive value represents the corresponding
-> >>>> power of 2 reduction of throttling and makes OOM kills easier to happen.
-> >>>>
-> >>>> System administrators can now use this parameter to determine how easy
-> >>>> they want OOM kills to happen for applications that tend to consume
-> >>>> a lot of memory without the need to run a special userspace memory
-> >>>> management tool to monitor memory consumption when memory.high is set.
-> >>>>
-> >>>> Below are the test results of a simple program showing how different
-> >>>> values of memory.high.throttle can affect its run time (in secs) until
-> >>>> it gets OOM killed. This test program allocates pages from kernel
-> >>>> continuously. There are some run-to-run variations and the results
-> >>>> are just one possible set of samples.
-> >>>>
-> >>>>     # systemd-run -p MemoryHigh=10M -p MemoryMax=20M -p MemorySwapMax=10M \
-> >>>> 	--wait -t timeout 300 /tmp/mmap-oom
-> >>>>
-> >>>>     memory.high.throttle	service runtime
-> >>>>     --------------------	---------------
-> >>>>               0		    120.521
-> >>>>               1		    103.376
-> >>>>               2		     85.881
-> >>>>               3		     69.698
-> >>>>               4		     42.668
-> >>>>               5		     45.782
-> >>>>               6		     22.179
-> >>>>               7		      9.909
-> >>>>               8		      5.347
-> >>>>               9		      3.100
-> >>>>              10		      1.757
-> >>>>              11		      1.084
-> >>>>              12		      0.919
-> >>>>              13		      0.650
-> >>>>              14		      0.650
-> >>>>              15		      0.655
-> >>>>
-> >>>> [1] https://docs.google.com/document/d/1mY0MTT34P-Eyv5G1t_Pqs4OWyIH-cg9caRKWmqYlSbI/edit?tab=t.0
-> >>>>
-> >>>> Signed-off-by: Waiman Long <longman@redhat.com>
-> >>>> ---
-> >>>>    Documentation/admin-guide/cgroup-v2.rst | 16 ++++++++--
-> >>>>    include/linux/memcontrol.h              |  2 ++
-> >>>>    mm/memcontrol.c                         | 41 +++++++++++++++++++++++++
-> >>>>    3 files changed, 57 insertions(+), 2 deletions(-)
-> >>>>
-> >>>> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> >>>> index cb1b4e759b7e..df9410ad8b3b 100644
-> >>>> --- a/Documentation/admin-guide/cgroup-v2.rst
-> >>>> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> >>>> @@ -1291,8 +1291,20 @@ PAGE_SIZE multiple when read back.
-> >>>>    	Going over the high limit never invokes the OOM killer and
-> >>>>    	under extreme conditions the limit may be breached. The high
-> >>>>    	limit should be used in scenarios where an external process
-> >>>> -	monitors the limited cgroup to alleviate heavy reclaim
-> >>>> -	pressure.
-> >>>> +	monitors the limited cgroup to alleviate heavy reclaim pressure
-> >>>> +	unless a high enough value is set in "memory.high.throttle".
-> >>>> +
-> >>>> +  memory.high.throttle
-> >>>> +	A read-write single value file which exists on non-root
-> >>>> +	cgroups.  The default is 0.
-> >>>> +
-> >>>> +	Memory usage throttle control.	This value controls the amount
-> >>>> +	of throttling that will be applied when memory consumption
-> >>>> +	exceeds the "memory.high" limit.  The larger the value is,
-> >>>> +	the smaller the amount of throttling will be and the easier an
-> >>>> +	offending application may get OOM killed.
-> >>> memory.high is supposed to never invoke the OOM killer (see above). It's
-> >>> unclear to me if you are referring to OOM kills from the kernel or
-> >>> userspace in the commit message. If the latter, I think it shouldn't be
-> >>> in kernel docs.
-> >> I am sorry for not being clear. What I meant is that if an application
-> >> is consuming more memory than what can be recovered by memory reclaim,
-> >> it will reach memory.max faster, if set, and get OOM killed. Will
-> >> clarify that in the next version.
-> > You're not really supposed to use max and high in conjunction. One is
-> > for kernel OOM killing, the other for userspace OOM killing. That's tho
-> > what the documentation that you edited is trying to explain.
-> >
-> > What's the usecase you have in mind?
-> 
-> That is new to me that high and max are not supposed to be used 
-> together. One problem with v1 is that by the time the limit is reached 
-> and memory reclaim is not able to recover enough memory in time, the 
-> task will be OOM killed. I always thought that by setting high to a bit 
-> below max, say 90%, early memory reclaim will reduce the chance of OOM 
-> kills. There are certainly others that think like that.
+RFC v2: https://patchwork.kernel.org/project/netdevbpf/list/?series=920056&state=*
+=======
 
-I can't fault you or them for this, because this was the original plan
-for these knobs. However, this didn't end up working in practice.
+RFC v2 addresses much of the feedback from RFC v1. I plan on sending
+something close to this as net-next  reopens, sending it slightly early
+to get feedback if any.
 
-If you have a non-throttling, non-killing limit, then reclaim will
-either work and keep the workload to that limit; or it won't work, and
-the workload escapes to the hard limit and gets killed.
+Major changes:
+--------------
 
-You'll notice you get the same behavior with just memory.max set by
-itself - either reclaim can keep up, or OOM is triggered.
+- much improved UAPI as suggested by Stan. We now interpret the iov_base
+  of the passed in iov from userspace as the offset into the dmabuf to
+  send from. This removes the need to set iov.iov_base = NULL which may
+  be confusing to users, and enables us to send multiple iovs in the
+  same sendmsg() call. ncdevmem and the docs show a sample use of that.
 
-> So the use case here is to reduce the chance of OOM kills without 
-> letting really mishaving tasks from holding up useful memory for too long.
+- Removed the duplicate dmabuf iov_iter in binding->iov_iter. I think
+  this is good improvment as it was confusing to keep track of
+  2 iterators for the same sendmsg, and mistracking both iterators
+  caused a couple of bugs reported in the last iteration that are now
+  resolved with this streamlining.
 
-That brings us to the idea of a medium amount of throttling.
+- Improved test coverage in ncdevmem. Now muliple sendmsg() are tested,
+  and sending multiple iovs in the same sendmsg() is tested.
 
-The premise would be that, by throttling *to a certain degree*, you
-can slow the workload down just enough to tide over the pressure peak
-and avert the OOM kill.
+- Fixed issue where dmabuf unmapping was happening in invalid context
+  (Stan).
 
-This assumes that some tasks inside the cgroup can independently make
-forward progress and release memory, while allocating tasks inside the
-group are already throttled.
+====================================================================
 
-[ Keep in mind, it's a cgroup-internal limit, so no memory freeing
-  outside of the group can alleviate the situation. Progress must
-  happen from within the cgroup. ]
+The TX path had been dropped from the Device Memory TCP patch series
+post RFCv1 [1], to make that series slightly easier to review. This
+series rebases the implementation of the TX path on top of the
+net_iov/netmem framework agreed upon and merged. The motivation for
+the feature is thoroughly described in the docs & cover letter of the
+original proposal, so I don't repeat the lengthy descriptions here, but
+they are available in [1].
 
-But this sort of parallelism in a pressured cgroup is unlikely in
-practice. By the time reclaim fails, usually *every task* in the
-cgroup ends up having to allocate. Because they lose executables to
-cache reclaim, or heap memory to swap etc, and then page fault.
+Sending this series as RFC as the winder closure is immenient. I plan on
+reposting as non-RFC once the tree re-opens, addressing any feedback
+I receive in the meantime.
 
-We found that more often than not, it just deteriorates into a single
-sequence of events. Slowing it down just drags out the inevitable.
+Full outline on usage of the TX path is detailed in the documentation
+added in the first patch.
 
-As a result we eventually moved away from the idea of gradual
-throttling. The last remnants of this idea finally disappeared from
-the docs last year (commit 5647e53f7856bb39dae781fe26aa65a699e2fc9f).
+Test example is available via the kselftest included in the series as well.
 
-memory.high now effectively puts the cgroup to sleep when reclaim
-fails (similar to oom killer disabling in v1, but without the caveats
-of that implementation). This is useful to let userspace implement
-custom OOM killing policies.
+The series is relatively small, as the TX path for this feature largely
+piggybacks on the existing MSG_ZEROCOPY implementation.
+
+Patch Overview:
+---------------
+
+1. Documentation & tests to give high level overview of the feature
+   being added.
+
+2. Add netmem refcounting needed for the TX path.
+
+3. Devmem TX netlink API.
+
+4. Devmem TX net stack implementation.
+
+Testing:
+--------
+
+Testing is very similar to devmem TCP RX path. The ncdevmem test used
+for the RX path is now augemented with client functionality to test TX
+path.
+
+* Test Setup:
+
+Kernel: net-next with this RFC and memory provider API cherry-picked
+locally.
+
+Hardware: Google Cloud A3 VMs.
+
+NIC: GVE with header split & RSS & flow steering support.
+
+Performance results are not included with this version, unfortunately.
+I'm having issues running the dma-buf exporter driver against the
+upstream kernel on my test setup. The issues are specific to that
+dma-buf exporter and do not affect this patch series. I plan to follow
+up this series with perf fixes if the tests point to issues once they're
+up and running.
+
+Special thanks to Stan who took a stab at rebasing the TX implementation
+on top of the netmem/net_iov framework merged. Parts of his proposal [2]
+that are reused as-is are forked off into their own patches to give full
+credit.
+
+[1] https://lore.kernel.org/netdev/20240909054318.1809580-1-almasrymina@google.com/
+[2] https://lore.kernel.org/netdev/20240913150913.1280238-2-sdf@fomichev.me/T/#m066dd407fbed108828e2c40ae50e3f4376ef57fd
+
+Cc: sdf@fomichev.me
+Cc: asml.silence@gmail.com
+Cc: dw@davidwei.uk
+Cc: Jamal Hadi Salim <jhs@mojatatu.com>
+Cc: Victor Nogueira <victor@mojatatu.com>
+Cc: Pedro Tammela <pctammela@mojatatu.com>
+
+
+Mina Almasry (5):
+  net: add devmem TCP TX documentation
+  selftests: ncdevmem: Implement devmem TCP TX
+  net: add get_netmem/put_netmem support
+  net: devmem: Implement TX path
+  net: devmem: make dmabuf unbinding scheduled work
+
+Stanislav Fomichev (1):
+  net: devmem: TCP tx netlink api
+
+ Documentation/netlink/specs/netdev.yaml       |  12 +
+ Documentation/networking/devmem.rst           | 144 ++++++++-
+ include/linux/skbuff.h                        |  15 +-
+ include/linux/skbuff_ref.h                    |   4 +-
+ include/net/netmem.h                          |   3 +
+ include/net/sock.h                            |   1 +
+ include/uapi/linux/netdev.h                   |   1 +
+ include/uapi/linux/uio.h                      |   6 +-
+ net/core/datagram.c                           |  41 ++-
+ net/core/devmem.c                             | 110 ++++++-
+ net/core/devmem.h                             |  70 ++++-
+ net/core/netdev-genl-gen.c                    |  13 +
+ net/core/netdev-genl-gen.h                    |   1 +
+ net/core/netdev-genl.c                        |  67 ++++-
+ net/core/skbuff.c                             |  36 ++-
+ net/core/sock.c                               |   8 +
+ net/ipv4/tcp.c                                |  36 ++-
+ net/vmw_vsock/virtio_transport_common.c       |   3 +-
+ tools/include/uapi/linux/netdev.h             |   1 +
+ .../selftests/drivers/net/hw/ncdevmem.c       | 276 +++++++++++++++++-
+ 20 files changed, 802 insertions(+), 46 deletions(-)
+
+-- 
+2.48.1.362.g079036d154-goog
+
