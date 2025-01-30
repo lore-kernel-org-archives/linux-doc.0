@@ -1,102 +1,84 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9331BBBFD
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 16:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DBE1EBFF5
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 16:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738253437; cv=none; b=VhF3gqafk5bJsTKH5SNUPFFf8s11K3SofMbKYy4LSDWwDh2KpRKfzWuP6RXKWncRBGnWCmlW2pDGySQkVFufUZflTD8H8MCM+fDYVdAK7ojB1b1u8aiUXnYGD4vEbsD8bQCesAKTtbKNszgrVAW1LvtOy5m0rbwXkyDzjK7kXz4=
+	t=1738254530; cv=none; b=CGGhA+PKJk0UoHEfnHdZZ9NnZOkX4WaUCHnMIde/k9LcA/aCK212p9OosX96f61l/4B5NnC2rkQZZxy6knAnPxIILav1OaZ2hR5RHrbl9KHfiBG7/fSF19EKq2pPHg/FTNBqTrSldjeEIwbyMwhngIQtidG1ifCmOrOS2mF2Xbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738253437; c=relaxed/simple;
-	bh=zj4foHOwFAp2Jv/OUb3q8yJEBOkNJirbcL33sYXTw1A=;
+	s=arc-20240116; t=1738254530; c=relaxed/simple;
+	bh=6sBfrYuIppRAhFV4h3PDHzQmciiFlS2I+HbYt0ia76k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F5PAIMKAW38b2+pRFN5CFYs84QhFq9PaDzJB+2ulEMGpohOusDyW9oZdf048SXcPk5YeYRBmNQMKx/nlw477EjuY1cKfweYSaLXEKIO0CE3pszTGlQRvcqsH61qV6l+YFTNyq+5bu1KlRkZylNbPGJg63g5KKseXeFhCf9s1rSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=VCCQ5q63; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=GqJ7e3D+Zte+r1E+4XeoNehykGQelQra/0BrG3vbDOb1pmO0TLNMMYcCYiXH5hRTzq+pAyndRGxz1ttSigdG1K2+fhThPNibyiyO7Mte5voBcnWfBdALYcH4mrDOiHnLflkUrQgLAwSquSViaTdmXBdlaDt+OmW+DHpZsaBCEcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=myNpt/PJ; arc=none smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="VCCQ5q63"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-436281c8a38so7472615e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 08:10:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="myNpt/PJ"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6ddcff5a823so7104826d6.0
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 08:28:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1738253433; x=1738858233; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+aR4Ll0dxJFmtTXN5GjVVUyw5AIaU7JwbYHSEFoNZYE=;
-        b=VCCQ5q63kCkLkKzqHEMJGxubEdNxCEq8p1PNvaPJ3NsBnV5XTcgDZ3OzfNG1SNZ5ct
-         1m9E1xB52Hx/iI7qO5o2XKIvP4jSb4WXk/RdMabZzGMPMxvox6XFy0lEptZzeuwFS6W9
-         HvhE/0J8ngOzx0kpZoCoT1mproL0pGz302OwI=
+        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1738254526; x=1738859326; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5OkXXACOng+utnMeMDItBc+7N83xw5BMkcJgXetJOrs=;
+        b=myNpt/PJ9OER8GuTxco/vvEX9uye+Pr4Oa27qd9ekn1vXw9u6PEBVJhte3T6fj6Pdx
+         MEeL2moZy22rTSWionR8vij5hkSUSf5PQvkdzNV/xfE8sdd+Q2DphQZWxHaH5+Qrcmd6
+         Kj3oItvxR15972sYaPiae7Gr6hM9YjdHy6Z4QwDASmi9gUFLBPg3QJzu+8yJznP+zR6T
+         hkNKxmYqYxh3c5TvYDupcpw+FZN4l6XeTHfhAL+Xo2eQrBzlCM7OKVWY5LL8KFXDtidN
+         mtL5ICuHp8PzYm0LGbdXcWJz4uDPXOZq6J5LBEqC/NSbnMUgA7mSkeHuAxrVWzaCAt5v
+         hpEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738253433; x=1738858233;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+aR4Ll0dxJFmtTXN5GjVVUyw5AIaU7JwbYHSEFoNZYE=;
-        b=ccEwz2vwQymKfe3x6YEaIAdo+wNcLW1+Pxiz+p8OjXWJNGaxD4iZtjKOPmPLl2QBjY
-         6eTdW+IB23hAa+Byomap4pnvokG6MAzyfCrX/2UdZ39n6mnnlXXsK0+15gXZrB7jtLgV
-         DttyIBFICbemmE6SX6yjSUh+axG212gORsxN7BHkJ0FQ2rrqwxsInnZDhxdapU8tZaS8
-         qckyy0bBUW4DR1IHYGH3fK5mNUFLgkHTKoQXIB/LNWIlH/pWJHbsITO/4HvA6LteJ36L
-         +g0nRGd+/P4yM/fos/yfSJRATNoTG4mbbo2Yv5c5ZPXwER4tknh2xoUt3QYadi5mg7Cd
-         kTEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVSkKEdamtNQwgmc2AFzq/6FkH6Qbga/amsstDjWwFMxVTDkeyBEBoO1ALQVZjVdQTM8XrRhc8+m2M=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzp+dlEZmd84p50TVZDB4Se+V1h6PBnovs6n+e0qhBfnW0qEl6w
-	Q7wM+AWml+U5jhauQJ8DEBqe2SHMTwuqGhYH5fShfm2Reh6teBeJhJenMw16Bo0=
-X-Gm-Gg: ASbGnct/kVtxTT5yBgknRYqp0CFkXiCHjA08UHfPtW92/VYK4WgjCCldNg5pPeet8Ew
-	TqLSZBiPHUG67QqBxRSxMSfkLqo+ldcXeeb5/IYyUGHK3hFacaaF6gUPMgJtrfDDyFDzq4gvGhu
-	TW0aSWUifpLJcMrX2z2/wBhGT2e4lYypTV+8yetMwMdvy/sL+cHbxMSkvo+L+CCaaBtTOarNy34
-	DNEtfgHjIJV4FHiiBmy82AigL/ccIF+5YudiB0/bs3KOpH6mu/p+o1APwjU5e0/q6u73S7hufYD
-	zp2GeljRWN1C7SPXM4P9Y45ObkA=
-X-Google-Smtp-Source: AGHT+IHVd4DfU6AaL1PQgWpWv09mvfBE8UJUdITJOwxWpPybeOC1smy7UyEu+/Ad7rIxi3xBtlBrvg==
-X-Received: by 2002:a05:600c:5486:b0:433:c76d:d57e with SMTP id 5b1f17b1804b1-438dc3a40d3mr81383795e9.5.1738253432989;
-        Thu, 30 Jan 2025 08:10:32 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438dcc1315esm62266005e9.6.2025.01.30.08.10.31
+        d=1e100.net; s=20230601; t=1738254526; x=1738859326;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5OkXXACOng+utnMeMDItBc+7N83xw5BMkcJgXetJOrs=;
+        b=BPC4WkrcWjwAdLlNi8LmUACtNJLG2r10qQKLTmSoeb6wb+G2cvkIqr63e9B3iTPZy6
+         m6C/VKIwREqw+VikLZysufNbiL31t0asBNxQgUz2iZaho3J/jKX16xEoJU3tOCEjRqkW
+         hj/Xle8eOy4bPyTcK7zAegGE+N9gMoCBXumevyvLs9p7S32AYYbFCYM6+1e+LzxdJPpP
+         P1zhzl3DQ8sZURJTr5JBHO2kxvMHKleyvyxklAhYWELLbkRrm2Y/kLKshSbjQQ3EtlmE
+         OAXp75pSI28qoQi/e7hYpi5rJ8SXRNoofjkiVDwvnThZpKrwP750FTi/xWRG+pLpV85+
+         3ekQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXsJTz5I+m9Ryaw21Ai9z3eZx61FOJDaUPicBu9xnQAC4M6vyO9LB9ufXL/yvZ5Q5cosHch/CmgTuA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0LLELGBIf/Q5E4e1K8HlJWjTsRqZ8jZUJEniHu9RFBUx7gDrP
+	BlgP2EWZOLtcCpn499lMafH/t+vj6bkA/xX87aZJVYRXLL7Lc3e1n92SpGkTr7k=
+X-Gm-Gg: ASbGnctFLPLWqpwKRHpKb9pTJMO5+rpZJn3x3sIYKY8E5V72TxdGsWK1Q842jAurUL2
+	GRs2emiLb8aTk6PAR1KybixbSz6mVEazSTr0dnwnQwpZJ7onmHeL6WgGCA/Ibns9Tok5720Ae1e
+	vyBIhti41qzGL4PFVwQ7DgTPztPA7UfdG2S+dvFBk1wVqAcNkIDM7Ihwh4PyGos5uQ+el44Fcqj
+	9wq/EwTMpIfBOMF0R0UYZMmnpoe53XLeXkvOOAjjf6/sPCW4B20W5PzIql/vAuHKLRc1d+n8uxR
+	0kmHM4fWIleoHQ==
+X-Google-Smtp-Source: AGHT+IHdxC8d8mU2OcTkeT5tBiu59oWvGA29kh8nxXp/9u2SDZ/2GrNB5ZUbcdJsmkBEfXlqL2tQnQ==
+X-Received: by 2002:a05:6214:268e:b0:6d8:883b:142a with SMTP id 6a1803df08f44-6e243bef87emr112783916d6.2.1738254525734;
+        Thu, 30 Jan 2025 08:28:45 -0800 (PST)
+Received: from localhost ([2603:7000:c01:2716:cbb0:8ad0:a429:60f5])
+        by smtp.gmail.com with UTF8SMTPSA id 6a1803df08f44-6e2547f4dacsm7757586d6.19.2025.01.30.08.28.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jan 2025 08:10:32 -0800 (PST)
-Date: Thu, 30 Jan 2025 17:10:30 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-mm@kvack.org, nouveau@lists.freedesktop.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Peter Xu <peterx@redhat.com>, Alistair Popple <apopple@nvidia.com>
-Subject: Re: [PATCH v1 08/12] mm/rmap: handle device-exclusive entries
- correctly in try_to_unmap_one()
-Message-ID: <Z5ukdq6LG2dQKaPU@phenom.ffwll.local>
-Mail-Followup-To: Jason Gunthorpe <jgg@nvidia.com>,
-	David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-mm@kvack.org, nouveau@lists.freedesktop.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Peter Xu <peterx@redhat.com>, Alistair Popple <apopple@nvidia.com>
-References: <20250129115411.2077152-1-david@redhat.com>
- <20250129115411.2077152-9-david@redhat.com>
- <Z5tQL60SNNGCkfQR@phenom.ffwll.local>
- <59feb709-dadc-4d19-857e-49320cca3d98@redhat.com>
- <Z5t5RKFwl34vpqU4@phenom.ffwll.local>
- <20250130140832.GM5556@nvidia.com>
+        Thu, 30 Jan 2025 08:28:44 -0800 (PST)
+Date: Thu, 30 Jan 2025 11:28:36 -0500
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Yosry Ahmed <yosry.ahmed@linux.dev>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Vitaly Wool <vitaly.wool@konsulko.com>,
+	Seth Jennings <sjenning@redhat.com>,
+	Dan Streetman <ddstreet@ieee.org>,
+	Miaohe Lin <linmiaohe@huawei.com>, Nhat Pham <nphamcs@gmail.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>, Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Vlastimil Babka <vbabka@suse.cz>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev,
+	linux-s390@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] mm: zbud: remove zbud
+Message-ID: <20250130162836.GA1283@cmpxchg.org>
+References: <20250129180633.3501650-1-yosry.ahmed@linux.dev>
+ <20250129180633.3501650-3-yosry.ahmed@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -105,52 +87,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250130140832.GM5556@nvidia.com>
-X-Operating-System: Linux phenom 6.12.11-amd64 
+In-Reply-To: <20250129180633.3501650-3-yosry.ahmed@linux.dev>
 
-On Thu, Jan 30, 2025 at 10:08:32AM -0400, Jason Gunthorpe wrote:
-> On Thu, Jan 30, 2025 at 02:06:12PM +0100, Simona Vetter wrote:
-> > On Thu, Jan 30, 2025 at 12:08:42PM +0100, David Hildenbrand wrote:
-> > > On 30.01.25 11:10, Simona Vetter wrote:
-> > > > On Wed, Jan 29, 2025 at 12:54:06PM +0100, David Hildenbrand wrote:
-> > > > > Ever since commit b756a3b5e7ea ("mm: device exclusive memory access")
-> > > > > we can return with a device-exclusive entry from page_vma_mapped_walk().
-> > > > > 
-> > > > > try_to_unmap_one() is not prepared for that, so teach it about these
-> > > > > non-present nonswap PTEs.
-> > > > > 
-> > > > > Before that, could we also have triggered this case with device-private
-> > > > > entries? Unlikely.
-> > > > 
-> > > > Just quick comment on this, I'm still pondering all the other aspects.
-> > > > 
-> > > > device-private memory is entirely owned by the driver, the core mm isn't
-> > > > supposed to touch these beyond migrating it back to system memory in
-> > > > do_swap_page. Plus using rmap when the driver asks for invalidating
-> > > > mappings as needed.
-> > > > 
-> > > > So no lru, thp, migration or anything initiated by core mm should ever
-> > > > happen on these device private pages. If it does, it'd be a bug.
-> > > 
-> > > I was not 100% sure about HWPoison handling, that's why I added that
-> > > comment. In other regards I agree: reclaim etc. does not apply.
-> > 
-> > So maybe I'm just entirely lost, but unless you have a coherent
-> > interconnect I don't think hwpoisin should get involved with device
-> > private memory? And for a coherent interconnect it's just device memory,
-> > which isn't treated very special.
+On Wed, Jan 29, 2025 at 06:06:32PM +0000, Yosry Ahmed wrote:
+> The zbud compressed pages allocator is rarely used, most users use
+> zsmalloc. zbud consumes much more memory (only stores 1 or 2 compressed
+> pages per physical page). The only advantage of zbud is a marginal
+> performance improvement that by no means justify the memory overhead.
 > 
-> I'm not sure it is meaningful, but in principle a driver could keep
-> track of the poisoned private memory using that struct page
-> bit. Perhaps in that sense it is more of a driver private flag than
-> something the core MM would touch.
+> Historically, zsmalloc had significantly worse latency than zbud and
+> z3fold but offered better memory savings.  This is no longer the case as
+> shown by a simple recent analysis [1].  In a kernel build test on tmpfs
+> in a limited cgroup, zbud 2-3% less time than zsmalloc, but at the cost
+> of using ~32% more memory (1.5G vs 1.13G). The tradeoff does not make
+> sense for zbud in any practical scenario.
 > 
-> If you have a coherent interconnect then you should not be using
-> device private.
+> The only alleged advantage of zbud is not having the dependency on
+> CONFIG_MMU, but CONFIG_SWAP already depends on CONFIG_MMU anyway, and
+> zbud is only used by zswap.
+> 
+> Remove zbud after z3fold's removal, leaving zsmalloc as the one and only
+> zpool allocator. Leave the removal of the zpool API (and its associated
+> config options) to a followup cleanup after no more allocators show up.
+> 
+> Deprecating zbud for a few cycles before removing it was initially
+> proposed [2], like z3fold was marked as deprecated for 2 cycles [3].
+> However, Johannes rightfully pointed out that the 2 cycles is too short
+> for most downstream consumers, and z3fold was deprecated first only as a
+> courtesy anyway.
+> 
+> [1]https://lore.kernel.org/lkml/CAJD7tkbRF6od-2x_L8-A1QL3=2Ww13sCj4S3i4bNndqF+3+_Vg@mail.gmail.com/
+> [2]https://lore.kernel.org/lkml/Z5gdnSX5Lv-nfjQL@google.com/
+> [3]https://lore.kernel.org/lkml/20240904233343.933462-1-yosryahmed@google.com/
+> 
+> Signed-off-by: Yosry Ahmed <yosry.ahmed@linux.dev>
 
-Yes on both, that's what I meant.
--Sima
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
