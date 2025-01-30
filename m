@@ -1,65 +1,66 @@
 Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F5DA1C07DA
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 11:08:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C731DE8B2
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 11:08:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738235333; cv=none; b=tE8vnZ+tOJgK/8zjtTNIDPHh5bX1VUZjUvB3cVeQMnhsQLtQGVmShrfUSx5cbAgdPppVLDaOTe1qlTvoanSaWU9QY2ZF3F7nWqQs/qxbw7voTCs4ZMzljl4C3dbXXi69Om+G1cwGnEiG7KJje2KjhZZ79/BOqAT/fB+E/ozFta0=
+	t=1738235336; cv=none; b=TaJFDXN/SWh8cPw6vkUpGvvg5ICjcpAHK0tDWymWS067j+20p11zxFDTu/TZFZrnbUsTlWdsxYxo3jjbBGyZ7t/XIFA4I3UvQ6II9mD4K4s1fdsjqn4wV7MlTiN7wbY50GxZL0CAmMlX9CbWNu/tKtjLgkTz+NpWVgATRa/2YZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738235333; c=relaxed/simple;
-	bh=wkVNEJjOFcSvs5Kqm9fm8snOG5ZGNjTotpQ4cHaX6bo=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=t//I0LeUX8/CIO3TFjhs4lWIMVf3pL58P/zrmek8XVjjLRlIhSaU/8k1tSDsoMbwDlSEpDWEGhfwE1rn4XouWnb4c0c1mSK5Q2RY+cQ5+inuDtUxjPjlP4frcog4wWvVBNV5v9NUA27oPSe2qXHo26d5TR24qg4rtXFD+NuKvrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=DK55D2wn; arc=none smtp.client-ip=209.85.221.42
+	s=arc-20240116; t=1738235336; c=relaxed/simple;
+	bh=9POGhVF6RgiDv0gXZ4MJl273DxuTac/9CT5jeUuEaqU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=GoZpKpa1aXnP/OCIf4bQmZIoZo8Ik1yWgE2/Awz07dHZj81dBKMzYSjySofALS9RwFDC+84upmS+9t2+12CMvQGeTm3hqZ3RD3Ow+i0yT66JeRr9g85IX88zdx3wpt3NFrgbEnhhrKtYP5K4MOBl6mmJ169cFnl8RX+YKedZDYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=BmKXmZX/; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="DK55D2wn"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-385ddcfc97bso523642f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 03:08:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="BmKXmZX/"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-385d7f19f20so301103f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 03:08:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1738235328; x=1738840128; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oNy5MECpC+OYXUNYisY0RC+pyKB5foHep9jH8rSUuVE=;
-        b=DK55D2wno2q2ojfs27oZhQ6kcJ8FosGe5QhKo2nmQ7ykFZ6hcj439kxlmlHXhOSlvy
-         L4JedTfllRcKRMbj2dx4SVtmHD5GB155eiFUTsDzpEkU1GnXfrWsp6pafoX0Iei9n+f7
-         L1uK3TMYq19iE0gYO+ps1FG5559/mki9XOiZ6vQ9i/5sqXkQZ6P+ibEnXAwvErDbE4qI
-         r3sj4NT+H17fKEBvJFouiAZjjjVzvr/jsUceDb7xuAfnJZCXSnfXoMhqdxBAGZjdfz+n
-         ubX9g8MrnzmoLzrUu3j+rsvZrkPMtvubWVhJjEz52xLT6xBkDuvOmeuKdT9XgSuz9SU+
-         0sZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738235328; x=1738840128;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1738235332; x=1738840132; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oNy5MECpC+OYXUNYisY0RC+pyKB5foHep9jH8rSUuVE=;
-        b=Dx596SHCPwHHCUTbsn+JrRT2/Y9+EVfS7G9X5jICzFauvf2viDMjEcW2TRaRfoka/d
-         R7oGcRRnB8RyqErAWZWP3e3hOXOamXCLm43x2kUIisGcGmSPp+CLi4nuDnjIOwXy32pO
-         qY0PP0IDDHR5680+3UyUMGKzrImuVQcRqCrrrSYhSpVLv4Oqx7cXlu6OwETcQg8COBQI
-         SY7t958uGwGFx8LwIH4YFD78bPmdTmDnDzBnitIXvA8lJC8kysvS5EKmJK0BTfZaWLKm
-         EVNMj2J4fydvxckbAGd0OUw8uIi14WVFrMOIy56fPz/s6knbOZ+8TVm4hMhxYEmd+MJ8
-         YDkg==
-X-Forwarded-Encrypted: i=1; AJvYcCXpCHHTWW+biJpSaIeFfj4SLqEpRc/rsmquMZqqsZn/loLi0k/kY/L7fUvi2x7zJnWEqYG/EXK2u4E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQdQKH+JyBT/OuB3E2unihO2RYdiQv9U6SgRvJtY0ezleGRhwN
-	UB/48jDSyG498ZzROrYuppisETMaURfIpIzXXTyy+dVCwBGjJWWXNgVoUo/3qbE=
-X-Gm-Gg: ASbGncut+FPWdp5HyaW3AMFpp4jWde3Bi06UIKWwQzPpfkilDUSeIyoAZb6k5Wogav3
-	5o31E+wyyRZE4XzYQc8nwClry8Tqmk0PaA35uM4JamLouP7iL8W8k4q5JnLbZvbKIzYQHWAGsPT
-	xccvARw6ldZAGzeyjRMn+RPNcgwMDJk2KACHOniSId9rnAl7gIgeya4zJI5MUkASmp48m+Z14DD
-	unTXJIRfftoW8FGrlk7it9z96EGVov/mIHqJQIWNDj9KyFnIvaSIW9cm43ItKr29EvE9TrZhe9v
-	z7046qs8e9IyrSU9
-X-Google-Smtp-Source: AGHT+IGgXzKQ+H9jNjy/BS0FApXTmawFQuNy153U0DUEwK7KZmSKfpK2zFK1M97GfUm0QBrunlvpmA==
-X-Received: by 2002:a5d:6d09:0:b0:385:fae7:fe50 with SMTP id ffacd0b85a97d-38c5209128bmr5165809f8f.42.1738235328456;
-        Thu, 30 Jan 2025 03:08:48 -0800 (PST)
+        bh=7YSIPj5RP22cErksXoU0J04Uh0PrH8osxcrrurHALL4=;
+        b=BmKXmZX/ze3GJb0vDCt1IRrWua3/VdaO1wxgHRb9FgNHCBjUbed9X7JutuNw6/hXlw
+         G9AZ6A4w3i8NCqtOo+Ih3LGiIRgyjgMdWdZSZklfuzHjHZQuyOJ1xgIv5G/woMM6dvTC
+         Jra1JlRNONfROYYVc0X5xp0AyTUEvQ3nwwIfMtaAcspsqc+JOCz2AYKjM0ZSToGguPcS
+         y8lO9dKSEugWrBoWABfg5inH260+i9zbbibG1FqlowT4aBczoNIjRDGzJnlf+9YOopNA
+         Rq9Kc3aueOrjhUUuwMpkTqKf0JYt633qwwhPJTz80fncfgMaj+eCqq+yYLaBlxK4gdRb
+         GUDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738235332; x=1738840132;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7YSIPj5RP22cErksXoU0J04Uh0PrH8osxcrrurHALL4=;
+        b=YpRz0zgRc8fWj3XykzJSTg9wC0+KwklxpfSFEQVi4En6YJ9GNl3i4AW6kig7K9HEaO
+         jziJmG+mrWu9D3DukZiP2jy4PyRz3bMaex073lzfgq4RdMISE8P2SXCA9gyIrJ8vUWqT
+         1kJz/gVN03pLtVmla/SMVu+uURrm2S5XNgObr92DuPkUK80c2rFUXAcwEWZQNOd1ZTzi
+         DRlCi18jlhBTrBjZoCn0xgzvVwZLQln/otVM2bhzVqM7Yb6XfWSz5yem8px3wh6RlN9t
+         5g0BPAvdJnE9HJXeRo01Wl6fb/ACnFK+6bTDT1S8R0HPhsCt385zbnseqEnk/lRmX9pO
+         Lw2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXt7Z0McRFsLy9grcmzxoPDOaILR5u+26OnLqn5O34GbsGP2s+0X5JymUC841Mk3vUZnOzgtgZaI28=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+IFOtU/6yZnlAryTtTZRUXpvNk2E6z/o5GRhWZyckML3SxZJ6
+	XUWq47UlNcJH8Fc9mVDYL4jzLiPhTm9w00+U+14FWo070GhwW5GUedqmRE81RK0=
+X-Gm-Gg: ASbGncvqhK4p3r6YXgXwzV9xABeFGSUgjnMjcC+V0+2BnGwVwKZbZne/P5GTkZhRmv0
+	uZvDGzUIntdY8S1MuAfJKAbQKU7Eb4/0f0llK5G4kJVM/RW5gfCOHQw13VYge0d9i9n7BA51qfd
+	AXrqpfDtBPHIkhHdXMQl/zNMTuUUH4jC47xpP/b140h/BrK1+/vrsV7HFmVW4B9gCaQhHOxliiH
+	QU60r341SPdTMKiRqYNQ2MCBWcnOuC8FGcADHd/EsqdBujH923ZgirdnhXGzLGz30W1WSpPutcB
+	q7etodhTf6i7qsbe
+X-Google-Smtp-Source: AGHT+IFDC7rIlcgDwmIIAdPjA7xvlXdAlxcfk6Jv1zCVxgeLuXNVfv7bhRviIiT2omQUAPzNhHHOqg==
+X-Received: by 2002:a05:6000:1446:b0:38c:5d95:305a with SMTP id ffacd0b85a97d-38c5d953273mr1045039f8f.26.1738235332090;
+        Thu, 30 Jan 2025 03:08:52 -0800 (PST)
 Received: from [127.0.0.1] ([2a01:e0a:448:76e0:2c72:cd2d:79b2:82ff])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c102bb2sm1689225f8f.34.2025.01.30.03.08.47
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c102bb2sm1689225f8f.34.2025.01.30.03.08.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jan 2025 03:08:48 -0800 (PST)
+        Thu, 30 Jan 2025 03:08:51 -0800 (PST)
 From: Esteban Blanc <eblanc@baylibre.com>
-Subject: [PATCH v3 0/6] iio: adc: ad4030: new driver for AD4030 and similar
- ADCs
-Date: Thu, 30 Jan 2025 12:08:24 +0100
-Message-Id: <20250130-eblanc-ad4630_v1-v3-0-052e8c2d897d@baylibre.com>
+Date: Thu, 30 Jan 2025 12:08:28 +0100
+Subject: [PATCH v3 4/6] iio: adc: ad4030: add support for ad4630-24 and
+ ad4630-16
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,11 +69,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAKhdm2cC/32P3QrCMAxGX0V6bSVNu9Z55XuISH9SLegmnQyH7
- N3tRARFhdx8gXO+5MY6yok6tprdWKY+daltSpDzGfMH2+yJp1AyQ0AFGhUnd7SN5zYoLWHXCy4
- sGAW1IVcLVrBzppiuD+VmW/IhdZc2D4+GXkzbP7IywHWw2igvpFO0dnY4Jpdp4dvTpH+y5gcbg
- wctwKN08J1dIv5gK6+XUUo0MYR3dvqjx9ftAkX9xYFTv9RUVTUYF6sPxziOd7dlv0FvAQAA
-X-Change-ID: 20240624-eblanc-ad4630_v1-1a074097eb91
+Message-Id: <20250130-eblanc-ad4630_v1-v3-4-052e8c2d897d@baylibre.com>
+References: <20250130-eblanc-ad4630_v1-v3-0-052e8c2d897d@baylibre.com>
+In-Reply-To: <20250130-eblanc-ad4630_v1-v3-0-052e8c2d897d@baylibre.com>
 To: Lars-Peter Clausen <lars@metafoo.de>, 
  Michael Hennerich <Michael.Hennerich@analog.com>, 
  =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
@@ -82,93 +81,327 @@ To: Lars-Peter Clausen <lars@metafoo.de>,
 Cc: Michael Hennerich <michael.hennerich@analog.com>, 
  linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Esteban Blanc <eblanc@baylibre.com>, 
- Conor Dooley <conor.dooley@microchip.com>
+ Esteban Blanc <eblanc@baylibre.com>
 X-Mailer: b4 0.14.2
 
-This is adding DT bindings and a new driver for AD4030, AD4630 and
-AD4632 ADCs.
-
-This work is being done in collaboration with Analog Devices Inc.,
-hence they are listed as maintainers rather than me.
-
-The code has been tested on a Zedboard with an EVAL-AD4030-24FMCZ,
-an EVAL-AD4630-24FMCZ and an EVAL-AD4630-16FMCZ. As there is no eval
-board for AD4632 the support can't be tested at the moment. The main
-difference is the reduced throughput.
+AD4630-24 and AD4630-16 are 2 channels ADCs. Both channels are
+interleaved bit per bit on SDO line.
 
 Signed-off-by: Esteban Blanc <eblanc@baylibre.com>
 ---
-Changes since RFC:
-- Reorder IIO channels to have the common byte channel next to its differential
-  channel.
-- Extended names for IIO channels.
-- Diffrential data channels are marked as differential channels on IIO
-  side.
-- Use get/put_unaligned_be24 for offset and sign extend it.
-- Common byte channel now has 32 realbits. This will be the same as what the
-  FPGA will return, avoiding different channel layouts.
-- Fix missing newline in some error messages.
-- Add comment for the use of spi_sync_transfer instead of
-  spi_write_then_read in ad4030_spi_read.
-- Use DMA safe buffers for regmap operations.
-- Clarify calculation for number of bytes to read from the device during
-  conversion.
-- Formating fixes.
-- Add documentation page.
-- Link to RFC: https://lore.kernel.org/r/20240627-eblanc-ad4630_v1-v1-0-fdc0610c23b0@baylibre.com
+ drivers/iio/adc/ad4030.c | 188 ++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 178 insertions(+), 10 deletions(-)
 
-Changes since V1:
+diff --git a/drivers/iio/adc/ad4030.c b/drivers/iio/adc/ad4030.c
+index ef76f077feb0b995938b7acdddf3d45c990ea8ef..45d99152d84aeb878c7554edfdc32d3a1295e9c4 100644
+--- a/drivers/iio/adc/ad4030.c
++++ b/drivers/iio/adc/ad4030.c
+@@ -33,6 +33,8 @@
+ #define AD4030_REG_PRODUCT_ID_H				0x05
+ #define AD4030_REG_CHIP_GRADE				0x06
+ #define     AD4030_REG_CHIP_GRADE_AD4030_24_GRADE	0x10
++#define     AD4030_REG_CHIP_GRADE_AD4630_16_GRADE	0x03
++#define     AD4030_REG_CHIP_GRADE_AD4630_24_GRADE	0x00
+ #define     AD4030_REG_CHIP_GRADE_MASK_CHIP_GRADE	GENMASK(7, 3)
+ #define AD4030_REG_SCRATCH_PAD			0x0A
+ #define AD4030_REG_SPI_REVISION			0x0B
+@@ -85,6 +87,7 @@
+ #define AD4030_MAX_HARDWARE_CHANNEL_NB		2
+ #define AD4030_MAX_IIO_CHANNEL_NB		5
+ #define AD4030_SINGLE_COMMON_BYTE_CHANNELS_MASK	0b10
++#define AD4030_DUAL_COMMON_BYTE_CHANNELS_MASK	0b1100
+ #define AD4030_GAIN_MIDLE_POINT			0x8000
+ /*
+  * This accounts for 1 sample per channel plus one s64 for the timestamp,
+@@ -114,6 +117,13 @@ enum ad4030_out_mode {
+ 	AD4030_OUT_DATA_MD_32_PATTERN
+ };
+ 
++enum {
++	AD4030_LANE_MD_1_PER_CH,
++	AD4030_LANE_MD_2_PER_CH,
++	AD4030_LANE_MD_4_PER_CH,
++	AD4030_LANE_MD_INTERLEAVED,
++};
++
+ enum {
+ 	AD4030_SCAN_TYPE_NORMAL,
+ 	AD4030_SCAN_TYPE_AVG,
+@@ -152,7 +162,11 @@ struct ad4030_state {
+ 		struct {
+ 			s32 diff;
+ 			u8 common;
+-		};
++		} single;
++		struct {
++			s32 diff[2];
++			u8 common[2];
++		} dual;
+ 	} rx_data;
+ };
+ 
+@@ -511,19 +525,33 @@ static int ad4030_set_avg_frame_len(struct iio_dev *dev, int avg_val)
+ static bool ad4030_is_common_byte_asked(struct ad4030_state *st,
+ 					unsigned int mask)
+ {
+-	return mask & AD4030_SINGLE_COMMON_BYTE_CHANNELS_MASK;
++	return mask & (st->chip->num_voltage_inputs == 1 ?
++		AD4030_SINGLE_COMMON_BYTE_CHANNELS_MASK :
++		AD4030_DUAL_COMMON_BYTE_CHANNELS_MASK);
+ }
+ 
+ static int ad4030_set_mode(struct iio_dev *indio_dev, unsigned long mask)
+ {
+ 	struct ad4030_state *st = iio_priv(indio_dev);
+ 
+-	if (st->avg_log2 > 0)
++	if (st->avg_log2 > 0) {
+ 		st->mode = AD4030_OUT_DATA_MD_30_AVERAGED_DIFF;
+-	else if (ad4030_is_common_byte_asked(st, mask))
+-		st->mode = AD4030_OUT_DATA_MD_24_DIFF_8_COM;
+-	else
++	} else if (ad4030_is_common_byte_asked(st, mask)) {
++		switch (st->chip->precision_bits) {
++		case 16:
++			st->mode = AD4030_OUT_DATA_MD_16_DIFF_8_COM;
++			break;
++
++		case 24:
++			st->mode = AD4030_OUT_DATA_MD_24_DIFF_8_COM;
++			break;
++
++		default:
++			return -EINVAL;
++		}
++	} else {
+ 		st->mode = AD4030_OUT_DATA_MD_DIFF;
++	}
+ 
+ 	st->current_scan_type = iio_get_current_scan_type(indio_dev,
+ 							  st->chip->channels);
+@@ -535,11 +563,52 @@ static int ad4030_set_mode(struct iio_dev *indio_dev, unsigned long mask)
+ 				  st->mode);
+ }
+ 
++/*
++ * Descramble 2 32bits numbers out of a 64bits. The bits are interleaved:
++ * 1 bit for first number, 1 bit for the second, and so on...
++ */
++static void ad4030_extract_interleaved(u8 *src, u32 *ch0, u32 *ch1)
++{
++	u8 h0, h1, l0, l1;
++	u32 out0, out1;
++	u8 *out0_raw = (u8 *)&out0;
++	u8 *out1_raw = (u8 *)&out1;
++
++	for (int i = 0; i < 4; i++) {
++		h0 = src[i * 2];
++		l1 = src[i * 2 + 1];
++		h1 = h0 << 1;
++		l0 = l1 >> 1;
++
++		h0 &= 0xAA;
++		l0 &= 0x55;
++		h1 &= 0xAA;
++		l1 &= 0x55;
++
++		h0 = (h0 | h0 << 001) & 0xCC;
++		h1 = (h1 | h1 << 001) & 0xCC;
++		l0 = (l0 | l0 >> 001) & 0x33;
++		l1 = (l1 | l1 >> 001) & 0x33;
++		h0 = (h0 | h0 << 002) & 0xF0;
++		h1 = (h1 | h1 << 002) & 0xF0;
++		l0 = (l0 | l0 >> 002) & 0x0F;
++		l1 = (l1 | l1 >> 002) & 0x0F;
++
++		out0_raw[i] = h0 | l0;
++		out1_raw[i] = h1 | l1;
++	}
++
++	*ch0 = out0;
++	*ch1 = out1;
++}
++
+ static int ad4030_conversion(struct iio_dev *indio_dev)
+ {
+ 	struct ad4030_state *st = iio_priv(indio_dev);
+ 	unsigned char diff_realbytes =
+ 		BITS_TO_BYTES(st->current_scan_type->realbits);
++	unsigned char diff_storagebytes =
++		BITS_TO_BYTES(st->current_scan_type->storagebits);
+ 	unsigned int bytes_to_read;
+ 	unsigned long cnv_nb = BIT(st->avg_log2);
+ 	unsigned int i;
+@@ -564,10 +633,23 @@ static int ad4030_conversion(struct iio_dev *indio_dev)
+ 	if (ret)
+ 		return ret;
+ 
+-	if (st->mode != AD4030_OUT_DATA_MD_24_DIFF_8_COM)
++	if (st->chip->num_voltage_inputs == 2)
++		ad4030_extract_interleaved(st->rx_data.raw,
++					   &st->rx_data.dual.diff[0],
++					   &st->rx_data.dual.diff[1]);
++
++	if (st->mode != AD4030_OUT_DATA_MD_16_DIFF_8_COM &&
++	    st->mode != AD4030_OUT_DATA_MD_24_DIFF_8_COM)
++		return 0;
++
++	if (st->chip->num_voltage_inputs == 1) {
++		st->rx_data.single.common = st->rx_data.raw[diff_realbytes];
+ 		return 0;
++	}
+ 
+-	st->rx_data.common = st->rx_data.raw[diff_realbytes];
++	for (i = 0; i < st->chip->num_voltage_inputs; i++)
++		st->rx_data.dual.common[i] =
++			st->rx_data.raw[diff_storagebytes * i + diff_realbytes];
+ 
+ 	return 0;
+ }
+@@ -582,14 +664,25 @@ static int ad4030_single_conversion(struct iio_dev *indio_dev,
+ 	if (ret)
+ 		return ret;
+ 
++	st->current_scan_type = iio_get_current_scan_type(indio_dev,
++							  st->chip->channels);
++	if (IS_ERR(st->current_scan_type))
++		return PTR_ERR(st->current_scan_type);
++
+ 	ret = ad4030_conversion(indio_dev);
+ 	if (ret)
+ 		return ret;
+ 
+ 	if (chan->differential)
+-		*val = st->rx_data.diff;
++		if (st->chip->num_voltage_inputs == 1)
++			*val = st->rx_data.single.diff;
++		else
++			*val = st->rx_data.dual.diff[chan->address];
+ 	else
+-		*val = st->rx_data.common;
++		if (st->chip->num_voltage_inputs == 1)
++			*val = st->rx_data.single.common;
++		else
++			*val = st->rx_data.dual.common[chan->address];
+ 
+ 	return IIO_VAL_INT;
+ }
+@@ -882,10 +975,24 @@ static int ad4030_detect_chip_info(const struct ad4030_state *st)
+ 
+ static int ad4030_config(struct ad4030_state *st)
+ {
++	int ret;
++	u8 reg_modes;
++
+ 	st->offset_avail[0] = (int)BIT(st->chip->precision_bits - 1) * -1;
+ 	st->offset_avail[1] = 1;
+ 	st->offset_avail[2] = BIT(st->chip->precision_bits - 1) - 1;
+ 
++	if (st->chip->num_voltage_inputs > 1)
++		reg_modes = FIELD_PREP(AD4030_REG_MODES_MASK_LANE_MODE,
++				       AD4030_LANE_MD_INTERLEAVED);
++	else
++		reg_modes = FIELD_PREP(AD4030_REG_MODES_MASK_LANE_MODE,
++				       AD4030_LANE_MD_1_PER_CH);
++
++	ret = regmap_write(st->regmap, AD4030_REG_MODES, reg_modes);
++	if (ret)
++		return ret;
++
+ 	if (st->vio_uv < AD4030_VIO_THRESHOLD_UV)
+ 		return regmap_write(st->regmap, AD4030_REG_IO,
+ 				    AD4030_REG_IO_MASK_IO2X);
+@@ -974,6 +1081,14 @@ static const unsigned long ad4030_channel_masks[] = {
+ 	0,
+ };
+ 
++static const unsigned long ad4630_channel_masks[] = {
++	/* Differential only */
++	BIT(1) | BIT(0),
++	/* Differential with common byte */
++	GENMASK(3, 0),
++	0,
++};
++
+ static const struct iio_scan_type ad4030_24_scan_types[] = {
+ 	[AD4030_SCAN_TYPE_NORMAL] = {
+ 		.sign = 's',
+@@ -991,6 +1106,23 @@ static const struct iio_scan_type ad4030_24_scan_types[] = {
+ 	},
+ };
+ 
++static const struct iio_scan_type ad4030_16_scan_types[] = {
++	[AD4030_SCAN_TYPE_NORMAL] = {
++		.sign = 's',
++		.storagebits = 32,
++		.realbits = 16,
++		.shift = 16,
++		.endianness = IIO_BE,
++	},
++	[AD4030_SCAN_TYPE_AVG] = {
++		.sign = 's',
++		.storagebits = 32,
++		.realbits = 30,
++		.shift = 2,
++		.endianness = IIO_BE,
++	}
++};
++
+ static const struct ad4030_chip_info ad4030_24_chip_info = {
+ 	.name = "ad4030-24",
+ 	.available_masks = ad4030_channel_masks,
+@@ -1005,14 +1137,50 @@ static const struct ad4030_chip_info ad4030_24_chip_info = {
+ 	.tcyc_ns = AD4030_TCYC_ADJUSTED_NS,
+ };
+ 
++static const struct ad4030_chip_info ad4630_16_chip_info = {
++	.name = "ad4630-16",
++	.available_masks = ad4630_channel_masks,
++	.channels = {
++		AD4030_CHAN_DIFF(0, ad4030_16_scan_types),
++		AD4030_CHAN_DIFF(1, ad4030_16_scan_types),
++		AD4030_CHAN_CMO(2, 0),
++		AD4030_CHAN_CMO(3, 1),
++		IIO_CHAN_SOFT_TIMESTAMP(4),
++	},
++	.grade = AD4030_REG_CHIP_GRADE_AD4630_16_GRADE,
++	.precision_bits = 16,
++	.num_voltage_inputs = 2,
++	.tcyc_ns = AD4030_TCYC_ADJUSTED_NS,
++};
++
++static const struct ad4030_chip_info ad4630_24_chip_info = {
++	.name = "ad4630-24",
++	.available_masks = ad4630_channel_masks,
++	.channels = {
++		AD4030_CHAN_DIFF(0, ad4030_24_scan_types),
++		AD4030_CHAN_DIFF(1, ad4030_24_scan_types),
++		AD4030_CHAN_CMO(2, 0),
++		AD4030_CHAN_CMO(3, 1),
++		IIO_CHAN_SOFT_TIMESTAMP(4),
++	},
++	.grade = AD4030_REG_CHIP_GRADE_AD4630_24_GRADE,
++	.precision_bits = 24,
++	.num_voltage_inputs = 2,
++	.tcyc_ns = AD4030_TCYC_ADJUSTED_NS,
++};
++
+ static const struct spi_device_id ad4030_id_table[] = {
+ 	{ "ad4030-24", (kernel_ulong_t)&ad4030_24_chip_info },
++	{ "ad4630-16", (kernel_ulong_t)&ad4630_16_chip_info },
++	{ "ad4630-24", (kernel_ulong_t)&ad4630_24_chip_info },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(spi, ad4030_id_table);
+ 
+ static const struct of_device_id ad4030_of_match[] = {
+ 	{ .compatible = "adi,ad4030-24", .data = &ad4030_24_chip_info },
++	{ .compatible = "adi,ad4630-16", .data = &ad4630_16_chip_info },
++	{ .compatible = "adi,ad4630-24", .data = &ad4630_24_chip_info },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, ad4030_of_match);
 
-The most important change is the use of the RFC's IIO channel layout as it's
-the most space efficient compared to the V1. In the event of a future DMA
-enabled version using the ADI's SPI Engine, the IIO channel layout would be
-different anyway. The V1 layout had a more logical ordering of the IIO
-channels but since we are using labels in this version, there is no reason
-to keep it.
-
-- Use REGMAP instead of REGMAP_SPI in Kconfig
-- Select IIO_TRIGGERED_BUFFER in Kconfig
-- Use layout with the differential channels first then the common byte channels.
-- Flatten rx_data union/struct layout
-- Use get/put_unaligned_beXX
-- Scale read is done without requiring direct mode
-- Grade check is just a warning now
-- Use label instead of extend names
-- Use IIO_VAL_INT_PLUS_NANO for gain values
-- Discard out of bounds values when setting oversampling ratio
-- Merge AD4030_OUT_DATA_MD_(16|24)_DIFF together
-- Use iio_chan_spec channel field to avoid maths in several places
-- Fix typos and formating
-- Link to v1: https://lore.kernel.org/r/20240822-eblanc-ad4630_v1-v1-0-5c68f3327fdd@baylibre.com
-
----
-Changes in v3:
-- Put config mode logic into regmap read/write handlers
-- Link to v2: https://lore.kernel.org/r/20241219-eblanc-ad4630_v1-v2-0-f36e55907bf5@baylibre.com
-
----
-Esteban Blanc (6):
-      dt-bindings: iio: adc: add ADI ad4030, ad4630 and ad4632
-      iio: adc: ad4030: add driver for ad4030-24
-      iio: adc: ad4030: add averaging support
-      iio: adc: ad4030: add support for ad4630-24 and ad4630-16
-      iio: adc: ad4030: add support for ad4632-16 and ad4632-24
-      docs: iio: ad4030: add documentation
-
- .../devicetree/bindings/iio/adc/adi,ad4030.yaml    |  111 ++
- Documentation/iio/ad4030.rst                       |  181 +++
- Documentation/iio/index.rst                        |    1 +
- MAINTAINERS                                        |   11 +
- drivers/iio/adc/Kconfig                            |   14 +
- drivers/iio/adc/Makefile                           |    1 +
- drivers/iio/adc/ad4030.c                           | 1241 ++++++++++++++++++++
- 7 files changed, 1560 insertions(+)
----
-base-commit: ffd294d346d185b70e28b1a28abe367bbfe53c04
-change-id: 20240624-eblanc-ad4630_v1-1a074097eb91
-
-Best regards,
 -- 
-Esteban Blanc <eblanc@baylibre.com>
+2.47.2
 
