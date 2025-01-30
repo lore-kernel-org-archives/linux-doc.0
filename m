@@ -1,309 +1,101 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129DA1DFE29
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 11:08:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86921BC065;
+	Thu, 30 Jan 2025 11:24:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738235339; cv=none; b=uzQkV31lCar+aFYqYFlGnfzPEj2LOK7DBSiKtakDi/26zbQT8bTjJX7IiFz/0vc/B1Ka9jgG0g5+Im/7S/8TLv5ZHDfZOWpXGOnGiUyoMogMe6MWP9mYMk5+wUugfA7+TXAACujUM73SBtSLIC4ay78C+67cNTFFy9QJxj+MkF8=
+	t=1738236249; cv=none; b=JdTI7itO1r6G+5A5j81G3+xUKGpXZOCZmhf/9kuJ993BGSsVTX2fk+ohyQ+/d0a26titABF93t1buUOyJLxWHJf8ks/wtumed1xhCVxIsLzyFh+sOVaRDe6aV0aV6I14vYulnMsVF2u2piK9/6Pmwb5srTLBEmfTS3iIQvofPhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738235339; c=relaxed/simple;
-	bh=Xj+cACF/4dUxnqDSM5N/rrBoBvSzBj7xPq2n0sP1X3I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EjoypYG/RJ3funup1HZz2H5FcXG186iSP1RoQAOpNcwen16b9Op+/c6jntCbyoB0wIOlLFJS+MivONQA085eJicB+4ElNPgtPF4H0+BeTpqWIT2aC9yorW6+4fElDfnoPuwN++X4XDSXBFmveu/UvYeOGijXYwQJtVVU9HYezTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Eur0W0f8; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1738236249; c=relaxed/simple;
+	bh=wDl2kfGArafP0t3yD1cDiGvh5wGA0nD57PSF/Ozc0fU=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
+	 MIME-Version:Content-Type; b=cs7iKwVZWv1vDOAoAF9xl9BZFgbRnHjtfWWwOniHxTgzFBYBDCB5SfWpe3H6mYk+I4lgHNVDtaYyzWWdosMiQTsBqfCqMDcinq4W5jREVZV+LbXkl5eJF7mHXAOCvd3iPU024E/XixNmFWPxdKHGGlyMGE+S15PCjfUbGhFLmOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gsQspPtZ; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Eur0W0f8"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-38632b8ae71so622181f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 03:08:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gsQspPtZ"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4361815b96cso4447655e9.1;
+        Thu, 30 Jan 2025 03:24:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1738235334; x=1738840134; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JJnfYL4y+XOtMvQuz9huV55zf7Tgs9Of5rkerqCGHxk=;
-        b=Eur0W0f8vmLCi9RUTg2tCAQ1x5NjXexTVqdi8M/lOwW4JwBWh/+6O4vkAEMAXiJCZy
-         TxYeoYqoeuVkNMdYG/ESCzLZEqbLtsmCxFwYd30MmeuJX0o+IOBTACPC7NF3pybxnQnU
-         UulKA0TLCeJyGcDD+f4cfrITjpq8DSbvECStaYLDHDQPijz+l1Up30oMQRWemJfBEuJt
-         PQM5bzqSBHM8Dv6oqHM5JtQwzCt/PMue8mKlv1KHPky5XxDTODDgtHphx5RyMKzbkTyj
-         1YAOOAjnC3M/WQlW+E7UGYcisd3VUCzXkeijsFheql3J91nqpfRsVnN1RCc/RxqbNrLs
-         Vttw==
+        d=gmail.com; s=20230601; t=1738236244; x=1738841044; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0Id92T0AVX6JDwaxiz3z7oRBD6wW+GTifuBoqUY0sTA=;
+        b=gsQspPtZ81aBimV9bj/pdPd8nM6yfXJ8NADl+XtoGPZt1NXM5W2TbNm0yJUG6BQa8S
+         kJuI2A6nDUXH9XoCVZNcOwjwwTmYmHKA5bxs8oAw8VX86pQXQAsF48ySHqhPust3b2YN
+         0JY+rv+WXJNHcbWY9LBTIhabj9RqVOg1dMyp2oa82KWBD/yu8ow8xk2X/2CB3D5QUO4F
+         S7mlBQ6gRd0fbzVNijIFrgVlk2aezeNHC2Yzk2OZW54qgko5wJDOuC9UH2589o4hyXgU
+         gxwCRSfsPmLYkgCrmkjzXGLu4mMjAqo3F8bbr4tB9rZiK6gkSNttHOtip5S3C7Hazy1i
+         k2Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738235334; x=1738840134;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JJnfYL4y+XOtMvQuz9huV55zf7Tgs9Of5rkerqCGHxk=;
-        b=LnWQzODpPsEGZcV9DA4HqbCKrCHM8AOzDxIdiuIK84On/sdt+kTC2FvzXrtkhRpxHi
-         PFiBP20mC3liFG42eysoqi3DqxrQQbgcAKP/eTHu+YjPTlGSU/oVsTOs7FgKGpHZ2AjY
-         LxSzyYwjocTSJbyLzOOmsWViVGbSyEmGddvJOh9I9hFFRhKiQPRRVC2NTHtxIpcrWugt
-         FpNt/evdKT2b9KwOBuYgB/tLLBNdQ8EfC9juv09M7tzxBjaMzefN1zKMJFXlY7QBezTR
-         0BLOzaQrEcfsEPf+h9/emDMpVxF/QzuEWQfi84mqq1hAWYGCqUpg0qbLzHhVPovrct8g
-         AYmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW6galkDz8pgQGL1rde9B0YLABGi2W1jqqzMqEqWTmYPEj81iUpcA/PP+SfGmX+nSUVub7D4lXdjbM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwixhzDQ8OM3RC983SP/BaDzQ4xSJRqFxceUpKNA257VsBi89nA
-	840cxf5JG4LEG7y0tgvfh9c9LcrLE6qudzhxRSWR6wWK+eArVFv8ZuZr7adrk/0=
-X-Gm-Gg: ASbGncvTTVOqXX48LTZzBiNiIyo0lso0d5BdN0FRUzDP4fSMHsrD9RhdEY0hmhG5Baa
-	yXmirBxbsovWmdVGBSz2SMWyrMGuTrCOfiXM1ADXvVo1j8WoYBJQZNj1oaADgHjeC5+TuuuZtTw
-	4pAoceuCJ+giGn9CzKbEOiOsBR15SVFDn+LINMR9LNiNeTwQw61EJHTqQm71uvz5W1+ybACsNpJ
-	kSOsG49W0f+l2P8Hc1vunSjHk9s/awouHZjAQ9DxhQfb1Ar5JKop9ThYzjd7jeBoXhn+7hkoAdf
-	LXqOftFyWKvdG3Of
-X-Google-Smtp-Source: AGHT+IGe+b6f4XJnC7ueMLUIwCUw6sfTiIPVwX9AFJsaQWbx8UTnv+NvImD+vFNCDXMCTOB52vx25Q==
-X-Received: by 2002:a5d:64e2:0:b0:38a:8c9f:dd61 with SMTP id ffacd0b85a97d-38c520b9c55mr5807236f8f.46.1738235333921;
-        Thu, 30 Jan 2025 03:08:53 -0800 (PST)
-Received: from [127.0.0.1] ([2a01:e0a:448:76e0:2c72:cd2d:79b2:82ff])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c102bb2sm1689225f8f.34.2025.01.30.03.08.53
+        d=1e100.net; s=20230601; t=1738236244; x=1738841044;
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0Id92T0AVX6JDwaxiz3z7oRBD6wW+GTifuBoqUY0sTA=;
+        b=MLBZ5AAwACWnGzvAjUzQu+mrKXOtv2EeHNNrO++WELB5Ofu1AiViAcaQhgS9vR+XeU
+         LoOhQpdEh5rn5Duv7ooAFwuhpYFNfYwItaagYY07oepf1xX59pHD8DDAy4D5BG19pvch
+         69fTR98XJEg8nqH0+3Ft9Hikph1q9HpfxQ/JX/hGZfDDHqGiylipJMhk00zVJg4cQk7L
+         F6kHHrCNaMajBEYv/fbYWWwSKNSixzTLu0FR/Ukxl7lcyYhVT7kHrtS95IVXNWp8P+Ga
+         8Fx+kpiWOczYUuPTQjaud0sk1J8XhURgB0rB+jyHOTBW2/Je0PfISiMMbRuVSg5nmqcX
+         y7qA==
+X-Forwarded-Encrypted: i=1; AJvYcCUgPXzyinkNz6DxIOK7lUP3B15wVgWJRAwnGFMGorx2qWm+xF8evWC8xvp19y2S8ghhOZA=@vger.kernel.org, AJvYcCWLJHOJ0NzTAGO061tTm/TPFJiQfN7DxTTTIu9hDBrIr0N7ho/9iqZ0LbdB80TiSq3lYOvuh1oHcuLeqS7E@vger.kernel.org, AJvYcCXzi80VCHmIY+Bewu15DtrVc3D5lnezUoTi+ztelujOlDN5VW6ZJNwYyO8jzCl4/vCdMDWUaHd/T2wD@vger.kernel.org
+X-Gm-Message-State: AOJu0YzE8J5oRE3p78IiqfmkpZpyfAD0ujDjlsbwILWeX1OFuC45MOkE
+	/n9MXr9ZGzGxT0kZzmdOrCshbc/LLFTWLh+h9Tj5EuZmvKT69stHhKO1CA==
+X-Gm-Gg: ASbGncv3UeEDJOnUKylOljseL3QUc0IkzHrLmgd2Rt5+Od7j1Hxs3ypnG8yASTYaEg3
+	2HEQf4kfuci/BLELPisAPL8MPgNi+qdgLIXyBMh4MGFnfrQW/tyrZ5j/IYN8OM6rumD73Dt3BkZ
+	k5BdXGCezWUcpRNnyKvLvnXHDJ3oz1EiszXFCFfld4btvD47iuPINAx98eQVSyy52kBfAr4/DbW
+	4g1pQQoOB1HeEUiForKlY+U3LtvZjnW5jVwsS9VdnjagCdxbAdOtZRBtAsTPv/w+riOA9vxAMzY
+	uwEyddreNwKJtxFfS0z5fdCewG15
+X-Google-Smtp-Source: AGHT+IGn3W76KCgmgMIkQT/WdD1sCcWCm5LqI+wFsAmXytxdLRcHtMo25bA2WjiLnRFQbbwNF4GiZg==
+X-Received: by 2002:a05:600c:3494:b0:434:a315:19c with SMTP id 5b1f17b1804b1-438dc3a85b3mr56757135e9.3.1738236244282;
+        Thu, 30 Jan 2025 03:24:04 -0800 (PST)
+Received: from imac ([2a02:8010:60a0:0:846f:7c2d:e5a5:73a3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438d75de282sm49377315e9.2.2025.01.30.03.24.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jan 2025 03:08:53 -0800 (PST)
-From: Esteban Blanc <eblanc@baylibre.com>
-Date: Thu, 30 Jan 2025 12:08:30 +0100
-Subject: [PATCH v3 6/6] docs: iio: ad4030: add documentation
+        Thu, 30 Jan 2025 03:24:03 -0800 (PST)
+From: Donald Hunter <donald.hunter@gmail.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,  "Jonathan Corbet"
+ <corbet@lwn.net>,  linux-kernel@vger.kernel.org,  Bill Wendling
+ <morbo@google.com>,  Justin Stitt <justinstitt@google.com>,  Nick
+ Desaulniers <ndesaulniers@google.com>,  bpf@vger.kernel.org,
+  llvm@lists.linux.dev,  workflows@vger.kernel.org
+Subject: Re: [RFC 0/6] Raise the bar with regards to Python and Sphinx
+ requirements
+In-Reply-To: <cover.1738166451.git.mchehab+huawei@kernel.org> (Mauro Carvalho
+	Chehab's message of "Wed, 29 Jan 2025 17:09:31 +0100")
+Date: Thu, 30 Jan 2025 09:33:30 +0000
+Message-ID: <m2zfj87ij9.fsf@gmail.com>
+References: <cover.1738166451.git.mchehab+huawei@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250130-eblanc-ad4630_v1-v3-6-052e8c2d897d@baylibre.com>
-References: <20250130-eblanc-ad4630_v1-v3-0-052e8c2d897d@baylibre.com>
-In-Reply-To: <20250130-eblanc-ad4630_v1-v3-0-052e8c2d897d@baylibre.com>
-To: Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: Michael Hennerich <michael.hennerich@analog.com>, 
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Esteban Blanc <eblanc@baylibre.com>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain
 
-This adds a new page to document how to use the ad4030 ADC driver
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-Signed-off-by: Esteban Blanc <eblanc@baylibre.com>
----
- Documentation/iio/ad4030.rst | 181 +++++++++++++++++++++++++++++++++++++++++++
- Documentation/iio/index.rst  |   1 +
- MAINTAINERS                  |   1 +
- 3 files changed, 183 insertions(+)
+> This series comes after https://lore.kernel.org/linux-doc/87a5b96296.fsf@trenco.lwn.net/T/#t
+> It  increases the minimal requirements for Sphinx and Python.
+>
+> Sphinx release dates:
+>
+> 	Release 2.4.0 (released Feb 09, 2020)
+> 	Release 2.4.4 (released Mar 05, 2020) (current minimal requirement)
+> 	Release 3.4.0 (released Dec 20, 2020)
+> 	Release 3.4.3 (released Jan 08, 2021)
+>
+> 	(https://www.sphinx-doc.org/en/master/changes/index.html)
 
-diff --git a/Documentation/iio/ad4030.rst b/Documentation/iio/ad4030.rst
-new file mode 100644
-index 0000000000000000000000000000000000000000..41ce5ca5c710c46a0995d1b127fa1c10fca4c1eb
---- /dev/null
-+++ b/Documentation/iio/ad4030.rst
-@@ -0,0 +1,181 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+
-+=============
-+AD4030 driver
-+=============
-+
-+ADC driver for Analog Devices Inc. AD4030 and similar devices. The module name
-+is ``ad4030``.
-+
-+
-+Supported devices
-+=================
-+
-+The following chips are supported by this driver:
-+
-+* `AD4030-24 <https://www.analog.com/AD4030-24>`_
-+* `AD4032-24 <https://www.analog.com/AD4032-24>`_
-+* `AD4630-16 <https://www.analog.com/AD4630-16>`_
-+* `AD4630-24 <https://www.analog.com/AD4630-24>`_
-+* `AD4632-16 <https://www.analog.com/AD4632-16>`_
-+* `AD4632-24 <https://www.analog.com/AD4632-24>`_
-+
-+IIO channels
-+============
-+
-+Each "hardware" channel as described in the datasheet is split in 2 IIO
-+channels:
-+
-+- One channel for the differential data
-+- One channel for the common byte.
-+
-+The possible IIO channels depending on the numbers of "hardware" channel are:
-+
-++------------------------------------+------------------------------------+
-+| 1 channel ADC                      | 2 channels ADC                     |
-++====================================+====================================+
-+| - voltage0-voltage1 (differential) | - voltage0-voltage1 (differential) |
-+| - voltage2 (common-mode)           | - voltage2-voltage3 (differential) |
-+|                                    | - voltage4 (common-mode)           |
-+|                                    | - voltage5 (common-mode)           |
-++------------------------------------+------------------------------------+
-+
-+Labels
-+------
-+
-+For ease of use, the IIO channels provide a label. For a differential channel,
-+the label is ``differentialN`` where ``N`` is the "hardware" channel id. For a
-+common-mode channel, the label is ``common-modeN`` where ``N`` is the
-+"hardware" channel id.
-+
-+The possible labels are:
-+
-++-----------------+-----------------+
-+| 1 channel ADC   | 2 channels ADC  |
-++=================+=================+
-+| - differential0 | - differential0 |
-+| - common-mode0  | - differential1 |
-+|                 | - common-mode0  |
-+|                 | - common-mode1  |
-++-----------------+-----------------+
-+
-+Supported features
-+==================
-+
-+SPI wiring modes
-+----------------
-+
-+The driver currently supports the following SPI wiring configurations:
-+
-+One lane mode
-+^^^^^^^^^^^^^
-+
-+In this mode, each channel has its own SDO line to send the conversion results.
-+At the moment this mode can only be used on AD4030 which has one channel so only
-+one SDO line is used.
-+
-+.. code-block::
-+
-+    +-------------+         +-------------+
-+    |     ADC     |         |     HOST    |
-+    |             |         |             |
-+    |         CNV |<--------| CNV         |
-+    |          CS |<--------| CS          |
-+    |         SDI |<--------| SDO         |
-+    |        SDO0 |-------->| SDI         |
-+    |        SCLK |<--------| SCLK        |
-+    +-------------+         +-------------+
-+
-+Interleaved mode
-+^^^^^^^^^^^^^^^^
-+
-+In this mode, both channels conversion results are bit interleaved one SDO line.
-+As such the wiring is the same as `One lane mode`_.
-+
-+SPI Clock mode
-+--------------
-+
-+Only the SPI clocking mode is supported.
-+
-+Output modes
-+------------
-+
-+There are more exposed IIO channels than channels as describe in the devices
-+datasheet. This is due to the `Differential data + common-mode`_ encoding
-+2 types of information in one conversion result. As such a "device" channel
-+provides 2 IIO channels, one for the differential data and one for the common
-+byte.
-+
-+Differential data
-+^^^^^^^^^^^^^^^^^
-+
-+This mode is selected when:
-+
-+- Only differential channels are enabled in a buffered read
-+- Oversampling attribute is set to 1
-+
-+Differential data + common-mode
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+This mode is selected when:
-+
-+- Differential and common-mode channels are enabled in a buffered read
-+- Oversampling attribute is set to 1
-+
-+For the 24-bits chips, this mode is also available with 16-bits differential
-+data but is not selectable yet.
-+
-+Averaged differential data
-+^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+This mode is selected when:
-+
-+- Only differential channels are selected enabled in a buffered read
-+- Oversampling attribute is greater than 1
-+
-+Digital Gain and Offset
-+-----------------------
-+
-+Each differential data channel has a 16-bits unsigned configurable hardware
-+gain applied to it. By default it's equal to 1. Note that applying gain can
-+cause numerical saturation.
-+
-+Each differential data channel has a signed configurable hardware offset.
-+For the ADCs ending in ``-24``, the gain is encoded on 24-bits.
-+Likewise, the ADCs ending in ``-16`` have a gain encoded on 16-bits. Note that
-+applying an offset can cause numerical saturation.
-+
-+The final differential data returned by the ADC is computed by first applying
-+the gain, then the offset.
-+
-+The gain is controlled by the ``calibscale`` IIO attribute while the offset is
-+controlled by the ``calibbias`` attribute.
-+
-+Reference voltage
-+-----------------
-+
-+The chip supports an external reference voltage via the ``REF`` input or an
-+internal buffered reference voltage via the ``REFIN`` input. The driver looks
-+at the device tree to determine which is being used. If ``ref-supply`` is
-+present, then the external reference voltage is used and the internal buffer is
-+disabled. If ``refin-supply`` is present, then the internal buffered reference
-+voltage is used.
-+
-+Reset
-+-----
-+
-+Both hardware and software reset are supported. The driver looks first at the
-+device tree to see if the ``reset-gpio`` is populated.
-+If not present, the driver will fallback to a software reset by wiring to the
-+device's registers.
-+
-+Unimplemented features
-+----------------------
-+
-+- ``BUSY`` indication
-+- Additional wiring modes
-+- Additional clock modes
-+- Differential data 16-bits + common-mode for 24-bits chips
-+- Overrange events
-+- Test patterns
-+
-diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-index 074dbbf7ba0a087ab117efaf3d69fc559fc00fa5..982ac1bd9dfd7bfd54bfbf87d6258e6249edf799 100644
---- a/Documentation/iio/index.rst
-+++ b/Documentation/iio/index.rst
-@@ -19,6 +19,7 @@ Industrial I/O Kernel Drivers
-    :maxdepth: 1
- 
-    ad4000
-+   ad4030
-    ad4695
-    ad7380
-    ad7606
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9571a917b0437a802190101c0a83bba9bf790ffc..2cf66e6c7635eba3942933420878a610462f127e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1281,6 +1281,7 @@ L:	linux-iio@vger.kernel.org
- S:	Supported
- W:	https://ez.analog.com/linux-software-drivers
- F:	Documentation/devicetree/bindings/iio/adc/adi,ad4030.yaml
-+F:	Documentation/iio/ad4030.rst
- F:	drivers/iio/adc/ad4030.c
- 
- ANALOG DEVICES INC AD4130 DRIVER
+It's worth mentioning here that my fix for the C performance regression
+landed in Sphinx 7.4.0. All versions from 3.0.0 to 7.3.x are much slower
+for building the kernel docs. See #12162 here:
 
--- 
-2.47.2
+https://www.sphinx-doc.org/en/master/changes/7.4.html#id7
 
