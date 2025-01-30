@@ -1,181 +1,268 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4E51E6DCF;
-	Thu, 30 Jan 2025 13:35:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA4C1E503D
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 13:43:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738244159; cv=none; b=dqGyG5+E6H4vJ2h/OJW3gHNUhIZFG/rT5Je5WpKhcfNT05bQ//L/Br/IcldkQBMakjruNILDZEJgdnz2/vXDcpkW7OezqUD/1dLG17l8h/yuEQ96Gr77IU/9Db5Z1jk65h6q0VYOQ7VaQrgVfkMtsoWQz580VFuvYK4LUhvq1Lo=
+	t=1738244636; cv=none; b=PFgD43vHJhA3ruEHlTD4+suurfXPVzHwOJzl9mKbROd387lDRl63GKQjIFixUm0cVQkNtrgJ0/q9YTAEMpFCZFI4xuMzsCH8Co3oQgeZtHrJzm2Yy2rBcVpOz03l0kXLJKEDijQ/IgxBvTAKefM+Aezn8Kt3ws1X1oE4x2qXSj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738244159; c=relaxed/simple;
-	bh=wDMRkZ7Yz8lbsU5n1VinBrBQB358seh0rXR3CQwkTTk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bi/5w+7eVe77IQtV3BfbW9Q63wTzLGfWtofK9MWBERv3I+UO2kN16yZj+JMi+/2EmX4pelvc8OOqxucPjt176rSaoqLNwg9t777VlYppsH9swfCZ6bZ0OjgnHI6JNlUXKEnlU8wW4xiTLJKxKQGfiiYxs6+5MmBy+JcVdOc4BkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kOsYbTCR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738244636; c=relaxed/simple;
+	bh=CIFiqDWuCwGjDtCXn2azSumNaVqITX740jNpZ2DyuMA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F0DDKf0DkOeLo9ui9TEveDhZTqBZy4g2l59AIZK2v4fC/LzRER18MoMaS9ghCvyEmsazpdLbOPL1mum4XySXGli4uHQRxCVRgFTIi8JR6BQOxovWT77mp0Go1R6GpllU7etRkWUQQGtuXMlQM1pUVG4abHfNDnIt7ZRyqN0FITU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=StEOC/Fr; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kOsYbTCR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 545BBC4CEE0;
-	Thu, 30 Jan 2025 13:35:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738244158;
-	bh=wDMRkZ7Yz8lbsU5n1VinBrBQB358seh0rXR3CQwkTTk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kOsYbTCRT/XKT1OiPS1ah6wBg5RR/ulAFAty8SRRt9Rs+123qn+nDv9h6AjvAEpte
-	 GJTW88mJ1eORhE/auQMHqh5zHUA9vnyH4dA7+I8M0Rof6ACzH1TzPZpQvKAY4VmbsY
-	 5Wwp7qeCkdZGRJc4bbyUaquFgplsmlqcYiMojgUY3El/l9qfW8XNsfvroMgUJGqyH/
-	 wJypu9MTCsXcDTJyFLgrHMlPatoDePcD2wWFA0tgV6Owa7VfTjv1s/opVz4HmW9eAE
-	 sK0floRcyQTK0aGkx3WIm3KlktpSdLxurwMlmq03QvaATwoXaL79v0GoZJDOBx3bsK
-	 Myg3htBot01HQ==
-From: Niklas Cassel <cassel@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>
-Cc: Christian Heusel <christian@heusel.eu>,
-	linux-doc@vger.kernel.org,
-	linux-ide@vger.kernel.org
-Subject: [PATCH 1/1] ata: libata-core: Add 'external' to the libata.force kernel parameter
-Date: Thu, 30 Jan 2025 14:35:46 +0100
-Message-ID: <20250130133544.219297-4-cassel@kernel.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250130133544.219297-3-cassel@kernel.org>
-References: <20250130133544.219297-3-cassel@kernel.org>
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="StEOC/Fr"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4364a37a1d7so8101665e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 05:43:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1738244633; x=1738849433; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ha66Iu6lse0aeaZq4IXkBsImhaaLmQUiLrfjz5cfLcs=;
+        b=StEOC/FrzTYdmdGihmQKhV572LMjq1P2HN4sEDl4RtLO31rDnRlogVQUAEBCPSsyte
+         ezRGV1Bm3ntLTETXCD1kWldfJl0tbN9yg/a2OptdgtT/l58blJ8SJGKt5SRz3Wzp18+/
+         rosQvwl0XnRTaga6IvKgeWOEpKhkWGSlX+R4c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738244633; x=1738849433;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ha66Iu6lse0aeaZq4IXkBsImhaaLmQUiLrfjz5cfLcs=;
+        b=FhjCTR0cN0Vt8UGR5a8aLxfBH/THzB0CQ6EQmwcGMl6/sI+/xukHlcKKZt7Q/wyAAJ
+         Nc69LAcCwwxBumVTQ/FQdFB9JXLARk0BSfqmhc2JHySzN+1TAZjSGz6AzYRu7vWPLJjr
+         a3E6R02IEoVxmfMtrFx7DXPNlnoMyb+2G9k7RTYXQVCx+yq362gtRITKjcxpimoIIMtG
+         6bg1eBjgNoR5QDUG3Vrbx/MvXC97ElLWthnEBbaavz+nMVd6rNGvBBns+3OfPGJuQHjw
+         toembu44vZ1RtYfIAoA5a5y/WdVDLS5naITh6NY6xYgzdTzj+NMzrynJl+9n7Yh3hVeh
+         B/hw==
+X-Forwarded-Encrypted: i=1; AJvYcCUcwIxbiahzx6UG2CQSI/JFiaLOhl/D5w/47mtftzS5VWWCGBuUYWnuQucUZcspC5FuKTqeAVbdGhs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDgBBoap0qO51kgcHQx+Qz+q6nQA3xo6nTYjJm97bBK6MUAG6c
+	ho6O45vOk/wTCOcR/Qf3rXEUQdmjfjUw7tJgvXEVqrZnzOYrheEAhBC4HyW4IYk=
+X-Gm-Gg: ASbGncvhLaoR1ymYZUMAj/JnkYyvu4GKcZDePt03YJLxl6uNTpWLuo6naL1amLioYmf
+	Icz71urbDZwmDIegRet9isayiYItbMQL5CNrESN4f6RsXhFshsg/Kox+UFZSgfFOYV63klLdcB0
+	lXhocQixTcewl3wJ+/pjf45XF0+jRgEKfFkODidzWrmxrS10ZzWyTKeNM3o/eCYm2Rl94EXLjnJ
+	idlykgKQYxRnnlXHS+rLyn3ShYl+9A9fjVkygBocmuqH/CmPiGEk9XCsG4RlAv0p7jw549Yo/Cx
+	cYFQrlk8EkOE7qvagPD4ZXOOtCU=
+X-Google-Smtp-Source: AGHT+IGPwbF4Ytpnf417QGIV7aWx0XKtwsuKOqBPTmJvh2JEm7/wX2JzW1AoBcF90cds5JkZfLV8kw==
+X-Received: by 2002:a05:600c:4f83:b0:436:713b:cb31 with SMTP id 5b1f17b1804b1-438dc3a904cmr60626675e9.3.1738244632903;
+        Thu, 30 Jan 2025 05:43:52 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438dcc2e384sm61161085e9.19.2025.01.30.05.43.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jan 2025 05:43:52 -0800 (PST)
+Date: Thu, 30 Jan 2025 14:43:50 +0100
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+	nouveau@lists.freedesktop.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Peter Xu <peterx@redhat.com>, Alistair Popple <apopple@nvidia.com>,
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v1 06/12] mm: use single SWP_DEVICE_EXCLUSIVE entry type
+Message-ID: <Z5uCFtyaDpcbHRoF@phenom.ffwll.local>
+Mail-Followup-To: David Hildenbrand <david@redhat.com>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+	nouveau@lists.freedesktop.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Peter Xu <peterx@redhat.com>, Alistair Popple <apopple@nvidia.com>,
+	Jason Gunthorpe <jgg@nvidia.com>
+References: <20250129115411.2077152-1-david@redhat.com>
+ <20250129115411.2077152-7-david@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4279; i=cassel@kernel.org; h=from:subject; bh=wDMRkZ7Yz8lbsU5n1VinBrBQB358seh0rXR3CQwkTTk=; b=owGbwMvMwCV2MsVw8cxjvkWMp9WSGNJnN5iY+K3Mt5povZvv9Zbps/zVE5+rzP48vUCoO97x2 aGjC2oud5SyMIhxMciKKbL4/nDZX9ztPuW44h0bmDmsTCBDGLg4BWAi/18z/Gaf5MNq933i+X2z 5xyr9/z5V+1Zlvl2u1rmqOvv736urVvKyPDl7CYFrxMcumtuLvFK5Tt+Si0tQUnk9OITNRrpt/g emfIDAA==
-X-Developer-Key: i=cassel@kernel.org; a=openpgp; fpr=5ADE635C0E631CBBD5BE065A352FE6582ED9B5DA
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250129115411.2077152-7-david@redhat.com>
+X-Operating-System: Linux phenom 6.12.11-amd64 
 
-Commit ae1f3db006b7 ("ata: ahci: do not enable LPM on external ports")
-changed so that LPM is not enabled on external ports (hotplug-capable or
-eSATA ports).
+On Wed, Jan 29, 2025 at 12:54:04PM +0100, David Hildenbrand wrote:
+> There is no need for the distinction anymore; let's merge the readable
+> and writable device-exclusive entries into a single device-exclusive
+> entry type.
+> 
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-This is because hotplug and LPM are mutually exclusive, see 7.3.1 Hot Plug
-Removal Detection and Power Management Interaction in AHCI 1.3.1.
+Yeah I really don't think there's a need to track that on the cpu ptes.
+Device should have write/dirty bits (which nouveau really should forward)
+or defensively assume the page is always dirtied when clearing a pte.
 
-This does require that firmware has set the appropate bits (HPCP or ESP)
-in PxCMD (which is a per port register in the AHCI controller).
+Plus the entire point of device exclusive access is to support device
+atomics, so in practice it's always a write access that dirties anyway.
 
-If the firmware has failed to mark a port as hotplug-capable or eSATA in
-PxCMD, then there is currently not much a user can do.
+Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
 
-If LPM is enabled on the port, hotplug insertions and removals will not be
-detected on that port.
+> ---
+>  include/linux/swap.h    |  7 +++----
+>  include/linux/swapops.h | 27 ++++-----------------------
+>  mm/mprotect.c           |  8 --------
+>  mm/page_table_check.c   |  5 ++---
+>  mm/rmap.c               |  2 +-
+>  5 files changed, 10 insertions(+), 39 deletions(-)
+> 
+> diff --git a/include/linux/swap.h b/include/linux/swap.h
+> index 91b30701274e..9a48e79a0a52 100644
+> --- a/include/linux/swap.h
+> +++ b/include/linux/swap.h
+> @@ -74,14 +74,13 @@ static inline int current_is_kswapd(void)
+>   * to a special SWP_DEVICE_{READ|WRITE} entry.
+>   *
+>   * When a page is mapped by the device for exclusive access we set the CPU page
+> - * table entries to special SWP_DEVICE_EXCLUSIVE_* entries.
+> + * table entries to a special SWP_DEVICE_EXCLUSIVE entry.
+>   */
+>  #ifdef CONFIG_DEVICE_PRIVATE
+> -#define SWP_DEVICE_NUM 4
+> +#define SWP_DEVICE_NUM 3
+>  #define SWP_DEVICE_WRITE (MAX_SWAPFILES+SWP_HWPOISON_NUM+SWP_MIGRATION_NUM)
+>  #define SWP_DEVICE_READ (MAX_SWAPFILES+SWP_HWPOISON_NUM+SWP_MIGRATION_NUM+1)
+> -#define SWP_DEVICE_EXCLUSIVE_WRITE (MAX_SWAPFILES+SWP_HWPOISON_NUM+SWP_MIGRATION_NUM+2)
+> -#define SWP_DEVICE_EXCLUSIVE_READ (MAX_SWAPFILES+SWP_HWPOISON_NUM+SWP_MIGRATION_NUM+3)
+> +#define SWP_DEVICE_EXCLUSIVE (MAX_SWAPFILES+SWP_HWPOISON_NUM+SWP_MIGRATION_NUM+2)
+>  #else
+>  #define SWP_DEVICE_NUM 0
+>  #endif
+> diff --git a/include/linux/swapops.h b/include/linux/swapops.h
+> index 96f26e29fefe..64ea151a7ae3 100644
+> --- a/include/linux/swapops.h
+> +++ b/include/linux/swapops.h
+> @@ -186,26 +186,16 @@ static inline bool is_writable_device_private_entry(swp_entry_t entry)
+>  	return unlikely(swp_type(entry) == SWP_DEVICE_WRITE);
+>  }
+>  
+> -static inline swp_entry_t make_readable_device_exclusive_entry(pgoff_t offset)
+> +static inline swp_entry_t make_device_exclusive_entry(pgoff_t offset)
+>  {
+> -	return swp_entry(SWP_DEVICE_EXCLUSIVE_READ, offset);
+> -}
+> -
+> -static inline swp_entry_t make_writable_device_exclusive_entry(pgoff_t offset)
+> -{
+> -	return swp_entry(SWP_DEVICE_EXCLUSIVE_WRITE, offset);
+> +	return swp_entry(SWP_DEVICE_EXCLUSIVE, offset);
+>  }
+>  
+>  static inline bool is_device_exclusive_entry(swp_entry_t entry)
+>  {
+> -	return swp_type(entry) == SWP_DEVICE_EXCLUSIVE_READ ||
+> -		swp_type(entry) == SWP_DEVICE_EXCLUSIVE_WRITE;
+> +	return swp_type(entry) == SWP_DEVICE_EXCLUSIVE;
+>  }
+>  
+> -static inline bool is_writable_device_exclusive_entry(swp_entry_t entry)
+> -{
+> -	return unlikely(swp_type(entry) == SWP_DEVICE_EXCLUSIVE_WRITE);
+> -}
+>  #else /* CONFIG_DEVICE_PRIVATE */
+>  static inline swp_entry_t make_readable_device_private_entry(pgoff_t offset)
+>  {
+> @@ -227,12 +217,7 @@ static inline bool is_writable_device_private_entry(swp_entry_t entry)
+>  	return false;
+>  }
+>  
+> -static inline swp_entry_t make_readable_device_exclusive_entry(pgoff_t offset)
+> -{
+> -	return swp_entry(0, 0);
+> -}
+> -
+> -static inline swp_entry_t make_writable_device_exclusive_entry(pgoff_t offset)
+> +static inline swp_entry_t make_device_exclusive_entry(pgoff_t offset)
+>  {
+>  	return swp_entry(0, 0);
+>  }
+> @@ -242,10 +227,6 @@ static inline bool is_device_exclusive_entry(swp_entry_t entry)
+>  	return false;
+>  }
+>  
+> -static inline bool is_writable_device_exclusive_entry(swp_entry_t entry)
+> -{
+> -	return false;
+> -}
+>  #endif /* CONFIG_DEVICE_PRIVATE */
+>  
+>  #ifdef CONFIG_MIGRATION
+> diff --git a/mm/mprotect.c b/mm/mprotect.c
+> index 516b1d847e2c..9cb6ab7c4048 100644
+> --- a/mm/mprotect.c
+> +++ b/mm/mprotect.c
+> @@ -225,14 +225,6 @@ static long change_pte_range(struct mmu_gather *tlb,
+>  				newpte = swp_entry_to_pte(entry);
+>  				if (pte_swp_uffd_wp(oldpte))
+>  					newpte = pte_swp_mkuffd_wp(newpte);
+> -			} else if (is_writable_device_exclusive_entry(entry)) {
+> -				entry = make_readable_device_exclusive_entry(
+> -							swp_offset(entry));
+> -				newpte = swp_entry_to_pte(entry);
+> -				if (pte_swp_soft_dirty(oldpte))
+> -					newpte = pte_swp_mksoft_dirty(newpte);
+> -				if (pte_swp_uffd_wp(oldpte))
+> -					newpte = pte_swp_mkuffd_wp(newpte);
+>  			} else if (is_pte_marker_entry(entry)) {
+>  				/*
+>  				 * Ignore error swap entries unconditionally,
+> diff --git a/mm/page_table_check.c b/mm/page_table_check.c
+> index 509c6ef8de40..c2b3600429a0 100644
+> --- a/mm/page_table_check.c
+> +++ b/mm/page_table_check.c
+> @@ -196,9 +196,8 @@ EXPORT_SYMBOL(__page_table_check_pud_clear);
+>  /* Whether the swap entry cached writable information */
+>  static inline bool swap_cached_writable(swp_entry_t entry)
+>  {
+> -	return is_writable_device_exclusive_entry(entry) ||
+> -	    is_writable_device_private_entry(entry) ||
+> -	    is_writable_migration_entry(entry);
+> +	return is_writable_device_private_entry(entry) ||
+> +	       is_writable_migration_entry(entry);
+>  }
+>  
+>  static inline void page_table_check_pte_flags(pte_t pte)
+> diff --git a/mm/rmap.c b/mm/rmap.c
+> index 49ffac6d27f8..65d9bbea16d0 100644
+> --- a/mm/rmap.c
+> +++ b/mm/rmap.c
+> @@ -2470,7 +2470,7 @@ struct page *make_device_exclusive(struct mm_struct *mm, unsigned long addr,
+>  	 * do_swap_page() will trigger the conversion back while holding the
+>  	 * folio lock.
+>  	 */
+> -	entry = make_writable_device_exclusive_entry(page_to_pfn(page));
+> +	entry = make_device_exclusive_entry(page_to_pfn(page));
+>  	swp_pte = swp_entry_to_pte(entry);
+>  	if (pte_soft_dirty(fw.pte))
+>  		swp_pte = pte_swp_mksoft_dirty(swp_pte);
+> -- 
+> 2.48.1
+> 
 
-In order to allow a user to fix up broken firmware, add 'external' to the
-libata.force kernel parameter.
-
-libata.force can be specified either on the kernel command line, or as a
-kernel module parameter.
-
-For more information, see Documentation/admin-guide/kernel-parameters.txt.
-
-Signed-off-by: Niklas Cassel <cassel@kernel.org>
----
- .../admin-guide/kernel-parameters.txt         |  2 +
- drivers/ata/libata-core.c                     | 38 +++++++++++++++++++
- 2 files changed, 40 insertions(+)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 3872bc6ec49d..d9c55dcbf4a2 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3036,6 +3036,8 @@
- 			* max_sec_lba48: Set or clear transfer size limit to
- 			  65535 sectors.
- 
-+			* external: Mark port as external (hotplug-capable).
-+
- 			* [no]lpm: Enable or disable link power management.
- 
- 			* [no]setxfer: Indicate if transfer speed mode setting
-diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
-index c085dd81ebe7..52b78d22c831 100644
---- a/drivers/ata/libata-core.c
-+++ b/drivers/ata/libata-core.c
-@@ -88,6 +88,7 @@ struct ata_force_param {
- 	unsigned int	xfer_mask;
- 	unsigned int	quirk_on;
- 	unsigned int	quirk_off;
-+	unsigned int	pflags_on;
- 	u16		lflags_on;
- 	u16		lflags_off;
- };
-@@ -331,6 +332,35 @@ void ata_force_cbl(struct ata_port *ap)
- 	}
- }
- 
-+/**
-+ *	ata_force_pflags - force port flags according to libata.force
-+ *	@ap: ATA port of interest
-+ *
-+ *	Force port flags according to libata.force and whine about it.
-+ *
-+ *	LOCKING:
-+ *	EH context.
-+ */
-+static void ata_force_pflags(struct ata_port *ap)
-+{
-+	int i;
-+
-+	for (i = ata_force_tbl_size - 1; i >= 0; i--) {
-+		const struct ata_force_ent *fe = &ata_force_tbl[i];
-+
-+		if (fe->port != -1 && fe->port != ap->print_id)
-+			continue;
-+
-+		/* let pflags stack */
-+		if (fe->param.pflags_on) {
-+			ap->pflags |= fe->param.pflags_on;
-+			ata_port_notice(ap,
-+					"FORCE: port flag 0x%x forced -> 0x%x\n",
-+					fe->param.pflags_on, ap->pflags);
-+		}
-+	}
-+}
-+
- /**
-  *	ata_force_link_limits - force link limits according to libata.force
-  *	@link: ATA link of interest
-@@ -486,6 +516,7 @@ static void ata_force_quirks(struct ata_device *dev)
- 	}
- }
- #else
-+static inline void ata_force_pflags(struct ata_port *ap) { }
- static inline void ata_force_link_limits(struct ata_link *link) { }
- static inline void ata_force_xfermask(struct ata_device *dev) { }
- static inline void ata_force_quirks(struct ata_device *dev) { }
-@@ -5452,6 +5483,8 @@ struct ata_port *ata_port_alloc(struct ata_host *host)
- #endif
- 	ata_sff_port_init(ap);
- 
-+	ata_force_pflags(ap);
-+
- 	return ap;
- }
- EXPORT_SYMBOL_GPL(ata_port_alloc);
-@@ -6264,6 +6297,9 @@ EXPORT_SYMBOL_GPL(ata_platform_remove_one);
- 	{ "no" #name,	.lflags_on	= (flags) },	\
- 	{ #name,	.lflags_off	= (flags) }
- 
-+#define force_pflag_on(name, flags)			\
-+	{ #name,	.pflags_on	= (flags) }
-+
- #define force_quirk_on(name, flag)			\
- 	{ #name,	.quirk_on	= (flag) }
- 
-@@ -6323,6 +6359,8 @@ static const struct ata_force_param force_tbl[] __initconst = {
- 	force_lflag_on(rstonce,		ATA_LFLAG_RST_ONCE),
- 	force_lflag_onoff(dbdelay,	ATA_LFLAG_NO_DEBOUNCE_DELAY),
- 
-+	force_pflag_on(external,	ATA_PFLAG_EXTERNAL),
-+
- 	force_quirk_onoff(ncq,		ATA_QUIRK_NONCQ),
- 	force_quirk_onoff(ncqtrim,	ATA_QUIRK_NO_NCQ_TRIM),
- 	force_quirk_onoff(ncqati,	ATA_QUIRK_NO_NCQ_ON_ATI),
 -- 
-2.48.1
-
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
