@@ -1,147 +1,83 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A527483
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 13:06:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0801E47BA;
+	Thu, 30 Jan 2025 13:10:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738242379; cv=none; b=oyvDigfTCdg95crcWv6UYZ6pn+fhP0AcZeiOuTZoGXczWMGM7Q+/MDNpbhFo9mI0HQ6I11tuEuE5eowh8lFsmkujStUD44+BxZ0QvCPyPs9QNyGsDECO8oldw3x+ma6XZ1mITTEXarBiLZvNSXowfM0LVPseYCsTgouHfOPSxlg=
+	t=1738242605; cv=none; b=DAwnp/5v92FUwh6gKy3xZuqY+vUxelj3/gA7K22S9yZy+LfLGLreFoha+Xi/Fr9HrGIQ7+cfsvC5dqc7XYXlzn4c931c/ZR3f7dip4u2zF8o6NwoqpeUfPHk3CP0dNzjXtPKqsoYjX6iTL0oOI5gQE01E8/aKoUln4Uo/Dy8d8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738242379; c=relaxed/simple;
-	bh=Kj+RR/b0EkCekDDyYB/w6N9qVcR2qGeppMtsTs0nfR8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eCgsw3uFlgd6R3GRyCss0uKVD8/VzqtW3xsefzpJAPl3nwpseD3CGQKXZtSnMztn641qB5YJE6re9HnS7gIWOufSmD/fDEG+3T1tJbNdUTVxf9Ylae6T1prLZYirjq0P9HzTw0oal6f0Q8Ul1drGBoU4rtUufYEUPTiF7VUYqIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=aS8Az4lZ; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+	s=arc-20240116; t=1738242605; c=relaxed/simple;
+	bh=cBceCA/xS8yHpbhHipp+y3e2MOgF35l21oMstBDuqKQ=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=lz3j4Puo/pPaci+DlCy68tXpjqpgF9cfU0goJGewGt1tUmJWZyXxCegX6KTTKfar3Rn98igtAG4FmKHyiJum/YvB8ky9n6lovgMG/xwTd3Wb868Gh+8yyHhxD3k8h4AsWmdFpnWvYTgMSaM/H117EOm0ajm5euvVeadFED2oKX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=na/IuZnz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="aS8Az4lZ"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43621d27adeso5196915e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 05:06:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1738242377; x=1738847177; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BMLrHVPMGtCZMZmW7MbuXycbMRtIlRW9hXfQuZWmFaE=;
-        b=aS8Az4lZ45a4FaeOo17uzAqae1YSGaG9UPwbaN+5YIsNMcH4P5kQpBNAk5lYRBscNZ
-         nv0gqLwlE8V4G4CL7bUTUepYpZIxAmoU7iHtlQ7CKr0vUB275DQ3kBsJCOIXm+cXgEhe
-         irLn99rk/SxIpkr0187fbDemzMMCa2vX2Tsyc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738242377; x=1738847177;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BMLrHVPMGtCZMZmW7MbuXycbMRtIlRW9hXfQuZWmFaE=;
-        b=ZoGhH4eiKiS4Ihjv2BScpwDj+U4wbLHFnz2O1j4brwwonDnKvx28GH+Aw152WflN9x
-         GYGDBZHQOWGYa01lq2JznJjKMtkQRNt0h1GcCPnFFfxZw0E60W5GU3qEJtMa9UhcN6DE
-         czlCSB2tneUb+THKZF1KdNV4lim9esObS0ir37AeWeeH/WtenK0BIFWcNR/Di8dxTpRQ
-         eSQ/MWZOHMXULLQCKgvGSLSAKYa0vfu/T712cmvVyICuq5MySmwGdAvIbYGN5vCpe3Tz
-         cuyvc3cpX5y80+5rFg1B0MHSaeVBMKr64985Pjdofch8Ary33OYuJqStdq5wgKTCz/Lr
-         zI+A==
-X-Forwarded-Encrypted: i=1; AJvYcCW7lr/+fDZLIyTgOhyCsfM5ppVqGST9yZ7hXTMeaalC4ESaDacTzjag/mEfifbnU9RXEUCpiFfE6Fk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwoZGhC/a1scFSN8T6F5afGJF391GfH7hpUQePx+YjypLA4bLSq
-	yLTwEIj8uL4NKIHjkpVtuwjJLc4uy5g/pmTkRwQf9GoZfxRKxJ7Fd7C1M5ypr8I=
-X-Gm-Gg: ASbGncvFVCZRmxujKmAxxAoF8RMoVFx3Zq+ycp57NSwIxSaOBZDnkdpc7yY7jxnkoqx
-	bGWp3Y4/oetVOtI/WyLPG4pO94msKDlH74/foWxP7+O2wIZvr/95vtjkyFBzmXhXsYNTLf/AE9P
-	6lclogiaSdyg1Vkvektzk8BVpq+oQOsNTPDksMqGQYA5oVbq5+zz+SmHHlgzDuq6ptw1YAnl/bS
-	c2yku1Kikeohbb5BfJyR6LGswHUiSWaGVRHlWg92kqU01qeAwv1F+6CCjhk+NAttUt9GD3QIZ3O
-	79OwH/XGGmeC+WkY2hrISPz0/u4=
-X-Google-Smtp-Source: AGHT+IGdMrUCvgalAZZCC4jhBxGguMB5GBKImgNsdpvgeFH4FSRc46sdOKhU5wXZRU0tkFgExsNzeQ==
-X-Received: by 2002:a05:600c:4fd6:b0:434:f1d5:1453 with SMTP id 5b1f17b1804b1-438dc34cc47mr71572785e9.0.1738242375772;
-        Thu, 30 Jan 2025 05:06:15 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c125f77sm1959273f8f.56.2025.01.30.05.06.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jan 2025 05:06:15 -0800 (PST)
-Date: Thu, 30 Jan 2025 14:06:12 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
-	nouveau@lists.freedesktop.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Peter Xu <peterx@redhat.com>, Alistair Popple <apopple@nvidia.com>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v1 08/12] mm/rmap: handle device-exclusive entries
- correctly in try_to_unmap_one()
-Message-ID: <Z5t5RKFwl34vpqU4@phenom.ffwll.local>
-Mail-Followup-To: David Hildenbrand <david@redhat.com>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
-	nouveau@lists.freedesktop.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Peter Xu <peterx@redhat.com>, Alistair Popple <apopple@nvidia.com>,
-	Jason Gunthorpe <jgg@nvidia.com>
-References: <20250129115411.2077152-1-david@redhat.com>
- <20250129115411.2077152-9-david@redhat.com>
- <Z5tQL60SNNGCkfQR@phenom.ffwll.local>
- <59feb709-dadc-4d19-857e-49320cca3d98@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="na/IuZnz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85735C4CED2;
+	Thu, 30 Jan 2025 13:10:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738242604;
+	bh=cBceCA/xS8yHpbhHipp+y3e2MOgF35l21oMstBDuqKQ=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=na/IuZnzG6iLaHJ0ekFF7NXxYd3Mq3AK2vtaFRQffsjwpd2kp5ISHfKa02MHazQ1J
+	 J2H1jl3OiqyjDUbgmzPHxo0LK3Ag1YpVGy8Budp5G1VgfMUgOXmQ5ddaV0G4sU30/+
+	 DLoAU8RuGuSfAniQp9oyD/rLB7QuRogjxE13xmNFJxcKKG8TGAQegPS164m9x4PYoE
+	 ahO2/JydR0bfnmfr4+XN976VqAuynPc2DDCh27WAA9PZr/lbwI8OJxiugWGq3oFcK5
+	 uMvhj/MQxPnWIWRMxMTITU3cTpOwnUfr+xEZlo8qui1sY8vBoTQfrBrsoz9/or9qda
+	 VW6bj7IJFZqdQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB7EC380AA66;
+	Thu, 30 Jan 2025 13:10:31 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <59feb709-dadc-4d19-857e-49320cca3d98@redhat.com>
-X-Operating-System: Linux phenom 6.12.11-amd64 
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net 0/2] mptcp: blackhole only if 1st SYN retrans w/o MPC
+ is accepted
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <173824263075.953543.6219182517471965649.git-patchwork-notify@kernel.org>
+Date: Thu, 30 Jan 2025 13:10:30 +0000
+References: <20250129-net-mptcp-blackhole-fix-v1-0-afe88e5a6d2c@kernel.org>
+In-Reply-To: <20250129-net-mptcp-blackhole-fix-v1-0-afe88e5a6d2c@kernel.org>
+To: Matthieu Baerts <matttbe@kernel.org>
+Cc: mptcp@lists.linux.dev, martineau@kernel.org, geliang@kernel.org,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ horms@kernel.org, corbet@lwn.net, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ stable@vger.kernel.org
 
-On Thu, Jan 30, 2025 at 12:08:42PM +0100, David Hildenbrand wrote:
-> On 30.01.25 11:10, Simona Vetter wrote:
-> > On Wed, Jan 29, 2025 at 12:54:06PM +0100, David Hildenbrand wrote:
-> > > Ever since commit b756a3b5e7ea ("mm: device exclusive memory access")
-> > > we can return with a device-exclusive entry from page_vma_mapped_walk().
-> > > 
-> > > try_to_unmap_one() is not prepared for that, so teach it about these
-> > > non-present nonswap PTEs.
-> > > 
-> > > Before that, could we also have triggered this case with device-private
-> > > entries? Unlikely.
-> > 
-> > Just quick comment on this, I'm still pondering all the other aspects.
-> > 
-> > device-private memory is entirely owned by the driver, the core mm isn't
-> > supposed to touch these beyond migrating it back to system memory in
-> > do_swap_page. Plus using rmap when the driver asks for invalidating
-> > mappings as needed.
-> > 
-> > So no lru, thp, migration or anything initiated by core mm should ever
-> > happen on these device private pages. If it does, it'd be a bug.
+Hello:
+
+This series was applied to netdev/net.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
+
+On Wed, 29 Jan 2025 13:24:31 +0100 you wrote:
+> Here are two small fixes for issues introduced in v6.12.
 > 
-> I was not 100% sure about HWPoison handling, that's why I added that
-> comment. In other regards I agree: reclaim etc. does not apply.
+> - Patch 1: reset the mpc_drop mark for other SYN retransmits, to only
+>   consider an MPTCP blackhole when the first SYN retransmitted without
+>   the MPTCP options is accepted, as initially intended.
+> 
+> - Patch 2: also mention in the doc that the blackhole_timeout sysctl
+>   knob is per-netns, like all the others.
+> 
+> [...]
 
-So maybe I'm just entirely lost, but unless you have a coherent
-interconnect I don't think hwpoisin should get involved with device
-private memory? And for a coherent interconnect it's just device memory,
-which isn't treated very special.
+Here is the summary with links:
+  - [net,1/2] mptcp: blackhole only if 1st SYN retrans w/o MPC is accepted
+    https://git.kernel.org/netdev/net/c/e598d8981fd3
+  - [net,2/2] doc: mptcp: sysctl: blackhole_timeout is per-netns
+    https://git.kernel.org/netdev/net/c/18da4b5d1232
 
-Also to clarify, I meant this as a general comment for all subsequent
-patches that have the same paragraph.
--Sima
+You are awesome, thank you!
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
