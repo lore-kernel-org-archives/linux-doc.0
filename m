@@ -1,364 +1,346 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2056.outbound.protection.outlook.com [40.107.244.56])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2073.outbound.protection.outlook.com [40.107.93.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C5C1F150B;
-	Thu, 30 Jan 2025 21:21:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7220512E7E;
+	Thu, 30 Jan 2025 22:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.73
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738272109; cv=fail; b=ilL5mo1OUsRoaBMGy9shzHGjprp5bFrt43eKjT+ZIhTkpMCN94JfLqGol4HwDKu220GFyCGmbrkApOsI1vnA9hGzkmvYcNgus+1Dc65a6gYtyWMOYgYSxV2HtCUjQ/fRWfOjxaAf3E/zjdkDIBmvnICsNOCwfEe4HVppE0DOZC8=
+	t=1738276041; cv=fail; b=HFBUr9wTpbF5+sUNH3z3x/aEoP/hB/LuZrTZMP4ZH5DjJvNfebJeowijV7bMgGqMIcgm84YQwpe5y5O332IWDFghPiIQZWe0Ptm5T6MwCUEjveR1yG5CUgXsukBqM1de8Cm+UuanQjv4x9IPVA8RVenNHxeduHTwZHP8xvGn8PU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738272109; c=relaxed/simple;
-	bh=ShSfUEvFhZHdtnAARXcM+XaY1LCwsrdvKwWLljfit04=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uyJ5curNUWXP15mZzGvukCSktlf20/h/Aiu6dh9Wi2Yhcdx2puUHTBZb7udfUSiJJQaq4XOWwFV2vX67nBhW+VR+LWvoUtjhLBR33OroIXcbaQyeCq1EhhJSV9X03k4FJvjwURkaR81oDLKgBy0Eqtd2IlykUplWFqcuCfvdicY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=yh0q+OhN; arc=fail smtp.client-ip=40.107.244.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1738276041; c=relaxed/simple;
+	bh=2zoqSz6WRW+1BUrrO/f0KS1ftufWwebKrCeG7T4kzr4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=VLA1ucFKqYyGNZOUm1XzS06thiZtr+ruLodRTwEOpShD4P/9wQcJzEdIFdIcLIYo3HUHEPhqS1Au5AQEMiC8YUQv4XV1H5rqdInrNHtkhJhlOk7t0EKteOgfBYGHN45c9eV49GX3aJ9JH+h7jnp3yNNV/WTrE2k2heh3tOw5rHA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=aJGt9hXP; arc=fail smtp.client-ip=40.107.93.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="yh0q+OhN"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="aJGt9hXP"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vdpJZHZ+P5Kf5fiaKIXDNZ5W8ltTdR/Qx02GmSsoo9bN7tIvzB7TZ51lix+8prhOEn/2AhtiksLsxnus8oQUYoOztNOmzOJID0HMArmTSHRwZcdvLWBRgYH+ITuxO0lzaQr66dfZ9ALoCLwIx/S3PDyI6lzD5mRllNdYwKVsidc5OO70fM79I6DL0+4wnzPeq1KpB6ZhCtpO5nvnDzzXOogE5l40pVANg8UNbN0RSqxJS1WBQjeD5KZliNBAjwUSp8Mu7DCzMYdzstHwdiPuVfxBUaH3fM64Fx5MloZYbs6r0HydXQUNVa26lSjkvjpwxW2DxGBHJqCv4n6X+zCZTg==
+ b=h0AKbyEFwEQZmDF8mN4L+SILYXjTE33qXfocQpNcGBZDjwBa6PFxgha/KoZsaoycnwwo6F5/v6tGDMqWJtFoi7UVG5fhDa7iSW485ypbjczJXW7maeuWtxNTV8lBOdnWf/eMTxQNu3pzw6BnKmQfoRd10G9gcF7G7yKayZ08LapZxPX5odb6CrGukAtylaSkPweAJ4UtOE1FLlJ4mQvHEzwkh3HhcGvI3PS/Qvot77/kDHp/o2XcanbcZw+Xbykh12Wf6tZoq7dfGzC/9c4OAc4Zt+J8jId1gacSAyyTbIStfZ/WsaqZ9jhbN7helRslll+yMX8LoymVnjk1apkltg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=htxZTctPX0Yn7JnTh7m1uomqFc2F5hj4Q8gM6Q51qc4=;
- b=cCtKLYpSauOEwr2Czc1w+SFnKsW6Gg1/K0U7Uss5YGTRti9MqA9NrHur/UujG2dFfAaPdWKiorDStKSnP9/we+JJzQgJkLAvsq+7es5sgbJiCHEWpJNP/dbKujMKT+Fj6HF0Ffy85AQIx0Qvn4xuzT5Xc3LEXbBKZoYeELshkG3AU1KR3ZfJWwUapitHss4fo9x6YSenJjxrLTUrYCpwVBTBuLQ22qxJn7QaK7IwLgT2oIpvgVWlizZXNo4nizYQaAN4AF0dZUhtx+HeUyQe3i4yZYqB9f4MMcRqhwISb9ptGgonAV68YM/SqTK70KbesrchRrG1qDMZT5ChFm8pqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=xYZa23wvWqJSmArI4Lo6bfwUi6vv5EtBPxm8nKvjBeQ=;
+ b=swrleOxguKE5BSvJFIS5LcJJA6Dbf5yQQ3BbCZInPHD7W5MjPsOPwXZWstXKUKEMiCfO4ETY8cvgDT5vQLL7riGCYAqVsvKwMqMeWwWNj4tAdYXLS+0aPIWqNKuCJqwz/l6oJlIAW7sLLJtpHCtBKKQs0mf/BCKXtHkkeSHx9Q8JZi/TAmntz+SKluAaamWJMnzir3uxYFpKzCABky52aOcTxHGIF3jJoebvnpi5RJLcHzwDbBLjfw8tpxG1yGAw92oHEjY73MJ7El0AWN/9vmxz5+Mfk51O86vnOS7V569kM3FIwkpPMfXJNliV/hi2MzfJ1lSqdyJl+jmXGBI2uw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=htxZTctPX0Yn7JnTh7m1uomqFc2F5hj4Q8gM6Q51qc4=;
- b=yh0q+OhNLTYEMcvgqxsAnLPsRCpnozR39nONhKJENnYDAsfwygX6m8XBIqsBdt5lJfX8EMoAVnrZr5r/IbaIgO6HVvaSFMfmT0nFPrPg/vo8/ldOJNGIb6WAN+ll5xawtN2SaRzhydkZBx2FfIryk+LFTFiKN53L05AWmqWTmTM=
-Received: from PH7P223CA0021.NAMP223.PROD.OUTLOOK.COM (2603:10b6:510:338::16)
- by CY5PR12MB6082.namprd12.prod.outlook.com (2603:10b6:930:2a::6) with
+ bh=xYZa23wvWqJSmArI4Lo6bfwUi6vv5EtBPxm8nKvjBeQ=;
+ b=aJGt9hXPkO7KWrkBX7GlvkGbEszGDPYQuWt1HnXkzJZB1k0dQaYMcEOjq3EU5NcEmLRsCiL+QrHRS4rr3aafbkeLlfve6S51K7oGKNIvewFtGfy4+a8orvC7eenTP1/y3hcdKUuTt2OH4ogbn+qibQqGSTEAQwu7IIT9lsA4cPa9vEdanHCYpxrFgOROJLGM+ksf7aF+/siUme25O2O3Ela0fYbuQpOr1ZMyj8opoyYLGdfpD96Fz3axrfizUSCjEloSXiqOLMiHE6SslEZM1gCxyQOn7UhubaS6PPl6maGj2NVG9sPhjf1Z4WiIM0tEKRnsS4OBtUI47ZKp9s2lcw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SA1PR12MB7272.namprd12.prod.outlook.com (2603:10b6:806:2b6::7)
+ by SJ2PR12MB7990.namprd12.prod.outlook.com (2603:10b6:a03:4c3::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.18; Thu, 30 Jan
- 2025 21:21:42 +0000
-Received: from SN1PEPF000397B2.namprd05.prod.outlook.com
- (2603:10b6:510:338:cafe::e8) by PH7P223CA0021.outlook.office365.com
- (2603:10b6:510:338::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.18 via Frontend Transport; Thu,
- 30 Jan 2025 21:21:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SN1PEPF000397B2.mail.protection.outlook.com (10.167.248.56) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8398.14 via Frontend Transport; Thu, 30 Jan 2025 21:21:41 +0000
-Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 30 Jan
- 2025 15:21:39 -0600
-From: Babu Moger <babu.moger@amd.com>
-To: <reinette.chatre@intel.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
-	<bp@alien8.de>, <dave.hansen@linux.intel.com>
-CC: <babu.moger@amd.com>, <fenghua.yu@intel.com>, <x86@kernel.org>,
-	<hpa@zytor.com>, <akpm@linux-foundation.org>, <paulmck@kernel.org>,
-	<thuth@redhat.com>, <rostedt@goodmis.org>, <xiongwei.song@windriver.com>,
-	<pawan.kumar.gupta@linux.intel.com>, <jpoimboe@kernel.org>,
-	<daniel.sneddon@linux.intel.com>, <thomas.lendacky@amd.com>,
-	<perry.yuan@amd.com>, <sandipan.das@amd.com>, <kai.huang@intel.com>,
-	<seanjc@google.com>, <xin3.li@intel.com>, <ebiggers@google.com>,
-	<andrew.cooper3@citrix.com>, <mario.limonciello@amd.com>,
-	<tan.shaopeng@fujitsu.com>, <james.morse@arm.com>, <tony.luck@intel.com>,
-	<peternewman@google.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <eranian@google.com>, <corbet@lwn.net>
-Subject: [PATCH v3 7/7] x86/resctrl: Introduce interface to modify io_alloc Capacity Bit Masks
-Date: Thu, 30 Jan 2025 15:20:37 -0600
-Message-ID: <74b65f562c4d61d24cb2be53fb05ee1ca436d59e.1738272037.git.babu.moger@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1738272037.git.babu.moger@amd.com>
-References: <cover.1738272037.git.babu.moger@amd.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.20; Thu, 30 Jan
+ 2025 22:27:16 +0000
+Received: from SA1PR12MB7272.namprd12.prod.outlook.com
+ ([fe80::a970:b87e:819a:1868]) by SA1PR12MB7272.namprd12.prod.outlook.com
+ ([fe80::a970:b87e:819a:1868%6]) with mapi id 15.20.8377.021; Thu, 30 Jan 2025
+ 22:27:15 +0000
+Message-ID: <3cb3e01f-e9d2-4a3f-878b-ba4501764a2f@nvidia.com>
+Date: Fri, 31 Jan 2025 09:27:08 +1100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] mm, memcg: introduce memory.high.throttle
+To: Johannes Weiner <hannes@cmpxchg.org>, Waiman Long <llong@redhat.com>
+Cc: Yosry Ahmed <yosry.ahmed@linux.dev>, Tejun Heo <tj@kernel.org>,
+ =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>, Michal Hocko <mhocko@kernel.org>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ cgroups@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ Peter Hunt <pehunt@redhat.com>
+References: <20250129191204.368199-1-longman@redhat.com>
+ <Z5qLQ1o6cXbcvc0o@google.com>
+ <366fd30f-033d-48d6-92b4-ac67c44d0d9b@redhat.com>
+ <20250130163904.GB1283@cmpxchg.org>
+ <baf1f9bf-4226-47f5-b795-c8862fd0554f@redhat.com>
+ <20250130201945.GA13575@cmpxchg.org>
+Content-Language: en-US
+From: Balbir Singh <balbirs@nvidia.com>
+In-Reply-To: <20250130201945.GA13575@cmpxchg.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR02CA0051.namprd02.prod.outlook.com
+ (2603:10b6:a03:54::28) To SA1PR12MB7272.namprd12.prod.outlook.com
+ (2603:10b6:806:2b6::7)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF000397B2:EE_|CY5PR12MB6082:EE_
-X-MS-Office365-Filtering-Correlation-Id: 22408b9b-34b6-47c1-d574-08dd4174174c
+X-MS-TrafficTypeDiagnostic: SA1PR12MB7272:EE_|SJ2PR12MB7990:EE_
+X-MS-Office365-Filtering-Correlation-Id: 173b162b-b066-4428-8d5a-08dd417d4000
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|376014|7416014|36860700013;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?tVrGbWX3RLqc4xk1kRDWjIsT4pqAA4bisCBi9gLxxgMzQYdw298YkcWmGOCd?=
- =?us-ascii?Q?fDtF7zkRm1jxgH7enMbUOeZkS0UXeCg4UsZj7eoj3pNldum5cldmT74FCgg+?=
- =?us-ascii?Q?hfjIaCbgip7+4xN2oEJswSyAgJsvnER0R86bGoQ/8TTBkQJiLZKucRoOxcQv?=
- =?us-ascii?Q?eoXqbxAEGKhCu8G47/dWRWSbGWXj463lcbO43Gp1wN6mkWbqqMDax/xTRnAI?=
- =?us-ascii?Q?bFdOwF6NDIWlpLXWK8iZPoXpvSWlQCJa59F4GwUsz2KlCLp2Nlp08PzjWc/z?=
- =?us-ascii?Q?MSgY6YVG4tpcSLuE7N+F5h8Wnk59KEtMjcstvgat2X/pS7Utp/ox4A/gwgQT?=
- =?us-ascii?Q?aJ1j80gB/XwLtRSmWPrfJgJloGjvvVCdxtGJiScWnXnDN3X6lKFFdBf1yfe0?=
- =?us-ascii?Q?tEVigl89sUlBbtrHMs/6IIwND4cBSLrL0wWTG9ewqDtgbCQ1vzVF3fjSh9rg?=
- =?us-ascii?Q?+VzMSsRwvJfL/3cnrxi9ePYTfDkPVEIXZ59cVOQ0LUqCZ6C0u5FVUTZL5MJB?=
- =?us-ascii?Q?n+ml7qWxIEVD4qO2TrtH+wSn8X0cMGZXKKOf4dZbLoShZBSb5CVy/ADrTgOB?=
- =?us-ascii?Q?7Tiy1NjSxJUZ1r/UZUmB1HzsWW+3mRN4cyrci0y2nzN9cBrrF1BSqVlcxBi4?=
- =?us-ascii?Q?6viOQEHYY69IvkG4lUAOv2AlPWhX5+N0M+wfDFlzDnf9X8qKT8a8bzEMySxF?=
- =?us-ascii?Q?U7wi4dC/P5OckzixM/sa8Jb6nKJn+KVK3WAdSJFKMxlq0qMoFARfSbpRj/f1?=
- =?us-ascii?Q?zXBPeALEfQ1aWQziFf2lw42ltneB0iEfz8sxkvOuwrG+PeXXr6ULTvudgd3d?=
- =?us-ascii?Q?yg0mZmxNRLbkJhH5M+J+jmI4W7SuzRmaZY+sB/iacyHNkk0+mqlqnGQpDKzK?=
- =?us-ascii?Q?XPAcTNRFtC2yzVXMp2lVThNyb7Vd787PyI5KOdfSIbJ9PKzce4fqae248W61?=
- =?us-ascii?Q?T6y9tGtKY3whp6mSV56jv1CAs/3/fQir16ODb/9ZgBpqcZWOgQYzTgRWRuwZ?=
- =?us-ascii?Q?sWRincIcZl89r9Kk39A9Stw2bXLyJ8aZEaScfN8IUILrBB1Yk2mzV1yxBlng?=
- =?us-ascii?Q?KItiKMWVQyE6IZNI65sq0r3PZXbSmOmwqYb6BywFnbAL0wFYIX38I0H2G1AL?=
- =?us-ascii?Q?llXT02QqcoWcEhsKT64j68Y8tiktJmNXffuu6ULLyYGbgAAtOsZGFYMzTJ26?=
- =?us-ascii?Q?NiHafwMqhUiXz02w/qyld6Gpol0wVVsVLF2o4BLQRqR2WRaG0dOu8wCB5ymi?=
- =?us-ascii?Q?SSeN2RlxGZFSg/OIrmr3zWQldsgqI7aTd+YU3CXxHmWjJg4tO1stanx09DY3?=
- =?us-ascii?Q?dna075Qeqmt2yJQ/YEzQSt2OXaU/foiECXEqv0QeRBtuIk1pYBhMHeSQUeeg?=
- =?us-ascii?Q?zyW3KlKa04e0Tx+BnxiBW6840/oZx46u/kmmFdXsJKrilsD+SNjhLJ0nZanF?=
- =?us-ascii?Q?610WWQJM8ti9+uDP/RxwnzhODKPl/McRFShKcIA9kBo6b1JlcrTxmXEQ0cfq?=
- =?us-ascii?Q?WInm7/ISTQQqvOs=3D?=
+	=?utf-8?B?b3h2VUxqSHhCL3RqV0U2eHA1dFRXbjI3VWtrbjNpTWN1bEJ6enlVN3Q1a1BL?=
+ =?utf-8?B?aUtaTGRlbGNtTVkvUWpWYmc0Qm5JRDc5RWRtcVBIOWJscnVUK2RHNzkxeWUx?=
+ =?utf-8?B?ZVV4Z2V2R292dlEvTFVWZzlteXlndEQxQW5QR2NMNlpZV3EyRlg1OVoxRXEy?=
+ =?utf-8?B?TzMvTUVFS09yUmlpeitobVpIaStLeG9pWTRHcWIyVzV2dFB2YVo5S29LcGZH?=
+ =?utf-8?B?TENPaGYydWkvS1ZCZWJ0Mi80Tk4xS2VmRDlCVHYyTklZdWZkSGx2UUxnb212?=
+ =?utf-8?B?VXpxK2hRcm04cjFycnhycTZPcVJCM24wc3pRbW1lRUlEVTRYdkV5cXBTUUE1?=
+ =?utf-8?B?SVM4MlFFUURIU3VNVWtzd0FjNGJrc1Z0RUdvTG1ENTVKTW1hQ2ZnU0xqWllB?=
+ =?utf-8?B?N1VmQSsvRjkwVTh4N3loWk5ZcDZrR1QwOWI4K09TSGp3VnY4K3lDL3UzMk5Q?=
+ =?utf-8?B?RzVGdmMvVm5Fa0VJMW5XOGxjdzJwUzNTQUU0UjBqM0tIakFMc1FxOTkzQ3NQ?=
+ =?utf-8?B?SlBMN2IvTjh0cTZ5ZDdVSndLV1VuY2YrVi9meERCelFXdmZpdXdUandYeWcy?=
+ =?utf-8?B?dGdzdGVCOUhLNkcyejdoOVBiSzVKa1B2ZDcvR3ZoQS9mZHhpMGh3dVlzSUNa?=
+ =?utf-8?B?NEpFeHgvYk9rTDZKc3MvMFNpbWdURU1IeTZCUXFWdy9UUjNGOUJlN3ZCL2ls?=
+ =?utf-8?B?L2t5MXZhZUI0M1BhSTBWYXFaTDNIMjhiM1ZwajVFOWErWmZSNjNnWTFGTm1r?=
+ =?utf-8?B?bEZkSmU1T0U5N2FjbFVIRUVXUE1JR1RmS0pnL050dG9BQ2R4OWRSMXZDUkdr?=
+ =?utf-8?B?UUR6aGNrQkZYZGp5VkszQ3BTd3VVOHlmOFdKaEpPNUZtWkZPMCtLYU9jMC9v?=
+ =?utf-8?B?b29OMDdUSys5K1MvVUY2TWtGdFNTN055azBRT0RLKzg4aFlraTBDYlo1UG5U?=
+ =?utf-8?B?WU1oRHZoNDlZRlZLcm41aU1mZEpaWnR4RFQ5N1NsSVc1RXowcnZqZ1IwVEdl?=
+ =?utf-8?B?QWpkaUJoRmxzamlLWmhXQkQxT1FHL2xhUDIzMFN5NHVjNnd3NEdkR3BPRjhL?=
+ =?utf-8?B?WGx6MDNhak42L0VnRHp4UExtQ1l1OFlJalZ1MnFxSzFqTnFrVDBlRmlCaVE0?=
+ =?utf-8?B?ci81SUttdGkxVHRRQzlhMW5Vajk0TUtIaGtKWld4NkN6N0tUbVBudEhTWTE1?=
+ =?utf-8?B?bDNNTWtxb3QvenJtZmlROG1WSU9RVk15S3o2YVlxQTd5SVUxZS8rVGxSODNP?=
+ =?utf-8?B?c1FiWWlSQjhDdlJiZ280TVdsL2V6Qmc2QnpmZVpHbC9uZ09rMCt5dVJSQkJv?=
+ =?utf-8?B?eEYrQkx4bldZQzhNYStUVkVSSHU4aktTVThlQzNLaURDb1FFNjNCcGFTUnBz?=
+ =?utf-8?B?azZtdEI2cHlTekhHKzM0L0EwK1NaaS9EQ2N0TXR6OXpYR0tHbmhiK1hwTHJL?=
+ =?utf-8?B?cGMvWWhUMm1DTnBCNHJzWUZROWN6Zm4wRTVFYm41UE13dVordk5WUitUcG5G?=
+ =?utf-8?B?R1BFS0pZTmgvRkkyMDZ2YVU3eHl1eVd3bWJKMHZjSGRINjk3c25Xc3JEaTcr?=
+ =?utf-8?B?NmlPM0dEd0ltUHFUakhFU3gwRHhKQjJqcmNBR2MvbXgzWkdGNDNVRW9ZUG9G?=
+ =?utf-8?B?OFRPOHZIcTJ4WUNpaUd5MTNPRzhEbjJJZUxydnN6SmZZR3BaNGphaVJXNzFN?=
+ =?utf-8?B?M3habnNJdEdKUVZXM0xSM0hBTHgvYWs2TVkySy81dW9JT2RMU1pWYlFzaU9O?=
+ =?utf-8?B?WmFuMngvN2lXZ0tUa0pvWnJhOHlPYWJxTXNmVDZhZjA2ZGZsdTlwQzJ2b0JX?=
+ =?utf-8?B?ZUl1dE9DbGhlc3hSU3FGN2xOUXE0UGI5eGR3TVlrUGU2MVBKbVBHa1Z2MjA4?=
+ =?utf-8?Q?uxjv4zGInmBnS?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(7416014)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2025 21:21:41.8620
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR12MB7272.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?d2c5NXNuZmw0NUkyWWlDWTVjc3VEclV1c1lkVytNWW5qc3BGNk1yaFdzYnBm?=
+ =?utf-8?B?Rm0xOGh6ZHppY3BWZW90QStzMGhzUWZWc3UxRzFMN0poaE1LMEpySmplWEhT?=
+ =?utf-8?B?TTFobDdONGdNOU05RlpPRC9GVHhQamU5ZkNsdVBIaXVId2VUL1h5L3RmbXdD?=
+ =?utf-8?B?SEhFaXRjUmNHcDllUC9iV3IzMVpmWmxWSHRRaS9UaTVwKzdaU2hZeG9iWklN?=
+ =?utf-8?B?QmE1cUJRNWs2dUhCRXVoN2NMV1haTHhJYUxlajB1YU1KcE5LV0R3L3VDWUVu?=
+ =?utf-8?B?VVR4SGJUM3FYQTRjWXpCL3BFZFBkOHpuYzVhY1VZaWNacXlIWGd2Y1BOTXl5?=
+ =?utf-8?B?U3FZSnZpQTkreVZtY2VyYU1na1piV0dSelNSR3ZhMitZZmxqSXo2T1VyU2U2?=
+ =?utf-8?B?SXVvSHNIbWdmNFVSb3dvNmszWExSYzF2QWNwYjFZY1RianM1Wm9ZWTdnT2dR?=
+ =?utf-8?B?YXhENEg5RGVLWTM3V0g3MGQyNWkwckFTbXkxSjVYQ2pKd216T3NZaVEyVXd5?=
+ =?utf-8?B?Ly80Sk41bjlBYTJhbGJ1VXU5THptUnFlZisrYVBwOXV0Y2ZaUEpRRTBBVVBs?=
+ =?utf-8?B?NDN5YWxOSVFVMHVmaXREdm5XbHR4bDcrME5PelBFSWcycE9sdDF5N0E4dDNV?=
+ =?utf-8?B?SFREQ3JqclBHSjJGYm9ZeWFSUDB4dlJxVUR0TDIrZ1FGaUkwSEtnbFh0T3g0?=
+ =?utf-8?B?RDA2bjY3b2x5cUZXUUw5R3VubVlrZGhKelFHbk1hcEt4elpSVmlNMGI5RGE5?=
+ =?utf-8?B?TWNYTDZ5ZUkxckd1QWtWMEJTRWNNanI3Wk9mSlUxZVlxT2VIaTFYbmZmeGdj?=
+ =?utf-8?B?cWFDbjVBTG93SHNHc0VGQkx1T1VHV2ZrdDRjRXA4eXNhcDdlSUQ2cUdxUnFN?=
+ =?utf-8?B?SHBmdG9Bb2VIQmNoMW15KzhZQU41WnNBdXZ2d2NtbHZxcElZaDMyQ2orYUh3?=
+ =?utf-8?B?d2wwdW4ydk10YWFRamlYbGxZbEt3dkxDRnk1U3NwRm5vNHk1OUg0eTk4amtU?=
+ =?utf-8?B?b1NmKytFay9MTnF3T2o3K24xeTZCRlB5MnBwVXU4TXZzcXlVNjROcUx6emFq?=
+ =?utf-8?B?QXljak9YbUI3Z29DSEc4TzlqeVdreG1QMGVLY0dNa1BwOUhqRHJGaWdXam8z?=
+ =?utf-8?B?ZEdJamFXdkVFTUFCYlpEWWpvQTJONklWclpud0VSWko1K2laNk9TQjZVVmRY?=
+ =?utf-8?B?UzJwb05mWk5HQlpiVkJYRXNyamJQZVBoTENQZkhMK2wvWkZlZ3hzTlk2Zmx6?=
+ =?utf-8?B?TW04VFZmTWhzMnVxMUhUNFJLRVBPcGhDTGpSb3laelorYS8yU3hsUXFmMHhW?=
+ =?utf-8?B?R2hPc1ZSS0JLK21FbTFDQ0s2dEozRXRCckM4bmp5U3VWZ2c2dmtGYnpnbkVs?=
+ =?utf-8?B?WDlEVjB1Uy85eUVCQVN6b3g3TU1wa0w0OC82Q3R5SGFHNDBmU0U2SGxsa0NM?=
+ =?utf-8?B?cU1rZTFPUHR4dVRsWlJualk3ei8wMmtoQkZnZ3hzRE9YOURjTDdMZzVXTFNx?=
+ =?utf-8?B?RFFVbUJnM3ZuK0dUYjd3SDNteFZ1akJKL2lmbXZwZjRkT0FGaVg0QmFheW9B?=
+ =?utf-8?B?UGJXZG5IeFhLb205QUNiMXE1R1ZyVS9RSnd2S2JnSk5jdDRIYkhKTG4zUDR3?=
+ =?utf-8?B?dGtnVlFyV2V1cG5XeFZGeGhjZjFtenRKQVFtTVpYUmQ3dFVMaVFIckdTbm5v?=
+ =?utf-8?B?Z2EydS9ZcUhXMlR1bEQ3b2toazV6c3hZcHFOMk5lLzcvUlJNWGViSGRUWk0x?=
+ =?utf-8?B?SnQ1SnNlZUlnc1BJODUxMDVyNnJCaXNOQm51L3lVZFlOR24rY2c0YWpvVXY1?=
+ =?utf-8?B?QlEvZlByMXlwdjZEVU0wMTlrVndrQ0k2dGVUbTNyOXVwV0lyK2c0d2FWSXhi?=
+ =?utf-8?B?VkFPWTRST1RJYnpPaU91L0JWTndOa040UURHUE1Tdzl4MVAvVVFaVk92K3dk?=
+ =?utf-8?B?YzBHeUtYQ0JjWi91V1kyc2JiYVNmelJjWnRYSUFmQnpEOW5FN1lzV2ZTVjly?=
+ =?utf-8?B?ZWxaM2V5eU9kR3JkdWpPa1VvaWlDNmtiSjlPbU5FSVFkeXF5eTdEY3BCSThH?=
+ =?utf-8?B?QldPbTlHZlBZaXIvUzhkS1BzVDR6RVFlWTZpME4zcE9WcE5ZWG9kUk9nbWs5?=
+ =?utf-8?Q?nYPHpiMLukGuSl9IopGzntiX0?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 173b162b-b066-4428-8d5a-08dd417d4000
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR12MB7272.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2025 22:27:15.8410
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 22408b9b-34b6-47c1-d574-08dd4174174c
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF000397B2.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6082
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HWqMLlkQn0hgCbsz1TFTgJdorog+39dd/KoSk9lUQBnqQ+JTQhAm4ZcinwwFV7FYCdDwx0W7cNGaQM7w+QrsFw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7990
 
-"io_alloc" feature is a mechanism that enables direct insertion of data
-from I/O devices into the L3 cache. By directly caching data from I/O
-devices rather than first storing the I/O data in DRAM, it reduces the
-demands on DRAM bandwidth and reduces latency to the processor consuming
-the I/O data.
+On 1/31/25 07:19, Johannes Weiner wrote:
+> On Thu, Jan 30, 2025 at 12:07:31PM -0500, Waiman Long wrote:
+>> On 1/30/25 11:39 AM, Johannes Weiner wrote:
+>>> On Thu, Jan 30, 2025 at 09:52:29AM -0500, Waiman Long wrote:
+>>>> On 1/29/25 3:10 PM, Yosry Ahmed wrote:
+>>>>> On Wed, Jan 29, 2025 at 02:12:04PM -0500, Waiman Long wrote:
+>>>>>> Since commit 0e4b01df8659 ("mm, memcg: throttle allocators when failing
+>>>>>> reclaim over memory.high"), the amount of allocator throttling had
+>>>>>> increased substantially. As a result, it could be difficult for a
+>>>>>> misbehaving application that consumes increasing amount of memory from
+>>>>>> being OOM-killed if memory.high is set. Instead, the application may
+>>>>>> just be crawling along holding close to the allowed memory.high memory
+>>>>>> for the current memory cgroup for a very long time especially those
+>>>>>> that do a lot of memcg charging and uncharging operations.
+>>>>>>
+>>>>>> This behavior makes the upstream Kubernetes community hesitate to
+>>>>>> use memory.high. Instead, they use only memory.max for memory control
+>>>>>> similar to what is being done for cgroup v1 [1].
+>>>>>>
+>>>>>> To allow better control of the amount of throttling and hence the
+>>>>>> speed that a misbehving task can be OOM killed, a new single-value
+>>>>>> memory.high.throttle control file is now added. The allowable range
+>>>>>> is 0-32.  By default, it has a value of 0 which means maximum throttling
+>>>>>> like before. Any non-zero positive value represents the corresponding
+>>>>>> power of 2 reduction of throttling and makes OOM kills easier to happen.
+>>>>>>
+>>>>>> System administrators can now use this parameter to determine how easy
+>>>>>> they want OOM kills to happen for applications that tend to consume
+>>>>>> a lot of memory without the need to run a special userspace memory
+>>>>>> management tool to monitor memory consumption when memory.high is set.
+>>>>>>
+>>>>>> Below are the test results of a simple program showing how different
+>>>>>> values of memory.high.throttle can affect its run time (in secs) until
+>>>>>> it gets OOM killed. This test program allocates pages from kernel
+>>>>>> continuously. There are some run-to-run variations and the results
+>>>>>> are just one possible set of samples.
+>>>>>>
+>>>>>>     # systemd-run -p MemoryHigh=10M -p MemoryMax=20M -p MemorySwapMax=10M \
+>>>>>> 	--wait -t timeout 300 /tmp/mmap-oom
+>>>>>>
+>>>>>>     memory.high.throttle	service runtime
+>>>>>>     --------------------	---------------
+>>>>>>               0		    120.521
+>>>>>>               1		    103.376
+>>>>>>               2		     85.881
+>>>>>>               3		     69.698
+>>>>>>               4		     42.668
+>>>>>>               5		     45.782
+>>>>>>               6		     22.179
+>>>>>>               7		      9.909
+>>>>>>               8		      5.347
+>>>>>>               9		      3.100
+>>>>>>              10		      1.757
+>>>>>>              11		      1.084
+>>>>>>              12		      0.919
+>>>>>>              13		      0.650
+>>>>>>              14		      0.650
+>>>>>>              15		      0.655
+>>>>>>
+>>>>>> [1] https://docs.google.com/document/d/1mY0MTT34P-Eyv5G1t_Pqs4OWyIH-cg9caRKWmqYlSbI/edit?tab=t.0
+>>>>>>
+>>>>>> Signed-off-by: Waiman Long <longman@redhat.com>
+>>>>>> ---
+>>>>>>    Documentation/admin-guide/cgroup-v2.rst | 16 ++++++++--
+>>>>>>    include/linux/memcontrol.h              |  2 ++
+>>>>>>    mm/memcontrol.c                         | 41 +++++++++++++++++++++++++
+>>>>>>    3 files changed, 57 insertions(+), 2 deletions(-)
+>>>>>>
+>>>>>> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+>>>>>> index cb1b4e759b7e..df9410ad8b3b 100644
+>>>>>> --- a/Documentation/admin-guide/cgroup-v2.rst
+>>>>>> +++ b/Documentation/admin-guide/cgroup-v2.rst
+>>>>>> @@ -1291,8 +1291,20 @@ PAGE_SIZE multiple when read back.
+>>>>>>    	Going over the high limit never invokes the OOM killer and
+>>>>>>    	under extreme conditions the limit may be breached. The high
+>>>>>>    	limit should be used in scenarios where an external process
+>>>>>> -	monitors the limited cgroup to alleviate heavy reclaim
+>>>>>> -	pressure.
+>>>>>> +	monitors the limited cgroup to alleviate heavy reclaim pressure
+>>>>>> +	unless a high enough value is set in "memory.high.throttle".
+>>>>>> +
+>>>>>> +  memory.high.throttle
+>>>>>> +	A read-write single value file which exists on non-root
+>>>>>> +	cgroups.  The default is 0.
+>>>>>> +
+>>>>>> +	Memory usage throttle control.	This value controls the amount
+>>>>>> +	of throttling that will be applied when memory consumption
+>>>>>> +	exceeds the "memory.high" limit.  The larger the value is,
+>>>>>> +	the smaller the amount of throttling will be and the easier an
+>>>>>> +	offending application may get OOM killed.
+>>>>> memory.high is supposed to never invoke the OOM killer (see above). It's
+>>>>> unclear to me if you are referring to OOM kills from the kernel or
+>>>>> userspace in the commit message. If the latter, I think it shouldn't be
+>>>>> in kernel docs.
+>>>> I am sorry for not being clear. What I meant is that if an application
+>>>> is consuming more memory than what can be recovered by memory reclaim,
+>>>> it will reach memory.max faster, if set, and get OOM killed. Will
+>>>> clarify that in the next version.
+>>> You're not really supposed to use max and high in conjunction. One is
+>>> for kernel OOM killing, the other for userspace OOM killing. That's tho
+>>> what the documentation that you edited is trying to explain.
+>>>
+>>> What's the usecase you have in mind?
+>>
+>> That is new to me that high and max are not supposed to be used 
+>> together. One problem with v1 is that by the time the limit is reached 
+>> and memory reclaim is not able to recover enough memory in time, the 
+>> task will be OOM killed. I always thought that by setting high to a bit 
+>> below max, say 90%, early memory reclaim will reduce the chance of OOM 
+>> kills. There are certainly others that think like that.
+> 
+> I can't fault you or them for this, because this was the original plan
+> for these knobs. However, this didn't end up working in practice.
+> 
+> If you have a non-throttling, non-killing limit, then reclaim will
+> either work and keep the workload to that limit; or it won't work, and
+> the workload escapes to the hard limit and gets killed.
+> 
+> You'll notice you get the same behavior with just memory.max set by
+> itself - either reclaim can keep up, or OOM is triggered.
 
-io_alloc feature uses the highest CLOSID to route the traffic from I/O
-devices. Provide the interface to modify io_alloc CBMs (Capacity Bit Mask)
-when feature is enabled.
+Yep that was intentional, it was best effort.
 
-Signed-off-by: Babu Moger <babu.moger@amd.com>
----
-v3: Minor changes due to changes in resctrl_arch_get_io_alloc_enabled()
-    and resctrl_io_alloc_closid_get().
-    Taken care of handling the CBM update when CDP is enabled.
-    Updated the commit log to make it generic.
+> 
+>> So the use case here is to reduce the chance of OOM kills without 
+>> letting really mishaving tasks from holding up useful memory for too long.
+> 
+> That brings us to the idea of a medium amount of throttling.
+> 
+> The premise would be that, by throttling *to a certain degree*, you
+> can slow the workload down just enough to tide over the pressure peak
+> and avert the OOM kill.
+> 
+> This assumes that some tasks inside the cgroup can independently make
+> forward progress and release memory, while allocating tasks inside the
+> group are already throttled.
+> 
+> [ Keep in mind, it's a cgroup-internal limit, so no memory freeing
+>   outside of the group can alleviate the situation. Progress must
+>   happen from within the cgroup. ]
+> 
+> But this sort of parallelism in a pressured cgroup is unlikely in
+> practice. By the time reclaim fails, usually *every task* in the
+> cgroup ends up having to allocate. Because they lose executables to
+> cache reclaim, or heap memory to swap etc, and then page fault.
+> 
+> We found that more often than not, it just deteriorates into a single
+> sequence of events. Slowing it down just drags out the inevitable.
+> 
+> As a result we eventually moved away from the idea of gradual
+> throttling. The last remnants of this idea finally disappeared from
+> the docs last year (commit 5647e53f7856bb39dae781fe26aa65a699e2fc9f).
+> 
+> memory.high now effectively puts the cgroup to sleep when reclaim
+> fails (similar to oom killer disabling in v1, but without the caveats
+> of that implementation). This is useful to let userspace implement
+> custom OOM killing policies.
+> 
 
-v2: Added more generic text in documentation.
----
- Documentation/arch/x86/resctrl.rst        |  12 ++
- arch/x86/kernel/cpu/resctrl/ctrlmondata.c |   2 +-
- arch/x86/kernel/cpu/resctrl/internal.h    |   1 +
- arch/x86/kernel/cpu/resctrl/rdtgroup.c    | 134 +++++++++++++++++++++-
- 4 files changed, 147 insertions(+), 2 deletions(-)
+I've found using memory.high as limiting the way you've defined (using a benchmark
+like STREAM, the benchmark did not finish and was stalled for several hours when
+it was short of a few GB's of memory) and I did not have a background user space process
+to do a user space kill. In my case, reclaim was able to reclaim a little bit, so some
+forward progress was made and nr_retries limit was never hit (IIRC).
 
-diff --git a/Documentation/arch/x86/resctrl.rst b/Documentation/arch/x86/resctrl.rst
-index 1b67e31d626c..29c8851bcc7f 100644
---- a/Documentation/arch/x86/resctrl.rst
-+++ b/Documentation/arch/x86/resctrl.rst
-@@ -169,6 +169,18 @@ related to allocation:
- 		When CDP is enabled, io_alloc routes I/O traffic using the highest
- 		CLOSID allocated for the instruction cache.
- 
-+"io_alloc_cbm":
-+		Capacity Bit Masks (CBMs) available to supported IO devices which
-+		can directly insert cache lines in L3 which can help to reduce the
-+		latency. CBM can be configured by writing to the interface in the
-+		following format::
-+
-+			L3:<cache_id0>=<cbm>;<cache_id1>=<cbm>;...
-+
-+		When CDP is enabled, L3 control is divided into two separate resources:
-+		L3CODE and L3DATA. However, the CBM can only be updated on the L3CODE
-+		resource.
-+
- Memory bandwidth(MB) subdirectory contains the following files
- with respect to allocation:
- 
-diff --git a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-index d272dea43924..4dfee0436c1c 100644
---- a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-+++ b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
-@@ -102,7 +102,7 @@ int parse_bw(struct rdt_parse_data *data, struct resctrl_schema *s,
-  * requires at least two bits set.
-  * AMD allows non-contiguous bitmasks.
-  */
--static bool cbm_validate(char *buf, u32 *data, struct rdt_resource *r)
-+bool cbm_validate(char *buf, u32 *data, struct rdt_resource *r)
- {
- 	unsigned long first_bit, zero_bit, val;
- 	unsigned int cbm_len = r->cache.cbm_len;
-diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-index 07cf8409174d..702f6926bbdf 100644
---- a/arch/x86/kernel/cpu/resctrl/internal.h
-+++ b/arch/x86/kernel/cpu/resctrl/internal.h
-@@ -669,4 +669,5 @@ void rdt_staged_configs_clear(void);
- bool closid_allocated(unsigned int closid);
- int resctrl_find_cleanest_closid(void);
- void show_doms(struct seq_file *s, struct resctrl_schema *schema, int closid);
-+bool cbm_validate(char *buf, u32 *data, struct rdt_resource *r);
- #endif /* _ASM_X86_RESCTRL_INTERNAL_H */
-diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-index 81b9d8c5dabf..9997cbfc1c19 100644
---- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-+++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-@@ -1999,6 +1999,137 @@ static int resctrl_io_alloc_cbm_show(struct kernfs_open_file *of,
- 	return ret;
- }
- 
-+/*
-+ * Read the CBM and check the validity. Make sure CBM is not shared
-+ * with any other exclusive resctrl groups.
-+ */
-+static int resctrl_io_alloc_parse_cbm(char *buf, struct resctrl_schema *s,
-+				      struct rdt_ctrl_domain *d)
-+{
-+	struct resctrl_staged_config *cfg;
-+	struct rdt_resource *r = s->res;
-+	u32 io_alloc_closid;
-+	u32 cbm_val;
-+
-+	cfg = &d->staged_config[s->conf_type];
-+	if (cfg->have_new_ctrl) {
-+		rdt_last_cmd_printf("Duplicate domain %d\n", d->hdr.id);
-+		return -EINVAL;
-+	}
-+
-+	if (!cbm_validate(buf, &cbm_val, r))
-+		return -EINVAL;
-+
-+	/*
-+	 * The CBM may not overlap with other exclusive group.
-+	 */
-+	io_alloc_closid = resctrl_io_alloc_closid_get(r, s);
-+	if (rdtgroup_cbm_overlaps(s, d, cbm_val, io_alloc_closid, true)) {
-+		rdt_last_cmd_puts("Overlaps with exclusive group\n");
-+		return -EINVAL;
-+	}
-+
-+	cfg->new_ctrl = cbm_val;
-+	cfg->have_new_ctrl = true;
-+
-+	return 0;
-+}
-+
-+static int resctrl_io_alloc_parse_line(char *line,  struct rdt_resource *r,
-+				       struct resctrl_schema *s)
-+{
-+	struct rdt_ctrl_domain *d;
-+	char *dom = NULL, *id;
-+	unsigned long dom_id;
-+
-+next:
-+	if (!line || line[0] == '\0')
-+		return 0;
-+
-+	dom = strsep(&line, ";");
-+	id = strsep(&dom, "=");
-+	if (!dom || kstrtoul(id, 10, &dom_id)) {
-+		rdt_last_cmd_puts("Missing '=' or non-numeric domain\n");
-+		return -EINVAL;
-+	}
-+
-+	dom = strim(dom);
-+	list_for_each_entry(d, &r->ctrl_domains, hdr.list) {
-+		if (d->hdr.id == dom_id) {
-+			if (resctrl_io_alloc_parse_cbm(dom, s, d))
-+				return -EINVAL;
-+			goto next;
-+		}
-+	}
-+	return -EINVAL;
-+}
-+
-+static ssize_t resctrl_io_alloc_cbm_write(struct kernfs_open_file *of,
-+					  char *buf, size_t nbytes, loff_t off)
-+{
-+	struct resctrl_schema *s = of->kn->parent->priv;
-+	struct rdt_resource *r = s->res;
-+	u32 io_alloc_closid;
-+	char *resname;
-+	int ret = 0;
-+
-+	/* Valid input requires a trailing newline */
-+	if (nbytes == 0 || buf[nbytes - 1] != '\n')
-+		return -EINVAL;
-+
-+	buf[nbytes - 1] = '\0';
-+
-+	if (!r->cache.io_alloc_capable || s->conf_type == CDP_DATA) {
-+		rdt_last_cmd_puts("io_alloc feature is not supported on the resource\n");
-+		return -EINVAL;
-+	}
-+
-+	cpus_read_lock();
-+	mutex_lock(&rdtgroup_mutex);
-+
-+	rdt_last_cmd_clear();
-+	rdt_staged_configs_clear();
-+
-+	if (!resctrl_arch_get_io_alloc_enabled(r)) {
-+		rdt_last_cmd_puts("io_alloc feature is not enabled\n");
-+		ret = -EINVAL;
-+		goto cbm_write_out;
-+	}
-+
-+	resname = strim(strsep(&buf, ":"));
-+	if (!buf) {
-+		rdt_last_cmd_puts("Missing ':'\n");
-+		ret = -EINVAL;
-+		goto cbm_write_out;
-+	}
-+
-+	if (strcmp(resname, s->name)) {
-+		rdt_last_cmd_printf("Unsupported resource name '%s'\n", resname);
-+		ret = -EINVAL;
-+		goto cbm_write_out;
-+	}
-+
-+	if (buf[0] == '\0') {
-+		rdt_last_cmd_printf("Missing '%s' value\n", resname);
-+		ret = -EINVAL;
-+		goto cbm_write_out;
-+	}
-+
-+	ret = resctrl_io_alloc_parse_line(buf, r, s);
-+	if (ret)
-+		goto cbm_write_out;
-+
-+	io_alloc_closid = resctrl_io_alloc_closid_get(r, s);
-+	ret = resctrl_arch_update_domains(r, io_alloc_closid);
-+
-+cbm_write_out:
-+	rdt_staged_configs_clear();
-+	mutex_unlock(&rdtgroup_mutex);
-+	cpus_read_unlock();
-+
-+	return ret ?: nbytes;
-+}
-+
- /* rdtgroup information files for one cache resource. */
- static struct rftype res_common_files[] = {
- 	{
-@@ -2160,9 +2291,10 @@ static struct rftype res_common_files[] = {
- 	},
- 	{
- 		.name		= "io_alloc_cbm",
--		.mode		= 0444,
-+		.mode		= 0644,
- 		.kf_ops		= &rdtgroup_kf_single_ops,
- 		.seq_show	= resctrl_io_alloc_cbm_show,
-+		.write		= resctrl_io_alloc_cbm_write,
- 	},
- 	{
- 		.name		= "mba_MBps_event",
--- 
-2.34.1
+Effectively in v1 soft_limit was supposed to be best effort pushing back and OOM kill
+could find a task to kill globally (initial design) if there was global memory pressure.
+
+For this discussion adding memory.high.throttle seems like it's bridging the transition
+from memory.high to memory.max/OOM without external intervention. I do feel that not
+killing the task, just locks the task in the memcg forever (at-least in my case) and
+it sounds like using memory.high requires an external process monitor to kill the task
+if it does not make progress.
+
+Warm Regards,
+Balbir Singh
+
 
