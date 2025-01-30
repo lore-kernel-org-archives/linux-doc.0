@@ -1,72 +1,72 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BDD418F2DD
-	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 09:24:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633BC1B4C35
+	for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 09:28:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738229085; cv=none; b=bl11zKBpv84BDM5hO2cf6aDwDxhGd9uVMxDTScjCSZqULRARJrXbMGR8LU2CzoHMqM+EPFQN/9RzNMWEacpvPbTWzXa9RcopgNqpvMH83uOQpVkwDWXh3CJWvcZ2gjqsNQwQ+bAesEWBrwlpz1Kp6mijwjnO9ddJHMWvFPYnv5A=
+	t=1738229289; cv=none; b=OyY8wMDSpRIJcH0saNvTQg8lF9k5TPx+z6J/1CSaJO6yOlL5lHEJITE+lxzly5rE2Uoyy3B5YwEtQHu66U4uMAr2B9JTNadj2F6CuNVDkINUsombAHCcUBcEKCxgUgBvCtzRNNMB4Wfk1yBJBHcfF8uiZ1zoJcMl5PX2w3yL70k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738229085; c=relaxed/simple;
-	bh=oloF2T5TDO6m9NKDVzl0e3LX7kA2V+eNJsL7RD/jhBY=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=TT1ViMlm+etfjM5WWDOYFH0eWxSGNGmGHxl3hRAiKpFNIJxn0CvIIXlcrlL3BKx2oPGyttq9uttu3N6JPme0N3vhG2FCXz5xumlopG6GddUEIOQUSZAQ4KCz66/xI0/qdA3iWr0ArQQEdMWJb3Lb/xV5kAf/WIftvzu4vAVBNoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PfU9G+Yu; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1738229289; c=relaxed/simple;
+	bh=B1owPnV04u47VK/53oPxspH8yMFlCE/sNbHLLUa/wjE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J9CPVOxkxfsJJHPBIAobnUut8v4Y7DfSlWmJSGzovFhY3pFq2BPvu3IVz1IfiuWlFX7gya3R2svL8SahfJAHHlIVUjIG2fyw0PueMD4uGwcotMr2woXVd5+CPRNwBIzMFEtSfmF/Pv9iounNziXT5iFw5vp7MvcuLCxr6dPjUr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=f2UF8e64; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PfU9G+Yu"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f2UF8e64"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738229083;
+	s=mimecast20190719; t=1738229286;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=AgWsEgCc4GvIDD2B+IjlgI9qdTH1nhae1Uz1TWiWBYA=;
-	b=PfU9G+YuQK695JgzplyXHP3FJfPkKxcNcUTX2Wr2mv1C9Ux+YKl/x2a71HaB7k589kaNkY
-	F6VY2oRPS1E6JjdFoGHzetemKzbgNH0ho6GM30metCIULcSLTAPKuz59IyFVxEXf6lzul6
-	OhGcbx6eSfvQwFm2U1zlN3LGlnSlFoo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=8a2uS8Wdref7tlZzoBWWMkEGl9+CP1s01bTe+snzNOI=;
+	b=f2UF8e647DvRqz9PG6MNubc9gGF2U5ORIooh+QrwHTxvhxyXizZKbl2i/YoY6hsCmT+Zyf
+	UqYLhok80d03SiqcFwPP5WtQmIneWn/EBGrBjet2DUtoDxnK3G8Duj2aX004e0Dr+BXhVc
+	oXjPQgF2BqrDs/WLZOe2X0/QxhJOk5k=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-358-xqeLV2sjOiGDoqLLA4EY5Q-1; Thu, 30 Jan 2025 04:24:41 -0500
-X-MC-Unique: xqeLV2sjOiGDoqLLA4EY5Q-1
-X-Mimecast-MFC-AGG-ID: xqeLV2sjOiGDoqLLA4EY5Q
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3862e986d17so218350f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 01:24:41 -0800 (PST)
+ us-mta-501-7jpQt7NbPRqcoTRTGUeqOw-1; Thu, 30 Jan 2025 04:28:04 -0500
+X-MC-Unique: 7jpQt7NbPRqcoTRTGUeqOw-1
+X-Mimecast-MFC-AGG-ID: 7jpQt7NbPRqcoTRTGUeqOw
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4361ac8b25fso2510415e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jan 2025 01:28:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738229080; x=1738833880;
+        d=1e100.net; s=20230601; t=1738229283; x=1738834083;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:from:subject:user-agent
+         :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=AgWsEgCc4GvIDD2B+IjlgI9qdTH1nhae1Uz1TWiWBYA=;
-        b=n7ASDKy2qnm6aF/Y++T8z0X9arMpxzkwCUZvFbuubek1wJy/pofH32pt3la612vCqL
-         mROZzNqyXv8KQhZsUpFbQvBiVS9rMVr5IhXgrs0xpKNPqFi5RxzSNgefZK+8gaJNNVFp
-         Q3zmVEae4Q6V/fBG5jya95STJ9t2cj9ZOITlBlPlBfwYfMyAy48Go+2TMc/GRHTzAXD7
-         mcoTnBjcKgsbLCx6NHqMr5DiYOJrYBwpUa1KpP3Cdwlc5Ix5mWfTfUkRvO6Oq7L/ZqaH
-         5Be6/Uct2Vh+oYUnKlICFN5xhm7vwpi5XxTD0KBwzE0MJNhoVDl1k+h8SYCWNpb5CfxV
-         QDIA==
-X-Forwarded-Encrypted: i=1; AJvYcCXVoJVqq5Yj6KbgZbG20LHlAGGZTQ0Hbu+CzbsPBuSjucNs8herNjjcGv+mgXLZiCvCdKJiiytPWDU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfRwZxL2ghN8W8jeh1VZ6cUleLv+B2/re1yMhH3c5Tm2C+OxTG
-	g7j7fxqD2XG4aP7Uh4fCsj30vB3nf6CjCUOZ8xqhqL28SZZ6MQ88BV8fbu8V6jk4h52U92Y8yxg
-	v3xrmmuy2/nbjL2YDKAgRdHLTt73MNCQMFza0GGfzzxO0r/+I95302KIK4Q==
-X-Gm-Gg: ASbGncu+116stYPKkyczbsAHBHwcj9K5COmdibMJSiPwALU09eD6XPgJNcoc2EnMg8z
-	j/cpXepukf/Q04XeuNI1znLDYM+zhbV3o/epkBuF1WpvbU++W68/ipJc1mKfikux8fss/jhksht
-	EYus10yEwNrrvaLoAhxeM/TeOvf+c38dme9CTMdj44CZlnOZ944ibnmXbS2e1nDHgvLJhFjSj57
-	Znmy59cpoBgTH/CSZMBg9K042CclKCQVS9GXTV77zILdYiTZ+baQHnkQ7FpFqzGY3pvIhAigpqE
-	PFr58EEfr5H60szWNbDcaaFDO+UxMBNX0IrmQp6Ow6vL
-X-Received: by 2002:a5d:47c5:0:b0:385:f092:e00 with SMTP id ffacd0b85a97d-38c520975b7mr5464491f8f.50.1738229080237;
-        Thu, 30 Jan 2025 01:24:40 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGPsT0tp7MlPmJ5d1a4j+wbYUvfNepMnGtnz6DBjlfLio8haZQowpOaHS464RFpM5lmeYL4CQ==
-X-Received: by 2002:a5d:47c5:0:b0:385:f092:e00 with SMTP id ffacd0b85a97d-38c520975b7mr5464464f8f.50.1738229079878;
-        Thu, 30 Jan 2025 01:24:39 -0800 (PST)
+        bh=8a2uS8Wdref7tlZzoBWWMkEGl9+CP1s01bTe+snzNOI=;
+        b=xKICwLUAMbugEdiU6ctbJUV/D+SukOSphvB8Wf5tsLfEcDp9FmVQJYkgtLf9Rh5QLj
+         6fkF2DnYDEYZA7QaW8iWX7t5E3RmjGMpOTls0J0m9pZbwH0ahEb9KApI90VJA4FmIbD7
+         7inPNfyE68kqVYtjcKBrBIumYGGUFV7ct0UJTPl8K4lG6uJn/MQGwmale7/W9TBwchYi
+         PXw/qROfTE+FKD84s0Kshof4yAX+EfLmDxUWzVRo7+RtvUB4z1l7etII9PL6C8j94lIl
+         SfYpJP6rYXb20xVSyTy6Mj7XfSMKq0PQxKDGwVt59o7vlxvx+lNCgn95PfIgdbW+SEuT
+         +D/g==
+X-Forwarded-Encrypted: i=1; AJvYcCXaTxMeVLPulqc1Q0sLaRepvDCl21k61vVhqxPU+FDc+h2eo8nH3xaVs1MrJVt+8JX+avlvnJiaY0Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyx5Wog3ajyc/hZh9zU45NjMeIWVDQLdebLwEFhvcV0UuIDUvHd
+	mOdQWaTZAbdVc6LBSfsweYqA7ZumTU7R39RxnbgIfBJd/8u0hKaqF9d7q9Vtt/x2dwMg+mDdvMN
+	Qiq0DIkCMwNvm68TJsT0AXUm3y563OlLJ9l9pDKilfOQbjcfLkZS97mg15Q==
+X-Gm-Gg: ASbGncsh29hVqBZ6PxHIqaBUg7Mi/qp347TADITEohhgqaFI9/jL8Dy2Zp7VbKHccpQ
+	qSYNUUvoLNoTqCxt7BjK47YYb6j8trR7iThn9kQPZzETJeUjwykUPqsHxQIOFZsyJlkAz2JrKrp
+	e0jTnmaMGdKZqRFiQDm4BS0RjSTDdmfL1cZ41MlePZ8w1Q3nLN3SHssgk4fPh+EGBKETLv9/CUR
+	QwQi9nUJps4+T1ae27jzkqBiFA+44FJ39DqmhD+Jp8CrzcUGB+BeD7uUNlpG7lcLT7U6WTColNH
+	EDBOzBSE5ws+qL5sA6J/hQz/4W+xBPVJlpnZrksL8B6U
+X-Received: by 2002:a05:600c:1e21:b0:434:fec5:4ef5 with SMTP id 5b1f17b1804b1-438dc3c3287mr61472855e9.14.1738229283568;
+        Thu, 30 Jan 2025 01:28:03 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEVv9sk0PSOraNHCtifr1n2WcH7tWWGxI7ZU8RxZfSrxnyJnI+Uc52lsNZOLN2ReMg84oUVgA==
+X-Received: by 2002:a05:600c:1e21:b0:434:fec5:4ef5 with SMTP id 5b1f17b1804b1-438dc3c3287mr61472565e9.14.1738229283230;
+        Thu, 30 Jan 2025 01:28:03 -0800 (PST)
 Received: from ?IPV6:2a01:599:904:96e0:a245:aa9f:6c57:eb41? ([2a01:599:904:96e0:a245:aa9f:6c57:eb41])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c1b5492sm1389915f8f.73.2025.01.30.01.24.37
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438e23d42d4sm17055365e9.6.2025.01.30.01.28.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jan 2025 01:24:38 -0800 (PST)
-Message-ID: <c5befaa4-bd00-4784-ae66-ddbf16dfe1d9@redhat.com>
-Date: Thu, 30 Jan 2025 10:24:37 +0100
+        Thu, 30 Jan 2025 01:28:02 -0800 (PST)
+Message-ID: <eab05949-efc8-4c04-ace1-b4435ec894e6@redhat.com>
+Date: Thu, 30 Jan 2025 10:28:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -74,9 +74,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 04/12] mm/rmap: implement make_device_exclusive() using
- folio_walk instead of rmap walk
-From: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v1 2/4] mm/mmu_notifier: drop owner from
+ MMU_NOTIFY_EXCLUSIVE
 To: Alistair Popple <apopple@nvidia.com>
 Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
@@ -91,10 +90,10 @@ Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
  Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
  Pasha Tatashin <pasha.tatashin@soleen.com>, Peter Xu <peterx@redhat.com>,
  Jason Gunthorpe <jgg@nvidia.com>
-References: <20250129115411.2077152-1-david@redhat.com>
- <20250129115411.2077152-5-david@redhat.com>
- <7tzcpx23vufmp5cxutnzhjgdj7kwqrw5drwochpv5ern7zknhj@h2s6y2qjbr3f>
- <180e9c2f-51fe-44ba-ac68-5aa7b7918ab0@redhat.com>
+References: <20250129115803.2084769-1-david@redhat.com>
+ <20250129115803.2084769-3-david@redhat.com>
+ <h4dnoixvp2kjeao6mzcpze4zx6t34ebpltqadkjl5zxcjhddkf@lbzo2yhzu5sz>
+From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -141,64 +140,63 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <180e9c2f-51fe-44ba-ac68-5aa7b7918ab0@redhat.com>
+In-Reply-To: <h4dnoixvp2kjeao6mzcpze4zx6t34ebpltqadkjl5zxcjhddkf@lbzo2yhzu5sz>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 30.01.25 10:01, David Hildenbrand wrote:
-> On 30.01.25 07:11, Alistair Popple wrote:
->> On Wed, Jan 29, 2025 at 12:54:02PM +0100, David Hildenbrand wrote:
->>> We require a writable PTE and only support anonymous folio: we can only
->>> have exactly one PTE pointing at that page, which we can just lookup
->>> using a folio walk, avoiding the rmap walk and the anon VMA lock.
->>>
->>> So let's stop doing an rmap walk and perform a folio walk instead, so we
->>> can easily just modify a single PTE and avoid relying on rmap/mapcounts.
->>>
->>> We now effectively work on a single PTE instead of multiple PTEs of
->>> a large folio, allowing for conversion of individual PTEs from
->>> non-exclusive to device-exclusive -- note that the other way always
->>> worked on single PTEs.
->>>
->>> We can drop the MMU_NOTIFY_EXCLUSIVE MMU notifier call and document why
->>> that is not required: GUP will already take care of the
->>> MMU_NOTIFY_EXCLUSIVE call if required (there is already a device-exclusive
->>> entry) when not finding a present PTE and having to trigger a fault and
->>> ending up in remove_device_exclusive_entry().
+On 30.01.25 06:34, Alistair Popple wrote:
+> On Wed, Jan 29, 2025 at 12:58:00PM +0100, David Hildenbrand wrote:
+>> We no longer get a MMU_NOTIFY_EXCLUSIVE on conversion with the owner set
+>> that one has to filter out: if there already *is* a device-exclusive
+>> entry (e.g., other device, we don't have that information), GUP will
+>> convert it back to an ordinary PTE and notify via
+>> remove_device_exclusive_entry().
+> 
+> What tree is this against? I tried applying to v6.13 and Linus current master
+> but neither applied cleanly.
+
+See the cover letter. This is on top of the fixes series, which is based 
+on mm-unstable from yesterday.
+
+>   
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>   drivers/gpu/drm/nouveau/nouveau_svm.c | 6 +-----
+>>   include/linux/mmu_notifier.h          | 4 +---
+>>   include/linux/rmap.h                  | 2 +-
+>>   lib/test_hmm.c                        | 2 +-
+>>   mm/rmap.c                             | 3 +--
+>>   5 files changed, 5 insertions(+), 12 deletions(-)
 >>
->> I will have to look at this a bit more closely tomorrow but this doesn't seem
->> right to me. We may be transitioning from a present PTE (ie. a writable
->> anonymous mapping) to a non-present PTE (ie. a device-exclusive entry) and
->> therefore any secondary processors (eg. other GPUs, iommus, etc.) will need to
->> update their copies of the PTE. So I think the notifier call is needed.
+>> diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+>> index 39e3740980bb..4758fee182b4 100644
+>> --- a/drivers/gpu/drm/nouveau/nouveau_svm.c
+>> +++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+>> @@ -510,10 +510,6 @@ static bool nouveau_svm_range_invalidate(struct mmu_interval_notifier *mni,
+>>   	struct svm_notifier *sn =
+>>   		container_of(mni, struct svm_notifier, notifier);
+>>   
+>> -	if (range->event == MMU_NOTIFY_EXCLUSIVE &&
+>> -	    range->owner == sn->svmm->vmm->cli->drm->dev)
+>> -		return true;
 > 
-> Then it is all very confusing:
+> I think this will cause a live-lock because make_device_exclusive_range()
+> will call the notifier which without the filtering will increment the sequence
+> count and cause endless retries of the loop in nouveau_atomic_range_fault().
+> The notifier needs to be able to figure out if it was called in response to
+> something this thread did (ie. make_device_exclusive_range) and can therefore
+> ignore the invalidation, or from some other thread.
+
+Yes, as discussed in the other patch, this must stay to inform secondary 
+MMUs about the conversion *to* device exclusive.
+
 > 
-> "MMU_NOTIFY_EXCLUSIVE: to signal a device driver that the device will no
-> longer have exclusive access to the page."
+> Looking at hmm_test I see that doesn't use the sequence counter to ensure
+> the PTE remains valid whilst it is mapped. I think that is probably wrong, so
+> apologies if that lead you astray.
 
-So the second sentence actually describes the other condition. Likely we
-should make that clearer:
-
---- a/include/linux/mmu_notifier.h
-+++ b/include/linux/mmu_notifier.h
-@@ -43,10 +43,11 @@ struct mmu_interval_notifier;
-   * a device driver to possibly ignore the invalidation if the
-   * owner field matches the driver's device private pgmap owner.
-   *
-- * @MMU_NOTIFY_EXCLUSIVE: to signal a device driver that the device will no
-- * longer have exclusive access to the page. When sent during creation of an
-- * exclusive range the owner will be initialised to the value provided by the
-- * caller of make_device_exclusive(), otherwise the owner will be NULL.
-+ * @MMU_NOTIFY_EXCLUSIVE: (1) to signal a device driver that the device will no
-+ * longer have exclusive access to the page; and (2) to signal that a page will
-+ * be made exclusive to a device. During (1), the owner will be NULL, during
-+ * (2), the owner will be initialised to the value provided by the caller of
-+ * make_device_exclusive().
-   */
-  enum mmu_notifier_event {
-         MMU_NOTIFY_UNMAP = 0,
-
+Yes, the hmm_test does not completely follow the same model the nouveau 
+implementation does; so it might not be completely correct.
 
 -- 
 Cheers,
