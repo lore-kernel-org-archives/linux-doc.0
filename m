@@ -1,137 +1,156 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51EE74C9F;
-	Fri, 31 Jan 2025 07:41:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6F42563;
+	Fri, 31 Jan 2025 08:30:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738309270; cv=none; b=Paaxa2Wuvdpta+IF64bb7iECil6AhFQzUkzjY0jsEfHX9ARXWoG/chguy5WJKaF4jkIj6Wy2EEUDBpuxXk6o4zCtt8qh6DhO0LZSfcv1hOHLywR8e9TV88DUVqtkGKcjKCvNLIs/qlotX+BCyPiw1zFU+7RNJt6ZdEUlfXwm0KY=
+	t=1738312236; cv=none; b=Jtzgiy+s4X/I1g5T3+1oEpnYeD+DXpKQUfGGeK7/f7smrBCNeIRAnt0SY3ZJgcBgGrpX8dnSP3qyKs+SWobfq+QmgbFOYFwKCi/08pZj6/YMVmxsAEvRI56JN/RqnJI5Jzk7Z8VgvFTgQKsJOycMxwGsjWTPupAhiMBEn21UVss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738309270; c=relaxed/simple;
-	bh=AJU5kc1jwXswkRrqutIC90v5z/tfYHqNu1pAiYvrggs=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Jm+qwr7Gz+J+X8NQAuLDru1LLYO3MkEGBm7W0DB3vHaOQUsvllNqwo2vhQSewzVWgB2gxeEBK2SQbCiaZVmQ3EknQLjbZiwT335DteW7PvGDPCY8TcZEYxBRx9FqlEQhNtAQbf8p2bTLWPciWoLA0G3bR942Zh6HcV1HU6vLFhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=p+EsdHEW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=y8oIAD6Y; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1738312236; c=relaxed/simple;
+	bh=AtfBBDRe/v3005YeMC67dhp3He0uuAnKjvaGt1r4Do4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uIRAOb/5/jJuzcQMVym0kSE6lN7LPnaOWvpHUCrJQ5gFkiHjPQNm6YQIb4fsCSC6ls3wxZE+z965qlxWrOy0mZZHYFXvXCx4XeEOcPFxjphUFZiaEs2i4lHt9qjsrNDrg9FT3aSyXzu0JLxPsFitbHbj5qunq1v2ZJbtuG3LTIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PE+y/FN4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="p+EsdHEW";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="y8oIAD6Y"
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 35A0F11401A8;
-	Fri, 31 Jan 2025 02:41:07 -0500 (EST)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-10.internal (MEProxy); Fri, 31 Jan 2025 02:41:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1738309267;
-	 x=1738395667; bh=a015or5h7JL8tqNC7E1K5CmxYio91AFRJMKPQrlypmY=; b=
-	p+EsdHEWP3ACTepGzvls4c/0QwGbxx3xvN3QEaZZHaoYBy36hl5JS782NvbP+5gx
-	FQy/BYFtAl1h4TuHKji+nemnFcmbzGGFGFhZ8bgg/MW+KK3QkRbq/Lq4hQFRvUKN
-	Ad/fYhn2iVQD7GsuGgLgfgDYB6Qh2IJrVRKWhZhun5+G2BWg2f0kik7ZEvZrhaM2
-	yAMgzFhY9ctaQNkrsXc0wzGNr3w4n2YzGTPvxqoLjBt7iCL0LIbsvHJ2l+sFYHbz
-	inWU2TgAO8ygzAKmUX1r+n9qpoqeBfYBwAntKortX9vuwgB+8CV0y/lMmMZbf3hg
-	sP2dPlegAFnwCwir8+xhjg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1738309267; x=
-	1738395667; bh=a015or5h7JL8tqNC7E1K5CmxYio91AFRJMKPQrlypmY=; b=y
-	8oIAD6YrPt6RaDC4iEXqaoPMZ+rLP2Ot1ta/e7SAdgMQykevbTxws2acg6axZF2N
-	DMEfncziUV1jLpm45YwpKL0dsQx3tJM/Ksn2p4S9pH5okoFuGYMi1HlBHkfrVodA
-	CKFecCatC+ukmvC4b+BeZpQwWFrfFmKYdscVV2EmW1k/Q7xl2yx0CHyY+RaeSOsk
-	XQTbASk1e4Xc+Z8Kss0q5GUv7oaFzHPATdYNv7JDdWf+RTegBe0Gn3VHCJ4rLOSZ
-	n3ZBhaNp6/f1qXRjhqK8W4FL80s7obekgu8EsWZQ/U84cxTq5JkdGIvhvA7l3ZhR
-	r6663SOfOHtlkdI++0ncQ==
-X-ME-Sender: <xms:kX6cZ21fjPiVWWY0DiU5VCer0YajY4PqS6DzSHKQr8qhWdUrtlPyvA>
-    <xme:kX6cZ5Gr8rcee_p03TnsWmCC2csbc2lBp9zhfTvpPga803EWw6SG7XJuOrNS9jcCT
-    DJuWHIFDcyeUKinqfE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekudekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
-    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
-    guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
-    gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepvddv
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehjrghmihgvrdgtuhhnlhhifhhfvg
-    esrghrmhdrtghomhdprhgtphhtthhopehlihhnuhigsegrrhhmlhhinhhugidrohhrghdr
-    uhhkpdhrtghpthhtohepghgrrhihsehgrghrhihguhhordhnvghtpdhrtghpthhtoheprg
-    hlvgigrdhgrgihnhhorhesghhmrghilhdrtghomhdprhgtphhtthhopegsohhquhhnrdhf
-    vghnghesghhmrghilhdrtghomhdprhgtphhtthhopegthhhrihhsihdrshgthhhrvghflh
-    esghhmrghilhdrtghomhdprhgtphhtthhopehguhhpthgrrhhuugesghhmrghilhdrtgho
-    mhdprhgtphhtthhopehthhgvshhvvghnjeefsehgmhgrihhlrdgtohhmpdhrtghpthhtoh
-    eprghlihgtvghrhihhlhesghhoohhglhgvrdgtohhm
-X-ME-Proxy: <xmx:kX6cZ-6qgze7ifRuQzdyUrUdU56UridTMZY33I91Py7f0jAzwicdWQ>
-    <xmx:kX6cZ30H7SoCBveuIx8sGPVZItlQ62zfZN4Ma5ndKMsqfGE6J30dUw>
-    <xmx:kX6cZ5FCJsXZ0-VxPQ3rqhxBgyXcq7QujXzSqjdIH398l68MRkdQpA>
-    <xmx:kX6cZw86q-3LudYSqNIvo75vywydI1TG6lMKvsmXr9H6WDc0P8YTfg>
-    <xmx:k36cZ5NRFc_rKWh0VOeaglgwkSnb_mnbkvBBtgJGtBxgt_RkhDENHa5O>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 67C552220072; Fri, 31 Jan 2025 02:41:05 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PE+y/FN4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D6AFC4CED1;
+	Fri, 31 Jan 2025 08:30:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738312235;
+	bh=AtfBBDRe/v3005YeMC67dhp3He0uuAnKjvaGt1r4Do4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PE+y/FN4y0l9nZnq29GNlQLNlbXrGpThMRU6p3o2rAMkkdn34doJYFABmB3N/nn2W
+	 IR8lItojDilpRouSjXW12hPTTaaHWdSVbR/mfXPSHQQW7C26ef/N3aoZInp1io6t12
+	 NHgDMFmsioWh2b4iCaKlIt7LVs4rqCauAhvxjl+uFqk1rQ4rBleyOwNVDDtdCrjHoG
+	 fquxgc2mcDnpsIOHma2QRoTszKRscKnU7XRSOfUxJvFCy3kfhv4rLSIqqPZ8gMsxkI
+	 nwO7m70Z6AmMNTnLfdXbrUF3LQBVjiZBiq5v/e89Wa6LXItv+xeMBnwjpX8JbKCJtn
+	 t4V9N6XJAXzjg==
+Date: Fri, 31 Jan 2025 08:29:28 +0000
+From: Simon Horman <horms@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	David Ahern <dsahern@kernel.org>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Stefano Garzarella <sgarzare@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+	Shuah Khan <shuah@kernel.org>, sdf@fomichev.me,
+	asml.silence@gmail.com, dw@davidwei.uk,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Victor Nogueira <victor@mojatatu.com>,
+	Pedro Tammela <pctammela@mojatatu.com>
+Subject: Re: [PATCH RFC net-next v2 4/6] net: devmem: TCP tx netlink api
+Message-ID: <20250131082928.GA24105@kernel.org>
+References: <20250130211539.428952-1-almasrymina@google.com>
+ <20250130211539.428952-5-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Fri, 31 Jan 2025 08:40:45 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Christian Schrefl" <chrisi.schrefl@gmail.com>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>,
- "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- "Benno Lossin" <benno.lossin@proton.me>,
- "Andreas Hindborg" <a.hindborg@kernel.org>,
- "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
- "Jonathan Corbet" <corbet@lwn.net>, "Russell King" <linux@armlinux.org.uk>,
- "Rudraksha Gupta" <guptarud@gmail.com>, "Ard Biesheuvel" <ardb@kernel.org>,
- "Geert Stappers" <stappers@stappers.nl>, "Andrew Lunn" <andrew@lunn.ch>,
- "Jamie Cunliffe" <Jamie.Cunliffe@arm.com>,
- "Sven Van Asbroeck" <thesven73@gmail.com>
-Cc: rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Message-Id: <a83b0149-7055-411b-ba86-d227919c7c32@app.fastmail.com>
-In-Reply-To: <20250123-rfl-arm32-v3-1-8f13623d42c5@gmail.com>
-References: <20250123-rfl-arm32-v3-1-8f13623d42c5@gmail.com>
-Subject: Re: [PATCH v3] arm: rust: Enable Rust support for ARMv7
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250130211539.428952-5-almasrymina@google.com>
 
-On Thu, Jan 23, 2025, at 23:40, Christian Schrefl wrote:
-> This commit allows building ARMv7 kernels with Rust support.
->
-> The rust core library expects some __eabi_... functions
-> that are not implemented in the kernel.
-> Those functions are some float operations and __aeabi_uldivmod.
-> For now those are implemented with define_panicking_intrinsics!.
+On Thu, Jan 30, 2025 at 09:15:37PM +0000, Mina Almasry wrote:
+> From: Stanislav Fomichev <sdf@fomichev.me>
+> 
+> Add bind-tx netlink call to attach dmabuf for TX; queue is not
+> required, only ifindex and dmabuf fd for attachment.
+> 
+> Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
 
-I see you are doing this part the same as the other architectures,
-but I don't see why it's done like this in the first place:
+Hi Mina,
 
-In C code, we really want to get a link failure rather than a
-runtime error in order to catch those bugs as early as possible
-and fix them before even trying to run the kernel. Is there a
-reason this doesn't work in rust, or is there a plan to change
-this later when the existing callers of those functions have
-been fixed?
+I noticed minor issue relating to generated code.
 
-202397be76d8037b531b34dee16c7dfcfd0124ef..3375c91e698c024f95a85682f5a91d9815c355e5 
-> 100644
-> --- a/arch/arm/Kconfig
-> +++ b/arch/arm/Kconfig
-> @@ -130,6 +130,7 @@ config ARM
->  	select MMU_GATHER_RCU_TABLE_FREE if SMP && ARM_LPAE
->  	select HAVE_REGS_AND_STACK_ACCESS_API
->  	select HAVE_RSEQ
-> +	select HAVE_RUST if CPU_LITTLE_ENDIAN && CPU_32v7
+...
 
-The ARMv7 dependency makes sense, but I think it needs
-be disabled on combined v6/v7 kernels, like (CPU_V7 && !CPU_V6 && !CPU_V6K).
+> diff --git a/Documentation/netlink/specs/netdev.yaml b/Documentation/netlink/specs/netdev.yaml
+> index cbb544bd6c84..93f4333e7bc6 100644
+> --- a/Documentation/netlink/specs/netdev.yaml
+> +++ b/Documentation/netlink/specs/netdev.yaml
 
-      ARnd
+The lines preceding the hunk below are:
+
+      name: napi-set
+      doc: Set configurable NAPI instance settings.
+      attribute-set: napi
+      flags: [ admin-perm ]
+      do:
+        request:
+          attributes:
+            - id
+
+> @@ -711,6 +711,18 @@ operations:
+>              - defer-hard-irqs
+>              - gro-flush-timeout
+>              - irq-suspend-timeout
+> +    -
+> +      name: bind-tx
+> +      doc: Bind dmabuf to netdev for TX
+> +      attribute-set: dmabuf
+
+Unlike the entry for napi-set there is no "flags: [ admin-perm ]" fpr
+bind-tx...
+
+> +      do:
+> +        request:
+> +          attributes:
+> +            - ifindex
+> +            - fd
+> +        reply:
+> +          attributes:
+> +            - id
+>  
+>  kernel-family:
+>    headers: [ "linux/list.h"]
+
+...
+
+> diff --git a/net/core/netdev-genl-gen.c b/net/core/netdev-genl-gen.c
+
+...
+
+> @@ -190,6 +196,13 @@ static const struct genl_split_ops netdev_nl_ops[] = {
+
+The lines preceding this hunk are:
+
+	{
+		.cmd		= NETDEV_CMD_NAPI_SET,
+		.doit		= netdev_nl_napi_set_doit,
+		.policy		= netdev_napi_set_nl_policy,
+
+>  		.maxattr	= NETDEV_A_NAPI_IRQ_SUSPEND_TIMEOUT,
+>  		.flags		= GENL_ADMIN_PERM | GENL_CMD_CAP_DO,
+>  	},
+> +	{
+> +		.cmd		= NETDEV_CMD_BIND_TX,
+> +		.doit		= netdev_nl_bind_tx_doit,
+> +		.policy		= netdev_bind_tx_nl_policy,
+> +		.maxattr	= NETDEV_A_DMABUF_FD,
+> +		.flags		= GENL_ADMIN_PERM | GENL_CMD_CAP_DO,
+
+... so I don't think GENL_ADMIN_PERM should be here.
+
+Flagged by running tools/net/ynl/ynl-regen.sh -f && git diff
+
+> +	},
+>  };
+>  
+>  static const struct genl_multicast_group netdev_nl_mcgrps[] = {
+
+...
