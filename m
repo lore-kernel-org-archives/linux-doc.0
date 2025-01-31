@@ -1,230 +1,127 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A05B1E3DEF;
-	Fri, 31 Jan 2025 16:25:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6181C5D63;
+	Fri, 31 Jan 2025 16:52:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738340707; cv=none; b=Tyj8X0LjV9pBwAkSj2QYxhCC9ZSPvg2MB27xcx4Vc6WPEv+2CrVjXcD8bkT/X19bjpCAQBQsVi2TQW2//aJf1KphKzP+vszNBYF6FrKT+NVRF/AlzbtZCM41VzdkwzmRyTmdMnz+NPSf3MAQYKq7pAGHdwiepk62oP7vfJqNTCM=
+	t=1738342350; cv=none; b=avjiY5CylJ5KRjZENX4i/aBHT+9m3XpaGkwXXF4TgK55qBWPgVj2wINHEE8o+RzZKOE/aaBc2A+/FQKmxFpukGDLEuF2VW5xBy/txFw2rPrJNYorg/mMhiEUnsodc1kO6Vinvql188baK0o6Yk90bJc9taGKKidTzOsAPcIEYyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738340707; c=relaxed/simple;
-	bh=fAcXhWvmhSsUcqShJlK6GIc9eUEY6+YnjVWSG7s/htE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=kmI5zonvZ4jDyxb01GoRrRdi1Mfn71IRTKZLb7kG7T+RcwykZNlbeOiu7mMETyTiuqdFIh7w9jlKz7zb0hM5tEjWqoMgbkoNfABi1VhEx3d7etH29QoXPxZ4xuPMhR18w6EHsqeaYfFAgIUGhRDZkYUGx6VWODFZLjdlKpTdFeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E744A150C;
-	Fri, 31 Jan 2025 08:25:29 -0800 (PST)
-Received: from e125905.cambridge.arm.com (e125905.cambridge.arm.com [10.1.194.73])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 47BFC3F694;
-	Fri, 31 Jan 2025 08:25:01 -0800 (PST)
-From: Beata Michalska <beata.michalska@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org,
-	ionela.voinescu@arm.com,
-	sudeep.holla@arm.com,
-	will@kernel.org,
-	catalin.marinas@arm.com,
-	rafael@kernel.org,
-	viresh.kumar@linaro.org
-Cc: sumitg@nvidia.com,
-	yang@os.amperecomputing.com,
-	vanshikonda@os.amperecomputing.com,
-	lihuisong@huawei.com,
-	zhanjie9@hisilicon.com,
-	ptsm@linux.microsoft.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Phil Auld <pauld@redhat.com>,
-	x86@kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v10 2/4] cpufreq: Introduce an optional cpuinfo_avg_freq sysfs entry
-Date: Fri, 31 Jan 2025 16:24:37 +0000
-Message-Id: <20250131162439.3843071-3-beata.michalska@arm.com>
-In-Reply-To: <20250131162439.3843071-1-beata.michalska@arm.com>
-References: <20250131162439.3843071-1-beata.michalska@arm.com>
+	s=arc-20240116; t=1738342350; c=relaxed/simple;
+	bh=6Xp4ueQdFl8WmbQ0ueOgHxXi/KSsNywtWaKc8axdKss=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=bQwC6o0VXW8XZRP3hqtOk9LMhzjf1i5vrMf4SBHg4vcHJbVEBHIMQsuR2ll07oY8QJTWIV6WEEJnrj4Siz5BNFbtUPJCWwsmBMpu8+kXoF60NY7C6ILeSlxeKclMGOnSdL5DmtuAGeFdLCpQws7oNggOBWGfAQ7pyBt2sqlge+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=fEa2aLJa; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="fEa2aLJa"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50VF1PMV012998;
+	Fri, 31 Jan 2025 16:52:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=7uKq2R
+	Xg8AsGUgQND13tWgTLMrt+YZuxi3vOWeNbpvQ=; b=fEa2aLJaEbdhGEUE1GN48E
+	GjyFRIlqCrSoYJcxtjBjaly589uSPrygnYIdeMVCeRTpu7VonhoMSubAvg6k0Ao3
+	9exIrKBbXIL2p/5XhXIFYf9VbHqoMWCZqR02vDUiSNVHZ9T53eMLADUuuuj6oR1k
+	7qd6pm6Oorpjd9faT06cUJqLyhxyI8YNfU1e7sCBBW7/CxAk8x1SGXPwjnC4XGR8
+	1FJLlQwmbHcFcTvJqSlqjRdoNqJhuxHoHVhDy8H/ps+fqhn2AMbdbIqh5pq877TK
+	+rsboAgrN3+RcFzCOmkrC8ieg1ZZTaxDdB7hwqY/bdSktYKxyOD3onsQd17kb5Bg
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44h0t00hss-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 31 Jan 2025 16:52:00 +0000 (GMT)
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 50VGnMRM019574;
+	Fri, 31 Jan 2025 16:52:00 GMT
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44h0t00hsm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 31 Jan 2025 16:51:59 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50VGhLwA010192;
+	Fri, 31 Jan 2025 16:51:58 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 44gfa0mfcn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 31 Jan 2025 16:51:58 +0000
+Received: from smtpav03.wdc07v.mail.ibm.com (smtpav03.wdc07v.mail.ibm.com [10.39.53.230])
+	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50VGpvsj31392436
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 31 Jan 2025 16:51:57 GMT
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4274A5805D;
+	Fri, 31 Jan 2025 16:51:58 +0000 (GMT)
+Received: from smtpav03.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C093F5805C;
+	Fri, 31 Jan 2025 16:51:56 +0000 (GMT)
+Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.73.176])
+	by smtpav03.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 31 Jan 2025 16:51:56 +0000 (GMT)
+Message-ID: <910cb84836f8366a566bae7dbe92f0e649d1715c.camel@linux.ibm.com>
+Subject: Re: [PATCH v3 3/6] ima: Detect if lock is held when iint pointer is
+ set in inode security blob
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
+        viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
+        dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
+        paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Roberto Sassu
+ <roberto.sassu@huawei.com>
+Date: Fri, 31 Jan 2025 11:51:56 -0500
+In-Reply-To: <20250122172432.3074180-4-roberto.sassu@huaweicloud.com>
+References: <20250122172432.3074180-1-roberto.sassu@huaweicloud.com>
+	 <20250122172432.3074180-4-roberto.sassu@huaweicloud.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: t-iBCn-6cVlDFpiJP4zIMTMVPEpbVSAB
+X-Proofpoint-ORIG-GUID: 9DFpJgQh-UceYTkhgy6J5n4OhGVWXLc2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-31_05,2025-01-31_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
+ priorityscore=1501 mlxscore=0 malwarescore=0 mlxlogscore=822
+ lowpriorityscore=0 suspectscore=0 impostorscore=0 spamscore=0 phishscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2501310123
 
-Currently the CPUFreq core exposes two sysfs attributes that can be used
-to query current frequency of a given CPU(s): namely cpuinfo_cur_freq
-and scaling_cur_freq. Both provide slightly different view on the
-subject and they do come with their own drawbacks.
+On Wed, 2025-01-22 at 18:24 +0100, Roberto Sassu wrote:
+> From: Roberto Sassu <roberto.sassu@huawei.com>
+>=20
+> IMA stores a pointer of the ima_iint_cache structure, containing integrit=
+y
+> metadata, in the inode security blob. However, check and assignment of th=
+is
+> pointer is not atomic, and it might happen that two tasks both see that t=
+he
+> iint pointer is NULL and try to set it, causing a memory leak.
+>=20
+> Detect if the iint check and assignment is guarded by the iint_lock mutex=
+,
+> by adding a lockdep assertion in ima_inode_get().
+>=20
+> Consequently, guard the remaining ima_inode_get() calls, in
+> ima_post_create_tmpfile() and ima_post_path_mknod(), to avoid the lockdep
+> warnings.
+>=20
+> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
 
-cpuinfo_cur_freq provides higher precision though at a cost of being
-rather expensive. Moreover, the information retrieved via this attribute
-is somewhat short lived as frequency can change at any point of time
-making it difficult to reason from.
+Thank you for updating the patch description.  You might also want to menti=
+on that
+CONFIG_LOCKDEP_DEBUG is required to see the warnings.
 
-scaling_cur_freq, on the other hand, tends to be less accurate but then
-the actual level of precision (and source of information) varies between
-architectures making it a bit ambiguous.
-
-The new attribute, cpuinfo_avg_freq, is intended to provide more stable,
-distinct interface, exposing an average frequency of a given CPU(s), as
-reported by the hardware, over a time frame spanning no more than a few
-milliseconds. As it requires appropriate hardware support, this
-interface is optional.
-
-Note that under the hood, the new attribute relies on the information
-provided by arch_freq_get_on_cpu, which, up to this point, has been
-feeding data for scaling_cur_freq attribute, being the source of
-ambiguity when it comes to interpretation. This has been amended by
-restoring the intended behavior for scaling_cur_freq, with a new
-dedicated config option to maintain status quo for those, who may need
-it.
-
-CC: Jonathan Corbet <corbet@lwn.net>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Ingo Molnar <mingo@redhat.com>
-CC: Borislav Petkov <bp@alien8.de>
-CC: Dave Hansen <dave.hansen@linux.intel.com>
-CC: H. Peter Anvin <hpa@zytor.com>
-CC: Phil Auld <pauld@redhat.com>
-CC: x86@kernel.org
-CC: linux-doc@vger.kernel.org
-
-Signed-off-by: Beata Michalska <beata.michalska@arm.com>
-Reviewed-by: Prasanna Kumar T S M <ptsm@linux.microsoft.com>
-Reviewed-by: Sumit Gupta <sumitg@nvidia.com>
----
- Documentation/admin-guide/pm/cpufreq.rst | 17 +++++++++++++-
- drivers/cpufreq/Kconfig.x86              | 12 ++++++++++
- drivers/cpufreq/cpufreq.c                | 30 +++++++++++++++++++++++-
- 3 files changed, 57 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/admin-guide/pm/cpufreq.rst b/Documentation/admin-guide/pm/cpufreq.rst
-index a21369eba034..3950583f2b15 100644
---- a/Documentation/admin-guide/pm/cpufreq.rst
-+++ b/Documentation/admin-guide/pm/cpufreq.rst
-@@ -248,6 +248,20 @@ are the following:
- 	If that frequency cannot be determined, this attribute should not
- 	be present.
- 
-+``cpuinfo_avg_freq``
-+        An average frequency (in KHz) of all CPUs belonging to a given policy,
-+        derived from a hardware provided feedback and reported on a time frame
-+        spanning at most few milliseconds.
-+
-+        This is expected to be based on the frequency the hardware actually runs
-+        at and, as such, might require specialised hardware support (such as AMU
-+        extension on ARM). If one cannot be determined, this attribute should
-+        not be present.
-+
-+        Note, that failed attempt to retrieve current frequency for a given
-+        CPU(s) will result in an appropriate error, i.e: EAGAIN for CPU that
-+        remains idle (raised on ARM).
-+
- ``cpuinfo_max_freq``
- 	Maximum possible operating frequency the CPUs belonging to this policy
- 	can run at (in kHz).
-@@ -293,7 +307,8 @@ are the following:
- 	Some architectures (e.g. ``x86``) may attempt to provide information
- 	more precisely reflecting the current CPU frequency through this
- 	attribute, but that still may not be the exact current CPU frequency as
--	seen by the hardware at the moment.
-+	seen by the hardware at the moment. This behavior though, is only
-+	available via c:macro:``CPUFREQ_ARCH_CUR_FREQ`` option.
- 
- ``scaling_driver``
- 	The scaling driver currently in use.
-diff --git a/drivers/cpufreq/Kconfig.x86 b/drivers/cpufreq/Kconfig.x86
-index 97c2d4f15d76..2c5c228408bf 100644
---- a/drivers/cpufreq/Kconfig.x86
-+++ b/drivers/cpufreq/Kconfig.x86
-@@ -340,3 +340,15 @@ config X86_SPEEDSTEP_RELAXED_CAP_CHECK
- 	  option lets the probing code bypass some of those checks if the
- 	  parameter "relaxed_check=1" is passed to the module.
- 
-+config CPUFREQ_ARCH_CUR_FREQ
-+	default y
-+	bool "Current frequency derived from HW provided feedback"
-+	help
-+	  This determines whether the scaling_cur_freq sysfs attribute returns
-+	  the last requested frequency or a more precise value based on hardware
-+	  provided feedback (as architected counters).
-+	  Given that a more precise frequency can now be provided via the
-+	  cpuinfo_avg_freq attribute, by enabling this option,
-+	  scaling_cur_freq maintains the provision of a counter based frequency,
-+	  for compatibility reasons.
-+
-diff --git a/drivers/cpufreq/cpufreq.c b/drivers/cpufreq/cpufreq.c
-index 96b013ea177c..a2f31fbb1774 100644
---- a/drivers/cpufreq/cpufreq.c
-+++ b/drivers/cpufreq/cpufreq.c
-@@ -734,12 +734,20 @@ __weak int arch_freq_get_on_cpu(int cpu)
- 	return -EOPNOTSUPP;
- }
- 
-+static inline bool cpufreq_avg_freq_supported(struct cpufreq_policy *policy)
-+{
-+	return arch_freq_get_on_cpu(policy->cpu) != -EOPNOTSUPP;
-+}
-+
- static ssize_t show_scaling_cur_freq(struct cpufreq_policy *policy, char *buf)
- {
- 	ssize_t ret;
- 	int freq;
- 
--	freq = arch_freq_get_on_cpu(policy->cpu);
-+	freq = IS_ENABLED(CONFIG_CPUFREQ_ARCH_CUR_FREQ)
-+		? arch_freq_get_on_cpu(policy->cpu)
-+		: 0;
-+
- 	if (freq > 0)
- 		ret = sysfs_emit(buf, "%u\n", freq);
- 	else if (cpufreq_driver->setpolicy && cpufreq_driver->get)
-@@ -784,6 +792,19 @@ static ssize_t show_cpuinfo_cur_freq(struct cpufreq_policy *policy,
- 	return sysfs_emit(buf, "<unknown>\n");
- }
- 
-+/*
-+ * show_cpuinfo_avg_freq - average CPU frequency as detected by hardware
-+ */
-+static ssize_t show_cpuinfo_avg_freq(struct cpufreq_policy *policy,
-+				     char *buf)
-+{
-+	int avg_freq = arch_freq_get_on_cpu(policy->cpu);
-+
-+	if (avg_freq > 0)
-+		return sysfs_emit(buf, "%u\n", avg_freq);
-+	return avg_freq != 0 ? avg_freq : -EINVAL;
-+}
-+
- /*
-  * show_scaling_governor - show the current policy for the specified CPU
-  */
-@@ -946,6 +967,7 @@ static ssize_t show_bios_limit(struct cpufreq_policy *policy, char *buf)
- }
- 
- cpufreq_freq_attr_ro_perm(cpuinfo_cur_freq, 0400);
-+cpufreq_freq_attr_ro(cpuinfo_avg_freq);
- cpufreq_freq_attr_ro(cpuinfo_min_freq);
- cpufreq_freq_attr_ro(cpuinfo_max_freq);
- cpufreq_freq_attr_ro(cpuinfo_transition_latency);
-@@ -1073,6 +1095,12 @@ static int cpufreq_add_dev_interface(struct cpufreq_policy *policy)
- 			return ret;
- 	}
- 
-+	if (cpufreq_avg_freq_supported(policy)) {
-+		ret = sysfs_create_file(&policy->kobj, &cpuinfo_avg_freq.attr);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	ret = sysfs_create_file(&policy->kobj, &scaling_cur_freq.attr);
- 	if (ret)
- 		return ret;
--- 
-2.25.1
+Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
 
