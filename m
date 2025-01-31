@@ -1,172 +1,433 @@
-Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE261369BB;
-	Fri, 31 Jan 2025 19:38:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA8E21487E9;
+	Fri, 31 Jan 2025 22:04:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738352287; cv=none; b=X3Om696yL04uYQGRWJLwYEDAzm4ieKfldNDH2GqWzj6YwwORiwIg6KG1isKZHvah6y/BsTHZXe8ghJzq4Z29GfKIEY9yB+4ABOBo+gbhL2VyXq9P0XQPhGjRpClkEPclKb9pKpzcah0x3GgtSld7JCSfSdS1AHQXiX2rXil+egw=
+	t=1738361083; cv=none; b=YGeJ0zS6iXDoaLs1Ji1yp7eFUFLAVpgT6PErz0dFnLj9bKTHnlM6RIVH+qiktBBx2UoeofrRIbLaa9wgq9StKVt93iy8lvai0TCvOiQo7bpoT9RsPzIIxKLC6hAFim8EIcBpo2sRUH3hq+y+QzMHOjGxE6MlxPs8sV+CTd9GKXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738352287; c=relaxed/simple;
-	bh=MNwR7K1C5XU+h7AF6I6a6RWR1xLWJHOxgmSSWzdp1fU=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=REC5JJldSW8U1sEsapdcbOOSLGVHQ2zZIMnlgc6oKLxIYomM0R/MjuH1uD8Z6BXIDxBkF+bQqZF4lYlRhuj8eLRFuogaCYRP6SD7ajYs4dVo0xs8GwRlgRnFw3q9il3Q5TT/nkpqoQBfm7QD3FcD7kl9rwzFnCAjAJN+KezkHF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Ntr1WxGw; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=0O7p7ubX; arc=none smtp.client-ip=103.168.172.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1738361083; c=relaxed/simple;
+	bh=AOiHj2iNjIujqO+fkXugIbmDkJgmSKDsT21+CwbKw0k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pkZzO5tM6GjmX2toiuTVNJ56PclqkCLGkFhdtoFgPWHZPpObMSr7dpfXolKKxCbY8YUxKvatRq9zCcehU5Ab800RU8fogOBOlZZQE+HJ+l9PB7YKNeUVSNm/q4MXd1gV5EL0Bx4UqeiDH4flC5ivsYIwtCalYDlTnzp0VMUxM58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k3hIMxsl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Ntr1WxGw";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="0O7p7ubX"
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfout.phl.internal (Postfix) with ESMTP id D338013801D9;
-	Fri, 31 Jan 2025 14:38:03 -0500 (EST)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-10.internal (MEProxy); Fri, 31 Jan 2025 14:38:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1738352283;
-	 x=1738438683; bh=yRZK6S9eDJy00Qz7bi6t6iIoQ+hvl2LLW/vH9f6bwdk=; b=
-	Ntr1WxGwVDyybY0LaBO6m18yBQnxGKhYE2XQl4AEjdYbBT//AJ0sSSeS+YP85JfT
-	5FyJ4uFUGFbItlboszyjZMBzqRkLeDIi/EMuJiXsj5QYkv/ysvbMShJBkHdVKkr6
-	tBqsWthV7s3HU6fu5MJyisJgztGY12QzrlxtW/ZA6ZwUtLsdyfpWUqabWIIRw0NN
-	5TrLrPgFJTNme5R63ZuRTcupf7l7PeVrSb6j/LA2U9ZjEvGs2gXgSyjRt3Jj4k9Q
-	2aIamUQ/8ihcgnx3PDcvCvq2jjurn24u7HedCktK4lYo8GZmdQoTvsTRBr/4aSAb
-	f370YRVDrTT6E4klH44upg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1738352283; x=
-	1738438683; bh=yRZK6S9eDJy00Qz7bi6t6iIoQ+hvl2LLW/vH9f6bwdk=; b=0
-	O7p7ubXKNLZaHx9T02Sma9Cwadbjc+e9Zir9fZtebgwfj+OzKzP+NVfAo/Waugua
-	Bve+cx+CHa1hESLdxzIii/6G9UB9Qg6jH92PgYe4LS9oFJUmpAjM+4KXj0+jgf28
-	pNAwAt++2XeK2iwTi7MiK3UvYPI6Izvcvrt31HQourLsVhjKV6j5OO66Is+R+khT
-	l+E3tg6AUmdJF4bI86G3vPNfTsdow0gjueMfaJ0ifVrFxkC06H6yamlMEvoeMmzL
-	UCoQXpcJ6DKP2o13Wo0Pfcu9dCRVYm1SPiUj10LQlyToo5VIcRmbLMQNUsDUbUve
-	ZGzaLO0c9uJQWKHis2ssQ==
-X-ME-Sender: <xms:myadZzcoTDLPHMauPjdY95S-l_zbNC6cWFy3Z9kAiZmILeyg8c7Y6g>
-    <xme:myadZ5OlOOMtrPyom5Aiy5T7ALJPl9NA015i8eiUdBOhaabWf4ubZ5g_M2kQq5GoW
-    8fCDY6Zp0oOa8HUfdY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdelieehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
-    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
-    guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
-    gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepvddv
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehjrghmihgvrdgtuhhnlhhifhhfvg
-    esrghrmhdrtghomhdprhgtphhtthhopehlihhnuhigsegrrhhmlhhinhhugidrohhrghdr
-    uhhkpdhrtghpthhtohepghgrrhihsehgrghrhihguhhordhnvghtpdhrtghpthhtoheprg
-    hlvgigrdhgrgihnhhorhesghhmrghilhdrtghomhdprhgtphhtthhopegsohhquhhnrdhf
-    vghnghesghhmrghilhdrtghomhdprhgtphhtthhopegthhhrihhsihdrshgthhhrvghflh
-    esghhmrghilhdrtghomhdprhgtphhtthhopehguhhpthgrrhhuugesghhmrghilhdrtgho
-    mhdprhgtphhtthhopehthhgvshhvvghnjeefsehgmhgrihhlrdgtohhmpdhrtghpthhtoh
-    eprghlihgtvghrhihhlhesghhoohhglhgvrdgtohhm
-X-ME-Proxy: <xmx:myadZ8jpxLh_n6N6hSmnz1cM-F41U0BM_O982YaTvMEkrmxrFYyUiQ>
-    <xmx:myadZ0-mJM8YqP-gcGB4_j_D56WC5l7faQRwm3Kb5CpafLXiYBfnDw>
-    <xmx:myadZ_uNHS9QkgLqKRseCrHU5R8Ww97FKjRQZIhfzaSFqr2NgRqIkw>
-    <xmx:myadZzGSb6sD3Gxlz7dieCCp7CW-2QrSIbLwm8IOcPGHMJpHLIOrFQ>
-    <xmx:myadZ0VIa1OARA7Wk6LRZCjMooJjIu9qRtHPQeQly5Odt8G8pQxGykKe>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id E886D2220072; Fri, 31 Jan 2025 14:38:02 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k3hIMxsl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE481C4CED1;
+	Fri, 31 Jan 2025 22:04:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738361082;
+	bh=AOiHj2iNjIujqO+fkXugIbmDkJgmSKDsT21+CwbKw0k=;
+	h=From:To:Cc:Subject:Date:From;
+	b=k3hIMxsl+2LEs1QRWi8X61Td/vOh8PcOAbOH7LT6SZqHsjmrZQDAWm+HkkCvq3BJY
+	 0aBbrvv2NaF/ocELbT2azF+Mnc85k09z1dpRB4p/JamOtpyYUl4XrYBCg00w8pCIYU
+	 KRVYLCuS0XcUBGhGnhXtqr9a+P7Do+1eJkpujH1iUIM35zazwBDSb+/eCdzIelwi/A
+	 xCAcUnyMA6AGBE21jyty8rOU3sLhJX2TyRkiezH5davscD5Yofo8fhjcRWEuFUVxE5
+	 DHSKmsNp9XYeRMah1gFXUdAbLjBTAw55Odwzo2KyYRsEsz3IYsiWQ4++CZx4t37FpB
+	 8aMVCBxYD9WAw==
+From: Danilo Krummrich <dakr@kernel.org>
+To: airlied@gmail.com,
+	simona@ffwll.ch,
+	corbet@lwn.net,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	ajanulgu@redhat.com,
+	lyude@redhat.com,
+	pstanner@redhat.com,
+	zhiw@nvidia.com,
+	cjia@nvidia.com,
+	jhubbard@nvidia.com,
+	bskeggs@nvidia.com,
+	acurrid@nvidia.com
+Cc: ojeda@kernel.org,
+	alex.gaynor@gmail.com,
+	boqun.feng@gmail.com,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	benno.lossin@proton.me,
+	a.hindborg@kernel.org,
+	aliceryhl@google.com,
+	tmgross@umich.edu,
+	dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	nouveau@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH 1/2] gpu: nova-core: add initial driver stub
+Date: Fri, 31 Jan 2025 23:04:24 +0100
+Message-ID: <20250131220432.17717-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Fri, 31 Jan 2025 20:37:41 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Christian Schrefl" <chrisi.schrefl@gmail.com>,
- "Andrew Lunn" <andrew@lunn.ch>, "Miguel Ojeda" <ojeda@kernel.org>
-Cc: "Alex Gaynor" <alex.gaynor@gmail.com>,
- "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- "Benno Lossin" <benno.lossin@proton.me>,
- "Andreas Hindborg" <a.hindborg@kernel.org>,
- "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
- "Jonathan Corbet" <corbet@lwn.net>, "Russell King" <linux@armlinux.org.uk>,
- "Rudraksha Gupta" <guptarud@gmail.com>, "Ard Biesheuvel" <ardb@kernel.org>,
- "Geert Stappers" <stappers@stappers.nl>,
- "Jamie Cunliffe" <Jamie.Cunliffe@arm.com>,
- "Sven Van Asbroeck" <thesven73@gmail.com>, rust-for-linux@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-Message-Id: <e14cfb34-308f-4797-afe7-4e7e2d470fe3@app.fastmail.com>
-In-Reply-To: <5e8a99a5-f39c-46da-b54d-7b69307b1c66@gmail.com>
-References: <20250123-rfl-arm32-v3-1-8f13623d42c5@gmail.com>
- <a83b0149-7055-411b-ba86-d227919c7c32@app.fastmail.com>
- <f8b59f05-55b5-4208-8bdf-b4be8e93bc22@gmail.com>
- <65da77f7-bbd4-4cbe-a06c-75f10a6ec4ce@lunn.ch>
- <5e8a99a5-f39c-46da-b54d-7b69307b1c66@gmail.com>
-Subject: Re: [PATCH v3] arm: rust: Enable Rust support for ARMv7
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 31, 2025, at 19:58, Christian Schrefl wrote:
-> On 31.01.25 5:05 PM, Andrew Lunn wrote:
->>> To fix this Rust would have to provide a way to build the core
->>> library without float support. I don't know if there is a plan
->>> already to allow this.
->> 
->> Floating point is banned within the kernel, except for in very narrow
->> conditions, because the floating point registers are lazy saved on
->> context switch. If the kernel uses the floating point registers, you
->> can break user space in bad ways.
->> 
->> I expect this has been discussed, since it is well known kernel
->> restriction. Maybe go see what happened to that discussion within RfL?
->
-> After checking again, it seems the float intrinsics are actually not
-> needed anymore at least for my config.
+Add the initial nova-core driver stub.
 
-Ah, nice! If this is true for all architectures using the current
-rust compiler, it would be great to remove the FP stubs entirely
-and have link errors instead of panicking, to make it consistent
-with C.
+nova-core is intended to serve as a common base for nova-drm (the
+corresponding DRM driver) and the vGPU manager VFIO driver, serving as a
+hard- and firmware abstraction layer for GSP-based NVIDIA GPUs.
 
-> Only `__aeabi_uldivmod` is still
-> required for `parse_u64_into` since [0] allows disabling float formatting.
->
-> Link error without the `__aeabi_uldivmod` symbol defined:
->
-> ld.lld: error: undefined symbol: __aeabi_uldivmod
->>>> referenced by num.rs:580 (/home/chrisi/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/num.rs:580)
->>>>               rust/core.o:(core::fmt::num::parse_u64_into::<39>) in archive vmlinux.a
->>>> referenced by num.rs:589 (/home/chrisi/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/num.rs:589)
->>>>               rust/core.o:(core::fmt::num::parse_u64_into::<39>) in archive vmlinux.a
->>>> referenced by num.rs:589 (/home/chrisi/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/num.rs:589)
->>>>               rust/core.o:(core::fmt::num::parse_u64_into::<39>) in archive vmlinux.a
->>>> referenced 34 more times
->>>> did you mean: __aeabi_uidivmod
->>>> defined in: vmlinux.a(arch/arm/lib/lib1funcs.o)
->
-> Not sure if we should just implement `__aeabi_uldivmod`, keep the 
-> panicking intrinsic for it or somehow fix it in upstream Rust?
+The Nova project, including nova-core and nova-drm, in the long term,
+is intended to serve as the successor of Nouveau for all GSP-based GPUs.
 
-The 64-bit division is particularly easy to introduce by accident
-on 32-bit architectures, so ending up in a panic here is clearly
-a problem. From the message above it appears that there is only 
-a single calling function (parse_u64_into()) in the rust library,
-so I wonder if it might be sufficient to split that out into
-another object file that then doesn't need to get linked into
-the kernel, or for the kernel to override it with an implementation
-that does not rely on __aeabi_uldivmod() but calls __do_div64()
-instead.
+The motivation for both, starting a successor project for Nouveau and
+doing so using the Rust programming language, is documented in detail
+through a previous post on the mailing list [1], an LWN article [2] and a
+talk from LPC '24.
 
-Since parse_u64_into seems to be a parsing function that is
-expected to be slow, it should be acceptable to call __do_div64()
-here, while we still prevent calling __aeabi_uldivmod() from
-kernel source code.
+In order to avoid the chicken and egg problem to require a user to
+upstream Rust abstractions, but at the same time require the Rust
+abstractions to implement the driver, nova-core kicks off as a driver
+stub and is subsequently developed upstream.
 
-Note that on earlier ARMv7 (Cortex-A8, A9), even a 32-bit
-division is implemented through an expensive software loop.
-Later cores (Cortex-A7, A15, A17) have native 32-bit division
-instructions but still no 64-bit ones.
+Link: https://lore.kernel.org/dri-devel/Zfsj0_tb-0-tNrJy@cassiopeiae/T/#u [1]
+Link: https://lwn.net/Articles/990736/ [2]
+Link: https://youtu.be/3Igmx28B3BQ?si=sBdSEer4tAPKGpOs [3]
+Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+---
+ MAINTAINERS                        |  10 ++
+ drivers/gpu/Makefile               |   1 +
+ drivers/gpu/nova-core/Kconfig      |  13 +++
+ drivers/gpu/nova-core/Makefile     |   3 +
+ drivers/gpu/nova-core/driver.rs    |  47 ++++++++
+ drivers/gpu/nova-core/gpu.rs       | 171 +++++++++++++++++++++++++++++
+ drivers/gpu/nova-core/nova_core.rs |  14 +++
+ drivers/video/Kconfig              |   1 +
+ 8 files changed, 260 insertions(+)
+ create mode 100644 drivers/gpu/nova-core/Kconfig
+ create mode 100644 drivers/gpu/nova-core/Makefile
+ create mode 100644 drivers/gpu/nova-core/driver.rs
+ create mode 100644 drivers/gpu/nova-core/gpu.rs
+ create mode 100644 drivers/gpu/nova-core/nova_core.rs
 
-       Arnd
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d1086e53a317..f7ddca7de0ef 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7446,6 +7446,16 @@ T:	git https://gitlab.freedesktop.org/drm/nouveau.git
+ F:	drivers/gpu/drm/nouveau/
+ F:	include/uapi/drm/nouveau_drm.h
+ 
++CORE DRIVER FOR NVIDIA GPUS [RUST]
++M:	Danilo Krummrich <dakr@kernel.org>
++L:	nouveau@lists.freedesktop.org
++S:	Supported
++Q:	https://patchwork.freedesktop.org/project/nouveau/
++B:	https://gitlab.freedesktop.org/drm/nova/-/issues
++C:	irc://irc.oftc.net/nouveau
++T:	git https://gitlab.freedesktop.org/drm/nova.git nova-next
++F:	drivers/gpu/nova-core/
++
+ DRM DRIVER FOR OLIMEX LCD-OLINUXINO PANELS
+ M:	Stefan Mavrodiev <stefan@olimex.com>
+ S:	Maintained
+diff --git a/drivers/gpu/Makefile b/drivers/gpu/Makefile
+index 8997f0096545..36a54d456630 100644
+--- a/drivers/gpu/Makefile
++++ b/drivers/gpu/Makefile
+@@ -5,3 +5,4 @@
+ obj-y			+= host1x/ drm/ vga/
+ obj-$(CONFIG_IMX_IPUV3_CORE)	+= ipu-v3/
+ obj-$(CONFIG_TRACE_GPU_MEM)		+= trace/
++obj-$(CONFIG_NOVA_CORE)		+= nova-core/
+diff --git a/drivers/gpu/nova-core/Kconfig b/drivers/gpu/nova-core/Kconfig
+new file mode 100644
+index 000000000000..33ac937b244a
+--- /dev/null
++++ b/drivers/gpu/nova-core/Kconfig
+@@ -0,0 +1,13 @@
++config NOVA_CORE
++	tristate "Nova Core GPU driver"
++	depends on PCI
++	depends on RUST
++	depends on RUST_FW_LOADER_ABSTRACTIONS
++	default n
++	help
++	  Choose this if you want to build the Nova Core driver for Nvidia
++	  GSP-based GPUs.
++
++	  This driver is work in progress and may not be functional.
++
++	  If M is selected, the module will be called nova-core.
+diff --git a/drivers/gpu/nova-core/Makefile b/drivers/gpu/nova-core/Makefile
+new file mode 100644
+index 000000000000..2d78c50126e1
+--- /dev/null
++++ b/drivers/gpu/nova-core/Makefile
+@@ -0,0 +1,3 @@
++# SPDX-License-Identifier: GPL-2.0
++
++obj-$(CONFIG_NOVA_CORE) += nova_core.o
+diff --git a/drivers/gpu/nova-core/driver.rs b/drivers/gpu/nova-core/driver.rs
+new file mode 100644
+index 000000000000..2a2aa9b0630b
+--- /dev/null
++++ b/drivers/gpu/nova-core/driver.rs
+@@ -0,0 +1,47 @@
++// SPDX-License-Identifier: GPL-2.0
++
++use kernel::{bindings, c_str, pci, prelude::*};
++
++use crate::gpu::Gpu;
++
++#[pin_data]
++pub(crate) struct NovaCore {
++    #[pin]
++    pub(crate) gpu: Gpu,
++}
++
++const BAR0_SIZE: usize = 8;
++pub(crate) type Bar0 = pci::Bar<BAR0_SIZE>;
++
++kernel::pci_device_table!(
++    PCI_TABLE,
++    MODULE_PCI_TABLE,
++    <NovaCore as pci::Driver>::IdInfo,
++    [(
++        pci::DeviceId::from_id(bindings::PCI_VENDOR_ID_NVIDIA, bindings::PCI_ANY_ID as _),
++        ()
++    )]
++);
++
++impl pci::Driver for NovaCore {
++    type IdInfo = ();
++    const ID_TABLE: pci::IdTable<Self::IdInfo> = &PCI_TABLE;
++
++    fn probe(pdev: &mut pci::Device, _info: &Self::IdInfo) -> Result<Pin<KBox<Self>>> {
++        dev_dbg!(pdev.as_ref(), "Probe Nova Core GPU driver.\n");
++
++        pdev.enable_device_mem()?;
++        pdev.set_master();
++
++        let bar = pdev.iomap_region_sized::<BAR0_SIZE>(0, c_str!("nova-core"))?;
++
++        let this = KBox::pin_init(
++            try_pin_init!(Self {
++                gpu <- Gpu::new(pdev, bar)?,
++            }),
++            GFP_KERNEL,
++        )?;
++
++        Ok(this)
++    }
++}
+diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
+new file mode 100644
+index 000000000000..cf62390e72eb
+--- /dev/null
++++ b/drivers/gpu/nova-core/gpu.rs
+@@ -0,0 +1,171 @@
++// SPDX-License-Identifier: GPL-2.0
++
++use kernel::{
++    device, devres::Devres, error::code::*, firmware, fmt, pci, prelude::*, str::CString,
++};
++
++use crate::driver::Bar0;
++use core::fmt::Debug;
++
++/// Enum representation of the GPU chipset.
++#[derive(Debug)]
++pub(crate) enum Chipset {
++    TU102 = 0x162,
++    TU104 = 0x164,
++    TU106 = 0x166,
++    TU117 = 0x167,
++    TU116 = 0x168,
++    GA102 = 0x172,
++    GA103 = 0x173,
++    GA104 = 0x174,
++    GA106 = 0x176,
++    GA107 = 0x177,
++    AD102 = 0x192,
++    AD103 = 0x193,
++    AD104 = 0x194,
++    AD106 = 0x196,
++    AD107 = 0x197,
++}
++
++/// Enum representation of the GPU generation.
++#[derive(Debug)]
++pub(crate) enum CardType {
++    /// Turing
++    TU100 = 0x160,
++    /// Ampere
++    GA100 = 0x170,
++    /// Ada Lovelace
++    AD100 = 0x190,
++}
++
++/// Structure holding the metadata of the GPU.
++#[allow(dead_code)]
++pub(crate) struct GpuSpec {
++    /// Contents of the boot0 register.
++    boot0: u64,
++    card_type: CardType,
++    chipset: Chipset,
++    /// The revision of the chipset.
++    chiprev: u8,
++}
++
++/// Structure encapsulating the firmware blobs required for the GPU to operate.
++#[allow(dead_code)]
++pub(crate) struct Firmware {
++    booter_load: firmware::Firmware,
++    booter_unload: firmware::Firmware,
++    gsp: firmware::Firmware,
++}
++
++/// Structure holding the resources required to operate the GPU.
++#[allow(dead_code)]
++#[pin_data]
++pub(crate) struct Gpu {
++    spec: GpuSpec,
++    /// MMIO mapping of PCI BAR 0
++    bar: Devres<Bar0>,
++    fw: Firmware,
++}
++
++// TODO replace with something like derive(FromPrimitive)
++impl Chipset {
++    fn from_u32(value: u32) -> Option<Chipset> {
++        match value {
++            0x162 => Some(Chipset::TU102),
++            0x164 => Some(Chipset::TU104),
++            0x166 => Some(Chipset::TU106),
++            0x167 => Some(Chipset::TU117),
++            0x168 => Some(Chipset::TU116),
++            0x172 => Some(Chipset::GA102),
++            0x173 => Some(Chipset::GA103),
++            0x174 => Some(Chipset::GA104),
++            0x176 => Some(Chipset::GA106),
++            0x177 => Some(Chipset::GA107),
++            0x192 => Some(Chipset::AD102),
++            0x193 => Some(Chipset::AD103),
++            0x194 => Some(Chipset::AD104),
++            0x196 => Some(Chipset::AD106),
++            0x197 => Some(Chipset::AD107),
++            _ => None,
++        }
++    }
++}
++
++// TODO replace with something like derive(FromPrimitive)
++impl CardType {
++    fn from_u32(value: u32) -> Option<CardType> {
++        match value {
++            0x160 => Some(CardType::TU100),
++            0x170 => Some(CardType::GA100),
++            0x190 => Some(CardType::AD100),
++            _ => None,
++        }
++    }
++}
++
++impl GpuSpec {
++    fn new(bar: &Devres<Bar0>) -> Result<GpuSpec> {
++        let bar = bar.try_access().ok_or(ENXIO)?;
++        let boot0 = u64::from_le(bar.readq(0));
++        let chip = ((boot0 & 0x1ff00000) >> 20) as u32;
++
++        if boot0 & 0x1f000000 == 0 {
++            return Err(ENODEV);
++        }
++
++        let Some(chipset) = Chipset::from_u32(chip) else {
++            return Err(ENODEV);
++        };
++
++        let Some(card_type) = CardType::from_u32(chip & 0x1f0) else {
++            return Err(ENODEV);
++        };
++
++        Ok(Self {
++            boot0,
++            card_type,
++            chipset,
++            chiprev: (boot0 & 0xff) as u8,
++        })
++    }
++}
++
++impl Firmware {
++    fn new(dev: &device::Device, spec: &GpuSpec, ver: &str) -> Result<Firmware> {
++        let mut chip_name = CString::try_from_fmt(fmt!("{:?}", spec.chipset))?;
++        chip_name.make_ascii_lowercase();
++
++        let fw_booter_load_path =
++            CString::try_from_fmt(fmt!("nvidia/{}/gsp/booter_load-{}.bin", &*chip_name, ver))?;
++        let fw_booter_unload_path =
++            CString::try_from_fmt(fmt!("nvidia/{}/gsp/booter_unload-{}.bin", &*chip_name, ver))?;
++        let fw_gsp_path =
++            CString::try_from_fmt(fmt!("nvidia/{}/gsp/gsp-{}.bin", &*chip_name, ver))?;
++
++        let booter_load = firmware::Firmware::request(&fw_booter_load_path, dev)?;
++        let booter_unload = firmware::Firmware::request(&fw_booter_unload_path, dev)?;
++        let gsp = firmware::Firmware::request(&fw_gsp_path, dev)?;
++
++        Ok(Firmware {
++            booter_load,
++            booter_unload,
++            gsp,
++        })
++    }
++}
++
++impl Gpu {
++    pub(crate) fn new(pdev: &pci::Device, bar: Devres<Bar0>) -> Result<impl PinInit<Self>> {
++        let spec = GpuSpec::new(&bar)?;
++        let fw = Firmware::new(pdev.as_ref(), &spec, "535.113.01")?;
++
++        dev_info!(
++            pdev.as_ref(),
++            "NVIDIA {:?} ({:#x})",
++            spec.chipset,
++            spec.boot0
++        );
++
++        Ok(pin_init!(Self { spec, bar, fw }))
++    }
++}
+diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/nova_core.rs
+new file mode 100644
+index 000000000000..b130d9ca6a0f
+--- /dev/null
++++ b/drivers/gpu/nova-core/nova_core.rs
+@@ -0,0 +1,14 @@
++// SPDX-License-Identifier: GPL-2.0
++
++//! Nova Core GPU Driver
++
++mod driver;
++mod gpu;
++
++kernel::module_pci_driver! {
++    type: driver::NovaCore,
++    name: "NovaCore",
++    author: "Danilo Krummrich",
++    description: "Nova Core GPU driver",
++    license: "GPL v2",
++}
+diff --git a/drivers/video/Kconfig b/drivers/video/Kconfig
+index 44c9ef1435a2..5df981920a94 100644
+--- a/drivers/video/Kconfig
++++ b/drivers/video/Kconfig
+@@ -39,6 +39,7 @@ source "drivers/gpu/vga/Kconfig"
+ 
+ source "drivers/gpu/host1x/Kconfig"
+ source "drivers/gpu/ipu-v3/Kconfig"
++source "drivers/gpu/nova-core/Kconfig"
+ 
+ source "drivers/gpu/drm/Kconfig"
+ 
+
+base-commit: 69b8923f5003664e3ffef102e73333edfa2abdcf
+-- 
+2.48.1
+
