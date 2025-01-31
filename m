@@ -1,371 +1,131 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B88153565;
-	Fri, 31 Jan 2025 18:39:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0645F1F94A;
+	Fri, 31 Jan 2025 18:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738348777; cv=none; b=c1cZeEkyF9OTvKUcNvSFJiI5XLO6m+IVSANev7gJZBqXW2ir4tEpkS0udAFxUXmAUNRJ/gmECUL+jnMJNVo4Zlkvd/6HMK0gfP6sqYbsh3I4CyH7cYsIcR/jFH4ODozsWYfXW7YZuTqaVFKCNE0ggIgfrW/wk6K1Q+xywzoaw+I=
+	t=1738349908; cv=none; b=Rm/pTPCBdcM5fA/+K8U2XqI2AvJx8ikanKesCR/aplwSN70t2MfihE6KU30BRjVHb7AYYKjSyosbG2PtFSW48khHwXUoQBirLAteW8aF1ltG1DY4nyVi8TSxw5Dy2cCOMFtDuPEdeE2w47eR7aj4GxPhE8U4d2N0KGdhsxcNaa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738348777; c=relaxed/simple;
-	bh=U+vC4MgC6keMoKoFempovO8KBmgpjEzhh9HDD3e8CTM=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=usS9HGtNNFqQQ8tovkJUl9QZoPic24B9Im+dnKPOeWrCCBDgFKWw1hjPUTu0EF7psFJQ8HdZuXKurPw8QJ36ty3zKLEDqOrvUNUL52Lsp18lhwo5lt+M4L+nVbeVhSy5v2rOkesvRQxoTdnVvkv5BKfHem5nlYRUrcgV32VK9OU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Yl4RG4LRTz6K60m;
-	Sat,  1 Feb 2025 02:38:50 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id DC65D140A70;
-	Sat,  1 Feb 2025 02:39:32 +0800 (CST)
-Received: from localhost (10.195.244.178) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 31 Jan
- 2025 19:39:31 +0100
-Date: Fri, 31 Jan 2025 18:39:30 +0000
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: Alisa-Dariana Roman <alisadariana@gmail.com>
-CC: Alisa-Dariana Roman <alisa.roman@analog.com>, David Lechner
-	<dlechner@baylibre.com>, <linux-iio@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, "Michael
- Hennerich" <Michael.Hennerich@analog.com>, Jonathan Cameron
-	<jic23@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>
-Subject: Re: [PATCH v3 3/3] docs: iio: add AD7191
-Message-ID: <20250131183930.00003f52@huawei.com>
-In-Reply-To: <20250129143054.225322-4-alisa.roman@analog.com>
-References: <20250129143054.225322-1-alisa.roman@analog.com>
-	<20250129143054.225322-4-alisa.roman@analog.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1738349908; c=relaxed/simple;
+	bh=rnLRXivPM58kQJV5pN1ILLe7H76XvfnEV4GHzTYgPV0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mSFacSA6Lo7Xi+T4ZCJUvFUeYRqprM8o35wszTDkThWGiU9auZnXFMatehQXdLJR3zS7RWg1ozfvzp47zyA9ftB/l0AKncw6xdyVgd68GO2EL2wf7XRYD/TpYK6BZ3g2rRhS3PhMxmFEJe2OgYHkFAv67wv3EgvmuIaOfJ4JlDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gdiv0wqT; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gdiv0wqT"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-aaf0f1adef8so453560066b.3;
+        Fri, 31 Jan 2025 10:58:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738349905; x=1738954705; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dP2c9p+WJ/Ycibc0VmIMo2SY4jx3mg/tQ+vmm0GdlFU=;
+        b=gdiv0wqTVSE2cRKLlsEinh02MMHzQUypbw5/wgRSq3DhMLl8+oCgZqViMZ0az6oNNV
+         BcF3MOljksiwSatglBY2wMr9IiF8GSrxdUzhAy8ziMiTJyal3XJNfoqeCGS4Gof5QL2K
+         cFUAc/kbhq17J61ec+CsSPTdI9sNhuZNtcp+5FDz2pkjyJDckA50zaBlQlIOXajV4xp6
+         e25mr8AWQBYLCF1E80Ipc0WoXAKju2fUBVu6ljHu+xgegrKMqTmG36Do4Lff7sYF+Wws
+         ptRVG99l+uP8CvZesxbCK/UDBTqLLfR62m9YhOWIrQ8sfePXDP15yPUAeWJR+QS+yZg4
+         maew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738349905; x=1738954705;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dP2c9p+WJ/Ycibc0VmIMo2SY4jx3mg/tQ+vmm0GdlFU=;
+        b=EljFTjVz/0GP4ooXhzPAoXtPaN8/q4ueEFKi+d5ntfUedxiP2fs0e1yqFFz4MOjVIN
+         Z8KZqm9nVogBYQvzIR6OXpLPNQvLrj98lNxKsDBraMZV/IUF3ms8ZGTGgMkpz/Zw97iI
+         uCR1BgiDtGt7yZkKC5UHhJv0gp4BMMYuixDeod2QjjAbt3FAokgwLU1jlMzV4pqQbT7Q
+         Fw6ljH1mUCBUL4rTZrokETO/pABIHm14Go/huUwzeHWwWuOzOpc9gVVg2DmdHZ4quW/D
+         2GM5bRDupK8/YtEViMCIe4Oagvj/StIYLW9hQ3Ri3qeytRRXHuKZK3XyJmUz3WG6i4ul
+         wGwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVAe/eU/dGd86SNcKLdLHTcONrLCHpnjKHR0fz+LLVxz+05a0xwaJwvQ2mSTIXSuz0N6/sPNIR6iwZUBXqHBJU=@vger.kernel.org, AJvYcCX5zi2byVDVoZGQqFRYZYnNbKc4M6x8I/HR9mLopyXlyap/8tTFJZFc2LT0SHjaHtwa9ZVg4QazKpU=@vger.kernel.org, AJvYcCXij/qbstRWKcjNhbUGp2PxgXAoENorgZCnOMEMAOoQlAK6i/OU1jra465QGULkPYnzriaKAJCSzHeSISLg@vger.kernel.org
+X-Gm-Message-State: AOJu0YzdP9FPNVRK5cQOAvgM7m7j3D9dJiqySoggsGiixM6aeq8ZNHZm
+	6KRngXkinxPyJIVILfo+OXYBFBxTANhdLg6auRBPrPCEW2eTPihO
+X-Gm-Gg: ASbGncvhNJf8JwK0PLRBjic2Okg3l814h/Ca8ponE5wn7hEIoKFDq2tG1xVDQ4ccMGv
+	fP6mYuHK0huthYVRMKiiN0wZ23EdNd4BVBIbXhvXJwC4rmJBv0ik5ri1Fo4Dce4+Nd/Kr+X1P4B
+	mUJw+Jpb196rBVjii43lu+tFTph59L18+Do/z/MFT2YvzNuOSyItOQ/Pe4z2rCg5IRimfSLToxA
+	cQnO6IW8fL+jGPMfhwDntnHYbHjsvzMs9P1j5QsP4K9K6tTHY69GdNtYkmx0+axHZp2Ltl9huky
+	YssOql5a1DPvNxcC1kbPUCV5bJam
+X-Google-Smtp-Source: AGHT+IHOS1aKbTTtUUMddEt5dbh1IUG+QNx5UiNzYR9h5od9izNR3CvolWOWfFrKJty/mwVs56DPyQ==
+X-Received: by 2002:a17:907:2d0f:b0:ab3:8cc:cd8 with SMTP id a640c23a62f3a-ab6cfd07cd9mr1254923766b.29.1738349904899;
+        Fri, 31 Jan 2025 10:58:24 -0800 (PST)
+Received: from ?IPV6:2001:871:22a:8634::1ad1? ([2001:871:22a:8634::1ad1])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab6e47d06casm340070666b.58.2025.01.31.10.58.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Jan 2025 10:58:24 -0800 (PST)
+Message-ID: <5e8a99a5-f39c-46da-b54d-7b69307b1c66@gmail.com>
+Date: Fri, 31 Jan 2025 19:58:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
- frapeml500008.china.huawei.com (7.182.85.71)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] arm: rust: Enable Rust support for ARMv7
+To: Andrew Lunn <andrew@lunn.ch>, Miguel Ojeda <ojeda@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Jonathan Corbet <corbet@lwn.net>,
+ Russell King <linux@armlinux.org.uk>, Rudraksha Gupta <guptarud@gmail.com>,
+ Ard Biesheuvel <ardb@kernel.org>, Geert Stappers <stappers@stappers.nl>,
+ Jamie Cunliffe <Jamie.Cunliffe@arm.com>,
+ Sven Van Asbroeck <thesven73@gmail.com>, rust-for-linux@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20250123-rfl-arm32-v3-1-8f13623d42c5@gmail.com>
+ <a83b0149-7055-411b-ba86-d227919c7c32@app.fastmail.com>
+ <f8b59f05-55b5-4208-8bdf-b4be8e93bc22@gmail.com>
+ <65da77f7-bbd4-4cbe-a06c-75f10a6ec4ce@lunn.ch>
+Content-Language: en-US, de-DE
+From: Christian Schrefl <chrisi.schrefl@gmail.com>
+In-Reply-To: <65da77f7-bbd4-4cbe-a06c-75f10a6ec4ce@lunn.ch>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 29 Jan 2025 16:29:04 +0200
-Alisa-Dariana Roman <alisadariana@gmail.com> wrote:
+On 31.01.25 5:05 PM, Andrew Lunn wrote:
+>> To fix this Rust would have to provide a way to build the core
+>> library without float support. I don't know if there is a plan
+>> already to allow this.
+> 
+> Floating point is banned within the kernel, except for in very narrow
+> conditions, because the floating point registers are lazy saved on
+> context switch. If the kernel uses the floating point registers, you
+> can break user space in bad ways.
+> 
+> I expect this has been discussed, since it is well known kernel
+> restriction. Maybe go see what happened to that discussion within RfL?
 
-> Add documentation for AD7191 driver.
->=20
-> Signed-off-by: Alisa-Dariana Roman <alisa.roman@analog.com>
-Hi Alisa-Dariana,
+After checking again, it seems the float intrinsics are actually not
+needed anymore at least for my config. Only `__aeabi_uldivmod` is still
+required for `parse_u64_into` since [0] allows disabling float formatting.
 
-Please could you build this with make html_docs
+Link error without the `__aeabi_uldivmod` symbol defined:
 
-It needs to be added to the index as well to build.
+ld.lld: error: undefined symbol: __aeabi_uldivmod
+>>> referenced by num.rs:580 (/home/chrisi/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/num.rs:580)
+>>>               rust/core.o:(core::fmt::num::parse_u64_into::<39>) in archive vmlinux.a
+>>> referenced by num.rs:589 (/home/chrisi/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/num.rs:589)
+>>>               rust/core.o:(core::fmt::num::parse_u64_into::<39>) in archive vmlinux.a
+>>> referenced by num.rs:589 (/home/chrisi/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/num.rs:589)
+>>>               rust/core.o:(core::fmt::num::parse_u64_into::<39>) in archive vmlinux.a
+>>> referenced 34 more times
+>>> did you mean: __aeabi_uidivmod
+>>> defined in: vmlinux.a(arch/arm/lib/lib1funcs.o)
 
-Then check formatting of titles and bullet points etc. Looks like
-a few bits of formatting of the rst aren't quite right but I haven't
-built it to be sure of that.
+Not sure if we should just implement `__aeabi_uldivmod`, keep the 
+panicking intrinsic for it or somehow fix it in upstream Rust?
 
-Content looks fine to me.
+Miguel do you know how this is best handled?
 
-Thanks,
+Link: https://github.com/rust-lang/rust/pull/86048 [0]
 
-Jonathan
-
-> ---
->  Documentation/iio/ad7191.rst | 230 +++++++++++++++++++++++++++++++++++
->  1 file changed, 230 insertions(+)
->  create mode 100644 Documentation/iio/ad7191.rst
->=20
-> diff --git a/Documentation/iio/ad7191.rst b/Documentation/iio/ad7191.rst
-> new file mode 100644
-> index 000000000000..78aa5fefe128
-> --- /dev/null
-> +++ b/Documentation/iio/ad7191.rst
-> @@ -0,0 +1,230 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +AD7191 driver
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Device driver for Analog Devices AD7191 ADC.
-> +
-> +Supported devices
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +* `AD7191 <https://www.analog.com/AD7191>`_
-> +
-> +The AD7191 is a high precision, low noise, 24-bit =CE=A3-=CE=94 ADC with=
- integrated PGA.
-> +It features two differential input channels, an internal temperature sen=
-sor,and
-> +configurable sampling rates.
-> +
-> +Device Configuration
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Pin Configuration
-> +----------------
-> +
-> +The driver supports both pin-strapped and GPIO-controlled configurations=
- for ODR
-> +(Output Data Rate) and PGA (Programmable Gain Amplifier) settings. These
-> +configurations are mutually exclusive - you must use either pin-strapped=
- or GPIO
-> +control for each setting, not both.
-> +
-> +ODR Configuration
-> +^^^^^^^^^^^^^^^^
-> +
-> +The ODR can be configured either through GPIO control or pin-strapping:
-> +
-> +- When using GPIO control, specify the "odr-gpios" property in the devic=
-e tree
-> +- For pin-strapped configuration, specify the "adi,odr-value" property i=
-n the
-> +device tree
-
-This doesn't look like correct rst for bullet points. Please
-build the docs and sanity check this.  I believe it needs to be aligned
-and you may nee some blank lines in a few places.
-
-> +
-> +Available ODR settings:
-> +  - 120 Hz (ODR1=3D0, ODR2=3D0)
-> +  - 60 Hz (ODR1=3D0, ODR2=3D1)
-> +  - 50 Hz (ODR1=3D1, ODR2=3D0)
-> +  - 10 Hz (ODR1=3D1, ODR2=3D1)
-> +
-> +PGA Configuration
-> +^^^^^^^^^^^^^^^
-> +
-> +The PGA can be configured either through GPIO control or pin-strapping:
-> +
-> +- When using GPIO control, specify the "pga-gpios" property in the devic=
-e tree
-> +- For pin-strapped configuration, specify the "adi,pga-value" property i=
-n the
-> +device tree
-> +
-> +Available PGA gain settings:
-> +  - 1x (PGA1=3D0, PGA2=3D0)
-> +  - 8x (PGA1=3D0, PGA2=3D1)
-> +  - 64x (PGA1=3D1, PGA2=3D0)
-> +  - 128x (PGA1=3D1, PGA2=3D1)
-> +
-> +Clock Configuration
-> +-----------------
-> +
-> +The AD7191 supports both internal and external clock sources:
-> +
-> +- When CLKSEL pin is tied LOW: Uses internal 4.92MHz clock (no clock pro=
-perty
-> +needed)
-> +- When CLKSEL pin is tied HIGH: Requires external clock source
-> +  - Can be a crystal between MCLK1 and MCLK2 pins
-> +  - Or a CMOS-compatible clock driving MCLK2 pin
-> +  - Must specify the "clocks" property in device tree when using externa=
-l clock
-> +
-> +SPI Interface Requirements
-> +------------------------
-> +
-> +The AD7191 has specific SPI interface requirements:
-> +
-> +- The DOUT/RDY output is dual-purpose and requires SPI bus locking
-> +- DOUT/RDY must be connected to an interrupt-capable GPIO
-> +- The SPI controller's chip select must be connected to the PDOWN pin of=
- the ADC
-> +- When CS (PDOWN) is high, the device powers down and resets internal ci=
-rcuitry
-> +- SPI mode 3 operation (CPOL=3D1, CPHA=3D1) is required
-> +
-> +Power Supply Requirements
-> +-----------------------
-> +
-> +The device requires the following power supplies:
-> +
-> +- AVdd: Analog power supply
-> +- DVdd: Digital power supply
-> +- Vref: Reference voltage supply (external)
-> +
-> +All power supplies must be specified in the device tree.
-> +
-> +Device Attributes
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-Not enough =3D
-
-Check all these as well after make html_docs
-
-
-> +
-> +The AD7191 provides several attributes through the IIO sysfs interface:
-> +
-> +Voltage Input Differential Channels
-> +---------------------------------
-> +
-> ++-------------------+---------------------------------------------------=
--------+
-> +| Attribute         | Description                                       =
-       |
-> ++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D+
-> +| raw               | Raw ADC output value                              =
-       |
-> ++-------------------+---------------------------------------------------=
--------+
-> +| scale             | Scale factor to convert raw value to voltage      =
-       |
-> ++-------------------+---------------------------------------------------=
--------+
-> +| offset            | Voltage offset                                    =
-       |
-> ++-------------------+---------------------------------------------------=
--------+
-> +| sampling_frequency| Current sampling frequency setting                =
-       |
-> ++-------------------+---------------------------------------------------=
--------+
-> +
-> +Temperature Sensor
-> +----------------
-> +
-> ++-------------------+---------------------------------------------------=
--------+
-> +| Attribute         | Description                                       =
-       |
-> ++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D+
-> +| raw               | Raw temperature sensor output value               =
-       |
-> ++-------------------+---------------------------------------------------=
--------+
-> +| scale             | Scale factor to convert raw value to temperature  =
-       |
-> ++-------------------+---------------------------------------------------=
--------+
-> +| offset            | Temperature calibration offset                    =
-       |
-> ++-------------------+---------------------------------------------------=
--------+
-> +
-> +Available Attributes
-> +------------------
-> +
-> +The following attributes show available configuration options:
-> +
-> +- sampling_frequency_available: List of supported sampling frequencies
-> +- scale_available: List of supported scale factors (based on PGA setting=
-s)
-> +
-> +Channel Configuration
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +The device provides three channels:
-> +
-> +1. Temperature Sensor
-> +   - 24-bit unsigned
-> +   - Internal temperature measurement
-> +   - Temperature in millidegrees Celsius
-> +
-> +2. Differential Input (AIN1-AIN2)
-> +   - 24-bit unsigned
-> +   - Differential voltage measurement
-> +   - Configurable gain via PGA
-> +
-> +3. Differential Input (AIN3-AIN4)
-> +   - 24-bit unsigned
-> +   - Differential voltage measurement
-> +   - Configurable gain via PGA
-> +
-> +Device Tree Bindings
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Required Properties
-> +-----------------
-> +
-> +- compatible: Should be "adi,ad7191"
-> +- reg: SPI chip select number
-> +- spi-max-frequency: Maximum SPI clock frequency
-> +- spi-cpol: Must be present (set to 1)
-> +- spi-cpha: Must be present (set to 1)
-> +- interrupts: Interrupt mapping for DOUT/RDY pin
-> +- avdd-supply: Analog power supply
-> +- dvdd-supply: Digital power supply
-> +- vref-supply: Reference voltage supply
-> +- temp-gpios: GPIO for temperature channel selection
-> +- chan-gpios: GPIO for input channel selection
-> +
-> +Optional Properties
-> +-----------------
-> +
-> +- clocks: Required when using external clock (CLKSEL=3D1), must be absen=
-t for
-> +internal clock
-> +- adi,odr-value: Pin-strapped ODR configuration (120, 60, 50, or 10)
-> +- adi,pga-value: Pin-strapped PGA configuration (1, 8, 64, or 128)
-> +- odr-gpios: GPIOs for ODR control (mutually exclusive with adi,odr-valu=
-e)
-> +- pga-gpios: GPIOs for PGA control (mutually exclusive with adi,pga-valu=
-e)
-> +
-> +Example Device Tree
-> +-----------------
-> +
-> +.. code-block:: dts
-> +
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    spi {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        ad7191@0 {
-> +            compatible =3D "adi,ad7191";
-> +            reg =3D <0>;
-> +            spi-max-frequency =3D <1000000>;
-> +
-> +            /* Required SPI mode 3 */
-> +            spi-cpol;
-> +            spi-cpha;
-> +
-> +            /* Interrupt for DOUT/RDY pin */
-> +            interrupts =3D <25 IRQ_TYPE_EDGE_FALLING>;
-> +            interrupt-parent =3D <&gpio>;
-> +
-> +            /* Power supplies */
-> +            avdd-supply =3D <&avdd>;
-> +            dvdd-supply =3D <&dvdd>;
-> +            vref-supply =3D <&vref>;
-> +
-> +            /* Optional external clock */
-> +            clocks =3D <&ad7191_mclk>;
-> +
-> +            /* Configuration - either use GPIO control or pin-strapped v=
-alues */
-> +            adi,pga-value =3D <1>;
-> +            odr-gpios =3D <&gpio 23 GPIO_ACTIVE_HIGH>,
-> +                       <&gpio 24 GPIO_ACTIVE_HIGH>;
-> +
-> +            /* Required GPIO controls */
-> +            temp-gpios =3D <&gpio 22 GPIO_ACTIVE_HIGH>;
-> +            chan-gpios =3D <&gpio 27 GPIO_ACTIVE_HIGH>;
-> +        };
-> +    };
-> +
-> +Buffer Support
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +This driver supports IIO triggered buffers. See Documentation/iio/iio_de=
-vbuf.rst
-> +for more information about IIO triggered buffers.
-
+Cheers
+Christian
