@@ -1,121 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA59013BC02;
-	Fri, 31 Jan 2025 05:41:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51EE74C9F;
+	Fri, 31 Jan 2025 07:41:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738302085; cv=none; b=TxCSElyLx8hkY7xhOod0XYPtdeQeNZYFs9nkZwDKcHWkjuzaQmatftADBA7qpwRMZ+kXqrV25XB9HstTSgOrT+307yL5V+dSH6EliQWWwqhRqAWHur5zMKkQh8blaDKxonc8OKK5Xt2Y+H8EdCPNwgf280Jeez9okrcBnnEHmJg=
+	t=1738309270; cv=none; b=Paaxa2Wuvdpta+IF64bb7iECil6AhFQzUkzjY0jsEfHX9ARXWoG/chguy5WJKaF4jkIj6Wy2EEUDBpuxXk6o4zCtt8qh6DhO0LZSfcv1hOHLywR8e9TV88DUVqtkGKcjKCvNLIs/qlotX+BCyPiw1zFU+7RNJt6ZdEUlfXwm0KY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738302085; c=relaxed/simple;
-	bh=qXMcWjH+3cpit/FfKPh/jnxx5BYQTfRj2UQPGxwTDFI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mHzTorsDjm7QiqyQlYHxI/ePcgkpTZ3DwgkzQQ2xsMJqHYbLlc1CTerT9dp+vrMxTf1JXc9Jf1RbXAp/j6A6Xkm3Lnxu+kGPcVrD9LaMcJDuCQMb5KvGJLAOLrVJDn0SrASOboIzs+hb8h0+aG8bViSiJBmeItfIdJj9RPv8TUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jio8Oefr; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1738309270; c=relaxed/simple;
+	bh=AJU5kc1jwXswkRrqutIC90v5z/tfYHqNu1pAiYvrggs=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Jm+qwr7Gz+J+X8NQAuLDru1LLYO3MkEGBm7W0DB3vHaOQUsvllNqwo2vhQSewzVWgB2gxeEBK2SQbCiaZVmQ3EknQLjbZiwT335DteW7PvGDPCY8TcZEYxBRx9FqlEQhNtAQbf8p2bTLWPciWoLA0G3bR942Zh6HcV1HU6vLFhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=p+EsdHEW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=y8oIAD6Y; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jio8Oefr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738302085; x=1769838085;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qXMcWjH+3cpit/FfKPh/jnxx5BYQTfRj2UQPGxwTDFI=;
-  b=Jio8OefrApODqX0GHz6bf9xckFEDoP+j20F3hfXTWu2dzF+wCCX1Rhgc
-   b9wzW6EZB6XmT1WHx5yAAeZGMljNyo7VmfFkZ8CgaphTG2gH88yFLnNUV
-   yyzHdtYr2zOksAEPwGbIYxH0gmm6ZXj8pQWoxVoBoS4IG9154qWXqhYSc
-   J5X27oVMIT4XJcHIl5iBimEsJOvhe69q27nAUe8LW9vtwSqsbX8YgR+Nr
-   yVRnpe0plo0MBtYaeTzZXppOER62mHhjOwJP4AwcCiUywJmqDNcgZQpl/
-   E6tUWEzz/7xKPl7hcnJHfNwZ4olOjRRxlDcA+d2m/YABGQ0AyHzlAw/sa
-   g==;
-X-CSE-ConnectionGUID: +lP1ChXhQ9mlVi1jEpN7RQ==
-X-CSE-MsgGUID: 2Hu1ER+vRwaU1gNmTEBGJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11331"; a="38109179"
-X-IronPort-AV: E=Sophos;i="6.13,247,1732608000"; 
-   d="scan'208";a="38109179"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2025 21:41:24 -0800
-X-CSE-ConnectionGUID: +32zaFenQSiHjb7F2YrE7Q==
-X-CSE-MsgGUID: xZlVOI4TSwyvaVkcgVjStA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="146721630"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 30 Jan 2025 21:41:19 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tdjmH-000m2N-20;
-	Fri, 31 Jan 2025 05:41:17 +0000
-Date: Fri, 31 Jan 2025 13:40:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Esteban Blanc <eblanc@baylibre.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Esteban Blanc <eblanc@baylibre.com>
-Subject: Re: [PATCH v3 2/6] iio: adc: ad4030: add driver for ad4030-24
-Message-ID: <202501311345.Oh77Bhyw-lkp@intel.com>
-References: <20250130-eblanc-ad4630_v1-v3-2-052e8c2d897d@baylibre.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="p+EsdHEW";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="y8oIAD6Y"
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 35A0F11401A8;
+	Fri, 31 Jan 2025 02:41:07 -0500 (EST)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-10.internal (MEProxy); Fri, 31 Jan 2025 02:41:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1738309267;
+	 x=1738395667; bh=a015or5h7JL8tqNC7E1K5CmxYio91AFRJMKPQrlypmY=; b=
+	p+EsdHEWP3ACTepGzvls4c/0QwGbxx3xvN3QEaZZHaoYBy36hl5JS782NvbP+5gx
+	FQy/BYFtAl1h4TuHKji+nemnFcmbzGGFGFhZ8bgg/MW+KK3QkRbq/Lq4hQFRvUKN
+	Ad/fYhn2iVQD7GsuGgLgfgDYB6Qh2IJrVRKWhZhun5+G2BWg2f0kik7ZEvZrhaM2
+	yAMgzFhY9ctaQNkrsXc0wzGNr3w4n2YzGTPvxqoLjBt7iCL0LIbsvHJ2l+sFYHbz
+	inWU2TgAO8ygzAKmUX1r+n9qpoqeBfYBwAntKortX9vuwgB+8CV0y/lMmMZbf3hg
+	sP2dPlegAFnwCwir8+xhjg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1738309267; x=
+	1738395667; bh=a015or5h7JL8tqNC7E1K5CmxYio91AFRJMKPQrlypmY=; b=y
+	8oIAD6YrPt6RaDC4iEXqaoPMZ+rLP2Ot1ta/e7SAdgMQykevbTxws2acg6axZF2N
+	DMEfncziUV1jLpm45YwpKL0dsQx3tJM/Ksn2p4S9pH5okoFuGYMi1HlBHkfrVodA
+	CKFecCatC+ukmvC4b+BeZpQwWFrfFmKYdscVV2EmW1k/Q7xl2yx0CHyY+RaeSOsk
+	XQTbASk1e4Xc+Z8Kss0q5GUv7oaFzHPATdYNv7JDdWf+RTegBe0Gn3VHCJ4rLOSZ
+	n3ZBhaNp6/f1qXRjhqK8W4FL80s7obekgu8EsWZQ/U84cxTq5JkdGIvhvA7l3ZhR
+	r6663SOfOHtlkdI++0ncQ==
+X-ME-Sender: <xms:kX6cZ21fjPiVWWY0DiU5VCer0YajY4PqS6DzSHKQr8qhWdUrtlPyvA>
+    <xme:kX6cZ5Gr8rcee_p03TnsWmCC2csbc2lBp9zhfTvpPga803EWw6SG7XJuOrNS9jcCT
+    DJuWHIFDcyeUKinqfE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekudekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
+    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
+    guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
+    gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepvddv
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehjrghmihgvrdgtuhhnlhhifhhfvg
+    esrghrmhdrtghomhdprhgtphhtthhopehlihhnuhigsegrrhhmlhhinhhugidrohhrghdr
+    uhhkpdhrtghpthhtohepghgrrhihsehgrghrhihguhhordhnvghtpdhrtghpthhtoheprg
+    hlvgigrdhgrgihnhhorhesghhmrghilhdrtghomhdprhgtphhtthhopegsohhquhhnrdhf
+    vghnghesghhmrghilhdrtghomhdprhgtphhtthhopegthhhrihhsihdrshgthhhrvghflh
+    esghhmrghilhdrtghomhdprhgtphhtthhopehguhhpthgrrhhuugesghhmrghilhdrtgho
+    mhdprhgtphhtthhopehthhgvshhvvghnjeefsehgmhgrihhlrdgtohhmpdhrtghpthhtoh
+    eprghlihgtvghrhihhlhesghhoohhglhgvrdgtohhm
+X-ME-Proxy: <xmx:kX6cZ-6qgze7ifRuQzdyUrUdU56UridTMZY33I91Py7f0jAzwicdWQ>
+    <xmx:kX6cZ30H7SoCBveuIx8sGPVZItlQ62zfZN4Ma5ndKMsqfGE6J30dUw>
+    <xmx:kX6cZ5FCJsXZ0-VxPQ3rqhxBgyXcq7QujXzSqjdIH398l68MRkdQpA>
+    <xmx:kX6cZw86q-3LudYSqNIvo75vywydI1TG6lMKvsmXr9H6WDc0P8YTfg>
+    <xmx:k36cZ5NRFc_rKWh0VOeaglgwkSnb_mnbkvBBtgJGtBxgt_RkhDENHa5O>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 67C552220072; Fri, 31 Jan 2025 02:41:05 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250130-eblanc-ad4630_v1-v3-2-052e8c2d897d@baylibre.com>
+Date: Fri, 31 Jan 2025 08:40:45 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Christian Schrefl" <chrisi.schrefl@gmail.com>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>,
+ "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ "Benno Lossin" <benno.lossin@proton.me>,
+ "Andreas Hindborg" <a.hindborg@kernel.org>,
+ "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Russell King" <linux@armlinux.org.uk>,
+ "Rudraksha Gupta" <guptarud@gmail.com>, "Ard Biesheuvel" <ardb@kernel.org>,
+ "Geert Stappers" <stappers@stappers.nl>, "Andrew Lunn" <andrew@lunn.ch>,
+ "Jamie Cunliffe" <Jamie.Cunliffe@arm.com>,
+ "Sven Van Asbroeck" <thesven73@gmail.com>
+Cc: rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Message-Id: <a83b0149-7055-411b-ba86-d227919c7c32@app.fastmail.com>
+In-Reply-To: <20250123-rfl-arm32-v3-1-8f13623d42c5@gmail.com>
+References: <20250123-rfl-arm32-v3-1-8f13623d42c5@gmail.com>
+Subject: Re: [PATCH v3] arm: rust: Enable Rust support for ARMv7
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi Esteban,
+On Thu, Jan 23, 2025, at 23:40, Christian Schrefl wrote:
+> This commit allows building ARMv7 kernels with Rust support.
+>
+> The rust core library expects some __eabi_... functions
+> that are not implemented in the kernel.
+> Those functions are some float operations and __aeabi_uldivmod.
+> For now those are implemented with define_panicking_intrinsics!.
 
-kernel test robot noticed the following build warnings:
+I see you are doing this part the same as the other architectures,
+but I don't see why it's done like this in the first place:
 
-[auto build test WARNING on ffd294d346d185b70e28b1a28abe367bbfe53c04]
+In C code, we really want to get a link failure rather than a
+runtime error in order to catch those bugs as early as possible
+and fix them before even trying to run the kernel. Is there a
+reason this doesn't work in rust, or is there a plan to change
+this later when the existing callers of those functions have
+been fixed?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Esteban-Blanc/dt-bindings-iio-adc-add-ADI-ad4030-ad4630-and-ad4632/20250130-191153
-base:   ffd294d346d185b70e28b1a28abe367bbfe53c04
-patch link:    https://lore.kernel.org/r/20250130-eblanc-ad4630_v1-v3-2-052e8c2d897d%40baylibre.com
-patch subject: [PATCH v3 2/6] iio: adc: ad4030: add driver for ad4030-24
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250131/202501311345.Oh77Bhyw-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250131/202501311345.Oh77Bhyw-lkp@intel.com/reproduce)
+202397be76d8037b531b34dee16c7dfcfd0124ef..3375c91e698c024f95a85682f5a91d9815c355e5 
+> 100644
+> --- a/arch/arm/Kconfig
+> +++ b/arch/arm/Kconfig
+> @@ -130,6 +130,7 @@ config ARM
+>  	select MMU_GATHER_RCU_TABLE_FREE if SMP && ARM_LPAE
+>  	select HAVE_REGS_AND_STACK_ACCESS_API
+>  	select HAVE_RSEQ
+> +	select HAVE_RUST if CPU_LITTLE_ENDIAN && CPU_32v7
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501311345.Oh77Bhyw-lkp@intel.com/
+The ARMv7 dependency makes sense, but I think it needs
+be disabled on combined v6/v7 kernels, like (CPU_V7 && !CPU_V6 && !CPU_V6K).
 
-All warnings (new ones prefixed by >>):
-
-   drivers/iio/adc/ad4030.c: In function 'ad4030_buffer_preenable':
->> drivers/iio/adc/ad4030.c:715:30: warning: unused variable 'st' [-Wunused-variable]
-     715 |         struct ad4030_state *st = iio_priv(indio_dev);
-         |                              ^~
-
-
-vim +/st +715 drivers/iio/adc/ad4030.c
-
-   712	
-   713	static int ad4030_buffer_preenable(struct iio_dev *indio_dev)
-   714	{
- > 715		struct ad4030_state *st = iio_priv(indio_dev);
-   716		int ret;
-   717	
-   718		ret = ad4030_set_mode(indio_dev, *indio_dev->active_scan_mask);
-   719		if (ret)
-   720			return ret;
-   721	
-   722		return 0;
-   723	}
-   724	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+      ARnd
