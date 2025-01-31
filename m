@@ -1,76 +1,170 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9831EBA02;
-	Fri, 31 Jan 2025 16:05:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BC931E8823;
+	Fri, 31 Jan 2025 16:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738339534; cv=none; b=ElPfmU2gA/3h8Prf1pQPQP0R8WhPNsQz/DoxNjdjap6b/p5SiW6TWCpCI4nAM2jrRGez2WPvng/5vAYZcVzcwvNEYUvPxH1K/I8bXMS9aejjiZaCgtGL+GSrN0ZwWhtLI48LQMRRiXNRm/TpPFou8kOuiGAN4JvhDiQD8MlNjOA=
+	t=1738340701; cv=none; b=G5Ph+/J2XH6EhfP88loLJK2hBpo3gnp4X5h0bx1iZc0m0Zzy4aV96P4Bf94IgXX6Ljw9SUrLgUkb2RGVfZA7YhzzobhT03OxB62cGvxSEFT/moWA0Ytd+lPJ/E1w7zfCmvTHElgB4cdzG5bLsSkz5YGX9Awftf9gNKQNOWTiAR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738339534; c=relaxed/simple;
-	bh=1omhRQmvSB/Qil1fK+3eh4SCjNKBsj0EYIu0AGn7V7Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X2u6f1TLqHPaXVdfw1cDzONoEPgU29dovY5ndo72d4HuJ6zhIL6msN3dM795v3Xcf+kUmhy1y6ZW/tHkbjIlFqN1lkrcLeSIa9BLwOrCyn4CnFN7XQLdnq4eoeb/0WMhW1g/bGf6Y+hIPdX2DPJHI0XPO1j4HPZjd91byL0sVLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=1MYRElUg; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="1MYRElUg"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=oiBjie/3ciEURIkZ+iLsXyNmqPRpB2PMG1wBn3Ax9Sg=; b=1MYRElUgqBxjWkVDqUZZxZcr+8
-	ONv5FvkVLHES1aKsbjZX2Pd8KJ1igu+ZChE//zmIzI6E/JJkxufl/3qydIO3GW+s2+WuTOOYnInRi
-	gkcKLlHtiYE/pzVQaPZwXFtqUrpiJ7jKe7FEyyQZS7tr4nWqoZecl617/SEkPEaJIOQM=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1tdtVv-009jXz-O6; Fri, 31 Jan 2025 17:05:03 +0100
-Date: Fri, 31 Jan 2025 17:05:03 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Christian Schrefl <chrisi.schrefl@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	s=arc-20240116; t=1738340701; c=relaxed/simple;
+	bh=t5vlalJQkpRyc1A0mgyXobueuE89PWKmTu4O8JqLhwE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=J1rZo3PxMKEAK92DQidumN1gND+XcJb2cjLK7MO+wgTcOrFTK3uGIM8sGfjmrUb/mrgspwKgOQ1uMd6WKcnMbYY1/kd4z0cOutZze2rCIRiG2LsBM/SfSGnwf75ww8UWfJCl/v89H3cnLFpUhcnybSC7QawbXmxrb+9lm243zdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E5E42497;
+	Fri, 31 Jan 2025 08:25:23 -0800 (PST)
+Received: from e125905.cambridge.arm.com (e125905.cambridge.arm.com [10.1.194.73])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 43BBB3F694;
+	Fri, 31 Jan 2025 08:24:55 -0800 (PST)
+From: Beata Michalska <beata.michalska@arm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org,
+	ionela.voinescu@arm.com,
+	sudeep.holla@arm.com,
+	will@kernel.org,
+	catalin.marinas@arm.com,
+	rafael@kernel.org,
+	viresh.kumar@linaro.org
+Cc: sumitg@nvidia.com,
+	yang@os.amperecomputing.com,
+	vanshikonda@os.amperecomputing.com,
+	lihuisong@huawei.com,
+	zhanjie9@hisilicon.com,
+	ptsm@linux.microsoft.com,
 	Jonathan Corbet <corbet@lwn.net>,
-	Russell King <linux@armlinux.org.uk>,
-	Rudraksha Gupta <guptarud@gmail.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Geert Stappers <stappers@stappers.nl>,
-	Jamie Cunliffe <Jamie.Cunliffe@arm.com>,
-	Sven Van Asbroeck <thesven73@gmail.com>,
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3] arm: rust: Enable Rust support for ARMv7
-Message-ID: <65da77f7-bbd4-4cbe-a06c-75f10a6ec4ce@lunn.ch>
-References: <20250123-rfl-arm32-v3-1-8f13623d42c5@gmail.com>
- <a83b0149-7055-411b-ba86-d227919c7c32@app.fastmail.com>
- <f8b59f05-55b5-4208-8bdf-b4be8e93bc22@gmail.com>
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Phil Auld <pauld@redhat.com>,
+	x86@kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v10 0/4] Add support for AArch64 AMUv1-based average freq
+Date: Fri, 31 Jan 2025 16:24:35 +0000
+Message-Id: <20250131162439.3843071-1-beata.michalska@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f8b59f05-55b5-4208-8bdf-b4be8e93bc22@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-> To fix this Rust would have to provide a way to build the core
-> library without float support. I don't know if there is a plan
-> already to allow this.
+Hi All,
 
-Floating point is banned within the kernel, except for in very narrow
-conditions, because the floating point registers are lazy saved on
-context switch. If the kernel uses the floating point registers, you
-can break user space in bad ways.
+This series adds support for obtaining an average CPU frequency based on
+a hardware provided feedback. The average frequency is being exposed via
+dedicated yet optional cpufreq sysfs attribute - cpuinfo_avg_freq.
+The architecture specific bits are being provided for AArch64, caching on
+existing implementation for FIE and AMUv1 support: the frequency scale
+factor, updated on each sched tick, serving as a base for retrieving
+the frequency for a given CPU, representing an average frequency
+reported between the ticks.
 
-I expect this has been discussed, since it is well known kernel
-restriction. Maybe go see what happened to that discussion within RfL?
+The changes have been rather lightly (due to some limitations) tested on
+an FVP model.
 
-	Andrew
+Note that, this series depends on [6] and [7] !
+
+Relevant discussions:
+[1] https://lore.kernel.org/all/20240229162520.970986-1-vanshikonda@os.amperecomputing.com/
+[2] https://lore.kernel.org/all/7eozim2xnepacnnkzxlbx34hib4otycnbn4dqymfziqou5lw5u@5xzpv3t7sxo3/
+[3] https://lore.kernel.org/all/20231212072617.14756-1-lihuisong@huawei.com/
+[4] https://lore.kernel.org/lkml/ZIHpd6unkOtYVEqP@e120325.cambridge.arm.com/T/#m4e74cb5a0aaa353c60fedc6cfb95ab7a6e381e3c
+[5] https://lore.kernel.org/all/20240603081331.3829278-1-beata.michalska@arm.com/
+
+[6] https://lore.kernel.org/all/20240827154818.1195849-1-ionela.voinescu@arm.com/
+[7] https://lore.kernel.org/all/20250131155842.3839098-1-beata.michalska@arm.com/
+
+v10:
+- Assume '0' is still somewhat a valid frequency value (as per discussion)
+  and that gets applied for show_cpuinfo for x86
+- Excluded patch:
+	"arm64: amu: Delay allocating cpumask for AMU FIE support"
+  which has been sent out as a separate change at [7]
+- Added info on EAGAIN error within the docs
+- Switched to while loop instead of goto statement for arch_freq_get_on_cpu
+  implementation
+
+v9:
+- Moved changes to arch_freq_get_on_cpu to a separate patch
+
+v8:
+- Drop introducing new function and reuse arch_freq_get_on_cpu, guarding its use
+  in scaling_cur_freq sysfs handler with dedicated config for x86
+
+v7:
+- Dropping 'arch_topology: init capacity_freq_ref to 0' patch from the series
+  as this one has been sent separately as an independent change
+  [https://lore.kernel.org/all/20240827154818.1195849-1-ionela.voinescu@arm.com/]
+- Including in the series change that introduces new sysfs entry [PATCH 1/4]
+- Consequently modifying previously arch_freq_get_on_cpu to match reqs for new
+  sysfs attribute
+- Dropping an idea of considering a CPU that has been idle for a while as a
+  valid source of information for obtaining an AMU-counter based frequency
+- Some minor cosmetic changes
+
+v6:
+ - delay allocating cpumask for AMU FIE support instead of invalidating the mask
+   upon failure to register cpufreq policy notifications
+ - drop the change to cpufreq core (for cpuinfo_cur_freq) as this one will be
+   sent as a separate change
+
+v5:
+ - Fix invalid access to cpumask
+ - Reworked finding reference cpu when getting the freq
+
+v4:
+- dropping seqcount
+- fixing identifying active cpu within given policy
+- skipping full dynticks cpus when retrieving the freq
+- bringing back plugging in arch_freq_get_on_cpu into cpuinfo_cur_freq
+
+v3:
+- dropping changes to cpufreq_verify_current_freq
+- pulling in changes from Ionela initializing capacity_freq_ref to 0
+  (thanks for that!)  and applying suggestions made by her during last review:
+	- switching to arch_scale_freq_capacity and arch_scale_freq_ref when
+	  reversing freq scale factor computation
+	- swapping shift with multiplication
+- adding time limit for considering last scale update as valid
+- updating frequency scale factor upon entering idle
+
+v2:
+- Splitting the patches
+- Adding comment for full dyntick mode
+- Plugging arch_freq_get_on_cpu into cpufreq_verify_current_freq instead
+  of in show_cpuinfo_cur_freq to allow the framework to stay more in sync
+  with potential freq changes
+
+CC: Jonathan Corbet <corbet@lwn.net>
+CC: Thomas Gleixner <tglx@linutronix.de>
+CC: Ingo Molnar <mingo@redhat.com>
+CC: Borislav Petkov <bp@alien8.de>
+CC: Dave Hansen <dave.hansen@linux.intel.com>
+CC: H. Peter Anvin <hpa@zytor.com>
+CC: Phil Auld <pauld@redhat.com>
+CC: x86@kernel.org
+CC: linux-doc@vger.kernel.org
+
+Beata Michalska (4):
+  cpufreq: Allow arch_freq_get_on_cpu to return an error
+  cpufreq: Introduce an optional cpuinfo_avg_freq sysfs entry
+  arm64: Provide an AMU-based version of arch_freq_get_on_cpu
+  arm64: Update AMU-based freq scale factor on entering idle
+
+ Documentation/admin-guide/pm/cpufreq.rst |  17 ++-
+ arch/arm64/kernel/topology.c             | 125 +++++++++++++++++++++--
+ arch/x86/kernel/cpu/aperfmperf.c         |   2 +-
+ arch/x86/kernel/cpu/proc.c               |   7 +-
+ drivers/cpufreq/Kconfig.x86              |  12 +++
+ drivers/cpufreq/cpufreq.c                |  38 ++++++-
+ include/linux/cpufreq.h                  |   2 +-
+ 7 files changed, 183 insertions(+), 20 deletions(-)
+
+-- 
+2.25.1
+
