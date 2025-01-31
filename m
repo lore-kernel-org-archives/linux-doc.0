@@ -1,106 +1,265 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926621EF0AF
-	for <linux-doc@vger.kernel.org>; Fri, 31 Jan 2025 17:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5281F2376;
+	Fri, 31 Jan 2025 18:14:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738345639; cv=none; b=bvXouBPatk+6HAx1k9xedWUL3aRnYSxqLrjGD/mfBoVyCK/t0//kp22qAtK5FKvFa21xKn5Gm1i19s4E1H8TdC77ljBFSSaDXLVSKiUkSgxSUnhfZNuYRPOu4QwY/BSaNHZpoSP8BAwsy4fukn4xgSj8Q0bZtQUdPBRsyVyqvfg=
+	t=1738347286; cv=none; b=p9VoeVGVw+b/ZIYkRRmUP9X4jc1/FbsnXLheZbPOzp1XVrQw/9C4uiGBHd+FtGVEi1wnTgVZGqtcm3vAOJNfjfttKzY46S1Q54Eg/vXk3v/mzTuqkymI/VJ518eFoE7rRbHPXAlHkVwPic9BAYST5yYHLINjuDulev9lQ2nDGR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738345639; c=relaxed/simple;
-	bh=aoyjvtNcT8MbEevAje0oGmQYgM7ADSBPecevEok87Fc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tQRgPTrIo4MHOaomZzFu3j7LFZlY94dScG3ry5byHiDqb/v5cFkhHrE40OTiK6oSseAl6D3kGitCXK9qvGdNCnWAfpTASeYI8pgGGw7ceuqF3vJNIeEFJ9hlojtN9+FsS9zY8MIy8RzYJAmSUmJELmQsQ8jK8yBJ1GmOwST8QdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k6lT6ZXh; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k6lT6ZXh"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-21636268e43so51168855ad.2
-        for <linux-doc@vger.kernel.org>; Fri, 31 Jan 2025 09:47:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738345633; x=1738950433; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=W7YlXdN8EH6kD+0yxUGaKa6fqOZSgCi9IOU8Ql/cpYw=;
-        b=k6lT6ZXhHAUfKuQkiPNhY8zjGSocxrsUewYjIZO2byzH7cxVmjp4pgbZqpd2/p5waz
-         RXGEQ3FHzgTJWyPjytdzE/3N16qANuDGAUEr8dr4OTfKy29TXro+FufFe0GMwoJRyydh
-         LjvjAMU1irSqbjU8oG0BuNAk5VYIo92Hi5kWrUKqpfbqjJZgqfyNUTxmgDhnci68iPKG
-         VPctFwr0yXB+X+1zClnL5meIqNTVaqsHkOQdOaK1Kj8QQMAaoF8UGp8o62IS4+NnllW2
-         xf/lKBdXaHUpU/hs3A9rmX/sBFLN2M2NM0XBo0Kxc/sA789AfkSIYNYQwz06aE/fEmia
-         a9gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738345633; x=1738950433;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=W7YlXdN8EH6kD+0yxUGaKa6fqOZSgCi9IOU8Ql/cpYw=;
-        b=MCbRt+YXrvbREmS9kWQ/Q/MfNM6qbATmYpj44vZfuGpIjVy0qt+8eGOUdiS+hv2e5H
-         BZN9+Xxd0zo6jAwGFQw2vgZ8dmP5U2+F/naFb1m5WZtAnJkBa58AARNtAvnSy7HXCPYg
-         bBLbYVlrwEe3A6s/kP+l38xIKbtG8klAQbiXiReuhd0IHX277rIppkQDuI78Zp+1Vgvf
-         fRtSEkr8ceHFPy55dmDemcVbf8yUz0nLa0anczsrWtmAhz+pCuStDbcDh+q8gv98rMi2
-         RNoT5SfoFreELEpcuu4p++KvSIvkcC4c54h5PWbws4bcQPyEWdDZsIBhUOna6FUhSkLM
-         KsBA==
-X-Gm-Message-State: AOJu0YwT6XA1TSSH7uVCCMZ0CoczdSOTra87wnbwY0y+/dCLYgLeXEdf
-	aR4WJbpv9v/r4SZTfXAlh7xCC2aigeqdngVg5yIwOXV5vBI/whYgCnh1hmam
-X-Gm-Gg: ASbGnct4jvf+mcURSJBjQh2sTWCNJSl3uZontDFgGLWkEWINAoDwLom6rz1oep7yYHu
-	Kep9BL/o73ZwbRtw88DLxO3ZqKw+JLGZvZYT+oRKaWQFxQRz+RfxVINOm88vhj65DZMncadarsP
-	UyiviLsRpcoIb76YQAj3NMibzBGO/43VJ+osbIqe1qc9WlBVtnzlXgE/C/tIi3HTbjvBY8YOZgu
-	2QPpvtlZj9YW0p117UwxYAfehNE7oBBtAR1x3oRImwmq9u9Et5Ndj/8HALl0WMWgX00CbCdiiv5
-	seDHE/deMij17vVpC7qKGIGK6qzqApfmZNUfxA==
-X-Google-Smtp-Source: AGHT+IEm5jy1kLtVHI3l7PHXPWmuU4lPhbHbDIuUMyizg7hcBnB4M12yIiy6xO+22RLDVTeT3CltkA==
-X-Received: by 2002:a05:6a00:244b:b0:72a:8461:d172 with SMTP id d2e1a72fcca58-72fd0bcf0a3mr18874603b3a.3.1738345633163;
-        Fri, 31 Jan 2025 09:47:13 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:5c08:585d:bc01:38de:cff8:1fb8])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72fe69bbb7esm3704010b3a.106.2025.01.31.09.47.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jan 2025 09:47:12 -0800 (PST)
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-To: linux-doc@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org
-Cc: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Subject: [PATCH] documentation grammer correction 
-Date: Fri, 31 Jan 2025 23:17:04 +0530
-Message-ID: <20250131174704.12501-1-pranav.tyagi03@gmail.com>
-X-Mailer: git-send-email 2.47.1
+	s=arc-20240116; t=1738347286; c=relaxed/simple;
+	bh=eZ1jTHEPx8NJyvwfJFYUNGRG/eF3CWuUwh25NoVujG8=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tVHHtoJK4gTgY0fB1XIMhMfb5bphN50AXeDhaxSIEuThHOUJcxder+B60ywGr9OSDRjMhKihUuB1k8S7TGRy9dUNdif77+FrQtON1zAe5taIhMtJJdSjhcnSA/1Sdt9EeuG1V7oy4lz1kt/2zXiwoAf4zg4D+tNQHypfeujbUfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Yl3tY5lsXz6K5rB;
+	Sat,  1 Feb 2025 02:13:57 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 10875140520;
+	Sat,  1 Feb 2025 02:14:40 +0800 (CST)
+Received: from localhost (10.195.244.178) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 31 Jan
+ 2025 19:14:38 +0100
+Date: Fri, 31 Jan 2025 18:14:37 +0000
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: Esteban Blanc <eblanc@baylibre.com>
+CC: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
+	<Michael.Hennerich@analog.com>, Nuno =?ISO-8859-1?Q?S=E1?=
+	<nuno.sa@analog.com>, Jonathan Cameron <jic23@kernel.org>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	<linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3 2/6] iio: adc: ad4030: add driver for ad4030-24
+Message-ID: <20250131181437.00000097@huawei.com>
+In-Reply-To: <20250130-eblanc-ad4630_v1-v3-2-052e8c2d897d@baylibre.com>
+References: <20250130-eblanc-ad4630_v1-v3-0-052e8c2d897d@baylibre.com>
+	<20250130-eblanc-ad4630_v1-v3-2-052e8c2d897d@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
----
- Documentation/gpu/vgaarbiter.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On Thu, 30 Jan 2025 12:08:26 +0100
+Esteban Blanc <eblanc@baylibre.com> wrote:
 
-diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaarbiter.rst
-index bde3c0afb059..d1e953712cc2 100644
---- a/Documentation/gpu/vgaarbiter.rst
-+++ b/Documentation/gpu/vgaarbiter.rst
-@@ -11,9 +11,9 @@ Section 7, Legacy Devices.
- 
- The Resource Access Control (RAC) module inside the X server [0] existed for
- the legacy VGA arbitration task (besides other bus management tasks) when more
--than one legacy device co-exists on the same machine. But the problem happens
-+than one legacy device co-exist on the same machine. But the problem happens
- when these devices are trying to be accessed by different userspace clients
--(e.g. two server in parallel). Their address assignments conflict. Moreover,
-+(e.g. two servers in parallel). Their address assignments conflict. Moreover,
- ideally, being a userspace application, it is not the role of the X server to
- control bus resources. Therefore an arbitration scheme outside of the X server
- is needed to control the sharing of these resources. This document introduces
-@@ -106,7 +106,7 @@ In-kernel interface
- libpciaccess
- ------------
- 
--To use the vga arbiter char device it was implemented an API inside the
-+To use the vga arbiter char device, an API was implemented inside the
- libpciaccess library. One field was added to struct pci_device (each device
- on the system)::
- 
--- 
-2.47.1
+> This adds a new driver for the Analog Devices INC. AD4030-24 ADC.
+> 
+> The driver implements basic support for the AD4030-24 1 channel
+> differential ADC with hardware gain and offset control.
+> 
+> Signed-off-by: Esteban Blanc <eblanc@baylibre.com>
+Hi Esteban,
 
+Just one thing in here that actually matters. Question about scaling of
+the common channel.  The others I could tidy up whilst applying if
+nothing much else comes up.
+
+Jonathan
+
+
+> diff --git a/drivers/iio/adc/ad4030.c b/drivers/iio/adc/ad4030.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..e06424b7f2590d28a57943949b070cd7e185fbb7
+> --- /dev/null
+
+> +#include <linux/bitfield.h>
+> +#include <linux/clk.h>
+> +#include <linux/iio/iio.h>
+> +#include <linux/iio/trigger_consumer.h>
+> +#include <linux/iio/triggered_buffer.h>
+> +#include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/spi/spi.h>
+> +#include <linux/unaligned.h>
+> +#include <linux/units.h>
+> +
+> +#define AD4030_REG_INTERFACE_CONFIG_A			0x00
+> +#define     AD4030_REG_INTERFACE_CONFIG_A_SW_RESET	(BIT(0) | BIT(7))
+> +#define AD4030_REG_INTERFACE_CONFIG_B			0x01
+> +#define AD4030_REG_DEVICE_CONFIG			0x02
+> +#define AD4030_REG_CHIP_TYPE				0x03
+> +#define AD4030_REG_PRODUCT_ID_L				0x04
+> +#define AD4030_REG_PRODUCT_ID_H				0x05
+> +#define AD4030_REG_CHIP_GRADE				0x06
+> +#define     AD4030_REG_CHIP_GRADE_AD4030_24_GRADE	0x10
+> +#define     AD4030_REG_CHIP_GRADE_MASK_CHIP_GRADE	GENMASK(7, 3)
+> +#define AD4030_REG_SCRATCH_PAD			0x0A
+> +#define AD4030_REG_SPI_REVISION			0x0B
+> +#define AD4030_REG_VENDOR_L			0x0C
+> +#define AD4030_REG_VENDOR_H			0x0D
+> +#define AD4030_REG_STREAM_MODE			0x0E
+> +#define AD4030_REG_INTERFACE_CONFIG_C		0x10
+> +#define AD4030_REG_INTERFACE_STATUS_A		0x11
+> +#define AD4030_REG_EXIT_CFG_MODE		0x14
+> +#define     AD4030_REG_EXIT_CFG_MODE_EXIT_MSK	BIT(0)
+> +#define AD4030_REG_AVG				0x15
+> +#define     AD4030_REG_AVG_MASK_AVG_SYNC	BIT(7)
+> +#define     AD4030_REG_AVG_MASK_AVG_VAL		GENMASK(4, 0)
+> +#define AD4030_REG_OFFSET_X0_0			0x16
+> +#define AD4030_REG_OFFSET_X0_1			0x17
+> +#define AD4030_REG_OFFSET_X0_2			0x18
+> +#define AD4030_REG_OFFSET_X1_0			0x19
+> +#define AD4030_REG_OFFSET_X1_1			0x1A
+> +#define AD4030_REG_OFFSET_X1_2			0x1B
+> +#define     AD4030_REG_OFFSET_BYTES_NB		3
+> +#define     AD4030_REG_OFFSET_CHAN(ch)		(AD4030_REG_OFFSET_X0_2 + \
+> +						(AD4030_REG_OFFSET_BYTES_NB * \
+> +						(ch)))
+Similar to below. I'd put the implementation on a new linle.
+
+> +#define AD4030_REG_GAIN_X0_LSB			0x1C
+> +#define AD4030_REG_GAIN_X0_MSB			0x1D
+> +#define AD4030_REG_GAIN_X1_LSB			0x1E
+> +#define AD4030_REG_GAIN_X1_MSB			0x1F
+> +#define     AD4030_REG_GAIN_MAX_GAIN		1999970
+> +#define     AD4030_REG_GAIN_BYTES_NB		2
+> +#define     AD4030_REG_GAIN_CHAN(ch)		(AD4030_REG_GAIN_X0_MSB + \
+> +						(AD4030_REG_GAIN_BYTES_NB * \
+> +						(ch)))
+#define     AD4030_REG_GAIN_CHAN(ch)		\
+	(AD4030_REG_GAIN_X0_MSB + (AD4030_REG_GAIN_BYTES_NB * (ch)))
+
+Is perhaps more readable?
+
+
+> +enum ad4030_out_mode {
+> +	AD4030_OUT_DATA_MD_DIFF,
+> +	AD4030_OUT_DATA_MD_16_DIFF_8_COM,
+> +	AD4030_OUT_DATA_MD_24_DIFF_8_COM,
+> +	AD4030_OUT_DATA_MD_30_AVERAGED_DIFF,
+> +	AD4030_OUT_DATA_MD_32_PATTERN
+
+Trivial but add a trailing comma.   It's not obviously a terminating
+entry so even though we know there won't be other values convention is
+to have the comma.
+
+> +};
+>
+> +
+> +static int ad4030_get_chan_scale(struct iio_dev *indio_dev,
+> +				 struct iio_chan_spec const *chan,
+> +				 int *val,
+> +				 int *val2)
+> +{
+> +	struct ad4030_state *st = iio_priv(indio_dev);
+> +
+> +	if (chan->differential) {
+> +		*val = (st->vref_uv * 2) / MILLI;
+> +		*val2 = st->chip->precision_bits;
+> +		return IIO_VAL_FRACTIONAL_LOG2;
+> +	}
+> +
+> +	*val = st->vref_uv / 256;
+
+This is a bit non obvious.
+A comment on this scaling might be good to have.
+Particularly the lack of / MILLI
+(I think that's a bug?)
+
+> +	return IIO_VAL_INT;
+> +}
+
+
+
+
+> +static int ad4030_buffer_preenable(struct iio_dev *indio_dev)
+> +{
+> +	struct ad4030_state *st = iio_priv(indio_dev);
+
+0-day noticed this is not used.
+
+> +	int ret;
+
+This doesn't do anything useful either.
+
+> +
+> +	ret = ad4030_set_mode(indio_dev, *indio_dev->active_scan_mask);
+> +	if (ret)
+> +		return ret;
+
+	return ad4030_set_mode();
+
+> +
+> +	return 0;
+> +}
+
+> +
+> +static int ad4030_regulators_get(struct ad4030_state *st)
+> +{
+> +	struct device *dev = &st->spi->dev;
+> +	static const char * const ids[] = { "vdd-5v", "vdd-1v8" };
+> +	int ret;
+> +
+> +	ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(ids), ids);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to enable regulators\n");
+> +
+> +	st->vio_uv = devm_regulator_get_enable_read_voltage(dev, "vio");
+> +	if (st->vio_uv < 0)
+> +		return dev_err_probe(dev, st->vio_uv,
+> +				     "Failed to enable and read vio voltage\n");
+> +
+> +	st->vref_uv = devm_regulator_get_enable_read_voltage(dev, "ref");
+> +	if (st->vref_uv < 0) {
+> +		if (st->vref_uv != -ENODEV)
+> +			return dev_err_probe(dev, st->vref_uv,
+> +					     "Failed to read ref voltage\n");
+> +
+> +		/* if not using optional REF, the internal REFIN must be used */
+> +		st->vref_uv = devm_regulator_get_enable_read_voltage(dev,
+> +								     "refin");
+
+If refin is internal. How are we reading it's voltage?
+
+Ah. It's not. It's just buffered.  Drop 'internal' above and this is fine.
+
+
+> +		if (st->vref_uv < 0)
+> +			return dev_err_probe(dev, st->vref_uv,
+> +					     "Failed to read refin voltage\n");
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int ad4030_reset(struct ad4030_state *st)
+> +{
+> +	struct device *dev = &st->spi->dev;
+> +	struct gpio_desc *reset;
+> +	int ret;
+> +
+> +	reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(reset))
+> +		return dev_err_probe(dev, PTR_ERR(reset),
+> +				     "Failed to get reset GPIO\n");
+> +
+> +	if (reset) {
+> +		ndelay(50);
+> +		gpiod_set_value_cansleep(reset, 0);
+Could make trivial change to
+		return 0;
+	}
+
+	return regmap_write()
+
+> +	} else {
+> +		ret = regmap_write(st->regmap, AD4030_REG_INTERFACE_CONFIG_A,
+> +				   AD4030_REG_INTERFACE_CONFIG_A_SW_RESET);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
