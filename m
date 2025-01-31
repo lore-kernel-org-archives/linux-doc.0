@@ -1,73 +1,72 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0FD28EC
-	for <linux-doc@vger.kernel.org>; Fri, 31 Jan 2025 09:16:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D96E170826
+	for <linux-doc@vger.kernel.org>; Fri, 31 Jan 2025 09:30:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738314962; cv=none; b=s0DniQnYbNUNHUB1sznWlytAthbN2d2P5WU8ZB/MAPDXPPAZ2gwzweS/1fmLeZ+01KUXVxdcC8vLAtFleNU8Hj67obtT9zgAJOsmpua2PgLyxwKHgURwBB4VxoDm2IMYdu4WfNdHDVbnzaHIC/U7OrMFFnlUZ2CULSUQL4T2RnU=
+	t=1738315816; cv=none; b=EOOeolTkUe+X44jV3z6K1AHsg/ETczMa1gp6cdgZI3XfQBmHPa0kLbqSCXu5FJ7s//PJdR87MzNHmPhZZe6sXo94P5KeKGCDRuE0RcckFU4xF0bfVPfB4hjm4TCkuembmANQCoq2kFVAeOSkbj+M4YRiht4nuOqXOgoGI1K4a9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738314962; c=relaxed/simple;
-	bh=glyT+QWYXKYahd+I79RsYZGkHUF4s+Cq3KEzK52hoco=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=C6AGXIdtuwvtiWquZARXaXKJM19DneDQQZSqwvJRfVZYKsPbnFvyx9KIdCWbkaoIe3u2oYZAoHcnxexWA7CNoxNuLjSqSDuDYfxvevJzvL9fbzffs7SIl62T4v4n6aasRzrJ5TSLGVZ8hAJBhVg0oaAgpqitIxXp4O0ylht8WfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UaS3rueD; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1738315816; c=relaxed/simple;
+	bh=UCJ/INg8+RHJAz7XOwagZpG6QZHJNkaCpVFFvpY7sZ4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LRf6ZRCufUyMETvRNE6Q5qzJbLr+W1PS0ynI0Dhe8m1NV0QXHU8naJP+UOibXBGeqzY8jtk25Mfy3zz8/zLFRTBegVxRns0JKxps+86dD4gcDPDwfRFXILRiEKpz0rX/v70DAPn3+JoY6YO0G5lknEbDZHC64JmpsEnuY84LDSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IXMndzm0; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UaS3rueD"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IXMndzm0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738314959;
+	s=mimecast20190719; t=1738315813;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=HzaOmWcSL+l/lizA+4IKEkVZYK5BRi2x1EBU9BNH+gQ=;
-	b=UaS3rueDbLNY7Vd3DTPE9lUM+vS+U6iw1sJEA0Tn+r/tB5KAUH/n6nuM4zixue/ir1xzG/
-	afoUZpFTx/ouApAUFine+00TMEp9agsGLxqS86QzKQW9MQDM4f0sepl4YpJxGHoyapaI88
-	OFKOLFuRSukbL48fphd2MrObze7p21k=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=6JX/RWwIhNXl3m6w98kdtL5L38gt1l8nq6fffLr0F0g=;
+	b=IXMndzm0stz3lph4j5NsphtstOp6VhI4UDD/RadLTWM1gGGo+PXoddzSHIjkQjrIuuOgwL
+	rJ15V+tN//I8JuJtgY6n0KNKG9k0kwgKSzsogVO/bDjPoYvQyKq3fDp/CSYSUEhWc9g3Tl
+	uAJn9NlHHn8b8qE5qI8RSJUR3hcnLSw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-308-851DGo6oPD-YwmQAka0tgw-1; Fri, 31 Jan 2025 04:15:57 -0500
-X-MC-Unique: 851DGo6oPD-YwmQAka0tgw-1
-X-Mimecast-MFC-AGG-ID: 851DGo6oPD-YwmQAka0tgw
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4361eb83f46so12989495e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 31 Jan 2025 01:15:57 -0800 (PST)
+ us-mta-103-CdmOP5IqNEWj7g2AquXdTw-1; Fri, 31 Jan 2025 04:30:11 -0500
+X-MC-Unique: CdmOP5IqNEWj7g2AquXdTw-1
+X-Mimecast-MFC-AGG-ID: CdmOP5IqNEWj7g2AquXdTw
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3862be3bfc9so1022417f8f.3
+        for <linux-doc@vger.kernel.org>; Fri, 31 Jan 2025 01:30:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738314956; x=1738919756;
+        d=1e100.net; s=20230601; t=1738315810; x=1738920610;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HzaOmWcSL+l/lizA+4IKEkVZYK5BRi2x1EBU9BNH+gQ=;
-        b=VgBrhrLEyZRmjKTRhYOQiDC+A++e9z3R1gw3IlZdeDD6x4BnJC7NiawjF6UaUp5qyj
-         OHPzKLJ7J057/jQ63ZyZPr/JCT05uqjzhfkikZepCLTGsAEdsxUe8sUpBKsktLUH8bEP
-         UKHQXCUR4MzPQf2XiioLExZYqF9RO/NzTOTo8hbRTxYUcXmuiBgknniCYB1gMg6yhV9H
-         djBUPp2O7E/Zphk+B+5ElFoPd/Ga42atAU46XaTimNAcaSFvNjA1vtaI8ND2ipm54zjf
-         hZXxiszGU+lZDNAhcPM0Ix7jKZx5yEU6LUGM5CpIO90rjcDmtR2YQrfGv/q+9Gt5kJpt
-         mzbg==
-X-Forwarded-Encrypted: i=1; AJvYcCXDp129M6XZEj1quUeBr/g3Z2e8LXJHRwZ0zueem3IyD5Kxi7VHD6eIU9Qhf4Nc3myjoU03RnnOpc0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZH0OQr27rFsPxyGBhv+ryG32DSPFrgLvS8kObKrn/Ssvj4KgA
-	9gBlPD+1SToYYVRFxqSPk975sDqJYal5RnT53Z/yhyeE3Qv/eXjWjiR32QHp2BLvZLQTOXKaCyK
-	VLvDrCGR5v24uZ2yeL4lZ4QyDXd8Xcdj/lkNCO6kXQ83yXEUGHt1T2uXtNnn9egSjJmp4JOY=
-X-Gm-Gg: ASbGncuyK+dlRJbVIE1f3bugM95zYCjIoC0srwzBXPY7O46QC1BknWnrcJM9feQ93vw
-	ZhLCCVS6aAvR8D4RH/PMy5yNbbQEbeUed664nKugkh/rrgmRyqhDgDkZShbKFtDhx5c81RP6RN9
-	WxTJ8rpXCLW7N1IOgfPgpzIkuoDAEvgz4v8EhX6ul9yzvLG2Tipy68wHCEUX75/HT/ZV85ST/aI
-	cAaOg1dzrslOkDxd39KIsMSO+JO9Y6VpTS/TUQsBYQ2tIsN0Tm4jtGn4f8jpqQXhEvwTboBRpGE
-	542YChjYaQa4OALxTIJ718P17F/ZjQfqPtAwwcCrl7pjZs9BlxGk5klCOimcBTshzcDlHKKad00
-	taa5Faj7aDtwKkNA9V0lXSluN8bbbHRB8
-X-Received: by 2002:a05:600c:3c9f:b0:434:a684:9b1 with SMTP id 5b1f17b1804b1-438dc3a90d4mr90257165e9.4.1738314956651;
-        Fri, 31 Jan 2025 01:15:56 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGScYGuxXjKtihBe+hdO9xjhNcFnSB8wvV9N01bOdfpX49RMhXyL6h1mpb+YeLUidK0rGazGw==
-X-Received: by 2002:a05:600c:3c9f:b0:434:a684:9b1 with SMTP id 5b1f17b1804b1-438dc3a90d4mr90256745e9.4.1738314956112;
-        Fri, 31 Jan 2025 01:15:56 -0800 (PST)
-Received: from ?IPV6:2003:cb:c70a:1c00:b8d4:bc62:e7ed:ec0e? (p200300cbc70a1c00b8d4bc62e7edec0e.dip0.t-ipconnect.de. [2003:cb:c70a:1c00:b8d4:bc62:e7ed:ec0e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c139bafsm4178523f8f.58.2025.01.31.01.15.53
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=6JX/RWwIhNXl3m6w98kdtL5L38gt1l8nq6fffLr0F0g=;
+        b=OHqEHiyxz0pbsOaTPY8fxHrz9vAMX4vYOGB/VWyCcewrDtibWc9bxlHjlv4lrWwW9c
+         mlEfqfAIAIs1/cVoHAcTSJBcNoxHXeUy8h+bOeSLjvt1Lfem3njGGZwHZEctscfXP46S
+         5zzcpbRPV7eAlCHv6jt4M24qe6Sb4Jo9Zah+L9spOOrc8WWI9hvCBbpw+lkp4TKKaYvk
+         ysDUqTQxZ6Uf7ALrU5xwt11ScdHeR57tYa/bb5G+po4kOGTJ/W6eqpHzdlZAa/6uXrHW
+         BememppfRuJ3zc4OetpOueKfGpULJS3yXNoEG4HYgHk//O24IsE+5sLDghiHdM6NWWvQ
+         eWzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWEaqQ1qzbR90yM90j7jWO0Op02xFB0mMvFacZwJlTtdU2plp9PGupDTUYXjkYqEUI96lsjIGLW5GA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKP4L0zNy8T5DsR6XdkS+ocTVNJoWRFKv2hQFrfC8lRqFO19Ep
+	4fiQvWI9FLhpdQCe31H1RKo2MyunWsaCCMasCqjkL+TqCXoisSTKR7HFL6M89d/9uH4RBCJ6qyi
+	UJipNxfpwxaNzEcwhyVO7djnSmssTXrMX/qGInhDfq25upXPF+ipKBpRq/w==
+X-Gm-Gg: ASbGncsVH5M8UOAgW/7wf0xyJuDiYghZqJ0OnvMQ4jbE39zdYvMscwLMBihJSa+IQgj
+	mzr5ZeQWuCvSgs9QlMoCjuocPI1fbYHH/AS3AmUy3nUolKgodczwGRgOObYzKqclNwY2wMoZM7l
+	R/T4ZP9gGDEvqOSw2fEPwvsVofpxnCGs/azyo/C1lNWWW2ymu9iILJm5Acz/5hn2uUXnSg/O6o+
+	WJMN0Zh71RZyIfMzlFrMiqcWWGve6xc/SNJvy+GJ9bmSOwLXWWPqLZuHzJ8UZO4XKgs5Gf3pnyo
+	PI4aRWuiN2AK3XRlzERDP7eV6fpOc3zK
+X-Received: by 2002:a5d:5f93:0:b0:386:3213:5b9b with SMTP id ffacd0b85a97d-38c51e8e12fmr9404970f8f.43.1738315810060;
+        Fri, 31 Jan 2025 01:30:10 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF/lPrwSVroidbMiKYfbD1/nXp46l+US2HSio5xTQO5OhxfVSCZ2fT04LU5R2PHsMKzzXSdnQ==
+X-Received: by 2002:a5d:5f93:0:b0:386:3213:5b9b with SMTP id ffacd0b85a97d-38c51e8e12fmr9404919f8f.43.1738315809686;
+        Fri, 31 Jan 2025 01:30:09 -0800 (PST)
+Received: from [192.168.3.141] (p5b0c6e05.dip0.t-ipconnect.de. [91.12.110.5])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438e23e5e53sm48600365e9.17.2025.01.31.01.29.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Jan 2025 01:15:54 -0800 (PST)
-Message-ID: <05c387f0-25b7-47f3-88a8-36f6b5b1a736@redhat.com>
-Date: Fri, 31 Jan 2025 10:15:52 +0100
+        Fri, 31 Jan 2025 01:29:58 -0800 (PST)
+Message-ID: <2985fbe9-8af8-44c9-bb9e-b3ab3131981a@redhat.com>
+Date: Fri, 31 Jan 2025 10:29:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,25 +74,26 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 4/4] mm/memory: document restore_exclusive_pte()
-To: Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, nouveau@lists.freedesktop.org,
- Andrew Morton <akpm@linux-foundation.org>, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?=
- <jglisse@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, "Liam R. Howlett"
- <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+Subject: Re: [PATCH v1 03/12] mm/rmap: convert make_device_exclusive_range()
+ to make_device_exclusive()
+To: Alistair Popple <apopple@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ nouveau@lists.freedesktop.org, Andrew Morton <akpm@linux-foundation.org>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Karol Herbst <kherbst@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
  Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
  Pasha Tatashin <pasha.tatashin@soleen.com>, Peter Xu <peterx@redhat.com>,
  Jason Gunthorpe <jgg@nvidia.com>
-References: <20250129115803.2084769-1-david@redhat.com>
- <20250129115803.2084769-5-david@redhat.com>
- <7vejbjs7btkof4iguvn3nqvozxqpnzbymxbumd7pant4zi4ac4@3ozuzfzsm5tp>
- <Z5tXzV0vcKJg_wuM@phenom.ffwll.local>
- <6moaipt4rmc62ijy2rtjbmzb5phgjpygxgqeic3bljydlwhxls@qqzuqbvs5gnh>
+References: <20250129115411.2077152-1-david@redhat.com>
+ <20250129115411.2077152-4-david@redhat.com>
+ <b3stuhf2s6236zawaa6zt6x3fg6oamrtj3pwajlyoxlaxdmdtf@arqxcoemsjfg>
+ <dibd7n5uhmpjvy2welm2lrxnrpxd3h2qkzgboca4xq634ib5dl@oojnkmmi7frl>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -141,41 +141,72 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <6moaipt4rmc62ijy2rtjbmzb5phgjpygxgqeic3bljydlwhxls@qqzuqbvs5gnh>
+In-Reply-To: <dibd7n5uhmpjvy2welm2lrxnrpxd3h2qkzgboca4xq634ib5dl@oojnkmmi7frl>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 31.01.25 01:20, Alistair Popple wrote:
-> On Thu, Jan 30, 2025 at 11:43:25AM +0100, Simona Vetter wrote:
->> On Thu, Jan 30, 2025 at 11:27:37AM +1100, Alistair Popple wrote:
->>> On Wed, Jan 29, 2025 at 12:58:02PM +0100, David Hildenbrand wrote:
->>>> Let's document how this function is to be used, and why the requirement
->>>> for the folio lock might maybe be dropped in the future.
->>>
->>> Sorry, only just catching up on your other thread. The folio lock was to ensure
->>> the GPU got a chance to make forward progress by mapping the page. Without it
->>> the CPU could immediately invalidate the entry before the GPU had a chance to
->>> retry the fault.
->>>
->>> Obviously performance wise having such thrashing is terrible, so should
->>> really be avoided by userspace, but the lock at least allowed such programs
->>> to complete.
->>
->> Imo this is not a legit use-case. If userspace concurrently (instead of
->> clearly alternating) uses the same 4k page for gpu atomics and on the cpu,
->> it just gets to keep the fallout.
->>
->> Plus there's no guarantee that we hold the folio_lock long enough for the
->> gpu to actually complete the atomic, so this isn't even really helping
->> with forward progress even if this somehow would be a legit usecase.
+On 31.01.25 01:28, Alistair Popple wrote:
+> On Thu, Jan 30, 2025 at 04:57:39PM +1100, Alistair Popple wrote:
+>> On Wed, Jan 29, 2025 at 12:54:01PM +0100, David Hildenbrand wrote:
 > 
-> Yes, agree it's not a legit real world use case. In practice though it was
-> useful for testing this and other driver code by thrashing to generate a lot
-> device/cpu faults and invalidations. Obviously "just for testing" is not a great
-> justification though, so if it's causing problems we could get rid of it.
+> [...]
+> 
+>>> -int make_device_exclusive_range(struct mm_struct *mm, unsigned long start,
+>>> -				unsigned long end, struct page **pages,
+>>> -				void *owner)
+>>> +struct page *make_device_exclusive(struct mm_struct *mm, unsigned long addr,
+>>> +		void *owner, struct folio **foliop)
+>>>   {
+>>> -	long npages = (end - start) >> PAGE_SHIFT;
+>>> -	long i;
+>>> +	struct folio *folio;
+>>> +	struct page *page;
+>>> +	long npages;
+>>> +
+>>> +	mmap_assert_locked(mm);
+>>>   
+>>> -	npages = get_user_pages_remote(mm, start, npages,
+>>> +	/*
+>>> +	 * Fault in the page writable and try to lock it; note that if the
+>>> +	 * address would already be marked for exclusive use by the device,
+>>> +	 * the GUP call would undo that first by triggering a fault.
+>>> +	 */
+>>> +	npages = get_user_pages_remote(mm, addr, 1,
+>>>   				       FOLL_GET | FOLL_WRITE | FOLL_SPLIT_PMD,
+>>> -				       pages, NULL);
+>>> -	if (npages < 0)
+>>> -		return npages;
+>>> -
+>>> -	for (i = 0; i < npages; i++, start += PAGE_SIZE) {
+>>> -		struct folio *folio = page_folio(pages[i]);
+>>> -		if (PageTail(pages[i]) || !folio_trylock(folio)) {
+>>> -			folio_put(folio);
+>>> -			pages[i] = NULL;
+>>> -			continue;
+>>> -		}
+>>> +				       &page, NULL);
+>>> +	if (npages != 1)
+>>> +		return ERR_PTR(npages);
+>>> +	folio = page_folio(page);
+>>>   
+>>> -		if (!folio_make_device_exclusive(folio, mm, start, owner)) {
+>>> -			folio_unlock(folio);
+>>> -			folio_put(folio);
+>>> -			pages[i] = NULL;
+>>> -		}
+>>> +	if (!folio_test_anon(folio) || folio_test_hugetlb(folio)) {
+>>> +		folio_put(folio);
+>>> +		return ERR_PTR(-EOPNOTSUPP);
+>>> +	}
+>>> +
+>>> +	if (!folio_trylock(folio)) {
+> 
+> Actually I think we can make this folio_lock(folio) now. The only reason for
+> the trylock was to avoid deadlock between other threads looping over a range
+> of folios while holding folio locks which is something the migration code also
+> does.
 
-Okay, I'll make that clear in the documentation. Getting rid of the 
-folio lock might be really beneficial in some cases.
+Okay, let me do that in a separate patch. Thanks!
 
 -- 
 Cheers,
