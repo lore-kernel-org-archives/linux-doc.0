@@ -1,65 +1,65 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47AE81E883E
-	for <linux-doc@vger.kernel.org>; Fri, 31 Jan 2025 17:06:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C2171EE03C
+	for <linux-doc@vger.kernel.org>; Fri, 31 Jan 2025 17:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738343165; cv=none; b=oE04Ac3gMkFCpSVtP1B0KYgRhFVKTN/OzxQ1XWlsIoxTye1OiSnj6jeSvsrcoOloJYRKyBgvuAO4QcnXAqTA5EwCKv4va4qDpXUKSFA338NbXYtqFwbDPJZpevzDS5mTbIPnrV7TMg9bV99WLtirGnzMmsGpou5z46de8L3llLY=
+	t=1738343606; cv=none; b=OC+Egu4MaY0TLxTgybO5FVCkEhgHE/de4DbaLw8YJkj3bFpXNN70K5fYbOUTGPCs5qGSeHPloufcnW/ool6+na3+OpzR+fKI33iwDJI/JN9Nsjc5puLEUvXvn9OfhYYlSuO+zw4Sau0QRSIwGVspx/Lw/jnqKpZTlb5JbTnS/Jw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738343165; c=relaxed/simple;
-	bh=eVYz0IAaPzlS9RjP5Ytk3MNZyadk1DKbSwYK1N+sVWI=;
+	s=arc-20240116; t=1738343606; c=relaxed/simple;
+	bh=kLf0abSimPPPXgJaRipCAWd4pqKQQetiB6om3ldBx2o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hn13RQiZRWUgMPRWDXwMw+PebuFzcuuU9AQO8vNWqA9YRDj8IRgxtTz+GFfD7YVuHboZtEE7JKBeN/rnmC/lAoMxcr/Bo8dFfY1sE5+qvN3IOVB8P5mDIQr72oOSG1PQdTaybXXPHR6uNkpxctCECzir0f1DaZJdlMnOU0k/QUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=XKmSuL+q; arc=none smtp.client-ip=209.85.128.47
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mq++orlipBn/Q4GRHD75sGvL77Opk9xOpHUFrGk5B4LGbbBS/WLK+EO1tfWFUjP68ik4Wh1h0H+51pVxcIDx77myPeyzmkNOOtqumfPTTgJfkH/fnr2pwtHF9biW1NWp1P1z7yjjQRYu5JW+TijEad0Rc9f6iO2ECWcTj6QtFhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=bmXEB8xh; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="XKmSuL+q"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4361b6f9faeso14321495e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 31 Jan 2025 09:06:02 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="bmXEB8xh"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-38a8b35e168so1425887f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 31 Jan 2025 09:13:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1738343161; x=1738947961; darn=vger.kernel.org;
+        d=ffwll.ch; s=google; t=1738343602; x=1738948402; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references
          :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=G+G4waO4iWi5ppsP27MVzR5EHmBlY2mxPNF1CuedbFM=;
-        b=XKmSuL+qms2JniBDZOBCpTcsUQ28XCqYHNEGDSOb1dwm40H4slaWxiRyys+mD4N2oT
-         Olh/CVhy8RbSOVK/YTIt+ZzWaC9ZnDZTZVBkGr2bl/k38Rn9NSl01KYcQJTugnmWmodz
-         NQ2jPoKa/APZ/UzFdgsWdtGEGu293+rXHsrbo=
+        bh=6jSWMajugHE39GppqlmQIz8pPmyPm52DOpdfP99qKyo=;
+        b=bmXEB8xhI1VNWVtXPETt3vboqjARzTXcVVq1WAaOG1HHT7p5XcPUhKD8fkD1rw0VF7
+         MIFiU+F1WE2tzCghaLC2CL+/OV8LfG/WJob/NOFaOqlQy7KmhuVs3vs/DRqTJPv/HEGb
+         E3Zf4+68B3AJ0WwsCQQOfl2dG3Zy5n1NtqwpA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738343161; x=1738947961;
+        d=1e100.net; s=20230601; t=1738343602; x=1738948402;
         h=in-reply-to:content-disposition:mime-version:references
          :mail-followup-to:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G+G4waO4iWi5ppsP27MVzR5EHmBlY2mxPNF1CuedbFM=;
-        b=Wn3zWsBP3RKSCVsozAetG4GyWBX/IDnrzYFJ/j5OkOovTAqONFX/o6JQ5FyBZg3pID
-         Qbt9erPZxqVsuKDyk9fX2AMFw2cU87+SpTmMg+42QoxxOotF2KX8UZCSZmgsk8Reyd8k
-         NSWSEtQ8Afd8ED0GcJBpw+gKv4dW+NPEGm40Q/IjD408LnLqQ/3N+DIwq908WoGFO67k
-         w5uKi+RaXBlqqWuCFZ+KPPoK1Xxtvpn6E/EpTROntq5zgnPwPNz+H727O4VTtfttNVPU
-         XeRcRwRzWI0one0z52QfjYqnBz3cQcmKvmJgE7V2meVEWjrpmwAXBP2qsvkDZRrGvESF
-         LCFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUJmRuwntFOGerW32y7fDxDkl8oKtRWZk+Pqp3YfHWgBlvRsqEdQp+PhfwSPHp3B9y+r6Bt2N0iad8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxY4rfdbVnaZzD5vVrTu8L+bwiWBXC0NEt1ZulxDbPEFKqDT7Bt
-	VaP7F4XOLakJTYi8J6/DiZlCKJOqplRFtXsdR5I6++iZEEesOdsOOyVyhbrhLmo=
-X-Gm-Gg: ASbGnctRoSCk7AVGnQufI6Bhttth4LPGDjX3j5y85xWI2q5/cGBsdSTRrpSPzx2ehmf
-	OqyyAaW4zuJA9Sv5Be3mUo+aPo9eyG75hFKg8vxWNmAoXCfOmmIn1PxU8dR0sZ7ofEDxLNFHz7J
-	yK5a5zhCQizFoXQxBRxkGgjBP+rMeU6aV+Mx+QZqQf88lWkSyCq+oZVt+Ug5B9ljdAkbIebz27y
-	G+9EA4Vz08MNvgTEKfzYyR1dMLsGhgFT4rrO3Y3ejlRU+LhJi96KPhizLL3Y43QvkGLuYzh73JC
-	LA/AK3tr7QB885wYFSr6bmmpuww=
-X-Google-Smtp-Source: AGHT+IHqJ7SXWObwA7TE2hNt8h99Mz+Rh4lA4VBEyCv4JI/V7wPQqHQuFCcfla/1mLYWhuuiSze4/A==
-X-Received: by 2002:a05:600c:83c6:b0:434:f2af:6e74 with SMTP id 5b1f17b1804b1-438e170e7b5mr73728995e9.15.1738343161267;
-        Fri, 31 Jan 2025 09:06:01 -0800 (PST)
+        bh=6jSWMajugHE39GppqlmQIz8pPmyPm52DOpdfP99qKyo=;
+        b=ZIDMWiMXK9AwUVVNOFEPh2H+49xff2/CgeFfsQmzf1TRTaZrGkZwI5hzkYe2fMh6W/
+         iRorFI7u/5AJUC6WGYAunwX54b9A0RQiupWZoywa/IKu9biMiprkU7nEG4NHvU1o4DkW
+         CUoqAnzuwaxkws7atolgaqrimQHVP0o0WkYVnvhrfZV/ukPcfjP0PLrTvV9YohJL5/HH
+         +rA/zf9tp4zW6kB+BGjRR19QweFJsu8NLAspsJSsiwLvyXKDa5KEFotQU1broDCrhv6B
+         uZXQNCStFbXzMw67ctwtf/HU/2RlurwiukoN46WAb3ng4S8AnvB+8yRbihRKktlS4ZGf
+         qpXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXtgUxYDQoHTjSgin51Bngf5etUmlz6lOVoAdjCUbmqndOIsdqgIFBiZuL1VY/aT2dd5xHlX5RuaZs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjdEm8kDsizZMv6V6/af1W3Xj9eq6O9tHY650DPzTMv4O6RCXf
+	sKX7wdPC1atUkKdavGaBfKy6Rtu/U9j2IsssB2BniesEQXYxfDKJ87hyK/+iA5o=
+X-Gm-Gg: ASbGncumsuesaPAT/+SFCDQ+BmZfNfZQu6NT7ZoxXhZddzIKymhdaNaNXknDd3Jx0Bp
+	XxKQJxl6rN1CUyiwtVMqqJ2u0Eykc2SDEd1eqJaqIy+Sg1JOuPyGk4Opgz8iGGglrkxqoz1XDB9
+	HbpIRAxvc3xwLnlYwt03qq2vJ4mqkRZA6kwpRS1YcvdYdDmeQstPFeqpQzYhWJkcikcf8S4Sk8x
+	ot9yR7ipr86A1s9OcSUCO6pQtAJe1LJO+DIm/SKXkPULEbya0hoJQmr+QiRDJIlAt3VPvcb+Kec
+	aOHj4q3mpcytPbKhq4lHUXZ7GYg=
+X-Google-Smtp-Source: AGHT+IGBiDEPfJPSLRmnOOkpJfCiAcSXF7PRNDxRISEjglfPUZ3JlbXVG6tP7dp5Gn/UOWRu2XqpDg==
+X-Received: by 2002:a05:6000:1563:b0:38a:5d7d:4bd6 with SMTP id ffacd0b85a97d-38c5a9bee80mr7346375f8f.25.1738343602545;
+        Fri, 31 Jan 2025 09:13:22 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438e23e5e53sm60120095e9.17.2025.01.31.09.05.59
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c1b57ccsm5178729f8f.79.2025.01.31.09.13.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jan 2025 09:06:00 -0800 (PST)
-Date: Fri, 31 Jan 2025 18:05:58 +0100
+        Fri, 31 Jan 2025 09:13:22 -0800 (PST)
+Date: Fri, 31 Jan 2025 18:13:19 +0100
 From: Simona Vetter <simona.vetter@ffwll.ch>
 To: David Hildenbrand <david@redhat.com>
-Cc: Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-mm@kvack.org, nouveau@lists.freedesktop.org,
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+	nouveau@lists.freedesktop.org,
 	Andrew Morton <akpm@linux-foundation.org>,
 	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
@@ -71,14 +71,15 @@ Cc: Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org,
 	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
 	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
 	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Peter Xu <peterx@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v1 05/12] mm/memory: detect writability in
- restore_exclusive_pte() through can_change_pte_writable()
-Message-ID: <Z50C9tyZC_wQS6Ux@phenom.ffwll.local>
+	Peter Xu <peterx@redhat.com>, Alistair Popple <apopple@nvidia.com>,
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [PATCH v1 12/12] mm/rmap: keep mapcount untouched for
+ device-exclusive entries
+Message-ID: <Z50Er1Oy7VPLVY9U@phenom.ffwll.local>
 Mail-Followup-To: David Hildenbrand <david@redhat.com>,
-	Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-mm@kvack.org, nouveau@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+	nouveau@lists.freedesktop.org,
 	Andrew Morton <akpm@linux-foundation.org>,
 	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
@@ -90,14 +91,14 @@ Mail-Followup-To: David Hildenbrand <david@redhat.com>,
 	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
 	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
 	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Peter Xu <peterx@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>
+	Peter Xu <peterx@redhat.com>, Alistair Popple <apopple@nvidia.com>,
+	Jason Gunthorpe <jgg@nvidia.com>
 References: <20250129115411.2077152-1-david@redhat.com>
- <20250129115411.2077152-6-david@redhat.com>
- <Z5tLmYOQaZrdWQHN@phenom.ffwll.local>
- <2670f65f-e973-483e-aed6-526d00125ad7@redhat.com>
- <Z5t4rrkRiOsRY2jH@phenom.ffwll.local>
- <z7s7xb2ftv5hqg3uzjqkou6enguleazwwehxbi5zulbkar2aej@zlbdh2kdewdn>
- <d552cc03-b7af-44be-bcaf-13da720a2226@redhat.com>
+ <20250129115411.2077152-13-david@redhat.com>
+ <Z5tWYpwpUfgEmeKj@phenom.ffwll.local>
+ <887df26d-b8bb-48df-af2f-21b220ef22e6@redhat.com>
+ <Z5t8dkujVv7xZiuV@phenom.ffwll.local>
+ <d70db67d-8989-4ce4-bc21-52a89449db4b@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -106,85 +107,117 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d552cc03-b7af-44be-bcaf-13da720a2226@redhat.com>
+In-Reply-To: <d70db67d-8989-4ce4-bc21-52a89449db4b@redhat.com>
 X-Operating-System: Linux phenom 6.12.11-amd64 
 
-On Fri, Jan 31, 2025 at 11:55:55AM +0100, David Hildenbrand wrote:
-> On 31.01.25 00:06, Alistair Popple wrote:
-> > On Thu, Jan 30, 2025 at 02:03:42PM +0100, Simona Vetter wrote:
-> > > On Thu, Jan 30, 2025 at 10:58:51AM +0100, David Hildenbrand wrote:
-> > > > On 30.01.25 10:51, Simona Vetter wrote:
-> > > > > On Wed, Jan 29, 2025 at 12:54:03PM +0100, David Hildenbrand wrote:
-> > > > > > Let's do it just like mprotect write-upgrade or during NUMA-hinting
-> > > > > > faults on PROT_NONE PTEs: detect if the PTE can be writable by using
-> > > > > > can_change_pte_writable().
-> > > > > > 
-> > > > > > Set the PTE only dirty if the folio is dirty: we might not
-> > > > > > necessarily have a write access, and setting the PTE writable doesn't
-> > > > > > require setting the PTE dirty.
-> > > > > 
-> > > > > Not sure whether there's much difference in practice, since a device
-> > > > > exclusive access means a write, so the folio better be dirty (unless we
-> > > > > aborted halfway through). But then I couldn't find the code in nouveau to
-> > > > > do that, so now I'm confused.
-> > > > 
-> > > > That confused me as well. Requiring the PTE to be writable does not imply
-> > > > that it is dirty.
-> > > > 
-> > > > So something must either set the PTE or the folio dirty.
+On Thu, Jan 30, 2025 at 04:43:08PM +0100, David Hildenbrand wrote:
+> > > Assume you have a THP (or any mTHP today). You can easily trigger the
+> > > scenario that folio_mapcount() != 0 with active device-exclusive entries,
+> > > and you start doing rmap walks and stumble over these device-exclusive
+> > > entries and *not* handle them properly. Note that more and more systems are
+> > > configured to just give you THP unless you explicitly opted-out using
+> > > MADV_NOHUGEPAGE early.
 > > > 
-> > > Yeah I'm not finding that something.
+> > > Note that b756a3b5e7ea added that hunk that still walks these
+> > > device-exclusive entries in rmap code, but didn't actually update the rmap
+> > > walkers:
 > > > 
-> > > > ( In practice, most anonymous folios are dirty most of the time ... )
+> > > @@ -102,7 +104,8 @@ static bool check_pte(struct page_vma_mapped_walk *pvmw)
 > > > 
-> > > And yup that's why I think it hasn't blown up yet.
+> > >                  /* Handle un-addressable ZONE_DEVICE memory */
+> > >                  entry = pte_to_swp_entry(*pvmw->pte);
+> > > -               if (!is_device_private_entry(entry))
+> > > +               if (!is_device_private_entry(entry) &&
+> > > +                   !is_device_exclusive_entry(entry))
+> > >                          return false;
 > > > 
-> > > > If we assume that "device-exclusive entries" are always dirty, then it
-> > > > doesn't make sense to set the folio dirty when creating device-exclusive
-> > > > entries. We'd always have to set the PTE dirty when restoring the exclusive
-> > > > pte.
+> > >                  pfn = swp_offset(entry);
 > > > 
-> > > I do agree with your change, I think it's correct to put this
-> > > responsibility onto drivers. It's just that nouveau seems to not be
-> > > entirely correct.
+> > > That was the right thing to do, because they resemble PROT_NONE entries and
+> > > not migration entries or anything else that doesn't hold a folio reference).
 > > 
-> > Yeah, agree it should be a driver responsibility but also can't see how nouveau
-> > is correct there either. I might see if I can get it to blow up...
+> > Yeah I got that part. What I meant is that doubling down on this needs a
+> > full audit and cannot rely on "we already have device private entries
+> > going through these paths for much longer", which was the impression I
+> > got. I guess it worked, thanks for doing that below :-)
 > 
-> (in context of the rmap walkers) The question is, how do we consider
-> device-exclusive entries:
+> I know I know, I shouldn't have touched it ... :)
 > 
-> (1) dirty? Not from a CPU perspective.
-> (2) referenced? Not from a CPU perspective.
-> 
-> If the answer is always "no" to all questions, then memory notifiers must
-> handle it, because we'd be answering the question from the CPU point of
-> view.
-> 
-> If the answer is always "yes", there is a problem: we can only make it
-> clean/young by converting it to an ordinary PTE first (requiring MMU
-> notifiers etc.), which makes it quite nasty.
-> 
-> Mixed answers are not possible, because we don't know just from staring at
-> the entry.
+> So yeah, I'll spend some extra work on sorting out the other cases.
 
-I think it's the gpu's (or whatever is using it) responsibility to update
-folio state while it has ptes pointing at memory. Whether that's
-device-exclusive system memory or device-private migrated memory. Anything
-else doesn't make sense to me conceptually.
+Thanks :-)
 
-And I don't think we can just blindly assume even for device-exclusive
-mappings that they will be dirty when we convert them back to a real pte,
-because we might have raced trying to set up the gpu mapping and restarted
-before we even put the pte into place. Or maybe someone was real quick at
-writing it back after the gpu already dropped it's pte.
+> > And at least from my very rough understanding of mm, at least around all
+> > this gpu stuff, tracking device exclusive mappings like real cpu mappings
+> > makes sense, they do indeed act like PROT_NONE with some magic to restore
+> > access on fault.
+> > 
+> > I do wonder a bit though what else is all not properly tracked because
+> > they should be like prot_none except arent. I guess we'll find those as we
+> > hit them :-/
+> 
+> Likely a lot of stuff. But more in a "entry gets ignored -- functionality
+> not implemented, move along" way, because all page table walkers have to
+> care about !pte_present() already; it's just RMAP code that so far never
+> required it.
 
-I guess maybe some clear documentation in all these functions
-(make_device_exclusive, hmm_range_fault, migration helpers) that it's the
-drivers job to dirty pages correctly would help?
+I think it'd be good to include a tersion summary of this in the commit
+messages - I'd expect this is code other gpu folks will need to crawl
+through in the future again, and I had no idea where I should even start
+looking to figure this out.
 
-But nouveau definitely does not look very correct here, pretty sure on
-that.
+> 
+> [...]
+> 
+> > 
+> > > If thp constantly reassembles a pmd entry because hey all the
+> > > > memory is contig and userspace allocated a chunk of memory to place
+> > > > atomics that alternate between cpu and gpu nicely separated by 4k pages,
+> > > > then we'll thrash around invalidating ptes to no end. So might be more
+> > > > fallout here.
+> > > 
+> > > khugepaged will back off once it sees an exclusive entry, so collapsing
+> > > could only happen once everything is non-exclusive. See
+> > > __collapse_huge_page_isolate() as an example.
+> > 
+> > Ah ok. I think might be good to add that to the commit message, so that
+> > people who don't understand mm deeply (like me) aren't worried when they
+> > stumble over this change in the future again when digging around.
+> 
+> Will do, thanks for raising that concern!
+> 
+> > 
+> > > It's really only page_vma_mapped_walk() callers that are affected by this
+> > > change, not any other page table walkers.
+> > 
+> > I guess my mm understanding is just not up to that, but I couldn't figure
+> > out why just looking at page_vma_mapped_walk() only is good enough?
+> 
+> See above: these never had to handle !page_present() before -- in contrast
+> to the other page table walkers.
+>
+> So nothing bad happens when these page table walkers traverse these PTEs,
+> it's just that the functionality will usually be implemented.
+> 
+> Take MADV_PAGEOUT as an example: madvise_cold_or_pageout_pte_range() will
+> simply skip "!pte_present()", because it wouldn't know what to do in that
+> case.
+> 
+> Of course, there could be page table walkers that check all cases and bail
+> out if they find something unexpected: do_swap_page() cannot make forward
+> progress and will inject a VM_FAULT_SIGBUS if it doesn't recognize the
+> entry. But these are rather rare.
+
+Yeah this all makes sense to me now. Thanks a lot for your explanation,
+I'll try to pay it back by trying to review the next version of the series
+a bit.
+
+> We could enlighten selected page table walkers to handle device-exclusive
+> where it really makes sense later.
+
+I think rmap for eviction/migration is really the big one that obviously
+should be fixed. All the other cases I could think of I think just end up
+in handle_mm_fault() to sort out the situation and then retry.
 
 Cheers, Sima
 -- 
