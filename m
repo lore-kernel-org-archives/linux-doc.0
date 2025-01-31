@@ -1,183 +1,258 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CABD31F03EA
-	for <linux-doc@vger.kernel.org>; Fri, 31 Jan 2025 17:20:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23DF81CD215;
+	Fri, 31 Jan 2025 17:39:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738344018; cv=none; b=jRNqkg5ywLTTDvjF+Qvkb1YcDsXFd5bYxwJ+ny9gH+s4EXXinfExYO8yH3LmlQpGhyoZPfW4vUFNGAkIh9ZKbtcL9tYjGbldS43G8eepVDrfyFAM2kzrzgXID26M3pvRNQVT3BZqGvyVmewYBa0gbpkd61SlefrqybCv6dFr7iY=
+	t=1738345191; cv=none; b=WgeR/dHvTdnKOF3Fzt3j+BMjmp3jNeYKNbxiyxodCcy8JPFTCghpTFP9X0ZMqmklFjQXLP+lDIgHPu6c1s07uU+0xcm0vd4HOeKvp6qvqTnwtiyaiXfOezOnK3X907LgzQVfl6Bjm9HQBXm8ug4bTl/Z0oQqThLtKEdPwQDqIwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738344018; c=relaxed/simple;
-	bh=8sjfkqn3wc5i2JMW/Mdq0y6A+BEzr6rAOYGigl6nFLA=;
+	s=arc-20240116; t=1738345191; c=relaxed/simple;
+	bh=jI6xBAqkENymhzCkLRyN0q3fCK0KMKrm0ferMkUc3MY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fYLJhcr/LigRWYk+8vgQGVAhzgmELv04wkEDzlPCvIrGuzlz1Ff9UNEMOPTTrrNNvPOwcVzL6Wp58XjWHuEDXkzZFVzFltBiw528huzPmdNDeqUVCHgu1MrZBCchHGd8Y3uRM+4tycxXzWEZtgxFUZqk8YR3YTT4RfQflBK7F1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=X/gpcWvZ; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=tcmE3mQ1dHUWyRfuy5aqri2+3AcOuPc8llPGRh1T8Ik91YUriP7tXaDikrzgRyry3oIstvgJFRYhAqX5fIDgTEBjmFQwY4rfYF8m9SrRIoEtzMhNBZWjhenvisz2xYF7z48ROOQPnxCf8FWhMDRzqkak2E3Bs8CLJ8+6g33x76E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AYSUM1aw; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="X/gpcWvZ"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3862a921123so1610806f8f.3
-        for <linux-doc@vger.kernel.org>; Fri, 31 Jan 2025 09:20:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AYSUM1aw"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2ee86a1a92dso3164925a91.1;
+        Fri, 31 Jan 2025 09:39:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1738344014; x=1738948814; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Xczt2wiwP9aoq6grPvh88tM/HM9YU6nKxYw7mbHJ51k=;
-        b=X/gpcWvZPKCya4RF1tQO2RNtCs9MnUayWkzDSJR4i1Ka6LYn0Bc5VRVJKfvjNYDY5t
-         QIiqvzpcWJVcu97uutdmCvikf8P1kbH/wUFo5E9mFFh3ijyLaNrliBZoCBF8ydDhl1Oi
-         hlOJxmUYI5yT1pLxXi8W85dVs852vkhwvjyCQ=
+        d=gmail.com; s=20230601; t=1738345189; x=1738949989; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=EP6vtvl2ztwAQQMiEI1+F32Ml1gmY2uzSrH4+0NeMuI=;
+        b=AYSUM1awf7c5HhWoQDDho+fOS+hzuT38EW6B3JeB/2h1BPaA9UPkRVScKj8WxZ3P/r
+         VEj1r5HVfdLaEUwe2cQrt5FFNJ7+WKb840e/dAcPbgss4Rlebfz26LAqYWUHf6a1yOjs
+         +GtCzu3CHn8P0yGLagcbYjDuWGBl1aIofOjeqGg6O9FaD9TjvaIZIaOhaWFJVihhBa7h
+         jubb5Sq2LfUN982BdwAmmbriXjgCYaTuZ8+ota77PQdE9eOW/KQVnqwKhnGRClgjK7PP
+         yz3FV664hYJNsz/XCa6WJvWTkvuwjc1RHNgjv7IeYRTDu0NnNPjzmfS9kq5Uz5NrIOcb
+         5uFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738344014; x=1738948814;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20230601; t=1738345189; x=1738949989;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xczt2wiwP9aoq6grPvh88tM/HM9YU6nKxYw7mbHJ51k=;
-        b=Ne0pPjYgpI+RekfgkJ3IZE7FQ+/2R/KYKWgfq8CaA3L3S6MHEBbLPzPP3kSmXYM5OO
-         s4eauOzEWV8o9v863L5ufvRnqTeA1WAykq8pP/MAkn125F6bB5ypXJ37FJ9JgAERQApC
-         T/uEdDEYmvmLTs5EX6umysMGlMKDpxO9LLjhWTN1nhPx3i4VTMiZgJH/GhQdLp7uPeqf
-         95Zz7+xmysllmZzHXWvsW7waTn1CWd1Y297pcv8eVLeZSoM3Igo1/uxCOXmIC43/9T6d
-         h//j4xJedTpBhsReIh4tJ3Rvlrof0I9Tb4lSDf2tgxtKB0lPlGUTTMCX7KKxdJjNSgm/
-         9c8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUp1CnCrF/WI0+fL+xZ2gB5bIZZIaJGk4ymdmnvmoaqwyDIXZDCe7jO+cXuTklqZTLv+YxNJB38TRQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWAOdginTOj4MgJgInOjQOWbDCO4n/lYS2G7CeeXMvPorn1hdk
-	o0t+3eW8nQ6s1XferTvl87tp3RwPOxOdbbtaT5ZdGOSEo+n4zRq0G0ekfqdUfvE=
-X-Gm-Gg: ASbGncv8wR5DNH/ljvveV+m5QR+/8V7w38slacNnJnzoa+8/5PcsX+XD0lrhom3+sKi
-	gxvxeC2enMyDUDBr7ybK5XwEyQhGavEMXCLBBh7+3DqwSwnsnp4xCxRNAQD8jzZzS9A3sb7Rw1a
-	4r2L6XMZhczyj0t8vKmISPoO4zYkCQ850AdEmbsAfNx7KA+UCuH9iVf7gUJOcBPWTW2CUgKd9Yt
-	p2GFgS/L9Pj8jFmiEE6dfNsU3a1dPoIVTHZ2UAfjRsw7B7dkGuV4JnmdFwGp+dABY6zVgIf/KC1
-	y8pimfesw2KL53R7MbBjyxKp6w8=
-X-Google-Smtp-Source: AGHT+IEBqHvHKIqdGp0t4Qh+w+AOU1lOYA0A7nG1BCLDh39RGEo9xrVIZ8SI5EuvHfApoC/uo/mR7w==
-X-Received: by 2002:a05:6000:bd0:b0:385:f64e:f163 with SMTP id ffacd0b85a97d-38c51967e87mr7449467f8f.32.1738344013909;
-        Fri, 31 Jan 2025 09:20:13 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c122707sm5254768f8f.50.2025.01.31.09.20.12
+        bh=EP6vtvl2ztwAQQMiEI1+F32Ml1gmY2uzSrH4+0NeMuI=;
+        b=kWMdDL5rXeUu1tiozH10HNFXZvH6JYbUBp/PCQqM/ZV1GAWJTHchlMmgIWcwfFzjKb
+         asB7Ts75yRDunRSAv7BtGO2mOwJEu4WqaRz9n9aXyOnkJXbYRvptEXbAb4r5fsKycSzu
+         In6XU95DZHie6ZOfD4sKC1Tm5Y9GMXL+fPBWN9plux98pGusrQxppASVtwWW3DBjQq2k
+         9gmJc3vsqnlSYa7iBquoMvtX5XvVwpz0Q8dGMJVcNWX1tyk3ptTskAcP2x+HuuMRfdHK
+         1zRMLBv6szfbELMhu5XM0krm9InCI3E0Ar3mGWuydTZsUZhkM7XdCotapfdyU6ZjwvJQ
+         8aQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVEZFlkA+rZELqw1At442awNgQHAMoke2sZbJJIJaBAqmZxJoVzjk+DvZ/d1RjsQcMqG+ryTb5CppKAVMdUhbtj@vger.kernel.org, AJvYcCWDBRIsbhopB3KyiXcHXWR8eQMcCtZuXVfVRQay5qY2ItWbslHUaM80YdCujEqjrw+q3pA=@vger.kernel.org, AJvYcCXFw+NGWJIAIpOkldhsj4rxACJRaIfvZmvBMVSUUpUbR/+9y7YA88t0L0iY5vFM3HwrXPpqtIa6v4iX@vger.kernel.org, AJvYcCXGqZSVa1v1PhUUBym/4yrja6GgW4NtCF2Ieb1TmZgMNh87z//j9YiPIsJBGR0efFFtD7vekAO99dQiXnXL@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWE7XFfFORthFInU+uN/ExPbXcorCxjc9AF3DEI8+ndXGOZh/H
+	AfwcsmmXFNvY2x01xlqONPYBcXaUrNR1UDzRvN8HR/Lh3Yl+ers=
+X-Gm-Gg: ASbGncv8SLxSjho4TBfGj6EKgs35RvrjwB+H7hATV41g6OFx7q3z9aAYAVELT7Rb2Gf
+	P8XNYOvBUrvkupkwRtwejCeus5SJW7LbXbzidyag8AngZqlSsn5YNc3SkXNmvXaHY/nlAd5WTkp
+	XUiemnelsdgM5eqnKrR+78ysw9xZo1Yh9ZBmWCjXMSIKZGOZkwkKL+Uak8MbN+m8hD4+qSOnDak
+	v9HkyvaQeTOcb2q9hMipudctSqHJusxUNGum4HAEiduWb7c8jHdp0zQlB95J+kSBiXQaa76IcOz
+	xFpGQiBBRbnEqJM=
+X-Google-Smtp-Source: AGHT+IGFMwPhVUoi5cNUZr0zxvv0GNocT1cBhbIvI4h7KkyyN/IeC1YQVRfg0MelZFRzBHzDDj8ewg==
+X-Received: by 2002:a17:90b:518b:b0:2ee:db8a:29f0 with SMTP id 98e67ed59e1d1-2f83ac73bddmr16816455a91.27.1738345189244;
+        Fri, 31 Jan 2025 09:39:49 -0800 (PST)
+Received: from localhost ([2601:646:9e00:f56e:123b:cea3:439a:b3e3])
+        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-2f8489d3707sm3967611a91.23.2025.01.31.09.39.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jan 2025 09:20:13 -0800 (PST)
-Date: Fri, 31 Jan 2025 18:20:11 +0100
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Alistair Popple <apopple@nvidia.com>
-Cc: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-mm@kvack.org, nouveau@lists.freedesktop.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Peter Xu <peterx@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v1 4/4] mm/memory: document restore_exclusive_pte()
-Message-ID: <Z50GS-RM03E7Usmi@phenom.ffwll.local>
-Mail-Followup-To: Alistair Popple <apopple@nvidia.com>,
-	David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-mm@kvack.org, nouveau@lists.freedesktop.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Peter Xu <peterx@redhat.com>, Jason Gunthorpe <jgg@nvidia.com>
-References: <20250129115803.2084769-1-david@redhat.com>
- <20250129115803.2084769-5-david@redhat.com>
- <7vejbjs7btkof4iguvn3nqvozxqpnzbymxbumd7pant4zi4ac4@3ozuzfzsm5tp>
- <cfc4f8ac-80c4-472f-85fc-36ffcd212441@redhat.com>
- <Z5t_RebEx6Mj-KlT@phenom.ffwll.local>
- <d27c35d5-918f-4550-9975-eb7ba59ac9be@redhat.com>
- <upvlv4b2zly56trmoaocs5gl34ykd7tjz2grzqtwkfy45gbm7l@uxsmqdjgyo5n>
+        Fri, 31 Jan 2025 09:39:48 -0800 (PST)
+Date: Fri, 31 Jan 2025 09:39:47 -0800
+From: Stanislav Fomichev <stfomichev@gmail.com>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	David Ahern <dsahern@kernel.org>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Stefano Garzarella <sgarzare@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+	Shuah Khan <shuah@kernel.org>, sdf@fomichev.me,
+	asml.silence@gmail.com, dw@davidwei.uk,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Victor Nogueira <victor@mojatatu.com>,
+	Pedro Tammela <pctammela@mojatatu.com>
+Subject: Re: [PATCH RFC net-next v2 1/6] net: add devmem TCP TX documentation
+Message-ID: <Z50K4_2lkAJHz8s5@mini-arch>
+References: <20250130211539.428952-1-almasrymina@google.com>
+ <20250130211539.428952-2-almasrymina@google.com>
+ <Z5wEPlsRoU6Kx9S-@mini-arch>
+ <CAHS8izMKdcpQkWjmP9OmQFox2CFvZyJVnKG9k9YAdmLYPn6bPw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <upvlv4b2zly56trmoaocs5gl34ykd7tjz2grzqtwkfy45gbm7l@uxsmqdjgyo5n>
-X-Operating-System: Linux phenom 6.12.11-amd64 
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHS8izMKdcpQkWjmP9OmQFox2CFvZyJVnKG9k9YAdmLYPn6bPw@mail.gmail.com>
 
-On Fri, Jan 31, 2025 at 11:14:06AM +1100, Alistair Popple wrote:
-> On Thu, Jan 30, 2025 at 04:29:33PM +0100, David Hildenbrand wrote:
-> > On 30.01.25 14:31, Simona Vetter wrote:
-> > > On Thu, Jan 30, 2025 at 10:37:06AM +0100, David Hildenbrand wrote:
-> > > > On 30.01.25 01:27, Alistair Popple wrote:
-> > > > > On Wed, Jan 29, 2025 at 12:58:02PM +0100, David Hildenbrand wrote:
-> > > > > > Let's document how this function is to be used, and why the requirement
-> > > > > > for the folio lock might maybe be dropped in the future.
-> > > > > 
-> > > > > Sorry, only just catching up on your other thread. The folio lock was to ensure
-> > > > > the GPU got a chance to make forward progress by mapping the page. Without it
-> > > > > the CPU could immediately invalidate the entry before the GPU had a chance to
-> > > > > retry the fault.
-> > > > > > Obviously performance wise having such thrashing is terrible, so should
-> > > > > really be avoided by userspace, but the lock at least allowed such programs
-> > > > > to complete.
-> > > > 
-> > > > Thanks for the clarification. So it's relevant that the MMU notifier in
-> > > > remove_device_exclusive_entry() is sent after taking the folio lock.
-> > > > 
-> > > > However, as soon as we drop the folio lock, remove_device_exclusive_entry()
-> > > > will become active, lock the folio and trigger the MMU notifier.
-> > > > 
-> > > > So the time it is actually mapped into the device is rather
-> > 
-> > I meant to say "rather short." :)
-> > 
-> > > 
-> > > Looks like you cut off a bit here (or mail transport did that somewhere),
-> > > but see my other reply I don't think this is a legit use-case. So we don't
-> > > have to worry.
-> > 
-> > In that case, we would need the folio lock in the future.
-> > 
-> > > Well beyond documenting that if userspace concurrently thrashes
-> > > the same page with both device atomics and cpu access it will stall real
-> > > bad.
-> > 
-> > I'm curious, is locking between device-cpu or device-device something that
-> > can happen frequently? In that case, you would get that trashing naturally?
+On 01/30, Mina Almasry wrote:
+> On Thu, Jan 30, 2025 at 2:59 PM Stanislav Fomichev <stfomichev@gmail.com> wrote:
+> >
+> > On 01/30, Mina Almasry wrote:
+> > > Add documentation outlining the usage and details of the devmem TCP TX
+> > > API.
+> > >
+> > > Signed-off-by: Mina Almasry <almasrymina@google.com>
+> > >
+> > > ---
+> > >
+> > > v2:
+> > > - Update documentation for iov_base is the dmabuf offset (Stan)
+> > > ---
+> > >  Documentation/networking/devmem.rst | 144 +++++++++++++++++++++++++++-
+> > >  1 file changed, 140 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/Documentation/networking/devmem.rst b/Documentation/networking/devmem.rst
+> > > index d95363645331..8166fe09da13 100644
+> > > --- a/Documentation/networking/devmem.rst
+> > > +++ b/Documentation/networking/devmem.rst
+> > > @@ -62,15 +62,15 @@ More Info
+> > >      https://lore.kernel.org/netdev/20240831004313.3713467-1-almasrymina@google.com/
+> > >
+> > >
+> > > -Interface
+> > > -=========
+> > > +RX Interface
+> > > +============
+> > >
+> > >
+> > >  Example
+> > >  -------
+> > >
+> > > -tools/testing/selftests/net/ncdevmem.c:do_server shows an example of setting up
+> > > -the RX path of this API.
+> > > +./tools/testing/selftests/drivers/net/hw/ncdevmem:do_server shows an example of
+> > > +setting up the RX path of this API.
+> > >
+> > >
+> > >  NIC Setup
+> > > @@ -235,6 +235,142 @@ can be less than the tokens provided by the user in case of:
+> > >  (a) an internal kernel leak bug.
+> > >  (b) the user passed more than 1024 frags.
+> > >
+> > > +TX Interface
+> > > +============
+> > > +
+> > > +
+> > > +Example
+> > > +-------
+> > > +
+> > > +./tools/testing/selftests/drivers/net/hw/ncdevmem:do_client shows an example of
+> > > +setting up the TX path of this API.
+> > > +
+> > > +
+> > > +NIC Setup
+> > > +---------
+> > > +
+> > > +The user must bind a TX dmabuf to a given NIC using the netlink API::
+> > > +
+> > > +        struct netdev_bind_tx_req *req = NULL;
+> > > +        struct netdev_bind_tx_rsp *rsp = NULL;
+> > > +        struct ynl_error yerr;
+> > > +
+> > > +        *ys = ynl_sock_create(&ynl_netdev_family, &yerr);
+> > > +
+> > > +        req = netdev_bind_tx_req_alloc();
+> > > +        netdev_bind_tx_req_set_ifindex(req, ifindex);
+> > > +        netdev_bind_tx_req_set_fd(req, dmabuf_fd);
+> > > +
+> > > +        rsp = netdev_bind_tx(*ys, req);
+> > > +
+> > > +        tx_dmabuf_id = rsp->id;
+> > > +
+> > > +
+> > > +The netlink API returns a dmabuf_id: a unique ID that refers to this dmabuf
+> > > +that has been bound.
+> > > +
+> > > +The user can unbind the dmabuf from the netdevice by closing the netlink socket
+> > > +that established the binding. We do this so that the binding is automatically
+> > > +unbound even if the userspace process crashes.
+> > > +
+> > > +Note that any reasonably well-behaved dmabuf from any exporter should work with
+> > > +devmem TCP, even if the dmabuf is not actually backed by devmem. An example of
+> > > +this is udmabuf, which wraps user memory (non-devmem) in a dmabuf.
+> > > +
+> > > +Socket Setup
+> > > +------------
+> > > +
+> > > +The user application must use MSG_ZEROCOPY flag when sending devmem TCP. Devmem
+> > > +cannot be copied by the kernel, so the semantics of the devmem TX are similar
+> > > +to the semantics of MSG_ZEROCOPY.
+> > > +
+> > > +     ret = setsockopt(socket_fd, SOL_SOCKET, SO_ZEROCOPY, &opt, sizeof(opt));
+> > > +
+> > > +Sending data
+> > > +--------------
+> > > +
+> > > +Devmem data is sent using the SCM_DEVMEM_DMABUF cmsg.
+> > > +
+> > > +The user should create a msghdr where,
+> > > +
+> > > +iov_base is set to the offset into the dmabuf to start sending from.
+> > > +iov_len is set to the number of bytes to be sent from the dmabuf.
+> > > +
+> > > +The user passes the dma-buf id to send from via the dmabuf_tx_cmsg.dmabuf_id.
+> > > +
+> > > +The example below sends 1024 bytes from offset 100 into the dmabuf, and 2048
+> > > +from offset 2000 into the dmabuf. The dmabuf to send from is tx_dmabuf_id::
+> > > +
+> > > +       char ctrl_data[CMSG_SPACE(sizeof(struct dmabuf_tx_cmsg))];
+> > > +       struct dmabuf_tx_cmsg ddmabuf;
+> > > +       struct msghdr msg = {};
+> > > +       struct cmsghdr *cmsg;
+> > > +       struct iovec iov[2];
+> > > +
+> > > +       iov[0].iov_base = (void*)100;
+> > > +       iov[0].iov_len = 1024;
+> > > +       iov[1].iov_base = (void*)2000;
+> > > +       iov[1].iov_len = 2048;
+> > > +
+> > > +       msg.msg_iov = iov;
+> > > +       msg.msg_iovlen = 2;
+> > > +
+> > > +       msg.msg_control = ctrl_data;
+> > > +       msg.msg_controllen = sizeof(ctrl_data);
+> > > +
+> > > +       cmsg = CMSG_FIRSTHDR(&msg);
+> > > +       cmsg->cmsg_level = SOL_SOCKET;
+> > > +       cmsg->cmsg_type = SCM_DEVMEM_DMABUF;
+> > > +       cmsg->cmsg_len = CMSG_LEN(sizeof(struct dmabuf_tx_cmsg));
+> > > +
+> > > +       ddmabuf.dmabuf_id = tx_dmabuf_id;
+> > > +
+> > > +       *((struct dmabuf_tx_cmsg *)CMSG_DATA(cmsg)) = ddmabuf;
+> >
+> > [..]
+> >
+> > > +       sendmsg(socket_fd, &msg, MSG_ZEROCOPY);
+> >
+> > Not super important, but any reason not to use MSG_SOCK_DEVMEM as a
+> > flag? We already use it for recvmsg, seems logical to mirror the same
+> > flag on the transmit side?
 > 
-> It results in terrible performance so in practice it isn't something that I've
-> seen except when stress testing the driver. Those stress tests were useful for
-> exposing a range of kernel/driver bugs/issues though, and despite the short time
-> it is mapped the lock was sufficient to allow atomic thrashing tests to complete
-> vs. having the device fault endlessly.
+> Only to remove redundancy, and the possible confusion that could
+> arise, and the extra checks needed to catch invalid input.
+> 
+> With this, the user tells the kernel to send from the dmabuf by
+> supplying the SCM_DEVMEM_DMABUF cmsg. If we add another signal like
+> MSG_SOCK_DEVMEM, there is room for the user to supply the cmg but not
+> the flag (confusion), and the kernel needs to have the code and
+> overhead to check that both the flag and the cmsg are provided.
 
-Yeah the practical use-case of device atomics is that they alternate, as
-the processing shifts between the cpu and the gpu. Classic one is when you
-generate variable amounts of data per input block that you fill into a big
-preallocated array, and the atomic counter is your dumb-as-rock malloc for
-that. The atomic moves as the generating/consuming of that data moves
-around the system (and needs a fault each time it moves), but you really
-never want to have concurrent access going on. Any thrashing concurrent
-access is just broken userspace (or a driver stress test).
-
-> So unless it's making things more difficult I'd rather keep the lock.
-
-But why do these stress-tests need to complete? We have a lot of these in
-our gpu test suite, and we just nuke them after a short timeout if nothing
-blows up. Concurrently hammering the same page from both gpu and cpu
-really isn't something that should have any forward progress gurantees
-imo. And I feel like too much locking just risks us hiding some much more
-nasty (design) bugs underneath - I've had that experience reviewing both
-amdkfd and the in-work xe code. So my preference for gpu interacting with
-core mm is that we have the least amount of locking to make sure we really
-don't have a breaking design impendence mismatch going on.
-
-Cheers, Sima
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+SG! Having another 'if' doesn't seem like a big overhead to me (given that
+we already spend a ton of time copying all the cmsg stuff), but no
+strong preference on my side..
