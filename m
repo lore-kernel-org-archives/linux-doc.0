@@ -1,152 +1,137 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F3CB1898F2;
-	Fri, 31 Jan 2025 16:53:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1983513213E;
+	Fri, 31 Jan 2025 16:55:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738342423; cv=none; b=sZI4WAeo4NE2xHh00NuSrjCEs8DIGPgoM8knFDE1NNkGj3/e8KU6KRC6lCH15Ud7aCxTJhZrdQmoNypNWV1GrJCgO280rHosKrlpBdF92qkKvqbqaRHJ1WZHlfZQmaiwNV7EPz5dVcaJ28rVi16mm8hivUpEd6MuWaUVbLb0vVU=
+	t=1738342517; cv=none; b=V6L1xPZnU/7bX7/z35LVpVvPflK5jBlW3DDxUELfDEhx1mOKPigp6XYXxPh+6UdhvGAuAuzYphlv5FhiSq1odG4HDipd7UWwiZ1oTwaltoyd1R2CIYizxzwNF2cuEtYF03042oQjRsVVAsyd89HtSeEhJ4thPcGFGkZKw4ov48c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738342423; c=relaxed/simple;
-	bh=GfPTCIyEX3fVDi9I9BIqRlm84MEenHyEpADd5wVZavc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FsysAsC6TFRP+4Mlw/DHum0XrEkBjP/bPJPw6RdCX5QlFFn4avhADM1tRhrCh4PRT/Cr8V8hm8H47VIz4SJ6JAFEZSke0ZV6FNI2IxK/9+nBTbtB8WichhPdPoa9QvKyCB6DKnSFe8T3/LeZASfUK4L5uZ5/GQENzjewLVUUkiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IYEPy8N+; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738342517; c=relaxed/simple;
+	bh=JePdSY0WVUnypZ6vG3BKI1d3ETqsiwo0doLbUymGKHU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=jdG7orG9VTbxy5W4pYMkOyKkKPPbBCSxkYp/TV4Js83kFQWaWIDJMETbp6OJ+Lpr9S0G0UJMQCDBaML54TBOFYARvH8Pt+E1Xq2Y5nlsZtBDLqXL5yUQAyevyVOfx6Cz3FbDYuGAUsUISP3Lz4/FbG7xuPNLJdiZmdbltxaYe5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=s59ak5D1; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IYEPy8N+"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43634b570c1so16670805e9.0;
-        Fri, 31 Jan 2025 08:53:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738342418; x=1738947218; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=YXuudxqXFyd2ufToANT9YRFIa9qwUxwKQHhEaI7Gs+g=;
-        b=IYEPy8N+46oQMDWiJ/AH70iAdhPJ0LmE2CtH/lqx5jAxzG6jgfcdQ3PiD4s0yX1sO7
-         JrS7MDyodDnxUYUsShxQq0w07A/Cq5vIP5EY9tVb5+LgMJ1CD69Lik5N7zvqauWYVWNu
-         cXx4qtF9nUU2p8Hyjon3FkVNfKnR8bErAmdpHpV2lOlyqvcHWJ3CRSlGHTfI7UJt48fG
-         NecK+a/mTvQ4VQSaS02/xtPmZHpFli5O5ZRwfoqsREd+93OCwyfIzBdquh4DIlq/204M
-         QsSLbZJ3BX4caYN4BMiMYeWv1V9BSNqZTq7NFaKob7fNqk++aXXCOFCvqiDmdx5kJ7ni
-         8A5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738342418; x=1738947218;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YXuudxqXFyd2ufToANT9YRFIa9qwUxwKQHhEaI7Gs+g=;
-        b=heFIUBnTqJpk1t4pN0GlOTfDHApk/ULg4ZfTJtBNoQJlfQE0AtqZkYjuImm8/FCT79
-         ELDwf4RiQ7iH6RgEFY/+KlBe6eSYIg3HtyWww7jsHqn7jkr9PMiS6onmrP7KUcQg4Qei
-         +co378WvREWj2Gc0JkmTQDrLbXkCBRQqDcliF+POP9HtNeS0mPJ9bToEksbJGemzqnA6
-         4eGOYDkVqNMkbh6EScAork/YWJOwElz21dtRjD+5StEmTeIlAO5GlPPX23BlWMJZXeKw
-         IQCVbkw33lc9M0HR7GEBb0q3hhyLe9dSM0SnFR6530yx/ky0WSw2bsHUX9j6Kbw9IOqv
-         pXJA==
-X-Forwarded-Encrypted: i=1; AJvYcCW+uiQl9DgvcFAnk2h2VTclkX02eBZUsyZDG+z+bVtvPUxlh/KUcnh58Biqwnu1bpacZmSN6aizY7S8mtPY@vger.kernel.org, AJvYcCXvmDPHJfFYU5pFbvTx9zFQ2K07yEsqMPdTwm/gsdgJf1r6hYayt9bSe8L80WYWBcPseGO2Xhce6C4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yye/T1Kz7mLqbvtG7yGfGrI7wZ5zyOex0PkkeK4pT1n/Zc3Na0C
-	WbTFdn5F1KOwxQpdr9xV6m5/HZxozZARBJ9hHmgj1dAlDBYU4teg
-X-Gm-Gg: ASbGncuriI9kUw/U1RRGgrtN4t/OGdKxkI+Q1xNSLuOBiPVIPLV7r1Poo+BqdDKfgfJ
-	OqKWcWQE/lf1CkY37es4nTG2VEcOqIOABedtaxjYby3yTxNIxjG7wTtr1lZLE6HcaflYzYZNztu
-	h2sBOiveT8XV9SGV85U7ZjGuQ4vAEORgwdnEjsh8pWMqgUySykjfFTXxB3vtI74dlTE/Z1ssNef
-	P/A6YMPFbvwm8Mn+nRWA0NfQL1oegKyzRwelcm9Js3TwwURHbfIWwisQwvXVBckkEMbgtOa2/ER
-	1tSsv7GjkQinLQ==
-X-Google-Smtp-Source: AGHT+IEDMPcLKLxTsK429xwikfWJydkdpUp8S6fPh9gbuoI7xNoBf2p2vOuUzRbf4VSVoFtOdv6iqA==
-X-Received: by 2002:a5d:59a6:0:b0:38b:f3f4:57ae with SMTP id ffacd0b85a97d-38c51949b97mr11501948f8f.10.1738342418101;
-        Fri, 31 Jan 2025 08:53:38 -0800 (PST)
-Received: from fedora ([94.73.37.161])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c1b61f1sm5205377f8f.68.2025.01.31.08.53.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jan 2025 08:53:37 -0800 (PST)
-Date: Fri, 31 Jan 2025 17:53:35 +0100
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: airlied@gmail.com, arthurgrillo@riseup.net, corbet@lwn.net,
-	dri-devel@lists.freedesktop.org, hamohammed.sa@gmail.com,
-	jeremie.dautheribes@bootlin.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
-	mairacanal@riseup.net, marcheu@google.com, melissa.srw@gmail.com,
-	miquel.raynal@bootlin.com, mripard@kernel.org,
-	nicolejadeyee@google.com, pekka.paalanen@haloniitty.fi,
-	rdunlap@infradead.org, rodrigosiqueiramelo@gmail.com,
-	seanpaul@google.com, simona.vetter@ffwll.ch, simona@ffwll.ch,
-	thomas.petazzoni@bootlin.com, tzimmermann@suse.de
-Subject: Re: [PATCH v16 3/7] drm/vkms: Drop YUV formats TODO
-Message-ID: <Z50AD91RnzK2lWSd@fedora>
-References: <20250121-yuv-v16-3-a61f95a99432@bootlin.com>
- <20250131084045.2874-1-jose.exposito89@gmail.com>
- <Z5zJ1h91AINbQRVF@louis-chauvet-laptop>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="s59ak5D1"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50VG9aeq013095;
+	Fri, 31 Jan 2025 16:54:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=JePdSY
+	0WVUnypZ6vG3BKI1d3ETqsiwo0doLbUymGKHU=; b=s59ak5D1fyI9MZSmEY5r3T
+	i0v8GkwptZ9PsimCQBgfFjgODyYcD7A46uSVTgTh2z/ZkzHEP2pmyv9X42zKLYpE
+	NioiDqnQKrHydk2ESXNy2OWuRbMYyix788NCmzgAOIK8I/aqDqQKeMv6asIorXZ+
+	lpl32BOCsJ5UE4109IUjXT7MWPb+WF6nWp+g7Y3sEnNSGjf24gsrTuVZ7sKB2GZh
+	Ps6wERwC+Oxk3tyRUG8Rtd938VPWe7t1EUxf2jrg5bXWDhEvDX7bHcvjIx2NYd3Q
+	mOxQTQYeWlocPhGeBgM2L6viWCZcxZ9/tHAIHOALtfmXHR74Bc+U3reGZgF96Ebw
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44grb7avrr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 31 Jan 2025 16:54:53 +0000 (GMT)
+Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 50VGsqPG017324;
+	Fri, 31 Jan 2025 16:54:52 GMT
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44grb7avrn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 31 Jan 2025 16:54:52 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 50VGZxEB017346;
+	Fri, 31 Jan 2025 16:54:51 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([172.16.1.70])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 44gfaxcfcu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 31 Jan 2025 16:54:51 +0000
+Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
+	by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 50VGsob728312262
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 31 Jan 2025 16:54:50 GMT
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DC2A05803F;
+	Fri, 31 Jan 2025 16:54:50 +0000 (GMT)
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6266A58054;
+	Fri, 31 Jan 2025 16:54:49 +0000 (GMT)
+Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.73.176])
+	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 31 Jan 2025 16:54:49 +0000 (GMT)
+Message-ID: <82b6fb1320c96b5839cda02f8df52e0a43401dbf.camel@linux.ibm.com>
+Subject: Re: [PATCH v3 1/6] fs: ima: Remove S_IMA and IS_IMA()
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
+        viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
+        dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
+        paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        Roberto Sassu
+ <roberto.sassu@huawei.com>,
+        Shu Han <ebpqwerty472123@gmail.com>
+Date: Fri, 31 Jan 2025 11:54:48 -0500
+In-Reply-To: <20250122172432.3074180-2-roberto.sassu@huaweicloud.com>
+References: <20250122172432.3074180-1-roberto.sassu@huaweicloud.com>
+	 <20250122172432.3074180-2-roberto.sassu@huaweicloud.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z5zJ1h91AINbQRVF@louis-chauvet-laptop>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: _AjFAxHxB-PvCv5Ko5QQiLp7adcE-Gap
+X-Proofpoint-ORIG-GUID: 5Skp69Yqf56rnMf__Qeib2BB_1fvUBK4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-01-31_05,2025-01-31_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ priorityscore=1501 spamscore=0 lowpriorityscore=0 clxscore=1015
+ impostorscore=0 malwarescore=0 mlxscore=0 mlxlogscore=809 bulkscore=0
+ suspectscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2501170000 definitions=main-2501310127
 
-On Fri, Jan 31, 2025 at 02:02:14PM +0100, Louis Chauvet wrote:
-> On 31/01/25 - 09:40, José Expósito wrote:
-> > Hi Louis,
-> > 
-> > Thanks a lot for the patches.
-> > 
-> > I'm not well versed in YUV color formats, so I did my best reading the kernel
-> > documentation before reviewing this series... But I'll most likely ask some
-> > basic/dump questions.
-> > 
-> > > From: Arthur Grillo <arthurgrillo@riseup.net>
-> > > 
-> > > VKMS has support for YUV formats now. Remove the task from the TODO
-> > > list.
-> > > 
-> > > Signed-off-by: Arthur Grillo <arthurgrillo@riseup.net>
-> > > Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> > > ---
-> > >  Documentation/gpu/vkms.rst | 3 +--
-> > >  1 file changed, 1 insertion(+), 2 deletions(-)
-> > > 
-> > > diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-> > > index ba04ac7c2167a9d484c54c69a09a2fb8f2d9c0aa..13b866c3617cd44043406252d3caa912c931772f 100644
-> > > --- a/Documentation/gpu/vkms.rst
-> > > +++ b/Documentation/gpu/vkms.rst
-> > > @@ -122,8 +122,7 @@ There's lots of plane features we could add support for:
-> > >  
-> > >  - Scaling.
-> > >  
-> > > -- Additional buffer formats, especially YUV formats for video like NV12.
-> > > -  Low/high bpp RGB formats would also be interesting.
-> > > +- Additional buffer formats. Low/high bpp RGB formats would be interesting.
-> > 
-> > I see that you implemented support for 6 DRM_FORMAT_NV* formats, but
-> > DRM_FORMAT_NV15, DRM_FORMAT_NV20 and DRM_FORMAT_NV30 are not implemented.
-> > 
-> > The same applies to DRM_FORMAT_Y210 or DRM_FORMAT_YUV410 among others.
-> > 
-> > Could it be useful to implement all of them in the future? If so, should we add
-> > it to the ToDo list?
-> 
-> I don't think we need "all of them" (there are ≈100 + all the modifiers), 
-> but definitly all the commonly used ones (I have some of the "common" one 
-> ready here [1], I just wait for the YUV series to be accepted to avoid 
-> conflicts).
+On Wed, 2025-01-22 at 18:24 +0100, Roberto Sassu wrote:
+> From: Roberto Sassu <roberto.sassu@huawei.com>
+>=20
+> Commit 196f518128d2e ("IMA: explicit IMA i_flag to remove global lock on
+> inode_delete") introduced the new S_IMA inode flag to determine whether o=
+r
+> not an inode was processed by IMA. In that way, it was not necessary to
+> take the global lock on inode delete.
+>=20
+> Since commit 4de2f084fbff ("ima: Make it independent from 'integrity'
+> LSM"), the pointer of the inode integrity metadata managed by IMA has bee=
+n
+> moved to the inode security blob, from the rb-tree. The pointer is not NU=
+LL
+> only if the inode has been processed by IMA, i.e. ima_inode_get() has bee=
+n
+> called for that inode.
+>=20
+> Thus, since the IS_IMA() check can be now implemented by trivially testin=
+g
+> whether or not the pointer of inode integrity metadata is NULL, remove th=
+e
+> S_IMA definition in include/linux/fs.h and also the IS_IMA() macro.
+>=20
+> Remove also the IS_IMA() invocation in ima_rdwr_violation_check(), since
+> whether the inode was processed by IMA will be anyway detected by a
+> subsequent call to ima_iint_find(). It does not have an additional overhe=
+ad
+> since the decision can be made in constant time, as opposed to logarithm
+> when the inode integrity metadata was stored in the rb-tree.
+>=20
+> Suggested-by: Shu Han <ebpqwerty472123@gmail.com>
+> Reviewed-by: Christian Brauner <brauner@kernel.org>
+> Acked-by: Jan Kara <jack@suse.cz>
+> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
 
-Good to know, thanks for the clarification. I think we are good with this
-to-do item as it is. There's plenty of work that can be done :)
-
-Jose
-
-> > It might be a great task to get started in kernel development, as there are
-> > already similar examples and tests.
-> 
-> I don't think we need to specify which format are missing, the point 
-> "Additionnal buffer formats. [...]" seems sufficient. If you think this is 
-> relevant, I can add "Easy task" so beginners will find it easier?
->  
-> [1]:https://lore.kernel.org/all/20241122-b4-new-color-formats-v3-0-23f7776197c9@bootlin.com/
-> 
-> > >  
-> > >  - Async updates (currently only possible on cursor plane using the legacy
-> > >    cursor api).
-> > > 
+Reviewd-by: Mimi Zohar <zohar@linux.ibm.com>
