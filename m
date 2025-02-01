@@ -1,78 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DA119004A;
-	Sat,  1 Feb 2025 15:24:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B111BDA8C;
+	Sat,  1 Feb 2025 15:31:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738423491; cv=none; b=F/FzkRzF/AV+oONVx232db5A7K2YOVwhaWVa60aUM7AKZZzDGEZmwX6pfWc2QOpb/yxdBjE/31yLQqcSMEPfXrptdReAwrpuryKrczbtgV+L0ccQU5kdz42oMMI8IHrIyrp6CuTcXxz/Sfgzd2Rbzb3XvgMsaeetlc5TAmjYR2w=
+	t=1738423898; cv=none; b=fLByKcHfXZjYBTOZ4qcWQjwi4nMqA95Uzt3zYkrQ+0Gf5Z8K5JwnaOZadOdj8sepDSzIFXnZxJtVsIykFPzakT7RTUVSYVKawz68IFu9ex2iPPLl1lkQAcK2ylzlThlSAnOCzaGqnDPcI4L/RvgAnTsI93f4n3eYTdaUt6fGYj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738423491; c=relaxed/simple;
-	bh=UaWZsCI+aukrpetehpQvix73yXlKutXTDhOU4oERyWU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YA6FLKX74n+FZ+8HlM9G8XwQTMmsGiksLMVpmIlNzoMqLphmBrjNvo4btgylNmos3pSBUMtGESuG7cC2hFoP9FUvQNSV9ijMhaX6kKckntyg3oydOwsDIWHVyAEYxEmS1dEMS2GD6BfZA12i0WwqnkHqPXyDmSmHC7RW0smWRDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lqHAHaGl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738423898; c=relaxed/simple;
+	bh=BCfoSKNCnyed4pGlqcdaf/sT4JZcLQJ9eWwjsd1k3T0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SUDWE+oNJnrsCtpCN0MOMo5mGjK2zLJNQVIldIH4D7QreWpken7XjebhwWkLHSWyt4gl1FsqNr36MfHoBXi4x/0ZFbXElP3ca2vuDuN+0BE8RlUEP8LXIo8ipfSTmKuOyOFyvBq2QCsatGni1GtMDr7UKi607wQ6ay5DvvuKOUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=EJCX1Mk8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lqHAHaGl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BE83C4CED3;
-	Sat,  1 Feb 2025 15:24:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738423491;
-	bh=UaWZsCI+aukrpetehpQvix73yXlKutXTDhOU4oERyWU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=lqHAHaGlp4p73jhVUdUA5+/WShsheUoBWzil/fWZGTtGQjZDqvyRWj5Yq1IBO1IYz
-	 CoVCc8cVBRKoz4kADYeel/y3IjIh9uw+wqSUgz33rfG4YNoaMffJxiZpijvx06xgj/
-	 +Vk4C7x1ZkxKiL/tyvjp6MsSl5A2Vp09yElEEU5Lx2hl5YUuTQMoJP8KIIztSkzxgv
-	 +5OVHgBf/kU7Qw2VWb5Hm6Qh2dWUpTbUCyV/Hoj8MTmzDOgi6qezhYnxvPv1h8oAsT
-	 i6uy0W0mlsAu9hWK9i9nUZOfQPfkw8aDNorz+ozuebUQLVcfHP85DoCCbpxtghHyM7
-	 XeV3LUylm70kA==
-Date: Sat, 1 Feb 2025 15:24:40 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Robert Budai <robert.budai@analog.com>
-Cc: <lars@metafoo.de>, <Michael.Hennerich@analog.com>, <nuno.sa@analog.com>,
- <ramona.gradinariu@analog.com>, <antoniu.miclaus@analog.com>,
- <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
- <corbet@lwn.net>, <lanzano.alex@gmail.com>, <linux-iio@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v5 6/6] docs: iio: add documentation for adis16550
- driver
-Message-ID: <20250201152440.7924cff1@jic23-huawei>
-In-Reply-To: <20250129082053.19077-7-robert.budai@analog.com>
-References: <20250129082053.19077-1-robert.budai@analog.com>
-	<20250129082053.19077-7-robert.budai@analog.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EJCX1Mk8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F2E4C4CED3;
+	Sat,  1 Feb 2025 15:31:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1738423898;
+	bh=BCfoSKNCnyed4pGlqcdaf/sT4JZcLQJ9eWwjsd1k3T0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EJCX1Mk8Dmq3aAPY4D3MLsUfCbOAuj9/BvP9obN70pVWwM2hP4YWJT5GdnL1yqzIf
+	 +JqQapEUi7XJMu2D6/JKuAkjwJZt4Xc0h1SypS2W0gMHdnwGXCzPPcWchY5M7FK3wr
+	 vrNfYgwSmRTLDS8HR3fd/72TByCC1aIeSHDGlWPU=
+Date: Sat, 1 Feb 2025 16:31:34 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, ajanulgu@redhat.com, lyude@redhat.com,
+	pstanner@redhat.com, zhiw@nvidia.com, cjia@nvidia.com,
+	jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com,
+	ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
+	gary@garyguo.net, bjorn3_gh@protonmail.com, benno.lossin@proton.me,
+	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH 1/2] gpu: nova-core: add initial driver stub
+Message-ID: <2025020115-siesta-regress-96ef@gregkh>
+References: <20250131220432.17717-1-dakr@kernel.org>
+ <2025020151-leverage-unadorned-fb05@gregkh>
+ <Z54PsyY-fNRBwJQ4@cassiopeiae>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z54PsyY-fNRBwJQ4@cassiopeiae>
 
-On Wed, 29 Jan 2025 10:20:46 +0200
-Robert Budai <robert.budai@analog.com> wrote:
-
-> Add documentation for adis16550 driver which describes the driver
-> device files and shows how the user may use the ABI for various
-> scenarios (configuration, measurement, etc.).
+On Sat, Feb 01, 2025 at 01:12:35PM +0100, Danilo Krummrich wrote:
+> On Sat, Feb 01, 2025 at 09:33:28AM +0100, Greg KH wrote:
+> > On Fri, Jan 31, 2025 at 11:04:24PM +0100, Danilo Krummrich wrote:
+> > > +impl Gpu {
+> > > +    pub(crate) fn new(pdev: &pci::Device, bar: Devres<Bar0>) -> Result<impl PinInit<Self>> {
+> > > +        let spec = GpuSpec::new(&bar)?;
+> > > +        let fw = Firmware::new(pdev.as_ref(), &spec, "535.113.01")?;
+> > > +
+> > > +        dev_info!(
+> > > +            pdev.as_ref(),
+> > > +            "NVIDIA {:?} ({:#x})",
+> > > +            spec.chipset,
+> > > +            spec.boot0
+> > > +        );
+> > 
+> > When drivers work properly, they should be quiet, so can you move this
+> > to dev_dbg()?
 > 
-> Co-developed-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
-> Signed-off-by: Robert Budai <robert.budai@analog.com>
+> Sure, the only reason I made this dev_info!() is because, as an initial
+> skeleton, the driver isn't doing anything else for now. So, I thought it would
+> be nice to have some sign of life.
+> 
+> Of course, the intention was to remove this, once there's any other sign of
+> life.
 
-> ++----------------------------------+-------------------------------------------+
-> +
-> ++----------------------------+--------------------------------------------------------------------------------+
-> +| Miscellaneous device files | Description                                                                    |
-> ++----------------------------+--------------------------------------------------------------------------------+
-> +| name                       | Name of the IIO device.                                                        |
-> ++----------------------------+--------------------------------------------------------------------------------+
-> +| sampling_frequency         | Currently selected sample rate.                                                |
-> ++----------------------------+--------------------------------------------------------------------------------+
-> +| write_lock_enable          | Lock the device from further configuration. Only a reset will remove the lock. |
-
-I'm not seeing this one and that's a good thing, but shouldn't be in the docs.
-
+Ok, that's fine, just a constant reminder I send everyone for new
+drivers when I see this happen :)
