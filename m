@@ -1,191 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B12E2111;
-	Sun,  2 Feb 2025 14:56:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFCE1D5154;
+	Sun,  2 Feb 2025 16:57:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738508217; cv=none; b=L7dMZjTczRvEGuLgwmP0a0yMw1pFWZN5So+RHyxxD9PhK7L3mi4E/ytbOqnrw3xiVR8AVpOVlk8H1tigkSImkjJTKQXOynmtIj9F5VK+5sIpoi6XMY728547VDqxkB4cNS/6W3xhylda54u9ILKV7D129/ytTbTnRZX56nFTcKw=
+	t=1738515435; cv=none; b=KqgKEMA6ombsINAbAPdPKggu/ua6cA3oAJ36Y9DQm8h75nRJSX9BFLtZv1oYJRHYl+dRB0KYlUKg7rczDBLxLhxwooI3Jahyulp3+x/9X53brZrusw8A21sTum3RASLWDzn8OPyaDy1XczUfR5mCV9GBH+5BLoKUEiAPNMeiQms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738508217; c=relaxed/simple;
-	bh=Sp9ehGbUnA5VYC9FOUIeT6JGoOqxGeF3OqdZZJPxA2E=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JNq1RtpYGNwj33T9G8WmNL2nwMPEqJIhvmwKNacnX55wPlLKDEKWHGcUNlwb3UOB5pari0IrF0ThFKPGSTGjHrGdRkra53cXjAqJaHehi3uhNVm3gY2Eb3QATTQZZAXuHs7ROlRbGrrODwiyeYJSQTrvYc+iusvZTYQcH9OlZaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IqBsI3Ar; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738515435; c=relaxed/simple;
+	bh=IGZw/c3qoMTFDdDCKwKPpgTwowB027sw2XXCX8Op4Xc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AOBXC9VIMyuVpiJL+6UU03U8rSFfe6Krpk+G+nTiZTWTdoFsF/PlWrQhPSJI3edS3p3gRFohrVddypn8XCDhDFowRjSGLpAwyPfz8ZHnJfT+S8x/hxcAD6VywwkKiUpnHKWG0IZpgr4GrwbhsAxRtRgYWatWPGeD3+tGTMUOgus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YVGLTD5m; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IqBsI3Ar"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67649C4CED1;
-	Sun,  2 Feb 2025 14:56:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738508216;
-	bh=Sp9ehGbUnA5VYC9FOUIeT6JGoOqxGeF3OqdZZJPxA2E=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=IqBsI3ArwXUS0CaLam86P0eILg2YeJlYFwaMbyekJSvOReO5kLouJzZ920mBdV/iP
-	 6cSEofjSfbTokHjONdZuA6l3W10gNixfLus6DdCIiqKMb4eGPkU9u3AE0ZPxvlXpE8
-	 MZFmpGGimaXFNkg5Vop32lSKpfcjGq1bFyLptsOo0llc9j1HJ4aTgHQZ3n8TgZ7mpy
-	 OVQ8T/x9MfC34rIkXyjpEaUe8WhiqBMdpEHRg6nuRT9pFSIzyiszswQ/J07qrs6blw
-	 L10Gwp1C+3wzHkHyuvWaLdVlhyRQ9PEXoqitHUUjnSu2FSFQ0GMiX5PRR59PxmJ6hv
-	 GIij4Ie3LEWZQ==
-Date: Sun, 2 Feb 2025 15:56:52 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org
-Subject: Re: [RFC v2 18/38] docs: sphinx/kernel_abi: use AbiParser directly
-Message-ID: <20250202155652.1652e420@foz.lan>
-In-Reply-To: <20250129014324.60a8dfce@foz.lan>
-References: <cover.1738020236.git.mchehab+huawei@kernel.org>
-	<fb800900352d90a0e501e5d6732e1bea277478f2.1738020236.git.mchehab+huawei@kernel.org>
-	<87lduu7efu.fsf@trenco.lwn.net>
-	<20250129014324.60a8dfce@foz.lan>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YVGLTD5m"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-436345cc17bso26798435e9.0;
+        Sun, 02 Feb 2025 08:57:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738515432; x=1739120232; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Uwqe3wO2h1KhchbSQpJtyc0xUluXC5oEhfomc15Iqy0=;
+        b=YVGLTD5mHDVVG4gD+424u1a+NFbLAp5KzeJX5pBklDJuZiqzhZ7Ft9KCDSsTU3IR6+
+         hJn5uUSSFqb+qBAIYAqSYeEVMd53ps00OJkYgWlzqCuPTKbLs67OqZjXYMWRG7v4UfIi
+         tILlRNuLzL6zWWMV9U8pT2c3mr13FHrsBUePwe8moHcoYBR3lN3/x5medF/tVRR8AtIe
+         5cQE0IyUawfesIve/ruPfRAGNMSGdH39VEpofSC1t689bosIxrM3s/jniGG4O5yK7edB
+         kBZyA9fvWDGl86PVSinjMbT7nYRmuh827dqpCcPabM6SmCyD4saF+6dswuPjL2COmmuZ
+         12zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738515432; x=1739120232;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Uwqe3wO2h1KhchbSQpJtyc0xUluXC5oEhfomc15Iqy0=;
+        b=e+kx3QWXSQ16x01y/txnXc9Mt2+uBISXjHYoHbgEcdyBn4CRpjQXJc00+OFgDr0I1u
+         ROi7uNM+8DVRScgaYrnDEwOnIyN1CUKkK5zbeZRuTBZyEVaOB2+jrRspMz3lQn11x5PF
+         pRu/uVBE0kX4IX2uqPLLCkbqrSEhSUTdNZSTSBhsBwJf1A2VQvHTdBEXrJxaTMHp+NcZ
+         JmCm7RciWGKhfZjvp8TchgP7/EYxlbuiPc+ovryfxfXSd8V+FbGtJ2yY/mgtyNpgilTn
+         69n0Ey+yPBI5LyilxRKB4VgoWm+ZyFKKOgg8qvJaUsYFZ2D7TeZYBpC7cEiGPOSqBhj3
+         ORLg==
+X-Forwarded-Encrypted: i=1; AJvYcCVLvnni19ui9WSuXfQuiveELK3IIUce6GBep3qi+DoPFQ8UmG/vbQiIVipb37iJeznyEIKns0AOPdaBulkNR1o=@vger.kernel.org, AJvYcCWbdWFcWBv90mJ1tinAF7hqVjeaPtJTX9x2C7fsQELbR76nKH0tpzV6/Wlj9GYVni5k7dr2OX4dmQRFf7IF@vger.kernel.org, AJvYcCXSc67bazd9dxRiZb6lFgSNt8H3FzW70ewVpatts+N6JE5Nd4GPmbXncfUaSIlmue+PQbmAuTAIp94=@vger.kernel.org
+X-Gm-Message-State: AOJu0YynlNLWG7cK1dB5bgUotuxsurAQaajuhT6+/IYqcSVB5FUJUwUQ
+	TfO007Lm7QJD3m1J/2XMQh6Zzy8uysLX3lGsO0Ysk8KVNbhogpXq
+X-Gm-Gg: ASbGncv9wRk3HU6Hj57Hk8N8J9bM7ntqR5iEIFMxWqsTDhUdUTWe5wViESE+jlR3fXA
+	Jl+UXb/n/oJoaIP892WCp3B8Jz4qmNPxX0nwDioU4TrtMkK3owEP2sXG4ueYvGmt6LHWa/HdH98
+	R0xnRAcWOYF2UPklHZVJtG9+029KwUiBooAgQ6JhDFn0smIt5TavwunqjLUc0BJ8QFOc8NGyOhw
+	cZHuxZNprT806jlr8FMI0xKfyG8818uIGjpJW8cnwZaBbje/JflUPACg3YExIIkeFfGvp5/opWb
+	6nXt9qH+0OdbexbzJ/NpyCMlODAg
+X-Google-Smtp-Source: AGHT+IHGI4vuDKmxm2ggxLHqDVzd9rJXWTNLOaDrF/1kFKr5pLWjbelTJUrlum0Weyhom1nxQpYfcA==
+X-Received: by 2002:a05:6000:1ace:b0:385:ec89:2f07 with SMTP id ffacd0b85a97d-38c51970003mr13999601f8f.32.1738515431517;
+        Sun, 02 Feb 2025 08:57:11 -0800 (PST)
+Received: from ?IPV6:2001:871:22a:99c5::1ad1? ([2001:871:22a:99c5::1ad1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c11b71asm10539536f8f.39.2025.02.02.08.57.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 02 Feb 2025 08:57:11 -0800 (PST)
+Message-ID: <72feff7d-a305-4ca3-9c28-9040c791d3c5@gmail.com>
+Date: Sun, 2 Feb 2025 17:57:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] arm: rust: Enable Rust support for ARMv7
+To: Arnd Bergmann <arnd@arndb.de>, Andrew Lunn <andrew@lunn.ch>,
+ Miguel Ojeda <ojeda@kernel.org>
+Cc: Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Jonathan Corbet <corbet@lwn.net>,
+ Russell King <linux@armlinux.org.uk>, Rudraksha Gupta <guptarud@gmail.com>,
+ Ard Biesheuvel <ardb@kernel.org>, Geert Stappers <stappers@stappers.nl>,
+ Jamie Cunliffe <Jamie.Cunliffe@arm.com>,
+ Sven Van Asbroeck <thesven73@gmail.com>, rust-for-linux@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20250123-rfl-arm32-v3-1-8f13623d42c5@gmail.com>
+ <a83b0149-7055-411b-ba86-d227919c7c32@app.fastmail.com>
+ <f8b59f05-55b5-4208-8bdf-b4be8e93bc22@gmail.com>
+ <65da77f7-bbd4-4cbe-a06c-75f10a6ec4ce@lunn.ch>
+ <5e8a99a5-f39c-46da-b54d-7b69307b1c66@gmail.com>
+ <e14cfb34-308f-4797-afe7-4e7e2d470fe3@app.fastmail.com>
+Content-Language: en-US, de-DE
+From: Christian Schrefl <chrisi.schrefl@gmail.com>
+In-Reply-To: <e14cfb34-308f-4797-afe7-4e7e2d470fe3@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Jon,
+On 31.01.25 8:37 PM, Arnd Bergmann wrote:
+> On Fri, Jan 31, 2025, at 19:58, Christian Schrefl wrote:
+>> On 31.01.25 5:05 PM, Andrew Lunn wrote:
+>>>> To fix this Rust would have to provide a way to build the core
+>>>> library without float support. I don't know if there is a plan
+>>>> already to allow this.
+>>>
+>>> Floating point is banned within the kernel, except for in very narrow
+>>> conditions, because the floating point registers are lazy saved on
+>>> context switch. If the kernel uses the floating point registers, you
+>>> can break user space in bad ways.
+>>>
+>>> I expect this has been discussed, since it is well known kernel
+>>> restriction. Maybe go see what happened to that discussion within RfL?
+>>
+>> After checking again, it seems the float intrinsics are actually not
+>> needed anymore at least for my config.
+> 
+> Ah, nice! If this is true for all architectures using the current
+> rust compiler, it would be great to remove the FP stubs entirely
+> and have link errors instead of panicking, to make it consistent
+> with C.
+> 
+>> Only `__aeabi_uldivmod` is still
+>> required for `parse_u64_into` since [0] allows disabling float formatting.
+>>
+>> Link error without the `__aeabi_uldivmod` symbol defined:
+>>
+>> ld.lld: error: undefined symbol: __aeabi_uldivmod
+>>>>> referenced by num.rs:580 (/home/chrisi/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/num.rs:580)
+>>>>>               rust/core.o:(core::fmt::num::parse_u64_into::<39>) in archive vmlinux.a
+>>>>> referenced by num.rs:589 (/home/chrisi/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/num.rs:589)
+>>>>>               rust/core.o:(core::fmt::num::parse_u64_into::<39>) in archive vmlinux.a
+>>>>> referenced by num.rs:589 (/home/chrisi/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/num.rs:589)
+>>>>>               rust/core.o:(core::fmt::num::parse_u64_into::<39>) in archive vmlinux.a
+>>>>> referenced 34 more times
+>>>>> did you mean: __aeabi_uidivmod
+>>>>> defined in: vmlinux.a(arch/arm/lib/lib1funcs.o)
+>>
+>> Not sure if we should just implement `__aeabi_uldivmod`, keep the 
+>> panicking intrinsic for it or somehow fix it in upstream Rust?
+> 
+> The 64-bit division is particularly easy to introduce by accident
+> on 32-bit architectures, so ending up in a panic here is clearly
+> a problem. From the message above it appears that there is only 
+> a single calling function (parse_u64_into()) in the rust library,
+> so I wonder if it might be sufficient to split that out into
+> another object file that then doesn't need to get linked into
+> the kernel, or for the kernel to override it with an implementation
+> that does not rely on __aeabi_uldivmod() but calls __do_div64()
+> instead.
+> 
+> Since parse_u64_into seems to be a parsing function that is
+> expected to be slow, it should be acceptable to call __do_div64()
+> here, while we still prevent calling __aeabi_uldivmod() from
+> kernel source code.
+> 
+> Note that on earlier ARMv7 (Cortex-A8, A9), even a 32-bit
+> division is implemented through an expensive software loop.
+> Later cores (Cortex-A7, A15, A17) have native 32-bit division
+> instructions but still no 64-bit ones.
 
-Em Wed, 29 Jan 2025 01:43:24 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+It seems be possible to implement `__aeabi_uldivmod` like this [0]:
 
-> Em Tue, 28 Jan 2025 15:37:25 -0700
-> Jonathan Corbet <corbet@lwn.net> escreveu:
-> 
-> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> >   
-> > > Instead of running get_abi.py script, import AbiParser class and
-> > > handle messages directly there using an interactor. This shold save some
-> > > memory, as there's no need to exec python inside the Sphinx python
-> > > extension.
-> > >
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > > ---
-> > >  Documentation/sphinx/kernel_abi.py | 26 +++++++++++++++-----------
-> > >  scripts/get_abi.py                 |  2 +-
-> > >  2 files changed, 16 insertions(+), 12 deletions(-)
-> > >
-> > > diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
-> > > index fc7500fad119..93d537d8cb6c 100644
-> > > --- a/Documentation/sphinx/kernel_abi.py
-> > > +++ b/Documentation/sphinx/kernel_abi.py
-> > > @@ -42,6 +42,11 @@ from docutils.parsers.rst import directives, Directive
-> > >  from sphinx.util.docutils import switch_source_input
-> > >  from sphinx.util import logging
-> > >  
-> > > +srctree = os.path.abspath(os.environ["srctree"])
-> > > +sys.path.insert(0, os.path.join(srctree, "scripts"))
-> > > +
-> > > +from get_abi import AbiParser    
-> > 
-> > I have to admit that I don't like this bit of messing around with the
-> > path.  And importing things out of scripts/ seems ... inelegant.
-> > 
-> > I take it you still want to be able to run get_abi.py standalone even
-> > after it's directly integrated into Sphinx?    
-> 
-> Yes, because calling it via command line provides:
-> 
-> 1. a way to test the parser and check the results;
-> 2. a search utility;
-> 3. the undefined symbol verification.
-> 
-> Btw, if you look at the other Sphinx modules, they do exactly the same:
-> they execute code from scripts/. The only difference here is that,
-> instead of loading the a perl/python/shell engine and running the entire
-> script from there, it is importing just a class.
-> 
-> > In this case, it might be
-> > nicer to have the common library functionality in its own module that
-> > can be imported into both sphinx and the standalone command.   
-> 
-> This would be possible too: place the classes on a common lib dir and
-> then import it from both command line and Sphinx extensions.
-> 
-> If we're willing to do that, then perhaps we can have separate files
-> for each different class, as this could make it easier to maintain.
-> 
-> > That still
-> > leaves open the question of where that module lives
-> > (Documentation/sphinx perhaps?) and how the Python path gets set up
-> > correctly...  
-> 
-> I guess the command line at scripts/ could use something like this to
-> get the library location (untested) and add to the import search PATH:
-> 
-> 	import os
-> 
-> 	python_lib_dir="some/location"
-> 
-> 	scriptdir = os.path.dirname(os.path.realpath(__file__))
-> 
-> 	sys.path.insert(0, os.path.join(srctree, f"../{python_lib_dir}"))
-> 
-> 	from abi_parser import abiParser
-> 
-> Now, I'm not sure if the best location for python libraries would
-> be at Documentation/sphinx, as we may end needing other python
-> libraries with time and not all would be used by Sphinx.
-> 
-> In short: I would be more inclined to place them on 
-> a new lib directory (tools/lib? tools/py_lib? scripts/lib?).
-> 
-> See, with the content of this series, if we split files per each class,
-> it would mean 3 files:
-> 
->   1. abi_parser.py, containing AbiParser class (plus ABI_DIR const);
->      (this is the only class used by Documentation/sphinx extensions)
->   2. abi_regex.py, containing AbiRegex class;
->   3. abi_symbols.py, containing SystemSymbols class.
-> 
-> Now, if we're going on this direction, it may also make sense to split
-> the command line classes/functions into 4 (or 5 files) for argparse
-> argument definition and command run code. If we do that, it means that
-> other files will be stored somewhere:
-> 
->   4. abi_cmd_rest.py: AbiRest and AbiValidate classes for the rest 
->      and validate arguments (I would likely place both at the same file,
->      as the code is similar - but it could also be split on two separate
->      files);
->   5. abi_cmd_search.py: AbiSearch - for the search arguments;
->   6. abi_cmd_undefined.py: AbiUndefined - for the undocumented symbol check 
->      arguments;
-> 
-> Finally, there is the one under scripts/:
-> 
->   7. get_abi.py: with the main function
-> 
-> For (1), Documentation/sphinx could make sense, but (2) to (6) are
-> used only by the command line tool. Placing them at Documentation/ 
-> seems weird. Well, nothing prevents having them at scripts/, IMHO, things
-> would become more organized if we place the Python files with 0644
-> flags elsewhere.
+#[naked]
+#[cfg(target_arch = "arm")]
+#[export_name = "__rust__aeabi_uldivmod"]
+pub unsafe extern "C" fn __aeabi_uldivmod() {
+    unsafe {
+        core::arch::naked_asm!(
+            "push {{r4, lr}}",
+            "sub sp, sp, #16",
+            "add r4, sp, #8",
+            "str r4, [sp]",
+            "bl __udivmoddi4",
+            "ldr r2, [sp, #8]",
+            "ldr r3, [sp, #12]",
+            "add sp, sp, #16",
+            "pop {{r4, pc}}",
+        );
+    }
+}
 
-As I'll be preparing such patches for merge along this week, I'd
-like to know what do you prefer in terms of directories:
+However that requires the `naked_functions` unstable feature.
+Or it should be possible to just implement in a asm file.
 
-1. Keep it as-is;
-2. have a separate library directory for Python modules
-   (scripts/lib?);
-3. place python modules inside scripts/;
-4. place python modules inside Documentation/sphinx (IMO a bad
-   idea);
-5. something else
+I think it would be very difficult to entirely build core 
+without needing `__aeabi_uldivmod`. 
 
--
+Link: https://github.com/rust-lang/compiler-builtins/blob/6f96bccc5d4aa3ba4c4cebdf23a3ccc3bc7fe77c/src/arm.rs#L64-L77 [0]
 
-Btw, I'm considering to also submit later a patchset similar to
-this one converting kernel-doc to Python. I already started writing
-something like that (written from the scratch, following as much
-as possible what we have today on Perl to avoid regressions).
-
-I would probably split the code into separate classes to make the code 
-more readable/maintainable (a base class, a class with rest output,
-another one with man output, and a few other helper classes).
-
-Thanks,
-Mauro
+Christian
