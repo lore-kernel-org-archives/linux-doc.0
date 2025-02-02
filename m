@@ -1,152 +1,191 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08031F5E6
-	for <linux-doc@vger.kernel.org>; Sun,  2 Feb 2025 12:31:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B12E2111;
+	Sun,  2 Feb 2025 14:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738499463; cv=none; b=e0aDx+e83rSlmeuSgt4z0PJ0aEo/T53009JjUaNAraZBMH4GBmb2vHFReITBoTl5A9XPU/o+0KLnollCx7blKKbwBTkfl63x3K+6LZ5dAzxh9yHsIkdXc6bUG5RuBJqaonaygISh5YrR/bnDUJK8iLCv4tPNoLoeWSbrhhrAAlo=
+	t=1738508217; cv=none; b=L7dMZjTczRvEGuLgwmP0a0yMw1pFWZN5So+RHyxxD9PhK7L3mi4E/ytbOqnrw3xiVR8AVpOVlk8H1tigkSImkjJTKQXOynmtIj9F5VK+5sIpoi6XMY728547VDqxkB4cNS/6W3xhylda54u9ILKV7D129/ytTbTnRZX56nFTcKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738499463; c=relaxed/simple;
-	bh=8XkcDIU79KYn3BQikPV7cgBJWei8V9IOQLVVrLhURck=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=MwmOAmBDEGBSoZxkxqjDf45l5I9GCAJaxCEsh1G63nSaJGyP947oQ4Xax0e5LU4RaCmhkxTxW8NISywfjVSk2cA9vqkF4fdJbf3sBCMDeCC0kqakI2m8l4dr5hVFx9ASUmim7+ifKd6DvKbgOP61MJbdRUM6dKS0rfLlr+xYjco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NyNVDl1y; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1738508217; c=relaxed/simple;
+	bh=Sp9ehGbUnA5VYC9FOUIeT6JGoOqxGeF3OqdZZJPxA2E=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JNq1RtpYGNwj33T9G8WmNL2nwMPEqJIhvmwKNacnX55wPlLKDEKWHGcUNlwb3UOB5pari0IrF0ThFKPGSTGjHrGdRkra53cXjAqJaHehi3uhNVm3gY2Eb3QATTQZZAXuHs7ROlRbGrrODwiyeYJSQTrvYc+iusvZTYQcH9OlZaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IqBsI3Ar; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NyNVDl1y"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-385d7b4da2bso3112898f8f.1
-        for <linux-doc@vger.kernel.org>; Sun, 02 Feb 2025 04:31:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738499459; x=1739104259; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=q+p0ohduqaZ7edLUoQ+HYNori1GSc42S4tYMlilYNvY=;
-        b=NyNVDl1yrdC+uHkOVWjqkNDP/VY/TSHsRAYBVS/tY/VB9g/UklJRQmRED5fHHW4+rt
-         CkqOt3Eip4VMYEx1sWOgKfnCquoRgNW0lu8l8Of6hDaS5ZxKB7Z32c/6bzE62USEBmUN
-         Qjd896Opp7mUf9XSN5e84w/5FJjAFJiY//othHygggjGTm686UHEpwzh3bDcx2bwKZ+1
-         IUvz/jMqBqHmWR2QRJv7LzWyPp1PZvLDDnLcI6/wLbY2kUPKKnI9U4ILTvDH7x1L9P/G
-         KAQIsrHwcafuXOLJXWB/Gidu8Hph7DZXLQwdREj7x4XBuNLIteyAc9WFP4CGVsSa/20r
-         IRZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738499459; x=1739104259;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=q+p0ohduqaZ7edLUoQ+HYNori1GSc42S4tYMlilYNvY=;
-        b=OxrtzL80CrOsyBApSx+Pmn3zlb0luYcJcOwcZ9DZNFNPonYTWl/si1Z1mNArUVMB81
-         HdPZakLHTVsHxL8Uzvu0L5JPI1MmH8+QNwosOFXTuEA6GlkiQD9SSiklSP9P3/XUKIbX
-         /E0Lgh9jWnREhkabnRmcSccm8JQSrEe6zshBX2ghiOMLgRd9IS6gq71va6SBl57RLOvY
-         Cm88YHGG2WIeA8holz7PmQBP3oe9Yv5tuAjkG2ULtU3Ty9l4VgsOOQaVv7ZiqI56LorD
-         1ro+s8A2TMvdn2PITHJMCy/ltrIVG6lpsoUHNYhTgsj0nkYKQe2fio5+ulB5FxgWcENk
-         vBRw==
-X-Forwarded-Encrypted: i=1; AJvYcCWGA/bbLzqFTbqvtoN5RH1tRGiFtBNbrSw/eJdzPz+PpJ67bvat4rAItZybUSFHPxLuSs3Eh8ysP94=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBOcN3FpU+HMC8rEE9/uq3LJK41PabH5wAhICgwzNzKCfDcb8z
-	SdH/lLcBo4PFRNi2q3hmzYN6F3NUbhaKdjPd/oQtARmq5ZnJ6pwkRvvqLuT3qqk=
-X-Gm-Gg: ASbGnctfUE+v3W+AFvvAcLekAGk6CnZ9fJiQqd4U6+6gbrbsqCzYBeO+V/PUFoXjAgf
-	k8niLwfTuW01qUeK6dmbcWxLJfX53Lr0M15vwKet7r1eJA3LYm43H+9H817PBd6N9UeJ5jncgws
-	Qtx4Cet/m33J4hHmALHkG9zflup1EbZET+AddO3uArKvKXX11mye+qFY3NUDERHaPZsw3zVqq32
-	el+Km6T3fSueZ+woR0W4HlHNScA92xUzEanA+FB7vE1FCgA26n24pJKZ5kJzLd1U0/z4x/cWYEP
-	Uwzr0LDFvWHVUCniFqCK
-X-Google-Smtp-Source: AGHT+IG3DguqEpjs4KAq3Q5U108MHFsGzy1qjHj3g8CQKeY2xRe7mNrhaVjuu1vZih3UFfYOgwaFPQ==
-X-Received: by 2002:a05:6000:18ae:b0:38a:9fdb:7307 with SMTP id ffacd0b85a97d-38c51f8b280mr19894271f8f.43.1738499459090;
-        Sun, 02 Feb 2025 04:30:59 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-38c5c11b363sm9753396f8f.40.2025.02.02.04.30.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Feb 2025 04:30:57 -0800 (PST)
-Date: Sun, 2 Feb 2025 15:30:54 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Esteban Blanc <eblanc@baylibre.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Esteban Blanc <eblanc@baylibre.com>
-Subject: Re: [PATCH v3 2/6] iio: adc: ad4030: add driver for ad4030-24
-Message-ID: <4e0118d0-0992-4d71-8dfb-8b75c0f51a17@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IqBsI3Ar"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67649C4CED1;
+	Sun,  2 Feb 2025 14:56:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738508216;
+	bh=Sp9ehGbUnA5VYC9FOUIeT6JGoOqxGeF3OqdZZJPxA2E=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=IqBsI3ArwXUS0CaLam86P0eILg2YeJlYFwaMbyekJSvOReO5kLouJzZ920mBdV/iP
+	 6cSEofjSfbTokHjONdZuA6l3W10gNixfLus6DdCIiqKMb4eGPkU9u3AE0ZPxvlXpE8
+	 MZFmpGGimaXFNkg5Vop32lSKpfcjGq1bFyLptsOo0llc9j1HJ4aTgHQZ3n8TgZ7mpy
+	 OVQ8T/x9MfC34rIkXyjpEaUe8WhiqBMdpEHRg6nuRT9pFSIzyiszswQ/J07qrs6blw
+	 L10Gwp1C+3wzHkHyuvWaLdVlhyRQ9PEXoqitHUUjnSu2FSFQ0GMiX5PRR59PxmJ6hv
+	 GIij4Ie3LEWZQ==
+Date: Sun, 2 Feb 2025 15:56:52 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org
+Subject: Re: [RFC v2 18/38] docs: sphinx/kernel_abi: use AbiParser directly
+Message-ID: <20250202155652.1652e420@foz.lan>
+In-Reply-To: <20250129014324.60a8dfce@foz.lan>
+References: <cover.1738020236.git.mchehab+huawei@kernel.org>
+	<fb800900352d90a0e501e5d6732e1bea277478f2.1738020236.git.mchehab+huawei@kernel.org>
+	<87lduu7efu.fsf@trenco.lwn.net>
+	<20250129014324.60a8dfce@foz.lan>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250130-eblanc-ad4630_v1-v3-2-052e8c2d897d@baylibre.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Esteban,
+Hi Jon,
 
-kernel test robot noticed the following build warnings:
+Em Wed, 29 Jan 2025 01:43:24 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Esteban-Blanc/dt-bindings-iio-adc-add-ADI-ad4030-ad4630-and-ad4632/20250130-191153
-base:   ffd294d346d185b70e28b1a28abe367bbfe53c04
-patch link:    https://lore.kernel.org/r/20250130-eblanc-ad4630_v1-v3-2-052e8c2d897d%40baylibre.com
-patch subject: [PATCH v3 2/6] iio: adc: ad4030: add driver for ad4030-24
-config: um-randconfig-r071-20250202 (https://download.01.org/0day-ci/archive/20250202/202502021354.T5JOCCcy-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> Em Tue, 28 Jan 2025 15:37:25 -0700
+> Jonathan Corbet <corbet@lwn.net> escreveu:
+> 
+> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> >   
+> > > Instead of running get_abi.py script, import AbiParser class and
+> > > handle messages directly there using an interactor. This shold save some
+> > > memory, as there's no need to exec python inside the Sphinx python
+> > > extension.
+> > >
+> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > > ---
+> > >  Documentation/sphinx/kernel_abi.py | 26 +++++++++++++++-----------
+> > >  scripts/get_abi.py                 |  2 +-
+> > >  2 files changed, 16 insertions(+), 12 deletions(-)
+> > >
+> > > diff --git a/Documentation/sphinx/kernel_abi.py b/Documentation/sphinx/kernel_abi.py
+> > > index fc7500fad119..93d537d8cb6c 100644
+> > > --- a/Documentation/sphinx/kernel_abi.py
+> > > +++ b/Documentation/sphinx/kernel_abi.py
+> > > @@ -42,6 +42,11 @@ from docutils.parsers.rst import directives, Directive
+> > >  from sphinx.util.docutils import switch_source_input
+> > >  from sphinx.util import logging
+> > >  
+> > > +srctree = os.path.abspath(os.environ["srctree"])
+> > > +sys.path.insert(0, os.path.join(srctree, "scripts"))
+> > > +
+> > > +from get_abi import AbiParser    
+> > 
+> > I have to admit that I don't like this bit of messing around with the
+> > path.  And importing things out of scripts/ seems ... inelegant.
+> > 
+> > I take it you still want to be able to run get_abi.py standalone even
+> > after it's directly integrated into Sphinx?    
+> 
+> Yes, because calling it via command line provides:
+> 
+> 1. a way to test the parser and check the results;
+> 2. a search utility;
+> 3. the undefined symbol verification.
+> 
+> Btw, if you look at the other Sphinx modules, they do exactly the same:
+> they execute code from scripts/. The only difference here is that,
+> instead of loading the a perl/python/shell engine and running the entire
+> script from there, it is importing just a class.
+> 
+> > In this case, it might be
+> > nicer to have the common library functionality in its own module that
+> > can be imported into both sphinx and the standalone command.   
+> 
+> This would be possible too: place the classes on a common lib dir and
+> then import it from both command line and Sphinx extensions.
+> 
+> If we're willing to do that, then perhaps we can have separate files
+> for each different class, as this could make it easier to maintain.
+> 
+> > That still
+> > leaves open the question of where that module lives
+> > (Documentation/sphinx perhaps?) and how the Python path gets set up
+> > correctly...  
+> 
+> I guess the command line at scripts/ could use something like this to
+> get the library location (untested) and add to the import search PATH:
+> 
+> 	import os
+> 
+> 	python_lib_dir="some/location"
+> 
+> 	scriptdir = os.path.dirname(os.path.realpath(__file__))
+> 
+> 	sys.path.insert(0, os.path.join(srctree, f"../{python_lib_dir}"))
+> 
+> 	from abi_parser import abiParser
+> 
+> Now, I'm not sure if the best location for python libraries would
+> be at Documentation/sphinx, as we may end needing other python
+> libraries with time and not all would be used by Sphinx.
+> 
+> In short: I would be more inclined to place them on 
+> a new lib directory (tools/lib? tools/py_lib? scripts/lib?).
+> 
+> See, with the content of this series, if we split files per each class,
+> it would mean 3 files:
+> 
+>   1. abi_parser.py, containing AbiParser class (plus ABI_DIR const);
+>      (this is the only class used by Documentation/sphinx extensions)
+>   2. abi_regex.py, containing AbiRegex class;
+>   3. abi_symbols.py, containing SystemSymbols class.
+> 
+> Now, if we're going on this direction, it may also make sense to split
+> the command line classes/functions into 4 (or 5 files) for argparse
+> argument definition and command run code. If we do that, it means that
+> other files will be stored somewhere:
+> 
+>   4. abi_cmd_rest.py: AbiRest and AbiValidate classes for the rest 
+>      and validate arguments (I would likely place both at the same file,
+>      as the code is similar - but it could also be split on two separate
+>      files);
+>   5. abi_cmd_search.py: AbiSearch - for the search arguments;
+>   6. abi_cmd_undefined.py: AbiUndefined - for the undocumented symbol check 
+>      arguments;
+> 
+> Finally, there is the one under scripts/:
+> 
+>   7. get_abi.py: with the main function
+> 
+> For (1), Documentation/sphinx could make sense, but (2) to (6) are
+> used only by the command line tool. Placing them at Documentation/ 
+> seems weird. Well, nothing prevents having them at scripts/, IMHO, things
+> would become more organized if we place the Python files with 0644
+> flags elsewhere.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202502021354.T5JOCCcy-lkp@intel.com/
+As I'll be preparing such patches for merge along this week, I'd
+like to know what do you prefer in terms of directories:
 
-smatch warnings:
-drivers/iio/adc/ad4030.c:263 ad4030_spi_read() warn: calling memset(x, y, ARRAY_SIZE());
+1. Keep it as-is;
+2. have a separate library directory for Python modules
+   (scripts/lib?);
+3. place python modules inside scripts/;
+4. place python modules inside Documentation/sphinx (IMO a bad
+   idea);
+5. something else
 
-vim +263 drivers/iio/adc/ad4030.c
+-
 
-8cfce061c9e580 Esteban Blanc 2025-01-30  242  static int ad4030_spi_read(void *context, const void *reg, size_t reg_size,
-8cfce061c9e580 Esteban Blanc 2025-01-30  243  			   void *val, size_t val_size)
-8cfce061c9e580 Esteban Blanc 2025-01-30  244  {
-8cfce061c9e580 Esteban Blanc 2025-01-30  245  	int ret;
-8cfce061c9e580 Esteban Blanc 2025-01-30  246  	struct ad4030_state *st = context;
-8cfce061c9e580 Esteban Blanc 2025-01-30  247  	struct spi_transfer xfer = {
-8cfce061c9e580 Esteban Blanc 2025-01-30  248  		.tx_buf = st->tx_data,
-8cfce061c9e580 Esteban Blanc 2025-01-30  249  		.rx_buf = st->rx_data.raw,
-8cfce061c9e580 Esteban Blanc 2025-01-30  250  		.bits_per_word = 8,
-8cfce061c9e580 Esteban Blanc 2025-01-30  251  		.len = reg_size + val_size,
-8cfce061c9e580 Esteban Blanc 2025-01-30  252  		.speed_hz = AD4030_SPI_MAX_REG_XFER_SPEED,
-8cfce061c9e580 Esteban Blanc 2025-01-30  253  	};
-8cfce061c9e580 Esteban Blanc 2025-01-30  254  
-8cfce061c9e580 Esteban Blanc 2025-01-30  255  	if (xfer.len > ARRAY_SIZE(st->tx_data) ||
+Btw, I'm considering to also submit later a patchset similar to
+this one converting kernel-doc to Python. I already started writing
+something like that (written from the scratch, following as much
+as possible what we have today on Perl to avoid regressions).
 
-These ARRAY_SIZE() checks work fine before ->tx_data is a u8 but really
-is should be sizeof().
+I would probably split the code into separate classes to make the code 
+more readable/maintainable (a base class, a class with rest output,
+another one with man output, and a few other helper classes).
 
-8cfce061c9e580 Esteban Blanc 2025-01-30  256  	    xfer.len > ARRAY_SIZE(st->rx_data.raw))
-
-Same.
-
-8cfce061c9e580 Esteban Blanc 2025-01-30  257  		return  -EINVAL;
-8cfce061c9e580 Esteban Blanc 2025-01-30  258  
-8cfce061c9e580 Esteban Blanc 2025-01-30  259  	ret = ad4030_enter_config_mode(st);
-8cfce061c9e580 Esteban Blanc 2025-01-30  260  	if (ret)
-8cfce061c9e580 Esteban Blanc 2025-01-30  261  		return ret;
-8cfce061c9e580 Esteban Blanc 2025-01-30  262  
-8cfce061c9e580 Esteban Blanc 2025-01-30 @263  	memset(st->tx_data, 0, ARRAY_SIZE(st->tx_data));
-                                                                       ^^^^^^^^^^^^^^^^^^^^^^^
-same.
-
-8cfce061c9e580 Esteban Blanc 2025-01-30  264  	memcpy(st->tx_data, reg, reg_size);
-8cfce061c9e580 Esteban Blanc 2025-01-30  265  
-8cfce061c9e580 Esteban Blanc 2025-01-30  266  	ret = spi_sync_transfer(st->spi, &xfer, 1);
-8cfce061c9e580 Esteban Blanc 2025-01-30  267  	if (ret)
-8cfce061c9e580 Esteban Blanc 2025-01-30  268  		return ret;
-8cfce061c9e580 Esteban Blanc 2025-01-30  269  
-8cfce061c9e580 Esteban Blanc 2025-01-30  270  	memcpy(val, &st->rx_data.raw[reg_size], val_size);
-8cfce061c9e580 Esteban Blanc 2025-01-30  271  
-8cfce061c9e580 Esteban Blanc 2025-01-30  272  	return ad4030_exit_config_mode(st);
-8cfce061c9e580 Esteban Blanc 2025-01-30  273  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+Thanks,
+Mauro
