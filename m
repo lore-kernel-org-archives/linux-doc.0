@@ -1,64 +1,51 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFCE1D5154;
-	Sun,  2 Feb 2025 16:57:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E0D2144D8;
+	Sun,  2 Feb 2025 20:55:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738515435; cv=none; b=KqgKEMA6ombsINAbAPdPKggu/ua6cA3oAJ36Y9DQm8h75nRJSX9BFLtZv1oYJRHYl+dRB0KYlUKg7rczDBLxLhxwooI3Jahyulp3+x/9X53brZrusw8A21sTum3RASLWDzn8OPyaDy1XczUfR5mCV9GBH+5BLoKUEiAPNMeiQms=
+	t=1738529751; cv=none; b=TXze8+74EW6m235V0ZwEEwOTdbFfP3rCdcjUQev8X1Pc9yrlY4ch9VXab6u0RhXlKHNA//RLCm/iwtc8RBUOAygoFZ+iGqkNv/LuZHFKNZzbAsprQUNvN5S98zA8FTq6RNTYRXZAinkKUsXnY1hN8rk0ZQbqrw4ISy+CgETcoKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738515435; c=relaxed/simple;
-	bh=IGZw/c3qoMTFDdDCKwKPpgTwowB027sw2XXCX8Op4Xc=;
+	s=arc-20240116; t=1738529751; c=relaxed/simple;
+	bh=DQosqtRZSxKfbqx/NoW6In9I4lB44YHTpQfGR519/ck=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AOBXC9VIMyuVpiJL+6UU03U8rSFfe6Krpk+G+nTiZTWTdoFsF/PlWrQhPSJI3edS3p3gRFohrVddypn8XCDhDFowRjSGLpAwyPfz8ZHnJfT+S8x/hxcAD6VywwkKiUpnHKWG0IZpgr4GrwbhsAxRtRgYWatWPGeD3+tGTMUOgus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YVGLTD5m; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 In-Reply-To:Content-Type; b=cCcgLSoDvFoxe+E8QlhjOKzv0pTnG4dnGgkNNtrM3n++3YjXEUxxui7mW0S22rrqYts6aoduPe5h8Mhkg9vrB2vhTpcRWkqa0d4f/pPhuzVGdyeSArn7Gv67CbfFvHNho+CgpCARCmZCXN/djfwXc9MTHUVQAJd2c3jwgjlG0wU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ovn.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ovn.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YVGLTD5m"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-436345cc17bso26798435e9.0;
-        Sun, 02 Feb 2025 08:57:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738515432; x=1739120232; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Uwqe3wO2h1KhchbSQpJtyc0xUluXC5oEhfomc15Iqy0=;
-        b=YVGLTD5mHDVVG4gD+424u1a+NFbLAp5KzeJX5pBklDJuZiqzhZ7Ft9KCDSsTU3IR6+
-         hJn5uUSSFqb+qBAIYAqSYeEVMd53ps00OJkYgWlzqCuPTKbLs67OqZjXYMWRG7v4UfIi
-         tILlRNuLzL6zWWMV9U8pT2c3mr13FHrsBUePwe8moHcoYBR3lN3/x5medF/tVRR8AtIe
-         5cQE0IyUawfesIve/ruPfRAGNMSGdH39VEpofSC1t689bosIxrM3s/jniGG4O5yK7edB
-         kBZyA9fvWDGl86PVSinjMbT7nYRmuh827dqpCcPabM6SmCyD4saF+6dswuPjL2COmmuZ
-         12zw==
+Received: by mail-ej1-f65.google.com with SMTP id a640c23a62f3a-ab6f636d821so532158066b.1;
+        Sun, 02 Feb 2025 12:55:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738515432; x=1739120232;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Uwqe3wO2h1KhchbSQpJtyc0xUluXC5oEhfomc15Iqy0=;
-        b=e+kx3QWXSQ16x01y/txnXc9Mt2+uBISXjHYoHbgEcdyBn4CRpjQXJc00+OFgDr0I1u
-         ROi7uNM+8DVRScgaYrnDEwOnIyN1CUKkK5zbeZRuTBZyEVaOB2+jrRspMz3lQn11x5PF
-         pRu/uVBE0kX4IX2uqPLLCkbqrSEhSUTdNZSTSBhsBwJf1A2VQvHTdBEXrJxaTMHp+NcZ
-         JmCm7RciWGKhfZjvp8TchgP7/EYxlbuiPc+ovryfxfXSd8V+FbGtJ2yY/mgtyNpgilTn
-         69n0Ey+yPBI5LyilxRKB4VgoWm+ZyFKKOgg8qvJaUsYFZ2D7TeZYBpC7cEiGPOSqBhj3
-         ORLg==
-X-Forwarded-Encrypted: i=1; AJvYcCVLvnni19ui9WSuXfQuiveELK3IIUce6GBep3qi+DoPFQ8UmG/vbQiIVipb37iJeznyEIKns0AOPdaBulkNR1o=@vger.kernel.org, AJvYcCWbdWFcWBv90mJ1tinAF7hqVjeaPtJTX9x2C7fsQELbR76nKH0tpzV6/Wlj9GYVni5k7dr2OX4dmQRFf7IF@vger.kernel.org, AJvYcCXSc67bazd9dxRiZb6lFgSNt8H3FzW70ewVpatts+N6JE5Nd4GPmbXncfUaSIlmue+PQbmAuTAIp94=@vger.kernel.org
-X-Gm-Message-State: AOJu0YynlNLWG7cK1dB5bgUotuxsurAQaajuhT6+/IYqcSVB5FUJUwUQ
-	TfO007Lm7QJD3m1J/2XMQh6Zzy8uysLX3lGsO0Ysk8KVNbhogpXq
-X-Gm-Gg: ASbGncv9wRk3HU6Hj57Hk8N8J9bM7ntqR5iEIFMxWqsTDhUdUTWe5wViESE+jlR3fXA
-	Jl+UXb/n/oJoaIP892WCp3B8Jz4qmNPxX0nwDioU4TrtMkK3owEP2sXG4ueYvGmt6LHWa/HdH98
-	R0xnRAcWOYF2UPklHZVJtG9+029KwUiBooAgQ6JhDFn0smIt5TavwunqjLUc0BJ8QFOc8NGyOhw
-	cZHuxZNprT806jlr8FMI0xKfyG8818uIGjpJW8cnwZaBbje/JflUPACg3YExIIkeFfGvp5/opWb
-	6nXt9qH+0OdbexbzJ/NpyCMlODAg
-X-Google-Smtp-Source: AGHT+IHGI4vuDKmxm2ggxLHqDVzd9rJXWTNLOaDrF/1kFKr5pLWjbelTJUrlum0Weyhom1nxQpYfcA==
-X-Received: by 2002:a05:6000:1ace:b0:385:ec89:2f07 with SMTP id ffacd0b85a97d-38c51970003mr13999601f8f.32.1738515431517;
-        Sun, 02 Feb 2025 08:57:11 -0800 (PST)
-Received: from ?IPV6:2001:871:22a:99c5::1ad1? ([2001:871:22a:99c5::1ad1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c11b71asm10539536f8f.39.2025.02.02.08.57.10
+        d=1e100.net; s=20230601; t=1738529748; x=1739134548;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=poe6drOjTOYsDCAwDHGjHlxEZ536/WH5uWxLtf2GTsg=;
+        b=CuTqtZ4LiKfSqtiwaW3xiw3TqWolOH32rgjJaDD2kdTrw8RXANqKoRgSEDCeZvDoW0
+         e0VXyxINjNoj8pdkz+TrG0XowqnxMCXvx/wkaIORWE4ko5NVZ9hMnQw21qmaO3LM/Bv3
+         8gOh9QZhnLoIDRaPCMpVH4bwolq4F5iw9/3J8Txt593rWTPqnXj4vzC3qmRpMsgw4+h7
+         dvy2U1rEcwQTydU0Q/g6jLhF5b8mUSN+fAe8XGLzOl3Agypl2v6NS0I/XGkdW3goVtGO
+         rTCA49Vb51/Mkkl7P3K9lLl6tfT6Zisf5imbJalNx52IitDth4a/pNrpwBeBPvQgQhLA
+         8NRA==
+X-Forwarded-Encrypted: i=1; AJvYcCV86f6oMPoUk2qDy2cVSgwoc9QxJIVGRtVYw2lHbLyfljgXu1DXnXJtZWGUJDWDBlCediGh/zlu@vger.kernel.org, AJvYcCXXGokLy6gPws6K1dlkmL0zIBYOdoSiXYrEp7whV2STnCvf/2sPFkpbmn7WETimoOp7ebKvrVqB90w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHmEISBmsHPdg3rAH1sbIS9zMPECmoSBWzSPWCU+UnsVLT3xuH
+	ixLyhzhDowqjgSkqg4QVETWGuYdV4IVIZ+Key2jXvVFKfrrgEY0y
+X-Gm-Gg: ASbGncsiR+PBEyFlgON5S0y8j7T5QKRckdxwywbc3ENJy8LiJKARf2nScGegnAYfhCQ
+	Ioi/CLcJ6kOCNgEo8LpPRxmIM85jBlwKSOcL9qtjlxP4e9NQ8OKB87M+ubdQq3YOO7pSNVogVpJ
+	68k9Vtdg5rmbhLCBaLkD3rL4LC+gxxxxMCiB8B6nur38a1mGjxRinISjFJpwht9tirmmF1TANfw
+	qOdqfOaw/xh3OOjginJHYIOG+W9o/C+UvdLcRVR18z4KAxQQlMdSx9v+VS8Ljfh9LSxc4r7SoRc
+	RT4PGj5jgQvtkmE=
+X-Google-Smtp-Source: AGHT+IEKbAz2zVgJC6vmaniVDDsmyTegQgYClI+FbH09aFMnhkb0r4Wpem8s8i/s2Ib6KT/7+xNgvQ==
+X-Received: by 2002:a17:906:c114:b0:ab6:ed9e:9739 with SMTP id a640c23a62f3a-ab6ed9e9903mr1334106766b.42.1738529747865;
+        Sun, 02 Feb 2025 12:55:47 -0800 (PST)
+Received: from [192.168.0.13] ([86.49.44.151])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab6e4a2fa18sm637027766b.131.2025.02.02.12.55.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Feb 2025 08:57:11 -0800 (PST)
-Message-ID: <72feff7d-a305-4ca3-9c28-9040c791d3c5@gmail.com>
-Date: Sun, 2 Feb 2025 17:57:09 +0100
+        Sun, 02 Feb 2025 12:55:47 -0800 (PST)
+Message-ID: <b9a9922c-1290-4d58-9e37-6d999e6c70d1@ovn.org>
+Date: Sun, 2 Feb 2025 21:55:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -66,121 +53,103 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] arm: rust: Enable Rust support for ARMv7
-To: Arnd Bergmann <arnd@arndb.de>, Andrew Lunn <andrew@lunn.ch>,
- Miguel Ojeda <ojeda@kernel.org>
-Cc: Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Jonathan Corbet <corbet@lwn.net>,
- Russell King <linux@armlinux.org.uk>, Rudraksha Gupta <guptarud@gmail.com>,
- Ard Biesheuvel <ardb@kernel.org>, Geert Stappers <stappers@stappers.nl>,
- Jamie Cunliffe <Jamie.Cunliffe@arm.com>,
- Sven Van Asbroeck <thesven73@gmail.com>, rust-for-linux@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <20250123-rfl-arm32-v3-1-8f13623d42c5@gmail.com>
- <a83b0149-7055-411b-ba86-d227919c7c32@app.fastmail.com>
- <f8b59f05-55b5-4208-8bdf-b4be8e93bc22@gmail.com>
- <65da77f7-bbd4-4cbe-a06c-75f10a6ec4ce@lunn.ch>
- <5e8a99a5-f39c-46da-b54d-7b69307b1c66@gmail.com>
- <e14cfb34-308f-4797-afe7-4e7e2d470fe3@app.fastmail.com>
-Content-Language: en-US, de-DE
-From: Christian Schrefl <chrisi.schrefl@gmail.com>
-In-Reply-To: <e14cfb34-308f-4797-afe7-4e7e2d470fe3@app.fastmail.com>
+Subject: Re: [PATCH] docs: networking: Remove VLAN_TAG_PRESENT from
+ openvswitch doc
+To: Andreas Karis <ak.karis@gmail.com>, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, davem@davemloft.net,
+ netdev@vger.kernel.org, corbet@lwn.net, Jakub Kicinski <kuba@kernel.org>,
+ Eric Dumazet <edumazet@google.com>, ovs-dev <ovs-dev@openvswitch.org>,
+ i.maximets@ovn.org, Paolo Abeni <pabeni@redhat.com>
+References: <20250129160625.97979-1-ak.karis@gmail.com>
+Content-Language: en-US
+From: Ilya Maximets <i.maximets@ovn.org>
+Autocrypt: addr=i.maximets@ovn.org; keydata=
+ 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
+In-Reply-To: <20250129160625.97979-1-ak.karis@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 31.01.25 8:37 PM, Arnd Bergmann wrote:
-> On Fri, Jan 31, 2025, at 19:58, Christian Schrefl wrote:
->> On 31.01.25 5:05 PM, Andrew Lunn wrote:
->>>> To fix this Rust would have to provide a way to build the core
->>>> library without float support. I don't know if there is a plan
->>>> already to allow this.
->>>
->>> Floating point is banned within the kernel, except for in very narrow
->>> conditions, because the floating point registers are lazy saved on
->>> context switch. If the kernel uses the floating point registers, you
->>> can break user space in bad ways.
->>>
->>> I expect this has been discussed, since it is well known kernel
->>> restriction. Maybe go see what happened to that discussion within RfL?
->>
->> After checking again, it seems the float intrinsics are actually not
->> needed anymore at least for my config.
+On 1/29/25 17:06, Andreas Karis wrote:
+> Since commit 0c4b2d370514cb4f3454dd3b18f031d2651fab73
+> ("net: remove VLAN_TAG_PRESENT"), the kernel no longer sets the DEI/CFI
+> bit in __vlan_hwaccel_put_tag to indicate the presence of a VLAN tag.
+> Update the openvswitch documentation which still contained an outdated
+> reference to this mechanism.
 > 
-> Ah, nice! If this is true for all architectures using the current
-> rust compiler, it would be great to remove the FP stubs entirely
-> and have link errors instead of panicking, to make it consistent
-> with C.
+> Signed-off-by: Andreas Karis <ak.karis@gmail.com>
+> ---
+>  Documentation/networking/openvswitch.rst | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
 > 
->> Only `__aeabi_uldivmod` is still
->> required for `parse_u64_into` since [0] allows disabling float formatting.
->>
->> Link error without the `__aeabi_uldivmod` symbol defined:
->>
->> ld.lld: error: undefined symbol: __aeabi_uldivmod
->>>>> referenced by num.rs:580 (/home/chrisi/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/num.rs:580)
->>>>>               rust/core.o:(core::fmt::num::parse_u64_into::<39>) in archive vmlinux.a
->>>>> referenced by num.rs:589 (/home/chrisi/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/num.rs:589)
->>>>>               rust/core.o:(core::fmt::num::parse_u64_into::<39>) in archive vmlinux.a
->>>>> referenced by num.rs:589 (/home/chrisi/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/num.rs:589)
->>>>>               rust/core.o:(core::fmt::num::parse_u64_into::<39>) in archive vmlinux.a
->>>>> referenced 34 more times
->>>>> did you mean: __aeabi_uidivmod
->>>>> defined in: vmlinux.a(arch/arm/lib/lib1funcs.o)
->>
->> Not sure if we should just implement `__aeabi_uldivmod`, keep the 
->> panicking intrinsic for it or somehow fix it in upstream Rust?
-> 
-> The 64-bit division is particularly easy to introduce by accident
-> on 32-bit architectures, so ending up in a panic here is clearly
-> a problem. From the message above it appears that there is only 
-> a single calling function (parse_u64_into()) in the rust library,
-> so I wonder if it might be sufficient to split that out into
-> another object file that then doesn't need to get linked into
-> the kernel, or for the kernel to override it with an implementation
-> that does not rely on __aeabi_uldivmod() but calls __do_div64()
-> instead.
-> 
-> Since parse_u64_into seems to be a parsing function that is
-> expected to be slow, it should be acceptable to call __do_div64()
-> here, while we still prevent calling __aeabi_uldivmod() from
-> kernel source code.
-> 
-> Note that on earlier ARMv7 (Cortex-A8, A9), even a 32-bit
-> division is implemented through an expensive software loop.
-> Later cores (Cortex-A7, A15, A17) have native 32-bit division
-> instructions but still no 64-bit ones.
+> diff --git a/Documentation/networking/openvswitch.rst b/Documentation/networking/openvswitch.rst
+> index 1a8353dbf1b6..5699bbadea47 100644
+> --- a/Documentation/networking/openvswitch.rst
+> +++ b/Documentation/networking/openvswitch.rst
+> @@ -230,11 +230,9 @@ an all-zero-bits vlan and an empty encap attribute, like this::
+>      eth(...), eth_type(0x8100), vlan(0), encap()
+>  
+>  Unlike a TCP packet with source and destination ports 0, an
+> -all-zero-bits VLAN TCI is not that rare, so the CFI bit (aka
+> -VLAN_TAG_PRESENT inside the kernel) is ordinarily set in a vlan
+> -attribute expressly to allow this situation to be distinguished.
+> -Thus, the flow key in this second example unambiguously indicates a
+> -missing or malformed VLAN TCI.
+> +all-zero-bits VLAN TCI is not that rare and the flow key in
+> +this second example cannot indicate a missing or malformed
+> +VLAN TCI.
 
-It seems be possible to implement `__aeabi_uldivmod` like this [0]:
+Hi, Andreas.  While mentioning of the VLAN_TAG_PRESENT bit is clearly
+outdated, I don't think the other parts of the paragraph should be
+changed.  The openvswitch module is still using VLAN_CFI bit in the
+flow key extracted from the packet as an indicator of the vlan presence.
+See the parse_vlan() function in net/openvswitch/flow.c.  And it's
+still required for userspace to have this bit set on the flow key for
+vlan packets to be correctly matched.  So, while not directly set in
+the skb, this bit is still set in the flow key and that's how the flow
+key can still indicate a missing or malformed VLAN header.
 
-#[naked]
-#[cfg(target_arch = "arm")]
-#[export_name = "__rust__aeabi_uldivmod"]
-pub unsafe extern "C" fn __aeabi_uldivmod() {
-    unsafe {
-        core::arch::naked_asm!(
-            "push {{r4, lr}}",
-            "sub sp, sp, #16",
-            "add r4, sp, #8",
-            "str r4, [sp]",
-            "bl __udivmoddi4",
-            "ldr r2, [sp, #8]",
-            "ldr r3, [sp, #12]",
-            "add sp, sp, #16",
-            "pop {{r4, pc}}",
-        );
-    }
-}
+So, while the VLAN_TAG_PRESENT remark inside the parenthesis can be
+removed, the rest of the text should stay intact.
 
-However that requires the `naked_functions` unstable feature.
-Or it should be possible to just implement in a asm file.
-
-I think it would be very difficult to entirely build core 
-without needing `__aeabi_uldivmod`. 
-
-Link: https://github.com/rust-lang/compiler-builtins/blob/6f96bccc5d4aa3ba4c4cebdf23a3ccc3bc7fe77c/src/arm.rs#L64-L77 [0]
-
-Christian
+Best regards, Ilya Maximets.
