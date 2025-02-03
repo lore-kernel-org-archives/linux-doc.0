@@ -1,83 +1,80 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80FF202C2A;
-	Mon,  3 Feb 2025 11:01:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 806711D5146;
+	Mon,  3 Feb 2025 11:05:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738580508; cv=none; b=D6tSNqwBnfaKafHikNEbRkhQaLSCECgb6GP3TdM2k+7RXmEZQJwkKLPf/y8F8MaZrzgvnJjsEpiGiwzhEDjHfR44STH8L2lQwzYH2sn53IXCn2ZxxMkMwt1JUZ33LuY/ikNaSQ49+lHBm1PlZfGTvYotdVkTyS3ht89yZQVcQGY=
+	t=1738580735; cv=none; b=Orm/fk5Kf4Lm8BpEg5/bbMrZi8t8RwWuDyiHvGWGAIjr+n6e2VvueZu9Fr4+/Ns9t0mMI2ctKCTuJHMGzxW1Lhd/DPc+acoPKPaT3X/wWmbB+qi45UL9w9OgN6nk7VAJ+AHy/F7BatbbO75SOfFvs7mJRQBIogzv/sFP67bVpjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738580508; c=relaxed/simple;
-	bh=8GkETiTGBP9q5mixXC4jA0BYouO97SgA3qumfOQmHrs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZMuwbn3Qh7f82d6+EmCwcISuEPga8W/BAsIQjDpOFu3XMlbIwWywjeyR3SqDpy3w7nPOOSBw00bM4BnI/hA7sy6IwySc2ti/9I/mXDS/v5VUGqvRjbM0qxVj5P9V0i06zqxwIcoTHbzAX1dgNF32yowqv5K22Pdi9N7v2ZrsNBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JIC71Ot8; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JIC71Ot8"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 93A7D44308;
-	Mon,  3 Feb 2025 11:01:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1738580503;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4pipkAKB6Y5/xQqX+bJd5jY3xXtAv0BFlQru9j60lSo=;
-	b=JIC71Ot8xpQhbw/s2aXlunpTXWeJaUmR3mEJg1VGNIzWExwtF4WBeyYidkqlhPV6nWG5YZ
-	ZMAYi6xQgpT3Xa/XsmjZWi4awkuKPjJ47abtSPZeJi52THQ420tW7jDibPfIf800yGXmwf
-	b30DVD4YLfKB3oqhmmg4dVzgKm7DyOx+axtz4yb1tbj99g7q55gzMyyn/lIKM4E6EUvR0S
-	H5QyL5oKJVduMU2xpjrcqREg5sDOa7+X+/+ScrURNT8jWTQkhYytSdcuCUQ6SsrHVmNaqC
-	UYatvthHJj9hybrvtx6KzhKxMQsZOJNzebkZLinYTR17ajPIuvS3kqHC8DhYQg==
-From: Thomas Richard <thomas.richard@bootlin.com>
-Date: Mon, 03 Feb 2025 12:01:06 +0100
-Subject: [PATCH v4 2/2] mfd: cgbc: add a hwmon cell
+	s=arc-20240116; t=1738580735; c=relaxed/simple;
+	bh=JADNOHwZuM/Kt2BoITbiOVwJSHUgBRO8bNiqSXLiZjs=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PSKDWRx8xs1ogqllCE/HDCqWXDodCYn1JvkwPIRRZPRMtDyYb1OZ3ASZxohNmFvQsqXUFoHQl/rRmHHgeCh7XlSWYq9pwXKsChH+SVuRnKsXw3Ny7xOo2Ozsax1qzU1Ng2U4oO9X1jtQjCr/cIChCvbdejuHXgLI24KEAEwbEpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YmkCr3G7nz6K90T;
+	Mon,  3 Feb 2025 19:04:40 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 025CB14011B;
+	Mon,  3 Feb 2025 19:05:30 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 3 Feb
+ 2025 12:05:29 +0100
+Date: Mon, 3 Feb 2025 11:05:27 +0000
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: "Yoshihiro Furudera (Fujitsu)" <fj5100bi@fujitsu.com>
+CC: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Catalin Marinas <catalin.marinas@arm.com>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, Bjorn Andersson
+	<quic_bjorande@quicinc.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Dmitry Baryshkov
+	<dmitry.baryshkov@linaro.org>, Konrad Dybcio <konradybcio@kernel.org>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>, Arnd Bergmann <arnd@arndb.de>, "
+ =?ISO-8859-1?Q?N=EDcolas?= \"\"F. R. A. Prado\"\"" <nfraprado@collabora.com>,
+	Thomas Gleixner <tglx@linutronix.de>, "Peter Zijlstra"
+	<peterz@infradead.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 1/2] perf: Fujitsu: Add the Uncore MAC PMU driver
+Message-ID: <20250203110527.00006747@huawei.com>
+In-Reply-To: <OS3PR01MB6903DC3738709A4536A62613D4F52@OS3PR01MB6903.jpnprd01.prod.outlook.com>
+References: <20250116045911.3382537-1-fj5100bi@fujitsu.com>
+	<20250116045911.3382537-2-fj5100bi@fujitsu.com>
+	<20250130170422.00004c6f@huawei.com>
+	<OS3PR01MB6903DC3738709A4536A62613D4F52@OS3PR01MB6903.jpnprd01.prod.outlook.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250203-congatec-board-controller-hwmon-v4-2-ff6c76a4662c@bootlin.com>
-References: <20250203-congatec-board-controller-hwmon-v4-0-ff6c76a4662c@bootlin.com>
-In-Reply-To: <20250203-congatec-board-controller-hwmon-v4-0-ff6c76a4662c@bootlin.com>
-To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Lee Jones <lee@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
- thomas.petazzoni@bootlin.com, blake.vermeer@keysight.com, 
- linux-doc@vger.kernel.org, Thomas Richard <thomas.richard@bootlin.com>
-X-Mailer: b4 0.14.1
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddujeegvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpefvhhhomhgrshcutfhitghhrghrugcuoehthhhomhgrshdrrhhitghhrghrugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkedthedvieethedtleetffehudevleegledvteegvdeujeeghffhkeeggfefudevnecukfhppedvrgdtudemtggsudegmeehheeimeejrgdttdemuggtkedumegrrggutdemfhgutggrmegttgdurgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudegmeehheeimeejrgdttdemuggtkedumegrrggutdemfhgutggrmegttgdurgdphhgvlhhopegluddvjedrtddruddrudgnpdhmrghilhhfrhhomhepthhhohhmrghsrdhrihgthhgrrhgusegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedutddprhgtphhtthhopehlihhnuhigsehrohgvtghkqdhushdrnhgvthdprhgtphhtthhopehlvggvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnu
- higqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhhfihmohhnsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehthhhomhgrshdrrhhitghhrghrugessghoohhtlhhinhdrtghomhdprhgtphhtthhopehjuggvlhhvrghrvgesshhushgvrdgtohhm
-X-GND-Sasl: thomas.richard@bootlin.com
+X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-The Board Controller has some internal sensors.
-Add a hwmon cell for the cgbc-hwmon driver which adds support for
-temperature, voltage, current and fan sensors.
+On Mon, 3 Feb 2025 07:18:38 +0000
+"Yoshihiro Furudera (Fujitsu)" <fj5100bi@fujitsu.com> wrote:
 
-Signed-off-by: Thomas Richard <thomas.richard@bootlin.com>
----
- drivers/mfd/cgbc-core.c | 1 +
- 1 file changed, 1 insertion(+)
+> > 
+> > mod_devicetable.h
+> > for the acpi device table.  
+> 
+> After checking, I found that
+> linux/mod_devicetable.h is included in linux/acpi.h.
 
-diff --git a/drivers/mfd/cgbc-core.c b/drivers/mfd/cgbc-core.c
-index 85283c8dde25..0460e4e3f3c5 100644
---- a/drivers/mfd/cgbc-core.c
-+++ b/drivers/mfd/cgbc-core.c
-@@ -236,6 +236,7 @@ static struct mfd_cell cgbc_devs[] = {
- 	{ .name = "cgbc-gpio"	},
- 	{ .name = "cgbc-i2c", .id = 1 },
- 	{ .name = "cgbc-i2c", .id = 2 },
-+	{ .name = "cgbc-hwmon"	},
- };
- 
- static int cgbc_map(struct cgbc_device_data *cgbc)
+True but with a few really tightly couple exceptions, normal
+kernel policy is follow include what you use principles.
 
--- 
-2.39.5
+
+Thanks,
+
+Jonathan
+
 
