@@ -1,155 +1,141 @@
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E0D2144D8;
-	Sun,  2 Feb 2025 20:55:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F7EB65C;
+	Mon,  3 Feb 2025 00:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738529751; cv=none; b=TXze8+74EW6m235V0ZwEEwOTdbFfP3rCdcjUQev8X1Pc9yrlY4ch9VXab6u0RhXlKHNA//RLCm/iwtc8RBUOAygoFZ+iGqkNv/LuZHFKNZzbAsprQUNvN5S98zA8FTq6RNTYRXZAinkKUsXnY1hN8rk0ZQbqrw4ISy+CgETcoKI=
+	t=1738543398; cv=none; b=j5sFTOxdxYrrRSBUSTH5Pq9i5hwawouk62OdPVnstdphBuXG55Ky3A4zHUFcruxvIIo4oD1BCy/mgYeD8yvev5pNCFKNc/KYU26c4hrTX7dBgoNwppDhzJR4igoCoz6psFa99kDRxkSDw9u4mAM9Ukf3fcUqcZTSQrWqIwhoqZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738529751; c=relaxed/simple;
-	bh=DQosqtRZSxKfbqx/NoW6In9I4lB44YHTpQfGR519/ck=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cCcgLSoDvFoxe+E8QlhjOKzv0pTnG4dnGgkNNtrM3n++3YjXEUxxui7mW0S22rrqYts6aoduPe5h8Mhkg9vrB2vhTpcRWkqa0d4f/pPhuzVGdyeSArn7Gv67CbfFvHNho+CgpCARCmZCXN/djfwXc9MTHUVQAJd2c3jwgjlG0wU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ovn.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ovn.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f65.google.com with SMTP id a640c23a62f3a-ab6f636d821so532158066b.1;
-        Sun, 02 Feb 2025 12:55:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738529748; x=1739134548;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=poe6drOjTOYsDCAwDHGjHlxEZ536/WH5uWxLtf2GTsg=;
-        b=CuTqtZ4LiKfSqtiwaW3xiw3TqWolOH32rgjJaDD2kdTrw8RXANqKoRgSEDCeZvDoW0
-         e0VXyxINjNoj8pdkz+TrG0XowqnxMCXvx/wkaIORWE4ko5NVZ9hMnQw21qmaO3LM/Bv3
-         8gOh9QZhnLoIDRaPCMpVH4bwolq4F5iw9/3J8Txt593rWTPqnXj4vzC3qmRpMsgw4+h7
-         dvy2U1rEcwQTydU0Q/g6jLhF5b8mUSN+fAe8XGLzOl3Agypl2v6NS0I/XGkdW3goVtGO
-         rTCA49Vb51/Mkkl7P3K9lLl6tfT6Zisf5imbJalNx52IitDth4a/pNrpwBeBPvQgQhLA
-         8NRA==
-X-Forwarded-Encrypted: i=1; AJvYcCV86f6oMPoUk2qDy2cVSgwoc9QxJIVGRtVYw2lHbLyfljgXu1DXnXJtZWGUJDWDBlCediGh/zlu@vger.kernel.org, AJvYcCXXGokLy6gPws6K1dlkmL0zIBYOdoSiXYrEp7whV2STnCvf/2sPFkpbmn7WETimoOp7ebKvrVqB90w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHmEISBmsHPdg3rAH1sbIS9zMPECmoSBWzSPWCU+UnsVLT3xuH
-	ixLyhzhDowqjgSkqg4QVETWGuYdV4IVIZ+Key2jXvVFKfrrgEY0y
-X-Gm-Gg: ASbGncsiR+PBEyFlgON5S0y8j7T5QKRckdxwywbc3ENJy8LiJKARf2nScGegnAYfhCQ
-	Ioi/CLcJ6kOCNgEo8LpPRxmIM85jBlwKSOcL9qtjlxP4e9NQ8OKB87M+ubdQq3YOO7pSNVogVpJ
-	68k9Vtdg5rmbhLCBaLkD3rL4LC+gxxxxMCiB8B6nur38a1mGjxRinISjFJpwht9tirmmF1TANfw
-	qOdqfOaw/xh3OOjginJHYIOG+W9o/C+UvdLcRVR18z4KAxQQlMdSx9v+VS8Ljfh9LSxc4r7SoRc
-	RT4PGj5jgQvtkmE=
-X-Google-Smtp-Source: AGHT+IEKbAz2zVgJC6vmaniVDDsmyTegQgYClI+FbH09aFMnhkb0r4Wpem8s8i/s2Ib6KT/7+xNgvQ==
-X-Received: by 2002:a17:906:c114:b0:ab6:ed9e:9739 with SMTP id a640c23a62f3a-ab6ed9e9903mr1334106766b.42.1738529747865;
-        Sun, 02 Feb 2025 12:55:47 -0800 (PST)
-Received: from [192.168.0.13] ([86.49.44.151])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab6e4a2fa18sm637027766b.131.2025.02.02.12.55.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Feb 2025 12:55:47 -0800 (PST)
-Message-ID: <b9a9922c-1290-4d58-9e37-6d999e6c70d1@ovn.org>
-Date: Sun, 2 Feb 2025 21:55:46 +0100
+	s=arc-20240116; t=1738543398; c=relaxed/simple;
+	bh=GpuZv6X9a6Iwav9fDexP5CTqJHFoGKqBKJpUPFkjJQs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JxUdCzcGWqLva002N/5J6tQ6mwzrY0sW32D+6MwHeTceNKga+v8kLDROKOYqY6gl2qFpOrHNCLfJwTwfnRK8FG4JotqtWL6ANbBbPJhQYazPCwecS6OJYyVYCOCAu/ApPfdoExOF3esNCq/EkCm+HYeNUerpnTvNHeGf4Q99xXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TwN2gbFc; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TwN2gbFc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84CA5C4CED1;
+	Mon,  3 Feb 2025 00:43:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738543396;
+	bh=GpuZv6X9a6Iwav9fDexP5CTqJHFoGKqBKJpUPFkjJQs=;
+	h=From:Subject:Date:To:Cc:From;
+	b=TwN2gbFcustSVQowbpDiSu3hDdQ5n7MYCaOg3+uUa6Ar/XcJBfkMu1jb2OgKVD/Q4
+	 s7BYp78utgencj8QXwYswiRUQ3IbwABey4810SZvhuV7woxFX9znp4UbvaAcco3VTg
+	 pz3iNYNj7T8fEMQdExBXZNsaJO2oBRxRMInAKx5rk8iqaTOqJeisTpaFc0dDDlECr3
+	 2wgajwRkIsUSDibsQEEI1QtBLukE5o5oK3Y79bT0Q6pxdTTBfTt+QHT9SWuxMVHPA4
+	 5enNChqZ4+ypGpoBfytmoPcqGJ3b7p+4ZVifBnlBnNh7lKl8XEx6V7rsgmfNQrM+Ai
+	 FXjKZHaTDvMiw==
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Subject: [PATCH v19 00/11] arm64/perf: Enable branch stack sampling
+Date: Sun, 02 Feb 2025 18:42:54 -0600
+Message-Id: <20250202-arm-brbe-v19-v19-0-1c1300802385@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: networking: Remove VLAN_TAG_PRESENT from
- openvswitch doc
-To: Andreas Karis <ak.karis@gmail.com>, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, davem@davemloft.net,
- netdev@vger.kernel.org, corbet@lwn.net, Jakub Kicinski <kuba@kernel.org>,
- Eric Dumazet <edumazet@google.com>, ovs-dev <ovs-dev@openvswitch.org>,
- i.maximets@ovn.org, Paolo Abeni <pabeni@redhat.com>
-References: <20250129160625.97979-1-ak.karis@gmail.com>
-Content-Language: en-US
-From: Ilya Maximets <i.maximets@ovn.org>
-Autocrypt: addr=i.maximets@ovn.org; keydata=
- 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
-In-Reply-To: <20250129160625.97979-1-ak.karis@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAA4RoGcC/x2MQQqAMAzAviI9W3DVCfMr4mG6qj04pQMRhn93e
+ EwgyZBYhRMMVQblW5KcsYBxdQXL7uPGKKEIoIZsY8ih1wNnnRlv45C6YINjyz21UJJLeZXn/43
+ T+34amuVzXwAAAA==
+X-Change-ID: 20250129-arm-brbe-v19-24d5d9e5e623
+To: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+ Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Zenghui Yu <yuzenghui@huawei.com>, James Clark <james.clark@linaro.org>, 
+ Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ kvmarm@lists.linux.dev, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.15-dev
 
-On 1/29/25 17:06, Andreas Karis wrote:
-> Since commit 0c4b2d370514cb4f3454dd3b18f031d2651fab73
-> ("net: remove VLAN_TAG_PRESENT"), the kernel no longer sets the DEI/CFI
-> bit in __vlan_hwaccel_put_tag to indicate the presence of a VLAN tag.
-> Update the openvswitch documentation which still contained an outdated
-> reference to this mechanism.
-> 
-> Signed-off-by: Andreas Karis <ak.karis@gmail.com>
-> ---
->  Documentation/networking/openvswitch.rst | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/networking/openvswitch.rst b/Documentation/networking/openvswitch.rst
-> index 1a8353dbf1b6..5699bbadea47 100644
-> --- a/Documentation/networking/openvswitch.rst
-> +++ b/Documentation/networking/openvswitch.rst
-> @@ -230,11 +230,9 @@ an all-zero-bits vlan and an empty encap attribute, like this::
->      eth(...), eth_type(0x8100), vlan(0), encap()
->  
->  Unlike a TCP packet with source and destination ports 0, an
-> -all-zero-bits VLAN TCI is not that rare, so the CFI bit (aka
-> -VLAN_TAG_PRESENT inside the kernel) is ordinarily set in a vlan
-> -attribute expressly to allow this situation to be distinguished.
-> -Thus, the flow key in this second example unambiguously indicates a
-> -missing or malformed VLAN TCI.
-> +all-zero-bits VLAN TCI is not that rare and the flow key in
-> +this second example cannot indicate a missing or malformed
-> +VLAN TCI.
+This series enables perf branch stack sampling support on arm64 via a 
+v9.2 arch feature called Branch Record Buffer Extension (BRBE). Details 
+on BRBE can be found in the Arm ARM[1] chapter D18.
 
-Hi, Andreas.  While mentioning of the VLAN_TAG_PRESENT bit is clearly
-outdated, I don't think the other parts of the paragraph should be
-changed.  The openvswitch module is still using VLAN_CFI bit in the
-flow key extracted from the packet as an indicator of the vlan presence.
-See the parse_vlan() function in net/openvswitch/flow.c.  And it's
-still required for userspace to have this bit set on the flow key for
-vlan packets to be correctly matched.  So, while not directly set in
-the skb, this bit is still set in the flow key and that's how the flow
-key can still indicate a missing or malformed VLAN header.
+I've picked up this series from Anshuman. This version has been reworked 
+quite a bit by Mark and myself. The bulk of those changes are in patch 
+11.
 
-So, while the VLAN_TAG_PRESENT remark inside the parenthesis can be
-removed, the rest of the text should stay intact.
+Patches 1-7 are new clean-ups/prep which stand on their own. They 
+were previously posted here[2]. Please pick them up if there's no issues 
+with them.
 
-Best regards, Ilya Maximets.
+Patches 8-11 add BRBE support with the actual support in patch 11.
+
+[1] https://developer.arm.com/documentation/ddi0487/latest/
+[2] https://lore.kernel.org/all/20250107-arm-pmu-cleanups-v1-v1-0-313951346a25@kernel.org/
+
+v19:
+ - Drop saving of branch records when task scheduled out (Mark). Make 
+   sched_task() callback actually get called. Enabling requires a call 
+   to perf_sched_cb_inc(). So the saving of branch records never 
+   happened.
+ - Got rid of added armpmu ops. All BRBE support is contained within 
+   pmuv3 code.
+ - Fix freeze on overflow for VHE
+ - The cycle counter doesn't freeze BRBE on overflow, so avoid assigning
+   it when BRBE is enabled.
+ - Drop all the Arm specific exception branches. Not a clear need for
+   them.
+ - Fix handling of branch 'cycles' reading. CC field is
+   mantissa/exponent, not an integer.
+ - Rework s/w filtering to better match h/w filtering
+ - Reject events with disjoint event filter and branch filter or with 
+   exclude_host set
+ - Dropped perf test patch which has been applied for 6.14
+ - Dropped patch "KVM: arm64: Explicitly handle BRBE traps as UNDEFINED"
+   which has been applied for 6.14
+
+v18:
+ - https://lore.kernel.org/all/20240613061731.3109448-1-anshuman.khandual@arm.com/
+
+For v1-v17, see the above link. Not going to duplicate it all here...
+
+Signed-off-by: "Rob Herring (Arm)" <robh@kernel.org>
+---
+Anshuman Khandual (4):
+      arm64/sysreg: Add BRBE registers and fields
+      arm64: Handle BRBE booting requirements
+      KVM: arm64: nvhe: Disable branch generation in nVHE guests
+      perf: arm_pmuv3: Add support for the Branch Record Buffer Extension (BRBE)
+
+Mark Rutland (3):
+      perf: arm_pmu: Don't disable counter in armpmu_add()
+      perf: arm_pmuv3: Don't disable counter in armv8pmu_enable_event()
+      perf: arm_pmu: Move PMUv3-specific data
+
+Rob Herring (Arm) (4):
+      perf: arm_pmuv3: Call kvm_vcpu_pmu_resync_el0() before enabling counters
+      perf: arm_v7_pmu: Drop obvious comments for enabling/disabling counters and interrupts
+      perf: arm_v7_pmu: Don't disable counter in (armv7|krait_|scorpion_)pmu_enable_event()
+      perf: apple_m1: Don't disable counter in m1_pmu_enable_event()
+
+ Documentation/arch/arm64/booting.rst |  21 +
+ arch/arm64/include/asm/el2_setup.h   |  86 +++-
+ arch/arm64/include/asm/kvm_host.h    |   2 +
+ arch/arm64/include/asm/sysreg.h      |  17 +-
+ arch/arm64/kvm/debug.c               |   4 +
+ arch/arm64/kvm/hyp/nvhe/debug-sr.c   |  32 ++
+ arch/arm64/tools/sysreg              | 132 ++++++
+ drivers/perf/Kconfig                 |  11 +
+ drivers/perf/Makefile                |   1 +
+ drivers/perf/apple_m1_cpu_pmu.c      |   4 -
+ drivers/perf/arm_brbe.c              | 794 +++++++++++++++++++++++++++++++++++
+ drivers/perf/arm_brbe.h              |  47 +++
+ drivers/perf/arm_pmu.c               |  23 +-
+ drivers/perf/arm_pmuv3.c             |  96 ++++-
+ drivers/perf/arm_v7_pmu.c            |  50 ---
+ include/linux/perf/arm_pmu.h         |  21 +-
+ 16 files changed, 1250 insertions(+), 91 deletions(-)
+---
+base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+change-id: 20250129-arm-brbe-v19-24d5d9e5e623
+
+Best regards,
+-- 
+Rob Herring (Arm) <robh@kernel.org>
+
