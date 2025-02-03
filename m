@@ -1,208 +1,315 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2050.outbound.protection.outlook.com [40.107.244.50])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8334C1DC745;
-	Mon,  3 Feb 2025 21:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738616414; cv=fail; b=LSvoaSnV2woD0dwRnEc7s77EhLX3xNYp8qXBXDlmNWPSmMOjvCmNk9ou5dsFXxe4FcRZTxJtkNCARI2+WGE5XVQQfPGfmEr/bdeG9wMlLBRsJ7pDtPJzZGQZxwERF73z3y3KJLk/7/PZU9Bf9LM3DrfyQ13s1a7DXXKyJlZwT8M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738616414; c=relaxed/simple;
-	bh=mazNxIRVd4PIwyf9p7K+CmGzqZyhqoV3H63SqlahSus=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=P87k6NcH7EXz4G9ssKe3lI9ERRf4Fu68HBPEZw/eQfaH8r3TYAbAXvnZ7CgjnA4AIRvdqTkIbmA04CwVLuCkESOvyWxhfflMu5gTyyXnjpYkY9GdkwnoWR3WBsbHFOg8G1/FqYu6svbnKWHQtJ/6p8es/Y0PeSTLPCsNkoLQwos=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=jJqZ6JQV; arc=fail smtp.client-ip=40.107.244.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B5420F081;
+	Mon,  3 Feb 2025 21:09:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738616994; cv=none; b=I1ZjeGkkYIJQXhHgaKyPcJSVKiPW74EGRjEAVWuSHAr5jIxNbTH+WadY4uqq8wX4swZJrmZGth4sZrZKMpDU7sfPBN6tNx8Rixc6S9vVjFoKU09wF0t2YvQmKFvjqzmEYn9H9aYItOXXIIxDZ0GeJLWArbGYbwhVauw+7Ooh+08=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738616994; c=relaxed/simple;
+	bh=xw1PfV/VSotZoPPlRteUAkF+rL5L+jHdJ/+glbkAGtw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=HenHNi544zMMqy7zwFmGtW0orlZ+zks3+BTUugqAp94z1FEkRebRt90pm/5bvJLq1u3x3REuQ/YmecERgLuH/2qR2Xf1y5OeG+LMeQf6RSZF8KfPVorizP+R02tW9NdsHEbqRT9nXvudsdtlb539/AQmybtNW1F6EwI8wuKsyjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=efPAdzMx; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="jJqZ6JQV"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xFqsODahUtNC+02DDtm29WWfJ0cnN1bDSfLMUnj8NhSiRF9OCitPPd7cB5jDnzr7Fww55wxLc/4nT0GthO+A/kBL5lRgJx0rRNrfqqcCX148aUEPMIR/SKUoWSreC8Ayd3Ii06SPUm2XNZkaaz4ejZCmPmlcor62z22Bd5a6OmNxWFD55AYtSAqT5ZJIGjX9hR/Wh8ODCZ9tnmpTVnPNtSHXtpO+UbjIio63UU/1XRzxzbrwQCdWOkO1VmGePGYMSenrOG+SbRHKO+Tg5PmrMvqdGwKksriXVxwLZS3uKRfOEaNQEkXTseQoujjQBTCsVtud+blm0W3guKFp5tSDug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xEvL1OXWBfJUYlGy5Le2d+ikAXjzaLqutrDUCcUMPek=;
- b=hSruqAEGUd5YOJiwbE6tl5wonIjBGB1L7su6qlBl9Pt46omTfhAWpfjAvrQgYBgtZviy+M06na6pzn7HKos3jFpk9dBgJ42sIs36LXzz17jyle93Nx9zKbTXxeUuCd0kpEBhBZAtwqFcGg8KKKx1HwqPXcDg9adI+54fBSeS4tYddYkusRfgnZaWi2dG51taBuraZwiqYY6sZ1pnfgA2O+xungV45zcbo4AdTu0U+3mIiKUUPyWdMcW9e2z1lgNJkQe+vOrhiS5NhLkBBd/k2LRRGcR6pSrOgqqKle2rswlAYCysoA5w1mxK07Ttv82mN59WWh5cOvkfm+EwM9KO4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=joelfernandes.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xEvL1OXWBfJUYlGy5Le2d+ikAXjzaLqutrDUCcUMPek=;
- b=jJqZ6JQVFAhLRjOVRYNgWjHEs3Ey/+0EMX92ogYNGa1DvHK06jCRd7Yws320C90jtWX6QB5I0rML4A4Yi8l2PnDVNtOFFhc/N/dOBdS4yPW3DxRIZU1UGTqPTdwfw9D8/prpJiNSfhr2Lboi1DwIlHHkLGfoMc5jnDbn8SS43ztWUXCnqHfRB4E4YSM5BSc9GFmg1O7w2cWvUXFXdMfUEVdqTCX3T6Vlyp8endDBWnaiEicWKLaTNiV6gvvoxPnWraOf6tDIneZqgskqIN9L4nf548pCyYyZo5QDAI6jw3wzsmHA5ZNPS1KHavjQP/XSVvtpRSrpKakyAgLO8P11Lg==
-Received: from DM6PR12CA0012.namprd12.prod.outlook.com (2603:10b6:5:1c0::25)
- by CY8PR12MB7362.namprd12.prod.outlook.com (2603:10b6:930:52::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.25; Mon, 3 Feb
- 2025 21:00:09 +0000
-Received: from DS1PEPF0001709C.namprd05.prod.outlook.com
- (2603:10b6:5:1c0:cafe::24) by DM6PR12CA0012.outlook.office365.com
- (2603:10b6:5:1c0::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8398.23 via Frontend Transport; Mon,
- 3 Feb 2025 21:00:08 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- DS1PEPF0001709C.mail.protection.outlook.com (10.167.18.106) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8398.14 via Frontend Transport; Mon, 3 Feb 2025 21:00:08 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 3 Feb 2025
- 12:59:58 -0800
-Received: from [10.110.48.28] (10.126.230.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 3 Feb
- 2025 12:59:58 -0800
-Message-ID: <34d7a6af-5974-482e-9f70-3f92a823bd96@nvidia.com>
-Date: Mon, 3 Feb 2025 12:59:57 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="efPAdzMx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738616990; x=1770152990;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=xw1PfV/VSotZoPPlRteUAkF+rL5L+jHdJ/+glbkAGtw=;
+  b=efPAdzMxmto3++F86Tq1WznAZ17om9erwKR4rd/mWf+pgTD/XNhDozf9
+   zGiCWn9S0hQUuYQbUtFhVXk5GmDQng+a//NA3RbPVmdPuK8KkoZHMmDP1
+   m8JIOS9Yj4rZeG4D3vpCVicXsvbuOb+t/4wuOHJlW5X7w5odu7eTabF3h
+   4DQgZpBFrOP+x1BCz7soIvmX2SijZ+PWca7Tr/Gelozidrdy5J1xYY5Nb
+   WZCNacVGfGNI0EhlXxiwVJcY/l84cLv8gkAZuU46xYFsT/uAl/MhgkwIz
+   +camUhkjQez6IjnnECb6Gl4kCZFr/n8s6KwWXiV95X3PiT4IqgHxJVHgV
+   g==;
+X-CSE-ConnectionGUID: kZRZOoCKREafWpgiTQMsgw==
+X-CSE-MsgGUID: QafoB759QGGqwPx5xJ+DIQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="49735572"
+X-IronPort-AV: E=Sophos;i="6.13,256,1732608000"; 
+   d="scan'208";a="49735572"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 13:09:48 -0800
+X-CSE-ConnectionGUID: qrGl3iefT0KE5PgAA8LtWw==
+X-CSE-MsgGUID: mur6XXeCT6C3aeeTYq7z/Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,256,1732608000"; 
+   d="scan'208";a="141273303"
+Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
+  by orviesa002.jf.intel.com with ESMTP; 03 Feb 2025 13:09:48 -0800
+From: Tony Nguyen <anthony.l.nguyen@intel.com>
+To: davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	edumazet@google.com,
+	andrew+netdev@lunn.ch,
+	netdev@vger.kernel.org
+Cc: Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+	anthony.l.nguyen@intel.com,
+	sridhar.samudrala@intel.com,
+	jacob.e.keller@intel.com,
+	pio.raczynski@gmail.com,
+	konrad.knitter@intel.com,
+	marcin.szycik@intel.com,
+	nex.sw.ncis.nat.hpm.dev@intel.com,
+	przemyslaw.kitszel@intel.com,
+	jiri@resnulli.us,
+	horms@kernel.org,
+	David.Laight@ACULAB.COM,
+	pmenzel@molgen.mpg.de,
+	mschmidt@redhat.com,
+	tatyana.e.nikolova@intel.com,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>,
+	linux-rdma@vger.kernel.org,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net-next 2/9] ice: devlink PF MSI-X max and min parameter
+Date: Mon,  3 Feb 2025 13:09:31 -0800
+Message-ID: <20250203210940.328608-3-anthony.l.nguyen@intel.com>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20250203210940.328608-1-anthony.l.nguyen@intel.com>
+References: <20250203210940.328608-1-anthony.l.nguyen@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] gpu: nova-core: add initial driver stub
-To: Joel Fernandes <joel@joelfernandes.org>, Danilo Krummrich
-	<dakr@kernel.org>
-CC: <airlied@gmail.com>, <simona@ffwll.ch>, <corbet@lwn.net>,
-	<maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
-	<tzimmermann@suse.de>, <ajanulgu@redhat.com>, <lyude@redhat.com>,
-	<pstanner@redhat.com>, <zhiw@nvidia.com>, <cjia@nvidia.com>,
-	<bskeggs@nvidia.com>, <acurrid@nvidia.com>, <ojeda@kernel.org>,
-	<alex.gaynor@gmail.com>, <boqun.feng@gmail.com>, <gary@garyguo.net>,
-	<bjorn3_gh@protonmail.com>, <benno.lossin@proton.me>,
-	<a.hindborg@kernel.org>, <aliceryhl@google.com>, <tmgross@umich.edu>,
-	<dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
-	<rust-for-linux@vger.kernel.org>, <joelagnelf@nvidia.com>
-References: <20250131220432.17717-1-dakr@kernel.org>
- <20250203202410.GA3936980@joelbox2>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <20250203202410.GA3936980@joelbox2>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF0001709C:EE_|CY8PR12MB7362:EE_
-X-MS-Office365-Filtering-Correlation-Id: e2d2607c-d2b8-46c6-1e91-08dd4495be42
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|376014|7416014|82310400026|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?cnhhckdHZkpTd2NmTGFHcVMvMmQ1VnBpbG5LMnVwbUhmVDUvdXhLcUl4dXdB?=
- =?utf-8?B?QjU3bzJsUmlNalpDTlJOUU5kUlRZakJ5UXZYWGNQLy9wSnUxMm9KSUNvZk5s?=
- =?utf-8?B?SnQ4UjVQVW85Y3M4d3NtUGJNMU5hZmpuV2lOaGM0MVZwR2pSRnFZNklBQXZX?=
- =?utf-8?B?TUltVEo4czk4bC9FdVZucU9wcmpaK0lUenhkNk1nMVVFODNPZExnNmdqTVlB?=
- =?utf-8?B?TVJXa2ljZU1CT2REVm5nTmZXMVp6c3Nwa2hKZXBxRGJwWXNVVEFHQkFva1VD?=
- =?utf-8?B?NVNTcnE2ODh0VUMvUjQ0YkdCZTc1RGJhaFNuYlVzMHJhUEo5VThvdGh1SHdo?=
- =?utf-8?B?VHBUWHYwWDIzVlNOL2FtY2dyRitOckRVY0FZTDUvNHZhY1RKTkpNVUF5Z0ZN?=
- =?utf-8?B?bGZRNzB0cWxLWnpxbUx3d2tLdnpsdnFlVlNiTkNab3VxM2JPc1A5S282bWND?=
- =?utf-8?B?YmVLN3ZmdmpNM0o4MU9wTlN3cE5UeXVMbm90aUwzd3lQTVdLbEdMK3phclRM?=
- =?utf-8?B?TzFkK2plL3JGd0N3NnRIMjJIYXkvdUY0TGR2L0R0SmZaR2gyaGdtMllBQkNr?=
- =?utf-8?B?MXdlQzd4ejBRQkVBTno2Z1BwTWU3Wk5YUkF6RGFEMEk2ZGcxc1VwUGhCdkF1?=
- =?utf-8?B?bjlLMVFma01CRzdoMXVKVXViaW1OWHpNK1cvcnlZVDQrTWlwcHJ6RjZVeExY?=
- =?utf-8?B?ZUV0dGZqZXV0TU5pdWc3dDA3ZlptQWl5K1NZb1JZTEFwYnMzLytBQkZXeWcw?=
- =?utf-8?B?bGR4MFhzWXBQYUZ0Vi9pS3JybEQ5Nkg5eC8yUkFqcVVVN3VpWDgyenNZRWRi?=
- =?utf-8?B?NlNEZTEvclJha1FIY1lob280czJGc0Z0SDV4YVF3V0c1dGpLeExvWStQQldL?=
- =?utf-8?B?QjlReDVNalpHRGhzc0lIKzdiVGpuK0Y1eEVDdkk2K3Vqck1CTEt5UXJCb3hj?=
- =?utf-8?B?VWF1cFFQRmc5ODdYSmxzak5EUDN0WDIvTmVMeUV6N1Z6VUlETlExbVJDdGM1?=
- =?utf-8?B?amdDM3hENHZSOHZZeXFtQ3c4eUpZZXJmak5qUmZocm1RYndxVXdycHJvSlhP?=
- =?utf-8?B?ZkhRd0NpdEhLUHdTZ3Exdkd3YndkVTZzcGN5N3loVERDRjhzU2VhazZBYzJU?=
- =?utf-8?B?WkUxbytOcUhEWXdFaVk4T1kra3Z5SGNFZSsvVzNwSVR6RWZ4czQ4YXdOd0F3?=
- =?utf-8?B?czRtTUVkUHgxUkx4eWZ3WW1vc1lWUTJTV1hxUkFKOEZCSjg2ZTk3M3djM1J0?=
- =?utf-8?B?WkJtL2hKZms4Z0Rhb1MzNGxMY1pXb0ZYRTRNbzVleTc3VHhqWnR3MnRsSTBD?=
- =?utf-8?B?ZHRpeHNyU1N6cU94dlBtck5wTXVEKzc5bHRmMCt5ZGhpSktkb3VtcEFaenBY?=
- =?utf-8?B?NzBuZk1Ealc1YXVFSE4yK0VWYmVsNHJEN2tLcEFUSHJvbWRqUUJIbTNRUUhi?=
- =?utf-8?B?bjJuRnF5VW5RZHJKK01VWEhmemYvaVNLdTF2b3Jlem1qZ2c5elBlS1hhVlV2?=
- =?utf-8?B?UG9sY0VkVlJuVi9PenRwUWIxOHNLNGVUZjU2T0dUZWNKOEFPaG02aE1tQ1d5?=
- =?utf-8?B?UXEwZEFrV01ZTTZTdld4eUQ3TWhKSnY3OENlVXZmL2gwcXhVM1hGWEEyMG9M?=
- =?utf-8?B?Ymd6cHNHWnpXdVhrTTcwMkRYTUFYbFJseVlLQUsxamZ6b3MwRXlaWHNTMWgr?=
- =?utf-8?B?bzJvRFBiV0hxcmNNODdteWhFYmxJOEc3NWtxZkhqN3BUandHOVVuMEdNM0l1?=
- =?utf-8?B?V0FJYXMvZVpyUTZ4Q2g1WUFvemRHaUVwWkE2dXpuZzZ5a0orVDQ2V1JzWldu?=
- =?utf-8?B?UFRZRUFuS1BURExLMGNCM0JFT29KMDI5YjROTXhTWjZWNWpmelZUQnhSSy90?=
- =?utf-8?B?b05HRGNlZytxMlN2Sk93ODZvUk1sK0xqemt6Yk5MRkhOK1FBdy9QOHNlbGhC?=
- =?utf-8?B?U09tSjdqbWIyWlEzbmVpZ0JFbVZGTU5aVERySjBIOWxlaWViYW1Fei8rNVhG?=
- =?utf-8?Q?Xdl1jc8YIJj7cPIoz4H69SRwBxuP9s=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(376014)(7416014)(82310400026)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2025 21:00:08.7736
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e2d2607c-d2b8-46c6-1e91-08dd4495be42
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS1PEPF0001709C.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7362
+Content-Transfer-Encoding: 8bit
 
-On 2/3/25 12:24 PM, Joel Fernandes wrote:
-> Hi Danilo,
-> On Fri, Jan 31, 2025 at 11:04:24PM +0100, Danilo Krummrich wrote:
-...
->> +const BAR0_SIZE: usize = 8;
->> +pub(crate) type Bar0 = pci::Bar<BAR0_SIZE>;
->> +
->> +kernel::pci_device_table!(
->> +    PCI_TABLE,
->> +    MODULE_PCI_TABLE,
->> +    <NovaCore as pci::Driver>::IdInfo,
->> +    [(
->> +        pci::DeviceId::from_id(bindings::PCI_VENDOR_ID_NVIDIA, bindings::PCI_ANY_ID as _),
-> 
-> Does this mean it will match even non-GSP Nvidia devices?
-> 
+From: Michal Swiatkowski <michal.swiatkowski@linux.intel.com>
 
-Yes, it does. However, the Gpu construction a little further down
-will fail on pre-GSP GPUs, thus failing the probe(), so all is well.
+Use generic devlink PF MSI-X parameter to allow user to change MSI-X
+range.
 
-More below:
+Add notes about this parameters into ice devlink documentation.
 
->> +        ()
->> +    )]
->> +);
->> +
->> +impl pci::Driver for NovaCore {
->> +    type IdInfo = ();
->> +    const ID_TABLE: pci::IdTable<Self::IdInfo> = &PCI_TABLE;
->> +
->> +    fn probe(pdev: &mut pci::Device, _info: &Self::IdInfo) -> Result<Pin<KBox<Self>>> {
->> +        dev_dbg!(pdev.as_ref(), "Probe Nova Core GPU driver.\n");
->> +
->> +        pdev.enable_device_mem()?;
->> +        pdev.set_master();
->> +
->> +        let bar = pdev.iomap_region_sized::<BAR0_SIZE>(0, c_str!("nova-core"))?;
->> +
->> +        let this = KBox::pin_init(
->> +            try_pin_init!(Self {
->> +                gpu <- Gpu::new(pdev, bar)?,
+Tested-by: Pucha Himasekhar Reddy <himasekharx.reddy.pucha@intel.com>
+Signed-off-by: Michal Swiatkowski <michal.swiatkowski@linux.intel.com>
+---
+ Documentation/networking/devlink/ice.rst      | 11 +++
+ .../net/ethernet/intel/ice/devlink/devlink.c  | 88 +++++++++++++++++++
+ drivers/net/ethernet/intel/ice/ice.h          |  7 ++
+ drivers/net/ethernet/intel/ice/ice_irq.c      |  7 ++
+ 4 files changed, 113 insertions(+)
 
-Here. Try to construct a Gpu, which tries to construct a GpuSpec, which
-fails out if Chipset is not listed, or if CardType (which should be
-renamed to Architecture) is not listed.
-
-And only Turing+ GPUs are listed. Turing is the first GPU that has a
-GSP unit.
-
-By the way, I have loaded this on a system with a Kepler GPU (pre-Turing),
-and an Ampere GPU, and traced through actually loading NovaCore, and it
-behaves as described above.
-
-thanks,
+diff --git a/Documentation/networking/devlink/ice.rst b/Documentation/networking/devlink/ice.rst
+index e3972d03cea0..792e9f8c846a 100644
+--- a/Documentation/networking/devlink/ice.rst
++++ b/Documentation/networking/devlink/ice.rst
+@@ -69,6 +69,17 @@ Parameters
+ 
+        To verify that value has been set:
+        $ devlink dev param show pci/0000:16:00.0 name tx_scheduling_layers
++   * - ``msix_vec_per_pf_max``
++     - driverinit
++     - Set the max MSI-X that can be used by the PF, rest can be utilized for
++       SRIOV. The range is from min value set in msix_vec_per_pf_min to
++       2k/number of ports.
++   * - ``msix_vec_per_pf_min``
++     - driverinit
++     - Set the min MSI-X that will be used by the PF. This value inform how many
++       MSI-X will be allocated statically. The range is from 2 to value set
++       in msix_vec_per_pf_max.
++
+ .. list-table:: Driver specific parameters implemented
+     :widths: 5 5 90
+ 
+diff --git a/drivers/net/ethernet/intel/ice/devlink/devlink.c b/drivers/net/ethernet/intel/ice/devlink/devlink.c
+index d116e2b10bce..c53baecf8a90 100644
+--- a/drivers/net/ethernet/intel/ice/devlink/devlink.c
++++ b/drivers/net/ethernet/intel/ice/devlink/devlink.c
+@@ -1202,6 +1202,25 @@ static int ice_devlink_set_parent(struct devlink_rate *devlink_rate,
+ 	return status;
+ }
+ 
++static void ice_set_min_max_msix(struct ice_pf *pf)
++{
++	struct devlink *devlink = priv_to_devlink(pf);
++	union devlink_param_value val;
++	int err;
++
++	err = devl_param_driverinit_value_get(devlink,
++					      DEVLINK_PARAM_GENERIC_ID_MSIX_VEC_PER_PF_MIN,
++					      &val);
++	if (!err)
++		pf->msix.min = val.vu32;
++
++	err = devl_param_driverinit_value_get(devlink,
++					      DEVLINK_PARAM_GENERIC_ID_MSIX_VEC_PER_PF_MAX,
++					      &val);
++	if (!err)
++		pf->msix.max = val.vu32;
++}
++
+ /**
+  * ice_devlink_reinit_up - do reinit of the given PF
+  * @pf: pointer to the PF struct
+@@ -1217,6 +1236,9 @@ static int ice_devlink_reinit_up(struct ice_pf *pf)
+ 		return err;
+ 	}
+ 
++	/* load MSI-X values */
++	ice_set_min_max_msix(pf);
++
+ 	err = ice_init_dev(pf);
+ 	if (err)
+ 		goto unroll_hw_init;
+@@ -1530,6 +1552,37 @@ static int ice_devlink_local_fwd_validate(struct devlink *devlink, u32 id,
+ 	return 0;
+ }
+ 
++static int
++ice_devlink_msix_max_pf_validate(struct devlink *devlink, u32 id,
++				 union devlink_param_value val,
++				 struct netlink_ext_ack *extack)
++{
++	struct ice_pf *pf = devlink_priv(devlink);
++
++	if (val.vu32 > pf->hw.func_caps.common_cap.num_msix_vectors ||
++	    val.vu32 < pf->msix.min) {
++		NL_SET_ERR_MSG_MOD(extack, "Value is invalid");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int
++ice_devlink_msix_min_pf_validate(struct devlink *devlink, u32 id,
++				 union devlink_param_value val,
++				 struct netlink_ext_ack *extack)
++{
++	struct ice_pf *pf = devlink_priv(devlink);
++
++	if (val.vu32 < ICE_MIN_MSIX || val.vu32 > pf->msix.max) {
++		NL_SET_ERR_MSG_MOD(extack, "Value is invalid");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ enum ice_param_id {
+ 	ICE_DEVLINK_PARAM_ID_BASE = DEVLINK_PARAM_GENERIC_ID_MAX,
+ 	ICE_DEVLINK_PARAM_ID_TX_SCHED_LAYERS,
+@@ -1547,6 +1600,15 @@ static const struct devlink_param ice_dvl_rdma_params[] = {
+ 			      ice_devlink_enable_iw_validate),
+ };
+ 
++static const struct devlink_param ice_dvl_msix_params[] = {
++	DEVLINK_PARAM_GENERIC(MSIX_VEC_PER_PF_MAX,
++			      BIT(DEVLINK_PARAM_CMODE_DRIVERINIT),
++			      NULL, NULL, ice_devlink_msix_max_pf_validate),
++	DEVLINK_PARAM_GENERIC(MSIX_VEC_PER_PF_MIN,
++			      BIT(DEVLINK_PARAM_CMODE_DRIVERINIT),
++			      NULL, NULL, ice_devlink_msix_min_pf_validate),
++};
++
+ static const struct devlink_param ice_dvl_sched_params[] = {
+ 	DEVLINK_PARAM_DRIVER(ICE_DEVLINK_PARAM_ID_TX_SCHED_LAYERS,
+ 			     "tx_scheduling_layers",
+@@ -1648,6 +1710,7 @@ void ice_devlink_unregister(struct ice_pf *pf)
+ int ice_devlink_register_params(struct ice_pf *pf)
+ {
+ 	struct devlink *devlink = priv_to_devlink(pf);
++	union devlink_param_value value;
+ 	struct ice_hw *hw = &pf->hw;
+ 	int status;
+ 
+@@ -1656,10 +1719,33 @@ int ice_devlink_register_params(struct ice_pf *pf)
+ 	if (status)
+ 		return status;
+ 
++	status = devl_params_register(devlink, ice_dvl_msix_params,
++				      ARRAY_SIZE(ice_dvl_msix_params));
++	if (status)
++		goto unregister_rdma_params;
++
+ 	if (hw->func_caps.common_cap.tx_sched_topo_comp_mode_en)
+ 		status = devl_params_register(devlink, ice_dvl_sched_params,
+ 					      ARRAY_SIZE(ice_dvl_sched_params));
++	if (status)
++		goto unregister_msix_params;
++
++	value.vu32 = pf->msix.max;
++	devl_param_driverinit_value_set(devlink,
++					DEVLINK_PARAM_GENERIC_ID_MSIX_VEC_PER_PF_MAX,
++					value);
++	value.vu32 = pf->msix.min;
++	devl_param_driverinit_value_set(devlink,
++					DEVLINK_PARAM_GENERIC_ID_MSIX_VEC_PER_PF_MIN,
++					value);
++	return 0;
+ 
++unregister_msix_params:
++	devl_params_unregister(devlink, ice_dvl_msix_params,
++			       ARRAY_SIZE(ice_dvl_msix_params));
++unregister_rdma_params:
++	devl_params_unregister(devlink, ice_dvl_rdma_params,
++			       ARRAY_SIZE(ice_dvl_rdma_params));
+ 	return status;
+ }
+ 
+@@ -1670,6 +1756,8 @@ void ice_devlink_unregister_params(struct ice_pf *pf)
+ 
+ 	devl_params_unregister(devlink, ice_dvl_rdma_params,
+ 			       ARRAY_SIZE(ice_dvl_rdma_params));
++	devl_params_unregister(devlink, ice_dvl_msix_params,
++			       ARRAY_SIZE(ice_dvl_msix_params));
+ 
+ 	if (hw->func_caps.common_cap.tx_sched_topo_comp_mode_en)
+ 		devl_params_unregister(devlink, ice_dvl_sched_params,
+diff --git a/drivers/net/ethernet/intel/ice/ice.h b/drivers/net/ethernet/intel/ice/ice.h
+index 71e05d30f0fd..d041b04ff324 100644
+--- a/drivers/net/ethernet/intel/ice/ice.h
++++ b/drivers/net/ethernet/intel/ice/ice.h
+@@ -542,6 +542,12 @@ struct ice_agg_node {
+ 	u8 valid;
+ };
+ 
++struct ice_pf_msix {
++	u32 cur;
++	u32 min;
++	u32 max;
++};
++
+ struct ice_pf {
+ 	struct pci_dev *pdev;
+ 	struct ice_adapter *adapter;
+@@ -612,6 +618,7 @@ struct ice_pf {
+ 	struct msi_map ll_ts_irq;	/* LL_TS interrupt MSIX vector */
+ 	u16 max_pf_txqs;	/* Total Tx queues PF wide */
+ 	u16 max_pf_rxqs;	/* Total Rx queues PF wide */
++	struct ice_pf_msix msix;
+ 	u16 num_lan_msix;	/* Total MSIX vectors for base driver */
+ 	u16 num_lan_tx;		/* num LAN Tx queues setup */
+ 	u16 num_lan_rx;		/* num LAN Rx queues setup */
+diff --git a/drivers/net/ethernet/intel/ice/ice_irq.c b/drivers/net/ethernet/intel/ice/ice_irq.c
+index ad82ff7d1995..0659b96b9b8c 100644
+--- a/drivers/net/ethernet/intel/ice/ice_irq.c
++++ b/drivers/net/ethernet/intel/ice/ice_irq.c
+@@ -254,6 +254,13 @@ int ice_init_interrupt_scheme(struct ice_pf *pf)
+ 	int total_vectors = pf->hw.func_caps.common_cap.num_msix_vectors;
+ 	int vectors, max_vectors;
+ 
++	/* load default PF MSI-X range */
++	if (!pf->msix.min)
++		pf->msix.min = ICE_MIN_MSIX;
++
++	if (!pf->msix.max)
++		pf->msix.max = total_vectors / 2;
++
+ 	vectors = ice_ena_msix_range(pf);
+ 
+ 	if (vectors < 0)
 -- 
-John Hubbard
+2.47.1
 
