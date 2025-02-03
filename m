@@ -1,118 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 801001D47AD;
-	Mon,  3 Feb 2025 19:53:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A11520A5F0
+	for <linux-doc@vger.kernel.org>; Mon,  3 Feb 2025 19:53:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738612399; cv=none; b=pzDA9NUEBgIw4p5zP1W2thF9jd+GQBDvOcebmDT1RT6hjpE+ewtOQXZjQ1BmHdEBozKYVwL8ktp2zy9DtvyuFlTdZWnt2Lxbec2IHHrB6SkI2SpvXc0agXKHYFsFl+u8RRa4S39+0bJ2i5cc6ZTu8ZN1kiRw5L0k7d6F6RCfDEg=
+	t=1738612429; cv=none; b=kLCCXXx8U2+e7FqA542Z/lpWeW09kadqQ31o0SHvtgvB34oQ5Gfm5beS2s0celZqCpZNq+D1BDtTWvp+m3l8iC+veaWdrgcmw6kXiTs3ZdpsNhwqW4AiiyNKcG6wOUZPphFI0Oa8DPtMYSiPLErTTUh4kEu51WzYJ3rHBrZUE+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738612399; c=relaxed/simple;
-	bh=txxsPm2nXmynDqW7wkBqaMmMRBITIsKevGT/NX9df0Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=REF0n8gRu/zs0f+fSqGVsBMqmSIWJ10n5bz9/kQNtPvHo3YVMIH0sd1cidesDiSPD0ge4pgGeSeuaZphJtqmvFRV7o2kcnYnLKWwMXjiw/IqC6kv/DmoVY1pKCO+rn1SW8dpxYbHbvQ6w8zfry5WkdsCPcpQMaL7R3GJN6hWStk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IY2xBCd+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738612429; c=relaxed/simple;
+	bh=hxr7jNuqUlPfc59GPh0os0w2bEp50OFtzoYI/kT4GTs=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=RzieL2dIV0GnnFy/pRc0+vU/albAyHK0qebWtH0xD5IFAOUOteqJcOHmPjIf7FWXLIoTjBul6y8++lzi4OhXVwHwBVV2sD0GV97iZCcme9T0qn38iqNF990VDVtf6BddTihqCfQ2u6U/OXiHbalPvnG98I6mujk3kWcs4W53P5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hll4qKW0; arc=none smtp.client-ip=209.85.216.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IY2xBCd+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFD45C4CED2;
-	Mon,  3 Feb 2025 19:53:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738612397;
-	bh=txxsPm2nXmynDqW7wkBqaMmMRBITIsKevGT/NX9df0Q=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=IY2xBCd+gBh411tPAi9ArCrwUIjzfc3+b2I/L0iyGE9JvvxKmcYVO6Nowcoa84fER
-	 0Sd5z3G3DHv6zd3fv6WTl696hudKy4clON6BrW03tElItiT/07MnqquWH3U6zwc/Bj
-	 99FN0Au1UqvuoEahKqLG1jugExYFcEj6+2HCLHz38KUii0FUuuR7zjQERdd1zYf8tt
-	 OMVlckfy1aIbwIuXeK84WIkNvAu7BBU8UZQuK7oaO325UVbAY0SofX5McnK1xjKqho
-	 nO3Qwzyg7ZvAhns3+tity636aVOlCepQH4Jg/hNNQEof0voEUmCS5acWo3Lh4pBP6/
-	 MHb22j8+TtD5w==
-Date: Mon, 3 Feb 2025 20:53:12 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Simon Horman <horms@kernel.org>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Alexandre Ferrieux
- <alexandre.ferrieux@gmail.com>, netdev@vger.kernel.org,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net] docs: netdev: Document guidance on inline functions
-Message-ID: <20250203205312.74339d30@foz.lan>
-In-Reply-To: <20250203205039.15964b2f@foz.lan>
-References: <20250203-inline-funk-v1-1-2f48418e5874@kernel.org>
-	<874j1bt6mv.fsf@trenco.lwn.net>
-	<20250203205039.15964b2f@foz.lan>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hll4qKW0"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2ef909597d9so13424246a91.3
+        for <linux-doc@vger.kernel.org>; Mon, 03 Feb 2025 11:53:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1738612427; x=1739217227; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nCEyOu/LOSfPdvr+BVNdN/g0WxtTpzskRucY3ZD/ki0=;
+        b=hll4qKW0/MDYaWgct95bovpDKbmfc/9xZPLQHSUmaBUKPEQQsfx8egcgJ8EGg/l/R6
+         A4kVGGLIml9y6/FSe476CAuGq/HZTjK7xsFH9t9tgjMpx9Sd7IjvXbpGK4KbzpSnhiLp
+         eqU56cKKtrqyBAh4ZhnUhWTmRhghH4Lj4U6+t6xVDa93U6UVNsY9V5FOm2P64+BUCxNk
+         gt6/dZS56lOelBMGEz0s1oDrtFnV+sSudxAZSfMuKoXVx4v9+080i4/XVxiteYqkDdI2
+         2pJGmIdWen0OGS4Jzt6dYuckNg1qkd1pwvGt+lwyjh69SfIfSRs3yQlQnXFHM/xvanVx
+         CY+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738612427; x=1739217227;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nCEyOu/LOSfPdvr+BVNdN/g0WxtTpzskRucY3ZD/ki0=;
+        b=hHhdsJ8EbrICHZMt/oA+Dm+xjbxMnWsIyShQ1o9EroiHIK0bpoyQruY/m/VAMCR6Wr
+         +Sj/xtJYq8TjUHIhKKKLC8GtYze9+LdXMfx+w9FYmGUnY14GuK1iz1w3yhGr6SRFw3Ke
+         VyoCafDk6sQIS4XOBaNL65LXWizThxsqgReDZGDAdKOVTH7EgIbQYTVAeNQcJcESTDEb
+         2oaniC0lr4qtAzNM5HUqxHNeLsuG+KikDgiY+UPFDrX+/aTGFJT97wD4UlD8bgzHPNCo
+         6s7nX411lTyo3R8ZvGOn6p0OWAmoed5lq3RqJCPfQIGG9ckoD834CYOlXLkNCyCDuPFX
+         9Tow==
+X-Forwarded-Encrypted: i=1; AJvYcCUmTvVktJ2Z7l6+EigjSniGVN9eoSwvYDk48BBCfQi0ro5ZltDwQarC5ypPr87LihvlFbE99aqioH4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzXA5ntRM9KoBb3/I1MOMEs85Mme/d8UPPphqI5aazO4R3ePdpz
+	z1SG7d6/bkiELMPmMozmT3pwb4PN8D3kkxAZiVBbEgwBLmZ3uN6lOcC8HZYTtWgPASvVt4sDzfR
+	JJA==
+X-Google-Smtp-Source: AGHT+IFc9rZmF1JjMiP844qma6jdZcJ9zwzx2lsRF7TrY+30VoDsiU9sWPM5lazcp0sTUpmilFfzJxD366U=
+X-Received: from pfblo6.prod.google.com ([2002:a05:6a00:3d06:b0:72d:26ac:7d0])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:140e:b0:725:eb85:f7f7
+ with SMTP id d2e1a72fcca58-72fd0bda642mr32932803b3a.5.1738612427344; Mon, 03
+ Feb 2025 11:53:47 -0800 (PST)
+Date: Mon, 3 Feb 2025 11:53:45 -0800
+In-Reply-To: <93df442c-8ec3-43ee-aba1-e770a5b7588f@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <b1ddb439-9e28-4a58-ba86-0395bfc081e0@redhat.com>
+ <CADH9ctCFYtNfhn3SSp2jp0fzxu6s_X1A+wBNnzvHZVb8qXPk=g@mail.gmail.com>
+ <CADH9ctB0YSYqC_Vj2nP20vMO_gN--KsqOBOu8sfHDrkZJV6pmw@mail.gmail.com>
+ <Z2IXvsM0olS5GvbR@google.com> <CABgObfadZZ5sXYB0xR5OcLDw_eVUmXTOTFSWkVpkgiCJmNnFRQ@mail.gmail.com>
+ <CADH9ctAGt_VriKA7Ch1L9U+xud-6M54GzaPOM_2sSA780TpAYw@mail.gmail.com>
+ <CABgObfb3Ttfg6H+_RpNQGSYKw9BLEwx3+EysXdL-wbpd1pkGHQ@mail.gmail.com>
+ <CADH9ctAzffvDByS1s2PJoD63On-b+pCnCmER4Nf4Zc=62vkbMA@mail.gmail.com>
+ <Z6Eb4PfmmHWFTR9A@google.com> <93df442c-8ec3-43ee-aba1-e770a5b7588f@redhat.com>
+Message-ID: <Z6EeyaOZUevXDBiH@google.com>
+Subject: Re: [PATCH 2/3] KVM: x86: Add support for VMware guest specific hypercalls
+From: Sean Christopherson <seanjc@google.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Doug Covelli <doug.covelli@broadcom.com>, Zack Rusin <zack.rusin@broadcom.com>, 
+	kvm <kvm@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "the arch/x86 maintainers" <x86@kernel.org>, 
+	"H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Arnaldo Carvalho de Melo <acme@redhat.com>, Isaku Yamahata <isaku.yamahata@intel.com>, 
+	Joel Stanley <joel@jms.id.au>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-kselftest <linux-kselftest@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 
-Em Mon, 3 Feb 2025 20:50:39 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
-
-> Em Mon, 03 Feb 2025 08:00:56 -0700
-> Jonathan Corbet <corbet@lwn.net> escreveu:
+On Mon, Feb 03, 2025, Paolo Bonzini wrote:
+> On 2/3/25 20:41, Sean Christopherson wrote:
+> > -EFAULT isn't the problem, KVM not being able to return useful information in
+> > all situations is the issue.
 > 
-> > Simon Horman <horms@kernel.org> writes:
-> > 
-> > > Document preference for non inline functions in .c files.
-> > > This has been the preference for as long as I can recall
-> > > and I was recently surprised to discover that it is undocumented.
-> > >
-> > > Reported-by: Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
-> > > Closes: https://lore.kernel.org/all/9662e6fe-cc91-4258-aba1-ab5b016a041a@orange.com/
-> > > Signed-off-by: Simon Horman <horms@kernel.org>
-> > > ---
-> > >  Documentation/process/maintainer-netdev.rst | 11 +++++++++++
-> > >  1 file changed, 11 insertions(+)
-> > >
-> > > diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-> > > index e497729525d5..1fbb8178b8cd 100644
-> > > --- a/Documentation/process/maintainer-netdev.rst
-> > > +++ b/Documentation/process/maintainer-netdev.rst
-> > > @@ -408,6 +408,17 @@ at a greater cost than the value of such clean-ups.
-> > >  
-> > >  Conversely, spelling and grammar fixes are not discouraged.
-> > >  
-> > > +Inline functions
-> > > +----------------
-> > > +
-> > > +The use of static inline functions in .c file is strongly discouraged
-> > > +unless there is a demonstrable reason for them, usually performance
-> > > +related. Rather, it is preferred to omit the inline keyword and allow the
-> > > +compiler to inline them as it sees fit.
+> Yes, that's why I don't want it to be an automatically opted-in API.  If
+> incremental improvements are possible, it may be useful to allow interested
+> userspace to enable it early.  For example...
 > 
-> You should probably point to chapter (12) of Documentation/process/coding-style.rst
-> where it mentions that inline for function prototypes and as a way to
-> replace macros are OK.
-
-Heh, I hit enter too quickly...
-
-I mean:
-	"inline for function prototypes and as a way to replace macros on
-	 header files (*.h) are OK."
-
+> > Specifically, "guest" accesses that are emulated
+> > by KVM are problematic, because the -EFAULT from e.g. __kvm_write_guest_page()
+> > is disconnected from the code that actually kicks out to userspace.  In that
+> > case, userspace will get KVM_EXIT_MMIO, not -EFAULT.  There are more problems
+> > beyond KVM_EXIT_MMIO vs. -EFAULT, e.g. instructions that perform multiple memory
+> > accesses,
 > 
-> > > +
-> > > +This is a stricter requirement than that of the general Linux Kernel
-> > > +:ref:`Coding Style<codingstyle>`  
-> > 
-> > I have no objection to this change, but I do wonder if it does indeed
-> > belong in the central coding-style document.  I don't think anybody
-> > encourages use of "inline" these days...?
+> those are obviously synchronous and I expect VMware to handle them already.
 > 
-> Indeed IMO this belongs to the coding style. I would place it close
-> to chapter (12) at Documentation/process/coding-style.rst.
-> 
-> Regards,
-> 
-> Thanks,
-> Mauro
+> That said my preferred solution to just use userfaultfd, which is
+> synchronous by definition.
 
-
-
-Thanks,
-Mauro
+Oh, right, userfaultfd would be far better than piggybacking write-tracking.
