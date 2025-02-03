@@ -1,122 +1,221 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788D5210F42
-	for <linux-doc@vger.kernel.org>; Mon,  3 Feb 2025 21:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FFE81FF7B0
+	for <linux-doc@vger.kernel.org>; Mon,  3 Feb 2025 22:39:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738619636; cv=none; b=cHxV4KNDO+Ye3g0b+CZsbctTXMevDvqpNa/eGJEmlyTFPqxETUbiSN1HDGLweumSQd10WS/vcrfQfCUfQ7TkaYUt4aqBt9gDqkLRAGEnQjHn/iB04DXVKGVE6kx11UQW0VoESsKat17CDW4gwUy4LcLiIVkztKH/vsAURz/358E=
+	t=1738622361; cv=none; b=dAvEe0UnzP9scYT86d7esGTCzeEN1IVX4x75w87Bo1kYJMZtmx8UWr8YIJgIwll/Q1lCLSCO56ThO4qYYvw9DdnoqsJMaitT+TKitE7cIY/WeE+8/B4Kbs6c4z1cEk683SsIVC6emQ8Yuw/JUYVUoPAF+50cIAK4JjOq7L/e67o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738619636; c=relaxed/simple;
-	bh=0FzYCHZ7yJs7yVFDTq1TgOBp7IOxiDA+4xJIB14C450=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HN4+55T5TDgk/7hU+ewXIVcWew+6FLiWYsjBQb0DT1LBX6NrNHPcUDOsVJyui0mMxGMLK2i7rb6TyzAmxub0BVAGg4M/yX14JlYtbGeIUvX0cZs3UC7WOanICE6Iq4bEz4OMi0K7s8HxCXRd5dwg2E1AzSQ6BJKF2higVxpUCnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org; spf=pass smtp.mailfrom=joelfernandes.org; dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b=ufDT/C82; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=joelfernandes.org
+	s=arc-20240116; t=1738622361; c=relaxed/simple;
+	bh=8FA02/VlhFsavq77cgzUsZDA7wvbkIrTAbtsEWgl9+0=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=G4tqFNtB1omlqLtNAvna3ygyTC/4ym8kWE0tMdCggVvHwWB3rOxjKH34MtbIsizFGmw+9PXC6x//JIyZw4YXqvze8XBsuAdBCHQbmZST14/gGVs3v3gM6rjLw16CisgYztRs6cY/ySMBC/hXnlrWFrX+euEsqd10ZDISg+Zbj34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DZKjHZ+/; arc=none smtp.client-ip=209.85.214.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="ufDT/C82"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-436281c8a38so35067945e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 03 Feb 2025 13:53:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DZKjHZ+/"
+Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2163dc0f689so69926875ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 03 Feb 2025 14:39:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google; t=1738619633; x=1739224433; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WuP2pJU8bBZXahLySdNlt2shroJTENQiUQtUnqJ4MBc=;
-        b=ufDT/C82fGh8vsGSX1/L1CTS1eslXPiRqtHp+U4gNjbMyWTk9HI+MJ+fJD38kR9q+N
-         Ll99d1KeuMfczy5sLpZ6g/Sa8FkEY1xx2DIQU59R6f4yMtElbYn44UepSnVlDjVfX2Br
-         eid2/oE8ub6QFona2oyLVsw+jgEUniXrmtVkc=
+        d=google.com; s=20230601; t=1738622358; x=1739227158; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=DpVz/r6M+4jdUlj/0dtddbtyJ6bs+xAbBw0llf++aSI=;
+        b=DZKjHZ+/zjEPtwJR8UsnstRp7o6PxeWhYznVsKpDZe1T73n5+TwP/w8Spkxw81vLjY
+         g5blG7F26SaSX0iE4YiOSwYBldNm7LY+2tT4v7ieR5ZwXUytuW5ZX2a1WmechtddGiSS
+         G4tEIMbENTiiYomLIaAURsVHCHgkJQ06MsxJMvMn6yPDnp+LFLOs1j+uslt8AorbmFuz
+         YJ+7U/0UVJKALSJ0Gbbqy9UB5TW6hVPhwDTOHD5Qo551JTRgVWQE/phNtp7uvoPsQQnA
+         G/fj3Ya+c9CjmwR1Ynvxmj7WT9z3X/rnA1KfZPMpFlGJjl+4R0ABXsbqbH2wfKPXW6/I
+         w4LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738619633; x=1739224433;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WuP2pJU8bBZXahLySdNlt2shroJTENQiUQtUnqJ4MBc=;
-        b=Gp6zReEbVWA7TBmoIOQwwN4RCKjptTPrVvbrfkmFRNm6bh7JyftVW7AbVkcOJaLcvC
-         GVRvPKUmU3SoyCidSGG5UZi5iN1XL2+zbkKZ61r8xqjxC/mDo9ngqIa+TPjLTa9aEDoO
-         jS5u4c6QrMudxjQQgy5/7VQnbiIxwl9H6UWz84Y4MZMXPwx6qibjRBXsjRx1NXMJOAHI
-         hTMEJPMdjrWa3EMd40PS4a9SAMxqH+857UCQluY+IlARiqQ1AedqYKhh5z6lwTkcIMyu
-         foSlP/gYbPcYqlgiQrYUdDLkQwIBn4AgEH5z5NEGq+5J914zbIoSdFdRxG+Ei7my37cC
-         c5qw==
-X-Forwarded-Encrypted: i=1; AJvYcCUxRoHe01HEktqS0Hr+f12/KjJUufSnUjuOIoEkqXxSpodrR7KwLE4leIzeuQDi4L0guj0CqqKRt+s=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyy8ZpDEFiha/jB0GKtK5qUyfB+kjNYwJyh+kxyve8JGvqWPFIS
-	S+PyDvA6u6pggCzg8EN56npffw9T86zqaiMqRLpLvbQDkeEK+GjGvWNMJ/V4eB6G/bo/VVLf40I
-	EXchXABDkpaOiDAkCDainEwa0QNRUWWNkFb8LRA==
-X-Gm-Gg: ASbGncs59pjz7bo1PJ4GbOCa1YMDCyoCFqLTl5cv7+jPNYIB5EzlQ8z/oo+6c2BcMFZ
-	6/YVb3GcgHrzd4Ki2jM/VHJJ+i9r08vhRZ+a6tNDYpYxZAuJ++a/D5+rJAvomNIaLz5iBpxZCB/
-	Q=
-X-Google-Smtp-Source: AGHT+IFTT878gvRp7ddeyuzEmi6d3nVR7yt9pGw+C9SikTc7j0JfpLe79f9EX7kOwWILUEP0xX1xpi49VVK/vAEm5uc=
-X-Received: by 2002:a05:6000:1445:b0:385:f573:1f78 with SMTP id
- ffacd0b85a97d-38c519744e1mr18589075f8f.24.1738619632538; Mon, 03 Feb 2025
- 13:53:52 -0800 (PST)
+        d=1e100.net; s=20230601; t=1738622358; x=1739227158;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DpVz/r6M+4jdUlj/0dtddbtyJ6bs+xAbBw0llf++aSI=;
+        b=GOUdOTqrtoR4LdAIgeeGgMksRLIzhs7uMwB+64dsUQetILWWk7e/dCOrDS9sVVgB9v
+         LKoUTjb2iplaqLVFdYVAWskeFpG/q3xpY9aSl8M4gqJzNzXmPnTdFOLD354HhC9caQuN
+         0ng1aHgTTfUAOD0KY33sSNikRkPWAgfABQYYUyMbyqDdbjdBZ7KBdUwXhXFhF4Dk130I
+         7YopFaDtVJ3cb+0AzvU6G7hUsXX977jcSW3QpA1uc1BdMmsIEyBYw3QGb+RpJM7sdbmO
+         aiONFjBWzdf04Q5A5q2cuHBRHhZsbXXhGp8/mvNUNWC1q7W9Qy3p1GxMSZxGQa0ZoEet
+         843Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUFshtFEhkOVnLHS63oqlEPPjN43F2Gu1x9+IWnkBBR+94zZYPMD+4FhELWRCPaM2/DMmLaoHcsVKA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywh3BtJQkfA5bd2i97O/YxJU3fb6wFwRbCWsJGL/VrxCQpWkZBw
+	ilOfwk3rEOU5iY4A07LFqELrCEmVwICj4M7jPAKfCgBK1aSgSngFKw1kzVwiJLa0PJfHAmp0RJ/
+	Mb3pw9pPySm3ZpTP6X/4vXA==
+X-Google-Smtp-Source: AGHT+IF97h5eMc5w+O4ZHZ7ijNLoTSeU5pPjnzCFRaJOKi+O14JUCiTrYoh8NH3BVvd4oKzPH0pY0w2f/PAfDZ65XA==
+X-Received: from plbjz6.prod.google.com ([2002:a17:903:4306:b0:21d:de18:6ea9])
+ (user=almasrymina job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:902:fc4b:b0:215:72aa:693f with SMTP id d9443c01a7336-21dd7c44298mr388279915ad.9.1738622357760;
+ Mon, 03 Feb 2025 14:39:17 -0800 (PST)
+Date: Mon,  3 Feb 2025 22:39:10 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250131220432.17717-1-dakr@kernel.org> <20250203202410.GA3936980@joelbox2>
- <34d7a6af-5974-482e-9f70-3f92a823bd96@nvidia.com>
-In-Reply-To: <34d7a6af-5974-482e-9f70-3f92a823bd96@nvidia.com>
-From: Joel Fernandes <joel@joelfernandes.org>
-Date: Mon, 3 Feb 2025 16:53:42 -0500
-X-Gm-Features: AWEUYZl0JrUywsCdCfm9saD5c0m9P2P4l5rddBjbWCr91MZ6RR70sF-I7X6sYiw
-Message-ID: <CAEXW_YRpjzGo2AJLFb_eAyi03pzSVGKJywxzQNatGnQTF4me8g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] gpu: nova-core: add initial driver stub
-To: John Hubbard <jhubbard@nvidia.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net, 
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
-	ajanulgu@redhat.com, lyude@redhat.com, pstanner@redhat.com, zhiw@nvidia.com, 
-	cjia@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com, ojeda@kernel.org, 
-	alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
-	bjorn3_gh@protonmail.com, benno.lossin@proton.me, a.hindborg@kernel.org, 
-	aliceryhl@google.com, tmgross@umich.edu, dri-devel@lists.freedesktop.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
-	joelagnelf@nvidia.com
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.48.1.362.g079036d154-goog
+Message-ID: <20250203223916.1064540-1-almasrymina@google.com>
+Subject: [PATCH net-next v3 0/6] Device memory TCP TX
+From: Mina Almasry <almasrymina@google.com>
+To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
+	virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org
+Cc: Mina Almasry <almasrymina@google.com>, Donald Hunter <donald.hunter@gmail.com>, 
+	Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Neal Cardwell <ncardwell@google.com>, David Ahern <dsahern@kernel.org>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	"=?UTF-8?q?Eugenio=20P=C3=A9rez?=" <eperezma@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+	Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>, sdf@fomichev.me, 
+	asml.silence@gmail.com, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>, 
+	Victor Nogueira <victor@mojatatu.com>, Pedro Tammela <pctammela@mojatatu.com>, 
+	Samiullah Khawaja <skhawaja@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 3, 2025 at 4:00=E2=80=AFPM John Hubbard <jhubbard@nvidia.com> w=
-rote:
-[..]
->
-> >> +        ()
-> >> +    )]
-> >> +);
-> >> +
-> >> +impl pci::Driver for NovaCore {
-> >> +    type IdInfo =3D ();
-> >> +    const ID_TABLE: pci::IdTable<Self::IdInfo> =3D &PCI_TABLE;
-> >> +
-> >> +    fn probe(pdev: &mut pci::Device, _info: &Self::IdInfo) -> Result<=
-Pin<KBox<Self>>> {
-> >> +        dev_dbg!(pdev.as_ref(), "Probe Nova Core GPU driver.\n");
-> >> +
-> >> +        pdev.enable_device_mem()?;
-> >> +        pdev.set_master();
-> >> +
-> >> +        let bar =3D pdev.iomap_region_sized::<BAR0_SIZE>(0, c_str!("n=
-ova-core"))?;
-> >> +
-> >> +        let this =3D KBox::pin_init(
-> >> +            try_pin_init!(Self {
-> >> +                gpu <- Gpu::new(pdev, bar)?,
->
-> Here. Try to construct a Gpu, which tries to construct a GpuSpec, which
-> fails out if Chipset is not listed, or if CardType (which should be
-> renamed to Architecture) is not listed.
->
-> And only Turing+ GPUs are listed. Turing is the first GPU that has a
-> GSP unit.
->
-> By the way, I have loaded this on a system with a Kepler GPU (pre-Turing)=
-,
-> and an Ampere GPU, and traced through actually loading NovaCore, and it
-> behaves as described above.
+v3: https://patchwork.kernel.org/project/netdevbpf/list/?series=929401&state=*
+===
+
+Address minor comments from RFCv2 and fix a few build warnings and
+ynl-regen issues. No major changes.
+
+RFC v2: https://patchwork.kernel.org/project/netdevbpf/list/?series=920056&state=*
+=======
+
+RFC v2 addresses much of the feedback from RFC v1. I plan on sending
+something close to this as net-next  reopens, sending it slightly early
+to get feedback if any.
+
+Major changes:
+--------------
+
+- much improved UAPI as suggested by Stan. We now interpret the iov_base
+  of the passed in iov from userspace as the offset into the dmabuf to
+  send from. This removes the need to set iov.iov_base = NULL which may
+  be confusing to users, and enables us to send multiple iovs in the
+  same sendmsg() call. ncdevmem and the docs show a sample use of that.
+
+- Removed the duplicate dmabuf iov_iter in binding->iov_iter. I think
+  this is good improvment as it was confusing to keep track of
+  2 iterators for the same sendmsg, and mistracking both iterators
+  caused a couple of bugs reported in the last iteration that are now
+  resolved with this streamlining.
+
+- Improved test coverage in ncdevmem. Now muliple sendmsg() are tested,
+  and sending multiple iovs in the same sendmsg() is tested.
+
+- Fixed issue where dmabuf unmapping was happening in invalid context
+  (Stan).
+
+====================================================================
+
+The TX path had been dropped from the Device Memory TCP patch series
+post RFCv1 [1], to make that series slightly easier to review. This
+series rebases the implementation of the TX path on top of the
+net_iov/netmem framework agreed upon and merged. The motivation for
+the feature is thoroughly described in the docs & cover letter of the
+original proposal, so I don't repeat the lengthy descriptions here, but
+they are available in [1].
+
+Sending this series as RFC as the winder closure is immenient. I plan on
+reposting as non-RFC once the tree re-opens, addressing any feedback
+I receive in the meantime.
+
+Full outline on usage of the TX path is detailed in the documentation
+added in the first patch.
+
+Test example is available via the kselftest included in the series as well.
+
+The series is relatively small, as the TX path for this feature largely
+piggybacks on the existing MSG_ZEROCOPY implementation.
+
+Patch Overview:
+---------------
+
+1. Documentation & tests to give high level overview of the feature
+   being added.
+
+2. Add netmem refcounting needed for the TX path.
+
+3. Devmem TX netlink API.
+
+4. Devmem TX net stack implementation.
+
+Testing:
+--------
+
+Testing is very similar to devmem TCP RX path. The ncdevmem test used
+for the RX path is now augemented with client functionality to test TX
+path.
+
+* Test Setup:
+
+Kernel: net-next with this RFC and memory provider API cherry-picked
+locally.
+
+Hardware: Google Cloud A3 VMs.
+
+NIC: GVE with header split & RSS & flow steering support.
+
+Performance results are not included with this version, unfortunately.
+I'm having issues running the dma-buf exporter driver against the
+upstream kernel on my test setup. The issues are specific to that
+dma-buf exporter and do not affect this patch series. I plan to follow
+up this series with perf fixes if the tests point to issues once they're
+up and running.
+
+Special thanks to Stan who took a stab at rebasing the TX implementation
+on top of the netmem/net_iov framework merged. Parts of his proposal [2]
+that are reused as-is are forked off into their own patches to give full
+credit.
+
+[1] https://lore.kernel.org/netdev/20240909054318.1809580-1-almasrymina@google.com/
+[2] https://lore.kernel.org/netdev/20240913150913.1280238-2-sdf@fomichev.me/T/#m066dd407fbed108828e2c40ae50e3f4376ef57fd
+
+Cc: sdf@fomichev.me
+Cc: asml.silence@gmail.com
+Cc: dw@davidwei.uk
+Cc: Jamal Hadi Salim <jhs@mojatatu.com>
+Cc: Victor Nogueira <victor@mojatatu.com>
+Cc: Pedro Tammela <pctammela@mojatatu.com>
+Cc: Samiullah Khawaja <skhawaja@google.com>
 
 
-Ah that makes sense, Thanks John!
+Mina Almasry (5):
+  net: add devmem TCP TX documentation
+  selftests: ncdevmem: Implement devmem TCP TX
+  net: add get_netmem/put_netmem support
+  net: devmem: Implement TX path
+  net: devmem: make dmabuf unbinding scheduled work
 
- - Joel
+Stanislav Fomichev (1):
+  net: devmem: TCP tx netlink api
+
+ Documentation/netlink/specs/netdev.yaml       |  12 +
+ Documentation/networking/devmem.rst           | 144 ++++++++-
+ include/linux/skbuff.h                        |  15 +-
+ include/linux/skbuff_ref.h                    |   4 +-
+ include/net/netmem.h                          |   3 +
+ include/net/sock.h                            |   1 +
+ include/uapi/linux/netdev.h                   |   1 +
+ include/uapi/linux/uio.h                      |   6 +-
+ net/core/datagram.c                           |  41 ++-
+ net/core/devmem.c                             | 111 ++++++-
+ net/core/devmem.h                             |  70 +++-
+ net/core/netdev-genl-gen.c                    |  13 +
+ net/core/netdev-genl-gen.h                    |   1 +
+ net/core/netdev-genl.c                        |  66 +++-
+ net/core/skbuff.c                             |  36 ++-
+ net/core/sock.c                               |   8 +
+ net/ipv4/tcp.c                                |  36 ++-
+ net/vmw_vsock/virtio_transport_common.c       |   3 +-
+ tools/include/uapi/linux/netdev.h             |   1 +
+ .../selftests/drivers/net/hw/ncdevmem.c       | 300 +++++++++++++++++-
+ 20 files changed, 819 insertions(+), 53 deletions(-)
+
+-- 
+2.48.1.362.g079036d154-goog
+
