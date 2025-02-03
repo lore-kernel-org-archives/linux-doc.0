@@ -1,145 +1,120 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31AF620E02A
-	for <linux-doc@vger.kernel.org>; Mon,  3 Feb 2025 18:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE2720A5CB;
+	Mon,  3 Feb 2025 18:24:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738606924; cv=none; b=enqGIfa11/R3nGfOY806PqIzgiJooQKhlhrqGCz3wq8Gl8o1b7LUnBRy3woOyDSrVSzSXVB/t0E21lN/60no1GfeQHeBMM3tKmzdW54x3iTaGEuD26mDmjwTiFRM6LutTcBBjD4oVRg+qd2ErEfsUowiB5hRGPHILDE7EWGEEjY=
+	t=1738607045; cv=none; b=YJqbxcN60oYASRo/fKNW+hGNoraZtDWCx0T8fZ8wItIXq0zaFAXxoilC8aCF+CQtaB2g/CBruTyGvsor3KUhpsIc5fwuK3E8NmUPwb+GOfVFRpm29r/PFGur9qhc1vQfR6XKaArcveN0ot3sJMPTDH+260McJ1bXI/DZvWMOufs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738606924; c=relaxed/simple;
-	bh=28LdHPYUIggbRJom5lYWWfHr3ToftE4xYha+OX3oJpA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n6zziWoDefsljLMuSl/AzC0SVptgRjwvkYMEQvcYJO60Ap3f3L6VU2Osq2OD3v2v28ugitWCmXkZmkbrgJhDmhPimzfRb5rDxS4HcWJrPE1EoOLMGqnpZ6uJ2w01FMKb5jCCYeCKy1JXqRFA5NsuChKPE6AR00T1VDCc1wSvhec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EoSSEJ2S; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1738607045; c=relaxed/simple;
+	bh=T7agafA3ehDJwwcIdTeilSVjCB9/z8KngR8VIMd7BLc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tHY/iA/XXJS7jrhNadfhsx+kNQE/YmTXa1W457hQ1gf+o8ZC1T8MUKdrLTWJ6dBaollN1ZiOyVcYbDxm69D9mGHQIB2xt10R+o8BVOeXKBROuEcpMgnXa07nn6SvK3ghZ7+TY5wz6CNO7MxYN2EVHAXB1Kp4QXCRNhdRb1Z+3UI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=XjWsKOTZ; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EoSSEJ2S"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738606922;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=w2nlFOMn1lH29kDa2Jrx7xgjpzbwJvO/qQCiLXJ/5Xg=;
-	b=EoSSEJ2SzGb4FRZN48UE6TAw1Eu032cp8ZzfQAUy9JOX0G9A48938zEg9DHKzt2S4vBLi3
-	lAiT/xGIcklvr1ngE9qcL7mAGeOBAQEtHGvJOo94DNNjG541LM38KiI/+km44uq3yCr+hm
-	FCZa7gYtFc1FM8EoiJHmbybAH10FHIo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-597-gsb7tC_DN1WV6bVapfHQoA-1; Mon, 03 Feb 2025 13:22:01 -0500
-X-MC-Unique: gsb7tC_DN1WV6bVapfHQoA-1
-X-Mimecast-MFC-AGG-ID: gsb7tC_DN1WV6bVapfHQoA
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-438e180821aso24684615e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 03 Feb 2025 10:22:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738606919; x=1739211719;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=w2nlFOMn1lH29kDa2Jrx7xgjpzbwJvO/qQCiLXJ/5Xg=;
-        b=QnnR81YXK2WT2P9GJjiUnGOk7RFgz+eqzOwOyMdfqfxFD5oc7w9QBNo9UpjOvtNCfm
-         VLMVo7FLhYDW8q9l6qy1SrFzfb7sTozCquWxteNfAn3uvuUes/ivasNzxLwgI5HfPUMN
-         kQ09GoDF0zvO+THhSWyB4Kut0n74ktFICf6jzEa75hRpj8NLnVnEjMjMC8wiHlrU+Sj8
-         4+5WcU4s5nP3hiBk37zv/9mXwLb8G+cEOEUIWO4Eg1DWe1w6kyxFnSN77NEdOFzQclF+
-         b25po9TZ2lLNpmgQdmMf39NWHbKlmh91BW5zQXLHr59uL7D4RNPpFkTehCcIz4CkTvjL
-         ByuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVJo0VHM0Tqzq0jIHgmjKjn7rF4f8wwKAXdRMRW4KcMwYwY4Sp3IiI8tiSwX+spFnztWJapNvvp5Lw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzb3ukjEBiSzcrOBMIxXq+kfMVxl3AwGger/y5JpCuu5Lg5V1cw
-	YYXs9g8troTRn2hjQ20MEUCJwsmRmgVkdyexWf3UJfv/aazulIoAyIGKkR32FcpfX77EAkNd+iN
-	kHcF/COX2bKFC8IUUsgLT2f2JgEl7MQE5D78+jGElQ3ph0wbbzRTMPqyNDHZ0CZ3fJ8A+vBSAPe
-	ik0F9SgcyY/p3S3ACC3YStE5AfCRne1YrS
-X-Gm-Gg: ASbGncsKYKoBTb4Ft1BoD++wbSJ1tBaSs0bdq4d6XB33Yuil5KOUB+1C93Tjn/9/4Ed
-	c23FucVM/H9zANVMip6gDdpG+C7iSZMyk06+BWKF/aZj9GDpX0I8f0Fh0H0Em
-X-Received: by 2002:a05:600c:35d3:b0:438:d9f1:f5cc with SMTP id 5b1f17b1804b1-438dc3c3983mr208354625e9.8.1738606919488;
-        Mon, 03 Feb 2025 10:21:59 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHz7WFFlkh702aL2lV+rs/ZKODFLjI/rvxvV7aVp0t9rlFGn4otyohrTVaegFBxoOtK19Bv6wDrLLCiUaiWHss=
-X-Received: by 2002:a05:600c:35d3:b0:438:d9f1:f5cc with SMTP id
- 5b1f17b1804b1-438dc3c3983mr208354385e9.8.1738606919110; Mon, 03 Feb 2025
- 10:21:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="XjWsKOTZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1738607018; x=1739211818; i=w_armin@gmx.de;
+	bh=KY5Zi9B0yfDIIdsz5RCda26iUB//dpWMUvy4OWh73zc=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
+	 MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=XjWsKOTZIQEEcs4yPx0JkiMcK77LkVBM2oCC564u6qLkGAuI87xWI7nHoy4NqjNP
+	 P3rbOMFLKkRJp3UR/JuU0FkMmS3vhJ8PMXS5xRJZtChu3SIytnIxgLwM1/EV8RgYe
+	 NQApYGTSlUPny//0V5w9YaPZ2TBInlyTY/H9ZlXtiHwEis1MRnUPzF1xwNYt92P4M
+	 9WrHCK14QVx2ZcRULM23O66DJlfCDnkJCo2T2H2rKzQIQTOUCLzFD4Jb/l9Mh2wm0
+	 9xnzQtnMfsuiaI+r9tWm/m017PUBaDMntYdRzCW28mpoo+QNJxTlfrhDZNGvlFPDr
+	 WlC1Vm9W2aPhd2CMUw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from mx-amd-b650.fritz.box ([91.14.238.232]) by mail.gmx.net
+ (mrgmx005 [212.227.17.190]) with ESMTPSA (Nemesis) id
+ 1M1Ycr-1thU4w3RNb-00FpKS; Mon, 03 Feb 2025 19:23:38 +0100
+From: Armin Wolf <W_Armin@gmx.de>
+To: james@equiv.tech,
+	markpearson@lenovo.com,
+	jorge.lopez2@hp.com
+Cc: jdelvare@suse.com,
+	linux@roeck-us.net,
+	linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	platform-driver-x86@vger.kernel.org,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org
+Subject: [PATCH 0/7] platform/x86: wmi: Rework WMI device enabling
+Date: Mon,  3 Feb 2025 19:23:15 +0100
+Message-Id: <20250203182322.384883-1-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CADH9ctD1uf_yBA3NXNQu7TJa_TPhLRN=0YZ3j2gGhgmaFRdCFg@mail.gmail.com>
- <c3026876-8061-4ab2-9321-97cc05bad510@redhat.com> <CADH9ctBivnvP1tNcatLKzd8EDz8Oo6X65660j8ccxYzk3aFzCA@mail.gmail.com>
- <CABgObfZEyCQMiq6CKBOE7pAVzUDkWjqT2cgfbwjW-RseH8VkLw@mail.gmail.com>
- <CADH9ctA_C1dAOus1K+wOH_SOKTb=-X1sVawt5R=dkH1iGt8QUg@mail.gmail.com>
- <CABgObfZrTyft-3vqMz5w0ZiAhp-v6c32brgftynZGJO8OafrdA@mail.gmail.com>
- <CADH9ctBYp-LMbW4hm3+QwNoXvAc5ryVeB0L1jLY0uDWSe3vbag@mail.gmail.com>
- <b1ddb439-9e28-4a58-ba86-0395bfc081e0@redhat.com> <CADH9ctCFYtNfhn3SSp2jp0fzxu6s_X1A+wBNnzvHZVb8qXPk=g@mail.gmail.com>
- <CADH9ctB0YSYqC_Vj2nP20vMO_gN--KsqOBOu8sfHDrkZJV6pmw@mail.gmail.com>
- <Z2IXvsM0olS5GvbR@google.com> <CABgObfadZZ5sXYB0xR5OcLDw_eVUmXTOTFSWkVpkgiCJmNnFRQ@mail.gmail.com>
- <CADH9ctAGt_VriKA7Ch1L9U+xud-6M54GzaPOM_2sSA780TpAYw@mail.gmail.com>
-In-Reply-To: <CADH9ctAGt_VriKA7Ch1L9U+xud-6M54GzaPOM_2sSA780TpAYw@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Mon, 3 Feb 2025 19:21:47 +0100
-X-Gm-Features: AWEUYZkfTYWUXYOngTDyrNZ6kf3UUSURUuAlnD5-9-ZGJoFpmKmFYKS0QywhxK0
-Message-ID: <CABgObfb3Ttfg6H+_RpNQGSYKw9BLEwx3+EysXdL-wbpd1pkGHQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] KVM: x86: Add support for VMware guest specific hypercalls
-To: Doug Covelli <doug.covelli@broadcom.com>
-Cc: Sean Christopherson <seanjc@google.com>, Zack Rusin <zack.rusin@broadcom.com>, 
-	kvm <kvm@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "the arch/x86 maintainers" <x86@kernel.org>, 
-	"H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Arnaldo Carvalho de Melo <acme@redhat.com>, Isaku Yamahata <isaku.yamahata@intel.com>, 
-	Joel Stanley <joel@jms.id.au>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-kselftest <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:3M0fg8bnSA1W65bn5VFvkjiILP4zD2QHK532sNRIuwNNqaBM56e
+ DJlZTuPMnsE4rHH/JwBXbLItSB4qgVRnxSmBUBOT2rJnU4zVWPa/CxLUEe8N8tThSdFIRAM
+ VyYH1xneaGLYSNm4nuik/reNd3t1mvLRTxZ8mDvAhJn08nkpwGEXn8cg4ohLV/8OZtsxYDv
+ S5bDjV/QMdefQEFz/ocRQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:mZ1tUUMeuRA=;pTLAtsxCDZALBVWMnnnWAsoVk1q
+ U9TAAU8ZUaRCb8HJpBNOQp2NEvf26rCgqDtNNjHXsIBbOQxoLVmRyT++L/FWdDX6or+f+nQgP
+ iwGKDxekOjwFVywu9XNe6iBPmPXHit7B6CRoBrpuFSHfnMc/lUY6Y/4Pyl1nkLB3yvJ54oNck
+ Rv6p6Dhy2O7X+lz5t2IGLhbsxkAkITd1ylLpmkun6JsVGMS8jFTaoyviRO/TAPQKK28N/P0Y9
+ T72eiGn4ozMdnKbFWaGwoTC8kD3gE4x6kvTXf0gFd6gIVxrOr7gh7bOfKWTGH/kfiW0Y0R5Jm
+ M+xuP4w0pcgzBX6pfn9/8kLR6bPQr79Epdr4uU9TrcGi5KzxyUb95LGbZm1YN3cg9MJSCSBts
+ bl8E1E87wyah6w3TIotzCmG8vz9CHglSE5q7LcuslZavcKozTaMDbJO2S44Y5r2duSmb1FcF9
+ V0B2dZsoh8Nlz5qvqLN6DWZeYdVoviZg4c5k2xWtDwgc4OzB5WXVZMjACEvCjA6dCC4a+SAB7
+ 5EUQqyCAXzfRtVd6THJEE5hDS9RTf3BYEA8SjRpqi3SYV17/S+I/nBH0rpa2qsAgY0bZArgox
+ eaX7/T/BZc7JvaavtTVJsotrk9/5xbGxgiU4wOKxrbKDNTFo7QIRFW8iI05UIcQjC0kasHBTp
+ oqlcvh/NW6ccSOBXiG89b9d13kPiqLsxCMhBjCpUSZhuCLas4GZxjmDJYS46l38D0tH3qnF8q
+ FHUOUBakl6mRG9qbs9vJx0eop1D4+BdNMQHUVeOL/+xWwNW/twfdeVCcDmGlcitHpDMqCfNSh
+ TxuJgJYmqe9Tf9nkYExunzUbOwzxYGLeApH4qTIxQRz3xo+Dmy6PsCrH6jRHQrcqMkrmvf6a/
+ hMgSPhYYRoTOyNLWFczqtnVaIAea45x37jMFtV8AmHYQFZn8IPWQf8oPlx3mRSbVolX05PiHG
+ ElzFApdExzJ3JvjGb8j7PcTvv6z0y9Vl7Cl066z4YdJ/SkbOpQt6XZ31Lageh/wJhm5/LGrvP
+ Aer3IeHr/K6SOys3Onkem4PQqSR7reASOsuzCt1R4E5W9X/D198VDLi5iB9fPFuZRWh0KBFrN
+ KNz8mwXTuBTVX+X+BEVGoUsZwk39B8vRECrAZAUGm5hdiP0xEIfn5Z1X7PFZ3SWLhKSalkF6X
+ mtqZRAM9LEXA78BL448FMwzAP/S9Cab93juQu4oewX1fs0yxUOvE6XH8o2ii5fBCmizBDdTEk
+ yjqD8cAUmF59UwI92wOvMHAD3Nlo/URoT3yNxW40/UY6kJxcImFJYuSnoVIFv0EfCW2sFZKmR
+ pp+4dLrgP57QqFS2Nz+iG8X74WF+hT0UBoWWQG/PfbWRSA=
 
-On Mon, Feb 3, 2025 at 5:35=E2=80=AFPM Doug Covelli <doug.covelli@broadcom.=
-com> wrote:
-> OK.  It seems like fully embracing the in-kernel APIC is the way to go
-> especially considering it really simplifies using KVM's support for neste=
-d
-> virtualization.  Speaking of nested virtualization we have been working o=
-n
-> adding support for that and would like to propose a couple of changes:
->
-> - Add an option for L0 to handle backdoor accesses from CPL3 code running=
- in L2.
-> On a #GP nested_vmx_l0_wants_exit can check if this option is enabled and=
- KVM
-> can handle the #GP like it would if it had been from L1 (exit to userleve=
-l iff
-> it is a backdoor access otherwwise deliver the fault to L2).  When combin=
-ed with
-> enable_vmware_backdoor this will allow L0 to optionally handle backdoor a=
-ccesses
-> from CPL3 code running in L2.  This is needed for cases such as running V=
-Mware
-> tools in a Windows VM with VBS enabled.  For other cases such as running =
-tools
-> in a Windows VM in an ESX VM we still want L1 to handle the backdoor acce=
-sses
-> from L2.
+This patch series reworks how WMI devices are enabled and disabled
+to improve the compatibility with various firmware implementations.
 
-I think this makes sense and could be an argument to KVM_ENABLE_CAP.
+The first three patches make sure that no WMI driver using the WMI bus
+infrastructure is using the deprecated GUID-based API to access the
+underlying WMI device.
 
-> - Extend KVM_EXIT_MEMORY_FAULT for permission faults (e.g the guest attem=
-pting
-> to write to a page that has been protected by userlevel calling mprotect)=
-.  This
-> is useful for cases where we want synchronous detection of guest writes s=
-uch as
-> lazy snapshots (dirty page tracking is no good for this case).  Currently
-> permission faults result in KVM_RUN returning EFAULT which we handle by
-> interpreting the instruction as we do not know the guest physical address
-> associated with the fault.
+The fourth patch is a unrelated cleanup patch.
 
-Yes, this makes sense too, though you might want to look into
-userfaultfd as well.
+The last three patches finally rework the WMI device enabling inside
+the WMI core and update the documentation.
 
-We had something planned using attributes, but I don't see any issue
-extending it to EFAULT. Maybe it would have to be yet another
-KVM_ENABLE_CAP; considering that it would break your existing code,
-there might be someone else in the wild doing it.
+The WMI core patches have been tested on a Dell Inspiron 3505, but
+the remaining patches are compile-tested only.
 
-Paolo
+Armin Wolf (7):
+  hwmon: (hp-wmi-sensors) Use the WMI bus API when accessing sensors
+  platform/x86: think-lmi: Use ACPI object when extracting strings
+  platform/x86: think-lmi: Use WMI bus API when accessing BIOS settings
+  platform/x86: hp-bioscfg: Use wmi_instance_count()
+  platform/x86: wmi: Rework WCxx/WExx ACPI method handling
+  platform/x86: wmi: Call WCxx methods when setting data blocks
+  platform/x86: wmi: Update documentation regarding the GUID-based API
+
+ Documentation/wmi/acpi-interface.rst          |   3 +
+ .../wmi/driver-development-guide.rst          |   4 +
+ drivers/hwmon/hp-wmi-sensors.c                |   4 +-
+ drivers/platform/x86/hp/hp-bioscfg/bioscfg.c  |  13 +-
+ drivers/platform/x86/think-lmi.c              |  51 ++++----
+ drivers/platform/x86/think-lmi.h              |   2 +
+ drivers/platform/x86/wmi.c                    | 114 +++++++++---------
+ 7 files changed, 96 insertions(+), 95 deletions(-)
+
+=2D-
+2.39.5
 
