@@ -1,188 +1,102 @@
-Received: from mail-il1-f207.google.com (mail-il1-f207.google.com [209.85.166.207])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F26B25A623
-	for <linux-doc@vger.kernel.org>; Mon,  3 Feb 2025 19:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.207
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6A41D47AD;
+	Mon,  3 Feb 2025 19:50:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738612109; cv=none; b=pyNv4ZQGo3iGBEC+vdl+F8g/yNQG8p5uIjiny2Dmngrt6h63wp3DTyVPwrGyW6XvZrz5D91jlwajKdZsic2t+1dzYN9rx3CT/MxN+C3YXof4qegeYp2MloU0qvv09JPpYaHmxhE6saRix6ixWVg/4oArHcHxRgCpd7nv1T5yifQ=
+	t=1738612245; cv=none; b=rzN6ylXgNo8e/2wD9FN3OIPXblXzmsQyQ+veFIoJbqbQF7vqeIN3ZToRKBinzCkZ8DdaVg0pA3SiT+fUX8siqLfgGKhfw9hqDUlS1TZu1HLD0BWVazrf1PafuaBjhJixPVMYRNiT7wDeoPX/2L/Opmc1vlwTDcmpv/f3vghJOF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738612109; c=relaxed/simple;
-	bh=VBKeXvVpxzsbDD2gzQOz5enbyWOMnGBYHhlsZ2Gq4z4=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=FR/mdDZUSechweBl3EArgYfvVCuecqesrxJkI+h32+nFtzi0QzQEKWXCBnjpTwnPQfwWbA/bhV69jck3G5IX+W1B/6LEaJ3F2YS72Jg5VB6pk4nO7Rm7gP63ys9n678P4Zs/MDWHFwD9wzJWIZNnXZxu8EWwY/V+C5zmqQIuDrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.207
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f207.google.com with SMTP id e9e14a558f8ab-3cfba354f79so107800585ab.1
-        for <linux-doc@vger.kernel.org>; Mon, 03 Feb 2025 11:48:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738612106; x=1739216906;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=D5u+KEwvUiQ1R4lQW9YeruG6CDtjvrWJJAfql7IrJ7c=;
-        b=W+oHPPJK1exyJfIcls2rO0cReflKQ/QCSeUiU9a2WJhHTBnBQJS7mFlGd2YljcfN7I
-         LnmVZeb8IsQhCmWomq9qjadRl5oL8w3mK/nNgJ/jVMn3SEukn+NxqbC16i1LY1P0Cc31
-         3FWoPYy7ICe7mPom1cRi6rFTatmplOVeSIF38WrS1fuyTl+8Ld8Mb48y1mGASa+2O8pL
-         AtX0SYfnoV9xAnJx849WFTe4v4fyElShMy6VIvTV5xTrmpNWpwTzp/0XBuEqfRFUimIr
-         WcnaYlFFQan/EL/BxswgJS62fldIoxF/JvP1wd7a0bcQ7oVkTLdpNFfphNZXdoxD3bt8
-         7u2g==
-X-Forwarded-Encrypted: i=1; AJvYcCWoXgcMfPcSQPhZb2NtnuAY2l80w8UcFLP0ol/zLcRlwpp8vnym6sjf9G+gs/2J8fbnNwz2i4cempw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUQL+5H/1Z2DrztEtCitpR/LjUCPwSHVX6GQ71WDcc2iUk3xPM
-	LyM1EDxR5f5pKL+7Pug1ReTPPe3ade8JAFva8J63Kbw7fwLFuwoVY/22wPE+al3Nj6wUDWaQ6OK
-	FnBPTBgOVwiH2VoPKaeP/Cc3GroLo6dhNC11qL8VDejc4irpbjUS8+bs=
-X-Google-Smtp-Source: AGHT+IEmqLf94zcO652pUFeOrh1ZTBYTJK0PxvISMseIvYGnAdBDOLiaFM71kpMY2kxdhp8E2R0as2E2Zl0PXZRQ+Z2OUHHVx25V
+	s=arc-20240116; t=1738612245; c=relaxed/simple;
+	bh=MJrx9uVTcVkOLBd3RaCKPYEE0+j9fIK//E/nrWrG6SE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oxvt1J605m2K+17+OiLCeOTgrJIl9TSSFN5h1TTP5j1TSk2bDo3nxO7YNh5R/4s4fzm+98/7nPf6XgxNUh9w5yICds+3HqNi6fxX9KbxP+R+FmGFqKQgdypGGxYkGN46cRnCUaRfV0BTYuhnT1sC4t/YEF3CFuVmQtk8MSrHuyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WKy03jQs; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WKy03jQs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9959DC4CED2;
+	Mon,  3 Feb 2025 19:50:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738612244;
+	bh=MJrx9uVTcVkOLBd3RaCKPYEE0+j9fIK//E/nrWrG6SE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=WKy03jQsC8BgN3JGxKIz0b884E/gV7TxOp/8Fqb2zwHiDSu+5dJXTtASjGq4CDxfi
+	 TjQIUkHLnfwjBRWhYnKd+p84fuUQTtnSn9ZfIqHJ31NJ7NspHv8h+f8iq5NeJ94slS
+	 zuLh+LmOg/BA3D3y7a7mnwO/eaCqHzXAg0Tc2duQCnkKaa4q/CL988ZiPm2igrEY1D
+	 dN6t0k6aOJb8TRpQsbGv38ox+wK3bfbAJsOqyh46fEjZw1+ug/ecaCK+DG3skO5i9p
+	 uqCC2jLACGCi6l4PBi59GKNZiLylsgoEJZXaapnqgN57rE9ViLHZO75as4M48ufXQU
+	 hhM+wbQFT4KIw==
+Date: Mon, 3 Feb 2025 20:50:39 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Simon Horman <horms@kernel.org>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Alexandre Ferrieux
+ <alexandre.ferrieux@gmail.com>, netdev@vger.kernel.org,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net] docs: netdev: Document guidance on inline functions
+Message-ID: <20250203205039.15964b2f@foz.lan>
+In-Reply-To: <874j1bt6mv.fsf@trenco.lwn.net>
+References: <20250203-inline-funk-v1-1-2f48418e5874@kernel.org>
+	<874j1bt6mv.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:221e:b0:3d0:239a:c46f with SMTP id
- e9e14a558f8ab-3d0239acd38mr94298665ab.12.1738612106568; Mon, 03 Feb 2025
- 11:48:26 -0800 (PST)
-Date: Mon, 03 Feb 2025 11:48:26 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <67a11d8a.050a0220.163cdc.0051.GAE@google.com>
-Subject: [syzbot] [udf?] general protection fault in d_splice_alias
-From: syzbot <syzbot+a9c0867e4d1dd0c7ab19@syzkaller.appspotmail.com>
-To: amir73il@gmail.com, asmadeus@codewreck.org, brauner@kernel.org, 
-	corbet@lwn.net, ericvh@kernel.org, jack@suse.com, jack@suse.cz, 
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux_oss@crudebyte.com, lucho@ionkov.net, 
-	mjguzik@gmail.com, syzkaller-bugs@googlegroups.com, v9fs@lists.linux.dev, 
-	viro@zeniv.linux.org.uk, willy@infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello,
+Em Mon, 03 Feb 2025 08:00:56 -0700
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-syzbot found the following issue on:
+> Simon Horman <horms@kernel.org> writes:
+> 
+> > Document preference for non inline functions in .c files.
+> > This has been the preference for as long as I can recall
+> > and I was recently surprised to discover that it is undocumented.
+> >
+> > Reported-by: Alexandre Ferrieux <alexandre.ferrieux@gmail.com>
+> > Closes: https://lore.kernel.org/all/9662e6fe-cc91-4258-aba1-ab5b016a041a@orange.com/
+> > Signed-off-by: Simon Horman <horms@kernel.org>
+> > ---
+> >  Documentation/process/maintainer-netdev.rst | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> >
+> > diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
+> > index e497729525d5..1fbb8178b8cd 100644
+> > --- a/Documentation/process/maintainer-netdev.rst
+> > +++ b/Documentation/process/maintainer-netdev.rst
+> > @@ -408,6 +408,17 @@ at a greater cost than the value of such clean-ups.
+> >  
+> >  Conversely, spelling and grammar fixes are not discouraged.
+> >  
+> > +Inline functions
+> > +----------------
+> > +
+> > +The use of static inline functions in .c file is strongly discouraged
+> > +unless there is a demonstrable reason for them, usually performance
+> > +related. Rather, it is preferred to omit the inline keyword and allow the
+> > +compiler to inline them as it sees fit.
 
-HEAD commit:    69e858e0b8b2 Merge tag 'uml-for-linus-6.14-rc1' of git://g..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=11bfc518580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d1a6d4df5fcc342f
-dashboard link: https://syzkaller.appspot.com/bug?extid=a9c0867e4d1dd0c7ab19
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=125d0eb0580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13a595f8580000
+You should probably point to chapter (12) of Documentation/process/coding-style.rst
+where it mentions that inline for function prototypes and as a way to
+replace macros are OK.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/a4b4612f419c/disk-69e858e0.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/07abf7c78a98/vmlinux-69e858e0.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/085b44906cce/bzImage-69e858e0.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/0e8d208f30b1/mount_0.gz
+> > +
+> > +This is a stricter requirement than that of the general Linux Kernel
+> > +:ref:`Coding Style<codingstyle>`  
+> 
+> I have no objection to this change, but I do wonder if it does indeed
+> belong in the central coding-style document.  I don't think anybody
+> encourages use of "inline" these days...?
 
-The issue was bisected to:
+Indeed IMO this belongs to the coding style. I would place it close
+to chapter (12) at Documentation/process/coding-style.rst.
 
-commit 30d61efe118cad1a73ad2ad66a3298e4abdf9f41
-Author: Al Viro <viro@zeniv.linux.org.uk>
-Date:   Mon Jan 6 02:33:17 2025 +0000
+Regards,
 
-    9p: fix ->rename_sem exclusion
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1050fddf980000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=1250fddf980000
-console output: https://syzkaller.appspot.com/x/log.txt?x=1450fddf980000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+a9c0867e4d1dd0c7ab19@syzkaller.appspotmail.com
-Fixes: 30d61efe118c ("9p: fix ->rename_sem exclusion")
-
-UDF-fs: INFO Mounting volume 'LinuxUDF', timestamp 2022/11/22 14:59 (1000)
-Oops: general protection fault, probably for non-canonical address 0xdffffc000000000d: 0000 [#1] PREEMPT SMP KASAN NOPTI
-KASAN: null-ptr-deref in range [0x0000000000000068-0x000000000000006f]
-CPU: 0 UID: 0 PID: 5832 Comm: syz-executor165 Not tainted 6.13.0-syzkaller-09760-g69e858e0b8b2 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 12/27/2024
-RIP: 0010:__d_unalias fs/dcache.c:2969 [inline]
-RIP: 0010:d_splice_alias+0x9cd/0xf30 fs/dcache.c:3037
-Code: 48 c1 ea 03 80 3c 02 00 0f 85 4e 05 00 00 49 8b 85 70 ff ff ff 48 ba 00 00 00 00 00 fc ff df 48 8d 78 68 48 89 f9 48 c1 e9 03 <80> 3c 11 00 0f 85 14 05 00 00 48 8b 40 68 48 85 c0 74 31 48 89 44
-RSP: 0018:ffffc90003667c18 EFLAGS: 00010212
-RAX: 0000000000000000 RBX: ffff88807dbd7318 RCX: 000000000000000d
-RDX: dffffc0000000000 RSI: ffffffff82348f0c RDI: 0000000000000068
-RBP: ffff8880754107b8 R08: 0000000000000000 R09: ffffed100f23d67a
-R10: ffff8880791eb3d3 R11: 0000000000000032 R12: ffff8880791eb318
-R13: ffff8880791eafd8 R14: ffff8880791eaeb0 R15: ffff8880791eaf48
-FS:  0000555581642380(0000) GS:ffff8880b8600000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ffe875be000 CR3: 0000000076b7a000 CR4: 0000000000350ef0
-Call Trace:
- <TASK>
- udf_lookup+0x191/0x240 fs/udf/namei.c:130
- lookup_one_qstr_excl+0x120/0x190 fs/namei.c:1693
- do_rmdir+0x247/0x410 fs/namei.c:4444
- __do_sys_rmdir fs/namei.c:4474 [inline]
- __se_sys_rmdir fs/namei.c:4472 [inline]
- __x64_sys_rmdir+0xc5/0x110 fs/namei.c:4472
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f9ee0142d99
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffe875bd248 EFLAGS: 00000246 ORIG_RAX: 0000000000000054
-RAX: ffffffffffffffda RBX: 6f72746e6f632f2e RCX: 00007f9ee0142d99
-RDX: 00007f9ee0142d99 RSI: 00007f9ee0142d99 RDI: 0000000020000100
-RBP: 00007f9ee01b75f0 R08: 00005555816434c0 R09: 00005555816434c0
-R10: 00005555816434c0 R11: 0000000000000246 R12: 00007ffe875bd270
-R13: 00007ffe875bd498 R14: 431bde82d7b634db R15: 00007f9ee018c03b
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:__d_unalias fs/dcache.c:2969 [inline]
-RIP: 0010:d_splice_alias+0x9cd/0xf30 fs/dcache.c:3037
-Code: 48 c1 ea 03 80 3c 02 00 0f 85 4e 05 00 00 49 8b 85 70 ff ff ff 48 ba 00 00 00 00 00 fc ff df 48 8d 78 68 48 89 f9 48 c1 e9 03 <80> 3c 11 00 0f 85 14 05 00 00 48 8b 40 68 48 85 c0 74 31 48 89 44
-RSP: 0018:ffffc90003667c18 EFLAGS: 00010212
-RAX: 0000000000000000 RBX: ffff88807dbd7318 RCX: 000000000000000d
-RDX: dffffc0000000000 RSI: ffffffff82348f0c RDI: 0000000000000068
-RBP: ffff8880754107b8 R08: 0000000000000000 R09: ffffed100f23d67a
-R10: ffff8880791eb3d3 R11: 0000000000000032 R12: ffff8880791eb318
-R13: ffff8880791eafd8 R14: ffff8880791eaeb0 R15: ffff8880791eaf48
-FS:  0000555581642380(0000) GS:ffff8880b8600000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ffe875be000 CR3: 0000000076b7a000 CR4: 0000000000350ef0
-----------------
-Code disassembly (best guess):
-   0:	48 c1 ea 03          	shr    $0x3,%rdx
-   4:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
-   8:	0f 85 4e 05 00 00    	jne    0x55c
-   e:	49 8b 85 70 ff ff ff 	mov    -0x90(%r13),%rax
-  15:	48 ba 00 00 00 00 00 	movabs $0xdffffc0000000000,%rdx
-  1c:	fc ff df
-  1f:	48 8d 78 68          	lea    0x68(%rax),%rdi
-  23:	48 89 f9             	mov    %rdi,%rcx
-  26:	48 c1 e9 03          	shr    $0x3,%rcx
-* 2a:	80 3c 11 00          	cmpb   $0x0,(%rcx,%rdx,1) <-- trapping instruction
-  2e:	0f 85 14 05 00 00    	jne    0x548
-  34:	48 8b 40 68          	mov    0x68(%rax),%rax
-  38:	48 85 c0             	test   %rax,%rax
-  3b:	74 31                	je     0x6e
-  3d:	48                   	rex.W
-  3e:	89                   	.byte 0x89
-  3f:	44                   	rex.R
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Thanks,
+Mauro
