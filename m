@@ -1,49 +1,49 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27332AE8E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB0628E0F;
 	Mon,  3 Feb 2025 02:44:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738550683; cv=none; b=K95cIfWfpjSs+LxPYUaBdgRT3I6enPIQskxaWZStgpsTHL6WUC89HcSJfYzHdiPy7auPOHQ66yFZdZ3ZoQ2tAadVIYisRk7bKiUZ54UnbE9VfvqlDeA4nOOGer9dwiubvNM55RUlekBVccg5xjo1UKsu2iI/OR5DoC6B25mkuIE=
+	t=1738550683; cv=none; b=AcAKr98M0ZmH7Bkv5nc8qBEpiWF3nOX7z/0/jLCaZzhMJ3XiQGpR28kjZEKDqAL5Jk6zAextgF8wkneQTC3xsKMm8uJqQo9T9Kk72C96F0g9F2QC8BIO/T7tWGoH6A2Rt57bnXYs05GWHUmbX93a4hzIVw+2ZQEefrOLRTmZNYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1738550683; c=relaxed/simple;
-	bh=PHn66T84koF1SwxqApISt1c6OrQcVfZ/fy9et/FW3VA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=f94GrD9mgssVeg6wtZLaDTH7SBlFY7i7W3lxdPAdsdPha7cH9jZ/gffgJCsSPoyo9lm+yxClqpZDNG+0sSvatwh/s4sddsHlHs9lyYqE+m9B226w1eHc+1XAbA1AlUmEG6pyGwFA3RpExg0l8tvA8SDiWkE5xDn4x0D7CoUUjPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LxmghpAK; arc=none smtp.client-ip=205.220.168.131
+	bh=3KdEjtOzh+lLUqLNfDFbydmxQRR/Fl5o39s+waEHouE=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=Z9Kfzto1lmMqXvNU7T7MC3cEoQDH3otbe0OKJi9anjvG/9gweBYR9rwOBGeH0LFyenkGIn38kMZOSV4lmXuEienIW1LwWZT0mE73GKK+57fG501v4ye5UoXzShlJoYUWTHqWCOLnBNX3HaMj5a/aN6v7xsfzh8LLFNdKuMr6Ack=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=GGMTDLbE; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LxmghpAK"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 512Lahcb029693;
-	Mon, 3 Feb 2025 02:44:25 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="GGMTDLbE"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 512Muh1M002400;
+	Mon, 3 Feb 2025 02:44:23 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	kIKyTJNccduV6h2HyOD4XAXlw/e8JOjxgcZextpBh2w=; b=LxmghpAKxCyiiJGR
-	XZBdi/axK+3lhzqWWY+5pG4vcYrp2jWl79GwsiaQyj1moTWYf5MtPb0taTWk/op0
-	4BmoCdpuRdQurzv2hkL6R5GA4lTQLPAEAEL3LCUAx/lbdsk1yPdwYchdLb5uHZEV
-	6fya6sDqE0i180Zy1wEP5qGW/dFufGGsBzrv9ClcIhqvMsQcB4gczEV4i9R1wV0y
-	7QjPyNkfUoCgwI45eQR9HdyqAX2565OaEGy3av8VTXthBcA0SJezLqTmX6DrHBX1
-	nS/r7FkcWoo+OUH/mxOdxAU6y4LLdx+mrishn9v9vGbkhlcX3Mo2+Eb9E1151Szt
-	XqPvIw==
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=1h1FB6CRuoAiUEGLsv0Qye
+	bIyyCG8GPjdBJJBhB2S98=; b=GGMTDLbER2frWuPX0nW+00PcPWOxLiO4qOjbj4
+	sYjugr5P98ziH8BI6ifvUgTNvM4yIwnkxj8a0DFWFZLwbnqPe0O9uTlY8DzziYFy
+	nxI6XU4BDypLxenvhX4uWjrAfmMi9uJFg8Jr/mPFBlz+OSCqtubypZoIV3q8gU1E
+	zdPEi0jQCodO0q2geFje8mmAJ5dbP9r7uvFQJuKOxS1DF11jzX+KL81dWdzGND53
+	nC0NfjL6AovY3bCBTN1dOtsqN8PM0DJirCLdxlqKv1uz0GtBDXyLf8QOB+0QDU17
+	/0youapJCKAAzKwmmg1mgINkYJrLbwNFW+Eor7K0EneddG0Q==
 Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44j6narvdk-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44jd428fxf-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 03 Feb 2025 02:44:24 +0000 (GMT)
+	Mon, 03 Feb 2025 02:44:23 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5132iO0c020290
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5132iMdD020266
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 3 Feb 2025 02:44:24 GMT
+	Mon, 3 Feb 2025 02:44:22 GMT
 Received: from hu-azarrabi-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Sun, 2 Feb 2025 18:44:23 -0800
+ 15.2.1544.9; Sun, 2 Feb 2025 18:44:21 -0800
 From: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
-Date: Sun, 2 Feb 2025 18:43:32 -0800
-Subject: [PATCH v2 4/8] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF
+Subject: [PATCH v2 0/8] Trusted Execution Environment (TEE) driver for
+ Qualcomm TEE (QTEE)
+Date: Sun, 2 Feb 2025 18:43:28 -0800
+Message-ID: <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-0-297eacd0d34f@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,9 +52,10 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-4-297eacd0d34f@quicinc.com>
-References: <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-0-297eacd0d34f@quicinc.com>
-In-Reply-To: <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-0-297eacd0d34f@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAFAtoGcC/5WNQQ6CMBBFr0Jm7Zi2QE1ceQ/CQusAY0IrnYIaw
+ t2t3MDN5L+f/HkrCEUmgXOxQqSFhYPPYA4FuOHqe0K+ZwajTKXzwcmFERMRzsK+35MIvjgNYU4
+ 40ojh9sDSGmdtWananCD/ekbq+L17mjbzwJJC/OzaRf/afw2LRoVdrQx1SpPS9jLN7Ni7Y55Du
+ 23bF+WDbRTcAAAA
 To: Jens Wiklander <jens.wiklander@linaro.org>,
         Sumit Garg
 	<sumit.garg@linaro.org>,
@@ -78,298 +79,130 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: LYFTWh5KYKOT7UdY7FESXhPslNmvuYlA
-X-Proofpoint-GUID: LYFTWh5KYKOT7UdY7FESXhPslNmvuYlA
+X-Proofpoint-GUID: pcHqi7qESdTQ91i6oOc-GO4E-G45WtHE
+X-Proofpoint-ORIG-GUID: pcHqi7qESdTQ91i6oOc-GO4E-G45WtHE
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-02-02_11,2025-01-31_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 clxscore=1015
- priorityscore=1501 mlxlogscore=999 mlxscore=0 spamscore=0 malwarescore=0
- adultscore=0 suspectscore=0 bulkscore=0 lowpriorityscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2501170000
- definitions=main-2502030021
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
+ priorityscore=1501 suspectscore=0 mlxlogscore=999 malwarescore=0
+ spamscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0 impostorscore=0
+ adultscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502030021
 
-The TEE subsystem allows session-based access to trusted services,
-requiring a session to be established to receive a service. This
-is not suitable for an environment that represents services as objects.
-An object supports various operations that a client can invoke,
-potentially generating a result or a new object that can be invoked
-independently of the original object.
+This patch series introduces a Trusted Execution Environment (TEE)
+driver for Qualcomm TEE (QTEE). QTEE enables Trusted Applications (TAs)
+and services to run securely. It uses an object-based interface, where
+each service is an object with sets of operations. Clients can invoke
+these operations on objects, which can generate results, including other
+objects. For example, an object can load a TA and return another object
+that represents the loaded TA, allowing access to its services.
 
-Add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT/OUTPUT/INOUT to represent an
-object. Objects may reside in either TEE or userspace. To invoke an
-object in TEE, introduce a new ioctl. Use the existing SUPPL_RECV and
-SUPPL_SEND to invoke an object in userspace.
+Kernel and userspace services are also available to QTEE through a
+similar approach. QTEE makes callback requests that are converted into
+object invocations. These objects can represent services within the
+kernel or userspace process.
+
+Note: This patch series focuses on QTEE objects and userspace services.
+
+Linux already provides a TEE subsystem, which is described in [1]. The
+tee subsystem provides a generic ioctl interface, TEE_IOC_INVOKE, which
+can be used by userspace to talk to a TEE backend driver. We extend the
+Linux TEE subsystem to understand object parameters and an ioctl call so
+client can invoke objects in QTEE:
+
+  - TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_*
+  - TEE_IOC_OBJECT_INVOKE
+
+The existing ioctl calls TEE_IOC_SUPPL_RECV and TEE_IOC_SUPPL_SEND are
+used for invoking services in the userspace process by QTEE.
+
+The TEE backend driver uses the QTEE Transport Message to communicate
+with QTEE. Interactions through the object INVOKE interface are
+translated into QTEE messages. Likewise, object invocations from QTEE
+for userspace objects are converted into SEND/RECV ioctl calls to
+supplicants.
+
+The details of QTEE Transport Message to communicate with QTEE is
+available in [PATCH 10/10] Documentation: tee: Add Qualcomm TEE driver.
+
+You can run basic tests with following steps:
+git clone https://github.com/quic/quic-teec.git
+cd quic-teec
+mkdir build
+cmake .. -DCMAKE_TOOLCHAIN_FILE=CMakeToolchain.txt -DBUILD_UNITTEST=ON
+
+https://github.com/quic/quic-teec/blob/main/README.md lists dependancies
+needed to build the above.
+
+This series has been tested for basic QTEE object invocations and
+callback requests, including loading a TA and requesting services form
+the TA.
+
+[1] https://www.kernel.org/doc/Documentation/tee.txt
 
 Signed-off-by: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
 ---
- drivers/tee/tee_core.c   | 85 ++++++++++++++++++++++++++++++++++++++++++++++++
- include/linux/tee_core.h |  4 +++
- include/linux/tee_drv.h  |  6 ++++
- include/uapi/linux/tee.h | 41 +++++++++++++++++++----
- 4 files changed, 130 insertions(+), 6 deletions(-)
+Changes in v2:
+- Clean up commit messages and comments.
+- Use better names such as ubuf instead of membuf or QCOMTEE prefix
+  instead of QCOM_TEE, or names that are more consistent with other
+  TEE-backend drivers such as qcomtee_context_data instead of
+  qcom_tee_context.
+- Drop the DTS patch and instantiate the device from the scm driver.
+- Use a single structure for all driver's internal states.
+- Drop srcu primitives and use the existing mutex for synchronization
+  between the supplicant and QTEE.
+- Directly use tee_context to track the lifetime of qcomtee_context_data.
+- Add close_context() to be called when the user closes the tee_context.
+- Link to v1: https://lore.kernel.org/r/20241202-qcom-tee-using-tee-ss-without-mem-obj-v1-0-f502ef01e016@quicinc.com
 
-diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
-index 9f4b9a995e16..fe435772688c 100644
---- a/drivers/tee/tee_core.c
-+++ b/drivers/tee/tee_core.c
-@@ -379,6 +379,7 @@ static int params_from_user(struct tee_context *ctx, struct tee_param *params,
- 		switch (ip.attr & TEE_IOCTL_PARAM_ATTR_TYPE_MASK) {
- 		case TEE_IOCTL_PARAM_ATTR_TYPE_NONE:
- 		case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT:
-+		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_OUTPUT:
- 			break;
- 		case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT:
- 		case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT:
-@@ -396,6 +397,11 @@ static int params_from_user(struct tee_context *ctx, struct tee_param *params,
- 				return -EFAULT;
- 
- 			break;
-+		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT:
-+		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INOUT:
-+			params[n].u.objref.id = ip.a;
-+			params[n].u.objref.flags = ip.b;
-+			break;
- 		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
- 		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
- 		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
-@@ -469,6 +475,12 @@ static int params_to_user(struct tee_ioctl_param __user *uparams,
- 			if (put_user((u64)p->u.ubuf.size, &up->b))
- 				return -EFAULT;
- 			break;
-+		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_OUTPUT:
-+		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INOUT:
-+			if (put_user(p->u.objref.id, &up->a) ||
-+			    put_user(p->u.objref.flags, &up->b))
-+				return -EFAULT;
-+			break;
- 		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
- 		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
- 			if (put_user((u64)p->u.memref.size, &up->b))
-@@ -621,6 +633,66 @@ static int tee_ioctl_invoke(struct tee_context *ctx,
- 	return rc;
- }
- 
-+static int tee_ioctl_object_invoke(struct tee_context *ctx,
-+				   struct tee_ioctl_buf_data __user *ubuf)
-+{
-+	int rc;
-+	size_t n;
-+	struct tee_ioctl_buf_data buf;
-+	struct tee_ioctl_object_invoke_arg __user *uarg;
-+	struct tee_ioctl_object_invoke_arg arg;
-+	struct tee_ioctl_param __user *uparams = NULL;
-+	struct tee_param *params = NULL;
-+
-+	if (!ctx->teedev->desc->ops->object_invoke_func)
-+		return -EINVAL;
-+
-+	if (copy_from_user(&buf, ubuf, sizeof(buf)))
-+		return -EFAULT;
-+
-+	if (buf.buf_len > TEE_MAX_ARG_SIZE ||
-+	    buf.buf_len < sizeof(struct tee_ioctl_object_invoke_arg))
-+		return -EINVAL;
-+
-+	uarg = u64_to_user_ptr(buf.buf_ptr);
-+	if (copy_from_user(&arg, uarg, sizeof(arg)))
-+		return -EFAULT;
-+
-+	if (sizeof(arg) + TEE_IOCTL_PARAM_SIZE(arg.num_params) != buf.buf_len)
-+		return -EINVAL;
-+
-+	if (arg.num_params) {
-+		params = kcalloc(arg.num_params, sizeof(struct tee_param),
-+				 GFP_KERNEL);
-+		if (!params)
-+			return -ENOMEM;
-+		uparams = uarg->params;
-+		rc = params_from_user(ctx, params, arg.num_params, uparams);
-+		if (rc)
-+			goto out;
-+	}
-+
-+	rc = ctx->teedev->desc->ops->object_invoke_func(ctx, &arg, params);
-+	if (rc)
-+		goto out;
-+
-+	if (put_user(arg.ret, &uarg->ret)) {
-+		rc = -EFAULT;
-+		goto out;
-+	}
-+	rc = params_to_user(uparams, arg.num_params, params);
-+out:
-+	if (params) {
-+		/* Decrease ref count for all valid shared memory pointers */
-+		for (n = 0; n < arg.num_params; n++)
-+			if (tee_param_is_memref(params + n) &&
-+			    params[n].u.memref.shm)
-+				tee_shm_put(params[n].u.memref.shm);
-+		kfree(params);
-+	}
-+	return rc;
-+}
-+
- static int tee_ioctl_cancel(struct tee_context *ctx,
- 			    struct tee_ioctl_cancel_arg __user *uarg)
- {
-@@ -676,6 +748,12 @@ static int params_to_supp(struct tee_context *ctx,
- 			ip.b = p->u.ubuf.size;
- 			ip.c = 0;
- 			break;
-+		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT:
-+		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INOUT:
-+			ip.a = p->u.objref.id;
-+			ip.b = p->u.objref.flags;
-+			ip.c = 0;
-+			break;
- 		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
- 		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
- 		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
-@@ -783,6 +861,11 @@ static int params_from_supp(struct tee_param *params, size_t num_params,
- 			p->u.ubuf.uaddr = u64_to_user_ptr(ip.a);
- 			p->u.ubuf.size = ip.b;
- 			break;
-+		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_OUTPUT:
-+		case TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INOUT:
-+			p->u.objref.id = ip.a;
-+			p->u.objref.flags = ip.b;
-+			break;
- 		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
- 		case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
- 			/*
-@@ -863,6 +946,8 @@ static long tee_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
- 		return tee_ioctl_open_session(ctx, uarg);
- 	case TEE_IOC_INVOKE:
- 		return tee_ioctl_invoke(ctx, uarg);
-+	case TEE_IOC_OBJECT_INVOKE:
-+		return tee_ioctl_object_invoke(ctx, uarg);
- 	case TEE_IOC_CANCEL:
- 		return tee_ioctl_cancel(ctx, uarg);
- 	case TEE_IOC_CLOSE_SESSION:
-diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
-index 8a4c9e30b652..ffb04c946c70 100644
---- a/include/linux/tee_core.h
-+++ b/include/linux/tee_core.h
-@@ -72,6 +72,7 @@ struct tee_device {
-  * @close_session:	close a session
-  * @system_session:	declare session as a system session
-  * @invoke_func:	invoke a trusted function
-+ * @object_invoke_func:	invoke an object
-  * @cancel_req:		request cancel of an ongoing invoke or open
-  * @supp_recv:		called for supplicant to get a command
-  * @supp_send:		called for supplicant to send a response
-@@ -97,6 +98,9 @@ struct tee_driver_ops {
- 	int (*invoke_func)(struct tee_context *ctx,
- 			   struct tee_ioctl_invoke_arg *arg,
- 			   struct tee_param *param);
-+	int (*object_invoke_func)(struct tee_context *ctx,
-+				  struct tee_ioctl_object_invoke_arg *arg,
-+				  struct tee_param *param);
- 	int (*cancel_req)(struct tee_context *ctx, u32 cancel_id, u32 session);
- 	int (*supp_recv)(struct tee_context *ctx, u32 *func, u32 *num_params,
- 			 struct tee_param *param);
-diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
-index 130782d4d5f6..16dad7a21910 100644
---- a/include/linux/tee_drv.h
-+++ b/include/linux/tee_drv.h
-@@ -87,6 +87,11 @@ struct tee_param_ubuf {
- 	size_t size;
- };
- 
-+struct tee_param_objref {
-+	u64 id;
-+	u64 flags;
-+};
-+
- struct tee_param_value {
- 	u64 a;
- 	u64 b;
-@@ -97,6 +102,7 @@ struct tee_param {
- 	u64 attr;
- 	union {
- 		struct tee_param_memref memref;
-+		struct tee_param_objref objref;
- 		struct tee_param_ubuf ubuf;
- 		struct tee_param_value value;
- 	} u;
-diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
-index 4a1dcfb4290e..0aef647d4a34 100644
---- a/include/uapi/linux/tee.h
-+++ b/include/uapi/linux/tee.h
-@@ -48,8 +48,10 @@
- #define TEE_GEN_CAP_PRIVILEGED	(1 << 1)/* Privileged device (for supplicant) */
- #define TEE_GEN_CAP_REG_MEM	(1 << 2)/* Supports registering shared memory */
- #define TEE_GEN_CAP_MEMREF_NULL	(1 << 3)/* NULL MemRef support */
-+#define TEE_GEN_CAP_OBJREF	(1 << 4)/* Supports generic object reference */
- 
--#define TEE_MEMREF_NULL		(__u64)(-1) /* NULL MemRef Buffer */
-+#define TEE_MEMREF_NULL		((__u64)(-1)) /* NULL MemRef Buffer */
-+#define TEE_OBJREF_NULL		((__u64)(-1)) /* NULL ObjRef Object */
- 
- /*
-  * TEE Implementation ID
-@@ -158,6 +160,13 @@ struct tee_ioctl_buf_data {
- #define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT	9
- #define TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT	10	/* input and output */
- 
-+/*
-+ * These defines object reference parameters.
-+ */
-+#define TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INPUT	11
-+#define TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_OUTPUT	12
-+#define TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF_INOUT	13
-+
- /*
-  * Mask for the type part of the attribute, leaves room for more types
-  */
-@@ -195,15 +204,16 @@ struct tee_ioctl_buf_data {
-  * @attr: attributes
-  * @a: if a memref, offset into the shared memory object,
-  *     else if a ubuf, address into the user buffer,
-- *     else a value parameter
-- * @b: if a memref or ubuf, size of the buffer, else a value parameter
-+ *     else if an objref, object identifier, else a value parameter
-+ * @b: if a memref or ubuf, size of the buffer,
-+ *     else if objref, a flag for object, else a value parameter
-  * @c: if a memref, shared memory identifier, else a value parameter
-  *
-  * @attr & TEE_PARAM_ATTR_TYPE_MASK indicates if memref, ubuf, or value is
-  * used in the union. TEE_PARAM_ATTR_TYPE_VALUE_* indicates value,
-- * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref, and TEE_PARAM_ATTR_TYPE_UBUF_*
-- * indicates ubuf. TEE_PARAM_ATTR_TYPE_NONE indicates that none of the members
-- * are used.
-+ * TEE_PARAM_ATTR_TYPE_MEMREF_* indicates memref, TEE_PARAM_ATTR_TYPE_UBUF_*
-+ * indicates ubuf, and TEE_PARAM_ATTR_TYPE_OBJREF_* indicates objref.
-+ * TEE_PARAM_ATTR_TYPE_NONE indicates that none of the members are used.
-  *
-  * Shared memory is allocated with TEE_IOC_SHM_ALLOC which returns an
-  * identifier representing the shared memory object. A memref can reference
-@@ -411,4 +421,23 @@ struct tee_ioctl_shm_register_data {
-  * munmap(): unmaps previously shared memory
-  */
- 
-+/**
-+ * struct tee_ioctl_invoke_func_arg - Invokes an object in a Trusted Application.
-+ * @object:	[in] Object id
-+ * @op:		[in] Object operation, specific to the object
-+ * @ret:	[out] return value
-+ * @num_params	[in] number of parameters following this struct
-+ */
-+struct tee_ioctl_object_invoke_arg {
-+	__u64 object;
-+	__u32 op;
-+	__u32 ret;
-+	__u32 num_params;
-+	/* num_params tells the actual number of element in params */
-+	struct tee_ioctl_param params[];
-+};
-+
-+#define TEE_IOC_OBJECT_INVOKE	_IOR(TEE_IOC_MAGIC, TEE_IOC_BASE + 10, \
-+				     struct tee_ioctl_buf_data)
-+
- #endif /*__TEE_H*/
+Changes in v1:
+- It is a complete rewrite to utilize the TEE subsystem.
+- Link to RFC: https://lore.kernel.org/all/20240702-qcom-tee-object-and-ioctls-v1-0-633c3ddf57ee@quicinc.com
 
+---
+Amirreza Zarrabi (8):
+      tee: allow a driver to allocate a tee_device without a pool
+      tee: add close_context to TEE driver operation
+      tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
+      tee: add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF
+      firmware: qcom: scm: add support for object invocation
+      tee: add Qualcomm TEE driver
+      qcomtee: add primordial object
+      Documentation: tee: Add Qualcomm TEE driver
+
+ Documentation/tee/index.rst            |   1 +
+ Documentation/tee/qtee.rst             | 150 ++++++
+ drivers/firmware/qcom/qcom_scm.c       | 128 ++++++
+ drivers/firmware/qcom/qcom_scm.h       |   7 +
+ drivers/tee/Kconfig                    |   1 +
+ drivers/tee/Makefile                   |   1 +
+ drivers/tee/qcomtee/Kconfig            |  10 +
+ drivers/tee/qcomtee/Makefile           |  10 +
+ drivers/tee/qcomtee/async.c            | 160 +++++++
+ drivers/tee/qcomtee/call.c             | 741 ++++++++++++++++++++++++++++++
+ drivers/tee/qcomtee/core.c             | 810 +++++++++++++++++++++++++++++++++
+ drivers/tee/qcomtee/primordial_obj.c   |  65 +++
+ drivers/tee/qcomtee/qcom_scm.c         |  36 ++
+ drivers/tee/qcomtee/qcomtee_msg.h      | 234 ++++++++++
+ drivers/tee/qcomtee/qcomtee_private.h  | 226 +++++++++
+ drivers/tee/qcomtee/release.c          |  59 +++
+ drivers/tee/qcomtee/shm.c              | 102 +++++
+ drivers/tee/qcomtee/user_obj.c         | 712 +++++++++++++++++++++++++++++
+ drivers/tee/tee_core.c                 | 121 ++++-
+ drivers/tee/tee_private.h              |   6 -
+ include/linux/firmware/qcom/qcom_scm.h |  27 ++
+ include/linux/firmware/qcom/qcom_tee.h | 286 ++++++++++++
+ include/linux/tee_core.h               |  15 +-
+ include/linux/tee_drv.h                |  18 +
+ include/uapi/linux/tee.h               |  54 ++-
+ 25 files changed, 3964 insertions(+), 16 deletions(-)
+---
+base-commit: dab2734f8e9ecba609d66d1dd087a392a7774c04
+change-id: 20241202-qcom-tee-using-tee-ss-without-mem-obj-362c66340527
+
+Best regards,
 -- 
-2.34.1
+Amirreza Zarrabi <quic_azarrabi@quicinc.com>
 
