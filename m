@@ -1,113 +1,68 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1E51D63F5;
-	Mon,  3 Feb 2025 11:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6274202F96;
+	Mon,  3 Feb 2025 12:12:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738582242; cv=none; b=sfUkhctlneSqIkEjRkyy+L+6c5WlN28UH3L2APXz5TEu6Z6hUcyf1XfGllMpwmD4a+hXjVaXJYPqFN+DbWuUjSL58KMkTqqw6OrWJALOpNV+IcLgxBsiPmLvDr56Ct0TsDZDV7sr1O0hIyaosHS5vH2OlYotrXEi6JqtiX81M0Q=
+	t=1738584738; cv=none; b=ow1z+RvQFTfYApOVtk+H75Eh4dZdncMuOoYYXdoYrCyq5ZKs54wXQVSDypnudnRa8J+2HI3uw1CipfRHeXwKnIBoEGuLte5WY2zW6kwPUnxv7pHhLdemtqET1OzVbHO/x1CcFshj8W3HafgWgrvEn3nfdY8VmGyOeLBc3BZgQss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738582242; c=relaxed/simple;
-	bh=pDuRPkoKfqw6nq0A2p8YOlo6PxxkTi/ik44ZtSf4kRw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dFQl3/xO3uk9+IEUOAwmXTiYj2QhlvN4Ay/v4DAs2i9pmnOjTEYRediiRDczgWWuW7KF8YjFxRAy+PG2zw4rxbkPCl3vawdXRWDB2zjfovxnhPVjfZyWZWcmSl+HGTyLftyR5R83jSspHHrQMg4lzrJGWOGIZpoibBVSAcE1B68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P6xWojiP; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738584738; c=relaxed/simple;
+	bh=d2GaN60of87m3ShwMqoxdC02HZxqg5gZFUb7HCm/wQo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Yo8nbSmgnOaoKLf1f5ehucBrX/UDXMLti7+8Yw5NLR3fnxp0GPnVRgUTGSMvfjdJmF/h84VFwX1/kAlXcbVJpNEMxyuAkji9Spmd+rcXXXVMyQ6YFcAPcK8NVFn+SJEl5xm1aM2lZOguBt9QnU9h+W9wu/y7FkDMQGm7agqDxGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mfiX/HIW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P6xWojiP"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-385deda28b3so2201153f8f.0;
-        Mon, 03 Feb 2025 03:30:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738582238; x=1739187038; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3xnI/TsHAocOuYHAYr9if7jEUms/tx4tWKMg4pTajBM=;
-        b=P6xWojiPQQxthc752Bk6ncGuyQpHQ/+OzvuVNCkLRW/JjcQP0Gnw43iUacqQOb10AH
-         R/7C+NM7PdL8GiroOC9NtqPJ1AQL9prFbchOzhap6AcApknI13I7q1dwvfnV1x+lO9Yd
-         suLP14WH0w/Jg4bi7+EvNc0LEILWr7vPWt5AHw8L3DtKBejeupzGfKjqAp+sc+hYihhQ
-         RwHxnbqD76EsaVj1/Z0B+PTrRPRtjlzu4efJfq0AkzaIwWO008a4EuF9kvgZTg313rib
-         NpSXwpwyf1l65jIukbg41kM1qgTo6cjlppfIZgii3gaHYpY49XqSGI1nVqma8fAF9ZIb
-         Kzkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738582238; x=1739187038;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3xnI/TsHAocOuYHAYr9if7jEUms/tx4tWKMg4pTajBM=;
-        b=s3+TqwVbTPfurvKUGjKXA5OIiC++iWuddIzBObcL8Jw9KaErEEV4pqTlTG1PzRpdBb
-         SxfVe3zQlXec8so1mTF/ich7pc8uh0VWvJbhyEVfuaJCYxCb2aBESgtUutnx9o7SsWhP
-         QTleeEVTuUCl/31TZc9I56/1mi6erBMZhy9aOnQ07QTJN97DfcXkkmGkWzWobA9bkPdZ
-         k74mMj22KxfnCKgF7KAFRMgqzoEfPsvkFKbG4/v/TcXMKLGzNApJlcgdawOAT2ReDet6
-         jXiHG82OSAv69o358GH9jefPVHaMU9oii4DXk87GyQB6likh0t0ENIzB6TrBQ9v47fG3
-         ysvg==
-X-Forwarded-Encrypted: i=1; AJvYcCUTJwMaGZlzIaj1XAfL69mla2BbZuY++pbfNL3JHBfjKNW9Uc+JpKvaDd5DEPdzjD4CnjN0ZaX2@vger.kernel.org, AJvYcCXk26cthmR9p/r4gpi5Ta2rJQxfd3dXorb3+PpTrhaJWo2pJ/xY8oO2TvMzZCnuAOXzpkggSDP6d002kkM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIyqlNDJgvYbRYuGkPgL0eMcVp0tsPq2BX/u66BWvopvoWtdlM
-	SrbL84JG1QAxuIrWI0gT5xrVFHiL9qkbmR6KZtMtoiyxHwqVz7E0rkZFqSVC
-X-Gm-Gg: ASbGncsH2zE/yb2f9fOeB6Pl45rF54wrSH/OQNMhWJfxRTcH80bJ1/ALpcq0UqsLBW6
-	YEhJZWGY479Q9JyD8ClGPs/Act7+Jyxsq/SzdTKra1fsezWfhi/ySgilxbUh8lYLEOKDuTF4y2V
-	YHiFuR3WXQs7CjvU3Uog+gjKGR5bXs7zq8B93m7WSdGlKqekEXioFyfRlYXXF8vPdD9Sb235mtV
-	c5QyKcDWbP7ihv5Sv4006zElJ0U+xCNHV3TaPmmAUwR7KnKuOoOnYyqGc4AwN6kXeCIsuD4aPEl
-	+bNnI7h04ndmKyB9yqLjm/lkxSw=
-X-Google-Smtp-Source: AGHT+IEM2TgIFGGxtjZAzXPWgmjVsyAHG+HJRhpojwX5+mPNVmuMuoGnOU6WD/ikBik+NuNeGyCcjw==
-X-Received: by 2002:a5d:6c6e:0:b0:38c:5bc1:1ef5 with SMTP id ffacd0b85a97d-38c5bc120a4mr13657329f8f.3.1738582237856;
-        Mon, 03 Feb 2025 03:30:37 -0800 (PST)
-Received: from workstation.redhat.com ([90.168.92.125])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c1b5136sm12770210f8f.65.2025.02.03.03.30.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 03:30:37 -0800 (PST)
-From: Andreas Karis <ak.karis@gmail.com>
-To: linux-doc@vger.kernel.org
-Cc: ak.karis@gmail.com,
-	linux-kernel@vger.kernel.org,
-	davem@davemloft.net,
-	netdev@vger.kernel.org,
-	corbet@lwn.net,
-	pshelar@ovn.org,
-	dev@openvswitch.org,
-	mirq-linux@rere.qmqm.pl,
-	i.maximets@ovn.org,
-	edumazet@google.com,
-	ovs-dev@openvswitch.org,
-	pabeni@redhat.com,
-	kuba@kernel.org
-Subject: [PATCH REPOST] docs: networking: Remove VLAN_TAG_PRESENT from openvswitch doc
-Date: Mon,  3 Feb 2025 12:30:12 +0100
-Message-ID: <20250203113012.14943-1-ak.karis@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mfiX/HIW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4AC8C4CED2;
+	Mon,  3 Feb 2025 12:12:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738584738;
+	bh=d2GaN60of87m3ShwMqoxdC02HZxqg5gZFUb7HCm/wQo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=mfiX/HIWLrmS+W3rsWsA5etOhmlLnahyryHTiQH6vj9tnvVAshESwS/RLtiL/vqZv
+	 cDuG3VkvVjtQQ26k1BpYkoHPufFH24klFCMhsv8PuSfRuuN8wMVicB1P+Br28j5js3
+	 o+1vPvUCpUrBkAr68MAK1L1ZvhNxEu3/nSUffA54aUcviJ+qmGZnNYbMHe8EvpjiAb
+	 /hLiHpY1JSv9chFz279ky3+DkixZK16C8IDkA8X+drSV9crFQglDKwqhCHLgiPV2gM
+	 J8rxYoYC+NM7X7RWGiDn5giUD+2kcf8JhDMfZwxf1dVMY3Zg4el0mpo8gtbo0HnuwG
+	 xgIVegTixNQwg==
+From: Niklas Cassel <cassel@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>, Damien Le Moal <dlemoal@kernel.org>, 
+ Niklas Cassel <cassel@kernel.org>
+Cc: Christian Heusel <christian@heusel.eu>, linux-doc@vger.kernel.org, 
+ linux-ide@vger.kernel.org
+In-Reply-To: <20250130133544.219297-3-cassel@kernel.org>
+References: <20250130133544.219297-3-cassel@kernel.org>
+Subject: Re: [PATCH 0/1] Add 'external' to the libata.force kernel
+ parameter
+Message-Id: <173858473657.30534.17812766236080089156.b4-ty@kernel.org>
+Date: Mon, 03 Feb 2025 13:12:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-Since commit 0c4b2d370514 ("net: remove VLAN_TAG_PRESENT"), the kernel
-no longer uses VLAN_TAG_PRESENT.
-Update the openvswitch documentation which still contained an outdated
-reference to VLAN_TAG_PRESENT.
+On Thu, 30 Jan 2025 14:35:45 +0100, Niklas Cassel wrote:
+> This patch replaces an earlier patch proposal, which added an
+> 'external_port_map' kernel module parameter to the ahci driver:
+> https://lore.kernel.org/linux-ide/20250116143630.1935474-4-cassel@kernel.org/
+> 
+> 
+> This patch instead adds support for 'external' to the existing libata.force
+> kernel parameter.
+> 
+> [...]
 
-Signed-off-by: Andreas Karis <ak.karis@gmail.com>
----
- Documentation/networking/openvswitch.rst | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Applied to libata/linux.git (for-6.15), thanks!
 
-diff --git a/Documentation/networking/openvswitch.rst b/Documentation/networking/openvswitch.rst
-index 1a8353dbf1b6..8d2bbcb92286 100644
---- a/Documentation/networking/openvswitch.rst
-+++ b/Documentation/networking/openvswitch.rst
-@@ -230,9 +230,8 @@ an all-zero-bits vlan and an empty encap attribute, like this::
-     eth(...), eth_type(0x8100), vlan(0), encap()
- 
- Unlike a TCP packet with source and destination ports 0, an
--all-zero-bits VLAN TCI is not that rare, so the CFI bit (aka
--VLAN_TAG_PRESENT inside the kernel) is ordinarily set in a vlan
--attribute expressly to allow this situation to be distinguished.
-+all-zero-bits VLAN TCI is not that rare, so the CFI bit is ordinarily set
-+in a vlan attribute expressly to allow this situation to be distinguished.
- Thus, the flow key in this second example unambiguously indicates a
- missing or malformed VLAN TCI.
- 
--- 
-2.48.1
+[1/1] ata: libata-core: Add 'external' to the libata.force kernel parameter
+      https://git.kernel.org/libata/linux/c/deca4232
+
+Kind regards,
+Niklas
 
