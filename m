@@ -1,240 +1,140 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64474204F6B
-	for <linux-doc@vger.kernel.org>; Mon,  3 Feb 2025 13:27:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC46825A631;
+	Mon,  3 Feb 2025 13:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738589237; cv=none; b=ROjnQSgi1AGI6NttiAIYgT7u9aEQcYHSdrHEkX7QlHDVNiTtk5Fs6Y4xiXOzMWVXBe4UNi8F6+akyIIXOIrDQ9LeyzzbZ0cGFJNUqVvaeYlYfWnEwwek8BpRghzksMzKOijmhbazuJHK565p2j/SsDffSO1InPqe2lREzwK0zD8=
+	t=1738589601; cv=none; b=VZUF5RXLEle924FmnwDnpZbTG7MlSLnMis1Qq+jsB89o25gUbpdfuMG/6KCTkUyiEVkm40fr5EP9T6EvTSqEjfJ0kIcfWUfEWTNy82RRmmgCtPvyElNgNCzHtjjHz6yrT1ndOzuA7PSXgIt3252afaMcJUOPHRrV54qlbrMmUew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738589237; c=relaxed/simple;
-	bh=iT4nOmTo0qs93A/ByVuAvKNO0ZVQLL9OYxCEOF4exlw=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=jSwgX2TroPsUhftiHSXzLHWSgGMdA2tkFflJ1NbPYaBF0WhB7k3UOjVrG21uXnnGqH58O+R2Tn5ncxUaVjmqnKGzIdWQKAH3ERzXuQyb9g/u7szcnY/ElaA2vQyL+sFA27oKwnElD5FtotMbEMCrOsqEVctnH3BeXlLfSZ3M7wY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--peternewman.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qXKlb1oS; arc=none smtp.client-ip=209.85.128.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--peternewman.bounces.google.com
+	s=arc-20240116; t=1738589601; c=relaxed/simple;
+	bh=yGzpuivdNAxlgO4ZxzCgiv2/6xDGQ7/87DGkiRnqHNc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rwsvBsU2Qe26aYMquYelN29eMgSdanNNmMauBTbI64oOOj+SwnH3DYQjwnF9ePbByvl/Yu5FpZUEMtJLCsbenL5vSPrsFPx3tk+ajaBdj0qBANnBN2SfNTTdqfPbKk1phpQzhZgaMHVqIznKZN9o5ex4AsYTjcnTcUlDcZeKvXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UU/R/rX4; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qXKlb1oS"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-436723db6c4so31725825e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 03 Feb 2025 05:27:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UU/R/rX4"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-385f06d0c8eso2381955f8f.0;
+        Mon, 03 Feb 2025 05:33:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1738589233; x=1739194033; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3+vRf77xml4mHTu6O1aUiY50kmdC/JGj1qSPGz7v6MU=;
-        b=qXKlb1oSM/n2FOeIpqxTUzGXCnzSPTjNSI6mKwfD+/gbrNk3LnmtD1LS1sv7Mmky7L
-         JiPYX539FG2QGvq8B5Fy+2SSAeTD8C+jWA8iYehcZrmcxEODFkwZVHupkNy2sEJpGIN+
-         7waYSujI26kSYfM3hkxF7tI4a9szEztX0hjDCc1HlH+8y1K4YVB3UZ/mkjbWL91MagRM
-         BtXeLx+043zbK/1gA1DZidPiqDO51K7EziQd0YFR58yJzUY1U8ISRZ36q6KlkzINz1MD
-         JHsW3EMU3ujfrVB85E0J5IJWLOjfCDBvn70rzKy4ukiV6H9EGBcmGRi8kA2fH8GQ46SR
-         +KyA==
+        d=gmail.com; s=20230601; t=1738589598; x=1739194398; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nkG3/+OUndAWrWvvhE2SzyN62KNYKgM2eZh+7o/jG6o=;
+        b=UU/R/rX47XVRR1HNBfXX3izdbfVpnJUgtzmCQ7PLmLm9H2cvrlk3CvvEEwPvTiwlrR
+         aMwtHIr5lSJUR4j3825B4qOSp75P7nI+ErUEPtD0NGJCqfbXWVKxJv4mxedwvXbYLpSH
+         V7wDb5hlN9c/vrBw9unYbGzb9jAcjuTn778/WBKSoMUl7Var2je15DDjzo7hFEOO8dgJ
+         k+wlMTdj0XKSpR88456rxSPTH8Y9s1crdWHH7xNy7Cs+HFG6cZp5JPeLc2Pwx+NrlHPz
+         oiXXoB9D7+dmiC2CVluXDb+7/erTCt8bAKvfCjH0/BbQlqPGUm8x0HjuzSv04l3VPJ7T
+         Fo9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738589233; x=1739194033;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3+vRf77xml4mHTu6O1aUiY50kmdC/JGj1qSPGz7v6MU=;
-        b=r+LPfgUOm/OQOtH2GdAydBMdwH5qq0iEagC53qL9znxJ4Cd/CWKWq4dsiDYTtvNCji
-         XncjHCNZ5+dyErz5WmWhcKGR+5gqWIA0v36ob3vXbVYy614e6SWiszJuWnRAvP5m4KHB
-         YzW/obwPQM56nRBl7EqyZikylReTamqt5iD960tz+C9Rz/c7SyrD6X4LOPXqHJUQNkP4
-         73OVHOu7XH33fci5tYRMAjk1M0goyG2paxy/We2hnn650pC8V5a5v4iTo5bzD4LEO+iV
-         x+rj5itRo/yZttE6/5/LkPcL/je9DBanBE4DbCqSAwTGrxFzF5KZAX0VS/eaVxjFTt31
-         JflQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWYRAv3MHokrUbhi2NykXWVAwS8g6l2kGbWtlurFsn5qn1TX/wKjUsvzLovank55HcMoakWaV4zZ/k=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywq8iU05g7esZ7LIt9irIgr7xzewje4zp9JejD59B3P1ik/VykR
-	UWaJBly0mQMDtgcIxHSo6FyIqNjMI07IMMV9D11NP9iPbBKAHggz9+VxOLeLI3ZZA6LFYDF2NFG
-	6CYhI5KWP/0TUwuFyOMjS8w==
-X-Google-Smtp-Source: AGHT+IHwjwHvkkW+jcg/+Aa1C5HQN+uqueTyLSRP/rLwlvjOSfvDXy7ajCdgb0kho3srjN4gD1XAZXP+gvZYaeXjjQ==
-X-Received: from wmqb19.prod.google.com ([2002:a05:600c:4e13:b0:436:1a60:654e])
- (user=peternewman job=prod-delivery.src-stubby-dispatcher) by
- 2002:a7b:c356:0:b0:434:f218:e1a8 with SMTP id 5b1f17b1804b1-438dd1a5b55mr168374875e9.19.1738589233723;
- Mon, 03 Feb 2025 05:27:13 -0800 (PST)
-Date: Mon,  3 Feb 2025 14:26:42 +0100
-In-Reply-To: <35fc70fd-0281-4ac8-b32b-efa2f4516901@amd.com>
+        d=1e100.net; s=20230601; t=1738589598; x=1739194398;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nkG3/+OUndAWrWvvhE2SzyN62KNYKgM2eZh+7o/jG6o=;
+        b=HhnM9uxg3ZyLQ/fGF7L0mFPr/dkHOKCA/mpIQcmjzrORsFgqCaqeedVO7CXTJ8snwL
+         F6r/QFCGJDeGEbFABL0+F06sfhXG6CJyTwc5XzWfOwxGJX1FefFd89H1SIwnMwbgTZBq
+         gREa8BW2JRa9Rze8n37a2N2skO5EiRQflI0WPGbKYNpkRJYxc+XqCriYf2sH/shUfmVd
+         TwMgb9BJjslwORPezftzwMUwxHBqpci7b8S28z8nb1ZslUQE8jkrZ9eNsUXciUzOZylg
+         sA41A6Y7EpIpLbKbyfCcEuR9ZijaU+h9koAy/WuGg1sspCyGxKSBVnsCzIxvgevzaE6h
+         TNeg==
+X-Forwarded-Encrypted: i=1; AJvYcCUjX6dkQKkdMlzaq3JNbgkx5Sg7Luk2+X/G3U5ex/WFnczq7pd10yPyigHf+xjb76HKilkkbRF43e/2@vger.kernel.org, AJvYcCWBLt2DBagvLbMOdWXk5xEa7INYsksEJP1/wW3bIYAhxaBHPtfoySrfxG8TqwUhOHIZQBqhMVNKwnkaZJVH@vger.kernel.org, AJvYcCWEuSD5VSMBM5Tgsu8D5MO7RETFEza8SuhxDsjBAxzAor32zdLtdvvx4Pxt8NNpmeMQBC7hcNrgojgH@vger.kernel.org, AJvYcCXqMbRqMDPMwhGw05i7iakp6VkZBQ/ZH008PA6XDZAYvh68u2y7qktdXUaGbFN0vbeaI+GdpgaeyFF+@vger.kernel.org
+X-Gm-Message-State: AOJu0YxieaPMgaxsOfmbpj/h6vqJF3qRv5vFtvoCjtR/uGiAaqbMtdve
+	8tAlX4L04cy0A0/9RVnQfxeWwJz4HL4Gln7rqfKb80w34MRgy7Uw
+X-Gm-Gg: ASbGnct2Pkb7UffswxUybEH3vZSQcNVzZIES/Cie4kdjZ7FgAHH9KVZWUW6mZB2VZag
+	6TOjQBwtJcjvPjLDAvR40TLd1I9zWTzLG9cWqpUcHYju8WJqZezjF3x2bX31TmBVZJO6pXJN+Ju
+	qVpTMuYD8Ink1y1zMORTZmr9ziEtpSo7RU+kH0+DuAHhaMPQRk8lVmwyIJwHwu02JoDZDQfbO0Z
+	vyiS6lvc6C79lC0oI11dPv/C8viq9IllJK4rkOk03XiRs5dFy7ymQERwFD7YbjHizNCk0r22tY7
+	wU8LcIerhoQ=
+X-Google-Smtp-Source: AGHT+IH0YefItBhMFGdcdUKVwSsb1KLZyPacHNakNOpSSl3JJ/1KKH2DaaP/SMD++DSu/bOwI2tIQQ==
+X-Received: by 2002:adf:fa8a:0:b0:385:e1eb:a7af with SMTP id ffacd0b85a97d-38c520be00dmr14584184f8f.48.1738589597918;
+        Mon, 03 Feb 2025 05:33:17 -0800 (PST)
+Received: from spiri.. ([82.77.155.91])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c1d1d03sm12970190f8f.99.2025.02.03.05.33.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Feb 2025 05:33:17 -0800 (PST)
+From: Alisa-Dariana Roman <alisadariana@gmail.com>
+X-Google-Original-From: Alisa-Dariana Roman <alisa.roman@analog.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>,
+	Alisa-Dariana Roman <alisa.roman@analog.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Ramona Gradinariu <ramona.bolboaca13@gmail.com>,
+	David Lechner <dlechner@baylibre.com>,
+	linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v4 0/3] Add support for AD7191
+Date: Mon,  3 Feb 2025 15:31:25 +0200
+Message-ID: <20250203133254.313106-1-alisa.roman@analog.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <35fc70fd-0281-4ac8-b32b-efa2f4516901@amd.com>
-X-Mailer: git-send-email 2.48.1.362.g079036d154-goog
-Message-ID: <20250203132642.2746754-1-peternewman@google.com>
-Subject: Re: [PATCH v9 09/26] x86/resctrl: Introduce interface to display
- number of monitoring counters
-From: Peter Newman <peternewman@google.com>
-To: babu.moger@amd.com
-Cc: akpm@linux-foundation.org, andrew.cooper3@citrix.com, bp@alien8.de, 
-	brijesh.singh@amd.com, corbet@lwn.net, daniel.sneddon@linux.intel.com, 
-	dave.hansen@linux.intel.com, ebiggers@google.com, eranian@google.com, 
-	fenghua.yu@intel.com, hpa@zytor.com, james.morse@arm.com, 
-	jithu.joseph@intel.com, jpoimboe@kernel.org, kai.huang@intel.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	maciej.wieczor-retman@intel.com, mario.limonciello@amd.com, mingo@redhat.com, 
-	paulmck@kernel.org, pawan.kumar.gupta@linux.intel.com, perry.yuan@amd.com, 
-	peternewman@google.com, reinette.chatre@intel.com, rostedt@goodmis.org, 
-	sandipan.das@amd.com, seanjc@google.com, tan.shaopeng@fujitsu.com, 
-	tglx@linutronix.de, thomas.lendacky@amd.com, thuth@redhat.com, 
-	tony.luck@intel.com, x86@kernel.org, xiaoyao.li@intel.com, xin3.li@intel.com, 
-	xiongwei.song@windriver.com
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi Babu,
 
-On Mon, Nov 18, 2024 at 03:31:28PM -0600, Moger, Babu wrote:
-> Hi Reinette,
-> 
-> On 11/15/24 18:06, Reinette Chatre wrote:
-> > Hi Babu,
-> > 
-> > On 10/29/24 4:21 PM, Babu Moger wrote:
-> >> The mbm_cntr_assign mode provides an option to the user to assign a
-> >> counter to an RMID, event pair and monitor the bandwidth as long as
-> >> the counter is assigned. Number of assignments depend on number of
-> >> monitoring counters available.
-> >>
-> >> Provide the interface to display the number of monitoring counters
-> >> supported. The interface file 'num_mbm_cntrs' is available when an
-> >> architecture supports mbm_cntr_assign mode.
-> >>
-> > 
-> > As mentioned in previous patch, do you think it may be possible to
-> > have a value for num_mbm_cntrs for non-ABMC AMD systems? If that is
-> > available and always exposed to user space (irrespective of
-> > mbm_cntr_assign mode) then it would be clear to user space on
-> > benefits/risks of running a "default" mode.
-> 
-> I am trying the work-around to get the number of max active RMIDs in
-> default mode. The method is to loop through all of the recently assigned
-> RMID's to see if any of their QM_CTR.U bits transition from 0->1.
-> 
-> I am not successful in getting it to work so far. I remember Peter was
-> trying this before in soft-ABMC. Peter, Any success with that?
+Thank you all for your feedback! Here is the updated series of patches!
 
-Sorry I missed this question before. By now maybe you've already debugged your
-own implementation...
+Kind regards,
+Alisa-Dariana Roman.
 
-Here's what I've been using:
-
--- >8 --
-Subject: [PATCH] x86/resctrl: Detect MBM counters on pre-ABMC AMD
- implementations
-
-This procedure is based on information provided directly by AMD
-which cannot currently be corroborated by any public documentation.
-
-In particular, it assumes that deallocation of MBM counters for RMIDs
-is driven directly by writing a new RMID value into PQR_ASSOC.
-
-Signed-off-by: Peter Newman <peternewman@google.com>
 ---
- arch/x86/kernel/cpu/resctrl/internal.h |  1 +
- arch/x86/kernel/cpu/resctrl/monitor.c  | 83 ++++++++++++++++++++++++++
- 2 files changed, 84 insertions(+)
 
-diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
-index 377b5db667930..4a13eab110510 100644
---- a/arch/x86/kernel/cpu/resctrl/internal.h
-+++ b/arch/x86/kernel/cpu/resctrl/internal.h
-@@ -705,6 +705,7 @@ int closids_supported(void);
- void closid_free(int closid);
- int alloc_rmid(u32 closid);
- void free_rmid(u32 closid, u32 rmid);
-+int amd_detect_mbm_counters(void);
- int __init rdt_get_mon_l3_config(struct rdt_resource *r);
- void __exit rdt_put_mon_l3_config(void);
- bool __init rdt_cpu_has(int flag);
-diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
-index 2dd6c47c9276a..f4a59251134d3 100644
---- a/arch/x86/kernel/cpu/resctrl/monitor.c
-+++ b/arch/x86/kernel/cpu/resctrl/monitor.c
-@@ -1172,6 +1172,89 @@ static __init int snc_get_config(void)
- 	return ret;
- }
- 
-+static void zero_rmid(void *unused)
-+{
-+	wrmsr(MSR_IA32_PQR_ASSOC, 0, 0);
-+}
-+
-+int amd_detect_mbm_counters(void)
-+{
-+	struct cpu_cacheinfo *ci;
-+	u32 rmid, test_rmid;
-+	int llc_index;
-+	u64 ctr;
-+
-+	/*
-+	 * The following detection mechanism below provided by AMD. It applies
-+	 * only to pre-ABMC models (Rome, Milan, Genoa).
-+	 */
-+	if (WARN_ON(boot_cpu_data.x86_vendor != X86_VENDOR_AMD))
-+		return -1;
-+	if (WARN_ON(rdt_cpu_has(X86_FEATURE_ABMC)))
-+		return -1;
-+
-+	/*
-+	 * Must not migrate to another CCX during this test. Assume no IRQ
-+	 * handler would access the MSRs used below before resctrl is
-+	 * initialized.
-+	 */
-+	ci = get_cpu_cacheinfo(get_cpu());
-+	llc_index = ci->num_leaves - 1;
-+
-+	/* Ensure PQR_ASSOC.RMID = 0 in this CCX. */
-+	if (ci->cpu_map_populated)
-+		on_each_cpu_mask(&ci->info_list[llc_index].shared_cpu_map,
-+				 zero_rmid, NULL, true);
-+
-+	rmid = 0;
-+	while (true) {
-+		wrmsr(MSR_IA32_PQR_ASSOC, rmid, 0);
-+		wrmsr(MSR_IA32_QM_EVTSEL, QOS_L3_MBM_TOTAL_EVENT_ID, rmid);
-+
-+		/*
-+		 * Ensure that a counter has been allocated on this RMID. The
-+		 * loop below is expected to complete in two iterations.
-+		 */
-+		do {
-+			rdmsrl(MSR_IA32_QM_CTR, ctr);
-+
-+			if (WARN_ON(ctr & RMID_VAL_ERROR)) {
-+				pr_err("failed to read total event on rmid %u\n",
-+				       rmid);
-+				put_cpu();
-+				return 0;
-+			}
-+		} while (ctr & RMID_VAL_UNAVAIL);
-+
-+		/*
-+		 * The order in which counters are reused is not predictable, so
-+		 * check all previously-assigned counters. If any loses its
-+		 * value, then too many are in use as a result of the last
-+		 * PQR_ASSOC write.
-+		 */
-+		for (test_rmid = 0; test_rmid < rmid; test_rmid++) {
-+			wrmsr(MSR_IA32_QM_EVTSEL, QOS_L3_MBM_TOTAL_EVENT_ID,
-+			      test_rmid);
-+			rdmsrl(MSR_IA32_QM_CTR, ctr);
-+
-+			/*
-+			 * As soon as a previous counter loses a value, we have
-+			 * determined the number of RMIDs which can hold a value
-+			 * simultaneously in this CCX.
-+			 */
-+			if (ctr & RMID_VAL_UNAVAIL) {
-+				put_cpu();
-+				return rmid;
-+			}
-+		}
-+		rmid++;
-+	}
-+
-+	put_cpu();
-+
-+	return 0;
-+}
-+
- int __init rdt_get_mon_l3_config(struct rdt_resource *r)
- {
- 	unsigned int mbm_offset = boot_cpu_data.x86_cache_mbm_width_offset;
+v3: https://lore.kernel.org/all/20250129143054.225322-1-alisa.roman@analog.com/
+
+v3 -> v4:
+	- addressed all replies for v3
+	- refactored the scale and sampling frequencies configurations to use 2
+different arrays for gpio case vs pinstrap case
+
+v2: https://lore.kernel.org/all/20250122132821.126600-1-alisa.roman@analog.com/
+
+v2 -> v3:
+	- correct binding title
+	- remove clksel_state and clksel_gpio, assume the clksel pin is always
+pinstrapped
+	- rephrase clocks description accordingly
+	- simplify binding constraints
+	- specify in binding description that PDOWN must be connected to SPI's
+controller's CS
+	- add minItems for gpios in bindings
+	- make scope explicit for mutex guard
+	- remove spi irq check
+	- add id_table to spi_driver struct
+	- changed comments as suggested
+	- use spi_message_init_with_transfers()
+	- default returns an error in ad7191_set_mode()
+	- replace hard-coded 2 with st->pga_gpios->ndescs
+	- use gpiod_set_array_value_cansleep()
+	- change .storagebits to 32
+	- check return value for ad_sd_init()
+	- change to adi,odr-value and adi,pga-value, which now accepts the value as
+suggested
+	- modify variables names and refactor the setup of odr and pga gpios,
+indexes and available arrays into ad7191_config_setup(), since they are all
+related
+	- add ad7191.rst
+
+v1: https://lore.kernel.org/all/20241221155926.81954-1-alisa.roman@analog.com/
+
+v1 -> v2:
+	- removed patch adding function in ad_sigma_delta.h/.c
+	- added a function set_cs() for asserting/deasserting the cs
+	- handle pinstrapping cases
+	- refactored all clock handling
+	- updated bindings: corrected and added new things
+	- -> address of the channels is used in set_channel()
+	- addressed all the other changes
+
