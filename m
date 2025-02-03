@@ -1,99 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A69F205AB5;
-	Mon,  3 Feb 2025 15:02:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B94B20AF99;
+	Mon,  3 Feb 2025 15:10:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738594952; cv=none; b=lGD2TuAEAMiI5oLjYy/nBy2ow7w7KUuNQOMXr/5t/9FtfHrnfefN4QX+CilC2DS8QKGwD2+rTpKkDZLIqPI1T1Ujpzl2DzL1Mwtg4h7Yh1FPIJhCsLqLkhT8ZSSXBQzgJGhuJ4z80FHds66tHFm9ir+buDl9U2E+pKZOeN1hCSY=
+	t=1738595435; cv=none; b=tzlxZMZkiq8UaWlEeDgoZnQN/hEZVRHqdaPaJp834438ywX/fzl0rbAKDYu0TgyFndvYVIJUyfk/6hk1P0X7Ysr/+L5fy/cKTVpU0mPOHb2c90xWT0LK1MdMpqsRGsOs79Pi2INw4ToYL37pbP0mjG77gpb4YMqQAL/hvttdCtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738594952; c=relaxed/simple;
-	bh=+PkJrc74aX1iAPjaFb0hAaPGitbXKazei/4Vi7dvsQo=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=BYmkdzAd7HfmY0NTQepqeDnanBX30Rps5eBhdDI4uNOQBbF56tK8NnbAiYZT67q99zD7QtjZtcsojtqgAG7g7SKwM3Pxuzjt1WTJfCw2pZBs8imqFIUensIb7LywzEbhNvBj9vInKVTZZjJ+AodeIKrkw8+9xG/hsgFf9mXO52s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P1NXXZW9; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1738595435; c=relaxed/simple;
+	bh=BW01bBlLFUwOpmEo7MJEAWr7ShDovy89BNjIMGmP24s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GZ/9rq51zMPChAMOWWhkaz+IhnWKjMJzEZZP3NidhdBPU74o/zdp907vOwkgdv5gMrUx6sMKVkjRVOwWcjcqBYODsc3a4jEY/2fyrJO05lvJw1eXfV43lUq3QPC5M9fmOnJiWaDQLxIEkHrD7p/g9HHGoZhVmykvKcnhf1Id9as=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=xd9XSCNZ; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P1NXXZW9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738594951; x=1770130951;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=+PkJrc74aX1iAPjaFb0hAaPGitbXKazei/4Vi7dvsQo=;
-  b=P1NXXZW9+UQo1qGaxpzX/olnAPsWqWbUrhxBMWt/rhFCfxneOPEkkzbp
-   VffiBCdV+ODsGWelA6o8HXDOFbq8wvG4YyPwalV9tYrfDCFBWhF+Nti+0
-   RIorDhgOobELAEsG8IaD7PDQoQdmiN70Glg9tNK7mCugy9rRSIr+1AqWb
-   peZYakz8RGa9/S6bqyxRA11uopohwl7uG8zDdXIBu+p0bN6GEt82GUKAC
-   qjCHNnFvQzxk/iDwlgJtshs6KIKAUn1fIeslHt8se0F0F/g3djBKdo8BM
-   thXJyfusBs9iKPh8cMkSCL5VuLj7TZWCIbwdmESEHEVYl399191xbo1I7
-   Q==;
-X-CSE-ConnectionGUID: nLLjJGKdQyysKw1H9V5KzA==
-X-CSE-MsgGUID: 1cw6Dz6nTzCepxAMlIm2wQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="38977789"
-X-IronPort-AV: E=Sophos;i="6.13,256,1732608000"; 
-   d="scan'208";a="38977789"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 07:02:30 -0800
-X-CSE-ConnectionGUID: cEcSTHOFTuulXn9v9rIwqg==
-X-CSE-MsgGUID: 0sUVOiOqRD2DOixfAv2FTQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="133554077"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.194])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 07:02:25 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Mon, 3 Feb 2025 17:02:22 +0200 (EET)
-To: Joshua Grisham <josh@joshuagrisham.com>
-cc: W_Armin@gmx.de, thomas@t-8ch.de, kuurtb@gmail.com, 
-    Hans de Goede <hdegoede@redhat.com>, platform-driver-x86@vger.kernel.org, 
-    corbet@lwn.net, linux-doc@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>, 
-    =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <linux@weissschuh.net>
-Subject: Re: [PATCH v10] platform/x86: samsung-galaxybook: Add samsung-galaxybook
- driver
-In-Reply-To: <20250201105450.193450-1-josh@joshuagrisham.com>
-Message-ID: <a22ecdd5-a2a5-4f6b-0a1a-e1bc115dc01f@linux.intel.com>
-References: <20250201105450.193450-1-josh@joshuagrisham.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="xd9XSCNZ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=5hnnaZ2XQa/kJAOoyclTESLCPfK7fCzob11sMwrX3r0=; b=xd9XSCNZtG9QUn9jUe6RSzyxzz
+	1PuaLgWb7y/8Xp0Byv5jm0DnGhyhNWsun3RYXkhGwRFMDp8LFgp8cRj2jGxZQgY3yUaD+DExalqMV
+	vQP2TalG73wMVatamUyXFHb/sLTYKsSb+Br+25T63J2dRXcJYCa9CiG1Sso1V3exhSFI=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1tey5g-00AYt7-Pw; Mon, 03 Feb 2025 16:10:24 +0100
+Date: Mon, 3 Feb 2025 16:10:24 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Simon Horman <horms@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alexandre Ferrieux <alexandre.ferrieux@gmail.com>,
+	netdev@vger.kernel.org, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH net] docs: netdev: Document guidance on inline functions
+Message-ID: <a2ae1cda-8210-4e6c-86ea-0ee864e13b23@lunn.ch>
+References: <20250203-inline-funk-v1-1-2f48418e5874@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-450076370-1738594942=:15198"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250203-inline-funk-v1-1-2f48418e5874@kernel.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+>  Conversely, spelling and grammar fixes are not discouraged.
+>  
+> +Inline functions
+> +----------------
+> +
+> +The use of static inline functions in .c file is strongly discouraged
 
---8323328-450076370-1738594942=:15198
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+I don't think 'static' is relevant here. They probably are static, if
+they are inline, and to avoid warnings about missing declarations. But
+we just prefer not to have any sort of inline functions without good
+justifications within a .c file.
 
-On Sat, 1 Feb 2025, Joshua Grisham wrote:
+A nit pick, so:
 
-> Add a new driver for Samsung Galaxy Book series notebook devices with the
-> following features:
->=20
-> - Keyboard backlight control
-> - Battery hook for installing power supply extension to add charge
->   control end threshold
-> - Controller for Samsung's performance modes using the platform profile
->   interface
-> - Adds firmware-attributes to control various system features
-> - Handles various hotkeys and notifications
->=20
-> Signed-off-by: Joshua Grisham <josh@joshuagrisham.com>
-> Reviewed-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
-> Reviewed-by: Armin Wolf <W_Armin@gmx.de>
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-I've applied this to review-ilpo-next.
-
-Thanks a lot to all who have taken time to help in getting this into=20
-shape!
-
---=20
- i.
-
---8323328-450076370-1738594942=:15198--
+    Andrew
