@@ -1,157 +1,240 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.75])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5287204C39;
-	Mon,  3 Feb 2025 13:14:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.75
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64474204F6B
+	for <linux-doc@vger.kernel.org>; Mon,  3 Feb 2025 13:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738588503; cv=none; b=gcn4OO6sIbpsKOTt2VTtv4MAImfpD/w4yMv1mofsxpS0HrbgKu088j2iXXotnrKcMRq8dGsmaZJU4rfdB3WNBDACYsFEUyMDQ78T7lfa5lXl1v82p+Ayhh+uashB3XnYeWKCO7umJD3+zRgA6rgsokAM/EwhexbpkdFUyQc0xJ8=
+	t=1738589237; cv=none; b=ROjnQSgi1AGI6NttiAIYgT7u9aEQcYHSdrHEkX7QlHDVNiTtk5Fs6Y4xiXOzMWVXBe4UNi8F6+akyIIXOIrDQ9LeyzzbZ0cGFJNUqVvaeYlYfWnEwwek8BpRghzksMzKOijmhbazuJHK565p2j/SsDffSO1InPqe2lREzwK0zD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738588503; c=relaxed/simple;
-	bh=AE1GNI4dCnKiSpYJEGzMAZPeqcrJkHOL3Nw8EWbZIW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uzeeovLWMT1Q1vmRLxVJUx9JPbauZjnZO6/q3oZ3Lu0LuInVIzn7cMSzCBNUeQDQqVTUk0OiOf1BYriWPY59r2hJyf+MxR8zVRdt7R+2Tm72VA9ft9zNZOi9f9F8TlrgtoCS/3BRYwFx3l6kird0jqec0ipQEnGAHcVc4F+0aCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=heusel.eu; spf=pass smtp.mailfrom=heusel.eu; dkim=pass (2048-bit key) header.d=heusel.eu header.i=christian@heusel.eu header.b=LppzQA80; arc=none smtp.client-ip=217.72.192.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=heusel.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=heusel.eu
+	s=arc-20240116; t=1738589237; c=relaxed/simple;
+	bh=iT4nOmTo0qs93A/ByVuAvKNO0ZVQLL9OYxCEOF4exlw=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=jSwgX2TroPsUhftiHSXzLHWSgGMdA2tkFflJ1NbPYaBF0WhB7k3UOjVrG21uXnnGqH58O+R2Tn5ncxUaVjmqnKGzIdWQKAH3ERzXuQyb9g/u7szcnY/ElaA2vQyL+sFA27oKwnElD5FtotMbEMCrOsqEVctnH3BeXlLfSZ3M7wY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--peternewman.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qXKlb1oS; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--peternewman.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=heusel.eu header.i=christian@heusel.eu header.b="LppzQA80"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=heusel.eu;
-	s=s1-ionos; t=1738588486; x=1739193286; i=christian@heusel.eu;
-	bh=HW/nhA7rOLlZN/zmthKgpqOHoSWN2U6+fDDzCTddEJw=;
-	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:In-Reply-To:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=LppzQA802y5aZz9FYytlu7pwxMQDYgmSpzfYXSp51a9i15cF39uXd1v0O3d+I2DF
-	 nDwb9houPen/p1zCAppZUIq5wdDnRI8MDQkmqjyNDprMgPjpPbmcQfUOzDQRmYTNM
-	 u8/5d4AD3YjYdCoki8N8fnWlxycPSqJAkED9OSn7W21HCRlaffMU27VtDPYU853NV
-	 O/jIHS8LUaEVo65lTmw7gMpOnxUVdcCgaHyXsBE6ZFN3aPptUQT7bAPUZMlN2swtO
-	 vUpssc+kN+K2jpM84TJvY81pXJWb6P6HkDxUJfvFxt8Fd6kXEYLe/0043bZhHdakt
-	 uO4/1MFw4Z76E/hiiA==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from localhost ([80.187.122.235]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MoNu2-1t3St32XHc-00gLz3; Mon, 03 Feb 2025 14:14:45 +0100
-Date: Mon, 3 Feb 2025 14:14:41 +0100
-From: Christian Heusel <christian@heusel.eu>
-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
-	Daniel Gomez <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>, 
-	Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>, 
-	kpcyrd <kpcyrd@archlinux.org>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] module: Introduce hash-based integrity checking
-Message-ID: <62c93d58-2e27-4304-a6ad-36aa932f18ac@heusel.eu>
-References: <20250120-module-hashes-v2-0-ba1184e27b7f@weissschuh.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qXKlb1oS"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-436723db6c4so31725825e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 03 Feb 2025 05:27:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1738589233; x=1739194033; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3+vRf77xml4mHTu6O1aUiY50kmdC/JGj1qSPGz7v6MU=;
+        b=qXKlb1oSM/n2FOeIpqxTUzGXCnzSPTjNSI6mKwfD+/gbrNk3LnmtD1LS1sv7Mmky7L
+         JiPYX539FG2QGvq8B5Fy+2SSAeTD8C+jWA8iYehcZrmcxEODFkwZVHupkNy2sEJpGIN+
+         7waYSujI26kSYfM3hkxF7tI4a9szEztX0hjDCc1HlH+8y1K4YVB3UZ/mkjbWL91MagRM
+         BtXeLx+043zbK/1gA1DZidPiqDO51K7EziQd0YFR58yJzUY1U8ISRZ36q6KlkzINz1MD
+         JHsW3EMU3ujfrVB85E0J5IJWLOjfCDBvn70rzKy4ukiV6H9EGBcmGRi8kA2fH8GQ46SR
+         +KyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738589233; x=1739194033;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3+vRf77xml4mHTu6O1aUiY50kmdC/JGj1qSPGz7v6MU=;
+        b=r+LPfgUOm/OQOtH2GdAydBMdwH5qq0iEagC53qL9znxJ4Cd/CWKWq4dsiDYTtvNCji
+         XncjHCNZ5+dyErz5WmWhcKGR+5gqWIA0v36ob3vXbVYy614e6SWiszJuWnRAvP5m4KHB
+         YzW/obwPQM56nRBl7EqyZikylReTamqt5iD960tz+C9Rz/c7SyrD6X4LOPXqHJUQNkP4
+         73OVHOu7XH33fci5tYRMAjk1M0goyG2paxy/We2hnn650pC8V5a5v4iTo5bzD4LEO+iV
+         x+rj5itRo/yZttE6/5/LkPcL/je9DBanBE4DbCqSAwTGrxFzF5KZAX0VS/eaVxjFTt31
+         JflQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWYRAv3MHokrUbhi2NykXWVAwS8g6l2kGbWtlurFsn5qn1TX/wKjUsvzLovank55HcMoakWaV4zZ/k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywq8iU05g7esZ7LIt9irIgr7xzewje4zp9JejD59B3P1ik/VykR
+	UWaJBly0mQMDtgcIxHSo6FyIqNjMI07IMMV9D11NP9iPbBKAHggz9+VxOLeLI3ZZA6LFYDF2NFG
+	6CYhI5KWP/0TUwuFyOMjS8w==
+X-Google-Smtp-Source: AGHT+IHwjwHvkkW+jcg/+Aa1C5HQN+uqueTyLSRP/rLwlvjOSfvDXy7ajCdgb0kho3srjN4gD1XAZXP+gvZYaeXjjQ==
+X-Received: from wmqb19.prod.google.com ([2002:a05:600c:4e13:b0:436:1a60:654e])
+ (user=peternewman job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a7b:c356:0:b0:434:f218:e1a8 with SMTP id 5b1f17b1804b1-438dd1a5b55mr168374875e9.19.1738589233723;
+ Mon, 03 Feb 2025 05:27:13 -0800 (PST)
+Date: Mon,  3 Feb 2025 14:26:42 +0100
+In-Reply-To: <35fc70fd-0281-4ac8-b32b-efa2f4516901@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="4hw4xsdogt6jxe7z"
-Content-Disposition: inline
-In-Reply-To: <20250120-module-hashes-v2-0-ba1184e27b7f@weissschuh.net>
-X-Provags-ID: V03:K1:pi4w6UvELjOYlWx7bJXU+/MmGORjxYJ29ngsxP99C0aV5nQ3ul1
- 50dRrVBGRzy382VjDqjmmj8CaowbFOxH6DRu/k4gDMUunGQRyvqTJFVqMabGxL8+TSojaD+
- D5zgrN7RkpgcTuwaqWPZsmZPmtWRMPC+TynSjMjsU57e9Ve1YGGzesZTL0TA1sY8pQaJDPj
- +LnrtY5KXjyOSqIHK3xUQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:MXtMipq4Kd4=;s7t6p8NLj9eAy9+INYP4yrDREcn
- mAWRrWEOBfYn4sK814eCwCN7T5urJ+ejs/Oy+IxU60xC1bLGsM3kFHQcWBiJz7gUkz7JGrKbw
- Z91+1BGDEYrOY/tQYmYBOLNB+2+BPO5ImG8WtGBknV7Ag+NHIs788e6PzchIEEXJozfUE/dzX
- 0WfbkO0FibPwXv0YqjVZ0EvgkgeBbcO/WKIq3rIYCITfInXyCl3h6e1gKfH55fBpVwzs5tI4/
- C55A+NhSqKAeoTJB3+ts3DAzjMX7bP7v/PhcigUQ2EuDdeqIkKhO4xC/A4eMw75K8otX06HmD
- 0Wsq+kBc4SNRgXH0cMHxCFC7AzrH4VqGgTuOdvazW69g50x7qtMxQZrtlhqf8yasQ9UpwAwCL
- 8fuUCcuPnVfKN7rfnEt5l8CEqVDSpgsGxlQXzK0KTX1xFmgdJ+bE8ueFZHrue9PeeYqsmPsPL
- BB8dv28sMSsUxN9P/Uos9YfSfw6Je7AY/uFHHkRDjV5BFsyOcp0auJB7fk+L9nk83LFFSlEFh
- DjwutzRJiIT0XbRCo1fcwe2JSiNoKNi4s/iDqhRwa0KjpLIKeFn8wNmhnipTsWW4PGnFtfoVI
- Lm3JVfMRZXyyCX4HxGpyDxSQqwm4yFGxCTLUAPRtIrmSjv3pZcL53MsEFoCeDZBnsC9VyDuFS
- hFt0+GvzASuQdrLEYuoMaGrgwBGHthR32jRN9HMEvbtV/XIN39q6IIlRZ3TRVnoBnoqh6u1Fj
- viIvrVLt/SiNzqiYfVrMNaQoKooh2YrCMXG5Iu4q7zb4Pmjgf54bnUumMeSbqioNLqCstZG9o
- 200sSd6RHny+UC9RkBl4Jm5990Ea/Wq1EaOFMJ1t7mT7bgEAiJSk++Lng1r+7UamgVXlV3XYu
- 6pC4eOPSR272a99fpgvxznwhETRs5/fl//8Pp/ysx7caqC/keVlsH8dEkh1aqUrMglRIGgvSl
- RqTD7dfBkEr864/2UvpSrTNybyGRTPTUzI+Fjpclb3Wo0kUMKHdglQAsFhWtmhVmkB7eEtTxA
- LkuUlOcWisrg3vtBlcMxnb632UOl6IGIpHrjarOG1t5swqONa21oEcLXtnMP8qhVknssH0/fw
- sYrQZ2lW50PdTi8547UqqAxc6mVVTv5zBYxt+5fWYNOdYgTl1pltlClsLSMbkTHMmMhQnA/Q6
- 3beOMFy52JOYX43X5O6qFcc5ZM+PenSI4LL9T4Oosc7Z0pfiMjqtfhyJhcg0KDSMPPtElZ+Z5
- 3bMNKvZCQh2IsVih3WS3VTHkXN+Hh3sykuyCJOvbdH/wehCqCReBDxI=
+Mime-Version: 1.0
+References: <35fc70fd-0281-4ac8-b32b-efa2f4516901@amd.com>
+X-Mailer: git-send-email 2.48.1.362.g079036d154-goog
+Message-ID: <20250203132642.2746754-1-peternewman@google.com>
+Subject: Re: [PATCH v9 09/26] x86/resctrl: Introduce interface to display
+ number of monitoring counters
+From: Peter Newman <peternewman@google.com>
+To: babu.moger@amd.com
+Cc: akpm@linux-foundation.org, andrew.cooper3@citrix.com, bp@alien8.de, 
+	brijesh.singh@amd.com, corbet@lwn.net, daniel.sneddon@linux.intel.com, 
+	dave.hansen@linux.intel.com, ebiggers@google.com, eranian@google.com, 
+	fenghua.yu@intel.com, hpa@zytor.com, james.morse@arm.com, 
+	jithu.joseph@intel.com, jpoimboe@kernel.org, kai.huang@intel.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	maciej.wieczor-retman@intel.com, mario.limonciello@amd.com, mingo@redhat.com, 
+	paulmck@kernel.org, pawan.kumar.gupta@linux.intel.com, perry.yuan@amd.com, 
+	peternewman@google.com, reinette.chatre@intel.com, rostedt@goodmis.org, 
+	sandipan.das@amd.com, seanjc@google.com, tan.shaopeng@fujitsu.com, 
+	tglx@linutronix.de, thomas.lendacky@amd.com, thuth@redhat.com, 
+	tony.luck@intel.com, x86@kernel.org, xiaoyao.li@intel.com, xin3.li@intel.com, 
+	xiongwei.song@windriver.com
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Babu,
 
---4hw4xsdogt6jxe7z
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 0/6] module: Introduce hash-based integrity checking
-MIME-Version: 1.0
+On Mon, Nov 18, 2024 at 03:31:28PM -0600, Moger, Babu wrote:
+> Hi Reinette,
+> 
+> On 11/15/24 18:06, Reinette Chatre wrote:
+> > Hi Babu,
+> > 
+> > On 10/29/24 4:21 PM, Babu Moger wrote:
+> >> The mbm_cntr_assign mode provides an option to the user to assign a
+> >> counter to an RMID, event pair and monitor the bandwidth as long as
+> >> the counter is assigned. Number of assignments depend on number of
+> >> monitoring counters available.
+> >>
+> >> Provide the interface to display the number of monitoring counters
+> >> supported. The interface file 'num_mbm_cntrs' is available when an
+> >> architecture supports mbm_cntr_assign mode.
+> >>
+> > 
+> > As mentioned in previous patch, do you think it may be possible to
+> > have a value for num_mbm_cntrs for non-ABMC AMD systems? If that is
+> > available and always exposed to user space (irrespective of
+> > mbm_cntr_assign mode) then it would be clear to user space on
+> > benefits/risks of running a "default" mode.
+> 
+> I am trying the work-around to get the number of max active RMIDs in
+> default mode. The method is to loop through all of the recently assigned
+> RMID's to see if any of their QM_CTR.U bits transition from 0->1.
+> 
+> I am not successful in getting it to work so far. I remember Peter was
+> trying this before in soft-ABMC. Peter, Any success with that?
 
-Hey Thomas,
+Sorry I missed this question before. By now maybe you've already debugged your
+own implementation...
 
-On 25/01/20 06:44PM, Thomas Wei=DFschuh wrote:
-> Thomas Wei=DFschuh (6):
->       kbuild: add stamp file for vmlinux BTF data
->       module: Make module loading policy usable without MODULE_SIG
->       module: Move integrity checks into dedicated function
->       module: Move lockdown check into generic module loader
->       lockdown: Make the relationship to MODULE_SIG a dependency
->       module: Introduce hash-based integrity checking
+Here's what I've been using:
 
-thanks for working on this!
+-- >8 --
+Subject: [PATCH] x86/resctrl: Detect MBM counters on pre-ABMC AMD
+ implementations
 
-I had a look at this patch series together with kpcyrd over the weekend
-and we were able to verify that this indeed allows one to get a
-reproducible kernel image with the toolchain on Arch Linux (if the patch
-you mentioned in your cover letter is also applied), which is of course
-great news! :)
+This procedure is based on information provided directly by AMD
+which cannot currently be corroborated by any public documentation.
 
-We also found a major issues with it, as adding it on top of the v6.13
-kernel and setting the needed config options while removing modules
-signatures made the kernel unable to load any module while also not
-printing any error for the failure, therefore resulting in an early boot
-failure on my machine.
+In particular, it assumes that deallocation of MBM counters for RMIDs
+is driven directly by writing a new RMID value into PQR_ASSOC.
 
-Do you have any clue what could be going wrong here or what we could
-investigate? I have pushed my build config into [this repository][0] and
-also uploaded a prebuilt version (signed with my packager key)
-[here][1] (you can therefore just install it via "sudo pacman -U
-<link>").
+Signed-off-by: Peter Newman <peternewman@google.com>
+---
+ arch/x86/kernel/cpu/resctrl/internal.h |  1 +
+ arch/x86/kernel/cpu/resctrl/monitor.c  | 83 ++++++++++++++++++++++++++
+ 2 files changed, 84 insertions(+)
 
-Happy to test more stuff, feel free to CC me on any further revision /
-thread on this!
-
-Cheers,
-Christian
-
-[0]: https://gitlab.archlinux.org/gromit/linux-mainline-repro-test
-[1]: https://pkgbuild.com/~gromit/linux-bisection-kernels/linux-mainline-6.=
-13-1.2-x86_64.pkg.tar.zst
-
---4hw4xsdogt6jxe7z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEb3ea3iR6a4oPcswTwEfU8yi1JYUFAmegwUEACgkQwEfU8yi1
-JYWeYg//T393bfbxswhXCUthBFnjA93W811Td6FcAaSuQVYHkaShTzHhGFhM0/42
-bPKOeU9FsEBfcAaqQ2hSBfJK951EGxmXPcVuwGD8P3cSLR8076bcH4QJq6YbbO1m
-nGhXArgtsQ/4JeDwP2Od5UQwKJP0eJKL2rrkU+EK/EACyOIQCH4SUJf+AaNN2wab
-3t7GXOIOihirIEeubhD5OpUcsAoWJLG2GiPTwhKWr/P3ia7LStbK335jQl0E2nAu
-sL6T7AopwkFFZ94p2Fd4w9bLd2k4DvzjHsQaI2On3Ybam0qBL/mei6V6jcgjDAvr
-zo5s8O3Pcy3YbFPZYdttjaD1Jp+KNn7JA0G1HBd/Qbz55JevkufdW0c2Fq8/V56m
-LIFAX1wgJMNWT/6BG29OuGJ9yx+qO7EXfz1LjTce+oOTls2tsu3OhuNcyJeQeADN
-W6ThiLff+NFU7YQpEb+rfFgVM2krN7ib+DUrge0oe4Nj/gBivnC8o44BCK9k5zoG
-qvfNGV5ARMqJj/n8e0CtyNZ3d8L+n+3TVPy4o8fvAJRndCHNIVvnY/Tkx9DQn73g
-Mo/jqtT08gUoptL9pYAjr686IXQalRmPDFYcV74Xq43xvUToVApgtKjARphPxXSA
-cnM3z3x5zLdin5otTL1sVwQzUjvt/HcnOR7gVAyqwooTJ6STENA=
-=2M+y
------END PGP SIGNATURE-----
-
---4hw4xsdogt6jxe7z--
+diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+index 377b5db667930..4a13eab110510 100644
+--- a/arch/x86/kernel/cpu/resctrl/internal.h
++++ b/arch/x86/kernel/cpu/resctrl/internal.h
+@@ -705,6 +705,7 @@ int closids_supported(void);
+ void closid_free(int closid);
+ int alloc_rmid(u32 closid);
+ void free_rmid(u32 closid, u32 rmid);
++int amd_detect_mbm_counters(void);
+ int __init rdt_get_mon_l3_config(struct rdt_resource *r);
+ void __exit rdt_put_mon_l3_config(void);
+ bool __init rdt_cpu_has(int flag);
+diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
+index 2dd6c47c9276a..f4a59251134d3 100644
+--- a/arch/x86/kernel/cpu/resctrl/monitor.c
++++ b/arch/x86/kernel/cpu/resctrl/monitor.c
+@@ -1172,6 +1172,89 @@ static __init int snc_get_config(void)
+ 	return ret;
+ }
+ 
++static void zero_rmid(void *unused)
++{
++	wrmsr(MSR_IA32_PQR_ASSOC, 0, 0);
++}
++
++int amd_detect_mbm_counters(void)
++{
++	struct cpu_cacheinfo *ci;
++	u32 rmid, test_rmid;
++	int llc_index;
++	u64 ctr;
++
++	/*
++	 * The following detection mechanism below provided by AMD. It applies
++	 * only to pre-ABMC models (Rome, Milan, Genoa).
++	 */
++	if (WARN_ON(boot_cpu_data.x86_vendor != X86_VENDOR_AMD))
++		return -1;
++	if (WARN_ON(rdt_cpu_has(X86_FEATURE_ABMC)))
++		return -1;
++
++	/*
++	 * Must not migrate to another CCX during this test. Assume no IRQ
++	 * handler would access the MSRs used below before resctrl is
++	 * initialized.
++	 */
++	ci = get_cpu_cacheinfo(get_cpu());
++	llc_index = ci->num_leaves - 1;
++
++	/* Ensure PQR_ASSOC.RMID = 0 in this CCX. */
++	if (ci->cpu_map_populated)
++		on_each_cpu_mask(&ci->info_list[llc_index].shared_cpu_map,
++				 zero_rmid, NULL, true);
++
++	rmid = 0;
++	while (true) {
++		wrmsr(MSR_IA32_PQR_ASSOC, rmid, 0);
++		wrmsr(MSR_IA32_QM_EVTSEL, QOS_L3_MBM_TOTAL_EVENT_ID, rmid);
++
++		/*
++		 * Ensure that a counter has been allocated on this RMID. The
++		 * loop below is expected to complete in two iterations.
++		 */
++		do {
++			rdmsrl(MSR_IA32_QM_CTR, ctr);
++
++			if (WARN_ON(ctr & RMID_VAL_ERROR)) {
++				pr_err("failed to read total event on rmid %u\n",
++				       rmid);
++				put_cpu();
++				return 0;
++			}
++		} while (ctr & RMID_VAL_UNAVAIL);
++
++		/*
++		 * The order in which counters are reused is not predictable, so
++		 * check all previously-assigned counters. If any loses its
++		 * value, then too many are in use as a result of the last
++		 * PQR_ASSOC write.
++		 */
++		for (test_rmid = 0; test_rmid < rmid; test_rmid++) {
++			wrmsr(MSR_IA32_QM_EVTSEL, QOS_L3_MBM_TOTAL_EVENT_ID,
++			      test_rmid);
++			rdmsrl(MSR_IA32_QM_CTR, ctr);
++
++			/*
++			 * As soon as a previous counter loses a value, we have
++			 * determined the number of RMIDs which can hold a value
++			 * simultaneously in this CCX.
++			 */
++			if (ctr & RMID_VAL_UNAVAIL) {
++				put_cpu();
++				return rmid;
++			}
++		}
++		rmid++;
++	}
++
++	put_cpu();
++
++	return 0;
++}
++
+ int __init rdt_get_mon_l3_config(struct rdt_resource *r)
+ {
+ 	unsigned int mbm_offset = boot_cpu_data.x86_cache_mbm_width_offset;
