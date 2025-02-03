@@ -1,195 +1,119 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655213C2F;
-	Mon,  3 Feb 2025 01:31:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D29029405;
+	Mon,  3 Feb 2025 02:44:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738546315; cv=none; b=Vw3pGhHG1SG8jrFX+qYYXGRIBaH/apo3TQNHgAaz6XmFGX3uBVvpwu5J3LHXO+edgnxiFh8PE3f10QeLZ6Pyj/Rvu8NfjKzh81IGXrDLarHDGaQswlp5XauDpKf18YJB3ybuwyQReGuWI0/nx+awQEC4lNXxcJSjFnuhpJlheJo=
+	t=1738550683; cv=none; b=H+GMfZ56wG7CTYyDnmDWuJzh+JRM0b7PODIvIS5QltC0dtoTMz4ga61AI5QJHIjXQJs2pqTkG0LnFOOdnj0zvFCQfoDLKNsyEZhHm2I83I0euTylgiYMADI27sAFe80eqsnfy+vyNdiZNZIMNTg1h1LOk63jgHmuNsaxl1/asqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738546315; c=relaxed/simple;
-	bh=TGDXhA9VFUOBW0nUR/5s5rwPA+aY4v4jgiKejMQ3o/w=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=MKtQIlhutZ9EgwiM7EL/mGUcaE2RTVEFItpr4rd85D0DFf+EMSN3FNrZDqSAPwik1Blb1NImgaE5fwJSNO+g8c5s2TCgmY6O4nFxl7SJPKTwPnj6q5Z1z1vAnZvDJ9u9s2bq4n9P3QvrGjmKp9W/B9jUInA4uC8Ektz0PIHVcOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=WcJKnUHW; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1738550683; c=relaxed/simple;
+	bh=mP85TRSOYJ68KUjP9bEbg6dGMH1vo4qmFD3Pw+bKql0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=cJOYTfuDbYFcaF7Uu68Sw8qLMydIHDFZQ10/YKnAQlDetSlAwgmeHwqEDtmu0gUsTU2ZiMgMMuWPs2uh8i3DKSSg59iP+b9X0X6ss5nBIke44xgrmJqJNTiFTqc85bpBxiv47294f8nKPfE81Y6jDrfmp0Sg1ohlSXlcdt6e1hY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=H645HdA1; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="WcJKnUHW"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 512Bt595015380;
-	Mon, 3 Feb 2025 01:31:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=kjxtf4
-	7CKNtSchjNhx+lVCQZ7est2gEQwyCLkceGQhQ=; b=WcJKnUHWyMsH86R3gehVOc
-	3YwRh0hayDnxFdDGo1bRMPfL4nveP9Er5tzc0TC426W+ypv4q4LiGkQDePQDEVsU
-	6QQHB+SjFu3upkC9I8si3ioTuAh+9KbWhJWsrre/v/hQHw5mShyJZ+mMXjuukYhA
-	bjKHBm1L0ZcnQXuH4m9NaNg66jHVsVtAEDxKhMfl+JUY6lIn7O48mXSo5WxWbm99
-	HbHPuUD2BVLt8k2wZOaYRbW/vuLn7ZrjTQtPocqHCGWG5xYzyXoKpvmP2wpCO/zM
-	yjF5GDugKHXfksFtbQUtnjmTqhzlm3asMIudYLDy22Spz50qH2yReV/N9siSoTJw
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44j2h7b2nn-1
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="H645HdA1"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51313eIb028271;
+	Mon, 3 Feb 2025 02:44:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	zFyZLn6SvxmCFmq/OoLwdSWtYoNkhVjWf28D0CGpVLU=; b=H645HdA1sXxZxD45
+	xo6QfcW80xgjodU21Glbs0av5kw2BULE+yB4BUzwRTHAfVOkzEpVvfHut8HzPimv
+	xRqlvGXWRBppS5zHFNiUH9SaQYQcBv3W0iop4W0RWl/bSvJXreGkOpXvu/r7VKUM
+	hmFETiV9W5UPAP55TacX4iaU1UPfaNOAwYsbzb0cnHcjWPMugJlMmI6pFDSSJ7mT
+	2whpXzk9mZUlGFsgergtW1Myy6ypysOxCOcsNyRpJSLRiHL+m4uBs3ZVLRZN3Y4t
+	VT3+wFMfgVokSJOdYRj2yoOZPZJRCxTdpUM6f8fUZmFExzUJtp7UKr4AZD6XNcWX
+	fxHaIw==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 44jkt9g3dv-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 03 Feb 2025 01:31:13 +0000 (GMT)
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 5131VCk6026537;
-	Mon, 3 Feb 2025 01:31:12 GMT
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44j2h7b2nj-1
+	Mon, 03 Feb 2025 02:44:23 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5132iM8m020176
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 03 Feb 2025 01:31:12 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 51305aci005258;
-	Mon, 3 Feb 2025 01:31:11 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 44j05jktxk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 03 Feb 2025 01:31:11 +0000
-Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
-	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5131VAKY21889644
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 3 Feb 2025 01:31:10 GMT
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AC1E15804B;
-	Mon,  3 Feb 2025 01:31:10 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 22A3E58063;
-	Mon,  3 Feb 2025 01:31:09 +0000 (GMT)
-Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.68.214])
-	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Mon,  3 Feb 2025 01:31:09 +0000 (GMT)
-Message-ID: <e93596a3f7696bfe4912f6ec91152e8969bb1192.camel@linux.ibm.com>
-Subject: Re: [PATCH v3 6/6] ima: Reset IMA_NONACTION_RULE_FLAGS after
- post_setattr
-From: Mimi Zohar <zohar@linux.ibm.com>
-To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
-        viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
-        dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
-        paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        Roberto Sassu
- <roberto.sassu@huawei.com>, stable@vger.kernel.org
-Date: Sun, 02 Feb 2025 20:31:08 -0500
-In-Reply-To: <20250122172432.3074180-7-roberto.sassu@huaweicloud.com>
-References: <20250122172432.3074180-1-roberto.sassu@huaweicloud.com>
-	 <20250122172432.3074180-7-roberto.sassu@huaweicloud.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+	Mon, 3 Feb 2025 02:44:22 GMT
+Received: from hu-azarrabi-lv.qualcomm.com (10.49.16.6) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Sun, 2 Feb 2025 18:44:22 -0800
+From: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+Date: Sun, 2 Feb 2025 18:43:29 -0800
+Subject: [PATCH v2 1/8] tee: allow a driver to allocate a tee_device
+ without a pool
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: t7kdbocf0x0rsMPmREaRiai9DjIdcEvh
-X-Proofpoint-GUID: WIU-qrlO92XxGySXJmSX2cnXAh44zW33
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-1-297eacd0d34f@quicinc.com>
+References: <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-0-297eacd0d34f@quicinc.com>
+In-Reply-To: <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-0-297eacd0d34f@quicinc.com>
+To: Jens Wiklander <jens.wiklander@linaro.org>,
+        Sumit Garg
+	<sumit.garg@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad
+ Dybcio" <konradybcio@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        "Bartosz
+ Golaszewski" <bartosz.golaszewski@linaro.org>,
+        Srinivas Kandagatla
+	<srinivas.kandagatla@linaro.org>
+CC: <linux-arm-msm@vger.kernel.org>, <op-tee@lists.trustedfirmware.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>,
+        Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+X-Mailer: b4 0.13.0
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: mfVEeAvDYsJ8WlIBWtTrzB0meYFWQ5BS
+X-Proofpoint-GUID: mfVEeAvDYsJ8WlIBWtTrzB0meYFWQ5BS
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-02-02_11,2025-01-31_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- bulkscore=0 phishscore=0 mlxscore=0 spamscore=0 malwarescore=0
- mlxlogscore=999 clxscore=1015 adultscore=0 suspectscore=0 impostorscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502030011
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
+ lowpriorityscore=0 malwarescore=0 mlxlogscore=999 adultscore=0
+ clxscore=1011 priorityscore=1501 suspectscore=0 phishscore=0
+ impostorscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2501170000 definitions=main-2502030021
 
-On Wed, 2025-01-22 at 18:24 +0100, Roberto Sassu wrote:
-> From: Roberto Sassu <roberto.sassu@huawei.com>
->=20
-> Commit 11c60f23ed13 ("integrity: Remove unused macro
-> IMA_ACTION_RULE_FLAGS") removed the IMA_ACTION_RULE_FLAGS mask, due to it
-> not being used after commit 0d73a55208e9 ("ima: re-introduce own integrit=
-y
-> cache lock").
->=20
-> However, it seems that the latter commit mistakenly used the wrong mask
-> when moving the code from ima_inode_post_setattr() to process_measurement=
-(). There
-> is no mention in the commit message about this
-> change and it looks quite important, since changing from IMA_ACTIONS_FLAG=
-S
-> (later renamed to IMA_NONACTION_FLAGS) to IMA_ACTION_RULE_FLAGS was done =
-by
-> commit 42a4c603198f0 ("ima: fix ima_inode_post_setattr").
+A TEE driver doesn't always need to provide a pool if it doesn't
+support memory sharing ioctls and can allocate memory for TEE
+messages in another way. Although this is mentioned in the
+documentation for tee_device_alloc(), it is not handled correctly.
 
-Roberto, thank you for the detailed explanation.  Could we summarize the pr=
-oblem as:=20
+Signed-off-by: Amirreza Zarrabi <quic_azarrabi@quicinc.com>
+---
+ drivers/tee/tee_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Commit 0d73a55208e9 ("ima: re-introduce own integrity cache lock") mistaken=
-ly
-reverted the performance improvement introduced in commit 42a4c603198f0 ("i=
-ma: fix
-ima_inode_post_setattr").  The unused bit mask was subsequently removed by =
-commit
-11c60f23ed13 ("integrity: Remove unused macro IMA_ACTION_RULE_FLAGS").
+diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+index d113679b1e2d..24edce4cdbaa 100644
+--- a/drivers/tee/tee_core.c
++++ b/drivers/tee/tee_core.c
+@@ -888,7 +888,7 @@ struct tee_device *tee_device_alloc(const struct tee_desc *teedesc,
+ 
+ 	if (!teedesc || !teedesc->name || !teedesc->ops ||
+ 	    !teedesc->ops->get_version || !teedesc->ops->open ||
+-	    !teedesc->ops->release || !pool)
++	    !teedesc->ops->release)
+ 		return ERR_PTR(-EINVAL);
+ 
+ 	teedev = kzalloc(sizeof(*teedev), GFP_KERNEL);
 
->=20
-> Restore the original change of resetting only the policy-specific flags a=
-nd
-> not the new file status, but with new mask 0xfb000000 since the
-> policy-specific flags changed meanwhile. Also rename IMA_ACTION_RULE_FLAG=
-S
-> to IMA_NONACTION_RULE_FLAGS, to be consistent with IMA_NONACTION_FLAGS.
-
-Instead of restoring the bit mask that is used only once, consider inlining=
- the
-correct bit mask (e.g. IMA_NONACTION_FLAGS & ~IMA_NEW_FILE) and expanding t=
-he
-existing comment.
-
->=20
-> Cc: stable@vger.kernel.org=C2=A0# v4.16.x
-> Fixes: 11c60f23ed13 ("integrity: Remove unused macro IMA_ACTION_RULE_FLAG=
-S")
-
-Please update the Fixes tag to refer to commit 0d73a55208e9.
-
-> Reviewed-by: Mimi Zohar <zohar@linux.ibm.com>
-> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
-
-> ---
-> =C2=A0security/integrity/ima/ima.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
-> =C2=A0security/integrity/ima/ima_main.c | 2 +-
-> =C2=A02 files changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/security/integrity/ima/ima.h b/security/integrity/ima/ima.h
-> index e1a3d1239bee..615900d4150d 100644
-> --- a/security/integrity/ima/ima.h
-> +++ b/security/integrity/ima/ima.h
-> @@ -141,6 +141,7 @@ struct ima_kexec_hdr {
-> =C2=A0
-> =C2=A0/* IMA iint policy rule cache flags */
-> =C2=A0#define IMA_NONACTION_FLAGS	0xff000000
-> +#define IMA_NONACTION_RULE_FLAGS	0xfb000000
-> =C2=A0#define IMA_DIGSIG_REQUIRED	0x01000000
-> =C2=A0#define IMA_PERMIT_DIRECTIO	0x02000000
-> =C2=A0#define IMA_NEW_FILE		0x04000000
-> diff --git a/security/integrity/ima/ima_main.c b/security/integrity/ima/i=
-ma_main.c
-> index 46adfd524dd8..7173dca20c23 100644
-> --- a/security/integrity/ima/ima_main.c
-> +++ b/security/integrity/ima/ima_main.c
-> @@ -275,7 +275,7 @@ static int process_measurement(struct file *file, con=
-st struct
-> cred *cred,
-> =C2=A0		/* reset appraisal flags if ima_inode_post_setattr was called */
-
-Update the comment based on the original commit 42a4c603198f ("ima: fix
-ima_inode_post_setattr") patch description.
-
-thanks,
-
-Mimi
-
-> =C2=A0		iint->flags &=3D ~(IMA_APPRAISE | IMA_APPRAISED |
-> =C2=A0				 IMA_APPRAISE_SUBMASK | IMA_APPRAISED_SUBMASK |
-> -				 IMA_NONACTION_FLAGS);
-> +				 IMA_NONACTION_RULE_FLAGS);
-> =C2=A0	/*
-> =C2=A0	 * Re-evaulate the file if either the xattr has changed or the
+-- 
+2.34.1
 
