@@ -1,67 +1,117 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 494DB20CCE6;
-	Tue,  4 Feb 2025 13:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D86213E65;
+	Tue,  4 Feb 2025 13:26:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738675521; cv=none; b=ZBbBIFOkdy5T9s5YKaoyevPfdw0djlk4zw3BQDtrs2jqyI0AFdB8VWiTXU39T31+1xjweAHeuyKOP9pLzgTtBlQ8od7CxHdacj1CBMiDz4Lwu37DK3Tq64UwYiedq5QPvhxcrIG+NmxMrrl6SjCyCtHnb+1YzBEAfz+4zCFlQDY=
+	t=1738675582; cv=none; b=PkJT9eFn4Za80C5I4Ux5lqXnTZIzg/+H8WD7oeKN81FxQPid4Y5d5syVyo2xJw+Nk6YvCQnzq+HfA8pC2Xu38PVHIp6K1+pcKISnEwZdPXRYAIIxsiaG8TE16manCg7nQHUSrrvRTuHxmxjlA+crxciVkOScxOP7YVflx4SBhgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738675521; c=relaxed/simple;
-	bh=KXErA1Z10wN53fMN9l+gTf0NXOxQj75p+H91zUNyAQQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CyijoCF691MP54ZkW9mEW2/yZGTMfiA7d/yTiHUdiKhZT7lrPY6o26uK1n2TFpCfR+6ZL8KzavLbc4AnOQzycaaR8iU0UjK9+v9H2uGVlbaLbxYb9O0hmfI5fJsQ3njTJ/bCzqmYid26+o4/RvsiK5jIbrYIry/SaNwMyR4CQEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=2zFzisSX; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1738675582; c=relaxed/simple;
+	bh=D1W0lSW3hhznEl89GtNTmJa3DXeoKQUNCxnqOJtkDsM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cfrqQQDJ262etJVYD5fNfp+CkwKc4zdTbpxW42kj6NdWuSR9auVFfm2NGvjPW3iemmrKxABhZdk964GmDc2w+j5c5U6CUafHrhxPsngJnpEyL3OBvHlUSnu7mMaoa2JeRqSKm9Jfb4dZLKfaoXFhM9GtG9Zk+TM1rn8dEZjP8Ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hSGM2nJP; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="2zFzisSX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=tONImgsZBFCRForerTmlmeGunNv/sZwoa1eaSkXh+mc=; b=2zFzisSXwqfHPQ34Ne/nudwNgE
-	JOLehRzweCGO74P23+ZVKqb6XFDggVlCazJOp/Ws0ndQcNzq7Vn0knOFZ2UGS2AZWLXP3+22YNJmv
-	qZwv9Ue+8bEzaykYR+oFBznvfhm1bxKH+YwVrqGGNveSUHv+2QYPb7T3uYcxOBVsIALI=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1tfIvL-00ArLk-CM; Tue, 04 Feb 2025 14:25:07 +0100
-Date: Tue, 4 Feb 2025 14:25:07 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Simon Horman <horms@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Alexandre Ferrieux <alexandre.ferrieux@gmail.com>,
-	netdev@vger.kernel.org, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH net] docs: netdev: Document guidance on inline functions
-Message-ID: <de8d372b-0f2e-4c42-9d6b-8aecbb4645ef@lunn.ch>
-References: <20250203-inline-funk-v1-1-2f48418e5874@kernel.org>
- <874j1bt6mv.fsf@trenco.lwn.net>
- <20250203205039.15964b2f@foz.lan>
- <20250204115410.GW234677@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hSGM2nJP"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-219f8263ae0so103259295ad.0;
+        Tue, 04 Feb 2025 05:26:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738675580; x=1739280380; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MSyTlNCiPQbh+bsbPywvd7QCckbJTtwgD1uOlxbsISQ=;
+        b=hSGM2nJPmbpUsXkY5IJkZzQyfQOzkym/x5vX94mXQPPi2y/wjrsvVNazd35iZUb9kg
+         drjQJk8KuZClDABdQ4Rf8lDR42tT23j4xqoHgQE2oC196oUg2TD5drPp7Uv08pVOPSfm
+         lNqtxZAzXSUO3CLgFVsZQsPr8mIZu43ph8vMctu5Eopy+HtWJURFm0ZI3Q3JMGkOVLdS
+         Yxf/0S8nSrZ4gtWRHUWbnXhuPqyy+haI/6w3NvzyO5AGLbAyh4/GBMAr1Mag50aCMJmx
+         a+9PUwh0NVdTdsF8m8hCqIZ9tzoShY3dR7WEbrIBKoFIjbaDLuConslIJpPmRmhqi8j5
+         MXVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738675580; x=1739280380;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MSyTlNCiPQbh+bsbPywvd7QCckbJTtwgD1uOlxbsISQ=;
+        b=uwxUlehs9iY04flUC1Qz6vdT/ul8TnhifLM2WGsn4R8Bja1Os/qE4LBmTvpXWIOzx4
+         fXHAPV+WvOQJFQohG36SSvqJYkf3ZV/lddPdzhcIfLbA7eR/5qWzxC/hKDLKsXV1cP4O
+         3tAfSXoPXO2XDtm9Sz68IXiL9ujhtXsdcqVUShex5Yem18HwZzqtyJkUbgE2sewruTuf
+         HKsLgmTjWEP/u6ifuMX0BcrlXxVGeG/AeehOjBTi70LaI386JIWrDx6Tl+OZaMy6Waej
+         tUEi7kdZrNNqMZcDXcCHa+8zQwCq8gR3QpWXwS/uOKxlyQ5USsT5JJZuNJ5+v2OyEZ2D
+         YK/w==
+X-Forwarded-Encrypted: i=1; AJvYcCWGfGCx5TQNeKBE2+NhJgRsJVUQpswk6jicJ+xbAmFKN1DEfj+ASrgCr3sa6KlS56zswrF7nkhsz/OmR73D@vger.kernel.org, AJvYcCWTyo48r+SacFwv6/5clFWn8P8A80KR945oWR155SV1y9JtHAL81LzPzDnz9lND4EsGDmnyt9G9xqw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzU+TUAoz5ufZabrcwkgY3JqyQhQTEr7/S6ObmCQduCdY+xtFCK
+	LLAZPF2nAkbT5TzJ438jKLuCjdZqLgj5Xj/RnkPACc6FCrFyBs7C
+X-Gm-Gg: ASbGnctr2Z9Q5/9grUpnCJKKq0YbZuPK84/37LDw1iePPXx+eT3+wMDeoPqiGiEKNMa
+	U98pUPoB17DdyoEVBRxoShEu7XyhNEKC9RXPv/1MvIAkK5sW+L8WkBPB+hS+nZXHygSsguabRVn
+	VtNAD/2O4gvgBcI3YaBHeRCocXSvvNlvNO1SI3gwiE3ECqp9ViF7s/7xfSXg/d2aVn8XMUsp3QG
+	eKgg3Ls6ehXtp5kIIxZp9i6+zVb6H6sp/bU2y6Zj+iSntwmHVZcScfKRQKceO6Gbixyb3KLn0sh
+	A5p7Hg7EEN3ZRhndsdoCgLbRzCxowQF2U2Nv06+ZQ0c3jODQ1xoUwzTOIzR6Vw==
+X-Google-Smtp-Source: AGHT+IFHEFE2r/dCdycRGjz42sPrvgEfxh6qVWzazr2Uqj2El6VyShPNSy9RSy0+dCTl2r2K4mg5cA==
+X-Received: by 2002:a05:6a00:1411:b0:725:9f02:489a with SMTP id d2e1a72fcca58-72fd0c5ee8cmr36415854b3a.17.1738675580047;
+        Tue, 04 Feb 2025 05:26:20 -0800 (PST)
+Received: from ?IPV6:2409:40c0:1019:6a4a:7b6:abc:27dd:e5f? ([2409:40c0:1019:6a4a:7b6:abc:27dd:e5f])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72fe631bf13sm10446186b3a.32.2025.02.04.05.26.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Feb 2025 05:26:19 -0800 (PST)
+Message-ID: <719aa4cf-15d2-4e4b-8f40-cb6f5958120e@gmail.com>
+Date: Tue, 4 Feb 2025 18:56:14 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250204115410.GW234677@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: Move "debugging" section to the top in index.rst
+To: corbet@lwn.net
+Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250203195323.13012-1-purvayeshi550@gmail.com>
+Content-Language: en-US
+From: Purva Yeshi <purvayeshi550@gmail.com>
+In-Reply-To: <20250203195323.13012-1-purvayeshi550@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> Thanks, perhaps something like this would help:
+On 04/02/25 01:23, Purva Yeshi wrote:
+> Move the "debugging" entry to the top in Documentation/trace/index.rst.
+> Turn index.rst into a good starting point for people wanting to learn
+> about tracing. Make it the first document users see, as it serves as a
+> tracing tutorial
 > 
->   Using inline in .h files is fine and is encouraged in place of macros
->   [reference section 12].
+> Signed-off-by: Purva Yeshi <purvayeshi550@gmail.com>
+> ---
+>   Documentation/trace/index.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
+> index 2c991dc96ace..f3d235c8438b 100644
+> --- a/Documentation/trace/index.rst
+> +++ b/Documentation/trace/index.rst
+> @@ -5,6 +5,7 @@ Linux Tracing Technologies
+>   .. toctree::
+>      :maxdepth: 2
+>   
+> +   debugging
+>      ftrace-design
+>      tracepoint-analysis
+>      ftrace
+> @@ -24,7 +25,6 @@ Linux Tracing Technologies
+>      histogram
+>      histogram-design
+>      boottime-trace
+> -   debugging
+>      hwlat_detector
+>      osnoise-tracer
+>      timerlat-tracer
 
-The other major use of them in headers is for stub functions when an
-API implementation has a Kconfig option. The question is, do we really
-want to start creating such a list, and have people wanting to add to
-it?
+Apologies for not including all the relevant recipients in this patch 
+submission. I forgot to run the get_maintainer.pl script, but now I am 
+sending the patch again to the correct recipients.
 
-	Andrew
+Best Regards,
+Purva Yeshi
