@@ -1,72 +1,163 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56A8214816
-	for <linux-doc@vger.kernel.org>; Tue,  4 Feb 2025 17:03:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA6B215F63;
+	Tue,  4 Feb 2025 17:06:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738688605; cv=none; b=D7tegcQi+sW5BFlOsCs/OQIiaAlJcweMeY5/qLzGOxt8oIMmX+WQ08n1wLQTD19qBGdzCph4N/hW5Kc3dbVXNtTzLPHVF+dYsppXgGEvrp0XUXxanG58iQVUk3uiOvIz74ruZTjLvE3cnwulGQ3MY6Bw7qrS59lf4F/daIRShSE=
+	t=1738688796; cv=none; b=mZ1AqiiZbAxxHrhp6OkmhqmOqPjUhHAHByfK+98+7pavWeQkVh4XJHJzF4W2GWoR5Rh7b4Miq3TXHQJbpmC4dlIHl61ePMJ9KYwlTxQApQVcYYuHoySUjn+hyo3dSe0XDIYERzVlGIGHWIhDzuyiNzRYC38xDXSiLZ/Ox8kezps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738688605; c=relaxed/simple;
-	bh=gMjtbuhpv0g/9AHIbWsO4pl9eoA1i9dhChx7byd8t/I=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HrpsJuOVEZDTFgpZSiP5UfX0xgQaOCQCZJ0JzNpSciu0wAGRL1vhivIdHYjFGB2HDB/vIwzUKyxJZDo/eRcBDBVp3z6A1ybD3AhEsvM2R02BNjuvNt3JXwkZZmcX8khP5FYniPf5vCeSZCsll563y1vxbvZ0YBmLmJ2Vuqppke8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=jtcrihxg; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1738688796; c=relaxed/simple;
+	bh=Uo9TYmOBakXgSrIjdDYnFgF/JoUanhVHs9m3aE5b49c=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=sVvgcMtBXar7l6Oa7EZemmrkx35rgaE1lG0oA2MGg794uPnN7VuPNXYxHCO701AoKivLkw31Pp2M0UwwQJUh9SOs02ER4tJZvAGCKuFnWGFWxGpbYEJIfZ36nBHomCdMD8EBZr9ravW2xmyW0HoHQifFKpAJtjW/1nrUlRESa4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=dum4bEeD; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="jtcrihxg"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D4A7A404FA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1738688603; bh=OsukquoMnl673UX9Wqm/VKZFGHHy8vkxxC7cIiC9XoU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=jtcrihxgtKgu23j9H1UKjpp/y0sJqOGZd7OSeuJdp3bR+/nJpSuPHNjWXQoaRDuO6
-	 UvY1qbIhbnqHZQG+ZKypuWajiH92/euAiYpxFESyC5K9cIZV6JLjRfWMbhD1gv72Fy
-	 +LvHsoNzjXd9zr5KZ6trxx2xgubNSkaNr2Pjss6MW+MPDCpnjaNhTEkFwq19TaA2jp
-	 lb3Gaim0Jlmu8jll9flt1tRdukfoOoZTa35KEIs0woIW4jF/twJmNMJ50gr/0fNmlc
-	 9PWlqzy1W0okcMht/SOH7SOmr/h7YeO7SEgQdWgbDlM3SYz5GyW6m4oXjfCyUJn83/
-	 RpLT0p78rsNNw==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id D4A7A404FA;
-	Tue,  4 Feb 2025 17:03:22 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>, alexs@kernel.org,
- si.yanteng@linux.dev
-Cc: zhaoyuehui@cqsoftware.com.cn, zhaoshuo@cqsoftware.com.cn,
- zhangwei@cqsoftware.com.cn, maoyuxian@cqsoftware.com.cn,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs/zh_CN: Add security credentials Chinese translation
-In-Reply-To: <20250114022843.22489-1-zhaoshuo@cqsoftware.com.cn>
-References: <20250114022843.22489-1-zhaoshuo@cqsoftware.com.cn>
-Date: Tue, 04 Feb 2025 10:03:22 -0700
-Message-ID: <87msf1fxr9.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="dum4bEeD"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 990C3204A5;
+	Tue,  4 Feb 2025 17:06:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1738688791;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=NbKWrUj5DH+ipE3128VhtvBM8i5MKd4ENodVzB9EN24=;
+	b=dum4bEeDpEMj4m3terDwTCx+AenVPo1F+TBThIxMUFSFsE7dSELNu4ktbs7cewXUAU/Z3v
+	nY3iMawBw+co19WbUMa0wbqHnMc88umRGzGOLk4VGYHBV9CSGz7pk4jnj65fZzTA63Vve5
+	mEPpt1zdfLqL6aSPk49FRKobJVPVm29umiTSbgPNul1kp3ubz50XSviOXHGAxdPH+ErT+V
+	N7W6Fi1s3GssZ+2UpweINnpmfch5rxlZOEzchA6LfdFk7kQv1prYLA6sxgSSZkIxYS84Is
+	fEqCB8WoxPFsHzbSYcRGEHiCzks4Fx9Uc1iIEf6/uOHOyAt6BPcsmku4YnvUnw==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH v17 0/7] drm/vkms: Add support for YUV and DRM_FORMAT_R*
+Date: Tue, 04 Feb 2025 18:06:11 +0100
+Message-Id: <20250204-yuv-v17-0-9c623880d0ac@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAANJomcC/23T23KbMBAG4FfxcF3aXR1WUq76Hplc6FgzY0MKt
+ ieZTN49i8GFFO6MvB8r9Gs/qiH3TR6qp8NH1edbMzRdyw9ofhyqePTtn1w3iRcqAUKBAKzfr7c
+ apTTJQXLaUMWVwQ+5Dr1v45Fr2+vpxIuvfS7N2/3dzy/8fGyGS9e/31vdcFz9/tIb1lDL6KWhI
+ gxJ8Tt03eXUtD9jdx673Ks10lRtuToWm6hYUhLyt+qx302segg5KcHKewpZWGFCMFsl12ruJVm
+ VQiQKOKdS2Cq1KAlqUoqV4VY+2uyMk1ulVwrnHWpWmRBiSCCLFltFi1LgJkWsUsaojbAlGdgqs
+ yj96GXGE7eQXSk5atjp5RZlQUzKsQLrDRCRy0hbhbBm8xaRVY3eREMKicrO2ePqWjgJsxvvhQr
+ oBYVYotvrt0SNAGZ2Y9aAEX3yxN9nd9wSNiLa2Y1p+wgpKRRO7yWAauXEfCyo7slRsjIJmyDuu
+ CVwFPJx7e+J8x5DkCBs3vu+f5FrQPFwY+aesDjt+Vb+Ny8vn9MI9vnvlaf6Ms3hNKn8/7m5PB1
+ Sf67PzRB/PX7UbX67MP38AvJzkSoYBAAA
+X-Change-ID: 20240201-yuv-1337d90d9576
+To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, rdunlap@infradead.org, 
+ arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>, 
+ pekka.paalanen@haloniitty.fi, Simona Vetter <simona@ffwll.ch>, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com, 
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com, 
+ nicolejadeyee@google.com, linux-doc@vger.kernel.org, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, 
+ Pekka Paalanen <pekka.paalanen@collabora.com>, 
+ =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2765;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=Uo9TYmOBakXgSrIjdDYnFgF/JoUanhVHs9m3aE5b49c=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBnokkOHGUwUKXa03uhXBeHaYFH9DONYajB82mp9
+ MyMHfVKwbyJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ6JJDgAKCRAgrS7GWxAs
+ 4gluD/9PIcTe5DDO8UtoSpy2EsiyXYXON0qHT4cT8tEukVeLzIJDwzkErhpHwgDsXbzzdwF8tp2
+ NGku79iBcBFCaWRMqTAVx742IxZTLv+yiSg9cAmld4RxohnyXMc+D/sqNV1Rq2bvPiN4Ko+t4Qe
+ sA1c+NaX7HUdvRjjfWqzMtccywxa5O1Kuh7FHb8d05yk0cPPCdzUP03yVRIyk/LJHfgwGsYLbet
+ n4oeWJYCk8bsRt/HZZXUz3NBFYoX/8p7PkNjWr3R/ZFDIOGaipdKhM/bHroB5BMySGj9nKmhnip
+ 53W+wqhSs5e7PzYs2RYoU6POD+Ep7F+80IGxW+XqT6NKZA0chrHdN3XwqXDcdlRFRi7gg14GxaW
+ keF3g2b0HqMMsz+ppDNDiDnME72v4Kx1GEAGVok+uKXlJGga7eFyFKyOH7vEaTG7Ho9Thm4BLZB
+ D7KWmQ7H4jCA7S4XOU2sSJ9h3lcAcSZ5c0WVM79xZEm92nXS4LRk94VD5WdNlpvTzd84l3EqdMl
+ hUv/PkpYb3ghz2hq9OFDrrbt04oOb59JXPwDieQNJSUMpKRnnEBG4u6C+dT9RhyTPVNuqu+QHHp
+ 53/13MZBZQv3z/rZg74A7Fo/rfA9wrglLBCz4BgmMP6IoY76kUhup8icyuZzYW66HDBeyovV1gY
+ p/O/Lkh0grCPEyg==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvuddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffufffkgggtgffvvefosehtjeertdertdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepjeeludffieekfeekjedvjeffffeuveefieeghfeihfdugeekhfejjeevhfdvfeejnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgdujedvrddukedrtddrudgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdeipdhrtghpthhtoheprhhoughrihhgohhsihhquhgvihhrrghmvghlohesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepnhhitgholhgvjhgruggvhigvvgesghhoohhglhgvrdgtohhmpdhrtghpthhto
+ hepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepmhhiqhhuvghlrdhrrgihnhgrlhessghoohhtlhhinhdrtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtohepphgvkhhkrgdrphgrrghlrghnvghnsegtohhllhgrsghorhgrrdgtohhm
+X-GND-Sasl: louis.chauvet@bootlin.com
 
-Shuo Zhao <zhaoshuo@cqsoftware.com.cn> writes:
+This patchset is extracted from [1]. The goal is to introduce the YUV
+support, thanks to Arthur's work.
 
-> Translate .../security/credentials.rst into Chinese.
->
-> Update the translation through commit cf92ec602ac5
-> ("Documentation: remove current_security() reference")
->
-> Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
-> Reviewed-by: Alex Shi <alexs@kernel.org>
-> Signed-off-by: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
-> ---
->  .../zh_CN/security/credentials.rst            | 479 ++++++++++++++++++
->  .../translations/zh_CN/security/index.rst     |   2 +-
->  2 files changed, 480 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/security/credentials.rst
+- PATCH 1: Add the support of YUV formats
+- PATCH 2: Add some drm properties to expose more YUV features
+- PATCH 3: Cleanup the todo
+- PATCH 4..6: Add some kunit tests
+- PATCH 7: Add the support of DRM_FORMAT_R1/2/4/8
 
-Applied, thanks.
+[1]: https://lore.kernel.org/r/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
 
-jon
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+---
+Changes in v17:
+- Rebased on drm-msic-next
+- Updated comment in kunit test
+- Updated test count in kunit test
+- Link to v16: https://lore.kernel.org/r/20250121-yuv-v16-0-a61f95a99432@bootlin.com
+
+Changes in v16:
+- Rebased on drm-misc-next
+- Updated comment and changed fail thresholds. 
+- Link to v15: https://lore.kernel.org/r/20241231-yuv-v15-0-eda6bb3028e6@bootlin.com
+
+Changes in v15:
+- Export drm_get_color_encoding_name only for kunit tests
+- Link to v14: https://lore.kernel.org/r/20241122-yuv-v14-0-e66d83d28d0c@bootlin.com
+
+Changes in v14:
+- Rebased on drm-misc-next
+- Link to v13: https://lore.kernel.org/r/20241118-yuv-v13-0-ac0dd4129552@bootlin.com
+
+Changes since previous series:
+ - Fix build test as modules issue: https://lore.kernel.org/all/202410110407.EHvadSaF-lkp@intel.com/
+ - Export required symbols in DRM core to use them in kunit
+ - Update the kunit comments according to Maxime's feedback
+ - Link to original series: https://lore.kernel.org/r/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
+
+---
+Arthur Grillo (5):
+      drm/vkms: Add YUV support
+      drm/vkms: Add range and encoding properties to the plane
+      drm/vkms: Drop YUV formats TODO
+      drm/vkms: Create KUnit tests for YUV conversions
+      drm/vkms: Add how to run the Kunit tests
+
+Louis Chauvet (2):
+      drm: Export symbols to use in tests
+      drm/vkms: Add support for DRM_FORMAT_R*
+
+ Documentation/gpu/vkms.rst                    |  15 +-
+ drivers/gpu/drm/drm_color_mgmt.c              |   3 +
+ drivers/gpu/drm/vkms/Kconfig                  |  15 +
+ drivers/gpu/drm/vkms/Makefile                 |   1 +
+ drivers/gpu/drm/vkms/tests/.kunitconfig       |   4 +
+ drivers/gpu/drm/vkms/tests/Makefile           |   3 +
+ drivers/gpu/drm/vkms/tests/vkms_format_test.c | 271 +++++++++++++++
+ drivers/gpu/drm/vkms/vkms_drv.h               |  18 +
+ drivers/gpu/drm/vkms/vkms_formats.c           | 467 +++++++++++++++++++++++++-
+ drivers/gpu/drm/vkms/vkms_formats.h           |   9 +
+ drivers/gpu/drm/vkms/vkms_plane.c             |  29 +-
+ 11 files changed, 831 insertions(+), 4 deletions(-)
+---
+base-commit: 8cca475b8085e551b3eebf4f2164e56c800402e0
+change-id: 20240201-yuv-1337d90d9576
+
+Best regards,
+-- 
+Louis Chauvet <louis.chauvet@bootlin.com>
+
