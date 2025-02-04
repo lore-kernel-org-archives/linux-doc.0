@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD112165E8;
-	Tue,  4 Feb 2025 17:37:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F5E2185A8;
+	Tue,  4 Feb 2025 17:37:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738690651; cv=none; b=dnsUyelbWAjtU/ejfR+r03BFvoITr6Q8c4lLfr/M97EAW4aRjlJNzJxd4xIN6VObP2K7p5GZYAue2tsdFWh2r7AnjZGjm2pYrKnPpsKZBiJLqRigXkMRf1mjRbPqefuUNIY2PWlfa44VaqafBeoSR+Abz/WbcNfdJU8vIC9VJIQ=
+	t=1738690663; cv=none; b=fyU8+EKmpaGg4X7iD7tTnstD1fL/TV/wvZ6AWT59xuwJdzczcyE8ZrrbVyW50tmsRHkM9CyelmB6bJHL8pVXJAUgwF+ZegmS70lE77hczYef/3N7474MVKWVESkG4MZ/OpluG5/KWVxve5GioabyicStJMyoimu4Pdepk9FmZMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738690651; c=relaxed/simple;
-	bh=oiRBgvokfmZMzIN+jtwGJEePgjLFxs7ade5tHmSo4go=;
+	s=arc-20240116; t=1738690663; c=relaxed/simple;
+	bh=Ht7/TOmkT+iwiNKb8KTAnbXFoYcUy6oM0kb2gCQ20Wc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=puBU+/sQ0C6paUOFHKbD9ZKh/IvHqLmtBc06ez87gJKq+5Q28J3IqzYr6mvL5kWYglUrAOX6tEfQiQchgMWTmvwOL0HDKH6z/OgDVIQzK4/LDYKLbj6dJ6SjhlUG7W7JggH+maTeR9rwpj12XHbk/6soFHqMuxepPLJdmqwzwxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AT+emMBs; arc=none smtp.client-ip=198.175.65.20
+	 MIME-Version; b=JsUOUR4nqPYmfku8p69iEh51606tztEWGm6OPp1YRBVM4mLEZwrD3nq9H7O4n5JeqvaoY2zpH/0X46RfINwWTQhNmGQeNd6eNueZdY54GKeFRQ1bFSE3Xl0Mcp/MM6oN25DuohWT2BrM0wpnnO0bN0ZSYaygdy0jFELth8+nlVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F7XPcWxS; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AT+emMBs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F7XPcWxS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738690649; x=1770226649;
+  t=1738690662; x=1770226662;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=oiRBgvokfmZMzIN+jtwGJEePgjLFxs7ade5tHmSo4go=;
-  b=AT+emMBscQCyn5fPQ0oRIf8s1+/d9RwkDxYMHXX17mDxoicd+LJWOuql
-   geskYX11c+AAzWrHvldMohSNmfnEGiQdy+kv/pJnxUrlpFswzzsAzI0Cq
-   jy13QgoMsIBxhruW2ZqAMoFWabJM8BDv5EC5BuIGZzwJZ4HBMe6fP2g62
-   R+eV2bJlg52AwWy1Ou8c5BEZMWqD6jJkWdrgGEeZjoibPrWWGT3fPxdS0
-   R0QO1iDNLI7pnezuNXF7v3EB5fBt3Q7HFszVJd2HgnP+JGLDm6cStpnN8
-   S94DXFk0kg2w/nXh7IFPyousj4GdP0EiGRz8RkhxDl8vSLWJIIjrjjjW3
-   A==;
-X-CSE-ConnectionGUID: TUiqvFdBQDmPQDh4wL0PMg==
-X-CSE-MsgGUID: PsWR+aN/S5KFnRReagCVAw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="38931159"
+  bh=Ht7/TOmkT+iwiNKb8KTAnbXFoYcUy6oM0kb2gCQ20Wc=;
+  b=F7XPcWxSQup1ygaEE4vV/PWueMPDhbOr0FzR6ddIpOXvVpoZSVPg1nE/
+   kcG1v8fwsa+EsIZRi0rP4HHzE1wXY+tHjxZHWq+nRwAE/oSQRCCYpDqBQ
+   yijZXa1EbEH+U5IFB4twvX2G5i6atp0HhpKOlXXXTkOnVFh/DOerx5R1F
+   kccGlRtx0y8D6qB9vcEAKUcdYGlcHpipjgdDkBiDQ3CpHHtopKJZKABzo
+   4JSJ5HgXSZ+iO5rwG0DmxYGlVNK/7O9FT5/ZFJCa5KJll48xBpoV+tarO
+   tyVf4cv8Lm7byHgk7l/qd+uz9xXXSm+3A6rvFasEDSM1DZ3vQOy+h/v6G
+   w==;
+X-CSE-ConnectionGUID: w+VdoRepR26y1WNGgzMUGA==
+X-CSE-MsgGUID: ZXlxW/+1Q0q1VA++y681uw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="38931217"
 X-IronPort-AV: E=Sophos;i="6.13,259,1732608000"; 
-   d="scan'208";a="38931159"
+   d="scan'208";a="38931217"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 09:37:29 -0800
-X-CSE-ConnectionGUID: VKIBhH62QgyxuyV1BEgDvg==
-X-CSE-MsgGUID: /T7gEKWsTDWNscbEm9C8IA==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 09:37:41 -0800
+X-CSE-ConnectionGUID: UAr5/zW7Rha56MjtNiYK0Q==
+X-CSE-MsgGUID: 2nPTC7p0TeC/cQLyC4Ywqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="147867163"
+   d="scan'208";a="147867266"
 Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO wieczorr-mobl1.intel.com) ([10.245.244.61])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 09:37:17 -0800
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 09:37:29 -0800
 From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 To: luto@kernel.org,
 	xin@zytor.com,
@@ -98,9 +98,9 @@ Cc: kasan-dev@googlegroups.com,
 	linux-mm@kvack.org,
 	llvm@lists.linux.dev,
 	linux-doc@vger.kernel.org
-Subject: [PATCH 14/15] x86: Make software tag-based kasan available
-Date: Tue,  4 Feb 2025 18:33:55 +0100
-Message-ID: <794a931acfb8e73e28c02932ef08bed9254f164e.1738686764.git.maciej.wieczor-retman@intel.com>
+Subject: [PATCH 15/15] kasan: Add mititgation and debug modes
+Date: Tue,  4 Feb 2025 18:33:56 +0100
+Message-ID: <450a1fe078b0e07bf2e4f3098c9110c9959c6524.1738686764.git.maciej.wieczor-retman@intel.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <cover.1738686764.git.maciej.wieczor-retman@intel.com>
 References: <cover.1738686764.git.maciej.wieczor-retman@intel.com>
@@ -112,93 +112,92 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Make CONFIG_KASAN_SW_TAGS available for x86 machines if they have
-ADDRESS_MASKING enabled (LAM) as that works similarly to Top-Byte Ignore
-(TBI) that allows the software tag-based mode on arm64 platform.
+With smaller memory footprint KASAN could be used in production systems.
+One problem is that saving stacktraces slowes memory allocation
+substantially - with KASAN enabled up to 90% of time spent on kmalloc()
+is spent on saving the stacktrace.
 
-Set scale macro based on KASAN mode: in software tag-based mode 32 bytes
-of memory map to one shadow byte and 16 in generic mode.
+Add mitigation mode to allow the option for running KASAN focused on
+performance and security. In mitigation mode disable saving stacktraces
+and set fault mode to always panic on KASAN error as a security
+mechanism.
 
 Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 ---
- arch/x86/Kconfig                | 8 ++++++++
- arch/x86/boot/compressed/misc.h | 2 ++
- arch/x86/include/asm/kasan.h    | 2 +-
- arch/x86/kernel/setup.c         | 2 ++
- 4 files changed, 13 insertions(+), 1 deletion(-)
+ lib/Kconfig.kasan | 28 ++++++++++++++++++++++++++++
+ mm/kasan/report.c |  4 ++++
+ mm/kasan/tags.c   |  5 +++++
+ 3 files changed, 37 insertions(+)
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index dfec7bc692d4..afbcf27ad278 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -36,6 +36,7 @@ config X86_64
- 	select ARCH_HAS_ELFCORE_COMPAT
- 	select ZONE_DMA32
- 	select EXECMEM if DYNAMIC_FTRACE
-+	select ARCH_HAS_KASAN_SW_TAGS_DENSE
+diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
+index d08b4e9bf477..6daa62b40dea 100644
+--- a/lib/Kconfig.kasan
++++ b/lib/Kconfig.kasan
+@@ -244,4 +244,32 @@ config KASAN_SW_TAGS_DENSE
+ 	  ARCH_HAS_KASAN_SW_TAGS_DENSE is needed for this option since the
+ 	  special tag macros need to be properly set for 4-bit wide tags.
  
- config FORCE_DYNAMIC_FTRACE
- 	def_bool y
-@@ -190,6 +191,7 @@ config X86
- 	select HAVE_ARCH_JUMP_LABEL_RELATIVE
- 	select HAVE_ARCH_KASAN			if X86_64
- 	select HAVE_ARCH_KASAN_VMALLOC		if X86_64
-+	select HAVE_ARCH_KASAN_SW_TAGS		if ADDRESS_MASKING
- 	select HAVE_ARCH_KFENCE
- 	select HAVE_ARCH_KMSAN			if X86_64
- 	select HAVE_ARCH_KGDB
-@@ -394,6 +396,12 @@ config KASAN_SHADOW_OFFSET
- 	hex
- 	default 0xdffffc0000000000 if KASAN_GENERIC
- 
-+config KASAN_SHADOW_SCALE_SHIFT
-+	int
-+	default 5 if KASAN_SW_TAGS_DENSE
-+	default 4 if KASAN_SW_TAGS
-+	default 3
++choice
++	prompt "KASAN operation mode"
++	default KASAN_OPERATION_DEBUG
++	help
++	  Choose between the mitigation or debug operation modes.
 +
- config HAVE_INTEL_TXT
- 	def_bool y
- 	depends on INTEL_IOMMU && ACPI
-diff --git a/arch/x86/boot/compressed/misc.h b/arch/x86/boot/compressed/misc.h
-index dd8d1a85f671..397a70558ffa 100644
---- a/arch/x86/boot/compressed/misc.h
-+++ b/arch/x86/boot/compressed/misc.h
-@@ -13,6 +13,8 @@
- #undef CONFIG_PARAVIRT_SPINLOCKS
- #undef CONFIG_KASAN
- #undef CONFIG_KASAN_GENERIC
-+#undef CONFIG_KASAN_SW_TAGS
-+#undef CONFIG_KASAN_SW_TAGS_DENSE
- 
- #define __NO_FORTIFY
- 
-diff --git a/arch/x86/include/asm/kasan.h b/arch/x86/include/asm/kasan.h
-index 79151356d5f2..99ff4ae83bf7 100644
---- a/arch/x86/include/asm/kasan.h
-+++ b/arch/x86/include/asm/kasan.h
-@@ -6,7 +6,7 @@
- #include <linux/kasan-tags.h>
- #include <linux/types.h>
- 
--#define KASAN_SHADOW_SCALE_SHIFT 3
-+#define KASAN_SHADOW_SCALE_SHIFT CONFIG_KASAN_SHADOW_SCALE_SHIFT
- 
- /*
-  * Compiler uses shadow offset assuming that addresses start
-diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-index f1fea506e20f..c300274e205a 100644
---- a/arch/x86/kernel/setup.c
-+++ b/arch/x86/kernel/setup.c
-@@ -1121,6 +1121,8 @@ void __init setup_arch(char **cmdline_p)
- 
- 	kasan_init();
- 
-+	kasan_init_sw_tags();
++	  The first one disables stacktrace saving and enables panic on error.
++	  Faster memory allocation but less information. The second one is the
++	  default where KASAN operates with full functionality.
 +
- 	/*
- 	 * Sync back kernel address range.
- 	 *
++config KASAN_OPERATION_DEBUG
++	bool "Debug operation mode"
++	depends on KASAN
++	help
++	  The default mode. Full functionality and all boot parameters
++	  available.
++
++config KASAN_OPERATION_MITIGATION
++	bool "Mitigation operation mode"
++	depends on KASAN
++	help
++	  Operation mode dedicated at faster operation at the cost of less
++	  information collection. Disables stacktrace saving for faster
++	  allocations and forces panic on KASAN error to mitigate malicious
++	  attacks.
++
++endchoice
++
+ endif # KASAN
+diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+index ee9e406b0cdb..ae989d3bd919 100644
+--- a/mm/kasan/report.c
++++ b/mm/kasan/report.c
+@@ -47,7 +47,11 @@ enum kasan_arg_fault {
+ 	KASAN_ARG_FAULT_PANIC_ON_WRITE,
+ };
+ 
++#ifdef CONFIG_KASAN_OPERATION_MITIGATION
++static enum kasan_arg_fault kasan_arg_fault __ro_after_init = KASAN_ARG_FAULT_PANIC;
++#else
+ static enum kasan_arg_fault kasan_arg_fault __ro_after_init = KASAN_ARG_FAULT_DEFAULT;
++#endif
+ 
+ /* kasan.fault=report/panic */
+ static int __init early_kasan_fault(char *arg)
+diff --git a/mm/kasan/tags.c b/mm/kasan/tags.c
+index c111d98961ed..2414cddeaaf3 100644
+--- a/mm/kasan/tags.c
++++ b/mm/kasan/tags.c
+@@ -78,6 +78,11 @@ early_param("kasan.stack_ring_size", early_kasan_flag_stack_ring_size);
+ 
+ void __init kasan_init_tags(void)
+ {
++	if (IS_ENABLED(CONFIG_KASAN_OPERATION_MITIGATION)) {
++		static_branch_disable(&kasan_flag_stacktrace);
++		return;
++	}
++
+ 	switch (kasan_arg_stacktrace) {
+ 	case KASAN_ARG_STACKTRACE_DEFAULT:
+ 		/* Default is specified by kasan_flag_stacktrace definition. */
 -- 
 2.47.1
 
