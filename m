@@ -1,575 +1,111 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91DA319882B;
-	Tue,  4 Feb 2025 10:30:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04252080D7;
+	Tue,  4 Feb 2025 10:38:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738665027; cv=none; b=R7ba4LtOkwwB2FkPerSfHKCz1VzJy+USwUFcLliN7jCxBk8tchtUb59W/2QePzu/n85OsX4uPRsctuO3lDSMFYfZfddgVKHEbm8afXU8WhTBlW8Fp0CN9hcOz/eSo3Ejf3ewoHhvF4u9flT2ZMo3UZ8wXh4LXQzVCpLxHDzHCqw=
+	t=1738665484; cv=none; b=ZXwQKnY8kw5UmIMkCETiKCTI62JxShx81fEPHlIs8uvgqmOuWONgySUtNmlqNC8zgwgljUWxBchx1T0QPVPtoXFLi9HdSZbhtDflYTEbAly1HlNMey2dlhgkICU4njtMA9OqAfLb/wqM5MVj9Gqfst/5OmKGrEB/d34kgy+BA2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738665027; c=relaxed/simple;
-	bh=Uiy1cWRwkSL3TX/57w+ZDHfYY4FEnaIsLYPVvlDtDwc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i1oJXnVNRtfREHgQZDKB9X6PTlv/y/72044o5NoKAGDCXYX+0In9v2Gfj9zTvzC2gcKn9d6p5Ey2C4kHzkTZq6Np3r5JpWPkAtOPgfnjEoJgI5QgBhVI51GPKpqQyzSaaQvt13NilNnQ/AMF2pT8mnAE1s5N260PzX3iPU25q7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ACBAF11FB;
-	Tue,  4 Feb 2025 02:30:47 -0800 (PST)
-Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 498CA3F63F;
-	Tue,  4 Feb 2025 02:30:22 -0800 (PST)
-Message-ID: <be73ba55-8dae-4102-ae2f-47a106dcbf92@arm.com>
-Date: Tue, 4 Feb 2025 10:30:20 +0000
+	s=arc-20240116; t=1738665484; c=relaxed/simple;
+	bh=iv/AVNgfSWY1/Vv/n1fXlzs30Cop06f31QI0gG5veQk=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=Du1gL+qJvGlmlkHW54n1yTXuX1ldfoArqYU2+wmU4sRaoVpZhGW7spTeGUmrfQgNA+lrNL5fRcJnDNwapNhXafAYRPe9wEZs+/DWd76Bj1cir8NarbznIKj0lcl9OZjl6frC9JKKjEJAZZOfkim8cWpBNGhyBRcp6+c9BYg5IDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QwK9XeCL; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QwK9XeCL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738665482; x=1770201482;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=iv/AVNgfSWY1/Vv/n1fXlzs30Cop06f31QI0gG5veQk=;
+  b=QwK9XeCLYXP2kaZYsOW1smFAvvUGnqJKM/qPuFPaEfaOe4ExF7BhiXzk
+   StTRqKdN1E3TSjDYU3MKIJ1FeAgjxG5jQGbqX9yO+8l69icvfjK+1qyY7
+   +2ybLJEZvTfAjho/C7TIlzkoxRIDS1HriDDQS1a31e6/23T1gEMGj8tmr
+   qBMc49lM2pyLUqjUjttIdq4kM05T0JSwOXW5KnyZ+Zjb38uqRVjPMOQ9K
+   ggOmCoJ6Kx5AMgInQvUrQSrmZFBxXM5RA5SEU5DRffedURLVhbn/wyZer
+   OTYBmrXwIGbk6PkYu9sN2hJlEMeYHEn4B+bIlEiOrCdeov5EgSfUjGbL0
+   g==;
+X-CSE-ConnectionGUID: aO4sMm80TfaeEBXZrEnFnQ==
+X-CSE-MsgGUID: qd3pou4HRi+On37tZ+y1CA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="38888121"
+X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; 
+   d="scan'208";a="38888121"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 02:38:02 -0800
+X-CSE-ConnectionGUID: /RIPVWf+SyeoojzmWMxnHQ==
+X-CSE-MsgGUID: jvAVQjluRMuGqmhRlZUcYA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="111407676"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.75])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 02:37:59 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Tue, 4 Feb 2025 12:37:54 +0200 (EET)
+To: Armin Wolf <W_Armin@gmx.de>
+cc: james@equiv.tech, markpearson@lenovo.com, jorge.lopez2@hp.com, 
+    jdelvare@suse.com, linux@roeck-us.net, linux-hwmon@vger.kernel.org, 
+    LKML <linux-kernel@vger.kernel.org>, Hans de Goede <hdegoede@redhat.com>, 
+    platform-driver-x86@vger.kernel.org, corbet@lwn.net, 
+    linux-doc@vger.kernel.org
+Subject: Re: [PATCH 4/7] platform/x86: hp-bioscfg: Use wmi_instance_count()
+In-Reply-To: <20250203182322.384883-5-W_Armin@gmx.de>
+Message-ID: <a02aa367-2ce8-ba6d-adc7-b91552566142@linux.intel.com>
+References: <20250203182322.384883-1-W_Armin@gmx.de> <20250203182322.384883-5-W_Armin@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC v2 08/38] ABI: sysfs-bus-coresight-*: fix kernelversion tags
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: James Clark <james.clark@linaro.org>, Mike Leach <mike.leach@linaro.org>,
- coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <cover.1738020236.git.mchehab+huawei@kernel.org>
- <33c5ec07012f1c05e3fd1df26d0f7422249571b5.1738020236.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <33c5ec07012f1c05e3fd1df26d0f7422249571b5.1738020236.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 
-On 28/01/2025 00:05, Mauro Carvalho Chehab wrote:
-> Some kernelversion tags are missing colons. Add them to comply with
-> ABI description and produce right results when converted to html/pdf.
+On Mon, 3 Feb 2025, Armin Wolf wrote:
+
+> The WMI core already knows the instance count of a WMI guid.
+> Use this information instead of querying all possible instances
+> which is slow and might be unreliable.
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-
+> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
 > ---
->   .../testing/sysfs-bus-coresight-devices-cti   | 78 +++++++++----------
->   .../testing/sysfs-bus-coresight-devices-tpdm  | 52 ++++++-------
->   2 files changed, 65 insertions(+), 65 deletions(-)
+>  drivers/platform/x86/hp/hp-bioscfg/bioscfg.c | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-cti b/Documentation/ABI/testing/sysfs-bus-coresight-devices-cti
-> index bf2869c413e7..a97b70f588da 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-coresight-devices-cti
-> +++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-cti
-> @@ -1,241 +1,241 @@
->   What:		/sys/bus/coresight/devices/<cti-name>/enable
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(RW) Enable/Disable the CTI hardware.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/powered
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Read) Indicate if the CTI hardware is powered.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/ctmid
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Read) Display the associated CTM ID
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/nr_trigger_cons
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Read) Number of devices connected to triggers on this CTI
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/triggers<N>/name
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Read) Name of connected device <N>
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/triggers<N>/in_signals
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Read) Input trigger signals from connected device <N>
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/triggers<N>/in_types
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Read) Functional types for the input trigger signals
->   		from connected device <N>
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/triggers<N>/out_signals
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Read) Output trigger signals to connected device <N>
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/triggers<N>/out_types
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Read) Functional types for the output trigger signals
->   		to connected device <N>
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/regs/inout_sel
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(RW) Select the index for inen and outen registers.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/regs/inen
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(RW) Read or write the CTIINEN register selected by inout_sel.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/regs/outen
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(RW) Read or write the CTIOUTEN register selected by inout_sel.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/regs/gate
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(RW) Read or write CTIGATE register.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/regs/asicctl
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(RW) Read or write ASICCTL register.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/regs/intack
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Write) Write the INTACK register.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/regs/appset
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(RW) Set CTIAPPSET register to activate channel. Read back to
->   		determine current value of register.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/regs/appclear
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Write) Write APPCLEAR register to deactivate channel.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/regs/apppulse
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Write) Write APPPULSE to pulse a channel active for one clock
->   		cycle.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/regs/chinstatus
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Read) Read current status of channel inputs.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/regs/choutstatus
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Read) read current status of channel outputs.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/regs/triginstatus
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Read) read current status of input trigger signals
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/regs/trigoutstatus
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Read) read current status of output trigger signals.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/channels/trigin_attach
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Write) Attach a CTI input trigger to a CTM channel.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/channels/trigin_detach
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Write) Detach a CTI input trigger from a CTM channel.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/channels/trigout_attach
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Write) Attach a CTI output trigger to a CTM channel.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/channels/trigout_detach
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Write) Detach a CTI output trigger from a CTM channel.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_gate_enable
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(RW) Enable CTIGATE for single channel (Write) or list enabled
->   		channels through the gate (R).
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_gate_disable
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Write) Disable CTIGATE for single channel.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_set
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Write) Activate a single channel.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_clear
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Write) Deactivate a single channel.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_pulse
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Write) Pulse a single channel - activate for a single clock cycle.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/channels/trigout_filtered
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Read) List of output triggers filtered across all connections.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/channels/trig_filter_enable
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(RW) Enable or disable trigger output signal filtering.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_inuse
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Read) show channels with at least one attached trigger signal.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_free
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Read) show channels with no attached trigger signals.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_xtrigs_sel
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(RW) Write channel number to select a channel to view, read to
->   		see selected channel number.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_xtrigs_in
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Read) Read to see input triggers connected to selected view
->   		channel.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_xtrigs_out
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Read) Read to see output triggers connected to selected view
->   		channel.
->   
->   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_xtrigs_reset
->   Date:		March 2020
-> -KernelVersion	5.7
-> +KernelVersion:	5.7
->   Contact:	Mike Leach or Mathieu Poirier
->   Description:	(Write) Clear all channel / trigger programming.
-> diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-tpdm b/Documentation/ABI/testing/sysfs-bus-coresight-devices-tpdm
-> index bf710ea6e0ef..53cb454b60d0 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-coresight-devices-tpdm
-> +++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-tpdm
-> @@ -1,6 +1,6 @@
->   What:		/sys/bus/coresight/devices/<tpdm-name>/integration_test
->   Date:		January 2023
-> -KernelVersion	6.2
-> +KernelVersion:	6.2
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(Write) Run integration test for tpdm. Integration test
-> @@ -14,7 +14,7 @@ Description:
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/reset_dataset
->   Date:		March 2023
-> -KernelVersion	6.7
-> +KernelVersion:	6.7
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(Write) Reset the dataset of the tpdm.
-> @@ -24,7 +24,7 @@ Description:
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_trig_type
->   Date:		March 2023
-> -KernelVersion	6.7
-> +KernelVersion:	6.7
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(RW) Set/Get the trigger type of the DSB for tpdm.
-> @@ -35,7 +35,7 @@ Description:
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_trig_ts
->   Date:		March 2023
-> -KernelVersion	6.7
-> +KernelVersion:	6.7
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(RW) Set/Get the trigger timestamp of the DSB for tpdm.
-> @@ -46,7 +46,7 @@ Description:
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_mode
->   Date:		March 2023
-> -KernelVersion	6.7
-> +KernelVersion:	6.7
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(RW) Set/Get the programming mode of the DSB for tpdm.
-> @@ -60,7 +60,7 @@ Description:
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_edge/ctrl_idx
->   Date:		March 2023
-> -KernelVersion	6.7
-> +KernelVersion:	6.7
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(RW) Set/Get the index number of the edge detection for the DSB
-> @@ -69,7 +69,7 @@ Description:
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_edge/ctrl_val
->   Date:		March 2023
-> -KernelVersion	6.7
-> +KernelVersion:	6.7
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		Write a data to control the edge detection corresponding to
-> @@ -85,7 +85,7 @@ Description:
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_edge/ctrl_mask
->   Date:		March 2023
-> -KernelVersion	6.7
-> +KernelVersion:	6.7
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		Write a data to mask the edge detection corresponding to the index
-> @@ -97,21 +97,21 @@ Description:
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_edge/edcr[0:15]
->   Date:		March 2023
-> -KernelVersion	6.7
-> +KernelVersion:	6.7
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		Read a set of the edge control value of the DSB in TPDM.
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_edge/edcmr[0:7]
->   Date:		March 2023
-> -KernelVersion	6.7
-> +KernelVersion:	6.7
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		Read a set of the edge control mask of the DSB in TPDM.
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_trig_patt/xpr[0:7]
->   Date:		March 2023
-> -KernelVersion	6.7
-> +KernelVersion:	6.7
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(RW) Set/Get the value of the trigger pattern for the DSB
-> @@ -119,7 +119,7 @@ Description:
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_trig_patt/xpmr[0:7]
->   Date:		March 2023
-> -KernelVersion	6.7
-> +KernelVersion:	6.7
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(RW) Set/Get the mask of the trigger pattern for the DSB
-> @@ -127,21 +127,21 @@ Description:
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_patt/tpr[0:7]
->   Date:		March 2023
-> -KernelVersion	6.7
-> +KernelVersion:	6.7
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(RW) Set/Get the value of the pattern for the DSB subunit TPDM.
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_patt/tpmr[0:7]
->   Date:		March 2023
-> -KernelVersion	6.7
-> +KernelVersion:	6.7
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(RW) Set/Get the mask of the pattern for the DSB subunit TPDM.
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_patt/enable_ts
->   Date:		March 2023
-> -KernelVersion	6.7
-> +KernelVersion:	6.7
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(Write) Set the pattern timestamp of DSB tpdm. Read
-> @@ -153,7 +153,7 @@ Description:
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_patt/set_type
->   Date:		March 2023
-> -KernelVersion	6.7
-> +KernelVersion:	6.7
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(Write) Set the pattern type of DSB tpdm. Read
-> @@ -165,7 +165,7 @@ Description:
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_msr/msr[0:31]
->   Date:		March 2023
-> -KernelVersion	6.7
-> +KernelVersion:	6.7
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(RW) Set/Get the MSR(mux select register) for the DSB subunit
-> @@ -173,7 +173,7 @@ Description:
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_mode
->   Date:		January 2024
-> -KernelVersion	6.9
-> +KernelVersion:	6.9
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:	(Write) Set the data collection mode of CMB tpdm. Continuous
->   		change creates CMB data set elements on every CMBCLK edge.
-> @@ -187,7 +187,7 @@ Description:	(Write) Set the data collection mode of CMB tpdm. Continuous
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_trig_patt/xpr[0:1]
->   Date:		January 2024
-> -KernelVersion	6.9
-> +KernelVersion:	6.9
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(RW) Set/Get the value of the trigger pattern for the CMB
-> @@ -195,7 +195,7 @@ Description:
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_trig_patt/xpmr[0:1]
->   Date:		January 2024
-> -KernelVersion	6.9
-> +KernelVersion:	6.9
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(RW) Set/Get the mask of the trigger pattern for the CMB
-> @@ -203,21 +203,21 @@ Description:
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_patt/tpr[0:1]
->   Date:		January 2024
-> -KernelVersion	6.9
-> +KernelVersion:	6.9
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(RW) Set/Get the value of the pattern for the CMB subunit TPDM.
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_patt/tpmr[0:1]
->   Date:		January 2024
-> -KernelVersion	6.9
-> +KernelVersion:	6.9
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(RW) Set/Get the mask of the pattern for the CMB subunit TPDM.
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_patt/enable_ts
->   Date:		January 2024
-> -KernelVersion	6.9
-> +KernelVersion:	6.9
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(Write) Set the pattern timestamp of CMB tpdm. Read
-> @@ -229,7 +229,7 @@ Description:
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_trig_ts
->   Date:		January 2024
-> -KernelVersion	6.9
-> +KernelVersion:	6.9
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(RW) Set/Get the trigger timestamp of the CMB for tpdm.
-> @@ -240,7 +240,7 @@ Description:
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_ts_all
->   Date:		January 2024
-> -KernelVersion	6.9
-> +KernelVersion:	6.9
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(RW) Read or write the status of timestamp upon all interface.
-> @@ -252,7 +252,7 @@ Description:
->   
->   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_msr/msr[0:31]
->   Date:		January 2024
-> -KernelVersion	6.9
-> +KernelVersion:	6.9
->   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
->   Description:
->   		(RW) Set/Get the MSR(mux select register) for the CMB subunit
+> diff --git a/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c b/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
+> index 0b277b7e37dd..63c78b4d8258 100644
+> --- a/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
+> +++ b/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
+> @@ -388,16 +388,13 @@ union acpi_object *hp_get_wmiobj_pointer(int instance_id, const char *guid_strin
+>   */
+>  int hp_get_instance_count(const char *guid_string)
+>  {
+> -	union acpi_object *wmi_obj = NULL;
+> -	int i = 0;
+> +	int ret;
+> 
+> -	do {
+> -		kfree(wmi_obj);
+> -		wmi_obj = hp_get_wmiobj_pointer(i, guid_string);
+> -		i++;
+> -	} while (wmi_obj);
+> +	ret = wmi_instance_count(guid_string);
+> +	if (ret < 0)
+> +		return 0;
+> 
+> -	return i - 1;
+> +	return ret;
+>  }
+
+Hi Armin,
+
+While it is the existing way of doing things, I don't like how the error 
+is not properly passed on here. And if the error handling is pushed 
+upwards to the calling sites, then this entire function becomes useless 
+and wmi_instance_count() could be used directly in the callers.
+
+-- 
+ i.
 
