@@ -1,97 +1,129 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BAB32C181;
-	Tue,  4 Feb 2025 16:30:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92D520D4F2;
+	Tue,  4 Feb 2025 16:38:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738686648; cv=none; b=OYb3xU0EuUY9dIouBWQSrllhQlqtkz7oUpjboeV6YpZIxGElUT9Fj//GDaqGr/zlCz6Cv6diEHV/cxjzCZyO7LZ74P/IW9jvvkyyI0pgid8U+2OKkP7Lbb6pZyIdwzCfd5guYgTj2WcjRcX+q3V8GMRJtuqbUcgaoJq9U/guOrY=
+	t=1738687085; cv=none; b=CrCJHCjt+xnXO/uNLlVxHva7uMIa3V2Cyg6+Etm14yO2TOwrhusTA92SzpCjlqenXydqPMPzImhbdW0Y2NKU64rA2Gb1JYjA8gnTc7vIaXK3vZ+LceKbgIMieJxwA5LOtNuoxjVTnBXZNTk0EOmSJ+YZIISUbB1jJ0TjblUZF8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738686648; c=relaxed/simple;
-	bh=opT0EkNK045NqLULfxBak/mtFGh/D/EUUcxWawHwc08=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ryy3+dkkMcfsbRUxbUZt55XGwEemt71hodLBqyq+henmFQBTNXaUp4c/FLZHyKTr0wah2mSwWJcX8lqOo3N28b2wY6QrYDojMyviXoNPZo1sqIBflMvOTQAjqFPwjvjdMIiS8fbd6JrlgH6sQVkL54UJZKJWIRRh3Kpiv+iBlV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bAm8wG9D; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738687085; c=relaxed/simple;
+	bh=iZxr5kI6Nt+9ll2rFIZkKqtFcDCd2+fWpG0a1BXS/s0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jqQq8rSom2FZaQ/YkOhutMkmx/cdEzQ+XVR5lVye6+SPsjTfMBmKCga8UsSRK123xRDDuVek5R/Eub4w32QSPFUqatF37k7PAjApPM3IM8Z6NhzsiZi94Cykkrz87Yh9OVrK3cc2n5hfpMFsZKoe8j9AHY8HQ1EGJz+y/LxHaL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=J/Dpc3Tx; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bAm8wG9D"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ab7430e27b2so300153666b.3;
-        Tue, 04 Feb 2025 08:30:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738686644; x=1739291444; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:reply-to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=opT0EkNK045NqLULfxBak/mtFGh/D/EUUcxWawHwc08=;
-        b=bAm8wG9DctJrbfa/3W5srXK7dIJWb2HLbk+eb0BffYNnXSBBqgD+B9Q3MVQU6dJo4p
-         N4j4B+uYh7Qhuo3H0/1hRHqPlyeROEc0wrVNkmx9JrHO+ztsdckCeStiyLLHBNtKa/XV
-         s3kcRgrSdVbnvUwrF0eohr3cb3U88HNtZplARuOfaVOHdJgoDliRVMIbQyKG1pXDZdEt
-         u4vxeuKtbsev3rleHveMnqv1SbekWIc23FpB0QdNZ/CjBO2SzsVYCWQF2EJOMYGiCWKZ
-         mzY2ZLUw8seI7na+QYo4St2uP30jzeBYt+uMY2//kWJCOmQs5DH9AWPsz1K9ZaI6mU+r
-         lSuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738686644; x=1739291444;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:reply-to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=opT0EkNK045NqLULfxBak/mtFGh/D/EUUcxWawHwc08=;
-        b=RDoZhXWrLst4a7LQ1rrP0JdGH5hNAawavmTUBDE0sMxNaKBJxM2k/gELe2ga3O5A5X
-         U5XN/on+mU68fma9vFNBXFPzJxYYn+ls8e09UYezLd03QExccxOadqPRwRuEljPTko9j
-         rIqMgdVE6aok7LmVtMC3CzJLz6VSMnP6d74WD73uoFWhGhrkPpB46N4AUI3p254XHkHv
-         i01XZ+LeIMT4zcH6xcEDtqzxYIpMpyoa9VGgSTr5aSVoE1qd+vaGfq+y2gK1PRispmlu
-         XF8B1ityKjhIpSaUEcwTrh7K+C7EJqJVrD9uXnI3lQJlWNYBYP10169gdE1xMIKUcMjn
-         +LOA==
-X-Forwarded-Encrypted: i=1; AJvYcCWwgwtP2Jshpmj711pqT4NtZz13dv9f2/tviCaTaO0xPEk33Jmqe72KAvulrbd5gMZdz7fn3/O4QFo=@vger.kernel.org, AJvYcCWxq0Kf902YN8ctdyBBBLVCkW1sibBM6jQbpvDkNutsihhZNLKlsvo91fHgAeiUhunnjUV7iPnBqPksEgiH@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOMBMaQCBzlcaE2hVxEhdYLsBRBhjQncAVKkq0AdagO8/e5LIl
-	AXVk4FdKOnZY0ygIqn8jQ9O+8VMXZtQfCgk+P03f0537NF9/OZbd
-X-Gm-Gg: ASbGncvyYlXj07iKRpTkGy4k0qbdYXoHvLRES/h4cLP5OxoZC0ErsgN8gidcXofpuUj
-	MtibQVKRSUChwIsbn+VWC4o/spFwnT7vz7cRbn/d4wLCBoQfXN4UsU5xmIcO0Slab3tsweCgSyU
-	QA9LHbdFqyU4dMmcxneCK6NQOdpfaeyqFX/dzOLf9lnDcTOgkoDRXPM96qTHgBhgp4a3tzcM1ik
-	BKFi47xuD3lgcWhvjDOsRa2i2VB4VMYIFUa6LBomdaIPgCCWd3JsIjC/YGvdFYdcT7cyVD7TJuO
-	UWfCiDTXImLkTXtVs20WP2MBjXgblNhJZLEH0IusZmGDOQ==
-X-Google-Smtp-Source: AGHT+IH61lE3K2Fe9bMptU65qQ5bSKC+NWM5L/H3ek6n1KHXY/vGtfhDxAqTVSPrx61q1nj+NCzpxg==
-X-Received: by 2002:a17:907:3d8d:b0:ab6:ef33:402 with SMTP id a640c23a62f3a-ab6ef330424mr2468214666b.18.1738686644242;
-        Tue, 04 Feb 2025 08:30:44 -0800 (PST)
-Received: from abityuts-desk1.ger.corp.intel.com ([134.191.196.181])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab6ff1bdbadsm762747266b.62.2025.02.04.08.30.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2025 08:30:43 -0800 (PST)
-Message-ID: <c3f03a5837e191c5371593ac0a0e3c56e4204567.camel@gmail.com>
-Subject: Re: [PATCH] intel_idle: introduce 'use_acpi_cst' module parameter
-From: Artem Bityutskiy <dedekind1@gmail.com>
-Reply-To: dedekind1@gmail.com
-To: "Rafael J. Wysocki" <rafael@kernel.org>, David Arcari
- <darcari@redhat.com>
-Cc: linux-pm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Len Brown
-	 <lenb@kernel.org>, Prarit Bhargava <prarit@redhat.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Tue, 04 Feb 2025 18:30:41 +0200
-In-Reply-To: <CAJZ5v0hp8f3Xjb7bkDR_+RYfTE1ck=qop_QMZ3+z4w7T0VS66g@mail.gmail.com>
-References: <20250128141139.2033088-1-darcari@redhat.com>
-	 <e9188365425d2a4c0dfa7cfa2b17ad3d9fcf2735.camel@gmail.com>
-	 <afbe2137-398b-4053-93e7-2a03aeb32220@redhat.com>
-	 <CAJZ5v0hp8f3Xjb7bkDR_+RYfTE1ck=qop_QMZ3+z4w7T0VS66g@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="J/Dpc3Tx"
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 514E1rpR006925;
+	Tue, 4 Feb 2025 11:37:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=
+	content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=f+IaR5QmLrnWJQXIuJGyLQlZrh8
+	FtyTOpN7BpgX7PM8=; b=J/Dpc3TxexqZLJJE7BDjgPpnsAVcHMpUY1prckYemMP
+	zUKhFOEYmOm0G6g5j28fNxaMafK33mq1Jf647n6jSqgNd9I7EYuATrIR4S8CSSYb
+	DpR0eMqwJLkWLzvZXb1pasE1hhpqfP+ZFZSfRc4ZKlR0MeeKJN5nwDvryEGIGvYk
+	BvNLcLVM8lI0ZVZYXl9ZBrL8Rscd7IkJb0P7qqNnQmk53PXpN6ldoXWhJirvJXTF
+	u/C45fS4Fu2UlZBR9auDR0nxjJtF9Ovj+javIg9AH9+ImQQJY2yacAI/G3pfBk5u
+	6mBhTRI5M/VvNal2iCAaQW/rZEZWmOQjMoGMXDlSqqw==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 44kma3gnsd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 04 Feb 2025 11:37:43 -0500 (EST)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 514GbgGL047803
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 4 Feb 2025 11:37:42 -0500
+Received: from ASHBCASHYB5.ad.analog.com (10.64.17.133) by
+ ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Tue, 4 Feb 2025 11:37:42 -0500
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
+ ASHBCASHYB5.ad.analog.com (10.64.17.133) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.14; Tue, 4 Feb 2025 11:37:42 -0500
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
+ Transport; Tue, 4 Feb 2025 11:37:42 -0500
+Received: from desktop-robi.ad.analog.com ([10.48.65.85])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 514GbMFF009577;
+	Tue, 4 Feb 2025 11:37:24 -0500
+From: Robert Budai <robert.budai@analog.com>
+To: Lars-Peter Clausen <lars@metafoo.de>,
+        Michael Hennerich
+	<Michael.Hennerich@analog.com>,
+        Alexandru Ardelean
+	<alexandru.ardelean@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        "Rob
+ Herring" <robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Nuno Sa <nuno.sa@analog.com>,
+        "Ramona
+ Gradinariu" <ramona.gradinariu@analog.com>,
+        David Lechner
+	<dlechner@baylibre.com>,
+        Marcelo Schmitt <marcelo.schmitt@analog.com>,
+        "Trevor Gamblin" <tgamblin@baylibre.com>,
+        Paul Cercueil
+	<paul@crapouillou.net>,
+        Antoniu Miclaus <antoniu.miclaus@analog.com>,
+        Robert
+ Budai <robert.budai@analog.com>, <linux-iio@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: [PATCH v6 0/6] 	Add support for ADIS16550
+Date: Tue, 4 Feb 2025 16:36:04 +0200
+Message-ID: <20250204143612.85939-1-robert.budai@analog.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Authority-Analysis: v=2.4 cv=Df7tqutW c=1 sm=1 tr=0 ts=67a24257 cx=c_pps a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17 a=IkcTkHD0fZMA:10 a=T2h4t0Lz3GQA:10 a=f1vxr5TaGUlwJKkhg4gA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: qBxa-k-AL21U-T9CvPeP75Kg5xXf35HO
+X-Proofpoint-ORIG-GUID: qBxa-k-AL21U-T9CvPeP75Kg5xXf35HO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-04_08,2025-02-04_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
+ spamscore=0 impostorscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0
+ bulkscore=0 priorityscore=1501 mlxscore=0 clxscore=1011 suspectscore=0
+ classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502040127
 
-On Tue, 2025-02-04 at 16:21 +0100, Rafael J. Wysocki wrote:
-> But it could be something like "prefer_acpi" as far as I'm concerned.
+*** BLURB HERE ***
 
-When I see "prefer_acpi", my intuition tells that it is just a preference:
-"prefer ACPI, but may be native too". But I understood that the patch is ab=
-out
-"only ACPI and never native".
+Robert Budai (6):
+  iio: imu: adis: Add custom ops struct
+  iio: imu: adis: Add reset to custom ops
+  iio: imu: adis: Add DIAG_STAT register
+  dt-bindings: iio: Add adis16550 bindings
+  iio: imu: adis16550: add adis16550 support
+  docs: iio: add documentation for adis16550 driver
 
-The reasons I suggested "no_native":
-* Sort of consistent with "no_acpi"
-* Suggests that native won't work.
+ .../bindings/iio/imu/adi,adis16550.yaml       |   83 ++
+ Documentation/iio/adis16550.rst               |  376 ++++++
+ Documentation/iio/index.rst                   |    1 +
+ MAINTAINERS                                   |    9 +
+ drivers/iio/imu/Kconfig                       |   13 +
+ drivers/iio/imu/Makefile                      |    1 +
+ drivers/iio/imu/adis.c                        |   36 +-
+ drivers/iio/imu/adis16550.c                   | 1156 +++++++++++++++++
+ include/linux/iio/imu/adis.h                  |   34 +-
+ 9 files changed, 1696 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
+ create mode 100644 Documentation/iio/adis16550.rst
+ create mode 100644 drivers/iio/imu/adis16550.c
 
-Thanks.
+-- 
+2.39.5
+
