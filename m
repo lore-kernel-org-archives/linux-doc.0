@@ -1,71 +1,41 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EF6212D86
-	for <linux-doc@vger.kernel.org>; Tue,  4 Feb 2025 13:04:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B72121127D;
+	Tue,  4 Feb 2025 13:06:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738674275; cv=none; b=b/k1pTdaDZKl5YyyltchkCJt0ohPt2wo5s8CiLOiWvzXndJg3A4nkq8ck4aLR9WoLEtT5Wzv9HjkYWYgAN9AbAehwaObqrgwn/LNfl0Dqcgb99HjqZdencDbkswJB4gQ1jaaAk2xDOPhsta3x50NCdU1k8+2CjuncSw0XwtWgig=
+	t=1738674420; cv=none; b=aNryl5CLgnXSjcwlk7lmLCXS1xEcdYo+FXwHHCjaXFoKi42AqhwnRaKXvtz1qBrd4gm34+7Lt5K3PsBsvRoFEwm//Dsvt6/Gaexh0gooA/lii1U5klKEspDrH5VDdgRsTAVHQOPcmRt1I4EfR/kKW+TGL4j2XkBd9pLKTbop+O0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738674275; c=relaxed/simple;
-	bh=Rgc/f+Wcmo8qz72B+3oz5Ap1lo4OkJi0UE2cbc/5xAc=;
+	s=arc-20240116; t=1738674420; c=relaxed/simple;
+	bh=2yjIa/gYvxvIpPrLvTh6dm6Hw5rnrXT7n/EHoV/hjSI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rm826P0vi9eACHay7lOeMS+ad71sxNoFV4BQ5j0WKBDDsSXQvwC6DwHlXzf+pIab+MSTFfkZeP+gPri9xvjiOuSPewNrD9gNjLY7NvAumZHwZ31VUQCWQRMMD/1vbjkO1YCIJeoU4wYR3ujzS+h+je5URZqfyM56rPd7qa7EcfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ef5Cj+a8; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=LSEqTmyLcnuq1cc7v2z5tHDudxv5ynQsZ2iCbDPHB0s0zQfO8Hy9TYespba9EtSOKWvk4bULl3cnQfyryZTNcWthR6IJmhmbNQ1H7JkEjoTVKXu8PGH2mcExt5q1cP4KfDWrHHfQw6/ssA9DO74PGjRkoAciSaawbcWl3zUarOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=QwuqUM+Z; arc=none smtp.client-ip=212.227.15.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ef5Cj+a8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738674272;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pppECrInPH/W14Lxcxk1t62QVheAxKn/rN+YSPe7sKs=;
-	b=Ef5Cj+a8B7xEuFhTNTifX4XzhA0y1c6yGd0RtkA8dv4Iv7aU3/1L2Ymd7eYLCglqxJJfOD
-	3cl/8NWYBohhzD9tHpWiNVUPIWXTduV3qxX9paOr2LBhT4kJCiWLKrq18fq7JpDTO208XR
-	w6jC78KCQDI1g5hOfQFsQ3S5zcfLjcU=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-472-Pt0pJlV1NhWW--Ww5X7N_A-1; Tue, 04 Feb 2025 08:04:31 -0500
-X-MC-Unique: Pt0pJlV1NhWW--Ww5X7N_A-1
-X-Mimecast-MFC-AGG-ID: Pt0pJlV1NhWW--Ww5X7N_A
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7b6e6cf6742so1597702385a.3
-        for <linux-doc@vger.kernel.org>; Tue, 04 Feb 2025 05:04:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738674270; x=1739279070;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pppECrInPH/W14Lxcxk1t62QVheAxKn/rN+YSPe7sKs=;
-        b=uG0JlsKa2B41ilO/x51ok1Xsf6ldRKF/cu5xLsITLi80hcuFvfXwh6U5Ww2LdtvQIl
-         hl3RcdF8HP5YKyUredqH+B68KCZNd1MSr+ofXr+j42sW4nd494hukscwVoLhXdRlX2Ap
-         Ts7mi2jALuyZp5O8d23sJFglYQiMWZDSgFf2JvWBbi1gZPgw+ororl3cQ0C3x7snzrsh
-         8ujuXoUVfHZKE2xgIYfbPbOnYf4m2NQ3uBbx36ZGp9BEdpIMzCWojcQ8XhrPGdVDYVYp
-         aCgMK2xqhkQGXJ5BBa+xvV2eVbqWJdJFsGLfxOHyXb29873ziUbNyV9VES7BeP3LKgRV
-         zYUw==
-X-Forwarded-Encrypted: i=1; AJvYcCX4eS9K+TXQJXdrW/ALqy67k6z6OQx8zQYRG4HPdfTiJ5CvSOSY5XmM3LI5R6Pf/TMMVGo1uiVTILg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzuX+9aCE8yxer03uMl3hS4jspYKwYAtoDxJo6DXt7QWopSsDv
-	A2lFlctn5yCG01tA6ysdBe3Wex3AU9QZDN0R/gqEmM4B5S+oLYuMAE2IGtT51StHOg4RFNzApPK
-	+UxsdiWRZQn8qwGLVBYb3u6qYk3yiQNCmLcpNwrVIaARmVQaLsP7/WL2WcA==
-X-Gm-Gg: ASbGncsaXZOSzqq/+tlYWOl27USLfEwKbR8Staah04DYcELte9HnBsRRHUKdItYM8Nb
-	Rl7pu4tNvIa/ZU/69oYobZQ7d3oTB9QREM9Gb9WMa0IVa9Y6RGXMHzoqZDOZWsQKqVCjyeVNueO
-	CkjMQidFdU5DUzlH8K9MGPxn88sh/kuXzs7c2ci4OcLgtF24PHyw5HbZ9MPuEXs2LQyn4QHm9oq
-	b7cd47Znk0JhpxMZEWbEYxW/p+IWL7v6eTomsGaHTAU9EkaZ7/y9oP1F1lbBkmD+7PZKXizRo5k
-	w9U=
-X-Received: by 2002:a05:620a:488f:b0:7bf:f916:faf3 with SMTP id af79cd13be357-7bffccbfe12mr4155344285a.8.1738674270540;
-        Tue, 04 Feb 2025 05:04:30 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFtDnf7KDOCUoIHnD6D3YYqYvSaIGGXyxEBh30BXHxvtFSgHTGtciLQnkmGdYC3a2+SLIAjBg==
-X-Received: by 2002:a05:620a:488f:b0:7bf:f916:faf3 with SMTP id af79cd13be357-7bffccbfe12mr4155328385a.8.1738674269355;
-        Tue, 04 Feb 2025 05:04:29 -0800 (PST)
-Received: from [10.26.1.93] ([66.187.232.136])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c00a8c8fafsm634050085a.26.2025.02.04.05.04.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Feb 2025 05:04:28 -0800 (PST)
-Message-ID: <b50ade64-21ea-4420-a7ec-5e17ea7f6af7@redhat.com>
-Date: Tue, 4 Feb 2025 08:04:27 -0500
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="QwuqUM+Z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1738674385; x=1739279185; i=w_armin@gmx.de;
+	bh=3nMUmjZ6SzIybrs1YTTzsTCpRbyyW9/v2yB7+kADQMA=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=QwuqUM+ZtDW2d8djGS9nj7OQIye3qZgIfHpP944B22rnwJ4ryOIYtTTwan9cchTd
+	 jHzoSyrD03HzYBXZJG9Wu65f+H08wzeo0go1lP2DsZRv5wV8l8YUnMCj/BPHzBNzt
+	 hA17DdG9i8ga6lL2eLKDAIEQR3VkIFBlLmZh6GxtMSc/8AZ5ylLXcnuy/IK2NdK38
+	 yMtsIHWvNMP8W8E7y+AGT+5e6mPlfTOtECjgfmUO/BnImYo2Tn7aNsyRKmb05FrlP
+	 AzsBjjjgknJFVp0mu+f6wwERvy1CuyYbODOajvSsh3JyPlXVw4WKXeiA5CGk7GFTO
+	 uQLWtILrHX7WyhPUbw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [172.16.20.206] ([141.76.8.142]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MK3Rs-1tzjQt0wgw-00PByQ; Tue, 04
+ Feb 2025 14:06:25 +0100
+Message-ID: <cbea0f2a-a66f-4ed8-9b19-6010b188f69f@gmx.de>
+Date: Tue, 4 Feb 2025 14:06:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -73,91 +43,101 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] intel_idle: introduce 'use_acpi_cst' module parameter
-To: David Arcari <darcari@redhat.com>, dedekind1@gmail.com,
- linux-pm@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Jacob Pan <jacob.jun.pan@linux.intel.com>, Len Brown <lenb@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250128141139.2033088-1-darcari@redhat.com>
- <e9188365425d2a4c0dfa7cfa2b17ad3d9fcf2735.camel@gmail.com>
- <afbe2137-398b-4053-93e7-2a03aeb32220@redhat.com>
+Subject: Re: [PATCH 4/7] platform/x86: hp-bioscfg: Use wmi_instance_count()
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: james@equiv.tech, markpearson@lenovo.com, jorge.lopez2@hp.com,
+ jdelvare@suse.com, linux@roeck-us.net, linux-hwmon@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+ platform-driver-x86@vger.kernel.org, corbet@lwn.net,
+ linux-doc@vger.kernel.org
+References: <20250203182322.384883-1-W_Armin@gmx.de>
+ <20250203182322.384883-5-W_Armin@gmx.de>
+ <a02aa367-2ce8-ba6d-adc7-b91552566142@linux.intel.com>
 Content-Language: en-US
-From: Prarit Bhargava <prarit@redhat.com>
-In-Reply-To: <afbe2137-398b-4053-93e7-2a03aeb32220@redhat.com>
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <a02aa367-2ce8-ba6d-adc7-b91552566142@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:pbyC/Aj0TUVRa0zJcatrDoyo2v/HsbWObtnz3K8eJ2AiNZ4WoQD
+ 2XfPhyXxGMrZ5D+z3YlPpy7bOATjGNzNpkvDnkpLw/Fcd7O7brSsbCZRDw3PC6pBvLTMS6t
+ cfdkWqMGwsDm3/+9cHpJUana/GP6v0kMQmXoU2G1BnM5pAws5/QQA34dXYPYBlFfFZtNeOh
+ LzMcv33+rXUj4nOjSEnOA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:42e13bcLyAc=;1+JDnpgQpq8HwvUMrz+coya/Rjb
+ hgGa1S+/WqNZqjdNnC3rr9ig3oA+kYSVv3VEXchmAz0Qm/SuiHNthmuCPqmmZFlN/K9KsmRPC
+ fQhSQ1maq2kCCTp4ijqM6aKxx0nVYzqAnDhFZZBqh1z5fYWKo21wEdRbuJN65FNo5I7PEijrO
+ eC7xFU/JbX9ic3c3zsmrmNa6EufU/3e+Mpt7jVTkLQLuOAogWtkuaZthHQXrvT9SAFNd840d6
+ Oixy7LxWcMAAgLWUhAa7EdwpbLTDeo3yJULLD0TC6zLEH4pKwiuVcTPBCnzSTGaJEfO4rk4fr
+ /mWKlpX758gNjafPGGEHpvaSIwXcSM+weOTpIAfGq9gr6FS68xmIga6ZB0OoeNiyZNMd6Adyx
+ x7ZH25dU4up3n+mvRrvAYeMToZhrFlAtEKoNwIssR/RzjhC2K93HmPcgBRaC7Yg7UHreUexoo
+ lLqXJoT8qjHle44LVQetzf/N2mXF5RuDwru9rwY6X91EHKF9P4jtq8iYT/gdRXW0v79IBFe3H
+ RzcPI+yPNFYXRZZnaNf5nakc2FyGHQ7h4XH/1Mu2bYPt7TO5NNDZ/zRf3IfIEqanPA5oaEoRD
+ bfdJ8g3bmzOh/WgCEHBW3ynz80YADJQ2Zecr2Key386hooXYBWwobsdKLVyQBEeJrNpke8tqN
+ oASM74ywAtWeRoPZywWjNpGBpVABTxbw56ake+scOQ4DKCnSDSEqfyziuDtq0Nf33IBLFgcjp
+ r0/OJxqp/H/fWSM+yeNylUQxXUVr5Aqnp3F0U46/nYuCT+J5QhyzNCnB2wYwPjQCKsVKFL6DL
+ 6ovtPddDNJiNU0CDXqocDfG7um6HU2kb67CpXKcaFRBvflodUJ9bF130iT4lW7Uvv25OaQ4fp
+ RaaQr/fkwEwkaiwtihqmYqtxIMSGGYrJj4vzkBPeQ4y8Ig/V7czVZO9UWwNVLrRx+WPNqJdUs
+ ZTFMDJDI8GdH93YwYhR/XEpekUiJaEwcUrWMKF5rmCNtnkETUqX5lumPn3zW6YgJj56McEAwx
+ uBtBQKw5ehLkSJFAuDP+hRet3Fa91RloOSLUG0AziHEcnGfG0WjmtHw9gZXjDvxHS3PPdOnob
+ 1kDrwV5u/MKTBw+I91ePB+q1/XsO4pHA+wjLgSj6BieFWmmvzUJiYycetd5nGf/hbGhvfJpcu
+ JZckGmvWJGOKgl30c2RI1iTYZ0Y0pS4VvfyJlW3b7BZM5ozelldPLQY/y2vE5d7goFrJBIYcC
+ RMPeWxYQQHq6nENU2q36GTg8TNCy+Pz3oVaURrLjw1Az0/9ANOQFL5oAXiDXRaDxyjH3YZH8a
+ ktCKBpsSJFGR01QsiqpbP/kTr27bL1hG7bMKzqdlKznOhqBl5mQLjki3VQ1aclHOGcWI55i1i
+ lrShun8DQCOV8liBy5rDFSK0gTHAYYCyoAmucX5/O/YzTXH4MStP9EVQtmWNgte5NLuOSjpRC
+ wtM9SyjMyyoNxfCvjJ/XFHVSHKNI=
 
-On 2/4/25 7:52 AM, David Arcari wrote:
-> 
-> Hi Artem,
-> 
-> On 2/4/25 7:23 AM, Artem Bityutskiy wrote:
->> Hi David,
->>
->> On Tue, 2025-01-28 at 09:11 -0500, David Arcari wrote:
->>
->>> +The ``use_acpi_cst`` module parameter (recognized by ``intel_idle`` 
->>> if the
->>> +kernel has been configured with ACPI support) can be set to make the 
->>> driver
->>> +ignore the per cpu idle states in lieu of ACPI idle states. 
->>> ``use_acpi_cst``
->>> +has no effect if ``no_acpi`` is set).
->>
->> With this change, there will be three parameters:
->>
->> * no_acpi
->> * use_acpi
->> * use_acpi_cst
->>
->> I would like to make the naming as intuitive as possible. We do not 
->> rename the
->> first 2, but for the 3rd one, I think "force_acpi" would be a better 
->> name. Or
->> perhaps "no_native"?
-> 
-> The problem with force_acpi is it is very similar to force_use_acpi 
-> which is what intel_idle.c uses internally:
-> 
+Am 04.02.25 um 11:37 schrieb Ilpo J=C3=A4rvinen:
 
-Given that @Artem is suggesting we change the names of things -- perhaps 
-we should fix "force_use_acpi" as well?
+> On Mon, 3 Feb 2025, Armin Wolf wrote:
+>
+>> The WMI core already knows the instance count of a WMI guid.
+>> Use this information instead of querying all possible instances
+>> which is slow and might be unreliable.
+>>
+>> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+>> ---
+>>   drivers/platform/x86/hp/hp-bioscfg/bioscfg.c | 13 +++++--------
+>>   1 file changed, 5 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c b/drivers/pla=
+tform/x86/hp/hp-bioscfg/bioscfg.c
+>> index 0b277b7e37dd..63c78b4d8258 100644
+>> --- a/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
+>> +++ b/drivers/platform/x86/hp/hp-bioscfg/bioscfg.c
+>> @@ -388,16 +388,13 @@ union acpi_object *hp_get_wmiobj_pointer(int inst=
+ance_id, const char *guid_strin
+>>    */
+>>   int hp_get_instance_count(const char *guid_string)
+>>   {
+>> -	union acpi_object *wmi_obj =3D NULL;
+>> -	int i =3D 0;
+>> +	int ret;
+>>
+>> -	do {
+>> -		kfree(wmi_obj);
+>> -		wmi_obj =3D hp_get_wmiobj_pointer(i, guid_string);
+>> -		i++;
+>> -	} while (wmi_obj);
+>> +	ret =3D wmi_instance_count(guid_string);
+>> +	if (ret < 0)
+>> +		return 0;
+>>
+>> -	return i - 1;
+>> +	return ret;
+>>   }
+> Hi Armin,
+>
+> While it is the existing way of doing things, I don't like how the error
+> is not properly passed on here. And if the error handling is pushed
+> upwards to the calling sites, then this entire function becomes useless
+> and wmi_instance_count() could be used directly in the callers.
+>
+The thing is that for the hp-bioscfg driver, a missing WMI GUID is not an =
+error.
+In this case 0 instances are available.
 
-P.
+I would keep this function for now.
 
-> drivers/idle/intel_idle.c:module_param_named(use_acpi, force_use_acpi, 
-> bool, 0444);
-> 
-> That said, I am not attached to the 'use_acpi_cst' parameter name.
-> 
->>
->> * no_acpi - Do not use ACPI at all. Only native mode is available, no 
->> ACPI mode.
->> * use_acpi - No-op in ACPI mode, consult ACPI tables for C-states on/off
->>    status in native mode.
->> * force_acpi (or no_native?) - Work only in ACPI mode, no native mode 
->> available
->>    (ignore all custom tables).
->>
->> Additionally, I think we should enhance the documentation for 
->> 'no_acpi' and
->> 'use_acpi' while we're at it. Otherwise, it is hard to distinguish 
->> between these
->> three options. Would you consider another patch that improves the 
->> documentation
->> for 'no_acpi' and 'use_acpi', and then adds the third parameter?
-> 
-> I'm happy to resubmit. I guess I could use 'no_native' for the new 
-> parameter and then update the documentation as you suggest above.
-> 
-> Does that work?
-> 
->>
->> Thanks, Artem!
->>
-> 
-> Best,
-> -DA
-> 
+Thanks,
+Armin Wolf
 
