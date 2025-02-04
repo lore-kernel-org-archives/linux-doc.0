@@ -1,144 +1,139 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E5720E305
-	for <linux-doc@vger.kernel.org>; Tue,  4 Feb 2025 12:52:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B579220AF77
+	for <linux-doc@vger.kernel.org>; Tue,  4 Feb 2025 12:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738673571; cv=none; b=fc+r++CWSBirXq1mePKb/6GpQaMUR8eRaBdppzKUBj4JXBsmmLNJizAzYmZ7eFRTo+oHIcZRodQ8QO/qtJxn6Cck7VFqILzVrHZY8sltU4i9h3kkaUXqdTijIJcMKs9QqhVUHfB1FGXa/iYALtNz2SJXkjUJwnsGGF4gEme3sV8=
+	t=1738673673; cv=none; b=dzPLuUeIGd27q8v3L186m+I+wfVIg4nAxmozgGBCVwpHj8XkEd0rgwdEdYuJFo4H37g8NMODYhZOzNa4GlkVK8ZAiXUQP8kMA/RNUUPffHL84lX5bmu9LwiiUn0nSpvlQtIr+5BA5tUr0gywLpLsilBScjai+e0tcZA618Jfa94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738673571; c=relaxed/simple;
-	bh=tdSryqq+nxgkvS3zFFee1YefkpUm59QAMRrn28AGXa8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hTBoWnB8alL4hDTVhz8bt/8H1iI+644GsOaYwj+FKjSGTHuCnZKte9p2hn8H2SPW6EPgEySRWfSNjoDZwoOO4a3Byvw1w3YGbl+yyTjeJIXH1eRvFMznvCSyxHtuWIVAv/bGwVYsU59d1jXo3z0fmaqSkgKWpc+q27Jn9RVsPKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UCgS3wu6; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1738673673; c=relaxed/simple;
+	bh=ynSUJ63SuLhCXyf2usS1JVLKxrhDuZv8kV79M/Jon+I=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=JS6Dl4R1T/JI53Np9iqTozOITpHA+fPhdd5ba7x3f7EMU8jov/M7bdShKNq+QiSkQCum3hDZbFW94IEp2MUuX79COVo+GOsQAkyhdoZYFzECl4PUMFkuqtKLEs1gyr6MdCbOXZZa8vqtmZszCvKsTtDlALQnuBYDmHp5eyp7DrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=LxDLjHsZ; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UCgS3wu6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738673569;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pvOSzWz/fXFYgL1SHq0V9p8J5l8O+whyYebMY7GcFOU=;
-	b=UCgS3wu6Cc5YtFz1CC1NVLgKc2EB2lF2TJk38FIY3BuJr/UeXFE1LQE2QrkDfxUzwy8eRA
-	LIGGvUtfTlQfwJVKBKSGrwG/m5xSaC34aI6x53q9VBO/XmNU8AnzNFcyxgcXucw7BwVLbs
-	kU1ZOY7HRH6U7iF8/cqMxpWxQhrA7lE=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-178-lfksvzinNFerrz__aAjmnw-1; Tue, 04 Feb 2025 07:52:48 -0500
-X-MC-Unique: lfksvzinNFerrz__aAjmnw-1
-X-Mimecast-MFC-AGG-ID: lfksvzinNFerrz__aAjmnw
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6e42cf312a3so2328146d6.3
-        for <linux-doc@vger.kernel.org>; Tue, 04 Feb 2025 04:52:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="LxDLjHsZ"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43624b2d453so64623965e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 04 Feb 2025 04:54:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1738673669; x=1739278469; darn=vger.kernel.org;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fSDieL9GBtvsQS7Ye0zV4eVocVG/YaV0pHO+Q0/Wne4=;
+        b=LxDLjHsZPwDJHzkD+Eim7w5Zmh4tZJddvIc26w2ntrXWaPAcPVrs9D+/dkx4bgJvIH
+         Tqlv/kNkn840rWVSTbjF+yDxbg882vYfVskYls3e+MMo+K82eFSG46lIhSs9fKocNzae
+         m78PVoCyZs7WZUUHPSTCUoV8FVX38o9hN5m0yrNB6c3mLIDdGCNK95oU/LXr43LxrUqe
+         aWmBdXsAgSACZJLm/A1vzQcziT7VzJVKvQVONOZgbg0o7eP3v9kaSPaRrh2wK3ZUYnMK
+         YoI8Y3phTWWXT2L+qWhFE1LqB88TPEgttiAA+V1PIQZ7T8VLbE+o8j7CG2mpZRDuKxvZ
+         oRcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738673567; x=1739278367;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pvOSzWz/fXFYgL1SHq0V9p8J5l8O+whyYebMY7GcFOU=;
-        b=ThdhRDGelOb1lv5Q8rYqTKG/rwxZtAzbLGoUxRkoYp6cNLt4+BpFcWRe6PzEDWX/Sv
-         s5TTjGOkL4pv62jNIbQc+z56m2mVCM7Su02Y11YEq5lNcCnvwyC+uOx3Sz0HkG3HZVLs
-         3OsbAuPM/P/s2Tm1gu6jBtxlWFq+Y5AFY0ySFgU4WxftTxdDV2zekXd3X+2PLLj+fK9f
-         OGVfz/w3x7NikLiFXvxAbny6Fdbkt3XWL0RNisgDe0aV0CySJJW7DecdkHnWdfEYqpNd
-         +2p9+6gTbOgxfiMGM20c6Cjrg+2jHK9sCTNF1hCRLDbKDrP/12RJlnMi6BnjFn+GkTOG
-         ZKIA==
-X-Forwarded-Encrypted: i=1; AJvYcCVM0xuml+NF4+8vilPEHAFHV/K+85+HL4UUpwGaj/lm1CoLw6jVuMnQumQrYi1OW3jvDo7Q4wG8h08=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywt+nkV7KzetgNcsY6PsyDRHHXcno+Td/Uxd09JsgtuZqJpu43l
-	4DES/WOO0A6z+vaGI+WYoapMYDxo/XGnRX3U0eEwDI6FrQqqwWvfxM1NdIM2VVzlUF6HS/cQ+aM
-	/PATiVCFNz85Fo0uP4Xxr2Eyth6aPgznqnSIICpyVzLllGhBp5ouvgc/Nsg==
-X-Gm-Gg: ASbGncvbbHODxadKzLTyergCbJb3YQROLTeBZbMVYzs78+b8DgEpwwsHZO94lP+O/Xu
-	SEuR+yz751/TdgGNmvqrpSKVDlX9nh2uboouqiDjI8epCzRruFzMMlA3KAfnZrFcdwd44jBxumN
-	ICPG1B/H0UfKDIYeI5Xman9C42Uwbgo2ezkgizL2n+KgtqPABx5lFcefe6bjKE1VaHHkrYbeEvA
-	MIOwKqsA9autD42aR/zS3O4kXMg1PxNHRR03clulz7+OZJc32L0HfT25VerTR32NZoo4SHsUhRQ
-	FAsR
-X-Received: by 2002:a05:6214:48d:b0:6d8:a67e:b2fb with SMTP id 6a1803df08f44-6e243c7bf68mr389612536d6.39.1738673567404;
-        Tue, 04 Feb 2025 04:52:47 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEcgbWPNl7P8tA5g1YmE4r9A5UoaGRH3/2GoingbBKNmrPxXra0qeVOzHPtGDTdRQvEw8kNTA==
-X-Received: by 2002:a05:6214:48d:b0:6d8:a67e:b2fb with SMTP id 6a1803df08f44-6e243c7bf68mr389612246d6.39.1738673567139;
-        Tue, 04 Feb 2025 04:52:47 -0800 (PST)
-Received: from [10.26.1.94] ([66.187.232.136])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e254922a85sm61433486d6.81.2025.02.04.04.52.46
+        d=1e100.net; s=20230601; t=1738673669; x=1739278469;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=fSDieL9GBtvsQS7Ye0zV4eVocVG/YaV0pHO+Q0/Wne4=;
+        b=wY4zjVmEQ06xuPdOmL9l62gAcjwD7Veaae6Li67ZKaxOpSH2/n8vb9j6cPh0qZza7X
+         70+wjsiSytdr+k4ZUopeBtWloWc8sQXGkr24k7c+10jvEqD5ZE5ci6X2piHYrvmDK3en
+         s6nfBAETFMKC0yOHr84QJU2c8fgD63sYp9JaQueQOggPZkpRyau6h5AP9J6/7N5skOq/
+         FO5DGWSTK870QD2YIRMIda2335GJHBpy4MORLV2EJSr2K0Sst7XbTNDsxh3wW9WZSp4p
+         6+ZNNYoSxCbYJE3V2lDPq1TuutnCYO2bVNykPhtyGoVpOz/jnYSGSKMMJ9G8S0UCx19N
+         WFvg==
+X-Forwarded-Encrypted: i=1; AJvYcCUwSdjTO9psIq4fJmvvWnAPTrlg/pgZosWmgqEH1WP5OROvpdn7Vv/96r4+J3gGPIESPCo6K8UqUFY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTFd5k7JA0kkiuAeoyxxNFIORY7M1hqLrqIS/eqCUPQxVRXnYa
+	kKBZqwTs2q2xsDK499mmpf3F4c17P1TzFcLHedO2jjCQpVDiNzvF0PvA4xdNX38=
+X-Gm-Gg: ASbGncvCOJpNAra+kp1UioZ8iQmKMWyyJYf3HqQ0/19+oOEOoizm2BZcwq1HaKNZ5EO
+	GCH9S3GGTyCHUMxaVRNZYDmXyX3v4EmO6yqqOwg5hPxXasEU7oR06f7SRLPetVcpzvObCxhI7m+
+	VJKNnbE8H8YYxp6FxaPfXOt3vqECYQ9rTOGl1FohrDENQwhL+S37dXjYfQTH7Fze6pLWBdDubcZ
+	N1J39LTAAPeyadP+e+m8lGShr46+VI7E87JaO4ezdcTiIqpdM8JQlcAq6uhpw/d4z5Lsk+DP03V
+	QkSGrEfwhm08QToKzQt119JDfA9yb3jlXNaoeS6hNPvg0Lf6jqIu0jGch5J6mxpJbd3Sfw==
+X-Google-Smtp-Source: AGHT+IFouneBDH4lcmisK2CqC0lJVk1uEkk/8hKiuwfY//uH+O/ijh/ARezQ4p0atRjAsVemu/oJlw==
+X-Received: by 2002:a05:600c:3d05:b0:436:18d0:aa6e with SMTP id 5b1f17b1804b1-438dc3ab518mr293284155e9.5.1738673668943;
+        Tue, 04 Feb 2025 04:54:28 -0800 (PST)
+Received: from localhost (amontpellier-556-1-148-206.w109-210.abo.wanadoo.fr. [109.210.4.206])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4390692a66esm14765885e9.0.2025.02.04.04.54.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Feb 2025 04:52:46 -0800 (PST)
-Message-ID: <afbe2137-398b-4053-93e7-2a03aeb32220@redhat.com>
-Date: Tue, 4 Feb 2025 07:52:45 -0500
+        Tue, 04 Feb 2025 04:54:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] intel_idle: introduce 'use_acpi_cst' module parameter
-To: dedekind1@gmail.com, linux-pm@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Jacob Pan <jacob.jun.pan@linux.intel.com>, Len Brown <lenb@kernel.org>,
- Prarit Bhargava <prarit@redhat.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250128141139.2033088-1-darcari@redhat.com>
- <e9188365425d2a4c0dfa7cfa2b17ad3d9fcf2735.camel@gmail.com>
-Content-Language: en-US
-From: David Arcari <darcari@redhat.com>
-In-Reply-To: <e9188365425d2a4c0dfa7cfa2b17ad3d9fcf2735.camel@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 04 Feb 2025 13:54:27 +0100
+Message-Id: <D7JODK8W4W9W.3OO4GRGNDU5ZX@baylibre.com>
+To: "Jonathan Cameron" <Jonathan.Cameron@huawei.com>
+Cc: "Lars-Peter Clausen" <lars@metafoo.de>, "Michael Hennerich"
+ <Michael.Hennerich@analog.com>, =?utf-8?q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, "Jonathan Cameron" <jic23@kernel.org>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3 2/6] iio: adc: ad4030: add driver for ad4030-24
+From: "Esteban Blanc" <eblanc@baylibre.com>
+X-Mailer: aerc 0.18.2
+References: <20250130-eblanc-ad4630_v1-v3-0-052e8c2d897d@baylibre.com>
+ <20250130-eblanc-ad4630_v1-v3-2-052e8c2d897d@baylibre.com>
+ <20250131181437.00000097@huawei.com>
+In-Reply-To: <20250131181437.00000097@huawei.com>
 
+On Fri Jan 31, 2025 at 7:14 PM CET, Jonathan Cameron wrote:
+> On Thu, 30 Jan 2025 12:08:26 +0100
+> Esteban Blanc <eblanc@baylibre.com> wrote:
+>
+> > This adds a new driver for the Analog Devices INC. AD4030-24 ADC.
+> >=20
+> > The driver implements basic support for the AD4030-24 1 channel
+> > differential ADC with hardware gain and offset control.
+> >=20
+> > Signed-off-by: Esteban Blanc <eblanc@baylibre.com>
+> Hi Esteban,
+>
+> Just one thing in here that actually matters. Question about scaling of
+> the common channel.  The others I could tidy up whilst applying if
+> nothing much else comes up.
+>
+> Jonathan
+>
+>
+> > +static int ad4030_get_chan_scale(struct iio_dev *indio_dev,
+> > +				 struct iio_chan_spec const *chan,
+> > +				 int *val,
+> > +				 int *val2)
+> > +{
+> > +	struct ad4030_state *st =3D iio_priv(indio_dev);
+> > +
+> > +	if (chan->differential) {
+> > +		*val =3D (st->vref_uv * 2) / MILLI;
+> > +		*val2 =3D st->chip->precision_bits;
+> > +		return IIO_VAL_FRACTIONAL_LOG2;
+> > +	}
+> > +
+> > +	*val =3D st->vref_uv / 256;
+>
+> This is a bit non obvious.
+> A comment on this scaling might be good to have.
+> Particularly the lack of / MILLI
+> (I think that's a bug?)
 
-Hi Artem,
+Yes I think that should be:
+``
+*val =3D st->vref_uv / MILLI;
+*val2 =3D 8;
+return IIO_VAL_FRACTIONAL_LOG2;
+``
 
-On 2/4/25 7:23 AM, Artem Bityutskiy wrote:
-> Hi David,
-> 
-> On Tue, 2025-01-28 at 09:11 -0500, David Arcari wrote:
-> 
->> +The ``use_acpi_cst`` module parameter (recognized by ``intel_idle`` if the
->> +kernel has been configured with ACPI support) can be set to make the driver
->> +ignore the per cpu idle states in lieu of ACPI idle states. ``use_acpi_cst``
->> +has no effect if ``no_acpi`` is set).
-> 
-> With this change, there will be three parameters:
-> 
-> * no_acpi
-> * use_acpi
-> * use_acpi_cst
-> 
-> I would like to make the naming as intuitive as possible. We do not rename the
-> first 2, but for the 3rd one, I think "force_acpi" would be a better name. Or
-> perhaps "no_native"?
+So I guess that requires a V4. I will address the other comments there.
 
-The problem with force_acpi is it is very similar to force_use_acpi 
-which is what intel_idle.c uses internally:
+Thanks for your time,
 
-drivers/idle/intel_idle.c:module_param_named(use_acpi, force_use_acpi, 
-bool, 0444);
-
-That said, I am not attached to the 'use_acpi_cst' parameter name.
-
-> 
-> * no_acpi - Do not use ACPI at all. Only native mode is available, no ACPI mode.
-> * use_acpi - No-op in ACPI mode, consult ACPI tables for C-states on/off
->    status in native mode.
-> * force_acpi (or no_native?) - Work only in ACPI mode, no native mode available
->    (ignore all custom tables).
-> 
-> Additionally, I think we should enhance the documentation for 'no_acpi' and
-> 'use_acpi' while we're at it. Otherwise, it is hard to distinguish between these
-> three options. Would you consider another patch that improves the documentation
-> for 'no_acpi' and 'use_acpi', and then adds the third parameter?
-
-I'm happy to resubmit. I guess I could use 'no_native' for the new 
-parameter and then update the documentation as you suggest above.
-
-Does that work?
-
-> 
-> Thanks, Artem!
-> 
-
-Best,
--DA
+--=20
+Esteban "Skallwar" Blanc
+BayLibre
 
