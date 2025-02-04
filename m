@@ -1,66 +1,50 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261891FAC50;
-	Tue,  4 Feb 2025 01:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B00AEC4;
+	Tue,  4 Feb 2025 01:34:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738631931; cv=none; b=G6mL6BArqKTWd043JegMPRyOf0cXASZZod1SIP5wmRcrau3U04Tl98fpMTQ4EDkas8YTF6LQe4lVExkEhBBusEwWcNwfkP0RWEkZRD924TCr4JdpwHjACEuzjOsyVGlDSyGAG2YmQFYsSVMXvq2qveijogEpUYGylZ2rIq6Nnhw=
+	t=1738632877; cv=none; b=nCCJe7+NHlsME22FRBwZVWw2tmbh5nkjU5aPoQrKHBEuNpg6FcE6CamlOzE0JFUUzNDAW1f6tg298/8C9OR4VS1Kgc+ogd+6TuCGHT5ztSqv/UoI0EcbKcSkY88EuRDCURgz2JlbmNpT14YbTUXk9hBiAYPD7Tc58YbdlSIw4Tw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738631931; c=relaxed/simple;
-	bh=5zJsols2oPwPo+u1QQyaPbxBWMy/18F1g3rfOy416iM=;
+	s=arc-20240116; t=1738632877; c=relaxed/simple;
+	bh=cTqZc7KMQfir834dyF7dto20NWb+pLw52qL9bC6G4tA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ALIv7KiII6CIBHYFtKLUex6g4rJoLUF6XMP93QF0YWWc3Exj6/B8dl8SqeXbALs/6ZSCTNYmLo/BrDA8q7BsLqCevN0AumGd7zLx+4d3IfCsx2i5XIcZbSam7V/2HmoILeLn6sCvjnZ8fSkfPwsK265XUkZsVxkwpOVW7SDWzAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KQ4In65B; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=i2YTTv1W+h2YCof0qVPoQ/fmEUKHGR0C/Uudw4xL8o+rq5GiSr+1f8UV3BQGKUCYhALaC57/kkTUJSHlHbB8W3lEkRkfEdq8bdEvbH8P+Rn2yKXENx1eG6apIG0UftTnx3pv+zeobTq7K5cA+0niFSmsbKoPUq/3772V/eg30aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ke09ZpVk; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KQ4In65B"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2ef70c7efa5so6810194a91.2;
-        Mon, 03 Feb 2025 17:18:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738631928; x=1739236728; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=gihc5T4Jwrby/ejtTq3aSnhBI6SI8igGTU1dboD5N2s=;
-        b=KQ4In65BbuxEmwTGczL/74pRBWKosSjH57v81ohnmkH2FKZQ2aE+ra1c7Guq7nwyk/
-         LWzs1/AAOWmYjMpWQmR21Togsicw7RVkpkXYhh0PQ8Z86Rrn9Hjkkk6W4ZJncRT2PhVa
-         wNYXhBfyqoE/DyZd7UBVCwTD3jbZmLd0+VvYspziYNYFVgDkfPY171sTcFNMVANSuBgG
-         zW98Bg2SS1wa5arKkURrMV3nYEQ9TqYuprdoc97wdwlGl8xSPULKEE/oq6CcNmWMpu8H
-         IlRB+Y2Oouco8AJBvb8sicJ9HLVX/sdxHPj5W2faMueZfTyh4HvrbKr1Rm7EJZx47oEB
-         tuZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738631928; x=1739236728;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gihc5T4Jwrby/ejtTq3aSnhBI6SI8igGTU1dboD5N2s=;
-        b=wNDyQ4N0OowcozWEEWOjKU92l+Nbp5jyBFECPrGxi4JaqUnsMlzuDS8FWH55Os3WfB
-         suPcm1kjo84byw6VZ1jzuJVKKZcI9YOaLVri/tMpKs+i6z4bPGBZZa3hF8zIp+4OnZEn
-         XnDlAXXNmBNPbJQ1UraoEc8HKNwgHXJFTYwEaMa5qAjAi1wZ7rYeyyu1EPo9vjRFUrs/
-         AyJRf+knQG9ulsYiT4PC/P0u9LoZ17XZ2+3Ye60/xRbzBqRPL7eTfrg9umtPrBWeynGg
-         xnl1qUzfhQnR5KNhEb1pvYBxNKAkrvK6KeyjHUPE8tobcsRXCsamxvcUaP4F+ZDJN9LL
-         H6bw==
-X-Forwarded-Encrypted: i=1; AJvYcCUAT7bDQf/o902UQzcF3yTl1PZZ2MEBwvRo18eHlINf9sYGGWEoAw1M6JI7JBcTWgcxFF2fs16A4DA=@vger.kernel.org, AJvYcCUTi9b2tH+iaIYsyv7SCDxEBCj8rhfXIU24i4UJx8a+iFkOHTYwcHhGJB2H0O/U6qGs9SKb/eRMtsCeh4c=@vger.kernel.org, AJvYcCV0ddDadW5QJoSc6qaGZ9rW5B3k1jI8v8E4/woncYGv4U98/JYrLmXLo2MViWN3MpFvCJpltjS+SJaATTI9@vger.kernel.org, AJvYcCWHxv2d9bb2Yi17whXkLGF2+4kA4yhCZnp1z4Bewoq5W8okmWrHbwH6V+1ntxfqnpewW/VEwnFicbFGXG0Z2u+ORijRwA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YycymJXMOtUXvyo3jLzABaKt8Vv9nQwFv9Cj4YmaE4Wh5y3Qr+5
-	5zFHAMz7cJwJW/c3rFnog5dGjbEnBPQVI7sWYWxcHLVyI04Vylb+
-X-Gm-Gg: ASbGnct4lFjX9bU8y79E8eV9SPH4XNrOBVXIByjJ4YHidX2ZQo9QcsmdogSPQDm4JE4
-	gGxZ0YK+44SVQ03TcYtEkW7ystiOI1DNFGeZwoPI9Yw5YxpH4f4zJZZLzWTisa/2djR955crtoP
-	SInzQGo2IWQ0G2lMUrQhHINO1TY6iQxo+f8B3YFI5wdafEzfB8FTW5b+zXtDg1i78q1cfPfjFZL
-	2REvJaEswtojftLRmb06D7q2v7GxWFjYxrXrai9ifBINCWJY1+fotkbF7ebVQC1vT5OQiHOxScd
-	jLM0QFL2oTyGupbgTqpjC+54UGe35qpWZLdglwAliZUivuOK7W4vGam9kmECxjPD
-X-Google-Smtp-Source: AGHT+IGbCBSMs8c1XehlYpcWaa0IT9hSAJ+UeleaEfgJ0YoAfuQrUkZABf7Y21YBWmDWeAolEedOPg==
-X-Received: by 2002:a17:90a:c888:b0:2f4:434d:c7f0 with SMTP id 98e67ed59e1d1-2f83abe98cfmr42180766a91.12.1738631928073;
-        Mon, 03 Feb 2025 17:18:48 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f848aa7255sm9751903a91.31.2025.02.03.17.18.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Feb 2025 17:18:47 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <0266e0b1-43fb-473b-995d-bb92662505c0@roeck-us.net>
-Date: Mon, 3 Feb 2025 17:18:45 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ke09ZpVk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738632876; x=1770168876;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=cTqZc7KMQfir834dyF7dto20NWb+pLw52qL9bC6G4tA=;
+  b=ke09ZpVkdy1U6DPZo1SL0b5+e/FMq/Am8+KXiU3vo5WDMx42rYdf4RZG
+   SUcsllelXGG1HCHKD3j1YD6LcHtPdmBb7LACDvNgtNyQikfK51GYh4+PB
+   3TLIaFOTc6m3g3mcyfkQmMscwggqYwugRGyxkdxACJSpPWZKxOiPmuW68
+   NOa9azDdaXNfw6nARYfUTj5fBx+H0HOEBOuroAyXFQBKUNqw6bmaaSZ/y
+   rpBxqOZj/Ys+LXaKRA/4PDKaWVlDbFklQbv8thbJvVojUe7ry+RiJ1/Kg
+   reZ17PUPr+1yHYP6gdklhu6NiDskD6c/rxYw66ZdRQadQchc1imYIVioM
+   A==;
+X-CSE-ConnectionGUID: Tag1N2hORI2+DE2n+rR1yg==
+X-CSE-MsgGUID: P87jdiaMTjKPjnq1PtVJGg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="49795734"
+X-IronPort-AV: E=Sophos;i="6.13,257,1732608000"; 
+   d="scan'208";a="49795734"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 17:34:18 -0800
+X-CSE-ConnectionGUID: 4tSta66CTFq8So3/FmHf2g==
+X-CSE-MsgGUID: 907kdKGuTAyI/dVJbUURBQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="115441422"
+Received: from choongyo-mobl.gar.corp.intel.com (HELO [10.247.124.71]) ([10.247.124.71])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 17:34:06 -0800
+Message-ID: <e0d34c88-dd8d-402d-bc67-6b9c4f8effaf@linux.intel.com>
+Date: Tue, 4 Feb 2025 09:34:03 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,75 +52,117 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/7] hwmon: (hp-wmi-sensors) Use the WMI bus API when
- accessing sensors
-To: Armin Wolf <W_Armin@gmx.de>, james@equiv.tech, markpearson@lenovo.com,
- jorge.lopez2@hp.com
-Cc: jdelvare@suse.com, linux-hwmon@vger.kernel.org,
- linux-kernel@vger.kernel.org, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com, platform-driver-x86@vger.kernel.org,
- corbet@lwn.net, linux-doc@vger.kernel.org
-References: <20250203182322.384883-1-W_Armin@gmx.de>
- <20250203182322.384883-2-W_Armin@gmx.de>
+Subject: Re: [PATCH bpf-next v7 3/5] net: stmmac: Add launch time support to
+ XDP ZC
+To: Song Yoong Siang <yoong.siang.song@intel.com>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Willem de Bruijn <willemb@google.com>,
+ Florian Bezdeka <florian.bezdeka@siemens.com>,
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Bjorn Topel <bjorn@kernel.org>, Magnus Karlsson <magnus.karlsson@intel.com>,
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+ Jonathan Lemon <jonathan.lemon@gmail.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>, Joe Damato <jdamato@fastly.com>,
+ Stanislav Fomichev <sdf@fomichev.me>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Mina Almasry <almasrymina@google.com>,
+ Daniel Jurgens <danielj@nvidia.com>, Andrii Nakryiko <andrii@kernel.org>,
+ Eduard Zingerman <eddyz87@gmail.com>, Mykola Lysenko <mykolal@fb.com>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>,
+ Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+ Shuah Khan <shuah@kernel.org>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Jose Abreu <joabreu@synopsys.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Faizal Rahim <faizal.abdul.rahim@linux.intel.com>,
+ Bouska Zdenek <zdenek.bouska@siemens.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, intel-wired-lan@lists.osuosl.org,
+ xdp-hints@xdp-project.net
+References: <20250204004907.789330-1-yoong.siang.song@intel.com>
+ <20250204004907.789330-4-yoong.siang.song@intel.com>
 Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20250203182322.384883-2-W_Armin@gmx.de>
+From: Choong Yong Liang <yong.liang.choong@linux.intel.com>
+In-Reply-To: <20250204004907.789330-4-yoong.siang.song@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2/3/25 10:23, Armin Wolf wrote:
-> Since the driver already binds to HP_WMI_NUMERIC_SENSOR_GUID, using
-> wmidev_block_query() allows for faster sensor access.
+
+
+On 4/2/2025 8:49 am, Song Yoong Siang wrote:
+> Enable launch time (Time-Based Scheduling) support for XDP zero copy via
+> the XDP Tx metadata framework.
 > 
-> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+> This patch has been tested with tools/testing/selftests/bpf/xdp_hw_metadata
+> on Intel Tiger Lake platform. Below are the test steps and result.
+> 
+> Test 1: Send a single packet with the launch time set to 1 s in the future.
+> 
+> Test steps:
+> 1. On the DUT, start the xdp_hw_metadata selftest application:
+>     $ sudo ./xdp_hw_metadata enp0s30f4 -l 1000000000 -L 1
+> 
+> 2. On the Link Partner, send a UDP packet with VLAN priority 1 to port 9091
+>     of the DUT.
+> 
+> Result:
+> When the launch time is set to 1 s in the future, the delta between the
+> launch time and the transmit hardware timestamp is 16.963 us, as shown in
+> printout of the xdp_hw_metadata application below.
+>    0x55b5864717a8: rx_desc[4]->addr=88100 addr=88100 comp_addr=88100 EoP
+>    No rx_hash, err=-95
+>    HW RX-time:   1734579065767717328 (sec:1734579065.7677)
+>                  delta to User RX-time sec:0.0004 (375.624 usec)
+>    XDP RX-time:   1734579065768004454 (sec:1734579065.7680)
+>                   delta to User RX-time sec:0.0001 (88.498 usec)
+>    No rx_vlan_tci or rx_vlan_proto, err=-95
+>    0x55b5864717a8: ping-pong with csum=5619 (want 0000)
+>                    csum_start=34 csum_offset=6
+>    HW RX-time:   1734579065767717328 (sec:1734579065.7677)
+>                  delta to HW Launch-time sec:1.0000 (1000000.000 usec)
+>    0x55b5864717a8: complete tx idx=4 addr=4018
+>    HW Launch-time:   1734579066767717328 (sec:1734579066.7677)
+>                      delta to HW TX-complete-time sec:0.0000 (16.963 usec)
+>    HW TX-complete-time:   1734579066767734291 (sec:1734579066.7677)
+>                           delta to User TX-complete-time sec:0.0001
+>                           (130.408 usec)
+>    XDP RX-time:   1734579065768004454 (sec:1734579065.7680)
+>                   delta to User TX-complete-time sec:0.9999
+>                  (999860.245 usec)
+>    HW RX-time:   1734579065767717328 (sec:1734579065.7677)
+>                  delta to HW TX-complete-time sec:1.0000 (1000016.963 usec)
+>    0x55b5864717a8: complete rx idx=132 addr=88100
+> 
+> Test 2: Send 1000 packets with a 10 ms interval and the launch time set to
+>          500 us in the future.
+> 
+> Test steps:
+> 1. On the DUT, start the xdp_hw_metadata selftest application:
+>     $ sudo chrt -f 99 ./xdp_hw_metadata enp0s30f4 -l 500000 -L 1 > \
+>       /dev/shm/result.log
+> 
+> 2. On the Link Partner, send 1000 UDP packets with a 10 ms interval and
+>     VLAN priority 1 to port 9091 of the DUT.
+> 
+> Result:
+> When the launch time is set to 500 us in the future, the average delta
+> between the launch time and the transmit hardware timestamp is 13.854 us,
+> as shown in the analysis of /dev/shm/result.log below. The XDP launch time
+> works correctly in sending 1000 packets continuously.
+>    Min delta: 08.410 us
+>    Avr delta: 13.854 us
+>    Max delta: 17.076 us
+>    Total packets forwarded: 1000
+> 
+> Signed-off-by: Song Yoong Siang <yoong.siang.song@intel.com>
 
-Acked-by: Guenter Roeck <linux@roeck-us.net>
-
-... assuming the series will be applied together. Please let me know
-if this patch should be applied through hwmon.
-
-Guenter
-
+Reviewed-by: Choong Yong Liang <yong.liang.choong@linux.intel.com>
