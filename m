@@ -1,92 +1,105 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66AAA213E69;
-	Tue,  4 Feb 2025 15:18:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7173B207E1D;
+	Tue,  4 Feb 2025 15:22:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738682316; cv=none; b=I+mfhuXWOB83gLqsSopmVMGhok45I/YOafwJaoCI+56o9Fy658xhTq3IGLe13RRHpbOUxAJRDvCBb50GjjJaiaasFGc45vslPIWidq/TnFkpapOZu51P8FEXtvNWYr5El9AwN5KRGz7Fp9h8FaOwr8JBgNJDLk7bV+exl/rQcmk=
+	t=1738682525; cv=none; b=GlmhCijrxbYaepZ6uEopSEuuhqk0dGc4QUPwlT6Be0KOBzSEQ5LPRIJwOymWSkzpvTlRFuvPNTIb6m6Ecje23VvNEUn5/rA8rVYJrWuVkMUrj8DYuPmPRkXscdtmaKpNZp9n3Xeq+1BOLCNhBwDWAouLxajClziGw+//60vAfyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738682316; c=relaxed/simple;
-	bh=C1wEET4W9frq7tAraVpaRPTGZ0k+8q0D2i/BA4JIUWA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KPTaIyFrUE6dIETnEeIdei4UibjO4QXq+sTNEc0LNUsbIyVE0MgfRqsNPg6IZmvDAoPF1o8tNxpEeGRWAwFA4cEJgHdbaHJCnL37ncT8tPtna+ztlnCTIm2I7gGU8Wm7xpy/RVbKDCipFqJHf/NaKY6vQBl/YGx+2QaUb2Mw7SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hovBtUJt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738682525; c=relaxed/simple;
+	bh=AzbpRGdKbPf6wJzevutq+/uz630hnwh38GaabT8ZwFg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gfPWtPt2Kxfl3IIaAr5s/2KdO8SGfAJH8G5iZkJovYVR/N2AAaj8Rss7LfYhYd8PwS9B91k5sKXhSpxBnW7hEZtGaFiVjEhkW/uu/n/LUeOQmS7RsV1UVWUHZo8najUfwPYHtoThVBwPQu7EoJHm78AiMk8xrlkW6WO5lpS1rNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pAgKqfmC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hovBtUJt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B082C4CEDF;
-	Tue,  4 Feb 2025 15:18:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pAgKqfmC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7BE1C4CEE2;
+	Tue,  4 Feb 2025 15:22:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738682315;
-	bh=C1wEET4W9frq7tAraVpaRPTGZ0k+8q0D2i/BA4JIUWA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=hovBtUJtLWbzicHrNYJ832PORnwq0cMg+47bhL4H+enycneJgBy5XQOjnAblPZW0D
-	 s7q3TIhxtijkGDqi7HNPK+RCVi0/OxyPso8zRWn4K4I1wbx/V9G5V6aRGbL8Mf2LoG
-	 7aBd/37QQFBP/rqrgSBbTi8UnYeBFR7lNS38pxHKcKcsI0ZviTInZrFM5FaOYIBAiN
-	 o5JQ8Ac4kLxB9mRTc4WUjtL/Gi9MiLr0L6wIZf+P6Cjy65ZIlviMEzm4HNvXvNWyDl
-	 WOcnuzd9abHPu7KEBoometEb1kSgLOJQHtIBfVRGbB56YGZYeKwIkTnR1uohfMLTNX
-	 BiJCIzaE7ZAgw==
-Date: Tue, 4 Feb 2025 07:18:34 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: submitting-patches: document the format for
- affiliation
-Message-ID: <20250204071834.78e0ffb1@kernel.org>
-In-Reply-To: <CAMuHMdXXNkpWjkKvMLd-MF=npzqJXMtnXkaba60JY7hCzyjz7g@mail.gmail.com>
-References: <20250203174626.1131225-1-kuba@kernel.org>
-	<CAMuHMdXXNkpWjkKvMLd-MF=npzqJXMtnXkaba60JY7hCzyjz7g@mail.gmail.com>
+	s=k20201202; t=1738682524;
+	bh=AzbpRGdKbPf6wJzevutq+/uz630hnwh38GaabT8ZwFg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=pAgKqfmC11E0AxPZiRtULbpMg3UK/l6Tl0uEu4StOag4W0qZxC5hesleWRFetKUIT
+	 z4xln+UpB5YCKuNSne3PWjkZ6jdtIUYcQ/XmYiNZVhqxxoyJ2CYuNwx6RTtlJAst8X
+	 7vHNASWgeN9IGRl1nJ1M3kM8dOomS3U6Tb5VAmrNTKhyfcwmxlbxLbzhcKU+Sv8Nbn
+	 3f2o2s3uvTM2o6nDQ523+ryMMhiLfWso/ZYEFhsOJyisDQsu1Gm1yED7T9S0C9biit
+	 z1dnBrfiSiNiTJrCsvneIarIIUtSVPb2TFZYwh0fCRohJmW6RskDyZhWxo7dB26dR3
+	 dGeGs4m+qZEkA==
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-724a5d0427fso3332247a34.1;
+        Tue, 04 Feb 2025 07:22:04 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUAHBLcWxPftUgFZ1hxuQA49aUo4/pBO8OqCNSWjKixkGxZHui0NmvU8M14gPpPA+rHS8M4dX9wx7U=@vger.kernel.org, AJvYcCX7DfoyIRV+6zp7+S0s8sWXT/+Wkl/2kEYXKmQv4TTmT1kkJFoKvWNG1/gfz4Kbur/r92yDkOlf5CQ=@vger.kernel.org, AJvYcCXswc2AjWM8gMs8yHtCHLaGroRNF5qEYF092znILRl58P86vPo1UxJQYawLuy8EWKGEtIVwnKPR+ciQYT6G@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0dCP+2kRJWi52wBH9KPDbg+9DyW+AHK4glpp+SPvMprIVtSML
+	oSIEoUQCBrEutxQlm/7ll5GVbt247jsYbxPAuc73Uo4qMAPRcrdjJ7nwThvllEF8BPOtftsGrqQ
+	fu10sxp/XUOOSJShwJb2NP85nmpw=
+X-Google-Smtp-Source: AGHT+IHXNNH2iL3z3LfsL0gC/p6gCB6nfPHaNpH5W9Mu8Om11TlTX/ywnYwePR7tTmA/km95JzqdhbducF1vauBaBYY=
+X-Received: by 2002:a05:6830:4101:b0:71d:63fc:2ea6 with SMTP id
+ 46e09a7af769-7265676102cmr20020883a34.8.1738682524078; Tue, 04 Feb 2025
+ 07:22:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20250128141139.2033088-1-darcari@redhat.com> <e9188365425d2a4c0dfa7cfa2b17ad3d9fcf2735.camel@gmail.com>
+ <afbe2137-398b-4053-93e7-2a03aeb32220@redhat.com>
+In-Reply-To: <afbe2137-398b-4053-93e7-2a03aeb32220@redhat.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Tue, 4 Feb 2025 16:21:53 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0hp8f3Xjb7bkDR_+RYfTE1ck=qop_QMZ3+z4w7T0VS66g@mail.gmail.com>
+X-Gm-Features: AWEUYZk2uqbzU7b8O05V0_65OsZ7SJvwTa4Ez8YXzh5OpN7iliAG-pbh_x-uwFY
+Message-ID: <CAJZ5v0hp8f3Xjb7bkDR_+RYfTE1ck=qop_QMZ3+z4w7T0VS66g@mail.gmail.com>
+Subject: Re: [PATCH] intel_idle: introduce 'use_acpi_cst' module parameter
+To: David Arcari <darcari@redhat.com>
+Cc: dedekind1@gmail.com, linux-pm@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Jacob Pan <jacob.jun.pan@linux.intel.com>, 
+	Len Brown <lenb@kernel.org>, Prarit Bhargava <prarit@redhat.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 4 Feb 2025 08:59:28 +0100 Geert Uytterhoeven wrote:
-> You probably also want to document the other popular[*] solution:
->=20
->     From: Patch Author <author+company@example.com>
->=20
-> [*] Statistics for v6.0..v6.14-rc1:
->       - "(Company): 3430
->       - "+company": 2871
+On Tue, Feb 4, 2025 at 2:07=E2=80=AFPM David Arcari <darcari@redhat.com> wr=
+ote:
+>
+>
+> Hi Artem,
+>
+> On 2/4/25 7:23 AM, Artem Bityutskiy wrote:
+> > Hi David,
+> >
+> > On Tue, 2025-01-28 at 09:11 -0500, David Arcari wrote:
+> >
+> >> +The ``use_acpi_cst`` module parameter (recognized by ``intel_idle`` i=
+f the
+> >> +kernel has been configured with ACPI support) can be set to make the =
+driver
+> >> +ignore the per cpu idle states in lieu of ACPI idle states. ``use_acp=
+i_cst``
+> >> +has no effect if ``no_acpi`` is set).
+> >
+> > With this change, there will be three parameters:
+> >
+> > * no_acpi
+> > * use_acpi
+> > * use_acpi_cst
+> >
+> > I would like to make the naming as intuitive as possible. We do not ren=
+ame the
+> > first 2, but for the 3rd one, I think "force_acpi" would be a better na=
+me. Or
+> > perhaps "no_native"?
+>
+> The problem with force_acpi is it is very similar to force_use_acpi
+> which is what intel_idle.c uses internally:
+>
+> drivers/idle/intel_idle.c:module_param_named(use_acpi, force_use_acpi,
+> bool, 0444);
+>
+> That said, I am not attached to the 'use_acpi_cst' parameter name.
 
-Hm, I mostly associate that format with MAINTAINERS entries where
-people want email classification. But you're right there are some=20
-uses, only 3 of them look like companies, tho.
+IMV this is rather about ignoring the built-in states table
+altogether, IOW something like "pretend that you don't recognize the
+processor".
 
-$ git log --format=3D'%ae' v6.0..v6.14-rc1 | grep '+' | sed -e 's/.*+\(.*\)=
-@.*/\1/' | sort | uniq -c | awk '{if ($1 > 5) print;}'
-     18 huawei
-    464 kernel
-     46 lin
-    742 linaro
-      8 publicgit
-   1646 renesas
-
-$ git log --format=3D'%an' v6.0..v6.14-rc1 | sed -n 's/.*(\(.*\))/\1/p' | s=
-ort | uniq -c | awk '{if ($1 > 5) print;}'
-    177 AMD
-    210 Arm
-     29 Dent Project
-     37 eBPF Foundation
-    547 Google
-     13 Hanghong Ma
-    132 IBM
-     46 Intel
-     38 Microsoft
-     18 Ming Qiang Wu
-    155 NGI0
-     26 NXP OSS
-   1487 Oracle
-     19 OSS
-      7 Som
-     70 Sony
-    353 SUSE
-      9 tencent
-     24 VMware
-      8 =E8=BE=9B=E5=AE=89=E6=96=87
-
+But it could be something like "prefer_acpi" as far as I'm concerned.
