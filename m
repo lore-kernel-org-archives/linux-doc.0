@@ -1,236 +1,374 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF0E2C181;
-	Tue,  4 Feb 2025 15:30:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738683009; cv=fail; b=EA05B8KUgTM91YmKftzjMf/QU1FECD/8rLkVWAYKEx8ig7hB7WLqLUvjRWww0dnT3I0f0zSzvgbZmlyyoU1nyLJtl7tXN0AjIVWQdb4w2XkioNejXEl48M+zLDvJ6CPetAEAC5b1nhHk7kYkyfCeofyitoCnzHOHWDObksKvDE8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738683009; c=relaxed/simple;
-	bh=anJCfJU7OOhWh4LQZmujxpWrKX3dHPgHYbt7a9CeEmM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=r5YPA9t7BjAeqz7CD1XmMnlb8lhO4d9nOBYHdgmR3+5eRCp4OtaawqnBmvTiXDGFeaBHYRdVm0dvcOgT1jkXs459Z2kGLXZiApp9qm1hca7jVxrU5eInw0KwdxnppCM46R6c6o4856lkBOcgAd8XPObq4tAEB5SmDDylzPWOlZ0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kycMbHk3; arc=fail smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A88F25A659;
+	Tue,  4 Feb 2025 15:44:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738683848; cv=none; b=uvDHBO0XhEb6Wh66UHWoptUsxFUg02A0RNJPCM0rdJRYXDCmmbtGCmudXedfSDLxaZhy1chm4mvUbtnS1W+DuTUWe8Zoyb6gkZJrcWiwh/ceqcREpyBfDuf1Pr5Cxk6n7w16z0hqd6u8FznfTU71Wu6N5ASHxTV0hlNqXOrAOS4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738683848; c=relaxed/simple;
+	bh=9LjR4PrthTacJS1PcN56bU3Mu47B6G3tqgbyXyXgOXA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MCG+YdgnOf7iSz2FxqixRxfN7kbwX8hftB7PLykbPuI4KuQH27K2way/NWffqtqx7Mxqep2cp5bYs4/VappfBp1yW20Mt4ZkAvfOvKyOUFY9forCEy0Ot5d0y/wPE/gIFghlRbCzwNaRDgp4+q+mW7KO0Vaq5CW+5Hag4Ne56NU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PXevnNNj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kycMbHk3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738683007; x=1770219007;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=anJCfJU7OOhWh4LQZmujxpWrKX3dHPgHYbt7a9CeEmM=;
-  b=kycMbHk3ENAU/k2aJ42fUg0Uczx/JhHToNJBFnUmBdh3FfvzCdraeu/u
-   lHPjqfE129W6RAlUjPpJsLQjgzGjFxCpaG3dYQBbA83eihBVZG6QQVCnn
-   iLw8xwJiSnDpfv3QhaIJU464MYEObykRak44/+7TKoYOLwOuVzyIIJoM6
-   CyoGuVYQK7YcvmPXpZH3tZnCQMI1/EgO/VWEJYTRxdbzHzPT89wnl4h4k
-   HOSM//+RskWKVNLl3GxpywiA5AxaP6h8mERrxwHyPeA7QAuK5/SO9Vht/
-   6e9pJRrzYZVwkLkVoy6o2LqxzdGE+FdwX+Yn6nP0+wUQpZzuZkkIYFqD1
-   Q==;
-X-CSE-ConnectionGUID: Xd/w5REaS9ulYQI8kut7gg==
-X-CSE-MsgGUID: wM9x2tBcThaGvkkwGu3wmg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="42053298"
-X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; 
-   d="scan'208";a="42053298"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 07:30:05 -0800
-X-CSE-ConnectionGUID: XyRe4vr/S2mBM7t495xKQg==
-X-CSE-MsgGUID: GcVD1CdUReCu38vNleOARg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="111071917"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Feb 2025 07:30:05 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Tue, 4 Feb 2025 07:30:04 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Tue, 4 Feb 2025 07:30:03 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.41) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Tue, 4 Feb 2025 07:30:03 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eyp3AE0ym5HUph3XaJ59IF5QKHalfMP80wR8DAlGjDA279/Pn3hPpcol+mIIfjnmKGvjw4VC8G2nCmV05lqC/+SP3ifrSYfHaray/0WjRPE8Ohys/cRB+J2qU0bN8/kS+zH0njUgJrfci/yC9etyKQAwo/kK8bLU0M2QwSTBeK8j1q+MgGAWdRVGmMwfJDmXxopf0TjLlcxW+lM3rXCujKuG1gli5AYTmPJhQQKGqCu93KpeIurTb666+0xpZVheVVXhTFSHwPp6pQJ/CccMzMeugBXWWPuVHzwFguqnJzJLrQFYzouC6B9hR3jHR9ECMu85LzihjIqgqN1uxRb47A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=anJCfJU7OOhWh4LQZmujxpWrKX3dHPgHYbt7a9CeEmM=;
- b=PUDDnK5wgsGpAdG/ulzq1orthydSPyYws/XxWuda3Hg2yHzF053gGRo0TZA9Ywp2HL5vYxkXusry8cDiGOYoET/Hjfnx80TdIuxFPOqSsBcIrvT5G2zlSpJraPSczYUvmLHH1tdhdhV8bcYgFaMwW4k9UpnEgxNYP/BVmF9tqRYwBuRNKcBcYHB0CY/N6RKhoko3wIIh768VKxI9WO8oLHaj6iuuJMEQZvhDYIHu/lVh3K0d2a0A8LwM3dF/ISnmAxBcBPe9hknnKAb4bkqCWLQf8OmZIslpGD3kVK5jsBo2A2rTH9541/nwEb1szY2BOys1Bv+hmI6Pl+NP+HDMug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from PH0PR11MB5830.namprd11.prod.outlook.com (2603:10b6:510:129::20)
- by SA1PR11MB7130.namprd11.prod.outlook.com (2603:10b6:806:29f::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.24; Tue, 4 Feb
- 2025 15:29:29 +0000
-Received: from PH0PR11MB5830.namprd11.prod.outlook.com
- ([fe80::c80d:3b17:3f40:10d6]) by PH0PR11MB5830.namprd11.prod.outlook.com
- ([fe80::c80d:3b17:3f40:10d6%4]) with mapi id 15.20.8398.025; Tue, 4 Feb 2025
- 15:29:28 +0000
-From: "Song, Yoong Siang" <yoong.siang.song@intel.com>
-To: "Fijalkowski, Maciej" <maciej.fijalkowski@intel.com>
-CC: "David S . Miller" <davem@davemloft.net>, Eric Dumazet
-	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Willem de Bruijn
-	<willemb@google.com>, "Bezdeka, Florian" <florian.bezdeka@siemens.com>,
-	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	Bjorn Topel <bjorn@kernel.org>, "Karlsson, Magnus"
-	<magnus.karlsson@intel.com>, Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>, Jesper Dangaard Brouer
-	<hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, "Damato, Joe"
-	<jdamato@fastly.com>, Stanislav Fomichev <sdf@fomichev.me>, Xuan Zhuo
-	<xuanzhuo@linux.alibaba.com>, Mina Almasry <almasrymina@google.com>, "Daniel
- Jurgens" <danielj@nvidia.com>, Andrii Nakryiko <andrii@kernel.org>, "Eduard
- Zingerman" <eddyz87@gmail.com>, Mykola Lysenko <mykolal@fb.com>, "Martin
- KaFai Lau" <martin.lau@linux.dev>, Song Liu <song@kernel.org>, Yonghong Song
-	<yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, Hao Luo
-	<haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, Shuah Khan
-	<shuah@kernel.org>, Alexandre Torgue <alexandre.torgue@foss.st.com>, "Jose
- Abreu" <joabreu@synopsys.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	"Nguyen, Anthony L" <anthony.l.nguyen@intel.com>, "Kitszel, Przemyslaw"
-	<przemyslaw.kitszel@intel.com>, Faizal Rahim
-	<faizal.abdul.rahim@linux.intel.com>, Choong Yong Liang
-	<yong.liang.choong@linux.intel.com>, "Bouska, Zdenek"
-	<zdenek.bouska@siemens.com>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"linux-stm32@st-md-mailman.stormreply.com"
-	<linux-stm32@st-md-mailman.stormreply.com>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "intel-wired-lan@lists.osuosl.org"
-	<intel-wired-lan@lists.osuosl.org>, "xdp-hints@xdp-project.net"
-	<xdp-hints@xdp-project.net>
-Subject: RE: [xdp-hints] [PATCH bpf-next v7 5/5] igc: Add launch time support
- to XDP ZC
-Thread-Topic: [xdp-hints] [PATCH bpf-next v7 5/5] igc: Add launch time support
- to XDP ZC
-Thread-Index: AQHbdp72yuxX8HZUp0ilKWaa9j1bCbM27JUAgAArOGCAABYdAIAACecwgAAKxgCAAAJf8A==
-Date: Tue, 4 Feb 2025 15:29:28 +0000
-Message-ID: <PH0PR11MB58301AA73FE5401211B36D7CD8F42@PH0PR11MB5830.namprd11.prod.outlook.com>
-References: <20250204004907.789330-1-yoong.siang.song@intel.com>
- <20250204004907.789330-6-yoong.siang.song@intel.com> <Z6HnaMQvgW+indqm@boxer>
- <PH0PR11MB5830422207B7D3BCB27DA04FD8F42@PH0PR11MB5830.namprd11.prod.outlook.com>
- <Z6IeNumqP1aNAphU@boxer>
- <PH0PR11MB58308B675B0B9B95AEEBF192D8F42@PH0PR11MB5830.namprd11.prod.outlook.com>
- <Z6IvjrnVX2xSFHlh@boxer>
-In-Reply-To: <Z6IvjrnVX2xSFHlh@boxer>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR11MB5830:EE_|SA1PR11MB7130:EE_
-x-ms-office365-filtering-correlation-id: 1d050f2c-8798-4720-93ff-08dd4530b70d
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?mH1WAgSrH9MDupbeNYb8CqDZshyESllf+Q1NO9piaDkQNx24TukjfkdszXd8?=
- =?us-ascii?Q?b0OXb+K2eNX2rzhQSzz31pWbvos2YMr5QyAWzc3wk+jo2QKOiDCWNGILyXg4?=
- =?us-ascii?Q?odBL38uuu0e2VSBCd/MzJCNRe6iGbcr+qVXnuOjFX4FkylMD6rcLAl9jrPKq?=
- =?us-ascii?Q?JUemH9Ti8ekfO6tXdDJDVWYwofk8VUCBXINssKJYCUUO+Uo52Jg36fBSx0CZ?=
- =?us-ascii?Q?/Nyekius3h7zDkQOa9qkuXSsVhJtkCv1Gu1sZYyv6UzinVKMlA0xdeHIJJcT?=
- =?us-ascii?Q?XKeMDqxTxgiy0rTuDfBz3aPKQfOP1upEdYVhJw9qDocvlvaCKqo7dg2Pu79e?=
- =?us-ascii?Q?ZuuWfUcPZLbVHwDZW39XO/d6waxdzNX53ZF1gSNQZVtto8BLaWfIbZGRyJn8?=
- =?us-ascii?Q?Cp9gkraMh112d4Okv8HCM8qyNh67bIr27z0+VzBl0lsz+zG2ZvL1F/rmYhfB?=
- =?us-ascii?Q?h1zRBqQuE1294uN7NVu4DCpiSJOyRgOd/8F3vMFd73ADBjuXsLUk1PXTdQbe?=
- =?us-ascii?Q?xZLsPC11IATUc1IoSTAt1iWbkDRaNlk6l4a1MOKxUQrxjRILJ1J4tKjZUL9P?=
- =?us-ascii?Q?MDq5LpVMYPRV9iz8WREOPlTCdK5UGuu+zsNX+1agnJoFmzQb9yu9ZfVF7H3o?=
- =?us-ascii?Q?jaFyZQAa3I6f+FotO3FLQxBroQlo/yl31IS5B2gAhszufjh65OONeI3KSmPT?=
- =?us-ascii?Q?SwA2boNffayhu9TSm0zutAy6QpzDfj4GIowNF7x+BSnNZtVf/YfrbY/yVec8?=
- =?us-ascii?Q?Pu42I22FP5xLb7zCh6R8h4QBJFvmSiI4TlDjEMZoLCaLpHZdbQdU6m1bz/av?=
- =?us-ascii?Q?XyC/HIpzOy16+kuzaf/FEhLLklP6UqClADlm4GOHj0Dsd1rEBihhfRXSD425?=
- =?us-ascii?Q?zB36sTITey+0dZD6JX1NL8p+BLa7KYnivxXQZrEve2Thp3caSQ5hnA+0ZDvs?=
- =?us-ascii?Q?SiLop6Bwojl9zFW842dJi5eTIWNRA/mP5yyy5jjr27Ky73zXqqOXuhc4nKZG?=
- =?us-ascii?Q?316AXDeaueQI8K4a4jIm61yI2+A7ZUHZQETgTYJU0NiHrwGxpr06GusOkkzH?=
- =?us-ascii?Q?I3LGu5QFNl4x7DMk4GWQLsCvjs+2HoRGG3zibI0ecY7sBhP3SCZjrPY6EuB/?=
- =?us-ascii?Q?/RMaE6FrfRQBN+AmmVPB+qMC7sTJhcKapuJy1sWPgSWAtiCo1Z2FaTXZPFBZ?=
- =?us-ascii?Q?Rvz3RxL1eM5GjUbwCTH1CpWu4j5vJ8ByyD7pK1+GKEREp9pJbk1IHB+p+vPe?=
- =?us-ascii?Q?sAo2UZQfWxt+WZxlWAL4AwyKTH7ZStcwyf7HHmyctFFoAwd94gzq2uKI8av0?=
- =?us-ascii?Q?bpb5eCCst+QYU1v5seqfkiOEo+IAHhhJbdBLc8tUWUpWbHUQ/3xrfuotFYpF?=
- =?us-ascii?Q?abjCs7KlpBlsmOl0VsB/aNv8bTwRgs8DgSu5qCWiHvTqmaOM/Tb/erPGSq6J?=
- =?us-ascii?Q?buMvKreinmscsRTuTFiha7GZCoW0yWUy?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5830.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?u1T3h7fSwzwwThrHHu3oDxSTr2rtCqYtOBmRsunQcXURX/3+99Jpdst2HCtW?=
- =?us-ascii?Q?9alhwq72x/kjVltvbV81zjXHCKxZ6NuG6ybC5eK0gGzc84+egQsZJeHNYyF/?=
- =?us-ascii?Q?c1F2T02Q2FhYkxwgYpjfXOzVsi8PpzdxSv5CfATz8jUExLYGWwGIA+EP7CXB?=
- =?us-ascii?Q?3QRvF5fUqp6Lpb6pCaCEKo5W2T6DsbZYfwpRsxO3sl0hy4F3ghO2PyX53ae7?=
- =?us-ascii?Q?wauLBgCMMlCRB6KgjaUDAgeVRd5+XP6zc7DYK+bb/WRxLQmbteLj4eOmb72e?=
- =?us-ascii?Q?EhAaSkMvEFpygiWos5qgl/UZLddvhi61nLHD2p7eB+nXfSObfbHVm2gtFNkA?=
- =?us-ascii?Q?NJ7X0nr+oxo4kIHEWGgVnM1NoDrfOotPYSEcUo5xqsxsSrJKVg/dOB/9i+vQ?=
- =?us-ascii?Q?HkMVlq35zK9sOEdKIZaHAfSb3RSBmH0tyIAZTbaq47GJHhN9wSZoZNrZBOZQ?=
- =?us-ascii?Q?jfrWUz0Y/9271ppMnLcigEkR3/0YygSbWA4ltw2sm9xxXKb8U+TMoxLX4ccR?=
- =?us-ascii?Q?lYiDd2dp927T0LfAgorfcMkVFlunPvGlsReX2fzWVMK18XBiHxXBculHAiNi?=
- =?us-ascii?Q?/otJq/bs02lbZO80FfV1H+4Lzpj4U6fLahg7VqLKLNJ/QTAfiQMUEl2z2Nfn?=
- =?us-ascii?Q?2WLno9SfAEl75ElFwVI6iJEpDv19zL3qG2le5ebghBLr2XQzFDd4mJ4agodx?=
- =?us-ascii?Q?7UEDnhC9rNyVgIdP/gZq1EO1fwUAD5eLZFta01QW2Bh5jOYT8zrpxZosRzi5?=
- =?us-ascii?Q?AEHqfJJSNVYgovhC5txEMgQu1HyN7tXlWYiJm6GhNRVsWtxO4UAyPT1uHHaP?=
- =?us-ascii?Q?VqevO7gQfR7r0HS9+8R0vNof1bTdSPht9OTGCmZIe49acu0IXsbK74qSLCyM?=
- =?us-ascii?Q?T8SIyiSWVKBpysf4aS7+Ki5Lk82XvqcCpRNeegZpzkeB+7sCukc2xOsEEjdX?=
- =?us-ascii?Q?AbPxM4d7EGyCJoikEHaIVS6GhmMElqz+06+mEimsUXOQqSKklnfdC5d1dLaU?=
- =?us-ascii?Q?zJS5loXQXop0Csg+QdCMXn5e3eNAA2z0O2hOP2n0NKegl1IUhLtgbHoZHfkv?=
- =?us-ascii?Q?gcCb0vcUVu7fxcQs1nRXTe3KHSm86clB7L80pfnQXnQxxqVV0ZIpW2PDQUIW?=
- =?us-ascii?Q?1cxTzXicxZo47Of40+H07POzch1SLJ1rG9AkjeJSYeYCGm2CPy8LAfkTcN7g?=
- =?us-ascii?Q?HxGuV8fJTekf4Lb8D/uRdTZFu9znxR0V34hpwrAj8g4ZBOThTTX0Qk3V1zP3?=
- =?us-ascii?Q?aBmDNcQZ9nHzuuuBzhvZgR01nKheGT3n8SFqf/uglpb9zmjGxN64WXpMXogY?=
- =?us-ascii?Q?nNm4ZUaxEmvCTZ6dB4AqBgoY7Pq7byK5gtdRV8s2/qU15UOf3rY35iW0ccUD?=
- =?us-ascii?Q?Ct24qHpllp4InbLQcsI7nL+XbabpWqqc2og5E+MlNFfxsEeW3j2GLIyJvRIj?=
- =?us-ascii?Q?6P8+DzZcIVkHnEPvJTpVEY7K/cJSOrxxHkkuHitrRlGMo1MBcbKFd9hAMMZx?=
- =?us-ascii?Q?OMrKSAx3urZ6+vXnmO65lTmq79g17OrdHny2CwtktEKhU2gCoVJpTTIsuvwb?=
- =?us-ascii?Q?ljPszFnWYoNIhFvhsOiO2HY+7NDmb13fw4K3ulnTyGLzkOtjt9RePTptp6PY?=
- =?us-ascii?Q?7g=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PXevnNNj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D3C7C4CEDF;
+	Tue,  4 Feb 2025 15:44:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738683848;
+	bh=9LjR4PrthTacJS1PcN56bU3Mu47B6G3tqgbyXyXgOXA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PXevnNNj56Mn3/RrfsdBMkk+CSi8osqLayw4LQehsm8BZFM8KQ2Z1neHySuvgFTks
+	 c1qLsUIMt+LeuLlZm7zOpxwY1dGlcmeF9EM1S/1jLNdAJqGySskA5eRgMM5cgsDPCF
+	 BEruBGIUOWOoxEaqV13wQ6hXTQ/qRiOg06uNsGfTRG4/lIekHJCtlsThzC3ZbBxBMH
+	 zBbACCJXd3NWLPRysuhjQ/JiUGQUy8b8PlJVRVj04CFcClFvP70MxZG8ViPI7tTYOE
+	 uLF0bty3Bc4RA23bgkNUo9Rj8AknLNpO0TMZpQXRd1iIx0yFpfeG7lx0/7ZbGonvoJ
+	 lk+1VG5/SVIVQ==
+Date: Tue, 4 Feb 2025 16:44:05 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
+	Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Daniel Thompson <danielt@kernel.org>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Paul Kocialkowski <contact@paulk.fr>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-doc@vger.kernel.org, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v5 08/10] drm/bridge: samsung-dsim: use supporting
+ variable for out_bridge
+Message-ID: <20250204-aspiring-pumpkin-mastiff-5077be@houat>
+References: <20241231-hotplug-drm-bridge-v5-0-173065a1ece1@bootlin.com>
+ <20241231-hotplug-drm-bridge-v5-8-173065a1ece1@bootlin.com>
+ <7kpgrgqp2jx6ivkwdc5ax3dfah2qkajaedpcdadldselr4bdlq@jewss2bdl4or>
+ <20250102130149.5784c09b@booty>
+ <20250110115819.55bc887b@booty>
+ <20250116113236.39ba876a@booty>
+ <20250116-brave-feathered-dormouse-8ea4cf@houat>
+ <20250121122729.41c8f2b1@booty>
+ <ksxomce6vddld7vikzyjd55babho63vj6ej5vrsiwfp2tid6yu@xfpagqpata4v>
+ <20250129125146.22981c9f@booty>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5830.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d050f2c-8798-4720-93ff-08dd4530b70d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Feb 2025 15:29:28.7726
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JKQvotN1FVdJAZ9uBBBaIBJ2GHv8irERDsKa/xHac/P3fqG2GiuL6aviTHf33XqWvUtcftod5XpWNvQf3dKmfy4+V+TyfI9/YXFIoIZDiL8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB7130
-X-OriginatorOrg: intel.com
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="5xavrfqrozjzhklo"
+Content-Disposition: inline
+In-Reply-To: <20250129125146.22981c9f@booty>
 
-On Tuesday, February 4, 2025 11:18 PM, Fijalkowski, Maciej <maciej.fijalkow=
-ski@intel.com> wrote:
->On Tue, Feb 04, 2025 at 03:49:32PM +0100, Song, Yoong Siang wrote:
 
-[...]
+--5xavrfqrozjzhklo
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v5 08/10] drm/bridge: samsung-dsim: use supporting
+ variable for out_bridge
+MIME-Version: 1.0
 
->> With above, IMHO, we no need to clear igc_tx_buffer::type,
->> Are you agree?
+Hi Luca,
+
+On Wed, Jan 29, 2025 at 12:51:46PM +0100, Luca Ceresoli wrote:
+> > > > > For hotplugging we cannot use drmm and devm and instead we use ge=
+t/put,
+> > > > > to let the "next bridge" disappear with the previous one still pr=
+esent.
+> > > > > So the trivial idea is to add a drm_of_get_bridge(), similar to
+> > > > > {drmm,devm_drm}_of_get_bridge() except it uses plain
+> > > > > drm_panel_bridge_add() instead of devm/drmm variants. But then the
+> > > > > caller (which is the panel consumer) will have to dispose of the =
+struct
+> > > > > drm_bridge pointer by calling:
+> > > > >=20
+> > > > >  - drm_bridge_put() in case a)
+> > > > >  - drm_panel_bridge_remove in case b)
+> > > > >=20
+> > > > > And that's the problem I need to solve.   =20
+> > > >=20
+> > > > I'm not sure the problem is limited to panel_bridge. Your question =
+is
+> > > > essentially: how do I make sure a driver-specific init is properly =
+freed
+> > > > at drm_bridge_put time. This was done so far mostly at bridge remove
+> > > > time, but we obviously can't do that anymore.
+> > > >=20
+> > > > But we'd have the same issue if, say, we needed to remove a workque=
+ue
+> > > > from a driver.
+> > > >=20
+> > > > I think we need a destroy() hook for bridges, just like we have for
+> > > > connectors for example that would deal with calling
+> > > > drm_panel_bridge_remove() if necessary, or any other driver-specific
+> > > > sequence. =20
+> > >=20
+> > > The .destroy hook looked appealing at first, however as I tried to
+> > > apply the idea to bridges I'm not sure it matches. Here's why.
+> > >=20
+> > > The normal (and sane) flow for a bridge is:
+> > >=20
+> > >  A) probe
+> > >     1. allocate private struct embedding struct drm_bridge
+> > >        (I have an _alloc() variant ready for v5 to improve this as yo=
+u proposed)
+> > >     2. get resources, initialize struct fields
+> > >     3. drm_bridge_add(): publish bridge into global bridge_list
+> > >=20
+> > > Now the bridge can be found and pointers taken and used. =20
+> >=20
+> > We agree so far.
+>=20
+> Good :-)
+>=20
+> > > And on hardware removal, in reverse order:
+> > > =20
+> > >  B) remove (hardware is hot-unplugged)
+> > >     3. unpublish bridge
+> > >     2. release resources, cleanup
+> > >     1. kfree private struct =20
+> >=20
+> > I think the sequence would rather be something like:
+> >=20
+> > B') remove
+> >   3. unpublish bridge
+> >   2. release device resources
+> >   1. release reference
+> >=20
+> > C') last put
+> >   2. release KMS resources
+> >   1. kfree private struct
+>=20
+> Just to ensure we are on the same page: patch 3 is already implementing
+> this model except for C'2.
+>=20
+> Well, in reality it even implements a .destroy callback at C'2, even
+> though it was not meant for the usage you have in mind and it's
+> scheduled for removal in v6 -- even though as I said I'm OK in
+> re-adding it if it is useful.
+>=20
+> Mainly I'm not sure I understand for which ultimate goal you propose to
+> postpone releasing KMS resources to C'.
+>=20
+> Is it (1) because we _want_ to postpone releasing KMS resources? In this
+> case I don't know the use case, so if you have a practical example it
+> would probably help a lot.
+
+It's not that we want it, it's that it's already happening :)
+
+The main DRM device is only torn down not when its devices goes away,
+but when the last application closes its fd to the device file. Thus,
+there's a significant window (possibly infinitely long) between the
+device being removed and the DRM device being freed, during which the
+application will still be able to issue ioctl that might reach the
+driver.
+
+Thus, we have two kind of resources: the ones tied to the device
+(clocks, register mappings, etc.) that will go away when the device is
+removed, and the ones tied to the DRM device (connectors, bridges, etc.)
+that need to stick until the DRM device is free'd. It's the difference
+between devm and drmm actions.
+
+> Moreover, for the panel bridge specifically, it would mean postponing
+> the destruction of the struct panel_bridge, which however has a pointer
+> to the panel. But the panel is probably hot-unplugged at the same time
+> as the previous removable bridge(s), we'd have a time window between B'
+> and C' where there is a pointer to a freed struct panel. We'd need to
+> ensure that pointer is cleared at B'2, even though it is a "KMS
+> resource" and not a "device resource".
+
+You're correct, but we have to start somewhere. Fixing the issue for
+bridges only will already fix it for all setups using only bridges, even
+if the ones using panels are still broken.
+
+I'm also mentoring someone at the moment to fix this for panels, so it's
+only temporary.
+
+> Or is it (2) because there are cases where we don't know how else we
+> could release the KMS resources? AFAIK all bridge drivers are able to
+> release everything in their remove function (B'2) with the exception of
+> the panel bridge, so this sounds like a workaround for just one user
+> that apparently we all agree should be improved on its own anyway.
+>=20
+> Note I'm not strongly against (2), if it simplifies the path towards
+> dynamic bridge lifetime by postponing the panel bridge rework. I just
+> need to understand the plan.
+>=20
+> Another question is what is a device resource and what is a KMS
+> resource. What's the boolean expression to classify a
+> resource in one or the other family? For example, in your example
+> quoted above ("But we'd have the same issue if, say, we needed to
+> remove a workqueue from a driver"), is the workqueue a KMS resource?
+
+It depends on what the workqueue is doing. If it's to handle atomic
+commits like the writeback code, then it's KMS facing. If it's to handle
+interrupts, it's device facing.
+
+It's hard to come up with a boolean classification, but it's basically
+"can any ioctl code path end up using that resource?".
+
+> I need to understand your idea if I want to implement it.
+>=20
+> > > Some drivers do real stuff in B2, so it is important that B3 happens
+> > > before B2, isn't it? We don't want other drivers to find and use a
+> > > bridge that is being dismantled, or afterwards. =20
+> >=20
+> > Yeah, B3/B'3 should definitely happen first.
+> >=20
+> > > B3 should normally happen by removing the bridge from the global
+> > > bridge_list, or other bridges might find it. However setting the "gon=
+e"
+> > > bool and teaching of_drm_find_bridge() & Co to skip bridges with
+> > > gone=3D=3Dtrue would allow to postpone the actual removal, if needed.
+> > >=20
+> > > With that said, with hotplugging there will be two distinct events:
+> > >=20
+> > >  * hardware removal
+> > >  * last ref is put
+> > >=20
+> > > The second event could happen way later than the first one. During the
+> > > time frame between the two events we need the bridge to be unpublished
+> > > and the bridge resources to be already released, as the hardware is
+> > > gone. We cannot do this at the last put, it's too late.
+> > >=20
+> > > So I think the only sane sequence is:
+> > >=20
+> > >  * on hardware removal:
+> > >      B3) unpublish bridge (drm_bridge_remove() or just set gone flag)
+> > >      B2) free resources, deinit whatever needed
+> > >  * when last ref is put
+> > >      B1) kfree (likely via devm) =20
+> >=20
+> > No, devm will have destroyed it in B'2. We need to destroy it in the
+> > cleanup hook of kref_put
+>=20
+> devm will have destroyed what? Sorry I'm not following.
 >
->Yes, the contract should be that every routine that produces descriptors
->should be setting the ::type explicitly. Sorry for not being clear from
->beginning but I'm glad we're on the same page now.
->
->I'm afraid this single line should be send as a fix, though :< even
->without your patch set empty descs could be mixed IGC_TX_BUFFER_TYPE_XDP
->type.
->
+> If you mean "it" =3D=3D "the private struct", then no, this is not the
+> case. drm_bridge_init in patch 3 does not kfree the private struct but
+> instead registers a devm action to call drm_bridge_put. Then, at the
+> last put, drm_bridge_free() will actually kfree the private struct.
+>=20
+> In this v5, kree()ing the private struct at the last put is done via
+> a callback. In my work towards v6 the principle is the same but I have
+> reworked it all, implementing a devm_drm_bridge_alloc() macro as you
+> suggested (BTW that was a great improvement, thanks) and removing the
+> .destroy callback as it was not needed.
+>=20
+> In case it helps, here's a preview of my v6, with some added comments to
+> support this discussion:
+>=20
+> /* Internal function (for refcounted bridges) */
+> void __drm_bridge_free(struct kref *kref)
+> {
+>         struct drm_bridge *bridge =3D container_of(kref, struct drm_bridg=
+e, refcount);
+>         void *container =3D ((void*)bridge) - bridge->container_offset;
+>=20
+>         DRM_DEBUG("bridge=3D%p, container=3D%p FREE\n", bridge, container=
+);
+>=20
+>         kfree(container);
+> }
+> EXPORT_SYMBOL(__drm_bridge_free);
+>=20
+> static inline void drm_bridge_put(struct drm_bridge *bridge)
+> {
+>         if (!drm_bridge_is_refcounted(bridge))
+>                 return;
+>=20
+>         DRM_DEBUG("bridge=3D%p PUT\n", bridge);
+>=20
+>         kref_put(&bridge->refcount, __drm_bridge_free);
+> }
+>=20
+> static void drm_bridge_put_void(void *data)
+> {
+>         struct drm_bridge *bridge =3D (struct drm_bridge *)data;
+>=20
+>         drm_bridge_put(bridge);
+> }
+>=20
+> // fold this into __devm_drm_bridge_alloc() or keep for consistency
+> // with drm_encoder.c?
+> static int __devm_drm_bridge_init(struct device *dev, struct drm_bridge *=
+bridge,
+>                                   size_t offset, const struct drm_bridge_=
+funcs *funcs)
+> {
+>         int err;
+>=20
+>         bridge->container_offset =3D offset;
+>         kref_init(&bridge->refcount);
+>         bridge->is_refcounted =3D 1;
+>=20
+>         err =3D devm_add_action_or_reset(dev, drm_bridge_put_void, bridge=
+); // <=3D=3D devm just puts one ref, does not kfree
+>         if (err)
+>                 return err;
+>=20
+>         bridge->funcs =3D funcs;
+>=20
+>         return 0;
+> }
+>=20
+> void *__devm_drm_bridge_alloc(struct device *dev, size_t size, size_t off=
+set,
+>                               const struct drm_bridge_funcs *funcs)
+> {
+>         void *container;
+>         struct drm_bridge *bridge;
+>         int ret;
+>=20
+>         if (!funcs) {
+>                 dev_warn(dev, "Missing funcs pointer\n");
+>                 return ERR_PTR(-EINVAL);
+>         }
+>=20
+>         container =3D kzalloc(size, GFP_KERNEL);     // <=3D=3D NOT alloc=
+ating with devm
+>         if (!container)
+>                 return ERR_PTR(-ENOMEM);
+>=20
+>         bridge =3D container + offset;
+>=20
+>         ret =3D __devm_drm_bridge_init(dev, bridge, offset, funcs);
+>         if (ret)
+>                 return ERR_PTR(ret);
+>=20
+>         DRM_DEBUG("bridge=3D%p, container=3D%p, funcs=3D%ps ALLOC\n", bri=
+dge, container, funcs);
+>=20
+>         return container;
+> }
+> EXPORT_SYMBOL(__devm_drm_bridge_alloc);
 
-Agree with you. I will send this single line as a fix patch to iwl-net
+Awesome, I guess we were actually understanding each other the whole
+time then :)
 
-Thanks & Regards
-Siang
+I'm still kind of sure we'll require a destroy callback to call in
+__drm_bridge_free, but if it works, I guess it's good enough for now.
+
+Maxime
+
+--5xavrfqrozjzhklo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6I1xQAKCRAnX84Zoj2+
+din7AX4z+wlKG9YMZHp7rfMZ14/EeGu5xVI5ae27mPjjrzm7+YoB26/yCsz2Fjgc
+B9yCjsUBgMJBbRsTw/yYGmfshRFLspEG0zSCYqcLMrW0pD/OeUhgeD6YEOmq61WG
+CgTVZu0JkQ==
+=t+af
+-----END PGP SIGNATURE-----
+
+--5xavrfqrozjzhklo--
