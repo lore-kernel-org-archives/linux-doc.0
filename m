@@ -1,70 +1,70 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8511425A634;
-	Tue,  4 Feb 2025 09:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3423206F02;
+	Tue,  4 Feb 2025 09:33:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738660565; cv=none; b=hVs0EWLZL3AbI3UIGHZGm3axzd7C/KKfHCW+CV+pxDrpRKA4pkobbCdn5flhBQoDeMcjV284ehxf5ZOdyliUCEDMO1hDTlT3MJ9sXeQCDtWxjLzSHGXgyDzS6QxZRFDtgMYXX7ubFQYQP2oKj6oDsDi5ivd4VqYuygEF6NBNg5g=
+	t=1738661615; cv=none; b=q/O4IbnkcgBgEHNu7yrZHfA7hLIJlCUC/2gyQSkA8WY1xdIJdQYKyVn8a+yaTejXHd1+gXJwRUpScBIiePthUsPRfIU0qjB9nyfc3c1N1CBYd54dcNlaaXohRKbphcqJKm6mJW0sbaCVGUyIEjAEs+6IRf/GO41xbQaIQqv6T7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738660565; c=relaxed/simple;
-	bh=JOPhvE57e7Yl0yCqgzNDBhGaDnxSGMQdZUcisBNJLZo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sA5Bpa2QgN2j3CDmSY1Apo87QVfDuA4ux/CBVKBmKtzzkM1G2UvcLT57Qk6tGHEmAg4H8JpiFgzHe05WAzjtTp0YThXfntdv846e4+vpp+aCgWokfvWy0phdk5FnXJUlOAMP26qLTJq80LiFN4D9/KDbIxrOiFAf3DKUuFKAcUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g2nT+fv1; arc=none smtp.client-ip=209.85.216.54
+	s=arc-20240116; t=1738661615; c=relaxed/simple;
+	bh=kL1ZVwGgPYCVz7/hsjgoJWKryi1olR2r5z3Lp/ZDCn8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XKfsYnRadOHQF0wMZi4ybWRwJIJJET7+wSnJ2H16ylJjkoU58z9Let2/dg6Nfx8Mqt+OM2bQDRxwso0nhw/4wkaFDF0HGLYA9rlF1MyovjUfQa071e9Ik/BWpLwisv0Oj7z8L3eLdYcGyoCGxRv69oKs9RvbD3hibscNb0asjk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JksJW8Db; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g2nT+fv1"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2f9ba87f5d4so950279a91.3;
-        Tue, 04 Feb 2025 01:16:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JksJW8Db"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-21628b3fe7dso97563785ad.3;
+        Tue, 04 Feb 2025 01:33:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738660564; x=1739265364; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1738661613; x=1739266413; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=23I1dv2MsxhtsNHlLyu9LlFvff8gGRJb6rjKW5yM4Yg=;
-        b=g2nT+fv1WH03lttDCkQwQz/stI/MM9TSfGXz5NM+FsNfoxX/oNlFrRLSy20yftcble
-         UYPxMkCgHmzX5+zIcNhmPdvrC/nGkxqQp8R9BSM3PWzPS8WcyCuXgzPAoTNnKXENhNRm
-         nmIHpIpQFiScuekgQQQmYpMPyju6Xfnb6asDAtrqKgETuS9DLSJhzFB22q0DtcwF3XOa
-         RgyH+Co0TYBXNJvTndxD2YFmkTZ4Juv06m6jf+K0OBv5C9X3c5KI8Y/aNipMamOLNsSB
-         TOeJt4Nq88qGVUL5m6uBb6dJbaMtLm8Q/WDiQtXIkYZoDd9R8JQUFPq695XJa56VeM+7
-         RJbA==
+        bh=FDg5knq0PI6dEKzdt3HMdaKML0oINsP0xAnFJWZrPVE=;
+        b=JksJW8DbdRaDiZYKdwerhNksE5w6rCCWvLvd1+kTJg9EBtVUvRfMp1tiJkiPkug9Bt
+         JtcbE9RGOpG5Mp2BJaBO2Vxl/kYf/BRkW/s72R28LVCCwCnzrWA3AqnnrqfLRzIL4dqZ
+         hHssTD1XCEVWxF6FKyTQHM5Uf2+wcBCl+Xy4njM+/ERBywcuaXrq9VbVOtLA4cjTu3V2
+         owW6D1H0Mm/+wIdLuEFtIOv6Q6AdTu/zlPtYb1INb2XvvCaSCqgL7Tr20v1RafWrZxPi
+         5EG/Hwl6wPaNX8SE4RT94aSRdnEAfeAQ/LQ3vSHjeKXyipYZwhnlyyYMJqmUveU15QvQ
+         FSBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738660564; x=1739265364;
+        d=1e100.net; s=20230601; t=1738661613; x=1739266413;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=23I1dv2MsxhtsNHlLyu9LlFvff8gGRJb6rjKW5yM4Yg=;
-        b=eHsEWcpdgO+3fzo+h4CKLt4+gBXdmnrTfTSJBuW/gMO6kEboVOB4cIRUG13VlY7Qcr
-         67YYWkx8rL17jILIljMoSkXyRfWQWtXgh2YCLW5WxgyWisqLtoxTrsW2ckLCX4xUJL1n
-         AMTb/+1RMtPge0qW0GvNo44hf3RTtddqq7OFX/tdEGtglcbdYF5N/x0m1Fufp6mtEeNo
-         bpEbkax2UpXMuSfbkyZncge9zebGcPMn3ipbpWfvKhWVxJvUsLAY+h0tXfJ1lBQ7fcyr
-         E0yOEsT2s36lY6IvgZ9vrbipx5vDPPq4C2CeG51NCsP8vnJssdifuXlGbP+pKV1qYz45
-         9ABw==
-X-Forwarded-Encrypted: i=1; AJvYcCUyHppUVoUU/6kb3ezfGSlMKr5s9wfWsrhgpNjtJu3pFMXjOMueILAfUZpzuOpVbFs/4jtiDfyfOw0=@vger.kernel.org, AJvYcCV36g3X/Aoc6bJpPUD8XuxXXNlHlc6wumuXt1C3j1MFp9lwW2rvld/TuvCh/eivqzRgLkakD2RNGhmPfo2R@vger.kernel.org
-X-Gm-Message-State: AOJu0YykCIu+NJc/D7+Na9kCdc7i4U3EvzawTm6439qIZ9UbR3rTQPkX
-	yi8gL7GgJ1L034O2vVT0STCkfui/2cheoG4XqcRJfFvBYjOZGACaBz2UcrBA
-X-Gm-Gg: ASbGncvyFAw+Bv8XXfrHLX+IVu87uZaQszXN882GPDnyGPVglSO3KKYjmfpzjZyfN+1
-	ZW0xMECMKKZ0kV3MD5HiwfznzCqRiKV7cHvUaEOKL7NVz18n3TA37Qm35IF2Ax06BTThZqXnJYu
-	xMdDEaTJ/qxgSdDoydFAC9LEJ1+vwLFF7rfiIdmedfzb6d8UCXvplFTl0ioM7Fq25vu5h57Ac6r
-	Nbhbh21LeXoLfKLLhVRFx5ZAGrh6wlcDh0EI/rDEm/3FcCKks/d9cmucf5u4eIe5RJoB9gL8rSi
-	sPA86RdAt+HSCZBUeMPDmBoEyZ5G81nv1534qF4vuQW9ygstwg==
-X-Google-Smtp-Source: AGHT+IHcjKZLijm/9o9xintbLwiNdf5gu0RzL7eMkDlzdO7ZFYuu7fVcfEF9isblnxDphf5A7RmICQ==
-X-Received: by 2002:a17:90b:2dd2:b0:2ee:b6c5:1de7 with SMTP id 98e67ed59e1d1-2f83abbd65dmr38334587a91.2.1738660563692;
-        Tue, 04 Feb 2025 01:16:03 -0800 (PST)
-Received: from purva-IdeaPad-Gaming-3-15IHU6.. ([2409:40c0:1019:6a4a:5f4d:5607:4a8d:2288])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21de32ea7c0sm91927075ad.113.2025.02.04.01.16.00
+        bh=FDg5knq0PI6dEKzdt3HMdaKML0oINsP0xAnFJWZrPVE=;
+        b=k6GY6oNrw/n/ozPpfdZrAIFS1h2uVbcOjWd32RzyBR6qFxQ7toHhuKuMC4de4/hD/F
+         gaEWXrs8xaCAh3juay1wK/+Dqd+NV5UuXyIJozQlifbNsMdE5EdWqV1locLRT9kUSeDx
+         IYlQ1rbhGZsgYIQZY7ip1n0XPWl6tSBBnMTXAC1EU8MnZeqoEWbMKGgejjjmJPLOhhsR
+         MxY62eDvojivP/Q2e6F4Blf+y/gQ1v1VpUbRMowPuyNDK7j6DgdsgFY9Y8mF8RwMWT/B
+         lGRYuXrdt1ZPm8h9IBvBIl7eelTqIu+9E2PgxBbRLYVQ8+oQfXViU78K6WnmCR/iS6Qr
+         VKFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWe1dush53+bTo6MOSCsi1KbOqSFNUnVNHdM1wOoaQ2j7Cw5Q0M6Mb4UYGsFJoaU7IX/6vH5uFElBQkwU0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJXeC/05EHz6SzkCMVjecWusEFKYbJW16qXVxnI13Y5MNfmkio
+	HYNQM3/r30hAFD9TRMUqctZjV3Crtvy2N20GjxZPdDQmOQRFUrFKUTXLRNPo
+X-Gm-Gg: ASbGnctbGw0E59mfC5BN7rw0QQH/SoCy69zQHvcPHjatoAz/Mew/3tMotobuFNbU2SK
+	lani3TAOLWT6lyxuJmVBR9kmZbtgmqDFcWHDN1+tcjilhSGwZeMzQF/uHabD35cQwPU3rIK/6yY
+	CEkz4vG2E3P1uLd1QiJFpUsqcc0FKnhIqnu8TzzLvLYZpWTdSsNxP1zUhwnJwin4vGU62fwJW75
+	9MGB8iIk1QPIisUM962mJ5IGGFvwNbbvAPXucXlL1DAmzkLVBlisqqAn3hzpZrz+hitwpkubdmU
+	daEw47iFQaS+YmuWoNRpp3OzP2Pbea5uPtk=
+X-Google-Smtp-Source: AGHT+IEXtBFJu+UAlleKMByNx9uhwr/nD3xwpzuxZ/yWWovff12Wtio174nHqb0eYKgo5PNsxTOHMg==
+X-Received: by 2002:a17:903:228e:b0:216:59ed:1ab0 with SMTP id d9443c01a7336-21dd7d736d9mr346344235ad.27.1738661612933;
+        Tue, 04 Feb 2025 01:33:32 -0800 (PST)
+Received: from vaxr-BM6660-BM6360.. ([2001:288:7001:2703:dc5d:87af:eca4:905a])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21de31ef08esm90455545ad.13.2025.02.04.01.33.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2025 01:16:03 -0800 (PST)
-From: Purva Yeshi <purvayeshi550@gmail.com>
-To: corbet@lwn.net
-Cc: skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
+        Tue, 04 Feb 2025 01:33:32 -0800 (PST)
+From: I Hsin Cheng <richard120310@gmail.com>
+To: corbet@lwn.net,
+	skhan@linuxfoundation.org
+Cc: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Purva Yeshi <purvayeshi550@gmail.com>
-Subject: [PATCH] usb: dwc3: Fix kernel-doc warning for sg member in
-Date: Tue,  4 Feb 2025 14:45:52 +0530
-Message-Id: <20250204091552.15296-1-purvayeshi550@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	I Hsin Cheng <richard120310@gmail.com>
+Subject: [PATCH] mm: pgtable: Fix grammar error
+Date: Tue,  4 Feb 2025 17:33:26 +0800
+Message-ID: <20250204093326.206007-1-richard120310@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -73,26 +73,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Added description for the 'sg' member in struct dwc3_request to 
-resolve the kerneldoc warning when running 'make htmldocs'.
+Fix "due high contention" to "due to high contention".
 
-Signed-off-by: Purva Yeshi <purvayeshi550@gmail.com>
+Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
 ---
- drivers/usb/dwc3/core.h | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/mm/split_page_table_lock.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index f11570c8ffd0..5e4daec322b7 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -942,6 +942,7 @@ struct dwc3_hwparams {
-  * @request: struct usb_request to be transferred
-  * @list: a list_head used for request queueing
-  * @dep: struct dwc3_ep owning this request
-+ * @sg: pointer to the scatter-gather list
-  * @start_sg: pointer to the sg which should be queued next
-  * @num_pending_sgs: counter to pending sgs
-  * @remaining: amount of data remaining
+diff --git a/Documentation/mm/split_page_table_lock.rst b/Documentation/mm/split_page_table_lock.rst
+index e4f6972eb..ced47a23e 100644
+--- a/Documentation/mm/split_page_table_lock.rst
++++ b/Documentation/mm/split_page_table_lock.rst
+@@ -4,7 +4,7 @@ Split page table lock
+ 
+ Originally, mm->page_table_lock spinlock protected all page tables of the
+ mm_struct. But this approach leads to poor page fault scalability of
+-multi-threaded applications due high contention on the lock. To improve
++multi-threaded applications due to high contention on the lock. To improve
+ scalability, split page table lock was introduced.
+ 
+ With split page table lock we have separate per-table lock to serialize
 -- 
-2.34.1
+2.43.0
 
