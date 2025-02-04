@@ -1,73 +1,73 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED8D20AF96
-	for <linux-doc@vger.kernel.org>; Tue,  4 Feb 2025 10:56:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83CF2080D7
+	for <linux-doc@vger.kernel.org>; Tue,  4 Feb 2025 10:59:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738666577; cv=none; b=iVzLQ2krdJdxQpWUUQ2ttmTFuGWF1tiQ/QXm7dZNoRijzmYOaC7+DTT3cTXZlZBe9QMho3kUtl+Gxs0JnaEPTI+7sDZOFrQ/lRvyNya/U/ezePu+gFarc1xIEtzUCndk33JJJL8UjY+cIBSG5zearMg5mcV7MWpW21MYFIdAVKM=
+	t=1738666750; cv=none; b=A4RnIwjJU1VYWenoTyTR5/HaE+5G4dYN+GDxL9LM6EEhIHJakvahG8PAQkKVKXC1HBHeGd6FfIComZzA1d5tOWQutxYoFSvr1Vk5elKBHk2AL6H/nhx1wkgufwMS5wQSgC6OM8H+EiHpTs5r0e9mvfjfliiNRzTpujUa8JPNYVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738666577; c=relaxed/simple;
-	bh=d4wNJylMo9N8f2ILnf1m0W4Q9OBzaYDjyY1ZbBuslnA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jJvbkuDNlMQlT5GRdZCiW4qoLMkH14bjrP7jUG7zeEgFwZbfq9VePp1Yr+nj9IDGILZU2kAlvG4gyPr2QyjSkZLrZxghTPa3UK5moFpDLRcHfRjptHJhqLiOdAqGVyNdm0U3k/vFg6tV4+/2PpvAMH9bPUhJeJubS8EyqlbAYK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=X6SzkhM0; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1738666750; c=relaxed/simple;
+	bh=f2lKyJQN4TYEh4H+Bsw/HLVexLHayCwtb30HKlFVPeY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=ccnFNtpZ7Omyiwspzbr1pydmz+EitaWQvy/68TsBMZZEWT3hBtYoG+D3wrAvd0l5RO9iVvzjxSaIXZY7qa11Wgt00cfSo2c5XSBGyT4KBTe1857tCCEWv/nOiBCCvKV8TKgEE+lxRlYzkFl065W7CKdcPu1KKg9HpB18dvL4+XI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZO1R5v9V; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="X6SzkhM0"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZO1R5v9V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738666575;
+	s=mimecast20190719; t=1738666747;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ENPdj8vS//32EG5fwlsbuS9PmiW4rTWenuQKfCHE7XE=;
-	b=X6SzkhM0ZEOeoVrW2I9AucgeD5lP7X3vPXTnHAOd7oB1ectwXAP0DhTGehU8ZtCg7x59ZD
-	1moUBSb3WahCj9+/Ti22yJodxNjDPOb5yBmDX+duc3APjjCVzuq7Nv4GUK1lTzMFyahQN8
-	wbiBCcqM4rVPjxoSJX0vJGZ/wF7fuoE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=XpujTQImwnvH48Gh8o+ReoxCrgAbp83og5IvT6h4ywg=;
+	b=ZO1R5v9VZrV6+OrvTmlsCVwDANU6BAlWpp6RdI2OGxdnn4Euaqg8GDD6Crnj2PoLFyF79R
+	S96Ese5+/D2aJAy+XjqPDwec5jX9imblKB+b4ZBbBvNFMMrYdi+/evInlg+zOZzM2ZS7hB
+	GE+wI29VvC+u7wcnkxWfxC5+m8EAyYs=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-551-YtyYyvkRP3a46q5Rn2Qiug-1; Tue, 04 Feb 2025 05:56:12 -0500
-X-MC-Unique: YtyYyvkRP3a46q5Rn2Qiug-1
-X-Mimecast-MFC-AGG-ID: YtyYyvkRP3a46q5Rn2Qiug
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-38db0144bafso93323f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 04 Feb 2025 02:56:12 -0800 (PST)
+ us-mta-338-91CtWSQFOs2MJGCAvKgtkg-1; Tue, 04 Feb 2025 05:59:03 -0500
+X-MC-Unique: 91CtWSQFOs2MJGCAvKgtkg-1
+X-Mimecast-MFC-AGG-ID: 91CtWSQFOs2MJGCAvKgtkg
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-438da39bb69so38386035e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 04 Feb 2025 02:59:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738666571; x=1739271371;
+        d=1e100.net; s=20230601; t=1738666742; x=1739271542;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ENPdj8vS//32EG5fwlsbuS9PmiW4rTWenuQKfCHE7XE=;
-        b=ol2hLlqPUtidNSxxzQwI82x6wzqrJFf6QEsZpXI7txTuRjW6u3c1UKpLuqMfFUCiSF
-         7oKe3NlQrCrdxkub9cT5lPZD4sCCw9g3as4Ahaui24U9lb/mfeDxqDma6bi0nVX4nn5x
-         cfxvkYt+2CPYDRoW4WXfpmySxQIgyO6lV2jL828RK09QU4v07unQFNFEFjE8WK/poOk6
-         VCcGJ7gYvWUwJM0iz+KbE8teQdjyFk9Z2A58NbA/NrIOKOMJgS/Fw+1MesqXLuQt6OrR
-         vt658/bjdzSiUmZdwbEiuA/3H33ii9Bh2NKiDuAzKv6+jBueir9BucVVBWA5aMCAY4Bs
-         UMGA==
-X-Forwarded-Encrypted: i=1; AJvYcCVZa3d2jQ9b//0frtNIdgrZjX1DVMWrmdT2OzQiWlTN7h6FpeSGgzDBpfNEVFvoazhAKNdQQeKifHo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxC/uXqZs7Mpqhbhm1ZKdW+e7/5A86cOjW+6m3azOM9GaI38Sp8
-	3x7z+NYmJ+LWJQWnXiCqih4ASggcvDQOrUk7Wif700J02abpwutbFQt51/LZCvIFP8C+MzEn3rb
-	YD+lWrrkwtE9sswAUgGgdpW7IDJYgUv2VCUpQVR/lqitFEqOPdc8yUs2tuA==
-X-Gm-Gg: ASbGncsVZ9zgy3cRHXF7P2MJqGUTBnHTUUK2BW/1XD1BaH6+4GrkFebMgIY/d2J4MC6
-	Jjm1z+lmqQ1CgUkHk3O3TPDCzNZJRIgup/JmQEWOX0rIxCPiXygrlkS9lhgTbcPsvYbDJGE/UQD
-	wO7+hedUJDsozrU2FHO3TJkPQnsgFTYepBTdyPIzl3zFnTKcMib7nanWohjncBwMZf6CX+icuAy
-	IjIW1g+aL4yKnLJdF0WGSTY10v89niNti15yOR32LmMLh6g/nQIy7HuCEpWbSgR2gvrxXXVG51C
-	D+PzqeqQbdU7775TrnEkM9kUpx5vorl2ESVKSTEECGo5Is+nrDhfMEdb1/spnxL5WExAryZmAWH
-	5t+QXaaf+5xAjhOF5bEG24kthkbk=
-X-Received: by 2002:a05:6000:1a86:b0:385:e3b8:f331 with SMTP id ffacd0b85a97d-38c5194a53dmr21633862f8f.14.1738666571294;
-        Tue, 04 Feb 2025 02:56:11 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IF3rySAUqWFDjklN/nsVzTv51QU8ZGlK2qwHlBAwJac139RiPUXayk27Sc1Xngxx91aPNI8fw==
-X-Received: by 2002:a05:6000:1a86:b0:385:e3b8:f331 with SMTP id ffacd0b85a97d-38c5194a53dmr21633827f8f.14.1738666570873;
-        Tue, 04 Feb 2025 02:56:10 -0800 (PST)
+         :content-language:from:references:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XpujTQImwnvH48Gh8o+ReoxCrgAbp83og5IvT6h4ywg=;
+        b=ZLcIYuAI7coDCyepP6irXXkKNl9TYNn3JQ5Saki7LBassO5vdTCxfQXb2HfTYGIyhd
+         4vgllGoXnHNUTh9Z7QGNWKZLyHVCMECJU9vJnYaerw25i/K25rFEVXHtYedtYAwV/vEJ
+         Rtl/EflZzgCU3/FAwyVy1nVMZF/GNnXUh1LqvI4mZpWl1j9THDBwQ9uO9zQmG+ayyw3x
+         4GCL3BJNdySLWbh9/Bo3drCnWH3xiBXGtVaPVb0O38bECzowPvpas1//mQn1ngkqsO26
+         kX7R+9HS1+uuYI7ufWC/uZdkShrO2ApifUdaJhYYnalJtSFoyILh6ud07S7RmHXkGFq2
+         v9MQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVnUp4lXryYAK0Uq+AfDHwqyS8h+j++lwU8R+R3zsW0iRW8t/W8HD6McGVMIISipCTfgo7k9G83Br0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdLgjI+DsdLrz518OzyBGUEmJ2mUMG0OhwwhDf0TJ7i/7/jHnT
+	YCYjBjoJe9A9OoWJKHZ8lyTretmh8a5oJMwJLNycnTuG5ZLSReKiWPehNeASSL8u4Nf8E+IOC63
+	F57bkZsVTJuhu0JZFxLNbaaZ7j3pUgyGIvc3FgAzMWDItKTSD3M8Q5/OXUQ==
+X-Gm-Gg: ASbGncvvc+FMZoNohdiyVJiSRUgMeyJGiitjwzfH38BvsnOuFrf7+GfxfOkyDCXdG1P
+	0wvG7viZIUG1M4wcB4HG7bG5XnZrYNhpMQrBpJJkyjgVoxTr5+u/izW7S9n5vGaYr4fCS9/wJMy
+	YEZqeOv2mU7AHmVlZJrefk+5iyFemUC81Qdhx9wLfC1poWAM9w8hZ+P6q8KKViRZ9R2gKMdqTEa
+	vLuf1SWAQ6scMId15ykfN3fepVvVQahpBT1YjXChVCaqH8zLgaLvhFdCCabEukeP2wzqU7VSKuy
+	nkmqxuy7ZFgeM/BwbeUSnOcmlsuE8D133wOD0HJbQRIKRLte2wL1FsHJpyIbFXlKKaLSMEPOoMJ
+	qGfzE4tp5qyQgAayNIVX7obmu1no=
+X-Received: by 2002:a05:600c:4fc1:b0:42c:c28c:e477 with SMTP id 5b1f17b1804b1-438dc40d46amr203679105e9.23.1738666742618;
+        Tue, 04 Feb 2025 02:59:02 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IF2pXXnBUdbjcdl5UcGdp7l7FhKF9MgvAbgHEFZ34qqL37B8yGAQruTpfwYsdNHYT5VAQSTfg==
+X-Received: by 2002:a05:600c:4fc1:b0:42c:c28c:e477 with SMTP id 5b1f17b1804b1-438dc40d46amr203678885e9.23.1738666742209;
+        Tue, 04 Feb 2025 02:59:02 -0800 (PST)
 Received: from ?IPV6:2003:cb:c70a:300:3ae1:c3c0:cef:8413? (p200300cbc70a03003ae1c3c00cef8413.dip0.t-ipconnect.de. [2003:cb:c70a:300:3ae1:c3c0:cef:8413])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c1b57b6sm15474346f8f.72.2025.02.04.02.56.07
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438dcc13139sm220452995e9.3.2025.02.04.02.58.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Feb 2025 02:56:09 -0800 (PST)
-Message-ID: <99f215f2-1e7f-4ff6-adec-e838916f6f4e@redhat.com>
-Date: Tue, 4 Feb 2025 11:56:07 +0100
+        Tue, 04 Feb 2025 02:59:00 -0800 (PST)
+Message-ID: <211bcb36-5834-4969-90c4-73e26431d463@redhat.com>
+Date: Tue, 4 Feb 2025 11:58:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,28 +75,29 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 04/12] mm/rmap: implement make_device_exclusive() using
- folio_walk instead of rmap walk
-To: Alistair Popple <apopple@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- nouveau@lists.freedesktop.org, Andrew Morton <akpm@linux-foundation.org>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>, Karol Herbst <kherbst@redhat.com>,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+Subject: Re: [PATCH v1 05/12] mm/memory: detect writability in
+ restore_exclusive_pte() through can_change_pte_writable()
+To: Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, nouveau@lists.freedesktop.org,
+ Andrew Morton <akpm@linux-foundation.org>, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?=
+ <jglisse@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+ Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, "Liam R. Howlett"
+ <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
  Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>,
  Pasha Tatashin <pasha.tatashin@soleen.com>, Peter Xu <peterx@redhat.com>,
  Jason Gunthorpe <jgg@nvidia.com>
 References: <20250129115411.2077152-1-david@redhat.com>
- <20250129115411.2077152-5-david@redhat.com>
- <7tzcpx23vufmp5cxutnzhjgdj7kwqrw5drwochpv5ern7zknhj@h2s6y2qjbr3f>
- <180e9c2f-51fe-44ba-ac68-5aa7b7918ab0@redhat.com>
- <c5befaa4-bd00-4784-ae66-ddbf16dfe1d9@redhat.com>
- <fp54u2cgvyyp73lpp7bbc5zn7fmyoc7pjn3sokqmlvpq5y7toq@mj6dshe3hg7o>
+ <20250129115411.2077152-6-david@redhat.com>
+ <Z5tLmYOQaZrdWQHN@phenom.ffwll.local>
+ <2670f65f-e973-483e-aed6-526d00125ad7@redhat.com>
+ <Z5t4rrkRiOsRY2jH@phenom.ffwll.local>
+ <z7s7xb2ftv5hqg3uzjqkou6enguleazwwehxbi5zulbkar2aej@zlbdh2kdewdn>
+ <d552cc03-b7af-44be-bcaf-13da720a2226@redhat.com>
+ <Z50C9tyZC_wQS6Ux@phenom.ffwll.local>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -144,74 +145,92 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <fp54u2cgvyyp73lpp7bbc5zn7fmyoc7pjn3sokqmlvpq5y7toq@mj6dshe3hg7o>
+In-Reply-To: <Z50C9tyZC_wQS6Ux@phenom.ffwll.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 30.01.25 23:31, Alistair Popple wrote:
-> On Thu, Jan 30, 2025 at 10:24:37AM +0100, David Hildenbrand wrote:
->> On 30.01.25 10:01, David Hildenbrand wrote:
->>> On 30.01.25 07:11, Alistair Popple wrote:
->>>> On Wed, Jan 29, 2025 at 12:54:02PM +0100, David Hildenbrand wrote:
->>>>> We require a writable PTE and only support anonymous folio: we can only
->>>>> have exactly one PTE pointing at that page, which we can just lookup
->>>>> using a folio walk, avoiding the rmap walk and the anon VMA lock.
+On 31.01.25 18:05, Simona Vetter wrote:
+> On Fri, Jan 31, 2025 at 11:55:55AM +0100, David Hildenbrand wrote:
+>> On 31.01.25 00:06, Alistair Popple wrote:
+>>> On Thu, Jan 30, 2025 at 02:03:42PM +0100, Simona Vetter wrote:
+>>>> On Thu, Jan 30, 2025 at 10:58:51AM +0100, David Hildenbrand wrote:
+>>>>> On 30.01.25 10:51, Simona Vetter wrote:
+>>>>>> On Wed, Jan 29, 2025 at 12:54:03PM +0100, David Hildenbrand wrote:
+>>>>>>> Let's do it just like mprotect write-upgrade or during NUMA-hinting
+>>>>>>> faults on PROT_NONE PTEs: detect if the PTE can be writable by using
+>>>>>>> can_change_pte_writable().
+>>>>>>>
+>>>>>>> Set the PTE only dirty if the folio is dirty: we might not
+>>>>>>> necessarily have a write access, and setting the PTE writable doesn't
+>>>>>>> require setting the PTE dirty.
+>>>>>>
+>>>>>> Not sure whether there's much difference in practice, since a device
+>>>>>> exclusive access means a write, so the folio better be dirty (unless we
+>>>>>> aborted halfway through). But then I couldn't find the code in nouveau to
+>>>>>> do that, so now I'm confused.
 >>>>>
->>>>> So let's stop doing an rmap walk and perform a folio walk instead, so we
->>>>> can easily just modify a single PTE and avoid relying on rmap/mapcounts.
+>>>>> That confused me as well. Requiring the PTE to be writable does not imply
+>>>>> that it is dirty.
 >>>>>
->>>>> We now effectively work on a single PTE instead of multiple PTEs of
->>>>> a large folio, allowing for conversion of individual PTEs from
->>>>> non-exclusive to device-exclusive -- note that the other way always
->>>>> worked on single PTEs.
->>>>>
->>>>> We can drop the MMU_NOTIFY_EXCLUSIVE MMU notifier call and document why
->>>>> that is not required: GUP will already take care of the
->>>>> MMU_NOTIFY_EXCLUSIVE call if required (there is already a device-exclusive
->>>>> entry) when not finding a present PTE and having to trigger a fault and
->>>>> ending up in remove_device_exclusive_entry().
+>>>>> So something must either set the PTE or the folio dirty.
 >>>>
->>>> I will have to look at this a bit more closely tomorrow but this doesn't seem
->>>> right to me. We may be transitioning from a present PTE (ie. a writable
->>>> anonymous mapping) to a non-present PTE (ie. a device-exclusive entry) and
->>>> therefore any secondary processors (eg. other GPUs, iommus, etc.) will need to
->>>> update their copies of the PTE. So I think the notifier call is needed.
+>>>> Yeah I'm not finding that something.
+>>>>
+>>>>> ( In practice, most anonymous folios are dirty most of the time ... )
+>>>>
+>>>> And yup that's why I think it hasn't blown up yet.
+>>>>
+>>>>> If we assume that "device-exclusive entries" are always dirty, then it
+>>>>> doesn't make sense to set the folio dirty when creating device-exclusive
+>>>>> entries. We'd always have to set the PTE dirty when restoring the exclusive
+>>>>> pte.
+>>>>
+>>>> I do agree with your change, I think it's correct to put this
+>>>> responsibility onto drivers. It's just that nouveau seems to not be
+>>>> entirely correct.
 >>>
->>> Then it is all very confusing:
-> 
-> Can't argue with that in hindsight :-)
-> 
->>> "MMU_NOTIFY_EXCLUSIVE: to signal a device driver that the device will no
->>> longer have exclusive access to the page."
+>>> Yeah, agree it should be a driver responsibility but also can't see how nouveau
+>>> is correct there either. I might see if I can get it to blow up...
 >>
->> So the second sentence actually describes the other condition. Likely we
->> should make that clearer:
+>> (in context of the rmap walkers) The question is, how do we consider
+>> device-exclusive entries:
 >>
->> --- a/include/linux/mmu_notifier.h
->> +++ b/include/linux/mmu_notifier.h
->> @@ -43,10 +43,11 @@ struct mmu_interval_notifier;
->>    * a device driver to possibly ignore the invalidation if the
->>    * owner field matches the driver's device private pgmap owner.
->>    *
->> - * @MMU_NOTIFY_EXCLUSIVE: to signal a device driver that the device will no
->> - * longer have exclusive access to the page. When sent during creation of an
->> - * exclusive range the owner will be initialised to the value provided by the
->> - * caller of make_device_exclusive(), otherwise the owner will be NULL.
->> + * @MMU_NOTIFY_EXCLUSIVE: (1) to signal a device driver that the device will no
->> + * longer have exclusive access to the page; and (2) to signal that a page will
->> + * be made exclusive to a device. During (1), the owner will be NULL, during
->> + * (2), the owner will be initialised to the value provided by the caller of
->> + * make_device_exclusive().
+>> (1) dirty? Not from a CPU perspective.
+>> (2) referenced? Not from a CPU perspective.
+>>
+>> If the answer is always "no" to all questions, then memory notifiers must
+>> handle it, because we'd be answering the question from the CPU point of
+>> view.
+>>
+>> If the answer is always "yes", there is a problem: we can only make it
+>> clean/young by converting it to an ordinary PTE first (requiring MMU
+>> notifiers etc.), which makes it quite nasty.
+>>
+>> Mixed answers are not possible, because we don't know just from staring at
+>> the entry.
 > 
-> Yes, I think that makes things clearer. Logically these are really two different
-> events though - I guess I didn't want to add another one at the time but I
-> wonder if we should just make them separate events rather than overloading them?
+> I think it's the gpu's (or whatever is using it) responsibility to update
+> folio state while it has ptes pointing at memory. Whether that's
+> device-exclusive system memory or device-private migrated memory. Anything
+> else doesn't make sense to me conceptually.
+> 
+> And I don't think we can just blindly assume even for device-exclusive
+> mappings that they will be dirty when we convert them back to a real pte,
+> because we might have raced trying to set up the gpu mapping and restarted
+> before we even put the pte into place. Or maybe someone was real quick at
+> writing it back after the gpu already dropped it's pte.
+> 
+> I guess maybe some clear documentation in all these functions
+> (make_device_exclusive, hmm_range_fault, migration helpers) that it's the
+> drivers job to dirty pages correctly would help?
 
-I had the same thought and then I wondered: can't we simply use 
-MMU_NOTIFY_CLEAR for the exclusive->ordinary path?
 
-I mean, it's essentially a zap+flush followed by a re-insertion of the 
-PFN swap entry. Similar to page migration ...
+I'll add a comment to make_device_exclusive(), stating that these 
+entries are considered clean+old from a MM perspective, and that the 
+driver must update the folio when notified by MMU notifiers.
+
+We should probably document that somewhere else as well as you suggested 
+separately.
 
 -- 
 Cheers,
