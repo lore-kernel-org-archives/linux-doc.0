@@ -1,59 +1,50 @@
-Received: from gentwo.org (gentwo.org [62.72.0.81])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A0A25A623;
-	Tue,  4 Feb 2025 22:01:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.72.0.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DFDB1FF7A5;
+	Tue,  4 Feb 2025 22:35:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738706481; cv=none; b=Vwj4CXK1J5HisT0+nGRFfOUvwJuLVdGE/BzfPj28kvqqD4Shm2ZCe7gwmLkP/eX+FmYoRowNyKKSci/c3frL/6eEGLh948rx9n88jTREc5F+f4Bb4JVPUlt3fXQkuqd2YLfQcjMNSh6JqTg7tKAprJK7ezHCt25Ox8DcBpUceq0=
+	t=1738708521; cv=none; b=lNqcWBQOPJHeAymmaJSrrOvi+nqakrM4nU8AJikKJr54EZUhhW/RYZMIK8LMOmNRyHlnzHKVBpUYBm0DFwxWwWKLWPPooC9mXIpyDRcX5cpnCr9b7K71Poq+Vow6YeBLcYTYMGVF+Nf8wfcWMBoU4zVsFHqUgVREkwwt02S6nfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738706481; c=relaxed/simple;
-	bh=L7hZ7sYPCCjt4cWuKdRqkFzNU2NINe/kZtlYF3GX+To=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=kjBVleSD8un0TIx2geUCX6Sjt5+dI4f7F4VINQPUiYl+FFr8uYSCHUO/m6fQasLCu7wNwcCDGJlutUurPpKH03hdibeUdQi8A8cZJ2MMu1xlWj10gFaeSKoOxKmRhiQFrGXXIEWdrvfLgB6QxyJhg6RkmiafkDwMPKz8bxkcsWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org; spf=pass smtp.mailfrom=gentwo.org; dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b=jyGtOg/i; arc=none smtp.client-ip=62.72.0.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentwo.org
+	s=arc-20240116; t=1738708521; c=relaxed/simple;
+	bh=mI2V72X0a2VUbi0NqJ8QzQBM8+pbwjo+YnbCECgSDWE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OYJZbWbwWu2CrztRu0m8q5Mfo2l+c8aNX9mI6pJzvfto8EVH8w9UvN3dUKuK92dBrcn8sBQDp3I01Gw5ncaKMUgXSd0UrIf/whxQ1TtmSOaeSgv1pBsqMTsQLa8z0WzYiP0oR19Ub5yddUTKQHDzKNlrl124ThjmSiaVQX8ibhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YH6hCmsd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b="jyGtOg/i"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gentwo.org;
-	s=default; t=1738695503;
-	bh=L7hZ7sYPCCjt4cWuKdRqkFzNU2NINe/kZtlYF3GX+To=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=jyGtOg/iCyiwjp/g1mTcKme1MwefVaOX7wySyrZcham7FrqcugOECEhMIB5bHuVxw
-	 jxBiJ9xi5y9Ou8aDKij09mJEeZ7EVO+B4CuJIYNSPaLeZ0McyYcgp8ncn+IliZWl8N
-	 HZraV3iO1ZSruE8vDNlj7sXOI+AYMSwijILKB/nU=
-Received: by gentwo.org (Postfix, from userid 1003)
-	id EC29D401EB; Tue,  4 Feb 2025 10:58:23 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-	by gentwo.org (Postfix) with ESMTP id E915A401E9;
-	Tue,  4 Feb 2025 10:58:23 -0800 (PST)
-Date: Tue, 4 Feb 2025 10:58:23 -0800 (PST)
-From: "Christoph Lameter (Ampere)" <cl@gentwo.org>
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-cc: luto@kernel.org, xin@zytor.com, kirill.shutemov@linux.intel.com, 
-    palmer@dabbelt.com, tj@kernel.org, andreyknvl@gmail.com, brgerst@gmail.com, 
-    ardb@kernel.org, dave.hansen@linux.intel.com, jgross@suse.com, 
-    will@kernel.org, akpm@linux-foundation.org, arnd@arndb.de, corbet@lwn.net, 
-    dvyukov@google.com, richard.weiyang@gmail.com, ytcoode@gmail.com, 
-    tglx@linutronix.de, hpa@zytor.com, seanjc@google.com, 
-    paul.walmsley@sifive.com, aou@eecs.berkeley.edu, justinstitt@google.com, 
-    jason.andryuk@amd.com, glider@google.com, ubizjak@gmail.com, 
-    jannh@google.com, bhe@redhat.com, vincenzo.frascino@arm.com, 
-    rafael.j.wysocki@intel.com, ndesaulniers@google.com, mingo@redhat.com, 
-    catalin.marinas@arm.com, junichi.nomura@nec.com, nathan@kernel.org, 
-    ryabinin.a.a@gmail.com, dennis@kernel.org, bp@alien8.de, 
-    kevinloughlin@google.com, morbo@google.com, dan.j.williams@intel.com, 
-    julian.stecklina@cyberus-technology.de, peterz@infradead.org, 
-    kees@kernel.org, kasan-dev@googlegroups.com, x86@kernel.org, 
-    linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org, 
-    linux-kernel@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, 
-    linux-doc@vger.kernel.org
-Subject: Re: [PATCH 00/15] kasan: x86: arm64: risc-v: KASAN tag-based mode
- for x86
-In-Reply-To: <cover.1738686764.git.maciej.wieczor-retman@intel.com>
-Message-ID: <8bd9c793-aac6-a330-ea8f-3bde0230a20b@gentwo.org>
-References: <cover.1738686764.git.maciej.wieczor-retman@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YH6hCmsd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BF65C4CEDF;
+	Tue,  4 Feb 2025 22:35:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738708520;
+	bh=mI2V72X0a2VUbi0NqJ8QzQBM8+pbwjo+YnbCECgSDWE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=YH6hCmsdpAQfWAPW5Ur+F34mn54gGCp3aEsgO0mVmbKTUzIRvphrHqo/NHUs2KK//
+	 wljj3Mx/3bcyp9gYw9HJ4NV9TUPyUGa0/6WgEV1aGaT8McBi3GTw+WT4M0iJkVp9mV
+	 UE4ZdFnWvwVi2M6gqw1Hdy9YE+JMElkK8nuEku+SUjWb65laDWMaWTnwT6f5tp25u2
+	 LmaDOzC27pWqrRjsyeM2U+m0RXjinG66HWshulbYMrl28+/UT3P4Cz6Gv9i+T4yC45
+	 EJvO+vOLdna2t6Lx+1qh4BzZb/1TFJQl2jFdFxbT/CfbvqfD6982FFs8LOT6gYjDru
+	 eeA0CXhZpBHQQ==
+Date: Tue, 4 Feb 2025 14:35:17 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Tony Nguyen <anthony.l.nguyen@intel.com>
+Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
+ andrew+netdev@lunn.ch, netdev@vger.kernel.org, Michal Swiatkowski
+ <michal.swiatkowski@linux.intel.com>, sridhar.samudrala@intel.com,
+ jacob.e.keller@intel.com, pio.raczynski@gmail.com,
+ konrad.knitter@intel.com, marcin.szycik@intel.com,
+ nex.sw.ncis.nat.hpm.dev@intel.com, przemyslaw.kitszel@intel.com,
+ jiri@resnulli.us, horms@kernel.org, David.Laight@ACULAB.COM,
+ pmenzel@molgen.mpg.de, mschmidt@redhat.com, tatyana.e.nikolova@intel.com,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ linux-rdma@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next 2/9] ice: devlink PF MSI-X max and min
+ parameter
+Message-ID: <20250204143518.1583217e@kernel.org>
+In-Reply-To: <20250203210940.328608-3-anthony.l.nguyen@intel.com>
+References: <20250203210940.328608-1-anthony.l.nguyen@intel.com>
+	<20250203210940.328608-3-anthony.l.nguyen@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,12 +52,20 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-ARM64 supports MTE which is hardware support for tagging 16 byte granules
-and verification of tags in pointers all in hardware and on some platforms
-with *no* performance penalty since the tag is stored in the ECC areas of
-DRAM and verified at the same time as the ECC.
+On Mon,  3 Feb 2025 13:09:31 -0800 Tony Nguyen wrote:
+> +	if (val.vu32 > pf->hw.func_caps.common_cap.num_msix_vectors ||
+> +	    val.vu32 < pf->msix.min) {
+> +		NL_SET_ERR_MSG_MOD(extack, "Value is invalid");
+> +		return -EINVAL;
 
-Could we get support for that? This would allow us to enable tag checking
-in production systems without performance penalty and no memory overhead.
+> +	if (val.vu32 < ICE_MIN_MSIX || val.vu32 > pf->msix.max) {
+> +		NL_SET_ERR_MSG_MOD(extack, "Value is invalid");
+> +		return -EINVAL;
 
+Please follow up and either remove these extack messages, or make them
+more meaningful. The "value is invalid" is already expressed by EINVAL
+
+The suggestion to set the values at once or as "pending" is a
+distraction IMO.
