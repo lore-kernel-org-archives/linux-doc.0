@@ -1,119 +1,103 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC89D21764D
-	for <linux-doc@vger.kernel.org>; Tue,  4 Feb 2025 18:03:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F37E2163AB;
+	Tue,  4 Feb 2025 18:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738692229; cv=none; b=PF7S+Bh7gbZ+sCrzXMim13OcD0XrPmfv5E85F8rg6MNsg/0tcQk2Yr8AXpdHeFzYLIesJ0Pwa8Pz9px6Em8VV/nciZEnPMdi7ZqxRSqWoouu4qdrpT+4wcpSG70aJ9UGCULRpSy+Tc0dxa7q2bG9RbP7dAUPKvJaoXOFin/L3lA=
+	t=1738692327; cv=none; b=gqEUc8Oxqf3eiOzEoTeS+mBsZcS+eeSbQEu3SHt7QAlmEUvnGDv6anqMJgicdzISJcPcBZY+0yF6T44tEsd2Orz3xDGgwhs/VPaeeEOBannh4VVnA4P9NqjSiE7TfU1F9F+qA/3NdkzZxEeG4NU0crQLzIviknf8VVEWdQ1UvPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738692229; c=relaxed/simple;
-	bh=Oj0oNLn2yL6+fmX5W290/5q7EprAS3GBOQgkRODPBVA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZkGqzc5UT4uGodHZZlKSKIWPvs1NKUw0Z/n1r1EpquYfbRtVxWiZ7IMD0ADv3KOu+4qCYNzstapof93DXq8G9DFuxRfPLQtDGTtKffnDThsYFaDb8CSP8kKbBrhu7eTDvWx4pxQQyJ3/2+fGWc7C+P6K/oQndzngcTtOfrMZUjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DQ+KyDtk; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1738692327; c=relaxed/simple;
+	bh=LoMZHVjyEpIFSHfyF7bxTUEmMGlompNah9BmRXMYefg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Oj/z5raicsWfxbaY8zgLx043LxyRlBxQDnKuX4pE03StNbb6XxYfLs28IwlKtJFtEt4V17Tqh7/8Ya1XT8BxqD/qaH8eXUlTO/ifsKQRCPw2NY/7MLmNpzkQZIM2ZckdFoodbwtlDJFxN6BNXV0+rLrqwx4ZwpUPsCtOee5M2Lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gjiD4vEi; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DQ+KyDtk"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2163affd184so146205ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 04 Feb 2025 10:03:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1738692226; x=1739297026; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hnKb/NxDzwUPz79zbu5N/Xfg9BKIOLMoGS4rXOX07CA=;
-        b=DQ+KyDtkBwZJAhWhAuyRLkhaKlrlprdaumqBBWGb5rYVhJ5zvZFsaw/09i/unlQsJl
-         xQLhazeBVf25SD1PzF4JRfqc5hlzo/54HzTFVPi9gC8BqAb31DxwAFOnxATSJS3oMvbF
-         zwv3Yj39GxnYFh+df101DZeOowd1QWFO2N6CrK8APpNvTfLNIZ8Aoi06R/TH1hmUi2A6
-         lwxA5FRbJaOOHnssKA94tlAuQSBF580Hhp9999NpYT+qgp/vaMOJYOcehm13j7b1EGKR
-         NARGB9W50n9tnEn4s2gQwgafvsvgcuO5wMJEpE24jofmeBT+2YMEVX6EBaXWZvCure5M
-         B/oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738692226; x=1739297026;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hnKb/NxDzwUPz79zbu5N/Xfg9BKIOLMoGS4rXOX07CA=;
-        b=Bpf68GBfoPbreqNl/b29IR82OnQxucLIYKGCPD8QzShxo+gS/TeL8rn2CtmOjsB5JP
-         TLtcKmMbztwsH2wo3JasasqAV11HTtx6t6ZOP9ySCGh2DSmZre+Y5EdPjE7KnrZbK0+I
-         sJfHhkpGG5VgkLWTWmXUZL/DfDbLeMjCecoUJwli4LkVyi099b0bXEtWNL2TbdRTmcLK
-         Kvg1IggcWEEb0folVS4vLV7wLGh8cSjhZOVx4Ax290xKlwnR48sXQRec0FxH2sYKceX2
-         8sn4qZ3FgctVAtNFXSx1eQb8mcRICk753V2GtyO6LDtNm7DXQG1UAQKLjE/MEdwY+Fbu
-         WSNw==
-X-Forwarded-Encrypted: i=1; AJvYcCU21q8iiWW5IcvZxnOYNhUUQaGu4kZDbQekkzCosdPJRiTDcn7kIWduMCLiWNVttmHZbKKrUNVBO9c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMc5npq2ksyy+tRbUWciLX6xxIqXrXEUldR1ZpAysssqFUTn3K
-	IhzehjuREUF2RQnIpwPHu/6HDguHxZbRX5+qF5TRYmQOdnLKPG2N9mzR6By3STN79MURWQnmuLl
-	vY6TaslZ3fO9eTwY1t5nN3Zk+ikc1HQJkzMiJ
-X-Gm-Gg: ASbGncuO3NdyllAx1JyJiHxPZsFpHcgHMm30NgOcxdRsoCJuREH+NPCzExQVDBruiv7
-	B/GAeokh54L5vTOEGiGmQ5UZRM2HzgtZqAAq+GFR+qIq8GdWVva9SIr0S7X1g66m5tLpKmEzO
-X-Google-Smtp-Source: AGHT+IFGO0WVuOzQMwTOIUL2zNV30YHnBBx/izI8+SQNwu12kEXS3uYQZz8FhcRE8mSTIdjM5HAUSbAmJ4VB9XKoqDo=
-X-Received: by 2002:a17:902:bc8a:b0:215:44af:313b with SMTP id
- d9443c01a7336-21f000c1a2bmr3663845ad.0.1738692225592; Tue, 04 Feb 2025
- 10:03:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gjiD4vEi"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=qBX9m8ekS4Kp+9Wad1wgzoJlpD+MLcBX2hMNvd5DLw8=; b=gjiD4vEicC2JSdHKobROHP3h67
+	XCTSscvEfxX19ZRj5O8kZKOKXI+Gger13Aqvow/9ndTY5wZ5qNY1kDyN5JL2UuLbz1Hd3zDfBqMR0
+	2DgUFYDtRoAokYl4tuQ5aCIkTRFd80t4ViMM7Y0ijOxeFPnVFteHNKfpgKyOb/9x3ZB2V5RgaE8Fi
+	evzf/6rixo8wtOdzjOTP1yThicPepna/4vnJ3477EXVKCUrO6JaGJwiRUhlvM6d/tk2Edt7S723zs
+	ZyzASVqsF4rzmrX7e5a7xYBUW50G5MapiTGtVZVok27ZivCsGb/Kj7PFHegHxfUaRcyx9H/GdCVWA
+	s7ursw3w==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tfNIT-0000000GNBe-3Bwz;
+	Tue, 04 Feb 2025 18:05:18 +0000
+Message-ID: <4f27a0db-256c-4792-a957-1387de9dc56e@infradead.org>
+Date: Tue, 4 Feb 2025 10:05:12 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250203223916.1064540-1-almasrymina@google.com>
- <20250203223916.1064540-3-almasrymina@google.com> <c8dd0458-b0a9-4342-a022-487e73542381@redhat.com>
- <CAHS8izOnrWdPPhVaCFT4f3Vz=YkHyJ5KgnAbuxfR5u-ffkbUxA@mail.gmail.com> <71336d4e-6a75-4166-9834-7de310df357e@redhat.com>
-In-Reply-To: <71336d4e-6a75-4166-9834-7de310df357e@redhat.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 4 Feb 2025 10:03:33 -0800
-X-Gm-Features: AWEUYZmiESSMokFwGB0BJqHNhJeqNgHpu960zdUgGcxEH4CFZhDgvoFYnYH4I-E
-Message-ID: <CAHS8izPFe-1tf9Xetc8Znj04x9rKXVchR3DaspRGPDRbSFQFgw@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 2/6] selftests: ncdevmem: Implement devmem TCP TX
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org, 
-	Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski <kuba@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	Neal Cardwell <ncardwell@google.com>, David Ahern <dsahern@kernel.org>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>, 
-	sdf@fomichev.me, asml.silence@gmail.com, dw@davidwei.uk, 
-	Jamal Hadi Salim <jhs@mojatatu.com>, Victor Nogueira <victor@mojatatu.com>, 
-	Pedro Tammela <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: submitting-patches: document the format for
+ affiliation
+To: Jakub Kicinski <kuba@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, corbet@lwn.net,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250203174626.1131225-1-kuba@kernel.org>
+ <CAMuHMdXXNkpWjkKvMLd-MF=npzqJXMtnXkaba60JY7hCzyjz7g@mail.gmail.com>
+ <20250204071834.78e0ffb1@kernel.org>
+ <20250204154938.GF22963@pendragon.ideasonboard.com>
+ <20250204081301.6fdb1536@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250204081301.6fdb1536@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 4, 2025 at 9:56=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> wrot=
-e:
->
-> On 2/4/25 6:35 PM, Mina Almasry wrote:
-> > On Tue, Feb 4, 2025 at 4:29=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> =
-wrote:
-> >>>  .../selftests/drivers/net/hw/ncdevmem.c       | 300 ++++++++++++++++=
-+-
-> >>>  1 file changed, 289 insertions(+), 11 deletions(-)
-> >>
-> >> Why devmem.py is not touched? AFAICS the test currently run ncdevmem
-> >> only in server (rx) mode, so the tx path is not actually exercised ?!?
-> >>
-> >
-> > Yeah, to be honest I have a collection of local bash scripts that
-> > invoke ncdevmem in different ways for my testing, and I have docs on
-> > top of ncdevmem.c of how to test; I don't use devmem.py. I was going
-> > to look at adding test cases to devmem.py as a follow up, if it's OK
-> > with you, and Stan offered as well on an earlier revision. If not no
-> > problem, I can address in this series. The only issue is that I have
-> > some legwork to enable devmem.py on my test setup/distro, but the meat
-> > of the tests is already included and passing in this series (when
-> > invoked manually).
->
-> I think it would be better if you could include at least a very basic
-> test-case for the TX path. More accurate coverage could be a follow-up.
->
+Hi,
 
-Thanks; will do.
+On 2/4/25 8:13 AM, Jakub Kicinski wrote:
+> On Tue, 4 Feb 2025 17:49:38 +0200 Laurent Pinchart wrote:
+>> Or apparently project or customer names for consulting companies:
+>>
+>>      29 Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+>>      34 Alexis Lothoré (eBPF Foundation) <alexis.lothore@bootlin.com>
+> 
+> FWIW these are customer names, indeed. Project/Foundation pays for
+> contracting work in both cases.
+> 
+>> The other cases correctly refer to companeis, for contributors using
+>> other email addresses:
+>>
+>>       14 linux.dev
+>>       41 zytor.com
+>>       47 joelfernandes.org
+>>      176 alien8.de
+>>      243 gmail.com
+>>      333 goodmis.org
+>>      454 armlinux.org.uk
+>>      918 infradead.org
+>>     1007 kernel.org
+>>
+>> Do we want to only document existing practices, or also tell which
+>> one(s) should be favoured ?
+> 
+> I'm hoping that documenting the most prevalent existing practice
+> will naturally make it favored. IOW I'd prefer to document just 
+> one option. I don't really care which one we pick, but the brackets
+> seem most common.
+> 
 
---=20
-Thanks,
-Mina
+I thought that
+Signed-off-by: John Doe <jdoe@example.com> # Company
+would be acceptable also.
+
+It looks like that format is documented for Acked-by: but I don't know
+why it is not more generally applicable. I'm pretty sure that I have used it
+a few times. ;)
+
+-- 
+~Randy
+
