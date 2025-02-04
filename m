@@ -1,203 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F5E2185A8;
-	Tue,  4 Feb 2025 17:37:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1CC42165FF
+	for <linux-doc@vger.kernel.org>; Tue,  4 Feb 2025 17:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738690663; cv=none; b=fyU8+EKmpaGg4X7iD7tTnstD1fL/TV/wvZ6AWT59xuwJdzczcyE8ZrrbVyW50tmsRHkM9CyelmB6bJHL8pVXJAUgwF+ZegmS70lE77hczYef/3N7474MVKWVESkG4MZ/OpluG5/KWVxve5GioabyicStJMyoimu4Pdepk9FmZMY=
+	t=1738691791; cv=none; b=Cd68K5VL2CdO0fB8KMlYmwrYSUiRhbh7g8QHeQ6l+ijpK5CPgr2rcbl2dMeAmcO4ejm9j5kbuh/3NjNTwigvkg7wvIoUMEbDTLwKDUzI8PgjYTx9ymUAe/g0KQFcNphKk1AnvOGhM11jCiO5btIjq2KwSF1mH+XMKeUrrBT59/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738690663; c=relaxed/simple;
-	bh=Ht7/TOmkT+iwiNKb8KTAnbXFoYcUy6oM0kb2gCQ20Wc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JsUOUR4nqPYmfku8p69iEh51606tztEWGm6OPp1YRBVM4mLEZwrD3nq9H7O4n5JeqvaoY2zpH/0X46RfINwWTQhNmGQeNd6eNueZdY54GKeFRQ1bFSE3Xl0Mcp/MM6oN25DuohWT2BrM0wpnnO0bN0ZSYaygdy0jFELth8+nlVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F7XPcWxS; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1738691791; c=relaxed/simple;
+	bh=m670b6vZ0EmsoJkmownLJxz8JU2YptA7G45HSbgfDp4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Wx4qYJTzudgXlmzsIUn7iSqmhSkjQJqppS7jMqNsfLMyV0iEA/+veP8L3OJznyFRlRveVdGAhY2ajMVF/JVEX4ulbgQoKlzjgif1YCi7/Ze4INb7pmKXH8s1UwVQWeev6xE+o3ysJv1MyyMt+MvfRi06hfT4MY0XCYkjKTF+PT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EQi01E8U; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F7XPcWxS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738690662; x=1770226662;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Ht7/TOmkT+iwiNKb8KTAnbXFoYcUy6oM0kb2gCQ20Wc=;
-  b=F7XPcWxSQup1ygaEE4vV/PWueMPDhbOr0FzR6ddIpOXvVpoZSVPg1nE/
-   kcG1v8fwsa+EsIZRi0rP4HHzE1wXY+tHjxZHWq+nRwAE/oSQRCCYpDqBQ
-   yijZXa1EbEH+U5IFB4twvX2G5i6atp0HhpKOlXXXTkOnVFh/DOerx5R1F
-   kccGlRtx0y8D6qB9vcEAKUcdYGlcHpipjgdDkBiDQ3CpHHtopKJZKABzo
-   4JSJ5HgXSZ+iO5rwG0DmxYGlVNK/7O9FT5/ZFJCa5KJll48xBpoV+tarO
-   tyVf4cv8Lm7byHgk7l/qd+uz9xXXSm+3A6rvFasEDSM1DZ3vQOy+h/v6G
-   w==;
-X-CSE-ConnectionGUID: w+VdoRepR26y1WNGgzMUGA==
-X-CSE-MsgGUID: ZXlxW/+1Q0q1VA++y681uw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="38931217"
-X-IronPort-AV: E=Sophos;i="6.13,259,1732608000"; 
-   d="scan'208";a="38931217"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 09:37:41 -0800
-X-CSE-ConnectionGUID: UAr5/zW7Rha56MjtNiYK0Q==
-X-CSE-MsgGUID: 2nPTC7p0TeC/cQLyC4Ywqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="147867266"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO wieczorr-mobl1.intel.com) ([10.245.244.61])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 09:37:29 -0800
-From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-To: luto@kernel.org,
-	xin@zytor.com,
-	kirill.shutemov@linux.intel.com,
-	palmer@dabbelt.com,
-	tj@kernel.org,
-	andreyknvl@gmail.com,
-	brgerst@gmail.com,
-	ardb@kernel.org,
-	dave.hansen@linux.intel.com,
-	jgross@suse.com,
-	will@kernel.org,
-	akpm@linux-foundation.org,
-	arnd@arndb.de,
-	corbet@lwn.net,
-	maciej.wieczor-retman@intel.com,
-	dvyukov@google.com,
-	richard.weiyang@gmail.com,
-	ytcoode@gmail.com,
-	tglx@linutronix.de,
-	hpa@zytor.com,
-	seanjc@google.com,
-	paul.walmsley@sifive.com,
-	aou@eecs.berkeley.edu,
-	justinstitt@google.com,
-	jason.andryuk@amd.com,
-	glider@google.com,
-	ubizjak@gmail.com,
-	jannh@google.com,
-	bhe@redhat.com,
-	vincenzo.frascino@arm.com,
-	rafael.j.wysocki@intel.com,
-	ndesaulniers@google.com,
-	mingo@redhat.com,
-	catalin.marinas@arm.com,
-	junichi.nomura@nec.com,
-	nathan@kernel.org,
-	ryabinin.a.a@gmail.com,
-	dennis@kernel.org,
-	bp@alien8.de,
-	kevinloughlin@google.com,
-	morbo@google.com,
-	dan.j.williams@intel.com,
-	julian.stecklina@cyberus-technology.de,
-	peterz@infradead.org,
-	cl@linux.com,
-	kees@kernel.org
-Cc: kasan-dev@googlegroups.com,
-	x86@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	llvm@lists.linux.dev,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 15/15] kasan: Add mititgation and debug modes
-Date: Tue,  4 Feb 2025 18:33:56 +0100
-Message-ID: <450a1fe078b0e07bf2e4f3098c9110c9959c6524.1738686764.git.maciej.wieczor-retman@intel.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <cover.1738686764.git.maciej.wieczor-retman@intel.com>
-References: <cover.1738686764.git.maciej.wieczor-retman@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EQi01E8U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1738691787;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y7rTv22+08/qF0nM+ECThVkoy0LVlXk9luYfrRe54qs=;
+	b=EQi01E8UDzMvKDkPClqCqFdC8Pg0czYOskEYuswbXMw0W8Eji7upIXJDZEOWMgjSqu+aJ1
+	DLdA7VNvOcNo9whmW37w2/5vqtb7IVrYNArTMTAnMsnjob87HfEM8d9SAKNcDeBw4ErVAq
+	jIVJV6BbKWxbxlEcs2UtwnXaly+p4HI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-651-sbkVn7fAOr2igaJqohYGFA-1; Tue, 04 Feb 2025 12:56:26 -0500
+X-MC-Unique: sbkVn7fAOr2igaJqohYGFA-1
+X-Mimecast-MFC-AGG-ID: sbkVn7fAOr2igaJqohYGFA
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4361f371908so42306055e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 04 Feb 2025 09:56:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738691785; x=1739296585;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=y7rTv22+08/qF0nM+ECThVkoy0LVlXk9luYfrRe54qs=;
+        b=TiBY+maqMEneLXajIQRIL+NAan7g0ceTrIVXbYjN8WIBVPPv1zUcJWGVd/nxYkzmUk
+         FZcQahkWhsD7msL6BIUXszpHRmRhasAc8J3/v9hxXw0eLSLzVg+g/X0aHK7zOlFZpfDB
+         V+uQw06td/ZP4Lq940bZi6930ZhCd7dbuTV2yVM2Sb5B25uDyVtKFU9Wm1z/tzhMIF8/
+         KhngMn27q9kKCszf7AkG6jUf4fFHFGG3d9/hGkGow8Xzvl/xIrblax+saDJMD/E2YgkJ
+         rqZKCTQrcqFmGoWBI3iGLsqVOl7jTc0nKTfCrvL6C5UKujiukpN8rskzBpm55YKuaQ57
+         vHDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWcJwO/cHdK5ZHZ+/3+uXwd2Vm/EQmAZye5CIS0nwOHeoeYjiyUpQGcW8tTctS/Rq1wb2ScTK+3Ulg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxcxeGw202NANY1lS38+VuNwmHZPrGTS2wQemeWt5ppO9bYqsGG
+	+A8Yl2a4eAtxWIFKqM+k/RLInasA91Ll849kXGCUao5YipsQAazJ5hkxnowXFJkir437fBLLsau
+	uPZWF/ertGu8UoQbBG8+Ff1d1jfee5G3iBatmNqmFxUXVXavncVNTCtvOyw==
+X-Gm-Gg: ASbGncs52aemhTWNKHPdI88XyLidhyvMXRkjJTu83UCFSuGzxnIgGSsrxjE/rFRJe0L
+	7mzb1OyjhDkfak2kDAlv+6hyI53Yu4refG6Irj9dE4O/oedZ6G2/pNNVNa/HHe31+vIosXRRI+R
+	L28onlPRky8jD8uwugj2sidaZQ5/Kmbnl/pjGVNF6Qt3/XCQYSb3+6daYIVZ4u/p+rxlfL+3WNt
+	ONk9iEo8cNJy5vnYGqJVQsiICNK7myk3r4z1RVJ/Lt7qDdMjUapu9TCk4L6ZpzikxAP7IJHqmvv
+	y1ZvLUFqWpJjG95UeUBcTLrxHgHGnD4sLnA=
+X-Received: by 2002:a7b:c347:0:b0:436:6460:e680 with SMTP id 5b1f17b1804b1-438dc3cc9e6mr253181055e9.16.1738691785276;
+        Tue, 04 Feb 2025 09:56:25 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFCE1OD75AvFxX4Ocn0Vn8riU+bmAUBASRVK771tFjkbz9SV1IT6+srLah/Dv8CbvHWMOv8og==
+X-Received: by 2002:a7b:c347:0:b0:436:6460:e680 with SMTP id 5b1f17b1804b1-438dc3cc9e6mr253180785e9.16.1738691784822;
+        Tue, 04 Feb 2025 09:56:24 -0800 (PST)
+Received: from [192.168.88.253] (146-241-41-201.dyn.eolo.it. [146.241.41.201])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438e245efbcsm193857215e9.33.2025.02.04.09.56.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Feb 2025 09:56:24 -0800 (PST)
+Message-ID: <71336d4e-6a75-4166-9834-7de310df357e@redhat.com>
+Date: Tue, 4 Feb 2025 18:56:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v3 2/6] selftests: ncdevmem: Implement devmem TCP
+ TX
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+ virtualization@lists.linux.dev, linux-kselftest@vger.kernel.org,
+ Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski <kuba@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Neal Cardwell <ncardwell@google.com>,
+ David Ahern <dsahern@kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>,
+ sdf@fomichev.me, asml.silence@gmail.com, dw@davidwei.uk,
+ Jamal Hadi Salim <jhs@mojatatu.com>, Victor Nogueira <victor@mojatatu.com>,
+ Pedro Tammela <pctammela@mojatatu.com>,
+ Samiullah Khawaja <skhawaja@google.com>
+References: <20250203223916.1064540-1-almasrymina@google.com>
+ <20250203223916.1064540-3-almasrymina@google.com>
+ <c8dd0458-b0a9-4342-a022-487e73542381@redhat.com>
+ <CAHS8izOnrWdPPhVaCFT4f3Vz=YkHyJ5KgnAbuxfR5u-ffkbUxA@mail.gmail.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <CAHS8izOnrWdPPhVaCFT4f3Vz=YkHyJ5KgnAbuxfR5u-ffkbUxA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-With smaller memory footprint KASAN could be used in production systems.
-One problem is that saving stacktraces slowes memory allocation
-substantially - with KASAN enabled up to 90% of time spent on kmalloc()
-is spent on saving the stacktrace.
+On 2/4/25 6:35 PM, Mina Almasry wrote:
+> On Tue, Feb 4, 2025 at 4:29 AM Paolo Abeni <pabeni@redhat.com> wrote:
+>>>  .../selftests/drivers/net/hw/ncdevmem.c       | 300 +++++++++++++++++-
+>>>  1 file changed, 289 insertions(+), 11 deletions(-)
+>>
+>> Why devmem.py is not touched? AFAICS the test currently run ncdevmem
+>> only in server (rx) mode, so the tx path is not actually exercised ?!?
+>>
+> 
+> Yeah, to be honest I have a collection of local bash scripts that
+> invoke ncdevmem in different ways for my testing, and I have docs on
+> top of ncdevmem.c of how to test; I don't use devmem.py. I was going
+> to look at adding test cases to devmem.py as a follow up, if it's OK
+> with you, and Stan offered as well on an earlier revision. If not no
+> problem, I can address in this series. The only issue is that I have
+> some legwork to enable devmem.py on my test setup/distro, but the meat
+> of the tests is already included and passing in this series (when
+> invoked manually).
 
-Add mitigation mode to allow the option for running KASAN focused on
-performance and security. In mitigation mode disable saving stacktraces
-and set fault mode to always panic on KASAN error as a security
-mechanism.
+I think it would be better if you could include at least a very basic
+test-case for the TX path. More accurate coverage could be a follow-up.
 
-Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
----
- lib/Kconfig.kasan | 28 ++++++++++++++++++++++++++++
- mm/kasan/report.c |  4 ++++
- mm/kasan/tags.c   |  5 +++++
- 3 files changed, 37 insertions(+)
+Thanks,
 
-diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-index d08b4e9bf477..6daa62b40dea 100644
---- a/lib/Kconfig.kasan
-+++ b/lib/Kconfig.kasan
-@@ -244,4 +244,32 @@ config KASAN_SW_TAGS_DENSE
- 	  ARCH_HAS_KASAN_SW_TAGS_DENSE is needed for this option since the
- 	  special tag macros need to be properly set for 4-bit wide tags.
- 
-+choice
-+	prompt "KASAN operation mode"
-+	default KASAN_OPERATION_DEBUG
-+	help
-+	  Choose between the mitigation or debug operation modes.
-+
-+	  The first one disables stacktrace saving and enables panic on error.
-+	  Faster memory allocation but less information. The second one is the
-+	  default where KASAN operates with full functionality.
-+
-+config KASAN_OPERATION_DEBUG
-+	bool "Debug operation mode"
-+	depends on KASAN
-+	help
-+	  The default mode. Full functionality and all boot parameters
-+	  available.
-+
-+config KASAN_OPERATION_MITIGATION
-+	bool "Mitigation operation mode"
-+	depends on KASAN
-+	help
-+	  Operation mode dedicated at faster operation at the cost of less
-+	  information collection. Disables stacktrace saving for faster
-+	  allocations and forces panic on KASAN error to mitigate malicious
-+	  attacks.
-+
-+endchoice
-+
- endif # KASAN
-diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-index ee9e406b0cdb..ae989d3bd919 100644
---- a/mm/kasan/report.c
-+++ b/mm/kasan/report.c
-@@ -47,7 +47,11 @@ enum kasan_arg_fault {
- 	KASAN_ARG_FAULT_PANIC_ON_WRITE,
- };
- 
-+#ifdef CONFIG_KASAN_OPERATION_MITIGATION
-+static enum kasan_arg_fault kasan_arg_fault __ro_after_init = KASAN_ARG_FAULT_PANIC;
-+#else
- static enum kasan_arg_fault kasan_arg_fault __ro_after_init = KASAN_ARG_FAULT_DEFAULT;
-+#endif
- 
- /* kasan.fault=report/panic */
- static int __init early_kasan_fault(char *arg)
-diff --git a/mm/kasan/tags.c b/mm/kasan/tags.c
-index c111d98961ed..2414cddeaaf3 100644
---- a/mm/kasan/tags.c
-+++ b/mm/kasan/tags.c
-@@ -78,6 +78,11 @@ early_param("kasan.stack_ring_size", early_kasan_flag_stack_ring_size);
- 
- void __init kasan_init_tags(void)
- {
-+	if (IS_ENABLED(CONFIG_KASAN_OPERATION_MITIGATION)) {
-+		static_branch_disable(&kasan_flag_stacktrace);
-+		return;
-+	}
-+
- 	switch (kasan_arg_stacktrace) {
- 	case KASAN_ARG_STACKTRACE_DEFAULT:
- 		/* Default is specified by kasan_flag_stacktrace definition. */
--- 
-2.47.1
+Paolo
 
