@@ -1,82 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66CC520DD60;
-	Tue,  4 Feb 2025 14:07:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA2020E305
+	for <linux-doc@vger.kernel.org>; Tue,  4 Feb 2025 14:08:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738678054; cv=none; b=N74Kgyk5VoV9hMykMEb+3VrXpjso6JKNU7o9mZO8ERSfGGAniG73rTCzaOZQ8SlI7f2x6K3z5Sqoud90/CCQmISOJcAdzEegksJd+S2Bnom7IYjHoT2VlFYpKvqo7uDjUOHpv1XTtNZxJULjdOPW2B+LSJ6ylJ3durqs6Dzcb5Q=
+	t=1738678121; cv=none; b=YonK5QNyzlbqGcH6YeM04C3UZ5/i5/fRiit+9tBDUeny34AcBVwRnXMaXTJB2LgZTPhDs3jP3bVpiuqnrTlARtpQILLVcpSmBoFVyZKBN+bYskxS0Eseeg34tBdlwin7gyPTYNYbbtI7kx1DY9dHd5Ju3FD+Rri18p8GYdwDhLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738678054; c=relaxed/simple;
-	bh=DXy3zcOIszbtR+6ZTz9kj/erD3peAa/YBoPDnuXm3Tk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u2k+5Tv6wpLyzoaVGHewJ+iNYAzGtPJb2MQIOVDbGhM1spEUlGszj3FcKiFq915Pqx5r90wF6jhN9vt2ZRnk4Iq06UOKtBqSfC799zWyUyQMfLcyPiFROa5yygg1pr95WaR7cttVUR+4TTUGfYxDOGxHAIx4+sL5Qv43weA4QOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dSY8PCBs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738678121; c=relaxed/simple;
+	bh=lzZC7nwSzDbj4fR9zSQyo/j1VaKH5TZnWQewenU65gI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j3jzl/oKcmfjr60DdQjEZ0kGBiBRYT9WJ9vFCqMs/T1FHCQk/Qfa6NX8RD/81sYbWYehJimYahuGNJ25RX4fiAeoy7C3ufMcrZOKH9CsTumGqn8KjGqkXN/KanlpDR6yKH325VK6RhbLPKwNRtJQN0DrCBweOtMJPqPRGYxav90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cbv0Oomu; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dSY8PCBs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67633C4CEDF;
-	Tue,  4 Feb 2025 14:07:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1738678053;
-	bh=DXy3zcOIszbtR+6ZTz9kj/erD3peAa/YBoPDnuXm3Tk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dSY8PCBsHk2S42+/2ww9mGPVbyWmYXO4P3Y4GjUV3iYbHHVlmypzBKHNsCen0X4/x
-	 CZF59DOTpGF9GBXJn8/THXhTIljKgjHdIjYIs8mqb5wf7BhpqVF77oBsRJoDjgP0eH
-	 /vzLlihuUbtVcYLmu2z3p9VchfADUIvzCd/Rdse8=
-Date: Tue, 4 Feb 2025 15:07:30 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Purva Yeshi <purvayeshi550@gmail.com>
-Cc: jikos@kernel.org, bentiss@kernel.org, corbet@lwn.net, jdelvare@suse.com,
-	linux@roeck-us.net, skhan@linuxfoundation.org,
-	linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org
-Subject: Re: [PATCH] docs: Fix spelling and grammatical issues
-Message-ID: <2025020411-ravine-stand-530a@gregkh>
-References: <20250204134806.28218-1-purvayeshi550@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cbv0Oomu"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-216728b1836so96178455ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 04 Feb 2025 06:08:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738678119; x=1739282919; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DxFFXjBXPh0mZXgN1D7X6dwazx3m6suk992pVSePYAI=;
+        b=cbv0OomuVrfQy/HrMnZC/KBOZto6pLNtIjxFBOOTVPHd4Kh/tDhG+pthsUO/IzT4Xs
+         N1QgB1IdR3YzKtywD5qWMQPZsV5smbeeSVrhJu6HTfyZHtqVnrb5kdHPEvIEzr31s2KT
+         VFXH1GyNEk9gdOMJiIgIekE9bhtLPQDpAEJYDO5vGBnZbThU4KqR+YfyehtfaF+/OoiW
+         /aeWU1BZKBT1TOM+BaF/0zLqEILdK16j3oMnN8/pocHjQ324sF3z9podybnlwzhjOi/s
+         89x1wrUu05hmdAtp1VmiXOvGirU4omn5zyQqw4WjO8irJsjq32G7E2syUQcHsk+/xHvU
+         FHLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738678119; x=1739282919;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DxFFXjBXPh0mZXgN1D7X6dwazx3m6suk992pVSePYAI=;
+        b=scXs3l5KALvdhwQ93dms2nXNH3S+PqT2CpkW8VRgAeyJvQ/0//CbNzzi9AuqDkF4hu
+         BBKSR4IYV1ZTANeLVZZMr8skaX8u3bhcew2IaVE5cONRBOixb1umgpr3iITv+QlaF1wW
+         yskkMpDeD6r8LAK2KJi4Br9fx1nfisQcFuWgSXqs2RRTA1iOX/6tw8ccgeHR+Nt4LXYA
+         3nL0+dS7IJkeinvQjqc3vJ08hTxALrIgSNhI9ADvrPSqO2iZ2RzEU1oyWXJHHQDy77jP
+         a5/x8aU+86juYcNJgTKFxllvc2N4ey/XKMpsj73GNhXmIrQfwA5h/3LSm/L1vFEgNzqd
+         Fdbg==
+X-Gm-Message-State: AOJu0YzdgT8pLCusi52lCVWAJBhYQxOQSPWt1TnGNfFx2IXeFckeouEL
+	c88yW+8eZT8NpmQxJBO6gZXz5fvZ7AX8J1qhsrJ9pcd4aeLtO/uRIyY2rNYg
+X-Gm-Gg: ASbGnct5Sp+zpYbmkfPwdonBM4OX3YdUrd6zKE5s5kNLTntE5eZPnsVeKbA80nC46Rv
+	+B0SM9IFzSclF8BkFI4LoQnhRDaUJfeIL3qz52rPRe6WCdhtbWFT34TdFVhso4C0SQgg5XZ5v0/
+	iZ1XJIBl2HYqed8/UC5WrVvMbPff0udgewOTanLrVT5HmuIgSPyBgb79ExgIAmCOzD1NFkmnTnr
+	XLahvAdkS7GjXXX3+JDH4HJV7tQmIfEgc1VINOazT3CcPXVMuHbJLw8U7BBtSpdq0CFZ7id3+Cg
+	zsRKUHBb5rZkSdrGHmzcrbF9pA6flS/15Nf57Q==
+X-Google-Smtp-Source: AGHT+IGmJOJKIJz8LAecFRFuK1DLTcWKV9FPgCagpZN4eNuZ/47DsGbKgNgNCBUMJ0+ep2xl2FiMWw==
+X-Received: by 2002:a05:6a21:8dc8:b0:1ea:ddd1:2fa7 with SMTP id adf61e73a8af0-1ed7a6b8105mr42979558637.28.1738678118422;
+        Tue, 04 Feb 2025 06:08:38 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:5c08:585d:6eb6:f5fb:b572:c7c7])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-acec096c62bsm10039452a12.67.2025.02.04.06.08.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Feb 2025 06:08:37 -0800 (PST)
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	Pranav Tyagi <pranav.tyagi03@gmail.com>
+Subject: [PATCH] vgaarbiter: documentation grammar correction 
+Date: Tue,  4 Feb 2025 19:38:29 +0530
+Message-ID: <20250204140829.7649-1-pranav.tyagi03@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250204134806.28218-1-purvayeshi550@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 04, 2025 at 07:18:06PM +0530, Purva Yeshi wrote:
-> Fix several spelling and grammatical errors across multiple
-> documentation files.
-> 
-> Signed-off-by: Purva Yeshi <purvayeshi550@gmail.com>
+Corrects the following grammatical issues in the VGA Arbiter documentation:
+- Fixes subject-verb agreement by changing "co-exists" to "co-exist"
+- Corrects pluralization by changing "server" to "servers"
+- Improves sentence structure for clarity
 
-Hi,
+Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+---
+ Documentation/gpu/vgaarbiter.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+diff --git a/Documentation/gpu/vgaarbiter.rst b/Documentation/gpu/vgaarbiter.rst
+index bde3c0afb059..d1e953712cc2 100644
+--- a/Documentation/gpu/vgaarbiter.rst
++++ b/Documentation/gpu/vgaarbiter.rst
+@@ -11,9 +11,9 @@ Section 7, Legacy Devices.
+ 
+ The Resource Access Control (RAC) module inside the X server [0] existed for
+ the legacy VGA arbitration task (besides other bus management tasks) when more
+-than one legacy device co-exists on the same machine. But the problem happens
++than one legacy device co-exist on the same machine. But the problem happens
+ when these devices are trying to be accessed by different userspace clients
+-(e.g. two server in parallel). Their address assignments conflict. Moreover,
++(e.g. two servers in parallel). Their address assignments conflict. Moreover,
+ ideally, being a userspace application, it is not the role of the X server to
+ control bus resources. Therefore an arbitration scheme outside of the X server
+ is needed to control the sharing of these resources. This document introduces
+@@ -106,7 +106,7 @@ In-kernel interface
+ libpciaccess
+ ------------
+ 
+-To use the vga arbiter char device it was implemented an API inside the
++To use the vga arbiter char device, an API was implemented inside the
+ libpciaccess library. One field was added to struct pci_device (each device
+ on the system)::
+ 
+-- 
+2.47.1
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
