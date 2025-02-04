@@ -1,79 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E562121516C;
-	Tue,  4 Feb 2025 16:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECCDB215196;
+	Tue,  4 Feb 2025 16:26:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738685584; cv=none; b=hFMUiJvwQI3dcEIxhoUvPce6GKCLFTh2zeBD4RdKUxch1DWAKWx9+eJvmZUrVgLavyBhUvGgMZJAtSYHm0VXG+v13z19AoiFm0DNvl32ML9jZL99oHDDMTEP95QeiKySs9q3lPiVLQ1f2kZCxERFhNu6QUMyspLUp1e0yp2K86g=
+	t=1738686370; cv=none; b=YKzFFBjZz0fcQpCtMBh1TZMkN0LnHkUadp9vCO8fCPWIyj3L25AqB/d3hUYAXB8deFK8l7G7bDUOPgkK41Q7K/8Dr1O+3pa0CGM5TJKMgo96b1hZ1T4oEKS3yC9UXx38ErR/WvV9xT9sc0mb620GYVS5/mWI5vy44wP+BelhSSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738685584; c=relaxed/simple;
-	bh=kDN+cZEWJ0y+gr5+wyDUwqCQ340N1h7v6kbhQyt2pZI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qtEuvr1XfTARX/+SoDuAIsSrwPw9HU6OERlEk/WC1F1+RqfuILkKyLtMDKvfxS3dcSe80lY2Px6Pryd/iwS0gvOJfXOmrwbB9IerHzZYw/xPmO4//dCQyA9xBd8h0JBfTdZTTL6Dbr81EkV0EJLH98LW8mLTSGJMNHy61ZEOvJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IszEr4KC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738686370; c=relaxed/simple;
+	bh=LxTw95Joq9NOwz1ssQz69DMOpY06Qewpmb9G+xXor48=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=EEpoHGA5tdvGmYPZ++CERLs4k49oeY/cckcDnwHSTsqeNRnHK/j/1vxOLA7qgVGYQmdD1LOAFB4DfGP9GrI1a/uFUEpsUEB/lHDWvI7EUoDnAF5jeUYo/I8TDR4Z53lw3SBVswnfI746sHThSu6yVDvo+l8g1m2RDymER1EaELU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K3hFmP3H; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IszEr4KC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 000FBC4CEDF;
-	Tue,  4 Feb 2025 16:13:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738685583;
-	bh=kDN+cZEWJ0y+gr5+wyDUwqCQ340N1h7v6kbhQyt2pZI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=IszEr4KCTJWzXEtgb2i4RvWZipq+KEhZCu05O7hR0hjdP47BdvX8Hx6dMByfBjDRo
-	 yjwKsm/OWjlKN9OWm+6iL/Ark+Z0v0y3GgLofosrm0WsbRL31Cp2Yqs6RuheFUNra5
-	 KNJc5QFsYhVpYISc2o+p1xSEj1q97zemcGJaxe1fjbTARws3j/mM+/+35k8g/lWQHy
-	 GwprktS+jaGvOZzJQdV0Opih6QgL2nnE+nJoOS9cVW0Jop+zc6Tv40i3Nh3Y2cOuEL
-	 7g48kWQNnZKrI8Mh19NE9VUumX6+dLw33sm8xjKdSVNOs5LTKbhGVy+9J4lvUDHD+O
-	 1yxlnrnPXfePA==
-Date: Tue, 4 Feb 2025 08:13:01 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, corbet@lwn.net,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: submitting-patches: document the format for
- affiliation
-Message-ID: <20250204081301.6fdb1536@kernel.org>
-In-Reply-To: <20250204154938.GF22963@pendragon.ideasonboard.com>
-References: <20250203174626.1131225-1-kuba@kernel.org>
-	<CAMuHMdXXNkpWjkKvMLd-MF=npzqJXMtnXkaba60JY7hCzyjz7g@mail.gmail.com>
-	<20250204071834.78e0ffb1@kernel.org>
-	<20250204154938.GF22963@pendragon.ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K3hFmP3H"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-aaeec07b705so976251066b.2;
+        Tue, 04 Feb 2025 08:26:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738686367; x=1739291167; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:reply-to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LxTw95Joq9NOwz1ssQz69DMOpY06Qewpmb9G+xXor48=;
+        b=K3hFmP3HyZbXWfq6RGy8CTjHkAmrFK7BvsRX5XKU/3lqTt15MXZ1JuhTZB9wSpm7BI
+         zkdhhqeEkSJ2kacxp+zmhCmssBz2ha7O0mBbDdSlRQDPM0FD5yUI4WPQfy75vkKiYqBk
+         9sCKh3096dSJLG3zfln/b0p+fzC6oUIzMawj5Jw5pY87HSEVhMBUuxM1Yu5wFrr0pxVQ
+         Xt1UntOJONEH4Z2V38Ma3YNTtEL43lTmztYE30gWR+yBSHonOBG7s2R45Og4Nxt9eHW8
+         4InguSqhEeDo9ZMc7CUb9y/xT6G/g3GePBf8Juf16x3qS99VV7ce7quZjfQOOt5pclnH
+         +cog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738686367; x=1739291167;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:reply-to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LxTw95Joq9NOwz1ssQz69DMOpY06Qewpmb9G+xXor48=;
+        b=i7w5ZnBTLRFD5evKIRLRt4oSrTOm4izhRkxV6VMmeMASBBPKfiTYyMHyyqwQYexj4a
+         IxgqKmApSSkI3SfiwL+uDV+ZUZJ27yvPia4s7bkhUCZLtyEJhluR1g0Zdd7VayVirWNb
+         OZPYtvJRI4iwZYiY2c60Bih5b1tLfqqZC/Dom+ZmFmQ5LtNO2cweRUH1epj8KJQth7QU
+         Y5H07HcZnmoTCe+FwECthofjLrSdYg1i8Ee6k6W1LBZ7/olHCA18DTlqL9WnTSQ5clt0
+         ME8xyB519Jw/r3fy+UKgej1xqsUODFGmrUSPMMTFcqtRvBV5t57cj6JwN8lJw1aKaW3B
+         NaLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUBuupOysOf4kTK0dpNEm86bENEG5CP12n+RfIZB8SIjYEqcIHhqOpX89SZ1nCYD9dGQyXHJfbsmxk=@vger.kernel.org, AJvYcCWZ+G78VFiZ9v7lnXjZ+HMTd8g4MuBkRoAYQyNqomtd2gDlUGykp/KlNVBI4qFHpDYAmbWenzIw6fxIg7gt@vger.kernel.org, AJvYcCWjB3pxa+E0Nfpa38S+A5U0lxxHqRKWRdeNkqnriF2gJbzCxuix8WeNTCiZgFaORqtAZiNBegkwjak=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8N3bl0KkWdsbtMsZ4pdedE4fYUnrszbBKQjLn0uHMSgzUolNw
+	T8IFNLtCa8XQnTsh6+wXpH18cH/3sccsER+wRPQ/1L2WCUT+Hixx
+X-Gm-Gg: ASbGncuX2xnkXT8gbdiVr7ed54CXTkMR+ZmC8+Z4gMqr9S4ehXx38dtYUaoMTnxrLSn
+	RHU7DhwjN7K2FDy201+jv8fhnQuOIs/ncx6Y0JivmXrNsWJN+bn55Mf9EvmS9A03zN7EGkirNGS
+	92/5LZDXltofKaUeRUoU4FmAdmmMM1ZSpidmGtFeJdUKgD8ABKGjO7S63gdhTCY+EdsnDoam+Uu
+	ofqhsfjzsxnfNdahqhF4WxGYtrB4Alu6sc78TMT9ci74vBYqEsbG9CYEicPgE0g5TV7yyVoNGJS
+	IIqtLGQb/vp1dUBmNCdoSnZNnSWKHQktygPPE0qjtVQKWA==
+X-Google-Smtp-Source: AGHT+IF/qxZnL8CdvHbhjCd17aP0gWz6HwZtAa27uqB0vv8GcyD52djUOcj4hDSHFe4syb77KiniZg==
+X-Received: by 2002:a17:906:f598:b0:ab7:4641:a72d with SMTP id a640c23a62f3a-ab74641a76cmr604171066b.51.1738686366994;
+        Tue, 04 Feb 2025 08:26:06 -0800 (PST)
+Received: from abityuts-desk1.ger.corp.intel.com ([134.191.196.181])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab6e47a7ea7sm936628466b.5.2025.02.04.08.26.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Feb 2025 08:26:06 -0800 (PST)
+Message-ID: <c894c5009c1fca50d80b1acdaa5e5d033a9ac7bc.camel@gmail.com>
+Subject: Re: [PATCH] intel_idle: introduce 'use_acpi_cst' module parameter
+From: Artem Bityutskiy <dedekind1@gmail.com>
+Reply-To: dedekind1@gmail.com
+To: David Arcari <darcari@redhat.com>, linux-pm@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>, Prarit
+ Bhargava <prarit@redhat.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Tue, 04 Feb 2025 18:26:03 +0200
+In-Reply-To: <afbe2137-398b-4053-93e7-2a03aeb32220@redhat.com>
+References: <20250128141139.2033088-1-darcari@redhat.com>
+	 <e9188365425d2a4c0dfa7cfa2b17ad3d9fcf2735.camel@gmail.com>
+	 <afbe2137-398b-4053-93e7-2a03aeb32220@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, 4 Feb 2025 17:49:38 +0200 Laurent Pinchart wrote:
-> Or apparently project or customer names for consulting companies:
+On Tue, 2025-02-04 at 07:52 -0500, David Arcari wrote:
+> I'm happy to resubmit. I guess I could use 'no_native' for the new=20
+> parameter and then update the documentation as you suggest above.
 >=20
->      29 Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
->      34 Alexis Lothor=C3=A9 (eBPF Foundation) <alexis.lothore@bootlin.com>
+> Does that work?
 
-FWIW these are customer names, indeed. Project/Foundation pays for
-contracting work in both cases.
+I'd suggest to wait for Rafael's response first. Thanks!
 
-> The other cases correctly refer to companeis, for contributors using
-> other email addresses:
->=20
->       14 linux.dev
->       41 zytor.com
->       47 joelfernandes.org
->      176 alien8.de
->      243 gmail.com
->      333 goodmis.org
->      454 armlinux.org.uk
->      918 infradead.org
->     1007 kernel.org
->=20
-> Do we want to only document existing practices, or also tell which
-> one(s) should be favoured ?
+Artem.
 
-I'm hoping that documenting the most prevalent existing practice
-will naturally make it favored. IOW I'd prefer to document just=20
-one option. I don't really care which one we pick, but the brackets
-seem most common.
