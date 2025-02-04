@@ -1,284 +1,184 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2040.outbound.protection.outlook.com [40.107.223.40])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0C32206BF;
-	Tue,  4 Feb 2025 22:50:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.40
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738709428; cv=fail; b=DeeuARqpjgzIOsWwqV/FFATlpvV2FIH2dAVd+I6SjuuNqJx1VEtpdmSKJWlIhr2AX81dlIethfsyCG9LanRdINRXtqUzl6B19mE3XdfRF3k4oCBVmfBS2w1BsTNVo3qfIojwA7rs0OP1+uPU5WtoKHyKr1YmVvG0eA7+Q+E8Iz8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738709428; c=relaxed/simple;
-	bh=bVzgWyQa4w+3Tu64z6XFGDevakKWyWcLsWA7cirN12I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=SBELR+g097BWj4tLhESLtCHqoA619OVk5QFsSh4nrN2sF3czmmETpZECvPdvgGUAgW+ybUlErojYZL30H2FpG3h7gPtA81ppqoL1aiALkG+yc+kld2V/NYHBLggT4I5QHPSt27M3mDisIrEIqRuExh/TWgpKU42uHphIlaTVKfk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=LvMTO5G/; arc=fail smtp.client-ip=40.107.223.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F6C20C00D
+	for <linux-doc@vger.kernel.org>; Tue,  4 Feb 2025 23:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738712199; cv=none; b=ebskRNjMwhzor1NRC8QkfxJKCcVdXO3ohyqlCcRhpLecjoLp65w+Qm5Im7XJIdKVf2dGxps6K4zsi4Tq/EGbZlAwfh3XfbfIQDf6MEgX+asN5MQlVZ+poqB4WNQy+EvBgqp3H8MbMVfbOcbg+zl6WyACJXVaBDuAZBUNrpx39Cs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738712199; c=relaxed/simple;
+	bh=QjEre/G3BLqcrCF5wreFajQVoRGv9unmtvDg4S23UQU=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=mByg9/mOFZaSzS0IyY3YbdTDr0px/oIEFLS70oN+5uOhHVh0tvIsAyAh3gMXIvThhvccB8B5A7wVCl8DMoXQMA7EGV2iRDYI7s2ie9uCbNkXgd9cJUveWxW658zg8jpEJ7K03USqe6ISYUJCwTQOGt3K1YJ5MabymJDAtjfawfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jrtc27.com; spf=pass smtp.mailfrom=jrtc27.com; dkim=pass (2048-bit key) header.d=jrtc27.com header.i=@jrtc27.com header.b=Pxq14T6q; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jrtc27.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jrtc27.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="LvMTO5G/"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LWThh/AYziDVFX6FIPwZIDhCooJlt7qmuXaGQUYqeOCt8sKs+n/adKVcjXbYqB54LdRxX6WYr+0Di8d44qZAOoNdJdbVlrNr3WdEtjEOwfhXVPKU3SsIOz6KfChAno+9NlWrDkNO/V9pxoZH9YKOXPl6V5peNE94BfCY4CXiHowLidI/fFWTZ1DxDuJ1aOoII045vc5nZrjlpti2bvi233Twedbj/pvqM3nnL1lhf8tKT7zJsSIzmMIK0P/ceGHnAYc3YM3uvlGOzfPZhY0td6LhkbvDXvBYwTR//sHYl+8k615uh7xbKF6vj0paD2n8APruxGdg6pLyNzejaN/vNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+RK8HcctKWrWGjHAxyN8k6xlAbP24zFsv0TFbZlW19A=;
- b=cOtdm7AVIEAWwOgO4gb+K2i4B9td78Q0xBN6yIVqyplKZFXgS0SzhL2m0nMPo4L9wA3kSrQblMxKWhsvEJkLLrAYotshODg49g5HgcSXhaiANGdKubwYOqX6xRBaRpgwcUcpOcnzUGPU1yUjiUUMPpGnadY7T/2VfX1INOEFNa3Dk1Ts3BHHjdpKpKdXfak2PumVyUf9SWEeU6GBVSAmcTjtNyrPHhAB/wXEBKjd8gp/nBwsqoJ4LJqHaajiedsJ70TGELH95Hj73z/4nWKeg12+B7eRS2B7KFPPxvsPAhXHVCj68LS05fQ3DZvvsoMjLEYEsSSqq0a5UH/efNIl2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+RK8HcctKWrWGjHAxyN8k6xlAbP24zFsv0TFbZlW19A=;
- b=LvMTO5G/vq+G84KunIOt9dhCWlvhCf3GUs0jcFx7uCgP3sf4F6oTFl5y+jtQBtCXcgNT8XoYLkMt0eoj0+TscIUxYgevX6TnJ7wj18E8h+SAIXntI41wO3LEkny6Dx84XYBzhUxoVyvYzlvdPN9hgLJg5ouOlmy5ZrNfi+eqsAbTOVsPOylwGRJ4njs99ZtCC3Dk6lhgmhG9rkor4j31vcR69WsfTd/tSB9fMslQggts6GAXwUHxSN4BKPV/SLApKs9FlPgtWBn7odo7NXN7GktX9Ib48YOgQSx4jKiIdLdP3llSABBQuY2ZBflczDzc0yvso+oNyiPlho0Y03AJ3w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com (2603:10b6:8:130::6) by
- MN0PR12MB5978.namprd12.prod.outlook.com (2603:10b6:208:37d::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.25; Tue, 4 Feb
- 2025 22:50:19 +0000
-Received: from DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe]) by DS0PR12MB7726.namprd12.prod.outlook.com
- ([fe80::953f:2f80:90c5:67fe%7]) with mapi id 15.20.8398.025; Tue, 4 Feb 2025
- 22:50:18 +0000
-From: Alistair Popple <apopple@nvidia.com>
-To: akpm@linux-foundation.org,
-	dan.j.williams@intel.com,
-	linux-mm@kvack.org
-Cc: Alistair Popple <apopple@nvidia.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	lina@asahilina.net,
-	zhang.lyra@gmail.com,
-	gerald.schaefer@linux.ibm.com,
-	vishal.l.verma@intel.com,
-	dave.jiang@intel.com,
-	logang@deltatee.com,
-	bhelgaas@google.com,
-	jack@suse.cz,
-	jgg@ziepe.ca,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	mpe@ellerman.id.au,
-	npiggin@gmail.com,
-	dave.hansen@linux.intel.com,
-	ira.weiny@intel.com,
-	willy@infradead.org,
-	djwong@kernel.org,
-	tytso@mit.edu,
-	linmiaohe@huawei.com,
-	david@redhat.com,
-	peterx@redhat.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org,
-	nvdimm@lists.linux.dev,
-	linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	jhubbard@nvidia.com,
-	hch@lst.de,
-	david@fromorbit.com,
-	chenhuacai@kernel.org,
-	kernel@xen0n.name,
-	loongarch@lists.linux.dev
-Subject: [PATCH v7 20/20] device/dax: Properly refcount device dax pages when mapping
-Date: Wed,  5 Feb 2025 09:48:17 +1100
-Message-ID: <7d65e855fcdc5cee12b4500a557b2ad961bdc8f2.1738709036.git-series.apopple@nvidia.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <cover.472dfc700f28c65ecad7591096a1dc7878ff6172.1738709036.git-series.apopple@nvidia.com>
-References: <cover.472dfc700f28c65ecad7591096a1dc7878ff6172.1738709036.git-series.apopple@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SY5P282CA0170.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:10:24a::25) To DS0PR12MB7726.namprd12.prod.outlook.com
- (2603:10b6:8:130::6)
+	dkim=pass (2048-bit key) header.d=jrtc27.com header.i=@jrtc27.com header.b="Pxq14T6q"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3863494591bso3153044f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 04 Feb 2025 15:36:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jrtc27.com; s=gmail.jrtc27.user; t=1738712196; x=1739316996; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QjEre/G3BLqcrCF5wreFajQVoRGv9unmtvDg4S23UQU=;
+        b=Pxq14T6qk7wHnCKc8K8smJ8lKDbvd5HZIJQAy4wZws/37SBi5T81I4WPYeFnDoDPDA
+         b27wDaPlImy2bIR5tWFoMGvGFXeKVeEfyUMDBgTKfscvnfLBhsAH7mdvpnYOah6ZJ0P3
+         BCNF4SYQwIlKwB8OeNDobvgJ3/U0HhXQBM4vnuET8y7VhcAenEMzh+W/glWWQIC1jT0A
+         pY4+MNfHEB+MS6qu7P9lZ28/idUer6ygbT9kCCtEHm5bFtuY1cabP8gatpTpRa7TBZjr
+         x6FZTmO0QQWgcgohdPSQQ4BPp1ZHGBNrqXT6J+pK9K6Wq3+1F+V7ZxWrnTARgXvfhtBt
+         kpNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738712196; x=1739316996;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QjEre/G3BLqcrCF5wreFajQVoRGv9unmtvDg4S23UQU=;
+        b=l58MM/vKCOfkNIyOApeW3KvPmgZlsRdGzZVTtCWUDHO24nE/sSUi/LjqG/zUcoQ+Ke
+         HxJgaGthS+EXcWnBp9lKWDj9/4kakeh/lVUJYbQzDeceupSZkmDt/hXkV0xy0dkYfCm2
+         ECKp6Hzqo0YqhpThEWSZNeTIApPsBl204/6tvhs+uO9Ds+4jOBIx+h1+oP7UMV9ic3BU
+         pvjR8SLzKGbb/CM5fowLX8NcZ8WZU3ZKwAEB4OqV8f4f9jp6nam2k+h1wL+WdSA/MUG4
+         0ycY4CkizrR1QaNW2Hoes6SOOqcVLWWTUFNGUZDbYe3Y6szWcdF7cY/6/MJakrim8m/i
+         fHbA==
+X-Forwarded-Encrypted: i=1; AJvYcCX7FVSCM3XwX/IkQXg2fZMprgqffFAAWGVx157KRmu9fatDWZAKk6dXBu2dNVaWCpqbFvFVM9URrK4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzubTk6zamWt2CRNpjjMYr+QrVrPASAFL3512QCSV/rNPvBZroo
+	FkTtZgl3iXGVeL0HL52oii2VK2JkGt7WygYfZ1o+G/R8rektpZgkI6iZpJceJQ8=
+X-Gm-Gg: ASbGncuqQn37TQ4XtS3NsMkmp2TPUKfstOlQ+TXlyacM3gaD13OHa+1U7j9JZiJtNDl
+	+GIuZUUXXXM6Veawlt6hVoNVQvg0MMi/oYwXai+bnYUUX9hjMEb76RLWj/E0M7UtgR9p8IK0S+a
+	lPnPEZukAq+dWYQ3TETRDUnGcl8zz3aZLLa9D+4HMC6fvLD83EXL5HmdVHSTOm279Vp/zY0rA18
+	Kox2bN77WtTXQXjmKEPEm6VROgtymshZ9mzf9seqWkPJdiumXD2BljvEOT4YIfv6q/xkBMVtt+n
+	GGsZMWNEvNHRqtUp2NxmmamhUuMz
+X-Google-Smtp-Source: AGHT+IEbYs1SnazTxli1ivvCCDO1Cn9LUrxieFBceKbd6w0ve1uSZrVLlYscY7LZ+tYIHGaLpjoemg==
+X-Received: by 2002:a5d:4c47:0:b0:38b:dc3d:e4be with SMTP id ffacd0b85a97d-38db49214e3mr355994f8f.51.1738712196024;
+        Tue, 04 Feb 2025 15:36:36 -0800 (PST)
+Received: from smtpclient.apple ([131.111.5.201])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38c5c0ec369sm16900115f8f.8.2025.02.04.15.36.34
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 04 Feb 2025 15:36:35 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB7726:EE_|MN0PR12MB5978:EE_
-X-MS-Office365-Filtering-Correlation-Id: e8e5be72-8531-4596-0876-08dd456e4c34
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?lStfnsiSb+G8Iw91EnBGAJ0j2af9WK1uA3v+7TtIJTVBcQZ/D2NVAcMbCv++?=
- =?us-ascii?Q?ugeJX9KsrS7c5EhW2xHw26vrO3TVthtXSratgnjzkanfCNqVUK025wzgiQz3?=
- =?us-ascii?Q?A3V84KAoMHk+xNfj/LqvaDKS2r4mAAhu//ob16TlHHg60k0eEaUt1a9gxIrr?=
- =?us-ascii?Q?osNqqkT4qG3GVTBrXCFB5c7K/eJqYuJImcHhmXVa8cNYZxkKWoBpvJ72y7sh?=
- =?us-ascii?Q?HbcNuHwgJ0fObSyEDqwae++HpHQA4TGAlr9hiOPkDwH+mEqJfOYuhV9YSxky?=
- =?us-ascii?Q?2r0iw00w458ACvLnFDagvcrMUpmD3UbPxRVpGQXbSQcHScKyd3CY/e1XkuIP?=
- =?us-ascii?Q?eCDHxecCtQ/ks9I6tQtvswvEV3s2elVV9qHwNMex4zo9QuOeUuz7IKKFsm6w?=
- =?us-ascii?Q?4GJ6F7/5zpy8UzBgDxtNNWT1bkDIhCZzmsZ4FyaQCfLKpZR7mUWs0Ue6RxSZ?=
- =?us-ascii?Q?74SwSaY9VTrRvS3hgcmAr/1uUmKkXwfzvt2wf2rxq+t1pl0OjpIRxHqWU9bZ?=
- =?us-ascii?Q?TpSbU86nnm/jJnEl5GmuN1/9MA+j5EUaJMwVm3VhH8tooo4LcqKmb+ey6C9n?=
- =?us-ascii?Q?e3BHLTREkxw2Qgu9uWV30E/xva7btJpTk2sfTWswUqGEsbrXtsbNoxBrVdCA?=
- =?us-ascii?Q?3BSglWCkupdZjiC9X7NDJz6Yf4yKIErO1VkPeITEaZAHBQChjvh9yEX3mb1L?=
- =?us-ascii?Q?QuSfd9SLe41Fwp7aU4A54Wm62CNY9WJET1EtrVG71tmK7wH7JvR4HvQ8dOVW?=
- =?us-ascii?Q?SXLhdBdEn9FzsqWSGLL9ONLhlLQ7YT+nfZdKF9ABeZdfQAFu2IzLCBuDZiuo?=
- =?us-ascii?Q?FJq8C/r0n2JNlaDU+KZQGK6RRiZDY1tZDTG+2ZTWkcvsE03uRbOhQvnY7u+W?=
- =?us-ascii?Q?dbF4Abme7kbk99iurukxlV08Rc7qBBBXcASSiaWQ6D7JVpefkGFQvfuQ+013?=
- =?us-ascii?Q?p9iz4zxyo9zL2wmYObwPIujOD49Ivlr1ol94hc9bIRr0trxXJeiIP/PvN7bL?=
- =?us-ascii?Q?p0FvmxGZuMl9RBVF/cCvTnQOKXJptu/jIhLBqbyyxVgonuQk/DA97aELxGGI?=
- =?us-ascii?Q?HqkWNy6ic5OH9vhlxemWGumAdNtRX8jLg3TTJkqexhdfvmLa6L2qmKoxqxEn?=
- =?us-ascii?Q?Yar+uXRoynC6dn2s23oqxf30eA2ir4yhlRU2n80L9iaSsMufH43XEOdy53RP?=
- =?us-ascii?Q?Le8v3VPfsCAST1CmT+Od/XbPZjbfIg2NuCaTNdUG9JoyhrPdlO7XJB91U3uk?=
- =?us-ascii?Q?3Aqls7NPjyEU/ymtWT6peR41vd6ElLAKdlnbgh4EmsXpnUu7DnwHBhVJkuda?=
- =?us-ascii?Q?18QQkaq3R3Nas4Nf6B5ohAerWCM07SybHsPB0C4p3XMoel8ZSBju0GewOMkn?=
- =?us-ascii?Q?t/j0MRBDeal0qdqeKbouPVIDXkHV?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB7726.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?dqlNYgNXTk57smO1jyS5MHtYJGZx4MWUa+uIY098ykSR6WSxpGrbM/QEBT6W?=
- =?us-ascii?Q?zAcMoOmE1msxN7b5YV5FDSDW6fipOjyeXQsuxCXB/197UBv+SZHXrBabfe7G?=
- =?us-ascii?Q?gbSAJ2uu02Vp54FX5j2AD5ckOWBRYCBJMhfGtoqyqJ8zM7HwwZf3TfCf4N8V?=
- =?us-ascii?Q?+CH8dOw2Mqeo1OAforoKisS5PD9lOF+duGRvVpfnb7aV+Q5RriNG2W1wwh2G?=
- =?us-ascii?Q?aba3mjL100GvAFQF+moAfWQBM8x8IH9gKAmU/h5qG/Da8XZA4eENKV2t3/X/?=
- =?us-ascii?Q?muYfvbHcC9lpVeQIjk8Ba52Oawg6o50Cp0CTYMdQdhw9JWWMOSvVjn6EXUUq?=
- =?us-ascii?Q?pSX4O6jLVOBrzIgk4ve+YUq1R2DwxmLYooS8gUnpOUbLHjn60UgxYOB80wJm?=
- =?us-ascii?Q?gxWqge1PEce6GCQnzjcpFPgPZ5xtGuBh4uaaHJ4NusvmJIPTd2fWAfbNnPVP?=
- =?us-ascii?Q?dGpjeyqYUdOB9SVU+zzXDu4XPBgBaPXYMOIBAM/gMza+buEZ7lxyXd/tsgnJ?=
- =?us-ascii?Q?fg/YtemhjiyFiLI6GJAkdi83pAFX5mHuGmpmxM5Aofb8PXDrGmcBMTuhwsm3?=
- =?us-ascii?Q?I1/DWcQ/WCbVV41WjehADyxa+vbQFD+iOse0tCYZ2Dz87dMXbg67vlueMjJZ?=
- =?us-ascii?Q?4mplP17Ku6BA48Q5Pec9fh+lR7WSemDwMsYNeOzb9ycjjPZzwcHHUWJBjbwW?=
- =?us-ascii?Q?t+b03BYPahqJobWJgOoBjF0EtCeTrnsguq4mJBjO7ZMX/y23qCxdN7D9Mzmb?=
- =?us-ascii?Q?D0YiNOonh9myo7Fu3//FqNMCfF4D4PPwAF7Gj6f8ap/pcNfovtAVaf+p4Cpp?=
- =?us-ascii?Q?6P+8wpJxlpokxWPJOR1u691yAtiEUWZJk3NsP/2XF/lOPn/hyADvcOja7miO?=
- =?us-ascii?Q?5cExyphdIIPqRB07n1dkMkA4ImvEv1KWYV752ncRXIQBSwckpLpcSejXmC+7?=
- =?us-ascii?Q?/tAO2yAwZcgEHBAQWNBQL8Djiyv/0/RUsXC4Abh48wmvJlmDufVmjTFuctsk?=
- =?us-ascii?Q?61sXaeEKsZ5NkkGd+4o5B6naMVOJovffi6SGfagA58Bb4bHpINSgsEWhg/fn?=
- =?us-ascii?Q?vERpyJEDiYSQUjvGe/YduUUDDi7g9X+jsS1vdWNJSJZ/lDpQGMA16/Fqcdhv?=
- =?us-ascii?Q?L9X+qCmByCMzxgp4snyXv6ob15RChy8QeJvfMmR9g8z5tosDAgKqFNHUdVcO?=
- =?us-ascii?Q?19BFO2Fyh0GlfO7qFcmAccGWHPbDYWtCzS/IrBxQGOXI3GxVgZc54YaL8VgR?=
- =?us-ascii?Q?FR3Yc1fEylRquqnvOiH7HDBo2f43ZeR8cYPj4YIYpyzmfUBLKxrtorvS5anA?=
- =?us-ascii?Q?cRAa3nwUFPtJron59PR5xe0ysxireBcN5nlUXWNHTrsCH2CW/oOho/WXbOpB?=
- =?us-ascii?Q?yvvi5ojZUlAUEBuxwCfx8bvNThviWbDkkSQ7tbWM/vvSWPy5Rwlxm1NTXaRY?=
- =?us-ascii?Q?QxI4kwu+DoogCX0GQj0Tn6OAWEL3gZTMEGmw7gHxUIHVOTSb3E+UMTJipaeK?=
- =?us-ascii?Q?iD9ZOH1kKU+KROYCMZNhapfSTgN3+Yv6FQj2TkpJjYITEPcdEdgDmA1/P1SN?=
- =?us-ascii?Q?H1XAE7QqLRglOWPBCoH/J50efrKNIydiMTLoJRpE?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8e5be72-8531-4596-0876-08dd456e4c34
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB7726.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2025 22:50:18.7040
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fSYMUkxbdq+ITdx/qthVTTj0IyujhXGyQAhbbbOtPDbjrjJZccO92ORw58EUaiF+1yq6tGysIw4gp/XEzM3MAg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5978
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.300.87.4.3\))
+Subject: Re: [PATCH 00/15] kasan: x86: arm64: risc-v: KASAN tag-based mode for
+ x86
+From: Jessica Clarke <jrtc27@jrtc27.com>
+In-Reply-To: <8bd9c793-aac6-a330-ea8f-3bde0230a20b@gentwo.org>
+Date: Tue, 4 Feb 2025 23:36:23 +0000
+Cc: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
+ luto@kernel.org,
+ xin@zytor.com,
+ kirill.shutemov@linux.intel.com,
+ palmer@dabbelt.com,
+ tj@kernel.org,
+ andreyknvl@gmail.com,
+ brgerst@gmail.com,
+ ardb@kernel.org,
+ dave.hansen@linux.intel.com,
+ jgross@suse.com,
+ will@kernel.org,
+ akpm@linux-foundation.org,
+ arnd@arndb.de,
+ corbet@lwn.net,
+ dvyukov@google.com,
+ richard.weiyang@gmail.com,
+ ytcoode@gmail.com,
+ tglx@linutronix.de,
+ hpa@zytor.com,
+ seanjc@google.com,
+ paul.walmsley@sifive.com,
+ aou@eecs.berkeley.edu,
+ justinstitt@google.com,
+ jason.andryuk@amd.com,
+ glider@google.com,
+ ubizjak@gmail.com,
+ jannh@google.com,
+ bhe@redhat.com,
+ vincenzo.frascino@arm.com,
+ rafael.j.wysocki@intel.com,
+ ndesaulniers@google.com,
+ mingo@redhat.com,
+ catalin.marinas@arm.com,
+ junichi.nomura@nec.com,
+ nathan@kernel.org,
+ ryabinin.a.a@gmail.com,
+ dennis@kernel.org,
+ bp@alien8.de,
+ kevinloughlin@google.com,
+ morbo@google.com,
+ dan.j.williams@intel.com,
+ julian.stecklina@cyberus-technology.de,
+ peterz@infradead.org,
+ kees@kernel.org,
+ kasan-dev@googlegroups.com,
+ x86@kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org,
+ llvm@lists.linux.dev,
+ linux-doc@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <0BDD645A-3BBE-4A85-9098-257B281A3BA0@jrtc27.com>
+References: <cover.1738686764.git.maciej.wieczor-retman@intel.com>
+ <8bd9c793-aac6-a330-ea8f-3bde0230a20b@gentwo.org>
+To: "Christoph Lameter (Ampere)" <cl@gentwo.org>
+X-Mailer: Apple Mail (2.3826.300.87.4.3)
 
-Device DAX pages are currently not reference counted when mapped,
-instead relying on the devmap PTE bit to ensure mapping code will not
-get/put references. This requires special handling in various page
-table walkers, particularly GUP, to manage references on the
-underlying pgmap to ensure the pages remain valid.
+On 4 Feb 2025, at 18:58, Christoph Lameter (Ampere) <cl@gentwo.org> =
+wrote:
+> ARM64 supports MTE which is hardware support for tagging 16 byte =
+granules
+> and verification of tags in pointers all in hardware and on some =
+platforms
+> with *no* performance penalty since the tag is stored in the ECC areas =
+of
+> DRAM and verified at the same time as the ECC.
+>=20
+> Could we get support for that? This would allow us to enable tag =
+checking
+> in production systems without performance penalty and no memory =
+overhead.
 
-However there is no reason these pages can't be refcounted properly at
-map time. Doning so eliminates the need for the devmap PTE bit,
-freeing up a precious PTE bit. It also simplifies GUP as it no longer
-needs to manage the special pgmap references and can instead just
-treat the pages normally as defined by vm_normal_page().
+It=E2=80=99s not =E2=80=9Cno performance penalty=E2=80=9D, there is a =
+cost to tracking the MTE
+tags for checking. In asynchronous (or asymmetric) mode that=E2=80=99s =
+not too
+bad, but in synchronous mode there is a significant overhead even with
+ECC. Normally on a store, once you=E2=80=99ve translated it and have the =
+data,
+you can buffer it up and defer the actual write until some time later.
+If you hit in the L1 cache then that will probably be quite soon, but
+if you miss then you have to wait for the data to come back from lower
+levels of the hierarchy, potentially all the way out to DRAM. Or if you
+have a write-around cache then you just send it out to the next level
+when it=E2=80=99s ready. But now, if you have synchronous MTE, you =
+cannot
+retire your store instruction until you know what the tag for the
+location you=E2=80=99re storing to is; effectively you have to wait =
+until you
+can do the full cache lookup, and potentially miss, until it can
+retire. This puts pressure on the various microarchitectural structures
+that track instructions as they get executed, as instructions are now
+in flight for longer. Yes, it may well be that it is quicker for the
+memory controller to get the tags from ECC bits than via some other
+means, but you=E2=80=99re already paying many many cycles at that point, =
+with
+the relevant store being stuck unable to retire (and thus every
+instruction after it in the instruction stream) that whole time, and no
+write allocate or write around schemes can help you, because you
+fundamentally have to wait for the tags to be read before you know if
+the instruction is going to trap.
 
-Signed-off-by: Alistair Popple <apopple@nvidia.com>
----
- drivers/dax/device.c | 15 +++++++++------
- mm/memremap.c        | 13 ++++++-------
- 2 files changed, 15 insertions(+), 13 deletions(-)
+Now, you can choose to not use synchronous mode due to that overhead,
+but that=E2=80=99s nuance that isn=E2=80=99t considered by your reply =
+here and has some
+consequences.
 
-diff --git a/drivers/dax/device.c b/drivers/dax/device.c
-index 6d74e62..fd22dbf 100644
---- a/drivers/dax/device.c
-+++ b/drivers/dax/device.c
-@@ -126,11 +126,12 @@ static vm_fault_t __dev_dax_pte_fault(struct dev_dax *dev_dax,
- 		return VM_FAULT_SIGBUS;
- 	}
- 
--	pfn = phys_to_pfn_t(phys, PFN_DEV|PFN_MAP);
-+	pfn = phys_to_pfn_t(phys, 0);
- 
- 	dax_set_mapping(vmf, pfn, fault_size);
- 
--	return vmf_insert_mixed(vmf->vma, vmf->address, pfn);
-+	return vmf_insert_page_mkwrite(vmf, pfn_t_to_page(pfn),
-+					vmf->flags & FAULT_FLAG_WRITE);
- }
- 
- static vm_fault_t __dev_dax_pmd_fault(struct dev_dax *dev_dax,
-@@ -169,11 +170,12 @@ static vm_fault_t __dev_dax_pmd_fault(struct dev_dax *dev_dax,
- 		return VM_FAULT_SIGBUS;
- 	}
- 
--	pfn = phys_to_pfn_t(phys, PFN_DEV|PFN_MAP);
-+	pfn = phys_to_pfn_t(phys, 0);
- 
- 	dax_set_mapping(vmf, pfn, fault_size);
- 
--	return vmf_insert_pfn_pmd(vmf, pfn, vmf->flags & FAULT_FLAG_WRITE);
-+	return vmf_insert_folio_pmd(vmf, page_folio(pfn_t_to_page(pfn)),
-+				vmf->flags & FAULT_FLAG_WRITE);
- }
- 
- #ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
-@@ -214,11 +216,12 @@ static vm_fault_t __dev_dax_pud_fault(struct dev_dax *dev_dax,
- 		return VM_FAULT_SIGBUS;
- 	}
- 
--	pfn = phys_to_pfn_t(phys, PFN_DEV|PFN_MAP);
-+	pfn = phys_to_pfn_t(phys, 0);
- 
- 	dax_set_mapping(vmf, pfn, fault_size);
- 
--	return vmf_insert_pfn_pud(vmf, pfn, vmf->flags & FAULT_FLAG_WRITE);
-+	return vmf_insert_folio_pud(vmf, page_folio(pfn_t_to_page(pfn)),
-+				vmf->flags & FAULT_FLAG_WRITE);
- }
- #else
- static vm_fault_t __dev_dax_pud_fault(struct dev_dax *dev_dax,
-diff --git a/mm/memremap.c b/mm/memremap.c
-index 9a8879b..532a52a 100644
---- a/mm/memremap.c
-+++ b/mm/memremap.c
-@@ -460,11 +460,10 @@ void free_zone_device_folio(struct folio *folio)
- {
- 	struct dev_pagemap *pgmap = folio->pgmap;
- 
--	if (WARN_ON_ONCE(!pgmap->ops))
--		return;
--
--	if (WARN_ON_ONCE(pgmap->type != MEMORY_DEVICE_FS_DAX &&
--			 !pgmap->ops->page_free))
-+	if (WARN_ON_ONCE((!pgmap->ops &&
-+			  pgmap->type != MEMORY_DEVICE_GENERIC) ||
-+			 (pgmap->ops && !pgmap->ops->page_free &&
-+			  pgmap->type != MEMORY_DEVICE_FS_DAX)))
- 		return;
- 
- 	mem_cgroup_uncharge(folio);
-@@ -494,7 +493,8 @@ void free_zone_device_folio(struct folio *folio)
- 	 * zero which indicating the page has been removed from the file
- 	 * system mapping.
- 	 */
--	if (pgmap->type != MEMORY_DEVICE_FS_DAX)
-+	if (pgmap->type != MEMORY_DEVICE_FS_DAX &&
-+	    pgmap->type != MEMORY_DEVICE_GENERIC)
- 		folio->mapping = NULL;
- 
- 	switch (pgmap->type) {
-@@ -509,7 +509,6 @@ void free_zone_device_folio(struct folio *folio)
- 		 * Reset the refcount to 1 to prepare for handing out the page
- 		 * again.
- 		 */
--		pgmap->ops->page_free(folio_page(folio, 0));
- 		folio_set_count(folio, 1);
- 		break;
- 
--- 
-git-series 0.9.1
+Jess
+
