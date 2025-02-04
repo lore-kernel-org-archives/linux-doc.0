@@ -1,160 +1,121 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3DA20CCDD
-	for <linux-doc@vger.kernel.org>; Tue,  4 Feb 2025 12:15:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61DE520D4ED;
+	Tue,  4 Feb 2025 12:23:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738671348; cv=none; b=FXIwOlazEnNInJ6FESt0IiWPcQDuq/AoA7qsb0s3gRrRYPHTd0zuH6c35Ajke9xVEWM4cVNMp11bSLwcANtBcmPmuWRbrHo2Pxs04upxPsyYeUn9S8TvS4yaO8U+hvKCDsBI3pJcjXcWkj67rFzRRlchqEOAv8IRTxUApYNqOhI=
+	t=1738671812; cv=none; b=XVl59rIAyzZkR4kVOuMKRXv71IhogvXHblBTvUof1V9fwxL1L3Q+eMAe0j++H3T0fT+BZYQHloGWt965AeIQCW9Uu66yyes/2+Uh7ye0nRNSkD1gjnIBVHgab+v0VViCEAGiDN4pFAgLyujRN4dZlqCd1PLppvPpjs6mmqH7S2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738671348; c=relaxed/simple;
-	bh=XhIT+5be0aQXVhwv9QulCCNPuCzXKuKQuv2PR3ezl7U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ibc0cx7nXLJIs50l6xR5NvC6fDi71GrXcCNWPPUbEJ1QPgfftDNNYLeAbUH1/nZ/pXZIxyFSZCu5dhkCRWJWjio2Qn5G71y93gKgqrrBLGTwcI+ZHXM8gZSc69qNmqMZCpH0rL2NFPEyS9nGiUtu9cTWxOJDUkyIRWLX4yFTXXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QE75jh3Q; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1738671812; c=relaxed/simple;
+	bh=1AwBVmhsE6RjZNivDIyJD1c+DOs2FE3JauK+zQhNYbo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=AT9Ekr9HvhfLGS+Huh8lG1BSkBDp9CtVlRpK1KLdUx54gQmleTpPHNGhfPam9+dKacTWo6NJDwlUrCMZ7hwpjuBYq7MDIAuL5SjEK/Q6A8xp8X4VBoWt/VDy2t7KX71V/NuzOhXa4ZylkphM4DDQMbKqWLT1wo+MigBlHD4YTdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SMfrjbyT; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QE75jh3Q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738671344;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VUvkUC7Qb2mF5GiMgDLACey09zZYlr7i7/mTZlGsGks=;
-	b=QE75jh3Q5eWgElEPWQ6oTG9lZOCOdbZg0Yv1JpVTYegsfL/ZxLlEAuXlJUYIYgZE4ezBdb
-	RwBLFfb/ATLvoKRiziHDjgT/Qo6cKQTvn0KgZsyBxg9Gfb0Psm8f38IUj/Iw0eaAr//i6k
-	JesCX4haJGJl5KNpqh7P9H2HhVi5oYs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-620-z7HGQoRaOP-foT5VB2w_Lg-1; Tue, 04 Feb 2025 07:15:43 -0500
-X-MC-Unique: z7HGQoRaOP-foT5VB2w_Lg-1
-X-Mimecast-MFC-AGG-ID: z7HGQoRaOP-foT5VB2w_Lg
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4362b9c1641so27522255e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 04 Feb 2025 04:15:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SMfrjbyT"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5dca451f922so4278083a12.2;
+        Tue, 04 Feb 2025 04:23:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738671808; x=1739276608; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:reply-to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6JW6nXgkGnw+4YwH5C7jTt8bg63lJJkPHEUKmMZ4igM=;
+        b=SMfrjbyTaSjqHQfUz05REEJqyzfebMUuJ2gBJY1bRwd+GoLkJ4R+v8Mtreh42rL6nh
+         sspbQREbKTCBUB9gMC888r1/gAgNTeWKsgSbJMLSak8H7hUeCIxi+w3+JQnMz/CAP3gw
+         mGhd9/+CvfX8pKvpa0vrFgZc1f/4c7Qaiigw2GqGVN98eEw6tq8M4Zz/1aSakjMXe52B
+         81zUqtITQMGgCzGwk4eKDxFe745jefT7caTygfOodrehEuXZ53b6hebQu1l7FDJ6xrDh
+         Jy8TppNItJzZ+Y3g8HxMRlhtUppCZhYrZYmm3UFFrYeppUCLyRU5FogrYLGVWneEdoml
+         Ru2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738671342; x=1739276142;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1738671808; x=1739276608;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:reply-to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VUvkUC7Qb2mF5GiMgDLACey09zZYlr7i7/mTZlGsGks=;
-        b=f9aGxMRf8NKKe/s9VXy23WzsUlDMro9oCvJr1gk4FiwWl8ZJKMgBE+CE6T184I3AiX
-         v925wkhqHmHcpimHa3hCwoLrqFOF+vVKXPsWx1kL067RazO5Sojbx2Ss2Ajl+EsiJgiS
-         LmwBnKGEeIP+iNhq2+UWqIi9gLm1HWXNkrY131ORrqJGYSuk72jaZeO+c9A3XFPZnjpR
-         FR9S4v3RqEPmMjks5lojDDJ7IjoUEKY39eIsLduS04rWvIyDC8ywN/Xn2f5gd65E1wYl
-         h5DLEA7qUw1rfPW5i7aeKJ4Ui/+/nnp8Ic5xlrwKiBwYxHl3Ghb5mX2lehnMOyOC4R9c
-         30Hw==
-X-Forwarded-Encrypted: i=1; AJvYcCUJkLgt3oxogHBMb42z3rr40ZtS/prxIvwDl2um+XuSK24nPCu+6r7a9qKkwK0v8Lpj7vuek2goAPw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQkz5TK7CMDyJXtNlACZKyFt6vK3OWVQPPxb567OBbv3bwpyz1
-	qWmYrtD07F1pl4AvY8iuxKFs2u3FW2QAOI6FHFggDPlsohuGCcs8Yh3iZOSw/QHzz6JK59euXMw
-	nJ3aQyxSaT6yqWnR9cokkXAPACpzcRWw0ctWVsmk7oE9W18lDIko08OYHJw==
-X-Gm-Gg: ASbGncsVBa+fWP6vt44PBwuDJz+iFS0sDjp12g5dP/adJ88DBwDDecGjtzhLCe7HKRc
-	T3HhTqQzblZxzvIdbcz/u+gY62kMMD1SzZIRZDOlWa++eyDoB91gyIdlGvxznZwwQYgcA38G/mE
-	0dxwxKxOqMNk4I2iKmitXNNHDKNH4hvT2ivy7tCrYClkMKMkoJZ/tfrHgJxb5htLpGsaBEO30ZZ
-	MK1CzF04qbjjZYzoWBeg9O590ZuWdh0LHTyI+Ur72nyqLcNrobQkEjGyE9+fTB+czYxbiv2be23
-	WhJmufb1OFo9YxbK7I0XgnAm7nh/cNN2PpM=
-X-Received: by 2002:a05:600c:4f55:b0:436:51bb:7a43 with SMTP id 5b1f17b1804b1-438dc3ab675mr242755175e9.5.1738671342062;
-        Tue, 04 Feb 2025 04:15:42 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IH4tQ5q9E6Yxu+JN4mWimlvj7yjOo3f8Z7rh6yaBUL8ZjGCY5yo/S+gH10TnPYvFIU94EeRnw==
-X-Received: by 2002:a05:600c:4f55:b0:436:51bb:7a43 with SMTP id 5b1f17b1804b1-438dc3ab675mr242754885e9.5.1738671341707;
-        Tue, 04 Feb 2025 04:15:41 -0800 (PST)
-Received: from [192.168.88.253] (146-241-41-201.dyn.eolo.it. [146.241.41.201])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438e23d48b3sm197508285e9.5.2025.02.04.04.15.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Feb 2025 04:15:41 -0800 (PST)
-Message-ID: <09a0caba-db29-4100-a46d-b104b282ea0a@redhat.com>
-Date: Tue, 4 Feb 2025 13:15:38 +0100
+        bh=6JW6nXgkGnw+4YwH5C7jTt8bg63lJJkPHEUKmMZ4igM=;
+        b=TRz10F3xdmqF391kMdLWD8KtdDMYkJ0ZkIhyAs1aD3zL3Dbd8k848nstgOwhn1LBve
+         It2AN6yNXFetcD7UtNQHGIAPyA9WTCrD3SqcXulqaaghZ/3cTUyQnw6XE8q7KgLg4TyW
+         +f31/MYBR3iH1P1vVxr/z+3PKyXTrXnbp88qnVgyUpJ2PddmrmWDTONCzgm2nv6nVBwM
+         ax0x4dSRii2jEl9zj1Mmb2L3uQyrZXhelnN/NxLbTLONhf0vnE4undRtVNokSWAaFjUq
+         lUVLR8ak1KAfsDIVMgDuMtpLa9Eni85LBq8sHTYbyWKen8uYB1oJeBrbfZvBi27MhLKm
+         +n0g==
+X-Forwarded-Encrypted: i=1; AJvYcCUBeJst4E9ofKJd6OaqBZE49+f86LAQ97+yQeQMZ1T1i6gtXRQzjwFKNopFZrZgzP2Esiu7zjMGZe8=@vger.kernel.org, AJvYcCUxIhP7iCy3PY51m3flRg3Z9Njjp7fUNovq1CXPCWCFEbqnC5zKgv01RB6TqF2gYznU+cTztgORPaL7FaFQ@vger.kernel.org, AJvYcCWSkOCX92GL8dvYzZaAAqxvRWg2ZqSEVaW+rLL2xid5Y4WY/WqcSAjtPneMEZ0aP4a5NVUC4x1NRao=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxAKdfqSvA5/+GYTeKqe/7//zecsE6p/1co6nzIfw602vY20GO
+	Q36Zp/XCSeIzntkHrvnjy5AXLkob3sWgB93Hj7pMjm2ckQ0DqtSs
+X-Gm-Gg: ASbGncsJr86XRmCfYUJMwMywazOGDNHhXinMEaO3//BQTuIzHuGJ8LV/+B2Y6qFnc6I
+	IvxSr29BxmVODLqCbffddrWpnNiFidu6b9PoYieN0s0NaBjvvKCbU5iw4M1zKrYJYPtvytkAygW
+	WRYLEuHNRxfwkLE5lal8nQ7grYYdIMpujihWP7C32XRqialDcmNs706m2hFaSOTudzxfiqN3gLN
+	QRDMTrzYiTf0jrFwV0I7XzWChTg6L0dB3ZRvEnDsASfsadbKLseiqtPR+30TqiFHLqX3mL5ItA0
+	Cvwn9Op8IwE6HYQOgDqYHHyHX0HMT3V0pkieUtflHN1QMA==
+X-Google-Smtp-Source: AGHT+IErkO44neLieHc6hwPzIGiBDdT4ITuB44WevvVWTsjc7SP/HSFfpELM4neDw/ug1OjRMfoI5Q==
+X-Received: by 2002:a05:6402:e96:b0:5dc:7464:2228 with SMTP id 4fb4d7f45d1cf-5dc7464261cmr21034232a12.2.1738671808162;
+        Tue, 04 Feb 2025 04:23:28 -0800 (PST)
+Received: from abityuts-desk1.ger.corp.intel.com ([134.191.196.181])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dc723e4ceasm9184143a12.21.2025.02.04.04.23.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Feb 2025 04:23:27 -0800 (PST)
+Message-ID: <e9188365425d2a4c0dfa7cfa2b17ad3d9fcf2735.camel@gmail.com>
+Subject: Re: [PATCH] intel_idle: introduce 'use_acpi_cst' module parameter
+From: Artem Bityutskiy <dedekind1@gmail.com>
+Reply-To: dedekind1@gmail.com
+To: David Arcari <darcari@redhat.com>, linux-pm@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, Jacob Pan
+ <jacob.jun.pan@linux.intel.com>,  Len Brown <lenb@kernel.org>, Prarit
+ Bhargava <prarit@redhat.com>, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Date: Tue, 04 Feb 2025 14:23:24 +0200
+In-Reply-To: <20250128141139.2033088-1-darcari@redhat.com>
+References: <20250128141139.2033088-1-darcari@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 5/6] net: devmem: Implement TX path
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, virtualization@lists.linux.dev,
- linux-kselftest@vger.kernel.org
-Cc: Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski
- <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Neal Cardwell <ncardwell@google.com>, David Ahern <dsahern@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>,
- sdf@fomichev.me, asml.silence@gmail.com, dw@davidwei.uk,
- Jamal Hadi Salim <jhs@mojatatu.com>, Victor Nogueira <victor@mojatatu.com>,
- Pedro Tammela <pctammela@mojatatu.com>,
- Samiullah Khawaja <skhawaja@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20250203223916.1064540-1-almasrymina@google.com>
- <20250203223916.1064540-6-almasrymina@google.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20250203223916.1064540-6-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 2/3/25 11:39 PM, Mina Almasry wrote:
-> Augment dmabuf binding to be able to handle TX. Additional to all the RX
-> binding, we also create tx_vec needed for the TX path.
-> 
-> Provide API for sendmsg to be able to send dmabufs bound to this device:
-> 
-> - Provide a new dmabuf_tx_cmsg which includes the dmabuf to send from.
-> - MSG_ZEROCOPY with SCM_DEVMEM_DMABUF cmsg indicates send from dma-buf.
-> 
-> Devmem is uncopyable, so piggyback off the existing MSG_ZEROCOPY
-> implementation, while disabling instances where MSG_ZEROCOPY falls back
-> to copying.
-> 
-> We additionally pipe the binding down to the new
-> zerocopy_fill_skb_from_devmem which fills a TX skb with net_iov netmems
-> instead of the traditional page netmems.
-> 
-> We also special case skb_frag_dma_map to return the dma-address of these
-> dmabuf net_iovs instead of attempting to map pages.
-> 
-> Based on work by Stanislav Fomichev <sdf@fomichev.me>. A lot of the meat
-> of the implementation came from devmem TCP RFC v1[1], which included the
-> TX path, but Stan did all the rebasing on top of netmem/net_iov.
-> 
-> Cc: Stanislav Fomichev <sdf@fomichev.me>
-> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
+Hi David,
 
-Very minor nit: you unexpectedly leaved a lot of empty lines after the SoB.
+On Tue, 2025-01-28 at 09:11 -0500, David Arcari wrote:
 
-[...]
-@@ -240,13 +249,23 @@ net_devmem_bind_dmabuf(struct net_device *dev,
-unsigned int dmabuf_fd,
->  	 * binding can be much more flexible than that. We may be able to
->  	 * allocate MTU sized chunks here. Leave that for future work...
->  	 */
-> -	binding->chunk_pool =
-> -		gen_pool_create(PAGE_SHIFT, dev_to_node(&dev->dev));
-> +	binding->chunk_pool = gen_pool_create(PAGE_SHIFT,
-> +					      dev_to_node(&dev->dev));
->  	if (!binding->chunk_pool) {
->  		err = -ENOMEM;
->  		goto err_unmap;
->  	}
->  
-> +	if (direction == DMA_TO_DEVICE) {
-> +		binding->tx_vec = kvmalloc_array(dmabuf->size / PAGE_SIZE,
-> +						 sizeof(struct net_iov *),
-> +						 GFP_KERNEL);
-> +		if (!binding->tx_vec) {
-> +			err = -ENOMEM;
-> +			goto err_free_chunks;
+> +The ``use_acpi_cst`` module parameter (recognized by ``intel_idle`` if t=
+he
+> +kernel has been configured with ACPI support) can be set to make the dri=
+ver
+> +ignore the per cpu idle states in lieu of ACPI idle states. ``use_acpi_c=
+st``
+> +has no effect if ``no_acpi`` is set).
 
-It looks like the later error paths (in the for_each_sgtable_dma_sg()
-loop) could happen even for 'direction == DMA_TO_DEVICE', so I guess an
-additional error label is needed to clean tx_vec on such paths.
+With this change, there will be three parameters:
 
-/P
+* no_acpi
+* use_acpi
+* use_acpi_cst
 
+I would like to make the naming as intuitive as possible. We do not rename =
+the
+first 2, but for the 3rd one, I think "force_acpi" would be a better name. =
+Or
+perhaps "no_native"?
+
+* no_acpi - Do not use ACPI at all. Only native mode is available, no ACPI =
+mode.
+* use_acpi - No-op in ACPI mode, consult ACPI tables for C-states on/off
+  status in native mode.
+* force_acpi (or no_native?) - Work only in ACPI mode, no native mode avail=
+able
+  (ignore all custom tables).
+
+Additionally, I think we should enhance the documentation for 'no_acpi' and
+'use_acpi' while we're at it. Otherwise, it is hard to distinguish between =
+these
+three options. Would you consider another patch that improves the documenta=
+tion
+for 'no_acpi' and 'use_acpi', and then adds the third parameter?
+
+Thanks, Artem!
