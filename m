@@ -1,168 +1,247 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B00AEC4;
-	Tue,  4 Feb 2025 01:34:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6705325A640;
+	Tue,  4 Feb 2025 01:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738632877; cv=none; b=nCCJe7+NHlsME22FRBwZVWw2tmbh5nkjU5aPoQrKHBEuNpg6FcE6CamlOzE0JFUUzNDAW1f6tg298/8C9OR4VS1Kgc+ogd+6TuCGHT5ztSqv/UoI0EcbKcSkY88EuRDCURgz2JlbmNpT14YbTUXk9hBiAYPD7Tc58YbdlSIw4Tw=
+	t=1738633943; cv=none; b=M+9Ls5WxmuVFLboBNB2ZZjzA9VynNIH2y7JcATHvLwnNeoBMVK4uwx9PHii+S3sHTwH9OT8MOE3X5ewUFYFoOlfsH8D8pLMfKqMvoG5LEGQWvA5JD1ZRIys0knnWMZG5HfenJYPAC/18tHVu/GqECyri15OOr9LZ9kIFvtAQv24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738632877; c=relaxed/simple;
-	bh=cTqZc7KMQfir834dyF7dto20NWb+pLw52qL9bC6G4tA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i2YTTv1W+h2YCof0qVPoQ/fmEUKHGR0C/Uudw4xL8o+rq5GiSr+1f8UV3BQGKUCYhALaC57/kkTUJSHlHbB8W3lEkRkfEdq8bdEvbH8P+Rn2yKXENx1eG6apIG0UftTnx3pv+zeobTq7K5cA+0niFSmsbKoPUq/3772V/eg30aE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ke09ZpVk; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1738633943; c=relaxed/simple;
+	bh=dkEe0rf8xrRmG2CnIsiqFJxOTFCCxjUzlTd4UQSHkQo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=vDq7EJyYzmPhJTgYcD3J1xYnHC6dtEupULZov/rk/3jO8m4rQ0ROV4HK11nmgOd4ZLM5B9xOfKj/ZG+UaYav6EMt/CNzBzlxWN0zvsSjgaOUftbGtJmUR7ImyGDGj97Qym34s/qbywB43EbhmodeC0qIeuOL/ywx0rb4gWXGY5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CCDlAvAS; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ke09ZpVk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738632876; x=1770168876;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=cTqZc7KMQfir834dyF7dto20NWb+pLw52qL9bC6G4tA=;
-  b=ke09ZpVkdy1U6DPZo1SL0b5+e/FMq/Am8+KXiU3vo5WDMx42rYdf4RZG
-   SUcsllelXGG1HCHKD3j1YD6LcHtPdmBb7LACDvNgtNyQikfK51GYh4+PB
-   3TLIaFOTc6m3g3mcyfkQmMscwggqYwugRGyxkdxACJSpPWZKxOiPmuW68
-   NOa9azDdaXNfw6nARYfUTj5fBx+H0HOEBOuroAyXFQBKUNqw6bmaaSZ/y
-   rpBxqOZj/Ys+LXaKRA/4PDKaWVlDbFklQbv8thbJvVojUe7ry+RiJ1/Kg
-   reZ17PUPr+1yHYP6gdklhu6NiDskD6c/rxYw66ZdRQadQchc1imYIVioM
-   A==;
-X-CSE-ConnectionGUID: Tag1N2hORI2+DE2n+rR1yg==
-X-CSE-MsgGUID: P87jdiaMTjKPjnq1PtVJGg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="49795734"
-X-IronPort-AV: E=Sophos;i="6.13,257,1732608000"; 
-   d="scan'208";a="49795734"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 17:34:18 -0800
-X-CSE-ConnectionGUID: 4tSta66CTFq8So3/FmHf2g==
-X-CSE-MsgGUID: 907kdKGuTAyI/dVJbUURBQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="115441422"
-Received: from choongyo-mobl.gar.corp.intel.com (HELO [10.247.124.71]) ([10.247.124.71])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2025 17:34:06 -0800
-Message-ID: <e0d34c88-dd8d-402d-bc67-6b9c4f8effaf@linux.intel.com>
-Date: Tue, 4 Feb 2025 09:34:03 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CCDlAvAS"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21c2f1b610dso117847505ad.0;
+        Mon, 03 Feb 2025 17:52:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738633940; x=1739238740; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qbW52IjQiNxezbCPrYLHMxQsJPfF46sgw5UxFddLX7E=;
+        b=CCDlAvASnGm544k1IUy8PWs61R8Xu1yq/O2EGC1oNnoPJsu6DlVaSAlnSTUAellPB0
+         E6vXu8OmjNbJCwHB3Yp479sX3eUIGAiaWEMtm+gfTF96UzaR3x5QxwPC/0h6v0x44L44
+         DmDzD75rb2kxmYHjiPJCUkUU9h31y2jtcobqr55gXC+CzL0pFQlInwkOqMcfderdUNVs
+         /fHTv9P4pcJXQsMJ8BpJ5nUZaoWu9myjykk0UoobpGK1+9qFJSKzEHklqRvgWAZxLIvZ
+         t4J9Xs5cuFQjiKfe6qDcsdSs4Pv2aeQFIUT2aUTGxRuMlvyWhcJzwo2WpzwFGUJa+yLz
+         PUHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738633940; x=1739238740;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qbW52IjQiNxezbCPrYLHMxQsJPfF46sgw5UxFddLX7E=;
+        b=HpqZ51fRMd4WXCFf+OzU+OlZjAYPPxaqych5Oi0e5YhHWbRybq5E36Qip974pyqP7w
+         HAF1nwqE42wapW6kdVe6eriLTnjXGDPSMtQa/wGeOkWmrU1uahxXjPCur+a1nkwnjHG3
+         HEValjcWYqEL+2nHv2au1HztuCnRpj1iHwcLYv2Fd4QdEDHlMrDoSXBx+w3300516xdn
+         o0K9V8H+pF3PeyyrY5XYvMs+JUNrbAHLuTsFl0C3e+fHE50IoKA1WBukS9PNulnTzIIb
+         7Ikn9wNFO3pfHV1MykwY8UZA58olCfSH2WT6IB/XW5FdOuJSLcj6GIG5D2+QrSFNblse
+         Fckw==
+X-Forwarded-Encrypted: i=1; AJvYcCU3YlP3YAMLBD2ErlqOr4KUM2N+PgqfkEOO/ligNCOHc+PUi3xKzIoaGzAxPidwmUKbvrfxPxIDrnleNQ==@vger.kernel.org, AJvYcCUZz+8EGiHqYoCieePEYF/f4/OEHx25J9q3HCJYLXIDkH2a4Fiz2HkSMBowad/JbC40fkB59Ro1LLwv@vger.kernel.org, AJvYcCVADLwDep7GTUQzUfaZ00Kb4mGzkmaEjDZfDEuBZXAz4ILCqwa9O0CRdheMadWRTB/+WBo91mWk@vger.kernel.org, AJvYcCXfHQ70+lwD8htVdobCpA7kuVQTJsQlFoAH2D4qlft0yIFhdvYi20iHVWkiKrQql5Ni9q6+8XZ8QeFHnqmt@vger.kernel.org
+X-Gm-Message-State: AOJu0YwodgoTcIRp3yMGnY1E4P6LbQ15sw1gWnwLf75+AonKI3FVdQ6C
+	Ojrf/xp6UznMPflMpttYwDLuAPSCVsXE1bDykqCU60ejtkdW4bhu
+X-Gm-Gg: ASbGncstHndcZ5AHm3/QxxKTUFZ++n7M6u6lhrYUgZuoH5oZ3Jo9Mw7laozb0eoMlyW
+	62iz8fEbyZMbIAK6BZBi9SCioH7MZePiBk2xfDzPTG8N6pgXh0cGxYOYN0qgo2xitRpXmZ9nWPN
+	vBKJK1kWIN4CbYCLaja2pcedlIyJ9JSsek9mQOE8r1ysZwLS5OP94uJByERHafcTyTDriVufBiO
+	qepBQd0z70RYZRSB9yTauP0LtzEPAHX1t1cUALy63UnCDWxX8KMBf7TjzmJTAuVucpKhAGQb9bP
+	NwPKgnHlTbdKhcY=
+X-Google-Smtp-Source: AGHT+IH+hoR48GnLXz302q1aM556oTJvCwUveYpSavJ/2CeH+HhtWnIFBYsSe5QkMUDQRF5BOaWY+Q==
+X-Received: by 2002:a17:903:41c4:b0:215:bf1b:a894 with SMTP id d9443c01a7336-21dd7d73401mr438772395ad.24.1738633940158;
+        Mon, 03 Feb 2025 17:52:20 -0800 (PST)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f848ade8c2sm10863374a91.48.2025.02.03.17.52.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Feb 2025 17:52:18 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 009E74209E79; Tue, 04 Feb 2025 08:52:14 +0700 (WIB)
+Date: Tue, 4 Feb 2025 08:52:14 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Anthony Yznaga <anthony.yznaga@oracle.com>, akpm@linux-foundation.org,
+	willy@infradead.org, markhemm@googlemail.com,
+	viro@zeniv.linux.org.uk, david@redhat.com, khalid@kernel.org
+Cc: jthoughton@google.com, corbet@lwn.net, dave.hansen@intel.com,
+	kirill@shutemov.name, luto@kernel.org, brauner@kernel.org,
+	arnd@arndb.de, ebiederm@xmission.com, catalin.marinas@arm.com,
+	mingo@redhat.com, peterz@infradead.org, liam.howlett@oracle.com,
+	lorenzo.stoakes@oracle.com, vbabka@suse.cz, jannh@google.com,
+	hannes@cmpxchg.org, mhocko@kernel.org, roman.gushchin@linux.dev,
+	shakeel.butt@linux.dev, muchun.song@linux.dev, tglx@linutronix.de,
+	cgroups@vger.kernel.org, x86@kernel.org, linux-doc@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, mhiramat@kernel.org, rostedt@goodmis.org,
+	vasily.averin@linux.dev, xhao@linux.alibaba.com, pcc@google.com,
+	neilb@suse.de, maz@kernel.org
+Subject: Re: [PATCH 01/20] mm: Add msharefs filesystem
+Message-ID: <Z6FyztBFs1Mwm2_K@archie.me>
+References: <20250124235454.84587-1-anthony.yznaga@oracle.com>
+ <20250124235454.84587-2-anthony.yznaga@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf-next v7 3/5] net: stmmac: Add launch time support to
- XDP ZC
-To: Song Yoong Siang <yoong.siang.song@intel.com>,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Willem de Bruijn <willemb@google.com>,
- Florian Bezdeka <florian.bezdeka@siemens.com>,
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Bjorn Topel <bjorn@kernel.org>, Magnus Karlsson <magnus.karlsson@intel.com>,
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Jonathan Lemon <jonathan.lemon@gmail.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>, Joe Damato <jdamato@fastly.com>,
- Stanislav Fomichev <sdf@fomichev.me>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Mina Almasry <almasrymina@google.com>,
- Daniel Jurgens <danielj@nvidia.com>, Andrii Nakryiko <andrii@kernel.org>,
- Eduard Zingerman <eddyz87@gmail.com>, Mykola Lysenko <mykolal@fb.com>,
- Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>,
- Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
- Shuah Khan <shuah@kernel.org>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Jose Abreu <joabreu@synopsys.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Faizal Rahim <faizal.abdul.rahim@linux.intel.com>,
- Bouska Zdenek <zdenek.bouska@siemens.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, intel-wired-lan@lists.osuosl.org,
- xdp-hints@xdp-project.net
-References: <20250204004907.789330-1-yoong.siang.song@intel.com>
- <20250204004907.789330-4-yoong.siang.song@intel.com>
-Content-Language: en-US
-From: Choong Yong Liang <yong.liang.choong@linux.intel.com>
-In-Reply-To: <20250204004907.789330-4-yoong.siang.song@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="I4WrBx2o4SxYGPPZ"
+Content-Disposition: inline
+In-Reply-To: <20250124235454.84587-2-anthony.yznaga@oracle.com>
 
 
+--I4WrBx2o4SxYGPPZ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 4/2/2025 8:49 am, Song Yoong Siang wrote:
-> Enable launch time (Time-Based Scheduling) support for XDP zero copy via
-> the XDP Tx metadata framework.
-> 
-> This patch has been tested with tools/testing/selftests/bpf/xdp_hw_metadata
-> on Intel Tiger Lake platform. Below are the test steps and result.
-> 
-> Test 1: Send a single packet with the launch time set to 1 s in the future.
-> 
-> Test steps:
-> 1. On the DUT, start the xdp_hw_metadata selftest application:
->     $ sudo ./xdp_hw_metadata enp0s30f4 -l 1000000000 -L 1
-> 
-> 2. On the Link Partner, send a UDP packet with VLAN priority 1 to port 9091
->     of the DUT.
-> 
-> Result:
-> When the launch time is set to 1 s in the future, the delta between the
-> launch time and the transmit hardware timestamp is 16.963 us, as shown in
-> printout of the xdp_hw_metadata application below.
->    0x55b5864717a8: rx_desc[4]->addr=88100 addr=88100 comp_addr=88100 EoP
->    No rx_hash, err=-95
->    HW RX-time:   1734579065767717328 (sec:1734579065.7677)
->                  delta to User RX-time sec:0.0004 (375.624 usec)
->    XDP RX-time:   1734579065768004454 (sec:1734579065.7680)
->                   delta to User RX-time sec:0.0001 (88.498 usec)
->    No rx_vlan_tci or rx_vlan_proto, err=-95
->    0x55b5864717a8: ping-pong with csum=5619 (want 0000)
->                    csum_start=34 csum_offset=6
->    HW RX-time:   1734579065767717328 (sec:1734579065.7677)
->                  delta to HW Launch-time sec:1.0000 (1000000.000 usec)
->    0x55b5864717a8: complete tx idx=4 addr=4018
->    HW Launch-time:   1734579066767717328 (sec:1734579066.7677)
->                      delta to HW TX-complete-time sec:0.0000 (16.963 usec)
->    HW TX-complete-time:   1734579066767734291 (sec:1734579066.7677)
->                           delta to User TX-complete-time sec:0.0001
->                           (130.408 usec)
->    XDP RX-time:   1734579065768004454 (sec:1734579065.7680)
->                   delta to User TX-complete-time sec:0.9999
->                  (999860.245 usec)
->    HW RX-time:   1734579065767717328 (sec:1734579065.7677)
->                  delta to HW TX-complete-time sec:1.0000 (1000016.963 usec)
->    0x55b5864717a8: complete rx idx=132 addr=88100
-> 
-> Test 2: Send 1000 packets with a 10 ms interval and the launch time set to
->          500 us in the future.
-> 
-> Test steps:
-> 1. On the DUT, start the xdp_hw_metadata selftest application:
->     $ sudo chrt -f 99 ./xdp_hw_metadata enp0s30f4 -l 500000 -L 1 > \
->       /dev/shm/result.log
-> 
-> 2. On the Link Partner, send 1000 UDP packets with a 10 ms interval and
->     VLAN priority 1 to port 9091 of the DUT.
-> 
-> Result:
-> When the launch time is set to 500 us in the future, the average delta
-> between the launch time and the transmit hardware timestamp is 13.854 us,
-> as shown in the analysis of /dev/shm/result.log below. The XDP launch time
-> works correctly in sending 1000 packets continuously.
->    Min delta: 08.410 us
->    Avr delta: 13.854 us
->    Max delta: 17.076 us
->    Total packets forwarded: 1000
-> 
-> Signed-off-by: Song Yoong Siang <yoong.siang.song@intel.com>
+On Fri, Jan 24, 2025 at 03:54:35PM -0800, Anthony Yznaga wrote:
+> diff --git a/Documentation/filesystems/msharefs.rst b/Documentation/files=
+ystems/msharefs.rst
+> new file mode 100644
+> index 000000000000..c3c7168aa18f
+> --- /dev/null
+> +++ b/Documentation/filesystems/msharefs.rst
+> @@ -0,0 +1,107 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> +msharefs - a filesystem to support shared page tables
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> +
+> +msharefs is a ram-based filesystem that allows multiple processes to
+> +share page table entries for shared pages. To enable support for
+> +msharefs the kernel must be compiled with CONFIG_MSHARE set.
+> +
+> +msharefs is typically mounted like this::
+> +
+> +	mount -t msharefs none /sys/fs/mshare
+> +
+> +A file created on msharefs creates a new shared region where all
+> +processes mapping that region will map it using shared page table
+> +entries. ioctls are used to initialize or retrieve the start address
+> +and size of a shared region and to map objects in the shared
+> +region. It is important to note that an msharefs file is a control
+> +file for the shared region and does not contain the contents
+> +of the region itself.
+> +
+> +Here are the basic steps for using mshare::
+> +
+> +1. Mount msharefs on /sys/fs/mshare::
+> +
+> +	mount -t msharefs msharefs /sys/fs/mshare
+> +
+> +2. mshare regions have alignment and size requirements. Start
+> +   address for the region must be aligned to an address boundary and
+> +   be a multiple of fixed size. This alignment and size requirement
+> +   can be obtained by reading the file ``/sys/fs/mshare/mshare_info``
+> +   which returns a number in text format. mshare regions must be
+> +   aligned to this boundary and be a multiple of this size.
+> +
+> +3. For the process creating an mshare region::
+> +
+> +a. Create a file on /sys/fs/mshare, for example:
 
-Reviewed-by: Choong Yong Liang <yong.liang.choong@linux.intel.com>
+Should the creating mshare region sublist be nested list?
+
+> +
+> +.. code-block:: c
+> +
+> +	fd =3D open("/sys/fs/mshare/shareme",
+> +			O_RDWR|O_CREAT|O_EXCL, 0600);
+> +
+> +b. Establish the starting address and size of the region:
+> +
+> +.. code-block:: c
+> +
+> +	struct mshare_info minfo;
+> +
+> +	minfo.start =3D TB(2);
+> +	minfo.size =3D BUFFER_SIZE;
+> +	ioctl(fd, MSHAREFS_SET_SIZE, &minfo);
+> +
+> +c. Map some memory in the region:
+> +
+> +.. code-block:: c
+> +
+> +	struct mshare_create mcreate;
+> +
+> +	mcreate.addr =3D TB(2);
+> +	mcreate.size =3D BUFFER_SIZE;
+> +	mcreate.offset =3D 0;
+> +	mcreate.prot =3D PROT_READ | PROT_WRITE;
+> +	mcreate.flags =3D MAP_ANONYMOUS | MAP_SHARED | MAP_FIXED;
+> +	mcreate.fd =3D -1;
+> +
+> +	ioctl(fd, MSHAREFS_CREATE_MAPPING, &mcreate);
+> +
+> +d. Map the mshare region into the process:
+> +
+> +.. code-block:: c
+> +
+> +	mmap((void *)TB(2), BUF_SIZE,
+> +		PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+> +
+> +e. Write and read to mshared region normally.
+> +
+> +
+> +4. For processes attaching an mshare region::
+> +
+> +a. Open the file on msharefs, for example:
+> +
+> +.. code-block:: c
+> +
+> +	fd =3D open("/sys/fs/mshare/shareme", O_RDWR);
+> +
+> +b. Get information about mshare'd region from the file:
+> +
+> +.. code-block:: c
+> +
+> +	struct mshare_info minfo;
+> +
+> +	ioctl(fd, MSHAREFS_GET_SIZE, &minfo);
+> +
+> +c. Map the mshare'd region into the process:
+> +
+> +.. code-block:: c
+> +
+> +	mmap(minfo.start, minfo.size,
+> +		PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+> +
+> +5. To delete the mshare region:
+> +
+> +.. code-block:: c
+> +
+> +		unlink("/sys/fs/mshare/shareme");
+
+Sphinx reports htmldocs warnings:
+
+Documentation/filesystems/msharefs.rst:25: WARNING: Literal block expected;=
+ none found. [docutils]
+Documentation/filesystems/msharefs.rst:38: WARNING: Literal block expected;=
+ none found. [docutils]
+Documentation/filesystems/msharefs.rst:82: WARNING: Literal block expected;=
+ none found. [docutils]
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--I4WrBx2o4SxYGPPZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ6FyxgAKCRD2uYlJVVFO
+o3mqAP0WCRTp6aXVKc1BS+3edGdiVhX5X479v4h3aQF+JIOn/gD7Bh8TkCn4JACk
+8nuEOzgt2CpenCSHZTG/7JiA4Rztnwg=
+=hlZS
+-----END PGP SIGNATURE-----
+
+--I4WrBx2o4SxYGPPZ--
