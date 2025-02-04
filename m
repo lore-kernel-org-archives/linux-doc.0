@@ -1,124 +1,119 @@
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [81.169.146.166])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E54F1754B;
-	Tue,  4 Feb 2025 07:40:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.166
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738654843; cv=pass; b=F26i87whPXd2IDhxh2Dq8+zDilRF6kesJy9bARpJpcusuqRWAW9QG9NCLb4blMv7XPMYSi1CvhEovzx2EmLrXLcsOszQWfOucX6eLkR3DuHJ+iDJ5lWLvjCLVUF71pUOnRCaM5tIp3p/bhNF5M4tA91NYSbHxHcfdXz2U5WalRc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738654843; c=relaxed/simple;
-	bh=Ub78P0MZ3phN/HerCR1znlGmhNIa1hJit7YgDR/NpXY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N8IKkzkMiAvaY4rdAV4vpKT6S9Ehzw1PLz9un5YCQhUQ4wSDadM3GwJ4yXe0fabvWIchEzNzERKvxA0Mp4GJ4Rs7s40gM758kHN+HoEjlj/FNi7FiEdPTyJatRbEVzXCtA0kE7KYyjJCNFSMQSKavz1ykwehDLxEhpVwtysEZXc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hartkopp.net; spf=pass smtp.mailfrom=hartkopp.net; dkim=pass (2048-bit key) header.d=hartkopp.net header.i=@hartkopp.net header.b=XYAaR231; dkim=permerror (0-bit key) header.d=hartkopp.net header.i=@hartkopp.net header.b=xroewzCQ; arc=pass smtp.client-ip=81.169.146.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hartkopp.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hartkopp.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hartkopp.net header.i=@hartkopp.net header.b="XYAaR231";
-	dkim=permerror (0-bit key) header.d=hartkopp.net header.i=@hartkopp.net header.b="xroewzCQ"
-ARC-Seal: i=1; a=rsa-sha256; t=1738654837; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=sqpFKfD5p+E7bLKym7Vdml7XS9Xv3OR8x+sEI56VV24jyRJ1m4/ilMd+CVI8d5A/7P
-    0am9pFlJCTCPCylHu9ec45IlQ7ZXAr3kBgfMbMABstqmNsBZcQib4gNuJSf7eCOIDDYs
-    VsyuHBws53X1AgTOcBj3Ah49Z4P8d+Qft3yFmUrNWccuQhUDWXBj4fgePJQvEE1PcZ8p
-    IMXFXBKz0Ff+rUHtjhwbmzFjccndv8u1gYZshKvg/mphydc3YO6nWq92b7LzRssH/aqR
-    MZ1jpz5v6sT0Y42/EsUSBK3VtBCZufNnxHTFsv9yYJvalri1Ha8UhOpxq9rWwa00JBj1
-    KsOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1738654837;
-    s=strato-dkim-0002; d=strato.com;
-    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=AfwDSoNMJTMEIV7Wr7m13cMvGG2TG7M1Xu/DSl38KcE=;
-    b=fbbeD7aS2mPv/Aj2O+lbOTB+/m/4DGeJUnGys+vQymJPENfHDfGRsqo3ahnwlyxc8J
-    pYrkcD+RJ0NJ8B5jn1x8Ay1pBu8ASRuXLuDe4bpPdXgHrI4nUrz0ByiVPTOAqvNNlwQs
-    USNBh7lDzTGTeKdaQ/9jMZP4qexriCEaW+emVr1DuXYw+OtIIAlh0h/NXMS1FO76e1z8
-    2a1vVhaaFYumWjPj3CWvbyHgXh4wYPoT9EOMecnwY47dkTMZ7ovxUl+ANABUhfnS7tL5
-    B9T75FgUpBJju/OWk7HbOyClIf23AeHJNDhCouc79wxL0pdWj5I1XRXJxLRDcBY2JrT+
-    TOrQ==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo01
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1738654837;
-    s=strato-dkim-0002; d=hartkopp.net;
-    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=AfwDSoNMJTMEIV7Wr7m13cMvGG2TG7M1Xu/DSl38KcE=;
-    b=XYAaR2318oITKDbvl+QV8RGIkkB47DoRBcnoWWo+NU/hUCSDPEPtV7PVbzMKkn4kU+
-    4/4gymSaCnNnmfXnO/U01e/CyZtaIHbFNpk286Wt9v067C5KhvCVyVAFRojtOv8e9XDu
-    YHTYZ2rrMYm90ag/ggQdkaanNEfxVoDd91hHU79ON/y+xoftFM3Tfhs22B3B66GIoF2e
-    CmNojjGXIN4nyEzEihrUgdKOVzo8e8ItMbUCEBEHJS5dXvvMLv5+erT+lxtZYsIlb6vu
-    xoH/rW6qvakbty+75NSvLGwIWwcOYKnY2ywguqwIjjizwS9cgVS42imoGEqplzZKAoEo
-    tHkg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1738654837;
-    s=strato-dkim-0003; d=hartkopp.net;
-    h=In-Reply-To:From:References:Cc:To:Subject:Date:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=AfwDSoNMJTMEIV7Wr7m13cMvGG2TG7M1Xu/DSl38KcE=;
-    b=xroewzCQhPdJRWIl1CgoFuP9vlXlw8yAHPkRj/gpY8P01wXSuZBfbzEAvtR0+qScyL
-    oVJ9SRpMrhCe6cYQqRBw==
-X-RZG-AUTH: ":P2MHfkW8eP4Mre39l357AZT/I7AY/7nT2yrDxb8mjH4JKvMdQv2tTUsMrZpkO3Mw3lZ/vMMcFB+5xtv9aJ67XA=="
-Received: from [IPV6:2a00:6020:4a8e:5000::9f3]
-    by smtp.strato.de (RZmta 51.2.21 AUTH)
-    with ESMTPSA id Ka08e41147eYI03
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Tue, 4 Feb 2025 08:40:34 +0100 (CET)
-Message-ID: <d63b3475-c423-4167-806b-97f22258cb07@hartkopp.net>
-Date: Tue, 4 Feb 2025 08:40:29 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E062205E3B;
+	Tue,  4 Feb 2025 07:59:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738655985; cv=none; b=kSof+w7Fe5npFmiPOzPZLt3QLMX5cuJ2vWuVhydbMxTxJqiDRQ2MygsH7KgPdMgiXRQ0fqmVSzRIG4W4YmUrlO5AFKDz5FlKxtwtxcpnzg7tCi1BRshhg8Kjrag0fdOVv/Fg5dfsXXWzJGJfnXL+0WI4jdwJZCUQofEWfntWyHc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738655985; c=relaxed/simple;
+	bh=LCrDNv0z0MBAANgVRulP500OUmz+jroCzD8JSrqy63w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ol/HNRAnIGf6cv2s65zEVGbM3q6mR/dDaYoZlP/D5XqkxIMdccenyKRfcjSF2IEyPYfHrJNduLGwNorn2jigermx3pIEANuSDXg5gNPe5VHCipCJs9AHD0FMPYhH8Rikb035i/liTz7pl5sf+0XjOnIHQo7TTrqyJlIOOP5odq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-4afefc876c6so1519016137.2;
+        Mon, 03 Feb 2025 23:59:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738655981; x=1739260781;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dDsdvKAM48wMU0DaDVaeE43n4VrWLg2mOANZPQ5dnv8=;
+        b=WGdrW0k5qQJZ/c5f4n1dyTOgFm3z9PDh7ACMntzRrRrmiDgUHX39oIXQTtIdCHeRY2
+         g2WEF2iUaY3NuOxmnyUYTY7rqtOc42g+AC50nnXH2UbYnwzZcgr/HL+4hXgMDumdyfGt
+         3Lfz5+iKAUiKMhzkWcyb9EzL8PS/r2zYMPCv6StAWeG87ipOrdOMtneQ2IGKyeFBJv97
+         loawiU6LBwM1VPb5ivWYxGpzpwUb71aBPigwIYu8Fw+S7QM3twpukyMI7N0GDQ25rwWB
+         rGk8PaL4VxZqLgrLD2iLSMRs2VF0Mhee0eq7NiQZA/Qh/Qf6E2VTd/2uHnnZGU5xDBru
+         hbtA==
+X-Forwarded-Encrypted: i=1; AJvYcCWDgsLVfEtn/dle1nxQCRYFKRz6rNSAguSf9LvSlaRDlG73NKg0napgT9C/twFLdJ+d+vZmIGn7Cg70@vger.kernel.org, AJvYcCXMTrZYhccL9uBYAb7p5CshgMp06Sg2Qwjy1s9adBwztAVXXMrgYemWaq1xM8pvLJ+QPyb4jtTX7bc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywsyqz0wt4b8POpmAWaiFOi1k/z89esu6+z23k+iUt2KI8V20ZG
+	pfxg2an3OPtKXFiou8pEVX/nns+Ilxsg90sw7NTL/qpg9Npl3L9NmHgd6SFJ
+X-Gm-Gg: ASbGnctRSma4d43iLK/QbNz286+U8iEoS+Es77126RCIDnJt+Lp4e+UVxRUGgx21F52
+	cBNqS2MDpYynsxb2pU+3dbP5peNkrD77JczIPbSLymSBaZ7mqJ4r6/h/sqldBGbTCJigZnk5v2R
+	aJCpGOAW/c1MF7InRcz102H+IdankZG07rggQgYuc1rG7ANt0GeLLozCVOxcNzy5zhg2/dn7FVz
+	143hN1jEytOizPArRbKFySD57LrAb1jCvspv8qsUMNskw9dUc4ZOjnezRGhOdCxjJMYNPCNs1dg
+	fCh1mL7WQBp10l/DZV+LP8O4fyA2h5aM1NmCZxae0uBQCgutIhPwag==
+X-Google-Smtp-Source: AGHT+IHjIT6vtnqf9oXtbBh5MFs7ChcbPFQcVBy9mTSXOKfsEhK/zaGjnivH1GavljnVTTtZX1CeHw==
+X-Received: by 2002:a05:6102:d88:b0:4af:dcbe:4767 with SMTP id ada2fe7eead31-4b9a4f14e0amr18424020137.10.1738655980987;
+        Mon, 03 Feb 2025 23:59:40 -0800 (PST)
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com. [209.85.217.54])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b9baccb66bsm1862368137.20.2025.02.03.23.59.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Feb 2025 23:59:40 -0800 (PST)
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-4affd0fb6adso1708138137.1;
+        Mon, 03 Feb 2025 23:59:40 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVz7nlhTtkitIjCsffYZCoetHzf7IxzcmSKnmIdd0F5Eub8Lw1LT6mUI52ef6vlt4YdMQ4181ZCVCI=@vger.kernel.org, AJvYcCWvUgbQB/N1kAMYUMeMrtiyPzvRMM8IpuxHSxKAnAls9CM4q/divQunE7InjSf9nqD47PZlcCW9B6qy@vger.kernel.org
+X-Received: by 2002:a05:6102:3e15:b0:4b2:5c2a:cc9d with SMTP id
+ ada2fe7eead31-4b9a5230b82mr19139572137.16.1738655980520; Mon, 03 Feb 2025
+ 23:59:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/networking: Fix basic node example document
- ISO 15765-2
-To: Reyders Morales <reyders1@gmail.com>, kuba@kernel.org
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-can@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250203224720.42530-1-reyders1@gmail.com>
-Content-Language: en-US
-From: Oliver Hartkopp <socketcan@hartkopp.net>
-In-Reply-To: <20250203224720.42530-1-reyders1@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250203174626.1131225-1-kuba@kernel.org>
+In-Reply-To: <20250203174626.1131225-1-kuba@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 4 Feb 2025 08:59:28 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXXNkpWjkKvMLd-MF=npzqJXMtnXkaba60JY7hCzyjz7g@mail.gmail.com>
+X-Gm-Features: AWEUYZktvGKQzKXDfyoMEtemz2PtqJdRX60VTsjDpLFC8EJTKDZMqnYWQSoIzIY
+Message-ID: <CAMuHMdXXNkpWjkKvMLd-MF=npzqJXMtnXkaba60JY7hCzyjz7g@mail.gmail.com>
+Subject: Re: [PATCH] docs: submitting-patches: document the format for affiliation
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Jakub,
 
+On Mon, 3 Feb 2025 at 18:46, Jakub Kicinski <kuba@kernel.org> wrote:
+> Adding company name in round brackets to From/SoB lines
+> is fairly common, but I don't see it documented anywhere.
+> Every now and then people try to add the sponsorship lines
+> to the commit message, fun example from this merge window:
+>
+>   Sponsored by:   The FreeBSD Foundation
+>
+> from commit 2ce67f8bf1ce ("wifi: iwlwifi: mvm: fix iwl_ssid_exist()
+> check"). Better format would be:
+>
+>   Author: Miri Korenblit (FreeBSD Foundation) <...
+>
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 
-On 03.02.25 23:47, Reyders Morales wrote:
-> In the current struct sockaddr_can tp is member of can_addr.
-> tp is not member of struct sockaddr_can.
-> 
-> Signed-off-by: Reyders Morales <reyders1@gmail.com>
+Thanks for your patch!
 
-Acked-by: Oliver Hartkopp <socketcan@hartkopp.net>
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -717,6 +717,12 @@ patch in the permanent changelog.  If the ``from`` line is missing,
+>  then the ``From:`` line from the email header will be used to determine
+>  the patch author in the changelog.
+>
+> +The author may indicate their affiliation or the sponsor of the work
+> +by adding the name of an organization to the ``from`` and ``SoB`` lines,
+> +e.g.:
+> +
+> +       From: Patch Author (Company) <author@example.com>
+> +
 
-Thanks!
+You probably also want to document the other popular[*] solution:
 
-> ---
->   Documentation/networking/iso15765-2.rst | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/networking/iso15765-2.rst b/Documentation/networking/iso15765-2.rst
-> index 0e9d96074178..37ebb2c417cb 100644
-> --- a/Documentation/networking/iso15765-2.rst
-> +++ b/Documentation/networking/iso15765-2.rst
-> @@ -369,8 +369,8 @@ to their default.
->   
->     addr.can_family = AF_CAN;
->     addr.can_ifindex = if_nametoindex("can0");
-> -  addr.tp.tx_id = 0x18DA42F1 | CAN_EFF_FLAG;
-> -  addr.tp.rx_id = 0x18DAF142 | CAN_EFF_FLAG;
-> +  addr.can_addr.tp.tx_id = 0x18DA42F1 | CAN_EFF_FLAG;
-> +  addr.can_addr.tp.rx_id = 0x18DAF142 | CAN_EFF_FLAG;
->   
->     ret = bind(s, (struct sockaddr *)&addr, sizeof(addr));
->     if (ret < 0)
+    From: Patch Author <author+company@example.com>
 
+[*] Statistics for v6.0..v6.14-rc1:
+      - "(Company): 3430
+      - "+company": 2871
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
