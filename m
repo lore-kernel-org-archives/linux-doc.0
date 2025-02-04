@@ -1,56 +1,61 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B61E19E83E;
-	Tue,  4 Feb 2025 20:46:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F0A19E83E
+	for <linux-doc@vger.kernel.org>; Tue,  4 Feb 2025 20:55:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738702019; cv=none; b=l2nC3f3g8Eb+2x78dxsL6BbXnyOAxVhMnEVWGwg9AaT4ANDyzpXkfoOwNzpGY/dEA1zqEoapF66vhluM2DRONlpBVTFIjbRjfpupE0+S72NxGbokhRHcLBBDe6cAziDtALzWjKRp5N2g0U/eU8viuCSjwB2DajpShNSYFKsKZ+E=
+	t=1738702558; cv=none; b=dlz4buG5cqqxeVFOQRqkOqW2qpuoxyg2+d3aVByXp5v92+rid0Ab7SS/cbDFKRVq9vVfHSwjrY08j6zazqi8Jf78rzyTnzQCp71m8my/FSHWGcd82Jxt0Me2T38TaGd/arrZjxFyrfIoao/zWoMUaS2lo07o/2wl0ZQYoOr8Pro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738702019; c=relaxed/simple;
-	bh=A9YOqhr4a3Nfp7dwuX66qDG8uCHnk3oo4CPnj0viI7Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DwA/OSMcqL/9DQM1oe9z25ZhAavEppphqZ4nS/GY5Tmr8aPuXYXuX/xjXsEK4qekNg9voKh2DkNs2q4f1GtvNtb36dNOwFZZPGG3I/g0KweoTdkRAfaYAs/fVu+CvvXh83MaezjtLWiLjAPj+vld+7F228qaNdn/icX+V3/wwIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KmK/ilgF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738702558; c=relaxed/simple;
+	bh=8oEf8qwiHn4c6DHrX8VRyDnK55omGj6neT8qp2DlucI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BBhKRE//RkOyW03YZBKYTi5Yf/9AluQFgSaBdvqMu41dVaoXs51IprfhuvzMMrzcDebAW0WfspK2LHPw4wD0k47tU0LxJ7lWhaF1ZSKj09kgMbZhl/frEPonYLZExEhWuS3s30MeTh6SCtBbMP7RmDlTY4v24+UPd+DvaBVtte8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BBPPMa09; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KmK/ilgF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 601FDC4CEDF;
-	Tue,  4 Feb 2025 20:46:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738702018;
-	bh=A9YOqhr4a3Nfp7dwuX66qDG8uCHnk3oo4CPnj0viI7Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KmK/ilgFmBaQkMAeDevq13IH6d+Y9jn9NkZ6LJAkZmFMYh9s0GQsCKYyj2qw/ZdlE
-	 9X5ZJukB2LLjXiW2k640Mi5XAN6V4/GzBT1ilw1djAv0e5tuHCPegNqDHj4NUkMZBE
-	 P60pwKqzZawFIAGBvJB5pnRTVRba06Egswh2/h8P5wat+ks36595Jpnyz5hP1cwrU/
-	 JaCusyn1r+I4vsRpiwaYN+CqTluu+cycv8qJl41tdWcvCX1KY8LHQPuIKsHGhlkOhm
-	 Bhv/p3gQiNyHpMaWRCVR1iMkJpgvuzYnVsuknscyFKXPjXaRQ7iz8lQsdfn7KlbsXi
-	 R6uZL55DHD+kA==
-Date: Tue, 4 Feb 2025 10:46:57 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Abel Wu <wuyun.abel@bytedance.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>, Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Yury Norov <yury.norov@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Bitao Hu <yaoma@linux.alibaba.com>,
-	Chen Ridong <chenridong@huawei.com>,
-	"open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 0/3] Fix and cleanup and extend cpu.stat
-Message-ID: <Z6J8wbuXgiz_ly-q@slm.duckdns.org>
-References: <20250125052521.19487-1-wuyun.abel@bytedance.com>
- <bb16ae49-f591-4ab3-8d27-f649619b266b@bytedance.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BBPPMa09"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738702556; x=1770238556;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8oEf8qwiHn4c6DHrX8VRyDnK55omGj6neT8qp2DlucI=;
+  b=BBPPMa09oHKACQ5Jb1dRnRXw0Uc6M/XQGNP0xhhtBUlMxotEas5OZWO8
+   QpymAWbGeEl4Y+hlTsnWpxZ7J79TW57dBgdx4m4OCiMYvs8S/1V2lnctU
+   fZD/aiqAYObch8HiuiK7YSKSLxy7YfJdUIkBT2ux9sYbByD8fWVjaLlDF
+   utURDf9DfX6sU9EM7+tIhK/TmOOYkFTk+myX0RHVHggFG92vKGC92d8ei
+   veJqoitxlTp8Mb1pQqgsViaoOoQrmc0Eu0Eqn/8Py3z3XbLIELafbynSz
+   1COTKKrGx7jKKGJe4YemFjxZ3jwjydk+aJJxnEmtIaoOTPyrip80E1L1G
+   A==;
+X-CSE-ConnectionGUID: rsO+41KXSyePEEyeDsG/TA==
+X-CSE-MsgGUID: a3fItX3rTy2UOA4QggHmDQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="56785473"
+X-IronPort-AV: E=Sophos;i="6.13,259,1732608000"; 
+   d="scan'208";a="56785473"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 12:55:55 -0800
+X-CSE-ConnectionGUID: BelPQhWnTgaJMTR3qwEA7Q==
+X-CSE-MsgGUID: oMM3Ylt8R2mDZntFd/DoQQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="141580519"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 04 Feb 2025 12:55:54 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tfPxY-000t0F-0e;
+	Tue, 04 Feb 2025 20:55:52 +0000
+Date: Wed, 5 Feb 2025 04:55:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>, Yanteng Si <si.yanteng@linux.dev>,
+	Alex Shi <alexs@kernel.org>
+Subject: [lwn:docs-next 9/11] htmldocs: Warning:
+ Documentation/translations/zh_CN/security/credentials.rst references a file
+ that doesn't exist: Documentation/translations/zh_CN/security/keys/*
+Message-ID: <202502050403.uFwUnStI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,26 +64,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bb16ae49-f591-4ab3-8d27-f649619b266b@bytedance.com>
 
-On Mon, Feb 03, 2025 at 04:11:27PM +0800, Abel Wu wrote:
-> Ping :)
-> 
-> On 1/25/25 1:25 PM, Abel Wu Wrote:
-> > Patch 1: fixes an issue that forceidle time can be inconsistant with
-> > other cputimes.
-> > 
-> > Patch 2: cleans up the #ifdef mess in cpu.stat.
+tree:   git://git.lwn.net/linux.git docs-next
+head:   e8bcda12176c47f2ce6c5104955845d028a640e8
+commit: f5c7cc77acf5abebc5aec4f4236954c23f29e09b [9/11] docs/zh_CN: Add security credentials Chinese translation
+reproduce: (https://download.01.org/0day-ci/archive/20250205/202502050403.uFwUnStI-lkp@intel.com/reproduce)
 
-I wasn't sure whether the new code was materially better than the existing.
-Can we try without this patch?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502050403.uFwUnStI-lkp@intel.com/
 
-> > Patch 3: extend run_delay accounting to cgroup to show how severely
-> > a cgroup is stalled.
+All warnings (new ones prefixed by >>):
 
-I'm not necessarily against adding this. Johannes, what do you think?
-
-Thanks.
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+>> Warning: Documentation/translations/zh_CN/security/credentials.rst references a file that doesn't exist: Documentation/translations/zh_CN/security/keys/*
+   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/fault-injection/fault-injection.rst
 
 -- 
-tejun
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
