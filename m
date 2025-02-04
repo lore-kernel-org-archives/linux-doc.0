@@ -1,80 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF9DD86324;
-	Tue,  4 Feb 2025 16:50:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7886B166F32
+	for <linux-doc@vger.kernel.org>; Tue,  4 Feb 2025 16:54:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738687812; cv=none; b=mc5noCZ5hN1RoCaMO7C7vg4pfITzfzjW4Y0xJbkx0p5EAduC9D8NLR85YfUXzmcKL4Rxy8xwEQ0J+blV87CPRkK+Wc4m1s7F7XeLNSeBtwskACKmg2dj8NeGyA8g8eFE4KOB0UgSaq6w03FN0yJsfdkDiId7g4NM85lPOjYHGjs=
+	t=1738688101; cv=none; b=YkjGWk/KNzDHOGGo7BufMYF4dAiEhC0xEfJ36qv7SGk24G7sZoUpIxqAlHt9fUiQcJTLklpFXBE5TEA9ax9Qy6yvhKjPyImMEeHgEZBQn0EdYut+J4uRvsEx/bY6QUGEsHwu6gFWCBTRaBI2P8pGstiGbEjI4IJ547BKtLwLztw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738687812; c=relaxed/simple;
-	bh=BkfYd3pmYoLUvBzp6+/u6N/oMS5/8X5zZnqyN2RPmV0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=X9IINVT39kEQygfHA3w2rv62E/e3RAL8cLOy0CTCACITob+OTgpP1yq9GDiN6LfbIgk/X3uR9aO4O5cvJRwjSebzoSKajdPsCQZ9qViDoNuImF/JCj66EL4/jCCmOpRjfl6uR8xO3DKeSaWdMiWnWUWxAlmW44vd58R4IoIzwks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YCKSvpgv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738688101; c=relaxed/simple;
+	bh=CwKDkd1+p6XSpTmDGXGYMP6VHQRlmvZITAFNHcivxqg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=GAD+Vwp/iGUngG3ansZYrnwCI7AP5ac6EciVFOmDFGhpaodbjx7B1oAewyyZ4ZlKAKnFrhW9BgEIW/wW5NvWGKnyGIu8/l2XTW3cXTaLa9bYfX/04bXwv3xwqCSsys7ZCuKAHufiA3GYkkjhvWffFffKPg8eQGnZ8vb1KcFAQZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=BOuSu78Y; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YCKSvpgv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3EE2C4CEDF;
-	Tue,  4 Feb 2025 16:50:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738687811;
-	bh=BkfYd3pmYoLUvBzp6+/u6N/oMS5/8X5zZnqyN2RPmV0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=YCKSvpgvIUqCcTGoRbh7u2+tiVMkkY3DihyAOBu8YNyOYuZ/rwJWIeeg7OL6dEiRN
-	 vpY4EQS3mc8diT8ZQsgudL68v28aWPiVsoHM2AHrutJOBu1C0+OneL/+qgBAgjwso2
-	 VDVc6B9wT3hK4hS+4XH/XlnTw0Ivqirs+YCMfCEIRNQCEbDS50y5zhHF0Uxwi+3Mtx
-	 R3eupjl5iXLpKZg4sy54Ml7aFLOY6wdbnnA8nZ2SJNSMMzWL9hbpdYJuFnaXcqjMF6
-	 d08dO9VLGxqASNH5IR360DaFGB/6raWHmg2CuONKYL/IgieFWvZrFo64MarTf7KyVE
-	 iaccKtSTOJQPg==
-Date: Tue, 4 Feb 2025 08:50:08 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, virtualization@lists.linux.dev,
- linux-kselftest@vger.kernel.org, Donald Hunter <donald.hunter@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, Neal Cardwell
- <ncardwell@google.com>, David Ahern <dsahern@kernel.org>, "Michael S.
- Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, Eugenio =?UTF-8?B?UMOpcmV6?=
- <eperezma@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Stefano
- Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>,
- sdf@fomichev.me, asml.silence@gmail.com, dw@davidwei.uk, Jamal Hadi Salim
- <jhs@mojatatu.com>, Victor Nogueira <victor@mojatatu.com>, Pedro Tammela
- <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>
-Subject: Re: [PATCH net-next v3 2/6] selftests: ncdevmem: Implement devmem
- TCP TX
-Message-ID: <20250204085008.1adf89ea@kernel.org>
-In-Reply-To: <c8dd0458-b0a9-4342-a022-487e73542381@redhat.com>
-References: <20250203223916.1064540-1-almasrymina@google.com>
-	<20250203223916.1064540-3-almasrymina@google.com>
-	<c8dd0458-b0a9-4342-a022-487e73542381@redhat.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="BOuSu78Y"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8C661404FA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1738688098; bh=Vx0ttUCS/FFWaegH4ld7wEkzSp+wOLyZHZEMENvOokg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=BOuSu78YFMhKZObUGAZblgT722z8bi8srHDwg/qbNQBeUG/CJ4vxwUEJtj7OFG99h
+	 uaQRVq8AvmmeP3wbDsw+GPAPweZJUfDPny1S6sP0qah4zU1v4MPrtTP8a+7QvM1uyz
+	 qV6iZdlQGC0IVyIjwb3DAMXgq15zA5NKFTgW4ipPL6RL8D9AJvCRT9peW1CuvmcyFY
+	 z4rx4HzNMbMMtBEOwrEUFlZoYmAdzX+s0QG0SX9lrxYVYUSti5Ja5+jvQjMN5gNdi/
+	 4DIy8HDCerfGHzD6lSvmiT936SVIVYEg+zCkiR++RFcpKqODWXkEz4qY4qhlK7OC/j
+	 p5+/scpDGtIcw==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 8C661404FA;
+	Tue,  4 Feb 2025 16:54:58 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Shuo Zhao <zhaoshuo@cqsoftware.com.cn>, alexs@kernel.org,
+ si.yanteng@linux.dev
+Cc: zhaoyuehui@cqsoftware.com.cn, zhaoshuo@cqsoftware.com.cn,
+ zhangwei@cqsoftware.com.cn, maoyuxian@cqsoftware.com.cn,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 0/7] Add all Chinese translations in the tpm directory
+In-Reply-To: <cover.1737603330.git.zhaoshuo@cqsoftware.com.cn>
+References: <cover.1737603330.git.zhaoshuo@cqsoftware.com.cn>
+Date: Tue, 04 Feb 2025 09:54:57 -0700
+Message-ID: <8734gthcpq.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Tue, 4 Feb 2025 13:29:18 +0100 Paolo Abeni wrote:
-> On 2/3/25 11:39 PM, Mina Almasry wrote:
-> > Add support for devmem TX in ncdevmem.
-> > 
-> > This is a combination of the ncdevmem from the devmem TCP series RFCv1
-> > which included the TX path, and work by Stan to include the netlink API
-> > and refactored on top of his generic memory_provider support.
-> > 
-> > Signed-off-by: Mina Almasry <almasrymina@google.com>
-> > Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>  
-> 
-> Usually the self-tests are included towards the end of the series, to
-> help reviewers building-up on previous patches knowledge.
+Shuo Zhao <zhaoshuo@cqsoftware.com.cn> writes:
 
-I had the same reaction, but in cases where uAPI is simpler than 
-the core code it may actually help the understanding to start with
-the selftest. Dunno. Only concern would be that the test won't work
-if someone bisects to this commit, but that's not very practical?
+> Add all Chinese translations in the tpm directory.
+>
+> Shuo Zhao (7):
+>   docs/zh_CN: Add tpm index Chinese translation
+>   docs/zh_CN: Add tpm tpm_event_log Chinese translation
+>   docs/zh_CN: Add tpm tpm-security Chinese translation
+>   docs/zh_CN: Add tpm tpm_tis Chinese translation
+>   docs/zh_CN: Add tpm tpm_vtpm_proxy Chinese translation
+>   docs/zh_CN: Add tpm xen-tpmfront Chinese translation
+>   docs/zh_CN: Add tpm tpm_ftpm_tee Chinese translation
+>
+>  .../translations/zh_CN/security/index.rst     |   2 +-
+>  .../translations/zh_CN/security/tpm/index.rst |  20 +++
+>  .../zh_CN/security/tpm/tpm-security.rst       | 151 ++++++++++++++++++
+>  .../zh_CN/security/tpm/tpm_event_log.rst      |  49 ++++++
+>  .../zh_CN/security/tpm/tpm_ftpm_tee.rst       |  31 ++++
+>  .../zh_CN/security/tpm/tpm_tis.rst            |  43 +++++
+>  .../zh_CN/security/tpm/tpm_vtpm_proxy.rst     |  51 ++++++
+>  .../zh_CN/security/tpm/xen-tpmfront.rst       | 114 +++++++++++++
+>  8 files changed, 460 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/security/tpm/index.rst
+>  create mode 100644 Documentation/translations/zh_CN/security/tpm/tpm-security.rst
+>  create mode 100644 Documentation/translations/zh_CN/security/tpm/tpm_event_log.rst
+>  create mode 100644 Documentation/translations/zh_CN/security/tpm/tpm_ftpm_tee.rst
+>  create mode 100644 Documentation/translations/zh_CN/security/tpm/tpm_tis.rst
+>  create mode 100644 Documentation/translations/zh_CN/security/tpm/tpm_vtpm_proxy.rst
+>  create mode 100644 Documentation/translations/zh_CN/security/tpm/xen-tpmfront.rst
+
+I have applied the set, thanks.
+
+jon
