@@ -1,103 +1,142 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F37E2163AB;
-	Tue,  4 Feb 2025 18:05:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E43216387;
+	Tue,  4 Feb 2025 18:06:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738692327; cv=none; b=gqEUc8Oxqf3eiOzEoTeS+mBsZcS+eeSbQEu3SHt7QAlmEUvnGDv6anqMJgicdzISJcPcBZY+0yF6T44tEsd2Orz3xDGgwhs/VPaeeEOBannh4VVnA4P9NqjSiE7TfU1F9F+qA/3NdkzZxEeG4NU0crQLzIviknf8VVEWdQ1UvPk=
+	t=1738692377; cv=none; b=k2/8nM0TXrDMsB4OfxenqPavdokZUUeT0OoN9Tre9pJ9UnrZky7citIlv0CDmsjJ7EAnjlN3NYyILFt4SppVt05knzJ8JGHsFMQdNP7FIHCraWPYbR30AuQYOnOHyNa65r4voJO2kAIH2PNHM2iXiLgNMphVCcHXGWL6DLEmMrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738692327; c=relaxed/simple;
-	bh=LoMZHVjyEpIFSHfyF7bxTUEmMGlompNah9BmRXMYefg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Oj/z5raicsWfxbaY8zgLx043LxyRlBxQDnKuX4pE03StNbb6XxYfLs28IwlKtJFtEt4V17Tqh7/8Ya1XT8BxqD/qaH8eXUlTO/ifsKQRCPw2NY/7MLmNpzkQZIM2ZckdFoodbwtlDJFxN6BNXV0+rLrqwx4ZwpUPsCtOee5M2Lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gjiD4vEi; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1738692377; c=relaxed/simple;
+	bh=WNANZU+kfpdMeHPgf7iTwjf4f37XwN5zh6QwchBR714=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kfOICBN2KKQngEOQTax5SC0KQ4esqaUSyQV90HiP4mAJWvwNRfTaN6mgPKaiiN1AvlbauJpJeNQYHHTks4sHIqgW3ZLoQbY8IbWeH+wTDFs1QGZRsDMgbhuL9NW+JohGoWs4A5/3Orc02mIbd8l+Pg27aZa0rLnVQ7D4gVfRdqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AYkK83hP; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gjiD4vEi"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=qBX9m8ekS4Kp+9Wad1wgzoJlpD+MLcBX2hMNvd5DLw8=; b=gjiD4vEicC2JSdHKobROHP3h67
-	XCTSscvEfxX19ZRj5O8kZKOKXI+Gger13Aqvow/9ndTY5wZ5qNY1kDyN5JL2UuLbz1Hd3zDfBqMR0
-	2DgUFYDtRoAokYl4tuQ5aCIkTRFd80t4ViMM7Y0ijOxeFPnVFteHNKfpgKyOb/9x3ZB2V5RgaE8Fi
-	evzf/6rixo8wtOdzjOTP1yThicPepna/4vnJ3477EXVKCUrO6JaGJwiRUhlvM6d/tk2Edt7S723zs
-	ZyzASVqsF4rzmrX7e5a7xYBUW50G5MapiTGtVZVok27ZivCsGb/Kj7PFHegHxfUaRcyx9H/GdCVWA
-	s7ursw3w==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tfNIT-0000000GNBe-3Bwz;
-	Tue, 04 Feb 2025 18:05:18 +0000
-Message-ID: <4f27a0db-256c-4792-a957-1387de9dc56e@infradead.org>
-Date: Tue, 4 Feb 2025 10:05:12 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AYkK83hP"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-215770613dbso81041275ad.2;
+        Tue, 04 Feb 2025 10:06:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738692375; x=1739297175; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=GrRDiNWwoEOAF9DAZE2HXZqTxhwU3nG+MjD2lSOs8U4=;
+        b=AYkK83hPhJkfv5Lls08MzZRvOsRRuoi6tK175Qu+6HhEJMNBP1vBEab65A2Qj41U9V
+         Zq9qqBgXAGaGOHN5PWSIvpA09fqp5LVHnII7810MMsz6mcPGjQrhRDj8vE+YfezeynSd
+         an/E3gX35bq50ZIqkb2/66Y642H5/ELeAXgiLz3KZdYiW26WiKI5d2GXevtPPt4N6+8Z
+         6AHkpS9Q6x2++tp+k21U3sVH1PrSx3Zt1yXaISneWvDQzdbBlXXaht9UEyajTSV0yh9g
+         RFGsFBHRdgGBecAlWOSUI7pDr5wYq31dSGCgZmyk6O+xM2+x6ltfrKFyTx/dhieVpL5X
+         KCnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738692375; x=1739297175;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GrRDiNWwoEOAF9DAZE2HXZqTxhwU3nG+MjD2lSOs8U4=;
+        b=D5WA2gdevpPoh4oWjyaiGbs79i0yIOxWu6wfNx/Ta42zVyeLqueVIkD4XBa1xCMvNF
+         bX1dy9Ezph+iBw1YaERb/zYzjx/fnoAWY9Ay90mOLEk168FmQn0FoBcwnsa51c+io/Ke
+         dgVo+1ih0QWxpsGTZE84umQVCuhYAfGrgYVVrcYHEnPxXlDhhZ+V4E3PCIa7/t+a/2Uh
+         pU5bV0uYPpvvWpEuy1MTODUe2McLtXc7T9lLUWIF/waZytynqEGEJwiaGJWAl0KrP5b3
+         EecstIfEzUvsw7Hjbrh2Eu5Qq+xFFVFMjsJHRqUaEb+hPe5KBKy7T677HNZUb65cNQeK
+         nV8g==
+X-Forwarded-Encrypted: i=1; AJvYcCUuo5jJl/3L6HMTx2UTm1AudMkAMcvFFr0nUwRAY6jXNeuDzoDATlZho/U/Jx09yHqJzZHjtIOVn6pu@vger.kernel.org, AJvYcCVVrPWT3gtkhMkHdmja0u5xEUDoAwLriol1GdiQnk+SwclhQlYzxDVWUr0HXrlWTfoPtE0=@vger.kernel.org, AJvYcCVnWW+Xduj8+k89r5CSnj68MyYIooLv03o7yvYy57VnpYZQV3s3Ilb8zLluEPwj8fEdc8u2fFMe/A1HMFQoZ+8F@vger.kernel.org, AJvYcCWz72BDYEvzG5jFW8iqPv+2gXd/beZ94/YveCHXy7RDyAyU1pLTy/QjRgY5q6Thboh0AYkR9bxWivI65VPM@vger.kernel.org, AJvYcCXM80A4bzEsJ1MBSAr/4IeBVff9PVbCY6RRBwIL6BCWGZnJd78K+6tx4ndsneoih0+zmx/VfOjG@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOwW0vn83V7Ff9QCWmRmQmTg6s8WRtdCZOtxpHsyxWFYsIPYfz
+	H1gxE1amUA3Cyl5ggyfcCYtJ4a204thRPm9/2df4S5l+/BjwNIA=
+X-Gm-Gg: ASbGncumD9Fzm/ZRVu8/I4YQOasO3pTmaNCpSuftpbYRm79APsnjBNLuc/jIwdBrcV2
+	LHXZamOXSlbSjhIDHulFgbGlT+ahLAUlEhzJWJwmxqPzRhKgDhX8iOLwOvO2uHnB9mOpP1tTnCi
+	eeGnXS0Xxdaye9d4GLLo0QNZN0i1TQybuWVdNUcuW7tTRN0MtxpOoKtAHELj8T5KvBY4wf9lje3
+	RFu34Sh555LLlSOL3+zV+hicFKKtrpoKyAlF40Op/cNLKaCxOZ+setyjhqen1NQ+LrfyOkGen3N
+	0t2ZvfJOfwvxCss=
+X-Google-Smtp-Source: AGHT+IFYT9NcRGLLxVnZIbZhoBZTMQVypif42AJDxoHppKnt1MhQTNKBNnnBYX3HBXh5CANfjLqcdA==
+X-Received: by 2002:a17:903:2a8b:b0:216:6283:5a8c with SMTP id d9443c01a7336-21dd7dd240bmr373053575ad.39.1738692374716;
+        Tue, 04 Feb 2025 10:06:14 -0800 (PST)
+Received: from localhost ([2601:646:9e00:f56e:123b:cea3:439a:b3e3])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-21f1363a257sm3297675ad.119.2025.02.04.10.06.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Feb 2025 10:06:14 -0800 (PST)
+Date: Tue, 4 Feb 2025 10:06:13 -0800
+From: Stanislav Fomichev <stfomichev@gmail.com>
+To: Mina Almasry <almasrymina@google.com>
+Cc: Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org, virtualization@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Neal Cardwell <ncardwell@google.com>,
+	David Ahern <dsahern@kernel.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Stefano Garzarella <sgarzare@redhat.com>,
+	Shuah Khan <shuah@kernel.org>, sdf@fomichev.me,
+	asml.silence@gmail.com, dw@davidwei.uk,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Victor Nogueira <victor@mojatatu.com>,
+	Pedro Tammela <pctammela@mojatatu.com>,
+	Samiullah Khawaja <skhawaja@google.com>
+Subject: Re: [PATCH net-next v3 0/6] Device memory TCP TX
+Message-ID: <Z6JXFRUobi-w73D0@mini-arch>
+References: <20250203223916.1064540-1-almasrymina@google.com>
+ <a97c4278-ea08-4693-a394-8654f1168fea@redhat.com>
+ <CAHS8izNZrKVXSXxL3JG3BuZdho2OQZp=nhLuVCrLZjJD1R0EPg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: submitting-patches: document the format for
- affiliation
-To: Jakub Kicinski <kuba@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, corbet@lwn.net,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250203174626.1131225-1-kuba@kernel.org>
- <CAMuHMdXXNkpWjkKvMLd-MF=npzqJXMtnXkaba60JY7hCzyjz7g@mail.gmail.com>
- <20250204071834.78e0ffb1@kernel.org>
- <20250204154938.GF22963@pendragon.ideasonboard.com>
- <20250204081301.6fdb1536@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250204081301.6fdb1536@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHS8izNZrKVXSXxL3JG3BuZdho2OQZp=nhLuVCrLZjJD1R0EPg@mail.gmail.com>
 
-Hi,
-
-On 2/4/25 8:13 AM, Jakub Kicinski wrote:
-> On Tue, 4 Feb 2025 17:49:38 +0200 Laurent Pinchart wrote:
->> Or apparently project or customer names for consulting companies:
->>
->>      29 Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
->>      34 Alexis Lothoré (eBPF Foundation) <alexis.lothore@bootlin.com>
+On 02/04, Mina Almasry wrote:
+> On Tue, Feb 4, 2025 at 4:32 AM Paolo Abeni <pabeni@redhat.com> wrote:
+> >
+> > On 2/3/25 11:39 PM, Mina Almasry wrote:
+> > > The TX path had been dropped from the Device Memory TCP patch series
+> > > post RFCv1 [1], to make that series slightly easier to review. This
+> > > series rebases the implementation of the TX path on top of the
+> > > net_iov/netmem framework agreed upon and merged. The motivation for
+> > > the feature is thoroughly described in the docs & cover letter of the
+> > > original proposal, so I don't repeat the lengthy descriptions here, but
+> > > they are available in [1].
+> > >
+> > > Sending this series as RFC as the winder closure is immenient. I plan on
+> > > reposting as non-RFC once the tree re-opens, addressing any feedback
+> > > I receive in the meantime.
+> >
+> > I guess you should drop this paragraph.
+> >
+> > > Full outline on usage of the TX path is detailed in the documentation
+> > > added in the first patch.
+> > >
+> > > Test example is available via the kselftest included in the series as well.
+> > >
+> > > The series is relatively small, as the TX path for this feature largely
+> > > piggybacks on the existing MSG_ZEROCOPY implementation.
+> >
+> > It looks like no additional device level support is required. That is
+> > IMHO so good up to suspicious level :)
+> >
 > 
-> FWIW these are customer names, indeed. Project/Foundation pays for
-> contracting work in both cases.
-> 
->> The other cases correctly refer to companeis, for contributors using
->> other email addresses:
->>
->>       14 linux.dev
->>       41 zytor.com
->>       47 joelfernandes.org
->>      176 alien8.de
->>      243 gmail.com
->>      333 goodmis.org
->>      454 armlinux.org.uk
->>      918 infradead.org
->>     1007 kernel.org
->>
->> Do we want to only document existing practices, or also tell which
->> one(s) should be favoured ?
-> 
-> I'm hoping that documenting the most prevalent existing practice
-> will naturally make it favored. IOW I'd prefer to document just 
-> one option. I don't really care which one we pick, but the brackets
-> seem most common.
-> 
+> It is correct no additional device level support is required. I don't
+> have any local changes to my driver to make this work. I think Stan
+> on-list was able to run the TX path (he commented on fixes to the test
+> but didn't say it doesn't work :D) and one other person was able to
+> run it offlist.
 
-I thought that
-Signed-off-by: John Doe <jdoe@example.com> # Company
-would be acceptable also.
-
-It looks like that format is documented for Acked-by: but I don't know
-why it is not more generally applicable. I'm pretty sure that I have used it
-a few times. ;)
-
--- 
-~Randy
-
+For BRCM I had shared this: https://lore.kernel.org/netdev/ZxAfWHk3aRWl-F31@mini-arch/
+I have similar internal patch for mlx5 (will share after RX part gets
+in). I agree that it seems like gve_unmap_packet needs some work to be more
+careful to not unmap NIOVs (if you were testing against gve).
