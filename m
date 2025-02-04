@@ -1,110 +1,69 @@
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08D81547D8;
-	Tue,  4 Feb 2025 19:56:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8CE92063DB;
+	Tue,  4 Feb 2025 20:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738698968; cv=none; b=Qc8LSkE0r6giKTAELFyH0T+6i3qKobxNG5opl2Gd1rA62QepD6Rv9C6ps1GTBWqFCTsAVwamI3W7exBwdZGoTdjNDKQ6yOqJ3iuvBbz0BoCTo2ddt2HXnXtxMsCIq+wZGXAO0DRh3jnu8vWBXu2NWNh5mEsrBTriUlBKqlk+UF0=
+	t=1738699667; cv=none; b=arsm3TH0wiY+CcD3iXUwxWSo3S0GvWzhXdrB+UH3sGZ25QCexOcGZoHmX5nyezQCxZZyT+oC0sm0mHACscuTGW2S2sRswPf7FNdywez4Cb+AUHHADH7iZwquWeW3yp6KZ0oiG5H49+sfIt4OoV4XuWLTt4R5iLxceEppwboOqDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738698968; c=relaxed/simple;
-	bh=aI9ZF1XsSaAHZMRa+wJn3AAK8KCwn394QBaR32V7BUQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jyP18QIcxDp3cesbmNyqkKaIdWmygoQCdzF19bWz75CnlLgQ2I4Tyku1YFj6x+og7ni+nT2EtZY6jpPayMf3p2eQ+7rqDw2FehNvdxc9X5O/h0KgdP167dX5nKyvbY3PRIY/0DX33lcOktP0/j79V3Gl9ewz8BBPeiGPI62KfeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.166.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joshuagrisham.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-844e10ef3cfso412626739f.2;
-        Tue, 04 Feb 2025 11:56:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738698966; x=1739303766;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=swmAYw4M/WeTjADPtUccgFgxLP9bW9FlyGrjKCzqSbc=;
-        b=juuitPWPsxXb0JKWGpHEC1Ne9aHvXLIpRbbR0PZqi3EWwG4kg6vl+LhY+vVDz9o4mq
-         /5DIcwqnCWrW4d3zSb19R2Nl+3FoL55KNX4wBY133tqjnyHd8PrTLbG/OxvmM6LWqhZI
-         tlITB43tFCINsYpPX0BsIQsv9ovFnLl8voqQblPk1Nj/yRMv6LkFqNithcBUWkhiKNIk
-         tI5xjU1RvTxUpD6PLuZGaT6/o3kH/N3cRmtg2N8Zg4sOZymy+z/HkC0r5XBGUfcfIn3x
-         2h7MBCJ0JM6C2h/61+U5diut493b7oL1yiujYoXM9Gl9XtIz+MjJzaAPCHp3dLyjwGJp
-         B7nA==
-X-Forwarded-Encrypted: i=1; AJvYcCU/h7QN6c8anBUKMAzMezAEVC1FEpbD5nsupT67AJQhZEbVYaD0oJrNRKAxqePIrath/v0og3+LRCiLtQrEIEFN3TKIZQ==@vger.kernel.org, AJvYcCU88rADsASVRGnLsVsxxCanAqZdfb2qdvHBLrfF4WPWqChTNANa7E8DZ7Sy4YeDXp1EZ6f51Tz8cFf4rzXs@vger.kernel.org, AJvYcCUBnHrmgWQzu4QqQLRYOJIecKlT2z+4eldNS8OYQjtFxBeymWN9AK1QgBJp6Deie6126cZ+d0TY1Co=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfaIfUOlybTxSrpvlw2gW+1OSZbxaxuoD/3fTxctQDsWNhNTBH
-	AOfAFXDWIXpruojnt5Kv2ehjkuTfViwqmmFmWayq/WPLdXvg5xfWe2/1/vyEF8U=
-X-Gm-Gg: ASbGnctjm34/AB+k7+ka40JZI58YA3R5E2cyXtC7WLdipJmM5AfUogzE8228Wm2Cas/
-	phK4CPSnrbZgw1YRgMGSCMSSg5xoGp6nVcS5mey5fiAoS4NBvfJSuOK1+SZuqRcJd/2ymuJW8EY
-	HdmAUhxNYR3jfFXvR6sODo3juRye4s2x1n7PyvUNQQTErNFn458tCAhQpRxH1yEANxbw3HF6YQK
-	hqKyXYVnioyBJ6GaPg4tQdC9F67Y4kRm8Zrv8NEmbSgic5s7MPlmjSXodhIcf9o6RtNSNBWB07W
-	uKCCBGR1juXpaAEbnUi2EWvDj389N1YBWg4WzWvXEdV+hqh5Eh24Jo3g3mDA
-X-Google-Smtp-Source: AGHT+IEVNW3vyhYJXf152VA7WyXzzMcqwgVnLYJKtOgtogLM8acDSAs1y+KqNdxPsGV0dKxuhDcenQ==
-X-Received: by 2002:a05:6e02:2208:b0:3d0:443d:a5a4 with SMTP id e9e14a558f8ab-3d04f47995emr2295205ab.2.1738698965751;
-        Tue, 04 Feb 2025 11:56:05 -0800 (PST)
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com. [209.85.166.174])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3d00a4fd469sm30251585ab.13.2025.02.04.11.56.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Feb 2025 11:56:05 -0800 (PST)
-Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-3d03d2bd7d2so10753925ab.0;
-        Tue, 04 Feb 2025 11:56:05 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUOZhoeWQut2Hqmjd1U/muZFnPZFBamq1KTlFjbfyU7Av70Rq0UbRc+O0///47994/p0w5siOuz/nQRPJd0@vger.kernel.org, AJvYcCWO956BF6U82FlpNRYpDe5hUyswuUoIiS1tX1XhfG5WXtmT3zO/kVVDX0eGLI0cwVxo40Z0wXnSwmg=@vger.kernel.org, AJvYcCWSrJCFZZzDEgigbA4NW/9dgDOSy2IeIdku2zuCFjb3FXI9+BvB7H/iObVgP0HBt1VccjH+Oh3f/jtJ9hGLnJOsx8miZw==@vger.kernel.org
-X-Received: by 2002:a05:6e02:10:b0:3d0:11ff:a782 with SMTP id
- e9e14a558f8ab-3d04f5c68b7mr1789565ab.9.1738698965370; Tue, 04 Feb 2025
- 11:56:05 -0800 (PST)
+	s=arc-20240116; t=1738699667; c=relaxed/simple;
+	bh=5sSQ0HogpGQH3tWc5HY5mHvrRAVw5GKB8RCCuVydRrI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UDYQ/MOq5qz+queJs1KBFCbfz/b2T/bxWYqDJKXtAirXd23BeomDwiLjZfCdzJUUToqTR9LOYDUw52hwhhFccs0bG1IHS5XkP0YCwwTDjznIiFNCblbHtyXcIpm7/dLyulZjz8jb0vef1WWXbor6/DgDm80UOKGNDEtpG1NcJOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WDnlRUzx; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WDnlRUzx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F0B4C4CEDF;
+	Tue,  4 Feb 2025 20:07:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738699667;
+	bh=5sSQ0HogpGQH3tWc5HY5mHvrRAVw5GKB8RCCuVydRrI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WDnlRUzxFclO0Xz3jXXrKnPvOmh/NdHHEJcXo4quOHP9f7Z5j12nuQ5tHtjMu71rm
+	 ikQKkySUI+5jRiGCBh0gv+SICxS61f5EaFE/+tV0WN6FuN9VkD6jEv27R3sAokJq2Q
+	 AfXRmcehBvnGoaHiIBbkh2ie89WvdT3LZfLI7UsgR8PF+CuU+5NivZ+fjcflVfKC7M
+	 sdFWGBenDFAaW8qvfUBSy/M/t2vrWY/OJMJsjh1euBHOBHXosoXal7UaWgeeOZwGdk
+	 MSaNRI8Ec9yDpZSDJQ6UeAaCEBhtU27AUFOqnm6/he4Wph7fSyGm1jew9kcaxb/uUT
+	 3h/lsh18R+EPA==
+Date: Tue, 4 Feb 2025 20:07:42 +0000
+From: Simon Horman <horms@kernel.org>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Alexandre Ferrieux <alexandre.ferrieux@gmail.com>,
+	netdev@vger.kernel.org, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH net] docs: netdev: Document guidance on inline functions
+Message-ID: <20250204200742.GO234677@kernel.org>
+References: <20250203-inline-funk-v1-1-2f48418e5874@kernel.org>
+ <874j1bt6mv.fsf@trenco.lwn.net>
+ <20250203205039.15964b2f@foz.lan>
+ <20250204115410.GW234677@kernel.org>
+ <de8d372b-0f2e-4c42-9d6b-8aecbb4645ef@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250201105450.193450-1-josh@joshuagrisham.com> <a22ecdd5-a2a5-4f6b-0a1a-e1bc115dc01f@linux.intel.com>
-In-Reply-To: <a22ecdd5-a2a5-4f6b-0a1a-e1bc115dc01f@linux.intel.com>
-From: Joshua Grisham <josh@joshuagrisham.com>
-Date: Tue, 4 Feb 2025 20:55:53 +0100
-X-Gmail-Original-Message-ID: <CAMF+KeZ+XdAxVtSw5aMZ9O=J4AFeyVozduV+PYZSNLHaG=SOww@mail.gmail.com>
-X-Gm-Features: AWEUYZnCPWsyTDh1EkwfhqdVw5W-kUnp97vaM0_G4cUrpfkIuxfLbaJOb9gfyTQ
-Message-ID: <CAMF+KeZ+XdAxVtSw5aMZ9O=J4AFeyVozduV+PYZSNLHaG=SOww@mail.gmail.com>
-Subject: Re: [PATCH v10] platform/x86: samsung-galaxybook: Add
- samsung-galaxybook driver
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: W_Armin@gmx.de, thomas@t-8ch.de, kuurtb@gmail.com, 
-	Hans de Goede <hdegoede@redhat.com>, platform-driver-x86@vger.kernel.org, corbet@lwn.net, 
-	linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <de8d372b-0f2e-4c42-9d6b-8aecbb4645ef@lunn.ch>
 
-Den m=C3=A5n 3 feb. 2025 kl 16:02 skrev Ilpo J=C3=A4rvinen
-<ilpo.jarvinen@linux.intel.com>:
->
-> On Sat, 1 Feb 2025, Joshua Grisham wrote:
->
-> > Add a new driver for Samsung Galaxy Book series notebook devices with t=
-he
-> > following features:
-> >
-> > - Keyboard backlight control
-> > - Battery hook for installing power supply extension to add charge
-> >   control end threshold
-> > - Controller for Samsung's performance modes using the platform profile
-> >   interface
-> > - Adds firmware-attributes to control various system features
-> > - Handles various hotkeys and notifications
-> >
-> > Signed-off-by: Joshua Grisham <josh@joshuagrisham.com>
-> > Reviewed-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
-> > Reviewed-by: Armin Wolf <W_Armin@gmx.de>
->
-> I've applied this to review-ilpo-next.
->
-> Thanks a lot to all who have taken time to help in getting this into
-> shape!
->
-> --
->  i.
+On Tue, Feb 04, 2025 at 02:25:07PM +0100, Andrew Lunn wrote:
+> > Thanks, perhaps something like this would help:
+> > 
+> >   Using inline in .h files is fine and is encouraged in place of macros
+> >   [reference section 12].
+> 
+> The other major use of them in headers is for stub functions when an
+> API implementation has a Kconfig option. The question is, do we really
+> want to start creating such a list, and have people wanting to add to
+> it?
 
-Thank you Ilpo!
-
-Agreed completely and special thanks to Armin, Thomas, and Kurt for
-all of the extra time, help, and guidance along the way!
-
-Best regards,
-Joshua
+Good point. Maybe it is sufficient to just make the distinction
+between .c and .h files.
