@@ -1,222 +1,66 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B85C4204F8B;
-	Tue,  4 Feb 2025 19:25:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270442054F8;
+	Tue,  4 Feb 2025 19:33:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738697136; cv=none; b=MU6/qB5GBA2hLIbslC1SEJ1dxPmTSBARc8Sn0X4ZdfdVwut+poCpM2fgki9Q0sopWC3jol9VRM6IgNmQWINSWbnxtf8lpJ11Eo8/fPuQroypjaRJ6xDHiBlL6V7L88kyMT8Q8d99T//mfwKz1CU9laEFKgYV4TDtXLrS0hckdQg=
+	t=1738697624; cv=none; b=TnRKCckHCpFY3aB2BjR6hrhUttFJL7WCrvV1CaoyJntukJBpu+GtW09kwnvZ8wp6anpYqGW/IlinUdbgqEs3X39MH45G+AD6jOlcJgNXF2+tw68oWyHnNPt1T1/Hrzdo47XPzNnybQ6ts3x/oi6D6yBHCXAe2N++QfWwifg3uuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738697136; c=relaxed/simple;
-	bh=C6Iapfq1eN3KSPLnP8LaEMpuydv5QeVLO70ImxSYOeQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FBYgQiiaXOAfxl6VcPuxEQ3DxWjHfB2YzAnopVcjfggzIphSl1CwhoHd4Dzy1CHkUVCjFJvo0ajLHWH52FOXlHSMWKzb+RUC5NgoqJYPYjkJkQqRQg7dtfAhgEWbpOOxTtYzGLyJSQOeXUodV2Iki8ldB6wOlBeZ6dKQtYt4ALQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EkegLUID; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738697624; c=relaxed/simple;
+	bh=cI6tArg9xnQZvvop6jaImaCFJAtTHE9f79/vvAAmVjA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=B9tFPM+l8PHWMHu3LitXdFC0nDlm8D9vAbNx3nGKi5Gk4WS8/RZC0ymjoinENuUShfsYced419XuueI7Es8X452RdcEGlrv3uXIQROuFU6DFl5HgEqFCAXT6f/cG6HhIrfRvyfW0rN2+lZU4O4CIl8pwTS94oOuak0YMq6pBnRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kNHRty/m; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EkegLUID"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8918EC4CEDF;
-	Tue,  4 Feb 2025 19:25:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kNHRty/m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33051C4CEE7;
+	Tue,  4 Feb 2025 19:33:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738697136;
-	bh=C6Iapfq1eN3KSPLnP8LaEMpuydv5QeVLO70ImxSYOeQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EkegLUIDoeeFsitVAc7ehJ4HIo4qixvTQGtxNEjREDzypAC/nbQUqmXamK3uOxlBQ
-	 ISalFDepIxyck7aBS61AnsBeiVBfDhPB8SG6G07VxUQQZ57RVgdRyOph2cgsfxSazZ
-	 1hUcF6PGxNuNoPVunSxZXv0NXkIBjo3Z68qCew1E+Nbg5jTaaAhDM3S74whlmjCQ2T
-	 gamzu4Bp0mUaM4DSliYvYKPRxyvyPeplVjX/8HjFmFE1F7Ew8LY2zj86KzhtdBiTKA
-	 vZRVEuR3T8QeF4UlppsxWZbmW4qXrcV1S8pUO1zPx0M/bWQOkGsV3sAyHPUqJMNqx4
-	 jwhyJvQ8/LlQg==
-Date: Tue, 4 Feb 2025 19:25:30 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Robert Budai <robert.budai@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Alexandru Ardelean <alexandru.ardelean@analog.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>,
-	Ramona Gradinariu <ramona.gradinariu@analog.com>,
-	Trevor Gamblin <tgamblin@baylibre.com>,
-	Marcelo Schmitt <marcelo.schmitt@analog.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	David Lechner <dlechner@baylibre.com>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 4/6] dt-bindings: iio: Add adis16550 bindings
-Message-ID: <20250204-helium-marbled-a0863a0a18a8@spud>
-References: <20250204143612.85939-1-robert.budai@analog.com>
- <20250204143612.85939-5-robert.budai@analog.com>
+	s=k20201202; t=1738697623;
+	bh=cI6tArg9xnQZvvop6jaImaCFJAtTHE9f79/vvAAmVjA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=kNHRty/mLuC5vVFaL08ZS1S02lHDuP9m/ct5OMUToBMuBggDpltU+0a9I6O2VanD8
+	 2/sHbqq1iQBb+s+ftq5qUBcQXABrIXEfIKBNYXmIytB8LCYOYrC+UHrOwzdrhObCFv
+	 ynHSDDnywUJ8I7cOdMvl/zKYZbs6VA04F0GdKxh5efkme3enme4QNywMnvCu/P5pQy
+	 QJuU4HK4CT5uBuIp5A28pkM00meWna5w81w7o2LgGWaNVXw99Vw5i31fvp6rrb7LQk
+	 96hZtHfTCPTvgDTvtYFxiIoYVREtD9LmJnaCCKQlGPj4KZIgpYzU/k0MtmgU9fYG7E
+	 p2bWgpSU8azJw==
+Date: Tue, 4 Feb 2025 11:33:42 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Geert Uytterhoeven
+ <geert@linux-m68k.org>, corbet@lwn.net, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: submitting-patches: document the format for
+ affiliation
+Message-ID: <20250204113342.3b8f18f8@kernel.org>
+In-Reply-To: <4f27a0db-256c-4792-a957-1387de9dc56e@infradead.org>
+References: <20250203174626.1131225-1-kuba@kernel.org>
+	<CAMuHMdXXNkpWjkKvMLd-MF=npzqJXMtnXkaba60JY7hCzyjz7g@mail.gmail.com>
+	<20250204071834.78e0ffb1@kernel.org>
+	<20250204154938.GF22963@pendragon.ideasonboard.com>
+	<20250204081301.6fdb1536@kernel.org>
+	<4f27a0db-256c-4792-a957-1387de9dc56e@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="lomlFNdTSMH+4T1Z"
-Content-Disposition: inline
-In-Reply-To: <20250204143612.85939-5-robert.budai@analog.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Tue, 4 Feb 2025 10:05:12 -0800 Randy Dunlap wrote:
+> Signed-off-by: John Doe <jdoe@example.com> # Company
 
---lomlFNdTSMH+4T1Z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Interesting :)
 
-On Tue, Feb 04, 2025 at 04:36:08PM +0200, Robert Budai wrote:
-> Document the ADIS16550 device devicetree bindings.
->=20
-> Co-developed-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
-> Signed-off-by: Robert Budai <robert.budai@analog.com>
-> ---
->=20
-> v6:
-> - applied blank line suggestions
-> - added clock-frequency dependency change suggestions
-> - yamllint corrections
->=20
->  .../bindings/iio/imu/adi,adis16550.yaml       | 83 +++++++++++++++++++
->  MAINTAINERS                                   |  9 ++
->  2 files changed, 92 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/iio/imu/adi,adis165=
-50.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml=
- b/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
-> new file mode 100644
-> index 000000000000..8750bb937979
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
-> @@ -0,0 +1,83 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/iio/imu/adi,adis16550.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Analog Devices ADIS16550 and similar IMUs
-> +
-> +maintainers:
-> +  - Nuno Sa <nuno.sa@analog.com>
-> +  - Ramona Gradinariu <ramona.gradinariu@analog.com>
-> +  - Antoniu Miclaus <antoniu.miclaus@analog.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - adi,adis16550
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  spi-cpha: true
-> +  spi-cpol: true
-> +
-> +  spi-max-frequency:
-> +    maximum: 15000000
-> +
-> +  vdd-supply: true
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    description:
-> +      Must be the device tree identifier of the RESET pin. If specified,
-> +      it will be asserted during driver probe. As the line is active low,
-> +      it should be marked GPIO_ACTIVE_LOW.
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    description: If not provided, then the internal clock is used.
-> +    maxItems: 1
-> +
-> +  clock-frequency:
-> +    description: Clock frequency in Hz when an external clock is used.
-> +    oneOf:
-> +      - minimum: 1
-> +        maximum: 128
-> +      - minimum: 3000
-> +        maximum: 4500
+On a quick look this seems to be the format of choice for maintainers
+who edit patches:
 
-I don't get why this is a property, to be honest. When you've got an
-external clock, why isn't the frequency obtained from the clock provider
-node?
+Signed-off-by: Mr Maintainer <jdoe@example.com> # fixed xyz
 
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - spi-cpha
-> +  - spi-cpol
-> +  - spi-max-frequency
-> +  - vdd-supply
-> +
-> +dependentRequired:
-> +  clock: [clock-frequency]
-         ^
-typo, missing s.
-
-> +
-> +allOf:
-> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> +additionalProperties: false
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    spi {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +        imu@0 {
-> +            compatible =3D "adi,adis16550";
-> +            reg =3D <0>;
-> +            spi-max-frequency =3D <15000000>;
-> +            spi-cpol;
-> +            spi-cpha;
-> +            vdd-supply =3D <&vdd>;
-> +            interrupts =3D <4 IRQ_TYPE_EDGE_FALLING>;
-> +            interrupt-parent =3D <&gpio>;
-> +        };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6247500cf427..8913e13dcaef 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1452,6 +1452,15 @@ W:	https://ez.analog.com/linux-software-drivers
->  F:	Documentation/devicetree/bindings/iio/imu/adi,adis16475.yaml
->  F:	drivers/iio/imu/adis16475.c
-> =20
-> +ANALOG DEVICES INC ADIS16550 DRIVER
-> +M:	Nuno Sa <nuno.sa@analog.com>
-> +M:	Ramona Gradinariu <ramona.gradinariu@analog.com>
-> +M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
-> +L:	linux-iio@vger.kernel.org
-> +S:	Supported
-> +W:	https://ez.analog.com/linux-software-drivers
-> +F:	Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
-> +
->  ANALOG DEVICES INC ADM1177 DRIVER
->  M:	Michael Hennerich <Michael.Hennerich@analog.com>
->  L:	linux-hwmon@vger.kernel.org
-> --=20
-> 2.39.5
->=20
-
---lomlFNdTSMH+4T1Z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ6JpqgAKCRB4tDGHoIJi
-0lTiAP9e6BRlww3AQv+1TYSurfPow3DxH41y1tAXXv4SEgN/zgEA5cDzyf95Jnme
-0lIESiiWqveA1p+YjP24DyX6NbeWpQ4=
-=Kcg6
------END PGP SIGNATURE-----
-
---lomlFNdTSMH+4T1Z--
+I don't see a single # use in the From lines. I think the # formatting
+is well suited for free form comments. Less so for things which may need
+to be machine readable (for development statistics).
