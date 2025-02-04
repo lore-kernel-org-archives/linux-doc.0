@@ -1,365 +1,575 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D212080C1;
-	Tue,  4 Feb 2025 10:10:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738663827; cv=fail; b=fBjSunVO9JBg8DFLfj3u6cblekBPJbllVqzA6CfUemdHNXseE11DGiUT7kNCFl4UMONuS9lqkNlwzIitHCgvs09Dmh+knXJeEszesmG78HJ7bJ6TGQTbX8dNwBYboYZ57Cw//X23GlnDL02+5VUcCv9iU0qAkJAi8/6JKyUfcII=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738663827; c=relaxed/simple;
-	bh=nBnKqNl3lt/iiw4jLQeKH2pji+BhxYgrfw1aTqjYq0w=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=JrNE1CIP63DMZqY1T1z6NF9eeW7bYmXhePYFI+g3PIGVuAWLzo2nwX+HPySoSWf1bsIDQwQ8bhHebmBkmXuDJ7A2659elZ7C8dTG0j6v93T24iHa7uMc23yDPsBWkFsTSxHyOPRGzlN8z3A5Xp38opqkX9osYLQaSUzrAQ5kwqI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aOjXgHeN; arc=fail smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aOjXgHeN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738663826; x=1770199826;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=nBnKqNl3lt/iiw4jLQeKH2pji+BhxYgrfw1aTqjYq0w=;
-  b=aOjXgHeNFQ28xkq7C9+9vAMYlb/ijr6qzbEUQBAxLtYUgjHeMEHwtpRu
-   1KduEZgknXmFL9s9BNhdcretXmZF0LaojKiTKs6OZhO/heu6RKod/cA9/
-   gsHBkMuCuogEUlrTRtKcMJ/fIF7U0C+SAFlee163R9rlJ7ueejXyftziZ
-   6gFOO6eJhoHLcScejRP87kakRHm4ktT+fZhdZAnM1Xu7AMUBG9Zwfo3YN
-   OOc2zw6S3tDMMqmxEKEWRc+dI3goL+k12o7gLY4jmo17fmouEPEI2vVAl
-   r0bS1VmbmHqkG2rMSue7EalQrwcC/sX/sLLJ6QE7+mO2jKgyIbBCApJvn
-   Q==;
-X-CSE-ConnectionGUID: Gddb8OSPR6Gj6uBTOb6ihA==
-X-CSE-MsgGUID: /xmR0HJ6Q4e3wWvB/wh1aQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11335"; a="39215511"
-X-IronPort-AV: E=Sophos;i="6.13,258,1732608000"; 
-   d="scan'208";a="39215511"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 02:10:24 -0800
-X-CSE-ConnectionGUID: 3ZEaXA+xR3Gz9nN0prfz0g==
-X-CSE-MsgGUID: nVVWprw+Rra6J8LqW9jr+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="111006434"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Feb 2025 02:10:22 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Tue, 4 Feb 2025 02:10:21 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Tue, 4 Feb 2025 02:10:21 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Tue, 4 Feb 2025 02:10:20 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BJdFmM/lYrFA+zGpeZz6eUMTEkub2RR83mBtX0bMcODHXsuV36BLVvoeGR5QJuiu1l2wNgcovKw6doD8dwc10zWFwO8cGyscDO5FVNuDO2RpRDEMeE3gQLNrbP6pAtGBoI3eIaQ7brVviV5Hn2Ede0HCCpIuBpw6+h6OtHv0DnTf2TKFVtOtwSn+ol/QY6ntzzAY6z779R6fC/Nrs/P0ts8hzrTTVzuIb5AzIpC5AZ0ZJM6yfnCjXggxhFTMYu1VK/K1zwZbFfCMvHraJW1wMRCGeKv0PNg0jy+0dwZ+5L2x18DqCl1qm9xxCb8rgBPhzLtxZ9IdjGiA1JG6NuSt9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lCSOGazSxnrt7ZVL9iz9UME+wKfjTUnbLsE1/eyXlIM=;
- b=xE9pK415hIih4P1lPFzltl26Abd9CGIAiLZzpaP7nAk8wpTfa/WwubmdWBDHmVr2kw+ELvQDEO+g90h2OAgfJR4BExEiJ5DLSvziN/jqIaeo1Pxmp5mOow4lNSffXy87bjU4F3RRsAe6bm9qdZ4+4I451uaNGBglJ29okRrGpcUuL6qWOXMJchbJn3f3p7g8SEi5j9Rc31lVsAZ7BLvwUWgksYM5lp53J4VvSNk+x6igQG4+9fFfhW8xH1oJzinrBnTX+4RqZoapN1AxnQJpY+9XfCaYv4eUq6kpC4otk9kGgd90Cwt81rfbb/l1jSB5gYxibLBAxvxBkrPbpbomQA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB6117.namprd11.prod.outlook.com (2603:10b6:8:b3::19) by
- DM4PR11MB6191.namprd11.prod.outlook.com (2603:10b6:8:ac::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8398.24; Tue, 4 Feb 2025 10:10:03 +0000
-Received: from DM4PR11MB6117.namprd11.prod.outlook.com
- ([fe80::d19:56fe:5841:77ca]) by DM4PR11MB6117.namprd11.prod.outlook.com
- ([fe80::d19:56fe:5841:77ca%5]) with mapi id 15.20.8398.021; Tue, 4 Feb 2025
- 10:10:03 +0000
-Date: Tue, 4 Feb 2025 11:09:44 +0100
-From: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
-To: Song Yoong Siang <yoong.siang.song@intel.com>
-CC: "David S . Miller" <davem@davemloft.net>, Eric Dumazet
-	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Willem de Bruijn
-	<willemb@google.com>, Florian Bezdeka <florian.bezdeka@siemens.com>, "Donald
- Hunter" <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, "Bjorn
- Topel" <bjorn@kernel.org>, Magnus Karlsson <magnus.karlsson@intel.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
-	<daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>, "John
- Fastabend" <john.fastabend@gmail.com>, Joe Damato <jdamato@fastly.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Mina Almasry <almasrymina@google.com>, Daniel Jurgens <danielj@nvidia.com>,
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
-	Mykola Lysenko <mykolal@fb.com>, Martin KaFai Lau <martin.lau@linux.dev>,
-	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, KP Singh
-	<kpsingh@kernel.org>, Hao Luo <haoluo@google.com>, Jiri Olsa
-	<jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>, Alexandre Torgue
-	<alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, "Maxime
- Coquelin" <mcoquelin.stm32@gmail.com>, Tony Nguyen
-	<anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Faizal Rahim <faizal.abdul.rahim@linux.intel.com>, Choong Yong Liang
-	<yong.liang.choong@linux.intel.com>, Bouska Zdenek
-	<zdenek.bouska@siemens.com>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<bpf@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-stm32@st-md-mailman.stormreply.com>,
-	<linux-arm-kernel@lists.infradead.org>, <intel-wired-lan@lists.osuosl.org>,
-	<xdp-hints@xdp-project.net>
-Subject: Re: [xdp-hints] [PATCH bpf-next v7 5/5] igc: Add launch time support
- to XDP ZC
-Message-ID: <Z6HnaMQvgW+indqm@boxer>
-References: <20250204004907.789330-1-yoong.siang.song@intel.com>
- <20250204004907.789330-6-yoong.siang.song@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250204004907.789330-6-yoong.siang.song@intel.com>
-X-ClientProxiedBy: DUZPR01CA0047.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:469::16) To DM4PR11MB6117.namprd11.prod.outlook.com
- (2603:10b6:8:b3::19)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91DA319882B;
+	Tue,  4 Feb 2025 10:30:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738665027; cv=none; b=R7ba4LtOkwwB2FkPerSfHKCz1VzJy+USwUFcLliN7jCxBk8tchtUb59W/2QePzu/n85OsX4uPRsctuO3lDSMFYfZfddgVKHEbm8afXU8WhTBlW8Fp0CN9hcOz/eSo3Ejf3ewoHhvF4u9flT2ZMo3UZ8wXh4LXQzVCpLxHDzHCqw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738665027; c=relaxed/simple;
+	bh=Uiy1cWRwkSL3TX/57w+ZDHfYY4FEnaIsLYPVvlDtDwc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i1oJXnVNRtfREHgQZDKB9X6PTlv/y/72044o5NoKAGDCXYX+0In9v2Gfj9zTvzC2gcKn9d6p5Ey2C4kHzkTZq6Np3r5JpWPkAtOPgfnjEoJgI5QgBhVI51GPKpqQyzSaaQvt13NilNnQ/AMF2pT8mnAE1s5N260PzX3iPU25q7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ACBAF11FB;
+	Tue,  4 Feb 2025 02:30:47 -0800 (PST)
+Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 498CA3F63F;
+	Tue,  4 Feb 2025 02:30:22 -0800 (PST)
+Message-ID: <be73ba55-8dae-4102-ae2f-47a106dcbf92@arm.com>
+Date: Tue, 4 Feb 2025 10:30:20 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB6117:EE_|DM4PR11MB6191:EE_
-X-MS-Office365-Filtering-Correlation-Id: cda8d342-1844-4704-087a-08dd4504176a
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?LwJDGFpkioTlX5J8d7IhN8VhT0itw6Dn1DJr6SevYw2izYya4ZabUPB8ciK0?=
- =?us-ascii?Q?gq32y7dAl3tzE66CVA8H3uvcV7sJIKtI4BKRKB7PpW0pgl5/4ZOtTEa1DZEb?=
- =?us-ascii?Q?gNRgsZzWEOu6QdCNzVDGytdWeutYGssuNRvcnOqpM7zIi10CWr0bY0t/FP+8?=
- =?us-ascii?Q?VdKFCVvJYMh5PD+pRcBEzavJ/RRRG+al+K12ePUry5MaHz+fPhgc/CC5FVb4?=
- =?us-ascii?Q?/ZqfVPQRfDIsk454ttAok//DKJEDzH6wcvkDIf1QqOu8BQTt0SrGCMs/8RJ1?=
- =?us-ascii?Q?Lg9SxZFas/mLULQPR8radWZ+SZq62nMfvQM60Vx/f2ZDo2OtX6hAC57Wkj1I?=
- =?us-ascii?Q?9PXe5gr0+rOMt2EoERsXF5G0o79upt2lU1odB6YeGzn+Rx/4joLGQ+gP2i9b?=
- =?us-ascii?Q?ivT+BP1IP0KlhFrjOf5v5ZcSkHVLfbEIgJQcXc1CBkOtCnFM+F4kU0PQU/kL?=
- =?us-ascii?Q?J49ZvIXKj81xQBz/6Cep7l+02vqGvtNVVs3FyGdV+7+97yHxMVzjuP5Y0Dig?=
- =?us-ascii?Q?Hs3+TtmAuSr1hH5v1al4JHLc5cjFkvtZ2VH4k9xLCqS+vFWL4Cq0EogsP6Kf?=
- =?us-ascii?Q?pnkUxyC+dtrOTbcGZD68adMDPu5IbRRP/jmCGxJOP6KGyDUkRfpCgQetbhuZ?=
- =?us-ascii?Q?a4aId7d4rcLqubZ+CkAfYL6zAyobgmZEetOfSem8YUgzWys5F3y3bg1fJYT6?=
- =?us-ascii?Q?NNIGIkhCmz9dqggnSfpaWRsU1eUKqdqwX8PlscUdM75Hme3FBjI14a6sigaF?=
- =?us-ascii?Q?Dmlzudys3cZfa7TZoCLAsi/H+XDBmiylsQxzMPiIcdZGJgtGvxALRXxrVjvn?=
- =?us-ascii?Q?Et3kTa+cfzsevrMgpOp5G7OQhrQ9LICUt1NewF9fJrv5rB9jDM9JNVcbLb8a?=
- =?us-ascii?Q?TTSiZHCxYiu54YUESQwP7JbPuSVnzYECkZGy8NPAf2bvYtjuDLOo1bU3AGPp?=
- =?us-ascii?Q?HhAzKRDFYO8Z2y+blWeOSbGeL6fg7C+eDTFnWIROSdSoP+PZOnqVzkfpw953?=
- =?us-ascii?Q?g1VSikRqJuCZB47hP9wiL1Nr2PN9ugkT/KenHLrELYZp5r270BS3D+QjO4i9?=
- =?us-ascii?Q?+Zn3JRN0o573UOK2E0vU1HDOq1heekjVWd1DqAN9+wuO1Bho+mUj3DU5JAJ/?=
- =?us-ascii?Q?zLAOG0qI//PM190SNbiCJiMFdZlXy5jT05VP9be8dilBkdwtk/DIwMi7DsOc?=
- =?us-ascii?Q?1N9GOygyRivObPy235bLxwKsc3P8Y2Nyq8kfAfowu+61/aqn2aIfAsMukFNL?=
- =?us-ascii?Q?2cz7NzOkDn0urc1ZzjJmzaCVoC6mVG/Rlc+YErzACG4iLAh/Oerid+XGI6aN?=
- =?us-ascii?Q?Ggrk2sBCe6/0HGLu/S66PYfLJrZ1F0z/Mwuoua0b1emHuQKG++lTVEUJzNBR?=
- =?us-ascii?Q?tkr31RIOvx2ianMJ6vMiiJXGovT+?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6117.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EVnxnGQh5ZzC9qX9cj3XUeU/NuFojPEtZU73ulzgyY11prdg8uslMmScer0s?=
- =?us-ascii?Q?qenoQiiC9fRvr5xB8cq1fPjrSey/SRhFttvK7oKoVBu8S4Ukqc8resUH9HvG?=
- =?us-ascii?Q?s9ZxVH1EWYJERXJWZgqKtUy/SDs0WHIszaF9mbO89HJWxkIUnipylQhF0DTG?=
- =?us-ascii?Q?RoqDHg1GqhtYJ74eRL9yPUG8SHzfglIxnNCMaSlOgYJ0g/Ugif+4dF7qHt7D?=
- =?us-ascii?Q?c6gsDJCA0KsLj53+63TNugdo0LKEx3isFK6ZkQboSIu9fQmLdi0VU/Ou4akj?=
- =?us-ascii?Q?TqZgCaHCkurskFsgfWnG1tFaKvFzmivZvUjMj8trpCdXFuqSBfIiOvvXD+oI?=
- =?us-ascii?Q?H2EUG4BPp6c9YlUMqlgC3FrRJtHp3ZvVFQ2so2jzU5qDtDOXcaJ12WCylP8I?=
- =?us-ascii?Q?5Yaay2NuxZSW8AvNPSawAPN7EaF9EbDSQRD5hA2400ROMDOoegsS7g5d0m27?=
- =?us-ascii?Q?2Fat+Xc5K+fKns1bd+/trRi6mYL6o4ee0iXj7CVSwoQQe6EdsZop52EJ246r?=
- =?us-ascii?Q?onitg88mnPDm1ZSwQVD6AObKIiKinhF97hmsD8xNQvy7x+IzuMg/By2gx8i8?=
- =?us-ascii?Q?ayHLclrG02c0zmvxqSTwo9jNc9dF2XhIzPy8I63Dd5OqnEGGUHJjVMoH5mLr?=
- =?us-ascii?Q?n+2+3FMod2gjkD/ZLlVpqSPxZpyMEpHywXKBI41ykKD/aYVOInDYFQQpuSo4?=
- =?us-ascii?Q?soMshCrD+Sh6s5O3xzhSalGWLUcAcUWiBO1EYTaUZMb2yefMvQ3kawXBYsho?=
- =?us-ascii?Q?T2E7u4KUSvgLeY5AAGQuTphOuSdDEglo7aXpLZPCSLUslO6W2675RsoCjVY1?=
- =?us-ascii?Q?ScR0NdjgiAVzOKgq8o1i+BFStjU5tL7VlMmfSS0WJR4aGvqzxtTxBW+2+4s+?=
- =?us-ascii?Q?nF/2fsbXJquux+uqyRivZBvjdHrSOrXOl1ZS2vReZLLGtHTxxE3lO6xLMW/Y?=
- =?us-ascii?Q?MKs198yY+skuOySEFevabhgcf67zvOEZBVDlMZ0v4u1tMjkDBZ4NN+EGMUXO?=
- =?us-ascii?Q?waWVG13O0v8/ucFEolb+Q+LB1STs1rE+j4wXy+KYpQWh0M6u9OMzYVf2XpZx?=
- =?us-ascii?Q?LKD7cnHCEceBtXEjeR+j3iLm9/7EbRmDmcoeCiLAMvMZARI/qmg1mkI5Ej1f?=
- =?us-ascii?Q?rH5hOtEOI37CVlljrR0DWnnvoBRMR8d6SJzqDvPpPGUASW9VqGHcCdpliL6V?=
- =?us-ascii?Q?LJCzaLNgtIdawe37xEx0JGA1EGCpATnVGCfX7cHvgul/UqaLEJTfIB6ActGM?=
- =?us-ascii?Q?DdqVG+aQFn5SxS+MZuqfZmPcRTBeQpmKihWWPUuDTwQiUqqSd3O45tacjnZ0?=
- =?us-ascii?Q?PRBmseXQHGeuLFZ1RCtuGjE1aT90kanyU3ApLFzHF+smKQB+DKGhL1srMRUP?=
- =?us-ascii?Q?brcxp4i8dARBbh7AusI1nKaJ0/HPycNg6mXrnTq0G9wuzvBwSIKvl/JqJu28?=
- =?us-ascii?Q?e53VhAAS8HxyctHk7rQ+kfHb31r/cZ4vFf/UjecyuWSJ4YI1r/xkY/RTMa5v?=
- =?us-ascii?Q?9GBRci/FXLEkdWy58sB3//ho7Q2EbDh1va4AOmFAliGAsG3DUEWWsTDOAsGC?=
- =?us-ascii?Q?QN9iySZDjrsA2otDuOQTKcf8Pc8nxZO+rbnz410FMW6194CBpFYtGZUxulCY?=
- =?us-ascii?Q?XA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: cda8d342-1844-4704-087a-08dd4504176a
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6117.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2025 10:10:03.2719
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b33aMkQs2kxtG0gKzCFrBZG7A7ET9OK6fEzTWSW/RM6wO3MgaNxIcbwk/3YJprhGnB/I0hUNyJtQVrLGvG1AEtAAXIU8urTlrs3fQU13fjs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6191
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC v2 08/38] ABI: sysfs-bus-coresight-*: fix kernelversion tags
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: James Clark <james.clark@linaro.org>, Mike Leach <mike.leach@linaro.org>,
+ coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1738020236.git.mchehab+huawei@kernel.org>
+ <33c5ec07012f1c05e3fd1df26d0f7422249571b5.1738020236.git.mchehab+huawei@kernel.org>
+Content-Language: en-US
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <33c5ec07012f1c05e3fd1df26d0f7422249571b5.1738020236.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 04, 2025 at 08:49:07AM +0800, Song Yoong Siang wrote:
+On 28/01/2025 00:05, Mauro Carvalho Chehab wrote:
+> Some kernelversion tags are missing colons. Add them to comply with
+> ABI description and produce right results when converted to html/pdf.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-> Enable Launch Time Control (LTC) support for XDP zero copy via XDP Tx
-> metadata framework.
-> 
-> This patch has been tested with tools/testing/selftests/bpf/xdp_hw_metadata
-> on Intel I225-LM Ethernet controller. Below are the test steps and result.
-> 
-> Test 1: Send a single packet with the launch time set to 1 s in the future.
-> 
-> Test steps:
-> 1. On the DUT, start the xdp_hw_metadata selftest application:
->    $ sudo ./xdp_hw_metadata enp2s0 -l 1000000000 -L 1
-> 
-> 2. On the Link Partner, send a UDP packet with VLAN priority 1 to port 9091
->    of the DUT.
-> 
-> Result:
-> When the launch time is set to 1 s in the future, the delta between the
-> launch time and the transmit hardware timestamp is 0.016 us, as shown in
-> printout of the xdp_hw_metadata application below.
->   0x562ff5dc8880: rx_desc[4]->addr=84110 addr=84110 comp_addr=84110 EoP
->   rx_hash: 0xE343384 with RSS type:0x1
->   HW RX-time:   1734578015467548904 (sec:1734578015.4675)
->                 delta to User RX-time sec:0.0002 (183.103 usec)
->   XDP RX-time:   1734578015467651698 (sec:1734578015.4677)
->                  delta to User RX-time sec:0.0001 (80.309 usec)
->   No rx_vlan_tci or rx_vlan_proto, err=-95
->   0x562ff5dc8880: ping-pong with csum=561c (want c7dd)
->                   csum_start=34 csum_offset=6
->   HW RX-time:   1734578015467548904 (sec:1734578015.4675)
->                 delta to HW Launch-time sec:1.0000 (1000000.000 usec)
->   0x562ff5dc8880: complete tx idx=4 addr=4018
->   HW Launch-time:   1734578016467548904 (sec:1734578016.4675)
->                     delta to HW TX-complete-time sec:0.0000 (0.016 usec)
->   HW TX-complete-time:   1734578016467548920 (sec:1734578016.4675)
->                          delta to User TX-complete-time sec:0.0000
->                          (32.546 usec)
->   XDP RX-time:   1734578015467651698 (sec:1734578015.4677)
->                  delta to User TX-complete-time sec:0.9999
->                  (999929.768 usec)
->   HW RX-time:   1734578015467548904 (sec:1734578015.4675)
->                 delta to HW TX-complete-time sec:1.0000 (1000000.016 usec)
->   0x562ff5dc8880: complete rx idx=132 addr=84110
-> 
-> Test 2: Send 1000 packets with a 10 ms interval and the launch time set to
->         500 us in the future.
-> 
-> Test steps:
-> 1. On the DUT, start the xdp_hw_metadata selftest application:
->    $ sudo chrt -f 99 ./xdp_hw_metadata enp2s0 -l 500000 -L 1 > \
->      /dev/shm/result.log
-> 
-> 2. On the Link Partner, send 1000 UDP packets with a 10 ms interval and
->    VLAN priority 1 to port 9091 of the DUT.
-> 
-> Result:
-> When the launch time is set to 500 us in the future, the average delta
-> between the launch time and the transmit hardware timestamp is 0.016 us,
-> as shown in the analysis of /dev/shm/result.log below. The XDP launch time
-> works correctly in sending 1000 packets continuously.
->   Min delta: 0.005 us
->   Avr delta: 0.016 us
->   Max delta: 0.031 us
->   Total packets forwarded: 1000
-> 
-> Signed-off-by: Song Yoong Siang <yoong.siang.song@intel.com>
+Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+
 > ---
->  drivers/net/ethernet/intel/igc/igc_main.c | 42 +++++++++++++++++++++--
->  1 file changed, 40 insertions(+), 2 deletions(-)
+>   .../testing/sysfs-bus-coresight-devices-cti   | 78 +++++++++----------
+>   .../testing/sysfs-bus-coresight-devices-tpdm  | 52 ++++++-------
+>   2 files changed, 65 insertions(+), 65 deletions(-)
 > 
-> diff --git a/drivers/net/ethernet/intel/igc/igc_main.c b/drivers/net/ethernet/intel/igc/igc_main.c
-> index c3edd8bcf633..535d340c71c9 100644
-> --- a/drivers/net/ethernet/intel/igc/igc_main.c
-> +++ b/drivers/net/ethernet/intel/igc/igc_main.c
-> @@ -2951,9 +2951,33 @@ static u64 igc_xsk_fill_timestamp(void *_priv)
->  	return *(u64 *)_priv;
->  }
->  
-> +static void igc_xsk_request_launch_time(u64 launch_time, void *_priv)
-> +{
-> +	struct igc_metadata_request *meta_req = _priv;
-> +	struct igc_ring *tx_ring = meta_req->tx_ring;
-> +	__le32 launch_time_offset;
-> +	bool insert_empty = false;
-> +	bool first_flag = false;
-> +
-> +	if (!tx_ring->launchtime_enable)
-> +		return;
-> +
-> +	launch_time_offset = igc_tx_launchtime(tx_ring,
-> +					       ns_to_ktime(launch_time),
-> +					       &first_flag, &insert_empty);
-> +	if (insert_empty) {
-> +		igc_insert_empty_packet(tx_ring);
-> +		meta_req->tx_buffer =
-> +			&tx_ring->tx_buffer_info[tx_ring->next_to_use];
+> diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-cti b/Documentation/ABI/testing/sysfs-bus-coresight-devices-cti
+> index bf2869c413e7..a97b70f588da 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-coresight-devices-cti
+> +++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-cti
+> @@ -1,241 +1,241 @@
+>   What:		/sys/bus/coresight/devices/<cti-name>/enable
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(RW) Enable/Disable the CTI hardware.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/powered
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Indicate if the CTI hardware is powered.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/ctmid
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Display the associated CTM ID
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/nr_trigger_cons
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Number of devices connected to triggers on this CTI
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/triggers<N>/name
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Name of connected device <N>
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/triggers<N>/in_signals
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Input trigger signals from connected device <N>
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/triggers<N>/in_types
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Functional types for the input trigger signals
+>   		from connected device <N>
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/triggers<N>/out_signals
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Output trigger signals to connected device <N>
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/triggers<N>/out_types
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Functional types for the output trigger signals
+>   		to connected device <N>
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/inout_sel
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(RW) Select the index for inen and outen registers.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/inen
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(RW) Read or write the CTIINEN register selected by inout_sel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/outen
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(RW) Read or write the CTIOUTEN register selected by inout_sel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/gate
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(RW) Read or write CTIGATE register.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/asicctl
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(RW) Read or write ASICCTL register.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/intack
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Write the INTACK register.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/appset
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(RW) Set CTIAPPSET register to activate channel. Read back to
+>   		determine current value of register.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/appclear
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Write APPCLEAR register to deactivate channel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/apppulse
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Write APPPULSE to pulse a channel active for one clock
+>   		cycle.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/chinstatus
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Read current status of channel inputs.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/choutstatus
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) read current status of channel outputs.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/triginstatus
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) read current status of input trigger signals
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/regs/trigoutstatus
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) read current status of output trigger signals.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/trigin_attach
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Attach a CTI input trigger to a CTM channel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/trigin_detach
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Detach a CTI input trigger from a CTM channel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/trigout_attach
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Attach a CTI output trigger to a CTM channel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/trigout_detach
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Detach a CTI output trigger from a CTM channel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_gate_enable
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(RW) Enable CTIGATE for single channel (Write) or list enabled
+>   		channels through the gate (R).
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_gate_disable
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Disable CTIGATE for single channel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_set
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Activate a single channel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_clear
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Deactivate a single channel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_pulse
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Pulse a single channel - activate for a single clock cycle.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/trigout_filtered
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) List of output triggers filtered across all connections.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/trig_filter_enable
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(RW) Enable or disable trigger output signal filtering.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_inuse
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) show channels with at least one attached trigger signal.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_free
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) show channels with no attached trigger signals.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_xtrigs_sel
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(RW) Write channel number to select a channel to view, read to
+>   		see selected channel number.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_xtrigs_in
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Read to see input triggers connected to selected view
+>   		channel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_xtrigs_out
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Read) Read to see output triggers connected to selected view
+>   		channel.
+>   
+>   What:		/sys/bus/coresight/devices/<cti-name>/channels/chan_xtrigs_reset
+>   Date:		March 2020
+> -KernelVersion	5.7
+> +KernelVersion:	5.7
+>   Contact:	Mike Leach or Mathieu Poirier
+>   Description:	(Write) Clear all channel / trigger programming.
+> diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-tpdm b/Documentation/ABI/testing/sysfs-bus-coresight-devices-tpdm
+> index bf710ea6e0ef..53cb454b60d0 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-coresight-devices-tpdm
+> +++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-tpdm
+> @@ -1,6 +1,6 @@
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/integration_test
+>   Date:		January 2023
+> -KernelVersion	6.2
+> +KernelVersion:	6.2
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(Write) Run integration test for tpdm. Integration test
+> @@ -14,7 +14,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/reset_dataset
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(Write) Reset the dataset of the tpdm.
+> @@ -24,7 +24,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_trig_type
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the trigger type of the DSB for tpdm.
+> @@ -35,7 +35,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_trig_ts
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the trigger timestamp of the DSB for tpdm.
+> @@ -46,7 +46,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_mode
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the programming mode of the DSB for tpdm.
+> @@ -60,7 +60,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_edge/ctrl_idx
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the index number of the edge detection for the DSB
+> @@ -69,7 +69,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_edge/ctrl_val
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		Write a data to control the edge detection corresponding to
+> @@ -85,7 +85,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_edge/ctrl_mask
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		Write a data to mask the edge detection corresponding to the index
+> @@ -97,21 +97,21 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_edge/edcr[0:15]
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		Read a set of the edge control value of the DSB in TPDM.
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_edge/edcmr[0:7]
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		Read a set of the edge control mask of the DSB in TPDM.
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_trig_patt/xpr[0:7]
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the value of the trigger pattern for the DSB
+> @@ -119,7 +119,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_trig_patt/xpmr[0:7]
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the mask of the trigger pattern for the DSB
+> @@ -127,21 +127,21 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_patt/tpr[0:7]
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the value of the pattern for the DSB subunit TPDM.
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_patt/tpmr[0:7]
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the mask of the pattern for the DSB subunit TPDM.
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_patt/enable_ts
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(Write) Set the pattern timestamp of DSB tpdm. Read
+> @@ -153,7 +153,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_patt/set_type
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(Write) Set the pattern type of DSB tpdm. Read
+> @@ -165,7 +165,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_msr/msr[0:31]
+>   Date:		March 2023
+> -KernelVersion	6.7
+> +KernelVersion:	6.7
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the MSR(mux select register) for the DSB subunit
+> @@ -173,7 +173,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_mode
+>   Date:		January 2024
+> -KernelVersion	6.9
+> +KernelVersion:	6.9
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:	(Write) Set the data collection mode of CMB tpdm. Continuous
+>   		change creates CMB data set elements on every CMBCLK edge.
+> @@ -187,7 +187,7 @@ Description:	(Write) Set the data collection mode of CMB tpdm. Continuous
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_trig_patt/xpr[0:1]
+>   Date:		January 2024
+> -KernelVersion	6.9
+> +KernelVersion:	6.9
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the value of the trigger pattern for the CMB
+> @@ -195,7 +195,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_trig_patt/xpmr[0:1]
+>   Date:		January 2024
+> -KernelVersion	6.9
+> +KernelVersion:	6.9
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the mask of the trigger pattern for the CMB
+> @@ -203,21 +203,21 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_patt/tpr[0:1]
+>   Date:		January 2024
+> -KernelVersion	6.9
+> +KernelVersion:	6.9
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the value of the pattern for the CMB subunit TPDM.
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/dsb_patt/tpmr[0:1]
+>   Date:		January 2024
+> -KernelVersion	6.9
+> +KernelVersion:	6.9
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the mask of the pattern for the CMB subunit TPDM.
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_patt/enable_ts
+>   Date:		January 2024
+> -KernelVersion	6.9
+> +KernelVersion:	6.9
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(Write) Set the pattern timestamp of CMB tpdm. Read
+> @@ -229,7 +229,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_trig_ts
+>   Date:		January 2024
+> -KernelVersion	6.9
+> +KernelVersion:	6.9
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the trigger timestamp of the CMB for tpdm.
+> @@ -240,7 +240,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_ts_all
+>   Date:		January 2024
+> -KernelVersion	6.9
+> +KernelVersion:	6.9
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Read or write the status of timestamp upon all interface.
+> @@ -252,7 +252,7 @@ Description:
+>   
+>   What:		/sys/bus/coresight/devices/<tpdm-name>/cmb_msr/msr[0:31]
+>   Date:		January 2024
+> -KernelVersion	6.9
+> +KernelVersion:	6.9
+>   Contact:	Jinlong Mao (QUIC) <quic_jinlmao@quicinc.com>, Tao Zhang (QUIC) <quic_taozha@quicinc.com>
+>   Description:
+>   		(RW) Set/Get the MSR(mux select register) for the CMB subunit
 
-in this case I think you currently are leaking the skbs and dma mappings
-that igc_init_empty_frame() did. you're going to mix
-IGC_TX_BUFFER_TYPE_XSK with IGC_TX_BUFFER_TYPE_SKB and the latter is not
-explicitly initialized. Even though IGC_TX_BUFFER_TYPE_SKB happens to be
-equal to 0, igc_tx_buffer::type is never cleared in the tx clean desc
-routine.
-
-> +	}
-> +
-> +	igc_tx_ctxtdesc(tx_ring, launch_time_offset, first_flag, 0, 0, 0);
-> +}
-> +
->  const struct xsk_tx_metadata_ops igc_xsk_tx_metadata_ops = {
->  	.tmo_request_timestamp		= igc_xsk_request_timestamp,
->  	.tmo_fill_timestamp		= igc_xsk_fill_timestamp,
-> +	.tmo_request_launch_time	= igc_xsk_request_launch_time,
->  };
->  
->  static void igc_xdp_xmit_zc(struct igc_ring *ring)
-> @@ -2976,7 +3000,13 @@ static void igc_xdp_xmit_zc(struct igc_ring *ring)
->  	ntu = ring->next_to_use;
->  	budget = igc_desc_unused(ring);
->  
-> -	while (xsk_tx_peek_desc(pool, &xdp_desc) && budget--) {
-> +	/* Packets with launch time require one data descriptor and one context
-> +	 * descriptor. When the launch time falls into the next Qbv cycle, we
-> +	 * may need to insert an empty packet, which requires two more
-> +	 * descriptors. Therefore, to be safe, we always ensure we have at least
-> +	 * 4 descriptors available.
-> +	 */
-> +	while (xsk_tx_peek_desc(pool, &xdp_desc) && budget >= 4) {
->  		struct igc_metadata_request meta_req;
->  		struct xsk_tx_metadata *meta = NULL;
->  		struct igc_tx_buffer *bi;
-> @@ -3000,6 +3030,12 @@ static void igc_xdp_xmit_zc(struct igc_ring *ring)
->  		xsk_tx_metadata_request(meta, &igc_xsk_tx_metadata_ops,
->  					&meta_req);
->  
-> +		/* xsk_tx_metadata_request() may have updated next_to_use */
-> +		ntu = ring->next_to_use;
-> +
-> +		/* xsk_tx_metadata_request() may have updated Tx buffer info */
-> +		bi = meta_req.tx_buffer;
-> +
->  		tx_desc = IGC_TX_DESC(ring, ntu);
->  		tx_desc->read.cmd_type_len = cpu_to_le32(meta_req.cmd_type);
->  		tx_desc->read.olinfo_status = cpu_to_le32(olinfo_status);
-> @@ -3017,9 +3053,11 @@ static void igc_xdp_xmit_zc(struct igc_ring *ring)
->  		ntu++;
->  		if (ntu == ring->count)
->  			ntu = 0;
-> +
-> +		ring->next_to_use = ntu;
-> +		budget = igc_desc_unused(ring);
-
-why count the remaining space in loop? couldn't you decrement it
-accordingly to the count of descriptors you have produced? writing ntu
-back and forth between local var and ring struct performance-wise does not
-look fine.
-
->  	}
->  
-> -	ring->next_to_use = ntu;
->  	if (tx_desc) {
->  		igc_flush_tx_descriptors(ring);
->  		xsk_tx_release(pool);
-> -- 
-> 2.34.1
-> 
