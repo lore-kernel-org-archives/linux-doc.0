@@ -1,93 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CEE021506B;
-	Wed,  5 Feb 2025 05:50:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D491620C02A
+	for <linux-doc@vger.kernel.org>; Wed,  5 Feb 2025 06:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738734632; cv=none; b=ohug5YAzjYYKSWJKdJBUoDhY4xWjCT6BNlsayhyxrA7b4juRjknqlCgjiTrECo9ycAASsT/yIeYZLdMqcRoigCsiGrjls4z+tu5OX5Jr3o3tHQpWq6PK+bxgJjnRxkf9M7JFOy62dhC+/j9Yu+ebIn/DIQln4tldZ7P1I1KWQhI=
+	t=1738736196; cv=none; b=KVRczOxi0FEafHP0kfEqYTLL5MkEHr6I4qQ8OZxDtgIT7H8yudRyPmYQoqPY+JMxTxVLuHlyqZcLhsmkp0d7yNBsmMN9j9Qyeh06FqDDb8CvfcHCaI1EaxHLKQ2G+OHHHUD2K3a3+6+VyvA3gIqkLzbFClbAp5fblayDlz+XfyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738734632; c=relaxed/simple;
-	bh=xe0fRlWJcvNKZpFORw9JQCfHJsrZcCExU2zO8oKVkjY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gwtaMdApQlGvp6zqRvJH7PVqiSp0zOhLCyAFgLwmX/gwjauEYRH7Usw7SSVQ4YTMZHQAxZRmkT6L1P0XxMlvLxZCO4JyeSGIAzJ5P3yOeHs6z+nqYii7byXBDxUKCLAn4mvmx77RTHFPuU5obcvTPDs/gGIbS3ARlns0hfDAd8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VnxF8yfp; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1738736196; c=relaxed/simple;
+	bh=Xgk+CnTTSxwrcRItHTp1u5DpA4vlUbnA7+uAOWc5EDA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Nf0z6pvmd187y8JmJvfSWeD9nTX4UCfSSIfpL4u5z7ipq2AxY5UOvArMjT3beDs/+BnkDl6UjOaeWkuEdXG7255+78tkNGf2voCWrry13UsoZVxxI/tZTe0LFecNZHw4IFI142Nhj+ml4i+Jk7LAsOBGmRKg8TM7Zgxk0X+LQfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lHfJe1v3; arc=none smtp.client-ip=91.218.175.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VnxF8yfp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738734631; x=1770270631;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xe0fRlWJcvNKZpFORw9JQCfHJsrZcCExU2zO8oKVkjY=;
-  b=VnxF8yfpnuNnJQxHUSlZ9u9ksEFAcMYKSuHEB4WZKMpyRYPzYwnffGi0
-   SaugqTEFaCewlheTVohNK8PKeTyTIyXuw/MOrLH6MAW0mHlUuSk+OdjHB
-   7S174K+7coHp7aJ4cqbHT/FX17sydXN8T9MPaWGqwUYJCJhiB2RrtMxLu
-   XE6bfVYFmnAShbu1K6JfnYD0j9pg5zrw8SDNnFeNkaUclqUG/KtCh1jPv
-   3utcdSOSfBFJl87ekDoglfj61SvmJRTqhWsdBueJOhQo0R4KlmSAIx8OJ
-   bgecrXQZGesTvb9kDK2o04Ywlos26mupgpmyPhL6YGzseEVFkP6uVStFM
-   g==;
-X-CSE-ConnectionGUID: s5/uBzp8Ss6fUcglXk7aNg==
-X-CSE-MsgGUID: ZQXcJdVTSn2nGLySkgvwtQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39171976"
-X-IronPort-AV: E=Sophos;i="6.13,260,1732608000"; 
-   d="scan'208";a="39171976"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 21:50:28 -0800
-X-CSE-ConnectionGUID: 0HjGmAyvQSCEXREvnHBzjA==
-X-CSE-MsgGUID: WxvgcWKHQAqFr0FjuSAHnw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,260,1732608000"; 
-   d="scan'208";a="141664236"
-Received: from mev-dev.igk.intel.com ([10.237.112.144])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 21:50:22 -0800
-Date: Wed, 5 Feb 2025 06:46:53 +0100
-From: Michal Swiatkowski <michal.swiatkowski@linux.intel.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Tony Nguyen <anthony.l.nguyen@intel.com>, davem@davemloft.net,
-	pabeni@redhat.com, edumazet@google.com, andrew+netdev@lunn.ch,
-	netdev@vger.kernel.org, sridhar.samudrala@intel.com,
-	jacob.e.keller@intel.com, pio.raczynski@gmail.com,
-	konrad.knitter@intel.com, marcin.szycik@intel.com,
-	nex.sw.ncis.nat.hpm.dev@intel.com, przemyslaw.kitszel@intel.com,
-	jiri@resnulli.us, horms@kernel.org, David.Laight@aculab.com,
-	pmenzel@molgen.mpg.de, mschmidt@redhat.com,
-	tatyana.e.nikolova@intel.com, Jason Gunthorpe <jgg@ziepe.ca>,
-	Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
-	corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next 2/9] ice: devlink PF MSI-X max and min parameter
-Message-ID: <Z6L7Tc/PHmCptobX@mev-dev.igk.intel.com>
-References: <20250203210940.328608-1-anthony.l.nguyen@intel.com>
- <20250203210940.328608-3-anthony.l.nguyen@intel.com>
- <20250204143518.1583217e@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lHfJe1v3"
+Message-ID: <a495ae39-9121-410a-b881-35e6b0b22dff@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1738736186;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/zH9fHxHexS5NSbMPLYauLqT2UZHazK//K/Vs6yYelc=;
+	b=lHfJe1v3bmnrYaN6+qUj+cR8tKAZxi5komWlFIWgIjelOUdPngv4H+0pGwR5E51Y+4kv7X
+	kNIYkFItEg/yYJGsOkMiLDL8tFyv+qvenMZmlqp7+fdAcGkQKmZA9fCc5CyX32JJXYVnnI
+	zfRjVq6OZAXbk+4NlpFoqwnp4h77vZg=
+Date: Wed, 5 Feb 2025 14:16:19 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250204143518.1583217e@kernel.org>
+Subject: Re: [PATCH v2] docs/zh_CN: Add self-protection index Chinese
+ translation
+To: zhangwei@cqsoftware.com.cn, zhaoshuo@cqsoftware.com.cn,
+ maoyuxian@cqsoftware.com.cn
+Cc: zhaoyuehui@cqsoftware.com.cn, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, alexs@kernel.org
+References: <20250121051234.79066-1-zhangwei@cqsoftware.com.cn>
+ <82025758-b993-47aa-a8fe-7ed6cf5a5def@cqsoftware.com.cn>
+ <87y0ylfy2q.fsf@trenco.lwn.net>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <87y0ylfy2q.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Feb 04, 2025 at 02:35:17PM -0800, Jakub Kicinski wrote:
-> On Mon,  3 Feb 2025 13:09:31 -0800 Tony Nguyen wrote:
-> > +	if (val.vu32 > pf->hw.func_caps.common_cap.num_msix_vectors ||
-> > +	    val.vu32 < pf->msix.min) {
-> > +		NL_SET_ERR_MSG_MOD(extack, "Value is invalid");
-> > +		return -EINVAL;
-> 
-> > +	if (val.vu32 < ICE_MIN_MSIX || val.vu32 > pf->msix.max) {
-> > +		NL_SET_ERR_MSG_MOD(extack, "Value is invalid");
-> > +		return -EINVAL;
-> 
-> Please follow up and either remove these extack messages, or make them
-> more meaningful. The "value is invalid" is already expressed by EINVAL
+Hi, Zhang Wei, Zhao Shuo,Yu Xian,
 
-Will be removed.
 
-> 
-> The suggestion to set the values at once or as "pending" is a
-> distraction IMO.
+在 2025/2/5 00:56, Jonathan Corbet 写道:
+> zhangwei <zhangwei@cqsoftware.com.cn> writes:
+>
+>> 在 2025/1/21 13:12, zhangwei 写道:
+>>> Translate .../security/self-protection.rst into Chinese.
+>>>
+>>> Update the translation through commit b080e52110ea
+>>> ("docs: update self-protection __ro_after_init status")
+>>>
+>>> Signed-off-by: zhangwei <zhangwei@cqsoftware.com.cn>
+>>> ---
+>> Hi, jon
+>> Please apply Zhao Shuo's patchset first, and then apply mine.
+>> https://lore.kernel.org/linux-doc/cover.1737603330.git.zhaoshuo@cqsoftware.com.cn/
+>> <https://lore.kernel.org/linux-doc/cover.1737603330.git.zhaoshuo@cqsoftware.com.cn/>
+>>
+> I did that, but yours still fails to apply.  Can you send me a respin
+> against docs-next, please?
+It seems that you plan to translate all the security documents.
+I've noticed that there are still two directories left untranslated.
+
+To avoid conflicts, Zhang Wei, would you mind creating a v3 like this:
+
+    docs/zh_CN: Add self-protection Chinese translation
+    docs/zh_CN: Add keys index Chinese translation
+    docs/zh_CN: Add secrets index Chinese translation
+
+It would be best if each of you is responsible for translating
+one directory. Then, if you have reached an agreement,
+Zhang Wei can send the second and third patches on your
+behalf.
+
+Thanks,
+Yanteng
