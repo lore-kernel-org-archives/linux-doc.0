@@ -1,91 +1,177 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F510F507;
-	Wed,  5 Feb 2025 12:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B9110A3E
+	for <linux-doc@vger.kernel.org>; Wed,  5 Feb 2025 13:03:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738760250; cv=none; b=tIhXt9ur00hY/luXx1Gyx8Iddj4bzxgJe+Cq2FuVCBJFk+cU8OeeqZLpwpQoOV/Fu8ixKJiRwts/jrUqz8ueQTun16xTW7lbgngxmfEt0KWOw+kXUdGFoPVZgaDNpQ6tnTNzFNgOkPTq/D2YkeZiBEFLf8UTFH4XOTp7/JImKss=
+	t=1738760610; cv=none; b=fWYik+4Nc/8uWuE2CN0Nx0j5vJhNrfKemb/GaWflayWIBC9sqkO5OW7s3wbAxdqOzv6pTsTQJ8go8AdG0k1LT4+36ifDCtuWfcTnQ71Z5oLNWrsPbDt1z4CnIo04nGzzlGCDgUj+b6ciy8SlWXsE11CKaglrw78+OBlb1xoG7M4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738760250; c=relaxed/simple;
-	bh=gx24NkCwpwV9AcPPbFrtwlbx9niJwvD4f0qfvasEhoU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lWGFsPj09tkbIbsvMNIZ0ZF+3bbpMKJOeamTng0xMBq5vi2OU/2n1FbHhLmBsElrwqgINwc+V0f0RmUKUs/St1v0qq6X9h/s1T3Pl5ZwX9UyhDX0BZi6mfZvWEGABgsCMcJRbI4+r+enCMCthmsIa4Hhg5nVV1Uf9tesIRjy05o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D01471007;
-	Wed,  5 Feb 2025 04:57:50 -0800 (PST)
-Received: from [10.57.35.21] (unknown [10.57.35.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 01ABF3F63F;
-	Wed,  5 Feb 2025 04:57:22 -0800 (PST)
-Message-ID: <4294edaf-8621-41b2-9009-7f5f3bb6c7f8@arm.com>
-Date: Wed, 5 Feb 2025 12:57:21 +0000
+	s=arc-20240116; t=1738760610; c=relaxed/simple;
+	bh=BOSJf1U+Nbg5gigVlZ2hnJt3nIMlCZrCwGGWsGl4xAg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QJt5NZAdGuNAZvnhLfPIGBITBKjj6bvhon881aDqmSQR5QGb2eNRUNEW+e00EDyfUsMljmG0JUIKTiu7RBKxcwjPh5AovtwqTpUnZlHglJKS9GpMLClq87YsVqtu1vE4jcFjltKVEezUkYJFxpzTgCHmkwDGOOKZF+3b4wa7p3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PV7U11LP; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PV7U11LP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1738760607;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l83Dw368hueJll8PyntCW0Nb5bpCWlX4zt8mq3uaKys=;
+	b=PV7U11LPPezDRQfl+pcCM1e1WmPp5dRhrHOQ0oUoDK5a5uXaSfvJmxsoT6AJEjwOW1Ddso
+	PVnVF7NXZ+cUtiYAKhWjr+niXSPqKDdvPmIzw9QUouP/oj6H4B8JqKOok4XMID2Rcd31y/
+	Lc0DVCooQS2RY2mZZXTSHi7zIf8MtsI=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-491-1l4K9GaVMGO1d3Se1A4h_Q-1; Wed,
+ 05 Feb 2025 08:03:26 -0500
+X-MC-Unique: 1l4K9GaVMGO1d3Se1A4h_Q-1
+X-Mimecast-MFC-AGG-ID: 1l4K9GaVMGO1d3Se1A4h_Q
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5FC961801A0D;
+	Wed,  5 Feb 2025 13:03:19 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.22.80.186])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 72B8C3000197;
+	Wed,  5 Feb 2025 13:03:15 +0000 (UTC)
+Received: by fedora.redhat.com (Postfix, from userid 1000)
+	id A724B6AA37D; Wed,  5 Feb 2025 08:03:13 -0500 (EST)
+Date: Wed, 5 Feb 2025 08:03:13 -0500
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Alistair Popple <apopple@nvidia.com>
+Cc: akpm@linux-foundation.org, dan.j.williams@intel.com, linux-mm@kvack.org,
+	alison.schofield@intel.com, lina@asahilina.net,
+	zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
+	vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
+	bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca,
+	catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au,
+	npiggin@gmail.com, dave.hansen@linux.intel.com, ira.weiny@intel.com,
+	willy@infradead.org, djwong@kernel.org, tytso@mit.edu,
+	linmiaohe@huawei.com, david@redhat.com, peterx@redhat.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
+	david@fromorbit.com, chenhuacai@kernel.org, kernel@xen0n.name,
+	loongarch@lists.linux.dev, Hanna Czenczek <hreitz@redhat.com>,
+	German Maglione <gmaglione@redhat.com>
+Subject: Re: [PATCH v6 01/26] fuse: Fix dax truncate/punch_hole fault path
+Message-ID: <Z6NhkR8ZEso4F-Wx@redhat.com>
+References: <cover.11189864684e31260d1408779fac9db80122047b.1736488799.git-series.apopple@nvidia.com>
+ <bfae590045c7fc37b7ccef10b9cec318012979fd.1736488799.git-series.apopple@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V7 2/5] PCI/TPH: Add Steering Tag support
-To: Wei Huang <wei.huang2@amd.com>, linux-pci@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- netdev@vger.kernel.org
-Cc: Jonathan.Cameron@Huawei.com, helgaas@kernel.org, corbet@lwn.net,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, alex.williamson@redhat.com, gospo@broadcom.com,
- michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
- somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
- manoj.panicker2@amd.com, Eric.VanTassell@amd.com, vadim.fedorenko@linux.dev,
- horms@kernel.org, bagasdotme@gmail.com, bhelgaas@google.com,
- lukas@wunner.de, paul.e.luse@intel.com, jing2.liu@intel.com
-References: <20241002165954.128085-1-wei.huang2@amd.com>
- <20241002165954.128085-3-wei.huang2@amd.com>
- <a373416b-bf00-4cf7-9b46-bd95599d114c@arm.com>
- <f6b34f2e-31c9-4997-abfe-38d7e774b4fa@amd.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <f6b34f2e-31c9-4997-abfe-38d7e774b4fa@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bfae590045c7fc37b7ccef10b9cec318012979fd.1736488799.git-series.apopple@nvidia.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On 2025-02-04 8:18 pm, Wei Huang wrote:
+On Fri, Jan 10, 2025 at 05:00:29PM +1100, Alistair Popple wrote:
+> FS DAX requires file systems to call into the DAX layout prior to unlinking
+> inodes to ensure there is no ongoing DMA or other remote access to the
+> direct mapped page. The fuse file system implements
+> fuse_dax_break_layouts() to do this which includes a comment indicating
+> that passing dmap_end == 0 leads to unmapping of the whole file.
 > 
-> 
-> On 2/4/25 12:33 PM, Robin Murphy wrote:
->> On 2024-10-02 5:59 pm, Wei Huang wrote:
->> [...]
->>> +
->>> +    if (err) {
->>> +        pcie_disable_tph(pdev);
->>> +        return err;
->>> +    }
->>> +
->>> +    set_ctrl_reg_req_en(pdev, pdev->tph_mode);
->>
->> Just looking at this code in mainline, and I don't trust my
->> understanding quite enough to send a patch myself, but doesn't this want
->> to be pdev->tph_req_type, rather than tph_mode?
-> 
-> Yeah, you are right - this is supposed to be pdev->tph_req_type instead 
-> of tph_mode. We disable TPH first by clearing (zero) the "TPH Requester 
-> Enable" field and needs to set it back using tph_req_type.
-> 
-> Do you want to send in a fix? I can ACK it. Thanks for spotting it.
+> However this is not true - passing dmap_end == 0 will not unmap anything
+> before dmap_start, and further more dax_layout_busy_page_range() will not
+> scan any of the range to see if there maybe ongoing DMA access to the
+> range. Fix this by passing -1 for dmap_end to fuse_dax_break_layouts()
+> which will invalidate the entire file range to
+> dax_layout_busy_page_range().
 
-Done[1] - cheers for confirming!
+Hi Alistair,
 
-Robin.
+Thanks for fixing DAX related issues for virtiofs. I am wondering how are
+you testing DAX with virtiofs. AFAIK, we don't have DAX support in Rust
+virtiofsd. C version of virtiofsd used to have out of the tree patches
+for DAX. But C version got deprecated long time ago.
 
+Do you have another implementation of virtiofsd somewhere else which
+supports DAX and allows for testing DAX related changes?
 
-[1] 
-https://lore.kernel.org/linux-pci/13118098116d7bce07aa20b8c52e28c7d1847246.1738759933.git.robin.murphy@arm.com/
+Thanks
+Vivek
 
 > 
-> -Wei
+> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> Co-developed-by: Dan Williams <dan.j.williams@intel.com>
+> Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+> Fixes: 6ae330cad6ef ("virtiofs: serialize truncate/punch_hole and dax fault path")
+> Cc: Vivek Goyal <vgoyal@redhat.com>
 > 
->>
->> Thanks,
->> Robin.
->>
+> ---
+> 
+> Changes for v6:
+> 
+>  - Original patch had a misplaced hunk due to a bad rebase.
+>  - Reworked fix based on Dan's comments.
+> ---
+>  fs/fuse/dax.c  | 1 -
+>  fs/fuse/dir.c  | 2 +-
+>  fs/fuse/file.c | 4 ++--
+>  3 files changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/fs/fuse/dax.c b/fs/fuse/dax.c
+> index 9abbc2f..455c4a1 100644
+> --- a/fs/fuse/dax.c
+> +++ b/fs/fuse/dax.c
+> @@ -681,7 +681,6 @@ static int __fuse_dax_break_layouts(struct inode *inode, bool *retry,
+>  			0, 0, fuse_wait_dax_page(inode));
+>  }
+>  
+> -/* dmap_end == 0 leads to unmapping of whole file */
+>  int fuse_dax_break_layouts(struct inode *inode, u64 dmap_start,
+>  				  u64 dmap_end)
+>  {
+> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> index 0b2f856..bc6c893 100644
+> --- a/fs/fuse/dir.c
+> +++ b/fs/fuse/dir.c
+> @@ -1936,7 +1936,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  	if (FUSE_IS_DAX(inode) && is_truncate) {
+>  		filemap_invalidate_lock(mapping);
+>  		fault_blocked = true;
+> -		err = fuse_dax_break_layouts(inode, 0, 0);
+> +		err = fuse_dax_break_layouts(inode, 0, -1);
+>  		if (err) {
+>  			filemap_invalidate_unlock(mapping);
+>  			return err;
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index 082ee37..cef7a8f 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -253,7 +253,7 @@ static int fuse_open(struct inode *inode, struct file *file)
+>  
+>  	if (dax_truncate) {
+>  		filemap_invalidate_lock(inode->i_mapping);
+> -		err = fuse_dax_break_layouts(inode, 0, 0);
+> +		err = fuse_dax_break_layouts(inode, 0, -1);
+>  		if (err)
+>  			goto out_inode_unlock;
+>  	}
+> @@ -2890,7 +2890,7 @@ static long fuse_file_fallocate(struct file *file, int mode, loff_t offset,
+>  	inode_lock(inode);
+>  	if (block_faults) {
+>  		filemap_invalidate_lock(inode->i_mapping);
+> -		err = fuse_dax_break_layouts(inode, 0, 0);
+> +		err = fuse_dax_break_layouts(inode, 0, -1);
+>  		if (err)
+>  			goto out;
+>  	}
+> -- 
+> git-series 0.9.1
+> 
 
