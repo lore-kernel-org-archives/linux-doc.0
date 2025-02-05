@@ -1,178 +1,167 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB8372163BE;
-	Wed,  5 Feb 2025 10:01:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 467A122ACFD
+	for <linux-doc@vger.kernel.org>; Wed,  5 Feb 2025 10:46:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738749672; cv=none; b=Bir6Ldf5++nH06DlMGOr4PrbXxs2DTVQi+6cY8hBqap/eyWMBhvqTEsrzdeOxmbvBz76/AhS3ohcY+GP0NUz3O/WAyPz4Pv/KytXAHBN6sUsfrYQzrlW3A/ZvF2/gSz2Y6/PKNMwKV8lTW2ODipyjbjimMguwjXLNxSWr5AM6iA=
+	t=1738752409; cv=none; b=lc6mj/gLVO3lpE9RIeX53nAh0SZZOUgvObNRDt534GXgOA8i7o2HUvt1miR7I32qlSnVso3l0Kc25XaQev0sPfOOvgZ3otdBl8k/u5WxjEVeEXIqXPhbF2d9CnDePWWtrOvJS5nuiNGwIuQl0nMbm0TYyrkc9Av6M7YwRKgBvkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738749672; c=relaxed/simple;
-	bh=CiuHqqToU+/eNRrP10Z4tcsqFnwK6YpS57IbttfhWUw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZecATdHwbQxHtqAJxm2nQjNnNjKPAu3ul/ENK/A1Es9pc1YCz20K18HtrWa7/6BXmvtAWPd7iqc1KQu7SpIRGqvpFxd2a3u5cVvT3AfZrlUJpy3mP1MLsoMiV2wGnF+klu17i7D2HRjb+6vR/1Wm3lPNyYs5g/gAfMCh2yuIIkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8085111FB;
-	Wed,  5 Feb 2025 02:01:32 -0800 (PST)
-Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 648383F5A1;
-	Wed,  5 Feb 2025 02:01:04 -0800 (PST)
-Date: Wed, 5 Feb 2025 10:01:01 +0000
-From: Mark Rutland <mark.rutland@arm.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: linux-mm@kvack.org, steven.price@arm.com, christophe.leroy@csgroup.eu,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org
-Subject: Re: [PATCH V2] mm/ptdump: Drop GENERIC_PTDUMP
-Message-ID: <Z6M23dR5wvZKW4JE@J2N7QTR9R3>
-References: <20250205050039.1506377-1-anshuman.khandual@arm.com>
+	s=arc-20240116; t=1738752409; c=relaxed/simple;
+	bh=O0hJvdHYBQv3L88+Z8IQHgscfJ9XOUUdzclkUIkbU24=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bUnk3xI/4M629MJIst1Ik8LV8DySrNTOS/EVqCOMMnCR8yuL/m+avbVWMc/ckHl5HU9tqbuqjlTrEYZGL2/zew22+SFZXM4e+b+Ij1vIO9DMfQpfRpa9f/ByGKX/QEHQzTcOxFOgfgSHxmIFc26kRuI4hgqfTDm3I5zy2V4IMBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:c448:5c9f:5d50:ad45])
+	by michel.telenet-ops.be with cmsmtp
+	id 9mmf2E00C5P95W306mmfG3; Wed, 05 Feb 2025 11:46:45 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tfcvL-0000000Fsrf-0Lau;
+	Wed, 05 Feb 2025 11:46:39 +0100
+Received: from geert by rox.of.borg with local (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1tfcvX-00000006Ngh-0YNS;
+	Wed, 05 Feb 2025 11:46:39 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Davis <afd@ti.com>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Cc: devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH v2 resend 3] docs: dt: Update overlay file extension
+Date: Wed,  5 Feb 2025 11:46:37 +0100
+Message-ID: <ebce4d9591dd0259a636196dda31d40901dc04b0.1738752288.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250205050039.1506377-1-anshuman.khandual@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 05, 2025 at 10:30:39AM +0530, Anshuman Khandual wrote:
-> GENERIC_PTDUMP does not guard any code but instead just used for platform's
-> subscription into core ptdump defined under PTDUMP_CORE, which is selected.
+Building DTB overlays from .dts files is no longer supported.
+Update the documentation to reflect this.
 
-Selected by what?
+Fixes: 81d362732bac05f6 ("kbuild: Disallow DTB overlays to built from .dts named source files")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Andrew Davis <afd@ti.com>
+Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+---
+v2:
+  - Add Acked-by, Reviewed-by.
+---
+ Documentation/devicetree/overlay-notes.rst           | 12 ++++++------
+ .../translations/zh_CN/devicetree/overlay-notes.rst  | 12 ++++++------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-> Instead use PTDUMP_CORE for platform subscription and drop GENERIC_PTDUMP.
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Marc Zyngier <maz@kernel.org>
-> Cc: Michael Ellerman <mpe@ellerman.id.au>
-> Cc: Nicholas Piggin <npiggin@gmail.com>
-> Cc: Paul Walmsley <paul.walmsley@sifive.com>
-> Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> Cc: Heiko Carstens <hca@linux.ibm.com>
-> Cc: Vasily Gorbik <gor@linux.ibm.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: kvmarm@lists.linux.dev
-> Cc: linuxppc-dev@lists.ozlabs.org
-> Cc: linux-riscv@lists.infradead.org
-> Cc: linux-s390@vger.kernel.org
-> Cc: linux-mm@kvack.org
-> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> ---
-> This patch applies on v6.14-rc1
-> 
-> Changes in V2:
-> 
-> - Keep arch/powerpc/Kconfig alphabetically sorted per Christophe
-> 
-> Changes in V1:
-> 
-> https://lore.kernel.org/all/20241217034807.2541349-1-anshuman.khandual@arm.com/
-> 
->  Documentation/arch/arm64/ptdump.rst       | 1 -
->  arch/arm64/Kconfig                        | 2 +-
->  arch/arm64/kvm/Kconfig                    | 3 +--
->  arch/powerpc/Kconfig                      | 2 +-
->  arch/powerpc/configs/mpc885_ads_defconfig | 1 -
->  arch/riscv/Kconfig                        | 2 +-
->  arch/s390/Kconfig                         | 2 +-
->  arch/x86/Kconfig                          | 2 +-
->  arch/x86/Kconfig.debug                    | 2 +-
->  kernel/configs/debug.config               | 1 -
->  mm/Kconfig.debug                          | 8 ++------
->  11 files changed, 9 insertions(+), 17 deletions(-)
-> 
-> diff --git a/Documentation/arch/arm64/ptdump.rst b/Documentation/arch/arm64/ptdump.rst
-> index 5dcfc5d7cddf..61ca040a885b 100644
-> --- a/Documentation/arch/arm64/ptdump.rst
-> +++ b/Documentation/arch/arm64/ptdump.rst
-> @@ -22,7 +22,6 @@ offlining of memory being accessed by the ptdump code.
->  In order to dump the kernel page tables, enable the following
->  configurations and mount debugfs::
->  
-> - CONFIG_GENERIC_PTDUMP=y
->   CONFIG_PTDUMP_CORE=y
->   CONFIG_PTDUMP_DEBUGFS=y
->  
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index fcdd0ed3eca8..1f516bed81dd 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -157,7 +157,7 @@ config ARM64
->  	select GENERIC_IRQ_SHOW_LEVEL
->  	select GENERIC_LIB_DEVMEM_IS_ALLOWED
->  	select GENERIC_PCI_IOMAP
-> -	select GENERIC_PTDUMP
-> +	select PTDUMP_CORE
->  	select GENERIC_SCHED_CLOCK
->  	select GENERIC_SMP_IDLE_THREAD
->  	select GENERIC_TIME_VSYSCALL
+diff --git a/Documentation/devicetree/overlay-notes.rst b/Documentation/devicetree/overlay-notes.rst
+index e139f22b363e9f36..35e79242af9a928d 100644
+--- a/Documentation/devicetree/overlay-notes.rst
++++ b/Documentation/devicetree/overlay-notes.rst
+@@ -38,10 +38,10 @@ Lets take an example where we have a foo board with the following base tree::
+ 	};
+     ---- foo.dts ---------------------------------------------------------------
+ 
+-The overlay bar.dts,
++The overlay bar.dtso,
+ ::
+ 
+-    ---- bar.dts - overlay target location by label ----------------------------
++    ---- bar.dtso - overlay target location by label ---------------------------
+ 	/dts-v1/;
+ 	/plugin/;
+ 	&ocp {
+@@ -51,7 +51,7 @@ The overlay bar.dts,
+ 			... /* various properties and child nodes */
+ 		};
+ 	};
+-    ---- bar.dts ---------------------------------------------------------------
++    ---- bar.dtso --------------------------------------------------------------
+ 
+ when loaded (and resolved as described in [1]) should result in foo+bar.dts::
+ 
+@@ -88,9 +88,9 @@ in the base DT. In this case, the target path can be provided. The target
+ location by label syntax is preferred because the overlay can be applied to
+ any base DT containing the label, no matter where the label occurs in the DT.
+ 
+-The above bar.dts example modified to use target path syntax is::
++The above bar.dtso example modified to use target path syntax is::
+ 
+-    ---- bar.dts - overlay target location by explicit path --------------------
++    ---- bar.dtso - overlay target location by explicit path -------------------
+ 	/dts-v1/;
+ 	/plugin/;
+ 	&{/ocp} {
+@@ -100,7 +100,7 @@ The above bar.dts example modified to use target path syntax is::
+ 			... /* various properties and child nodes */
+ 		}
+ 	};
+-    ---- bar.dts ---------------------------------------------------------------
++    ---- bar.dtso --------------------------------------------------------------
+ 
+ 
+ Overlay in-kernel API
+diff --git a/Documentation/translations/zh_CN/devicetree/overlay-notes.rst b/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
+index 43e3c0bc5a9f8235..ba5edd05dc1e7fd2 100644
+--- a/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
++++ b/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
+@@ -43,10 +43,10 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
+ 	};
+     ---- foo.dts ---------------------------------------------------------------
+ 
+-覆盖bar.dts,
++覆盖bar.dtso,
+ ::
+ 
+-    ---- bar.dts - 按标签覆盖目标位置 ----------------------------
++    ---- bar.dtso - 按标签覆盖目标位置 ---------------------------
+ 	/dts-v1/;
+ 	/插件/;
+ 	&ocp {
+@@ -56,7 +56,7 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
+ 			... /* 各种属性和子节点 */
+ 		};
+ 	};
+-    ---- bar.dts ---------------------------------------------------------------
++    ---- bar.dtso --------------------------------------------------------------
+ 
+ 当加载（并按照[1]中描述的方式解决）时，应该产生foo+bar.dts::
+ 
+@@ -90,9 +90,9 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
+ DT中的适当位置。在这种情况下，可以提供目标路径。通过标签的目标位置的语法是比
+ 较好的，因为不管标签在DT中出现在哪里，覆盖都可以被应用到任何包含标签的基础DT上。
+ 
+-上面的bar.dts例子被修改为使用目标路径语法，即为::
++上面的bar.dtso例子被修改为使用目标路径语法，即为::
+ 
+-    ---- bar.dts - 通过明确的路径覆盖目标位置 --------------------
++    ---- bar.dtso - 通过明确的路径覆盖目标位置 -------------------
+ 	/dts-v1/;
+ 	/插件/;
+ 	&{/ocp} {
+@@ -102,7 +102,7 @@ DT中的适当位置。在这种情况下，可以提供目标路径。通过标
+ 			... /* 各种外围设备和子节点 */
+ 		}
+ 	};
+-    ---- bar.dts ---------------------------------------------------------------
++    ---- bar.dtso --------------------------------------------------------------
+ 
+ 
+ 内核中关于覆盖的API
+-- 
+2.43.0
 
-This change means that the ptdump core code will be built regardless of
-whether any users are selected:
-
-  [mark@lakrids:~/src/linux]% git grep CONFIG_PTDUMP_CORE
-  Documentation/arch/arm64/ptdump.rst: CONFIG_PTDUMP_CORE=y
-  arch/arm64/include/asm/ptdump.h:#ifdef CONFIG_PTDUMP_CORE
-  arch/arm64/include/asm/ptdump.h:#endif /* CONFIG_PTDUMP_CORE */
-  arch/arm64/mm/Makefile:obj-$(CONFIG_PTDUMP_CORE)        += ptdump.o
-  arch/powerpc/mm/Makefile:obj-$(CONFIG_PTDUMP_CORE)      += ptdump/
-  arch/riscv/mm/Makefile:obj-$(CONFIG_PTDUMP_CORE) += ptdump.o
-  arch/s390/mm/Makefile:obj-$(CONFIG_PTDUMP_CORE) += dump_pagetables.o
-  arch/x86/mm/Makefile:obj-$(CONFIG_PTDUMP_CORE)  += dump_pagetables.o
-  mm/Makefile:obj-$(CONFIG_PTDUMP_CORE) += ptdump.o
-
-GENERIC_PTDUMP means "this architecture uses generic ptdump code for
-ptdump", i.e. the architecture implements all the necessary bits for
-that to work *IF* it is built.
-
-PTDUMP_CORE means "actually build the core ptdump code".
-
-If everyone uses the generic ptdump code now, maybe it's worth renaming
-GENERIC_PTDUMP to ARCH_HAS_PTDUMP or something like that, but I don't
-think this change makes sense as-is.
-
-[...]
-
-> diff --git a/kernel/configs/debug.config b/kernel/configs/debug.config
-> index 20552f163930..8aafd050b754 100644
-> --- a/kernel/configs/debug.config
-> +++ b/kernel/configs/debug.config
-> @@ -73,7 +73,6 @@ CONFIG_DEBUG_VM=y
->  CONFIG_DEBUG_VM_PGFLAGS=y
->  CONFIG_DEBUG_VM_RB=y
->  CONFIG_DEBUG_VM_VMACACHE=y
-> -CONFIG_GENERIC_PTDUMP=y
->  CONFIG_KASAN=y
->  CONFIG_KASAN_GENERIC=y
->  CONFIG_KASAN_INLINE=y
-
-I think this is wrong today, and removing it is the right thing to do.
-
-Architectures with support will select this themselves, and on
-architectures without support this either does nothing or causes a build
-failure.
-
-Mark.
