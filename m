@@ -1,146 +1,169 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDFA12116F9
-	for <linux-doc@vger.kernel.org>; Wed,  5 Feb 2025 20:22:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDCB213E6F;
+	Wed,  5 Feb 2025 20:38:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738786947; cv=none; b=XwoJcGxJlL2FKvNdmEEYsqnEBTpBCLJq2R9iP6il/90ur1A49kQPSwoMNmZOTVAx8GJSCXKeORfeOI5+N0c4ol4a1pIZ1HgHJR3QP2YxVRExKBsIXnntEdXV1w+6nbHOprdc0M6oa/iphITDlx4W80Pb0eMn5dIWFTfHIjCKsdI=
+	t=1738787902; cv=none; b=PTPK3HSMRTxHtRHIwTEbKDwogP/aPBm1L+hQ1IbHQVpxuklTUKXVBqvMw0ZYJUApvRN/RFe5VDkXUfEoEVihzM/on54UWtgYYNl5LldebTYlcGHIkVUliJj6kl4JDm+xnZ3H5jzO7YoI0X3rygQO18aLFN/k89Hj9QffRXNfcYU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738786947; c=relaxed/simple;
-	bh=W/BDzfS0731XNlp5uGEgPUbjHeZNHpyjqCYetUqQRxQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T2fQSl+dxNZrKzYCpeUkOoddZ2Wnw8LjwPYYZdM97ChNmwDJExK5vytTlXKIGv+h6ScJ+fWC5mXzMtaZxdYk0T1h5xzjY/Z057LehUBU/Vm/vDx/rWQ61W06IvDQmjm9YpGln0KbIaRXE1a5uvrag8NNdNK19b76KHxcTzObP0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aEqR4OUj; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1738787902; c=relaxed/simple;
+	bh=I+hvuOT1LZ55z7wg6CRnRGy+xUBTyudcDbUtYBv3vfE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RNOXR9qfijIAq+L5O00J03/b3gpVSz5cS5zeOKjrlzsvBwT7xoifhO8vip7koaOwHu1e6xsI4A8fwLKHQ3CdGt9/SGjhy/DhRy3iBb+D6DE3jCdMXxAOekeMsDLcz64eN9ofvd/ZPqloLscJXWdpWOtiayiXxFc/c/UswQj+CxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mULBPJQn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aEqR4OUj"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21f032484d4so32325ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 05 Feb 2025 12:22:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1738786945; x=1739391745; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qkxLeSmqP0bYGjmD83E3Y/4YIZD5CnHUYSNEP7lCym8=;
-        b=aEqR4OUjEXOk+Plcx0PsYOho51wcq4oRNSX2zvM5RE6Sgc079JRIortawJIyNHH5Vp
-         CO3NiFzoe4fKwfJTSNFib38UdXSni6DjIpCZkcZNzFn9EmY5MiTxviY3ZjgnMitFSaVI
-         b1dzui4HIIGfHIXl9v9akFiWxSC7IvI964ax1384+5jK2rjGJKiX+Es/VGFDAuAZ+ly1
-         D+p3ZP6yz6AOUhVc3G/EKMM4Z1EHQCgIurhcqIxORO9D77owYm+rY/vBiZmxO61s+Zul
-         eKEbCvw+iD9vZUwR6a90JJwEHkOkh/htlDbjgRjmiBAuca54U71HXMya9cTuHJF7Z88S
-         CsfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738786945; x=1739391745;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qkxLeSmqP0bYGjmD83E3Y/4YIZD5CnHUYSNEP7lCym8=;
-        b=Xm6kNql3zoTzlCgS3BxbYpGTMf2751qTltsK3pdvHWqCtxcLutIjhLZhe6fpjY9qdd
-         2vuWVa+hcow3L7gB7R14uLlaOjGFtHKHGU4UEFdP9jp+PemQl4pl3/exWe3BpKrqBSpi
-         xc+jeRUgDSzDEbviC5nAsayvTTobft8rMdYhI8t6AXrD1gGELr0QwYV5/oZXZK+2fyzp
-         YV5G8Oc7a5kpYYW1LMoHWeutBJnHt7S+wzwOBreNsOrGlKn6MXoqKZqp1mrHAP5sk3J5
-         w83Yj1EO2GxYVOucO0dCcQzyJovnHd+OvUthEGXJQ7cnS7FpNnufFfcxoW4VW+lM9QoU
-         y1yw==
-X-Forwarded-Encrypted: i=1; AJvYcCWjnYlqGW13v23U9a0+Jz1Jsupo4d+Sf31KAGezhN461I7mfl7mrXXgEHFc8MNr99Mx21SwiEtDjZ4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxzkdFFEwRtE74u57zFhppB3W/w/REzhgfbwQZFk6d3DHqBC/Ex
-	hQtf4YnRdC/7xmCQlgI6+SNzPPgbCpK2fctsT1q3ZMzjbjy5gJuw0ZiTzqtumiCINZ198ngKRBe
-	rYQtqH8AxwYfX2DTnOvgTTfsHWaKVAewNa5jB
-X-Gm-Gg: ASbGnctEtcSJf+He7ndplzeWEtC04eHU8wul93veE2XrVilIf9s5FLNvzmlZ+WeVRma
-	zCYqxp8/mtK/DVEo5TohEIrBCMVpSQLhPMxJ1b30D9h/aYmz5LW8jkl0K3OqTyWtSMve0AtPG
-X-Google-Smtp-Source: AGHT+IHe8klwDgJSKEW2jpBdb9Qr5QEYUblXIVK5qhpQjddp07M20x9TqO2J5WfJ10zWsmr9wDdoAZ9pqxtBzG8aw9E=
-X-Received: by 2002:a17:902:d582:b0:215:4bdd:9919 with SMTP id
- d9443c01a7336-21f311f9d6fmr275545ad.17.1738786944775; Wed, 05 Feb 2025
- 12:22:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mULBPJQn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 227A9C4CED1;
+	Wed,  5 Feb 2025 20:38:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738787902;
+	bh=I+hvuOT1LZ55z7wg6CRnRGy+xUBTyudcDbUtYBv3vfE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mULBPJQnMFDsN8xP/BYu3F59UMx7a3bKbjh2zr5ApOMvarYy1Io/lFA91/sHfmUEL
+	 P670ipLHA8ftZFvPzk3KHG/iP7Z2Aw8/Ewe52fxJlEdkSZwA3CYaznJqz/bawoTv9A
+	 OHidbVuUNAJ/BbUbOpH2tc7LIs0Y7uyUe4xyVtwahf75yvwNFlQvqOAEMA5dz1GmB1
+	 bJ4d/BL9zEOr7mdYMDZcwfKwwBZK8vKJrhn2KZZZiZ0v5/MkNcfsMTVwWwUojzQPMg
+	 k6gdvkA07VmaWLGqv4nxM8lKAhZl6lkZw2FKr/UHPdeAq//UJSHNMmF8z3rlCUV51f
+	 e9eQY+qg7/DDg==
+Date: Wed, 5 Feb 2025 13:38:17 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Andy Whitcroft <apw@canonical.com>,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-doc@vger.kernel.org,
+	workflows@vger.kernel.org
+Subject: Re: [PATCH] kbuild: remove EXTRA_*FLAGS support
+Message-ID: <20250205203817.GA2060120@ax162>
+References: <20250205163939.3464137-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241221004236.2629280-1-almasrymina@google.com>
- <20241221004236.2629280-6-almasrymina@google.com> <676dd022d1388_1d346b2947@willemb.c.googlers.com.notmuch>
- <CAHS8izNzbEi_Dn+hDohF9Go=et7kts-BnmEpq=Znpot7o7B5wA@mail.gmail.com>
- <6798ee97c73e1_987d9294d6@willemb.c.googlers.com.notmuch> <53192c45-df3c-4a65-9047-bbd59d4aee47@gmail.com>
-In-Reply-To: <53192c45-df3c-4a65-9047-bbd59d4aee47@gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Wed, 5 Feb 2025 12:22:10 -0800
-X-Gm-Features: AWEUYZmi_S38KTdRcwjGkZKd5Xr1UKSuxDipsps1bDEi3RA74FXERhOLWF6TuhY
-Message-ID: <CAHS8izMcs=3qo1jhZSM499mxHh10-oBL6Fhb2W0eKWhJGax4Bg@mail.gmail.com>
-Subject: Re: [PATCH RFC net-next v1 5/5] net: devmem: Implement TX path
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	virtualization@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, David Ahern <dsahern@kernel.org>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Samiullah Khawaja <skhawaja@google.com>, Stanislav Fomichev <sdf@fomichev.me>, Joe Damato <jdamato@fastly.com>, 
-	dw@davidwei.uk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250205163939.3464137-1-masahiroy@kernel.org>
 
-On Wed, Feb 5, 2025 at 4:41=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.c=
-om> wrote:
->
-> On 1/28/25 14:49, Willem de Bruijn wrote:
-> >>>> +struct net_devmem_dmabuf_binding *
-> >>>> +net_devmem_get_sockc_binding(struct sock *sk, struct sockcm_cookie =
-*sockc)
-> >>>> +{
-> >>>> +     struct net_devmem_dmabuf_binding *binding;
-> >>>> +     int err =3D 0;
-> >>>> +
-> >>>> +     binding =3D net_devmem_lookup_dmabuf(sockc->dmabuf_id);
-> >>>
-> >>> This lookup is from global xarray net_devmem_dmabuf_bindings.
-> >>>
-> >>> Is there a check that the socket is sending out through the device
-> >>> to which this dmabuf was bound with netlink? Should there be?
-> >>> (e.g., SO_BINDTODEVICE).
-> >>>
-> >>
-> >> Yes, I think it may be an issue if the user triggers a send from a
-> >> different netdevice, because indeed when we bind a dmabuf we bind it
-> >> to a specific netdevice.
-> >>
-> >> One option is as you say to require TX sockets to be bound and to
-> >> check that we're bound to the correct netdev. I also wonder if I can
-> >> make this work without SO_BINDTODEVICE, by querying the netdev the
-> >> sock is currently trying to send out on and doing a check in the
-> >> tcp_sendmsg. I'm not sure if this is possible but I'll give it a look.
-> >
-> > I was a bit quick on mentioning SO_BINDTODEVICE. Agreed that it is
-> > vastly preferable to not require that, but infer the device from
-> > the connected TCP sock.
->
-> I wonder why so? I'd imagine something like SO_BINDTODEVICE is a
-> better way to go. The user has to do it anyway, otherwise packets
-> might go to a different device and the user would suddenly start
-> getting errors with no good way to alleviate them (apart from
-> likes of SO_BINDTODEVICE). It's even worse if it works for a while
-> but starts to unpredictably fail as time passes. With binding at
-> least it'd fail fast if the setup is not done correctly.
->
+On Thu, Feb 06, 2025 at 01:39:38AM +0900, Masahiro Yamada wrote:
+> Commit f77bf01425b1 ("kbuild: introduce ccflags-y, asflags-y and
+> ldflags-y") deprecated these in 2007. The migration should have been
+> completed by now.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-I think there may be a misunderstanding. There is nothing preventing
-the user from SO_BINDTODEVICE to make sure the socket is bound to the
-ifindex, and the test changes in the latest series actually do this
-binding.
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-It's just that on TX, we check what device we happen to be going out
-over, and fail if we're going out of a different device.
-
-There are setups where the device will always be correct even without
-SO_BINDTODEVICE. Like if the host has only 1 interface or if the
-egress IP is only reachable over 1 interface. I don't see much reason
-to require the user to SO_BINDTODEVICE in these cases.
-
---=20
-Thanks,
-Mina
+> ---
+> 
+>  Documentation/dev-tools/checkpatch.rst | 18 ------------------
+>  Documentation/kbuild/makefiles.rst     |  3 ---
+>  scripts/Makefile.build                 |  4 ----
+>  scripts/Makefile.lib                   |  5 -----
+>  scripts/checkpatch.pl                  | 14 --------------
+>  5 files changed, 44 deletions(-)
+> 
+> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+> index abb3ff682076..76bd0ddb0041 100644
+> --- a/Documentation/dev-tools/checkpatch.rst
+> +++ b/Documentation/dev-tools/checkpatch.rst
+> @@ -342,24 +342,6 @@ API usage
+>  
+>      See: https://www.kernel.org/doc/html/latest/RCU/whatisRCU.html#full-list-of-rcu-apis
+>  
+> -  **DEPRECATED_VARIABLE**
+> -    EXTRA_{A,C,CPP,LD}FLAGS are deprecated and should be replaced by the new
+> -    flags added via commit f77bf01425b1 ("kbuild: introduce ccflags-y,
+> -    asflags-y and ldflags-y").
+> -
+> -    The following conversion scheme maybe used::
+> -
+> -      EXTRA_AFLAGS    ->  asflags-y
+> -      EXTRA_CFLAGS    ->  ccflags-y
+> -      EXTRA_CPPFLAGS  ->  cppflags-y
+> -      EXTRA_LDFLAGS   ->  ldflags-y
+> -
+> -    See:
+> -
+> -      1. https://lore.kernel.org/lkml/20070930191054.GA15876@uranus.ravnborg.org/
+> -      2. https://lore.kernel.org/lkml/1313384834-24433-12-git-send-email-lacombar@gmail.com/
+> -      3. https://www.kernel.org/doc/html/latest/kbuild/makefiles.html#compilation-flags
+> -
+>    **DEVICE_ATTR_FUNCTIONS**
+>      The function names used in DEVICE_ATTR is unusual.
+>      Typically, the store and show functions are used with <attr>_store and
+> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+> index d36519f194dc..25e04e47faff 100644
+> --- a/Documentation/kbuild/makefiles.rst
+> +++ b/Documentation/kbuild/makefiles.rst
+> @@ -318,9 +318,6 @@ ccflags-y, asflags-y and ldflags-y
+>    These three flags apply only to the kbuild makefile in which they
+>    are assigned. They are used for all the normal cc, as and ld
+>    invocations happening during a recursive build.
+> -  Note: Flags with the same behaviour were previously named:
+> -  EXTRA_CFLAGS, EXTRA_AFLAGS and EXTRA_LDFLAGS.
+> -  They are still supported but their usage is deprecated.
+>  
+>    ccflags-y specifies options for compiling with $(CC).
+>  
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index 993708d11874..a59650ba140b 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -20,10 +20,6 @@ always-m :=
+>  targets :=
+>  subdir-y :=
+>  subdir-m :=
+> -EXTRA_AFLAGS   :=
+> -EXTRA_CFLAGS   :=
+> -EXTRA_CPPFLAGS :=
+> -EXTRA_LDFLAGS  :=
+>  asflags-y  :=
+>  ccflags-y  :=
+>  rustflags-y :=
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index ad55ef201aac..20d77bfd0d72 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -1,9 +1,4 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> -# Backward compatibility
+> -asflags-y  += $(EXTRA_AFLAGS)
+> -ccflags-y  += $(EXTRA_CFLAGS)
+> -cppflags-y += $(EXTRA_CPPFLAGS)
+> -ldflags-y  += $(EXTRA_LDFLAGS)
+>  
+>  # flags that take effect in current and sub directories
+>  KBUILD_AFLAGS += $(subdir-asflags-y)
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 7b28ad331742..8f70bedc18be 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -3689,20 +3689,6 @@ sub process {
+>  			}
+>  		}
+>  
+> -		if (($realfile =~ /Makefile.*/ || $realfile =~ /Kbuild.*/) &&
+> -		    ($line =~ /\+(EXTRA_[A-Z]+FLAGS).*/)) {
+> -			my $flag = $1;
+> -			my $replacement = {
+> -				'EXTRA_AFLAGS' =>   'asflags-y',
+> -				'EXTRA_CFLAGS' =>   'ccflags-y',
+> -				'EXTRA_CPPFLAGS' => 'cppflags-y',
+> -				'EXTRA_LDFLAGS' =>  'ldflags-y',
+> -			};
+> -
+> -			WARN("DEPRECATED_VARIABLE",
+> -			     "Use of $flag is deprecated, please use \`$replacement->{$flag} instead.\n" . $herecurr) if ($replacement->{$flag});
+> -		}
+> -
+>  # check for DT compatible documentation
+>  		if (defined $root &&
+>  			(($realfile =~ /\.dtsi?$/ && $line =~ /^\+\s*compatible\s*=\s*\"/) ||
+> -- 
+> 2.43.0
+> 
