@@ -1,337 +1,267 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677831946AA;
-	Wed,  5 Feb 2025 16:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E64A18A6D7;
+	Wed,  5 Feb 2025 16:11:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738771853; cv=none; b=cRtRUaWg4/3JAff7WgWG9x8GV3KNin4HV8mmEWSbRP1ggYJcoV5LmyxknTGIzNh0ExycRScxMQ7mFPG9RbO70yze3xZvGjUjgNtGeTk7EcF9qOqNqmwO+/MDviMmGfT6L1vfWuJpYVYwbvepXEqTUG4t0LVDxZ3AYI1D3HLT75E=
+	t=1738771915; cv=none; b=WXBNlIbENss1U0FZ4pq8X1IG7f3iSNU23mNeUU09Hy5XRS9z9h8/5I3SNvYV8HonQs8/tBhk01P9GxzSBjd/Xm+3fI2pWBnA3mzB2a8JAICHbYlwPV61D2YFsTp5qmFGMm/jbQBl3C5UmV9beab7gLkN1umT5YJdV+IjSXbj4WY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738771853; c=relaxed/simple;
-	bh=ImZ/l/99sI+3iifnDXr8jZw00Dl/R1qh0lxcrzFqNhs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VMC2ardjD573FVoqFLKMKIrwcrFIUQUBIjY7GVWtNHxxg/zHdMpo6uBX6MErgCf3IZLsPdayhqyM84QnKqE0k5JyopeUM4mi3TlM50e5t6+vI8DaurmSlYE4wOge36SgQWN3ss4hWGJP6lkNRKSyoZBb7fJQlqIqgtVVvDS6Jhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kdrczVAz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738771915; c=relaxed/simple;
+	bh=dQVOc4y27NeoOXda5Onh9gGqo7dvfYuDBZK0/YM66fg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=jOoD730cybkemaaF2fYISF4ABXSxVjbQas17mMpdxCL6nulE+Pe2F5bx6Jd8DQWarbeMb+Tmda/jksBPtGSm+V90XCa4wa6wK8bG/TKQAKy9RtBr+saSDdMkQm/njFNyjy+YkobKo2cLaVnyZnG28Nc3fgCpmaM7KRb45TtBEH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RPmChAt7; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kdrczVAz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82B45C4CED1;
-	Wed,  5 Feb 2025 16:10:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738771852;
-	bh=ImZ/l/99sI+3iifnDXr8jZw00Dl/R1qh0lxcrzFqNhs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kdrczVAzsDMnZeoCyMdOwHLTKriaztL8DjPls05K+qiB5YPdMGzwPaO6msSBpIJ4U
-	 nKmGvZbaX1wFVQsJfUp0I6YxlRIKY5cpVq/GNY4bqQJkQPq/w12Qlw+ZQi8lRHDr8G
-	 BOBBWcQIM+ObyoHy0MWjeddIVnRc2s/IxfGUtDsFu6y+IfYGLGHrMO3Q61dL259w9V
-	 zdeGwMB+sZf2+WeVcByhiNVWHgsqUAhNdZvpXsxsFDj3PA2y2032sLLETBOCzXX68S
-	 HdaYG50ATuGzWDMTNTizMEII+fyQSFRxWzIw5ks2Vex92iohJzyNrjPRZCpBL2UfEc
-	 soi79DcKy0NCQ==
-Date: Wed, 5 Feb 2025 17:10:44 +0100
-From: Danilo Krummrich <dakr@kernel.org>
-To: Zhi Wang <zhiw@nvidia.com>
-Cc: airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, ajanulgu@redhat.com, lyude@redhat.com,
-	pstanner@redhat.com, cjia@nvidia.com, jhubbard@nvidia.com,
-	bskeggs@nvidia.com, acurrid@nvidia.com, ojeda@kernel.org,
-	alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
-	bjorn3_gh@protonmail.com, benno.lossin@proton.me,
-	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, nouveau@lists.freedesktop.org,
-	rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] gpu: nova-core: add initial documentation
-Message-ID: <Z6ONhNOAtfWsKIRg@cassiopeiae>
-References: <20250204190400.2550-1-dakr@kernel.org>
- <20250204190400.2550-2-dakr@kernel.org>
- <20250205155646.00003c2f@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RPmChAt7"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-438a39e659cso48157755e9.2;
+        Wed, 05 Feb 2025 08:11:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738771911; x=1739376711; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=PNqzKNqaayCVyP+RPKnmDOKjjukQ1Sp0Ecx73fchd38=;
+        b=RPmChAt7PyAGMuSrXFVMStpsDzQvThBzozWN8k4lrPSZKHwdmjs4cDMxGueu38d6lI
+         r3oKmKlpcEvD2GJ1yKnKD1fZHQMR6abs9jqlROyNselTa0it8ex4ZdyV7sGYYdc+70Ua
+         qXxH5qxGA6y8BZqBgTrfajQfWQyYXREuy+RgGj7vUJ+Toe4+hp+hzRikBURLqpObA01M
+         AJ8oFNSNv+3v/SXvaXRTVhbNAXje571DBL3YJ3RGzHag2ZaEjaMDf6Z7ONwZ7dRyXYRD
+         pQhKrvsTa86Se95lntYmjpW+UPtioY9DK3pSaJrpGhkrRFu7ROrwzQVBOqFY3//1ZDyr
+         ekYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738771911; x=1739376711;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PNqzKNqaayCVyP+RPKnmDOKjjukQ1Sp0Ecx73fchd38=;
+        b=pmoY7yagavZNW1AomGzcZur1ARVPhR2wy381nKr+mF2lU7F4ryxW/H8Vu/T2spL/vm
+         BNbOX0T32vTG7FkOD2C+5D1pmRMhrhcZnCVORR1dTe+mW3jvE90gH4HD7upZb8LCqHNy
+         DHqLoXbVmWiFh36TUv5l3ocZIJb6La6GKWNC0ZTEJe0Lklvlld/Nbi8s37cuugifsh1C
+         fLVbhL8GpMi2Ycdu97h37algpH0Ru9dxt37bKETdvbogED6JC6HVPbVPaeCCcYa1YkHw
+         tU34LLax6t988cccofvIU8U2MGPq7qFiSWJdj+sGN8/UR6D0UhmjoWtMLSINWeBEBsPs
+         LzXA==
+X-Forwarded-Encrypted: i=1; AJvYcCUd9g2vvxAVDkYR8QHw/0y1/9WdtHZlJOGXSTCBG599lZqxXz5rVKufKFIqeXDxBv9+DNVyvmjlQk/A@vger.kernel.org, AJvYcCVmPOqB1UWuCtQ0VrMWyvoIt6jCkR137hGNdPgRhOeTFEuz/CFi75oVejk13lpcZ+2Ezm9EO2I5dPRw@vger.kernel.org, AJvYcCVqsfp48c0LZNDmi7XmuYUJGPy7HXwMQepu65rMQ1KQ3vIQpwuUlmgcjHiJVrb54UVl2wehOKIsCdUL64dp@vger.kernel.org, AJvYcCXxUVDdWhCZ/O2qblUxE9FL0+0Gch5/9BS8rkj6uDorndg7AfAxSqW9L//jIOBeF0zzseCuTQ+GbDI6@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtA/IRZSbDprJENkkAZh0NjvvawJM5RhsFtW147+4CvyUqIGiJ
+	5rN9gokGx1igwcU9h2BBeDgx2oP9K/ORRkmNXjPks7QDzrM/0PO7/JFYDJlVONU=
+X-Gm-Gg: ASbGncsZNhaT/Uc+vFR6La+1SftGamdTvw8BKFvgOwvlE02QJy6K5PD4xPHIHP1KWDj
+	j7dSggJTyGMnZCR0Hm522nwS1jaSLBibNUFgZPmgRFqa4swIX6Fiu7FzOeXdO3JBoPdNSywWbvR
+	Kd+7HB7OhpPy3MitBj1IIYp2plubURVqkJIE1zjnQI3dOWhsdbkocq7Mqpyp6rkHrtXKP+/ZVV0
+	SeyyypNO2kUiifz7qqZRJa2XzMEhKebHVqG6aAWgj/cWC/jMRE9ujOx+0+f7qDh2Jkv57QwDAgJ
+	G1nxM9OM11J5lk4W4c1qYriG7PMbUbjzlzbiSy2THOYkef7iucFB8wGkgZOTXag=
+X-Google-Smtp-Source: AGHT+IH1q00BaWWc+Vq4wOn2GL8LTHw3yMqoCXLMuqGZ6alYQ079jnzjHR3x9XX0HmanLW4nyUAE5w==
+X-Received: by 2002:a05:600c:19d4:b0:434:a1d3:a326 with SMTP id 5b1f17b1804b1-4390d4303d6mr25668005e9.6.1738771910427;
+        Wed, 05 Feb 2025 08:11:50 -0800 (PST)
+Received: from ?IPv6:2001:818:ea8e:7f00:2575:914:eedd:620e? ([2001:818:ea8e:7f00:2575:914:eedd:620e])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4390daa0cbcsm25643305e9.40.2025.02.05.08.11.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Feb 2025 08:11:49 -0800 (PST)
+Message-ID: <15065d0cd19f39d92ce860cd03802c368df74b34.camel@gmail.com>
+Subject: Re: [PATCH v6 4/6] dt-bindings: iio: Add adis16550 bindings
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Conor Dooley <conor@kernel.org>, Robert Budai <robert.budai@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich	
+ <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
+ Alexandru Ardelean <alexandru.ardelean@analog.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski	
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Jonathan Corbet	 <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>, Ramona
+ Gradinariu	 <ramona.gradinariu@analog.com>, Trevor Gamblin
+ <tgamblin@baylibre.com>,  Marcelo Schmitt <marcelo.schmitt@analog.com>,
+ Paul Cercueil <paul@crapouillou.net>, David Lechner	
+ <dlechner@baylibre.com>, Antoniu Miclaus <antoniu.miclaus@analog.com>, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Date: Wed, 05 Feb 2025 16:11:51 +0000
+In-Reply-To: <20250204-helium-marbled-a0863a0a18a8@spud>
+References: <20250204143612.85939-1-robert.budai@analog.com>
+	 <20250204143612.85939-5-robert.budai@analog.com>
+	 <20250204-helium-marbled-a0863a0a18a8@spud>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250205155646.00003c2f@nvidia.com>
 
-On Wed, Feb 05, 2025 at 03:56:46PM +0200, Zhi Wang wrote:
-> On Tue,  4 Feb 2025 20:03:12 +0100
-> Danilo Krummrich <dakr@kernel.org> wrote:
-> 
-> > +
-> > +Generic register abstraction
-> > +----------------------------
-> > +
-> > +Work out how register constants and structures can be automatically generated
-> > +through generalized macros.
-> > +
-> > +Example:
-> > +
-> > +.. code-block:: rust
-> > +
-> > +	register!(BOOT0, 0x0, u32, pci::Bar<SIZE>, Fields [
-> > +	   MINOR_REVISION(3:0, RO),
-> > +	   MAJOR_REVISION(7:4, RO),
-> > +	   REVISION(7:0, RO), // Virtual register combining major and minor rev.
-> > +	])
-> > +
-> 
-> I think it is better not to tie this to pci::Bar and its operations. It
-> would be better to have a intermediate container as the macro param. The
-> container holds the register region vaddr pointer, size, read/write traits.
-
-I think for this particular example we want to tie it to the pci::Bar on way or
-the other.
-
-But yes, the idea would be that any `dyn Io` works.
-
-> The macro expands it from there, thus, we can also use this on firmware
-> memory structures, e.g. GSP WPR2 info.
-> 
-> Probably we are looking for a even more generic solution/type for deferring
-> a structure in the vaddr and generating the the accessing methods
-> accordingly. It might also be useful later in GSP message queue
-> manipulation, ELF header extraction, page table manipulation? (to avoid
-> ambitious unsafe statements in the rust driver)
-
-I think it's hard to predict to what extend we can (or want to) generalize this.
-But I think those are good thoughts that should be considered working on this.
-
-If you come up with a few lines to broaden the scope, I'm happy to add them to
-this section.
-
-> 
-> > +This could expand to something like:
-> > +
-> > +.. code-block:: rust
-> > +
-> > +	const BOOT0_OFFSET: usize = 0x00000000;
-> > +	const BOOT0_MINOR_REVISION_SHIFT: u8 = 0;
-> > +	const BOOT0_MINOR_REVISION_MASK: u32 = 0x0000000f;
-> > +	const BOOT0_MAJOR_REVISION_SHIFT: u8 = 4;
-> > +	const BOOT0_MAJOR_REVISION_MASK: u32 = 0x000000f0;
-> > +	const BOOT0_REVISION_SHIFT: u8 = BOOT0_MINOR_REVISION_SHIFT;
-> > +	const BOOT0_REVISION_MASK: u32 = BOOT0_MINOR_REVISION_MASK | BOOT0_MAJOR_REVISION_MASK;
-> > +
-> > +	struct Boot0(u32);
-> > +
-> > +	impl Boot0 {
-> > +	   #[inline]
-> > +	   fn read(bar: &RevocableGuard<'_, pci::Bar<SIZE>>) -> Self {
-> > +	      Self(bar.readl(BOOT0_OFFSET))
-> > +	   }
-> > +
-> > +	   #[inline]
-> > +	   fn minor_revision(&self) -> u32 {
-> > +	      (self.0 & BOOT0_MINOR_REVISION_MASK) >> BOOT0_MINOR_REVISION_SHIFT
-> > +	   }
-> > +
-> > +	   #[inline]
-> > +	   fn major_revision(&self) -> u32 {
-> > +	      (self.0 & BOOT0_MAJOR_REVISION_MASK) >> BOOT0_MAJOR_REVISION_SHIFT
-> > +	   }
-> > +
-> > +	   #[inline]
-> > +	   fn revision(&self) -> u32 {
-> > +	      (self.0 & BOOT0_REVISION_MASK) >> BOOT0_REVISION_SHIFT
-> > +	   }
-> > +	}
-> > +
-> > +Usage:
-> > +
-> > +.. code-block:: rust
-> > +
-> > +	let bar = bar.try_access().ok_or(ENXIO)?;
-> > +
-> > +	let boot0 = Boot0::read(&bar);
-> > +	pr_info!("Revision: {}\n", boot0.revision());
-> > +
-> > +| Complexity: Advanced
-> > +
-> > +Delay / Sleep abstractions
-> > +--------------------------
-> 
-> ...
-> 
-> > +
-> > +VRAM memory allocator
-> > +---------------------
-> > +
-> > +Investigate options for a VRAM memory allocator.
-> > +
-> > +Some possible options:
-> > +  - Rust abstractions for
-> > +    - RB tree (interval tree) / drm_mm
-> > +    - maple_tree
-> > +  - native Rust collections
-> > +
-> > +| Complexity: Advanced
-> > +
-> 
-> I am leaning towards having the abstractions at a high level APIs, e.g.
-> wrapping drm_mm and possibly the rust side can choose the backend type of
-> drm_mm if it really needs a different type of data structure other
-> than default supported by drm_mm. If we need more type of data structures,
-> we can extend drm_mm in C side. That can save us some efforts.
-
-I think we have to work out the advantages and disadvantages and see if there
-are any opportunities for synergies.
-
-For instance, in case we end up with separate VMM management in nova-core and
-nova-drm, there might be synergies for the other options.
-
-> 
-> > +Instance Memory
-> > +---------------
-> > +
-> > +Implement support for instmem (bar2) used to store page tables.
-> > +
-> > +| Complexity: Intermediate
-> > +| Contact: Dave Airlie
-> > +
-> > +GPU System Processor (GSP)
-> > +==========================
-> 
-> ...
-> 
-> > +
-> > +External APIs
-> > +=============
-> > +
-> > +nova-core base API
-> > +------------------
-> > +
-> > +Work out the common pieces of the API to connect 2nd level drivers, i.e. vGPU
-> > +manager and nova-drm.
-> > +
-> > +| Complexity: Advanced
-> > +
-> > +vGPU manager API
-> > +----------------
-> > +
-> > +Work out the API parts required by the vGPU manager, which are not covered by
-> > +the base API.
-> > +
-> > +| Complexity: Advanced
-> > +
-> > +nova-core C API
-> > +---------------
-> > +
-> > +Implement a C wrapper for the APIs required by the vGPU manager driver.
-> > +
-> > +| Complexity: Intermediate
-> 
-> Thanks for calling this out.
-> 
-> I believe the "vGPU manager API" is not a standalone task, as many of the
-> required APIs will intersect with other components in nova-core.
-> 
-> As one of nova-core’s users, vGPU represents the simplest use case to get
-> started with, offering significant value to both nova-core and its users
-> in the near term.
-> 
-> I was thinking that if we could align with the folks on making vGPU +
-> nova-core our initial short-term goal, it would be beneficial for
-> nova-drm's development, since the APIs required for nova-drm are a
-> superset of those needed for vGPU.
-
-I think it is common understanding to have nova-core + vGPU as a first
-milestone.
-
-However, I think that we should also put some effort into the nova-drm side of
-things to not miss out on potential design contraints on both ends, nova-core
-<-> nova-drm as well as nova-drm <-> DRM core, since there are also other
-upcoming Rust DRM drivers.
-
-> 
-> It would be valuable for us to be involved in key areas related to vGPU,
-> including:
-> 
-> - Task review
-> - Design discussions
-> - Unit testing
-
-I'm a bit confused about who specifically is meant with "we", "the folks" and
-"us" in your statements above.
-
-But of course everyone is welcome to be involved into the aspects mentioned
-above and the project in general. :-)
-
-> 
-> Additionally, we are working on a vGPU requirements document that will
-> outline the complete API needs for vGPU beyond those already covered in
-> the RFC patches. Hope that will be published soon.
-
-I think this will be very useful for nova project!
-
-> 
-> > +
-> > +Testing
-> > +=======
-> > +
-> > +CI pipeline
-> > +-----------
-> > +
-> > +Investigate option for continuous integration testing.
-> > +
-> > +This can go from as simple as running KUnit tests over running (graphics) CTS to
-> > +booting up (multiple) guest VMs to test VFIO use-cases.
-> > +
-> > +It might also be worth to consider the introduction of a new test suite directly
-> > +sitting on top of the uAPI for more targeted testing and debugging. There may be
-> > +options for collaboration / shared code with the Mesa project.
-> > +
-> > +| Complexity: Advanced
-> > diff --git a/Documentation/gpu/nova/guidelines.rst b/Documentation/gpu/nova/guidelines.rst
+On Tue, 2025-02-04 at 19:25 +0000, Conor Dooley wrote:
+> On Tue, Feb 04, 2025 at 04:36:08PM +0200, Robert Budai wrote:
+> > Document the ADIS16550 device devicetree bindings.
+> >=20
+> > Co-developed-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> > Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
+> > Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+> > Signed-off-by: Robert Budai <robert.budai@analog.com>
+> > ---
+> >=20
+> > v6:
+> > - applied blank line suggestions
+> > - added clock-frequency dependency change suggestions
+> > - yamllint corrections
+> >=20
+> > =C2=A0.../bindings/iio/imu/adi,adis16550.yaml=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 83 +++++++++++++++++++
+> > =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ |=C2=A0 9 ++
+> > =C2=A02 files changed, 92 insertions(+)
+> > =C2=A0create mode 100644
+> > Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/iio/imu/adi,adis16550.ya=
+ml
+> > b/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
 > > new file mode 100644
-> > index 000000000000..28a959f51c2c
+> > index 000000000000..8750bb937979
 > > --- /dev/null
-> > +++ b/Documentation/gpu/nova/guidelines.rst
-> > @@ -0,0 +1,73 @@
-> > +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> > +++ b/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
+> > @@ -0,0 +1,83 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/iio/imu/adi,adis16550.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > > +
-> 
-> I think this will develop into a maintainer handbook in the future which
-> reflects maintainer's requirements, thoughts, tips...maybe we can make it
-> explicit? I think it is rules of book that we agree to follow.
-> 
-> A similar one can be found here.
-> https://lore.kernel.org/kvm/20230411171651.1067966-1-seanjc@google.com/
+> > +title: Analog Devices ADIS16550 and similar IMUs
+> > +
+> > +maintainers:
+> > +=C2=A0 - Nuno Sa <nuno.sa@analog.com>
+> > +=C2=A0 - Ramona Gradinariu <ramona.gradinariu@analog.com>
+> > +=C2=A0 - Antoniu Miclaus <antoniu.miclaus@analog.com>
+> > +
+> > +properties:
+> > +=C2=A0 compatible:
+> > +=C2=A0=C2=A0=C2=A0 enum:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - adi,adis16550
+> > +
+> > +=C2=A0 reg:
+> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
+> > +
+> > +=C2=A0 spi-cpha: true
+> > +=C2=A0 spi-cpol: true
+> > +
+> > +=C2=A0 spi-max-frequency:
+> > +=C2=A0=C2=A0=C2=A0 maximum: 15000000
+> > +
+> > +=C2=A0 vdd-supply: true
+> > +
+> > +=C2=A0 interrupts:
+> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
+> > +
+> > +=C2=A0 reset-gpios:
+> > +=C2=A0=C2=A0=C2=A0 description:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Must be the device tree identifier of t=
+he RESET pin. If specified,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 it will be asserted during driver probe=
+. As the line is active low,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 it should be marked GPIO_ACTIVE_LOW.
+> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
+> > +
+> > +=C2=A0 clocks:
+> > +=C2=A0=C2=A0=C2=A0 description: If not provided, then the internal clo=
+ck is used.
+> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
+> > +
+> > +=C2=A0 clock-frequency:
+> > +=C2=A0=C2=A0=C2=A0 description: Clock frequency in Hz when an external=
+ clock is used.
+> > +=C2=A0=C2=A0=C2=A0 oneOf:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - minimum: 1
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 maximum: 128
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - minimum: 3000
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 maximum: 4500
+>=20
+> I don't get why this is a property, to be honest. When you've got an
+> external clock, why isn't the frequency obtained from the clock provider
+> node?
+>=20
 
-Yes, that's the idea. Is there anything additional you'd like to see added for
-this initial commit?
+The main purpose of this property is actually to show/document the constrai=
+ns of
+the external clock. We can very well just error out in the driver (and we d=
+o
+that) and not have this property. I mentioned this property to Robert some
+revisions ago and I also pointed out that I wasn't really sure if it should=
+ be
+used or not=C2=A0(I guess this is more for fixed clock providers...). IIRC,=
+ I did
+asked for some advice/comments but we got none so I assume Robert just deci=
+ded
+to use it and see what you guys had to say about it.
 
-> 
-> > +==========
-> > +Guidelines
-> > +==========
-> > +
-> > +This document describes the general project guidelines that apply to nova-core
-> > +and nova-drm.
-> > +
-> > +Language
-> > +========
-> > +
-> > +The Nova project uses the Rust programming language. In this context, the
-> > +following rules apply.
-> > +
-> > +- Unless technically necessary otherwise (e.g. uAPI), any driver code is written
-> > +  in Rust.
-> > +
-> > +- Direct FFI calls to C kernel APIs must be avoided; instead C kernel APIs
-> > +  should be accessed through shared Rust abstractions.
-> > +
-> > +- Unless technically necessary, unsafe Rust code must be avoided. In case of
-> > +  technical necessity, unsafe code should be isolated in a separate component
-> > +  providing a safe API for other driver code to use.
-> 
-> Also need to comment why the unsafe is the last possible approach to go.
-> the last thing we want to see is "unsafe" flying here and there in a rust
-> driver. :)
+- Nuno S=C3=A1
 
-You mean adding an explanation as for why to avoid "unsafe"? I thought it's
-probably rather obvious.
+> > +
+> > +required:
+> > +=C2=A0 - compatible
+> > +=C2=A0 - reg
+> > +=C2=A0 - interrupts
+> > +=C2=A0 - spi-cpha
+> > +=C2=A0 - spi-cpol
+> > +=C2=A0 - spi-max-frequency
+> > +=C2=A0 - vdd-supply
+> > +
+> > +dependentRequired:
+> > +=C2=A0 clock: [clock-frequency]
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
+> typo, missing s.
+>=20
+> > +
+> > +allOf:
+> > +=C2=A0 - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> > +additionalProperties: false
+> > +examples:
+> > +=C2=A0 - |
+> > +=C2=A0=C2=A0=C2=A0 #include <dt-bindings/interrupt-controller/irq.h>
+> > +=C2=A0=C2=A0=C2=A0 spi {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #address-cells =3D <1>;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #size-cells =3D <0>;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 imu@0 {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 com=
+patible =3D "adi,adis16550";
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reg=
+ =3D <0>;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spi=
+-max-frequency =3D <15000000>;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spi=
+-cpol;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spi=
+-cpha;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vdd=
+-supply =3D <&vdd>;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int=
+errupts =3D <4 IRQ_TYPE_EDGE_FALLING>;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int=
+errupt-parent =3D <&gpio>;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
+> > +=C2=A0=C2=A0=C2=A0 };
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 6247500cf427..8913e13dcaef 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -1452,6 +1452,15 @@
+> > W:	https://ez.analog.com/linux-software-drivers
+> > =C2=A0F:	Documentation/devicetree/bindings/iio/imu/adi,adis16475.yaml
+> > =C2=A0F:	drivers/iio/imu/adis16475.c
+> > =C2=A0
+> > +ANALOG DEVICES INC ADIS16550 DRIVER
+> > +M:	Nuno Sa <nuno.sa@analog.com>
+> > +M:	Ramona Gradinariu <ramona.gradinariu@analog.com>
+> > +M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
+> > +L:	linux-iio@vger.kernel.org
+> > +S:	Supported
+> > +W:	https://ez.analog.com/linux-software-drivers
+> > +F:	Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
+> > +
+> > =C2=A0ANALOG DEVICES INC ADM1177 DRIVER
+> > =C2=A0M:	Michael Hennerich <Michael.Hennerich@analog.com>
+> > =C2=A0L:	linux-hwmon@vger.kernel.org
+> > --=20
+> > 2.39.5
+> >=20
 
-But I'm also fine adding an explanation, suggestions?
