@@ -1,84 +1,135 @@
-Received: from gentwo.org (gentwo.org [62.72.0.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D08214807;
-	Wed,  5 Feb 2025 20:46:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.72.0.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB80214809;
+	Wed,  5 Feb 2025 21:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738788387; cv=none; b=SwPflNqt3epv05Q9ASx2lR1I4Np3IK0MVoRnHPovqiYa4HQTdUG2KWKTc5U5YGd5L5dR9sUr2sxtUwkTmpjCibXY0oipPhrxljiI/Jr9nk7losB2uWNeQDH2U2M3Av8O8LouQl+q9O172Nu5oJuzRX+E3iIexWOkYK3HWzFPFbc=
+	t=1738789619; cv=none; b=RBdPXn2eHwf05V2HtHSTCygVpGz93xpEIXIY8mlbkN6BdIMVfU2WBR2lJIem1zF9h8+QrpZGj6XHHA9QIu1ZfIwPdy1hj7YU0QokJVhabYlO62TPuD5wy5xZ9wWoAhqbRVeurQ8vS0Z2raJYkUG5Qgz80rlXcr0hksl2r6GmDWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738788387; c=relaxed/simple;
-	bh=33IQOomqEyLTQbaYoSoQ2PJ57XbkscwA0pHsfJIANsE=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=ezjJrrye52ahzJRlpeQzfqBp57zei4ufUPWZGUUvCk9ltXkeV3vpM1hTv+WEl4fS3l2QGHC/DtPlWV1B4QOISVUpG+o1ev4spRMkKfacq9mMgKglpoxjZY6tNe+zomjyoFDoK5XAt+ccC9PBfDrTSXYpEbirUEIHkB63ByHVGPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org; spf=pass smtp.mailfrom=gentwo.org; dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b=hAl/xLVS; arc=none smtp.client-ip=62.72.0.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentwo.org
+	s=arc-20240116; t=1738789619; c=relaxed/simple;
+	bh=ROIwAIDYmaJQqhLYCi+LKXx1tCg3tkrGe92qJKALfGY=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=HVgCEKdHHMm6rGGyfKImwEqXJTdJXEZgPqxZ9jP+bWjIx9mInn/jd6FfLp4uDMQjfOyUMfYPvRN21ixAJyHLbJyZfulAxibyiiLqVZFq3UyuljwVwRlb+Dw0om5Q3MIDDFkAFArAu4Qadc+cXeOn7UrHJ/Vol0DfhzXTu902ELQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jpy14qga; arc=none smtp.client-ip=209.85.222.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b="hAl/xLVS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gentwo.org;
-	s=default; t=1738781507;
-	bh=33IQOomqEyLTQbaYoSoQ2PJ57XbkscwA0pHsfJIANsE=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=hAl/xLVS2r7Z4b6dKCNGQj1YxU7mBAFZLxa0QFxRcOfg9/MMOpCcpPaUILVgfMiCD
-	 2Xzh/SDNcO2OkjjW/9VtrMp95w0TNdf6eYPrtPnCGFvHDmq2AGyBc7FSCpF2aiSDIy
-	 PXbvCiMuZZA0WsQlqrDQ4EI9w2tceEb6ut8EvkwE=
-Received: by gentwo.org (Postfix, from userid 1003)
-	id 6887F401F1; Wed,  5 Feb 2025 10:51:47 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-	by gentwo.org (Postfix) with ESMTP id 6476D401E1;
-	Wed,  5 Feb 2025 10:51:47 -0800 (PST)
-Date: Wed, 5 Feb 2025 10:51:47 -0800 (PST)
-From: "Christoph Lameter (Ampere)" <cl@gentwo.org>
-To: Jessica Clarke <jrtc27@jrtc27.com>
-cc: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, luto@kernel.org, 
-    xin@zytor.com, kirill.shutemov@linux.intel.com, palmer@dabbelt.com, 
-    tj@kernel.org, andreyknvl@gmail.com, brgerst@gmail.com, ardb@kernel.org, 
-    dave.hansen@linux.intel.com, jgross@suse.com, will@kernel.org, 
-    akpm@linux-foundation.org, arnd@arndb.de, corbet@lwn.net, 
-    dvyukov@google.com, richard.weiyang@gmail.com, ytcoode@gmail.com, 
-    tglx@linutronix.de, hpa@zytor.com, seanjc@google.com, 
-    paul.walmsley@sifive.com, aou@eecs.berkeley.edu, justinstitt@google.com, 
-    jason.andryuk@amd.com, glider@google.com, ubizjak@gmail.com, 
-    jannh@google.com, bhe@redhat.com, vincenzo.frascino@arm.com, 
-    rafael.j.wysocki@intel.com, ndesaulniers@google.com, mingo@redhat.com, 
-    catalin.marinas@arm.com, junichi.nomura@nec.com, nathan@kernel.org, 
-    ryabinin.a.a@gmail.com, dennis@kernel.org, bp@alien8.de, 
-    kevinloughlin@google.com, morbo@google.com, dan.j.williams@intel.com, 
-    julian.stecklina@cyberus-technology.de, peterz@infradead.org, 
-    kees@kernel.org, kasan-dev@googlegroups.com, x86@kernel.org, 
-    linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org, 
-    linux-kernel@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, 
-    linux-doc@vger.kernel.org
-Subject: Re: [PATCH 00/15] kasan: x86: arm64: risc-v: KASAN tag-based mode
- for x86
-In-Reply-To: <F974BA79-80D8-4414-9DFD-1EEF9395143C@jrtc27.com>
-Message-ID: <72837fcd-97a8-c213-0098-c8f308c3415d@gentwo.org>
-References: <cover.1738686764.git.maciej.wieczor-retman@intel.com> <8bd9c793-aac6-a330-ea8f-3bde0230a20b@gentwo.org> <F974BA79-80D8-4414-9DFD-1EEF9395143C@jrtc27.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jpy14qga"
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-866f414ccedso94215241.1;
+        Wed, 05 Feb 2025 13:06:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738789617; x=1739394417; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=321Yzdb9C7R/V5A/ZTrGrsUuNiJo9jCyp/WhHvYvkN8=;
+        b=Jpy14qgaDV7qRHhQDLomF658Ap5AZS/r6TPS58+mwlf8fyNJeH+Z5eQ82tt++Rn0Vy
+         6VpTrkx3ccMB7qP0TG8sbDAd6dV879yqRilYmtR+dA9eLY6BKPLdeNAo85Z1VZ3Av+HJ
+         HuwXOQHSlJw0YB09YE2Q5uMEGXqyJHPu/92FrFARcUl49EYHgDqw4zU1rMs5FP+9ZKL5
+         LRw8Dm3wtlrmEmxf+5qN5z76/GkvGLqrSn1ouMmJONLzJtISIUlQMtsxh5Q8+kCVf+Im
+         GvBvfy0kMAMKjX9WUZKEPttLPyWx/dqM1NTT/pM1EOD4NJA+XPczeZo3Gq5hDNIb3u9E
+         OPsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738789617; x=1739394417;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=321Yzdb9C7R/V5A/ZTrGrsUuNiJo9jCyp/WhHvYvkN8=;
+        b=vVkSGaSaU/0j22Mi5bw/Zj6LLR+BLSRdh80gkzhg2/BJGrDCxoi1T+K4DC0lNjVetO
+         CZo4IoX08l16b/rI+KgcnGOAZhuwMJkW1BiAX8ICzSnNdjSSZ/vXAUmMKHQ9WJC+fXHc
+         3d7s6o1/reGTIgSUYCGAgfu5uMIVtt/zAgltOCiIasTdEb8MrBc+rufiUmhA9R+jaFuL
+         vn7S1cOB0mNpYCD6Kmhx0lhV7FuBg1hnIBSK7a55yBO+ehoEhruxlZy6w15dxwxbArOP
+         Erzl4jqxZzJx9nM4wl8+UscPpSZtpTbUWkF4kkembX+muhwxC8XRNLIKuf+YNHAQqihg
+         sFCg==
+X-Forwarded-Encrypted: i=1; AJvYcCVAhBeQWz5otW0D2nvs8OGmJam0y1Am23rrwET8vXuVTadTgUWPFUdPSt6XrOxBHNzt276oxJq/aDYoxA2vF5d8@vger.kernel.org, AJvYcCVhTuEEQARKy0XpLy2Pofo/EtT5RshZ4cXnCMYw3njcTDPqefx2NPD+wTsgxUtEi7QGIQhaRuxy@vger.kernel.org, AJvYcCVq9agcVp1DPF1mAbmhqPm9K6lL37NnaDD/86BFNVFSK1i59m5ZQQlGZvc+lEXD+J+ih/A=@vger.kernel.org, AJvYcCVuCc6kRhU9H75XLjiJnTRsDJORSNk22/a0kA9cEos4vZVzMy8+NrG6C25angVvY7JhKcwCLr90m3aI@vger.kernel.org, AJvYcCWf1xU4pH9SvILCLkxs2N52UWXkkUd818nL9xt7dl4jPkude0rbSXUv7T2i9kLZrhGkPbF4vzumdgKzMO64@vger.kernel.org
+X-Gm-Message-State: AOJu0YwARW3viAcBKZIVboRWyryoPRq/ivlzt0szjoZvDsiAOdhCP7+s
+	9Nn8KthB63brU1Vni4Wjzqjm1hhicWu/rdh65BfXqc3PN+RQOwud
+X-Gm-Gg: ASbGncuxd8h9x05WbFs6nMoGDUOKqVlnqeQDqMKnV69Z8gWTEVXwpQdDrLrMx9KW6mc
+	7abgpgFyZp12QrbxrmCFJog6/FUVACRe9tGk00PKdmUoomtbVP58nJ9c6szoUbeJNRkFK7+A/+S
+	iXE7+5cnZA6sXOGoJLvO+gEaIX8h496mGB8yqnJeUwpiXlUYOBI7d23+NAX4k7Z5foUzhorcCWn
+	GBewvDwbC6AFPoNdYmK0+jytylrzdPdOHctqSw7hiFk6ERi/DLqZzVT9hpL9/a3R6S69Lj4RELZ
+	gvOZdybgMfFjdWDCGgz2Jo2Y0daVmXhAu7kq1WR74yGbfPPGRePyVeJCDnuKRS0=
+X-Google-Smtp-Source: AGHT+IGjmsT1CX6GHvVc7jQLN8frmEsrqlIM1ufKny6kJV9XpmTxVc/Kie419ULGnj052Qaq3kcQhw==
+X-Received: by 2002:a05:6102:5e86:b0:4b2:cc94:1d6a with SMTP id ada2fe7eead31-4ba47abaa0cmr3554439137.19.1738789617063;
+        Wed, 05 Feb 2025 13:06:57 -0800 (PST)
+Received: from localhost (15.60.86.34.bc.googleusercontent.com. [34.86.60.15])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b9baa8e4cfsm2451368137.11.2025.02.05.13.06.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Feb 2025 13:06:56 -0800 (PST)
+Date: Wed, 05 Feb 2025 16:06:55 -0500
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Jason Wang <jasowang@redhat.com>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+ Shuah Khan <shuah@kernel.org>, 
+ linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ netdev@vger.kernel.org, 
+ kvm@vger.kernel.org, 
+ virtualization@lists.linux-foundation.org, 
+ linux-kselftest@vger.kernel.org, 
+ Yuri Benditovich <yuri.benditovich@daynix.com>, 
+ Andrew Melnychenko <andrew@daynix.com>, 
+ Stephen Hemminger <stephen@networkplumber.org>, 
+ gur.stavi@huawei.com, 
+ devel@daynix.com, 
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Willem de Bruijn <willemb@google.com>
+Message-ID: <67a3d2efbba32_170d392944d@willemb.c.googlers.com.notmuch>
+In-Reply-To: <20250205-tun-v5-1-15d0b32e87fa@daynix.com>
+References: <20250205-tun-v5-0-15d0b32e87fa@daynix.com>
+ <20250205-tun-v5-1-15d0b32e87fa@daynix.com>
+Subject: Re: [PATCH net-next v5 1/7] tun: Refactor CONFIG_TUN_VNET_CROSS_LE
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1508829946-1738781507=:2407083"
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Akihiko Odaki wrote:
+> Check IS_ENABLED(CONFIG_TUN_VNET_CROSS_LE) to save some lines and make
+> future changes easier.
+> 
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> Reviewed-by: Willem de Bruijn <willemb@google.com>
+> ---
+>  drivers/net/tun.c | 26 ++++++++------------------
+>  1 file changed, 8 insertions(+), 18 deletions(-)
+> 
+> diff --git a/drivers/net/tun.c b/drivers/net/tun.c
+> index e816aaba8e5f2ed06f8832f79553b6c976e75bb8..452fc5104260fe7ff5fdd5cedc5d2647cbe35c79 100644
+> --- a/drivers/net/tun.c
+> +++ b/drivers/net/tun.c
+> @@ -298,10 +298,10 @@ static bool tun_napi_frags_enabled(const struct tun_file *tfile)
+>  	return tfile->napi_frags_enabled;
+>  }
+>  
+> -#ifdef CONFIG_TUN_VNET_CROSS_LE
+>  static inline bool tun_legacy_is_little_endian(struct tun_struct *tun)
+>  {
+> -	return tun->flags & TUN_VNET_BE ? false :
+> +	return !(IS_ENABLED(CONFIG_TUN_VNET_CROSS_LE) &&
+> +		 (tun->flags & TUN_VNET_BE)) &&
+>  		virtio_legacy_is_little_endian();
 
---8323329-1508829946-1738781507=:2407083
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Since I have other comments to the series:
 
-On Tue, 4 Feb 2025, Jessica Clarke wrote:
+Can we make this a bit simpler to the reader, by splitting the test:
 
-> It’s not “no performance penalty”, there is a cost to tracking the MTE
-> tags for checking. In asynchronous (or asymmetric) mode that’s not too
+    if (IS_ENABLED(CONFIG_TUN_VNET_CROSS_LE) && tun->flags & TUN_VNET_BE)
+            return false;
 
+    return virtio_legacy_is_little_endian();
 
-On Ampere Processor hardware there is no penalty since the logic is build
-into the usual read/write paths. This is by design. There may be on other
-platforms that cannot do this.
-
-
---8323329-1508829946-1738781507=:2407083--
