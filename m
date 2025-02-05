@@ -1,99 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73FF0228383;
-	Wed,  5 Feb 2025 09:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993621D7985;
+	Wed,  5 Feb 2025 09:40:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738747101; cv=none; b=fWfckWAb+2xWoSvg4LHR2XBlS5wozD53ISdMX0fGgKWqmArYQcmRDxqS3YXERZvpSry8frUbPgi7RwKTFU+/dqjUOh5MFx4bSXyCDfgyNKq8/vT4/nJWKunaD4dSq49Psfp2islEREOtRO70fsY8uTML8PUtdmc4ctv0VxrzyIg=
+	t=1738748441; cv=none; b=B2BcfmXKE3iK6h+5LXY/VcFfh+ij3Ngtxd1yrQpel6K1ZtS5p/Eprgd76Q13XYhW0DlDRVPCyCC9b5oaPuGh2puJubmmJVPQkB1mJv4raBG1CAjAxb4pMYA76faLVTi4ZcbOcnRvNl+0b4ru/LUDUesFlOVrI49JKdSlcF7qehg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738747101; c=relaxed/simple;
-	bh=BwEguvJcszdmiWk2vKx2IJNL7jjLlqmazqYLrIneYoI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QIxoUJgDthCZ3j6lG0t1snD4YsE0WVC5TDCP0s0By8KEHnbRy3VkK6PfE1W7dB88S/ZWklJMCfROpkKYpo6261le0D7TQFMdzS01bR9e2sdjZEVdOf2uo8H2D+bulbWU6hT071o7VtmjZOyg9gny0WPSV/bWzlKCgiLPCc77bps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SJOCW5dU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738748441; c=relaxed/simple;
+	bh=qDM7Khu2FuRIVqpPSG7C0/6QrPWtphywMAO4rTe5szw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YGfEnwUX24KlnDw5ACuzix/Q3I8JPja0V6jPBsnV7jp9vOlIdfoWPCgD2kpOkyopLWkqeWF0TFY5CI3KU1g8zPkafu9C9LNudDBZdARfjbt0Rfe2zQ1qN8vTINdlsGutxYlD/oZQdWbjr6Sb4uQThSHfP4gJYkIhwtLm03uby9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c/t+9pR8; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SJOCW5dU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8D42C4CED1;
-	Wed,  5 Feb 2025 09:18:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1738747101;
-	bh=BwEguvJcszdmiWk2vKx2IJNL7jjLlqmazqYLrIneYoI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SJOCW5dUOQT0zpQz3EXD0a8AJoafowCcp5ubL+xZYZ7S/gu2+SXCTpxtPffFrbsFT
-	 kjjmkf+fBRlf2JJrwd/h3eu1IqetzRaYajiHtwv9xwR+cusPqa+5lid+ZHBHIhryqO
-	 KiF4VtchcHZEyUN/IfIQ7xHaAtwv57GrA7YXwR1U=
-Date: Wed, 5 Feb 2025 10:18:17 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Krishanth.Jagaduri@sony.com
-Cc: Thomas Gleixner <tglx@linutronix.de>, Jonathan Corbet <corbet@lwn.net>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Atsushi Ochiai <Atsushi.Ochiai@sony.com>,
-	Daniel Palmer <Daniel.Palmer@sony.com>,
-	Oleg Nesterov <oleg@redhat.com>, stable@vger.kernel.org
-Subject: Re: [PATCH] Documentation/no_hz: Remove description that states boot
- CPU cannot be nohz_full
-Message-ID: <2025020547-judo-precise-0b3c@gregkh>
-References: <20250205-send-oss-20250129-v1-1-d404921e6d7e@sony.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c/t+9pR8"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-21effc750d2so28631315ad.3;
+        Wed, 05 Feb 2025 01:40:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738748439; x=1739353239; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YNbzmIjyvLuPYAHPzzGu818yrvIvdE4ZiMGQe0p2pvo=;
+        b=c/t+9pR8I1EkxTAvRVcQOwp6GdztVuEFsCUbuDMQJsYkyEKFwQ2fuLSHotgbz5KQBr
+         wQhFjyh+w2F4uoQJ4oACHLRHR1dIRbmreotrIDHrbk25KK7NMbi26a+BSFQq08PldSGd
+         gIUQGrIvtlHtycfbbqDUnboNXH/HsoG9C2f4yJbyavktvimoNuV3fD7sHyhld0rrC8hs
+         mrrROS/w8pj/yZJnGPd6beNiiewsqlpI783l3po74ZxCIso7p0I4glqjgc82vDFzn3UV
+         q9cQ8yO2/5RStnI1iTO9JF8MmrY8IuZoRcocouXzvw867zFyk3Ys3ljOQDTBXdxwPZFD
+         0cIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738748439; x=1739353239;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YNbzmIjyvLuPYAHPzzGu818yrvIvdE4ZiMGQe0p2pvo=;
+        b=DNZxA2ROk2swQm1AoGkbKco0IJxG9vKIFsw6WsigHYnEvbTA5Rydgp6MZR2hgklDrF
+         QHnfi3gpXWQ60vv5LX4Zbuu7SmBuTztB3R+ON3rArzzgCf6QSVKbXDIiYsLKo+dteIJu
+         SPtvNC1OCml0APTYU5VezgQpthoIIX9v4CDm37s34Y9nSBzzpfV0xLXnFPkTEJIoWD9V
+         dYl3xDthj+mW7f7dkiTyKHwbGCOeYCKeLLOw/8Y/oRG0M/F53FXE49hVpCT4vfPCpHAZ
+         JXfCfIznmNs2zpCa12EHDcCFenKS8TI9P5jeRo0T6CjVe+hlqaET0YK5r7jeSHMbglip
+         1r6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUYDo7vW72G2vEUQzlLOf+CuZPAleKwjFSgT+2RwTE0xwv4kgeNqGtLRsW8Ny/m1iDYESPdvzdxsJM=@vger.kernel.org, AJvYcCUsW/IWWnluFsprobj2OjvL4WRSjWCllUP+c7bzVAy6RkhIsiHrnkgPs2FEpaXJc27vFMg+MqlxlnLBIpm5@vger.kernel.org
+X-Gm-Message-State: AOJu0YwrS4+F54mk8xKVKQ06JgXXJXaWTuh2a7xjhVKwR/2H0SakhvQU
+	LRDuYW+V1YRZF6lR8FTEKYKvgn0jD+/S8xLF2T7DjiUN/CQWPS+c
+X-Gm-Gg: ASbGncvD967UyUxobi+bihf58JqGICJ2/cgIYNkvRjeJGFZ84Nc1eUHege7dzRTe/va
+	jx3Q4/0IKVd2KFPx4qIJXT5hJ4S0Vqatl/fjWyw2ydXNht7mFKODiBvTDtBlqQoKBsnzicwpCUM
+	PH2NUCugiNJ4oYhnuQHIovGf21i8iM7XHvt09vTpHr8ysjvtz8g8k0+NnBqOzIeerhqNKPcfY9C
+	M511ggqLXT90q00ViykuJWXLGpjl8gmeTIWT8daiUPgOjKzqWbiFLgNyD30Ok2TMXqq4OyZojAa
+	jxMEXuqs0YLlxTJcYn9nSoiI2bGHCqQiGY59nPg41uXlA4f1/3KHoGDL19VMVQ==
+X-Google-Smtp-Source: AGHT+IGVepeVcR2w++x+9BNvro2+B6Cb/41IXf3zUjSDyO6ESbtJqvykmg2BaKlmAB6SMj4cXRWEOw==
+X-Received: by 2002:a17:902:cf12:b0:21f:134f:22ad with SMTP id d9443c01a7336-21f17eba99cmr40535235ad.38.1738748438750;
+        Wed, 05 Feb 2025 01:40:38 -0800 (PST)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21de330462bsm109916355ad.204.2025.02.05.01.40.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Feb 2025 01:40:38 -0800 (PST)
+Message-ID: <2f9b3ec8-4877-4df1-99a1-f5ab3488add5@gmail.com>
+Date: Wed, 5 Feb 2025 18:40:31 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250205-send-oss-20250129-v1-1-d404921e6d7e@sony.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 1/6] scripts/get_abi.py: make it backward-compatible with
+ Python 3.6
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <cover.1738166451.git.mchehab+huawei@kernel.org>
+ <6d74360f8cdabeb0bf628a6e870d10e134f396f0.1738166451.git.mchehab+huawei@kernel.org>
+ <87r04dei1j.fsf@trenco.lwn.net>
+ <4274a2f8-5ba5-45f3-80c5-2de54c44c06f@gmail.com>
+ <20250205081501.160180bc@foz.lan>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20250205081501.160180bc@foz.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Feb 05, 2025 at 08:32:14AM +0530, Krishanth Jagaduri via B4 Relay wrote:
-> From: Oleg Nesterov <oleg@redhat.com>
+Mauro Carvalho Chehab wrote:
+> Em Wed, 5 Feb 2025 11:37:52 +0900
+> Akira Yokosawa <akiyks@gmail.com> escreveu:
+[...]
+>> I think rewording the summary to
+>>
+>>   "scripts/get_abi.py: make it backward-compatible with Python <3.11"
+>>
+>> would resolve Jon's confusion.
 > 
-> [ Upstream commit 5097cbcb38e6e0d2627c9dde1985e91d2c9f880e ]
-
-It's just the documentation part of that commit, not the full one.
-
-> Documentation/timers/no_hz.rst states that the "nohz_full=" mask must not
-> include the boot CPU, which is no longer true after:
+> Sure, but IMO it is still valuable to say somewhere that the script
+> was tested and it is known to work since Python 3.6.
 > 
->   commit 08ae95f4fd3b ("nohz_full: Allow the boot CPU to be nohz_full").
-> 
-> Apply changes only to Documentation/timers/no_hz.rst in stable kernels.
 
-You dropped the rest of the changelog text here :(
+If you want "3.6" in the summary phrase, how about
 
-> 
-> Signed-off-by: Oleg Nesterov <oleg@redhat.com>
-> Cc: stable@vger.kernel.org # 5.4+
-> Signed-off-by: Krishanth Jagaduri <Krishanth.Jagaduri@sony.com>
+  "scripts/get_abi.py: make it backward-compatible with Python <3.12 >=3.6"
 
-And you dropped all the other signed-off-by lines :(
+?
 
-> ---
-> Hi,
-> 
-> Before kernel 6.9, Documentation/timers/no_hz.rst states that
-> "nohz_full=" mask must not include the boot CPU, which is no longer
-> true after commit 08ae95f4fd3b ("nohz_full: Allow the boot CPU to be
-> nohz_full").
-> 
-> This was fixed upstream by commit 5097cbcb38e6 ("sched/isolation: Prevent
-> boot crash when the boot CPU is nohz_full").
-> 
-> While it fixes the document description, it also fixes issue introduced
-> by another commit aae17ebb53cd ("workqueue: Avoid using isolated cpus'
-> timers on queue_delayed_work").
-> 
-> It is unlikely that it will be backported to stable kernels which does
-> not contain the commit that introduced the issue.
-> 
-> Could Documentation/timers/no_hz.rst be fixed in stable kernels 5.4+?
+        Thanks, Akira
 
-Does the documentation lines really matter here?
-
-At the very least, we can't take this as the signed-off-by lines are all
-gone.  Please resend with them all back, and then make a note that you
-are only including the documentation portion and why.
-
-thanks,
-
-greg k-h
