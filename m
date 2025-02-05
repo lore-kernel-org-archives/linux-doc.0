@@ -1,104 +1,105 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 233711519AA;
-	Wed,  5 Feb 2025 14:05:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F8D1519AA;
+	Wed,  5 Feb 2025 14:13:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738764351; cv=none; b=Vyj/TuNKHkV6fy4WkFvQ/IQp0MwcDiUrQ3Kh2sR4wJPH9iT0R9ElG4Q9OSNvZI2q6A7umyDxaVeekMo0lg2bs0zvv4LHFZ9dgLbi6k8GiizsWyn+m3p9yU2ZmyFJ0blUryyK8gpp+c3iJzanc0ZeGq+5CdAWiKB5TmoELup43ew=
+	t=1738764808; cv=none; b=Yc2I+RxPiGJf6x5Df4Y3pCfzmzuDJoue7mOwlIO9HdupTH6WV18GAq9mPYGG2eFC5Ql5Oo4eS+LqBE4wbpquYlPSFG2XoYroCHhmFGUnnkWA6uqa7qKZYQkWWPOtvg8L39jpDlW6x9OftxV3PUSeEd+MDL98P3cqUPIgmXVmB9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738764351; c=relaxed/simple;
-	bh=zK4I8a/Y4mpy9XKso8C5wpxuU2XVKbVEC233IlFK+5U=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TumWNeBzJYg4k06jhKqB8nr1gRQOB5MS7ZQQVQtHbcLayMhzIBxgAoV0Eeyq362l9fQIZjpBVu/P8FiDFK/oxKyijHoKMNlSL9OrzDAZ+QkvrQxyDR6PhpRGA2FxWPgbsOA9gk1quzIIsqUTEH8lnot5zgKX45SNcKXqXMTRp5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=EIKNio7h; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1738764808; c=relaxed/simple;
+	bh=y9bBxD6OlYG3QN3t6eEdPcfSBfOJrPnlO3VouFKzOcs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gkFNmsMAEMO1M83tJiu2QPaIaV1CdfvyUwzwTRgRD8ckheSxGXdd6yIGotnfdBNx0f91KwjBafE4kI5QmizYo7mu/fJg5BcB7HaMqndrBnTdGWzXSIDpvmJ1kLEZ7fVU1+Q0HC7P4talsBPY6RLYCrSbI12cV0pc6U6Zrfm6lq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YRaHtTnm; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="EIKNio7h"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 24E81440EC;
-	Wed,  5 Feb 2025 14:05:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1738764346;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZYwn+oUNBIEmYxC3PFxocPoMODj85DdyaB/6dKEjRn8=;
-	b=EIKNio7hdZ8vnqBZNmjLN/k7KMiMV4Vz+dlCMGu1bd7PrtxErJZ8dsDzxmIsrQI33ybtRi
-	z3kZgtle+04vHPyxMmJ9aKiMYxp9GMA7zgEjOpINxkdcz2mbjWGiny0jzZBCo/FY3l7psi
-	NV+AmX/MKuydZLpJOOCCAdumICywkt3mzpfMkBbSwv/DgW/KAcxketWNDFdtVqILvB9cQM
-	6OcHPTwJLkpvSnHzUt49jQ1QTxIP4OQcDV5FuYQVdaboEpZdXKxSQzTMfPS1AVV2tBDV7m
-	Xk/7FX/9HXmgszuGMEbp7of7x+tuXibFFL6d0fQq9HLPZq++9JpUpOrBXxgPjA==
-Date: Wed, 5 Feb 2025 15:05:42 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
- <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org, Kyle Swenson
- <kyle.swenson@est.tech>, Dent Project <dentproject@linuxfoundation.org>,
- kernel@pengutronix.de, Maxime Chevallier <maxime.chevallier@bootlin.com>,
- devicetree@vger.kernel.org
-Subject: Re: [PATCH net-next v4 25/27] dt-bindings: net: pse-pd:
- microchip,pd692x0: Add manager regulator supply
-Message-ID: <20250205150542.46733638@kmaincent-XPS-13-7390>
-In-Reply-To: <rva5vyuksnw64j7hbgdjp2n4qw22a7niw4oc66dyaz5ndaa7ja@u6z4mavekjsw>
-References: <20250103-feature_poe_port_prio-v4-0-dc91a3c0c187@bootlin.com>
-	<20250103-feature_poe_port_prio-v4-25-dc91a3c0c187@bootlin.com>
-	<rva5vyuksnw64j7hbgdjp2n4qw22a7niw4oc66dyaz5ndaa7ja@u6z4mavekjsw>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YRaHtTnm"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2f9cf019884so338891a91.0;
+        Wed, 05 Feb 2025 06:13:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738764806; x=1739369606; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y9bBxD6OlYG3QN3t6eEdPcfSBfOJrPnlO3VouFKzOcs=;
+        b=YRaHtTnmrhfIF8HGMEGwVSCGY8hS8mIemYSEdFtd2360MdpXl3Z4dz/+ZhS3VD4F0u
+         2LsuS6JdMLWiA5THE61/yhYjvW/ZV1eeFjzM28wOGHB0M5ANWD1kCs0MVtQJY1IjOpS6
+         pSXI0/j9HHT4CdJa982JSxFJx2r/HnpU3TLcLMmw0ZArYE6ohhCLgE9gYEh3x2ydaL4y
+         sLs2nQiS33AarTS2eutot2O676TFnS2Nbo+k2XxdB6BJqtAwYUJ6trwr60XxeY8eSfyB
+         +3x5+EmEuGw/uqVKxTWHjaRhUdYFifVeWofNJhJOTzUw6o20l8pkSKt1gX2eIHFlF1bO
+         b1RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738764806; x=1739369606;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=y9bBxD6OlYG3QN3t6eEdPcfSBfOJrPnlO3VouFKzOcs=;
+        b=OGCpejnQQrRFqeC+dP1qw7lOpGg8dF0APdnbkY8q/xU44IbQMLDwGpYKd9ZwRJmSM3
+         W7c5RQ5W9KgXaZFrdYvUhU6k0wWoo43UTiFfpcSTkXy/Id3a+tcLG+Uju8iQYcECEhlK
+         XNsd50/MyyNlICLfBcA7TV3Z1NeRO/XqoiC0ZnZmCj9xVXGWbqrec80JkJ5vzKZmaI8J
+         ks/e0526Hz8laxGTWArDvjDjEm4Qf1DKEm4XiEjCKDUmn9AMmqeY8a+lyDBuTzy5fB1A
+         g3Z3b9/0lN1TLAG+ujlltaCiv9Bkhbo3Ynz7/ZfYY7A7Xfb3NrpatfLumWEj5rCZq7YZ
+         x8oA==
+X-Forwarded-Encrypted: i=1; AJvYcCU0DhFvwdzBHYH6CmAKju2KdnuzEtg5ozPPDRoG9flSlVj142ZcRp+z0NQHoABKuzBZv97QQTd6eeU=@vger.kernel.org, AJvYcCWgV79E69VTo9F61wwUw6Fvwafjc3A9o6sC9QVzZCvbZ5UYYR/ilZ1UlWWPJsPd0J7gHS06Q8LuO3U+9dxt@vger.kernel.org, AJvYcCX+4CiR15hmal1/0fza4v7+YbgDkwE3HZGSdfH5JEqNpKHqZBqSD0ZyTxRwo2mQuzZPSqv9kZZ+iGAKrgQL7nY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEG9hYBxaCTm2ieqmsnfeIgFR7c91YagvLIoOK9hZQUtrTQgDL
+	oKqB8ffCo7q+sxwrzBdZziupi8/lbtIRkc1xrm90DMHMQ30uandi9MDkoxtXainR4FRoxitTbYy
+	eWI768el1qFDbKu4fvYXYZe54JIs=
+X-Gm-Gg: ASbGncv4/Bu7EV/DRvwpIIYJSev8IwoXfW2YMS5YM6ot+YZy0XXHQ2JCUZdqnmzbbt3
+	6XaKqR8a8EJYfNMA/mH7taEU1QgZQlSx1r3efeHncp27f0OjCLu4ks+RnBNcO6g+0dR4NQLMp
+X-Google-Smtp-Source: AGHT+IF4hKXRVLLC6unmAjENx+zZEHsy43XxaM92zW4ScuMwkiqk1/7Tpba6AbMwT3b4dDa6OhFd6Tj7HQNu4hPCPUs=
+X-Received: by 2002:a17:90b:4f4b:b0:2ee:f59a:94d3 with SMTP id
+ 98e67ed59e1d1-2f9e06b216cmr1912666a91.0.1738764805841; Wed, 05 Feb 2025
+ 06:13:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20250204190400.2550-1-dakr@kernel.org> <20250204190400.2550-2-dakr@kernel.org>
+ <20250205155646.00003c2f@nvidia.com>
+In-Reply-To: <20250205155646.00003c2f@nvidia.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 5 Feb 2025 15:13:12 +0100
+X-Gm-Features: AWEUYZkGVXHP4hrFG-5_ihud3NGINPm5TNS2CNAPtoXmocfUh6RQ24GiptUl5w0
+Message-ID: <CANiq72mxKhCudmRaS=gwnC=gjkCLMhZcC2ZpfzKKaGX1Hivz9g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] gpu: nova-core: add initial documentation
+To: Zhi Wang <zhiw@nvidia.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, airlied@gmail.com, simona@ffwll.ch, corbet@lwn.net, 
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+	ajanulgu@redhat.com, lyude@redhat.com, pstanner@redhat.com, cjia@nvidia.com, 
+	jhubbard@nvidia.com, bskeggs@nvidia.com, acurrid@nvidia.com, ojeda@kernel.org, 
+	alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
+	bjorn3_gh@protonmail.com, benno.lossin@proton.me, a.hindborg@kernel.org, 
+	aliceryhl@google.com, tmgross@umich.edu, dri-devel@lists.freedesktop.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvfeeigecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthhqfedtredtjeenucfhrhhomhepmfhorhihucforghinhgtvghnthcuoehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefhjeevfeeggeeghffgudfhhedvvedvueekleevjeduvddutefhvddugedtfeeludenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghlohepkhhmrghinhgtvghnthdqigfrufdqudefqdejfeeltddpmhgrihhlfhhrohhmpehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvjedprhgtphhtthhopehkrhiikheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughrvgifsehluhhnnhdrtghhpdhrtghpthhtohepohdrrhgvmhhpvghlsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtohepvgguuhhmrgiiv
- ghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrsggvnhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvth
-X-GND-Sasl: kory.maincent@bootlin.com
 
-Hello Krzysztof,
+On Wed, Feb 5, 2025 at 2:57=E2=80=AFPM Zhi Wang <zhiw@nvidia.com> wrote:
+>
+> It would be also helpful to make the process explicit. E.g. sharing your
+> command lines used to checking the patches. So folks can align with the
+> expected outcome, e.g. command line parameters.
 
-On Sat, 4 Jan 2025 10:52:55 +0100
-Krzysztof Kozlowski <krzk@kernel.org> wrote:
+These two guidelines (and generally the few others above) are intended
+to apply to all Rust code in the kernel (i.e. not just `rust/`) --
+their command lines are mentioned in `Documentation/rust/`. We could
+add a note to make that clearer if that helps. So I would suggest
+avoiding repetition here by referencing those.
 
-> On Fri, Jan 03, 2025 at 10:13:14PM +0100, Kory Maincent wrote:
-> > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-> >=20
-> > This patch adds the regulator supply parameter of the managers. =20
->=20
-> > +          vmain-supply:
-> > +            description: Regulator power supply for the PD69208X manag=
-er. =20
->=20
-> s/Regulator//
-> Keep it simple, no need to state obvious. What is not obvious here is
-> why there are no main device supplies (VDD, VDDA).
->=20
-> And what about VAUX5 and VAUX3P3? So basically the description is not
-> only redundant but actually incorrect because it suggests it is entire
-> supply, while there are others.
+We also mention it in our "Subsystem Profile document" at
+https://rust-for-linux.com/contributing#submit-checklist-addendum.
 
-VMAIN can be the only power supply, with VAUX5 and VAUX3P3 derived internal=
-ly
-from VMAIN. However having the descriptions of all the regulator supplies is
-indeed maybe better. I will update the patch accordingly.
+> > +The availability of proper documentation is essential in terms of scal=
+ability,
+> > +accessability for new contributors and maintainability of a project in=
+ general,
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Typo: accessibility?
+
+Cheers,
+Miguel
