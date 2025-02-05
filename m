@@ -1,133 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901D6131E2D;
-	Wed,  5 Feb 2025 08:55:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73FF0228383;
+	Wed,  5 Feb 2025 09:18:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738745736; cv=none; b=HElKF8O7QnYmh8OiEVfhacKgBqm1goys0+UqRTpUl8+EKdK3Z0gM3wrO6RaJuP5jJxLmXfaNRPVQ2AZiIwSsrorwyshrZgUGxAdnJz0CiUya1LcZKGQ3nNOG0ie04FIzG2+JdTETzquUfRKfKnOljWyaGmwz0AN1msOplIN9rGM=
+	t=1738747101; cv=none; b=fWfckWAb+2xWoSvg4LHR2XBlS5wozD53ISdMX0fGgKWqmArYQcmRDxqS3YXERZvpSry8frUbPgi7RwKTFU+/dqjUOh5MFx4bSXyCDfgyNKq8/vT4/nJWKunaD4dSq49Psfp2islEREOtRO70fsY8uTML8PUtdmc4ctv0VxrzyIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738745736; c=relaxed/simple;
-	bh=yYWA/DLZfb2QPpMCEHSUBy1XOsebvANPxN6E7FWkxGw=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h3vMLC2s5Kg6mrRSjybPuGjKGpuhRw+ET/6dQkyhD8R2jer2O37bTSrpOKd4XNjuUD11eDvLviZhmLbLNGmLHkX3q3hWUclG3Fqvl9MiHp1iGcV3CkBWsKtB3bL6CoFxXJIQazc8MTYRnexcbehnGEPHdoqiNI0xsv9+eQ6pGgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ssat6XmC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738747101; c=relaxed/simple;
+	bh=BwEguvJcszdmiWk2vKx2IJNL7jjLlqmazqYLrIneYoI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QIxoUJgDthCZ3j6lG0t1snD4YsE0WVC5TDCP0s0By8KEHnbRy3VkK6PfE1W7dB88S/ZWklJMCfROpkKYpo6261le0D7TQFMdzS01bR9e2sdjZEVdOf2uo8H2D+bulbWU6hT071o7VtmjZOyg9gny0WPSV/bWzlKCgiLPCc77bps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SJOCW5dU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ssat6XmC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5668C4CED1;
-	Wed,  5 Feb 2025 08:55:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738745736;
-	bh=yYWA/DLZfb2QPpMCEHSUBy1XOsebvANPxN6E7FWkxGw=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=ssat6XmClwOIlxkFUEv2r9GJPQJIJ9X5ahtW4fKuzFg8AvllBtXQxtKUuaYuITmky
-	 NoIoNWluUxeFNiNTIDuXZvdCDBQ1iU+74cZYw/gxqlHlgo3zPeinn/LPb5MLrrpwIf
-	 Q3ZbPAnk5l2kq3t/9wQnQLzfVnorSPv1NMRq2T05GJBV1Y9ciJdOgIS1fwEZql6U44
-	 oXLnwnHitRQaKADpmKD1MjDOTsgZxFhzA/64z56+U88GD4Wt6bTswBy/Kzu4K2CViY
-	 MQ4gZIVDEXIkxUEz+7Cq4lZeOJjMMCAeY58V50S+YjmFuANkv8OXcPNL/ey9rNpQh3
-	 i17Ct/uBmPguw==
-Date: Wed, 5 Feb 2025 09:55:33 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, 
-	Melissa Wen <melissa.srw@gmail.com>, =?utf-8?B?TWHDrXJh?= Canal <mairacanal@riseup.net>, 
-	Haneen Mohammed <hamohammed.sa@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, rdunlap@infradead.org, 
-	arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>, pekka.paalanen@haloniitty.fi, 
-	Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@ffwll.ch>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com, 
-	miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, seanpaul@google.com, 
-	marcheu@google.com, nicolejadeyee@google.com, linux-doc@vger.kernel.org, 
-	Pekka Paalanen <pekka.paalanen@collabora.com>
-Subject: Re: [PATCH v16 5/7] drm/vkms: Create KUnit tests for YUV conversions
-Message-ID: <20250205-pristine-perch-of-abundance-7abac1@houat>
-References: <20250121-yuv-v16-0-a61f95a99432@bootlin.com>
- <20250121-yuv-v16-5-a61f95a99432@bootlin.com>
- <qwym5wty72f6o4dfz2iduamkpuom6jt5txskknovqxzagruusx@zuytk7awe2uw>
- <Z5dkd3npNtzPWCrP@louis-chauvet-laptop>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SJOCW5dU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8D42C4CED1;
+	Wed,  5 Feb 2025 09:18:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1738747101;
+	bh=BwEguvJcszdmiWk2vKx2IJNL7jjLlqmazqYLrIneYoI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SJOCW5dUOQT0zpQz3EXD0a8AJoafowCcp5ubL+xZYZ7S/gu2+SXCTpxtPffFrbsFT
+	 kjjmkf+fBRlf2JJrwd/h3eu1IqetzRaYajiHtwv9xwR+cusPqa+5lid+ZHBHIhryqO
+	 KiF4VtchcHZEyUN/IfIQ7xHaAtwv57GrA7YXwR1U=
+Date: Wed, 5 Feb 2025 10:18:17 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Krishanth.Jagaduri@sony.com
+Cc: Thomas Gleixner <tglx@linutronix.de>, Jonathan Corbet <corbet@lwn.net>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Atsushi Ochiai <Atsushi.Ochiai@sony.com>,
+	Daniel Palmer <Daniel.Palmer@sony.com>,
+	Oleg Nesterov <oleg@redhat.com>, stable@vger.kernel.org
+Subject: Re: [PATCH] Documentation/no_hz: Remove description that states boot
+ CPU cannot be nohz_full
+Message-ID: <2025020547-judo-precise-0b3c@gregkh>
+References: <20250205-send-oss-20250129-v1-1-d404921e6d7e@sony.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="hlokzyhribni5gt3"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z5dkd3npNtzPWCrP@louis-chauvet-laptop>
+In-Reply-To: <20250205-send-oss-20250129-v1-1-d404921e6d7e@sony.com>
 
+On Wed, Feb 05, 2025 at 08:32:14AM +0530, Krishanth Jagaduri via B4 Relay wrote:
+> From: Oleg Nesterov <oleg@redhat.com>
+> 
+> [ Upstream commit 5097cbcb38e6e0d2627c9dde1985e91d2c9f880e ]
 
---hlokzyhribni5gt3
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v16 5/7] drm/vkms: Create KUnit tests for YUV conversions
-MIME-Version: 1.0
+It's just the documentation part of that commit, not the full one.
 
-On Mon, Jan 27, 2025 at 11:48:23AM +0100, Louis Chauvet wrote:
-> On 26/01/25 - 18:06, Maxime Ripard wrote:
-> > On Tue, Jan 21, 2025 at 11:48:06AM +0100, Louis Chauvet wrote:
-> > > +static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] =3D=
- {
-> > > +	/*
-> > > +	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
-> > > +	 *                     K=3Dcolour.WEIGHTS_YCBCR["ITU-R BT.601"],
-> > > +	 *                     in_bits =3D 16,
-> > > +	 *                     in_legal =3D False,
-> > > +	 *                     in_int =3D True,
-> > > +	 *                     out_bits =3D 8,
-> > > +	 *                     out_legal =3D False,
-> > > +	 *                     out_int =3D True)
-> > > +	 *
-> > > +	 * Test cases for conversion between YUV BT601 full range and RGB
-> > > +	 * using the ITU-R BT.601 weights.
-> > > +	 */
-> >=20
-> > What are the input and output formats?
-> >=20
-> > Ditto for all the other tests.
->=20
-> There is no really "input" and "output" format, they are reference values=
-=20
-> for conversion, you should be able to use it in both direction. They are=
-=20
-> generated by RGB_to_YCbCr (RGB input, YUV output) just because it was=20
-> easier to create the colors from RGB values.
+> Documentation/timers/no_hz.rst states that the "nohz_full=" mask must not
+> include the boot CPU, which is no longer true after:
+> 
+>   commit 08ae95f4fd3b ("nohz_full: Allow the boot CPU to be nohz_full").
+> 
+> Apply changes only to Documentation/timers/no_hz.rst in stable kernels.
 
-RGB and YUV aren't formats, they are color models. XRGB8888 is a format.
-NV12 is a format.
+You dropped the rest of the changelog text here :(
 
-> If you think we should specify what is was used as input and output to=20
-> generate those values, I can modify the comment to:
->=20
-> 	Tests cases for color conversion generated by converting RGB=20
-> 	values to YUV BT601 full range using the ITU-R BT.601 weights.
+> 
+> Signed-off-by: Oleg Nesterov <oleg@redhat.com>
+> Cc: stable@vger.kernel.org # 5.4+
+> Signed-off-by: Krishanth Jagaduri <Krishanth.Jagaduri@sony.com>
 
-My point is that those comments should provide a way to reimplement the
-test from scratch, and compare to the actual implementation. It's useful
-when you have a test failure and start to wonder if the implementation
-or the test is at fault.
+And you dropped all the other signed-off-by lines :(
 
-By saying only RGB and YUV, you can't possibly do that.
+> ---
+> Hi,
+> 
+> Before kernel 6.9, Documentation/timers/no_hz.rst states that
+> "nohz_full=" mask must not include the boot CPU, which is no longer
+> true after commit 08ae95f4fd3b ("nohz_full: Allow the boot CPU to be
+> nohz_full").
+> 
+> This was fixed upstream by commit 5097cbcb38e6 ("sched/isolation: Prevent
+> boot crash when the boot CPU is nohz_full").
+> 
+> While it fixes the document description, it also fixes issue introduced
+> by another commit aae17ebb53cd ("workqueue: Avoid using isolated cpus'
+> timers on queue_delayed_work").
+> 
+> It is unlikely that it will be backported to stable kernels which does
+> not contain the commit that introduced the issue.
+> 
+> Could Documentation/timers/no_hz.rst be fixed in stable kernels 5.4+?
 
-> Beside that modification, did you notice anything else on the series that=
-=20
-> require more work before adding your Ack-by/Reviewed-by on the other=20
-> patches?
+Does the documentation lines really matter here?
 
-The rest looked good to me the last time I looked.
+At the very least, we can't take this as the signed-off-by lines are all
+gone.  Please resend with them all back, and then make a note that you
+are only including the documentation portion and why.
 
-Maxime
+thanks,
 
---hlokzyhribni5gt3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6MngAAKCRAnX84Zoj2+
-dhRlAX9qccZbLAP9gCrmTG66n0OcNxMocRdcpe++pYVNE2TzmqyV4cJyszxqWzrn
-ioGDSsIBgLIYxc4siqD/1rgq5gO4/EYHGkY8Zb5RJC/+Yb/apc5gggzlj3o8GezW
-+LTOA0o07Q==
-=oKKw
------END PGP SIGNATURE-----
-
---hlokzyhribni5gt3--
+greg k-h
