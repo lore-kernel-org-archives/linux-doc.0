@@ -1,148 +1,302 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46C0213E7A
-	for <linux-doc@vger.kernel.org>; Wed,  5 Feb 2025 20:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09A7846F
+	for <linux-doc@vger.kernel.org>; Wed,  5 Feb 2025 20:20:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738786296; cv=none; b=GW0O2DI15rkRRN0kRgIj8eECFbJRXlIJd4n27cZS5vLPDgY7tM1WqSQuTPmMeCcRlT5OgaogN4BtuaZ4DEfCm2X9DGp3+toEXyNYORFXT0Uq0FzjcJyOpEcl9VYMwA+na1ysNuyKugrc6x3qbRMkFPT9hyv5EGTHdLcz44rKY0E=
+	t=1738786814; cv=none; b=c40EJ5DJAcYQ2Qh/dY0gz3PVQC7avvKJpl+UvHAe6ZjJNWY2sE6GEw7ga5jpJZu5TQ0AeSez26jyiIJ8Iqd/w+oIIy2hzusWEwpytBegAUbZnauzspr0ruIKXigcXVUf9FV9Z2VNd0eCShZ0qGBg3QUwkUXl1K+YyeGGvJVa2vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738786296; c=relaxed/simple;
-	bh=8E/zDOS2y2jXYtpxt4v/XPpri1L2d3Hp1icGGz6XyLc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RQWqqmWljX+RhYI/Gp6Zx1MOBsjuwkpukxWlAMMXTV1kCgRnPWApsEl9GZf/kMgJNL+FeK8JzARycQsDNanZNwBKUpZO9vJCkC3vocNrJYnOFAHiAXefPBjyc+MMM/fWGuytEp6ILVCVCUjavyWCeAdiG55T1TGidZ0thTiaW7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Zkf1cjg+; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1738786814; c=relaxed/simple;
+	bh=Ezk6LdfbT2eMczzWQIRh+cgAaehpdYAJViALrkZmMdY=;
+	h=Date:Subject:In-Reply-To:CC:From:To:Message-ID:Mime-Version:
+	 Content-Type; b=FVoX5Du/Fnvold8gXXArur+B4p1PUCin4jVREnsSCy5ILS7OqdyWJf3ZsFoZq5ReFfzCgRJe0DV6R/4AVz3LkldkLdTNvmcsqcuxortr4afQGM/0w01zF1YqDYdY5dBA176ywF/JtVD7Z8+bZUPtVvQkztKaaUGEFpz00j1jeOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com; spf=pass smtp.mailfrom=dabbelt.com; dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b=IuXkxOY8; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dabbelt.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Zkf1cjg+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738786294;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZN6lOxdYMjUO49jm3bB80agqHnejl+uLnWAidVCm81Y=;
-	b=Zkf1cjg+TfimcBpSZ8ALlQnekzpeX7zIkKQQ5KvD2Vzfk1bUBPP7QaUujQkG8bKa+MYJRx
-	WcpqyG+Pt/i0PWo3TPGS3OTMQfHm0fPWxC8HiCUzjRHWxTsSqmKUtd5wiPmPIGes4OJtow
-	XAL6MECMVVRU2s9zHjMsRSsPLJzVw28=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-203-YMsvCcTaNh6CgTP5AJz4Lg-1; Wed,
- 05 Feb 2025 15:11:29 -0500
-X-MC-Unique: YMsvCcTaNh6CgTP5AJz4Lg-1
-X-Mimecast-MFC-AGG-ID: YMsvCcTaNh6CgTP5AJz4Lg
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B9EF61955DB8;
-	Wed,  5 Feb 2025 20:11:28 +0000 (UTC)
-Received: from asrivats-na.rmtustx.csb (unknown [10.2.17.21])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 760DD19560AB;
-	Wed,  5 Feb 2025 20:11:18 +0000 (UTC)
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Wed, 05 Feb 2025 15:08:08 -0500
-Subject: [PATCH 12/12] Documentation: Update the todo
+	dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b="IuXkxOY8"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2f9ef7a3c3cso1309025a91.1
+        for <linux-doc@vger.kernel.org>; Wed, 05 Feb 2025 12:20:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20230601.gappssmtp.com; s=20230601; t=1738786811; x=1739391611; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IX+Sh5T3PaL+QWEnl0hjKKEH7VOJE9BsDETeBZSLsC4=;
+        b=IuXkxOY8fFa9jP3wtcr1qDLd9qaEkQGPzHluKV/9vt0IZcoEYIHfv7c20HUNSoQwhF
+         1/fhZI7nxgaeM6zDPWwyC+Y1aDoshUsH8lhargQW4eR4x3d/pcDdAaRQGOu+uASHXxk0
+         UbkJ8A3HO86wIQCFyAhxFwbsIAvJSm35KlmbKMwQvZfysjMPvX3i18IZGCG2rRFAB38k
+         MUeCn+iXUsPmsoVwi0r+B9TE7WznaIb1ZZRLqLHmjuBhVVQ7Qpebn2+GUDLedt8yj4T+
+         cECuqY2z8JTKysvpuj+zEXTMEEnhow0KOMCDiGpXVLj4F+y1dIlbsqj2MCLxuW8rpU9y
+         IcYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738786811; x=1739391611;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IX+Sh5T3PaL+QWEnl0hjKKEH7VOJE9BsDETeBZSLsC4=;
+        b=d5QGWiOvo9emK0eJB52oKpk7MYAQCVWYI3KbchqJ0s/6HwMQYKnF5bIlOZv0LFK0un
+         eUTOmpVX8Z8CMe6uIqOZTrifl+sTOMc/EuNuRf+CiLvXCdlbg/6QXbD0hGOtuAZqw1fg
+         qmuSHVmyh5AQ67nAlFv8wVYOiJD/g97M6+5JyOMiKjtJ1cy/OPAHXzZJT7e7XCttI386
+         7kY1RP7EE+YXCIofuJx2u2d0DoNGAe6+E7izQQO5GNdObajhGyyvKtyaHpNJmtHDQEij
+         ukSHCtLj+fK2OAwQ6bWhoW0Yn5Af3By8RTCuMLyW5Bf+lOa3cwjjEYobrhKEOoR/JqII
+         2Nsw==
+X-Forwarded-Encrypted: i=1; AJvYcCXEuciyUrobuFIHE2A/fawS1LXcsybzqSM+35nLL1wQUw5ISMBQoojXoyM/3QzkSgCUG/Wbt4VnMWI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLGZCx+MWQSXwnU9yMHxnZ1ewwQ4JSxUTeM+Sjc6SnFP81qrOd
+	grjg6WpIy+RtbFCgp5/DxiXhbaM+Wfya1p9YenIgHtYcvwnSXSUm2gKU91gWbpw=
+X-Gm-Gg: ASbGncum/slvEVwgJbOBQqEdVNYPuIIhb3U1SXCpINSBJuitaHB7eE5+gd9DxVYyrwM
+	wT3miIwCasbSOwqLJ77F7HO5dA5RncfTwEyz/4/6cK869wwfA9QYpUaSEnoT/5YyCBjetPPhlYJ
+	KXEQlgCr1Y5UF+1CWXk71+jS1dSqC7N38SWGCTRD8iDRDmJQgFMHoFMBKFEpjQMKf3aPLEFFRvb
+	Wk9Ff8NngdBSPPWBEfHmbrf3IZ1QW1CPIJiftJPQpJtNT1XSpQ5SbCguW4zpAzvBLnagNSCAqnH
+	WHxiVg1nN1Oe
+X-Google-Smtp-Source: AGHT+IEFjhGWBA15EiC5Nj97NLp62uuszO3tIVmMaUsJvfBeL6+xT+t6gGEWElptXMC2M0mhdTS+Lw==
+X-Received: by 2002:a17:90a:e7c8:b0:2f7:b149:538f with SMTP id 98e67ed59e1d1-2f9ff787646mr1078810a91.4.1738786810832;
+        Wed, 05 Feb 2025 12:20:10 -0800 (PST)
+Received: from localhost ([192.184.165.199])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f9e1d77b73sm2228736a91.12.2025.02.05.12.20.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Feb 2025 12:20:10 -0800 (PST)
+Date: Wed, 05 Feb 2025 12:20:10 -0800 (PST)
+X-Google-Original-Date: Wed, 05 Feb 2025 12:20:08 PST (-0800)
+Subject:     Re: [PATCH 04/15] kasan: arm64: x86: risc-v: Make special tags arch specific
+In-Reply-To: <cdb119dcade0cea25745c920aba8434c27e4c93b.1738686764.git.maciej.wieczor-retman@intel.com>
+CC: luto@kernel.org, xin@zytor.com, kirill.shutemov@linux.intel.com, tj@kernel.org,
+  andreyknvl@gmail.com, brgerst@gmail.com, Ard Biesheuvel <ardb@kernel.org>,
+  dave.hansen@linux.intel.com, jgross@suse.com, Will Deacon <will@kernel.org>, akpm@linux-foundation.org,
+  Arnd Bergmann <arnd@arndb.de>, corbet@lwn.net, maciej.wieczor-retman@intel.com, dvyukov@google.com,
+  richard.weiyang@gmail.com, ytcoode@gmail.com, tglx@linutronix.de, hpa@zytor.com, seanjc@google.com,
+  Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu, justinstitt@google.com, jason.andryuk@amd.com,
+  glider@google.com, ubizjak@gmail.com, jannh@google.com, bhe@redhat.com, vincenzo.frascino@arm.com,
+  rafael.j.wysocki@intel.com, ndesaulniers@google.com, mingo@redhat.com,
+  Catalin Marinas <catalin.marinas@arm.com>, junichi.nomura@nec.com, nathan@kernel.org, ryabinin.a.a@gmail.com,
+  dennis@kernel.org, bp@alien8.de, kevinloughlin@google.com, morbo@google.com,
+  dan.j.williams@intel.com, julian.stecklina@cyberus-technology.de, peterz@infradead.org, cl@linux.com,
+  kees@kernel.org, kasan-dev@googlegroups.com, x86@kernel.org,
+  linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+  linux-mm@kvack.org, llvm@lists.linux.dev, linux-doc@vger.kernel.org
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: maciej.wieczor-retman@intel.com
+Message-ID: <mhng-33ede5ce-7625-431b-a48f-fd6abf7f78ba@palmer-ri-x1c9>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250205-mem-cocci-newapi-v1-12-aebf2b0e2300@redhat.com>
-References: <20250205-mem-cocci-newapi-v1-0-aebf2b0e2300@redhat.com>
-In-Reply-To: <20250205-mem-cocci-newapi-v1-0-aebf2b0e2300@redhat.com>
-To: Joel Stanley <joel@jms.id.au>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrew Jeffery <andrew@codeconstruct.com.au>, 
- Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>, 
- Xinliang Liu <xinliang.liu@linaro.org>, Tian Tao <tiantao6@hisilicon.com>, 
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Yongqin Liu <yongqin.liu@linaro.org>, John Stultz <jstultz@google.com>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Orson Zhai <orsonzhai@gmail.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, 
- Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Alexey Brodkin <abrodkin@synopsys.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
- linux-rockchip@lists.infradead.org, 
- linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
- linux-doc@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1738786137; l=1470;
- i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=8E/zDOS2y2jXYtpxt4v/XPpri1L2d3Hp1icGGz6XyLc=;
- b=kvdtINpTCFoOpfqXf/fVrI+PlDBH109lqvGOt8aqdxgPNRLHbndphfZbHS68h26FBvlE/Lev1
- rwTEVkvxYkZBkVPbSaO6vTBgPPPOtlnOVyP8CR4ue3yQ+gZM3xTUog2
-X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
- pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Update the Documentation to be more precise.
+On Tue, 04 Feb 2025 09:33:45 PST (-0800), maciej.wieczor-retman@intel.com wrote:
+> KASAN's tag-based mode defines multiple special tag values. They're
+> reserved for:
+> - Native kernel value. On arm64 it's 0xFF and it causes an early return
+>   in the tag checking function.
+> - Invalid value. 0xFE marks an area as freed / unallocated. It's also
+>   the value that is used to initialize regions of shadow memory.
+> - Max value. 0xFD is the highest value that can be randomly generated
+>   for a new tag.
+>
+> Metadata macro is also defined:
+> - Tag width equal to 8.
+>
+> Tag-based mode on x86 is going to use 4 bit wide tags so all the above
+> values need to be changed accordingly.
+>
+> Make tags arch specific for x86, risc-v and arm64. On x86 the values
+> just lose the top 4 bits.
+>
+> Replace hardcoded kernel tag value and tag width with macros in KASAN's
+> non-arch specific code.
+>
+> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+> ---
+>  MAINTAINERS                         |  2 +-
+>  arch/arm64/include/asm/kasan-tags.h |  9 +++++++++
+>  arch/riscv/include/asm/kasan-tags.h | 12 ++++++++++++
+>  arch/riscv/include/asm/kasan.h      |  4 ----
+>  arch/x86/include/asm/kasan-tags.h   |  9 +++++++++
+>  include/linux/kasan-tags.h          | 12 +++++++++++-
+>  include/linux/kasan.h               |  4 +++-
+>  include/linux/mm.h                  |  6 +++---
+>  include/linux/page-flags-layout.h   |  7 +------
+>  9 files changed, 49 insertions(+), 16 deletions(-)
+>  create mode 100644 arch/arm64/include/asm/kasan-tags.h
+>  create mode 100644 arch/riscv/include/asm/kasan-tags.h
+>  create mode 100644 arch/x86/include/asm/kasan-tags.h
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b878ddc99f94..45671faa3b6f 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -12227,7 +12227,7 @@ L:	kasan-dev@googlegroups.com
+>  S:	Maintained
+>  B:	https://bugzilla.kernel.org/buglist.cgi?component=Sanitizers&product=Memory%20Management
+>  F:	Documentation/dev-tools/kasan.rst
+> -F:	arch/*/include/asm/*kasan.h
+> +F:	arch/*/include/asm/*kasan*.h
+>  F:	arch/*/mm/kasan_init*
+>  F:	include/linux/kasan*.h
+>  F:	lib/Kconfig.kasan
+> diff --git a/arch/arm64/include/asm/kasan-tags.h b/arch/arm64/include/asm/kasan-tags.h
+> new file mode 100644
+> index 000000000000..9e835da95f6b
+> --- /dev/null
+> +++ b/arch/arm64/include/asm/kasan-tags.h
+> @@ -0,0 +1,9 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef __ASM_KASAN_TAGS_H
+> +#define __ASM_KASAN_TAGS_H
+> +
+> +#define KASAN_TAG_KERNEL	0xFF /* native kernel pointers tag */
+> +
+> +#define KASAN_TAG_WIDTH 8
+> +
+> +#endif /* ASM_KASAN_TAGS_H */
+> diff --git a/arch/riscv/include/asm/kasan-tags.h b/arch/riscv/include/asm/kasan-tags.h
+> new file mode 100644
+> index 000000000000..83d7dcc8af74
+> --- /dev/null
+> +++ b/arch/riscv/include/asm/kasan-tags.h
+> @@ -0,0 +1,12 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef __ASM_KASAN_TAGS_H
+> +#define __ASM_KASAN_TAGS_H
+> +
+> +#ifdef CONFIG_KASAN_SW_TAGS
+> +#define KASAN_TAG_KERNEL	0x7f /* native kernel pointers tag */
+> +#endif
+> +
+> +#define KASAN_TAG_WIDTH 8
+> +
+> +#endif /* ASM_KASAN_TAGS_H */
+> +
+> diff --git a/arch/riscv/include/asm/kasan.h b/arch/riscv/include/asm/kasan.h
+> index f6b378ba936d..27938e0d5233 100644
+> --- a/arch/riscv/include/asm/kasan.h
+> +++ b/arch/riscv/include/asm/kasan.h
+> @@ -41,10 +41,6 @@
+>
+>  #define KASAN_SHADOW_OFFSET	_AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
+>
+> -#ifdef CONFIG_KASAN_SW_TAGS
+> -#define KASAN_TAG_KERNEL	0x7f /* native kernel pointers tag */
+> -#endif
+> -
+>  #define arch_kasan_set_tag(addr, tag)	__tag_set(addr, tag)
+>  #define arch_kasan_reset_tag(addr)	__tag_reset(addr)
+>  #define arch_kasan_get_tag(addr)	__tag_get(addr)
+> diff --git a/arch/x86/include/asm/kasan-tags.h b/arch/x86/include/asm/kasan-tags.h
+> new file mode 100644
+> index 000000000000..68ba385bc75c
+> --- /dev/null
+> +++ b/arch/x86/include/asm/kasan-tags.h
+> @@ -0,0 +1,9 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef __ASM_KASAN_TAGS_H
+> +#define __ASM_KASAN_TAGS_H
+> +
+> +#define KASAN_TAG_KERNEL	0xF /* native kernel pointers tag */
+> +
+> +#define KASAN_TAG_WIDTH		4
+> +
+> +#endif /* ASM_KASAN_TAGS_H */
+> diff --git a/include/linux/kasan-tags.h b/include/linux/kasan-tags.h
+> index e07c896f95d3..b4aacfa8709b 100644
+> --- a/include/linux/kasan-tags.h
+> +++ b/include/linux/kasan-tags.h
+> @@ -2,7 +2,17 @@
+>  #ifndef _LINUX_KASAN_TAGS_H
+>  #define _LINUX_KASAN_TAGS_H
+>
+> -#include <asm/kasan.h>
+> +#if defined(CONFIG_KASAN_SW_TAGS) || defined(CONFIG_KASAN_HW_TAGS)
+> +#include <asm/kasan-tags.h>
+> +#endif
+> +
+> +#ifdef CONFIG_KASAN_SW_TAGS_DENSE
+> +#define KASAN_TAG_WIDTH		4
+> +#endif
+> +
+> +#ifndef KASAN_TAG_WIDTH
+> +#define KASAN_TAG_WIDTH		0
+> +#endif
+>
+>  #ifndef KASAN_TAG_KERNEL
+>  #define KASAN_TAG_KERNEL	0xFF /* native kernel pointers tag */
+> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+> index 5a3e9bec21c2..83146367170a 100644
+> --- a/include/linux/kasan.h
+> +++ b/include/linux/kasan.h
+> @@ -88,7 +88,9 @@ static inline u8 kasan_get_shadow_tag(const void *addr)
+>
+>  #ifdef CONFIG_KASAN_SW_TAGS
+>  /* This matches KASAN_TAG_INVALID. */
+> -#define KASAN_SHADOW_INIT 0xFE
+> +#ifndef KASAN_SHADOW_INIT
+> +#define KASAN_SHADOW_INIT KASAN_TAG_INVALID
+> +#endif
+>  #else
+>  #define KASAN_SHADOW_INIT 0
+>  #endif
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 61fff5d34ed5..ddca2f63a5f6 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -1813,7 +1813,7 @@ static inline u8 page_kasan_tag(const struct page *page)
+>
+>  	if (kasan_enabled()) {
+>  		tag = (page->flags >> KASAN_TAG_PGSHIFT) & KASAN_TAG_MASK;
+> -		tag ^= 0xff;
+> +		tag ^= KASAN_TAG_KERNEL;
+>  	}
+>
+>  	return tag;
+> @@ -1826,7 +1826,7 @@ static inline void page_kasan_tag_set(struct page *page, u8 tag)
+>  	if (!kasan_enabled())
+>  		return;
+>
+> -	tag ^= 0xff;
+> +	tag ^= KASAN_TAG_KERNEL;
+>  	old_flags = READ_ONCE(page->flags);
+>  	do {
+>  		flags = old_flags;
+> @@ -1845,7 +1845,7 @@ static inline void page_kasan_tag_reset(struct page *page)
+>
+>  static inline u8 page_kasan_tag(const struct page *page)
+>  {
+> -	return 0xff;
+> +	return KASAN_TAG_KERNEL;
+>  }
+>
+>  static inline void page_kasan_tag_set(struct page *page, u8 tag) { }
+> diff --git a/include/linux/page-flags-layout.h b/include/linux/page-flags-layout.h
+> index 7d79818dc065..ac3576f409ad 100644
+> --- a/include/linux/page-flags-layout.h
+> +++ b/include/linux/page-flags-layout.h
+> @@ -3,6 +3,7 @@
+>  #define PAGE_FLAGS_LAYOUT_H
+>
+>  #include <linux/numa.h>
+> +#include <linux/kasan-tags.h>
+>  #include <generated/bounds.h>
+>
+>  /*
+> @@ -72,12 +73,6 @@
+>  #define NODE_NOT_IN_PAGE_FLAGS	1
+>  #endif
+>
+> -#if defined(CONFIG_KASAN_SW_TAGS) || defined(CONFIG_KASAN_HW_TAGS)
+> -#define KASAN_TAG_WIDTH 8
+> -#else
+> -#define KASAN_TAG_WIDTH 0
+> -#endif
+> -
+>  #ifdef CONFIG_NUMA_BALANCING
+>  #define LAST__PID_SHIFT 8
+>  #define LAST__PID_MASK  ((1 << LAST__PID_SHIFT)-1)
 
-v2: Update for clarity
+Acked-by: Palmer Dabbelt <palmer@rivosinc.com> # RISC-V
 
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
----
- Documentation/gpu/todo.rst | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 256d0d1cb2164bd94f9b610a751b907834d96a21..03fcd086889acbd1294669b260292ffc79e97e2f 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -441,13 +441,13 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
- 
- Level: Intermediate
- 
--Request memory regions in all drivers
---------------------------------------
-+Request memory regions in all fbdev drivers
-+--------------------------------------------
- 
--Go through all drivers and add code to request the memory regions that the
--driver uses. This requires adding calls to request_mem_region(),
--pci_request_region() or similar functions. Use helpers for managed cleanup
--where possible.
-+Old/ancient fbdev drivers do not request their memory properly.
-+Go through these drivers and add code to request the memory regions that the
-+driver uses. Problematic areas include hardware that has exclusive ranges like
-+VGA. VGA16fb does not request the range as it is expected.
- 
- Drivers are pretty bad at doing this and there used to be conflicts among
- DRM and fbdev drivers. Still, it's the correct thing to do.
-
--- 
-2.47.0
-
+Probably best to keep this along with the rest of the patches, but LMK 
+if you want me to point something at the RISC-V tree.
