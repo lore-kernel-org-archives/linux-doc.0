@@ -1,320 +1,227 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5EF91632DA
-	for <linux-doc@vger.kernel.org>; Wed,  5 Feb 2025 14:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9830B158218;
+	Wed,  5 Feb 2025 14:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738766323; cv=none; b=MKUC6eeu2zMCLeZV5zPHuRZLYdwff25z+LqanQ9MTjzeOhwYjG2SdqjSnPDh45jvV9WZBEDC6tmpT+3I0hd5wLBUWfXparxADiRfCJcxUlfwyga+krIRSTIMIeTVndDqOozZHse5ccOud04Fc8+y6e+wt25JV7LBu3oNGG4usbI=
+	t=1738766456; cv=none; b=fznHN6nkHDAA8UNnYtRUYgXFxH6o09KDtYsdaLl/tkrftdHz5sfWpIVNTOdtv4lBpzAIE3guuNyuAPQBniMrqYPnnxNj+oOnBTk5T1ZN4Go7mtPzO+tYWuxXtQRhcScMyRjZn4mn1aYqylZjQFvEbNyw+kTtbina5cTTE+pDbqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738766323; c=relaxed/simple;
-	bh=W8pTV2F5CfjNvMsVyaS37HH67zy6RULqeWFDQxut2AQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e3yCNJ/01OUk/YxuvtqB+vzcsIh2qGq+RCQab7yWF6Fnz9WMwfBsL4uYkU5VXlWRT/PcCGpjkbegIzlrj4bxB241B3T64eSdBJxD3jzjrY7h4ZswfvFHkiiqyLHsjtlT4Sxu6e4dNkLq3ka/KWdGV/dDJW011iZ2UwyQKfEjblA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Vqu6duD1; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1738766456; c=relaxed/simple;
+	bh=Im+VBOTKpjrNCIlKnlAediWg4cQeXGnKU56wLhDT9oU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l9YpJzTX8gGYZ02KmtLxodejJaGWq4DgHzYmiX+r9cU4l1KXVWflFJQ+dtPRAVcVKnlkH893SqVaZs+SlUcI5KNOu9Gy7/3SkIp06vumW5lazbs5aWFrKG2VFBUtX8d0YHieVFZfM+rbrxYCYjOMPq7qcvrZIcY7wHs2p84OX4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i5TpDLVi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Vqu6duD1"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-38daf14018eso1317386f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 05 Feb 2025 06:38:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1738766319; x=1739371119; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6SylEMFUGGjut9Z/r0Vs1FQy1begfn1Z+13Ei115fRk=;
-        b=Vqu6duD1e2nIqPQqtehpr7YxVvVE0Q6IF7A4X8aG6iJVv2RJOaMgCtTY0ab9Pev6TD
-         K+t6unWt3z9ZSrnYQemnpsAJC7OrF1yNY/8ACwnCfE5a3tgjOwUmccFA0wAjelp7RS6L
-         eV8OJ5iu553uMmK0/QWoIKTNfEVTQ2w67EWe+3WgFIvBj20roZicXe4gKbVy2JvDWKNG
-         D+9NY3Y5Wax8dMwksl0XbE5DFngnBl72Hl0/zRaxOTA+qeITyA3kKKWnyk6df6B4U2mQ
-         bxGxpd7V5R6QUDorGl2/GK29XGEQk3KOs0xMAlX7lQ27esSkTdjZZDXiM1f8P3DUeIe8
-         pMyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738766319; x=1739371119;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6SylEMFUGGjut9Z/r0Vs1FQy1begfn1Z+13Ei115fRk=;
-        b=TLId30xJkMuClLIoqa4SSLFA1xzObNJZ+cALetQipsexmsgvSGas4n7/38kIiGNhuB
-         VKG+NaO5LO6+NYSd4JxjlM3PmFXYLSDtGY1WfSuqap4eRt7JGu/AckfxDl7fK793hDqD
-         5t6Gv8xm5zKm5T8jRTwuy6s77uYRyensphF1irLXfA0CRkrkxqIobmulAIbCBhJxKZIW
-         gBgyOFM60VmenygKFDf72I4sR/YW+C4imDSLXWztu/MDhrcHGSixh0ZMMbSP2jGqJzJc
-         s46qw+sRs4GUzxP8PDO2TGPviKrVpouu+qpRZuASS/c7271Wrl70hFiZXUwZJndDE9si
-         hyLw==
-X-Forwarded-Encrypted: i=1; AJvYcCVbyHxtJmpX6rMsE08pEMspyCgfNmKMg8ygrf6UvYrkJU3WiitIu5f+OipgpcEXhFvoO9J4WxAFXbI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDnleggpNtE87E0em6b6y69Ctk0iXK5c4VjC9E14vJyCBW4maW
-	5DJXwU2cSUGmZuF3aJ4UIT2vEU/woQzB0E2s11MuYycWkWlsruBMFL3yTM9/YvO2N4Y4amIE0W8
-	rseQ=
-X-Gm-Gg: ASbGnctw5dIkAO+Q4yzy5lo9jxC6rnH1Vaw2625iDnXTL09KzBJjwVFltecpkjZqbqF
-	wBPDP3DLuvf1ujVoHfpNzweU3U7vTcyfRdFyF+RW6JVc8xYs6PUIBiNDjMhDv2Fuqa0/eJz+Vtf
-	Su3lOhEKSg8aw9+QBAuBZAEvcpG/KWIJCHTqOhjBTTL6SHC/IiAjzor71RyqLe4KkojkP+BV6a9
-	dPVlzXClxDS9xeS5W4qJD8IU39+07fWI65OCuyTwKpebSRMqeWau8lAWHUoZ7lqJUgU6yINHwDQ
-	fVs5lN7DBXROh72Ku1Waq71OfA==
-X-Google-Smtp-Source: AGHT+IF9xdlTonnwajQxmm/s81j9yPZ4l8Yo6pPEF/b8p2ODFzyRC4+PB3bu63yEZdkCTZrHfqloFw==
-X-Received: by 2002:adf:f243:0:b0:38a:5df9:f86a with SMTP id ffacd0b85a97d-38db48d34e5mr1766240f8f.26.1738766318785;
-        Wed, 05 Feb 2025 06:38:38 -0800 (PST)
-Received: from [192.168.68.163] ([145.224.66.245])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38da8f6691bsm4950042f8f.42.2025.02.05.06.38.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Feb 2025 06:38:38 -0800 (PST)
-Message-ID: <3c7e1ce0-9a5d-43fb-9767-8e4ca92a450d@linaro.org>
-Date: Wed, 5 Feb 2025 14:38:37 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i5TpDLVi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18D35C4CED1;
+	Wed,  5 Feb 2025 14:40:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738766456;
+	bh=Im+VBOTKpjrNCIlKnlAediWg4cQeXGnKU56wLhDT9oU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=i5TpDLVigC52A1456psRIrtl7bLLBIDktmcw0zOI67fkQGwnp1mWIL5BJHncwuJWI
+	 mqpjzMII1KODdUrAyY+Oih69YDa2Cdcx+7oGlMcdjENnLejd/oM3xpmeuoenXD3eJR
+	 aN8KKUB6gkqvAfml4E7f7fJ+ScEUU33cuqGgGC9FoVesV98jhiumnS891acKPrOhvv
+	 Ufktq6S8vrLItFptTPYcVRFJODleDI3ASgS6uZmUWdekR6YHiVq6qTf2yBWgmm64a+
+	 WbDdK4GGu/LszXG1yIkuf3gbPOaVWmeBbgIGVEVpJi/PhQlHhCsyZxmhgZkOXngrYl
+	 me9VuYMeN/2Gw==
+From: Leon Romanovsky <leon@kernel.org>
+To: Christoph Hellwig <hch@lst.de>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Robin Murphy <robin.murphy@arm.com>
+Cc: Leon Romanovsky <leonro@nvidia.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v7 00/17] Provide a new two step DMA mapping API
+Date: Wed,  5 Feb 2025 16:40:20 +0200
+Message-ID: <cover.1738765879.git.leonro@nvidia.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v19 11/11] perf: arm_pmuv3: Add support for the Branch
- Record Buffer Extension (BRBE)
-To: Rob Herring <robh@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvmarm@lists.linux.dev, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
- Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- Zenghui Yu <yuzenghui@huawei.com>,
- Anshuman Khandual <anshuman.khandual@arm.com>
-References: <20250202-arm-brbe-v19-v19-0-1c1300802385@kernel.org>
- <20250202-arm-brbe-v19-v19-11-1c1300802385@kernel.org>
- <0415d354-0c44-4fff-b92b-b0f5c9c72b11@linaro.org>
- <CAL_JsqKTNDQn9omG3g=6Rb4Nwt6hG9Gw7-VXL_fjQeEQmmtJQg@mail.gmail.com>
- <630f630d-241e-45f5-b449-243147fb888b@linaro.org>
- <CAL_JsqKY8MjD=iFf6MiT04WmCHYUxGtWG9JfX5-5fuG32F77qQ@mail.gmail.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <CAL_JsqKY8MjD=iFf6MiT04WmCHYUxGtWG9JfX5-5fuG32F77qQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+From: Leon Romanovsky <leonro@nvidia.com>
 
+Changelog:
+v7:
+ * Rebased to v6.14-rc1
+v6: https://lore.kernel.org/all/cover.1737106761.git.leon@kernel.org
+ * Changed internal __size variable to u64 to properly set private flag
+   in most significant bit.
+ * Added comment about why we check DMA_IOVA_USE_SWIOTLB
+ * Break unlink loop if phys is NULL, condition which we shouldn't get.
+v5: https://lore.kernel.org/all/cover.1734436840.git.leon@kernel.org
+ * Trimmed long lines in all patches.
+ * Squashed "dma-mapping: Add check if IOVA can be used" into
+   "dma: Provide an interface to allow allocate IOVA" patch.
+ * Added tags from Christoph and Will.
+ * Fixed spelling/grammar errors.
+ * Change title from "dma: Provide an  ..." to be "dma-mapping: Provide
+ * an ...".
+ * Slightly changed hmm patch to set sticky flags in one place.
+v4: https://lore.kernel.org/all/cover.1733398913.git.leon@kernel.org
+ * Added extra patch to add kernel-doc for iommu_unmap and
+ * iommu_unmap_fast
+ * Rebased to v6.13-rc1
+ * Added Will's tags
+v3: https://lore.kernel.org/all/cover.1731244445.git.leon@kernel.org
+ * Added DMA_ATTR_SKIP_CPU_SYNC to p2p pages in HMM.
+ * Fixed error unwind if dma_iova_sync fails in HMM.
+ * Clear all PFN flags which were set in map to make code.
+   more clean, the callers anyway cleaned them.
+ * Generalize sticky PFN flags logic in HMM.
+ * Removed not-needed #ifdef-#endif section.
+v2: https://lore.kernel.org/all/cover.1730892663.git.leon@kernel.org
+ * Fixed docs file as Randy suggested
+ * Fixed releases of memory in HMM path. It was allocated with kv..
+   variants but released with kfree instead of kvfree.
+ * Slightly changed commit message in VFIO patch.
+v1: https://lore.kernel.org/all/cover.1730298502.git.leon@kernel.org
+ * Squashed two VFIO patches into one
+ * Added Acked-by/Reviewed-by tags
+ * Fix docs spelling errors
+ * Simplified dma_iova_sync() API
+ * Added extra check in dma_iova_destroy() if mapped size to make code
+ * more clear
+ * Fixed checkpatch warnings in p2p patch
+ * Changed implementation of VFIO mlx5 mlx5vf_add_migration_pages() to
+   be more general
+ * Reduced the number of changes in VFIO patch
+v0: https://lore.kernel.org/all/cover.1730037276.git.leon@kernel.org
 
-On 04/02/2025 3:03 pm, Rob Herring wrote:
-> On Tue, Feb 4, 2025 at 6:03 AM James Clark <james.clark@linaro.org> wrote:
->>
->>
->>
->> On 03/02/2025 5:58 pm, Rob Herring wrote:
->>> On Mon, Feb 3, 2025 at 10:53 AM James Clark <james.clark@linaro.org> wrote:
->>>>
->>>>
->>>>
->>>> On 03/02/2025 12:43 am, Rob Herring (Arm) wrote:
->>>>> From: Anshuman Khandual <anshuman.khandual@arm.com>
->>>>>
->>>>> The ARMv9.2 architecture introduces the optional Branch Record Buffer
->>>>> Extension (BRBE), which records information about branches as they are
->>>>> executed into set of branch record registers. BRBE is similar to x86's
->>>>> Last Branch Record (LBR) and PowerPC's Branch History Rolling Buffer
->>>>> (BHRB).
-> 
-> [...]
-> 
->>>>> +     /*
->>>>> +      * Require that the event filter and branch filter permissions match.
->>>>> +      *
->>>>> +      * The event and branch permissions can only mismatch if the user set
->>>>> +      * at least one of the privilege branch filters in PERF_SAMPLE_BRANCH_PLM_ALL.
->>>>> +      * Otherwise, the core will set the branch sample permissions in
->>>>> +      * perf_copy_attr().
->>>>> +      */
->>>>> +     if ((event->attr.exclude_user != !(branch_type & PERF_SAMPLE_BRANCH_USER)) ||
->>>>> +         (event->attr.exclude_kernel != !(branch_type & PERF_SAMPLE_BRANCH_KERNEL)) ||
->>>>
->>>> I don't think this one is right. By default perf_copy_attr() copies the
->>>> exclude_ settings into the branch settings so this works, but if the
->>>> user sets any _less_ permissive branch setting this fails. For example:
->>>>
->>>>     # perf record -j any,u -- true
->>>>     Error:
->>>>     cycles:PH: PMU Hardware or event type doesn't support branch stack
->>>>     sampling.
->>>>
->>>> Here we want the default sampling permissions (exclude_kernel == 0,
->>>> exclude_user == 0), but only user branch records, which doesn't match.
->>>> It should be allowed because it doesn't include anything that we're not
->>>> allowed to see.
->>>
->>> I know it is allowed(on x86), but why would we want that? If you do
->>> something even more restricted:
->>>
->>> perf record -e cycles:k -j any,u -- true
->>>
->>> That's allowed on x86 and gives you samples with user addresses. But
->>> all the events happened in the kernel. How does that make any sense?
->>>
->>> I suppose in your example, we could avoid attaching branch stack on
->>> samples from the kernel. However, given how my example works, I'm
->>> pretty sure that's not what x86 does.
->>>
->>> There's also combinations that are allowed, but record no samples.
->>> Though I think that was with guest events. I've gone with reject
->>> non-sense combinations as much as possible. We can easily remove those
->>> restrictions later if needed. Changing the behavior later (for the
->>> same configuration) wouldn't be good.
->>>
->>>
->>
->> Rejecting ones that produce no samples is fair enough, but my example
->> does produce samples. To answer the question "why would we want that?",
->> nothing major, but there are a few small reasons:
->>
->>    * Perf includes both user and kernel by default, so the shortest
->>      command to only gather user branches doesn't work (-j any,u)
->>    * The test already checks for branch stack support like this, so old
->>      Perf test versions don't work
-> 
-> I would be more concerned about this one except that *we* wrote that
-> test. (I'm not sure why we wrote a new test rather than adapting
-> record_lbr.sh...)
-> 
+----------------------------------------------------------------------------
+ No changes in checks, documentation and naming as no suggestion was
+ given. Everything like this can be improved in followup patches.
+----------------------------------------------------------------------------
+ LWN coverage:
+Dancing the DMA two-step - https://lwn.net/Articles/997563/
+----------------------------------------------------------------------------
 
-record_lbr.sh was added 6 months ago, test_brstack.sh 3 years ago so 
-it's the other way around.
+Currently the only efficient way to map a complex memory description through
+the DMA API is by using the scatterlist APIs. The SG APIs are unique in that
+they efficiently combine the two fundamental operations of sizing and allocating
+a large IOVA window from the IOMMU and processing all the per-address
+swiotlb/flushing/p2p/map details.
 
-Although record_lbr.sh also tests --call-graph and --stitch-lbr as well, 
-so I think it's fine for test_brstack.sh to test only --branch-filter 
-options at the lowest level.
+This uniqueness has been a long standing pain point as the scatterlist API
+is mandatory, but expensive to use. It prevents any kind of optimization or
+feature improvement (such as avoiding struct page for P2P) due to the
+impossibility of improving the scatterlist.
 
-Looking at that test though I see there is a capability 
-"/sys/devices/cpu/caps/branches". I'm wondering whether we should be 
-adding that on the Arm PMU for BRBE?
+Several approaches have been explored to expand the DMA API with additional
+scatterlist-like structures (BIO, rlist), instead split up the DMA API
+to allow callers to bring their own data structure.
 
-Ignoring the tests, the man pages (and some pages on the internet) give 
-this example: "--branch-filter any_ret,u,k". This doesn't work either 
-because it doesn't match the default exclude_hv option. It just seems a 
-bit awkward and incompatible to me, for not much gain.
+The API is split up into parts:
+ - Allocate IOVA space:
+    To do any pre-allocation required. This is done based on the caller
+    supplying some details about how much IOMMU address space it would need
+    in worst case.
+ - Map and unmap relevant structures to pre-allocated IOVA space:
+    Perform the actual mapping into the pre-allocated IOVA. This is very
+    similar to dma_map_page().
 
->>    * You might only be optimising userspace, but still interested in the
->>      proportion of time spent or particular place in the kernel
-> 
-> How do you see that? It looks completely misleading to me. 'perf
-> report' seems to only list branch stack addresses in this case. There
-> doesn't seem to be any matching of the event address to branch stack
-> addresses.
-> 
+In this and the next series [1], examples of three different users are converted
+to the new API to show the benefits and its versatility. Each user has a unique
+flow:
+ 1. RDMA ODP is an example of "SVA mirroring" using HMM that needs to
+    dynamically map/unmap large numbers of single pages. This becomes
+    significantly faster in the IOMMU case as the map/unmap is now just
+    a page table walk, the IOVA allocation is pre-computed once. Significant
+    amounts of memory are saved as there is no longer a need to store the
+    dma_addr_t of each page.
+ 2. VFIO PCI live migration code is building a very large "page list"
+    for the device. Instead of allocating a scatter list entry per allocated
+    page it can just allocate an array of 'struct page *', saving a large
+    amount of memory.
+ 3. NVMe PCI demonstrates how a BIO can be converted to a HW scatter
+    list without having to allocate then populate an intermediate SG table.
 
-Perf script will show everything with all it's various options, or 
---branch-history on perf report will show both too. Also there are tools 
-other than Perf, AutoFDO seems like something that BRBE can be used with.
+To make the use of the new API easier, HMM and block subsystems are extended
+to hide the optimization details from the caller. Among these optimizations:
+ * Memory reduction as in most real use cases there is no need to store mapped
+   DMA addresses and unmap them.
+ * Reducing the function call overhead by removing the need to call function
+   pointers and use direct calls instead.
 
->>    * Consistency with existing implementations and for people porting
->>      existing tools to Arm
->>    * It doesn't cost anything to support it (I think we just
->>      only check if exclude_* is set rather than !=)
->>    * Permissions checks should be handled by the core code so that
->>      they're consistent
->>    * What's the point of separate branch filters anyway if they always
->>      have to match the event filter?
-> 
-> IDK, I wish someone could tell me. I don't see the usecase for them
-> being mismatched.
-> 
-> In any case, I don't care too much one way or the other what we do
-> here. If everyone thinks we should relax this, then that's fine with
-> me.
-> 
+This step is first along a path to provide alternatives to scatterlist and
+solve some of the abuses and design mistakes.
 
-Seeing the branch history from userspace that led up to a certain thing 
-in the kernel happening doesn't seem like that much of an edge case to 
-me. If you always have to have both on then you lose the userspace 
-branch history because the buffer isn't that big and gets overwritten.
+Thanks
 
->> Some of these things could be fixed in Perf, but not in older versions.
->> Even if we can't think of a real use case now, it doesn't sound like the
->> driver should be so restrictive of an option that doesn't do any harm.
->>
->>>> This also makes the Perf branch test skip because it uses
->>>> any,save_type,u to see if BRBE exists.
->>>
->>> Yes, I plan to update that if we keep this behavior.
->>>
->>>>> +         (!is_kernel_in_hyp_mode() &&
->>>>> +          (event->attr.exclude_hv != !(branch_type & PERF_SAMPLE_BRANCH_HV))))
->>>>> +             return false;
->>>>> +
->>>>> +     event->hw.branch_reg.config = branch_type_to_brbfcr(event->attr.branch_sample_type);
->>>>> +     event->hw.extra_reg.config = branch_type_to_brbcr(event->attr.branch_sample_type);
->>>>> +
->>>>> +     return true;
->>>>> +}
->>>>> +
->>>> [...]
->>>>> +static const int brbe_type_to_perf_type_map[BRBINFx_EL1_TYPE_DEBUG_EXIT + 1][2] = {
->>>>> +     [BRBINFx_EL1_TYPE_DIRECT_UNCOND] = { PERF_BR_UNCOND, 0 },
->>>>
->>>> Does the second field go into 'new_type'? They all seem to be zero so
->>>> I'm not sure why new_type isn't ignored instead of having it mapped.
->>>
->>> Well, left over from when all the Arm specific types were supported.
->>> So yeah, that can be simplified.
->>>
->>>>> +     [BRBINFx_EL1_TYPE_INDIRECT] = { PERF_BR_IND, 0 },
->>>>> +     [BRBINFx_EL1_TYPE_DIRECT_LINK] = { PERF_BR_CALL, 0 },
->>>>> +     [BRBINFx_EL1_TYPE_INDIRECT_LINK] = { PERF_BR_IND_CALL, 0 },
->>>>> +     [BRBINFx_EL1_TYPE_RET] = { PERF_BR_RET, 0 },
->>>>> +     [BRBINFx_EL1_TYPE_DIRECT_COND] = { PERF_BR_COND, 0 },
->>>>> +     [BRBINFx_EL1_TYPE_CALL] = { PERF_BR_CALL, 0 },
->>>>> +     [BRBINFx_EL1_TYPE_ERET] = { PERF_BR_ERET, 0 },
->>>>> +     [BRBINFx_EL1_TYPE_IRQ] = { PERF_BR_IRQ, 0 },
->>>>
->>>> How do ones that don't map to anything appear in Perf? For example
->>>> BRBINFx_EL1_TYPE_TRAP is missing, and the test that was attached to the
->>>> previous versions fails because it doesn't see the trap that jumps to
->>>> the kernel, but it does still see the ERET back to userspace:
->>>>
->>>>      [unknown]/trap_bench+0x20/-/-/-/0/ERET/-
->>>>
->>>> In older versions we'd also have BRBINFx_EL1_TYPE_TRAP mapping to
->>>> PERF_BR_SYSCALL so you could see it go into the kernel before the return:
->>>>
->>>>      trap_bench+0x1C/[unknown]/-/-/-/0/SYSCALL/-
->>>>      [unknown]/trap_bench+0x20/-/-/-/0/ERET/-
->>>
->>> My read of that was we should see a CALL in this case. Whether SVC
->>> generates a TRAP or CALL depends on HFGITR_EL2.SVC_EL0 (table D18-2).
->>> I assumed "SVC due to HFGITR_EL2.SVC_EL0" means when SVC_EL0 is set
->>> (and set has additional conditions). We have SVC_EL0 cleared, so that
->>> should be a CALL. Maybe the FVP has this wrong?
->>>
->>
->> The test is doing this rather than a syscall:
->>
->>     asm("mrs %0, ID_AA64ISAR0_EL1" : "=r" (val));   /* TRAP + ERET */
->>
->> So I think trap is right. Whether that should be mapped to SYSCALL or
->> some other branch type I don't know, but the point is that it's missing now.
-> 
-> We aren't supporting any of the Arm specific traps/exceptions. One
-> reason is for consistency with x86 like you just argued for. The only
+Christoph Hellwig (6):
+  PCI/P2PDMA: Refactor the p2pdma mapping helpers
+  dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
+  iommu: generalize the batched sync after map interface
+  iommu/dma: Factor out a iommu_dma_map_swiotlb helper
+  dma-mapping: add a dma_need_unmap helper
+  docs: core-api: document the IOVA-based API
 
-Does x86 leave holes in the program flow though, or is it complete? IMO 
-it makes it harder for tools to make sense of the branch buffer if there 
-are things like an ERET with no previous trap to match it up to.
+Leon Romanovsky (11):
+  iommu: add kernel-doc for iommu_unmap and iommu_unmap_fast
+  dma-mapping: Provide an interface to allow allocate IOVA
+  dma-mapping: Implement link/unlink ranges API
+  mm/hmm: let users to tag specific PFN with DMA mapped bit
+  mm/hmm: provide generic DMA managing logic
+  RDMA/umem: Store ODP access mask information in PFN
+  RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
+    linkage
+  RDMA/umem: Separate implicit ODP initialization from explicit ODP
+  vfio/mlx5: Explicitly use number of pages instead of allocated length
+  vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+  vfio/mlx5: Enable the DMA link API
 
-> exception types supported are syscall and IRQ. Part of the issue is
-> there is no userspace control over enabling all the extra Arm ones.
-> There's no way to say enable all branches except debug, fault, etc.
-> exceptions. If we want to support these, I think there should be user
-> control over enabling them. But that can come later if there's any
-> demand for them.
-> 
-> Rob
+ Documentation/core-api/dma-api.rst   |  70 ++++
+ drivers/infiniband/core/umem_odp.c   | 250 +++++---------
+ drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
+ drivers/infiniband/hw/mlx5/odp.c     |  65 ++--
+ drivers/infiniband/hw/mlx5/umr.c     |  12 +-
+ drivers/iommu/dma-iommu.c            | 468 +++++++++++++++++++++++----
+ drivers/iommu/iommu.c                |  84 ++---
+ drivers/pci/p2pdma.c                 |  38 +--
+ drivers/vfio/pci/mlx5/cmd.c          | 375 +++++++++++----------
+ drivers/vfio/pci/mlx5/cmd.h          |  35 +-
+ drivers/vfio/pci/mlx5/main.c         |  87 +++--
+ include/linux/dma-map-ops.h          |  54 ----
+ include/linux/dma-mapping.h          |  85 +++++
+ include/linux/hmm-dma.h              |  33 ++
+ include/linux/hmm.h                  |  21 ++
+ include/linux/iommu.h                |   4 +
+ include/linux/pci-p2pdma.h           |  84 +++++
+ include/rdma/ib_umem_odp.h           |  25 +-
+ kernel/dma/direct.c                  |  44 +--
+ kernel/dma/mapping.c                 |  18 ++
+ mm/hmm.c                             | 264 +++++++++++++--
+ 21 files changed, 1435 insertions(+), 693 deletions(-)
+ create mode 100644 include/linux/hmm-dma.h
 
-In this patchset we enable PERF_BR_IRQ with PERF_SAMPLE_BRANCH_ANY, 
-without any way to selectively disable it. I would assume trap could be 
-done with the same option.
-
-If we're filtering some of them out it might be worth documenting that 
-"PERF_SAMPLE_BRANCH_ANY" doesn't actually mean 'any' branch type on Arm, 
-and some types are recorded but discarded out before sending to userspace.
-
-There could be some confusion when there are partially filled or empty 
-branch buffers, and the reason wouldn't be that there weren't any 
-branches recorded, but they were all filtered out even with the 'any' 
-option.
+-- 
+2.48.1
 
