@@ -1,123 +1,214 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01121200A3;
-	Wed,  5 Feb 2025 02:41:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F964200A3;
+	Wed,  5 Feb 2025 02:41:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738723267; cv=none; b=aD1ITnvNQghtO8+zJzD+zh159UYWLSKWa8XpQBgAsUT9k2b/KNSg8U2ifA/uwjkrENFIiPuilpUft53Cwy2AZfmE/8btdDk6QJus9EqzagThnABzKoSt3A7ObFoB8DqzE2K89OArogiorNFQcvj0vUbQnR18rKxm08v/u6j9bn8=
+	t=1738723290; cv=none; b=T35gZkVy0t7AXkfuhb+8SMaYxP18SFa4sBy6mrWR+RA6zcNhpmaUMzOOmHY7oi0Dj5Zq/WorGorf+rHqNJ3ZiFm9uVZeO/Hp+GrGJxS/VMM+qEsJuERlz2+bNK5fMM1x8pOkl7iIYOC37u9D7pTovrk0FA3TmL1OOfcLTpKR/es=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738723267; c=relaxed/simple;
-	bh=8KHGfVIy6PZ/kQOwVu8+li4ZGBn5wHtCLBclG5gxpZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RD/GuflF25sRIdlzJRfB6WZsTqWk8YbH5Y0yI7P8mitjaniyMgxi/JLoIEELGtzzQ4N70MIZxBeU8NhJsC78OEEtYhhoOIrzTRUyZdbvtIoDvOv9ugVm2LJnOQfdjlJvRc7vti/SOLMugEZEMQp5uk9t8YxqQ6atzBRoeCYC1Fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=apNNpCr8; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738723290; c=relaxed/simple;
+	bh=JZgQkH+UIDzCx9TfxkKdm4ixBg9gHdAsFun4ac3uwuI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EbSknLqmJ/0GVu0jp43PLRuqlXi9h+dgkhwUzYjrzf86h2XgomJhmiPRqjtYR5S7S207YE68iES4GS0miiKKsD3mZgGs8aY6bbvjB0jf650OHHwkWQI0uiJMavtnjQLyxs/zD8JMr+nzzeqEiuRLELwNVXmNet38BuNvuJDvseY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MtRL4UOW; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="apNNpCr8"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-21f16af1f71so5530465ad.3;
-        Tue, 04 Feb 2025 18:41:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738723265; x=1739328065; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4twR9JSRKP16NJKHDkljf0dEGI6XOF41Z0J3Jxda0WY=;
-        b=apNNpCr8eMUsUzlN2a68o7vmCtA5w9AyLLMJDASFsr+rw3qLruoM2jYMqIYn7TCVPW
-         8CtrcI1wQowXsN7BQPZ+O5EWbEm2iuMLSwpvdmHCkf3g6m+G1IEcWixixQlcEFJR3Va8
-         zDaMQMu38YDmd5Sn277Rc96e/zdVsWv5PWj2ipLCsm4UKAozjuWwVtqDI/OdVAiKWdZ3
-         P91cqKvbRByDr8nDnfjBj9XH9NKbKofDnmF+4tW7kjI4mXprVFkH1iQu4+PQkx7tY//8
-         /BSAoUpPbHqHrT8qlRxAdTG//D4bp93ltTTsfFSsECQluAt2oNeEWRC3PADVnBwwtIhM
-         1vdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738723265; x=1739328065;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4twR9JSRKP16NJKHDkljf0dEGI6XOF41Z0J3Jxda0WY=;
-        b=Uky7dyqwJ0pMficr4mbkahKeCjvl4swmt8hJ2XqFGA9bQ3B/mmBCrJ5W0cuG4xrXpP
-         pkx959Wkv4QGWSz2h7czI/ExUZ2UOW6uitT3axyYZR6z+wkf8EY8+XZnmD8XuN7UL9Oe
-         CWZWJH9cm5w79l+64kAvmLu2Enq2NmNrFh8mDz+tRqwfqtRxlWcSjazS7giN9QHNVtWx
-         UNWBhmiFdahm2IjmP//uGW/NaqhjReC8EBnaWLhz5O85mv9gPUdK1nE6DUbXrhbwv7gt
-         tHGl9ed5i7yYmGwZ/yepL3ESkZxlU5B43AAbvPLbhiBfKcFRp7xSh2lJJQtSVfRa6oL3
-         mRSA==
-X-Forwarded-Encrypted: i=1; AJvYcCW/udsbmvQAQK9JmT5IBWmiMmJsr3IdHeieyIK4Hos0x1KES7Fl77E7PI32IpEhbRRn8QSo7RZQ51Hf@vger.kernel.org, AJvYcCWPqwiZnkgFh+s4yztpvXK3sNV8ahuJyUQm5YjmV/DWII7A4ozuklsNEpOUAgoWLSbydMgWiEe0EMCTDKRI@vger.kernel.org, AJvYcCWTvfxFOx8jy50DzlMkvvXoC32YEBL2xG7mPKU+gU3hD2k6skhHTT/6TK3vACsPR5pR2qFtSTIMiuOc@vger.kernel.org
-X-Gm-Message-State: AOJu0YybIgiLajFrX254ORYwsSSuRtetpGDgRwVq2AG0FzmuYgAICE4O
-	gxFItVvi/04CobXz9iPojRVO/RvK23tw3EkgRf47bCAxtwcrWLQL
-X-Gm-Gg: ASbGncsng0UPOwYzQAhZHV8muxyCVuJPgAzxXh9CVaNXMm8DC/VRfCP3EmVFIcc9SUE
-	xnRvN7fnnVapMC5lR7SU1DD8oUXl3as+1ybsVRzkkyaQGQYnxEQ1bFl5E6Xzd1JU8oYYOpyn3R1
-	ozTPPh/zSrNCs0cGGXPJcwyy54hh/i46mqCun42zj8CZjEki8hsqS2DxV5l5mUkAXoTmKy03bRd
-	+aGRTK6jJsX+gziacdqDfmqaACgJ4/pu4/01q+3HSnYbGi7t+BG46ngfgfzWve7bdD7s0X2Cr1u
-	3dkojJDtD7bxEiU=
-X-Google-Smtp-Source: AGHT+IHys4xsUz/S+Yv5CD+DsNOj6mj0m+DTH45vx3YlE4Esvw4TgUgeL097Mh2SDR1ToXoDDpMpkQ==
-X-Received: by 2002:a05:6a20:cf83:b0:1e0:f495:1bd9 with SMTP id adf61e73a8af0-1ede881ba1emr1949980637.8.1738723264886;
-        Tue, 04 Feb 2025 18:41:04 -0800 (PST)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-acebe856951sm10664577a12.34.2025.02.04.18.41.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2025 18:41:03 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 2B46C4208FB6; Wed, 05 Feb 2025 09:41:00 +0700 (WIB)
-Date: Wed, 5 Feb 2025 09:40:59 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Amirreza Zarrabi <quic_azarrabi@quicinc.com>,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Sumit Garg <sumit.garg@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 8/8] Documentation: tee: Add Qualcomm TEE driver
-Message-ID: <Z6LPu7WcRFnSCyAq@archie.me>
-References: <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-0-297eacd0d34f@quicinc.com>
- <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-8-297eacd0d34f@quicinc.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MtRL4UOW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738723289; x=1770259289;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=JZgQkH+UIDzCx9TfxkKdm4ixBg9gHdAsFun4ac3uwuI=;
+  b=MtRL4UOWGHZMZ6yFBnvWDoVXcNd6NqW5zsOhgHxu9LyMJ5nICXXsieP8
+   bF1RorcokpvLszObH+aNd9bgG126Afo6yKrWekp0/tCB99akcWiyMt1+c
+   GeDSxSRCF0BUveucvqR8IdZr4zCNuAB+fwBjsFf/cNxkss0dJAyTUcchr
+   Y6ThvikG8tAPV5GQh4SXxJp67Bk0DEUsgKUFyR/NaLL3F4A9Ji0Rc0Iya
+   ON4awoFKrSUMv7b7Gj3W8DTo2LBHl7se9mwFUsC6ty9EqyKFDjUpeVdhR
+   scCkqCwb43+NTH0s2m4hgWOCD5qa7mSl9gjD2Pdap8LiIZBbWF+RLBxH/
+   Q==;
+X-CSE-ConnectionGUID: FFbxe7pUSsqgE6ZjdQpOgg==
+X-CSE-MsgGUID: /2I1bgl6RqSJDAcCc20ruA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39303770"
+X-IronPort-AV: E=Sophos;i="6.13,260,1732608000"; 
+   d="scan'208";a="39303770"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 18:41:28 -0800
+X-CSE-ConnectionGUID: Z7J4DcRpRnOCPPqiQ72SdA==
+X-CSE-MsgGUID: IyDqqxbBR3i9rCAWSoy8yA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,260,1732608000"; 
+   d="scan'208";a="110666534"
+Received: from p12ill20yoongsia.png.intel.com ([10.88.227.38])
+  by fmviesa007.fm.intel.com with ESMTP; 04 Feb 2025 18:41:16 -0800
+From: Song Yoong Siang <yoong.siang.song@intel.com>
+To: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Willem de Bruijn <willemb@google.com>,
+	Florian Bezdeka <florian.bezdeka@siemens.com>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bjorn Topel <bjorn@kernel.org>,
+	Magnus Karlsson <magnus.karlsson@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Joe Damato <jdamato@fastly.com>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Mina Almasry <almasrymina@google.com>,
+	Daniel Jurgens <danielj@nvidia.com>,
+	Song Yoong Siang <yoong.siang.song@intel.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Mykola Lysenko <mykolal@fb.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	KP Singh <kpsingh@kernel.org>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Faizal Rahim <faizal.abdul.rahim@linux.intel.com>,
+	Choong Yong Liang <yong.liang.choong@linux.intel.com>,
+	Bouska Zdenek <zdenek.bouska@siemens.com>
+Cc: netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	bpf@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	intel-wired-lan@lists.osuosl.org,
+	xdp-hints@xdp-project.net
+Subject: [PATCH bpf-next v8 0/5] xsk: TX metadata Launch Time support
+Date: Wed,  5 Feb 2025 10:41:11 +0800
+Message-Id: <20250205024116.798862-1-yoong.siang.song@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="YU5J0YlSYBp99PA5"
-Content-Disposition: inline
-In-Reply-To: <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-8-297eacd0d34f@quicinc.com>
+Content-Transfer-Encoding: 8bit
 
+This series expands the XDP TX metadata framework to allow user
+applications to pass per packet 64-bit launch time directly to the kernel
+driver, requesting launch time hardware offload support. The XDP TX
+metadata framework will not perform any clock conversion or packet
+reordering.
 
---YU5J0YlSYBp99PA5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Please note that the role of Tx metadata is just to pass the launch time,
+not to enable the offload feature. Users will need to enable the launch
+time hardware offload feature of the device by using the respective
+command, such as the tc-etf command.
 
-On Sun, Feb 02, 2025 at 06:43:36PM -0800, Amirreza Zarrabi wrote:
-> +The QTEE driver offers the qcomtee_object, which represents an object wi=
-thin
-              "... provides ..."
-> +both QTEE and the kernel. To access any service in QTEE, a client needs =
-to
-> +invoke an instance of this object. Any structure intended to represent a=
- service
-> +for export to QTEE should include an instance of qcomtee_object::
+Although some devices use the tc-etf command to enable their launch time
+hardware offload feature, xsk packets will not go through the etf qdisc.
+Therefore, in my opinion, the launch time should always be based on the PTP
+Hardware Clock (PHC). Thus, i did not include a clock ID to indicate the
+clock source.
 
-Thanks.
+To simplify the test steps, I modified the xdp_hw_metadata bpf self-test
+tool in such a way that it will set the launch time based on the offset
+provided by the user and the value of the Receive Hardware Timestamp, which
+is against the PHC. This will eliminate the need to discipline System Clock
+with the PHC and then use clock_gettime() to get the time.
 
---=20
-An old man doll... just what I always wanted! - Clara
+Please note that AF_XDP lacks a feedback mechanism to inform the
+application if the requested launch time is invalid. So, users are expected
+to familiar with the horizon of the launch time of the device they use and
+not request a launch time that is beyond the horizon. Otherwise, the driver
+might interpret the launch time incorrectly and react wrongly. For stmmac
+and igc, where modulo computation is used, a launch time larger than the
+horizon will cause the device to transmit the packet earlier that the
+requested launch time.
 
---YU5J0YlSYBp99PA5
-Content-Type: application/pgp-signature; name="signature.asc"
+Although there is no feedback mechanism for the launch time request
+for now, user still can check whether the requested launch time is
+working or not, by requesting the Transmit Completion Hardware Timestamp.
 
------BEGIN PGP SIGNATURE-----
+V8:
+  - check the number of used descriptor in xsk_tx_metadata_request()
+    by using used_desc of struct igc_metadata_request, and then decreases
+    the budget with it (Maciej)
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ6LPswAKCRD2uYlJVVFO
-o0KbAP9BjWgtTT9EraVe8ZUmzZ8MQd4wzzlo4o5ckCFleZ3mSgEAxIECwku5zqqh
-UyRE4JypMVgh+6eEDCjJJEOM7BPFvgY=
-=Ma8E
------END PGP SIGNATURE-----
+V7: https://lore.kernel.org/netdev/20250204004907.789330-1-yoong.siang.song@intel.com/
+  - split the refactoring code of igc empty packet insertion into a separate
+    commit (Faizal)
+  - add explanation on why the value "4" is used as igc transmit budget
+    (Faizal)
+  - perform a stress test by sending 1000 packets with 10ms interval and
+    launch time set to 500us in the future (Faizal & Yong Liang)
 
---YU5J0YlSYBp99PA5--
+V6: https://lore.kernel.org/netdev/20250116155350.555374-1-yoong.siang.song@intel.com/
+  - fix selftest build errors by using asprintf() and realloc(), instead of
+    managing the buffer sizes manually (Daniel, Stanislav)
+
+V5: https://lore.kernel.org/netdev/20250114152718.120588-1-yoong.siang.song@intel.com/
+  - change netdev feature name from tx-launch-time to tx-launch-time-fifo
+    to explicitly state the FIFO behaviour (Stanislav)
+  - improve the looping of xdp_hw_metadata app to wait for packet tx
+    completion to be more readable by using clock_gettime() (Stanislav)
+  - add launch time setup steps into xdp_hw_metadata app (Stanislav)
+
+V4: https://lore.kernel.org/netdev/20250106135506.9687-1-yoong.siang.song@intel.com/
+  - added XDP launch time support to the igc driver (Jesper & Florian)
+  - added per-driver launch time limitation on xsk-tx-metadata.rst (Jesper)
+  - added explanation on FIFO behavior on xsk-tx-metadata.rst (Jakub)
+  - added step to enable launch time in the commit message (Jesper & Willem)
+  - explicitly documented the type of launch_time and which clock source
+    it is against (Willem)
+
+V3: https://lore.kernel.org/netdev/20231203165129.1740512-1-yoong.siang.song@intel.com/
+  - renamed to use launch time (Jesper & Willem)
+  - changed the default launch time in xdp_hw_metadata apps from 1s to 0.1s
+    because some NICs do not support such a large future time.
+
+V2: https://lore.kernel.org/netdev/20231201062421.1074768-1-yoong.siang.song@intel.com/
+  - renamed to use Earliest TxTime First (Willem)
+  - renamed to use txtime (Willem)
+
+V1: https://lore.kernel.org/netdev/20231130162028.852006-1-yoong.siang.song@intel.com/
+
+Song Yoong Siang (5):
+  xsk: Add launch time hardware offload support to XDP Tx metadata
+  selftests/bpf: Add launch time request to xdp_hw_metadata
+  net: stmmac: Add launch time support to XDP ZC
+  igc: Refactor empty packet insertion into a reusable function
+  igc: Add launch time support to XDP ZC
+
+ Documentation/netlink/specs/netdev.yaml       |   4 +
+ Documentation/networking/xsk-tx-metadata.rst  |  62 +++++++
+ drivers/net/ethernet/intel/igc/igc.h          |   1 +
+ drivers/net/ethernet/intel/igc/igc_main.c     |  94 +++++++---
+ drivers/net/ethernet/stmicro/stmmac/stmmac.h  |   2 +
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c |  13 ++
+ include/net/xdp_sock.h                        |  10 ++
+ include/net/xdp_sock_drv.h                    |   1 +
+ include/uapi/linux/if_xdp.h                   |  10 ++
+ include/uapi/linux/netdev.h                   |   3 +
+ net/core/netdev-genl.c                        |   2 +
+ net/xdp/xsk.c                                 |   3 +
+ tools/include/uapi/linux/if_xdp.h             |  10 ++
+ tools/include/uapi/linux/netdev.h             |   3 +
+ tools/testing/selftests/bpf/xdp_hw_metadata.c | 168 +++++++++++++++++-
+ 15 files changed, 359 insertions(+), 27 deletions(-)
+
+-- 
+2.34.1
+
