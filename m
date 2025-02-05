@@ -1,131 +1,123 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D120EAD0;
-	Wed,  5 Feb 2025 02:37:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01121200A3;
+	Wed,  5 Feb 2025 02:41:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738723081; cv=none; b=a56SlQKoONPGBUg65GO/aN4UsWvhPec6koFyMbEIqeehIjrsgIAkGAnATPh0OVi/6fL9dp/IMtUXfDGKAwZax8t2cXF7Ni4WGpypZ/BI1BtrCM6EuO3LO/P/g/UyISkd1I0hc4gICa3u/NHxyheUGy/y2HgSp4SGffmTZZMeEE8=
+	t=1738723267; cv=none; b=aD1ITnvNQghtO8+zJzD+zh159UYWLSKWa8XpQBgAsUT9k2b/KNSg8U2ifA/uwjkrENFIiPuilpUft53Cwy2AZfmE/8btdDk6QJus9EqzagThnABzKoSt3A7ObFoB8DqzE2K89OArogiorNFQcvj0vUbQnR18rKxm08v/u6j9bn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738723081; c=relaxed/simple;
-	bh=0SjtCwBy0EpN9gDablJ852+KiT9vja0588/6+ZooJXM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qZYES00DKVKbf410gCWmtCfVm9yKQA46CGyZvzjLN6HAq1KrCG8P7moIUnyjT7bBx3Jf1oFevNDj84B3BGPTDKtZRYVejkb3nIxxkyvMFbFt0PmOZmIDZBWKUCoL0nQk/96W4vSYjx9yqNPXe8o0AZO7KWmpTWPdmFZLlNwYEGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iKnQvRx2; arc=none smtp.client-ip=209.85.216.48
+	s=arc-20240116; t=1738723267; c=relaxed/simple;
+	bh=8KHGfVIy6PZ/kQOwVu8+li4ZGBn5wHtCLBclG5gxpZQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RD/GuflF25sRIdlzJRfB6WZsTqWk8YbH5Y0yI7P8mitjaniyMgxi/JLoIEELGtzzQ4N70MIZxBeU8NhJsC78OEEtYhhoOIrzTRUyZdbvtIoDvOv9ugVm2LJnOQfdjlJvRc7vti/SOLMugEZEMQp5uk9t8YxqQ6atzBRoeCYC1Fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=apNNpCr8; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iKnQvRx2"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2f9dbd7d80dso998690a91.1;
-        Tue, 04 Feb 2025 18:37:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="apNNpCr8"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-21f16af1f71so5530465ad.3;
+        Tue, 04 Feb 2025 18:41:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738723079; x=1739327879; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9YqD7C7VJhfCMl7wUCwqHeMvuQwAb3ZaESvJM09Fy0U=;
-        b=iKnQvRx2rHHxh/NDMfbKNKBaocfe8I3Q2J6YL0KRfeaoYiQQl7zJY3Lty0zJ3EZ66X
-         N2pyLI/MG5iRrj1ya4AXiTTpni5AU6EpLFaROwrgd4LibBMYniKJnMaC+KQvq/o0kTLP
-         kSo+l92AnyZtt36MdpDrqIScIA32YkW51zVwnp18+1v9OeznikGLbqCSX4FTgRzEHSlo
-         XaMjFK1fm60z6Kf3hXij2hhRBWEeAf3oQXCqy6+9BPIfZXdJUxDtHJ9hm6J9W3PtMM/6
-         t/o5i28a8auQINfusGZcEb5zmMcgOblAepJXE8fqVdCK/z+AB/W2AOaDsJzgy58bqm+J
-         ZZpg==
+        d=gmail.com; s=20230601; t=1738723265; x=1739328065; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4twR9JSRKP16NJKHDkljf0dEGI6XOF41Z0J3Jxda0WY=;
+        b=apNNpCr8eMUsUzlN2a68o7vmCtA5w9AyLLMJDASFsr+rw3qLruoM2jYMqIYn7TCVPW
+         8CtrcI1wQowXsN7BQPZ+O5EWbEm2iuMLSwpvdmHCkf3g6m+G1IEcWixixQlcEFJR3Va8
+         zDaMQMu38YDmd5Sn277Rc96e/zdVsWv5PWj2ipLCsm4UKAozjuWwVtqDI/OdVAiKWdZ3
+         P91cqKvbRByDr8nDnfjBj9XH9NKbKofDnmF+4tW7kjI4mXprVFkH1iQu4+PQkx7tY//8
+         /BSAoUpPbHqHrT8qlRxAdTG//D4bp93ltTTsfFSsECQluAt2oNeEWRC3PADVnBwwtIhM
+         1vdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738723079; x=1739327879;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9YqD7C7VJhfCMl7wUCwqHeMvuQwAb3ZaESvJM09Fy0U=;
-        b=OWQn4eOeL4lxXY6FDYovlhrQiXI4lAr850WyY2vqzt55Qeph0tqPTXeCuja0V2+gEM
-         0Dl+6yuMFYmBmTTzcT8HNgdy6XMdsKFeQGQGoRdC6qDgHnyqq2k44AiyaL2ObS2Pct+x
-         SwRRYIdAm48gb3bNj23uCWRP104jJV/djI5eDnliFgctyIzzWU9DbIbBrJXW7Gb3DWiR
-         qrWCG36UylH7RYVtLD5jUf+Y48YRcAnDRoPQh6ShowxW4+zkCRAGtjcNydX1yMK6g1GG
-         G6P8isPOrVg+rF2sRU44UDDr8TNBLtpSnk8DUPZQykSrCmz+3vHKALgVB/nwsncWvAAa
-         W8Pw==
-X-Forwarded-Encrypted: i=1; AJvYcCXB95AW0w4MnJ5+EzY5gKIYwtsihfZRiPN7ZCk2vbYgS/7jgE+m3HBX/jAbgdeXbh2N1IL6ts8o88g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYcNYvnpwNMUNRb/aaWGS7E5RagD+gY6nchn6Udxq/ztf+hNPU
-	39fj0cKcZK8kfRCW9kmDe0mhhNN6+r431Z5k3NAzwpOtarGa3j5y
-X-Gm-Gg: ASbGnctt9fOULC37qk9a0S3e3i2NiyhEeovOyu+jhbM+ASGZuXz6Eif0ulpdaDAJcEL
-	p3cEh84dJpR7m3V/eJzDK295PlWp5Dt/3gof+x3P1jGMc2Kods1zC+ZPwjqMv+XkvQInujvOdl7
-	hex4azijA+RdkwQlyrSHidWPU1D+ysLupyfNdgPL/b7sYfyI+7SBtcgLS8cjLu/wPMgt0zco/Qs
-	J7BSx3WfrbBRECsn0fOngWiRmktIl5yjn+OJ3uGspwRS+npgXJiWUm7KBiRIT+gEm3g2ur1CQek
-	5e1kt2OPixIqxEq0lXvQb3zzFE8CPmQl3D3LKVOnrE8LIGDmLCR0hawHF3QZgA==
-X-Google-Smtp-Source: AGHT+IGxQsCDfudxB1NDFEIvrGv8L1BkIyn30BbGdaho8Z4JBeHINfYTYWvFqBMciVq7UgKJhMVgYA==
-X-Received: by 2002:a17:90a:d44b:b0:2ee:c9b6:c267 with SMTP id 98e67ed59e1d1-2f9e075da23mr1854834a91.9.1738723078671;
-        Tue, 04 Feb 2025 18:37:58 -0800 (PST)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f02b28cb2sm23500935ad.206.2025.02.04.18.37.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Feb 2025 18:37:58 -0800 (PST)
-Message-ID: <4274a2f8-5ba5-45f3-80c5-2de54c44c06f@gmail.com>
-Date: Wed, 5 Feb 2025 11:37:52 +0900
+        d=1e100.net; s=20230601; t=1738723265; x=1739328065;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4twR9JSRKP16NJKHDkljf0dEGI6XOF41Z0J3Jxda0WY=;
+        b=Uky7dyqwJ0pMficr4mbkahKeCjvl4swmt8hJ2XqFGA9bQ3B/mmBCrJ5W0cuG4xrXpP
+         pkx959Wkv4QGWSz2h7czI/ExUZ2UOW6uitT3axyYZR6z+wkf8EY8+XZnmD8XuN7UL9Oe
+         CWZWJH9cm5w79l+64kAvmLu2Enq2NmNrFh8mDz+tRqwfqtRxlWcSjazS7giN9QHNVtWx
+         UNWBhmiFdahm2IjmP//uGW/NaqhjReC8EBnaWLhz5O85mv9gPUdK1nE6DUbXrhbwv7gt
+         tHGl9ed5i7yYmGwZ/yepL3ESkZxlU5B43AAbvPLbhiBfKcFRp7xSh2lJJQtSVfRa6oL3
+         mRSA==
+X-Forwarded-Encrypted: i=1; AJvYcCW/udsbmvQAQK9JmT5IBWmiMmJsr3IdHeieyIK4Hos0x1KES7Fl77E7PI32IpEhbRRn8QSo7RZQ51Hf@vger.kernel.org, AJvYcCWPqwiZnkgFh+s4yztpvXK3sNV8ahuJyUQm5YjmV/DWII7A4ozuklsNEpOUAgoWLSbydMgWiEe0EMCTDKRI@vger.kernel.org, AJvYcCWTvfxFOx8jy50DzlMkvvXoC32YEBL2xG7mPKU+gU3hD2k6skhHTT/6TK3vACsPR5pR2qFtSTIMiuOc@vger.kernel.org
+X-Gm-Message-State: AOJu0YybIgiLajFrX254ORYwsSSuRtetpGDgRwVq2AG0FzmuYgAICE4O
+	gxFItVvi/04CobXz9iPojRVO/RvK23tw3EkgRf47bCAxtwcrWLQL
+X-Gm-Gg: ASbGncsng0UPOwYzQAhZHV8muxyCVuJPgAzxXh9CVaNXMm8DC/VRfCP3EmVFIcc9SUE
+	xnRvN7fnnVapMC5lR7SU1DD8oUXl3as+1ybsVRzkkyaQGQYnxEQ1bFl5E6Xzd1JU8oYYOpyn3R1
+	ozTPPh/zSrNCs0cGGXPJcwyy54hh/i46mqCun42zj8CZjEki8hsqS2DxV5l5mUkAXoTmKy03bRd
+	+aGRTK6jJsX+gziacdqDfmqaACgJ4/pu4/01q+3HSnYbGi7t+BG46ngfgfzWve7bdD7s0X2Cr1u
+	3dkojJDtD7bxEiU=
+X-Google-Smtp-Source: AGHT+IHys4xsUz/S+Yv5CD+DsNOj6mj0m+DTH45vx3YlE4Esvw4TgUgeL097Mh2SDR1ToXoDDpMpkQ==
+X-Received: by 2002:a05:6a20:cf83:b0:1e0:f495:1bd9 with SMTP id adf61e73a8af0-1ede881ba1emr1949980637.8.1738723264886;
+        Tue, 04 Feb 2025 18:41:04 -0800 (PST)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-acebe856951sm10664577a12.34.2025.02.04.18.41.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Feb 2025 18:41:03 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 2B46C4208FB6; Wed, 05 Feb 2025 09:41:00 +0700 (WIB)
+Date: Wed, 5 Feb 2025 09:40:59 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Amirreza Zarrabi <quic_azarrabi@quicinc.com>,
+	Jens Wiklander <jens.wiklander@linaro.org>,
+	Sumit Garg <sumit.garg@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 8/8] Documentation: tee: Add Qualcomm TEE driver
+Message-ID: <Z6LPu7WcRFnSCyAq@archie.me>
+References: <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-0-297eacd0d34f@quicinc.com>
+ <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-8-297eacd0d34f@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 1/6] scripts/get_abi.py: make it backward-compatible with
- Python 3.6
-To: Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <cover.1738166451.git.mchehab+huawei@kernel.org>
- <6d74360f8cdabeb0bf628a6e870d10e134f396f0.1738166451.git.mchehab+huawei@kernel.org>
- <87r04dei1j.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <87r04dei1j.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="YU5J0YlSYBp99PA5"
+Content-Disposition: inline
+In-Reply-To: <20250202-qcom-tee-using-tee-ss-without-mem-obj-v2-8-297eacd0d34f@quicinc.com>
 
-Hi,
 
-Jonathan Corbet wrote:
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
->> Despite being introduced on Python 3.6, the original implementation
->> was too limited: it doesn't accept anything but the argument.
-> 
-> The original implementation *of f-strings* ?
-> 
->> Even on python 3.10.12, support was still limited, as more complex
->> operations cause SyntaxError:
->>
->> 	Exception occurred:
->> 	  File ".../linux/Documentation/sphinx/kernel_abi.py", line 48, in <module>
->> 	    from get_abi import AbiParser
->> 	  File ".../linux/scripts/get_abi.py", line 525
->> 	    msg += f"{part}\n{"-" * len(part)}\n\n"
->>                        ^
->> 	SyntaxError: f-string: expecting '}'
->>
->> Replace f-strings by normal string concatenation when it doesn't
->> work on Python 3.6.
->>
->> Reported-by: Akira Yokosawa <akiyks@gmail.com>
+--YU5J0YlSYBp99PA5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You might want to add
+On Sun, Feb 02, 2025 at 06:43:36PM -0800, Amirreza Zarrabi wrote:
+> +The QTEE driver offers the qcomtee_object, which represents an object wi=
+thin
+              "... provides ..."
+> +both QTEE and the kernel. To access any service in QTEE, a client needs =
+to
+> +invoke an instance of this object. Any structure intended to represent a=
+ service
+> +for export to QTEE should include an instance of qcomtee_object::
 
-Closes: https://lore.kernel.org/2d4d3fd1-5fe2-4d18-9085-73f9ff930c2d@gmail.com/
+Thanks.
 
->> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> 
-> So I'm curious ... later in the series, you make 3.9 the minimal version
-> for the kernel.  Given that, is there value in adding compatibility for
-> older versions here?
+--=20
+An old man doll... just what I always wanted! - Clara
 
-I think rewording the summary to
+--YU5J0YlSYBp99PA5
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  "scripts/get_abi.py: make it backward-compatible with Python <3.11"
+-----BEGIN PGP SIGNATURE-----
 
-would resolve Jon's confusion.
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ6LPswAKCRD2uYlJVVFO
+o0KbAP9BjWgtTT9EraVe8ZUmzZ8MQd4wzzlo4o5ckCFleZ3mSgEAxIECwku5zqqh
+UyRE4JypMVgh+6eEDCjJJEOM7BPFvgY=
+=Ma8E
+-----END PGP SIGNATURE-----
 
-I haven't looked into python3'changelog, but it might be
-"... backward-compatible with Python <3.12".
-Mauro, which python3 release extended the f-string implementation?
-
-        Thanks, Akira
-
+--YU5J0YlSYBp99PA5--
