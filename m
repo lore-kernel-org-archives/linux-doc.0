@@ -1,117 +1,131 @@
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7FB25A649
-	for <linux-doc@vger.kernel.org>; Wed,  5 Feb 2025 07:38:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A146138F82;
+	Wed,  5 Feb 2025 07:44:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738741101; cv=none; b=h5mEVcOyaR8piHfd2xTOmj58/SfbXbN6hOg9WamVsTsAw5EtdoT9C0Jq7vKJN9EjZE9S0yaf5wAR64YRaoRS5NE8H8GEt5IeSlLcVjELjGx2VCctMHjmnf5A9Ypfppp4kpD2tIAr/vBGUHelyCm/O2C2x5fPi7hWunoGLi5lI00=
+	t=1738741448; cv=none; b=YRkq6FUAP+eO1QpBGPn0loLDeAdqdHMXM8+2SBboB7WzD3fJmHhWsR0DGFnGQ9+zX0GhpryFk8icSTZzRs54eY2u1Ox/k3wo9HKvovdhS1TIocygL4VF+8IM4CUG1u8FsXnfL9u8bNpEGjZm4b2/veeVqbsNB5aVomCUTxIkIl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738741101; c=relaxed/simple;
-	bh=HlNYFQ3NYjymYFg5mAdmajg9c6sM8VinOHGQYBVqXns=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p7FLe9dUh9mCE9UfBv/uWEOM8YF2UFalpcI+Rc8bU6+fS5cDWTZSoLNnnAg48Y+IfKJSuKhnjGFW0HmCQ+9jzp2rGacCWenIFRJowuSA8A1IEe+n8e6LqdXFWbhQoHGfB7NMPqCyG3skoRGKVL8X+fELO3eWM52LGo7A/A4o730=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sfgUvxb4; arc=none smtp.client-ip=95.215.58.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1738741448; c=relaxed/simple;
+	bh=BpS67GaUajKjTHome07KNAXrLsWfOkTNDhao5HwLCWU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dY5OONn5kCZEegwJOHGOXWoTDYR7r7VKKNQWGDdtfp7ot7FgKzQeBC6rOxJYxGXaAYJ6m+ZKcCcPyXj5M+hdmz/pPfyXxE0r1J7X6EWy2yb7ooXVTaYZgR6IeCGNrhSfXNKSItU+VqFiq16mkna+krUD2CsjZRyAeKPnx0msfLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lDg08iKy; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sfgUvxb4"
-Message-ID: <0b68e534-df14-4496-802a-bc0437469720@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1738741086;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JJq0jhWaqKdnYERgHRncnOv84+3G9xOucAEmDo4x5Ik=;
-	b=sfgUvxb4FZQ1CHc9J9D5/pr8v66nMyi5wDN33Nz/KVkeQDdRgHBC8d4d9FxcK0n28XBlzt
-	QPRN0tlmePh6X8UgeihXOl2B96bR9jDais8SBTetatlx8jyAgi2zqhV0Kw4I+w6hjt2Feb
-	PLULSLjGLWCge3I4Tk9LZDsbBuqOKEo=
-Date: Wed, 5 Feb 2025 15:37:45 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lDg08iKy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1738741446; x=1770277446;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BpS67GaUajKjTHome07KNAXrLsWfOkTNDhao5HwLCWU=;
+  b=lDg08iKys6ZLRZXzX6u8/8cKW51/BnCp9E0pdm3k0S/tpFxIYhrkYI2m
+   sRdtq4awgeyrU5JoJF+3dJ2u4+0pNpfkatYvBU9humH7Yq0O0eip+A3Jt
+   z/pSKAoksvp90niZn1q8KfTVz94Fiv3oaxiOLSdZzWkb73zSKuefLllcC
+   tQSypg8JZJCE+/ErId9lut4tXa237R1gEc/YRX+mM6Gea+jfC3GJK4iV9
+   0cGD38y28HGZQxxMliENkreAvPqECDyoIebv0Td4NbOACSw7jyzjD51B/
+   zTWHagXmXeRSvEbn+c7SGx5b9fVTbmUwfRvG9MSLtz3T9nh0v2rkxATmL
+   Q==;
+X-CSE-ConnectionGUID: kX3WqZdfTAS7HxtUEygSFw==
+X-CSE-MsgGUID: RZSCYPepT+GBYEy08wSBLQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="26897131"
+X-IronPort-AV: E=Sophos;i="6.13,260,1732608000"; 
+   d="scan'208";a="26897131"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 23:44:06 -0800
+X-CSE-ConnectionGUID: uBtXFELbQ+aSQJdQFlcA9g==
+X-CSE-MsgGUID: +zH4Yxk7QnmuVDaXzGls7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,260,1732608000"; 
+   d="scan'208";a="110712993"
+Received: from mev-dev.igk.intel.com ([10.237.112.144])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 23:44:01 -0800
+Date: Wed, 5 Feb 2025 08:40:28 +0100
+From: Michal Swiatkowski <michal.swiatkowski@linux.intel.com>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Tony Nguyen <anthony.l.nguyen@intel.com>, davem@davemloft.net,
+	kuba@kernel.org, pabeni@redhat.com, edumazet@google.com,
+	andrew+netdev@lunn.ch, netdev@vger.kernel.org,
+	sridhar.samudrala@intel.com, jacob.e.keller@intel.com,
+	pio.raczynski@gmail.com, konrad.knitter@intel.com,
+	marcin.szycik@intel.com, nex.sw.ncis.nat.hpm.dev@intel.com,
+	przemyslaw.kitszel@intel.com, jiri@resnulli.us, horms@kernel.org,
+	David.Laight@aculab.com, pmenzel@molgen.mpg.de, mschmidt@redhat.com,
+	tatyana.e.nikolova@intel.com, Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>, linux-rdma@vger.kernel.org,
+	corbet@lwn.net, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next 2/9] ice: devlink PF MSI-X max and min parameter
+Message-ID: <Z6MV7KY81S+/bGGY@mev-dev.igk.intel.com>
+References: <20250203210940.328608-1-anthony.l.nguyen@intel.com>
+ <20250203210940.328608-3-anthony.l.nguyen@intel.com>
+ <20250203214808.129b75e5@pumpkin>
+ <Z6GuSJCshbWlkiLu@mev-dev.igk.intel.com>
+ <20250204184121.168eaba2@pumpkin>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] docs: submitting-patches: document the format for
- affiliation
-To: Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250203174626.1131225-1-kuba@kernel.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <20250203174626.1131225-1-kuba@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250204184121.168eaba2@pumpkin>
 
+On Tue, Feb 04, 2025 at 06:41:21PM +0000, David Laight wrote:
+> On Tue, 4 Feb 2025 07:06:00 +0100
+> Michal Swiatkowski <michal.swiatkowski@linux.intel.com> wrote:
+> 
+> > On Mon, Feb 03, 2025 at 09:48:08PM +0000, David Laight wrote:
+> > > On Mon,  3 Feb 2025 13:09:31 -0800
+> > > Tony Nguyen <anthony.l.nguyen@intel.com> wrote:
+> > >   
+> > > > From: Michal Swiatkowski <michal.swiatkowski@linux.intel.com>
+> > > > 
+> > > > Use generic devlink PF MSI-X parameter to allow user to change MSI-X
+> > > > range.
+> > > > 
+> > > > Add notes about this parameters into ice devlink documentation.
+> ....
+> > > Don't those checks make it difficult to set the min and max together?
+> > > I think you need to create the new min/max pair and check they are
+> > > valid together.
+> > > Which probably requires one parameter with two values.
+> > >   
+> > 
+> > I wanted to reuse exsisting parameter. The other user of it is bnxt
+> > driver. In it there is a separate check for min "max" and max "max".
+> > It is also problematic, because min can be set to value greater than
+> > max (here it can happen when setting together to specific values).
+> > I can do a follow up to this series and change this parameter as you
+> > suggested. What do you think?
+> 
+> Changing the way a parameter is used will break API compatibility.
+> Perhaps you can get the generic parameter validation function to
+> update a 'pending' copy, and then do the final min < max check after
+> all the parameters have been processed before actually updating
+> the live limits.
+> 
+> The other option is just not to check whether min < max and just
+> document which takes precedence (and not use clamp()).
+> 
+> It may even be worth saving the 'live limits' as 'hi << 16 | lo' so
+> that then can be accessed atomically (with READ/WRITE_ONCE) to avoid
+> anything looking at the limits getting confused.
+> (Although maybe that doesn't matter here?)
+> 
+> 	David
 
-
-
-在 2025/2/4 01:46, Jakub Kicinski 写道:
-> Adding company name in round brackets to From/SoB lines
-> is fairly common, but I don't see it documented anywhere.
-> Every now and then people try to add the sponsorship lines
-> to the commit message, fun example from this merge window:
->
->    Sponsored by:   The FreeBSD Foundation
->
-> from commit 2ce67f8bf1ce ("wifi: iwlwifi: mvm: fix iwl_ssid_exist()
-> check"). Better format would be:
->
->    Author: Miri Korenblit (FreeBSD Foundation) <...
->
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-> CC: corbet@lwn.net
-> CC: workflows@vger.kernel.org
-> CC: linux-doc@vger.kernel.org
-> ---
->   Documentation/process/submitting-patches.rst | 6 ++++++
->   1 file changed, 6 insertions(+)
->
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index 8fdc0ef3e604..12ed28b3d113 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -717,6 +717,12 @@ patch in the permanent changelog.  If the ``from`` line is missing,
->   then the ``From:`` line from the email header will be used to determine
->   the patch author in the changelog.
->   
-> +The author may indicate their affiliation or the sponsor of the work
-> +by adding the name of an organization to the ``from`` and ``SoB`` lines,
-> +e.g.:
-> +
-> +	From: Patch Author (Company) <author@example.com>
-> +
-It looks great, but I'm a bit worried that it could be misused,
-which might cause trouble for some companies. Even without
-this patch, there's no way to prevent the misuse.
-Consider the following situation:
-
-From: Yanteng Si (linux foundation) <si.yanteng@linux.dev>
-
-Obviously, I'm not a member of the Linux Foundation.
-
-This might seem a bit absurd, but I think it could actually happen,
-especially with some driver code. Hardware manufacturers would
-prefer to upstream their code under the guidance of their companies,
-considering subsequent hardware iterations. However, if some
-enthusiasts pretend to be company employees, and the maintainer,
-trusting the tag, actively applies the patches, it could disrupt the
-rhythm of the hardware manufacturers and is not conducive to code
-maintenance in the long run.
-
-How about we add one more part: The organization name in
-the parentheses doesn't necessarily represent the developer's
-relationship with that organization, especially when it doesn't
-match the email domain name. Maintainers should be cautious
-and verify carefully before applying patches.
-
+Right, I though it is better to have any additional validation for min >
+max cases, but it looks like it is more problematic. I can drop it to
+algin with the bnxt solution.
 
 Thanks,
-Yanteng
+Michal
 
-
+> 
+> > 
+> > Thanks,
+> > Michal
