@@ -1,76 +1,117 @@
-Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F362228387;
-	Wed,  5 Feb 2025 07:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.38.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7FB25A649
+	for <linux-doc@vger.kernel.org>; Wed,  5 Feb 2025 07:38:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738740386; cv=none; b=nEoYccG6U6Qz5KHsyjbU6Un5HlgwCc0CovSEsiF1gQ67TzS/xftatWGavhFbQKFfXWusDnmv1+lY4h9KxBvFMrepgrsLXD2PMM7bT59p27gjxDX1VbXRGshcN9//J4vqoFp/FzFJk8WahRCVD6RpxukLPI52fX8HJxdHZBbn7kE=
+	t=1738741101; cv=none; b=h5mEVcOyaR8piHfd2xTOmj58/SfbXbN6hOg9WamVsTsAw5EtdoT9C0Jq7vKJN9EjZE9S0yaf5wAR64YRaoRS5NE8H8GEt5IeSlLcVjELjGx2VCctMHjmnf5A9Ypfppp4kpD2tIAr/vBGUHelyCm/O2C2x5fPi7hWunoGLi5lI00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738740386; c=relaxed/simple;
-	bh=ZXw3cZSH5PWK8y3e8y6gpVJYCFx9eZq4tClHzqdTihU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZKtDmHvf2uwXXZR+sm1tV1oDXL+aPgyOJ78hTE2EX9tc0UprKNRJwodWwggjWVZX41rrxwXD2eAAyFMP1E/4wBwp4eCPMSEl80jOBWRgAmxMXveAyQuTXpuUj4yIlYsRXEBv1MwOo0QHLC5scz3bFCCJWeQ9227pLO19IN4JGso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net; spf=pass smtp.mailfrom=sipsolutions.net; dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b=hgpyXItA; arc=none smtp.client-ip=168.119.38.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
+	s=arc-20240116; t=1738741101; c=relaxed/simple;
+	bh=HlNYFQ3NYjymYFg5mAdmajg9c6sM8VinOHGQYBVqXns=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p7FLe9dUh9mCE9UfBv/uWEOM8YF2UFalpcI+Rc8bU6+fS5cDWTZSoLNnnAg48Y+IfKJSuKhnjGFW0HmCQ+9jzp2rGacCWenIFRJowuSA8A1IEe+n8e6LqdXFWbhQoHGfB7NMPqCyG3skoRGKVL8X+fELO3eWM52LGo7A/A4o730=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sfgUvxb4; arc=none smtp.client-ip=95.215.58.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="hgpyXItA"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-	Resent-Cc:Resent-Message-ID; bh=ZXw3cZSH5PWK8y3e8y6gpVJYCFx9eZq4tClHzqdTihU=;
-	t=1738740384; x=1739949984; b=hgpyXItACWjLpf3R3ZkeMdepWGNWTsrdbficyuv3Ss9gCws
-	tXUipL++mYakGcWMMdpGJRXfypSVTs1qID+O74hRLytMgzD+CmRPtbLmaGbRZItp3wyS/pNGyTI9P
-	npee74JC1AQrqhURLWdxFsHdrzsNsGcGz8FkgtgdsBHketCYY5ohbSmQnZNZ6jaETzEkUu1YmlMyI
-	PrILUKkCZthX2fvkTyJAmcmm5Pdjb8kyQlOtQW3JwiaFTqWTy2deYaCkqEU8dGZsnRwixNAuJL/Qj
-	F67nW0AwcKrP/LiX/Aep8oipCpkboLajQP8r4wf0ujHky8Fosj/ihNF/PFfroPuA==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.98)
-	(envelope-from <johannes@sipsolutions.net>)
-	id 1tfZnA-00000003gM4-0j6f;
-	Wed, 05 Feb 2025 08:25:50 +0100
-Message-ID: <5d70ec0708ec351efb530a53f0a2c6ad0503bcbb.camel@sipsolutions.net>
-Subject: Re: [PATCH v2 1/2] net, treewide: define and use MAC_ADDR_LEN
-From: Johannes Berg <johannes@sipsolutions.net>
-To: Uday Shankar <ushankar@purestorage.com>, Breno Leitao
- <leitao@debian.org>,  Andrew Lunn <andrew+netdev@lunn.ch>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet	 <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni	 <pabeni@redhat.com>, Srinivas
- Kandagatla <srinivas.kandagatla@linaro.org>, 
- =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?=	 <rafal@milecki.pl>, Simon Horman
- <horms@kernel.org>, Andrew Morton	 <akpm@linux-foundation.org>, Jonathan
- Corbet <corbet@lwn.net>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, linux-doc@vger.kernel.org
-Date: Wed, 05 Feb 2025 08:25:46 +0100
-In-Reply-To: <20250204-netconsole-v2-1-5ef5eb5f6056@purestorage.com>
-References: <20250204-netconsole-v2-0-5ef5eb5f6056@purestorage.com>
-	 <20250204-netconsole-v2-1-5ef5eb5f6056@purestorage.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sfgUvxb4"
+Message-ID: <0b68e534-df14-4496-802a-bc0437469720@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1738741086;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JJq0jhWaqKdnYERgHRncnOv84+3G9xOucAEmDo4x5Ik=;
+	b=sfgUvxb4FZQ1CHc9J9D5/pr8v66nMyi5wDN33Nz/KVkeQDdRgHBC8d4d9FxcK0n28XBlzt
+	QPRN0tlmePh6X8UgeihXOl2B96bR9jDais8SBTetatlx8jyAgi2zqhV0Kw4I+w6hjt2Feb
+	PLULSLjGLWCge3I4Tk9LZDsbBuqOKEo=
+Date: Wed, 5 Feb 2025 15:37:45 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
+Subject: Re: [PATCH] docs: submitting-patches: document the format for
+ affiliation
+To: Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250203174626.1131225-1-kuba@kernel.org>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <20250203174626.1131225-1-kuba@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, 2025-02-04 at 14:41 -0700, Uday Shankar wrote:
-> There are a few places in the tree which compute the length of the
-> string representation of a MAC address as 3 * ETH_ALEN - 1. Define a
-> constant for this and use it where relevant. No functionality changes
-> are expected.
 
-True ... but is "MAC_ADDR_LEN" really an appropriate name for that? Just
-plain reading the subject, my first thought was why you weren't going to
-use ETH_ALEN.
 
-Would seem nicer to me, at least, to have something indicating a
-*string* in there, e.g. MAC_ADDR_STR_LEN or so.
 
-johannes
+在 2025/2/4 01:46, Jakub Kicinski 写道:
+> Adding company name in round brackets to From/SoB lines
+> is fairly common, but I don't see it documented anywhere.
+> Every now and then people try to add the sponsorship lines
+> to the commit message, fun example from this merge window:
+>
+>    Sponsored by:   The FreeBSD Foundation
+>
+> from commit 2ce67f8bf1ce ("wifi: iwlwifi: mvm: fix iwl_ssid_exist()
+> check"). Better format would be:
+>
+>    Author: Miri Korenblit (FreeBSD Foundation) <...
+>
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+> CC: corbet@lwn.net
+> CC: workflows@vger.kernel.org
+> CC: linux-doc@vger.kernel.org
+> ---
+>   Documentation/process/submitting-patches.rst | 6 ++++++
+>   1 file changed, 6 insertions(+)
+>
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index 8fdc0ef3e604..12ed28b3d113 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -717,6 +717,12 @@ patch in the permanent changelog.  If the ``from`` line is missing,
+>   then the ``From:`` line from the email header will be used to determine
+>   the patch author in the changelog.
+>   
+> +The author may indicate their affiliation or the sponsor of the work
+> +by adding the name of an organization to the ``from`` and ``SoB`` lines,
+> +e.g.:
+> +
+> +	From: Patch Author (Company) <author@example.com>
+> +
+It looks great, but I'm a bit worried that it could be misused,
+which might cause trouble for some companies. Even without
+this patch, there's no way to prevent the misuse.
+Consider the following situation:
+
+From: Yanteng Si (linux foundation) <si.yanteng@linux.dev>
+
+Obviously, I'm not a member of the Linux Foundation.
+
+This might seem a bit absurd, but I think it could actually happen,
+especially with some driver code. Hardware manufacturers would
+prefer to upstream their code under the guidance of their companies,
+considering subsequent hardware iterations. However, if some
+enthusiasts pretend to be company employees, and the maintainer,
+trusting the tag, actively applies the patches, it could disrupt the
+rhythm of the hardware manufacturers and is not conducive to code
+maintenance in the long run.
+
+How about we add one more part: The organization name in
+the parentheses doesn't necessarily represent the developer's
+relationship with that organization, especially when it doesn't
+match the email domain name. Maintainers should be cautious
+and verify carefully before applying patches.
+
+
+Thanks,
+Yanteng
+
 
