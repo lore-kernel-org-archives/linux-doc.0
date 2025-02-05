@@ -1,66 +1,66 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E76228C9E
-	for <linux-doc@vger.kernel.org>; Wed,  5 Feb 2025 06:23:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8392122B5BC
+	for <linux-doc@vger.kernel.org>; Wed,  5 Feb 2025 06:23:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738736599; cv=none; b=iwDyg7PwdltRf0IBj8EwU1DHoqseR3g9WuiBLF7r/6jMJZaJsk1TXmVEPnNMzLeuxIqkVBVthyP7BujbUA9VPonIlxodbgWdck4VaWQVICHdk4nnAvfruTnd7wgD1T95Px3COMG32NSSPXcEdQCOAbtuC1xszDm7+QdUqUfMYfA=
+	t=1738736607; cv=none; b=YnEhnww0k0TYHyHs6GMWU169HNpAWKnO1dAacNEY8+Dg3diyQlyi0WdlEmPtJW2kn38sFyQkvwi5+f1ScvB+8VQkuEJK8WhzqCoHqrFn2SrblDEwC6WWRs4ikY6nMredp29CngRhGSee8rOK73sin5HmKwjcbBkrYo2qud7HFoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738736599; c=relaxed/simple;
-	bh=a8oH3PNmwIVYj2tKdIrFjYF4Tj+2irxY4kfMh7WOKvo=;
+	s=arc-20240116; t=1738736607; c=relaxed/simple;
+	bh=j0g58kzxP4/vEuyCfLiH4Cm8UrUU1sRmr41Z0gm9CHs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To; b=lTxruTgQEp5JIybk0ci/FYHj7Oj7wKvqPZXNaFjccjbIlLX+v+xYSdYMx0FOT0PHsvmgFSbpqJhV6Qu1RaQnE5xI9l/OpUnTONC5xyvSYdhnTiXmXb3YZJWOvYpgBphIjphlGfoaRx5wz/QV/20jCcwYYUrkV0+mMk27tb6J3aA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=RhWE+Q9Y; arc=none smtp.client-ip=209.85.216.43
+	 In-Reply-To:To; b=EYDOSVZNmrZ/cmPzWJv1KI0MwlV2Dfb3ZhqvtnHs7PdlyyOYVFjnLnt+suUJIK57UF5BnMMWUHDHRbIfCG3va4sm9Jc5SX0zqnPsPTelJMD0ZhcPTtPwvWhDDcX5tOcpyGQWKeTnC70ReQJTe2BfGvdYOPf8TGQvI0Xh8EBBVv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=bixQjHby; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="RhWE+Q9Y"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2f9d627b5fbso1765937a91.2
-        for <linux-doc@vger.kernel.org>; Tue, 04 Feb 2025 22:23:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="bixQjHby"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21c2f1b610dso152183405ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 04 Feb 2025 22:23:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1738736597; x=1739341397; darn=vger.kernel.org;
+        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1738736604; x=1739341404; darn=vger.kernel.org;
         h=to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=M8srIBeyhs4OWM9PodAkxe8Sc4dGj/gPqaYG7YjTXw0=;
-        b=RhWE+Q9YEROWBWGUSsYw4nh41epxfN9ekdl/kBLgKyRwQ/XWMNxfvCWGeJBidggLOG
-         twM0vPMHhK1Y8DeiC38RTqjBea6wvvmOJVW3RlkMBPs/u9tKbv5WfMExqbKBftGbyKg5
-         er7LClnJskywKV3zwzNZpCkak5i8VF3KY2vlGOtEkEAQ9qtWBcRqVpYw/IVcq+ZcqiEx
-         gtW1Iqi2IcPmtNBPB3Bs9Wi5QwCAf2IAiIvFgiJV3ns4SCSXOKZPYz9/SexaKIc9UC1Q
-         OpLpLGkuyz6RNuxUg0iHOcQBDTz9i6KEfHZOoLCmb+l+FcInIRKEmK2hKERtEE53Es1I
-         NsKQ==
+        bh=lKHFkihW1aXGiNptzm3Sa+/HPN1Hv4LNNLF+gqhLrP8=;
+        b=bixQjHbymQM+QC0x/bX3pnR0UTTs8dByyu0UsPKEdxUisLs9b3BfqTFDqxYnUfHAZi
+         AznDjO5yFfB0fPSqOF4JYAASt71bj4WVw0HLcAD8Mqi7Z4OZ0UBBCzexh5kyqPw+XCXe
+         hIyyTMWMHrdJNK+BcI0biu0D9dpV61Iry+rubRwI9LOGSY7BaOOYXTpqciDSk6cMNGaT
+         mgVSoGb9YcBMz5M8AuqYvZ6aSTpbkGAMpjrMcRBV+DGLszBLdkC9CwcBRjuly5rJE1bL
+         HTifde/ZBTwyj7eDbguWPeXysZLPxZuRupx9XcFP6gce23iCU299w+bjME6Gm5tH024j
+         vB7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738736597; x=1739341397;
+        d=1e100.net; s=20230601; t=1738736604; x=1739341404;
         h=to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=M8srIBeyhs4OWM9PodAkxe8Sc4dGj/gPqaYG7YjTXw0=;
-        b=DYWbpCISaFvma05MlywZ6DZllpm0yVi9cu8wqTmy6YSYwtN5Crsy9FptPyJosLbz92
-         arPhQ+Ex1zbfF0jVPL2fl0nMZM30IqtOFkObT2aKqzeEPdqZBDQWib4Xpja+UO/w6WdM
-         AxtaTTBQ9sTqrTf8UB6CveeHv/m9k6xLGyVkvxK6VOqpI2G8JmGoSqDHut7dnEDD+uJa
-         jTQ42BgE4fhA7sQDdHQaV56uIfS4b0owjwgo8z3H+i3ojL6PqWMtqrj/h8RsjlPsJcpx
-         I/PQXJRbBrToV3alUiJCmYF6PNzicUJ6LGctUh2dmHxrgcCNRQixAqdg8PRKB70kk1SL
-         i3vQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVaeuManJQ51ZKgWXuaeTPucY+agfeYIuQFBcpFcteLs/uY/EdbVxgVv7DmP/ap+OrVj2FioMjckMU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNM1eCDkz5BAARhnw2T6fTSPo8VOsTahd2Ov12dLWcTMP+a8rE
-	RHtMadAw+NdFYqxduVasM5z5c7KHgox+zFy2CCqBH5rtrFcu/c0PIeS0pkcNjoULwnzsIC1xzhw
-	vVrU=
-X-Gm-Gg: ASbGncsJkyt+45ryY8BECd7mMXS8XysAgolmlDv5UXDuKixJUQoz6YacXbeBHAa7jiV
-	ajLbIzdeMG8WLR/Z5o+KVEHNUwaxXHzq8wk4o9TwbPFB0J5LwBcp2+ObA4Ou1HP+rg+IfewfvLE
-	DxDpfmVaezOmBds2jQm56yl1LtLuA86ymleWawa+VvXv6zVnKQK+3MXFeLiKQ11ZSuWHVHgYnNk
-	YZdiYaerYXjw7RCyjoKSKpFTc68PtE0d86+E3pEER/OiHoAGseOdQfiPlkYOY0ge9c+gn8BNl4J
-	+/vmg6xV3mZVZ0uKA4E=
-X-Google-Smtp-Source: AGHT+IHg1+FvFT5HDL6SfSKULAJ1AqWAEtxmHva7Bnl4TG97CsA76lSGxTRKSfzGYdWpbEr3lj3N/w==
-X-Received: by 2002:a05:6a00:2e14:b0:725:ffe:4dae with SMTP id d2e1a72fcca58-73035122ac9mr1991170b3a.10.1738736596777;
-        Tue, 04 Feb 2025 22:23:16 -0800 (PST)
+        bh=lKHFkihW1aXGiNptzm3Sa+/HPN1Hv4LNNLF+gqhLrP8=;
+        b=clEa8Aq7BC+c0I7tCPHHRmmqFDYmJZSDqj5yO7PIEzKdLyim9kQvO7iAAoq4XOFyMt
+         ULyfpzbZHhJELUnHI7+qKJjCFeeZKNESSCof3vIifYgx/vMI6VWql6AJPLFFvqylGHXL
+         uMAJk1BX09dhh45iRnqd6IE7rjg1vbqsfKnL1HFuTsZqEE9eRZMpjpG938TgJGKsVeoA
+         n67lRI8Axqp1vLNcA4OQqSTk9DqQvjBhNKJ01XE2pTU7wsS6+q4ZxtIF+qNCafN3DRyO
+         2L5jJtKjXb56I2Ehm/Us1+kqnNQursN83/EruD7Oek3VacpwC28dOZdruMaz7hVmAkgL
+         HQnA==
+X-Forwarded-Encrypted: i=1; AJvYcCVx6J483TDYq+c2/spNGT0MTUOybxvEWxWIpjhXPNi2JrYctWUv+MCf9GQM2mvivmFO+tCuldkk6E4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEh8syiFxocStCsg2ebtbgu8ZN1GJiyqFo3aEUtlZpOeYd+ZVX
+	lL6IrBI8NIUmFGEWKIdzpXfoPPpfEKtaBNIdSlN2IKAh+39bO1+7x8VHq5D4L25X9SIbTZN+BxG
+	zY2c=
+X-Gm-Gg: ASbGnctDU5FABrgcY9fn8IpTvfEnqMGFSvtTyR7+wT7dujU7WqTrEBZ22hYrC2Sxh1Y
+	lfmgLUiNpWnisW7AH+uhSwLb4MBt1pnWvHASyRACGv2Vrf95zPPBUlbGAXrir+JYF5bEr/KJ0Z0
+	AKyAcAScf4s9j254h5D7GvhiiyP1EK60etGytPbHFj3sgVj6dWKJMdHbizAhRnBdSAaV1rG6Jpt
+	Zbwq19dXeU3b36aoGEJ59ATkF1CPUnsn7F/HqEJJoQ4QTTB9lCoy9wuuwegANERKsl6MpG8ZD/h
+	xeFvk1HPUZE1FbFAkEM=
+X-Google-Smtp-Source: AGHT+IFZKvlrRVLjtwvw+VdsovlMCszHkLbdku1z+OZ4qORt0cXqSHDLFnqL7kzfZxkVlY66TbVvjw==
+X-Received: by 2002:a05:6a00:400b:b0:72a:8461:d172 with SMTP id d2e1a72fcca58-7303510391fmr3462095b3a.3.1738736604537;
+        Tue, 04 Feb 2025 22:23:24 -0800 (PST)
 Received: from localhost ([157.82.207.107])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-72fe631be56sm11600664b3a.4.2025.02.04.22.23.11
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-72fe64275c4sm12127023b3a.61.2025.02.04.22.23.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Feb 2025 22:23:16 -0800 (PST)
+        Tue, 04 Feb 2025 22:23:24 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
-Date: Wed, 05 Feb 2025 15:22:28 +0900
-Subject: [PATCH net-next v5 6/7] tap: Keep hdr_len in tap_get_user()
+Date: Wed, 05 Feb 2025 15:22:29 +0900
+Subject: [PATCH net-next v5 7/7] tap: Use tun's vnet-related code
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250205-tun-v5-6-15d0b32e87fa@daynix.com>
+Message-Id: <20250205-tun-v5-7-15d0b32e87fa@daynix.com>
 References: <20250205-tun-v5-0-15d0b32e87fa@daynix.com>
 In-Reply-To: <20250205-tun-v5-0-15d0b32e87fa@daynix.com>
 To: Jonathan Corbet <corbet@lwn.net>, 
@@ -87,75 +87,226 @@ To: Jonathan Corbet <corbet@lwn.net>,
  devel@daynix.com, Akihiko Odaki <akihiko.odaki@daynix.com>
 X-Mailer: b4 0.14.2
 
-hdr_len is repeatedly used so keep it in a local variable.
+tun and tap implements the same vnet-related features so reuse the code.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- drivers/net/tap.c | 30 +++++++++++++-----------------
- 1 file changed, 13 insertions(+), 17 deletions(-)
+ drivers/net/tap.c | 152 ++++++------------------------------------------------
+ 1 file changed, 16 insertions(+), 136 deletions(-)
 
 diff --git a/drivers/net/tap.c b/drivers/net/tap.c
-index 5aa41d5f7765a6dcf185bccd3cba2299bad89398..c55c432bac48d395aebc9ceeaa74f7d07e25af4c 100644
+index c55c432bac48d395aebc9ceeaa74f7d07e25af4c..40b077aa639be03cf5a6e9a85734833b289f6b86 100644
 --- a/drivers/net/tap.c
 +++ b/drivers/net/tap.c
-@@ -645,6 +645,7 @@ static ssize_t tap_get_user(struct tap_queue *q, void *msg_control,
- 	int err;
- 	struct virtio_net_hdr vnet_hdr = { 0 };
- 	int vnet_hdr_len = 0;
-+	int hdr_len = 0;
- 	int copylen = 0;
- 	int depth;
- 	bool zerocopy = false;
-@@ -663,13 +664,13 @@ static ssize_t tap_get_user(struct tap_queue *q, void *msg_control,
- 		if (!copy_from_iter_full(&vnet_hdr, sizeof(vnet_hdr), from))
- 			goto err;
- 		iov_iter_advance(from, vnet_hdr_len - sizeof(vnet_hdr));
--		if ((vnet_hdr.flags & VIRTIO_NET_HDR_F_NEEDS_CSUM) &&
--		     tap16_to_cpu(q, vnet_hdr.csum_start) +
--		     tap16_to_cpu(q, vnet_hdr.csum_offset) + 2 >
--			     tap16_to_cpu(q, vnet_hdr.hdr_len))
--			vnet_hdr.hdr_len = cpu_to_tap16(q,
--				 tap16_to_cpu(q, vnet_hdr.csum_start) +
--				 tap16_to_cpu(q, vnet_hdr.csum_offset) + 2);
-+		hdr_len = tap16_to_cpu(q, vnet_hdr.hdr_len);
-+		if (vnet_hdr.flags & VIRTIO_NET_HDR_F_NEEDS_CSUM) {
-+			hdr_len = max(tap16_to_cpu(q, vnet_hdr.csum_start) +
-+				      tap16_to_cpu(q, vnet_hdr.csum_offset) + 2,
-+				      hdr_len);
-+			vnet_hdr.hdr_len = cpu_to_tap16(q, hdr_len);
-+		}
- 		err = -EINVAL;
- 		if (tap16_to_cpu(q, vnet_hdr.hdr_len) > len)
- 			goto err;
-@@ -682,11 +683,8 @@ static ssize_t tap_get_user(struct tap_queue *q, void *msg_control,
- 	if (msg_control && sock_flag(&q->sk, SOCK_ZEROCOPY)) {
- 		struct iov_iter i;
+@@ -26,74 +26,9 @@
+ #include <linux/virtio_net.h>
+ #include <linux/skb_array.h>
  
--		copylen = vnet_hdr.hdr_len ?
--			tap16_to_cpu(q, vnet_hdr.hdr_len) : GOODCOPY_LEN;
--		if (copylen > good_linear)
--			copylen = good_linear;
--		else if (copylen < ETH_HLEN)
-+		copylen = min(hdr_len ? hdr_len : GOODCOPY_LEN, good_linear);
-+		if (copylen < ETH_HLEN)
- 			copylen = ETH_HLEN;
- 		linear = copylen;
- 		i = *from;
-@@ -697,11 +695,9 @@ static ssize_t tap_get_user(struct tap_queue *q, void *msg_control,
+-#define TAP_IFFEATURES (IFF_VNET_HDR | IFF_MULTI_QUEUE)
+-
+-#define TAP_VNET_LE 0x80000000
+-#define TAP_VNET_BE 0x40000000
+-
+-#ifdef CONFIG_TUN_VNET_CROSS_LE
+-static inline bool tap_legacy_is_little_endian(struct tap_queue *q)
+-{
+-	return q->flags & TAP_VNET_BE ? false :
+-		virtio_legacy_is_little_endian();
+-}
+-
+-static long tap_get_vnet_be(struct tap_queue *q, int __user *sp)
+-{
+-	int s = !!(q->flags & TAP_VNET_BE);
+-
+-	if (put_user(s, sp))
+-		return -EFAULT;
+-
+-	return 0;
+-}
+-
+-static long tap_set_vnet_be(struct tap_queue *q, int __user *sp)
+-{
+-	int s;
+-
+-	if (get_user(s, sp))
+-		return -EFAULT;
+-
+-	if (s)
+-		q->flags |= TAP_VNET_BE;
+-	else
+-		q->flags &= ~TAP_VNET_BE;
+-
+-	return 0;
+-}
+-#else
+-static inline bool tap_legacy_is_little_endian(struct tap_queue *q)
+-{
+-	return virtio_legacy_is_little_endian();
+-}
+-
+-static long tap_get_vnet_be(struct tap_queue *q, int __user *argp)
+-{
+-	return -EINVAL;
+-}
+-
+-static long tap_set_vnet_be(struct tap_queue *q, int __user *argp)
+-{
+-	return -EINVAL;
+-}
+-#endif /* CONFIG_TUN_VNET_CROSS_LE */
+-
+-static inline bool tap_is_little_endian(struct tap_queue *q)
+-{
+-	return q->flags & TAP_VNET_LE ||
+-		tap_legacy_is_little_endian(q);
+-}
+-
+-static inline u16 tap16_to_cpu(struct tap_queue *q, __virtio16 val)
+-{
+-	return __virtio16_to_cpu(tap_is_little_endian(q), val);
+-}
++#include "tun_vnet.h"
  
- 	if (!zerocopy) {
- 		copylen = len;
--		linear = tap16_to_cpu(q, vnet_hdr.hdr_len);
--		if (linear > good_linear)
--			linear = good_linear;
--		else if (linear < ETH_HLEN)
--			linear = ETH_HLEN;
-+		linear = min(hdr_len, good_linear);
-+		if (copylen < ETH_HLEN)
-+			copylen = ETH_HLEN;
+-static inline __virtio16 cpu_to_tap16(struct tap_queue *q, u16 val)
+-{
+-	return __cpu_to_virtio16(tap_is_little_endian(q), val);
+-}
++#define TAP_IFFEATURES (IFF_VNET_HDR | IFF_MULTI_QUEUE)
+ 
+ static struct proto tap_proto = {
+ 	.name = "tap",
+@@ -655,25 +590,13 @@ static ssize_t tap_get_user(struct tap_queue *q, void *msg_control,
+ 	if (q->flags & IFF_VNET_HDR) {
+ 		vnet_hdr_len = READ_ONCE(q->vnet_hdr_sz);
+ 
+-		err = -EINVAL;
+-		if (len < vnet_hdr_len)
++		hdr_len = tun_vnet_hdr_get(vnet_hdr_len, q->flags, from, &vnet_hdr);
++		if (hdr_len < 0) {
++			err = hdr_len;
+ 			goto err;
+-		len -= vnet_hdr_len;
+-
+-		err = -EFAULT;
+-		if (!copy_from_iter_full(&vnet_hdr, sizeof(vnet_hdr), from))
+-			goto err;
+-		iov_iter_advance(from, vnet_hdr_len - sizeof(vnet_hdr));
+-		hdr_len = tap16_to_cpu(q, vnet_hdr.hdr_len);
+-		if (vnet_hdr.flags & VIRTIO_NET_HDR_F_NEEDS_CSUM) {
+-			hdr_len = max(tap16_to_cpu(q, vnet_hdr.csum_start) +
+-				      tap16_to_cpu(q, vnet_hdr.csum_offset) + 2,
+-				      hdr_len);
+-			vnet_hdr.hdr_len = cpu_to_tap16(q, hdr_len);
+ 		}
+-		err = -EINVAL;
+-		if (tap16_to_cpu(q, vnet_hdr.hdr_len) > len)
+-			goto err;
++
++		len -= vnet_hdr_len;
  	}
  
- 	skb = tap_alloc_skb(&q->sk, TAP_RESERVE, copylen,
+ 	err = -EINVAL;
+@@ -729,8 +652,7 @@ static ssize_t tap_get_user(struct tap_queue *q, void *msg_control,
+ 	skb->dev = tap->dev;
+ 
+ 	if (vnet_hdr_len) {
+-		err = virtio_net_hdr_to_skb(skb, &vnet_hdr,
+-					    tap_is_little_endian(q));
++		err = tun_vnet_hdr_to_skb(q->flags, skb, &vnet_hdr);
+ 		if (err) {
+ 			rcu_read_unlock();
+ 			drop_reason = SKB_DROP_REASON_DEV_HDR;
+@@ -793,23 +715,17 @@ static ssize_t tap_put_user(struct tap_queue *q,
+ 	int total;
+ 
+ 	if (q->flags & IFF_VNET_HDR) {
+-		int vlan_hlen = skb_vlan_tag_present(skb) ? VLAN_HLEN : 0;
+ 		struct virtio_net_hdr vnet_hdr;
+ 
+ 		vnet_hdr_len = READ_ONCE(q->vnet_hdr_sz);
+-		if (iov_iter_count(iter) < vnet_hdr_len)
+-			return -EINVAL;
+-
+-		if (virtio_net_hdr_from_skb(skb, &vnet_hdr,
+-					    tap_is_little_endian(q), true,
+-					    vlan_hlen))
+-			BUG();
+ 
+-		if (copy_to_iter(&vnet_hdr, sizeof(vnet_hdr), iter) !=
+-		    sizeof(vnet_hdr))
+-			return -EFAULT;
++		ret = tun_vnet_hdr_from_skb(q->flags, NULL, skb, &vnet_hdr);
++		if (ret)
++			return ret;
+ 
+-		iov_iter_advance(iter, vnet_hdr_len - sizeof(vnet_hdr));
++		ret = tun_vnet_hdr_put(vnet_hdr_len, iter, &vnet_hdr);
++		if (ret)
++			return ret;
+ 	}
+ 	total = vnet_hdr_len;
+ 	total += skb->len;
+@@ -1068,42 +984,6 @@ static long tap_ioctl(struct file *file, unsigned int cmd,
+ 		q->sk.sk_sndbuf = s;
+ 		return 0;
+ 
+-	case TUNGETVNETHDRSZ:
+-		s = q->vnet_hdr_sz;
+-		if (put_user(s, sp))
+-			return -EFAULT;
+-		return 0;
+-
+-	case TUNSETVNETHDRSZ:
+-		if (get_user(s, sp))
+-			return -EFAULT;
+-		if (s < (int)sizeof(struct virtio_net_hdr))
+-			return -EINVAL;
+-
+-		q->vnet_hdr_sz = s;
+-		return 0;
+-
+-	case TUNGETVNETLE:
+-		s = !!(q->flags & TAP_VNET_LE);
+-		if (put_user(s, sp))
+-			return -EFAULT;
+-		return 0;
+-
+-	case TUNSETVNETLE:
+-		if (get_user(s, sp))
+-			return -EFAULT;
+-		if (s)
+-			q->flags |= TAP_VNET_LE;
+-		else
+-			q->flags &= ~TAP_VNET_LE;
+-		return 0;
+-
+-	case TUNGETVNETBE:
+-		return tap_get_vnet_be(q, sp);
+-
+-	case TUNSETVNETBE:
+-		return tap_set_vnet_be(q, sp);
+-
+ 	case TUNSETOFFLOAD:
+ 		/* let the user check for future flags */
+ 		if (arg & ~(TUN_F_CSUM | TUN_F_TSO4 | TUN_F_TSO6 |
+@@ -1147,7 +1027,7 @@ static long tap_ioctl(struct file *file, unsigned int cmd,
+ 		return ret;
+ 
+ 	default:
+-		return -EINVAL;
++		return tun_vnet_ioctl(&q->vnet_hdr_sz, &q->flags, cmd, sp);
+ 	}
+ }
+ 
+@@ -1194,7 +1074,7 @@ static int tap_get_user_xdp(struct tap_queue *q, struct xdp_buff *xdp)
+ 	skb->protocol = eth_hdr(skb)->h_proto;
+ 
+ 	if (vnet_hdr_len) {
+-		err = virtio_net_hdr_to_skb(skb, gso, tap_is_little_endian(q));
++		err = tun_vnet_hdr_to_skb(q->flags, skb, gso);
+ 		if (err)
+ 			goto err_kfree;
+ 	}
 
 -- 
 2.48.1
