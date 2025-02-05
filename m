@@ -1,47 +1,61 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09AC18A6BA;
-	Wed,  5 Feb 2025 16:40:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3081779AE;
+	Wed,  5 Feb 2025 18:20:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738773604; cv=none; b=sE/9Bv2l+/DYoABFQ4e5UEhNE7MK1eGRc+HWlo2ao+CSGzLLBAETtJn3lN0/sJxofGy2DARSZrrrpc7+KN1MLGI0c8hoSrBfvE2YX17BCxMILPSbWyO3s7oxdOFtu1w0+ktsVtY9Yab5O1XNwVYTQgFNlbgPJtVGtwe8Hly0QpQ=
+	t=1738779639; cv=none; b=LRxTEDutNwRzeA6X+7qdvgcVn1msjQqoxRtN0Ht3HGq36VC/i1j+MLpmUvwoQyn/Q3d2jiFOj4V34j73r8+aA2A9rsp/vPzIxB21l225ZkvKzH5TKEXNy+Vbt0mOW1QPWDkZEoZEu8CD84JyvjajUzjA/HEzp55QiF+WuJd+kcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738773604; c=relaxed/simple;
-	bh=MW6+C14jG5Esc0YVeTcbxaytpn8rmcNZfT7WdMxypH0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FWV3hSludjnqUw+SG3fw04G1uB0UsUqTVYX+21gTOTskq3YUdu35BDLaVBVHXEkxsXZHiO1Jm3/MZOC0mQT0yC+mF4S8ukZsXKsgLSrpY1JrCpMhwNn5AS7WnVQr4ECM4iW6/OkO7eXp62TvZNfIvUjNdM/CRCSNaCb5K/TsDF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PbvcBD9P; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738779639; c=relaxed/simple;
+	bh=WM5rllHSSQ5cLPRxWaqxDpADFHh0zDNaSDIlvDY+JxM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G/zPOyZ9STYpHH/vvSpJ9TgkbdqrkB9B9GAJ1tzlfL4gmFhoebv5Abosc9WFaZZb8+bxfIV9akYPNEh8OlHqpzKplP+ktUTIlAdPhJGhJ7TyBOiyOxM6KC0UMRP8B+noU2hSAjmQtygWWD4SnDFWmlRy3K+/UCDf/qJUMDHNsJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YqYWYkcM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PbvcBD9P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8713C4CED1;
-	Wed,  5 Feb 2025 16:39:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YqYWYkcM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 721CFC4CED1;
+	Wed,  5 Feb 2025 18:20:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738773603;
-	bh=MW6+C14jG5Esc0YVeTcbxaytpn8rmcNZfT7WdMxypH0=;
+	s=k20201202; t=1738779639;
+	bh=WM5rllHSSQ5cLPRxWaqxDpADFHh0zDNaSDIlvDY+JxM=;
 	h=From:To:Cc:Subject:Date:From;
-	b=PbvcBD9Pf48kjdmaunVfRm5HfKlG94YQkySYFmcKEhQpOV8dCfiq95QnAkj9au0Fn
-	 qCfVZYKf/+eMX18ZVyLZO76EaNqPNah3h528mNHT2F+rdGXDJZS8Af5hkSC4C7GKVY
-	 sB+0eIWiot4fXMhgWYAhlHq5rrh3tHqowXBvBislvgq99/FtqstgQtfATnrZ4HCs+o
-	 nZd9/vC1IP/LdePUmr25n/DfoURISrwDg4u7AZzvS5ryahUDsrDZFjskBhPz3d0Z8f
-	 n5znAHDlLKTZiA/q5Xj0JMaToeCmvdgTR620uvPOqs5rzUO3SFIQSWghvvbAJN3IXQ
-	 DdgVNuKto18Lw==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Andy Whitcroft <apw@canonical.com>,
-	Dwaipayan Ray <dwaipayanray1@gmail.com>,
-	Joe Perches <joe@perches.com>,
+	b=YqYWYkcMGa0v+i6qaCS/cxhsjs4s4RDlavCy7IPsxr/13fNNjaqsjdG+GqcLg0/QR
+	 zSb/XWRMn9OMnJBALnM2Q8lzvwcI9LB4Zf+Nj3w8Y06sEBw/sy/EjcU0c6M55i59YW
+	 +92U3VZ5zLxvddUmf3jttdkvpR9kwL6QiS1tRvgzy2QigC8Mmz2etLa6s0L3zwQVd3
+	 /BVOQW4Z0rg9jdx1nD1L7+83vYJn1/Qx9xwNpvHt482RlpryJ4nktXh/omVrtu7WA3
+	 laI4LnePfKcr2UYtxAgK65FYzeoRXBT2I5iZy3KAWO2VGkY8jRwXgCNsJ7MGeWOxly
+	 tEYCJTOThuLtw==
+From: Leon Romanovsky <leon@kernel.org>
+To: Steffen Klassert <steffen.klassert@secunet.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	Ayush Sawal <ayush.sawal@chelsio.com>,
+	Bharat Bhushan <bbhushan2@marvell.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Geetha sowjanya <gakula@marvell.com>,
+	hariprasad <hkelam@marvell.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	intel-wired-lan@lists.osuosl.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jay Vosburgh <jv@jvosburgh.net>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
 	linux-doc@vger.kernel.org,
-	workflows@vger.kernel.org
-Subject: [PATCH] kbuild: remove EXTRA_*FLAGS support
-Date: Thu,  6 Feb 2025 01:39:38 +0900
-Message-ID: <20250205163939.3464137-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	linux-rdma@vger.kernel.org,
+	Louis Peens <louis.peens@corigine.com>,
+	netdev@vger.kernel.org,
+	oss-drivers@corigine.com,
+	Paolo Abeni <pabeni@redhat.com>,
+	Potnuri Bharat Teja <bharat@chelsio.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Subbaraya Sundeep <sbhatta@marvell.com>,
+	Sunil Goutham <sgoutham@marvell.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Ilia Lin <ilia.lin@kernel.org>
+Subject: [PATCH ipsec-next 0/5] Support PTMU in tunnel mode for packet offload 
+Date: Wed,  5 Feb 2025 20:20:19 +0200
+Message-ID: <cover.1738778580.git.leon@kernel.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,117 +64,40 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit f77bf01425b1 ("kbuild: introduce ccflags-y, asflags-y and
-ldflags-y") deprecated these in 2007. The migration should have been
-completed by now.
+Hi,
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+This series refactors the xdo_dev_offload_ok() to be global place for
+drivers to check if their offload can perform encryption for xmit packets.
 
- Documentation/dev-tools/checkpatch.rst | 18 ------------------
- Documentation/kbuild/makefiles.rst     |  3 ---
- scripts/Makefile.build                 |  4 ----
- scripts/Makefile.lib                   |  5 -----
- scripts/checkpatch.pl                  | 14 --------------
- 5 files changed, 44 deletions(-)
+Such common place gives us an option to check MTU and PMTU at one place.
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index abb3ff682076..76bd0ddb0041 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -342,24 +342,6 @@ API usage
- 
-     See: https://www.kernel.org/doc/html/latest/RCU/whatisRCU.html#full-list-of-rcu-apis
- 
--  **DEPRECATED_VARIABLE**
--    EXTRA_{A,C,CPP,LD}FLAGS are deprecated and should be replaced by the new
--    flags added via commit f77bf01425b1 ("kbuild: introduce ccflags-y,
--    asflags-y and ldflags-y").
--
--    The following conversion scheme maybe used::
--
--      EXTRA_AFLAGS    ->  asflags-y
--      EXTRA_CFLAGS    ->  ccflags-y
--      EXTRA_CPPFLAGS  ->  cppflags-y
--      EXTRA_LDFLAGS   ->  ldflags-y
--
--    See:
--
--      1. https://lore.kernel.org/lkml/20070930191054.GA15876@uranus.ravnborg.org/
--      2. https://lore.kernel.org/lkml/1313384834-24433-12-git-send-email-lacombar@gmail.com/
--      3. https://www.kernel.org/doc/html/latest/kbuild/makefiles.html#compilation-flags
--
-   **DEVICE_ATTR_FUNCTIONS**
-     The function names used in DEVICE_ATTR is unusual.
-     Typically, the store and show functions are used with <attr>_store and
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index d36519f194dc..25e04e47faff 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -318,9 +318,6 @@ ccflags-y, asflags-y and ldflags-y
-   These three flags apply only to the kbuild makefile in which they
-   are assigned. They are used for all the normal cc, as and ld
-   invocations happening during a recursive build.
--  Note: Flags with the same behaviour were previously named:
--  EXTRA_CFLAGS, EXTRA_AFLAGS and EXTRA_LDFLAGS.
--  They are still supported but their usage is deprecated.
- 
-   ccflags-y specifies options for compiling with $(CC).
- 
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 993708d11874..a59650ba140b 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -20,10 +20,6 @@ always-m :=
- targets :=
- subdir-y :=
- subdir-m :=
--EXTRA_AFLAGS   :=
--EXTRA_CFLAGS   :=
--EXTRA_CPPFLAGS :=
--EXTRA_LDFLAGS  :=
- asflags-y  :=
- ccflags-y  :=
- rustflags-y :=
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index ad55ef201aac..20d77bfd0d72 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -1,9 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
--# Backward compatibility
--asflags-y  += $(EXTRA_AFLAGS)
--ccflags-y  += $(EXTRA_CFLAGS)
--cppflags-y += $(EXTRA_CPPFLAGS)
--ldflags-y  += $(EXTRA_LDFLAGS)
- 
- # flags that take effect in current and sub directories
- KBUILD_AFLAGS += $(subdir-asflags-y)
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 7b28ad331742..8f70bedc18be 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3689,20 +3689,6 @@ sub process {
- 			}
- 		}
- 
--		if (($realfile =~ /Makefile.*/ || $realfile =~ /Kbuild.*/) &&
--		    ($line =~ /\+(EXTRA_[A-Z]+FLAGS).*/)) {
--			my $flag = $1;
--			my $replacement = {
--				'EXTRA_AFLAGS' =>   'asflags-y',
--				'EXTRA_CFLAGS' =>   'ccflags-y',
--				'EXTRA_CPPFLAGS' => 'cppflags-y',
--				'EXTRA_LDFLAGS' =>  'ldflags-y',
--			};
--
--			WARN("DEPRECATED_VARIABLE",
--			     "Use of $flag is deprecated, please use \`$replacement->{$flag} instead.\n" . $herecurr) if ($replacement->{$flag});
--		}
--
- # check for DT compatible documentation
- 		if (defined $root &&
- 			(($realfile =~ /\.dtsi?$/ && $line =~ /^\+\s*compatible\s*=\s*\"/) ||
+Thanks
+
+Leon Romanovsky (5):
+  xfrm: delay initialization of offload path till its actually requested
+  xfrm: simplify SA initialization routine
+  xfrm: rely on XFRM offload
+  xfrm: provide common xdo_dev_offload_ok callback implementation
+  xfrm: check for PMTU in tunnel mode for packet offload
+
+ Documentation/networking/xfrm_device.rst      |  3 +-
+ drivers/net/bonding/bond_main.c               | 16 ++-----
+ .../net/ethernet/chelsio/cxgb4/cxgb4_main.c   | 21 ---------
+ .../inline_crypto/ch_ipsec/chcr_ipsec.c       | 16 -------
+ .../net/ethernet/intel/ixgbe/ixgbe_ipsec.c    | 21 ---------
+ drivers/net/ethernet/intel/ixgbevf/ipsec.c    | 21 ---------
+ .../marvell/octeontx2/nic/cn10k_ipsec.c       | 15 ------
+ .../mellanox/mlx5/core/en_accel/ipsec.c       | 16 -------
+ .../net/ethernet/netronome/nfp/crypto/ipsec.c | 11 -----
+ drivers/net/netdevsim/ipsec.c                 | 11 -----
+ drivers/net/netdevsim/netdevsim.h             |  1 -
+ include/net/xfrm.h                            | 22 ++++++++-
+ net/xfrm/xfrm_device.c                        | 47 ++++++++++++++-----
+ net/xfrm/xfrm_output.c                        |  6 ++-
+ net/xfrm/xfrm_state.c                         | 40 +++++++---------
+ net/xfrm/xfrm_user.c                          |  2 +-
+ 16 files changed, 84 insertions(+), 185 deletions(-)
+
 -- 
-2.43.0
+2.48.1
 
