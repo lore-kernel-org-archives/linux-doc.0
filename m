@@ -1,127 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-m49246.qiye.163.com (mail-m49246.qiye.163.com [45.254.49.246])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824EE2139C9;
-	Wed,  5 Feb 2025 07:15:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A737221C16F
+	for <linux-doc@vger.kernel.org>; Wed,  5 Feb 2025 07:26:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738739707; cv=none; b=HhWWIs/POAhm1yejXuDZjUB7vzMyfw41eNX33OeCFONcf4kNVfM6rteb1w/EEUgJQ1KGY9IKgJ1feTvyCw2b9ecVhiubjaSL8uEoZjCrV45m8V9L62qS7hKkYkbZAzPnAMQB7s1bsW/p+ZzzoHIcHqlHNN+a83Zgjmuq6R1lzZo=
+	t=1738740385; cv=none; b=RPwRRpjF+Ey/YUetL55DfHPE8Gih+4+ZxEn3rQ8Nkq+AruWKJNNPTvjyfpGvRb6/tV+rzJ/3rY9ZaFSkrhOzYzFaxbBF9jeAtNAmnuEsaMknLpyiCrx9aC6M5ldlDncUZ0braAubIJYSqJiMa3RKk5pJ6vKEOTG/rT2j1pkSRx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738739707; c=relaxed/simple;
-	bh=bxhbtPurnP1W5hy7q1eg97G9bf1DZSWlhNNHDGknTpc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=X9EZ4RKt720fzJl/lqn8PBBW9sGHtf/K5LdSCm7hSHSJPiERLjrVcTk039Nv+DWzniq6JwobC4odXqOGjAJXnPhQEKkYqmFlBt/74a92/FvGPN4RhE/DB4bTI1MRTE+XEabcnCEWeLxKXysJ0+YpoFZQ7HJ75tEfbyUUeC+dhaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DKSMRqa1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738740385; c=relaxed/simple;
+	bh=zZuaDqoBJb44ra4ySAUEzXldmuNKvbKPC7Hfe+Ey8PM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CcmwTCvrtn4lIPH9APYE/EIwiOugZTuDOz6rs1n0Gag7hHrD1etkTIuTTSHrb/eZ5op73kWYAaCzehgVV5xEm3LWav5NUBL0xgVMl+ZPdU+UDoK4NAjsxNbvUUzLTE/MtDD+PJles+XbXSsGMMIIpyJqum8UZ6bnh5ICYeoIhGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=VgB1N2Mi; arc=none smtp.client-ip=45.254.49.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DKSMRqa1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D427EC4CED1;
-	Wed,  5 Feb 2025 07:15:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738739706;
-	bh=bxhbtPurnP1W5hy7q1eg97G9bf1DZSWlhNNHDGknTpc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=DKSMRqa1fjaWAlwZui6Qa+2HlLFqk1v5XkS4cm3zK7BrmANbeT2y+oRhSMdqVZvAW
-	 UGTg9UJQw3ypY/r7pqcwEMsojwOGb/QjW63twSMB+Ou8eh6uxMhOCRcDlovbZRO1Y6
-	 IX5zwUrCsFU569V2aBNBO9kPT0sMFXUXL4dXd72ZRAhGBRfFnb0ey+Z1ksQi95v37A
-	 HWQQkFNI7BMEN3bHDN0qbRLbPTTflngqwYgVRmIrMFNNM3jE9FCNjhBOCnj2ru7CBi
-	 Bwa+N2DCC37nKc2wnLRQoYPIGlV8sZxG7PJdqieGIOTclMgtZDCf11QLCZj2mRJ/9U
-	 35JVT17rIxBSw==
-Date: Wed, 5 Feb 2025 08:15:01 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, Linux
- Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: [RFC 1/6] scripts/get_abi.py: make it backward-compatible with
- Python 3.6
-Message-ID: <20250205081501.160180bc@foz.lan>
-In-Reply-To: <4274a2f8-5ba5-45f3-80c5-2de54c44c06f@gmail.com>
-References: <cover.1738166451.git.mchehab+huawei@kernel.org>
-	<6d74360f8cdabeb0bf628a6e870d10e134f396f0.1738166451.git.mchehab+huawei@kernel.org>
-	<87r04dei1j.fsf@trenco.lwn.net>
-	<4274a2f8-5ba5-45f3-80c5-2de54c44c06f@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="VgB1N2Mi"
+Received: from [192.168.5.122] (unknown [1.193.57.36])
+	by smtp.qiye.163.com (Hmail) with ESMTP id a306ce01;
+	Wed, 5 Feb 2025 10:50:22 +0800 (GMT+08:00)
+Message-ID: <ea95aaf2-87ea-4fcb-b88d-3739205ba5af@cqsoftware.com.cn>
+Date: Wed, 5 Feb 2025 10:50:21 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Reply-To: zhangwei@cqsoftware.com.cn
+Subject: Re: [PATCH v2] docs/zh_CN: Add self-protection index Chinese
+ translation
+To: Jonathan Corbet <corbet@lwn.net>, alexs@kernel.org, si.yanteng@linux.dev
+Cc: zhaoshuo@cqsoftware.com.cn, zhaoyuehui@cqsoftware.com.cn,
+ maoyuxian@cqsoftware.com.cn, linux-doc@vger.kernel.org
+References: <20250121051234.79066-1-zhangwei@cqsoftware.com.cn>
+ <82025758-b993-47aa-a8fe-7ed6cf5a5def@cqsoftware.com.cn>
+ <87y0ylfy2q.fsf@trenco.lwn.net>
+From: zhangwei <zhangwei@cqsoftware.com.cn>
+In-Reply-To: <87y0ylfy2q.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCQh1CVkgYHRpPQhhLGUtDHVYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUpCSFVOTFVITVlXWRYaDxIVHRRZQVlPS0hVSktJT09PSFVKS0tVSk
+	JLS1kG
+X-HM-Tid: 0a94d4040b2603abkunma306ce01
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Mio6PCo*AzISQxQeIwNLFTch
+	PhpPCxJVSlVKTEhDTElIQ0lISU9NVTMWGhIXVQETGhUcDB4SOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSlVKQkhVTkxVSE1ZV1kIAVlBSUlJSTcG
+DKIM-Signature:a=rsa-sha256;
+	b=VgB1N2MiU+FxcYrF7bWbVm566t+9nLOJOlH5n1ZRSaPR9vNxaYRI8lsBCtzqHYIbd9w/kxJI+VPGRb1GrVH0LNP7eI3DRAmWSEN4wend2tCcATeSW9BHtQJcDFQixxZ/djy8X6Ji2KBevM6BoxIb+fKP2MP57sEmzhFoovYEyw4=; s=default; c=relaxed/relaxed; d=cqsoftware.com.cn; v=1;
+	bh=kDXhMI+yqd9rY5I2xBia7R6qPq+tcEMfbPXRt6F84g0=;
+	h=date:mime-version:subject:message-id:from;
 
-Em Wed, 5 Feb 2025 11:37:52 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-> Hi,
-> 
-> Jonathan Corbet wrote:
-> > Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> >   
-> >> Despite being introduced on Python 3.6, the original implementation
-> >> was too limited: it doesn't accept anything but the argument.  
-> > 
-> > The original implementation *of f-strings* ?
+在 2025/2/5 0:56, Jonathan Corbet 写道:
+> zhangwei <zhangwei@cqsoftware.com.cn> writes:
+>
+>> 在 2025/1/21 13:12, zhangwei 写道:
+>>> Translate .../security/self-protection.rst into Chinese.
+>>>
+>>> Update the translation through commit b080e52110ea
+>>> ("docs: update self-protection __ro_after_init status")
+>>>
+>>> Signed-off-by: zhangwei <zhangwei@cqsoftware.com.cn>
+>>> ---
+>> Hi, jon
+>> Please apply Zhao Shuo's patchset first, and then apply mine.
+>> https://lore.kernel.org/linux-doc/cover.1737603330.git.zhaoshuo@cqsoftware.com.cn/
+>> <https://lore.kernel.org/linux-doc/cover.1737603330.git.zhaoshuo@cqsoftware.com.cn/>
+>>
+> I did that, but yours still fails to apply.  Can you send me a respin
+> against docs-next, please?
+>
+> Thanks,
+>
+> jon
 
-Yes. IMO, even the original version of f-strings is better than the legacy
-way of using '"string" % (tuple)' or "str.format".
+[root@fedora lwn]# git branch
+* docs-next
+   master
+[root@fedora lwn]# git pull
+Already up to date.
+[root@fedora lwn]# b4 am 20250121051234.79066-1-zhangwei@cqsoftware.com.cn
+Grabbing thread from 
+lore.kernel.org/all/20250121051234.79066-1-zhangwei@cqsoftware.com.cn/t.mbox.gz
+Analyzing 5 messages in the thread
+Looking for additional code-review trailers on lore.kernel.org
+Analyzing 0 code-review messages
+Checking attestation on all messages, may take a moment...
+---
+   ✓ [PATCH v2] docs/zh_CN: Add self-protection index Chinese translation
+     + Reviewed-by: Yanteng Si <si.yanteng@linux.dev> (✓ DKIM/linux.dev)
+     + Reviewed-by: Yuxian Mao <maoyuxian@cqsoftware.com.cn> (✓ 
+DKIM/cqsoftware.com.cn)
+   ---
+   ✓ Signed: DKIM/cqsoftware.com.cn
+---
+Total patches: 1
+---
+  Link: 
+https://lore.kernel.org/r/20250121051234.79066-1-zhangwei@cqsoftware.com.cn
+  Base: applies clean to current tree
+        git checkout -b v2_20250121_zhangwei_cqsoftware_com_cn HEAD
+        git am 
+./v2_20250121_zhangwei_docs_zh_cn_add_self_protection_index_chinese_translation.mbx
+[root@fedora lwn]# git am 
+./v2_20250121_zhangwei_docs_zh_cn_add_self_protection_index_chinese_translation.mbx
+Applying: docs/zh_CN: Add self-protection index Chinese translation
+[root@fedora lwn]#
 
-Besides that, there aren't many places where it uses expressions inside
-f-strings.
 
-> >   
-> >> Even on python 3.10.12, support was still limited, as more complex
-> >> operations cause SyntaxError:
-> >>
-> >> 	Exception occurred:
-> >> 	  File ".../linux/Documentation/sphinx/kernel_abi.py", line 48, in <module>
-> >> 	    from get_abi import AbiParser
-> >> 	  File ".../linux/scripts/get_abi.py", line 525
-> >> 	    msg += f"{part}\n{"-" * len(part)}\n\n"
-> >>                        ^
-> >> 	SyntaxError: f-string: expecting '}'
-> >>
-> >> Replace f-strings by normal string concatenation when it doesn't
-> >> work on Python 3.6.
-> >>
-> >> Reported-by: Akira Yokosawa <akiyks@gmail.com>  
-> 
-> You might want to add
-> 
-> Closes: https://lore.kernel.org/2d4d3fd1-5fe2-4d18-9085-73f9ff930c2d@gmail.com/
-> 
-> >> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
-> > 
-> > So I'm curious ... later in the series, you make 3.9 the minimal version
-> > for the kernel.  Given that, is there value in adding compatibility for
-> > older versions here?  
+I re-pushed it and it was possible to punch in the patch.
 
-No because 3.9 is still not enough to accept a valid Python expression on f-strings.
-This arrived only on Python 3.12[1]:
-	"Expression components inside f-strings can now be any valid Python expression"
-
-So, with this patch, doc build can be using Python 3.6. Still, it makes
-sense to move minimal version to 3.9 due to the current status of other
-Python scripts. 
-
-[1] https://docs.python.org/3/whatsnew/3.12.html#pep-701-syntactic-formalization-of-f-strings
-
-> I think rewording the summary to
-> 
->   "scripts/get_abi.py: make it backward-compatible with Python <3.11"
-> 
-> would resolve Jon's confusion.
-
-Sure, but IMO it is still valuable to say somewhere that the script
-was tested and it is known to work since Python 3.6.
-
-> 
-> I haven't looked into python3'changelog, but it might be
-> "... backward-compatible with Python <3.12".
-> Mauro, which python3 release extended the f-string implementation?
-
-See above. I only did a quick check, but it sounds that 3.12 is the
-one that finally implemented f-strings properly in a similar way to
-what Perl 5 does with $'expression' inside strings.
+How do I modify it
 
 Thanks,
-Mauro
+zhangwei
+
+>
