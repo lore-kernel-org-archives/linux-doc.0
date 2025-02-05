@@ -1,313 +1,109 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m32102.qiye.163.com (mail-m32102.qiye.163.com [220.197.32.102])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8392122B5BC
-	for <linux-doc@vger.kernel.org>; Wed,  5 Feb 2025 06:23:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 415C9227BB6
+	for <linux-doc@vger.kernel.org>; Wed,  5 Feb 2025 06:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738736607; cv=none; b=YnEhnww0k0TYHyHs6GMWU169HNpAWKnO1dAacNEY8+Dg3diyQlyi0WdlEmPtJW2kn38sFyQkvwi5+f1ScvB+8VQkuEJK8WhzqCoHqrFn2SrblDEwC6WWRs4ikY6nMredp29CngRhGSee8rOK73sin5HmKwjcbBkrYo2qud7HFoY=
+	t=1738736704; cv=none; b=jEbLymhLPZCJj9Hq5MSdT+svqSWirJNJ0H1jKxtvF5ed5LC7GlgBsD+baNqDvkbzKquOYNJsVmaRR8IWQDHTpdpyK1eua8YVPb+lKXD+p2H6a+ZThhDV6x1AHEpU1PmhyP2dDvBABU8Lc3bH0c6BtGqf+LQ+5GwFLiXbXwsqagw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738736607; c=relaxed/simple;
-	bh=j0g58kzxP4/vEuyCfLiH4Cm8UrUU1sRmr41Z0gm9CHs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To; b=EYDOSVZNmrZ/cmPzWJv1KI0MwlV2Dfb3ZhqvtnHs7PdlyyOYVFjnLnt+suUJIK57UF5BnMMWUHDHRbIfCG3va4sm9Jc5SX0zqnPsPTelJMD0ZhcPTtPwvWhDDcX5tOcpyGQWKeTnC70ReQJTe2BfGvdYOPf8TGQvI0Xh8EBBVv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com; spf=pass smtp.mailfrom=daynix.com; dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b=bixQjHby; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=daynix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=daynix.com
+	s=arc-20240116; t=1738736704; c=relaxed/simple;
+	bh=giZTeZNEpaF4NbqB2StZbjy4VQpeJe89YV5NlQErC3g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Wi8KA77IH6O5gWxDk5AWOVJJUbBY9ImKVAdRJH3n3G7Ld/6rcTEtFl/QMGh1yCbd1a1TJ3/Crt3ngu2q+FN5HX4EG4UUJXk5JYtZn4DIAWavoF9lcAPgM/QAkS5azB1qupX9wBNc4b4o0x7hudMQtJ28ws0DdPofa7oIiB4VnQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=MQvMVzNQ; arc=none smtp.client-ip=220.197.32.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=daynix-com.20230601.gappssmtp.com header.i=@daynix-com.20230601.gappssmtp.com header.b="bixQjHby"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21c2f1b610dso152183405ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 04 Feb 2025 22:23:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20230601.gappssmtp.com; s=20230601; t=1738736604; x=1739341404; darn=vger.kernel.org;
-        h=to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lKHFkihW1aXGiNptzm3Sa+/HPN1Hv4LNNLF+gqhLrP8=;
-        b=bixQjHbymQM+QC0x/bX3pnR0UTTs8dByyu0UsPKEdxUisLs9b3BfqTFDqxYnUfHAZi
-         AznDjO5yFfB0fPSqOF4JYAASt71bj4WVw0HLcAD8Mqi7Z4OZ0UBBCzexh5kyqPw+XCXe
-         hIyyTMWMHrdJNK+BcI0biu0D9dpV61Iry+rubRwI9LOGSY7BaOOYXTpqciDSk6cMNGaT
-         mgVSoGb9YcBMz5M8AuqYvZ6aSTpbkGAMpjrMcRBV+DGLszBLdkC9CwcBRjuly5rJE1bL
-         HTifde/ZBTwyj7eDbguWPeXysZLPxZuRupx9XcFP6gce23iCU299w+bjME6Gm5tH024j
-         vB7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738736604; x=1739341404;
-        h=to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lKHFkihW1aXGiNptzm3Sa+/HPN1Hv4LNNLF+gqhLrP8=;
-        b=clEa8Aq7BC+c0I7tCPHHRmmqFDYmJZSDqj5yO7PIEzKdLyim9kQvO7iAAoq4XOFyMt
-         ULyfpzbZHhJELUnHI7+qKJjCFeeZKNESSCof3vIifYgx/vMI6VWql6AJPLFFvqylGHXL
-         uMAJk1BX09dhh45iRnqd6IE7rjg1vbqsfKnL1HFuTsZqEE9eRZMpjpG938TgJGKsVeoA
-         n67lRI8Axqp1vLNcA4OQqSTk9DqQvjBhNKJ01XE2pTU7wsS6+q4ZxtIF+qNCafN3DRyO
-         2L5jJtKjXb56I2Ehm/Us1+kqnNQursN83/EruD7Oek3VacpwC28dOZdruMaz7hVmAkgL
-         HQnA==
-X-Forwarded-Encrypted: i=1; AJvYcCVx6J483TDYq+c2/spNGT0MTUOybxvEWxWIpjhXPNi2JrYctWUv+MCf9GQM2mvivmFO+tCuldkk6E4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyEh8syiFxocStCsg2ebtbgu8ZN1GJiyqFo3aEUtlZpOeYd+ZVX
-	lL6IrBI8NIUmFGEWKIdzpXfoPPpfEKtaBNIdSlN2IKAh+39bO1+7x8VHq5D4L25X9SIbTZN+BxG
-	zY2c=
-X-Gm-Gg: ASbGnctDU5FABrgcY9fn8IpTvfEnqMGFSvtTyR7+wT7dujU7WqTrEBZ22hYrC2Sxh1Y
-	lfmgLUiNpWnisW7AH+uhSwLb4MBt1pnWvHASyRACGv2Vrf95zPPBUlbGAXrir+JYF5bEr/KJ0Z0
-	AKyAcAScf4s9j254h5D7GvhiiyP1EK60etGytPbHFj3sgVj6dWKJMdHbizAhRnBdSAaV1rG6Jpt
-	Zbwq19dXeU3b36aoGEJ59ATkF1CPUnsn7F/HqEJJoQ4QTTB9lCoy9wuuwegANERKsl6MpG8ZD/h
-	xeFvk1HPUZE1FbFAkEM=
-X-Google-Smtp-Source: AGHT+IFZKvlrRVLjtwvw+VdsovlMCszHkLbdku1z+OZ4qORt0cXqSHDLFnqL7kzfZxkVlY66TbVvjw==
-X-Received: by 2002:a05:6a00:400b:b0:72a:8461:d172 with SMTP id d2e1a72fcca58-7303510391fmr3462095b3a.3.1738736604537;
-        Tue, 04 Feb 2025 22:23:24 -0800 (PST)
-Received: from localhost ([157.82.207.107])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-72fe64275c4sm12127023b3a.61.2025.02.04.22.23.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Feb 2025 22:23:24 -0800 (PST)
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-Date: Wed, 05 Feb 2025 15:22:29 +0900
-Subject: [PATCH net-next v5 7/7] tap: Use tun's vnet-related code
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="MQvMVzNQ"
+Received: from [192.168.5.122] (unknown [1.193.57.36])
+	by smtp.qiye.163.com (Hmail) with ESMTP id a34e3153;
+	Wed, 5 Feb 2025 14:19:48 +0800 (GMT+08:00)
+Message-ID: <1a2cd639-01a5-44d6-969f-f95085d98ffc@cqsoftware.com.cn>
+Date: Wed, 5 Feb 2025 14:19:48 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250205-tun-v5-7-15d0b32e87fa@daynix.com>
-References: <20250205-tun-v5-0-15d0b32e87fa@daynix.com>
-In-Reply-To: <20250205-tun-v5-0-15d0b32e87fa@daynix.com>
-To: Jonathan Corbet <corbet@lwn.net>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
- Jason Wang <jasowang@redhat.com>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Shuah Khan <shuah@kernel.org>, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- netdev@vger.kernel.org, kvm@vger.kernel.org, 
- virtualization@lists.linux-foundation.org, linux-kselftest@vger.kernel.org, 
- Yuri Benditovich <yuri.benditovich@daynix.com>, 
- Andrew Melnychenko <andrew@daynix.com>, 
- Stephen Hemminger <stephen@networkplumber.org>, gur.stavi@huawei.com, 
- devel@daynix.com, Akihiko Odaki <akihiko.odaki@daynix.com>
-X-Mailer: b4 0.14.2
+User-Agent: Mozilla Thunderbird
+Reply-To: zhangwei@cqsoftware.com.cn
+Subject: Re: [PATCH v2] docs/zh_CN: Add self-protection index Chinese
+ translation
+To: Yanteng Si <si.yanteng@linux.dev>, zhaoshuo@cqsoftware.com.cn,
+ maoyuxian@cqsoftware.com.cn
+Cc: zhaoyuehui@cqsoftware.com.cn, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, alexs@kernel.org
+References: <20250121051234.79066-1-zhangwei@cqsoftware.com.cn>
+ <82025758-b993-47aa-a8fe-7ed6cf5a5def@cqsoftware.com.cn>
+ <87y0ylfy2q.fsf@trenco.lwn.net>
+ <a495ae39-9121-410a-b881-35e6b0b22dff@linux.dev>
+From: zhangwei <zhangwei@cqsoftware.com.cn>
+In-Reply-To: <a495ae39-9121-410a-b881-35e6b0b22dff@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaSEgYVkxOSUtKGE5DHx1JHVYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUpCSFVOTFVITVlXWRYaDxIVHRRZQVlPS0hVSktJT09PSFVKS0tVSk
+	JLS1kG
+X-HM-Tid: 0a94d4c3ca8403abkunma34e3153
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Ny46Tyo6ODITMAsBKDQOITcc
+	MxUaFEtVSlVKTEhDTEhNSENCTUhPVTMWGhIXVQETGhUcDB4SOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSlVKQkhVTkxVSE1ZV1kIAVlBSk5PSzcG
+DKIM-Signature:a=rsa-sha256;
+	b=MQvMVzNQSZ8HLCe28jZiIDE2V8VYoXtTDZXw5YJkOTi/uKcD4nC40cztLJkXiulTydQtma7Sd6fTPSl69vtP/NvSjKRAXkWu71RaouPu0xY8fShlqHlHBoiPnufQY0hBOnESh43ljy8cmbiPnCXzogsR942TH6vbOEpC6h3citc=; s=default; c=relaxed/relaxed; d=cqsoftware.com.cn; v=1;
+	bh=TlgmQPa66V/KAeTRaPZ4R45uf8am7ESWGoZf1TJ7zhc=;
+	h=date:mime-version:subject:message-id:from;
 
-tun and tap implements the same vnet-related features so reuse the code.
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
----
- drivers/net/tap.c | 152 ++++++------------------------------------------------
- 1 file changed, 16 insertions(+), 136 deletions(-)
+在 2025/2/5 14:16, Yanteng Si 写道:
+> Hi, Zhang Wei, Zhao Shuo,Yu Xian,
+>
+>
+> 在 2025/2/5 00:56, Jonathan Corbet 写道:
+>> zhangwei <zhangwei@cqsoftware.com.cn> writes:
+>>
+>>> 在 2025/1/21 13:12, zhangwei 写道:
+>>>> Translate .../security/self-protection.rst into Chinese.
+>>>>
+>>>> Update the translation through commit b080e52110ea
+>>>> ("docs: update self-protection __ro_after_init status")
+>>>>
+>>>> Signed-off-by: zhangwei <zhangwei@cqsoftware.com.cn>
+>>>> ---
+>>> Hi, jon
+>>> Please apply Zhao Shuo's patchset first, and then apply mine.
+>>> https://lore.kernel.org/linux-doc/cover.1737603330.git.zhaoshuo@cqsoftware.com.cn/ 
+>>>
+>>> <https://lore.kernel.org/linux-doc/cover.1737603330.git.zhaoshuo@cqsoftware.com.cn/> 
+>>>
+>>>
+>> I did that, but yours still fails to apply.  Can you send me a respin
+>> against docs-next, please?
+> It seems that you plan to translate all the security documents.
+> I've noticed that there are still two directories left untranslated.
+>
+> To avoid conflicts, Zhang Wei, would you mind creating a v3 like this:
+>
+>    docs/zh_CN: Add self-protection Chinese translation
+>    docs/zh_CN: Add keys index Chinese translation
+>    docs/zh_CN: Add secrets index Chinese translation
+>
+> It would be best if each of you is responsible for translating
+> one directory. Then, if you have reached an agreement,
+> Zhang Wei can send the second and third patches on your
+> behalf.
+>
+> Thanks,
+> Yanteng
+>
+OK，I will do that
 
-diff --git a/drivers/net/tap.c b/drivers/net/tap.c
-index c55c432bac48d395aebc9ceeaa74f7d07e25af4c..40b077aa639be03cf5a6e9a85734833b289f6b86 100644
---- a/drivers/net/tap.c
-+++ b/drivers/net/tap.c
-@@ -26,74 +26,9 @@
- #include <linux/virtio_net.h>
- #include <linux/skb_array.h>
- 
--#define TAP_IFFEATURES (IFF_VNET_HDR | IFF_MULTI_QUEUE)
--
--#define TAP_VNET_LE 0x80000000
--#define TAP_VNET_BE 0x40000000
--
--#ifdef CONFIG_TUN_VNET_CROSS_LE
--static inline bool tap_legacy_is_little_endian(struct tap_queue *q)
--{
--	return q->flags & TAP_VNET_BE ? false :
--		virtio_legacy_is_little_endian();
--}
--
--static long tap_get_vnet_be(struct tap_queue *q, int __user *sp)
--{
--	int s = !!(q->flags & TAP_VNET_BE);
--
--	if (put_user(s, sp))
--		return -EFAULT;
--
--	return 0;
--}
--
--static long tap_set_vnet_be(struct tap_queue *q, int __user *sp)
--{
--	int s;
--
--	if (get_user(s, sp))
--		return -EFAULT;
--
--	if (s)
--		q->flags |= TAP_VNET_BE;
--	else
--		q->flags &= ~TAP_VNET_BE;
--
--	return 0;
--}
--#else
--static inline bool tap_legacy_is_little_endian(struct tap_queue *q)
--{
--	return virtio_legacy_is_little_endian();
--}
--
--static long tap_get_vnet_be(struct tap_queue *q, int __user *argp)
--{
--	return -EINVAL;
--}
--
--static long tap_set_vnet_be(struct tap_queue *q, int __user *argp)
--{
--	return -EINVAL;
--}
--#endif /* CONFIG_TUN_VNET_CROSS_LE */
--
--static inline bool tap_is_little_endian(struct tap_queue *q)
--{
--	return q->flags & TAP_VNET_LE ||
--		tap_legacy_is_little_endian(q);
--}
--
--static inline u16 tap16_to_cpu(struct tap_queue *q, __virtio16 val)
--{
--	return __virtio16_to_cpu(tap_is_little_endian(q), val);
--}
-+#include "tun_vnet.h"
- 
--static inline __virtio16 cpu_to_tap16(struct tap_queue *q, u16 val)
--{
--	return __cpu_to_virtio16(tap_is_little_endian(q), val);
--}
-+#define TAP_IFFEATURES (IFF_VNET_HDR | IFF_MULTI_QUEUE)
- 
- static struct proto tap_proto = {
- 	.name = "tap",
-@@ -655,25 +590,13 @@ static ssize_t tap_get_user(struct tap_queue *q, void *msg_control,
- 	if (q->flags & IFF_VNET_HDR) {
- 		vnet_hdr_len = READ_ONCE(q->vnet_hdr_sz);
- 
--		err = -EINVAL;
--		if (len < vnet_hdr_len)
-+		hdr_len = tun_vnet_hdr_get(vnet_hdr_len, q->flags, from, &vnet_hdr);
-+		if (hdr_len < 0) {
-+			err = hdr_len;
- 			goto err;
--		len -= vnet_hdr_len;
--
--		err = -EFAULT;
--		if (!copy_from_iter_full(&vnet_hdr, sizeof(vnet_hdr), from))
--			goto err;
--		iov_iter_advance(from, vnet_hdr_len - sizeof(vnet_hdr));
--		hdr_len = tap16_to_cpu(q, vnet_hdr.hdr_len);
--		if (vnet_hdr.flags & VIRTIO_NET_HDR_F_NEEDS_CSUM) {
--			hdr_len = max(tap16_to_cpu(q, vnet_hdr.csum_start) +
--				      tap16_to_cpu(q, vnet_hdr.csum_offset) + 2,
--				      hdr_len);
--			vnet_hdr.hdr_len = cpu_to_tap16(q, hdr_len);
- 		}
--		err = -EINVAL;
--		if (tap16_to_cpu(q, vnet_hdr.hdr_len) > len)
--			goto err;
-+
-+		len -= vnet_hdr_len;
- 	}
- 
- 	err = -EINVAL;
-@@ -729,8 +652,7 @@ static ssize_t tap_get_user(struct tap_queue *q, void *msg_control,
- 	skb->dev = tap->dev;
- 
- 	if (vnet_hdr_len) {
--		err = virtio_net_hdr_to_skb(skb, &vnet_hdr,
--					    tap_is_little_endian(q));
-+		err = tun_vnet_hdr_to_skb(q->flags, skb, &vnet_hdr);
- 		if (err) {
- 			rcu_read_unlock();
- 			drop_reason = SKB_DROP_REASON_DEV_HDR;
-@@ -793,23 +715,17 @@ static ssize_t tap_put_user(struct tap_queue *q,
- 	int total;
- 
- 	if (q->flags & IFF_VNET_HDR) {
--		int vlan_hlen = skb_vlan_tag_present(skb) ? VLAN_HLEN : 0;
- 		struct virtio_net_hdr vnet_hdr;
- 
- 		vnet_hdr_len = READ_ONCE(q->vnet_hdr_sz);
--		if (iov_iter_count(iter) < vnet_hdr_len)
--			return -EINVAL;
--
--		if (virtio_net_hdr_from_skb(skb, &vnet_hdr,
--					    tap_is_little_endian(q), true,
--					    vlan_hlen))
--			BUG();
- 
--		if (copy_to_iter(&vnet_hdr, sizeof(vnet_hdr), iter) !=
--		    sizeof(vnet_hdr))
--			return -EFAULT;
-+		ret = tun_vnet_hdr_from_skb(q->flags, NULL, skb, &vnet_hdr);
-+		if (ret)
-+			return ret;
- 
--		iov_iter_advance(iter, vnet_hdr_len - sizeof(vnet_hdr));
-+		ret = tun_vnet_hdr_put(vnet_hdr_len, iter, &vnet_hdr);
-+		if (ret)
-+			return ret;
- 	}
- 	total = vnet_hdr_len;
- 	total += skb->len;
-@@ -1068,42 +984,6 @@ static long tap_ioctl(struct file *file, unsigned int cmd,
- 		q->sk.sk_sndbuf = s;
- 		return 0;
- 
--	case TUNGETVNETHDRSZ:
--		s = q->vnet_hdr_sz;
--		if (put_user(s, sp))
--			return -EFAULT;
--		return 0;
--
--	case TUNSETVNETHDRSZ:
--		if (get_user(s, sp))
--			return -EFAULT;
--		if (s < (int)sizeof(struct virtio_net_hdr))
--			return -EINVAL;
--
--		q->vnet_hdr_sz = s;
--		return 0;
--
--	case TUNGETVNETLE:
--		s = !!(q->flags & TAP_VNET_LE);
--		if (put_user(s, sp))
--			return -EFAULT;
--		return 0;
--
--	case TUNSETVNETLE:
--		if (get_user(s, sp))
--			return -EFAULT;
--		if (s)
--			q->flags |= TAP_VNET_LE;
--		else
--			q->flags &= ~TAP_VNET_LE;
--		return 0;
--
--	case TUNGETVNETBE:
--		return tap_get_vnet_be(q, sp);
--
--	case TUNSETVNETBE:
--		return tap_set_vnet_be(q, sp);
--
- 	case TUNSETOFFLOAD:
- 		/* let the user check for future flags */
- 		if (arg & ~(TUN_F_CSUM | TUN_F_TSO4 | TUN_F_TSO6 |
-@@ -1147,7 +1027,7 @@ static long tap_ioctl(struct file *file, unsigned int cmd,
- 		return ret;
- 
- 	default:
--		return -EINVAL;
-+		return tun_vnet_ioctl(&q->vnet_hdr_sz, &q->flags, cmd, sp);
- 	}
- }
- 
-@@ -1194,7 +1074,7 @@ static int tap_get_user_xdp(struct tap_queue *q, struct xdp_buff *xdp)
- 	skb->protocol = eth_hdr(skb)->h_proto;
- 
- 	if (vnet_hdr_len) {
--		err = virtio_net_hdr_to_skb(skb, gso, tap_is_little_endian(q));
-+		err = tun_vnet_hdr_to_skb(q->flags, skb, gso);
- 		if (err)
- 			goto err_kfree;
- 	}
+Thanks,
 
--- 
-2.48.1
+Zhangwei
+
+
 
