@@ -1,267 +1,354 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E64A18A6D7;
-	Wed,  5 Feb 2025 16:11:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92D6C2A1BB;
+	Wed,  5 Feb 2025 16:16:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738771915; cv=none; b=WXBNlIbENss1U0FZ4pq8X1IG7f3iSNU23mNeUU09Hy5XRS9z9h8/5I3SNvYV8HonQs8/tBhk01P9GxzSBjd/Xm+3fI2pWBnA3mzB2a8JAICHbYlwPV61D2YFsTp5qmFGMm/jbQBl3C5UmV9beab7gLkN1umT5YJdV+IjSXbj4WY=
+	t=1738772167; cv=none; b=NnNp1fU7f3vzb7fcq+JaFmP1mcYOxobv1uQ1zuOvm68sFaKoloI1jVuF7pvxSl7N/OglqnyN8v/xOE+57Qzus6dfA7meBU+v72qxfhlUQ1251Ky29fWwBCUO2WCwQi0Y8+/pQe0qUdfGcsgF/TdtlEejmKqvYE3T25fHLa//PcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738771915; c=relaxed/simple;
-	bh=dQVOc4y27NeoOXda5Onh9gGqo7dvfYuDBZK0/YM66fg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=jOoD730cybkemaaF2fYISF4ABXSxVjbQas17mMpdxCL6nulE+Pe2F5bx6Jd8DQWarbeMb+Tmda/jksBPtGSm+V90XCa4wa6wK8bG/TKQAKy9RtBr+saSDdMkQm/njFNyjy+YkobKo2cLaVnyZnG28Nc3fgCpmaM7KRb45TtBEH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RPmChAt7; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738772167; c=relaxed/simple;
+	bh=zb/iX4Cf+0Jzol0g4P79TQLGHW78nLKS0momp3r6Gsg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OtLBYWYbMaqyM1AO/XF/AJklsNwrv0Kz1Om3L9Ent157rGE9lAgtL+RlJKUHHnxt2nrMwGT3xESGMEw3EJ6ADA/0R80Ohlxq0LbwqOfkifDLHPWY2EgFetuZ/ueMBqnKWGVNDYf2OvqkvBL7AGadnAstu8cIvK1+ujH5j7CHZmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=htWNq/qq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RPmChAt7"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-438a39e659cso48157755e9.2;
-        Wed, 05 Feb 2025 08:11:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738771911; x=1739376711; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=PNqzKNqaayCVyP+RPKnmDOKjjukQ1Sp0Ecx73fchd38=;
-        b=RPmChAt7PyAGMuSrXFVMStpsDzQvThBzozWN8k4lrPSZKHwdmjs4cDMxGueu38d6lI
-         r3oKmKlpcEvD2GJ1yKnKD1fZHQMR6abs9jqlROyNselTa0it8ex4ZdyV7sGYYdc+70Ua
-         qXxH5qxGA6y8BZqBgTrfajQfWQyYXREuy+RgGj7vUJ+Toe4+hp+hzRikBURLqpObA01M
-         AJ8oFNSNv+3v/SXvaXRTVhbNAXje571DBL3YJ3RGzHag2ZaEjaMDf6Z7ONwZ7dRyXYRD
-         pQhKrvsTa86Se95lntYmjpW+UPtioY9DK3pSaJrpGhkrRFu7ROrwzQVBOqFY3//1ZDyr
-         ekYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738771911; x=1739376711;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PNqzKNqaayCVyP+RPKnmDOKjjukQ1Sp0Ecx73fchd38=;
-        b=pmoY7yagavZNW1AomGzcZur1ARVPhR2wy381nKr+mF2lU7F4ryxW/H8Vu/T2spL/vm
-         BNbOX0T32vTG7FkOD2C+5D1pmRMhrhcZnCVORR1dTe+mW3jvE90gH4HD7upZb8LCqHNy
-         DHqLoXbVmWiFh36TUv5l3ocZIJb6La6GKWNC0ZTEJe0Lklvlld/Nbi8s37cuugifsh1C
-         fLVbhL8GpMi2Ycdu97h37algpH0Ru9dxt37bKETdvbogED6JC6HVPbVPaeCCcYa1YkHw
-         tU34LLax6t988cccofvIU8U2MGPq7qFiSWJdj+sGN8/UR6D0UhmjoWtMLSINWeBEBsPs
-         LzXA==
-X-Forwarded-Encrypted: i=1; AJvYcCUd9g2vvxAVDkYR8QHw/0y1/9WdtHZlJOGXSTCBG599lZqxXz5rVKufKFIqeXDxBv9+DNVyvmjlQk/A@vger.kernel.org, AJvYcCVmPOqB1UWuCtQ0VrMWyvoIt6jCkR137hGNdPgRhOeTFEuz/CFi75oVejk13lpcZ+2Ezm9EO2I5dPRw@vger.kernel.org, AJvYcCVqsfp48c0LZNDmi7XmuYUJGPy7HXwMQepu65rMQ1KQ3vIQpwuUlmgcjHiJVrb54UVl2wehOKIsCdUL64dp@vger.kernel.org, AJvYcCXxUVDdWhCZ/O2qblUxE9FL0+0Gch5/9BS8rkj6uDorndg7AfAxSqW9L//jIOBeF0zzseCuTQ+GbDI6@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtA/IRZSbDprJENkkAZh0NjvvawJM5RhsFtW147+4CvyUqIGiJ
-	5rN9gokGx1igwcU9h2BBeDgx2oP9K/ORRkmNXjPks7QDzrM/0PO7/JFYDJlVONU=
-X-Gm-Gg: ASbGncsZNhaT/Uc+vFR6La+1SftGamdTvw8BKFvgOwvlE02QJy6K5PD4xPHIHP1KWDj
-	j7dSggJTyGMnZCR0Hm522nwS1jaSLBibNUFgZPmgRFqa4swIX6Fiu7FzOeXdO3JBoPdNSywWbvR
-	Kd+7HB7OhpPy3MitBj1IIYp2plubURVqkJIE1zjnQI3dOWhsdbkocq7Mqpyp6rkHrtXKP+/ZVV0
-	SeyyypNO2kUiifz7qqZRJa2XzMEhKebHVqG6aAWgj/cWC/jMRE9ujOx+0+f7qDh2Jkv57QwDAgJ
-	G1nxM9OM11J5lk4W4c1qYriG7PMbUbjzlzbiSy2THOYkef7iucFB8wGkgZOTXag=
-X-Google-Smtp-Source: AGHT+IH1q00BaWWc+Vq4wOn2GL8LTHw3yMqoCXLMuqGZ6alYQ079jnzjHR3x9XX0HmanLW4nyUAE5w==
-X-Received: by 2002:a05:600c:19d4:b0:434:a1d3:a326 with SMTP id 5b1f17b1804b1-4390d4303d6mr25668005e9.6.1738771910427;
-        Wed, 05 Feb 2025 08:11:50 -0800 (PST)
-Received: from ?IPv6:2001:818:ea8e:7f00:2575:914:eedd:620e? ([2001:818:ea8e:7f00:2575:914:eedd:620e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4390daa0cbcsm25643305e9.40.2025.02.05.08.11.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Feb 2025 08:11:49 -0800 (PST)
-Message-ID: <15065d0cd19f39d92ce860cd03802c368df74b34.camel@gmail.com>
-Subject: Re: [PATCH v6 4/6] dt-bindings: iio: Add adis16550 bindings
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Conor Dooley <conor@kernel.org>, Robert Budai <robert.budai@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich	
- <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
- Alexandru Ardelean <alexandru.ardelean@analog.com>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski	
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
- Jonathan Corbet	 <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>, Ramona
- Gradinariu	 <ramona.gradinariu@analog.com>, Trevor Gamblin
- <tgamblin@baylibre.com>,  Marcelo Schmitt <marcelo.schmitt@analog.com>,
- Paul Cercueil <paul@crapouillou.net>, David Lechner	
- <dlechner@baylibre.com>, Antoniu Miclaus <antoniu.miclaus@analog.com>, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Date: Wed, 05 Feb 2025 16:11:51 +0000
-In-Reply-To: <20250204-helium-marbled-a0863a0a18a8@spud>
-References: <20250204143612.85939-1-robert.budai@analog.com>
-	 <20250204143612.85939-5-robert.budai@analog.com>
-	 <20250204-helium-marbled-a0863a0a18a8@spud>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="htWNq/qq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19B09C4CEE7;
+	Wed,  5 Feb 2025 16:16:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738772167;
+	bh=zb/iX4Cf+0Jzol0g4P79TQLGHW78nLKS0momp3r6Gsg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=htWNq/qqQKRHbPxlhkjEc9yURkuuV7MOIpK6DIoK+fxKZZ0/H3OdNbk1nrMtqVcIV
+	 wpv14TwYYMZY4wWzj6D26D2EkiWY6SBoSUQNLd3xobZdsNHF8OXwD1Ka3YiAo0TPik
+	 YwFYWL0dtsmtQRE4xVFPTJbzwE/zUl+GSkndE8m0+OD0VCAnjo5QDoBPP7AmoQH7IQ
+	 6tgmf5uQmt2HZ5Jmi0Jy2C1ZP513Nuo9qV2TSlGzbQr9dcLcFoexJHmvybho38ukas
+	 7csNv/zJ7AHSeC13suKRFBV3OqEh6xy6wnqMgf2txe5bP2I3zBBsONYtit8hUpljdK
+	 bCZuHMA/+T9yg==
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5dce090bbe5so1507436a12.0;
+        Wed, 05 Feb 2025 08:16:07 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVa0r46aPU+fGPpQEaSFdle2WuH+7bc5IfB+ge5tjfpbEv+EHs4pxF5240K1/HAZQaggQnDD0sdmDYECOf4/y/ivw==@vger.kernel.org, AJvYcCVlbr0GH8Ef9S91BbSZjx6poehQSgL1nmSd/GFNqD9aDwTPHxLzKCrHflyH1iC+xDslKGAO3/5SplZPlOKw@vger.kernel.org, AJvYcCWbJpXEw56jXBC5ISnU/UDtFOrQUB6XJb6DqzpL6j76mtIwXKUUpLZELYKm4m7ExXpOU1bMfQN1HWE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhRWTmh3bgY6ozDtcGi3WLotf9/GkEi9t1VtNnkJIbnCDoV63n
+	sJyrUox07q7h8leNk9sFoFXg272DCmz3f/qYqCA4FP5lHiG8GQlPPRKG7+z+KI0emCblTr+AGrl
+	npP/ARTNxHdCYycQOnkYxeYiDkA==
+X-Google-Smtp-Source: AGHT+IF47XQkSGXjWRrqSSirUPlUOCBjYFDjH0/GAFZRbqnMaUXk4XT8o2qq8MuQTNdO8oVrfaizAVU50e2YjSe04BM=
+X-Received: by 2002:a05:6402:4342:b0:5db:68ce:2125 with SMTP id
+ 4fb4d7f45d1cf-5dcdb717867mr3836131a12.14.1738772165454; Wed, 05 Feb 2025
+ 08:16:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20250202-arm-brbe-v19-v19-0-1c1300802385@kernel.org>
+ <20250202-arm-brbe-v19-v19-11-1c1300802385@kernel.org> <0415d354-0c44-4fff-b92b-b0f5c9c72b11@linaro.org>
+ <CAL_JsqKTNDQn9omG3g=6Rb4Nwt6hG9Gw7-VXL_fjQeEQmmtJQg@mail.gmail.com>
+ <630f630d-241e-45f5-b449-243147fb888b@linaro.org> <CAL_JsqKY8MjD=iFf6MiT04WmCHYUxGtWG9JfX5-5fuG32F77qQ@mail.gmail.com>
+ <3c7e1ce0-9a5d-43fb-9767-8e4ca92a450d@linaro.org>
+In-Reply-To: <3c7e1ce0-9a5d-43fb-9767-8e4ca92a450d@linaro.org>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 5 Feb 2025 10:15:54 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKHGROJa1EW94iy1XzCadEst-hPWZY2BmxKgMB93nDp4w@mail.gmail.com>
+X-Gm-Features: AWEUYZmD0GhWsXkOM4VInQT6jDCLQRcl1WRNEY-U-AEgGQ8zURnAJv3OUj_QUT4
+Message-ID: <CAL_JsqKHGROJa1EW94iy1XzCadEst-hPWZY2BmxKgMB93nDp4w@mail.gmail.com>
+Subject: Re: [PATCH v19 11/11] perf: arm_pmuv3: Add support for the Branch
+ Record Buffer Extension (BRBE)
+To: James Clark <james.clark@linaro.org>, Mark Rutland <mark.rutland@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	kvmarm@lists.linux.dev, Will Deacon <will@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	Anshuman Khandual <anshuman.khandual@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2025-02-04 at 19:25 +0000, Conor Dooley wrote:
-> On Tue, Feb 04, 2025 at 04:36:08PM +0200, Robert Budai wrote:
-> > Document the ADIS16550 device devicetree bindings.
-> >=20
-> > Co-developed-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> > Signed-off-by: Antoniu Miclaus <antoniu.miclaus@analog.com>
-> > Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
-> > Signed-off-by: Robert Budai <robert.budai@analog.com>
-> > ---
-> >=20
-> > v6:
-> > - applied blank line suggestions
-> > - added clock-frequency dependency change suggestions
-> > - yamllint corrections
-> >=20
-> > =C2=A0.../bindings/iio/imu/adi,adis16550.yaml=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 | 83 +++++++++++++++++++
-> > =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0 9 ++
-> > =C2=A02 files changed, 92 insertions(+)
-> > =C2=A0create mode 100644
-> > Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/iio/imu/adi,adis16550.ya=
-ml
-> > b/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
-> > new file mode 100644
-> > index 000000000000..8750bb937979
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
-> > @@ -0,0 +1,83 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/iio/imu/adi,adis16550.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Analog Devices ADIS16550 and similar IMUs
-> > +
-> > +maintainers:
-> > +=C2=A0 - Nuno Sa <nuno.sa@analog.com>
-> > +=C2=A0 - Ramona Gradinariu <ramona.gradinariu@analog.com>
-> > +=C2=A0 - Antoniu Miclaus <antoniu.miclaus@analog.com>
-> > +
-> > +properties:
-> > +=C2=A0 compatible:
-> > +=C2=A0=C2=A0=C2=A0 enum:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - adi,adis16550
-> > +
-> > +=C2=A0 reg:
-> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > +
-> > +=C2=A0 spi-cpha: true
-> > +=C2=A0 spi-cpol: true
-> > +
-> > +=C2=A0 spi-max-frequency:
-> > +=C2=A0=C2=A0=C2=A0 maximum: 15000000
-> > +
-> > +=C2=A0 vdd-supply: true
-> > +
-> > +=C2=A0 interrupts:
-> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > +
-> > +=C2=A0 reset-gpios:
-> > +=C2=A0=C2=A0=C2=A0 description:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Must be the device tree identifier of t=
-he RESET pin. If specified,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 it will be asserted during driver probe=
-. As the line is active low,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 it should be marked GPIO_ACTIVE_LOW.
-> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > +
-> > +=C2=A0 clocks:
-> > +=C2=A0=C2=A0=C2=A0 description: If not provided, then the internal clo=
-ck is used.
-> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > +
-> > +=C2=A0 clock-frequency:
-> > +=C2=A0=C2=A0=C2=A0 description: Clock frequency in Hz when an external=
- clock is used.
-> > +=C2=A0=C2=A0=C2=A0 oneOf:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - minimum: 1
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 maximum: 128
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - minimum: 3000
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 maximum: 4500
->=20
-> I don't get why this is a property, to be honest. When you've got an
-> external clock, why isn't the frequency obtained from the clock provider
-> node?
->=20
+On Wed, Feb 5, 2025 at 8:38=E2=80=AFAM James Clark <james.clark@linaro.org>=
+ wrote:
+> On 04/02/2025 3:03 pm, Rob Herring wrote:
+> > On Tue, Feb 4, 2025 at 6:03=E2=80=AFAM James Clark <james.clark@linaro.=
+org> wrote:
+> >> On 03/02/2025 5:58 pm, Rob Herring wrote:
+> >>> On Mon, Feb 3, 2025 at 10:53=E2=80=AFAM James Clark <james.clark@lina=
+ro.org> wrote:
+> >>>> On 03/02/2025 12:43 am, Rob Herring (Arm) wrote:
+> >>>>> From: Anshuman Khandual <anshuman.khandual@arm.com>
+> >>>>>
+> >>>>> The ARMv9.2 architecture introduces the optional Branch Record Buff=
+er
+> >>>>> Extension (BRBE), which records information about branches as they =
+are
+> >>>>> executed into set of branch record registers. BRBE is similar to x8=
+6's
+> >>>>> Last Branch Record (LBR) and PowerPC's Branch History Rolling Buffe=
+r
+> >>>>> (BHRB).
+> >
+> > [...]
+> >
+> >>>>> +     /*
+> >>>>> +      * Require that the event filter and branch filter permission=
+s match.
+> >>>>> +      *
+> >>>>> +      * The event and branch permissions can only mismatch if the =
+user set
+> >>>>> +      * at least one of the privilege branch filters in PERF_SAMPL=
+E_BRANCH_PLM_ALL.
+> >>>>> +      * Otherwise, the core will set the branch sample permissions=
+ in
+> >>>>> +      * perf_copy_attr().
+> >>>>> +      */
+> >>>>> +     if ((event->attr.exclude_user !=3D !(branch_type & PERF_SAMPL=
+E_BRANCH_USER)) ||
+> >>>>> +         (event->attr.exclude_kernel !=3D !(branch_type & PERF_SAM=
+PLE_BRANCH_KERNEL)) ||
+> >>>>
+> >>>> I don't think this one is right. By default perf_copy_attr() copies =
+the
+> >>>> exclude_ settings into the branch settings so this works, but if the
+> >>>> user sets any _less_ permissive branch setting this fails. For examp=
+le:
+> >>>>
+> >>>>     # perf record -j any,u -- true
+> >>>>     Error:
+> >>>>     cycles:PH: PMU Hardware or event type doesn't support branch sta=
+ck
+> >>>>     sampling.
+> >>>>
+> >>>> Here we want the default sampling permissions (exclude_kernel =3D=3D=
+ 0,
+> >>>> exclude_user =3D=3D 0), but only user branch records, which doesn't =
+match.
+> >>>> It should be allowed because it doesn't include anything that we're =
+not
+> >>>> allowed to see.
+> >>>
+> >>> I know it is allowed(on x86), but why would we want that? If you do
+> >>> something even more restricted:
+> >>>
+> >>> perf record -e cycles:k -j any,u -- true
+> >>>
+> >>> That's allowed on x86 and gives you samples with user addresses. But
+> >>> all the events happened in the kernel. How does that make any sense?
+> >>>
+> >>> I suppose in your example, we could avoid attaching branch stack on
+> >>> samples from the kernel. However, given how my example works, I'm
+> >>> pretty sure that's not what x86 does.
+> >>>
+> >>> There's also combinations that are allowed, but record no samples.
+> >>> Though I think that was with guest events. I've gone with reject
+> >>> non-sense combinations as much as possible. We can easily remove thos=
+e
+> >>> restrictions later if needed. Changing the behavior later (for the
+> >>> same configuration) wouldn't be good.
+> >>>
+> >>>
+> >>
+> >> Rejecting ones that produce no samples is fair enough, but my example
+> >> does produce samples. To answer the question "why would we want that?"=
+,
+> >> nothing major, but there are a few small reasons:
+> >>
+> >>    * Perf includes both user and kernel by default, so the shortest
+> >>      command to only gather user branches doesn't work (-j any,u)
+> >>    * The test already checks for branch stack support like this, so ol=
+d
+> >>      Perf test versions don't work
+> >
+> > I would be more concerned about this one except that *we* wrote that
+> > test. (I'm not sure why we wrote a new test rather than adapting
+> > record_lbr.sh...)
+> >
+>
+> record_lbr.sh was added 6 months ago, test_brstack.sh 3 years ago so
+> it's the other way around.
 
-The main purpose of this property is actually to show/document the constrai=
-ns of
-the external clock. We can very well just error out in the driver (and we d=
+Sigh...
+
+> Although record_lbr.sh also tests --call-graph and --stitch-lbr as well,
+> so I think it's fine for test_brstack.sh to test only --branch-filter
+> options at the lowest level.
+>
+> Looking at that test though I see there is a capability
+> "/sys/devices/cpu/caps/branches". I'm wondering whether we should be
+> adding that on the Arm PMU for BRBE?
+
+I noticed that too. I suppose we should. Though I suppose that could
+give weird results if userspace is expecting LBR. Adding that would
+make record_lbr.sh run and then the LBR callgraph test is going to
+fail.
+
+> Ignoring the tests, the man pages (and some pages on the internet) give
+> this example: "--branch-filter any_ret,u,k". This doesn't work either
+> because it doesn't match the default exclude_hv option. It just seems a
+> bit awkward and incompatible to me, for not much gain.
+>
+> >>    * You might only be optimising userspace, but still interested in t=
+he
+> >>      proportion of time spent or particular place in the kernel
+> >
+> > How do you see that? It looks completely misleading to me. 'perf
+> > report' seems to only list branch stack addresses in this case. There
+> > doesn't seem to be any matching of the event address to branch stack
+> > addresses.
+> >
+>
+> Perf script will show everything with all it's various options, or
+> --branch-history on perf report will show both too. Also there are tools
+> other than Perf, AutoFDO seems like something that BRBE can be used with.
+>
+> >>    * Consistency with existing implementations and for people porting
+> >>      existing tools to Arm
+> >>    * It doesn't cost anything to support it (I think we just
+> >>      only check if exclude_* is set rather than !=3D)
+> >>    * Permissions checks should be handled by the core code so that
+> >>      they're consistent
+> >>    * What's the point of separate branch filters anyway if they always
+> >>      have to match the event filter?
+> >
+> > IDK, I wish someone could tell me. I don't see the usecase for them
+> > being mismatched.
+> >
+> > In any case, I don't care too much one way or the other what we do
+> > here. If everyone thinks we should relax this, then that's fine with
+> > me.
+> >
+>
+> Seeing the branch history from userspace that led up to a certain thing
+> in the kernel happening doesn't seem like that much of an edge case to
+> me. If you always have to have both on then you lose the userspace
+> branch history because the buffer isn't that big and gets overwritten.
+
+Okay, let's drop this check...
+
+> >> Some of these things could be fixed in Perf, but not in older versions=
+.
+> >> Even if we can't think of a real use case now, it doesn't sound like t=
+he
+> >> driver should be so restrictive of an option that doesn't do any harm.
+> >>
+> >>>> This also makes the Perf branch test skip because it uses
+> >>>> any,save_type,u to see if BRBE exists.
+> >>>
+> >>> Yes, I plan to update that if we keep this behavior.
+> >>>
+> >>>>> +         (!is_kernel_in_hyp_mode() &&
+> >>>>> +          (event->attr.exclude_hv !=3D !(branch_type & PERF_SAMPLE=
+_BRANCH_HV))))
+> >>>>> +             return false;
+> >>>>> +
+> >>>>> +     event->hw.branch_reg.config =3D branch_type_to_brbfcr(event->=
+attr.branch_sample_type);
+> >>>>> +     event->hw.extra_reg.config =3D branch_type_to_brbcr(event->at=
+tr.branch_sample_type);
+> >>>>> +
+> >>>>> +     return true;
+> >>>>> +}
+> >>>>> +
+> >>>> [...]
+> >>>>> +static const int brbe_type_to_perf_type_map[BRBINFx_EL1_TYPE_DEBUG=
+_EXIT + 1][2] =3D {
+> >>>>> +     [BRBINFx_EL1_TYPE_DIRECT_UNCOND] =3D { PERF_BR_UNCOND, 0 },
+> >>>>
+> >>>> Does the second field go into 'new_type'? They all seem to be zero s=
 o
-that) and not have this property. I mentioned this property to Robert some
-revisions ago and I also pointed out that I wasn't really sure if it should=
- be
-used or not=C2=A0(I guess this is more for fixed clock providers...). IIRC,=
- I did
-asked for some advice/comments but we got none so I assume Robert just deci=
-ded
-to use it and see what you guys had to say about it.
+> >>>> I'm not sure why new_type isn't ignored instead of having it mapped.
+> >>>
+> >>> Well, left over from when all the Arm specific types were supported.
+> >>> So yeah, that can be simplified.
+> >>>
+> >>>>> +     [BRBINFx_EL1_TYPE_INDIRECT] =3D { PERF_BR_IND, 0 },
+> >>>>> +     [BRBINFx_EL1_TYPE_DIRECT_LINK] =3D { PERF_BR_CALL, 0 },
+> >>>>> +     [BRBINFx_EL1_TYPE_INDIRECT_LINK] =3D { PERF_BR_IND_CALL, 0 },
+> >>>>> +     [BRBINFx_EL1_TYPE_RET] =3D { PERF_BR_RET, 0 },
+> >>>>> +     [BRBINFx_EL1_TYPE_DIRECT_COND] =3D { PERF_BR_COND, 0 },
+> >>>>> +     [BRBINFx_EL1_TYPE_CALL] =3D { PERF_BR_CALL, 0 },
+> >>>>> +     [BRBINFx_EL1_TYPE_ERET] =3D { PERF_BR_ERET, 0 },
+> >>>>> +     [BRBINFx_EL1_TYPE_IRQ] =3D { PERF_BR_IRQ, 0 },
+> >>>>
+> >>>> How do ones that don't map to anything appear in Perf? For example
+> >>>> BRBINFx_EL1_TYPE_TRAP is missing, and the test that was attached to =
+the
+> >>>> previous versions fails because it doesn't see the trap that jumps t=
+o
+> >>>> the kernel, but it does still see the ERET back to userspace:
+> >>>>
+> >>>>      [unknown]/trap_bench+0x20/-/-/-/0/ERET/-
+> >>>>
+> >>>> In older versions we'd also have BRBINFx_EL1_TYPE_TRAP mapping to
+> >>>> PERF_BR_SYSCALL so you could see it go into the kernel before the re=
+turn:
+> >>>>
+> >>>>      trap_bench+0x1C/[unknown]/-/-/-/0/SYSCALL/-
+> >>>>      [unknown]/trap_bench+0x20/-/-/-/0/ERET/-
+> >>>
+> >>> My read of that was we should see a CALL in this case. Whether SVC
+> >>> generates a TRAP or CALL depends on HFGITR_EL2.SVC_EL0 (table D18-2).
+> >>> I assumed "SVC due to HFGITR_EL2.SVC_EL0" means when SVC_EL0 is set
+> >>> (and set has additional conditions). We have SVC_EL0 cleared, so that
+> >>> should be a CALL. Maybe the FVP has this wrong?
+> >>>
+> >>
+> >> The test is doing this rather than a syscall:
+> >>
+> >>     asm("mrs %0, ID_AA64ISAR0_EL1" : "=3Dr" (val));   /* TRAP + ERET *=
+/
+> >>
+> >> So I think trap is right. Whether that should be mapped to SYSCALL or
+> >> some other branch type I don't know, but the point is that it's missin=
+g now.
+> >
+> > We aren't supporting any of the Arm specific traps/exceptions. One
+> > reason is for consistency with x86 like you just argued for. The only
+>
+> Does x86 leave holes in the program flow though, or is it complete? IMO
+> it makes it harder for tools to make sense of the branch buffer if there
+> are things like an ERET with no previous trap to match it up to.
 
-- Nuno S=C3=A1
+I'll have to test that. x86 has SYSRET for "syscall return". We added
+ERET which maps to x86 interrupt return. So I guess x86 only records
+syscalls and their returns. There's also "sw interrupt" on x86 which
+gets mapped to PERF_BR_UNKNOWN. I don't think there's any way for us
+to distinguish a syscall return from any other exception return.
 
-> > +
-> > +required:
-> > +=C2=A0 - compatible
-> > +=C2=A0 - reg
-> > +=C2=A0 - interrupts
-> > +=C2=A0 - spi-cpha
-> > +=C2=A0 - spi-cpol
-> > +=C2=A0 - spi-max-frequency
-> > +=C2=A0 - vdd-supply
-> > +
-> > +dependentRequired:
-> > +=C2=A0 clock: [clock-frequency]
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
-> typo, missing s.
->=20
-> > +
-> > +allOf:
-> > +=C2=A0 - $ref: /schemas/spi/spi-peripheral-props.yaml#
-> > +additionalProperties: false
-> > +examples:
-> > +=C2=A0 - |
-> > +=C2=A0=C2=A0=C2=A0 #include <dt-bindings/interrupt-controller/irq.h>
-> > +=C2=A0=C2=A0=C2=A0 spi {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #address-cells =3D <1>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #size-cells =3D <0>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 imu@0 {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 com=
-patible =3D "adi,adis16550";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reg=
- =3D <0>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spi=
--max-frequency =3D <15000000>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spi=
--cpol;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 spi=
--cpha;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vdd=
--supply =3D <&vdd>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int=
-errupts =3D <4 IRQ_TYPE_EDGE_FALLING>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int=
-errupt-parent =3D <&gpio>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
-> > +=C2=A0=C2=A0=C2=A0 };
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 6247500cf427..8913e13dcaef 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -1452,6 +1452,15 @@
-> > W:	https://ez.analog.com/linux-software-drivers
-> > =C2=A0F:	Documentation/devicetree/bindings/iio/imu/adi,adis16475.yaml
-> > =C2=A0F:	drivers/iio/imu/adis16475.c
-> > =C2=A0
-> > +ANALOG DEVICES INC ADIS16550 DRIVER
-> > +M:	Nuno Sa <nuno.sa@analog.com>
-> > +M:	Ramona Gradinariu <ramona.gradinariu@analog.com>
-> > +M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
-> > +L:	linux-iio@vger.kernel.org
-> > +S:	Supported
-> > +W:	https://ez.analog.com/linux-software-drivers
-> > +F:	Documentation/devicetree/bindings/iio/imu/adi,adis16550.yaml
-> > +
-> > =C2=A0ANALOG DEVICES INC ADM1177 DRIVER
-> > =C2=A0M:	Michael Hennerich <Michael.Hennerich@analog.com>
-> > =C2=A0L:	linux-hwmon@vger.kernel.org
-> > --=20
-> > 2.39.5
-> >=20
+> > exception types supported are syscall and IRQ. Part of the issue is
+> > there is no userspace control over enabling all the extra Arm ones.
+> > There's no way to say enable all branches except debug, fault, etc.
+> > exceptions. If we want to support these, I think there should be user
+> > control over enabling them. But that can come later if there's any
+> > demand for them.
+> >
+> > Rob
+>
+> In this patchset we enable PERF_BR_IRQ with PERF_SAMPLE_BRANCH_ANY,
+> without any way to selectively disable it. I would assume trap could be
+> done with the same option.
 
+If I was designing the interface, I would make PERF_BR_IRQ separately
+controllable. But we're kind of stuck with what x86 did. I suppose we
+could add a negative 'noirq' option.
+
+Are you of the opinion that we should enable everything or some subset
+of them? There's basically inst/data/algn faults, FIQ, SError, and
+debug. The debug ones seem questionable to me, or at least ones you'd
+want to opt-in for. For FIQ, if that's used by secure world, do we
+want non-secure world recording when FIQs happen? Could the timing of
+those be used maliciously?
+
+> If we're filtering some of them out it might be worth documenting that
+> "PERF_SAMPLE_BRANCH_ANY" doesn't actually mean 'any' branch type on Arm,
+> and some types are recorded but discarded out before sending to userspace=
+.
+>
+> There could be some confusion when there are partially filled or empty
+> branch buffers, and the reason wouldn't be that there weren't any
+> branches recorded, but they were all filtered out even with the 'any'
+> option.
+
+Fair enough. I think we need Mark to chime in here. He was questioning
+the need for these.
+
+Rob
