@@ -1,237 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3542A610C;
-	Thu,  6 Feb 2025 14:26:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D441E1304BA
+	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 14:30:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738851995; cv=none; b=MUQC7mdG/mRzls6Hzb9Nai96fKWbYNlSdHXFji1LsbIeithzlnDXKwHU25CIVuGEqHFKHMTlUNC7Shiv9ELDLzfbVrY9i726jus9BEzUlHZBkQBXYrrPyCB1nnddxubPeeFpsA2bpXALyqR12+tmu1fArwKxfvyjv62bkaSYaGM=
+	t=1738852250; cv=none; b=BJx8VNzhu+UTa/yAQqFQzK14z/nCSgO4jN9srjaIRxxkbY2fdCsXIB7UHvh8LJryPke9gKmLAr0M30HhsyOyGIuPKXxuKCgzmkUShS9nYPMBRtxoSe1rh3ieHK/FEcjFtInuWio/hfE2XXy6h7S8Xo+kupNyGvXmtu89Lfs+41s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738851995; c=relaxed/simple;
-	bh=PaYho1V012rs8ReQRCNuW1GskgxiLwS+MzDcZOTtoDQ=;
+	s=arc-20240116; t=1738852250; c=relaxed/simple;
+	bh=WdipNZI3y5wwEW1WPJkKmfPilkJ7iVaBxEPNzdzmX4E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DwBnVTyHO8orhIIj50HdCfWw0n9Wjxl9RmHE+jvx5QHbaMxsD024MZCuh3e9prkTImbe56z2ZwCPuhfJiSVoBng0wAk1lJGELn+Yf64tKp4ufAZATDjsbDZ44PGJ2QnQy6bJ0xf6++1xLdjL2PjNlTZl5BHvfsarZAVA/25RlcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RsLd0ut8; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=OK994UcfiBOktxu+JRMcKK/MxNE4qtcIE9qJ3BFvMY2JScuUY4N74+mt3HkcZIdg7K9RiGhoyIzhHyKpbitn0ueQXWpg1TwuB9S7gImBCG2RzugX4EPFB9INIYFoMnfrznOp1WXLPbeSmcAvUESixwU/mm9u1eVRRZKAEKLgYYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CDkjfouy; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RsLd0ut8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCC85C4CEDF;
-	Thu,  6 Feb 2025 14:26:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738851994;
-	bh=PaYho1V012rs8ReQRCNuW1GskgxiLwS+MzDcZOTtoDQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RsLd0ut8C8HHGUz6yhYWOHGcDEib3EbCPJzBJmttfnn28R8FDNzQkcTKGbLzr+hmX
-	 p3JkdL6HPtStvfnL3QTFQt5EnEa7BV/9hiYgxQ/FABJ92gUZkWz613Ff4I3+lO2Uaj
-	 bbXzQY+2VhRbOx6t6HpmOyPmNKJU8ZbcSYWznFNRGE4zDOuDDgYpXbabu4MvcMRrIX
-	 x1Abjk6F+AL4a2i2vzFMRw7h4IVqvK9nR+UmVEEaruPxkO4uI3WFdBFZetrZrAoiU9
-	 nbvTiCOcrYKYyHnOGNm5fk1Lae4tF9mp0LnFVypcJiM9JgSi2udzoLbXBIxqXqn545
-	 I8/PhBaXaT0jg==
-Date: Thu, 6 Feb 2025 16:26:29 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Bharat Bhushan <bharatb.linux@gmail.com>
-Cc: Steffen Klassert <steffen.klassert@secunet.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Ayush Sawal <ayush.sawal@chelsio.com>,
-	Bharat Bhushan <bbhushan2@marvell.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Geetha sowjanya <gakula@marvell.com>,
-	hariprasad <hkelam@marvell.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	intel-wired-lan@lists.osuosl.org, Jakub Kicinski <kuba@kernel.org>,
-	Jay Vosburgh <jv@jvosburgh.net>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
-	Louis Peens <louis.peens@corigine.com>, netdev@vger.kernel.org,
-	oss-drivers@corigine.com, Paolo Abeni <pabeni@redhat.com>,
-	Potnuri Bharat Teja <bharat@chelsio.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Subbaraya Sundeep <sbhatta@marvell.com>,
-	Sunil Goutham <sgoutham@marvell.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Ilia Lin <ilia.lin@kernel.org>
-Subject: Re: [PATCH ipsec-next 1/5] xfrm: delay initialization of offload
- path till its actually requested
-Message-ID: <20250206142629.GQ74886@unreal>
-References: <cover.1738778580.git.leon@kernel.org>
- <e536ca28cd1686dfbb613de7ccfc01fbe5a734e4.1738778580.git.leon@kernel.org>
- <CAAeCc_kfRt8LhKgRmLsaaSmJs94hjH85DxCjEnJA6OQc5S5XXw@mail.gmail.com>
- <20250206085443.GO74886@unreal>
- <CAAeCc_n-xXBdfyAkRh0KEnvKuuJSHtPQB0umzeSL2aNzJFPXGQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CDkjfouy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1738852246;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WdipNZI3y5wwEW1WPJkKmfPilkJ7iVaBxEPNzdzmX4E=;
+	b=CDkjfouyt5dauUvfIC7ViNGjW3fTIMDVyTCX3dsHs8Z5w4RfUfCxD+D5wQsK8l1cmH2SXN
+	0PHJPqTyne8Bmrr7LAmkIQccLhQ6aZwBgP3jzT8lmE3eTqGUXUJSD7kSh575dlDvoxt275
+	Bt6yi//cS5ogLeqN+q+v78ujJUn5+so=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-669-jpp1Wx5AN3GqEECzTVdKQg-1; Thu,
+ 06 Feb 2025 09:30:43 -0500
+X-MC-Unique: jpp1Wx5AN3GqEECzTVdKQg-1
+X-Mimecast-MFC-AGG-ID: jpp1Wx5AN3GqEECzTVdKQg
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AAACC1956086;
+	Thu,  6 Feb 2025 14:30:36 +0000 (UTC)
+Received: from localhost (unknown [10.2.16.145])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6D97B1800878;
+	Thu,  6 Feb 2025 14:30:33 +0000 (UTC)
+Date: Thu, 6 Feb 2025 09:30:32 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Cc: Dan Williams <dan.j.williams@intel.com>,
+	Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org,
+	linux-mm@kvack.org, alison.schofield@intel.com, lina@asahilina.net,
+	zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
+	vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
+	bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca,
+	catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au,
+	npiggin@gmail.com, dave.hansen@linux.intel.com, ira.weiny@intel.com,
+	willy@infradead.org, djwong@kernel.org, tytso@mit.edu,
+	linmiaohe@huawei.com, david@redhat.com, peterx@redhat.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
+	david@fromorbit.com, chenhuacai@kernel.org, kernel@xen0n.name,
+	loongarch@lists.linux.dev, Hanna Czenczek <hreitz@redhat.com>,
+	German Maglione <gmaglione@redhat.com>,
+	Albert Esteve <aesteve@redhat.com>
+Subject: Re: [PATCH v6 01/26] fuse: Fix dax truncate/punch_hole fault path
+Message-ID: <20250206143032.GA400591@fedora>
+References: <cover.11189864684e31260d1408779fac9db80122047b.1736488799.git-series.apopple@nvidia.com>
+ <bfae590045c7fc37b7ccef10b9cec318012979fd.1736488799.git-series.apopple@nvidia.com>
+ <Z6NhkR8ZEso4F-Wx@redhat.com>
+ <67a3fde7da328_2d2c2942b@dwillia2-xfh.jf.intel.com.notmuch>
+ <Z6S7A-51SdPco_3Z@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="dVdFjdbROmPA0Gp+"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAeCc_n-xXBdfyAkRh0KEnvKuuJSHtPQB0umzeSL2aNzJFPXGQ@mail.gmail.com>
-
-On Thu, Feb 06, 2025 at 07:29:13PM +0530, Bharat Bhushan wrote:
-> On Thu, Feb 6, 2025 at 2:24 PM Leon Romanovsky <leon@kernel.org> wrote:
-> >
-> > On Thu, Feb 06, 2025 at 02:16:08PM +0530, Bharat Bhushan wrote:
-> > > Hi Leon,
-> > >
-> > > On Wed, Feb 5, 2025 at 11:50 PM Leon Romanovsky <leon@kernel.org> wrote:
-> > > >
-> > > > From: Leon Romanovsky <leonro@nvidia.com>
-> > > >
-> > > > XFRM offload path is probed even if offload isn't needed at all. Let's
-> > > > make sure that x->type_offload pointer stays NULL for such path to
-> > > > reduce ambiguity.
-> > > >
-> > > > Fixes: 9d389d7f84bb ("xfrm: Add a xfrm type offload.")
-> > > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> > > > ---
-> > > >  include/net/xfrm.h     | 12 +++++++++++-
-> > > >  net/xfrm/xfrm_device.c | 14 +++++++++-----
-> > > >  net/xfrm/xfrm_state.c  | 22 +++++++++-------------
-> > > >  net/xfrm/xfrm_user.c   |  2 +-
-> > > >  4 files changed, 30 insertions(+), 20 deletions(-)
-> >
-> > <...>
-> >
-> > > > +       x->type_offload = xfrm_get_type_offload(x->id.proto, x->props.family);
-> > > > +       if (!x->type_offload) {
-> >
-> > <...>
-> >
-> > > > +               xfrm_put_type_offload(x->type_offload);
-> > > > +               x->type_offload = NULL;
-> > >
-> > > We always set type_offload to NULL. Can we move type_offload = NULL in
-> > > xfrm_put_type_offload() ?
-> >
-> > We can, but it will require change to xfrm_get_type_offload() too,
-> > otherwise we will get asymmetrical get/put.
-> 
-> "x->type_offload = NULL" is always set after the put() function. so I
-> thought that maybe moving "x->type_offload = NULL" to the put()
-> function would simplify.
-> Yes, get/put will be asymmetric. Maybe setting "x->type_offload" can
-> be done in get/put().
-> Anyway it is not a major comment. ignore if this does not simplify.
-
-Thanks, let's wait for other comments. If I need respin the series, I'll
-change the functions to the proposed below.
-
-Thanks
+In-Reply-To: <Z6S7A-51SdPco_3Z@redhat.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
 
-> 
-> Thanks
-> -Bharat
-> 
-> >
-> > Do you want something like that?
-> > int xfrm_get_type_offload(struct xfrm_state *x);
-> > void xfrm_put_type_offload(struct xfrm_state *x);
-> >
-> > Thansk
-> >
-> > >
-> > > Thanks
-> > > -Bharat
-> > >
-> > > >                 /* User explicitly requested packet offload mode and configured
-> > > >                  * policy in addition to the XFRM state. So be civil to users,
-> > > >                  * and return an error instead of taking fallback path.
-> > > > diff --git a/net/xfrm/xfrm_state.c b/net/xfrm/xfrm_state.c
-> > > > index ad2202fa82f3..568fe8df7741 100644
-> > > > --- a/net/xfrm/xfrm_state.c
-> > > > +++ b/net/xfrm/xfrm_state.c
-> > > > @@ -424,11 +424,12 @@ void xfrm_unregister_type_offload(const struct xfrm_type_offload *type,
-> > > >  }
-> > > >  EXPORT_SYMBOL(xfrm_unregister_type_offload);
-> > > >
-> > > > -static const struct xfrm_type_offload *
-> > > > -xfrm_get_type_offload(u8 proto, unsigned short family, bool try_load)
-> > > > +const struct xfrm_type_offload *xfrm_get_type_offload(u8 proto,
-> > > > +                                                     unsigned short family)
-> > > >  {
-> > > >         const struct xfrm_type_offload *type = NULL;
-> > > >         struct xfrm_state_afinfo *afinfo;
-> > > > +       bool try_load = true;
-> > > >
-> > > >  retry:
-> > > >         afinfo = xfrm_state_get_afinfo(family);
-> > > > @@ -456,11 +457,7 @@ xfrm_get_type_offload(u8 proto, unsigned short family, bool try_load)
-> > > >
-> > > >         return type;
-> > > >  }
-> > > > -
-> > > > -static void xfrm_put_type_offload(const struct xfrm_type_offload *type)
-> > > > -{
-> > > > -       module_put(type->owner);
-> > > > -}
-> > > > +EXPORT_SYMBOL(xfrm_get_type_offload);
-> > > >
-> > > >  static const struct xfrm_mode xfrm4_mode_map[XFRM_MODE_MAX] = {
-> > > >         [XFRM_MODE_BEET] = {
-> > > > @@ -609,8 +606,6 @@ static void ___xfrm_state_destroy(struct xfrm_state *x)
-> > > >         kfree(x->coaddr);
-> > > >         kfree(x->replay_esn);
-> > > >         kfree(x->preplay_esn);
-> > > > -       if (x->type_offload)
-> > > > -               xfrm_put_type_offload(x->type_offload);
-> > > >         if (x->type) {
-> > > >                 x->type->destructor(x);
-> > > >                 xfrm_put_type(x->type);
-> > > > @@ -784,6 +779,9 @@ void xfrm_dev_state_free(struct xfrm_state *x)
-> > > >         struct xfrm_dev_offload *xso = &x->xso;
-> > > >         struct net_device *dev = READ_ONCE(xso->dev);
-> > > >
-> > > > +       xfrm_put_type_offload(x->type_offload);
-> > > > +       x->type_offload = NULL;
-> > > > +
-> > > >         if (dev && dev->xfrmdev_ops) {
-> > > >                 spin_lock_bh(&xfrm_state_dev_gc_lock);
-> > > >                 if (!hlist_unhashed(&x->dev_gclist))
-> > > > @@ -3122,7 +3120,7 @@ u32 xfrm_state_mtu(struct xfrm_state *x, int mtu)
-> > > >  }
-> > > >  EXPORT_SYMBOL_GPL(xfrm_state_mtu);
-> > > >
-> > > > -int __xfrm_init_state(struct xfrm_state *x, bool init_replay, bool offload,
-> > > > +int __xfrm_init_state(struct xfrm_state *x, bool init_replay,
-> > > >                       struct netlink_ext_ack *extack)
-> > > >  {
-> > > >         const struct xfrm_mode *inner_mode;
-> > > > @@ -3178,8 +3176,6 @@ int __xfrm_init_state(struct xfrm_state *x, bool init_replay, bool offload,
-> > > >                 goto error;
-> > > >         }
-> > > >
-> > > > -       x->type_offload = xfrm_get_type_offload(x->id.proto, family, offload);
-> > > > -
-> > > >         err = x->type->init_state(x, extack);
-> > > >         if (err)
-> > > >                 goto error;
-> > > > @@ -3229,7 +3225,7 @@ int xfrm_init_state(struct xfrm_state *x)
-> > > >  {
-> > > >         int err;
-> > > >
-> > > > -       err = __xfrm_init_state(x, true, false, NULL);
-> > > > +       err = __xfrm_init_state(x, true, NULL);
-> > > >         if (!err)
-> > > >                 x->km.state = XFRM_STATE_VALID;
-> > > >
-> > > > diff --git a/net/xfrm/xfrm_user.c b/net/xfrm/xfrm_user.c
-> > > > index 08c6d6f0179f..82a768500999 100644
-> > > > --- a/net/xfrm/xfrm_user.c
-> > > > +++ b/net/xfrm/xfrm_user.c
-> > > > @@ -907,7 +907,7 @@ static struct xfrm_state *xfrm_state_construct(struct net *net,
-> > > >                         goto error;
-> > > >         }
-> > > >
-> > > > -       err = __xfrm_init_state(x, false, attrs[XFRMA_OFFLOAD_DEV], extack);
-> > > > +       err = __xfrm_init_state(x, false, extack);
-> > > >         if (err)
-> > > >                 goto error;
-> > > >
-> > > > --
-> > > > 2.48.1
-> > > >
-> > > >
-> > >
+--dVdFjdbROmPA0Gp+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Thu, Feb 06, 2025 at 08:37:07AM -0500, Vivek Goyal wrote:
+> And then there are challenges at QEMU level. virtiofsd needs additional
+> vhost-user commands to implement DAX and these never went upstream in
+> QEMU. I hope these challenges are sorted at some point of time.
+
+Albert Esteve has been working on QEMU support:
+https://lore.kernel.org/qemu-devel/20240912145335.129447-1-aesteve@redhat.com/
+
+He has a viable solution. I think the remaining issue is how to best
+structure the memory regions. The reason for slow progress is not
+because it can't be done, it's probably just because this is a
+background task.
+
+Please discuss with Albert if QEMU support is urgent.
+
+Stefan
+
+--dVdFjdbROmPA0Gp+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmekx4gACgkQnKSrs4Gr
+c8jOKwf/ZukZTp1v1Bj1iqbpAm6HBWN90Y4JWmyzZGuKRqLAwN8AyiIJ6Ms1fx+v
+WJLR47NztCQ3sDtsTQT1814wwXSpJlPguLu6isoWbCGpUwAZZk3JTpHNBofs7IKj
+04NWFZ9B2tOVgirm8OMtsVVJwzQhvQc7YtMhdB9naCzqcdC7ynKp6mLH9bd7Q+Ze
+K9CwEFtKcTm9Ge+t3U0E3Q7MI2D55far3KPi84MpfI9oEu6l0MOzzmKjaOBq9+wy
+XXZCisxWbGLZtfbY2BAQxTUhKq9TTXgeQm/Ti/SzsVLf/Qd7nrEkG1v51xs5HCnR
+FMQhDw7oBmFsGs5S/Qywvta1pcaYwg==
+=JZcT
+-----END PGP SIGNATURE-----
+
+--dVdFjdbROmPA0Gp+--
+
