@@ -1,466 +1,396 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5081B22DF89;
-	Thu,  6 Feb 2025 12:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738846708; cv=fail; b=EoO4awihAi3hTGYA+Z1D3aqVgM+HGSzS6TxSev/Ig8TiE6p1AEPHueNugudLxI87rBdwe1zUPNSj+5KnB06fDmvAP9X6P3Y7MAXvT+CiW5TWfq3bPtDH0bvZhBgewEQRSEx/YLmuSvmpXMYoWKKbcLYlWUUnjIaOHkOOvP2BmW0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738846708; c=relaxed/simple;
-	bh=Ali9KIyuf9qAG4O8RAl7dDwQG2IvPt23GGSv0cQQKSE=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=lx/s0LGrZOdMPL9W6hAwkICH4+gu11l8ce7zQVn3EcBFke2T30NQjxN0GZT1JiBM0erZ2sCBfYdcm3Z6aUEOhzKrDUzsj9JKrL5J86iq5+3td4Gxa7sdfqr09F29U0FyvWSWHzU8WFMuvEvAaywkAz9zdLKOLRyurghCdsIPl7g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Od9PK47l; arc=fail smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2380B22DFB4
+	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 12:58:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738846720; cv=none; b=ihTtivQQpzQ2VvjVEU/7fxmgev7hhRcJ/JSgtw+GOW5kiuT44InM5L0ibU38blCYpigdnL0IpkKfxHmZyzxhLRzQhIddIV9JIVEqCx7/c4a1/G4Edeih13VfrD1tJ9SNwBGkB7VkqUkD2FLr12zXSaMmw4982xVcHLeA98YGte0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738846720; c=relaxed/simple;
+	bh=YPo3jlgfj6pYVWVh3PTavNUslwdRyi6ulAHh04Z/rP0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Xo8CYnW60RwLkSaG8KjTMbWgeC9drYXH4AKOxMmo5xPHdgRIGoOqPPuDDODGRC1wfUm7uS7TA4jB7gSD8hLVW3oi97lzVdEqKHzpZ9AVAg+eEnXb9y0txa+lCnIk7j+q8YX6+6QOPfTGXzJg/KMESiQmvBtRlAGfIv0tWRh23Po=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=in2WNXv4; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Od9PK47l"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738846706; x=1770382706;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=Ali9KIyuf9qAG4O8RAl7dDwQG2IvPt23GGSv0cQQKSE=;
-  b=Od9PK47lrfEaGh4G26iBolzfxCO8MAhRrRaKbg/damwgYfAPkTOliTXy
-   tvd0xXgx/Kr0T3YmyW9r3HN1Wdx710VtGd7PdQVpFOrEhnNEda4CvMcrA
-   s59Pg9BDQBKmEIH5RWrvIlx96kMeFZzt/RERfxHL7k8w2sIezT8UeXtgR
-   pAEwcoIIBBkMDzEqpnqjRgrhzu12eq1pkq76BBbnku1zgAZp4IhcalUvJ
-   OSOkWYmmEJX7X4VX+M9NQ/OG5Xez6tt+9zYqM3FDTVyWv8obS4YvzED7c
-   XIFLYzXdL1+nK/Z+Y6QhMqydPk9G9iEVLte6/K5igIMdNLH3bXjOGJrTs
-   g==;
-X-CSE-ConnectionGUID: WWCyqwOfSYq58zvQ1XLA8w==
-X-CSE-MsgGUID: wnn91NrSTXyVhnSCJpoyKA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="42281982"
-X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
-   d="scan'208";a="42281982"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Feb 2025 04:58:25 -0800
-X-CSE-ConnectionGUID: ttN44p78Spuc2cv8ztNT0Q==
-X-CSE-MsgGUID: 7tLQslnWQRiHeKlxYMZmMA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,264,1732608000"; 
-   d="scan'208";a="111030285"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 Feb 2025 04:58:23 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Thu, 6 Feb 2025 04:58:22 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44 via Frontend Transport; Thu, 6 Feb 2025 04:58:22 -0800
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.46) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Thu, 6 Feb 2025 04:58:22 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DMxckqGEL/bR0I31J2oPbUYgDxOFYKXlY2OzbKiGc2EISsof/A+UnH2/HFcVCWVbn74jc7SUmmnUDlNkP+NsJgz2lG949w4LiBBn19ykwxejoZnj2bAiAfv9f+NodI488R+NOb9jqZ1rXjQsoddBFP5RpBaOd1kwAe0sFvLKzhqssh8JUKEUi05I07bqiX57eTgZFG4xA+aUcH7pUlDKgJ/cXckSG5QiV9YW4DfzD0mXxfKIDoj4EonSKIeuqWZUYqqhOnmlGwtYPo/ERboZB4WX0U72CdyfPNYcwPojEiaNmHXlz4bPFksIs3w8GjsNSc6bXj0ZO4LvSaWm9d0FUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3PQtbDOswEvWlnfSu7y84F88uLmn8i2rk+bytGB5RBQ=;
- b=QdIX6NE1Yb4A7ruMLzRuuwhUf6iq7ailGizUVPLpPN66MyB/QZI8XsvMU82d277Y/7AgDHBy232eGccKZAASuEgG+IIK4Sm+8YyXe5lNdXiLQfgkaJxLYYsk6p7HTsFEamc0HslNhl3LXJgAgHSYz3CMkkCY/rQK2dyBkVVJwOy55zfnFqd4I/gIaZuqbIk2SGftBLjkMuqzTQRZ5A8a5jMO1O8Hb50thz8HBZl4tMoBhb5MwUDv0XFovQUstUB1DTWJ5TGiWFnR6OtseGh0BGWdf+DoxqmIZAAVzFPo6B+ItH1uelo32iovqBQYYHvM4IYdbzRT6Vpmm13FgLICbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB6239.namprd11.prod.outlook.com (2603:10b6:8:a7::20) by
- SN7PR11MB7465.namprd11.prod.outlook.com (2603:10b6:806:34e::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8422.11; Thu, 6 Feb
- 2025 12:58:06 +0000
-Received: from DM4PR11MB6239.namprd11.prod.outlook.com
- ([fe80::244e:154d:1b0b:5eb5]) by DM4PR11MB6239.namprd11.prod.outlook.com
- ([fe80::244e:154d:1b0b:5eb5%4]) with mapi id 15.20.8398.021; Thu, 6 Feb 2025
- 12:58:06 +0000
-Date: Thu, 6 Feb 2025 13:57:33 +0100
-From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-To: Andrey Konovalov <andreyknvl@gmail.com>
-CC: <luto@kernel.org>, <xin@zytor.com>, <kirill.shutemov@linux.intel.com>,
-	<palmer@dabbelt.com>, <tj@kernel.org>, <brgerst@gmail.com>,
-	<ardb@kernel.org>, <dave.hansen@linux.intel.com>, <jgross@suse.com>,
-	<will@kernel.org>, <akpm@linux-foundation.org>, <arnd@arndb.de>,
-	<corbet@lwn.net>, <dvyukov@google.com>, <richard.weiyang@gmail.com>,
-	<ytcoode@gmail.com>, <tglx@linutronix.de>, <hpa@zytor.com>,
-	<seanjc@google.com>, <paul.walmsley@sifive.com>, <aou@eecs.berkeley.edu>,
-	<justinstitt@google.com>, <jason.andryuk@amd.com>, <glider@google.com>,
-	<ubizjak@gmail.com>, <jannh@google.com>, <bhe@redhat.com>,
-	<vincenzo.frascino@arm.com>, <rafael.j.wysocki@intel.com>,
-	<ndesaulniers@google.com>, <mingo@redhat.com>, <catalin.marinas@arm.com>,
-	<junichi.nomura@nec.com>, <nathan@kernel.org>, <ryabinin.a.a@gmail.com>,
-	<dennis@kernel.org>, <bp@alien8.de>, <kevinloughlin@google.com>,
-	<morbo@google.com>, <dan.j.williams@intel.com>,
-	<julian.stecklina@cyberus-technology.de>, <peterz@infradead.org>,
-	<cl@linux.com>, <kees@kernel.org>, <kasan-dev@googlegroups.com>,
-	<x86@kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-mm@kvack.org>, <llvm@lists.linux.dev>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 01/15] kasan: Allocation enhancement for dense tag-based
- mode
-Message-ID: <zwug3yr7p7x7276g5tpwsvuxefkxn2pwggozgq7krdaquqktc5@eefn3vi3tynu>
-References: <cover.1738686764.git.maciej.wieczor-retman@intel.com>
- <808cc6516f47d5f5e811d2c237983767952f3743.1738686764.git.maciej.wieczor-retman@intel.com>
- <CA+fCnZd3sP1_x2c5FvztA6LzsBY3Fq3cD5cJ6FQ+FAnmawe06Q@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+fCnZd3sP1_x2c5FvztA6LzsBY3Fq3cD5cJ6FQ+FAnmawe06Q@mail.gmail.com>
-X-ClientProxiedBy: DB9PR02CA0022.eurprd02.prod.outlook.com
- (2603:10a6:10:1d9::27) To DM4PR11MB6239.namprd11.prod.outlook.com
- (2603:10b6:8:a7::20)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="in2WNXv4"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ab7157cf352so392947566b.0
+        for <linux-doc@vger.kernel.org>; Thu, 06 Feb 2025 04:58:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1738846716; x=1739451516; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=t9nxlc2gVdRgkfK+9g7k7PvXPxIVZmZ3lhTkJf7wy0M=;
+        b=in2WNXv4GHSoaxX84iVj8a8AueEekZUZ6o9GdSs9YsbqVV2jf4KHng9r5yZqDFOlb8
+         GIbVD88MARBmM9gkLtkFwNasftCizWuAlnR6yAYcDJAf/BKxUJSVyOeW7g4+u7Tw18Kp
+         R2pFFxZeYigH8fZHcIFYNjURng+dueD/NWjSw88ZZcgqT5/D8OpTcy/OWkth4qXxBqY1
+         voI01WNtTD3UXUf8vBcAGZcW+2CS4CFbKRgmZdnB7BLJfRPtOhYJTdwSx2jLzT1gHK4d
+         s8AjaWqaies7u5Id2zWt4AFCUtPD1zY7EzeQAyFn0T4ekg23HuZuc+ajo+wFbYgbfrAn
+         zUtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738846716; x=1739451516;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=t9nxlc2gVdRgkfK+9g7k7PvXPxIVZmZ3lhTkJf7wy0M=;
+        b=t+DmJfOEX+xSGz+jOQbhhVGyK/8+BX6HhHmdm/ZyHngZreEXGbKygmsyG0i/GlrfKu
+         qS+lXWRIaQiO3B9CrxukCDw8syedpgQMDuW/GR0ErQzwr2pYy7bLWPqyYttwWn3WGIw7
+         A1N3y6SpYdKeqEkJjfihKHwYqGlcJaoawif7ldM0GzPuBkIRs1b2TWl1OrXrYbNfGj+H
+         aUIDYv1oS2zzPHPKaWtWM2ags/AFcR013rRQu+ZsO7W693xEPVPl72nhJ7UF1jPUzvcU
+         VjAh1mI3uklUQX/CDA7Qg0AfnC8PpWaKoEeYtEreE5bXskdqVnaZkk73jYOT2qzP73IJ
+         /hLA==
+X-Forwarded-Encrypted: i=1; AJvYcCU7O7bEiEhCLnLuu8H2Aq3NYJalLIWvgStEkUprPIVoYrXyDd8jQS7f8cXkckKOQn+ruP51/WplmFg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzF0VOjqbfp6x7JvFjleZFusPClXJyvVXrGEwSmJ7Qrnd3RtSdH
+	riQIJJTw8YxBhKomFYH6G9xLrefC7dchj/fyrmb9Ph87/uHE/kKqd54N9MbfJmc=
+X-Gm-Gg: ASbGnctO83iUpyIX5bOwCTUfO7WCnd3XFG5ufwlnxtwva+YsxJT4Q1Pnl8SvnY+WnTX
+	PA3Qt8J7z/bgYgDzJxO1M6dQ0fST5Sk6oxZO0AGXrdfCnrXsNWwBC7iNTGBT8LGhbG3CeyWHCoA
+	RbL343vFiXPp3/cMlgSTT24X3pQkUSRQ60ou9MHw6MHzT5NBTgyU+xftzdkvxwBs3+nZIskiw0h
+	u6SmbQkFt+JDUyKiw9jkwDyrEFlEkgTfzwDhS2Uw62SkI/5Zo8Lh8MWzoY9hByIAtDZIOLaJpsV
+	D2gyyyZAQO/q62MnCHFODhH1Qg==
+X-Google-Smtp-Source: AGHT+IECG2Og4HOQAjuT4F+XFrfhk8Mhc4LucLG60WazGfhVmFMGz2JtXe62pSAA9VTn2VX8teci1g==
+X-Received: by 2002:a17:907:6d21:b0:ab6:8bb8:af2e with SMTP id a640c23a62f3a-ab76e913b7amr351703766b.26.1738846716275;
+        Thu, 06 Feb 2025 04:58:36 -0800 (PST)
+Received: from [192.168.68.163] ([212.105.145.75])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab773339e82sm96240266b.143.2025.02.06.04.58.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Feb 2025 04:58:35 -0800 (PST)
+Message-ID: <3b07c400-e1a8-46b9-a5af-81239dd316f3@linaro.org>
+Date: Thu, 6 Feb 2025 12:58:33 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB6239:EE_|SN7PR11MB7465:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9f61d69c-7158-4439-4902-08dd46ade5fa
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?M3ZzUU5wK2xLa1dPZmpYNFR6OXZMOVZGZ093WXFaMGx0ekxLRCtDL0FvTXZw?=
- =?utf-8?B?ZStIdHovbHY3NXJoSTAyTDA4dkVRb2JZMlIwRUl5SGN0eS93ZC80U0JNRTk5?=
- =?utf-8?B?a2VGM2d6Y1JYcVduU2p3QmlkTGpKNnhwbW5TeVpXYmF1SHoveWlJb3FweUVn?=
- =?utf-8?B?Ri9Pd09TaERxZFIzVGwxVzJXTThsOXJUOGtKNW5IQUZsUUIvMkRWWm1pM2NH?=
- =?utf-8?B?OTlZTVBlMSs1UGpJVll4dEhxSGdrKzlxc3pDWUZUY0RhN29KeEl0MDY5dW9Y?=
- =?utf-8?B?SktDaC96N0dtNEpUYlhUdzUrY1h0UkpPS3FJWDFVTGw4ZTJZMDNvTWhTLzhM?=
- =?utf-8?B?azczaHQwU21OeWIyZHZpTmQvWGlCMFFtRUpCWUFxYjNTVnY4UGc5R3liQkRx?=
- =?utf-8?B?bU16T1cyODFUWHlPa3phQUViWmZGb3ltbngyZmo0RFZ2WUw0b3o0aElqdk5E?=
- =?utf-8?B?WnZ3eXBiWHpyVnZXaU8wWGdZT3RISGRRckk4MEhUMzF3SC81MkgzVk1vNUFE?=
- =?utf-8?B?d3BBRmVvYUQ3SmtDMnl2NWdmQUJMTUlMdkZ5VjJxbGUxa3VSaU5zR1hQTDMw?=
- =?utf-8?B?UDY0YVdUWVFkZjR3NGZSTUw5aWdseUZNSndnQWJwOUVaTmRlM2xqT0RIaEZp?=
- =?utf-8?B?YTVhenIxc3ZZODZ6ckJodHdWbGxlMXZCVldSZnVIcUVFdkdsekJJNGZGWFh1?=
- =?utf-8?B?NWJqc01HU25QL0Zid3ZlZlNCWkhkOFJPWE14UGp6Q2xvck1qQTF6QUtibmRv?=
- =?utf-8?B?UEJmMDd3NFloR3RTdFAzZ28rdktnL0V0RTFmaEZjTnRNTUtveDFqWFFXNjFo?=
- =?utf-8?B?QmpQR001L0JmeUdkY25zSkZGcy9GL1NQUng5dDlPNWQzMlR4WFRBK0ZEMjdD?=
- =?utf-8?B?cDJxcWlIRVBDczAxV1dTeGV2K1lRZ0RFNGE2T3IvMTdkbEZoTkx5YXZQc1FH?=
- =?utf-8?B?cTFpd2dWbnNpOWl3OWZQNWVjNzNsNktUd2hsbU5yaWJWaVc5NzkzWEE0bUxL?=
- =?utf-8?B?cGk1WHVDbFg0dm0wWHIwNUlQOThVQm0rZjNYZGp2c29KSEFneXV1UGErU0RM?=
- =?utf-8?B?eWw4ZGlseTVMQkFyRTEvVFJ2b2lwZVhGdzJjUXFEOU15bENZR2d4MC9ETWUx?=
- =?utf-8?B?TzJVbm5XL1dXY1I0OGk0ZElTRE5qMjNmeldUQkEyY3pIb3lLSnYxMlE4KzF5?=
- =?utf-8?B?MjNiT3FiSEU5SlVOTmR4ZVhMcmVSb096MDh1eU5LWHp1dFhLamhjRTBmUlJ5?=
- =?utf-8?B?azA2L1FnejdlTjdwM1I5c3d0THAzYjhXZVIxQlRuamcrS0hqYU5qbGJvc3R6?=
- =?utf-8?B?cGsxWWdEbWtnYjEvaWx6RUxSM1BRVUtERFAvZ215Q2YzbnpBOVYyeFR5RzRL?=
- =?utf-8?B?Mjh4YzNaNWdhOEVGazJ5QlRSUDJjOThYN1FzbWl6VDlDYVZ0UXA2UU05WXpY?=
- =?utf-8?B?UUY1dUw0NVRkblY3blRoMkNQTFF5TVdybEwvanRpTWg5TU5jQU1na1MySmJa?=
- =?utf-8?B?M280ZEdUaDloWFk3NUVYVERhOTc5Y0ZhZUFWT0Y4dGg3bkZEa3N6bkVvdlAx?=
- =?utf-8?B?c3REdG1wTkl1eWt2QThHRjFLMkVEQVN3UFdzSTRTUjdmNjR0OU43UTJ3bG95?=
- =?utf-8?B?dDlyY3lpQVBNTGQzYVJMdzM1MjA2K0FTRkFqV2xXNDdkYjRZcDVjOXBGQjBv?=
- =?utf-8?B?emVoQUJaYXhOWkNTK2h2MWF5VnR0ZTZWYjJtYTMwNEkyUm5adUxnZHhnSllJ?=
- =?utf-8?B?QWxDYmtUc1o2UE5EZlVCMkx3L1dUMkh2WFFXNllHVVdhL3dkNVYraHVEUFdX?=
- =?utf-8?B?SlpjazBnQUhSZjYxQlVQbEtsayt3cU01Y2RLNk9BazJ2K0RQZVRPN1JIbEFo?=
- =?utf-8?Q?xNS6UoHwZYJl9?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6239.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K1I1NGhjMXZjT2JHRkdQdWR4OVdYcm12bjBKSU9VZGszci96c20wcUlFYlJu?=
- =?utf-8?B?dUlZS3gvNzFqdTRPS0FnNmttd2Z5T0JST0ZSU2JUQ054L2VNS3k0TWlZSFJW?=
- =?utf-8?B?bU9Lelk2OXlodE0xZWw5RDJhZGt0bWR5TUhGTExRSUNGeThUMnBPejI5T1ZU?=
- =?utf-8?B?ZWlxN2ZoQm4zelY1NDRhS0x1aWsvQjBIZGQxSDhmb2Z1KzFXdUpKOTBWS0NC?=
- =?utf-8?B?NnRjekxFUWhXV0FMSXBOMlBMUmRtc3g3MFJVZXlrNGdmZjlpdmQvZXU1eEc4?=
- =?utf-8?B?dFdNY2hqU1NWaVNKS2JsYTZ5ei9VRTJJMVhOS1NJNFJxRG9KYVRLWVJWRXJn?=
- =?utf-8?B?VXhjcFNIeFZvZThDQW9iTzQxaUtTZnRyM3hTQllWTHFqeFdqem9nWTkyUlpl?=
- =?utf-8?B?YWJhaGJFVG5ERWFlOHRSeThTRFBsTWpqbTlGR01rL0N6MW1lSzd3Zng0b2NQ?=
- =?utf-8?B?MVRMbGdPViszSUFiSDJmYTBkVWE0czMwaDVJL2U0cGVadjAzTTNHaFE3WGJn?=
- =?utf-8?B?SGNwdlNvUGlCbDJicjZUQVEwZzBmc25tZE9VbWI0QXF5ZStkMURZakVISVpS?=
- =?utf-8?B?anVpT0RZZnZVZ09HMFFhL29TcjNMU0xUQU9nL1hDMkdYait1aFY1UTBsM0x5?=
- =?utf-8?B?MUFnUXh6MjgrVWMzeTk5bHdVU1VGQnR5WFhlNlAvR1FPR3ZRT3cvWHVvVGtP?=
- =?utf-8?B?c3VaRzhleW1xQlhpc3R4NWNRNTRIV3FTZEN6Q20rcUcvaGo1S2pPZFM0NGtZ?=
- =?utf-8?B?UGcxL0dJMEpjU0NTTWVvWEVZZWliQjZ0ZEhOQzVzeklpVmpBUXJweVFtQklx?=
- =?utf-8?B?VFNFSWdOOHdwTVo1ZXlWSnRWRDFRTDdIS3ZVQ3lKUmQ4NWRIN2VNSThlNjB6?=
- =?utf-8?B?aSszanllTFBwY1A2dU84bTROODdUcDZxaktkNk81RGd1bFNhUXVEakFDQldL?=
- =?utf-8?B?YlhaeC9zSkhHNmRSQU5TZTl4NmtTcTU1aHgydncramMrV2Yvcyt5ZzE1OVps?=
- =?utf-8?B?cHhORjRCMUpna1pYNFlicEZSZW9IVFNnME90a3NNZ0xjQTJmNmVnVmcvRHEz?=
- =?utf-8?B?QXJ4MDVtOGNJVGVIb3c1aFhhS0dXcDNJZzRESTV6ZTJsa0NzQ1U2VjNpYTBH?=
- =?utf-8?B?WjloejQwcTNIMVRDbXRJZ1FnUnpvZnZIN3poRkJrZGMveHNkb3R5cnEyeHI1?=
- =?utf-8?B?WjB0a3d5K3YyOHg3UWsrVUFDTXRZK2pBdm0zVmZUeVpSZHZqRXNyNEhaUEg5?=
- =?utf-8?B?M25oTVBtaS9yQ3VSejkxU0N0MFZjN1hweHJ6bEtpYzZnWUlZN1dFY3ovc2xw?=
- =?utf-8?B?eUlRSERnTkVKWXhrNkZIUlhzUlBFNjB3QmdGQzVmZUI3WG10djRMT1ViSUU5?=
- =?utf-8?B?VWxqRDEvMzJMTXYvaE5rZDk1UUVINWs5MW5QK3F5WUcrd0NLOW1jTUVDRWNp?=
- =?utf-8?B?VWVlczFmNmJ1Yng5ZUVRZFFiM2VYMFR5Vzl6YjJkajNMc3ZRcU4vN0g0cWJm?=
- =?utf-8?B?RDk5cEt2dm1naHlzcHRUV1J4T3kzL1l6Y1NtbnRBek9YYWRjNGpPS1NmUVQy?=
- =?utf-8?B?eUs3S2VDMEFNZURKclVNeFZXN2pRTFl0Z2tlcHBZNkY5bHBzeTVlak5zSGV5?=
- =?utf-8?B?VlNoRjdrRHM4LzJ4SWYvSVJWdlduUFVROUdIRC9lVU1zVW1XTU5QTUxITCsw?=
- =?utf-8?B?Y0VwSzlOT2NsZjhyaE04eWhqVE1PSnVBaWtnN0lzMndLZUlYWmJiTE9NOVg0?=
- =?utf-8?B?TTY4VkZrVmlVZ0ErblBQNlg3RjUvRG84SUYycUg3WFUyWUNtYTBYVUFLU3d3?=
- =?utf-8?B?WklZK0pGOWhQdmJMR09Md05CaEswT0pzN2JLT0FBUjZtREh6MDlNWER1Y0Nm?=
- =?utf-8?B?QVcxOTNTNi9NekRTWWpPTWdmeUdkSnovTEFSY0dhQU82RWtLcVRSbzFUSHBy?=
- =?utf-8?B?bXUzaUJnc3Rta1hDUWdheWNIWGFqWi9VQmprMWtPbkRMQUNGOVRpbDZiWTJo?=
- =?utf-8?B?Vk5WWWV3OFdyak9lYVZtUlJqRWE5OEN4dEpJLytwQVExZ2J2bE9XRjdNbzFn?=
- =?utf-8?B?SW1rUmFJNFhlT2JGNEVMb1dCSWYwWlUyNVJ6dUJCcjdUSzBSWFZMY3hGYmFY?=
- =?utf-8?B?ajZsZjdPTFVJM0FGWWJUWitscGc5ZHJuTmV0Z1FpVkJwRlNiVy9NeSt6L01O?=
- =?utf-8?Q?icNptX48dzWiD2B8/y2xlOQ=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f61d69c-7158-4439-4902-08dd46ade5fa
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6239.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2025 12:58:06.0421
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hCJZ9Ci/6SmfQb0nmcwnv7xPL1zaIV/JoLbMQIXOb4yV+fxU1D1D6F6hAPK0/b692M5+Z8Zhmzut4gnTj2F+e11gfDmmdw/LdBYb1BqtuBk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7465
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v19 11/11] perf: arm_pmuv3: Add support for the Branch
+ Record Buffer Extension (BRBE)
+To: Rob Herring <robh@kernel.org>, Mark Rutland <mark.rutland@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kvmarm@lists.linux.dev, Will Deacon <will@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
+ Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Zenghui Yu <yuzenghui@huawei.com>,
+ Anshuman Khandual <anshuman.khandual@arm.com>
+References: <20250202-arm-brbe-v19-v19-0-1c1300802385@kernel.org>
+ <20250202-arm-brbe-v19-v19-11-1c1300802385@kernel.org>
+ <0415d354-0c44-4fff-b92b-b0f5c9c72b11@linaro.org>
+ <CAL_JsqKTNDQn9omG3g=6Rb4Nwt6hG9Gw7-VXL_fjQeEQmmtJQg@mail.gmail.com>
+ <630f630d-241e-45f5-b449-243147fb888b@linaro.org>
+ <CAL_JsqKY8MjD=iFf6MiT04WmCHYUxGtWG9JfX5-5fuG32F77qQ@mail.gmail.com>
+ <3c7e1ce0-9a5d-43fb-9767-8e4ca92a450d@linaro.org>
+ <CAL_JsqKHGROJa1EW94iy1XzCadEst-hPWZY2BmxKgMB93nDp4w@mail.gmail.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <CAL_JsqKHGROJa1EW94iy1XzCadEst-hPWZY2BmxKgMB93nDp4w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 2025-02-06 at 00:43:46 +0100, Andrey Konovalov wrote:
->On Tue, Feb 4, 2025 at 6:34 PM Maciej Wieczor-Retman
-><maciej.wieczor-retman@intel.com> wrote:
->>
->> Tag-based KASAN (on arm64) works by generating a random 8-bit tag and
->> putting it in both the top byte of the pointer (that points to the
->> allocated memory) and into all bytes of shadow memory that correspond to
->> the chunk of allocated regular memory. Each byte of shadow memory covers
->> a 16 byte chunk of allocated memory - a value called KASAN granularity.
->> This means that out-of-bounds memory accesses that happen inside the 16
->> bytes can't be caught.
->>
->> The dense mode offers reducing the tag width from 8 to 4 bits and
->> storing two tags in one byte of shadow memory - one in the upper 4 bits
->> of the byte and one in the lower 4. This way one byte of shadow memory
->> can cover 32 bytes of allocated memory while still keeping the "16 bytes
->> per one tag" granularity. The lower 4 bits of each shadow byte map bytes
->> of memory with offsets 0-15 and the upper 4 bits map offsets 16-31.
->>
->> Example:
->> The example below shows how the shadow memory looks like after
->> allocating 48 bytes of memory in both normal tag-based mode and the
->> dense mode. The contents of shadow memory are overlaid onto address
->> offsets that they relate to in the allocated kernel memory. Each cell
->> |    | symbolizes one byte of shadow memory.
->>
->> = The regular tag based mode:
->> - Randomly generated 8-bit tag equals 0xAB.
->> - 0xFE is the tag that symbolizes unallocated memory.
->>
->> Shadow memory contents:           |  0xAB  |  0xAB  |  0xAB  |  0xFE  |
->> Shadow memory address offsets:    0        1        2        3        4
->> Allocated memory address offsets: 0        16       32       48       64
->>
->> = The dense tag based mode:
->> - Randomly generated 4-bit tag equals 0xC.
->> - 0xE is the tag that symbolizes unallocated memory.
->>
->> Shadow memory contents:           |0xC 0xC |0xC 0xE |0xE 0xE |0xE 0xE |
->> Shadow memory address offsets:    0        1        2        3        4
->> Allocated memory address offsets: 0        32       64       96       128
->>
->> Add a new config option and defines that can override the standard
->> system of one tag per one shadow byte.
->>
->> Add alternative version of the kasan_poison() that deals with tags not
->> being aligned to byte size in shadow memory.
->>
->> Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
->> ---
->>  include/linux/kasan.h | 18 ++++++++++++++++++
->>  lib/Kconfig.kasan     | 21 +++++++++++++++++++++
->>  mm/kasan/kasan.h      |  4 +---
->>  mm/kasan/shadow.c     | 33 ++++++++++++++++++++++++++++++---
->>  4 files changed, 70 insertions(+), 6 deletions(-)
->>
->> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
->> index 03b440658817..ea0f5acd875b 100644
->> --- a/include/linux/kasan.h
->> +++ b/include/linux/kasan.h
->> @@ -35,6 +35,24 @@ typedef unsigned int __bitwise kasan_vmalloc_flags_t;
->>
->>  /* Software KASAN implementations use shadow memory. */
->>
->> +#ifdef CONFIG_KASAN_SW_TAGS_DENSE
->> +#define KASAN_GRANULE_SHIFT    (KASAN_SHADOW_SCALE_SHIFT - 1)
->> +#define KASAN_SHADOW_SCALE_SIZE        (1UL << KASAN_SHADOW_SCALE_SHIFT)
->> +static inline u8 kasan_dense_tag(u8 tag)
->> +{
->> +       return (tag << KASAN_TAG_WIDTH | tag);
->> +}
->> +#else
->> +#define KASAN_GRANULE_SHIFT    KASAN_SHADOW_SCALE_SHIFT
->> +#define KASAN_SHADOW_SCALE_SIZE        (1UL << KASAN_GRANULE_SHIFT)
->> +static inline u8 kasan_dense_tag(u8 tag)
->> +{
->> +       return tag;
->> +}
->> +#endif
->> +
->> +#define KASAN_GRANULE_SIZE     (1UL << KASAN_GRANULE_SHIFT)
->> +
->
->Is there a reason these definitions are added to
->include/linux/kasan.h? At least within this patch, they are only used
->within mm/kasan, so let's keep them in mm/kasan/kasan.h.
 
-Parts of x86 arch use these later (minimal slab alignment, kasan shadow start
-address) so I thought it was convenient to already have it in place here?
 
-Since I'll be reordering patches I can just move these changes together.
+On 05/02/2025 4:15 pm, Rob Herring wrote:
+> On Wed, Feb 5, 2025 at 8:38 AM James Clark <james.clark@linaro.org> wrote:
+>> On 04/02/2025 3:03 pm, Rob Herring wrote:
+>>> On Tue, Feb 4, 2025 at 6:03 AM James Clark <james.clark@linaro.org> wrote:
+>>>> On 03/02/2025 5:58 pm, Rob Herring wrote:
+>>>>> On Mon, Feb 3, 2025 at 10:53 AM James Clark <james.clark@linaro.org> wrote:
+>>>>>> On 03/02/2025 12:43 am, Rob Herring (Arm) wrote:
+>>>>>>> From: Anshuman Khandual <anshuman.khandual@arm.com>
+>>>>>>>
+>>>>>>> The ARMv9.2 architecture introduces the optional Branch Record Buffer
+>>>>>>> Extension (BRBE), which records information about branches as they are
+>>>>>>> executed into set of branch record registers. BRBE is similar to x86's
+>>>>>>> Last Branch Record (LBR) and PowerPC's Branch History Rolling Buffer
+>>>>>>> (BHRB).
+>>>
+>>> [...]
+>>>
+>>>>>>> +     /*
+>>>>>>> +      * Require that the event filter and branch filter permissions match.
+>>>>>>> +      *
+>>>>>>> +      * The event and branch permissions can only mismatch if the user set
+>>>>>>> +      * at least one of the privilege branch filters in PERF_SAMPLE_BRANCH_PLM_ALL.
+>>>>>>> +      * Otherwise, the core will set the branch sample permissions in
+>>>>>>> +      * perf_copy_attr().
+>>>>>>> +      */
+>>>>>>> +     if ((event->attr.exclude_user != !(branch_type & PERF_SAMPLE_BRANCH_USER)) ||
+>>>>>>> +         (event->attr.exclude_kernel != !(branch_type & PERF_SAMPLE_BRANCH_KERNEL)) ||
+>>>>>>
+>>>>>> I don't think this one is right. By default perf_copy_attr() copies the
+>>>>>> exclude_ settings into the branch settings so this works, but if the
+>>>>>> user sets any _less_ permissive branch setting this fails. For example:
+>>>>>>
+>>>>>>      # perf record -j any,u -- true
+>>>>>>      Error:
+>>>>>>      cycles:PH: PMU Hardware or event type doesn't support branch stack
+>>>>>>      sampling.
+>>>>>>
+>>>>>> Here we want the default sampling permissions (exclude_kernel == 0,
+>>>>>> exclude_user == 0), but only user branch records, which doesn't match.
+>>>>>> It should be allowed because it doesn't include anything that we're not
+>>>>>> allowed to see.
+>>>>>
+>>>>> I know it is allowed(on x86), but why would we want that? If you do
+>>>>> something even more restricted:
+>>>>>
+>>>>> perf record -e cycles:k -j any,u -- true
+>>>>>
+>>>>> That's allowed on x86 and gives you samples with user addresses. But
+>>>>> all the events happened in the kernel. How does that make any sense?
+>>>>>
+>>>>> I suppose in your example, we could avoid attaching branch stack on
+>>>>> samples from the kernel. However, given how my example works, I'm
+>>>>> pretty sure that's not what x86 does.
+>>>>>
+>>>>> There's also combinations that are allowed, but record no samples.
+>>>>> Though I think that was with guest events. I've gone with reject
+>>>>> non-sense combinations as much as possible. We can easily remove those
+>>>>> restrictions later if needed. Changing the behavior later (for the
+>>>>> same configuration) wouldn't be good.
+>>>>>
+>>>>>
+>>>>
+>>>> Rejecting ones that produce no samples is fair enough, but my example
+>>>> does produce samples. To answer the question "why would we want that?",
+>>>> nothing major, but there are a few small reasons:
+>>>>
+>>>>     * Perf includes both user and kernel by default, so the shortest
+>>>>       command to only gather user branches doesn't work (-j any,u)
+>>>>     * The test already checks for branch stack support like this, so old
+>>>>       Perf test versions don't work
+>>>
+>>> I would be more concerned about this one except that *we* wrote that
+>>> test. (I'm not sure why we wrote a new test rather than adapting
+>>> record_lbr.sh...)
+>>>
+>>
+>> record_lbr.sh was added 6 months ago, test_brstack.sh 3 years ago so
+>> it's the other way around.
+> 
+> Sigh...
+> 
+>> Although record_lbr.sh also tests --call-graph and --stitch-lbr as well,
+>> so I think it's fine for test_brstack.sh to test only --branch-filter
+>> options at the lowest level.
+>>
+>> Looking at that test though I see there is a capability
+>> "/sys/devices/cpu/caps/branches". I'm wondering whether we should be
+>> adding that on the Arm PMU for BRBE?
+> 
+> I noticed that too. I suppose we should. Though I suppose that could
+> give weird results if userspace is expecting LBR. Adding that would
+> make record_lbr.sh run and then the LBR callgraph test is going to
+> fail.
 
->
->>  #ifdef CONFIG_KASAN_SW_TAGS
->>  /* This matches KASAN_TAG_INVALID. */
->>  #define KASAN_SHADOW_INIT 0xFE
->> diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
->> index 98016e137b7f..d08b4e9bf477 100644
->> --- a/lib/Kconfig.kasan
->> +++ b/lib/Kconfig.kasan
->> @@ -19,6 +19,13 @@ config ARCH_DISABLE_KASAN_INLINE
->>           Disables both inline and stack instrumentation. Selected by
->>           architectures that do not support these instrumentation types.
->>
->> +config ARCH_HAS_KASAN_SW_TAGS_DENSE
->> +       bool
->> +       help
->> +         Enables option to compile tag-based KASAN with densely packed tags -
->> +         two 4-bit tags per one byte of shadow memory. Set on architectures
->> +         that have 4-bit tag macros.
->> +
->>  config CC_HAS_KASAN_GENERIC
->>         def_bool $(cc-option, -fsanitize=kernel-address)
->>
->> @@ -223,4 +230,18 @@ config KASAN_EXTRA_INFO
->>           boot parameter, it will add 8 * stack_ring_size bytes of additional
->>           memory consumption.
->>
->> +config KASAN_SW_TAGS_DENSE
->> +       bool "Two 4-bit tags in one shadow memory byte"
->> +       depends on KASAN_SW_TAGS
->> +       depends on ARCH_HAS_KASAN_SW_TAGS_DENSE
->
->I think this should also depend on KASAN_OUTLINE: Clang/GCC aren't
->aware of the dense mode.
+Looks like we should add it. The "branches" cap seems to imply that any 
+of the branch recording options are supported.
 
-I wasn't sure I fully understood how inline/outline interacts with clang/gcc on
-x86 (especially that I think some parts are still missing in x86 clang for
-tag-based KASAN). So I understand that compiling with inline doesn't do
-anything? If so, is it not doing anything because of missing compiler code or
-something in the kernel?
+For --call-graph=lbr, that's a special branch type 
+PERF_SAMPLE_BRANCH_CALL_STACK which we reject as not supported in BRBE. 
+The test already does an additional skip if --call-graph=lbr isn't 
+supported over the top of checking the branches cap. But there are other 
+sub tests that don't use that option that should pass. They are only 
+checking for non zero branch stack entries.
 
->
->> +       help
->> +         Enables packing two tags into one shadow byte to half the memory usage
->> +         compared to normal tag-based mode.
->
->But adds some performance impact?
+> 
+>> Ignoring the tests, the man pages (and some pages on the internet) give
+>> this example: "--branch-filter any_ret,u,k". This doesn't work either
+>> because it doesn't match the default exclude_hv option. It just seems a
+>> bit awkward and incompatible to me, for not much gain.
+>>
+>>>>     * You might only be optimising userspace, but still interested in the
+>>>>       proportion of time spent or particular place in the kernel
+>>>
+>>> How do you see that? It looks completely misleading to me. 'perf
+>>> report' seems to only list branch stack addresses in this case. There
+>>> doesn't seem to be any matching of the event address to branch stack
+>>> addresses.
+>>>
+>>
+>> Perf script will show everything with all it's various options, or
+>> --branch-history on perf report will show both too. Also there are tools
+>> other than Perf, AutoFDO seems like something that BRBE can be used with.
+>>
+>>>>     * Consistency with existing implementations and for people porting
+>>>>       existing tools to Arm
+>>>>     * It doesn't cost anything to support it (I think we just
+>>>>       only check if exclude_* is set rather than !=)
+>>>>     * Permissions checks should be handled by the core code so that
+>>>>       they're consistent
+>>>>     * What's the point of separate branch filters anyway if they always
+>>>>       have to match the event filter?
+>>>
+>>> IDK, I wish someone could tell me. I don't see the usecase for them
+>>> being mismatched.
+>>>
+>>> In any case, I don't care too much one way or the other what we do
+>>> here. If everyone thinks we should relax this, then that's fine with
+>>> me.
+>>>
+>>
+>> Seeing the branch history from userspace that led up to a certain thing
+>> in the kernel happening doesn't seem like that much of an edge case to
+>> me. If you always have to have both on then you lose the userspace
+>> branch history because the buffer isn't that big and gets overwritten.
+> 
+> Okay, let's drop this check...
+> 
+>>>> Some of these things could be fixed in Perf, but not in older versions.
+>>>> Even if we can't think of a real use case now, it doesn't sound like the
+>>>> driver should be so restrictive of an option that doesn't do any harm.
+>>>>
+>>>>>> This also makes the Perf branch test skip because it uses
+>>>>>> any,save_type,u to see if BRBE exists.
+>>>>>
+>>>>> Yes, I plan to update that if we keep this behavior.
+>>>>>
+>>>>>>> +         (!is_kernel_in_hyp_mode() &&
+>>>>>>> +          (event->attr.exclude_hv != !(branch_type & PERF_SAMPLE_BRANCH_HV))))
+>>>>>>> +             return false;
+>>>>>>> +
+>>>>>>> +     event->hw.branch_reg.config = branch_type_to_brbfcr(event->attr.branch_sample_type);
+>>>>>>> +     event->hw.extra_reg.config = branch_type_to_brbcr(event->attr.branch_sample_type);
+>>>>>>> +
+>>>>>>> +     return true;
+>>>>>>> +}
+>>>>>>> +
+>>>>>> [...]
+>>>>>>> +static const int brbe_type_to_perf_type_map[BRBINFx_EL1_TYPE_DEBUG_EXIT + 1][2] = {
+>>>>>>> +     [BRBINFx_EL1_TYPE_DIRECT_UNCOND] = { PERF_BR_UNCOND, 0 },
+>>>>>>
+>>>>>> Does the second field go into 'new_type'? They all seem to be zero so
+>>>>>> I'm not sure why new_type isn't ignored instead of having it mapped.
+>>>>>
+>>>>> Well, left over from when all the Arm specific types were supported.
+>>>>> So yeah, that can be simplified.
+>>>>>
+>>>>>>> +     [BRBINFx_EL1_TYPE_INDIRECT] = { PERF_BR_IND, 0 },
+>>>>>>> +     [BRBINFx_EL1_TYPE_DIRECT_LINK] = { PERF_BR_CALL, 0 },
+>>>>>>> +     [BRBINFx_EL1_TYPE_INDIRECT_LINK] = { PERF_BR_IND_CALL, 0 },
+>>>>>>> +     [BRBINFx_EL1_TYPE_RET] = { PERF_BR_RET, 0 },
+>>>>>>> +     [BRBINFx_EL1_TYPE_DIRECT_COND] = { PERF_BR_COND, 0 },
+>>>>>>> +     [BRBINFx_EL1_TYPE_CALL] = { PERF_BR_CALL, 0 },
+>>>>>>> +     [BRBINFx_EL1_TYPE_ERET] = { PERF_BR_ERET, 0 },
+>>>>>>> +     [BRBINFx_EL1_TYPE_IRQ] = { PERF_BR_IRQ, 0 },
+>>>>>>
+>>>>>> How do ones that don't map to anything appear in Perf? For example
+>>>>>> BRBINFx_EL1_TYPE_TRAP is missing, and the test that was attached to the
+>>>>>> previous versions fails because it doesn't see the trap that jumps to
+>>>>>> the kernel, but it does still see the ERET back to userspace:
+>>>>>>
+>>>>>>       [unknown]/trap_bench+0x20/-/-/-/0/ERET/-
+>>>>>>
+>>>>>> In older versions we'd also have BRBINFx_EL1_TYPE_TRAP mapping to
+>>>>>> PERF_BR_SYSCALL so you could see it go into the kernel before the return:
+>>>>>>
+>>>>>>       trap_bench+0x1C/[unknown]/-/-/-/0/SYSCALL/-
+>>>>>>       [unknown]/trap_bench+0x20/-/-/-/0/ERET/-
+>>>>>
+>>>>> My read of that was we should see a CALL in this case. Whether SVC
+>>>>> generates a TRAP or CALL depends on HFGITR_EL2.SVC_EL0 (table D18-2).
+>>>>> I assumed "SVC due to HFGITR_EL2.SVC_EL0" means when SVC_EL0 is set
+>>>>> (and set has additional conditions). We have SVC_EL0 cleared, so that
+>>>>> should be a CALL. Maybe the FVP has this wrong?
+>>>>>
+>>>>
+>>>> The test is doing this rather than a syscall:
+>>>>
+>>>>      asm("mrs %0, ID_AA64ISAR0_EL1" : "=r" (val));   /* TRAP + ERET */
+>>>>
+>>>> So I think trap is right. Whether that should be mapped to SYSCALL or
+>>>> some other branch type I don't know, but the point is that it's missing now.
+>>>
+>>> We aren't supporting any of the Arm specific traps/exceptions. One
+>>> reason is for consistency with x86 like you just argued for. The only
+>>
+>> Does x86 leave holes in the program flow though, or is it complete? IMO
+>> it makes it harder for tools to make sense of the branch buffer if there
+>> are things like an ERET with no previous trap to match it up to.
+> 
+> I'll have to test that. x86 has SYSRET for "syscall return". We added
+> ERET which maps to x86 interrupt return. So I guess x86 only records
+> syscalls and their returns. There's also "sw interrupt" on x86 which
+> gets mapped to PERF_BR_UNKNOWN. I don't think there's any way for us
+> to distinguish a syscall return from any other exception return.
+> 
 
-I tried to measure the performance impact of dense/non-dense but didn't see much
-more than noise in my tests. But I'll mention that there is some small
-performance impact due to more bit shifts.
+Any return type is fine really, as long as you can potentially make 
+sense of it in the end.
 
->
->> +
->> +         After setting this option, tag width macro is set to 4 and size macros
->> +         are adjusted based on used KASAN_SHADOW_SCALE_SHIFT.
->
->I think this paragraph is an implementation detail and we can drop it.
+>>> exception types supported are syscall and IRQ. Part of the issue is
+>>> there is no userspace control over enabling all the extra Arm ones.
+>>> There's no way to say enable all branches except debug, fault, etc.
+>>> exceptions. If we want to support these, I think there should be user
+>>> control over enabling them. But that can come later if there's any
+>>> demand for them.
+>>>
+>>> Rob
+>>
+>> In this patchset we enable PERF_BR_IRQ with PERF_SAMPLE_BRANCH_ANY,
+>> without any way to selectively disable it. I would assume trap could be
+>> done with the same option.
+> 
+> If I was designing the interface, I would make PERF_BR_IRQ separately
+> controllable. But we're kind of stuck with what x86 did. I suppose we
+> could add a negative 'noirq' option.
+> 
+> Are you of the opinion that we should enable everything or some subset
+> of them? There's basically inst/data/algn faults, FIQ, SError, and
+> debug. The debug ones seem questionable to me, or at least ones you'd
+> want to opt-in for. For FIQ, if that's used by secure world, do we
+> want non-secure world recording when FIQs happen? Could the timing of
+> those be used maliciously?
+> 
 
-Okay, will do.
+I would say include everything that's already filling the buffer and can 
+affect the program flow, even if they have to map to unknown or some 
+slightly off mapping. These tools are supposed to increase visibility, 
+not hide it. If silicon and buffer space are being consumed by branches, 
+let userspace decide if it wants to do anything with them or not. It 
+doesn't sound like changing 'unknown' to a more specific type in the 
+future would be a breaking change.
 
->
->> +
->> +         ARCH_HAS_KASAN_SW_TAGS_DENSE is needed for this option since the
->> +         special tag macros need to be properly set for 4-bit wide tags.
->> +
->>  endif # KASAN
->> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
->> index 72da5ddcceaa..0e04c5e2c405 100644
->> --- a/mm/kasan/kasan.h
->> +++ b/mm/kasan/kasan.h
->> @@ -128,9 +128,7 @@ static inline bool kasan_requires_meta(void)
->>
->>  #endif /* CONFIG_KASAN_GENERIC */
->>
->> -#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
->> -#define KASAN_GRANULE_SIZE     (1UL << KASAN_SHADOW_SCALE_SHIFT)
->> -#else
->> +#ifdef CONFIG_KASAN_HW_TAGS
->>  #include <asm/mte-kasan.h>
->>  #define KASAN_GRANULE_SIZE     MTE_GRANULE_SIZE
->>  #endif
->> diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
->> index d6210ca48dda..368503f54b87 100644
->> --- a/mm/kasan/shadow.c
->> +++ b/mm/kasan/shadow.c
->> @@ -123,7 +123,8 @@ EXPORT_SYMBOL(__hwasan_memcpy);
->>
->>  void kasan_poison(const void *addr, size_t size, u8 value, bool init)
->>  {
->> -       void *shadow_start, *shadow_end;
->> +       u8 *shadow_start, *shadow_end, *shadow_start_aligned, *shadow_end_aligned, tag;
->> +       u64 addr64, addr_start_aligned, addr_end_aligned;
->>
->>         if (!kasan_arch_is_ready())
->>                 return;
->> @@ -134,16 +135,42 @@ void kasan_poison(const void *addr, size_t size, u8 value, bool init)
->>          * addresses to this function.
->>          */
->>         addr = kasan_reset_tag(addr);
->> +       addr64 = (u64)addr;
->>
->> -       if (WARN_ON((unsigned long)addr & KASAN_GRANULE_MASK))
->> +       if (WARN_ON(addr64 & KASAN_GRANULE_MASK))
->>                 return;
->>         if (WARN_ON(size & KASAN_GRANULE_MASK))
->>                 return;
->>
->>         shadow_start = kasan_mem_to_shadow(addr);
->>         shadow_end = kasan_mem_to_shadow(addr + size);
->> +       addr_start_aligned = round_up(addr64, KASAN_SHADOW_SCALE_SIZE);
->> +       addr_end_aligned = round_down(addr64 + size, KASAN_SHADOW_SCALE_SIZE);
->> +       shadow_start_aligned = kasan_mem_to_shadow((void *)addr_start_aligned);
->> +       shadow_end_aligned = kasan_mem_to_shadow((void *)addr_end_aligned);
->> +
->> +       /* If size is empty just return. */
->> +       if (!size)
->> +               return;
->>
->> -       __memset(shadow_start, value, shadow_end - shadow_start);
->> +       /* Memset the first unaligned tag in shadow memory. */
->> +       if (addr64 % KASAN_SHADOW_SCALE_SIZE) {
->
->So this is required, because KASAN_SHADOW_SCALE_SIZE is 32 but minimal
->slab alignment is still KASAN_GRANULE_SIZE == 16... We should at least
->hide this check is under IS_ENABLED(KASAN_SW_TAGS_DENSE).
+Except for any security stuff of course, if FIQ is an issue because of 
+that, filter it out.
 
-...
->
->> +               tag = *shadow_start & KASAN_TAG_MASK;
->> +               tag |= value << KASAN_TAG_WIDTH;
->> +               *shadow_start = tag;
->> +       }
->> +
->> +       /* Memset the middle aligned part in shadow memory. */
->> +       tag = kasan_dense_tag(value);
->> +       __memset(shadow_start_aligned, tag, shadow_end_aligned - shadow_start_aligned);
->> +
->> +       /* Memset the last unaligned tag in shadow memory. */
->> +       if ((addr64 + size) % KASAN_SHADOW_SCALE_SIZE) {
->
->Would it be possible to move this part to kasan_poison_last_granule()?
->That functions seems to be serving a similar purpose but for the
->Generic mode.
->
->It might also be cleaner to add a kasan_poison_first_granule() that
->contains the if (addr64 % KASAN_SHADOW_SCALE_SIZE) check.
-...
-sure, I'll try to move these checks to kasan_poison_first/last_granule.
-
->
->> +               tag = KASAN_TAG_MASK << KASAN_TAG_WIDTH;
->> +               tag &= *shadow_end;
->> +               tag |= value;
->> +               *shadow_end = tag;
->> +       }
->>  }
->>  EXPORT_SYMBOL_GPL(kasan_poison);
+>> If we're filtering some of them out it might be worth documenting that
+>> "PERF_SAMPLE_BRANCH_ANY" doesn't actually mean 'any' branch type on Arm,
+>> and some types are recorded but discarded out before sending to userspace.
 >>
->> --
->> 2.47.1
->>
+>> There could be some confusion when there are partially filled or empty
+>> branch buffers, and the reason wouldn't be that there weren't any
+>> branches recorded, but they were all filtered out even with the 'any'
+>> option.
+> 
+> Fair enough. I think we need Mark to chime in here. He was questioning
+> the need for these.
+> 
+> Rob
 
--- 
-Kind regards
-Maciej Wieczór-Retman
+I suppose you could say any branches that leave and return to the same 
+place in userspace aren't useful, like trap and eret (but isn't syscall 
+the same, and we have those?). But that's only if you filter out kernel. 
+With both enabled the trap actually goes somewhere and I'm sure that's 
+interesting to someone.
+
+It might be fine to say that the types that we have now don't match up 
+well enough, so we can revisit this in the future and add them in with 
+the right types rather than a potentially breaking change from unknown. 
+I will leave it to you.
+
+I was mainly stuck on the permissions issue which seemed like a blocker. 
+I noticed this one because the test was actually testing it, but you're 
+right these more obscure branch types in userspace aren't exactly the 
+MVP of BRBE.
+
+Although I will say that leaving the associated ERETs in but filtering 
+out the thing that took it there is a bit odd. Maybe that's just a 
+personal thing without much technical merit.
+
+A lot of words to say I don't really know for sure either.
+
