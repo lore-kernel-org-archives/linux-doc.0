@@ -1,81 +1,97 @@
-Received: from mail-m1973171.qiye.163.com (mail-m1973171.qiye.163.com [220.197.31.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A7DB1FCCE4
-	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 09:25:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2FA22577D
+	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 09:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738833947; cv=none; b=l95M0lON6ggFg7nV7hg0vkyMq/CLTExBbL/NFyFvUVg0D/DyaLXfINXdEE2LMFO6jyusUakdCH18XpZsriOk7j5biCHg6JrIq1XC5KVwhm4GiI5ZjnI/+JrLOp5OJ5SpNRi1wQmTmQEMNXFxNErcBtUzHnNnfiX+WFC157fzjRw=
+	t=1738834214; cv=none; b=FOnLcR2jPGMm3mIqVHLQSW3Hvf2ZcQIpr38Dyp999y4bkE2Rn/PhA5LH/DwHZMf7CfWYeKeLWG6hECl/aU423JjAn/tPiWQbnBwC9RNqA/fA6DFXhQptmVNT55PwhwOeFGC68EHot7Qw88QT13yc8exIZhgd0ccGu2XCUbcPGhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738833947; c=relaxed/simple;
-	bh=8Wd/00C/A6R/PW6fEizTG2/KyMxLNUP43T8DNu+k63w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JqIn3YYqYGxo1sSThaAi8+99kzQxLMALC0Fe7Xj87w+MNRzzVyq5HeHiwfyun30iq54oV+ePsC9/kxn/GdqF1shwN02jynjYYlbCHd81vkSDRMSUL0ehNGtxlbSN+X3m0swMrmN3UQpNeVAQ01RJfEhl6imTLymefBMHJaarys4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=itGR2muV; arc=none smtp.client-ip=220.197.31.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
+	s=arc-20240116; t=1738834214; c=relaxed/simple;
+	bh=SdgHInAsUXSdKixwpkgWNZ1b6pPlCjYH0d4wlVq+enY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=h0jK3H2CfIlfCgy0oJjF7wbKdZFIQMJbdtUK2vYYawXD/GY7/GPlPcoUll+XrmBPJXg0J/bTyj0JlFuqAVRwqbxtYZv8ktvdL6Y6m4hcZwCB7D4mDJVlbmOzV3WRuThaZpO0gnGSraLAdyeyK8k9fh/dvetCVVoGo7So/xPY3pM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OxNOUIG+; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="itGR2muV"
-Received: from [192.168.5.122] (unknown [1.193.57.36])
-	by smtp.qiye.163.com (Hmail) with ESMTP id a51107d6;
-	Thu, 6 Feb 2025 17:10:18 +0800 (GMT+08:00)
-Message-ID: <a4cfc03b-61c9-46c9-bf0b-f1e92ed8b599@cqsoftware.com.cn>
-Date: Thu, 6 Feb 2025 17:10:18 +0800
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OxNOUIG+"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-30229d5b229so6002441fa.0
+        for <linux-doc@vger.kernel.org>; Thu, 06 Feb 2025 01:30:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1738834211; x=1739439011; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tAC13CYCSM1LP7N2TeDcVK+j1mbZEQhsK8lcbic5FlM=;
+        b=OxNOUIG+jXADCLJKP4P6wowQBrbW4U/BSzS4ME//2SNl39zdIkW/e5DAfRo29jsuu4
+         gHVuoVlJiIRC1Ug6QM9FvE9FbdSWJhJczEoF/w7U9NW2kfMqCU8pWT8A3wYBJDtczRd8
+         p6LicACJi7+eEt3nAj5+5bkBnsQeGseCWYwJhrXp15fO4OIQNGDQ/UR/wJwwzxV/i/PU
+         Bz0Mu+enFvxMjHVWNgAQRULeusF8r2V1r87OLlSsWUyGtG1nk4FW+hC7KsRfLda5rUna
+         FKWaOxKya3+x6nMJOhvYJh1j6qtkmsxuKdpo+39cFyetIwzh5v9JSVO7WvYN8ei7DVBT
+         h/Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738834211; x=1739439011;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tAC13CYCSM1LP7N2TeDcVK+j1mbZEQhsK8lcbic5FlM=;
+        b=OG/tSjdVLfbDeJ0p6TqkvdTm1QxjnfEGNrs5bNfUf99TSAzQTB/8uVBnXT4DLTrcop
+         QUn2Gh9bj+fkRdzLCIvDQmUh3ohZYCOaQuCZCTEFu50pGwvEzbpOAloTHX5t2ePtloCA
+         TfM2FJ3Yd9Y+5uLy40uV1WvM58Taw53X5jGoztIQY1i4kqbcsgpQxPuT+UCznyRLQiWF
+         BSDUqE6A5C2EyqUCZeBmSki3m0HqSM+yS+ydd6l3nPrxaT2CIQ6kj4g4hNfOaDjjGtI1
+         xL3Rl8LPyyfXeyLmDcacQKh3eBcEjpcocPUGB1Wg4hAbPl5vYRpdzetAwmlWpg4Qv83d
+         Ppkg==
+X-Forwarded-Encrypted: i=1; AJvYcCVHYnXIuMQmYAHj9Ip4PbgczWABmmgOQrM0aB/OJGaCqFDhSipHyg8R6d3jZLnmXXrhBx8rKUtzVRc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRX9x62tiKYiBNk9O/Qmi4r3r1BbU0jaJfIYnIEOitz6Oxne9m
+	0vtAZvsN4cVHMiXc179nHvMdWy/zgvn45ybbZGvpbyOqBM0KDFHacJn9BKoLmkS96qFpG76HO3d
+	v10dMnueaJrQ7Ih3Bx/wxSk1QoJ/bgqoNYhYaAQ==
+X-Gm-Gg: ASbGnct1DP1bqBG4oJEkH8qHh1DOkkGrSr8nXo+7XsUK0Ux+DDSJc12jeUyXmHc9s8v
+	5gMNzxGryy2dV93IsxnhmXp+ZnAO2JmvFjrY48D7sGrVde2gNxA/87LsIj/Ajw6Qtvegl13s=
+X-Google-Smtp-Source: AGHT+IGCbK5+XwCvq93+VgFVenxmOMdhIuSf3XKRCy/oPksbUb9k5UbqbrA68zfdY7TzalRQv/7sFEWCNRM17b/N9ow=
+X-Received: by 2002:a05:651c:2204:b0:300:1dbd:b252 with SMTP id
+ 38308e7fff4ca-307cf2ecab4mr19091371fa.7.1738834211024; Thu, 06 Feb 2025
+ 01:30:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: zhangwei@cqsoftware.com.cn
-Subject: Re: [PATCH 0/3] Translation self-protection.rst into chinese
-To: alexs@kernel.org, si.yanteng@linux.dev, corbet@lwn.net
-Cc: zhaoshuo@cqsoftware.com.cn, zhaoyuehui@cqsoftware.com.cn,
- maoyuxian@cqsoftware.com.cn, linux-doc@vger.kernel.org
-References: <cover.1738807847.git.zhangwei@cqsoftware.com.cn>
-From: zhangwei <zhangwei@cqsoftware.com.cn>
-In-Reply-To: <cover.1738807847.git.zhangwei@cqsoftware.com.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlDGk9DVklJTh5PSR9OHRoeHVYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlKVUpCSFVOTFVITVlXWRYaDxIVHRRZQVlPS0hVSktJT09PSFVKS0tVSk
-	JLS1kG
-X-HM-Tid: 0a94da863f4a03abkunma51107d6
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MzI6Pio6MjIXSwgjHyMILAEL
-	ThIwFC9VSlVKTEhDQ0hIS0pCSEJLVTMWGhIXVQETGhUcDB4SOxgKCBQdDwwaCR5VGBQWVRgVRVlX
-	WRILWUFZSlVKQkhVTkxVSE1ZV1kIAVlBSktLQzcG
-DKIM-Signature:a=rsa-sha256;
-	b=itGR2muVzJi0Uivwo06/EFzyXs1M8lGeCuhC4xSY2RLgkXMKAXE1tSIPIfg2zlWKjZw3kFguBRTysIuS9col+8gf3k72Ekq0UNBGTQ+XaIK4C+4JGacqB0GZogneZkzV5B6U99IH5dRvT7EwbQAbM6uLE895aSd19A5o/8rwqm4=; s=default; c=relaxed/relaxed; d=cqsoftware.com.cn; v=1;
-	bh=Yh6yCllE/e0fq+wL0g60xubcR/dSxKSANRb5Z+7MIxg=;
-	h=date:mime-version:subject:message-id:from;
+References: <20250129020048.245529-1-linux@treblig.org>
+In-Reply-To: <20250129020048.245529-1-linux@treblig.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 6 Feb 2025 10:30:00 +0100
+X-Gm-Features: AWEUYZl5g2Z6K7OUBqy6qoL7Spv6SuqCSicSmBmwEYZK1dgCVgMzmZnyxigQlWw
+Message-ID: <CACRpkda=jnUV+N_UCdh_c1mKboaxkK25UPTc0XyrUXNNX_EOug@mail.gmail.com>
+Subject: Re: [PATCH] serial: mctrl_gpio: Remove unused mctrl_gpio_free
+To: linux@treblig.org
+Cc: gregkh@linuxfoundation.org, jirislaby@kernel.org, brgl@bgdev.pl, 
+	corbet@lwn.net, linux-serial@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Jan 29, 2025 at 3:00=E2=80=AFAM <linux@treblig.org> wrote:
 
-在 2025/2/6 10:26, zhangwei 写道:
-> Translate self-protection.rst into Chinese
-> and add index.rst under keys and secrets
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
 >
-> zhangwei (3):
->    docs/zh_CN: Add self-protection index Chinese translation
->    Translate .../security/keys/index.rst into Chinese
->    Translate .../security/secrets/index.rst into Chinese
+> mctrl_gpio_free() was added in 2014 by
+> commit 84130aace839 ("tty/serial: Add GPIOLIB helpers for controlling
+> modem lines")
 >
->   .../translations/zh_CN/security/index.rst     |   2 +-
->   .../zh_CN/security/keys/index.rst             |  24 ++
->   .../zh_CN/security/secrets/index.rst          |  18 ++
->   .../zh_CN/security/self-protection.rst        | 271 ++++++++++++++++++
->   4 files changed, 314 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/translations/zh_CN/security/keys/index.rst
->   create mode 100644 Documentation/translations/zh_CN/security/secrets/index.rst
->   create mode 100644 Documentation/translations/zh_CN/security/self-protection.rst
+> It does have a comment saying:
+>   '- * Normally, this function will not be called, as the GPIOs will
+>    - * be disposed of by the resource management code.'
+>
+> indeed, it doesn't seem to have been used since it was added.
+>
+> Remove it.
+>
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 
-I forgot to change to V3 send and forgot to add changelog,
+Looks correct.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-I'm going to resubmit
-
-Thanks,
-
-zhangwei
-
+Yours,
+Linus Walleij
