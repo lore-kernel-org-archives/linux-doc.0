@@ -1,81 +1,40 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from out.smtpout.orange.fr (out-16.smtpout.orange.fr [193.252.22.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ABFD227574;
-	Thu,  6 Feb 2025 10:42:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C364422757F;
+	Thu,  6 Feb 2025 10:57:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738838522; cv=none; b=sVpzFHitKePsPEGTZPh/hSSFiXeqFbW7UGkDrZ4mxS9U5nZ/Jf3ZMQ6h/5uQdpY9naCpvwXaM5otrXyb7qrYSR8vMlqb6dc7fxCrk9mM/nLLqWdr+MiXdgIdaBLhh6/6K3qETX3GDLsdW4rvy0BHaSjbNSBzx3gFjGx4l4TLaK8=
+	t=1738839424; cv=none; b=o1iqeAK3bgbMIYIUzbadP4a5OZox/5uyiYibUDkTBTCUERriZaC2wDGeYhByKLg5PZGMmAUjhkqJFzg0CMH8kCsEEKGCepP/ETIlvC2Qwx4/uD+NlqgArRHewyJitlveZUckFtLilgCaJWk+8hQFXl30Sh8+fXV1qb0eTFKjpj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738838522; c=relaxed/simple;
-	bh=76nO2MrcPa38uCZidWF0apKjo6kITcQCKF+I18br5Ao=;
+	s=arc-20240116; t=1738839424; c=relaxed/simple;
+	bh=mZF4WJ4wshkC4Qp7P9+LXM8kZ9ppCOLNmAFpDQZp3G4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LA/lp6/3m+cf9160GzEXexQsna1JQS5HrTxce7gCAnmudHTad3Hifq8ouPeJFnoRFzF8M82MAGNdgURCZCjdsxbyBCVFmhhkZUxV39dmYyLxGBxoU99lLLeDi1bPwR56BhIfUrqmzAgFy38sPHJHvQqn63cf/Jqj0HrwEQFlyZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=EF+WvkQq; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ylF0STyd; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=EF+WvkQq; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ylF0STyd; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 In-Reply-To:Content-Type; b=bL2scXBEcUP8p+9ZIJ6+kQ6W1tEPoD27EXZjqpl4r/T3+otdwfRQVLdKr/o0jUvnXv+R7YVrL08yP9QK9dzlXJasr1C4bqI5rWTHmy30G0Z+erv4Rj/UzAG9aKnwgK0jMYYhLyjxiKzLMb+juWTBrbLkak9NjZ350LFFzlxq6+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=HlF2JkqG; arc=none smtp.client-ip=193.252.22.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="EF+WvkQq";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ylF0STyd";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="EF+WvkQq";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ylF0STyd"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3DC5E21163;
-	Thu,  6 Feb 2025 10:41:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1738838518; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=9nAH5O3dKn0ela33TBo40pW/2FZBzDM9roViKwIVSsc=;
-	b=EF+WvkQqx0DT1Ro/yrSMO2X5MkW2SmGGMo/f1j4Zx/IF8HCOcQACTIUU4X60PHx34Im/OP
-	VilMyPykC5x0E6sC01/QG1RBsV4BUn4ASQXq0Hv3zmh/zn50kD8FJYloURCessGvGxAa1Y
-	cJYCIDejPsqQIf72jThgu6umMd/aE+E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1738838518;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=9nAH5O3dKn0ela33TBo40pW/2FZBzDM9roViKwIVSsc=;
-	b=ylF0STydj7lcDT4Z8Ch27M0XE2RLGw72IGfCsMrUvLBN4+T2UEHkkjv+KHZesbnUfWscYs
-	Grq8+K3pyHO8F6AA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=EF+WvkQq;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=ylF0STyd
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1738838518; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=9nAH5O3dKn0ela33TBo40pW/2FZBzDM9roViKwIVSsc=;
-	b=EF+WvkQqx0DT1Ro/yrSMO2X5MkW2SmGGMo/f1j4Zx/IF8HCOcQACTIUU4X60PHx34Im/OP
-	VilMyPykC5x0E6sC01/QG1RBsV4BUn4ASQXq0Hv3zmh/zn50kD8FJYloURCessGvGxAa1Y
-	cJYCIDejPsqQIf72jThgu6umMd/aE+E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1738838518;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=9nAH5O3dKn0ela33TBo40pW/2FZBzDM9roViKwIVSsc=;
-	b=ylF0STydj7lcDT4Z8Ch27M0XE2RLGw72IGfCsMrUvLBN4+T2UEHkkjv+KHZesbnUfWscYs
-	Grq8+K3pyHO8F6AA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E8FBA13694;
-	Thu,  6 Feb 2025 10:41:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id exVEN/WRpGfoXAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Thu, 06 Feb 2025 10:41:57 +0000
-Message-ID: <d203b3bd-eae0-4114-a243-212db99339ba@suse.cz>
-Date: Thu, 6 Feb 2025 11:41:57 +0100
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="HlF2JkqG"
+Received: from [172.16.82.72] ([124.33.176.97])
+	by smtp.orange.fr with ESMTPA
+	id fzYjtDgo1Ft3IfzYutp3tQ; Thu, 06 Feb 2025 11:56:54 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1738839414;
+	bh=wTaI7uWxfJ722CWHtIPOl9T+pRsm8ifKzI8h9O+PI5c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=HlF2JkqG5ukjEpbIBd4tr6yYQuDznjpL7a043gTv4H77qYLXx59j5W8NHZGzXGRyl
+	 GQ7q6N85iRiKLecZFckTpwlOCr2sakj3sZrltqKpvXf0kS02r7GWO+SjCkF6+LSLdM
+	 iq2XQ8/NsB9Gdul/7toFTk/XmIDsQNbIMOwzqohUOka8QI3SMtW+tIirxARB3wL5HN
+	 L3c0aRE+6OxptM+EIdcXj0qCVNGs1vFCqMi6ZeRRhwRS7xEFNmGoru7PhrQ5lf5Ak2
+	 X4lSj1n3zzZZ+MxAeJXyJ1bNsXexiQpE+SaPL17Z98ulsYrqtu08eGiR+aLyB2f48x
+	 KpRr3KtrNgjpQ==
+X-ME-Helo: [172.16.82.72]
+X-ME-Auth: bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI=
+X-ME-Date: Thu, 06 Feb 2025 11:56:54 +0100
+X-ME-IP: 124.33.176.97
+Message-ID: <e0aeefc5-bf01-42ab-91e4-e727d560c983@wanadoo.fr>
+Date: Thu, 6 Feb 2025 19:56:36 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,210 +42,71 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] refcount: provide ops for cases when object's memory
- can be reused
-To: Suren Baghdasaryan <surenb@google.com>, peterz@infradead.org
-Cc: will@kernel.org, paulmck@kernel.org, boqun.feng@gmail.com,
- mark.rutland@arm.com, mjguzik@gmail.com, akpm@linux-foundation.org,
- willy@infradead.org, liam.howlett@oracle.com, lorenzo.stoakes@oracle.com,
- david.laight.linux@gmail.com, mhocko@suse.com, hannes@cmpxchg.org,
- oliver.sang@intel.com, mgorman@techsingularity.net, david@redhat.com,
- peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net, brauner@kernel.org,
- dhowells@redhat.com, hdanton@sina.com, hughd@google.com,
- lokeshgidra@google.com, minchan@google.com, jannh@google.com,
- shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com,
- klarasmodin@gmail.com, richard.weiyang@gmail.com, corbet@lwn.net,
- linux-doc@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- kernel-team@android.com
-References: <CAJuCfpHJedxhZuuoKkKaQXsT-3tPSkhUwHadJRGEdTxSkzRc_w@mail.gmail.com>
- <20250206025201.979573-1-surenb@google.com>
+Subject: Re: [PATCH] Documentation: Remove repeated word in docs
+To: Charles Han <hanchunchao@inspur.com>
+Cc: linux-can@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+ linux-doc@vger.kernel.org, mkl@pengutronix.de,
+ manivannan.sadhasivam@linaro.org, thomas.kopp@microchip.com,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, cem@kernel.org,
+ djwong@kernel.org, corbet@lwn.net
+References: <20250206091530.4826-1-hanchunchao@inspur.com>
 Content-Language: en-US
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- EP+ylKVEKb0Q2A==
-In-Reply-To: <20250206025201.979573-1-surenb@google.com>
+From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Autocrypt: addr=mailhol.vincent@wanadoo.fr; keydata=
+ xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
+ LFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbC52aW5jZW50QHdhbmFkb28uZnI+wrIEExYKAFoC
+ GwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQTtj3AFdOZ/IOV06OKrX+uI
+ bbuZwgUCZx41XhgYaGtwczovL2tleXMub3BlbnBncC5vcmcACgkQq1/riG27mcIYiwEAkgKK
+ BJ+ANKwhTAAvL1XeApQ+2NNNEwFWzipVAGvTRigA+wUeyB3UQwZrwb7jsQuBXxhk3lL45HF5
+ 8+y4bQCUCqYGzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrbYZzu0JG5w8gxE6EtQe6LmxKMqP6E
+ yR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmceMvMCGwwF
+ CQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8VzsZwr/S44HCzcz5+jkxnVVQ5LZ4B
+ ANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
+In-Reply-To: <20250206091530.4826-1-hanchunchao@inspur.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 3DC5E21163
-X-Spam-Score: -3.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[37];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,sina.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,arm.com,linux-foundation.org,infradead.org,oracle.com,suse.com,cmpxchg.org,intel.com,techsingularity.net,redhat.com,stgolabs.net,sina.com,google.com,linux.dev,soleen.com,lwn.net,vger.kernel.org,kvack.org,android.com];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	TAGGED_RCPT(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLk41rrgs15z4i1nmqiwtynpyh)];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:email,suse.cz:dkim,suse.cz:mid,suse.cz:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Transfer-Encoding: 8bit
 
-On 2/6/25 03:52, Suren Baghdasaryan wrote:
-> For speculative lookups where a successful inc_not_zero() pins the
-> object, but where we still need to double check if the object acquired
-> is indeed the one we set out to acquire (identity check), needs this
-> validation to happen *after* the increment.
-> Similarly, when a new object is initialized and its memory might have
-> been previously occupied by another object, all stores to initialize the
-> object should happen *before* refcount initialization.
+On 06/02/2025 at 18:15, Charles Han wrote:
+> Remove the repeated word "to" docs.
 > 
-> Notably SLAB_TYPESAFE_BY_RCU is one such an example when this ordering
-> is required for reference counting.
+> Signed-off-by: Charles Han <hanchunchao@inspur.com>
+> ---
+>  .../devicetree/bindings/net/can/microchip,mcp251xfd.yaml        | 2 +-
+>  Documentation/filesystems/xfs/xfs-online-fsck-design.rst        | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> Add refcount_{add|inc}_not_zero_acquire() to guarantee the proper ordering
-> between acquiring a reference count on an object and performing the
-> identity check for that object.
-> Add refcount_set_release() to guarantee proper ordering between stores
-> initializing object attributes and the store initializing the refcount.
-> refcount_set_release() should be done after all other object attributes
-> are initialized. Once refcount_set_release() is called, the object should
-> be considered visible to other tasks even if it was not yet added into an
-> object collection normally used to discover it. This is because other
-> tasks might have discovered the object previously occupying the same
-> memory and after memory reuse they can succeed in taking refcount for the
-> new object and start using it.
-> 
-> Object reuse example to consider:
-> 
-> consumer:
->     obj = lookup(collection, key);
->     if (!refcount_inc_not_zero_acquire(&obj->ref))
->         return;
->     if (READ_ONCE(obj->key) != key) { /* identity check */
->         put_ref(obj);
->         return;
->     }
->     use(obj->value);
-> 
->                  producer:
->                      remove(collection, obj->key);
->                      if (!refcount_dec_and_test(&obj->ref))
->                          return;
->                      obj->key = KEY_INVALID;
->                      free(obj);
->                      obj = malloc(); /* obj is reused */
->                      obj->key = new_key;
->                      obj->value = new_value;
->                      refcount_set_release(obj->ref, 1);
->                      add(collection, new_key, obj);
-> 
-> refcount_{add|inc}_not_zero_acquire() is required to prevent the following
-> reordering when refcount_inc_not_zero() is used instead:
-> 
-> consumer:
->     obj = lookup(collection, key);
->     if (READ_ONCE(obj->key) != key) { /* reordered identity check */
->         put_ref(obj);
->         return;
->     }
->                  producer:
->                      remove(collection, obj->key);
->                      if (!refcount_dec_and_test(&obj->ref))
->                          return;
->                      obj->key = KEY_INVALID;
->                      free(obj);
->                      obj = malloc(); /* obj is reused */
->                      obj->key = new_key;
->                      obj->value = new_value;
->                      refcount_set_release(obj->ref, 1);
->                      add(collection, new_key, obj);
-> 
->     if (!refcount_inc_not_zero(&obj->ref))
->         return;
->     use(obj->value); /* USING WRONG OBJECT */
-> 
-> refcount_set_release() is required to prevent the following reordering
-> when refcount_set() is used instead:
-> 
-> consumer:
->     obj = lookup(collection, key);
-> 
->                  producer:
->                      remove(collection, obj->key);
->                      if (!refcount_dec_and_test(&obj->ref))
->                          return;
->                      obj->key = KEY_INVALID;
->                      free(obj);
->                      obj = malloc(); /* obj is reused */
->                      obj->key = new_key; /* new_key == old_key */
->                      refcount_set(obj->ref, 1);
-> 
->     if (!refcount_inc_not_zero_acquire(&obj->ref))
->         return;
->     if (READ_ONCE(obj->key) != key) { /* pass since new_key == old_key */
->         put_ref(obj);
->         return;
->     }
->     use(obj->value); /* USING STALE obj->value */
-> 
->                      obj->value = new_value; /* reordered store */
->                      add(collection, key, obj);
-> 
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Paul E. McKenney <paulmck@kernel.org>
+> diff --git a/Documentation/devicetree/bindings/net/can/microchip,mcp251xfd.yaml b/Documentation/devicetree/bindings/net/can/microchip,mcp251xfd.yaml
+> index 2a98b26630cb..c155c9c6db39 100644
+> --- a/Documentation/devicetree/bindings/net/can/microchip,mcp251xfd.yaml
+> +++ b/Documentation/devicetree/bindings/net/can/microchip,mcp251xfd.yaml
+> @@ -40,7 +40,7 @@ properties:
+>  
+>    microchip,rx-int-gpios:
+>      description:
+> -      GPIO phandle of GPIO connected to to INT1 pin of the MCP251XFD, which
+> +      GPIO phandle of GPIO connected to INT1 pin of the MCP251XFD, which
+>        signals a pending RX interrupt.
+>      maxItems: 1
+>  
+> diff --git a/Documentation/filesystems/xfs/xfs-online-fsck-design.rst b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+> index 12aa63840830..994f9e5638ee 100644
+> --- a/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+> +++ b/Documentation/filesystems/xfs/xfs-online-fsck-design.rst
+> @@ -4521,7 +4521,7 @@ Both online and offline repair can use this strategy.
+>  | For this second effort, the ondisk parent pointer format as originally   |
+>  | proposed was ``(parent_inum, parent_gen, dirent_pos) → (dirent_name)``.  |
+>  | The format was changed during development to eliminate the requirement   |
+> -| of repair tools needing to to ensure that the ``dirent_pos`` field       |
+> +| of repair tools needing to ensure that the ``dirent_pos`` field       |
 
-Acked-by: Vlastimil Babka <vbabka@suse.cz> #slab
+This breaks the indentation of the pipe on the right.
+
+>  | always matched when reconstructing a directory.                          |
+>  |                                                                          |
+>  | There were a few other ways to have solved that problem:                 |
+
+
+Yours sincerely,
+Vincent Mailhol
 
