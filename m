@@ -1,126 +1,371 @@
-Received: from mail-ej1-f97.google.com (mail-ej1-f97.google.com [209.85.218.97])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m32109.qiye.163.com (mail-m32109.qiye.163.com [220.197.32.109])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECEB222588
-	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 05:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.97
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D191F60A
+	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 05:56:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.109
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738819298; cv=none; b=gvx5WoqAJ+6G8apFqd/kkYUoOKivIjMNejTES1PXiaLyeMcJJx2NOkSdbGNWF+Tmk3cyxftnrl0hQYtJK3XoZq0sBajEScUNEQpSpDiAdSzP90TSf2Ffue04L5PVvn6G/5XyLhBv8UMH4rKYM7DyYXoRabXWcrkcdEhRVQcV2Ko=
+	t=1738821377; cv=none; b=gFOmFhs7aVaqg+YdQC05QBuVfF26fxbOn6imRnGg/BkIr0hqpJn2Iw1jorvYOa4xBVCjIx49t1SBEd19Ob3+W8rfS+4PXrDFiDkuBpckIawaAgb1ND62dtmDKp6VgLmTY2kpuS1Hfpa3vGFQsJxWGfroFM3+aqFRsazmBSHVdBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738819298; c=relaxed/simple;
-	bh=tD0jPSjeireGMUVJpEk191Ij0UrSQYkMyCej9+UGqCM=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=rrCmZ1YgbIZBPD15j7g5ZOCw3oWDeXlRV6y4dgPRktG2gPvbQPi3NSGcUmaOXn2boNmzcylau9xqsVjzhd8P+sXFj8KXT+ArOCakIWdg8PZ9g/4MsmiHlwhRETB6Kq408TOsQMhqh0m1G/KoCwnz35w4Vsmui5H6A2yS0ZwQob4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=L1RYws3h; arc=none smtp.client-ip=209.85.218.97
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
+	s=arc-20240116; t=1738821377; c=relaxed/simple;
+	bh=YniBHOk2xc/UWgxoBavNaHgPNapiK1RGAhoT2eaZiKY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jsX+CHz0fq29kELuMM8uJwZ95kN0VVhlEwF6Dkz5Bd2+dfXW1mASBF9ROfkFM9DHp3PogVzM1BxDEfDQoVAlyOKjXw+coyaCGk+zDUFr9mM7tfKs/91HgMET2CS4XNkERWl0+fJUIZC+VzuDd8c3xnrA97QYJ0uvnR9XcLR9Q1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn; spf=pass smtp.mailfrom=cqsoftware.com.cn; dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b=C5lzBKn0; arc=none smtp.client-ip=220.197.32.109
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cqsoftware.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cqsoftware.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="L1RYws3h"
-Received: by mail-ej1-f97.google.com with SMTP id a640c23a62f3a-aaedd529ba1so79167366b.1
-        for <linux-doc@vger.kernel.org>; Wed, 05 Feb 2025 21:21:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1738819293; x=1739424093; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4i5yioVGSNjOB6nllSMZrYXzyChtuKnMnYZxXLntPc8=;
-        b=L1RYws3hRPx51SRfPn2cH8Tzfprkeuk7fBBr5oCfKg30XRgSQJBHT94hSUZ9wYyPhj
-         5c+flXqZJQaIbcmdyMlMEHt/UOueb4czqOW2WOkfcbQuDiQj02yGuBDyj4T4l44E/E4m
-         iumIU1H00YboPDELRolwlGfd3NucctDhdjqer+ugbQx6wQHKonJCejenG5JWuYwwv3/p
-         P60QU4V9WT90TzWMFwfgyGIm3aw97fHFuv+eQgns8p0dbSE7Nk8CsjhHs6PzwyQAS26U
-         L3Zzrh1i73zTCgsV3N4Nu+ZBNA8Zs2PmZX8bUh382n8YI2RSrw5Tfa7sCFKvr4eSboDm
-         IsbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738819293; x=1739424093;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4i5yioVGSNjOB6nllSMZrYXzyChtuKnMnYZxXLntPc8=;
-        b=MzX26xlNio1WavEPx7mhm4bnwnEYvg72zN/1a5x0QGMSyKe7ySxx7kG0xQm49lJoSM
-         nky4zW+mV3rtkxuI82kdpYWqCE9ArT2yUiWhJk1Nks2/cacRIa67LU0wPBH+FTn2u3Pu
-         rjjn38xh8Fzx45UkWoE4x23jmFwGKtukhEgZmlxpJn3vwdUmMgFVopM7w4md6XEisjPO
-         IeUrKmNJdG/veUD+F7r63+5nVVJ6RBvakLcwwVdUajASY2tzJCfZGG4XAvWaz274tsHR
-         QAoPN4aaIUN8L1vQlAoqdxRAhjEt5gN/U3frxwERn1PERj5B+7ji5N7YDMsebWdXE0rx
-         og4w==
-X-Forwarded-Encrypted: i=1; AJvYcCWSYhx6GyX+IpzX+ZDQq4REJmH3oZmjy0j1REM+hPlEJ2nuo7AOxF7SmvUocFq4nuB+M2C/X/RlpNQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqzDC7QkdcK9zRKKOwzrzlM08cej3zmxh7MCeRsY1nIziwg2ne
-	V9Xr/czFUKX3kSSq6v2LOEskT/5bh9/cOYpd35617wtny4Zn5box+FK+vdm7Rca/z0c4r43sNED
-	H98dXyQGy5iJ1YxnNiN9iKH61LeEsnT0UGTRLawFt4Sn+9n47
-X-Gm-Gg: ASbGncvJWEl2udMbazvYLu6dtodUzkFIejMYKEKbbX06d4P4fvZt4cJ3NGqHNqBpmsB
-	BFpWUH8642n9Cc9mgX1qIexgzTGVxezlzMyluyY6ay6/ltiQ9iG+fUp/ybaypw01mxDElfc9iFY
-	zcQ/oQ1bDxwosL+b7attC5phe947RBx0WneRB/XjKBB/fv7nh9IPsBlqv4N1a/vweR8hh0dF2ZW
-	kv02uBtTQv9tw8Q4ZNFrRFxCvHrVWLzo6HDp6YzF4C1STFPhQ6p+8pGzepg0wVLs7ViW5NKcfch
-	VTTPZANyM9l94msqv1uL5GmV
-X-Google-Smtp-Source: AGHT+IFOIG/YV363yDXzTKiSu5f4bXzuXXAiuDbR1hZzAdQ19I1MKpWy4urmJ0wIV6IAB/oXbPlTS9cEifIH
-X-Received: by 2002:a05:6402:234e:b0:5dc:7374:261d with SMTP id 4fb4d7f45d1cf-5dcdb6f9f81mr13341977a12.7.1738819292518;
-        Wed, 05 Feb 2025 21:21:32 -0800 (PST)
-Received: from c7-smtp-2023.dev.purestorage.com ([2620:125:9017:12:36:3:5:0])
-        by smtp-relay.gmail.com with ESMTPS id a640c23a62f3a-ab7732e281dsm1194966b.130.2025.02.05.21.21.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Feb 2025 21:21:32 -0800 (PST)
-X-Relaying-Domain: purestorage.com
-Received: from dev-ushankar.dev.purestorage.com (dev-ushankar.dev.purestorage.com [10.7.70.36])
-	by c7-smtp-2023.dev.purestorage.com (Postfix) with ESMTP id 3D3793401E5;
-	Wed,  5 Feb 2025 22:21:31 -0700 (MST)
-Received: by dev-ushankar.dev.purestorage.com (Postfix, from userid 1557716368)
-	id 30E27E55F4E; Wed,  5 Feb 2025 22:21:31 -0700 (MST)
-From: Uday Shankar <ushankar@purestorage.com>
-Subject: [PATCH v3 0/2] netconsole: allow selection of egress interface via
- MAC address
-Date: Wed, 05 Feb 2025 22:21:29 -0700
-Message-Id: <20250205-netconsole-v3-0-132a31f17199@purestorage.com>
+	dkim=pass (1024-bit key) header.d=cqsoftware.com.cn header.i=@cqsoftware.com.cn header.b="C5lzBKn0"
+Received: from localhost.localdomain (unknown [1.193.57.36])
+	by smtp.qiye.163.com (Hmail) with ESMTP id a46ac7f1;
+	Thu, 6 Feb 2025 10:26:59 +0800 (GMT+08:00)
+From: zhangwei <zhangwei@cqsoftware.com.cn>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net
+Cc: zhaoshuo@cqsoftware.com.cn,
+	zhaoyuehui@cqsoftware.com.cn,
+	maoyuxian@cqsoftware.com.cn,
+	linux-doc@vger.kernel.org,
+	zhangwei <zhangwei@cqsoftware.com.cn>
+Subject: [PATCH 1/3] docs/zh_CN: Add self-protection index Chinese translation
+Date: Thu,  6 Feb 2025 10:26:46 +0800
+Message-ID: <f663c0c2ef258689ca235f3e6594504dc4b98a3e.1738807847.git.zhangwei@cqsoftware.com.cn>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <cover.1738807847.git.zhangwei@cqsoftware.com.cn>
+References: <cover.1738807847.git.zhangwei@cqsoftware.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANlGpGcC/22MQQ6CMBAAv0L2bM2y0mo88Q/DAesWNtGWtNhoC
- H+3cPY4k8wskDgKJ7hWC0TOkiT4AqdDBXbs/cBKHoWBkDQSNsrzbINP4cmqsaZGJnc51xZKMEV
- 28tlnt67wKGkO8bu/M2327yaTQqXZab5rZ1CbdnpH3tJ+4KMNL+jWdf0B5YeS/aoAAAA=
-X-Change-ID: 20250204-netconsole-4c610e2f871c
-To: Breno Leitao <leitao@debian.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>, 
- Simon Horman <horms@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
- Johannes Berg <johannes@sipsolutions.net>, Jonathan Corbet <corbet@lwn.net>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-wireless@vger.kernel.org, linux-doc@vger.kernel.org, 
- Uday Shankar <ushankar@purestorage.com>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaGh0YVk1CTRpNHk9KTBlPS1YVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlKVUpCSFVOTFVITVlXWRYaDxIVHRRZQVlPS0hVSktJT09PSFVKS0tVSk
+	JLS1kG
+X-HM-Tid: 0a94d914ff6c03abkunma46ac7f1
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6ME06ITo*CDITSwk1Lg4sUTU5
+	PSsKCilVSlVKTEhDQ0tDQ0lLTE1CVTMWGhIXVQETGhUcDB4SOxgKCBQdDwwaCR5VGBQWVRgVRVlX
+	WRILWUFZSlVKQkhVTkxVSE1ZV1kIAVlBSk9IQk43Bg++
+DKIM-Signature:a=rsa-sha256;
+	b=C5lzBKn0NGK0y/nMO9ODg7uC/DCh4DclcorVjGoNqQBSsoRNuGrUAhjZIbyWLhYN/0jeIb5hFHMy5/DYHxW8ll/YbEFADPBMhjefk/2/PISb2UculchkGRIO+7kB7Y/xuU6/3StQQT9jAw4WBTq8tEfeLVdtfXCgQ8sLXfsieGM=; s=default; c=relaxed/relaxed; d=cqsoftware.com.cn; v=1;
+	bh=kLHB2nteNeS6BLtczXM1Ez49tXwO4GP9LNSvOnniMCU=;
+	h=date:mime-version:subject:message-id:from;
 
-This series adds support for selecting a netconsole egress interface by
-specifying the MAC address (in place of the interface name) in the
-boot/module parameter.
+Translate .../security/self-protection.rst into Chinese.
 
-Signed-off-by: Uday Shankar <ushankar@purestorage.com>
+Update the translation through commit b080e52110ea
+("docs: update self-protection __ro_after_init status")
+
+Reviewed-by: Yanteng Si <si.yanteng@linux.dev>
+Reviewed-by: Yuxian Mao <maoyuxian@cqsoftware.com.cn>
+Signed-off-by: zhangwei <zhangwei@cqsoftware.com.cn>
 ---
-Changes in v3:
-- Rename MAC_ADDR_LEN to MAC_ADDR_STR_LEN (Johannes Berg)
-- Link to v2: https://lore.kernel.org/r/20250204-netconsole-v2-0-5ef5eb5f6056@purestorage.com
+ .../translations/zh_CN/security/index.rst     |   2 +-
+ .../zh_CN/security/self-protection.rst        | 271 ++++++++++++++++++
+ 2 files changed, 272 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/security/self-protection.rst
 
----
-Uday Shankar (2):
-      net, treewide: define and use MAC_ADDR_STR_LEN
-      netconsole: allow selection of egress interface via MAC address
-
- Documentation/networking/netconsole.rst |  6 +++-
- drivers/net/netconsole.c                |  2 +-
- drivers/nvmem/brcm_nvram.c              |  2 +-
- drivers/nvmem/layouts/u-boot-env.c      |  2 +-
- include/linux/if_ether.h                |  3 ++
- include/linux/netpoll.h                 |  6 ++++
- lib/net_utils.c                         |  4 +--
- net/core/netpoll.c                      | 51 +++++++++++++++++++++++++--------
- net/mac80211/debugfs_sta.c              |  5 ++--
- 9 files changed, 60 insertions(+), 21 deletions(-)
----
-base-commit: 3924fa995cdf3752f2f89f8de72834c4638c5ebf
-change-id: 20250204-netconsole-4c610e2f871c
-
-Best regards,
+diff --git a/Documentation/translations/zh_CN/security/index.rst b/Documentation/translations/zh_CN/security/index.rst
+index 0aacecabf0c0..9a6345dd90b8 100644
+--- a/Documentation/translations/zh_CN/security/index.rst
++++ b/Documentation/translations/zh_CN/security/index.rst
+@@ -18,6 +18,7 @@
+    credentials
+    lsm
+    sak
++   self-protection
+    siphash
+    tpm/index
+    digsig
+@@ -29,6 +30,5 @@ TODOLIST:
+ * keys/index
+ * lsm-development
+ * SCTP
+-* self-protection
+ * secrets/index
+ * ipe
+diff --git a/Documentation/translations/zh_CN/security/self-protection.rst b/Documentation/translations/zh_CN/security/self-protection.rst
+new file mode 100644
+index 000000000000..3c8a68b1e1be
+--- /dev/null
++++ b/Documentation/translations/zh_CN/security/self-protection.rst
+@@ -0,0 +1,271 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++:Original: Documentation/security/self-protection.rst
++
++:翻译:
++
++ 张巍 zhangwei <zhangwei@cqsoftware.com.cn>
++
++============
++内核自我保护
++============
++
++内核自我保护是指在Linux内核中设计与实现的各种系统与结构
++以防止内核本身的安全漏洞问题。它涵盖了广泛问题，包括去除
++整个类的漏洞，阻止安全漏洞利用方法，以及主动检测攻击尝
++试。并非所有的话题都在本文中涉及，但它应该为了解内核自我
++保护提供一个合理的起点，并解答常见的问题。（当然，欢迎提
++交补丁！）
++
++在最坏的情况下，我们假设一个非特权的本地攻击者对内核内存
++有任意读写访问权限。虽然在许多情况下，漏洞被利用时并不会
++提供此级别的访问权限，但如果我们能防御最坏情况，也能应对
++权限较低的攻击。一个更高的标准，且需要牢记的是保护内核免
++受具有特权的本地攻击者的攻击，因为root用户可以有更多权限。
++（尤其是当他们能够加载任意内核模块时）
++
++成功的自我保护的目标是：有效、默认开启、不需要开发者主动
++选择、没有性能影响、不妨碍内核调试、并且没有测试。虽然很
++难满足所有的这些目标，但明确提到这些目标非常重要，因为这
++些方面需要被探索、解决或接受。
++
++==========
++攻击面缩减
++==========
++
++防止安全漏洞最基本的防御方式是减少可以被用来重定向执行的
++内核区域。这包括限制用户公开使用的API、使内核API更难被错
++误使用、最小化可写内核内存区域等。
++
++严格的内核内存权限
++-------------------
++
++当所有内核内存都是可写的，攻击者可以轻松地重定向执行流。
++为了减少这种攻击目标的可用性，内核需要更严格的权限集来
++保护其内存。
++
++可执行代码和只读数据必须不可写
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++任何具有可执行内存的区域必须不可写，显然这也包括内核文本
++本身。我们还必须考虑其他地方：内核模块、JIT内存等，（在
++某些情况下，为了支持像指令替代、断点、kprobes等功能，这些
++区域会暂时被设置为可写。如果这些功能必须存在于内核中，它
++们的实现方式是：在更新期间将内存临时设置可写，然后再恢复
++为原始权限。）
++
++为了支持这一点，CONFIG_STRICT_KERNEL_RWX 和
++CONFIG_STRICT_MODULE_RWX 的设计旨在确保代码不可写，数据不
++可执行，以及只读数据既不可写也不可执行。
++
++大多数架构默认支持这些选项，且用户无法选择。对于一些像arm
++这种希望能够选择这些选项的架构，可以在架构Kconfig中选择
++ARCH_OPTIONAL_KERNEL_RWX以启用Kconfig提示。
++CONFIG_ARCH_OPTIONAL_KERNEL_RWX_DEFAULT决定在启用
++ARCH_OPTIONAL_KERNEL_RWX时的默认设置。
++
++函数指针和敏感变量必须不可写
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++内核内存中有大量的函数指针，这些指针被内核查找并用于继续执行
++（例如，描述符/向量表、文件/网络等操作结构等）。这些变量的数
++量必须减少到最低限度
++
++许多像这样的变量可以通过设置为"const"来实现只读，从而使它们
++存放在内核的.rodata段而非.data段，从而获得内核严格内存权限的
++保护。
++
++对于在_init是仅初始化一次的变量，可以使用_ro_after_init属性
++进行标记。
++
++剩下的变量通常是那些更新频率较低的（例如GDT）。这些变量需要另
++一个机制（类似于上述提到的对内核代码所做的临时例外），以便在
++其余生命周期内保持只读状态。（例如，在进行更新时，只有执行
++更新的CPU线程会被授予对内存的不可中断写入访问权限。）
++
++将内核内存与用户空间内存分隔开
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++内核绝对不可以执行用户空间内存，同时，内核也不得在没有明确预
++期的情况下访问用户内存空间。这些规则可以通过一些硬件限制来支
++持（如x86的SMEP/SMAP，ARM的PXN/PAN）或通过仿真（如ARM的内存
++域）来强制执行。通过这种方式阻止用户空间内存的访问，攻击者就
++无法将执行和数据解析转移到易于控制的用户空间内存，从而迫使攻
++击完全在内核中进行。
++
++减少对系统调用的访问
++--------------------
++
++对于64位系统，一种消除许多系统调用最简单的方法是构建时不启用
++CONFIG_CONPAT。然而，这种情况通常不可行。
++
++“seccomp”系统为用户空间提供了一种可选功能，提供了一种减少可供
++运行中进程使用内核入口点数量的方法。这限制了可以访问内核代码
++的范围，可能降低了某个特定漏洞被攻击者利用的可能性。
++
++一个改进的方向是创建有效的方法，仅允许受信任的进程访问例如兼
++容模式、用户命名空间、BPF创建和性能分析等功能。这将把内核入口
++点范围限制在通常可以被非特权用户空间进程访问的较常见集合中
++
++限制对内核模块的访问
++--------------------
++
++内核绝不应允许非特权用户加载特定的内核模块，因为这可能为攻击者
++提供一个意外扩展的可用攻击面的方法。（通过已预定义子系统按需加
++载模块，如MODULE_ALIAS_*，被认为是“预期的”，但即便如此，也应对
++这些情况给予更多的关注。）例如，通过非特权的套接字API加载文件
++系统模块是没有意义的：只有root用户或物理本地用户应该触发文件系
++统模块的加载。（在某些情况下，这甚至可能存在争议。）
++
++为了防止特权用户的攻击，系统可能需要完全禁止模块加载（例如，通
++过单体内核构建或modules_disabled sysctl），或者使用签名模块（例
++如，CONFIG_MODULE_SIG_FORCE或通过LoadPin保护的dm-crypt），以防
++止root用户通过模块加载器加载任意内核代码。
++
++内存完整性
++----------
++
++内核中有许多内存结构在攻击过程中被定期泛滥用以获取执行控制，迄今
++为止，最常见的是堆栈缓冲区溢出，在这种攻击中，堆栈上存储的返回地
++址被覆盖。除此之外，还有许多其他类型的攻击，防护措施也应运而生。
++
++堆栈缓冲区溢出
++--------------
++
++经典的堆栈缓冲区溢出攻击是指超出栈上分配的变量预期大小，从而将一
++个受控值写入栈帧的返回地址。最常见的防御措施是堆栈保护
++（CONFIG_STACKPROTECTOR），它在函数返回前会验证栈上的“stack canary”。
++其他防御措施还包括影子堆栈等。
++
++堆栈深度溢出
++------------
++
++一个不太容易被理解的攻击方式是利用bug触发内核通过深度函数调用或
++大的堆栈分配来消耗堆栈内存。通过这种攻击，攻击者可以将数据写入内
++核预分配堆栈空间之外的敏感结构。为了更好的防护这种攻击，必须进行
++两项重要的更改：将敏感的线程信息结构转移到其他地方，并在堆栈底部
++添加一个故障内存洞，以捕获这些溢出
++
++栈内存完整性
++------------
++
++用于跟踪堆空闲列表的结构可以在分配和释放时进行完整性检查，以确保它
++们不会被用来操作其它内存区域。
++
++计算器完整性
++------------
++
++内核中的许多地方使用原子计数器来跟踪对象引用或执行类似的生命周期管
++理。当这些计数器可能发生溢出时（无论是上溢还是下溢），这通常会暴露
++出使用后释放（use-after-free）漏洞。通过捕捉原子计数器溢出，这类漏
++洞就可以消失。
++
++大小计算溢出检测
++----------------
++
++与计算器溢出类似，整数溢出（通常是大小计算）需要在运行时进行检测，
++以防止这类在传统上会导致能够写入内核缓冲区末尾之外的漏洞。
++
++概率性防御
++----------
++
++尽管许多防御措施可以被认定是确定的（例如，只读内存不能写入），但
++有些确保措施仅提供统计防御，即攻击者必须收集足够的关于运行系统的
++信息才能突破防御。尽管这些防御并不完美，但它们确实提供了有意义的
++保护。
++
++栈保护、迷惑技术和其他秘密
++--------------------------
++
++值得注意的是，像之前讨论的栈保护这样的技术，从技术上来说是统计性防
++御，因为它们依赖于一个秘密值，而这样的值可能会通过信息泄露漏洞而被
++发现。
++
++对于想JIT（及时翻译器）这样的情况，其中可执行内容可能部分由用户空间
++控制，也需要类似的秘密之来迷惑。
++
++至关重要的是，所使用的秘密值必须是独立的（例如，每个栈使用不同的栈
++保护值），并且具有高熵（例如，随机数生成器（RNG）是否正常工作？），
++以最大限度地提高其成功率。
++
++内核地址空间布局随机化（KASLR）
++-------------------------------
++
++由于内核内存的位置几乎总是攻击成功的关键因素，因此使内核内存位置变
++得非确定性会增加攻击的难度。（请注意，这反过来提高了信息泄露的价
++值，因为泄露的信息可以用来发现目标内存位置。）
++
++文本和模块基址
++--------------
++
++通过在启动时重新设定内核的物理基地址和虚拟基地址
++（CONFIG_RANDOMIZE_BASE）,那些需要利用内核代码的攻击将会受阻。此外
++通过偏移模块加载基地址，意味着即使系统每次启动时按相同顺序加载同一
++组模块，这些模块也不会与内核文本的其余部分公用一个基地址。
++
++堆栈基地址
++----------
++
++如果进程之间内核堆栈的基地址不相同，甚至在不同系统调用之间也不相同，
++那么栈上或超出栈的目标位置就会变得更加难以确定。
++
++动态内存基址
++------------
++
++很多内核的动态内存（例如kmalloc，vmalloc等）由于早期启动初始化的顺
++序，最终布局是相对确定的。如果这些区域的基地址在启动之间不相同，攻
++击者就无法轻易定位它们，必须依赖于针对该区域的信息泄露才能成功。
++
++结构布局
++--------
++
++通过在每次构建时对敏感结构的布局进行随机化处理，攻击这必须将攻击调
++节到已知的内核版本，或者泄露足够的内核内存来确定结构布局，然后才能
++对其进行操作。
++
++防止信息泄露
++------------
++
++由于敏感结构的位置是攻击的主要目标，因此防止内核内存地址和内核内存
++内容泄露非常重要（因为它们可能包含内核地址或者其他敏感数据，例如
++栈保护值）。
++
++内核地址
++--------
++
++将内核地址打印到用户空间会泄露有关内核内存布局的敏感信息。在使用任
++何打印符号打印原始地址时，目前%px,%p[ad]（和在某些情况下的%p[sSb]）
++时。使用这些格式符写入的文件需要限制为只有特权进程可读。
++
++在4.14及以前的内核版本中，使用%p格式符打印的是原始地址。从4.15-rcl
++版本开始，使用%p格式符打印的地址会在打印前进行哈希处理。
++
++[*]如果启用KALLSYMS并且符号查找失败，则打印原始地址；如果没有启用
++KALLSYSM，则会直接打印原始地址。
++
++唯一标识符
++----------
++
++内核内存地址绝不可能用作向用户空间公开的标识符。相反，应该使用原子
++计数器，IDR（ID映射表）或类似的唯一标识符。
++
++内存初始化
++----------
++
++复制到用户空间的内存必须始终被完全初始化，如果没有显式地使用memset()
++函数进行初始化，那就需要修改编译器，确保清除结构中的空洞。
++
++内存清除
++--------
++
++在释放内存时，最好对内存内容进行清除处理，以防止攻击者重用内存中以前
++的内容。例如，在系统调用返回时清除堆栈（CONFIG_GCC_PLUGIN_STACKLEAK）,
++在释放堆内容是清除其内容。这有助于防止许多未初始化变量攻击、堆栈内容
++泄露、堆内容泄露以及使用后释放攻击（user-after-free）。
++
++目标追踪
++--------
++
++为了帮助消除导致内核地址被写入用户空间的各种错误，需要跟踪写入的目标。
++如果缓冲区的目标是用户空间（例如，基于seq_file的/proc文件），则应该自
++动审查敏感值。
 -- 
-Uday Shankar <ushankar@purestorage.com>
+2.47.1
 
