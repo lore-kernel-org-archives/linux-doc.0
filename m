@@ -1,126 +1,148 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA49194A67;
-	Thu,  6 Feb 2025 18:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4002E19C57C
+	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 18:11:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738865465; cv=none; b=PRo14WCyYGiXCiYUGRBNqwNomPVWYbKOXeoUJeuB5efAo//am7qjVY3dZDwU7KqBJ8uA4sP6+JaV+9iDDxjO3qu+1gva9q8xn7A3hkhc20corjcvWnhzcwyfQLqU3Rnu6aJI/u6+cnTYY09eBExzCEYf2D1mDLhHWzB+mMyogyQ=
+	t=1738865471; cv=none; b=V/J+hWxZV91gyWiPgyc4w5NmAAs7HrcMKcRONep8irYDGrpLpPlr1CensEG3/Q3kLopKDdephTCvnWB+jeTPOxQLLsBEp2vcCEtRJJtHqI9UNbYch6a3d+n8asW4zD9pmQ3Suw04IIqua9X2+uVe4qOsu+A07JYubDawdxdfmMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738865465; c=relaxed/simple;
-	bh=0ttuWAvJobLlg56YrOVOmHOt13ZH7wD3gGicocchpzQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ReZwOLoUVkuh7Ehv+uvyJKgYeltai0I+J2pkabiI8qaKXR4n2o2+cmLBNIaEx0ZJ7IGzsMDQ9D2akwEM2LvbqXOsSAPitZqXxtwMqFP93YM1eUdGEmEIUKdCkBSBWW4huOdOl6dZnXmsn++cfB/HASc0bIbOQWHDrp/Sd3+YFms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jcBhUo1B; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738865471; c=relaxed/simple;
+	bh=L1Ng9lldW/83WhLxtsVxj1Z34scX9+JOOnEphNXYxHw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mjSRqaaftbxaUGZawvz2O2UB7CgJiY2SqNg59GHgwz3fgFJ6UToWnGPSTNPGp+kcS54FOflDJwmULxW62akyIYW12nV/J3myF5Av0dvN/BhhJca7Pger1jMUrg6/Oa5bDa0+yGXdG2ZgRD6hx/ph1XXl4evAjnmJOWif8X3kgP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Q0rKUKKY; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jcBhUo1B"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4361e89b6daso8262975e9.3;
-        Thu, 06 Feb 2025 10:11:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738865461; x=1739470261; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0ttuWAvJobLlg56YrOVOmHOt13ZH7wD3gGicocchpzQ=;
-        b=jcBhUo1BzwIvOBOE62XNHcyymjNMKNLQEWyYtJuI3pD/7ZTS5stDB3LYz+F6f+bhu7
-         UnA5VlBLNWP5AhYgNPNf+atnlH9WZixEH3tflwLUbC1XmGPxjFMe5YLW69g/CLn7OYya
-         l/m7lSk5hATmfNlMOic95HUPIBpdFAMvBWp/6TYiWhdFWhPE61sqX5sGwA5tdH/K7ENj
-         SES4QrXQlxIZ19PRWlQcZmc7H0pDeWr9WYhj+4ZNpvN5MlFXl6qMVVC2btT9RpOIutQ8
-         n5IjdmM8IPqgwLjftFpSTJRAMbWC4D62kOoUd6OenifwdbdaQbxAAjNl5Mw0QulC94Uo
-         kwOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738865461; x=1739470261;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0ttuWAvJobLlg56YrOVOmHOt13ZH7wD3gGicocchpzQ=;
-        b=A31xvgnPUJNAvNAYnruAoT2FGNK0o6l4kT8QvSaML6qvM1tbrbpnm+qDqUhdjU1ZZ7
-         TcgLFH7tK5wqXTB+1Ww/IgWKWqlEK/2SRviWgwRn3GWuYYQozcQZD72cA7MFXT+LwnRk
-         GmoNMuViQygUuSkpJt+ZrCagGv49cASCu6cTh5lSyUS0l+IQlaF9BXQPoTKIHXpl2wbJ
-         McP3CkUBlP/uHvsTiCp9tm8cS3EHtw35+0kQjqy+/AS4ggRfrNqM9Xr+hug/AFQYS+7G
-         4fmfghOXyTo5NvPJaJEDQjVLH80xWlenq7PnTA6SgqRQ6P+q+XJ6WHu2DizWyJ9Pd5SM
-         1vaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU2FKxm1xyHtXJ3Cu8g8s7zbcvRz5jYVdc2yE+p8qaJnRRVfLVP6gMiVR664Ju4oSjIaHMeNDNI2qwBtcyR@vger.kernel.org, AJvYcCVejYvWDpq/zRNVkd196EL36phLSeHfLurEoZhbfZjjWsMgWtr0/vRBSBotDCEFvRYL22C4ev4ov1U=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9ejW5BsBI9jh4Q8vBBwIt2FpixyWank8/ZzevlDDTzRAc5REH
-	+J75N8TsAuVYr39Nhkgv+vif482RTUKjXJ/b/SwoUuY7Z3QvWKtqDu1IAJsYScBRwLOP7kiT9zA
-	hmGv1mDX0ToDonvr8lgClZEIdB1Q=
-X-Gm-Gg: ASbGncvRGz/qE86cOsqGZZqo3lpl2aBfUgV5zv0/rOFLftGgG/FYl/pkXex6jHr24Qt
-	ZiY0XIt21DaCvGjf/4Yaw19yGr6tPVwMR0SsQVwnM9jn/xz9l9kB9SNkRaZYNx2tmGAO0IN+zUQ
-	==
-X-Google-Smtp-Source: AGHT+IGjlT6+E7s19Biqi+L66hD4CAB7+vWZ8IxthOzy0VOqSvauytoG4hxkI1K7a56pR3Wt3sBZqEuajrgrIm/RerQ=
-X-Received: by 2002:a5d:6da4:0:b0:38c:5b52:3a5e with SMTP id
- ffacd0b85a97d-38dc8dc342amr4349f8f.8.1738865461496; Thu, 06 Feb 2025 10:11:01
- -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Q0rKUKKY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1738865468;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L1Ng9lldW/83WhLxtsVxj1Z34scX9+JOOnEphNXYxHw=;
+	b=Q0rKUKKYOwfszoaS+oITbJYMPn42PBXWq5YwKRYgIXMSK559Q27/ZYVawluDjvA0CACdkR
+	xP+SDHAYGTMvqtI4nAbTmzzBVI8RwiBrgdEDK4UKfz9qqyIu917R480prlVMvZ7Z0Aww0d
+	T7QJz3zE3mvVoCHyU5+nZr8PtaTMOvc=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-257-8E3rdXJoPkCOp7n7f2PNnw-1; Thu,
+ 06 Feb 2025 13:11:05 -0500
+X-MC-Unique: 8E3rdXJoPkCOp7n7f2PNnw-1
+X-Mimecast-MFC-AGG-ID: 8E3rdXJoPkCOp7n7f2PNnw
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8B6E61955BC0;
+	Thu,  6 Feb 2025 18:10:26 +0000 (UTC)
+Received: from localhost (unknown [10.2.16.145])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id EA005180087A;
+	Thu,  6 Feb 2025 18:10:21 +0000 (UTC)
+Date: Thu, 6 Feb 2025 13:10:19 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Albert Esteve <aesteve@redhat.com>
+Cc: Vivek Goyal <vgoyal@redhat.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org,
+	linux-mm@kvack.org, alison.schofield@intel.com, lina@asahilina.net,
+	zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
+	vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
+	bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca,
+	catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au,
+	npiggin@gmail.com, dave.hansen@linux.intel.com, ira.weiny@intel.com,
+	willy@infradead.org, djwong@kernel.org, tytso@mit.edu,
+	linmiaohe@huawei.com, david@redhat.com, peterx@redhat.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
+	david@fromorbit.com, chenhuacai@kernel.org, kernel@xen0n.name,
+	loongarch@lists.linux.dev, Hanna Czenczek <hreitz@redhat.com>,
+	German Maglione <gmaglione@redhat.com>
+Subject: Re: [PATCH v6 01/26] fuse: Fix dax truncate/punch_hole fault path
+Message-ID: <20250206181019.GA413673@fedora>
+References: <cover.11189864684e31260d1408779fac9db80122047b.1736488799.git-series.apopple@nvidia.com>
+ <bfae590045c7fc37b7ccef10b9cec318012979fd.1736488799.git-series.apopple@nvidia.com>
+ <Z6NhkR8ZEso4F-Wx@redhat.com>
+ <67a3fde7da328_2d2c2942b@dwillia2-xfh.jf.intel.com.notmuch>
+ <Z6S7A-51SdPco_3Z@redhat.com>
+ <20250206143032.GA400591@fedora>
+ <CADSE00+2o5Ma0W6FBLHwpUaKut9Tf74GKLCU-377qgxr08EeoQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1738686764.git.maciej.wieczor-retman@intel.com>
- <CA+fCnZd1dpqv+rM2jD1fNGvhU_0+6c8MjzsgEsi2V-RkHVteJg@mail.gmail.com> <cj2w476ui6g6bjtrnmhozgruhudjx7dbeifxtx4q26c4sqmobt@ill63v5yc3ke>
-In-Reply-To: <cj2w476ui6g6bjtrnmhozgruhudjx7dbeifxtx4q26c4sqmobt@ill63v5yc3ke>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Thu, 6 Feb 2025 19:10:50 +0100
-X-Gm-Features: AWEUYZkYq87i7dcuraqL9nv2V2zM6XbkuTsSw_RSaFUD-ppNitROYVtIB8RMtyU
-Message-ID: <CA+fCnZfTvFzX32ZU=Xa0qsNACM4Y1vA1xQDtJkhhk1fYH1QxRA@mail.gmail.com>
-Subject: Re: [PATCH 00/15] kasan: x86: arm64: risc-v: KASAN tag-based mode for x86
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-Cc: luto@kernel.org, xin@zytor.com, kirill.shutemov@linux.intel.com, 
-	palmer@dabbelt.com, tj@kernel.org, brgerst@gmail.com, ardb@kernel.org, 
-	dave.hansen@linux.intel.com, jgross@suse.com, will@kernel.org, 
-	akpm@linux-foundation.org, arnd@arndb.de, corbet@lwn.net, dvyukov@google.com, 
-	richard.weiyang@gmail.com, ytcoode@gmail.com, tglx@linutronix.de, 
-	hpa@zytor.com, seanjc@google.com, paul.walmsley@sifive.com, 
-	aou@eecs.berkeley.edu, justinstitt@google.com, jason.andryuk@amd.com, 
-	glider@google.com, ubizjak@gmail.com, jannh@google.com, bhe@redhat.com, 
-	vincenzo.frascino@arm.com, rafael.j.wysocki@intel.com, 
-	ndesaulniers@google.com, mingo@redhat.com, catalin.marinas@arm.com, 
-	junichi.nomura@nec.com, nathan@kernel.org, ryabinin.a.a@gmail.com, 
-	dennis@kernel.org, bp@alien8.de, kevinloughlin@google.com, morbo@google.com, 
-	dan.j.williams@intel.com, julian.stecklina@cyberus-technology.de, 
-	peterz@infradead.org, cl@linux.com, kees@kernel.org, 
-	kasan-dev@googlegroups.com, x86@kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="9gaKO0MQEl4+jp8i"
+Content-Disposition: inline
+In-Reply-To: <CADSE00+2o5Ma0W6FBLHwpUaKut9Tf74GKLCU-377qgxr08EeoQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+
+
+--9gaKO0MQEl4+jp8i
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 6, 2025 at 11:41=E2=80=AFAM Maciej Wieczor-Retman
-<maciej.wieczor-retman@intel.com> wrote:
->
-> >I started reviewing the patches, but this is somewhat complicated, as
-> >the dense mode changes are squashed together with the generic ones for
-> >x86 support. Could you please split this series into 2? Or at least
-> >reorder the patches so that everything needed for basic x86 support
-> >comes first and can be reviewed and tested separately.
->
-> I'll try reordering first and see if it looks nice. Since the dense mode =
-would
-> make some parts arch specific I think it's better to have the two parts i=
-n one
-> series for easier reference. But if it turns out more convoluted I'll jus=
-t split
-> it as you suggested.
+On Thu, Feb 06, 2025 at 03:59:03PM +0100, Albert Esteve wrote:
+> Hi!
+>=20
+> On Thu, Feb 6, 2025 at 3:30=E2=80=AFPM Stefan Hajnoczi <stefanha@redhat.c=
+om> wrote:
+> >
+> > On Thu, Feb 06, 2025 at 08:37:07AM -0500, Vivek Goyal wrote:
+> > > And then there are challenges at QEMU level. virtiofsd needs addition=
+al
+> > > vhost-user commands to implement DAX and these never went upstream in
+> > > QEMU. I hope these challenges are sorted at some point of time.
+> >
+> > Albert Esteve has been working on QEMU support:
+> > https://lore.kernel.org/qemu-devel/20240912145335.129447-1-aesteve@redh=
+at.com/
+> >
+> > He has a viable solution. I think the remaining issue is how to best
+> > structure the memory regions. The reason for slow progress is not
+> > because it can't be done, it's probably just because this is a
+> > background task.
+>=20
+> It is partially that, indeed. But what has me blocked for now on posting =
+the
+> next version is that I was reworking a bit the MMAP strategy.
+> Following David comments, I am relying more on RAMBlocks and
+> subregions for mmaps. But this turned out more difficult than anticipated.
+>=20
+> I hope I can make it work this month and then post the next version.
+> If there are no major blockers/reworks, further iterations on the
+> patch shall go smoother.
+>=20
+> I have a separate patch for the vhost-user spec which could
+> iterate faster, if that'd help.
 
-Yes, please do. I also think if you split the series, we can land the
-basic x86 support fairly quickly, or at least I can do the review and
-give the ack from the KASAN side. For the dense mode part, I'd like to
-also hear the opinion of other KASAN developers wrt the overall
-design.
+Let's see if anyone needs the vhost-user spec extension now. Otherwise
+it seems fine to merge it together with the implementation of that spec.
 
-> >Also feel free to drop the dependency on that risc-v series, as it
-> >doesn't get updated very often. But up to you.
->
-> Okay, I was mostly interested in the patch that redefines KASAN_SHADOW_EN=
-D as
-> KASAN_SHADOW_OFFSET and then gets shadow addresses by using a signed offs=
-et. But
-> I suppose I can just take that patch and prepend my series with that? (af=
-ter
-> applying your comments from that series)
+Stefan
 
-Sounds good to me!
+--9gaKO0MQEl4+jp8i
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmek+wsACgkQnKSrs4Gr
+c8iv1AgAtw36d3ZukmPTk9VmX0NGRgWskCoroH9Kztfi3UeYUTi5bn/AL9yD+73x
+aQ8w4QvmQQBq/U85J8DNgOJ6hXW4uE2XpHCEtdgVWRFatuEwWtlLNZ46gUMD+AJb
+QtUvCLNwOtMYbADhEDUiIDIZS3DxHUvTI8JZWN6tNCFme7tuoUiJ4hWEhHhQ07yS
+yebWMNRoW2UmDtVWBMsp/v7zhoroqrrIcRvAaLUBTIE/k2myl3zxEPRW7j69jl9S
+7XwGGLC9Odz8ssha4UIg5fbwuUqpbJQA/PwPQVeJWR0a4OXhbFWebWEGdrXiTKP4
+04dxu53buvDo8JePVLkCaQZfazl9Cg==
+=cm2Y
+-----END PGP SIGNATURE-----
+
+--9gaKO0MQEl4+jp8i--
+
