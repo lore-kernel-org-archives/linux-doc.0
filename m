@@ -1,146 +1,107 @@
-Received: from black.elm.relay.mailchannels.net (black.elm.relay.mailchannels.net [23.83.212.19])
+Received: from gentwo.org (gentwo.org [62.72.0.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA771E1035;
-	Thu,  6 Feb 2025 21:26:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.212.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738877170; cv=pass; b=q66puGk6LQtCs9iwgr3nOCSVlK+WBkJx3asjXhI2uuuId6NldvhqM2rLVa3o9fpsaLgt1fp1+czI8EkoqdwtQW1NZ0pPVACkLXbVA2f6jtW+KVPC0znyOpmJuzn9Q2lQpWUOkIXwM9rB0tKDJGHjEd4oLzzKMsRSjpoCmiv+WiA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738877170; c=relaxed/simple;
-	bh=Aoq8DR0tmBwK/2qmp6nHnMm7CfMGYf5gDRatYYdmJS4=;
-	h=From:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc:Date; b=uRZLVF70lCLOqiObr74SwW8pq1j+9qQMp9NW6Z3feEVFgZHnlQzgUanM+YOl5cWyGGj1HGhFANLKsNSAIlMN4oxtcyVsPOBpZYtb7x9uEryWdOk6OGcoJGj5VB8zOFPJEWisqkY0SoyzUH8Dsl+njetYx2cuDwiLk5iCf3ocfKU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=invicto.ai; spf=pass smtp.mailfrom=invicto.ai; dkim=fail (0-bit key) header.d=invicto.ai header.i=@invicto.ai header.b=UdaOjjry reason="key not found in DNS"; arc=pass smtp.client-ip=23.83.212.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=invicto.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=invicto.ai
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38AA819AD70;
+	Thu,  6 Feb 2025 21:31:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.72.0.81
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738877490; cv=none; b=iHgpsMX8hZyqN0MOtKICdvfpBErtDwntmszqDDVtKVaWtsqW3hIAwRZNkqpcRjIT44KGCM3zyrWFzMI1uScxy9//01WHKx+hFw+sHyECaXzcnjvZ6/UD7ZhTfWNotYEP7IxVHtQ4pNAYWbdePwUkYx2Q0Aa442H0zczAUKJM+oU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738877490; c=relaxed/simple;
+	bh=F2jqlpwTo2MW743dx82l7OJPk/nMa2jFFcu4kDo1YtI=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=nSbRUK0YsNLmJLpnM/UdRPq83CDd9yQaj1geLi8b8bXsP5RvpQau/V4xRoIv+Vp6gur8s3DdF3ll+80uSQwKowJN81oy7MUyG8MH6ou81gTxmEX4C1acxQ7hCHcuz7Ld7lGE2pkvQqzmwcpqZK927bjVnP6E0wZKhfx1XrFPzDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org; spf=pass smtp.mailfrom=gentwo.org; dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b=FYcvTqLE; arc=none smtp.client-ip=62.72.0.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gentwo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentwo.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=invicto.ai header.i=@invicto.ai header.b="UdaOjjry"
-X-Sender-Id: hostingeremail|x-authuser|kurti@invicto.ai
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 5B209161EA9;
-	Thu,  6 Feb 2025 21:07:59 +0000 (UTC)
-Received: from fr-int-smtpout8.hostinger.io (trex-3.trex.outbound.svc.cluster.local [100.125.12.218])
-	(Authenticated sender: hostingeremail)
-	by relay.mailchannels.net (Postfix) with ESMTPA id 169D9161B25;
-	Thu,  6 Feb 2025 21:07:54 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1738876079; a=rsa-sha256;
-	cv=none;
-	b=SS2OZOpxhGLSWS4WYX3g8CdxQUp/uNdJD6w3hcSK3mf2L3zOlZEUWP4nB7d0DQHz97+iHd
-	SbbFLC2/iuehUNzVG5W8qphOeJifufNH/9nEEUkdg8YePQIs5vQoxaKW+n8aJrrb/iku7J
-	GFqRLUaLV62F5EoY6bmAxyQXmHPfHOWN7epPNkFWGbgKr2EfGxTqDOaw3g81ZAF5pvV0AQ
-	saEnNoZesEizafATZYObRGaA7hUIKakk6uXCvWD+oORiWE12zeTtJkW64yP0R8BT7GGSEq
-	4E7I9G2ANrYN+wKIbZ5h78mUhFTRd7cgynGY/hQfyFJxfVYMVjumx2I4YzLkRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1738876079;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:dkim-signature;
-	bh=QiXyubdeOKIcHLGUBolab2yRgrtdSgwKfCo8KFHBIQ0=;
-	b=W535iN4cjuht4mFgWuEjluFesNq+1YAgpndQrsd5cnJegSOLFU9s8E9KGbf0i5PjRzBayi
-	SKDMz0HTXalG6aUxRlRCX+2tYkO1se+S/uzZURgg6HCSwwKSr8MfqwFMBuWjIjEwscIIxa
-	aNbzXF31wM1j2q/bQBEviZPsRQDwjtJZUT1w7M76DxJ8mCwKUSntEFqe7w6ysil/Jtq1nK
-	jsckRKXHHaAGd9MZ3O/PkHzqsK4vQjOpJfm6sj1h+1emHV5MDdrtO9psTsKSdY2gKiT7ku
-	1K/NhkS5pA854yfP1MzRuowIjcVUf9J6lz7NjKHeOAJvFosutIZlN3IKhpRYXg==
-ARC-Authentication-Results: i=1;
-	rspamd-8586946c78-zkzf8;
-	auth=pass smtp.auth=hostingeremail smtp.mailfrom=kurti@invicto.ai
-X-Sender-Id: hostingeremail|x-authuser|kurti@invicto.ai
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: hostingeremail|x-authuser|kurti@invicto.ai
-X-MailChannels-Auth-Id: hostingeremail
-X-Keen-Thread: 40f4450b18a3cc77_1738876079201_511394290
-X-MC-Loop-Signature: 1738876079201:1092380178
-X-MC-Ingress-Time: 1738876079200
-Received: from fr-int-smtpout8.hostinger.io (fr-int-smtpout8.hostinger.io
- [89.116.146.204])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.125.12.218 (trex/7.0.2);
-	Thu, 06 Feb 2025 21:07:59 +0000
-From: Alban Kurti <kurti@invicto.ai>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=invicto.ai;
-	s=hostingermail-a; t=1738876073;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QiXyubdeOKIcHLGUBolab2yRgrtdSgwKfCo8KFHBIQ0=;
-	b=UdaOjjrygfJ26g/NDouNl3plGw34C+tlqJfFZScsyxIUXmv8sg88ygyK/Okdg33br2P4VX
-	LQ6NqGbA55PZdviqc7cWl/ScE62QiXoErvufGRJ0KK79/22aNoQROBKF6xOFl6Nr3rjVe2
-	mHvVwT3sN1gV+qCnuPBZ8guI8e3q+aXwQ+ZKcZZeRJ5OotVlb9R1+24rtvQ3DHaA8i9nVO
-	b5BmaHz7x/TVH6/Xtq1Rtmdt+di7nDjHZvrcnPA2alEpVzZxe5JxT/DgnNZefVrzOIRWAJ
-	JEm9VIt2dHh5CDXO6dvT/vObC+3PcDbrHFKUXqu07LAZDxPm7QXDVDZNBGDFrA==
-Subject: [PATCH v3 1/6] rust: docs: add missing newline to printing macro
- examples
+	dkim=pass (1024-bit key) header.d=gentwo.org header.i=@gentwo.org header.b="FYcvTqLE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gentwo.org;
+	s=default; t=1738869076;
+	bh=F2jqlpwTo2MW743dx82l7OJPk/nMa2jFFcu4kDo1YtI=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=FYcvTqLETvIDV898S86+xT9SbePWJllnFgwWELTqoYC+Ih5/O0lacqyjKvIwxKeYl
+	 0bRynm64ajsLxhkOs9IC2kkFJOFCeX8dIdo5rb/+Td+a2jaoRxPwY+5pkECXs4UPOq
+	 jRDzNL1vUjiJGkL0HmYhRBF7jwa5kXwPsOZoma2c=
+Received: by gentwo.org (Postfix, from userid 1003)
+	id 257D54028B; Thu,  6 Feb 2025 11:11:16 -0800 (PST)
+Received: from localhost (localhost [127.0.0.1])
+	by gentwo.org (Postfix) with ESMTP id 215A9400CA;
+	Thu,  6 Feb 2025 11:11:16 -0800 (PST)
+Date: Thu, 6 Feb 2025 11:11:16 -0800 (PST)
+From: "Christoph Lameter (Ampere)" <cl@gentwo.org>
+To: Jessica Clarke <jrtc27@jrtc27.com>
+cc: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, luto@kernel.org, 
+    xin@zytor.com, kirill.shutemov@linux.intel.com, palmer@dabbelt.com, 
+    tj@kernel.org, andreyknvl@gmail.com, brgerst@gmail.com, ardb@kernel.org, 
+    dave.hansen@linux.intel.com, jgross@suse.com, will@kernel.org, 
+    akpm@linux-foundation.org, arnd@arndb.de, corbet@lwn.net, 
+    dvyukov@google.com, richard.weiyang@gmail.com, ytcoode@gmail.com, 
+    tglx@linutronix.de, hpa@zytor.com, seanjc@google.com, 
+    paul.walmsley@sifive.com, aou@eecs.berkeley.edu, justinstitt@google.com, 
+    jason.andryuk@amd.com, glider@google.com, ubizjak@gmail.com, 
+    jannh@google.com, bhe@redhat.com, vincenzo.frascino@arm.com, 
+    rafael.j.wysocki@intel.com, ndesaulniers@google.com, mingo@redhat.com, 
+    catalin.marinas@arm.com, junichi.nomura@nec.com, nathan@kernel.org, 
+    ryabinin.a.a@gmail.com, dennis@kernel.org, bp@alien8.de, 
+    kevinloughlin@google.com, morbo@google.com, dan.j.williams@intel.com, 
+    julian.stecklina@cyberus-technology.de, peterz@infradead.org, 
+    kees@kernel.org, kasan-dev@googlegroups.com, x86@kernel.org, 
+    linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org, 
+    linux-kernel@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, 
+    linux-doc@vger.kernel.org
+Subject: Re: [PATCH 00/15] kasan: x86: arm64: risc-v: KASAN tag-based mode
+ for x86
+In-Reply-To: <29A74A26-E922-4A4F-9B4A-8DB0336B99DF@jrtc27.com>
+Message-ID: <94f81328-a135-b99b-7f73-43fb77bd7292@gentwo.org>
+References: <cover.1738686764.git.maciej.wieczor-retman@intel.com> <8bd9c793-aac6-a330-ea8f-3bde0230a20b@gentwo.org> <F974BA79-80D8-4414-9DFD-1EEF9395143C@jrtc27.com> <72837fcd-97a8-c213-0098-c8f308c3415d@gentwo.org>
+ <29A74A26-E922-4A4F-9B4A-8DB0336B99DF@jrtc27.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250206-printing_fix-v3-1-a85273b501ae@invicto.ai>
-References: <20250206-printing_fix-v3-0-a85273b501ae@invicto.ai>
-In-Reply-To: <20250206-printing_fix-v3-0-a85273b501ae@invicto.ai>
-To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <benno.lossin@proton.me>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Jonathan Corbet <corbet@lwn.net>, 
- David Gow <davidgow@google.com>, Dirk Behme <dirk.behme@de.bosch.com>, 
- Asahi Lina <lina@asahilina.net>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
- Wedson Almeida Filho <walmeida@microsoft.com>, 
- "Andreas Hindborg (Samsung)" <nmi@metaspace.dk>, Tejun Heo <tj@kernel.org>, 
- Fiona Behrens <me@kloenk.dev>, 
- Vincenzo Palazzo <vincenzopalazzodev@gmail.com>, 
- Xiangfei Ding <dingxiangfei2009@gmail.com>
-Cc: rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Alban Kurti <kurti@invicto.ai>, 
- Martin Rodriguez Reboredo <yakoyoku@gmail.com>, 
- Fox Chen <foxhlchen@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1738876070; l=994;
- i=kurti@invicto.ai; s=20250206; h=from:subject:message-id;
- bh=Aoq8DR0tmBwK/2qmp6nHnMm7CfMGYf5gDRatYYdmJS4=;
- b=Eg90l4a/6yjDvdcx9mylSKH9TwrCcYGbL5wRllwirwpydxVlF+6oOrh2toKrQYqOCfGeYTNDK
- fD5qHTYXdEUDDzYLf/rmLm8HcoHKuAODuKe1m9eJifdWRY0ibabQ93N
-X-Developer-Key: i=kurti@invicto.ai; a=ed25519;
- pk=D1lKs+JFapuEVI9zJ2QUTLSf5u4aT12tG0ny6vMMuOc=
-Date: Thu, 06 Feb 2025 21:07:52 +0000 (UTC)
-X-CM-Analysis: v=2.4 cv=PMNd+uqC c=1 sm=1 tr=0 ts=67a524a9 a=9/DLicljd4JGVkZ5BRdAJQ==:117 a=9/DLicljd4JGVkZ5BRdAJQ==:17 a=IkcTkHD0fZMA:10 a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=c9EISN1oOV-dU950GokA:9 a=QEXdDO2ut3YA:10
-X-CM-Envelope: MS4xfBif+Uu3UMiyyU3J2G4rL9XjRNFgaliUqVvWA+0J0KfByC89iygW/TK7LxcvGtEhR64jjQ/kng2PNfuzzvTZ+KhmSJPXwteMLawGlY0DD1xK005kV+EB aZ+qU8iIURNZz4ohIbaxz/MFrOg/jOdXp0P+zYSBQ6lRRHurwExpxOw3x7h2SicBM18ttiGdmUJRQi+V7zU3l/omDZODpYOxXfDj+OMFwP7brUVUFYDFaXb7 u5dEJ+Wl9/yfGmzhn4/hBeVh/FzpFqq1haYEwI6JvDbVoj5S6R088jYTUpohRw5GQmx3anfX0/yGCz0PKEnUNnNnf3q9944GzVOEpKAJwZz8STjM7qmDWQIj myO/17u+UXeYiFJLwXcIkAELeiYUfOhotSnQVrUCw3VvL9iHWsVWJzPNH3Fk7W2SNiCETWTbL6G6iwiz1FajCu31k/HUxPLhQZ5OlX1cDq1eiQVb0GEtmg7L i2xnGowZkvNgIOAtnzzADarhKZA2XTpMz8VVGJxg0ph83Mp/95vjiIVDkgyDeypCrog7bitWXbU6t45Up9+5Cd0A9+D6e7ZdaV/KdTerNaJNJtRBZJhbRmbE RuDTn8fdxinrdRtVS8VQI1MOh/HwHFTz1qaEqI+YXmyg5RqbredGI1TnV1coW8l5lxdivod0GE1z7nMZPzpRL1qugCN8Le6JTfte1GKsjxHFgIqog+KOIkSk 9sUSqFv6mUKQ0O3CzL2PXQ3kbP46eEMDdjpcgG4q0tT0/qQZMbDTkHVTth2W/UZXwWrGPFGMJ/JpfeTUdS4N6uNyPFjHewO9YLjRQ0FGUOYbhM/11hQPVXMh GfBH6b6pn5GlJuYsxE2rOdFE6U2+tj89REyxi1nHdHOh465Mddf4IcDEMtLCFX6/ZnwpBEo9Ay+5WmiWojoaTNkxNH3hRWB8xUevfH7HS9Xm2VUkmfgqZSGU y96MvbgA8ONk5vq
- 3Q48kLNBtX5h5GXJywJXSI+/k/xgsFtGz
-X-AuthUser: kurti@invicto.ai
+Content-Type: multipart/mixed; boundary="8323329-815475849-1738869076=:2425008"
 
-Fix adding a newline at the end of the usage of pr_info! in the
-documentation
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Fixes: e3c3d34507c7 ("docs: rust: Add description of Rust documentation test as KUnit ones")
-Reported-by: Miguel Ojeda <ojeda@kernel.org>
-Closes: https://github.com/Rust-for-Linux/linux/issues/1139
-Signed-off-by: Alban Kurti <kurti@invicto.ai>
----
- Documentation/rust/testing.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--8323329-815475849-1738869076=:2425008
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 
-diff --git a/Documentation/rust/testing.rst b/Documentation/rust/testing.rst
-index 568b71b415a4525772cb77ce76c7f9da32fac1c4..180b886e0f1ee997779f04ce85eba858e64946c0 100644
---- a/Documentation/rust/testing.rst
-+++ b/Documentation/rust/testing.rst
-@@ -97,7 +97,7 @@ operator are also supported as usual, e.g.:
- 
- 	/// ```
- 	/// # use kernel::{spawn_work_item, workqueue};
--	/// spawn_work_item!(workqueue::system(), || pr_info!("x"))?;
-+	/// spawn_work_item!(workqueue::system(), || pr_info!("x\n"))?;
- 	/// # Ok::<(), Error>(())
- 	/// ```
- 
+On Thu, 6 Feb 2025, Jessica Clarke wrote:
 
--- 
-2.48.1
+> On 5 Feb 2025, at 18:51, Christoph Lameter (Ampere) <cl@gentwo.org> wrote:
+> > On Ampere Processor hardware there is no penalty since the logic is build
+> > into the usual read/write paths. This is by design. There may be on other
+> > platforms that cannot do this.
+>
+> You helpfully cut out all the explanation of where the performance
+> penalty comes from. But if it’s as you say I can only assume your
+> design chooses to stall all stores until they have actually written, in
+> which case you have a performance cost compared with hardware that
+> omitted MTE or optimises for non-synchronous MTE. The literature on MTE
+> agrees that it is not no penalty (but can be low penalty). I don’t
+> really want to have some big debate here about the ins and outs of MTE,
+> it’s not the place for it, but I will stand up and point out that
+> claiming MTE to be “no performance penalty” is misrepresentative of the
+> truth
 
+I cannot share details since this information has not been released to be
+public yet. I hear that a whitepaper will be coming soon to explain this
+feature. The AmpereOne processors have been released a couple of months
+ago.
+
+I also see that KASAN_HW_TAGS exist but this means that the tags can only
+be used with CONFIG_KASAN which is a kernel configuration for debug
+purposes.
+
+What we are interested in is a *production* implementation with minimal
+software overhead that will be the default on ARM64 if the appropriate
+hardware is detected. That in turn will hopefully allow other software
+instrumentation that is currently used to keep small objects secure and in
+turn creates overhead.
+
+--8323329-815475849-1738869076=:2425008--
