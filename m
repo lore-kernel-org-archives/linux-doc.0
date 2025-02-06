@@ -1,208 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8CF61624F3;
-	Thu,  6 Feb 2025 13:30:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1221EA7C2
+	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 13:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738848619; cv=none; b=OhgbIjJJCWa3f7TZzExgVFsTQoxDeyUdeDgfd31TW8Zz+q6oZUdIIU8wyEVWlJo7658sVO7sTtKxtrVF+YKQS/hktBu0ojvGEuS0bSP8pGZDnMb7v9BeB+iSgPXa7dnaZFwtUZXWLCxMt5XfVjIJg8QZI2PJEzs311CvPfgZPEI=
+	t=1738849076; cv=none; b=kmZ/F5FIRL3VpjPvtJGrPy7+u/MzL8Vf4fJtEkho1ZXjGug0uBPum/ZOc6J1pXoeZ/n9BKgN/F+A2oI+klr2A78KbrIRaHfAF+LqL9AHO7638RkPrmqvTEGQlJ00nNjhxOsGHva0piIO7Ax6VdmQFR2X9sEZ1Cu12q4usRvUTak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738848619; c=relaxed/simple;
-	bh=DEPWTj2lMxZNBMBbVuId7YwohjOTilwE4mRuWlbJrXA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZjJA4jr+XA/UIa6hW8PTz42zv+nfi5nOleCefnUIeL+7OJh7OnZByfFJR8hCgscLbkjUeIaASX4rLWYX3F0eMoGcuE5EJILSeuwrOMTEe8NGnKtQ+IpZgzG5JAWoVFKqheRigex+/0VmUqebbjk9+nyxjoKvW0YJTUYSkhJS3CM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JHyCveIB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738849076; c=relaxed/simple;
+	bh=9Ytmps4fuBO/htaxCKDp7kdUCmpWXLYbMLnjp7sR0E8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G/HEDQEA2+pcBmkKKo604ZZ20EZ46gyFRpN3JDUyU6BR22npGQU7+UF2KbQJIupX0LlIrA7cHXAqm3P+tx1J9TERr8w6Wo7OyEIDD0YRuc8PX2nSjbFmewjQuOc/m7QFXD/Vt5BvFMmci1qaQW8xLf9+Evk8Jtb4eQh+N40CWBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dv5AuJBV; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JHyCveIB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBB81C4CEE8;
-	Thu,  6 Feb 2025 13:30:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1738848618;
-	bh=DEPWTj2lMxZNBMBbVuId7YwohjOTilwE4mRuWlbJrXA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JHyCveIB+H+hP369+oAVupUsNOhw1rXCFbz/HMMrekGHYAW5g4PNpWIwrA8MwexgL
-	 4yMDEsor1brMgVYnrKTNOKQMYqerjM3u2rtawVm++rzJDLZojHWhKDBkq33U5MfHSV
-	 NQtV2EFA/lMKTVnsQP2JZSAaMs3oEfA7VLfyV889coTXhhEVxMdqkij+tqxaqUj2Tc
-	 +ihizHttzw+XGMKcXveRsjk85ki9HH1SFWo0iThELJ22q8Xi9jHv9Q91sHpsMVossU
-	 ZgFgJe+G3yxv9QmNthG7QhvnBHAriJsMyUex426XIiM46CWpwr37AZ05MfQc08FbZ1
-	 R1sab0YI6csgw==
-From: Mike Rapoport <rppt@kernel.org>
-To: linux-kernel@vger.kernel.org
-Cc: Alexander Graf <graf@amazon.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	Anthony Yznaga <anthony.yznaga@oracle.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Ashish Kalra <ashish.kalra@amd.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Borislav Petkov <bp@alien8.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Eric Biederman <ebiederm@xmission.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	James Gowans <jgowans@amazon.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Pratyush Yadav <ptyadav@amazon.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Usama Arif <usama.arif@bytedance.com>,
-	Will Deacon <will@kernel.org>,
-	devicetree@vger.kernel.org,
-	kexec@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-mm@kvack.org,
-	x86@kernel.org
-Subject: [PATCH v4 14/14] Documentation: KHO: Add memblock bindings
-Date: Thu,  6 Feb 2025 15:27:54 +0200
-Message-ID: <20250206132754.2596694-15-rppt@kernel.org>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250206132754.2596694-1-rppt@kernel.org>
-References: <20250206132754.2596694-1-rppt@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dv5AuJBV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1738849073;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5N+Al59YmEDtBoKSzwKPTh6WUXLbEAKXSUpJ7QukWWw=;
+	b=dv5AuJBVq2vzNPk2BWqp0H0hPwA6KyS0YqU77gNaJp3QO5ql2aVRFKSbg2BmA9p47Lgodw
+	wGLvm+yTL1hgmb6cg+o6IuXdISKttoHM/p0pCqBPFjVX52KYATb06JBczmCw5XbnTPugEJ
+	D4gF07wt1CdLlj0Y86jQZ0/LOyNEcfY=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-537-Z1CCXbCkNJ6JlHV_rykxEg-1; Thu,
+ 06 Feb 2025 08:37:51 -0500
+X-MC-Unique: Z1CCXbCkNJ6JlHV_rykxEg-1
+X-Mimecast-MFC-AGG-ID: Z1CCXbCkNJ6JlHV_rykxEg
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3A21C18DFE39;
+	Thu,  6 Feb 2025 13:37:14 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.22.64.235])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4FC6618004A7;
+	Thu,  6 Feb 2025 13:37:09 +0000 (UTC)
+Received: by fedora.redhat.com (Postfix, from userid 1000)
+	id 9E1E56AA45D; Thu,  6 Feb 2025 08:37:07 -0500 (EST)
+Date: Thu, 6 Feb 2025 08:37:07 -0500
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org,
+	linux-mm@kvack.org, alison.schofield@intel.com, lina@asahilina.net,
+	zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
+	vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
+	bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca,
+	catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au,
+	npiggin@gmail.com, dave.hansen@linux.intel.com, ira.weiny@intel.com,
+	willy@infradead.org, djwong@kernel.org, tytso@mit.edu,
+	linmiaohe@huawei.com, david@redhat.com, peterx@redhat.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+	linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
+	david@fromorbit.com, chenhuacai@kernel.org, kernel@xen0n.name,
+	loongarch@lists.linux.dev, Hanna Czenczek <hreitz@redhat.com>,
+	German Maglione <gmaglione@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v6 01/26] fuse: Fix dax truncate/punch_hole fault path
+Message-ID: <Z6S7A-51SdPco_3Z@redhat.com>
+References: <cover.11189864684e31260d1408779fac9db80122047b.1736488799.git-series.apopple@nvidia.com>
+ <bfae590045c7fc37b7ccef10b9cec318012979fd.1736488799.git-series.apopple@nvidia.com>
+ <Z6NhkR8ZEso4F-Wx@redhat.com>
+ <67a3fde7da328_2d2c2942b@dwillia2-xfh.jf.intel.com.notmuch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <67a3fde7da328_2d2c2942b@dwillia2-xfh.jf.intel.com.notmuch>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+On Wed, Feb 05, 2025 at 04:10:15PM -0800, Dan Williams wrote:
+> Vivek Goyal wrote:
+> > On Fri, Jan 10, 2025 at 05:00:29PM +1100, Alistair Popple wrote:
+> > > FS DAX requires file systems to call into the DAX layout prior to unlinking
+> > > inodes to ensure there is no ongoing DMA or other remote access to the
+> > > direct mapped page. The fuse file system implements
+> > > fuse_dax_break_layouts() to do this which includes a comment indicating
+> > > that passing dmap_end == 0 leads to unmapping of the whole file.
+> > > 
+> > > However this is not true - passing dmap_end == 0 will not unmap anything
+> > > before dmap_start, and further more dax_layout_busy_page_range() will not
+> > > scan any of the range to see if there maybe ongoing DMA access to the
+> > > range. Fix this by passing -1 for dmap_end to fuse_dax_break_layouts()
+> > > which will invalidate the entire file range to
+> > > dax_layout_busy_page_range().
+> > 
+> > Hi Alistair,
+> > 
+> > Thanks for fixing DAX related issues for virtiofs. I am wondering how are
+> > you testing DAX with virtiofs. AFAIK, we don't have DAX support in Rust
+> > virtiofsd. C version of virtiofsd used to have out of the tree patches
+> > for DAX. But C version got deprecated long time ago.
+> > 
+> > Do you have another implementation of virtiofsd somewhere else which
+> > supports DAX and allows for testing DAX related changes?
+> 
+> I have personally never seen a virtiofs-dax test. It sounds like you are
+> saying we can deprecate that support if there are no longer any users.
+> Or, do you expect that C-virtiofsd is alive in the ecosystem?
 
-We introduced KHO into Linux: A framework that allows Linux to pass
-metadata and memory across kexec from Linux to Linux. KHO reuses fdt
-as file format and shares a lot of the same properties of firmware-to-
-Linux boot formats: It needs a stable, documented ABI that allows for
-forward and backward compatibility as well as versioning.
+Ashai Lina responded that they need and test DAX using libkrun.
 
-As first user of KHO, we introduced memblock which can now preserve
-memory ranges reserved with reserve_mem command line options contents
-across kexec, so you can use the post-kexec kernel to read traces from
-the pre-kexec kernel.
+C version of virtiofsd is now gone. We are actively working and testing
+Rust version of virtiofsd. We have not been able to add DAX support to
+it yet for various reasons. 
 
-This patch adds memblock schemas similar to "device" device tree ones to
-a new kho bindings directory. This allows us to force contributors to
-document the data that moves across KHO kexecs and catch breaking change
-during review.
+Biggest unsolved problem with viritofsd DAX mode is guest process should
+get a SIGBUS if it tries to access a file beyond the file. This can happen
+if file has been truncated on the host (while it is still mapped inside
+the guest). 
 
-Co-developed-by: Alexander Graf <graf@amazon.com>
-Signed-off-by: Alexander Graf <graf@amazon.com>
-Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
----
- .../kho/bindings/memblock/reserve_mem.yaml    | 41 ++++++++++++++++++
- .../bindings/memblock/reserve_mem_map.yaml    | 42 +++++++++++++++++++
- 2 files changed, 83 insertions(+)
- create mode 100644 Documentation/kho/bindings/memblock/reserve_mem.yaml
- create mode 100644 Documentation/kho/bindings/memblock/reserve_mem_map.yaml
+I had tried to summarize the problem in this presentation in the section
+"KVM Page fault error handling".
 
-diff --git a/Documentation/kho/bindings/memblock/reserve_mem.yaml b/Documentation/kho/bindings/memblock/reserve_mem.yaml
-new file mode 100644
-index 000000000000..7b01791b10b3
---- /dev/null
-+++ b/Documentation/kho/bindings/memblock/reserve_mem.yaml
-@@ -0,0 +1,41 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/memblock/reserve_mem.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Memblock reserved memory
-+
-+maintainers:
-+  - Mike Rapoport <rppt@kernel.org>
-+
-+description: |
-+  Memblock can serialize its current memory reservations created with
-+  reserve_mem command line option across kexec through KHO.
-+  The post-KHO kernel can then consume these reservations and they are
-+  guaranteed to have the same physical address.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - reserve_mem-v1
-+
-+patternProperties:
-+  "$[0-9a-f_]+^":
-+    $ref: reserve_mem_map.yaml#
-+    description: reserved memory regions
-+
-+required:
-+  - compatible
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    reserve_mem {
-+      compatible = "reserve_mem-v1";
-+        r1 {
-+          compatible = "reserve_mem_map-v1";
-+          mem = <0xc07c 0x2000000 0x01 0x00>;
-+        };
-+    };
-diff --git a/Documentation/kho/bindings/memblock/reserve_mem_map.yaml b/Documentation/kho/bindings/memblock/reserve_mem_map.yaml
-new file mode 100644
-index 000000000000..09001c5f2124
---- /dev/null
-+++ b/Documentation/kho/bindings/memblock/reserve_mem_map.yaml
-@@ -0,0 +1,42 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/memblock/reserve_mem_map.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Memblock reserved memory regions
-+
-+maintainers:
-+  - Mike Rapoport <rppt@kernel.org>
-+
-+description: |
-+  Memblock can serialize its current memory reservations created with
-+  reserve_mem command line option across kexec through KHO.
-+  This object describes each such region.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - reserve_mem_map-v1
-+
-+  mem:
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    description: |
-+      Array of { u64 phys_addr, u64 len } elements that describe a list of
-+      memory ranges.
-+
-+required:
-+  - compatible
-+  - mem
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    reserve_mem {
-+      compatible = "reserve_mem-v1";
-+        r1 {
-+          compatible = "reserve_mem_map-v1";
-+          mem = <0xc07c 0x2000000 0x01 0x00>;
-+        };
-+    };
--- 
-2.47.2
+https://kvm-forum.qemu.org/2020/KVMForum2020_APF.pdf
+
+This is a tricky problem to handle. Once this gets handled, it becomes
+safer to use DAX with virtiofs. Otherwise you can't share the filesystem
+with other guests in DAX mode and use cases are limited.
+
+And then there are challenges at QEMU level. virtiofsd needs additional
+vhost-user commands to implement DAX and these never went upstream in
+QEMU. I hope these challenges are sorted at some point of time.
+
+I think virtiofs DAX is a very cool piece of technology. I would not like
+to deprecate it. It has its own problems and challenges and once we
+are able to solve these, it might see wider usage/adoption.
+
+Thanks
+Vivek
 
