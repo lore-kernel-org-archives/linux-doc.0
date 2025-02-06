@@ -1,123 +1,224 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D441E1304BA
-	for <linux-doc@vger.kernel.org>; Thu,  6 Feb 2025 14:30:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D2C23644D;
+	Thu,  6 Feb 2025 14:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738852250; cv=none; b=BJx8VNzhu+UTa/yAQqFQzK14z/nCSgO4jN9srjaIRxxkbY2fdCsXIB7UHvh8LJryPke9gKmLAr0M30HhsyOyGIuPKXxuKCgzmkUShS9nYPMBRtxoSe1rh3ieHK/FEcjFtInuWio/hfE2XXy6h7S8Xo+kupNyGvXmtu89Lfs+41s=
+	t=1738853223; cv=none; b=p1Tmhl2/4aHAECPpnmhdnvjbOM6qTVXhiNCdZyNdGyxrPcajY5kujdGbgF1H/Y7at+ArGPv4vVjJyvySLV1/FOTQ7Vaw8PJdEAdsUYrPlDt5i36FIM1sRg0MqPh6ulCE1x2Zq4PEF30lovnV1M9M7TQj7TbvGjoaNeYw37t2btQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738852250; c=relaxed/simple;
-	bh=WdipNZI3y5wwEW1WPJkKmfPilkJ7iVaBxEPNzdzmX4E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OK994UcfiBOktxu+JRMcKK/MxNE4qtcIE9qJ3BFvMY2JScuUY4N74+mt3HkcZIdg7K9RiGhoyIzhHyKpbitn0ueQXWpg1TwuB9S7gImBCG2RzugX4EPFB9INIYFoMnfrznOp1WXLPbeSmcAvUESixwU/mm9u1eVRRZKAEKLgYYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CDkjfouy; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1738853223; c=relaxed/simple;
+	bh=BEO2KJS5XZoEhfdp2Sdo2BYa4e1Ky164SYHEhGEyQ3g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tekzni5k02UwA1PG70K046cXuqmmtyvQ4RpFHJwp2ytvTJok3yt1kOtcgUf+n4RQWySoAsdiHRr0vYvAWWOfurKOcV5+/7IbeG+vOaKW2a6lnkl8Q+r35hx/6yrJoeCiJQoYfZKC1y4S58J7EYIQrl/Y4/ih33Plyn2sqMDsor8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=nkP/qXhw; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CDkjfouy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1738852246;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WdipNZI3y5wwEW1WPJkKmfPilkJ7iVaBxEPNzdzmX4E=;
-	b=CDkjfouyt5dauUvfIC7ViNGjW3fTIMDVyTCX3dsHs8Z5w4RfUfCxD+D5wQsK8l1cmH2SXN
-	0PHJPqTyne8Bmrr7LAmkIQccLhQ6aZwBgP3jzT8lmE3eTqGUXUJSD7kSh575dlDvoxt275
-	Bt6yi//cS5ogLeqN+q+v78ujJUn5+so=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-669-jpp1Wx5AN3GqEECzTVdKQg-1; Thu,
- 06 Feb 2025 09:30:43 -0500
-X-MC-Unique: jpp1Wx5AN3GqEECzTVdKQg-1
-X-Mimecast-MFC-AGG-ID: jpp1Wx5AN3GqEECzTVdKQg
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AAACC1956086;
-	Thu,  6 Feb 2025 14:30:36 +0000 (UTC)
-Received: from localhost (unknown [10.2.16.145])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6D97B1800878;
-	Thu,  6 Feb 2025 14:30:33 +0000 (UTC)
-Date: Thu, 6 Feb 2025 09:30:32 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Cc: Dan Williams <dan.j.williams@intel.com>,
-	Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org,
-	linux-mm@kvack.org, alison.schofield@intel.com, lina@asahilina.net,
-	zhang.lyra@gmail.com, gerald.schaefer@linux.ibm.com,
-	vishal.l.verma@intel.com, dave.jiang@intel.com, logang@deltatee.com,
-	bhelgaas@google.com, jack@suse.cz, jgg@ziepe.ca,
-	catalin.marinas@arm.com, will@kernel.org, mpe@ellerman.id.au,
-	npiggin@gmail.com, dave.hansen@linux.intel.com, ira.weiny@intel.com,
-	willy@infradead.org, djwong@kernel.org, tytso@mit.edu,
-	linmiaohe@huawei.com, david@redhat.com, peterx@redhat.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
-	linux-xfs@vger.kernel.org, jhubbard@nvidia.com, hch@lst.de,
-	david@fromorbit.com, chenhuacai@kernel.org, kernel@xen0n.name,
-	loongarch@lists.linux.dev, Hanna Czenczek <hreitz@redhat.com>,
-	German Maglione <gmaglione@redhat.com>,
-	Albert Esteve <aesteve@redhat.com>
-Subject: Re: [PATCH v6 01/26] fuse: Fix dax truncate/punch_hole fault path
-Message-ID: <20250206143032.GA400591@fedora>
-References: <cover.11189864684e31260d1408779fac9db80122047b.1736488799.git-series.apopple@nvidia.com>
- <bfae590045c7fc37b7ccef10b9cec318012979fd.1736488799.git-series.apopple@nvidia.com>
- <Z6NhkR8ZEso4F-Wx@redhat.com>
- <67a3fde7da328_2d2c2942b@dwillia2-xfh.jf.intel.com.notmuch>
- <Z6S7A-51SdPco_3Z@redhat.com>
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="nkP/qXhw"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:Subject:Date:
+	Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=2MKzDAWIHrqoLoPImA1+pvUzX0z2r66l7z8LOxhCvOE=; t=1738853220; x=1739285220; 
+	b=nkP/qXhwtkZxqlWBQlA8tK2yKB2meNX7lt7nDKP+wn8T9cTgh+8Hhr1QszRU+W81SdpAr4FfSIC
+	VV/8pgmQ100RcJDXtPvxRUSILKyW9nL+uI516IcqBlEA+f8dIxDlOQaNMlbjIaVOtNVA0EcCfV9zh
+	2kyYxhsdkG8M5EokeWmy7zovWZ/aZp1UZf3iyTQdR91IT80es97d5aZPWITYWvIVZ/3io4O4S+zhf
+	0gyCqoVU6ZJpQDOXWk6wUTGKYqsB4PQkBJAvVedgeyId6eHsmpFPPUhBWFOf29Lf78AxAV75w4SH1
+	52D8Ia4fPAkWN7U6Jxj96YVRVsz3P+ZuvjvQ==;
+Received: from ip4d148d89.dynamic.kabel-deutschland.de ([77.20.141.137] helo=truhe.fritz.box); authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	id 1tg2tP-006f3e-2V;
+	Thu, 06 Feb 2025 15:30:12 +0100
+From: Thorsten Leemhuis <linux@leemhuis.info>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: [PATCH v4] docs: clarify rules wrt tagging other people
+Date: Thu,  6 Feb 2025 15:30:10 +0100
+Message-ID: <588cf2763baa8fea1f4825f4eaa7023fe88bb6c1.1738852082.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="dVdFjdbROmPA0Gp+"
-Content-Disposition: inline
-In-Reply-To: <Z6S7A-51SdPco_3Z@redhat.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1738853220;fd75dc04;
+X-HE-SMSGID: 1tg2tP-006f3e-2V
 
+Point out that explicit permission is usually needed to tag other people
+in changes, but mention that implicit permission can be sufficient in
+certain cases. This fixes slight inconsistencies between Reported-by:
+and Suggested-by: and makes the usage more intuitive.
 
---dVdFjdbROmPA0Gp+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+While at it, explicitly mention the dangers of our bugzilla instance, as
+it makes it easy to forget that email addresses visible there are only
+shown to logged-in users.
 
-On Thu, Feb 06, 2025 at 08:37:07AM -0500, Vivek Goyal wrote:
-> And then there are challenges at QEMU level. virtiofsd needs additional
-> vhost-user commands to implement DAX and these never went upstream in
-> QEMU. I hope these challenges are sorted at some point of time.
+The latter is not a theoretical issue, as one maintainer mentioned that
+his employer received a EU GDPR (general data protection regulation)
+complaint after exposing a email address used in bugzilla through a tag
+in a patch description.
 
-Albert Esteve has been working on QEMU support:
-https://lore.kernel.org/qemu-devel/20240912145335.129447-1-aesteve@redhat.com/
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+---
 
-He has a viable solution. I think the remaining issue is how to best
-structure the memory regions. The reason for slow progress is not
-because it can't be done, it's probably just because this is a
-background task.
+Jonathan, what do you think of this? I felt somewhat unsure about this a
+few weeks ago, but I guess I was overly careful. If you think this
+change is fine and shouldn't cause any trouble for anyone, feel free to
+merge this. And if not, please speak up.
 
-Please discuss with Albert if QEMU support is urgent.
+Note: this triggers a few checkpatch.pl complaints that are irrelevant
+when when to comes to changes like this.
 
-Stefan
+v4:
+- slight wording change to make a implicity aspect explicit, as pointed
+  out by Mauro
+- Add reviewed-bys from Mauro and Shuah
+- The number of reviewed-bys is still smal, nevertheless drop the
+  DONOTMERGE and hole that Jonathan will speak up if he thinks this is
+  a stupid move.
 
---dVdFjdbROmPA0Gp+
-Content-Type: application/pgp-signature; name="signature.asc"
+v3: https://lore.kernel.org/all/c29ef5fa12e37c3a289e46d4442b069af94e5b05.1733127212.git.linux@leemhuis.info/
+- try yet again from a slightly different angle which loosens the rules
+  slightly. This from review feedback to earlier versions is apparently
+  what other developers want and from their "no lawyer" perspective
+  consider to be okay. As IANAL myself I don't feel totally comfortable
+  with this and have no idea if this legally is sound, so tag patch with
+  "DONOTMERGE" for now; will remove this for v4 if enough people add a
+  "Reviewed-by". Otherwise the story of this patch might end here, unless
+  someone else submits it for inclusion (you are free to do so!).
+- remote patch adding Suggested-by: tag to 5.Posting and submit it
+  separately
 
------BEGIN PGP SIGNATURE-----
+v2: https://lore.kernel.org/all/cover.1731749544.git.linux@leemhuis.info/
+- Retry differently. This slightly hardens the rule for Reported-by:
+  while slightly lessening it for Suggested-by:. Those in the end are
+  quite similar, so it does not make much sense to apply different ones.
+  I considered using an approach along the lines of "if you reported it
+  in pubic by mail, implicit permission to use in a tag is granted"; but
+  I abstained from it, as I assume there are good reasons for the
+  existing approach regarding Suggested-by:.
+- CC all the people that provided feedback on the text changes in v1
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmekx4gACgkQnKSrs4Gr
-c8jOKwf/ZukZTp1v1Bj1iqbpAm6HBWN90Y4JWmyzZGuKRqLAwN8AyiIJ6Ms1fx+v
-WJLR47NztCQ3sDtsTQT1814wwXSpJlPguLu6isoWbCGpUwAZZk3JTpHNBofs7IKj
-04NWFZ9B2tOVgirm8OMtsVVJwzQhvQc7YtMhdB9naCzqcdC7ynKp6mLH9bd7Q+Ze
-K9CwEFtKcTm9Ge+t3U0E3Q7MI2D55far3KPi84MpfI9oEu6l0MOzzmKjaOBq9+wy
-XXZCisxWbGLZtfbY2BAQxTUhKq9TTXgeQm/Ti/SzsVLf/Qd7nrEkG1v51xs5HCnR
-FMQhDw7oBmFsGs5S/Qywvta1pcaYwg==
-=JZcT
------END PGP SIGNATURE-----
+v1: https://lore.kernel.org/all/f5bc0639a20d6fac68062466d5e3dd0519588d08.1731486825.git.linux@leemhuis.info/
+- initial version
+---
+ Documentation/process/5.Posting.rst          | 13 +++++--
+ Documentation/process/submitting-patches.rst | 39 ++++++++++++++------
+ 2 files changed, 36 insertions(+), 16 deletions(-)
 
---dVdFjdbROmPA0Gp+--
+diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+index dbb763a8de901d..22fa925353cf54 100644
+--- a/Documentation/process/5.Posting.rst
++++ b/Documentation/process/5.Posting.rst
+@@ -268,10 +268,15 @@ The tags in common use are:
+  - Cc: the named person received a copy of the patch and had the
+    opportunity to comment on it.
+ 
+-Be careful in the addition of tags to your patches, as only Cc: is appropriate
+-for addition without the explicit permission of the person named; using
+-Reported-by: is fine most of the time as well, but ask for permission if
+-the bug was reported in private.
++Be careful in the addition of the aforementioned tags to your patches, as all
++except for Cc:, Reported-by:, and Suggested-by: need explicit permission of the
++person named. For those three implicit permission is sufficient if the person
++contributed to the Linux kernel using that name and email address according
++to the lore archives or the commit history -- and in case of Reported-by:
++and Suggested-by: did the reporting or suggestion in public. Note,
++bugzilla.kernel.org is a public place in this sense, but email addresses
++used there are private; so do not expose them in tags, unless the person
++used them in earlier contributions.
+ 
+ 
+ Sending the patch
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index 8fdc0ef3e604f4..72f6de419ccc4c 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -495,10 +495,10 @@ list archives.  A "# Suffix" may also be used in this case to clarify.
+ 
+ If a person has had the opportunity to comment on a patch, but has not
+ provided such comments, you may optionally add a ``Cc:`` tag to the patch.
+-This is the only tag which might be added without an explicit action by the
+-person it names - but it should indicate that this person was copied on the
+-patch.  This tag documents that potentially interested parties
+-have been included in the discussion.
++This tag documents that potentially interested parties have been included in
++the discussion. Note, this is one of only three tags you might be able to use
++without explicit permission of the person named (see 'Tagging people requires
++permission' below for details).
+ 
+ Co-developed-by: states that the patch was co-created by multiple developers;
+ it is used to give attribution to co-authors (in addition to the author
+@@ -544,9 +544,9 @@ hopefully inspires them to help us again in the future. The tag is intended for
+ bugs; please do not use it to credit feature requests. The tag should be
+ followed by a Closes: tag pointing to the report, unless the report is not
+ available on the web. The Link: tag can be used instead of Closes: if the patch
+-fixes a part of the issue(s) being reported. Please note that if the bug was
+-reported in private, then ask for permission first before using the Reported-by
+-tag.
++fixes a part of the issue(s) being reported. Note, the Reported-by tag is one
++of only three tags you might be able to use without explicit permission of the
++person named (see 'Tagging people requires permission' below for details).
+ 
+ A Tested-by: tag indicates that the patch has been successfully tested (in
+ some environment) by the person named.  This tag informs maintainers that
+@@ -596,11 +596,11 @@ Usually removal of someone's Tested-by or Reviewed-by tags should be mentioned
+ in the patch changelog (after the '---' separator).
+ 
+ A Suggested-by: tag indicates that the patch idea is suggested by the person
+-named and ensures credit to the person for the idea. Please note that this
+-tag should not be added without the reporter's permission, especially if the
+-idea was not posted in a public forum. That said, if we diligently credit our
+-idea reporters, they will, hopefully, be inspired to help us again in the
+-future.
++named and ensures credit to the person for the idea: if we diligently credit
++our idea reporters, they will, hopefully, be inspired to help us again in the
++future. Note, this is one of only three tags you might be able to use without
++explicit permission of the person named (see 'Tagging people requires
++permission' below for details).
+ 
+ A Fixes: tag indicates that the patch fixes an issue in a previous commit. It
+ is used to make it easy to determine where a bug originated, which can help
+@@ -618,6 +618,21 @@ Finally, while providing tags is welcome and typically very appreciated, please
+ note that signers (i.e. submitters and maintainers) may use their discretion in
+ applying offered tags.
+ 
++.. _tagging_people:
++
++Tagging people requires permission
++----------------------------------
++
++Be careful in the addition of the aforementioned tags to your patches, as all
++except for Cc:, Reported-by:, and Suggested-by: need explicit permission of the
++person named. For those three implicit permission is sufficient if the person
++contributed to the Linux kernel using that name and email address according
++to the lore archives or the commit history -- and in case of Reported-by:
++and Suggested-by: did the reporting or suggestion in public. Note,
++bugzilla.kernel.org is a public place in this sense, but email addresses
++used there are private; so do not expose them in tags, unless the person
++used them in earlier contributions.
++
+ .. _the_canonical_patch_format:
+ 
+ The canonical patch format
+
+base-commit: e8bcda12176c47f2ce6c5104955845d028a640e8
+-- 
+2.45.0
 
