@@ -1,142 +1,175 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 404111F416F;
-	Thu,  6 Feb 2025 16:09:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03DCA22F3B2;
+	Thu,  6 Feb 2025 16:13:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738858195; cv=none; b=bADX/Mlw6OuuRXm81eWQXGwpq26+S4S/+niXplDW4sLPoVw/3Ix3B4BM3QB/OBEVTGaktW5K1RFfoQhGKc/1bYMcEFCvVVCRGtcKIMH1CAq+UA1XH0Hyp1EB8Ag5iq8IFh2YqtVpRFmwKzn5ft1EbEa2CKoljanPhCT8ohn3Vsc=
+	t=1738858427; cv=none; b=qBYW2Q4fSCBL9ULhQsFdiWn79wMYDMSNosvObdlPme9kbCi4yP/jwpds7ldmThun7JME9NZu9ZrEmXyHZshf56hEnUaEnS8h8KVQwi1BmI+YWHodi8O6f/ELk1OFXCee9+U8HCuvLWqX3thipNIXOpcQeJKyB+V36YP4/2MPFdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738858195; c=relaxed/simple;
-	bh=Sz0yAKu52Q/DkcVZvMUnojW6qo+VO61Tj6LBMXUj0n8=;
-	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=hzk7Ao46CL/G7jyYQmAAUjB3cdxdHxKeh51fi3bWHjiuAdIeyND9IXholV2RL4504RYp1y07oFfke48YPn4uK1wEdcB4A9DxLHpiNP8OPkLSYu9IZjBfxZgwPFpOk6PxIeWlW20aUF+kqAgvs/YloTuMZQfGkpBI1F+KjlGlpAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bIUf50Ht; arc=none smtp.client-ip=209.85.222.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738858427; c=relaxed/simple;
+	bh=yugtap81E+1XEiUSlot9N/ao/3tXx/zIxbLqkf5yQ2s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LWa3SFnh6oVFEFgpudzB/25JS3KkneF3r3CWBRTHblBHfjPjFjJHkuTOQ8d5YBmegywUbywtPL/P/ye1dlCr+ErtvvD3mnoiMURnWzBo5mBdFbIGlVlbSDkYEbpfnBRAYFUaIE5naEOn2m8wbfX8hqMh+1Bhgc8PM1ve1cCHg+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dYCFPFSL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bIUf50Ht"
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7c0155af484so132897785a.0;
-        Thu, 06 Feb 2025 08:09:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738858192; x=1739462992; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jkXONlGU8F89bT8v/54D+GqervLT59Ca/28JVFZb6vM=;
-        b=bIUf50HtF/dr8rzm+AIPPGZ46KoUdXVf4y+oQVheoCbfTek11Ejfn+fR/j4fUVyYEZ
-         Ya4y4HkGjDzS9X0L27OdS7YDVFLXgD6NnBWMcMAUb5Gwo07sINM/GZ9kPK/8E4gOfMym
-         cfIb0zXuX0u2t5S4nMCXmsYMyHb8GqujjEYhjnBrfCWuPr7BtdMTt1DQfGqgpwCAv2Hk
-         VIWv/unc9k3BmaGGv+jIWUl4DSPJKOcLyvAGXs46hKghMi8DlayByzdVNNfLoenlgPgC
-         6mVSICwTLWZTuCyKpwZPNN7l36p9hiZ2N3O7t8AUFeLZ5vBIQIWJS0PaSN98xMsjgvib
-         LX3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738858192; x=1739462992;
-        h=content-transfer-encoding:mime-version:subject:references
-         :in-reply-to:message-id:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jkXONlGU8F89bT8v/54D+GqervLT59Ca/28JVFZb6vM=;
-        b=ZmAUJMRSYIGi0rpUQaO0+9d+KETBQQVEAK46Ar2RoaQZNoqJ1zpWAnKIA2+o0XqDkL
-         L6eRXBD+9m5BeqWjdgpFX6OFU/K3AJliOemWOumvAKc6jsVbZZFKrRg/JkHBy+6xX/tf
-         HThnME40OafZ2MXQgzQTjkgrjkmO/J4m5IUehpOsGGqDlC/fzSXp2CVu+K9GVADC0Nya
-         u99hDMu0ZaKqXzzIzW4lEIMEwqBBxtxyUinH9LwyyOgezIUZJhA4m9ZLURJFsvrbz74l
-         474S6rP443x6CrUzlWf4ubup97l6knVSo8M6HocdFiF7/nlAe6XCZFo5rX5i+bggjybC
-         z3dQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUlLRKMEPMKQJaGPWe63ef2QomkjRIoQ9E+AeJFGJEGdvofwNTYOhK/VR0GHaLXP6aOAFh03RgHkeRD@vger.kernel.org, AJvYcCV3G4YwkEN6LLhFLfl852tbQUykEuJDKdfmW8VxOoA4tEO/YAy3Qnv3u6+yT5bn/0gdaohx/Ipt0xXIlS4lAZn2@vger.kernel.org, AJvYcCVyTurBreE9/bSFaRpzE2MhSzh8BuVGeHfWv/XTAKw5VmTNqA9s8se5uPfw52gTEyAWuyY=@vger.kernel.org, AJvYcCWMuYDvx/8Z7+Yazk3w4ba/1CvjQokRUsdmg5/CiNwbe2SaD99/henHW8983ETtP773b5lqtgtE@vger.kernel.org, AJvYcCWypCbCrvptdR5UOpWPq9EhbVFd775kiVMLAFbfvzRxrSiq9OgIAV8V6H8rlqmqrB7AL5V20YJyVCYm+kSk@vger.kernel.org
-X-Gm-Message-State: AOJu0YwpA8jGwUwwsbGseS+gVUpwWO724XkXsVwA1dGlZiZMhd7FraE7
-	q9yJk3TcvZpb1lDP45VYhKhlgyuFyJGRJC5g4AmLvdbN7KUZFZFH
-X-Gm-Gg: ASbGncud0qSiK8MIa2L7z2x416hwke4cW9i+TlrjqHI0JyZ8Tf8SkyY+vTDpudjNrVb
-	MT88w1p/KEJs8/lvzSZ/UcflpMb+5QS9Cp56B5XH+07xC1/Y4LVzU86X2O+BCuliKkPiZlmAjtJ
-	089mwyCLS44lCGPk918Re2iXtjNZCR+d5aXnNiQ02AmRWcBGZEqTCMynohCumuP+EzX7QrHe02T
-	wcYv80VmGabamPdha1Y2jer2uPvJjegmAgEtX3/eMwzC7bbfmbHNHbApPkm9+acervN087x3Kuy
-	lba6Un44W2CGW+bpuau7BawagnSbs/Fa7dApqM6q3JwXJXRwY+3iV/bNJnIqhPU=
-X-Google-Smtp-Source: AGHT+IGt+/KI7G+Ky43LZCW+7h9o5kkC2zN8+03mInm/HQvkfRNm9I7BK0cYoEJQCJyLgDBBFNdRpg==
-X-Received: by 2002:a05:620a:4312:b0:7b6:d4a2:f11f with SMTP id af79cd13be357-7c039e92d5amr889066885a.0.1738858191933;
-        Thu, 06 Feb 2025 08:09:51 -0800 (PST)
-Received: from localhost (15.60.86.34.bc.googleusercontent.com. [34.86.60.15])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c041e9fa5esm75699285a.76.2025.02.06.08.09.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Feb 2025 08:09:51 -0800 (PST)
-Date: Thu, 06 Feb 2025 11:09:50 -0500
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Jason Wang <jasowang@redhat.com>, 
- "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, 
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
- Shuah Khan <shuah@kernel.org>, 
- linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- netdev@vger.kernel.org, 
- kvm@vger.kernel.org, 
- virtualization@lists.linux-foundation.org, 
- linux-kselftest@vger.kernel.org, 
- Yuri Benditovich <yuri.benditovich@daynix.com>, 
- Andrew Melnychenko <andrew@daynix.com>, 
- Stephen Hemminger <stephen@networkplumber.org>, 
- gur.stavi@huawei.com, 
- devel@daynix.com
-Message-ID: <67a4dece7b7e4_20644429480@willemb.c.googlers.com.notmuch>
-In-Reply-To: <8b389981-c04a-4d4f-8a5a-043b4cd6e8db@daynix.com>
-References: <20250205-tun-v5-0-15d0b32e87fa@daynix.com>
- <20250205-tun-v5-6-15d0b32e87fa@daynix.com>
- <67a3d6706c01a_170d3929436@willemb.c.googlers.com.notmuch>
- <8b389981-c04a-4d4f-8a5a-043b4cd6e8db@daynix.com>
-Subject: Re: [PATCH net-next v5 6/7] tap: Keep hdr_len in tap_get_user()
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dYCFPFSL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F07F8C4CEDD;
+	Thu,  6 Feb 2025 16:13:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1738858425;
+	bh=yugtap81E+1XEiUSlot9N/ao/3tXx/zIxbLqkf5yQ2s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dYCFPFSLLiDASvYd4s42uud1DtC2OYpyDgEeLT35r+DrvE2jij76XmTWQ9G67IkkY
+	 GXlKlZixxwv1mXchRyKAC2XLHInGz7nXltb/sepWggEKQB2TlbKf/zl7RmfFuI/bgH
+	 POQtLfiwx3vOBe+qHPtYDAHCNvMvnzxOt413CP2Ky6rkPlhy2ILdMwAJlRvRLqD0vj
+	 Zr7POyxFiXm5+iQmgkdVq1+ZtMEZUnmtN8vK+HRSG+ejF6wz2rbhMHSIENz/QYTel5
+	 LTPtPbUTgV8Ae2h5Vlge1PtDZVU6vqHxlAMGJQmuO06gQkxOszYi8GtT6wvI2wkZns
+	 f+nG5+ZFP0G5A==
+Date: Thu, 6 Feb 2025 17:13:43 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Joel Stanley <joel@jms.id.au>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>, Stefan Agner <stefan@agner.ch>, 
+	Alison Wang <alison.wang@nxp.com>, Xinliang Liu <xinliang.liu@linaro.org>, 
+	Tian Tao <tiantao6@hisilicon.com>, Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>, 
+	John Stultz <jstultz@google.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Marek Vasut <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+	Raphael Gallais-Pou <rgallaispou@gmail.com>, Yannick Fertre <yannick.fertre@foss.st.com>, 
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Philippe Cornu <philippe.cornu@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Thierry Reding <thierry.reding@gmail.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Alexey Brodkin <abrodkin@synopsys.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jonathan Corbet <corbet@lwn.net>, linux-aspeed@lists.ozlabs.org, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
+	linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 11/12] drm/vc4: move to devm_platform_ioremap_resource()
+ usage
+Message-ID: <20250206-hallowed-ultra-tiger-cfec8e@houat>
+References: <20250205-mem-cocci-newapi-v1-0-aebf2b0e2300@redhat.com>
+ <20250205-mem-cocci-newapi-v1-11-aebf2b0e2300@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-Akihiko Odaki wrote:
-> On 2025/02/06 6:21, Willem de Bruijn wrote:
-> > Akihiko Odaki wrote:
-> >> hdr_len is repeatedly used so keep it in a local variable.
-> >>
-> >> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> > 
-> >> @@ -682,11 +683,8 @@ static ssize_t tap_get_user(struct tap_queue *q, void *msg_control,
-> >>   	if (msg_control && sock_flag(&q->sk, SOCK_ZEROCOPY)) {
-> >>   		struct iov_iter i;
-> >>   
-> >> -		copylen = vnet_hdr.hdr_len ?
-> >> -			tap16_to_cpu(q, vnet_hdr.hdr_len) : GOODCOPY_LEN;
-> >> -		if (copylen > good_linear)
-> >> -			copylen = good_linear;
-> >> -		else if (copylen < ETH_HLEN)
-> >> +		copylen = min(hdr_len ? hdr_len : GOODCOPY_LEN, good_linear);
-> >> +		if (copylen < ETH_HLEN)
-> >>   			copylen = ETH_HLEN;
-> > 
-> > I forgot earlier: this can also use single line statement
-> > 
-> >      copylen = max(copylen, ETH_HLEN);
-> > 
-> > And perhaps easiest to follow is
-> > 
-> >      copylen = hdr_len ?: GOODCOPY_LEN;
-> >      copylen = min(copylen, good_linear);
-> >      copylen = max(copylen, ETH_HLEN);
-> 
-> I introduced the min() usage as it now neatly fits in a line, but I 
-> found even clamp() fits so I'll use it in the next version:
-> copylen = clamp(hdr_len ?: GOODCOPY_LEN, ETH_HLEN, good_linear);
-> 
-> Please tell me if you prefer hdr_len ?: GOODCOPY_LEN in a separate line:
-> copylen = hdr_len ?: GOODCOPY_LEN;
-> copylen = clamp(copylen, ETH_HLEN, good_linear);
-
-Oh nice. I had forgotten about clamp. Even better.
- 
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="nds2ddkwji5fimma"
+Content-Disposition: inline
+In-Reply-To: <20250205-mem-cocci-newapi-v1-11-aebf2b0e2300@redhat.com>
 
 
+--nds2ddkwji5fimma
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 11/12] drm/vc4: move to devm_platform_ioremap_resource()
+ usage
+MIME-Version: 1.0
+
+On Wed, Feb 05, 2025 at 03:08:07PM -0500, Anusha Srivatsa wrote:
+> Replace platform_get_resource_byname + devm_ioremap_resource
+> with just devm_platform_ioremap_resource()
+>=20
+> Used Coccinelle to do this change. SmPl patch:
+> //rule s/(devm_)platform_get_resource_byname +
+> //(devm_)ioremap/devm_platform_ioremap_resource.
+> @rule_3@
+> identifier res;
+> expression ioremap;
+> identifier pdev;
+> constant mem;
+> expression name;
+> @@
+> -struct resource *res;
+> <+...
+> -res =3D platform_get_resource_byname(pdev,mem,name);
+> <...
+> -if (!res) {
+> -...
+> -}
+> ...>
+> -ioremap =3D devm_ioremap(...);
+> +ioremap =3D devm_platform_ioremap_resource_byname(pdev,name);
+> ...+>
+>=20
+> v2: Change the SmPl patch to work on multiple occurences of
+> the pattern. This also fixes the compilation error.
+>=20
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Cc: Ma=EDra Canal <mcanal@igalia.com>
+> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+> ---
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 55 +++++++++++-------------------------=
+------
+>  1 file changed, 14 insertions(+), 41 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdm=
+i.c
+> index 47d9ada98430634cfd8c1e21c2a4d00d501bab7e..066f1246dab420ee889845b0c=
+573d80ce7c88595 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -2951,71 +2951,44 @@ static int vc5_hdmi_init_resources(struct drm_dev=
+ice *drm,
+>  {
+>  	struct platform_device *pdev =3D vc4_hdmi->pdev;
+>  	struct device *dev =3D &pdev->dev;
+> -	struct resource *res;
+>  	int ret;
+> =20
+> -	res =3D platform_get_resource_byname(pdev, IORESOURCE_MEM, "hdmi");
+> -	if (!res)
+> -		return -ENODEV;
+> -
+> -	vc4_hdmi->hdmicore_regs =3D devm_ioremap(dev, res->start,
+> -					       resource_size(res));
+> +	vc4_hdmi->hdmicore_regs =3D devm_platform_ioremap_resource_byname(pdev,
+> +									"hdmi");
+>  	if (!vc4_hdmi->hdmicore_regs)
+>  		return -ENOMEM;
+> =20
+> -	res =3D platform_get_resource_byname(pdev, IORESOURCE_MEM, "hd");
+> -	if (!res)
+> -		return -ENODEV;
+> -
+> -	vc4_hdmi->hd_regs =3D devm_ioremap(dev, res->start, resource_size(res));
+> +	vc4_hdmi->hd_regs =3D devm_platform_ioremap_resource_byname(pdev, "hd");
+>  	if (!vc4_hdmi->hd_regs)
+>  		return -ENOMEM;
+
+I *think* that one is shared between both HDMI controllers on the
+RaspberryPi4, so we can't claim them from both instances. We should add
+a comment there to document that it's on purpose.
+
+The rest looks good.
+
+Maxime
+
+--nds2ddkwji5fimma
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ6TftgAKCRAnX84Zoj2+
+drfXAYDBINKHBSckIuo/kq/HoUvq16io0SUMaLB/CVkeidnE3EXaDz9M3WhZ60Ha
+n8d4HmABf0i2bHqp4iPr3Cr3YiSEnV9zX0sFLdFl/FejJMglsT19c+7lwsGMwuaH
+8nnPGZ1q6A==
+=1kXI
+-----END PGP SIGNATURE-----
+
+--nds2ddkwji5fimma--
