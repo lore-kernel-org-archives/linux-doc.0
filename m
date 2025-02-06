@@ -1,38 +1,39 @@
 Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE7E239577;
-	Thu,  6 Feb 2025 18:14:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D939019CC31;
+	Thu,  6 Feb 2025 18:14:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738865682; cv=none; b=lOZvFAoLWmAw8eUmIW7n7/j0d1DL5tm4Y45+KhU+Cvp5GTXLTjBxdrGuiFj6uh13niNlf2AXvDk45bsPzKc6pCKYjzRazcMXNuBio9PBHOXb8yTsEflcvDgMOAJhsy+aA25nBe/YaHRsAXcUnBKUkyaQO4jA1DFswDuouQo1N0M=
+	t=1738865685; cv=none; b=ofH/FmW3PduYq6fcU4KV9BtZT7Mt/baYvUH/FyK0ZuYWj0ktaw/dCgTHaxevxIEVDAIACGUqbgyAtWo0Yj9s0cWdqieEFnX5WB64eZW8rYME6DREI85Xx3Wa9OMXDsG3axHLVJt1G/EUHR8K5cm7masGBTnIosvshFJ5n/DGb88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738865682; c=relaxed/simple;
-	bh=319E+tWQBlIFT/xOP3U8p9RLS4p1j5ExuBNFtR6pbao=;
+	s=arc-20240116; t=1738865685; c=relaxed/simple;
+	bh=qY19H66wKquIvt0xTJNURyyiruFugHG6SAmbJ75Ybbw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aH1aBb3Cd6ganqtaNaqLpKjBCFenRXw62BjP4SrMCm8XjMZom7ZPeFDTdzAvF+jnJO2gJjr1J0HoefAFe4ERNqd3uX1HMovJONoisDSbAQXbqNqBcDMR8aXSlN6r7VzJ61M3DhN3Bc9uzhtP5Gc2lmu5OJMsgZM0/MbTwfP8oRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=pSYX7hZk; arc=none smtp.client-ip=217.70.183.198
+	 In-Reply-To:To:Cc; b=CMaqkHsnUQIq5UQBrzEmHk4QJiVHgWDAAkdcccbHTdUDtUS9S0h6nkhc5XS1yEGAUvVHAFDEjEui4HF61Ck9mI9l4yHNxRdbggfPfxIkxXY4r/G/OtctGTJ9ZqK6m2bTM5qSlZCzk51rg/ynX+rwAL3FG/DhSOYJ37KLh2X+GR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=gYVKgB5n; arc=none smtp.client-ip=217.70.183.198
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="pSYX7hZk"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A7669442BE;
-	Thu,  6 Feb 2025 18:14:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="gYVKgB5n"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8512644264;
+	Thu,  6 Feb 2025 18:14:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1738865678;
+	t=1738865681;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=odUR82B5vLalXzIZ7+pzz/xGL9A+mo30n5q7u/o+zps=;
-	b=pSYX7hZk/jJApOTnNbtJvQqEK0oJuJTPIfulo/4uXvYJ+ScZneEAFoiyvl4eapc5E0F/x0
-	dYpB+cpgHPXR0c3YMPXlvivQuSitx/R9OyBl4trq2ItNB+Y1fRWYDU92rh9eGqXpVVqAUe
-	9AvaI3iQNqypOcE6ypK32J2Yhn/UbOTe9MGKcixugQV9Sw4mzCMREQM1QV+xM4Rgz+7a5h
-	dDgQfOM6j7pW1326P5giNgkhZ2zMb9umJODTjTrWGMHGLsqwm6juNdeU8vFpmX9HrmMxqi
-	gafU8h/B2FLYrqTdLLa3BjropRnoETqcFwq187Iv+gc+IwwT3ol+XPh+tFok+w==
+	bh=h90MSpDBhdj+tdxru3ofuCE+vpdZ8Riig8QaGtbMWYA=;
+	b=gYVKgB5npL16q143mSSwYJkMbCaAc3DA9U9LfY/++zdxWFACW6ZNM4Av6CoGa/JUHYhlbh
+	1+WWo+mH356pJcNPRKrtTdzt8fy46Ij+4ivPK1cG0RoqrtFJL5qLbpsy1pEDWebOkh/olu
+	kSqitX6XRfU9Ul2nheqQMJWiVOapDWWLMJyp6rJ9ZYleFjDtbnsb7iC3JM/pkXbA28g0ny
+	ouQrwDxOdfySL60TkxA2LHiTULrEdcK3lBUe6YF///8DPpf4ap3Tm5czhl1bgeKIOjdo3I
+	6bEyv8Yu9NqS1YeuB1B+T0EgobNeiFJVJfMSVy1cGrNLc7vPeim8v69RDnbEKQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Thu, 06 Feb 2025 19:14:16 +0100
-Subject: [PATCH v6 01/26] drm/debugfs: fix printk format for bridge index
+Date: Thu, 06 Feb 2025 19:14:17 +0100
+Subject: [PATCH v6 02/26] drm: of: drm_of_find_panel_or_bridge: move
+ misplaced comment
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,7 +42,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250206-hotplug-drm-bridge-v6-1-9d6f2c9c3058@bootlin.com>
+Message-Id: <20250206-hotplug-drm-bridge-v6-2-9d6f2c9c3058@bootlin.com>
 References: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
 In-Reply-To: <20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com>
 To: Simona Vetter <simona@ffwll.ch>, Inki Dae <inki.dae@samsung.com>, 
@@ -74,11 +75,12 @@ Cc: Paul Kocialkowski <contact@paulk.fr>,
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvjedtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepieeiuedvffetgfeuudelheeutefggfejieettdetteekueeuueeukeevvedvueevnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemhegrgedtmedvughfieemrgdulegvmedutgejgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemhegrgedtmedvughfieemrgdulegvmedutgejgedphhgvlhhopegluddvjedrtddruddrudgnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfeekpdhrtghpthhtoheptggrthgrlhhinhdrmhgrrhhinhgrshesrghrmhdrtghomhdprhgtphhtthhopehsrdhhrghuvghrsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmp
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvjedtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepieeiuedvffetgfeuudelheeutefggfejieettdetteekueeuueeukeevvedvueevnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemhegrgedtmedvughfieemrgdulegvmedutgejgeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemhegrgedtmedvughfieemrgdulegvmedutgejgedphhgvlhhopegluddvjedrtddruddrudgnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepfeekpdhrtghpthhtoheptggrthgrlhhinhdrmhgrrhhinhgrshesrghrmhdrtghomhdprhgtphhtthhopehsrdhhrghuvghrsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmp
  dhrtghpthhtoheptghlrghuughiuhdrsggviihnvggrsehtuhigohhnrdguvghvpdhrtghpthhtohepmhdrshiihihprhhofihskhhisehsrghmshhunhhgrdgtohhmpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
 X-GND-Sasl: luca.ceresoli@bootlin.com
 
-idx is an unsigned int, use %u for printk-style strings.
+This comment is misleading as it refers to one of the inner if() branches
+only, not the whole outer if(). Move it to the branch it refers to.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
@@ -86,22 +88,24 @@ Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 This patch was added in v6.
 ---
- drivers/gpu/drm/drm_debugfs.c | 2 +-
+ drivers/gpu/drm/drm_of.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index 536409a35df406dae0dd7ade01b3f3d1e2c9e8f9..6b2178864c7ee12db9aa1f562e106b2f604439f8 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -748,7 +748,7 @@ static int bridges_show(struct seq_file *m, void *data)
- 	unsigned int idx = 0;
+diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+index 5530919e0ba05f7ce1806730b292319f36e905ed..d0183dea770308e77f05da364ffe087d53f3be36 100644
+--- a/drivers/gpu/drm/drm_of.c
++++ b/drivers/gpu/drm/drm_of.c
+@@ -268,9 +268,9 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
+ 			*panel = NULL;
+ 	}
  
- 	drm_for_each_bridge_in_chain(encoder, bridge) {
--		drm_printf(&p, "bridge[%d]: %ps\n", idx++, bridge->funcs);
-+		drm_printf(&p, "bridge[%u]: %ps\n", idx++, bridge->funcs);
- 		drm_printf(&p, "\ttype: [%d] %s\n",
- 			   bridge->type,
- 			   drm_get_connector_type_name(bridge->type));
+-	/* No panel found yet, check for a bridge next. */
+ 	if (bridge) {
+ 		if (ret) {
++			/* No panel found yet, check for a bridge next. */
+ 			*bridge = of_drm_find_bridge(remote);
+ 			if (*bridge)
+ 				ret = 0;
 
 -- 
 2.34.1
